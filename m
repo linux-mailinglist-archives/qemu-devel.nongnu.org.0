@@ -2,30 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31344671C11
+	by mail.lfdr.de (Postfix) with ESMTPS id E6C41671C13
 	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:31:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI7ZW-0007Fk-SW; Wed, 18 Jan 2023 07:29:42 -0500
+	id 1pI7ZY-0007GS-AV; Wed, 18 Jan 2023 07:29:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1pI7ZU-0007FR-V5
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:29:41 -0500
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1pI7ZW-0007Fj-9I
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:29:42 -0500
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1pI7ZS-0004Ed-So
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:29:40 -0500
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1pI7ZS-0004Ee-TR
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:29:42 -0500
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id F3FD311EF15
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 12:29:36 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id 2F05B11EF5B
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 12:29:37 +0000 (UTC)
 From: ~luhux <luhux@git.sr.ht>
-Date: Wed, 18 Jan 2023 16:29:15 +0800
-Subject: [PATCH qemu 1/3] hw/misc/mt7628-sysctrl.c: Add mt7628 system control
+Date: Wed, 18 Jan 2023 17:00:29 +0800
+Subject: [PATCH qemu 2/3] hw/intc/mt7628-intc.c: add mt7628 interrupt control
  support.
-Message-ID: <167404497644.25699.12403586061485468184-0@git.sr.ht>
+Message-ID: <167404497644.25699.12403586061485468184-1@git.sr.ht>
 X-Mailer: git.sr.ht
+In-Reply-To: <167404497644.25699.12403586061485468184-0@git.sr.ht>
 To: qemu-devel@nongnu.org
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
@@ -58,297 +59,224 @@ From: LuHui <luhux76@gmail.com>
 
 Signed-off-by: LuHui <luhux76@gmail.com>
 ---
- MAINTAINERS                      |   5 +
- hw/misc/meson.build              |   3 +
- hw/misc/mt7628-sysctrl.c         | 169 +++++++++++++++++++++++++++++++
- include/hw/misc/mt7628-sysctrl.h |  66 ++++++++++++
- 4 files changed, 243 insertions(+)
- create mode 100644 hw/misc/mt7628-sysctrl.c
- create mode 100644 include/hw/misc/mt7628-sysctrl.h
+ hw/intc/meson.build           |   1 +
+ hw/intc/mt7628-intc.c         | 155 ++++++++++++++++++++++++++++++++++
+ include/hw/intc/mt7628-intc.h |  30 +++++++
+ 3 files changed, 186 insertions(+)
+ create mode 100644 hw/intc/mt7628-intc.c
+ create mode 100644 include/hw/intc/mt7628-intc.h
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 0fe50d01e3..41854e939c 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1234,6 +1234,11 @@ F: configs/devices/mips*/*
- F: hw/mips/
- F: include/hw/mips/
-=20
-+VoCore2
-+M: Lu Hui <luhux76@gmail.com>
-+S: Maintained
-+F: hw/*/*mt7628*
-+
- Jazz
- M: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
- R: Aleksandar Rikalo <aleksandar.rikalo@syrmia.com>
-diff --git a/hw/misc/meson.build b/hw/misc/meson.build
-index 448e14b531..0dfe7d9740 100644
---- a/hw/misc/meson.build
-+++ b/hw/misc/meson.build
-@@ -140,3 +140,6 @@ softmmu_ss.add(when: 'CONFIG_SBSA_REF', if_true: files('s=
-bsa_ec.c'))
-=20
- # HPPA devices
- softmmu_ss.add(when: 'CONFIG_LASI', if_true: files('lasi.c'))
-+
-+# mt7628
-+softmmu_ss.add(when: 'CONFIG_MT7628', if_true: files('mt7628-sysctrl.c'))
-diff --git a/hw/misc/mt7628-sysctrl.c b/hw/misc/mt7628-sysctrl.c
+diff --git a/hw/intc/meson.build b/hw/intc/meson.build
+index cd9f1ee888..2ce3ddb4d2 100644
+--- a/hw/intc/meson.build
++++ b/hw/intc/meson.build
+@@ -73,3 +73,4 @@ specific_ss.add(when: 'CONFIG_LOONGARCH_IPI', if_true: file=
+s('loongarch_ipi.c'))
+ specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_PIC', if_true: files('loongarch_=
+pch_pic.c'))
+ specific_ss.add(when: 'CONFIG_LOONGARCH_PCH_MSI', if_true: files('loongarch_=
+pch_msi.c'))
+ specific_ss.add(when: 'CONFIG_LOONGARCH_EXTIOI', if_true: files('loongarch_e=
+xtioi.c'))
++specific_ss.add(when: 'CONFIG_MT7628', if_true: files('mt7628-intc.c'))
+diff --git a/hw/intc/mt7628-intc.c b/hw/intc/mt7628-intc.c
 new file mode 100644
-index 0000000000..e04d1de69d
+index 0000000000..f900bf502f
 --- /dev/null
-+++ b/hw/misc/mt7628-sysctrl.c
-@@ -0,0 +1,169 @@
++++ b/hw/intc/mt7628-intc.c
+@@ -0,0 +1,155 @@
 +/*
-+ * Mediatek mt7628 System Control emulation
++ * mt7628 interrupt controller device emulation
 + *
-+ * Copyright (C) 2023 Lu Hui <luhux76@gmail.com>
++ * Copyright (C) 2023 Lu Hui
++ * Written by Lu Hui <luhux76@gmail.com>
 + *
-+ * This program is free software: you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation, either version 2 of the License, or
++ * This program is free software; you can redistribute it and/or modify it
++ * under the terms of the GNU General Public License as published by the
++ * Free Software Foundation; either version 2 of the License, or
 + * (at your option) any later version.
 + *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
++
++ * This program is distributed in the hope that it will be useful, but WITHO=
+UT
++ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
++ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License
++ * for more details.
 + */
 +
 +#include "qemu/osdep.h"
-+#include "qemu/units.h"
 +#include "hw/sysbus.h"
 +#include "migration/vmstate.h"
++#include "hw/intc/mt7628-intc.h"
++#include "hw/irq.h"
 +#include "qemu/log.h"
 +#include "qemu/module.h"
-+#include "hw/misc/mt7628-sysctrl.h"
-+#include "sysemu/runstate.h"
 +
-+#define REG_INDEX(offset)   (offset / sizeof(uint32_t))
-+
-+/* System Control register offsets */
-+/* from linux kernel arch/mips/include/asm/mach-ralink/mt7620.h */
-+enum {
-+    REG_CHIP_NAME0 =3D 0x00,
-+    REG_CHIP_NAME1 =3D 0x04,
-+    REG_EFUSE_CFG =3D 0x08,
-+    REG_CHIP_REV =3D 0x0C,
-+    REG_SYS_CFG0 =3D 0x10,
-+    REG_SYS_CFG1 =3D 0x14,
-+    REG_CLK_CFG0 =3D 0x2C,
-+    REG_CLK_CFG1 =3D 0x30,
-+    REG_RST_CTRL =3D 0x34,
-+    REG_RST_STAT =3D 0x38,
-+    REG_AGPIO_CFG =3D 0x3C,
-+    REG_GPIO1_MODE =3D 0x60,
-+    REG_GPIO2_MODE =3D 0x64,
-+};
-+
-+static uint64_t mt7628_sysctrl_read(void *opaque, hwaddr offset,
-+                                    unsigned size)
++static void mt7628_intc_update(mt7628intcState *s)
 +{
-+    const mt7628SysCtrlState *s =3D MT7628_SYSCTRL(opaque);
-+    const uint32_t idx =3D REG_INDEX(offset);
-+
-+    if (idx >=3D MT7628_SYSCTRL_REGS_NUM) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset 0x%04x\n",
-+                      __func__, (uint32_t) offset);
-+        return 0;
++    int i;
++    for (i =3D 0; i < 32; i++) {
++        if (test_bit(i, (void *) &s->disable)) {
++            clear_bit(i, (void *) &s->enable);
++        }
 +    }
-+
-+    return s->regs[idx];
++    qemu_set_irq(s->parent_irq, !!(s->enable));
 +}
 +
-+enum {
-+    RST_SYSTEM =3D 0,
-+};
-+
-+static void mt7628_reset(uint32_t val)
++static void mt7628_intc_set_irq(void *opaque, int irq, int level)
 +{
-+    if (test_bit(RST_SYSTEM, (void *)&val)) {
-+        /* reset whole system */
-+        qemu_system_reset_request(SHUTDOWN_CAUSE_GUEST_RESET);
++    mt7628intcState *s =3D opaque;
++
++    if (level) {
++        set_bit(irq, (void *) &s->enable);
++        clear_bit(irq, (void *) &s->disable);
++    } else {
++        clear_bit(irq, (void *) &s->enable);
++        set_bit(irq, (void *) &s->disable);
 +    }
++    mt7628_intc_update(s);
 +}
 +
-+static void mt7628_sysctrl_write(void *opaque, hwaddr offset,
-+                                 uint64_t val, unsigned size)
++static uint64_t mt7628_intc_read(void *opaque, hwaddr offset,
++                                 unsigned size)
 +{
-+    mt7628SysCtrlState *s =3D MT7628_SYSCTRL(opaque);
-+    const uint32_t idx =3D REG_INDEX(offset);
-+
-+    if (idx >=3D MT7628_SYSCTRL_REGS_NUM) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "%s: out-of-bounds offset 0x%04x\n",
-+                      __func__, (uint32_t) offset);
-+        return;
-+    }
++    mt7628intcState *s =3D opaque;
 +
 +    switch (offset) {
-+    case REG_RST_CTRL:
-+        s->regs[idx] =3D (uint32_t) val;
-+        mt7628_reset(s->regs[idx]);
-+        break;
++    case MT7628_INTC_REG_STATUS0:
++        return s->enable;
++    case MT7628_INTC_REG_TYPE:
++        return s->type;
++    case MT7628_INTC_REG_ENABLE:
++        return s->enable;
++    case MT7628_INTC_REG_DISABLE:
++        return s->disable;
 +    default:
-+        s->regs[idx] =3D (uint32_t) val;
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: not imp offset 0x%x\n", __func__, (int) offset);
++        return 0x0;
 +        break;
 +    }
++
++    return 0;
 +}
 +
-+static const MemoryRegionOps mt7628_sysctrl_ops =3D {
-+    .read =3D mt7628_sysctrl_read,
-+    .write =3D mt7628_sysctrl_write,
++static void mt7628_intc_write(void *opaque, hwaddr offset, uint64_t value,
++                              unsigned size)
++{
++    mt7628intcState *s =3D opaque;
++
++    switch (offset) {
++    case MT7628_INTC_REG_TYPE:
++        s->type =3D value;
++        break;
++    case MT7628_INTC_REG_ENABLE:
++        s->enable =3D value;
++        break;
++    case MT7628_INTC_REG_DISABLE:
++        s->disable =3D value;
++        break;
++    default:
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "%s: not imp offset 0x%x\n", __func__, (int) offset);
++        break;
++    }
++
++    mt7628_intc_update(s);
++}
++
++static const MemoryRegionOps mt7628_intc_ops =3D {
++    .read =3D mt7628_intc_read,
++    .write =3D mt7628_intc_write,
 +    .endianness =3D DEVICE_NATIVE_ENDIAN,
-+    .valid =3D {
-+        .min_access_size =3D 4,
-+        .max_access_size =3D 4,
-+    },
-+    .impl.min_access_size =3D 4,
 +};
 +
-+static void mt7628_sysctrl_reset(DeviceState *dev)
-+{
-+    mt7628SysCtrlState *s =3D MT7628_SYSCTRL(dev);
-+
-+    /* Set default values for registers */
-+    /* dump from real mt7628 board */
-+    s->regs[REG_INDEX(REG_CHIP_NAME0)] =3D 0x3637544d; /* "MT76" */
-+    s->regs[REG_INDEX(REG_CHIP_NAME1)] =3D 0x20203832; /* "28  " */
-+    s->regs[REG_INDEX(REG_EFUSE_CFG)]  =3D 0x01010000;
-+    s->regs[REG_INDEX(REG_CHIP_REV)]   =3D 0x00010102;
-+    s->regs[REG_INDEX(REG_SYS_CFG0)]   =3D 0x00144144;
-+    s->regs[REG_INDEX(REG_SYS_CFG1)]   =3D 0x02605500;
-+    s->regs[REG_INDEX(REG_CLK_CFG0)]   =3D 0b0000000000100000000100000000000=
-0;
-+    s->regs[REG_INDEX(REG_CLK_CFG1)]   =3D 0b1111011010011111011111110000000=
-0;
-+    s->regs[REG_INDEX(REG_RST_CTRL)]   =3D 0b0000010000000000000001000000000=
-0;
-+    s->regs[REG_INDEX(REG_RST_STAT)]   =3D 0b1100000000000011000000000000000=
-0;
-+    s->regs[REG_INDEX(REG_AGPIO_CFG)]  =3D 0b0000000000011111000000000001111=
-1;
-+    s->regs[REG_INDEX(REG_GPIO1_MODE)] =3D 0b0101010000000101000001000000010=
-0;
-+    s->regs[REG_INDEX(REG_GPIO2_MODE)] =3D 0b0000010101010101000001010101010=
-1;
-+}
-+
-+static void mt7628_sysctrl_init(Object *obj)
-+{
-+    SysBusDevice *sbd =3D SYS_BUS_DEVICE(obj);
-+    mt7628SysCtrlState *s =3D MT7628_SYSCTRL(obj);
-+
-+    /* Memory mapping */
-+    memory_region_init_io(&s->iomem, OBJECT(s), &mt7628_sysctrl_ops, s,
-+                          TYPE_MT7628_SYSCTRL, MT7628_SYSCTRL_REGS_MAXADDR);
-+    sysbus_init_mmio(sbd, &s->iomem);
-+}
-+
-+static const VMStateDescription mt7628_sysctrl_vmstate =3D {
-+    .name =3D "mt7628-sysctrl",
++static const VMStateDescription vmstate_mt7628_intc =3D {
++    .name =3D "mt7628.intc",
 +    .version_id =3D 1,
 +    .minimum_version_id =3D 1,
 +};
 +
-+static void mt7628_sysctrl_class_init(ObjectClass *klass, void *data)
++static void mt7628_intc_init(Object *obj)
++{
++    mt7628intcState *s =3D MT7628_INTC(obj);
++    SysBusDevice *dev =3D SYS_BUS_DEVICE(obj);
++
++    qdev_init_gpio_in(DEVICE(dev), mt7628_intc_set_irq, 32);
++    sysbus_init_irq(dev, &s->parent_irq);
++    memory_region_init_io(&s->iomem, OBJECT(s), &mt7628_intc_ops, s,
++                          TYPE_MT7628_INTC, MT7628_INTC_REGS_MAXADDR);
++    sysbus_init_mmio(dev, &s->iomem);
++}
++
++static void mt7628_intc_reset(DeviceState *d)
++{
++    mt7628intcState *s =3D MT7628_INTC(d);
++
++    s->type    =3D 0b00000000000000000000000000000000;
++    s->enable  =3D 0b00000000000000000000000000000000;
++    s->disable =3D 0b00000000000000000000000000000000;
++}
++
++static void mt7628_intc_class_init(ObjectClass *klass, void *data)
 +{
 +    DeviceClass *dc =3D DEVICE_CLASS(klass);
 +
-+    dc->reset =3D mt7628_sysctrl_reset;
-+    dc->vmsd =3D &mt7628_sysctrl_vmstate;
++    dc->reset =3D mt7628_intc_reset;
++    dc->desc =3D "mt7628 interrupt control";
++    dc->vmsd =3D &vmstate_mt7628_intc;
 +}
 +
-+static const TypeInfo mt7628_sysctrl_info =3D {
-+    .name =3D TYPE_MT7628_SYSCTRL,
++static const TypeInfo mt7628_intc_info =3D {
++    .name =3D TYPE_MT7628_INTC,
 +    .parent =3D TYPE_SYS_BUS_DEVICE,
-+    .instance_init =3D mt7628_sysctrl_init,
-+    .instance_size =3D sizeof(mt7628SysCtrlState),
-+    .class_init =3D mt7628_sysctrl_class_init,
++    .instance_size =3D sizeof(mt7628intcState),
++    .instance_init =3D mt7628_intc_init,
++    .class_init =3D mt7628_intc_class_init,
 +};
 +
-+static void mt7628_sysctrl_register(void)
++static void mt7628_register_types(void)
 +{
-+    type_register_static(&mt7628_sysctrl_info);
++    type_register_static(&mt7628_intc_info);
 +}
 +
-+type_init(mt7628_sysctrl_register)
-diff --git a/include/hw/misc/mt7628-sysctrl.h b/include/hw/misc/mt7628-sysctr=
-l.h
++type_init(mt7628_register_types);
+diff --git a/include/hw/intc/mt7628-intc.h b/include/hw/intc/mt7628-intc.h
 new file mode 100644
-index 0000000000..836dbdd5aa
+index 0000000000..a2f4690d1d
 --- /dev/null
-+++ b/include/hw/misc/mt7628-sysctrl.h
-@@ -0,0 +1,66 @@
-+/*
-+ * Mediatek mt7628 System Control emulation
-+ *
-+ * Copyright (C) 2023 Lu Hui <luhux76@gmail.com>
-+ *
-+ * This program is free software: you can redistribute it and/or modify
-+ * it under the terms of the GNU General Public License as published by
-+ * the Free Software Foundation, either version 2 of the License, or
-+ * (at your option) any later version.
-+ *
-+ * This program is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ * GNU General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU General Public License
-+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+ */
++++ b/include/hw/intc/mt7628-intc.h
+@@ -0,0 +1,30 @@
++#ifndef MT7628_INTC_H
++#define MT7628_INTC_H
 +
-+#ifndef HW_MISC_MT7628_SYSCTRL_H
-+#define HW_MISC_MT7628_SYSCTRL_H
-+
-+#include "qom/object.h"
 +#include "hw/sysbus.h"
++#include "qom/object.h"
 +
-+/**
-+ * @name Constants
-+ * @{
-+ */
++#define TYPE_MT7628_INTC  "mt7628-intc"
++OBJECT_DECLARE_SIMPLE_TYPE(mt7628intcState, MT7628_INTC)
 +
-+/** Highest register address used by System Control device */
-+#define MT7628_SYSCTRL_REGS_MAXADDR   (0x100)
++#define MT7628_INTC_REG_STATUS0     (0x9c)
++#define MT7628_INTC_REG_TYPE        (0x6c)
++#define MT7628_INTC_REG_ENABLE      (0x80)
++#define MT7628_INTC_REG_DISABLE     (0x78)
 +
-+/** Total number of known registers */
-+#define MT7628_SYSCTRL_REGS_NUM       ((MT7628_SYSCTRL_REGS_MAXADDR / \
-+                                      sizeof(uint32_t)) + 1)
++#define MT7628_INTC_REGS_MAXADDR (0xFF)
 +
-+/** @} */
-+
-+/**
-+ * @name Object model
-+ * @{
-+ */
-+
-+#define TYPE_MT7628_SYSCTRL    "mt7628-sysctrl"
-+OBJECT_DECLARE_SIMPLE_TYPE(mt7628SysCtrlState, MT7628_SYSCTRL)
-+
-+/** @} */
-+
-+/**
-+ * mt7628 System Control object instance state
-+ */
-+struct mt7628SysCtrlState {
++struct mt7628intcState {
 +    /*< private >*/
 +    SysBusDevice parent_obj;
 +    /*< public >*/
-+
-+    /** Maps I/O registers in physical memory */
 +    MemoryRegion iomem;
++    qemu_irq parent_irq;
 +
-+    /** Array of hardware registers */
-+    uint32_t regs[MT7628_SYSCTRL_REGS_NUM];
-+
++    uint32_t type;
++    uint32_t enable;
++    uint32_t disable;
++    /*priority setting here*/
 +};
 +
-+#endif /* HW_MISC_MT7628_SYSCTRL_H */
++#endif
 --=20
 2.34.5
 
