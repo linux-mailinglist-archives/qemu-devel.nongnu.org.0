@@ -2,92 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BACDE671657
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 09:33:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7ADB671662
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 09:38:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI3qn-000710-Kl; Wed, 18 Jan 2023 03:31:17 -0500
+	id 1pI3wx-0000fD-2Z; Wed, 18 Jan 2023 03:37:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1pI3ql-0006wD-7z
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 03:31:15 -0500
-Received: from mga12.intel.com ([192.55.52.136])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1pI3qh-00008f-JB
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 03:31:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674030671; x=1705566671;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=IaruPOH1D3wCRj1gFgYkLc0hyR2BZ5VY51Nzyl07GbA=;
- b=f+vhkIF6vAP4IRH+VisHRuS6NxsmGIW9qjVbS/XhV+VHgdMJFEeA7EaF
- Ky1BN6qLplnIqjGXe0GZ80mo1d2aM9zFFnpNI5CFia8F34nj4jBB40VTQ
- c6bdtj5OI4eqYTNbKk5AQ/uF5Ddfqug2gZC17lruHfEaRBIaTywYR/yOQ
- 2Pv2vXTtPtE1FKo5lkf54mwLZnUAEeOLzxXsNPWOZhmnsqha6Lrd7Y5FT
- X4PWmFZbLXmXft8Hfnjxnx64slzLCPr3zJAxRTpJ8AwQGrEppRzSS0ZPV
- GYDIBvmniy7G6RrYdWu4oyM5mLswWk8+NbWKaQbptcm4es2jCPDutUPuT Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="304612204"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="304612204"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2023 00:31:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10593"; a="661627035"
-X-IronPort-AV: E=Sophos;i="5.97,224,1669104000"; d="scan'208";a="661627035"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
- by fmsmga007.fm.intel.com with ESMTP; 18 Jan 2023 00:30:56 -0800
-Date: Wed, 18 Jan 2023 16:23:09 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-Message-ID: <20230118082309.GB303785@chaop.bj.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
- <Y8HwvTik/2avrCOU@google.com>
- <20230117131251.GC273037@chaop.bj.intel.com>
- <Y8b4nsMJm+4Hr/e0@google.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI3wu-0000eV-Rp
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 03:37:36 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI3ws-0001MW-UE
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 03:37:36 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ fl11-20020a05600c0b8b00b003daf72fc844so888518wmb.0
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 00:37:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=gSGxKCrJE3DVbK9tjGe4fQkYJ8hEiFobz6BMSb2tpKY=;
+ b=m/8+HVw2IVqgbcysMfnI23Sp2fATzYLU3w5gynI9qYsMqWqyHNdmTl/GinKUqQLvbP
+ GpC0eZmLMfxS55zvcrF+yAn0B93IHVkuAJdnQRKO1IrciPSQQXt6cR3tTYt2462SeQsZ
+ ySwePxa+A806mMs/62aHvtqqRYi9fSjjGgzJODxUQ7yI1bL/z9UysUEkL2qjVFi8c62Q
+ FEdQVKFDrQDYwGjvrO5bJz3dbiYUdG7rh2DibHIk9iMTnGXzwQ3Uu+G9W0FvLFygnioi
+ mJQ0642Cf9yJXyN0IRYLHopXjMmHk4eaWWmuSvAUKDOThwEs8y/aORK7LuXNX1PnLrMb
+ +PEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=gSGxKCrJE3DVbK9tjGe4fQkYJ8hEiFobz6BMSb2tpKY=;
+ b=mtMNMZLYdlQWy0S/tnaiKt/KC7FygMhE36r+K/1TcDWM9P0G+ai+UP7ztS4MU0VYdM
+ vbgmG2uI8YsZ787O3uP5pONg4a19mONZt6VefHiFzGc9N/OkJ62QHpR6OKwpxOaS7B6j
+ bD/8u0l4gYorzIl2Mru8I8Ax2xHmzDWuaXjSwpWe6t4UyX7IUvAJF4MAbMl1nBR3PRaS
+ f/yk2uKz1h0akBRj2mtdeGQAK7jJYe7UfJ25hH0CglHpkxXyotJH+HL9FwIuEsPIZmDb
+ 00qOmNLufkSw6eMWzlS2Sl8FiY34azJGxJvIdRv3zT28VQCCNNihoIdGOEcoDi7WSbJY
+ XXcA==
+X-Gm-Message-State: AFqh2kr2DUjzpy3jUhLwTZorfpntAMKL4dKw2WJCOE6Zyj98Cml/l/x2
+ KX0cQ9jAlA6Ytd2uXFsIDfTLdg==
+X-Google-Smtp-Source: AMrXdXvIQc/9IEWVSay4OoD30bcvClxk0UR+xDtCjFe+253A7q2k5nkI1mYZC0cruaaJvj9QdAnIKQ==
+X-Received: by 2002:a05:600c:1c1a:b0:3da:fbd2:a324 with SMTP id
+ j26-20020a05600c1c1a00b003dafbd2a324mr5760025wms.36.1674031053088; 
+ Wed, 18 Jan 2023 00:37:33 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ az15-20020a05600c600f00b003cfa622a18asm1361898wmb.3.2023.01.18.00.37.31
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 00:37:32 -0800 (PST)
+Message-ID: <1c532bf1-e69e-1ee6-da46-44ad07208af3@linaro.org>
+Date: Wed, 18 Jan 2023 09:37:30 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8b4nsMJm+4Hr/e0@google.com>
-Received-SPF: none client-ip=192.55.52.136;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga12.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 04/11] hw/arm/aspeed: Use the IEC binary prefix
+ definitions
+Content-Language: en-US
+To: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
+ Joel Stanley <joel@jms.id.au>
+Cc: qemu-devel@nongnu.org, Troy Lee <troy_lee@aspeedtech.com>,
+ Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Andrew Jeffery <andrew@aj.id.au>,
+ Chin-Ting Kuo <chin-ting_kuo@aspeedtech.com>,
+ Peter Delevoryas <peter@pjd.dev>, Steven Lee <steven_lee@aspeedtech.com>,
+ Jamin Lin <jamin_lin@aspeedtech.com>, Peter Delevoryas <pdel@fb.com>,
+ Peter Delevoryas <pdel@meta.com>, qemu-arm@nongnu.org,
+ Cleber Rosa <crosa@redhat.com>
+References: <20221230113504.37032-1-philmd@linaro.org>
+ <20221230113504.37032-5-philmd@linaro.org>
+ <CACPK8XcdKGvQGOeBKQXRhYVZKO5k8jCv_1syNbZr8YPufaSjLg@mail.gmail.com>
+ <8646a560-dd95-6cdb-1f7b-3d344ee744f7@kaod.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <8646a560-dd95-6cdb-1f7b-3d344ee744f7@kaod.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.097,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,208 +100,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 17, 2023 at 07:35:58PM +0000, Sean Christopherson wrote:
-> On Tue, Jan 17, 2023, Chao Peng wrote:
-> > On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
-> > > On Fri, Dec 02, 2022, Chao Peng wrote:
-> > > > @@ -10357,6 +10364,12 @@ static int vcpu_enter_guest(struct kvm_vcpu *vcpu)
-> > > >  
-> > > >  		if (kvm_check_request(KVM_REQ_UPDATE_CPU_DIRTY_LOGGING, vcpu))
-> > > >  			static_call(kvm_x86_update_cpu_dirty_logging)(vcpu);
-> > > > +
-> > > > +		if (kvm_check_request(KVM_REQ_MEMORY_MCE, vcpu)) {
-> > > > +			vcpu->run->exit_reason = KVM_EXIT_SHUTDOWN;
-> > > 
-> > > Synthesizing triple fault shutdown is not the right approach.  Even with TDX's
-> > > MCE "architecture" (heavy sarcasm), it's possible that host userspace and the
-> > > guest have a paravirt interface for handling memory errors without killing the
-> > > host.
-> > 
-> > Agree shutdown is not the correct choice. I see you made below change:
-> > 
-> > send_sig_mceerr(BUS_MCEERR_AR, (void __user *)hva, PAGE_SHIFT, current)
-> > 
-> > The MCE may happen in any thread than KVM thread, sending siginal to
-> > 'current' thread may not be the expected behavior.
-> 
-> This is already true today, e.g. a #MC in memory that is mapped into the guest can
-> be triggered by a host access.  Hrm, but in this case we actually have a KVM
-> instance, and we know that the #MC is relevant to the KVM instance, so I agree
-> that signaling 'current' is kludgy.
-> 
-> >  Also how userspace can tell is the MCE on the shared page or private page?
-> >  Do we care?
-> 
-> We care.  I was originally thinking we could require userspace to keep track of
-> things, but that's quite prescriptive and flawed, e.g. could race with conversions.
-> 
-> One option would be to KVM_EXIT_MEMORY_FAULT, and then wire up a generic (not x86
-> specific) KVM request to exit to userspace, e.g.
-> 
-> 		/* KVM_EXIT_MEMORY_FAULT */
-> 		struct {
-> #define KVM_MEMORY_EXIT_FLAG_PRIVATE	(1ULL << 3)
-> #define KVM_MEMORY_EXIT_FLAG_HW_ERROR	(1ULL << 4)
-> 			__u64 flags;
-> 			__u64 gpa;
-> 			__u64 size;
-> 		} memory;
-> 
-> But I'm not sure that's the correct approach.  It kinda feels like we're reinventing
-> the wheel.  It seems like restrictedmem_get_page() _must_ be able to reject attempts
-> to get a poisoned page, i.e. restrictedmem_get_page() should yield KVM_PFN_ERR_HWPOISON.
+On 18/1/23 08:32, Cédric Le Goater wrote:
+> On 1/18/23 07:53, Joel Stanley wrote:
+>> On Fri, 30 Dec 2022 at 11:35, Philippe Mathieu-Daudé 
+>> <philmd@linaro.org> wrote:
+>>>
+>>> IEC binary prefixes ease code review: the unit is explicit.
+>>
+>> I strongly prefer the existing code; it tells you the size without
+>> having to do maths.
 
-Yes, I see there is -EHWPOISON handling for hva_to_pfn() for shared
-memory. It makes sense doing similar for private page.
+I guess it depends on one's mindset and culture / education,
+maybe I'm too young for the full hexadecimal world and am more
+custom to decimal notation with binary prefixes.
 
-> Assuming that's the case, then I believe KVM simply needs to zap SPTEs in response
-> to an error notification in order to force vCPUs to fault on the poisoned page.
+0x16400 is just another magic number for me, while 89 * KiB is a size.
 
-Agree, this is waht we should do anyway.
+> you mean that it matches better with the address space representation
+> in the code and the 'info mtree' output ? If so, I agree. We can keep
+> this patch out, it is not fundamental.
+> 
+> The hex representation of values has its advantages compared to the
+> macros because hex is generally what you get in debug outputs and
+> it is easier to compare and manipulate.  Some Linux dev feel the
+> same.
 
-> 
-> > > > +		return -EINVAL;
-> > > >  	if (as_id >= KVM_ADDRESS_SPACE_NUM || id >= KVM_MEM_SLOTS_NUM)
-> > > >  		return -EINVAL;
-> > > >  	if (mem->guest_phys_addr + mem->memory_size < mem->guest_phys_addr)
-> > > > @@ -2020,6 +2154,9 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> > > >  		if ((kvm->nr_memslot_pages + npages) < kvm->nr_memslot_pages)
-> > > >  			return -EINVAL;
-> > > >  	} else { /* Modify an existing slot. */
-> > > > +		/* Private memslots are immutable, they can only be deleted. */
-> > > 
-> > > I'm 99% certain I suggested this, but if we're going to make these memslots
-> > > immutable, then we should straight up disallow dirty logging, otherwise we'll
-> > > end up with a bizarre uAPI.
-> > 
-> > But in my mind dirty logging will be needed in the very short time, when
-> > live migration gets supported?
-> 
-> Ya, but if/when live migration support is added, private memslots will no longer
-> be immutable as userspace will want to enable dirty logging only when a VM is
-> being migrated, i.e. something will need to change.
-> 
-> Given that it looks like we have clear line of sight to SEV+UPM guests, my
-> preference would be to allow toggling dirty logging from the get-go.  It doesn't
-> necessarily have to be in the first patch, e.g. KVM could initially reject
-> KVM_MEM_LOG_DIRTY_PAGES + KVM_MEM_PRIVATE and then add support separately to make
-> the series easier to review, test, and bisect.
-> 
-> static int check_memory_region_flags(struct kvm *kvm,
-> 				     const struct kvm_userspace_memory_region2 *mem)
-> {
-> 	u32 valid_flags = KVM_MEM_LOG_DIRTY_PAGES;
-> 
-> 	if (kvm_arch_has_private_mem(kvm) &&
-> 	    ~(mem->flags & KVM_MEM_LOG_DIRTY_PAGES))
-> 		valid_flags |= KVM_MEM_PRIVATE;
+>>> aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+>>>       sc->name         = "ast2600-a3";
+>>>       sc->cpu_type     = ARM_CPU_TYPE_NAME("cortex-a7");
+>>>       sc->silicon_rev  = AST2600_A3_SILICON_REV;
+>>> -    sc->sram_size    = 0x16400;
+>>> +    sc->sram_size    = 89 * KiB;
+To keep everybody happy I'll respin using:
 
-Adding this limitation is OK to me. It's not too hard to remove it when
-live migration gets added.
-
-> 
-> 
-> 	...
-> }
-> 
-> > > > +		if (mem->flags & KVM_MEM_PRIVATE)
-> > > > +			return -EINVAL;
-> > > >  		if ((mem->userspace_addr != old->userspace_addr) ||
-> > > >  		    (npages != old->npages) ||
-> > > >  		    ((mem->flags ^ old->flags) & KVM_MEM_READONLY))
-> > > > @@ -2048,10 +2185,28 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> > > >  	new->npages = npages;
-> > > >  	new->flags = mem->flags;
-> > > >  	new->userspace_addr = mem->userspace_addr;
-> > > > +	if (mem->flags & KVM_MEM_PRIVATE) {
-> > > > +		new->restricted_file = fget(mem->restricted_fd);
-> > > > +		if (!new->restricted_file ||
-> > > > +		    !file_is_restrictedmem(new->restricted_file)) {
-> > > > +			r = -EINVAL;
-> > > > +			goto out;
-> > > > +		}
-> > > > +		new->restricted_offset = mem->restricted_offset;
-> > 
-> > I see you changed slot->restricted_offset type from loff_t to gfn_t and
-> > used pgoff_t when doing the restrictedmem_bind/unbind(). Using page
-> > index is reasonable KVM internally and sounds simpler than loff_t. But
-> > we also need initialize it to page index here as well as changes in
-> > another two cases. This is needed when restricted_offset != 0.
-> 
-> Oof.  I'm pretty sure I completely missed that loff_t is used for byte offsets,
-> whereas pgoff_t is a frame index. 
-> 
-> Given that the restrictmem APIs take pgoff_t, I definitely think it makes sense
-> to the index, but I'm very tempted to store pgoff_t instead of gfn_t, and name
-> the field "index" to help connect the dots to the rest of kernel, where "pgoff_t index"
-> is quite common.
-> 
-> And looking at those bits again, we should wrap all of the restrictedmem fields
-> with CONFIG_KVM_PRIVATE_MEM.  It'll require minor tweaks to __kvm_set_memory_region(),
-> but I think will yield cleaner code (and internal APIs) overall.
-> 
-> And wrap the three fields in an anonymous struct?  E.g. this is a little more
-> versbose (restrictedmem instead restricted), but at first glance it doesn't seem
-> to cause widespared line length issues.
-> 
-> #ifdef CONFIG_KVM_PRIVATE_MEM
-> 	struct {
-> 		struct file *file;
-> 		pgoff_t index;
-> 		struct restrictedmem_notifier notifier;
-> 	} restrictedmem;
-> #endif
-
-Looks better.
+          sc->sram_size    = 0x16400; /* 89 * KiB */
 
 Thanks,
-Chao
-> 
-> > diff --git a/include/linux/kvm_host.h b/include/linux/kvm_host.h
-> > index 547b92215002..49e375e78f30 100644
-> > --- a/include/linux/kvm_host.h
-> > +++ b/include/linux/kvm_host.h
-> > @@ -2364,8 +2364,7 @@ static inline int kvm_restricted_mem_get_pfn(struct kvm_memory_slot *slot,
-> >                                              gfn_t gfn, kvm_pfn_t *pfn,
-> >                                              int *order)
-> >  {
-> > -       pgoff_t index = gfn - slot->base_gfn +
-> > -                       (slot->restricted_offset >> PAGE_SHIFT);
-> > +       pgoff_t index = gfn - slot->base_gfn + slot->restricted_offset;
-> >         struct page *page;
-> >         int ret;
-> >  
-> > diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-> > index 01db35ddd5b3..7439bdcb0d04 100644
-> > --- a/virt/kvm/kvm_main.c
-> > +++ b/virt/kvm/kvm_main.c
-> > @@ -935,7 +935,7 @@ static bool restrictedmem_range_is_valid(struct kvm_memory_slot *slot,
-> >                                          pgoff_t start, pgoff_t end,
-> >                                          gfn_t *gfn_start, gfn_t *gfn_end)
-> >  {
-> > -       unsigned long base_pgoff = slot->restricted_offset >> PAGE_SHIFT;
-> > +       unsigned long base_pgoff = slot->restricted_offset;
-> >  
-> >         if (start > base_pgoff)
-> >                 *gfn_start = slot->base_gfn + start - base_pgoff;
-> > @@ -2275,7 +2275,7 @@ int __kvm_set_memory_region(struct kvm *kvm,
-> >                         r = -EINVAL;
-> >                         goto out;
-> >                 }
-> > -               new->restricted_offset = mem->restricted_offset;
-> > +               new->restricted_offset = mem->restricted_offset >> PAGE_SHIFT;
-> >         }
-> >  
-> >         r = kvm_set_memslot(kvm, old, new, change);
-> > 
-> > Chao
-> > > > +	}
-> > > > +
-> > > > +	new->kvm = kvm;
-> > > 
-> > > Set this above, just so that the code flows better.
+
+Phil.
 
