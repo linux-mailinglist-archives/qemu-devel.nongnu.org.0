@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9668671ACB
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 12:36:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BC9A671ADC
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 12:40:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI6iq-0004oN-Ip; Wed, 18 Jan 2023 06:35:16 -0500
+	id 1pI6nK-0004sw-Pn; Wed, 18 Jan 2023 06:39:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pI6iO-0004Ys-2v
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:35:06 -0500
+ id 1pI6nI-0004sf-LO
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:39:52 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pI6iM-0007Yf-BZ
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:34:47 -0500
+ id 1pI6nH-0000Vf-3U
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 06:39:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674041684;
+ s=mimecast20190719; t=1674041990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iNXhjmEs/oJtA31CqFYKIT5SGaKPkn/sjhkD4+g6BFc=;
- b=c/w2YA1BqnmoBSZSYP+lzXvjI20lldvUbXJyuqMhy3YlS8gMRfMNT7bL5782Q7ezyDduP3
- wTp6Unyg4h13GYx88H5evEwMtYzKvwhQPw+PXErUwtkI+vjCSqZEBUVi1VE3w/N6GTGk8r
- vbQoKqoCfOgH9nFUQ2f6apGa275Sr+o=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=3Ka9Jf2XCNMoMy8Dt7ZoXwMoenV/FGjsTW1lCF3tzpU=;
+ b=gHwt2gy1wZNReM3AGrA9+LxAD+QYqO59285QdJbrHkS/buLdiKkYPmENlo5iqeh8UnVzYV
+ Usg2+MqBIW1WKNFOezIAs2a9LNpblkiKemlSmh4RgFZYZ1MOWhM8pEtA9bHb08L6ENNymM
+ 2gyTbWpJeCtVTM3rJGQUunZ9aNVt85Q=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-416-cpbOBJpXNKqRCAltX4i-Bg-1; Wed, 18 Jan 2023 06:34:43 -0500
-X-MC-Unique: cpbOBJpXNKqRCAltX4i-Bg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- qf20-20020a1709077f1400b0086ec9755517so6958591ejc.15
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 03:34:42 -0800 (PST)
+ us-mta-458-MkoDg2ZiO4-qS9Ijg-9Ikg-1; Wed, 18 Jan 2023 06:39:49 -0500
+X-MC-Unique: MkoDg2ZiO4-qS9Ijg-9Ikg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ m7-20020a056402510700b00488d1fcdaebso23220027edd.9
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 03:39:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iNXhjmEs/oJtA31CqFYKIT5SGaKPkn/sjhkD4+g6BFc=;
- b=FqjP1QfbL4ayIRv02PNZBM4cgu7aeMKVQ0vp4zP1AiUQx5YPeCpQQ3+y5VYQVLpELM
- DZ9q/YweFIDcggd5WJe3u/ZevLhbCAvn80FUocSrVbfeBTbmxtSu0Xy+RU4dg+yAp0Z1
- kPEdnofvLnCkeLKxR4YdKy3kRo8y2TgVC4xZdsn7oh+reUxJBbgxt9/Mn9iGHCtBKSZI
- VcufrIepiXeNONLYPHwkln+zxf5RQzhXiZk7tbq0LwITfZoAU6b39Q9KleMHlVy50zp4
- 6a+qAxqKCBW1CCNz9dhWrAfqt0n+xMEuTO3st7ZyGzXzoJ+RhJw2I++RJ3sWu48idg0T
- R54A==
-X-Gm-Message-State: AFqh2krzBpRHYig4ySexl7Wz0MoSNbx0w6Y/tnfpFnpDWL8DmZy097oe
- eRFKOLV8muA6uKYWW9CEf2ZWervz4nHyjetu0QDn3EfpC5eS5wKNHedIP9JjsE+TBhoUFQa2zqu
- 4W8J3PUnHJX906zg=
-X-Received: by 2002:a17:906:781:b0:871:8297:7576 with SMTP id
- l1-20020a170906078100b0087182977576mr6137855ejc.26.1674041681972; 
- Wed, 18 Jan 2023 03:34:41 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXskbg3tLY+bxFZkIBgOa/wCYUSOcrA3+w4f8EKzKci3ThYoMdrhG8NZbLzOTzTI/u8aeJCBhg==
-X-Received: by 2002:a17:906:781:b0:871:8297:7576 with SMTP id
- l1-20020a170906078100b0087182977576mr6137823ejc.26.1674041681612; 
- Wed, 18 Jan 2023 03:34:41 -0800 (PST)
+ bh=3Ka9Jf2XCNMoMy8Dt7ZoXwMoenV/FGjsTW1lCF3tzpU=;
+ b=n1t1Sat7ZiNFZZBE0jpjbQWH9Kqm7rU1+uDusKomeqxEegAQnccmJ2oSR753PjZyJF
+ nRfvrqJZ0pEfxxmFb9NVU8ntCkuAJGAFJirzxshmheeHA2hoePO1GH3AK9yOsWHDyemk
+ vBbubui1h2pPB7GzTA2bOjg3rAXzgbOcH/+rEbga+kpUGa4rFMxoCuXABPG2yLcj+M5t
+ fJT4Zgw1wQyC2SYtF2w4P7eCB3QtzfEKFvV0Mv7fKeIM1YuThJ6G0zcYjMzBmHfh1GbM
+ f9Ul/qTMiXkeXGGMJTk3lmukLP8LKrDxnNb0h90iRkkyxxByaVNM53O+2pt6m/GVxDue
+ dcGw==
+X-Gm-Message-State: AFqh2kpm5jkJwpmuQ5SK2TEZwb0zFlKgUG8Zd36UsYaoHSD055QDeM1I
+ D6Bd5e/eD0YMfaGEjnFxUdeMbFo0WU2JwXhVT/b5W7Vbk7abQaar1WEhCUzttikfJW6AkDZCgDn
+ d8xCqUnkaVU1ZbTQ=
+X-Received: by 2002:a17:907:207a:b0:872:32eb:9df8 with SMTP id
+ qp26-20020a170907207a00b0087232eb9df8mr6884907ejb.45.1674041987908; 
+ Wed, 18 Jan 2023 03:39:47 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsE2XJumGwA2gloRws0HDy8YquNK4OskMibBV6ma1b20T81d47q56+zxLtrDsOD1mTUeJ/cOQ==
+X-Received: by 2002:a17:907:207a:b0:872:32eb:9df8 with SMTP id
+ qp26-20020a170907207a00b0087232eb9df8mr6884880ejb.45.1674041987603; 
+ Wed, 18 Jan 2023 03:39:47 -0800 (PST)
 Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
  [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- d9-20020a1709063ec900b007bd9e683639sm14419256ejj.130.2023.01.18.03.34.40
+ w5-20020a50fa85000000b00491c819d6d2sm14041813edr.44.2023.01.18.03.39.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 03:34:40 -0800 (PST)
-Date: Wed, 18 Jan 2023 12:34:39 +0100
+ Wed, 18 Jan 2023 03:39:46 -0800 (PST)
+Date: Wed, 18 Jan 2023 12:39:46 +0100
 From: Igor Mammedov <imammedo@redhat.com>
 To: Bernhard Beschow <shentey@gmail.com>
 Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, Richard Henderson
@@ -73,12 +73,11 @@ Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, Richard Henderson
  "Michael S. Tsirkin" <mst@redhat.com>, Ani Sinha <ani@anisinha.ca>, Marcel
  Apfelbaum <marcel.apfelbaum@gmail.com>, Aurelien Jarno
  <aurelien@aurel32.net>
-Subject: Re: [PATCH v3 6/7] hw/isa/isa-bus: Turn isa_build_aml() into
- qbus_build_aml()
-Message-ID: <20230118123439.6e5c9e80@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230116152908.147275-7-shentey@gmail.com>
+Subject: Re: [PATCH v3 7/7] piix3, ich9: Reuse qbus_build_aml()
+Message-ID: <20230118123946.0b282e2c@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230116152908.147275-8-shentey@gmail.com>
 References: <20230116152908.147275-1-shentey@gmail.com>
- <20230116152908.147275-7-shentey@gmail.com>
+ <20230116152908.147275-8-shentey@gmail.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -107,136 +106,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 16 Jan 2023 16:29:07 +0100
+On Mon, 16 Jan 2023 16:29:08 +0100
 Bernhard Beschow <shentey@gmail.com> wrote:
 
-> Frees isa-bus.c from implicit ACPI dependency.
->=20
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
+I'd squash it in previous patch, and rename that to something
+
+'remove no longer needed isa_build_aml()
+ =20
+ isa_build_aml() doesn't do anything except
+ calling call_dev_aml_func() on bus children
+ along with other places that do the same.
+ Move that into ... and cleanup those places
+ as well.
+'
+
+
 > ---
->  include/hw/acpi/acpi_aml_interface.h |  3 +++
->  include/hw/isa/isa.h                 |  1 -
->  hw/acpi/acpi_interface.c             | 10 ++++++++++
->  hw/i386/acpi-microvm.c               |  3 ++-
->  hw/isa/isa-bus.c                     | 10 ----------
->  5 files changed, 15 insertions(+), 12 deletions(-)
+>  hw/i2c/smbus_ich9.c | 5 +----
+>  hw/isa/lpc_ich9.c   | 5 +----
+>  hw/isa/piix3.c      | 5 +----
+>  3 files changed, 3 insertions(+), 12 deletions(-)
 >=20
-> diff --git a/include/hw/acpi/acpi_aml_interface.h b/include/hw/acpi/acpi_=
-aml_interface.h
-> index 436da069d6..11748a8866 100644
-> --- a/include/hw/acpi/acpi_aml_interface.h
-> +++ b/include/hw/acpi/acpi_aml_interface.h
-> @@ -3,6 +3,7 @@
+> diff --git a/hw/i2c/smbus_ich9.c b/hw/i2c/smbus_ich9.c
+> index ee50ba1f2c..52ba77f3fc 100644
+> --- a/hw/i2c/smbus_ich9.c
+> +++ b/hw/i2c/smbus_ich9.c
+> @@ -97,13 +97,10 @@ static void ich9_smbus_realize(PCIDevice *d, Error **=
+errp)
 > =20
->  #include "qom/object.h"
->  #include "hw/acpi/aml-build.h"
-> +#include "hw/qdev-core.h"
-> =20
->  #define TYPE_ACPI_DEV_AML_IF "acpi-dev-aml-interface"
->  typedef struct AcpiDevAmlIfClass AcpiDevAmlIfClass;
-> @@ -46,4 +47,6 @@ static inline void call_dev_aml_func(DeviceState *dev, =
-Aml *scope)
->      }
->  }
-> =20
-> +void qbus_build_aml(BusState *bus, Aml *scope);
-> +
->  #endif
-> diff --git a/include/hw/isa/isa.h b/include/hw/isa/isa.h
-> index 6c8a8a92cb..25acd5c34c 100644
-> --- a/include/hw/isa/isa.h
-> +++ b/include/hw/isa/isa.h
-> @@ -86,7 +86,6 @@ bool isa_realize_and_unref(ISADevice *dev, ISABus *bus,=
- Error **errp);
->  ISADevice *isa_create_simple(ISABus *bus, const char *name);
-> =20
->  ISADevice *isa_vga_init(ISABus *bus);
-> -void isa_build_aml(ISABus *bus, Aml *scope);
-> =20
->  /**
->   * isa_register_ioport: Install an I/O port region on the ISA bus.
-> diff --git a/hw/acpi/acpi_interface.c b/hw/acpi/acpi_interface.c
-> index c668d361f6..8637ff18fc 100644
-> --- a/hw/acpi/acpi_interface.c
-> +++ b/hw/acpi/acpi_interface.c
-> @@ -2,6 +2,7 @@
->  #include "hw/acpi/acpi_dev_interface.h"
->  #include "hw/acpi/acpi_aml_interface.h"
->  #include "qemu/module.h"
-> +#include "qemu/queue.h"
-> =20
->  void acpi_send_event(DeviceState *dev, AcpiEventStatusBits event)
+>  static void build_ich9_smb_aml(AcpiDevAmlIf *adev, Aml *scope)
 >  {
-> @@ -12,6 +13,15 @@ void acpi_send_event(DeviceState *dev, AcpiEventStatus=
-Bits event)
->      }
->  }
-> =20
-> +void qbus_build_aml(BusState *bus, Aml *scope)
-> +{
-> +    BusChild *kid;
-> +
-> +    QTAILQ_FOREACH(kid, &bus->children, sibling) {
-> +        call_dev_aml_func(DEVICE(kid->child), scope);
-> +    }
-> +}
-> +
->  static void register_types(void)
->  {
->      static const TypeInfo acpi_dev_if_info =3D {
-> diff --git a/hw/i386/acpi-microvm.c b/hw/i386/acpi-microvm.c
-> index d8a444d06c..fec22d85c1 100644
-> --- a/hw/i386/acpi-microvm.c
-> +++ b/hw/i386/acpi-microvm.c
-> @@ -26,6 +26,7 @@
-> =20
->  #include "exec/memory.h"
->  #include "hw/acpi/acpi.h"
-> +#include "hw/acpi/acpi_aml_interface.h"
->  #include "hw/acpi/aml-build.h"
->  #include "hw/acpi/bios-linker-loader.h"
->  #include "hw/acpi/generic_event_device.h"
-> @@ -129,7 +130,7 @@ build_dsdt_microvm(GArray *table_data, BIOSLinker *li=
-nker,
-> =20
->      sb_scope =3D aml_scope("_SB");
->      fw_cfg_add_acpi_dsdt(sb_scope, x86ms->fw_cfg);
-> -    isa_build_aml(ISA_BUS(isabus), sb_scope);
-> +    qbus_build_aml(BUS(isabus), sb_scope);
->      build_ged_aml(sb_scope, GED_DEVICE, x86ms->acpi_dev,
->                    GED_MMIO_IRQ, AML_SYSTEM_MEMORY, GED_MMIO_BASE);
->      acpi_dsdt_add_power_button(sb_scope);
-> diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-> index 1bee1a47f1..f155b80010 100644
-> --- a/hw/isa/isa-bus.c
-> +++ b/hw/isa/isa-bus.c
-> @@ -24,7 +24,6 @@
->  #include "hw/sysbus.h"
->  #include "sysemu/sysemu.h"
->  #include "hw/isa/isa.h"
-> -#include "hw/acpi/acpi_aml_interface.h"
-> =20
->  static ISABus *isabus;
-> =20
-> @@ -188,15 +187,6 @@ ISADevice *isa_vga_init(ISABus *bus)
->      }
->  }
-> =20
-> -void isa_build_aml(ISABus *bus, Aml *scope)
-> -{
 > -    BusChild *kid;
-> -
-> -    QTAILQ_FOREACH(kid, &bus->parent_obj.children, sibling) {
+>      ICH9SMBState *s =3D ICH9_SMB_DEVICE(adev);
+>      BusState *bus =3D BUS(s->smb.smbus);
+> =20
+> -    QTAILQ_FOREACH(kid, &bus->children, sibling) {
+> -            call_dev_aml_func(DEVICE(kid->child), scope);
+> -    }
+> +    qbus_build_aml(bus, scope);
+>  }
+> =20
+>  static void ich9_smb_class_init(ObjectClass *klass, void *data)
+> diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+> index 0ab0a341be..d5d4b0f177 100644
+> --- a/hw/isa/lpc_ich9.c
+> +++ b/hw/isa/lpc_ich9.c
+> @@ -813,7 +813,6 @@ static void ich9_send_gpe(AcpiDeviceIf *adev, AcpiEve=
+ntStatusBits ev)
+>  static void build_ich9_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
+>  {
+>      Aml *field;
+> -    BusChild *kid;
+>      ICH9LPCState *s =3D ICH9_LPC_DEVICE(adev);
+>      BusState *bus =3D BUS(s->isa_bus);
+>      Aml *sb_scope =3D aml_scope("\\_SB");
+> @@ -835,9 +834,7 @@ static void build_ich9_isa_aml(AcpiDevAmlIf *adev, Am=
+l *scope)
+>      aml_append(sb_scope, field);
+>      aml_append(scope, sb_scope);
+> =20
+> -    QTAILQ_FOREACH(kid, &bus->children, sibling) {
+> -            call_dev_aml_func(DEVICE(kid->child), scope);
+> -    }
+> +    qbus_build_aml(bus, scope);
+>  }
+> =20
+>  static void ich9_lpc_class_init(ObjectClass *klass, void *data)
+> diff --git a/hw/isa/piix3.c b/hw/isa/piix3.c
+> index 283b971ec4..a9cb39bf21 100644
+> --- a/hw/isa/piix3.c
+> +++ b/hw/isa/piix3.c
+> @@ -306,7 +306,6 @@ static void pci_piix3_realize(PCIDevice *dev, Error *=
+*errp)
+>  static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml *scope)
+>  {
+>      Aml *field;
+> -    BusChild *kid;
+>      Aml *sb_scope =3D aml_scope("\\_SB");
+>      BusState *bus =3D qdev_get_child_bus(DEVICE(adev), "isa.0");
+> =20
+> @@ -322,9 +321,7 @@ static void build_pci_isa_aml(AcpiDevAmlIf *adev, Aml=
+ *scope)
+>      aml_append(sb_scope, field);
+>      aml_append(scope, sb_scope);
+> =20
+> -    QTAILQ_FOREACH(kid, &bus->children, sibling) {
 > -        call_dev_aml_func(DEVICE(kid->child), scope);
 > -    }
-> -}
-> -
->  static void isabus_bridge_class_init(ObjectClass *klass, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
+> +    qbus_build_aml(bus, scope);
+>  }
+> =20
+>  static void pci_piix3_class_init(ObjectClass *klass, void *data)
 
 
