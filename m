@@ -2,41 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85513670EB2
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 01:36:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82DDC670FAE
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 02:13:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pHwPx-0005wR-UY; Tue, 17 Jan 2023 19:35:06 -0500
+	id 1pHwzD-0001yA-Ne; Tue, 17 Jan 2023 20:11:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pHwPs-0005tt-FD; Tue, 17 Jan 2023 19:35:01 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pHwPq-00055h-II; Tue, 17 Jan 2023 19:35:00 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 7A440746F31;
- Wed, 18 Jan 2023 01:32:35 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 5554E746F2F; Wed, 18 Jan 2023 01:32:35 +0100 (CET)
-Message-Id: <bfce0751e82b031f5e6fb3c32cfbce6325434400.1674001242.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1674001241.git.balaton@eik.bme.hu>
-References: <cover.1674001241.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 4/4] hw/misc/macio: Return bool from functions taking errp
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Wed, 18 Jan 2023 01:32:35 +0100 (CET)
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pHwzC-0001xy-EJ
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 20:11:30 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pHwzA-0002Dw-Nw
+ for qemu-devel@nongnu.org; Tue, 17 Jan 2023 20:11:30 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ z4-20020a17090a170400b00226d331390cso647513pjd.5
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 17:11:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=0Ul5xLQD2pTVs5KU88hy/3v5sPh0HeFfKCb/jilT058=;
+ b=BmK0+4ztBREKBElYN7Efq10L/y6TxvGsF2ggHDu/18Ws6JsNJTL4O5U58+PEHNjuwm
+ Z+EOZBrSrYhDLcjn90hYlbMpTIS8CWIcNN4LUl011RyjGeY3CTpD5wIl4bVCSYJ/sXRB
+ dqHcmdLQ337k3j0MO04VHdwJC8nTVrEAcqsq8oFnVzNQjFSf0GNF0UM7upt0DqctGxhL
+ JHREFg+y/th5y5BFO691S7s00cVHfUMhF+Sk9QLS/TuG4dXk/8cnrv6GVabOn7SYyA1A
+ /eLyHuhnCK3nzR+8ytiOJ5p6y+8DLso82FtWrehKFR/d+Z0Bo+oACZBA2G8g1NhDcJWK
+ p4AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=0Ul5xLQD2pTVs5KU88hy/3v5sPh0HeFfKCb/jilT058=;
+ b=RpF1n55fNRmfYZiLRYhBAykmibGW3UTDqSXeShCQtQ1u8ITRWQAuBgK63K4Eq1EhnI
+ H1sakgR0lZ1CxxfbyqKBJaosRRVTRSLysw6l46GvASVkb0W3tzwMuVWSEhi15LmJB95q
+ dqVUVbs3j9y8UzGcWN44L7T4jEouFkyeD9YYYGd+j4Db2QJBf55VM7+Goj/2ZJdzhqfX
+ TvDFqBmrBQpAOs4mOHhKrlKiVpHLneulXi5ORFTmOPaY9Nfzgf/9sX6i1ywoZOFlzKrJ
+ vQhxfe//Ddfhspsj/K5MRQRGAxoN+J1tk38xreG2oKPZXK+229ZCQ3pDwdV/bXv0jjjJ
+ Xs0A==
+X-Gm-Message-State: AFqh2koPIvzQqpZRPeYAlD8J/WEBUD1FIJCTOlBiw+UDi3WimDRDJ3ML
+ uNDl22oApk2R4K11LmXh43YdrRfIQu1Zp+by
+X-Google-Smtp-Source: AMrXdXuSTS6FYFJTknNwuMiRgee4Ejyg7bKdIgEKxrSq8lNGY1lRZ7fmmbgcvjEON99rvELHXuPHLg==
+X-Received: by 2002:a17:902:e402:b0:193:3980:98d5 with SMTP id
+ m2-20020a170902e40200b00193398098d5mr3933317ple.57.1674004287141; 
+ Tue, 17 Jan 2023 17:11:27 -0800 (PST)
+Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id
+ s7-20020a170902988700b0017ec1b1bf9fsm21660259plp.217.2023.01.17.17.11.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 17 Jan 2023 17:11:26 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: git@xen0n.name
+Subject: [PATCH v2 00/10] tcg/loongarch64: Reorg goto_tb and cleanups
+Date: Tue, 17 Jan 2023 15:11:13 -1000
+Message-Id: <20230118011123.392823-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,153 +87,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Use the convention to return bool from functions which take an error
-pointer which allows for callers to pass through their error pointer
-without needing a local.
+Based-on: 20230117231051.354444-1-richard.henderson@linaro.org
+("[PULL 00/22] tcg patch queue")
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/misc/macio/macio.c | 62 +++++++++++++++++--------------------------
- 1 file changed, 25 insertions(+), 37 deletions(-)
+Includes:
+  * Disassembler from target/loongarch/.
+  * Improvements to movi by Rui Wang, with minor tweaks.
+  * Improvements to setcond.
+  * Implement movcond.
+  * Fix the same goto_tb bug that affected some others.
 
-diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
-index ae2a9a960d..265c0bbd8d 100644
---- a/hw/misc/macio/macio.c
-+++ b/hw/misc/macio/macio.c
-@@ -90,13 +90,13 @@ static void macio_bar_setup(MacIOState *s)
-     macio_escc_legacy_setup(s);
- }
- 
--static void macio_common_realize(PCIDevice *d, Error **errp)
-+static bool macio_common_realize(PCIDevice *d, Error **errp)
- {
-     MacIOState *s = MACIO(d);
-     SysBusDevice *sbd;
- 
-     if (!qdev_realize(DEVICE(&s->dbdma), BUS(&s->macio_bus), errp)) {
--        return;
-+        return false;
-     }
-     sbd = SYS_BUS_DEVICE(&s->dbdma);
-     memory_region_add_subregion(&s->bar, 0x08000,
-@@ -108,14 +108,16 @@ static void macio_common_realize(PCIDevice *d, Error **errp)
-     qdev_prop_set_uint32(DEVICE(&s->escc), "chnBtype", escc_serial);
-     qdev_prop_set_uint32(DEVICE(&s->escc), "chnAtype", escc_serial);
-     if (!qdev_realize(DEVICE(&s->escc), BUS(&s->macio_bus), errp)) {
--        return;
-+        return false;
-     }
- 
-     macio_bar_setup(s);
-     pci_register_bar(d, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->bar);
-+
-+    return true;
- }
- 
--static void macio_realize_ide(MacIOState *s, MACIOIDEState *ide,
-+static bool macio_realize_ide(MacIOState *s, MACIOIDEState *ide,
-                               qemu_irq irq0, qemu_irq irq1, int dmaid,
-                               Error **errp)
- {
-@@ -128,7 +130,7 @@ static void macio_realize_ide(MacIOState *s, MACIOIDEState *ide,
-                              &error_abort);
-     macio_ide_register_dma(ide);
- 
--    qdev_realize(DEVICE(ide), BUS(&s->macio_bus), errp);
-+    return qdev_realize(DEVICE(ide), BUS(&s->macio_bus), errp);
- }
- 
- static void macio_oldworld_realize(PCIDevice *d, Error **errp)
-@@ -136,12 +138,9 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
-     MacIOState *s = MACIO(d);
-     OldWorldMacIOState *os = OLDWORLD_MACIO(d);
-     DeviceState *pic_dev = DEVICE(&os->pic);
--    Error *err = NULL;
-     SysBusDevice *sbd;
- 
--    macio_common_realize(d, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!macio_common_realize(d, errp)) {
-         return;
-     }
- 
-@@ -176,21 +175,17 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
-     pmac_format_nvram_partition(&os->nvram, os->nvram.size);
- 
-     /* IDE buses */
--    macio_realize_ide(s, &os->ide[0],
--                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_IRQ),
--                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_DMA_IRQ),
--                      0x16, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!macio_realize_ide(s, &os->ide[0],
-+                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_IRQ),
-+                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_DMA_IRQ),
-+                           0x16, errp)) {
-         return;
-     }
- 
--    macio_realize_ide(s, &os->ide[1],
--                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_IRQ),
--                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_DMA_IRQ),
--                      0x1a, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!macio_realize_ide(s, &os->ide[1],
-+                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_IRQ),
-+                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_DMA_IRQ),
-+                           0x1a, errp)) {
-         return;
-     }
- }
-@@ -266,13 +261,10 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
-     MacIOState *s = MACIO(d);
-     NewWorldMacIOState *ns = NEWWORLD_MACIO(d);
-     DeviceState *pic_dev = DEVICE(&ns->pic);
--    Error *err = NULL;
-     SysBusDevice *sbd;
-     MemoryRegion *timer_memory = NULL;
- 
--    macio_common_realize(d, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!macio_common_realize(d, errp)) {
-         return;
-     }
- 
-@@ -288,21 +280,17 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
-     sysbus_connect_irq(sbd, 1, qdev_get_gpio_in(pic_dev, NEWWORLD_ESCCA_IRQ));
- 
-     /* IDE buses */
--    macio_realize_ide(s, &ns->ide[0],
--                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_IRQ),
--                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_DMA_IRQ),
--                      0x16, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!macio_realize_ide(s, &ns->ide[0],
-+                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_IRQ),
-+                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_DMA_IRQ),
-+                           0x16, errp)) {
-         return;
-     }
- 
--    macio_realize_ide(s, &ns->ide[1],
--                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_IRQ),
--                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_DMA_IRQ),
--                      0x1a, &err);
--    if (err) {
--        error_propagate(errp, err);
-+    if (!macio_realize_ide(s, &ns->ide[1],
-+                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_IRQ),
-+                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_DMA_IRQ),
-+                           0x1a, errp)) {
-         return;
-     }
- 
+
+r~
+
+
+Richard Henderson (9):
+  target/loongarch: Enable the disassembler for host tcg
+  target/loongarch: Disassemble jirl properly
+  target/loongarch: Disassemble pcadd* addresses
+  tcg/loongarch64: Update tcg-insn-defs.c.inc
+  tcg/loongarch64: Introduce tcg_out_addi
+  tcg/loongarch64: Improve setcond expansion
+  tcg/loongarch64: Implement movcond
+  tcg/loongarch64: Use tcg_pcrel_diff in tcg_out_ldst
+  tcg/loongarch64: Reorg goto_tb implementation
+
+Rui Wang (1):
+  tcg/loongarch64: Optimize immediate loading
+
+ tcg/loongarch64/tcg-target-con-set.h          |   5 +-
+ tcg/loongarch64/tcg-target-con-str.h          |   2 +-
+ tcg/loongarch64/tcg-target.h                  |  11 +-
+ disas.c                                       |   2 +
+ target/loongarch/disas.c                      |  39 +-
+ .../loongarch/insn_trans/trans_branch.c.inc   |   2 +-
+ target/loongarch/insns.decode                 |   3 +-
+ target/loongarch/meson.build                  |   3 +-
+ tcg/loongarch64/tcg-insn-defs.c.inc           |  10 +-
+ tcg/loongarch64/tcg-target.c.inc              | 364 ++++++++++++------
+ 10 files changed, 300 insertions(+), 141 deletions(-)
+ mode change 100644 => 100755 tcg/loongarch64/tcg-insn-defs.c.inc
+
 -- 
-2.30.6
+2.34.1
 
 
