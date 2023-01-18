@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32FB671CC3
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:57:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75054671CC6
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 13:58:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI7z3-0005Ua-Ac; Wed, 18 Jan 2023 07:56:05 -0500
+	id 1pI80d-0007SU-Gm; Wed, 18 Jan 2023 07:57:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pI7z1-0005UK-KK
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:56:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pI80a-0007Rh-7k
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:57:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pI7z0-0001jp-13
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:56:03 -0500
+ id 1pI80Y-0001zs-Na
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 07:57:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674046560;
+ s=mimecast20190719; t=1674046657;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HKPzNobE/ZgYA8RuJkMMU1gI4pHjUVZj/n3YplFYTrc=;
- b=KKwQmMTqT4HSSJC5DnbQwrF/gqkxiou6qLCBuF63Y4ATA7zzMyVMb5VxIASiKangQOT6tN
- F8EMjNkxsqRcc8p53QBSsoox+DCQM8Uc8hs8ToDlDBYO2M+wNyqOW8M82HbkmGx7QuqWB9
- gN0TDq/Bz3QFbTIP3uo/PoNYpiVuhLc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=VxK2u2EXRhEVgrOgAbbHgTYHsQl0AM/OXiCcee9OMdI=;
+ b=bEbz+P652vKjrZMLhlinnsEUkESOMFPWMyi9KfaIWUZWNQ4YspOZgt9ZFosJMXrJyhYgc7
+ k8hbQIz3WMAP8KTABaZDGFsOjgFpJBNQSBZXpq25F81RuL9VogbZkqTVU+Gxf8J//Pu7GO
+ Ey/lkMXorvvvLRiYhb/uqyGsMULeZQ4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-639-pdpFwdBJNCqHYWv0vZWp5w-1; Wed, 18 Jan 2023 07:55:57 -0500
-X-MC-Unique: pdpFwdBJNCqHYWv0vZWp5w-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-392-e8VwoTSIMwikjQBmzWt8rQ-1; Wed, 18 Jan 2023 07:57:34 -0500
+X-MC-Unique: e8VwoTSIMwikjQBmzWt8rQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D5802183B3C0;
- Wed, 18 Jan 2023 12:55:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CAFD538149AC;
+ Wed, 18 Jan 2023 12:57:33 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 05A2A140EBF5;
- Wed, 18 Jan 2023 12:55:55 +0000 (UTC)
-Date: Wed, 18 Jan 2023 12:55:54 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DCFF640C6EC4;
+ Wed, 18 Jan 2023 12:57:32 +0000 (UTC)
+Date: Wed, 18 Jan 2023 12:57:30 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH] tests/qtest/bios-tables-test: Make the test less verbose
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [PATCH v2] tests/qtest/qom-test: Do not print tested properties
  by default
-Message-ID: <Y8fsWneXZLhm2QAA@redhat.com>
-References: <20230118125132.1694469-1-thuth@redhat.com>
+Message-ID: <Y8fsutLZrA5BkcB2@redhat.com>
+References: <20221215153036.422362-1-thuth@redhat.com>
+ <CAFEAcA_EUNGFzLh8d9631WZR+-bR8oVynBs6=FV_kmLWNx2bSg@mail.gmail.com>
+ <CAFEAcA80=+dXd5uDfSd8-sAPwbrYMqaPKhLGt7w8vh3MiQwLCQ@mail.gmail.com>
+ <43415e4f-c6bf-31c6-3a2e-cea86c511223@redhat.com>
+ <Y8Z8CJoFyxB9uHqU@redhat.com>
+ <9231dd89-355e-3aa2-c4c7-b462af0ff67f@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230118125132.1694469-1-thuth@redhat.com>
+In-Reply-To: <9231dd89-355e-3aa2-c4c7-b462af0ff67f@redhat.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,24 +92,30 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 18, 2023 at 01:51:32PM +0100, Thomas Huth wrote:
-> We are facing the issues that our test logs in the gitlab CI are
-> too big (and thus cut off). The bios-tables-test is one of the few
-> qtests that prints many lines of output by default when running with
-> V=1, so it contributes to this problem. Almost all other qtests are
-> silent with V=1 and only print debug messages with V=2 and higher.
-> Thus let's change the bios-tables-test to behave more like the
-> other tests and only print the debug messages with V=2 (or higher).
+On Wed, Jan 18, 2023 at 01:55:49PM +0100, Thomas Huth wrote:
+> On 17/01/2023 11.44, Daniel P. Berrangé wrote:
+> > On Tue, Jan 17, 2023 at 11:32:42AM +0100, Thomas Huth wrote:
+> ...
+> > > - Instead of doing "cat meson-logs/testlog.txt" in the CI
+> > >    scripts, we switch to "tail -n 1000 meson-logs/testlog.txt"
+> > >    instead
+> > 
+> > Tail requires that it has consumed the entire doc before it prints
+> > anything. This in turn implies that the test suite has finished.
+> > IOW, we'll get zero output if it hangs IIUC.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  See also this discussion here:
->  https://lore.kernel.org/qemu-devel/Y8Z8CJoFyxB9uHqU@redhat.com/
+> I was referring to the places where we are dumping the testlog.txt like this:
 > 
->  tests/qtest/bios-tables-test.c | 17 ++++++++++++-----
->  1 file changed, 12 insertions(+), 5 deletions(-)
+>  make --output-sync -j`nproc` check
+>    || { cat meson-logs/testlog.txt; exit 1; }
+> 
+> See .gitlab-ci.d/custom-runners/* or .gitlab-ci.d/windows.yml for example. I
+> assume it should be ok to switch to "tail" instead of "cat" there?
 
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Yes, it would be OK, bug lets make sure meson-logs/testlog.txt is included
+as an artifact published by the job, so we can access the full set if
+needed
+
 
 With regards,
 Daniel
