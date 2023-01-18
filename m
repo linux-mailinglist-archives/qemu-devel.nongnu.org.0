@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08F856714FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 08:19:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5541F671503
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 08:21:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI2jK-00021u-UH; Wed, 18 Jan 2023 02:19:31 -0500
+	id 1pI2lS-0003ig-Qu; Wed, 18 Jan 2023 02:21:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI2ix-0001sT-2e
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 02:19:07 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI2lO-0003iN-Kb
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 02:21:38 -0500
 Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI2iu-0005LH-Sw
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 02:19:06 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- q10-20020a1cf30a000000b003db0edfdb74so671386wmq.1
- for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 23:19:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI2lM-0005rm-W5
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 02:21:38 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id g10so23961153wmo.1
+ for <qemu-devel@nongnu.org>; Tue, 17 Jan 2023 23:21:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ia2hmW8mHSB1gXnJUL0PmY4N+1YGnMRLUCVCxM2q6is=;
- b=KwrOTPERgmj04I1FGXSaQ4Zr8KZ1crzF4p7rOG+U4aB9ZtOAzagsLgtIoDGylneYh9
- 6behMk8K9/67iQAhPBJlfOm3P+J61Z+r9Lp9sLic8W/9C+YQMIKuh/dG7XREU7HoGq9t
- VmDpgH/g7aGGQsdIu/jtQ5xGFLQdKZ69qvjwOi8QNb6Wiw2Q6sgTCas3FQPuUI6QfG5M
- QPB/g5qF70xR8tK4W3yNXBCNrQHjOJvn0x2+UQkiBempJahNmvCEs8R6jMLGjgkzgw1U
- aqvkb1TAxzRSOq/JXe+OPNftHV5Va7dl+26/ZqYc/6WpncV1bynMYS0XBcTFPf+cfF7z
- MABQ==
+ bh=x8L5AX2lofGdvb18vvWr5K0I96KDwPt93U9qiGEiyas=;
+ b=rQm2vqazT12+qfon9xAtQmJm1xJBzTYn0N7jEKRMYUC2fLFhyGpFxlpTF07hI0u+z2
+ eFuSf6ScKVXanEeY4DiVlkpjK58llqbLJ7NCOFK/y0ffAYaZRra/JqLA66489R/CQHbZ
+ Skp2TEZbJodHNY9R7tcCqgS93q5pZ7mYrFdZUk3zTPuYi9G3nZf/kqILDSVMAaSdTJT0
+ yR/lY44mOli1Os3rGmzh8Q73TA5R42q0D6O3M8jm6iJdU91SaWK46T7Nql/Aoni3F0B/
+ lQeCC5U3oNs+Ls8y397NHPlrAolLSh6Cc8caL29foDaBy2jf38qZW0yIkh5V6jTCxkf/
+ HCHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ia2hmW8mHSB1gXnJUL0PmY4N+1YGnMRLUCVCxM2q6is=;
- b=X+MfMJA9y0oK+erHyaMAgw4WalKrWhvW0JSVnpqikTOrnADvuuPsVTumGJKNHuE0nM
- /Dezjatpj1ZLYizAU6zpqfYwivjHhj1pTMRyOQdKqfAgD1ziFNIp1HBge5Qa9Ex0RJoN
- dd3pFPEyjypTfpUVyOTZ/cDnYIZ4ow2w8E1uE1s1TMN6IbElHC0w3X3uENcOuGFVovt8
- ZC/KMEh4jLe5uq2abGFVXaUrWpuzjgjP4+GuThJfZH/INjBhnr9qUjL61/S0DEDp0EHQ
- bPm6nqhLleQgVd2OQUjFU/akAf1fyaLwccuVxQH+sTLgEBdfl9GpwNt5lwW4rvBbfYqt
- DIpw==
-X-Gm-Message-State: AFqh2krGyROlsaCVGnpeIfstLBb/gfPcNLPjYyGu5VZbG4uWQ1qysKlW
- gT3v0bStJQoF4I1kjya7pPfWlNRq3acQfko4
-X-Google-Smtp-Source: AMrXdXvnOZBt18kwDpU2yNP/g4AIpW6BWNiV+uvGQIlZOia5KFOkXohQ6CFqF94RZAJbZgY6z49qfA==
-X-Received: by 2002:a05:600c:c05:b0:3db:104:7812 with SMTP id
- fm5-20020a05600c0c0500b003db01047812mr5507476wmb.24.1674026343185; 
- Tue, 17 Jan 2023 23:19:03 -0800 (PST)
+ bh=x8L5AX2lofGdvb18vvWr5K0I96KDwPt93U9qiGEiyas=;
+ b=sYf8BM80EmSatUtVtJbcUXGlptsAII4BpEmrtR9jojOHlQFN9gCNNtNhggJCZqYF3j
+ 2JXRH1Bi0a1sre9B/f9GCHFgPhJRMOibLDyY4HBhU5+y6GeV7uY64WcVZbkftYF1oPBz
+ TwL/bQFDFX/RwWL2KL93nQXoRQ2o6lh9DtPvgf09Hfn7hICpb5gf3lEq5IA4A7zwSci4
+ 0K0m2v048sw8JBqJMQ0cs7Wh6qTKuqH4Y/W7MaeHgQIm5QUirCsIiO0VKgxT/xStm3Mf
+ kPlFOhkX0OFMOsxkrlSX3RXTikg4NhHq0SPwWBabD6Glv+TLQtHSbQinmDzAPIbhMW31
+ vDvA==
+X-Gm-Message-State: AFqh2krSov87G0A9hLJnqh1xaa+mx74syx11DUsIWMPxOCY42p1pb6eC
+ rZtoI6CksceKmky8/BKucZKzbQ==
+X-Google-Smtp-Source: AMrXdXvS/vnq/DeAV/+VZfvtSs4rLhULApPnUdumVm/7BO13gsvl03XB7b15MMTYOOFKr6rUO3MW+w==
+X-Received: by 2002:a05:600c:3c83:b0:3d9:e5d3:bf with SMTP id
+ bg3-20020a05600c3c8300b003d9e5d300bfmr5566386wmb.32.1674026495605; 
+ Tue, 17 Jan 2023 23:21:35 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m9-20020a7bca49000000b003d98f92692fsm1070452wml.17.2023.01.17.23.19.02
+ p4-20020a05600c1d8400b003da286f8332sm1126793wms.18.2023.01.17.23.21.34
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 17 Jan 2023 23:19:02 -0800 (PST)
-Message-ID: <ad71b960-9e4f-7cc7-f0f5-081fccee7913@linaro.org>
-Date: Wed, 18 Jan 2023 08:19:01 +0100
+ Tue, 17 Jan 2023 23:21:34 -0800 (PST)
+Message-ID: <e57e474b-acbe-07ec-cf6a-84463e5883a7@linaro.org>
+Date: Wed, 18 Jan 2023 08:21:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 4/4] hw/misc/macio: Return bool from functions taking errp
+Subject: Re: [PATCH] linux-user: fix strace build w/out munlockall
 Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <cover.1674001241.git.balaton@eik.bme.hu>
- <bfce0751e82b031f5e6fb3c32cfbce6325434400.1674001242.git.balaton@eik.bme.hu>
+To: Mike Frysinger <vapier@gentoo.org>, qemu-devel@nongnu.org,
+ Laurent Vivier <laurent@vivier.eu>
+References: <20230117233042.16897-1-vapier@gentoo.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <bfce0751e82b031f5e6fb3c32cfbce6325434400.1674001242.git.balaton@eik.bme.hu>
+In-Reply-To: <20230117233042.16897-1-vapier@gentoo.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
@@ -92,16 +89,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/1/23 01:32, BALATON Zoltan wrote:
-> Use the convention to return bool from functions which take an error
-> pointer which allows for callers to pass through their error pointer
-> without needing a local.
-> 
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+On 18/1/23 00:30, Mike Frysinger wrote:
+> Signed-off-by: Mike Frysinger <vapier@gentoo.org>
 > ---
->   hw/misc/macio/macio.c | 62 +++++++++++++++++--------------------------
->   1 file changed, 25 insertions(+), 37 deletions(-)
+>   linux-user/strace.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index 9ae5a812cd71..f7912ad67f2b 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -1380,6 +1380,7 @@ UNUSED static struct flags termios_lflags[] = {
+>       FLAG_END,
+>   };
+>   
+> +#ifdef TARGET_NR_mlockall
+>   UNUSED static struct flags mlockall_flags[] = {
+
+Removing the 'UNUSED' qualifier:
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+>       FLAG_TARGET(MCL_CURRENT),
+>       FLAG_TARGET(MCL_FUTURE),
+> @@ -1388,6 +1389,7 @@ UNUSED static struct flags mlockall_flags[] = {
+>   #endif
+>       FLAG_END,
+>   };
+> +#endif
+>   
+>   /* IDs of the various system clocks */
+>   #define TARGET_CLOCK_REALTIME              0
 
 
