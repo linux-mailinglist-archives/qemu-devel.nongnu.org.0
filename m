@@ -2,85 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F7CA672545
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 18:43:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6478E67257B
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 18:49:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pICS0-0004zB-9f; Wed, 18 Jan 2023 12:42:16 -0500
+	id 1pICYJ-00074Y-IE; Wed, 18 Jan 2023 12:48:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pICRy-0004xz-5Q
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 12:42:14 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pICRP-00038h-10
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 12:42:10 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id ud5so85113597ejc.4
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 09:41:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Z5QJE31641kROvra3WExSxS6lpGGaSkBajcAx4YcGvo=;
- b=Lf+9bDc2F+LQAg4RA5u/0SGsBzq6YcSlEKHWYkCLAyg0v5lA+wUG1htzXAv8w2cKyS
- 1WGPGL/2ra0yo6iOVWYPJ0XOFYU2OqRuWodLpd98X3/Mc+4ktXvt7dJzmG9V/YB0aram
- hOft4rtXkQY8S5MiMykwjl90Xlcx04o42Ya+cblhVi5obXq/qqwFMYPuTdiNxZ+a+NEz
- NUDVqEhx2Tk9EYsfXSLPxctVCGREfbv5TwS8UaNmxyYpoPCyzofc2+zdG7JxBvb3g33K
- +T8sQM98W6t9hwshi4llTNc1A1fyW0kMP1E6+1pmFinhQ7pLStBc6wUBGBIylufGuiHx
- bfRA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pICYH-00073Y-9h
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 12:48:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pICYF-0004CN-G2
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 12:48:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674064122;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4UFbKB57oFB8PvLvzZQAv6LQaUsQFzldevqq81j9SaI=;
+ b=WvUxhaSlxFJAu+Ftlv0xksABMWQxscXKKVkdPofNQfXzEcZFSk9YzL04h7xcwZImA+4CfX
+ HbJ1KbptgZu0jdSdCe680nSdt9TeOqi5QNH5W5tYjo3R/PYNdeyh/X7094KyrbvFDl+hNR
+ pxA27s1fFGhEbnakAeh0Y5Xfqpem0OY=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-228-tkQ4Q95dO8S0qtXHmCmb0A-1; Wed, 18 Jan 2023 12:48:41 -0500
+X-MC-Unique: tkQ4Q95dO8S0qtXHmCmb0A-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ o95-20020a0c9068000000b005320eb4e959so17696123qvo.16
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 09:48:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Z5QJE31641kROvra3WExSxS6lpGGaSkBajcAx4YcGvo=;
- b=NxLos0vT3pDjWgU1Lc7q0oaeh708TzDEPXljF8gxwLhdcmSenG+ufDt54bKnY55f86
- CLDlkEaNysFqk3oJb+njV1y9gZ5OcG3wvWHZbmmY0qW02aIhL/hiAwaC2AwUZ/f736oC
- RSbeFtmzynNn39vwikc+rgIk4XypNKYYCasgl2nGJy7T87nLBQjwUS4r3TJhybTkhufT
- 0n+SmqZC90UXNvPmbX+4NETwxai7prw1gALXJfqNxl4JOo1g4QZSSjjDFMyqFp+nRWML
- Gzy5a+6oybo1XiU8+QEGsmZBpgJ4pzsBkl8TFjIcvw/+FHX8nyrS2Lgh1H03dG6dlf+2
- ylfg==
-X-Gm-Message-State: AFqh2kqwwjAy6KUvbyQreHtGbyVeW70WugolTjG8RZKzEoxiwrSTyDlw
- o8laBnrbWSpy0Z5o0NaLnthpkw==
-X-Google-Smtp-Source: AMrXdXsB472RsXiXUJZ5kiB12NkmZPLo8OlPX2ACDrQrKlgz6c9Sed+OTUwinGe0cTraWhMcQBMTSw==
-X-Received: by 2002:a17:907:6745:b0:86c:f7ac:71f7 with SMTP id
- qm5-20020a170907674500b0086cf7ac71f7mr8567457ejc.8.1674063696332; 
- Wed, 18 Jan 2023 09:41:36 -0800 (PST)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
- by smtp.gmail.com with ESMTPSA id
- kr12-20020a1709079a0c00b0084d44553af9sm12880091ejc.215.2023.01.18.09.41.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 09:41:35 -0800 (PST)
-Date: Wed, 18 Jan 2023 18:41:34 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Ludovic Henry <ludovic@rivosinc.com>
-Subject: Re: [PATCH v5 2/2] riscv: Allow user to set the satp mode
-Message-ID: <20230118174134.7zgola3w7tcpxayy@orel>
-References: <20230113103453.42776-1-alexghiti@rivosinc.com>
- <20230113103453.42776-3-alexghiti@rivosinc.com>
- <20230117163138.jze47hjeeuwu2k4j@orel>
- <CAHVXubjY6s=gs=J-bby5Hpeb-WXJ+dmRG7dFxr_ihs9Je2DHtw@mail.gmail.com>
+ h=content-transfer-encoding:subject:from:cc:to:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=4UFbKB57oFB8PvLvzZQAv6LQaUsQFzldevqq81j9SaI=;
+ b=BnxcSJqAWSWA62wBLVcxBEPszGGlJ1B1WvnwXERvJs3mOfImYebOcaPMquKK4hB5So
+ ccVNX4eoY4K8FfWYFsbzQSWThzcUsnVRCH//J5MRoX7ANke967O15lZp3IDS04qoGLOX
+ yWwuYrPlS+AuT2aHSlIA+zM3ObX1X4gVMrTBitHxZRik8uJQK8mPzekLKWfN0xrGAm//
+ 3Gj5jXeCMAv9+/HHebEwrWUDUJWE1AduagISM1ShXAhwcacaywcLJa6GBAcKkthnDT7P
+ UoEs3XAzpDu3jHRMUETnMRLFTgvPh3+/rWIb/d+A7mvweW2QQ5Bjshn5CqnaB5Dt2198
+ q6VQ==
+X-Gm-Message-State: AFqh2krFxrPgnV+grEYWN2S5pHd2gdQY1iu/4NJt+9NQwiepPuDG0Niz
+ CBNa5ALu9qdbCUC8XGgF2t7kmK5+gM7v3UhU3XkvXgmtUE5doNMKNeC4pAAbQ0XfpMHF8tiKywX
+ d/0Y1wFvhKIAMfoA=
+X-Received: by 2002:a05:622a:207:b0:3ac:e03e:f93f with SMTP id
+ b7-20020a05622a020700b003ace03ef93fmr15135824qtx.2.1674064120999; 
+ Wed, 18 Jan 2023 09:48:40 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsB/MLq5mIN1ajyzupVRZTSxsfbUBpJcKNJEViLJyayMJM8Ty1kZNGhvy5QJbSSjk9R7Zvi6A==
+X-Received: by 2002:a05:622a:207:b0:3ac:e03e:f93f with SMTP id
+ b7-20020a05622a020700b003ace03ef93fmr15135801qtx.2.1674064120758; 
+ Wed, 18 Jan 2023 09:48:40 -0800 (PST)
+Received: from [192.168.8.105] (tmo-099-5.customers.d1-online.com.
+ [80.187.99.5]) by smtp.gmail.com with ESMTPSA id
+ hj4-20020a05622a620400b003995f6513b9sm17509040qtb.95.2023.01.18.09.48.38
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 09:48:39 -0800 (PST)
+Message-ID: <c4677b0e-87eb-beca-d9fb-050c9315d316@redhat.com>
+Date: Wed, 18 Jan 2023 18:48:37 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHVXubjY6s=gs=J-bby5Hpeb-WXJ+dmRG7dFxr_ihs9Je2DHtw@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x62e.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Qemu-block <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, dgilbert@redhat.com,
+ Juan Quintela <quintela@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: QEMU iotest 267 failure / assertion in migration code
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,130 +97,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 18, 2023 at 05:29:43PM +0100, Alexandre Ghiti wrote:
-> Hey Andrew,
-> 
-> On Tue, Jan 17, 2023 at 5:31 PM Andrew Jones <ajones@ventanamicro.com> wrote:
-> >
-> > On Fri, Jan 13, 2023 at 11:34:53AM +0100, Alexandre Ghiti wrote:
-> > > RISC-V specifies multiple sizes for addressable memory and Linux probes for
-> > > the machine's support at startup via the satp CSR register (done in
-> > > csr.c:validate_vm).
-> > >
-> > > As per the specification, sv64 must support sv57, which in turn must
-> > > support sv48...etc. So we can restrict machine support by simply setting the
-> > > "highest" supported mode and the bare mode is always supported.
-> > >
-> > > You can set the satp mode using the new properties "sv32", "sv39", "sv48",
-> > > "sv57" and "sv64" as follows:
-> > > -cpu rv64,sv57=on  # Linux will boot using sv57 scheme
-> > > -cpu rv64,sv39=on  # Linux will boot using sv39 scheme
-> > > -cpu rv64,sv57=off # Linux will boot using sv48 scheme
-> > > -cpu rv64          # Linux will boot using sv57 scheme by default
-> > >
-> > > We take the highest level set by the user:
-> > > -cpu rv64,sv48=on,sv57=on # Linux will boot using sv57 scheme
-> > >
-> > > We make sure that invalid configurations are rejected:
-> > > -cpu rv64,sv32=on # Can't enable 32-bit satp mode in 64-bit
-> > > -cpu rv64,sv39=off,sv48=on # sv39 must be supported if higher modes are
-> > >                            # enabled
-> > >
-> > > We accept "redundant" configurations:
-> > > -cpu rv64,sv48=on,sv57=off # Linux will boot using sv48 scheme
-> > > -cpu rv64,sv32=on,sv32=off # Linux will boot using sv57 scheme (the default)
-> > >
-> > > In addition, we now correctly set the device-tree entry 'mmu-type' using
-> > > those new properties.
-> > >
-> > > Co-Developed-by: Ludovic Henry <ludovic@rivosinc.com>
-> > > Signed-off-by: Ludovic Henry <ludovic@rivosinc.com>
-> > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > > ---
-> > >  hw/riscv/virt.c    |  19 ++--
-> > >  target/riscv/cpu.c | 221 +++++++++++++++++++++++++++++++++++++++++++++
-> > >  target/riscv/cpu.h |  19 ++++
-> > >  target/riscv/csr.c |  17 +++-
-> > >  4 files changed, 262 insertions(+), 14 deletions(-)
-> > >
-> > > diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> > > index 94ff2a1584..48d034a5f7 100644
-> > > --- a/hw/riscv/virt.c
-> > > +++ b/hw/riscv/virt.c
-> > > @@ -228,7 +228,8 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
-> > >      int cpu;
-> > >      uint32_t cpu_phandle;
-> > >      MachineState *mc = MACHINE(s);
-> > > -    char *name, *cpu_name, *core_name, *intc_name;
-> > > +    uint8_t satp_mode_max;
-> > > +    char *name, *cpu_name, *core_name, *intc_name, *sv_name;
-> > >
-> > >      for (cpu = s->soc[socket].num_harts - 1; cpu >= 0; cpu--) {
-> > >          cpu_phandle = (*phandle)++;
-> > > @@ -236,14 +237,14 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
-> > >          cpu_name = g_strdup_printf("/cpus/cpu@%d",
-> > >              s->soc[socket].hartid_base + cpu);
-> > >          qemu_fdt_add_subnode(mc->fdt, cpu_name);
-> > > -        if (riscv_feature(&s->soc[socket].harts[cpu].env,
-> > > -                          RISCV_FEATURE_MMU)) {
-> > > -            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
-> > > -                                    (is_32_bit) ? "riscv,sv32" : "riscv,sv48");
-> >
-> > I just noticed that for the virt machine type, when the user doesn't
-> > provide a satp mode cpu property on the command line, and hence gets
-> > the default mode, they'll be silently changed from sv48 to sv57. That
-> > default change should be a separate patch which comes after this one.
-> > BTW, why sv57 and not sv48 or sv64?
-> 
-> The device tree entry should match the max available satp mode even
-> though it makes little sense to have this entry in the first place:
-> the max satp mode is easily discoverable at runtime (the kernel does
-> that and does not care about the device tree entry).
-> 
-> But yes, this fix was mentioned at the very end of the commit log,
-> which was weird anyway, so I'll move that to its own patch.
 
-Ah, I interpreted that part of the commit message as simply pointing
-out that the mmu-type is getting set per the user's input. Thanks for
-moving this change to another patch.
+  Hi!
 
-...
-> > > +
-> > > +    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
-> > > +        set_satp_mode(cpu, is_32_bit ? "sv32" : "sv57");
-> > > +    } else {
-> > > +        set_satp_mode(cpu, "mbare");
-> >
-> > nit: Could probably integrate set_satp_mode() into this function since
-> > this function is the only place it's used.
-> 
-> At the moment yes, but this was a request from Frank to have a helper
-> set the default satp mode in the cpu init functions, which I did not
-> do here because I was unsure: @Frank Chang What should I use for
-> sifive_e and sifive_u? rv64 will use the default mode.
+I just ran "make check" in a build directory where I did
+not compile qemu-system-x86_64, and got a failure with
+iotest 267.
 
-The sifive stuff should probably be a separate patch. If that patch will
-be part of this series then the proactive refactoring makes sense as we
-can immediately see the users.
+Re-running the "check" script directly got me some more
+information:
 
-...
-> > Why isn't all this 'if (cpu->cfg.satp_mode.map == 0)' block above at the
-> > top of riscv_cpu_satp_mode_finalize() instead of here?
-> >
-> 
-> Because the realize function seemed to do the properties processing
-> and I thought the finalize one was meant to check the consistency of
-> the configuration that resulted: I can change that if you don't agree.
+$ ./check -qcow2 267
+QEMU          -- "/tmp/qemu/tests/qemu-iotests/../../qemu-system-alpha" -nodefaults -display none -accel qtest
+QEMU_IMG      -- "/tmp/qemu/tests/qemu-iotests/../../qemu-img"
+QEMU_IO       -- "/tmp/qemu/tests/qemu-iotests/../../qemu-io" --cache writeback --aio threads -f qcow2
+QEMU_NBD      -- "/tmp/qemu/tests/qemu-iotests/../../qemu-nbd"
+IMGFMT        -- qcow2
+IMGPROTO      -- file
+PLATFORM      -- Linux/x86_64 thuth 4.18.0-425.3.1.el8.x86_64
+TEST_DIR      -- /tmp/qemu/tests/qemu-iotests/scratch
+SOCK_DIR      -- /tmp/tmp_qbcjhsu
+GDB_OPTIONS   --
+VALGRIND_QEMU --
+PRINT_QEMU_OUTPUT --
 
-finalize should do all the processing and checking, basically everything
-not done in the property's set function. realize should call
-finalize_features, which then calls each feature's finalize. Take a look
-at arm's call chain, for example
+267   fail       [18:39:41] [18:39:44]   3.5s                 output mismatch (see /tmp/qemu/tests/qemu-iotests/scratch/267.out.bad)
+--- .../qemu/tests/qemu-iotests/267.out
++++ /tmp/qemu/tests/qemu-iotests/scratch/267.out.bad
+@@ -31,23 +31,23 @@
+  Testing: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=none
+  QEMU X.Y.Z monitor - type 'help' for more information
+  (qemu) savevm snap0
+-(qemu) info snapshots
+-List of snapshots present on all disks:
+-ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
+---        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
+-(qemu) loadvm snap0
+-(qemu) quit
++QEMU_PROG: ../../qemu/migration/ram.c:874: pss_find_next_dirty: Assertion `pss->host_page_end' failed.
++./common.rc: line 181: 1903770 Aborted                 (core dumped) ( if [ -n "${QEMU_NEED_PID}" ]; then
++    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
++fi; GDB=""; if [ -n "${GDB_OPTIONS}" ]; then
++    GDB="gdbserver ${GDB_OPTIONS}";
++fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec "${VALGRIND_LOGFILE}" $GDB "$QEMU_PROG" $QEMU_OPTIONS "$@" )
 
- arm_cpu_realizefn
-   arm_cpu_finalize_features
-     arm_cpu_sve_finalize
 
-Thanks,
-drew
+Looks like this test does not work if the main machine
+of the selected QEMU binary does not support migration?
+
+Should we remove this test from the "auto" group?
+
+Anyway, QEMU should also not trigger an assertion, so this
+sounds like another bug?
+
+  Thomas
+
 
