@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82CD467198B
-	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 11:46:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 142B7671991
+	for <lists+qemu-devel@lfdr.de>; Wed, 18 Jan 2023 11:48:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pI5x3-0000WN-Hl; Wed, 18 Jan 2023 05:45:53 -0500
+	id 1pI5z1-0001Vv-9L; Wed, 18 Jan 2023 05:47:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI5wi-0000Vu-8H
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:45:32 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI5yv-0001Ut-3O
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:47:49 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI5wg-0001b9-Hv
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:45:32 -0500
-Received: by mail-wr1-x432.google.com with SMTP id b5so12312739wrn.0
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 02:45:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pI5yr-000248-0i
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 05:47:48 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003d9712b29d2so1107125wmb.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 02:47:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=POBLeK6wEBeyqlHV8bgMgnWeDtKCT80g2KWdwHFt+N4=;
- b=eBHh1gU9890a0Cjs1jBmE58zoc/8pgoRzETRQ2kwcC/e+CQkN8jNP3Eo45hsHPXfQu
- fkaoh+LR2Bb07pDtH3lMsdI3tualo557O+NyIijMGwVmIikmxjra0NkxfM8bFFSMMB64
- yldNagt4h2dEw2AjFYo9eWlS3hQ1iOSFBx04oMVZN0px1BzuTQSy/LXnYKMZ/e/9WPEj
- K5Rm47VJEgPNxzB9Lq6bO0ArRcrnaDAP08rcY3PWqqRwKv0x1DR/+mDWYbeE1EJXWD9R
- h8JjCPdg1u1tgz9mjnVGNOn3V+HKh93W4tNkPsrZ5BOz/S32eRQAWrF/GWJQsbIZnNdF
- xF9w==
+ bh=iog5WF2G/vImaly9nWHyzB47r7oe5u859s8q/Iq03KI=;
+ b=baioGDKsZeIOuXCxkxK0Ra7D23iWhGKshy/++/xIuPq2sQQ/+XxHH7eL05ZfU7dVb2
+ 7AqoIIoXkQ3xVsE3kvUoE5zXZ8Ks4Kmwvok/yBqZfkLipazMyBAzMpgCexZvYM0gtTyI
+ aWlyRFi/c4jjCuFmyHmH4caIUKVQ0jBkmC3q7iozSvhE8X/bewUwpxGzkaiSAtznviX3
+ af/RwQnW5GgyCe/1llnhJ+NJceFoTqSlA6e7vSrh9WphusQWeElXBH5C0jsGLTP/wrJD
+ Kzae6rrRg9c2GCXElW1sSy2uqnMOalRNnHLCo7hnxR/u2rkqlh0ss/ooi/05HtSIPelW
+ zreg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=POBLeK6wEBeyqlHV8bgMgnWeDtKCT80g2KWdwHFt+N4=;
- b=vIy0V6St9dudbNUZGzA9J0MXjO8sZeZ7xSXOAFbmKXRqiZIIjBADTCT9w3lXeY9LkW
- EX+PzYaddVHJhZtIlw6feRh1eq31UQYxPs2ZeADqwYwuc6Iiy4+bj+jsM+Yt4PBy1SR3
- 979f8SI8AdLClrCwcaLvspkM+hS1rHauxew3+OzAbNPcsQAKY7a7XI3F7akXTajaA4X9
- y19sdF7laM8jncMBQS1xkTgKomCfVenRspStXVkGJ140eyOCOJDKqWJiPSJrxjsgYIkD
- /7v4ZyLf1rWor0K++aZvAqHeAakUnZJINNLGa5uSy7XH/P58ruyGjxZ9Njm/dgDKpkYD
- 9UlA==
-X-Gm-Message-State: AFqh2kqrvZQtcV+XJQADZ89nSPAnPMOKQ20oYJadDez3k1Xya5ZSai5u
- HtW5ew70+Z1VMHxkqlvMgvcspg==
-X-Google-Smtp-Source: AMrXdXvb7kGmsBhwQYlBpEUi/YaiU0sZP3RlGi7e9bGC9mrhnmUQMDdPSHWj9CGvHNgjl/HQidjpeQ==
-X-Received: by 2002:adf:a318:0:b0:2bd:dc0c:ffd1 with SMTP id
- c24-20020adfa318000000b002bddc0cffd1mr5978546wrb.13.1674038728583; 
- Wed, 18 Jan 2023 02:45:28 -0800 (PST)
+ bh=iog5WF2G/vImaly9nWHyzB47r7oe5u859s8q/Iq03KI=;
+ b=jBeMO7m6+ctmCM3r2W4hpTZxcDWanMWctBWlbnNKvuou2RMgvZqXWHMUSFLo/GkFEW
+ dlWw+aPVMhkPeazc3pdPcEnIBe0EOqcKegBWKHGWgSSZs275T984mMmG+GJcat9F5OGD
+ n9dtg71D95SiibyAPiCaeQFHCOIZCabo7gSq7ucaGfrPN2VCsCQM3MtZjrHyXpxoeqEB
+ QHVt1oCBraJhAOVH+IV0w81bJCIv6y+0dBX3w9QMqZ23lD7ge2piXb4Is6qcCRS7gXxk
+ TPWj9wWr54TJFokXEK9rxNzEB3vwYxi5ttAdUgzheUF8BqbEnUXtzAtA1Cd4V+iAbT2N
+ m5vg==
+X-Gm-Message-State: AFqh2kpsx7DmxkyfNcP4VUK76WV3u2BWzwFQBKjMge8o1rEYKveRgL5a
+ oFvNXRJSEYUM8Fk252llmh5UsQ==
+X-Google-Smtp-Source: AMrXdXvFTNuzmkgTU4C300XWj40ncWfv5L7TaSZMhcJPVM9Yn3eurxfVrkPwO6s8SjgTq+Xk0eEQsQ==
+X-Received: by 2002:a05:600c:4e08:b0:3db:1a41:663a with SMTP id
+ b8-20020a05600c4e0800b003db1a41663amr197239wmq.20.1674038861899; 
+ Wed, 18 Jan 2023 02:47:41 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h3-20020adfe983000000b002bdf5832843sm10162239wrm.66.2023.01.18.02.45.27
+ ay13-20020a05600c1e0d00b003cf71b1f66csm1725100wmb.0.2023.01.18.02.47.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 02:45:28 -0800 (PST)
-Message-ID: <1ff29148-eae9-84b7-3521-4b9d543f12e3@linaro.org>
-Date: Wed, 18 Jan 2023 11:45:25 +0100
+ Wed, 18 Jan 2023 02:47:41 -0800 (PST)
+Message-ID: <29287d50-7bff-2610-afab-b7ea96e427fb@linaro.org>
+Date: Wed, 18 Jan 2023 11:47:40 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC PATCH v3 18/28] target/arm: Move common cpu code into cpu.c
+Subject: Re: [RFC PATCH v3 00/28] target/arm: Allow CONFIG_TCG=n builds
 Content-Language: en-US
 To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -65,14 +66,12 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
 References: <20230113140419.4013-1-farosas@suse.de>
- <20230113140419.4013-19-farosas@suse.de>
- <bafc45b7-f42a-a500-053f-65f057a14cc1@linaro.org> <87bkmx0yux.fsf@suse.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <87bkmx0yux.fsf@suse.de>
+In-Reply-To: <20230113140419.4013-1-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -95,29 +94,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/1/23 20:01, Fabiano Rosas wrote:
-> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
+On 13/1/23 15:03, Fabiano Rosas wrote:
+> This series makes the necessary changes to allow the use of
+> --disable-tcg for arm.
 > 
->> On 13/1/23 15:04, Fabiano Rosas wrote:
->>> The cpu_tcg.c file about to be moved into the tcg directory. Move the
->>> code that is needed for cpus that also work with KVM into cpu.c.
->>>
->>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
->>> ---
->>>    target/arm/cpu.c     | 76 +++++++++++++++++++++++++++++++++++++++++++
->>>    target/arm/cpu_tcg.c | 77 --------------------------------------------
->>>    2 files changed, 76 insertions(+), 77 deletions(-)
->>>
->>> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
->> [...]
->>
->> TYPE_IDAU_INTERFACE is ARMv8-M specific, so TCG AFAIU.
+> Based on Richard's "target/arm: Introduce aarch64_set_svcr":
+> https://lore.kernel.org/r/20230112004322.161330-1-richard.henderson@linaro.org
 > 
-> Hm.. QEMU doesn't start without it. There might be some implicit
-> dependency. I'll check.
+> branch here: https://github.com/farosas/qemu/tree/arm-disable-tcg
+> 
+> Since v2:
+> 
+> patch 5: removed extraneous include statements
+> patch 6: removed extraneous tcg_enabled
+> patch 7: dropped in favor of "target/arm: Introduce aarch64_set_svcr"
+> patch 12: removed inline
+> patch 13-15: dropped, not needed due to Kconfig changes
+> 
+> new:
+> 
+> - cpregs.h changes I had forgotten to include in v2
+> - moved CPUs initialization into tcg/
+> - skipped tests that require TCG
+> - fixed the migration tests for aarch64
+> - Kconfig changes, left only the 'virt' machine set by default with KVM
 
-Likely some M-profile code (note this type is a QOM *interface*).
-
-I checked the uses (git-grep -W IDAU_INTERFACE) and none should be
-reachable in a non-TCG build.
+For v4, consider splitting it in two parts, first reviewed patches that
+Peter can queue directly, and second part requiring more review.
 
