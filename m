@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5C1673AE4
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BF25673AE5
 	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:58:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIVQD-0000nx-Ta; Thu, 19 Jan 2023 08:57:41 -0500
+	id 1pIVQF-0001JF-9J; Thu, 19 Jan 2023 08:57:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIVPs-0000ct-Uo; Thu, 19 Jan 2023 08:57:20 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ id 1pIVPx-0000n5-Ek; Thu, 19 Jan 2023 08:57:27 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIVPr-0006Ex-CP; Thu, 19 Jan 2023 08:57:20 -0500
+ id 1pIVPv-0006FT-16; Thu, 19 Jan 2023 08:57:25 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 574ED38C3C;
- Thu, 19 Jan 2023 13:57:17 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8F74C5CE73;
+ Thu, 19 Jan 2023 13:57:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674136637; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1674136641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+ek2plUhT6cYZ08vwAGsINrJigng7r+gmkaUGahZEZ4=;
- b=ih3ztUW1ikhb6FhBu3jtUr1uO3nJluculKz5WXHzU7pRVyM3wzr4dSfLEsZUhHjB6bngcO
- Dq7mPPobB/DUzhBkECQOYzkcBRVC8BeRsSifUCJxnGnf0ExgMtVwb9wDQolSijg+AAH9RF
- nhNo8j+OdZQahZ+ZvhbzkmgW6PUUwxQ=
+ bh=9ssIovT5K/V/p+0ZYlWssPZdHDeOwPRIwfvvL6OqWME=;
+ b=cDsylV+noth70jWTPFQIiYYcTBbVoiPzRR/MIxb761PrbSeAm8xTUzjVuBKY+qJabDBJjY
+ F+L2odGvl6g9WObmGdoZuAGktdKrDn8gQtzsMm42TkMFPLPA3BSy50yR6DAo7/p3BGI9kd
+ EdQqPVcOFmAEzYrcx2AHhj3QUlGCm24=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674136637;
+ s=susede2_ed25519; t=1674136641;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+ek2plUhT6cYZ08vwAGsINrJigng7r+gmkaUGahZEZ4=;
- b=zxmSc2sCO18Cx0GcWlXwZdGzXetXooAlNBUZwrkjvE4wcaFwaIPe47c+U4MdoDe2uMR5Dn
- 5jVbN8HOElpKkEDg==
+ bh=9ssIovT5K/V/p+0ZYlWssPZdHDeOwPRIwfvvL6OqWME=;
+ b=xFER7pINKsIp67uZXj8mf67F24VKh3YreLp71hgMaGazvheKDyzUeaL/DTLNN/802tm590
+ 6VqtrlI8PnGVSAAA==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 09AAE134F5;
- Thu, 19 Jan 2023 13:57:13 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CB791134F5;
+ Thu, 19 Jan 2023 13:57:17 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 4HIiMDlMyWOCFAAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 19 Jan 2023 13:57:13 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id CALcIz1MyWOCFAAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 19 Jan 2023 13:57:17 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,18 +57,20 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
-Subject: [RFC PATCH v4 12/15] tests/tcg: Do not build/run TCG tests if TCG is
- disabled
-Date: Thu, 19 Jan 2023 10:54:21 -0300
-Message-Id: <20230119135424.5417-13-farosas@suse.de>
+ Cornelia Huck <cohuck@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [RFC PATCH v4 13/15] target/avocado: Pass parameters to migration
+ test on aarch64
+Date: Thu, 19 Jan 2023 10:54:22 -0300
+Message-Id: <20230119135424.5417-14-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230119135424.5417-1-farosas@suse.de>
 References: <20230119135424.5417-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -91,31 +93,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The tests under tests/tcg depend on the TCG accelerator. Do not build
-them if --disable-tcg was given in the configure line.
+The migration tests are currently broken for an aarch64 host because
+the tests pass no 'machine' and 'cpu' options on the QEMU command
+line. Most other architectures define a default value in QEMU for
+these options, but arm does not.
+
+Add these options to the test class in case the test is being executed
+in an aarch64 host.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- configure | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+Don't we want to run migration tests for all the built targets? A
+cleaner approach would be to just subclass Migration for each
+archictecture like in boot_linux.py.
+---
+ tests/avocado/migration.py | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/configure b/configure
-index 9e407ce2e3..64960c6000 100755
---- a/configure
-+++ b/configure
-@@ -2483,7 +2483,11 @@ for target in $target_list; do
-       tcg_tests_targets="$tcg_tests_targets $target"
-   fi
- done
--echo "TCG_TESTS_TARGETS=$tcg_tests_targets" >> config-host.mak)
-+
-+if test "$tcg" = "enabled"; then
-+    echo "TCG_TESTS_TARGETS=$tcg_tests_targets" >> config-host.mak
-+fi
-+)
+diff --git a/tests/avocado/migration.py b/tests/avocado/migration.py
+index 4b25680c50..f1c43622c0 100644
+--- a/tests/avocado/migration.py
++++ b/tests/avocado/migration.py
+@@ -11,6 +11,8 @@
  
- if test "$skip_meson" = no; then
-   cross="config-meson.cross.new"
+ 
+ import tempfile
++import os
++
+ from avocado_qemu import QemuSystemTest
+ from avocado import skipUnless
+ 
+@@ -26,6 +28,14 @@ class Migration(QemuSystemTest):
+ 
+     timeout = 10
+ 
++    def setUp(self):
++        super().setUp()
++
++        arch = os.uname()[4]
++        if arch == 'aarch64':
++            self.machine = 'virt'
++            self.cpu = 'max'
++
+     @staticmethod
+     def migration_finished(vm):
+         return vm.command('query-migrate')['status'] in ('completed', 'failed')
+@@ -62,7 +72,6 @@ def _get_free_port(self):
+             self.cancel('Failed to find a free port')
+         return port
+ 
+-
+     def test_migration_with_tcp_localhost(self):
+         dest_uri = 'tcp:localhost:%u' % self._get_free_port()
+         self.do_migrate(dest_uri)
 -- 
 2.35.3
 
