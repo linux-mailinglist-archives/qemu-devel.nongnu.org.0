@@ -2,92 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7DC2673762
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 12:50:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62480673761
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 12:50:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pITQI-0001JB-Gy; Thu, 19 Jan 2023 06:49:38 -0500
+	id 1pITQg-0001VT-H3; Thu, 19 Jan 2023 06:50:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pITQG-0001ID-EP
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 06:49:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pITQD-0007gk-LE
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 06:49:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674128972;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=gXKBhQL1oyDDx1ruE2azlrsK+OKUgC5n4NqJsx1Hc+Q=;
- b=jHJPDYaemEFP2hZMHL6u5BZtoIj/L8xSEZ6A21QICsDgH+cCEIkaHQaK7e3XhAONUJPffi
- pudwaukintVN/JAEICA3Inn50WfZgS5t7OGKs0BWCfTsVDfJbL9UISx+NGJ6zgI5n3DhpI
- pwehkvMrh0J/c4eXwAhwl7Y1i3mtfNI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-670-BHNFMwnEMku_C5tnRQ0RnA-1; Thu, 19 Jan 2023 06:49:31 -0500
-X-MC-Unique: BHNFMwnEMku_C5tnRQ0RnA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- t20-20020adfba54000000b002be0eb97f4fso304279wrg.8
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 03:49:31 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pITQb-0001T4-0b
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 06:50:00 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pITQW-0007i1-Ri
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 06:49:56 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ f19-20020a1c6a13000000b003db0ef4dedcso3376571wmc.4
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 03:49:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=EbTsWvS9ShgEZicm2MBugcJf9sn2ag27IoVczmOfrek=;
+ b=X5/74CF/k5l8IR4NDqOPFxNDvDsy73gn1w2OFlwxakyKJH3YtG3uJIaaW/0fdplmA1
+ TVt9JG9Onnet0hZMss52+UZ/uPkDb0iHtMz3OFqAtudigaCt3Nc8RGud8dN32XhRtH2K
+ L4fljMGc+DLB0M4kudNKFQBFx0osrIC2vOWliKQGa8W6GL/W0A+/K6WmbkD7OZcJWiDo
+ 1tkU70+R06Aod6CC7sZupl38Fu422rCXD8+VIB/liKwOl1H4aKEqCXrnYOlltNBP6hD8
+ vJZAJLKPDLBu+dbTHCBE2hqZiJXndQddhJza9XcH/VjeAT7AfDaAiB08bUn7gP/NhZUa
+ qg1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=gXKBhQL1oyDDx1ruE2azlrsK+OKUgC5n4NqJsx1Hc+Q=;
- b=3DTJGb9QDAzwfHi/7oB0s5WzmX3zqZSlBjgvfRrsMzZ7uP1wPgo7ZeFqd6/MTwqn8F
- Zj3H3VPcDOl39asFpsFTN9P0E2J4g57jspkdcxVrFN5cUHk610aa3QGGAdJNx7EAyiFB
- H8tAexBPKkZPaW8fbuDFWvN3klpujMsiYqf3v9jLBbBlRBBFkdrww8Hd12NIvVLWZGmB
- CAXVEfKPgCA7G/ir3NwrmUs/G3QKQve0NPCtfVUxWFFrsLEp9i2tSrINqsACc8wDeFcL
- 14l6aiz1tPs6n5udyvDcYyMhzK3SAoThUziAIYMyyZpV6upBiptYDC8KlOzy7PGpZeBe
- aTUA==
-X-Gm-Message-State: AFqh2kpLtqpSWGT/UuzSkwGGhgtsKv9hFazbpMvkv7YfHZ8RruKdLwcD
- W7VOmagnnpecExV1rDU2tbaf24ya0UNQvAI0RhAqU9lGhu7MX7X62jLbE1CjcuyFHNy7SsngG5h
- MP+o43ECjpfPpFuM=
-X-Received: by 2002:a05:600c:995:b0:3da:f4f5:ad0e with SMTP id
- w21-20020a05600c099500b003daf4f5ad0emr9882102wmp.9.1674128970428; 
- Thu, 19 Jan 2023 03:49:30 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtyFX5XBDNN1mc+shz+DynLpyHcpR1+tXEmRLr388f/3Iq/9VIoedm3n4a4NV+D1lBcrxBsjA==
-X-Received: by 2002:a05:600c:995:b0:3da:f4f5:ad0e with SMTP id
- w21-20020a05600c099500b003daf4f5ad0emr9882077wmp.9.1674128970208; 
- Thu, 19 Jan 2023 03:49:30 -0800 (PST)
-Received: from redhat.com ([2.52.28.74]) by smtp.gmail.com with ESMTPSA id
- r1-20020a05600c35c100b003db06493ee7sm4939784wmq.47.2023.01.19.03.49.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Jan 2023 03:49:29 -0800 (PST)
-Date: Thu, 19 Jan 2023 06:49:24 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org,
- pbonzini@redhat.com, kwolf@redhat.com, hreitz@redhat.com,
- imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
- groug@kaod.org, qemu_oss@crudebyte.com, philmd@linaro.org,
- peter.maydell@linaro.org, alistair@alistair23.me,
- jasowang@redhat.com, jonathan.cameron@huawei.com,
- kbastian@mail.uni-paderborn.de, quintela@redhat.com,
- dgilbert@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
- tsimpson@quicinc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org
-Subject: Re: [PATCH v4 00/19] Clean up includes
-Message-ID: <20230119064833-mutt-send-email-mst@kernel.org>
-References: <20230119065959.3104012-1-armbru@redhat.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=EbTsWvS9ShgEZicm2MBugcJf9sn2ag27IoVczmOfrek=;
+ b=p3KARbNLxWR2Zoxem8SctOTYUje71O3ua1KRH26ESNSow0Jyl6csGacntq1ezXq1EL
+ 5rH6SFMGrKSEU13VVBG4s+mQkYBOScdZDjAKrGw63B/TFTbmAykmWIEsT5H5QTrmVISl
+ 4JiEXPSLBuEOpfpIrHrHGzYwbus+KK8RIPaSl5quDh3bLTx60T/htSFhvRdgH/vR8qpD
+ TvUT5DRw/emZV1yJm6ffsd0nQAsNqC34I49GwDU9KM/uVTrPSavmTbtLQ0zqcZKvXhzp
+ MAW48RH6GLKNTKJK8wMZZP5XQ+CHp0uE1h8gnc4Gasxu1vV2OIOWTKpCGg95MuJ+rHWS
+ MxhA==
+X-Gm-Message-State: AFqh2kqcH+tO7VHZ1OgotifWn6Yhd5D6vSJAQrQYyiUc28BUVFtuOc+v
+ Hhf1wKJRL2rkKAoz1sqD2AQetY6mFttu84Kb
+X-Google-Smtp-Source: AMrXdXulx4PW7of7a4zNcyc66gL8Sm47LTa0TuOM1+suREGCcwxc/hVyMX8YRvoYL9XqduVufQpAlQ==
+X-Received: by 2002:a05:600c:687:b0:3d9:73fb:8aaa with SMTP id
+ a7-20020a05600c068700b003d973fb8aaamr10083740wmn.8.1674128990466; 
+ Thu, 19 Jan 2023 03:49:50 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ n37-20020a05600c502500b003db03725e86sm4918924wmr.8.2023.01.19.03.49.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 03:49:50 -0800 (PST)
+Message-ID: <fe0f448c-6a8f-9830-208b-5e1c52e5e203@linaro.org>
+Date: Thu, 19 Jan 2023 12:49:48 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119065959.3104012-1-armbru@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: tests/qtest: Is vnc-display-test supposed to work on Darwin?
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <9b81a6f2-7bf9-4ada-d7ba-c8a9dffcb2d3@linaro.org>
+ <CAJ+F1CLS3JxJ6yO6uTajdkia0t4gEWzSfhXnUQ+M6iywWWuUug@mail.gmail.com>
+ <60569516-bd5a-b124-e105-8a9ab9f43c89@linaro.org>
+ <Y8kmlVU5NKaR7i4D@redhat.com>
+ <7a46cdc2-42b7-a71d-5c00-a7b6e30d2622@linaro.org>
+ <Y8kqeC5UWPHC+yIX@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <Y8kqeC5UWPHC+yIX@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,160 +98,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 19, 2023 at 07:59:40AM +0100, Markus Armbruster wrote:
-> Back in 2016, we discussed[1] rules for headers, and these were
-> generally liked:
+On 19/1/23 12:33, Daniel P. Berrangé wrote:
+> On Thu, Jan 19, 2023 at 12:21:58PM +0100, Philippe Mathieu-Daudé wrote:
+>> On 19/1/23 12:16, Daniel P. Berrangé wrote:
+>>> On Thu, Jan 19, 2023 at 12:01:18PM +0100, Philippe Mathieu-Daudé wrote:
+>>>> On 5/12/22 08:51, Marc-André Lureau wrote:
+>>>>> On Fri, Dec 2, 2022 at 1:51 PM Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+>>>>>>
+>>>>>> The vnc-display-test is failing on Darwin:
+>>>>>>
+>>>>>> tests/qtest/vnc-display-test:45038): ERROR **: 10:42:35.488: vnc-error:
+>>>>>> Unsupported auth type 17973672
+>>>>>
+>>>>> It is supposed to pass. Can you share more details? It doesn't look
+>>>>> like an endianness issue, at first sight..
+>>>>
+>>>> Adding '-trace vnc*' and setting _VNC_DEBUG in "vnc.h" I get:
+>>
+>>>> Bail out! FATAL-ERROR: vnc-error: Unsupported auth type 5489072
+>>>
+>>> ^^^^ This specific message is comnig from the gtk-vnc client rather
+>>> than QEMU
+>>>
+>>> Still doesn't tell us if the flaw is server or client side. The
+>>> logs from QEMU are insufficient. In theory it should be reporting
+>>> auth type == 0 though, for 'no auth' configs.
+>>
+>>>> Does that help? What else can I do to gather more info?
+>>>
+>>> Modify vnc-display-test.c to call  vnc_util_set_debug(TRUE);
+>>> before vnc_connection_new(), to get the gtk-vnc debug logs
+>>> to stderr too.
+>> Here you go:
+>>
+>> vnc_server_dpy_recreate VNC server dpy recreate dpy=0x1588b8000 size=640x384
+>> fmt=537004168
+>> vnc_auth_init VNC auth init state=0x1588b8000 websock=0 auth=1 subauth=0
+>> vnc_auth_init VNC auth init state=0x1588b8000 websock=1 auth=1 subauth=0
+>> vnc_client_connect VNC client connect state=0x1484b0000 ioc=0x152e667f0
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Init VncConnection=0x14f0168b0
+>> gtk-vnc-DEBUG: 12:20:30.482: ../src/vncconnection.c Init
+>> VncConnection=0x14f0168b0
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Thinking about auth type 1
+>> gtk-vnc-DEBUG: 12:20:30.482: ../src/vncconnection.c Thinking about auth type
+>> 1
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Decided on auth type 1
+>> gtk-vnc-DEBUG: 12:20:30.482: ../src/vncconnection.c Decided on auth type 1
 > 
-> 1. Have a carefully curated header that's included everywhere first.  We
->    got that already thanks to Peter: osdep.h.
+> So here we set conn->auth_type == 1
 > 
-> 2. Headers should normally include everything they need beyond osdep.h.
->    If exceptions are needed for some reason, they must be documented in
->    the header.  If all that's needed from a header is typedefs, put
->    those into qemu/typedefs.h instead of including the header.
 > 
-> 3. Cyclic inclusion is forbidden.
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Open fd=4
+>> gtk-vnc-DEBUG: 12:20:30.482: ../src/vncconnection.c Open fd=4
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Open coroutine starting
+>> gtk-vnc-DEBUG: 12:20:30.482: ../src/vncconnection.c Open coroutine starting
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Started background coroutine
+>> gtk-vnc-DEBUG: 12:20:30.484: ../src/vncconnection.c Started background
+>> coroutine
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Connecting to FD 4
+>> gtk-vnc-DEBUG: 12:20:30.484: ../src/vncconnection.c Connecting to FD 4
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Emit main context 16
+>> gtk-vnc-DEBUG: 12:20:30.485: ../src/vncconnection.c Emit main context 16
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Protocol initialization
+>> gtk-vnc-DEBUG: 12:20:30.485: ../src/vncconnection.c Protocol initialization
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Schedule greeting timeout
+>> 0x14f0155e0
+>> gtk-vnc-DEBUG: 12:20:30.485: ../src/vncconnection.c Schedule greeting
+>> timeout 0x14f0155e0
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Remove timeout 0x14f0155e0
+>> gtk-vnc-DEBUG: 12:20:30.485: ../src/vncconnection.c Remove timeout
+>> 0x14f0155e0
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Server version: 3.8
+>> gtk-vnc-DEBUG: 12:20:30.485: ../src/vncconnection.c Server version: 3.8
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Sending full greeting
+>> gtk-vnc-DEBUG: 12:20:30.485: ../src/vncconnection.c Sending full greeting
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Using version: 3.8
+>> gtk-vnc-DEBUG: 12:20:30.485: ../src/vncconnection.c Using version: 3.8
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Possible auth 1
+>> gtk-vnc-DEBUG: 12:20:30.589: ../src/vncconnection.c Possible auth 1
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Emit main context 14
+>> gtk-vnc-DEBUG: 12:20:30.589: ../src/vncconnection.c Emit main context 14
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Waiting for auth type
+>> gtk-vnc-DEBUG: 12:20:30.589: ../src/vncconnection.c Waiting for auth type
+>> # gtk-vnc-DEBUG: ../src/vncconnection.c Choose auth 10486192
 > 
-> This series fixes violations of rule 2.  I may have split patches too
-> aggressively.  Let me know if you want some squashed together.
+> Here we've read conn->auth_type and got back 10486192 nonsense instead
+> of 1.
+> 
+> Interestingly this value is differetn from the previous debug log
+> which reported  5489072, so i guess we're getting garbage here for
+> unknown reasons.
+> 
+> This looks like a gtk-vnc problem rather than QEMU.
+> 
+> I'm a little worried that perhaps the gtk-vnc ucontext coroutine backend
+> is broken on macOS
+> 
+> What coroutine backend does QEMU end up using on macOS ? Is it the
+> sigaltstack one ?
 
-series
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+   Block layer support
+     coroutine backend            : sigaltstack
+     coroutine pool               : YES
 
-feel free to merge.
+When trying the coroutine options, with --with-coroutine=windows:
 
-> v4:
-> * PATCH 01-03: New
-> * PATCH 04-15: Previous version redone with scripts/clean-includes,
->   	       result split up for review
-> * PATCH 16-19: New
-> 
-> v3:
-> * Rebased, old PATCH 1+2+4 are in master as commit
->   881e019770..f07ceffdf5
-> * PATCH 1: Fix bsd-user
-> 
-> v2:
-> * Rebased
-> * PATCH 3: v1 posted separately
-> * PATCH 4: New
-> 
-> [1] Message-ID: <87h9g8j57d.fsf@blackfin.pond.sub.org>
->     https://lists.nongnu.org/archive/html/qemu-devel/2016-03/msg03345.html
-> 
-> Markus Armbruster (19):
->   scripts/clean-includes: Fully skip / ignore files
->   scripts/clean-includes: Don't claim duplicate headers found when not
->   scripts/clean-includes: Skip symbolic links
->   bsd-user: Clean up includes
->   crypto: Clean up includes
->   hw/cxl: Clean up includes
->   hw/input: Clean up includes
->   hw/tricore: Clean up includes
->   qga: Clean up includes
->   migration: Clean up includes
->   net: Clean up includes
->   target/hexagon: Clean up includes
->   riscv: Clean up includes
->   block: Clean up includes
->   accel: Clean up includes
->   Fix non-first inclusions of qemu/osdep.h
->   Don't include headers already included by qemu/osdep.h
->   9p: Drop superfluous include of linux/limits.h
->   Drop duplicate #include
-> 
->  backends/tpm/tpm_ioctl.h          |  2 --
->  bsd-user/bsd-proc.h               |  4 ----
->  bsd-user/qemu.h                   |  1 -
->  crypto/block-luks-priv.h          |  1 -
->  fsdev/p9array.h                   |  2 --
->  include/block/graph-lock.h        |  1 -
->  include/block/write-threshold.h   |  2 --
->  include/hw/arm/fsl-imx6ul.h       |  1 -
->  include/hw/arm/fsl-imx7.h         |  1 -
->  include/hw/cxl/cxl_component.h    |  2 --
->  include/hw/cxl/cxl_host.h         |  1 -
->  include/hw/cxl/cxl_pci.h          |  1 -
->  include/hw/input/pl050.h          |  1 -
->  include/hw/misc/aspeed_lpc.h      |  2 --
->  include/hw/pci/pcie_doe.h         |  1 -
->  include/hw/tricore/triboard.h     |  1 -
->  include/qemu/async-teardown.h     |  2 --
->  include/qemu/dbus.h               |  1 -
->  include/qemu/host-utils.h         |  1 -
->  include/qemu/userfaultfd.h        |  1 -
->  include/sysemu/accel-blocker.h    |  1 -
->  include/sysemu/event-loop-base.h  |  1 -
->  net/vmnet_int.h                   |  1 -
->  qga/cutils.h                      |  2 --
->  target/hexagon/hex_arch_types.h   |  1 -
->  target/hexagon/mmvec/macros.h     |  1 -
->  target/riscv/pmu.h                |  1 -
->  accel/tcg/cpu-exec.c              |  1 -
->  audio/sndioaudio.c                |  2 +-
->  backends/hostmem-epc.c            |  2 +-
->  backends/tpm/tpm_emulator.c       |  1 -
->  block/export/vduse-blk.c          |  2 +-
->  block/qapi.c                      |  1 -
->  bsd-user/arm/signal.c             |  1 +
->  bsd-user/arm/target_arch_cpu.c    |  2 ++
->  bsd-user/freebsd/os-sys.c         |  1 +
->  bsd-user/i386/signal.c            |  1 +
->  bsd-user/i386/target_arch_cpu.c   |  3 +--
->  bsd-user/main.c                   |  4 +---
->  bsd-user/strace.c                 |  1 -
->  bsd-user/x86_64/signal.c          |  1 +
->  bsd-user/x86_64/target_arch_cpu.c |  3 +--
->  hw/9pfs/9p.c                      |  5 -----
->  hw/acpi/piix4.c                   |  1 -
->  hw/alpha/dp264.c                  |  1 -
->  hw/arm/virt.c                     |  1 -
->  hw/arm/xlnx-versal.c              |  1 -
->  hw/block/pflash_cfi01.c           |  1 -
->  hw/core/machine.c                 |  1 -
->  hw/display/virtio-gpu-udmabuf.c   |  1 -
->  hw/hppa/machine.c                 |  1 -
->  hw/hyperv/syndbg.c                |  2 +-
->  hw/i2c/pmbus_device.c             |  1 -
->  hw/i386/acpi-build.c              |  1 -
->  hw/input/tsc210x.c                |  1 -
->  hw/loongarch/acpi-build.c         |  1 -
->  hw/misc/macio/cuda.c              |  1 -
->  hw/misc/macio/pmu.c               |  1 -
->  hw/net/xilinx_axienet.c           |  1 -
->  hw/ppc/ppc405_uc.c                |  2 --
->  hw/ppc/ppc440_bamboo.c            |  1 -
->  hw/ppc/spapr_drc.c                |  1 -
->  hw/rdma/vmw/pvrdma_dev_ring.c     |  1 -
->  hw/remote/machine.c               |  1 -
->  hw/remote/proxy-memory-listener.c |  1 -
->  hw/remote/remote-obj.c            |  1 -
->  hw/rtc/mc146818rtc.c              |  1 -
->  hw/s390x/virtio-ccw-serial.c      |  1 -
->  hw/sensor/adm1272.c               |  1 -
->  hw/usb/dev-storage-bot.c          |  1 -
->  hw/usb/dev-storage-classic.c      |  1 -
->  migration/postcopy-ram.c          |  2 --
->  qga/commands-posix.c              |  1 -
->  qga/cutils.c                      |  3 ++-
->  softmmu/dirtylimit.c              |  1 -
->  softmmu/runstate.c                |  1 -
->  softmmu/vl.c                      |  3 ---
->  target/loongarch/translate.c      |  1 -
->  target/mips/tcg/translate.c       |  1 -
->  target/nios2/translate.c          |  2 --
->  tcg/tci.c                         |  1 -
->  tests/unit/test-cutils.c          |  1 -
->  tests/unit/test-seccomp.c         |  1 -
->  ui/gtk.c                          |  1 -
->  ui/udmabuf.c                      |  1 -
->  util/async-teardown.c             | 12 ++++--------
->  util/main-loop.c                  |  1 -
->  util/oslib-posix.c                |  6 ------
->  scripts/clean-includes            | 15 ++++++++++-----
->  89 files changed, 29 insertions(+), 123 deletions(-)
-> 
-> -- 
-> 2.39.0
+ERROR: 'windows' coroutine backend only valid for Windows
 
+:) and with --with-coroutine=ucontext I get:
+
+ERROR: 'ucontext' backend requested but makecontext not available
+
+config.log hints:
+
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ucontext.h:51:2: 
+error: The deprecated ucontext routines require _XOPEN_SOURCE to be defined
+#error The deprecated ucontext routines require _XOPEN_SOURCE to be defined
+  ^
+
+Adding _XOPEN_SOURCE to QEMU_CFLAGS:
+
+warning: 'makecontext' is deprecated: first deprecated in macOS 10.6 - 
+No longer supported [-Wdeprecated-declarations]
+/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk/usr/include/ucontext.h:41:6: 
+note: 'makecontext' has been explicitly marked deprecated here
+void makecontext(ucontext_t *, void (*)(), int, ...);
+      ^
+
+So to detect makecontext() I have to add
+--extra-cflags=-mmacosx-version-min=10.5 but then linking fails with
+multiple "$LIBNAME was built for newer macOS version (13.0) than being
+linked (11.0)".
 
