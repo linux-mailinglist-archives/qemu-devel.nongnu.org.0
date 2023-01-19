@@ -2,41 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5106738CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:39:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEB1A6738B2
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:36:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIU8x-0006tR-Ex; Thu, 19 Jan 2023 07:35:47 -0500
+	id 1pIU8z-0006z4-1v; Thu, 19 Jan 2023 07:35:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=w1SB=5Q=kaod.org=clg@ozlabs.org>)
- id 1pIU8v-0006nT-6Q; Thu, 19 Jan 2023 07:35:45 -0500
+ id 1pIU8v-0006oY-JU; Thu, 19 Jan 2023 07:35:45 -0500
 Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=w1SB=5Q=kaod.org=clg@ozlabs.org>)
- id 1pIU8s-0007dk-Gg; Thu, 19 Jan 2023 07:35:44 -0500
+ id 1pIU8t-0007dU-VZ; Thu, 19 Jan 2023 07:35:45 -0500
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4NyMY813rJz4xN1;
- Thu, 19 Jan 2023 23:35:40 +1100 (AEDT)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4NyMYB6lm5z4xyK;
+ Thu, 19 Jan 2023 23:35:42 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4NyMY566YMz4xN4;
- Thu, 19 Jan 2023 23:35:37 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4NyMY84gxGz4xHV;
+ Thu, 19 Jan 2023 23:35:40 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Peter Delevoryas <peter@pjd.dev>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Joel Stanley <joel@jms.id.au>
-Subject: [PATCH 13/25] hw/arm/aspeed: Add aspeed_eeprom.c
-Date: Thu, 19 Jan 2023 13:34:37 +0100
-Message-Id: <20230119123449.531826-14-clg@kaod.org>
+ Peter Delevoryas <peter@pjd.dev>, Joel Stanley <joel@jms.id.au>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Subject: [PATCH 14/25] hw/nvram/eeprom_at24c: Make reset behavior more like
+ hardware
+Date: Thu, 19 Jan 2023 13:34:38 +0100
+Message-Id: <20230119123449.531826-15-clg@kaod.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230119123449.531826-1-clg@kaod.org>
 References: <20230119123449.531826-1-clg@kaod.org>
@@ -68,247 +68,73 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Peter Delevoryas <peter@pjd.dev>
 
-- Create aspeed_eeprom.c and aspeed_eeprom.h
-- Include aspeed_eeprom.c in CONFIG_ASPEED meson source files
-- Include aspeed_eeprom.h in aspeed.c
-- Add fby35_bmc_fruid data
-- Use new at24c_eeprom_init_rom helper to initialize BMC FRUID EEPROM with data
-  from aspeed_eeprom.c
+EEPROM's are a form of non-volatile memory. After power-cycling an EEPROM,
+I would expect the I2C state machine to be reset to default values, but I
+wouldn't really expect the memory to change at all.
 
-wget https://github.com/facebook/openbmc/releases/download/openbmc-e2294ff5d31d/fby35.mtd
-qemu-system-aarch64 -machine fby35-bmc -nographic -mtdblock fby35.mtd
-...
-user: root
-pass: 0penBmc
-...
-root@bmc-oob:~# fruid-util bb
+The current implementation of the at24c EEPROM resets its internal memory on
+reset. This matches the specification in docs/devel/reset.rst:
 
-FRU Information           : Baseboard
----------------           : ------------------
-Chassis Type              : Rack Mount Chassis
-Chassis Part Number       : N/A
-Chassis Serial Number     : N/A
-Board Mfg Date            : Fri Jan  7 10:30:00 2022
-Board Mfg                 : XXXXXX
-Board Product             : Management Board wBMC
-Board Serial              : XXXXXXXXXXXXX
-Board Part Number         : XXXXXXXXXXXXXX
-Board FRU ID              : 1.0
-Board Custom Data 1       : XXXXXXXXX
-Board Custom Data 2       : XXXXXXXXXXXXXXXXXX
-Product Manufacturer      : XXXXXX
-Product Name              : Yosemite V3.5 EVT2
-Product Part Number       : XXXXXXXXXXXXXX
-Product Version           : EVT2
-Product Serial            : XXXXXXXXXXXXX
-Product Asset Tag         : XXXXXXX
-Product FRU ID            : 1.0
-Product Custom Data 1     : XXXXXXXXX
-Product Custom Data 2     : N/A
-root@bmc-oob:~# fruid-util bmc
+  Cold reset is supported by every resettable object. In QEMU, it means we reset
+  to the initial state corresponding to the start of QEMU; this might differ
+  from what is a real hardware cold reset. It differs from other resets (like
+  warm or bus resets) which may keep certain parts untouched.
 
-FRU Information           : BMC
----------------           : ------------------
-Board Mfg Date            : Mon Jan 10 21:42:00 2022
-Board Mfg                 : XXXXXX
-Board Product             : BMC Storage Module
-Board Serial              : XXXXXXXXXXXXX
-Board Part Number         : XXXXXXXXXXXXXX
-Board FRU ID              : 1.0
-Board Custom Data 1       : XXXXXXXXX
-Board Custom Data 2       : XXXXXXXXXXXXXXXXXX
-Product Manufacturer      : XXXXXX
-Product Name              : Yosemite V3.5 EVT2
-Product Part Number       : XXXXXXXXXXXXXX
-Product Version           : EVT2
-Product Serial            : XXXXXXXXXXXXX
-Product Asset Tag         : XXXXXXX
-Product FRU ID            : 1.0
-Product Custom Data 1     : XXXXXXXXX
-Product Custom Data 2     : Config A
-root@bmc-oob:~# fruid-util nic
+But differs from my intuition. For example, if someone writes some information
+to an EEPROM, then AC power cycles their board, they would expect the EEPROM to
+retain that information. It's very useful to be able to test things like this
+in QEMU as well, to verify software instrumentation like determining the cause
+of a reboot.
 
-FRU Information           : NIC
----------------           : ------------------
-Board Mfg Date            : Tue Nov  2 08:51:00 2021
-Board Mfg                 : XXXXXXXX
-Board Product             : Mellanox ConnectX-6 DX OCP3.0
-Board Serial              : XXXXXXXXXXXXXXXXXXXXXXXX
-Board Part Number         : XXXXXXXXXXXXXXXXXXXXX
-Board FRU ID              : FRU Ver 0.02
-Product Manufacturer      : XXXXXXXX
-Product Name              : Mellanox ConnectX-6 DX OCP3.0
-Product Part Number       : XXXXXXXXXXXXXXXXXXXXX
-Product Version           : A9
-Product Serial            : XXXXXXXXXXXXXXXXXXXXXXXX
-Product Custom Data 3     : ConnectX-6 DX
-
+Fixes: 5d8424dbd3e8 ("nvram: add AT24Cx i2c eeprom")
 Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Reviewed-by: Joel Stanley <joel@jms.id.au>
-[ clg: Re-introduced len variables for each array ]
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed_eeprom.h | 19 ++++++++++
- hw/arm/aspeed.c        | 10 ++++--
- hw/arm/aspeed_eeprom.c | 81 ++++++++++++++++++++++++++++++++++++++++++
- hw/arm/meson.build     |  1 +
- 4 files changed, 108 insertions(+), 3 deletions(-)
- create mode 100644 hw/arm/aspeed_eeprom.h
- create mode 100644 hw/arm/aspeed_eeprom.c
+ hw/nvram/eeprom_at24c.c | 22 ++++++++++------------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/hw/arm/aspeed_eeprom.h b/hw/arm/aspeed_eeprom.h
-new file mode 100644
-index 0000000000..1048e244fc
---- /dev/null
-+++ b/hw/arm/aspeed_eeprom.h
-@@ -0,0 +1,19 @@
-+/*
-+ * Copyright (c) Meta Platforms, Inc. and affiliates.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-only
-+ */
-+
-+#ifndef ASPEED_EEPROM_H
-+#define ASPEED_EEPROM_H
-+
-+#include "qemu/osdep.h"
-+
-+extern const uint8_t fby35_nic_fruid[];
-+extern const size_t fby35_nic_fruid_len;
-+extern const uint8_t fby35_bb_fruid[];
-+extern const size_t fby35_bb_fruid_len;
-+extern const uint8_t fby35_bmc_fruid[];
-+extern const size_t fby35_bmc_fruid_len;
-+
-+#endif
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index e6d541ad0f..d07fe702d9 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -14,6 +14,7 @@
- #include "hw/arm/boot.h"
- #include "hw/arm/aspeed.h"
- #include "hw/arm/aspeed_soc.h"
-+#include "hw/arm/aspeed_eeprom.h"
- #include "hw/i2c/i2c_mux_pca954x.h"
- #include "hw/i2c/smbus_eeprom.h"
- #include "hw/misc/pca9552.h"
-@@ -952,9 +953,12 @@ static void fby35_i2c_init(AspeedMachineState *bmc)
+diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
+index f8d751fa27..5074776bff 100644
+--- a/hw/nvram/eeprom_at24c.c
++++ b/hw/nvram/eeprom_at24c.c
+@@ -185,18 +185,6 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
+     }
  
-     at24c_eeprom_init(i2c[4], 0x51, 128 * KiB);
-     at24c_eeprom_init(i2c[6], 0x51, 128 * KiB);
--    at24c_eeprom_init(i2c[8], 0x50, 32 * KiB);
--    at24c_eeprom_init(i2c[11], 0x51, 128 * KiB);
--    at24c_eeprom_init(i2c[11], 0x54, 128 * KiB);
-+    at24c_eeprom_init_rom(i2c[8], 0x50, 32 * KiB, fby35_nic_fruid,
-+                          fby35_nic_fruid_len);
-+    at24c_eeprom_init_rom(i2c[11], 0x51, 128 * KiB, fby35_bb_fruid,
-+                          fby35_bb_fruid_len);
-+    at24c_eeprom_init_rom(i2c[11], 0x54, 128 * KiB, fby35_bmc_fruid,
-+                          fby35_bmc_fruid_len);
+     ee->mem = g_malloc0(ee->rsize);
+-
+-}
+-
+-static
+-void at24c_eeprom_reset(DeviceState *state)
+-{
+-    EEPROMState *ee = AT24C_EE(state);
+-
+-    ee->changed = false;
+-    ee->cur = 0;
+-    ee->haveaddr = 0;
+-
+     memset(ee->mem, 0, ee->rsize);
  
-     /*
-      * TODO: There is a multi-master i2c connection to an AST1030 MiniBMC on
-diff --git a/hw/arm/aspeed_eeprom.c b/hw/arm/aspeed_eeprom.c
-new file mode 100644
-index 0000000000..ed50e97d52
---- /dev/null
-+++ b/hw/arm/aspeed_eeprom.c
-@@ -0,0 +1,81 @@
-+/*
-+ * Copyright (c) Meta Platforms, Inc. and affiliates.
-+ *
-+ * SPDX-License-Identifier: GPL-2.0-only
-+ */
+     if (ee->init_rom) {
+@@ -214,6 +202,16 @@ void at24c_eeprom_reset(DeviceState *state)
+     }
+ }
+ 
++static
++void at24c_eeprom_reset(DeviceState *state)
++{
++    EEPROMState *ee = AT24C_EE(state);
 +
-+#include "aspeed_eeprom.h"
++    ee->changed = false;
++    ee->cur = 0;
++    ee->haveaddr = 0;
++}
 +
-+const uint8_t fby35_nic_fruid[] = {
-+    0x01, 0x00, 0x00, 0x01, 0x0f, 0x20, 0x00, 0xcf, 0x01, 0x0e, 0x19, 0xd7,
-+    0x5e, 0xcf, 0xc8, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xdd,
-+    0x4d, 0x65, 0x6c, 0x6c, 0x61, 0x6e, 0x6f, 0x78, 0x20, 0x43, 0x6f, 0x6e,
-+    0x6e, 0x65, 0x63, 0x74, 0x58, 0x2d, 0x36, 0x20, 0x44, 0x58, 0x20, 0x4f,
-+    0x43, 0x50, 0x33, 0x2e, 0x30, 0xd8, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd5, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0xcc, 0x46, 0x52, 0x55, 0x20, 0x56, 0x65, 0x72,
-+    0x20, 0x30, 0x2e, 0x30, 0x32, 0xc0, 0xc0, 0xc0, 0xc1, 0x00, 0x00, 0x2f,
-+    0x01, 0x11, 0x19, 0xc8, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0xdd, 0x4d, 0x65, 0x6c, 0x6c, 0x61, 0x6e, 0x6f, 0x78, 0x20, 0x43, 0x6f,
-+    0x6e, 0x6e, 0x65, 0x63, 0x74, 0x58, 0x2d, 0x36, 0x20, 0x44, 0x58, 0x20,
-+    0x4f, 0x43, 0x50, 0x33, 0x2e, 0x30, 0xd5, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0xd3, 0x41, 0x39, 0x20, 0x20, 0x20, 0x20, 0x20,
-+    0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20, 0x20,
-+    0xd8, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0xc0, 0xc0, 0xc0, 0xc0, 0xcd, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63,
-+    0x74, 0x58, 0x2d, 0x36, 0x20, 0x44, 0x58, 0xc1, 0x00, 0x00, 0x00, 0x00,
-+    0x00, 0x00, 0x00, 0xdb, 0xc0, 0x82, 0x30, 0x15, 0x79, 0x7f, 0xa6, 0x00,
-+    0x01, 0x18, 0x0b, 0xff, 0x08, 0x00, 0xff, 0xff, 0x64, 0x00, 0x00, 0x00,
-+    0x00, 0x03, 0x20, 0x01, 0xff, 0xff, 0x04, 0x46, 0x00, 0xff, 0xff, 0xff,
-+    0xff, 0xff, 0xff, 0xff, 0x01, 0x81, 0x09, 0x15, 0xb3, 0x10, 0x1d, 0x00,
-+    0x24, 0x15, 0xb3, 0x00, 0x02, 0xeb, 0x8a, 0x95, 0x5c,
-+};
-+const size_t fby35_nic_fruid_len = G_N_ELEMENTS(fby35_nic_fruid);
-+
-+const uint8_t fby35_bb_fruid[] = {
-+    0x01, 0x00, 0x01, 0x03, 0x10, 0x00, 0x00, 0xeb, 0x01, 0x02, 0x17, 0xc3,
-+    0x4e, 0x2f, 0x41, 0xc3, 0x4e, 0x2f, 0x41, 0xc1, 0x00, 0x00, 0x00, 0x23,
-+    0x01, 0x0d, 0x00, 0xb6, 0xd2, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0xd5, 0x4d, 0x61, 0x6e, 0x61, 0x67, 0x65, 0x6d, 0x65, 0x6e, 0x74,
-+    0x20, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x20, 0x77, 0x42, 0x4d, 0x43, 0xcd,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0xc1, 0x00, 0x00, 0x00, 0x00, 0x00, 0xa8, 0x01, 0x0c, 0x00, 0xc6,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x59, 0x6f, 0x73, 0x65, 0x6d,
-+    0x69, 0x74, 0x65, 0x20, 0x56, 0x33, 0x2e, 0x35, 0x20, 0x45, 0x56, 0x54,
-+    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0xc4, 0x45, 0x56, 0x54, 0x32, 0xcd, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x4e, 0x2f,
-+    0x41, 0xc1, 0x00, 0x00, 0x00, 0x00, 0x00, 0x43,
-+};
-+const size_t fby35_bb_fruid_len = G_N_ELEMENTS(fby35_bb_fruid);
-+
-+const uint8_t fby35_bmc_fruid[] = {
-+    0x01, 0x00, 0x00, 0x01, 0x0d, 0x00, 0x00, 0xf1, 0x01, 0x0c, 0x00, 0x36,
-+    0xe6, 0xd0, 0xc6, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x42, 0x4d,
-+    0x43, 0x20, 0x53, 0x74, 0x6f, 0x72, 0x61, 0x67, 0x65, 0x20, 0x4d, 0x6f,
-+    0x64, 0x75, 0x6c, 0x65, 0xcd, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e,
-+    0x30, 0xc9, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc1, 0x39, 0x01, 0x0c, 0x00, 0xc6,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xd2, 0x59, 0x6f, 0x73, 0x65, 0x6d,
-+    0x69, 0x74, 0x65, 0x20, 0x56, 0x33, 0x2e, 0x35, 0x20, 0x45, 0x56, 0x54,
-+    0x32, 0xce, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0xc4, 0x45, 0x56, 0x54, 0x32, 0xcd, 0x58, 0x58,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc7,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc3, 0x31, 0x2e, 0x30, 0xc9,
-+    0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0x58, 0xc8, 0x43, 0x6f,
-+    0x6e, 0x66, 0x69, 0x67, 0x20, 0x41, 0xc1, 0x45,
-+};
-+const size_t fby35_bmc_fruid_len = G_N_ELEMENTS(fby35_bmc_fruid);
-diff --git a/hw/arm/meson.build b/hw/arm/meson.build
-index 76d4d650e4..f70e8cfd45 100644
---- a/hw/arm/meson.build
-+++ b/hw/arm/meson.build
-@@ -53,6 +53,7 @@ arm_ss.add(when: 'CONFIG_ASPEED_SOC', if_true: files(
-   'aspeed.c',
-   'aspeed_ast2600.c',
-   'aspeed_ast10x0.c',
-+  'aspeed_eeprom.c',
-   'fby35.c'))
- arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2.c'))
- arm_ss.add(when: 'CONFIG_MPS2', if_true: files('mps2-tz.c'))
+ static Property at24c_eeprom_props[] = {
+     DEFINE_PROP_UINT32("rom-size", EEPROMState, rsize, 0),
+     DEFINE_PROP_BOOL("writable", EEPROMState, writable, true),
 -- 
 2.39.0
 
