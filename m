@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E655673ADB
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:57:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E9BB673AD2
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:57:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIVQJ-0001xd-J2; Thu, 19 Jan 2023 08:57:47 -0500
+	id 1pIVO0-0006u9-80; Thu, 19 Jan 2023 08:55:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIVQ4-0000wq-5b; Thu, 19 Jan 2023 08:57:35 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIVQ2-0006G3-5C; Thu, 19 Jan 2023 08:57:31 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIVNw-0006pQ-1U
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:55:20 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIVNu-0005pe-14
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:55:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674136517;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=CWLLMLWbpxQTa4GtO51fRN+Ezc42dECgcZu4dRaCVP4=;
+ b=TRVTCN2+2bB2P44VHqhTTqWhcFNwbw/PiMrzSQjf07mJ4xVzx/VNJEvPr3JaSIh7a//GDB
+ jeFF6KUp6luWUN/LmNX5Ey62yVLKTj1EhJCYTmFrR9Rqa3O49R3aELZGhfevzmmjta/5u7
+ Bf5Z/rytsRj6QI3D9RXg80kfGb5mYpo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-392-1a0Pi_g7O-KILbf-V72xXg-1; Thu, 19 Jan 2023 08:55:15 -0500
+X-MC-Unique: 1a0Pi_g7O-KILbf-V72xXg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id B75E65CE73;
- Thu, 19 Jan 2023 13:57:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674136648; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LgAAk/tLn57Rj5xG8Js8OUtSbZPEhStqL3FDCZ22ceY=;
- b=2U3QWKeyBxwCw/W8B236C79XltvSBzYs9jFPcHCIuAX55RG3w7GBUim2dSIUSp5LLysiC/
- P/VIIKos5FECAXPrjZ7c2qwj/ptwzNcehI0UmSGsAXrTh+gys+b5upN0WwKSy5P5IWR1yd
- RynsnrTp3zxuB+DjRiXfv4tKk9751rs=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674136648;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LgAAk/tLn57Rj5xG8Js8OUtSbZPEhStqL3FDCZ22ceY=;
- b=FsygTZRgq12YOScJV+KGntLrB2YJUYq/3cUwIEzwzvnSfAFBTzR+MuMzjeWbjITuUj0Pae
- zmDZlWMAqrhAGNCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A1A08134F5;
- Thu, 19 Jan 2023 13:57:25 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id OH2aGUVMyWOCFAAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 19 Jan 2023 13:57:25 +0000
-From: Fabiano Rosas <farosas@suse.de>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 80DEA2807D68;
+ Thu, 19 Jan 2023 13:55:15 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.2])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A1686492C3E;
+ Thu, 19 Jan 2023 13:55:14 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>
-Subject: [RFC PATCH v4 15/15] arm/Kconfig: Do not build TCG-only boards on a
- KVM-only build
-Date: Thu, 19 Jan 2023 10:54:24 -0300
-Message-Id: <20230119135424.5417-16-farosas@suse.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <20230119135424.5417-1-farosas@suse.de>
-References: <20230119135424.5417-1-farosas@suse.de>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH] travis.yml: Use the libfdt from the distro instead of the
+ submodule
+Date: Thu, 19 Jan 2023 14:55:12 +0100
+Message-Id: <20230119135512.2040062-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,394 +74,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Move all the CONFIG_FOO=y from default.mak into "default y if TCG"
-statements in Kconfig. That way they won't be selected when
-CONFIG_TCG=n.
+No need to compile-test third party submodules over and over again if
+we can simply use the pre-build library from the distribution instead.
 
-I'm leaving CONFIG_ARM_VIRT in default.mak because it allows us to
-keep the two default.mak files not empty and keep aarch64-default.mak
-including arm-default.mak. That way we don't surprise anyone that's
-used to altering these files.
-
-With this change we can start building with --disable-tcg.
-
-Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
-sbsa-ref has an explicit check to avoid running with KVM
-xlnx-versal-virt has avocado tests tagged with tcg
----
- configs/devices/aarch64-softmmu/default.mak |  4 --
- configs/devices/arm-softmmu/default.mak     | 37 ------------------
- hw/arm/Kconfig                              | 42 ++++++++++++++++++++-
- 3 files changed, 41 insertions(+), 42 deletions(-)
+ .travis.yml | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/configs/devices/aarch64-softmmu/default.mak b/configs/devices/aarch64-softmmu/default.mak
-index cf43ac8da1..70e05a197d 100644
---- a/configs/devices/aarch64-softmmu/default.mak
-+++ b/configs/devices/aarch64-softmmu/default.mak
-@@ -2,7 +2,3 @@
- 
- # We support all the 32 bit boards so need all their config
- include ../arm-softmmu/default.mak
--
--CONFIG_XLNX_ZYNQMP_ARM=y
--CONFIG_XLNX_VERSAL=y
--CONFIG_SBSA_REF=y
-diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
-index cb3e5aea65..647fbce88d 100644
---- a/configs/devices/arm-softmmu/default.mak
-+++ b/configs/devices/arm-softmmu/default.mak
-@@ -4,40 +4,3 @@
- # CONFIG_TEST_DEVICES=n
- 
- CONFIG_ARM_VIRT=y
--CONFIG_CUBIEBOARD=y
--CONFIG_EXYNOS4=y
--CONFIG_HIGHBANK=y
--CONFIG_INTEGRATOR=y
--CONFIG_FSL_IMX31=y
--CONFIG_MUSICPAL=y
--CONFIG_MUSCA=y
--CONFIG_CHEETAH=y
--CONFIG_SX1=y
--CONFIG_NSERIES=y
--CONFIG_STELLARIS=y
--CONFIG_STM32VLDISCOVERY=y
--CONFIG_REALVIEW=y
--CONFIG_VERSATILE=y
--CONFIG_VEXPRESS=y
--CONFIG_ZYNQ=y
--CONFIG_MAINSTONE=y
--CONFIG_GUMSTIX=y
--CONFIG_SPITZ=y
--CONFIG_TOSA=y
--CONFIG_Z2=y
--CONFIG_NPCM7XX=y
--CONFIG_COLLIE=y
--CONFIG_ASPEED_SOC=y
--CONFIG_NETDUINO2=y
--CONFIG_NETDUINOPLUS2=y
--CONFIG_OLIMEX_STM32_H405=y
--CONFIG_MPS2=y
--CONFIG_RASPI=y
--CONFIG_DIGIC=y
--CONFIG_SABRELITE=y
--CONFIG_EMCRAFT_SF2=y
--CONFIG_MICROBIT=y
--CONFIG_FSL_IMX25=y
--CONFIG_FSL_IMX7=y
--CONFIG_FSL_IMX6UL=y
--CONFIG_ALLWINNER_H3=y
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index e0da8841db..4a2460311a 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -34,20 +34,24 @@ config ARM_VIRT
- 
- config CHEETAH
-     bool
-+    default y if TCG && ARM
-     select OMAP
-     select TSC210X
- 
- config CUBIEBOARD
-     bool
-+    default y if TCG && ARM
-     select ALLWINNER_A10
- 
- config DIGIC
-     bool
-+    default y if TCG && ARM
-     select PTIMER
-     select PFLASH_CFI02
- 
- config EXYNOS4
-     bool
-+    default y if TCG && ARM
-     imply I2C_DEVICES
-     select A9MPCORE
-     select I2C
-@@ -60,6 +64,7 @@ config EXYNOS4
- 
- config HIGHBANK
-     bool
-+    default y if TCG && ARM
-     select A9MPCORE
-     select A15MPCORE
-     select AHCI
-@@ -74,6 +79,7 @@ config HIGHBANK
- 
- config INTEGRATOR
-     bool
-+    default y if TCG && ARM
-     select ARM_TIMER
-     select INTEGRATOR_DEBUG
-     select PL011 # UART
-@@ -86,12 +92,14 @@ config INTEGRATOR
- 
- config MAINSTONE
-     bool
-+    default y if TCG && ARM
-     select PXA2XX
-     select PFLASH_CFI01
-     select SMC91C111
- 
- config MUSCA
-     bool
-+    default y if TCG && ARM
-     select ARMSSE
-     select PL011
-     select PL031
-@@ -103,6 +111,7 @@ config MARVELL_88W8618
- 
- config MUSICPAL
-     bool
-+    default y if TCG && ARM
-     select OR_IRQ
-     select BITBANG_I2C
-     select MARVELL_88W8618
-@@ -113,18 +122,22 @@ config MUSICPAL
- 
- config NETDUINO2
-     bool
-+    default y if TCG && ARM
-     select STM32F205_SOC
- 
- config NETDUINOPLUS2
-     bool
-+    default y if TCG && ARM
-     select STM32F405_SOC
- 
- config OLIMEX_STM32_H405
-     bool
-+    default y if TCG && ARM
-     select STM32F405_SOC
- 
- config NSERIES
-     bool
-+    default y if TCG && ARM
-     select OMAP
-     select TMP105   # tempature sensor
-     select BLIZZARD # LCD/TV controller
-@@ -157,12 +170,14 @@ config PXA2XX
- 
- config GUMSTIX
-     bool
-+    default y if TCG && ARM
-     select PFLASH_CFI01
-     select SMC91C111
-     select PXA2XX
- 
- config TOSA
-     bool
-+    default y if TCG && ARM
-     select ZAURUS  # scoop
-     select MICRODRIVE
-     select PXA2XX
-@@ -170,6 +185,7 @@ config TOSA
- 
- config SPITZ
-     bool
-+    default y if TCG && ARM
-     select ADS7846 # touch-screen controller
-     select MAX111X # A/D converter
-     select WM8750  # audio codec
-@@ -182,6 +198,7 @@ config SPITZ
- 
- config Z2
-     bool
-+    default y if TCG && ARM
-     select PFLASH_CFI01
-     select WM8750
-     select PL011 # UART
-@@ -189,6 +206,7 @@ config Z2
- 
- config REALVIEW
-     bool
-+    default y if TCG && ARM
-     imply PCI_DEVICES
-     imply PCI_TESTDEV
-     imply I2C_DEVICES
-@@ -217,6 +235,7 @@ config REALVIEW
- 
- config SBSA_REF
-     bool
-+    default y if TCG && AARCH64
-     imply PCI_DEVICES
-     select AHCI
-     select ARM_SMMUV3
-@@ -232,11 +251,13 @@ config SBSA_REF
- 
- config SABRELITE
-     bool
-+    default y if TCG && ARM
-     select FSL_IMX6
-     select SSI_M25P80
- 
- config STELLARIS
-     bool
-+    default y if TCG && ARM
-     imply I2C_DEVICES
-     select ARM_V7M
-     select CMSDK_APB_WATCHDOG
-@@ -254,6 +275,7 @@ config STELLARIS
- 
- config STM32VLDISCOVERY
-     bool
-+    default y if TCG && ARM
-     select STM32F100_SOC
- 
- config STRONGARM
-@@ -262,16 +284,19 @@ config STRONGARM
- 
- config COLLIE
-     bool
-+    default y if TCG && ARM
-     select PFLASH_CFI01
-     select ZAURUS  # scoop
-     select STRONGARM
- 
- config SX1
-     bool
-+    default y if TCG && ARM
-     select OMAP
- 
- config VERSATILE
-     bool
-+    default y if TCG && ARM
-     select ARM_TIMER # sp804
-     select PFLASH_CFI01
-     select LSI_SCSI_PCI
-@@ -283,6 +308,7 @@ config VERSATILE
- 
- config VEXPRESS
-     bool
-+    default y if TCG && ARM
-     select A9MPCORE
-     select A15MPCORE
-     select ARM_MPTIMER
-@@ -298,6 +324,7 @@ config VEXPRESS
- 
- config ZYNQ
-     bool
-+    default y if TCG && ARM
-     select A9MPCORE
-     select CADENCE # UART
-     select PFLASH_CFI02
-@@ -314,7 +341,7 @@ config ZYNQ
- config ARM_V7M
-     bool
-     # currently v7M must be included in a TCG build due to translate.c
--    default y if TCG && (ARM || AARCH64)
-+    default y if TCG && ARM
-     select PTIMER
- 
- config ALLWINNER_A10
-@@ -332,6 +359,7 @@ config ALLWINNER_A10
- 
- config ALLWINNER_H3
-     bool
-+    default y if TCG && ARM
-     select ALLWINNER_A10_PIT
-     select ALLWINNER_SUN8I_EMAC
-     select ALLWINNER_I2C
-@@ -345,6 +373,7 @@ config ALLWINNER_H3
- 
- config RASPI
-     bool
-+    default y if TCG && ARM
-     select FRAMEBUFFER
-     select PL011 # UART
-     select SDHCI
-@@ -375,6 +404,7 @@ config STM32F405_SOC
- 
- config XLNX_ZYNQMP_ARM
-     bool
-+    default y if TCG && AARCH64
-     select AHCI
-     select ARM_GIC
-     select CADENCE
-@@ -391,6 +421,7 @@ config XLNX_ZYNQMP_ARM
- 
- config XLNX_VERSAL
-     bool
-+    default y if TCG && AARCH64
-     select ARM_GIC
-     select PL011
-     select CADENCE
-@@ -404,6 +435,7 @@ config XLNX_VERSAL
- 
- config NPCM7XX
-     bool
-+    default y if TCG && ARM
-     select A9MPCORE
-     select ADM1272
-     select ARM_GIC
-@@ -420,6 +452,7 @@ config NPCM7XX
- 
- config FSL_IMX25
-     bool
-+    default y if TCG && ARM
-     imply I2C_DEVICES
-     select IMX
-     select IMX_FEC
-@@ -429,6 +462,7 @@ config FSL_IMX25
- 
- config FSL_IMX31
-     bool
-+    default y if TCG && ARM
-     imply I2C_DEVICES
-     select SERIAL
-     select IMX
-@@ -449,6 +483,7 @@ config FSL_IMX6
- 
- config ASPEED_SOC
-     bool
-+    default y if TCG && ARM
-     select DS1338
-     select FTGMAC100
-     select I2C
-@@ -469,6 +504,7 @@ config ASPEED_SOC
- 
- config MPS2
-     bool
-+    default y if TCG && ARM
-     imply I2C_DEVICES
-     select ARMSSE
-     select LAN9118
-@@ -484,6 +520,7 @@ config MPS2
- 
- config FSL_IMX7
-     bool
-+    default y if TCG && ARM
-     imply PCI_DEVICES
-     imply TEST_DEVICES
-     imply I2C_DEVICES
-@@ -502,6 +539,7 @@ config ARM_SMMUV3
- 
- config FSL_IMX6UL
-     bool
-+    default y if TCG && ARM
-     imply I2C_DEVICES
-     select A15MPCORE
-     select IMX
-@@ -513,6 +551,7 @@ config FSL_IMX6UL
- 
- config MICROBIT
-     bool
-+    default y if TCG && ARM
-     select NRF51_SOC
- 
- config NRF51_SOC
-@@ -524,6 +563,7 @@ config NRF51_SOC
- 
- config EMCRAFT_SF2
-     bool
-+    default y if TCG && ARM
-     select MSF2
-     select SSI_M25P80
- 
+diff --git a/.travis.yml b/.travis.yml
+index fb3baabca9..e24c99fdb9 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -128,6 +128,7 @@ jobs:
+           - libbrlapi-dev
+           - libcacard-dev
+           - libcap-ng-dev
++          - libfdt-dev
+           - libgcrypt20-dev
+           - libgnutls28-dev
+           - libgtk-3-dev
+@@ -162,6 +163,7 @@ jobs:
+           - libbrlapi-dev
+           - libcacard-dev
+           - libcap-ng-dev
++          - libfdt-dev
+           - libgcrypt20-dev
+           - libgnutls28-dev
+           - libgtk-3-dev
+@@ -195,6 +197,7 @@ jobs:
+           - libbrlapi-dev
+           - libcacard-dev
+           - libcap-ng-dev
++          - libfdt-dev
+           - libgcrypt20-dev
+           - libgnutls28-dev
+           - libgtk-3-dev
+@@ -237,6 +240,7 @@ jobs:
+           - libattr1-dev
+           - libcacard-dev
+           - libcap-ng-dev
++          - libfdt-dev
+           - libgnutls28-dev
+           - libiscsi-dev
+           - liblttng-ust-dev
+@@ -281,6 +285,7 @@ jobs:
+           - libbrlapi-dev
+           - libcacard-dev
+           - libcap-ng-dev
++          - libfdt-dev
+           - libgcrypt20-dev
+           - libgnutls28-dev
+           - libgtk-3-dev
 -- 
-2.35.3
+2.31.1
 
 
