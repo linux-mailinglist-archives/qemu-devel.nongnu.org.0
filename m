@@ -2,84 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 543796738B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:37:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DE26738D0
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:40:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIU8o-0006cM-LQ; Thu, 19 Jan 2023 07:35:38 -0500
+	id 1pIUDU-0006Up-4S; Thu, 19 Jan 2023 07:40:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIU8m-0006Xg-Cp
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 07:35:36 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIU8j-0007cp-Vu
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 07:35:36 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- q10-20020a1cf30a000000b003db0edfdb74so2721588wmq.1
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 04:35:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=G759XjHotxBmkEFBsVgdOmKG6oeAu6tQI5DaentPAtE=;
- b=MahV4wzYgphoHXT4RIAyZ6kF0nrqFrNC7fGc0mBcPozd4xwv/pTAPaBYqENH7hzVzf
- Jz6lNPzTRHTT64j4dkhFM5HG4YbLQ7fX1kZWG6DRic7KNsFLgP8v43PLHzp/E0xHW0pB
- uatbI5MT8xCMteVyw7xnw1bZURkcYr1vzC7WuIqsQpo23fKMQ7ok47bJHJqSvTkvm7IF
- wmwyqyI/ZemVH1aTY7znbAnFEjkweXWiez6SEGF+eEr066qnAz93XE2TzqdIr96BCEhx
- Ku7srwC+/GYISCtcQ28hA4j7CaUEdMaqSjZ8n6lV8hY6eFOxnmNrfUM9R+uLCiP7ACv/
- sqXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=G759XjHotxBmkEFBsVgdOmKG6oeAu6tQI5DaentPAtE=;
- b=mneSjjq6+ggLOLzswsR03NBFQvPR6ymcKJLK7S9JqROkUtfgxObYWZC3Sh+WLPGwHW
- KTgHSE5b0uHKwpLyf3ejyXAVUR45psexq4pGkOggVJc/FPZumIvzAE1KDIPe3fyLxfi4
- sh/Z42ol200GBVKnBrneZe4IrOGVaVOdfZBZJn2lkT609FAfhRAMvdZUU9d7ZA3flOB7
- c/ysYFCGY5SqYZUAcWB80ycHed8Wnn0XPkHLpBOX163YzKqim2cjnNlwvMlVdIrvDDTh
- mgq6xebreiABH1IGC+/uw2OOjGSuoTZvtLkJz9cJ/A5Ruc4R3HJXPMNJF/WG7oBcZq/Z
- JVxA==
-X-Gm-Message-State: AFqh2kpfW/LL8urSauCdxAo7kQwbsiNaoMSMcvM/daUaeTxzRLWYZH/d
- d62r2NDDTbsVd3hiS4wUh7/sig==
-X-Google-Smtp-Source: AMrXdXvDTTfl0uW5AMHs9RgqxO3y3yKSgOW4o94yqwvAPtOsbtsBUWpiXC1UQSFbVgD7fzyNWlCukw==
-X-Received: by 2002:a7b:cd9a:0:b0:3d3:5d69:7aa5 with SMTP id
- y26-20020a7bcd9a000000b003d35d697aa5mr10130733wmj.25.1674131732270; 
- Thu, 19 Jan 2023 04:35:32 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- z6-20020a05600c0a0600b003d04e4ed873sm5826487wmp.22.2023.01.19.04.35.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 04:35:31 -0800 (PST)
-Message-ID: <854dadfe-e98e-bacb-2ee8-01f53ed8798d@linaro.org>
-Date: Thu, 19 Jan 2023 13:35:30 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUDQ-00069z-7q
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 07:40:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUDO-0008PA-6K
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 07:40:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674132021;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UJFbzKHLTWwJOSdY0kNb9hka/YwoZttcFHLUdRlfEZ0=;
+ b=YBBAZ452BQRecXj3tFvdhaAr57z6jc6e7yqKrf0e4pu2FXjgDHvGL2RmvmBr3rVm45zR6G
+ ZxCzpMRWm5/5m5N2bapk9w0YEMw8cK93eQeuP8wPRsQyTcnSSIiofYravyQwMkrCO07BkZ
+ qU6Bp0A2mSS8bVXLeMuj864qMZCQ8sI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-58-Kz5evEtGNIGtp1FkSVvq0Q-1; Thu, 19 Jan 2023 07:40:15 -0500
+X-MC-Unique: Kz5evEtGNIGtp1FkSVvq0Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6CEE53C16EB5;
+ Thu, 19 Jan 2023 12:40:14 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D67CF492C3E;
+ Thu, 19 Jan 2023 12:40:13 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6DB4221E6A28; Thu, 19 Jan 2023 13:40:12 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org,  richard.henderson@linaro.org,
+ pbonzini@redhat.com,  kwolf@redhat.com,  hreitz@redhat.com,
+ imp@bsdimp.com,  kevans@freebsd.org,  berrange@redhat.com,
+ groug@kaod.org,  qemu_oss@crudebyte.com,  mst@redhat.com,
+ peter.maydell@linaro.org,  alistair@alistair23.me,  jasowang@redhat.com,
+ jonathan.cameron@huawei.com,  kbastian@mail.uni-paderborn.de,
+ quintela@redhat.com,  dgilbert@redhat.com,  michael.roth@amd.com,
+ kkostiuk@redhat.com,  tsimpson@quicinc.com,  palmer@dabbelt.com,
+ bin.meng@windriver.com,  qemu-block@nongnu.org,  qemu-arm@nongnu.org,
+ qemu-riscv@nongnu.org
+Subject: Re: [PATCH v4 16/19] Fix non-first inclusions of qemu/osdep.h
+References: <20230119065959.3104012-1-armbru@redhat.com>
+ <20230119065959.3104012-17-armbru@redhat.com>
+ <a25d449f-ceb5-54d8-ad07-9e6517d6e016@linaro.org>
+ <873586u4yj.fsf@pond.sub.org>
+ <fc965afb-5e58-bad3-429d-d77e866d9f18@linaro.org>
+Date: Thu, 19 Jan 2023 13:40:12 +0100
+In-Reply-To: <fc965afb-5e58-bad3-429d-d77e866d9f18@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 19 Jan 2023 12:52:02
+ +0100")
+Message-ID: <87cz7asno3.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 00/20] target/arm: CONFIG_TCG=n part 1
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Thomas Huth <thuth@redhat.com>
-References: <20230118193518.26433-1-farosas@suse.de>
- <39bb348d-e3af-6a20-e7d5-d7a1c918a389@linaro.org>
-In-Reply-To: <39bb348d-e3af-6a20-e7d5-d7a1c918a389@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,51 +94,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/1/23 08:41, Philippe Mathieu-Daudé wrote:
-> On 18/1/23 20:34, Fabiano Rosas wrote:
->> These are the already reviewed patches from the first half of my
->> previous series:
->> https://lore.kernel.org/r/20230113140419.4013-1-farosas@suse.de
->>
->> This unbreaks the --disable-tcg build, but there are issues in runtime
->> that are still being hashed out in the other series.
->>
->> For the build _with_ TCG, this should behave the same as master.
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-> Reproducers:
-> 
-> $ ./qemu-system-aarch64 -display none -S -M mps3-an547 -accel qtest 
-> -monitor stdio
-> QEMU 7.2.50 monitor - type 'help' for more information
-> (qemu) gva2gpa 0
-> **
-> ERROR:../../target/arm/helper.c:2495:arm_v7m_mmu_idx_for_secstate: code 
-> should not be reached
-> Bail out! 
-> ERROR:../../target/arm/helper.c:2495:arm_v7m_mmu_idx_for_secstate: code 
-> should not be reached
-> Abort trap: 6
-> 
->      frame #4: 0x0000000101fdd6cc 
-> libglib-2.0.0.dylib`g_assertion_message_expr + 116
->      frame #5: 0x0000000100360ce0 
-> qemu-system-aarch64`arm_v7m_mmu_idx_for_secstate(env=<unavailable>, 
-> secstate=<unavailable>) at helper.c:2495:5
->      frame #6: 0x000000010035f7f4 
-> qemu-system-aarch64`arm_mmu_idx_el(env=<unavailable>, el=<unavailable>) 
-> at helper.c:2514:16
->      frame #7: 0x00000001002d17ec 
-> qemu-system-aarch64`arm_cpu_get_phys_page_attrs_debug(cs=<unavailable>, 
-> addr=0, attrs=0x000000016fdfda50) at ptw.c:2982:23
->      frame #8: 0x00000001003c660c 
-> qemu-system-aarch64`hmp_gva2gpa(mon=0x000060000390f0c0, 
-> qdict=<unavailable>) at misc.c:714:12
-This problem was previously fixed by this series:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg777719.html
-In particular by this patch:
-https://www.mail-archive.com/qemu-devel@nongnu.org/msg777724.html
+> On 19/1/23 12:41, Markus Armbruster wrote:
+>> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+>>=20
+>>> On 19/1/23 07:59, Markus Armbruster wrote:
+>>>> This commit was created with scripts/clean-includes.
+>>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>> [...]
+>>=20
+>>> Up to here:
+>>>
+>>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+>>>
+>>>> diff --git a/util/async-teardown.c b/util/async-teardown.c
+>>>> index 62bfce1b3c..62cdeb0f20 100644
+>>>> --- a/util/async-teardown.c
+>>>> +++ b/util/async-teardown.c
+>>>> @@ -10,16 +10,12 @@
+>>>>     * option) any later version.  See the COPYING file in the top-leve=
+l directory.
+>>>>     *
+>>>>     */
+>>>> -#include <stdlib.h>
+>>>> -#include <stdio.h>
+>>>> -#include <sys/types.h>
+>>>> -#include <dirent.h>
+>>>> -#include <sys/prctl.h>
+>>>> -#include <signal.h>
+>>>> -#include <sched.h>
+>>>> -#include <unistd.h>
+>>>>  #include "qemu/osdep.h"
+>>>> +#include <dirent.h>
+>>>> +#include <sys/prctl.h>
+>>>> +#include <sched.h>
+>>>> +
+>>>>    #include "qemu/async-teardown.h"
+>>>
+>>> This file has more changes.
+>> I'm not sure I understand.
+>> The patch does two related things:
+>> 1. It puts qemu/osdep.h first.  The diff makes it look like we leave it
+>>     in place and move other stuff across, but that's the same.
+>> 2. It deletes inclusions of headers qemu/osdep.h already includes:
+>>      <stdlib.h>
+>>      <stdio.h>
+>>      <sys/types.h>
+>>      <signal.h>
+>>      <unistd.h>
+>
+> Ah, the other files get this done in the "Drop duplicate #include" patch.
 
-Since all issues have been identified:
-Tested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Right!
 
 
