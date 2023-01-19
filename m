@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2E6674084
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:05:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4113674081
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:05:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIZHF-0003NA-1F; Thu, 19 Jan 2023 13:04:41 -0500
+	id 1pIZHJ-0003Pb-2H; Thu, 19 Jan 2023 13:04:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH3-0003I6-4K
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:29 -0500
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ id 1pIZH4-0003Iq-8j
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:31 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH0-00011Q-59
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:28 -0500
-Received: by mail-wr1-x42b.google.com with SMTP id e3so2637133wru.13
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:04:24 -0800 (PST)
+ id 1pIZH0-00011G-4P
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:29 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id b7so2675560wrt.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=6fZnQvIJIidUw8gfSAFc62jHoyrBtFd/nsmfx/H20uY=;
- b=vMVb4FH2anD1kRUrcBW2w2QRaa8U8gsa0T2VBJKAH8I0lMIW8Y25QNQ4A+sHVtW3La
- /DLk3jD6oUK5AxzpM1oFJu2HM7BNHRQJYcDZs10xu6d34BlLHN1bK+Qx9+TPGbEI6Iu2
- 62kxdVfcQzpF07iiQ6TTDBolJsRaVWL0mEqxWrg71bzo8FH63mbF8o9yPLFDDlNpE8WV
- RQ2C9tCRmM+VunTi6WlGarJb2fpufXeW5wrKZ1Qo79mO3e0/dOkHuh/yLcX0ClNSuwug
- Q3hyTplgVaQDoZ5QfMNWvkwta2UaqxL824dqkm8uElVYFwEH7HS8dTCLPfMZuk2c0W9U
- IV8w==
+ bh=EduU7oyQ6B1wSk7o4iq1oV+aNe30CeGVDzVVE6Byo1U=;
+ b=QjvusSrZPazJHHo5k2XB+XloUnrzKtQ2ERDBkodr16SeOL3RR/r2pp/F4BzaZ0budE
+ +NuCQDGnF/S8/Gj6VX3A5PyDbTkbSHnOkfrCfWjKTOFPDMPjIhgBxK+Il37URL3KSOQY
+ HHB/XWEoNIpRGpzCS7KHMTv9o4gdh13g+8OD3h0fVFIC9XPqC1PQXPTs5ZYcsPetvDWT
+ VuJb0PigTY6rsmOiPOyLnmPvqtxZWrbmFkHITErAScQKSPVYULwygWlt2zPKOQRm8FLV
+ CoPuirD2IYw86srunIQp1YIHNsIfT5ov/mJBWo4+H8eiyMbqcmvAs8ohLrWIof6ywj9O
+ fJsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6fZnQvIJIidUw8gfSAFc62jHoyrBtFd/nsmfx/H20uY=;
- b=qTV8RbXN8xk2lJVkw+sMVQZbaBOLwRtuNs3iHS0eNiDSQe/gDIpbhOkKYkCRAGFPwN
- Wkc5sKQLr4LB1fHjzsoxomJF5zvpbg6DjltM6AgRceQrGNAzebR0xPUYxbeeFJVwUOUo
- 1kLiR58b62bAgfI8vVmfE3q1Bq5UKfEKB4UM01fsggCue6mx5ffR+0arTmGeTsVS9Gxz
- jlSB/Z22GVgQ4ZbyImqn691S0k+2933nkq80uzo+kwWRtFjXYYhibER/yMJGhgklvRHb
- xmUYMhuHz191CyqlXHAtbwBkPh2dRrNPfYu3T8LBP9BM9TOcZBu7WyRgr/dq24mInFda
- hgTQ==
-X-Gm-Message-State: AFqh2kob3nw4hV0IEGic8BQK8laIuISlYsh/aiPquPctFzSx5wcHzDF2
- SztqakMmAza0rvwGLgC4Er+5QQ==
-X-Google-Smtp-Source: AMrXdXstEHgsoha3h1xlGqikvHifzVvxUR4KHnhXc0/c0ZHhS/1AniXZJj/PYK0e04ts8fA2EAGsaw==
-X-Received: by 2002:a5d:66c9:0:b0:2b9:d6ba:21ef with SMTP id
- k9-20020a5d66c9000000b002b9d6ba21efmr10299183wrw.65.1674151463811; 
+ bh=EduU7oyQ6B1wSk7o4iq1oV+aNe30CeGVDzVVE6Byo1U=;
+ b=I+s6pH4ezKNpUvsRxQdGgRj1gmuFSq1QijT8rStdtuxLfmCeweQmi/Y8qLrpF8ntCR
+ Aaivh9f14pq2dsQpQASmbeOzFjIMmgHDT8H46t+7Nd1vh5nrrUap9OTWnz6q7jJA6v9w
+ y76nA5ABrXyntzot88ejBVrJz+aV8NrJTWIQk+DHS1u6bRVmEomu11PgDeUl7vts/2Ff
+ GfFv8NGTO5FkUdot+NXziJndMIww1hpY9twlNmhqCR0IJvxXqZbj/YHaBFocljeUnx1m
+ MhaFMSEpdrXdkuOdPFs/ZToppG/l3QKNK25cS1eVVd25qlDRTAo5gMJArEQPbcqpILJ7
+ eb7w==
+X-Gm-Message-State: AFqh2konkTRq5lJ7naFrO57FPXbhf7tABAP9rXpW0K4kkJRqQxhaan3p
+ JVXwdS/LM3fdSE+AwDSJjutJqQ==
+X-Google-Smtp-Source: AMrXdXv5g/JhhUyZPTVKG/FpnEXRuI7hE/sALyKSOH3kugIxJ0RLhn14z7ZyH1nadSl7HSp4Z4F8Xg==
+X-Received: by 2002:a5d:59c8:0:b0:2aa:1d10:1ecf with SMTP id
+ v8-20020a5d59c8000000b002aa1d101ecfmr12040123wry.37.1674151463023; 
  Thu, 19 Jan 2023 10:04:23 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- m5-20020adfe0c5000000b002bdfe3aca17sm11909035wri.51.2023.01.19.10.04.20
+ w10-20020a5d404a000000b00275970a85f4sm34162026wrp.74.2023.01.19.10.04.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Jan 2023 10:04:21 -0800 (PST)
+ Thu, 19 Jan 2023 10:04:22 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 152B41FFBE;
+ by zen.linaroharston (Postfix) with ESMTP id 2C9EE1FFBF;
  Thu, 19 Jan 2023 18:04:20 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -73,17 +73,17 @@ Cc: Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 06/18] .gitlab-ci.d/windows: do not disable opengl
-Date: Thu, 19 Jan 2023 18:04:07 +0000
-Message-Id: <20230119180419.30304-7-alex.bennee@linaro.org>
+Subject: [PATCH 07/18] meson: replace Perl usage with Python
+Date: Thu, 19 Jan 2023 18:04:08 +0000
+Message-Id: <20230119180419.30304-8-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230119180419.30304-1-alex.bennee@linaro.org>
 References: <20230119180419.30304-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,39 +108,47 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-The previous patch should fix shader compilation.
+Let's try to remove Perl usage during build time.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230110132700.833690-3-marcandre.lureau@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20230110132700.833690-5-marcandre.lureau@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .gitlab-ci.d/windows.yml | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ tests/qapi-schema/meson.build | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/.gitlab-ci.d/windows.yml b/.gitlab-ci.d/windows.yml
-index a1d5790580..cf445b77f6 100644
---- a/.gitlab-ci.d/windows.yml
-+++ b/.gitlab-ci.d/windows.yml
-@@ -71,7 +71,7 @@ msys2-64bit:
-   # for the msys2 64-bit job, due to the build could not complete within
-   # the project timeout.
-   - ..\msys64\usr\bin\bash -lc '../configure --target-list=x86_64-softmmu
--      --without-default-devices --disable-opengl'
-+      --without-default-devices'
-   - ..\msys64\usr\bin\bash -lc 'make'
-   # qTests don't run successfully with "--without-default-devices",
-   # so let's exclude the qtests from CI for now.
-@@ -113,8 +113,7 @@ msys2-32bit:
-   - $env:MSYS = 'winsymlinks:native' # Enable native Windows symlink
-   - mkdir output
-   - cd output
--  - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu
--        --disable-opengl'
-+  - ..\msys64\usr\bin\bash -lc '../configure --target-list=ppc64-softmmu'
-   - ..\msys64\usr\bin\bash -lc 'make'
-   - ..\msys64\usr\bin\bash -lc 'make check MTESTARGS=\"--no-suite qtest\" ||
-                                 { cat meson-logs/testlog.txt; exit 1; }'
+diff --git a/tests/qapi-schema/meson.build b/tests/qapi-schema/meson.build
+index 9dfe98bc9a..d85b14f28c 100644
+--- a/tests/qapi-schema/meson.build
++++ b/tests/qapi-schema/meson.build
+@@ -259,22 +259,23 @@ if build_docs
+   # Fix possible inconsistency in line endings in generated output and
+   # in the golden reference (which could otherwise cause test failures
+   # on Windows hosts). Unfortunately diff --strip-trailing-cr
+-  # is GNU-diff only. The odd-looking perl is because we must avoid
++  # is GNU-diff only. The odd-looking python is because we must avoid
+   # using an explicit '\' character in the command arguments to
+   # a custom_target(), as Meson will unhelpfully replace it with a '/'
+   # (https://github.com/mesonbuild/meson/issues/1564)
++  remove_cr = [python, '-c', 'import sys;[sys.stdout.write(line.replace(chr(13), "")) for line in sys.stdin]']
+   qapi_doc_out_nocr = custom_target('QAPI rST doc newline-sanitized',
+                                     output: ['doc-good.txt.nocr'],
+                                     input: qapi_doc_out[0],
+                                     build_by_default: true,
+-                                    command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
++                                    command: [remove_cr, '@INPUT@'],
+                                     capture: true)
+ 
+   qapi_doc_ref_nocr = custom_target('QAPI rST doc reference newline-sanitized',
+                                     output: ['doc-good.ref.nocr'],
+                                     input: files('doc-good.txt'),
+                                     build_by_default: true,
+-                                    command: ['perl', '-pe', '$x = chr 13; s/$x$//', '@INPUT@'],
++                                    command: [remove_cr, '@INPUT@'],
+                                     capture: true)
+ 
+   test('QAPI rST doc', diff, args: ['-u', qapi_doc_ref_nocr[0], qapi_doc_out_nocr[0]],
 -- 
 2.34.1
 
