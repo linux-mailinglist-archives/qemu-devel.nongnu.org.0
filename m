@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7733B674090
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA0966740A1
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:13:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIZHH-0003O5-3j; Thu, 19 Jan 2023 13:04:43 -0500
+	id 1pIZOO-0005uw-Ps; Thu, 19 Jan 2023 13:12:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH6-0003Jy-5Y
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:32 -0500
-Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ id 1pIZOL-0005ud-S4
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:12:01 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH2-00011y-Sn
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:31 -0500
-Received: by mail-wr1-x431.google.com with SMTP id b7so2675752wrt.3
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:04:28 -0800 (PST)
+ id 1pIZOI-0004HM-7H
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:12:01 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id q10so2701063wrs.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:11:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vZLHCuh0wigKWde+YAzRi65bgogzVgt43O8RyRryEl8=;
- b=WlmXnpffOo4sCwLXgcztoYdJ2n4VSzM/TLpHnjNDqqIqyb4iYdpY9+hfZIDyU00rJm
- 85uqxOZa6tPuJkQ+l4sXJsSNN6Iu8vfP0GfbbiCGVm+MlXI28c4ivtxwqqRYKY+GA7XC
- 8gGKdZyd7Fp4YPiL254Cx2r8fqcbbSniQDgA7xR2AmgKJloStbnKkTPF8OdEPSlF5Nx0
- s+vdcZLyFZw/6sKbIAQxzEQMzq0qnZBWi7gYD68GVremGn6Rra1YZGAFcF568IKWJVNC
- TdK6uziqzT4LxRxuyiiiihBhDLGBuyGkXfk4qDFbn5k3nXd59R1PHXFpxhaLc2pwkFMv
- OSdA==
+ bh=I0FrZ6m+/DDXlf1KBSDr4ILm73xZLFUqafMmPw3ilEY=;
+ b=kxzb4qdUHGlACLRdMddcD09zO033jrQbHucuHZvR+BmQEzP+dWMD5eZ8yeEuoqEUpy
+ e7xyAYJlfn/hRMVZ2LhURTajUsnVNgS5hSZzzTcbV5+PeLTc+r7TCSOyS5txT+F/Pqzl
+ ZD45tjZWHil7mJzsoYMnwb1ZekOU6nNweErITFN8DwW6bEsYonm+OP7oQzp8njuPNreb
+ 9kZasjG0eDYbwMvfD99nzaAEvUHfilGuFBIvjH3f78eU1/HNytQRlipTmfR/9K3+6tlE
+ ZAjNx1MP+otqHTJoUZjrFefvwE6ZbSKiVc835wpM8ojjvpbAFG7SfHVKA/h9MurIIxPo
+ 5aEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vZLHCuh0wigKWde+YAzRi65bgogzVgt43O8RyRryEl8=;
- b=WppnsTdzBDIdRPoHVtTZYbsnNYn4PQ2Z0GPAVa/bWq2X3AEj+BI7v2od7c4kLI7hFx
- A3O30sKAbpKj98FHTANlMKeXPk9lzjgm/4Yv+M0b0x94pY1tn0ZwZ5FEzFj5trC4qQW3
- 3JMdJxulBl4HranhtiGO/CZ9+y5zDHaPNwh08GsuxC26Mize6mCVE/zBFhHU8LovFHrB
- xe2SZo5iLDaTICBCLxuqmgZ68jxdEwOByEL15ZmQfj2bM8lml7PUoNjk7vRgOY+rK7xe
- IdeP/uoiq+aG2WKFI8nLgLag2edag+xyv8c/e9hF2IKCBClTLVC5mfBwFSmpTy245Pop
- oMOQ==
-X-Gm-Message-State: AFqh2kqqWOgwvFNJKJ97me0DS12Xem/8neaYOIJ88Pu48Q1W5yzWSCQl
- +0l8vzIgcvWoD5WzptV9YkEIdw==
-X-Google-Smtp-Source: AMrXdXvi5pxdEHz5WnkG62V33pzC8YsknZ/D19JXBKKY0PbkHZ1I2ebcgMKzO9/ZOAVEigi0V8+yHg==
-X-Received: by 2002:adf:e310:0:b0:2bd:d8f1:2edf with SMTP id
- b16-20020adfe310000000b002bdd8f12edfmr10351550wrj.49.1674151467290; 
- Thu, 19 Jan 2023 10:04:27 -0800 (PST)
+ bh=I0FrZ6m+/DDXlf1KBSDr4ILm73xZLFUqafMmPw3ilEY=;
+ b=3Hif77ZGO56LELC+DHLWM3cqA1xghszdBgg6viGfnXCpAEZvgbbTWnk/7+SJj2MKDa
+ eiTMJFcs2nCurGCHm4d1x71nAuDLSK4BCXNLEwGOnLwHda3+66La0ytrLohNsAy9QDdx
+ nVq87D2PXUMk8W6KsSzY9dsDxpxYOhA9rtAJ7+TTwng6luEyn3jAa13VapATH+OW2rzb
+ y2jrXLEL2gb7C77nrBNViRBNlqgZ5GFe+lVmSn9n15PSHTuRQ152ShzqSKnn4sH2cbmT
+ VqzLzEFXNHlvZdM6XQHjDV5bYx3a7ihZDg+O3eKXfP3Ospgheez6RjPQ6xm3Y0qDUiBM
+ 6XAg==
+X-Gm-Message-State: AFqh2koE6ubht2RzLF30HlCUVoU8oEkPeTfY//DzMUYVpG1tUmwtVO82
+ dr8z0KGbJScaHYNzqOUIw1sV+w==
+X-Google-Smtp-Source: AMrXdXs4W4MEuiuQf0iGanrxHZvQhh+TvB1uhRJT4xzTE9PmpAO6L8iNWP8ugJgDbYq8wbmkPZDXBQ==
+X-Received: by 2002:a5d:5b0e:0:b0:2bb:e9e6:ac26 with SMTP id
+ bx14-20020a5d5b0e000000b002bbe9e6ac26mr11656342wrb.57.1674151916509; 
+ Thu, 19 Jan 2023 10:11:56 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- k6-20020a5d5186000000b002bbddb89c71sm30592743wrv.67.2023.01.19.10.04.22
+ l5-20020adfe9c5000000b002238ea5750csm19848704wrn.72.2023.01.19.10.11.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Jan 2023 10:04:24 -0800 (PST)
+ Thu, 19 Jan 2023 10:11:56 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4A6081FFC4;
+ by zen.linaroharston (Postfix) with ESMTP id 62F821FFC5;
  Thu, 19 Jan 2023 18:04:21 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -72,18 +72,19 @@ Cc: Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 14/18] tests/docker: drop debian-tricore-cross's partial status
-Date: Thu, 19 Jan 2023 18:04:15 +0000
-Message-Id: <20230119180419.30304-15-alex.bennee@linaro.org>
+ Thomas Huth <thuth@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH 15/18] tests/tcg: skip the vma-pthread test on CI
+Date: Thu, 19 Jan 2023 18:04:16 +0000
+Message-Id: <20230119180419.30304-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230119180419.30304-1-alex.bennee@linaro.org>
 References: <20230119180419.30304-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::431;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,27 +107,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This image is perfectly capable of building QEMU, and indeed we do
-that on gitlab. Drop the DOCKER_PARTIAL_IMAGES setting so we can also
-test the gitlab build locally.
+We are getting a lot of failures that are not related to changes so
+this could be a flaky test.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/docker/Makefile.include | 1 -
- 1 file changed, 1 deletion(-)
+ tests/tcg/multiarch/Makefile.target | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
-index 665ddde518..bfb0dcac21 100644
---- a/tests/docker/Makefile.include
-+++ b/tests/docker/Makefile.include
-@@ -128,7 +128,6 @@ DOCKER_PARTIAL_IMAGES += debian-mips-cross
- DOCKER_PARTIAL_IMAGES += debian-nios2-cross
- DOCKER_PARTIAL_IMAGES += debian-riscv64-test-cross
- DOCKER_PARTIAL_IMAGES += debian-sh4-cross debian-sparc64-cross
--DOCKER_PARTIAL_IMAGES += debian-tricore-cross
- DOCKER_PARTIAL_IMAGES += debian-xtensa-cross
- DOCKER_PARTIAL_IMAGES += fedora-cris-cross
+diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
+index e7213af492..ae8b3d7268 100644
+--- a/tests/tcg/multiarch/Makefile.target
++++ b/tests/tcg/multiarch/Makefile.target
+@@ -42,6 +42,15 @@ munmap-pthread: LDFLAGS+=-pthread
+ vma-pthread: CFLAGS+=-pthread
+ vma-pthread: LDFLAGS+=-pthread
  
++# The vma-pthread seems very sensitive on gitlab and we currently
++# don't know if its exposing a real bug or the test is flaky.
++ifneq ($(GITLAB_CI),)
++run-vma-pthread: vma-pthread
++	$(call skip-test, $<, "flaky on CI?")
++run-plugin-vma-pthread-with-%: vma-pthread
++	$(call skip-test, $<, "flaky on CI?")
++endif
++
+ # We define the runner for test-mmap after the individual
+ # architectures have defined their supported pages sizes. If no
+ # additional page sizes are defined we only run the default test.
 -- 
 2.34.1
 
