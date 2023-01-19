@@ -2,136 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ACC1673B9E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:24:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7941673BBA
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:27:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIVpN-0007nJ-0m; Thu, 19 Jan 2023 09:23:41 -0500
+	id 1pIVsD-000152-1F; Thu, 19 Jan 2023 09:26:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pIVpK-0007mz-KR
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:23:38 -0500
-Received: from mail-bn8nam12on2081.outbound.protection.outlook.com
- ([40.107.237.81] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pIVpJ-0003Ff-9K
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:23:38 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YsgeRQptbdtmN8xtCN0myZaFWPgvm4yg36QxH41IPxoCYC2Qbr392FWNwLZOMaciVYrsq1oFn6I0WNAUW2hjprdsZphbyZ7zknTJ5pR1itSascVDIt2LeWzbkbhJ4a3lfFz3GsLrsEyPsdlT3tYrXZNsLMvGV+zLsRySCu8H0jGQC+P8pxdbzA7eiXVq+UULIpTpTj57Qot6V2AdKA/JFiFRi5sHMhKdJDfPjXRPZvC4nNFFvd7g3zJAT1zcq/wubBy6+1lVQ9S1iI54O2cqcuVRICrBW/Q+bNBphYd+QjnOXf0OuI98NXYEwg/4bDA9a4UqnyoueecnL/rKR8dzMw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+AbGcOnks9CEjFxobq4fB0sMm/vCdmA2SbxljyRwFrQ=;
- b=TsiOz+Re3aesZgSa0sRDlOHa2Ymf3ecCJZb8t4is0DY6vBymaMabWZqd1mYnTHS2srYCbji7xOS52PleBknnJxtfEqpopTIn94A+9MjWj6nJqwMf9Lu15kujBSmFC95ddOHGmhjmO/vE3RU/Jjj63JPlhfNYedmQEzbMbWlngMsPuvHzvcRcdrBNfwaq7fhyGpMDck3mLp8Zb2SlXerGDjIS/I0Oe1rAd2kQZIbbpG/RZnsofRQdKZRjJj9+uTNuyEbduTcsyqA5KY+dB/LxN2GVu0tdMGqE5TNB8BOI+RUXT1iACWXhv2Bb8RdQWGIIvzt49aW8yQA2UsLZpgDIdA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+AbGcOnks9CEjFxobq4fB0sMm/vCdmA2SbxljyRwFrQ=;
- b=a6hWQ0Fp5x/2EZmxma4F/PJg3gepiV9lC6zwb6e9qTZZhsr57oYITMDIWUse3GQpXAVrddc7r++jjeJOaPNQQ82djLvLD/8JzD5RCnPF70aXzu99ANSp9qmutEXvmUWfHN/QuHccruCrDuVlS17tWccT2WB15YbkiW/s3xZ3GPk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by CO3PR17MB5758.namprd17.prod.outlook.com (2603:10b6:303:17e::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.26; Thu, 19 Jan
- 2023 14:23:29 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660%4]) with mapi id 15.20.5986.023; Thu, 19 Jan 2023
- 14:23:29 +0000
-Date: Thu, 19 Jan 2023 09:23:23 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Lukas Wunner <lukas@wunner.de>, qemu-devel@nongnu.org,
- Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
- linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
- Gregory Price <gourry.memverge@gmail.com>
-Subject: Re: [PATCH 0/8] hw/cxl: CXL emulation cleanups and minor fixes for
- upstream
-Message-ID: <Y8lSWz9wr1xFbMQo@memverge.com>
-References: <20230112172130.0000391b@Huawei.com>
- <Y8CNw/fZT5fZJZcK@memverge.com>
- <20230113091213.00002146@Huawei.com>
- <Y8Foj/12QNl0C96o@memverge.com>
- <20230113144026.000001fb@Huawei.com>
- <20230113144511.00001207@Huawei.com>
- <20230113151206.GA20583@wunner.de> <Y8hG4OyJL7l9oD2f@memverge.com>
- <20230119101946.000079e5@Huawei.com>
- <20230119064755-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119064755-mutt-send-email-mst@kernel.org>
-X-ClientProxiedBy: SJ0PR03CA0140.namprd03.prod.outlook.com
- (2603:10b6:a03:33c::25) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pIVsB-00013r-9a; Thu, 19 Jan 2023 09:26:35 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pIVs9-0004Cx-Lu; Thu, 19 Jan 2023 09:26:35 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 9DDBA5CECF;
+ Thu, 19 Jan 2023 14:26:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1674138391; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D3SrGXQAGdia3Gtgzpgxn1EVA7CxIh05SQOCdS5nkXk=;
+ b=rtnsSVeJDfUSxn4Yffdkh4vv38EZndqH6AMXHFO1iSB4cMAxy1JAw5wIxmpklFqATQlNOP
+ fS0IhZ4g+hoYR3RTR4uncHrczTf83Z9NKh6P3y/X0xob52N254TDYcITd8067y2IyubcVH
+ QoOEgpEseoTKO7cr/1/f36WmISXusnM=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1674138391;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=D3SrGXQAGdia3Gtgzpgxn1EVA7CxIh05SQOCdS5nkXk=;
+ b=Ewt5hOnGB50Z43ICiZWl2P6qsr2dHCOdNxdr+zAeQQsi7+80b6E3be6NhrgShzXPJ4yrbP
+ kr2sIAnSm9Do6jCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 29E7F139ED;
+ Thu, 19 Jan 2023 14:26:30 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id AWDAOBZTyWOhJQAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 19 Jan 2023 14:26:30 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Richard
+ Henderson <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, Claudio
+ Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>, Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 00/20] target/arm: CONFIG_TCG=n part 1
+In-Reply-To: <d8da1d01-c87d-a226-0914-448a7da144c5@linaro.org>
+References: <20230118193518.26433-1-farosas@suse.de>
+ <39bb348d-e3af-6a20-e7d5-d7a1c918a389@linaro.org> <87bkmu1z8v.fsf@suse.de>
+ <d8da1d01-c87d-a226-0914-448a7da144c5@linaro.org>
+Date: Thu, 19 Jan 2023 11:26:28 -0300
+Message-ID: <877cxi1tyj.fsf@suse.de>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|CO3PR17MB5758:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0d0fa6d3-7668-487f-ded6-08dafa28bc0c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: t9WXSsGJBeZgI0stPjxgQzMaCK0/rJtV45ICMeMq/Z3qAXfTjFKlJwk26pwqFrDRVbI6YaLAtlmll/r8yeFKSz2WKG9XBRa8QO1mt4aTlvJXKpynxCoIOdNBZU1k1f4htk2V3fWnULjXST6o8fx1GYOfyB3kOTl5McGRfBsAg+KGDqqQgaNQuE6SR86yPn2UhZTAqg8IVo7T5cJmao3TC9VLbrRBFiqRHQ4J7AbLihM6khEkI2zgJ9U8BF48M6V16SjXOBYPY+SsiMkQ8sTY8fRGWQE4YaVVGprRH7yHTZW23hhJ3hVtXLzZVuRV0Pw3tAwXFOZzdIZQHOle9xVVStA8So4PHrYdw7OX24BU1qkEYQ1xeNtdDuK33x+sC7pkDLWSOfH2evVTd5y+n160Fmci0mIF0/8h8fAg3FEv0r6BNMiwkyS/dgRqUXGLlYTzKvCw3hkxajCOJdqnGTh/Rc33326gZlc5Vy/gM+Gxc/tr31SRFVa3yUtNDV23wOT4AckCY3TE2g9N3zKVgdbcI3qhuuL6odUbson38W3XoumJE+VEhvkQd2oCKL1ViEepOY2m+D1FI/llmGYkoywR6l7I1atCYPZnW/X4FVqqz1N/NP9Ir4LyLBDWrImTxlI2R2yxQBrJjorfZG426djacQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(376002)(346002)(396003)(136003)(366004)(39840400004)(451199015)(6512007)(66476007)(66556008)(66946007)(186003)(26005)(41300700001)(8676002)(6916009)(4326008)(36756003)(6666004)(478600001)(6486002)(316002)(54906003)(6506007)(86362001)(5660300002)(8936002)(2616005)(4744005)(44832011)(38100700002)(2906002);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?m5l9JXeF6GvA8qj/yupYigy3lsHNDfvRYowfoWauE/4RcjK9fPaZ7e1AyeiH?=
- =?us-ascii?Q?h269M86jpLVRBY9Xwy5wubjb5bf25yEjyrzyydO3417sI0RRdYu+Wj5GWDbU?=
- =?us-ascii?Q?UWQAD9Q4Z3jq5wbxkqW1NjAzqhSpnn5Ak3KU7GpNugMEzbk/I07IacZdPuDv?=
- =?us-ascii?Q?4xi19pZWoP58V/zjL8EYHLhEJToswdNvgWbQyLScQvuex7TszhgF+0XJWyCc?=
- =?us-ascii?Q?hr1NTzkn3/DMnMRlyJ150NKN4RWrecxPK+olO5M5hVGkUL/x7Tra9er2Yti2?=
- =?us-ascii?Q?FTjZTg0JVHaC7FLattbrOhagoLXInY7PcRKHwvafJ+Lko8cys2yUSCvSVFtK?=
- =?us-ascii?Q?mJh2Uep19Tel+QGL141X4uH7m8Hi4vJvC159FyJzEy6crPyOa5/NyUVdp4vj?=
- =?us-ascii?Q?7TExv8etfx5SqpDxNWBcgZC517/okTHxZp21B2D2xCQNrDQElB3wu8EULkvG?=
- =?us-ascii?Q?WykcrVW3QdDpE7toK2Imjwtksr6KnueR31YBXs2Y9shYL+H+Lyc6USwDnN4I?=
- =?us-ascii?Q?ieQ+4X97oCJl+PAaG3/qu/K48Edu0/ZspZfOZAlcWZQ4rsDp8UcgXY2SF5Aw?=
- =?us-ascii?Q?/E634eSvbJtppX+Q3qPy8hFPxBzm1kr41GkyqE7ZZn5UpRqyTk8wgk3Uj1O8?=
- =?us-ascii?Q?kAJLdOTf+cZTiKft8kELhjhqVp6untZdyM0FyJh++YI0K7xfMoUPEF+SNLkI?=
- =?us-ascii?Q?gzBmlcEcPSsHG0ZITa8B7v6rlXAliMR2OtezFcwDRT3t5pP/pVaaxbeelx3R?=
- =?us-ascii?Q?UKlk1Kr4mgSUPUBo7Vbl6E3y9SNZxVmNzk4PKa6qLOujvfvo5zR1uv8kL7Pa?=
- =?us-ascii?Q?TljJguJdjdKn2OzGUTJIpNtagZO9gmRS9H+t6mMQG301ns9cakx7NHEEGxqa?=
- =?us-ascii?Q?Q01bUT/lJuUdRcTnVJxM9wKhfj2iYGlG35zP+DdYkmwW/RbQbOaLUFciY/zQ?=
- =?us-ascii?Q?WwsJ8l4saKQovBq7m0wu+zwylnuDlqEA2ml8Gb4F2uxKLxZ2PUXMLMR/dOSI?=
- =?us-ascii?Q?k+fXAkKq83ggwDke1eKcVSBQA4/kiQfUFUuEKKkU4EoyX9Z7oxCcLIySX0tA?=
- =?us-ascii?Q?1OpOgTlisADtKHGq8qFywnZFssGbaRuBe2Mi9pGbPS7P0skAzMoqPIoJi+hS?=
- =?us-ascii?Q?93sl0fVIEHjNiUEFkAtZ5xKowwcHkvZkuD7IXjG/Do9pidZL3ASz84YCy3jD?=
- =?us-ascii?Q?4RTDV2KjYnR3TEGeMK1eiGGMldLYN78jFb2kzaBq4y8pLyDJ/OCGw4WfO/UQ?=
- =?us-ascii?Q?qxnDjrQkheo+RdV+ehUXkIKoQsuHcoz/kxH9wfALZAt9eQXse87JdD4X98eU?=
- =?us-ascii?Q?ac+GK8mzbkkRKHL690nNvoY3JmVzGai+80dUr6jL7ClCy/4djPjwCE0+A/7d?=
- =?us-ascii?Q?EfDf/AzCf5F5TmlccMSlYxu+C3gHXRHUaxVYRPyQCQwNI9l31MHjpUOCGEZm?=
- =?us-ascii?Q?QztXqkWbkzKt3lP3GZN2M+qMuE8AkZrUnFMB0mgDIuGwVRKF3rNwAG1K35Fp?=
- =?us-ascii?Q?kHgPQMpqjVThoW3+qeOO4XRUJWMpeGgsmHNyLdlgHQa9lE/Icdh6RAdPDfa9?=
- =?us-ascii?Q?SH24YtTSnSp66B/FOpgWCapC/89XRlCDPoVAhLF8Yh8XDZZqe7oDVD5hdY72?=
- =?us-ascii?Q?Xw=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0d0fa6d3-7668-487f-ded6-08dafa28bc0c
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 14:23:28.9754 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oS3mzdvZfRxkT4c6ed7UMpBLkTOlgWRc7Hn6fxV70xswQqAoyKsp7WVhohh/p9scRbepRh4fnbOrzvBOfdjEZK//pfvfVHdKXs8vunivn5U=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO3PR17MB5758
-Received-SPF: none client-ip=40.107.237.81;
- envelope-from=gregory.price@memverge.com;
- helo=NAM12-BN8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -147,19 +91,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 19, 2023 at 06:48:11AM -0500, Michael S. Tsirkin wrote:
-> > 
-> > I clearly need to run some more rests as not seen this issue (and I've
-> > had a couple of reports of it now).  I guess I never tend to be running
-> > a completely clean tree on either side + testing is mostly on arm64
-> > (though I doubt that matters). It's not the pass through decoder issues as
-> > that is visible only when bringing up a region.
-> 
-> OK so I should drop this from my queue for now?
-> 
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-Even with this trace, I'm fairly confident that the DOE line + this have
-fixed other issues, i'm seeing less general instability on the x86 than
-i did before, and when loading in non-volatile mode i don't see any
-stability issues.
+> On 19/1/23 13:32, Fabiano Rosas wrote:
+>> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+>>=20
+>>> On 18/1/23 20:34, Fabiano Rosas wrote:
+>>>> These are the already reviewed patches from the first half of my
+>>>> previous series:
+>>>> https://lore.kernel.org/r/20230113140419.4013-1-farosas@suse.de
+>>>>
+>>>> This unbreaks the --disable-tcg build, but there are issues in runtime
+>>>> that are still being hashed out in the other series.
+>
+> Are you saying, we can *link* this configuration but not *run* it yet?
+
+Strictly speaking, we cannot run it. While it works most of the time,
+there are still references to machines and cpus that are TCG-only. Try
+running -machine ? or -cpu ? for instance. If a user tries to pass one
+of those, there might be breakages like the ones you saw.
+
+The other series (I just sent a v4) removes everything that depends on
+TCG. Then it will be 100% safe to use --disable-tcg and consume the
+result.
+
+
+
 
