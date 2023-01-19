@@ -2,67 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B61967435A
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 21:13:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC8AE674369
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 21:18:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIbHG-0001GE-Ob; Thu, 19 Jan 2023 15:12:50 -0500
+	id 1pIbM2-0002K6-7p; Thu, 19 Jan 2023 15:17:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIbHE-0001Fm-LG
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 15:12:48 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIbHC-0003gw-Ak
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 15:12:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674159164;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RB1HoZWFdxBmsbPS/jfORKHF0nuZ+TFQkgGiFgVXw5g=;
- b=CS9wlXVzV6M52ViJMkVPZ4vA/+66KaLQ+1mF6+Bi+v9Cl5bibps+GIWdfzZOM5iOhGQ/4T
- xwipUWYPbTaJ+estNzxZbDfotQV43uNiHBi5Ygeu0kFr1slhNR4FWPDIwFcabJRiQgbFRw
- TMumgGjWwgXLH8rbcgv1kjwPoS5RNKE=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-635-JOLyOpVgPHOC2XFq0aCZ4g-1; Thu, 19 Jan 2023 15:12:41 -0500
-X-MC-Unique: JOLyOpVgPHOC2XFq0aCZ4g-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0B8748533DB;
- Thu, 19 Jan 2023 20:12:41 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.126])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1F13E492B03;
- Thu, 19 Jan 2023 20:12:39 +0000 (UTC)
-Date: Thu, 19 Jan 2023 21:12:38 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 00/12] qemu-img info: Show protocol-level information
-Message-ID: <Y8mkNvXmgKjSXZSt@redhat.com>
-References: <20220620162704.80987-1-hreitz@redhat.com>
- <7c2c9623-c865-91a3-01b7-0e7f90fde278@redhat.com>
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pIbLw-0002Jf-9B
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 15:17:43 -0500
+Received: from mail-oa1-x2d.google.com ([2001:4860:4864:20::2d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pIbLu-0004a2-FK
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 15:17:39 -0500
+Received: by mail-oa1-x2d.google.com with SMTP id
+ 586e51a60fabf-12c8312131fso3917548fac.4
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 12:17:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=lX/f4TRkWE06+NwnzDitUOj/rbGdBPdu3QAKHPVyvhY=;
+ b=DqwAlI9vz84aL0RS7+M3rG6MpGIcPi2jsmESjpAphgpJBqw3+warIw/sfOvij2XC0l
+ iUruRAL0565isjVCc9ncywDTrZH3JxefqmUCeL8hWWrk4r5A6QnmBbdxhRW1yV4bzZpt
+ mprDle4E/lOjSMiHZBwMn7SZ1FFIaUQVbBl4rtiCt5ByvAQFCHi93XY8fWcth6k0cMN0
+ Oh6bTtzje22uHBmQ/U1y1L5PXxQyP1nA7TC2U4FcrS1cLE/sBT17W8nd0uwsb5uD/GWQ
+ 14HGywH9SLqg+Kahy/QajqcuZ/6rIa4nT0FVNvGdcuhuakM50WN3sVkNItgUSdYX5lUS
+ uXew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=lX/f4TRkWE06+NwnzDitUOj/rbGdBPdu3QAKHPVyvhY=;
+ b=AYYC2WppdzGlkzqYF0CX0J15svTnYMYoCwL7m3XQNQRUFUZdJwKGy4fWwHkDf3QsRg
+ yBQ944HN+xWGVgbAvRtX16WBtct5+62+6ZArwlLkIiqXnRzug+8hoPfqTDMHLalZn8iP
+ r7XtSG+hm3+0bUwq2IZedL3FbFdyT9HYCv4+PsGcSCLOj8PBeeHKW7nvdSKtMEAKv3X8
+ blrIj+djOvOJ8MeZ0DlfguIpSwU1GRlA3bgRUcoQrKNy4cFj1HAUew8CrR2rp9NrMKjY
+ PXdJ/9t0TUK/+WwgoqsEh+6z3SRfKF4z8OdAgstXo+4NUQjMwdHg98Y/YfNqK22cuNOT
+ rnCA==
+X-Gm-Message-State: AFqh2krfbE2eaAhLTNuFqdKjlTN5E3NtQexAvRuNS0kZ8pAWcRqrhtGe
+ 5hT5gWygO06obA2cyhl5oAudGQ==
+X-Google-Smtp-Source: AMrXdXtt12V7REAS0RX8kInk0uyyO9YukkuWPNygugVQu1AaV93IVUHCR8keCtbtYaPlXujbfFbf2w==
+X-Received: by 2002:a05:6870:4985:b0:152:d0dc:2bba with SMTP id
+ ho5-20020a056870498500b00152d0dc2bbamr6572487oab.15.1674159456962; 
+ Thu, 19 Jan 2023 12:17:36 -0800 (PST)
+Received: from [192.168.68.107] ([191.17.222.2])
+ by smtp.gmail.com with ESMTPSA id
+ e145-20020a4a5597000000b004fd878ef510sm2026322oob.21.2023.01.19.12.17.35
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 12:17:36 -0800 (PST)
+Message-ID: <ab6a9f67-c7e7-f96b-5fe9-3df8caba34c9@ventanamicro.com>
+Date: Thu, 19 Jan 2023 17:17:33 -0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v3 3/7] hw/riscv/microchip_pfsoc.c: add an Icicle Kit fdt
+ address function
+To: Conor Dooley <conor@kernel.org>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
+References: <20230119191728.622081-1-dbarboza@ventanamicro.com>
+ <20230119191728.622081-4-dbarboza@ventanamicro.com> <Y8mghghac5Bintsl@spud>
+Content-Language: en-US
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <Y8mghghac5Bintsl@spud>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <7c2c9623-c865-91a3-01b7-0e7f90fde278@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2001:4860:4864:20::2d;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x2d.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,23 +96,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 08.12.2022 um 13:24 hat Hanna Reitz geschrieben:
-> On 20.06.22 18:26, Hanna Reitz wrote:
-> > Hi,
-> > 
-> > This series is a v2 to:
-> > 
-> > https://lists.nongnu.org/archive/html/qemu-block/2022-05/msg00042.html
-> 
-> Ping, it looks like this still applies (to the master branch and kevin’s
-> block-next branch at least).
 
-Not any more. :-)
 
-But the conflicts seemed obvious enough, so I rebased it (including
-changing the "Since: 7.1" occurrences to 8.0) and applied it to my block
-branch. Thanks!
+On 1/19/23 16:56, Conor Dooley wrote:
+> Hey!
+>
+> On Thu, Jan 19, 2023 at 04:17:24PM -0300, Daniel Henrique Barboza wrote:
+>> The Icicle Kit board works with 2 distinct RAM banks that are separated
+>> by a gap. We have a lower bank with 1GiB size, a gap follows,
+>> then at 64GiB the high memory starts.
+>>
+>> MachineClass::default_ram_size is set to 1.5Gb and machine_init() is
+>> enforcing it as minimal RAM size, meaning that there we'll always have
+>> at least 512 MiB in the Hi RAM area, and that the FDT will be located
+>> there all the time.
+>>
+>> riscv_compute_fdt_addr() can't handle this setup because it assumes that
+>> the RAM is always contiguous. It's also returning an uint32_t because
+>> it's enforcing that fdt address is sitting on an area that is addressable
+>> to 32 bit CPUs, but 32 bits won't be enough to point to the Hi area of
+>> the Icicle Kit RAM (and to its FDT itself).
+>>
+>> Create a new function called microchip_compute_fdt_addr() that is able
+>> to deal with all these details that are particular to the Icicle Kit.
+>> Ditch riscv_compute_fdt_addr() and use it instead.
+> Hmm, this breaks boot for me in what is a valid configuration for
+> Icicle/PolarFire SoC which was previously functional in QEMU.
 
-Kevin
+Thanks for letting me know.  Are you testing it by using the command line
+you mentioned in the "qemu icicle kit es" thread?
+
+$(QEMU)/qemu-system-riscv64 \
+	-M microchip-icicle-kit \
+	-m 2G -smp 5 \
+	-kernel $(vmlinux_bin) \
+	-dtb $(devkit).dtb \
+	-initrd $(initramfs) \
+	-display none \
+	-serial null \
+	-serial stdio
+
+
+
+
+Thanks,
+
+Daniel
+
+>
+> I'll try and write another email explaining things in more detail, but
+> in case I do not have time to get that done in the next day or two I
+> figured I should let you know.
+>
+> Thanks,
+> Conor.
+>
 
 
