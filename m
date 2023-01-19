@@ -2,85 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 248F367322C
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:11:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD8F673239
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:15:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIP4b-00042p-Jk; Thu, 19 Jan 2023 02:10:57 -0500
+	id 1pIP8H-00063J-NM; Thu, 19 Jan 2023 02:14:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIP4Z-000427-15
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:10:55 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1pIP8A-00060x-RE
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:14:39 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIP4W-0001lR-C0
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:10:54 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- d4-20020a05600c3ac400b003db1de2aef0so550078wms.2
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 23:10:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=mfGrruK8nilb3QcyxSk4e6VXknYwMjLnsxyzt8RpGAA=;
- b=EY6ya9rCvFE0fQSmFJHIGrbwHx24ASXtPxXhCRQ8VEDu5Y3UUu+cewc3kkDEWhi0nv
- +nDPE+vnnw8Y2DjcQjVYT3guyquYdW7vis6FxGCORG1bZc2FQm+l8tX+rdHCYf0/t1dI
- /AqK5sfpGPjvtEXqykf3C8SJfiWIw5NL/GR+GfsvhxrodslZ2k7L3ZOVnfvfiNTClJwE
- mM5CW23OsSGDJoy2+kzbyB+EwVlOHUq8Vo59oSL4aC5P6Drz91iaUs3ucG75U4NTfHl7
- p80yxotTHZ53aE5LIYdjwdIQpvys5jdLSyrNT04v7qW8bjmCBMi5noQnCRVK1MmsBRC/
- CKQg==
+ (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
+ id 1pIP87-0002FG-8u
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:14:38 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ z9-20020a17090a468900b00226b6e7aeeaso996982pjf.1
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 23:14:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bytedance-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=qRJgYkO90HCPPt3394GxSYjhKtwBvRGifXScnH7U6Ns=;
+ b=cnhRXAUUNoRpToP6V9YMnlDtcYFmO8MyMHUL02Oxbj7AS3shCW+VZcOof5eO0lZG7I
+ hb87pxx0QyI3q1vWGXx1GidO+/vRtrtMY45jP2AsMGME1PQ70daVDNDf4I2Bt7Y9jfV8
+ U60e4vYVE+NfWiqtblH+DHai9dIOMs9heGNxcu/ol7yj6QqMIutk3G+IVbrYG68zBY8v
+ bDQc37S8YuOVBwDgFLTv1zqSqizRkJuP1DfQOiyCaq0DGDljxsJwiSEAFBUVj9fY/n0Y
+ RABNM9ifG9H8yaOTZmB4HAZQrX7waFwRpb7O6j/17eHNVd2Cvyn33YlKlER5lTQmYADV
+ 16pA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=mfGrruK8nilb3QcyxSk4e6VXknYwMjLnsxyzt8RpGAA=;
- b=votxfWHh0nDZf/QaagvAtanMAqiRhsFg0Rsu9ZwmVpNG/dKWKoP5DAoJyQI+k2pv45
- gdxsT4vJxjCqLWJkaefAQv2jeYhzijQn/BgumABr1bkNUA8Tq+UcKf0R10MqClngs2N4
- asYzYy6TnomtDKOKvlCEVC/HyEXtgy6L5W0vduiQz4Gkqu5JSeGSL/IZ1Kiu0M/R7Y7v
- 50jeGW1EI/1TDLXHcDErnUL1nqJP7TMhUObS31qI+HqzHy1IDZ4AdGOScrJkatL0sbQy
- MYCaEBn41z6PKDA+K+tNDgfjGuRtfE7ZaUdL48KeNaoskqIMWkgtHG8UY9UaVgxuUTTM
- jIGQ==
-X-Gm-Message-State: AFqh2ko3XODBzR8wu/rv+UK9UIZ61NVRcuP0ODIOEoCPeL8rsDR2/y0z
- jscQb/AiGfwQCN8BLM/fraG5Ow==
-X-Google-Smtp-Source: AMrXdXsfg1qktCF/uCLKdG3s++8+XGVPWdyZlMaZGxeM37iCrcDByoN2/cBPx4DnzdiaZg05MtVGIw==
-X-Received: by 2002:a05:600c:1695:b0:3db:12b:5103 with SMTP id
- k21-20020a05600c169500b003db012b5103mr9597988wmn.5.1674112250400; 
- Wed, 18 Jan 2023 23:10:50 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- h10-20020a05600c314a00b003db0659c454sm4902782wmo.32.2023.01.18.23.10.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 23:10:50 -0800 (PST)
-Message-ID: <48021cf0-914a-d186-4464-0ae65d7501e6@linaro.org>
-Date: Thu, 19 Jan 2023 08:10:48 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qRJgYkO90HCPPt3394GxSYjhKtwBvRGifXScnH7U6Ns=;
+ b=62Nh7gF2mTe7G9N8G361u/i7l/0WPHcTE0AgVTYkrntFk24uet47iTcP9UcajnL4sC
+ 7Sjgu33wQ57ST+gnqUupmJyxARPJVlZSoH8AyhcvwTdGybL6yp5yoAZ8rqosITJOmHgI
+ uW3vVZVltrbWTUhekZYITIpmYQM61U52PgiSvyacPFOQUJ3Uo3bt7rsLQAgX23K9hj5I
+ ynuLe4UXNYEW5kKG7LsvEezjQr6XhNtPdXDMiIqIsd1wrKXndlv+4DXpdH7DpaqKmO8c
+ nlbBmhzE5OE7CC7i8i+qJisP3OdG+QvnC3gGNjR8G6etvv2nXM5kufPFxdUPi0ln8kPD
+ Ny+Q==
+X-Gm-Message-State: AFqh2kpQplLcIsblUt9VvPgkQ1ZD94S2/TIyAhEbbhidDUHkPW79ONpF
+ 0JkMLMYn/9pZStpw+jC8ushaHA==
+X-Google-Smtp-Source: AMrXdXtcFj0f1IyDMHCneMxSLTMkyK4bo/owIHNt2YpyBsZ2E5i1X+oHKuN2rvW6vqRk2iFDPg/4cw==
+X-Received: by 2002:a17:902:d506:b0:194:8a27:f5c6 with SMTP id
+ b6-20020a170902d50600b001948a27f5c6mr14944386plg.22.1674112466489; 
+ Wed, 18 Jan 2023 23:14:26 -0800 (PST)
+Received: from always-pc.bytedance.net ([61.213.176.6])
+ by smtp.gmail.com with ESMTPSA id
+ e4-20020a170902ef4400b0016d72804664sm24266631plx.205.2023.01.18.23.14.23
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 18 Jan 2023 23:14:25 -0800 (PST)
+From: zhenwei pi <pizhenwei@bytedance.com>
+To: arei.gonglei@huawei.com, mst@redhat.com, dgilbert@redhat.com,
+ pbonzini@redhat.com, berrange@redhat.com
+Cc: armbru@redhat.com, qemu-devel@nongnu.org,
+ zhenwei pi <pizhenwei@bytedance.com>
+Subject: [PATCH v3 00/12] Refactor cryptodev
+Date: Thu, 19 Jan 2023 15:14:07 +0800
+Message-Id: <20230119071419.3585771-1-pizhenwei@bytedance.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 00/20] target/arm: CONFIG_TCG=n part 1
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
-References: <20230118193518.26433-1-farosas@suse.de>
- <9c740b33-240b-b4f0-82a1-cc01ad886edc@linaro.org> <871qnrcz31.fsf@suse.de>
- <040a9b0e-0e86-311a-a045-00a7c16ab819@linaro.org>
-In-Reply-To: <040a9b0e-0e86-311a-a045-00a7c16ab819@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102e.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,68 +90,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/1/23 08:05, Philippe Mathieu-Daudé wrote:
-> On 18/1/23 22:28, Fabiano Rosas wrote:
->> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
->>> On 18/1/23 20:34, Fabiano Rosas wrote:
->>>> These are the already reviewed patches from the first half of my
->>>> previous series:
->>>> https://lore.kernel.org/r/20230113140419.4013-1-farosas@suse.de
->>>>
->>>> This unbreaks the --disable-tcg build, but there are issues in runtime
->>>> that are still being hashed out in the other series.
->>>>
->>>> For the build _with_ TCG, this should behave the same as master.
->>>>
->>>> Based on Richard's "target/arm: Introduce aarch64_set_svcr":
->>>> https://lore.kernel.org/r/20230112004322.161330-1-richard.henderson@linaro.org
->>>
->>> $ git am
->>> 20230111_richard_henderson_target_arm_introduce_aarch64_set_svcr.mbx
->>> Applying: target/arm: Introduce aarch64_set_svcr
->>> $ git am ./20230118_farosas_target_arm_config_tcg_n_part_1.mbx
->>> Applying: target/arm: rename handle_semihosting to 
->>> tcg_handle_semihosting
->>> Applying: target/arm: wrap psci call with tcg_enabled
->>> Applying: target/arm: wrap call to aarch64_sve_change_el in 
->>> tcg_enabled()
->>> Applying: target/arm: Move PC alignment check
->>> Applying: target/arm: Move cpregs code out of cpu.h
->>> Applying: target/arm: Move define_debug_regs() to cpregs.c
->>> error: target/arm/cpregs.c: does not exist in index
->>> Patch failed at 0006 target/arm: Move define_debug_regs() to cpregs.c
->>>
->>> I am based on commit 7ec8aeb604 ("Merge tag 'pull-tpm-2023-01-17-1' of
->>> https://github.com/stefanberger/qemu-tpm into staging"), what am I 
->>> missing?
->>
->> How did you fetch the series? You are missing patch 06. Maybe it is too
->> big for the method you used?
-> 
-> Actually the tool warned about patch 6 missing, but I didn't notice:
-> 
-> $ b4 am 20230118193518.26433-1-farosas@suse.de
-> Grabbing thread from 
-> lore.kernel.org/all/20230118193518.26433-1-farosas%40suse.de/t.mbox.gz
-> Analyzing 20 messages in the thread
-> Checking attestation on all messages, may take a moment...
-> ---
-...
->    ✓ [PATCH 5/20] target/arm: Move cpregs code out of cpu.h
->      ✓ Signed: DKIM/suse.de
->    ERROR: missing [6/20]!
->    ✓ [PATCH 7/20] target/arm: Move define_debug_regs() to cpregs.c
->      ✓ Signed: DKIM/suse.de
-...
-> ---
-> Total patches: 19
-> ---
-> WARNING: Thread incomplete!
-> 
-> Indeed patch 6 is missing:
-> https://lore.kernel.org/qemu-devel/20230118193518.26433-1-farosas@suse.de/
+v2 -> v3:
+- rebase code against the lastest commist: fb7e7990342e59cf67d
+- document the missing fields in qapi/cryptodev.json
+- rework statistics part: use 'query-stats' command instead of
+  'query-cryptodev'(cryptodev: Support query-stats QMP command)
 
-I could find it here:
-https://marc.info/?l=qemu-arm&m=167407090423121
+v1 -> v2:
+- fix coding style and use 'g_strjoin()' instead of 'char services[128]'
+   (suggested by Dr. David Alan Gilbert)
+- wrapper function 'cryptodev_backend_account' to record statistics, and
+   allocate sym_stat/asym_stat in cryptodev base class. see patch:
+   'cryptodev: Support statistics'.
+- add more arguments into struct CryptoDevBackendOpInfo, then
+   cryptodev_backend_crypto_operation() uses *op_info only.
+- support cryptodev QoS settings(BPS&OPS), both QEMU command line and QMP
+   command works fine.
+- add myself as the maintainer for cryptodev.
+
+v1:
+- introduce cryptodev.json to describe the attributes of crypto device, then
+   drop duplicated type declare, remove some virtio related dependence.
+- add statistics: OPS and bandwidth.
+- add QMP command: query-cryptodev
+- add HMP info command: cryptodev
+- misc fix: detect akcipher capability instead of exposing akcipher service
+   unconditionally.
+
+Zhenwei Pi (12):
+  cryptodev: Introduce cryptodev.json
+  cryptodev: Remove 'name' & 'model' fields
+  cryptodev: Introduce cryptodev alg type in QAPI
+  cryptodev: Introduce server type in QAPI
+  cryptodev: Introduce 'query-cryptodev' QMP command
+  cryptodev-builtin: Detect akcipher capability
+  hmp: add cryptodev info command
+  cryptodev: Use CryptoDevBackendOpInfo for operation
+  cryptodev: Account statistics
+  cryptodev: support QoS
+  cryptodev: Support query-stats QMP command
+  MAINTAINERS: add myself as the maintainer for cryptodev
+
+ MAINTAINERS                     |   2 +
+ backends/cryptodev-builtin.c    |  42 ++--
+ backends/cryptodev-lkcf.c       |  19 +-
+ backends/cryptodev-vhost-user.c |  13 +-
+ backends/cryptodev-vhost.c      |   4 +-
+ backends/cryptodev.c            | 419 ++++++++++++++++++++++++++++++--
+ hmp-commands-info.hx            |  14 ++
+ hw/virtio/virtio-crypto.c       |  48 +++-
+ include/monitor/hmp.h           |   1 +
+ include/sysemu/cryptodev.h      |  95 ++++----
+ monitor/hmp-cmds.c              |  41 ++++
+ monitor/qmp-cmds.c              |   2 +
+ qapi/cryptodev.json             | 143 +++++++++++
+ qapi/meson.build                |   1 +
+ qapi/qapi-schema.json           |   1 +
+ qapi/qom.json                   |   8 +-
+ qapi/stats.json                 |  10 +-
+ 17 files changed, 743 insertions(+), 120 deletions(-)
+ create mode 100644 qapi/cryptodev.json
+
+-- 
+2.34.1
 
 
