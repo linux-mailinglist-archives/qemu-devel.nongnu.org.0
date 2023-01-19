@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F490674083
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:05:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7733B674090
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:07:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIZHJ-0003QS-NB; Thu, 19 Jan 2023 13:04:45 -0500
+	id 1pIZHH-0003O5-3j; Thu, 19 Jan 2023 13:04:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH5-0003Jd-VD
+ id 1pIZH6-0003Jy-5Y
  for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:32 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH1-00011k-VG
+ id 1pIZH2-00011y-Sn
  for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:31 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- f19-20020a1c6a13000000b003db0ef4dedcso4128800wmc.4
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:04:27 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id b7so2675752wrt.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:04:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AnZDkxLzgFFSav85Au8pAya0nVRLiogiOeok78nk0b8=;
- b=ozc5pjU1h8VaOS+tlIneVN2ZVYvKpR9+LTZk+I7iGjMCtiOdq5LJbeiLHMzdEbSp4U
- RE805l886AFxuZ/NeE8awXvGJd6Ba1TfeyyIHH9HEdz5t1fsrGeywdZoxamN8PafKUUQ
- hShVQ+VjWSURPCBC0j0c/qcxZLZno3N75sttHImUQnh+K3DQL+nyHq2vjl1BvnqDqCGD
- HcJIeJDpbvaWvZ55At7/Gtx9Vm/JN+en0wHvIZI8rOr1vb7VnQCDLBQfHdtECrap3YaF
- Gn7kb703d/BZgopAzch/bVF8XCkBxa5rej/oVQJvSxOvD+3XU9P4GunCV5zj5zrQKHAv
- yEEg==
+ bh=vZLHCuh0wigKWde+YAzRi65bgogzVgt43O8RyRryEl8=;
+ b=WlmXnpffOo4sCwLXgcztoYdJ2n4VSzM/TLpHnjNDqqIqyb4iYdpY9+hfZIDyU00rJm
+ 85uqxOZa6tPuJkQ+l4sXJsSNN6Iu8vfP0GfbbiCGVm+MlXI28c4ivtxwqqRYKY+GA7XC
+ 8gGKdZyd7Fp4YPiL254Cx2r8fqcbbSniQDgA7xR2AmgKJloStbnKkTPF8OdEPSlF5Nx0
+ s+vdcZLyFZw/6sKbIAQxzEQMzq0qnZBWi7gYD68GVremGn6Rra1YZGAFcF568IKWJVNC
+ TdK6uziqzT4LxRxuyiiiihBhDLGBuyGkXfk4qDFbn5k3nXd59R1PHXFpxhaLc2pwkFMv
+ OSdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AnZDkxLzgFFSav85Au8pAya0nVRLiogiOeok78nk0b8=;
- b=uswVGIQkzpocS1uEplf++/XP7jDgk41JHRzFesWVijsaFP+hI7do2Ysm+aA41KgLQF
- ePw6si3hqk/HMaJmR9tBREwn5tfBDDwR2N+Ts0QU/4l9TouRokkXzTOMfRUjqe9y748C
- zJuLqBuOHgWX9FFhTjFJB8PMQHadMN+uurvvHaArmpV8wdlqhX9tVrpFj+ZZmBIl92UJ
- R0xw+FPmlh9wFGaPzfjk+XogNTHtfvGwupwLCr9BiP9J+MEQkrmWv1ZUR1NCvPXMEAb0
- +90sJogE8Ycaw++XuEe27e1hxKe/4r463qxwQP2PHmQdjPNTFRycD8pVt78+ricsMIeT
- tnnw==
-X-Gm-Message-State: AFqh2koaSriGbOktoBrjzRVYMen9zf3J5RTdOHk0y4kS/wr8bTLla7RI
- fzmixh8NThyMRqyBkle24Eq8og==
-X-Google-Smtp-Source: AMrXdXvxA7YEC3cEt5sjIg6ztYM8f5aY01PYsOJfQ/KKnC3TvZ5HHNq3yyoW+/7fEbQpvfD9tYPQQA==
-X-Received: by 2002:a05:600c:4d81:b0:3d0:6c60:b4d1 with SMTP id
- v1-20020a05600c4d8100b003d06c60b4d1mr11780598wmp.6.1674151466614; 
- Thu, 19 Jan 2023 10:04:26 -0800 (PST)
+ bh=vZLHCuh0wigKWde+YAzRi65bgogzVgt43O8RyRryEl8=;
+ b=WppnsTdzBDIdRPoHVtTZYbsnNYn4PQ2Z0GPAVa/bWq2X3AEj+BI7v2od7c4kLI7hFx
+ A3O30sKAbpKj98FHTANlMKeXPk9lzjgm/4Yv+M0b0x94pY1tn0ZwZ5FEzFj5trC4qQW3
+ 3JMdJxulBl4HranhtiGO/CZ9+y5zDHaPNwh08GsuxC26Mize6mCVE/zBFhHU8LovFHrB
+ xe2SZo5iLDaTICBCLxuqmgZ68jxdEwOByEL15ZmQfj2bM8lml7PUoNjk7vRgOY+rK7xe
+ IdeP/uoiq+aG2WKFI8nLgLag2edag+xyv8c/e9hF2IKCBClTLVC5mfBwFSmpTy245Pop
+ oMOQ==
+X-Gm-Message-State: AFqh2kqqWOgwvFNJKJ97me0DS12Xem/8neaYOIJ88Pu48Q1W5yzWSCQl
+ +0l8vzIgcvWoD5WzptV9YkEIdw==
+X-Google-Smtp-Source: AMrXdXvi5pxdEHz5WnkG62V33pzC8YsknZ/D19JXBKKY0PbkHZ1I2ebcgMKzO9/ZOAVEigi0V8+yHg==
+X-Received: by 2002:adf:e310:0:b0:2bd:d8f1:2edf with SMTP id
+ b16-20020adfe310000000b002bdd8f12edfmr10351550wrj.49.1674151467290; 
+ Thu, 19 Jan 2023 10:04:27 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- j15-20020a05600c190f00b003d9aa76dc6asm8156568wmq.0.2023.01.19.10.04.22
+ k6-20020a5d5186000000b002bbddb89c71sm30592743wrv.67.2023.01.19.10.04.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 19 Jan 2023 10:04:24 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 346C41FFC3;
+ by zen.linaroharston (Postfix) with ESMTP id 4A6081FFC4;
  Thu, 19 Jan 2023 18:04:21 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -73,19 +72,18 @@ Cc: Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Bastian-Koppelmann <kbastian@mail.uni-paderborn.de>
-Subject: [PATCH 13/18] tests/docker: Install flex in debian-tricore-cross
-Date: Thu, 19 Jan 2023 18:04:14 +0000
-Message-Id: <20230119180419.30304-14-alex.bennee@linaro.org>
+ Thomas Huth <thuth@redhat.com>
+Subject: [PATCH 14/18] tests/docker: drop debian-tricore-cross's partial status
+Date: Thu, 19 Jan 2023 18:04:15 +0000
+Message-Id: <20230119180419.30304-15-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230119180419.30304-1-alex.bennee@linaro.org>
 References: <20230119180419.30304-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,58 +106,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Philippe Mathieu-Daudé <philmd@linaro.org>
+This image is perfectly capable of building QEMU, and indeed we do
+that on gitlab. Drop the DOCKER_PARTIAL_IMAGES setting so we can also
+test the gitlab build locally.
 
-When flex is not available, binutils sources default to the
-'missing' script, but the current script available is not in
-the format expected by the 'configure' script:
-
-  $ ./configure
-  ...
-  /usr/src/binutils/missing: Unknown `--run' option
-  Try `/usr/src/binutils/missing --help' for more information
-  configure: WARNING: `missing' script is too old or missing
-  ...
-  checking for bison... bison -y
-  checking for flex... no
-  checking for lex... no
-  checking for flex... /usr/src/binutils/missing flex
-
-  $ make
-  ...
-  updating ldgram.h
-  gcc -DHAVE_CONFIG_H -I. -I. -I. -D_GNU_SOURCE -I. -I. -I../bfd -I./../bfd -I./../include -I./../intl -I../intl  -w -DLOCALEDIR="\"/usr/local/share/locale\""   -W -Wall -Wstrict-prototypes -Wmissing-prototypes -w -c `test -f 'ldgram.c' || echo './'`ldgram.c
-  `test -f ldlex.l || echo './'`ldlex.l
-  /bin/sh: 1: ldlex.l: not found
-  make[3]: *** [Makefile:662: ldlex.c] Error 127
-  make[3]: Leaving directory '/usr/src/binutils/ld'
-  make[2]: *** [Makefile:799: all-recursive] Error 1
-
-By pass the 'missing' script use by directly installing 'flex'
-in the container.
-
-Reported-by: Peter Maydell <peter.maydell@linaro.org>
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230112155643.7408-1-philmd@linaro.org>
-Reviewed-by: Bastian-Koppelmann <kbastian@mail.uni-paderborn.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/debian-tricore-cross.docker | 1 +
- 1 file changed, 1 insertion(+)
+ tests/docker/Makefile.include | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
-index 34b2cea4e3..5ae58efa09 100644
---- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-+++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-@@ -20,6 +20,7 @@ RUN apt update && \
-        bzip2 \
-        ca-certificates \
-        ccache \
-+       flex \
-        g++ \
-        gcc \
-        git \
+diff --git a/tests/docker/Makefile.include b/tests/docker/Makefile.include
+index 665ddde518..bfb0dcac21 100644
+--- a/tests/docker/Makefile.include
++++ b/tests/docker/Makefile.include
+@@ -128,7 +128,6 @@ DOCKER_PARTIAL_IMAGES += debian-mips-cross
+ DOCKER_PARTIAL_IMAGES += debian-nios2-cross
+ DOCKER_PARTIAL_IMAGES += debian-riscv64-test-cross
+ DOCKER_PARTIAL_IMAGES += debian-sh4-cross debian-sparc64-cross
+-DOCKER_PARTIAL_IMAGES += debian-tricore-cross
+ DOCKER_PARTIAL_IMAGES += debian-xtensa-cross
+ DOCKER_PARTIAL_IMAGES += fedora-cris-cross
+ 
 -- 
 2.34.1
 
