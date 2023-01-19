@@ -2,82 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9828673B56
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:09:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3486673B7F
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:16:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIVb3-0008G0-8e; Thu, 19 Jan 2023 09:08:53 -0500
+	id 1pIVgi-0001uc-T5; Thu, 19 Jan 2023 09:14:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIVat-0008CK-C7
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:08:45 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIVal-0008AS-MD
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:08:40 -0500
-Received: by mail-wm1-x334.google.com with SMTP id m15so1624459wms.4
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 06:08:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=JL1SMttpj19w2ErFMwOyVgiuXmFT0epzkZciEVlAPrI=;
- b=OqqY2Fa3KMlTvIopfHlCiT5ruc0VmXiYJwGxmgYKiwFTgNcZFHaQudlkK0luONffiL
- wdgvupUtXZc4idMO4/awE8IOfU2F0IlcPKwlzIn5c7fYavNtZ4SCqorG4gWf9+QwBVXT
- HSdNXnlYkgAZxy6IHTeCdCgbj3/6e+DuEMl58ziOhs6D7B/8IcpdyfRHFOODq2Qjjn67
- 8Qwo34T49imMh7hJ0ufbzATTgrWXfu3Plrxd9un1syuy5JbqyFE8WNhQE4w0CJDvdT1d
- B9/qXeLWYVWMKv7dg4UbqQJPipw+V5SQHJ0yVA7xiebetxCfT6Hn+z7ZRRWspQVsLTHS
- x8aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=JL1SMttpj19w2ErFMwOyVgiuXmFT0epzkZciEVlAPrI=;
- b=OIxhjyKHSxprtjfhomC8xCybyQk5XxOml0AAdBscR6bJYEgy3zGhMS5YHQ5KxOU980
- fELqzQW+3fl0VllI07HFpe8O4UUJUYVG3xJRRm2RkMnJJtsfAfckGdGmXdWZAoWzFvYj
- UXpx0frzQK/hctalgugyhMeDxEPekktAiifv+TZNVKv9tQ4VjZfjI0EfQ5Tg1lgQBP5S
- E36RhILXRol6H05He2dMZ+TDZfs3H2fQqdVtR7kADlebgRwgO3LbrDWz1YAA2uS20VQN
- /26Y1urHGxzGGYKbsuLhZd4DzlZeByEy8yJxhv5T4KomaiiMTGlFFZBD3jLF9S8JlcPY
- CGxw==
-X-Gm-Message-State: AFqh2kqCR4Y4yYPpKN2/QqJKr7VHMLkctxiBFyXVkJc/T0+lYelNiUgc
- xle9YLjbU6fco/EYKD/vKlqA3g==
-X-Google-Smtp-Source: AMrXdXvgxzDvLfzT2IIKh1NFgfiua6zOi3rNg44KKUG096TcrY0/wTqx3M+rtSRTKPJS26eYwNaWtg==
-X-Received: by 2002:a05:600c:1c86:b0:3da:fa75:ce58 with SMTP id
- k6-20020a05600c1c8600b003dafa75ce58mr14442007wms.21.1674137313872; 
- Thu, 19 Jan 2023 06:08:33 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- e12-20020a05600c218c00b003d9ddc82450sm4775204wme.45.2023.01.19.06.08.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Jan 2023 06:08:33 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EC6B71FFB7;
- Thu, 19 Jan 2023 14:08:32 +0000 (GMT)
-References: <20230119130326.2030297-1-thuth@redhat.com>
-User-agent: mu4e 1.9.15; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Chris Wulff <crwulff@gmail.com>, Marek Vasut <marex@denx.de>,
- qemu-devel@nongnu.org, qemu-trivial@nongnu.org
-Subject: Re: [PATCH] MAINTAINERS: Fix the entry for tests/tcg/nios2
-Date: Thu, 19 Jan 2023 14:08:26 +0000
-In-reply-to: <20230119130326.2030297-1-thuth@redhat.com>
-Message-ID: <875yd2zkf3.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pIVgh-0001uQ-9S
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:14:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pIVgf-0000vM-7o
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:14:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674137679;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=B/b2GmnpA4q74W/+iK0aHosaDPhxphoRZmGJzxuhGPs=;
+ b=f37fjRjR2IAe5weNP90C6k1Uy69SHiNrkK6tHasKcDYvLmevlToMJ+QKpdm0yujoBT64K5
+ w7efGFG/3BxqeGB2UsD3J7IyXaMsCKVq0ShMib6F9rM35/2RmWbCRK4OkCrF5rx3xDZuIT
+ /tdnZ3l0RGc9DT6uV22BwhikedBxXHU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-152-5QGkFWvbNjOHRBXqapJ76g-1; Thu, 19 Jan 2023 09:14:38 -0500
+X-MC-Unique: 5QGkFWvbNjOHRBXqapJ76g-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 57D318A0106;
+ Thu, 19 Jan 2023 14:14:38 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.79])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 780B9492C3C;
+ Thu, 19 Jan 2023 14:14:37 +0000 (UTC)
+Date: Thu, 19 Jan 2023 14:14:35 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Thomas Huth <thuth@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>
+Subject: Re: tests/qtest: Is vnc-display-test supposed to work on Darwin?
+Message-ID: <Y8lQS9/UrF+sZN0M@redhat.com>
+References: <9b81a6f2-7bf9-4ada-d7ba-c8a9dffcb2d3@linaro.org>
+ <CAJ+F1CLS3JxJ6yO6uTajdkia0t4gEWzSfhXnUQ+M6iywWWuUug@mail.gmail.com>
+ <60569516-bd5a-b124-e105-8a9ab9f43c89@linaro.org>
+ <Y8kmlVU5NKaR7i4D@redhat.com>
+ <7a46cdc2-42b7-a71d-5c00-a7b6e30d2622@linaro.org>
+ <Y8kqeC5UWPHC+yIX@redhat.com>
+ <fe0f448c-6a8f-9830-208b-5e1c52e5e203@linaro.org>
+ <Y8kw6X6keB5l53nl@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Y8kw6X6keB5l53nl@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,24 +88,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, Jan 19, 2023 at 12:00:41PM +0000, Daniel P. Berrangé wrote:
+> On Thu, Jan 19, 2023 at 12:49:48PM +0100, Philippe Mathieu-Daudé wrote:
+> > So to detect makecontext() I have to add
+> > --extra-cflags=-mmacosx-version-min=10.5 but then linking fails with
+> > multiple "$LIBNAME was built for newer macOS version (13.0) than being
+> > linked (11.0)".
+> 
+> Yes, ucontext has been deprecated forever on macOS, but in practice it
+> has still been functional if you define _XOPEN_SOURCE, which is what
+> gtk-vnc has done traditionally.
+> 
+> I presume this is on the aarch64 macOS though, and so all bets are off
+> wrt ucontext backend unless someone knows it works correctly with the
+> m1 port. I fear that's not the case though, given the wierd error
+> scenario we're hitting in gtk-vnc.
 
-Thomas Huth <thuth@redhat.com> writes:
+Yep,  I've confirmed there's something broken with gtk-vnc. When we
+call 'getcontext' is corrupts memory in gtk-vnc structs. This makes
+me believe that the defined 'struct ucontext_t' is too small for use
+with 'getcontext' on macOS aarch64 platforms.
 
-> tests/tcg/nios2/Makefile.target has accidentally been added
-> to the Microblaze section. Move it into the correct nios2
-> section instead - and while we're at it, it should also cover
-> the whole folder, and not only the Makefile.
->
-> Fixes: 67f80eb4d0 ("tests/tcg: enable debian-nios2-cross for test buildin=
-g")
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Queued to testing/next, thanks.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
