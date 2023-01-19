@@ -2,92 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 999DA673223
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:07:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 248F367322C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:11:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIP0w-0002Hs-Lx; Thu, 19 Jan 2023 02:07:12 -0500
+	id 1pIP4b-00042p-Jk; Thu, 19 Jan 2023 02:10:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pIP0c-0001x3-QG; Thu, 19 Jan 2023 02:06:50 -0500
-Received: from out4-smtp.messagingengine.com ([66.111.4.28])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
- id 1pIP0a-0000uC-Tq; Thu, 19 Jan 2023 02:06:50 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailout.nyi.internal (Postfix) with ESMTP id 941095C00B3;
- Thu, 19 Jan 2023 02:06:47 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Thu, 19 Jan 2023 02:06:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm2; t=1674112007; x=1674198407; bh=Oc
- oDLf5RDdyXP/ajFZeKz6pwxOwzzaAjKC8MCDMKbmM=; b=EoKMmNF49pksSpeDZo
- yC5mLjS3v3F/fSKLYgbsonC428pgp/LZvH/O6FRoe1PnU7lr07aKAECAcqqjdOLN
- 5V4YR0J2lz55uPZCeu90vFWFkI4egIG4//qnUA5V5kHbkLKPrHbpqahbQc4pdzUj
- uOe2rl2MkL3sPUbvMANA+DAKXP0ceODWOnqi3rasCFpWBajwWjf5TgAxmah/E5ce
- PIlI4RCVlWvWeXNfV54bkvPuKYVq66flAudxZwgmriX+DiocFg5H8+mKcAzQZal5
- pVmoQDmWhPT8SzOW5/7RB1audfAFXnhPWqnIRYDGc4IxN4+FMFUqj+Z6Ca6Otifd
- Ta5g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1674112007; x=1674198407; bh=OcoDLf5RDdyXP/ajFZeKz6pwxOwz
- zaAjKC8MCDMKbmM=; b=A/GiNUgVJ6xVp03h/yfpZV8qXi1Xqbx3oQjldHAvk4Ww
- KdhlRoGlgoMDqEKLA3QF9yexB7MxLVHRG9paCiHAfN3JlAKHCCnjBoFYBoTKUb/G
- tQWTERTatDDU4vjDzP2ff1lP5C24kkWUI1odyoQalc1Rc130rJlplAA7rOgasuAS
- jtXXE6TanaW5OgcHQHJ+7W3MmRbjLHEh045ZBdnGAhctTzh9MCPc7ZuDuDKXHh1l
- F/Zgmrr1XwGtTtFKVbPjt12132kGABre6lFEehyQHFvwGhfpEx16H0hbuQZXl8yr
- f+eSjLYLJQr7QvQjlnR3eR72Mn/G9P2H3PvqDf8Rag==
-X-ME-Sender: <xms:BuzIY4uZYCvBJdUZiCZhCPZJz7HAyTAxBdhu9Xv5jN_ByhY2vD5uMw>
- <xme:BuzIY1deLqDy6T1G7LirAQg9H26mL2Wy_rStvrNAYvLjospFiXz7UiBcdEdt2iHm5
- v_MbTDFAiTgadWCO88>
-X-ME-Received: <xmr:BuzIYzytFD4psFiOpGcJVJfEQ-th8ByxW1k1O047sHaWprLKucGzReSyJ5hzKdBl18Ge7pg1I5N5QR6NPD-BvpO7JTfuiQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtledguddtgecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
- uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
- htthgvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteff
- ffejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hithhssehirhhrvghlvghvrghnthdrughk
-X-ME-Proxy: <xmx:BuzIY7MWpQIQXmDs64OqJ2OsAsqZpYz1in7RLoMQJ9fanK4uLH9p4g>
- <xmx:BuzIY49A99WlYUjYCDrenEPwspfZ1BUv78iXQu0nnVyRPadkS3EOUA>
- <xmx:BuzIYzWTAUXYcwhwkx0Zx0J2rJVYfj1Kc9zMGJuKw4sBB3pTtoDwvg>
- <xmx:B-zIY1MsWFq517nTzFdwEdSjOB9grSRsFvOpS6RzG5QDvO41gx-h0A>
-Feedback-ID: idc91472f:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 19 Jan 2023 02:06:45 -0500 (EST)
-Date: Thu, 19 Jan 2023 08:06:43 +0100
-From: Klaus Jensen <its@irrelevant.dk>
-To: Keith Busch <kbusch@kernel.org>
-Cc: Jens Axboe <axboe@fb.com>, Christoph Hellwig <hch@lst.de>,
- Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
- qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Guenter Roeck <linux@roeck-us.net>
-Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
-Message-ID: <Y8jsA0eJPtiB6Bc/@cormorant.local>
-References: <Y8AG21o/9/3eUMIg@cormorant.local>
- <Y8hyFcsYbvLOQ+XJ@kbusch-mbp>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIP4Z-000427-15
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:10:55 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIP4W-0001lR-C0
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:10:54 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ d4-20020a05600c3ac400b003db1de2aef0so550078wms.2
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 23:10:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=mfGrruK8nilb3QcyxSk4e6VXknYwMjLnsxyzt8RpGAA=;
+ b=EY6ya9rCvFE0fQSmFJHIGrbwHx24ASXtPxXhCRQ8VEDu5Y3UUu+cewc3kkDEWhi0nv
+ +nDPE+vnnw8Y2DjcQjVYT3guyquYdW7vis6FxGCORG1bZc2FQm+l8tX+rdHCYf0/t1dI
+ /AqK5sfpGPjvtEXqykf3C8SJfiWIw5NL/GR+GfsvhxrodslZ2k7L3ZOVnfvfiNTClJwE
+ mM5CW23OsSGDJoy2+kzbyB+EwVlOHUq8Vo59oSL4aC5P6Drz91iaUs3ucG75U4NTfHl7
+ p80yxotTHZ53aE5LIYdjwdIQpvys5jdLSyrNT04v7qW8bjmCBMi5noQnCRVK1MmsBRC/
+ CKQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=mfGrruK8nilb3QcyxSk4e6VXknYwMjLnsxyzt8RpGAA=;
+ b=votxfWHh0nDZf/QaagvAtanMAqiRhsFg0Rsu9ZwmVpNG/dKWKoP5DAoJyQI+k2pv45
+ gdxsT4vJxjCqLWJkaefAQv2jeYhzijQn/BgumABr1bkNUA8Tq+UcKf0R10MqClngs2N4
+ asYzYy6TnomtDKOKvlCEVC/HyEXtgy6L5W0vduiQz4Gkqu5JSeGSL/IZ1Kiu0M/R7Y7v
+ 50jeGW1EI/1TDLXHcDErnUL1nqJP7TMhUObS31qI+HqzHy1IDZ4AdGOScrJkatL0sbQy
+ MYCaEBn41z6PKDA+K+tNDgfjGuRtfE7ZaUdL48KeNaoskqIMWkgtHG8UY9UaVgxuUTTM
+ jIGQ==
+X-Gm-Message-State: AFqh2ko3XODBzR8wu/rv+UK9UIZ61NVRcuP0ODIOEoCPeL8rsDR2/y0z
+ jscQb/AiGfwQCN8BLM/fraG5Ow==
+X-Google-Smtp-Source: AMrXdXsfg1qktCF/uCLKdG3s++8+XGVPWdyZlMaZGxeM37iCrcDByoN2/cBPx4DnzdiaZg05MtVGIw==
+X-Received: by 2002:a05:600c:1695:b0:3db:12b:5103 with SMTP id
+ k21-20020a05600c169500b003db012b5103mr9597988wmn.5.1674112250400; 
+ Wed, 18 Jan 2023 23:10:50 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ h10-20020a05600c314a00b003db0659c454sm4902782wmo.32.2023.01.18.23.10.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 18 Jan 2023 23:10:50 -0800 (PST)
+Message-ID: <48021cf0-914a-d186-4464-0ae65d7501e6@linaro.org>
+Date: Thu, 19 Jan 2023 08:10:48 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
- protocol="application/pgp-signature"; boundary="DvSWeJSDSDxLn1H0"
-Content-Disposition: inline
-In-Reply-To: <Y8hyFcsYbvLOQ+XJ@kbusch-mbp>
-Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
- helo=out4-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 00/20] target/arm: CONFIG_TCG=n part 1
+Content-Language: en-US
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>
+References: <20230118193518.26433-1-farosas@suse.de>
+ <9c740b33-240b-b4f0-82a1-cc01ad886edc@linaro.org> <871qnrcz31.fsf@suse.de>
+ <040a9b0e-0e86-311a-a045-00a7c16ab819@linaro.org>
+In-Reply-To: <040a9b0e-0e86-311a-a045-00a7c16ab819@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,47 +96,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 19/1/23 08:05, Philippe Mathieu-Daudé wrote:
+> On 18/1/23 22:28, Fabiano Rosas wrote:
+>> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
+>>> On 18/1/23 20:34, Fabiano Rosas wrote:
+>>>> These are the already reviewed patches from the first half of my
+>>>> previous series:
+>>>> https://lore.kernel.org/r/20230113140419.4013-1-farosas@suse.de
+>>>>
+>>>> This unbreaks the --disable-tcg build, but there are issues in runtime
+>>>> that are still being hashed out in the other series.
+>>>>
+>>>> For the build _with_ TCG, this should behave the same as master.
+>>>>
+>>>> Based on Richard's "target/arm: Introduce aarch64_set_svcr":
+>>>> https://lore.kernel.org/r/20230112004322.161330-1-richard.henderson@linaro.org
+>>>
+>>> $ git am
+>>> 20230111_richard_henderson_target_arm_introduce_aarch64_set_svcr.mbx
+>>> Applying: target/arm: Introduce aarch64_set_svcr
+>>> $ git am ./20230118_farosas_target_arm_config_tcg_n_part_1.mbx
+>>> Applying: target/arm: rename handle_semihosting to 
+>>> tcg_handle_semihosting
+>>> Applying: target/arm: wrap psci call with tcg_enabled
+>>> Applying: target/arm: wrap call to aarch64_sve_change_el in 
+>>> tcg_enabled()
+>>> Applying: target/arm: Move PC alignment check
+>>> Applying: target/arm: Move cpregs code out of cpu.h
+>>> Applying: target/arm: Move define_debug_regs() to cpregs.c
+>>> error: target/arm/cpregs.c: does not exist in index
+>>> Patch failed at 0006 target/arm: Move define_debug_regs() to cpregs.c
+>>>
+>>> I am based on commit 7ec8aeb604 ("Merge tag 'pull-tpm-2023-01-17-1' of
+>>> https://github.com/stefanberger/qemu-tpm into staging"), what am I 
+>>> missing?
+>>
+>> How did you fetch the series? You are missing patch 06. Maybe it is too
+>> big for the method you used?
+> 
+> Actually the tool warned about patch 6 missing, but I didn't notice:
+> 
+> $ b4 am 20230118193518.26433-1-farosas@suse.de
+> Grabbing thread from 
+> lore.kernel.org/all/20230118193518.26433-1-farosas%40suse.de/t.mbox.gz
+> Analyzing 20 messages in the thread
+> Checking attestation on all messages, may take a moment...
+> ---
+...
+>    ✓ [PATCH 5/20] target/arm: Move cpregs code out of cpu.h
+>      ✓ Signed: DKIM/suse.de
+>    ERROR: missing [6/20]!
+>    ✓ [PATCH 7/20] target/arm: Move define_debug_regs() to cpregs.c
+>      ✓ Signed: DKIM/suse.de
+...
+> ---
+> Total patches: 19
+> ---
+> WARNING: Thread incomplete!
+> 
+> Indeed patch 6 is missing:
+> https://lore.kernel.org/qemu-devel/20230118193518.26433-1-farosas@suse.de/
 
---DvSWeJSDSDxLn1H0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I could find it here:
+https://marc.info/?l=qemu-arm&m=167407090423121
 
-On Jan 18 15:26, Keith Busch wrote:
-> Klaus,
->=20
-> This isn't going to help your issue, but there are at least two legacy
-> irq bugs in the nvme qemu implementation.
->=20
-> 1. The admin queue breaks if start with legacy and later initialize
-> msix.
->=20
-
-Hmm. Interesting that we have not encountered this before - is this
-because the kernel will enable MSI-X early and use it for the admin
-queue immediately?
-
-> 2. The legacy vector is shared among all queues, but it's being
-> deasserted when the first queue's doorbell makes it empty. It should
-> remain enabled if any cq is non-empty.
-
-I was certain that we fixed this already in commit 83d7ed5c570
-("hw/nvme: fix pin-based interrupt behavior (again)")...
-
---DvSWeJSDSDxLn1H0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPI7AIACgkQTeGvMW1P
-Dem3dQgAgtGVD7khXGAEi6BDE6dbp4x8OegdPyeQhaYcIXF0eU52eVH84pLiA90r
-YgxBGlD8Pyq8/EJz/cCii98sTjr5dQQZaIET2JrkGhAV4zCTe+HGICYiABgK0mxV
-A3kKZ5ZBzZUHjlB9Lz04ir6AkRrAUZGOBMF0xuc2uBHE40LRfJfUg1Hv4hbWLTRM
-pELOpavQhgbQr1ToITMJCdWSmIEQSK8hN6hVIlFTe/KCacFOv2tqYYeGg3Viqt4j
-1+sFq+DA4UGiI6FjF+r8TIeEozq3+5bYP0KPlLvfA7974sJWQUW6wMF9rXulIIlD
-EtAYtCkM8yYrRLovwD46LJCYEhAqCQ==
-=kBIv
------END PGP SIGNATURE-----
-
---DvSWeJSDSDxLn1H0--
 
