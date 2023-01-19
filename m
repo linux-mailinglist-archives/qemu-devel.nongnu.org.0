@@ -2,83 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CC3D6744BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 22:38:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D3266744DC
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 22:40:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIcbC-0006Iy-Sy; Thu, 19 Jan 2023 16:37:30 -0500
+	id 1pIcdt-0001DU-On; Thu, 19 Jan 2023 16:40:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pIcbA-0006HO-9n
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 16:37:28 -0500
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pIcdr-0001CF-KN; Thu, 19 Jan 2023 16:40:15 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pIcb5-0001oi-Cq
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 16:37:28 -0500
-Received: by mail-oi1-x233.google.com with SMTP id i5so2824724oih.11
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 13:37:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=EORUp/iMXwixvbGestrVZ5EpmK4UOb5yG+mlfY5b2OY=;
- b=QKehrdJedqc5zoK9livx/PKy8DjbAHf6FYLC33I4N/9CPu+YCacg7P30DAFYRHq9BT
- aaqNT65ekbsXZYoaKfuWCrfNTzFSElmzSzy8vu/I6kVkVLWLlEcxj4kC5zUompW5TkQP
- IjygVHMvGB3mgQRqugucpEvNL0oPdLSFzVzjt2kfKQM61Lc8q46cOvrQTA7q79r39hDD
- vsoP62/9Oaie9xpkZpsTjWRm9WKN/n8JAH8tPi4eccOSQLoI8dBoMssa4DJE8wbvoVh5
- tIqABI7ZkyE3SpIRA1fE0zCImGY1IdN19IqwqYaUjFDN0FuPFwc9GCjWu6YKkKGubfVk
- P83Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EORUp/iMXwixvbGestrVZ5EpmK4UOb5yG+mlfY5b2OY=;
- b=PYCTdqMpG5r6jKzgsUU6SDETHs4/Tu42bnEQDGR1EDNBpJNB/zTFqdVzc6X3ZdNONA
- fNkyCqBtLu8vBUcmxa03jNQ0FUNH9pj4CWE7SOij8NGLbvg/aEj2O/lZFoOLgw2pnElG
- it4xdVpg9Dx/nj5s6UmMCezjv8lnWGv+J0C+x2I5kiUz3WcPp75Ey+UeWbgQc1zDBfyQ
- w1xJZ6E/uBvsH2ZzvAb5QHdDWEwr1svsQ9xOAZPvw6Xle51qqtcthgXuZVzOoUTjpjlD
- 8VU/381JN2LO/m6nrgVV5Uxl80SeBUIVCgT8+nD2iVBsK/KjmStTYrOzvEMd6IhnJDCo
- 1O4w==
-X-Gm-Message-State: AFqh2kqMJjr6+tbqQtvdjr1ueMmQSwcKLJZiB7yOcMjarMSl9lwKCWtU
- czH90qktI2NbNeztzzmv1OKY/2KNY9BjiKytexw=
-X-Google-Smtp-Source: AMrXdXtHd+KAhG+27gKkGaMQS5Y0X2yLxquXC/jV+eIobv6fWMbcLCqBMi+WkoVBvtMqPn0bO11tTg==
-X-Received: by 2002:a05:6808:1247:b0:360:e643:7e27 with SMTP id
- o7-20020a056808124700b00360e6437e27mr7321554oiv.36.1674164239031; 
- Thu, 19 Jan 2023 13:37:19 -0800 (PST)
-Received: from grind.dc1.ventanamicro.com ([191.17.222.2])
- by smtp.gmail.com with ESMTPSA id
- c132-20020aca358a000000b003646062e83bsm13664472oia.29.2023.01.19.13.37.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Jan 2023 13:37:18 -0800 (PST)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bin Meng <bmeng@tinylab.org>
-Subject: [PATCH v9 3/3] hw/riscv/boot.c: make riscv_load_initrd() static
-Date: Thu, 19 Jan 2023 18:37:07 -0300
-Message-Id: <20230119213707.651533-4-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230119213707.651533-1-dbarboza@ventanamicro.com>
-References: <20230119213707.651533-1-dbarboza@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pIcdp-0002Gm-Lw; Thu, 19 Jan 2023 16:40:15 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 92CE42199F;
+ Thu, 19 Jan 2023 21:40:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1674164409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RoEh7zPScss2YI3wPFjVqkzK4GVROPBcUOeXIx4Ip6Y=;
+ b=Qiu65j7WmiA7K0cDkfdRa7tML03klXjRKnIZorYP18nrTBoWU90rH4wZ5GCmfHXhuY9Pg3
+ lM1RH0qspaLowM/G3Yi1b+oyzbwM/wjHi2pI9OnAnXqTlePnG+9NzmJTiE9jHkTkh0XoWd
+ WlR6UU3xJeAmgmvmz1dNtcXmppNmd8M=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1674164409;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RoEh7zPScss2YI3wPFjVqkzK4GVROPBcUOeXIx4Ip6Y=;
+ b=vqa/3VBW878i5N4gfaKxrY4L3yCwRBLCeU4G8ucUoTq33q6JzYMbOjosqoiBM4Uw4wozwo
+ P9JM4Vf35yANUqDQ==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C1E2139ED;
+ Thu, 19 Jan 2023 21:40:08 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id WhBzNbi4yWO9eAAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 19 Jan 2023 21:40:08 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard
+ Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Alex
+ =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, Paolo Bonzini
+ <pbonzini@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Subject: Re: [RFC PATCH v4 14/15] arm/Kconfig: Always select SEMIHOSTING
+ when TCG is present
+In-Reply-To: <440155ee-4782-c7fa-6860-c39a983aecae@linaro.org>
+References: <20230119135424.5417-1-farosas@suse.de>
+ <20230119135424.5417-15-farosas@suse.de>
+ <216d61ba-d5a4-f701-0190-0656e7e2e40f@linaro.org>
+ <440155ee-4782-c7fa-6860-c39a983aecae@linaro.org>
+Date: Thu, 19 Jan 2023 18:40:06 -0300
+Message-ID: <87y1py2og9.fsf@suse.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x233.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,129 +94,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The only remaining caller is riscv_load_kernel_and_initrd() which
-belongs to the same file.
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/boot.c         | 80 ++++++++++++++++++++---------------------
- include/hw/riscv/boot.h |  1 -
- 2 files changed, 40 insertions(+), 41 deletions(-)
+> On 19/1/23 19:50, Richard Henderson wrote:
+>> On 1/19/23 03:54, Fabiano Rosas wrote:
+>>> We are about to enable the build without TCG, so CONFIG_SEMIHOSTING
+>>> and CONFIG_ARM_COMPATIBLE_SEMIHOSTING cannot be unconditionally set in
+>>> default.mak anymore. So reflect the change in a Kconfig.
+>>>
+>>> Instead of using semihosting/Kconfig, use a target-specific file, so
+>>> that the change doesn't affect other architectures which might
+>>> implement semihosting in a way compatible with KVM.
+>>>
+>>> The selection from ARM_v7M needs to be removed to avoid a cycle during
+>>> parsing.
+>>>
+>>> Signed-off-by: Fabiano Rosas<farosas@suse.de>
+>>=20
+>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>=20
+>>> The linux-user build does not use Kconfig. Is it worth it to add
+>>> support to it? There's just the semihosting config so far.
+>>=20
+>> Probably not.
+>
+> I hit this limitation last week trying to restrict libdecnumber to
+> powerpc targets.
+>
+> Fabiano, do you see how this can be done easily?
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 29e0c204d3..62cc816b83 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -189,6 +189,46 @@ static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
-     return addr;
- }
- 
-+static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
-+{
-+    const char *filename = machine->initrd_filename;
-+    uint64_t mem_size = machine->ram_size;
-+    void *fdt = machine->fdt;
-+    hwaddr start, end;
-+    ssize_t size;
-+
-+    g_assert(filename != NULL);
-+
-+    /*
-+     * We want to put the initrd far enough into RAM that when the
-+     * kernel is uncompressed it will not clobber the initrd. However
-+     * on boards without much RAM we must ensure that we still leave
-+     * enough room for a decent sized initrd, and on boards with large
-+     * amounts of RAM we must avoid the initrd being so far up in RAM
-+     * that it is outside lowmem and inaccessible to the kernel.
-+     * So for boards with less  than 256MB of RAM we put the initrd
-+     * halfway into RAM, and for boards with 256MB of RAM or more we put
-+     * the initrd at 128MB.
-+     */
-+    start = kernel_entry + MIN(mem_size / 2, 128 * MiB);
-+
-+    size = load_ramdisk(filename, start, mem_size - start);
-+    if (size == -1) {
-+        size = load_image_targphys(filename, start, mem_size - start);
-+        if (size == -1) {
-+            error_report("could not load ramdisk '%s'", filename);
-+            exit(1);
-+        }
-+    }
-+
-+    /* Some RISC-V machines (e.g. opentitan) don't have a fdt. */
-+    if (fdt) {
-+        end = start + size;
-+        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-start", start);
-+        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end", end);
-+    }
-+}
-+
- target_ulong riscv_load_kernel(MachineState *machine,
-                                RISCVHartArrayState *harts,
-                                target_ulong kernel_start_addr,
-@@ -243,46 +283,6 @@ out:
-     return kernel_entry;
- }
- 
--void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
--{
--    const char *filename = machine->initrd_filename;
--    uint64_t mem_size = machine->ram_size;
--    void *fdt = machine->fdt;
--    hwaddr start, end;
--    ssize_t size;
--
--    g_assert(filename != NULL);
--
--    /*
--     * We want to put the initrd far enough into RAM that when the
--     * kernel is uncompressed it will not clobber the initrd. However
--     * on boards without much RAM we must ensure that we still leave
--     * enough room for a decent sized initrd, and on boards with large
--     * amounts of RAM we must avoid the initrd being so far up in RAM
--     * that it is outside lowmem and inaccessible to the kernel.
--     * So for boards with less  than 256MB of RAM we put the initrd
--     * halfway into RAM, and for boards with 256MB of RAM or more we put
--     * the initrd at 128MB.
--     */
--    start = kernel_entry + MIN(mem_size / 2, 128 * MiB);
--
--    size = load_ramdisk(filename, start, mem_size - start);
--    if (size == -1) {
--        size = load_image_targphys(filename, start, mem_size - start);
--        if (size == -1) {
--            error_report("could not load ramdisk '%s'", filename);
--            exit(1);
--        }
--    }
--
--    /* Some RISC-V machines (e.g. opentitan) don't have a fdt. */
--    if (fdt) {
--        end = start + size;
--        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-start", start);
--        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end", end);
--    }
--}
--
- uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
- {
-     uint64_t temp, fdt_addr;
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index e0eab1e01b..bc9faed397 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -48,7 +48,6 @@ target_ulong riscv_load_kernel(MachineState *machine,
-                                target_ulong firmware_end_addr,
-                                bool load_initrd,
-                                symbol_fn_t sym_cb);
--void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry);
- uint64_t riscv_load_fdt(hwaddr dram_start, uint64_t dram_size, void *fdt);
- void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
-                                hwaddr saddr,
--- 
-2.39.0
+If you grep for Kconfig in the top level meson.build, that code there
+could be adapted to also include linux-user targets.
+
+I did some experimenting and I could generate linux-user.mak files with
+all the configs from the existing Kconfigs. It would be a matter of
+adding the proper CONFIG_SOFTMMU, CONFIG_LINUX_USER options to separate
+the two and then hooking up the .mak files with the rest of the
+build. That last part I'm not sure how to do.
 
 
