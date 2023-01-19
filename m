@@ -2,31 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F8EC6738B7
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:37:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7830D6738BA
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:37:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIU9p-00082K-UE; Thu, 19 Jan 2023 07:36:43 -0500
+	id 1pIU9w-00005v-4D; Thu, 19 Jan 2023 07:36:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=w1SB=5Q=kaod.org=clg@ozlabs.org>)
- id 1pIU9L-0007Y7-Oc; Thu, 19 Jan 2023 07:36:11 -0500
-Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
- helo=gandalf.ozlabs.org)
+ id 1pIU9M-0007a4-D2; Thu, 19 Jan 2023 07:36:12 -0500
+Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=w1SB=5Q=kaod.org=clg@ozlabs.org>)
- id 1pIU9I-0007gH-Ek; Thu, 19 Jan 2023 07:36:11 -0500
+ id 1pIU9K-0007h9-R5; Thu, 19 Jan 2023 07:36:12 -0500
 Received: from gandalf.ozlabs.org (mail.ozlabs.org
  [IPv6:2404:9400:2221:ea00::3])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4NyMYd5Q9sz4xHV;
- Thu, 19 Jan 2023 23:36:05 +1100 (AEDT)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4NyMYh2NF4z4xN4;
+ Thu, 19 Jan 2023 23:36:08 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4NyMYb57tKz4xN1;
- Thu, 19 Jan 2023 23:36:03 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4NyMYf1wrJz4xN1;
+ Thu, 19 Jan 2023 23:36:06 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -34,23 +33,24 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Peter Delevoryas <peter@pjd.dev>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 23/25] hw/arm/aspeed_ast10x0: Map HACE peripheral
-Date: Thu, 19 Jan 2023 13:34:47 +0100
-Message-Id: <20230119123449.531826-24-clg@kaod.org>
+Subject: [PATCH 24/25] hw/arm/aspeed_ast10x0: Add TODO comment to use
+ Cortex-M4F
+Date: Thu, 19 Jan 2023 13:34:48 +0100
+Message-Id: <20230119123449.531826-25-clg@kaod.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230119123449.531826-1-clg@kaod.org>
 References: <20230119123449.531826-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
+Received-SPF: pass client-ip=150.107.74.76;
  envelope-from=SRS0=w1SB=5Q=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,146 +68,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Since I don't have access to the datasheet, the relevant
-values were found in:
-https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/dts/arm/aspeed/ast10x0.dtsi
+This SoC uses a Cortex-M4F. QEMU only implements a M4,
+which is good enough. Add a TODO note in case the M4F
+is added.
 
-Before on Zephyr:
-
-  uart:~$ hash test
-  sha256_test
-  tv[0]:hash_final error
-  sha384_test
-  tv[0]:hash_final error
-  sha512_test
-  tv[0]:hash_final error
-  [00:00:06.278,000] <err> hace_global: HACE poll timeout
-  [00:00:09.324,000] <err> hace_global: HACE poll timeout
-  [00:00:12.261,000] <err> hace_global: HACE poll timeout
-
-  uart:~$ crypto aes256_cbc_vault
-  aes256_cbc vault key 1
-  [00:00:06.699,000] <inf> hace_global: aspeed_crypto_session_setup
-  [00:00:06.699,000] <inf> hace_global: data->cmd: 1c2098
-  [00:00:06.699,000] <inf> hace_global: crypto_data_src: 93340
-  [00:00:06.699,000] <inf> hace_global: crypto_data_dst: 93348
-  [00:00:06.699,000] <inf> hace_global: crypto_ctx_base: 93300
-  [00:00:06.699,000] <inf> hace_global: crypto_data_len: 80000040
-  [00:00:06.699,000] <inf> hace_global: crypto_cmd_reg:  11c2098
-  [00:00:09.743,000] <inf> hace_global: HACE_STS: 0
-  [00:00:09.743,000] <err> hace_global: HACE poll timeout
-  [00:00:09.743,000] <err> crypto: CBC mode ENCRYPT - Failed
-  [00:00:09.743,000] <inf> hace_global: aspeed_crypto_session_free
-  uart:~$
-
-After:
-
-  uart:~$ hash test
-  sha256_test
-  tv[0]:PASS
-  tv[1]:PASS
-  tv[2]:PASS
-  tv[3]:PASS
-  tv[4]:PASS
-  sha384_test
-  tv[0]:PASS
-  tv[1]:PASS
-  tv[2]:PASS
-  tv[3]:PASS
-  tv[4]:PASS
-  tv[5]:PASS
-  sha512_test
-  tv[0]:PASS
-  tv[1]:PASS
-  tv[2]:PASS
-  tv[3]:PASS
-  tv[4]:PASS
-  tv[5]:PASS
-
-  uart:~$ crypto aes256_cbc_vault
-  aes256_cbc vault key 1
-  Was waiting for:
-  6b c1 be e2 2e 40 9f 96 e9 3d 7e 11 73 93 17 2a
-  ae 2d 8a 57 1e 03 ac 9c 9e b7 6f ac 45 af 8e 51
-  30 c8 1c 46 a3 5c e4 11 e5 fb c1 19 1a 0a 52 ef
-  f6 9f 24 45 df 4f 9b 17 ad 2b 41 7b e6 6c 37 10
-
-   But got:
-  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
-
-  [00:00:05.771,000] <inf> hace_global: aspeed_crypto_session_setup
-  [00:00:05.772,000] <inf> hace_global: data->cmd: 1c2098
-  [00:00:05.772,000] <inf> hace_global: crypto_data_src: 93340
-  [00:00:05.772,000] <inf> hace_global: crypto_data_dst: 93348
-  [00:00:05.772,000] <inf> hace_global: crypto_ctx_base: 93300
-  [00:00:05.772,000] <inf> hace_global: crypto_data_len: 80000040
-  [00:00:05.772,000] <inf> hace_global: crypto_cmd_reg:  11c2098
-  [00:00:05.772,000] <inf> hace_global: HACE_STS: 1000
-  [00:00:05.772,000] <inf> crypto: Output length (encryption): 80
-  [00:00:05.772,000] <inf> hace_global: aspeed_crypto_session_free
-  [00:00:05.772,000] <inf> hace_global: aspeed_crypto_session_setup
-  [00:00:05.772,000] <inf> hace_global: data->cmd: 1c2018
-  [00:00:05.772,000] <inf> hace_global: crypto_data_src: 93340
-  [00:00:05.772,000] <inf> hace_global: crypto_data_dst: 93348
-  [00:00:05.772,000] <inf> hace_global: crypto_ctx_base: 93300
-  [00:00:05.772,000] <inf> hace_global: crypto_data_len: 80000040
-  [00:00:05.772,000] <inf> hace_global: crypto_cmd_reg:  11c2018
-  [00:00:05.772,000] <inf> hace_global: HACE_STS: 1000
-  [00:00:05.772,000] <inf> crypto: Output length (decryption): 64
-  [00:00:05.772,000] <err> crypto: CBC mode DECRYPT - Mismatch between plaintext and decrypted cipher text
-  [00:00:05.774,000] <inf> hace_global: aspeed_crypto_session_free
-  uart:~$
-
-Reviewed-by: Peter Delevoryas <peter@pjd.dev>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/arm/aspeed_ast10x0.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+ hw/arm/aspeed_ast10x0.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-index 592a19d988..5c794c2420 100644
+index 5c794c2420..649b3b13c1 100644
 --- a/hw/arm/aspeed_ast10x0.c
 +++ b/hw/arm/aspeed_ast10x0.c
-@@ -28,6 +28,7 @@ static const hwaddr aspeed_soc_ast1030_memmap[] = {
-     [ASPEED_DEV_SPI1]      = 0x7E630000,
-     [ASPEED_DEV_SPI2]      = 0x7E640000,
-     [ASPEED_DEV_UDC]       = 0x7E6A2000,
-+    [ASPEED_DEV_HACE]      = 0x7E6D0000,
-     [ASPEED_DEV_SCU]       = 0x7E6E2000,
-     [ASPEED_DEV_JTAG0]     = 0x7E6E4000,
-     [ASPEED_DEV_JTAG1]     = 0x7E6E4100,
-@@ -165,6 +166,9 @@ static void aspeed_soc_ast1030_init(Object *obj)
-     snprintf(typename, sizeof(typename), "aspeed.gpio-%s", socname);
-     object_initialize_child(obj, "gpio", &s->gpio, typename);
+@@ -420,7 +420,7 @@ static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data)
+     dc->realize = aspeed_soc_ast1030_realize;
  
-+    snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
-+    object_initialize_child(obj, "hace", &s->hace, typename);
-+
-     object_initialize_child(obj, "iomem", &s->iomem, TYPE_UNIMPLEMENTED_DEVICE);
-     object_initialize_child(obj, "sbc-unimplemented", &s->sbc_unimplemented,
-                             TYPE_UNIMPLEMENTED_DEVICE);
-@@ -358,6 +362,17 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
-     }
-     aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->sbc), 0, sc->memmap[ASPEED_DEV_SBC]);
- 
-+    /* HACE */
-+    object_property_set_link(OBJECT(&s->hace), "dram", OBJECT(&s->sram),
-+                             &error_abort);
-+    if (!sysbus_realize(SYS_BUS_DEVICE(&s->hace), errp)) {
-+        return;
-+    }
-+    aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->hace), 0,
-+                    sc->memmap[ASPEED_DEV_HACE]);
-+    sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
-+                       aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
-+
-     /* Watch dog */
-     for (i = 0; i < sc->wdts_num; i++) {
-         AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(&s->wdt[i]);
+     sc->name = "ast1030-a1";
+-    sc->cpu_type = ARM_CPU_TYPE_NAME("cortex-m4");
++    sc->cpu_type = ARM_CPU_TYPE_NAME("cortex-m4"); /* TODO cortex-m4f */
+     sc->silicon_rev = AST1030_A1_SILICON_REV;
+     sc->sram_size = 0xc0000;
+     sc->secsram_size = 0x40000; /* 256 * KiB */
 -- 
 2.39.0
 
