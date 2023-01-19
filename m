@@ -2,74 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66E3D673645
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 12:02:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84B56673644
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 12:02:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pISfy-00065t-W0; Thu, 19 Jan 2023 06:01:48 -0500
+	id 1pISfd-00060X-Cj; Thu, 19 Jan 2023 06:01:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+a904bbf37f730194615b+7088+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pISfr-00065K-0c
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 06:01:39 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+a904bbf37f730194615b+7088+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pISfo-0007rr-Lh
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 06:01:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
- In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
- Content-Transfer-Encoding:Content-ID:Content-Description;
- bh=/d75sKKRvR/K0cipkn0PVAX0Y20WVJBjeb/I/V31bh0=; b=gDdO+qC6TZjHbYPefVZ114iUaq
- xm8SiJL+8Z+dutPYfDTDRa87BNnnnio1lqfybYx+OoPHzWGc+R8WfbLsxrnA4ME+gIviV8d4qy0X7
- h92DzxZjk9TXFp/qqSvAR3xx/JHkXLrgLSElvqy0HYPTpzNQ1EP1jpCv9UHOz5RYVcZV4q6Pfmjl4
- DEGGSlTCYuw+E+auhgbi5eGtqMmvev7bQ8W/27X3XAl0kR0WgVIibGSEqKUGifQbBMHlvE8NAFQPf
- Gik+AaljFrnC0jscvJXabA4CVhqbrEJGjQdH4c1E5fegJthCZTfvJC8fHl64q1/H1IvdGwiIg6rRm
- c5MKod0A==;
-Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.infradead.org)
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pISfR-000tip-Nm; Thu, 19 Jan 2023 11:01:14 +0000
-Message-ID: <15da10f83d60c950bf039c5aed774ef827dd5b29.camel@infradead.org>
-Subject: Re: [PATCH v7 38/51] i386/xen: add monitor commands to test event
- injection
-From: David Woodhouse <dwmw2@infradead.org>
-To: Markus Armbruster <armbru@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant
- <paul@xen.org>, Joao Martins <joao.m.martins@oracle.com>, Ankur Arora
- <ankur.a.arora@oracle.com>, Philippe =?ISO-8859-1?Q?Mathieu-Daud=E9?=
- <philmd@linaro.org>, Thomas Huth <thuth@redhat.com>, Alex
- =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>, Juan Quintela
- <quintela@redhat.com>, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>
-Date: Thu, 19 Jan 2023 11:01:13 +0000
-In-Reply-To: <87mt6h4gnd.fsf@pond.sub.org>
-References: <20230116215805.1123514-1-dwmw2@infradead.org>
- <20230116215805.1123514-39-dwmw2@infradead.org>
- <87mt6h4gnd.fsf@pond.sub.org>
-Content-Type: multipart/signed; micalg="sha-256";
- protocol="application/pkcs7-signature"; 
- boundary="=-mFCA37I60N4iBSCeKMIC"
-User-Agent: Evolution 3.44.4-0ubuntu1 
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pISfc-000608-7y
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 06:01:24 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pISfa-0007ru-57
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 06:01:23 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id d2so1458030wrp.8
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 03:01:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FpUkC0C1GHWvdAqFvVe0qm+x+56HGIiGOEHov6GQeIE=;
+ b=wQDaBvapXKTOj7hLDrgql4KF7qksOu3qXouvYR/vvAfVItPtfimRMWmnYvJM/t+hp+
+ O7nEHmr6xhTfPV90YSVy1nCkCrPvAX3Jt3bOFHZeVcEGMrIfpsGAtVnXRnaeXJKR+dXF
+ u29lFVLSGOsQU/FYTZnS2iPpQzt5G726ZIaLVFhZY3keBAnUbaN0aVt3u/F3jcDlkWa+
+ xyneITWjXSB3ZCxF+s7OFhbu2lwrFaXboMxnWsyRONAn20naqsdkhffcUjhdg169wkVk
+ 5+OBGwtAK/mw7cSc4QJ8diVipwqgp8IwD9tcdCspLi5ldcyhYyHLMk/jRWWJn0WBjM+6
+ Rddg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FpUkC0C1GHWvdAqFvVe0qm+x+56HGIiGOEHov6GQeIE=;
+ b=DEo/sxjGx++OqHkM6ybNQS++u9ytwKbY56JpAQMTJIVpMwywXxSjvoUJGvooNn7YRK
+ uKIiftjPaHI+m6MMwbdmhNvlMVrVrqbSyr7U3qeXhu54+13iLcRfpYzmcisbMLX63anW
+ zaKEOh8hDk4icxhDvOI2WT1bOvoL10N/+qSPoblaK3CH/p6xR+sHyKr2YUFla/5mNRSM
+ /bs5Uo3CIn2Yg2E1rW/yR6teGhHNf0Ipj45pT6c7lRXA0GuAjrAO8JLkc2Xuo/Giugjb
+ 7AkwXwhqQ8X80kQgh2uWd2csHHR6QuGm9fp1LOAGYlbp+Kn0qfrYWo3UijoByXFyu9lQ
+ 6p0g==
+X-Gm-Message-State: AFqh2kqlmesfJVeSP5XnJks8w4oNu2hB5Yy+/lT3QoX8txNb7+wdKCO3
+ o6IUNh5zf83iTiblW1CcD/i3cw==
+X-Google-Smtp-Source: AMrXdXtw5yD7iHv1fh5HzotqhAgK5pbf0vyQV4x0Zy7YsvPX+z/2nzHRUn8XYICytXDQAZgj0o7m/A==
+X-Received: by 2002:a5d:45cd:0:b0:2bd:d94f:432c with SMTP id
+ b13-20020a5d45cd000000b002bdd94f432cmr9392001wrs.26.1674126080153; 
+ Thu, 19 Jan 2023 03:01:20 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ j14-20020adff00e000000b0024cb961b6aesm32754573wro.104.2023.01.19.03.01.19
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 03:01:19 -0800 (PST)
+Message-ID: <60569516-bd5a-b124-e105-8a9ab9f43c89@linaro.org>
+Date: Thu, 19 Jan 2023 12:01:18 +0100
 MIME-Version: 1.0
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+a904bbf37f730194615b+7088+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: tests/qtest: Is vnc-display-test supposed to work on Darwin?
+Content-Language: en-US
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>
+References: <9b81a6f2-7bf9-4ada-d7ba-c8a9dffcb2d3@linaro.org>
+ <CAJ+F1CLS3JxJ6yO6uTajdkia0t4gEWzSfhXnUQ+M6iywWWuUug@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAJ+F1CLS3JxJ6yO6uTajdkia0t4gEWzSfhXnUQ+M6iywWWuUug@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,180 +92,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 5/12/22 08:51, Marc-André Lureau wrote:
+> On Fri, Dec 2, 2022 at 1:51 PM Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+>>
+>> The vnc-display-test is failing on Darwin:
+>>
+>> tests/qtest/vnc-display-test:45038): ERROR **: 10:42:35.488: vnc-error:
+>> Unsupported auth type 17973672
+> 
+> It is supposed to pass. Can you share more details? It doesn't look
+> like an endianness issue, at first sight..
 
---=-mFCA37I60N4iBSCeKMIC
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Adding '-trace vnc*' and setting _VNC_DEBUG in "vnc.h" I get:
 
-On Tue, 2023-01-17 at 11:08 +0100, Markus Armbruster wrote:
->=20
-> > +# Since: x.xx
->=20
-> "Since: 8.0.0" (with any luck).=C2=A0 More of the same below.
+# Start of vnc-display tests
+vnc_server_dpy_recreate VNC server dpy recreate dpy=0x130008000 
+size=640x480 fmt=537004168
+Initializing VNC server with no auth
+vnc_auth_init VNC auth init state=0x130008000 websock=0 auth=1 subauth=0
+Initializing VNC server with no auth
+vnc_auth_init VNC auth init state=0x130008000 websock=1 auth=1 subauth=0
+vnc_client_connect VNC client connect state=0x130050000 ioc=0x13f7077f0
+Client sioc=0x13f7077f0 ws=0 auth=1 subauth=0
+New client on socket 0x13f7077f0
+vnc_set_share_mode/0x13f7077f0: undefined -> connecting
+Write Plain: Pending output 0x14880a400 size 4096 offset 12. Wait SSF 0
+Wrote wire 0x14880a400 12 -> 12
+Read plain 0x0 size 0 offset 0
+Read wire 0x13f8c8c00 4096 -> 12
+Client request protocol version 3.8
+Write Plain: Pending output 0x14880a400 size 4096 offset 2. Wait SSF 0
+Wrote wire 0x14880a400 2 -> 2
+Bail out! FATAL-ERROR: vnc-error: Unsupported auth type 5489072
+Read plain 0x13f8c8c00 size 4096 offset 0
+Read wire 0x13f8c8c00 4096 -> 1
+vnc_auth_reject VNC client auth rejected state=0x130050000 method 
+expected=1 got=176
+Write Plain: Pending output 0x14880a400 size 4096 offset 30. Wait SSF 0
+Wrote wire 0x14880a400 30 -> 30
+Closing down client sock: protocol error
+vnc_client_disconnect_start VNC client disconnect start 
+state=0x130050000 ioc=0x13f7077f0
+vnc_set_share_mode/0x13f7077f0: connecting -> disconnected
+vnc_client_disconnect_finish VNC client disconnect finish 
+state=0x130050000 ioc=0x13f7077f0
 
-Speaking of which... I guess this first series probably wants to be
-considered as KVM and merged via Paolo? Or at least as far as #27/51
-'i386/xen: Add support for Xen event channel delivery to vCPU' which is
-coincidentally where Paul has got to with his reviews (thanks!).
+** (tests/qtest/vnc-display-test:8465): ERROR **: 11:59:18.613: 
+vnc-error: Unsupported auth type 5489072
+Trace/BPT trap: 5
 
-After that it's less KVM intricacies, and more about the actual Xen
-emulation. Perhaps we can mark hw/i386/kvm/xen*.[ch] as being covered
-by the Xen maintainers? Or if Stefano and Anthony prefer, we can keep
-it separate and mark it as maintained by Paul and myself?
+Does that help? What else can I do to gather more info?
 
-What other reviews should be required for that? I'd certainly
-appreciate hearing an opinion from mst and Marcel as PC machine
-maintainers on the GSI parts =E2=80=94 especially the gsi_handler() hook in
-https://git.infradead.org/users/dwmw2/qemu.git/commitdiff/42526211d
-("hw/xen: Support GSI mapping to PIRQ").
+>> Is it supposed to pass, or should we skip it similarly to Windows?
+> 
+> (I hope it'll cover Windows soon)
+> 
 
-For reference, leaving out the newly-added files in hw/i386/kvm/xen*
-and the imported Xen headers, this is the diffstat (of just phase 1,
-not the RFC bits posted on top):
-
- accel/kvm/kvm-all.c                                |    2 +
- accel/xen/xen-all.c                                |    2 +
- docs/system/i386/xen.rst                           |   50 +
- docs/system/target-i386.rst                        |    1 +
- hmp-commands.hx                                    |   29 +
- hw/Kconfig                                         |    1 +
- hw/i386/Kconfig                                    |    5 +
- hw/i386/pc.c                                       |   26 +
- hw/i386/xen/meson.build                            |    5 +-
- hw/i386/xen/xen_platform.c                         |   57 +-
- hw/xen/Kconfig                                     |    3 +
- include/hw/i386/pc.h                               |    3 +
- include/hw/xen/xen.h                               |   21 +-
- include/monitor/hmp.h                              |    2 +
- include/sysemu/kvm_int.h                           |    3 +
- include/sysemu/kvm_xen.h                           |   40 +
- meson.build                                        |    1 +
- qapi/misc-target.json                              |  116 ++
- softmmu/globals.c                                  |    2 +-
- target/i386/cpu.c                                  |    1 +
- target/i386/cpu.h                                  |   19 +
- target/i386/kvm/kvm.c                              |  206 ++-
- target/i386/kvm/meson.build                        |    2 +
- target/i386/kvm/trace-events                       |    6 +
- target/i386/kvm/xen-compat.h                       |   51 +
- target/i386/kvm/xen-emu.c                          | 1711 ++++++++++++++++=
-++++
- target/i386/kvm/xen-emu.h                          |   33 +
- target/i386/machine.c                              |   25 +
-
-
-
---=-mFCA37I60N4iBSCeKMIC
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
-ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
-EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
-FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
-aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
-EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
-aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
-AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
-ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
-QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
-rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
-ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
-U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
-DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
-BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
-dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
-BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
-QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
-CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
-xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
-IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
-kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
-eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
-KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
-1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
-OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
-x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
-5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
-DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
-VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
-UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
-MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
-ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
-oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
-SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
-xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
-RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
-bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
-NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
-KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
-5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
-C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
-gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
-MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
-by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
-b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
-BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
-QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
-c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
-AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
-qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
-v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
-Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
-tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
-Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
-YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
-ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
-IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
-ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
-GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
-h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
-9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
-P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
-2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
-BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
-7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
-lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
-lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
-AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
-Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
-FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
-BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
-cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
-aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
-LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
-BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
-cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
-Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
-lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
-WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
-hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
-IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
-dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
-NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
-xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
-DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMTE5MTEwMTEzWjAvBgkqhkiG9w0BCQQxIgQgh2VQxviF
-REVmapzgXbegSFZhzgYovcrbvaPi6JjjwMQwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
-dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
-DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
-MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
-Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
-lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgAjYnG3LDA3rTW7tNWr33089RFlB51Ad6Rd
-WToJBz/kLqj4NM3tgAfoOTuOpVyu/0vULSzSKBOXM5rDhFI9UdkoGl/hLH6ROMhCDDfjY/N51a6T
-Lxi+++eU/98ahFlPDQ+rN+HDRT63GpDq6wZf9BfOFqbin2qnyW1XuudLfx9pGJ7soLWLOuhjDUUF
-cFAWrYM1qf+ew9iLKl26/0BeY/J+XwGLvH6MYaWiODadn8VWEeSJtSsQZc5cXbjjlVgyGBC5Wqe7
-pz0fkyAmt4uafbpo+Dh/6fvJyH6N5ts0P6SsTl7X/T7LbgVq6U89iZlO4aa1uwK759Py/sv47QQs
-kIYuv5fN/0gtivRdkv1qyipAMOKnewCcR+60AQW5ZOX0UjGRNuyziIuceT84Afpk+fzOw7FRAmE4
-Zzsglk7bfXmxOCgV9PhZXhUabf4LPJ8bz43VPrQxo9htZYrZqU0+2s46gB40RZDfLjiOgrBilf1y
-xR9C/7z8ca67RQX2Y7y0rkBVU+ROOpEYYK8vfx3r0Ui7zUlamLJIIZlGgq5PkPnqiDfrArWCZaZI
-57iA5nl0wp9PGwHfAbgEAwHQ0V9pv3CGfuhettVjTi7vrUdRslB0AV53hZ0uy2nNOAhcJ9Duatof
-CxGv4lxW1aocxfbALcy2ZkGcpXEuWjyKoR8w3aVA9gAAAAAAAA==
-
-
---=-mFCA37I60N4iBSCeKMIC--
 
