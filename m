@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DA65673552
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:18:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 589A6673518
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:08:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIRou-0004ai-S0; Thu, 19 Jan 2023 05:06:56 -0500
+	id 1pIRox-0004ed-Ob; Thu, 19 Jan 2023 05:06:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIRoN-00047h-Up
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:06:27 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIRom-0004Jn-9T
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:06:48 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIRoM-0005Iv-Bx
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:06:23 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id b5so1363098wrn.0
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 02:06:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIRoj-0005RO-VK
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:06:47 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id i4so686163wrs.9
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 02:06:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tLwGuTl8bFyv/J/EkEe4pO8+RMjvvODUvba2H4Ltn/w=;
- b=epe6N7EKDuPqfmzoHL/51kuAnQZSSLwXtAc7yW8a4O28igvEgHUViuzZ5DvTZYYld4
- NeUkksS6L553DGeBoqLqvv9gRh5De7zXNy18tc/YWHdtwkFerkX80yuc979CB6c5GrEW
- qvl4rXFPyMeof/rb9y4St5cpiSWW1FCdJm+T2gYUzbzYybOa1xd1dR/33chXEEa87eZt
- CPZFSyKtNi42ijKA4mKYttHg5FEqFzasqV7rOIhVx2zVdKbK8bd0xTf9K/KGa3yRfre7
- eMgDKYvqRKz1TCIsONTMW7LESzDuuuWzLyByHXIc2F8ds54XhkEL9bqyGcpv9mc8lElZ
- MJ4Q==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=J7awGWN8LF3eNKwLmxatxXWo44vQeX0SuyqtnHKmOi8=;
+ b=n4vY475mdWpgyvpryeEgZiL5JAKSJUjrpuhytzsDLo1PsFVhumIzyVY2YbpzF/r7dj
+ Is9wBTo5C7b1t9Beelo9aAH2ulxpkPlJ78BcUnkNJtunvoGKgk0C1AfKBxG5nhM7/Zx9
+ mPEYaOi0ggcWil0lIahuquJ4CGfx3B0n3+VuQX8VMVGfFoiaqB4AVfUU4qbLdfwLRgx2
+ cALu7IpG5SAi3zIg9wQGYCtKCeWoyPDI6pL2GuOYq3U+8CeN8FIG+oxPKLXHsCS4F2Vx
+ KgijfxPDxyQOB79JsvJ5gYFTQ1h12Oiq7w4tauuN5r4Ce86zwLZ33kDytPEwRvmwIjNU
+ A7wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tLwGuTl8bFyv/J/EkEe4pO8+RMjvvODUvba2H4Ltn/w=;
- b=oyT05RvWNz9n26zX4G7lerBKSOml+NJht5dR++oPbt04fJR5dvsr/9Mnfy+5WrsUwt
- 2Db/5Tn93W0YeuzaFjGu4ySsB0Q0nj8THN5xcxXPjLOAlYpbq2RBYwLcR1ySTM6OK77s
- Xb4Kkjcp+1wytier4ztl4pIUzeDUJQ5N0NFwLSD9lDv25/JPwriHl4mUSdl2bpMyxA02
- mns9PlAsYa/5af7OCRk4Q2eXu4ju/H3NFtVmNAHqnH6wRC1Cplgi383OIFujfQgvl7iW
- MAUeccsB/f3UelTSzrldYYSZWwI51vXpz1FAKLsJwbIpqcGgIDvRoGkA6l4dXMDMXSiP
- Ywpg==
-X-Gm-Message-State: AFqh2krjRMaXkkLoIZK0AbWu1UzZxqOZWbTwl+npul5+DdAA6uqcAwCK
- ldmICvqGjlzj6Hup/tfjZOrQGpnaIFWz2oKX
-X-Google-Smtp-Source: AMrXdXvPuje4PxaV6Yl3w0kExms+6aUCdQGfRdAmgqzP5gVJzuiQxxxC05CNXUui+9nsUESTpkxRsQ==
-X-Received: by 2002:a5d:6e42:0:b0:2bd:fcd3:44c7 with SMTP id
- j2-20020a5d6e42000000b002bdfcd344c7mr8542787wrz.29.1674122779596; 
- Thu, 19 Jan 2023 02:06:19 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- o15-20020a5d62cf000000b002bbedd60a9asm27608453wrv.77.2023.01.19.02.06.18
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 19 Jan 2023 02:06:19 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Fabiano Rosas <farosas@suse.de>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 8/8] tests/qtest/migration-test: Allow running with HVF
-Date: Thu, 19 Jan 2023 11:05:37 +0100
-Message-Id: <20230119100537.5114-9-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230119100537.5114-1-philmd@linaro.org>
-References: <20230119100537.5114-1-philmd@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=J7awGWN8LF3eNKwLmxatxXWo44vQeX0SuyqtnHKmOi8=;
+ b=TmgIoKZi8Vw8A1lRt64v3z6zeAiDB25yB4bHnaWrnR7eM3p6o0yzY8xXl0l4oQKmyY
+ bXCT94iWGODw2qQrnNvSZCPF5iOyVruN3zF803+8sJH3vNk+sj0URxqYDM4dilGyMbTY
+ 7ru6NZS1g5MI3UinUZuZ7cp5dJwnxXqJmfmfmqG6i8AIMlCv3emu2xRRvj7kYuODL9AK
+ 9cWrprnDyBATc0FapIkhqAWeXa77G3UNp3B7adWvY1nmImlMdBuKH33ydVgy+DLRDRb1
+ 3K3oFhfrxldzqp1qy6IPn07ZjWAdUJis3H8y1ylhSQ9Nm1wtG39lkJbSegCyKQFhZQ7X
+ NkQQ==
+X-Gm-Message-State: AFqh2kry24NlLYcYXn6Lx71sxYIHPeynpIM3CSGeypqSyE6gXQv8rG2y
+ sdi5VBQCQS8pR6WDZxR0r1phL3jLlzAEhP0e
+X-Google-Smtp-Source: AMrXdXsiqUqbmpXyEPODEGWJVyNgRuoKpHM/q0P5yVGBb9glfdbcwLMsTGaQmSCZCC5QRQQZGrK8rw==
+X-Received: by 2002:a5d:58ce:0:b0:2be:4c47:abeb with SMTP id
+ o14-20020a5d58ce000000b002be4c47abebmr543787wrf.37.1674122804316; 
+ Thu, 19 Jan 2023 02:06:44 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ s2-20020adff802000000b00241bd7a7165sm33355286wrp.82.2023.01.19.02.06.43
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 02:06:43 -0800 (PST)
+Message-ID: <0b203526-d6d5-7046-f40c-5f25af570d2d@linaro.org>
+Date: Thu, 19 Jan 2023 11:06:42 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 1/2] MAINTAINERS: Cover userfaultfd
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, pbonzini@redhat.com, quintela@redhat.com,
+ dgilbert@redhat.com
+References: <20230119091545.3116376-1-armbru@redhat.com>
+ <20230119091545.3116376-2-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230119091545.3116376-2-armbru@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,42 +91,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- tests/qtest/migration-test.c | 5 +++++
- 1 file changed, 5 insertions(+)
+On 19/1/23 10:15, Markus Armbruster wrote:
+> Commit 0e9b5cd6b2 "migration: introduce UFFD-WP low-level interface
+> helpers" added util/userfaultfd.c without covering it in MAINTAINERS.
+> Add it to section "Migration".
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   MAINTAINERS | 2 ++
+>   1 file changed, 2 insertions(+)
 
-diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 1e7f1ea162..7a0fcfb81d 100644
---- a/tests/qtest/migration-test.c
-+++ b/tests/qtest/migration-test.c
-@@ -47,6 +47,7 @@ unsigned start_address;
- unsigned end_address;
- static bool has_tcg;
- static bool has_kvm;
-+static bool has_hvf;
- static bool uffd_feature_thread_id;
- 
- /*
-@@ -614,6 +615,9 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-                                args->use_dirty_ring
-                                ? ",dirty-ring-size=4096" : "");
-     }
-+    if (has_hvf) {
-+        g_string_append(cmd_common, "-accel hvf ");
-+    }
- 
-     bootpath = g_strdup_printf("%s/bootsect", tmpfs);
-     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-@@ -2472,6 +2476,7 @@ int main(int argc, char **argv)
- 
-     has_tcg = qtest_has_accel("tcg");
-     has_kvm = qtest_has_accel("kvm");
-+    has_hvf = qtest_has_accel("hvf");
- 
-     g_test_init(&argc, &argv, NULL);
- 
--- 
-2.38.1
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
