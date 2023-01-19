@@ -2,70 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECE9D673B87
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:19:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE3BD673B95
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:22:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIVkH-0003W1-Pn; Thu, 19 Jan 2023 09:18:25 -0500
+	id 1pIVn5-0006lb-Jx; Thu, 19 Jan 2023 09:21:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1pIVjV-0003G2-BT; Thu, 19 Jan 2023 09:17:44 -0500
-Received: from smtpout1.mo529.mail-out.ovh.net ([178.32.125.2])
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1pIVn1-0006ko-QU
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:21:15 -0500
+Received: from mail-dm6nam10on2085.outbound.protection.outlook.com
+ ([40.107.93.85] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>)
- id 1pIVjQ-0001gE-UZ; Thu, 19 Jan 2023 09:17:36 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.109.143.58])
- by mo529.mail-out.ovh.net (Postfix) with ESMTPS id 8568B155FAF28;
- Thu, 19 Jan 2023 15:17:17 +0100 (CET)
-Received: from kaod.org (37.59.142.110) by DAG8EX2.mxp5.local (172.16.2.72)
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1pIVn0-0002lm-BG
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:21:15 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=VeP5mfrBSZn0lsYZb47asyLktZgORlKXkLu/yymBFqSSuXBGd70Q8pWdY4OzOhekEX0WkMINVHWwTdhGzEme0EdlKfCY2ExzqR046/f2naZDt5DRZcWL+Iz/Jo989J/s4ETF7qS+1d6Xwbc2KhzHPmpTfC3t0upOmJRD9PAvaYFyjpuR1J4osmC3ChpE7uTZeWLaXHzdDlkgVdsT7TWZIJ4tsc130yeVGVCQKPHb0vZkLRP/4pnhoQd7YJWvepNF9aCKQb5QLlPyGNMeooIB/PUEnRmNfImS6LKIXQpYMPDewZgZTDkO9CHqT40q+WWhlFSNivlZ0z6TjDRTu2xuAg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2wPzZI2JTDSlzoJ03tS1DJYf+O5RJElZ+IOUoKEMlJg=;
+ b=mr5X68EzM0jSncqYbYLQjO2jJi9vqo7PG/GxF9LsuvyaJBUiISBG0PldrbrSRw2aXLg9IHzuFMJibU/3Pu9fFjCdHbfUiy+sLIKVB1kGFlVj2AbPWywoVfyjliAjQaHOa6dp2SYZvPNnsaUmfFCitOP8TQ5ldnj640A57dWjWcl9k6rc6UXlSwSdzcQwMmHBVxSQJwCyiqrB+9H+hupectN7lMPA1qM/AMkrjDM1HiN8AnGAnMevqB89FvAQ9P97s8RMaJ4k2gj97PPVjb61M10cp2BAcHw08FieilY05n8GrJrIubtMQeDjuxNECtziejRN7k8TQhSDb9o4V+yl7w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2wPzZI2JTDSlzoJ03tS1DJYf+O5RJElZ+IOUoKEMlJg=;
+ b=c3eRpEn/fnqwOMi0YlWf3ceyFdNarH7aMcWwmTxjmK7u8DacZz1QtVSm9RmzoTC906+2q3PlHNcMQRWjscMAQOrdSohKJ7RSMFjrpZxNm05ui4nZrA1+xOTBPxqHMNecwppZYmJ90980kyKvYPMmXKiD6ppVcT+B5LrBGXtGQXA=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
+ by PH7PR17MB6507.namprd17.prod.outlook.com (2603:10b6:510:2b5::19)
  with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 19 Jan
- 2023 15:17:15 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-110S004dcc4925c-a362-485b-abf8-43f2d5f70c1c,
- 24E9BC4E0C08A0C5F41A8E8F02276630B3C3193A) smtp.auth=groug@kaod.org
-X-OVh-ClientIp: 78.197.208.248
-Date: Thu, 19 Jan 2023 15:17:14 +0100
-From: Greg Kurz <groug@kaod.org>
-To: Markus Armbruster <armbru@redhat.com>
-CC: <qemu-devel@nongnu.org>, <richard.henderson@linaro.org>,
- <pbonzini@redhat.com>, <kwolf@redhat.com>, <hreitz@redhat.com>,
- <imp@bsdimp.com>, <kevans@freebsd.org>, <berrange@redhat.com>,
- <qemu_oss@crudebyte.com>, <mst@redhat.com>, <philmd@linaro.org>,
- <peter.maydell@linaro.org>, <alistair@alistair23.me>, <jasowang@redhat.com>,
- <jonathan.cameron@huawei.com>, <kbastian@mail.uni-paderborn.de>,
- <quintela@redhat.com>, <dgilbert@redhat.com>, <michael.roth@amd.com>,
- <kkostiuk@redhat.com>, <tsimpson@quicinc.com>, <palmer@dabbelt.com>,
- <bin.meng@windriver.com>, <qemu-block@nongnu.org>, <qemu-arm@nongnu.org>,
- <qemu-riscv@nongnu.org>
-Subject: Re: [PATCH v4 19/19] Drop duplicate #include
-Message-ID: <20230119151714.30bde826@bahia>
-In-Reply-To: <20230119065959.3104012-20-armbru@redhat.com>
-References: <20230119065959.3104012-1-armbru@redhat.com>
- <20230119065959.3104012-20-armbru@redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Thu, 19 Jan
+ 2023 14:21:05 +0000
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660%4]) with mapi id 15.20.5986.023; Thu, 19 Jan 2023
+ 14:21:05 +0000
+Date: Thu, 19 Jan 2023 09:20:59 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Lukas Wunner <lukas@wunner.de>, qemu-devel@nongnu.org,
+ Michael Tsirkin <mst@redhat.com>,
+ Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
+ linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
+ Gregory Price <gourry.memverge@gmail.com>
+Subject: Re: [PATCH 0/8] hw/cxl: CXL emulation cleanups and minor fixes for
+ upstream
+Message-ID: <Y8lRy7vSqgYfRgTL@memverge.com>
+References: <Y8AppXP+eP9cEz+i@memverge.com>
+ <20230112172130.0000391b@Huawei.com>
+ <Y8CNw/fZT5fZJZcK@memverge.com>
+ <20230113091213.00002146@Huawei.com>
+ <Y8Foj/12QNl0C96o@memverge.com>
+ <20230113144026.000001fb@Huawei.com>
+ <20230113144511.00001207@Huawei.com>
+ <20230113151206.GA20583@wunner.de> <Y8hG4OyJL7l9oD2f@memverge.com>
+ <20230119101946.000079e5@Huawei.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230119101946.000079e5@Huawei.com>
+X-ClientProxiedBy: SJ0PR13CA0171.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::26) To BN6PR17MB3121.namprd17.prod.outlook.com
+ (2603:10b6:405:7c::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.110]
-X-ClientProxiedBy: DAG6EX1.mxp5.local (172.16.2.51) To DAG8EX2.mxp5.local
- (172.16.2.72)
-X-Ovh-Tracer-GUID: 81610c14-3411-4bf1-8062-cf853aa910fa
-X-Ovh-Tracer-Id: 5831317092559395109
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddutddgieefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepfffhvfevuffkjghfofggtgfgihesthejredtredtvdenucfhrhhomhepifhrvghgucfmuhhriicuoehgrhhouhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepgeekjedtveegkeeileffvdetvddvgedtudduiefghffhgfdvhfegjeetkeehfeeknecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrdduuddtnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoghhrohhugheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopegrrhhmsghruhesrhgvughhrghtrdgtohhmpdhqvghmuhdqsghlohgtkhesnhhonhhgnhhurdhorhhgpdgsihhnrdhmvghnghesfihinhgurhhivhgvrhdrtghomhdpphgrlhhmvghrsegurggssggvlhhtrdgtohhmpdhtshhimhhpshhonhesqhhuihgtihhntgdrtghomhdpkhhkohhsthhiuhhksehrvgguhhgrthdrtghomhdpmhhitghhrggvlhdrrhhothhhsegrmhgurdgtohhmpdgughhilhgsvghrthesrhgvughhrghtrdgtohhmpdhquhhinhhtvghlrgesrhgvughhrghtrdgtohhmpd
- hksggrshhtihgrnhesmhgrihhlrdhunhhiqdhprgguvghrsghorhhnrdguvgdpjhhonhgrthhhrghnrdgtrghmvghrohhnsehhuhgrfigvihdrtghomhdpjhgrshhofigrnhhgsehrvgguhhgrthdrtghomhdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdprghlihhsthgrihhrsegrlhhishhtrghirhdvfedrmhgvpdhphhhilhhmugeslhhinhgrrhhordhorhhgpdhmshhtsehrvgguhhgrthdrtghomhdpqhgvmhhupghoshhssegtrhhuuggvsgihthgvrdgtohhmpdgsvghrrhgrnhhgvgesrhgvughhrghtrdgtohhmpdhkvghvrghnshesfhhrvggvsghsugdrohhrghdpihhmphessghsughimhhprdgtohhmpdhhrhgvihhtiiesrhgvughhrghtrdgtohhmpdhkfiholhhfsehrvgguhhgrthdrtghomhdpphgsohhniihinhhisehrvgguhhgrthdrtghomhdprhhitghhrghrugdrhhgvnhguvghrshhonheslhhinhgrrhhordhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpqhgvmhhuqdhrihhstghvsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhohedvledpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=178.32.125.2; envelope-from=groug@kaod.org;
- helo=smtpout1.mo529.mail-out.ovh.net
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|PH7PR17MB6507:EE_
+X-MS-Office365-Filtering-Correlation-Id: edc1a0c3-2877-4795-3290-08dafa28667a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4xogRgNuX6oktqEaD27tTOJIWB5vcd8YPx+gYvKE3kRz5SSBeZ+qnbcBA91oRt6gv9cs88o/pvK/fgSyhLQufwkmb4hB2iOUB3MDsu4swirRcuVTkg47Y/bSCqqbDfAe2mgRILD8E442vy1FyOQ+PcP0wkhv0MrKBWU9uT6ZCWL9M5E+Xlz+c/oBHv9ZxRjXP5qocpJE1J/O4IVpYWUyLvsmIHhL7zIOKinBNn3zcDJXw4J4bpUxGgwhLOyWcwCSfwzpHP/Dy7BaKysTVJkhXZSiK/6e0LiCZ4XF4KKduV+P0C+Vkr7wMxl4Ixgzk9x7cHaTcEpppjZnird62D90KLgeAYqeKJYq1gAQojtAnNI/lNtBbnOzJFXzMAO1Hdb2yb7TykvB6STi/flHcgTiGEfa7Y8NWs+lnKRScTSkvDDS6JtyM8LGxT5MisDC0ceQIgmKxTzZzUvrTAo+xHfopc3EqdR90u7XZgwKf2FT3WYr27yBEvzU5SOySZHUY3V+Tuni2fqThreTb/Ihi8aqDorVROxmb0wOA9arh+9LQ1s+lQaMC665jxhrdO4HVODuIWvVPiVabNwwrtaDGXfPjyL3tivJ3woli/OFbMusvxbUinjwqQdlJHmZTgym6pJbbHcAsh2CpRXyJmlTZ6AxLA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(346002)(376002)(136003)(366004)(396003)(39840400004)(451199015)(36756003)(2616005)(44832011)(66476007)(4326008)(5660300002)(4744005)(66556008)(6512007)(186003)(26005)(478600001)(66946007)(6486002)(8676002)(6506007)(6666004)(8936002)(6916009)(54906003)(316002)(41300700001)(2906002)(38100700002)(86362001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?QaGTmG1LjB12TlFhXJR9eMFvVXRQGSVV7Ufq35ohdjCE2K8iWfOtIM0k/J8I?=
+ =?us-ascii?Q?ejKm3AqZR31prmpIae/weoiaKAFtJ4fXxRl8+G4rthVOO0GpyMb4UjFkgqe9?=
+ =?us-ascii?Q?gzqtpQ/BUY0KYbuBA8di04ueztl9/8H0E9fXT9Lkwicp+RuEO9UN/UVz5hMS?=
+ =?us-ascii?Q?ABGOuW2WWUrOfNc3lOrGfL4mh8BWH1EuvnrHe5ujs9KJHvPQTsSYyeAG920+?=
+ =?us-ascii?Q?dFu6oFGDJ0dmw+32j/xpURLRZwmAN8Ak1v08CHW+qPC5AEekbrd0E9ZrsgyR?=
+ =?us-ascii?Q?0g7L75CFLQnlg8oB7PpvwfhvJvw03rZMli8jXetszBddp5DxufVmpC7ahz4F?=
+ =?us-ascii?Q?GFQJRJp38oGb13EGYzjTA9C2lxol7xcHd6gzzIJUQXzAGfAPPoBwGK1Rd1Tw?=
+ =?us-ascii?Q?OGvG150NGaAWPGewpDWFj8f8c3k+viAemzo+lYV5HrUYn1LRy+eq7JpJqHxm?=
+ =?us-ascii?Q?0pVHchKj0gJkoqUu5ui8rGGqGeqJ5vm0wTsv8Ks2cHhQOZ+5Q+8aPYTPJ0sG?=
+ =?us-ascii?Q?9euaTGN38/1aAxDYRpHvfauGcZ3pRo2Al7qxdQte5O9zIJ4N2AXcfPx56eH6?=
+ =?us-ascii?Q?tm2ktahOHoBBkltcGOxJogoGilCvi2cd8ZaUTW92qHTorIQnblF1TeK+9unR?=
+ =?us-ascii?Q?eXDQ55wXWzAKGHKMfZPLDCVTdQATgXv1L2LTqOaACfUE4mOwnFyVwChpxywJ?=
+ =?us-ascii?Q?XFYdJfXiJXAMzTS93FCyPGnuT20Oa27XonVa0fnK+5xhJPrf4935mbOzNiXF?=
+ =?us-ascii?Q?Xndbkhk9Ud25LHKBW+uUZLBGPlW70ozHHG57zqxkcuk0oeCE0j79YLjE8qgc?=
+ =?us-ascii?Q?5aYlHNr5k0gAd/y5LinjN+D1lkpSiWKD5pjm8asW30DMq6jiMruzNXKYCn3d?=
+ =?us-ascii?Q?+fYNHaveGA0fAiTWe80lywyitK7VTneOCmbjHDZ5XKp1oDDZnttrAOVbm9lW?=
+ =?us-ascii?Q?defmSusE23OjuTIKd13+uVrngij/W1MkLNrzZ/CluHxhC//0fJXS9ugbODAj?=
+ =?us-ascii?Q?OWSbPy92rHOKHISRrZPbiuEQH5kUXGPl0wXwU5EAxGnaQ3mmYLeWIhgPVpXs?=
+ =?us-ascii?Q?VVxhqG02WU8KK9H7eWdHN+4SEG5UvNIbCHxaI4S4Mb9wVRbvuVPR+kz5K1Wg?=
+ =?us-ascii?Q?XZKhwJRPFWg5/GVEdZl89QRyC5fOq0W1Lpx1U3eXMVvhkdeOyrGAY/+lhhuJ?=
+ =?us-ascii?Q?gqkZOMpIYhH0+B92WUia12sR3mQKepiJ4naVIDICiZF/MTIODGQMXPiuvc/C?=
+ =?us-ascii?Q?s6X3Lc/u2JY7cdfNEPyqBjFbS7kvA4ggyX5Pbi73KmmgUqPsbZGXII9tS6bR?=
+ =?us-ascii?Q?NUnk7Hm8ReLGwwp6qMFFRuAbFg45oY8k47xe4priFSPUXsnTBn0H5wPgHyFv?=
+ =?us-ascii?Q?oGTT8+gqJExJtfk4XFnN7OyFGqmmn4OFAYZBDCcQSD93rmJhFxb5CesT4OEJ?=
+ =?us-ascii?Q?gZeOowverCNyGJwhynrLW5ZMIOU0pqN3+u0Dm5NNu0BoPHrHmnfBMQ+zKHZt?=
+ =?us-ascii?Q?gQt84F3AQrMfU2OY8NqjmX9ekEHlhXvroTrcA6KLtVzlhZjX/4vYi1dqG5tj?=
+ =?us-ascii?Q?iwLi2fMOgGSlSn+GhaF6xjWU2n2qiDBiCikNW+h+y9A+KZE+bOtdx78bima/?=
+ =?us-ascii?Q?0w=3D=3D?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: edc1a0c3-2877-4795-3290-08dafa28667a
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Jan 2023 14:21:05.3297 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: u5jhGA1pIk18SEhqwUjhkrDWIeV3aeOi8tlh+kY3NIrMnes98ntrbcOnl6ILA+LWSyBXtgAi9O81+fCi6nxrqbcl2Zkgiy3wbskVJLAA2G4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR17MB6507
+Received-SPF: none client-ip=40.107.93.85;
+ envelope-from=gregory.price@memverge.com;
+ helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,461 +147,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 19 Jan 2023 07:59:59 +0100
-Markus Armbruster <armbru@redhat.com> wrote:
-
-> Tracked down with the help of scripts/clean-includes.
+On Thu, Jan 19, 2023 at 10:19:46AM +0000, Jonathan Cameron wrote:
+> Even if everything else worked, it will currently fail because of the
+> issue with pass through decoders.
+> (Kernel assumes always pass through for single rp, qemu assumes never
+>  pass through - both are valid under spec).
+> Add a second rp for now.  I should be able to post some patches
+> to work around that shortly. 
 > 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
 
-For ppc changes.
+*facepalm* i knew this and yet i still kept old configs around.
 
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
->  include/hw/arm/fsl-imx6ul.h   | 1 -
->  include/hw/arm/fsl-imx7.h     | 1 -
->  backends/tpm/tpm_emulator.c   | 1 -
->  hw/acpi/piix4.c               | 1 -
->  hw/alpha/dp264.c              | 1 -
->  hw/arm/virt.c                 | 1 -
->  hw/arm/xlnx-versal.c          | 1 -
->  hw/block/pflash_cfi01.c       | 1 -
->  hw/core/machine.c             | 1 -
->  hw/hppa/machine.c             | 1 -
->  hw/i386/acpi-build.c          | 1 -
->  hw/loongarch/acpi-build.c     | 1 -
->  hw/misc/macio/cuda.c          | 1 -
->  hw/misc/macio/pmu.c           | 1 -
->  hw/net/xilinx_axienet.c       | 1 -
->  hw/ppc/ppc405_uc.c            | 2 --
->  hw/ppc/ppc440_bamboo.c        | 1 -
->  hw/ppc/spapr_drc.c            | 1 -
->  hw/rdma/vmw/pvrdma_dev_ring.c | 1 -
->  hw/remote/machine.c           | 1 -
->  hw/remote/remote-obj.c        | 1 -
->  hw/rtc/mc146818rtc.c          | 1 -
->  hw/s390x/virtio-ccw-serial.c  | 1 -
->  migration/postcopy-ram.c      | 2 --
->  softmmu/dirtylimit.c          | 1 -
->  softmmu/runstate.c            | 1 -
->  softmmu/vl.c                  | 1 -
->  target/loongarch/translate.c  | 1 -
->  target/mips/tcg/translate.c   | 1 -
->  target/nios2/translate.c      | 2 --
->  tests/unit/test-cutils.c      | 1 -
->  ui/gtk.c                      | 1 -
->  util/oslib-posix.c            | 4 ----
->  33 files changed, 39 deletions(-)
-> 
-> diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
-> index 7812e516a5..1952cb984d 100644
-> --- a/include/hw/arm/fsl-imx6ul.h
-> +++ b/include/hw/arm/fsl-imx6ul.h
-> @@ -30,7 +30,6 @@
->  #include "hw/timer/imx_gpt.h"
->  #include "hw/timer/imx_epit.h"
->  #include "hw/i2c/imx_i2c.h"
-> -#include "hw/gpio/imx_gpio.h"
->  #include "hw/sd/sdhci.h"
->  #include "hw/ssi/imx_spi.h"
->  #include "hw/net/imx_fec.h"
-> diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
-> index 4e5e071864..355bd8ea83 100644
-> --- a/include/hw/arm/fsl-imx7.h
-> +++ b/include/hw/arm/fsl-imx7.h
-> @@ -32,7 +32,6 @@
->  #include "hw/timer/imx_gpt.h"
->  #include "hw/timer/imx_epit.h"
->  #include "hw/i2c/imx_i2c.h"
-> -#include "hw/gpio/imx_gpio.h"
->  #include "hw/sd/sdhci.h"
->  #include "hw/ssi/imx_spi.h"
->  #include "hw/net/imx_fec.h"
-> diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
-> index 49cc3d749d..2b440d2c9a 100644
-> --- a/backends/tpm/tpm_emulator.c
-> +++ b/backends/tpm/tpm_emulator.c
-> @@ -35,7 +35,6 @@
->  #include "sysemu/runstate.h"
->  #include "sysemu/tpm_backend.h"
->  #include "sysemu/tpm_util.h"
-> -#include "sysemu/runstate.h"
->  #include "tpm_int.h"
->  #include "tpm_ioctl.h"
->  #include "migration/blocker.h"
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index 0a81f1ad93..df39f91294 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -35,7 +35,6 @@
->  #include "sysemu/xen.h"
->  #include "qapi/error.h"
->  #include "qemu/range.h"
-> -#include "hw/acpi/pcihp.h"
->  #include "hw/acpi/cpu_hotplug.h"
->  #include "hw/acpi/cpu.h"
->  #include "hw/hotplug.h"
-> diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-> index c502c8c62a..4161f559a7 100644
-> --- a/hw/alpha/dp264.c
-> +++ b/hw/alpha/dp264.c
-> @@ -18,7 +18,6 @@
->  #include "net/net.h"
->  #include "qemu/cutils.h"
->  #include "qemu/datadir.h"
-> -#include "net/net.h"
->  
->  static uint64_t cpu_alpha_superpage_to_phys(void *opaque, uint64_t addr)
->  {
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index ea2413a0ba..d3849d7233 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -33,7 +33,6 @@
->  #include "qemu/units.h"
->  #include "qemu/option.h"
->  #include "monitor/qdev.h"
-> -#include "qapi/error.h"
->  #include "hw/sysbus.h"
->  #include "hw/arm/boot.h"
->  #include "hw/arm/primecell.h"
-> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-> index 57276e1506..69b1b99e93 100644
-> --- a/hw/arm/xlnx-versal.c
-> +++ b/hw/arm/xlnx-versal.c
-> @@ -22,7 +22,6 @@
->  #include "hw/misc/unimp.h"
->  #include "hw/arm/xlnx-versal.h"
->  #include "qemu/log.h"
-> -#include "hw/sysbus.h"
->  
->  #define XLNX_VERSAL_ACPU_TYPE ARM_CPU_TYPE_NAME("cortex-a72")
->  #define XLNX_VERSAL_RCPU_TYPE ARM_CPU_TYPE_NAME("cortex-r5f")
-> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-> index 0cbc2fb4cb..d11406eada 100644
-> --- a/hw/block/pflash_cfi01.c
-> +++ b/hw/block/pflash_cfi01.c
-> @@ -45,7 +45,6 @@
->  #include "qapi/error.h"
->  #include "qemu/error-report.h"
->  #include "qemu/bitops.h"
-> -#include "qemu/error-report.h"
->  #include "qemu/host-utils.h"
->  #include "qemu/log.h"
->  #include "qemu/module.h"
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 616f3a207c..67cf9f9dcd 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -39,7 +39,6 @@
->  #include "exec/confidential-guest-support.h"
->  #include "hw/virtio/virtio.h"
->  #include "hw/virtio/virtio-pci.h"
-> -#include "qom/object_interfaces.h"
->  
->  GlobalProperty hw_compat_7_2[] = {};
->  const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
-> diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-> index de1cc7ab71..7ac68c943f 100644
-> --- a/hw/hppa/machine.c
-> +++ b/hw/hppa/machine.c
-> @@ -28,7 +28,6 @@
->  #include "qapi/error.h"
->  #include "net/net.h"
->  #include "qemu/log.h"
-> -#include "net/net.h"
->  
->  #define MIN_SEABIOS_HPPA_VERSION 6 /* require at least this fw version */
->  
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 127c4e2d50..14f6f75454 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -76,7 +76,6 @@
->  
->  #include "hw/acpi/hmat.h"
->  #include "hw/acpi/viot.h"
-> -#include "hw/acpi/cxl.h"
->  
->  #include CONFIG_DEVICES
->  
-> diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
-> index c2b237736d..f551296a0e 100644
-> --- a/hw/loongarch/acpi-build.c
-> +++ b/hw/loongarch/acpi-build.c
-> @@ -22,7 +22,6 @@
->  /* Supported chipsets: */
->  #include "hw/pci-host/ls7a.h"
->  #include "hw/loongarch/virt.h"
-> -#include "hw/acpi/aml-build.h"
->  
->  #include "hw/acpi/utils.h"
->  #include "hw/acpi/pci.h"
-> diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
-> index 853e88bfed..29a8e5ed19 100644
-> --- a/hw/misc/macio/cuda.c
-> +++ b/hw/misc/macio/cuda.c
-> @@ -30,7 +30,6 @@
->  #include "hw/input/adb.h"
->  #include "hw/misc/mos6522.h"
->  #include "hw/misc/macio/cuda.h"
-> -#include "qapi/error.h"
->  #include "qemu/timer.h"
->  #include "sysemu/runstate.h"
->  #include "sysemu/rtc.h"
-> diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
-> index 97ef8c771b..5a788e595a 100644
-> --- a/hw/misc/macio/pmu.c
-> +++ b/hw/misc/macio/pmu.c
-> @@ -36,7 +36,6 @@
->  #include "hw/misc/mos6522.h"
->  #include "hw/misc/macio/gpio.h"
->  #include "hw/misc/macio/pmu.h"
-> -#include "qapi/error.h"
->  #include "qemu/timer.h"
->  #include "sysemu/runstate.h"
->  #include "sysemu/rtc.h"
-> diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
-> index 990ff3a1c2..673af7da26 100644
-> --- a/hw/net/xilinx_axienet.c
-> +++ b/hw/net/xilinx_axienet.c
-> @@ -31,7 +31,6 @@
->  #include "net/net.h"
->  #include "net/checksum.h"
->  
-> -#include "hw/hw.h"
->  #include "hw/irq.h"
->  #include "hw/qdev-properties.h"
->  #include "hw/stream.h"
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index c973cfb04e..0cc68178ad 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -38,8 +38,6 @@
->  #include "sysemu/sysemu.h"
->  #include "exec/address-spaces.h"
->  #include "hw/intc/ppc-uic.h"
-> -#include "hw/qdev-properties.h"
-> -#include "qapi/error.h"
->  #include "trace.h"
->  
->  /*****************************************************************************/
-> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-> index 81d71adf34..2880c81cb1 100644
-> --- a/hw/ppc/ppc440_bamboo.c
-> +++ b/hw/ppc/ppc440_bamboo.c
-> @@ -13,7 +13,6 @@
->  
->  #include "qemu/osdep.h"
->  #include "qemu/units.h"
-> -#include "qemu/error-report.h"
->  #include "qemu/datadir.h"
->  #include "qemu/error-report.h"
->  #include "net/net.h"
-> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-> index 4923435a8b..b5c400a94d 100644
-> --- a/hw/ppc/spapr_drc.c
-> +++ b/hw/ppc/spapr_drc.c
-> @@ -17,7 +17,6 @@
->  #include "hw/ppc/spapr_drc.h"
->  #include "qom/object.h"
->  #include "migration/vmstate.h"
-> -#include "qapi/error.h"
->  #include "qapi/qapi-events-qdev.h"
->  #include "qapi/visitor.h"
->  #include "qemu/error-report.h"
-> diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c
-> index 598e6adc5e..30ce22a5be 100644
-> --- a/hw/rdma/vmw/pvrdma_dev_ring.c
-> +++ b/hw/rdma/vmw/pvrdma_dev_ring.c
-> @@ -14,7 +14,6 @@
->   */
->  
->  #include "qemu/osdep.h"
-> -#include "qemu/cutils.h"
->  #include "hw/pci/pci.h"
->  #include "cpu.h"
->  #include "qemu/cutils.h"
-> diff --git a/hw/remote/machine.c b/hw/remote/machine.c
-> index 519f855ec1..fdc6c441bb 100644
-> --- a/hw/remote/machine.c
-> +++ b/hw/remote/machine.c
-> @@ -22,7 +22,6 @@
->  #include "hw/remote/iohub.h"
->  #include "hw/remote/iommu.h"
->  #include "hw/qdev-core.h"
-> -#include "hw/remote/iommu.h"
->  #include "hw/remote/vfio-user-obj.h"
->  #include "hw/pci/msi.h"
->  
-> diff --git a/hw/remote/remote-obj.c b/hw/remote/remote-obj.c
-> index 333e5ac443..65b6f7cc86 100644
-> --- a/hw/remote/remote-obj.c
-> +++ b/hw/remote/remote-obj.c
-> @@ -12,7 +12,6 @@
->  #include "qemu/error-report.h"
->  #include "qemu/notify.h"
->  #include "qom/object_interfaces.h"
-> -#include "hw/qdev-core.h"
->  #include "io/channel.h"
->  #include "hw/qdev-core.h"
->  #include "hw/remote/machine.h"
-> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-> index bc1192b7ae..ba612a151d 100644
-> --- a/hw/rtc/mc146818rtc.c
-> +++ b/hw/rtc/mc146818rtc.c
-> @@ -43,7 +43,6 @@
->  #include "qapi/error.h"
->  #include "qapi/qapi-events-misc.h"
->  #include "qapi/visitor.h"
-> -#include "hw/rtc/mc146818rtc_regs.h"
->  
->  //#define DEBUG_CMOS
->  //#define DEBUG_COALESCED
-> diff --git a/hw/s390x/virtio-ccw-serial.c b/hw/s390x/virtio-ccw-serial.c
-> index bf8057880f..8f8d2302f8 100644
-> --- a/hw/s390x/virtio-ccw-serial.c
-> +++ b/hw/s390x/virtio-ccw-serial.c
-> @@ -15,7 +15,6 @@
->  #include "hw/qdev-properties.h"
->  #include "hw/virtio/virtio-serial.h"
->  #include "virtio-ccw.h"
-> -#include "hw/virtio/virtio-serial.h"
->  
->  #define TYPE_VIRTIO_SERIAL_CCW "virtio-serial-ccw"
->  OBJECT_DECLARE_SIMPLE_TYPE(VirtioSerialCcw, VIRTIO_SERIAL_CCW)
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index b9a37ef255..8b7d1af75d 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -17,7 +17,6 @@
->   */
->  
->  #include "qemu/osdep.h"
-> -#include "qemu/rcu.h"
->  #include "qemu/madvise.h"
->  #include "exec/target_page.h"
->  #include "migration.h"
-> @@ -34,7 +33,6 @@
->  #include "hw/boards.h"
->  #include "exec/ramblock.h"
->  #include "socket.h"
-> -#include "qemu-file.h"
->  #include "yank_functions.h"
->  #include "tls.h"
->  
-> diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-> index 12668555f2..c56f0f58c8 100644
-> --- a/softmmu/dirtylimit.c
-> +++ b/softmmu/dirtylimit.c
-> @@ -11,7 +11,6 @@
->   */
->  
->  #include "qemu/osdep.h"
-> -#include "qapi/error.h"
->  #include "qemu/main-loop.h"
->  #include "qapi/qapi-commands-migration.h"
->  #include "qapi/qmp/qdict.h"
-> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-> index cab9f6fc07..f9ad88e6a7 100644
-> --- a/softmmu/runstate.c
-> +++ b/softmmu/runstate.c
-> @@ -41,7 +41,6 @@
->  #include "qapi/qapi-commands-run-state.h"
->  #include "qapi/qapi-events-run-state.h"
->  #include "qemu/error-report.h"
-> -#include "qemu/log.h"
->  #include "qemu/job.h"
->  #include "qemu/log.h"
->  #include "qemu/module.h"
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index 5355a7fe5a..b2ee3fee3f 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -129,7 +129,6 @@
->  #include "qapi/qapi-commands-misc.h"
->  #include "qapi/qapi-visit-qom.h"
->  #include "qapi/qapi-commands-ui.h"
-> -#include "qapi/qmp/qdict.h"
->  #include "block/qdict.h"
->  #include "qapi/qmp/qerror.h"
->  #include "sysemu/iothread.h"
-> diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-> index 38ced69803..72a6275665 100644
-> --- a/target/loongarch/translate.c
-> +++ b/target/loongarch/translate.c
-> @@ -12,7 +12,6 @@
->  #include "exec/helper-proto.h"
->  #include "exec/helper-gen.h"
->  
-> -#include "exec/translator.h"
->  #include "exec/log.h"
->  #include "qemu/qemu-print.h"
->  #include "fpu/softfloat.h"
-> diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-> index 624e6b7786..aa12bb708a 100644
-> --- a/target/mips/tcg/translate.c
-> +++ b/target/mips/tcg/translate.c
-> @@ -32,7 +32,6 @@
->  #include "semihosting/semihost.h"
->  
->  #include "trace.h"
-> -#include "exec/translator.h"
->  #include "exec/log.h"
->  #include "qemu/qemu-print.h"
->  #include "fpu_helper.h"
-> diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-> index 4db8b47744..7aee65a089 100644
-> --- a/target/nios2/translate.c
-> +++ b/target/nios2/translate.c
-> @@ -938,8 +938,6 @@ static const char * const cr_regnames[NUM_CR_REGS] = {
->  };
->  #endif
->  
-> -#include "exec/gen-icount.h"
-> -
->  /* generate intermediate code for basic block 'tb'.  */
->  static void nios2_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
->  {
-> diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
-> index 2126b46391..3c4f875420 100644
-> --- a/tests/unit/test-cutils.c
-> +++ b/tests/unit/test-cutils.c
-> @@ -26,7 +26,6 @@
->   */
->  
->  #include "qemu/osdep.h"
-> -#include "qemu/units.h"
->  #include "qemu/cutils.h"
->  #include "qemu/units.h"
->  
-> diff --git a/ui/gtk.c b/ui/gtk.c
-> index 4817623c8f..7f752d8b7d 100644
-> --- a/ui/gtk.c
-> +++ b/ui/gtk.c
-> @@ -53,7 +53,6 @@
->  #include <math.h>
->  
->  #include "trace.h"
-> -#include "qemu/cutils.h"
->  #include "ui/input.h"
->  #include "sysemu/runstate.h"
->  #include "sysemu/sysemu.h"
-> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-> index fd03fd32c8..77d882e681 100644
-> --- a/util/oslib-posix.c
-> +++ b/util/oslib-posix.c
-> @@ -59,10 +59,6 @@
->  
->  #include "qemu/mmap-alloc.h"
->  
-> -#ifdef CONFIG_DEBUG_STACK_USAGE
-> -#include "qemu/error-report.h"
-> -#endif
-> -
->  #define MAX_MEM_PREALLOC_THREAD_COUNT 16
->  
->  struct MemsetThread;
-
+I'll do some more testing today with 2 root ports
 
