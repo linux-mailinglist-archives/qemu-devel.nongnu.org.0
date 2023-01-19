@@ -2,68 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51C00672FBD
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 04:52:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA75672FC0
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 04:52:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pILwl-0003DM-VC; Wed, 18 Jan 2023 22:50:39 -0500
+	id 1pILxm-0003eV-By; Wed, 18 Jan 2023 22:51:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wenchao.wang@intel.com>)
- id 1pILwk-0003DD-G5
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 22:50:38 -0500
-Received: from mga12.intel.com ([192.55.52.136])
+ id 1pILxk-0003aa-4v
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 22:51:40 -0500
+Received: from mga05.intel.com ([192.55.52.43])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <wenchao.wang@intel.com>)
- id 1pILwi-0004mP-Oa
- for qemu-devel@nongnu.org; Wed, 18 Jan 2023 22:50:38 -0500
+ id 1pILxi-0004uX-5O
+ for qemu-devel@nongnu.org; Wed, 18 Jan 2023 22:51:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674100236; x=1705636236;
- h=from:to:cc:subject:date:message-id:mime-version;
- bh=zc3I+1DQDOJe0C3EHpz1NPWJgjmCF50c/4bWY5E2WEY=;
- b=l/CTI/Nxa4aUDKRc1S4c18NEdMXHG79GtK2wLWXWXeFCwznLXgzDH6IA
- sh+oea3vZvE1TmCWN6wF2H0eD9UfqkGPp2IsquKi/vZvWVUXt9bYP0WzR
- uXQh5QpqnkYgxfEpb/KqzGHxKXkKAxt1kKxezTFiIcUg2pEns7z4wi4xM
- neMLDHnOxlqkaxRL2jBqXaAOMXLwwuan5NgJO2RMlrBzOWnF2U9u5/bf6
- Q9Tu3wEkduzNfnAY1dXrWksZzkVPAi+7cYsZaojYVHH3xsteZMP4k9ckg
- ShBgb1Ww4NKAhL/Wqa/IS5g7lfYSMCblJoONQZeJPs2L9g6abtXZ6L0wx g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="304869036"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
- d="scan'208,217";a="304869036"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
- by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 18 Jan 2023 19:50:28 -0800
+ t=1674100298; x=1705636298;
+ h=from:to:cc:subject:date:message-id:
+ content-transfer-encoding:mime-version;
+ bh=dFO8kEe7bD0ePjbMqYnxO5WXokIqdv+46yU9giY5H2Y=;
+ b=UoaHlzcC/5U/z4HEXS04e4eYZ/yTu3suzPrhwDEAEuUZjVUFzaC8WKWI
+ 81ONarRRoBxVHHaFcgfAap+R89oTpEcNUVpOZy3TPhCeiDawzI78cZcix
+ JOCmB4lF/f2oI0KfWBSOWOsO8kQGLl/+EfrzIogoU0sXnTtP4S8M9ta2c
+ K3MJYMHVVN27LXU42a8QCCy62RxXJmFpRj8DYaxO2F7sWraacmc6bk5TC
+ vVDPams5SaYv5HJQzUqeTlU6XZ9ZQIp6wUdjvDgBoVCcqc0pH/G7wEGfd
+ DKBDjsd9hCP5SYoTR6YUeOyl/drJPOCkRC1mG3mDsnAhRrzl9BT4WiuAH w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="411424318"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="411424318"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 18 Jan 2023 19:51:35 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="609921571"
-X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; 
- d="scan'208,217";a="609921571"
-Received: from fmsmsx603.amr.corp.intel.com ([10.18.126.83])
- by orsmga003.jf.intel.com with ESMTP; 18 Jan 2023 19:50:27 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10594"; a="768029758"
+X-IronPort-AV: E=Sophos;i="5.97,226,1669104000"; d="scan'208";a="768029758"
+Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
+ by fmsmga002.fm.intel.com with ESMTP; 18 Jan 2023 19:51:35 -0800
 Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx603.amr.corp.intel.com (10.18.126.83) with Microsoft SMTP Server
+ fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 18 Jan 2023 19:50:27 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
+ 15.1.2507.16; Wed, 18 Jan 2023 19:51:35 -0800
+Received: from FMSEDG603.ED.cps.intel.com (10.1.192.133) by
  fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Wed, 18 Jan 2023 19:50:26 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Wed, 18 Jan 2023 19:50:26 -0800
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.177)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
+ 15.1.2507.16 via Frontend Transport; Wed, 18 Jan 2023 19:51:35 -0800
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.40) by
+ edgegateway.intel.com (192.55.55.68) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Wed, 18 Jan 2023 19:50:26 -0800
+ 15.1.2507.16; Wed, 18 Jan 2023 19:51:35 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e9p3VAfJrrn2V+s8hrtA7brdWtSVIwXE9Yqj2f4T9xwbfkbWPxydwo2UlLpZ/Rai4QTTq1SLr6CGoEF/Fl10qT7r8bKBzprkqPVWi5D3hUHIGeNPt7ssGJs2JWeaD7llcZeMtjS2uWi2SGkcOHREZ1U1RJGtqywBmaPmu4hbqW5NyMKXmX+HMo6QBxjD3XZMM0qhlCCNGYvaZ+0T7oFVI3vFolSijAFV7BMjHp55+bPLGbGt3A4JPH0/Rl6d4DRm0SCGCNWPWHI6pr1eHOlBrxsz21sAr2B3SIoVfBGCtgDE1RP3E30t9r6IeCCsyTrrTz2ghh5e5hNnLH5/fmoCuw==
+ b=fF3IxwScNjllyll+gesWwhgxp+/bjcI99m2Qi392BvGwUVaOzy/kOm437JjiIpXV+d4BK1S1RBPuLqOoMHyM9lPvmF1if+BAhAGJQ5lJGoUcfhtTRqnvSEE/VpIUzKHo/0JovT2aXWt8rzt8S2c+zYR/qLK6i0YaRrxsX4M7KuXFRU6uZttpBFLxWd6/4fwULeT1mgYi2VVPOUrAAQRr5HctDxav2iGdtsCleMaaTcl2HHXcyhlMYlZw5I457bJ9bpKXRtMq2nj5wKKU77DzeJdXF6WxNnBiXBalStMwAW5HVkRtwItbDzTi/tq4MNVapCtWeG18cijWP3IWIIV/Bg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=np1vhwLXoWwm9c3Lv0hm2jYxzAMWvmnxeK73SThkgzQ=;
- b=hCKF26bCjNFmE7yMsvvteOcrZaTRA41KwiwUIh20jDgMNL12hr6PYUuTbdGv9y8ZfSe4Pv+dETn2F8USZe6lg00qnHhwSDgR44xqi/Me0chA70MH1vGd7POQKG1I2wosdAotGt6++Ma6EgPMFtaOo8pqOv1nfsoXb49ujojGgivMgEnDDCf2IybI2a743MGddA6JV17sBg3TLZPj5fQM8geCN+0wZCLIChU5ALJwteRnWoQCsfUloOhhFK7aba1wO7aTg/4xVKbOeXObZbLkBBN+OXFrHfCagRswZO5rimNJBiIzgGtalM1p9iZENVmnnYNT9OGyS5RH4LHxBqtzfg==
+ bh=dFO8kEe7bD0ePjbMqYnxO5WXokIqdv+46yU9giY5H2Y=;
+ b=X6FIJ2yETS9f+DUNMBsfJR+DO/2d9OBz3OhVIeatAxHEtvbE6G02A1uwOwTyIsg4XB2AIVMA4ACLA8DEud+8M7vqz8oOlrtft3FZcwEyOxhf+0Z6X8xYO2j/9rBKTnJ+Wu3RS/W1ukS9oh1DpL09Z2OLr/VjIUzYdOJRw34O14j6PtJqYBXureGE0FOXqRwoDKY0FNQcGJ1QlLsKESl8MfaxWhLf8+cIIRsV6lvbiUupO2QVX8Zef/ln4JEhCGSG82v08JGAoe46ZbUYMyXpGs9sZGHekFGzYPaE7fJ+KOUi3FyFr0ClN2a8iC3k6/xVxjV6jDp1dRgnGwmNXGA4Yw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
  dkim=pass header.d=intel.com; arc=none
@@ -71,20 +66,23 @@ Received: from DM6PR11MB4090.namprd11.prod.outlook.com (2603:10b6:5:195::10)
  by IA1PR11MB7775.namprd11.prod.outlook.com (2603:10b6:208:3f3::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.5986.23; Thu, 19 Jan
- 2023 03:50:20 +0000
+ 2023 03:51:33 +0000
 Received: from DM6PR11MB4090.namprd11.prod.outlook.com
  ([fe80::e97c:4feb:6b7c:b7b3]) by DM6PR11MB4090.namprd11.prod.outlook.com
  ([fe80::e97c:4feb:6b7c:b7b3%5]) with mapi id 15.20.5986.023; Thu, 19 Jan 2023
- 03:50:19 +0000
+ 03:51:33 +0000
 From: "Wang, Wenchao" <wenchao.wang@intel.com>
 To: =?iso-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, Thomas Huth
  <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 CC: qemu-devel <qemu-devel@nongnu.org>
-Subject: Announcement of aboring HAXM maintenance
+Subject: Recall: Announcement of aboring HAXM maintenance
 Thread-Topic: Announcement of aboring HAXM maintenance
-Thread-Index: AdkruGaFagoxlwaURUOFDiiA74RJ9A==
-Date: Thu, 19 Jan 2023 03:50:19 +0000
-Message-ID: <DM6PR11MB4090FB181F89365AAD35AF8087C49@DM6PR11MB4090.namprd11.prod.outlook.com>
+Thread-Index: AQHZK7lSWpTReASjDUq0plYjqtt/dA==
+X-CallingTelephoneNumber: IPM.Note
+X-VoiceMessageDuration: 1
+X-FaxNumberOfPages: 0
+Date: Thu, 19 Jan 2023 03:51:33 +0000
+Message-ID: <DM6PR11MB409024D8135D6E552471985687C49@DM6PR11MB4090.namprd11.prod.outlook.com>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -93,65 +91,65 @@ authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=intel.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: DM6PR11MB4090:EE_|IA1PR11MB7775:EE_
-x-ms-office365-filtering-correlation-id: 1da24112-39eb-4751-ac8f-08daf9d048e4
+x-ms-office365-filtering-correlation-id: f2e204df-8c8f-4159-2c23-08daf9d074e5
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: LFElthKLb5OSKIqS+ofPSdSoiyryTCYyT9eViCtsCmY6qrXGg94k8yyPiEx9UmbCIaBTCBqY+ZwZhS3c45dNtSMUAkqnBFaU0NCF4bS9od0J2cv83So/WwcmxReZMLxJu4rWGMW1VRCQ7RVgM0mylyCkDJUwqlhzKxKJJaYA9r4RsLtPeP9ldaLzWPB2sWsR0oTGDJu1wNgTeMv4vy1Kr5leV/hb8zejd5EcR5V+YFFeJrba0G90kV1+aLorbeIn+OEig1LZCa0mON0TYLHClDDnGLGNz5AoPLJRz63MNn8P2loWkYjezFE1zHWlbItT5LeOXD1GhAuVag62KTWIKixD7qh+ppxvfXiISdvt80SEFkdgnBN/y/IbW4Fz48BgGO3mFKnhwydr9n+AKrac/ShLAe5bJO6hgAF2UKFDNLFVD9IxH3mJXygegPkDfwQPbGNpj/MrPJQYwXykPBNAXOdmfRmwFliKUqFqE0UeTDExocoMDiTlNPKGGjWe4YEDS9VvNLZTck6Mf80xL4ICLYg0OXNFNmbhONRsu56j0FhVqYgrRm4jltc6SQdmycZ0rRvVXIAHwWfNh6rS4tUiIlGfYQGkqYGqSoJTHGBKr1vD6XF9yE6wwb4tdJ2YYxMgi3jmhNM035UL8mPZToMBMokrXtLZS8UB7CjFI4OPR9skFANoSY+A9tqGuozL9l5wF+TwqJ7fcMBQxoAJhq2N1w==
+x-microsoft-antispam-message-info: 64Y3oNnLsd6ZICi+sb57KKdSuNgfgxt4TpARXcgqPf5A1WBjrQf8ZFob8kvfwArHzNxwaBSSXC1eqJv5sGBfF8EGOaG7IRcmZkteLrvfrM4/Oor0Ly0JVx97PGmFjn34c9R1lY2XeecTvk+fbr0+s/CElsCHm/aQLVzxENdArG8m1Mz/8Aj4nUjqB7anPqF1o/vMEY1TJtm5k8Ra4Ci+PbBXstIOT1PKcBn66RgF3KcEuh8UKgA10JeUhyngDzD9nVZlF1wVLlcCjSap8VwS3EWxH0E8/Q/LrrasWeVYUNgYRhm68Mb6iosz95am3FXbqrwdrF3CwsL7+PucLmiFZlsQYOznQ32GtAPf7XpgpxUVFTcwQ6qIn5LIzA1B/BtKkhbh7KpACZ1hYEYNKHGH6mDbky485B1UTAtx2T2uwLAiD51ervO2cztGFT427gtRs+IGzt0llzrQkxeiJgAqYnzAh+QrRmhWNepB5u6h+npD2WzKLFPVjxLfJzOTT9Srsx8I601vPYKv7bb+SWl0/FofsJdIP4tO54hva4bycya3zwRTyZEZZynkI1doZ0reaHX2oA5cYVY8Sjw2qfmay4LEAuwH8exsfEs4SV8SLGGyrb70U5ozaOsefONUtoeDvN5OM/DE932FYiH4V65QEzM5EOvIyyoAv5ZiYbpzPBtYTMrplthpGt+YBkFL0UIRJ5J8HtHw+XbOBwAl7sp6dw==
 x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM6PR11MB4090.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(366004)(39860400002)(346002)(376002)(136003)(396003)(451199015)(86362001)(33656002)(66556008)(186003)(26005)(66476007)(4326008)(76116006)(66946007)(41300700001)(64756008)(66446008)(9686003)(8676002)(6506007)(55016003)(2906002)(71200400001)(110136005)(316002)(38100700002)(7696005)(478600001)(38070700005)(122000001)(4744005)(82960400001)(52536014)(83380400001)(5660300002)(8936002);
+ SFS:(13230022)(366004)(39860400002)(346002)(376002)(136003)(396003)(451199015)(86362001)(33656002)(66556008)(186003)(558084003)(26005)(4270600006)(66476007)(4326008)(76116006)(66946007)(41300700001)(64756008)(66446008)(9686003)(8676002)(6506007)(55016003)(2906002)(71200400001)(110136005)(316002)(38100700002)(7696005)(478600001)(38070700005)(122000001)(82960400001)(52536014)(83380400001)(5660300002)(8936002);
  DIR:OUT; SFP:1102; 
 x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?fVI8d4q0Z8/hIqWhO6alkBnfVuGN8gjkgdUJn+kPa57gYRRMJa15y0S/rr?=
- =?iso-8859-1?Q?9+grF3Oh1izbwh6Svz1IPZDWGNXaME2+p3PR1HPH+kv7Xs/2DlVik7GopW?=
- =?iso-8859-1?Q?xihu1pJCez0sayJvqokJFr8+kvux0MNoh3sb76fEH/PhJIhr9I5NHi/JHl?=
- =?iso-8859-1?Q?5GlvQ/joHbVMuJTuKtswNvoDb2w7wgnZEFUEPbn01NNwVVmpdTKqt/qMb8?=
- =?iso-8859-1?Q?d2ZlqmcQTFbPqZULwTmVQVjCVjna01oihoQkmkJ4f9Jj/3U2mBEbimX7Xm?=
- =?iso-8859-1?Q?rR6+H0eHVtpyCPd3tE9gY8OdIcYLLfGxIj+Swxs2YCJwYJ7wkSD6D0XJqT?=
- =?iso-8859-1?Q?hgfg2m6Xaef0XlyGyyMREYphDQGqlsbEADi5bW9Y/Ee0TUbiNRkU7yBWBU?=
- =?iso-8859-1?Q?wqEVu+ur9uQPZtDwi4Q8Zd2gWgEUF73u288hy4TvNhJ/lB416IpStJsKe8?=
- =?iso-8859-1?Q?r3gaHlBqNERghSaQTyN7rbtwXF9QnS65O1GJskXEwor9wsgfUHDYIfKl/u?=
- =?iso-8859-1?Q?gcck6EyMZBJbj41ogc7r6v1T5Cl6XnXuqYvDAnikmUbGY0M39uuJnghSIc?=
- =?iso-8859-1?Q?D7C+xwLNyjfZSOem2r7h/U48Ou3h1ciKtWwaYW3ESbwWmr7mIJvvDqyvyq?=
- =?iso-8859-1?Q?1+xxDTcddkUTrKbH1fe34CdCctmJ8mh2gJcqCVvePOXJ3eUI2nJFAdL6S9?=
- =?iso-8859-1?Q?KcLYOl96ZxlTOQ+fl1KsL1AljuaNGfvypZ2ojEX7PYFd3CukfB8ltXR/Es?=
- =?iso-8859-1?Q?mwWwh709LkvAalVZiOR/KzzlNbieZnqBsOBVAagpaMZxfiJ5K0Z+GM1pUj?=
- =?iso-8859-1?Q?ep45py2ltdmtCeMQPd0ouSGnwFOd/kZO1l2oRwN684o+TJv/urINQOO8af?=
- =?iso-8859-1?Q?LQfsLEwV6uH+F8K3lkrfUyJi0qDiigO610NPFYxii112mzAVkOYFDAcU8R?=
- =?iso-8859-1?Q?PRqF2YLyjdyaa4CVQbuZ67tvACF2n8oRI6x+EDPLbv6lHguWP6M4/0xNrd?=
- =?iso-8859-1?Q?5JhyOOgDOd75lpUZT9sEaCI1Q/KId849LLgdsAVS8SyVtWJ3rWnZrbZakZ?=
- =?iso-8859-1?Q?ba18NC30rwfUpdwaQtOFfC7GK8O6t0YmmiB/T6wrDV58sHj058kNifBiev?=
- =?iso-8859-1?Q?jB3Wr+90YWpNstB80G+2vUr7zAWEQwGHTbPl0ulHIslN74Q2ZUH3JFrj5k?=
- =?iso-8859-1?Q?KghG4f9MW8gON892D8PePX9dBe8cnnNDtUuMU2Ch+iF0eipI1gMeHlSvev?=
- =?iso-8859-1?Q?AORcniUj7g5pQJArmEz4c+rS4vFySC+3ATdfWDNwRZ3Hf57ZS3MHnO0nz0?=
- =?iso-8859-1?Q?/4gyOQPM4rCgb2NIIdkW2QiG1HghYuOWzhTX3Y6nnVEZOUVVTIBw/xtvft?=
- =?iso-8859-1?Q?K/wHpyeVX3eurVhJovH4cbgDyu+aCaGEvPAC8PrHBXXtY7f/4Tglwc/0PR?=
- =?iso-8859-1?Q?mDXqlKlB5hStS7F5KCBK1PLnryzI/nAqS7u2u7iC6LFvRRf1ZBASqAHPXu?=
- =?iso-8859-1?Q?vEjpXBdoVe9LjmltJS6s8pS1r7wHZssoIMH2tpVX8P78PTer16e+gB6JJt?=
- =?iso-8859-1?Q?/4mc9eK83rCkU2GBg8aAYh99p6Q7r9zniceNtHe8pc1X2I78WMGtq7p5Se?=
- =?iso-8859-1?Q?h+oQ8OOG+My2Mu8OLSd50+EQ9ZVPBdE5yt?=
-Content-Type: multipart/alternative;
- boundary="_000_DM6PR11MB4090FB181F89365AAD35AF8087C49DM6PR11MB4090namp_"
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?JsiPMkeclzNnXyMkATkbD7UoME0tn4H5z8sgyV0GR95fyyBUkWvpCGUwEB?=
+ =?iso-8859-1?Q?m8Apz0Yyc5SR5xuQLEoYNQmh5X86UdKzYzY3WxBc+QNaGoTYJQi3FwhHoY?=
+ =?iso-8859-1?Q?HP5VOyMnNwfANpISIsJzrmsVNn+1oRy32oiBd6ZE9n3zjpQ7jGLPVEHRko?=
+ =?iso-8859-1?Q?BUVktDKm6p4ynaOcV6g1WGlbKq0O8MX7rq4j9NtUFdmn4u20ykoQxIUskX?=
+ =?iso-8859-1?Q?c2CHQ+bgIjgz7f6J62wpGSkH9/EHQikoDIff3ki6f2cMm0lI5U+P/w8di1?=
+ =?iso-8859-1?Q?j4cF2GYlEHdXgMBUfsh0BtMI7/PLtIvdzU6BdkruJfraRtHxP7vQb/nTHa?=
+ =?iso-8859-1?Q?B9wC6wOOOEWp0tca8dnh8LC2CEWi/mwCdB+fkONBlFHDtTky3qKYta8Fu5?=
+ =?iso-8859-1?Q?ty5+lgL5/JxTl8MbFvxcaJsKJ8Sv9ihbW262pKZ8tkRt9zk4PeY7xu14OI?=
+ =?iso-8859-1?Q?YjYwsdcoTGens1fTQAWbrhfbZMrLum/rGRCeqXbKrb3gAO3hRJBp+ZtOhC?=
+ =?iso-8859-1?Q?eCRSb93nW0owQgCSA2XQw6RcxFmSS1MXVlDtidW/bT92a3qfpzzS9L/gSu?=
+ =?iso-8859-1?Q?cUwLWTjBqt2TIOTvRRscYpyrCKHd+zpnfrA0KAJl7jEPRcWSAmYVTGmg08?=
+ =?iso-8859-1?Q?EBvxHyApOUzEi02ppdo3EYhHjhqA6MIgWB76FyqJELGEz7jtdzlZcrASGb?=
+ =?iso-8859-1?Q?fymU3ROoj3EiVdMr7sN7I3D79QYrybKY034+MxhXNs8tt2zv4mYI3l0/k0?=
+ =?iso-8859-1?Q?O4G7Y7EU++3kyH2a/j0UPYQ0FFpWVZnuEbINyw29X2C8LYjUHoAT33cesA?=
+ =?iso-8859-1?Q?4RWpMuhF4xR/hzn6/JXcN4purToaqnWApD3QsGkQnZEtI41aD0V3aslhqD?=
+ =?iso-8859-1?Q?kwLP8HLgUHsUmfaBT2B40DLmIbTfB6TR8qRmxjtZmGh+G0/kf+K5oYqF3C?=
+ =?iso-8859-1?Q?yUUg6jrGP5DFGMlDG2LgvvWIBfoQUAanOBzV+v7qG4tEPnitOBWkGzPuQZ?=
+ =?iso-8859-1?Q?GFSvSCUnUvigyl9oI/GoYnM5zDczISHBHRQ9Z4ngEkZVaGv0k4rGLjSjP+?=
+ =?iso-8859-1?Q?Y//7EtVQrjjWuUTqcaacrS26EshOMelQQWGFoDRfAVGXNatMOl9jJQj11Y?=
+ =?iso-8859-1?Q?UWC97/qRTnjPc36gEuOUNE+o9V/w6oe00SERVzeir2SNiYF2Fen7fU9ioH?=
+ =?iso-8859-1?Q?MFZp3sRRSfeGttrtL2DaDTfKG+jr/FtMO201QLUoUs6WrAIxZnU3pRU06M?=
+ =?iso-8859-1?Q?F/VM/Bgi+Zyh6QvNXjCbGM9qMF9lapqJO+9R/q1o+vnva7GLqSU2Dxkyw3?=
+ =?iso-8859-1?Q?tvIjDLtcIhBk6yWAiF6IUWrl/EXnKwPcSw5vvj/81ZJCnf2y/5dWoemoAa?=
+ =?iso-8859-1?Q?LYFm5QDILDQ6QOz/N7e7DMMEQ4ce1nmhYCM1UB8ryBx8oBI3lKa1TtKrnm?=
+ =?iso-8859-1?Q?dNBbmPv+1rAbA2YXI0X9wAHEebo6zFVHqXlDROvNsOM+jPOwmBcujrYF/W?=
+ =?iso-8859-1?Q?KXMe0FSUOM7ydFdziEpsokUbU8Nzpz0aKxTh2qQp9GIpC26QY6q5j2WIxR?=
+ =?iso-8859-1?Q?A4WuxQ+oP4wZ3v3b6NSwDGqWMBwNS3bFzBQgGTDJjdi6/RaAWfHzMEyl6u?=
+ =?iso-8859-1?Q?SXokQdM/cvTXlCyDLLihMkwyOxfwJ7QjUJ?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4090.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1da24112-39eb-4751-ac8f-08daf9d048e4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2023 03:50:19.7337 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: f2e204df-8c8f-4159-2c23-08daf9d074e5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 19 Jan 2023 03:51:33.5567 (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 95tTCFhaDSbvjtR3uIaUZ+rtHBiXu/bwue62IvxW3Q6B8IdXpmzLusyZlu1XjDfkQ32re+BSK9hUCMsHKnpRJw==
+X-MS-Exchange-CrossTenant-userprincipalname: kN6Y7IsO2q9Clthax421qEb2SUq1twrFJnlEf4AgtY65WekTKVaN4Cf/FhIclSKjquayhAz9RXmQd/PkeJLrRQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7775
 X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.136;
- envelope-from=wenchao.wang@intel.com; helo=mga12.intel.com
+Received-SPF: pass client-ip=192.55.52.43; envelope-from=wenchao.wang@intel.com;
+ helo=mga05.intel.com
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
 X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -168,102 +166,6 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---_000_DM6PR11MB4090FB181F89365AAD35AF8087C49DM6PR11MB4090namp_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-Hi, Philippe,
-
-Intel decided to abort the development of HAXM and the maintenance of its Q=
-EMU part. Should we submit a patch to mark the Guest CPU Cores (HAXM) statu=
-s as Orphan and remove the maintainers from the corresponding list? Meanwhi=
-le, should the code enabling HAX in QEMU once committed by the community be=
- retained?
-You may ignore the patch I submitted two months ago. Please do not merge it=
- into QEMU. The HAXM final release can support any QEMU version, and the fu=
-nctionality of the current software are normally available without known se=
-curity vulnerabilities. Thanks for your support.
-
-
-Best Regards,
-Wenchao
-
-
---_000_DM6PR11MB4090FB181F89365AAD35AF8087C49DM6PR11MB4090namp_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-@font-face
-	{font-family:Calibri;
-	panose-1:2 15 5 2 2 2 4 3 2 4;}
-@font-face
-	{font-family:DengXian;
-	panose-1:2 1 6 0 3 1 1 1 1 1;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0in;
-	font-size:11.0pt;
-	font-family:"Calibri",sans-serif;}
-span.EmailStyle18
-	{mso-style-type:personal-compose;
-	font-family:"Calibri",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;
-	font-family:"Calibri",sans-serif;}
-@page WordSection1
-	{size:8.5in 11.0in;
-	margin:1.0in 1.25in 1.0in 1.25in;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi, Philippe,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Intel decided to abort the development of HAXM and t=
-he maintenance of its QEMU part. Should we submit a patch to mark the Guest=
- CPU Cores (HAXM) status as Orphan and remove the maintainers from the corr=
-esponding list? Meanwhile, should
- the code enabling HAX in QEMU once committed by the community be retained?=
-<o:p></o:p></p>
-<p class=3D"MsoNormal">You may ignore the patch I submitted two months ago.=
- Please do not merge it into QEMU. The HAXM final release can support any Q=
-EMU version, and the functionality of the current software are normally ava=
-ilable without known security vulnerabilities.
- Thanks for your support.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Best Regards,<o:p></o:p></p>
-<p class=3D"MsoNormal">Wenchao<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
-
---_000_DM6PR11MB4090FB181F89365AAD35AF8087C49DM6PR11MB4090namp_--
+Wang, Wenchao would like to recall the message, "Announcement of aboring HA=
+XM maintenance".=
 
