@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30862673A2B
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:29:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A8C673A2A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:29:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIUxP-0005z3-2e; Thu, 19 Jan 2023 08:27:55 -0500
+	id 1pIUxK-0005vn-9J; Thu, 19 Jan 2023 08:27:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUx8-0005rV-E5
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:27:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUx6-0005r5-03
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:27:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUx2-0008CG-15
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:27:38 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUx1-0008By-VO
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:27:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674134838;
+ s=mimecast20190719; t=1674134836;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iKP/Arp2vzPGMe+i69s9qCjqo1U2wTsOz9kT6hZWgbA=;
- b=R6pW5MODaU9g3nPNWwIf47zBSDagDt/tNKepo8exApPn4GmJc1B2EtI9uNlxRC11M2TGez
- CDMPciVoPzUu+/QOs0wdSKItK8F9102KEimdw9+1fYHQcucInIUX+AvNe8nzuxR1nULLIO
- eLgdaHENhnbRHd9c734gUHvZzj6ZzPM=
+ bh=RqkJCEV/eahxdj9mbnQHGMQ7MvST41LpyTbFBOBBMmY=;
+ b=HkCAiwy+O1hAs/p0Ibikww51ksLOBar0gEXKSA9FtxtUQjERbiPVvTr7ofthcsc5U6z79Q
+ eG7nLJtXo3lRa1QJx2IG/FslILg0GhkGXI10OJtNHnZlpG3mjDjHutYiReJPMqw6Hhjqoo
+ WAsL1u4h7RHzuvoc0o75c9tqglRSdG0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-189-214f47YwNRy9UESkyE0mpA-1; Thu, 19 Jan 2023 08:27:14 -0500
-X-MC-Unique: 214f47YwNRy9UESkyE0mpA-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-586-d5huvmTENSyJb1t5pQ1kUQ-1; Thu, 19 Jan 2023 08:27:15 -0500
+X-MC-Unique: d5huvmTENSyJb1t5pQ1kUQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9C04587B2A5;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9CDE8857A88;
  Thu, 19 Jan 2023 13:27:14 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7009DC15BAD;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 700911121315;
  Thu, 19 Jan 2023 13:27:14 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4E1E121E675B; Thu, 19 Jan 2023 14:27:13 +0100 (CET)
+ id 50D7721E66CD; Thu, 19 Jan 2023 14:27:13 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 01/17] ui: Check numeric part of expire_password argument @time
- properly
-Date: Thu, 19 Jan 2023 14:26:57 +0100
-Message-Id: <20230119132713.3493556-2-armbru@redhat.com>
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 02/17] ui: Fix silent truncation of numeric keys in HMP sendkey
+Date: Thu, 19 Jan 2023 14:26:58 +0100
+Message-Id: <20230119132713.3493556-3-armbru@redhat.com>
 In-Reply-To: <20230119132713.3493556-1-armbru@redhat.com>
 References: <20230119132713.3493556-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,57 +80,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When argument @time isn't 'now' or 'never', we parse it as an integer,
-optionally prefixed with '+'.  If parsing fails, we silently assume
-zero.  Report an error and fail instead.
-
-While there, use qemu_strtou64() instead of strtoull() so
-checkpatch.pl won't complain.
-
-Aside: encoding numbers in strings is bad QMP practice.
+Keys are int.  HMP sendkey assigns them from the value strtoul(),
+silently truncating values greater than INT_MAX.  Fix to reject them.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20230109190321.1056914-2-armbru@redhat.com>
+Message-Id: <20230109190321.1056914-3-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- monitor/qmp-cmds.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ monitor/hmp-cmds.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 2932b3f3a5..a1695b6c96 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -201,15 +201,28 @@ void qmp_expire_password(ExpirePasswordOptions *opts, Error **errp)
-     time_t when;
-     int rc;
-     const char *whenstr = opts->time;
-+    const char *numstr = NULL;
-+    uint64_t num;
+diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
+index ed78a87ddd..9947ff0b45 100644
+--- a/monitor/hmp-cmds.c
++++ b/monitor/hmp-cmds.c
+@@ -1549,8 +1549,12 @@ void hmp_sendkey(Monitor *mon, const QDict *qdict)
+         v = g_malloc0(sizeof(*v));
  
-     if (strcmp(whenstr, "now") == 0) {
-         when = 0;
-     } else if (strcmp(whenstr, "never") == 0) {
-         when = TIME_MAX;
-     } else if (whenstr[0] == '+') {
--        when = time(NULL) + strtoull(whenstr+1, NULL, 10);
-+        when = time(NULL);
-+        numstr = whenstr + 1;
-     } else {
--        when = strtoull(whenstr, NULL, 10);
-+        when = 0;
-+        numstr = whenstr;
-+    }
+         if (strstart(keys, "0x", NULL)) {
+-            char *endp;
+-            int value = strtoul(keys, &endp, 0);
++            const char *endp;
++            int value;
 +
-+    if (numstr) {
-+        if (qemu_strtou64(numstr, NULL, 10, &num) < 0) {
-+            error_setg(errp, "Parameter 'time' doesn't take value '%s'",
-+                       whenstr);
-+            return;
-+        }
-+        when += num;
-     }
- 
-     if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
++            if (qemu_strtoi(keys, &endp, 0, &value) < 0) {
++                goto err_out;
++            }
+             assert(endp <= keys + keyname_len);
+             if (endp != keys + keyname_len) {
+                 goto err_out;
 -- 
 2.39.0
 
