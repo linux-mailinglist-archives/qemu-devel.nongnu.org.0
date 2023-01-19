@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A348767339C
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 09:24:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83884673547
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:16:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIQ6N-0002rL-W4; Thu, 19 Jan 2023 03:16:52 -0500
+	id 1pIQMQ-0004xw-PD; Thu, 19 Jan 2023 03:33:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIQ5x-0002mo-UP
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 03:16:46 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pIQLq-0004wK-AR
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 03:32:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIQ4e-0002oF-Vi
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 03:16:25 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pIQLn-00059B-6f
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 03:32:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674116090;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=X8rDf82Cu3GNuTr5TBrCLdne8gFAP+Zt76QQeGkSYBs=;
- b=WkIRvu5izYNpF8hyKqgQ5Vlr+mi5FRU00/hYEbJyFLLOa0Lgb+7N9u26sgQeHC+EO0LyU7
- G/MT/zdxF/DQTtOlvXvb9XY7Ux3vYIP8dy9ZGoKzI12OY7jBviI46fJSHk2H/3aRpbJWeB
- 6mnlcc/FVsPmf0le1T/3KMZ656U66wg=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1674117132;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ds13oG1zYdV/jNih1bjngS8I96WrY0cUn41PSAOGAnM=;
+ b=RTrjBgh9s4Ih4tfmdagjvpl+Z2YAC1+zndDpuLXoEWIbawG+6c+hL2PKtTqXY44yKITa8j
+ gMb3ozL6Mcbcz4M5LI13C3s8rcbGnYIh5qnL+3VAcwpAfQMC3f8AsOclgIEFpvLqA6kjPg
+ Cvbxgrk/3fYJl/+WqljETnqxzJJxKIs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-112-TyuLNeTOM1iafybDckwMcA-1; Thu, 19 Jan 2023 03:14:48 -0500
-X-MC-Unique: TyuLNeTOM1iafybDckwMcA-1
-Received: by mail-qk1-f200.google.com with SMTP id
- u11-20020a05620a430b00b007052a66d201so932676qko.23
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 00:14:48 -0800 (PST)
+ us-mta-649-8r8ny8lAMPSc7f51cD1gow-1; Thu, 19 Jan 2023 03:12:43 -0500
+X-MC-Unique: 8r8ny8lAMPSc7f51cD1gow-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ p1-20020a05600c1d8100b003daff82f5edso824870wms.8
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 00:12:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:subject:from:cc:to:content-language
- :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=X8rDf82Cu3GNuTr5TBrCLdne8gFAP+Zt76QQeGkSYBs=;
- b=1yysIjdWfTDYhYppYb4V2M/14lT9AOJBR1ptlPTzSJrPDfgLhl6acSMLCxa/zPDtrF
- VK1sGlCOL0aV8Zm/aIAmUgkSITaHnABa+ORieRh1tdqQox1H6jxMYSnsuXym4M0xkXGm
- Q5GGK5u3QVxFTMN3xW+T1jgxt77AKMCx6tz6CEOh5yoq6U7fN7uc0qUTKutVOwMJkR+c
- Io7aouxPqzH0YcQQbIPT/OKENfqfIDmJ1FulOHE8MeUkRsimM2am7UUu80z4Cq2ApkNl
- aSDaQZ2iPIBnCHj+xxozuAxg2Mks8jgIi9zlHYMxUtgKcMy0sz45N029Jayy/Yx8ALiv
- YOzg==
-X-Gm-Message-State: AFqh2kqEnBDomPbpCEjq1ZFm3HkhbVXaeO2vPEAIQUknva3uQBLhZAkG
- XRvjgCEpb5y/oRuhnV2iN6XM/pA/MmFH99TY/S08rY+k+T8RQK6yEsVG7XvN8W/UdSWZsyoGtcq
- yzYDkCj70HSsoLaQ=
-X-Received: by 2002:a05:6214:3311:b0:534:ba17:9e71 with SMTP id
- mo17-20020a056214331100b00534ba179e71mr16957611qvb.9.1674116088005; 
- Thu, 19 Jan 2023 00:14:48 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsCHDhhgMVUQtkZvKX65nmU1r08e9b23v6zeKZIX7AxBBd8RhkNsJjBRF8jjD9w3NvTt6ZIRA==
-X-Received: by 2002:a05:6214:3311:b0:534:ba17:9e71 with SMTP id
- mo17-20020a056214331100b00534ba179e71mr16957264qvb.9.1674116082778; 
- Thu, 19 Jan 2023 00:14:42 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-178-207.web.vodafone.de.
- [109.43.178.207]) by smtp.gmail.com with ESMTPSA id
- az16-20020a05620a171000b00706aeebe71csm3438770qkb.108.2023.01.19.00.14.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 00:14:42 -0800 (PST)
-Message-ID: <c2246b1a-51b3-2843-5164-c424c571874f@redhat.com>
-Date: Thu, 19 Jan 2023 09:14:39 +0100
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ds13oG1zYdV/jNih1bjngS8I96WrY0cUn41PSAOGAnM=;
+ b=Zqt8ssDwXs3UVs9EawxoX5zBOF22nrJvJIk6/Ci7pyA1XQ6vRW2lEAiLym7sRVRY2y
+ Xw/HasC8i8V9hHHP4v7RpQeb0uF4Dikg6UxmWDZj6ibDnGc9mYV5N8GR5lMJEAcSz9Zk
+ 69sJ56JpfcchVtzr9JL22N8A93S72NJ3iHqeaSXiksefCBNMwoAy6Qt1ciodc/YiMyAi
+ ypZg2KtlaXfUTFdqlsDAKJtZPpPUQwcJyulkX4TkWZiu55rZ6Y+ADfCArtQyQu8k0liL
+ bgQ9ryHDM4ZzgAmr9UT7//6H4Z1bLxqCasL8fCQXJEHXESGsJQe2dePDqszxUTWoVc2G
+ Eh2w==
+X-Gm-Message-State: AFqh2kriovbddtqlrcgaX/ev2XhpKNdmCBC9FELgw6KwZ+XKONwW/fAD
+ q8McGpbbjuoc4E8u32JyupeoWuhsrAKwcpQVO0bDXEJ5AzlZg4i9DKs+NMSofBhGTfGD767JDFg
+ K5mVmuuBGgPLkeWs=
+X-Received: by 2002:adf:ff90:0:b0:2bd:de40:3a45 with SMTP id
+ j16-20020adfff90000000b002bdde403a45mr8263551wrr.51.1674115962390; 
+ Thu, 19 Jan 2023 00:12:42 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvaYpJYThPkGE+Rd6/7/rQLDSkjwd5CVRuAJhF1hPHhir6qnVsLDLXgetDp48o9a/O574KaIg==
+X-Received: by 2002:adf:ff90:0:b0:2bd:de40:3a45 with SMTP id
+ j16-20020adfff90000000b002bdde403a45mr8263533wrr.51.1674115962105; 
+ Thu, 19 Jan 2023 00:12:42 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ k6-20020a5d5186000000b002bbddb89c71sm29449962wrv.67.2023.01.19.00.12.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Jan 2023 00:12:40 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org,  Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ Dr. David Alan Gilbert <dgilbert@redhat.com>,  Peter Xu <peterx@redhat.com>
+Subject: Re: Who maintains util/userfaultfd.c?
+In-Reply-To: <873587yqm7.fsf@pond.sub.org> (Markus Armbruster's message of
+ "Thu, 19 Jan 2023 07:40:00 +0100")
+References: <873587yqm7.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.1 (gnu/linux)
+Date: Thu, 19 Jan 2023 09:12:39 +0100
+Message-ID: <87v8l3hrig.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: MSYS2 and libfdt
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -94,30 +95,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Markus Armbruster <armbru@redhat.com> wrote:
+> commit 0e9b5cd6b238b7ca9a3a50d957f50c37082705a0
+> Author: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+> Date:   Fri Jan 29 13:14:04 2021 +0300
+>
+>     migration: introduce UFFD-WP low-level interface helpers
+>     
+>     Glue code to the userfaultfd kernel implementation.
+>     Querying feature support, createing file descriptor, feature control,
+>     memory region registration, IOCTLs on registered registered regions.
+>     
+>     Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+>     Reviewed-by: Peter Xu <peterx@redhat.com>
+>     Message-Id: <20210129101407.103458-3-andrey.gruzdev@virtuozzo.com>
+>     Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>       Fixed up range.start casting for 32bit
+>
+> added util/userfaultfd.c without covering it in MAINTAINERS.  Only user
+> is migration/ram.c, as far as I can tell.  Should it be added to
+> MAINTAINERS section "Migration"?
 
-  Hi all,
+Hi
 
-in some spare minutes, I started playing with a patch to try to remove the 
-dtc submodule from the QEMU git repository - according to 
-https://repology.org/project/dtc/versions our supported build platforms 
-should now all provide the minimum required version.
+It should be added to the Migration maintainers.  Who used to develop
+in that particular corner is David.
 
-However, I'm hitting a problem with Windows / MSYS2 in the CI jobs: The 
-libfdt is packaged as part of the dtc package there:
-
-  https://packages.msys2.org/package/dtc
-
-... meaning that it is added with a usr/include and usr/lib path prefix 
-instead of mingw64/include and mingw64/lib like other packages are using 
-(see e.g. 
-https://packages.msys2.org/package/mingw-w64-x86_64-zlib?repo=mingw64). Thus 
-the compiler does not find the library there. Also there does not seem to be 
-a difference between a i686 (32-bit) and x86_64 (64-bit) variant available 
-here? Does anybody know how libfdt is supposed to be used with MSYS2 ?
-
-  Thomas
+Later, Juan.
 
 
