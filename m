@@ -2,83 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF8816742D6
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 20:30:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A49DC6742E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 20:33:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIabK-0000Qt-Ow; Thu, 19 Jan 2023 14:29:30 -0500
+	id 1pIael-0001Yu-A9; Thu, 19 Jan 2023 14:33:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pIabJ-0000QZ-Ny
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:29:29 -0500
-Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIaeT-0001V1-4U
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:32:55 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pIabI-0001WX-56
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:29:29 -0500
-Received: by mail-pg1-x52b.google.com with SMTP id 78so2359801pgb.8
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 11:29:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIaeR-0002bj-Kz
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:32:44 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id mg12so8421605ejc.5
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 11:32:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=I84PT35YjStUx9GRy2bcqU53mL6oujapa2fqSWQO3sk=;
- b=MRyD2I3nqtigNPazUswVOJtuf29VJDWEZ1PPkbWC1bs6tw1EBB/L1xBms/Kep6XBTv
- MyOjFUt0+WPanlkMVSYIbQwsNj28cbWeO+wyf4uiJ7jVSFWb0ggeg3OowvgKlnGFHGly
- TxEMCPzcoO0jYQJHLxZxjV5A57c1cRVAZQkI0JlVbmzpysSGl+Rs6aUczyCphL7QxnXi
- gJ+GLXGi0FX1tLVEIj/x44vdWtZHsnOQZG96AZ0zqIgPHMtnPZ+ZgoYaWXyHqiji0OEH
- 11t8Pb0x8WuFPQmAoOHfzQyX//OFRuVysilLdAfdbw2S6A8HmQiPdCotN8zp5nNdcWk1
- uh1Q==
+ bh=xkoedVGutWiz7y4sNCquQftWaDZePlvOv2dn1IDilb8=;
+ b=r6vY0ScD37BTHRnsSTUiX1VNsw+wkfq+KNqeGIeTTLwvfyoox4qU4Q7/uFWv2owLbf
+ ZUEARJFh1lrW38rHwymWnf6bpxYv5tmte7NGkdx1EQF3rp8KsVH3VwKiQLF7K2hDmofa
+ 8UvuRCtlf6qDmIv3jdWmFHMVgCgiW305PF6ucz6Qv/gUUpzAoch3F1GDR5Dp4vjAeoFV
+ mJDLF0I/hIRWkifNMqjaNXmC9opooxMzlBm6VTjAXQWdbjPXrdxj1Je5dsvqIQ+Lcp7R
+ /g5/4fNkojBzuFU4kHbutSfY4v6BtyNR1mQ0Ox19WYEZVO30u8fMfQiwGORUKh4pVQFM
+ OaEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I84PT35YjStUx9GRy2bcqU53mL6oujapa2fqSWQO3sk=;
- b=OrXH/jryxQmCAaBRaX1QPCihNDi27FvU6cuQmyJtXwJFPD8LShcqYb3PCBIKJTF/hV
- lSy8ORUoCR0tyrGij/2zuXTKzb7+y4PpR49V5/V3QBpF7eHUcg96v68YOb7nKJaWBCR5
- lPOmWJgrM0i9m3b6ZJ7YDejf6T88JsUurJd0GAEYXHMH13odbbFPtkZdxtAV+m85yTXT
- SMdtP6oOnmML2InjQjbzTJmvCLYBlm6Y83okaM3uYz5u02HL4YsXwE+oVLrUjQKXn9Ep
- Noy5gaWRZdQSGzhLYz0HxGAGSSDQaGWqhSglLjp8oY7giAydBsLJfTqa+puyGEtYlOy1
- cP7Q==
-X-Gm-Message-State: AFqh2kodOPxZQTcU2kQXypvRJP2H5EBCCPPYYaVnM34WIZGXMj+LC4It
- JOpGNi6q/Nxd2s2XM64+95ZLQA==
-X-Google-Smtp-Source: AMrXdXsQM5MpTwKzpjo3z765B/b6o85XkswKyFqJdvGQYS8A1l+8nzv7SmKX10Hn9tHwSXXSctie6g==
-X-Received: by 2002:a05:6a00:1887:b0:589:d831:ad2a with SMTP id
- x7-20020a056a00188700b00589d831ad2amr17937325pfh.6.1674156566257; 
- Thu, 19 Jan 2023 11:29:26 -0800 (PST)
-Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- z5-20020aa79485000000b0058d9710cb18sm8964535pfk.2.2023.01.19.11.29.23
+ bh=xkoedVGutWiz7y4sNCquQftWaDZePlvOv2dn1IDilb8=;
+ b=p7c0o5TacpQ1saOLcO5uZfcHdqyljI6Cmpo73uiOnTGMPxTstB38XtzIkd+nE2qPbl
+ 1B092vX7ePUpKeJ+CouDUIJ7n1l4THOO8Ddgmh5vmVThErBlwXKcd8hZRUvYJeQCtfKf
+ yNmvdOKTc4ouWJgpl9QdqnLGaH8/ilN9d0MIlxpj/e5LjMeZEIBy4tI6EQzlhMhsfzhe
+ +KVte1mnwLmZJDK+/XMAioHb+vDI2S3lvL7ZDrmAvmDJ/D5uLc5KSFw5oWlTK0Vc8kyc
+ 6oaZCFEhNQHTDx9rRHLXtwULlMXdX15MBKqZdQuMIX8+CyfWZZVNcR6YPiDF3qNCPxaU
+ nwXw==
+X-Gm-Message-State: AFqh2kq3hYfhSXjsbKUbkeObMHLUssLvFbgJLAsytaFcJu/KZvW1FmjD
+ 85Pzu/Ah3xjXnKaXescAnsRGlg==
+X-Google-Smtp-Source: AMrXdXv9Ff+ROgvqtwLiPdfqEVxUJ9U+ZbcVzNsZcuY9x8Fmz3l7FywQlg0P9rEN++LqZpCpZr9lbg==
+X-Received: by 2002:a17:907:a07b:b0:7c1:3f04:efa2 with SMTP id
+ ia27-20020a170907a07b00b007c13f04efa2mr25537635ejc.29.1674156761900; 
+ Thu, 19 Jan 2023 11:32:41 -0800 (PST)
+Received: from [192.168.1.115] ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ g11-20020a170906538b00b007c16e083b01sm16759504ejo.9.2023.01.19.11.32.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 11:29:25 -0800 (PST)
-Message-ID: <f676bd5c-6c64-133d-0b1e-f0273c62e5b3@linaro.org>
-Date: Thu, 19 Jan 2023 09:29:21 -1000
+ Thu, 19 Jan 2023 11:32:41 -0800 (PST)
+Message-ID: <1e56aed9-68dd-0436-f639-2fd89b41fea8@linaro.org>
+Date: Thu, 19 Jan 2023 20:32:38 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH v4 13/15] target/avocado: Pass parameters to migration
- test on aarch64
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 06/18] .gitlab-ci.d/windows: do not disable opengl
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Beraldo Leal <bleal@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Bandan Das <bsd@redhat.com>,
+ Qiuhao Li <Qiuhao.Li@outlook.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Cleber Rosa <crosa@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
+ Darren Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ John Snow <jsnow@redhat.com>, Ed Maste <emaste@freebsd.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20230119135424.5417-1-farosas@suse.de>
- <20230119135424.5417-14-farosas@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230119135424.5417-14-farosas@suse.de>
+ Paolo Bonzini <pbonzini@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+References: <20230119180419.30304-1-alex.bennee@linaro.org>
+ <20230119180419.30304-7-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230119180419.30304-7-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52b.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62c.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -101,39 +103,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/19/23 03:54, Fabiano Rosas wrote:
-> The migration tests are currently broken for an aarch64 host because
-> the tests pass no 'machine' and 'cpu' options on the QEMU command
-> line. Most other architectures define a default value in QEMU for
-> these options, but arm does not.
+On 19/1/23 19:04, Alex Bennée wrote:
+> From: Marc-André Lureau <marcandre.lureau@redhat.com>
 > 
-> Add these options to the test class in case the test is being executed
-> in an aarch64 host.
-> 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> The previous patch should fix shader compilation.
+
+s/should fix/fixed/
+
+> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> Message-Id: <20230110132700.833690-3-marcandre.lureau@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
-> Don't we want to run migration tests for all the built targets? A
-> cleaner approach would be to just subclass Migration for each
-> archictecture like in boot_linux.py.
-> ---
->   tests/avocado/migration.py | 11 ++++++++++-
->   1 file changed, 10 insertions(+), 1 deletion(-)
+>   .gitlab-ci.d/windows.yml | 5 ++---
+>   1 file changed, 2 insertions(+), 3 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-
-> @@ -62,7 +72,6 @@ def _get_free_port(self):
->               self.cancel('Failed to find a free port')
->           return port
->   
-> -
->       def test_migration_with_tcp_localhost(self):
->           dest_uri = 'tcp:localhost:%u' % self._get_free_port()
->           self.do_migrate(dest_uri)
-
-Unrelated change.  Also, I think there's some python style guide that suggests 2 lines 
-between functions and classes.
-
-
-r~
 
