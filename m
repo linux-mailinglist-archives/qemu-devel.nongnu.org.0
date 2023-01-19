@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0470A6734C4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 10:50:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17785673479
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 10:31:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIR8f-0004Gi-5U; Thu, 19 Jan 2023 04:23:17 -0500
+	id 1pIRDy-0005si-V1; Thu, 19 Jan 2023 04:28:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1pIR8c-0004Fr-C1
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 04:23:14 -0500
+ id 1pIRDx-0005s2-MU
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 04:28:45 -0500
 Received: from mail.ispras.ru ([83.149.199.84])
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1pIR8a-0006GB-QT
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 04:23:14 -0500
-Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 79B9940737AC;
- Thu, 19 Jan 2023 09:23:10 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 79B9940737AC
+ id 1pIRDv-00071Q-Im
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 04:28:45 -0500
+Received: from [10.12.102.111] (unknown [85.142.117.226])
+ by mail.ispras.ru (Postfix) with ESMTPSA id BDC2344C100E;
+ Thu, 19 Jan 2023 09:28:41 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru BDC2344C100E
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
- s=default; t=1674120190;
- bh=o/aySluarGl07VSrD5n+eG+q632Cw4z1i55Kl2eM+0w=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=qBKD1+0y7kBIVdZM1SqrydJ0u8hnbFgpgK1H5tnQgLkhorLXX+tTce4k6q1BgNaMg
- yqLusJRV5O73d+VUICUS4rYZk056ElejZtpa9SWyiKdCTtpxnl2R39VKPm1MPznfaD
- MXe9nn+5t5zLxpyexT/ZaZ73gf8NxXLBSRG9kad8=
-Subject: [PATCH v2 5/5] target/avr: enable icount mode
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-To: qemu-devel@nongnu.org
-Cc: pavel.dovgalyuk@ispras.ru, mrolnik@gmail.com, philmd@linaro.org,
- richard.henderson@linaro.org
-Date: Thu, 19 Jan 2023 12:23:10 +0300
-Message-ID: <167412019026.3110454.15241120845845520583.stgit@pasha-ThinkPad-X280>
-In-Reply-To: <167412016297.3110454.15240516964339531097.stgit@pasha-ThinkPad-X280>
-References: <167412016297.3110454.15240516964339531097.stgit@pasha-ThinkPad-X280>
-User-Agent: StGit/0.23
+ s=default; t=1674120521;
+ bh=iBWlQueb2Z1qbGs2wpwNRjwrOdh83WxzZFQBrETvKpM=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ViPiOK5lnRk6lkcm4ndC6TPB+7wRYBO5Q4QlGAKFtRzqiKnmZBwToIlGfKDaluUno
+ ss9qnhXiNoZ8oK+6PJi95RcwIsH/QDBYKwwaj865scrSKyti6ii4yHynOYy4Y6gHhQ
+ BbVKjgF3U+iz2q0/PI8fwECDeEcqL1i/LoNS/zNc=
+Message-ID: <9d4496aa-e479-ccf1-662f-d07c899f3926@ispras.ru>
+Date: Thu, 19 Jan 2023 12:28:41 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: reverse-{debugging,continue} not working on v7.2.0, i386 guest
+Content-Language: en-US
+To: Hyeonggon Yoo <42.hyeyoo@gmail.com>
+Cc: qemu-devel@nongnu.org, Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
+ Paolo Bonzini <pbonzini@redhat.com>
+References: <Y8eOSedPWlOjriho@localhost>
+ <cf7bf2cb-b142-6658-5778-081d5b3b4c2b@ispras.ru> <Y8eyGAr3JUz0J18P@localhost>
+ <07fb4654-d019-9279-c386-7694330e5a42@ispras.ru> <Y8jJrYfA7kC/4jYk@hyeyoo>
+From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
+In-Reply-To: <Y8jJrYfA7kC/4jYk@hyeyoo>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=83.149.199.84;
  envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,106 +69,147 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Icount mode requires correct can_do_io flag management for checking
-that IO operations are performed only in the last TB instruction.
-This patch sets this flag before every helper which can lead to
-virtual hardware access. It enables deterministic execution
-in icount mode for AVR.
+On 19.01.2023 07:40, Hyeonggon Yoo wrote:
+> On Wed, Jan 18, 2023 at 12:39:16PM +0300, Pavel Dovgalyuk wrote:
+>> Sometimes replay (or reverse debugging) have problems due to incomplete or
+>> incorrect virtual device save/load implementation.
+>>
+>> Can you try removing -cpu from your command line?
+>>
+>> Or you can provide the files you load and I'll debug this case.
+> 
+> Ah, sorry to bother. I installed breakpoint _after_ kernel panic,
+> and installing breakpoint before boot worked fine. Every seems great!
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
----
- target/avr/translate.c |   30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+Glad to hear that.
 
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 40b15d116e..ee137dfe54 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -1406,6 +1406,10 @@ static bool trans_SBIC(DisasContext *ctx, arg_SBIC *a)
- {
-     TCGv temp = tcg_const_i32(a->reg);
- 
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-     gen_helper_inb(temp, cpu_env, temp);
-     tcg_gen_andi_tl(temp, temp, 1 << a->bit);
-     ctx->skip_cond = TCG_COND_EQ;
-@@ -1424,6 +1428,10 @@ static bool trans_SBIS(DisasContext *ctx, arg_SBIS *a)
- {
-     TCGv temp = tcg_const_i32(a->reg);
- 
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-     gen_helper_inb(temp, cpu_env, temp);
-     tcg_gen_andi_tl(temp, temp, 1 << a->bit);
-     ctx->skip_cond = TCG_COND_NE;
-@@ -1621,6 +1629,9 @@ static TCGv gen_get_zaddr(DisasContext *ctx, bool ram)
- static void gen_data_store(DisasContext *ctx, TCGv data, TCGv addr)
- {
-     if (ctx->base.tb->flags & TB_FLAGS_FULL_ACCESS) {
-+        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+            gen_io_start();
-+        }
-         gen_helper_fullwr(cpu_env, data, addr);
-     } else {
-         tcg_gen_qemu_st8(data, addr, MMU_DATA_IDX); /* mem[addr] = data */
-@@ -1630,6 +1641,9 @@ static void gen_data_store(DisasContext *ctx, TCGv data, TCGv addr)
- static void gen_data_load(DisasContext *ctx, TCGv data, TCGv addr)
- {
-     if (ctx->base.tb->flags & TB_FLAGS_FULL_ACCESS) {
-+        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+            gen_io_start();
-+        }
-         gen_helper_fullrd(data, cpu_env, addr);
-     } else {
-         tcg_gen_qemu_ld8u(data, addr, MMU_DATA_IDX); /* data = mem[addr] */
-@@ -2335,6 +2349,10 @@ static bool trans_IN(DisasContext *ctx, arg_IN *a)
-     TCGv Rd = cpu_r[a->rd];
-     TCGv port = tcg_const_i32(a->imm);
- 
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-     gen_helper_inb(Rd, cpu_env, port);
- 
-     tcg_temp_free_i32(port);
-@@ -2351,6 +2369,10 @@ static bool trans_OUT(DisasContext *ctx, arg_OUT *a)
-     TCGv Rd = cpu_r[a->rd];
-     TCGv port = tcg_const_i32(a->imm);
- 
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-     gen_helper_outb(cpu_env, port, Rd);
- 
-     tcg_temp_free_i32(port);
-@@ -2651,6 +2673,10 @@ static bool trans_SBI(DisasContext *ctx, arg_SBI *a)
-     TCGv data = tcg_temp_new_i32();
-     TCGv port = tcg_const_i32(a->reg);
- 
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-     gen_helper_inb(data, cpu_env, port);
-     tcg_gen_ori_tl(data, data, 1 << a->bit);
-     gen_helper_outb(cpu_env, port, data);
-@@ -2670,6 +2696,10 @@ static bool trans_CBI(DisasContext *ctx, arg_CBI *a)
-     TCGv data = tcg_temp_new_i32();
-     TCGv port = tcg_const_i32(a->reg);
- 
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-     gen_helper_inb(data, cpu_env, port);
-     tcg_gen_andi_tl(data, data, ~(1 << a->bit));
-     gen_helper_outb(cpu_env, port, data);
+> 
+> Just a side question, is there a reason QEMU record/replay
+> does not support -smp N (> 1)? is this feature planed, or should I use
+> other tools to debug SMP bugs?
+
+Parallel SMP deterministic emulation is very hard.
+However, I think multiple-cores-on-single-core deterministic emulation 
+will be supported someday.
+
+> 
+>> On 18.01.2023 11:47, Hyeonggon Yoo wrote:
+>>> On Wed, Jan 18, 2023 at 10:12:48AM +0300, Pavel Dovgalyuk wrote:
+>>>> As replay works well, the reverse debugging should be ok too.
+>>>> But for "going back" it needs a VM snapshot that can be used for reload.
+>>>>
+>>>> Snapshots are saved on qcow2 images connected to QEMU.
+>>>> Therefore you need to add an empty qcow2 to your command line with the
+>>>> following option: -drive file=empty.qcow2,if=none,id=rr
+>>>
+>>> Oh, I guessed it's possible to reverse-debug without snapshot,
+>>> and your comments definitely helped! adding empty disk and snapshotting solved it.
+>>>
+>>> But I faced another problem:
+>>>
+>>> (gdb) b __list_del_entry_valid
+>>> (gdb) reverse-continue
+>>>
+>>> (it stuck forever)
+>>> ^C
+>>> (gdb) info registers
+>>> eax            0xefe19f74          -270426252
+>>> ecx            0x0                 0
+>>> edx            0xefe19f74          -270426252
+>>> ebx            0xf6ff4620          -151042528
+>>> esp            0xc02e9a34          0xc02e9a34
+>>> ebp            0xc02e9a6c          0xc02e9a6c
+>>> esi            0xc4fffb20          -989856992
+>>> edi            0xefe19f70          -270426256
+>>> eip            0xc1f38400          0xc1f38400 <__list_del_entry_valid>
+>>> eflags         0x6                 [ IOPL=0 PF ]
+>>> cs             0x60                96
+>>> ss             0x68                104
+>>> ds             0x7b                123
+>>> es             0x7b                123
+>>> fs             0xd8                216
+>>> gs             0x0                 0
+>>> fs_base        0x31cb4000          835403776
+>>> gs_base        0x0                 0
+>>> k_gs_base      0x0                 0
+>>> cr0            0x80050033          [ PG AM WP NE ET MP PE ]
+>>> cr2            0xffcb1000          -3469312
+>>> cr3            0x534e000           [ PDBR=0 PCID=0 ]
+>>> cr4            0x406d0             [ PSE MCE PGE OSFXSR OSXMMEXCPT OSXSAVE ]
+>>> cr8            0x1                 1
+>>> efer           0x0                 [ ]
+>>>
+>>> it stuck here and it's not 'last breakpoint hit' from the panic
+>>> (it's early in boot), and stepi, nexti, continue commands do not work and
+>>> there's no forward progress. (eip doesn't change)
+>>>
+>>> Did I miss something or did something wrong?
+>>>
+>>> thank you so much with your help.
+>>>
+>>> --
+>>> Best regards,
+>>> Hyeonggon
+>>>
+>>>>
+>>>> And you also need to add rrsnapshot to icount for creating the snapshot at
+>>>> the start of VM execution:
+>>>> -icount shift=auto,rr=record,rrfile=$REPLAY_FILE,rrsnapshot=start
+>>>>
+>>>>
+>>>> On 18.01.2023 09:14, Hyeonggon Yoo wrote:
+>>>>> Hello QEMU folks.
+>>>>> I was struggling to fix a recent heisenbug in the Linux kernel,
+>>>>> and fortunately the bug was reproducible with TCG and -smp 1.
+>>>>>
+>>>>> I'm using qemu version 7.2.0, and guest architecture is i386.
+>>>>> I tried to inspect the bug using record/replay and reverse-debugging
+>>>>> feature in the QEMU.
+>>>>>
+>>>>>
+>>>>> recorded with:
+>>>>>
+>>>>> qemu-system-i386 \
+>>>>>            -icount shift=auto,rr=record,rrfile=$REPLAY_FILE \
+>>>>>            -kernel arch/x86/boot/bzImage \
+>>>>>            -cpu SandyBridge \
+>>>>>            -initrd debian-i386.cgz \
+>>>>>            -smp 1 \
+>>>>>            -m 1024 \
+>>>>>            -nographic \
+>>>>>            -net none \
+>>>>>            -append "page_owner=on console=ttyS0"
+>>>>>
+>>>>> and replayed with:
+>>>>>
+>>>>> qemu-system-i386 \
+>>>>>            -icount shift=auto,rr=replay,rrfile=$REPLAY_FILE \
+>>>>>            -kernel arch/x86/boot/bzImage \
+>>>>>            -cpu SandyBridge \
+>>>>>            -initrd debian-i386.cgz \
+>>>>>            -smp 1 \
+>>>>>            -m 1024 \
+>>>>>            -nographic \
+>>>>>            -net none \
+>>>>>            -s \
+>>>>>            -append "page_owner=on console=ttyS0"
+>>>>>
+>>>>> (I'm using a initrd image instead of a disk file.)
+>>>>>
+>>>>> The record and replay works well. The bug is reliably reproduced
+>>>>> when relaying. but when I try to reverse-continue or reverse-stepi after
+>>>>> kernel panic, the gdb only says:
+>>>>>
+>>>>> 	"remote failure reply 'E14'"
+>>>>>
+>>>>> Is there something I'm missing, or record/replay do not work with
+>>>>> QEMU v7.2.0 or i386?
+>>>>>
+>>>>> --
+>>>>> Best regards,
+>>>>> Hyeonggon
+>>>>
+>>
+> 
 
 
