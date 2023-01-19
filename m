@@ -2,70 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD3C5673AA8
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:46:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66946673AAA
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:46:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIVEe-0000F9-Py; Thu, 19 Jan 2023 08:45:45 -0500
+	id 1pIVFa-0001Zo-1f; Thu, 19 Jan 2023 08:46:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pIVEN-0000Bp-Nj
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:45:28 -0500
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIVFP-0001Ov-S3
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:46:31 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pIVEK-0003wk-69
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:45:26 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id r18so1520133pgr.12
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 05:45:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIVFN-00049i-OO
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:46:31 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id z5so1911145wrt.6
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 05:46:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=JpdmuGJz6c4TFCGymwgX2VJ4qEcxJKG4Vuqdz37LPk0=;
- b=g3Xuju5m8U8VcFaJIfXYJvYT974BDB4gxgk6G6fYne/leT+8Q7itGI/oyB0yOGJTgF
- 6cpNFFBZgHLC0Cf5TbDbB/UIeazfmiSwVN3tX5sTkJe2oRSTRfsTVd0o10Vsk+1K5DQ+
- oxdnrNziU9U/oArY7a06+QEuAuF8kqJS0C84MeLH/nvvlHnRDrvvGJDqrRF18C76u3wy
- XsWN6c2dKEb4uUY4f5XD7J4tvc3T7Gwk50HLY/pB6EjObTf0Lmlggw0v18DO7v4u69Aa
- 8Gc2O/rtCXmpx73HdfClHB5WLkyYF5HX1kEeKHnZeSCw2Y/T0vDqZJNIInzeo9CXihaX
- pjTA==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3/LZW3PmpdXlxZ0fOjBSrkyY10AW7C/jltZnooLW4/I=;
+ b=M3nYdZHZQt2/o88LKNlRX8M0QGvNihLLkI7dpQ6lQJTnzRk1NpkETtmO1wxxgXMZOI
+ ywMDW9/mrL/87cKta8mYJHqaIHS3o55znIZKTGv2M/8DW1siAP+0FQWk8eZ2MErf6snk
+ B42R6CuoQDJrQ2CR7GsWnWxARKRSwlK6nXOegZHmCngx5yOoqMK6vOyzcjMckI2WUalD
+ oYnqRNXuY5MeiKVBBS1WO2/1u52G58CPtmPO4UTXCZo5RJ61eMtyQvGkjcqZfi4Yr+mv
+ j7iFlB9WeDv03j18SYvqwStlGACoIWWnks6SVUZvEgoa3+6NvmT0yVjJqRjWKhclYLNs
+ SLOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JpdmuGJz6c4TFCGymwgX2VJ4qEcxJKG4Vuqdz37LPk0=;
- b=YTXjzPQJQkr3pbhK54Yu9eeZ6dWaS7PjgEahHVk2kqotrNt1UtO0psn2JiDiLPn92Y
- /iLFLUZ7F6mLp0hNXcm3UCjtMaZ+0aFq56A7tLIxZdbtYIaNmYIDq93FuXZgtKDVvD/v
- GK0/SEX8htBmB0nNguOyJma0Q/mIq023IIt2NBqsob6yl/rmItBhJDPROv+ETCH1WXbi
- LHhpfNIQV+QZ/1XfSrACkqxBQecBEGKoX81dg/KnCK5oeg7KKfsmRojXfIEGyNekKcU7
- cG+q7trUQnhLhFDagFEoVG/BCSC7R9uR0GAui5DrjaQ03brTjnjHYKWzFVYcZV0g5jjt
- d68Q==
-X-Gm-Message-State: AFqh2krYNAnRIa/6XRwnmYGJ2SlOMeqXtCsbx0GHTb9LjvWaVK4jyldQ
- CUPDymaEnDMLcd8rJf5/i1Rh6omPktt7/rwVaAfmCQ==
-X-Google-Smtp-Source: AMrXdXthyVtAOaGF+8EpvatTUyC8aUw1FAGEol0xQCT/IYvteGY1vTBtAJqF9+2fqA+5sVfb7xGPFFUIXloeSknlnQA=
-X-Received: by 2002:a63:5410:0:b0:4d1:96f6:8edd with SMTP id
- i16-20020a635410000000b004d196f68eddmr276853pgb.253.1674135922318; Thu, 19
- Jan 2023 05:45:22 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3/LZW3PmpdXlxZ0fOjBSrkyY10AW7C/jltZnooLW4/I=;
+ b=O8oH+VOEFwMaHTv/NxRrgEJ3qgPqhXYUUo7QgqVtogOAQp9RPbN2m6GhvYMrWvFm4N
+ +LVnQxFTAmGvzR1X3bJh7UZsuC6+nfWP524CziumGvopbcRviA40PrhkQ875QjAtgIkr
+ X9OxEry3qT9G3xN7040XbUP0iaMeAS7M+qzjV5yvnlMeyNOLWzF54V7hRxjBuX001lkP
+ rLHb5nZ/VqLvL6c7mEY16O9S5b4p4IiresAOYxE9uVrWdnsps8Ky0WdcdHNPBXHimrYC
+ 83tom4sWVrM5lAFsbF0H+VhBh3WzsfzMyX/GDNkGAV8/C/co65e7os/oOckixA+s078U
+ FS1g==
+X-Gm-Message-State: AFqh2kpl0B+mMBGBak8zsG1tLEc7ylSxBJ1JzoqZPie7I0CF50ZXUYPz
+ 6G7iOJR0uH73TTMqWOJRkr94wQ==
+X-Google-Smtp-Source: AMrXdXsLudCCY6n2BBffHZs3NSEZ4Jx+gvTKbeJ9a9qj1uQ/7+d+e4veVgtay4lzyJDHcqbeBNBiMQ==
+X-Received: by 2002:a5d:6447:0:b0:2be:34f9:5284 with SMTP id
+ d7-20020a5d6447000000b002be34f95284mr4357277wrw.48.1674135988056; 
+ Thu, 19 Jan 2023 05:46:28 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ g2-20020a5d4882000000b00286ad197346sm33665783wrq.70.2023.01.19.05.46.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 05:46:27 -0800 (PST)
+Message-ID: <d8da1d01-c87d-a226-0914-448a7da144c5@linaro.org>
+Date: Thu, 19 Jan 2023 14:46:26 +0100
 MIME-Version: 1.0
-References: <20230117220523.20911-1-eiakovlev@linux.microsoft.com>
- <20230117220523.20911-2-eiakovlev@linux.microsoft.com>
-In-Reply-To: <20230117220523.20911-2-eiakovlev@linux.microsoft.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Jan 2023 13:45:11 +0000
-Message-ID: <CAFEAcA9EndzEQA7CPszBCFJyzSgD7=FqeFFK-LHxucTA=CSimA@mail.gmail.com>
-Subject: Re: [PATCH v2 1/4] hw/char/pl011: refactor FIFO depth handling code
-To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 00/20] target/arm: CONFIG_TCG=n part 1
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Thomas Huth <thuth@redhat.com>
+References: <20230118193518.26433-1-farosas@suse.de>
+ <39bb348d-e3af-6a20-e7d5-d7a1c918a389@linaro.org> <87bkmu1z8v.fsf@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <87bkmu1z8v.fsf@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42a.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -83,121 +95,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 17 Jan 2023 at 22:05, Evgeny Iakovlev
-<eiakovlev@linux.microsoft.com> wrote:
->
-> PL011 can be in either of 2 modes depending guest config: FIFO and
-> single register. The last mode could be viewed as a 1-element-deep FIFO.
->
-> Current code open-codes a bunch of depth-dependent logic. Refactor FIFO
-> depth handling code to isolate calculating current FIFO depth.
->
-> One functional (albeit guest-invisible) side-effect of this change is
-> that previously we would always increment s->read_pos in UARTDR read
-> handler even if FIFO was disabled, now we are limiting read_pos to not
-> exceed FIFO depth (read_pos itself is reset to 0 if user disables FIFO).
->
-> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-> ---
->  hw/char/pl011.c         | 25 +++++++++++++------------
->  include/hw/char/pl011.h |  5 ++++-
->  2 files changed, 17 insertions(+), 13 deletions(-)
+On 19/1/23 13:32, Fabiano Rosas wrote:
+> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
+> 
+>> On 18/1/23 20:34, Fabiano Rosas wrote:
+>>> These are the already reviewed patches from the first half of my
+>>> previous series:
+>>> https://lore.kernel.org/r/20230113140419.4013-1-farosas@suse.de
+>>>
+>>> This unbreaks the --disable-tcg build, but there are issues in runtime
+>>> that are still being hashed out in the other series.
 
-Looking at this again, I realised that there's a subtle point
-here about migration compatibility. If we do a VM migration
-from an older version of QEMU without this change to a newer
-version that does have this change, the incoming migration state
-might indicate that we have FIFOs disabled, and there's a character
-in read_fifo[] that isn't in array element 0 (because the old
-code doesn't put it there). I think this works out OK because
-the codepath in the UARTDR read-from-FIFO will first read the
-character from read_fifo[read_pos], which will be the non-zero
-read_pos as set by the old QEMU, before constraining it to be
-0 when it does the advance of read_pos; and the pl011_put_fifo
-code doesn't care about the actual value of read_pos.
+Are you saying, we can *link* this configuration but not *run* it yet?
 
-But this is kind of tricky to reason about, and fragile to
-future changes in the code, so I feel like it would be better
-to have a migration post_load function that sanitizes the
-incoming state to enforce the invariant assumed by the new code, i.e.
+>>> For the build _with_ TCG, this should behave the same as master.
+>>>
+>>> Based on Richard's "target/arm: Introduce aarch64_set_svcr":
+>>> https://lore.kernel.org/r/20230112004322.161330-1-richard.henderson@linaro.org
+>>>
+>>> Claudio Fontana (5):
+>>>     target/arm: rename handle_semihosting to tcg_handle_semihosting
+>>>     target/arm: wrap psci call with tcg_enabled
+>>>     target/arm: wrap call to aarch64_sve_change_el in tcg_enabled()
+>>>     target/arm: move helpers to tcg/
+>>>     target/arm: Move psci.c into the tcg directory
+>>>
+>>> Fabiano Rosas (15):
+>>>     target/arm: Move PC alignment check
+>>>     target/arm: Move cpregs code out of cpu.h
+>>>     target/arm: Move cpregs code into cpregs.c
+>>>     target/arm: Move define_debug_regs() to cpregs.c
+>>>     target/arm: Wrap breakpoint/watchpoint updates with tcg_enabled
+>>>     target/arm: move translate modules to tcg/
+>>>     target/arm: Wrap arm_rebuild_hflags calls with tcg_enabled
+>>>     target/arm: Move hflags code into the tcg directory
+>>>     target/arm: Move regime_using_lpae_format into internal.h
+>>>     target/arm: Don't access TCG code when debugging with KVM
+>>>     cpu-defs.h: Expose CPUTLBEntryFull to non-TCG code
+>>>     target/arm: Move cortex sysregs into cpregs.c
+>>>     tests/qtest: Restrict bcm2835-dma-test to CONFIG_RASPI
+>>>     tests/avocado: Skip tests that require a missing accelerator
+>>>     tests/avocado: Tag TCG tests with accel:tcg
+>>
+>> Testing on Darwin:
+>>
+>> 14/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/test-hmp
+>>   
+>> ERROR:../../target/arm/helper.c:2495:arm_v7m_mmu_idx_for_secstate: code
+>> should not be reached
+>> 17/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/qom-test
+>>           qemu-system-aarch64: unknown type 'arm-gicv3'
+>> 18/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/boot-serial-test
+>> qemu-system-aarch64: -accel tcg: invalid accelerator tcg
+>> 19/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/vnc-display-test
+>> qemu-system-aarch64: No machine specified, and there is no default
+>> 20/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/migration-test
+>> qemu-system-aarch64: -accel tcg: invalid accelerator tcg
+>>
+>> Reproducers:
+>>
+>> $ ./qemu-system-aarch64 -display none -S -M mps3-an547 -accel qtest
+>> -monitor stdio
+>> QEMU 7.2.50 monitor - type 'help' for more information
+>> (qemu) gva2gpa 0
+>> **
+>> ERROR:../../target/arm/helper.c:2495:arm_v7m_mmu_idx_for_secstate: code
+>> should not be reached
+>> Bail out!
+>> ERROR:../../target/arm/helper.c:2495:arm_v7m_mmu_idx_for_secstate: code
+>> should not be reached
+>> Abort trap: 6
+>>
+>>       frame #4: 0x0000000101fdd6cc
+>> libglib-2.0.0.dylib`g_assertion_message_expr + 116
+>>       frame #5: 0x0000000100360ce0
+>> qemu-system-aarch64`arm_v7m_mmu_idx_for_secstate(env=<unavailable>,
+>> secstate=<unavailable>) at helper.c:2495:5
+>>       frame #6: 0x000000010035f7f4
+>> qemu-system-aarch64`arm_mmu_idx_el(env=<unavailable>, el=<unavailable>)
+>> at helper.c:2514:16
+>>       frame #7: 0x00000001002d17ec
+>> qemu-system-aarch64`arm_cpu_get_phys_page_attrs_debug(cs=<unavailable>,
+>> addr=0, attrs=0x000000016fdfda50) at ptw.c:2982:23
+>>       frame #8: 0x00000001003c660c
+>> qemu-system-aarch64`hmp_gva2gpa(mon=0x000060000390f0c0,
+>> qdict=<unavailable>) at misc.c:714:12
+>>
+>> $ ./qemu-system-aarch64 -display none -machine sbsa-ref -accel qtest
+>> qemu-system-aarch64: unknown type 'arm-gicv3'
+>> Abort trap: 6
+>>
+>>       frame #2: 0x00000001958522c8 libsystem_c.dylib`abort + 180
+>>       frame #3: 0x00000001003d32e8
+>> qemu-system-aarch64`qdev_new(name="arm-gicv3") at qdev.c:164:9
+>>       frame #4: 0x00000001002f30d4 qemu-system-aarch64`sbsa_ref_init
+>> [inlined] create_gic(sms=0x0000000103ff0d10) at sbsa-ref.c:405:16
+>>       frame #5: 0x00000001002f30a0
+>> qemu-system-aarch64`sbsa_ref_init(machine=0x0000000103ff0d10) at
+>> sbsa-ref.c:773:5
+>>       frame #6: 0x00000001000905c0
+>> qemu-system-aarch64`machine_run_board_init(machine=0x0000000103ff0d10,
+>> mem_path=<unavailable>, errp=<unavailable>) at machine.c:1404:5
+> 
+> Are these errors without TCG?
 
-  if (pl011_fifo_depth(s) == 1 && s->read_count > 0 && s->read_pos > 0) {
-      /*
-       * Older versions of QEMU didn't ensure that the single
-       * character in the FIFO in FIFO-disabled mode is in
-       * element 0 of the array; convert to follow the current
-       * code's assumptions.
-       */
-      s->read_fifo[0] = s->read_fifo[s->read_pos];
-      s->read_pos = 0;
-  }
+Yes.
 
-If we're putting in a post-load function we can also sanitize
-the incoming migration stream to fail the migration on bogus
-(possibly malicious) data like read_pos > ARRAY_SIZE(read_fifo)
-or read_count > fifo depth.
+> If so they will be fixed by the other half
+> of the series by removing the machines/cpus that depend on TCG. Nothing
+> against fixing this now in the specific tests, of course, but a user on
+> the cmdline would also hit these.
 
-> diff --git a/hw/char/pl011.c b/hw/char/pl011.c
-> index c076813423..329cc6926d 100644
-> --- a/hw/char/pl011.c
-> +++ b/hw/char/pl011.c
-> @@ -81,6 +81,12 @@ static void pl011_update(PL011State *s)
->      }
->  }
->
-> +static inline unsigned pl011_get_fifo_depth(PL011State *s)
-> +{
-> +    /* Note: FIFO depth is expected to be power-of-2 */
-> +    return s->lcr & 0x10 ? PL011_FIFO_DEPTH : 1;
-> +}
-> +
->  static uint64_t pl011_read(void *opaque, hwaddr offset,
->                             unsigned size)
->  {
-> @@ -94,8 +100,7 @@ static uint64_t pl011_read(void *opaque, hwaddr offset,
->          c = s->read_fifo[s->read_pos];
->          if (s->read_count > 0) {
->              s->read_count--;
-> -            if (++s->read_pos == 16)
-> -                s->read_pos = 0;
-> +            s->read_pos = (s->read_pos + 1) & (pl011_get_fifo_depth(s) - 1);
->          }
->          if (s->read_count == 0) {
->              s->flags |= PL011_FLAG_RXFE;
-> @@ -273,11 +278,7 @@ static int pl011_can_receive(void *opaque)
->      PL011State *s = (PL011State *)opaque;
->      int r;
->
-> -    if (s->lcr & 0x10) {
-> -        r = s->read_count < 16;
-> -    } else {
-> -        r = s->read_count < 1;
-> -    }
-> +    r = s->read_count < pl011_get_fifo_depth(s);
->      trace_pl011_can_receive(s->lcr, s->read_count, r);
->      return r;
->  }
-> @@ -286,15 +287,15 @@ static void pl011_put_fifo(void *opaque, uint32_t value)
->  {
->      PL011State *s = (PL011State *)opaque;
->      int slot;
-> +    unsigned pipe_depth;
->
-> -    slot = s->read_pos + s->read_count;
-> -    if (slot >= 16)
-> -        slot -= 16;
-> +    pipe_depth = pl011_get_fifo_depth(s);
-> +    slot = (s->read_pos + s->read_count) & (pipe_depth - 1);
->      s->read_fifo[slot] = value;
->      s->read_count++;
->      s->flags &= ~PL011_FLAG_RXFE;
->      trace_pl011_put_fifo(value, s->read_count);
-> -    if (!(s->lcr & 0x10) || s->read_count == 16) {
-> +    if (s->read_count == pipe_depth) {
->          trace_pl011_put_fifo_full();
->          s->flags |= PL011_FLAG_RXFF;
->      }
-
-thanks
--- PMM
+I ran 'make check' which calls 'make check-qtest' -> 'make 
+check-qtest-aarch64'.
 
