@@ -2,29 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 666636738B5
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:37:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0C2D6738C0
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:38:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIU9L-0007WS-QU; Thu, 19 Jan 2023 07:36:11 -0500
+	id 1pIU9L-0007SI-IP; Thu, 19 Jan 2023 07:36:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=w1SB=5Q=kaod.org=clg@ozlabs.org>)
- id 1pIU95-0007Cg-FH; Thu, 19 Jan 2023 07:35:56 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76])
+ id 1pIU96-0007DN-9J; Thu, 19 Jan 2023 07:35:58 -0500
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=w1SB=5Q=kaod.org=clg@ozlabs.org>)
- id 1pIU92-0007eu-OX; Thu, 19 Jan 2023 07:35:55 -0500
+ id 1pIU94-0007ee-Gp; Thu, 19 Jan 2023 07:35:56 -0500
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4NyMYL3HYNz4xZj;
- Thu, 19 Jan 2023 23:35:50 +1100 (AEDT)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4NyMYP01yjz4xN1;
+ Thu, 19 Jan 2023 23:35:53 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4NyMYJ2ZPmz4xHV;
- Thu, 19 Jan 2023 23:35:48 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4NyMYL6tQbz4xHV;
+ Thu, 19 Jan 2023 23:35:50 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
@@ -32,24 +33,24 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Peter Delevoryas <peter@pjd.dev>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 17/25] hw/watchdog/wdt_aspeed: Extend MMIO range to cover more
- registers
-Date: Thu, 19 Jan 2023 13:34:41 +0100
-Message-Id: <20230119123449.531826-18-clg@kaod.org>
+Subject: [PATCH 18/25] hw/watchdog/wdt_aspeed: Log unimplemented registers as
+ UNIMP level
+Date: Thu, 19 Jan 2023 13:34:42 +0100
+Message-Id: <20230119123449.531826-19-clg@kaod.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230119123449.531826-1-clg@kaod.org>
 References: <20230119123449.531826-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
  envelope-from=SRS0=w1SB=5Q=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,86 +68,72 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-When booting the Zephyr demo in [1] we get:
+Add more Aspeed watchdog registers from [*].
 
-  aspeed.io: unimplemented device write (size 4, offset 0x185128, value 0x030f1ff1) <--
-  aspeed.io: unimplemented device write (size 4, offset 0x18512c, value 0x03fffff1)
+Since guests can righteously access them, log the access at
+'unimplemented' level instead of 'guest-errors'.
 
-This corresponds to this Zephyr code [2]:
+[*] https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/drivers/watchdog/wdt_aspeed.c#L31
 
-  static int aspeed_wdt_init(const struct device *dev)
-  {
-    const struct aspeed_wdt_config *config = dev->config;
-    struct aspeed_wdt_data *const data = dev->data;
-    uint32_t reg_val;
-
-    /* disable WDT by default */
-    reg_val = sys_read32(config->ctrl_base + WDT_CTRL_REG);
-    reg_val &= ~WDT_CTRL_ENABLE;
-    sys_write32(reg_val, config->ctrl_base + WDT_CTRL_REG);
-
-    sys_write32(data->rst_mask1,
-                config->ctrl_base + WDT_SW_RESET_MASK1_REG);   <------
-    sys_write32(data->rst_mask2,
-                config->ctrl_base + WDT_SW_RESET_MASK2_REG);
-
-    return 0;
-  }
-
-The register definitions are [3]:
-
-  #define WDT_RELOAD_VAL_REG          0x0004
-  #define WDT_RESTART_REG             0x0008
-  #define WDT_CTRL_REG                0x000C
-  #define WDT_TIMEOUT_STATUS_REG      0x0010
-  #define WDT_TIMEOUT_STATUS_CLR_REG  0x0014
-  #define WDT_RESET_MASK1_REG         0x001C
-  #define WDT_RESET_MASK2_REG         0x0020
-  #define WDT_SW_RESET_MASK1_REG      0x0028   <------
-  #define WDT_SW_RESET_MASK2_REG      0x002C
-  #define WDT_SW_RESET_CTRL_REG       0x0024
-
-Currently QEMU only cover a MMIO region of size 0x20:
-
-  #define ASPEED_WDT_REGS_MAX        (0x20 / 4)
-
-Change to map the whole 'iosize' which might be bigger, covering
-the other registers. The MemoryRegionOps read/write handlers will
-report the accesses as out-of-bounds guest-errors, but the next
-commit will report them as unimplemented.
-
-[1] https://github.com/AspeedTech-BMC/zephyr/releases/tag/v00.01.07
-[2] https://github.com/AspeedTech-BMC/zephyr/commit/2e99f10ac27b
-[3] https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/drivers/watchdog/wdt_aspeed.c#L31
-
-Reviewed-by: Peter Delevoryas <peter@pjd.dev>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Peter Delevoryas <peter@pjd.dev>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- hw/watchdog/wdt_aspeed.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ include/hw/watchdog/wdt_aspeed.h |  2 +-
+ hw/watchdog/wdt_aspeed.c         | 13 +++++++++++++
+ 2 files changed, 14 insertions(+), 1 deletion(-)
 
+diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
+index db91ee6b51..e90ef86651 100644
+--- a/include/hw/watchdog/wdt_aspeed.h
++++ b/include/hw/watchdog/wdt_aspeed.h
+@@ -21,7 +21,7 @@ OBJECT_DECLARE_TYPE(AspeedWDTState, AspeedWDTClass, ASPEED_WDT)
+ #define TYPE_ASPEED_2600_WDT TYPE_ASPEED_WDT "-ast2600"
+ #define TYPE_ASPEED_1030_WDT TYPE_ASPEED_WDT "-ast1030"
+ 
+-#define ASPEED_WDT_REGS_MAX        (0x20 / 4)
++#define ASPEED_WDT_REGS_MAX        (0x30 / 4)
+ 
+ struct AspeedWDTState {
+     /*< private >*/
 diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
-index 958725a1b5..eefca31ae4 100644
+index eefca31ae4..d267aa185c 100644
 --- a/hw/watchdog/wdt_aspeed.c
 +++ b/hw/watchdog/wdt_aspeed.c
-@@ -260,6 +260,7 @@ static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
- {
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
-     AspeedWDTState *s = ASPEED_WDT(dev);
-+    AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(dev);
+@@ -42,6 +42,11 @@
+ #define     WDT_PUSH_PULL_MAGIC         (0xA8 << 24)
+ #define     WDT_OPEN_DRAIN_MAGIC        (0x8A << 24)
+ #define WDT_RESET_MASK1                 (0x1c / 4)
++#define WDT_RESET_MASK2                 (0x20 / 4)
++
++#define WDT_SW_RESET_CTRL               (0x24 / 4)
++#define WDT_SW_RESET_MASK1              (0x28 / 4)
++#define WDT_SW_RESET_MASK2              (0x2c / 4)
  
-     assert(s->scu);
+ #define WDT_TIMEOUT_STATUS              (0x10 / 4)
+ #define WDT_TIMEOUT_CLEAR               (0x14 / 4)
+@@ -83,6 +88,10 @@ static uint64_t aspeed_wdt_read(void *opaque, hwaddr offset, unsigned size)
+         return s->regs[WDT_RESET_MASK1];
+     case WDT_TIMEOUT_STATUS:
+     case WDT_TIMEOUT_CLEAR:
++    case WDT_RESET_MASK2:
++    case WDT_SW_RESET_CTRL:
++    case WDT_SW_RESET_MASK1:
++    case WDT_SW_RESET_MASK2:
+         qemu_log_mask(LOG_UNIMP,
+                       "%s: uninmplemented read at offset 0x%" HWADDR_PRIx "\n",
+                       __func__, offset);
+@@ -190,6 +199,10 @@ static void aspeed_wdt_write(void *opaque, hwaddr offset, uint64_t data,
  
-@@ -271,7 +272,7 @@ static void aspeed_wdt_realize(DeviceState *dev, Error **errp)
-     s->pclk_freq = PCLK_HZ;
- 
-     memory_region_init_io(&s->iomem, OBJECT(s), &aspeed_wdt_ops, s,
--                          TYPE_ASPEED_WDT, ASPEED_WDT_REGS_MAX * 4);
-+                          TYPE_ASPEED_WDT, awc->iosize);
-     sysbus_init_mmio(sbd, &s->iomem);
- }
- 
+     case WDT_TIMEOUT_STATUS:
+     case WDT_TIMEOUT_CLEAR:
++    case WDT_RESET_MASK2:
++    case WDT_SW_RESET_CTRL:
++    case WDT_SW_RESET_MASK1:
++    case WDT_SW_RESET_MASK2:
+         qemu_log_mask(LOG_UNIMP,
+                       "%s: uninmplemented write at offset 0x%" HWADDR_PRIx "\n",
+                       __func__, offset);
 -- 
 2.39.0
 
