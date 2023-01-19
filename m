@@ -2,105 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BE6B674742
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 00:34:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D16674767
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 00:48:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIePY-00089K-B0; Thu, 19 Jan 2023 18:33:36 -0500
+	id 1pIeca-0003Dx-QA; Thu, 19 Jan 2023 18:47:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pIePV-00088s-Ru
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 18:33:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
- id 1pIePT-0008Pj-7H
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 18:33:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674171209;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=pM06HIpGOHOvV75p5cdXqHGuRUCNkMKEjQFaR0seGDE=;
- b=RNy4LQyscet5NjNocUtRmVXhSUHpkrvNmFqevj4syixYX0CROqIlCzxJLtCH7pKgQKvr/1
- +4sf9CPqNak8g9Jr8atKuqbovahLK1Zjag/Lqtrd4UKjslWl2wiKWIiY3Mmo8wSaZWXWV1
- sTEgCMMis2nFyHfdjB2qqGRxfCI+YBo=
-Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
- [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-501-Ge4elK6qNVCbcYKGn3DCHA-1; Thu, 19 Jan 2023 18:33:27 -0500
-X-MC-Unique: Ge4elK6qNVCbcYKGn3DCHA-1
-Received: by mail-ed1-f69.google.com with SMTP id
- q20-20020a056402519400b0049e5b8c71b3so2617892edd.17
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 15:33:27 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pIecA-00037A-94; Thu, 19 Jan 2023 18:46:41 -0500
+Received: from mail-ua1-x935.google.com ([2607:f8b0:4864:20::935])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pIec6-0002NA-0h; Thu, 19 Jan 2023 18:46:35 -0500
+Received: by mail-ua1-x935.google.com with SMTP id u3so991214uae.0;
+ Thu, 19 Jan 2023 15:46:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=KPqJVJp80N/DeT38pRVWoUhAfRHJVaCGxreCuk0z0lQ=;
+ b=L1Wa+IhLlyW6uZQjQEganUvpaCWpvURHGyHXP/hvz7QjzHmmC/Y7sBp1otKN/UZguM
+ Om12yWN9TTQRytnGqvErPn7lVAh8bFJiC8wKQDI6ALcRPdJRa+AlM7qNFUmsnF7pUSsS
+ ZBsIozRh1OmTS0F7j0oLMExg0juSTHgeo6X14x2d/GhizXv2xVP3COLVuuzbJVLAl7wF
+ r+IvHheOGT2IVXuA0u7fpZCX3YPddn+ILJrGF6kOoOf9Xfe0gRgSovjsqQMUpl7CFASb
+ SMGOEzZEzCRGM5wgbOBxuNWoTUvvD0qBQhAJiFX079Dqtg67r2zgpadPzERTwW9u2eAv
+ 5nSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=pM06HIpGOHOvV75p5cdXqHGuRUCNkMKEjQFaR0seGDE=;
- b=dD90IroG1KduwDHrdOMU+9p0A3yKVqvZEMR9M4HIFm+RxKw3HdH237uyjLZLsEeNP4
- fz7pxCsj4fx2+LSQyx5D69Pcyrwlx9fOpGhE6yh5S26cXObWtT0uxB8sCtlgL/4f4O0n
- kJ1kC1zH1pl30tecb2y34YqLZ7Xl4UG4RbDStn1jlwCz/XChH1Bf6cMYGD0LpYJ+Q+HK
- kSK1GDON0Qsb4uhPKnttJVjdrOyRZtIZNKt/62qU6veJalEGGsnnwTPpO+HFIU2ZdyA5
- TiPIm3dZCHOqlfLJOPB7nUdqHUQm00Hh+pX+V1fXf9ewYREBqzbnQh0TfkSd6j/AzUlL
- IsNw==
-X-Gm-Message-State: AFqh2krYFTXJa1WdWY/MEHVapO3RuMpf3H0eRr5GQ/5A4zQukZrf6S78
- 9sFywXKDsmvApHSh9mlhfTFnndzYPXPB91R1MksYHoFDx+7nl4I18TRQghjINOfnPf9DioICDvu
- 2p1RhqreFPw9ougs=
-X-Received: by 2002:a05:6402:c84:b0:475:c640:ddd2 with SMTP id
- cm4-20020a0564020c8400b00475c640ddd2mr12304828edb.26.1674171206814; 
- Thu, 19 Jan 2023 15:33:26 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsmF3Wte8T69Cj86JaXDlcVxUbQGDE54L4SKfJYhaiyM/UOwM/KWNMMcjdA74GSJX66S9yybA==
-X-Received: by 2002:a05:6402:c84:b0:475:c640:ddd2 with SMTP id
- cm4-20020a0564020c8400b00475c640ddd2mr12304798edb.26.1674171206523; 
- Thu, 19 Jan 2023 15:33:26 -0800 (PST)
-Received: from ?IPV6:2001:b07:6468:f312:63a7:c72e:ea0e:6045?
- ([2001:b07:6468:f312:63a7:c72e:ea0e:6045])
- by smtp.googlemail.com with ESMTPSA id
- f11-20020a056402194b00b0048eb0886b00sm7537987edz.42.2023.01.19.15.33.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 15:33:25 -0800 (PST)
-Message-ID: <9ae0faf8-da47-a86f-5365-0798914db6fb@redhat.com>
-Date: Fri, 20 Jan 2023 00:33:22 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=KPqJVJp80N/DeT38pRVWoUhAfRHJVaCGxreCuk0z0lQ=;
+ b=uUI8PxNwLYQ3kgmx3sUEwMEnX8pFIxEmGEj43bO7Tzr3Jbsc9HDhYS5Nt+e9cHoEbB
+ j1jM29Gv1udgGz6BtnZzdpBK6/uwCPPZLrJnsvIYwMUjkknX/P91UcOpuAPcj2FwaNWb
+ LBiWHasXgMVyUX5WXqFQJeKLbplGWMM7r0Dv90y9WSeErjifr11poq69CyDCz0oRsQTf
+ Q1zHJSwCUusTVYUOc7cg5KgrQTTlN7bS0j54Gd9GkcsIsfWjFgtYuJqikNtBBjN5vCY0
+ ncDT/QNCLj3ZEueXG8g1n412vL3QHZJ24rN5Z1I6gKyqlduShnRW+UPevEA+d2+31WtK
+ suZA==
+X-Gm-Message-State: AFqh2kqZJQBJBm7tHyMHbCT0WzfkqY1PBTJSZLquT4oyD02qeqbLCWr7
+ PNsQ2HaZnALJa1q0QO91maYpA17dXXuqQ0FCUFg=
+X-Google-Smtp-Source: AMrXdXumeFp70WmynUNpbw4r3HyocN0em/Mt78DcvpI/jdNUgdZAU9rfcKmdnZKjPtthcOUvjratqDEP88Uu6WfWjKY=
+X-Received: by 2002:ab0:3b8d:0:b0:419:2865:3ae7 with SMTP id
+ p13-20020ab03b8d000000b0041928653ae7mr1567838uaw.70.1674171991715; Thu, 19
+ Jan 2023 15:46:31 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.1
-Subject: Re: [PATCH 10/18] Update lcitool and fedora to 37
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-Cc: Beraldo Leal <bleal@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Bandan Das <bsd@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Cleber Rosa <crosa@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Darren Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi
- <stefanha@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- John Snow <jsnow@redhat.com>, Ed Maste <emaste@freebsd.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-References: <20230119180419.30304-1-alex.bennee@linaro.org>
- <20230119180419.30304-11-alex.bennee@linaro.org>
- <e0203997-0161-8abc-de76-ebd88f117545@linaro.org>
-From: Paolo Bonzini <pbonzini@redhat.com>
-In-Reply-To: <e0203997-0161-8abc-de76-ebd88f117545@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=pbonzini@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230113103453.42776-1-alexghiti@rivosinc.com>
+ <20230113103453.42776-3-alexghiti@rivosinc.com>
+ <20230117163138.jze47hjeeuwu2k4j@orel>
+ <CAKmqyKNFX_ovg4Bp_30o0g4Jd5XJ98i9LdFgejsDmGW4iL2+OA@mail.gmail.com>
+ <20230118121916.6aqj57leen72z5tz@orel>
+ <CAKmqyKNcd3JOZgPb23idrzVjxHj+HHwPz6f6xPEp2oVGJEZKpg@mail.gmail.com>
+ <CAHVXubiW2OaMhe3STLLMz=wDPJeY8hvPHbuBJgL7KZyw4=pRpw@mail.gmail.com>
+In-Reply-To: <CAHVXubiW2OaMhe3STLLMz=wDPJeY8hvPHbuBJgL7KZyw4=pRpw@mail.gmail.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 20 Jan 2023 09:46:05 +1000
+Message-ID: <CAKmqyKNNocLxKJtBtFnZkbTdCwC=TKaHpm4Sunut49nxQyw8yA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] riscv: Allow user to set the satp mode
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Andrew Jones <ajones@ventanamicro.com>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Ludovic Henry <ludovic@rivosinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
+ envelope-from=alistair23@gmail.com; helo=mail-ua1-x935.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,36 +90,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/19/23 20:35, Philippe Mathieu-Daudé wrote:
-> On 19/1/23 19:04, Alex Bennée wrote:
->> From: Marc-André Lureau <marcandre.lureau@redhat.com>
->>
->> Fedora 35 is EOL.
->>
->> Update to upstream lcitool, that dropped f35 and added f37.
+On Thu, Jan 19, 2023 at 11:00 PM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
+>
+> Hi Alistair, Andrew,
+>
+> On Thu, Jan 19, 2023 at 1:25 AM Alistair Francis <alistair23@gmail.com> wrote:
+> >
+> > On Wed, Jan 18, 2023 at 10:19 PM Andrew Jones <ajones@ventanamicro.com> wrote:
+> > >
+> > > On Wed, Jan 18, 2023 at 10:28:46AM +1000, Alistair Francis wrote:
+> > > > On Wed, Jan 18, 2023 at 2:32 AM Andrew Jones <ajones@ventanamicro.com> wrote:
+> > > > >
+> > > > > On Fri, Jan 13, 2023 at 11:34:53AM +0100, Alexandre Ghiti wrote:
+> > > ...
+> > > > > > +
+> > > > > > +    /* Get rid of 32-bit/64-bit incompatibility */
+> > > > > > +    for (int i = 0; i < 16; ++i) {
+> > > > > > +        if ((cpu->cfg.satp_mode.map & (1 << i)) && !valid_vm[i]) {
+> > > > >
+> > > > > If we ever define mode=1 for rv64, then 'sv32=on' will be incorrectly
+> > > > > accepted as an alias. I think we should simply not define the sv32
+> > > > > property for rv64 nor the rv64-only modes for rv32. So, down in
+> > > > > riscv_add_satp_mode_properties() we can add some
+> > > > >
+> > > > >   #if defined(TARGET_RISCV32)
+> > > > >   ...
+> > > > >   #elif defined(TARGET_RISCV64)
+> > > > >   ...
+> > > > >   #endif
+> > > >
+> > > > Do not add any #if defined(TARGET_RISCV32) to QEMU.
+> > > >
+> > > > We are aiming for the riscv64-softmmu to be able to emulate 32-bit
+> > > > CPUs and compile time macros are the wrong solution here. Instead you
+> > > > can get the xlen of the hart and use that.
+> > > >
+> > >
+> > > Does this mean we want to be able to do the following?
+> > >
+> > >   qemu-system-riscv64 -cpu rv32,sv32=on ...
+> >
+> > That's the plan
+> >
+> > >
+> > > If so, then can we move the object_property_add() for sv32 to
+> > > rv32_base_cpu_init() and the rest to rv64_base_cpu_init()?
 
-If you also have time to update to commit 
-40589eed1c56f040d0f07fc354c242a0e0d83185 that would be nice (see 
-https://patchew.org/QEMU/20230117091638.50523-1-pbonzini@redhat.com/ for 
-more information).  Otherwise, no hurry.
+Wait! Sorry I didn't read this carefully enough. No, that is not what
+we want to do. That then won't support the vendor CPUs.
 
-Paolo
+We just want to add the properties to all CPUs. Then if an invalid
+option is set we should return an error.
 
->>
->> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
->> Reviewed-by: Thomas Huth <thuth@redhat.com>
->> Message-Id: <20230110132700.833690-7-marcandre.lureau@redhat.com>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> ---
->>   tests/docker/dockerfiles/fedora-win32-cross.docker | 4 ++--
->>   tests/docker/dockerfiles/fedora-win64-cross.docker | 4 ++--
->>   tests/docker/dockerfiles/fedora.docker             | 4 ++--
->>   tests/lcitool/libvirt-ci                           | 2 +-
->>   tests/lcitool/refresh                              | 6 +++---
->>   5 files changed, 10 insertions(+), 10 deletions(-)
-> 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> 
-> 
+Note that the 64-bit only configs can be hidden behind a #if
+defined(TARGET_RISCV64).
 
+Alistair
+
+> > > Currently, that would be doing the same thing as proposed above,
+> > > since those functions are under TARGET_RISCV* defines, but I guess
+> > > the object_property_add()'s would then be in more or less the right
+> > > places for when the 32-bit emulation support work is started.
+> >
+> > Sounds like a good idea :)
+>
+> What about riscv_any_cpu_init and riscv_host_cpu_init?
+>
+> >
+> > Alistair
+> >
+> > >
+> > > Thanks,
+> > > drew
 
