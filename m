@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B06D6740EC
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFDC6740FA
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:29:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIZeL-0005eJ-Lf; Thu, 19 Jan 2023 13:28:34 -0500
+	id 1pIZez-0006Kp-K1; Thu, 19 Jan 2023 13:29:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pIZeF-0005dq-Qg
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:28:27 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ id 1pIZey-0006Kf-4E
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:29:12 -0500
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pIZeE-0002sG-BP
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:28:27 -0500
-Received: by mail-pl1-x635.google.com with SMTP id z20so1120143plc.2
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:28:25 -0800 (PST)
+ id 1pIZew-00033m-L6
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:29:11 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id s3so2147272pfd.12
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:29:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ReG+uWmDCUfa4tZA6C5fcK6lZETwy8zrtD3BuqeDPL8=;
- b=F3yhPETs4G0Gf8oX9SVsfCY/bScFCRFjZsE/7HxIWo8FAyCV05TlnWQPwNYSG3/xPG
- ng4n9wGSZDoo8uVri9Vt3ylpdd6KaAcD/momRLk0xih9ikKNKXo/2zN5O1dYdsP6XaOf
- M0/xVpoD0QWujq2NjqDS1iR8F24Rdx7+TKmpYwLs+z/T53KE0suo6gQ/UMGgl88DmPos
- NLsXY/n/Jln9jrcEkzAYtOfOJ1V5Aj9VOY1tlOcTjekXyT8rU5aW7Tzrg+riOyIEkOap
- if5d4ouE6b0CbWAwrcY1N4bT2Nxe4Y/Kwn0xj187udnIU9A5Hz7hspagpHZHFCDRaz7j
- nH7A==
+ bh=O67uOd5dMlvVSi+EnXIQy2zJO1rB9otlwQjfzeUW8CY=;
+ b=w+05QCoICc3zpv2py2N3v49/QJh3Dw49nH/oDhh7vKMJFsx6QrF19dt+FjM+V8ZFrn
+ gwuvhY/3bZUyFqvzOp2sFaw6HSKI2Pc62EqZJUsxATnkN2x27c48+IcG4qrdRIfyyVA2
+ uVv92wdfqxZFgASNocLmMjuRAiBfIAcl4jLLHEGuGQO1jbgnDSQuuMKeyRG1a5i0zxKf
+ 0j3SKZ9ufNUwN6YQnzEgwnHOG6x7wktjhMmQ1YwZ+7USawM70h0hKlzKVf6XL1vd+xyZ
+ 79lwTlmBK8oFs82Eh4FYf7c//kbWbqxS0XCegvVdg3ZIDDYfEjglNLTNaa/joR+fEUhZ
+ A/Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ReG+uWmDCUfa4tZA6C5fcK6lZETwy8zrtD3BuqeDPL8=;
- b=3snzWfaoLZ9jerDx8Y9Gqlc/bZKr3Rav9KNOYT9dIegAxYIAh/4A2sHXOEkOVecPXe
- w1atgymsPDDK+ktFPU6d5V8diyXo4gGZWMmFgLjyAUOjODQ7QWDQWVTxb0LIGJfRqhJE
- EXaonY3tp+ZNguGqwo3zJnTDdnHLCfa31/68zj8DBA9UEgsZyP0sO8/SUw5/DCIzS4mw
- cdJ6pwHw+XWF4DazAZXxC03ckiF6EN8xnp6YsqodTbB66Di9Lia3TmliYTWYyWnjTXjI
- ffttXFYTb4RtASARLrJrl/RUzAJgkFy+TccCU0JfrU6g1O/tScdnDxWg6/OIEPrIZZkX
- xQwQ==
-X-Gm-Message-State: AFqh2ko8RZOghaTxCaO52pxRW9XLjPGsCyJU5xuPuG3oqVxoX1qW4Q7T
- SV8D/pomJJ1MU7UUBpKiKO3JLQ16jkU4RaU9
-X-Google-Smtp-Source: AMrXdXvhwQOYiqzpIG2BN9ywshV7wubCFzVYrh7gkmoGqvrR02CWHojXgi21NMyyuPXZZVjdciJuMA==
-X-Received: by 2002:a17:902:7787:b0:194:5d26:11cc with SMTP id
- o7-20020a170902778700b001945d2611ccmr11810929pll.6.1674152904295; 
- Thu, 19 Jan 2023 10:28:24 -0800 (PST)
+ bh=O67uOd5dMlvVSi+EnXIQy2zJO1rB9otlwQjfzeUW8CY=;
+ b=ZyuvNYABEkHQNQEAgD0OGvR233LKu4OWa7LGhSa0HwbOzgMMAdMdnES2SeVDy+HsQN
+ /l2AxtSG6d5nFOInI+zEwXFgc+vBaYDrUVVbVra42AA8OUuOu7GZdnaFi9dVSj94tRGH
+ IOf1BIhG02XTz+W6Jwsosb2DhbrQQjy+TrHa86Htzo8CV9yWAxdoW805ikNL8b96szhk
+ TzqFKRKdr21+oWHy2ITDyuskW3IAT+vNFprEcxK+vfQxkKVTHq5X+UJN7uJyQZEfS5nl
+ gxTgOPCtAAcEVFtQxvTLq8gYv2/NWXP9v/n2IDJQ9+ne97nU3qWH+S8bVqjAWHpJS43a
+ sO+w==
+X-Gm-Message-State: AFqh2kqA4tEh96yE5GIDrf8wmDMDa46f4dpTJBrYaUH2FEBa6bvIJyLQ
+ HpwslzD5UTRH9qo6QMMlKBxhKQ==
+X-Google-Smtp-Source: AMrXdXvmsltd9MGpWiszO6T5sj8706irnoIhWpG38kPMt1mI2WQc/bJlsSydwP8z+FMeNaPueLyJHA==
+X-Received: by 2002:a05:6a00:1d9c:b0:58d:90d2:8b12 with SMTP id
+ z28-20020a056a001d9c00b0058d90d28b12mr12391540pfw.3.1674152949175; 
+ Thu, 19 Jan 2023 10:29:09 -0800 (PST)
 Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
  [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- j14-20020a170903024e00b0019101215f63sm25542843plh.93.2023.01.19.10.28.22
+ x15-20020aa7956f000000b0058bacd6c4e8sm8969820pfq.207.2023.01.19.10.29.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 10:28:23 -0800 (PST)
-Message-ID: <43e793f5-cfe7-ea9b-192e-9c843ff84941@linaro.org>
-Date: Thu, 19 Jan 2023 08:28:20 -1000
+ Thu, 19 Jan 2023 10:29:08 -0800 (PST)
+Message-ID: <8b7cc305-d189-3ef6-ef5c-b11d148054cd@linaro.org>
+Date: Thu, 19 Jan 2023 08:29:05 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH v2 5/5] target/avr: enable icount mode
+Subject: Re: [PATCH v2 2/5] target/avr: implement small RAM/large RAM feature
 Content-Language: en-US
 To: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>, qemu-devel@nongnu.org
 Cc: mrolnik@gmail.com, philmd@linaro.org
 References: <167412016297.3110454.15240516964339531097.stgit@pasha-ThinkPad-X280>
- <167412019026.3110454.15241120845845520583.stgit@pasha-ThinkPad-X280>
+ <167412017399.3110454.14047770996929512612.stgit@pasha-ThinkPad-X280>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <167412019026.3110454.15241120845845520583.stgit@pasha-ThinkPad-X280>
+In-Reply-To: <167412017399.3110454.14047770996929512612.stgit@pasha-ThinkPad-X280>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -93,17 +93,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/18/23 23:23, Pavel Dovgalyuk wrote:
-> Icount mode requires correct can_do_io flag management for checking
-> that IO operations are performed only in the last TB instruction.
-> This patch sets this flag before every helper which can lead to
-> virtual hardware access. It enables deterministic execution
-> in icount mode for AVR.
+On 1/18/23 23:22, Pavel Dovgalyuk wrote:
+> translate.c functions use RAMPZ for RAM access. This register
+> is also used for ROM reads. However, in MCUs with 64k RAM support
+> RAMPZ is used for ROM only. Therefore when RAMPZ is set,
+> addressing the RAM becomes incorrect in the emulator.
+> This patch adds LARGE RAM feature which can be used in xmega controllers,
+> that could be added later. For the currently supported MCUs this
+> feature is disabled and RAMPZ is not used for RAM access.
 > 
 > Signed-off-by: Pavel Dovgalyuk<Pavel.Dovgalyuk@ispras.ru>
 > ---
->   target/avr/translate.c |   30 ++++++++++++++++++++++++++++++
->   1 file changed, 30 insertions(+)
+>   target/avr/cpu.h       |    2 ++
+>   target/avr/translate.c |   63 ++++++++++++++++++++++++++++++------------------
+>   2 files changed, 41 insertions(+), 24 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
