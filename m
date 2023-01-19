@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEEC367351D
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:08:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 421C26734F7
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:01:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIR8j-0004Gy-3i; Thu, 19 Jan 2023 04:23:21 -0500
+	id 1pIR8n-0004Ht-NO; Thu, 19 Jan 2023 04:23:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1pIR8g-0004Gn-Rf
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 04:23:18 -0500
+ id 1pIR8l-0004He-QW
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 04:23:23 -0500
 Received: from mail.ispras.ru ([83.149.199.84])
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1pIR8e-0006De-T3
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 04:23:18 -0500
+ id 1pIR8k-0006E9-AT
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 04:23:23 -0500
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 2AF4940737A8;
- Thu, 19 Jan 2023 09:22:54 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 2AF4940737A8
+ by mail.ispras.ru (Postfix) with ESMTPSA id 8B24240737AB;
+ Thu, 19 Jan 2023 09:22:59 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 8B24240737AB
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
- s=default; t=1674120174;
- bh=++Rr7MMTBehGJdeIJds0h7Va3KLRSL+wROe3FXxfus8=;
+ s=default; t=1674120179;
+ bh=xpL7id23gSs1pJTLmHcwCsMeLdWH+Y9CY6RuXk6OO7U=;
  h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=qiRQOoewgrWpdO4m5rHAMRaL1jjm4skfWwR2fkJmWW1IYL5oiIZxnlstEDYTwk/vq
- I7W02XdEObTncI5lSyKRx5rZXecpJWnCjbVTwouNmEwRjapZj6YJ2Lyoepo2lO9TES
- hdrE8o3bXk2aWodv3c5KRgrAnZ5UUm3WKrd+47VM=
-Subject: [PATCH v2 2/5] target/avr: implement small RAM/large RAM feature
+ b=jPJCMaPD9rsCZ9e2D8HFJkAprm1abYNKRJRCjNa0MG7yJ9IfIV3qiq8OzlCWhHImU
+ QSHcizi6Sgkj79PnAW6B/xCJ0s0sbfKcnIk2PAnaRj/G2ZitCV10am7oVntG+WES+3
+ JF8+pzvnNSI3QFCi8HR2t8VULky87G09tzrszcn0=
+Subject: [PATCH v2 3/5] target/avr: fix avr features processing
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
 Cc: pavel.dovgalyuk@ispras.ru, mrolnik@gmail.com, philmd@linaro.org,
  richard.henderson@linaro.org
-Date: Thu, 19 Jan 2023 12:22:54 +0300
-Message-ID: <167412017399.3110454.14047770996929512612.stgit@pasha-ThinkPad-X280>
+Date: Thu, 19 Jan 2023 12:22:59 +0300
+Message-ID: <167412017939.3110454.772171621078654245.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <167412016297.3110454.15240516964339531097.stgit@pasha-ThinkPad-X280>
 References: <167412016297.3110454.15240516964339531097.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
@@ -65,237 +65,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-translate.c functions use RAMPZ for RAM access. This register
-is also used for ROM reads. However, in MCUs with 64k RAM support
-RAMPZ is used for ROM only. Therefore when RAMPZ is set,
-addressing the RAM becomes incorrect in the emulator.
-This patch adds LARGE RAM feature which can be used in xmega controllers,
-that could be added later. For the currently supported MCUs this
-feature is disabled and RAMPZ is not used for RAM access.
+Bit vector for features has 64 bits. This patch fixes bit shifts in
+avr_feature and set_avr_feature functions to be 64-bit too.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
+Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
 ---
- target/avr/cpu.h       |    2 ++
- target/avr/translate.c |   63 ++++++++++++++++++++++++++++++------------------
- 2 files changed, 41 insertions(+), 24 deletions(-)
+ target/avr/cpu.h |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index f19dd72926..7c3895b65e 100644
+index 7c3895b65e..280edc495b 100644
 --- a/target/avr/cpu.h
 +++ b/target/avr/cpu.h
-@@ -106,6 +106,8 @@ typedef enum AVRFeature {
-     AVR_FEATURE_RAMPX,
-     AVR_FEATURE_RAMPY,
-     AVR_FEATURE_RAMPZ,
-+
-+    AVR_FEATURE_LARGE_RAM,
- } AVRFeature;
+@@ -166,12 +166,12 @@ vaddr avr_cpu_gdb_adjust_breakpoint(CPUState *cpu, vaddr addr);
  
- typedef struct CPUArchState {
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 552f739b3d..40b15d116e 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -1542,13 +1542,17 @@ static bool trans_BRBS(DisasContext *ctx, arg_BRBS *a)
-  *  M assumed to be in 0x000000ff format
-  *  L assumed to be in 0x000000ff format
-  */
--static void gen_set_addr(TCGv addr, TCGv H, TCGv M, TCGv L)
-+static void gen_set_addr_short(TCGv addr, TCGv M, TCGv L)
+ static inline int avr_feature(CPUAVRState *env, AVRFeature feature)
  {
--
-     tcg_gen_andi_tl(L, addr, 0x000000ff);
- 
-     tcg_gen_andi_tl(M, addr, 0x0000ff00);
-     tcg_gen_shri_tl(M, M, 8);
-+}
-+
-+static void gen_set_addr(TCGv addr, TCGv H, TCGv M, TCGv L)
-+{
-+    gen_set_addr_short(addr, M, L);
- 
-     tcg_gen_andi_tl(H, addr, 0x00ff0000);
- }
-@@ -1563,9 +1567,13 @@ static void gen_set_yaddr(TCGv addr)
-     gen_set_addr(addr, cpu_rampY, cpu_r[29], cpu_r[28]);
+-    return (env->features & (1U << feature)) != 0;
++    return (env->features & (1ULL << feature)) != 0;
  }
  
--static void gen_set_zaddr(TCGv addr)
-+static void gen_set_zaddr(DisasContext *ctx, TCGv addr, bool ram)
+ static inline void set_avr_feature(CPUAVRState *env, int feature)
  {
--    gen_set_addr(addr, cpu_rampZ, cpu_r[31], cpu_r[30]);
-+    if (!ram || avr_feature(ctx->env, AVR_FEATURE_LARGE_RAM)) {
-+        gen_set_addr(addr, cpu_rampZ, cpu_r[31], cpu_r[30]);
-+    } else {
-+        gen_set_addr_short(addr, cpu_r[31], cpu_r[30]);
-+    }
+-    env->features |= (1U << feature);
++    env->features |= (1ULL << feature);
  }
  
- static TCGv gen_get_addr(TCGv H, TCGv M, TCGv L)
-@@ -1588,9 +1596,16 @@ static TCGv gen_get_yaddr(void)
-     return gen_get_addr(cpu_rampY, cpu_r[29], cpu_r[28]);
- }
- 
--static TCGv gen_get_zaddr(void)
-+static TCGv gen_get_zaddr(DisasContext *ctx, bool ram)
- {
--    return gen_get_addr(cpu_rampZ, cpu_r[31], cpu_r[30]);
-+    if (!ram || avr_feature(ctx->env, AVR_FEATURE_LARGE_RAM)) {
-+        return gen_get_addr(cpu_rampZ, cpu_r[31], cpu_r[30]);
-+    } else {
-+        TCGv zero = tcg_const_i32(0);
-+        TCGv res = gen_get_addr(zero, cpu_r[31], cpu_r[30]);
-+        tcg_temp_free_i32(zero);
-+        return res;
-+    }
- }
- 
- /*
-@@ -1868,12 +1883,12 @@ static bool trans_LDDY(DisasContext *ctx, arg_LDDY *a)
- static bool trans_LDZ2(DisasContext *ctx, arg_LDZ2 *a)
- {
-     TCGv Rd = cpu_r[a->rd];
--    TCGv addr = gen_get_zaddr();
-+    TCGv addr = gen_get_zaddr(ctx, true);
- 
-     gen_data_load(ctx, Rd, addr);
-     tcg_gen_addi_tl(addr, addr, 1); /* addr = addr + 1 */
- 
--    gen_set_zaddr(addr);
-+    gen_set_zaddr(ctx, addr, true);
- 
-     tcg_temp_free_i32(addr);
- 
-@@ -1883,12 +1898,12 @@ static bool trans_LDZ2(DisasContext *ctx, arg_LDZ2 *a)
- static bool trans_LDZ3(DisasContext *ctx, arg_LDZ3 *a)
- {
-     TCGv Rd = cpu_r[a->rd];
--    TCGv addr = gen_get_zaddr();
-+    TCGv addr = gen_get_zaddr(ctx, true);
- 
-     tcg_gen_subi_tl(addr, addr, 1); /* addr = addr - 1 */
-     gen_data_load(ctx, Rd, addr);
- 
--    gen_set_zaddr(addr);
-+    gen_set_zaddr(ctx, addr, true);
- 
-     tcg_temp_free_i32(addr);
- 
-@@ -1898,7 +1913,7 @@ static bool trans_LDZ3(DisasContext *ctx, arg_LDZ3 *a)
- static bool trans_LDDZ(DisasContext *ctx, arg_LDDZ *a)
- {
-     TCGv Rd = cpu_r[a->rd];
--    TCGv addr = gen_get_zaddr();
-+    TCGv addr = gen_get_zaddr(ctx, true);
- 
-     tcg_gen_addi_tl(addr, addr, a->imm); /* addr = addr + q */
-     gen_data_load(ctx, Rd, addr);
-@@ -2088,12 +2103,12 @@ static bool trans_STDY(DisasContext *ctx, arg_STDY *a)
- static bool trans_STZ2(DisasContext *ctx, arg_STZ2 *a)
- {
-     TCGv Rd = cpu_r[a->rd];
--    TCGv addr = gen_get_zaddr();
-+    TCGv addr = gen_get_zaddr(ctx, true);
- 
-     gen_data_store(ctx, Rd, addr);
-     tcg_gen_addi_tl(addr, addr, 1); /* addr = addr + 1 */
- 
--    gen_set_zaddr(addr);
-+    gen_set_zaddr(ctx, addr, true);
- 
-     tcg_temp_free_i32(addr);
- 
-@@ -2103,12 +2118,12 @@ static bool trans_STZ2(DisasContext *ctx, arg_STZ2 *a)
- static bool trans_STZ3(DisasContext *ctx, arg_STZ3 *a)
- {
-     TCGv Rd = cpu_r[a->rd];
--    TCGv addr = gen_get_zaddr();
-+    TCGv addr = gen_get_zaddr(ctx, true);
- 
-     tcg_gen_subi_tl(addr, addr, 1); /* addr = addr - 1 */
-     gen_data_store(ctx, Rd, addr);
- 
--    gen_set_zaddr(addr);
-+    gen_set_zaddr(ctx, addr, true);
- 
-     tcg_temp_free_i32(addr);
- 
-@@ -2118,7 +2133,7 @@ static bool trans_STZ3(DisasContext *ctx, arg_STZ3 *a)
- static bool trans_STDZ(DisasContext *ctx, arg_STDZ *a)
- {
-     TCGv Rd = cpu_r[a->rd];
--    TCGv addr = gen_get_zaddr();
-+    TCGv addr = gen_get_zaddr(ctx, true);
- 
-     tcg_gen_addi_tl(addr, addr, a->imm); /* addr = addr + q */
-     gen_data_store(ctx, Rd, addr);
-@@ -2228,7 +2243,7 @@ static bool trans_ELPM1(DisasContext *ctx, arg_ELPM1 *a)
-     }
- 
-     TCGv Rd = cpu_r[0];
--    TCGv addr = gen_get_zaddr();
-+    TCGv addr = gen_get_zaddr(ctx, false);
- 
-     tcg_gen_qemu_ld8u(Rd, addr, MMU_CODE_IDX); /* Rd = mem[addr] */
- 
-@@ -2244,7 +2259,7 @@ static bool trans_ELPM2(DisasContext *ctx, arg_ELPM2 *a)
-     }
- 
-     TCGv Rd = cpu_r[a->rd];
--    TCGv addr = gen_get_zaddr();
-+    TCGv addr = gen_get_zaddr(ctx, false);
- 
-     tcg_gen_qemu_ld8u(Rd, addr, MMU_CODE_IDX); /* Rd = mem[addr] */
- 
-@@ -2260,11 +2275,11 @@ static bool trans_ELPMX(DisasContext *ctx, arg_ELPMX *a)
-     }
- 
-     TCGv Rd = cpu_r[a->rd];
--    TCGv addr = gen_get_zaddr();
-+    TCGv addr = gen_get_zaddr(ctx, false);
- 
-     tcg_gen_qemu_ld8u(Rd, addr, MMU_CODE_IDX); /* Rd = mem[addr] */
-     tcg_gen_addi_tl(addr, addr, 1); /* addr = addr + 1 */
--    gen_set_zaddr(addr);
-+    gen_set_zaddr(ctx, addr, false);
- 
-     tcg_temp_free_i32(addr);
- 
-@@ -2402,7 +2417,7 @@ static bool trans_XCH(DisasContext *ctx, arg_XCH *a)
- 
-     TCGv Rd = cpu_r[a->rd];
-     TCGv t0 = tcg_temp_new_i32();
--    TCGv addr = gen_get_zaddr();
-+    TCGv addr = gen_get_zaddr(ctx, true);
- 
-     gen_data_load(ctx, t0, addr);
-     gen_data_store(ctx, Rd, addr);
-@@ -2432,7 +2447,7 @@ static bool trans_LAS(DisasContext *ctx, arg_LAS *a)
-     }
- 
-     TCGv Rr = cpu_r[a->rd];
--    TCGv addr = gen_get_zaddr();
-+    TCGv addr = gen_get_zaddr(ctx, true);
-     TCGv t0 = tcg_temp_new_i32();
-     TCGv t1 = tcg_temp_new_i32();
- 
-@@ -2467,7 +2482,7 @@ static bool trans_LAC(DisasContext *ctx, arg_LAC *a)
-     }
- 
-     TCGv Rr = cpu_r[a->rd];
--    TCGv addr = gen_get_zaddr();
-+    TCGv addr = gen_get_zaddr(ctx, true);
-     TCGv t0 = tcg_temp_new_i32();
-     TCGv t1 = tcg_temp_new_i32();
- 
-@@ -2502,7 +2517,7 @@ static bool trans_LAT(DisasContext *ctx, arg_LAT *a)
-     }
- 
-     TCGv Rd = cpu_r[a->rd];
--    TCGv addr = gen_get_zaddr();
-+    TCGv addr = gen_get_zaddr(ctx, true);
-     TCGv t0 = tcg_temp_new_i32();
-     TCGv t1 = tcg_temp_new_i32();
- 
+ #define cpu_list avr_cpu_list
 
 
