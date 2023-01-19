@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADADF673225
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:08:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8F71673209
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:02:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIOuh-0006bk-RT; Thu, 19 Jan 2023 02:00:43 -0500
+	id 1pIOuQ-0006SM-AC; Thu, 19 Jan 2023 02:00:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIOuO-0006QW-Bp
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:00:24 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIOuG-0006LO-LP
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:00:19 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIOuK-00089t-4Y
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:00:24 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIOuC-00089B-1q
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:00:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1674111607;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HSvmGx9pg7RM2UEWG6YDDRKexZJzuEM2p+pEafedpfY=;
- b=VJbzcXUprM3JPj3Hey/rT+HjiEiFiQBPjCuYnf0/4+d+Z7IPunYqmaRgyinI60HquMbE8D
- xOPaq2rmknwItW128uNcqKmdpHzfO6JDu8dAvkG37T3hKoa4kMERUO22i5AEImA+hiwBYZ
- 5LGsDMzKIttjF9vv32iJUGvXOFXhG0k=
+ bh=BE921JrQWP4TpjdyqLaSPNFTTip/SwY2uy8DueicnB8=;
+ b=Mr42rrqtWbR8m4vQL++2zPHy8vUKnCS8WOmgqO1eagkfVDBcj/MYLPh9HKpE1KmIoargOt
+ 7mT05xk7N1WfiucuZIZxsvQGP1LpfpGZFlMdAMYNoHdSRTApMjn+fUFWRD7kNDZVWs+Eo4
+ MW5rjYbW7ddrn7Qre0MMOzVjWo6wsj0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-191-RftXGxXaP_auvQ_IYat3Fg-1; Thu, 19 Jan 2023 02:00:04 -0500
-X-MC-Unique: RftXGxXaP_auvQ_IYat3Fg-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-65-XvfwCC2uPKeV3vVc_zCOJA-1; Thu, 19 Jan 2023 02:00:04 -0500
+X-MC-Unique: XvfwCC2uPKeV3vVc_zCOJA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8E42680D0F1;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 84854183B3CA;
  Thu, 19 Jan 2023 07:00:03 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 45BED53AA;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B2231415113;
  Thu, 19 Jan 2023 07:00:03 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 599D921E6602; Thu, 19 Jan 2023 07:59:59 +0100 (CET)
+ id 5FF7A21E6608; Thu, 19 Jan 2023 07:59:59 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
@@ -53,15 +53,15 @@ Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
  kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com,
  bin.meng@windriver.com, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH v4 09/19] qga: Clean up includes
-Date: Thu, 19 Jan 2023 07:59:49 +0100
-Message-Id: <20230119065959.3104012-10-armbru@redhat.com>
+Subject: [PATCH v4 11/19] net: Clean up includes
+Date: Thu, 19 Jan 2023 07:59:51 +0100
+Message-Id: <20230119065959.3104012-12-armbru@redhat.com>
 In-Reply-To: <20230119065959.3104012-1-armbru@redhat.com>
 References: <20230119065959.3104012-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -93,51 +93,21 @@ This commit was created with scripts/clean-includes.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- qga/cutils.h         | 2 --
- qga/commands-posix.c | 1 -
- qga/cutils.c         | 3 ++-
- 3 files changed, 2 insertions(+), 4 deletions(-)
+ net/vmnet_int.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/qga/cutils.h b/qga/cutils.h
-index f0f30a7d28..c1f2f4b17a 100644
---- a/qga/cutils.h
-+++ b/qga/cutils.h
-@@ -1,8 +1,6 @@
- #ifndef CUTILS_H_
- #define CUTILS_H_
+diff --git a/net/vmnet_int.h b/net/vmnet_int.h
+index adf6e8c20d..d0b90594f2 100644
+--- a/net/vmnet_int.h
++++ b/net/vmnet_int.h
+@@ -10,7 +10,6 @@
+ #ifndef VMNET_INT_H
+ #define VMNET_INT_H
  
 -#include "qemu/osdep.h"
--
- int qga_open_cloexec(const char *name, int flags, mode_t mode);
+ #include "vmnet_int.h"
+ #include "clients.h"
  
- #endif /* CUTILS_H_ */
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index ebd33a643c..079689d79a 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -51,7 +51,6 @@
- #else
- #include <net/ethernet.h>
- #endif
--#include <sys/types.h>
- #ifdef CONFIG_SOLARIS
- #include <sys/sockio.h>
- #endif
-diff --git a/qga/cutils.c b/qga/cutils.c
-index b8e142ef64..b21bcf3683 100644
---- a/qga/cutils.c
-+++ b/qga/cutils.c
-@@ -2,8 +2,9 @@
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-  */
--#include "cutils.h"
- 
-+#include "qemu/osdep.h"
-+#include "cutils.h"
- #include "qapi/error.h"
- 
- /**
 -- 
 2.39.0
 
