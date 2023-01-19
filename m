@@ -2,58 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64793673B00
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:02:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 020F2673B51
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:08:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIVUF-0004m6-K6; Thu, 19 Jan 2023 09:01:51 -0500
+	id 1pIVZG-00071s-8V; Thu, 19 Jan 2023 09:07:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIVTa-0004gh-PA
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:01:21 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pIVZB-00070N-Rd
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:06:59 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIVTZ-0007A1-6e
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:01:10 -0500
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pIVZ9-00080C-Rj
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:06:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674136868;
+ s=mimecast20190719; t=1674137214;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CtvbIT+3k6RfQLCV2bdPvw86WVukSx+D5A9vsWoSk2A=;
- b=Dbmh3KEqQGupWftrsgQGjRc7T0OL/8jfpYvOu/SuHMhc3t9PXxlpnBqe0PC/1oFR046SQz
- xXapvmrGzB1fKuLtijNlNZ7vRSB03t8XtPRXCXPdz5crYJZHuUtxhmifB0B9+7QaTyd9Qr
- TRTHyZEPuzVsqhMtS0sNjDYc69X6DNI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-58-Bwhsv64ePleahPUejM32nA-1; Thu, 19 Jan 2023 09:01:04 -0500
-X-MC-Unique: Bwhsv64ePleahPUejM32nA-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 12FA13C1025D;
- Thu, 19 Jan 2023 14:01:02 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.194.126])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B772F40C6EC4;
- Thu, 19 Jan 2023 14:01:00 +0000 (UTC)
-Date: Thu, 19 Jan 2023 15:00:58 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Hanna Reitz <hreitz@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 01/12] block: Improve empty format-specific info dump
-Message-ID: <Y8lNGgogFfitt7kr@redhat.com>
-References: <20220620162704.80987-1-hreitz@redhat.com>
- <20220620162704.80987-2-hreitz@redhat.com>
+ bh=q7VptEAsu6EyqTaMheBg2vEhPZp9hALIjSxskec0D9E=;
+ b=bq82WcuoeI3QhreMGVOrOtN+FoNKOeX4mMfS/nTWyIErkWXeDUeERjqK42Gr9rvLDbsn80
+ AORuZWJdxQcTCMaJZ8y/NWCwOnrfQ0TK52+NO2wMyQWO0/N/mSbLsZFZEKuTPTe80HPyyv
+ eEmLXh6zj3M4A1jWgTUGuacrNcm+raQ=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-22-JdRRRRmmPo2tBJwFD1YFvQ-1; Thu, 19 Jan 2023 09:06:53 -0500
+X-MC-Unique: JdRRRRmmPo2tBJwFD1YFvQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ l18-20020adfa392000000b002bbd5c680a3so389328wrb.14
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 06:06:52 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=q7VptEAsu6EyqTaMheBg2vEhPZp9hALIjSxskec0D9E=;
+ b=DbZ0VxUOH+9n1cQcema/eT413VTJjgTvyxYe9SuMMWP50wnP8n7m9groP4/Tp2JrE2
+ VLb+8ecD0nfkyRaBpLtqAkDo0WvGJ9UZ+fafGBu0nuqZ4mKtpx456A8ckAeAfF5vBhiY
+ qpeOIOaWXMhT9kvNsXkd7v+tmK0vi9nTsvb/FnnATRuNBVawX/7FQKpr2wpZ7Kri5mNU
+ eNiXBKS7qZuoOzE/2xwD2bze67XqZt9cg6sVaYVNYmWd32vLkibGoVGeF0lbZSE1ARcJ
+ EWruZo/A+04kXEqSJcz3Wi+SCA2zvCbwvWOihaVnwlaWqtBUd0QGkL1ixSrNIV4cm33J
+ 8XhQ==
+X-Gm-Message-State: AFqh2kqC/0Nw6PMLh3IGZ+5HvpvIfqo8E4wnGchvqFo0+evggzlneMEq
+ RnIDX1AOaDWNCmun7t/r8Br7qJfdg/+VMWnzZlv/jRThjcFa8su6G7pr7EyQeg3zigG8KvxTucr
+ JzHK4tuudlc3GfGM=
+X-Received: by 2002:a5d:6b07:0:b0:236:695b:82d4 with SMTP id
+ v7-20020a5d6b07000000b00236695b82d4mr9344781wrw.30.1674137211866; 
+ Thu, 19 Jan 2023 06:06:51 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtLene4I6A+TR+FTLX2+mJ6VJK4eoTrKJ/44XyiPrxhcSh7ARylw5fkyGD9PWpa5NF1upVbnw==
+X-Received: by 2002:a5d:6b07:0:b0:236:695b:82d4 with SMTP id
+ v7-20020a5d6b07000000b00236695b82d4mr9344752wrw.30.1674137211598; 
+ Thu, 19 Jan 2023 06:06:51 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ l5-20020adfe9c5000000b002238ea5750csm19310627wrn.72.2023.01.19.06.06.50
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Jan 2023 06:06:51 -0800 (PST)
+Date: Thu, 19 Jan 2023 14:06:49 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Fabiano Rosas <farosas@suse.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>,
+ Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Subject: Re: [RFC PATCH v4 08/15] tests/qtest: Adjust test-hmp to always pass
+ -cpu option
+Message-ID: <Y8lOeRqfcAUljaJN@work-vm>
+References: <20230119135424.5417-1-farosas@suse.de>
+ <20230119135424.5417-9-farosas@suse.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20220620162704.80987-2-hreitz@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+In-Reply-To: <20230119135424.5417-9-farosas@suse.de>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,44 +109,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 20.06.2022 um 18:26 hat Hanna Reitz geschrieben:
-> When a block driver supports obtaining format-specific information, but
-> that object only contains optional fields, it is possible that none of
-> them are present, so that dump_qobject() (called by
-> bdrv_image_info_specific_dump()) will not print anything.
+* Fabiano Rosas (farosas@suse.de) wrote:
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> ---
+>  tests/qtest/test-hmp.c | 34 +++++++++++++++++++++++++++++++---
+>  1 file changed, 31 insertions(+), 3 deletions(-)
 > 
-> The callers of bdrv_image_info_specific_dump() put a header above this
-> information ("Format specific information:\n"), which will look strange
-> when there is nothing below.  Modify bdrv_image_info_specific_dump() to
-> print this header instead of its callers, and only if there is indeed
-> something to be printed.
+> diff --git a/tests/qtest/test-hmp.c b/tests/qtest/test-hmp.c
+> index f8b22abe4c..c367612d4a 100644
+> --- a/tests/qtest/test-hmp.c
+> +++ b/tests/qtest/test-hmp.c
+> @@ -121,21 +121,49 @@ static void test_info_commands(QTestState *qts)
+>      g_free(info_buf);
+>  }
+>  
+> +static const char *arch_get_cpu(const char *machine)
+> +{
+> +    const char *arch = qtest_get_arch();
+> +
+> +    if (g_str_equal(arch, "aarch64")) {
+> +        if (!strncmp(machine, "virt", 4)) {
+> +            return "cortex-a57";
+
+Won't that break on a kvm host on a different CPU?
+Would -cpu max   work on everything?
+
+Dave
+
+> +        }
+> +    }
+> +
+> +    return NULL;
+> +}
+> +
+>  static void test_machine(gconstpointer data)
+>  {
+>      const char *machine = data;
+>      char *args;
+>      QTestState *qts;
+>  
+> -    args = g_strdup_printf("-S -M %s", machine);
+> +    args = qtest_get_machine_args(machine, arch_get_cpu(machine), "-S");
+>      qts = qtest_init(args);
+>  
+>      test_info_commands(qts);
+>      test_commands(qts);
+>  
+>      qtest_quit(qts);
+> -    g_free(args);
+>      g_free((void *)data);
+> +    g_free((void *)args);
+> +}
+> +
+> +static void test_none_with_memory(void)
+> +{
+> +    QTestState *qts;
+> +    char *args;
+> +
+> +    args = qtest_get_machine_args("none", NULL, "-S -m 2");
+> +    qts = qtest_init(args);
+> +
+> +    test_info_commands(qts);
+> +    test_commands(qts);
+> +
+> +    qtest_quit(qts);
+> +    g_free((void *)args);
+>  }
+>  
+>  static void add_machine_test_case(const char *mname)
+> @@ -160,7 +188,7 @@ int main(int argc, char **argv)
+>      qtest_cb_for_every_machine(add_machine_test_case, g_test_quick());
+>  
+>      /* as none machine has no memory by default, add a test case with memory */
+> -    qtest_add_data_func("hmp/none+2MB", g_strdup("none -m 2"), test_machine);
+> +    qtest_add_func("hmp/none+2MB", test_none_with_memory);
+>  
+>      return g_test_run();
+>  }
+> -- 
+> 2.35.3
 > 
-> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-
-> diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-> index 2f0d8ac25a..084ec44d3b 100644
-> --- a/qemu-io-cmds.c
-> +++ b/qemu-io-cmds.c
-> @@ -1819,8 +1819,8 @@ static int info_f(BlockBackend *blk, int argc, char **argv)
->          return -EIO;
->      }
->      if (spec_info) {
-> -        printf("Format specific information:\n");
-> -        bdrv_image_info_specific_dump(spec_info);
-> +        bdrv_image_info_specific_dump(spec_info,
-> +                                      "Format specific information:\n");
->          qapi_free_ImageInfoSpecific(spec_info);
->      }
-
-Interesting observation here: That qemu-io uses printf() instead of
-qemu_printf() for the top level, but then dump_qobject() (which results
-in qemu_printf()) for the format specific information, means that if you
-use the 'qemu-io' HMP command, you'll get half of the output on stdout
-and the other half in the monitor.
-
-This series doesn't fix this, but the split makes a little more sense
-after this patch at least...
-
-Kevin
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
