@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17870673213
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:05:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E607D673221
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:07:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIOy9-0005qx-Io; Thu, 19 Jan 2023 02:04:17 -0500
+	id 1pIOyG-0006kx-Vy; Thu, 19 Jan 2023 02:04:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pIOxp-0005be-6V
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:04:01 -0500
-Received: from esa3.hc2706-39.iphmx.com ([68.232.154.118])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pIOyE-0006V5-90
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:04:22 -0500
+Received: from esa2.hc2706-39.iphmx.com ([216.71.152.49])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pIOxl-0000Lf-Ju
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:03:55 -0500
-X-IronPort-RemoteIP: 209.85.219.70
-X-IronPort-MID: 252287273
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pIOyB-0000P7-D0
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:04:21 -0500
+X-IronPort-RemoteIP: 209.85.160.70
+X-IronPort-MID: 252777122
 X-IronPort-Reputation: None
 X-IronPort-Listener: OutgoingMail
 X-IronPort-SenderGroup: RELAY_GSUITE
 X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:WmxUza/eiFls5zkqAUAmDrUDPXyTJUtcMsCJ2f8bNWPcYEJGY0x3n
- WseWDzXPf+IZzGned52bI3lpk8GvZaHz9BhSwdv/nwxFiIbosf7XuiUfxz6V8+wwmwvb67FA
- +E2MISowBUcFyeEzvuVGuG96yI6jeTQHOGU5NfsYkhZXRVjRDoqlSVtkus4hp8AqdWiCkaGt
- MiaT/f3YTdJ4BYpdDNLg06/gEk35q+q4WpJ5gVWic1j5zcyqVFEVPrzGonsdxMUcqEMdsamS
- uDKyq2O/2+x13/B3fv8z94X2mVTKlLjFVHmZkh+AsBOsTAbzsAG6ZvXAdJHAathZ5RlqPgqo
- DlFncTYpQ7EpcQgksxEO/VTO3gW0aGrZNYriJVw2CCe5xSuTpfi/xlhJGsGNI8a+eEpPWZD8
- NYCDjoJVCquoMvjldpXSsE07igiBMziPYdao285iD+GVbApRpfMR6iM7thdtNsyrpoWTLCOO
- oxDMGspM0yojx5nYz/7DLo3mPeuimPXeSAepV6IzUYyyzKOllYhj+Kya7I5fPS6WOILvh2Dh
- FvjxE6mCE5HEt2+lzW8pyfEaujn2HmTtJgpPKS18+MvjFCNy2g7DhoQWl2m5/6jhSaDt8l3L
- kUV/m83s/F3+hPzCNb6WBK8rTiPuRt0t8dsLtDWITqlksL8izt1zEBdJtKdQLTKbPMLeAE=
-IronPort-HdrOrdr: A9a23:5iSF+6xGTC+PvWSUDLiZKrPxb+skLtp133Aq2lEZdPWaSL39qy
- nIpoVm6fYuskdtZJhEo7y90ca7MBXhHKBOkMYs1NuZLWvbUS6TXflfBWWL+UyqJ8XRntQtmJ
- uIWZIOQeEZNDBB/IzHCOPRKadt/DD/ytHhuQ689QYWcegVUdAY0+4jMHfsLqQefmAvbvBVe/
- v9l6l6SiKbCAoqh4aAdwI4tsf41pP2ffndEHk77nAcmWyzZfLB0s+PL/A0tS1xb9vBqY1Shl
- Qs/2HCl9qemsD+8AbV01na5YlXntyJ8Ko3OOW8zvINIjHbgQ6yDb4RKIGqjXQOuemq3k0nid
- /Wvn4bTrZOwkKURHi8pS320Q/63F8Vmg/f4G7du2LqpfriTjQgB/xAgp8xSGqp13Yd
-Received: from mail-qv1-f70.google.com ([209.85.219.70])
+IronPort-Data: A9a23:6JqOPqvdm58uorM9p9dkQDGQtOfnVOtcMUV32f8akzHdYApBsoF/q
+ tZmKWnQP/uNamfxc49/OYiw8k9VvJbdy9JhSFZspXg1EH5A9ZOVVN+UEBzMMnLJJKUvbq7GA
+ +byyDXkBJppJpMJjk71atANlVEliefTAOK5ULSfUsxIbVcMYD87jh5+kPIOjIdtgNyoayuAo
+ tq3qMDEULOf82cc3lk8tuTS93uDgNyo4GlD5gVnNKgS1LPjvyJ94Kw3dPnZw0TQH9E88t6SH
+ 47r0Ly/92XFyBYhYvvNfmHTKxBirhb6ZGBiu1IPM0SQqkEqSh8ai87XAMEhhXJ/0F1lqTzQJ
+ OJl7vRcQS9xVkHFdX90vxNwSkmSNoUfkFPLzOTWXWV+ACQqflO1q8iCAn3aMqVf4MgtUEFKz
+ sBEdiILdACK2fOS+K2SH7wEasQLdKEHPasas3BkiDbQVLMoHsiFTKLN6ttVmjw3g6iiH96EP
+ 5tfOWcpNUqYJUIXUrsUIMtWcOOAj33vdTFCgFiI46c7/gA/ySQrjeKyb4WMIIbiqcN9x2i9u
+ X3h/G7CXgBLK4Ku52Se7mOFmbqa9c/8cMdIfFGizdZzjViOg2AeFhASfV28p/a/lwi5Qd03F
+ qAP0i8nrKx380XyC9eiB1u3p3mLuhNaUN1VewEn1DywJmPvy17xLgA5ovRpMbTKaOdeqeQW6
+ 2K0
+IronPort-HdrOrdr: A9a23:y3zZeKjl7RYFUoguEY5SZ8wBYHBQXtQji2hC6mlwRA09TyX+rb
+ HNoB17726WtN9/YhAdcLy7VJVoIkm3yXcW2/h0AV7KZmCP01dASrsN0WKL+UyEJ8TQzINgPM
+ xbE5SWZueeMbAw5fyKhzWFLw==
+Received: from mail-oa1-f70.google.com ([209.85.160.70])
  by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 02:03:51 -0500
-Received: by mail-qv1-f70.google.com with SMTP id
- k15-20020a0cd68f000000b00535261af1b1so573439qvi.13
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 23:03:51 -0800 (PST)
+ 19 Jan 2023 02:04:18 -0500
+Received: by mail-oa1-f70.google.com with SMTP id
+ 586e51a60fabf-1500bc69a97so690473fac.7
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 23:04:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=2giDB2PPJNn2gXornDaWomerDVImbh9Af956/AyFUYE=;
- b=APuGsyxtHA7oY+fPZnv5nzmtFWybHLpa540ExIAanZGh5JaQ5bCmWpTy0eHcttX2rt
- n1PJC/h90Z7KSqtMdpU8w+u9xYoiWJw5riWNY8sRUzQ5I6FBpAO0P0ysLySo75JITT6g
- X8eIPnbggoBM38kN9Dgi6tpuYaQ2B/sEkifGi2cDh8sX3g7RQKTN9gPYAcStw9h9SR4N
- T8/QJqXRZfiivCni+0Uxt6ejcKYn8aE8Jt0+sqPx0CmEt21Z0d3NU/k53AhafqMVKa37
- OKNBT9Wfr8ZjjEJwV3zNVa9zhp7U/MFBuh1R//MDiRJHMn1zhnvcorrsrYbc0bW5wfSd
- i2CQ==
+ bh=E4pJmeqUZRL40o660Z8ZlGFqTDULPb9loeeYL7ivzYk=;
+ b=ERPQXJu68/Xrio72aqd90/8aXjLFP56cuoy3sx/p6kVl0WhCKpltFDZLolkrLIvf4o
+ 9uyW2urXEyB/MOucUaDHO1jrPXoLkLTArwXrWX675ObuVv0etuwI6oxl98ZLJXin3sJZ
+ ggFShoU7k+bI+quxKiJKeP8f84ga/HumJjZigToxq9qPuYWYqS/Zq3NEmwtagmBrLD+R
+ MYzKeGLfKtCmRQbWAaaA85JKep04kwMCJgTg/Mr9Y01Ip267ETiZtbrkJJnprHQVa3o2
+ 3TXWuLwxRB48vuwCLPFlIAzEr0Ft22Yodga0PVvXex5tseSc+wEoDv0bjaU1LIRz00LD
+ ivNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=2giDB2PPJNn2gXornDaWomerDVImbh9Af956/AyFUYE=;
- b=xFOH168KONQQhWAWwYSz2dVTGZRHiIp/fQb+D+eW2zu7QgbZMJslIU9o3Ah8ygTPbN
- UzHyNM/WcKN6PW32ilF5jOAIOoGt3VhXeOV/fgI/Y1qFqGD/LY8eNE1inNonmnIouMBB
- Zvzj96tK6SfOjk5FvcfABLuP5CCvWrrJojbTgcAsbwngvMr83xztS4HWHO/J6kWmTqyb
- 9pjDNQtRzWxVtHfTlGi0nNoYCydSwrf/tNVxl16fx0Yh2v2HvwD9bIJJnrJhoMurLRo8
- mRzxk19HLuZCJ2yMIa6JAUvZRzzeCznZ5DjmsMf65NSHMDpY9qFjEaF7WJdcnf7QEKH5
- KA0w==
-X-Gm-Message-State: AFqh2kqBAysEVMDbcp9Jumu4QIXYkxIkySUe8aoZTsxeGjzL+QlMGe8A
- AJz2o7s/hMf4i2Aum0lxhg2uTsHLtsD2u+2XUbiG3OhNmtu97JJmMFQAOMZ4UDkqlZ5ycgg0If4
- G5uQq7GqCwNhtkGiv/YOBTKliajjTSw==
-X-Received: by 2002:ac8:51ce:0:b0:3b6:3b81:9a99 with SMTP id
- d14-20020ac851ce000000b003b63b819a99mr12937942qtn.14.1674111830334; 
- Wed, 18 Jan 2023 23:03:50 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuE8xw+H+Nr746fUNgpsfmQoyKHRhlW6E97veC/t1q0G9dt8dEQG+KjgBeJbfRq3B9szOEEjw==
-X-Received: by 2002:ac8:51ce:0:b0:3b6:3b81:9a99 with SMTP id
- d14-20020ac851ce000000b003b63b819a99mr12937899qtn.14.1674111829996; 
- Wed, 18 Jan 2023 23:03:49 -0800 (PST)
+ bh=E4pJmeqUZRL40o660Z8ZlGFqTDULPb9loeeYL7ivzYk=;
+ b=mDTRR3jDOVArHd3suuXCbQmzLzQMnLOIAOR3EWDz3e4LzyEZuflvgWiiSYlxlonFp1
+ jYMoqmgbPoPIsmQ0d/yPzXIiiMzTdBXu9jLshPj9xleZkYm23kjreoDEO27r6vwWeILW
+ jpjRRjW9FWtv9MKeONR2ZXzGNAzZ2DYi5zB1rEiwXj8n+S2zp7CcgGNIw6qFnbLxvDdT
+ wpTQ0N/9Cm0yUdfgJ6WfoIJvBb7vHrIQfWYuj+8r3C6XxJEvMdegk52aTXiIRr++OqK2
+ yE6kYhFTUFvoTci0Lo+dhOMXp/uUe0VgJ9vUhwoYgElLPaYkKpOBcef7aDDx9s3ruYOW
+ eQnQ==
+X-Gm-Message-State: AFqh2kph4nD/GdQzdh5DHC1wQDjKVG1H7W+Dobx2LvoluLhnh9hKJQ4T
+ MagRsNzPAjpmOBaqzwXz5DGArOb7SX/aMqTlTYomEs/Vz2Oa7XGOrwZb25uTcPj0YlT6lFH8Gxg
+ j3ZLWaI62HcSma/zvlt961RLRMkAneg==
+X-Received: by 2002:ac8:45cd:0:b0:3b6:3267:efa1 with SMTP id
+ e13-20020ac845cd000000b003b63267efa1mr13310934qto.50.1674111846028; 
+ Wed, 18 Jan 2023 23:04:06 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtEiE9va0pYp6bJKPXscClk6pML4cboxFe+vd1v6BP6m1qJWNzzSQvjcX8dEBMmZQ3eqy2mUg==
+X-Received: by 2002:ac8:45cd:0:b0:3b6:3267:efa1 with SMTP id
+ e13-20020ac845cd000000b003b63267efa1mr13310855qto.50.1674111845530; 
+ Wed, 18 Jan 2023 23:04:05 -0800 (PST)
 Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- l23-20020a37f917000000b006fc2b672950sm23575695qkj.37.2023.01.18.23.03.48
+ t1-20020ac86a01000000b003a7e4129f83sm18379551qtr.85.2023.01.18.23.04.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 23:03:49 -0800 (PST)
+ Wed, 18 Jan 2023 23:04:05 -0800 (PST)
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
 Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -97,27 +95,40 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
- Siqi Chen <coc.cyqh@gmail.com>, Fam Zheng <fam@euphon.net>,
+ Siqi Chen <coc.cyqh@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
  Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org (open list:Block I/O path)
-Subject: [PATCH v4 2/3] async: Add an optional reentrancy guard to the BH API
-Date: Thu, 19 Jan 2023 02:03:07 -0500
-Message-Id: <20230119070308.321653-3-alxndr@bu.edu>
+ Amit Shah <amit@kernel.org>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Fam Zheng <fam@euphon.net>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ xen-devel@lists.xenproject.org (open list:X86 Xen CPUs),
+ qemu-block@nongnu.org (open list:virtio-blk),
+ qemu-arm@nongnu.org (open list:i.MX31 (kzm)),
+ qemu-ppc@nongnu.org (open list:Old World (g3beige))
+Subject: [PATCH v4 3/3] hw: replace most qemu_bh_new calls with
+ qemu_bh_new_guarded
+Date: Thu, 19 Jan 2023 02:03:08 -0500
+Message-Id: <20230119070308.321653-4-alxndr@bu.edu>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230119070308.321653-1-alxndr@bu.edu>
 References: <20230119070308.321653-1-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=68.232.154.118; envelope-from=alxndr@bu.edu;
- helo=esa3.hc2706-39.iphmx.com
-X-Spam_score_int: -33
-X-Spam_score: -3.4
-X-Spam_bar: ---
-X-Spam_report: (-3.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=216.71.152.49; envelope-from=alxndr@bu.edu;
+ helo=esa2.hc2706-39.iphmx.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -133,180 +144,429 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Devices can pass their MemoryReentrancyGuard (from their DeviceState),
-when creating new BHes. Then, the async API will toggle the guard
-before/after calling the BH call-back. This prevents bh->mmio reentrancy
-issues.
+This protects devices from bh->mmio reentrancy issues.
 
 Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 ---
- docs/devel/multiple-iothreads.txt |  2 ++
- include/block/aio.h               | 18 ++++++++++++++++--
- include/qemu/main-loop.h          |  7 +++++--
- tests/unit/ptimer-test-stubs.c    |  3 ++-
- util/async.c                      | 12 +++++++++++-
- util/main-loop.c                  |  5 +++--
- 6 files changed, 39 insertions(+), 8 deletions(-)
+ hw/9pfs/xen-9p-backend.c        | 4 +++-
+ hw/block/dataplane/virtio-blk.c | 3 ++-
+ hw/block/dataplane/xen-block.c  | 5 +++--
+ hw/block/virtio-blk.c           | 5 +++--
+ hw/char/virtio-serial-bus.c     | 3 ++-
+ hw/display/qxl.c                | 9 ++++++---
+ hw/display/virtio-gpu.c         | 6 ++++--
+ hw/ide/ahci.c                   | 3 ++-
+ hw/ide/core.c                   | 3 ++-
+ hw/misc/imx_rngc.c              | 6 ++++--
+ hw/misc/macio/mac_dbdma.c       | 2 +-
+ hw/net/virtio-net.c             | 3 ++-
+ hw/nvme/ctrl.c                  | 6 ++++--
+ hw/scsi/mptsas.c                | 3 ++-
+ hw/scsi/scsi-bus.c              | 3 ++-
+ hw/scsi/vmw_pvscsi.c            | 3 ++-
+ hw/usb/dev-uas.c                | 3 ++-
+ hw/usb/hcd-dwc2.c               | 3 ++-
+ hw/usb/hcd-ehci.c               | 3 ++-
+ hw/usb/hcd-uhci.c               | 2 +-
+ hw/usb/host-libusb.c            | 6 ++++--
+ hw/usb/redirect.c               | 6 ++++--
+ hw/usb/xen-usb.c                | 3 ++-
+ hw/virtio/virtio-balloon.c      | 5 +++--
+ hw/virtio/virtio-crypto.c       | 3 ++-
+ 25 files changed, 66 insertions(+), 35 deletions(-)
 
-diff --git a/docs/devel/multiple-iothreads.txt b/docs/devel/multiple-iothreads.txt
-index 343120f2ef..e4fafed9d9 100644
---- a/docs/devel/multiple-iothreads.txt
-+++ b/docs/devel/multiple-iothreads.txt
-@@ -61,6 +61,7 @@ There are several old APIs that use the main loop AioContext:
-  * LEGACY qemu_aio_set_event_notifier() - monitor an event notifier
-  * LEGACY timer_new_ms() - create a timer
-  * LEGACY qemu_bh_new() - create a BH
-+ * LEGACY qemu_bh_new_guarded() - create a BH with a device re-entrancy guard
-  * LEGACY qemu_aio_wait() - run an event loop iteration
+diff --git a/hw/9pfs/xen-9p-backend.c b/hw/9pfs/xen-9p-backend.c
+index 65c4979c3c..f077c1b255 100644
+--- a/hw/9pfs/xen-9p-backend.c
++++ b/hw/9pfs/xen-9p-backend.c
+@@ -441,7 +441,9 @@ static int xen_9pfs_connect(struct XenLegacyDevice *xendev)
+         xen_9pdev->rings[i].ring.out = xen_9pdev->rings[i].data +
+                                        XEN_FLEX_RING_SIZE(ring_order);
  
- Since they implicitly work on the main loop they cannot be used in code that
-@@ -72,6 +73,7 @@ Instead, use the AioContext functions directly (see include/block/aio.h):
-  * aio_set_event_notifier() - monitor an event notifier
-  * aio_timer_new() - create a timer
-  * aio_bh_new() - create a BH
-+ * aio_bh_new_guarded() - create a BH with a device re-entrancy guard
-  * aio_poll() - run an event loop iteration
+-        xen_9pdev->rings[i].bh = qemu_bh_new(xen_9pfs_bh, &xen_9pdev->rings[i]);
++        xen_9pdev->rings[i].bh = qemu_bh_new_guarded(xen_9pfs_bh,
++                                                     &xen_9pdev->rings[i],
++                                                     &DEVICE(xen_9pdev)->mem_reentrancy_guard);
+         xen_9pdev->rings[i].out_cons = 0;
+         xen_9pdev->rings[i].out_size = 0;
+         xen_9pdev->rings[i].inprogress = false;
+diff --git a/hw/block/dataplane/virtio-blk.c b/hw/block/dataplane/virtio-blk.c
+index 26f965cabc..191a8c90aa 100644
+--- a/hw/block/dataplane/virtio-blk.c
++++ b/hw/block/dataplane/virtio-blk.c
+@@ -127,7 +127,8 @@ bool virtio_blk_data_plane_create(VirtIODevice *vdev, VirtIOBlkConf *conf,
+     } else {
+         s->ctx = qemu_get_aio_context();
+     }
+-    s->bh = aio_bh_new(s->ctx, notify_guest_bh, s);
++    s->bh = aio_bh_new_guarded(s->ctx, notify_guest_bh, s,
++                               &DEVICE(s)->mem_reentrancy_guard);
+     s->batch_notify_vqs = bitmap_new(conf->num_queues);
  
- The AioContext can be obtained from the IOThread using
-diff --git a/include/block/aio.h b/include/block/aio.h
-index 0f65a3cc9e..94d661ff7e 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -23,6 +23,8 @@
- #include "qemu/thread.h"
- #include "qemu/timer.h"
- #include "block/graph-lock.h"
-+#include "hw/qdev-core.h"
-+
+     *dataplane = s;
+diff --git a/hw/block/dataplane/xen-block.c b/hw/block/dataplane/xen-block.c
+index 2785b9e849..e31806b317 100644
+--- a/hw/block/dataplane/xen-block.c
++++ b/hw/block/dataplane/xen-block.c
+@@ -632,8 +632,9 @@ XenBlockDataPlane *xen_block_dataplane_create(XenDevice *xendev,
+     } else {
+         dataplane->ctx = qemu_get_aio_context();
+     }
+-    dataplane->bh = aio_bh_new(dataplane->ctx, xen_block_dataplane_bh,
+-                               dataplane);
++    dataplane->bh = aio_bh_new_guarded(dataplane->ctx, xen_block_dataplane_bh,
++                                       dataplane,
++                                       &DEVICE(xendev)->mem_reentrancy_guard);
  
- typedef struct BlockAIOCB BlockAIOCB;
- typedef void BlockCompletionFunc(void *opaque, int ret);
-@@ -332,9 +334,11 @@ void aio_bh_schedule_oneshot_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
-  * is opaque and must be allocated prior to its use.
-  *
-  * @name: A human-readable identifier for debugging purposes.
-+ * @reentrancy_guard: A guard set when entering a cb to prevent
-+ * device-reentrancy issues
-  */
- QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
--                        const char *name);
-+                        const char *name, MemReentrancyGuard *reentrancy_guard);
+     return dataplane;
+ }
+diff --git a/hw/block/virtio-blk.c b/hw/block/virtio-blk.c
+index f717550fdc..e9f516e633 100644
+--- a/hw/block/virtio-blk.c
++++ b/hw/block/virtio-blk.c
+@@ -866,8 +866,9 @@ static void virtio_blk_dma_restart_cb(void *opaque, bool running,
+      * requests will be processed while starting the data plane.
+      */
+     if (!s->bh && !virtio_bus_ioeventfd_enabled(bus)) {
+-        s->bh = aio_bh_new(blk_get_aio_context(s->conf.conf.blk),
+-                           virtio_blk_dma_restart_bh, s);
++        s->bh = aio_bh_new_guarded(blk_get_aio_context(s->conf.conf.blk),
++                                   virtio_blk_dma_restart_bh, s,
++                                   &DEVICE(s)->mem_reentrancy_guard);
+         blk_inc_in_flight(s->conf.conf.blk);
+         qemu_bh_schedule(s->bh);
+     }
+diff --git a/hw/char/virtio-serial-bus.c b/hw/char/virtio-serial-bus.c
+index 7d4601cb5d..dd619f0731 100644
+--- a/hw/char/virtio-serial-bus.c
++++ b/hw/char/virtio-serial-bus.c
+@@ -985,7 +985,8 @@ static void virtser_port_device_realize(DeviceState *dev, Error **errp)
+         return;
+     }
  
- /**
-  * aio_bh_new: Allocate a new bottom half structure
-@@ -343,7 +347,17 @@ QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
-  * string.
-  */
- #define aio_bh_new(ctx, cb, opaque) \
--    aio_bh_new_full((ctx), (cb), (opaque), (stringify(cb)))
-+    aio_bh_new_full((ctx), (cb), (opaque), (stringify(cb)), NULL)
-+
-+/**
-+ * aio_bh_new_guarded: Allocate a new bottom half structure with a
-+ * reentrancy_guard
-+ *
-+ * A convenience wrapper for aio_bh_new_full() that uses the cb as the name
-+ * string.
-+ */
-+#define aio_bh_new_guarded(ctx, cb, opaque, guard) \
-+    aio_bh_new_full((ctx), (cb), (opaque), (stringify(cb)), guard)
- 
- /**
-  * aio_notify: Force processing of pending events.
-diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-index c25f390696..84d1ce57f0 100644
---- a/include/qemu/main-loop.h
-+++ b/include/qemu/main-loop.h
-@@ -389,9 +389,12 @@ void qemu_cond_timedwait_iothread(QemuCond *cond, int ms);
- 
- void qemu_fd_register(int fd);
- 
-+#define qemu_bh_new_guarded(cb, opaque, guard) \
-+    qemu_bh_new_full((cb), (opaque), (stringify(cb)), guard)
- #define qemu_bh_new(cb, opaque) \
--    qemu_bh_new_full((cb), (opaque), (stringify(cb)))
--QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name);
-+    qemu_bh_new_full((cb), (opaque), (stringify(cb)), NULL)
-+QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name,
-+                         MemReentrancyGuard *reentrancy_guard);
- void qemu_bh_schedule_idle(QEMUBH *bh);
- 
- enum {
-diff --git a/tests/unit/ptimer-test-stubs.c b/tests/unit/ptimer-test-stubs.c
-index f5e75a96b6..24d5413f9d 100644
---- a/tests/unit/ptimer-test-stubs.c
-+++ b/tests/unit/ptimer-test-stubs.c
-@@ -107,7 +107,8 @@ int64_t qemu_clock_deadline_ns_all(QEMUClockType type, int attr_mask)
-     return deadline;
+-    port->bh = qemu_bh_new(flush_queued_data_bh, port);
++    port->bh = qemu_bh_new_guarded(flush_queued_data_bh, port,
++                                   &dev->mem_reentrancy_guard);
+     port->elem = NULL;
  }
  
--QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name)
-+QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name,
-+                         MemReentrancyGuard *reentrancy_guard)
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index 6772849dec..67efa3c3ef 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -2223,11 +2223,14 @@ static void qxl_realize_common(PCIQXLDevice *qxl, Error **errp)
+ 
+     qemu_add_vm_change_state_handler(qxl_vm_change_state_handler, qxl);
+ 
+-    qxl->update_irq = qemu_bh_new(qxl_update_irq_bh, qxl);
++    qxl->update_irq = qemu_bh_new_guarded(qxl_update_irq_bh, qxl,
++                                          &DEVICE(qxl)->mem_reentrancy_guard);
+     qxl_reset_state(qxl);
+ 
+-    qxl->update_area_bh = qemu_bh_new(qxl_render_update_area_bh, qxl);
+-    qxl->ssd.cursor_bh = qemu_bh_new(qemu_spice_cursor_refresh_bh, &qxl->ssd);
++    qxl->update_area_bh = qemu_bh_new_guarded(qxl_render_update_area_bh, qxl,
++                                              &DEVICE(qxl)->mem_reentrancy_guard);
++    qxl->ssd.cursor_bh = qemu_bh_new_guarded(qemu_spice_cursor_refresh_bh, &qxl->ssd,
++                                             &DEVICE(qxl)->mem_reentrancy_guard);
+ }
+ 
+ static void qxl_realize_primary(PCIDevice *dev, Error **errp)
+diff --git a/hw/display/virtio-gpu.c b/hw/display/virtio-gpu.c
+index 5e15c79b94..66ac9b6cc5 100644
+--- a/hw/display/virtio-gpu.c
++++ b/hw/display/virtio-gpu.c
+@@ -1339,8 +1339,10 @@ void virtio_gpu_device_realize(DeviceState *qdev, Error **errp)
+ 
+     g->ctrl_vq = virtio_get_queue(vdev, 0);
+     g->cursor_vq = virtio_get_queue(vdev, 1);
+-    g->ctrl_bh = qemu_bh_new(virtio_gpu_ctrl_bh, g);
+-    g->cursor_bh = qemu_bh_new(virtio_gpu_cursor_bh, g);
++    g->ctrl_bh = qemu_bh_new_guarded(virtio_gpu_ctrl_bh, g,
++                                     &qdev->mem_reentrancy_guard);
++    g->cursor_bh = qemu_bh_new_guarded(virtio_gpu_cursor_bh, g,
++                                       &qdev->mem_reentrancy_guard);
+     QTAILQ_INIT(&g->reslist);
+     QTAILQ_INIT(&g->cmdq);
+     QTAILQ_INIT(&g->fenceq);
+diff --git a/hw/ide/ahci.c b/hw/ide/ahci.c
+index 7ce001cacd..37091150cb 100644
+--- a/hw/ide/ahci.c
++++ b/hw/ide/ahci.c
+@@ -1508,7 +1508,8 @@ static void ahci_cmd_done(const IDEDMA *dma)
+     ahci_write_fis_d2h(ad);
+ 
+     if (ad->port_regs.cmd_issue && !ad->check_bh) {
+-        ad->check_bh = qemu_bh_new(ahci_check_cmd_bh, ad);
++        ad->check_bh = qemu_bh_new_guarded(ahci_check_cmd_bh, ad,
++                                           &DEVICE(ad)->mem_reentrancy_guard);
+         qemu_bh_schedule(ad->check_bh);
+     }
+ }
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index 5d1039378f..8c8d1a8ec2 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -519,7 +519,8 @@ BlockAIOCB *ide_issue_trim(
+ 
+     iocb = blk_aio_get(&trim_aiocb_info, s->blk, cb, cb_opaque);
+     iocb->s = s;
+-    iocb->bh = qemu_bh_new(ide_trim_bh_cb, iocb);
++    iocb->bh = qemu_bh_new_guarded(ide_trim_bh_cb, iocb,
++                                   &DEVICE(s)->mem_reentrancy_guard);
+     iocb->ret = 0;
+     iocb->qiov = qiov;
+     iocb->i = -1;
+diff --git a/hw/misc/imx_rngc.c b/hw/misc/imx_rngc.c
+index 632c03779c..082c6980ad 100644
+--- a/hw/misc/imx_rngc.c
++++ b/hw/misc/imx_rngc.c
+@@ -228,8 +228,10 @@ static void imx_rngc_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(sbd, &s->iomem);
+ 
+     sysbus_init_irq(sbd, &s->irq);
+-    s->self_test_bh = qemu_bh_new(imx_rngc_self_test, s);
+-    s->seed_bh = qemu_bh_new(imx_rngc_seed, s);
++    s->self_test_bh = qemu_bh_new_guarded(imx_rngc_self_test, s,
++                                          &dev->mem_reentrancy_guard);
++    s->seed_bh = qemu_bh_new_guarded(imx_rngc_seed, s,
++                                     &dev->mem_reentrancy_guard);
+ }
+ 
+ static void imx_rngc_reset(DeviceState *dev)
+diff --git a/hw/misc/macio/mac_dbdma.c b/hw/misc/macio/mac_dbdma.c
+index efcc02609f..cc7e02203d 100644
+--- a/hw/misc/macio/mac_dbdma.c
++++ b/hw/misc/macio/mac_dbdma.c
+@@ -914,7 +914,7 @@ static void mac_dbdma_realize(DeviceState *dev, Error **errp)
  {
-     QEMUBH *bh = g_new(QEMUBH, 1);
+     DBDMAState *s = MAC_DBDMA(dev);
  
-diff --git a/util/async.c b/util/async.c
-index 14d63b3091..08924c3212 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -65,6 +65,7 @@ struct QEMUBH {
-     void *opaque;
-     QSLIST_ENTRY(QEMUBH) next;
-     unsigned flags;
-+    MemReentrancyGuard *reentrancy_guard;
- };
- 
- /* Called concurrently from any thread */
-@@ -133,7 +134,7 @@ void aio_bh_schedule_oneshot_full(AioContext *ctx, QEMUBHFunc *cb,
+-    s->bh = qemu_bh_new(DBDMA_run_bh, s);
++    s->bh = qemu_bh_new_guarded(DBDMA_run_bh, s, &dev->mem_reentrancy_guard);
  }
  
- QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
--                        const char *name)
-+                        const char *name, MemReentrancyGuard *reentrancy_guard)
+ static void mac_dbdma_class_init(ObjectClass *oc, void *data)
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 3ae909041a..a170c724de 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -2885,7 +2885,8 @@ static void virtio_net_add_queue(VirtIONet *n, int index)
+         n->vqs[index].tx_vq =
+             virtio_add_queue(vdev, n->net_conf.tx_queue_size,
+                              virtio_net_handle_tx_bh);
+-        n->vqs[index].tx_bh = qemu_bh_new(virtio_net_tx_bh, &n->vqs[index]);
++        n->vqs[index].tx_bh = qemu_bh_new_guarded(virtio_net_tx_bh, &n->vqs[index],
++                                                  &DEVICE(vdev)->mem_reentrancy_guard);
+     }
+ 
+     n->vqs[index].tx_waiting = 0;
+diff --git a/hw/nvme/ctrl.c b/hw/nvme/ctrl.c
+index f25cc2c235..dcb250e772 100644
+--- a/hw/nvme/ctrl.c
++++ b/hw/nvme/ctrl.c
+@@ -4318,7 +4318,8 @@ static void nvme_init_sq(NvmeSQueue *sq, NvmeCtrl *n, uint64_t dma_addr,
+         QTAILQ_INSERT_TAIL(&(sq->req_list), &sq->io_req[i], entry);
+     }
+ 
+-    sq->bh = qemu_bh_new(nvme_process_sq, sq);
++    sq->bh = qemu_bh_new_guarded(nvme_process_sq, sq,
++                                 &DEVICE(sq->ctrl)->mem_reentrancy_guard);
+ 
+     if (n->dbbuf_enabled) {
+         sq->db_addr = n->dbbuf_dbs + (sqid << 3);
+@@ -4708,7 +4709,8 @@ static void nvme_init_cq(NvmeCQueue *cq, NvmeCtrl *n, uint64_t dma_addr,
+         }
+     }
+     n->cq[cqid] = cq;
+-    cq->bh = qemu_bh_new(nvme_post_cqes, cq);
++    cq->bh = qemu_bh_new_guarded(nvme_post_cqes, cq,
++                                 &DEVICE(cq->ctrl)->mem_reentrancy_guard);
+ }
+ 
+ static uint16_t nvme_create_cq(NvmeCtrl *n, NvmeRequest *req)
+diff --git a/hw/scsi/mptsas.c b/hw/scsi/mptsas.c
+index c485da792c..3de288b454 100644
+--- a/hw/scsi/mptsas.c
++++ b/hw/scsi/mptsas.c
+@@ -1322,7 +1322,8 @@ static void mptsas_scsi_realize(PCIDevice *dev, Error **errp)
+     }
+     s->max_devices = MPTSAS_NUM_PORTS;
+ 
+-    s->request_bh = qemu_bh_new(mptsas_fetch_requests, s);
++    s->request_bh = qemu_bh_new_guarded(mptsas_fetch_requests, s,
++                                        &DEVICE(dev)->mem_reentrancy_guard);
+ 
+     scsi_bus_init(&s->bus, sizeof(s->bus), &dev->qdev, &mptsas_scsi_info);
+ }
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index ceceafb2cd..e5c9f7a53d 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -193,7 +193,8 @@ static void scsi_dma_restart_cb(void *opaque, bool running, RunState state)
+         AioContext *ctx = blk_get_aio_context(s->conf.blk);
+         /* The reference is dropped in scsi_dma_restart_bh.*/
+         object_ref(OBJECT(s));
+-        s->bh = aio_bh_new(ctx, scsi_dma_restart_bh, s);
++        s->bh = aio_bh_new_guarded(ctx, scsi_dma_restart_bh, s,
++                                   &DEVICE(s)->mem_reentrancy_guard);
+         qemu_bh_schedule(s->bh);
+     }
+ }
+diff --git a/hw/scsi/vmw_pvscsi.c b/hw/scsi/vmw_pvscsi.c
+index fa76696855..4de34536e9 100644
+--- a/hw/scsi/vmw_pvscsi.c
++++ b/hw/scsi/vmw_pvscsi.c
+@@ -1184,7 +1184,8 @@ pvscsi_realizefn(PCIDevice *pci_dev, Error **errp)
+         pcie_endpoint_cap_init(pci_dev, PVSCSI_EXP_EP_OFFSET);
+     }
+ 
+-    s->completion_worker = qemu_bh_new(pvscsi_process_completion_queue, s);
++    s->completion_worker = qemu_bh_new_guarded(pvscsi_process_completion_queue, s,
++                                               &DEVICE(pci_dev)->mem_reentrancy_guard);
+ 
+     scsi_bus_init(&s->bus, sizeof(s->bus), DEVICE(pci_dev), &pvscsi_scsi_info);
+     /* override default SCSI bus hotplug-handler, with pvscsi's one */
+diff --git a/hw/usb/dev-uas.c b/hw/usb/dev-uas.c
+index 88f99c05d5..f013ded91e 100644
+--- a/hw/usb/dev-uas.c
++++ b/hw/usb/dev-uas.c
+@@ -937,7 +937,8 @@ static void usb_uas_realize(USBDevice *dev, Error **errp)
+ 
+     QTAILQ_INIT(&uas->results);
+     QTAILQ_INIT(&uas->requests);
+-    uas->status_bh = qemu_bh_new(usb_uas_send_status_bh, uas);
++    uas->status_bh = qemu_bh_new_guarded(usb_uas_send_status_bh, uas,
++                                         &d->mem_reentrancy_guard);
+ 
+     dev->flags |= (1 << USB_DEV_FLAG_IS_SCSI_STORAGE);
+     scsi_bus_init(&uas->bus, sizeof(uas->bus), DEVICE(dev), &usb_uas_scsi_info);
+diff --git a/hw/usb/hcd-dwc2.c b/hw/usb/hcd-dwc2.c
+index 8755e9cbb0..a0c4e782b2 100644
+--- a/hw/usb/hcd-dwc2.c
++++ b/hw/usb/hcd-dwc2.c
+@@ -1364,7 +1364,8 @@ static void dwc2_realize(DeviceState *dev, Error **errp)
+     s->fi = USB_FRMINTVL - 1;
+     s->eof_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, dwc2_frame_boundary, s);
+     s->frame_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, dwc2_work_timer, s);
+-    s->async_bh = qemu_bh_new(dwc2_work_bh, s);
++    s->async_bh = qemu_bh_new_guarded(dwc2_work_bh, s,
++                                      &dev->mem_reentrancy_guard);
+ 
+     sysbus_init_irq(sbd, &s->irq);
+ }
+diff --git a/hw/usb/hcd-ehci.c b/hw/usb/hcd-ehci.c
+index d4da8dcb8d..c930c60921 100644
+--- a/hw/usb/hcd-ehci.c
++++ b/hw/usb/hcd-ehci.c
+@@ -2533,7 +2533,8 @@ void usb_ehci_realize(EHCIState *s, DeviceState *dev, Error **errp)
+     }
+ 
+     s->frame_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, ehci_work_timer, s);
+-    s->async_bh = qemu_bh_new(ehci_work_bh, s);
++    s->async_bh = qemu_bh_new_guarded(ehci_work_bh, s,
++                                      &dev->mem_reentrancy_guard);
+     s->device = dev;
+ 
+     s->vmstate = qemu_add_vm_change_state_handler(usb_ehci_vm_state_change, s);
+diff --git a/hw/usb/hcd-uhci.c b/hw/usb/hcd-uhci.c
+index 30ae0104bb..bdc891f57a 100644
+--- a/hw/usb/hcd-uhci.c
++++ b/hw/usb/hcd-uhci.c
+@@ -1193,7 +1193,7 @@ void usb_uhci_common_realize(PCIDevice *dev, Error **errp)
+                               USB_SPEED_MASK_LOW | USB_SPEED_MASK_FULL);
+         }
+     }
+-    s->bh = qemu_bh_new(uhci_bh, s);
++    s->bh = qemu_bh_new_guarded(uhci_bh, s, &DEVICE(dev)->mem_reentrancy_guard);
+     s->frame_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, uhci_frame_timer, s);
+     s->num_ports_vmstate = NB_PORTS;
+     QTAILQ_INIT(&s->queues);
+diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
+index 176868d345..f500db85ab 100644
+--- a/hw/usb/host-libusb.c
++++ b/hw/usb/host-libusb.c
+@@ -1141,7 +1141,8 @@ static void usb_host_nodev_bh(void *opaque)
+ static void usb_host_nodev(USBHostDevice *s)
  {
-     QEMUBH *bh;
-     bh = g_new(QEMUBH, 1);
-@@ -142,13 +143,22 @@ QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
-         .cb = cb,
-         .opaque = opaque,
-         .name = name,
-+        .reentrancy_guard = reentrancy_guard,
-     };
-     return bh;
+     if (!s->bh_nodev) {
+-        s->bh_nodev = qemu_bh_new(usb_host_nodev_bh, s);
++        s->bh_nodev = qemu_bh_new_guarded(usb_host_nodev_bh, s,
++                                          &DEVICE(s)->mem_reentrancy_guard);
+     }
+     qemu_bh_schedule(s->bh_nodev);
+ }
+@@ -1739,7 +1740,8 @@ static int usb_host_post_load(void *opaque, int version_id)
+     USBHostDevice *dev = opaque;
+ 
+     if (!dev->bh_postld) {
+-        dev->bh_postld = qemu_bh_new(usb_host_post_load_bh, dev);
++        dev->bh_postld = qemu_bh_new_guarded(usb_host_post_load_bh, dev,
++                                             &DEVICE(dev)->mem_reentrancy_guard);
+     }
+     qemu_bh_schedule(dev->bh_postld);
+     dev->bh_postld_pending = true;
+diff --git a/hw/usb/redirect.c b/hw/usb/redirect.c
+index fd7df599bc..39fbaaab16 100644
+--- a/hw/usb/redirect.c
++++ b/hw/usb/redirect.c
+@@ -1441,8 +1441,10 @@ static void usbredir_realize(USBDevice *udev, Error **errp)
+         }
+     }
+ 
+-    dev->chardev_close_bh = qemu_bh_new(usbredir_chardev_close_bh, dev);
+-    dev->device_reject_bh = qemu_bh_new(usbredir_device_reject_bh, dev);
++    dev->chardev_close_bh = qemu_bh_new_guarded(usbredir_chardev_close_bh, dev,
++                                                &DEVICE(dev)->mem_reentrancy_guard);
++    dev->device_reject_bh = qemu_bh_new_guarded(usbredir_device_reject_bh, dev,
++                                                &DEVICE(dev)->mem_reentrancy_guard);
+     dev->attach_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL, usbredir_do_attach, dev);
+ 
+     packet_id_queue_init(&dev->cancelled, dev, "cancelled");
+diff --git a/hw/usb/xen-usb.c b/hw/usb/xen-usb.c
+index 0f7369e7ed..dec91294ad 100644
+--- a/hw/usb/xen-usb.c
++++ b/hw/usb/xen-usb.c
+@@ -1021,7 +1021,8 @@ static void usbback_alloc(struct XenLegacyDevice *xendev)
+ 
+     QTAILQ_INIT(&usbif->req_free_q);
+     QSIMPLEQ_INIT(&usbif->hotplug_q);
+-    usbif->bh = qemu_bh_new(usbback_bh, usbif);
++    usbif->bh = qemu_bh_new_guarded(usbback_bh, usbif,
++                                    &DEVICE(xendev)->mem_reentrancy_guard);
  }
  
- void aio_bh_call(QEMUBH *bh)
- {
-+    if (bh->reentrancy_guard) {
-+        bh->reentrancy_guard->engaged_in_io = true;
-+    }
-+
-     bh->cb(bh->opaque);
-+
-+    if (bh->reentrancy_guard) {
-+        bh->reentrancy_guard->engaged_in_io = false;
-+    }
- }
+ static int usbback_free(struct XenLegacyDevice *xendev)
+diff --git a/hw/virtio/virtio-balloon.c b/hw/virtio/virtio-balloon.c
+index 746f07c4d2..309cebacc6 100644
+--- a/hw/virtio/virtio-balloon.c
++++ b/hw/virtio/virtio-balloon.c
+@@ -908,8 +908,9 @@ static void virtio_balloon_device_realize(DeviceState *dev, Error **errp)
+         precopy_add_notifier(&s->free_page_hint_notify);
  
- /* Multiple occurrences of aio_bh_poll cannot be called concurrently. */
-diff --git a/util/main-loop.c b/util/main-loop.c
-index 58f776a8c9..07d2e2040a 100644
---- a/util/main-loop.c
-+++ b/util/main-loop.c
-@@ -617,9 +617,10 @@ void main_loop_wait(int nonblocking)
+         object_ref(OBJECT(s->iothread));
+-        s->free_page_bh = aio_bh_new(iothread_get_aio_context(s->iothread),
+-                                     virtio_ballloon_get_free_page_hints, s);
++        s->free_page_bh = aio_bh_new_guarded(iothread_get_aio_context(s->iothread),
++                                             virtio_ballloon_get_free_page_hints, s,
++                                             &DEVICE(s)->mem_reentrancy_guard);
+     }
  
- /* Functions to operate on the main QEMU AioContext.  */
+     if (virtio_has_feature(s->host_features, VIRTIO_BALLOON_F_REPORTING)) {
+diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+index 516425e26a..4c95f1096e 100644
+--- a/hw/virtio/virtio-crypto.c
++++ b/hw/virtio/virtio-crypto.c
+@@ -1050,7 +1050,8 @@ static void virtio_crypto_device_realize(DeviceState *dev, Error **errp)
+         vcrypto->vqs[i].dataq =
+                  virtio_add_queue(vdev, 1024, virtio_crypto_handle_dataq_bh);
+         vcrypto->vqs[i].dataq_bh =
+-                 qemu_bh_new(virtio_crypto_dataq_bh, &vcrypto->vqs[i]);
++                 qemu_bh_new_guarded(virtio_crypto_dataq_bh, &vcrypto->vqs[i],
++                                     &dev->mem_reentrancy_guard);
+         vcrypto->vqs[i].vcrypto = vcrypto;
+     }
  
--QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name)
-+QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name, MemReentrancyGuard *reentrancy_guard)
- {
--    return aio_bh_new_full(qemu_aio_context, cb, opaque, name);
-+    return aio_bh_new_full(qemu_aio_context, cb, opaque, name,
-+                           reentrancy_guard);
- }
- 
- /*
 -- 
 2.39.0
 
