@@ -2,61 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1465673532
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:12:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C956D6734DE
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 10:56:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIQX5-0006Vd-VP; Thu, 19 Jan 2023 03:44:28 -0500
+	id 1pIQbc-0007CH-3V; Thu, 19 Jan 2023 03:49:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pIQX3-0006VK-Dw
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 03:44:25 -0500
-Received: from 7.mo552.mail-out.ovh.net ([188.165.59.253])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIQbR-0007AW-UL
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 03:48:58 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pIQX1-0007PN-85
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 03:44:24 -0500
-Received: from mxplan5.mail.ovh.net (unknown [10.108.16.33])
- by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5720D2EC51;
- Thu, 19 Jan 2023 08:44:12 +0000 (UTC)
-Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Thu, 19 Jan
- 2023 09:44:11 +0100
-Authentication-Results: garm.ovh; auth=pass
- (GARM-101G004e3e183e5-faf5-4837-8209-c44439dc7ef8,
- 57C062BC11404EA56320B07D289517251D163FA5) smtp.auth=clg@kaod.org
-X-OVh-ClientIp: 82.64.250.170
-Message-ID: <0dbdafa0-d860-a7a9-f1cc-dae28251fd83@kaod.org>
-Date: Thu, 19 Jan 2023 09:44:11 +0100
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIQbJ-0008NM-8m
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 03:48:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674118128;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MNdqAxKyM29EET5ndZwA8wkVY87Kcxwfh2XLS/I2DOI=;
+ b=Ry7EDN/2eqV9HQlrUVinr+aSVpm38T/f8I46Bp5KzE+arn/rMPIfJPo/6urX5eD02Pe89+
+ mEM/lHfQQ01rIYfqoba3xaJ53Zzrur10MXykAQKn9IXP1ZuzyFATqGAC+3PasuH+DKnNsj
+ HEMktQpMgbMX8xiZ9hGYHrr0SKKfSS0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-107-8t95co_FOYqr3nnm7ZLcvA-1; Thu, 19 Jan 2023 03:48:44 -0500
+X-MC-Unique: 8t95co_FOYqr3nnm7ZLcvA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 147CA3806101;
+ Thu, 19 Jan 2023 08:48:44 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D424951EF;
+ Thu, 19 Jan 2023 08:48:43 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id AE43321E6A28; Thu, 19 Jan 2023 09:48:42 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org,  Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>,
+ Dr. David Alan Gilbert <dgilbert@redhat.com>,  Peter Xu <peterx@redhat.com>
+Subject: Re: Who maintains util/userfaultfd.c?
+References: <873587yqm7.fsf@pond.sub.org> <87v8l3hrig.fsf@secure.mitica>
+Date: Thu, 19 Jan 2023 09:48:42 +0100
+In-Reply-To: <87v8l3hrig.fsf@secure.mitica> (Juan Quintela's message of "Thu, 
+ 19 Jan 2023 09:12:39 +0100")
+Message-ID: <87o7qux639.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] target/arm: Allow users to set the number of VFP registers
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-CC: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>
-References: <20230102175245.1895037-1-clg@kaod.org>
- <CAFEAcA_m59FxCGFu1aF8j1nfib=W49e59w4LNYx3Cj5NOmYufw@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-In-Reply-To: <CAFEAcA_m59FxCGFu1aF8j1nfib=W49e59w4LNYx3Cj5NOmYufw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [37.59.142.101]
-X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX2.mxp5.local
- (172.16.2.32)
-X-Ovh-Tracer-GUID: cc6156a0-b03c-4b76-9ebf-c1327fce6310
-X-Ovh-Tracer-Id: 206039684871982045
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddtledguddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtjeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepuedutdetleegjefhieekgeffkefhleevgfefjeevffejieevgeefhefgtdfgiedtnecukfhppeduvdejrddtrddtrddupdefjedrheelrddugedvrddutddunecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeotghlgheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpqhgvmhhuqdgrrhhmsehnohhnghhnuhdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
-Received-SPF: pass client-ip=188.165.59.253; envelope-from=clg@kaod.org;
- helo=7.mo552.mail-out.ovh.net
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,61 +79,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
->> @@ -1650,6 +1656,14 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
->>           return;
->>       }
+Juan Quintela <quintela@redhat.com> writes:
+
+> Markus Armbruster <armbru@redhat.com> wrote:
+>> commit 0e9b5cd6b238b7ca9a3a50d957f50c37082705a0
+>> Author: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+>> Date:   Fri Jan 29 13:14:04 2021 +0300
 >>
->> +    if (!cpu->has_vfp_d32) {
->> +        uint32_t u;
->> +
->> +        u = cpu->isar.mvfr0;
->> +        u = FIELD_DP32(u, MVFR0, SIMDREG, 1); /* 16 registers */
->> +        cpu->isar.mvfr0 = u;
->> +    }
->> +
->>       if (!cpu->has_vfp) {
->>           uint64_t t;
->>           uint32_t u;
-> 
-> There should be a check so the user can't both disable D32 and enable Neon
-> (Neon always has 32 dregs).
-> 
-> Armv8A doesn't permit D16, so we shouldn't allow that combination either
-> (but note that v8R, support for which just landed, *does* permit it).
+>>     migration: introduce UFFD-WP low-level interface helpers
+>>     
+>>     Glue code to the userfaultfd kernel implementation.
+>>     Querying feature support, createing file descriptor, feature control,
+>>     memory region registration, IOCTLs on registered registered regions.
+>>     
+>>     Signed-off-by: Andrey Gruzdev <andrey.gruzdev@virtuozzo.com>
+>>     Reviewed-by: Peter Xu <peterx@redhat.com>
+>>     Message-Id: <20210129101407.103458-3-andrey.gruzdev@virtuozzo.com>
+>>     Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>>       Fixed up range.start casting for 32bit
+>>
+>> added util/userfaultfd.c without covering it in MAINTAINERS.  Only user
+>> is migration/ram.c, as far as I can tell.  Should it be added to
+>> MAINTAINERS section "Migration"?
+>
+> Hi
+>
+> It should be added to the Migration maintainers.  Who used to develop
+> in that particular corner is David.
 
-Like below ?
-
-Thanks,
-
-C.
-
-
-@@ -1661,6 +1672,26 @@ static void arm_cpu_realizefn(DeviceStat
-          return;
-      }
-  
-+    if (!cpu->has_vfp_d32 &&
-+        arm_feature(env, ARM_FEATURE_V8) &&
-+        !arm_feature(env, ARM_FEATURE_M)) {
-+        error_setg(errp, "ARMv8A CPUs must have VFP32");
-+        return;
-+    }
-+
-+    if (cpu->has_vfp_d32 != cpu->has_neon) {
-+        error_setg(errp, "ARM CPUs must have both VFP32 and Neon or neither");
-+        return;
-+    }
-+
-+   if (!cpu->has_vfp_d32) {
-+        uint32_t u;
-+
-+        u = cpu->isar.mvfr0;
-+        u = FIELD_DP32(u, MVFR0, SIMDREG, 1); /* 16 registers */
-+        cpu->isar.mvfr0 = u;
-+    }
-+
-      if (!cpu->has_vfp) {
-          uint64_t t;
-          uint32_t u;
+I'll post a patch.  Thanks!
 
 
