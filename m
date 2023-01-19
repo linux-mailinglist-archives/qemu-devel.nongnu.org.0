@@ -2,82 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D3266744DC
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 22:40:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF314674525
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 22:43:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIcdt-0001DU-On; Thu, 19 Jan 2023 16:40:17 -0500
+	id 1pIcgg-000315-S4; Thu, 19 Jan 2023 16:43:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIcdr-0001CF-KN; Thu, 19 Jan 2023 16:40:15 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIcdp-0002Gm-Lw; Thu, 19 Jan 2023 16:40:15 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 92CE42199F;
- Thu, 19 Jan 2023 21:40:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674164409; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RoEh7zPScss2YI3wPFjVqkzK4GVROPBcUOeXIx4Ip6Y=;
- b=Qiu65j7WmiA7K0cDkfdRa7tML03klXjRKnIZorYP18nrTBoWU90rH4wZ5GCmfHXhuY9Pg3
- lM1RH0qspaLowM/G3Yi1b+oyzbwM/wjHi2pI9OnAnXqTlePnG+9NzmJTiE9jHkTkh0XoWd
- WlR6UU3xJeAmgmvmz1dNtcXmppNmd8M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674164409;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RoEh7zPScss2YI3wPFjVqkzK4GVROPBcUOeXIx4Ip6Y=;
- b=vqa/3VBW878i5N4gfaKxrY4L3yCwRBLCeU4G8ucUoTq33q6JzYMbOjosqoiBM4Uw4wozwo
- P9JM4Vf35yANUqDQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1C1E2139ED;
- Thu, 19 Jan 2023 21:40:08 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id WhBzNbi4yWO9eAAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 19 Jan 2023 21:40:08 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard
- Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Alex
- =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
- Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Subject: Re: [RFC PATCH v4 14/15] arm/Kconfig: Always select SEMIHOSTING
- when TCG is present
-In-Reply-To: <440155ee-4782-c7fa-6860-c39a983aecae@linaro.org>
-References: <20230119135424.5417-1-farosas@suse.de>
- <20230119135424.5417-15-farosas@suse.de>
- <216d61ba-d5a4-f701-0190-0656e7e2e40f@linaro.org>
- <440155ee-4782-c7fa-6860-c39a983aecae@linaro.org>
-Date: Thu, 19 Jan 2023 18:40:06 -0300
-Message-ID: <87y1py2og9.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pIcgY-00030O-S7
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 16:43:05 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pIcgT-0002o1-TL
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 16:43:02 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 89AAB746335;
+ Thu, 19 Jan 2023 22:40:32 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 4BF1E7457E7; Thu, 19 Jan 2023 22:40:32 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+Subject: [PATCH 1/2] log: Add separate debug option for logging invalid memory
+ accesses
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+To: qemu-devel@nongnu.org
+Cc: philmd@linaro.org
+Message-Id: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
+Date: Thu, 19 Jan 2023 22:40:32 +0100 (CET)
+X-Spam-Probability: 8%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,42 +56,91 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+Currently -d guest_errors enables logging of different invalid actions
+by the guest such as misusing hardware, accessing missing features or
+invalid memory areas. The memory access logging can be quite verbose
+which obscures the other messages enabled by this debug switch so
+separate it by adding a new -d memaccess option to make it possible to
+control it independently of other guest error logs.
 
-> On 19/1/23 19:50, Richard Henderson wrote:
->> On 1/19/23 03:54, Fabiano Rosas wrote:
->>> We are about to enable the build without TCG, so CONFIG_SEMIHOSTING
->>> and CONFIG_ARM_COMPATIBLE_SEMIHOSTING cannot be unconditionally set in
->>> default.mak anymore. So reflect the change in a Kconfig.
->>>
->>> Instead of using semihosting/Kconfig, use a target-specific file, so
->>> that the change doesn't affect other architectures which might
->>> implement semihosting in a way compatible with KVM.
->>>
->>> The selection from ARM_v7M needs to be removed to avoid a cycle during
->>> parsing.
->>>
->>> Signed-off-by: Fabiano Rosas<farosas@suse.de>
->>=20
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
->>=20
->>> The linux-user build does not use Kconfig. Is it worth it to add
->>> support to it? There's just the semihosting config so far.
->>=20
->> Probably not.
->
-> I hit this limitation last week trying to restrict libdecnumber to
-> powerpc targets.
->
-> Fabiano, do you see how this can be done easily?
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+---
+ include/qemu/log.h | 1 +
+ softmmu/memory.c   | 6 +++---
+ softmmu/physmem.c  | 2 +-
+ util/log.c         | 2 ++
+ 4 files changed, 7 insertions(+), 4 deletions(-)
 
-If you grep for Kconfig in the top level meson.build, that code there
-could be adapted to also include linux-user targets.
-
-I did some experimenting and I could generate linux-user.mak files with
-all the configs from the existing Kconfigs. It would be a matter of
-adding the proper CONFIG_SOFTMMU, CONFIG_LINUX_USER options to separate
-the two and then hooking up the .mak files with the rest of the
-build. That last part I'm not sure how to do.
+diff --git a/include/qemu/log.h b/include/qemu/log.h
+index c5643d8dd5..4bf0a65a85 100644
+--- a/include/qemu/log.h
++++ b/include/qemu/log.h
+@@ -35,6 +35,7 @@ bool qemu_log_separate(void);
+ /* LOG_STRACE is used for user-mode strace logging. */
+ #define LOG_STRACE         (1 << 19)
+ #define LOG_PER_THREAD     (1 << 20)
++#define LOG_MEM_ACCESS     (1 << 21)
+ 
+ /* Lock/unlock output. */
+ 
+diff --git a/softmmu/memory.c b/softmmu/memory.c
+index 9d64efca26..0a9fa67d32 100644
+--- a/softmmu/memory.c
++++ b/softmmu/memory.c
+@@ -1379,7 +1379,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
+ {
+     if (mr->ops->valid.accepts
+         && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, attrs)) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
++        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
+                       ", size %u, region '%s', reason: rejected\n",
+                       is_write ? "write" : "read",
+                       addr, size, memory_region_name(mr));
+@@ -1387,7 +1387,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
+     }
+ 
+     if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
++        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
+                       ", size %u, region '%s', reason: unaligned\n",
+                       is_write ? "write" : "read",
+                       addr, size, memory_region_name(mr));
+@@ -1401,7 +1401,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
+ 
+     if (size > mr->ops->valid.max_access_size
+         || size < mr->ops->valid.min_access_size) {
+-        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
++        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
+                       ", size %u, region '%s', reason: invalid size "
+                       "(min:%u max:%u)\n",
+                       is_write ? "write" : "read",
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index bf585e45a8..bca679ee01 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -2792,7 +2792,7 @@ static bool flatview_access_allowed(MemoryRegion *mr, MemTxAttrs attrs,
+     if (memory_region_is_ram(mr)) {
+         return true;
+     }
+-    qemu_log_mask(LOG_GUEST_ERROR,
++    qemu_log_mask(LOG_MEM_ACCESS,
+                   "Invalid access to non-RAM device at "
+                   "addr 0x%" HWADDR_PRIX ", size %" HWADDR_PRIu ", "
+                   "region '%s'\n", addr, len, memory_region_name(mr));
+diff --git a/util/log.c b/util/log.c
+index 7837ff9917..a3c097f320 100644
+--- a/util/log.c
++++ b/util/log.c
+@@ -495,6 +495,8 @@ const QEMULogItem qemu_log_items[] = {
+       "log every user-mode syscall, its input, and its result" },
+     { LOG_PER_THREAD, "tid",
+       "open a separate log file per thread; filename must contain '%d'" },
++    { LOG_MEM_ACCESS, "memaccess",
++      "log invalid memory accesses" },
+     { 0, NULL, NULL },
+ };
+ 
+-- 
+2.30.6
 
 
