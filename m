@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09BD56742EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 20:36:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84F646742F3
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 20:37:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIaht-0003z3-UK; Thu, 19 Jan 2023 14:36:17 -0500
+	id 1pIaic-0004sX-8L; Thu, 19 Jan 2023 14:37:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIahs-0003yh-Gt
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:36:16 -0500
-Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIaiW-0004m7-L3
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:36:57 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIahq-0003hc-Ua
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:36:16 -0500
-Received: by mail-ej1-x633.google.com with SMTP id mg12so8444658ejc.5
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 11:36:14 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIaiT-0003qs-A9
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:36:55 -0500
+Received: by mail-ej1-x634.google.com with SMTP id kt14so8467818ejc.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 11:36:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=B6QLQoOr6pU3C1WE3P9FMKCie6IMD0C9P79c0GAMSSg=;
- b=clOWgUxrUYwBPpj2bEKAJ3b65fzhlvaF7rSHgy5wwM0U2MAuReYMwpxIJmtITPp6yy
- sOssn7ifLFjXoHMTX42/SNPtUabuNocVAwwmPvnqfufAUK72i9V3hjhUufc/+DRVNH8d
- JfMJZG3wsFjZbB+F94FTEcQJxz3ix7jJXMMp1OFw+GcgzvfI98wiX1jbuwBtJFAElDpU
- P5s9Mv784rsYwZ2FZ5WEZwz/EJPQk1SvM3fk9AB01MkGe+wseWIdtYkAIVtnCz5MGAQk
- e/Os+7mriTWjvyw6hTcqElgIoFqGKduS12Owy8IWM7yGgotUqFZyRlx58OxqKtASNaro
- OQLw==
+ bh=lzgB0mP3CcgbFyQiMNfLkiHTxW49PnzWUQWjVUT6cM0=;
+ b=PHb2SN9h2iYzJf9zXWQogZQFNZWnU5f3mMP01qnks1mIy5TqHJ6FSKnrQ9mzF4j2O8
+ vUyoHFHJBuDqnR6XiTRDixBi4W+s5SIr+2/M6ArI4eN35r6YMxrEZ6wyXJhJmeCR4r9W
+ +NjsSiEJ9D4KIZorwTBI26sv1rEH4AKnjrzKSJjFM6LLPmKGb6ZbRdXvNBtD2yU2BBbH
+ 6xSc0Nhv97TuJ9XNeY2Pp67Q4zKV+muvKoiWaIL6Jih9wSJ8w6w+1eJVHgWtBNqQwuLO
+ 5u/m6buDAaZm0F4d2L2FyX8QR/lpPiJXRzv4mR8qJh44PTcLtOnaVvt6CMD2dHA/qhAp
+ MnUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=B6QLQoOr6pU3C1WE3P9FMKCie6IMD0C9P79c0GAMSSg=;
- b=kctW/LM7hjtyFfycC8+iQdeEbXVUd0AEfX4N0mOeAH0SI1RKSeb45M94VHeSrnTjja
- 5FzPFB0W6/WHJo4QrfPqGCjMvhU9PINe7HxBtO0Q8VrJi3npyOjayOgBJbT+3ACqqrei
- 8sY6mDzsEvKyu7SD8RpOAQWBM03jh0MC3d9VJxzdutuDoeF1ryFOQK2Z4Ol/r3owZoTE
- mBsPLeN/0d/lS17stGaZJvulPurkWAB6/3dj6M4RKngyDWC2HgacNPFMD65didbpj1As
- KxgFsTXKVjgbf6ji3JIqD4a+Fekfew8AW+thYmgRMs6shqA48tHnUikhD1qocxV+DunJ
- Ca6g==
-X-Gm-Message-State: AFqh2kpnFdnF8bQg3OmYOu7/78G4gHvv1Hk/rCgkxBii5ASge3IkUrzh
- r+og/aL6kJNK0B3cRoFo7dJNYw==
-X-Google-Smtp-Source: AMrXdXukOR7sE/9RXyAv5G7NQOTyWLOkZg/aM4lkkmH+9PQmnYu9yMlwe+jv98uueI4EKO4d2Dpqvg==
-X-Received: by 2002:a17:907:1257:b0:86c:a3fc:597c with SMTP id
- wc23-20020a170907125700b0086ca3fc597cmr10743343ejb.27.1674156973291; 
- Thu, 19 Jan 2023 11:36:13 -0800 (PST)
+ bh=lzgB0mP3CcgbFyQiMNfLkiHTxW49PnzWUQWjVUT6cM0=;
+ b=wAFvapOXhmTTAwiAcu0os0IHTFKF6Xx+Ma3YW6lt7AJmhAHsNlWfUxbbjVeB4i+ZI2
+ DhKLFzdgegg6cfWz59bfKCrI1Z3wRRlMRQpd+7kSSmxd6fNSOKbB9Z6iOF9NZverJh8K
+ sPl18yhOpjL2vHDtdMr3e0IGVGkD+dkvvbNWi6NsCvZ4CDNszdAmxFHvGG655lM/+g1F
+ u2h1G4ql3uCIAVm6UBt7HqJhGXl2TcUupoF5gWYYbR6cvecWHDy6DGCqD9Me/ZNwhZbC
+ z2hWNcryu9OPFHxLX5JL5jMqi0RCnHPjum5D0E/0NFvZ4Npmcebwp9kmzsjP8DwpG+BL
+ FqSQ==
+X-Gm-Message-State: AFqh2krETcdszgjC+zR5D/fsCFnP2y8XfWHx4eLgJUOoxxVs9UpI2feo
+ 8h73o1bCS2CCSyHhGnbPoaBbOQ==
+X-Google-Smtp-Source: AMrXdXtK8/t4J8mA7AH2xeVM65zmYbOcnjDcP5mJrOZmvicClKE0hAwccqbxcrpHzH9gKMiXESoSOw==
+X-Received: by 2002:a17:907:c99c:b0:7c0:d6ba:c934 with SMTP id
+ uj28-20020a170907c99c00b007c0d6bac934mr7135108ejc.13.1674157011705; 
+ Thu, 19 Jan 2023 11:36:51 -0800 (PST)
 Received: from [192.168.1.115] ([185.126.107.38])
  by smtp.gmail.com with ESMTPSA id
- ab15-20020a170907340f00b0087329ff591esm4092662ejc.132.2023.01.19.11.36.11
+ kw16-20020a170907771000b0084d43e23436sm14835007ejc.38.2023.01.19.11.36.49
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 11:36:12 -0800 (PST)
-Message-ID: <0419b78e-fa8a-ccfc-921d-54c5efba9308@linaro.org>
-Date: Thu, 19 Jan 2023 20:36:10 +0100
+ Thu, 19 Jan 2023 11:36:51 -0800 (PST)
+Message-ID: <91d9a6b9-a59e-4b04-6369-d2e64c353184@linaro.org>
+Date: Thu, 19 Jan 2023 20:36:49 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 11/18] lcitool: drop perl from QEMU project/dependencies
+Subject: Re: [PATCH 14/18] tests/docker: drop debian-tricore-cross's partial
+ status
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -74,13 +75,13 @@ Cc: Beraldo Leal <bleal@redhat.com>, Peter Maydell
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
  Thomas Huth <thuth@redhat.com>
 References: <20230119180419.30304-1-alex.bennee@linaro.org>
- <20230119180419.30304-12-alex.bennee@linaro.org>
+ <20230119180419.30304-15-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230119180419.30304-12-alex.bennee@linaro.org>
+In-Reply-To: <20230119180419.30304-15-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::633;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x633.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -104,37 +105,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 19/1/23 19:04, Alex Bennée wrote:
-> From: Marc-André Lureau <marcandre.lureau@redhat.com>
+> This image is perfectly capable of building QEMU, and indeed we do
+> that on gitlab. Drop the DOCKER_PARTIAL_IMAGES setting so we can also
+> test the gitlab build locally.
 > 
-> Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-> Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-> Message-Id: <20230110132700.833690-8-marcandre.lureau@redhat.com>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   .gitlab-ci.d/cirrus/freebsd-12.vars                   | 2 +-
->   .gitlab-ci.d/cirrus/freebsd-13.vars                   | 2 +-
->   .gitlab-ci.d/cirrus/macos-12.vars                     | 2 +-
->   scripts/ci/setup/build-environment.yml                | 1 -
->   tests/docker/dockerfiles/alpine.docker                | 1 -
->   tests/docker/dockerfiles/centos8.docker               | 1 -
->   tests/docker/dockerfiles/debian-amd64-cross.docker    | 1 -
->   tests/docker/dockerfiles/debian-amd64.docker          | 1 -
->   tests/docker/dockerfiles/debian-arm64-cross.docker    | 1 -
->   tests/docker/dockerfiles/debian-armel-cross.docker    | 1 -
->   tests/docker/dockerfiles/debian-armhf-cross.docker    | 1 -
->   tests/docker/dockerfiles/debian-mips64el-cross.docker | 1 -
->   tests/docker/dockerfiles/debian-mipsel-cross.docker   | 1 -
->   tests/docker/dockerfiles/debian-ppc64el-cross.docker  | 1 -
->   tests/docker/dockerfiles/debian-s390x-cross.docker    | 1 -
->   tests/docker/dockerfiles/debian-tricore-cross.docker  | 1 -
->   tests/docker/dockerfiles/fedora-win32-cross.docker    | 1 -
->   tests/docker/dockerfiles/fedora-win64-cross.docker    | 1 -
->   tests/docker/dockerfiles/fedora.docker                | 1 -
->   tests/docker/dockerfiles/opensuse-leap.docker         | 1 -
->   tests/docker/dockerfiles/ubuntu2004.docker            | 1 -
->   tests/lcitool/projects/qemu.yml                       | 1 -
->   tests/vm/centos.aarch64                               | 2 +-
->   23 files changed, 4 insertions(+), 23 deletions(-)
+>   tests/docker/Makefile.include | 1 -
+>   1 file changed, 1 deletion(-)
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
