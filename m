@@ -2,86 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDAB267442F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 22:20:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA536744B1
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 22:37:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIcKa-0000nO-Bj; Thu, 19 Jan 2023 16:20:20 -0500
+	id 1pIcZc-0005Yd-DQ; Thu, 19 Jan 2023 16:35:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pIcKQ-0000i9-OT
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 16:20:14 -0500
-Received: from mail-pf1-x433.google.com ([2607:f8b0:4864:20::433])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pIcKD-0006r8-C2
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 16:20:08 -0500
-Received: by mail-pf1-x433.google.com with SMTP id s3so2496278pfd.12
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 13:19:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=72zLcV3sK1RlCOCsOdXIc/58H/AkVHfMnNzdXl4YEeU=;
- b=V9ssgleXcoeejMPdq1Np/hHKxegHPs15Z0a0nQYDk3RuFypEag/DY2Lfb5tidWoo+I
- Y3xOVBaLwI+3VF8qe6TCTAawB0wbc2+F31SZVR2drOnW7jXqZ7u6GqGNeXet8NRLtgu6
- yAR/2HcNK/57TFc5S+PkeF2z+BV/lSnWFZgqKrAoR5sjA/7IZCHKnubxYrazIsgzuZpc
- gWcKKdpK1DkzBJxJhWcxjeHN1VTNqkEmrRacnWY/OSu+qtnEJAT4xNDHiiUjhfGOUqI/
- jpiGcgguza+0NdpoOvAz3ZOFxMh+6U1Q/7iZobPqkFpaQvFJlfjNoCo3b91lgjgUZWHa
- 6oWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=72zLcV3sK1RlCOCsOdXIc/58H/AkVHfMnNzdXl4YEeU=;
- b=57LOypbTqqG0EVzygnJQ2reAd6JLRqf/l10uHhhzyg00u9gD+pdSJo8HsATCYIHQj1
- hCqvJ7rIkB2vLD+q2sDhr030iMSmng5N/JWqE9KBonafql3HqxKgw6CXkn9ZEu+rKF12
- qAZ+YIHq6P4JegOnhxB+aM4RVJoKQXTV+4cd1/ucEfHc1dmmNYuTmH6CwviCQPz9l8V1
- h8jqVv5HJ3eMgnqOqZhKZXWnl9IRQ+hGIE6hvJ8yh/cwpGHM9K4/UshQy4rW+/KfwVtZ
- Q5K9uDMVWFHGhwIHOHOXMPKr3YHoyjXrp6GLDAlBXUtZp9yuLNFuXM1+vDTa9FnvV1Ah
- dxLQ==
-X-Gm-Message-State: AFqh2kpWZGlqUvD9BTKLlckbujgZ9hgYYOVMZSCsLnJfr7lqkNleNkEh
- rBEvCQuP8RkFco2rGLqrzzGVdQ==
-X-Google-Smtp-Source: AMrXdXu5em4hP733Ne0Po9TlnG4vN3Csg7XO5ZTmUZyrygcg2mssgZpHW2UJhPxKtu/HKwQUUExsbg==
-X-Received: by 2002:a05:6a00:181f:b0:58b:d244:b525 with SMTP id
- y31-20020a056a00181f00b0058bd244b525mr18742724pfa.17.1674163189382; 
- Thu, 19 Jan 2023 13:19:49 -0800 (PST)
-Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- o22-20020aa79796000000b00581ad007a9fsm998773pfp.153.2023.01.19.13.19.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 13:19:48 -0800 (PST)
-Message-ID: <c4371f5a-3e2c-c6f3-b370-b34578bcf8d9@linaro.org>
-Date: Thu, 19 Jan 2023 11:19:45 -1000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2 11/11] tests/qtest/migration-test: Only use available
- accelerators
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Fabiano Rosas <farosas@suse.de>, Thomas Huth <thuth@redhat.com>
-References: <20230119145838.41835-1-philmd@linaro.org>
- <20230119145838.41835-12-philmd@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230119145838.41835-12-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::433;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x433.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1pIcZZ-0005YN-BT; Thu, 19 Jan 2023 16:35:49 -0500
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <andrew@aj.id.au>)
+ id 1pIcZV-0001ZU-DW; Thu, 19 Jan 2023 16:35:49 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.47])
+ by mailout.west.internal (Postfix) with ESMTP id 8CE1F32002F9;
+ Thu, 19 Jan 2023 16:35:41 -0500 (EST)
+Received: from imap50 ([10.202.2.100])
+ by compute6.internal (MEProxy); Thu, 19 Jan 2023 16:35:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+ :cc:content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm2; t=1674164141; x=1674250541; bh=cSsG6jGHbp
+ A5EvtVUnuQ/k4rw7ch+t+8n09cSe3AS8w=; b=QI8UlsFn38tYj3O3PDGJ/Tv1L4
+ DbOzfwzD5NEa/pVCeLlOqeiEn6SyVicGPrCSX8GapTtJMNYRrhOiQFbtIwqqRZlW
+ GBGsvX01yqS1PmjD5lG+uPLhJlZEDc5OxF26J5CzCkDqqZyD15eFYoNImWa2LdWn
+ Cnf3NqnIAYdPLD7H187hjsjIEwUEWcqXBGeJ4d99F3yvgmYjrJii+5QbdKYCgqcT
+ DTEwTkTM8g+aj+eIyg2Up3vqzIrLMFsWGzEvQrnbpfBaWkB0dLi0EuJieBw1mW7j
+ YYvU9sC1Zss8CB/rXWpDGuO5fPWhBTXb3k0Z/v7ggmNn8lbbP007L3pxlHjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1674164141; x=1674250541; bh=cSsG6jGHbpA5EvtVUnuQ/k4rw7ch
+ +t+8n09cSe3AS8w=; b=L3pCPJ59ZoJMS6vHzCHZG6cgDp4QI8h5mfpkkUuFJJIo
+ UdChOKDWVm3ThxpL6KFbdRWtjofxRvp7xPeUg8MnOm8oGEZ+MTmuIwvYE+U6p01r
+ IUAxCsdC9wBWx6y0+MNritm0d0H9xqXF2xzat1OCGBsGJft/vtrOdulsgkNqMdd+
+ iUBru1VhVgEie8zKBq4D1xLY58C8l4eIOBKdI3ZJBe3OEJQD0/magYZie+Upamf8
+ 6GCCm8qhckwQa2iwKT8bDBNz/ike1ZOMX+XZfQoUQ/JiT0tNIOrSnzaa+fbNhjig
+ qdMSN/hDdjM0R8NYdZBSCG6ynS/A9zHQIsXVqlmPwQ==
+X-ME-Sender: <xms:rLfJY5mjwOOsoesGF54iaXyZxB8a71j3fGB2sYoaG3dq9oEks6-C1Q>
+ <xme:rLfJY006A9OUIxq02_4gFD19GCxwTTxvRw2Xz5ThhNqPtVWgATV2UyHojOX5K_8Un
+ kuKytxjl6PpGzDFZg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddutddgudehvdcutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdet
+ nhgurhgvficulfgvfhhfvghrhidfuceorghnughrvgifsegrjhdrihgurdgruheqnecugg
+ ftrfgrthhtvghrnhepkedvkeejkefgjeduffetteegjeekteetudevtdfftdeluddthfeh
+ veefteekieetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrh
+ homheprghnughrvgifsegrjhdrihgurdgruh
+X-ME-Proxy: <xmx:rLfJY_pYHTsiQysI84lLAdEq2qcurVZJJKCzKnWLRxADLf5OXg9Y6g>
+ <xmx:rLfJY5nqyqBnkMpdwdMwvdP4d-jWC453cKlVH-bsAEC9LJBDvfFcMw>
+ <xmx:rLfJY30de_S8lLZWRiVgDqusdczAQeC3hXqk4vUWD114tpnaKz992w>
+ <xmx:rbfJY1B9C557qOWX6xqS9xkGBN1fahM3Jr9o0yaHSA_BCCqGt7elAQ>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+ id 8CEC21700089; Thu, 19 Jan 2023 16:35:40 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-85-gd6d859e0cf-fm-20230116.001-gd6d859e0
+Mime-Version: 1.0
+Message-Id: <2c7e9943-be27-4136-8b45-7dc18aebed01@app.fastmail.com>
+In-Reply-To: <20230119124440.50243-1-joel@jms.id.au>
+References: <20230119124440.50243-1-joel@jms.id.au>
+Date: Fri, 20 Jan 2023 08:05:09 +1030
+From: "Andrew Jeffery" <andrew@aj.id.au>
+To: "Joel Stanley" <joel@jms.id.au>,
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
+ "Peter Maydell" <peter.maydell@linaro.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9_via?= <qemu-arm@nongnu.org>,
+ "Cameron Esfahani via" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH] hw/misc: Add basic Aspeed GFX model
+Content-Type: text/plain
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=andrew@aj.id.au;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,21 +100,208 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/19/23 04:58, Philippe Mathieu-Daudé wrote:
-> For example, avoid when TCG is disabled:
-> 
->    $ make check-qtest-aarch64
->    ...
->    20/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/migration-test
->    qemu-system-aarch64: -accel tcg: invalid accelerator tcg
-> 
-> Reviewed-by: Dr. David Alan Gilbert<dgilbert@redhat.com>
-> Signed-off-by: Philippe Mathieu-Daudé<philmd@linaro.org>
+
+
+On Thu, 19 Jan 2023, at 23:14, Joel Stanley wrote:
+> Enough model to capture the pinmux writes to enable correct operation of
+> the parts of pinmux that depend on GFX registers.
+>
+> Signed-off-by: Joel Stanley <joel@jms.id.au>
 > ---
->   tests/qtest/migration-test.c | 17 +++++++++++++----
->   1 file changed, 13 insertions(+), 4 deletions(-)
+>  include/hw/arm/aspeed_soc.h  |   3 +
+>  include/hw/misc/aspeed_gfx.h |  31 +++++++++
+>  hw/arm/aspeed_ast2600.c      |  11 ++++
+>  hw/arm/aspeed_soc.c          |  12 ++++
+>  hw/misc/aspeed_gfx.c         | 121 +++++++++++++++++++++++++++++++++++
+>  hw/misc/meson.build          |   1 +
+>  hw/misc/trace-events         |   4 ++
+>  7 files changed, 183 insertions(+)
+>  create mode 100644 include/hw/misc/aspeed_gfx.h
+>  create mode 100644 hw/misc/aspeed_gfx.c
+>
+> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
+> index 8389200b2d01..7084e0efeb97 100644
+> --- a/include/hw/arm/aspeed_soc.h
+> +++ b/include/hw/arm/aspeed_soc.h
+> @@ -26,6 +26,7 @@
+>  #include "hw/ssi/aspeed_smc.h"
+>  #include "hw/misc/aspeed_hace.h"
+>  #include "hw/misc/aspeed_sbc.h"
+> +#include "hw/misc/aspeed_gfx.h"
+>  #include "hw/watchdog/wdt_aspeed.h"
+>  #include "hw/net/ftgmac100.h"
+>  #include "target/arm/cpu.h"
+> @@ -81,6 +82,7 @@ struct AspeedSoCState {
+>      AspeedSDHCIState emmc;
+>      AspeedLPCState lpc;
+>      AspeedPECIState peci;
+> +    AspeedGFXState gfx;
+>      SerialMM uart[ASPEED_UARTS_NUM];
+>      Clock *sysclk;
+>      UnimplementedDeviceState iomem;
+> @@ -171,6 +173,7 @@ enum {
+>      ASPEED_DEV_EMMC,
+>      ASPEED_DEV_KCS,
+>      ASPEED_DEV_HACE,
+> +    ASPEED_DEV_GFX,
+>      ASPEED_DEV_DPMCU,
+>      ASPEED_DEV_DP,
+>      ASPEED_DEV_I3C,
+> diff --git a/include/hw/misc/aspeed_gfx.h b/include/hw/misc/aspeed_gfx.h
+> new file mode 100644
+> index 000000000000..b0736a53f577
+> --- /dev/null
+> +++ b/include/hw/misc/aspeed_gfx.h
+> @@ -0,0 +1,31 @@
+> +/*
+> + * ASPEED GFX Controller
+> + *
+> + * Copyright (C) 2023 IBM Corp.
+> + *
+> + * This code is licensed under the GPL version 2 or later.  See
+> + * the COPYING file in the top-level directory.
+> + */
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Use SPDX here?
 
-r~
+> +
+> +#ifndef ASPEED_GFX_H
+> +#define ASPEED_GFX_H
+> +
+> +#include "hw/sysbus.h"
+> +
+> +#define TYPE_ASPEED_GFX "aspeed.gfx"
+> +#define ASPEED_GFX(obj) OBJECT_CHECK(AspeedGFXState, (obj), TYPE_ASPEED_GFX)
+> +
+> +#define ASPEED_GFX_NR_REGS (0xFC >> 2)
+> +
+> +typedef struct AspeedGFXState {
+> +    /* <private> */
+> +    SysBusDevice parent;
+> +
+> +    /*< public >*/
+> +    MemoryRegion iomem;
+> +    qemu_irq irq;
+> +
+> +    uint32_t regs[ASPEED_GFX_NR_REGS];
+> +} AspeedGFXState;
+> +
+> +#endif /* _ASPEED_GFX_H_ */
+> diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
+> index cd75465c2bdd..10e4a13655cc 100644
+> --- a/hw/arm/aspeed_ast2600.c
+> +++ b/hw/arm/aspeed_ast2600.c
+> @@ -43,6 +43,7 @@ static const hwaddr aspeed_soc_ast2600_memmap[] = {
+>      [ASPEED_DEV_HACE]      = 0x1E6D0000,
+>      [ASPEED_DEV_SDMC]      = 0x1E6E0000,
+>      [ASPEED_DEV_SCU]       = 0x1E6E2000,
+> +    [ASPEED_DEV_GFX]       = 0x1E6E6000,
+>      [ASPEED_DEV_XDMA]      = 0x1E6E7000,
+>      [ASPEED_DEV_ADC]       = 0x1E6E9000,
+>      [ASPEED_DEV_DP]        = 0x1E6EB000,
+> @@ -255,6 +256,8 @@ static void aspeed_soc_ast2600_init(Object *obj)
+> 
+>      object_initialize_child(obj, "sbc", &s->sbc, TYPE_ASPEED_SBC);
+> 
+> +    object_initialize_child(obj, "gfx", &s->gfx, TYPE_ASPEED_GFX);
+> +
+>      object_initialize_child(obj, "iomem", &s->iomem, 
+> TYPE_UNIMPLEMENTED_DEVICE);
+>      object_initialize_child(obj, "video", &s->video, 
+> TYPE_UNIMPLEMENTED_DEVICE);
+>      object_initialize_child(obj, "dpmcu", &s->dpmcu, 
+> TYPE_UNIMPLEMENTED_DEVICE);
+> @@ -607,6 +610,14 @@ static void aspeed_soc_ast2600_realize(DeviceState 
+> *dev, Error **errp)
+>          return;
+>      }
+>      aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->sbc), 0, 
+> sc->memmap[ASPEED_DEV_SBC]);
+> +
+> +    /* GFX */
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->gfx), errp)) {
+> +        return;
+> +    }
+> +    aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->gfx), 0, 
+> sc->memmap[ASPEED_DEV_GFX]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->gfx), 0,
+> +                       aspeed_soc_get_irq(s, ASPEED_DEV_GFX));
+
+I think we're missing an entry for ASPEED_DEV_GFX in the irqmap array?
+
+>  }
+> 
+>  static void aspeed_soc_ast2600_class_init(ObjectClass *oc, void *data)
+> diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+> index b05b9dd41602..053149f9ccdf 100644
+> --- a/hw/arm/aspeed_soc.c
+> +++ b/hw/arm/aspeed_soc.c
+> @@ -33,6 +33,7 @@ static const hwaddr aspeed_soc_ast2400_memmap[] = {
+>      [ASPEED_DEV_SDMC]   = 0x1E6E0000,
+>      [ASPEED_DEV_SCU]    = 0x1E6E2000,
+>      [ASPEED_DEV_HACE]   = 0x1E6E3000,
+> +    [ASPEED_DEV_GFX]    = 0x1E6E6000,
+>      [ASPEED_DEV_XDMA]   = 0x1E6E7000,
+>      [ASPEED_DEV_VIDEO]  = 0x1E700000,
+>      [ASPEED_DEV_ADC]    = 0x1E6E9000,
+> @@ -69,6 +70,7 @@ static const hwaddr aspeed_soc_ast2500_memmap[] = {
+>      [ASPEED_DEV_SDMC]   = 0x1E6E0000,
+>      [ASPEED_DEV_SCU]    = 0x1E6E2000,
+>      [ASPEED_DEV_HACE]   = 0x1E6E3000,
+> +    [ASPEED_DEV_GFX]    = 0x1E6E6000,
+>      [ASPEED_DEV_XDMA]   = 0x1E6E7000,
+>      [ASPEED_DEV_ADC]    = 0x1E6E9000,
+>      [ASPEED_DEV_VIDEO]  = 0x1E700000,
+> @@ -233,6 +235,8 @@ static void aspeed_soc_init(Object *obj)
+>      snprintf(typename, sizeof(typename), "aspeed.hace-%s", socname);
+>      object_initialize_child(obj, "hace", &s->hace, typename);
+> 
+> +    object_initialize_child(obj, "gfx", &s->gfx, TYPE_ASPEED_GFX);
+> +
+>      object_initialize_child(obj, "iomem", &s->iomem, 
+> TYPE_UNIMPLEMENTED_DEVICE);
+>      object_initialize_child(obj, "video", &s->video, 
+> TYPE_UNIMPLEMENTED_DEVICE);
+>  }
+> @@ -482,6 +486,14 @@ static void aspeed_soc_realize(DeviceState *dev, 
+> Error **errp)
+>                      sc->memmap[ASPEED_DEV_HACE]);
+>      sysbus_connect_irq(SYS_BUS_DEVICE(&s->hace), 0,
+>                         aspeed_soc_get_irq(s, ASPEED_DEV_HACE));
+> +
+> +    /* GFX */
+> +    if (!sysbus_realize(SYS_BUS_DEVICE(&s->gfx), errp)) {
+> +        return;
+> +    }
+> +    aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->gfx), 0, 
+> sc->memmap[ASPEED_DEV_GFX]);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(&s->gfx), 0,
+> +                       aspeed_soc_get_irq(s, ASPEED_DEV_GFX));
+
+Again with the irqmap
+
+>  }
+>  static Property aspeed_soc_properties[] = {
+>      DEFINE_PROP_LINK("memory", AspeedSoCState, memory, 
+> TYPE_MEMORY_REGION,
+> diff --git a/hw/misc/aspeed_gfx.c b/hw/misc/aspeed_gfx.c
+> new file mode 100644
+> index 000000000000..42d2167b4a59
+> --- /dev/null
+> +++ b/hw/misc/aspeed_gfx.c
+> @@ -0,0 +1,121 @@
+> +/*
+> + * ASPEED GFX Controller
+> + *
+> + * Copyright (C) 2023 IBM Corp.
+> + *
+> + * This code is licensed under the GPL version 2 or later.  See
+> + * the COPYING file in the top-level directory.
+> + */
+
+SPDX again?
+
+Cheers,
+
+Andrew
 
