@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6DC7673CE8
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:59:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2DEF673CEE
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 16:00:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIWNl-0006Jw-GW; Thu, 19 Jan 2023 09:59:13 -0500
+	id 1pIWNz-0006aQ-Me; Thu, 19 Jan 2023 09:59:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIWNh-0006Ia-Ew
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:59:09 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIWNk-0006K7-JD
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:59:13 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIWNe-0003Z2-Sm
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:59:09 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id bk16so2113489wrb.11
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 06:59:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIWNj-0003Wh-4o
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:59:12 -0500
+Received: by mail-wr1-x429.google.com with SMTP id q10so2152642wrs.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 06:59:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9MjqM2w9hw3LWgeDOmCQX9tZeJS1teSf33PVNVZfRuA=;
- b=oGv1leY41kTrRW2rwI6qM6gjAqfHsvkfBcPUqeJBS6mrskxptcHLv+f+XSyX1U73r3
- zuKKd/4RatU6xOXRNlXg3Ds9U4Uh3ZeWGue5MhL3hOAVohOi+reoHg9aqvhJXh56gdT2
- 5o69d9eqinktB2+RXaMwt3zFreg6sniGMTK6zB1IeHHtdro/WITVKhhwkqp3gpWY4+3d
- eyUaQ8qdEas5T8iZmYaadB2PiB/re+O51ATNalxDAvMkvCBz/0iUrct6HNDMT4ECewDh
- 36yDEiPl/R2h8jpu1rxaHaDvNX+3tJCE8en0rQW508pjijs/qq4+glkuJFPAQc6aV4+N
- j1uA==
+ bh=PDdmGNe7wNRYvz5eLda5xFcX55ORUlYvsE0xP8qQXTc=;
+ b=Zw4gwQNr5o6Kb1CTDQ2lJ/6L0sQSdoltMXeOQROzc/aazNjlkEAqvKsWcMnNpJYJ5m
+ Q2noZCyj+jnrdU7FmX40hp2CwcDCpYjNXFPLuO/AqWWJ00rc9+JQJVAA1JMjB/MbaET9
+ 9CWFwCArBV3FF5gUGtva/tfQymhvpRzHopNe+ibfak+7OpG2nd7iY+pBCscDrdlXWCtn
+ lKvZUwtCdOj30zgVwPJzS79zlzUJIxUVTlSKC716vtb9jQ46sUDkEK7wTAEtvzgr+8EQ
+ t8pWA5fO7MOBla4mMdaJgPDKUFXR8Rt1rQ88lb6GlPkUM3e1ZhnuppiKngGXXJVlbwVZ
+ 575Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9MjqM2w9hw3LWgeDOmCQX9tZeJS1teSf33PVNVZfRuA=;
- b=QTgy3HjWSo71tFGheoMF1y7C5mePbf5f8lu2ahpa/6HVfgkjDRPlXO0gVCVBFHdWsW
- Trd8ZxeU9g7rndh6F6IP1jeGMl0kU3ICNUs49SFjmGYSBl1EoNfqC0SbldDf2/iyAd94
- iasgh59MHk6AoFYwdF6WmCcRfVYvPoQb4xM/ZBZ5cKJoUlJ8uB+7tHAxfS4aDZVD8mhz
- d2C8C7PT/wZj1p9UZHtDV/vCcjbEQ6zLWR8odvEa2KbV0Ubf01/Ae7mDIwywGoo8PEDR
- 41/zsEgZKeHWe2ouEPhilpVKMNuGd9APz51g7zLj1pSRSkCYUz5/bVaGGWBqsCLWXS/O
- tClw==
-X-Gm-Message-State: AFqh2kqoSH+sU882ERvtgsZ4qooP4Exg1+VuodUg1Cl6V+qFkWWLUigL
- ZNbqUrzzDD6Qpi9N8Nq65ir8CQE2CarEUVsF
-X-Google-Smtp-Source: AMrXdXtkjsGtqCz76dLN0roxEb+lrHPTzC4gt4fDoPcNwPKUoa9A6X/YRZFZ/idMzG2ul6WgqoKopQ==
-X-Received: by 2002:a5d:6581:0:b0:2bb:dad4:9525 with SMTP id
- q1-20020a5d6581000000b002bbdad49525mr9162698wru.10.1674140345186; 
- Thu, 19 Jan 2023 06:59:05 -0800 (PST)
+ bh=PDdmGNe7wNRYvz5eLda5xFcX55ORUlYvsE0xP8qQXTc=;
+ b=BPZ6dbPV+TI1XcWGe/XyaoQenWwY24osvoSwq+C0Hke4kSH+41yOtnJUkgLZyuEsYv
+ LzU05aXzC7c4/kS/pCNRvDRdozWMZDrtaN7dvH4GeJAIJ5pRbXrqIl1ssOXWOFQqrPBL
+ /i6/8DidD/vZF7ls8ntESMxd+VA6nakJXCM9qr3oVhf0w5vVvN60r0XjsnHaFtOHJOdW
+ w8IdpJJdZEXw+olWjwnRNFieDW+Etv3XGcuR4iaw0SRXoufeE9ehCAzzdQHE9aPpYS65
+ MVetCwMM6+PHGmlwD4fxQwC5ndax55z5GubiA29ZS/gWKWEYfhH7NMmpP1JgCxRaLg3k
+ Hmzg==
+X-Gm-Message-State: AFqh2koIfrKft1FwaFXG1k3FXvS1hrm5tpWKKYpYZ4tRHBbZ1TvcMegk
+ 1cXYKt7V2QRMHnewHoZ7BOrukxt1iL5/k6an
+X-Google-Smtp-Source: AMrXdXtNjtApO+ZR4bOfC7zMfdzkJCOHgbapNSCHcxzhrZ13d83/5Zc2YB16TEnk5/rYaxg//7pwUg==
+X-Received: by 2002:a5d:5955:0:b0:2bd:e87c:e831 with SMTP id
+ e21-20020a5d5955000000b002bde87ce831mr9074190wri.69.1674140350266; 
+ Thu, 19 Jan 2023 06:59:10 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- c8-20020a5d4cc8000000b002bdeb0cf706sm14689742wrt.65.2023.01.19.06.59.04
+ c8-20020a5d4cc8000000b002bdeb0cf706sm14689922wrt.65.2023.01.19.06.59.09
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 19 Jan 2023 06:59:04 -0800 (PST)
+ Thu, 19 Jan 2023 06:59:09 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
@@ -59,17 +59,18 @@ Cc: Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
  Fabiano Rosas <farosas@suse.de>, Thomas Huth <thuth@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v2 05/11] tests/qtest/migration-test: Inverse #ifdef'ry ladders
-Date: Thu, 19 Jan 2023 15:58:32 +0100
-Message-Id: <20230119145838.41835-6-philmd@linaro.org>
+Subject: [PATCH v2 06/11] tests/qtest/migration-test: Reduce 'cmd_source'
+ string scope
+Date: Thu, 19 Jan 2023 15:58:33 +0100
+Message-Id: <20230119145838.41835-7-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230119145838.41835-1-philmd@linaro.org>
 References: <20230119145838.41835-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,36 +93,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This slighly simplify the logic, and eases the following conversion.
-
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- tests/qtest/migration-test.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ tests/qtest/migration-test.c | 29 +++++++++++++++--------------
+ 1 file changed, 15 insertions(+), 14 deletions(-)
 
 diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index dbde726adf..8beeda4686 100644
+index 8beeda4686..6c3db95113 100644
 --- a/tests/qtest/migration-test.c
 +++ b/tests/qtest/migration-test.c
-@@ -647,15 +647,15 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+@@ -584,7 +584,6 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+ {
+     g_autofree gchar *arch_source = NULL;
+     g_autofree gchar *arch_target = NULL;
+-    g_autofree gchar *cmd_source = NULL;
+     g_autofree gchar *cmd_target = NULL;
+     const gchar *ignore_stderr;
+     g_autofree char *bootpath = NULL;
+@@ -672,20 +671,22 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+         shmem_opts = g_strdup("");
      }
  
-     if (!getenv("QTEST_LOG") && args->hide_stderr) {
--#ifndef _WIN32
--        ignore_stderr = "2>/dev/null";
--#else
-+#ifdef _WIN32
-         /*
-          * On Windows the QEMU executable is created via CreateProcess() and
-          * IO redirection does not work, so don't bother adding IO redirection
-          * to the command line.
-          */
-         ignore_stderr = "";
-+#else
-+        ignore_stderr = "2>/dev/null";
- #endif
-     } else {
-         ignore_stderr = "";
+-    cmd_source = g_strdup_printf("-accel kvm%s -accel tcg%s%s "
+-                                 "-name source,debug-threads=on "
+-                                 "-m %s "
+-                                 "-serial file:%s/src_serial "
+-                                 "%s %s %s %s",
+-                                 args->use_dirty_ring ?
+-                                 ",dirty-ring-size=4096" : "",
+-                                 machine_opts ? " -machine " : "",
+-                                 machine_opts ? machine_opts : "",
+-                                 memory_size, tmpfs,
+-                                 arch_source, shmem_opts,
+-                                 args->opts_source ? args->opts_source : "",
+-                                 ignore_stderr);
+     if (!args->only_target) {
++        g_autofree gchar *cmd_source = NULL;
++
++        cmd_source = g_strdup_printf("-accel kvm%s -accel tcg%s%s "
++                                     "-name source,debug-threads=on "
++                                     "-m %s "
++                                     "-serial file:%s/src_serial "
++                                     "%s %s %s %s",
++                                     args->use_dirty_ring ?
++                                     ",dirty-ring-size=4096" : "",
++                                     machine_opts ? " -machine " : "",
++                                     machine_opts ? machine_opts : "",
++                                     memory_size, tmpfs,
++                                     arch_source, shmem_opts,
++                                     args->opts_source ? args->opts_source : "",
++                                     ignore_stderr);
+         *from = qtest_init(cmd_source);
+     }
+ 
 -- 
 2.38.1
 
