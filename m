@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA603674082
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:05:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A275674085
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:05:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIZHB-0003IL-I1; Thu, 19 Jan 2023 13:04:37 -0500
+	id 1pIZHH-0003PA-Oi; Thu, 19 Jan 2023 13:04:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH1-0003He-Ht
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:27 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ id 1pIZH4-0003Ir-DU
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:31 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH0-000110-1r
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:27 -0500
-Received: by mail-wm1-x329.google.com with SMTP id g10so2205902wmo.1
+ id 1pIZH0-000114-Ot
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:30 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id l8so2188479wms.3
  for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:04:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=U39jLFPoVGl6SC7W57LZvwPqPrIa2zguvlEGBzL8cVM=;
- b=dxqi6WNfUgd1AWjf6fXDDCtUU/mu50PsV5otZ2DEvt/3sWGxRmaGLNSmevLwTJ5GAr
- i78zpv33R+HmcRGTq3Pzgq0ye8zm9SSd5ZweWOV3zo/x6UOoyUT62bJEt02H+060QQxT
- EBO6SgSkazB9rxmAWtwulyCW/ZsfAQn7TDYnW7j2VOFblQmR6enM+0h9eJuJ+iR4KmO4
- jB7w0hgMNHwee/qmVUjx87jCdc7DkbdjkBIQDkjuMGyiyKERoyWaKECbmdMItij1uO/w
- nKzYJiYmMrKMwApl8DthGkXYsefaACvbzOdx5IddmHD34ry40kfKUjStRwNistFCpXzc
- XJZA==
+ bh=nxoWU4Tw6BX+PJ5ddbeFgfV335pZMDd265PyUGg07yo=;
+ b=D55lQFOw+OukFzRej76GyJzPGVXNmYTkUMnLn94Qr6P5q5sJ/BowhnCRsCqTFVZVeB
+ ie2uAe4oREDAT2E2MTGh7TjiAlXqnNu0jeho/oSE45buDz/pSlyxZ83ZfdBcH1slSLdB
+ M24oSkZbgVFYYvoBo8+Vh8uSwU08FwtcEK5y7T0OgbeMoDaoU+FN/ZO/0XWia7ZQhbY8
+ d+vEv3sjp86rlMJVhJQsdvFj5IrS/dvvYbqqwFfSRAUtEuVWv4eaiX3Z6RD2vfGMgidv
+ MXygtfJIdHmfrHYRPXXCjWlbqWuYbdehloqsRrHAqj3QSewF6qoHAQE/xIbvi2XxxisO
+ Y2ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U39jLFPoVGl6SC7W57LZvwPqPrIa2zguvlEGBzL8cVM=;
- b=1Cka4TtC5US9y6KJWoXz5ET13VtzyqdQ6/GD6zwZ2UigdPKf0ufNKBeD+Cmaogi2R4
- dYIFg0TEBL9HgGEBs5/ZkVu1lv9BNp9K+iTlc/SuXZqdDLxoL8DDnhbfaR1cf7UPzGgv
- I0+Uk6rut3jXFLSwoIjZN/JHiqpR88SYFcqvDK07PPC/OuoKDheo0UGyZiDoHZhDoXup
- nXPEc427N433fxKRXOw5qci/U8JQeE9Ktd6askw3tN7p9cMlyeoUWvSnVZg4jAMYZEDa
- bc0QZ27yV8tlNUOoSPkSpjNDx+lUoKGLC4VW8SZOvANzhfNcOAimiPooZDVGrb/f05FA
- tgJA==
-X-Gm-Message-State: AFqh2kpuG3mf+S52tWMNgTP5sOoz+PXPzkRv9F7kWNwnlNhOBSFCkkys
- f7hll1FfxTb9YInvFMK9VezHPQ==
-X-Google-Smtp-Source: AMrXdXs1oGMSA92mQni3Jf81D53DUFH8B3DuvaOZYYTW+YQF4wsYoOIqDmwlm8cXkmYWJwjEhqxxWA==
-X-Received: by 2002:a1c:f310:0:b0:3db:15d9:1485 with SMTP id
- q16-20020a1cf310000000b003db15d91485mr6118348wmq.39.1674151461482; 
+ bh=nxoWU4Tw6BX+PJ5ddbeFgfV335pZMDd265PyUGg07yo=;
+ b=QDZ9sVoy7xA4KKz+O1zvFff71i2vhnZ6bnV24TLeiEV7XP9qJiEZFyv4ohbcMfTnrM
+ IOeWlMGFnn+cECuhR07BhYQj94Gv/ZqBItLOLqfZdxBRX7HGyt2bGjWhNsyLlTivozhx
+ z45T9pWDgIfxOgUlaZDxc+ueAgDhpCOVaCK/d64jTS2+S2PSqdA4yBxS7j7N8mUmv3MO
+ NFPqHqGmIaSWHIBzaUaI37AkHqLk/Eraa9hk8TRrZ7GfgWlG5xv6gSWlOD6DUB+wKRyT
+ clfZIDNPhziTl7K+IT4s8HHNzy40rfMW6uUPgbyr3pUy7tUMF7fmklkpQ+q6Xbln79Sl
+ I/3w==
+X-Gm-Message-State: AFqh2kpPTuOQuY2N81C2Y2X2AIJmOS7CxcDcwAN6WlLUHNwS9bxY8T85
+ 6BdkpeczotaikQLxF2vHApmlWQ==
+X-Google-Smtp-Source: AMrXdXsMsHdBofHTzzZaccSCxFd+D4LjS/hkeDsfTHVBkU16YMZC/DYT7g2Se/+BiiyJ2BTtUizqZQ==
+X-Received: by 2002:a05:600c:3d16:b0:3d0:6a57:66a5 with SMTP id
+ bh22-20020a05600c3d1600b003d06a5766a5mr11232488wmb.0.1674151461749; 
  Thu, 19 Jan 2023 10:04:21 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- o16-20020a05600c379000b003db15b1fb3csm4952823wmr.13.2023.01.19.10.04.20
+ s4-20020a05600c384400b003d9862ec435sm5474970wmr.20.2023.01.19.10.04.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 19 Jan 2023 10:04:20 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A84171FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id BEE0A1FFBB;
  Thu, 19 Jan 2023 18:04:19 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -73,18 +73,19 @@ Cc: Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: [PATCH 02/18] gitlab: add FF_SCRIPT_SECTIONS for timings
-Date: Thu, 19 Jan 2023 18:04:03 +0000
-Message-Id: <20230119180419.30304-3-alex.bennee@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH 03/18] gitlab: just use plain --cc=clang for custom runner
+ build
+Date: Thu, 19 Jan 2023 18:04:04 +0000
+Message-Id: <20230119180419.30304-4-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230119180419.30304-1-alex.bennee@linaro.org>
 References: <20230119180419.30304-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -107,31 +108,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+I think this was because older Ubuntu's didn't alias clang to whatever
+the latest version was. They do now so lets use that and not break.
 
-Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/base.yml | 5 +++++
- 1 file changed, 5 insertions(+)
+ .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/.gitlab-ci.d/base.yml b/.gitlab-ci.d/base.yml
-index 69b36c148a..50fb59e147 100644
---- a/.gitlab-ci.d/base.yml
-+++ b/.gitlab-ci.d/base.yml
-@@ -6,6 +6,11 @@
- # most restrictive to least restrictive
- #
- .base_job_template:
-+  variables:
-+    # Each script line from will be in a collapsible section in the job output
-+    # and show the duration of each line.
-+    FF_SCRIPT_SECTIONS: 1
-+
-   rules:
-     #############################################################
-     # Stage 1: exclude scenarios where we definitely don't
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
+index abeb33eaff..725ca8ffea 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
+@@ -81,7 +81,7 @@ ubuntu-22.04-aarch64-clang:
+  script:
+  - mkdir build
+  - cd build
+- - ../configure --disable-libssh --cc=clang-10 --cxx=clang++-10 --enable-sanitizers
++ - ../configure --disable-libssh --cc=clang --cxx=clang++ --enable-sanitizers
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc --ignore=40`
+  - make --output-sync -j`nproc --ignore=40` check
 -- 
 2.34.1
 
