@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9828E673A54
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:34:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5F8673A20
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:29:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIUxK-0005vp-UE; Thu, 19 Jan 2023 08:27:50 -0500
+	id 1pIUxI-0005tK-KL; Thu, 19 Jan 2023 08:27:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUx4-0005qO-Fj
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUx5-0005qT-Hr
  for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:27:35 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUx1-0008D4-Su
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:27:34 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUx1-0008Ca-T8
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:27:35 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674134842;
+ s=mimecast20190719; t=1674134839;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cAYjQLYEsFbf31gsDg96+bDpzSiq4ZBQ1TjRYQQfJ8c=;
- b=hinA393XWEJw6yp5eIA3QGSkEPSswXj3zTgzpclzOoJJNz+JMYsNeGgVox9zYNdZTPJd2W
- un1rfheMmZ2BSyBt4n2C8aR7EtAsdzDYnI3JTJgYCUhnrKH1eYdaI05hiEaepOTDFplMIe
- mikGikpUP5/1MuPh+jUwhu578kDvEs8=
+ bh=UPzt0aa8g/a9haNLJrEi7WzVI5cRolXDHHu66WsrJW4=;
+ b=JgAhpkK3ptNHR5LCEEdOFoa55E8uUxmqpZWAXkiQuictXQGvArxfiXKxM4dMU7EdMghyDs
+ 9uft5rIj/APafGccfUQ6W/oFGejTYwP9d/CVm9rGds9VxcCvzyXdPZ6zIrM9oBqWuwEOBt
+ ucW3wKo86OPO2fleuwrKlcJdwb1IAWE=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-605-WXRGh3QQMHuxitPlmCT1Tw-1; Thu, 19 Jan 2023 08:27:16 -0500
-X-MC-Unique: WXRGh3QQMHuxitPlmCT1Tw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-17-uJ4iqh9MMyaprpO-E1kwdw-1; Thu, 19 Jan 2023 08:27:17 -0500
+X-MC-Unique: uJ4iqh9MMyaprpO-E1kwdw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DE1AC3815F70;
- Thu, 19 Jan 2023 13:27:15 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3D5A93815F70;
+ Thu, 19 Jan 2023 13:27:17 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BAADAC158BA;
- Thu, 19 Jan 2023 13:27:15 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 18C4D492C3C;
+ Thu, 19 Jan 2023 13:27:16 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6DFA121E64D9; Thu, 19 Jan 2023 14:27:13 +0100 (CET)
+ id 7042221E5DCF; Thu, 19 Jan 2023 14:27:13 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 14/17] ui: Reduce nesting in hmp_change_vnc() slightly
-Date: Thu, 19 Jan 2023 14:27:10 +0100
-Message-Id: <20230119132713.3493556-15-armbru@redhat.com>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+Subject: [PULL 15/17] ui: Don't check for mode change after mouse_set error
+Date: Thu, 19 Jan 2023 14:27:11 +0100
+Message-Id: <20230119132713.3493556-16-armbru@redhat.com>
 In-Reply-To: <20230119132713.3493556-1-armbru@redhat.com>
 References: <20230119132713.3493556-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -80,61 +80,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Transform
-
-    if (good) {
-        do stuff
-    } else {
-        handle error
-    }
-
-to
-
-    if (!good) {
-        handle error
-	return;
-    }
-    do stuff
+hmp_mouse_set() doesn't bail out when it can't find a mouse.
+Harmless, since qemu_input_check_mode_change() should be a no-op then.
+Clean it up anyway.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+Message-Id: <20230109190321.1056914-16-armbru@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230109190321.1056914-15-armbru@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 ---
- ui/ui-hmp-cmds.c | 17 +++++++----------
- 1 file changed, 7 insertions(+), 10 deletions(-)
+ ui/input.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/ui/ui-hmp-cmds.c b/ui/ui-hmp-cmds.c
-index 8ae96749f3..7ca80c8626 100644
---- a/ui/ui-hmp-cmds.c
-+++ b/ui/ui-hmp-cmds.c
-@@ -328,19 +328,16 @@ void hmp_change_vnc(Monitor *mon, const char *device, const char *target,
-         error_setg(errp, "Parameter 'read-only-mode' is invalid for VNC");
-         return;
-     }
--    if (strcmp(target, "passwd") == 0 ||
--        strcmp(target, "password") == 0) {
--        if (!arg) {
--            MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
--            monitor_read_password(hmp_mon, hmp_change_read_arg, NULL);
--            return;
--        } else {
--            qmp_change_vnc_password(arg, errp);
--        }
--    } else {
-+    if (strcmp(target, "passwd") && strcmp(target, "password")) {
-         error_setg(errp, "Expected 'password' after 'vnc'");
-         return;
-     }
-+    if (!arg) {
-+        MonitorHMP *hmp_mon = container_of(mon, MonitorHMP, common);
-+        monitor_read_password(hmp_mon, hmp_change_read_arg, NULL);
-+    } else {
-+        qmp_change_vnc_password(arg, errp);
-+    }
- }
- #endif
+diff --git a/ui/input.c b/ui/input.c
+index 8f4a87d1d7..d1c7605238 100644
+--- a/ui/input.c
++++ b/ui/input.c
+@@ -616,6 +616,7 @@ void hmp_mouse_set(Monitor *mon, const QDict *qdict)
  
+     if (!found) {
+         error_report("Mouse at index '%d' not found", index);
++        return;
+     }
+ 
+     qemu_input_check_mode_change();
 -- 
 2.39.0
 
