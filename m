@@ -2,88 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70EDA674253
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 20:10:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6559674276
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 20:13:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIaIJ-0001rm-PX; Thu, 19 Jan 2023 14:09:51 -0500
+	id 1pIaKw-00044W-HZ; Thu, 19 Jan 2023 14:12:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pIaIH-0001rQ-Td
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:09:49 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pIaKq-00043w-CS; Thu, 19 Jan 2023 14:12:29 -0500
+Received: from smtp-out2.suse.de ([195.135.220.29])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pIaIG-0003EH-9Q
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:09:49 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id x4so2271156pfj.1
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 11:09:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GA8o0KD2GdUs15C6MHaE3DQmCW9/qy/ODDaR898O808=;
- b=hcZVGLjs7T2udbILZuPF4NxJvbmwtFJP6pta2bPPHIqProY0TvU7zKQEZXvsxGt9l/
- qtvEpTbSeu+icnT9sLBpXFXwoia4F7RjLP5LZa0w1/uehPdBBNYDoXlnCRXymR05z8pE
- EWqFr7kTG7IjaHbzTl+h7D9q8oWxXXv5v1YR3uZiyHsARiho5LewCB1wZmeTQsa9VNjG
- bSvKRaylHe6weEybvnYUpeeitThukikmccEVijIxvec9KZcndMLLjAbrczPH/FkI0kqj
- qbPBI/kpm9luTGPE4FJYDCeAzXIwcsdvJO+8uTBi4yoVEq+1nHV6EBwfWrfmDQs5SqnD
- X7yw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GA8o0KD2GdUs15C6MHaE3DQmCW9/qy/ODDaR898O808=;
- b=RO96HkTO/PCOGwMZfF3HlraYts+G9HvA9oacoHNeKMd0iveacQ2TfXqLdH49kyZHTY
- kUCKOnMw18FpPHAnIZXosaP8lqSaB7VguE58NsLpwJUQITFJOFj5U/CThPDEV7bznYjn
- NyD3dxfHJgmRXUwKcYSzolUgbsnxBUxVQV6vdbeoxz9Y01wG3DXSuOrT534cOA7N1id/
- Vgg8Dbr7eLsFWr04F34zsKL9K1H69YoF5Rh2mnRRp5zDRghZ/MWVBuigEBLXb7D97HYx
- cWcNRkqxVm9T6N2bqSeslkHDhvEzjIWG8qK2wosasSeq59jSUAUiDCVlv2tuxPi0ezOp
- K/sw==
-X-Gm-Message-State: AFqh2kojBnGu2nqYFr44y6P+2KCS+DhLt1Nf9b3gSA70TCYYL7DuY4ya
- XTX6IjXpbsx5AGxYc57yXiWd1A==
-X-Google-Smtp-Source: AMrXdXuX2aFjtYobOu9wEEs4l90ShdUro0rtCD43OCPpY1NptngpjcU+7dmHEyr5lsftsOF3zzpyug==
-X-Received: by 2002:a05:6a00:181f:b0:58b:d244:b525 with SMTP id
- y31-20020a056a00181f00b0058bd244b525mr18139267pfa.17.1674155386622; 
- Thu, 19 Jan 2023 11:09:46 -0800 (PST)
-Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- p12-20020aa79e8c000000b0058bc7e47a58sm10310123pfq.30.2023.01.19.11.09.44
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 11:09:46 -0800 (PST)
-Message-ID: <cb112a3e-ad40-08ef-52b3-503d73ce97c2@linaro.org>
-Date: Thu, 19 Jan 2023 09:09:42 -1000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH v4 11/15] tests/qemu-iotests: Allow passing a -cpu
- option in the QEMU cmdline
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ (Exim 4.90_1) (envelope-from <farosas@suse.de>)
+ id 1pIaKo-0004pg-L1; Thu, 19 Jan 2023 14:12:27 -0500
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 00E6C5D20C;
+ Thu, 19 Jan 2023 19:12:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+ t=1674155545; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jHtAAPV03RmdslZrHKe+0O60obGhvacDcX0ABERk9Es=;
+ b=Z7ebFUH1IBJFEZaYF/buHWF8vpUI6yAKOW3dTh2AmiLSLtVhH55i3taeXmGFDurFhOYq9E
+ uRPPSWBIVZpQYQ6Iu33+3SLuvTnyhowJKZcUKsfo0REmuXrf7i36hnelSb97JdhBiCXcmy
+ bsb+Ib4waX8WQIQ6cnSGgoR4TwcjyPg=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+ s=susede2_ed25519; t=1674155545;
+ h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=jHtAAPV03RmdslZrHKe+0O60obGhvacDcX0ABERk9Es=;
+ b=CZlm1H/XrsAsLOPS6ll+MtizsgEadZRX9hsaEey7UvwiifW6o9iHjjFLXXO4+r2X9B1s2r
+ udXsw+YLYdFGhcDg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+ (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+ key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (No client certificate requested)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 8185F139ED;
+ Thu, 19 Jan 2023 19:12:24 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+ by imap2.suse-dmz.suse.de with ESMTPSA id 7rjLEhiWyWP/NwAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 19 Jan 2023 19:12:24 +0000
+From: Fabiano Rosas <farosas@suse.de>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Alex =?utf-8?Q?Benn?=
+ =?utf-8?Q?=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>
+ Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>, Laurent
+ Vivier <lvivier@redhat.com>
+Subject: Re: [RFC PATCH v4 07/15] tests/qtest: Adjust qom-test to always set
+ a -cpu option
+In-Reply-To: <f014a262-1bb3-c08d-c0f0-ed3be8167789@linaro.org>
 References: <20230119135424.5417-1-farosas@suse.de>
- <20230119135424.5417-12-farosas@suse.de>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230119135424.5417-12-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ <20230119135424.5417-8-farosas@suse.de>
+ <f014a262-1bb3-c08d-c0f0-ed3be8167789@linaro.org>
+Date: Thu, 19 Jan 2023 16:12:22 -0300
+Message-ID: <87k01i49ux.fsf@suse.de>
+MIME-Version: 1.0
+Content-Type: text/plain
+Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,34 +90,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/19/23 03:54, Fabiano Rosas wrote:
-> +        cpu_map = (
-> +            ('aarch64', 'cortex-a57'),
-> +        )
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-This isn't a map...
+> On 1/19/23 03:54, Fabiano Rosas wrote:
+>> Start using the qtest_get_machine_args function, which explicitly
+>> sets the -cpu option according to the machine default.
+>> 
+>> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+>> ---
+>>   tests/qtest/qom-test.c | 19 +++++++++++++++++--
+>>   1 file changed, 17 insertions(+), 2 deletions(-)
+>> 
+>> diff --git a/tests/qtest/qom-test.c b/tests/qtest/qom-test.c
+>> index d380261f8f..462e3c4281 100644
+>> --- a/tests/qtest/qom-test.c
+>> +++ b/tests/qtest/qom-test.c
+>> @@ -78,14 +78,28 @@ static void test_properties(QTestState *qts, const char *path, bool recurse)
+>>       qobject_unref(response);
+>>   }
+>>   
+>> +static const char *arch_get_cpu(const char *machine)
+>> +{
+>> +    const char *arch = qtest_get_arch();
+>> +
+>> +    if (g_str_equal(arch, "aarch64")) {
+>> +        if (!strncmp(machine, "virt", 4)) {
+>> +            return "cortex-a57";
+>
+> I'm not keen on hard-coding cortex-a57 instead of max, even if they happen to evaluate to 
+> mostly the same thing currently for -accel qtest.
 
-> +        for suffix, cpu in cpu_map:
-> +            if self.qemu_prog.endswith(f'qemu-system-{suffix}'):
-> +                self.qemu_options += f' -cpu {cpu}'
+Ok.
 
-... which causes you to use a loop here, instead of a map lookup.
+> Nor am I keen on replicating this N times across N qtest files.
+> Better perhaps in libqtest.c, or something?
+> Or even directly in qtest_get_machine_args()?
 
-Also, not keen on cortex-a57 vs max, again.
+Ah right, this was a callback in a previous version so there was no
+"cpu" parameter to qtest_get_machine_args. Now I could indeed move
+arch_get_cpu into libqtest.c somewhere.
 
-You want something like
-
-     cpu_map = {
-         'aarch64': 'max'
-     }
-
-     m = re.match('qemu-system-(.*)', self.qemu_prog)
-     if m and m.group(1) in cpu_map:
-         self.qemu_options += ' -cpu ' + cpu_map[m.group(1)]
-
-
-My python is rough, so take that with a lot of testing...
-
-
-r~
 
