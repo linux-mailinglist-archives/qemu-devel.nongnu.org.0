@@ -2,39 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4134E6738CD
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:39:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC6E06738AF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:36:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIU8c-0006LL-UL; Thu, 19 Jan 2023 07:35:26 -0500
+	id 1pIU8f-0006Lm-Ry; Thu, 19 Jan 2023 07:35:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=w1SB=5Q=kaod.org=clg@ozlabs.org>)
- id 1pIU8W-0006Ic-8M; Thu, 19 Jan 2023 07:35:20 -0500
+ id 1pIU8Z-0006KA-J5; Thu, 19 Jan 2023 07:35:24 -0500
 Received: from gandalf.ozlabs.org ([150.107.74.76])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=w1SB=5Q=kaod.org=clg@ozlabs.org>)
- id 1pIU8U-0007Vb-DH; Thu, 19 Jan 2023 07:35:19 -0500
-Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4NyMXg4Q8rz4xyK;
- Thu, 19 Jan 2023 23:35:15 +1100 (AEDT)
+ id 1pIU8X-0007WU-Gs; Thu, 19 Jan 2023 07:35:23 -0500
+Received: from gandalf.ozlabs.org (mail.ozlabs.org
+ [IPv6:2404:9400:2221:ea00::3])
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4NyMXl02CSz4xHV;
+ Thu, 19 Jan 2023 23:35:19 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4NyMXd48zxz4xN4;
- Thu, 19 Jan 2023 23:35:13 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4NyMXh0vL0z4xyB;
+ Thu, 19 Jan 2023 23:35:15 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Joel Stanley <joel@jms.id.au>,
+ Guenter Roeck <linux@roeck-us.net>, Michael Walle <michael@walle.cc>,
+ Tudor Ambarus <tudor.ambarus@linaro.org>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 04/25] avocado/boot_linux_console.py: Update ast2600 test
-Date: Thu, 19 Jan 2023 13:34:28 +0100
-Message-Id: <20230119123449.531826-5-clg@kaod.org>
+Subject: [PATCH 05/25] m25p80: Add the is25wp256 SFPD table
+Date: Thu, 19 Jan 2023 13:34:29 +0100
+Message-Id: <20230119123449.531826-6-clg@kaod.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230119123449.531826-1-clg@kaod.org>
 References: <20230119123449.531826-1-clg@kaod.org>
@@ -64,53 +66,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Joel Stanley <joel@jms.id.au>
+From: Guenter Roeck <linux@roeck-us.net>
 
-Update the test_arm_ast2600_debian test to
+Generated from hardware using the following command and then padding
+with 0xff to fill out a power-of-2:
+	xxd -p /sys/bus/spi/devices/spi0.0/spi-nor/sfdp
 
- - the latest Debian kernel
- - use the Rainier machine instead of Tacoma
-
-Both of which contains support for more hardware and thus exercises more
-of the hardware Qemu models.
-
-Signed-off-by: Joel Stanley <joel@jms.id.au>
+Cc: Michael Walle <michael@walle.cc>
+Cc: Tudor Ambarus <tudor.ambarus@linaro.org>
+Signed-off-by: Guenter Roeck <linux@roeck-us.net>
 Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Message-Id: <20220607011938.1676459-1-joel@jms.id.au>
+Message-Id: <20221221122213.1458540-1-linux@roeck-us.net>
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- tests/avocado/boot_linux_console.py | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ hw/block/m25p80_sfdp.h |  2 ++
+ hw/block/m25p80.c      |  3 ++-
+ hw/block/m25p80_sfdp.c | 40 ++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 44 insertions(+), 1 deletion(-)
 
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index 8c1d981586..f3a1d00be9 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -1098,18 +1098,18 @@ def test_arm_vexpressa9(self):
-     def test_arm_ast2600_debian(self):
-         """
-         :avocado: tags=arch:arm
--        :avocado: tags=machine:tacoma-bmc
-+        :avocado: tags=machine:rainier-bmc
-         """
-         deb_url = ('http://snapshot.debian.org/archive/debian/'
--                   '20210302T203551Z/'
-+                   '20220606T211338Z/'
-                    'pool/main/l/linux/'
--                   'linux-image-5.10.0-3-armmp_5.10.13-1_armhf.deb')
--        deb_hash = 'db40d32fe39255d05482bea48d72467b67d6225bb2a2a4d6f618cb8976f1e09e'
-+                   'linux-image-5.17.0-2-armmp_5.17.6-1%2Bb1_armhf.deb')
-+        deb_hash = '8acb2b4439faedc2f3ed4bdb2847ad4f6e0491f73debaeb7f660c8abe4dcdc0e'
-         deb_path = self.fetch_asset(deb_url, asset_hash=deb_hash,
-                                     algorithm='sha256')
--        kernel_path = self.extract_from_deb(deb_path, '/boot/vmlinuz-5.10.0-3-armmp')
-+        kernel_path = self.extract_from_deb(deb_path, '/boot/vmlinuz-5.17.0-2-armmp')
-         dtb_path = self.extract_from_deb(deb_path,
--                '/usr/lib/linux-image-5.10.0-3-armmp/aspeed-bmc-opp-tacoma.dtb')
-+                '/usr/lib/linux-image-5.17.0-2-armmp/aspeed-bmc-ibm-rainier.dtb')
+diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
+index df7adfb5ce..011a880f66 100644
+--- a/hw/block/m25p80_sfdp.h
++++ b/hw/block/m25p80_sfdp.h
+@@ -26,4 +26,6 @@ uint8_t m25p80_sfdp_w25q512jv(uint32_t addr);
  
-         self.vm.set_console()
-         self.vm.add_args('-kernel', kernel_path,
+ uint8_t m25p80_sfdp_w25q01jvq(uint32_t addr);
+ 
++uint8_t m25p80_sfdp_is25wp256(uint32_t addr);
++
+ #endif
+diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+index 68a757abf3..dc5ffbc4ff 100644
+--- a/hw/block/m25p80.c
++++ b/hw/block/m25p80.c
+@@ -222,7 +222,8 @@ static const FlashPartInfo known_devices[] = {
+     { INFO("is25wp032",   0x9d7016,      0,  64 << 10,  64, ER_4K) },
+     { INFO("is25wp064",   0x9d7017,      0,  64 << 10, 128, ER_4K) },
+     { INFO("is25wp128",   0x9d7018,      0,  64 << 10, 256, ER_4K) },
+-    { INFO("is25wp256",   0x9d7019,      0,  64 << 10, 512, ER_4K) },
++    { INFO("is25wp256",   0x9d7019,      0,  64 << 10, 512, ER_4K),
++      .sfdp_read = m25p80_sfdp_is25wp256 },
+ 
+     /* Macronix */
+     { INFO("mx25l2005a",  0xc22012,      0,  64 << 10,   4, ER_4K) },
+diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
+index 77615fa29e..b33811a4f5 100644
+--- a/hw/block/m25p80_sfdp.c
++++ b/hw/block/m25p80_sfdp.c
+@@ -330,3 +330,43 @@ static const uint8_t sfdp_w25q01jvq[] = {
+     0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+ };
+ define_sfdp_read(w25q01jvq);
++
++/*
++ * Integrated Silicon Solution (ISSI)
++ */
++
++static const uint8_t sfdp_is25wp256[] = {
++    0x53, 0x46, 0x44, 0x50, 0x06, 0x01, 0x01, 0xff,
++    0x00, 0x06, 0x01, 0x10, 0x30, 0x00, 0x00, 0xff,
++    0x9d, 0x05, 0x01, 0x03, 0x80, 0x00, 0x00, 0x02,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xe5, 0x20, 0xf9, 0xff, 0xff, 0xff, 0xff, 0x0f,
++    0x44, 0xeb, 0x08, 0x6b, 0x08, 0x3b, 0x80, 0xbb,
++    0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0xff,
++    0xff, 0xff, 0x44, 0xeb, 0x0c, 0x20, 0x0f, 0x52,
++    0x10, 0xd8, 0x00, 0xff, 0x23, 0x4a, 0xc9, 0x00,
++    0x82, 0xd8, 0x11, 0xce, 0xcc, 0xcd, 0x68, 0x46,
++    0x7a, 0x75, 0x7a, 0x75, 0xf7, 0xae, 0xd5, 0x5c,
++    0x4a, 0x42, 0x2c, 0xff, 0xf0, 0x30, 0xfa, 0xa9,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0x50, 0x19, 0x50, 0x16, 0x9f, 0xf9, 0xc0, 0x64,
++    0x8f, 0xef, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
++};
++define_sfdp_read(is25wp256);
 -- 
 2.39.0
 
