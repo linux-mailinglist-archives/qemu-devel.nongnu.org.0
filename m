@@ -2,61 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 672FF673569
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:24:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9A08673567
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:23:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIRye-0002IM-22; Thu, 19 Jan 2023 05:17:00 -0500
+	id 1pIS1M-00065v-Md; Thu, 19 Jan 2023 05:19:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pIRya-0002DI-Qj
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:16:57 -0500
-Received: from mout.kundenserver.de ([217.72.192.73])
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pIS0p-0005z8-Dc
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:19:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pIRyY-0007X2-J8
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:16:56 -0500
-Received: from lenovo-t14s.redhat.com ([82.142.8.70]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis)
- id 1MeTHG-1okUfU12Mm-00aZ1b; Thu, 19 Jan 2023 11:16:48 +0100
-From: Laurent Vivier <lvivier@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Jason Wang <jasowang@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH v4] net: stream: add a new option to automatically reconnect
-Date: Thu, 19 Jan 2023 11:16:45 +0100
-Message-Id: <20230119101645.2001683-1-lvivier@redhat.com>
-X-Mailer: git-send-email 2.39.0
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pIS0k-0007qw-La
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:19:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674123549;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=tgjRai4wpSqMt/ZxvJyH7SDWMMRMfTyEqEhFXu0iGks=;
+ b=R0pVgY6BC39WaXL8c0E1VzYT513GOJV7bFaHKSuirZzbW3ymFFJo73A/NVDWtU7ErxmQVG
+ PRg4UaDrDTO3RWFnfdyZ0vUjImsdNQCJ42w1sOaNUD+s5OM7wQGPoQVcCz3AgMeOR/mIjA
+ GMBdTBwwU1/CuY8bXi6SgDhq0YiNKwk=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-58-QQRwY5dNMoWG0dyNtUFNzg-1; Thu, 19 Jan 2023 05:19:08 -0500
+X-MC-Unique: QQRwY5dNMoWG0dyNtUFNzg-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ s3-20020adf9783000000b002ab389f64c1so259332wrb.22
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 02:19:08 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tgjRai4wpSqMt/ZxvJyH7SDWMMRMfTyEqEhFXu0iGks=;
+ b=XwgQ20yigVQc3gh77DUleuSK72jNO/2pXEKwZtjuEpOfuVHchlRFLu7YHhEiZUenwX
+ v3Wb1TnawaZ/AfZeF1TQKkySVxm1LVgNDp3OevOo/8wSeyTaoN76oR+NqdDAfX3FuiIw
+ cBz+Bly9lG9DtHeGNKyhFKgJ3EOfrRB+DX1evEtzfbT8JbR/XYFlbsu5rcRNSuSLxo1m
+ e+jXpcsrhozdyON6PSBMkEbqr3e7ZETrvdQaC3kuq24nTk4ueB+1r5tnEb2Vea73PIjh
+ e1oVs5SJwt9/OR8oj7rssCV9b+dvTPBz6y2FjNnSqDE++yFHLphV6JiRKKGfuAShFoDa
+ GWfQ==
+X-Gm-Message-State: AFqh2kqBdY0MlwNsTOWxmo0sYS5JVuC+vPK0j9KdWrbDlfD6fgdgVoes
+ +3Xd4SU47qS9owWBL7dpsAXkgu+daH97fI/+FfvWy4gxt8DJ7KAdHpjowm7lI7ykbUtUmx/zhyx
+ 0WdvujCVJ4GXhNSs=
+X-Received: by 2002:a05:600c:5116:b0:3db:1a8:c041 with SMTP id
+ o22-20020a05600c511600b003db01a8c041mr9736404wms.17.1674123546158; 
+ Thu, 19 Jan 2023 02:19:06 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXubYGIq2Rzf9zyOzopnV8STPDL+f5JzsGXUr8VDKWIb2kVBT3m97ORLL3kNL+YeLxJMIidlmQ==
+X-Received: by 2002:a05:600c:5116:b0:3db:1a8:c041 with SMTP id
+ o22-20020a05600c511600b003db01a8c041mr9736378wms.17.1674123545814; 
+ Thu, 19 Jan 2023 02:19:05 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ p4-20020a05600c1d8400b003da286f8332sm4749548wms.18.2023.01.19.02.19.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Jan 2023 02:19:05 -0800 (PST)
+Date: Thu, 19 Jan 2023 10:19:02 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org,
+ pbonzini@redhat.com, kwolf@redhat.com, hreitz@redhat.com,
+ imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
+ groug@kaod.org, qemu_oss@crudebyte.com, mst@redhat.com,
+ philmd@linaro.org, peter.maydell@linaro.org, alistair@alistair23.me,
+ jasowang@redhat.com, jonathan.cameron@huawei.com,
+ kbastian@mail.uni-paderborn.de, quintela@redhat.com,
+ michael.roth@amd.com, kkostiuk@redhat.com, tsimpson@quicinc.com,
+ palmer@dabbelt.com, bin.meng@windriver.com, qemu-block@nongnu.org,
+ qemu-arm@nongnu.org, qemu-riscv@nongnu.org
+Subject: Re: [PATCH v4 19/19] Drop duplicate #include
+Message-ID: <Y8kZFq+tpqu/k9Gb@work-vm>
+References: <20230119065959.3104012-1-armbru@redhat.com>
+ <20230119065959.3104012-20-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2LSZuFEIh0rUAUSSnSCZKzgtUCN1nRP2fqP5atTN6xe/lkptWzt
- Npb5T+RYU5z924YAUAz86fwkrtVsSg1IScQICpYs55p/ovoAX2zN9gLLS2kAHRuErnK4ZkF
- JWjjR3+dDG6VMdPkm9+xaBPk6GPNlr8064ucWNvGJwXAQaucVziyOsi18a7yF0oohck+udL
- S+z6j/FUAoQuNvPbhLSKg==
-UI-OutboundReport: notjunk:1;M01:P0:lpBYuPbuiyA=;kxkqNIT5ivwcaDx7S5+0qrKVbPz
- JBgHhmvbiB8pwSFNO8TED2fWyUz9iOlSNwEW8NoW91CFo1YFTAUkkMTbdlMlNpvI2Rc7DD3ws
- XB/ua4wc4XevFcb/jK5shX0DoC1l0k5dfZ0ltLxkGCdNPD+jYV60zjkwRmY3f8ylb5A3/iJ9q
- 9ejVN8XxvvUqYR1ZdgPsVMwBpf5PizVbzTaXzNxALXfdqaV/IgNaGUJLzwxmzdki7tevh4t1D
- YdqcAzRwehLy3ds10W7S1hyfx2ivgNGDsnh9UlCLU2YSmvPD1P6hsowKouwS97JvjaIOGckTo
- yAs2vcpXPMBGU72Ybv9YsoBjZWjgNXrLVIhM8m4QcIFEVjLiSzpmGlk2zZX8ji2fj9nZO5/JO
- hQrLH0yDoGI0yDNWZTTlwQss3Pj1QSDzrVcXKMiK7ckWq1niEBMXEorlctjquB2DHx7/ViNKQ
- j3ovcAci0fJSKSJiFqC9ckn96Q0qgH7OovQMkp7fVpnMyhWUhj4iujjMdIhwy4r/FC/cRWXDJ
- TJ+nZISgxeMSbyoAdAZ5+DXZFgVfiHc8AOvD/ggZ1WXBTmnBHL7OzoYq286JBfTQ+dRm7X6Y2
- A9FpEFoYbdIpvhgsI2DNw7qPN5cnacRtpGfyzYJsEqp4011xhrA6T7G332tjkSdzlr8LLBoO7
- V7lYjULT0uNkX89SI2M9HFAYXqvv9rSGrQDyZ2+xyw==
-Received-SPF: permerror client-ip=217.72.192.73;
- envelope-from=lvivier@redhat.com; helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_FAIL=0.001,
- SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230119065959.3104012-20-armbru@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,321 +109,462 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In stream mode, if the server shuts down there is currently
-no way to reconnect the client to a new server without removing
-the NIC device and the netdev backend (or to reboot).
+* Markus Armbruster (armbru@redhat.com) wrote:
+> Tracked down with the help of scripts/clean-includes.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  include/hw/arm/fsl-imx6ul.h   | 1 -
+>  include/hw/arm/fsl-imx7.h     | 1 -
+>  backends/tpm/tpm_emulator.c   | 1 -
+>  hw/acpi/piix4.c               | 1 -
+>  hw/alpha/dp264.c              | 1 -
+>  hw/arm/virt.c                 | 1 -
+>  hw/arm/xlnx-versal.c          | 1 -
+>  hw/block/pflash_cfi01.c       | 1 -
+>  hw/core/machine.c             | 1 -
+>  hw/hppa/machine.c             | 1 -
+>  hw/i386/acpi-build.c          | 1 -
+>  hw/loongarch/acpi-build.c     | 1 -
+>  hw/misc/macio/cuda.c          | 1 -
+>  hw/misc/macio/pmu.c           | 1 -
+>  hw/net/xilinx_axienet.c       | 1 -
+>  hw/ppc/ppc405_uc.c            | 2 --
+>  hw/ppc/ppc440_bamboo.c        | 1 -
+>  hw/ppc/spapr_drc.c            | 1 -
+>  hw/rdma/vmw/pvrdma_dev_ring.c | 1 -
+>  hw/remote/machine.c           | 1 -
+>  hw/remote/remote-obj.c        | 1 -
+>  hw/rtc/mc146818rtc.c          | 1 -
+>  hw/s390x/virtio-ccw-serial.c  | 1 -
+>  migration/postcopy-ram.c      | 2 --
+>  softmmu/dirtylimit.c          | 1 -
+>  softmmu/runstate.c            | 1 -
+>  softmmu/vl.c                  | 1 -
+>  target/loongarch/translate.c  | 1 -
+>  target/mips/tcg/translate.c   | 1 -
+>  target/nios2/translate.c      | 2 --
+>  tests/unit/test-cutils.c      | 1 -
+>  ui/gtk.c                      | 1 -
+>  util/oslib-posix.c            | 4 ----
+>  33 files changed, 39 deletions(-)
+> 
+> diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
+> index 7812e516a5..1952cb984d 100644
+> --- a/include/hw/arm/fsl-imx6ul.h
+> +++ b/include/hw/arm/fsl-imx6ul.h
+> @@ -30,7 +30,6 @@
+>  #include "hw/timer/imx_gpt.h"
+>  #include "hw/timer/imx_epit.h"
+>  #include "hw/i2c/imx_i2c.h"
+> -#include "hw/gpio/imx_gpio.h"
+>  #include "hw/sd/sdhci.h"
+>  #include "hw/ssi/imx_spi.h"
+>  #include "hw/net/imx_fec.h"
+> diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
+> index 4e5e071864..355bd8ea83 100644
+> --- a/include/hw/arm/fsl-imx7.h
+> +++ b/include/hw/arm/fsl-imx7.h
+> @@ -32,7 +32,6 @@
+>  #include "hw/timer/imx_gpt.h"
+>  #include "hw/timer/imx_epit.h"
+>  #include "hw/i2c/imx_i2c.h"
+> -#include "hw/gpio/imx_gpio.h"
+>  #include "hw/sd/sdhci.h"
+>  #include "hw/ssi/imx_spi.h"
+>  #include "hw/net/imx_fec.h"
+> diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
+> index 49cc3d749d..2b440d2c9a 100644
+> --- a/backends/tpm/tpm_emulator.c
+> +++ b/backends/tpm/tpm_emulator.c
+> @@ -35,7 +35,6 @@
+>  #include "sysemu/runstate.h"
+>  #include "sysemu/tpm_backend.h"
+>  #include "sysemu/tpm_util.h"
+> -#include "sysemu/runstate.h"
+>  #include "tpm_int.h"
+>  #include "tpm_ioctl.h"
+>  #include "migration/blocker.h"
+> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> index 0a81f1ad93..df39f91294 100644
+> --- a/hw/acpi/piix4.c
+> +++ b/hw/acpi/piix4.c
+> @@ -35,7 +35,6 @@
+>  #include "sysemu/xen.h"
+>  #include "qapi/error.h"
+>  #include "qemu/range.h"
+> -#include "hw/acpi/pcihp.h"
+>  #include "hw/acpi/cpu_hotplug.h"
+>  #include "hw/acpi/cpu.h"
+>  #include "hw/hotplug.h"
+> diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
+> index c502c8c62a..4161f559a7 100644
+> --- a/hw/alpha/dp264.c
+> +++ b/hw/alpha/dp264.c
+> @@ -18,7 +18,6 @@
+>  #include "net/net.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/datadir.h"
+> -#include "net/net.h"
+>  
+>  static uint64_t cpu_alpha_superpage_to_phys(void *opaque, uint64_t addr)
+>  {
+> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+> index ea2413a0ba..d3849d7233 100644
+> --- a/hw/arm/virt.c
+> +++ b/hw/arm/virt.c
+> @@ -33,7 +33,6 @@
+>  #include "qemu/units.h"
+>  #include "qemu/option.h"
+>  #include "monitor/qdev.h"
+> -#include "qapi/error.h"
+>  #include "hw/sysbus.h"
+>  #include "hw/arm/boot.h"
+>  #include "hw/arm/primecell.h"
+> diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
+> index 57276e1506..69b1b99e93 100644
+> --- a/hw/arm/xlnx-versal.c
+> +++ b/hw/arm/xlnx-versal.c
+> @@ -22,7 +22,6 @@
+>  #include "hw/misc/unimp.h"
+>  #include "hw/arm/xlnx-versal.h"
+>  #include "qemu/log.h"
+> -#include "hw/sysbus.h"
+>  
+>  #define XLNX_VERSAL_ACPU_TYPE ARM_CPU_TYPE_NAME("cortex-a72")
+>  #define XLNX_VERSAL_RCPU_TYPE ARM_CPU_TYPE_NAME("cortex-r5f")
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index 0cbc2fb4cb..d11406eada 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -45,7 +45,6 @@
+>  #include "qapi/error.h"
+>  #include "qemu/error-report.h"
+>  #include "qemu/bitops.h"
+> -#include "qemu/error-report.h"
+>  #include "qemu/host-utils.h"
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+> diff --git a/hw/core/machine.c b/hw/core/machine.c
+> index 616f3a207c..67cf9f9dcd 100644
+> --- a/hw/core/machine.c
+> +++ b/hw/core/machine.c
+> @@ -39,7 +39,6 @@
+>  #include "exec/confidential-guest-support.h"
+>  #include "hw/virtio/virtio.h"
+>  #include "hw/virtio/virtio-pci.h"
+> -#include "qom/object_interfaces.h"
+>  
+>  GlobalProperty hw_compat_7_2[] = {};
+>  const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
+> diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
+> index de1cc7ab71..7ac68c943f 100644
+> --- a/hw/hppa/machine.c
+> +++ b/hw/hppa/machine.c
+> @@ -28,7 +28,6 @@
+>  #include "qapi/error.h"
+>  #include "net/net.h"
+>  #include "qemu/log.h"
+> -#include "net/net.h"
+>  
+>  #define MIN_SEABIOS_HPPA_VERSION 6 /* require at least this fw version */
+>  
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 127c4e2d50..14f6f75454 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -76,7 +76,6 @@
+>  
+>  #include "hw/acpi/hmat.h"
+>  #include "hw/acpi/viot.h"
+> -#include "hw/acpi/cxl.h"
+>  
+>  #include CONFIG_DEVICES
+>  
+> diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
+> index c2b237736d..f551296a0e 100644
+> --- a/hw/loongarch/acpi-build.c
+> +++ b/hw/loongarch/acpi-build.c
+> @@ -22,7 +22,6 @@
+>  /* Supported chipsets: */
+>  #include "hw/pci-host/ls7a.h"
+>  #include "hw/loongarch/virt.h"
+> -#include "hw/acpi/aml-build.h"
+>  
+>  #include "hw/acpi/utils.h"
+>  #include "hw/acpi/pci.h"
+> diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
+> index 853e88bfed..29a8e5ed19 100644
+> --- a/hw/misc/macio/cuda.c
+> +++ b/hw/misc/macio/cuda.c
+> @@ -30,7 +30,6 @@
+>  #include "hw/input/adb.h"
+>  #include "hw/misc/mos6522.h"
+>  #include "hw/misc/macio/cuda.h"
+> -#include "qapi/error.h"
+>  #include "qemu/timer.h"
+>  #include "sysemu/runstate.h"
+>  #include "sysemu/rtc.h"
+> diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
+> index 97ef8c771b..5a788e595a 100644
+> --- a/hw/misc/macio/pmu.c
+> +++ b/hw/misc/macio/pmu.c
+> @@ -36,7 +36,6 @@
+>  #include "hw/misc/mos6522.h"
+>  #include "hw/misc/macio/gpio.h"
+>  #include "hw/misc/macio/pmu.h"
+> -#include "qapi/error.h"
+>  #include "qemu/timer.h"
+>  #include "sysemu/runstate.h"
+>  #include "sysemu/rtc.h"
+> diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
+> index 990ff3a1c2..673af7da26 100644
+> --- a/hw/net/xilinx_axienet.c
+> +++ b/hw/net/xilinx_axienet.c
+> @@ -31,7 +31,6 @@
+>  #include "net/net.h"
+>  #include "net/checksum.h"
+>  
+> -#include "hw/hw.h"
+>  #include "hw/irq.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/stream.h"
+> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
+> index c973cfb04e..0cc68178ad 100644
+> --- a/hw/ppc/ppc405_uc.c
+> +++ b/hw/ppc/ppc405_uc.c
+> @@ -38,8 +38,6 @@
+>  #include "sysemu/sysemu.h"
+>  #include "exec/address-spaces.h"
+>  #include "hw/intc/ppc-uic.h"
+> -#include "hw/qdev-properties.h"
+> -#include "qapi/error.h"
+>  #include "trace.h"
+>  
+>  /*****************************************************************************/
+> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
+> index 81d71adf34..2880c81cb1 100644
+> --- a/hw/ppc/ppc440_bamboo.c
+> +++ b/hw/ppc/ppc440_bamboo.c
+> @@ -13,7 +13,6 @@
+>  
+>  #include "qemu/osdep.h"
+>  #include "qemu/units.h"
+> -#include "qemu/error-report.h"
+>  #include "qemu/datadir.h"
+>  #include "qemu/error-report.h"
+>  #include "net/net.h"
+> diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
+> index 4923435a8b..b5c400a94d 100644
+> --- a/hw/ppc/spapr_drc.c
+> +++ b/hw/ppc/spapr_drc.c
+> @@ -17,7 +17,6 @@
+>  #include "hw/ppc/spapr_drc.h"
+>  #include "qom/object.h"
+>  #include "migration/vmstate.h"
+> -#include "qapi/error.h"
+>  #include "qapi/qapi-events-qdev.h"
+>  #include "qapi/visitor.h"
+>  #include "qemu/error-report.h"
+> diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c
+> index 598e6adc5e..30ce22a5be 100644
+> --- a/hw/rdma/vmw/pvrdma_dev_ring.c
+> +++ b/hw/rdma/vmw/pvrdma_dev_ring.c
+> @@ -14,7 +14,6 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> -#include "qemu/cutils.h"
+>  #include "hw/pci/pci.h"
+>  #include "cpu.h"
+>  #include "qemu/cutils.h"
+> diff --git a/hw/remote/machine.c b/hw/remote/machine.c
+> index 519f855ec1..fdc6c441bb 100644
+> --- a/hw/remote/machine.c
+> +++ b/hw/remote/machine.c
+> @@ -22,7 +22,6 @@
+>  #include "hw/remote/iohub.h"
+>  #include "hw/remote/iommu.h"
+>  #include "hw/qdev-core.h"
+> -#include "hw/remote/iommu.h"
+>  #include "hw/remote/vfio-user-obj.h"
+>  #include "hw/pci/msi.h"
+>  
+> diff --git a/hw/remote/remote-obj.c b/hw/remote/remote-obj.c
+> index 333e5ac443..65b6f7cc86 100644
+> --- a/hw/remote/remote-obj.c
+> +++ b/hw/remote/remote-obj.c
+> @@ -12,7 +12,6 @@
+>  #include "qemu/error-report.h"
+>  #include "qemu/notify.h"
+>  #include "qom/object_interfaces.h"
+> -#include "hw/qdev-core.h"
+>  #include "io/channel.h"
+>  #include "hw/qdev-core.h"
+>  #include "hw/remote/machine.h"
+> diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
+> index bc1192b7ae..ba612a151d 100644
+> --- a/hw/rtc/mc146818rtc.c
+> +++ b/hw/rtc/mc146818rtc.c
+> @@ -43,7 +43,6 @@
+>  #include "qapi/error.h"
+>  #include "qapi/qapi-events-misc.h"
+>  #include "qapi/visitor.h"
+> -#include "hw/rtc/mc146818rtc_regs.h"
+>  
+>  //#define DEBUG_CMOS
+>  //#define DEBUG_COALESCED
+> diff --git a/hw/s390x/virtio-ccw-serial.c b/hw/s390x/virtio-ccw-serial.c
+> index bf8057880f..8f8d2302f8 100644
+> --- a/hw/s390x/virtio-ccw-serial.c
+> +++ b/hw/s390x/virtio-ccw-serial.c
+> @@ -15,7 +15,6 @@
+>  #include "hw/qdev-properties.h"
+>  #include "hw/virtio/virtio-serial.h"
+>  #include "virtio-ccw.h"
+> -#include "hw/virtio/virtio-serial.h"
+>  
+>  #define TYPE_VIRTIO_SERIAL_CCW "virtio-serial-ccw"
+>  OBJECT_DECLARE_SIMPLE_TYPE(VirtioSerialCcw, VIRTIO_SERIAL_CCW)
+> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+> index b9a37ef255..8b7d1af75d 100644
+> --- a/migration/postcopy-ram.c
+> +++ b/migration/postcopy-ram.c
+> @@ -17,7 +17,6 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> -#include "qemu/rcu.h"
+>  #include "qemu/madvise.h"
+>  #include "exec/target_page.h"
+>  #include "migration.h"
+> @@ -34,7 +33,6 @@
+>  #include "hw/boards.h"
+>  #include "exec/ramblock.h"
+>  #include "socket.h"
+> -#include "qemu-file.h"
+>  #include "yank_functions.h"
+>  #include "tls.h"
 
-This patch introduces a reconnect option that specifies a delay
-to try to reconnect with the same parameters.
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-Add a new test in qtest to test the reconnect option and the
-connect/disconnect events.
-
-Signed-off-by: Laurent Vivier <lvivier@redhat.com>
----
-Based-on: <20230118120405.1876329-1-lvivier@redhat.com>
-    
-v4:
-- rebase
-    
-v3:
-- add "since 8.0" in net.json
-    
-v2:
-- rebase
-
- net/stream.c                |  53 ++++++++++++++++++-
- qapi/net.json               |   7 ++-
- qemu-options.hx             |   6 +--
- tests/qtest/netdev-socket.c | 101 ++++++++++++++++++++++++++++++++++++
- 4 files changed, 162 insertions(+), 5 deletions(-)
-
-diff --git a/net/stream.c b/net/stream.c
-index 37ff727e0c42..9204b4c96e40 100644
---- a/net/stream.c
-+++ b/net/stream.c
-@@ -39,6 +39,8 @@
- #include "io/channel-socket.h"
- #include "io/net-listener.h"
- #include "qapi/qapi-events-net.h"
-+#include "qapi/qapi-visit-sockets.h"
-+#include "qapi/clone-visitor.h"
- 
- typedef struct NetStreamState {
-     NetClientState nc;
-@@ -49,11 +51,15 @@ typedef struct NetStreamState {
-     guint ioc_write_tag;
-     SocketReadState rs;
-     unsigned int send_index;      /* number of bytes sent*/
-+    uint32_t reconnect;
-+    guint timer_tag;
-+    SocketAddress *addr;
- } NetStreamState;
- 
- static void net_stream_listen(QIONetListener *listener,
-                               QIOChannelSocket *cioc,
-                               void *opaque);
-+static void net_stream_arm_reconnect(NetStreamState *s);
- 
- static gboolean net_stream_writable(QIOChannel *ioc,
-                                     GIOCondition condition,
-@@ -170,6 +176,7 @@ static gboolean net_stream_send(QIOChannel *ioc,
-         qemu_set_info_str(&s->nc, "%s", "");
- 
-         qapi_event_send_netdev_stream_disconnected(s->nc.name);
-+        net_stream_arm_reconnect(s);
- 
-         return G_SOURCE_REMOVE;
-     }
-@@ -187,6 +194,14 @@ static gboolean net_stream_send(QIOChannel *ioc,
- static void net_stream_cleanup(NetClientState *nc)
- {
-     NetStreamState *s = DO_UPCAST(NetStreamState, nc, nc);
-+    if (s->timer_tag) {
-+        g_source_remove(s->timer_tag);
-+        s->timer_tag = 0;
-+    }
-+    if (s->addr) {
-+        qapi_free_SocketAddress(s->addr);
-+        s->addr = NULL;
-+    }
-     if (s->ioc) {
-         if (QIO_CHANNEL_SOCKET(s->ioc)->fd != -1) {
-             if (s->ioc_read_tag) {
-@@ -346,12 +361,37 @@ static void net_stream_client_connected(QIOTask *task, gpointer opaque)
- error:
-     object_unref(OBJECT(s->ioc));
-     s->ioc = NULL;
-+    net_stream_arm_reconnect(s);
-+}
-+
-+static gboolean net_stream_reconnect(gpointer data)
-+{
-+    NetStreamState *s = data;
-+    QIOChannelSocket *sioc;
-+
-+    s->timer_tag = 0;
-+
-+    sioc = qio_channel_socket_new();
-+    s->ioc = QIO_CHANNEL(sioc);
-+    qio_channel_socket_connect_async(sioc, s->addr,
-+                                     net_stream_client_connected, s,
-+                                     NULL, NULL);
-+    return G_SOURCE_REMOVE;
-+}
-+
-+static void net_stream_arm_reconnect(NetStreamState *s)
-+{
-+    if (s->reconnect && s->timer_tag == 0) {
-+        s->timer_tag = g_timeout_add_seconds(s->reconnect,
-+                                             net_stream_reconnect, s);
-+    }
- }
- 
- static int net_stream_client_init(NetClientState *peer,
-                                   const char *model,
-                                   const char *name,
-                                   SocketAddress *addr,
-+                                  uint32_t reconnect,
-                                   Error **errp)
- {
-     NetStreamState *s;
-@@ -364,6 +404,10 @@ static int net_stream_client_init(NetClientState *peer,
-     s->ioc = QIO_CHANNEL(sioc);
-     s->nc.link_down = true;
- 
-+    s->reconnect = reconnect;
-+    if (reconnect) {
-+        s->addr = QAPI_CLONE(SocketAddress, addr);
-+    }
-     qio_channel_socket_connect_async(sioc, addr,
-                                      net_stream_client_connected, s,
-                                      NULL, NULL);
-@@ -380,7 +424,14 @@ int net_init_stream(const Netdev *netdev, const char *name,
-     sock = &netdev->u.stream;
- 
-     if (!sock->has_server || !sock->server) {
--        return net_stream_client_init(peer, "stream", name, sock->addr, errp);
-+        return net_stream_client_init(peer, "stream", name, sock->addr,
-+                                      sock->has_reconnect ? sock->reconnect : 0,
-+                                      errp);
-+    }
-+    if (sock->has_reconnect) {
-+        error_setg(errp, "'reconnect' option is incompatible with "
-+                         "socket in server mode");
-+        return -1;
-     }
-     return net_stream_server_init(peer, "stream", name, sock->addr, errp);
- }
-diff --git a/qapi/net.json b/qapi/net.json
-index 522ac582edeb..d6eb30008be0 100644
---- a/qapi/net.json
-+++ b/qapi/net.json
-@@ -585,6 +585,10 @@
- # @addr: socket address to listen on (server=true)
- #        or connect to (server=false)
- # @server: create server socket (default: false)
-+# @reconnect: For a client socket, if a socket is disconnected,
-+#             then attempt a reconnect after the given number of seconds.
-+#             Setting this to zero disables this function. (default: 0)
-+#             (since 8.0)
- #
- # Only SocketAddress types 'unix', 'inet' and 'fd' are supported.
- #
-@@ -593,7 +597,8 @@
- { 'struct': 'NetdevStreamOptions',
-   'data': {
-     'addr':   'SocketAddress',
--    '*server': 'bool' } }
-+    '*server': 'bool',
-+    '*reconnect': 'uint32' } }
- 
- ##
- # @NetdevDgramOptions:
-diff --git a/qemu-options.hx b/qemu-options.hx
-index d59d19704bc5..5617140225ea 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -2769,9 +2769,9 @@ DEF("netdev", HAS_ARG, QEMU_OPTION_netdev,
-     "-netdev socket,id=str[,fd=h][,udp=host:port][,localaddr=host:port]\n"
-     "                configure a network backend to connect to another network\n"
-     "                using an UDP tunnel\n"
--    "-netdev stream,id=str[,server=on|off],addr.type=inet,addr.host=host,addr.port=port[,to=maxport][,numeric=on|off][,keep-alive=on|off][,mptcp=on|off][,addr.ipv4=on|off][,addr.ipv6=on|off]\n"
--    "-netdev stream,id=str[,server=on|off],addr.type=unix,addr.path=path[,abstract=on|off][,tight=on|off]\n"
--    "-netdev stream,id=str[,server=on|off],addr.type=fd,addr.str=file-descriptor\n"
-+    "-netdev stream,id=str[,server=on|off],addr.type=inet,addr.host=host,addr.port=port[,to=maxport][,numeric=on|off][,keep-alive=on|off][,mptcp=on|off][,addr.ipv4=on|off][,addr.ipv6=on|off][,reconnect=seconds]\n"
-+    "-netdev stream,id=str[,server=on|off],addr.type=unix,addr.path=path[,abstract=on|off][,tight=on|off][,reconnect=seconds]\n"
-+    "-netdev stream,id=str[,server=on|off],addr.type=fd,addr.str=file-descriptor[,reconnect=seconds]\n"
-     "                configure a network backend to connect to another network\n"
-     "                using a socket connection in stream mode.\n"
-     "-netdev dgram,id=str,remote.type=inet,remote.host=maddr,remote.port=port[,local.type=inet,local.host=addr]\n"
-diff --git a/tests/qtest/netdev-socket.c b/tests/qtest/netdev-socket.c
-index 6ba256e1730d..acc32c378bce 100644
---- a/tests/qtest/netdev-socket.c
-+++ b/tests/qtest/netdev-socket.c
-@@ -11,6 +11,10 @@
- #include <glib/gstdio.h>
- #include "../unit/socket-helpers.h"
- #include "libqtest.h"
-+#include "qapi/qmp/qstring.h"
-+#include "qemu/sockets.h"
-+#include "qapi/qobject-input-visitor.h"
-+#include "qapi/qapi-visit-sockets.h"
- 
- #define CONNECTION_TIMEOUT    5
- 
-@@ -142,6 +146,101 @@ static void test_stream_inet_ipv4(void)
-     qtest_quit(qts0);
- }
- 
-+static void wait_stream_connected(QTestState *qts, const char *id,
-+                                  SocketAddress **addr)
-+{
-+    QDict *resp, *data;
-+    QString *qstr;
-+    QObject *obj;
-+    Visitor *v = NULL;
-+
-+    resp = qtest_qmp_eventwait_ref(qts, "NETDEV_STREAM_CONNECTED");
-+    g_assert_nonnull(resp);
-+    data = qdict_get_qdict(resp, "data");
-+    g_assert_nonnull(data);
-+
-+    qstr = qobject_to(QString, qdict_get(data, "netdev-id"));
-+    g_assert_nonnull(data);
-+
-+    g_assert(!strcmp(qstring_get_str(qstr), id));
-+
-+    obj = qdict_get(data, "addr");
-+
-+    v = qobject_input_visitor_new(obj);
-+    visit_type_SocketAddress(v, NULL, addr, NULL);
-+    visit_free(v);
-+    qobject_unref(resp);
-+}
-+
-+static void wait_stream_disconnected(QTestState *qts, const char *id)
-+{
-+    QDict *resp, *data;
-+    QString *qstr;
-+
-+    resp = qtest_qmp_eventwait_ref(qts, "NETDEV_STREAM_DISCONNECTED");
-+    g_assert_nonnull(resp);
-+    data = qdict_get_qdict(resp, "data");
-+    g_assert_nonnull(data);
-+
-+    qstr = qobject_to(QString, qdict_get(data, "netdev-id"));
-+    g_assert_nonnull(data);
-+
-+    g_assert(!strcmp(qstring_get_str(qstr), id));
-+    qobject_unref(resp);
-+}
-+
-+static void test_stream_inet_reconnect(void)
-+{
-+    QTestState *qts0, *qts1;
-+    int port;
-+    SocketAddress *addr;
-+
-+    port = inet_get_free_port(false);
-+    qts0 = qtest_initf("-nodefaults -M none "
-+                       "-netdev stream,id=st0,server=true,addr.type=inet,"
-+                       "addr.ipv4=on,addr.ipv6=off,"
-+                       "addr.host=127.0.0.1,addr.port=%d", port);
-+
-+    EXPECT_STATE(qts0, "st0: index=0,type=stream,\r\n", 0);
-+
-+    qts1 = qtest_initf("-nodefaults -M none "
-+                       "-netdev stream,server=false,id=st0,addr.type=inet,"
-+                       "addr.ipv4=on,addr.ipv6=off,reconnect=1,"
-+                       "addr.host=127.0.0.1,addr.port=%d", port);
-+
-+    wait_stream_connected(qts0, "st0", &addr);
-+    g_assert_cmpint(addr->type, ==, SOCKET_ADDRESS_TYPE_INET);
-+    g_assert_cmpstr(addr->u.inet.host, ==, "127.0.0.1");
-+    qapi_free_SocketAddress(addr);
-+
-+    /* kill server */
-+    qtest_quit(qts0);
-+
-+    /* check client has been disconnected */
-+    wait_stream_disconnected(qts1, "st0");
-+
-+    /* restart server */
-+    qts0 = qtest_initf("-nodefaults -M none "
-+                       "-netdev stream,id=st0,server=true,addr.type=inet,"
-+                       "addr.ipv4=on,addr.ipv6=off,"
-+                       "addr.host=127.0.0.1,addr.port=%d", port);
-+
-+    /* wait connection events*/
-+    wait_stream_connected(qts0, "st0", &addr);
-+    g_assert_cmpint(addr->type, ==, SOCKET_ADDRESS_TYPE_INET);
-+    g_assert_cmpstr(addr->u.inet.host, ==, "127.0.0.1");
-+    qapi_free_SocketAddress(addr);
-+
-+    wait_stream_connected(qts1, "st0", &addr);
-+    g_assert_cmpint(addr->type, ==, SOCKET_ADDRESS_TYPE_INET);
-+    g_assert_cmpstr(addr->u.inet.host, ==, "127.0.0.1");
-+    g_assert_cmpint(atoi(addr->u.inet.port), ==, port);
-+    qapi_free_SocketAddress(addr);
-+
-+    qtest_quit(qts1);
-+    qtest_quit(qts0);
-+}
-+
- static void test_stream_inet_ipv6(void)
- {
-     QTestState *qts0, *qts1;
-@@ -418,6 +517,8 @@ int main(int argc, char **argv)
- #ifndef _WIN32
-         qtest_add_func("/netdev/dgram/mcast", test_dgram_mcast);
- #endif
-+        qtest_add_func("/netdev/stream/inet/reconnect",
-+                       test_stream_inet_reconnect);
-     }
-     if (has_ipv6) {
-         qtest_add_func("/netdev/stream/inet/ipv6", test_stream_inet_ipv6);
+>  
+> diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
+> index 12668555f2..c56f0f58c8 100644
+> --- a/softmmu/dirtylimit.c
+> +++ b/softmmu/dirtylimit.c
+> @@ -11,7 +11,6 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> -#include "qapi/error.h"
+>  #include "qemu/main-loop.h"
+>  #include "qapi/qapi-commands-migration.h"
+>  #include "qapi/qmp/qdict.h"
+> diff --git a/softmmu/runstate.c b/softmmu/runstate.c
+> index cab9f6fc07..f9ad88e6a7 100644
+> --- a/softmmu/runstate.c
+> +++ b/softmmu/runstate.c
+> @@ -41,7 +41,6 @@
+>  #include "qapi/qapi-commands-run-state.h"
+>  #include "qapi/qapi-events-run-state.h"
+>  #include "qemu/error-report.h"
+> -#include "qemu/log.h"
+>  #include "qemu/job.h"
+>  #include "qemu/log.h"
+>  #include "qemu/module.h"
+> diff --git a/softmmu/vl.c b/softmmu/vl.c
+> index 5355a7fe5a..b2ee3fee3f 100644
+> --- a/softmmu/vl.c
+> +++ b/softmmu/vl.c
+> @@ -129,7 +129,6 @@
+>  #include "qapi/qapi-commands-misc.h"
+>  #include "qapi/qapi-visit-qom.h"
+>  #include "qapi/qapi-commands-ui.h"
+> -#include "qapi/qmp/qdict.h"
+>  #include "block/qdict.h"
+>  #include "qapi/qmp/qerror.h"
+>  #include "sysemu/iothread.h"
+> diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
+> index 38ced69803..72a6275665 100644
+> --- a/target/loongarch/translate.c
+> +++ b/target/loongarch/translate.c
+> @@ -12,7 +12,6 @@
+>  #include "exec/helper-proto.h"
+>  #include "exec/helper-gen.h"
+>  
+> -#include "exec/translator.h"
+>  #include "exec/log.h"
+>  #include "qemu/qemu-print.h"
+>  #include "fpu/softfloat.h"
+> diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
+> index 624e6b7786..aa12bb708a 100644
+> --- a/target/mips/tcg/translate.c
+> +++ b/target/mips/tcg/translate.c
+> @@ -32,7 +32,6 @@
+>  #include "semihosting/semihost.h"
+>  
+>  #include "trace.h"
+> -#include "exec/translator.h"
+>  #include "exec/log.h"
+>  #include "qemu/qemu-print.h"
+>  #include "fpu_helper.h"
+> diff --git a/target/nios2/translate.c b/target/nios2/translate.c
+> index 4db8b47744..7aee65a089 100644
+> --- a/target/nios2/translate.c
+> +++ b/target/nios2/translate.c
+> @@ -938,8 +938,6 @@ static const char * const cr_regnames[NUM_CR_REGS] = {
+>  };
+>  #endif
+>  
+> -#include "exec/gen-icount.h"
+> -
+>  /* generate intermediate code for basic block 'tb'.  */
+>  static void nios2_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+>  {
+> diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
+> index 2126b46391..3c4f875420 100644
+> --- a/tests/unit/test-cutils.c
+> +++ b/tests/unit/test-cutils.c
+> @@ -26,7 +26,6 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> -#include "qemu/units.h"
+>  #include "qemu/cutils.h"
+>  #include "qemu/units.h"
+>  
+> diff --git a/ui/gtk.c b/ui/gtk.c
+> index 4817623c8f..7f752d8b7d 100644
+> --- a/ui/gtk.c
+> +++ b/ui/gtk.c
+> @@ -53,7 +53,6 @@
+>  #include <math.h>
+>  
+>  #include "trace.h"
+> -#include "qemu/cutils.h"
+>  #include "ui/input.h"
+>  #include "sysemu/runstate.h"
+>  #include "sysemu/sysemu.h"
+> diff --git a/util/oslib-posix.c b/util/oslib-posix.c
+> index fd03fd32c8..77d882e681 100644
+> --- a/util/oslib-posix.c
+> +++ b/util/oslib-posix.c
+> @@ -59,10 +59,6 @@
+>  
+>  #include "qemu/mmap-alloc.h"
+>  
+> -#ifdef CONFIG_DEBUG_STACK_USAGE
+> -#include "qemu/error-report.h"
+> -#endif
+> -
+>  #define MAX_MEM_PREALLOC_THREAD_COUNT 16
+>  
+>  struct MemsetThread;
+> -- 
+> 2.39.0
+> 
 -- 
-2.39.0
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
