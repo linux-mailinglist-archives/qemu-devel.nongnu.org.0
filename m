@@ -2,72 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7533673A56
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:34:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 400D2673A63
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:34:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIV1t-0004sU-31; Thu, 19 Jan 2023 08:32:33 -0500
+	id 1pIV44-0003Yp-MW; Thu, 19 Jan 2023 08:34:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pIV13-0004P8-Im
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:31:41 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pIV11-0000cl-KH
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:31:41 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id o13so2408052pjg.2
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 05:31:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=xCMuQOEvhJPcTcEOSP3gcDTwP3FmeI54dDpngbTo6ww=;
- b=u3dlXLlG+9lIhC7ouw6M1f00hvuyEdiV2Me6QddCh/4gKc9fhSuy8gObHjG1H3ILDs
- 9UGKSPaLi/MGBNVfv5yjiBUT1KcynCNmQLhnuS4LBej9e8NWX2RmRqQ3l5w7SwAA7E17
- byCcruZ5Othd0hfEbWtm9UveBkkCXGG8zNDQDyHFbjDGOaPeNit91MlSmGhmkScmFfIX
- SZ05tJI5IasILRxAvFOzOmfETypaQW8P7ciuDvW76LILUC2j8M1srfHMjjnkrOQxvTQa
- pSGLMg4K1ASBw4cK5JGHnalbBcUoigPVVlG2QSiDNVA/sg2vBVbfE2C8Myi2ycIUcl11
- +l5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=xCMuQOEvhJPcTcEOSP3gcDTwP3FmeI54dDpngbTo6ww=;
- b=KF6fl3+FiUTArmRGPSGcWvMxzMTFsSqGaZWEipyZs4YizfWHwWVRZd4PA/M6oFSCs/
- EPedPI7BOZnJgskIlpABwZ3eDUEkgliX3yUo1FvBPFWqPIaCBSDE8j5e3lxCp5ZCR76J
- pVjIEHiJakVSrr9/6YNJRWw+lGHjGOYff5PwI0Ep3eKpb2V3+KrcoZoVMxFt9BPC/sWI
- pF2hfmg+OsDqaC33+biidaLUpk/huyRfAhGNhXWPt/SfC2f1k7Om2cF0DwYa05W3R4kv
- 3aJe7zwESV0rbuSL4CzqAHFpcQ035S7k3teHFD7yw4Dj7KaOYH/ZXUFuOouqcLoruTSq
- c/XQ==
-X-Gm-Message-State: AFqh2krDZxabm7T/OJ7slKs1yrOIL0jU9C0hJ1FtN4xwVo5/XqkifIz5
- y7FPoyUUJZeFyschJnofujq0Xl+vMRsVsITU7FVuhQ==
-X-Google-Smtp-Source: AMrXdXuyDvpzUzM+vpRfHUg6lxFPMRG6IqkfA3MmEnr2bCnnRud0zzWsQ7k3n6yx9bV9RTS7q1ba5N/amCH8Svs9iIo=
-X-Received: by 2002:a17:902:aa4b:b0:194:b3c6:18ee with SMTP id
- c11-20020a170902aa4b00b00194b3c618eemr753379plr.29.1674135098305; Thu, 19 Jan
- 2023 05:31:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pIV41-0003WL-Ea; Thu, 19 Jan 2023 08:34:45 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pIV3z-00017I-Cj; Thu, 19 Jan 2023 08:34:44 -0500
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30JDNM1f015544; Thu, 19 Jan 2023 13:34:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=u7PwhI96zAPH6paupPgFqDaMVwUj55T7rCg/Wd2A7Yc=;
+ b=bAQtNcFH5M16s2DHm6scYE9NRHBRV4urWk97NqkJaexB5HsfHL05tJyRRKJChKAEUB8c
+ gbuyM5srfQh0mghlm/RqKvj16BXDG6lZAWLfuIauzpDpI13LWHk7lFyjRRqr40EdF0FJ
+ trzd5hsvOnXmzfeKSZf7V53mOUGCSDGl3aUSCc9WeZDDpb6NIh8vJyo1j+7ZHG/2JYV+
+ Xjoi6vV8y9/QJFBKTMkelorUvH7s1m11iSSayM6kuTLifeYanAFkyPQnH8WZzpzaBnFX
+ cml2NbyvT/mDry/KA+Y3Sg+sjvV1R9V3z6/2ppOmzY1S118rXPoNudZfjNo528GoLx6A ZQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n76pug9a1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Jan 2023 13:34:37 +0000
+Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30JDPjwl022780;
+ Thu, 19 Jan 2023 13:34:37 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n76pug98p-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Jan 2023 13:34:37 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30J6fuAN006223;
+ Thu, 19 Jan 2023 13:34:34 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3n3knfpr5w-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Thu, 19 Jan 2023 13:34:34 +0000
+Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
+ [10.20.54.100])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30JDYUgL23397082
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Thu, 19 Jan 2023 13:34:30 GMT
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 8628120040;
+ Thu, 19 Jan 2023 13:34:30 +0000 (GMT)
+Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 0A22E20065;
+ Thu, 19 Jan 2023 13:34:30 +0000 (GMT)
+Received: from [9.152.224.248] (unknown [9.152.224.248])
+ by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Thu, 19 Jan 2023 13:34:29 +0000 (GMT)
+Message-ID: <f78d2d52-33eb-2705-b570-a73f46d8b09f@linux.ibm.com>
+Date: Thu, 19 Jan 2023 14:34:29 +0100
 MIME-Version: 1.0
-References: <20230117220523.20911-1-eiakovlev@linux.microsoft.com>
- <20230117220523.20911-5-eiakovlev@linux.microsoft.com>
-In-Reply-To: <20230117220523.20911-5-eiakovlev@linux.microsoft.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Jan 2023 13:31:27 +0000
-Message-ID: <CAFEAcA-68d=4DaygtyaFsv68fPYmXZNQzHUNPyEYr8SLuBu66Q@mail.gmail.com>
-Subject: Re: [PATCH v2 4/4] hw/char/pl011: check if UART is enabled before RX
- or TX operation
-To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102f.google.com
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Subject: Re: [PATCH v14 02/11] s390x/cpu topology: add topology entries on CPU
+ hotplug
+Content-Language: en-US
+To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
+ cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
+ kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
+ eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
+ nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-3-pmorel@linux.ibm.com>
+ <666b9711b23d807525be06992fffd4d782ee80c7.camel@linux.ibm.com>
+ <8063592a-971a-d029-e8ac-0fb6286199d5@linux.ibm.com>
+ <13ad4df8bc83f552ae1c9aad4f1a44d18963e7a8.camel@linux.ibm.com>
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <13ad4df8bc83f552ae1c9aad4f1a44d18963e7a8.camel@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: vWP_vJJenJ0Gemc-_eTxtYn4Z1dN98Kl
+X-Proofpoint-GUID: nkmEVxlxV74uVeYvj8k3kwEE1kAJpy3T
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-19_09,2023-01-19_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 mlxscore=0
+ adultscore=0 lowpriorityscore=0 bulkscore=0 impostorscore=0
+ priorityscore=1501 phishscore=0 clxscore=1015 spamscore=0 mlxlogscore=999
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301190108
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,23 +122,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 17 Jan 2023 at 22:05, Evgeny Iakovlev
-<eiakovlev@linux.microsoft.com> wrote:
->
-> UART should be enabled in general and have RX enabled specifically to be
-> able to receive data from peripheral device. Same goes for transmitting
-> data to peripheral device and a TXE flag.
->
-> Check if UART CR register has EN and RXE or TXE bits enabled before
-> trying to receive or transmit data.
->
-> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-> ---
->  hw/char/pl011.c | 22 +++++++++++++++++++---
->  1 file changed, 19 insertions(+), 3 deletions(-)
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-thanks
--- PMM
+On 1/17/23 17:48, Nina Schoetterl-Glausch wrote:
+> On Tue, 2023-01-17 at 14:55 +0100, Pierre Morel wrote:
+>>
+>> On 1/13/23 19:15, Nina Schoetterl-Glausch wrote:
+>>>
+> [...]
+> 
+>>>> +/**
+>>>> + * s390_topology_set_entry:
+>>>> + * @entry: Topology entry to setup
+>>>> + * @id: topology id to use for the setup
+>>>> + *
+>>>> + * Set the core bit inside the topology mask and
+>>>> + * increments the number of cores for the socket.
+>>>> + */
+>>>> +static void s390_topology_set_entry(S390TopologyEntry *entry,
+>>>
+>>> Not sure if I like the name, what it does is to add a cpu to the entry.
+>>
+>> s390_topology_add_cpu_to_entry() ?
+> 
+> Yeah, that's better.
+> 
+> [...]
+>>
+>>>> +/**
+>>>> + * s390_topology_set_cpu:
+>>>> + * @ms: MachineState used to initialize the topology structure on
+>>>> + *      first call.
+>>>> + * @cpu: the new S390CPU to insert in the topology structure
+>>>> + * @errp: the error pointer
+>>>> + *
+>>>> + * Called from CPU Hotplug to check and setup the CPU attributes
+>>>> + * before to insert the CPU in the topology.
+>>>> + */
+>>>> +void s390_topology_set_cpu(MachineState *ms, S390CPU *cpu, Error **errp)
+>>>> +{
+>>>> +    Error *local_error = NULL;
+>>>
+>>> Can't you just use ERRP_GUARD ?
+>>
+>> I do not think it is necessary and I find it obfuscating.
+>> So, should I?
+> 
+> /*
+>   * Propagate error object (if any) from @local_err to @dst_errp.
+> [...]
+>   * Please use ERRP_GUARD() instead when possible.
+>   * Please don't error_propagate(&error_fatal, ...), use
+>   * error_report_err() and exit(), because that's more obvious.
+>   */
+> void error_propagate(Error **dst_errp, Error *local_err);
+> 
+> So I'd say yes.
+
+OK, you are right it is better.
+
+Regards,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
