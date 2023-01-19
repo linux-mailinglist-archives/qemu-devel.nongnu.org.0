@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 648B66738B1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:36:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E5A6738BD
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:37:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIU90-00075e-Rd; Thu, 19 Jan 2023 07:35:50 -0500
+	id 1pIU9U-0007aa-Bq; Thu, 19 Jan 2023 07:36:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=w1SB=5Q=kaod.org=clg@ozlabs.org>)
- id 1pIU8y-0006zD-7V; Thu, 19 Jan 2023 07:35:48 -0500
-Received: from gandalf.ozlabs.org ([150.107.74.76])
+ id 1pIU92-00079m-Q1; Thu, 19 Jan 2023 07:35:56 -0500
+Received: from mail.ozlabs.org ([2404:9400:2221:ea00::3]
+ helo=gandalf.ozlabs.org)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <SRS0=w1SB=5Q=kaod.org=clg@ozlabs.org>)
- id 1pIU8w-0007dk-8F; Thu, 19 Jan 2023 07:35:47 -0500
+ id 1pIU90-0007ee-Lt; Thu, 19 Jan 2023 07:35:52 -0500
 Received: from gandalf.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
- by gandalf.ozlabs.org (Postfix) with ESMTP id 4NyMYF1kH8z4xyV;
- Thu, 19 Jan 2023 23:35:45 +1100 (AEDT)
+ by gandalf.ozlabs.org (Postfix) with ESMTP id 4NyMYH64rbz4xyf;
+ Thu, 19 Jan 2023 23:35:47 +1100 (AEDT)
 Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
  (No client certificate requested)
- by mail.ozlabs.org (Postfix) with ESMTPSA id 4NyMYC3FM7z4xZj;
- Thu, 19 Jan 2023 23:35:43 +1100 (AEDT)
+ by mail.ozlabs.org (Postfix) with ESMTPSA id 4NyMYF5KC8z4xHV;
+ Thu, 19 Jan 2023 23:35:45 +1100 (AEDT)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Peter Delevoryas <peter@pjd.dev>,
  =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-Subject: [PATCH 15/25] target/arm: Allow users to set the number of VFP
- registers
-Date: Thu, 19 Jan 2023 13:34:39 +0100
-Message-Id: <20230119123449.531826-16-clg@kaod.org>
+Subject: [PATCH 16/25] hw/watchdog/wdt_aspeed: Rename MMIO region size as
+ 'iosize'
+Date: Thu, 19 Jan 2023 13:34:40 +0100
+Message-Id: <20230119123449.531826-17-clg@kaod.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230119123449.531826-1-clg@kaod.org>
 References: <20230119123449.531826-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=150.107.74.76;
+Received-SPF: pass client-ip=2404:9400:2221:ea00::3;
  envelope-from=SRS0=w1SB=5Q=kaod.org=clg@ozlabs.org; helo=gandalf.ozlabs.org
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9,
- HEADER_FROM_DIFFERENT_DOMAINS=0.249, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9,
+ HEADER_FROM_DIFFERENT_DOMAINS=0.249, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,102 +66,145 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Cortex A7 CPUs with an FPU implementing VFPv4 without NEON support
-have 16 64-bit FPU registers and not 32 registers. Let users set the
-number of VFP registers with a CPU property.
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-The primary use case of this property is for the Cortex A7 of the
-Aspeed AST2600 SoC.
+Avoid confusing two different things:
+- the WDT I/O region size ('iosize')
+- at which offset the SoC map the WDT ('offset')
+While it is often the same, we can map smaller region sizes
+at larger offsets.
 
+Here we are interested in the I/O region size, so rename as
+'iosize'.
+
+Reviewed-by: Peter Delevoryas <peter@pjd.dev>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+[ clg: Introduced temporary wdt_offset variable ]
 Signed-off-by: Cédric Le Goater <clg@kaod.org>
 ---
- target/arm/cpu.h        |  2 ++
- hw/arm/aspeed_ast2600.c |  2 ++
- target/arm/cpu.c        | 31 +++++++++++++++++++++++++++++++
- 3 files changed, 35 insertions(+)
+ include/hw/watchdog/wdt_aspeed.h | 2 +-
+ hw/arm/aspeed_ast10x0.c          | 4 ++--
+ hw/arm/aspeed_ast2600.c          | 4 ++--
+ hw/arm/aspeed_soc.c              | 4 ++--
+ hw/watchdog/wdt_aspeed.c         | 8 ++++----
+ 5 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index bf2bce046d..5f2fefef4e 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -901,6 +901,8 @@ struct ArchCPU {
-     bool has_pmu;
-     /* CPU has VFP */
-     bool has_vfp;
-+    /* CPU has 32 VFP registers */
-+    bool has_vfp_d32;
-     /* CPU has Neon */
-     bool has_neon;
-     /* CPU has M-profile DSP extension */
+diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
+index dfa5dfa424..db91ee6b51 100644
+--- a/include/hw/watchdog/wdt_aspeed.h
++++ b/include/hw/watchdog/wdt_aspeed.h
+@@ -40,7 +40,7 @@ struct AspeedWDTState {
+ struct AspeedWDTClass {
+     SysBusDeviceClass parent_class;
+ 
+-    uint32_t offset;
++    uint32_t iosize;
+     uint32_t ext_pulse_width_mask;
+     uint32_t reset_ctrl_reg;
+     void (*reset_pulse)(AspeedWDTState *s, uint32_t property);
+diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
+index 4d0b9b115f..b483735dc2 100644
+--- a/hw/arm/aspeed_ast10x0.c
++++ b/hw/arm/aspeed_ast10x0.c
+@@ -318,14 +318,14 @@ static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **errp)
+     /* Watch dog */
+     for (i = 0; i < sc->wdts_num; i++) {
+         AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(&s->wdt[i]);
++        hwaddr wdt_offset = sc->memmap[ASPEED_DEV_WDT] + i * awc->iosize;
+ 
+         object_property_set_link(OBJECT(&s->wdt[i]), "scu", OBJECT(&s->scu),
+                                  &error_abort);
+         if (!sysbus_realize(SYS_BUS_DEVICE(&s->wdt[i]), errp)) {
+             return;
+         }
+-        aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->wdt[i]), 0,
+-                        sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
++        aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->wdt[i]), 0, wdt_offset);
+     }
+ 
+     /* GPIO */
 diff --git a/hw/arm/aspeed_ast2600.c b/hw/arm/aspeed_ast2600.c
-index cd75465c2b..37f43b4165 100644
+index 37f43b4165..75add765c6 100644
 --- a/hw/arm/aspeed_ast2600.c
 +++ b/hw/arm/aspeed_ast2600.c
-@@ -309,6 +309,8 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
-                                 &error_abort);
-         object_property_set_bool(OBJECT(&s->cpu[i]), "neon", false,
-                                 &error_abort);
-+        object_property_set_bool(OBJECT(&s->cpu[i]), "vfp-d32", false,
-+                                &error_abort);
-         object_property_set_link(OBJECT(&s->cpu[i]), "memory",
-                                  OBJECT(s->memory), &error_abort);
+@@ -467,14 +467,14 @@ static void aspeed_soc_ast2600_realize(DeviceState *dev, Error **errp)
+     /* Watch dog */
+     for (i = 0; i < sc->wdts_num; i++) {
+         AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(&s->wdt[i]);
++        hwaddr wdt_offset = sc->memmap[ASPEED_DEV_WDT] + i * awc->iosize;
  
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 5f63316dbf..ad90de75fb 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1269,6 +1269,9 @@ static Property arm_cpu_cfgend_property =
- static Property arm_cpu_has_vfp_property =
-             DEFINE_PROP_BOOL("vfp", ARMCPU, has_vfp, true);
- 
-+static Property arm_cpu_has_vfp_d32_property =
-+            DEFINE_PROP_BOOL("vfp-d32", ARMCPU, has_vfp_d32, true);
-+
- static Property arm_cpu_has_neon_property =
-             DEFINE_PROP_BOOL("neon", ARMCPU, has_neon, true);
- 
-@@ -1400,6 +1403,14 @@ void arm_cpu_post_init(Object *obj)
+         object_property_set_link(OBJECT(&s->wdt[i]), "scu", OBJECT(&s->scu),
+                                  &error_abort);
+         if (!sysbus_realize(SYS_BUS_DEVICE(&s->wdt[i]), errp)) {
+             return;
          }
+-        aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->wdt[i]), 0,
+-                        sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
++        aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->wdt[i]), 0, wdt_offset);
      }
  
-+    if (cpu->has_vfp && cpu_isar_feature(aa32_simd_r32, cpu)) {
-+        cpu->has_vfp_d32 = true;
-+        if (!kvm_enabled()) {
-+            qdev_property_add_static(DEVICE(obj),
-+                                     &arm_cpu_has_vfp_d32_property);
-+        }
-+    }
-+
-     if (arm_feature(&cpu->env, ARM_FEATURE_NEON)) {
-         cpu->has_neon = true;
-         if (!kvm_enabled()) {
-@@ -1661,6 +1672,26 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         return;
+     /* RAM */
+diff --git a/hw/arm/aspeed_soc.c b/hw/arm/aspeed_soc.c
+index b05b9dd416..e884d6badc 100644
+--- a/hw/arm/aspeed_soc.c
++++ b/hw/arm/aspeed_soc.c
+@@ -386,14 +386,14 @@ static void aspeed_soc_realize(DeviceState *dev, Error **errp)
+     /* Watch dog */
+     for (i = 0; i < sc->wdts_num; i++) {
+         AspeedWDTClass *awc = ASPEED_WDT_GET_CLASS(&s->wdt[i]);
++        hwaddr wdt_offset = sc->memmap[ASPEED_DEV_WDT] + i * awc->iosize;
+ 
+         object_property_set_link(OBJECT(&s->wdt[i]), "scu", OBJECT(&s->scu),
+                                  &error_abort);
+         if (!sysbus_realize(SYS_BUS_DEVICE(&s->wdt[i]), errp)) {
+             return;
+         }
+-        aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->wdt[i]), 0,
+-                        sc->memmap[ASPEED_DEV_WDT] + i * awc->offset);
++        aspeed_mmio_map(s, SYS_BUS_DEVICE(&s->wdt[i]), 0, wdt_offset);
      }
  
-+    if (!cpu->has_vfp_d32 &&
-+        arm_feature(env, ARM_FEATURE_V8) &&
-+        !arm_feature(env, ARM_FEATURE_M)) {
-+        error_setg(errp, "ARMv8A CPUs must have VFP32");
-+        return;
-+    }
-+
-+    if (cpu->has_vfp_d32 != cpu->has_neon) {
-+        error_setg(errp, "ARM CPUs must have both VFP32 and Neon or neither");
-+        return;
-+    }
-+
-+   if (!cpu->has_vfp_d32) {
-+        uint32_t u;
-+
-+        u = cpu->isar.mvfr0;
-+        u = FIELD_DP32(u, MVFR0, SIMDREG, 1); /* 16 registers */
-+        cpu->isar.mvfr0 = u;
-+    }
-+
-     if (!cpu->has_vfp) {
-         uint64_t t;
-         uint32_t u;
+     /* RAM  */
+diff --git a/hw/watchdog/wdt_aspeed.c b/hw/watchdog/wdt_aspeed.c
+index d753693a2e..958725a1b5 100644
+--- a/hw/watchdog/wdt_aspeed.c
++++ b/hw/watchdog/wdt_aspeed.c
+@@ -309,7 +309,7 @@ static void aspeed_2400_wdt_class_init(ObjectClass *klass, void *data)
+     AspeedWDTClass *awc = ASPEED_WDT_CLASS(klass);
+ 
+     dc->desc = "ASPEED 2400 Watchdog Controller";
+-    awc->offset = 0x20;
++    awc->iosize = 0x20;
+     awc->ext_pulse_width_mask = 0xff;
+     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
+     awc->wdt_reload = aspeed_wdt_reload;
+@@ -346,7 +346,7 @@ static void aspeed_2500_wdt_class_init(ObjectClass *klass, void *data)
+     AspeedWDTClass *awc = ASPEED_WDT_CLASS(klass);
+ 
+     dc->desc = "ASPEED 2500 Watchdog Controller";
+-    awc->offset = 0x20;
++    awc->iosize = 0x20;
+     awc->ext_pulse_width_mask = 0xfffff;
+     awc->reset_ctrl_reg = SCU_RESET_CONTROL1;
+     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
+@@ -369,7 +369,7 @@ static void aspeed_2600_wdt_class_init(ObjectClass *klass, void *data)
+     AspeedWDTClass *awc = ASPEED_WDT_CLASS(klass);
+ 
+     dc->desc = "ASPEED 2600 Watchdog Controller";
+-    awc->offset = 0x40;
++    awc->iosize = 0x40;
+     awc->ext_pulse_width_mask = 0xfffff; /* TODO */
+     awc->reset_ctrl_reg = AST2600_SCU_RESET_CONTROL1;
+     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
+@@ -392,7 +392,7 @@ static void aspeed_1030_wdt_class_init(ObjectClass *klass, void *data)
+     AspeedWDTClass *awc = ASPEED_WDT_CLASS(klass);
+ 
+     dc->desc = "ASPEED 1030 Watchdog Controller";
+-    awc->offset = 0x80;
++    awc->iosize = 0x80;
+     awc->ext_pulse_width_mask = 0xfffff; /* TODO */
+     awc->reset_ctrl_reg = AST2600_SCU_RESET_CONTROL1;
+     awc->reset_pulse = aspeed_2500_wdt_reset_pulse;
 -- 
 2.39.0
 
