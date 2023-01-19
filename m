@@ -2,82 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C76467453C
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 22:48:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9D68674555
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 22:59:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIclk-0005pg-J1; Thu, 19 Jan 2023 16:48:24 -0500
+	id 1pIcuZ-0007mj-QY; Thu, 19 Jan 2023 16:57:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIcku-0005j9-Go; Thu, 19 Jan 2023 16:47:32 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIcks-0003uH-IT; Thu, 19 Jan 2023 16:47:31 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id CCAC05D356;
- Thu, 19 Jan 2023 21:47:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674164847; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yXfsJQS/vLNCxRKxsuQYc9ooKEWHaLf6F7JzyNJQYUU=;
- b=LHUeRo2K1IRCY+WFx/S90Q0bGkZQW+zvr14hSsRMfXGYPDPeVziSqguSE4K+AHki13IQ4E
- yXAPuDPaRv8XhVYhAJHvwDzonxroGIK3+i+UMj31t82lxQfhvovUBlZC9e5tzAlbCYZMDS
- yhLokNDOesZrkUD74s4aMQAZ4foAbc8=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674164847;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=yXfsJQS/vLNCxRKxsuQYc9ooKEWHaLf6F7JzyNJQYUU=;
- b=upB2fhqm0Kb6oiK9jNgU/a+irnv7dcD532MsLMMiU/JPD+WMEKZ8I35Nvc4dkDalGgS9xT
- zmf59xN0JgmPg+BA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5B3E4139ED;
- Thu, 19 Jan 2023 21:47:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id FGyNCW+6yWMafAAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 19 Jan 2023 21:47:27 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard
- Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Alex
- =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, Paolo Bonzini
- <pbonzini@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
- Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [RFC PATCH v4 15/15] arm/Kconfig: Do not build TCG-only boards
- on a KVM-only build
-In-Reply-To: <0e4e2776-c44e-343b-1142-e236e38f35cc@linaro.org>
-References: <20230119135424.5417-1-farosas@suse.de>
- <20230119135424.5417-16-farosas@suse.de>
- <d700c608-f886-8b6f-1ecf-bc48cf671153@linaro.org>
- <0e4e2776-c44e-343b-1142-e236e38f35cc@linaro.org>
-Date: Thu, 19 Jan 2023 18:47:24 -0300
-Message-ID: <87v8l22o43.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
+ id 1pIcuY-0007mX-Jr; Thu, 19 Jan 2023 16:57:30 -0500
+Received: from linux.microsoft.com ([13.77.154.182])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <eiakovlev@linux.microsoft.com>)
+ id 1pIcuX-0005Wd-4G; Thu, 19 Jan 2023 16:57:30 -0500
+Received: from [192.168.0.20] (unknown [77.64.253.186])
+ by linux.microsoft.com (Postfix) with ESMTPSA id C170920E09FC;
+ Thu, 19 Jan 2023 13:57:25 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C170920E09FC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1674165446;
+ bh=ox9Mgqpo2btbYUKl6NZR0OsVv+FdVRx11CPR/p7v8Uk=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=ahLzHjM0v7SllW+H/FcqUaJcEONdKKMQW4D03tFFBByVkeSHZ40xNELrUdhPhp967
+ 8HWEBGsEnPFHqkqRTPYEgkJ04PmRLux6P2j0XloJrdB55Auawz4nx3Rj6zmcVmUX8q
+ qqYkMec0CQ52vyW+BHc2sRv8dac7CcjPTx6oQo6k=
+Message-ID: <b139bb17-4a1e-b393-d06f-67adc3310f46@linux.microsoft.com>
+Date: Thu, 19 Jan 2023 22:57:23 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v2 2/4] hw/char/pl011: implement a reset method
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20230117220523.20911-1-eiakovlev@linux.microsoft.com>
+ <20230117220523.20911-3-eiakovlev@linux.microsoft.com>
+ <CAFEAcA-0sUwRy_cME7TtrcV_oh9CEkRr1P2W6BC+=uscAyt+8Q@mail.gmail.com>
+From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+In-Reply-To: <CAFEAcA-0sUwRy_cME7TtrcV_oh9CEkRr1P2W6BC+=uscAyt+8Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=13.77.154.182;
+ envelope-from=eiakovlev@linux.microsoft.com; helo=linux.microsoft.com
+X-Spam_score_int: -198
+X-Spam_score: -19.9
+X-Spam_bar: -------------------
+X-Spam_report: (-19.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,51 +68,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
 
-> On 19/1/23 19:50, Richard Henderson wrote:
->> On 1/19/23 03:54, Fabiano Rosas wrote:
->>> Move all the CONFIG_FOO=3Dy from default.mak into "default y if TCG"
->>> statements in Kconfig. That way they won't be selected when
->>> CONFIG_TCG=3Dn.
->>>
->>> I'm leaving CONFIG_ARM_VIRT in default.mak because it allows us to
->>> keep the two default.mak files not empty and keep aarch64-default.mak
->>> including arm-default.mak. That way we don't surprise anyone that's
->>> used to altering these files.
->>>
->>> With this change we can start building with --disable-tcg.
->>>
->>> Signed-off-by: Fabiano Rosas<farosas@suse.de>
->>> ---
->>> sbsa-ref has an explicit check to avoid running with KVM
->>> xlnx-versal-virt has avocado tests tagged with tcg
->>> ---
->>> =C2=A0 configs/devices/aarch64-softmmu/default.mak |=C2=A0 4 --
->>> =C2=A0 configs/devices/arm-softmmu/default.mak=C2=A0=C2=A0=C2=A0=C2=A0 =
-| 37 ------------------
->>> =C2=A0 hw/arm/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 42 ++++++++++++++++++=
-++-
->>> =C2=A0 3 files changed, 41 insertions(+), 42 deletions(-)
->>=20
->> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+On 1/19/2023 14:27, Peter Maydell wrote:
+> On Tue, 17 Jan 2023 at 22:05, Evgeny Iakovlev
+> <eiakovlev@linux.microsoft.com> wrote:
+>> PL011 currently lacks a reset method. Implement it.
+>>
+>> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+>> ---
+>>   hw/char/pl011.c | 31 ++++++++++++++++++++++++++-----
+>>   1 file changed, 26 insertions(+), 5 deletions(-)
+>>
+>> diff --git a/hw/char/pl011.c b/hw/char/pl011.c
+>> index 329cc6926d..404d52a3b8 100644
+>> --- a/hw/char/pl011.c
+>> +++ b/hw/char/pl011.c
+>> @@ -397,11 +397,6 @@ static void pl011_init(Object *obj)
+>>       s->clk = qdev_init_clock_in(DEVICE(obj), "clk", pl011_clock_update, s,
+>>                                   ClockUpdate);
+>>
+>> -    s->read_trigger = 1;
+>> -    s->ifl = 0x12;
+>> -    s->cr = 0x300;
+>> -    s->flags = 0x90;
+>> -
+>>       s->id = pl011_id_arm;
+>>   }
+>>
+>> @@ -413,11 +408,37 @@ static void pl011_realize(DeviceState *dev, Error **errp)
+>>                                pl011_event, NULL, s, NULL, true);
+>>   }
+>>
+>> +static void pl011_reset(DeviceState *dev)
+>> +{
+>> +    PL011State *s = PL011(dev);
+>> +    int i;
+>> +
+>> +    s->lcr = 0;
+>> +    s->rsr = 0;
+>> +    s->dmacr = 0;
+>> +    s->int_enabled = 0;
+>> +    s->int_level = 0;
+>> +    s->ilpr = 0;
+>> +    s->ibrd = 0;
+>> +    s->fbrd = 0;
+>> +    s->read_pos = 0;
+>> +    s->read_count = 0;
+>> +    s->read_trigger = 1;
+>> +    s->ifl = 0x12;
+>> +    s->cr = 0x300;
+>> +    s->flags = 0x90;
+>> +
+>> +    for (i = 0; i < ARRAY_SIZE(s->irq); i++) {
+>> +        qemu_irq_lower(s->irq[i]);
+>> +    }
+> Reset should never touch outbound qemu_irq lines.
+> (The other end of the line will also reset and will end
+> up in the correct "as if the input is 0" state.)
+
+
+Really? I saw this reset happening on other devices in hw/char (don't 
+remember which ones specifically), so i though it is needed.
+
+
 >
-> The previous version was cleaner IMHO, not restricting only the
-> machines but also the cores:
-> https://www.mail-archive.com/qemu-devel@nongnu.org/msg777724.html
-
-I'm not able to apply that thread, there's missing emails in lore. =3D/
-
-What do you suggest here? I like that you added detailed descriptions of
-what was being removed and why. But it seems there's a lot left to be
-restricted still, compared to this patch.
-
-I also don't really understand what you mean by "also the cores". This
-series already moved all cpus under CONFIG_TCG and what's left is only
-the machines. If there's extra refinement to the configs, we should
-definitely look into doing it, but I think that could come as a
-follow-up series.
-
+> Otherwise
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>
+> thanks
+> -- PMM
 
