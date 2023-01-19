@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77A8D6738DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:43:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB4906738E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:44:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIUFu-0001hc-8g; Thu, 19 Jan 2023 07:42:58 -0500
+	id 1pIUGk-0002o8-1M; Thu, 19 Jan 2023 07:43:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pIUFo-0001e5-Tt
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 07:42:52 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pIUGh-0002li-Am
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 07:43:47 -0500
+Received: from forwardcorp1b.mail.yandex.net ([178.154.239.136])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pIUFl-0000IC-OM
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 07:42:52 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NyMcn35Z7z6J7Yd;
- Thu, 19 Jan 2023 20:38:49 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 19 Jan
- 2023 12:42:45 +0000
-Date: Thu, 19 Jan 2023 12:42:44 +0000
-To: Gregory Price <gregory.price@memverge.com>
-CC: Lukas Wunner <lukas@wunner.de>, <qemu-devel@nongnu.org>, Michael Tsirkin
- <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
- <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: Re: [PATCH 0/8] hw/cxl: CXL emulation cleanups and minor fixes for
- upstream
-Message-ID: <20230119124244.000015b3@Huawei.com>
-In-Reply-To: <Y8hJKcy1993SFLLJ@memverge.com>
-References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
- <Y8AppXP+eP9cEz+i@memverge.com>
- <20230112172130.0000391b@Huawei.com>
- <Y8CNw/fZT5fZJZcK@memverge.com>
- <20230113091213.00002146@Huawei.com>
- <Y8Foj/12QNl0C96o@memverge.com>
- <20230113144026.000001fb@Huawei.com>
- <20230113144511.00001207@Huawei.com>
- <20230113151206.GA20583@wunner.de> <Y8hG4OyJL7l9oD2f@memverge.com>
- <Y8hJKcy1993SFLLJ@memverge.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <antonkuchin@yandex-team.ru>)
+ id 1pIUGe-0000MN-5L
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 07:43:47 -0500
+Received: from iva8-3a65cceff156.qloud-c.yandex.net
+ (iva8-3a65cceff156.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c0c:2d80:0:640:3a65:ccef])
+ by forwardcorp1b.mail.yandex.net (Yandex) with ESMTP id 2D4495FD72;
+ Thu, 19 Jan 2023 15:43:30 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:8021::1:5] (unknown
+ [2a02:6b8:b081:8021::1:5])
+ by iva8-3a65cceff156.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 8hlvmN0W5Gk1-JVT7TY6P; Thu, 19 Jan 2023 15:43:29 +0300
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1674132209; bh=BWNkhAKJXuhAAGlK/K9RdhJ2pRCT04PXtqEb9E3GPWg=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=rCYNAHyt2yypDvXqsas4k7ev3edq2CiQ59yX1pO/1txz8kyt6nPKGI5fEhQK9CWJR
+ u6Vhk0lemEhuXRr9s1nJIc33snjOaE5fXWJKSnzVhpUpTNrCuRKLoo+qCvs6qoFWa/
+ dEwIaJD9uD50rx9QWDM/FBe5otMCGy0d96n/ZXHk=
+Authentication-Results: iva8-3a65cceff156.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <0d57cc40-693b-b36c-a135-fdac60dd00ec@yandex-team.ru>
+Date: Thu, 19 Jan 2023 14:43:08 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
+Content-Language: en-US
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: qemu-devel@nongnu.org, virtio-fs@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Juan Quintela <quintela@redhat.com>,
+ yc-core@yandex-team.ru, "Michael S. Tsirkin" <mst@redhat.com>
+References: <20230115170903.3416105-1-antonkuchin@yandex-team.ru>
+ <CAJSP0QVKUKgkBMw1PiN8-L8Ykhq=gfvNTTs4sf1tuzoqHu+GXw@mail.gmail.com>
+From: Anton Kuchin <antonkuchin@yandex-team.ru>
+In-Reply-To: <CAJSP0QVKUKgkBMw1PiN8-L8Ykhq=gfvNTTs4sf1tuzoqHu+GXw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=178.154.239.136;
+ envelope-from=antonkuchin@yandex-team.ru; helo=forwardcorp1b.mail.yandex.net
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -75,275 +76,156 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 18 Jan 2023 14:31:53 -0500
-Gregory Price <gregory.price@memverge.com> wrote:
+On 18/01/2023 17:52, Stefan Hajnoczi wrote:
+> On Sun, 15 Jan 2023 at 12:21, Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
+>> Now any vhost-user-fs device makes VM unmigratable, that also prevents
+>> qemu update without stopping the VM. In most cases that makes sense
+>> because qemu has no way to transfer FUSE session state.
+>>
+>> But we can give an option to orchestrator to override this if it can
+>> guarantee that state will be preserved (e.g. it uses migration to
+>> update qemu and dst will run on the same host as src and use the same
+>> socket endpoints).
+>>
+>> This patch keeps default behavior that prevents migration with such devices
+>> but adds migration capability 'vhost-user-fs' to explicitly allow migration.
+>>
+>> Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
+>> ---
+>>   hw/virtio/vhost-user-fs.c | 25 ++++++++++++++++++++++++-
+>>   qapi/migration.json       |  7 ++++++-
+>>   2 files changed, 30 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+>> index f5049735ac..13d920423e 100644
+>> --- a/hw/virtio/vhost-user-fs.c
+>> +++ b/hw/virtio/vhost-user-fs.c
+>> @@ -24,6 +24,7 @@
+>>   #include "hw/virtio/vhost-user-fs.h"
+>>   #include "monitor/monitor.h"
+>>   #include "sysemu/sysemu.h"
+>> +#include "migration/migration.h"
+>>
+>>   static const int user_feature_bits[] = {
+>>       VIRTIO_F_VERSION_1,
+>> @@ -298,9 +299,31 @@ static struct vhost_dev *vuf_get_vhost(VirtIODevice *vdev)
+>>       return &fs->vhost_dev;
+>>   }
+>>
+>> +static int vhost_user_fs_pre_save(void *opaque)
+>> +{
+>> +    MigrationState *s = migrate_get_current();
+>> +
+>> +    if (!s->enabled_capabilities[MIGRATION_CAPABILITY_VHOST_USER_FS]) {
+>> +        error_report("Migration of vhost-user-fs devices requires internal FUSE "
+>> +                     "state of backend to be preserved. If orchestrator can "
+>> +                     "guarantee this (e.g. dst connects to the same backend "
+>> +                     "instance or backend state is migrated) set 'vhost-user-fs' "
+>> +                     "migration capability to true to enable migration.");
+>> +        return -1;
+>> +    }
+>> +
+>> +    return 0;
+>> +}
+>> +
+>>   static const VMStateDescription vuf_vmstate = {
+>>       .name = "vhost-user-fs",
+>> -    .unmigratable = 1,
+>> +    .minimum_version_id = 0,
+>> +    .version_id = 0,
+>> +    .fields = (VMStateField[]) {
+>> +        VMSTATE_VIRTIO_DEVICE,
+>> +        VMSTATE_END_OF_LIST()
+>> +    },
+>> +   .pre_save = vhost_user_fs_pre_save,
+>>   };
+> Will it be possible to extend this vmstate when virtiofsd adds support
+> for stateful migration without breaking migration compatibility?
+>
+> If not, then I think a marker field should be added to the vmstate:
+> 0 - stateless/reconnect migration (the approach you're adding in this patch)
+> 1 - stateful migration (future virtiofsd feature)
+>
+> When the field is 0 there are no further vmstate fields and we trust
+> that the destination vhost-user-fs server already has the necessary
+> state.
+>
+> When the field is 1 there are additional vmstate fields that contain
+> the virtiofsd state.
+>
+> The goal is for QEMU to support 3 migration modes, depending on the
+> vhost-user-fs server:
+> 1. No migration support.
+> 2. Stateless migration.
+> 3. Stateful migration.
 
-> I apparently forgot an intro lol
-> 
-> I tested the DOE linux branch with the 2023-1-11 QEMU branch with both
-> volatile, non-volatile, and "legacy" (pre-my-patch) non-volatile mode.
-> 
-> 1) *In volatile mode, there are no stack traces present (during boot*)
-> 
-> On Wed, Jan 18, 2023 at 02:22:08PM -0500, Gregory Price wrote:
-> > 
-> > 1) No stack traces present
-> > 2) Device usage appears to work, but cxl-cli fails to create a region, i
-> > haven't checked why yet (also tried ndctl-75, same results)
-> > 3) There seems to be some other regression with the cxl_pmem_init
-> > routine, because I get a stack trace in this setup regardless of whether
-> > I apply the type-3 device commit.
-> > 
-> > 
-> > All tests below with the previously posted DOE linux branch.
-> > Base QEMU branch was Jonathan's 2023-1-11
-> > 
-> > 
-> > DOE Branch - 2023-1-11 (HEAD) (all commits)
-> > 
-> > QEMU Config:
-> > sudo /opt/qemu-cxl/bin/qemu-system-x86_64 \
-> > -drive file=/var/lib/libvirt/images/cxl.qcow2,format=qcow2,index=0,media=disk,id=hd \
-> > -m 3G,slots=4,maxmem=8G \
-> > -smp 4 \
-> > -machine type=q35,accel=kvm,cxl=on \
-> > -enable-kvm \
-> > -nographic \
-> > -object memory-backend-ram,id=mem0,size=1G,share=on \
-> > -device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 \
-> > -device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 \
-> > -device cxl-type3,bus=rp0,volatile-memdev=mem0,id=cxl-mem0 \
-> > -M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=1G
-> > 
-> > Result:  This worked, but cxl-cli could not create a region (will look
-> > into this further later).
-> > 
-> > 
-> > 
-> > 
-> > When running with a persistent memory configuration, I'm seeing a
-> > kernel stack trace on cxl_pmem_init
-> > 
-> > Config:
-> > sudo /opt/qemu-cxl/bin/qemu-system-x86_64 \
-> > -drive file=/var/lib/libvirt/images/cxl.qcow2,format=qcow2,index=0,media=disk,id=hd \
-> > -m 3G,slots=4,maxmem=4G \
-> > -smp 4 \
-> > -machine type=q35,accel=kvm,cxl=on \
-> > -enable-kvm \
-> > -nographic \
-> > -device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 \
-> > -device cxl-rp,port=0,id=rp0,bus=cxl.0,chassis=0,slot=0 \
-> > -object memory-backend-file,id=cxl-mem0,mem-path=/tmp/mem0,size=1G \
-> > -object memory-backend-file,id=cxl-lsa0,mem-path=/tmp/lsa0,size=1G \
-> > -device cxl-type3,bus=rp0,persistent-memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0 \
-> > -M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=1G
-> > 
-> > 
-> > [   62.167518] BUG: kernel NULL pointer dereference, address: 00000000000004c0
-> > [   62.185069] #PF: supervisor read access in kernel mode
-> > [   62.198502] #PF: error_code(0x0000) - not-present page
-> > [   62.211019] PGD 0 P4D 0
-> > [   62.220521] Oops: 0000 [#1] PREEMPT SMP PTI
-> > [   62.233457] CPU: 3 PID: 558 Comm: systemd-udevd Not tainted 6.2.0-rc1+ #1
-> > [   62.252886] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.16.1-0-g3208b098f51a-prebuilt.qemu.org 04/01/2014
-> > [   62.258432] Adding 2939900k swap on /dev/zram0.  Priority:100 extents:1 across:2939900k SSDscFS
-> > [   62.285513] RIP: 0010:cxl_nvdimm_probe+0x8d/0x130 [cxl_pmem]
-> > [   62.285529] Code: 85 c0 0f 85 90 00 00 00 f0 80 0c 24 40 f0 80 4c 24 08 10 f0 80 4c 24 08 20 f0 80 4c 24 08 40 49 8d 84 24 b8 04 00 00 4c 89 0
-> > [   62.285531] RSP: 0018:ffffacff0141fc38 EFLAGS: 00010202
-> > [   62.285534] RAX: ffff97a8a37b84b8 RBX: ffff97a8a37b8000 RCX: 0000000000000000
-> > [   62.285536] RDX: 0000000000000001 RSI: ffff97a8a37b8000 RDI: 00000000ffffffff
-> > [   62.285537] RBP: ffff97a8a37b8000 R08: 0000000000000001 R09: 0000000000000001
-> > [   62.285538] R10: 0000000000000001 R11: 0000000000000000 R12: ffff97a8a37b8000
-> > [   62.285539] R13: ffff97a982c3dc28 R14: 0000000000000000 R15: 0000000000000000
-> > [   62.285541] FS:  00007f2619829580(0000) GS:ffff97a9bca00000(0000) knlGS:0000000000000000
-> > [   62.285542] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [   62.285544] CR2: 00000000000004c0 CR3: 00000001056a8000 CR4: 00000000000006e0
-> > [   62.285653] Call Trace:
-> > [   62.285656]  <TASK>
-> > [   62.285660]  cxl_bus_probe+0x17/0x50
-> > [   62.285691]  really_probe+0xde/0x380
-> > [   62.285695]  ? pm_runtime_barrier+0x50/0x90
-> > [   62.285700]  __driver_probe_device+0x78/0x170
-> > [   62.285846]  driver_probe_device+0x1f/0x90
-> > [   62.285850]  __driver_attach+0xd2/0x1c0
-> > [   62.285853]  ? __pfx___driver_attach+0x10/0x10
-> > [   62.285856]  bus_for_each_dev+0x76/0xa0
-> > [   62.285860]  bus_add_driver+0x1b1/0x200
-> > [   62.285863]  driver_register+0x89/0xe0
-> > [   62.285868]  ? __pfx_init_module+0x10/0x10 [cxl_pmem]
-> > [   62.285874]  cxl_pmem_init+0x50/0xff0 [cxl_pmem]
-> > [   62.285880]  do_one_initcall+0x6e/0x330
-> > [   62.285888]  do_init_module+0x4a/0x200
-> > [   62.285892]  __do_sys_finit_module+0x93/0xf0
-> > [   62.285899]  do_syscall_64+0x5b/0x80
-> > [   62.285904]  ? do_syscall_64+0x67/0x80
-> > [   62.285906]  ? asm_exc_page_fault+0x22/0x30
-> > [   62.285910]  ? lockdep_hardirqs_on+0x7d/0x100
-> > [   62.285914]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-> > [   62.285917] RIP: 0033:0x7f2619b0afbd
-> > [   62.285920] Code: 5d c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 8
-> > [   62.285922] RSP: 002b:00007ffcc516bf58 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
-> > [   62.285924] RAX: ffffffffffffffda RBX: 00005557c0dcaa60 RCX: 00007f2619b0afbd
-> > [   62.285925] RDX: 0000000000000000 RSI: 00007f261a18743c RDI: 0000000000000006
-> > [   62.285926] RBP: 00007f261a18743c R08: 0000000000000000 R09: 00007f261a17bb52
-> > [   62.285927] R10: 0000000000000006 R11: 0000000000000246 R12: 0000000000020000
-> > [   62.285928] R13: 00005557c0dbbce0 R14: 0000000000000000 R15: 00005557c0dc18a0
-> > [   62.285932]  </TASK>
-> > [   62.285933] Modules linked in: cxl_pmem(+) snd_pcm libnvdimm snd_timer snd joydev bochs cxl_mem drm_vram_helper parport_pc soundcore drm_ttm_g
-> > [   62.285954] CR2: 00000000000004c0
-> > [   62.288385] ---[ end trace 0000000000000000 ]---
-> > [   63.203514] RIP: 0010:cxl_nvdimm_probe+0x8d/0x130 [cxl_pmem]
-> > [   63.203562] Code: 85 c0 0f 85 90 00 00 00 f0 80 0c 24 40 f0 80 4c 24 08 10 f0 80 4c 24 08 20 f0 80 4c 24 08 40 49 8d 84 24 b8 04 00 00 4c 89 0
-> > [   63.203565] RSP: 0018:ffffacff0141fc38 EFLAGS: 00010202
-> > [   63.203570] RAX: ffff97a8a37b84b8 RBX: ffff97a8a37b8000 RCX: 0000000000000000
-> > [   63.203572] RDX: 0000000000000001 RSI: ffff97a8a37b8000 RDI: 00000000ffffffff
-> > [   63.203574] RBP: ffff97a8a37b8000 R08: 0000000000000001 R09: 0000000000000001
-> > [   63.203576] R10: 0000000000000001 R11: 0000000000000000 R12: ffff97a8a37b8000
-> > [   63.203577] R13: ffff97a982c3dc28 R14: 0000000000000000 R15: 0000000000000000
-> > [   63.203580] FS:  00007f2619829580(0000) GS:ffff97a9bca00000(0000) knlGS:0000000000000000
-> > [   63.203583] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > [   63.203585] CR2: 00000000000004c0 CR3: 00000001056a8000 CR4: 00000000000006e0
+Sure. These vmstate fields are very generic and mandatory for any
+virtio device. If in future more state can be transfer in migration
+stream the vmstate can be extended with additional fields. This can
+be done with new subsections and/or bumping version_id.
 
-Possibly replicated.  What I did was stop cxl_pmem.ko being probed automatically and
-added it manually later. Trace that results is certainly similar to yours.
-
-Now the MODULE_SOFTDEP() in drivers/cxl/acpi.c should stop that happening
-assuming you are letting autoloading run.
-I wonder if there is a path in which it doesn't?
-
-Dan, any thoughts?
-
-There is another race that I can trigger by repeatedly injecting errors and
-causing resets, but the trace for that is very different and
-points at cxl_pmem_ctl() called via nvdimm_probe(). I was going to try
-and pin that one down a little more before posting a report but might
-as well muddy the waters :)
-
- Unable to handle kernel NULL pointer dereference at virtual address 0000000000000358
- Mem abort info:
- ESR = 0x0000000096000004
- EC = 0x25: DABT (current EL), IL = 32 bits
- SET = 0, FnV = 0
- EA = 0, S1PTW = 0
- FSC = 0x04: level 0 translation fault
- Data abort info:
- ISV = 0, ISS = 0x00000004
- CM = 0, WnR = 0
- user pgtable: 4k pages, 48-bit VAs, pgdp=0000000102e12000
- [0000000000000358] pgd=0000000000000000, p4d=0000000000000000
- Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
- Modules linked in: cxl_mem cxl_port cxl_acpi cxl_pmem cxl_pci cxl_core
- CPU: 0 PID: 236 Comm: kworker/u8:3 Not tainted 6.2.0-rc3+ #598
- Hardware name: QEMU QEMU Virtual Machine, BIOS 0.0.0 02/06/2015
- Workqueue: events_unbound async_run_entry_fn
- pstate: 61400005 (nZCv daif +PAN -UAO -TCO +DIT -SSBS BTYPE=--)
- pc : cxl_pmem_ctl+0x74/0x244 [cxl_pmem]
- lr : cxl_pmem_ctl+0x60/0x244 [cxl_pmem]
- sp : ffff8000089239d0
- x29: ffff8000089239d0 x28: 0000000000000000 x27: 0000000000000000
- x26: ffffcd4f6b263000 x25: ffffcd4f6a25d9c8 x24: 0000000000000000
- kernel: Internal error: Oops: 0000000096000004 [#1] PREEMPT SMP
- x23: 0000000000000000 x22: 000000000000000c x21: ffff0000c5b95400
- x20: ffff0000c0d9ce0c x19: 0000000000000004 x18: 0000000000000000
- x17: 0000000000000000 x16: ffffcd4f698a5fa0 x15: 0000000000000000
- x14: 0000000000000002 x13: 0000000000000000 x12: 0000000000000000
- x11: 0000000000000001 x10: 409e5dd45a38ef72 x9 : ffffcd4f607531f0
- x8 : ffff0000c0d9ce80 x7 : 0000000000000000 x6 : 0000000000000000
- x5 : ffff800008923a84 x4 : 000000000000000c x3 : ffff800008923a10
- x2 : 0000000000000000 x1 : 0000000000000000 x0 : 0000000000000070
- Call trace:
-  cxl_pmem_ctl+0x74/0x244 [cxl_pmem]
-  nvdimm_init_nsarea+0xb8/0xdc
-  nvdimm_probe+0xc0/0x1d0
-  nvdimm_bus_probe+0x90/0x200
-  really_probe+0xc8/0x3e0
-  __driver_probe_device+0x84/0x190
-  driver_probe_device+0x44/0x120
-  __device_attach_driver+0xc4/0x160
-  bus_for_each_drv+0x80/0xe0
-  __device_attach+0xa4/0x1cc
-  device_initial_probe+0x1c/0x2c
-  bus_probe_device+0xa4/0xb0
-  device_add+0x404/0x920
-  nd_async_device_register+0x20/0x70
-  async_run_entry_fn+0x3c/0x154
-  process_one_work+0x200/0x474
-  worker_thread+0x74/0x43c
-  kthread+0x110/0x114
-  ret_from_fork+0x10/0x20
-  Code: 53067e61 f90023e0 f9417aa2 f8617860 (f941ac57)
-  ---[ end trace 0000000000000000 ]---
-
-Note this seems to have gotten harder to hit for some reason - took
-about 50 resets.
-
-I'll keep digging
-
-Jonathan
+The main purpose of this patch is to allow update VM to newer version
+of qemu via local migration without disruption to guest. And future
+versions hopefully could pack more state from external environment
+to migration stream.
 
 
-> > 
-> > 
-> > 
-> > Next i reverted the QEMU branch to the commit just before the type-3
-> > volatile commit and used the old method of launching with a type-3 pmem
-> > device
-> > 
-> > Config:
-> > sudo /opt/qemu-cxl/bin/qemu-system-x86_64 \
-> > -drive file=/var/lib/libvirt/images/cxl.qcow2,format=qcow2,index=0,media=disk,id=hd \
-> > -m 2G,slots=4,maxmem=4G \
-> > -smp 4 \
-> > -machine type=q35,accel=kvm,cxl=on \
-> > -enable-kvm \
-> > -nographic \
-> > -device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 \
-> > -device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 \
-> > -object memory-backend-file,pmem=true,id=cxl-mem0,mem-path=/tmp/cxl-mem0,size=1G \
-> > -object memory-backend-file,pmem=true,id=lsa0,mem-path=/tmp/cxl-lsa0,size=1G \
-> > -device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 \
-> > -M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=1G
-> > 
-> > 
-> > Result: Similar stack trace
-> > [   29.850023] BUG: kernel NULL pointer dereference, address: 00000000000004c0
-> > [   29.882400] RIP: 0010:cxl_nvdimm_probe+0x8d/0x130 [cxl_pmem]
-> > [   29.957485] Call Trace:
-> > [   29.959067]  <TASK>
-> > [   29.962176]  cxl_bus_probe+0x17/0x50
-> > [   29.964940]  really_probe+0xde/0x380
-> > [   29.969065]  ? pm_runtime_barrier+0x50/0x90
-> > [   29.973419]  __driver_probe_device+0x78/0x170
-> > [   29.977183]  driver_probe_device+0x1f/0x90
-> > [   29.984212]  __driver_attach+0xd2/0x1c0
-> > [   29.988463]  ? __pfx___driver_attach+0x10/0x10
-> > [   29.992379]  bus_for_each_dev+0x76/0xa0
-> > [   29.997040]  bus_add_driver+0x1b1/0x200
-> > [   30.000368]  driver_register+0x89/0xe0
-> > [   30.004579]  ? __pfx_init_module+0x10/0x10 [cxl_pmem]
-> > [   30.012403]  cxl_pmem_init+0x50/0xff0 [cxl_pmem]
-> > [   30.019394]  do_one_initcall+0x6e/0x330
-> > [   30.024028]  do_init_module+0x4a/0x200
-> > [   30.029243]  __do_sys_finit_module+0x93/0xf0
-> > [   30.034943]  do_syscall_64+0x5b/0x80
-> > [   30.039844]  ? do_syscall_64+0x67/0x80
-> > [   30.045163]  ? do_syscall_64+0x67/0x80
-> > [   30.049729]  ? lock_release+0x14b/0x440
-> > [   30.054055]  ? seqcount_lockdep_reader_access.constprop.0+0x82/0x90
-> > [   30.061039]  ? lock_is_held_type+0xe8/0x140
-> > [   30.067625]  ? do_syscall_64+0x67/0x80
-> > [   30.071909]  ? lockdep_hardirqs_on+0x7d/0x100
-> > [   30.079037]  ? do_syscall_64+0x67/0x80
-> > [   30.084537]  ? do_syscall_64+0x67/0x80
-> > [   30.089091]  ? do_syscall_64+0x67/0x80
-> > [   30.094174]  ? lockdep_hardirqs_on+0x7d/0x100
-> > [   30.099224]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-> > [   30.104446] RIP: 0033:0x7f000550afbd  
+>
+>>   static Property vuf_properties[] = {
+>> diff --git a/qapi/migration.json b/qapi/migration.json
+>> index 88ecf86ac8..9a229ea884 100644
+>> --- a/qapi/migration.json
+>> +++ b/qapi/migration.json
+>> @@ -477,6 +477,11 @@
+>>   #                    will be handled faster.  This is a performance feature and
+>>   #                    should not affect the correctness of postcopy migration.
+>>   #                    (since 7.1)
+>> +# @vhost-user-fs: If enabled, the migration process will allow migration of
+>> +#                 vhost-user-fs devices, this should be enabled only when
+>> +#                 backend can preserve local FUSE state e.g. for qemu update
+>> +#                 when dst reconects to the same endpoints after migration.
+>> +#                 (since 8.0)
+> This is global but a guest can have multiple vhost-user-fs devices
+> connected to different servers.
+AFAIK vhost-user requires unix socket and memory shared from guest so
+devices can't be connected to different servers, just to different
+endpoints on current host.
 
+>
+> I would add a qdev property to the device instead of introducing a
+> migration capability. The property would enable "stateless migration".
+> When the property is not set, migration would be prohibited.
+I did thought about that, but this is really not a property of device,
+this is the capability of management software and applies to exactly one
+particular migration process that it initiates. It should not persist
+across migration or be otherwise stored in device.
+
+The idea here is that orchestrator can ensure destination qemu will
+run on the same host, will reconnect to the same unix sockets and only
+then sets the flag (because inside qemu we can't know anything about
+the destination).
+This is somewhat similar to ignore-shared migration capability when
+qemu avoids saving and loading guest memory that is stores in shmem
+because it will be picked up by destination process right where source
+left it.
+
+>>   #
+>>   # Features:
+>>   # @unstable: Members @x-colo and @x-ignore-shared are experimental.
+>> @@ -492,7 +497,7 @@
+>>              'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+>>              { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
+>>              'validate-uuid', 'background-snapshot',
+>> -           'zero-copy-send', 'postcopy-preempt'] }
+>> +           'zero-copy-send', 'postcopy-preempt', 'vhost-user-fs'] }
+>>
+>>   ##
+>>   # @MigrationCapabilityStatus:
+>> --
+>> 2.34.1
+>>
+>>
 
