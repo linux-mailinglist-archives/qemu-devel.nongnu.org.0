@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A275674085
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:05:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5319E67408B
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:06:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIZHH-0003PA-Oi; Thu, 19 Jan 2023 13:04:43 -0500
+	id 1pIZHD-0003LW-9y; Thu, 19 Jan 2023 13:04:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH4-0003Ir-DU
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:31 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ id 1pIZH3-0003I9-63
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:29 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH0-000114-Ot
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:30 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id l8so2188479wms.3
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:04:22 -0800 (PST)
+ id 1pIZH0-00011B-5g
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:28 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ l41-20020a05600c1d2900b003daf986faaeso1875993wms.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:04:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=nxoWU4Tw6BX+PJ5ddbeFgfV335pZMDd265PyUGg07yo=;
- b=D55lQFOw+OukFzRej76GyJzPGVXNmYTkUMnLn94Qr6P5q5sJ/BowhnCRsCqTFVZVeB
- ie2uAe4oREDAT2E2MTGh7TjiAlXqnNu0jeho/oSE45buDz/pSlyxZ83ZfdBcH1slSLdB
- M24oSkZbgVFYYvoBo8+Vh8uSwU08FwtcEK5y7T0OgbeMoDaoU+FN/ZO/0XWia7ZQhbY8
- d+vEv3sjp86rlMJVhJQsdvFj5IrS/dvvYbqqwFfSRAUtEuVWv4eaiX3Z6RD2vfGMgidv
- MXygtfJIdHmfrHYRPXXCjWlbqWuYbdehloqsRrHAqj3QSewF6qoHAQE/xIbvi2XxxisO
- Y2ag==
+ bh=3kS477a0I3Bux/zzw2KohjX48YjyxZLcbfkqW1wVgq8=;
+ b=fZizxt6CyzpdQICKNpdkTlblcKoio9LQiXlcr7D6r4myQoQJzivacN+7PUypKIXVNy
+ zQxjd5+/PfVI6gH5+qqzTMgY8oJ9CV/rUiMzO/OU3TvdGXy/AWCxRUsuxgDw32dGcjqc
+ g2EHxRBZ4i1pSA9RCluw4/Jwg3L9fjwQkpxBPKP8NZ5e9fkDm44PDFMzSiQbxRCvjLFc
+ E5Uxy9SnvZLKaL0So/m5DFpw0Oc8VOyVYthyKkEcwMLN0IwTtudgV4wBKYuD/IofWoPa
+ fi4d4288SOcWb5kiDJ1xfLXTwnfeCrfaS9mTGd/5HeOJly77pnElkg5UcRmOalqlfTMZ
+ iXkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=nxoWU4Tw6BX+PJ5ddbeFgfV335pZMDd265PyUGg07yo=;
- b=QDZ9sVoy7xA4KKz+O1zvFff71i2vhnZ6bnV24TLeiEV7XP9qJiEZFyv4ohbcMfTnrM
- IOeWlMGFnn+cECuhR07BhYQj94Gv/ZqBItLOLqfZdxBRX7HGyt2bGjWhNsyLlTivozhx
- z45T9pWDgIfxOgUlaZDxc+ueAgDhpCOVaCK/d64jTS2+S2PSqdA4yBxS7j7N8mUmv3MO
- NFPqHqGmIaSWHIBzaUaI37AkHqLk/Eraa9hk8TRrZ7GfgWlG5xv6gSWlOD6DUB+wKRyT
- clfZIDNPhziTl7K+IT4s8HHNzy40rfMW6uUPgbyr3pUy7tUMF7fmklkpQ+q6Xbln79Sl
- I/3w==
-X-Gm-Message-State: AFqh2kpPTuOQuY2N81C2Y2X2AIJmOS7CxcDcwAN6WlLUHNwS9bxY8T85
- 6BdkpeczotaikQLxF2vHApmlWQ==
-X-Google-Smtp-Source: AMrXdXsMsHdBofHTzzZaccSCxFd+D4LjS/hkeDsfTHVBkU16YMZC/DYT7g2Se/+BiiyJ2BTtUizqZQ==
-X-Received: by 2002:a05:600c:3d16:b0:3d0:6a57:66a5 with SMTP id
- bh22-20020a05600c3d1600b003d06a5766a5mr11232488wmb.0.1674151461749; 
- Thu, 19 Jan 2023 10:04:21 -0800 (PST)
+ bh=3kS477a0I3Bux/zzw2KohjX48YjyxZLcbfkqW1wVgq8=;
+ b=4FugteZq1lcrjvJ65yV/I6FY856SMsn+BnluyjLf7/ok1FCxb571Mi1cWQjvCn+9lI
+ jjXb8ZJ4dDMsshk6VRukWDlm53FqdGd7hKq0CefbMk1ogwvI1MFZt/IrlnD/47c10Gt8
+ JCrUjEh9LquYPsmOGZiUHsgu4SWyNzyHUgXK9SeLfnJHqCgPoQnfrGm0+uqjtPTNa+Me
+ Fs9ikOSflt6EGZyzCLBX8kouvwOaNMk2ksusvw8/pqEbO/yRyh8KdT0shehLrIjipkyd
+ 0NqTmoQnPXlJbT67kdPKl4x2drdHvLOXweXKF6fMT/Gpp/1R9enYMzbMkEeeC5Ztpb/Z
+ yybw==
+X-Gm-Message-State: AFqh2kotrW+tuoTJUFslx/2qi049JV5JZyt97qg/gHU4mcdGkjNmc9ng
+ 47F7f1kvzbG8t0XCJ0fQbGp62g==
+X-Google-Smtp-Source: AMrXdXs6Ss6jz6qZKmH6lQNk61KUf2gzVkZo9I1bJF+6GIi8skcwCE1UKVM5LXXAN1+lCEX6UBfEYA==
+X-Received: by 2002:a05:600c:3488:b0:3d2:370b:97f4 with SMTP id
+ a8-20020a05600c348800b003d2370b97f4mr19769221wmq.16.1674151462430; 
+ Thu, 19 Jan 2023 10:04:22 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- s4-20020a05600c384400b003d9862ec435sm5474970wmr.20.2023.01.19.10.04.20
+ s4-20020a05600c384400b003d9862ec435sm5474973wmr.20.2023.01.19.10.04.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 19 Jan 2023 10:04:20 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BEE0A1FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id D5E681FFBC;
  Thu, 19 Jan 2023 18:04:19 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -72,20 +73,19 @@ Cc: Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 03/18] gitlab: just use plain --cc=clang for custom runner
- build
-Date: Thu, 19 Jan 2023 18:04:04 +0000
-Message-Id: <20230119180419.30304-4-alex.bennee@linaro.org>
+ Thomas Huth <thuth@redhat.com>
+Subject: [PATCH 04/18] tests/unit: drop hacky race avoidance in
+ test-io-channel-command
+Date: Thu, 19 Jan 2023 18:04:05 +0000
+Message-Id: <20230119180419.30304-5-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230119180419.30304-1-alex.bennee@linaro.org>
 References: <20230119180419.30304-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -108,28 +108,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I think this was because older Ubuntu's didn't alias clang to whatever
-the latest version was. They do now so lets use that and not break.
+We don't need to play timing games to ensure one socat wins over the
+other, just create the fifo they both can use before spawning the
+processes. However in the process we need to disable two tests for
+Windows platforms as we don't have an abstraction for mkfifo().
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1403
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/unit/test-io-channel-command.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
 
-diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-index abeb33eaff..725ca8ffea 100644
---- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-+++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
-@@ -81,7 +81,7 @@ ubuntu-22.04-aarch64-clang:
-  script:
-  - mkdir build
-  - cd build
-- - ../configure --disable-libssh --cc=clang-10 --cxx=clang++-10 --enable-sanitizers
-+ - ../configure --disable-libssh --cc=clang --cxx=clang++ --enable-sanitizers
-    || { cat config.log meson-logs/meson-log.txt; exit 1; }
-  - make --output-sync -j`nproc --ignore=40`
-  - make --output-sync -j`nproc --ignore=40` check
+diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
+index 19f72eab96..425e2f5594 100644
+--- a/tests/unit/test-io-channel-command.c
++++ b/tests/unit/test-io-channel-command.c
+@@ -20,6 +20,8 @@
+ 
+ #include "qemu/osdep.h"
+ #include <glib/gstdio.h>
++#include <sys/types.h>
++#include <sys/stat.h>
+ #include "io/channel-command.h"
+ #include "io-channel-helpers.h"
+ #include "qapi/error.h"
+@@ -29,6 +31,7 @@
+ 
+ static char *socat = NULL;
+ 
++#ifndef _WIN32
+ static void test_io_channel_command_fifo(bool async)
+ {
+     g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
+@@ -40,12 +43,13 @@ static void test_io_channel_command_fifo(bool async)
+     QIOChannel *src, *dst;
+     QIOChannelTest *test;
+ 
++    if (mkfifo(fifo, 0600)) {
++        g_error("mkfifo: %s", strerror(errno));
++    }
++
+     src = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) srcargv,
+                                                     O_WRONLY,
+                                                     &error_abort));
+-    /* try to avoid a race to create the socket */
+-    g_usleep(1000);
+-
+     dst = QIO_CHANNEL(qio_channel_command_new_spawn((const char **) dstargv,
+                                                     O_RDONLY,
+                                                     &error_abort));
+@@ -60,7 +64,6 @@ static void test_io_channel_command_fifo(bool async)
+     g_rmdir(tmpdir);
+ }
+ 
+-
+ static void test_io_channel_command_fifo_async(void)
+ {
+     if (!socat) {
+@@ -80,6 +83,7 @@ static void test_io_channel_command_fifo_sync(void)
+ 
+     test_io_channel_command_fifo(false);
+ }
++#endif
+ 
+ 
+ static void test_io_channel_command_echo(bool async)
+@@ -124,10 +128,12 @@ int main(int argc, char **argv)
+ 
+     socat = g_find_program_in_path("socat");
+ 
++#ifndef _WIN32
+     g_test_add_func("/io/channel/command/fifo/sync",
+                     test_io_channel_command_fifo_sync);
+     g_test_add_func("/io/channel/command/fifo/async",
+                     test_io_channel_command_fifo_async);
++#endif
+     g_test_add_func("/io/channel/command/echo/sync",
+                     test_io_channel_command_echo_sync);
+     g_test_add_func("/io/channel/command/echo/async",
 -- 
 2.34.1
 
