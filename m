@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 200D7673224
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:07:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B6B673228
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:10:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIOwi-0001r6-LV; Thu, 19 Jan 2023 02:02:51 -0500
+	id 1pIOy5-0005UG-Kg; Thu, 19 Jan 2023 02:04:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pIOwI-0001TR-E9
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:02:22 -0500
-Received: from esa14.hc2706-39.iphmx.com ([216.71.140.199])
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pIOxW-0005Gx-T6
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:03:43 -0500
+Received: from esa12.hc2706-39.iphmx.com ([216.71.137.82])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pIOwE-0000EZ-BU
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:02:20 -0500
-X-IronPort-RemoteIP: 209.85.222.199
-X-IronPort-MID: 274242831
+ (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pIOxU-0000K9-EN
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:03:37 -0500
+X-IronPort-RemoteIP: 209.85.219.199
+X-IronPort-MID: 252685565
 X-IronPort-Reputation: None
 X-IronPort-Listener: OutgoingMail
 X-IronPort-SenderGroup: RELAY_GSUITE
 X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:+uyRRaCxLc03FRVW/5fhw5YqxClBgxIJ4kV8jS/XYbTApGwqgWNWz
- WsfUD2COPqNNGvxf4oiPY7jpBsEvpeAytRqTANkpHpgcSl2pJueD7x1DKtR0wB+jCHnZBg6h
- ynLQoCYdKjYdleF+lH2dOCk9SMnvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYctitWia++3k
- YqaT/b3ZRn0hFaYDkpOs/jY8Eo27ayr0N8llgdWic5j7Qe2e0Y9Ucp3yZGZdxPQXoRSF+imc
- OfPpJnRErTxpkpF5nuNy94XQ2VTKlLgFVHmZkl+AsBOtiN/Shkaic7XAha9hXB/0F1ll/gpo
- DlEWAfZpQ0BZ8Ugk8xEO/VU/r0X0QSrN9YrLFDm2fF/wXEqfFPrw/AwMkgqFLQq2d0mOmsT/
- 9ofF3MkO0Xra+KemNpXS8Fpj8UnadDoZcYR4yAxiz7eCvkiTNbIRKCiCd1whm9hwJATW6yEP
- YxAOGsHgBfoOnWjPn8eDII4kP2AjGS5fjFFwL6QjfBovzKPllwqidABNvLXfNmuWtUSwHrfm
- Vn3/UT+WRwfF4aQnG/tHnWEw7WncTnAcJsfEaD9+vN0jVm7wGsVBxsLE1yhrpGEZlWWXtteL
- wkN+XNro/FjpQqkSd7yWxD+q3mB1vIBZ+dt/yQBwFnl4sLpD8yxXADokhYphAQaifIL
-IronPort-HdrOrdr: A9a23:sFpiIKk0XjViTPvkDzfH+RoL+7XpDfIc3DAbv31ZSRFFG/Fw9v
- rDoB1/73TJYVkqN03I9ervBED4ewK4yXcW2+ks1MaZPTUO0VHAROsO0WKF+UyDJ8SUzJ8/6U
- 4PSdkZNPTASXR8kMbm8E2ZPr8bsaC6GXmT9IPjJqFWPGZXV50=
-Received: from mail-qk1-f199.google.com ([209.85.222.199])
+IronPort-Data: A9a23:2ph/C6xyJLStx2o6WCh6t+eJxCrEfRIJ4+MujC+fZmUNrF6WrkVTy
+ GFLCmGGMv7YNGKgeIhyYYjg/EMB6JCAzNBqTgo++y00HyNBpPSeOdnIdU2Y0wF+jyHgoOCLy
+ +1EN7Es+ehtFie0Si+Fa+Sn9j8kkPnSHdIQMcacUghpXwhoVSw9vhxqnu89k+ZAjMOwRgiAo
+ rsemeWGULOe82MyYz18B56r8ks156yr4WJA5zTSWNgQ1LPgvyhNZH4gDfzpR5fIatE8NvK3Q
+ e/F0Ia48gvxl/v6Ior4+lpTWhRiro/6ZGBiuFIPM0SRqkEqShgJ70oOHKF0hXG7Ktm+t4sZJ
+ N1l7fRcQOqyV0HGsL11vxJwSkmSMUDakVNuzLfWXcG7liX7n3XQL/pGAHkYHYwW2MtMDnAQr
+ qdBLDQ9ax+PrrfjqF67YrEEasULKcDqOMYOsCglw2iIXLApRpfMR6iM7thdtNsyrpoWTLCOO
+ oxDMGspNUWRC/FMEg5/5JYWleO4gHXlWzdF7l+ZuMLb5kCJkVYvgOWwboe9ltqiG+lwuXayu
+ nj9pXXEWEBDEPCn9j237Sf57gPItWahMG4IL5Wh+/t3xVGe2GEXIBsRU1S9vL++kEHWZj5EA
+ 0kd+y5rvKJrsULyH4i7UBq/r3qJ+BUbXrK8DtEH1e1E8YKMiy7xO4TOZmcphAAO3CPueQEX6
+ w==
+IronPort-HdrOrdr: A9a23:zHndkKEahP/NXChqpLqE1ceALOsnbusQ8zAXP+Abc3Jom62j5r
+ iTdZEgvnXJYVkqKRMdcO67Scq9qB/nhPlICPAqUYtKPzOWwVdATrsC0WKK+VSJdhEWkNQts5
+ uIGJIObeEYY2IK6foSNDPZLz6pq+PpzJyV
+Received: from mail-yb1-f199.google.com ([209.85.219.199])
  by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 02:02:09 -0500
-Received: by mail-qk1-f199.google.com with SMTP id
- bk14-20020a05620a1a0e00b00706774f14cbso884274qkb.4
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 23:02:10 -0800 (PST)
+ 19 Jan 2023 02:03:34 -0500
+Received: by mail-yb1-f199.google.com with SMTP id
+ 81-20020a250b54000000b007c002e178dfso1302694ybl.9
+ for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 23:03:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
  bh=FSQLcBOaxi4ec1ZLLBTEmbLjcknf+fmz9dGZaj/lG9Q=;
- b=A+QbcObaktT4M8Ml43XY4cqjcOKW1+SFTe6HJOB79hr6He+OqsgW+NCyikAhMfaUJq
- up3D+qhzgrKnNA0b1C/0md+U50u5Aw+4vrejgQLn+7yDOPvGWlSnNuXxRA/D25cqf4wt
- ua0x6v8IwG0sddLVoJnEbXCUYZV/BqZhlsVCXCiDVeqYrVTnepyx+7Nq9iFK7IWxUjbF
- M/z9Ii3fmhUSdFRiuw2doUNeXq6zJdxf2+HdH5k+f2/+duL9Rc5plQ3lazuL74PX3JL6
- y6zUWDMJegy/Px2ZsMiHveN8JHklmWSpFeQXRXOeWWWsawYnn26/NMjJoZNjR+IBf6a6
- IHgw==
+ b=kOHN267EDXQFbaHI4GN1O58nx3ydv912uype8Q3QMt8WZttrEpwD8gwkY1shW0XDSF
+ A7bMKyjvw5bQQzDRoW+AJeRdOn3C7LGFHiHTOzvRGIbxrr70hQyNiUXGnR9UBiK2BRlF
+ MqKLNy7xVIoYqQMuMIBnyiVgcVnJT0q6HzZ+6EAFPsbCxcPyJaEBSgzq3q6oEaJPS+yd
+ FD0fRp/OLDEsWGWumPJAwYdo45CSYiZnYCeLSHFzlzOtskkupJgyen4w5S/00WgFU1Ez
+ nBCmq46lvec6NPEvl+k9qKM5I1OaT+HT1vD3PFa70ikPySxmOb3LjHFXgxKYZyob7RYm
+ UvZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
  bh=FSQLcBOaxi4ec1ZLLBTEmbLjcknf+fmz9dGZaj/lG9Q=;
- b=pPCxTjXQLVHS6DB4JPl18+zAflFemd3vXegjMNW0GcTBLfYrC2deyAFS1w5J2rtQZ0
- VPKSgpfbCsUJSM3YJwkwtHW6LRclMpKsHMg7PK9AzGli11ecAYhj/fmUiA1aAtHX7buR
- iAV+roKjF7J91Dlu6Jtisvpbyb8VKUEhv1YWuDV4tf1KxM++qp5PcyygulJv0l1BzhCM
- We8QIhXFm9+R8hQOPww61vvCs7p19z5sxGWMIFFDaT9srwxyumWc2m97Asvq4yET8pnt
- R/BYfRa401iAyvs+T9CsS83scq8l0C4WwNyEQnl7cFVEwqHBRiovqE5vf2OjBGW+oBaM
- HOrw==
-X-Gm-Message-State: AFqh2kogZd3XxTmTE/SKeN6VTWTca+b2mulCYTjm4UII93/Ma661dWq4
- WhjQlo+0E4wcAwbz95ct6u0eRHe/49+w+vNzKgKnxMHIWlqt/G+LaoVA8XwFLg7CbM50hY87YuF
- iHPy/NPsERI/XJ44rwa08T9ZErISC+Q==
-X-Received: by 2002:ac8:4b53:0:b0:3ad:14d0:e8b8 with SMTP id
- e19-20020ac84b53000000b003ad14d0e8b8mr12521771qts.26.1674111728833; 
- Wed, 18 Jan 2023 23:02:08 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuOg4cr6E1IJeIxVMhHJ1PiVNcNeoBTmPH2xbxXvxJTNcxHjeMxldDVExeY7p7DrvlVJAwniA==
-X-Received: by 2002:ac8:4b53:0:b0:3ad:14d0:e8b8 with SMTP id
- e19-20020ac84b53000000b003ad14d0e8b8mr12521740qts.26.1674111728542; 
- Wed, 18 Jan 2023 23:02:08 -0800 (PST)
+ b=beBSlfLVaKhP6E2T+aXhABOHWJrqKp8RsN6tvtCAHSM3X7ryPg470R8misveeiObqF
+ ZkFC9ye/5HhiNZ9REr35l3rYJGfYzAXDqahe0zd+/9zSxCluvevqbZk1zCxFoiRfIV5f
+ 15srBcOHW2Z14e0DjGpHB4UiLBAHVUyBtZAF3s7QdDbr3U+fouXyQpQKjGLdSkNA9Ilw
+ yLW31TT36zpMMEb2VK8EQhxSlTR4/c8gaNoxBd7guuHV4zJw8nIiBLZn0z9m0mjDgPEB
+ 93whQe84TM6Y5FSziowYB04aEHz1yhYXBCZY5Fjbrfpm8FiqD+Z5PzFb7EYTRR2TT6n9
+ IYxQ==
+X-Gm-Message-State: AFqh2kpmfI7+U2FuiPWumR4QyTrc/mw93a0+CMEfip0UL6LSnClgT8NM
+ RTla2yqtCy/hLy9aW5SOlxP+ubUHxwjkcP29hk/Uc0jsp1DnEMbR//wU7m9z0YlklO+0RlIm30A
+ bMbw312G/kjPimf4AOpG5Y1Didxa9Yg==
+X-Received: by 2002:a05:622a:1f8f:b0:3b1:ca9c:6c38 with SMTP id
+ cb15-20020a05622a1f8f00b003b1ca9c6c38mr16843433qtb.51.1674111802690; 
+ Wed, 18 Jan 2023 23:03:22 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtdYWJeR8hc2O4F3ulIceRwuvX5SFdrDk8GYb5Zm/tbjU9amCHjbPzLiwm6qo6fH3P7+KXf4g==
+X-Received: by 2002:a05:622a:1f8f:b0:3b1:ca9c:6c38 with SMTP id
+ cb15-20020a05622a1f8f00b003b1ca9c6c38mr16843351qtb.51.1674111801857; 
+ Wed, 18 Jan 2023 23:03:21 -0800 (PST)
 Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
  by smtp.gmail.com with ESMTPSA id
- b24-20020ac86798000000b0039cc944ebdasm18529810qtp.54.2023.01.18.23.02.06
+ bp37-20020a05620a45a500b006e99290e83fsm23675926qkb.107.2023.01.18.23.03.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 18 Jan 2023 23:02:08 -0800 (PST)
+ Wed, 18 Jan 2023 23:03:21 -0800 (PST)
 From: Alexander Bulekov <alxndr@bu.edu>
 To: qemu-devel@nongnu.org
 Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -95,14 +96,14 @@ Cc: Alexander Bulekov <alxndr@bu.edu>, Stefan Hajnoczi <stefanha@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, Jon Maloy <jmaloy@redhat.com>,
  Siqi Chen <coc.cyqh@gmail.com>
 Subject: [PATCH v4 0/3] memory: prevent dma-reentracy issues
-Date: Thu, 19 Jan 2023 02:01:57 -0500
-Message-Id: <20230119070200.321519-1-alxndr@bu.edu>
+Date: Thu, 19 Jan 2023 02:03:05 -0500
+Message-Id: <20230119070308.321653-1-alxndr@bu.edu>
 X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.140.199; envelope-from=alxndr@bu.edu;
- helo=esa14.hc2706-39.iphmx.com
+Received-SPF: pass client-ip=216.71.137.82; envelope-from=alxndr@bu.edu;
+ helo=esa12.hc2706-39.iphmx.com
 X-Spam_score_int: -10
 X-Spam_score: -1.1
 X-Spam_bar: -
