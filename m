@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF074673A25
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:29:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58E99673A39
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:30:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIUxI-0005tM-KR; Thu, 19 Jan 2023 08:27:48 -0500
+	id 1pIUxM-0005x9-Fe; Thu, 19 Jan 2023 08:27:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUx6-0005r6-Eo
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:27:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUx4-0005qS-SU
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:27:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUx1-0008C8-V1
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:27:36 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIUx1-0008Ce-Sj
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:27:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674134837;
+ s=mimecast20190719; t=1674134839;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=a/8562241mRXnhonALpPQZE/7v4jC9gJs2LucgygCdY=;
- b=BZCydLb0aGistnMQ4VY/xhEsvmSo94huaFoxcuBBjiGCFqvk6j9Co15lSYevIZtvOSKczw
- Q+/3t0N1eEL9VlqwzYBw907yLGqTcmv9Z4oxpsPHmTj0R/RFwIrEuGh4dkBVG3ymJktSpH
- HWYxXpCIs3WwAWcZJIdlRrw0wrMxzTo=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=dKujExdYj+dmrHMLUfFaBEmV+rJ/Wb9QdcrQYIgEbgk=;
+ b=F+xaSzsILCDy9mKwn6YVzfNfQV2sMTzc7kjdXCdAmxuhC8MXdHedAQIPgMIbbElodfP4ul
+ 9FgIBwRMw60hCsn7eHXBJPKwXUl3xo2StjOMIy0KZNiLSJhhK3bAZu4FemTb0FjFXrvzXV
+ XH+6DmaDxIhu2s3UTZqQ5iPLsF6Xmq4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-32-XEAMwS_VPo-YB5sqkx1hFg-1; Thu, 19 Jan 2023 08:27:16 -0500
-X-MC-Unique: XEAMwS_VPo-YB5sqkx1hFg-1
+ us-mta-247-ix-q-WfkNumDG9zp7AiLZQ-1; Thu, 19 Jan 2023 08:27:16 -0500
+X-MC-Unique: ix-q-WfkNumDG9zp7AiLZQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E27A187B2B4;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5F713C1024F;
  Thu, 19 Jan 2023 13:27:15 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9ED57C15BAD;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A2F7DC15E7F;
  Thu, 19 Jan 2023 13:27:15 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 619ED21E6604; Thu, 19 Jan 2023 14:27:13 +0100 (CET)
+ id 63FF221E6606; Thu, 19 Jan 2023 14:27:13 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 09/17] ui: Move QMP commands from monitor to new
+Subject: [PULL 10/17] ui: Factor out qmp_add_client() parts and move to
  ui/ui-qmp-cmds.c
-Date: Thu, 19 Jan 2023 14:27:05 +0100
-Message-Id: <20230119132713.3493556-10-armbru@redhat.com>
+Date: Thu, 19 Jan 2023 14:27:06 +0100
+Message-Id: <20230119132713.3493556-11-armbru@redhat.com>
 In-Reply-To: <20230119132713.3493556-1-armbru@redhat.com>
 References: <20230119132713.3493556-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,329 +80,217 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This moves these commands from MAINTAINERS section "QMP" to
-"Graphics".
-
-Command add-client applies to socket character devices in addition to
-display devices.  Move it anyway.  Aside: the way @protocol character
-device IDs and display types is bad design.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20230109190321.1056914-10-armbru@redhat.com>
+Message-Id: <20230109190321.1056914-11-armbru@redhat.com>
 ---
- monitor/qmp-cmds.c | 118 ---------------------------------------
- ui/ui-qmp-cmds.c   | 136 +++++++++++++++++++++++++++++++++++++++++++++
- ui/meson.build     |   1 +
- 3 files changed, 137 insertions(+), 118 deletions(-)
- create mode 100644 ui/ui-qmp-cmds.c
+ include/monitor/qmp-helpers.h | 26 ++++++++++++
+ monitor/qmp-cmds.c            | 74 ++++++++++++++++-------------------
+ ui/ui-qmp-cmds.c              | 41 +++++++++++++++++++
+ 3 files changed, 100 insertions(+), 41 deletions(-)
+ create mode 100644 include/monitor/qmp-helpers.h
 
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index 6d6df86607..61449f1b58 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -36,9 +36,7 @@
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-stats.h"
--#include "qapi/qapi-commands-ui.h"
- #include "qapi/type-helpers.h"
--#include "qapi/qmp/qerror.h"
- #include "exec/ramlist.h"
- #include "hw/mem/memory-device.h"
- #include "hw/acpi/acpi_dev_interface.h"
-@@ -168,89 +166,6 @@ void qmp_system_wakeup(Error **errp)
-     qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, errp);
- }
- 
--void qmp_set_password(SetPasswordOptions *opts, Error **errp)
--{
--    int rc;
--
--    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
--        if (!qemu_using_spice(errp)) {
--            return;
--        }
--        rc = qemu_spice.set_passwd(opts->password,
--                opts->connected == SET_PASSWORD_ACTION_FAIL,
--                opts->connected == SET_PASSWORD_ACTION_DISCONNECT);
--    } else {
--        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
--        if (opts->connected != SET_PASSWORD_ACTION_KEEP) {
--            /* vnc supports "connected=keep" only */
--            error_setg(errp, QERR_INVALID_PARAMETER, "connected");
--            return;
--        }
--        /*
--         * Note that setting an empty password will not disable login
--         * through this interface.
--         */
--        rc = vnc_display_password(opts->u.vnc.display, opts->password);
--    }
--
--    if (rc != 0) {
--        error_setg(errp, "Could not set password");
--    }
--}
--
--void qmp_expire_password(ExpirePasswordOptions *opts, Error **errp)
--{
--    time_t when;
--    int rc;
--    const char *whenstr = opts->time;
--    const char *numstr = NULL;
--    uint64_t num;
--
--    if (strcmp(whenstr, "now") == 0) {
--        when = 0;
--    } else if (strcmp(whenstr, "never") == 0) {
--        when = TIME_MAX;
--    } else if (whenstr[0] == '+') {
--        when = time(NULL);
--        numstr = whenstr + 1;
--    } else {
--        when = 0;
--        numstr = whenstr;
--    }
--
--    if (numstr) {
--        if (qemu_strtou64(numstr, NULL, 10, &num) < 0) {
--            error_setg(errp, "Parameter 'time' doesn't take value '%s'",
--                       whenstr);
--            return;
--        }
--        when += num;
--    }
--
--    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
--        if (!qemu_using_spice(errp)) {
--            return;
--        }
--        rc = qemu_spice.set_pw_expire(when);
--    } else {
--        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
--        rc = vnc_display_pw_expire(opts->u.vnc.display, when);
--    }
--
--    if (rc != 0) {
--        error_setg(errp, "Could not set password expire time");
--    }
--}
--
--#ifdef CONFIG_VNC
--void qmp_change_vnc_password(const char *password, Error **errp)
--{
--    if (vnc_display_password(NULL, password) < 0) {
--        error_setg(errp, "Could not set password");
--    }
--}
--#endif
--
- void qmp_add_client(const char *protocol, const char *fdname,
-                     bool has_skipauth, bool skipauth, bool has_tls, bool tls,
-                     Error **errp)
-@@ -305,7 +220,6 @@ void qmp_add_client(const char *protocol, const char *fdname,
-     }
- }
- 
--
- MemoryDeviceInfoList *qmp_query_memory_devices(Error **errp)
- {
-     return qmp_memory_device_list();
-@@ -344,38 +258,6 @@ MemoryInfo *qmp_query_memory_size_summary(Error **errp)
-     return mem_info;
- }
- 
--void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
--{
--    switch (arg->type) {
--    case DISPLAY_RELOAD_TYPE_VNC:
--#ifdef CONFIG_VNC
--        if (arg->u.vnc.has_tls_certs && arg->u.vnc.tls_certs) {
--            vnc_display_reload_certs(NULL, errp);
--        }
--#else
--        error_setg(errp, "vnc is invalid, missing 'CONFIG_VNC'");
--#endif
--        break;
--    default:
--        abort();
--    }
--}
--
--void qmp_display_update(DisplayUpdateOptions *arg, Error **errp)
--{
--    switch (arg->type) {
--    case DISPLAY_UPDATE_TYPE_VNC:
--#ifdef CONFIG_VNC
--        vnc_display_update(&arg->u.vnc, errp);
--#else
--        error_setg(errp, "vnc is invalid, missing 'CONFIG_VNC'");
--#endif
--        break;
--    default:
--        abort();
--    }
--}
--
- static int qmp_x_query_rdma_foreach(Object *obj, void *opaque)
- {
-     RdmaProvider *rdma;
-diff --git a/ui/ui-qmp-cmds.c b/ui/ui-qmp-cmds.c
+diff --git a/include/monitor/qmp-helpers.h b/include/monitor/qmp-helpers.h
 new file mode 100644
-index 0000000000..c9f92caf1d
+index 0000000000..4718c63c73
 --- /dev/null
-+++ b/ui/ui-qmp-cmds.c
-@@ -0,0 +1,136 @@
++++ b/include/monitor/qmp-helpers.h
+@@ -0,0 +1,26 @@
 +/*
-+ * QMP commands related to UI
++ * QMP command helpers
 + *
-+ * Copyright IBM, Corp. 2011
++ * Copyright (c) 2022 Red Hat Inc.
 + *
 + * Authors:
-+ *  Anthony Liguori   <aliguori@us.ibm.com>
++ *  Markus Armbruster <armbru@redhat.com>
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2.  See
 + * the COPYING file in the top-level directory.
-+ *
-+ * Contributions after 2012-01-13 are licensed under the terms of the
-+ * GNU GPL, version 2 or (at your option) any later version.
 + */
 +
-+#include "qemu/osdep.h"
-+#include "qapi/qapi-commands-ui.h"
-+#include "qapi/qmp/qerror.h"
-+#include "qemu/cutils.h"
-+#include "ui/console.h"
-+#include "ui/qemu-spice.h"
++#ifndef MONITOR_QMP_HELPERS_H
 +
-+void qmp_set_password(SetPasswordOptions *opts, Error **errp)
++bool qmp_add_client_spice(int fd, bool has_skipauth, bool skipauth,
++                        bool has_tls, bool tls, Error **errp);
++#ifdef CONFIG_VNC
++bool qmp_add_client_vnc(int fd, bool has_skipauth, bool skipauth,
++                        bool has_tls, bool tls, Error **errp);
++#endif
++#ifdef CONFIG_DBUS_DISPLAY
++bool qmp_add_client_dbus_display(int fd, bool has_skipauth, bool skipauth,
++                        bool has_tls, bool tls, Error **errp);
++#endif
++
++#endif
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index 61449f1b58..b5b736761a 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -17,13 +17,11 @@
+ #include "qemu/cutils.h"
+ #include "qemu/option.h"
+ #include "monitor/monitor.h"
++#include "monitor/qmp-helpers.h"
+ #include "sysemu/sysemu.h"
+ #include "qemu/config-file.h"
+ #include "qemu/uuid.h"
+ #include "chardev/char.h"
+-#include "ui/qemu-spice.h"
+-#include "ui/console.h"
+-#include "ui/dbus-display.h"
+ #include "sysemu/kvm.h"
+ #include "sysemu/runstate.h"
+ #include "sysemu/runstate-action.h"
+@@ -170,54 +168,48 @@ void qmp_add_client(const char *protocol, const char *fdname,
+                     bool has_skipauth, bool skipauth, bool has_tls, bool tls,
+                     Error **errp)
+ {
++    static struct {
++        const char *name;
++        bool (*add_client)(int fd, bool has_skipauth, bool skipauth,
++                           bool has_tls, bool tls, Error **errp);
++    } protocol_table[] = {
++        { "spice", qmp_add_client_spice },
++#ifdef CONFIG_VNC
++        { "vnc", qmp_add_client_vnc },
++#endif
++#ifdef CONFIG_DBUS_DISPLAY
++        { "@dbus-display", qmp_add_client_dbus_display },
++#endif
++    };
+     Chardev *s;
+-    int fd;
++    int fd, i;
+ 
+     fd = monitor_get_fd(monitor_cur(), fdname, errp);
+     if (fd < 0) {
+         return;
+     }
+ 
+-    if (strcmp(protocol, "spice") == 0) {
+-        if (!qemu_using_spice(errp)) {
+-            close(fd);
+-            return;
+-        }
+-        skipauth = has_skipauth ? skipauth : false;
+-        tls = has_tls ? tls : false;
+-        if (qemu_spice.display_add_client(fd, skipauth, tls) < 0) {
+-            error_setg(errp, "spice failed to add client");
+-            close(fd);
+-        }
+-#ifdef CONFIG_VNC
+-    } else if (strcmp(protocol, "vnc") == 0) {
+-        skipauth = has_skipauth ? skipauth : false;
+-        vnc_display_add_client(NULL, fd, skipauth);
+-#endif
+-#ifdef CONFIG_DBUS_DISPLAY
+-    } else if (strcmp(protocol, "@dbus-display") == 0) {
+-        if (!qemu_using_dbus_display(errp)) {
+-            close(fd);
+-            return;
+-        }
+-        if (!qemu_dbus_display.add_client(fd, errp)) {
+-            close(fd);
+-            return;
+-        }
+-#endif
+-    } else {
+-        s = qemu_chr_find(protocol);
+-        if (!s) {
+-            error_setg(errp, "protocol '%s' is invalid", protocol);
+-            close(fd);
+-            return;
+-        }
+-        if (qemu_chr_add_client(s, fd) < 0) {
+-            error_setg(errp, "failed to add client");
+-            close(fd);
++    for (i = 0; i < ARRAY_SIZE(protocol_table); i++) {
++        if (!strcmp(protocol, protocol_table[i].name)) {
++            if (!protocol_table[i].add_client(fd, has_skipauth, skipauth,
++                                              has_tls, tls, errp)) {
++                close(fd);
++            }
+             return;
+         }
+     }
++
++    s = qemu_chr_find(protocol);
++    if (!s) {
++        error_setg(errp, "protocol '%s' is invalid", protocol);
++        close(fd);
++        return;
++    }
++    if (qemu_chr_add_client(s, fd) < 0) {
++        error_setg(errp, "failed to add client");
++        close(fd);
++        return;
++    }
+ }
+ 
+ MemoryDeviceInfoList *qmp_query_memory_devices(Error **errp)
+diff --git a/ui/ui-qmp-cmds.c b/ui/ui-qmp-cmds.c
+index c9f92caf1d..dbc4afcd73 100644
+--- a/ui/ui-qmp-cmds.c
++++ b/ui/ui-qmp-cmds.c
+@@ -14,10 +14,12 @@
+  */
+ 
+ #include "qemu/osdep.h"
++#include "monitor/qmp-helpers.h"
+ #include "qapi/qapi-commands-ui.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qemu/cutils.h"
+ #include "ui/console.h"
++#include "ui/dbus-display.h"
+ #include "ui/qemu-spice.h"
+ 
+ void qmp_set_password(SetPasswordOptions *opts, Error **errp)
+@@ -103,6 +105,45 @@ void qmp_change_vnc_password(const char *password, Error **errp)
+ }
+ #endif
+ 
++bool qmp_add_client_spice(int fd, bool has_skipauth, bool skipauth,
++                          bool has_tls, bool tls, Error **errp)
 +{
-+    int rc;
-+
-+    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
-+        if (!qemu_using_spice(errp)) {
-+            return;
-+        }
-+        rc = qemu_spice.set_passwd(opts->password,
-+                opts->connected == SET_PASSWORD_ACTION_FAIL,
-+                opts->connected == SET_PASSWORD_ACTION_DISCONNECT);
-+    } else {
-+        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
-+        if (opts->connected != SET_PASSWORD_ACTION_KEEP) {
-+            /* vnc supports "connected=keep" only */
-+            error_setg(errp, QERR_INVALID_PARAMETER, "connected");
-+            return;
-+        }
-+        /*
-+         * Note that setting an empty password will not disable login
-+         * through this interface.
-+         */
-+        rc = vnc_display_password(opts->u.vnc.display, opts->password);
++    if (!qemu_using_spice(errp)) {
++        return false;
 +    }
-+
-+    if (rc != 0) {
-+        error_setg(errp, "Could not set password");
++    skipauth = has_skipauth ? skipauth : false;
++    tls = has_tls ? tls : false;
++    if (qemu_spice.display_add_client(fd, skipauth, tls) < 0) {
++        error_setg(errp, "spice failed to add client");
++        return false;
 +    }
-+}
-+
-+void qmp_expire_password(ExpirePasswordOptions *opts, Error **errp)
-+{
-+    time_t when;
-+    int rc;
-+    const char *whenstr = opts->time;
-+    const char *numstr = NULL;
-+    uint64_t num;
-+
-+    if (strcmp(whenstr, "now") == 0) {
-+        when = 0;
-+    } else if (strcmp(whenstr, "never") == 0) {
-+        when = TIME_MAX;
-+    } else if (whenstr[0] == '+') {
-+        when = time(NULL);
-+        numstr = whenstr + 1;
-+    } else {
-+        when = 0;
-+        numstr = whenstr;
-+    }
-+
-+    if (numstr) {
-+        if (qemu_strtou64(numstr, NULL, 10, &num) < 0) {
-+            error_setg(errp, "Parameter 'time' doesn't take value '%s'",
-+                       whenstr);
-+            return;
-+        }
-+        when += num;
-+    }
-+
-+    if (opts->protocol == DISPLAY_PROTOCOL_SPICE) {
-+        if (!qemu_using_spice(errp)) {
-+            return;
-+        }
-+        rc = qemu_spice.set_pw_expire(when);
-+    } else {
-+        assert(opts->protocol == DISPLAY_PROTOCOL_VNC);
-+        rc = vnc_display_pw_expire(opts->u.vnc.display, when);
-+    }
-+
-+    if (rc != 0) {
-+        error_setg(errp, "Could not set password expire time");
-+    }
++    return true;
 +}
 +
 +#ifdef CONFIG_VNC
-+void qmp_change_vnc_password(const char *password, Error **errp)
++bool qmp_add_client_vnc(int fd, bool has_skipauth, bool skipauth,
++                        bool has_tls, bool tls, Error **errp)
 +{
-+    if (vnc_display_password(NULL, password) < 0) {
-+        error_setg(errp, "Could not set password");
-+    }
++    skipauth = has_skipauth ? skipauth : false;
++    vnc_display_add_client(NULL, fd, skipauth);
++    return true;
 +}
 +#endif
 +
-+void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
++#ifdef CONFIG_DBUS_DISPLAY
++bool qmp_add_client_dbus_display(int fd, bool has_skipauth, bool skipauth,
++                                 bool has_tls, bool tls, Error **errp)
 +{
-+    switch (arg->type) {
-+    case DISPLAY_RELOAD_TYPE_VNC:
-+#ifdef CONFIG_VNC
-+        if (arg->u.vnc.has_tls_certs && arg->u.vnc.tls_certs) {
-+            vnc_display_reload_certs(NULL, errp);
-+        }
-+#else
-+        error_setg(errp, "vnc is invalid, missing 'CONFIG_VNC'");
-+#endif
-+        break;
-+    default:
-+        abort();
++    if (!qemu_using_dbus_display(errp)) {
++        return false;
 +    }
++    if (!qemu_dbus_display.add_client(fd, errp)) {
++        return false;
++    }
++    return true;
 +}
++#endif
 +
-+void qmp_display_update(DisplayUpdateOptions *arg, Error **errp)
-+{
-+    switch (arg->type) {
-+    case DISPLAY_UPDATE_TYPE_VNC:
-+#ifdef CONFIG_VNC
-+        vnc_display_update(&arg->u.vnc, errp);
-+#else
-+        error_setg(errp, "vnc is invalid, missing 'CONFIG_VNC'");
-+#endif
-+        break;
-+    default:
-+        abort();
-+    }
-+}
-diff --git a/ui/meson.build b/ui/meson.build
-index c1b137bf33..9194ea335b 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -14,6 +14,7 @@ softmmu_ss.add(files(
-   'kbd-state.c',
-   'keymaps.c',
-   'qemu-pixman.c',
-+  'ui-qmp-cmds.c',
-   'util.c',
- ))
- if dbus_display
+ void qmp_display_reload(DisplayReloadOptions *arg, Error **errp)
+ {
+     switch (arg->type) {
 -- 
 2.39.0
 
