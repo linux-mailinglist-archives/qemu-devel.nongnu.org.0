@@ -2,64 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDE8F673566
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:22:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 147BE67356C
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:24:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIS2L-0006Yb-Nt; Thu, 19 Jan 2023 05:20:51 -0500
+	id 1pIS5w-00060q-RV; Thu, 19 Jan 2023 05:24:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pIS1n-0006MG-GA
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:20:35 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pIS1g-0007vK-Ix
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:20:14 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4NyJWs4q2rz6J9pN;
- Thu, 19 Jan 2023 18:19:21 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 19 Jan
- 2023 10:19:47 +0000
-Date: Thu, 19 Jan 2023 10:19:46 +0000
-To: Gregory Price <gregory.price@memverge.com>
-CC: Lukas Wunner <lukas@wunner.de>, <qemu-devel@nongnu.org>, Michael Tsirkin
- <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
- <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>
-Subject: Re: [PATCH 0/8] hw/cxl: CXL emulation cleanups and minor fixes for
- upstream
-Message-ID: <20230119101946.000079e5@Huawei.com>
-In-Reply-To: <Y8hG4OyJL7l9oD2f@memverge.com>
-References: <20230111142440.24771-1-Jonathan.Cameron@huawei.com>
- <Y8AppXP+eP9cEz+i@memverge.com>
- <20230112172130.0000391b@Huawei.com>
- <Y8CNw/fZT5fZJZcK@memverge.com>
- <20230113091213.00002146@Huawei.com>
- <Y8Foj/12QNl0C96o@memverge.com>
- <20230113144026.000001fb@Huawei.com>
- <20230113144511.00001207@Huawei.com>
- <20230113151206.GA20583@wunner.de> <Y8hG4OyJL7l9oD2f@memverge.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIS5t-0005ny-35
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:24:29 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIS5q-0000gL-Fn
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:24:27 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ m5-20020a05600c4f4500b003db03b2559eso875332wmq.5
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 02:24:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=nNZmGPx9gHaeeq1ZYg6nybSOX/fGtj1PlB0bPPjkHbE=;
+ b=CvMJbxvj/n8d21NELxPEKEV6CGWUw6On3ar1WXLvVnZ+IkrTA08Oo79Qi5cgotAf15
+ ngXUR+rzRNhChgQogY4MAvmmZhkRC2iq+0jRmK0ZlwFWUD7WWSdktgItNKC6vEWEBb5n
+ ZgBmh67y7RB1qNbEovaGxx5jro6cuGJPdBtGZgu7XgtoqTn1dAybhzIVmear5qf7htXA
+ 9Oqm3weAMs/AEAuYPjYfAf6JwAA+psa41dGSwo5qX9e0/VJuAau0Sua61dpDpfri39QV
+ lZF5rBHOfaQIKQiS52mKMxtCs5p+xGyF8GtDzqN3/bzWh2dq35Ii18HH2gQjLEFKbojk
+ F95A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=nNZmGPx9gHaeeq1ZYg6nybSOX/fGtj1PlB0bPPjkHbE=;
+ b=ONBHcZFsIB7DFlRvL4SviC10zkA4IfrCHqb+6lSDBP/2xyknGV/+eTUYEGwPZFQXd+
+ OP5IHTFk9tZJdtKPH70RtqKwXBYR86GO8+immtHH07uSnM5SCgwyGlXXyBz82hZUc0aQ
+ ubgO7eITc25mR+a133KhXozFQSvdcnh0lhyb4Uitkr79ywbDVhShB+HutQ4RHp3qYmFt
+ SvDROpfQHYEj3cuQ5wNkrEEDngkmBDbIjRe+20QoxjCaxz5NrC0paVFA3+0qrVH6WLq/
+ xwD1SscvnTZvFXB9KqZW1Eeuy0kgV35L8KKP9JR76vGfTJj8CpDNqGDmkchsXu/eiiTT
+ 3/+g==
+X-Gm-Message-State: AFqh2kqYQEGPDVB1AFUPB2C2GZPDWa+bvsZIkz4ZV2G+7sxw4EZlRMr1
+ 9HZ6szXe8/jzluMfhpBTz/FPmQ==
+X-Google-Smtp-Source: AMrXdXvxXYFhg81zgSBYFQmRLUkzag3Yp55pkOfR02c1w+LdPw2Xg3t8Rtx7G2T2THcSMYtvOcINfw==
+X-Received: by 2002:a05:600c:4395:b0:3da:2829:2935 with SMTP id
+ e21-20020a05600c439500b003da28292935mr9883412wmn.11.1674123864308; 
+ Thu, 19 Jan 2023 02:24:24 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ w10-20020a05600c474a00b003db00747fdesm4472140wmo.15.2023.01.19.02.24.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 02:24:23 -0800 (PST)
+Message-ID: <b0b5759b-db68-204c-fe41-48ad02de0a61@linaro.org>
+Date: Thu, 19 Jan 2023 11:24:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 2/2] MAINTAINERS: Cover include/sysemu/accel-blocker.h
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ Emanuele Giuseppe Esposito <eesposit@redhat.com>
+Cc: richard.henderson@linaro.org, pbonzini@redhat.com, quintela@redhat.com,
+ dgilbert@redhat.com
+References: <20230119091545.3116376-1-armbru@redhat.com>
+ <20230119091545.3116376-3-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230119091545.3116376-3-armbru@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,206 +90,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 18 Jan 2023 14:22:08 -0500
-Gregory Price <gregory.price@memverge.com> wrote:
+On 19/1/23 10:15, Markus Armbruster wrote:
+> Commit bd688fc931 "accel: introduce accelerator blocker API" aded
+> include/sysemu/accel-blocker.h and accel/accel-blocker.c.  MAINTAINERS
+> covers the latter in section "Guest CPU Cores (other accelerators) /
+> Overall", but not the former.  Fix that.
 
-> 1) No stack traces present
-> 2) Device usage appears to work, but cxl-cli fails to create a region, i
-> haven't checked why yet (also tried ndctl-75, same results)
-> 3) There seems to be some other regression with the cxl_pmem_init
-> routine, because I get a stack trace in this setup regardless of whether
-> I apply the type-3 device commit.
-> 
-> 
-> All tests below with the previously posted DOE linux branch.
-> Base QEMU branch was Jonathan's 2023-1-11
-> 
-> 
-> DOE Branch - 2023-1-11 (HEAD) (all commits)
-> 
-> QEMU Config:
-> sudo /opt/qemu-cxl/bin/qemu-system-x86_64 \
-> -drive file=/var/lib/libvirt/images/cxl.qcow2,format=qcow2,index=0,media=disk,id=hd \
-> -m 3G,slots=4,maxmem=8G \
-> -smp 4 \
-> -machine type=q35,accel=kvm,cxl=on \
-> -enable-kvm \
-> -nographic \
-> -object memory-backend-ram,id=mem0,size=1G,share=on \
-> -device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 \
-> -device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 \
-> -device cxl-type3,bus=rp0,volatile-memdev=mem0,id=cxl-mem0 \
-> -M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=1G
-> 
-> Result:  This worked, but cxl-cli could not create a region (will look
-> into this further later).
-> 
+Doesn't this belong to "Read, Copy, Update (RCU)" or "Main loop"
+sections?
 
-Even if everything else worked, it will currently fail because of the
-issue with pass through decoders.
-(Kernel assumes always pass through for single rp, qemu assumes never
- pass through - both are valid under spec).
-Add a second rp for now.  I should be able to post some patches
-to work around that shortly. 
-
-
-
-
- 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   MAINTAINERS | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> 
-> 
-> When running with a persistent memory configuration, I'm seeing a
-> kernel stack trace on cxl_pmem_init
-> 
-> Config:
-> sudo /opt/qemu-cxl/bin/qemu-system-x86_64 \
-> -drive file=/var/lib/libvirt/images/cxl.qcow2,format=qcow2,index=0,media=disk,id=hd \
-> -m 3G,slots=4,maxmem=4G \
-> -smp 4 \
-> -machine type=q35,accel=kvm,cxl=on \
-> -enable-kvm \
-> -nographic \
-> -device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 \
-> -device cxl-rp,port=0,id=rp0,bus=cxl.0,chassis=0,slot=0 \
-> -object memory-backend-file,id=cxl-mem0,mem-path=/tmp/mem0,size=1G \
-> -object memory-backend-file,id=cxl-lsa0,mem-path=/tmp/lsa0,size=1G \
-> -device cxl-type3,bus=rp0,persistent-memdev=cxl-mem0,lsa=cxl-lsa0,id=cxl-pmem0 \
-> -M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=1G
-> 
-> 
-> [   62.167518] BUG: kernel NULL pointer dereference, address: 00000000000004c0
-> [   62.185069] #PF: supervisor read access in kernel mode
-> [   62.198502] #PF: error_code(0x0000) - not-present page
-> [   62.211019] PGD 0 P4D 0
-> [   62.220521] Oops: 0000 [#1] PREEMPT SMP PTI
-> [   62.233457] CPU: 3 PID: 558 Comm: systemd-udevd Not tainted 6.2.0-rc1+ #1
-> [   62.252886] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.16.1-0-g3208b098f51a-prebuilt.qemu.org 04/01/2014
-> [   62.258432] Adding 2939900k swap on /dev/zram0.  Priority:100 extents:1 across:2939900k SSDscFS
-> [   62.285513] RIP: 0010:cxl_nvdimm_probe+0x8d/0x130 [cxl_pmem]
-> [   62.285529] Code: 85 c0 0f 85 90 00 00 00 f0 80 0c 24 40 f0 80 4c 24 08 10 f0 80 4c 24 08 20 f0 80 4c 24 08 40 49 8d 84 24 b8 04 00 00 4c 89 0
-> [   62.285531] RSP: 0018:ffffacff0141fc38 EFLAGS: 00010202
-> [   62.285534] RAX: ffff97a8a37b84b8 RBX: ffff97a8a37b8000 RCX: 0000000000000000
-> [   62.285536] RDX: 0000000000000001 RSI: ffff97a8a37b8000 RDI: 00000000ffffffff
-> [   62.285537] RBP: ffff97a8a37b8000 R08: 0000000000000001 R09: 0000000000000001
-> [   62.285538] R10: 0000000000000001 R11: 0000000000000000 R12: ffff97a8a37b8000
-> [   62.285539] R13: ffff97a982c3dc28 R14: 0000000000000000 R15: 0000000000000000
-> [   62.285541] FS:  00007f2619829580(0000) GS:ffff97a9bca00000(0000) knlGS:0000000000000000
-> [   62.285542] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   62.285544] CR2: 00000000000004c0 CR3: 00000001056a8000 CR4: 00000000000006e0
-> [   62.285653] Call Trace:
-> [   62.285656]  <TASK>
-> [   62.285660]  cxl_bus_probe+0x17/0x50
-> [   62.285691]  really_probe+0xde/0x380
-> [   62.285695]  ? pm_runtime_barrier+0x50/0x90
-> [   62.285700]  __driver_probe_device+0x78/0x170
-> [   62.285846]  driver_probe_device+0x1f/0x90
-> [   62.285850]  __driver_attach+0xd2/0x1c0
-> [   62.285853]  ? __pfx___driver_attach+0x10/0x10
-> [   62.285856]  bus_for_each_dev+0x76/0xa0
-> [   62.285860]  bus_add_driver+0x1b1/0x200
-> [   62.285863]  driver_register+0x89/0xe0
-> [   62.285868]  ? __pfx_init_module+0x10/0x10 [cxl_pmem]
-> [   62.285874]  cxl_pmem_init+0x50/0xff0 [cxl_pmem]
-> [   62.285880]  do_one_initcall+0x6e/0x330
-> [   62.285888]  do_init_module+0x4a/0x200
-> [   62.285892]  __do_sys_finit_module+0x93/0xf0
-> [   62.285899]  do_syscall_64+0x5b/0x80
-> [   62.285904]  ? do_syscall_64+0x67/0x80
-> [   62.285906]  ? asm_exc_page_fault+0x22/0x30
-> [   62.285910]  ? lockdep_hardirqs_on+0x7d/0x100
-> [   62.285914]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-> [   62.285917] RIP: 0033:0x7f2619b0afbd
-> [   62.285920] Code: 5d c3 66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 8
-> [   62.285922] RSP: 002b:00007ffcc516bf58 EFLAGS: 00000246 ORIG_RAX: 0000000000000139
-> [   62.285924] RAX: ffffffffffffffda RBX: 00005557c0dcaa60 RCX: 00007f2619b0afbd
-> [   62.285925] RDX: 0000000000000000 RSI: 00007f261a18743c RDI: 0000000000000006
-> [   62.285926] RBP: 00007f261a18743c R08: 0000000000000000 R09: 00007f261a17bb52
-> [   62.285927] R10: 0000000000000006 R11: 0000000000000246 R12: 0000000000020000
-> [   62.285928] R13: 00005557c0dbbce0 R14: 0000000000000000 R15: 00005557c0dc18a0
-> [   62.285932]  </TASK>
-> [   62.285933] Modules linked in: cxl_pmem(+) snd_pcm libnvdimm snd_timer snd joydev bochs cxl_mem drm_vram_helper parport_pc soundcore drm_ttm_g
-> [   62.285954] CR2: 00000000000004c0
-> [   62.288385] ---[ end trace 0000000000000000 ]---
-> [   63.203514] RIP: 0010:cxl_nvdimm_probe+0x8d/0x130 [cxl_pmem]
-> [   63.203562] Code: 85 c0 0f 85 90 00 00 00 f0 80 0c 24 40 f0 80 4c 24 08 10 f0 80 4c 24 08 20 f0 80 4c 24 08 40 49 8d 84 24 b8 04 00 00 4c 89 0
-> [   63.203565] RSP: 0018:ffffacff0141fc38 EFLAGS: 00010202
-> [   63.203570] RAX: ffff97a8a37b84b8 RBX: ffff97a8a37b8000 RCX: 0000000000000000
-> [   63.203572] RDX: 0000000000000001 RSI: ffff97a8a37b8000 RDI: 00000000ffffffff
-> [   63.203574] RBP: ffff97a8a37b8000 R08: 0000000000000001 R09: 0000000000000001
-> [   63.203576] R10: 0000000000000001 R11: 0000000000000000 R12: ffff97a8a37b8000
-> [   63.203577] R13: ffff97a982c3dc28 R14: 0000000000000000 R15: 0000000000000000
-> [   63.203580] FS:  00007f2619829580(0000) GS:ffff97a9bca00000(0000) knlGS:0000000000000000
-> [   63.203583] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [   63.203585] CR2: 00000000000004c0 CR3: 00000001056a8000 CR4: 00000000000006e0
-> 
-
-I clearly need to run some more rests as not seen this issue (and I've
-had a couple of reports of it now).  I guess I never tend to be running
-a completely clean tree on either side + testing is mostly on arm64
-(though I doubt that matters). It's not the pass through decoder issues as
-that is visible only when bringing up a region.
-
-> 
-> 
-> Next i reverted the QEMU branch to the commit just before the type-3
-> volatile commit and used the old method of launching with a type-3 pmem
-> device
-> 
-> Config:
-> sudo /opt/qemu-cxl/bin/qemu-system-x86_64 \
-> -drive file=/var/lib/libvirt/images/cxl.qcow2,format=qcow2,index=0,media=disk,id=hd \
-> -m 2G,slots=4,maxmem=4G \
-> -smp 4 \
-> -machine type=q35,accel=kvm,cxl=on \
-> -enable-kvm \
-> -nographic \
-> -device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 \
-> -device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 \
-> -object memory-backend-file,pmem=true,id=cxl-mem0,mem-path=/tmp/cxl-mem0,size=1G \
-> -object memory-backend-file,pmem=true,id=lsa0,mem-path=/tmp/cxl-lsa0,size=1G \
-> -device cxl-type3,bus=rp0,memdev=cxl-mem0,lsa=lsa0,id=cxl-pmem0 \
-> -M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=1G
-> 
-> 
-> Result: Similar stack trace
-> [   29.850023] BUG: kernel NULL pointer dereference, address: 00000000000004c0
-> [   29.882400] RIP: 0010:cxl_nvdimm_probe+0x8d/0x130 [cxl_pmem]
-> [   29.957485] Call Trace:
-> [   29.959067]  <TASK>
-> [   29.962176]  cxl_bus_probe+0x17/0x50
-> [   29.964940]  really_probe+0xde/0x380
-> [   29.969065]  ? pm_runtime_barrier+0x50/0x90
-> [   29.973419]  __driver_probe_device+0x78/0x170
-> [   29.977183]  driver_probe_device+0x1f/0x90
-> [   29.984212]  __driver_attach+0xd2/0x1c0
-> [   29.988463]  ? __pfx___driver_attach+0x10/0x10
-> [   29.992379]  bus_for_each_dev+0x76/0xa0
-> [   29.997040]  bus_add_driver+0x1b1/0x200
-> [   30.000368]  driver_register+0x89/0xe0
-> [   30.004579]  ? __pfx_init_module+0x10/0x10 [cxl_pmem]
-> [   30.012403]  cxl_pmem_init+0x50/0xff0 [cxl_pmem]
-> [   30.019394]  do_one_initcall+0x6e/0x330
-> [   30.024028]  do_init_module+0x4a/0x200
-> [   30.029243]  __do_sys_finit_module+0x93/0xf0
-> [   30.034943]  do_syscall_64+0x5b/0x80
-> [   30.039844]  ? do_syscall_64+0x67/0x80
-> [   30.045163]  ? do_syscall_64+0x67/0x80
-> [   30.049729]  ? lock_release+0x14b/0x440
-> [   30.054055]  ? seqcount_lockdep_reader_access.constprop.0+0x82/0x90
-> [   30.061039]  ? lock_is_held_type+0xe8/0x140
-> [   30.067625]  ? do_syscall_64+0x67/0x80
-> [   30.071909]  ? lockdep_hardirqs_on+0x7d/0x100
-> [   30.079037]  ? do_syscall_64+0x67/0x80
-> [   30.084537]  ? do_syscall_64+0x67/0x80
-> [   30.089091]  ? do_syscall_64+0x67/0x80
-> [   30.094174]  ? lockdep_hardirqs_on+0x7d/0x100
-> [   30.099224]  entry_SYSCALL_64_after_hwframe+0x72/0xdc
-> [   30.104446] RIP: 0033:0x7f000550afbd
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 0dfdf71d48..c888ccaf7a 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -437,7 +437,7 @@ M: Richard Henderson <richard.henderson@linaro.org>
+>   R: Paolo Bonzini <pbonzini@redhat.com>
+>   S: Maintained
+>   F: include/qemu/accel.h
+> -F: include/sysemu/accel-ops.h
+> +F: include/sysemu/accel-*.h
+>   F: include/hw/core/accel-cpu.h
+>   F: accel/accel-*.c
+>   F: accel/Makefile.objs
 
 
