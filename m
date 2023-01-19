@@ -2,79 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82E0C674316
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 20:49:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F2CD67432B
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 20:53:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIauU-000142-JF; Thu, 19 Jan 2023 14:49:18 -0500
+	id 1pIaxj-0002b9-No; Thu, 19 Jan 2023 14:52:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIauS-00013h-4a
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:49:16 -0500
-Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pIaxf-0002Zw-UJ
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:52:36 -0500
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIauQ-0006nF-DX
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:49:15 -0500
-Received: by mail-ej1-x62f.google.com with SMTP id bk15so8482962ejb.9
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 11:49:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pIaxc-0007oc-Qu
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 14:52:34 -0500
+Received: by mail-pg1-x530.google.com with SMTP id s67so2420468pgs.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 11:52:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=uDQnUo+GAsNpaWlrHycGOWoaB4j3psxCMiiaytQPb48=;
- b=xzDwvfSX+SlSwCQUIWTaVaZs4DDka8kMEfryqfxKaKJJyfduK78Q85A06IvBBMqyAQ
- u4XuMBITWvZelDUJDJ7pkEibmSZG/sqJO4TjeSjd4gMYUNoWYCvd22ykTmZIheNBqLzC
- gByUoCQNefKHTLHwlINFM0cUG0Hwkqh7vqE/XL3FOFx7s8KKsiva5q3qUAyX3dWvhL8k
- rv0KGzzBQITeCoJZ9mDuAiKwoaa9AnXYhdZRsnTt0ysX0xfHXSXdpv9zAuJwhSObwUj0
- LqeA+2Ol1eyjJwLX7CWRPNNzjQ2rcGVnmrFl0QsKBHCTkTs6iqHUOiekgm4Nzlb+WZD/
- NiMw==
+ bh=xVfSg9I0OgO/dWmFS0x2fQ/Omhg2xTzU3mZLgPOqpp0=;
+ b=KEjyTrfAtTHSKGn+mqqT3VxFrbCoWnaqeJDy6qlgNSi5N+fUeOEgHLORraRID5GBuO
+ iLoNb+fGES6dSN4DpxiDpuxzHVmQc9ZAf/1fpcKDrvnpkdLCdlzoY77ua4NfC0OFouy7
+ F0mB5j2kxY6KLzzI1QiPc6jM70yTwVsH+l0RYzyBh/N+llnOZ5hpYq1bmLuXz6NmZU3E
+ JJFXU3saqtaxzJQz9C1i1qfm1owq+xTAyjXx3RD1caHb3hvL933WC5+zUyR/LyEMnSEY
+ wdVAG1ACXDtoDmHVyTAA1Fva5FrOGsZSucWO7wfRzcR3xvuQ5+6KQ9nKv76N/dTgXiYx
+ JE9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uDQnUo+GAsNpaWlrHycGOWoaB4j3psxCMiiaytQPb48=;
- b=e6IUCf8S5+wv2Hmk7m4sPj9E3CIc9KFP79uo4QUYnGkUbXLe8vj7Loq16fZymvBLoe
- km7cHbrabMBXPsH3xFyuzx+wc0Hulo3XtjpwbBBwGrN8DZuf8UiMDnV0alkSy2AO7KiN
- pyvbjNkqp+5cMA+ZcntZGBectBodZ4IkFzybVJ5kss7IRgum7Rst9nZJ70URdTtl9MLJ
- pBL0KLq+Su1eJ/HHP5IRtJ2+j2xTPzYjbKZZ90sdfkuuozEEUK28N58GTo9ZJmMgujuK
- mT0YFBthOwNznlg2RzzQQZeDmiWfO1HPMD6sfaW9LDWTRvNGRBMLCnSN36H93Km1/7TI
- xACw==
-X-Gm-Message-State: AFqh2krVFQ+X2m2dFtBMwjdLjygVZx7x3VpkLBCYPbanCGW5jWog1/ni
- 1VtYF1QKTgVRw41PYRKYk/v7Iw==
-X-Google-Smtp-Source: AMrXdXvTQH5y56Swf2ZEtudzm8kJ+cVTVgQcpMqt0r6DHqdF3WJXEG5o+Sk6tI3DwBCDZCxSZHE6Uw==
-X-Received: by 2002:a17:906:8d08:b0:86f:e30c:72c1 with SMTP id
- rv8-20020a1709068d0800b0086fe30c72c1mr14030191ejc.8.1674157752831; 
- Thu, 19 Jan 2023 11:49:12 -0800 (PST)
-Received: from [192.168.1.115] ([185.126.107.38])
- by smtp.gmail.com with ESMTPSA id
- b2-20020a0564021f0200b0048c85c5ad30sm16002713edb.83.2023.01.19.11.49.10
+ bh=xVfSg9I0OgO/dWmFS0x2fQ/Omhg2xTzU3mZLgPOqpp0=;
+ b=Mr6wvYtV6ROE9VxgVJQlz5nBeayOGPY9iwZCkRV2kxDkE/5ilEfGYlazPbxuRazioB
+ 78L5seJB2M7MvWp1dqauRf3mUn/W8RlqgxRSx3ymaW3RqKe96+zA9rVL++d/jMKaF3bj
+ jqgxSnPpJ/ozbTT39bdlQf8+1kxi/8Niwpfp+VZAyLrV4+9onsOlaGTrkfPcLoyB1y4h
+ xuzs4Ajb9ceI088UujqkX4qFj3c7SZQA1a9pDqcQA+7BLf5uCbnlglPtidoHainc4C/B
+ Z6j9kPMPjbVF6MpKUdrt96ShmGeeYTu1AU3y+BWbWgySEAXyG0gafbvnPMINu+yFReH7
+ mQmQ==
+X-Gm-Message-State: AFqh2kpAEm7/md+2Y+dFoZatKn5OcUzrTtSgjnV4jH6FataBs3NAv0+D
+ Ede77j69ynFOO4OH/60tCZehvQ==
+X-Google-Smtp-Source: AMrXdXtVFkLzPdOrRM9m91Ahi5yhM9kb2v8AgK3GlCdXAUKjckAofmsjhppvRH7r+rWd1b2WNjcfrw==
+X-Received: by 2002:a62:6492:0:b0:58d:90ae:495c with SMTP id
+ y140-20020a626492000000b0058d90ae495cmr11626830pfb.11.1674157950369; 
+ Thu, 19 Jan 2023 11:52:30 -0800 (PST)
+Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ o22-20020aa79796000000b00581ad007a9fsm936409pfp.153.2023.01.19.11.52.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 11:49:12 -0800 (PST)
-Message-ID: <54802c99-05fb-9362-6a75-1509d77621af@linaro.org>
-Date: Thu, 19 Jan 2023 20:49:09 +0100
+ Thu, 19 Jan 2023 11:52:29 -0800 (PST)
+Message-ID: <d6314a22-4c5c-a431-ce37-4cc7f64ac092@linaro.org>
+Date: Thu, 19 Jan 2023 09:52:27 -1000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC PATCH v4 12/15] tests/tcg: Do not build/run TCG tests if TCG
- is disabled
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 14/18] tests/docker: drop debian-tricore-cross's partial
+ status
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>
-References: <20230119135424.5417-1-farosas@suse.de>
- <20230119135424.5417-13-farosas@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230119135424.5417-13-farosas@suse.de>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ qemu-devel@nongnu.org
+References: <20230119180419.30304-1-alex.bennee@linaro.org>
+ <20230119180419.30304-15-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230119180419.30304-15-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
- envelope-from=philmd@linaro.org; helo=mail-ej1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -97,15 +94,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/1/23 14:54, Fabiano Rosas wrote:
-> The tests under tests/tcg depend on the TCG accelerator. Do not build
-> them if --disable-tcg was given in the configure line.
+On 1/19/23 08:04, Alex Bennée wrote:
+> This image is perfectly capable of building QEMU, and indeed we do
+> that on gitlab. Drop the DOCKER_PARTIAL_IMAGES setting so we can also
+> test the gitlab build locally.
 > 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> Signed-off-by: Alex Bennée<alex.bennee@linaro.org>
 > ---
->   configure | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
+>   tests/docker/Makefile.include | 1 -
+>   1 file changed, 1 deletion(-)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Why are we doing so, though?
 
+Unlike the other container-cross.yml jobs, we are not cross-compiling.
+We are building for an x86_64 host, not a tricore host.
+
+We appear to be using this container simply to provide a cross-compiler for compiling 
+tricore tests.  Which is fine, I suppose, but I think the job should be modeled more like 
+build-some-softmmu, instead of modeled like a cross-build.
+
+
+r~
 
