@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD59F673AD3
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF3A673AD4
 	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:57:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIVPO-0008Lq-Bp; Thu, 19 Jan 2023 08:56:50 -0500
+	id 1pIVPR-0008Ni-VK; Thu, 19 Jan 2023 08:56:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIVPM-0008KO-JP; Thu, 19 Jan 2023 08:56:48 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ id 1pIVPQ-0008Mz-9i; Thu, 19 Jan 2023 08:56:52 -0500
+Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIVPL-0006A3-3o; Thu, 19 Jan 2023 08:56:48 -0500
+ id 1pIVPO-0006Au-OL; Thu, 19 Jan 2023 08:56:52 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 5F30D5CE73;
- Thu, 19 Jan 2023 13:56:45 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id 5A5B33F42D;
+ Thu, 19 Jan 2023 13:56:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674136605; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1674136609; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Kxw6TKsC9kiV5b4c5UCL6Qn2d2CdJeDlo8i5iP+EEIc=;
- b=jsTLzQekYnBCWELT6ZEMxrmCEQ4zoqpWVOZWqS9124UV2qKhEFIs0DBxo8+Klzp5vwBM2d
- MIvkVvFxMjZWoNWfeWoWDG/9hNNpDExE2kLs4/Z0PFr/AxzimyOvWRcDXe7Besg7I0P+9D
- B9Dp47F2KEGlOEePcmJ+ApB3lzbfG3U=
+ bh=pOHcxdY1LhPmAxt6QcRmCOJFL4WbnqEVMCoD9cJwpTA=;
+ b=oJ5p0feUmJAGHMPBu5ez6hcgwq4q4e+FIf1jfFNp6eF2cMEQnNQAHvKtr4dHxqY0vTUhpn
+ hgCAMmvgp6G8Bkqm82X3yn3cFoPq4VzoTqE5nXV2uDOkK7XR3mOnFMnttF3wp/w34wOX3P
+ 1snuEA/or1XAGdc3a+n4b/I0vhalPMM=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674136605;
+ s=susede2_ed25519; t=1674136609;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Kxw6TKsC9kiV5b4c5UCL6Qn2d2CdJeDlo8i5iP+EEIc=;
- b=rNCU1wPFGDw7zl/eyqDQ+hVbT9dxWu+EebmuunernFzSlnfUVWXpMSXqxM0/QfBYFJ9YVX
- MWmBAtWI3O/17NAg==
+ bh=pOHcxdY1LhPmAxt6QcRmCOJFL4WbnqEVMCoD9cJwpTA=;
+ b=CGUaP/62tDPP6DugZZloOkD0nOe4mw9AnWYRNdZDNeCIcEKZXjggw63aPXrih6e3V+Xq5+
+ Dg5Fz0AlDO1Bf/Bg==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D8EE0134F5;
- Thu, 19 Jan 2023 13:56:41 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D3949134F5;
+ Thu, 19 Jan 2023 13:56:45 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id sLkPJxlMyWOCFAAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 19 Jan 2023 13:56:41 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id QHDKJR1MyWOCFAAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 19 Jan 2023 13:56:45 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -59,17 +59,17 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
  Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
  Laurent Vivier <lvivier@redhat.com>
-Subject: [RFC PATCH v4 04/15] tests/qtest: arm-cpu-features: Match tests to
- required accelerators
-Date: Thu, 19 Jan 2023 10:54:13 -0300
-Message-Id: <20230119135424.5417-5-farosas@suse.de>
+Subject: [RFC PATCH v4 05/15] tests/qtest: Restrict
+ tpm-tis-devices-{swtpm}-test to CONFIG_TCG
+Date: Thu, 19 Jan 2023 10:54:14 -0300
+Message-Id: <20230119135424.5417-6-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230119135424.5417-1-farosas@suse.de>
 References: <20230119135424.5417-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1c; envelope-from=farosas@suse.de;
+ helo=smtp-out1.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -92,70 +92,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+These tests set -accel tcg, so restrict them to when TCG is present.
+
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/qtest/arm-cpu-features.c | 22 +++++++++++++++-------
- 1 file changed, 15 insertions(+), 7 deletions(-)
+ tests/qtest/meson.build | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/tests/qtest/arm-cpu-features.c b/tests/qtest/arm-cpu-features.c
-index 4ff2014bea..1555b0bab8 100644
---- a/tests/qtest/arm-cpu-features.c
-+++ b/tests/qtest/arm-cpu-features.c
-@@ -21,7 +21,7 @@
- #define SVE_MAX_VQ 16
- 
- #define MACHINE     "-machine virt,gic-version=max -accel tcg "
--#define MACHINE_KVM "-machine virt,gic-version=max -accel kvm -accel tcg "
-+#define MACHINE_KVM "-machine virt,gic-version=max -accel kvm "
- #define QUERY_HEAD  "{ 'execute': 'query-cpu-model-expansion', " \
-                     "  'arguments': { 'type': 'full', "
- #define QUERY_TAIL  "}}"
-@@ -613,31 +613,39 @@ int main(int argc, char **argv)
- {
-     g_test_init(&argc, &argv, NULL);
- 
--    qtest_add_data_func("/arm/query-cpu-model-expansion",
--                        NULL, test_query_cpu_model_expansion);
-+    if (qtest_has_accel("tcg")) {
-+        qtest_add_data_func("/arm/query-cpu-model-expansion",
-+                            NULL, test_query_cpu_model_expansion);
-+    }
-+
-+    if (!g_str_equal(qtest_get_arch(), "aarch64")) {
-+        goto out;
-+    }
- 
-     /*
-      * For now we only run KVM specific tests with AArch64 QEMU in
-      * order avoid attempting to run an AArch32 QEMU with KVM on
-      * AArch64 hosts. That won't work and isn't easy to detect.
-      */
--    if (g_str_equal(qtest_get_arch(), "aarch64") && qtest_has_accel("kvm")) {
-+    if (qtest_has_accel("kvm")) {
-         /*
-          * This tests target the 'host' CPU type, so register it only if
-          * KVM is available.
-          */
-         qtest_add_data_func("/arm/kvm/query-cpu-model-expansion",
-                             NULL, test_query_cpu_model_expansion_kvm);
-+
-+        qtest_add_data_func("/arm/kvm/query-cpu-model-expansion/sve-off",
-+                            NULL, sve_tests_sve_off_kvm);
-     }
- 
--    if (g_str_equal(qtest_get_arch(), "aarch64")) {
-+    if (qtest_has_accel("tcg")) {
-         qtest_add_data_func("/arm/max/query-cpu-model-expansion/sve-max-vq-8",
-                             NULL, sve_tests_sve_max_vq_8);
-         qtest_add_data_func("/arm/max/query-cpu-model-expansion/sve-off",
-                             NULL, sve_tests_sve_off);
--        qtest_add_data_func("/arm/kvm/query-cpu-model-expansion/sve-off",
--                            NULL, sve_tests_sve_off_kvm);
-     }
- 
-+out:
-     return g_test_run();
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 1af63f8bd2..9dd5c2de6e 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -204,8 +204,8 @@ qtests_arm = \
+ # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
+ qtests_aarch64 = \
+   (cpu != 'arm' and unpack_edk2_blobs ? ['bios-tables-test'] : []) +                            \
+-  (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
+-  (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
++  (config_all_devices.has_key('CONFIG_TCG') and config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ?   \
++    ['tpm-tis-device-test', 'tpm-tis-device-swtpm-test'] : []) +                                         \
+   (config_all_devices.has_key('CONFIG_XLNX_ZYNQMP_ARM') ? ['xlnx-can-test', 'fuzz-xlnx-dp-test'] : []) + \
+   (config_all_devices.has_key('CONFIG_RASPI') ? ['bcm2835-dma-test'] : []) +  \
+   ['arm-cpu-features',
+@@ -295,11 +295,15 @@ qtests = {
+   'tpm-crb-test': [io, tpmemu_files],
+   'tpm-tis-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+   'tpm-tis-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+-  'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+-  'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'],
+   'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
  }
+ 
++if config_all_devices.has_key('CONFIG_TCG')
++   qtests += { 'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
++               'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'], }
++endif
++
++
+ gvnc = dependency('gvnc-1.0', required: false)
+ if gvnc.found()
+   qtests += {'vnc-display-test': [gvnc]}
 -- 
 2.35.3
 
