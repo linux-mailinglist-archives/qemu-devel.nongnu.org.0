@@ -2,83 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA8D46732B0
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:42:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 702E5673348
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 09:06:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIPXz-0004Vd-Ak; Thu, 19 Jan 2023 02:41:19 -0500
+	id 1pIPsW-0008Mh-FO; Thu, 19 Jan 2023 03:02:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIPXw-0004VA-U5
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:41:17 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIPXm-0006FU-G7
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:41:16 -0500
-Received: by mail-wr1-x435.google.com with SMTP id r2so945999wrv.7
- for <qemu-devel@nongnu.org>; Wed, 18 Jan 2023 23:41:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QLJZZ/xKF6K9vLVszmMBOOMFL0e4QgKdmUNSk7oF4f0=;
- b=XyBq2oXNhyLtGG5omd53Pm/J1qcw4o6bVNgeaAOds0gDKtcxbt6NTRinF+ARqeTQ6z
- pamG7T0OvX2BtDq7yyBVB3pQ8+LVCz2gAWkN8fIRjrpfYWUHvUF6QiABWxlz5/6lK8vj
- ovZoFGXfufn7qJGgvtqIbOaKaHkQui1U2rOiBUqi27wX+jRYV/LkIJ3s5Q9bd6G1ZoBY
- fGj1AuB6qswkqXH6k/i7KkXNqkU7FJrEIJ5MVlgmBktzPwwIPsKUGuf5iuQjoCnCnc+I
- Aprv9a3Nqao6G8tsQm7c7vnj/5F8OnDidKy72ZKz7XCe6u7xmb0PXCNSHRofcKh+7UCP
- YcTQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QLJZZ/xKF6K9vLVszmMBOOMFL0e4QgKdmUNSk7oF4f0=;
- b=cIEglk0qFQSJBRTIFWCtRBkXduUcwpz7QVibah/T6IH0NSElcQIfQDOQMlNWZ+ig5R
- CwFJHTdZ+tOxj/G7VBWiS51PAKjt+TUxxExSY2woa/xwFDaNjz65b0B+h5aadRBhLhR+
- w/BZhvG3zn2fzDiXGyzPis01NQh8asLajeLRIconTsh9G1q6ic1byrssGHkx3Eqp3Hmu
- E7w/Qh5w90EiR8VahMEJ8gAJrWvKDzbFvml3Y/pZ5SwRmt1O53StFg1V5mZOJU7y/W/D
- m53sdh+yQX9X0cnW/IiFuaeAFyHSNVgrxhnsVv90mdlAkgCsqqpmsZePTjEmupfoSf7U
- c44Q==
-X-Gm-Message-State: AFqh2kqi1q1AGxj9dyizoOCiOs8I+HBjLUbUJwkT+vJZbHiJYM16H50C
- hWWASG57rFV0iKW5rPLKNB8TwQ==
-X-Google-Smtp-Source: AMrXdXvWUp0ijWDHICHHw1oJJgcvmrhh6JoTZFAV/cYbr5y7R5SKSTE+zuH+z8fd6KPumELgQvE3kQ==
-X-Received: by 2002:a5d:4591:0:b0:2bc:7dec:9588 with SMTP id
- p17-20020a5d4591000000b002bc7dec9588mr8596486wrq.54.1674114062468; 
- Wed, 18 Jan 2023 23:41:02 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- f8-20020a0560001b0800b002423edd7e50sm32761517wrz.32.2023.01.18.23.41.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 18 Jan 2023 23:41:02 -0800 (PST)
-Message-ID: <39bb348d-e3af-6a20-e7d5-d7a1c918a389@linaro.org>
-Date: Thu, 19 Jan 2023 08:41:00 +0100
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1pIPsQ-0008Ll-9u; Thu, 19 Jan 2023 03:02:26 -0500
+Received: from out4-smtp.messagingengine.com ([66.111.4.28])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <its@irrelevant.dk>)
+ id 1pIPsM-0001ZS-Qe; Thu, 19 Jan 2023 03:02:26 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id BC5A35C00E1;
+ Thu, 19 Jan 2023 03:02:19 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Thu, 19 Jan 2023 03:02:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=irrelevant.dk;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm2; t=1674115339; x=1674201739; bh=mB
+ d7QUcrfTarg4e7g/HJLtAIa3/buWqXHjVxwDG6Dhc=; b=PgQYzn/Zz+P8vSoowS
+ VJzNxA+WUjOf7kg5rKt+oWCk0VycFhcEEMqKsNFKS8t2ylfL/z5c0yhikjPdsjVk
+ VaMLTpemJegaK13BCqmSStZIharlKidWMaKqw5vEy8hNUmNG/hI2kKXIY2jBixel
+ EeX8hbjWLaA1qWHBSfd7kkdwLjyUvcMe7IBqe2N42SErwigsYfCP/mEP7kXbnDUT
+ 62mDEuX/fNFGc9zlRGMQOomiBwhaE7y0s2AsWaj6qvMCxaCxqlEpcw6GRUH1ZeQ9
+ xyzGqEsr7TiVkxlZiTh6S5zo6adEeKvJHrD5GgC52psZYi97RNp1nooz7mFtuXzr
+ 3VSw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1674115339; x=1674201739; bh=mBd7QUcrfTarg4e7g/HJLtAIa3/b
+ uWqXHjVxwDG6Dhc=; b=a55UmbeUTm+fBSvRbrt+qhzKEFviFHTZO7IuWzj1AIJ+
+ T8RbC8RHm56bTlAu+C+tNr99bY4+bv7sKeJ9GjHRhy0qAxM6oD0oJanKjjvkeQfD
+ JiX/9FGhpDCGX/PrAUJPaZ5h6eLCpatAUW4VM1xvFFUDnT2s/QgJDT9cDGDMeNiM
+ 5XHQnOlRLW62LwT/57Qe+c/5b8jpYDz7BTvjO6PZTZxPeJ5D85LRjtWFJSVy/wa/
+ wOAIZvjYjQiLvgkE1GHwQzcWxft50PluUqvpGh8k9iikUqo1bR+n770n6TMr6btw
+ fZVZy5DQiPIJ42W/p6KVe0xTsVcV4lSbwtBzqixXmQ==
+X-ME-Sender: <xms:C_nIY8jTBsDQ4ggRP39QWLV7mYU3DfPdSHp72DQ6ptL8xtf7f07RXQ>
+ <xme:C_nIY1D4g9mzBBkExaGZ4qdeeU3d2VGX3yboik3wM_tosUgEZtrQCbNt7Ywb_xBsB
+ RvTkNZa5dslRopTozk>
+X-ME-Received: <xmr:C_nIY0HyaG__FwFFFKEF4lsL-lIScJBQXOEcq8cTcUXSpEne6Y52aSFqNWO20u05dG0XbpNgyF8oTwR5v6ltU_gtCTEjKg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddtledgudduhecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehgtderredttdejnecuhfhrohhmpefmlhgr
+ uhhsucflvghnshgvnhcuoehithhssehirhhrvghlvghvrghnthdrughkqeenucggtffrrg
+ htthgvrhhnpeejgfejfeffvdeuhfeifefhgffgueelhedukeevjeevtdduudegieegteff
+ ffejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hithhssehirhhrvghlvghvrghnthdrughk
+X-ME-Proxy: <xmx:C_nIY9T3JLBn5F003CEEVuuzmh4Wb5kLZhXdNBkAeVsU8wgRmC0w7Q>
+ <xmx:C_nIY5zBGcJZaLt4_RHZB9fS2Oir7DBGtDRYEHjkUIE-nZ0WCoPk5g>
+ <xmx:C_nIY74zoA133YhZTDfSJfp9y5mb__rXY75lvnJZoh-2R8bwK938zA>
+ <xmx:C_nIY_6xwqblwWuFN5fbsLeH6XOpBgN60LTUBPyp-2BKBPm5s7D24w>
+Feedback-ID: idc91472f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 19 Jan 2023 03:02:17 -0500 (EST)
+Date: Thu, 19 Jan 2023 09:02:15 +0100
+From: Klaus Jensen <its@irrelevant.dk>
+To: Keith Busch <kbusch@kernel.org>
+Cc: Alistair Francis <alistair23@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Guenter Roeck <linux@roeck-us.net>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, Sagi Grimberg <sagi@grimberg.me>,
+ linux-nvme@lists.infradead.org, qemu-block@nongnu.org,
+ qemu-devel@nongnu.org, qemu-riscv@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
+Message-ID: <Y8j5B+c3mM01d+Gk@cormorant.local>
+References: <CAFEAcA9pS7P=SvKsOtRHPtkrNAD8LF2ZpFJ870G3B-rhWYap4g@mail.gmail.com>
+ <20230117192115.GA2958104@roeck-us.net>
+ <CAFEAcA_T8QqSg4SzszP+wR3pR1P1WTZg4f7mHHBGRw4UrTw+DQ@mail.gmail.com>
+ <Y8gfQXPYdHKd1v4I@kbusch-mbp> <Y8h7aOuVfCb+RsAP@kbusch-mbp>
+ <CAKmqyKMHs_-RgagMDYE7vn3MHEP2caBc+RERjaK0DNJw4hFYiA@mail.gmail.com>
+ <Y8iulgdgOdVCjuKE@kbusch-mbp>
+ <CAKmqyKMveR=RD6fgnzY0SV39tofD+Ws_AbrSZXE_o4m=M6GZHg@mail.gmail.com>
+ <Y8jBG/j8w2R43kYd@kbusch-mbp> <Y8jxHuVYoTo6KcH4@cormorant.local>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 00/20] target/arm: CONFIG_TCG=n part 1
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Thomas Huth <thuth@redhat.com>
-References: <20230118193518.26433-1-farosas@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230118193518.26433-1-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x435.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: multipart/signed; micalg=pgp-sha512;
+ protocol="application/pgp-signature"; boundary="W4BUVAsMEMdcmc71"
+Content-Disposition: inline
+In-Reply-To: <Y8jxHuVYoTo6KcH4@cormorant.local>
+Received-SPF: pass client-ip=66.111.4.28; envelope-from=its@irrelevant.dk;
+ helo=out4-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,101 +112,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/1/23 20:34, Fabiano Rosas wrote:
-> These are the already reviewed patches from the first half of my
-> previous series:
-> https://lore.kernel.org/r/20230113140419.4013-1-farosas@suse.de
-> 
-> This unbreaks the --disable-tcg build, but there are issues in runtime
-> that are still being hashed out in the other series.
-> 
-> For the build _with_ TCG, this should behave the same as master.
-> 
-> Based on Richard's "target/arm: Introduce aarch64_set_svcr":
-> https://lore.kernel.org/r/20230112004322.161330-1-richard.henderson@linaro.org
-> 
-> Claudio Fontana (5):
->    target/arm: rename handle_semihosting to tcg_handle_semihosting
->    target/arm: wrap psci call with tcg_enabled
->    target/arm: wrap call to aarch64_sve_change_el in tcg_enabled()
->    target/arm: move helpers to tcg/
->    target/arm: Move psci.c into the tcg directory
-> 
-> Fabiano Rosas (15):
->    target/arm: Move PC alignment check
->    target/arm: Move cpregs code out of cpu.h
->    target/arm: Move cpregs code into cpregs.c
->    target/arm: Move define_debug_regs() to cpregs.c
->    target/arm: Wrap breakpoint/watchpoint updates with tcg_enabled
->    target/arm: move translate modules to tcg/
->    target/arm: Wrap arm_rebuild_hflags calls with tcg_enabled
->    target/arm: Move hflags code into the tcg directory
->    target/arm: Move regime_using_lpae_format into internal.h
->    target/arm: Don't access TCG code when debugging with KVM
->    cpu-defs.h: Expose CPUTLBEntryFull to non-TCG code
->    target/arm: Move cortex sysregs into cpregs.c
->    tests/qtest: Restrict bcm2835-dma-test to CONFIG_RASPI
->    tests/avocado: Skip tests that require a missing accelerator
->    tests/avocado: Tag TCG tests with accel:tcg
 
-Testing on Darwin:
+--W4BUVAsMEMdcmc71
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-14/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/test-hmp 
- 
-ERROR:../../target/arm/helper.c:2495:arm_v7m_mmu_idx_for_secstate: code 
-should not be reached
-17/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/qom-test 
-         qemu-system-aarch64: unknown type 'arm-gicv3'
-18/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/boot-serial-test
-qemu-system-aarch64: -accel tcg: invalid accelerator tcg
-19/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/vnc-display-test
-qemu-system-aarch64: No machine specified, and there is no default
-20/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/migration-test
-qemu-system-aarch64: -accel tcg: invalid accelerator tcg
+On Jan 19 08:28, Klaus Jensen wrote:
+> On Jan 18 21:03, Keith Busch wrote:
+> > On Thu, Jan 19, 2023 at 01:10:57PM +1000, Alistair Francis wrote:
+> > > On Thu, Jan 19, 2023 at 12:44 PM Keith Busch <kbusch@kernel.org> wrot=
+e:
+> > > >
+> > > > Further up, it says the "interrupt gateway" is responsible for
+> > > > forwarding new interrupt requests while the level remains asserted,=
+ but
+> > > > it doesn't look like anything is handling that, which essentially t=
+urns
+> > > > this into an edge interrupt. Am I missing something, or is this rea=
+lly
+> > > > not being handled?
+> > >=20
+> > > Yeah, that wouldn't be handled. In QEMU the PLIC relies on QEMUs
+> > > internal GPIO lines to trigger an interrupt. So with the current setup
+> > > we only support edge triggered interrupts.
+> >=20
+> > Thanks for confirming!
+> >=20
+> > Klaus,
+> > I think we can justify introducing a work-around in the emulated device
+> > now. My previous proposal with pci_irq_pulse() is no good since it does
+> > assert+deassert, but it needs to be the other way around, so please
+> > don't considert that one.
+> >=20
+> > Also, we ought to revisit the intms/intmc usage in the linux driver for
+> > threaded interrupts.
+>=20
+> +CC: qemu-riscv
+>=20
+> Keith,
+>=20
+> Thanks for digging into this!
+>=20
+> Yeah, you are probably right that we should only use the intms/intmc
+> changes in the use_threaded_interrupts case, not in general. While my
+> RFC patch does seem to "fix" this, it is just a workaround as your
+> analysis indicate.
 
-Reproducers:
++CC: Philippe,
 
-$ ./qemu-system-aarch64 -display none -S -M mps3-an547 -accel qtest 
--monitor stdio
-QEMU 7.2.50 monitor - type 'help' for more information
-(qemu) gva2gpa 0
-**
-ERROR:../../target/arm/helper.c:2495:arm_v7m_mmu_idx_for_secstate: code 
-should not be reached
-Bail out! 
-ERROR:../../target/arm/helper.c:2495:arm_v7m_mmu_idx_for_secstate: code 
-should not be reached
-Abort trap: 6
+I am observing these timeouts/aborts on mips as well, so I guess that
+emulation could suffer from the same issue?
 
-     frame #4: 0x0000000101fdd6cc 
-libglib-2.0.0.dylib`g_assertion_message_expr + 116
-     frame #5: 0x0000000100360ce0 
-qemu-system-aarch64`arm_v7m_mmu_idx_for_secstate(env=<unavailable>, 
-secstate=<unavailable>) at helper.c:2495:5
-     frame #6: 0x000000010035f7f4 
-qemu-system-aarch64`arm_mmu_idx_el(env=<unavailable>, el=<unavailable>) 
-at helper.c:2514:16
-     frame #7: 0x00000001002d17ec 
-qemu-system-aarch64`arm_cpu_get_phys_page_attrs_debug(cs=<unavailable>, 
-addr=0, attrs=0x000000016fdfda50) at ptw.c:2982:23
-     frame #8: 0x00000001003c660c 
-qemu-system-aarch64`hmp_gva2gpa(mon=0x000060000390f0c0, 
-qdict=<unavailable>) at misc.c:714:12
+--W4BUVAsMEMdcmc71
+Content-Type: application/pgp-signature; name="signature.asc"
 
-$ ./qemu-system-aarch64 -display none -machine sbsa-ref -accel qtest
-qemu-system-aarch64: unknown type 'arm-gicv3'
-Abort trap: 6
+-----BEGIN PGP SIGNATURE-----
 
-     frame #2: 0x00000001958522c8 libsystem_c.dylib`abort + 180
-     frame #3: 0x00000001003d32e8 
-qemu-system-aarch64`qdev_new(name="arm-gicv3") at qdev.c:164:9
-     frame #4: 0x00000001002f30d4 qemu-system-aarch64`sbsa_ref_init 
-[inlined] create_gic(sms=0x0000000103ff0d10) at sbsa-ref.c:405:16
-     frame #5: 0x00000001002f30a0 
-qemu-system-aarch64`sbsa_ref_init(machine=0x0000000103ff0d10) at 
-sbsa-ref.c:773:5
-     frame #6: 0x00000001000905c0 
-qemu-system-aarch64`machine_run_board_init(machine=0x0000000103ff0d10, 
-mem_path=<unavailable>, errp=<unavailable>) at machine.c:1404:5
+iQEzBAEBCgAdFiEEUigzqnXi3OaiR2bATeGvMW1PDekFAmPI+QYACgkQTeGvMW1P
+DekHAwf+Ki1LlCBgmoe95m0vajU7TuDu1kMglgpZ9t7UsBwGa88syocxbt0Xbgi8
+9EvIPkncL1hlzzimo/tFa4Ukr5qiCucctT9xW37x2EWpMOk8Dv1Vo3W0pC9X6Apx
+nASE5/LGq/hH1IhnewMKPwABXfpd/OCiNnlkbYtp7dQhk9Yls3WoyASZVnXAKk4P
+Gu8nsBRUutZT1VEjOIv8GYwQwaJ5IHEWULTndsiQZge/vWKgHLev3xDfOtKXKsmw
+mhZm9n1CUZBH2dF9hZCfxGqp1TpWZXKuH5rpw3wcLOFShd8CznI7PvtqNodfeVTo
+fveeCWF7UH05j2gpTGQjY1wKLvjxbA==
+=ZriN
+-----END PGP SIGNATURE-----
 
+--W4BUVAsMEMdcmc71--
 
