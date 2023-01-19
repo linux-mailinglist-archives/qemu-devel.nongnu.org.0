@@ -2,94 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C9E0673E91
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 17:21:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F08E673F13
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 17:40:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIXfA-0000XX-A0; Thu, 19 Jan 2023 11:21:16 -0500
+	id 1pIXwR-0007eg-MX; Thu, 19 Jan 2023 11:39:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIXf8-0000Wx-Ly
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 11:21:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIXf6-0003ac-TF
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 11:21:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674145272;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9ZXYzA6wBI+c4e59ClvxpxHDlqC/SdFCNH11BP6R9RY=;
- b=gJXiVfLtoe1q3peSxqvLMUVV0dfWJM86R0yaNDG99QBL5YPHEuaaIVwvthN82DLXcvFlta
- 2FsVNzcFAdRTAtj2EdcT0YNVgDStT2Lu543hc70exmyJygClILn9ZDALe34UkcyWDlaWYf
- 0OnJi2gMZLqMzwAoaphnPTgueO48Uok=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-534-sidAs1NrMA2ibPL3-PKITg-1; Thu, 19 Jan 2023 11:21:10 -0500
-X-MC-Unique: sidAs1NrMA2ibPL3-PKITg-1
-Received: by mail-qk1-f200.google.com with SMTP id
- k5-20020a05620a414500b00708ef47754eso1548672qko.13
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 08:21:10 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIXwP-0007eP-BH
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 11:39:05 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIXwN-00070P-No
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 11:39:05 -0500
+Received: by mail-wr1-x434.google.com with SMTP id r9so2434932wrw.4
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 08:39:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=d0fA3/xSo97EG6W+vqxsCOkb3TOwJgKJLILKWNMQHOs=;
+ b=NlImp0KkjmI2qhtpGCvEYRkNPmwhbHGffmNHqGe57x9PN9bzRNP7ahjR90fT+8GO9z
+ dAMfIMshWbeC4cIBxyqjSLypVNHwp6RL44N7q+dIbTdNC8tw8MqfpvGVyoP/ay14pbW7
+ E890Strx6V/6vWYCbA1+wpBJxB6mSEkMoydblWg09oDiqZI4Yr4Erk+uIWHfWU7p30fa
+ YHQNvw3gpILwUjiplSmpRcTFPGM1dlUyfpY43XOipI93dsVj3qpN3zW0zLc992aaBzBh
+ dFn3B7C1j5iwLKLUvlbHAEphJne1kya9O6RXp0dXQoIto/gV28/MdzojP26f62yyiWNp
+ kzfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9ZXYzA6wBI+c4e59ClvxpxHDlqC/SdFCNH11BP6R9RY=;
- b=Sv0upKEuWTIghecCaJtVuU1lnmto7RBPWsC/8U0OdRHKdZ82dkYgW7vZxSjUJIubXC
- IjZ/xN8BCxZ62VYsbOMy899JyHM4TSzmDwmbYcC9Cc9WhHYwvCxcFqqFlxjemsMkspte
- isqpi6qlSuCD6+oU5oaEY5rV9hl/vkabSqzjUgqgWkbnFB5p2Up13J6U1ved9NF/srBF
- hdrJpuUuIOOz2nz/4R8floAbJIx0BKjbvnEhKbXxvIzFcA2g0OyAO/vAxEpd6ayXaJFk
- 4SyP0fHi/nZapjm/LBhzLMhPzbzMs2yS6CvLA07RaOLs6fd1HPXcuaYBKOkRpkuT3wOK
- 30lA==
-X-Gm-Message-State: AFqh2kqP885UImwLv7/uiuGdaoRf+R/f5l+ZwcyvAyHhfbh06aijIHag
- BiSUQLCLzIU/vv/GAePIB+xqvRptmk38aC9CNVQMdt68J8gVGxMFLWNBq0vMoefyBdxajlpA8iU
- t5QhPSN7iahFuP6M=
-X-Received: by 2002:ac8:4f16:0:b0:3b6:2bbd:1785 with SMTP id
- b22-20020ac84f16000000b003b62bbd1785mr16794845qte.45.1674145270260; 
- Thu, 19 Jan 2023 08:21:10 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvHHXrHdmvPYqK7cGf9QGk30ieoEhkG0LVEIR4Fk8Uy1iMcAptL9cPxnO+Me6n9cuVC8Dih6Q==
-X-Received: by 2002:ac8:4f16:0:b0:3b6:2bbd:1785 with SMTP id
- b22-20020ac84f16000000b003b62bbd1785mr16794822qte.45.1674145270048; 
- Thu, 19 Jan 2023 08:21:10 -0800 (PST)
-Received: from [192.168.8.105] (tmo-099-5.customers.d1-online.com.
- [80.187.99.5]) by smtp.gmail.com with ESMTPSA id
- v1-20020a05620a0f0100b006faf76e7c9asm24615927qkl.115.2023.01.19.08.21.07
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 08:21:09 -0800 (PST)
-Message-ID: <baecc481-627b-2f36-4b5f-828a2a0097ee@redhat.com>
-Date: Thu, 19 Jan 2023 17:21:05 +0100
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=d0fA3/xSo97EG6W+vqxsCOkb3TOwJgKJLILKWNMQHOs=;
+ b=2NHm3gk46ebkHBo9HNBHAxvp96Ir14+p1AjzQHE4vryrjxzy4EX7zdgg1xFy2NBimj
+ /0+1FJbMSr1Qkkp9pMZwTsMR+SJzAw0B+qRX1herST0OduG+MTwGzImFhi3Ji/ilQLF0
+ EtuRUmCvsh4egEfsu4bY4o0hp0WmrAZJxT+EDkNSv1C3bx6G1jnRdsp1KdXojvc8rFOi
+ 9vYG6T8hnq+VEE44eaXQKkG9aU+X1uPpv4uOAxA5o1A65b11Zhlo9ZZVi/zS/ZfXwoas
+ Y8+F0WSjQa16MGKoCvcpnDsiYHDKC3cA66AQTCc45ETkFdyt/BEKek7R6Ik8YhC/Tpxr
+ A+pQ==
+X-Gm-Message-State: AFqh2kpIXsX5QnGyAjWHzjaBjsZ1+iz5b0vHryOJzPB3hIyJtHAgURTb
+ Bt4jPejsZQi99fPqA5dPE6uTVQ==
+X-Google-Smtp-Source: AMrXdXuXvuiNQJhh/4dqFWEoLDo94FM/tAZrBFtqhjAC/tX7hnxN+VMcEfN41iBhfXaVFU6IBtaixA==
+X-Received: by 2002:a5d:6e82:0:b0:242:5563:c3b with SMTP id
+ k2-20020a5d6e82000000b0024255630c3bmr10249612wrz.59.1674146341704; 
+ Thu, 19 Jan 2023 08:39:01 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ c8-20020a5d4148000000b002bdd21f25ebsm19504595wrq.71.2023.01.19.08.39.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 19 Jan 2023 08:39:01 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id D04B91FFB7;
+ Thu, 19 Jan 2023 16:39:00 +0000 (GMT)
+References: <20230119155646.50503-1-philmd@linaro.org>
+ <1c54e0ce-31ef-ada7-269b-9d3ee09a7b6a@linaro.org>
+User-agent: mu4e 1.9.15; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Fabiano Rosas <farosas@suse.de>, Wainer dos
+ Santos Moschetta <wainersm@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>, qemu-arm@nongnu.org
+Subject: Re: [PATCH] gitlab-ci: Check building KVM-only aarch64 target
+Date: Thu, 19 Jan 2023 16:38:31 +0000
+In-reply-to: <1c54e0ce-31ef-ada7-269b-9d3ee09a7b6a@linaro.org>
+Message-ID: <87wn5ixyvv.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [RFC PATCH 6/8] tests/qtest/libqtest: Allow checking for HVF
- accelerator
-Content-Language: en-US
-From: Thomas Huth <thuth@redhat.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Fabiano Rosas <farosas@suse.de>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org
-References: <20230119100537.5114-1-philmd@linaro.org>
- <20230119100537.5114-7-philmd@linaro.org>
- <fc7802c3-afd7-2cd0-438e-7b75f4789879@redhat.com>
-In-Reply-To: <fc7802c3-afd7-2cd0-438e-7b75f4789879@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,40 +96,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/01/2023 12.24, Thomas Huth wrote:
-> On 19/01/2023 11.05, Philippe Mathieu-Daudé wrote:
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+
+> On 19/1/23 16:56, Philippe Mathieu-Daud=C3=A9 wrote:
+>> gitlab-ci: Add KVM-only aarch64 cross-build job
+>> Add a new job to cross-build the aarch64 target with
+>> only the KVM accelerator enabled (in particular, no TCG).
+>> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 >> ---
->> RFC: CONFIG_HVF is poisoned.
->>
->> We could pass host config definitions to qtest using:
->>
->>    diff --git a/meson.build b/meson.build
->>    @@ -2547,6 +2547,7 @@ foreach target : target_dirs
->>
->>       accel_kconfig = []
->>       foreach sym: accelerators
->>    +    config_host_data.set(sym + '_QTEST', '')
->>         if sym == 'CONFIG_TCG' or target in accelerator_targets.get(sym, [])
->>           config_target += { sym: 'y' }
->>           config_all += { sym: 'y' }
->>
->> Then test for CONFIG_HVF_QTEST ...
-> 
-> I don't think that would really work well. The qtests are build once for all 
-> targets, and HVF is only available in the target that matches the host 
-> architecture. It's poisoned on purpose.
-> 
-> The TCG accelerator is special, since we have it in either none or in all 
-> targets, that's why we can use CONFIG_TCG there.
-> 
-> The kvm part is also rather a hack... we should maybe rather additionally 
-> use the "query-kvm" QAPI command to check whether it is really available...?
+>> Based-on: <20230118193518.26433-1-farosas@suse.de>
+>>            target/arm: CONFIG_TCG=3Dn part 1
+>> Successful job:
+>>    https://gitlab.com/philmd/qemu/-/jobs/3630178191
+>>    Duration: 15 minutes 25 seconds
+>
+> Alternatively we could move it to the custom aarch64 runner
+> in the qemu-project namespace...
 
-Scratch that ... I forgot that you already have to run with "-accel kvm" to 
-see whether the accelerator is working with "query-kvm" ... so that would 
-not work here for probing whether "-accel kvm" should be used or not ;-)
+Lets do that because we are under utilisied on that beefy box anyway and
+it will save us shared CI minutes.
 
-  Thomas
+>
+>> ---
+>>   .gitlab-ci.d/crossbuilds.yml | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>> diff --git a/.gitlab-ci.d/crossbuilds.yml
+>> b/.gitlab-ci.d/crossbuilds.yml
+>> index 8dbbb8f881..fc78d36b31 100644
+>> --- a/.gitlab-ci.d/crossbuilds.yml
+>> +++ b/.gitlab-ci.d/crossbuilds.yml
+>> @@ -210,3 +210,12 @@ cross-arm64-xen-only:
+>>       IMAGE: debian-arm64-cross
+>>       ACCEL: xen
+>>       EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-kvm
+>> +
+>> +cross-arm64-kvm-only:
+>> +  extends: .cross_accel_build_job
+>> +  needs:
+>> +    job: arm64-debian-cross-container
+>> +  variables:
+>> +    IMAGE: debian-arm64-cross
+>> +    ACCEL: kvm
+>> +    EXTRA_CONFIGURE_OPTS: --disable-tcg --disable-xen --without-default=
+-devices
 
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
