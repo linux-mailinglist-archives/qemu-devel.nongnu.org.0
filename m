@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8FAB673AD5
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:57:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 95940673AE6
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:58:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIVPa-0000Cj-IE; Thu, 19 Jan 2023 08:57:02 -0500
+	id 1pIVPe-0000I4-78; Thu, 19 Jan 2023 08:57:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIVPY-0000Bw-Dp; Thu, 19 Jan 2023 08:57:00 -0500
-Received: from smtp-out1.suse.de ([195.135.220.28])
+ id 1pIVPc-0000Ei-FD; Thu, 19 Jan 2023 08:57:04 -0500
+Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIVPW-0006BU-Uz; Thu, 19 Jan 2023 08:57:00 -0500
+ id 1pIVPa-0006Bm-Vb; Thu, 19 Jan 2023 08:57:04 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 5A7123F42D;
- Thu, 19 Jan 2023 13:56:57 +0000 (UTC)
+ by smtp-out2.suse.de (Postfix) with ESMTPS id 8E38D5CE73;
+ Thu, 19 Jan 2023 13:57:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674136617; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1674136621; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lxrWaE16yozIzsy6MYwQ2ElnYdRKzu+lkQhgFbpYZCs=;
- b=NlRRNdGAvSOg6zR76ssvfseWB89iZx3hK7Ot12ezt/RrypwCfxVM07eempfSN/1B6BHYSl
- oNj11537Lfsc6nHonWNYqubX1ZL1lK9Tfwqj41ki2PJJDnHihNug+3uONhsFxuumvKtgB5
- plajpx8dfQmFy5IyyKpYNzR1o69CyCU=
+ bh=jVIAoajRUGSfIyuCmuIYwLpNRsCSx50sO+LkAUTEiBQ=;
+ b=b47EtG+3hHfdBHb7Q1kuWl1Rvud7VOQIAiPSxNMZG8JpGdOxQOy5mc8Pkr1JBXNnLwoTpc
+ 5hhdtND/mGDtATABmWoaO13RHVbQ51wLG9cW2lE0SDcV9TOppKSSJHqqq8zQlvNpR0ErqM
+ RrblfZKPI/6OlwYgtR3V4kc8XYNSC1I=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674136617;
+ s=susede2_ed25519; t=1674136621;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lxrWaE16yozIzsy6MYwQ2ElnYdRKzu+lkQhgFbpYZCs=;
- b=3syI/HaJ3PkKJOQyQY9hlyKStjMYczEkIgbNbxq/f43izSdTFscuiaEsVMupxq04zbOkEp
- NyoYd20DfqabmjBA==
+ bh=jVIAoajRUGSfIyuCmuIYwLpNRsCSx50sO+LkAUTEiBQ=;
+ b=Ufvsker160jzUSC9OqfDZqBGmOVMgrlzw4DkAtb3a99EteIAGOLz4Av5fMTEEMaFy2eDdY
+ j/ER5pTj5bfnU/Dw==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id D118D134F5;
- Thu, 19 Jan 2023 13:56:53 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CDFD3134F5;
+ Thu, 19 Jan 2023 13:56:57 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id 0OMhJSVMyWOCFAAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 19 Jan 2023 13:56:53 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id uImKJClMyWOCFAAAMHmgww
+ (envelope-from <farosas@suse.de>); Thu, 19 Jan 2023 13:56:57 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,19 +57,20 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: [RFC PATCH v4 07/15] tests/qtest: Adjust qom-test to always set a
- -cpu option
-Date: Thu, 19 Jan 2023 10:54:16 -0300
-Message-Id: <20230119135424.5417-8-farosas@suse.de>
+ Cornelia Huck <cohuck@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Subject: [RFC PATCH v4 08/15] tests/qtest: Adjust test-hmp to always pass -cpu
+ option
+Date: Thu, 19 Jan 2023 10:54:17 -0300
+Message-Id: <20230119135424.5417-9-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230119135424.5417-1-farosas@suse.de>
 References: <20230119135424.5417-1-farosas@suse.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.28; envelope-from=farosas@suse.de;
- helo=smtp-out1.suse.de
+Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
+ helo=smtp-out2.suse.de
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -92,20 +93,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Start using the qtest_get_machine_args function, which explicitly
-sets the -cpu option according to the machine default.
-
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 ---
- tests/qtest/qom-test.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+ tests/qtest/test-hmp.c | 34 +++++++++++++++++++++++++++++++---
+ 1 file changed, 31 insertions(+), 3 deletions(-)
 
-diff --git a/tests/qtest/qom-test.c b/tests/qtest/qom-test.c
-index d380261f8f..462e3c4281 100644
---- a/tests/qtest/qom-test.c
-+++ b/tests/qtest/qom-test.c
-@@ -78,14 +78,28 @@ static void test_properties(QTestState *qts, const char *path, bool recurse)
-     qobject_unref(response);
+diff --git a/tests/qtest/test-hmp.c b/tests/qtest/test-hmp.c
+index f8b22abe4c..c367612d4a 100644
+--- a/tests/qtest/test-hmp.c
++++ b/tests/qtest/test-hmp.c
+@@ -121,21 +121,49 @@ static void test_info_commands(QTestState *qts)
+     g_free(info_buf);
  }
  
 +static const char *arch_get_cpu(const char *machine)
@@ -124,25 +122,47 @@ index d380261f8f..462e3c4281 100644
  static void test_machine(gconstpointer data)
  {
      const char *machine = data;
-+    char *args;
-     QDict *response;
+     char *args;
      QTestState *qts;
  
--    qts = qtest_initf("-machine %s", machine);
--
-+    args = qtest_get_machine_args(machine, arch_get_cpu(machine), NULL);
-+    qts = qtest_init(args);
-     test_properties(qts, "/machine", true);
+-    args = g_strdup_printf("-S -M %s", machine);
++    args = qtest_get_machine_args(machine, arch_get_cpu(machine), "-S");
+     qts = qtest_init(args);
  
-     response = qtest_qmp(qts, "{ 'execute': 'quit' }");
-@@ -94,6 +108,7 @@ static void test_machine(gconstpointer data)
+     test_info_commands(qts);
+     test_commands(qts);
  
      qtest_quit(qts);
-     g_free((void *)machine);
+-    g_free(args);
+     g_free((void *)data);
++    g_free((void *)args);
++}
++
++static void test_none_with_memory(void)
++{
++    QTestState *qts;
++    char *args;
++
++    args = qtest_get_machine_args("none", NULL, "-S -m 2");
++    qts = qtest_init(args);
++
++    test_info_commands(qts);
++    test_commands(qts);
++
++    qtest_quit(qts);
 +    g_free((void *)args);
  }
  
  static void add_machine_test_case(const char *mname)
+@@ -160,7 +188,7 @@ int main(int argc, char **argv)
+     qtest_cb_for_every_machine(add_machine_test_case, g_test_quick());
+ 
+     /* as none machine has no memory by default, add a test case with memory */
+-    qtest_add_data_func("hmp/none+2MB", g_strdup("none -m 2"), test_machine);
++    qtest_add_func("hmp/none+2MB", test_none_with_memory);
+ 
+     return g_test_run();
+ }
 -- 
 2.35.3
 
