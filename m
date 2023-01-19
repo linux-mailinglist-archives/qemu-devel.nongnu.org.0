@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7941673BBA
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:27:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B7F673C07
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:32:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIVsD-000152-1F; Thu, 19 Jan 2023 09:26:37 -0500
+	id 1pIVwi-00044q-Ou; Thu, 19 Jan 2023 09:31:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIVsB-00013r-9a; Thu, 19 Jan 2023 09:26:35 -0500
-Received: from smtp-out2.suse.de ([2001:67c:2178:6::1d])
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pIVwb-00043L-9X
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:31:10 -0500
+Received: from mail-yw1-x112d.google.com ([2607:f8b0:4864:20::112d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIVs9-0004Cx-Lu; Thu, 19 Jan 2023 09:26:35 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 9DDBA5CECF;
- Thu, 19 Jan 2023 14:26:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674138391; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D3SrGXQAGdia3Gtgzpgxn1EVA7CxIh05SQOCdS5nkXk=;
- b=rtnsSVeJDfUSxn4Yffdkh4vv38EZndqH6AMXHFO1iSB4cMAxy1JAw5wIxmpklFqATQlNOP
- fS0IhZ4g+hoYR3RTR4uncHrczTf83Z9NKh6P3y/X0xob52N254TDYcITd8067y2IyubcVH
- QoOEgpEseoTKO7cr/1/f36WmISXusnM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674138391;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=D3SrGXQAGdia3Gtgzpgxn1EVA7CxIh05SQOCdS5nkXk=;
- b=Ewt5hOnGB50Z43ICiZWl2P6qsr2dHCOdNxdr+zAeQQsi7+80b6E3be6NhrgShzXPJ4yrbP
- kr2sIAnSm9Do6jCg==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 29E7F139ED;
- Thu, 19 Jan 2023 14:26:30 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id AWDAOBZTyWOhJQAAMHmgww
- (envelope-from <farosas@suse.de>); Thu, 19 Jan 2023 14:26:30 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Richard
- Henderson <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, Claudio
- Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
- Alexander Graf <agraf@csgraf.de>, Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH 00/20] target/arm: CONFIG_TCG=n part 1
-In-Reply-To: <d8da1d01-c87d-a226-0914-448a7da144c5@linaro.org>
-References: <20230118193518.26433-1-farosas@suse.de>
- <39bb348d-e3af-6a20-e7d5-d7a1c918a389@linaro.org> <87bkmu1z8v.fsf@suse.de>
- <d8da1d01-c87d-a226-0914-448a7da144c5@linaro.org>
-Date: Thu, 19 Jan 2023 11:26:28 -0300
-Message-ID: <877cxi1tyj.fsf@suse.de>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pIVwZ-0005ZK-3e
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:31:08 -0500
+Received: by mail-yw1-x112d.google.com with SMTP id
+ 00721157ae682-4e9adf3673aso29157097b3.10
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 06:31:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=xwZnN2aNk8cZiaVT6tfuC7X21prFted7/pCREMsk8Gc=;
+ b=c/nb1oiW1uZLftSz+ApJdkVIN1F+jctZFH+Zb/+J6Y9BUBUv8VfkgZeH+i5NMo4S+/
+ 234Z7301zaJsSerR4cOnr7ZONE6gyaYxm6WYqGmOx7iOX9CEcv8mxQOnr9Lwiuucf7sh
+ 4RipXJKY9/nT9rbJDwlf/IQwt5B0VEBU5AAozLBOx2gkgnyfcq7gepjhQqYptl+sGWOB
+ MeyJU5unRjuGb6aFpcaGZJiDNCNoqGXiT1BIodjZoCkQ12POwaOsg1cpxF2EqRTCWjqT
+ F/yNiWyP7VYsgKuHYXJx7YxzbbMBy/DPyrAagNe3uW/1vxGIEtliQmGXYLMP0o3G8Njn
+ 6GiA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=xwZnN2aNk8cZiaVT6tfuC7X21prFted7/pCREMsk8Gc=;
+ b=Wv3viSpKabbj9/pMx0IIewMdE13CD2ilqgniPBnFH6Det2KSuyXiNIgX+GEEcXNdbQ
+ Pgr/YxbEUiO7Iy1sLOTViamaFNNhQGN8Zpowbs8i3PkgpqhxaHmTRgCwLV5mNnaKQd34
+ o1tyiEUKHMTU3fhy4bxaqhapFLy36mxwdYCE+gnO9ik8i1T2p6oQsaBJIxLzxCJype/a
+ BAPq8oThyo7IzaVDjwhe+ak7jfYZ7xMTySt+vyfVAyI8J1SxULocfv8WmjerxBAxzx1h
+ GJC6AHGaBhOGNK6uJnuD40S3p8cM2L5MBv/JLaa3g2g8v40l4q1yvsIljcR46er8EC+h
+ cpkA==
+X-Gm-Message-State: AFqh2ko8WIMfOIEF91lOTNGvd74Cjf5Eot9W6lJG7zt64r1a/BmBcoxf
+ DgT/eZhb5QWyyz9AhHLYSa/oS68Xkf5bjwS/m9k=
+X-Google-Smtp-Source: AMrXdXvvjMhodlG96YYAAnwify54FTSqR8n1uFK2ydsQXgQit6CVASPxRbTnDDQZFy4ZARYMJY13vR6kOrHiVNwR2yE=
+X-Received: by 2002:a81:1e90:0:b0:489:e4c5:45ca with SMTP id
+ e138-20020a811e90000000b00489e4c545camr1410386ywe.336.1674138665034; Thu, 19
+ Jan 2023 06:31:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2001:67c:2178:6::1d; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
+References: <20230115170903.3416105-1-antonkuchin@yandex-team.ru>
+ <CAJSP0QVKUKgkBMw1PiN8-L8Ykhq=gfvNTTs4sf1tuzoqHu+GXw@mail.gmail.com>
+ <0d57cc40-693b-b36c-a135-fdac60dd00ec@yandex-team.ru>
+In-Reply-To: <0d57cc40-693b-b36c-a135-fdac60dd00ec@yandex-team.ru>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 19 Jan 2023 09:30:53 -0500
+Message-ID: <CAJSP0QUXB0kgsCSsmi8dpnJFYho2cR_2Liep=pGmp6WzDZ_7pw@mail.gmail.com>
+Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
+To: Anton Kuchin <antonkuchin@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, virtio-fs@redhat.com, 
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, yc-core@yandex-team.ru, 
+ "Michael S. Tsirkin" <mst@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112d;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x112d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,30 +90,177 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
-
-> On 19/1/23 13:32, Fabiano Rosas wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
->>=20
->>> On 18/1/23 20:34, Fabiano Rosas wrote:
->>>> These are the already reviewed patches from the first half of my
->>>> previous series:
->>>> https://lore.kernel.org/r/20230113140419.4013-1-farosas@suse.de
->>>>
->>>> This unbreaks the --disable-tcg build, but there are issues in runtime
->>>> that are still being hashed out in the other series.
+On Thu, 19 Jan 2023 at 07:43, Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
 >
-> Are you saying, we can *link* this configuration but not *run* it yet?
+> On 18/01/2023 17:52, Stefan Hajnoczi wrote:
+> > On Sun, 15 Jan 2023 at 12:21, Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
+> >> Now any vhost-user-fs device makes VM unmigratable, that also prevents
+> >> qemu update without stopping the VM. In most cases that makes sense
+> >> because qemu has no way to transfer FUSE session state.
+> >>
+> >> But we can give an option to orchestrator to override this if it can
+> >> guarantee that state will be preserved (e.g. it uses migration to
+> >> update qemu and dst will run on the same host as src and use the same
+> >> socket endpoints).
+> >>
+> >> This patch keeps default behavior that prevents migration with such devices
+> >> but adds migration capability 'vhost-user-fs' to explicitly allow migration.
+> >>
+> >> Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
+> >> ---
+> >>   hw/virtio/vhost-user-fs.c | 25 ++++++++++++++++++++++++-
+> >>   qapi/migration.json       |  7 ++++++-
+> >>   2 files changed, 30 insertions(+), 2 deletions(-)
+> >>
+> >> diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+> >> index f5049735ac..13d920423e 100644
+> >> --- a/hw/virtio/vhost-user-fs.c
+> >> +++ b/hw/virtio/vhost-user-fs.c
+> >> @@ -24,6 +24,7 @@
+> >>   #include "hw/virtio/vhost-user-fs.h"
+> >>   #include "monitor/monitor.h"
+> >>   #include "sysemu/sysemu.h"
+> >> +#include "migration/migration.h"
+> >>
+> >>   static const int user_feature_bits[] = {
+> >>       VIRTIO_F_VERSION_1,
+> >> @@ -298,9 +299,31 @@ static struct vhost_dev *vuf_get_vhost(VirtIODevice *vdev)
+> >>       return &fs->vhost_dev;
+> >>   }
+> >>
+> >> +static int vhost_user_fs_pre_save(void *opaque)
+> >> +{
+> >> +    MigrationState *s = migrate_get_current();
+> >> +
+> >> +    if (!s->enabled_capabilities[MIGRATION_CAPABILITY_VHOST_USER_FS]) {
+> >> +        error_report("Migration of vhost-user-fs devices requires internal FUSE "
+> >> +                     "state of backend to be preserved. If orchestrator can "
+> >> +                     "guarantee this (e.g. dst connects to the same backend "
+> >> +                     "instance or backend state is migrated) set 'vhost-user-fs' "
+> >> +                     "migration capability to true to enable migration.");
+> >> +        return -1;
+> >> +    }
+> >> +
+> >> +    return 0;
+> >> +}
+> >> +
+> >>   static const VMStateDescription vuf_vmstate = {
+> >>       .name = "vhost-user-fs",
+> >> -    .unmigratable = 1,
+> >> +    .minimum_version_id = 0,
+> >> +    .version_id = 0,
+> >> +    .fields = (VMStateField[]) {
+> >> +        VMSTATE_VIRTIO_DEVICE,
+> >> +        VMSTATE_END_OF_LIST()
+> >> +    },
+> >> +   .pre_save = vhost_user_fs_pre_save,
+> >>   };
+> > Will it be possible to extend this vmstate when virtiofsd adds support
+> > for stateful migration without breaking migration compatibility?
+> >
+> > If not, then I think a marker field should be added to the vmstate:
+> > 0 - stateless/reconnect migration (the approach you're adding in this patch)
+> > 1 - stateful migration (future virtiofsd feature)
+> >
+> > When the field is 0 there are no further vmstate fields and we trust
+> > that the destination vhost-user-fs server already has the necessary
+> > state.
+> >
+> > When the field is 1 there are additional vmstate fields that contain
+> > the virtiofsd state.
+> >
+> > The goal is for QEMU to support 3 migration modes, depending on the
+> > vhost-user-fs server:
+> > 1. No migration support.
+> > 2. Stateless migration.
+> > 3. Stateful migration.
+>
+> Sure. These vmstate fields are very generic and mandatory for any
+> virtio device. If in future more state can be transfer in migration
+> stream the vmstate can be extended with additional fields. This can
+> be done with new subsections and/or bumping version_id.
 
-Strictly speaking, we cannot run it. While it works most of the time,
-there are still references to machines and cpus that are TCG-only. Try
-running -machine ? or -cpu ? for instance. If a user tries to pass one
-of those, there might be breakages like the ones you saw.
+My concern is that the vmstate introduced in this patch may be
+unusable when stateful migration is added. So additional compatibility
+code will need to be introduced to make your stateless migration
+continue working with extended vmstate.
 
-The other series (I just sent a v4) removes everything that depends on
-TCG. Then it will be 100% safe to use --disable-tcg and consume the
-result.
+By adding a marker field in this patch it should be possible to
+continue using the same vmstate for stateless migration without adding
+extra compatibility code in the future.
 
+> The main purpose of this patch is to allow update VM to newer version
+> of qemu via local migration without disruption to guest. And future
+> versions hopefully could pack more state from external environment
+> to migration stream.
+>
+>
+> >
+> >>   static Property vuf_properties[] = {
+> >> diff --git a/qapi/migration.json b/qapi/migration.json
+> >> index 88ecf86ac8..9a229ea884 100644
+> >> --- a/qapi/migration.json
+> >> +++ b/qapi/migration.json
+> >> @@ -477,6 +477,11 @@
+> >>   #                    will be handled faster.  This is a performance feature and
+> >>   #                    should not affect the correctness of postcopy migration.
+> >>   #                    (since 7.1)
+> >> +# @vhost-user-fs: If enabled, the migration process will allow migration of
+> >> +#                 vhost-user-fs devices, this should be enabled only when
+> >> +#                 backend can preserve local FUSE state e.g. for qemu update
+> >> +#                 when dst reconects to the same endpoints after migration.
+> >> +#                 (since 8.0)
+> > This is global but a guest can have multiple vhost-user-fs devices
+> > connected to different servers.
+> AFAIK vhost-user requires unix socket and memory shared from guest so
+> devices can't be connected to different servers, just to different
+> endpoints on current host.
 
+Different vhost-user-fs server software. vhost-user-fs is a protocol,
+there can be multiple server implementations. These implementations
+may have different capabilities (some may not support stateless
+migration). So I think stateless migration should be a per-instance
+setting, not global.
 
+>
+> >
+> > I would add a qdev property to the device instead of introducing a
+> > migration capability. The property would enable "stateless migration".
+> > When the property is not set, migration would be prohibited.
+> I did thought about that, but this is really not a property of device,
+> this is the capability of management software and applies to exactly one
+> particular migration process that it initiates. It should not persist
+> across migration or be otherwise stored in device.
+
+I disagree. The vhost-user-fs server software must implement stateless
+migration in order for this to work. For example,
+https://gitlab.com/virtio-fs/virtiofsd doesn't support stateless
+migration as far as I know.
+
+>
+> The idea here is that orchestrator can ensure destination qemu will
+> run on the same host, will reconnect to the same unix sockets and only
+> then sets the flag (because inside qemu we can't know anything about
+> the destination).
+> This is somewhat similar to ignore-shared migration capability when
+> qemu avoids saving and loading guest memory that is stores in shmem
+> because it will be picked up by destination process right where source
+> left it.
+>
+> >>   #
+> >>   # Features:
+> >>   # @unstable: Members @x-colo and @x-ignore-shared are experimental.
+> >> @@ -492,7 +497,7 @@
+> >>              'dirty-bitmaps', 'postcopy-blocktime', 'late-block-activate',
+> >>              { 'name': 'x-ignore-shared', 'features': [ 'unstable' ] },
+> >>              'validate-uuid', 'background-snapshot',
+> >> -           'zero-copy-send', 'postcopy-preempt'] }
+> >> +           'zero-copy-send', 'postcopy-preempt', 'vhost-user-fs'] }
+> >>
+> >>   ##
+> >>   # @MigrationCapabilityStatus:
+> >> --
+> >> 2.34.1
+> >>
+> >>
 
