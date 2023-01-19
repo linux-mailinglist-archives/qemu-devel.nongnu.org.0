@@ -2,73 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0AB6673531
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:12:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AEC1673537
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:14:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIRYd-0005TP-AV; Thu, 19 Jan 2023 04:50:07 -0500
+	id 1pIRZi-0005oY-FM; Thu, 19 Jan 2023 04:51:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pIRYb-0005Sd-F7
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 04:50:05 -0500
-Received: from mr85p00im-ztdg06021101.me.com ([17.58.23.180])
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pIRZg-0005oC-AN; Thu, 19 Jan 2023 04:51:12 -0500
+Received: from kylie.crudebyte.com ([5.189.157.229])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pIRYZ-0002EX-Si
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 04:50:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1674121802; bh=u5gMT2bw7+a6l2mNPMYtmJZqCrjqHEhjfNWpsXV7rYw=;
- h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
- b=dI8uEZvNCdo2kjXfLrr+sc2w10+4Q9tDgQPc1wVYHrSJzB82kV1u0atYeafVgFOaN
- sH+k/fZ4sOylKdH3WBq9qZ9ZLIT39KHOy1bYFER2hZxa1zVTubFZ2vYqixHA4dcWfn
- gXhiR5xFqjYkCX7U2VL5JmqpxlImbz+nztP7FTuIxH5GCl5gNT4wB+ZR5weHPORBAp
- phe52XEpmTV60dW6Yhy6NdNSb3pF7a8/XlMYPCbKsSQpX91XcnLHHsyO/e9rrwcKg6
- Wbx71vHuJtSD3PvfuBLCDH0EXB5VQDF65jwQ9eskg3ULlEZZykN2hccdcdiQTslRpl
- 4UNv7CUwLyIlA==
-Received: from smtpclient.apple (mr38p00im-dlb-asmtp-mailmevip.me.com
- [17.57.152.18])
- by mr85p00im-ztdg06021101.me.com (Postfix) with ESMTPSA id 3EDEE80E33;
- Thu, 19 Jan 2023 09:49:59 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
-Subject: Re: [PATCH v3 2/3] hvf: implement guest debugging on Apple Silicon
- hosts
-From: Mads Ynddal <mads@ynddal.dk>
-In-Reply-To: <5B722E51-E635-4196-8978-E0393F9EEFA1@ynddal.dk>
-Date: Thu, 19 Jan 2023 10:49:47 +0100
-Cc: qemu-devel@nongnu.org, dirty@apple.com,
- Peter Maydell <peter.maydell@linaro.org>,
- "open list:ARM cores" <qemu-arm@nongnu.org>,
- Alexander Graf <agraf@csgraf.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Francesco Cagnin <fcagnin@quarkslab.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <1F9A3AAD-0A5D-4E7D-A053-7F49CE019096@ynddal.dk>
-References: <20230114161302.94595-1-fcagnin@quarkslab.com>
- <20230114161302.94595-3-fcagnin@quarkslab.com>
- <5B722E51-E635-4196-8978-E0393F9EEFA1@ynddal.dk>
-To: francesco.cagnin@gmail.com
-X-Mailer: Apple Mail (2.3731.300.101.1.3)
-X-Proofpoint-ORIG-GUID: 0qHokcueEKGioRftouPYTpLRtg6ynoIQ
-X-Proofpoint-GUID: 0qHokcueEKGioRftouPYTpLRtg6ynoIQ
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.425,18.0.816,17.11.62.513.0000000_definitions?=
- =?UTF-8?Q?=3D2022-01-18=5F01:2022-01-14=5F01,2022-01-18=5F01,2021-12-02?=
- =?UTF-8?Q?=5F01_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
- mlxlogscore=474 mlxscore=0
- adultscore=0 bulkscore=0 phishscore=0 malwarescore=0 suspectscore=0
- clxscore=1030 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2301190078
-Received-SPF: pass client-ip=17.58.23.180; envelope-from=mads@ynddal.dk;
- helo=mr85p00im-ztdg06021101.me.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <qemu_oss@crudebyte.com>)
+ id 1pIRZc-0002rX-GX; Thu, 19 Jan 2023 04:51:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+ Content-ID:Content-Description;
+ bh=jEiGaghMr6rpWAxosGe+WxtwHecKYx8iN/Wr+8lZdFk=; b=tiHK0clFRcXGYvtC+U5gmOB3Lz
+ 3qkrcErCEsp4TJBujdXms/J1wM7mQMV8VbwtTBjyw6iwLND+MA/KpdJXRoo+uycWhQGIppBDvqVVT
+ dCLCUV4rg4uhVqtwprx4x9GemGsc+m5kcGE1sazAzgoKFWt5U3O+h214/TesQeVjLJlwCil8M62AA
+ nD7wBmtCuMdcnczhbY+piJkmzy1Hs/qGhyTtMIPMxrRkV9HUMmtCgKmQ3d+5+MxvtgytapMXCDWPX
+ PMO0qlf7AJYAxPHH/fdomf5DzbMm2o/9BK8jYq84Fq1486LoyQskweYyq0RipwkZ4ja2mgxB5N5Du
+ Y+fCyqzDx/216eZwXgAq1Ifz/I1p6SCt0g/oI+fJfPl+wjk2eimJAkEf79DVebGFaluzHRLrQDcUK
+ yu3qnUfaG3Zgj9oynSjxlPVEQbTzb/C36aupE+rP/8eX1Qq0wjh0rFGxlrDa7tNwHpjS78WFgAaMR
+ kIGfyilmSWvchIWhx1/vACIojrGQ1ER0Al2QeQQwycTK57bzKpr6i3FCjutKT6B9cgVNrFbalymtH
+ MvhxvZOU/uNaewBsVGbosCY/Q11+w+JKp5FmrM0NBxqjyuNwu/kDyLthi+3Jz6GJL9xbvyiUBdzJM
+ hbswTjcttV10R8IH9Zoxe/nMQQySq2OD1eUfiVlZA=;
+From: Christian Schoenebeck <qemu_oss@crudebyte.com>
+To: qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
+ hreitz@redhat.com, imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
+ groug@kaod.org, mst@redhat.com, philmd@linaro.org, peter.maydell@linaro.org,
+ alistair@alistair23.me, jasowang@redhat.com, jonathan.cameron@huawei.com,
+ kbastian@mail.uni-paderborn.de, quintela@redhat.com, dgilbert@redhat.com,
+ michael.roth@amd.com, kkostiuk@redhat.com, tsimpson@quicinc.com,
+ palmer@dabbelt.com, bin.meng@windriver.com, qemu-block@nongnu.org,
+ qemu-arm@nongnu.org, qemu-riscv@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v4 18/19] 9p: Drop superfluous include of linux/limits.h
+Date: Thu, 19 Jan 2023 10:50:39 +0100
+Message-ID: <5266030.ICAI56zT51@silver>
+In-Reply-To: <20230119065959.3104012-19-armbru@redhat.com>
+References: <20230119065959.3104012-1-armbru@redhat.com>
+ <20230119065959.3104012-19-armbru@redhat.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
+Received-SPF: pass client-ip=5.189.157.229;
+ envelope-from=qemu_oss@crudebyte.com; helo=kylie.crudebyte.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,18 +73,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thursday, January 19, 2023 7:59:58 AM CET Markus Armbruster wrote:
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  hw/9pfs/9p.c | 3 ---
+>  1 file changed, 3 deletions(-)
+> 
+> diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+> index 9621ec1341..aa736af380 100644
+> --- a/hw/9pfs/9p.c
+> +++ b/hw/9pfs/9p.c
+> @@ -17,9 +17,6 @@
+>   */
+>  
+>  #include "qemu/osdep.h"
+> -#ifdef CONFIG_LINUX
+> -#include <linux/limits.h>
+> -#endif
+>  #include <glib/gprintf.h>
+>  #include "hw/virtio/virtio.h"
+>  #include "qapi/error.h"
+> 
 
-> It seems v3 has a regression in regards to BRK instructions that I =
-cannot
-> reproduce with v2.
+Where did that base version come from? I don't see it anywhere in history. 
+Last relevant change in context was a136d17590a.
 
-I've now observed the same messages on v2 on a co-worker's computer. =
-Maybe it's
-happening in combination with another commit on master. If I can find =
-the time,
-I'll try to bisect it.
+Best regards,
+Christian Schoenebeck
 
-=E2=80=94
-Mads Ynddal
 
 
