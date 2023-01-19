@@ -2,62 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9BB673AD2
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:57:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE8C9673AEF
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:59:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIVO0-0006u9-80; Thu, 19 Jan 2023 08:55:24 -0500
+	id 1pIVRV-00072O-UG; Thu, 19 Jan 2023 08:59:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIVNw-0006pQ-1U
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:55:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIVNu-0005pe-14
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:55:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674136517;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=CWLLMLWbpxQTa4GtO51fRN+Ezc42dECgcZu4dRaCVP4=;
- b=TRVTCN2+2bB2P44VHqhTTqWhcFNwbw/PiMrzSQjf07mJ4xVzx/VNJEvPr3JaSIh7a//GDB
- jeFF6KUp6luWUN/LmNX5Ey62yVLKTj1EhJCYTmFrR9Rqa3O49R3aELZGhfevzmmjta/5u7
- Bf5Z/rytsRj6QI3D9RXg80kfGb5mYpo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-392-1a0Pi_g7O-KILbf-V72xXg-1; Thu, 19 Jan 2023 08:55:15 -0500
-X-MC-Unique: 1a0Pi_g7O-KILbf-V72xXg-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 80DEA2807D68;
- Thu, 19 Jan 2023 13:55:15 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A1686492C3E;
- Thu, 19 Jan 2023 13:55:14 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH] travis.yml: Use the libfdt from the distro instead of the
- submodule
-Date: Thu, 19 Jan 2023 14:55:12 +0100
-Message-Id: <20230119135512.2040062-1-thuth@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pIVR8-0006p1-CS
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:58:40 -0500
+Received: from mail-pg1-x532.google.com ([2607:f8b0:4864:20::532])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pIVR6-0006SX-Ek
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:58:37 -0500
+Received: by mail-pg1-x532.google.com with SMTP id e10so1556585pgc.9
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 05:58:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jVZ0E82j5PQjtmnIEv8oH4BUxm898ML+K/0A1gHCZKA=;
+ b=Kxwx3YVz6wtwigLrCY4A1aRHBNjXKW7hztIktv8zIW58bRKCFP/MycXGl6SolYl50i
+ fP6NsIctYpaGvdAi+UNHudaTcPnuDwc2pNbfrkcmal2IUCJf97BNbrh2AsCutQDqkjeA
+ V2zdhO8B+Us0hztsf3TqLyTG5XEiiTcEJXqKCf4mAd9FxI1A29dQazbP/0MZvzFT/nFb
+ RILqGI6NyHpDj2LGbBXl9/Muv+nrYAEjXyDGhaCW74pqcjIpgNETeZpNjCZQTqchc8qG
+ WsxgAxfH0/yb1H53A/XD6dsq2GUQ580+76m1rolLG9P4vCWq8HBp+dA5cGMhcN4w+XSO
+ Rmcg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jVZ0E82j5PQjtmnIEv8oH4BUxm898ML+K/0A1gHCZKA=;
+ b=AdN07/sHdg1jJmf0LQjvIziPN0PKrPCR4gYD9qE36Ni6LGdT3jZ7cG3nt4EZqi/sv1
+ is8xvTWaI4V66H5j9LkDsbrv8I/c4ZuEzce6KkbQ6noPy4/85SFFNVX0WZk4/qkk40Ip
+ 4EqkelOlI1KuIUJY1f0R59055bFEBG7yAN+h5GoNlGjYQ7cDwAxv/HFPziLDRV6A7LX+
+ nydujZm2g2VauYk1pHu78Am3fA+hEerw03rZnN71YkuhbHtvRICm68xqw6KdLTQgfN5e
+ KsYe6b/+UsylTkC2KCAAlFEP2qzznVfJjn0eNAgeZeHZvsbLbLqgeJSrOkY9CPbiblDp
+ H0TQ==
+X-Gm-Message-State: AFqh2krWSKQXgxeo2kemClX0dgT3rZV4gPLM4KIJQqOISHlSgv9chUZ8
+ KiMPxDH3lD1+fQa0FCv5Xk7HFZxZClYThB1NYb4Tsw==
+X-Google-Smtp-Source: AMrXdXvGasAGQKHyIypjlSEj1p6FxR3QZA7CzH9VjTtwLjucU3jXe3pPg+Ibcz+UqQCsLn9rtS7dIlC2i9KOQK2HrAQ=
+X-Received: by 2002:a05:6a00:2b1:b0:582:a212:d922 with SMTP id
+ q17-20020a056a0002b100b00582a212d922mr962045pfs.3.1674136714509; Thu, 19 Jan
+ 2023 05:58:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <167398464577.10345.18365355650640365165-3@git.sr.ht>
+ <be662a38-c0fd-daf4-88e6-4adcde57fd57@linaro.org>
+ <1a029d9c-92a8-2866-d1ec-7fdab4356fb6@meta.com>
+In-Reply-To: <1a029d9c-92a8-2866-d1ec-7fdab4356fb6@meta.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Jan 2023 13:58:23 +0000
+Message-ID: <CAFEAcA_G8a82YZyEvmQJcEr1odkQLu_D2bNkaX+1m2EV8TYEkw@mail.gmail.com>
+Subject: Re: [PATCH qemu v2 3/3] target/arm/gdbstub: Support reading M
+ security extension registers from GDB
+To: David Reiss <dreiss@meta.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org, 
+ qemu-arm@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::532;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x532.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,59 +86,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-No need to compile-test third party submodules over and over again if
-we can simply use the pre-build library from the distribution instead.
+On Tue, 17 Jan 2023 at 22:48, David Reiss <dreiss@meta.com> wrote:
+>
+> On 1/17/23 1:42 PM, Richard Henderson wrote:
+> > Is there a reason why these are separate from m_systemreg?
+>
+> GDB puts these in a separate file, and J-Link puts them in a separate feature block.
+> In general, I think it's nice to separate stuff related to the secure extension
+> so folks not working with it can ignore it more easily.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .travis.yml | 5 +++++
- 1 file changed, 5 insertions(+)
+The reason is "there is an unwritten standard for where the
+registers are supposed to go" -- if we don't follow it then
+although gdb will display the registers to the user fine it
+won't recognize them for purposes of doing operations like
+bactracing across secure-calls. I have nudged a local gdb dev
+to suggest that the gdb remote docs be improved to write down
+what gdb requires in the way of XML feature and register names.
 
-diff --git a/.travis.yml b/.travis.yml
-index fb3baabca9..e24c99fdb9 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -128,6 +128,7 @@ jobs:
-           - libbrlapi-dev
-           - libcacard-dev
-           - libcap-ng-dev
-+          - libfdt-dev
-           - libgcrypt20-dev
-           - libgnutls28-dev
-           - libgtk-3-dev
-@@ -162,6 +163,7 @@ jobs:
-           - libbrlapi-dev
-           - libcacard-dev
-           - libcap-ng-dev
-+          - libfdt-dev
-           - libgcrypt20-dev
-           - libgnutls28-dev
-           - libgtk-3-dev
-@@ -195,6 +197,7 @@ jobs:
-           - libbrlapi-dev
-           - libcacard-dev
-           - libcap-ng-dev
-+          - libfdt-dev
-           - libgcrypt20-dev
-           - libgnutls28-dev
-           - libgtk-3-dev
-@@ -237,6 +240,7 @@ jobs:
-           - libattr1-dev
-           - libcacard-dev
-           - libcap-ng-dev
-+          - libfdt-dev
-           - libgnutls28-dev
-           - libiscsi-dev
-           - liblttng-ust-dev
-@@ -281,6 +285,7 @@ jobs:
-           - libbrlapi-dev
-           - libcacard-dev
-           - libcap-ng-dev
-+          - libfdt-dev
-           - libgcrypt20-dev
-           - libgnutls28-dev
-           - libgtk-3-dev
--- 
-2.31.1
-
+thanks
+-- PMM
 
