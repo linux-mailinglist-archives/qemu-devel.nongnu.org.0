@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1BC2673210
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:04:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6959673214
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:05:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIOv7-0006xe-LP; Thu, 19 Jan 2023 02:01:09 -0500
+	id 1pIOv5-0006sl-CZ; Thu, 19 Jan 2023 02:01:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIOuQ-0006TS-17
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:00:26 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIOuY-0006Xb-GL
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:00:35 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIOuK-0008CN-BY
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:00:25 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIOuM-0008E4-TZ
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:00:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674111610;
+ s=mimecast20190719; t=1674111614;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=crP6mBB8FenMMe0mP+YUj+myR0zA5GWaiOW3a613yRo=;
- b=ZxH08wEfsMWrle/MI2myWlmsZxJVaIemcm1hnYOpWZ8GxdqHxqRufX0Q4YNETUtsPkDlvl
- +dzP72MRKg/6PA/81AT95muJzwjtAOBxqpI3BxrU0Zsfjj1+ng+syoLkUqou44yjrwGquH
- dKILZnm90cSRkJjdQeTAnHRqNjmKmzA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6HC870YUJByfkMZaMPwjTRzkOnJyWaURlvdeg0SRvwM=;
+ b=KH5+vUiykhL3B7GFbtwCBQdT4RxoA9Q/o2CZzYIqw+YWycAMnqAb/4pROGb2+NGNGnk4i2
+ UawGoes1+xWq/Ztud9VM//UYcjukpmnsWGd7n8MO1FBdxn2sOcsP4vd90mdvZEI9UCK4eB
+ nKpydDFMX9yjk2TaXOaGK5tSfD/h4h4=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-230-lGV4UpUgO7aRyKSfo5IU7g-1; Thu, 19 Jan 2023 02:00:06 -0500
-X-MC-Unique: lGV4UpUgO7aRyKSfo5IU7g-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-240-k0ksHQ5UPmaK26KYeiBTfg-1; Thu, 19 Jan 2023 02:00:06 -0500
+X-MC-Unique: k0ksHQ5UPmaK26KYeiBTfg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 05827280BCA2;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 10CCE8533DC;
  Thu, 19 Jan 2023 07:00:05 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BCBC22166B29;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id C72D1492B00;
  Thu, 19 Jan 2023 07:00:04 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6C88621E5DCF; Thu, 19 Jan 2023 07:59:59 +0100 (CET)
+ id 763DE21E5A10; Thu, 19 Jan 2023 07:59:59 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
@@ -53,15 +53,15 @@ Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
  kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com,
  bin.meng@windriver.com, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH v4 15/19] accel: Clean up includes
-Date: Thu, 19 Jan 2023 07:59:55 +0100
-Message-Id: <20230119065959.3104012-16-armbru@redhat.com>
+Subject: [PATCH v4 18/19] 9p: Drop superfluous include of linux/limits.h
+Date: Thu, 19 Jan 2023 07:59:58 +0100
+Message-Id: <20230119065959.3104012-19-armbru@redhat.com>
 In-Reply-To: <20230119065959.3104012-1-armbru@redhat.com>
 References: <20230119065959.3104012-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -86,28 +86,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Clean up includes so that osdep.h is included first and headers
-which it implies are not included manually.
-
-This commit was created with scripts/clean-includes.
-
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- include/sysemu/accel-blocker.h | 1 -
- 1 file changed, 1 deletion(-)
+ hw/9pfs/9p.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-diff --git a/include/sysemu/accel-blocker.h b/include/sysemu/accel-blocker.h
-index 72020529ef..0733783bcc 100644
---- a/include/sysemu/accel-blocker.h
-+++ b/include/sysemu/accel-blocker.h
-@@ -14,7 +14,6 @@
- #ifndef ACCEL_BLOCKER_H
- #define ACCEL_BLOCKER_H
+diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
+index 9621ec1341..aa736af380 100644
+--- a/hw/9pfs/9p.c
++++ b/hw/9pfs/9p.c
+@@ -17,9 +17,6 @@
+  */
  
--#include "qemu/osdep.h"
- #include "sysemu/cpus.h"
- 
- extern void accel_blocker_init(void);
+ #include "qemu/osdep.h"
+-#ifdef CONFIG_LINUX
+-#include <linux/limits.h>
+-#endif
+ #include <glib/gprintf.h>
+ #include "hw/virtio/virtio.h"
+ #include "qapi/error.h"
 -- 
 2.39.0
 
