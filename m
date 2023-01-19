@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D530767408E
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:07:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34CCC674086
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:05:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIZHG-0003Ne-N6; Thu, 19 Jan 2023 13:04:42 -0500
+	id 1pIZHF-0003NE-Ix; Thu, 19 Jan 2023 13:04:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH4-0003Is-En
+ id 1pIZH5-0003J0-Pc
  for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:31 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH0-00011U-Of
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:30 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id e3so2637186wru.13
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:04:25 -0800 (PST)
+ id 1pIZH1-00011g-Uy
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:31 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id l8so2188657wms.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:04:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KS77SMPj4oKmkGa5jb8BcpyB1iTizAYKK45SCLEMfy8=;
- b=uvcmXOWT7cRwqTJdvlzGiiZLZHJ5fMCUbT9Y1uK+MSPObCg45R5VwXxR21666pUV7W
- tc2tmzecoCKu2afCW7vmAKE680/JL7/SZi6wxzaDaf6FI+eBHkyLmtPpnT4peLHVIF14
- Mr80PGon15IH0cslMo4MPRGjBQDDvfvD+0iu3s6OwLoWw2fX+fRMMd1qDgy5PvFsXEDN
- 834kaFzBCFM10IR5RxbCqZVyPPfYgMxauLz5AyEki0gGkVNcWI1m9RiUGRMIlP4vf92h
- EkD4/k3nrnU1VmYOwgcKT8Wg5MUil5kvtYL3M/hlCb1xUpe8Grj0pxeO6E3XsDsi8EyX
- ohBQ==
+ bh=Ckg71MG7SVvhUWMlWrtuql+u6S+Ri9y1vJzFG4YdetM=;
+ b=UO3XgEVa7kkdVw88Uiy0nia85aO8FQ0wv7dmYkJV2d8xNBhMMlzDXmx0fmVeXYC6d+
+ ASl/+GUqmgHhYF22FAsCgZMjX/Fjv6CQIwIPk786y1srdQ3hk3Sw2fZr4waq3OJE0tYC
+ +7tQZWTynQedKJO3ZmFV2yFK/UY2fNeAmYzUEwROQSS449V4XGyqQwR/loJ/dPR9TxwR
+ s0WvpCUju+RnGpSwnHmNB47NBSR/SoVVrIDGdluyRUrYB/dj4WkTiWaJGW0Fkv6/E0d/
+ cfucqVB52Fm9woJUchIs0LqTQRM7OGnRdUXkOqVXcfq+wkvLntOnTxhb1nCHtaV8TULj
+ 7bXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=KS77SMPj4oKmkGa5jb8BcpyB1iTizAYKK45SCLEMfy8=;
- b=XLMI3LpXpVXxZdtz25Jlvk9KWt9qqu4J0M6uLwEuR+0duFYA5IloylN4DnMbP8TccK
- CPv170c9gFAu5rXeJ9ZLt9XNv4mnbD3A6fjdWR0Rrm2gYhkZLpbcZ6BoLCfeilpMBmP7
- tjvqSCgxz9CE40PltRqXMRgfFfNRJvWALf/jh6n7hsmV4MXtlbq8ZxEtREAwnbBaA9On
- FDBBn3+YC/ZDCG22rrJhvJUQKwJZzSaFQiFYYhsYtRbofd/WVdRkZwZyQxDAvhCkp4rh
- JRTqBeWb9Zpf1rPsnsAqsVqN/0zuC12VtRI5gEWO9lQhYD2mfF2BZ66wUDhwR1SJFIZ8
- AfLw==
-X-Gm-Message-State: AFqh2kpHG3eQEWfIaEivPQfpirsSifzK0TkJanVApRAPtA0RFyvYIG9L
- g1kbeA/LUo6Um58tysbvfYOxMg==
-X-Google-Smtp-Source: AMrXdXsM+gZFqKfpEvx8Z41UXque5RWcWYU4E6sKeddoieW/4dZnHT3tJFXdhULcSI6uc/VDpDQyaw==
-X-Received: by 2002:a05:6000:689:b0:2bd:ffad:1bce with SMTP id
- bo9-20020a056000068900b002bdffad1bcemr11580952wrb.59.1674151464844; 
- Thu, 19 Jan 2023 10:04:24 -0800 (PST)
+ bh=Ckg71MG7SVvhUWMlWrtuql+u6S+Ri9y1vJzFG4YdetM=;
+ b=426uYvGFICgaIt7aS7cEMBHFc19M4xXNXgoZ6zIHY/VUAcd5Eag8IFwV9noovCEMxJ
+ O7JFXUstg80iZxCSzT+iFQhqxsioJGqEWWls2KyV0RphkGMfHr8A3Cw922FVPPA7TJTz
+ YAq0IDvkqT1/fhJIqvZZYThMTS+EViPlerSt12tXMMldu9jDQ362+CIY3EsLvrzPl0aO
+ 5LZNF8hvoQXnvd+cIXmGf+l/dH4vitF2OAxFxf9xiBJt0a+QuW7dA1f3ILWh3JEyvUIA
+ EG184TtxYsa/v5bVZrDwSJkinVy407wWQLI8tnlpIbXvJYQQDqcvNHBvAUouMeaDfExb
+ IOVg==
+X-Gm-Message-State: AFqh2kpfKu62wQUeWuCbQ5DdypcDMX4k6eW4rLC5VRFd1BNnhLRmCjaA
+ 7xMnt8vw1OKeINM/jCUODzl5dg==
+X-Google-Smtp-Source: AMrXdXugqz+oZBP0cPsheQ9wkcgnJKYfv0QLlquMGuwE6DO3tCQLp/aKCwAXjn2vh8BntqusnvccPQ==
+X-Received: by 2002:a05:600c:4e93:b0:3db:d3f:a91f with SMTP id
+ f19-20020a05600c4e9300b003db0d3fa91fmr8890674wmq.23.1674151466305; 
+ Thu, 19 Jan 2023 10:04:26 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- q11-20020adf9dcb000000b00268aae5fb5bsm34846300wre.3.2023.01.19.10.04.21
+ o2-20020a05600c510200b003c6f8d30e40sm6298551wms.31.2023.01.19.10.04.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Jan 2023 10:04:22 -0800 (PST)
+ Thu, 19 Jan 2023 10:04:24 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 437551FFC0;
+ by zen.linaroharston (Postfix) with ESMTP id 5DBA61FFC1;
  Thu, 19 Jan 2023 18:04:20 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -73,17 +73,18 @@ Cc: Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 08/18] docs: drop texinfo options
-Date: Thu, 19 Jan 2023 18:04:09 +0000
-Message-Id: <20230119180419.30304-9-alex.bennee@linaro.org>
+Subject: [PATCH 09/18] gitlab: add lsan suppression file to workaround
+ tcmalloc issues
+Date: Thu, 19 Jan 2023 18:04:10 +0000
+Message-Id: <20230119180419.30304-10-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230119180419.30304-1-alex.bennee@linaro.org>
 References: <20230119180419.30304-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -106,42 +107,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+The up-coming upgrade to Fedora 37 will bring in libtcmalloc as a
+dependency of libglusterfs which confuses our fuzz run. Rather than
+disable the build lets use LSAN's suppression mechanism to prevent the
+job from failing.
 
-It looks like this is no longer wanted, we only build the html output.
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20230110132700.833690-6-marcandre.lureau@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Daniel P. Berrangé <berrange@redhat.com>
 ---
- docs/conf.py | 13 -------------
- 1 file changed, 13 deletions(-)
+ .gitlab-ci.d/buildtest.yml             | 1 +
+ scripts/oss-fuzz/lsan_suppressions.txt | 2 ++
+ 2 files changed, 3 insertions(+)
+ create mode 100644 scripts/oss-fuzz/lsan_suppressions.txt
 
-diff --git a/docs/conf.py b/docs/conf.py
-index e33cf3d381..73a287a4f2 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -297,19 +297,6 @@
- ]
- man_make_section_directory = False
- 
--# -- Options for Texinfo output -------------------------------------------
--
--# Grouping the document tree into Texinfo files. List of tuples
--# (source start file, target name, title, author,
--#  dir menu entry, description, category)
--texinfo_documents = [
--    (master_doc, 'QEMU', u'QEMU Documentation',
--     author, 'QEMU', 'One line description of project.',
--     'Miscellaneous'),
--]
--
--
--
- # We use paths starting from qemu_docdir here so that you can run
- # sphinx-build from anywhere and the kerneldoc extension can still
- # find everything.
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index f09a898c3e..9a6ba1fe3b 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -511,6 +511,7 @@ build-oss-fuzz:
+     IMAGE: fedora
+   script:
+     - mkdir build-oss-fuzz
++    - export LSAN_OPTIONS=suppressions=scripts/oss-fuzz/lsan_suppressions.txt
+     - CC="clang" CXX="clang++" CFLAGS="-fsanitize=address"
+       ./scripts/oss-fuzz/build.sh
+     - export ASAN_OPTIONS="fast_unwind_on_malloc=0"
+diff --git a/scripts/oss-fuzz/lsan_suppressions.txt b/scripts/oss-fuzz/lsan_suppressions.txt
+new file mode 100644
+index 0000000000..02ec0a6ed5
+--- /dev/null
++++ b/scripts/oss-fuzz/lsan_suppressions.txt
+@@ -0,0 +1,2 @@
++# The tcmalloc on Fedora37 confuses things
++leak:/lib64/libtcmalloc_minimal.so.4
 -- 
 2.34.1
 
