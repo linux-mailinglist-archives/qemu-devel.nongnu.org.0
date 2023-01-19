@@ -2,113 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D516067398F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:09:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E45D67399F
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:11:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIUes-00070J-SX; Thu, 19 Jan 2023 08:08:46 -0500
+	id 1pIUgx-0007qm-2c; Thu, 19 Jan 2023 08:10:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pIUen-0006zz-4d; Thu, 19 Jan 2023 08:08:41 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pIUek-0004vj-Se; Thu, 19 Jan 2023 08:08:40 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30JCKlTU029976; Thu, 19 Jan 2023 13:08:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=u84ZFt5oKG52HGOkFH+/VGTn1J4zI1utC8K/a+fTEY8=;
- b=PJSzdlm4N4u1KU+tUkdVIiW5DLzArbURs17DW3L/xyMJlLl97z9O+S+ywZUOObaWliFE
- wEmKemkXJNL2a2Z6ZUIwDTuZuQchtqWbYuWityaV/owlgpZlDwC205P48Is018NMZLlz
- +0czEO+WaySRlSq71pYV+YtsA1pkYWRAsNJrtLtwIxEBEOWYB3vOK/E/HdKBxnE7Brwx
- 125MINNTAG7U7mgrlfnXp5+VzidbG2J+RMLgSuGUZIweZCYaR2TcDT/VBrnTl10nTU6e
- RJEMNuqPB2GPgXxkcJ/ALTcAuYYzFKwHigd6Wt2Cv7rYAM7+np32LSlaf3RcGOAGcytF mA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6jc045xb-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Jan 2023 13:08:29 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30JCgUul017400;
- Thu, 19 Jan 2023 13:08:29 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3n6jc045w7-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Jan 2023 13:08:29 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30J6b5FM023694;
- Thu, 19 Jan 2023 13:08:27 GMT
-Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3n3m16pqaf-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 19 Jan 2023 13:08:27 +0000
-Received: from smtpav01.fra02v.mail.ibm.com (smtpav01.fra02v.mail.ibm.com
- [10.20.54.100])
- by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30JD8NFr32571720
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 19 Jan 2023 13:08:23 GMT
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 8350820043;
- Thu, 19 Jan 2023 13:08:23 +0000 (GMT)
-Received: from smtpav01.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0E36520040;
- Thu, 19 Jan 2023 13:08:20 +0000 (GMT)
-Received: from [9.152.224.248] (unknown [9.152.224.248])
- by smtpav01.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu, 19 Jan 2023 13:08:19 +0000 (GMT)
-Message-ID: <e4527b0e-fd4e-7caa-f4ce-9b254b1e2801@linux.ibm.com>
-Date: Thu, 19 Jan 2023 14:08:19 +0100
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1pIUgu-0007qL-6Y
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:10:52 -0500
+Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1pIUgq-0005Tg-IQ
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:10:51 -0500
+Received: by mail-pj1-x1033.google.com with SMTP id b10so2357776pjo.1
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 05:10:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Sqb1AtwDV8EKT/Y3mVLzu24oF1C9JK4BLP/3ZMCOZr0=;
+ b=MwsPncOPoZJGwbIyGYwXvXsqA/HfJszt56FjqJDkS6jcnKlAtd9Cv/f2mjjVuk7JWx
+ QKHyz5+mxZ9rKw3UBAXh/Rx2KeXJjh0KAGiT2Ir9CYz5InmxjSMGO86brT3+pkEbPQhI
+ ObRZBjWUxfV9DuxxOplzaFad2UhU2VOT6QJDn9kgWBG2UVVG+qBGKygEI3jXOjlwMwCS
+ LFV28DiqSsNSoju5Ot3mvyqeaScxFX4J8t4YEc1s1vqAkgqq56iMwfDC945nHxR74K61
+ qiK8Xo8MrLrS1QYY1BdtxEor7vZwrUfrke+0ER6SiC9WSbCSbkSE6adsObVsoPhSGadP
+ UEDA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Sqb1AtwDV8EKT/Y3mVLzu24oF1C9JK4BLP/3ZMCOZr0=;
+ b=bbYemI+g4vt8uVoOHXejTGNNzby7yWqTSkwmYv+gW/TPSxZ3rCPs7mx2kz7m713QIM
+ iOL2N9CKo8O/yQDY+SYJU5XtgaJhH8OF4P4U2pPJi0F8+EKRn7dLM/H750AKFd8zWwHq
+ HiRVcjFdN4nlvi8xubclCM5BfM/KBMORQCyMtnV7BOhmxxDwewwUAv9/iHQ/ifjzLk4C
+ wbBmRt4ntotGzw/SF6FdkFJfLQ0sNYtzcWxqeA0vWBW4Nytffwf2Z5/S/cBuIEUlodQS
+ dIVzTXEhRUOHZL6fjkJ2I/wmZehDxmykoMIVcTrngtrYInuzgNku9WdfbsWcaHUgdfvd
+ P0yw==
+X-Gm-Message-State: AFqh2krCvJl6pd6KvEstNnDk3mmtsrirOjtEesk7+IHtP79E6ELADkV9
+ 2PVRuLT/tviGJhYuRRN//4c=
+X-Google-Smtp-Source: AMrXdXtUxn900RFAD0N40I+hQG0a1ugrOPXvyImomjRtfPd6fjfFsxcHyUC0cagZb1FoXAJuROHTIg==
+X-Received: by 2002:a17:903:328b:b0:194:cd07:a8bb with SMTP id
+ jh11-20020a170903328b00b00194cd07a8bbmr1885295plb.30.1674133845746; 
+ Thu, 19 Jan 2023 05:10:45 -0800 (PST)
+Received: from ?IPV6:2400:4050:a840:1e00:d54:e521:8bac:7bed?
+ ([2400:4050:a840:1e00:d54:e521:8bac:7bed])
+ by smtp.gmail.com with ESMTPSA id
+ p14-20020a170902a40e00b00194afb5a405sm4663338plq.118.2023.01.19.05.10.42
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 05:10:44 -0800 (PST)
+Message-ID: <7380ee42-8b39-8c5d-ba60-652d411c49b1@gmail.com>
+Date: Thu, 19 Jan 2023 22:10:41 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.5.0
-Subject: Re: [PATCH v14 04/11] s390x/sclp: reporting the maximum nested
- topology entries
+ Thunderbird/102.4.1
+Subject: Re: Display update issue on M1 Macs
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Joelle van Dyne <j@getutm.app>
+References: <5921db6f-0760-c380-7af2-5710a0cd479d@eik.bme.hu>
+ <3bad40aa-7920-0484-ca23-b9d424ad56f6@eik.bme.hu>
+ <28025639-840a-1e19-01d5-c817235ca423@gmail.com>
+ <08497582-3b11-1311-48d6-1e2db8c93559@eik.bme.hu>
 Content-Language: en-US
-To: Nina Schoetterl-Glausch <nsg@linux.ibm.com>,
- Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-5-pmorel@linux.ibm.com>
- <e65bce5b-977c-ed19-9562-3af8ee8e9fba@redhat.com>
- <22aff83d-4379-e4f0-9826-33f986ddeec7@linux.ibm.com>
- <0103e627a835013e00a9c55d46348e76b94366e9.camel@linux.ibm.com>
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <0103e627a835013e00a9c55d46348e76b94366e9.camel@linux.ibm.com>
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <08497582-3b11-1311-48d6-1e2db8c93559@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: 38VMioND3IB-uP8koP-4oCxMGVgQlw7Y
-X-Proofpoint-GUID: 3OfC6ysQ0iQ-lKSOZiTrwN1FlIXQ3aUi
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-19_09,2023-01-19_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- suspectscore=0 mlxscore=0 bulkscore=0 adultscore=0 lowpriorityscore=0
- phishscore=0 mlxlogscore=999 spamscore=0 clxscore=1015 priorityscore=1501
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301190103
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1033.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -125,130 +97,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 1/17/23 20:58, Nina Schoetterl-Glausch wrote:
-> On Tue, 2023-01-17 at 18:36 +0100, Pierre Morel wrote:
->>
->> On 1/11/23 09:57, Thomas Huth wrote:
->>> On 05/01/2023 15.53, Pierre Morel wrote:
->>>> The maximum nested topology entries is used by the guest to know
->>>> how many nested topology are available on the machine.
+On 2023/01/15 3:11, BALATON Zoltan wrote:
+> On Sat, 14 Jan 2023, Akihiko Odaki wrote:
+>> On 2023/01/13 22:43, BALATON Zoltan wrote:
+>>> On Thu, 5 Jan 2023, BALATON Zoltan wrote:
+>>>> Hello,
 >>>>
->>>> Currently, SCLP READ SCP INFO reports MNEST = 0, which is the
->>>> equivalent of reporting the default value of 2.
->>>> Let's use the default SCLP value of 2 and increase this value in the
->>>> future patches implementing higher levels.
+>>>> I got reports from several users trying to run AmigaOS4 on sam460ex 
+>>>> on Apple silicon Macs that they get missing graphics that I can't 
+>>>> reproduce on x86_64. With help from the users who get the problem 
+>>>> we've narrowed it down to the following:
+>>>>
+>>>> It looks like that data written to the sm501's ram in 
+>>>> qemu/hw/display/sm501.c::sm501_2d_operation() is then not seen from 
+>>>> sm501_update_display() in the same file. The sm501_2d_operation() 
+>>>> function is called when the guest accesses the emulated card so it 
+>>>> may run in a different thread than sm501_update_display() which is 
+>>>> called by the ui backend but I'm not sure how QEMU calls these. Is 
+>>>> device code running in iothread and display update in main thread? 
+>>>> The problem is also independent of the display backend and was 
+>>>> reproduced with both -display cocoa and -display sdl.
+>>>>
+>>>> We have confirmed it's not the pixman routines that 
+>>>> sm501_2d_operation() uses as the same issue is seen also with QEMU 
+>>>> 4.x where pixman wasn't used and with all versions up to 7.2 so it's 
+>>>> also not some bisectable change in QEMU. It also happens with 
+>>>> --enable-debug so it doesn't seem to be related to optimisation 
+>>>> either and I don't get it on x86_64 but even x86_64 QEMU builds run 
+>>>> on Apple M1 with Rosetta 2 show the problem. It also only seems to 
+>>>> affect graphics written from sm501_2d_operation() which AmigaOS4 
+>>>> uses extensively but other OSes don't and just render graphics with 
+>>>> the vcpu which work without problem also on the M1 Macs that show 
+>>>> this problem with AmigaOS4. Theoretically this could be some missing 
+>>>> syncronisation which is something ARM and PPC may need while x86 
+>>>> doesn't but I don't know if this is really the reason and if so 
+>>>> where and how to fix it). Any idea what may cause this and what 
+>>>> could be a fix to try?
 >>>
->>> I'm confused ... so does a SCLP value of 2 mean a MNEST level of 4 ?
+>>> Any idea anyone? At least some explanation if the above is plausible 
+>>> or if there's an option to disable the iothread and run everyting in 
+>>> a single thread to verify the theory could help. I've got reports 
+>>> from at least 3 people getting this problem but I can't do much to 
+>>> fix it without some help.
+>>>
+>>>> (Info on how to run it is here:
+>>>> http://zero.eik.bme.hu/~balaton/qemu/amiga/#amigaos
+>>>> but AmigaOS4 is not freely distributable so it's a bit hard to 
+>>>> reproduce. Some Linux X servers that support sm501/sm502 may also 
+>>>> use the card's 2d engine but I don't know about any live CDs that 
+>>>> readily run on sam460ex.)
+>>>>
+>>>> Thank you,
+>>>> BALATON Zoltan
 >>
->> Sorry, I forgot to change this.
->> MNEST = 0 means no MNEST support and only socket is supported so it is
->> like MNEST = 2.
->> MNEST != 0 set the maximum nested level and correct values may be 2,3 or 4.
->> But this setting to 4 should already have been done in previous patch
->> where we introduced the books and drawers.
+>> Sorry, I missed the email.
+>>
+>> Indeed the ui backend should call sm501_update_display() in the main 
+>> thread, which should be different from the thread calling 
+>> sm501_2d_operation(). However, if I understand it correctly, both of 
+>> the functions should be called with iothread lock held so there should 
+>> be no race condition in theory.
+>>
+>> But there is an exception: memory_region_snapshot_and_clear_dirty() 
+>> releases iothread lock, and that broke raspi3b display device:
+>> https://lore.kernel.org/qemu-devel/CAFEAcA9odnPo2LPip295Uztri7JfoVnQbkJ=Wn+k8dQneB_ynQ@mail.gmail.com/T/
+>>
+>> It is unexpected that gfx_update() callback releases iothread lock so 
+>> it may break things in peculiar ways.
+>>
+>> Peter, is there any change in the situation regarding the race 
+>> introduced by memory_region_snapshot_and_clear_dirty()?
+>>
+>> For now, to workaround the issue, I think you can create another mutex 
+>> and make the entire sm501_2d_engine_write() and sm501_update_display() 
+>> critical sections.
 > 
-> I think setting it to 4 here is fine/preferable, since 2 is the default unless
-> you tell the guest that more are available, which you do in this patch.
-> It's only the commit description that is confusing.
+> Interesting thread but not sure it's the same problem so this workaround 
+> may not be enough to fix my issue. Here's a video posted by one of the 
+> people who reported it showing the problem on M1 Mac:
+> 
+> https://www.youtube.com/watch?v=FDqoNbp6PQs
+> 
+> and here's how it looks like on other machines:
+> 
+> https://www.youtube.com/watch?v=ML7-F4HNFKQ
+> 
+> There are also videos showing it running on RPi 4 and G5 Mac without 
+> this issue so it seems to only happen on Apple Silicon M1 Macs. What's 
+> strange is that graphics elements are not just delayed which I think 
+> should happen with missing thread synchronisation where the update 
+> callback would miss some pixels rendered during it's running but 
+> subsequent update callbacks would eventually draw those, woudn't they? 
+> Also setting full_update to 1 in sm501_update_display() callback to 
+> disable dirty tracking does not fix the problem. So it looks like as if 
+> sm501_2d_operation() running on one CPU core only writes data to the 
+> local cache of that core which sm501_update_display() running on other 
+> core can't see, so maybe some cache synchronisation is needed in 
+> memory_region_set_dirty() or if that's already there maybe I should call 
+> it for all changes not only those in the visible display area? I'm still 
+> not sure I understand the problem and don't know what could be a fix for 
+> it so anything to test to identify the issue better might also bring us 
+> closer to a solution.
+> 
+> Regards,
+> BALATON Zoltan
 
-Yes.
-Only the commit message is confusing, it is to be set on 4 in this patch.
+If you set full_update to 1, you may also comment out 
+memory_region_snapshot_and_clear_dirty() and 
+memory_region_snapshot_get_dirty() to avoid the iothread mutex being 
+unlocked. The iothread mutex should ensure cache coherency as well.
 
-I change the commit message to:
-
----
-s390x/sclp: reporting the maximum nested topology entries
-
-The maximum nested topology entries is used by the guest to
-know how many nested topology are available on the machine.
-
-Let change the MNEST value from 2 to 4 in the SCLP READ INFO
-structure now that we support books and drawers.
----
-
-is it OK ?
+But as you say, it's weird that the rendered result is not just delayed 
+but missed. That may imply other possibilities (e.g., the results are 
+overwritten by someone else). If the problem persists after commenting 
+out memory_region_snapshot_and_clear_dirty() and 
+memory_region_snapshot_get_dirty(), I think you can assume the 
+inter-thread coherency between sm501_2d_operation() and 
+sm501_update_display() is not causing the problem.
 
 Regards,
-Pierre
-
-> 
->>
->> I change the commit message with:
->> ---
->> s390x/sclp: reporting the maximum nested topology entries
->>
->> The maximum nested topology entries is used by the guest to know
->> how many nested topology are available on the machine.
->>
->> Let's return this information to the guest.
->> ---
->>
->>>
->>>> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
->>>> ---
->>>>    include/hw/s390x/sclp.h | 5 +++--
->>>>    hw/s390x/sclp.c         | 4 ++++
->>>>    2 files changed, 7 insertions(+), 2 deletions(-)
->>>>
->>>> diff --git a/include/hw/s390x/sclp.h b/include/hw/s390x/sclp.h
->>>> index 712fd68123..4ce852473c 100644
->>>> --- a/include/hw/s390x/sclp.h
->>>> +++ b/include/hw/s390x/sclp.h
->>>> @@ -112,12 +112,13 @@ typedef struct CPUEntry {
->>>>    } QEMU_PACKED CPUEntry;
->>>>    #define SCLP_READ_SCP_INFO_FIXED_CPU_OFFSET     128
->>>> -#define SCLP_READ_SCP_INFO_MNEST                2
->>>> +#define SCLP_READ_SCP_INFO_MNEST                4
->>>
->>> ... since you update it to 4 here.
->>
->> Yes, in fact this should be set in the previous patch already to 4.
->> So I will do that.
->>
->>>
->>>>    typedef struct ReadInfo {
->>>>        SCCBHeader h;
->>>>        uint16_t rnmax;
->>>>        uint8_t rnsize;
->>>> -    uint8_t  _reserved1[16 - 11];       /* 11-15 */
->>>> +    uint8_t  _reserved1[15 - 11];       /* 11-14 */
->>>> +    uint8_t  stsi_parm;                 /* 15-16 */
->>>>        uint16_t entries_cpu;               /* 16-17 */
->>>>        uint16_t offset_cpu;                /* 18-19 */
->>>>        uint8_t  _reserved2[24 - 20];       /* 20-23 */
->>>> diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
->>>> index eff74479f4..07e3cb4cac 100644
->>>> --- a/hw/s390x/sclp.c
->>>> +++ b/hw/s390x/sclp.c
->>>> @@ -20,6 +20,7 @@
->>>>    #include "hw/s390x/event-facility.h"
->>>>    #include "hw/s390x/s390-pci-bus.h"
->>>>    #include "hw/s390x/ipl.h"
->>>> +#include "hw/s390x/cpu-topology.h"
->>>>    static inline SCLPDevice *get_sclp_device(void)
->>>>    {
->>>> @@ -125,6 +126,9 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB
->>>> *sccb)
->>>>        /* CPU information */
->>>>        prepare_cpu_entries(machine, entries_start, &cpu_count);
->>>> +    if (s390_has_topology()) {
->>>> +        read_info->stsi_parm = SCLP_READ_SCP_INFO_MNEST;
->>>
->>> This seems to be in contradiction to what you've said in the commit
->>> description - you set it to 4 and not to 2.
->>
->> Yes, I change the commit message.
->>
->> Thanks.
->>
->> Regards,
->> Pierre
->>
-> 
-
--- 
-Pierre Morel
-IBM Lab Boeblingen
+Akihiko Odaki
 
