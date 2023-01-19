@@ -2,83 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C39A6737DF
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:06:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B106737E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 13:06:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pITfv-0008Ku-Rt; Thu, 19 Jan 2023 07:05:47 -0500
+	id 1pITfv-0008J7-2u; Thu, 19 Jan 2023 07:05:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pITfk-0008DY-5Z
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pITfi-0008DF-Ku
  for qemu-devel@nongnu.org; Thu, 19 Jan 2023 07:05:43 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pITfi-00027i-8z
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 07:05:35 -0500
-Received: by mail-wm1-x330.google.com with SMTP id g10so1352142wmo.1
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 04:05:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bHlxuZmL/pDB+QqUj4R91yU/bF31Oor0VBQxhzHCLfk=;
- b=NUcy43Et3Nvfq1q76O31HneYOBHEtVrmctGGekTOyipVfH6a42F8AMTX1mddLAqFfu
- JTjbdCvyYAF5QEx2RDP1g6JsK9PMeTLzULUd2J5JBuTLaUojdQERIO+IeL2LLU4wySR0
- tlaFLEb+/JKPpLrXiU5qc73rZx8CEdbHQQDpGInorqe3uhUesd2je99zThm+jyf+vAmR
- tmlj+6YRL4Ggq/atpaOD5AuhSnll6UWDlJnVnfdAb36bnlwMLft75AY5faWTGC8FYdmq
- 9RuGwFIGHECtqKRSutuF9U+AZUVJr5zuwWj6l/XDBUn7V96PjxqNS84IUidZD2bfO9Tc
- 6KxQ==
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pITfg-00027e-O0
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 07:05:34 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674129931;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=GmCX5NcC07P1BZWenNXSfm8mm+n2k/ScOELyBh1IG6A=;
+ b=HpFRVTacH0oheKqr5kmwMwYZfjRpnJnwVSVMuCuolwGriEykiLYvb+lNqfnk5XSFZCj5fq
+ lZvZj62b3jHmQ5Ux4xf/EoNX/m9ZFqgu6yuCWHwbnqJWSodyqXdPUmAH0r+oXI11xQqmlp
+ PqPdZjjKM5vchXe/M25d2y6KJPu/s8I=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-173-cvD6FyViPNqsjLDPIfH7aQ-1; Thu, 19 Jan 2023 07:05:30 -0500
+X-MC-Unique: cvD6FyViPNqsjLDPIfH7aQ-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ df6-20020a056214080600b00534fe2ad5a3so890170qvb.11
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 04:05:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=bHlxuZmL/pDB+QqUj4R91yU/bF31Oor0VBQxhzHCLfk=;
- b=qcfrJBTwI4UQaYULkthjK4FP4lzn26u11ev4MX4OcZ88NikGu8Bnm6j0YZiig8aucv
- c+xBkQHDnMgCowrx3CVBYxrJhBIRkMs6wcsQ8eSs06iVC/ktXJucv8VDKKKLhywSY827
- XgBlyVfjSXGof8hl+pjieLWi3XX9lSW97mjjSKKO1E6sp19d/9AN2jaA5kK8bGXvpB8I
- Bt9j5XEeTqw4z7lajj7eAzhtUroFTPsSiyOWWc7HAOezvWvXDhY0Et3X8AASdeCbd7SB
- KTKpuKmL0L9QLRtow8l7WPR6KbKV1O9MKC1c2BoDh1cTL2ZPuwKQqvnL+yOVQ4KlkEWA
- SrVw==
-X-Gm-Message-State: AFqh2kqgH87okUu6JHkfJCBVOeKdzQFxsKLfNiHhpZSlXlpHYLtLqY2T
- tumLB02301OPDQ+sJAM5qEVJFbbJJNh4jKA/
-X-Google-Smtp-Source: AMrXdXu1D/RxMb2rQ7zZmIdk7AmeVCJsyIFcTjDvC6o27vEF6+5feceB9eKju6v//TOG5xmH60lJMQ==
-X-Received: by 2002:a05:600c:4f12:b0:3d0:7415:c5a9 with SMTP id
- l18-20020a05600c4f1200b003d07415c5a9mr6141447wmq.21.1674129931613; 
- Thu, 19 Jan 2023 04:05:31 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
- by smtp.gmail.com with ESMTPSA id
- j30-20020a05600c1c1e00b003daf89e01d3sm5489544wms.11.2023.01.19.04.05.30
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Thu, 19 Jan 2023 04:05:31 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Fabiano Rosas <farosas@suse.de>, Paolo Bonzini <pbonzini@redhat.com>,
- Akihiko Odaki <akihiko.odaki@gmail.com>,
- Laurent Vivier <lvivier@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@gmail.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [RFC PATCH 3/3] tests/qtest/vnc-display-test: Disable on Darwin
-Date: Thu, 19 Jan 2023 13:05:14 +0100
-Message-Id: <20230119120514.28778-4-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230119120514.28778-1-philmd@linaro.org>
-References: <20230119120514.28778-1-philmd@linaro.org>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=GmCX5NcC07P1BZWenNXSfm8mm+n2k/ScOELyBh1IG6A=;
+ b=EUd8wl8fT8x8CCDc7R3K/sH/NdmywlJsEMebCJ/n8VKxr5MXBtJEkou046afe6X7Uu
+ w/gbAQBEOX+mQOL/XhFzz6dJRshmvajTuqRbImkH1w7APwY1EUOPWIUOiYEjqi+vSfy+
+ 912T0cG53MENwrB/dL48P9yAB/W+UERzb2Cnyas8VeR65cP52NJK2MB8FmZjTfKM9GxG
+ YSSnxORsFyvjzfvSNTRgKD+fPTQL9rcCUf1hNM7cvYQyw2DvkJ02F53P/aXz8ONwvUW4
+ IYh/90JZfJHriUKjDUiog6XEUyNOrlMc6TJ7jynFggq3nQuDGGBPuLqiSkv07TyVgYp3
+ +eeg==
+X-Gm-Message-State: AFqh2kpdShX2EK4ZB4SEn6vSCBtVdNk62XacXPsAeoUQ3Y+RYYKR1Gsi
+ v70j7PkH6BwYsK/35KiHWE+8oP9GirhDGsa9rMlW3ynVBOFcq4UvTPCDuDF2a/eo0pZVTIGj28l
+ yYwQ41XqlkgofEhc=
+X-Received: by 2002:a05:622a:1b1e:b0:3ab:a047:58ee with SMTP id
+ bb30-20020a05622a1b1e00b003aba04758eemr13720044qtb.25.1674129929692; 
+ Thu, 19 Jan 2023 04:05:29 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuk9j/JTqbf8gSZuv75rPAyqkuAFIL/8KZLsdgj8/5zX9v9HhYxgB9V767i1z8Ytyj4noQIDw==
+X-Received: by 2002:a05:622a:1b1e:b0:3ab:a047:58ee with SMTP id
+ bb30-20020a05622a1b1e00b003aba04758eemr13720023qtb.25.1674129929386; 
+ Thu, 19 Jan 2023 04:05:29 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-178-207.web.vodafone.de.
+ [109.43.178.207]) by smtp.gmail.com with ESMTPSA id
+ t39-20020a05622a182700b003b63b20314esm4199189qtc.57.2023.01.19.04.05.26
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 04:05:28 -0800 (PST)
+Message-ID: <147a979d-2d16-4ad3-4330-3e8187f88a2e@redhat.com>
+Date: Thu, 19 Jan 2023 13:05:25 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [RFC PATCH 6/8] tests/qtest/libqtest: Allow checking for HVF
+ accelerator
+Content-Language: en-US
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Fabiano Rosas <farosas@suse.de>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+References: <20230119100537.5114-1-philmd@linaro.org>
+ <20230119100537.5114-7-philmd@linaro.org>
+ <fc7802c3-afd7-2cd0-438e-7b75f4789879@redhat.com>
+ <b61a6249-3b84-e0cf-6220-029086c72254@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <b61a6249-3b84-e0cf-6220-029086c72254@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,48 +107,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This test is failing in gtk-vnc on Darwin:
+On 19/01/2023 12.30, Philippe Mathieu-Daudé wrote:
+> On 19/1/23 12:24, Thomas Huth wrote:
+>> On 19/01/2023 11.05, Philippe Mathieu-Daudé wrote:
+>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>> ---
+>>> RFC: CONFIG_HVF is poisoned.
+>>>
+>>> We could pass host config definitions to qtest using:
+>>>
+>>>    diff --git a/meson.build b/meson.build
+>>>    @@ -2547,6 +2547,7 @@ foreach target : target_dirs
+>>>
+>>>       accel_kconfig = []
+>>>       foreach sym: accelerators
+>>>    +    config_host_data.set(sym + '_QTEST', '')
+>>>         if sym == 'CONFIG_TCG' or target in accelerator_targets.get(sym, [])
+>>>           config_target += { sym: 'y' }
+>>>           config_all += { sym: 'y' }
+>>>
+>>> Then test for CONFIG_HVF_QTEST ...
+>>
+>> I don't think that would really work well. The qtests are build once for 
+>> all targets, and HVF is only available in the target that matches the host 
+>> architecture. It's poisoned on purpose.
+>>
+>> The TCG accelerator is special, since we have it in either none or in all 
+>> targets, that's why we can use CONFIG_TCG there.
+>>
+>> The kvm part is also rather a hack... we should maybe rather additionally 
+>> use the "query-kvm" QAPI command to check whether it is really available...?
+>>
+>> To fix this properly for HVF, I think you'd need a way to query the 
+>> available accelerators via QMP, too... Hmmm, weren't there some patches 
+>> for something like that in the past ... can't remember right now ...
+> 
+> https://lore.kernel.org/qemu-devel/20210505125806.1263441-3-philmd@redhat.com/ 
+> :(
 
-  $ make check-qtest-aarch64
-  ...
-  19/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/vnc-display-test
-  ERROR **: 10:42:35.488: vnc-error: Unsupported auth type 17973672
+Ah, right, and we ended up with the competing patch from Igor since we could 
+not quite settle on the QAPI extensions?
 
-While QEMU picks the sigaltstack coroutine backend, gtk-vnc uses
-the ucontext coroutine backend, which might be broken on Darwin.
+Hmm, what happens if you execute "query-qmp-schema" on a HVF-enabled host 
+these days? Is there a "hvf"-related entry somewhere in the response?
 
-Disable this test (current problem being investigated in this thread:
-https://lore.kernel.org/qemu-devel/Y8kw6X6keB5l53nl@redhat.com/).
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
----
- tests/qtest/vnc-display-test.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
-
-diff --git a/tests/qtest/vnc-display-test.c b/tests/qtest/vnc-display-test.c
-index df468c7b22..e52a4326ec 100644
---- a/tests/qtest/vnc-display-test.c
-+++ b/tests/qtest/vnc-display-test.c
-@@ -19,7 +19,7 @@ typedef struct Test {
-     GMainLoop *loop;
- } Test;
- 
--#if !defined(WIN32)
-+#if !defined(WIN32) && !defined(CONFIG_DARWIN)
- 
- static void on_vnc_error(VncConnection* self,
-                          const char* msg)
-@@ -41,6 +41,9 @@ test_setup(Test *test)
- #ifdef WIN32
-     g_test_skip("Not supported on Windows yet");
-     return false;
-+#elif defined(CONFIG_DARWIN)
-+    g_test_skip("Broken on Darwin");
-+    return false;
- #else
-     int pair[2];
- 
--- 
-2.38.1
+  Thomas
 
 
