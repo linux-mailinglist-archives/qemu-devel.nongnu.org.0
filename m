@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 623C8673AF1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 14:59:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64793673B00
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:02:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIVS5-0001jb-9w; Thu, 19 Jan 2023 08:59:37 -0500
+	id 1pIVUF-0004m6-K6; Thu, 19 Jan 2023 09:01:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIVRu-0001W3-Ji
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:59:27 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIVTa-0004gh-PA
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:01:21 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIVRs-0006df-B2
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 08:59:25 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIVTZ-0007A1-6e
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:01:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674136763;
+ s=mimecast20190719; t=1674136868;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=G+STkm+UfDid6AuN4+EW7rF5qa1EhY8Ms81mDISFtvc=;
- b=cFF5jNC7dfTcqmC0j4DeiFEivkNBd3FC+uNMI7nroHTVIlEGz2zmklJvqSFj24jhXkXPvs
- 1SsS0luUHmXoKF6B819Q9GBNSvktm8uXDW0/hPTQRIoDc+FhNcA9ZCan+NIhWamaoVFWF1
- pBQQcoBOhnIWZcv/dld2feAmSAtHlPY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=CtvbIT+3k6RfQLCV2bdPvw86WVukSx+D5A9vsWoSk2A=;
+ b=Dbmh3KEqQGupWftrsgQGjRc7T0OL/8jfpYvOu/SuHMhc3t9PXxlpnBqe0PC/1oFR046SQz
+ xXapvmrGzB1fKuLtijNlNZ7vRSB03t8XtPRXCXPdz5crYJZHuUtxhmifB0B9+7QaTyd9Qr
+ TRTHyZEPuzVsqhMtS0sNjDYc69X6DNI=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-440-1ifg63kZNiil53q7l3z86A-1; Thu, 19 Jan 2023 08:59:17 -0500
-X-MC-Unique: 1ifg63kZNiil53q7l3z86A-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-58-Bwhsv64ePleahPUejM32nA-1; Thu, 19 Jan 2023 09:01:04 -0500
+X-MC-Unique: Bwhsv64ePleahPUejM32nA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9505C8A0116;
- Thu, 19 Jan 2023 13:59:17 +0000 (UTC)
-Received: from thuth.com (unknown [10.39.193.2])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BBEA91415108;
- Thu, 19 Jan 2023 13:59:16 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH] travis.yml: Remove the generic addons section
-Date: Thu, 19 Jan 2023 14:59:14 +0100
-Message-Id: <20230119135914.2040853-1-thuth@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 12FA13C1025D;
+ Thu, 19 Jan 2023 14:01:02 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.194.126])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id B772F40C6EC4;
+ Thu, 19 Jan 2023 14:01:00 +0000 (UTC)
+Date: Thu, 19 Jan 2023 15:00:58 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Hanna Reitz <hreitz@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH v2 01/12] block: Improve empty format-specific info dump
+Message-ID: <Y8lNGgogFfitt7kr@redhat.com>
+References: <20220620162704.80987-1-hreitz@redhat.com>
+ <20220620162704.80987-2-hreitz@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220620162704.80987-2-hreitz@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -73,63 +77,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Each job uses its own addons section nowadays, so the generic section
-is completely unused and outdated, thus we can remove it now.
+Am 20.06.2022 um 18:26 hat Hanna Reitz geschrieben:
+> When a block driver supports obtaining format-specific information, but
+> that object only contains optional fields, it is possible that none of
+> them are present, so that dump_qobject() (called by
+> bdrv_image_info_specific_dump()) will not print anything.
+> 
+> The callers of bdrv_image_info_specific_dump() put a header above this
+> information ("Format specific information:\n"), which will look strange
+> when there is nothing below.  Modify bdrv_image_info_specific_dump() to
+> print this header instead of its callers, and only if there is indeed
+> something to be printed.
+> 
+> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- .travis.yml | 37 -------------------------------------
- 1 file changed, 37 deletions(-)
+> diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+> index 2f0d8ac25a..084ec44d3b 100644
+> --- a/qemu-io-cmds.c
+> +++ b/qemu-io-cmds.c
+> @@ -1819,8 +1819,8 @@ static int info_f(BlockBackend *blk, int argc, char **argv)
+>          return -EIO;
+>      }
+>      if (spec_info) {
+> -        printf("Format specific information:\n");
+> -        bdrv_image_info_specific_dump(spec_info);
+> +        bdrv_image_info_specific_dump(spec_info,
+> +                                      "Format specific information:\n");
+>          qapi_free_ImageInfoSpecific(spec_info);
+>      }
 
-diff --git a/.travis.yml b/.travis.yml
-index e24c99fdb9..b6b7fc9cef 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -16,43 +16,6 @@ cache:
-   - $HOME/avocado/data/cache
- 
- 
--addons:
--  apt:
--    packages:
--      # Build dependencies
--      - libaio-dev
--      - libattr1-dev
--      - libbrlapi-dev
--      - libcap-ng-dev
--      - libcacard-dev
--      - libgcc-7-dev
--      - libgnutls28-dev
--      - libgtk-3-dev
--      - libiscsi-dev
--      - liblttng-ust-dev
--      - libncurses5-dev
--      - libnfs-dev
--      - libpixman-1-dev
--      - libpng-dev
--      - librados-dev
--      - libsdl2-dev
--      - libsdl2-image-dev
--      - libseccomp-dev
--      - libspice-protocol-dev
--      - libspice-server-dev
--      - libssh-dev
--      - liburcu-dev
--      - libusb-1.0-0-dev
--      - libvdeplug-dev
--      - libvte-2.91-dev
--      - libzstd-dev
--      - ninja-build
--      - sparse
--      - uuid-dev
--      # Tests dependencies
--      - genisoimage
--
--
- # The channel name "irc.oftc.net#qemu" is encrypted against qemu/qemu
- # to prevent IRC notifications from forks. This was created using:
- # $ travis encrypt -r "qemu/qemu" "irc.oftc.net#qemu"
--- 
-2.31.1
+Interesting observation here: That qemu-io uses printf() instead of
+qemu_printf() for the top level, but then dump_qobject() (which results
+in qemu_printf()) for the format specific information, means that if you
+use the 'qemu-io' HMP command, you'll get half of the output on stdout
+and the other half in the monitor.
+
+This series doesn't fix this, but the split makes a little more sense
+after this patch at least...
+
+Kevin
 
 
