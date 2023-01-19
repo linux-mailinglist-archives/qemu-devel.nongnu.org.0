@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B3667408D
+	by mail.lfdr.de (Postfix) with ESMTPS id A623B67408C
 	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:06:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIZHG-0003NQ-2Z; Thu, 19 Jan 2023 13:04:42 -0500
+	id 1pIZHD-0003Ji-3T; Thu, 19 Jan 2023 13:04:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH3-0003I8-5z
+ id 1pIZH2-0003Hw-LV
  for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:29 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZH0-00010u-21
+ id 1pIZH0-00010v-5S
  for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:04:28 -0500
-Received: by mail-wr1-x435.google.com with SMTP id r9so2668864wrw.4
+Received: by mail-wm1-x334.google.com with SMTP id
+ f25-20020a1c6a19000000b003da221fbf48so1882648wmc.1
  for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:04:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=BRm1otPgrExRb08AWZc40PJiCCioZPQcspFOV7P1bvo=;
- b=yNV2t/ifJpj7uYMdbY/q/sxn9uQi2e8HNfM7Lzqvc6oPnQX/Ji7NhLAYWUUsL7eVed
- HNJwlUhsZGye7Dg+6HrTyze4HpEvQlPXtpKnLbG8WdqG1N7ds69S0NxkH/ECqvEk5HCU
- KkCy42ves4vS3KNgTwWEYwkpShph3h57yuPd5j7cfJAl28lMqQWvod2QsRoUgpyrKvCh
- 62QIIahbQPnH0zvlFb++9Za9vasDSMKOK6R9kbc9jd6x0zv7sq7OWwCe0gKpcIBEyeTO
- 5Pud6YpuFecZDj9SbkAvjXxZPBaWiFYISn9HC5BLAmJODyXOp0lA2ZOGyAI7OnMu2bV7
- WTjQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bkRhIgXl5AItP6ba03zv87lTI4x9mQkrreMEEEjOaX8=;
+ b=UaVie0rLUqSQn9ihEe0+qn9YqJxEUsAHeQ/3SjWKGQ7MXV224Mb4vN4vaEQjfZQUTx
+ VqfK3dID9MZVUoUtdsCMBVcOpxYgRy+raCxEGtwt6AKEt9XUlUGdb6DFW18gnx5z0IGv
+ /DM9NEMRCpyLXvVMvEH2oxZYdQh46x256Rnr5YZDSFvPSf+4WQdm0hJ7g9xtO7Dq//ft
+ ywRmVG1m4xQb6izmsDcehiM564ODmkF0xr77OsnJ63FQ+OoyCJ5cfPHiq+Z2VOoM1Qrh
+ yNIdPdhNrz+H7FNM5pgRGpNfHOJxtqXS4c4Vy3AZ9ImX54RhQk1cffTZpX/6gmWrbJwk
+ R7fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=BRm1otPgrExRb08AWZc40PJiCCioZPQcspFOV7P1bvo=;
- b=Xnoe5f2YIEdwfUmW+GqOiV3V0uFqCe7eA1kzoNqrYVAkCjrxuFXdcytd+Dx2hApygX
- 035V20OOu6Jm7rvaqtI3PFEoG23M6HUUL/mBd5wn8NXQGtq3mDTWcN7XRNBjAA3waxOw
- bm+G181qW0+sb+cwC5oFzPWz04PnkwyD51enN/KsThvdwZXEW1d5NOumKVc2K8293Roj
- ngTb6NSn6AlD4Wz8xl9z9Pu8koYt4gJ7SycYwBxhu+NnjYiqeKxZtSeuuAGeQiFi3B0/
- JD71muezTRp98SOQMJZhCq1bBR9rRA12GJbZTuqW6tkbpnRPgSmkikgor5Z00s9X4opW
- Gj0g==
-X-Gm-Message-State: AFqh2krHST41QtZRDyc8EjaDYpg6GucoGGssXnJ0Iw9slv6w2C/xTbHJ
- UmZ36vhjjEiNRjOCX5TFreBvrQ==
-X-Google-Smtp-Source: AMrXdXsmv5F19D9GytjPoCTk6/MRPDl0yyrIbQ+dFjQf43sVu8xBZKnLUqRZ0bkcWYGSU9b+DN2lrg==
-X-Received: by 2002:adf:e912:0:b0:2b9:3cbb:6e02 with SMTP id
- f18-20020adfe912000000b002b93cbb6e02mr10655477wrm.27.1674151460361; 
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=bkRhIgXl5AItP6ba03zv87lTI4x9mQkrreMEEEjOaX8=;
+ b=qAFwWpu8RIncoDC1TyPpV+S5IjdlrnJXbfYPuxOtNNGZMMdBasgduW42UQEUPPE74I
+ 2uStijUPNhN0nfHGLOaONIsevhp7trUnRymRceNQourDsbY9eGKQuQagvHCuT+cQbjuz
+ IZ4UVJ9G93aRSZuTz3cbKIr6/Cs8qFqaWSZnzfRl6+J06KiJaV18mzBE7C5ET/WoZA7w
+ VZ0wuTDyF4juowx+0qWqvrKaoFF6nhvrUYVXt87qvMwa3hJJ24QEuk4lijwhsGO99Aq1
+ ZQFmg29n8U3vc4sEuweqFdt+rQ2XqTBoORcF/HbUiuzZytDziHYVmo1h7EhHnfhQd9fg
+ D26w==
+X-Gm-Message-State: AFqh2kqLr911xnnUzD5CoKOyvtsHBBRGd7NhiDrJINOkRSYewvwXB+qi
+ ep4wc6omLHJSV9vmgYJV9w6qBA==
+X-Google-Smtp-Source: AMrXdXuxvtQmyptoI8eCXiyM6RZDfdQlCtiuHO9XMxAjgAY/CL/or6fS/WRCCvVs+Ju9LShtlTrkRg==
+X-Received: by 2002:a05:600c:a4d:b0:3db:1d6:16f7 with SMTP id
+ c13-20020a05600c0a4d00b003db01d616f7mr7365626wmq.23.1674151460670; 
  Thu, 19 Jan 2023 10:04:20 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- t6-20020adfe446000000b002bb28209744sm34178194wrm.31.2023.01.19.10.04.19
+ bg14-20020a05600c3c8e00b003b4cba4ef71sm6949648wmb.41.2023.01.19.10.04.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Jan 2023 10:04:19 -0800 (PST)
+ Thu, 19 Jan 2023 10:04:20 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 77E141FFB7;
+ by zen.linaroharston (Postfix) with ESMTP id 919F31FFB8;
  Thu, 19 Jan 2023 18:04:19 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -72,15 +74,18 @@ Cc: Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>
-Subject: [PATCH 00/18] testing/next updates (gitlab, docker, check-tcg)
-Date: Thu, 19 Jan 2023 18:04:01 +0000
-Message-Id: <20230119180419.30304-1-alex.bennee@linaro.org>
+Subject: [PATCH 01/18] scripts/ci: update gitlab-runner playbook to use latest
+ runner
+Date: Thu, 19 Jan 2023 18:04:02 +0000
+Message-Id: <20230119180419.30304-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230119180419.30304-1-alex.bennee@linaro.org>
+References: <20230119180419.30304-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,101 +108,120 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+We were using quite and old runner on our machines and running into
+issues with stalling jobs. Gitlab in the meantime now reliably provide
+the latest packaged versions of the runner under a stable URL. This
+update:
 
-My plans to post an omnibus release where stymied by a bunch of
-regressions caused by the update to the Fedora image. I may have to
-drop it if I can't figure out why the win64 stuff is hanging.
+  - creates a per-arch subdir for builds
+  - switches from binary tarballs to deb packages
+  - re-uses the same binary for the secondary runner
+  - updates distro check for second to 22.04
 
-The following patches need review:
+Note this script isn't fully idempotent as we end up accumulating
+runners especially during testing. However we also want to be able to
+run twice with different GitLab keys (e.g. project and personal) so I
+think we just have to be mindful of that during testing.
 
-gitlab: wrap up test results for custom runners
-tests/tcg: skip the vma-pthread test on CI
-tests/docker: drop debian-tricore-cross's partial status
-gitlab: add lsan suppression file to workaround tcmalloc issues
-scripts/ci: update gitlab-runner playbook to use latest runner
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 
-Alex Bennée (7):
-  scripts/ci: update gitlab-runner playbook to use latest runner
-  gitlab: just use plain --cc=clang for custom runner build
-  tests/unit: drop hacky race avoidance in test-io-channel-command
-  gitlab: add lsan suppression file to workaround tcmalloc issues
-  tests/docker: drop debian-tricore-cross's partial status
-  tests/tcg: skip the vma-pthread test on CI
-  gitlab: wrap up test results for custom runners
+---
+v2
+  - only register aarch32 runner, move service start post both registers
+  - tested on s390x
+---
+ scripts/ci/setup/gitlab-runner.yml | 56 +++++++-----------------------
+ scripts/ci/setup/vars.yml.template |  2 --
+ 2 files changed, 13 insertions(+), 45 deletions(-)
 
-Marc-André Lureau (7):
-  build-sys: fix crlf-ending C code
-  .gitlab-ci.d/windows: do not disable opengl
-  meson: replace Perl usage with Python
-  docs: drop texinfo options
-  Update lcitool and fedora to 37
-  lcitool: drop perl from QEMU project/dependencies
-  lcitool: drop texinfo from QEMU project/dependencies
-
-Mark Cave-Ayland (1):
-  gitlab: add FF_SCRIPT_SECTIONS for timings
-
-Philippe Mathieu-Daudé (1):
-  tests/docker: Install flex in debian-tricore-cross
-
-Richard Henderson (1):
-  tests/tcg: Use SIGKILL for timeout
-
-Thomas Huth (1):
-  MAINTAINERS: Fix the entry for tests/tcg/nios2
-
- MAINTAINERS                                   |  2 +-
- docs/conf.py                                  | 13 -----
- meson.build                                   |  2 +-
- tests/unit/test-io-channel-command.c          | 14 +++--
- .gitlab-ci.d/base.yml                         |  5 ++
- .gitlab-ci.d/buildtest.yml                    |  1 +
- .gitlab-ci.d/cirrus/freebsd-12.vars           |  2 +-
- .gitlab-ci.d/cirrus/freebsd-13.vars           |  2 +-
- .gitlab-ci.d/cirrus/macos-12.vars             |  2 +-
- .gitlab-ci.d/custom-runners.yml               | 11 ++++
- .../custom-runners/ubuntu-20.04-s390x.yml     | 13 ++---
- .../custom-runners/ubuntu-22.04-aarch32.yml   |  2 +-
- .../custom-runners/ubuntu-22.04-aarch64.yml   | 15 +++--
- .gitlab-ci.d/windows.yml                      |  5 +-
- scripts/ci/setup/build-environment.yml        |  1 -
- scripts/ci/setup/gitlab-runner.yml            | 56 +++++--------------
- scripts/ci/setup/vars.yml.template            |  2 -
- scripts/oss-fuzz/lsan_suppressions.txt        |  2 +
- scripts/shaderinclude.pl                      | 16 ------
- scripts/shaderinclude.py                      | 26 +++++++++
- tests/docker/Makefile.include                 |  1 -
- tests/docker/dockerfiles/alpine.docker        |  2 -
- tests/docker/dockerfiles/centos8.docker       |  2 -
- .../dockerfiles/debian-amd64-cross.docker     |  4 +-
- tests/docker/dockerfiles/debian-amd64.docker  |  2 -
- .../dockerfiles/debian-arm64-cross.docker     |  4 +-
- .../dockerfiles/debian-armel-cross.docker     |  4 +-
- .../dockerfiles/debian-armhf-cross.docker     |  4 +-
- .../dockerfiles/debian-mips64el-cross.docker  |  4 +-
- .../dockerfiles/debian-mipsel-cross.docker    |  4 +-
- .../dockerfiles/debian-ppc64el-cross.docker   |  4 +-
- .../dockerfiles/debian-s390x-cross.docker     |  4 +-
- .../dockerfiles/debian-toolchain.docker       |  1 -
- .../dockerfiles/debian-tricore-cross.docker   |  2 +-
- .../dockerfiles/fedora-win32-cross.docker     |  6 +-
- .../dockerfiles/fedora-win64-cross.docker     |  6 +-
- tests/docker/dockerfiles/fedora.docker        |  6 +-
- tests/docker/dockerfiles/opensuse-leap.docker |  2 -
- tests/docker/dockerfiles/ubuntu2004.docker    |  2 -
- tests/lcitool/libvirt-ci                      |  2 +-
- tests/lcitool/projects/qemu.yml               |  2 -
- tests/lcitool/refresh                         |  6 +-
- tests/qapi-schema/meson.build                 |  7 ++-
- tests/tcg/Makefile.target                     |  4 +-
- tests/tcg/multiarch/Makefile.target           |  9 +++
- tests/vm/centos.aarch64                       |  2 +-
- 46 files changed, 124 insertions(+), 164 deletions(-)
- create mode 100644 scripts/oss-fuzz/lsan_suppressions.txt
- delete mode 100644 scripts/shaderinclude.pl
- create mode 100644 scripts/shaderinclude.py
-
+diff --git a/scripts/ci/setup/gitlab-runner.yml b/scripts/ci/setup/gitlab-runner.yml
+index 33128be85d..95d4199c03 100644
+--- a/scripts/ci/setup/gitlab-runner.yml
++++ b/scripts/ci/setup/gitlab-runner.yml
+@@ -50,60 +50,30 @@
+ 
+     - name: Download the matching gitlab-runner
+       get_url:
+-        dest: /usr/local/bin/gitlab-runner
+-        url: "https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-{{ gitlab_runner_os }}-{{ gitlab_runner_arch }}"
+-        owner: gitlab-runner
+-        group: gitlab-runner
+-        mode: u=rwx,g=rwx,o=rx
+-
+-    - name: Register the gitlab-runner
+-      command: "/usr/local/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list {{ ansible_facts[\"architecture\"] }},{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
+-
+-    - name: Install the gitlab-runner service using its own functionality
+-      command: /usr/local/bin/gitlab-runner install --user gitlab-runner --working-directory /home/gitlab-runner
+-      register: gitlab_runner_install_service_result
+-      failed_when: "gitlab_runner_install_service_result.rc != 0 and \"already exists\" not in gitlab_runner_install_service_result.stderr"
++        dest: "/root/"
++        url: "https://gitlab-runner-downloads.s3.amazonaws.com/latest/deb/gitlab-runner_{{ gitlab_runner_arch }}.deb"
+ 
+-    - name: Enable the gitlab-runner service
+-      service:
+-        name: gitlab-runner
+-        state: started
+-        enabled: yes
++    - name: Install gitlab-runner via package manager
++      apt: deb="/root/gitlab-runner_{{ gitlab_runner_arch }}.deb"
+ 
+-    - name: Download secondary gitlab-runner
+-      get_url:
+-        dest: /usr/local/bin/gitlab-runner-arm
+-        url: "https://s3.amazonaws.com/gitlab-runner-downloads/v{{ gitlab_runner_version  }}/binaries/gitlab-runner-{{ gitlab_runner_os }}-arm"
+-        owner: gitlab-runner
+-        group: gitlab-runner
+-        mode: u=rwx,g=rwx,o=rx
+-      when:
+-        - ansible_facts['distribution'] == 'Ubuntu'
+-        - ansible_facts['architecture'] == 'aarch64'
+-        - ansible_facts['distribution_version'] == '20.04'
++    - name: Register the gitlab-runner
++      command: "/usr/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list {{ ansible_facts[\"architecture\"] }},{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
+ 
++    # The secondary runner will still run under the single gitlab-runner service
+     - name: Register secondary gitlab-runner
+-      command: "/usr/local/bin/gitlab-runner-arm register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list aarch32,{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
++      command: "/usr/bin/gitlab-runner register --non-interactive --url {{ gitlab_runner_server_url }} --registration-token {{ gitlab_runner_registration_token }} --executor shell --tag-list aarch32,{{ ansible_facts[\"distribution\"]|lower }}_{{ ansible_facts[\"distribution_version\"] }} --description '{{ ansible_facts[\"distribution\"] }} {{ ansible_facts[\"distribution_version\"] }} {{ ansible_facts[\"architecture\"] }} ({{ ansible_facts[\"os_family\"] }})'"
+       when:
+         - ansible_facts['distribution'] == 'Ubuntu'
+         - ansible_facts['architecture'] == 'aarch64'
+-        - ansible_facts['distribution_version'] == '20.04'
++        - ansible_facts['distribution_version'] == '22.04'
+ 
+-    - name: Install the secondary gitlab-runner service using its own functionality
+-      command: /usr/local/bin/gitlab-runner-arm install --user gitlab-runner --working-directory /home/gitlab-runner/arm -n gitlab-runner-arm
++    - name: Install the gitlab-runner service using its own functionality
++      command: "/usr/bin/gitlab-runner install --user gitlab-runner --working-directory /home/gitlab-runner"
+       register: gitlab_runner_install_service_result
+       failed_when: "gitlab_runner_install_service_result.rc != 0 and \"already exists\" not in gitlab_runner_install_service_result.stderr"
+-      when:
+-        - ansible_facts['distribution'] == 'Ubuntu'
+-        - ansible_facts['architecture'] == 'aarch64'
+-        - ansible_facts['distribution_version'] == '20.04'
+ 
+-    - name: Enable the secondary gitlab-runner service
++    - name: Enable the gitlab-runner service
+       service:
+-        name: gitlab-runner-arm
++        name: gitlab-runner
+         state: started
+         enabled: yes
+-      when:
+-        - ansible_facts['distribution'] == 'Ubuntu'
+-        - ansible_facts['architecture'] == 'aarch64'
+-        - ansible_facts['distribution_version'] == '20.04'
+diff --git a/scripts/ci/setup/vars.yml.template b/scripts/ci/setup/vars.yml.template
+index e48089761f..4b355fb80f 100644
+--- a/scripts/ci/setup/vars.yml.template
++++ b/scripts/ci/setup/vars.yml.template
+@@ -1,5 +1,3 @@
+-# The version of the gitlab-runner to use
+-gitlab_runner_version: 13.12.0
+ # The URL of the gitlab server to use, usually https://gitlab.com unless you're
+ # using a private GitLab instance
+ gitlab_runner_server_url: https://gitlab.com
 -- 
 2.34.1
 
