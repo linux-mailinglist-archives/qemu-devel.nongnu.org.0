@@ -2,79 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 008F36735B4
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:38:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 453266735BB
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:38:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pISIw-0001O5-4h; Thu, 19 Jan 2023 05:37:58 -0500
+	id 1pISJW-0002ds-Q8; Thu, 19 Jan 2023 05:38:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pISIt-0001MZ-V1
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:37:56 -0500
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pISJU-0002b5-NV
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:38:32 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pISIs-0003fx-5X
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:37:55 -0500
-Received: by mail-pf1-x42a.google.com with SMTP id 207so1141285pfv.5
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 02:37:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pISJT-0003kB-6v
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:38:32 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ l41-20020a05600c1d2900b003daf986faaeso908676wms.3
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 02:38:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ub49zk7ZF+rbPiYvH79nqwlF4uAqb7Qt1R8/Q6+FaCA=;
- b=wGss6cCsaHIzyb5ZyGh7aLsixZs2Id6wyMQD9IR/ROo872tTJYxhJRSusVAnZ341tM
- /uZOn9NKCUfI1rFjjFQxgdbavaS0dBU4aZYHMGwZ6uJYEHO+tUPpFGAXQkat+uPgcY+y
- hmyw2Ilqv+z8lUgRthWSml+PQmp0ACy+G12K+Jd/SjUgTCkMTYSU1WIrKiKdLmkoX81O
- Iqv0aAoAc1M9SqS7PYoDRCJxHxziPT6gKXRfYEd46ikj/1R9VuXWeYj48v3R2mK4Zao/
- mf8+XbqOV239n9MJeZy1hQa04cyeKCbeNNQiGNmZdwq9HmhQIS5I0XCiY/5eqid9OmVh
- HUHQ==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=F0HBHX3hyypBYhXigsY26PuMsCMCNOc5/9wqYOiHA6U=;
+ b=aKfzLKP6yG1wCb3Rplcc8IDAO4pGWAuVupnuLFpcvd8FsZU7LQAq/SN8lqV+hzeGdz
+ jvflIebRkF19xdnANkb1iQCYpOwpvnLMRluY3y/un2niEhaPCveWnR6z2XPzc7C7zuRk
+ Cat4b9KNtWmLjKkm/Egq9Kva7Zrt1P7VbziZBTejW1QotuchrqswQtlfmPZtOvyscZCq
+ FjZ5Q7HS34hQ3Vn6oxEHOdz3+0bMgWgg5HgEE0p6ILsN8rcQLzw4/sF4EPctUw0CF9+I
+ B6scmW/LvSCib8C9RPSw2XUzOORZ2tb3Ym7yMqNsuG3fiSarpTRqqRZQdi1tC5RTSER2
+ AOlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ub49zk7ZF+rbPiYvH79nqwlF4uAqb7Qt1R8/Q6+FaCA=;
- b=vZjEdh4Mp+VKZeJ3muV4HVnX+a5DOJomaJW5sfAb8yM7ZBSqAPOzMGRccdXZyt30tB
- tcZ4LYwmuH6xAll7AhaBhoU19+a5izWtEEObGomHJ5ByH01lEeCXvu5Wb+dFlSeLx77Y
- 1Gukfyzqi/sv1vdki1zb85/xi8NaiVPpRyUyL2qk+jfhez2lECUPiCDDtogmfMWZeFbI
- 29doUyNdJ0D8UKFHnk9VSnBIZGLyPD8XVgWgRdJgnQ2EFJ2fo8VdQglw11APFe4Esj1d
- 3yOAcYmErILO5zIg64CPdKLggEyXY9QQbrue/PzEMAO5Q4y6/t6pCcbTClefTM8WtoHH
- kjSw==
-X-Gm-Message-State: AFqh2kpSVG6Ajby62Gc/CEwhfqZZrlKXkF4a3lC3KBMMWG7QysiPiuJg
- /9+CKCpu1aO21s+DUoSt6I94IIJRBLW3gRSH0RQbhg==
-X-Google-Smtp-Source: AMrXdXuWLHT9XQrhHkfaekv20LvGitTbx0K+fQugFjterumxVvoJQSDXAF6pjoPr9+O3dDGusKmR0ZaodfeFW6Gdi+c=
-X-Received: by 2002:a62:61c4:0:b0:58b:e9af:948b with SMTP id
- v187-20020a6261c4000000b0058be9af948bmr1023406pfb.26.1674124672628; Thu, 19
- Jan 2023 02:37:52 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=F0HBHX3hyypBYhXigsY26PuMsCMCNOc5/9wqYOiHA6U=;
+ b=1W8zD8Y/upHZWMoIa79suH3kQt02SV4wMtXUR7GXbjXbhf0Yd+WLEYAmkYRlEf4pVP
+ l1952y78lTNtOJOPqL92HTTzmjh0dTCdahtUA6IOl9DDURtzvimck7Az3hA6ASv6shsh
+ jXU53Qc9b6YBURGM9+0tVdaAGU2LasTfto7jy0BJcuV8OdP32MUit4dXosaIlnafz0hL
+ Z5/po0ItqeiYRTLhg37XOaaOkqsKfBhKZKtuf6jqzcgaqVcY/59dr3zUhpJ2ZniQQKGP
+ ZAVX/HvbYEyjMXehHHBigdU4NfAGMZw1zusT7p4muI7GoQ7CSzPbZFylyTDf/dL+6tbY
+ doFA==
+X-Gm-Message-State: AFqh2kq2oXNeCu04uXy8md24R00dF/jk31P3HEf1X1NVhqJ7wfv4XTyH
+ 4M55XmQxnXfJWkPkf/fg4PWQFw==
+X-Google-Smtp-Source: AMrXdXsbNu4mnwt4U5TAktxnZtxJyvxbWtLiJWFIN/PwAZGOxodDgDxgDKVSZgC6MOF/Ociek5mdOQ==
+X-Received: by 2002:a05:600c:1d22:b0:3da:f66c:795d with SMTP id
+ l34-20020a05600c1d2200b003daf66c795dmr10106071wms.9.1674124709291; 
+ Thu, 19 Jan 2023 02:38:29 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ w1-20020a1cf601000000b003daf681d05dsm4483347wmc.26.2023.01.19.02.38.27
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 02:38:28 -0800 (PST)
+Message-ID: <802eb2a3-e7bf-ca38-daf2-75275980e865@linaro.org>
+Date: Thu, 19 Jan 2023 11:38:26 +0100
 MIME-Version: 1.0
-References: <DM6PR11MB40903663BB06C7A64136DF3587C49@DM6PR11MB4090.namprd11.prod.outlook.com>
- <Y8kXhd2EcRU2QxVC@redhat.com>
- <77e378b5-09a1-c80f-e2c0-c010f26b2a44@weilnetz.de>
-In-Reply-To: <77e378b5-09a1-c80f-e2c0-c010f26b2a44@weilnetz.de>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 19 Jan 2023 10:37:41 +0000
-Message-ID: <CAFEAcA9s+m7BtCECV9jL2yxgpXZKP6DFrqpo_U-+dAM=B3LbeA@mail.gmail.com>
-Subject: Re: Announcement of aborting HAXM maintenance
-To: Stefan Weil <stefan.weil@weilnetz.de>
-Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
- "Wang, Wenchao" <wenchao.wang@intel.com>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- qemu-devel <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v4 13/19] riscv: Clean up includes
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
+ hreitz@redhat.com, imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
+ groug@kaod.org, qemu_oss@crudebyte.com, mst@redhat.com,
+ peter.maydell@linaro.org, alistair@alistair23.me, jasowang@redhat.com,
+ jonathan.cameron@huawei.com, kbastian@mail.uni-paderborn.de,
+ quintela@redhat.com, dgilbert@redhat.com, michael.roth@amd.com,
+ kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com,
+ bin.meng@windriver.com, qemu-block@nongnu.org, qemu-arm@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20230119065959.3104012-1-armbru@redhat.com>
+ <20230119065959.3104012-14-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230119065959.3104012-14-armbru@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,46 +99,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 19 Jan 2023 at 10:34, Stefan Weil via <qemu-devel@nongnu.org> wrote=
-:
->
-> Am 19.01.23 um 11:12 schrieb Daniel P. Berrang=C3=A9:
-> > On Thu, Jan 19, 2023 at 03:56:04AM +0000, Wang, Wenchao wrote:
-> >> Hi, Philippe,
-> >>
-> >> Intel decided to abort the development of HAXM and the maintenance
-> >> of its QEMU part. Should we submit a patch to mark the Guest CPU
-> >> Cores (HAXM) status as Orphan and remove the maintainers from the
-> >> corresponding list? Meanwhile, should the code enabling HAX in QEMU
-> >> once committed by the community be retained?
-> >
-> > If you no longer intend to work on QEMU bits related to HAXM, then
-> > yes, you should send a patch for the MAINTAINERS file to remove you
-> > name and mark it as "Orphan" status.
-> >
-> > We would not normally delete code from QEMU, merely because it has
-> > been orphaned. If it is still known to work then we would retain
-> > it indefinitely, unless some compelling reason arises to drop it.
-> > This gives time for any potential users to adjust their plans,
-> > and/or opportunity for other interested people to take over the
-> > maintenance role.
->
-> HAXM will not only be no longer maintained in QEMU, but also the
-> necessary framework for macOS and Windows will be retired. See
-> https://github.com/intel/haxm#status on their GitHub page. As stated
-> there, macOS provides HVF which can be used instead of HAXM, and Windows
-> users can use WHPX. Both HVF and WHPX are supported by QEMU. As far as I
-> know HAXM could only provide a limited RAM size (2 GiB?). Maybe it still
-> has more deficits. And unmaintained HAXM drivers for macOS and Windows
-> might be a security risk, too. It is also not clear whether the last
-> downloads of those drivers will be available in the future.
->
-> Therefore I'd prefer to remove the whole HAXM code in QEMU soon, even in
-> a minor update for this special case.
+On 19/1/23 07:59, Markus Armbruster wrote:
+> Clean up includes so that osdep.h is included first and headers
+> which it implies are not included manually.
+> 
+> This commit was created with scripts/clean-includes.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   target/riscv/pmu.h | 1 -
+>   1 file changed, 1 deletion(-)
 
-This sounds like an argument for putting it through our usual
-deprecate-and-drop lifecycle.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-thanks
--- PMM
 
