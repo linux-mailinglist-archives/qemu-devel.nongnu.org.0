@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA0966740A1
+	by mail.lfdr.de (Postfix) with ESMTPS id 641DF67409D
 	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 19:13:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIZOO-0005uw-Ps; Thu, 19 Jan 2023 13:12:05 -0500
+	id 1pIZOQ-0005vr-Ho; Thu, 19 Jan 2023 13:12:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZOL-0005ud-S4
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:12:01 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ id 1pIZON-0005uu-33
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:12:03 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIZOI-0004HM-7H
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:12:01 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id q10so2701063wrs.2
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:11:57 -0800 (PST)
+ id 1pIZOK-0004JR-6M
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 13:12:02 -0500
+Received: by mail-wr1-x434.google.com with SMTP id r9so2687902wrw.4
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 10:11:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=I0FrZ6m+/DDXlf1KBSDr4ILm73xZLFUqafMmPw3ilEY=;
- b=kxzb4qdUHGlACLRdMddcD09zO033jrQbHucuHZvR+BmQEzP+dWMD5eZ8yeEuoqEUpy
- e7xyAYJlfn/hRMVZ2LhURTajUsnVNgS5hSZzzTcbV5+PeLTc+r7TCSOyS5txT+F/Pqzl
- ZD45tjZWHil7mJzsoYMnwb1ZekOU6nNweErITFN8DwW6bEsYonm+OP7oQzp8njuPNreb
- 9kZasjG0eDYbwMvfD99nzaAEvUHfilGuFBIvjH3f78eU1/HNytQRlipTmfR/9K3+6tlE
- ZAjNx1MP+otqHTJoUZjrFefvwE6ZbSKiVc835wpM8ojjvpbAFG7SfHVKA/h9MurIIxPo
- 5aEA==
+ bh=O11vIssB0c/YQGszKfyHBYwLF94tVnKcI4eAkWMf9bM=;
+ b=WZWlox0R3p/s7s+bmjW1SNYTCHayfD1vWSS9zyBZMGjR6AGlWDfF/4GbN/f84r3H/K
+ RuDV5UKbkl/0Rq87I8FdMWHUI77m4VfkWdd32xOPuk73057G2JmLKKA5/kbu1S2b0qAQ
+ NoUZlKrOBB8+oxWshnfpAQwO/uZEwIaGz3G90T2i9Mt6W4gZqrRNem1yfDwdVfD+0yaE
+ IDGDUndZ9ZZGGkJPVonMA37HM0JIs5kNgPQlOnqnU7NVz3WFfpwjZuTdPnGwfZQ/9WTT
+ YWI8swXdznveB0wF+OrExIotFgUHI3OSem9Yn7to4mJ+tGXrh6WUA7HnLIKbWdYFzHW2
+ Yt0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=I0FrZ6m+/DDXlf1KBSDr4ILm73xZLFUqafMmPw3ilEY=;
- b=3Hif77ZGO56LELC+DHLWM3cqA1xghszdBgg6viGfnXCpAEZvgbbTWnk/7+SJj2MKDa
- eiTMJFcs2nCurGCHm4d1x71nAuDLSK4BCXNLEwGOnLwHda3+66La0ytrLohNsAy9QDdx
- nVq87D2PXUMk8W6KsSzY9dsDxpxYOhA9rtAJ7+TTwng6luEyn3jAa13VapATH+OW2rzb
- y2jrXLEL2gb7C77nrBNViRBNlqgZ5GFe+lVmSn9n15PSHTuRQ152ShzqSKnn4sH2cbmT
- VqzLzEFXNHlvZdM6XQHjDV5bYx3a7ihZDg+O3eKXfP3Ospgheez6RjPQ6xm3Y0qDUiBM
- 6XAg==
-X-Gm-Message-State: AFqh2koE6ubht2RzLF30HlCUVoU8oEkPeTfY//DzMUYVpG1tUmwtVO82
- dr8z0KGbJScaHYNzqOUIw1sV+w==
-X-Google-Smtp-Source: AMrXdXs4W4MEuiuQf0iGanrxHZvQhh+TvB1uhRJT4xzTE9PmpAO6L8iNWP8ugJgDbYq8wbmkPZDXBQ==
-X-Received: by 2002:a5d:5b0e:0:b0:2bb:e9e6:ac26 with SMTP id
- bx14-20020a5d5b0e000000b002bbe9e6ac26mr11656342wrb.57.1674151916509; 
- Thu, 19 Jan 2023 10:11:56 -0800 (PST)
+ bh=O11vIssB0c/YQGszKfyHBYwLF94tVnKcI4eAkWMf9bM=;
+ b=fQV7tvBCNKM9kHQIdI6x05q2FzoaR3YLU/QLk3D1Is45WO/xxLY2k3DbNn8FlxfYxu
+ ZopEzeSlJV8h7t8jCT4dmklcY50XL/YczFEW1g3Eg4t3KACGeBc8fQ0+SdZwf85oWHOu
+ CUZ81z6WofJHkw227YWhTvZren0pofrlfp3zxOmVC3cxQjC0nlRPiva8tOka0d8sLOcE
+ Iaj/McNgLQaBbFwRY2Eu9NTHyduQf7HBUpAJI6413BJuYDh+E9JFLWlQ2LIp2EVDty3Y
+ 71cvbg3xx4rHyXixf4OeVT1QhR6ukB1JgRFhTy2QGQb0gBHgYSHEiAr00pBYt86jxepc
+ MayQ==
+X-Gm-Message-State: AFqh2ko2YQWXzTvSn2JlkYla2NXITit/yWQXJMjqVx7fHo7rvZqWD0ti
+ ms7uKujlXpmJyEMKtAVEJajkgA==
+X-Google-Smtp-Source: AMrXdXucyFVqCAzaYQh7MnGH1G8uxXdiowv15g+C46sKZu5KFdV85v6P3nb7mkpWiutd3HmtIbv60Q==
+X-Received: by 2002:a5d:4152:0:b0:2a6:37a6:a071 with SMTP id
+ c18-20020a5d4152000000b002a637a6a071mr17572019wrq.21.1674151918726; 
+ Thu, 19 Jan 2023 10:11:58 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- l5-20020adfe9c5000000b002238ea5750csm19848704wrn.72.2023.01.19.10.11.55
+ f6-20020adffcc6000000b002bbdcd15e44sm30206662wrs.37.2023.01.19.10.11.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Thu, 19 Jan 2023 10:11:56 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 62F821FFC5;
+ by zen.linaroharston (Postfix) with ESMTP id 7B0D01FFC6;
  Thu, 19 Jan 2023 18:04:21 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -74,17 +74,17 @@ Cc: Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Thomas Huth <thuth@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH 15/18] tests/tcg: skip the vma-pthread test on CI
-Date: Thu, 19 Jan 2023 18:04:16 +0000
-Message-Id: <20230119180419.30304-16-alex.bennee@linaro.org>
+Subject: [PATCH 16/18] tests/tcg: Use SIGKILL for timeout
+Date: Thu, 19 Jan 2023 18:04:17 +0000
+Message-Id: <20230119180419.30304-17-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230119180419.30304-1-alex.bennee@linaro.org>
 References: <20230119180419.30304-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -107,35 +107,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are getting a lot of failures that are not related to changes so
-this could be a flaky test.
+From: Richard Henderson <richard.henderson@linaro.org>
 
+linux-user blocks all signals while attempting to handle guest
+signals (e.g. ABRT), which means that the default TERM sent by timeout
+has no effect -- KILL instead.
+
+When a guest aborts (possible nios2 guest bug), sending SIGABRT to
+itself, I have caught one thread waiting in start_exclusive, and all
+of the others blocked in exclusive_idle. I look at that and think
+there's a bug in our start_exclusive locking, but I can't prove it.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230117035701.168514-2-richard.henderson@linaro.org>
+[AJB: expanded commit message from cover letter]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/multiarch/Makefile.target | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ tests/tcg/Makefile.target | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/tcg/multiarch/Makefile.target b/tests/tcg/multiarch/Makefile.target
-index e7213af492..ae8b3d7268 100644
---- a/tests/tcg/multiarch/Makefile.target
-+++ b/tests/tcg/multiarch/Makefile.target
-@@ -42,6 +42,15 @@ munmap-pthread: LDFLAGS+=-pthread
- vma-pthread: CFLAGS+=-pthread
- vma-pthread: LDFLAGS+=-pthread
+diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
+index 14bc013181..a3b0aaf8af 100644
+--- a/tests/tcg/Makefile.target
++++ b/tests/tcg/Makefile.target
+@@ -54,10 +54,10 @@ cc-option = if $(call cc-test, $1); then \
  
-+# The vma-pthread seems very sensitive on gitlab and we currently
-+# don't know if its exposing a real bug or the test is flaky.
-+ifneq ($(GITLAB_CI),)
-+run-vma-pthread: vma-pthread
-+	$(call skip-test, $<, "flaky on CI?")
-+run-plugin-vma-pthread-with-%: vma-pthread
-+	$(call skip-test, $<, "flaky on CI?")
-+endif
-+
- # We define the runner for test-mmap after the individual
- # architectures have defined their supported pages sizes. If no
- # additional page sizes are defined we only run the default test.
+ # $1 = test name, $2 = cmd, $3 = desc
+ ifeq ($(filter %-softmmu, $(TARGET)),)
+-run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2 > $1.out, \
++run-test = $(call quiet-command, timeout -s KILL --foreground $(TIMEOUT) $2 > $1.out, \
+ 	TEST,$(or $3, $*, $<) on $(TARGET_NAME))
+ else
+-run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2, \
++run-test = $(call quiet-command, timeout -s KILL --foreground $(TIMEOUT) $2, \
+         TEST,$(or $3, $*, $<) on $(TARGET_NAME))
+ endif
+ 
 -- 
 2.34.1
 
