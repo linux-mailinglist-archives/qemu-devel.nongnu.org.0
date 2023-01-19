@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D781673CCA
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:50:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E9D6673CE2
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 15:58:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIWEX-00020Q-BQ; Thu, 19 Jan 2023 09:49:41 -0500
+	id 1pIWMH-0005Qx-Lc; Thu, 19 Jan 2023 09:57:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pIWEV-0001zo-Np
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:49:39 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIWMF-0005QK-VN
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:57:39 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pIWET-0001c1-UP
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:49:39 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id mp20so6267573ejc.7
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 06:49:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=+jaBY0vd8rZKNxNRA16s6vpgEoYJM27Ogc9LdyMqxuA=;
- b=R8cNXxKlpt1Y6SCVogtamb0tfc5OPG65yUvex/O3TZni/O8G9VD//NCjV35Hx5NKOU
- RkqPx73hZvSgUSqtil3m/WhpcpHTO0o2TfIq+Y+4r9pMnYObYqiPMZ36LZ5rTCL72lc8
- LGkUrgbHkGkPc5VjcJIk5NMcuosv6/7551Ms84wV3953n957pyXZRqiIktMUJ/W0uZNA
- 16fSEEILsVSKlfH4FSnFbAJHDWjHTAg5RvztcZPFUAjfT8eX1b0HjPYLmXCwzv8w1yOD
- R+aFS8ugR5rV/8hjxb6vkYKhaOsp0Zs9cYNy688OsllA1mfN3JkgnaoSPLK3RsVEdo9T
- U9qw==
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIWME-0003Q9-0P
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 09:57:39 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ f19-20020a1c6a13000000b003db0ef4dedcso3739654wmc.4
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 06:57:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oEtgV5A5TQgE6miITdvQ7MIFydv0OPph3dJHEqU8bmI=;
+ b=uOgBskCVZg9n55V0rrV6AwGbi6KYB+Zjwy/RAS1VzBHB1CPgbO1smZSJ6F3x6KLPFi
+ iG5EkB2DZE2c1j7p/Cbybm/baVTv73fp9gnIzYLc0iPG4bHr5G91ONHCMO3elQPj/+7H
+ ySNPWP4wvfGsKwnKOQnUnm41oDYkyv7hLZn/6O+yzxa6ZzlEYkFhBhKaL2LYnpu/o3t7
+ yKtkb0DcWT0XgyIZHvkVRngEUaoGJ/Pat3iX+WIJc09GqFii2vQf6ZrZG8aAFuriYsyo
+ Nm1Hv/Dj1MELElDTz/afjUSH/EOeiJCdgWW9czm3ISUwJZMJnYnmQ2aXsd3UjhjWBKts
+ qeWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=+jaBY0vd8rZKNxNRA16s6vpgEoYJM27Ogc9LdyMqxuA=;
- b=MU5X5zpgf05EyCQxvz2lRXR7aqwPjyoJg5lQfjJIUInUiXG/BJ2jGMbwPRiBxZDy55
- 8K1+gAP1dQNdoHL9BJMtGUlK549B9IhYhkoeOLxJ3x4RO+Ew/h8+Cowdf5zS/Km6Iv50
- dclByjRZpecxejtkGD9ElcJleRaNzPrZ8wwIn0LTBjDSwbvRpBgvB4b2oCpOoyy+EA9E
- dbwz8F6K9WUNjXACIqOvAg3TyihGlgfvpDJuJqyl2frXBPXzn1I7KeKAJkDjedkB8vfF
- lXHL7FkxnYa9SZ5Nlt3pOmX+mVI0q7Y91etChUHqClRsgnnu2vG6hEZlqNrxosnWWFZF
- 4gOQ==
-X-Gm-Message-State: AFqh2kq9CONskjvXzeTUY1MFpobmbDF36b0qcUrSB8dSexTLi0C6sJBM
- mIYGOSM3WKrt/9mJG77BXo0teQ==
-X-Google-Smtp-Source: AMrXdXuwR+PLX8ivoaxhfViDrmWO3WBJy2+tKiWk20CDlK94OvsJ4rusN1jgYfW6jhC5TVSVJ1+nSg==
-X-Received: by 2002:a17:906:1605:b0:870:2f70:c631 with SMTP id
- m5-20020a170906160500b008702f70c631mr14355718ejd.2.1674139776299; 
- Thu, 19 Jan 2023 06:49:36 -0800 (PST)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=oEtgV5A5TQgE6miITdvQ7MIFydv0OPph3dJHEqU8bmI=;
+ b=Lkx1KJriRFKSPNgsE4EvZ9pbqZVDFtSZslsQQTmNXzQ5GQ0n9zPX6n/W90SNvwZlL8
+ jrcLAuRMuTShP1tZV+yfXy91qQHk0fuq67lkoRsV1Dbua8gasEjCU0RH7WNIkwUyTTi+
+ WehqTqWGRLy/epqNGBjmD7u6onad1i2viHVnX0I98DtwFvZ8Z4z/BewdHiBSFd7qFluy
+ eVlJqwfMy0ptj0x2TomFhWjdMdlTUsc2iER30furV4rM7ckyQ41eXRpbreRoeJuYZfwp
+ xDh2rdLaEL89YPgLVMCKqxZiDFkfYQu7iD6MyST5MdQ2NgDSwD9HaZ3cx+Bz4kEG/nFz
+ cNhg==
+X-Gm-Message-State: AFqh2kpoA4mcY4gLTyQOf4nNmXasYk2Q9lrsji2eUkQKn22BcmuHn1QR
+ D1/Ccs/XevYcIXATjKupomPn9g==
+X-Google-Smtp-Source: AMrXdXvshXYnJW7jtfqwii9sjOMX0P4ju8puA4WYH0S3KhX5Y7waS3Lh1UoBZgghr4fJ+Qqyoqa8SQ==
+X-Received: by 2002:a05:600c:4f83:b0:3db:eab:a600 with SMTP id
+ n3-20020a05600c4f8300b003db0eaba600mr7606173wmq.7.1674140256130; 
+ Thu, 19 Jan 2023 06:57:36 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- d9-20020a1709063ec900b007bd9e683639sm16283259ejj.130.2023.01.19.06.49.35
+ i17-20020a05600c355100b003dafcd9b750sm5356670wmq.43.2023.01.19.06.57.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 19 Jan 2023 06:49:35 -0800 (PST)
-Date: Thu, 19 Jan 2023 15:49:34 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Alistair Francis <alistair23@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Ludovic Henry <ludovic@rivosinc.com>
-Subject: Re: [PATCH v5 2/2] riscv: Allow user to set the satp mode
-Message-ID: <20230119144934.ikmij2b7m7yeqwtz@orel>
-References: <20230113103453.42776-1-alexghiti@rivosinc.com>
- <20230113103453.42776-3-alexghiti@rivosinc.com>
- <20230117163138.jze47hjeeuwu2k4j@orel>
- <CAKmqyKNFX_ovg4Bp_30o0g4Jd5XJ98i9LdFgejsDmGW4iL2+OA@mail.gmail.com>
- <20230118121916.6aqj57leen72z5tz@orel>
- <CAKmqyKNcd3JOZgPb23idrzVjxHj+HHwPz6f6xPEp2oVGJEZKpg@mail.gmail.com>
- <CAHVXubiW2OaMhe3STLLMz=wDPJeY8hvPHbuBJgL7KZyw4=pRpw@mail.gmail.com>
+ Thu, 19 Jan 2023 06:57:35 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 431C41FFB7;
+ Thu, 19 Jan 2023 14:57:35 +0000 (GMT)
+References: <20230118153833.102731-1-dgilbert@redhat.com>
+ <CAJSP0QU+o-R6ZKN8R1MHoUqFwfsQmpKt6KP5hqhyFrK5HJti6w@mail.gmail.com>
+ <9474ce49-979d-f630-5f6a-754999db573a@redhat.com>
+User-agent: mu4e 1.9.15; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Hanna Czenczek <hreitz@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, "Dr. David Alan Gilbert (git)"
+ <dgilbert@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ qemu-devel@nongnu.org, stefanha@redhat.com, vgoyal@redhat.com,
+ gmaglione@redhat.com, virtio-fs@redhat.com, pbonzini@redhat.com
+Subject: Re: [PATCH 0/3] Remove C virtiofsd
+Date: Thu, 19 Jan 2023 14:56:38 +0000
+In-reply-to: <9474ce49-979d-f630-5f6a-754999db573a@redhat.com>
+Message-ID: <871qnqzi5c.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHVXubiW2OaMhe3STLLMz=wDPJeY8hvPHbuBJgL7KZyw4=pRpw@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x62e.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,135 +99,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 19, 2023 at 02:00:27PM +0100, Alexandre Ghiti wrote:
-> Hi Alistair, Andrew,
-> 
-> On Thu, Jan 19, 2023 at 1:25 AM Alistair Francis <alistair23@gmail.com> wrote:
-> >
-> > On Wed, Jan 18, 2023 at 10:19 PM Andrew Jones <ajones@ventanamicro.com> wrote:
-> > >
-> > > On Wed, Jan 18, 2023 at 10:28:46AM +1000, Alistair Francis wrote:
-> > > > On Wed, Jan 18, 2023 at 2:32 AM Andrew Jones <ajones@ventanamicro.com> wrote:
-> > > > >
-> > > > > On Fri, Jan 13, 2023 at 11:34:53AM +0100, Alexandre Ghiti wrote:
-> > > ...
-> > > > > > +
-> > > > > > +    /* Get rid of 32-bit/64-bit incompatibility */
-> > > > > > +    for (int i = 0; i < 16; ++i) {
-> > > > > > +        if ((cpu->cfg.satp_mode.map & (1 << i)) && !valid_vm[i]) {
-> > > > >
-> > > > > If we ever define mode=1 for rv64, then 'sv32=on' will be incorrectly
-> > > > > accepted as an alias. I think we should simply not define the sv32
-> > > > > property for rv64 nor the rv64-only modes for rv32. So, down in
-> > > > > riscv_add_satp_mode_properties() we can add some
-> > > > >
-> > > > >   #if defined(TARGET_RISCV32)
-> > > > >   ...
-> > > > >   #elif defined(TARGET_RISCV64)
-> > > > >   ...
-> > > > >   #endif
-> > > >
-> > > > Do not add any #if defined(TARGET_RISCV32) to QEMU.
-> > > >
-> > > > We are aiming for the riscv64-softmmu to be able to emulate 32-bit
-> > > > CPUs and compile time macros are the wrong solution here. Instead you
-> > > > can get the xlen of the hart and use that.
-> > > >
-> > >
-> > > Does this mean we want to be able to do the following?
-> > >
-> > >   qemu-system-riscv64 -cpu rv32,sv32=on ...
-> >
-> > That's the plan
-> >
-> > >
-> > > If so, then can we move the object_property_add() for sv32 to
-> > > rv32_base_cpu_init() and the rest to rv64_base_cpu_init()?
-> > > Currently, that would be doing the same thing as proposed above,
-> > > since those functions are under TARGET_RISCV* defines, but I guess
-> > > the object_property_add()'s would then be in more or less the right
-> > > places for when the 32-bit emulation support work is started.
-> >
-> > Sounds like a good idea :)
-> 
-> What about riscv_any_cpu_init and riscv_host_cpu_init?
 
-riscv_host_cpu_init depends on KVM support, so we actually don't need to
-add the properties in this patch at all. That's later work. I'm not real
-clear as to what riscv_any_cpu_init is. It looks like a cpu type that
-tries to enable all supported standard extensions. Maybe we need a patch
-like below first and then add the sv* properties in the same way we will
-for the rv*_base_cpu_init functions.
+Hanna Czenczek <hreitz@redhat.com> writes:
 
-Thanks,
-drew
+> On 18.01.23 16:59, Stefan Hajnoczi wrote:
+>> On Wed, 18 Jan 2023 at 10:40, Dr. David Alan Gilbert (git)
+>> <dgilbert@redhat.com> wrote:
+>>> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>>>
+>>> We deprecated the C virtiofsd in commit 34deee7b6a1418f3d62a
+>>> in v7.0 in favour of the Rust implementation at
+>>>
+>>>    https://gitlab.com/virtio-fs/virtiofsd
+>>>
+>>> since then, the Rust version has had more development and
+>>> has held up well.  It's time to say goodbye to the C version
+>>> that got us going.
+>>>
+>>> The only thing I've not cleaned up here is
+>>>    tests/avocado/virtiofs_submounts.py
+>>>
+>>> which I guess needs to figure out where the virtiofsd implementation
+>>> is and use it; suggestions welcome.
+>> I see something similar in tests/avocado/avocado_qemu/__init__.py:
+>>
+>>          # If qemu-img has been built, use it, otherwise the system wide=
+ one
+>>          # will be used.  If none is available, the test will cancel.
+>>          qemu_img =3D os.path.join(BUILD_DIR, 'qemu-img')
+>>          if not os.path.exists(qemu_img):
+>>              qemu_img =3D find_command('qemu-img', False)
+>>          if qemu_img is False:
+>>              self.cancel('Could not find "qemu-img", which is required t=
+o '
+>>                          'create the bootable image')
+>>
+>> Maybe find_command('virtiofsd', False)?
+>
+> It was supposed to be a test for virtiofsd, so it doesn=E2=80=99t really =
+make
+> sense to run it with the system-wide daemon, I think.
+>
+> Maybe there=E2=80=99s some way we can move the test to the Rust repo?=C2=
+=A0 I=E2=80=99ll
+> take a look.
+
+Do you want to use cargo to install the daemons? If so could we make the
+support generic enough so we could also start using the vhost-device
+daemons for tests?
+
+>
+> Hanna
 
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index cc75ca76677f..a2987205991e 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -229,19 +229,15 @@ static void set_vext_version(CPURISCVState *env, int vext_ver)
-     env->vext_ver = vext_ver;
- }
- 
--static void riscv_any_cpu_init(Object *obj)
--{
--    CPURISCVState *env = &RISCV_CPU(obj)->env;
--#if defined(TARGET_RISCV32)
--    set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
--#elif defined(TARGET_RISCV64)
--    set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
--#endif
--    set_priv_version(env, PRIV_VERSION_1_12_0);
--    register_cpu_props(DEVICE(obj));
--}
--
- #if defined(TARGET_RISCV64)
-+static void rv64_any_cpu_init(Object *obj)
-+{
-+    CPURISCVState *env = &RISCV_CPU(obj)->env;
-+    set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
-+    set_priv_version(env, PRIV_VERSION_1_12_0);
-+    register_cpu_props(DEVICE(obj));
-+}
-+
- static void rv64_base_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-@@ -285,6 +281,14 @@ static void rv128_base_cpu_init(Object *obj)
-     set_priv_version(env, PRIV_VERSION_1_12_0);
- }
- #else
-+static void rv32_any_cpu_init(Object *obj)
-+{
-+    CPURISCVState *env = &RISCV_CPU(obj)->env;
-+    set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
-+    set_priv_version(env, PRIV_VERSION_1_12_0);
-+    register_cpu_props(DEVICE(obj));
-+}
-+
- static void rv32_base_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-@@ -1285,17 +1289,18 @@ static const TypeInfo riscv_cpu_type_infos[] = {
-         .class_size = sizeof(RISCVCPUClass),
-         .class_init = riscv_cpu_class_init,
-     },
--    DEFINE_CPU(TYPE_RISCV_CPU_ANY,              riscv_any_cpu_init),
- #if defined(CONFIG_KVM)
-     DEFINE_CPU(TYPE_RISCV_CPU_HOST,             riscv_host_cpu_init),
- #endif
- #if defined(TARGET_RISCV32)
-+    DEFINE_CPU(TYPE_RISCV_CPU_ANY,              rv32_any_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_BASE32,           rv32_base_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_IBEX,             rv32_ibex_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E31,       rv32_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E34,       rv32_imafcu_nommu_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U34,       rv32_sifive_u_cpu_init),
- #elif defined(TARGET_RISCV64)
-+    DEFINE_CPU(TYPE_RISCV_CPU_ANY,              rv64_any_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_BASE64,           rv64_base_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_E51,       rv64_sifive_e_cpu_init),
-     DEFINE_CPU(TYPE_RISCV_CPU_SIFIVE_U54,       rv64_sifive_u_cpu_init),
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
