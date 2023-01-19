@@ -2,74 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FB3067358F
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:33:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B72E4673597
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:34:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pISE6-0000qB-E7; Thu, 19 Jan 2023 05:32:58 -0500
+	id 1pISFZ-0002AB-Cc; Thu, 19 Jan 2023 05:34:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pISDy-0000gB-CJ
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:32:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <stefan.weil@weilnetz.de>)
+ id 1pISEl-00026K-Qb
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:33:46 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]
+ helo=mail.v2201612906741603.powersrv.de)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pISDw-0002c8-VZ
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:32:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674124368;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9wzC95ZnDRp60GF2ijaPtcUMTRj0kjZfFgtJY+2CTDA=;
- b=fovYihNxJ3IQeE8U+aATeDfbyIGVGyrj3x6/giaksepsv7R94A2EjJHWoOIncD9ewNfal1
- X7Khb63uAtKHk/ndM1Z/NxsHETQ46k0kAJG6DNXfsiK8F6xm2aCfj0Kf25T7RCRr1uUmmC
- PBczmt1+qMc3oL5Hw3W3zjE842zOZsQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-672-BUrjm2kjMSqgrYDQbZSDPQ-1; Thu, 19 Jan 2023 05:32:45 -0500
-X-MC-Unique: BUrjm2kjMSqgrYDQbZSDPQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (Exim 4.90_1) (envelope-from <stefan.weil@weilnetz.de>)
+ id 1pISEh-0002fp-NP
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:33:38 -0500
+Received: from [192.168.178.59] (p5b151831.dip0.t-ipconnect.de [91.21.24.49])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DBDC43813F35;
- Thu, 19 Jan 2023 10:32:44 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id B5888C15BAD;
- Thu, 19 Jan 2023 10:32:44 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 97F4121E6A28; Thu, 19 Jan 2023 11:32:43 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: Markus Armbruster <armbru@redhat.com>,  qemu-devel@nongnu.org,  Emanuele
- Giuseppe Esposito <eesposit@redhat.com>,  richard.henderson@linaro.org,
- pbonzini@redhat.com,  quintela@redhat.com,  dgilbert@redhat.com
-Subject: Re: [PATCH 2/2] MAINTAINERS: Cover include/sysemu/accel-blocker.h
-References: <20230119091545.3116376-1-armbru@redhat.com>
- <20230119091545.3116376-3-armbru@redhat.com>
- <b0b5759b-db68-204c-fe41-48ad02de0a61@linaro.org>
-Date: Thu, 19 Jan 2023 11:32:43 +0100
-In-Reply-To: <b0b5759b-db68-204c-fe41-48ad02de0a61@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 19 Jan 2023 11:24:22
- +0100")
-Message-ID: <87sfg6vmpg.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id A75C9DA0838;
+ Thu, 19 Jan 2023 11:33:31 +0100 (CET)
+Message-ID: <77e378b5-09a1-c80f-e2c0-c010f26b2a44@weilnetz.de>
+Date: Thu, 19 Jan 2023 11:33:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ "Wang, Wenchao" <wenchao.wang@intel.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ qemu-devel <qemu-devel@nongnu.org>
+References: <DM6PR11MB40903663BB06C7A64136DF3587C49@DM6PR11MB4090.namprd11.prod.outlook.com>
+ <Y8kXhd2EcRU2QxVC@redhat.com>
+Subject: Re: Announcement of aborting HAXM maintenance
+In-Reply-To: <Y8kXhd2EcRU2QxVC@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=37.120.169.71;
+ envelope-from=stefan.weil@weilnetz.de; helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,38 +60,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Stefan Weil <stefan.weil@weilnetz.de>
+From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+Am 19.01.23 um 11:12 schrieb Daniel P. Berrangé:
+> On Thu, Jan 19, 2023 at 03:56:04AM +0000, Wang, Wenchao wrote:
+>> Hi, Philippe,
+>>
+>> Intel decided to abort the development of HAXM and the maintenance
+>> of its QEMU part. Should we submit a patch to mark the Guest CPU
+>> Cores (HAXM) status as Orphan and remove the maintainers from the
+>> corresponding list? Meanwhile, should the code enabling HAX in QEMU
+>> once committed by the community be retained?
+> 
+> If you no longer intend to work on QEMU bits related to HAXM, then
+> yes, you should send a patch for the MAINTAINERS file to remove you
+> name and mark it as "Orphan" status.
+> 
+> We would not normally delete code from QEMU, merely because it has
+> been orphaned. If it is still known to work then we would retain
+> it indefinitely, unless some compelling reason arises to drop it.
+> This gives time for any potential users to adjust their plans,
+> and/or opportunity for other interested people to take over the
+> maintenance role.
 
-> On 19/1/23 10:15, Markus Armbruster wrote:
->> Commit bd688fc931 "accel: introduce accelerator blocker API" aded
->> include/sysemu/accel-blocker.h and accel/accel-blocker.c.  MAINTAINERS
->> covers the latter in section "Guest CPU Cores (other accelerators) /
->> Overall", but not the former.  Fix that.
->
-> Doesn't this belong to "Read, Copy, Update (RCU)" or "Main loop"
-> sections?
+HAXM will not only be no longer maintained in QEMU, but also the 
+necessary framework for macOS and Windows will be retired. See 
+https://github.com/intel/haxm#status on their GitHub page. As stated 
+there, macOS provides HVF which can be used instead of HAXM, and Windows 
+users can use WHPX. Both HVF and WHPX are supported by QEMU. As far as I 
+know HAXM could only provide a limited RAM size (2 GiB?). Maybe it still 
+has more deficits. And unmaintained HAXM drivers for macOS and Windows 
+might be a security risk, too. It is also not clear whether the last 
+downloads of those drivers will be available in the future.
 
-I have no idea, I merely aped the existing accel/accel-*.c line :)
+Therefore I'd prefer to remove the whole HAXM code in QEMU soon, even in 
+a minor update for this special case.
 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>   MAINTAINERS | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 0dfdf71d48..c888ccaf7a 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -437,7 +437,7 @@ M: Richard Henderson <richard.henderson@linaro.org>
->>  R: Paolo Bonzini <pbonzini@redhat.com>
->>  S: Maintained
->>  F: include/qemu/accel.h
->> -F: include/sysemu/accel-ops.h
->> +F: include/sysemu/accel-*.h
->>  F: include/hw/core/accel-cpu.h
->>  F: accel/accel-*.c
->>  F: accel/Makefile.objs
+Stefan
 
 
