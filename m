@@ -2,52 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B72E4673597
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:34:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A74967359D
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:35:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pISFZ-0002AB-Cc; Thu, 19 Jan 2023 05:34:30 -0500
+	id 1pISFb-0002Ix-5y; Thu, 19 Jan 2023 05:34:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan.weil@weilnetz.de>)
- id 1pISEl-00026K-Qb
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:33:46 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]
- helo=mail.v2201612906741603.powersrv.de)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefan.weil@weilnetz.de>)
- id 1pISEh-0002fp-NP
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:33:38 -0500
-Received: from [192.168.178.59] (p5b151831.dip0.t-ipconnect.de [91.21.24.49])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id A75C9DA0838;
- Thu, 19 Jan 2023 11:33:31 +0100 (CET)
-Message-ID: <77e378b5-09a1-c80f-e2c0-c010f26b2a44@weilnetz.de>
-Date: Thu, 19 Jan 2023 11:33:31 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pISFW-0002DT-7J
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:34:27 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pISFT-0002lc-Jr
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:34:25 -0500
+Received: by mail-wr1-x431.google.com with SMTP id e3so1366335wru.13
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 02:34:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=od1ORYdOyp1RsntQoDLF4XlKlrMR+p/AXJpMinewJcA=;
+ b=imI2WQZhnWNiHCZX5iKkXy6rAxFIy8S7V1isVUMIsz0RLMfMm/6Vc+KIfHOhSK/8OK
+ z480Il3KwYtZzLvXCDSjAY6oG9TGy8DzqbxHcDLc+gGrtWAdt5GFzb87RxUgnmBSk8Zr
+ 432kiW/GJqYK5QP5L1NHNNuk1pGBF1cX+wEMSmOWA6obJZnT5iugJiMetROdxB5MzqaW
+ 567P5em5G1ntirONWSo2zrEg0KhMDH2JNCD9lNM2YEVKXYgFZfDxn7Yp8i0ExEapYzxN
+ /OoP8iKSaJ4r3nBRAe0LOHjn6c6SHtfDYBJYXD5IYopqzXmugzYei4E16pRbR/8Sla5m
+ zcag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=od1ORYdOyp1RsntQoDLF4XlKlrMR+p/AXJpMinewJcA=;
+ b=LYvYWYumjdAiCHgzg/lChfijTGv5yt8QPbucgvCZNmOag/Vjhr3wjNkPzRaft5J+hY
+ pE5gm7b+ON6sWiq3HPg6Q/XfC6BFbvXgISfTwrVJWVJ7RS5Ws0wW/5aK3imeGbD0iTzC
+ ADStc4npYV3oCb8tVVcvNjbffw6MI7ySCofzLuo7E5kKsFxEJG1nrHFu7DqtldNcsKYR
+ jlUNpOiSDxUQ+VTgtlWfgCCSe6IEhnxnhOqChoPg3p863zK8PPNhnvXfSjc6uE13iUDL
+ UHCmh33P/Dl9Emz52Lt7dfQ4mqXW6ADkrmZKAY9/GYZ3S/SiFBfoOSXHPxcO/3xEI7IQ
+ HE2A==
+X-Gm-Message-State: AFqh2kqNDpVr9DqEx4pQB238ei2hDdAJV/AzZs9biNYptnJB2UU35hOI
+ VS7TNJLZPwQfKnu4aC7IE6ZnFw==
+X-Google-Smtp-Source: AMrXdXvQrhXZ26uo7B+0a+vqB6OPE+KUWIPeTbsuks0hVdBAt/l/5BZckaK4nOAtneNHjl//iqexLg==
+X-Received: by 2002:adf:c7cb:0:b0:2bc:48b3:f6de with SMTP id
+ y11-20020adfc7cb000000b002bc48b3f6demr11108372wrg.0.1674124460831; 
+ Thu, 19 Jan 2023 02:34:20 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ r10-20020adfda4a000000b0029a06f11022sm33560858wrl.112.2023.01.19.02.34.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 02:34:19 -0800 (PST)
+Message-ID: <e988e602-4099-287c-7c30-507468e67457@linaro.org>
+Date: Thu, 19 Jan 2023 11:34:16 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- "Wang, Wenchao" <wenchao.wang@intel.com>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel <qemu-devel@nongnu.org>
-References: <DM6PR11MB40903663BB06C7A64136DF3587C49@DM6PR11MB4090.namprd11.prod.outlook.com>
- <Y8kXhd2EcRU2QxVC@redhat.com>
-Subject: Re: Announcement of aborting HAXM maintenance
-In-Reply-To: <Y8kXhd2EcRU2QxVC@redhat.com>
+Subject: Re: [PATCH v4 08/19] hw/tricore: Clean up includes
+Content-Language: en-US
+To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
+ hreitz@redhat.com, imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
+ groug@kaod.org, qemu_oss@crudebyte.com, mst@redhat.com,
+ peter.maydell@linaro.org, alistair@alistair23.me, jasowang@redhat.com,
+ jonathan.cameron@huawei.com, kbastian@mail.uni-paderborn.de,
+ quintela@redhat.com, dgilbert@redhat.com, michael.roth@amd.com,
+ kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com,
+ bin.meng@windriver.com, qemu-block@nongnu.org, qemu-arm@nongnu.org,
+ qemu-riscv@nongnu.org
+References: <20230119065959.3104012-1-armbru@redhat.com>
+ <20230119065959.3104012-9-armbru@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230119065959.3104012-9-armbru@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.120.169.71;
- envelope-from=stefan.weil@weilnetz.de; helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -60,45 +95,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Stefan Weil <stefan.weil@weilnetz.de>
-From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 19.01.23 um 11:12 schrieb Daniel P. Berrangé:
-> On Thu, Jan 19, 2023 at 03:56:04AM +0000, Wang, Wenchao wrote:
->> Hi, Philippe,
->>
->> Intel decided to abort the development of HAXM and the maintenance
->> of its QEMU part. Should we submit a patch to mark the Guest CPU
->> Cores (HAXM) status as Orphan and remove the maintainers from the
->> corresponding list? Meanwhile, should the code enabling HAX in QEMU
->> once committed by the community be retained?
+On 19/1/23 07:59, Markus Armbruster wrote:
+> Clean up includes so that osdep.h is included first and headers
+> which it implies are not included manually.
 > 
-> If you no longer intend to work on QEMU bits related to HAXM, then
-> yes, you should send a patch for the MAINTAINERS file to remove you
-> name and mark it as "Orphan" status.
+> This commit was created with scripts/clean-includes.
 > 
-> We would not normally delete code from QEMU, merely because it has
-> been orphaned. If it is still known to work then we would retain
-> it indefinitely, unless some compelling reason arises to drop it.
-> This gives time for any potential users to adjust their plans,
-> and/or opportunity for other interested people to take over the
-> maintenance role.
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>   include/hw/tricore/triboard.h | 1 -
+>   1 file changed, 1 deletion(-)
 
-HAXM will not only be no longer maintained in QEMU, but also the 
-necessary framework for macOS and Windows will be retired. See 
-https://github.com/intel/haxm#status on their GitHub page. As stated 
-there, macOS provides HVF which can be used instead of HAXM, and Windows 
-users can use WHPX. Both HVF and WHPX are supported by QEMU. As far as I 
-know HAXM could only provide a limited RAM size (2 GiB?). Maybe it still 
-has more deficits. And unmaintained HAXM drivers for macOS and Windows 
-might be a security risk, too. It is also not clear whether the last 
-downloads of those drivers will be available in the future.
-
-Therefore I'd prefer to remove the whole HAXM code in QEMU soon, even in 
-a minor update for this special case.
-
-Stefan
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
