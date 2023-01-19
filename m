@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65AD9673222
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64E2967322A
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 08:10:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIOv6-0006wr-RN; Thu, 19 Jan 2023 02:01:08 -0500
+	id 1pIOv1-0006rA-0T; Thu, 19 Jan 2023 02:01:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIOuZ-0006Yv-ST
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:00:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIOuP-0006S4-8B
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:00:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIOuM-0008AW-Vb
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:00:35 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIOuK-0008EF-6k
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 02:00:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674111608;
+ s=mimecast20190719; t=1674111614;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qwTU95ZFOsRMbuXZPZ33ukGTvyvrp8C5a1rdKoTsKuE=;
- b=cfOPArNWyxctvuVp34QdRPIORpBbDtqhaHQ8cKHW0q8ySpQaSwZb15wSu/P5tSkUGmbKQB
- NiACMEukCyk2WYpcXRVWZfDhb/8EDQmDGMCcxlNwKv7ZhCHF5FzR8AHyDnsgo3AzKEas37
- E/Br2aoi/pekQx8f6CQB5p2MFwhCeP4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=1UWK5caNJxvHgELn4bDbjg1pqfNuB1qVPvh1ja+y4EU=;
+ b=KRgvRTZdDuUK/pl4IJTsFLRD2l5FzKH3TOLzthqx5Y7AMmFhoFkMoZ6HjgQfD+BI4gABov
+ ZI2NNnfCbRIJY+BopHKUugTtP9C0wUZ6r/yPjUDakbyD+R0cGygbfdc7+UTxcBhmztbEt3
+ 4ToidaGvjOE+ayzKkHCBFRfFCPJtUbk=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-302-hwPOV9wiMhGKR87GHQhkUg-1; Thu, 19 Jan 2023 02:00:02 -0500
-X-MC-Unique: hwPOV9wiMhGKR87GHQhkUg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-495-oPfKJ0njPLC-22ldkbVsBg-1; Thu, 19 Jan 2023 02:00:03 -0500
+X-MC-Unique: oPfKJ0njPLC-22ldkbVsBg-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC85D8533DF;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CC31A280BCA5;
  Thu, 19 Jan 2023 07:00:01 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 01168140EBF6;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 01259492B00;
  Thu, 19 Jan 2023 07:00:00 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 3FD1221E6806; Thu, 19 Jan 2023 07:59:59 +0100 (CET)
+ id 436D421E66CD; Thu, 19 Jan 2023 07:59:59 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
@@ -53,16 +53,17 @@ Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
  kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com,
  bin.meng@windriver.com, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH v4 01/19] scripts/clean-includes: Fully skip / ignore files
-Date: Thu, 19 Jan 2023 07:59:41 +0100
-Message-Id: <20230119065959.3104012-2-armbru@redhat.com>
+Subject: [PATCH v4 02/19] scripts/clean-includes: Don't claim duplicate
+ headers found when not
+Date: Thu, 19 Jan 2023 07:59:42 +0100
+Message-Id: <20230119065959.3104012-3-armbru@redhat.com>
 In-Reply-To: <20230119065959.3104012-1-armbru@redhat.com>
 References: <20230119065959.3104012-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,69 +87,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When clean-includes claims to skip or ignore a file, only the part
-that sanitizes use of qemu/osdep.h skips the file.  The part that
-looks for duplicate #include does not, and neither does committing to
-Git.
+When running with --check-dup-head, the script always claims it "Found
+duplicate header file includes."  Fix to do it only when it actually
+found some.
 
-The latter can get unrelated stuff included in the commit, but only if
-you run clean-includes in a dirty tree, which is unwise.  Messed up
-when we added skipping in commit fd3e39a40c "scripts/clean-includes:
-Enhance to handle header files".
-
-The former can cause bogus reports for --check-dup-head.  Added in
-commit d66253e46a "scripts/clean-includes: added duplicate #include
-check", duplicating the prior mistake.
-
-Fix the script to fully skip files.
-
-Fixes: fd3e39a40ca2ee26b09a5de3149af8b056b85233
 Fixes: d66253e46ae2b9c36a9dd90b2b74c0dfa5804b22
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 ---
- scripts/clean-includes | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ scripts/clean-includes | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/scripts/clean-includes b/scripts/clean-includes
-index d37bd4f692..86944f27fc 100755
+index 86944f27fc..8e8420d785 100755
 --- a/scripts/clean-includes
 +++ b/scripts/clean-includes
-@@ -111,6 +111,7 @@ cat >"$COCCIFILE" <<EOT
- )
- EOT
- 
-+files=
- for f in "$@"; do
-   case "$f" in
-     *.c.inc)
-@@ -144,6 +145,7 @@ for f in "$@"; do
-       continue
-       ;;
-   esac
-+  files="$files $f"
- 
-   if [ "$MODE" = "c" ]; then
-     # First, use Coccinelle to add qemu/osdep.h before the first existing include
-@@ -174,8 +176,8 @@ for f in "$@"; do
- 
+@@ -177,9 +177,8 @@ for f in "$@"; do
  done
  
--if [ "$DUPHEAD" = "yes" ]; then
--    egrep "^[[:space:]]*#[[:space:]]*include" "$@" | tr -d '[:blank:]' \
-+if [ "$DUPHEAD" = "yes" ] && [ -n "$files" ]; then
-+    egrep "^[[:space:]]*#[[:space:]]*include" $files | tr -d '[:blank:]' \
-         | sort | uniq -c | awk '{if ($1 > 1) print $0}'
-     if [ $? -eq 0 ]; then
+ if [ "$DUPHEAD" = "yes" ] && [ -n "$files" ]; then
+-    egrep "^[[:space:]]*#[[:space:]]*include" $files | tr -d '[:blank:]' \
+-        | sort | uniq -c | awk '{if ($1 > 1) print $0}'
+-    if [ $? -eq 0 ]; then
++    if egrep "^[[:space:]]*#[[:space:]]*include" $files | tr -d '[:blank:]' \
++        | sort | uniq -c | grep -v '^ *1 '; then
          echo "Found duplicate header file includes. Please check the above files manually."
-@@ -184,7 +186,7 @@ if [ "$DUPHEAD" = "yes" ]; then
- fi
- 
- if [ "$GIT" = "yes" ]; then
--    git add -- "$@"
-+    git add -- $files
-     git commit --signoff -F - <<EOF
- $GITSUBJ: Clean up includes
- 
+         exit 1
+     fi
 -- 
 2.39.0
 
