@@ -2,85 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A80326735A1
-	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:35:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABE7E6735A6
+	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 11:36:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pISFy-0003AM-CJ; Thu, 19 Jan 2023 05:34:54 -0500
+	id 1pISGv-0005C2-F7; Thu, 19 Jan 2023 05:35:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pISFw-00039G-Uv
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:34:52 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pISGU-00050h-Qi
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:35:26 -0500
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pISFv-0002lb-H3
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:34:52 -0500
-Received: by mail-wr1-x432.google.com with SMTP id r2so1391618wrv.7
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 02:34:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pISGT-0003Hk-3M
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 05:35:26 -0500
+Received: by mail-pf1-x432.google.com with SMTP id z3so1144750pfb.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 02:35:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=AEmsREcAFT81eV3NjMeFW98XhnSQZEK0F4zsNMDi1Ps=;
- b=yfxQb6gSS2EA183BSpZd9n6qqwP4FPHxBRAM37QypBhZpGwbMF03Tj/YifDGVxOfWi
- ixq3qTQVYXx75tIvWrJyOTCR2PPh0yJzHP0b/YbDgtGsNRNk2qrBB0rar5Ww4Jx0SUcV
- g09dPNsY32W9uZT3kOrZ6Q3qqgaE1DlOFFpbbx8LreNYCb55FwBTZll1tXvTcrV9fekG
- 8CTaljl6cMNa+otP194K8rwD4x1qhm8lBYeNtKNz+B3l7d0RW/MyS1FZ/bTQ3bVBzOoy
- IGfBhgfU0vYIiBIug4KMVXep352OCAehlx0fpx8RYuyAaL2NC2AHCNwfPWB48rdMG7OG
- 6LFw==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=fQ96p0dBVQA/G18m2ezDd4as0ywpHwNy6NBGWRmwj7I=;
+ b=T/mXKQWaXaA/ANeRZX7kXcN/R5n7whgS4Q939roH6SWCIdnRShzuVlRFSPlMdGE9kw
+ 3hcPsZeQ8hj4Axtno6e9/fk+eyxbODRdh5r3aUPpou3xMv6R0GVJdLJWMF+4Bn7fvaNH
+ yr6418GVRBCKU73CufE3ps53PfAPk4gHk3VRAFUkKycjCxO/oB3hTsQjgxpQ0ABgk6EH
+ H08O541zFp3GXShf8s2ejv0HZZsRtw2gu9eT3zk8A+QICN+tN+ZJ+gHmd7R5zWzIsRZ/
+ +9Zmiozd0YYkFIigOhbVKIlSh/QCHmtXirrxpduoROK/9Q9UG4yuyn4sUfKWVQCrN8r9
+ 735w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AEmsREcAFT81eV3NjMeFW98XhnSQZEK0F4zsNMDi1Ps=;
- b=5rRwut/BOuLkQ8yQ83y582fKZlumGPCKSg3cMol+quoADE2v+AgXEC3T9ryfbABBDA
- ZTH7oDWScfqGIuTLmU0fTsDBeQh1jsYNxhhmoo8ILVG9jMD+cyj2iX3Kiztn4V5sha+v
- GhQLY3kLe29h0o7qqTGZtEwlIcQ4AyQo87AcQ1n/9DvkvJuuccECKGvHkDHtSUl3qwiQ
- P64P9x85nIsfsIJWMx5GMvDbWY5eSUP9zfie+36owlM1dyCMUUodsUV6NgcawwkXMvI4
- 7S4RPc2gv/B9rLEib+91P6sH3jv/smASaB8AiG0XLH6cyucLnOrmuPniVqQLFRSbO+Ow
- aZNw==
-X-Gm-Message-State: AFqh2krWmaInrwZSyM4OFCWasQP5G1hXxfdcuGbTKctgTwA5gW+gv1jN
- 8uIf5p0Q+Fy7r6q+iBBV+QhgzQ==
-X-Google-Smtp-Source: AMrXdXsjAFK8P00t+u/bsFDl+vkhWx8vGZ08Y7Aaa7uS42EjHDsMzmt+D0N0+RIKLePbgkfRcXPYFA==
-X-Received: by 2002:a5d:522d:0:b0:2bd:ff91:7e1e with SMTP id
- i13-20020a5d522d000000b002bdff917e1emr8356574wra.57.1674124490801; 
- Thu, 19 Jan 2023 02:34:50 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m10-20020adff38a000000b002bc83b85180sm24776905wro.114.2023.01.19.02.34.48
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 02:34:50 -0800 (PST)
-Message-ID: <d27cab4a-b62b-4551-cf6b-8f23bf253e98@linaro.org>
-Date: Thu, 19 Jan 2023 11:34:48 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=fQ96p0dBVQA/G18m2ezDd4as0ywpHwNy6NBGWRmwj7I=;
+ b=m1XNYNAwAJ0FbyZHs//ffle6gwwcSZ1fvPGi2K35lqllSVyEU4drNsKTwxBK19QXD1
+ jmH3qeWlPGdEMVNeQKlndph1XGnMlcLrf8qvdC1JndKBd0P7N4hZiZxXmBubYVkvGMef
+ FAv8+vAqTXChD8dU4P7Hrsd3t/6cHWFHghKkNa2Bbx4NGRKLiDKtVtatXnynbOGgJhKo
+ ppSSCQmd42lUFLYXCryHU7umjBJcp8LO8nMYgicfGLsEQm/cMg8uNRO1JNq80KyH+TZu
+ OuZ3JvOPGfjwTpYfithkl1y968lyX7HkUMrdlXptNLwTNJ6fLQNcqtVQEIZ6Enb0HLEv
+ ZkWQ==
+X-Gm-Message-State: AFqh2krOfvVgkcXIOI+MSLeiP4FHApZz4iDUVttQCHSHbZLPI5ai5Zw1
+ jg5Io1o9stUq9ISeviG1TcIeoGtxqXrhFxGmGxo3cQ==
+X-Google-Smtp-Source: AMrXdXvcwbQeLzsDuN3Qzfoh21hfeuv3ksx7pR9Z4HNKckU+frp0+CHzvtYt7ll/5JIXTZYz8c0Ye1nrfsbnf0mUP6I=
+X-Received: by 2002:a62:61c4:0:b0:58b:e9af:948b with SMTP id
+ v187-20020a6261c4000000b0058be9af948bmr1022704pfb.26.1674124523131; Thu, 19
+ Jan 2023 02:35:23 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v4 05/19] crypto: Clean up includes
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
- hreitz@redhat.com, imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
- groug@kaod.org, qemu_oss@crudebyte.com, mst@redhat.com,
- peter.maydell@linaro.org, alistair@alistair23.me, jasowang@redhat.com,
- jonathan.cameron@huawei.com, kbastian@mail.uni-paderborn.de,
- quintela@redhat.com, dgilbert@redhat.com, michael.roth@amd.com,
- kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com,
- bin.meng@windriver.com, qemu-block@nongnu.org, qemu-arm@nongnu.org,
- qemu-riscv@nongnu.org
-References: <20230119065959.3104012-1-armbru@redhat.com>
- <20230119065959.3104012-6-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230119065959.3104012-6-armbru@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <Y8Yq5faCjAKzMa9O@kbusch-mbp>
+ <20230117160933.GB3091262@roeck-us.net>
+ <CAFEAcA9pS7P=SvKsOtRHPtkrNAD8LF2ZpFJ870G3B-rhWYap4g@mail.gmail.com>
+ <20230117192115.GA2958104@roeck-us.net>
+ <CAFEAcA_T8QqSg4SzszP+wR3pR1P1WTZg4f7mHHBGRw4UrTw+DQ@mail.gmail.com>
+ <Y8gfQXPYdHKd1v4I@kbusch-mbp> <Y8h7aOuVfCb+RsAP@kbusch-mbp>
+ <CAKmqyKMHs_-RgagMDYE7vn3MHEP2caBc+RERjaK0DNJw4hFYiA@mail.gmail.com>
+ <Y8iulgdgOdVCjuKE@kbusch-mbp>
+ <CAKmqyKMveR=RD6fgnzY0SV39tofD+Ws_AbrSZXE_o4m=M6GZHg@mail.gmail.com>
+ <Y8jBG/j8w2R43kYd@kbusch-mbp>
+In-Reply-To: <Y8jBG/j8w2R43kYd@kbusch-mbp>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 19 Jan 2023 10:35:11 +0000
+Message-ID: <CAFEAcA-wC=5v2Kq=CnbeFq+YNxrkLskChAW_OkK_qbK7RVZfQg@mail.gmail.com>
+Subject: Re: completion timeouts with pin-based interrupts in QEMU hw/nvme
+To: Keith Busch <kbusch@kernel.org>
+Cc: Alistair Francis <alistair23@gmail.com>, Guenter Roeck <linux@roeck-us.net>,
+ Klaus Jensen <its@irrelevant.dk>, Jens Axboe <axboe@fb.com>,
+ Christoph Hellwig <hch@lst.de>, 
+ Sagi Grimberg <sagi@grimberg.me>, linux-nvme@lists.infradead.org,
+ qemu-block@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,18 +95,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/1/23 07:59, Markus Armbruster wrote:
-> Clean up includes so that osdep.h is included first and headers
-> which it implies are not included manually.
-> 
-> This commit was created with scripts/clean-includes.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->   crypto/block-luks-priv.h | 1 -
->   1 file changed, 1 deletion(-)
+On Thu, 19 Jan 2023 at 04:03, Keith Busch <kbusch@kernel.org> wrote:
+>
+> On Thu, Jan 19, 2023 at 01:10:57PM +1000, Alistair Francis wrote:
+> > On Thu, Jan 19, 2023 at 12:44 PM Keith Busch <kbusch@kernel.org> wrote:
+> > >
+> > > Further up, it says the "interrupt gateway" is responsible for
+> > > forwarding new interrupt requests while the level remains asserted, but
+> > > it doesn't look like anything is handling that, which essentially turns
+> > > this into an edge interrupt. Am I missing something, or is this really
+> > > not being handled?
+> >
+> > Yeah, that wouldn't be handled. In QEMU the PLIC relies on QEMUs
+> > internal GPIO lines to trigger an interrupt. So with the current setup
+> > we only support edge triggered interrupts.
+>
+> Thanks for confirming!
+>
+> Klaus,
+> I think we can justify introducing a work-around in the emulated device
+> now. My previous proposal with pci_irq_pulse() is no good since it does
+> assert+deassert, but it needs to be the other way around, so please
+> don't considert that one.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+No, please don't. The bug is in the risc-v interrupt controller,
+so fix the risc-v interrupt controller. It shouldn't be too difficult
+(you probably have to do something like what the Arm GIC implementation
+does, where when the guest dismisses the interrupt you look at the level
+to see if it needs to be re-pended.)
 
+Once "workarounds" go into QEMU device emulation that make it
+deviate from hardware behaviour, it's hard to get rid of them
+again, because nobody knows whether deployed guests now accidentally
+rely on the wrong behaviour. So the correct thing is to never
+put in the workaround in the first place.
 
+thanks
+-- PMM
 
