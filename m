@@ -2,37 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF314674525
+	by mail.lfdr.de (Postfix) with ESMTPS id ED282674526
 	for <lists+qemu-devel@lfdr.de>; Thu, 19 Jan 2023 22:43:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIcgg-000315-S4; Thu, 19 Jan 2023 16:43:10 -0500
+	id 1pIcgg-000314-OX; Thu, 19 Jan 2023 16:43:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pIcgY-00030O-S7
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 16:43:05 -0500
+ id 1pIcgY-00030H-1X
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 16:43:03 -0500
 Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pIcgT-0002o1-TL
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 16:43:02 -0500
+ id 1pIcgT-0002o2-T9
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 16:43:01 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 89AAB746335;
- Thu, 19 Jan 2023 22:40:32 +0100 (CET)
+ by localhost (Postfix) with SMTP id 7BA52746E06;
+ Thu, 19 Jan 2023 22:40:33 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 4BF1E7457E7; Thu, 19 Jan 2023 22:40:32 +0100 (CET)
+ id 600FB74645F; Thu, 19 Jan 2023 22:40:33 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 1/2] log: Add separate debug option for logging invalid memory
- accesses
+Subject: [PATCH 2/2] log: remove unneeded new line
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 To: qemu-devel@nongnu.org
 Cc: philmd@linaro.org
-Message-Id: <20230119214032.4BF1E7457E7@zero.eik.bme.hu>
-Date: Thu, 19 Jan 2023 22:40:32 +0100 (CET)
+Message-Id: <20230119214033.600FB74645F@zero.eik.bme.hu>
+Date: Thu, 19 Jan 2023 22:40:33 +0100 (CET)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=2001:738:2001:2001::2001;
  envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
@@ -56,90 +55,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently -d guest_errors enables logging of different invalid actions
-by the guest such as misusing hardware, accessing missing features or
-invalid memory areas. The memory access logging can be quite verbose
-which obscures the other messages enabled by this debug switch so
-separate it by adding a new -d memaccess option to make it possible to
-control it independently of other guest error logs.
+The help text of the -d plugin option has a new line at the end which
+is not needed as one is added automatically. Fixing it removes the
+unexpected empty line in -d help output.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 ---
- include/qemu/log.h | 1 +
- softmmu/memory.c   | 6 +++---
- softmmu/physmem.c  | 2 +-
- util/log.c         | 2 ++
- 4 files changed, 7 insertions(+), 4 deletions(-)
+ util/log.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/qemu/log.h b/include/qemu/log.h
-index c5643d8dd5..4bf0a65a85 100644
---- a/include/qemu/log.h
-+++ b/include/qemu/log.h
-@@ -35,6 +35,7 @@ bool qemu_log_separate(void);
- /* LOG_STRACE is used for user-mode strace logging. */
- #define LOG_STRACE         (1 << 19)
- #define LOG_PER_THREAD     (1 << 20)
-+#define LOG_MEM_ACCESS     (1 << 21)
- 
- /* Lock/unlock output. */
- 
-diff --git a/softmmu/memory.c b/softmmu/memory.c
-index 9d64efca26..0a9fa67d32 100644
---- a/softmmu/memory.c
-+++ b/softmmu/memory.c
-@@ -1379,7 +1379,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
- {
-     if (mr->ops->valid.accepts
-         && !mr->ops->valid.accepts(mr->opaque, addr, size, is_write, attrs)) {
--        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
-+        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
-                       ", size %u, region '%s', reason: rejected\n",
-                       is_write ? "write" : "read",
-                       addr, size, memory_region_name(mr));
-@@ -1387,7 +1387,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
-     }
- 
-     if (!mr->ops->valid.unaligned && (addr & (size - 1))) {
--        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
-+        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
-                       ", size %u, region '%s', reason: unaligned\n",
-                       is_write ? "write" : "read",
-                       addr, size, memory_region_name(mr));
-@@ -1401,7 +1401,7 @@ bool memory_region_access_valid(MemoryRegion *mr,
- 
-     if (size > mr->ops->valid.max_access_size
-         || size < mr->ops->valid.min_access_size) {
--        qemu_log_mask(LOG_GUEST_ERROR, "Invalid %s at addr 0x%" HWADDR_PRIX
-+        qemu_log_mask(LOG_MEM_ACCESS, "Invalid %s at addr 0x%" HWADDR_PRIX
-                       ", size %u, region '%s', reason: invalid size "
-                       "(min:%u max:%u)\n",
-                       is_write ? "write" : "read",
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index bf585e45a8..bca679ee01 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2792,7 +2792,7 @@ static bool flatview_access_allowed(MemoryRegion *mr, MemTxAttrs attrs,
-     if (memory_region_is_ram(mr)) {
-         return true;
-     }
--    qemu_log_mask(LOG_GUEST_ERROR,
-+    qemu_log_mask(LOG_MEM_ACCESS,
-                   "Invalid access to non-RAM device at "
-                   "addr 0x%" HWADDR_PRIX ", size %" HWADDR_PRIu ", "
-                   "region '%s'\n", addr, len, memory_region_name(mr));
 diff --git a/util/log.c b/util/log.c
-index 7837ff9917..a3c097f320 100644
+index a3c097f320..3fe74481da 100644
 --- a/util/log.c
 +++ b/util/log.c
-@@ -495,6 +495,8 @@ const QEMULogItem qemu_log_items[] = {
+@@ -489,7 +489,7 @@ const QEMULogItem qemu_log_items[] = {
+       "do not chain compiled TBs so that \"exec\" and \"cpu\" show\n"
+       "complete traces" },
+ #ifdef CONFIG_PLUGIN
+-    { CPU_LOG_PLUGIN, "plugin", "output from TCG plugins\n"},
++    { CPU_LOG_PLUGIN, "plugin", "output from TCG plugins"},
+ #endif
+     { LOG_STRACE, "strace",
        "log every user-mode syscall, its input, and its result" },
-     { LOG_PER_THREAD, "tid",
-       "open a separate log file per thread; filename must contain '%d'" },
-+    { LOG_MEM_ACCESS, "memaccess",
-+      "log invalid memory accesses" },
-     { 0, NULL, NULL },
- };
- 
 -- 
 2.30.6
 
