@@ -2,84 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF5B0674E2A
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:33:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 59B9D674E4D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:43:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIlss-0004w1-Ks; Fri, 20 Jan 2023 02:32:22 -0500
+	id 1pIm01-0007h3-9c; Fri, 20 Jan 2023 02:39:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIlsq-0004ve-Fq
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:32:20 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIlso-0003ID-FY
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:32:20 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- d4-20020a05600c3ac400b003db1de2aef0so2987774wms.2
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:32:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=yzhvZFutE7S6+uC6TVcEW9GptLU9pvUHwFqb546VN+Y=;
- b=UZkzRNLGvXvhytfX0ByWI0pSHatuAQwqjif7+KqRt2qZ1uN0TY4nlpunRWdPFvueQO
- sM4NlELJ54ZNAXemprjqbkcMjnV9lRXSccdtl956jtlZQ4KoqLQX2ma0LmB/OCJ/iYf/
- N6xhC1FNAvGSCQEidRHEbSvS34KY2r3hZd7WQOI45nDn0csA2B6hYFbfGjPPEe5+LhW9
- EW5DdF1Ym6C9Bf1jPqej1swEnCXbpytcYmBAhy1hKg9PkpqRfv59/I3SvQw4J9Z/pnwX
- 4bZt6MTorIy2PWD22TKqOUgYKPECWacXb96tG/wkbX+fxu+hYXPQsxu0/Vjh8cE+P4HE
- paCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=yzhvZFutE7S6+uC6TVcEW9GptLU9pvUHwFqb546VN+Y=;
- b=E2t/RFq7mK3AOC6VuUUSjlggGHjLo+13ONbnAFBo1qhrwoMjo5Uw8Y9jOUjtmowURJ
- Q4mmUrHttoq0rAiASSD5dRCB7k8VwEW+O6MTIfojZGgIBCZkrhTYD4BqKIJ4k9TcJl4z
- z5ubCbjswHxAcLYG8cFe2nrwbnKJStpHzf8DJ4gmRJhzNMIGt3a853vaSyQaHivi3zUH
- zjag3DvN6m4CmDmGp4a1g9XSHGiXlgGokAAjcul14ON6by4F7sgp+UFcmBNybEEJyt50
- 2blsIENGcjZa/l5CVZ9lsMhO8wQmwBxt7SgjPlqlFrqjwDAY7wOEgDl3SsPZRsCrEKhk
- imww==
-X-Gm-Message-State: AFqh2kqoy4poyDP2auKmkoKQTyQMyhKeDGFbrIpgQzCfWWidTcK2IJRP
- oHL2p7WceElIz0gndhpPAfFtfw==
-X-Google-Smtp-Source: AMrXdXvdErLH5sOz5LaKBFmiX/ukslf5pxNcOgcrkDPmztyjWe1rSvmYkH8OFJ+w3v6cXSO0q4wAig==
-X-Received: by 2002:a05:600c:2255:b0:3da:f950:8168 with SMTP id
- a21-20020a05600c225500b003daf9508168mr12480769wmm.35.1674199936784; 
- Thu, 19 Jan 2023 23:32:16 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- d4-20020a05600c3ac400b003d9fa355387sm1378390wms.27.2023.01.19.23.32.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 23:32:16 -0800 (PST)
-Message-ID: <8af15c5e-044d-ffa4-cb78-85b9f5e0fbb2@linaro.org>
-Date: Fri, 20 Jan 2023 08:32:14 +0100
+ (Exim 4.90_1)
+ (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
+ id 1pIlzp-0007bY-3f
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:39:34 -0500
+Received: from esa5.hgst.iphmx.com ([216.71.153.144])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
+ id 1pIlzl-0004mQ-Dm
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:39:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1674200369; x=1705736369;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=xuGtbpwhmQfaUKXn9gE/+CYSkiywFSRT72RtLUcQP6s=;
+ b=AHXk0avYu6OQS74BoHq3Yo7l1IHWA5+8d5A9wOYsUJ4adHda3hYYDXSN
+ hiHq1fgBAOc/YKBExtzJV1Qn17F9IYT4UG+cyjW8TiGq2LZ5zkF2MoFuh
+ jsMHS2Oyhe9SLJ9J8c18etm5PpmOqKR2rcNlZT1qzdLBjHrr1tQeaSHR3
+ H5gSOwpjxoLgk96IamhwumKhlQFM/oq6kxyFHXFTVSGZVp3y8OflSrsfK
+ G9y+7ZmDbypFazwCrLX5wiKHIez9Co07KqcplL3lXart/39MRf/hihXR1
+ 6HJJGwxPI1JSGiaonl5yWAfodHGdrVme3P2g5cjLWHnmleaSmFd4GVqKf w==;
+X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176666"
+Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:39:23 +0800
+IronPort-SDR: 3sVvAYjf9l1dFbdTQ28sLP+tVmmQcsxorPGoA/am1yhU3nA+tbL16ty7b4euQVe4/4CFmzY/ob
+ 9Qs5JAjUiQ/zlvMXGE3VIeMrs4nJlOQwDPuseD+lHx54YIHrZxgwX4IAv1pM2TFpMJNL9vs5ZZ
+ 7IUuDIojH70coOr51PbZp/TQ7FdC0vDhOZDc0OWEgZWIBH7a+kOI2PydJAUxidwqW28Ho5rK/D
+ YJPUTyoxTDcr6lNn6ki/itA9E4T+UAkfuTDgzKTavX+AyItDFlgWw4AgzUYUw1232PPpIVj08c
+ q0g=
+Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 19 Jan 2023 22:57:01 -0800
+IronPort-SDR: 95VX9QL6usiaHaVeabDjmCAWaf2TqIDu1txW118VZ6Wv2+eo90pRj5bx+E2vV8mSflpSg92WYA
+ 62rtgBJRU9XGeu7EI+ww11FL0hkXiOz3vMehQ4S/x0eSXSJnapyrsoqwtzqoDzBQ+oJVzCm3zB
+ wXxDUqzARdxMy5yOsEL+EgLrcCxfaxYCZwi5UTNT4lldZLYs/aHWC+KANKsJLRyCOH5SzIRIcY
+ 8YmKIQtHouIOfc1ICSODMMOifJvQl39k7nAIicnllVjJIB4k+m0/TZHC/HcLoBKylPntcJeOg4
+ 6cc=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 19 Jan 2023 23:39:23 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nyrwq0Xnpz1Rwrq
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:39:23 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:x-mailer:message-id:date:subject:to:from; s=dkim;
+ t=1674200362; x=1676792363; bh=xuGtbpwhmQfaUKXn9gE/+CYSkiywFSRT
+ 72RtLUcQP6s=; b=itbrhhWUqNlxrlxL/lU+Y/JFgB/SN+r2m8w7rh5swuncG78H
+ UeTNv+tCBQTM6JpX6lcqVjEnYmbLXBjg1MID6m/Ac1PW2YZlNatQUjodzsGGrY6q
+ wKbeUsz28rjlgXKHdl/clEB/+1/5Y5YaDcmMB54DrlURCmlb72XQWY5LppYTckGJ
+ bgFmwrWtruVzAb1/6bn1skDPvnvdMrZlQH9X4PsxNlNav70yiH+99HHfdYlClnlQ
+ xck6q/smc0IBrmQ8LLHLCPoSVYrF8GbwR3PYinGHYNbpgFdBS5c4PiPy/fWTl8Ac
+ +5rgQL2il+YXXNuxQ/xE4ER+62KL975ldiGAgQ==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id 0I0Gk6eVs4-e for <qemu-devel@nongnu.org>;
+ Thu, 19 Jan 2023 23:39:22 -0800 (PST)
+Received: from toolbox.wdc.com (unknown [10.225.167.38])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nyrwn272Nz1RvLy;
+ Thu, 19 Jan 2023 23:39:21 -0800 (PST)
+From: Alistair Francis <alistair.francis@opensource.wdc.com>
+To: qemu-devel@nongnu.org
+Cc: alistair23@gmail.com,
+	Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 00/37] riscv-to-apply queue
+Date: Fri, 20 Jan 2023 17:38:36 +1000
+Message-Id: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 07/11] tests/qtest/migration-test: Build command line
- using GString API (1/4)
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Fabiano Rosas <farosas@suse.de>, Thomas Huth <thuth@redhat.com>
-References: <20230119145838.41835-1-philmd@linaro.org>
- <20230119145838.41835-8-philmd@linaro.org>
- <ca41b949-e31e-ba69-7876-e6180ef52a3b@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <ca41b949-e31e-ba69-7876-e6180ef52a3b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=216.71.153.144;
+ envelope-from=prvs=37747d9ec=alistair.francis@opensource.wdc.com;
+ helo=esa5.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,95 +113,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/1/23 22:10, Richard Henderson wrote:
-> On 1/19/23 04:58, Philippe Mathieu-Daudé wrote:
->> Part 1/4: Convert memory & machine options.
->>
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> ---
->>   tests/qtest/migration-test.c | 22 ++++++++++++----------
->>   1 file changed, 12 insertions(+), 10 deletions(-)
->>
->> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
->> index 6c3db95113..7aa323a7a7 100644
->> --- a/tests/qtest/migration-test.c
->> +++ b/tests/qtest/migration-test.c
->> @@ -582,6 +582,7 @@ typedef struct {
->>   static int test_migrate_start(QTestState **from, QTestState **to,
->>                                 const char *uri, MigrateStart *args)
->>   {
->> +    g_autoptr(GString) cmd_common = NULL;
->>       g_autofree gchar *arch_source = NULL;
->>       g_autofree gchar *arch_target = NULL;
->>       g_autofree gchar *cmd_target = NULL;
->> @@ -601,6 +602,9 @@ static int test_migrate_start(QTestState **from, 
->> QTestState **to,
->>       }
->>       got_stop = false;
->> +
->> +    cmd_common = g_string_new("");
->> +
->>       bootpath = g_strdup_printf("%s/bootsect", tmpfs);
->>       if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
->>           /* the assembled x86 boot sector should be exactly one 
->> sector large */
->> @@ -644,6 +648,10 @@ static int test_migrate_start(QTestState **from, 
->> QTestState **to,
->>       } else {
->>           g_assert_not_reached();
->>       }
->> +    if (machine_opts) {
->> +        g_string_append_printf(cmd_common, " -machine %s ", 
->> machine_opts);
->> +    }
->> +    g_string_append_printf(cmd_common, "-m %s ", memory_size);
->>       if (!getenv("QTEST_LOG") && args->hide_stderr) {
->>   #ifdef _WIN32
->> @@ -674,33 +682,27 @@ static int test_migrate_start(QTestState **from, 
->> QTestState **to,
->>       if (!args->only_target) {
->>           g_autofree gchar *cmd_source = NULL;
->> -        cmd_source = g_strdup_printf("-accel kvm%s -accel tcg%s%s "
->> +        cmd_source = g_strdup_printf("-accel kvm%s -accel tcg%s "
->>                                        "-name source,debug-threads=on "
->> -                                     "-m %s "
->>                                        "-serial file:%s/src_serial "
->>                                        "%s %s %s %s",
->>                                        args->use_dirty_ring ?
->>                                        ",dirty-ring-size=4096" : "",
->> -                                     machine_opts ? " -machine " : "",
->> -                                     machine_opts ? machine_opts : "",
-> 
-> You removed two strings here, but only one %s above.
+From: Alistair Francis <alistair.francis@wdc.com>
 
->> -                                     memory_size, tmpfs,
->> +                                     cmd_common->str, tmpfs,
+The following changes since commit 239b8b0699a222fd21da1c5fdeba0a2456085a=
+47:
 
-One new string is added here             ^^^^^^^^^^^^^^^.
+  Merge tag 'trivial-branch-for-8.0-pull-request' of https://gitlab.com/l=
+aurent_vivier/qemu into staging (2023-01-19 15:05:29 +0000)
 
->>                                        arch_source, shmem_opts,
->>                                        args->opts_source ? 
->> args->opts_source : "",
->>                                        ignore_stderr);
->>           *from = qtest_init(cmd_source);
->>       }
->> -    cmd_target = g_strdup_printf("-accel kvm%s -accel tcg%s%s "
->> +    cmd_target = g_strdup_printf("-accel kvm%s -accel tcg%s "
->>                                    "-name target,debug-threads=on "
->> -                                 "-m %s "
->>                                    "-serial file:%s/dest_serial "
->>                                    "-incoming %s "
->>                                    "%s %s %s %s",
->>                                    args->use_dirty_ring ?
->>                                    ",dirty-ring-size=4096" : "",
->> -                                 machine_opts ? " -machine " : "",
->> -                                 machine_opts ? machine_opts : "",
->> -                                 memory_size, tmpfs, uri,
->> +                                 cmd_common->str, tmpfs, uri,
->>                                    arch_target, shmem_opts,
->>                                    args->opts_target ? 
->> args->opts_target : "",
->>                                    ignore_stderr);
-> 
+are available in the Git repository at:
 
+  https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-2023012=
+0
+
+for you to fetch changes up to b748352c555b42d497fe8ee00ee2e44eb8627660:
+
+  hw/riscv/virt.c: move create_fw_cfg() back to virt_machine_init() (2023=
+-01-20 10:14:14 +1000)
+
+----------------------------------------------------------------
+Second RISC-V PR for QEMU 8.0
+
+* riscv_htif: Support console output via proxy syscall
+* Cleanup firmware and device tree loading
+* Fix elen check when using vector extensions
+* add RISC-V OpenSBI boot test
+* Ensure we always follow MISA parsing
+* Fix up masking of vsip/vsie accesses
+* Trap on writes to stimecmp from VS when hvictl.VTI=3D1
+* Introduce helper_set_rounding_mode_chkfrm
+
+----------------------------------------------------------------
+Andrew Bresticker (2):
+      target/riscv: Fix up masking of vsip/vsie accesses
+      target/riscv: Trap on writes to stimecmp from VS when hvictl.VTI=3D=
+1
+
+Bin Meng (11):
+      hw/char: riscv_htif: Avoid using magic numbers
+      hw/char: riscv_htif: Drop {to, from}host_size in HTIFState
+      hw/char: riscv_htif: Drop useless assignment of memory region
+      hw/char: riscv_htif: Use conventional 's' for HTIFState
+      hw/char: riscv_htif: Move registers from CPUArchState to HTIFState
+      hw/char: riscv_htif: Remove forward declarations for non-existent v=
+ariables
+      hw/char: riscv_htif: Support console output via proxy syscall
+      hw/riscv: spike: Remove the out-of-date comments
+      hw/riscv/boot.c: Introduce riscv_find_firmware()
+      hw/riscv: spike: Decouple create_fdt() dependency to ELF loading
+      target/riscv: Use TARGET_FMT_lx for env->mhartid
+
+Daniel Henrique Barboza (20):
+      hw/riscv/boot.c: make riscv_find_firmware() static
+      hw/riscv/boot.c: introduce riscv_default_firmware_name()
+      tests/avocado: add RISC-V OpenSBI boot test
+      hw/riscv/spike: use 'fdt' from MachineState
+      hw/riscv/sifive_u: use 'fdt' from MachineState
+      hw/riscv/boot.c: exit early if filename is NULL in load functions
+      hw/riscv/spike.c: load initrd right after riscv_load_kernel()
+      hw/riscv: write initrd 'chosen' FDT inside riscv_load_initrd()
+      hw/riscv: write bootargs 'chosen' FDT after riscv_load_kernel()
+      hw/riscv/boot.c: use MachineState in riscv_load_initrd()
+      hw/riscv/boot.c: use MachineState in riscv_load_kernel()
+      target/riscv/cpu: set cpu->cfg in register_cpu_props()
+      target/riscv/cpu.c: do not skip misa logic in riscv_cpu_realize()
+      hw/riscv/spike.c: simplify create_fdt()
+      hw/riscv/virt.c: simplify create_fdt()
+      hw/riscv/sifive_u.c: simplify create_fdt()
+      hw/riscv/virt.c: remove 'is_32_bit' param from create_fdt_socket_cp=
+us()
+      hw/riscv: use MachineState::fdt in riscv_socket_fdt_write_id()
+      hw/riscv: use ms->fdt in riscv_socket_fdt_write_distance_matrix()
+      hw/riscv/virt.c: move create_fw_cfg() back to virt_machine_init()
+
+Dongxue Zhang (1):
+      target/riscv/cpu.c: Fix elen check
+
+Richard Henderson (3):
+      tcg/riscv: Use tcg_pcrel_diff in tcg_out_ldst
+      target/riscv: Introduce helper_set_rounding_mode_chkfrm
+      target/riscv: Remove helper_set_rod_rounding_mode
+
+ include/hw/char/riscv_htif.h            |  19 +-
+ include/hw/riscv/boot.h                 |   9 +-
+ include/hw/riscv/numa.h                 |  10 +-
+ include/hw/riscv/sifive_u.h             |   3 -
+ include/hw/riscv/spike.h                |   2 -
+ target/riscv/cpu.h                      |   8 +-
+ target/riscv/helper.h                   |   2 +-
+ hw/char/riscv_htif.c                    | 172 +++++++-----
+ hw/riscv/boot.c                         | 105 +++++---
+ hw/riscv/microchip_pfsoc.c              |  12 +-
+ hw/riscv/numa.c                         |  14 +-
+ hw/riscv/opentitan.c                    |   3 +-
+ hw/riscv/sifive_e.c                     |   3 +-
+ hw/riscv/sifive_u.c                     |  53 ++--
+ hw/riscv/spike.c                        | 108 ++++----
+ hw/riscv/virt.c                         |  86 +++---
+ target/riscv/cpu.c                      | 445 ++++++++++++++++++--------=
+------
+ target/riscv/csr.c                      |  41 ++-
+ target/riscv/fpu_helper.c               |  36 ++-
+ target/riscv/machine.c                  |   6 +-
+ target/riscv/translate.c                |  21 +-
+ target/riscv/insn_trans/trans_rvv.c.inc |  24 +-
+ tcg/riscv/tcg-target.c.inc              |   2 +-
+ tests/avocado/riscv_opensbi.py          |  65 +++++
+ 24 files changed, 713 insertions(+), 536 deletions(-)
+ create mode 100644 tests/avocado/riscv_opensbi.py
 
