@@ -2,90 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C63674E96
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:46:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5652F674E9B
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:47:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIm1m-0002DM-9R; Fri, 20 Jan 2023 02:41:34 -0500
+	id 1pIm1t-0002KS-Pu; Fri, 20 Jan 2023 02:41:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIm1G-00015W-2q
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:41:02 -0500
+ id 1pIm1H-0001DF-F5
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:41:04 -0500
 Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIm1E-0004pk-86
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:41:01 -0500
+ id 1pIm1F-0004qg-GV
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:41:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1674200460; x=1705736460;
+ t=1674200461; x=1705736461;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=jd2Yqpp2DjWgjp0bIM6NLMoA9/CTlGxY2BkJZ/NuQ1E=;
- b=QpfaTthU0WYaMxqfQ5RHsAMXUnhKUUCZk4ckrmU1ZXGcajFpWmcV0ke/
- DaxY2eAWk41q4n7uoBVJSeTuzcw+qis/2h2zHMYsCnXT+qaeWETzV4XQy
- lGxtx6f4SHjQP86I/l72W7avi0jPz7rk9XJ4dC84LEU/FQb3VGDxBQB+p
- sEy83sv1XBQ5j1iul9KWDNe6J00IaONr5ACXe7BoAGqjILl1GnuB59oqt
- 4qqeeBOIV/OlhWlrwuIn4dc1gJLYSn06jEbwCnyGbanE14uqOdU5ArdPV
- luvSSoIDRH3r/7DE3d4Du1ozarGYkMIP0qAJZjKnTMhP3eOIyDxoKaMOc g==;
-X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176753"
+ bh=hehPgQWOMMZWoDAuH5kxYAfsiSPA2nS6XH2RvSM0D5w=;
+ b=ieeCH6O/XhA6TVZXOeVhbyxqs0S55XWrRdGFNYlJDgnivsSAmpbmKClA
+ B5zsdNHgMDWRO7KTUtGvMmZqnMPEzHDSIPE0Fx4Yg0d3MO0l9Eau7WBss
+ opA2AYcW2B9bV6sh1S1zAPnW7xafxKzIRyrTdU3I580Ge2AIyty2amBGF
+ n9gAEFe6IM6+r/BNz+pGrRTCEsp80pSTr79ZEu1hb7Zs0U0sNguZzQFsB
+ fxDlJLCuJ6rzGe7eqv7Rmb2Xxd9lR0NVwYHgqy2JK9RwV7eS4Wd6c/tQ0
+ aiId3aYdQPQPGlURpTcN6JTSW9LedEONHK9SzfuH507JVKhUsvHRRTvhp A==;
+X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176756"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:40:19 +0800
-IronPort-SDR: 7be6y9y8NI7yDbYAiIlqGiFS3lXISOU6y7q241AK/YRwhbaId7BJoX3u9xU4t+Xz8Rdomz1j/6
- 2OzCa/b0UVEgbA8/J2Xi2yAiv/aeF0gbR8+u5iD9awsvEoar1cwh53LqK+2GeXJQKSQIRfKw+J
- HMCqbpxsNmpk9VgWfHdPN0pIvwoXb2Ow3e/YXO/Q7TeciGPLEMnnpMz3LW2okwmpgW468Qwpei
- PNWwMt9+S7nowxegr9TaoH9zPV7xV123a+6TTaRCCekDtoKwD1tuRTro9rGqMKsNQUIOgzvbfp
- ZEA=
+ by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:40:20 +0800
+IronPort-SDR: awKe2mdIToE1EnwoFJZTKWWNcpoo5d290zccNubf9SmQ3LmwzZExoDnxcN+qAO468RdlPSqlYP
+ wRMLd7h60TDLpXSdp+dTJbtGDqeoHqY2s6vWS6KiTeLqwHrZgpnpY4cj+j1d2O2Eyj5q8DeHx8
+ RDuKBwWGHllRnVlp8yZhKx/FoIAbpd6bkpgri/UJxvYMRHsB6ASWy5mjFwuqtaBx3wh3QIzy3T
+ 2aqWaB7CmFu2zJ0bX0jWnh3GAhsdHXELK3yurjRYzMMvJO/12olFQsu42Bbt4V7hvmPza1s7zl
+ nmQ=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 22:57:57 -0800
-IronPort-SDR: wm/L3xaSKpJFkzUmSdIQtnPO5UY1kT00WSQ5VgkSWvFINHeP7zwy82VQSPvYsRNYZLfz+pWNa5
- TdLlV+TUw0dbwej6kvA2R9R2nXpWzFbkYq3x20kZcNR1SR4t4R2z/6YGXDPuWcHwFPX5Ri3oAt
- +FtMW1+Uu3PQ8O4dz8F6gFoMYvck0f4iQ3AmIjlJBdrL3nzR1YCZIlH4DJ+TXWib7yyZujbvoK
- STbnnjF7B3h5z38T1Qj0aXxxbu+AjYWjwdA1mqLKLmZHWE/nnGEnScPmTy4/t5zxP7Ejs+NHKh
- rLI=
+ 19 Jan 2023 22:57:59 -0800
+IronPort-SDR: u3/1RMeWexr6CiWRvFhlNRl+Yti0HDA2O23FVd0dhxlZlUvLSKFiaXCKIHwcDD7bheIAG2U+Jj
+ ST5vWUSgXVQ786ndmEIFRMhrloPCzZn/LUPWhTvI/BYvEuNM2Q2NFROY+Kfor49bfkXXwNUehQ
+ 4hcj2DKHA8HARUV5yI7tanOGIJnpdq+1OhurDS4stR4DCO/UbQS3SWqmdy5KjP0DiycSgZbGBS
+ r1S3Rq7e7sE4wk13sJ8TGqnrosEC6cAIst1jx5dcI60SuQgDazE+CkMKPSKBoAb96JdRYbeFIJ
+ JmU=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 23:40:19 -0800
+ 19 Jan 2023 23:40:21 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nyrxt5Vsnz1RwtC
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:40:18 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nyrxw5J5Cz1Rwrq
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:40:20 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:content-type
  :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1674200418; x=1676792419; bh=jd2Yqpp
- 2DjWgjp0bIM6NLMoA9/CTlGxY2BkJZ/NuQ1E=; b=XZGjuWuTlZALAh6DkgeNwn2
- wyqeI7Aq2jrGVtRuc6SV4xlaKP3xpW92qMFM9kzdG66o9Kw222nmSpAEOZxA64GJ
- EXFF/+SVVDbEFtgZNJn0xHX7AT+yFt0ViJkQes7k3pa/Ttwldzq72ouXmApSNNzw
- 2OJGYQDD25CsGHRoBd+IYEjbew7ujLVS/zBGEZnGM77GdfHjUnmIJxHh+/vWmW/y
- Fnlv8wdR2A4hhJ0BxXCKaRdfGqOB71vSNVMLK+2VuAnVUFzhy9/O+gsWrXz7pT3m
- R7ScaqlWDHejfe3qwHBlSicKHk2KJpQQbYqGRedQNHNrkMTLqoXBehXwyuJ4Q2w=
+ :subject:to:from; s=dkim; t=1674200420; x=1676792421; bh=hehPgQW
+ OMMZWoDAuH5kxYAfsiSPA2nS6XH2RvSM0D5w=; b=TFDAXeJpCfL/PYCQv3/aC4a
+ T25iGsAugp9VfQFAMk5UH3F9LzXF8QelSx7KgsUOekIgCf4BUrE+e9a8FUZEbRZe
+ yV9Mz5FTD2Yzc2v6XvrQjdGSxCDTczU6upkSO6s+MolFrNxnZZZPP/2qkPIgYoPj
+ Et+kbousN66XnDWKOrPE9E8xYeUs53bF8kmf1WaF8jUUsQ5RYEIIGENuCJRFSZNB
+ vz/AkF6Egle8i3XO6Y4TbyuCNxSiDigm7CWtAU+XfvaS2DrYzDwov1z9CvHv9K1B
+ sMBL/qWZ8c4IRDcK80xQ+OTWcCAa9yh+pXfTvw05Smmrzuzxt+l+OTIMCBXBSBA=
  =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id PxUP2E35S1ch for <qemu-devel@nongnu.org>;
- Thu, 19 Jan 2023 23:40:18 -0800 (PST)
+ port 10026) with ESMTP id u5WUcSCo5ZPl for <qemu-devel@nongnu.org>;
+ Thu, 19 Jan 2023 23:40:20 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nyrxr6FQMz1RvLy;
- Thu, 19 Jan 2023 23:40:16 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nyrxt5DSrz1RvTr;
+ Thu, 19 Jan 2023 23:40:18 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 27/37] hw/riscv/virt.c: simplify create_fdt()
-Date: Fri, 20 Jan 2023 17:39:03 +1000
-Message-Id: <20230120073913.1028407-28-alistair.francis@opensource.wdc.com>
+Subject: [PULL 28/37] hw/riscv/sifive_u.c: simplify create_fdt()
+Date: Fri, 20 Jan 2023 17:39:04 +1000
+Message-Id: <20230120073913.1028407-29-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
 References: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
@@ -119,44 +120,54 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-'mem_size' and 'cmdline' aren't being used. Remove them.
+'cmdline' isn't being used. Remove it.
 
+A MachineState pointer is being retrieved via a MACHINE() macro calling
+qdev_get_machine(). Use MACHINE(s) instead to avoid calling qdev().
+
+ 'mem_size' is being set as machine->ram_size by the caller. Retrieve it
+via ms->ram_size.
+
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20230111170948.316276-3-dbarboza@ventanamicro.com>
+Message-Id: <20230111170948.316276-4-dbarboza@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/virt.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/riscv/sifive_u.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index c8e35f861e..1921d3caa3 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -999,7 +999,7 @@ static void create_fdt_fw_cfg(RISCVVirtState *s, cons=
-t MemMapEntry *memmap)
- }
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index bac394c959..2fb6ee231f 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -94,9 +94,10 @@ static const MemMapEntry sifive_u_memmap[] =3D {
+ #define GEM_REVISION        0x10070109
 =20
- static void create_fdt(RISCVVirtState *s, const MemMapEntry *memmap,
+ static void create_fdt(SiFiveUState *s, const MemMapEntry *memmap,
 -                       uint64_t mem_size, const char *cmdline, bool is_3=
 2_bit)
 +                       bool is_32_bit)
  {
-     MachineState *mc =3D MACHINE(s);
-     uint32_t phandle =3D 1, irq_mmio_phandle =3D 1, msi_pcie_phandle =3D=
- 1;
-@@ -1507,8 +1507,7 @@ static void virt_machine_init(MachineState *machine=
-)
-     virt_flash_map(s, system_memory);
+-    MachineState *ms =3D MACHINE(qdev_get_machine());
++    MachineState *ms =3D MACHINE(s);
++    uint64_t mem_size =3D ms->ram_size;
+     void *fdt;
+     int cpu, fdt_size;
+     uint32_t *cells;
+@@ -560,8 +561,7 @@ static void sifive_u_machine_init(MachineState *machi=
+ne)
+                           qemu_allocate_irq(sifive_u_machine_reset, NULL=
+, 0));
 =20
      /* create device tree */
 -    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
--               riscv_is_32bit(&s->soc[0]));
-+    create_fdt(s, memmap, riscv_is_32bit(&s->soc[0]));
+-               riscv_is_32bit(&s->soc.u_cpus));
++    create_fdt(s, memmap, riscv_is_32bit(&s->soc.u_cpus));
 =20
-     s->machine_done.notify =3D virt_machine_done;
-     qemu_add_machine_init_done_notifier(&s->machine_done);
+     if (s->start_in_flash) {
+         /*
 --=20
 2.39.0
 
