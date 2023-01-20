@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97462674D91
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:02:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECA5C674D93
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:02:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIlPB-00008t-Ne; Fri, 20 Jan 2023 02:01:41 -0500
+	id 1pIlPC-00009K-IA; Fri, 20 Jan 2023 02:01:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlP0-0008VN-Tq
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlP0-0008VO-Ud
  for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:01:32 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlOy-0005GX-M3
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlOz-0005Gh-1P
  for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:01:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674198087;
+ s=mimecast20190719; t=1674198088;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=m8LIRZOqO3MFn3Oh8kPiUCgLc88Ez3/U1NO49fjC3Hs=;
- b=OEa2mV96YAL0RPE/Xj1hmEo4axAE03bzhyzSDEO4yiUPkh95cNLEj71Mea7tVpQjsHE2Pc
- hXyjmwQUTYrFlKWF7X/gQ7A63Ghj5n/vfdvSueO2/o8kykB9eozR48wanFdexGTiwQYUHL
- EyagthKajvL7BRGvbJBU6R55MaYVs90=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=fQOnOdgcHck49zSh5ndlo+r2E0Hr2dzMBOQwJoLV5Wg=;
+ b=KbcqR9b58IFUsD4AUJUNLMAqyfzlovWh3T3co+P3xEL0AYp1dh1+x57Vc0k1NoYIQh1ISX
+ MgzOatN6fZ/APTEEkR8UXKcXBaBVSggNoN1xuv0T8zyozshSwe3Y2ItFjLX8/pVUcDzsAX
+ 6Q/n7YeWhImFmCLzYliFDqJbV2cmHuQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-132-6MwY91JlMLuJdLA8-XwuKg-1; Fri, 20 Jan 2023 02:01:24 -0500
-X-MC-Unique: 6MwY91JlMLuJdLA8-XwuKg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-270-yoNIRgJBNZ-y8PePYCrbzQ-1; Fri, 20 Jan 2023 02:01:25 -0500
+X-MC-Unique: yoNIRgJBNZ-y8PePYCrbzQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0740385C064;
- Fri, 20 Jan 2023 07:01:24 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 151531C068C6;
+ Fri, 20 Jan 2023 07:01:25 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 97EAE1121318;
- Fri, 20 Jan 2023 07:01:23 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id E6BE32166B2A;
+ Fri, 20 Jan 2023 07:01:24 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8B11421E6681; Fri, 20 Jan 2023 08:01:22 +0100 (CET)
+ id 9553D21E6602; Fri, 20 Jan 2023 08:01:22 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Subject: [PULL 04/12] coroutine: Split qemu/coroutine-core.h off
- qemu/coroutine.h
-Date: Fri, 20 Jan 2023 08:01:14 +0100
-Message-Id: <20230120070122.3982588-5-armbru@redhat.com>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 08/12] include/hw/block: Include hw/block/block.h where needed
+Date: Fri, 20 Jan 2023 08:01:18 +0100
+Message-Id: <20230120070122.3982588-9-armbru@redhat.com>
 In-Reply-To: <20230120070122.3982588-1-armbru@redhat.com>
 References: <20230120070122.3982588-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,433 +79,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-qemu/coroutine.h and qemu/lockable.h include each other.
-
-They need each other only in macro expansions, so we could simply drop
-both inclusions to break the loop, and add suitable includes to files
-that expand the macros.
-
-Instead, move a part of qemu/coroutine.h to new qemu/coroutine-core.h
-so that qemu/coroutine-core.h doesn't need qemu/lockable.h, and
-qemu/lockable.h only needs qemu/coroutine-core.h.  Result:
-qemu/coroutine.h includes qemu/lockable.h includes
-qemu/coroutine-core.h.
+hw/block/swim.h needs BlockConf.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20221221131435.3851212-5-armbru@redhat.com>
-[Semantic rebase conflict with 7c10cb38cc "accel/tcg: Add debuginfo
-support" resolved]
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20221221133551.3967339-4-armbru@redhat.com>
 ---
- accel/tcg/debuginfo.h         |   2 +
- hw/9pfs/coth.h                |   2 +-
- include/block/aio.h           |   2 +-
- include/io/channel.h          |   2 +-
- include/qemu/coroutine-core.h | 154 ++++++++++++++++++++++++++++++++++
- include/qemu/coroutine.h      |  97 +--------------------
- include/qemu/lockable.h       |   2 +-
- include/qemu/typedefs.h       |   1 -
- nbd/client-connection.c       |   1 +
- tests/unit/test-aio.c         |   2 +-
- ui/console.c                  |   1 +
- 11 files changed, 164 insertions(+), 102 deletions(-)
- create mode 100644 include/qemu/coroutine-core.h
+ include/hw/block/swim.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/accel/tcg/debuginfo.h b/accel/tcg/debuginfo.h
-index 7542cfe6e0..f064e1c144 100644
---- a/accel/tcg/debuginfo.h
-+++ b/accel/tcg/debuginfo.h
-@@ -7,6 +7,8 @@
- #ifndef ACCEL_TCG_DEBUGINFO_H
- #define ACCEL_TCG_DEBUGINFO_H
+diff --git a/include/hw/block/swim.h b/include/hw/block/swim.h
+index c1bd5f6555..9b3dcb029d 100644
+--- a/include/hw/block/swim.h
++++ b/include/hw/block/swim.h
+@@ -11,6 +11,7 @@
+ #ifndef SWIM_H
+ #define SWIM_H
  
-+#include "qemu/bitops.h"
-+
- /*
-  * Debuginfo describing a certain address.
-  */
-diff --git a/hw/9pfs/coth.h b/hw/9pfs/coth.h
-index 1a1edbdc2a..2c54249b35 100644
---- a/hw/9pfs/coth.h
-+++ b/hw/9pfs/coth.h
-@@ -16,7 +16,7 @@
- #define QEMU_9P_COTH_H
- 
- #include "qemu/thread.h"
--#include "qemu/coroutine.h"
-+#include "qemu/coroutine-core.h"
- #include "9p.h"
- 
- /*
-diff --git a/include/block/aio.h b/include/block/aio.h
-index 0f65a3cc9e..3a546e7515 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -17,7 +17,7 @@
- #ifdef CONFIG_LINUX_IO_URING
- #include <liburing.h>
- #endif
--#include "qemu/coroutine.h"
-+#include "qemu/coroutine-core.h"
- #include "qemu/queue.h"
- #include "qemu/event_notifier.h"
- #include "qemu/thread.h"
-diff --git a/include/io/channel.h b/include/io/channel.h
-index f1b7e05f81..78b15f7870 100644
---- a/include/io/channel.h
-+++ b/include/io/channel.h
-@@ -22,7 +22,7 @@
- #define QIO_CHANNEL_H
- 
++#include "hw/block/block.h"
+ #include "hw/sysbus.h"
  #include "qom/object.h"
--#include "qemu/coroutine.h"
-+#include "qemu/coroutine-core.h"
- #include "block/aio.h"
  
- #define TYPE_QIO_CHANNEL "qio-channel"
-diff --git a/include/qemu/coroutine-core.h b/include/qemu/coroutine-core.h
-new file mode 100644
-index 0000000000..230bb56517
---- /dev/null
-+++ b/include/qemu/coroutine-core.h
-@@ -0,0 +1,154 @@
-+/*
-+ * QEMU coroutine implementation
-+ *
-+ * Copyright IBM, Corp. 2011
-+ *
-+ * Authors:
-+ *  Stefan Hajnoczi    <stefanha@linux.vnet.ibm.com>
-+ *  Kevin Wolf         <kwolf@redhat.com>
-+ *
-+ * This work is licensed under the terms of the GNU LGPL, version 2 or later.
-+ * See the COPYING.LIB file in the top-level directory.
-+ *
-+ */
-+
-+#ifndef QEMU_COROUTINE_CORE_H
-+#define QEMU_COROUTINE_CORE_H
-+
-+/**
-+ * Coroutines are a mechanism for stack switching and can be used for
-+ * cooperative userspace threading.  These functions provide a simple but
-+ * useful flavor of coroutines that is suitable for writing sequential code,
-+ * rather than callbacks, for operations that need to give up control while
-+ * waiting for events to complete.
-+ *
-+ * These functions are re-entrant and may be used outside the global mutex.
-+ *
-+ * Functions that execute in coroutine context cannot be called
-+ * directly from normal functions.  Use @coroutine_fn to mark such
-+ * functions.  For example:
-+ *
-+ *   static void coroutine_fn foo(void) {
-+ *       ....
-+ *   }
-+ *
-+ * In the future it would be nice to have the compiler or a static
-+ * checker catch misuse of such functions.  This annotation might make
-+ * it possible and in the meantime it serves as documentation.
-+ */
-+
-+/**
-+ * Mark a function that executes in coroutine context
-+ *
-+ *
-+ * Functions that execute in coroutine context cannot be called
-+ * directly from normal functions.  Use @coroutine_fn to mark such
-+ * functions.  For example:
-+ *
-+ *   static void coroutine_fn foo(void) {
-+ *       ....
-+ *   }
-+ *
-+ * In the future it would be nice to have the compiler or a static
-+ * checker catch misuse of such functions.  This annotation might make
-+ * it possible and in the meantime it serves as documentation.
-+ */
-+
-+typedef struct Coroutine Coroutine;
-+typedef struct CoMutex CoMutex;
-+
-+/**
-+ * Coroutine entry point
-+ *
-+ * When the coroutine is entered for the first time, opaque is passed in as an
-+ * argument.
-+ *
-+ * When this function returns, the coroutine is destroyed automatically and
-+ * execution continues in the caller who last entered the coroutine.
-+ */
-+typedef void coroutine_fn CoroutineEntry(void *opaque);
-+
-+/**
-+ * Create a new coroutine
-+ *
-+ * Use qemu_coroutine_enter() to actually transfer control to the coroutine.
-+ * The opaque argument is passed as the argument to the entry point.
-+ */
-+Coroutine *qemu_coroutine_create(CoroutineEntry *entry, void *opaque);
-+
-+/**
-+ * Transfer control to a coroutine
-+ */
-+void qemu_coroutine_enter(Coroutine *coroutine);
-+
-+/**
-+ * Transfer control to a coroutine if it's not active (i.e. part of the call
-+ * stack of the running coroutine). Otherwise, do nothing.
-+ */
-+void qemu_coroutine_enter_if_inactive(Coroutine *co);
-+
-+/**
-+ * Transfer control to a coroutine and associate it with ctx
-+ */
-+void qemu_aio_coroutine_enter(AioContext *ctx, Coroutine *co);
-+
-+/**
-+ * Transfer control back to a coroutine's caller
-+ *
-+ * This function does not return until the coroutine is re-entered using
-+ * qemu_coroutine_enter().
-+ */
-+void coroutine_fn qemu_coroutine_yield(void);
-+
-+/**
-+ * Get the AioContext of the given coroutine
-+ */
-+AioContext *qemu_coroutine_get_aio_context(Coroutine *co);
-+
-+/**
-+ * Get the currently executing coroutine
-+ */
-+Coroutine *qemu_coroutine_self(void);
-+
-+/**
-+ * Return whether or not currently inside a coroutine
-+ *
-+ * This can be used to write functions that work both when in coroutine context
-+ * and when not in coroutine context.  Note that such functions cannot use the
-+ * coroutine_fn annotation since they work outside coroutine context.
-+ */
-+bool qemu_in_coroutine(void);
-+
-+/**
-+ * Return true if the coroutine is currently entered
-+ *
-+ * A coroutine is "entered" if it has not yielded from the current
-+ * qemu_coroutine_enter() call used to run it.  This does not mean that the
-+ * coroutine is currently executing code since it may have transferred control
-+ * to another coroutine using qemu_coroutine_enter().
-+ *
-+ * When several coroutines enter each other there may be no way to know which
-+ * ones have already been entered.  In such situations this function can be
-+ * used to avoid recursively entering coroutines.
-+ */
-+bool qemu_coroutine_entered(Coroutine *co);
-+
-+/**
-+ * Initialises a CoMutex. This must be called before any other operation is used
-+ * on the CoMutex.
-+ */
-+void qemu_co_mutex_init(CoMutex *mutex);
-+
-+/**
-+ * Locks the mutex. If the lock cannot be taken immediately, control is
-+ * transferred to the caller of the current coroutine.
-+ */
-+void coroutine_fn qemu_co_mutex_lock(CoMutex *mutex);
-+
-+/**
-+ * Unlocks the mutex and schedules the next coroutine that was waiting for this
-+ * lock to be run.
-+ */
-+void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex);
-+
-+#endif
-diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
-index 2496a4f4ef..a65be6697f 100644
---- a/include/qemu/coroutine.h
-+++ b/include/qemu/coroutine.h
-@@ -15,6 +15,7 @@
- #ifndef QEMU_COROUTINE_H
- #define QEMU_COROUTINE_H
- 
-+#include "qemu/coroutine-core.h"
- #include "qemu/queue.h"
- #include "qemu/timer.h"
- 
-@@ -40,84 +41,6 @@
-  * it possible and in the meantime it serves as documentation.
-  */
- 
--typedef struct Coroutine Coroutine;
--
--/**
-- * Coroutine entry point
-- *
-- * When the coroutine is entered for the first time, opaque is passed in as an
-- * argument.
-- *
-- * When this function returns, the coroutine is destroyed automatically and
-- * execution continues in the caller who last entered the coroutine.
-- */
--typedef void coroutine_fn CoroutineEntry(void *opaque);
--
--/**
-- * Create a new coroutine
-- *
-- * Use qemu_coroutine_enter() to actually transfer control to the coroutine.
-- * The opaque argument is passed as the argument to the entry point.
-- */
--Coroutine *qemu_coroutine_create(CoroutineEntry *entry, void *opaque);
--
--/**
-- * Transfer control to a coroutine
-- */
--void qemu_coroutine_enter(Coroutine *coroutine);
--
--/**
-- * Transfer control to a coroutine if it's not active (i.e. part of the call
-- * stack of the running coroutine). Otherwise, do nothing.
-- */
--void qemu_coroutine_enter_if_inactive(Coroutine *co);
--
--/**
-- * Transfer control to a coroutine and associate it with ctx
-- */
--void qemu_aio_coroutine_enter(AioContext *ctx, Coroutine *co);
--
--/**
-- * Transfer control back to a coroutine's caller
-- *
-- * This function does not return until the coroutine is re-entered using
-- * qemu_coroutine_enter().
-- */
--void coroutine_fn qemu_coroutine_yield(void);
--
--/**
-- * Get the AioContext of the given coroutine
-- */
--AioContext *qemu_coroutine_get_aio_context(Coroutine *co);
--
--/**
-- * Get the currently executing coroutine
-- */
--Coroutine *qemu_coroutine_self(void);
--
--/**
-- * Return whether or not currently inside a coroutine
-- *
-- * This can be used to write functions that work both when in coroutine context
-- * and when not in coroutine context.  Note that such functions cannot use the
-- * coroutine_fn annotation since they work outside coroutine context.
-- */
--bool qemu_in_coroutine(void);
--
--/**
-- * Return true if the coroutine is currently entered
-- *
-- * A coroutine is "entered" if it has not yielded from the current
-- * qemu_coroutine_enter() call used to run it.  This does not mean that the
-- * coroutine is currently executing code since it may have transferred control
-- * to another coroutine using qemu_coroutine_enter().
-- *
-- * When several coroutines enter each other there may be no way to know which
-- * ones have already been entered.  In such situations this function can be
-- * used to avoid recursively entering coroutines.
-- */
--bool qemu_coroutine_entered(Coroutine *co);
--
- /**
-  * Provides a mutex that can be used to synchronise coroutines
-  */
-@@ -145,24 +68,6 @@ struct CoMutex {
-     Coroutine *holder;
- };
- 
--/**
-- * Initialises a CoMutex. This must be called before any other operation is used
-- * on the CoMutex.
-- */
--void qemu_co_mutex_init(CoMutex *mutex);
--
--/**
-- * Locks the mutex. If the lock cannot be taken immediately, control is
-- * transferred to the caller of the current coroutine.
-- */
--void coroutine_fn qemu_co_mutex_lock(CoMutex *mutex);
--
--/**
-- * Unlocks the mutex and schedules the next coroutine that was waiting for this
-- * lock to be run.
-- */
--void coroutine_fn qemu_co_mutex_unlock(CoMutex *mutex);
--
- /**
-  * Assert that the current coroutine holds @mutex.
-  */
-diff --git a/include/qemu/lockable.h b/include/qemu/lockable.h
-index 86db7cb04c..9823220446 100644
---- a/include/qemu/lockable.h
-+++ b/include/qemu/lockable.h
-@@ -13,7 +13,7 @@
- #ifndef QEMU_LOCKABLE_H
- #define QEMU_LOCKABLE_H
- 
--#include "qemu/coroutine.h"
-+#include "qemu/coroutine-core.h"
- #include "qemu/thread.h"
- 
- typedef void QemuLockUnlockFunc(void *);
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index fba04875c2..c7c8a85315 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -38,7 +38,6 @@ typedef struct BusState BusState;
- typedef struct Chardev Chardev;
- typedef struct Clock Clock;
- typedef struct CompatProperty CompatProperty;
--typedef struct CoMutex CoMutex;
- typedef struct ConfidentialGuestSupport ConfidentialGuestSupport;
- typedef struct CPUAddressSpace CPUAddressSpace;
- typedef struct CPUArchState CPUArchState;
-diff --git a/nbd/client-connection.c b/nbd/client-connection.c
-index 0c5f917efa..e5b1046a1c 100644
---- a/nbd/client-connection.c
-+++ b/nbd/client-connection.c
-@@ -29,6 +29,7 @@
- 
- #include "qapi/qapi-visit-sockets.h"
- #include "qapi/clone-visitor.h"
-+#include "qemu/coroutine.h"
- 
- struct NBDClientConnection {
-     /* Initialization constants, never change */
-diff --git a/tests/unit/test-aio.c b/tests/unit/test-aio.c
-index 178048d2f2..321d7ab01a 100644
---- a/tests/unit/test-aio.c
-+++ b/tests/unit/test-aio.c
-@@ -16,7 +16,7 @@
- #include "qemu/timer.h"
- #include "qemu/sockets.h"
- #include "qemu/error-report.h"
--#include "qemu/coroutine.h"
-+#include "qemu/coroutine-core.h"
- #include "qemu/main-loop.h"
- 
- static AioContext *ctx;
-diff --git a/ui/console.c b/ui/console.c
-index 9ff9217f9b..ab43561fe1 100644
---- a/ui/console.c
-+++ b/ui/console.c
-@@ -27,6 +27,7 @@
- #include "hw/qdev-core.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-ui.h"
-+#include "qemu/coroutine.h"
- #include "qemu/fifo8.h"
- #include "qemu/main-loop.h"
- #include "qemu/module.h"
 -- 
 2.39.0
 
