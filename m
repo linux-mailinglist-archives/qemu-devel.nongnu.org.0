@@ -2,136 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29CE36752A7
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:38:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B2F6752C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:48:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIom8-0001Mu-9u; Fri, 20 Jan 2023 05:37:36 -0500
+	id 1pIovn-0005SB-4i; Fri, 20 Jan 2023 05:47:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1pIom6-0001Me-SK; Fri, 20 Jan 2023 05:37:34 -0500
-Received: from mail-dbaeur03on2127.outbound.protection.outlook.com
- ([40.107.104.127] helo=EUR03-DBA-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pIovj-0005S3-9p
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:47:31 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
- id 1pIom4-0003GB-0j; Fri, 20 Jan 2023 05:37:34 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j4DD/Ve90Jcz/uBOpDNw47MW+QE/YWfys9l/z0wY1yWoSdqhWKOhLEyEgeJnANL8wZUl56WTI9Jf2YYXYr3SoOsabq/T28PYxtgOIKaKs3JENmlN9LeOaunLjEBeye5WGlrvsyx8g0+YKT/HmU9J/O/dHFevS0FWNCYci66uLHl/EX3qNuVRzcGt9aUHB5zlXGVqEUpHUXjE1aHdM4kegIiK9vHjsnU0cF034jg8VZ39M0TcmTif2WTrS283+ZoJ3qRPR0TmYDfOl42ByfTKZTe1jye5ch5hruYSVMRo26wa0zQZWEflRMVsQuXdGjM8ZXGhroxsYG7MzSnYvTSt9A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X655TqI7IDQT0Ompfckyd7svhSHKHX7RTrLZKoDw6J0=;
- b=iBFRHGbuTUe7SgCQjaf6bSvc8jA07mQFuIm/b73agexq2MRU7H6V+8Lwn9gFNdEY+9N4qCtjJ7br7fIa8E3h9C+5ixQT2u+r/DYLoWfLIrEnSgtzhhB+mycO0tiSOHchSegXbQos7peZ/e/azc9R54gxCEllSC7QdegJYB/yErLYlf/upqJe7p87TMWT5+xliM2+XYAH7/c1eqAfLE+fTZp1mGA3s0DL/fmwdgV9FTNxyvek+G3lX6pR9TAn/fGFW4XH1UwSmZ85sKvLFF/Sk++nE6P6H8yKs19ngl7cP9nGIq9PFshk4uLH58va6M2NUao00way+jSsX4ujkgjfIA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
- header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=X655TqI7IDQT0Ompfckyd7svhSHKHX7RTrLZKoDw6J0=;
- b=xP/Ura6Za/AtgOONlij2I/yq1o3V5F0WCgDdGaDXwB4/mCSvFu9IvwTF+VlkuPvLp7RNnF73LGYjy+kGk5cK8iP/2fTBubP4cTQP4g9BZJHc9vK9bpxmTkOoHnl1zsTgsYcqJPrH7Xm8NuSJBgV4Ik43enmyB1nSpxvRNKgcreL0O1poySBv6HfaAQyQpVKwdgb2M6GwgAFl4zRYiJXjpPbaubj6yfXyCGjdyUEJQEarQa8boUM3KS7vv7fLgAy43T4KrnMcmeYCXar/7zHNTbru3p5efcww7lwoSSvSSU5uktoc+7kGZSFp3huksPYmWyC4N8ehFllgvUS94L9k0g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=virtuozzo.com;
-Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
- by AS2PR08MB10228.eurprd08.prod.outlook.com (2603:10a6:20b:648::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.27; Fri, 20 Jan
- 2023 10:37:25 +0000
-Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
- ([fe80::73cd:4f7a:16fa:e648]) by AS8PR08MB7095.eurprd08.prod.outlook.com
- ([fe80::73cd:4f7a:16fa:e648%6]) with mapi id 15.20.6002.025; Fri, 20 Jan 2023
- 10:37:25 +0000
-Message-ID: <8fd7437e-b38f-3005-cb72-1d4c024582ae@virtuozzo.com>
-Date: Fri, 20 Jan 2023 11:37:24 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v8 11/11] parallels: Incorrect condition in out-of-image
- check
-Content-Language: en-US
-To: Hanna Czenczek <hreitz@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, den@virtuozzo.com, stefanha@redhat.com,
- vsementsov@yandex-team.ru, kwolf@redhat.com
-References: <20230115155821.1534598-1-alexander.ivanov@virtuozzo.com>
- <20230115155821.1534598-12-alexander.ivanov@virtuozzo.com>
- <130ba67b-e954-0785-72c7-594ef12d2862@redhat.com>
-From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-In-Reply-To: <130ba67b-e954-0785-72c7-594ef12d2862@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: VI1P190CA0007.EURP190.PROD.OUTLOOK.COM
- (2603:10a6:802:2b::20) To AS8PR08MB7095.eurprd08.prod.outlook.com
- (2603:10a6:20b:402::11)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pIovf-0004qR-Vh
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:47:30 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nyx0x24CYz6J7CS;
+ Fri, 20 Jan 2023 18:43:13 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 20 Jan
+ 2023 10:47:11 +0000
+Date: Fri, 20 Jan 2023 10:47:09 +0000
+To: Gregory Price <gregory.price@memverge.com>
+CC: Jonathan Cameron via <qemu-devel@nongnu.org>, Lukas Wunner
+ <lukas@wunner.de>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
+ <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
+ Ira Weiny <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>,
+ Dan Williams <dan.j.williams@intel.com>
+Subject: Re: cxl nvdimm Potential probe ordering issues.
+Message-ID: <20230120104709.00000572@Huawei.com>
+In-Reply-To: <Y8oeYfyqNuSIIxCt@memverge.com>
+References: <Y8CNw/fZT5fZJZcK@memverge.com>
+ <20230113091213.00002146@Huawei.com>
+ <Y8Foj/12QNl0C96o@memverge.com>
+ <20230113144026.000001fb@Huawei.com>
+ <20230113144511.00001207@Huawei.com>
+ <20230113151206.GA20583@wunner.de> <Y8hG4OyJL7l9oD2f@memverge.com>
+ <Y8hJKcy1993SFLLJ@memverge.com>
+ <20230119124244.000015b3@Huawei.com>
+ <20230119150449.000037f2@huawei.com>
+ <Y8oeYfyqNuSIIxCt@memverge.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|AS2PR08MB10228:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27f74b5e-fcb0-4ce2-712b-08dafad25234
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Oa9cCU0obcu154RasuRp/Z8Mf8GHXdc+IJSkwzXP3Nq9n0yGMTVeIP971xGKzhlwxdLP6bHaMYT1PM3qucGh9Gk0C7If3Ytmu0eodikm9PowdyOBunc0BzU+6X7Es+/uXhvhDc2DbqIH/kXGrOVFTmDGruWrYGpM78XT1NdasiwoO1TZnw7UVYmbNPL2oV28wWjk8fON7PEEt3+a94lt/vffgEG8QOAQxxCTg07LKNCZ6Ic+o1eKQiXQ7TaYvImHbndlz9rNvPo2UHPlCEnipVJHy46Mk7Z6OZQiMPVkOQbeLmuJSiv4F/56NGnsnfrM2jFrDQyo8Sn+BR/ynUFAA/RB0jWneaJvazp23J5Iu9h7+E3ik0rX6c/CXeOrX/waF27qGg470MgmDjpzNovWkkLAA/GFj1HpvH6gCfKxYwywm6ESwkBWvmQA0g5PC8dq6x/QyRdg0Nv25oOC1rgTL6zc2QfDw0tKVlthysrWYOubJqLxqrf+PPVuHqz93T1UHOwXCMW3fd2ZzjCj9Ixo4+QWwn4FHrq5B4795rrh07X9qSRHbpdg6YPuS13QiF8+oTEHDKzWGClPihYBnU89kYezDnGedA6oQaAZD1BaJ0qw1ScQuh+Vtrj5cIu+LtnLbUnNgi0Ttk3JP1PSqGCPjvUlJRjq55ovlYOhdU8fmBMa16zEEzTLnM2nnv/b4kInFe2K9lDncWdHnS3smzCZcTdOSIYNwISih5ssb+C6G9zyP6prmF9Fp+6y4Q890/MMmlFAfWWIGOneA3JUl6QidA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(4636009)(136003)(366004)(39850400004)(346002)(396003)(376002)(451199015)(38350700002)(38100700002)(83380400001)(31696002)(44832011)(86362001)(66556008)(5660300002)(2906002)(41300700001)(8936002)(66476007)(6512007)(26005)(66946007)(186003)(6506007)(2616005)(53546011)(316002)(8676002)(4326008)(52116002)(478600001)(6486002)(31686004)(36756003)(43740500002)(45980500001);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?M3pvMU1vNmo3MGdzTFk3emc2QmEyV2d2TWlKbjNLVUlNb0ZsdnBjQytLK3hJ?=
- =?utf-8?B?MUo5SENmTjRWZ3pCNkczL2dmOHR2NmNoVmx6dEhkdEEwUTlsaHBhMk52V2ti?=
- =?utf-8?B?ODlGRG91NHE2SmlwWXUvR29sZFJvWTE4VUpnWnJmVGtSQWlsUXdkSitoc3h4?=
- =?utf-8?B?bXhlRG5pSVdJQnpYOUtkVjNDSmdzNVhtQlhTR3ViRHRTQnBiLy9rUXU3cC95?=
- =?utf-8?B?bDFpNk5UOVRyOEtSWUZJdHVDRFRMOUZLWWtTQy9DTGZvN0U5NFdVdVVLQ2Vp?=
- =?utf-8?B?TGlsYXFkRFZwY09TR3hleUw3b0JFSjVuVW1pVFYyTS9YRGhETFpiSFRmYmUr?=
- =?utf-8?B?ZnN6WXRQejJYNVh4NkRob1VOam5jWVZ3Sll5bWxyTW1saHczdVJRUjRSLzBQ?=
- =?utf-8?B?bGxZUi8vbmlDdGVpWFUzaWp6Z0g0YVFoaFVtbm90VGE2T0ljSERHUmIzdDFV?=
- =?utf-8?B?TEp0OHZ4NXE3eWt2UWFIdkgrNlJxamRSTC9VbXpQWEFKcjN5cFFEWnp2Wmky?=
- =?utf-8?B?OWdaS2x0US9LOC9iTTVCV29vSDlJcC9uMVJ3NEEwZmp3c1I3dmh5cDFRY0tC?=
- =?utf-8?B?cDI5UE9Kc1l3MXRxRXRPcks3SXBBQmxCRys2RmJSaU5JSzdxQVhjYlk3elhV?=
- =?utf-8?B?cFFTeDdFK2FacE1MdkY4eTRPMmJCWEp1Q1FnN1RleFp1UmIzS3V5RUovWjJw?=
- =?utf-8?B?S04yR1orTWZVTTNaTXhxOENFQTBCdlkzVVFBaGdOT0E0UmRDeFppM0x2YUFr?=
- =?utf-8?B?RWJRUGRFY1Q2c09XVS9nQSs1d1Q5M2NPUFVieVR2aG1jRWt0ZnoxWVpnUzJB?=
- =?utf-8?B?eU1LNC9MOWc3a2lmWlV2L1VzYjk2cHoyTjFnbVd1a3dSclVMTUd3ckpIUDFG?=
- =?utf-8?B?YjY4bFNxeGZMNzl2WHkrQUFhamFQcWZ1QmppRW51OWhudG4zVUIxd1F0cXBs?=
- =?utf-8?B?RGFXS05NQWQ0ci9mcmUrVldDYno1TXN4MU4xRjRHTlQvamdmWXBFakFlZEwr?=
- =?utf-8?B?dXRNanZIM1dCLytOZlJzUlFTU3ZiVHdhZWNBVWd3UURHZEVDT050cWMvSzNG?=
- =?utf-8?B?UUFHYkJXYTU3LzBYMlI4K1R4dzJxRlc5eEFkVmdCdkZVNmVnT053ZkVybXZH?=
- =?utf-8?B?eHVvbmQ4OURzUFZBd2E0bk55NzV6alZQUkdvMUg4NTRBUFkwcnlOTU5EdlpP?=
- =?utf-8?B?Qk1JVE4wdXp5czBBK0xGSjRDUU1FbFdkRFFOT3RTRUdxTVhRWjFPUHM2YmV0?=
- =?utf-8?B?Q0x4elE5RU15VXZYNnJMREZmUDRac2hMdmNzdW80UHVmSEg3bGU0WDVsN3Y1?=
- =?utf-8?B?WGtSUkh5d1MyR1J3M1FZMVJPUmxZUHRFVU0zcTh1WXB1TEw2ZkZ1QWhWS2Za?=
- =?utf-8?B?M3Y4WnhPbmo2S2ZhYWZ2Sm03MStHMmJlRGNSQWtFWGdtTzFiSk9ySStFczR1?=
- =?utf-8?B?bXVzVGZwYytkVEdVVENpL2N0VDRlRzVjSVgrYTRPd3o4ZDhqQTlIclZnWURW?=
- =?utf-8?B?VGhJdHhHamlST3paUDZTVXl5THo4Q3g2SE80eHByKzEyeXRxQ2Noc1hZRm5U?=
- =?utf-8?B?TGlPaHZoVnpQeWZ2NkROOVhxUVBxL2FxcnNKbTlNVm9OWXozWlc2dTgrK1Js?=
- =?utf-8?B?SFRLdy9JSjlwelE3dlRKZXUraUhJL0lmU0E0cklqaTF2YURjSUJZaEc0Wjdp?=
- =?utf-8?B?a0tqVHk5T0VyOE1EL2h2Q0YxWE9vclRBLzhtN1FWbWM3dzVJRGUrL2dIL28x?=
- =?utf-8?B?cE5IRU05Mit3SUZOaDl4UnZKdG9pT01WQ3FPb3lmSkdCN2pmcWdUUEZ0cXVG?=
- =?utf-8?B?aTdoL2g2emhXWmhZRGZnSWtBREF2cjRCK0RZRDduL04yd0FqV1Vmc3hnOStL?=
- =?utf-8?B?ZXUxNVVvOTl2ZFpmZitnZzNNYnM3NFY4MmtUUnNDVDBhT2NCVlBzb29rYTRl?=
- =?utf-8?B?YlVvblp3dlNPdGJHZmxpOW51Z0pZaHVEcFF6QTNpU2dNcVp3VktKc0JNMjU5?=
- =?utf-8?B?Zk9kZWVzWUxWN0s3bk5FaTNWNEdXYmZOWEorUVpKTXpEODU2N1ROTjA4ekZv?=
- =?utf-8?B?RFRwVGhSbWE3MGhtcisvdkdzTEpkKzBkdHg2QVlNK21OT0NMOWozUnE0MGJw?=
- =?utf-8?B?aE96amtYZkxoRUkyR0hDRHNjK1gwb0szWTZ4aEU2ZWRYN2M1NUg3Z21GenZS?=
- =?utf-8?Q?FveanYXUml7Al95cAVkA35E=3D?=
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27f74b5e-fcb0-4ce2-712b-08dafad25234
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2023 10:37:25.6543 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6FHVIGaWWs30bopF4Arsh5W5f9Rb9EPusNxknrnKfrUfvNnxsAbQma/SVWt/6tFbC2YmV4gNLlnR3xwfCuRf86crdbAAuREDmW4IXRp4pfU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB10228
-Received-SPF: pass client-ip=40.107.104.127;
- envelope-from=alexander.ivanov@virtuozzo.com;
- helo=EUR03-DBA-obe.outbound.protection.outlook.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -145,48 +74,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Thu, 19 Jan 2023 23:53:53 -0500
+Gregory Price <gregory.price@memverge.com> wrote:
+
+> On Thu, Jan 19, 2023 at 03:04:49PM +0000, Jonathan Cameron wrote:
+> > Gregory, would you mind checking if
+> > cxl_nvb is NULL here...
+> > https://elixir.bootlin.com/linux/v6.2-rc4/source/drivers/cxl/pmem.c#L67
+> > (printk before it is used should work).
+> >=20
+> > Might also be worth checking cxl_nvd and cxl_ds
+> > but my guess is cxl_nvb is our problem (it is when I deliberate change
+> > the load order).
+> >=20
+> > Jonathan
+> >  =20
+>=20
+> This is exactly the issue.  cxl_nvb is null, the rest appear fine.
+>=20
+> Also, note, that weirdly the non-volatile bridge shows up when launching
+> this in volatile mode, but no stack trace appears.
+>=20
+> =C2=AF\_(=E3=83=84)_/=C2=AF
+>=20
+> After spending way too much time tracing through the current cxl driver
+> code, i have only really determined that
+>=20
+> 1) The code is very pmem oriented, and it's unclear to me how the driver
+>    as-is differentiates a persistent device from a volatile device. That
+> 	 code path still completely escapes me.  The only differentiating code
+> 	 i see is in the memdev probe path that creates mem#/pmem and mem#/ram
+
+Absolutely on pmem.  Target for kernel side of things was always pmem
+first. Volatile has been on roadmap / todo list for a few kernel cycles
+but I haven't seen any code yet.
+
+>=20
+> 2) The code successfully manages probe, enable, and mount a REAL device
+>    - cxl memdev appears (/sys/bus/cxl/devices/mem0)
+> 	 - a dax device appears (/sys/bus/dax/devices/)
+> 	   This happens at boot, which I assume must be bios related
+> 	 - The memory *does not* auto-online, instead the dax device can be
+> 	   onlined as system-ram *manually* via ndctl and friends
+
+Interesting.  Just curious, is the host a CXL 1.1 host or a CXL 2.0 host?
+
+>=20
+> 3) The code creates an nvdimm_bridge IFF a CFMW is defined - regardless
+>    of the type-3 device configuration (pmem-only or vmem-only)
+>=20
+>    # CFMW defined
+>    [root@fedora ~]# ls /sys/bus/cxl/devices/
+>    decoder0.0  decoder2.0  mem0            port1
+>    decoder1.0  endpoint2   nvdimm-bridge0  root0
+>=20
+>    # CFMW not defined
+> 	 [root@fedora ~]# ls /sys/bus/cxl/devices/
+>    decoder1.0  decoder2.0  endpoint2  mem0  port1  root0
+
+That should be harmless and may be needed to tie everything
+through to DAX.
 
 
-On 18.01.2023 15:46, Hanna Czenczek wrote:
-> On 15.01.23 16:58, Alexander Ivanov wrote:
->> All the offsets in the BAT must be lower than the file size.
->> Fix the check condition for correct check.
->>
->> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
->> Reviewed-by: Denis V. Lunev <den@openvz.org>
->> ---
->>   block/parallels.c | 2 +-
->>   1 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/block/parallels.c b/block/parallels.c
->> index 621dbf623a..eda3fb558d 100644
->> --- a/block/parallels.c
->> +++ b/block/parallels.c
->> @@ -455,7 +455,7 @@ static int 
->> parallels_check_outside_image(BlockDriverState *bs,
->>       high_off = 0;
->>       for (i = 0; i < s->bat_size; i++) {
->>           off = bat2sect(s, i) << BDRV_SECTOR_BITS;
->> -        if (off > size) {
->> +        if (off >= size) {
->
-> Should this not be the even stricter `off + s->cluster_size > size` 
-> instead, or is it possible to have partial clusters at the image end?
->
-> Hanna
-'off' is aligned* on the cluster size, so these conditions are 
-equivalent, but I agree, your condition is more idiomatic.
+>=20
+> 4) As you can see above, multiple decoders are registered.  I'm not sure
+>    if that's correct or not, but it does seem odd given there's only one
+> 	 cxl type-3 device.  Odd that decoder0.0 shows up when CFMW is there,
+> 	 but not when it isn't.
+>=20
+> 	 Note: All these tests have two root ports:
+> 	 -device pxb-cxl,id=3Dcxl.0,bus=3Dpcie.0,bus_nr=3D52 \
+>    -device cxl-rp,id=3Drp0,bus=3Dcxl.0,chassis=3D0,port=3D0,slot=3D0 \
+>    -device cxl-rp,id=3Drp1,bus=3Dcxl.0,chassis=3D0,port=3D1,slot=3D1 \
 
-* It works for the new image format. In the old one there could be 
-entries in the BAT, pointing to unaligned clusters. There will be a 
-separate check for unaligned clusters.
->
->>               fprintf(stderr, "%s cluster %u is outside image\n",
->>                       fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR", i);
->>               res->corruptions++;
->
+IIRC
+
+decoder0.0 represents the fixed routing in the host as defined
+by the CFMWS - not an actual programmable decoder.
+
+decoder1.0 is the routing in the host bridge - may be pass through
+decoder if there is only one root port.
+
+decoder2.0 is the one is the endpoint itself.
+
+>=20
+>=20
+> Don't know why I haven't thought of this until now, but is the CFMW code
+> reporting something odd about what's behind it?  Is it assuming the
+> devices are pmem?
+
+It reports the ability to support pmem or support volatile or support both.
+Currently
+https://elixir.bootlin.com/qemu/latest/source/hw/acpi/cxl.c#L107
+qemu reports that all CFMWS windows support everything except
+"Fixed Device Configuration (Bit[4])" which would tell the OS not
+to move devices that are already programmed out of this window
+and doesn't really make sense for QEMU to ever set.
+That is we support all of:
+Device Coherent (type 2 and back invalidate flows on type 3, though we
+aren't emulating the back invalidate stuff yet on the EP)
+Host only coherent. [thinking about it we should probably not
+support both this and device coherent as they would be mutually
+incompatible on a real host]
+Volatile
+Persistent
+
+Jonathan
+
 
 
