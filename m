@@ -2,92 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 771E46755C2
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D44B6755F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:37:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIrPc-0000PX-L6; Fri, 20 Jan 2023 08:26:32 -0500
+	id 1pIrYo-000740-Ja; Fri, 20 Jan 2023 08:36:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pIrOl-0008LG-F8
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:25:43 -0500
-Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pIrOi-0003LF-H4
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:25:38 -0500
-Received: by mail-ed1-x533.google.com with SMTP id y11so6676515edd.6
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 05:25:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=0fZ8ltseGThkHhi2NNMa+/8NoEJEaquqoyQ5gLJ0q30=;
- b=L0OQ49eamwQN1FtclSHO7ZqJixkWH9TFzC+VhwKW3m2uSirvYo7CTmDLN5Rt7EdLWp
- SzwMlRRHIvLHkYa2JUcJtiDmwMYX5mLLX6jiP50nG8InD2cyHyBGeHjr31MX+oUItBHh
- xkmzOoYzcuHN9+DEseSqVKHxtW1Azxa+ozVVYgSJUhEUVPE7LjqAfsP5OPJEPS2KtN/S
- U40pLsU/7WO/yshAIC3Y5M3645c5Ce3rnfHylZ5kFlaR5/Jz3ZUZ2TpM/s20FGfB2g7+
- 6CLdC4hR9A6ygLDUWt+0+hh13TA5sCmXK8/ImcTwAUK9o2ZVlmtA8ZnHcxMU9QkUn5BN
- HwMA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pIrYh-00071W-Qj
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:35:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pIrYg-0005cI-4r
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:35:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674221752;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=w/o9ii5+NdZzLQa3C823Spyijlzl1VCcSfgi3ciG+JI=;
+ b=O4mlMJjbJB9ZEleUF0bG0BENv95k8ijwTtROkehVVMqj8fvuvFqUu1QpgyIooppuRjPQ3t
+ S5YIzIa0lBN0ulgtu9AMtdGwtSTvV08mWUc3+PpEM6xO+wlEEHoEDYYFzqaLBUhvtOM8nq
+ dwrXRvG/V0ouMEtUko8MuXhGLh92Vmo=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-371-7XFIcAjWM4KF04ztZk2aDw-1; Fri, 20 Jan 2023 08:35:51 -0500
+X-MC-Unique: 7XFIcAjWM4KF04ztZk2aDw-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ sa32-20020a1709076d2000b0084d4593797eso3819224ejc.16
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 05:35:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=0fZ8ltseGThkHhi2NNMa+/8NoEJEaquqoyQ5gLJ0q30=;
- b=ibXT2TpiC+iijONYP688MN4t6UnwaspTMY3s/5QK07zOFlvjpEwOQfQilobcT+OQe8
- nF58sEF71eHPrNnSxROtrtz4+Pcsc4kRy6BXcxyZlL59Sm3pS9eamHJWjUY0YozmsDKw
- XmmoD/MkE5+WJYLlTQ564z6LsnhX5yQC2nIyrVoQKHnAdOoJxSLkuuecrtyZOkDEx3VD
- 12QU9B1lOJHjPtM91teQgmG5vay9gdrjc2noQjgHjzXtACVjh3vuRqd2X2MYWLN7y8Td
- SwEbNOGrHPD6arNQgwuqFjyXGPRa7Fz5MKTtDwn2cq3Ql2h2l1qHMh4Q+7MJubiNH059
- pRPA==
-X-Gm-Message-State: AFqh2kr1LCzb5iHrwt8pXptZ1eP15JpCsr14oP04FcFjgCvtN8wcAxUU
- L9suPFpx+FS+wQ4qqXbK7mZwnw==
-X-Google-Smtp-Source: AMrXdXthrTF7VTEHcDDVedFt+TFDHgj29TadRXTCGXyh1Xofvm7peeLtQBPcTkGIXhrMKY23HwqvnQ==
-X-Received: by 2002:a05:6402:d47:b0:499:376e:6b31 with SMTP id
- ec7-20020a0564020d4700b00499376e6b31mr13809783edb.29.1674221133794; 
- Fri, 20 Jan 2023 05:25:33 -0800 (PST)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=w/o9ii5+NdZzLQa3C823Spyijlzl1VCcSfgi3ciG+JI=;
+ b=0SngpZ5V7uI+ancNNTlL3M80Tw20PN20lo3JCI01vHRhs1+3K/ARG60xwSbaPRYfOo
+ NJXNK2cIbECFEYFT4T6UNNphQkeyZnn06aZ7r55hk0c5KY2wmkUYMclXtJmmreKw49nX
+ Zn2w0jDLNJDQ6HA1Ct5mIHx+GDjXjRcBD+gxRtFtKdd+2g2cPhV34LbSgBSADVJADGIc
+ C++rmicsschGZ8JA1TsP7xNo5Yrl6rnYJ6riatBsAUDI5waUHMDKQ/LIRLQDKu3v19xQ
+ aZ+Hth7cB1ySiyLRYOBqxYjOY/Q41otjNsiFrm0qWRNgrEq9RQoxroDPINTA5XAuzTrt
+ 1abQ==
+X-Gm-Message-State: AFqh2kqZV64/3DpetGuOMkYeIMWolBxjbr1DVpydPESW6SmPcldHXBwu
+ DuQve/TuK10cKl3lUB8Pu3ypiHbPxBprkhaKOU29dy6/8AhVWGjM2bKKXGK2Wb15Anjq2haZ/Yh
+ /IU41LWkai/nCROY=
+X-Received: by 2002:a05:6402:1770:b0:48e:9afd:de66 with SMTP id
+ da16-20020a056402177000b0048e9afdde66mr14724445edb.34.1674221750096; 
+ Fri, 20 Jan 2023 05:35:50 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXu0capD1RslNoYItkk7Z4Qbc15GnMm218tAemBzA4v8SbE5FLCJNg25I5IqH2xo0rhWi/ujhA==
+X-Received: by 2002:a05:6402:1770:b0:48e:9afd:de66 with SMTP id
+ da16-20020a056402177000b0048e9afdde66mr14724428edb.34.1674221749888; 
+ Fri, 20 Jan 2023 05:35:49 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
+ ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
  by smtp.gmail.com with ESMTPSA id
- g8-20020aa7d1c8000000b0049e1f167956sm6416743edp.9.2023.01.20.05.25.33
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 05:25:33 -0800 (PST)
-Date: Fri, 20 Jan 2023 14:25:32 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Alistair Francis <alistair23@gmail.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Ludovic Henry <ludovic@rivosinc.com>
-Subject: Re: [PATCH v5 2/2] riscv: Allow user to set the satp mode
-Message-ID: <20230120132532.n5inawnb3odhy7ik@orel>
-References: <20230113103453.42776-1-alexghiti@rivosinc.com>
- <20230113103453.42776-3-alexghiti@rivosinc.com>
- <20230117163138.jze47hjeeuwu2k4j@orel>
- <CAKmqyKNFX_ovg4Bp_30o0g4Jd5XJ98i9LdFgejsDmGW4iL2+OA@mail.gmail.com>
- <20230118121916.6aqj57leen72z5tz@orel>
- <CAKmqyKNcd3JOZgPb23idrzVjxHj+HHwPz6f6xPEp2oVGJEZKpg@mail.gmail.com>
- <CAHVXubiW2OaMhe3STLLMz=wDPJeY8hvPHbuBJgL7KZyw4=pRpw@mail.gmail.com>
- <CAKmqyKNNocLxKJtBtFnZkbTdCwC=TKaHpm4Sunut49nxQyw8yA@mail.gmail.com>
- <20230120095306.yyqq36dliabni3h3@orel>
- <CAHVXubhPhNiCHRvpW11NSZx58Eqi56AVgnaDFnJvrN7wQs_5MA@mail.gmail.com>
+ f5-20020a05640214c500b00487fc51c532sm610134edx.33.2023.01.20.05.35.48
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Jan 2023 05:35:49 -0800 (PST)
+Message-ID: <758f3547-f727-28b8-48d3-a44306897d13@redhat.com>
+Date: Fri, 20 Jan 2023 14:35:48 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHVXubhPhNiCHRvpW11NSZx58Eqi56AVgnaDFnJvrN7wQs_5MA@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::533;
- envelope-from=ajones@ventanamicro.com; helo=mail-ed1-x533.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 01/12] block: Improve empty format-specific info dump
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20220620162704.80987-1-hreitz@redhat.com>
+ <20220620162704.80987-2-hreitz@redhat.com> <Y8lNGgogFfitt7kr@redhat.com>
+From: Hanna Czenczek <hreitz@redhat.com>
+In-Reply-To: <Y8lNGgogFfitt7kr@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,117 +102,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 20, 2023 at 01:44:41PM +0100, Alexandre Ghiti wrote:
-> On Fri, Jan 20, 2023 at 10:53 AM Andrew Jones <ajones@ventanamicro.com> wrote:
-> >
-> > On Fri, Jan 20, 2023 at 09:46:05AM +1000, Alistair Francis wrote:
-> > > On Thu, Jan 19, 2023 at 11:00 PM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
-> > > >
-> > > > Hi Alistair, Andrew,
-> > > >
-> > > > On Thu, Jan 19, 2023 at 1:25 AM Alistair Francis <alistair23@gmail.com> wrote:
-> > > > >
-> > > > > On Wed, Jan 18, 2023 at 10:19 PM Andrew Jones <ajones@ventanamicro.com> wrote:
-> > > > > >
-> > > > > > On Wed, Jan 18, 2023 at 10:28:46AM +1000, Alistair Francis wrote:
-> > > > > > > On Wed, Jan 18, 2023 at 2:32 AM Andrew Jones <ajones@ventanamicro.com> wrote:
-> > > > > > > >
-> > > > > > > > On Fri, Jan 13, 2023 at 11:34:53AM +0100, Alexandre Ghiti wrote:
-> > > > > > ...
-> > > > > > > > > +
-> > > > > > > > > +    /* Get rid of 32-bit/64-bit incompatibility */
-> > > > > > > > > +    for (int i = 0; i < 16; ++i) {
-> > > > > > > > > +        if ((cpu->cfg.satp_mode.map & (1 << i)) && !valid_vm[i]) {
-> > > > > > > >
-> > > > > > > > If we ever define mode=1 for rv64, then 'sv32=on' will be incorrectly
-> > > > > > > > accepted as an alias. I think we should simply not define the sv32
-> > > > > > > > property for rv64 nor the rv64-only modes for rv32. So, down in
-> > > > > > > > riscv_add_satp_mode_properties() we can add some
-> > > > > > > >
-> > > > > > > >   #if defined(TARGET_RISCV32)
-> > > > > > > >   ...
-> > > > > > > >   #elif defined(TARGET_RISCV64)
-> > > > > > > >   ...
-> > > > > > > >   #endif
-> > > > > > >
-> > > > > > > Do not add any #if defined(TARGET_RISCV32) to QEMU.
-> > > > > > >
-> > > > > > > We are aiming for the riscv64-softmmu to be able to emulate 32-bit
-> > > > > > > CPUs and compile time macros are the wrong solution here. Instead you
-> > > > > > > can get the xlen of the hart and use that.
-> > > > > > >
-> > > > > >
-> > > > > > Does this mean we want to be able to do the following?
-> > > > > >
-> > > > > >   qemu-system-riscv64 -cpu rv32,sv32=on ...
-> > > > >
-> > > > > That's the plan
-> > > > >
-> > > > > >
-> > > > > > If so, then can we move the object_property_add() for sv32 to
-> > > > > > rv32_base_cpu_init() and the rest to rv64_base_cpu_init()?
-> > >
-> > > Wait! Sorry I didn't read this carefully enough. No, that is not what
-> > > we want to do. That then won't support the vendor CPUs.
-> > >
-> > > We just want to add the properties to all CPUs. Then if an invalid
-> > > option is set we should return an error.
-> 
-> Maybe I just don't get this part...
+On 19.01.23 15:00, Kevin Wolf wrote:
+> Am 20.06.2022 um 18:26 hat Hanna Reitz geschrieben:
+>> When a block driver supports obtaining format-specific information, but
+>> that object only contains optional fields, it is possible that none of
+>> them are present, so that dump_qobject() (called by
+>> bdrv_image_info_specific_dump()) will not print anything.
+>>
+>> The callers of bdrv_image_info_specific_dump() put a header above this
+>> information ("Format specific information:\n"), which will look strange
+>> when there is nothing below.  Modify bdrv_image_info_specific_dump() to
+>> print this header instead of its callers, and only if there is indeed
+>> something to be printed.
+>>
+>> Signed-off-by: Hanna Reitz <hreitz@redhat.com>
+>> diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+>> index 2f0d8ac25a..084ec44d3b 100644
+>> --- a/qemu-io-cmds.c
+>> +++ b/qemu-io-cmds.c
+>> @@ -1819,8 +1819,8 @@ static int info_f(BlockBackend *blk, int argc, char **argv)
+>>           return -EIO;
+>>       }
+>>       if (spec_info) {
+>> -        printf("Format specific information:\n");
+>> -        bdrv_image_info_specific_dump(spec_info);
+>> +        bdrv_image_info_specific_dump(spec_info,
+>> +                                      "Format specific information:\n");
+>>           qapi_free_ImageInfoSpecific(spec_info);
+>>       }
+> Interesting observation here: That qemu-io uses printf() instead of
+> qemu_printf() for the top level, but then dump_qobject() (which results
+> in qemu_printf()) for the format specific information, means that if you
+> use the 'qemu-io' HMP command, you'll get half of the output on stdout
+> and the other half in the monitor.
 
-Indeed, I like not adding the property at all over adding it and then
-complaining when it's used. Your solution below looks good to me and
-would be my preference as well.
+Hu.  I can’t find a single instance of qemu_printf() in qemu-io-cmds.c, 
+but then I assume all printf()s there should really be qemu_printf()?
 
-Thanks,
-drew
+Hanna
 
-> 
-> > >
-> > > Note that the 64-bit only configs can be hidden behind a #if
-> > > defined(TARGET_RISCV64).
-> >
-> > OK, so we want the original suggestion of putting an
-> > 'if defined(TARGET_RISCV64)' in riscv_add_satp_mode_properties(),
-> > which is called from register_cpu_props(), for the 64-bit only
-> > configs, but to support emulation we can't put sv32 under an
-> > 'if defined(TARGET_RISCV32)'. Instead, we need to check the xlen
-> > supported by the cpu type. That makes sense to me, and I think
-> > it'd be easiest to do in cpu_riscv_set_satp() with something like
-> >
-> >   if (!strncmp(name, "rv32", 4) &&
-> >       RISCV_CPU(obj)->env.misa_mxl != MXL_RV32) {
-> >      ... fail with error message ...
-> >   }
-> >
-> 
-> ...but what about simply using the runtime check when we add the
-> properties? Like this:
-> 
-> static void riscv_add_satp_mode_properties(Object *obj)
-> {
->     RISCVCPU *cpu = RISCV_CPU(obj);
-> 
->     if (cpu->env.misa_mxl == MXL_RV32) {
->         object_property_add(obj, "sv32", "bool", cpu_riscv_get_satp,
->                             cpu_riscv_set_satp, NULL,
-> &cpu->cfg.satp_mode);
->     } else {
->         object_property_add(obj, "sv39", "bool", cpu_riscv_get_satp,
->                             cpu_riscv_set_satp, NULL,
-> &cpu->cfg.satp_mode);
->         object_property_add(obj, "sv48", "bool", cpu_riscv_get_satp,
->                             cpu_riscv_set_satp, NULL,
-> &cpu->cfg.satp_mode);
->         object_property_add(obj, "sv57", "bool", cpu_riscv_get_satp,
->                             cpu_riscv_set_satp, NULL,
-> &cpu->cfg.satp_mode);
->         object_property_add(obj, "sv64", "bool", cpu_riscv_get_satp,
->                             cpu_riscv_set_satp, NULL,
-> &cpu->cfg.satp_mode);
->     }
-> }
-> 
-> > Thanks,
-> > drew
+> This series doesn't fix this, but the split makes a little more sense
+> after this patch at least...
+>
+> Kevin
+
 
