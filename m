@@ -2,67 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF95C67562D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:57:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217B7675634
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:58:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIrs6-0007mH-PG; Fri, 20 Jan 2023 08:55:58 -0500
+	id 1pIrts-0002w3-Ca; Fri, 20 Jan 2023 08:57:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1pIrs2-0007la-Vm
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:55:55 -0500
-Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
- id 1pIrrz-0001n0-RB
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:55:54 -0500
-Received: from vla5-b2806cb321eb.qloud-c.yandex.net
- (vla5-b2806cb321eb.qloud-c.yandex.net
- [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
- by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 074F05FE28;
- Fri, 20 Jan 2023 16:48:09 +0300 (MSK)
-Received: from d-tatianin-nix.yandex.net (unknown
- [2a02:6b8:0:419:8f3f:2197:162b:4096])
- by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- wlngUQ0WWiE1-7YN7AeUl; Fri, 20 Jan 2023 16:48:08 +0300
-Precedence: bulk
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1674222488; bh=ZtTbi4GXRgOO7uoBYaSNdemABJCezVJcSdF4lxOAUcw=;
- h=Message-Id:Date:In-Reply-To:Cc:Subject:References:To:From;
- b=s8C38UC+VC6JVmCa1Fho2ZH0KMiiBSfqMvqFGmQP47+FvffuBx1AXYj+cs9/0huCp
- zwpi82m6lQNoU8u5yjrXzBoDJciH+nPQQ7QEZoJ32qerzPljWw5Z/2Y9lPYQlbOsg6
- 2//e7dX4PN7HnQuskrGg08yvpSbmgIfxUoTkC0xw=
-Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-From: Daniil Tatianin <d-tatianin@yandex-team.ru>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Daniil Tatianin <d-tatianin@yandex-team.ru>, qemu-devel@nongnu.org,
- Stefan Weil <sw@weilnetz.de>, David Hildenbrand <david@redhat.com>,
- Igor Mammedov <imammedo@redhat.com>, yc-core@yandex-team.ru
-Subject: [PATCH 4/4] backends/hostmem: add an ability to make prealloc timeout
- fatal
-Date: Fri, 20 Jan 2023 16:47:49 +0300
-Message-Id: <20230120134749.550639-5-d-tatianin@yandex-team.ru>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230120134749.550639-1-d-tatianin@yandex-team.ru>
-References: <20230120134749.550639-1-d-tatianin@yandex-team.ru>
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pIrtp-0002vm-Km
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:57:45 -0500
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pIrtn-0001wB-Rf
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:57:45 -0500
+Received: by mail-lj1-x232.google.com with SMTP id g14so5548164ljh.10
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 05:57:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=b/7sFd6VDVQhwp/xKcD7Q2EGoMsjI9O6ASOhgtMRfCw=;
+ b=ARl4+Mo1zcBNUt8kY8EQ0Ttijbf0yrPSbT5Dk8K2fCIsPIxCP+R+bQAXjgut3eEabl
+ 3+Q5fZ68LMU0h0F9a+FEaZawSIXIf/Nwx6NvVgGVXA1JYxWmlQ0m5D9rmh0hi77o77kr
+ ZADLmkCFniQhqTp+GuzTSz69kd2He8knBT0NJvD08afE9JTYmrNiOQcPkPe974yE9hHK
+ jogOMMaqjSiMZh/fAtsVyXkN+VXCN0YPworV6UlQ9XGCcbb69DNNFF5AJqkUVRYu//zt
+ Hy22y9gfWos0jYJOE3rACuEl3vsWRwOB3e0Du4Hyx0WlaWcElt7SafP7ItHoLEzkXW0N
+ U7/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=b/7sFd6VDVQhwp/xKcD7Q2EGoMsjI9O6ASOhgtMRfCw=;
+ b=QFDvX7XV1O//qUaXFKz9WLtTRt8S7t9UVS4TsK8opNls9n3mNoRDImWx6NmstuWpLJ
+ Qxlmsu+qpJAjSuC9tSI20YDDJDoJP49/IIYKjDJcnvLWm+pX33/ORnzJ1VvRRcReUzh3
+ 5taGTaF4aD+W2mfwFz8XnGsshT/PSxnCt71h1mxAFhNpJysdbZ4bfs6t5yKodYNqS+8F
+ xSdd/XxrTgCsYa4pPyRYxj7WPTmTK4iqm4Je2wCdh1jcnueYjlE90Si1gEqIf9wl2LaI
+ FZy0nji3x9heGnB7syfU244cf8wiu5zIvhjHDP3RNBdKSF3NIIMYsfngfnZtYCD8zARc
+ 0DQw==
+X-Gm-Message-State: AFqh2kruJRQex4eeDpp6sgTVOxx9w9Lfo/Gn/GoZXoGSXv70NWJ21odN
+ NrfQ1Z7laBwU/ZUJ76hfjLLVqjaRaDm2bSJFjqo=
+X-Google-Smtp-Source: AMrXdXtFwXK2rF4TzRI36cKo4aoIBrPNu9hDxrp5pEHK4W2RHUvgnLwE6jCPfs5Q/k9MLdTdcUoTNH4FncdEBnhu2po=
+X-Received: by 2002:a2e:9395:0:b0:28b:7934:e2dc with SMTP id
+ g21-20020a2e9395000000b0028b7934e2dcmr644816ljh.267.1674223061154; Fri, 20
+ Jan 2023 05:57:41 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=178.154.239.72;
- envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+References: <c2246b1a-51b3-2843-5164-c424c571874f@redhat.com>
+ <CAJ+F1C+EC-tgDOyX5e56utKdUz-DXMMtwrtVyKXT2Jj4r43OCA@mail.gmail.com>
+ <839268cb-b65c-68d6-1294-47548ed383b1@redhat.com>
+In-Reply-To: <839268cb-b65c-68d6-1294-47548ed383b1@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Fri, 20 Jan 2023 17:57:29 +0400
+Message-ID: <CAJ+F1CJteJ665MLSUhWg-p9=tH6B7w-m=pop+o9ktGffxCiZaA@mail.gmail.com>
+Subject: Re: MSYS2 and libfdt
+To: Thomas Huth <thuth@redhat.com>
+Cc: Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>, 
+ QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x232.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,117 +87,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is controlled via the new 'prealloc-timeout-fatal' property and can
-be useful for cases when we cannot afford to not preallocate all guest
-pages while being time constrained.
+Hi Thomas
 
-Signed-off-by: Daniil Tatianin <d-tatianin@yandex-team.ru>
----
- backends/hostmem.c       | 38 ++++++++++++++++++++++++++++++++++----
- include/sysemu/hostmem.h |  1 +
- qapi/qom.json            |  4 ++++
- 3 files changed, 39 insertions(+), 4 deletions(-)
+On Fri, Jan 20, 2023 at 12:31 PM Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 19/01/2023 09.56, Marc-Andr=C3=A9 Lureau wrote:
+> > Hi
+> >
+> > On Thu, Jan 19, 2023 at 12:31 PM Thomas Huth <thuth@redhat.com> wrote:
+> >>
+> >>
+> >>    Hi all,
+> >>
+> >> in some spare minutes, I started playing with a patch to try to remove=
+ the
+> >> dtc submodule from the QEMU git repository - according to
+> >> https://repology.org/project/dtc/versions our supported build platform=
+s
+> >> should now all provide the minimum required version.
+> >>
+> >> However, I'm hitting a problem with Windows / MSYS2 in the CI jobs: Th=
+e
+> >> libfdt is packaged as part of the dtc package there:
+> >>
+> >>    https://packages.msys2.org/package/dtc
+> >>
+> >> ... meaning that it is added with a usr/include and usr/lib path prefi=
+x
+> >> instead of mingw64/include and mingw64/lib like other packages are usi=
+ng
+> >> (see e.g.
+> >> https://packages.msys2.org/package/mingw-w64-x86_64-zlib?repo=3Dmingw6=
+4). Thus
+> >> the compiler does not find the library there. Also there does not seem=
+ to be
+> >> a difference between a i686 (32-bit) and x86_64 (64-bit) variant avail=
+able
+> >> here? Does anybody know how libfdt is supposed to be used with MSYS2 ?
+> >
+> > The msys environment is a bit special, it's not an environment for a
+> > particular build target, my understanding is that it holds common
+> > files/tools.
+> >
+> > dtc should be added to https://github.com/msys2/MINGW-packages for it
+> > to be available as a target dependency.
+>
+> Do you have already any experience in requesting a new package there? Cou=
+ld
+> you maybe do it? ... since I don't have a proper MinGW installation here,=
+ it
+> would be very cumbersome for me right now.
+>
 
-diff --git a/backends/hostmem.c b/backends/hostmem.c
-index be9af7515e..0808dc6951 100644
---- a/backends/hostmem.c
-+++ b/backends/hostmem.c
-@@ -39,12 +39,21 @@ host_memory_on_prealloc_timeout(void *opaque,
-                                 const PreallocStats *stats)
- {
-     HostMemoryBackend *backend = opaque;
-+    const char *msg = "HostMemory preallocation timeout %"PRIu64"s exceeded, "
-+                      "allocated %zu/%zu (%zu byte) pages (%d threads)";
-+
-+    if (backend->prealloc_timeout_fatal) {
-+        error_report(msg, (uint64_t)stats->seconds_elapsed,
-+                     stats->allocated_pages, stats->total_pages,
-+                     stats->page_size, stats->threads);
-+        exit(1);
-+
-+    }
- 
-     backend->prealloc_did_timeout = true;
--    warn_report("HostMemory preallocation timeout %"PRIu64"s exceeded, "
--                "allocated %zu/%zu (%zu byte) pages (%d threads)",
--                (uint64_t)stats->seconds_elapsed, stats->allocated_pages,
--                stats->total_pages, stats->page_size, stats->threads);
-+    warn_report(msg, (uint64_t)stats->seconds_elapsed,
-+                stats->allocated_pages, stats->total_pages,
-+                stats->page_size, stats->threads);
- }
- 
- char *
-@@ -315,6 +324,22 @@ static void host_memory_backend_get_set_prealloc_timeout(Object *obj,
-     visit_type_uint32(v, name, &backend->prealloc_timeout, errp);
- }
- 
-+static bool host_memory_backend_get_prealloc_timeout_fatal(
-+        Object *obj, Error **errp)
-+{
-+    HostMemoryBackend *backend = MEMORY_BACKEND(obj);
-+
-+    return backend->prealloc_timeout_fatal;
-+}
-+
-+static void host_memory_backend_set_prealloc_timeout_fatal(
-+        Object *obj, bool value, Error **errp)
-+{
-+    HostMemoryBackend *backend = MEMORY_BACKEND(obj);
-+
-+    backend->prealloc_timeout_fatal = value;
-+}
-+
- static void host_memory_backend_init(Object *obj)
- {
-     HostMemoryBackend *backend = MEMORY_BACKEND(obj);
-@@ -560,6 +585,11 @@ host_memory_backend_class_init(ObjectClass *oc, void *data)
-         NULL, NULL);
-     object_class_property_set_description(oc, "prealloc-timeout",
-         "Maximum memory preallocation timeout in seconds");
-+    object_class_property_add_bool(oc, "prealloc-timeout-fatal",
-+        host_memory_backend_get_prealloc_timeout_fatal,
-+        host_memory_backend_set_prealloc_timeout_fatal);
-+    object_class_property_set_description(oc, "prealloc-timeout-fatal",
-+        "Consider preallocation timeout a fatal error");
-     object_class_property_add(oc, "size", "int",
-         host_memory_backend_get_size,
-         host_memory_backend_set_size,
-diff --git a/include/sysemu/hostmem.h b/include/sysemu/hostmem.h
-index 21910f3b45..b501b5eff2 100644
---- a/include/sysemu/hostmem.h
-+++ b/include/sysemu/hostmem.h
-@@ -67,6 +67,7 @@ struct HostMemoryBackend {
-     bool merge, dump, use_canonical_path;
-     bool prealloc, is_mapped, share, reserve;
-     bool prealloc_did_timeout;
-+    bool prealloc_timeout_fatal;
-     uint32_t prealloc_threads;
-     uint32_t prealloc_timeout;
-     ThreadContext *prealloc_context;
-diff --git a/qapi/qom.json b/qapi/qom.json
-index 9149c064b8..70644d714b 100644
---- a/qapi/qom.json
-+++ b/qapi/qom.json
-@@ -584,6 +584,9 @@
- # @prealloc-timeout: Maximum memory preallocation timeout in seconds
- #                    (default: 0) (since 7.3)
- #
-+# @prealloc-timeout-fatal: Consider preallocation timeout a fatal error
-+#                          (default: false) (since 7.3)
-+#
- # @share: if false, the memory is private to QEMU; if true, it is shared
- #         (default: false)
- #
-@@ -616,6 +619,7 @@
-             '*prealloc-threads': 'uint32',
-             '*prealloc-context': 'str',
-             '*prealloc-timeout': 'uint32',
-+            '*prealloc-timeout-fatal': 'bool',
-             '*share': 'bool',
-             '*reserve': 'bool',
-             'size': 'size',
--- 
-2.25.1
+Here you go (although let see what CI has to say):
+https://github.com/msys2/MINGW-packages/pull/15168
 
+The msys2 maintainers are usually very quick and helpful, in my experience.
+
+(I sometime use a windev evaluation VM, that I import with the help of
+https://github.com/elmarco/virt-install-windev)
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
