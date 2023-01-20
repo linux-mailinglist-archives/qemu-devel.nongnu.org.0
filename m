@@ -2,59 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CAFB675645
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 15:02:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12625675530
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:03:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIrxR-0005YP-CK; Fri, 20 Jan 2023 09:01:29 -0500
+	id 1pIr0K-0007NT-QH; Fri, 20 Jan 2023 08:00:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1pIrxJ-0005QE-MS
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:01:23 -0500
-Received: from us-smtp-delivery-44.mimecast.com ([205.139.111.44])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1pIrxE-0002f9-UL
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:01:21 -0500
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-368-Fb1KLFPiOdGGSfBsjNHXBw-1; Fri, 20 Jan 2023 09:01:12 -0500
-X-MC-Unique: Fb1KLFPiOdGGSfBsjNHXBw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A8606185A78B;
- Fri, 20 Jan 2023 14:01:11 +0000 (UTC)
-Received: from kaod.org (unknown [10.39.192.112])
- by smtp.corp.redhat.com (Postfix) with SMTP id 125AA40C2064;
- Fri, 20 Jan 2023 14:00:32 +0000 (UTC)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Maxime Coquelin <maxime.coquelin@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Yajun Wu <yajunw@nvidia.com>, Peter Maydell <peter.maydell@linaro.org>,
- Parav Pandit <parav@nvidia.com>, qemu-stable@nongnu.org,
- Greg Kurz <groug@kaod.org>
-Subject: [PATCH 0/2] vhost-user: Remove the nested event loop to unbreak the
- DPDK use case
-Date: Thu, 19 Jan 2023 18:24:22 +0100
-Message-Id: <20230119172424.478268-1-groug@kaod.org>
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1pIr08-0007Ld-Eg
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:00:19 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
+ id 1pIr06-0006G3-U1
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:00:12 -0500
+Received: by mail-pl1-x630.google.com with SMTP id jm10so5211293plb.13
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 05:00:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jhhgQogAthhvWskxErYyVviUIAb5WWWhMnae0hKG2Ik=;
+ b=HOIZH/ACOEXLZTTM8+6S3ZY5iyO2KC6laUnwk9j6hbmvr2Ix+0FiWMFheVZHpfUAui
+ IE3tFtfCDK8DitxjRds16MducHAlrge8eE6NQ1Q3VZjISzv9PouD0kzhtR+Sr3vJAr+R
+ ZinlZ2ncCJTxwrNa/uaDv1REP1Y+yhKojrPOT+M5ypbxM7rZcUGOD/f2gqDjxvvYz8hN
+ +vwMepS4RU+pp4Oyh1GcmjrXJ91yqiKtwkM5tzDNanDZDocxIET48WtLh1pectsvYVOZ
+ ME9SaTQJ+j11Vcfo87ZEy2UKy3cgS6eA2QxekbK2zsylDz+1nUpgBwFY4mlPCSSU1qOq
+ ZaaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jhhgQogAthhvWskxErYyVviUIAb5WWWhMnae0hKG2Ik=;
+ b=NOHha2Yeo9w+ZnM2dOkJfj0hk3b/vmlb39D4EGxTBpNafd1V/r14xV016Iqt9ewPT3
+ t1WOkBkCZjbvpO9ryIITjc4Z0x+Hq179U8BGr5YQbCt5CEYnf3KV3f/CilAo1a4SnHQN
+ J97SXsdFMHE9XVIYFAxRUOKJyuLL+fQuNPKJu//nQ9QmOOLr8oL5pC3ZJPEcXzt3IeGK
+ 3UiC666jnF5TlRhe16J3k5CqxIigtNG6lozLZS96bdo9ruPO3k+obakY0gEL4lsY8zZY
+ pa8oGNngHXlMoA7fvJHtPMF8+7pl1/5QjJGXVfvb2YKnOxHiR/0+hlqr+JIiJ4gz0n2a
+ e2qg==
+X-Gm-Message-State: AFqh2kpnP5NHGS9VTMvo36+20AyvgMnhRGTJQKWvtkDJhh8mhuVeLbnj
+ L2sFXb65m8Wd7oczQTw32ZF/Rw==
+X-Google-Smtp-Source: AMrXdXvpPoNaU1fqtF07PHP8TPU7yAVUqU/At3pTWwuxnt/Wec8mklyC16wBNmEj44jAbCIlFl42kw==
+X-Received: by 2002:a17:902:6a89:b0:194:88a3:6e28 with SMTP id
+ n9-20020a1709026a8900b0019488a36e28mr15050887plk.51.1674219609223; 
+ Fri, 20 Jan 2023 05:00:09 -0800 (PST)
+Received: from anup-ubuntu-vm.localdomain ([103.97.165.210])
+ by smtp.gmail.com with ESMTPSA id
+ u7-20020a170902e5c700b0017f72a430adsm7279610plf.71.2023.01.20.05.00.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Jan 2023 05:00:08 -0800 (PST)
+From: Anup Patel <apatel@ventanamicro.com>
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <Alistair.Francis@wdc.com>,
+ Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Atish Patra <atishp@atishpatra.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Anup Patel <anup@brainfault.org>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Anup Patel <apatel@ventanamicro.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PATCH v3 1/4] target/riscv: Update VS timer whenever htimedelta
+ changes
+Date: Fri, 20 Jan 2023 18:29:47 +0530
+Message-Id: <20230120125950.2246378-2-apatel@ventanamicro.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230120125950.2246378-1-apatel@ventanamicro.com>
+References: <20230120125950.2246378-1-apatel@ventanamicro.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: softfail client-ip=205.139.111.44; envelope-from=groug@kaod.org;
- helo=us-smtp-delivery-44.mimecast.com
-X-Spam_score_int: -8
-X-Spam_score: -0.9
-X-Spam_bar: /
-X-Spam_report: (-0.9 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_12_24=1.049,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=apatel@ventanamicro.com; helo=mail-pl1-x630.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,27 +98,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The nested event loop was introduced in QEMU 6.0 to allow servicing=0D
-of requests coming from the slave channel while waiting for an ack=0D
-from the back-end on the master socket. It turns out this is fragile=0D
-and breaks if the servicing of the slave channel causes a new message=0D
-to be sent on the master socket. This is exactly what happens when=0D
-using DPDK as reported in [0].=0D
-=0D
-The only identified user for the nested loop is DAX enablement that=0D
-isn't upstream yet. Just drop the code for now. Some more clever=0D
-solution should be designed when the need to service concurrent=0D
-requests from both channels arises again.=0D
-=0D
-Greg Kurz (2):=0D
-  Revert "vhost-user: Monitor slave channel in vhost_user_read()"=0D
-  Revert "vhost-user: Introduce nested event loop in vhost_user_read()"=0D
-=0D
- hw/virtio/vhost-user.c | 100 ++++-------------------------------------=0D
- 1 file changed, 8 insertions(+), 92 deletions(-)=0D
-=0D
---=20=0D
-2.39.0=0D
-=0D
+The htimedelta[h] CSR has impact on the VS timer comparison so we
+should call riscv_timer_write_timecmp() whenever htimedelta changes.
+
+Fixes: 3ec0fe18a31f ("target/riscv: Add vstimecmp suppor")
+Signed-off-by: Anup Patel <apatel@ventanamicro.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+---
+ target/riscv/csr.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
+
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 62e6c4acbd..fa17d7770c 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -3045,6 +3045,8 @@ static RISCVException read_htimedelta(CPURISCVState *env, int csrno,
+ static RISCVException write_htimedelta(CPURISCVState *env, int csrno,
+                                        target_ulong val)
+ {
++    RISCVCPU *cpu = env_archcpu(env);
++
+     if (!env->rdtime_fn) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+@@ -3054,6 +3056,12 @@ static RISCVException write_htimedelta(CPURISCVState *env, int csrno,
+     } else {
+         env->htimedelta = val;
+     }
++
++    if (cpu->cfg.ext_sstc && env->rdtime_fn) {
++        riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
++                                  env->htimedelta, MIP_VSTIP);
++    }
++
+     return RISCV_EXCP_NONE;
+ }
+ 
+@@ -3071,11 +3079,19 @@ static RISCVException read_htimedeltah(CPURISCVState *env, int csrno,
+ static RISCVException write_htimedeltah(CPURISCVState *env, int csrno,
+                                         target_ulong val)
+ {
++    RISCVCPU *cpu = env_archcpu(env);
++
+     if (!env->rdtime_fn) {
+         return RISCV_EXCP_ILLEGAL_INST;
+     }
+ 
+     env->htimedelta = deposit64(env->htimedelta, 32, 32, (uint64_t)val);
++
++    if (cpu->cfg.ext_sstc && env->rdtime_fn) {
++        riscv_timer_write_timecmp(cpu, env->vstimer, env->vstimecmp,
++                                  env->htimedelta, MIP_VSTIP);
++    }
++
+     return RISCV_EXCP_NONE;
+ }
+ 
+-- 
+2.34.1
 
 
