@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF9F4674D9F
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:03:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B4A7674D97
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:03:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIlPD-00009Q-PG; Fri, 20 Jan 2023 02:01:43 -0500
+	id 1pIlPG-0000A5-By; Fri, 20 Jan 2023 02:01:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlOz-0008UG-PR
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlOz-0008UF-OL
  for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:01:32 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlOx-0005GO-Th
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlOw-0005Fy-Rr
  for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:01:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674198087;
+ s=mimecast20190719; t=1674198085;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=7TC0jWFMGoAYpAGn99fdBxChxOKtjBjhu0HgZzGAObY=;
- b=fPN2deqaGDKERAG5h19eC+IgMvKU5viRq4zMfDYeVLk0ukxi1nI5e5x/HUCrEXWqKuw/5D
- HYfiRdMD9ugGLMPb0z+CnrO3v1vx+ZD1LV2eE3NwQRjcN6W72rKjS5tzDPhdx1vtl8c1YY
- KoZBEyHxarAhPnpFJKtPD2b4nXgtl6o=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=d9ORpZB/nS35WM2wJV7axvWxJFHw5VO3WMZewxjuvtc=;
+ b=XFdhx+68deEg9pQm7PUtYV6TUqgzbWUN+e+gpMpurVdwQrNqWXwM97i28nBxL27rwonhih
+ 9wJQEmzLTqIOzGPqZYYjLT/9hvg/TdW7BvhKXOimwyhvnyAACZweFRhZBIeMoFlYV05wx0
+ p8HNKMzZG1BJACA1JjZxWVm48kmy4QM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-515-z05Pct72NW-LdJHZdLnv7g-1; Fri, 20 Jan 2023 02:01:24 -0500
-X-MC-Unique: z05Pct72NW-LdJHZdLnv7g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-215-nqHD2E9DMLqmluMzC9JsWQ-1; Fri, 20 Jan 2023 02:01:24 -0500
+X-MC-Unique: nqHD2E9DMLqmluMzC9JsWQ-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB12D3C0D194;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CF72185C06B;
  Fri, 20 Jan 2023 07:01:23 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 82B15C15BAD;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 89F66492B02;
  Fri, 20 Jan 2023 07:01:23 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8307421E66CB; Fri, 20 Jan 2023 08:01:22 +0100 (CET)
+ id 85B7B21E66CD; Fri, 20 Jan 2023 08:01:22 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PULL 01/12] coroutine: Clean up superfluous inclusion of
- qemu/coroutine.h
-Date: Fri, 20 Jan 2023 08:01:11 +0100
-Message-Id: <20230120070122.3982588-2-armbru@redhat.com>
+Subject: [PULL 02/12] coroutine: Move coroutine_fn to qemu/osdep.h,
+ trim includes
+Date: Fri, 20 Jan 2023 08:01:12 +0100
+Message-Id: <20230120070122.3982588-3-armbru@redhat.com>
 In-Reply-To: <20230120070122.3982588-1-armbru@redhat.com>
 References: <20230120070122.3982588-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -80,207 +80,141 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+block/block-hmp-cmds.h and qemu/co-shared-resource.h use coroutine_fn
+without including qemu/coroutine.h.  They compile only if it's already
+included from elsewhere.
+
+I could fix that, but pulling in qemu/coroutine.h and everything it
+includes just for a macro that expands into nothing feels silly.
+Instead, move the macro to qemu/osdep.h.
+
+Inclusions of qemu/coroutine.h just for coroutine_fn become
+superfluous.  Drop them.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Message-Id: <20221221131435.3851212-2-armbru@redhat.com>
+Message-Id: <20221221131435.3851212-3-armbru@redhat.com>
 ---
- crypto/block-luks-priv.h    | 1 -
- include/block/raw-aio.h     | 1 -
- include/scsi/pr-manager.h   | 1 -
- nbd/nbd-internal.h          | 1 -
- blockjob.c                  | 1 -
- crypto/block-luks.c         | 1 -
- hw/9pfs/codir.c             | 1 -
- hw/9pfs/cofile.c            | 1 -
- hw/9pfs/cofs.c              | 1 -
- hw/9pfs/coxattr.c           | 1 -
- tests/unit/test-coroutine.c | 1 -
- tests/unit/test-vmstate.c   | 1 -
- util/qemu-coroutine-lock.c  | 1 -
- util/qemu-coroutine-sleep.c | 1 -
- util/qemu-coroutine.c       | 1 -
- 15 files changed, 15 deletions(-)
+ include/block/aio_task.h     |  2 --
+ include/block/block-common.h |  1 -
+ include/block/graph-lock.h   |  2 --
+ include/monitor/hmp.h        |  1 -
+ include/qemu/coroutine.h     | 18 +++++++-----------
+ include/qemu/osdep.h         | 16 ++++++++++++++++
+ 6 files changed, 23 insertions(+), 17 deletions(-)
 
-diff --git a/crypto/block-luks-priv.h b/crypto/block-luks-priv.h
-index 90a20d432b..dc2dd14e52 100644
---- a/crypto/block-luks-priv.h
-+++ b/crypto/block-luks-priv.h
-@@ -31,7 +31,6 @@
- #include "crypto/random.h"
- #include "qemu/uuid.h"
+diff --git a/include/block/aio_task.h b/include/block/aio_task.h
+index 50bc1e1817..18a9c41f4e 100644
+--- a/include/block/aio_task.h
++++ b/include/block/aio_task.h
+@@ -25,8 +25,6 @@
+ #ifndef BLOCK_AIO_TASK_H
+ #define BLOCK_AIO_TASK_H
  
 -#include "qemu/coroutine.h"
- #include "qemu/bitmap.h"
- 
- /*
-diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
-index 21fc10c4c9..f8cda9df91 100644
---- a/include/block/raw-aio.h
-+++ b/include/block/raw-aio.h
-@@ -17,7 +17,6 @@
- #define QEMU_RAW_AIO_H
- 
- #include "block/aio.h"
--#include "qemu/coroutine.h"
- #include "qemu/iov.h"
- 
- /* AIO request types */
-diff --git a/include/scsi/pr-manager.h b/include/scsi/pr-manager.h
-index e4ecbe00f6..45de28d354 100644
---- a/include/scsi/pr-manager.h
-+++ b/include/scsi/pr-manager.h
-@@ -5,7 +5,6 @@
- #include "qapi/visitor.h"
- #include "qom/object_interfaces.h"
- #include "block/aio.h"
--#include "qemu/coroutine.h"
- 
- #define TYPE_PR_MANAGER "pr-manager"
- 
-diff --git a/nbd/nbd-internal.h b/nbd/nbd-internal.h
-index 1b2141ab4b..df42fef706 100644
---- a/nbd/nbd-internal.h
-+++ b/nbd/nbd-internal.h
-@@ -13,7 +13,6 @@
- #include "sysemu/block-backend.h"
- #include "io/channel-tls.h"
- 
--#include "qemu/coroutine.h"
- #include "qemu/iov.h"
- 
- #ifndef _WIN32
-diff --git a/blockjob.c b/blockjob.c
-index b7daf2a9f6..54b4091a36 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -32,7 +32,6 @@
- #include "qapi/error.h"
- #include "qapi/qapi-events-block-core.h"
- #include "qapi/qmp/qerror.h"
--#include "qemu/coroutine.h"
- #include "qemu/main-loop.h"
- #include "qemu/timer.h"
- 
-diff --git a/crypto/block-luks.c b/crypto/block-luks.c
-index ff9e3945d1..5688783ab1 100644
---- a/crypto/block-luks.c
-+++ b/crypto/block-luks.c
-@@ -32,7 +32,6 @@
- #include "crypto/random.h"
- #include "qemu/uuid.h"
- 
--#include "qemu/coroutine.h"
- #include "qemu/bitmap.h"
- 
- /*
-diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
-index 93ba44fb75..7ba63be489 100644
---- a/hw/9pfs/codir.c
-+++ b/hw/9pfs/codir.c
-@@ -19,7 +19,6 @@
- #include "qemu/osdep.h"
- #include "fsdev/qemu-fsdev.h"
- #include "qemu/thread.h"
--#include "qemu/coroutine.h"
- #include "qemu/main-loop.h"
- #include "coth.h"
- #include "9p-xattr.h"
-diff --git a/hw/9pfs/cofile.c b/hw/9pfs/cofile.c
-index 20f93a90e7..9c5344039e 100644
---- a/hw/9pfs/cofile.c
-+++ b/hw/9pfs/cofile.c
-@@ -19,7 +19,6 @@
- #include "qemu/osdep.h"
- #include "fsdev/qemu-fsdev.h"
- #include "qemu/thread.h"
--#include "qemu/coroutine.h"
- #include "qemu/main-loop.h"
- #include "coth.h"
- 
-diff --git a/hw/9pfs/cofs.c b/hw/9pfs/cofs.c
-index 9d0adc2e78..67e3ae5c5c 100644
---- a/hw/9pfs/cofs.c
-+++ b/hw/9pfs/cofs.c
-@@ -19,7 +19,6 @@
- #include "qemu/osdep.h"
- #include "fsdev/qemu-fsdev.h"
- #include "qemu/thread.h"
--#include "qemu/coroutine.h"
- #include "qemu/main-loop.h"
- #include "coth.h"
- 
-diff --git a/hw/9pfs/coxattr.c b/hw/9pfs/coxattr.c
-index dbcd09e0fd..cd0f8488ac 100644
---- a/hw/9pfs/coxattr.c
-+++ b/hw/9pfs/coxattr.c
-@@ -19,7 +19,6 @@
- #include "qemu/osdep.h"
- #include "fsdev/qemu-fsdev.h"
- #include "qemu/thread.h"
--#include "qemu/coroutine.h"
- #include "qemu/main-loop.h"
- #include "coth.h"
- 
-diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
-index e16b80c245..513800d3db 100644
---- a/tests/unit/test-coroutine.c
-+++ b/tests/unit/test-coroutine.c
-@@ -12,7 +12,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/coroutine.h"
- #include "qemu/coroutine_int.h"
- #include "qemu/lockable.h"
- 
-diff --git a/tests/unit/test-vmstate.c b/tests/unit/test-vmstate.c
-index 541bb4f63e..79357b29ca 100644
---- a/tests/unit/test-vmstate.c
-+++ b/tests/unit/test-vmstate.c
-@@ -29,7 +29,6 @@
- #include "migration/qemu-file-types.h"
- #include "../migration/qemu-file.h"
- #include "../migration/savevm.h"
--#include "qemu/coroutine.h"
- #include "qemu/module.h"
- #include "io/channel-file.h"
- 
-diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
-index 45c6b57374..58f3f77181 100644
---- a/util/qemu-coroutine-lock.c
-+++ b/util/qemu-coroutine-lock.c
+-
+ typedef struct AioTaskPool AioTaskPool;
+ typedef struct AioTask AioTask;
+ typedef int coroutine_fn (*AioTaskFunc)(AioTask *task);
+diff --git a/include/block/block-common.h b/include/block/block-common.h
+index 4749c46a5e..434ffc5d34 100644
+--- a/include/block/block-common.h
++++ b/include/block/block-common.h
 @@ -27,7 +27,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/coroutine.h"
- #include "qemu/coroutine_int.h"
- #include "qemu/processor.h"
- #include "qemu/queue.h"
-diff --git a/util/qemu-coroutine-sleep.c b/util/qemu-coroutine-sleep.c
-index 571ab521ff..af59f9af98 100644
---- a/util/qemu-coroutine-sleep.c
-+++ b/util/qemu-coroutine-sleep.c
-@@ -12,7 +12,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/coroutine.h"
- #include "qemu/coroutine_int.h"
- #include "qemu/timer.h"
  #include "block/aio.h"
-diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
-index 356b746f0b..8494523692 100644
---- a/util/qemu-coroutine.c
-+++ b/util/qemu-coroutine.c
-@@ -16,7 +16,6 @@
- #include "trace.h"
- #include "qemu/thread.h"
- #include "qemu/atomic.h"
+ #include "block/aio-wait.h"
+ #include "qemu/iov.h"
 -#include "qemu/coroutine.h"
- #include "qemu/coroutine_int.h"
- #include "qemu/coroutine-tls.h"
- #include "block/aio.h"
+ #include "block/accounting.h"
+ #include "qemu/hbitmap.h"
+ #include "qemu/transactions.h"
+diff --git a/include/block/graph-lock.h b/include/block/graph-lock.h
+index 4c92cd8edf..3ab924d5e2 100644
+--- a/include/block/graph-lock.h
++++ b/include/block/graph-lock.h
+@@ -23,8 +23,6 @@
+ #include "qemu/osdep.h"
+ #include "qemu/clang-tsa.h"
+ 
+-#include "qemu/coroutine.h"
+-
+ /**
+  * Graph Lock API
+  * This API provides a rwlock used to protect block layer
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 27f86399f7..c9e3887737 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -15,7 +15,6 @@
+ #define HMP_H
+ 
+ #include "qemu/readline.h"
+-#include "qemu/coroutine.h"
+ #include "qapi/qapi-types-common.h"
+ 
+ bool hmp_handle_error(Monitor *mon, Error *err);
+diff --git a/include/qemu/coroutine.h b/include/qemu/coroutine.h
+index 89650a2d7f..2496a4f4ef 100644
+--- a/include/qemu/coroutine.h
++++ b/include/qemu/coroutine.h
+@@ -26,23 +26,19 @@
+  * waiting for events to complete.
+  *
+  * These functions are re-entrant and may be used outside the global mutex.
+- */
+-
+-/**
+- * Mark a function that executes in coroutine context
+  *
+- * Functions that execute in coroutine context cannot be called directly from
+- * normal functions.  In the future it would be nice to enable compiler or
+- * static checker support for catching such errors.  This annotation might make
+- * it possible and in the meantime it serves as documentation.
+- *
+- * For example:
++ * Functions that execute in coroutine context cannot be called
++ * directly from normal functions.  Use @coroutine_fn to mark such
++ * functions.  For example:
+  *
+  *   static void coroutine_fn foo(void) {
+  *       ....
+  *   }
++ *
++ * In the future it would be nice to have the compiler or a static
++ * checker catch misuse of such functions.  This annotation might make
++ * it possible and in the meantime it serves as documentation.
+  */
+-#define coroutine_fn
+ 
+ typedef struct Coroutine Coroutine;
+ 
+diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+index bd23a08595..c850001408 100644
+--- a/include/qemu/osdep.h
++++ b/include/qemu/osdep.h
+@@ -157,6 +157,22 @@ extern "C" {
+ 
+ #include "qemu/typedefs.h"
+ 
++/**
++ * Mark a function that executes in coroutine context
++ *
++ * Functions that execute in coroutine context cannot be called directly from
++ * normal functions.  In the future it would be nice to enable compiler or
++ * static checker support for catching such errors.  This annotation might make
++ * it possible and in the meantime it serves as documentation.
++ *
++ * For example:
++ *
++ *   static void coroutine_fn foo(void) {
++ *       ....
++ *   }
++ */
++#define coroutine_fn
++
+ /*
+  * For mingw, as of v6.0.0, the function implementing the assert macro is
+  * not marked as noreturn, so the compiler cannot delete code following an
 -- 
 2.39.0
 
