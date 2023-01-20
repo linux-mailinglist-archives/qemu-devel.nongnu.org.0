@@ -2,87 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DC267523E
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:20:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 733AC67526F
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:28:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIoUd-0003l4-Sr; Fri, 20 Jan 2023 05:19:31 -0500
+	id 1pIobz-0005v2-DZ; Fri, 20 Jan 2023 05:27:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIoUZ-0003k9-Lq
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:19:28 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIobw-0005u2-VO
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:27:04 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIoUX-00006h-4X
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:19:27 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIobv-0001Wv-9G
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:27:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674209963;
+ s=mimecast20190719; t=1674210422;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ePz7yb+ojbQCubOzDz2TJWD5Tn+FWaHHy1W4HDqqSTM=;
- b=F24JcRbuEEvEY01aqBAOvoEIpg1rtLSfLj+w29mcDRgycLFw5Nfqp+zvj8G11U7sC0izgU
- qJSIsB9+K8iAnsle5UsAhY5IPSHds2DrvXjV63EW+t4SoTwd6GeVLvDtb8tGZMLPRzKh1p
- JSyw8xW76ImswgqjM5ryWGEd08DDKFY=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rCVypidnFx4JW/rDZPAfoj7ZI+PT0BWLXal/Pm0vWNM=;
+ b=RBK34XSrD+QLd24ryUY0ZcGwHnX9mRyt8loWTBkSTl+QL9twIo51cXgggnLPdOCCQp+5wD
+ N/T3UTyPX9Y0+H9cFDtV8THycbyDYctiOoqTDJ5OGt/H4eJIb+4HB+sKHOYCnHVdPok9rh
+ /Geo+iXsCqFhmA3bVCKvLt/1PqnIfhc=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-627-McGJiEVQMNyW6-5C-QrncQ-1; Fri, 20 Jan 2023 05:19:21 -0500
-X-MC-Unique: McGJiEVQMNyW6-5C-QrncQ-1
-Received: by mail-qk1-f198.google.com with SMTP id
- k5-20020a05620a414500b00708ef47754eso3111566qko.13
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 02:19:21 -0800 (PST)
+ us-mta-611-RXIwFJ8yO524xOFNdV4oYg-1; Fri, 20 Jan 2023 05:27:01 -0500
+X-MC-Unique: RXIwFJ8yO524xOFNdV4oYg-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ bq15-20020a05620a468f00b00706ae242abcso3194930qkb.7
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 02:27:01 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ePz7yb+ojbQCubOzDz2TJWD5Tn+FWaHHy1W4HDqqSTM=;
- b=fPVIPWSTgUHoUpZ4kkj753oBQm0tS740bwaG5nJcWtHoE9RgT1ZOyA+aWDHgFRIHaL
- CXG1eCypZliPd9M2gLNgpGxi5g+uo9i7US7vLcSFKD3z+ssEJtsybyqpxBLUHmY3kqMR
- 1hcxborHZfJjv8E/T+qT/vk0pzpBlKslIwH7KJJfYO0M0evMlbMYi+20VduWnKjLA/cC
- lAGY8RDyIXcNgU55KwpudBH+xqKePZhUqUovEH8txvgxd0YV9Fk/6RP4Qq0nVOA99Q15
- qXLa/bxgemslWfM3w0b4wsaHF9Pxjp9R4MrS+ySLeYk3uEX/LwEM6XBuGu+zc+Di/sTe
- zRFw==
-X-Gm-Message-State: AFqh2krMJ0b5C173AqcpNh/1ksQXR4XZ0KpmjMjIsCUZ4KLSEdeNOCbK
- tqvse+Gkmk7UzhjmNr6IEZoXMpW2tNGNX8aoygxfiCm63ok0NoFNIoTUSTsQnK93dxk+Eqz6aR1
- wVPphhrTLLs34GjI=
-X-Received: by 2002:ad4:4c4d:0:b0:536:ba5e:6ac0 with SMTP id
- cs13-20020ad44c4d000000b00536ba5e6ac0mr1013353qvb.40.1674209961448; 
- Fri, 20 Jan 2023 02:19:21 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXupi0IQKd5YrskZjXMOyf0kWioNWY25zah9stKJEDDKccjcnCVSA2T8AwAg3920hMMX+wPsog==
-X-Received: by 2002:ad4:4c4d:0:b0:536:ba5e:6ac0 with SMTP id
- cs13-20020ad44c4d000000b00536ba5e6ac0mr1013338qvb.40.1674209961240; 
- Fri, 20 Jan 2023 02:19:21 -0800 (PST)
+ bh=rCVypidnFx4JW/rDZPAfoj7ZI+PT0BWLXal/Pm0vWNM=;
+ b=YVoS3s8CSTfk6T80Gk8K4uHlm02o2PsBB1fmZ4QbTywxSpwjLSO90icC6AK2MpMM82
+ t5mQ8ZNg7PE8BxN0PQNxb1yv768pSc22QEIxFRFhOEE/Tabu3kwc5ASZqeQPu1HASgDR
+ 1p7nYbo/KGmnKwAV5kDHKSfEeOPHUXPriZhgEEjdOZsmC4xQz1gxMmCO/kg8QgsL7WPv
+ ir/D5crIQAFaTbfW99wtfkiJL+c1DHRu/bFYagqH491BRMFEJ3/kEAekl0gLXM8LX9D/
+ 2kyTciy79HAoTVIKCcGxqn+qRkpRQzyHK2PskCeGzA2ydp10tY7r3Vl8WgqXicGAoxJU
+ UWSQ==
+X-Gm-Message-State: AFqh2krNlvW8wf8PCbNxBrlnL43Bq8thb5QpIWkOeo1PNPD+YERTvTN3
+ WB+GO/sZfIsQYGAquAQbRzCDbh3IMT0cofPbGcKBlq1sOPM08pkxINgizir6Qc9nBMOniQ6kiV/
+ ld60s6/8hLRD6ca8=
+X-Received: by 2002:ac8:5444:0:b0:3ab:af8e:64e6 with SMTP id
+ d4-20020ac85444000000b003abaf8e64e6mr16443128qtq.67.1674210420519; 
+ Fri, 20 Jan 2023 02:27:00 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXttwxqa28U1p4sL4dGUzzQjuk4l/NzUng3MRDfYeGlcE1436ks/wu/OzJsaf65rmJskro5YZQ==
+X-Received: by 2002:ac8:5444:0:b0:3ab:af8e:64e6 with SMTP id
+ d4-20020ac85444000000b003abaf8e64e6mr16443107qtq.67.1674210420281; 
+ Fri, 20 Jan 2023 02:27:00 -0800 (PST)
 Received: from [192.168.0.2] (ip-109-43-177-118.web.vodafone.de.
  [109.43.177.118]) by smtp.gmail.com with ESMTPSA id
- w22-20020a05620a149600b007090bb886a2sm1650203qkj.118.2023.01.20.02.19.17
+ q44-20020a05620a2a6c00b006fc9fe67e34sm11812905qkp.81.2023.01.20.02.26.56
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Jan 2023 02:19:19 -0800 (PST)
-Message-ID: <a7701410-a612-d9d5-1a66-d71adeadf2b5@redhat.com>
-Date: Fri, 20 Jan 2023 11:19:16 +0100
+ Fri, 20 Jan 2023 02:26:58 -0800 (PST)
+Message-ID: <c41c336a-d435-ec2a-ab05-2f50c05645df@redhat.com>
+Date: Fri, 20 Jan 2023 11:26:54 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [RFC PATCH v4 05/15] tests/qtest: Restrict
- tpm-tis-devices-{swtpm}-test to CONFIG_TCG
+Subject: Re: [RFC PATCH 6/8] tests/qtest/libqtest: Allow checking for HVF
+ accelerator
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-References: <20230119135424.5417-1-farosas@suse.de>
- <20230119135424.5417-6-farosas@suse.de>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230119135424.5417-6-farosas@suse.de>
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Fabiano Rosas <farosas@suse.de>, Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+References: <20230119100537.5114-1-philmd@linaro.org>
+ <20230119100537.5114-7-philmd@linaro.org>
+ <fc7802c3-afd7-2cd0-438e-7b75f4789879@redhat.com>
+ <b61a6249-3b84-e0cf-6220-029086c72254@linaro.org>
+ <147a979d-2d16-4ad3-4330-3e8187f88a2e@redhat.com>
+In-Reply-To: <147a979d-2d16-4ad3-4330-3e8187f88a2e@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: 4
@@ -108,46 +109,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/01/2023 14.54, Fabiano Rosas wrote:
-> These tests set -accel tcg, so restrict them to when TCG is present.
+On 19/01/2023 13.05, Thomas Huth wrote:
+> On 19/01/2023 12.30, Philippe Mathieu-Daudé wrote:
+>> On 19/1/23 12:24, Thomas Huth wrote:
+>>> On 19/01/2023 11.05, Philippe Mathieu-Daudé wrote:
+>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>>> ---
+>>>> RFC: CONFIG_HVF is poisoned.
+>>>>
+>>>> We could pass host config definitions to qtest using:
+>>>>
+>>>>    diff --git a/meson.build b/meson.build
+>>>>    @@ -2547,6 +2547,7 @@ foreach target : target_dirs
+>>>>
+>>>>       accel_kconfig = []
+>>>>       foreach sym: accelerators
+>>>>    +    config_host_data.set(sym + '_QTEST', '')
+>>>>         if sym == 'CONFIG_TCG' or target in accelerator_targets.get(sym, 
+>>>> [])
+>>>>           config_target += { sym: 'y' }
+>>>>           config_all += { sym: 'y' }
+>>>>
+>>>> Then test for CONFIG_HVF_QTEST ...
+>>>
+>>> I don't think that would really work well. The qtests are build once for 
+>>> all targets, and HVF is only available in the target that matches the 
+>>> host architecture. It's poisoned on purpose.
+>>>
+>>> The TCG accelerator is special, since we have it in either none or in all 
+>>> targets, that's why we can use CONFIG_TCG there.
+>>>
+>>> The kvm part is also rather a hack... we should maybe rather additionally 
+>>> use the "query-kvm" QAPI command to check whether it is really available...?
+>>>
+>>> To fix this properly for HVF, I think you'd need a way to query the 
+>>> available accelerators via QMP, too... Hmmm, weren't there some patches 
+>>> for something like that in the past ... can't remember right now ...
+>>
+>> https://lore.kernel.org/qemu-devel/20210505125806.1263441-3-philmd@redhat.com/ 
+>> :(
 > 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
->   tests/qtest/meson.build | 12 ++++++++----
->   1 file changed, 8 insertions(+), 4 deletions(-)
+> Ah, right, and we ended up with the competing patch from Igor since we could 
+> not quite settle on the QAPI extensions?
 > 
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index 1af63f8bd2..9dd5c2de6e 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -204,8 +204,8 @@ qtests_arm = \
->   # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
->   qtests_aarch64 = \
->     (cpu != 'arm' and unpack_edk2_blobs ? ['bios-tables-test'] : []) +                            \
-> -  (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
-> -  (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
-> +  (config_all_devices.has_key('CONFIG_TCG') and config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ?   \
-> +    ['tpm-tis-device-test', 'tpm-tis-device-swtpm-test'] : []) +                                         \
->     (config_all_devices.has_key('CONFIG_XLNX_ZYNQMP_ARM') ? ['xlnx-can-test', 'fuzz-xlnx-dp-test'] : []) + \
->     (config_all_devices.has_key('CONFIG_RASPI') ? ['bcm2835-dma-test'] : []) +  \
->     ['arm-cpu-features',
-> @@ -295,11 +295,15 @@ qtests = {
->     'tpm-crb-test': [io, tpmemu_files],
->     'tpm-tis-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
->     'tpm-tis-test': [io, tpmemu_files, 'tpm-tis-util.c'],
-> -  'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
-> -  'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'],
->     'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
->   }
->   
-> +if config_all_devices.has_key('CONFIG_TCG')
-> +   qtests += { 'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
-> +               'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'], }
-> +endif
+> Hmm, what happens if you execute "query-qmp-schema" on a HVF-enabled host 
+> these days? Is there a "hvf"-related entry somewhere in the response?
 
-Hmmm, I think the second hunk is maybe not necessary - it's just for 
-declaring the dependencies, but not for adding the tests to the set that is 
-run later.
+Alternative idea: execute QEMU once with "-accel help" via 
+g_spawn_command_line_sync() or g_spawn_sync() once and look for the 
+accelerator in the standard output.
 
   Thomas
 
