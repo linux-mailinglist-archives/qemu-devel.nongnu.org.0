@@ -2,73 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4F1A67520F
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:09:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89AA567521E
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:10:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIoJX-0004VS-FU; Fri, 20 Jan 2023 05:08:03 -0500
+	id 1pIoLJ-0006KW-5C; Fri, 20 Jan 2023 05:09:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIoJV-0004U0-Ik
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:08:01 -0500
+ id 1pIoLH-0006KN-L5
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:09:51 -0500
 Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIoJT-0006RK-EI
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:08:01 -0500
-Received: by mail-wm1-x332.google.com with SMTP id l8so3588114wms.3
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 02:07:58 -0800 (PST)
+ id 1pIoLF-0006fM-NX
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:09:51 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ o17-20020a05600c511100b003db021ef437so3254629wms.4
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 02:09:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=hW1pm6mLmCuIyV9lJRovvE86SCBfTaOaSR51MXQHlpo=;
- b=BEEwHKCILTxU+I2nWbSAWIy5HaW0WmXyrIKvYelG4ELCRSvj0raEIDMd9MvZqxH/iF
- BtoLc8YoI1ZvxOrffU2T6HF8JH9ySEEE0djTSi4o47sr6lUwib7ehFkGLhtDp8uX0DQz
- mMxPJXob003hQGFx09E9Tbww0zgQWaM720hatt+2loZLpCeoj2ht8bdoVYgsy++q94Bk
- 4cPB+bBnFUr541ofKBGHo/pJi13dyrujterflstPfIE2lL28Iy3h7RcrNY6+OS8/SSSJ
- BaUOjLY89EbF3gD7OHXcJVt7/lkpsjk6NvkouuOdMcJsTAsVAuB3kAYU+lfzW2kSHT1K
- hNTw==
+ bh=Prb0c30VHtX6Xna3DC174IeuAjhKB8LOiiOtWKCSY78=;
+ b=uJjIH3g21l/L3KqJsUVFaY/3eNU/HWCfxnrkiWe5GZamvrZNpA7AMR39mOIDlCe0MG
+ UoL4Vl7/nm0Nhyit8e+P+NGnLFHzdl68CdiOsxHb246Ae5pDtN1PfOMD2/472uqcOKvp
+ N3Qxmb8yowZt7NZ8MCsfWIFF7OGtgMJegltZtlNlAuKfTFDbHm/xVkBgqR5xdmbk6sRn
+ RhBsDLySC2t1mybPN7zZgS8Flv5d4vxh4YmhxPVjSbUGI0oC+ykO8Xfoou3WNWjOaiH0
+ 4/QupuKsXQDnRxli4FOYgVsYuNGBce0R7Y6IvOd8WTIihP4eQfhTRuXD0ejTSWAOawwC
+ 5Rbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=hW1pm6mLmCuIyV9lJRovvE86SCBfTaOaSR51MXQHlpo=;
- b=PYo+5YoH8vW8XJIRIoa7tD2XDaW8OT94CRZu03ZHfPy4VzVTC97a/TkLV3X6bgASc+
- lgWZRG72miW+EZcEAqNAO97xblpOlHa5hO/LSZpPqavJRwh5VuiPXSaFrCm/mdhdi34y
- rr4ePUnxFDoK9hcP5r/XSoO2WjhHyu6IMhED+7cO2j3ttqJQathfBe+1Jbf3c/aehJa8
- VT43pQJnFaUM1RwDFdFypCBcCHMqeU1pGvdnuZ+ijY0gSKO1r6J27A3kukHbhLkOaZnq
- 6o/dqWEqhh98E9P/YQWoPm9keo23pQmefrQRN0PUEBTFsuDIo+9wAl0r5xCd+PBH0n5U
- 1BNQ==
-X-Gm-Message-State: AFqh2krQ46baJSPIqSiSoXEud+htY5L1KmeTRzO4hz6rcS1ULtoKHYxi
- rPQJXjBz2sPto3UG24SFcy/WUw==
-X-Google-Smtp-Source: AMrXdXuzkDbHa19jfb7qvTluSkmjofE4S4vlWA46O3p0mcnlMTT8iRyh9B57MnLV3aOdQi9pKP+vZg==
-X-Received: by 2002:a05:600c:cc8:b0:3cf:497c:c59e with SMTP id
- fk8-20020a05600c0cc800b003cf497cc59emr9910765wmb.6.1674209277266; 
- Fri, 20 Jan 2023 02:07:57 -0800 (PST)
+ bh=Prb0c30VHtX6Xna3DC174IeuAjhKB8LOiiOtWKCSY78=;
+ b=Z3n0GfIlB+eQXpzKe33/HL/ZN49IwehLgXQcDY8jKh3Taz8XSDqF80rHxe3K2B61CH
+ o+nlAxDiZJTyMzI4bq2aOav0jB1867kFYlULkKkquhM2IoU3imnx6tJFXC1Ksn5Pl/dS
+ yo/RFCRuZY3l6jIaA5tuz6W0+zsplmB9IgGQJDiuaMJx3RA/3Ivs9Jrq0iJsQ28jUCBA
+ Z2xlQ+YLn5ocZOX21Q4ivEwG5jtpjeDw3YNy/CFqa8NWo3CKAob6Fl8oKCQ/mfG48VdJ
+ Fa3bQg+8Y4gX8P0X0PKa3G0qV1lzt8q0isM4DOjZ3HM6cS3Vp3l5RH4g2PAiXUf/EEhQ
+ Dx1w==
+X-Gm-Message-State: AFqh2krfGEpSeIh6bon8crllxwGX7pwkzxj20TTEscrWWDV3mi6+iLVi
+ iiC5AunBQPyjVUrznLG65FALnQ==
+X-Google-Smtp-Source: AMrXdXtPuVIZlneJFc7so/cF1ZBKi4Ft2c8RmNtJXeGUMdd6ppSPWJgVGjC6gtzF088oN+SQgEMLWg==
+X-Received: by 2002:a05:600c:1d8e:b0:3d1:fcb4:4074 with SMTP id
+ p14-20020a05600c1d8e00b003d1fcb44074mr14150830wms.22.1674209388212; 
+ Fri, 20 Jan 2023 02:09:48 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- k10-20020a05600c1c8a00b003db2dbbd710sm2020636wms.25.2023.01.20.02.07.56
+ k21-20020a05600c1c9500b003db30be4a54sm1543495wms.38.2023.01.20.02.09.47
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 02:07:56 -0800 (PST)
+ Fri, 20 Jan 2023 02:09:47 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 5D65C1FFB7;
- Fri, 20 Jan 2023 10:07:56 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 58D6A1FFB7;
+ Fri, 20 Jan 2023 10:09:47 +0000 (GMT)
 References: <20230119180419.30304-1-alex.bennee@linaro.org>
- <20230119180419.30304-15-alex.bennee@linaro.org>
- <d6314a22-4c5c-a431-ce37-4cc7f64ac092@linaro.org>
+ <20230119180419.30304-11-alex.bennee@linaro.org>
+ <e0203997-0161-8abc-de76-ebd88f117545@linaro.org>
+ <9ae0faf8-da47-a86f-5365-0798914db6fb@redhat.com>
 User-agent: mu4e 1.9.15; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH 14/18] tests/docker: drop debian-tricore-cross's partial
- status
-Date: Fri, 20 Jan 2023 10:06:13 +0000
-In-reply-to: <d6314a22-4c5c-a431-ce37-4cc7f64ac092@linaro.org>
-Message-ID: <87o7qty0w3.fsf@linaro.org>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org,
+ Beraldo Leal <bleal@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Bandan Das <bsd@redhat.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, Michael Roth
+ <michael.roth@amd.com>,
+ Cleber Rosa <crosa@redhat.com>, Alexander Bulekov <alxndr@bu.edu>, Darren
+ Kenny <darren.kenny@oracle.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, John Snow <jsnow@redhat.com>, Ed
+ Maste <emaste@freebsd.org>, Wainer dos Santos Moschetta
+ <wainersm@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>, =?utf-8?Q?Marc-And?=
+ =?utf-8?Q?r=C3=A9?= Lureau
+ <marcandre.lureau@redhat.com>, Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH 10/18] Update lcitool and fedora to 37
+Date: Fri, 20 Jan 2023 10:09:23 +0000
+In-reply-to: <9ae0faf8-da47-a86f-5365-0798914db6fb@redhat.com>
+Message-ID: <87k01hy0t0.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
@@ -97,32 +110,47 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Paolo Bonzini <pbonzini@redhat.com> writes:
 
-> On 1/19/23 08:04, Alex Benn=C3=A9e wrote:
->> This image is perfectly capable of building QEMU, and indeed we do
->> that on gitlab. Drop the DOCKER_PARTIAL_IMAGES setting so we can also
->> test the gitlab build locally.
->> Signed-off-by: Alex Benn=C3=A9e<alex.bennee@linaro.org>
->> ---
->>   tests/docker/Makefile.include | 1 -
->>   1 file changed, 1 deletion(-)
+> On 1/19/23 20:35, Philippe Mathieu-Daud=C3=A9 wrote:
+>> On 19/1/23 19:04, Alex Benn=C3=A9e wrote:
+>>> From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>>>
+>>> Fedora 35 is EOL.
+>>>
+>>> Update to upstream lcitool, that dropped f35 and added f37.
 >
-> Why are we doing so, though?
+> If you also have time to update to commit
+> 40589eed1c56f040d0f07fc354c242a0e0d83185 that would be nice (see
+> https://patchew.org/QEMU/20230117091638.50523-1-pbonzini@redhat.com/
+> for more information).  Otherwise, no hurry.
 
-Only so I could debug what was failing upstream.
+This round of testing/next has been painful enough, I'd like to get the
+PR out of the way before starting again.
 
-> Unlike the other container-cross.yml jobs, we are not cross-compiling.
-> We are building for an x86_64 host, not a tricore host.
 >
-> We appear to be using this container simply to provide a
-> cross-compiler for compiling tricore tests.  Which is fine, I suppose,
-> but I think the job should be modeled more like build-some-softmmu,
-> instead of modeled like a cross-build.
+> Paolo
+>
+>>>
+>>> Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+>>> Reviewed-by: Thomas Huth <thuth@redhat.com>
+>>> Message-Id: <20230110132700.833690-7-marcandre.lureau@redhat.com>
+>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>> ---
+>>> =C2=A0 tests/docker/dockerfiles/fedora-win32-cross.docker | 4 ++--
+>>> =C2=A0 tests/docker/dockerfiles/fedora-win64-cross.docker | 4 ++--
+>>> =C2=A0 tests/docker/dockerfiles/fedora.docker=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 4 ++--
+>>> =C2=A0 tests/lcitool/libvirt-ci=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 +-
+>>> =C2=A0 tests/lcitool/refresh=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 6 +++---
+>>> =C2=A0 5 files changed, 10 insertions(+), 10 deletions(-)
+>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+>>=20
 
-It's just to work around the fact we don't have QEMU test coverage for
-our debian-all-test-cross because of the custom binutils bits. That's
-why it gained the ability to build QEMU (albeit just one target).
 
 --=20
 Alex Benn=C3=A9e
