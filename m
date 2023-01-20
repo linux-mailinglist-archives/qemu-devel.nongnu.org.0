@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21A70674FEF
+	by mail.lfdr.de (Postfix) with ESMTPS id 20419674FEE
 	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 09:56:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pInBX-0002tT-Vg; Fri, 20 Jan 2023 03:55:44 -0500
+	id 1pInBX-0002M0-3O; Fri, 20 Jan 2023 03:55:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
- id 1pInB1-0002GZ-8L
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:55:12 -0500
-Received: from szxga01-in.huawei.com ([45.249.212.187])
+ id 1pInB1-0002GY-83
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:55:11 -0500
+Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
- id 1pInAx-0002g2-V0
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:55:10 -0500
-Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.57])
- by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4NytYr4R1NzZfp6;
- Fri, 20 Jan 2023 16:53:04 +0800 (CST)
+ id 1pInAx-0002g3-Ux
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:55:09 -0500
+Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.55])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NytYj06ptzRqtl;
+ Fri, 20 Jan 2023 16:52:57 +0800 (CST)
 Received: from localhost.localdomain (10.175.124.27) by
  dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -29,9 +29,9 @@ To: <qemu-devel@nongnu.org>
 CC: <berrange@redhat.com>, <quintela@redhat.com>, <dgilbert@redhat.com>,
  <yubihong@huawei.com>, <xiexiangyou@huawei.com>, <zhengchuan@huawei.com>,
  <linyilu@huawei.com>, <jiangjiacheng@huawei.com>
-Subject: [PATCH 2/3] migration: implement query migration threadinfo by name
-Date: Fri, 20 Jan 2023 16:47:34 +0800
-Message-ID: <20230120084735.825054-3-jiangjiacheng@huawei.com>
+Subject: [PATCH 3/3] migration: save/delete migration thread info
+Date: Fri, 20 Jan 2023 16:47:35 +0800
+Message-ID: <20230120084735.825054-4-jiangjiacheng@huawei.com>
 X-Mailer: git-send-email 2.33.0
 In-Reply-To: <20230120084735.825054-1-jiangjiacheng@huawei.com>
 References: <20230120084735.825054-1-jiangjiacheng@huawei.com>
@@ -42,8 +42,8 @@ X-Originating-IP: [10.175.124.27]
 X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
  dggpeml500022.china.huawei.com (7.185.36.66)
 X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.187;
- envelope-from=jiangjiacheng@huawei.com; helo=szxga01-in.huawei.com
+Received-SPF: pass client-ip=45.249.212.188;
+ envelope-from=jiangjiacheng@huawei.com; helo=szxga02-in.huawei.com
 X-Spam_score_int: -41
 X-Spam_score: -4.2
 X-Spam_bar: ----
@@ -66,186 +66,81 @@ From:  Jiang Jiacheng via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Introduce interface query-migrationthreads. The interface is use
-with the migration thread name reported by qemu and returns with
-migration thread name and its pid.
-Introduce threadinfo.c to manage threads with migration.
+To support query migration thread infomation, save and delete
+thread information at thread creation and end.
 
 Signed-off-by: Jiang Jiacheng <jiangjiacheng@huawei.com>
 ---
- migration/meson.build  |  1 +
- migration/threadinfo.c | 70 ++++++++++++++++++++++++++++++++++++++++++
- migration/threadinfo.h | 30 ++++++++++++++++++
- qapi/migration.json    | 30 ++++++++++++++++++
- 4 files changed, 131 insertions(+)
- create mode 100644 migration/threadinfo.c
- create mode 100644 migration/threadinfo.h
+ migration/migration.c | 4 ++++
+ migration/multifd.c   | 4 ++++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/migration/meson.build b/migration/meson.build
-index 690487cf1a..ed7d27f11a 100644
---- a/migration/meson.build
-+++ b/migration/meson.build
-@@ -25,6 +25,7 @@ softmmu_ss.add(files(
-   'savevm.c',
-   'socket.c',
-   'tls.c',
-+  'threadinfo.c',
- ), gnutls)
- 
- softmmu_ss.add(when: rdma, if_true: files('rdma.c'))
-diff --git a/migration/threadinfo.c b/migration/threadinfo.c
-new file mode 100644
-index 0000000000..0df668d427
---- /dev/null
-+++ b/migration/threadinfo.c
-@@ -0,0 +1,70 @@
-+/*
-+ *  Migration Threads info
-+ *
-+ *  Copyright (c) 2022 HUAWEI TECHNOLOGIES CO., LTD.
-+ *
-+ *  Authors:
-+ *  Jiang Jiacheng <jiangjiacheng@huawei.com>
-+ *
-+ *  This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ *  See the COPYING file in the top-level directory.
-+ */
-+
+diff --git a/migration/migration.c b/migration/migration.c
+index b4ce458bb9..957205e693 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -57,6 +57,7 @@
+ #include "net/announce.h"
+ #include "qemu/queue.h"
+ #include "multifd.h"
 +#include "threadinfo.h"
-+
-+static QLIST_HEAD(, MigrationThread) migration_threads;
-+
-+MigrationThread* MigrationThreadAdd(const char *name, int thread_id)
-+{
+ #include "qemu/yank.h"
+ #include "sysemu/cpus.h"
+ #include "yank_functions.h"
+@@ -3951,10 +3952,12 @@ static void qemu_savevm_wait_unplug(MigrationState *s, int old_state,
+ static void *migration_thread(void *opaque)
+ {
+     MigrationState *s = opaque;
 +    MigrationThread *thread = NULL;
-+
-+    thread = g_new0(MigrationThread, 1);
-+    thread->name = (char*)name;
-+    thread->thread_id = thread_id;
-+
-+    QLIST_INSERT_HEAD(&migration_threads, thread, node);
-+
-+    return thread;
-+}
-+
-+void MigrationThreadDel(MigrationThread* thread)
-+{
-+    if (thread) {
-+        QLIST_REMOVE(thread, node);
-+	    g_free(thread);
-+    }
-+}
-+
-+MigrationThread* MigrationThreadQuery(const char* name)
-+{
-+    MigrationThread *thread = NULL;
-+
-+    QLIST_FOREACH(thread, &migration_threads, node) {
-+        if (!strcmp(thread->name, name)) {
-+            return thread;
-+        }
-+    }
-+
-+    return NULL;
-+}
-+
-+MigrationThreadInfo* qmp_query_migrationthreads(const char* name, Error **errp)
-+{
-+    MigrationThread *thread = NULL;
-+    MigrationThreadInfo *info = NULL;
-+
-+    thread = MigrationThreadQuery(name);
-+    if (!thread) {
-+        goto err;
-+    }
-+
-+    info = g_new0(MigrationThreadInfo, 1);
-+    info->name = g_strdup(thread->name);
-+    info->thread_id = thread->thread_id;
-+
-+    return info;
-+
-+err:
-+    error_setg(errp, "thread '%s' doesn't exist", name);
-+    return NULL;
-+}
-diff --git a/migration/threadinfo.h b/migration/threadinfo.h
-new file mode 100644
-index 0000000000..f62a6ff261
---- /dev/null
-+++ b/migration/threadinfo.h
-@@ -0,0 +1,30 @@
-+/*
-+ *  Migration Threads info
-+ *
-+ *  Copyright (c) 2022 HUAWEI TECHNOLOGIES CO., LTD.
-+ *
-+ *  Authors:
-+ *  Jiang Jiacheng <jiangjiacheng@huawei.com>
-+ *
-+ *  This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ *  See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/queue.h"
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-migration.h"
-+
-+typedef struct MigrationThread MigrationThread;
-+
-+struct MigrationThread {
-+    char *name; /* the name of migration thread */
-+    int thread_id; /* ID of the underlying host thread */
-+    QLIST_ENTRY(MigrationThread) node;
-+};
-+
-+MigrationThread *MigrationThreadAdd(const char *name, int thread_id);
-+
-+void MigrationThreadDel(MigrationThread* info);
-+
-+MigrationThread* MigrationThreadQuery(const char* name);
-diff --git a/qapi/migration.json b/qapi/migration.json
-index b0cf366ac0..e93c3e560a 100644
---- a/qapi/migration.json
-+++ b/qapi/migration.json
-@@ -1970,6 +1970,36 @@
- { 'command': 'query-vcpu-dirty-limit',
-   'returns': [ 'DirtyLimitInfo' ] }
+     int64_t setup_start = qemu_clock_get_ms(QEMU_CLOCK_HOST);
+     MigThrError thr_error;
+     bool urgent = false;
  
-+##
-+# @MigrationThreadInfo:
-+#
-+# Information about migrationthreads
-+#
-+# @name: the name of migration thread
-+#
-+# @thread-id: ID of the underlying host thread
-+#
-+# Since: 7.2
-+##
-+{ 'struct': 'MigrationThreadInfo',
-+  'data': {'name': 'str',
-+           'thread-id': 'int'} }
-+
-+##
-+# @query-migrationthreads:
-+#
-+# Returns threadInfo about the thread specified by name
-+#
-+# data: migration thread name
-+#
-+# returns: information about the specified thread
-+#
-+# Since: 7.2
-+##
-+{ 'command': 'query-migrationthreads',
-+  'data': { 'name': 'str' },
-+  'returns': 'MigrationThreadInfo' }
-+
- ##
- # @snapshot-save:
- #
++    thread = MigrationThreadAdd("live_migration", qemu_get_thread_id());
+     /* report migration thread name to libvirt */
+     qapi_event_send_migration_name("live_migration");
+ 
+@@ -4034,6 +4037,7 @@ static void *migration_thread(void *opaque)
+     migration_iteration_finish(s);
+     object_unref(OBJECT(s));
+     rcu_unregister_thread();
++    MigrationThreadDel(thread);
+     return NULL;
+ }
+ 
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 6e834c7111..fca06284de 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -25,6 +25,7 @@
+ #include "qemu-file.h"
+ #include "trace.h"
+ #include "multifd.h"
++#include "threadinfo.h"
+ #include "qemu/yank.h"
+ #include "io/channel-socket.h"
+ #include "yank_functions.h"
+@@ -646,10 +647,12 @@ int multifd_send_sync_main(QEMUFile *f)
+ static void *multifd_send_thread(void *opaque)
+ {
+     MultiFDSendParams *p = opaque;
++    MigrationThread *thread = NULL;
+     Error *local_err = NULL;
+     int ret = 0;
+     bool use_zero_copy_send = migrate_use_zero_copy_send();
+ 
++    thread = MigrationThreadAdd(p->name, qemu_get_thread_id());
+     /* report multifd thread name to libvirt */
+     qapi_event_send_migration_name(p->name);
+ 
+@@ -762,6 +765,7 @@ out:
+     qemu_mutex_unlock(&p->mutex);
+ 
+     rcu_unregister_thread();
++    MigrationThreadDel(thread);
+     trace_multifd_send_thread_end(p->id, p->num_packets, p->total_normal_pages);
+ 
+     return NULL;
 -- 
 2.33.0
 
