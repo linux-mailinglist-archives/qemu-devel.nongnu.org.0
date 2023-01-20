@@ -2,91 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482F56754F7
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:48:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B86F2675507
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:53:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIqoS-0001Wp-3z; Fri, 20 Jan 2023 07:48:08 -0500
+	id 1pIqsH-0003q3-6i; Fri, 20 Jan 2023 07:52:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIqoQ-0001UR-1o
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:48:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.145.221.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pIqsE-0003pR-SV
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:52:03 -0500
+Received: from 5.mo552.mail-out.ovh.net ([188.165.45.220])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIqoN-0003x4-Ir
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:48:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674218881;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Nb9h/z+BKlVCArg6Tby/eW6/Nm7OwozPclzhz7e84rc=;
- b=LFg+dWa2VbgUaCStduP/VB1YxR7EiC5zKqcPw0dvuFTXEUN8k/u7IjJ7ayKHCw79f+deMW
- AjOrHBtCt2nuQKkE9ZrT4Ahic2QZd1Qvx1KhirR9Nj0r9unZVZWWHatk5yMHhzLtti6FhB
- Hx1cN1G35YzSbsr1J0PxcOFR+NHj/Oo=
-Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com
- [209.85.221.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-2-nlWTlOoZPBueZeRW2DmIag-1; Fri, 20 Jan 2023 07:48:00 -0500
-X-MC-Unique: nlWTlOoZPBueZeRW2DmIag-1
-Received: by mail-vk1-f197.google.com with SMTP id
- d130-20020a1f9b88000000b003b87d0db0d9so1641466vke.15
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 04:48:00 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Nb9h/z+BKlVCArg6Tby/eW6/Nm7OwozPclzhz7e84rc=;
- b=Uu4uV/eh6IKR1M8kfTke+rT+dikmQjzWlfuy37d4eDQtAv4hKAkct4N290p9JDkqlm
- T0BZDjjNeUjISQBWBh67tG3KD2D0aarLRzOg5T5Y5DDt02ryh7ViXc6B4feLK2bmv/Ha
- Yxf8MtTi4tc+2xqBPacRtlNyN4XRQWzGTgy9o9rBeQ2fxN8dBsjqbnMSPXq2HmhJiAUz
- aSq0PBQrUpC8ZW5e+/0UzOMUu7sGYIZ5yGWF9OlHPtmoSvWc46C+gNdKZoAagFNU7fnA
- 631hJCdnfkN4g97TUTfdRzTheypI/oQNREeuubD4AbijNvNo0/y/0o1D9Z9M8WdQ57Wg
- oykw==
-X-Gm-Message-State: AFqh2koUEMMrQrtNFB8X0OQkL7YAOmdNOGqRxMoisJTKgELkcebLpz95
- E7O05WCdT5m9Oe1WS1YjR40pIh3/OUDaEMkcrWR0horFcb4KtYtwjpoCvdqdt1M/dUrzjzotvEY
- jNX8Njcb4Lsldce0=
-X-Received: by 2002:a05:6102:11f4:b0:3d4:540:7876 with SMTP id
- e20-20020a05610211f400b003d405407876mr8224312vsg.12.1674218879956; 
- Fri, 20 Jan 2023 04:47:59 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsTllU1zsJaRND8zKZzbol84KvC6toZKM8IsPfYjRKFwu6nEWAJwl4uRDEK7lln2CVNm22FEA==
-X-Received: by 2002:a05:6102:11f4:b0:3d4:540:7876 with SMTP id
- e20-20020a05610211f400b003d405407876mr8224284vsg.12.1674218879694; 
- Fri, 20 Jan 2023 04:47:59 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-118.web.vodafone.de.
- [109.43.177.118]) by smtp.gmail.com with ESMTPSA id
- v23-20020ae9e317000000b006fbbdc6c68fsm1634004qkf.68.2023.01.20.04.47.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Jan 2023 04:47:58 -0800 (PST)
-Message-ID: <b4700f8a-b0d3-dca5-d3af-89b1b738f104@redhat.com>
-Date: Fri, 20 Jan 2023 13:47:55 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pIqsB-0004ie-Eb
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:52:01 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.20.235])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 93838337A9;
+ Fri, 20 Jan 2023 12:51:52 +0000 (UTC)
+Received: from kaod.org (37.59.142.102) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 20 Jan
+ 2023 13:51:51 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-102R00444e9c119-a1d4-4ab4-8bdd-ffcb880b8922,
+ B144956C13BBC382596DA5742790BEAB579A3E91) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <9e75b567-210a-6fd5-24a3-7b0ca47f6447@kaod.org>
+Date: Fri, 20 Jan 2023 13:51:46 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: QEMU iotest 267 failure / assertion in migration code
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 2/2] tests/avocado: Truncate M2S-FG484 SOM SPI flash to
+ 16MiB
 Content-Language: en-US
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Qemu-block <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
- QEMU Developers <qemu-devel@nongnu.org>, Juan Quintela
- <quintela@redhat.com>, Richard Henderson <richard.henderson@linaro.org>
-References: <c4677b0e-87eb-beca-d9fb-050c9315d316@redhat.com>
- <Y8g0IcL14twkHQBu@work-vm>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <Y8g0IcL14twkHQBu@work-vm>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: permerror client-ip=216.145.221.124;
- envelope-from=thuth@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: 11
-X-Spam_score: 1.1
-X-Spam_bar: +
-X-Spam_report: (1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.089, RCVD_IN_SBL_CSS=3.335, SPF_FAIL=0.001,
- SPF_HELO_NONE=0.001 autolearn=no autolearn_force=no
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ <qemu-devel@nongnu.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, <qemu-arm@nongnu.org>, Cleber
+ Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>, Subbaraya Sundeep
+ <sundeep.lkml@gmail.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20230120122836.81675-1-philmd@linaro.org>
+ <20230120122836.81675-3-philmd@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230120122836.81675-3-philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.102]
+X-ClientProxiedBy: DAG7EX2.mxp5.local (172.16.2.62) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 23957d53-a32b-4435-b905-1534969a5f07
+X-Ovh-Tracer-Id: 10261451754654567276
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudduvddggeehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpefguefgkeeileeikefgfeevgeffvdegueetkeeuudejtdfffeegvdfffeefuddvvdenucffohhmrghinhepvghmtghrrghfthdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtvdenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhhihhlmhgusehlihhnrghrohdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdgtrhhoshgrsehrvgguhhgrthdrtghomhdpsghlvggrlhesrhgvughhrghtrdgtohhmpdhsuhhnuggvvghprdhlkhhmlhesghhmrghilhdrtghomhdpfigrihhnvghrshhmsehrvgguhhgrthdrtghomh
+ dpoffvtefjohhsthepmhhoheehvddpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=188.165.45.220; envelope-from=clg@kaod.org;
+ helo=5.mo552.mail-out.ovh.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,69 +78,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/01/2023 19.02, Dr. David Alan Gilbert wrote:
-> * Thomas Huth (thuth@redhat.com) wrote:
->>
->>   Hi!
->>
->> I just ran "make check" in a build directory where I did
->> not compile qemu-system-x86_64, and got a failure with
->> iotest 267.
->>
->> Re-running the "check" script directly got me some more
->> information:
->>
->> $ ./check -qcow2 267
->> QEMU          -- "/tmp/qemu/tests/qemu-iotests/../../qemu-system-alpha" -nodefaults -display none -accel qtest
->> QEMU_IMG      -- "/tmp/qemu/tests/qemu-iotests/../../qemu-img"
->> QEMU_IO       -- "/tmp/qemu/tests/qemu-iotests/../../qemu-io" --cache writeback --aio threads -f qcow2
->> QEMU_NBD      -- "/tmp/qemu/tests/qemu-iotests/../../qemu-nbd"
->> IMGFMT        -- qcow2
->> IMGPROTO      -- file
->> PLATFORM      -- Linux/x86_64 thuth 4.18.0-425.3.1.el8.x86_64
->> TEST_DIR      -- /tmp/qemu/tests/qemu-iotests/scratch
->> SOCK_DIR      -- /tmp/tmp_qbcjhsu
->> GDB_OPTIONS   --
->> VALGRIND_QEMU --
->> PRINT_QEMU_OUTPUT --
->>
->> 267   fail       [18:39:41] [18:39:44]   3.5s                 output mismatch (see /tmp/qemu/tests/qemu-iotests/scratch/267.out.bad)
->> --- .../qemu/tests/qemu-iotests/267.out
->> +++ /tmp/qemu/tests/qemu-iotests/scratch/267.out.bad
->> @@ -31,23 +31,23 @@
->>   Testing: -drive driver=IMGFMT,file=TEST_DIR/t.IMGFMT,if=none
->>   QEMU X.Y.Z monitor - type 'help' for more information
->>   (qemu) savevm snap0
->> -(qemu) info snapshots
->> -List of snapshots present on all disks:
->> -ID        TAG               VM SIZE                DATE     VM CLOCK     ICOUNT
->> ---        snap0                SIZE yyyy-mm-dd hh:mm:ss 00:00:00.000
->> -(qemu) loadvm snap0
->> -(qemu) quit
->> +QEMU_PROG: ../../qemu/migration/ram.c:874: pss_find_next_dirty: Assertion `pss->host_page_end' failed.
+On 1/20/23 13:28, Philippe Mathieu-Daudé wrote:
+> The M2S-FG484 SOM uses a 16 MiB SPI flash (Spansion
+> S25FL128SDPBHICO).  Since the test asset is bigger,
+> truncate it to the correct size to avoid when running
+> the test_arm_emcraft_sf2 test:
 > 
-> I don't understand how that can trigger - it needs investigating as a
-> bug.
-
-I've created a ticket so we don't forget:
-
-https://gitlab.com/qemu-project/qemu/-/issues/1456
-
->> +./common.rc: line 181: 1903770 Aborted                 (core dumped) ( if [ -n "${QEMU_NEED_PID}" ]; then
->> +    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
->> +fi; GDB=""; if [ -n "${GDB_OPTIONS}" ]; then
->> +    GDB="gdbserver ${GDB_OPTIONS}";
->> +fi; VALGRIND_QEMU="${VALGRIND_QEMU_VM}" _qemu_proc_exec "${VALGRIND_LOGFILE}" $GDB "$QEMU_PROG" $QEMU_OPTIONS "$@" )
->>
->>
->> Looks like this test does not work if the main machine
->> of the selected QEMU binary does not support migration?
+>    qemu-system-arm: device requires 16777216 bytes, block backend provides 67108864 bytes
 > 
-> Why doesn't it support migration?
+> Add comment regarding the M2S-FG484 SOM hardware in
+> hw/arm/msf2-som.c.
+> 
+> Reported-by: Cédric Le Goater <clg@kaod.org>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Hmm, maybe I just got that wrong and it's really just the problem that the 
-qemu-system-alpha is crashing.
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Tested-by: Cédric Le Goater <clg@kaod.org>
 
-  Thomas
+Thanks,
+
+C.
+
+> ---
+>   hw/arm/msf2-som.c                   | 5 ++++-
+>   tests/avocado/boot_linux_console.py | 2 ++
+>   2 files changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/hw/arm/msf2-som.c b/hw/arm/msf2-som.c
+> index a6df473ec9..7b3106c790 100644
+> --- a/hw/arm/msf2-som.c
+> +++ b/hw/arm/msf2-som.c
+> @@ -1,6 +1,9 @@
+>   /*
+>    * SmartFusion2 SOM starter kit(from Emcraft) emulation.
+>    *
+> + * M2S-FG484 SOM hardware architecture specification:
+> + *   https://www.emcraft.com/jdownloads/som/m2s/m2s-som-ha.pdf
+> + *
+>    * Copyright (c) 2017 Subbaraya Sundeep <sundeep.lkml@gmail.com>
+>    *
+>    * Permission is hereby granted, free of charge, to any person obtaining a copy
+> @@ -87,7 +90,7 @@ static void emcraft_sf2_s2s010_init(MachineState *machine)
+>   
+>       /* Attach SPI flash to SPI0 controller */
+>       spi_bus = qdev_get_child_bus(dev, "spi0");
+> -    spi_flash = qdev_new("s25sl12801");
+> +    spi_flash = qdev_new("s25sl12801"); /* Spansion S25FL128SDPBHICO */
+>       qdev_prop_set_uint8(spi_flash, "spansion-cr2nv", 1);
+>       if (dinfo) {
+>           qdev_prop_set_drive_err(spi_flash, "drive",
+> diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+> index 49a4b22fe1..37600be4a2 100644
+> --- a/tests/avocado/boot_linux_console.py
+> +++ b/tests/avocado/boot_linux_console.py
+> @@ -399,6 +399,8 @@ def test_arm_emcraft_sf2(self):
+>           spi_hash = '65523a1835949b6f4553be96dec1b6a38fb05501'
+>           spi_path = self.fetch_asset(spi_url, asset_hash=spi_hash)
+>   
+> +        file_truncate(spi_path, 16 << 20) # Spansion S25FL128SDPBHICO is 16 MiB
+> +
+>           self.vm.set_console()
+>           kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE
+>           self.vm.add_args('-kernel', uboot_path,
 
 
