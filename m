@@ -2,76 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D62A675BBF
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 18:40:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A1CE675CA9
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 19:24:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIvMr-0007Pf-Kn; Fri, 20 Jan 2023 12:39:58 -0500
+	id 1pIw2d-0002NE-Kz; Fri, 20 Jan 2023 13:23:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIvMF-0007E1-8n
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 12:39:21 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pIw2a-0002MG-Jf
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 13:23:04 -0500
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIvMD-0000VE-R2
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 12:39:19 -0500
-Received: by mail-wr1-x432.google.com with SMTP id b7so5509067wrt.3
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 09:39:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pIw2Y-0000Hk-M8
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 13:23:04 -0500
+Received: by mail-pf1-x435.google.com with SMTP id z31so1498163pfw.4
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 10:23:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2l3hBLnWs+vux4f5dvuhUR9kIENezqJvzMzamhPAisY=;
- b=QyjQLM+eg/MUC60AjASfQhIyX1LVOOeJUcNYqNWBrcthekZpyvXSRKes1PYVvZ1Wkw
- m2dyaFK+8g5EHm5ct3Iyy7WBCEj3dDjjRQ9lVENl3S3HmQD2ztYKey8O/VYKsZmLpyFW
- bfJvbvrus5Mo9/jtI4+jHGhf6ONtajyH04Pr3LOlgrYhv2EEUso1VGpAZ3+UytUSmKqO
- qI++KpzUd4wP/hu3QWISiWFEjq4oS2d8JChjFQxfdy0OrSOdgc6vgXA9IXztn1VIquR1
- gD4FpRX/E6vhGQiC/EkdfT8zCkDXkaKpZsFWiAjb9y6BhsP4zSqx9DLsv+xhR2xKcOzD
- oNIw==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=BHGbdpUEq+ly8Y80sFE/YLFYBzrHFkyHeGlIttzRn3g=;
+ b=UvdwxYzgUDE6p6+Xj7h0ff8WFkOntbeyFsXzScbsDsv5ZEVaiOB/sRRzd8WwcdL5B7
+ PE7KnTeArtvuXBYdpXyBXPz5Pry2Jcjzu8PxoCojdWrr+hfW0hG2rEk40iJkc0Ex/R1C
+ gjFC+BE5DN+F2HqvxfBIOYHrfWMYB9Thf1t+62zA/3vJKQZD2gNX/IfLbK71ClB4xgyv
+ q1LuMFvPyjd/yJTHEMQifEypJrFZrBbFk/oEcqMSG4XQGE3DnaHwoFhhguJNYn4IUwZt
+ a0EtMO61PL76aMFwXCWai2D4vQo1LRwWYgmebojMdaff8dTcXDn8Y8Rc7VlIKrRw0sau
+ Sxpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=2l3hBLnWs+vux4f5dvuhUR9kIENezqJvzMzamhPAisY=;
- b=K1osKKT4XijNKe5+cHaxR0Xdo0oXb9BWNsXp4lmJot3n/fYi2sD4dPjGVCbidX3M0i
- 0AFQcSeogvC5P2DQ9o+WE4gFsKtN2azBHzX1mTLzaM/R1mCQMayOcotXAeOzxRmNwfOz
- Zkvq3FApE1U00BqBWxMiWlAY71nm6PVR3CAPRrONzT61KU5+uyl7SN9aJiGe8i+0aHyj
- Q9z66AoUvHH0dbBXnAF+W9Y7ha3aMkr1rKcpg0N4oN4KDZLTKXUstSt1NBzdsDmJFt8r
- GOy3boxF5aoGxHuQYeAtbnB3XV4eSnbkljRgwoCdsRtXdv+WQgKOxp9w0Emw4oBGLxhR
- BAgg==
-X-Gm-Message-State: AFqh2kqroYA1Hv0jKYV7+v2NScxa0NGeXWiJkQ9jRLesTLGrEtHB1rZO
- +fL2lwS/4axrnkBUqpCnM5YjPjagsoKlLQ8m
-X-Google-Smtp-Source: AMrXdXvI7bKNpKOfmLbPxep3E0drp0fnngJYHhTx0l3VvAWmFc/46RmUgxBrPSzm1sayHsQ1/ND24w==
-X-Received: by 2002:a5d:4cc2:0:b0:2bf:9473:a6f2 with SMTP id
- c2-20020a5d4cc2000000b002bf9473a6f2mr1669495wrt.21.1674236355881; 
- Fri, 20 Jan 2023 09:39:15 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- k7-20020adfd227000000b002bdf3809f59sm15963106wrh.38.2023.01.20.09.39.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 09:39:15 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 070AB1FFB7;
- Fri, 20 Jan 2023 17:39:15 +0000 (GMT)
-References: <20230117035701.168514-1-richard.henderson@linaro.org>
- <20230117035701.168514-4-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.15; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH 3/3] plugins: Iterate on cb_lists in qemu_plugin_user_exit
-Date: Fri, 20 Jan 2023 17:39:09 +0000
-In-reply-to: <20230117035701.168514-4-richard.henderson@linaro.org>
-Message-ID: <87lelxw1fg.fsf@linaro.org>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=BHGbdpUEq+ly8Y80sFE/YLFYBzrHFkyHeGlIttzRn3g=;
+ b=XFE8kLQ725Vj9vIUiso9dWKTgDGRDudeHswI3UvHLRjA9Pfcc0FTqq+5mrw0K+APJ+
+ sA6SIc87TIx0doeyyi58+QFfzB6GKc2ge74FtFTuM5TbpTGH4vm5ZyxYu0PTYceXE6Rb
+ EbMVpMI0iKg4E1paSNohJ3rxbKa37aR+ncJJUVEGEkK3m02KRjClpSIc+x3uTeB7yY3c
+ drd04COMkvKaeIO+d+NoVfgp/nt1wCShjHcb/4+yPQbv3LUWHHaiYd1envbBq4t2RF5K
+ SfRwRsMMw1RgRzgneVAiF5XzV25U5LPCA6r8szUvDiv1uZXB2u8FpAJ99HZYp1V5HsVa
+ kO8Q==
+X-Gm-Message-State: AFqh2kpfT20RRJHUvSZsg+oP5ex7EXbXaFK+2GRSBq4u0kSoziWrHHFC
+ N4+9oUnW9qq/jpVIYcdH4RpiODo/mp604idKdZTXEg==
+X-Google-Smtp-Source: AMrXdXvNQsYrroFtxUTrFiuwah7EiSUHEFhG33iTrBJClBDI2ewyuyPt7WOZOMrrp2KMLGClN55QcTL1CLuyAK4m/XM=
+X-Received: by 2002:aa7:8d1a:0:b0:58b:c7ef:25ca with SMTP id
+ j26-20020aa78d1a000000b0058bc7ef25camr1693489pfe.51.1674238980732; Fri, 20
+ Jan 2023 10:23:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+References: <20230120155447.31702-1-eiakovlev@linux.microsoft.com>
+ <20230120155447.31702-3-eiakovlev@linux.microsoft.com>
+In-Reply-To: <20230120155447.31702-3-eiakovlev@linux.microsoft.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 20 Jan 2023 18:22:49 +0000
+Message-ID: <CAFEAcA8RSCvkt+k2N+At67CYZejJgnrkqCox-meq0TtraooBCg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] hw/char/pl011: add post_load hook for
+ backwards-compatibility
+To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,17 +84,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Richard Henderson <richard.henderson@linaro.org> writes:
-
-> Rather than iterate over all plugins for all events,
-> iterate over plugins that have registered a given event.
+On Fri, 20 Jan 2023 at 15:54, Evgeny Iakovlev
+<eiakovlev@linux.microsoft.com> wrote:
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Previous change slightly modified the way we handle data writes when
+> FIFO is disabled. Previously we kept incrementing read_pos and were
+> storing data at that position, although we only have a
+> single-register-deep FIFO now. Then we changed it to always store data
+> at pos 0.
+>
+> If guest disables FIFO and the proceeds to read data, it will work out
+> fine, because we read from current read_pos before setting it to 0.
+>
+> However, to make code less fragile, introduce a post_load hook for
+> PL011State and move fixup read FIFO state when FIFO is disabled. Since
+> we are introducing a post_load hook, also do some sanity checking on
+> untrusted incoming input state.
+>
+> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+> ---
+>  hw/char/pl011.c | 27 ++++++++++++++++++++++++++-
+>  1 file changed, 26 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/char/pl011.c b/hw/char/pl011.c
+> index 3fa3b75d04..4df649a064 100644
+> --- a/hw/char/pl011.c
+> +++ b/hw/char/pl011.c
+> @@ -352,10 +352,35 @@ static const VMStateDescription vmstate_pl011_clock = {
+>      }
+>  };
+>
+> +static int pl011_post_load(void *opaque, int version_id)
+> +{
+> +    PL011State* s = opaque;
+> +
+> +    /* Sanity-check input state */
+> +    if (s->read_pos >= ARRAY_SIZE(s->read_fifo) ||
+> +        s->read_count > ARRAY_SIZE(s->read_fifo)) {
+> +        return -1;
+> +    }
+> +
+> +    if (version_id < 3 && !pl011_is_fifo_enabled(s)) {
+> +        /*
+> +         * Older versions of PL011 didn't ensure that the single
+> +         * character in the FIFO in FIFO-disabled mode is in
+> +         * element 0 of the array; convert to follow the current
+> +         * code's assumptions.
+> +         */
+> +        s->read_fifo[0] = s->read_fifo[s->read_pos];
+> +        s->read_pos = 0;
+> +    }
 
-Queued to plugins/next, thanks.
+You don't need to bump the version id and do this
+check based on version ID. You can just check whether
+the old state indicates that the data isn't in slot 0
+of the array, the way I suggested in my comment on the
+previous version of the patchset.
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+(New->old migration will work fine.)
+
+thanks
+-- PMM
 
