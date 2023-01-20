@@ -2,84 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9AA6752CE
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:53:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC0796752D1
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:54:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIp0i-0007HG-Pl; Fri, 20 Jan 2023 05:52:40 -0500
+	id 1pIp1Q-0007cH-LU; Fri, 20 Jan 2023 05:53:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIp0g-0007H3-LI
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:52:38 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pIp0e-0005gO-Su
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:52:38 -0500
-Received: by mail-wr1-x436.google.com with SMTP id h16so4455049wrz.12
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 02:52:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=T7ev5gQNxaBMHR64ExWJ0wyAeFm/sn1Z0OvG9w5tTBg=;
- b=xAybjWPat31CyumUC3F7nQuOh3imwaDUBkRFjAjVtBboQQfcI+DsXHsLgm6UMq/to5
- JfJ99w8JhZOyc9yIKfCEjPya5aSZe7WHoMjmirmFXGnYXwOeVdWXQT9ofEACzuR4XILR
- wwLcGIZ1UL5OxKJoVweUOwJAGN8KnWbwK5rCMneyXnfd/I9IlHx4YShl7eOvKYuIQN4L
- q0X0xwr73Iep3QmMPCGcK3c8S8Lf5yAgwQVaWrxnaxjFOau1mucunzCvEQJpgsA7//uo
- lGJ8ffK5cCKFO8et+MsRRPjilx6TWoMAGdTfZnnJHg9q5qiF362357bQ50zTPEsP6oLC
- dMww==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=T7ev5gQNxaBMHR64ExWJ0wyAeFm/sn1Z0OvG9w5tTBg=;
- b=RhmNvxL9/1NbhUowE1AfQB4UKXZlQHxkMJx5KQiBEK9x4s2CKpCTnqEZoICwJOObjj
- 1XkKecK9K9vKl0SCNEJBa299t9mDdF0ky7zaNbP01mI8hf10QaW6mL/TSqShlZaQqZjO
- K/AsCeDpeHJG9NV4IebF7w8uicFBWowLx1qDlVvtqnKSLK4cDIMNUQQcsxwaDSykgT3k
- YAe9cWpOU8GtOon1zXjDlP0nn/EwIzO6PlNUDCCMQB7XYC4PvP1T/J1cfGXHqq70D3sH
- BCq00nfxA8IDIlBmBkMW44WCrUguy0fSyWZCSM1lwce5N6/mFdqRyQWKGQP2ppXyJbo8
- QB0g==
-X-Gm-Message-State: AFqh2kr9jo9Kembel6+r8KkQ9dFy/RIzKjXQ0Gh/621F/ZYYG2cHY/jk
- 7w9CLJcBJkmlp8k1xIwMhH7dwg==
-X-Google-Smtp-Source: AMrXdXvKEFB/Gl1EB4qCRxaMHJeiFwCKXC45xyEZ87+8EN/ddcZcOekBABNqRv/ZB6XWGsDPEIGhNw==
-X-Received: by 2002:adf:d082:0:b0:2bc:46e7:6f10 with SMTP id
- y2-20020adfd082000000b002bc46e76f10mr7254288wrh.17.1674211954647; 
- Fri, 20 Jan 2023 02:52:34 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- w4-20020adfee44000000b0029100e8dedasm35550114wro.28.2023.01.20.02.52.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 02:52:34 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8A67D1FFB7;
- Fri, 20 Jan 2023 10:52:32 +0000 (GMT)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pIp1O-0007aO-MW
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:53:22 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pIp1M-0005l1-JP
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:53:22 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30KAosVn022536; Fri, 20 Jan 2023 10:53:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=QapN04nTq14cZJ4IWTOPM34vIdBlTVg6uE1xvcwCBec=;
+ b=ZiSwZ8Ag6sjhDlooKD6dwqcGaXO8MhLyA2vWCwYj/O8C9NICzkbaWN5l0vlScEVtHQFT
+ 4LPkE47acxwny8X5WlzUV4mqy6DByfHJ2SSDGaIBrsxT5q7P7ouZT6H1WEpAFNyQmKgF
+ YocrSmGrTbqwfZigB/24GEhzfWEB8K0TYoQBIN692NwF6magMrD3rquNcokfDMo7mnUz
+ zCyLu5kbJW7Seqsb40toBZNO5tZqCW+s6mVukZ5kxX5xer7cMUIik5/jw11Yj9LbJwSE
+ +HNQARrtKqB1KBr8H2zJqP9kFS7xhrpR3sxfJyubOwgtXs6aoSdPVKcpD0yBzA2LskgI cQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n7sjfr1de-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 20 Jan 2023 10:53:17 +0000
+Received: from m0098417.ppops.net (m0098417.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30KApdc3025358;
+ Fri, 20 Jan 2023 10:53:17 GMT
+Received: from ppma05fra.de.ibm.com (6c.4a.5195.ip4.static.sl-reverse.com
+ [149.81.74.108])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n7sjfr1cu-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 20 Jan 2023 10:53:17 +0000
+Received: from pps.filterd (ppma05fra.de.ibm.com [127.0.0.1])
+ by ppma05fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30K0Pbjd004825;
+ Fri, 20 Jan 2023 10:53:15 GMT
+Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
+ by ppma05fra.de.ibm.com (PPS) with ESMTPS id 3n3m16dqr7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 20 Jan 2023 10:53:15 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30KArDXs45613542
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 20 Jan 2023 10:53:13 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 12C1520043;
+ Fri, 20 Jan 2023 10:53:13 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id AAEA120040;
+ Fri, 20 Jan 2023 10:53:12 +0000 (GMT)
+Received: from [9.171.3.141] (unknown [9.171.3.141])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 20 Jan 2023 10:53:12 +0000 (GMT)
+Message-ID: <fd1b116ac19feaaebbf82f8e41a24883af81f851.camel@linux.ibm.com>
+Subject: Re: [PULL 0/5] tcg patch queue
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Alex =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+Date: Fri, 20 Jan 2023 11:53:12 +0100
+In-Reply-To: <2c1eb92b-91f8-34d5-c5f7-a56a41ec807b@redhat.com>
 References: <20230116223637.3512814-1-richard.henderson@linaro.org>
  <2c1eb92b-91f8-34d5-c5f7-a56a41ec807b@redhat.com>
-User-agent: mu4e 1.9.15; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, Ilya Leoshkevich
- <iii@linux.ibm.com>, peter.maydell@linaro.org, qemu-devel@nongnu.org
-Subject: Re: [PULL 0/5] tcg patch queue
-Date: Fri, 20 Jan 2023 10:50:42 +0000
-In-reply-to: <2c1eb92b-91f8-34d5-c5f7-a56a41ec807b@redhat.com>
-Message-ID: <873585xytr.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: pVhL0HQRx9qtE9Cxhh2bEswgZtq6WVP9
+X-Proofpoint-ORIG-GUID: fCHhdxVn1lixK00ahekMKGengdZPvm-E
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-20_07,2023-01-20_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 spamscore=0 suspectscore=0
+ clxscore=1011 priorityscore=1501 impostorscore=0 mlxlogscore=999
+ bulkscore=0 mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301200090
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,56 +114,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Thomas Huth <thuth@redhat.com> writes:
-
+On Fri, 2023-01-20 at 10:41 +0100, Thomas Huth wrote:
 > On 16/01/2023 23.36, Richard Henderson wrote:
->> The following changes since commit fb7e7990342e59cf67dbd895c1a1e3fb1741d=
-f7a:
->>    tests/qtest/qom-test: Do not print tested properties by default
->> (2023-01-16 15:00:57 +0000)
->> are available in the Git repository at:
->>    https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230116
->> for you to fetch changes up to
->> 61710a7e23a63546da0071ea32adb96476fa5d07:
->>    accel/tcg: Split out cpu_exec_{setjmp,loop} (2023-01-16 10:14:12
->> -1000)
->> ----------------------------------------------------------------
->> - Reorg cpu_tb_exec around setjmp.
->> - Use __attribute__((target)) for buffer_is_zero.
->> - Add perfmap and jitdump for perf support.
->> ----------------------------------------------------------------
->> Ilya Leoshkevich (3):
->>        linux-user: Clean up when exiting due to a signal
->>        accel/tcg: Add debuginfo support
->>        tcg: add perfmap and jitdump
->> Richard Henderson (2):
->>        util/bufferiszero: Use __attribute__((target)) for avx2/avx512
->>        accel/tcg: Split out cpu_exec_{setjmp,loop}
->
->  Hi Richard, hi Ilya,
->
+> > The following changes since commit
+> > fb7e7990342e59cf67dbd895c1a1e3fb1741df7a:
+> >=20
+> > =C2=A0=C2=A0 tests/qtest/qom-test: Do not print tested properties by de=
+fault
+> > (2023-01-16 15:00:57 +0000)
+> >=20
+> > are available in the Git repository at:
+> >=20
+> > =C2=A0=C2=A0 https://gitlab.com/rth7680/qemu.git=C2=A0tags/pull-tcg-202=
+30116
+> >=20
+> > for you to fetch changes up to
+> > 61710a7e23a63546da0071ea32adb96476fa5d07:
+> >=20
+> > =C2=A0=C2=A0 accel/tcg: Split out cpu_exec_{setjmp,loop} (2023-01-16 10=
+:14:12
+> > -1000)
+> >=20
+> > ----------------------------------------------------------------
+> > - Reorg cpu_tb_exec around setjmp.
+> > - Use __attribute__((target)) for buffer_is_zero.
+> > - Add perfmap and jitdump for perf support.
+> >=20
+> > ----------------------------------------------------------------
+> > Ilya Leoshkevich (3):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 linux-user: Clean up when exiting =
+due to a signal
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accel/tcg: Add debuginfo support
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tcg: add perfmap and jitdump
+> >=20
+> > Richard Henderson (2):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 util/bufferiszero: Use __attribute=
+__((target)) for
+> > avx2/avx512
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accel/tcg: Split out cpu_exec_{set=
+jmp,loop}
+>=20
+> =C2=A0 Hi Richard, hi Ilya,
+>=20
 > with the recent QEMU master branch (commit 701ed34), I'm now seeing
-> failures in Travis:
->
->  https://app.travis-ci.com/github/huth/qemu/jobs/593786529#L14411
->
+> failures=20
+> in Travis:
+>=20
+> =C2=A0 https://app.travis-ci.com/github/huth/qemu/jobs/593786529#L14411
+>=20
 > Everything was still fine a couple of days ago (commit fb7e799):
->
->  https://app.travis-ci.com/github/huth/qemu/builds/259755664
->
-> ... so it seems this is likely related to this pull request. Could you
+>=20
+> =C2=A0 https://app.travis-ci.com/github/huth/qemu/builds/259755664
+>=20
+> ... so it seems this is likely related to this pull request. Could
+> you=20
 > please have a look?
+>=20
+> =C2=A0 Thanks,
+> =C2=A0=C2=A0 Thomas
+>=20
 
-Hmm maybe the code motion has revealed another form of the compiler bug.
-I guess these bugs don't die, they just refract.
+I would expect this to be (temporarily) fixed by [1], but we probably
+don't set GITLAB_CI in Travis. Would it make sense to set it?=C2=A0It looks
+as if this variable is currently used only to skip certain tests.
 
->
->  Thanks,
->   Thomas
+If not, then maybe split it into QEMU_CI, GITLAB_CI and TRAVIS_CI?
 
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg04438.html
 
