@@ -2,92 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94DAD674E9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:47:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4106B674E73
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:44:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIm1i-0001wE-Ic; Fri, 20 Jan 2023 02:41:30 -0500
+	id 1pIm1i-0001wS-Bp; Fri, 20 Jan 2023 02:41:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIm15-0000pM-6O
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:52 -0500
+ id 1pIm1E-00011W-N4
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:41:01 -0500
 Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIm12-0004qg-5f
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:50 -0500
+ id 1pIm1B-0004pU-5j
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:41:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1674200448; x=1705736448;
+ t=1674200457; x=1705736457;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=F5UmDhHdivyXvZXkB+ebiNtlq6eeUv4uMJna0z0QHno=;
- b=YxunFu/Puiqc+8csgwstyR7GRfwDfIZuFkWgt3kcWWwof0t21e1DmBO1
- rpQ6g+2dFuNzN/BpRbPGDakDpe8BURdvYsnBpt9wl0PFod3pUpJerBSCt
- JHSI2UVN0AbcC0I4f7/kNPwdkyzMK6RSpXmYFSlJngIknlrvavxV1XfTI
- oDuvnIz8DJw2DMMY0GK5/b7NlqUV0n4mqq0WAwwUhvddmrACiMonlasvM
- 66tdtmxgPO0/Cl/KdGfIBbHEKEMfs/MV6axSeriBk70oPF6td7lcIEO8J
- 0vkt9S1jS4Tl/01Za3BYlOrLLCfDLytQ4pXDAbWirTWXSwrlaEV2QKD3z g==;
-X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176748"
+ bh=cZOtB0SAcjr9gDInv2W8vUbXkcQpeU+zEqfS8xQRDqk=;
+ b=lJ8ECWf7xhRZxmQWlML4kTUkxInF3Y4Kz5ypg2lzIIA43xqt0rRhaJUX
+ qAfBOQs2dEbA8CK0D+rdB+OIHvRk4AJwHYmWr9YZT9n7LIluGawVeKLO0
+ E/OqPIhSrvQK4PRpQ8hRpolERncBUSdjsIAA54t7DfqktnpbNyWPLoYzb
+ aLvNtLEfbyBoDgH6/x80t2h/Y/EyvEr1BbS7oQkxlrhLPNNHPy1kq9myu
+ RM4UhLs2O5pYZbW1brgkWd4Wfs7y7k/prLIMHBrf6aQYbl4NU7u9I6w+3
+ uifpW7eTkMCDONzdmJcQRM5jaZN7c4Fow+AsNdCoCsVnZ3wnRWZS5Iiz4 g==;
+X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176751"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:40:14 +0800
-IronPort-SDR: RfYtSWYT0UhZ24dy1uGNNwmJFuG8Keh883wJttpunhri+FvLZfsAeA2R47fKC5wYyRmFcCLj8F
- 8xFeOK9YnssWmXDzWo8yMpoogCeR4f8/0uD1JMrZDfAjR1fpcUW07BEeefRQ8VNK3DY6tZ1kG9
- 31ivAYWwg6ON+47weCjBC1fzA6rObJt6iNctrwCST0vkkFBEb0zH72wZ7Y7fTuCuaHlo4V0PLQ
- /JqltvtSqORCFQ79VOtCA06zYO/vIVwcchjzwFkq7GQbAlw4VbXc0E8tZGCeQteCP0WllqzQsh
- Xo0=
+ by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:40:16 +0800
+IronPort-SDR: 3ADguHo/ZB27JDyx5m3qOxKHHeHN0i/RYZkOdKVYyJ+46TQuRPo+g10jhWVf3ViRaBZhnPRaV4
+ ZiGT7malLrRy2Myf+KGrn1Re3kTsDG28HuXp6cc4O1dKtubBnuuRbG1gmFJ6iYyPHc8mrKfo/z
+ 2preSUl/VrM1DDw09ZFS1+MVsfe/paKz58UBur0jx2/svsJ718xKByWkm/kpue5TT9dvGDoN0/
+ ztKrbOwMZWcxC1z/7rQ6kHi4RU11ati2Hk6WqDcaqVKFFzsUPqja3B0IrkJww9l61gUUrG41hq
+ Iis=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 22:57:52 -0800
-IronPort-SDR: 7vPGdWJR82FR7hPSIQlD+Zxy1Y3lKBY9oDZvzPciGKPs07Z7+yp+VbvlDd3FULor6cDkhTppL9
- eDf1Yn/2iKsJnSbDGccEmoEsRyXPuFsis2Hvq9UJCvC480HgtfN4RSpwMiv1XeGjHOgbS3E70u
- rEHQGP1GUCxlz0ZKe3zGt6aj0WWTFfk8Hc6r7kXB1Qwf9doYk4HYYwbl4w0gfzj2FH0tIya/jy
- kPuhLdLjM+1cNN4ruBLToEB4e2biith6NUXz2cyMQUgYAhd8XAh/HiQBNJ8UUjOFnropK0q5Nh
- Uyg=
+ 19 Jan 2023 22:57:54 -0800
+IronPort-SDR: 0eOnQe3ELbG/jhvrkltypNioTk2qzf04UtXhO5HskyTzIhyT9+8vkSTx1NTXnNZySt6ILnRv6b
+ EM164/s0tSP+exkLAtQ038JUc/Wz5LXFDlc6VwxO5tcVo0ILmxj/Ok8vYndxdA8bCNTT/B29Gs
+ 3i/wOVOBp5GDjZfvZ+BQ8CjzMiFzExEfqgNMpZVWSHBPnX5zxR5gBwV2CeTlypYHlnE5a4Bh/1
+ z+3uuTsBCKWD3swZJXC2tCmWClpeAHkxMeLYulqWpB2vL9GUsgpQCbqDGi5PpxNB1aOHADjtQ/
+ qj8=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 23:40:14 -0800
+ 19 Jan 2023 23:40:16 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nyrxn6rrgz1Rwrq
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:40:13 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nyrxr3TWGz1RvLy
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:40:16 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1674200413; x=1676792414; bh=F5UmDhHdivyXvZXkB+
- ebiNtlq6eeUv4uMJna0z0QHno=; b=Y6I2YSIJq1biJgKr2aqF9YnWReRr91Ym0C
- 70JGLWdADN2sErYeo9fyekxOBaDiMOFIZAMZ3Gjc8pd3nb0AXrTwPfTplIXsWAcu
- yBVBMw/cRj9SGSCvsQoLyfLFuLT3C+htqY8IE6wtkEHCgLXt2jKlchSdGcKWbPHm
- UcdVX9/cqaqbMIh/xaAmvidAmOdsQD83QEg1iIH26/numDmA63akex0z0Ai/dlel
- DXOKdqYuqcH4B6kUbJqtMk4DLctXSid9wunHxh+G9k4eYnPvFt1gkUXBmBhksFH5
- C9mH506mfYiQzd/Ryp00AlxkUuABeYWUgqrdzOQ0HfsG9Lov02Tw==
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1674200416; x=1676792417; bh=cZOtB0S
+ Acjr9gDInv2W8vUbXkcQpeU+zEqfS8xQRDqk=; b=iIpGNN7Q4KjmooPGb77xnZI
+ TxYJi8U1AjAwgksDoV4N0EoPwPNOSgkCoK3pYCzzgtPU3QIQrPY01JGsGG/NVroU
+ rz3vWx4E9bQIQkEzKC50NrM4qDPWfktlOH5zIewDZ3w7yQviLAeIi5DAHcmGjku6
+ SPsrps6yjzt8EKF6cCe9Ajdvhb5AsM/Q1Fo2VidseONzh5a31Dir06Cl5Pqq5ts4
+ n9wUaJD/LVWvABaX/+IltniiofMN8qdil8QINqVhDi4EbNcxT1/CXWkJsKRoc5Xv
+ LZoooK6pZ0F8DLBSMYwIlMN2p27OcDkqLiGDjP8AJ6wC+esuKcJPiWiAiWJEflw=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id M_ucBC4wLeAL for <qemu-devel@nongnu.org>;
- Thu, 19 Jan 2023 23:40:13 -0800 (PST)
+ port 10026) with ESMTP id 7fzv2nEbZ9Iq for <qemu-devel@nongnu.org>;
+ Thu, 19 Jan 2023 23:40:16 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nyrxm2skhz1RvLy;
- Thu, 19 Jan 2023 23:40:12 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nyrxn6h66z1RvTr;
+ Thu, 19 Jan 2023 23:40:13 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
+Cc: alistair23@gmail.com, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 25/37] target/riscv: Use TARGET_FMT_lx for env->mhartid
-Date: Fri, 20 Jan 2023 17:39:01 +1000
-Message-Id: <20230120073913.1028407-26-alistair.francis@opensource.wdc.com>
+Subject: [PULL 26/37] hw/riscv/spike.c: simplify create_fdt()
+Date: Fri, 20 Jan 2023 17:39:02 +1000
+Message-Id: <20230120073913.1028407-27-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
 References: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=37747d9ec=alistair.francis@opensource.wdc.com;
@@ -114,40 +117,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Bin Meng <bmeng@tinylab.org>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-env->mhartid is currently casted to long before printed, which drops
-the high 32-bit for rv64 on 32-bit host. Use TARGET_FMT_lx instead.
+'mem_size' and 'cmdline' are unused.
 
-Signed-off-by: Bin Meng <bmeng@tinylab.org>
+Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20230109152655.340114-1-bmeng@tinylab.org>
+Message-Id: <20230111170948.316276-2-dbarboza@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/riscv/spike.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index c192d96a94..14a7027095 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -867,9 +867,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error=
- **errp)
-             (env->priv_ver < isa_edata_arr[i].min_version)) {
-             isa_ext_update_enabled(cpu, &isa_edata_arr[i], false);
- #ifndef CONFIG_USER_ONLY
--            warn_report("disabling %s extension for hart 0x%lx because "
--                        "privilege spec version does not match",
--                        isa_edata_arr[i].name, (unsigned long)env->mhart=
-id);
-+            warn_report("disabling %s extension for hart 0x" TARGET_FMT_=
-lx
-+                        " because privilege spec version does not match"=
-,
-+                        isa_edata_arr[i].name, env->mhartid);
- #else
-             warn_report("disabling %s extension because "
-                         "privilege spec version does not match",
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index bff9475686..c7550abfc7 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -49,7 +49,6 @@ static const MemMapEntry spike_memmap[] =3D {
+ };
+=20
+ static void create_fdt(SpikeState *s, const MemMapEntry *memmap,
+-                       uint64_t mem_size, const char *cmdline,
+                        bool is_32_bit, bool htif_custom_base)
+ {
+     void *fdt;
+@@ -299,8 +298,7 @@ static void spike_board_init(MachineState *machine)
+     }
+=20
+     /* Create device tree */
+-    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
+-               riscv_is_32bit(&s->soc[0]), htif_custom_base);
++    create_fdt(s, memmap, riscv_is_32bit(&s->soc[0]), htif_custom_base);
+=20
+     /* Load kernel */
+     if (machine->kernel_filename) {
 --=20
 2.39.0
 
