@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B8CF675CAB
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 19:24:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 601C4675CAC
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 19:24:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIw3B-0002je-5s; Fri, 20 Jan 2023 13:23:41 -0500
+	id 1pIw3e-0003nB-NF; Fri, 20 Jan 2023 13:24:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pIw39-0002jH-Oe
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 13:23:39 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ id 1pIw3c-0003hf-JS
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 13:24:08 -0500
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pIw38-0000Lv-4O
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 13:23:39 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- x2-20020a17090a46c200b002295ca9855aso9873115pjg.2
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 10:23:37 -0800 (PST)
+ id 1pIw3b-0000OW-1q
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 13:24:08 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id 207so4603306pfv.5
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 10:24:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=nfzD+17/Up7Ma5lDsT8nChWEegSPN3XuavFOi5YkAzo=;
- b=NCr54sDa+rgNiB11oiZdXE+LvayuYrvNvXCNastpWtjEeXvwagSG5nrZseyo7F87hG
- AzFhHVsoQ+S6iBc2MgVxAIjbztsNAFhToJbJAU9fS1AUxpAwUNNVjp8/vDzeOy/qfPRS
- JyRFyKpnCCH7AnbopO3mRqULICMzc7elZbNvoBWo8mpWX8VYaSLSArm8L/+0ZYQI67in
- WArmYN3QAuWioA2Lj0kYo1kVuKjRJn4o4Kq6kjjxZU4XkMI9iFhkxEW+QHSMXavQw0Zz
- mv66ffxNKspIQdWJg67Uio5+cIT9aAZ2zr4W1NWEyB7u0UbrcQWHxhGgRm/kjbfbKVfj
- Lyeg==
+ bh=D7bALTMYgNEGBS8wjE/dTHtRUX/M3c8l4lbp1rmnMJQ=;
+ b=xOjePwUOg7dKyD2ewwqPB5X1Pj9eWAvHIshBXBWeyI5lC8yvhtyRgvJL64ZMrGcsGv
+ iDpztlSK7ZuPIBg4dVWoCSDSY9y0ze6Pwbb0wNF1qsZDVmmQABTkcsURb7dB/NTJO8Vl
+ CuRJP0A5Mj6oXw400a3mGn3DMvMLcsKvrsyOiOn7vewhY76RXKp3H4gwGB6vxxTiMiJp
+ xgPf5XbTGxtlc2jIQKTD9n0oXx59kUD0Tmcy2k2Vtpea2lnGA5nuoSJhm9NrmGlUJAhP
+ ZU3O4yCUzAeLROpJ99EHnYh8EV34myhgVjh3O1bIFije+L/aTxHgYJnrrP2PbYfj4E5M
+ A5dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=nfzD+17/Up7Ma5lDsT8nChWEegSPN3XuavFOi5YkAzo=;
- b=gVDtnH7i4VgSLjPCy8d486IcgqSzyTvkH1C2eOheH2frSOivoY9r1AnS3/JfzLuQiE
- fnoE+kwTPbc71YDbaArSVxUGcAgCjoxMiULLvu6jJtIs4aocl8lhgivPOdEnUZivUPOJ
- S9eR7V4GhQXHBu9VYnpoMG7YRmgrbJIiv/CZfKdWFUPbw5k8pGU9edCorp24kcvmIRp/
- z0FQUSfQFevZqmhZLDWRNVbO7YyDR+l5QMvSGEc9t9CEi/8o2acnTNIR+tIgV3eTgj1k
- XaTPK8Pc5zZgLW9Fbb61CHbXOL7Ct+0zkCFUDZVJCzy8Oeq4wwvtnjYM0DhYzpFWIB3O
- oWBQ==
-X-Gm-Message-State: AFqh2krbhLI8UjnSuLXa7EVR9tINpSysODNKsZg7FTyx0mGYD8/mPS10
- P2ovJbLK5ALSRbjfpvnjVL6ax8CIqKpxv5XhlgLgfw==
-X-Google-Smtp-Source: AMrXdXti28Ncw7VdUzevEoqPIzLTJDwXwb8+AIwA+HTEPlfseXd6ZH/WNQ0WQzv2pJsrSQXUktb0hNFfEJizupd/yUQ=
-X-Received: by 2002:a17:90a:53e4:b0:22b:b025:38ed with SMTP id
- y91-20020a17090a53e400b0022bb02538edmr347673pjh.19.1674239016768; Fri, 20 Jan
- 2023 10:23:36 -0800 (PST)
+ bh=D7bALTMYgNEGBS8wjE/dTHtRUX/M3c8l4lbp1rmnMJQ=;
+ b=ieymJtiEnZOzNdB398Y4OGDLrzAc3BhB4y7YqYWDHSVb1+9gqkbrZBeWIBKqIsR3Or
+ klClTF7rXUgT06wzXsd3/UNJfYCgII41j0JiwITpzc5HpcQIjKFMEnygghZuNBVi2+0H
+ 5tjeX/eKKMaRc+4NmS4BloVh0inGQtk2KXHD9wPuiJ7FoQs9S1TohoFFIZZuVFP7Jp6R
+ p/Te82er0x2Ffb6ThhOVpQ6hhkGnlYOmq6by0VarrV7302FGylESGM+Y1zb4OwcjTSrP
+ 5Wg+JtnWUdpvydMuLv7w9Ra1/bEsy6Iq7BCpwV5NZdz8yYAgAw2KzMAF+9+DwY42vS7x
+ sZ+Q==
+X-Gm-Message-State: AFqh2kr7j4ZYi3q7MjvrTYfKW2XvpJ3OirISqZiNe93OywdUHAdybHnQ
+ oHwbVGCg5h1I5MeA2bOthC4f6/TkCXWDQ7zywqrW1Q==
+X-Google-Smtp-Source: AMrXdXsXqdETUnjn04cc5DHDVeUSYiuLwlbbEx41rFXf2HVsia7M9z1I1/EDqKUTRBp0LRdWkZZ384LFrhi9qRkTHGM=
+X-Received: by 2002:aa7:8d1a:0:b0:58b:c7ef:25ca with SMTP id
+ j26-20020aa78d1a000000b0058bc7ef25camr1693938pfe.51.1674239045639; Fri, 20
+ Jan 2023 10:24:05 -0800 (PST)
 MIME-Version: 1.0
 References: <20230120155447.31702-1-eiakovlev@linux.microsoft.com>
- <20230120155447.31702-4-eiakovlev@linux.microsoft.com>
-In-Reply-To: <20230120155447.31702-4-eiakovlev@linux.microsoft.com>
+ <20230120155447.31702-5-eiakovlev@linux.microsoft.com>
+In-Reply-To: <20230120155447.31702-5-eiakovlev@linux.microsoft.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Jan 2023 18:23:25 +0000
-Message-ID: <CAFEAcA8JK=5P2zouaEZ=zhnwTFUwSospFoa7X+SW6=tnkKAdJg@mail.gmail.com>
-Subject: Re: [PATCH v3 3/5] hw/char/pl011: implement a reset method
+Date: Fri, 20 Jan 2023 18:23:54 +0000
+Message-ID: <CAFEAcA855_cH9RnGBCaUTEL5kOycAkCp8AmTRrub48yjVmfQhg@mail.gmail.com>
+Subject: Re: [PATCH v3 4/5] hw/char/pl011: better handling of FIFO flags on
+ LCR reset
 To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,12 +87,14 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On Fri, 20 Jan 2023 at 15:54, Evgeny Iakovlev
 <eiakovlev@linux.microsoft.com> wrote:
 >
-> PL011 currently lacks a reset method. Implement it.
+> Current FIFO handling code does not reset RXFE/RXFF flags when guest
+> resets FIFO by writing to UARTLCR register, although internal FIFO state
+> is reset to 0 read count. Actual guest-visible flag update will happen
+> only on next data read or write attempt. As a result of that any guest
+> that expects RXFE flag to be set (and RXFF to be cleared) after resetting
+> FIFO will never see that happen.
 >
 > Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-> ---
->  hw/char/pl011.c | 26 +++++++++++++++++++++-----
-
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
 thanks
