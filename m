@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A8FE675474
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:29:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05011675462
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:28:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIqUH-0003Ej-5V; Fri, 20 Jan 2023 07:27:17 -0500
+	id 1pIqUK-0003IS-31; Fri, 20 Jan 2023 07:27:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqUE-0003Cc-OX
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqUF-0003Dy-Ia
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqUC-0000SB-UU
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:14 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqUD-0000Sr-JW
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1674217632;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=gTxhWJbC+kEn8/+6zYt5LC7Zm/Z7PfJhfSuvZ09yEiE=;
- b=cZdeDewxJJD6YKNxQYDNJLgUm8VS5mlK03vRwXxnR3J04Oy9ygXyp90S+iVjYw0lJ9CKcO
- O8879T1Z0JQt0FamNvjqZUv/ZLihBGE73jO2yCJm4PXwxezMubgWFpObv7Cr3p7+d+w9rj
- fnGipIg9mAz75ftIXGPTqTOSnJg2wI0=
+ bh=6b1JANbkH8iVZvv9ZvbFlZtrOBC/CaDN4zj/fU2rT38=;
+ b=KGrFAsKkzPi33XU8lZhDza6fmHZYHP83sgHQq4jRUfvxZabKVvwXNnUfp3go5Jh+FDkNKh
+ BD7dnUX5qrra9k7pfe8Dums7HaWf8EizgB/R8+sxXRiiSsgZRHcAi2VvcG3YQfmLpxyh9E
+ MHy3cUzycAkC4GOOQPxvuFKgtOcPNWk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-269-1Y146rHeMbq33y9xNDvVXg-1; Fri, 20 Jan 2023 07:27:08 -0500
-X-MC-Unique: 1Y146rHeMbq33y9xNDvVXg-1
+ us-mta-668-ocx_TR5xNPmuf4H1U2Hxvw-1; Fri, 20 Jan 2023 07:27:09 -0500
+X-MC-Unique: ocx_TR5xNPmuf4H1U2Hxvw-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 509B8857A81;
- Fri, 20 Jan 2023 12:27:08 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 59A8186C165;
+ Fri, 20 Jan 2023 12:27:09 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 8592440C6EC4;
- Fri, 20 Jan 2023 12:27:07 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8D2D040C6EC4;
+ Fri, 20 Jan 2023 12:27:08 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 29/38] block/vmdk: Change extent info type
-Date: Fri, 20 Jan 2023 13:26:24 +0100
-Message-Id: <20230120122633.84983-30-kwolf@redhat.com>
+Subject: [PULL 30/38] block: Split BlockNodeInfo off of ImageInfo
+Date: Fri, 20 Jan 2023 13:26:25 +0100
+Message-Id: <20230120122633.84983-31-kwolf@redhat.com>
 In-Reply-To: <20230120122633.84983-1-kwolf@redhat.com>
 References: <20230120122633.84983-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,128 +79,234 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Hanna Reitz <hreitz@redhat.com>
 
-VMDK's implementation of .bdrv_get_specific_info() returns information
-about its extent files, ostensibly in the form of ImageInfo objects.
-However, it does not get this information through
-bdrv_query_image_info(), but fills only a select few fields with custom
-information that does not always match the fields' purposes.
+ImageInfo sometimes contains flat information, and sometimes it does
+not.  Split off a BlockNodeInfo struct, which only contains information
+about a single node and has no link to the backing image.
 
-For example, @format, which is supposed to be a block driver name, is
-filled with the extent type, e.g. SPARSE or FLAT.
+We do this so we can extend BlockNodeInfo to a BlockGraphInfo struct,
+which has links to all child nodes, not just the backing node.  It would
+be strange to base BlockGraphInfo on ImageInfo, because then this
+extended struct would have two links to the backing node (one in
+BlockGraphInfo as one of all the child links, and one in ImageInfo).
 
-In ImageInfo, @compressed shows whether the data that can be seen in the
-image is stored in compressed form or not.  For example, a compressed
-qcow2 image will store compressed data in its data file, but when
-accessing the qcow2 node, you will see normal data.  This is not how
-VMDK uses the @compressed field for its extent files: Instead, it
-signifies whether accessing the extent file will yield compressed data
-(which the VMDK driver then (de-)compresses).
+Furthermore, it is quite common to ignore the backing-image field
+altogether: bdrv_query_image_info() does not set it, and
+bdrv_image_info_dump() does not evaluate it.  That signals that we
+should have different structs for describing a single node and one that
+has a link to the backing image.
 
-Create a new structure to represent the extent information.  This allows
-us to clarify the fields' meanings, and it clearly shows that these are
-not complete ImageInfo objects.  (That is, if a user wants an extent
-file's ImageInfo object, they will need to query it separately, and will
-not get it from ImageInfoSpecificVmdk.extents.)
-
-Note that this removes the last use of ['ImageInfo'] (i.e. an array of
-ImageInfo objects), so the QAPI generator will no longer generate
-ImageInfoList by default.  However, we use it in qemu-img.c, so we need
-to create a dummy object to force the generate to create that type,
-similarly to DummyForceArrays in machine.json (introduced in commit
-9f08c8ec73878122ad4b061ed334f0437afaaa32 ("qapi: Lazy creation of array
-types")).
+Still, bdrv_query_image_info() and bdrv_image_info_dump() are not
+changed too much in this patch.  Follow-up patches will handle them.
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220620162704.80987-4-hreitz@redhat.com>
+Message-Id: <20220620162704.80987-5-hreitz@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- qapi/block-core.json | 38 +++++++++++++++++++++++++++++++++++++-
- block/vmdk.c         |  8 ++++----
- 2 files changed, 41 insertions(+), 5 deletions(-)
+ qapi/block-core.json | 24 +++++++++----
+ include/block/qapi.h |  3 ++
+ block/qapi.c         | 86 ++++++++++++++++++++++++++++++++------------
+ 3 files changed, 85 insertions(+), 28 deletions(-)
 
 diff --git a/qapi/block-core.json b/qapi/block-core.json
-index f5d822cbd6..4b9365167f 100644
+index 4b9365167f..7720da0498 100644
 --- a/qapi/block-core.json
 +++ b/qapi/block-core.json
-@@ -124,7 +124,33 @@
-       'create-type': 'str',
-       'cid': 'int',
-       'parent-cid': 'int',
--      'extents': ['ImageInfo']
-+      'extents': ['VmdkExtentInfo']
-+  } }
-+
-+##
-+# @VmdkExtentInfo:
-+#
-+# Information about a VMDK extent file
-+#
-+# @filename: Name of the extent file
-+#
-+# @format: Extent type (e.g. FLAT or SPARSE)
-+#
-+# @virtual-size: Number of bytes covered by this extent
-+#
-+# @cluster-size: Cluster size in bytes (for non-flat extents)
-+#
-+# @compressed: Whether this extent contains compressed data
-+#
-+# Since: 8.0
-+##
-+{ 'struct': 'VmdkExtentInfo',
-+  'data': {
-+      'filename': 'str',
-+      'format': 'str',
-+      'virtual-size': 'int',
-+      '*cluster-size': 'int',
-+      '*compressed': 'bool'
+@@ -251,7 +251,7 @@
    } }
  
  ##
-@@ -5754,3 +5780,13 @@
-   'data': { 'device': 'str', '*id': 'str', '*name': 'str'},
-   'returns': 'SnapshotInfo',
-   'allow-preconfig': true }
-+
-+##
-+# @DummyBlockCoreForceArrays:
-+#
-+# Not used by QMP; hack to let us use ImageInfoList internally
-+#
+-# @ImageInfo:
++# @BlockNodeInfo:
+ #
+ # Information about a QEMU image file
+ #
+@@ -279,22 +279,34 @@
+ #
+ # @snapshots: list of VM snapshots
+ #
+-# @backing-image: info of the backing image (since 1.6)
+-#
+ # @format-specific: structure supplying additional format-specific
+ #                   information (since 1.7)
+ #
+-# Since: 1.3
 +# Since: 8.0
+ ##
+-{ 'struct': 'ImageInfo',
++{ 'struct': 'BlockNodeInfo',
+   'data': {'filename': 'str', 'format': 'str', '*dirty-flag': 'bool',
+            '*actual-size': 'int', 'virtual-size': 'int',
+            '*cluster-size': 'int', '*encrypted': 'bool', '*compressed': 'bool',
+            '*backing-filename': 'str', '*full-backing-filename': 'str',
+            '*backing-filename-format': 'str', '*snapshots': ['SnapshotInfo'],
+-           '*backing-image': 'ImageInfo',
+            '*format-specific': 'ImageInfoSpecific' } }
+ 
 +##
-+{ 'struct': 'DummyBlockCoreForceArrays',
-+  'data': { 'unused-image-info': ['ImageInfo'] } }
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 1bba61ad7d..5b0eae877e 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -2898,12 +2898,12 @@ static int vmdk_has_zero_init(BlockDriverState *bs)
-     return 1;
++# @ImageInfo:
++#
++# Information about a QEMU image file, and potentially its backing image
++#
++# @backing-image: info of the backing image
++#
++# Since: 1.3
++##
++{ 'struct': 'ImageInfo',
++  'base': 'BlockNodeInfo',
++  'data': {
++      '*backing-image': 'ImageInfo'
++  } }
++
+ ##
+ # @ImageCheck:
+ #
+diff --git a/include/block/qapi.h b/include/block/qapi.h
+index c09859ea78..c7de4e3fa9 100644
+--- a/include/block/qapi.h
++++ b/include/block/qapi.h
+@@ -35,6 +35,9 @@ BlockDeviceInfo *bdrv_block_device_info(BlockBackend *blk,
+ int bdrv_query_snapshot_info_list(BlockDriverState *bs,
+                                   SnapshotInfoList **p_list,
+                                   Error **errp);
++void bdrv_query_block_node_info(BlockDriverState *bs,
++                                BlockNodeInfo **p_info,
++                                Error **errp);
+ void bdrv_query_image_info(BlockDriverState *bs,
+                            ImageInfo **p_info,
+                            Error **errp);
+diff --git a/block/qapi.c b/block/qapi.c
+index b2584f8740..b3f812a071 100644
+--- a/block/qapi.c
++++ b/block/qapi.c
+@@ -237,30 +237,18 @@ int bdrv_query_snapshot_info_list(BlockDriverState *bs,
  }
  
--static ImageInfo *vmdk_get_extent_info(VmdkExtent *extent)
-+static VmdkExtentInfo *vmdk_get_extent_info(VmdkExtent *extent)
+ /**
+- * bdrv_query_image_info:
+- * @bs: block device to examine
+- * @p_info: location to store image information
+- * @errp: location to store error information
+- *
+- * Store "flat" image information in @p_info.
+- *
+- * "Flat" means it does *not* query backing image information,
+- * i.e. (*pinfo)->has_backing_image will be set to false and
+- * (*pinfo)->backing_image to NULL even when the image does in fact have
+- * a backing image.
+- *
+- * @p_info will be set only on success. On error, store error in @errp.
++ * Helper function for other query info functions.  Store information about @bs
++ * in @info, setting @errp on error.
+  */
+-void bdrv_query_image_info(BlockDriverState *bs,
+-                           ImageInfo **p_info,
+-                           Error **errp)
++static void bdrv_do_query_node_info(BlockDriverState *bs,
++                                    BlockNodeInfo *info,
++                                    Error **errp)
  {
--    ImageInfo *info = g_new0(ImageInfo, 1);
-+    VmdkExtentInfo *info = g_new0(VmdkExtentInfo, 1);
+     int64_t size;
+     const char *backing_filename;
+     BlockDriverInfo bdi;
+     int ret;
+     Error *err = NULL;
+-    ImageInfo *info;
  
-     bdrv_refresh_filename(extent->file->bs);
--    *info = (ImageInfo){
-+    *info = (VmdkExtentInfo){
-         .filename         = g_strdup(extent->file->bs->filename),
-         .format           = g_strdup(extent->type),
-         .virtual_size     = extent->sectors * BDRV_SECTOR_SIZE,
-@@ -2982,7 +2982,7 @@ static ImageInfoSpecific *vmdk_get_specific_info(BlockDriverState *bs,
-     int i;
-     BDRVVmdkState *s = bs->opaque;
-     ImageInfoSpecific *spec_info = g_new0(ImageInfoSpecific, 1);
--    ImageInfoList **tail;
-+    VmdkExtentInfoList **tail;
+     aio_context_acquire(bdrv_get_aio_context(bs));
  
-     *spec_info = (ImageInfoSpecific){
-         .type = IMAGE_INFO_SPECIFIC_KIND_VMDK,
+@@ -273,7 +261,6 @@ void bdrv_query_image_info(BlockDriverState *bs,
+ 
+     bdrv_refresh_filename(bs);
+ 
+-    info = g_new0(ImageInfo, 1);
+     info->filename        = g_strdup(bs->filename);
+     info->format          = g_strdup(bdrv_get_format_name(bs));
+     info->virtual_size    = size;
+@@ -294,7 +281,6 @@ void bdrv_query_image_info(BlockDriverState *bs,
+     info->format_specific = bdrv_get_specific_info(bs, &err);
+     if (err) {
+         error_propagate(errp, err);
+-        qapi_free_ImageInfo(info);
+         goto out;
+     }
+     backing_filename = bs->backing_file;
+@@ -330,16 +316,72 @@ void bdrv_query_image_info(BlockDriverState *bs,
+         break;
+     default:
+         error_propagate(errp, err);
+-        qapi_free_ImageInfo(info);
+         goto out;
+     }
+ 
+-    *p_info = info;
+-
+ out:
+     aio_context_release(bdrv_get_aio_context(bs));
+ }
+ 
++/**
++ * bdrv_query_block_node_info:
++ * @bs: block node to examine
++ * @p_info: location to store node information
++ * @errp: location to store error information
++ *
++ * Store image information about @bs in @p_info.
++ *
++ * @p_info will be set only on success. On error, store error in @errp.
++ */
++void bdrv_query_block_node_info(BlockDriverState *bs,
++                                BlockNodeInfo **p_info,
++                                Error **errp)
++{
++    BlockNodeInfo *info;
++    ERRP_GUARD();
++
++    info = g_new0(BlockNodeInfo, 1);
++    bdrv_do_query_node_info(bs, info, errp);
++    if (*errp) {
++        qapi_free_BlockNodeInfo(info);
++        return;
++    }
++
++    *p_info = info;
++}
++
++/**
++ * bdrv_query_image_info:
++ * @bs: block node to examine
++ * @p_info: location to store image information
++ * @errp: location to store error information
++ *
++ * Store "flat" image information in @p_info.
++ *
++ * "Flat" means it does *not* query backing image information,
++ * i.e. (*pinfo)->has_backing_image will be set to false and
++ * (*pinfo)->backing_image to NULL even when the image does in fact have
++ * a backing image.
++ *
++ * @p_info will be set only on success. On error, store error in @errp.
++ */
++void bdrv_query_image_info(BlockDriverState *bs,
++                           ImageInfo **p_info,
++                           Error **errp)
++{
++    ImageInfo *info;
++    ERRP_GUARD();
++
++    info = g_new0(ImageInfo, 1);
++    bdrv_do_query_node_info(bs, qapi_ImageInfo_base(info), errp);
++    if (*errp) {
++        qapi_free_ImageInfo(info);
++        return;
++    }
++
++    *p_info = info;
++}
++
+ /* @p_info will be set only on success. */
+ static void bdrv_query_info(BlockBackend *blk, BlockInfo **p_info,
+                             Error **errp)
 -- 
 2.38.1
 
