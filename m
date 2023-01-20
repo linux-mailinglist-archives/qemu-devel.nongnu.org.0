@@ -2,95 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C9A675023
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 10:04:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B80667504C
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 10:10:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pInJ2-00089n-Ki; Fri, 20 Jan 2023 04:03:28 -0500
+	id 1pInOt-0001s6-O3; Fri, 20 Jan 2023 04:09:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pInID-0007wB-0m
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 04:02:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pInOo-0001rb-Vl
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 04:09:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pInIB-0004MV-Jz
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 04:02:36 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pInOn-0005Dk-DF
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 04:09:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674205354;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1674205764;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=M669Ra0kWWc5NR7HmCHSAjJ6OFOE8e7akObsZ2e0lPE=;
- b=GnFIy9dUaVrd2z5V6lbGsB+cyksFBJLGLZ50VzcAyj7YlH8XMGUBX/yUFkF/x2b9DkTLSL
- UaruzVcdnLmUTwpzXQSgYQS6uy8CFv46n5RGY3r+iyCIXH8AXuLIbc4yiecvMl/wmVMTvG
- eWlkVPmujWOWNxVfcjS9SCWm4ZVq6Ag=
-Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
- [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-37--Ru68qqLOJ-r9F5IcQwEZQ-1; Fri, 20 Jan 2023 04:02:33 -0500
-X-MC-Unique: -Ru68qqLOJ-r9F5IcQwEZQ-1
-Received: by mail-oi1-f200.google.com with SMTP id
- z8-20020a056808064800b0036aae651f2aso1614309oih.17
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 01:02:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=M669Ra0kWWc5NR7HmCHSAjJ6OFOE8e7akObsZ2e0lPE=;
- b=PeDE39h4+aEISfwgg2uZsPH98NWbCfvm3fExtlZlTl+nzoWOCf3ck7gzqYSiYwbOv4
- /xsOxH1LjGe1scteUfKYQuPHLuTH9zlbFtTVWyx3cNk/Pzym4vXng2Tpcm5PkC5R5VBW
- 0B+UHredl1pGd+qdxf5c/ZxfBXDRtPa51vOGzbUQwHqgks57+UgD+g7rDr+qsLsv7k5H
- 5DNoslCUlLO0arf4/RDMGnSm4RSdQmCPXpCP3wqxCNbt34oTgZy+i7Nug3Oy0TSvoWh0
- GXXPSTZcHueeLKjlmas31f+YrgJgbbuYtmzxL2uOHDMjlQ89VfhMWiZxoMHOqfc3xfkF
- p5zw==
-X-Gm-Message-State: AFqh2kogvUhVyPBawciKV8zLHEk3EsdBc9rSumXslRfOmV0WlOCI+mYO
- UFq8A5CUEZU354f3zxiMukAREys8f6l+gt3KFHq2pVQcpUAbyy8QbxBo3JgMDO98QBwgRdlkYX1
- zL6X/yvHmbC4Ib8w=
-X-Received: by 2002:a05:6870:4c83:b0:150:14a3:6556 with SMTP id
- pi3-20020a0568704c8300b0015014a36556mr7595159oab.51.1674205352681; 
- Fri, 20 Jan 2023 01:02:32 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt7yBOJLuJ3T3gPgh+EMIf+rDym70EZ01oaqyjAdRU0T+o03C6I/ucg5fo/laImjznKWXRD/Q==
-X-Received: by 2002:a05:6870:4c83:b0:150:14a3:6556 with SMTP id
- pi3-20020a0568704c8300b0015014a36556mr7595153oab.51.1674205352489; 
- Fri, 20 Jan 2023 01:02:32 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-118.web.vodafone.de.
- [109.43.177.118]) by smtp.gmail.com with ESMTPSA id
- br31-20020a05620a461f00b00706c1fc62desm2928461qkb.112.2023.01.20.01.02.30
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Jan 2023 01:02:31 -0800 (PST)
-Message-ID: <cd802b6b-1fe7-2640-1ae0-0227c3e8e335@redhat.com>
-Date: Fri, 20 Jan 2023 10:02:29 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 06/11] tests/qtest/migration-test: Reduce 'cmd_source'
- string scope
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ bh=qdxUaV9mozHLjRlBMziRBgdv11zgDk/75M2FwOnPmLQ=;
+ b=I27lnBOdkH7RqaS21qzSTMrDEQuA6scBpH1eyRbIOdMijxd+BVIr61P1MmmlyLkyEHOpQa
+ A55AABFirW/Xct0QNYWqyAl8qJeLRh3aAQPFljkZc9JAFScvC3s4U9vshqILBo5P0mnVrn
+ vkMvacAPABSIgfLWYH/RcLVsw8jfjZo=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-658-DFwlkfOjM72uDLyaq4PYfQ-1; Fri, 20 Jan 2023 04:09:20 -0500
+X-MC-Unique: DFwlkfOjM72uDLyaq4PYfQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0D9881014708;
+ Fri, 20 Jan 2023 09:09:20 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.72])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 867B840C6EC4;
+ Fri, 20 Jan 2023 09:09:17 +0000 (UTC)
+Date: Fri, 20 Jan 2023 09:09:14 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, Fabiano Rosas <farosas@suse.de>,
  Paolo Bonzini <pbonzini@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Fabiano Rosas <farosas@suse.de>
-References: <20230119145838.41835-1-philmd@linaro.org>
- <20230119145838.41835-7-philmd@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230119145838.41835-7-philmd@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Akihiko Odaki <akihiko.odaki@gmail.com>,
+ Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Subject: Re: [RFC PATCH 3/3] tests/qtest/vnc-display-test: Disable on Darwin
+Message-ID: <Y8paOpaUKhw0pP2m@redhat.com>
+References: <20230119120514.28778-1-philmd@linaro.org>
+ <20230119120514.28778-4-philmd@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+In-Reply-To: <20230119120514.28778-4-philmd@linaro.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: 11
-X-Spam_score: 1.1
-X-Spam_bar: +
-X-Spam_report: (1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,17 +83,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/01/2023 15.58, Philippe Mathieu-Daudé wrote:
+On Thu, Jan 19, 2023 at 01:05:14PM +0100, Philippe Mathieu-Daudé wrote:
+> This test is failing in gtk-vnc on Darwin:
+> 
+>   $ make check-qtest-aarch64
+>   ...
+>   19/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/vnc-display-test
+>   ERROR **: 10:42:35.488: vnc-error: Unsupported auth type 17973672
+> 
+> While QEMU picks the sigaltstack coroutine backend, gtk-vnc uses
+> the ucontext coroutine backend, which might be broken on Darwin.
+
+s/might be/is completely and utterly/
+
+The struct ucontext_t definition on macOS aarch64 is too small,
+and so getcontext() smashes past the end of the struct overwriting
+whatever follows the ucontext_t struct.
+
+
+
+> 
+> Disable this test (current problem being investigated in this thread:
+> https://lore.kernel.org/qemu-devel/Y8kw6X6keB5l53nl@redhat.com/).
+> 
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   tests/qtest/migration-test.c | 29 +++++++++++++++--------------
->   1 file changed, 15 insertions(+), 14 deletions(-)
+>  tests/qtest/vnc-display-test.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 
-Missing explanation in the commit description. What's the benefit of doing this?
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 
-  Thomas
+
+But keep an eye on this bug:
+
+  https://github.com/Homebrew/homebrew-core/issues/115413
+
+if it gets fixed before you send a PULL request, we can drop
+this patch, or failing that, revert it later.
+
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
