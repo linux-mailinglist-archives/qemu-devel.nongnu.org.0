@@ -2,52 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20419674FEE
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 09:56:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B01BF674FE7
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 09:55:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pInBX-0002M0-3O; Fri, 20 Jan 2023 03:55:43 -0500
+	id 1pInAF-00027K-8A; Fri, 20 Jan 2023 03:54:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
- id 1pInB1-0002GY-83
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:55:11 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pInAB-00026d-8e
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:54:19 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
- id 1pInAx-0002g3-Ux
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:55:09 -0500
-Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4NytYj06ptzRqtl;
- Fri, 20 Jan 2023 16:52:57 +0800 (CST)
-Received: from localhost.localdomain (10.175.124.27) by
- dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Fri, 20 Jan 2023 16:54:51 +0800
-To: <qemu-devel@nongnu.org>
-CC: <berrange@redhat.com>, <quintela@redhat.com>, <dgilbert@redhat.com>,
- <yubihong@huawei.com>, <xiexiangyou@huawei.com>, <zhengchuan@huawei.com>,
- <linyilu@huawei.com>, <jiangjiacheng@huawei.com>
-Subject: [PATCH 3/3] migration: save/delete migration thread info
-Date: Fri, 20 Jan 2023 16:47:35 +0800
-Message-ID: <20230120084735.825054-4-jiangjiacheng@huawei.com>
-X-Mailer: git-send-email 2.33.0
-In-Reply-To: <20230120084735.825054-1-jiangjiacheng@huawei.com>
-References: <20230120084735.825054-1-jiangjiacheng@huawei.com>
+ (Exim 4.90_1) (envelope-from <pbonzini@redhat.com>)
+ id 1pInA9-0002eu-NG
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:54:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674204857;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=YNpAFosBegGjBSBh9Iz/d+r8uxivNRdyOMyPGi6CV6M=;
+ b=Inx8X/yAa6g/HvdDBrft8nZH/r7fF8Z1We9vMz8HSwZvcoIczaaVfJYll7rhLheFQWhifU
+ 2BPSADyGI2KDoYoi1fDtceCgUdJZ1V+3AH+8MadDVZyhHkKSZrww3PzTFV6qUQkHYjZWEy
+ yGRKJSXtUxEIFg5XccrM+nkpRCPzCfg=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-344-SV0h6p7HO-WAGyv9I1sKuA-1; Fri, 20 Jan 2023 03:54:07 -0500
+X-MC-Unique: SV0h6p7HO-WAGyv9I1sKuA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ nc27-20020a1709071c1b00b0086dae705676so3368278ejc.12
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 00:54:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YNpAFosBegGjBSBh9Iz/d+r8uxivNRdyOMyPGi6CV6M=;
+ b=cUwfwoRolhepK5rRVzrwr3BV+j64BGPpfqgIUrHcb5pWO9COpt/3T7ZqHZTNrS3fp/
+ nIVj/F+fg45I1hR/8tkWldtIzxOUnSy19d7ovzaaNQHqgnPWAHeV2fcCMYiXCVFr8b0B
+ BbFAO7qnzQeKv+eNBKEuLU2+4dElHY4VeLEnHrGcSq2eCT1w5tARKbPfLdu9kDBNjWOW
+ LFng9/a/BA5NApeG+mPJX+Xqr3T68K9yhQ9f6wsM5xMi+vlhL41dP5GdgbWWr8raVl5Z
+ sKyiniDOXuiP1o18H6/Ix4vYn3WkVLDiQ1e0ZvAwDYQEjCrOPLf1QlDAsQoB0ugsYQbF
+ Fp7w==
+X-Gm-Message-State: AFqh2krjfivRIcxqtZoCOsy74cfBYLrwC552gM548hp7eRjUXuXsHrYB
+ 58qgYPGTR+/0LLsbE6PaUQvPpnR9NnOBtKIWgo4sZg689GQId0t56/+kN2emSwd/lmGcZCL+thq
+ NKfhJFKI1itqRgAw=
+X-Received: by 2002:aa7:c917:0:b0:483:5e56:7bc5 with SMTP id
+ b23-20020aa7c917000000b004835e567bc5mr13629461edt.40.1674204846169; 
+ Fri, 20 Jan 2023 00:54:06 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsU1p3X2qz/KKDextMwO/0oPSQWzXkiLmbPvAf4FXXH6Vpa6jvTsktLlA5vAhUHKAZsOOmlDg==
+X-Received: by 2002:aa7:c917:0:b0:483:5e56:7bc5 with SMTP id
+ b23-20020aa7c917000000b004835e567bc5mr13629444edt.40.1674204845899; 
+ Fri, 20 Jan 2023 00:54:05 -0800 (PST)
+Received: from ?IPV6:2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e?
+ ([2001:b07:6468:f312:5e2c:eb9a:a8b6:fd3e])
+ by smtp.googlemail.com with ESMTPSA id
+ e6-20020a170906314600b00781be3e7badsm17615047eje.53.2023.01.20.00.54.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Jan 2023 00:54:05 -0800 (PST)
+Message-ID: <4c924730-b77e-146d-55e6-c29588adc61c@redhat.com>
+Date: Fri, 20 Jan 2023 09:54:03 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.175.124.27]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpeml500022.china.huawei.com (7.185.36.66)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188;
- envelope-from=jiangjiacheng@huawei.com; helo=szxga02-in.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.1
+Subject: Re: [PATCH 0/2] read kvmclock from guest memory if !correct_tsc_shift
+Content-Language: en-US
+To: Marcelo Tosatti <mtosatti@redhat.com>, qemu-devel@nongnu.org
+Cc: kvm@vger.kernel.org
+References: <20230120011116.134437211@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+In-Reply-To: <20230120011116.134437211@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=pbonzini@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -61,87 +99,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jiang Jiacheng <jiangjiacheng@huawei.com>
-From:  Jiang Jiacheng via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-To support query migration thread infomation, save and delete
-thread information at thread creation and end.
+On 1/20/23 02:11, Marcelo Tosatti wrote:
+> Before kernel commit 78db6a5037965429c04d708281f35a6e5562d31b,
+> kvm_guest_time_update() would use vcpu->virtual_tsc_khz to calculate
+> tsc_shift value in the vcpus pvclock structure written to guest memory.
 
-Signed-off-by: Jiang Jiacheng <jiangjiacheng@huawei.com>
----
- migration/migration.c | 4 ++++
- migration/multifd.c   | 4 ++++
- 2 files changed, 8 insertions(+)
+To clarify, the problem is that kvm_guest_time_update() uses the guest
+TSC frequency *that userspace desired* instead of the *actual* TSC 
+frequency.  Because, within the 250 ppm tolerance, TSC scaling is not 
+enabled, the guest kvmclock is incorrect; KVM_GET_CLOCK instead returns 
+the correct value, and the bug occurs when migrating from a host that is 
+publishing a buggy kvmclock to the guest.
 
-diff --git a/migration/migration.c b/migration/migration.c
-index b4ce458bb9..957205e693 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -57,6 +57,7 @@
- #include "net/announce.h"
- #include "qemu/queue.h"
- #include "multifd.h"
-+#include "threadinfo.h"
- #include "qemu/yank.h"
- #include "sysemu/cpus.h"
- #include "yank_functions.h"
-@@ -3951,10 +3952,12 @@ static void qemu_savevm_wait_unplug(MigrationState *s, int old_state,
- static void *migration_thread(void *opaque)
- {
-     MigrationState *s = opaque;
-+    MigrationThread *thread = NULL;
-     int64_t setup_start = qemu_clock_get_ms(QEMU_CLOCK_HOST);
-     MigThrError thr_error;
-     bool urgent = false;
- 
-+    thread = MigrationThreadAdd("live_migration", qemu_get_thread_id());
-     /* report migration thread name to libvirt */
-     qapi_event_send_migration_name("live_migration");
- 
-@@ -4034,6 +4037,7 @@ static void *migration_thread(void *opaque)
-     migration_iteration_finish(s);
-     object_unref(OBJECT(s));
-     rcu_unregister_thread();
-+    MigrationThreadDel(thread);
-     return NULL;
- }
- 
-diff --git a/migration/multifd.c b/migration/multifd.c
-index 6e834c7111..fca06284de 100644
---- a/migration/multifd.c
-+++ b/migration/multifd.c
-@@ -25,6 +25,7 @@
- #include "qemu-file.h"
- #include "trace.h"
- #include "multifd.h"
-+#include "threadinfo.h"
- #include "qemu/yank.h"
- #include "io/channel-socket.h"
- #include "yank_functions.h"
-@@ -646,10 +647,12 @@ int multifd_send_sync_main(QEMUFile *f)
- static void *multifd_send_thread(void *opaque)
- {
-     MultiFDSendParams *p = opaque;
-+    MigrationThread *thread = NULL;
-     Error *local_err = NULL;
-     int ret = 0;
-     bool use_zero_copy_send = migrate_use_zero_copy_send();
- 
-+    thread = MigrationThreadAdd(p->name, qemu_get_thread_id());
-     /* report multifd thread name to libvirt */
-     qapi_event_send_migration_name(p->name);
- 
-@@ -762,6 +765,7 @@ out:
-     qemu_mutex_unlock(&p->mutex);
- 
-     rcu_unregister_thread();
-+    MigrationThreadDel(thread);
-     trace_multifd_send_thread_end(p->id, p->num_packets, p->total_normal_pages);
- 
-     return NULL;
--- 
-2.33.0
+> For those kernels, if vcpu->virtual_tsc_khz != tsc_khz (which can be the
+> case when guest state is restored via migration, or if tsc-khz option is
+> passed to QEMU), and TSC scaling is not enabled (which happens if the
+> difference between the frequency requested via KVM_SET_TSC_KHZ and the
+> host TSC KHZ is smaller than 250ppm), then there can be a difference
+> between what KVM_GET_CLOCK would return and what the guest reads as
+> kvmclock value.
+
+In practice, to trigger the bug you need to do two migrations from a 
+six-year-old kernel; I just can't see too many people stumbling upon 
+this in the wild, and I don't think it makes sense to hobble _all_ 
+migrations from a kernel that is less than six years old for such an 
+edge case.  New versions of QEMU do not even support running with such 
+old kernels (it will for example complain about no support for certain 
+KVM PV features).
+
+It is not a huge request for the user to know if they are in the 
+problematic case.  It is easiest to use a custom QEMU on the 
+destination, and always compute the kvmclock value from memory if the 
+page is valid.
+
+Once you do a migration to the custom QEMU + a fixed kernel, the bug is 
+gone for good and there is no need to introduce new user API for that.
+
+Paolo
+
+> The effect is that the guest sees a jump in kvmclock value
+> (either forwards or backwards) in such case.
+> 
+> To fix incoming migration from pre-78db6a5037965 hosts,
+> read kvmclock value from guest memory.
+> 
+> Unless the KVM_CLOCK_CORRECT_TSC_SHIFT bit indicates
+> that the value retrieved by KVM_GET_CLOCK on the source
+> is safe to be used.
+> 
+> 
+> 
 
 
