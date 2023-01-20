@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F714675967
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 17:00:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ACCC67596D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 17:01:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pItnt-0000gD-Oi; Fri, 20 Jan 2023 10:59:45 -0500
+	id 1pItnu-0000gp-JA; Fri, 20 Jan 2023 10:59:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pItno-0000em-1y; Fri, 20 Jan 2023 10:59:40 -0500
+ id 1pItnp-0000fh-Am; Fri, 20 Jan 2023 10:59:41 -0500
 Received: from linux.microsoft.com ([13.77.154.182])
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pItnm-00073f-7E; Fri, 20 Jan 2023 10:59:39 -0500
+ id 1pItnn-000743-SA; Fri, 20 Jan 2023 10:59:41 -0500
 Received: from localhost.localdomain (unknown [77.64.253.186])
- by linux.microsoft.com (Postfix) with ESMTPSA id 393C520E1A45;
- Fri, 20 Jan 2023 07:59:36 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 393C520E1A45
+ by linux.microsoft.com (Postfix) with ESMTPSA id A35B820E1A49;
+ Fri, 20 Jan 2023 07:59:37 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A35B820E1A49
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1674230377;
- bh=xjU0A6EWYiNLwYJgdO7eoXekRsEpTkp7GSHFPh8wy88=;
+ s=default; t=1674230378;
+ bh=tFMPxB0L9r693TYqKyta4bP0oyicjf+0PFS4XgnOqFQ=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=VYJoKmTLzxvQbeZ93htvim0OBw5U3aD/iqNNf5Kf60ccw0wgdDA+d5hf8onikepz0
- ztvsdDfbwkTDCjbeaiLXojLXLLIB4UHoF/SqMwKrP975Y7vyOwVWOjppr328rrON4w
- JjiuWh4imfV4foh5lbxPdmeZkx3W6ZkbJdqoRhlw=
+ b=Kl8trGAlDQ4es/UA94Xcf0bLdrQBy5Kkee1BTtXmaf7tgsmKXlkx+ZZ2R/fg+fP8j
+ TwSY+KF9kv6QUi8bbXnfZ7RQyOumCKInL8+QlYC8QCBLXuTQWTGcfVHEzGm4RQHS7X
+ C3ReJAJQlzcXEYkxSSsJJfyPH7tlb71cr1owSXeA=
 From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org,
  richard.henderson@linaro.org
-Subject: [PATCH v3 1/2] target/arm: implement DBGCLAIM registers
-Date: Fri, 20 Jan 2023 16:59:28 +0100
-Message-Id: <20230120155929.32384-2-eiakovlev@linux.microsoft.com>
+Subject: [PATCH v3 2/2] target/arm: provide stubs for more external debug
+ registers
+Date: Fri, 20 Jan 2023 16:59:29 +0100
+Message-Id: <20230120155929.32384-3-eiakovlev@linux.microsoft.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230120155929.32384-1-eiakovlev@linux.microsoft.com>
 References: <20230120155929.32384-1-eiakovlev@linux.microsoft.com>
@@ -64,80 +65,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The architecture does not define any functionality for the CLAIM tag bits.
-So we will just keep the raw bits, as per spec.
+Qemu doesn't implement Debug Communication Channel, as well as the rest
+of external debug interface. However, Microsoft Hyper-V in tries to
+access some of those registers during an EL2 context switch.
+
+Since there is no architectural way to not advertise support for external
+debug, provide RAZ/WI stubs for OSDTRRX_EL1, OSDTRTX_EL1 and OSECCR_EL1
+registers in the same way the rest of DCM is currently done. Do account
+for access traps though with access_tda.
 
 Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h          |  1 +
- target/arm/debug_helper.c | 33 +++++++++++++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
+ target/arm/debug_helper.c | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index bf2bce046d..d1ad0939ca 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -495,6 +495,7 @@ typedef struct CPUArchState {
-         uint64_t dbgbcr[16]; /* breakpoint control registers */
-         uint64_t dbgwvr[16]; /* watchpoint value registers */
-         uint64_t dbgwcr[16]; /* watchpoint control registers */
-+        uint64_t dbgclaim;   /* DBGCLAIM bits */
-         uint64_t mdscr_el1;
-         uint64_t oslsr_el1; /* OS Lock Status */
-         uint64_t osdlr_el1; /* OS DoubleLock status */
 diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-index 2f6ddc0da5..f95a73329d 100644
+index f95a73329d..cced3f168d 100644
 --- a/target/arm/debug_helper.c
 +++ b/target/arm/debug_helper.c
-@@ -632,6 +632,24 @@ static void osdlr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     }
- }
- 
-+static void dbgclaimset_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                              uint64_t value)
-+{
-+    env->cp15.dbgclaim |= (value & 0xFF);
-+}
-+
-+static uint64_t dbgclaimset_read(CPUARMState *env, const ARMCPRegInfo *ri)
-+{
-+    /* CLAIM bits are RAO */
-+    return 0xFF;
-+}
-+
-+static void dbgclaimclr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                              uint64_t value)
-+{
-+    env->cp15.dbgclaim &= ~(value & 0xFF);
-+}
-+
- static const ARMCPRegInfo debug_cp_reginfo[] = {
-     /*
-      * DBGDRAR, DBGDSAR: always RAZ since we don't implement memory mapped
-@@ -715,6 +733,21 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
-       .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 2, .opc2 = 0,
-       .access = PL1_RW, .accessfn = access_tda,
-       .type = ARM_CP_NOP },
+@@ -682,6 +682,27 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
+       .opc0 = 2, .opc1 = 3, .crn = 0, .crm = 1, .opc2 = 0,
+       .access = PL0_R, .accessfn = access_tda,
+       .type = ARM_CP_CONST, .resetvalue = 0 },
 +    /*
-+     * Dummy DBGCLAIM registers.
-+     * "The architecture does not define any functionality for the CLAIM tag bits.",
-+     * so we only keep the raw bits
++     * OSDTRRX_EL1/OSDTRTX_EL1 are used for save and restore of DBGDTRRX_EL0.
++     * It is a component of the Debug Communications Channel, which is not implemented.
 +     */
-+    { .name = "DBGCLAIMSET_EL1", .state = ARM_CP_STATE_BOTH,
-+      .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 7, .crm = 8, .opc2 = 6,
-+      .type = ARM_CP_ALIAS,
++    { .name = "OSDTRRX_EL1", .state = ARM_CP_STATE_BOTH, .cp = 14,
++      .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 0, .opc2 = 2,
 +      .access = PL1_RW, .accessfn = access_tda,
-+      .writefn = dbgclaimset_write, .readfn = dbgclaimset_read },
-+    { .name = "DBGCLAIMCLR_EL1", .state = ARM_CP_STATE_BOTH,
-+      .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 6,
++      .type = ARM_CP_CONST, .resetvalue = 0 },
++    { .name = "OSDTRTX_EL1", .state = ARM_CP_STATE_BOTH, .cp = 14,
++      .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 2,
 +      .access = PL1_RW, .accessfn = access_tda,
-+      .writefn = dbgclaimclr_write, .raw_writefn = raw_write,
-+      .fieldoffset = offsetof(CPUARMState, cp15.dbgclaim) },
- };
- 
- static const ARMCPRegInfo debug_lpae_cp_reginfo[] = {
++      .type = ARM_CP_CONST, .resetvalue = 0 },
++    /*
++     * OSECCR_EL1 provides a mechanism for an operating system
++     * to access the contents of EDECCR. EDECCR is not implemented though,
++     * as is the rest of external device mechanism.
++     */
++    { .name = "OSECCR_EL1", .state = ARM_CP_STATE_BOTH, .cp = 14,
++      .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 6, .opc2 = 2,
++      .access = PL1_RW, .accessfn = access_tda,
++      .type = ARM_CP_CONST, .resetvalue = 0 },
+     /*
+      * DBGDSCRint[15,12,5:2] map to MDSCR_EL1[15,12,5:2].  Map all bits as
+      * it is unlikely a guest will care.
 -- 
 2.34.1
 
