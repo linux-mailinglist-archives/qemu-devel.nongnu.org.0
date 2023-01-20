@@ -2,97 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5787F675229
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:15:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8816F67522F
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:16:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIoPT-0001mD-7U; Fri, 20 Jan 2023 05:14:11 -0500
+	id 1pIoRM-0002kw-JB; Fri, 20 Jan 2023 05:16:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIoPR-0001l6-7W
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:14:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIoPP-0007pI-OS
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:14:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674209647;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ganEYfTx0epMSRmvc27vudc0WF68SCSzWUuncl3k3Ew=;
- b=KpfAwJHXAjDXJaMjZajlkL0KhaaHlrbSaDy3eAW2N3I70mXvQ5cFsi72cs/gtF8vE78Cod
- 4KEvyOvsLDYBVCTAsAnhYgJh9GufGvOz9cmQpPEGSt2RdCzCbAaL+/H54C+AbeDiDTEKkX
- mNBylVKTFs73ZDPwJN0V88/XZsS2btI=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-451-rZgRqhucMpWjXLxoN5Qrdg-1; Fri, 20 Jan 2023 05:14:05 -0500
-X-MC-Unique: rZgRqhucMpWjXLxoN5Qrdg-1
-Received: by mail-qk1-f197.google.com with SMTP id
- bq15-20020a05620a468f00b00706ae242abcso3177388qkb.7
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 02:14:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIoRK-0002km-PQ
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:16:06 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIoRI-0008GJ-W9
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:16:06 -0500
+Received: by mail-wm1-x330.google.com with SMTP id m15so3608396wms.4
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 02:16:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YHfczaGYoiDaGhpkcyBcMhebOVI7pv0AqVw7DQaP72E=;
+ b=s46ewEPro7PtRBcKy1l1Ws8DSaAe6/uHMhAOlAe/rcdDmGYL9PtawnRLCsFr5ud7FU
+ 7N6R8uHLnPU5s2FcI/Fs9GXPfpB5vwtB9vf0pdTCVUJWaX2fyQs1fCBpI//UaPx6yT6/
+ JWNGoVhzxHM+aijgFK192McqqQm+9UmxNtDgwn375RQyEdRDvDSvNtQSUkCvTA/M01CZ
+ 9wx6/GXb+lviL8y8w2ypG5ctpIZNPAIut/5uoPCyrLYEvT8eyYKnyJ8b/I/4qViJ41xu
+ LZxkfXSNShkde3rj7P1HQvdxfUVD1daiu85iDf1HqenA3kanpPAKoZ6fxtC1EPWeF2FY
+ ELcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ganEYfTx0epMSRmvc27vudc0WF68SCSzWUuncl3k3Ew=;
- b=R73k4JunmhdBsmgexwjwtNWzIM3WT2SDkKHdii+vsxIm8LrACcKy9OolKhPnXoxmwq
- fgFjct9Ngg3LQbjVr7fZ2Ni/HeaNbEskDgieH9nfoKFVFhT/4wTRjpQirwBNapEt+zhK
- stmJaN5HY3wheX8/vF+oViq2pf3nViN9RdwYjZ8xq8khV8jGJSGx2UMa0tdlsu7q0lqW
- d9yB4btq2jbDcmmXq8VgIQnNbqWz5NKI25zCRe6v0qtSRTSqPd00M7q7NqEJ/hFtz1Pz
- HYAoyYLn2MgtuVGe3uGmfGYhh0RH+BhQ5tgDlZxvZNkZS2hqbL9RMFtW898kmbBjqbX9
- AHkg==
-X-Gm-Message-State: AFqh2kpuoZNZqoehcW0huzYUDKj9eHK36QvgKJCoOiBWuKh5hFKFUpmu
- ucftGUUzF7cPN2LsWrT+eXNa45bxy8/6C5ZL+AMAWAEbxsZAhQZKmDkIQRPa6lrBMbNv6JGuL4A
- m32YV76egB0Il6CA=
-X-Received: by 2002:a0c:c3ce:0:b0:532:23a5:8271 with SMTP id
- p14-20020a0cc3ce000000b0053223a58271mr20514559qvi.8.1674209645351; 
- Fri, 20 Jan 2023 02:14:05 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvub8dtUXp9SRoYZqiVsggOPDjRq7GiVUQMjLhiIjIktbExucotY9Kq1c38GqRhMPpMmr3RpQ==
-X-Received: by 2002:a0c:c3ce:0:b0:532:23a5:8271 with SMTP id
- p14-20020a0cc3ce000000b0053223a58271mr20514534qvi.8.1674209645129; 
- Fri, 20 Jan 2023 02:14:05 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-118.web.vodafone.de.
- [109.43.177.118]) by smtp.gmail.com with ESMTPSA id
- bi26-20020a05620a319a00b00706a1551408sm6386423qkb.4.2023.01.20.02.14.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Jan 2023 02:14:04 -0800 (PST)
-Message-ID: <295984f3-1086-1b25-b378-6a1c9c6bf258@redhat.com>
-Date: Fri, 20 Jan 2023 11:14:01 +0100
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=YHfczaGYoiDaGhpkcyBcMhebOVI7pv0AqVw7DQaP72E=;
+ b=yRnpEG2EN6bRmsl/jN7WcNdatSlm3myiQ6qb5J4gblimAI/lxUwHD7u810FkW5TrFc
+ vkYDkkfQHchWLrkF1OBWAIVe11arLE+rYT4rmhlQwU9I1ejRPyNgkvAW90x8PIZAoxWy
+ 5gjdwcOxHmaPFnZF2CG0ql7LicrOqy1X4HKOAzKk6ttfr8x5rdJEdY3zYzne5kYPkl2t
+ uD5Ro/qgBTnIORKPTCjbCGAOAjniUFiu46GzwhkZT/oBCRANjfGm1DpvZPCCr2epquYn
+ VNnlzearpvqT6/Mf4IembPDxdd/OvZnsQg6oPkm7tzbpw6y7qHFoz1BPo2BF7ibntrf8
+ zkMA==
+X-Gm-Message-State: AFqh2kq9GIFu7vyZVBAM6s21gl1MJlQpAWU0raEZEbi1pWXziB1LzSmR
+ 8n8bvU2av5T3rm23SbOCw2Co3Q==
+X-Google-Smtp-Source: AMrXdXsZx7/c1s1+u2AGt1Am5PDoJM8l3g71QsJGVkD0e1Fk8WAFAAPFhShoMaRhj4UJzQpyIfa/zQ==
+X-Received: by 2002:a05:600c:4f83:b0:3db:eab:a600 with SMTP id
+ n3-20020a05600c4f8300b003db0eaba600mr10508891wmq.7.1674209763257; 
+ Fri, 20 Jan 2023 02:16:03 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ u8-20020a05600c19c800b003db0647645fsm1889334wmq.48.2023.01.20.02.16.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Jan 2023 02:16:02 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 5C5691FFB7;
+ Fri, 20 Jan 2023 10:16:02 +0000 (GMT)
+References: <20230119180419.30304-1-alex.bennee@linaro.org>
+ <20230119180419.30304-18-alex.bennee@linaro.org>
+ <bf981e90-6f0a-b4bb-422a-e455fbf2ea84@redhat.com>
+User-agent: mu4e 1.9.15; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, Beraldo Leal <bleal@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Bandan Das <bsd@redhat.com>, Qiuhao Li
+ <Qiuhao.Li@outlook.com>, =?utf-8?Q?Daniel_P=2E_Berrang=C3=A9?=
+ <berrange@redhat.com>,
+ Michael Roth <michael.roth@amd.com>, Cleber Rosa <crosa@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Darren Kenny <darren.kenny@oracle.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Markus Armbruster
+ <armbru@redhat.com>, John Snow <jsnow@redhat.com>, Ed Maste
+ <emaste@freebsd.org>, Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Paolo Bonzini
+ <pbonzini@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>, =?utf-8?Q?Marc-And?=
+ =?utf-8?Q?r=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: [PATCH 17/18] gitlab: wrap up test results for custom runners
+Date: Fri, 20 Jan 2023 10:14:52 +0000
+In-reply-to: <bf981e90-6f0a-b4bb-422a-e455fbf2ea84@redhat.com>
+Message-ID: <877cxhy0il.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [RFC PATCH v4 05/15] tests/qtest: Restrict
- tpm-tis-devices-{swtpm}-test to CONFIG_TCG
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Laurent Vivier <lvivier@redhat.com>
-References: <20230119135424.5417-1-farosas@suse.de>
- <20230119135424.5417-6-farosas@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230119135424.5417-6-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,48 +106,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/01/2023 14.54, Fabiano Rosas wrote:
-> These tests set -accel tcg, so restrict them to when TCG is present.
-> 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
->   tests/qtest/meson.build | 12 ++++++++----
->   1 file changed, 8 insertions(+), 4 deletions(-)
-> 
-> diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-> index 1af63f8bd2..9dd5c2de6e 100644
-> --- a/tests/qtest/meson.build
-> +++ b/tests/qtest/meson.build
-> @@ -204,8 +204,8 @@ qtests_arm = \
->   # TODO: once aarch64 TCG is fixed on ARM 32 bit host, make bios-tables-test unconditional
->   qtests_aarch64 = \
->     (cpu != 'arm' and unpack_edk2_blobs ? ['bios-tables-test'] : []) +                            \
-> -  (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-test'] : []) +        \
-> -  (config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ? ['tpm-tis-device-swtpm-test'] : []) +  \
-> +  (config_all_devices.has_key('CONFIG_TCG') and config_all_devices.has_key('CONFIG_TPM_TIS_SYSBUS') ?   \
-> +    ['tpm-tis-device-test', 'tpm-tis-device-swtpm-test'] : []) +                                         \
->     (config_all_devices.has_key('CONFIG_XLNX_ZYNQMP_ARM') ? ['xlnx-can-test', 'fuzz-xlnx-dp-test'] : []) + \
->     (config_all_devices.has_key('CONFIG_RASPI') ? ['bcm2835-dma-test'] : []) +  \
->     ['arm-cpu-features',
-> @@ -295,11 +295,15 @@ qtests = {
->     'tpm-crb-test': [io, tpmemu_files],
->     'tpm-tis-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
->     'tpm-tis-test': [io, tpmemu_files, 'tpm-tis-util.c'],
-> -  'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
-> -  'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'],
->     'vmgenid-test': files('boot-sector.c', 'acpi-utils.c'),
->   }
->   
-> +if config_all_devices.has_key('CONFIG_TCG')
-> +   qtests += { 'tpm-tis-device-swtpm-test': [io, tpmemu_files, 'tpm-tis-util.c'],
-> +               'tpm-tis-device-test': [io, tpmemu_files, 'tpm-tis-util.c'], }
-> +endif
-> +
-> +
->   gvnc = dependency('gvnc-1.0', required: false)
->   if gvnc.found()
->     qtests += {'vnc-display-test': [gvnc]}
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Thomas Huth <thuth@redhat.com> writes:
 
+> On 19/01/2023 19.04, Alex Benn=C3=A9e wrote:
+>> Instead of spewing the whole log to stdout lets just define them as
+>> build artefacts so we can examine them later. Where we are running
+>> check-tcg run it first as those tests are yet to be integrated into
+>> meson.
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>   .gitlab-ci.d/custom-runners.yml                     | 11 +++++++++++
+>>   .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml  | 13 ++++++-------
+>>   .../custom-runners/ubuntu-22.04-aarch32.yml         |  2 +-
+>>   .../custom-runners/ubuntu-22.04-aarch64.yml         | 13 ++++++-------
+>>   4 files changed, 24 insertions(+), 15 deletions(-)
+>> diff --git a/.gitlab-ci.d/custom-runners.yml
+>> b/.gitlab-ci.d/custom-runners.yml
+>> index 97f99e29c2..9fdc476c48 100644
+>> --- a/.gitlab-ci.d/custom-runners.yml
+>> +++ b/.gitlab-ci.d/custom-runners.yml
+>> @@ -13,6 +13,17 @@
+>>   variables:
+>>     GIT_STRATEGY: clone
+>>   +# All custom runners can extend this template to upload the
+>> testlog
+>> +# data as an artifact and also feed the junit report
+>> +.custom_artifacts_template:
+>> +  artifacts:
+>> +    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
+>> +    expire_in: 7 days
+>> +    paths:
+>> +      - build/meson-logs/testlog.txt
+>> +    reports:
+>> +      junit: build/meson-logs/testlog.junit.xml
+>> +
+>>   include:
+>>     - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml'
+>>     - local: '/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml'
+>> diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitla=
+b-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+>> index fcaef9e5ef..f512eaeaa3 100644
+>> --- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+>> +++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+>> @@ -3,6 +3,7 @@
+>>   # "Install basic packages to build QEMU on Ubuntu 20.04/20.04"
+>>     ubuntu-20.04-s390x-all-linux-static:
+>> + extends: .custom_artifacts_template
+>>    needs: []
+>>    stage: build
+>>    tags:
+>> @@ -19,12 +20,11 @@ ubuntu-20.04-s390x-all-linux-static:
+>>    - ../configure --enable-debug --static --disable-system --disable-glu=
+sterfs --disable-libssh
+>>      || { cat config.log meson-logs/meson-log.txt; exit 1; }
+>>    - make --output-sync -j`nproc`
+>> + - make --output-sync check-tcg
+>>    - make --output-sync -j`nproc` check
+>> -   || { cat meson-logs/testlog.txt; exit 1; } ;
+>> - - make --output-sync -j`nproc` check-tcg
+>> -   || { cat meson-logs/testlog.txt; exit 1; } ;
+>
+> No more -j`nproc` for check-tcg? Maybe mention the reason in the
+> commit message?
+
+check-tcg is run sequentially to prevent confusion in the output as
+unlike the rest of the tests the results are not aggregated in the
+testlog.
+
+I'll update the commit message when I roll.
+
+>
+> Anyway,
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
