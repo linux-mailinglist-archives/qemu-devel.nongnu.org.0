@@ -2,81 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53E7E67540F
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:03:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FABA67543F
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:13:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIq6k-0007iK-6i; Fri, 20 Jan 2023 07:03:00 -0500
+	id 1pIqFz-0004dY-Ja; Fri, 20 Jan 2023 07:12:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pIq66-0007al-Bv
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:02:24 -0500
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pIq5b-0003KE-2f
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:01:52 -0500
-Received: by mail-oi1-x22f.google.com with SMTP id p185so4225913oif.2
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 04:01:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=v1tITeWldcCh2KaEUnv+qt9JQH+1nyZoijghT4qjLpo=;
- b=crZQ2N+xemXhFC5NoJV2CU+2gJ2Nl3JYn9itWyWP4SGMhJ+CvkNxaLkgkHnEw+bWqn
- lKQqW0UhVUAutgYArtqy6Uj3MRKqDuriAlzR925/ivpgHmQgd99DGGCOAunxw+S7R+ut
- yi2CtPtqoje9qQHOu9pweDDbQSXpnCoCYlGk+F4QtqPtmRCQsjx8ge8XCp2o6VAonqOs
- YaNG/vSc7/TbSgO7MnJ2a6I8x8XqImgX/sBylEDPH/DR5PZM7u43i9yge70Te8oQ8E6Y
- kBaGWcl7YIucgKia+vgv4QFWCsoHCASfX+nQXEI2XIf7JDd5ZQQBTnN4Sj+rhV0BGRI5
- 6yYg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIqFx-0004d9-Po
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:12:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIqFw-0005hW-CD
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:12:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674216747;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=8nMcQ/SSp1CsoDIgufVnjeQz+anrr2HiTCkaNW+Aw5Y=;
+ b=OJ9Qik5CsHvXXyNtFSyifodOVddgb9vlv5FBH/qmhg3czTvYdMO0cjQu8K/4tk8gLDEWiR
+ 1PSwBSW7AGIyFIx9qD84H2sENQpQEaPVoWSHeE83uJ5NC+rkZsPfQ0dXZOD9YUSLuAqUPi
+ ZB5eYEOfixZHFHGFgVGLizeTR/jSj3Y=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-537-czTYfxwrO_OyfyHY_zkJHQ-1; Fri, 20 Jan 2023 07:12:21 -0500
+X-MC-Unique: czTYfxwrO_OyfyHY_zkJHQ-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ c18-20020ac84e12000000b003b5d38f1d29so2341323qtw.0
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 04:12:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=v1tITeWldcCh2KaEUnv+qt9JQH+1nyZoijghT4qjLpo=;
- b=N8xhJY9sOhmnQPXGhZdWpioNE55pRYAmmBWotMZxWTzS/52XIHHMzZR0omhgD5lxz2
- 6ZjV9SHtVsD0WVlQWOkVU8p1lIYHnxVUHgAs8bW4vMRw814MEDCK6FrMFQL1TfVDj9zL
- HXZP0gh+juKWCHJSEyKcGtopi2AZRl0rWYW6T6jyWtWu68/Cg3AdCao/ab5Gps9PyR8V
- q4CalapryOej+gzFq9A2cT/xjrdhMWo8U3v49/ONO/1cHRqW91ZkyZXL52rd04CbTAj/
- XvAPY/ejl6+mSmNNLC86kqLuYkbTFmH3tj7Unohp3vD7cbHnMUhv7WhmL5fYT1DkM5nn
- Kpag==
-X-Gm-Message-State: AFqh2kohWO1DVi+0WsoIVbSTSxu7c82oYDwA98QkxItlo/GbZhF0qt+K
- 5bN7TIh5ALAgs+mg22EpY8nnUB41eOk5H4Zh/sI=
-X-Google-Smtp-Source: AMrXdXtz8qX5MGIgdUG0OzVs31Sx76q+Wq6XGmC/JOIrQlOazLfyu+/yKTcAEWr+mINxMtX3e1snqQ==
-X-Received: by 2002:a05:6808:192a:b0:364:533d:8469 with SMTP id
- bf42-20020a056808192a00b00364533d8469mr9269624oib.24.1674216103052; 
- Fri, 20 Jan 2023 04:01:43 -0800 (PST)
-Received: from grind.dc1.ventanamicro.com ([191.17.222.2])
- by smtp.gmail.com with ESMTPSA id
- o66-20020acaf045000000b003645ec41412sm9946836oih.27.2023.01.20.04.01.40
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 04:01:42 -0800 (PST)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bin Meng <bin.meng@windriver.com>
-Subject: [RFC PATCH 2/2] hw/sd: skip double power-up in sd_vmstate_pre_load()
-Date: Fri, 20 Jan 2023 09:01:33 -0300
-Message-Id: <20230120120133.666993-3-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230120120133.666993-1-dbarboza@ventanamicro.com>
-References: <20230120120133.666993-1-dbarboza@ventanamicro.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=8nMcQ/SSp1CsoDIgufVnjeQz+anrr2HiTCkaNW+Aw5Y=;
+ b=ymXR2m90FLbqH/CeXhpt73yDTsYQo4QL4WtUe05pa9zxY05Ggti6xjjDd9jnbmWZct
+ S+v/yQn/nA02ciHv1V+Iymo/BiXF0v1P7HFZqCGJAZwc9eG7KzCIscttMv0LBrNiJSht
+ tJGBGa03pH+ou08MwtEH96J6+6xBU2fyJIhopwNgd46i3jx7Wa5mw4zIvemXZU9qqghL
+ JVbLbgDh5NrjWpNixKJHVAVFtd5MQ3mAIzUd72Nuoip2ucdS4rLSeEAkBAZyTOd23BH6
+ 2P+LZfHZX6p+2jCSkJpg2h6XcdI6T8J7Z0RGpcvcYl7+IYvpcAuR5J8mHmDeZnN/Ijcs
+ Da8Q==
+X-Gm-Message-State: AFqh2krhtS/9NxSXR4zoQVmQthmuu/OXSs4ydqTqRutrfKXwQflfxamR
+ ibx1JeDs7IZrhYiddSfLOmBU8z4xVh+xqcHvoslHEXPFiKZcA0PYvzBrnsEkfzbQLbepXywb00m
+ 3KOymzl1CK5twdHA=
+X-Received: by 2002:ac8:678e:0:b0:3b6:3df9:22ae with SMTP id
+ b14-20020ac8678e000000b003b63df922aemr19231980qtp.18.1674216740856; 
+ Fri, 20 Jan 2023 04:12:20 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtfTAB4iKbnQD4B1YHFhDwBVq5hlO0EMrT20QNaTK7wAWhmWE6ThhU7sUkAixN3UES1a/GVrw==
+X-Received: by 2002:ac8:678e:0:b0:3b6:3df9:22ae with SMTP id
+ b14-20020ac8678e000000b003b63df922aemr19231936qtp.18.1674216740473; 
+ Fri, 20 Jan 2023 04:12:20 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-118.web.vodafone.de.
+ [109.43.177.118]) by smtp.gmail.com with ESMTPSA id
+ d2-20020ac81182000000b0039cd4d87aacsm20120159qtj.15.2023.01.20.04.12.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Jan 2023 04:12:19 -0800 (PST)
+Message-ID: <7a6d10ea-3396-f70a-db4f-36b32379f376@redhat.com>
+Date: Fri, 20 Jan 2023 13:12:16 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [RFC PATCH v4 06/15] tests/qtest: Add qtest_get_machine_args
+Content-Language: en-US
+To: Cornelia Huck <cohuck@redhat.com>, Fabiano Rosas <farosas@suse.de>,
+ qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20230119135424.5417-1-farosas@suse.de>
+ <20230119135424.5417-7-farosas@suse.de>
+ <20717e57-8524-5bca-efc3-ff294cda34f6@redhat.com> <87wn5hh0uy.fsf@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <87wn5hh0uy.fsf@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: 11
+X-Spam_score: 1.1
+X-Spam_bar: +
+X-Spam_report: (1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,59 +109,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-At this moment any migration with the RISC-V sifive_u machine
-fails with the following error:
+On 20/01/2023 13.00, Cornelia Huck wrote:
+> On Fri, Jan 20 2023, Thomas Huth <thuth@redhat.com> wrote:
+> 
+>> On 19/01/2023 14.54, Fabiano Rosas wrote:
+>>> QEMU machines might not have a default value defined for the -cpu
+>>> option.
+>>
+>> Which machines for example? ... I thought we'd have a default CPU everywhere?
+> 
+> There's a patch further above that removes it for KVM on Arm... do you
+> think that's a bad idea? In that case, I'm not sure what the default for
+> that case should even be...
 
-qemu-system-riscv64: ../hw/sd/sd.c:297: sd_ocr_powerup: Assertion
-`!FIELD_EX32(sd->ocr, OCR, CARD_POWER_UP)' failed.
+Well, if there is just one machine in the whole of QEMU that does not have a 
+default CPU anymore, that calls for trouble, I think (as we can already see 
+in this series where you have to rework a lot of qtests). It's likely better 
+to set another CPU as default in that machine in that case. What about 
+simply using "max" or "host" if TCG is disabled there?
 
-The assert was introduced by dd26eb43337a ("hw/sd: model a power-up
-delay, as a workaround for an EDK2 bug"). It introduced a delayed timer
-of 0.5ms to power up the card after the first ACMD41 command. The assert
-prevents the card from being turned on twice.
-
-When migrating a machine that uses a sd card, e.g. RISC-V sifive_u, the
-card is turned on during machine_init() in both source and destination
-hosts. When the migration stream finishes in the destination, the
-pre_load() hook will attempt to turn on the card before loading its
-vmstate. The assert() is always going to hit because the card was
-already on.
-
-Change sd_vmstate_pre_load() to check first if the sd card is turned on
-before executing a sd_ocr_powerup() and triggering the assert.
-
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
----
- hw/sd/sd.c | 12 ++++++++++--
- 1 file changed, 10 insertions(+), 2 deletions(-)
-
-diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index bd88c1a8f0..4add719643 100644
---- a/hw/sd/sd.c
-+++ b/hw/sd/sd.c
-@@ -664,11 +664,19 @@ static int sd_vmstate_pre_load(void *opaque)
- {
-     SDState *sd = opaque;
- 
--    /* If the OCR state is not included (prior versions, or not
-+    /*
-+     * If the OCR state is not included (prior versions, or not
-      * needed), then the OCR must be set as powered up. If the OCR state
-      * is included, this will be replaced by the state restore.
-+     *
-+     * However, there's a chance that the board will powerup the SD
-+     * before reaching INMIGRATE state in the destination host.
-+     * Powering up the SD again in this case will cause an assert
-+     * inside sd_ocr_powerup(). Skip sd_ocr_powerup() in this case.
-      */
--    sd_ocr_powerup(sd);
-+    if (!sd_card_powered_up(sd)) {
-+        sd_ocr_powerup(sd);
-+    }
- 
-     return 0;
- }
--- 
-2.39.0
+  Thomas
 
 
