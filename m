@@ -2,69 +2,112 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A4C967565D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 15:10:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A779D6756FE
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 15:24:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIs4c-00013j-BR; Fri, 20 Jan 2023 09:08:54 -0500
+	id 1pIsHr-0007s2-Es; Fri, 20 Jan 2023 09:22:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIs4a-00013P-Qi
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:08:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pIsHj-0007ne-7O; Fri, 20 Jan 2023 09:22:29 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIs4Y-0003bd-OD
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:08:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674223729;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xHa1ddJnSX9BJLtvtDuD9evZwO9wP7wlNir6LphCSVU=;
- b=WKh35Ws1f4w5xjM2lNflXhB+SFuXiPb7eQMChmH3CIQbgTQDhct3ym8wL66OQNAqCB2eM7
- DaNL+UgndeX7Z+laG5Fs5dcTIsyrvxxmfDBkUVrDGkMxkAe0Lq1B6skD4vyiH1dVJiHWB5
- dhuHLWkNU8x1S2wDgX/YdXbHUm06lDQ=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-398-FD12xBW9PLCb4patlvTO9w-1; Fri, 20 Jan 2023 09:08:47 -0500
-X-MC-Unique: FD12xBW9PLCb4patlvTO9w-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EB0851C189C3;
- Fri, 20 Jan 2023 14:08:44 +0000 (UTC)
-Received: from redhat.com (unknown [10.39.193.74])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 05300492B02;
- Fri, 20 Jan 2023 14:08:43 +0000 (UTC)
-Date: Fri, 20 Jan 2023 15:08:42 +0100
-From: Kevin Wolf <kwolf@redhat.com>
-To: Hanna Czenczek <hreitz@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 01/12] block: Improve empty format-specific info dump
-Message-ID: <Y8qgatmZNqYdfLvw@redhat.com>
-References: <20220620162704.80987-1-hreitz@redhat.com>
- <20220620162704.80987-2-hreitz@redhat.com>
- <Y8lNGgogFfitt7kr@redhat.com>
- <758f3547-f727-28b8-48d3-a44306897d13@redhat.com>
+ (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
+ id 1pIsHh-0006H6-G9; Fri, 20 Jan 2023 09:22:27 -0500
+Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30KDMGsi004257; Fri, 20 Jan 2023 14:22:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=pp1;
+ bh=fbTDpz0/ozxIhvj4DA6UKvzCfCYbFE9WLsOcCeP99u0=;
+ b=OfmTJGi5dA8MNL33ul89Ol22dEsFJDgE3m9V3KQviiu23KaiRPUF+y3KQuDY9ZkAXin8
+ be7Bauvyd8BfKa6kqy06zGqijB8hH0LJ2PNPdQw/FpzmAfUR5WoHvrPKSZsGfDOiQevD
+ zeLDXj6zoiPRYEEa2MVDC2DrKHp9nMKBWhWKIYBbJu0BphxJPEBMSEE6fs7r99YqRNr1
+ 68R+nlAIkyCMa5SDGVJ84Gr5/F9PJ8zz2bjdRgiC5levMF/5+oTT5xDmhOj4V9co3gQE
+ v7EGKyGNiP6v12Vm12q1VmdUWaXgaE8FCYdRenAWxEwCi20eroy4p9uuJJT3527hPdXI sA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n7usghe2t-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 20 Jan 2023 14:22:19 +0000
+Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30KEBUe3023838;
+ Fri, 20 Jan 2023 14:22:19 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n7usghe1x-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 20 Jan 2023 14:22:19 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30KCVaJK009485;
+ Fri, 20 Jan 2023 14:22:17 GMT
+Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3n3knfr37u-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Fri, 20 Jan 2023 14:22:17 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30KEMDjF25428656
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Fri, 20 Jan 2023 14:22:13 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6F83E20040;
+ Fri, 20 Jan 2023 14:22:13 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 56E9720043;
+ Fri, 20 Jan 2023 14:22:12 +0000 (GMT)
+Received: from [9.171.50.198] (unknown [9.171.50.198])
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Fri, 20 Jan 2023 14:22:12 +0000 (GMT)
+Message-ID: <772f43f2-9dc3-befb-9061-effda2e357eb@linux.ibm.com>
+Date: Fri, 20 Jan 2023 15:22:12 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v14 10/11] qapi/s390/cpu topology: POLARITY_CHANGE qapi
+ event
+To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
+Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
+ richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
+ mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
+ ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
+ armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
+ scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
+ clg@kaod.org
+References: <20230105145313.168489-1-pmorel@linux.ibm.com>
+ <20230105145313.168489-11-pmorel@linux.ibm.com>
+ <c338245c-82c3-ed57-9c98-f4d630fa1759@redhat.com>
+ <5f177a1b-90d6-7e30-5b58-cdcae7919363@linux.ibm.com>
+ <648e62ab-9d66-9a5a-0a03-124c16b85805@redhat.com>
+Content-Language: en-US
+From: Pierre Morel <pmorel@linux.ibm.com>
+In-Reply-To: <648e62ab-9d66-9a5a-0a03-124c16b85805@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <758f3547-f727-28b8-48d3-a44306897d13@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: QamKRmy4ygtsxSOgYeNiAnPHfRD0siJz
+X-Proofpoint-ORIG-GUID: ao9lXoyzQK9iV_tQHhzkFiIHXeijHB40
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-20_08,2023-01-20_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 spamscore=0
+ impostorscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
+ clxscore=1015 phishscore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301200133
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,50 +124,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 20.01.2023 um 14:35 hat Hanna Czenczek geschrieben:
-> On 19.01.23 15:00, Kevin Wolf wrote:
-> > Am 20.06.2022 um 18:26 hat Hanna Reitz geschrieben:
-> > > When a block driver supports obtaining format-specific information, but
-> > > that object only contains optional fields, it is possible that none of
-> > > them are present, so that dump_qobject() (called by
-> > > bdrv_image_info_specific_dump()) will not print anything.
-> > > 
-> > > The callers of bdrv_image_info_specific_dump() put a header above this
-> > > information ("Format specific information:\n"), which will look strange
-> > > when there is nothing below.  Modify bdrv_image_info_specific_dump() to
-> > > print this header instead of its callers, and only if there is indeed
-> > > something to be printed.
-> > > 
-> > > Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-> > > diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
-> > > index 2f0d8ac25a..084ec44d3b 100644
-> > > --- a/qemu-io-cmds.c
-> > > +++ b/qemu-io-cmds.c
-> > > @@ -1819,8 +1819,8 @@ static int info_f(BlockBackend *blk, int argc, char **argv)
-> > >           return -EIO;
-> > >       }
-> > >       if (spec_info) {
-> > > -        printf("Format specific information:\n");
-> > > -        bdrv_image_info_specific_dump(spec_info);
-> > > +        bdrv_image_info_specific_dump(spec_info,
-> > > +                                      "Format specific information:\n");
-> > >           qapi_free_ImageInfoSpecific(spec_info);
-> > >       }
-> > Interesting observation here: That qemu-io uses printf() instead of
-> > qemu_printf() for the top level, but then dump_qobject() (which results
-> > in qemu_printf()) for the format specific information, means that if you
-> > use the 'qemu-io' HMP command, you'll get half of the output on stdout
-> > and the other half in the monitor.
+
+
+On 1/20/23 12:56, Thomas Huth wrote:
+> On 18/01/2023 18.09, Pierre Morel wrote:
+>>
+>> On 1/12/23 12:52, Thomas Huth wrote:
+>>> On 05/01/2023 15.53, Pierre Morel wrote:
+> ...>>> +#
+
+OK
+
+>>>> +# Emitted when the guest asks to change the polarity.
+>>>> +#
+>>>> +# @polarity: polarity specified by the guest
+>>>
+>>> Please elaborate: Where does the value come from (the PTF 
+>>> instruction)? Which values are possible?
+>>
+>> Yes what about:
+>>
+>> # @polarity: the guest can specify with the PTF instruction a horizontal
+>> #            or a vertical polarity.
 > 
-> Hu.  I can’t find a single instance of qemu_printf() in qemu-io-cmds.c, but
-> then I assume all printf()s there should really be qemu_printf()?
+> Maybe something like: "The guest can tell the host (via the PTF 
+> instruction) whether a CPU should have horizontal or vertical polarity." ?
 
-That would probably be the most consistent way.
+Yes thanks, much better.
 
-I expect it would change the output of some qemu-iotests cases, but we
-can explicitly print whatever was returned in QMP to keep the same
-information in the test output.
+> 
+>> #         On horizontal polarity the host is expected to provision
+>> #            the vCPU equally.
+> 
+> Maybe: "all vCPUs equally" ?
+> Or: "each vCPU equally" ?
 
-Kevin
+yes, thx.
 
+
+> 
+>> #            On vertical polarity the host can provision each vCPU
+>> #            differently
+>> #            The guest can get information on the provisioning with
+>> #            the STSI(15) instruction.
+> 
+>   Thomas
+> 
+
+I make the changes.
+
+Regards,
+Pierre
+
+-- 
+Pierre Morel
+IBM Lab Boeblingen
 
