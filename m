@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37D3A67571A
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 15:26:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B4B0F67571D
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 15:26:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIsLI-0001gW-Jo; Fri, 20 Jan 2023 09:26:08 -0500
+	id 1pIsM3-0002My-Dk; Fri, 20 Jan 2023 09:26:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pIsL5-0001dY-EX
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:25:55 -0500
+ id 1pIsLb-00028G-6M
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:26:30 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pIsL3-0006v5-Ux
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:25:55 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nz1sF4nxFz6J7Pn;
- Fri, 20 Jan 2023 22:21:53 +0800 (CST)
+ id 1pIsLZ-00071U-M1
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:26:26 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nz1tt6r6wz6J67G;
+ Fri, 20 Jan 2023 22:23:18 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Fri, 20 Jan 2023 14:25:51 +0000
+ 15.1.2375.34; Fri, 20 Jan 2023 14:26:22 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
  <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Dave Jiang
  <dave.jiang@intel.com>, <alison.schofield@intel.com>, Mike Maslenkin
  <mike.maslenkin@gmail.com>
-Subject: [PATCH v2 2/7] hw/pci/aer: Add missing routing for AER errors
-Date: Fri, 20 Jan 2023 14:24:45 +0000
-Message-ID: <20230120142450.16089-3-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v2 3/7] hw/pci-bridge/cxl_root_port: Wire up AER
+Date: Fri, 20 Jan 2023 14:24:46 +0000
+Message-ID: <20230120142450.16089-4-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230120142450.16089-1-Jonathan.Cameron@huawei.com>
 References: <20230120142450.16089-1-Jonathan.Cameron@huawei.com>
@@ -40,7 +40,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -68,42 +68,34 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PCIe r6.0 Figure 6-3 "Pseudo Logic Diagram for Selected Error Message Control
-and Status Bits" includes a right hand branch under "All PCI Express devices"
-that allows for messages to be generated or sent onwards without SERR#
-being set as long as the appropriate per error class bit in the PCIe
-Device Control Register is set.
-
-Implement that branch thus enabling routing of ERR_COR, ERR_NONFATAL
-and ERR_FATAL under OSes that set these bits appropriately (e.g. Linux)
+We are missing necessary config write handling for AER emulation in
+the CXL root port. Add it based on pcie_root_port.c
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/pci/pcie_aer.c | 10 +++++++++-
- 1 file changed, 9 insertions(+), 1 deletion(-)
+ hw/pci-bridge/cxl_root_port.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/pci/pcie_aer.c b/hw/pci/pcie_aer.c
-index 909e027d99..103667c368 100644
---- a/hw/pci/pcie_aer.c
-+++ b/hw/pci/pcie_aer.c
-@@ -192,8 +192,16 @@ static void pcie_aer_update_uncor_status(PCIDevice *dev)
- static bool
- pcie_aer_msg_alldev(PCIDevice *dev, const PCIEAERMsg *msg)
+diff --git a/hw/pci-bridge/cxl_root_port.c b/hw/pci-bridge/cxl_root_port.c
+index 6664783974..00195257f7 100644
+--- a/hw/pci-bridge/cxl_root_port.c
++++ b/hw/pci-bridge/cxl_root_port.c
+@@ -187,12 +187,15 @@ static void cxl_rp_write_config(PCIDevice *d, uint32_t address, uint32_t val,
+                                 int len)
  {
-+    uint16_t devctl = pci_get_word(dev->config + dev->exp.exp_cap +
-+                                   PCI_EXP_DEVCTL);
-     if (!(pcie_aer_msg_is_uncor(msg) &&
--          (pci_get_word(dev->config + PCI_COMMAND) & PCI_COMMAND_SERR))) {
-+          (pci_get_word(dev->config + PCI_COMMAND) & PCI_COMMAND_SERR)) &&
-+        !((msg->severity == PCI_ERR_ROOT_CMD_NONFATAL_EN) &&
-+          (devctl & PCI_EXP_DEVCTL_NFERE)) &&
-+        !((msg->severity == PCI_ERR_ROOT_CMD_COR_EN) &&
-+          (devctl & PCI_EXP_DEVCTL_CERE)) &&
-+        !((msg->severity == PCI_ERR_ROOT_CMD_FATAL_EN) &&
-+          (devctl & PCI_EXP_DEVCTL_FERE))) {
-         return false;
-     }
+     uint16_t slt_ctl, slt_sta;
++    uint32_t root_cmd =
++        pci_get_long(d->config + d->exp.aer_cap + PCI_ERR_ROOT_COMMAND);
  
+     pcie_cap_slot_get(d, &slt_ctl, &slt_sta);
+     pci_bridge_write_config(d, address, val, len);
+     pcie_cap_flr_write_config(d, address, val, len);
+     pcie_cap_slot_write_config(d, slt_ctl, slt_sta, address, val, len);
+     pcie_aer_write_config(d, address, val, len);
++    pcie_aer_root_write_config(d, address, val, len, root_cmd);
+ 
+     cxl_rp_dvsec_write_config(d, address, val, len);
+ }
 -- 
 2.37.2
 
