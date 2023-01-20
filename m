@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0155675466
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:28:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B105B675476
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:29:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIqUI-0003Gz-DX; Fri, 20 Jan 2023 07:27:18 -0500
+	id 1pIqUF-0003Dd-QN; Fri, 20 Jan 2023 07:27:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqU9-0002vO-1Y
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:11 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqUD-00033t-4J
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:13 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqU4-0000OM-FZ
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:08 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqUB-0000R9-4V
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674217623;
+ s=mimecast20190719; t=1674217630;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=4BfnQqmeo1VFWpYdWzdiXoaU11hRwWzJrHU+fSILhO4=;
- b=MaN7jFA16DU/F54NOvHWeiD/D9V58i51rQp8oS/GbLdiredGHNAKm4mFiAVD1mJzdXFbNX
- HPnP05/yIjMJikkPu/kL4Kd0zJO2cLHL3MQ6gqya8XS/x4jW+A/IsH8MovTDnCvRT4PQL+
- TGtzi1VHomul7eCyfAYMqXlzU6kqZig=
+ bh=VIMwH/jjhZN97Glovb3MAWJgd5q4nETp31846wuEEXI=;
+ b=i9KbvJPDS7NWS0eYaIL2ocYnXWJ+4ft7L609o5CSJM3n78ZMjb4xMzPsgOhqLTpCPY2IeA
+ ANOkYP19Z0avhgLh/uB5qJcz7PZTMVFSr5gyQ9UcxwtDVulQgGVt347r+3Y4f1LVwRBRTO
+ i1ERuCJOshebZslBAwGzXOVPfpUx68c=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-652-QtoPQA62Pk2duuBu9fiv_g-1; Fri, 20 Jan 2023 07:27:02 -0500
-X-MC-Unique: QtoPQA62Pk2duuBu9fiv_g-1
+ us-mta-594-zJEhO2c1PEmKD9p6MXolgA-1; Fri, 20 Jan 2023 07:27:03 -0500
+X-MC-Unique: zJEhO2c1PEmKD9p6MXolgA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1E48818E0043;
- Fri, 20 Jan 2023 12:27:02 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 252B2857F82;
+ Fri, 20 Jan 2023 12:27:03 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5244140C6EC4;
- Fri, 20 Jan 2023 12:27:01 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 5A94E40C6EC4;
+ Fri, 20 Jan 2023 12:27:02 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 23/38] block: Convert bdrv_lock_medium() to co_wrapper
-Date: Fri, 20 Jan 2023 13:26:18 +0100
-Message-Id: <20230120122633.84983-24-kwolf@redhat.com>
+Subject: [PULL 24/38] block: Convert bdrv_debug_event() to co_wrapper_mixed
+Date: Fri, 20 Jan 2023 13:26:19 +0100
+Message-Id: <20230120122633.84983-25-kwolf@redhat.com>
 In-Reply-To: <20230120122633.84983-1-kwolf@redhat.com>
 References: <20230120122633.84983-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -79,232 +79,188 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-bdrv_lock_medium() is categorized as an I/O function, and it currently
+bdrv_debug_event() is categorized as an I/O function, and it currently
 doesn't run in a coroutine. We should let it take a graph rdlock since
 it traverses the block nodes graph, which however is only possible in a
 coroutine.
 
-The only caller of this function is blk_lock_medium(). Therefore make
-blk_lock_medium() a co_wrapper, so that it always creates a new
-coroutine, and then make bdrv_lock_medium() a coroutine_fn where the
-lock can be taken.
+Therefore turn it into a co_wrapper_mixed to move the actual function
+into a coroutine where the lock can be taken.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20230113204212.359076-13-kwolf@redhat.com>
+Message-Id: <20230113204212.359076-14-kwolf@redhat.com>
 Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block-io.h          | 2 +-
- include/block/block_int-common.h  | 2 +-
- include/sysemu/block-backend-io.h | 4 +++-
- block.c                           | 6 +++---
- block/block-backend.c             | 4 ++--
- block/copy-on-read.c              | 6 +++---
- block/file-posix.c                | 8 ++++----
- block/filter-compress.c           | 7 ++++---
- block/raw-format.c                | 6 +++---
- 9 files changed, 24 insertions(+), 21 deletions(-)
+ include/block/block-io.h         |  5 ++++-
+ include/block/block_int-common.h |  3 ++-
+ block.c                          |  6 +++---
+ block/blkdebug.c                 |  5 +++--
+ block/io.c                       | 22 +++++++++++-----------
+ 5 files changed, 23 insertions(+), 18 deletions(-)
 
 diff --git a/include/block/block-io.h b/include/block/block-io.h
-index f84d2b7238..33e0cc2068 100644
+index 33e0cc2068..6ec2309143 100644
 --- a/include/block/block-io.h
 +++ b/include/block/block-io.h
-@@ -143,7 +143,7 @@ int bdrv_get_flags(BlockDriverState *bs);
- bool coroutine_fn bdrv_co_is_inserted(BlockDriverState *bs);
- bool co_wrapper bdrv_is_inserted(BlockDriverState *bs);
+@@ -188,7 +188,10 @@ void *qemu_try_blockalign0(BlockDriverState *bs, size_t size);
+ void bdrv_enable_copy_on_read(BlockDriverState *bs);
+ void bdrv_disable_copy_on_read(BlockDriverState *bs);
  
--void bdrv_lock_medium(BlockDriverState *bs, bool locked);
-+void coroutine_fn bdrv_co_lock_medium(BlockDriverState *bs, bool locked);
- void coroutine_fn bdrv_co_eject(BlockDriverState *bs, bool eject_flag);
+-void bdrv_debug_event(BlockDriverState *bs, BlkdebugEvent event);
++void coroutine_fn bdrv_co_debug_event(BlockDriverState *bs,
++                                      BlkdebugEvent event);
++void co_wrapper_mixed bdrv_debug_event(BlockDriverState *bs,
++                                       BlkdebugEvent event);
  
- const char *bdrv_get_format_name(BlockDriverState *bs);
+ #define BLKDBG_EVENT(child, evt) \
+     do { \
 diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index 1631a26427..1174f13a2f 100644
+index 1174f13a2f..93d4350f24 100644
 --- a/include/block/block_int-common.h
 +++ b/include/block/block_int-common.h
-@@ -713,7 +713,7 @@ struct BlockDriver {
-     /* removable device specific */
-     bool coroutine_fn (*bdrv_co_is_inserted)(BlockDriverState *bs);
-     void coroutine_fn (*bdrv_co_eject)(BlockDriverState *bs, bool eject_flag);
--    void (*bdrv_lock_medium)(BlockDriverState *bs, bool locked);
-+    void coroutine_fn (*bdrv_co_lock_medium)(BlockDriverState *bs, bool locked);
+@@ -729,7 +729,8 @@ struct BlockDriver {
+     int coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_check)(
+         BlockDriverState *bs, BdrvCheckResult *result, BdrvCheckMode fix);
  
-     /* to control generic scsi devices */
-     BlockAIOCB *(*bdrv_aio_ioctl)(BlockDriverState *bs,
-diff --git a/include/sysemu/block-backend-io.h b/include/sysemu/block-backend-io.h
-index 00209625e1..780c1e5f77 100644
---- a/include/sysemu/block-backend-io.h
-+++ b/include/sysemu/block-backend-io.h
-@@ -58,7 +58,9 @@ bool coroutine_fn blk_co_is_inserted(BlockBackend *blk);
- bool co_wrapper_mixed blk_is_inserted(BlockBackend *blk);
+-    void (*bdrv_debug_event)(BlockDriverState *bs, BlkdebugEvent event);
++    void coroutine_fn (*bdrv_co_debug_event)(BlockDriverState *bs,
++                                             BlkdebugEvent event);
  
- bool blk_is_available(BlockBackend *blk);
--void blk_lock_medium(BlockBackend *blk, bool locked);
-+
-+void coroutine_fn blk_co_lock_medium(BlockBackend *blk, bool locked);
-+void co_wrapper blk_lock_medium(BlockBackend *blk, bool locked);
- 
- void coroutine_fn blk_co_eject(BlockBackend *blk, bool eject_flag);
- void co_wrapper blk_eject(BlockBackend *blk, bool eject_flag);
+     /* io queue for linux-aio */
+     void coroutine_fn (*bdrv_co_io_plug)(BlockDriverState *bs);
 diff --git a/block.c b/block.c
-index 1092ac26d1..cf3582f9c9 100644
+index cf3582f9c9..f9dbe11aa5 100644
 --- a/block.c
 +++ b/block.c
-@@ -6834,14 +6834,14 @@ void coroutine_fn bdrv_co_eject(BlockDriverState *bs, bool eject_flag)
-  * Lock or unlock the media (if it is locked, the user won't be able
-  * to eject it manually).
-  */
--void bdrv_lock_medium(BlockDriverState *bs, bool locked)
-+void coroutine_fn bdrv_co_lock_medium(BlockDriverState *bs, bool locked)
+@@ -6350,14 +6350,14 @@ BlockStatsSpecific *bdrv_get_specific_stats(BlockDriverState *bs)
+     return drv->bdrv_get_specific_stats(bs);
+ }
+ 
+-void bdrv_debug_event(BlockDriverState *bs, BlkdebugEvent event)
++void coroutine_fn bdrv_co_debug_event(BlockDriverState *bs, BlkdebugEvent event)
  {
-     BlockDriver *drv = bs->drv;
      IO_CODE();
-     trace_bdrv_lock_medium(bs, locked);
+-    if (!bs || !bs->drv || !bs->drv->bdrv_debug_event) {
++    if (!bs || !bs->drv || !bs->drv->bdrv_co_debug_event) {
+         return;
+     }
  
--    if (drv && drv->bdrv_lock_medium) {
--        drv->bdrv_lock_medium(bs, locked);
-+    if (drv && drv->bdrv_co_lock_medium) {
-+        drv->bdrv_co_lock_medium(bs, locked);
+-    bs->drv->bdrv_debug_event(bs, event);
++    bs->drv->bdrv_co_debug_event(bs, event);
+ }
+ 
+ static BlockDriverState *bdrv_find_debug_node(BlockDriverState *bs)
+diff --git a/block/blkdebug.c b/block/blkdebug.c
+index 2294b0227b..69aa7aa43d 100644
+--- a/block/blkdebug.c
++++ b/block/blkdebug.c
+@@ -835,7 +835,8 @@ static void process_rule(BlockDriverState *bs, struct BlkdebugRule *rule,
      }
  }
  
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 7eaafc85b1..ef512f7c48 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1999,13 +1999,13 @@ bool blk_is_available(BlockBackend *blk)
-     return blk_is_inserted(blk) && !blk_dev_is_tray_open(blk);
- }
- 
--void blk_lock_medium(BlockBackend *blk, bool locked)
-+void coroutine_fn blk_co_lock_medium(BlockBackend *blk, bool locked)
- {
-     BlockDriverState *bs = blk_bs(blk);
-     IO_CODE();
- 
-     if (bs) {
--        bdrv_lock_medium(bs, locked);
-+        bdrv_co_lock_medium(bs, locked);
-     }
- }
- 
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 43f09514dc..5032b78efc 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -222,9 +222,9 @@ static void coroutine_fn cor_co_eject(BlockDriverState *bs, bool eject_flag)
- }
- 
- 
--static void cor_lock_medium(BlockDriverState *bs, bool locked)
-+static void coroutine_fn cor_co_lock_medium(BlockDriverState *bs, bool locked)
- {
--    bdrv_lock_medium(bs->file->bs, locked);
-+    bdrv_co_lock_medium(bs->file->bs, locked);
- }
- 
- 
-@@ -258,7 +258,7 @@ static BlockDriver bdrv_copy_on_read = {
-     .bdrv_co_pwritev_compressed         = cor_co_pwritev_compressed,
- 
-     .bdrv_co_eject                      = cor_co_eject,
--    .bdrv_lock_medium                   = cor_lock_medium,
-+    .bdrv_co_lock_medium                = cor_co_lock_medium,
- 
-     .has_variable_length                = true,
-     .is_filter                          = true,
-diff --git a/block/file-posix.c b/block/file-posix.c
-index cfa614fea2..0370b550aa 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -3777,7 +3777,7 @@ static void coroutine_fn cdrom_co_eject(BlockDriverState *bs, bool eject_flag)
-     }
- }
- 
--static void cdrom_lock_medium(BlockDriverState *bs, bool locked)
-+static void coroutine_fn cdrom_co_lock_medium(BlockDriverState *bs, bool locked)
- {
-     BDRVRawState *s = bs->opaque;
- 
-@@ -3823,7 +3823,7 @@ static BlockDriver bdrv_host_cdrom = {
-     /* removable device support */
-     .bdrv_co_is_inserted    = cdrom_co_is_inserted,
-     .bdrv_co_eject          = cdrom_co_eject,
--    .bdrv_lock_medium   = cdrom_lock_medium,
-+    .bdrv_co_lock_medium    = cdrom_co_lock_medium,
- 
-     /* generic scsi device */
-     .bdrv_co_ioctl      = hdev_co_ioctl,
-@@ -3905,7 +3905,7 @@ static void coroutine_fn cdrom_co_eject(BlockDriverState *bs, bool eject_flag)
-     cdrom_reopen(bs);
- }
- 
--static void cdrom_lock_medium(BlockDriverState *bs, bool locked)
-+static void coroutine_fn cdrom_co_lock_medium(BlockDriverState *bs, bool locked)
- {
-     BDRVRawState *s = bs->opaque;
- 
-@@ -3952,7 +3952,7 @@ static BlockDriver bdrv_host_cdrom = {
-     /* removable device support */
-     .bdrv_co_is_inserted     = cdrom_co_is_inserted,
-     .bdrv_co_eject           = cdrom_co_eject,
--    .bdrv_lock_medium   = cdrom_lock_medium,
-+    .bdrv_co_lock_medium     = cdrom_co_lock_medium,
- };
- #endif /* __FreeBSD__ */
- 
-diff --git a/block/filter-compress.c b/block/filter-compress.c
-index 97adb3de19..a4e7b191bd 100644
---- a/block/filter-compress.c
-+++ b/block/filter-compress.c
-@@ -123,9 +123,10 @@ compress_co_eject(BlockDriverState *bs, bool eject_flag)
- }
- 
- 
--static void compress_lock_medium(BlockDriverState *bs, bool locked)
+-static void blkdebug_debug_event(BlockDriverState *bs, BlkdebugEvent event)
 +static void coroutine_fn
-+compress_co_lock_medium(BlockDriverState *bs, bool locked)
++blkdebug_co_debug_event(BlockDriverState *bs, BlkdebugEvent event)
  {
--    bdrv_lock_medium(bs->file->bs, locked);
-+    bdrv_co_lock_medium(bs->file->bs, locked);
- }
+     BDRVBlkdebugState *s = bs->opaque;
+     struct BlkdebugRule *rule, *next;
+@@ -1085,7 +1086,7 @@ static BlockDriver bdrv_blkdebug = {
+     .bdrv_co_pdiscard       = blkdebug_co_pdiscard,
+     .bdrv_co_block_status   = blkdebug_co_block_status,
  
+-    .bdrv_debug_event           = blkdebug_debug_event,
++    .bdrv_co_debug_event        = blkdebug_co_debug_event,
+     .bdrv_debug_breakpoint      = blkdebug_debug_breakpoint,
+     .bdrv_debug_remove_breakpoint
+                                 = blkdebug_debug_remove_breakpoint,
+diff --git a/block/io.c b/block/io.c
+index c43637f5c1..cd1cea2515 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -1250,7 +1250,7 @@ static int coroutine_fn bdrv_co_do_copy_on_readv(BdrvChild *child,
+                 goto err;
+             }
  
-@@ -144,7 +145,7 @@ static BlockDriver bdrv_compress = {
-     .bdrv_refresh_limits                = compress_refresh_limits,
+-            bdrv_debug_event(bs, BLKDBG_COR_WRITE);
++            bdrv_co_debug_event(bs, BLKDBG_COR_WRITE);
+             if (drv->bdrv_co_pwrite_zeroes &&
+                 buffer_is_zero(bounce_buffer, pnum)) {
+                 /* FIXME: Should we (perhaps conditionally) be setting
+@@ -1495,10 +1495,10 @@ static coroutine_fn int bdrv_padding_rmw_read(BdrvChild *child,
+         qemu_iovec_init_buf(&local_qiov, pad->buf, bytes);
  
-     .bdrv_co_eject                      = compress_co_eject,
--    .bdrv_lock_medium                   = compress_lock_medium,
-+    .bdrv_co_lock_medium                = compress_co_lock_medium,
+         if (pad->head) {
+-            bdrv_debug_event(bs, BLKDBG_PWRITEV_RMW_HEAD);
++            bdrv_co_debug_event(bs, BLKDBG_PWRITEV_RMW_HEAD);
+         }
+         if (pad->merge_reads && pad->tail) {
+-            bdrv_debug_event(bs, BLKDBG_PWRITEV_RMW_TAIL);
++            bdrv_co_debug_event(bs, BLKDBG_PWRITEV_RMW_TAIL);
+         }
+         ret = bdrv_aligned_preadv(child, req, req->overlap_offset, bytes,
+                                   align, &local_qiov, 0, 0);
+@@ -1506,10 +1506,10 @@ static coroutine_fn int bdrv_padding_rmw_read(BdrvChild *child,
+             return ret;
+         }
+         if (pad->head) {
+-            bdrv_debug_event(bs, BLKDBG_PWRITEV_RMW_AFTER_HEAD);
++            bdrv_co_debug_event(bs, BLKDBG_PWRITEV_RMW_AFTER_HEAD);
+         }
+         if (pad->merge_reads && pad->tail) {
+-            bdrv_debug_event(bs, BLKDBG_PWRITEV_RMW_AFTER_TAIL);
++            bdrv_co_debug_event(bs, BLKDBG_PWRITEV_RMW_AFTER_TAIL);
+         }
  
-     .has_variable_length                = true,
-     .is_filter                          = true,
-diff --git a/block/raw-format.c b/block/raw-format.c
-index 2585e9ef96..44d2e8a727 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -409,9 +409,9 @@ static void coroutine_fn raw_co_eject(BlockDriverState *bs, bool eject_flag)
-     bdrv_co_eject(bs->file->bs, eject_flag);
- }
+         if (pad->merge_reads) {
+@@ -1520,7 +1520,7 @@ static coroutine_fn int bdrv_padding_rmw_read(BdrvChild *child,
+     if (pad->tail) {
+         qemu_iovec_init_buf(&local_qiov, pad->tail_buf, align);
  
--static void raw_lock_medium(BlockDriverState *bs, bool locked)
-+static void coroutine_fn raw_co_lock_medium(BlockDriverState *bs, bool locked)
- {
--    bdrv_lock_medium(bs->file->bs, locked);
-+    bdrv_co_lock_medium(bs->file->bs, locked);
- }
+-        bdrv_debug_event(bs, BLKDBG_PWRITEV_RMW_TAIL);
++        bdrv_co_debug_event(bs, BLKDBG_PWRITEV_RMW_TAIL);
+         ret = bdrv_aligned_preadv(
+                 child, req,
+                 req->overlap_offset + req->overlap_bytes - align,
+@@ -1528,7 +1528,7 @@ static coroutine_fn int bdrv_padding_rmw_read(BdrvChild *child,
+         if (ret < 0) {
+             return ret;
+         }
+-        bdrv_debug_event(bs, BLKDBG_PWRITEV_RMW_AFTER_TAIL);
++        bdrv_co_debug_event(bs, BLKDBG_PWRITEV_RMW_AFTER_TAIL);
+     }
  
- static int coroutine_fn raw_co_ioctl(BlockDriverState *bs,
-@@ -631,7 +631,7 @@ BlockDriver bdrv_raw = {
-     .bdrv_probe_blocksizes = &raw_probe_blocksizes,
-     .bdrv_probe_geometry  = &raw_probe_geometry,
-     .bdrv_co_eject        = &raw_co_eject,
--    .bdrv_lock_medium     = &raw_lock_medium,
-+    .bdrv_co_lock_medium  = &raw_co_lock_medium,
-     .bdrv_co_ioctl        = &raw_co_ioctl,
-     .create_opts          = &raw_create_opts,
-     .bdrv_has_zero_init   = &raw_has_zero_init,
+ zero_mem:
+@@ -1930,16 +1930,16 @@ static int coroutine_fn bdrv_aligned_pwritev(BdrvChild *child,
+     if (ret < 0) {
+         /* Do nothing, write notifier decided to fail this request */
+     } else if (flags & BDRV_REQ_ZERO_WRITE) {
+-        bdrv_debug_event(bs, BLKDBG_PWRITEV_ZERO);
++        bdrv_co_debug_event(bs, BLKDBG_PWRITEV_ZERO);
+         ret = bdrv_co_do_pwrite_zeroes(bs, offset, bytes, flags);
+     } else if (flags & BDRV_REQ_WRITE_COMPRESSED) {
+         ret = bdrv_driver_pwritev_compressed(bs, offset, bytes,
+                                              qiov, qiov_offset);
+     } else if (bytes <= max_transfer) {
+-        bdrv_debug_event(bs, BLKDBG_PWRITEV);
++        bdrv_co_debug_event(bs, BLKDBG_PWRITEV);
+         ret = bdrv_driver_pwritev(bs, offset, bytes, qiov, qiov_offset, flags);
+     } else {
+-        bdrv_debug_event(bs, BLKDBG_PWRITEV);
++        bdrv_co_debug_event(bs, BLKDBG_PWRITEV);
+         while (bytes_remaining) {
+             int num = MIN(bytes_remaining, max_transfer);
+             int local_flags = flags;
+@@ -1962,7 +1962,7 @@ static int coroutine_fn bdrv_aligned_pwritev(BdrvChild *child,
+             bytes_remaining -= num;
+         }
+     }
+-    bdrv_debug_event(bs, BLKDBG_PWRITEV_DONE);
++    bdrv_co_debug_event(bs, BLKDBG_PWRITEV_DONE);
+ 
+     if (ret >= 0) {
+         ret = 0;
 -- 
 2.38.1
 
