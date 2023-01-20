@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDED9674F61
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 09:25:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A03674F63
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 09:25:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pImgo-0004cV-3u; Fri, 20 Jan 2023 03:23:58 -0500
+	id 1pImgp-0004fl-LE; Fri, 20 Jan 2023 03:23:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pImgj-0004bM-4S
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:23:53 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pImgl-0004ch-W0
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:23:57 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pImgh-0004Ym-L5
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:23:52 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- l41-20020a05600c1d2900b003daf986faaeso3062738wms.3
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 00:23:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pImgk-0004Yl-F1
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:23:55 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id k16so3391185wms.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 00:23:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Wur4svIjiQz2AhES/kPc/sLE88sCvtXVfBZRncbaNl8=;
- b=Tsd8yw8gjM9WiWFw1u+nhbOAlviY0vi1LROWylW2VzuI+GjIQLkfcFkOj0qWq4cMgi
- Ax69DOAlk87lTdD+yBFpWtmq6aLQkJApghGcFerFyX1zI+TfzTJj5qfiye/VTAzc2ApM
- TiioFwe5eIOPy9Wa/zNbXrzsVPX5Ol3mvuBXfQeJ9FINgzwYBGnDARrlwu/rslyymbDp
- 5dYc1jBdQxGIWTLm3TpABQ3BwNA8+n8PmfcxnDV/4lQa2ysYTWD2dwvb+kJ+31CrhE78
- Wx5dSAKoR1euHRiWhboQjM111/r7IhS+4bOObXRRUd7lmu3TSjh5y8OFSjCE0KQ5I8UZ
- gKTw==
+ bh=96awe59Bl1JmrEDLbt0RIPfUyUqBQm6nbi4HGeicux4=;
+ b=SiTX1VhsgcvxE1cKCro2n5Mi9jtOQaep9/ODJ5g0I8+IccdsjcoIpUGTPMAivMl57Q
+ OaRxlXCu+tR9/p3M1Y5Tud8mXI0nVmo2kgJ7S9qBnKY0dh0PqQkuHEZr0TcmC86xsd3O
+ 4vPMCgQSXG+msdPBFmNTR4OJiiTutJ8O5KeQhuE9R6jza0UaWXZJgdSGX/BxJRsEq2v3
+ zHeGDMqOrRGAFzDaVmAjOAMRiLxz/ubqnvgCGANAgh+oH9hQNlzHMkYNTOX/M8PcxeGj
+ tESNWrq6K+XPjPacohfOGBXxO86UDMcXnYxAgVjbfs/+2nztFZLYBjfjjNkAO29ceibc
+ KMOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Wur4svIjiQz2AhES/kPc/sLE88sCvtXVfBZRncbaNl8=;
- b=RGlieFiqjNvOhGmD1YBVKwM+E7pkP0z1KwM5b480UASRlEcrR8PSsYb1B9ye5WqFV8
- vZ3ki+4V1TVrXJAPInvO1EJ8P9NcxpxYBZBLKGPeaz6Xvsfg+mQ+t0CVOQAQ1RXcU2a9
- l4dL3VY9WJo69ChuwxP0ebe77+IkeQrVhiz1h74Ce4LkwIb3I2YLGVkibMlk2ZIazwDQ
- KVBxNPHWYTDlQcRKdeDoJ6cdJ19oaVFfG2aNKIbvWzTfXTnDrrMJtmUW2i7+/AOhpQmb
- FMQRDcjE1DQGpvQ58qSp8BYW/lB3DP55MyokcthMFbDGri/vi6q5euWruUZM6CkgxEK4
- k3cw==
-X-Gm-Message-State: AFqh2kqqJuYbOC+GvtzVi7Boe8nkUG2BihOfQMHzUM8vINaI7thKcXM1
- 2lvQqEV9kYGrzO/AwhfShlaJXgoIKqktcSgk
-X-Google-Smtp-Source: AMrXdXtkJ1jqB1i3+J7XJoKLCAWgrZIbC9+CEu5oqMd2BfXeESU6BsC6DedPr2M5YwP28x+UXo5ABA==
-X-Received: by 2002:a05:600c:1d8a:b0:3db:f0a:cfa1 with SMTP id
- p10-20020a05600c1d8a00b003db0f0acfa1mr9825757wms.9.1674203028581; 
- Fri, 20 Jan 2023 00:23:48 -0800 (PST)
+ bh=96awe59Bl1JmrEDLbt0RIPfUyUqBQm6nbi4HGeicux4=;
+ b=OqMpDgTkXkh5Mxn2bBvbbWL+gJUosAZvUsB6K363yhHmk4jy3yvYj33bLVG3wJo/7V
+ GHT900zwVyvAZEQnVpsuJc0v+5BddtrcXYuGOQv67MGehbDPdz10o5d4gDMUxTi3fzm3
+ QJITXtQkL97TvGKld4YtbIePw3a9vqvYs+vDS7y1VHySuNd4MvwSgiJB8tF74ODBg2cE
+ oygTaIAb7q/NDyRhOkVh6BuTGKCc3xhb+raY8nxFyBstAlJ/b0U7qq8rvaI3XGBXHC/D
+ VPiIF8Hn44e0XZ4Nu2ra0MBE8g2HIIAmH0XYhkCnpI0t7RpY/zLXrwrCVh8mW/zkhCZ+
+ pY9A==
+X-Gm-Message-State: AFqh2ko1d81ZQVvnSsDHbikrpIlBXlcOqDkshh9WlTPHaDw1xTGtHPrK
+ MIDiQ3re+yZjXCbqpGicSfbRvCSpv8LrxbIA
+X-Google-Smtp-Source: AMrXdXvZKVn3PP4bk4JFVqH76dfRfGKrYtbK1mNI5XHgKTuM4WPasLKaop3eYYXhvIPFIm1Ecu3gTg==
+X-Received: by 2002:a05:600c:3d9b:b0:3db:1afd:ac36 with SMTP id
+ bi27-20020a05600c3d9b00b003db1afdac36mr6977627wmb.32.1674203033493; 
+ Fri, 20 Jan 2023 00:23:53 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- n42-20020a05600c3baa00b003d96efd09b7sm1729432wms.19.2023.01.20.00.23.47
+ u8-20020a05600c19c800b003db0647645fsm1571932wmq.48.2023.01.20.00.23.52
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 20 Jan 2023 00:23:48 -0800 (PST)
+ Fri, 20 Jan 2023 00:23:53 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -62,17 +61,18 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  qemu-arm@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v3 01/11] tests/qtest/boot-serial-test: Constify tests[] array
-Date: Fri, 20 Jan 2023 09:23:31 +0100
-Message-Id: <20230120082341.59913-2-philmd@linaro.org>
+Subject: [PATCH v3 02/11] tests/qtest/boot-serial-test: Simplify
+ test_machine() a bit
+Date: Fri, 20 Jan 2023 09:23:32 +0100
+Message-Id: <20230120082341.59913-3-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230120082341.59913-1-philmd@linaro.org>
 References: <20230120082341.59913-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,25 +95,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Slighly modify test_machine() to simplify next commit review.
+
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/qtest/boot-serial-test.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/qtest/boot-serial-test.c | 21 +++++++--------------
+ 1 file changed, 7 insertions(+), 14 deletions(-)
 
 diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
-index b216519b62..3aef3a97a9 100644
+index 3aef3a97a9..3a854b0174 100644
 --- a/tests/qtest/boot-serial-test.c
 +++ b/tests/qtest/boot-serial-test.c
-@@ -139,7 +139,7 @@ typedef struct testdef {
-     const uint8_t *bios;    /* Set in case we use our own mini bios */
- } testdef_t;
+@@ -227,7 +227,6 @@ static void test_machine(const void *data)
+     g_autofree char *serialtmp = NULL;
+     g_autofree char *codetmp = NULL;
+     const char *codeparam = "";
+-    const uint8_t *code = NULL;
+     QTestState *qts;
+     int ser_fd;
  
--static testdef_t tests[] = {
-+static const testdef_t tests[] = {
-     { "alpha", "clipper", "", "PCI:" },
-     { "avr", "arduino-duemilanove", "", "T", sizeof(bios_avr), NULL, bios_avr },
-     { "avr", "arduino-mega-2560-v3", "", "T", sizeof(bios_avr), NULL, bios_avr},
+@@ -235,21 +234,13 @@ static void test_machine(const void *data)
+     g_assert(ser_fd != -1);
+     close(ser_fd);
+ 
+-    if (test->kernel) {
+-        code = test->kernel;
+-        codeparam = "-kernel";
+-    } else if (test->bios) {
+-        code = test->bios;
+-        codeparam = "-bios";
+-    }
+-
+-    if (code) {
++    if (test->kernel || test->bios) {
+         ssize_t wlen;
+         int code_fd;
+ 
+         code_fd = g_file_open_tmp("qtest-boot-serial-cXXXXXX", &codetmp, NULL);
+         g_assert(code_fd != -1);
+-        wlen = write(code_fd, code, test->codesize);
++        wlen = write(code_fd, test->kernel ? : test->bios, test->codesize);
+         g_assert(wlen == test->codesize);
+         close(code_fd);
+     }
+@@ -258,12 +249,14 @@ static void test_machine(const void *data)
+      * Make sure that this test uses tcg if available: It is used as a
+      * fast-enough smoketest for that.
+      */
+-    qts = qtest_initf("%s %s -M %s -no-shutdown "
++    qts = qtest_initf("%s %s %s -M %s -no-shutdown "
+                       "-chardev file,id=serial0,path=%s "
+                       "-serial chardev:serial0 -accel tcg -accel kvm %s",
+-                      codeparam, code ? codetmp : "", test->machine,
++                      codeparam,
++                      test->kernel ? "-kernel " : test->bios ? "-bios " : "",
++                      codetmp ? : "", test->machine,
+                       serialtmp, test->extra);
+-    if (code) {
++    if (codetmp) {
+         unlink(codetmp);
+     }
+ 
 -- 
 2.38.1
 
