@@ -2,65 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8B2F6752C1
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:48:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A9AA6752CE
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:53:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIovn-0005SB-4i; Fri, 20 Jan 2023 05:47:35 -0500
+	id 1pIp0i-0007HG-Pl; Fri, 20 Jan 2023 05:52:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pIovj-0005S3-9p
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:47:31 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pIovf-0004qR-Vh
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:47:30 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nyx0x24CYz6J7CS;
- Fri, 20 Jan 2023 18:43:13 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 20 Jan
- 2023 10:47:11 +0000
-Date: Fri, 20 Jan 2023 10:47:09 +0000
-To: Gregory Price <gregory.price@memverge.com>
-CC: Jonathan Cameron via <qemu-devel@nongnu.org>, Lukas Wunner
- <lukas@wunner.de>, Michael Tsirkin <mst@redhat.com>, Ben Widawsky
- <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>,
- Ira Weiny <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>,
- Dan Williams <dan.j.williams@intel.com>
-Subject: Re: cxl nvdimm Potential probe ordering issues.
-Message-ID: <20230120104709.00000572@Huawei.com>
-In-Reply-To: <Y8oeYfyqNuSIIxCt@memverge.com>
-References: <Y8CNw/fZT5fZJZcK@memverge.com>
- <20230113091213.00002146@Huawei.com>
- <Y8Foj/12QNl0C96o@memverge.com>
- <20230113144026.000001fb@Huawei.com>
- <20230113144511.00001207@Huawei.com>
- <20230113151206.GA20583@wunner.de> <Y8hG4OyJL7l9oD2f@memverge.com>
- <Y8hJKcy1993SFLLJ@memverge.com>
- <20230119124244.000015b3@Huawei.com>
- <20230119150449.000037f2@huawei.com>
- <Y8oeYfyqNuSIIxCt@memverge.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIp0g-0007H3-LI
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:52:38 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIp0e-0005gO-Su
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:52:38 -0500
+Received: by mail-wr1-x436.google.com with SMTP id h16so4455049wrz.12
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 02:52:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=T7ev5gQNxaBMHR64ExWJ0wyAeFm/sn1Z0OvG9w5tTBg=;
+ b=xAybjWPat31CyumUC3F7nQuOh3imwaDUBkRFjAjVtBboQQfcI+DsXHsLgm6UMq/to5
+ JfJ99w8JhZOyc9yIKfCEjPya5aSZe7WHoMjmirmFXGnYXwOeVdWXQT9ofEACzuR4XILR
+ wwLcGIZ1UL5OxKJoVweUOwJAGN8KnWbwK5rCMneyXnfd/I9IlHx4YShl7eOvKYuIQN4L
+ q0X0xwr73Iep3QmMPCGcK3c8S8Lf5yAgwQVaWrxnaxjFOau1mucunzCvEQJpgsA7//uo
+ lGJ8ffK5cCKFO8et+MsRRPjilx6TWoMAGdTfZnnJHg9q5qiF362357bQ50zTPEsP6oLC
+ dMww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=T7ev5gQNxaBMHR64ExWJ0wyAeFm/sn1Z0OvG9w5tTBg=;
+ b=RhmNvxL9/1NbhUowE1AfQB4UKXZlQHxkMJx5KQiBEK9x4s2CKpCTnqEZoICwJOObjj
+ 1XkKecK9K9vKl0SCNEJBa299t9mDdF0ky7zaNbP01mI8hf10QaW6mL/TSqShlZaQqZjO
+ K/AsCeDpeHJG9NV4IebF7w8uicFBWowLx1qDlVvtqnKSLK4cDIMNUQQcsxwaDSykgT3k
+ YAe9cWpOU8GtOon1zXjDlP0nn/EwIzO6PlNUDCCMQB7XYC4PvP1T/J1cfGXHqq70D3sH
+ BCq00nfxA8IDIlBmBkMW44WCrUguy0fSyWZCSM1lwce5N6/mFdqRyQWKGQP2ppXyJbo8
+ QB0g==
+X-Gm-Message-State: AFqh2kr9jo9Kembel6+r8KkQ9dFy/RIzKjXQ0Gh/621F/ZYYG2cHY/jk
+ 7w9CLJcBJkmlp8k1xIwMhH7dwg==
+X-Google-Smtp-Source: AMrXdXvKEFB/Gl1EB4qCRxaMHJeiFwCKXC45xyEZ87+8EN/ddcZcOekBABNqRv/ZB6XWGsDPEIGhNw==
+X-Received: by 2002:adf:d082:0:b0:2bc:46e7:6f10 with SMTP id
+ y2-20020adfd082000000b002bc46e76f10mr7254288wrh.17.1674211954647; 
+ Fri, 20 Jan 2023 02:52:34 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ w4-20020adfee44000000b0029100e8dedasm35550114wro.28.2023.01.20.02.52.34
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Jan 2023 02:52:34 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 8A67D1FFB7;
+ Fri, 20 Jan 2023 10:52:32 +0000 (GMT)
+References: <20230116223637.3512814-1-richard.henderson@linaro.org>
+ <2c1eb92b-91f8-34d5-c5f7-a56a41ec807b@redhat.com>
+User-agent: mu4e 1.9.15; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, Ilya Leoshkevich
+ <iii@linux.ibm.com>, peter.maydell@linaro.org, qemu-devel@nongnu.org
+Subject: Re: [PULL 0/5] tcg patch queue
+Date: Fri, 20 Jan 2023 10:50:42 +0000
+In-reply-to: <2c1eb92b-91f8-34d5-c5f7-a56a41ec807b@redhat.com>
+Message-ID: <873585xytr.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,117 +92,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 19 Jan 2023 23:53:53 -0500
-Gregory Price <gregory.price@memverge.com> wrote:
 
-> On Thu, Jan 19, 2023 at 03:04:49PM +0000, Jonathan Cameron wrote:
-> > Gregory, would you mind checking if
-> > cxl_nvb is NULL here...
-> > https://elixir.bootlin.com/linux/v6.2-rc4/source/drivers/cxl/pmem.c#L67
-> > (printk before it is used should work).
-> >=20
-> > Might also be worth checking cxl_nvd and cxl_ds
-> > but my guess is cxl_nvb is our problem (it is when I deliberate change
-> > the load order).
-> >=20
-> > Jonathan
-> >  =20
->=20
-> This is exactly the issue.  cxl_nvb is null, the rest appear fine.
->=20
-> Also, note, that weirdly the non-volatile bridge shows up when launching
-> this in volatile mode, but no stack trace appears.
->=20
-> =C2=AF\_(=E3=83=84)_/=C2=AF
->=20
-> After spending way too much time tracing through the current cxl driver
-> code, i have only really determined that
->=20
-> 1) The code is very pmem oriented, and it's unclear to me how the driver
->    as-is differentiates a persistent device from a volatile device. That
-> 	 code path still completely escapes me.  The only differentiating code
-> 	 i see is in the memdev probe path that creates mem#/pmem and mem#/ram
+Thomas Huth <thuth@redhat.com> writes:
 
-Absolutely on pmem.  Target for kernel side of things was always pmem
-first. Volatile has been on roadmap / todo list for a few kernel cycles
-but I haven't seen any code yet.
+> On 16/01/2023 23.36, Richard Henderson wrote:
+>> The following changes since commit fb7e7990342e59cf67dbd895c1a1e3fb1741d=
+f7a:
+>>    tests/qtest/qom-test: Do not print tested properties by default
+>> (2023-01-16 15:00:57 +0000)
+>> are available in the Git repository at:
+>>    https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230116
+>> for you to fetch changes up to
+>> 61710a7e23a63546da0071ea32adb96476fa5d07:
+>>    accel/tcg: Split out cpu_exec_{setjmp,loop} (2023-01-16 10:14:12
+>> -1000)
+>> ----------------------------------------------------------------
+>> - Reorg cpu_tb_exec around setjmp.
+>> - Use __attribute__((target)) for buffer_is_zero.
+>> - Add perfmap and jitdump for perf support.
+>> ----------------------------------------------------------------
+>> Ilya Leoshkevich (3):
+>>        linux-user: Clean up when exiting due to a signal
+>>        accel/tcg: Add debuginfo support
+>>        tcg: add perfmap and jitdump
+>> Richard Henderson (2):
+>>        util/bufferiszero: Use __attribute__((target)) for avx2/avx512
+>>        accel/tcg: Split out cpu_exec_{setjmp,loop}
+>
+>  Hi Richard, hi Ilya,
+>
+> with the recent QEMU master branch (commit 701ed34), I'm now seeing
+> failures in Travis:
+>
+>  https://app.travis-ci.com/github/huth/qemu/jobs/593786529#L14411
+>
+> Everything was still fine a couple of days ago (commit fb7e799):
+>
+>  https://app.travis-ci.com/github/huth/qemu/builds/259755664
+>
+> ... so it seems this is likely related to this pull request. Could you
+> please have a look?
 
->=20
-> 2) The code successfully manages probe, enable, and mount a REAL device
->    - cxl memdev appears (/sys/bus/cxl/devices/mem0)
-> 	 - a dax device appears (/sys/bus/dax/devices/)
-> 	   This happens at boot, which I assume must be bios related
-> 	 - The memory *does not* auto-online, instead the dax device can be
-> 	   onlined as system-ram *manually* via ndctl and friends
+Hmm maybe the code motion has revealed another form of the compiler bug.
+I guess these bugs don't die, they just refract.
 
-Interesting.  Just curious, is the host a CXL 1.1 host or a CXL 2.0 host?
-
->=20
-> 3) The code creates an nvdimm_bridge IFF a CFMW is defined - regardless
->    of the type-3 device configuration (pmem-only or vmem-only)
->=20
->    # CFMW defined
->    [root@fedora ~]# ls /sys/bus/cxl/devices/
->    decoder0.0  decoder2.0  mem0            port1
->    decoder1.0  endpoint2   nvdimm-bridge0  root0
->=20
->    # CFMW not defined
-> 	 [root@fedora ~]# ls /sys/bus/cxl/devices/
->    decoder1.0  decoder2.0  endpoint2  mem0  port1  root0
-
-That should be harmless and may be needed to tie everything
-through to DAX.
+>
+>  Thanks,
+>   Thomas
 
 
->=20
-> 4) As you can see above, multiple decoders are registered.  I'm not sure
->    if that's correct or not, but it does seem odd given there's only one
-> 	 cxl type-3 device.  Odd that decoder0.0 shows up when CFMW is there,
-> 	 but not when it isn't.
->=20
-> 	 Note: All these tests have two root ports:
-> 	 -device pxb-cxl,id=3Dcxl.0,bus=3Dpcie.0,bus_nr=3D52 \
->    -device cxl-rp,id=3Drp0,bus=3Dcxl.0,chassis=3D0,port=3D0,slot=3D0 \
->    -device cxl-rp,id=3Drp1,bus=3Dcxl.0,chassis=3D0,port=3D1,slot=3D1 \
-
-IIRC
-
-decoder0.0 represents the fixed routing in the host as defined
-by the CFMWS - not an actual programmable decoder.
-
-decoder1.0 is the routing in the host bridge - may be pass through
-decoder if there is only one root port.
-
-decoder2.0 is the one is the endpoint itself.
-
->=20
->=20
-> Don't know why I haven't thought of this until now, but is the CFMW code
-> reporting something odd about what's behind it?  Is it assuming the
-> devices are pmem?
-
-It reports the ability to support pmem or support volatile or support both.
-Currently
-https://elixir.bootlin.com/qemu/latest/source/hw/acpi/cxl.c#L107
-qemu reports that all CFMWS windows support everything except
-"Fixed Device Configuration (Bit[4])" which would tell the OS not
-to move devices that are already programmed out of this window
-and doesn't really make sense for QEMU to ever set.
-That is we support all of:
-Device Coherent (type 2 and back invalidate flows on type 3, though we
-aren't emulating the back invalidate stuff yet on the EP)
-Host only coherent. [thinking about it we should probably not
-support both this and device coherent as they would be mutually
-incompatible on a real host]
-Volatile
-Persistent
-
-Jonathan
-
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
