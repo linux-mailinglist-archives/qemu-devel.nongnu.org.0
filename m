@@ -2,37 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6508F67571F
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 15:27:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5876F675720
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 15:28:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIsMa-0004ja-S0; Fri, 20 Jan 2023 09:27:28 -0500
+	id 1pIsNJ-0005gH-EU; Fri, 20 Jan 2023 09:28:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pIsMY-0004jC-VY
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:27:26 -0500
+ id 1pIsN3-0005dK-FM
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:27:57 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pIsMX-0007DV-Fb
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:27:26 -0500
+ id 1pIsN2-0007Hw-20
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:27:57 -0500
 Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nz1v11syPz6J7P3;
- Fri, 20 Jan 2023 22:23:25 +0800 (CST)
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nz1wf4KcTz6J69K;
+ Fri, 20 Jan 2023 22:24:50 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Fri, 20 Jan 2023 14:27:23 +0000
+ 15.1.2375.34; Fri, 20 Jan 2023 14:27:54 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
  <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Dave Jiang
  <dave.jiang@intel.com>, <alison.schofield@intel.com>, Mike Maslenkin
  <mike.maslenkin@gmail.com>
-Subject: [PATCH v2 5/7] hw/mem/cxl-type3: Add AER extended capability
-Date: Fri, 20 Jan 2023 14:24:48 +0000
-Message-ID: <20230120142450.16089-6-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v2 6/7] hw/pci/aer: Make PCIE AER error injection facility
+ available for other emulation to use.
+Date: Fri, 20 Jan 2023 14:24:49 +0000
+Message-ID: <20230120142450.16089-7-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230120142450.16089-1-Jonathan.Cameron@huawei.com>
 References: <20230120142450.16089-1-Jonathan.Cameron@huawei.com>
@@ -40,7 +41,7 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -68,55 +69,36 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This enables AER error injection to function as expected.
-It is intended as a building block in enabling CXL RAS error injection
-in the following patches.
+This infrastructure will be reused for CXL RAS error injection
+in patches that follow.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- hw/mem/cxl_type3.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ hw/pci/pci-internal.h     | 1 -
+ include/hw/pci/pcie_aer.h | 1 +
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
-index 217a5e639b..6cdd988d1d 100644
---- a/hw/mem/cxl_type3.c
-+++ b/hw/mem/cxl_type3.c
-@@ -250,6 +250,7 @@ static void ct3d_config_write(PCIDevice *pci_dev, uint32_t addr, uint32_t val,
+diff --git a/hw/pci/pci-internal.h b/hw/pci/pci-internal.h
+index 2ea356bdf5..a7d6d8a732 100644
+--- a/hw/pci/pci-internal.h
++++ b/hw/pci/pci-internal.h
+@@ -20,6 +20,5 @@ void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent);
  
-     pcie_doe_write_config(&ct3d->doe_cdat, addr, val, size);
-     pci_default_write_config(pci_dev, addr, val, size);
-+    pcie_aer_write_config(pci_dev, addr, val, size);
- }
+ int pcie_aer_parse_error_string(const char *error_name,
+                                 uint32_t *status, bool *correctable);
+-int pcie_aer_inject_error(PCIDevice *dev, const PCIEAERErr *err);
  
- /*
-@@ -452,8 +453,19 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
-     cxl_cstate->cdat.free_cdat_table = ct3_free_cdat_table;
-     cxl_cstate->cdat.private = ct3d;
-     cxl_doe_cdat_init(cxl_cstate, errp);
-+
-+    pcie_cap_deverr_init(pci_dev);
-+    /* Leave a bit of room for expansion */
-+    rc = pcie_aer_init(pci_dev, PCI_ERR_VER, 0x200, PCI_ERR_SIZEOF, NULL);
-+    if (rc) {
-+        goto err_release_cdat;
-+    }
-+
-     return;
+ #endif
+diff --git a/include/hw/pci/pcie_aer.h b/include/hw/pci/pcie_aer.h
+index 65e71d98fe..1234fdc4e2 100644
+--- a/include/hw/pci/pcie_aer.h
++++ b/include/hw/pci/pcie_aer.h
+@@ -100,4 +100,5 @@ void pcie_aer_root_write_config(PCIDevice *dev,
+                                 uint32_t addr, uint32_t val, int len,
+                                 uint32_t root_cmd_prev);
  
-+err_release_cdat:
-+    cxl_doe_cdat_release(cxl_cstate);
-+    g_free(regs->special_ops);
- err_address_space_free:
-     address_space_destroy(&ct3d->hostmem_as);
-     return;
-@@ -465,6 +477,7 @@ static void ct3_exit(PCIDevice *pci_dev)
-     CXLComponentState *cxl_cstate = &ct3d->cxl_cstate;
-     ComponentRegisters *regs = &cxl_cstate->crb;
- 
-+    pcie_aer_exit(pci_dev);
-     cxl_doe_cdat_release(cxl_cstate);
-     g_free(regs->special_ops);
-     address_space_destroy(&ct3d->hostmem_as);
++int pcie_aer_inject_error(PCIDevice *dev, const PCIEAERErr *err);
+ #endif /* QEMU_PCIE_AER_H */
 -- 
 2.37.2
 
