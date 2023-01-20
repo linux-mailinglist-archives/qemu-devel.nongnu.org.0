@@ -2,89 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBCC4674E3E
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:41:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7923674E43
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:41:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIm0C-0007q9-HO; Fri, 20 Jan 2023 02:39:56 -0500
+	id 1pIm0F-0007uw-BU; Fri, 20 Jan 2023 02:39:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIm01-0007hO-KI
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:39:45 -0500
+ id 1pIm0C-0007qd-Sh
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:39:56 -0500
 Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIlzz-0004pk-PI
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:39:45 -0500
+ id 1pIm0B-0004pU-0X
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:39:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1674200383; x=1705736383;
+ t=1674200394; x=1705736394;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=94cjWS/JRpFzc8QyOmlgNZLD1Ef6wv9Z0i19VVCZzzQ=;
- b=M1H9QJ0qnq0Pum78psvvo8NCi5MuOmHoZR75uYyjBV3ybU40CiQ6na5H
- iJdT0KJ9VEJtZ8U4bkznQCxGlr1fhz0WxsOrLp2Jio4kzc0+OSfLsfCh5
- zv5hEILW3fm3KmkPJPonC8jPI2dxi8oemJ2kJmhfbHCY7pCxh38gz5nLO
- xypBibeZe9x4mSErJKPfAPqkTw30N7SVljh0xm7o/hYuRlTxyUYwRrLLj
- wLr9VCeZXRYDO9PmnnUeUqcwmrZt0/aiSLnpPRpymZSo4uDNOZMUYdYv6
- m5inaVo+sUbPjU4Iohb7TY0ADWigUnswcXXNFM8GCW++Zi6Zl5qCdUhNA A==;
-X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176693"
+ bh=nqQG7k5fhFlJn1OmbIYfAXBTtjCCcG5eoJ1I/boo0bQ=;
+ b=Hs0GebFmkIYgAy0o73grv6R6bGy7EbOEYOrL94voEKQbVb72eB+D7vIY
+ Mbh7KXlDhwoagEMlB/2/QA8x3yf27Kh8Qqg2fcdZALIvZQLg4YiKBZMkW
+ avAImVO5JONobm2GjVdDI7UgnGCW2SKr/gewfINysOEszU7zUyjLBriIO
+ Rln7aI+266LnZ+zD/4Sc1cJQMpVYUlU4WAA7NYaaA1iAAhRH4y1AU3fpf
+ V2Aov+xq5mujx6icFvlPL8FKK3riN0xFhx9feRYETfofnjYChrXu1OhYx
+ dalIa45NZcCnjJzANZQJYq1qZrg4FYqtdDlfAYCCNvSB0DTFVtd/jSGcs A==;
+X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176695"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:39:42 +0800
-IronPort-SDR: gluZfgsPxvuv9aopuXp+59wrW+zaACD1qdH+RoQ2nE+yE/H5jUvOiEZPzfrvUYWENo1NGrkBYr
- 80S4mQ+pBW+E1GrvH0/SYRLVq5liWQwNPMoPR7qsC8+JVDt2gXXve3GZz2BwILwDk0e4NvkLB4
- 5Fu1ky7iF5ugMNbBH7g8YVOehye45pZCwQGdSh9kklTFRW2lc7yWg8r5haIt0MMZLjIW6LjRjt
- vpU6cYXk+UsVceNaqL3avKv5glvQvnwaWpBzSPgb8nj82NyX+llkQ2l3Uj+AHkkMPiRuZSBAbz
- oAc=
+ by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:39:44 +0800
+IronPort-SDR: SqqDfuIkd5Pb/sCkhA9vC1GKmJsCI3/3gK6OemoixRGoDnfY+FyruqkGLNV97GHMM7WxrEpQBq
+ NN+OzHAiVBi0SbOLuKs40mgQDUVNfQoTFroZMwy9o28Hu6ihjMqpUsZrChcSycwel3p+MUfT+l
+ kU3+p7Xgn/YeNmtcW9beVe9AqTtEJr9m/fjhWseMnwJmFcv1y83HcWBBJjcjJuyy6tWdS/FV9+
+ Sg9SASekFhUbV1yULGVxMEfXc0i7k0VCGAKQu+raD6sU04Zlj92GObFsunc9cJJfET9Ceh9GN2
+ dWM=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 22:57:20 -0800
-IronPort-SDR: N5pKs++3M26AX8Yl9YjegpKmGeqhcvvyZ79uuXu2lkXrSwmVPjkRoy9H5zbkSAMoGnhfGV3HFi
- KL3W9WKrvgFBANBjWp7KZKEawkPsy32YKDU4smMDn1j/EgeqjzrkpDCC+1I9UJmtLcUCzjx7OC
- qzuKfaazLTlCWLYOVLL892A41tO94JElyCys+GVLV2fYBNCSCG4H8vSmiRX0UUeQLQvBrxbHV1
- cViAJKBunLSYd8341wOUXY8lAJ5H+RWB3u+WPyXDVOGDxGm0jwWQD1MMXTjMo3JZYGTo0de+9c
- d2c=
+ 19 Jan 2023 22:57:22 -0800
+IronPort-SDR: 16GAIto4lGjgLEofgK6UfrXI2cqN2ttL6iqttuj06XtQUhksmJSpIG4Zr9EKU9/Zig6ZDMdlzD
+ SRiTHD4ypnFrPSWnr7IvyVws4m2Qlb0AedHZuvGVgAuzQSChA3xLCFAWwgvh4pU+5lZi0Y8A6Q
+ vDwoI/pbHrCDdv5Ard/A1PI+iOuIdTMYLSSd7s2fZOP6P6x4vU8h/AdZ6nf4XbwsLXb+JjY8KP
+ D2sLV4T7x2ds748CYvP1yROLGK/VGV23USKb/N0uMQv7+3fc8WnRzote0r+T6Xuh9TqFHvfirN
+ DIk=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 23:39:42 -0800
+ 19 Jan 2023 23:39:44 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NyrxB28xPz1Rwrq
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:39:42 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NyrxC6xNdz1Rwt8
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:39:43 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1674200381; x=1676792382; bh=94cjWS/JRpFzc8QyOm
- lgNZLD1Ef6wv9Z0i19VVCZzzQ=; b=eZKF9NBf85nRRCmdLYnCJxpIWgoJk3sJT3
- esazImGlEiwa253py7pVQ2cHTTwTKE7+Hi+r1QXMve1DSfJjDFlbTx5CtD/rdnqk
- tLGtty4uHpAcSP3pZg56I++cT+CGAJkelQX16GioYu3UAiefuDMnJxlBw9ILfFPK
- QRD8lX+UFM4hLRgCLDZ2JubaUlrliKM2dYnQDbmqh0YeXCgxUq0TgOnx823Czenl
- rQ4p9LGLLWlcvTkDEz4GzkekjZ2QVazB1ReZtEEOzTcC0dgLze6bvfoEw0vP5bzK
- HJvGKw3PW9nzTARtLpG1FRwuX1EbHqj8NezA6RMI7jRqmM9KDTgQ==
+ :from; s=dkim; t=1674200383; x=1676792384; bh=nqQG7k5fhFlJn1OmbI
+ YfAXBTtjCCcG5eoJ1I/boo0bQ=; b=jUFNnvthHlVKCxjaKTCkuNm8d/PH5gwx+x
+ +B4jqTQfu6OP/6UBMz06hBrnmaNzt3GDs5rOXeThF11s2CNPPGEMFtcOX1PiTCym
+ hlPV6zx191zbZrD6SYPzOLBdV/1bQCa//PiiJ7P9PhJW3PjiCp5Dv87QplmTHLb3
+ nKi4uEPl4rtBpWdZJ7a46sVsFsTMVb9QZjBvpPTBMcZbt40wNUU7LePbjeIvK7OF
+ V0Mqx6NFJ9pv+Zvs3a8xNwBRD8KfZDeJeqpolzQcvXSbwe1N3YZGPchQpseQQJyl
+ mX4FYj2UC1sddfsmI4oyjL329tonkkvQndRSiFHdFBrmgwzVVeUA==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id rtSMlvMJLLQv for <qemu-devel@nongnu.org>;
- Thu, 19 Jan 2023 23:39:41 -0800 (PST)
+ port 10026) with ESMTP id OUzEhusAviYc for <qemu-devel@nongnu.org>;
+ Thu, 19 Jan 2023 23:39:43 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nyrx762FZz1RvLy;
- Thu, 19 Jan 2023 23:39:39 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NyrxB07PPz1RvTp;
+ Thu, 19 Jan 2023 23:39:41 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng@tinylab.org>
-Subject: [PULL 10/37] hw/riscv/boot.c: introduce riscv_default_firmware_name()
-Date: Fri, 20 Jan 2023 17:38:46 +1000
-Message-Id: <20230120073913.1028407-11-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 11/37] hw/riscv/boot.c: Introduce riscv_find_firmware()
+Date: Fri, 20 Jan 2023 17:38:47 +1000
+Message-Id: <20230120073913.1028407-12-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
 References: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
@@ -115,174 +115,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+From: Bin Meng <bmeng@tinylab.org>
 
-Some boards are duplicating the 'riscv_find_and_load_firmware' call
-because the 32 and 64 bits images have different names. Create
-a function to handle this detail instead of hardcoding it in the boards.
+Rename previous riscv_find_firmware() to riscv_find_bios(), and
+introduce a new riscv_find_firmware() to implement the first half
+part of the work done in riscv_find_and_load_firmware().
 
-Ideally we would bake this logic inside riscv_find_and_load_firmware(),
-or even create a riscv_load_default_firmware(), but at this moment we
-cannot infer whether the machine is running 32 or 64 bits without
-accessing RISCVHartArrayState, which in turn can't be accessed via the
-common code from boot.c. In the end we would exchange 'firmware_name'
-for a flag with riscv_is_32bit(), which isn't much better than what we
-already have today.
+This new API is helpful for machine that wants to know the final
+chosen firmware file name but does not want to load it.
 
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
-Message-Id: <20221221182300.307900-6-dbarboza@ventanamicro.com>
-Message-Id: <20221229091828.1945072-11-bmeng@tinylab.org>
+Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20221229091828.1945072-12-bmeng@tinylab.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/boot.h |  1 +
- hw/riscv/boot.c         |  9 +++++++++
- hw/riscv/sifive_u.c     | 11 ++++-------
- hw/riscv/spike.c        | 14 +++++---------
- hw/riscv/virt.c         | 10 +++-------
- 5 files changed, 22 insertions(+), 23 deletions(-)
+ include/hw/riscv/boot.h |  2 ++
+ hw/riscv/boot.c         | 39 +++++++++++++++++++++++++--------------
+ 2 files changed, 27 insertions(+), 14 deletions(-)
 
 diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index c03e4e74c5..60cf320c88 100644
+index 60cf320c88..b273ab22f7 100644
 --- a/include/hw/riscv/boot.h
 +++ b/include/hw/riscv/boot.h
-@@ -37,6 +37,7 @@ target_ulong riscv_find_and_load_firmware(MachineState =
+@@ -38,6 +38,8 @@ target_ulong riscv_find_and_load_firmware(MachineState =
 *machine,
-                                           const char *default_machine_fi=
-rmware,
                                            hwaddr firmware_load_addr,
                                            symbol_fn_t sym_cb);
-+const char *riscv_default_firmware_name(RISCVHartArrayState *harts);
+ const char *riscv_default_firmware_name(RISCVHartArrayState *harts);
++char *riscv_find_firmware(const char *firmware_filename,
++                          const char *default_machine_firmware);
  target_ulong riscv_load_firmware(const char *firmware_filename,
                                   hwaddr firmware_load_addr,
                                   symbol_fn_t sym_cb);
 diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 7361d5c0d8..e1a544b1d9 100644
+index e1a544b1d9..98b80af51b 100644
 --- a/hw/riscv/boot.c
 +++ b/hw/riscv/boot.c
-@@ -75,6 +75,15 @@ target_ulong riscv_calc_kernel_start_addr(RISCVHartArr=
-ayState *harts,
-     }
+@@ -84,11 +84,11 @@ const char *riscv_default_firmware_name(RISCVHartArra=
+yState *harts)
+     return RISCV64_BIOS_BIN;
  }
 =20
-+const char *riscv_default_firmware_name(RISCVHartArrayState *harts)
-+{
-+    if (riscv_is_32bit(harts)) {
-+        return RISCV32_BIOS_BIN;
-+    }
-+
-+    return RISCV64_BIOS_BIN;
-+}
-+
- static char *riscv_find_firmware(const char *firmware_filename)
+-static char *riscv_find_firmware(const char *firmware_filename)
++static char *riscv_find_bios(const char *bios_filename)
  {
      char *filename;
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index b40a4767e2..a58ddb36ac 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -533,6 +533,7 @@ static void sifive_u_machine_init(MachineState *machi=
-ne)
-     MemoryRegion *flash0 =3D g_new(MemoryRegion, 1);
-     target_ulong start_addr =3D memmap[SIFIVE_U_DEV_DRAM].base;
-     target_ulong firmware_end_addr, kernel_start_addr;
-+    const char *firmware_name;
-     uint32_t start_addr_hi32 =3D 0x00000000;
-     int i;
-     uint32_t fdt_load_addr;
-@@ -595,13 +596,9 @@ static void sifive_u_machine_init(MachineState *mach=
-ine)
-         break;
-     }
 =20
--    if (riscv_is_32bit(&s->soc.u_cpus)) {
--        firmware_end_addr =3D riscv_find_and_load_firmware(machine,
--                                    RISCV32_BIOS_BIN, start_addr, NULL);
--    } else {
--        firmware_end_addr =3D riscv_find_and_load_firmware(machine,
--                                    RISCV64_BIOS_BIN, start_addr, NULL);
--    }
-+    firmware_name =3D riscv_default_firmware_name(&s->soc.u_cpus);
-+    firmware_end_addr =3D riscv_find_and_load_firmware(machine, firmware=
-_name,
-+                                                     start_addr, NULL);
-=20
-     if (machine->kernel_filename) {
-         kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc.u_cpu=
-s,
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index df9f070707..3c8a8de673 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -190,6 +190,7 @@ static void spike_board_init(MachineState *machine)
-     MemoryRegion *system_memory =3D get_system_memory();
-     MemoryRegion *mask_rom =3D g_new(MemoryRegion, 1);
-     target_ulong firmware_end_addr, kernel_start_addr;
-+    const char *firmware_name;
-     uint32_t fdt_load_addr;
-     uint64_t kernel_entry;
-     char *soc_name;
-@@ -255,15 +256,10 @@ static void spike_board_init(MachineState *machine)
-     memory_region_add_subregion(system_memory, memmap[SPIKE_MROM].base,
-                                 mask_rom);
-=20
--    if (riscv_is_32bit(&s->soc[0])) {
--        firmware_end_addr =3D riscv_find_and_load_firmware(machine,
--                                    RISCV32_BIOS_BIN, memmap[SPIKE_DRAM]=
-.base,
--                                    htif_symbol_callback);
--    } else {
--        firmware_end_addr =3D riscv_find_and_load_firmware(machine,
--                                    RISCV64_BIOS_BIN, memmap[SPIKE_DRAM]=
-.base,
--                                    htif_symbol_callback);
--    }
-+    firmware_name =3D riscv_default_firmware_name(&s->soc[0]);
-+    firmware_end_addr =3D riscv_find_and_load_firmware(machine, firmware=
-_name,
-+                                                     memmap[SPIKE_DRAM].=
-base,
-+                                                     htif_symbol_callbac=
-k);
-=20
-     /* Load kernel */
-     if (machine->kernel_filename) {
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 94ff2a1584..408f7a2256 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1237,6 +1237,7 @@ static void virt_machine_done(Notifier *notifier, v=
-oid *data)
-     MachineState *machine =3D MACHINE(s);
-     target_ulong start_addr =3D memmap[VIRT_DRAM].base;
-     target_ulong firmware_end_addr, kernel_start_addr;
-+    const char *firmware_name =3D riscv_default_firmware_name(&s->soc[0]=
-);
-     uint32_t fdt_load_addr;
-     uint64_t kernel_entry;
-=20
-@@ -1256,13 +1257,8 @@ static void virt_machine_done(Notifier *notifier, =
-void *data)
+-    filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, firmware_filename);
++    filename =3D qemu_find_file(QEMU_FILE_TYPE_BIOS, bios_filename);
+     if (filename =3D=3D NULL) {
+         if (!qtest_enabled()) {
+             /*
+@@ -97,8 +97,8 @@ static char *riscv_find_firmware(const char *firmware_f=
+ilename)
+              * running QEMU test will complain hence let's suppress the =
+error
+              * report for QEMU testing.
+              */
+-            error_report("Unable to load the RISC-V firmware \"%s\"",
+-                         firmware_filename);
++            error_report("Unable to find the RISC-V BIOS \"%s\"",
++                         bios_filename);
+             exit(1);
          }
      }
+@@ -106,25 +106,36 @@ static char *riscv_find_firmware(const char *firmwa=
+re_filename)
+     return filename;
+ }
 =20
--    if (riscv_is_32bit(&s->soc[0])) {
--        firmware_end_addr =3D riscv_find_and_load_firmware(machine,
--                                    RISCV32_BIOS_BIN, start_addr, NULL);
--    } else {
--        firmware_end_addr =3D riscv_find_and_load_firmware(machine,
--                                    RISCV64_BIOS_BIN, start_addr, NULL);
--    }
-+    firmware_end_addr =3D riscv_find_and_load_firmware(machine, firmware=
-_name,
-+                                                     start_addr, NULL);
+-target_ulong riscv_find_and_load_firmware(MachineState *machine,
+-                                          const char *default_machine_fi=
+rmware,
+-                                          hwaddr firmware_load_addr,
+-                                          symbol_fn_t sym_cb)
++char *riscv_find_firmware(const char *firmware_filename,
++                          const char *default_machine_firmware)
+ {
+-    char *firmware_filename =3D NULL;
+-    target_ulong firmware_end_addr =3D firmware_load_addr;
++    char *filename =3D NULL;
 =20
-     /*
-      * Init fw_cfg.  Must be done before riscv_load_fdt, otherwise the d=
-evice
+-    if ((!machine->firmware) || (!strcmp(machine->firmware, "default")))=
+ {
++    if ((!firmware_filename) || (!strcmp(firmware_filename, "default")))=
+ {
+         /*
+          * The user didn't specify -bios, or has specified "-bios defaul=
+t".
+          * That means we are going to load the OpenSBI binary included i=
+n
+          * the QEMU source.
+          */
+-        firmware_filename =3D riscv_find_firmware(default_machine_firmwa=
+re);
+-    } else if (strcmp(machine->firmware, "none")) {
+-        firmware_filename =3D riscv_find_firmware(machine->firmware);
++        filename =3D riscv_find_bios(default_machine_firmware);
++    } else if (strcmp(firmware_filename, "none")) {
++        filename =3D riscv_find_bios(firmware_filename);
+     }
+=20
++    return filename;
++}
++
++target_ulong riscv_find_and_load_firmware(MachineState *machine,
++                                          const char *default_machine_fi=
+rmware,
++                                          hwaddr firmware_load_addr,
++                                          symbol_fn_t sym_cb)
++{
++    char *firmware_filename;
++    target_ulong firmware_end_addr =3D firmware_load_addr;
++
++    firmware_filename =3D riscv_find_firmware(machine->firmware,
++                                            default_machine_firmware);
++
+     if (firmware_filename) {
+         /* If not "none" load the firmware */
+         firmware_end_addr =3D riscv_load_firmware(firmware_filename,
 --=20
 2.39.0
 
