@@ -2,92 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26E4D674E41
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:41:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9172674E92
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:46:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIm0f-0000CQ-G8; Fri, 20 Jan 2023 02:40:25 -0500
+	id 1pIm0h-0000Iy-8u; Fri, 20 Jan 2023 02:40:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIm0b-0008PG-N8
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:21 -0500
+ id 1pIm0e-0000EC-Qo
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:24 -0500
 Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIm0Z-0004pU-Js
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:21 -0500
+ id 1pIm0d-0004pk-2c
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:24 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1674200419; x=1705736419;
+ t=1674200423; x=1705736423;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=ck3adrgI9AADtz7/lYYVfG9ETFGWlDw3wpKpvxh73zo=;
- b=nn68xQsT0MjwDWVhZEYoIwzaH6q5ELOBcDi1SQ/x7VKuPyS1r+mTe6Jw
- at99ng+oQbBg+mmSl805oUbiMJW4owzjiugIQ0Q289GY202aBnWAbnxNR
- 6toWE44SXOOWSzD7ooPHNIJW44jgnGBBRhkNsXAwHNnZch2vVWfzYhteX
- PKT0GN5QC6LIHlLkbaiPcTcg6cS4AumLW3oEg84QWtR8gOVoU9qXTSv5U
- 8i8Ze2WC7uIjpzNtBDDPxgtvLbYvKUu1TuiM3FkYE9wQ0KBxR2LNqWmPx
- Y3gQyP+NAaCp5rJAKN72mjW63hvx3RrYdntokyHqdbhGo/gxyoHcoJSeo w==;
-X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176717"
+ bh=3r3qd9gKr5XuyreyqrQ3c1TdaeXE99+XWhmc9m9PM2k=;
+ b=p+uLUvixkOVxQvLNJyPTuFSSyeA1rK3bce3aeYDBmPkvS5rHmyoGhsQZ
+ nU607Z4ti9+p/H6puBWlPr+IgRFuCSmpedeY6iWFk9/JjDWN3NM0Ne7oH
+ pnvm5Oc9yAF7HNcKCVvKI4ugkyFvveVNOLrE37fesZxgxxEef+qAhQgbO
+ oNjvzsapTOneM9cXbo3P9QEWQPSLMXTcMXUmEISFgSfiOXQ9HdJj/4qbA
+ JYHUw6ANbhDw91Eem17XyzUYhF4hF6p+4dRa6ZeEf2hYIYHRf30HnPLL2
+ NUoKcpxVevLV+rNh3MssBvSCfMO1xniH8lUtHrYMoOnRJETk26SxqQnT9 A==;
+X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176723"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:39:57 +0800
-IronPort-SDR: 0edKP6bEI1yvRTeAq+OhtHBbnB5fLA1g3NvoD2ycxdfM5h6dCYsOvafW38gHQoHoHojKLM6lWE
- RQ5SJPFFyjSnQARhuKB+0CIdC7YZ+AeUVeyfItuIDmoaD4djbeNN83WFbmfzDQRc9Oaq552VpZ
- OrwsVbsvfbuEht2WglRHdTDqvio5ivZ4S79yK12qGnFflwFqjCXFdo4AMXFVtjUIt0NuWpjCpZ
- bl5gFOBO4IM1h16sFAKcgup4iPABnxvPM7+JtFmq1bwSlDPTDQIjG0EfCP318tAAz6/J36PrA6
- 244=
+ by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:39:59 +0800
+IronPort-SDR: j4Rn+pXNABtmXa9IszXBJYOuGRR6M1JmRHMXaPhiHBhOBUmFTDXzMlOcrROW0BEDlrKZdsy9Dd
+ pg5PCTQSDS31qPZQmDIk9Bgb+l1zH/UOEQpekJcZiWFCA0s/miz5aBZF7BMUEd8PRK5YlM4nkv
+ Pd8EkFFbMuwkXTL1bcdmJGbLDlWe9SSdw/We0ULtrGVfo1ZKT0uMt0Q9O1qaKkW7yUN64CFAVf
+ 4pJqUXb4G1Kkc3jNe7WfJpgHnuVBy65XIDVWlvhu4KG3wzkFblGF0UzHpTdS54yvUC23ccZfkg
+ mj0=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 22:57:35 -0800
-IronPort-SDR: wz/3L9Uper/ODwpPGAq86z/LZUUPnZs1dKSK6tUlTvRkmUZTHbUbAxdPu5GQTYwom1uq81run9
- 8PGpA6mgLAbI/3CLNsgOOOifvmQaMWMOfPagach59OH2fMNVLu3mJRen1plu9HBRb8os5+TkKt
- e1v3vxlyMJy2E0kW988XFpmI0rfmi77H2YiUsL27Hkp5YgbSbUTobMolLlKEJuBM3ApgDeHMI9
- xJnZTvxBQZjEUZKQIH7thHiheVh8ZB1yvdADgXNgJASBd9MMs8Bgo5rA9csPDnNf2y7kZzQNdX
- Xbg=
+ 19 Jan 2023 22:57:37 -0800
+IronPort-SDR: Se6FfcQGWKuALdpxFqm2QOtgmh3G7Oy1U2S8AyrP1LMM02XqvepxwmPKFe+zJtUKdUMlyJlTfZ
+ R3K9+3QbL32m5OU9Ag9F+By2h5AxaxBI6fERIZHK3tvB32r49WUUdK6q+bNR1fNOMgd540445l
+ xvDa6lkiylsT5YPk681bKpLoWqCGB58W8oHfWY8JPbr7Y2lGLJkCvD5ubNiKx6i9YH1TO/FO2c
+ 0KgelqURku3d9BChq6Z59WaqEGGNv1LECWJbhMl0hW4zHhBQXLGHR/HRMI1QCYUke7SZNV0Itn
+ 0Tw=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 23:39:57 -0800
+ 19 Jan 2023 23:39:59 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NyrxT1J32z1Rwtm
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:39:57 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NyrxW0zl4z1RwqL
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:39:59 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:content-type
  :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1674200396; x=1676792397; bh=ck3adrg
- I9AADtz7/lYYVfG9ETFGWlDw3wpKpvxh73zo=; b=WlrAry3GKJhYtM+xqPahv0o
- KS2hLWLLZzLbJdY8uWJdapAoxEZV3nTlDgppLYR16CRbXK30QI5YNWbY6un4ir57
- g3bIL5z+B3kbHXoQZZoy1yTEkeEIc5HvMcmKQcemnBH/JjvoszxWavmJ56sp3Y0J
- xITo/G9/uIDIZ7x+6S/O+s5JUqaOukSoJkzwfWaoPBqtP7e+8n+2de4codsvKxSh
- LaT8+fmVHjxgHsMASOo0cFzCl+aEyjttJhv0ury1x3kyD1kajYQyfwOrX6K0MwYa
- 6YIx93UQ6uro+gtk/U5ETiwUSFxXVFclQYZ8ZTjCvIdJ5UylZdePS+mWHYPNP7g=
+ :subject:to:from; s=dkim; t=1674200398; x=1676792399; bh=3r3qd9g
+ Kr5XuyreyqrQ3c1TdaeXE99+XWhmc9m9PM2k=; b=tF2qoDQysE1A79JturiGXmU
+ aC399igVpR6TCD8ADA5t5tbgTW8mvpbrnilgEPL/JwA+jbMQm5tpGFYxv2Ao7BMv
+ 005ZN9ZHN5snVxstZk0DR3yERU4VYv8NuEcdQOaulHtKD+ZTLgpotEdo74wcUQI7
+ 5zx9aiic+vPtomqxIg6YZ+P3Wni9nCb+g0P15v//8Kukjb/GbPDQA+eeciCWbdmV
+ MU/Fb9yxsNHcS6buYpkYhIGJeL/g/UgbYB4UnTxtkxr0nArfkoYdA0rLCnphIx9Z
+ /gwJRcqUCqCg2ZcNd+E5KEAMdi//lvj8dtBXVwOLMigr/nQu+SfTYquxc0FXTsw=
  =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id 9JqW4sDyPt_p for <qemu-devel@nongnu.org>;
- Thu, 19 Jan 2023 23:39:56 -0800 (PST)
+ port 10026) with ESMTP id 3UL9RZko1U4V for <qemu-devel@nongnu.org>;
+ Thu, 19 Jan 2023 23:39:58 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NyrxQ5yzjz1RvLy;
- Thu, 19 Jan 2023 23:39:54 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NyrxS6v8qz1RvTp;
+ Thu, 19 Jan 2023 23:39:56 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bin Meng <bmeng@tinylab.org>, Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 17/37] hw/riscv/boot.c: exit early if filename is NULL in load
- functions
-Date: Fri, 20 Jan 2023 17:38:53 +1000
-Message-Id: <20230120073913.1028407-18-alistair.francis@opensource.wdc.com>
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng@tinylab.org>
+Subject: [PULL 18/37] hw/riscv/spike.c: load initrd right after
+ riscv_load_kernel()
+Date: Fri, 20 Jan 2023 17:38:54 +1000
+Message-Id: <20230120073913.1028407-19-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
 References: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
@@ -121,60 +120,80 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-riscv_load_firmware(), riscv_load_initrd() and riscv_load_kernel() works
-under the assumption that a 'filename' parameter is always not NULL.
+This will make the code more in line with what the other boards are
+doing. We'll also avoid an extra check to machine->kernel_filename since
+we already checked that before executing riscv_load_kernel().
 
-This is currently the case since all callers of these functions are
-checking for NULL before calling them. Add an g_assert() to make sure
-that a NULL value in these cases are to be considered a bug.
-
-Suggested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20230102115241.25733-5-dbarboza@ventanamicro.com>
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
+Message-Id: <20230102115241.25733-6-dbarboza@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/riscv/boot.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ hw/riscv/spike.c | 31 +++++++++++++++----------------
+ 1 file changed, 15 insertions(+), 16 deletions(-)
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 98b80af51b..31aa3385a0 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -153,6 +153,8 @@ target_ulong riscv_load_firmware(const char *firmware=
-_filename,
-     uint64_t firmware_entry, firmware_end;
-     ssize_t firmware_size;
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 25c5420ee6..004dfb2d5b 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -302,6 +302,10 @@ static void spike_board_init(MachineState *machine)
+         g_free(firmware_name);
+     }
 =20
-+    g_assert(firmware_filename !=3D NULL);
++    /* Create device tree */
++    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
++               riscv_is_32bit(&s->soc[0]), htif_custom_base);
 +
-     if (load_elf_ram_sym(firmware_filename, NULL, NULL, NULL,
-                          &firmware_entry, NULL, &firmware_end, NULL,
-                          0, EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
-@@ -177,6 +179,8 @@ target_ulong riscv_load_kernel(const char *kernel_fil=
-ename,
- {
-     uint64_t kernel_load_base, kernel_entry;
+     /* Load kernel */
+     if (machine->kernel_filename) {
+         kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc[0],
+@@ -310,6 +314,17 @@ static void spike_board_init(MachineState *machine)
+         kernel_entry =3D riscv_load_kernel(machine->kernel_filename,
+                                          kernel_start_addr,
+                                          htif_symbol_callback);
++
++        if (machine->initrd_filename) {
++            hwaddr start;
++            hwaddr end =3D riscv_load_initrd(machine->initrd_filename,
++                                           machine->ram_size, kernel_ent=
+ry,
++                                           &start);
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
++                                  "linux,initrd-start", start);
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd=
+-end",
++                                  end);
++        }
+     } else {
+        /*
+         * If dynamic firmware is used, it doesn't know where is the next=
+ mode
+@@ -318,22 +333,6 @@ static void spike_board_init(MachineState *machine)
+         kernel_entry =3D 0;
+     }
 =20
-+    g_assert(kernel_filename !=3D NULL);
-+
-     /*
-      * NB: Use low address not ELF entry point to ensure that the fw_dyn=
-amic
-      * behaviour when loading an ELF matches the fw_payload, fw_jump and=
- BBL
-@@ -209,6 +213,8 @@ hwaddr riscv_load_initrd(const char *filename, uint64=
-_t mem_size,
- {
-     ssize_t size;
-=20
-+    g_assert(filename !=3D NULL);
-+
-     /*
-      * We want to put the initrd far enough into RAM that when the
-      * kernel is uncompressed it will not clobber the initrd. However
+-    /* Create device tree */
+-    create_fdt(s, memmap, machine->ram_size, machine->kernel_cmdline,
+-               riscv_is_32bit(&s->soc[0]), htif_custom_base);
+-
+-    /* Load initrd */
+-    if (machine->kernel_filename && machine->initrd_filename) {
+-        hwaddr start;
+-        hwaddr end =3D riscv_load_initrd(machine->initrd_filename,
+-                                       machine->ram_size, kernel_entry,
+-                                       &start);
+-        qemu_fdt_setprop_cell(machine->fdt, "/chosen",
+-                              "linux,initrd-start", start);
+-        qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd-end=
+",
+-                              end);
+-    }
+-
+     /* Compute the fdt load address in dram */
+     fdt_load_addr =3D riscv_load_fdt(memmap[SPIKE_DRAM].base,
+                                    machine->ram_size, machine->fdt);
 --=20
 2.39.0
 
