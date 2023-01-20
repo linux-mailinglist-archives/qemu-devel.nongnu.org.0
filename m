@@ -2,94 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29876674E4C
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:43:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 217BF674E56
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:43:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIm0L-0007wj-A1; Fri, 20 Jan 2023 02:40:05 -0500
+	id 1pIm0Q-0007xf-Im; Fri, 20 Jan 2023 02:40:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIm0H-0007vc-7O
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:01 -0500
+ id 1pIm0P-0007xN-8R
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:09 -0500
 Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIm0F-0004qg-HE
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:00 -0500
+ id 1pIm0N-0004pU-5p
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1674200399; x=1705736399;
+ t=1674200407; x=1705736407;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=YFEhYOIOyI5zToAKjlCL4h8TbBuXrF043NOmLfxNuWk=;
- b=Zbs4MAA65KUK5UZ5ON/Cam9CQb1/JpMwVXb7UKsAtK/IXO2nyo6ptD9P
- xJMq1KdKBdLfNc04hh1jDrx2LbdYX1vzzuj+C8YG7WRDJxomuZB7W4Ic7
- RAksYzDdPTrfL4NoLhBrBfw1JPl86jfTix/R4RarA0Fu+AEG57EbvKixg
- bXBFP34RUX6wLHRoO86KOjWUXlXqXf+Q4+PNBXUKquB8jCkO0PNxzkK82
- emDDnVmRsv3V8YstGv+26DI/1PdDj/rxlIhvgguyqgT1tfgAPIe6OSnqO
- m6y0G4MAQYsjMQj7t3qtOpmGiswaWxhk3XnC09jxHY+5Si4szTH3Pi8j8 A==;
-X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176701"
+ bh=rawTC32xlC8ut2sfg3SnNJDmDpHewXm7PUHLZFwL2D4=;
+ b=JjxhijXd9fwBVClu6JBnkdFdH+ELLPugP7mGMuRQBYt6RAhzhkRgpnE4
+ J/SK7seTORSiijOU5Xtdz/ivWbb9PesOZTCk1EaOAH4ACMdPtaMO2guct
+ NO3R/zqWrwL3jlW9QaV/qVo+PBpaUGl4miV6WWy+R+Ryyxh0hzJtKzzrs
+ oKE3OFYEUlXBknP0SjNm+EE1GgYXLhsp9pyneo27Un+o2ccaZuYDergrx
+ Ni47Z0CTe4fG1/xWklBYnzsrU/NahqCENn38JBjNLPiALokj6Gu62xBrC
+ mUgA9DwVXsTy8sminsbwJRjbXfxh3SN/AAmvErJO/67gx9y4lDNGBhqio g==;
+X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176703"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:39:48 +0800
-IronPort-SDR: ccUE5byUwjWHbJWuMKKu92ZiCq5ufQjIud9GgsVKlQyMudu2N55H/ZW8078RBrM8XzvA890BQt
- vsufKQk8NpuzBEOuuesxi/Z1dkbp/8qEtG3fGciIV7NePwezWdxR5txM/L33dw0k7nQzyuVLVN
- MO4l1z8hdSuihlXqb0/j3+/vP1aMazTvVu82c4dAwHPMmJ0udqODDj8NhBnGNZXhm3NB0/rLoV
- TGi9w/KwyWOifPgZ10mn7GB+fWWegfOf/55J3jbbUQJQKEmSoz2qOb3dLtOy3rtgLiCCDrPJus
- sps=
+ by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:39:51 +0800
+IronPort-SDR: 6CvmtfgV5UaOgY+ngsUaymtoniESM7O3IlAGW4HHbF4fCWQ6pW2TVuyfuwALK8lQcZNs81Kz+0
+ nghSWtO/3vCH39j8Hd/nB3dPP0JFNpGcGoJXy2QMqomttOfrEqOuaTBvJShneOIJCkIId51ufZ
+ +DzmOMArg+ePnzIuKX/FE6hGnr3PiVlmyFnsUKrcbJGwLXAPXGLDCQWuWZu3GOdJTRt4rBMH+Y
+ +9pVULcJOfXmr3VdRobF3nNdzd9EJ88rxOTI/p8OoztI1gZVDJxTXt6vgyYCZh3FgwukwdDvZG
+ 7o8=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 22:57:26 -0800
-IronPort-SDR: alXZJJy5ISLJTDeDPMLljP6eTByRS7wca88EEOfLRjH2l/NC0KhTY0ysO98WzhttVSPGp3f4Gw
- 9tafDP3jxBzYrEJS9BPFWa+7DNLpLCY2Ngw5qtFjUMXoybxPrba7HyhQutgZ2eArmRSmWgorPz
- Cd2CS17BWHduYWBXS4/KePpexNmzcc+IveSFNH9AjXV6eWvODaSfaePZBKQqfYp8F/sXgyKiII
- asbJsPHsopaEtDyA3UnFBksrvvEFzKCpX6IpAYtQO/+VguKdFU9tiXAlB8iFhuE+rNOE+ZZpgh
- Uqg=
+ 19 Jan 2023 22:57:29 -0800
+IronPort-SDR: smypVSQttYLFfXIrqpXsciYeEP26/5+4nqjqBObkfAhENTtHij8hO2MDbZr8Kq96Db5vg6TUVh
+ 0rq+sVUENOWaOrDFZorPWac71d7mVqE6HJI92O+Yul6cLPr2iYOxofbNrXqOwY+B6v5ltzzLYb
+ +Taob41juqMwBQ/K19wNVNGTYvwJfX5Ma6AJk5jO95GUWLCSOQX2HYzMW1nPATmse1Bq382GTS
+ 6xRsH0H//78tuzfH09Rjm/U55vCnAEaRKSGtrkzD9EI/JCG2uVvqZmfn5TAzGRvCbPaV89LsA3
+ PPc=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 23:39:48 -0800
+ 19 Jan 2023 23:39:51 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NyrxH6vlcz1RvTr
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:39:47 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NyrxM0Skxz1RwtC
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:39:51 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1674200387; x=1676792388; bh=YFEhYOIOyI5zToAKjl
- CL4h8TbBuXrF043NOmLfxNuWk=; b=rJ05VvVBzMkraoiL0guSLVvbJn5Myz1Odo
- OGajQqzQKJSaVp+Hd9RHQNDSrVvMba7iXtcqnJ5w+Enw2b2t08A0/Un+Kb+r9Ya0
- KCaZ4AGYGqCvBNAO0n8zy5uNK/eFPy+ALslg/K0fHYjotjZ+lznF0oXdKBiCS35d
- eAGDw1XNPBrCQ8au0y0YYTckCM54t7EixuAtRpRjyY3vlKu4g0+YsW9nPbNT7Ec5
- GOuJQaTGOZZws1VtDyTRE7HF0NimkMXfzVDLWOPQL8XNP+IfZAV4BMAPN8Pikh7r
- Rp81YR+ohXIZ+o795QHxgZuJugFkbeSSuukXRtREkYCFVtwUNMFw==
+ opensource.wdc.com; h=content-transfer-encoding:content-type
+ :mime-version:references:in-reply-to:x-mailer:message-id:date
+ :subject:to:from; s=dkim; t=1674200390; x=1676792391; bh=rawTC32
+ xlC8ut2sfg3SnNJDmDpHewXm7PUHLZFwL2D4=; b=rA5kSpC385/+7wtb1H72mlL
+ QZuPIHf62Kila5ebywgPsUG/cvD+bdMiu2ZlaS8dr+xMmzDUHeFCzAKu9fR3lwdV
+ Q/VN+IPpDEzIqYBh09OjVZ2ibcwiT+zRhJRlPjlJ1hnYKvi0y/0SqUqSC2cTMoEu
+ AbwIl3Xi8AJxvZ9KjWweP/zVk8cwCdJatj++EMZH8S0xAuPbf/cG3txhEeAyPkse
+ Rj86/ErcKUYpEF0M2px7zxX4MUCSYxTq2ujB2YtjU/WNcHo3zt8ghBHzYfdfJRW4
+ +auGJKb6tKPdZp7T3rRvEQzcQz+ldhdlUW2bjEItkypXuDF4UVrtdd+WNCTgQXw=
+ =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id SWl5K6zJnUSf for <qemu-devel@nongnu.org>;
- Thu, 19 Jan 2023 23:39:47 -0800 (PST)
+ port 10026) with ESMTP id hi8DXKak1l0T for <qemu-devel@nongnu.org>;
+ Thu, 19 Jan 2023 23:39:50 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NyrxF5tK3z1RvTp;
- Thu, 19 Jan 2023 23:39:45 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NyrxJ0Tgdz1Rwtl;
+ Thu, 19 Jan 2023 23:39:47 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
-Cc: alistair23@gmail.com, Dongxue Zhang <elta.era@gmail.com>,
- LIU Zhiwei <zhiwe_liu@linux.alibaba.com>,
- Frank Chang <frank.chang@sifive.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 13/37] target/riscv/cpu.c: Fix elen check
-Date: Fri, 20 Jan 2023 17:38:49 +1000
-Message-Id: <20230120073913.1028407-14-alistair.francis@opensource.wdc.com>
+Cc: alistair23@gmail.com, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Cleber Rosa <crosa@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Bin Meng <bmeng@tinylab.org>, Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 14/37] tests/avocado: add RISC-V OpenSBI boot test
+Date: Fri, 20 Jan 2023 17:38:50 +1000
+Message-Id: <20230120073913.1028407-15-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
 References: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=216.71.153.144;
  envelope-from=prvs=37747d9ec=alistair.francis@opensource.wdc.com;
@@ -116,38 +118,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Dongxue Zhang <elta.era@gmail.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-The elen check should be cpu->cfg.elen in range [8, 64].
+This test is used to do a quick sanity check to ensure that we're able
+to run the existing QEMU FW image.
 
-Signed-off-by: Dongxue Zhang <elta.era@gmail.com>
-Reviewed-by: LIU Zhiwei <zhiwe_liu@linux.alibaba.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <167236721596.15277.2653405273227256289-0@git.sr.ht>
-[ Changes by AF:
- - Tidy up commit message
-]
+'sifive_u', 'spike' and 'virt' riscv64 machines, and 'sifive_u' and
+'virt' 32 bit machines are able to run the default RISCV64_BIOS_BIN |
+RISCV32_BIOS_BIN firmware with minimal options.
+
+The riscv32 'spike' machine isn't bootable at this moment, requiring an
+OpenSBI fix [1] and QEMU side changes [2]. We could just leave at that
+or add a 'skip' test to remind us about it. To work as a reminder that
+we have a riscv32 'spike' test that should be enabled as soon as OpenSBI
+QEMU rom receives the fix, we're adding a 'skip' test:
+
+(06/18) tests/avocado/riscv_opensbi.py:RiscvOpenSBI.test_riscv32_spike:
+        SKIP: requires OpenSBI fix to work
+
+[1] https://patchwork.ozlabs.org/project/opensbi/patch/20221226033603.186=
+0569-1-bmeng@tinylab.org/
+[2] https://patchwork.ozlabs.org/project/qemu-devel/list/?series=3D334159
+
+Cc: Cleber Rosa <crosa@redhat.com>
+Cc: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+Reviewed-by: Bin Meng <bmeng@tinylab.org>
+Tested-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Acked-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20230102115241.25733-2-dbarboza@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/avocado/riscv_opensbi.py | 65 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 65 insertions(+)
+ create mode 100644 tests/avocado/riscv_opensbi.py
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index cc75ca7667..a2e6238bd7 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -882,7 +882,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error=
- **errp)
-                         "Vector extension ELEN must be power of 2");
-                 return;
-             }
--            if (cpu->cfg.elen > 64 || cpu->cfg.vlen < 8) {
-+            if (cpu->cfg.elen > 64 || cpu->cfg.elen < 8) {
-                 error_setg(errp,
-                         "Vector extension implementation only supports E=
-LEN "
-                         "in the range [8, 64]");
+diff --git a/tests/avocado/riscv_opensbi.py b/tests/avocado/riscv_opensbi=
+.py
+new file mode 100644
+index 0000000000..e02f0d404a
+--- /dev/null
++++ b/tests/avocado/riscv_opensbi.py
+@@ -0,0 +1,65 @@
++# OpenSBI boot test for RISC-V machines
++#
++# Copyright (c) 2022, Ventana Micro
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++
++from avocado_qemu import QemuSystemTest
++from avocado import skip
++from avocado_qemu import wait_for_console_pattern
++
++class RiscvOpenSBI(QemuSystemTest):
++    """
++    :avocado: tags=3Daccel:tcg
++    """
++    timeout =3D 5
++
++    def boot_opensbi(self):
++        self.vm.set_console()
++        self.vm.launch()
++        wait_for_console_pattern(self, 'Platform Name')
++        wait_for_console_pattern(self, 'Boot HART MEDELEG')
++
++    @skip("requires OpenSBI fix to work")
++    def test_riscv32_spike(self):
++        """
++        :avocado: tags=3Darch:riscv32
++        :avocado: tags=3Dmachine:spike
++        """
++        self.boot_opensbi()
++
++    def test_riscv64_spike(self):
++        """
++        :avocado: tags=3Darch:riscv64
++        :avocado: tags=3Dmachine:spike
++        """
++        self.boot_opensbi()
++
++    def test_riscv32_sifive_u(self):
++        """
++        :avocado: tags=3Darch:riscv32
++        :avocado: tags=3Dmachine:sifive_u
++        """
++        self.boot_opensbi()
++
++    def test_riscv64_sifive_u(self):
++        """
++        :avocado: tags=3Darch:riscv64
++        :avocado: tags=3Dmachine:sifive_u
++        """
++        self.boot_opensbi()
++
++    def test_riscv32_virt(self):
++        """
++        :avocado: tags=3Darch:riscv32
++        :avocado: tags=3Dmachine:virt
++        """
++        self.boot_opensbi()
++
++    def test_riscv64_virt(self):
++        """
++        :avocado: tags=3Darch:riscv64
++        :avocado: tags=3Dmachine:virt
++        """
++        self.boot_opensbi()
 --=20
 2.39.0
 
