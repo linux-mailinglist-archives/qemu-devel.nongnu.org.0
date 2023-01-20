@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2F7674D9C
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:03:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C4DA674D98
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:03:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIlPI-0000CZ-5s; Fri, 20 Jan 2023 02:01:48 -0500
+	id 1pIlOu-0008Qz-Ue; Fri, 20 Jan 2023 02:01:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlP4-00005j-B7
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:01:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlP2-0005Hv-Iy
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:01:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674198091;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=UmOkepH9Z50W+1dDWCybW72eYrz1ePmOIKDmLJag9i0=;
- b=iUtl7S+xV+Hl39BV1bqa+EFPTcXw1j77F/VdCUDWUTo30ZtENHPujerUw0KF+8f0YOWdxN
- P8qU0UdPkK5T4suqwayuiheg7IriUyxKjHUcjotXPlCuKBNSfurvggPa0gtF1jUxQrSU38
- WumP7KAgGgEDyqzbTCjahGVzgrz2PpY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-pn7O9HZXOO6qNkGsRyXLcQ-1; Fri, 20 Jan 2023 02:01:25 -0500
-X-MC-Unique: pn7O9HZXOO6qNkGsRyXLcQ-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 16E9185A588;
- Fri, 20 Jan 2023 07:01:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E71FE1759E;
- Fri, 20 Jan 2023 07:01:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 8DA3121E669F; Fri, 20 Jan 2023 08:01:22 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 05/12] coroutine: Use Coroutine typedef name instead of
- structure tag
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIlOr-0008Ph-Gg
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:01:21 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIlOp-0005Dm-Ep
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:01:20 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003d9712b29d2so5178246wmb.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:01:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=RXYeRnu/87Mvcfk9IZAc+Dm78jV8PD58MD1by96OlcI=;
+ b=JXYuTJ7PTyp31jbxvPsjZ67r5SqSnMKvR32tfqhfdfZr7wqlpsc10YCihuWRM2GVwV
+ VasjfEOYsX81JsMrnFqixOLMo2miJVwfYcALeCrDWCGxIGz9+LK5yFZW6KrKNV73SxNp
+ TYH7EjGqDQ09JSWKWOHynz+WicWN1VhpyWVQddRY0oCKBUF3M5oK9/NVYiCoEWOYPrD9
+ 2I/kkFunbo+hF3OR2YhE+oKCLdbbvkxZilMU9sDr7ps1507Sq8CI2+Dyn1VZoLAIevm6
+ WmpLVUbbe+VZDFrOXhP3jyV8qBG/waA9XsEF5GGsQQKCSKVoUwi1RqYCd/dYP5YSJ6Vf
+ TMUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=RXYeRnu/87Mvcfk9IZAc+Dm78jV8PD58MD1by96OlcI=;
+ b=sGBG+bxDguHZ9eHRS93ue+7hMp/JDUfGdvns1/sKnMX60RHY3iY6frCYxS56T7Nh5d
+ h0KZNGqWPmKXprcl11MssHr1Ib85DaPtFrn7kDBqnuCqFKgzua6MMHxLMPu4QuwY3JyO
+ AwTekHPKt818blKJxwqaKfIUVHCt1voHungj+pUw5zEKNMTJGsYhZq/utfRf2FGHiul3
+ /3nE8xWVoTqvtfXIDRN8VDt2riHo/9xApkdIM4FirppWcm4utxLbHYwX69IqZbbjSJ+w
+ 3rcydZEbiiNdJgmouQgVZL/Jkif0DZebZk8RYPyOl9hGFTdx+1WRaKRb1OyaWeEjkVTA
+ H9Zw==
+X-Gm-Message-State: AFqh2kr/4HN+fWbUr6+nfSECHxRkmZbBY1RaojSONGioPZe2AdAX/oWK
+ ArUhOQfKZRX14+Coze8E3LPiVA==
+X-Google-Smtp-Source: AMrXdXtBv6zlPIzI7+xxUxF5fu5QMZpPACWoxqtwtxIeCT/8ikExBMJHk5LGx8c/r35H67gWxLfvzg==
+X-Received: by 2002:a05:600c:4e93:b0:3db:d3f:a91f with SMTP id
+ f19-20020a05600c4e9300b003db0d3fa91fmr10640560wmq.23.1674198077576; 
+ Thu, 19 Jan 2023 23:01:17 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ d19-20020a05600c34d300b003a6125562e1sm1287281wmq.46.2023.01.19.23.01.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 23:01:17 -0800 (PST)
+Message-ID: <4410fea1-e463-7445-da9e-ea555c335b96@linaro.org>
 Date: Fri, 20 Jan 2023 08:01:15 +0100
-Message-Id: <20230120070122.3982588-6-armbru@redhat.com>
-In-Reply-To: <20230120070122.3982588-1-armbru@redhat.com>
-References: <20230120070122.3982588-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 2/2] log: remove unneeded new line
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ QEMU Trivial <qemu-trivial@nongnu.org>
+References: <20230119214033.600FB74645F@zero.eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230119214033.600FB74645F@zero.eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,76 +90,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-Id: <20221221131435.3851212-6-armbru@redhat.com>
----
- include/block/aio.h | 7 +++----
- util/async.c        | 4 ++--
- 2 files changed, 5 insertions(+), 6 deletions(-)
+On 19/1/23 22:40, BALATON Zoltan wrote:
+> The help text of the -d plugin option has a new line at the end which
+> is not needed as one is added automatically. Fixing it removes the
+> unexpected empty line in -d help output.
+> 
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>   util/log.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/block/aio.h b/include/block/aio.h
-index 3a546e7515..8fba6a3584 100644
---- a/include/block/aio.h
-+++ b/include/block/aio.h
-@@ -52,7 +52,6 @@ typedef void QEMUBHFunc(void *opaque);
- typedef bool AioPollFn(void *opaque);
- typedef void IOHandler(void *opaque);
- 
--struct Coroutine;
- struct ThreadPool;
- struct LinuxAioState;
- struct LuringState;
-@@ -694,7 +693,7 @@ static inline bool aio_node_check(AioContext *ctx, bool is_external)
-  * is the context in which the coroutine is running (i.e. the value of
-  * qemu_get_current_aio_context() from the coroutine itself).
-  */
--void aio_co_schedule(AioContext *ctx, struct Coroutine *co);
-+void aio_co_schedule(AioContext *ctx, Coroutine *co);
- 
- /**
-  * aio_co_reschedule_self:
-@@ -717,7 +716,7 @@ void coroutine_fn aio_co_reschedule_self(AioContext *new_ctx);
-  * context.  The coroutine must not be entered by anyone else while
-  * aio_co_wake() is active.
-  */
--void aio_co_wake(struct Coroutine *co);
-+void aio_co_wake(Coroutine *co);
- 
- /**
-  * aio_co_enter:
-@@ -726,7 +725,7 @@ void aio_co_wake(struct Coroutine *co);
-  *
-  * Enter a coroutine in the specified AioContext.
-  */
--void aio_co_enter(AioContext *ctx, struct Coroutine *co);
-+void aio_co_enter(AioContext *ctx, Coroutine *co);
- 
- /**
-  * Return the AioContext whose event loop runs in the current thread.
-diff --git a/util/async.c b/util/async.c
-index 14d63b3091..0657b75397 100644
---- a/util/async.c
-+++ b/util/async.c
-@@ -640,7 +640,7 @@ void coroutine_fn aio_co_reschedule_self(AioContext *new_ctx)
-     }
- }
- 
--void aio_co_wake(struct Coroutine *co)
-+void aio_co_wake(Coroutine *co)
- {
-     AioContext *ctx;
- 
-@@ -653,7 +653,7 @@ void aio_co_wake(struct Coroutine *co)
-     aio_co_enter(ctx, co);
- }
- 
--void aio_co_enter(AioContext *ctx, struct Coroutine *co)
-+void aio_co_enter(AioContext *ctx, Coroutine *co)
- {
-     if (ctx != qemu_get_current_aio_context()) {
-         aio_co_schedule(ctx, co);
--- 
-2.39.0
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
 
