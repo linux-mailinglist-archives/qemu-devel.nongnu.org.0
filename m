@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C25D3675410
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:03:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53E7E67540F
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:03:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIq6p-0007rk-6f; Fri, 20 Jan 2023 07:03:03 -0500
+	id 1pIq6k-0007iK-6i; Fri, 20 Jan 2023 07:03:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pIq66-0007am-8L
+ id 1pIq66-0007al-Bv
  for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:02:24 -0500
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233])
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pIq5b-0003K6-2Y
+ id 1pIq5b-0003KE-2f
  for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:01:52 -0500
-Received: by mail-oi1-x233.google.com with SMTP id s66so4207796oib.7
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 04:01:41 -0800 (PST)
+Received: by mail-oi1-x22f.google.com with SMTP id p185so4225913oif.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 04:01:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vgHjRenA7NpaqR457Q9oYFnXWiPC6fA1CGCdduZQheo=;
- b=B4INXknfQ+kZIBIEu0ua2pmcorJUogDHaPMotAK+NXmrQeljs2UndxP88yowsJB4VA
- 8gko7OAq1lTC96tiviZfJW7birTkrq2d5/0KXpdUOwfKOGRH50QRC7u5tdNQrxk99fOf
- YZ3blYg1ixJyG2hr5aznSRoqvkeH85IFNS+dnkpKO6j0YfHbdCiuE7hl/2GSIEQQnF7h
- MKJh55UALK9dF4TtKSkEOT4ZafQJ2oNGprEgwGhqntrk/jdNhqtR3avZ2lHDYJWM4nSw
- 7qpQsr4uq20ZgNXex/tPOT+EqwGoJ8YoZ50U6ZCLPFl6QBqySlc7QlDVo4tDghRry/ZU
- atAA==
+ bh=v1tITeWldcCh2KaEUnv+qt9JQH+1nyZoijghT4qjLpo=;
+ b=crZQ2N+xemXhFC5NoJV2CU+2gJ2Nl3JYn9itWyWP4SGMhJ+CvkNxaLkgkHnEw+bWqn
+ lKQqW0UhVUAutgYArtqy6Uj3MRKqDuriAlzR925/ivpgHmQgd99DGGCOAunxw+S7R+ut
+ yi2CtPtqoje9qQHOu9pweDDbQSXpnCoCYlGk+F4QtqPtmRCQsjx8ge8XCp2o6VAonqOs
+ YaNG/vSc7/TbSgO7MnJ2a6I8x8XqImgX/sBylEDPH/DR5PZM7u43i9yge70Te8oQ8E6Y
+ kBaGWcl7YIucgKia+vgv4QFWCsoHCASfX+nQXEI2XIf7JDd5ZQQBTnN4Sj+rhV0BGRI5
+ 6yYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vgHjRenA7NpaqR457Q9oYFnXWiPC6fA1CGCdduZQheo=;
- b=4xX6eGn3ra6/LGAE8LktDVhCJEcGv3bVRdHxcg2Zoz/6K5Y0UDHS1z/TKuP1qbhUT4
- fYDlmL3jh2sqm5KejqfSN4uuTilp+xYJuxSoNj+NRb67mgUef/CacueHQocPkpsSBZy5
- RjCMtPJYWT+6zOoxUDygJ0eLfEYvzg2e0kM5wUx2rf+vfGYhmmEumfRnMBS4iOSLjuBh
- sXDJ+T7EDY6iJtps2O9UuHwF3IVpwzRxFzFh8LgVlk3dRbv/Lx4VF7/kDFqXYTiUmxSy
- kbeiek1eqv6sKLNK1l880lT/r+e0VjP3ffpf2K4sYAKod5N//Zf1Y3rKi1qb1fW7qYCH
- zUFA==
-X-Gm-Message-State: AFqh2krQiuvup14OrkdTYceNGAZ6QMxbOvQkzl6tMD5yhUJJE3B4yB6H
- Xz4ymO/LUbQ8+sEsZsE3Qjk2O0N5kMwNJO4iEms=
-X-Google-Smtp-Source: AMrXdXtWlDpRfHt7K7j8Q03T1THev7IoQOCkEjjYuz1A8TOV+yHBRaPurdc4z2G6nIQWGg9K5pxFHg==
-X-Received: by 2002:a54:4e98:0:b0:364:c003:2909 with SMTP id
- c24-20020a544e98000000b00364c0032909mr5907786oiy.58.1674216100615; 
- Fri, 20 Jan 2023 04:01:40 -0800 (PST)
+ bh=v1tITeWldcCh2KaEUnv+qt9JQH+1nyZoijghT4qjLpo=;
+ b=N8xhJY9sOhmnQPXGhZdWpioNE55pRYAmmBWotMZxWTzS/52XIHHMzZR0omhgD5lxz2
+ 6ZjV9SHtVsD0WVlQWOkVU8p1lIYHnxVUHgAs8bW4vMRw814MEDCK6FrMFQL1TfVDj9zL
+ HXZP0gh+juKWCHJSEyKcGtopi2AZRl0rWYW6T6jyWtWu68/Cg3AdCao/ab5Gps9PyR8V
+ q4CalapryOej+gzFq9A2cT/xjrdhMWo8U3v49/ONO/1cHRqW91ZkyZXL52rd04CbTAj/
+ XvAPY/ejl6+mSmNNLC86kqLuYkbTFmH3tj7Unohp3vD7cbHnMUhv7WhmL5fYT1DkM5nn
+ Kpag==
+X-Gm-Message-State: AFqh2kohWO1DVi+0WsoIVbSTSxu7c82oYDwA98QkxItlo/GbZhF0qt+K
+ 5bN7TIh5ALAgs+mg22EpY8nnUB41eOk5H4Zh/sI=
+X-Google-Smtp-Source: AMrXdXtz8qX5MGIgdUG0OzVs31Sx76q+Wq6XGmC/JOIrQlOazLfyu+/yKTcAEWr+mINxMtX3e1snqQ==
+X-Received: by 2002:a05:6808:192a:b0:364:533d:8469 with SMTP id
+ bf42-20020a056808192a00b00364533d8469mr9269624oib.24.1674216103052; 
+ Fri, 20 Jan 2023 04:01:43 -0800 (PST)
 Received: from grind.dc1.ventanamicro.com ([191.17.222.2])
  by smtp.gmail.com with ESMTPSA id
- o66-20020acaf045000000b003645ec41412sm9946836oih.27.2023.01.20.04.01.38
+ o66-20020acaf045000000b003645ec41412sm9946836oih.27.2023.01.20.04.01.40
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 04:01:40 -0800 (PST)
+ Fri, 20 Jan 2023 04:01:42 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Bin Meng <bin.meng@windriver.com>
-Subject: [RFC PATCH 1/2] hw/sd/sd.c: add sd_card_powered_up()
-Date: Fri, 20 Jan 2023 09:01:32 -0300
-Message-Id: <20230120120133.666993-2-dbarboza@ventanamicro.com>
+Subject: [RFC PATCH 2/2] hw/sd: skip double power-up in sd_vmstate_pre_load()
+Date: Fri, 20 Jan 2023 09:01:33 -0300
+Message-Id: <20230120120133.666993-3-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120120133.666993-1-dbarboza@ventanamicro.com>
 References: <20230120120133.666993-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::233;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x233.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,55 +92,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We're going to add another verification with CARD_POWER_UP. Do a helper
-to make the code easier to follow.
+At this moment any migration with the RISC-V sifive_u machine
+fails with the following error:
+
+qemu-system-riscv64: ../hw/sd/sd.c:297: sd_ocr_powerup: Assertion
+`!FIELD_EX32(sd->ocr, OCR, CARD_POWER_UP)' failed.
+
+The assert was introduced by dd26eb43337a ("hw/sd: model a power-up
+delay, as a workaround for an EDK2 bug"). It introduced a delayed timer
+of 0.5ms to power up the card after the first ACMD41 command. The assert
+prevents the card from being turned on twice.
+
+When migrating a machine that uses a sd card, e.g. RISC-V sifive_u, the
+card is turned on during machine_init() in both source and destination
+hosts. When the migration stream finishes in the destination, the
+pre_load() hook will attempt to turn on the card before loading its
+vmstate. The assert() is always going to hit because the card was
+already on.
+
+Change sd_vmstate_pre_load() to check first if the sd card is turned on
+before executing a sd_ocr_powerup() and triggering the assert.
 
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 ---
- hw/sd/sd.c | 11 ++++++++---
- 1 file changed, 8 insertions(+), 3 deletions(-)
+ hw/sd/sd.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
 
 diff --git a/hw/sd/sd.c b/hw/sd/sd.c
-index da5bdd134a..bd88c1a8f0 100644
+index bd88c1a8f0..4add719643 100644
 --- a/hw/sd/sd.c
 +++ b/hw/sd/sd.c
-@@ -289,12 +289,17 @@ FIELD(OCR, CARD_POWER_UP,              31,  1)
-                                | R_OCR_CARD_CAPACITY_MASK \
-                                | R_OCR_CARD_POWER_UP_MASK)
- 
-+static bool sd_card_powered_up(SDState *sd)
-+{
-+    return FIELD_EX32(sd->ocr, OCR, CARD_POWER_UP);
-+}
-+
- static void sd_ocr_powerup(void *opaque)
+@@ -664,11 +664,19 @@ static int sd_vmstate_pre_load(void *opaque)
  {
      SDState *sd = opaque;
  
-     trace_sdcard_powerup();
--    assert(!FIELD_EX32(sd->ocr, OCR, CARD_POWER_UP));
-+    assert(!sd_card_powered_up(sd));
+-    /* If the OCR state is not included (prior versions, or not
++    /*
++     * If the OCR state is not included (prior versions, or not
+      * needed), then the OCR must be set as powered up. If the OCR state
+      * is included, this will be replaced by the state restore.
++     *
++     * However, there's a chance that the board will powerup the SD
++     * before reaching INMIGRATE state in the destination host.
++     * Powering up the SD again in this case will cause an assert
++     * inside sd_ocr_powerup(). Skip sd_ocr_powerup() in this case.
+      */
+-    sd_ocr_powerup(sd);
++    if (!sd_card_powered_up(sd)) {
++        sd_ocr_powerup(sd);
++    }
  
-     /* card power-up OK */
-     sd->ocr = FIELD_DP32(sd->ocr, OCR, CARD_POWER_UP, 1);
-@@ -640,7 +645,7 @@ static bool sd_ocr_vmstate_needed(void *opaque)
-     SDState *sd = opaque;
- 
-     /* Include the OCR state (and timer) if it is not yet powered up */
--    return !FIELD_EX32(sd->ocr, OCR, CARD_POWER_UP);
-+    return !sd_card_powered_up(sd);
+     return 0;
  }
- 
- static const VMStateDescription sd_ocr_vmstate = {
-@@ -1616,7 +1621,7 @@ static sd_rsp_type_t sd_app_command(SDState *sd,
-          * UEFI, which sends an initial enquiry ACMD41, but
-          * assumes that the card is in ready state as soon as it
-          * sees the power up bit set. */
--        if (!FIELD_EX32(sd->ocr, OCR, CARD_POWER_UP)) {
-+        if (!sd_card_powered_up(sd)) {
-             if ((req.arg & ACMD41_ENQUIRY_MASK) != 0) {
-                 timer_del(sd->ocr_power_timer);
-                 sd_ocr_powerup(sd);
 -- 
 2.39.0
 
