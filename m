@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 214F6675012
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 10:00:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32C9A675023
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 10:04:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pInFx-0006fI-Oq; Fri, 20 Jan 2023 04:00:17 -0500
+	id 1pInJ2-00089n-Ki; Fri, 20 Jan 2023 04:03:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pInFr-0006eG-FC
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 04:00:13 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pInID-0007wB-0m
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 04:02:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pInFm-0003ml-0B
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 04:00:11 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pInIB-0004MV-Jz
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 04:02:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674205205;
+ s=mimecast20190719; t=1674205354;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qakjVd27pCWMfxKREO/DwNWWRN9q594Ck2VyJC6l+CU=;
- b=OZlQcnCCbuMRo0fR/RJlJy4BJqOUV6sGVvR/arG8/j3NCV6kjxZgmRRCG3R0pqm8krExJ1
- 3/KoTDRMLhnEwOVf1AIHtTAUygpkTO64sopMENpKupB04Tr1sPpPizvi/FnIuxjFKZJ2Xg
- iSFSXEO8i8cYav244YeY16JZ/yt2YTk=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=M669Ra0kWWc5NR7HmCHSAjJ6OFOE8e7akObsZ2e0lPE=;
+ b=GnFIy9dUaVrd2z5V6lbGsB+cyksFBJLGLZ50VzcAyj7YlH8XMGUBX/yUFkF/x2b9DkTLSL
+ UaruzVcdnLmUTwpzXQSgYQS6uy8CFv46n5RGY3r+iyCIXH8AXuLIbc4yiecvMl/wmVMTvG
+ eWlkVPmujWOWNxVfcjS9SCWm4ZVq6Ag=
+Received: from mail-oi1-f200.google.com (mail-oi1-f200.google.com
+ [209.85.167.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-145-HTq849yFPlGTJJCaNffHJQ-1; Fri, 20 Jan 2023 04:00:03 -0500
-X-MC-Unique: HTq849yFPlGTJJCaNffHJQ-1
-Received: by mail-qk1-f199.google.com with SMTP id
- j10-20020a05620a288a00b0070630ecfd9bso3081123qkp.20
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 01:00:03 -0800 (PST)
+ us-mta-37--Ru68qqLOJ-r9F5IcQwEZQ-1; Fri, 20 Jan 2023 04:02:33 -0500
+X-MC-Unique: -Ru68qqLOJ-r9F5IcQwEZQ-1
+Received: by mail-oi1-f200.google.com with SMTP id
+ z8-20020a056808064800b0036aae651f2aso1614309oih.17
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 01:02:33 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qakjVd27pCWMfxKREO/DwNWWRN9q594Ck2VyJC6l+CU=;
- b=IQib9e73vncJNngkOdDTq9I7ydTs32SvHBoRnMg9QERgeOSvLlp2beWfk1fNaPZuJ/
- htgNvrfhRn60KJR6PkUE/bEWY+z5mkd8GU6skAkNMgaoX7Xho6TEEzaSFGAtlh/Pe5FC
- y1Ss/Nj2nqfjTQ1oR0m23MAWphBUboT2YiLUvgavBoISBkSmGY59s8AW+7F66ZkkBSAR
- fzAw99GgnkAjAp/v4kfMwjL3IMnhwUagQy08Vq45SdWyHBchNEwucOvaG1tlDnHguC2l
- 13TvRnnkJa5dCEqwsaMvhyyvYq0Jq2ESr/SXGYx4F3LTzDtu4djnOiVDL6eFFfvIDKEi
- sBlg==
-X-Gm-Message-State: AFqh2kqu4BRewAXXpfR+BMHPMYDwVUiIGcFICfIvxEoHxG+SduklzhV/
- ieQr6KxIlUkaLEaDwu3QWsm1IcU4jSPridLqmq7bp17VMZNXu7Qb9MyIcCpkvL6awFeSlaR74B+
- v0syKvGydaOd001E=
-X-Received: by 2002:a0c:fc03:0:b0:537:4b09:670f with SMTP id
- z3-20020a0cfc03000000b005374b09670fmr227273qvo.25.1674205203146; 
- Fri, 20 Jan 2023 01:00:03 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvJYM2dTIkP4wDWSIhzjZBWDNSq5lcffRo/JhUoLEgEem0Z0Z77W5AraAVAlOB8S9ndrEsCbA==
-X-Received: by 2002:a0c:fc03:0:b0:537:4b09:670f with SMTP id
- z3-20020a0cfc03000000b005374b09670fmr227255qvo.25.1674205202913; 
- Fri, 20 Jan 2023 01:00:02 -0800 (PST)
+ bh=M669Ra0kWWc5NR7HmCHSAjJ6OFOE8e7akObsZ2e0lPE=;
+ b=PeDE39h4+aEISfwgg2uZsPH98NWbCfvm3fExtlZlTl+nzoWOCf3ck7gzqYSiYwbOv4
+ /xsOxH1LjGe1scteUfKYQuPHLuTH9zlbFtTVWyx3cNk/Pzym4vXng2Tpcm5PkC5R5VBW
+ 0B+UHredl1pGd+qdxf5c/ZxfBXDRtPa51vOGzbUQwHqgks57+UgD+g7rDr+qsLsv7k5H
+ 5DNoslCUlLO0arf4/RDMGnSm4RSdQmCPXpCP3wqxCNbt34oTgZy+i7Nug3Oy0TSvoWh0
+ GXXPSTZcHueeLKjlmas31f+YrgJgbbuYtmzxL2uOHDMjlQ89VfhMWiZxoMHOqfc3xfkF
+ p5zw==
+X-Gm-Message-State: AFqh2kogvUhVyPBawciKV8zLHEk3EsdBc9rSumXslRfOmV0WlOCI+mYO
+ UFq8A5CUEZU354f3zxiMukAREys8f6l+gt3KFHq2pVQcpUAbyy8QbxBo3JgMDO98QBwgRdlkYX1
+ zL6X/yvHmbC4Ib8w=
+X-Received: by 2002:a05:6870:4c83:b0:150:14a3:6556 with SMTP id
+ pi3-20020a0568704c8300b0015014a36556mr7595159oab.51.1674205352681; 
+ Fri, 20 Jan 2023 01:02:32 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXt7yBOJLuJ3T3gPgh+EMIf+rDym70EZ01oaqyjAdRU0T+o03C6I/ucg5fo/laImjznKWXRD/Q==
+X-Received: by 2002:a05:6870:4c83:b0:150:14a3:6556 with SMTP id
+ pi3-20020a0568704c8300b0015014a36556mr7595153oab.51.1674205352489; 
+ Fri, 20 Jan 2023 01:02:32 -0800 (PST)
 Received: from [192.168.0.2] (ip-109-43-177-118.web.vodafone.de.
  [109.43.177.118]) by smtp.gmail.com with ESMTPSA id
- ew3-20020a05622a514300b003b440ab16fasm7747515qtb.61.2023.01.20.00.59.59
+ br31-20020a05620a461f00b00706c1fc62desm2928461qkb.112.2023.01.20.01.02.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Jan 2023 01:00:01 -0800 (PST)
-Message-ID: <4b5fbb1a-204b-15a0-8cc1-71c899b9760a@redhat.com>
-Date: Fri, 20 Jan 2023 09:59:58 +0100
+ Fri, 20 Jan 2023 01:02:31 -0800 (PST)
+Message-ID: <cd802b6b-1fe7-2640-1ae0-0227c3e8e335@redhat.com>
+Date: Fri, 20 Jan 2023 10:02:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v2 03/11] tests/qtest/boot-serial-test: Build command line
- using GString API
+Subject: Re: [PATCH v2 06/11] tests/qtest/migration-test: Reduce 'cmd_source'
+ string scope
 Content-Language: en-US
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
@@ -76,9 +76,9 @@ Cc: Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
  Fabiano Rosas <farosas@suse.de>
 References: <20230119145838.41835-1-philmd@linaro.org>
- <20230119145838.41835-4-philmd@linaro.org>
+ <20230119145838.41835-7-philmd@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230119145838.41835-4-philmd@linaro.org>
+In-Reply-To: <20230119145838.41835-7-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -109,73 +109,10 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 19/01/2023 15.58, Philippe Mathieu-Daudé wrote:
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   tests/qtest/boot-serial-test.c | 23 +++++++++++++++--------
->   1 file changed, 15 insertions(+), 8 deletions(-)
-> 
-> diff --git a/tests/qtest/boot-serial-test.c b/tests/qtest/boot-serial-test.c
-> index 3a854b0174..92890b409d 100644
-> --- a/tests/qtest/boot-serial-test.c
-> +++ b/tests/qtest/boot-serial-test.c
-> @@ -226,14 +226,17 @@ static void test_machine(const void *data)
->       const testdef_t *test = data;
->       g_autofree char *serialtmp = NULL;
->       g_autofree char *codetmp = NULL;
-> -    const char *codeparam = "";
->       QTestState *qts;
->       int ser_fd;
-> +    g_autoptr(GString) cmd = g_string_new("");
+>   tests/qtest/migration-test.c | 29 +++++++++++++++--------------
+>   1 file changed, 15 insertions(+), 14 deletions(-)
 
-You could already start with the "-no-shutdown" here.
-
->       ser_fd = g_file_open_tmp("qtest-boot-serial-sXXXXXX", &serialtmp, NULL);
->       g_assert(ser_fd != -1);
->       close(ser_fd);
->   
-> +    g_string_append_printf(cmd, "-M %s ", test->machine);
-> +    g_string_append(cmd, "-no-shutdown ");
-> +
->       if (test->kernel || test->bios) {
->           ssize_t wlen;
->           int code_fd;
-> @@ -243,19 +246,23 @@ static void test_machine(const void *data)
->           wlen = write(code_fd, test->kernel ? : test->bios, test->codesize);
->           g_assert(wlen == test->codesize);
->           close(code_fd);
-> +        g_string_append_printf(cmd, "%s %s ",
-> +                               test->kernel ? "-kernel " : "-bios ", codetmp);
->       }
->   
-> +    g_string_append_printf(cmd, "-chardev file,id=serial0,path=%s "
-> +                                "-serial chardev:serial0 ", serialtmp);
-
-Why not include this in the initial g_string_append_printf statement already?
-
->       /*
->        * Make sure that this test uses tcg if available: It is used as a
->        * fast-enough smoketest for that.
->        */
-> -    qts = qtest_initf("%s %s %s -M %s -no-shutdown "
-> -                      "-chardev file,id=serial0,path=%s "
-> -                      "-serial chardev:serial0 -accel tcg -accel kvm %s",
-> -                      codeparam,
-> -                      test->kernel ? "-kernel " : test->bios ? "-bios " : "",
-> -                      codetmp ? : "", test->machine,
-> -                      serialtmp, test->extra);
-> +    g_string_append(cmd, "-accel tcg ");
-> +    g_string_append(cmd, "-accel kvm ");
-> +    g_string_append(cmd, test->extra);
-> +
-> +    qts = qtest_init(cmd->str);
-
-... and I have to say that this is already quite a lot of code churn, just 
-to get the -accel parameters tweaked in the end.
-
-Why don't you simply do a single small patch that just replaces the "-accel 
-tcg -accel" part with "%s %s" and add two parameters like this:
-
-   has_tcg ? "-accel tcg" : "", has_kvm ? "-accel kvm" : ""
-
-?
+Missing explanation in the commit description. What's the benefit of doing this?
 
   Thomas
 
