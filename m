@@ -2,65 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A563A675BBE
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 18:40:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D62A675BBF
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 18:40:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIvMr-0007Q6-KX; Fri, 20 Jan 2023 12:39:58 -0500
+	id 1pIvMr-0007Pf-Kn; Fri, 20 Jan 2023 12:39:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pIvMA-0007AA-3M
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 12:39:16 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pIvM7-0000UX-8B
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 12:39:13 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nz6DF625Gz6J9Pc;
- Sat, 21 Jan 2023 01:38:37 +0800 (CST)
-Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 20 Jan
- 2023 17:39:07 +0000
-Date: Fri, 20 Jan 2023 17:39:06 +0000
-To: Jonathan Cameron via <qemu-devel@nongnu.org>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>, Fan Ni
- <fan.ni@samsung.com>, "linux-cxl@vger.kernel.org"
- <linux-cxl@vger.kernel.org>, "alison.schofield@intel.com"
- <alison.schofield@intel.com>, "dave@stgolabs.net" <dave@stgolabs.net>, "Adam
- Manzanares" <a.manzanares@samsung.com>, "bwidawsk@kernel.org"
- <bwidawsk@kernel.org>, "gregory.price@memverge.com"
- <gregory.price@memverge.com>, "hchkuo@avery-design.com.tw"
- <hchkuo@avery-design.com.tw>, "cbrowy@avery-design.com"
- <cbrowy@avery-design.com>, "ira.weiny@intel.com" <ira.weiny@intel.com>, "Dan
- Williams" <dan.j.williams@intel.com>
-Subject: Re: [RFC] cxl-host: Fix committed check for passthrough decoder
-Message-ID: <20230120173906.000053ea@Huawei.com>
-In-Reply-To: <20230116143723.00002291@huawei.com>
-References: <CGME20230113002756uscas1p2b602bff26576110407491f67eff5e065@uscas1p2.samsung.com>
- <20230113002727.11411-1-fan.ni@samsung.com>
- <20230113094725.0000705c@Huawei.com>
- <20230113171044.GA24788@bgt-140510-bm03>
- <20230116143723.00002291@huawei.com>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIvMF-0007E1-8n
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 12:39:21 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIvMD-0000VE-R2
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 12:39:19 -0500
+Received: by mail-wr1-x432.google.com with SMTP id b7so5509067wrt.3
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 09:39:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2l3hBLnWs+vux4f5dvuhUR9kIENezqJvzMzamhPAisY=;
+ b=QyjQLM+eg/MUC60AjASfQhIyX1LVOOeJUcNYqNWBrcthekZpyvXSRKes1PYVvZ1Wkw
+ m2dyaFK+8g5EHm5ct3Iyy7WBCEj3dDjjRQ9lVENl3S3HmQD2ztYKey8O/VYKsZmLpyFW
+ bfJvbvrus5Mo9/jtI4+jHGhf6ONtajyH04Pr3LOlgrYhv2EEUso1VGpAZ3+UytUSmKqO
+ qI++KpzUd4wP/hu3QWISiWFEjq4oS2d8JChjFQxfdy0OrSOdgc6vgXA9IXztn1VIquR1
+ gD4FpRX/E6vhGQiC/EkdfT8zCkDXkaKpZsFWiAjb9y6BhsP4zSqx9DLsv+xhR2xKcOzD
+ oNIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=2l3hBLnWs+vux4f5dvuhUR9kIENezqJvzMzamhPAisY=;
+ b=K1osKKT4XijNKe5+cHaxR0Xdo0oXb9BWNsXp4lmJot3n/fYi2sD4dPjGVCbidX3M0i
+ 0AFQcSeogvC5P2DQ9o+WE4gFsKtN2azBHzX1mTLzaM/R1mCQMayOcotXAeOzxRmNwfOz
+ Zkvq3FApE1U00BqBWxMiWlAY71nm6PVR3CAPRrONzT61KU5+uyl7SN9aJiGe8i+0aHyj
+ Q9z66AoUvHH0dbBXnAF+W9Y7ha3aMkr1rKcpg0N4oN4KDZLTKXUstSt1NBzdsDmJFt8r
+ GOy3boxF5aoGxHuQYeAtbnB3XV4eSnbkljRgwoCdsRtXdv+WQgKOxp9w0Emw4oBGLxhR
+ BAgg==
+X-Gm-Message-State: AFqh2kqroYA1Hv0jKYV7+v2NScxa0NGeXWiJkQ9jRLesTLGrEtHB1rZO
+ +fL2lwS/4axrnkBUqpCnM5YjPjagsoKlLQ8m
+X-Google-Smtp-Source: AMrXdXvI7bKNpKOfmLbPxep3E0drp0fnngJYHhTx0l3VvAWmFc/46RmUgxBrPSzm1sayHsQ1/ND24w==
+X-Received: by 2002:a5d:4cc2:0:b0:2bf:9473:a6f2 with SMTP id
+ c2-20020a5d4cc2000000b002bf9473a6f2mr1669495wrt.21.1674236355881; 
+ Fri, 20 Jan 2023 09:39:15 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ k7-20020adfd227000000b002bdf3809f59sm15963106wrh.38.2023.01.20.09.39.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Jan 2023 09:39:15 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 070AB1FFB7;
+ Fri, 20 Jan 2023 17:39:15 +0000 (GMT)
+References: <20230117035701.168514-1-richard.henderson@linaro.org>
+ <20230117035701.168514-4-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.15; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH 3/3] plugins: Iterate on cb_lists in qemu_plugin_user_exit
+Date: Fri, 20 Jan 2023 17:39:09 +0000
+In-reply-to: <20230117035701.168514-4-richard.henderson@linaro.org>
+Message-ID: <87lelxw1fg.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.202.227.76]
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -74,166 +91,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 16 Jan 2023 14:37:23 +0000
-Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
 
-> On Fri, 13 Jan 2023 17:10:51 +0000
-> Fan Ni <fan.ni@samsung.com> wrote:
-> 
-> > On Fri, Jan 13, 2023 at 09:47:25AM +0000, Jonathan Cameron wrote:
-> >   
-> > > On Fri, 13 Jan 2023 00:27:55 +0000
-> > > Fan Ni <fan.ni@samsung.com> wrote:
-> > >     
-> > > > For passthrough decoder (a decoder hosted by a cxl component with only
-> > > > one downstream port), its cache_mem_registers field COMMITTED
-> > > > (see spec 2.0 8.2.5.12 - CXL HDM Decoder Capability Structure) will not
-> > > > be set by the current Linux CXL driver. Without the fix, for a cxl
-> > > > topology setup with a single HB and single root port, the memdev read/write
-> > > > requests cannot be passed to the device successfully as the function
-> > > > cxl_hdm_find_target will fail the decoder COMMITTED check and return
-> > > > directly, which causes read/write not being directed to cxl type3 device.
-> > > > 
-> > > > Before the fix, a segfault is observed when trying using cxl memory for
-> > > > htop command through 'numactl --membind' after converting cxl memory
-> > > > into normal RAM.    
-> > > 
-> > > We also need to fix that segfault.    
-> > With the patch, we do not see the segfault anymore. The segfault was
-> > there before the patch because for a passthrough decoder, we cannot find a
-> > target as the committed field check cannot pass, the read request will
-> > return 0 (in cxl_read_cfmws) which can be used for futher addressing.
-> > With the patch, we skip the committed check for passthrough decoder and
-> > the requests can be passed to the device so the segfault is fixed. Our
-> > concern is that the fix may also let the requests pass for unprogrammed
-> > decoder, which is not allowed in current code.  
-> 
-> Agreed on the concern. That is one reason we need a more comprehensive solution.
-> 
-> > > 
-> > >     
-> > > > 
-> > > > Detailed steps to reproduce the issue with the cxl setup where there is
-> > > > only one HB and a memdev is directly attached to the only root port of
-> > > > the HB are listed as below,
-> > > > 1. cxl create-region region0
-> > > > 2. ndctl create-namespace -m dax -r region0
-> > > > 3. daxctl reconfigure-device --mode=system-ram --no-online dax0.0
-> > > > 4. daxctl online-memory dax0.0
-> > > > 5. numactl --membind=1 htop
-> > > > 
-> > > > Signed-off-by: Fan Ni <fan.ni@samsung.com>    
-> > > 
-> > > Ah. This mess is still going on. I've not been testing with this
-> > > particular combination because the kernel didn't support it.
-> > > The kernel code assumes that the implementation made the choice
-> > > (which is an option in the spec) to not have any HDM decoders
-> > > for the pass through case. As such it never programmed them
-> > > (if you dig back a long way in the region bring patch sets in the
-> > > kernel you'll find some discussion of this). Now I knew that meant
-> > > the configuration didn't 'work' but nothing should be crashing -
-> > > unless you mean that something in linux userspace is trying to
-> > > access the memory and crashing because that fails
-> > > (which is fine as far as I'm concerned ;)
-> > > 
-> > > The work around for QEMU testing so far has been to add another root
-> > > port and put nothing below that. The HDM decoders then have to be
-> > > implemented so the kernel does what we expect.    
-> > Do you mean we already have the workaround somewhere or it is what we
-> > have planned? currently the kernel will create a passthrough decoder if
-> > the number of downstream is 1. If we have the workaround, there
-> > should never be a passthrough decoder being created and we should not
-> > see the issue.  
-> 
-> I have code as describe (now, didn't until few minutes ago).
-> I'll send it out later this week after a little more testing / internal review.
-> 
-> > > 
-> > > I'm not against a more comprehensive fix.  Two options come to mind.
-> > > 1) Add an option to the host bridge device to tell it not to implement
-> > >    hdm decoders at all. I'm not keen to just automatically drop them
-> > >    because having decoders on a pass through HB is a valid configuration.
-> > > 2) Cheat and cleanly detect a pass through situation and let the accesses
-> > >    through.  I'm not particularly keen on this option though as it
-> > >    will fail to test the code once it's 'fixed' in Linux.  IIRC the spec
-> > >    doesn't say that programming such an HDM decoder is optional.
-> > > 
-> > > I guess we could be a bit naughty with option 1 and flip the logic even
-> > > though it would break backwards compatibility. So default to no HDM decoder.
-> > > I doubt anyone will notice given that's the configuration that would have
-> > > worked.  However I would want to keep the option to enable these decoders
-> > > around.  I can spin up a patch or do you want to do it? My suggestion is option
-> > > 1 with default being no HDM decoder.  
-> 
-> I went with this option. Implementation uses the reset callback in QEMU
-> for the pxb-cxl to edit the capability header table to 'hide' the HDM decoder
-> if it finds just one downstream port (on second reset, as on first one the
-> ports have not yet been created).  In cxl-host.c we direct everything to that
-> downstream port.
-> 
-> > > 
-> > > Jonathan    
-> > Please feel free to spin up a patch.  
-> 
-> Will do,
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-I've run out of time today to write a proper cover letter etc for the patch set
-and want to run a few tests on non pass through cases to make sure there are
-no side effects, but if you want to try it in the meantime I've pushed an
-updated tree to gitlab.
+> Rather than iterate over all plugins for all events,
+> iterate over plugins that have registered a given event.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-https://gitlab.com/jic23/qemu/-/tree/cxl-2023-01-20
-Top two patches enable a pass through decoder for the host bridge if there
-is only one root port below it.
+Queued to plugins/next, thanks.
 
-Thanks,
-
-Jonathan
-
-
-> 
-> Jonathan
-> 
-> > > 
-> > > 
-> > >     
-> > > > ---
-> > > >  hw/cxl/cxl-host.c | 7 +++++--
-> > > >  1 file changed, 5 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
-> > > > index 1adf61231a..5ca0d6fd8f 100644
-> > > > --- a/hw/cxl/cxl-host.c
-> > > > +++ b/hw/cxl/cxl-host.c
-> > > > @@ -107,8 +107,11 @@ static bool cxl_hdm_find_target(uint32_t *cache_mem, hwaddr addr,
-> > > >      uint32_t target_idx;
-> > > >  
-> > > >      ctrl = cache_mem[R_CXL_HDM_DECODER0_CTRL];
-> > > > -    if (!FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED)) {
-> > > > -        return false;
-> > > > +
-> > > > +    /* skip the check for passthrough decoder */    
-> > > 
-> > > You have a mix of spaces and tabs for indentation. Should all be 4 spaces
-> > > for QEMU code.
-> > >     
-> > > > +	if (FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, COMMIT)
-> > > > +		&& !FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, COMMITTED)) {
-> > > > +		return false;    
-> > > 
-> > > Why is this code specific to a pass through decoder?
-> > > All it's telling us (I think) is no one tried to commit the decoder yet.
-> > >     
-> > > >      }
-> > > >  
-> > > >      ig_enc = FIELD_EX32(ctrl, CXL_HDM_DECODER0_CTRL, IG);    
-> > >    
-> 
-> 
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
