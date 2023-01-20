@@ -2,90 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A353B674E7D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:44:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC367674E3A
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:41:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIm0A-0007my-OQ; Fri, 20 Jan 2023 02:39:54 -0500
+	id 1pIm0B-0007oo-JA; Fri, 20 Jan 2023 02:39:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIlzv-0007gc-Cq
+ id 1pIlzw-0007gh-HJ
  for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:39:40 -0500
 Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIlzt-0004oc-Fy
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:39:39 -0500
+ id 1pIlzu-0004mQ-NT
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:39:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1674200377; x=1705736377;
+ t=1674200378; x=1705736378;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=YgqIy2dMtYDfHr6ysw5QTe/uCyGkNi3HjNfCfNK58Gw=;
- b=OjFKsXLHGKIgRvji1kIYBLqy2u6yYn3VMeVuEcpfljUKHhNOpLMxZA7p
- cKQOweyX7Td0xhSKmkiof2fvXMcHcTeHBCh3wqkC1ZQgddRyrVYQiRN4K
- 9rLnZPOieZNqTQzwh8lK5iZN+GwJLZKDtLp36N/8w4YuJd/e1mvnHz6N5
- jl3387XCes7k4+C/dFiKwFjt1RjSQv1secKTcpfggtlWg37bcslpGF5L3
- adXTbWspUHzqRyNgYRDzGyv6ihyIQxaJjoa4vRg56UtEqfxadt53X0GA7
- H+la2HvyNE4520BcGtZ8gxS3BwbC/UiqM5H6t+I05HUGudAP2LB9urczD w==;
-X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176687"
+ bh=RrU4nYJ19k3rIFe7CmhKAO0jzgTQSTnqBRFFTnuBj1o=;
+ b=lANIbTVJLDujEcqfkqpf/SSo76KN0psxStUJxS7mtV98CPKNluF7VyYb
+ vZMH02TQx9tnPPRHLgMmnTlNm+OeS6pGwA/XBuPX68RQ2DbQmydbufSdc
+ Gb3I29BCBlfgjxpBVju/uU00xPbllqEVgDJCdV/Z/wR4KSuDaoAlRRk6Q
+ A9/Yv28NEMv2fCr5rw7YelHcFpoQCPivaKxKR2n8/qGTEh++x62zf++Ki
+ m84y+r1uZrW1nO0sdCgXij7zVol9dWc7VAeiTMZoyt8J67KNuq1L0twcF
+ o/sH4GGQGBEbpTGSgk1c63MH34J37CcCbikTy0x2UubnTmKLn6VXQLRVo g==;
+X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176688"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:39:36 +0800
-IronPort-SDR: 7I0Xnhid/YJES/b6uhI6nnOTsPlYsNQAhd4EQf2gAuZww9yJd2/1EwRP8HgR2f7bgWdcalZW15
- SViJ1MR9aYhwcAbtVEFtToq5lmGxsYxcYGu5WCjHLFfhx9NG8yxS2iqjLp5Ns2/1KM1yjBLs0R
- AU0ph6YmttR6ttA97cS/d4Li8F1+PTtlA746IAqUoEqCbHvg1CUIvX3gxAqAzRiDSMK/ESeTyo
- YkFnHt3lit16VbhY5Ghhv4W7sq3wquST6QXYom6W7xHUzN6qNZO3qMGPs5XByChL+z+xQG6+Ka
- 9TA=
+ by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:39:38 +0800
+IronPort-SDR: 5dx5WeeyrIQg3rMwOZrT9b5plfzwp4ED2xXylba2Ds5YhJwCmcpGvJuzvacUgiMuFyC137x6Y4
+ oxquQ0ZbPM9ir9f/4kexjbedIVoCIVSDQEN3RtyMCG81X3Ni9phpAyTwAcVqjiLapb3bGc5vNi
+ AYC2fwnYWTA/yDp8I7FJobkzu5py+llTjs4jGUxkJauOg68dA+E5578OmxiwEYVzIUjqR3PM4z
+ QbmUsTZUDv1gpNebiaoqsWVNM0yQRIB8ibIW6ym/fhJQQd4ypfY2BT+/cASok/gRxELwwnK/jg
+ T/A=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 22:57:14 -0800
-IronPort-SDR: b5l9qqcDQx3cSfRF9qgbvBSv9c9yVDKSiNcBL2DWpfCG/402T3wSE3XwEJWZZuWtQHWejbxbE/
- RiIYGumiS+4SUOWpKHEjUr39GJDseNHKpgGIpfVg79O67OZ4ppf8rll02aZumiepp6g8ToBrH4
- kDJlt0XPCFSIxB/BEnFDRymoiwtgfg/jrMHpk1rGQTEzRi+rXlgtvcbDpoxzv2Y4rh6SlTHKqy
- jALQm8z8iD7MTyguVh8k/4maLEi8TX5NFnm15KwgDJDOwUrd5btMWMJ/VRTXyTq5HlpfU4IGJr
- w4E=
+ 19 Jan 2023 22:57:16 -0800
+IronPort-SDR: TGlvJomurB+wlpdSfwUrRuWA8941haz451NCTr4MjK8MYQJratztrFOg5lAMnqg/0MZbv5AHlK
+ KCYnrFNVabNNmRlUl6aUGqwQFFndjkVUHTmLktQIx3zRihVLIe+0itCOuN7FuoVlBhg7+kWz6C
+ vrXYQ0ewlsxPAkneg2YRcX0iTM4qTjmX9V+0cb0AOFW5pr0xt+t5MjkGva7o+tVZFGmCm7bxHa
+ 2kJedDlQC99DEdA3MtLvMF6iQ+YI7RCHd4F3OmA0J/c1NPyrdciP3Pd6LEA0cf5oap6PMbeYzX
+ jbI=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 23:39:36 -0800
+ 19 Jan 2023 23:39:38 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nyrx371sQz1Rwrq
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:39:35 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4Nyrx55hgsz1RwqL
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:39:37 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:mime-version
  :references:in-reply-to:x-mailer:message-id:date:subject:to
- :from; s=dkim; t=1674200375; x=1676792376; bh=YgqIy2dMtYDfHr6ysw
- 5QTe/uCyGkNi3HjNfCfNK58Gw=; b=srv6sijrrLb9BJvaN3fklOdFU/PYh+xtic
- sGzevO2kHbulzR1X0duq9Jcdqu1P+t+0ixhi137oUOT7Lm+TWerKcl26tWldvvmh
- P2uQArKX2ysd23FzVfVCyUmpGXPOnke5hiGLwHX+QlRtST31J8zqr9g5Ipw+ifZG
- VZJb1s3uLCrhy89/MmbAiQaGnrbfomuqfvFyxTRf59dZSHwbMT3QaUlmn9+rysDZ
- /P/rZ4QQoSX0QmYZHHlSrj8ons1WUYOttT7WQPGydKbFq4IXYyIBQRgEdlLfhjIS
- PcOv0EuiLFi0xxdtwKQu4u+Y1+AjEcoeZvVxET0AZJ6IzPGcGu7Q==
+ :from; s=dkim; t=1674200377; x=1676792378; bh=RrU4nYJ19k3rIFe7Cm
+ hKAO0jzgTQSTnqBRFFTnuBj1o=; b=XxVtEOj4yXpNWM/I+CwbYZo7WQ+hXNx6ZU
+ f7DEjTpT2QvbvCLHCcMpZCELkms1eabcq4LHh8iAIHMXt8MCmaGCAomfs9FPkbJc
+ awgFjkMaymRBGabgcCOp+fBy8++o2CHMsfI8UKg0bInAx6jCdfncBxdo1srJIo/B
+ lnksJo/5MzGXm8kSLeDSksWb0zX6rN3yi8CtbQDljXTSbAoE3rC4rtQpzhplstQ2
+ vk5x41lqBEL+p9Ox1aUsPU3rZ2QTxTgEjf+YPouTbNTXlhsys9rXqwwr7o/g03U0
+ CaT2tCguZ1/T8vUkjl1jdQ1H1h/0ArzNs/8hVuiks02o2dgMS8iQ==
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id M1LGm5lNFRoU for <qemu-devel@nongnu.org>;
- Thu, 19 Jan 2023 23:39:35 -0800 (PST)
+ port 10026) with ESMTP id 3Af8MlrJK_Vt for <qemu-devel@nongnu.org>;
+ Thu, 19 Jan 2023 23:39:37 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nyrx16ZxWz1Rwt8;
- Thu, 19 Jan 2023 23:39:33 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4Nyrx366c7z1RvTp;
+ Thu, 19 Jan 2023 23:39:35 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Bin Meng <bmeng@tinylab.org>,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
  Alistair Francis <alistair.francis@wdc.com>
-Subject: [PULL 07/37] hw/char: riscv_htif: Support console output via proxy
- syscall
-Date: Fri, 20 Jan 2023 17:38:43 +1000
-Message-Id: <20230120073913.1028407-8-alistair.francis@opensource.wdc.com>
+Subject: [PULL 08/37] hw/riscv: spike: Remove the out-of-date comments
+Date: Fri, 20 Jan 2023 17:38:44 +1000
+Message-Id: <20230120073913.1028407-9-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
 References: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
@@ -118,61 +117,36 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Bin Meng <bmeng@tinylab.org>
 
-At present the HTIF proxy syscall is unsupported. On RV32, only
-device 0 is supported so there is no console device for RV32.
-The only way to implement console funtionality on RV32 is to
-support the SYS_WRITE syscall.
-
-With this commit, the Spike machine is able to boot the 32-bit
-OpenSBI generic image.
+Spike machine now supports OpenSBI plain binary bios image, so the
+comments are no longer valid.
 
 Signed-off-by: Bin Meng <bmeng@tinylab.org>
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Message-Id: <20221229091828.1945072-8-bmeng@tinylab.org>
+Message-Id: <20221229091828.1945072-9-bmeng@tinylab.org>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- hw/char/riscv_htif.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ hw/riscv/spike.c | 5 -----
+ 1 file changed, 5 deletions(-)
 
-diff --git a/hw/char/riscv_htif.c b/hw/char/riscv_htif.c
-index 3bb0a37a3e..1477fc0090 100644
---- a/hw/char/riscv_htif.c
-+++ b/hw/char/riscv_htif.c
-@@ -48,6 +48,9 @@
- #define HTIF_CONSOLE_CMD_GETC   0
- #define HTIF_CONSOLE_CMD_PUTC   1
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index fb4152c2a2..df9f070707 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -255,11 +255,6 @@ static void spike_board_init(MachineState *machine)
+     memory_region_add_subregion(system_memory, memmap[SPIKE_MROM].base,
+                                 mask_rom);
 =20
-+/* PK system call number */
-+#define PK_SYS_WRITE            64
-+
- static uint64_t fromhost_addr, tohost_addr;
- static int address_symbol_set;
-=20
-@@ -165,7 +168,19 @@ static void htif_handle_tohost_write(HTIFState *s, u=
-int64_t val_written)
-                 int exit_code =3D payload >> 1;
-                 exit(exit_code);
-             } else {
--                qemu_log_mask(LOG_UNIMP, "pk syscall proxy not supported=
-\n");
-+                uint64_t syscall[8];
-+                cpu_physical_memory_read(payload, syscall, sizeof(syscal=
-l));
-+                if (syscall[0] =3D=3D PK_SYS_WRITE &&
-+                    syscall[1] =3D=3D HTIF_DEV_CONSOLE &&
-+                    syscall[3] =3D=3D HTIF_CONSOLE_CMD_PUTC) {
-+                    uint8_t ch;
-+                    cpu_physical_memory_read(syscall[2], &ch, 1);
-+                    qemu_chr_fe_write(&s->chr, &ch, 1);
-+                    resp =3D 0x100 | (uint8_t)payload;
-+                } else {
-+                    qemu_log_mask(LOG_UNIMP,
-+                                  "pk syscall proxy not supported\n");
-+                }
-             }
-         } else {
-             qemu_log("HTIF device %d: unknown command\n", device);
+-    /*
+-     * Not like other RISC-V machines that use plain binary bios images,
+-     * keeping ELF files here was intentional because BIN files don't wo=
+rk
+-     * for the Spike machine as HTIF emulation depends on ELF parsing.
+-     */
+     if (riscv_is_32bit(&s->soc[0])) {
+         firmware_end_addr =3D riscv_find_and_load_firmware(machine,
+                                     RISCV32_BIOS_BIN, memmap[SPIKE_DRAM]=
+.base,
 --=20
 2.39.0
 
