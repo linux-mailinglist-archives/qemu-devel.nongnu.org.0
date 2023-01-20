@@ -2,91 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C15674E45
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:42:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26E4D674E41
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:41:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIm0U-00080n-ND; Fri, 20 Jan 2023 02:40:14 -0500
+	id 1pIm0f-0000CQ-G8; Fri, 20 Jan 2023 02:40:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIm0T-0007yv-Cx
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:13 -0500
+ id 1pIm0b-0008PG-N8
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:21 -0500
 Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIm0R-0004qg-Im
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:13 -0500
+ id 1pIm0Z-0004pU-Js
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1674200411; x=1705736411;
+ t=1674200419; x=1705736419;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xVaa9JYNmmkdEbD+oVQeErPcR9zJk0gv+SPzAgaeL0k=;
- b=Kmwr475gMttCdmHOXPBRY9d8w/0duBm0+v5OWnZQ6Iik+aWWfrifRSKh
- DcaTxba8pHMN0aMipBvrDImA8E+rPhDrkqTUE7GUpqlxcepmW6mWHkNke
- yXBREhUhymglQE0f2vaYuaELvzJFX47Zg8OXscGSVsRKdyf0AtmXGN8oX
- TWfYUzDVrS74UfoKeYtR2UJ+PXcGqaI0VbqsUWiTDfiNz1KvV+4IhU6Ct
- 8IFrBEMu0a+JpMkE5B4u5CrGgvLl0qvhlk+FSvJ0q9V0BmPXpIjFvlhW+
- QU3n0rUEjfqesK/SGgxOfzyJcxFc6VQ14zL10T9jvwJX8Lze38ux2SrpS Q==;
-X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176714"
+ bh=ck3adrgI9AADtz7/lYYVfG9ETFGWlDw3wpKpvxh73zo=;
+ b=nn68xQsT0MjwDWVhZEYoIwzaH6q5ELOBcDi1SQ/x7VKuPyS1r+mTe6Jw
+ at99ng+oQbBg+mmSl805oUbiMJW4owzjiugIQ0Q289GY202aBnWAbnxNR
+ 6toWE44SXOOWSzD7ooPHNIJW44jgnGBBRhkNsXAwHNnZch2vVWfzYhteX
+ PKT0GN5QC6LIHlLkbaiPcTcg6cS4AumLW3oEg84QWtR8gOVoU9qXTSv5U
+ 8i8Ze2WC7uIjpzNtBDDPxgtvLbYvKUu1TuiM3FkYE9wQ0KBxR2LNqWmPx
+ Y3gQyP+NAaCp5rJAKN72mjW63hvx3RrYdntokyHqdbhGo/gxyoHcoJSeo w==;
+X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176717"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:39:55 +0800
-IronPort-SDR: mhOMJ0ykkgH9+xUvkVP9Ze4wXfUwYLu2SGJMokWrnl+YqxmAk8MoUK+WhElSNXSOaUwvHYLz2M
- hInL2ubvcYKRZaZ5/lUwhVgFoI1z4tAzKdpi/wbLkbAvrfuCkoLpLuN+W5Stt/vJwQdw6s4S54
- QVbnC19AcX5R/dF0GutdabMMeVWf4NFlPQu/Nyv7mvpTMUxVE7ohIxotQpo+X7kQCiYq57Tuy3
- n+rnJ7t44hj+vb+aawZnoUvV/pNNwSUblV54ZENvwN5mPIW77ivuF9iBEFpTC1eDCLo8lAtX1y
- WQE=
+ by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:39:57 +0800
+IronPort-SDR: 0edKP6bEI1yvRTeAq+OhtHBbnB5fLA1g3NvoD2ycxdfM5h6dCYsOvafW38gHQoHoHojKLM6lWE
+ RQ5SJPFFyjSnQARhuKB+0CIdC7YZ+AeUVeyfItuIDmoaD4djbeNN83WFbmfzDQRc9Oaq552VpZ
+ OrwsVbsvfbuEht2WglRHdTDqvio5ivZ4S79yK12qGnFflwFqjCXFdo4AMXFVtjUIt0NuWpjCpZ
+ bl5gFOBO4IM1h16sFAKcgup4iPABnxvPM7+JtFmq1bwSlDPTDQIjG0EfCP318tAAz6/J36PrA6
+ 244=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 22:57:33 -0800
-IronPort-SDR: Q5cVTEjt/KFRRb/eFJ3Ou69yjtdYpfFyIyC4sB/79UgJC/Byn75qu5OI1weUyhtDwtvaZx22f2
- bhX/RWbArJcy7eMsHKxAidTf+Y0+m2NyFCE5brAPad30nDGvC7cr9cszuNmrWEjSjkdyJy1thA
- Yogs/d4lJKK/4mAVuQ/LHkRblXMqSXSsgBOqx7DtmsQfv3aNw+KgAol7FjvN17WlQ+mYBJIYTL
- rcPeyG2qcyGmyuVVk1zuAd21lc9leKbAKvoQhXcTH+RWTOvfYxeyyG9pSupi8FDEigr829Nkpa
- SiM=
+ 19 Jan 2023 22:57:35 -0800
+IronPort-SDR: wz/3L9Uper/ODwpPGAq86z/LZUUPnZs1dKSK6tUlTvRkmUZTHbUbAxdPu5GQTYwom1uq81run9
+ 8PGpA6mgLAbI/3CLNsgOOOifvmQaMWMOfPagach59OH2fMNVLu3mJRen1plu9HBRb8os5+TkKt
+ e1v3vxlyMJy2E0kW988XFpmI0rfmi77H2YiUsL27Hkp5YgbSbUTobMolLlKEJuBM3ApgDeHMI9
+ xJnZTvxBQZjEUZKQIH7thHiheVh8ZB1yvdADgXNgJASBd9MMs8Bgo5rA9csPDnNf2y7kZzQNdX
+ Xbg=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 23:39:55 -0800
+ 19 Jan 2023 23:39:57 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NyrxR0nfwz1Rwtm
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:39:55 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NyrxT1J32z1Rwtm
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:39:57 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:content-type
  :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1674200394; x=1676792395; bh=xVaa9JY
- NmmkdEbD+oVQeErPcR9zJk0gv+SPzAgaeL0k=; b=qH1uyp7hA04FPV+woZxs4/N
- Rk5ZN9wLJIp6jQx6KerfVVAQy/dgacXKjjbvT/PrNOMzdAqqdFbESWjXVZs0utTI
- ZNvsBgFEi0u2EhLQYuS/vPlBa+A+7MmCFZD4kK0CTQlRgJlGP8yWJA66ic2M6dSp
- DNj9yFuWpFL1OsCpA5bt2XnTj92xLJC067SJjXrFQ+Eh1yzLa3X/8I/UQuP97A3p
- 3DKlwo2aw+Z3Lv+wUbbst9f8Nw/h82Ma3HhUXfeidXObgGCYQmKFYtvBr0YIoEi5
- mkhkQ6sDa2OXo1DBuHr2YNzorNoxp9KalCf7bZb5RX+wcwgmO8ccG/44qeGo0sQ=
+ :subject:to:from; s=dkim; t=1674200396; x=1676792397; bh=ck3adrg
+ I9AADtz7/lYYVfG9ETFGWlDw3wpKpvxh73zo=; b=WlrAry3GKJhYtM+xqPahv0o
+ KS2hLWLLZzLbJdY8uWJdapAoxEZV3nTlDgppLYR16CRbXK30QI5YNWbY6un4ir57
+ g3bIL5z+B3kbHXoQZZoy1yTEkeEIc5HvMcmKQcemnBH/JjvoszxWavmJ56sp3Y0J
+ xITo/G9/uIDIZ7x+6S/O+s5JUqaOukSoJkzwfWaoPBqtP7e+8n+2de4codsvKxSh
+ LaT8+fmVHjxgHsMASOo0cFzCl+aEyjttJhv0ury1x3kyD1kajYQyfwOrX6K0MwYa
+ 6YIx93UQ6uro+gtk/U5ETiwUSFxXVFclQYZ8ZTjCvIdJ5UylZdePS+mWHYPNP7g=
  =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id W2SOokSYzzQi for <qemu-devel@nongnu.org>;
- Thu, 19 Jan 2023 23:39:54 -0800 (PST)
+ port 10026) with ESMTP id 9JqW4sDyPt_p for <qemu-devel@nongnu.org>;
+ Thu, 19 Jan 2023 23:39:56 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NyrxN54fVz1RvTp;
- Thu, 19 Jan 2023 23:39:52 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NyrxQ5yzjz1RvLy;
+ Thu, 19 Jan 2023 23:39:54 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Palmer Dabbelt <palmer@dabbelt.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng@tinylab.org>
-Subject: [PULL 16/37] hw/riscv/sifive_u: use 'fdt' from MachineState
-Date: Fri, 20 Jan 2023 17:38:52 +1000
-Message-Id: <20230120073913.1028407-17-alistair.francis@opensource.wdc.com>
+ Bin Meng <bmeng@tinylab.org>, Alistair Francis <alistair.francis@wdc.com>
+Subject: [PULL 17/37] hw/riscv/boot.c: exit early if filename is NULL in load
+ functions
+Date: Fri, 20 Jan 2023 17:38:53 +1000
+Message-Id: <20230120073913.1028407-18-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
 References: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
@@ -120,103 +121,60 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
-The MachineState object provides a 'fdt' pointer that is already being
-used by other RISC-V machines, and it's also used by the 'dumpdtb' QMP
-command.
+riscv_load_firmware(), riscv_load_initrd() and riscv_load_kernel() works
+under the assumption that a 'filename' parameter is always not NULL.
 
-Remove the 'fdt' pointer from SiFiveUState and use MachineState::fdt
-instead.
+This is currently the case since all callers of these functions are
+checking for NULL before calling them. Add an g_assert() to make sure
+that a NULL value in these cases are to be considered a bug.
 
-Cc: Palmer Dabbelt <palmer@dabbelt.com>
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Suggested-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: Bin Meng <bmeng@tinylab.org>
-Message-Id: <20230102115241.25733-4-dbarboza@ventanamicro.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Message-Id: <20230102115241.25733-5-dbarboza@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/sifive_u.h |  3 ---
- hw/riscv/sifive_u.c         | 15 ++++++---------
- 2 files changed, 6 insertions(+), 12 deletions(-)
+ hw/riscv/boot.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
-index a67328f7ad..65af306963 100644
---- a/include/hw/riscv/sifive_u.h
-+++ b/include/hw/riscv/sifive_u.h
-@@ -69,9 +69,6 @@ typedef struct SiFiveUState {
-     /*< public >*/
-     SiFiveUSoCState soc;
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index 98b80af51b..31aa3385a0 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -153,6 +153,8 @@ target_ulong riscv_load_firmware(const char *firmware=
+_filename,
+     uint64_t firmware_entry, firmware_end;
+     ssize_t firmware_size;
 =20
--    void *fdt;
--    int fdt_size;
--
-     bool start_in_flash;
-     uint32_t msel;
-     uint32_t serial;
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index a58ddb36ac..ddceb750ea 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -98,7 +98,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEnt=
-ry *memmap,
++    g_assert(firmware_filename !=3D NULL);
++
+     if (load_elf_ram_sym(firmware_filename, NULL, NULL, NULL,
+                          &firmware_entry, NULL, &firmware_end, NULL,
+                          0, EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+@@ -177,6 +179,8 @@ target_ulong riscv_load_kernel(const char *kernel_fil=
+ename,
  {
-     MachineState *ms =3D MACHINE(qdev_get_machine());
-     void *fdt;
--    int cpu;
-+    int cpu, fdt_size;
-     uint32_t *cells;
-     char *nodename;
-     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle =3D 1;
-@@ -112,14 +112,14 @@ static void create_fdt(SiFiveUState *s, const MemMa=
-pEntry *memmap,
-     };
+     uint64_t kernel_load_base, kernel_entry;
 =20
-     if (ms->dtb) {
--        fdt =3D s->fdt =3D load_device_tree(ms->dtb, &s->fdt_size);
-+        fdt =3D ms->fdt =3D load_device_tree(ms->dtb, &fdt_size);
-         if (!fdt) {
-             error_report("load_device_tree() failed");
-             exit(1);
-         }
-         goto update_bootargs;
-     } else {
--        fdt =3D s->fdt =3D create_device_tree(&s->fdt_size);
-+        fdt =3D ms->fdt =3D create_device_tree(&fdt_size);
-         if (!fdt) {
-             error_report("create_device_tree() failed");
-             exit(1);
-@@ -612,9 +612,9 @@ static void sifive_u_machine_init(MachineState *machi=
-ne)
-             hwaddr end =3D riscv_load_initrd(machine->initrd_filename,
-                                            machine->ram_size, kernel_ent=
-ry,
-                                            &start);
--            qemu_fdt_setprop_cell(s->fdt, "/chosen",
-+            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
-                                   "linux,initrd-start", start);
--            qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
-+            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd=
--end",
-                                   end);
-         }
-     } else {
-@@ -627,14 +627,11 @@ static void sifive_u_machine_init(MachineState *mac=
-hine)
++    g_assert(kernel_filename !=3D NULL);
++
+     /*
+      * NB: Use low address not ELF entry point to ensure that the fw_dyn=
+amic
+      * behaviour when loading an ELF matches the fw_payload, fw_jump and=
+ BBL
+@@ -209,6 +213,8 @@ hwaddr riscv_load_initrd(const char *filename, uint64=
+_t mem_size,
+ {
+     ssize_t size;
 =20
-     /* Compute the fdt load address in dram */
-     fdt_load_addr =3D riscv_load_fdt(memmap[SIFIVE_U_DEV_DRAM].base,
--                                   machine->ram_size, s->fdt);
-+                                   machine->ram_size, machine->fdt);
-     if (!riscv_is_32bit(&s->soc.u_cpus)) {
-         start_addr_hi32 =3D (uint64_t)start_addr >> 32;
-     }
-=20
--    /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
--    machine->fdt =3D s->fdt;
--
-     /* reset vector */
-     uint32_t reset_vec[12] =3D {
-         s->msel,                       /* MSEL pin state */
++    g_assert(filename !=3D NULL);
++
+     /*
+      * We want to put the initrd far enough into RAM that when the
+      * kernel is uncompressed it will not clobber the initrd. However
 --=20
 2.39.0
 
