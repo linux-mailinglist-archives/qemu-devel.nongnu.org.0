@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E9A67552D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:02:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3594F67552B
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:02:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIr0R-0007RE-HD; Fri, 20 Jan 2023 08:00:31 -0500
+	id 1pIr0X-0007So-Rg; Fri, 20 Jan 2023 08:00:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1pIr0I-0007Mi-R1
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:00:22 -0500
-Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
+ id 1pIr0N-0007QR-K6
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:00:28 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <apatel@ventanamicro.com>)
- id 1pIr0G-0006Hi-UZ
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:00:22 -0500
-Received: by mail-pl1-x629.google.com with SMTP id d3so5232109plr.10
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 05:00:20 -0800 (PST)
+ id 1pIr0K-0006HE-Ih
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:00:27 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id lp10so2099178pjb.4
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 05:00:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=w6GWMr4kgqdcL841ipfLZDMDmhXesxTjEaat87znEVA=;
- b=l6ZB0DFwPcu0v18d1WUWdk00j0UwcY2hRLsDNJ9W4WQTug5eufdiXyZ9zZ4dcJkU1l
- +rsgtlyYCqq2Xqtkpa7dDFpOrZcT7Y2L1K0hBYkKuWqyjzx7Qv5+eNLQi61wb4Q/dbhs
- sx2cQ65piApC18YN6z/okQd1Cwkhoxokc5TOR5TMR6Gkot5G/HPqS1X3w8RRG6UE2Urc
- 6D/TgdYEhWZpEFwgkoqNwc0b8+67B+paBvYxInLmLdpsdkArh+wURJ8suQFAajPfOZKU
- Q9GRijELNCUx2LbUerX4GfMVN6/zHROuxRHC7y0D/NHZkx15jPHFciKosFc3PVVUkl1U
- AZew==
+ bh=UXFj+TsARYhyAgQ44IDyO3msxHENfQx3g7RXDPoLpl8=;
+ b=fFXzg6IfJFbd54MhU8YS0nZbsBNgGnZasdpbRAVJcLSZKlpnw0MW5/5bQIFg8BblFk
+ 0LEDEyasyRTnF29ZoRxXFI1y+pv/sa7hYn3QiiRJz1uiF035ax6WA2B7IcXyVj6ji/UF
+ 10b1kGoOG54B4k1jY1heu1AW5sqdSfazsRo87S6100nTqxrhUEx6eNBSQ61pwLXrseHc
+ a3CEInwIYki4KGcr7+MB7QsLc1SsnGmXvhE0wN3SR2atz2VfGv+WN54JYqcV8g86+qVE
+ AxSJGnoWj22WrOI1XSb0AdXltXOgisx2XixFffIvG/N8ZLe2q9pgdTMwjRBumz2w9Xea
+ ds1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=w6GWMr4kgqdcL841ipfLZDMDmhXesxTjEaat87znEVA=;
- b=s27yP7zXEpDiUQsLOfj1eQTDReikG4QPuHXUr0W56karN8QB9vR02KfA6Zi0FUpu0a
- mNYCJBgxRqAjbo7WmB6lqRpwWKqbt4Na/+90j3EukjDS3XtPmFuQhpCBnQodxJhSrXyu
- OhSEcz44X9GbhwAz7zxDLTx7G8xLhF2alXo36cJbjIXWJjV+p2sfzvf0dAeAMEe4kZgW
- zapGGVeSUz0QqNSnkiSG+P6NDmgoApRkg+qtv54LpmXiGhDeFFMXcxQrBVUw25yVXRbU
- QsykalL04zjmH12I5zdfoaEpTqf2ckqz5Q2jH/GS+pRmh/NDbUploN9vpa+DJ49Rkw94
- m5GA==
-X-Gm-Message-State: AFqh2krSwLNQq5XEikJaVWX0IYV7u9WgL7OYEHnTgDzCZ2AQEfB6YvtM
- yyO/BcS3928cLR9Fa7nfHG8W9A==
-X-Google-Smtp-Source: AMrXdXuuyhIYUn+WjwQ1F1lApMhscds+yd4usswIglrlY4Yw2RGHSkCdCpIujSbGKcG+kppdUqRFLg==
-X-Received: by 2002:a17:902:e5c9:b0:194:d0ad:53f0 with SMTP id
- u9-20020a170902e5c900b00194d0ad53f0mr7405861plf.9.1674219618781; 
- Fri, 20 Jan 2023 05:00:18 -0800 (PST)
+ bh=UXFj+TsARYhyAgQ44IDyO3msxHENfQx3g7RXDPoLpl8=;
+ b=jxi3clrU3DD+YsDLY9mU/3NojvizSU2s3kmZB3HE9t+zcSfeFGF7JSKwUicbrz1DcI
+ 2Zb9ifnBxk4Ub80Zq3B6OWWRyLrYS2+eJR8oUm27s3clPXftoXBII61qMKWjNuXFHa+s
+ XtZvZOEreo23NAZh+GThVhAx7HAtjmPZOzpKNo0tSB2DMfApAv3g2q0OiFp9OmPkgoHJ
+ 2NVavWJgC1F9tPJ7hn8E4JjpRzBauFzIoLJt/LmW2o940I0bmJsurkBHLu13kUnZOQ+3
+ fIxsjtXr6GhqgGjWVxC4lY6gCrPK9GKMYDLGkIAWpNKi/YBO0x5aKL9sgQevwtxNgAe+
+ Zwjg==
+X-Gm-Message-State: AFqh2krs4iV94h6l0FIDsvCg7G65TOcZgmNuoNdN4zZERd3r2mxOSQC4
+ 8p6kQUEuc6EUXCaf3Wb1IDGo7w==
+X-Google-Smtp-Source: AMrXdXuA2FNidxqpWO+6f8WMO+OiA2gfBsF33p6oUoJb6qofsQmMX0coaat1P5Le6e4xAMMsZJfcVg==
+X-Received: by 2002:a05:6a21:32a6:b0:a7:9022:5d5e with SMTP id
+ yt38-20020a056a2132a600b000a790225d5emr20327875pzb.2.1674219623704; 
+ Fri, 20 Jan 2023 05:00:23 -0800 (PST)
 Received: from anup-ubuntu-vm.localdomain ([103.97.165.210])
  by smtp.gmail.com with ESMTPSA id
- u7-20020a170902e5c700b0017f72a430adsm7279610plf.71.2023.01.20.05.00.14
+ u7-20020a170902e5c700b0017f72a430adsm7279610plf.71.2023.01.20.05.00.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 05:00:18 -0800 (PST)
+ Fri, 20 Jan 2023 05:00:23 -0800 (PST)
 From: Anup Patel <apatel@ventanamicro.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
  Palmer Dabbelt <palmer@dabbelt.com>,
@@ -63,19 +63,18 @@ To: Peter Maydell <peter.maydell@linaro.org>,
 Cc: Atish Patra <atishp@atishpatra.org>,
  Richard Henderson <richard.henderson@linaro.org>,
  Anup Patel <anup@brainfault.org>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Anup Patel <apatel@ventanamicro.com>,
- Alistair Francis <alistair.francis@wdc.com>
-Subject: [PATCH v3 3/4] target/riscv: No need to re-start QEMU timer when
- timecmp == UINT64_MAX
-Date: Fri, 20 Jan 2023 18:29:49 +0530
-Message-Id: <20230120125950.2246378-4-apatel@ventanamicro.com>
+ qemu-devel@nongnu.org, Anup Patel <apatel@ventanamicro.com>
+Subject: [PATCH v3 4/4] target/riscv: Ensure opcode is saved for all relevant
+ instructions
+Date: Fri, 20 Jan 2023 18:29:50 +0530
+Message-Id: <20230120125950.2246378-5-apatel@ventanamicro.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230120125950.2246378-1-apatel@ventanamicro.com>
 References: <20230120125950.2246378-1-apatel@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::629;
- envelope-from=apatel@ventanamicro.com; helo=mail-pl1-x629.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=apatel@ventanamicro.com; helo=mail-pj1-x1031.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,51 +97,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The time CSR will wrap-around immediately after reaching UINT64_MAX
-so we don't need to re-start QEMU timer when timecmp == UINT64_MAX
-in riscv_timer_write_timecmp().
+We should call decode_save_opc() for all relevant instructions which
+can potentially generate a virtual instruction fault or a guest page
+fault because generating transformed instruction upon guest page fault
+expects opcode to be available. Without this, hypervisor will see
+transformed instruction as zero in htinst CSR for guest MMIO emulation
+which makes MMIO emulation in hypervisor slow and also breaks nested
+virtualization.
 
+Fixes: a9814e3e08d2 ("target/riscv: Minimize the calls to decode_save_opc")
 Signed-off-by: Anup Patel <apatel@ventanamicro.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/time_helper.c | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
+ target/riscv/insn_trans/trans_rva.c.inc     | 10 +++++++---
+ target/riscv/insn_trans/trans_rvd.c.inc     |  2 ++
+ target/riscv/insn_trans/trans_rvf.c.inc     |  2 ++
+ target/riscv/insn_trans/trans_rvh.c.inc     |  3 +++
+ target/riscv/insn_trans/trans_rvi.c.inc     |  2 ++
+ target/riscv/insn_trans/trans_rvzfh.c.inc   |  2 ++
+ target/riscv/insn_trans/trans_svinval.c.inc |  3 +++
+ 7 files changed, 21 insertions(+), 3 deletions(-)
 
-diff --git a/target/riscv/time_helper.c b/target/riscv/time_helper.c
-index 4fb2a471a9..b654f91af9 100644
---- a/target/riscv/time_helper.c
-+++ b/target/riscv/time_helper.c
-@@ -72,6 +72,30 @@ void riscv_timer_write_timecmp(RISCVCPU *cpu, QEMUTimer *timer,
-         riscv_cpu_update_mip(cpu, timer_irq, BOOL_TO_MASK(0));
-     }
+diff --git a/target/riscv/insn_trans/trans_rva.c.inc b/target/riscv/insn_trans/trans_rva.c.inc
+index 45db82c9be..5f194a447b 100644
+--- a/target/riscv/insn_trans/trans_rva.c.inc
++++ b/target/riscv/insn_trans/trans_rva.c.inc
+@@ -20,8 +20,10 @@
  
-+    /*
-+     * Sstc specification says the following about timer interrupt:
-+     * "A supervisor timer interrupt becomes pending - as reflected in
-+     * the STIP bit in the mip and sip registers - whenever time contains
-+     * a value greater than or equal to stimecmp, treating the values
-+     * as unsigned integers. Writes to stimecmp are guaranteed to be
-+     * reflected in STIP eventually, but not necessarily immediately.
-+     * The interrupt remains posted until stimecmp becomes greater
-+     * than time - typically as a result of writing stimecmp."
-+     *
-+     * When timecmp = UINT64_MAX, the time CSR will eventually reach
-+     * timecmp value but on next timer tick the time CSR will wrap-around
-+     * and become zero which is less than UINT64_MAX. Now, the timer
-+     * interrupt behaves like a level triggered interrupt so it will
-+     * become 1 when time = timecmp = UINT64_MAX and next timer tick
-+     * it will become 0 again because time = 0 < timecmp = UINT64_MAX.
-+     *
-+     * Based on above, we don't re-start the QEMU timer when timecmp
-+     * equals UINT64_MAX.
-+     */
-+    if (timecmp == UINT64_MAX) {
-+        return;
-+    }
-+
-     /* otherwise, set up the future timer interrupt */
-     diff = timecmp - rtc_r;
-     /* back to ns (note args switched in muldiv64) */
+ static bool gen_lr(DisasContext *ctx, arg_atomic *a, MemOp mop)
+ {
+-    TCGv src1 = get_address(ctx, a->rs1, 0);
++    TCGv src1;
+ 
++    decode_save_opc(ctx);
++    src1 = get_address(ctx, a->rs1, 0);
+     if (a->rl) {
+         tcg_gen_mb(TCG_MO_ALL | TCG_BAR_STRL);
+     }
+@@ -43,6 +45,7 @@ static bool gen_sc(DisasContext *ctx, arg_atomic *a, MemOp mop)
+     TCGLabel *l1 = gen_new_label();
+     TCGLabel *l2 = gen_new_label();
+ 
++    decode_save_opc(ctx);
+     src1 = get_address(ctx, a->rs1, 0);
+     tcg_gen_brcond_tl(TCG_COND_NE, load_res, src1, l1);
+ 
+@@ -81,9 +84,10 @@ static bool gen_amo(DisasContext *ctx, arg_atomic *a,
+                     MemOp mop)
+ {
+     TCGv dest = dest_gpr(ctx, a->rd);
+-    TCGv src1 = get_address(ctx, a->rs1, 0);
+-    TCGv src2 = get_gpr(ctx, a->rs2, EXT_NONE);
++    TCGv src1, src2 = get_gpr(ctx, a->rs2, EXT_NONE);
+ 
++    decode_save_opc(ctx);
++    src1 = get_address(ctx, a->rs1, 0);
+     func(dest, src1, src2, ctx->mem_idx, mop);
+ 
+     gen_set_gpr(ctx, a->rd, dest);
+diff --git a/target/riscv/insn_trans/trans_rvd.c.inc b/target/riscv/insn_trans/trans_rvd.c.inc
+index 1397c1ce1c..6e3159b797 100644
+--- a/target/riscv/insn_trans/trans_rvd.c.inc
++++ b/target/riscv/insn_trans/trans_rvd.c.inc
+@@ -38,6 +38,7 @@ static bool trans_fld(DisasContext *ctx, arg_fld *a)
+     REQUIRE_FPU;
+     REQUIRE_EXT(ctx, RVD);
+ 
++    decode_save_opc(ctx);
+     addr = get_address(ctx, a->rs1, a->imm);
+     tcg_gen_qemu_ld_i64(cpu_fpr[a->rd], addr, ctx->mem_idx, MO_TEUQ);
+ 
+@@ -52,6 +53,7 @@ static bool trans_fsd(DisasContext *ctx, arg_fsd *a)
+     REQUIRE_FPU;
+     REQUIRE_EXT(ctx, RVD);
+ 
++    decode_save_opc(ctx);
+     addr = get_address(ctx, a->rs1, a->imm);
+     tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], addr, ctx->mem_idx, MO_TEUQ);
+     return true;
+diff --git a/target/riscv/insn_trans/trans_rvf.c.inc b/target/riscv/insn_trans/trans_rvf.c.inc
+index a1d3eb52ad..965e1f8d11 100644
+--- a/target/riscv/insn_trans/trans_rvf.c.inc
++++ b/target/riscv/insn_trans/trans_rvf.c.inc
+@@ -38,6 +38,7 @@ static bool trans_flw(DisasContext *ctx, arg_flw *a)
+     REQUIRE_FPU;
+     REQUIRE_EXT(ctx, RVF);
+ 
++    decode_save_opc(ctx);
+     addr = get_address(ctx, a->rs1, a->imm);
+     dest = cpu_fpr[a->rd];
+     tcg_gen_qemu_ld_i64(dest, addr, ctx->mem_idx, MO_TEUL);
+@@ -54,6 +55,7 @@ static bool trans_fsw(DisasContext *ctx, arg_fsw *a)
+     REQUIRE_FPU;
+     REQUIRE_EXT(ctx, RVF);
+ 
++    decode_save_opc(ctx);
+     addr = get_address(ctx, a->rs1, a->imm);
+     tcg_gen_qemu_st_i64(cpu_fpr[a->rs2], addr, ctx->mem_idx, MO_TEUL);
+     return true;
+diff --git a/target/riscv/insn_trans/trans_rvh.c.inc b/target/riscv/insn_trans/trans_rvh.c.inc
+index 4f8aecddc7..9248b48c36 100644
+--- a/target/riscv/insn_trans/trans_rvh.c.inc
++++ b/target/riscv/insn_trans/trans_rvh.c.inc
+@@ -36,6 +36,7 @@ static bool do_hlv(DisasContext *ctx, arg_r2 *a, MemOp mop)
+ #ifdef CONFIG_USER_ONLY
+     return false;
+ #else
++    decode_save_opc(ctx);
+     if (check_access(ctx)) {
+         TCGv dest = dest_gpr(ctx, a->rd);
+         TCGv addr = get_gpr(ctx, a->rs1, EXT_NONE);
+@@ -82,6 +83,7 @@ static bool do_hsv(DisasContext *ctx, arg_r2_s *a, MemOp mop)
+ #ifdef CONFIG_USER_ONLY
+     return false;
+ #else
++    decode_save_opc(ctx);
+     if (check_access(ctx)) {
+         TCGv addr = get_gpr(ctx, a->rs1, EXT_NONE);
+         TCGv data = get_gpr(ctx, a->rs2, EXT_NONE);
+@@ -135,6 +137,7 @@ static bool trans_hsv_d(DisasContext *ctx, arg_hsv_d *a)
+ static bool do_hlvx(DisasContext *ctx, arg_r2 *a,
+                     void (*func)(TCGv, TCGv_env, TCGv))
+ {
++    decode_save_opc(ctx);
+     if (check_access(ctx)) {
+         TCGv dest = dest_gpr(ctx, a->rd);
+         TCGv addr = get_gpr(ctx, a->rs1, EXT_NONE);
+diff --git a/target/riscv/insn_trans/trans_rvi.c.inc b/target/riscv/insn_trans/trans_rvi.c.inc
+index 5c69b88d1e..4496f21266 100644
+--- a/target/riscv/insn_trans/trans_rvi.c.inc
++++ b/target/riscv/insn_trans/trans_rvi.c.inc
+@@ -261,6 +261,7 @@ static bool gen_load_i128(DisasContext *ctx, arg_lb *a, MemOp memop)
+ 
+ static bool gen_load(DisasContext *ctx, arg_lb *a, MemOp memop)
+ {
++    decode_save_opc(ctx);
+     if (get_xl(ctx) == MXL_RV128) {
+         return gen_load_i128(ctx, a, memop);
+     } else {
+@@ -350,6 +351,7 @@ static bool gen_store_i128(DisasContext *ctx, arg_sb *a, MemOp memop)
+ 
+ static bool gen_store(DisasContext *ctx, arg_sb *a, MemOp memop)
+ {
++    decode_save_opc(ctx);
+     if (get_xl(ctx) == MXL_RV128) {
+         return gen_store_i128(ctx, a, memop);
+     } else {
+diff --git a/target/riscv/insn_trans/trans_rvzfh.c.inc b/target/riscv/insn_trans/trans_rvzfh.c.inc
+index 5d07150cd0..2ad5716312 100644
+--- a/target/riscv/insn_trans/trans_rvzfh.c.inc
++++ b/target/riscv/insn_trans/trans_rvzfh.c.inc
+@@ -49,6 +49,7 @@ static bool trans_flh(DisasContext *ctx, arg_flh *a)
+     REQUIRE_FPU;
+     REQUIRE_ZFH_OR_ZFHMIN(ctx);
+ 
++    decode_save_opc(ctx);
+     t0 = get_gpr(ctx, a->rs1, EXT_NONE);
+     if (a->imm) {
+         TCGv temp = temp_new(ctx);
+@@ -71,6 +72,7 @@ static bool trans_fsh(DisasContext *ctx, arg_fsh *a)
+     REQUIRE_FPU;
+     REQUIRE_ZFH_OR_ZFHMIN(ctx);
+ 
++    decode_save_opc(ctx);
+     t0 = get_gpr(ctx, a->rs1, EXT_NONE);
+     if (a->imm) {
+         TCGv temp = tcg_temp_new();
+diff --git a/target/riscv/insn_trans/trans_svinval.c.inc b/target/riscv/insn_trans/trans_svinval.c.inc
+index 2682bd969f..f3cd7d5c0b 100644
+--- a/target/riscv/insn_trans/trans_svinval.c.inc
++++ b/target/riscv/insn_trans/trans_svinval.c.inc
+@@ -28,6 +28,7 @@ static bool trans_sinval_vma(DisasContext *ctx, arg_sinval_vma *a)
+     /* Do the same as sfence.vma currently */
+     REQUIRE_EXT(ctx, RVS);
+ #ifndef CONFIG_USER_ONLY
++    decode_save_opc(ctx);
+     gen_helper_tlb_flush(cpu_env);
+     return true;
+ #endif
+@@ -56,6 +57,7 @@ static bool trans_hinval_vvma(DisasContext *ctx, arg_hinval_vvma *a)
+     /* Do the same as hfence.vvma currently */
+     REQUIRE_EXT(ctx, RVH);
+ #ifndef CONFIG_USER_ONLY
++    decode_save_opc(ctx);
+     gen_helper_hyp_tlb_flush(cpu_env);
+     return true;
+ #endif
+@@ -68,6 +70,7 @@ static bool trans_hinval_gvma(DisasContext *ctx, arg_hinval_gvma *a)
+     /* Do the same as hfence.gvma currently */
+     REQUIRE_EXT(ctx, RVH);
+ #ifndef CONFIG_USER_ONLY
++    decode_save_opc(ctx);
+     gen_helper_hyp_gvma_tlb_flush(cpu_env);
+     return true;
+ #endif
 -- 
 2.34.1
 
