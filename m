@@ -2,93 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73AEA675505
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:52:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B020675508
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:53:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIqsG-0003pq-MG; Fri, 20 Jan 2023 07:52:04 -0500
+	id 1pIqtr-0005Vf-VI; Fri, 20 Jan 2023 07:53:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIqsB-0003pH-Jw
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:51:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pIqtq-0005V2-0U
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:53:42 -0500
+Received: from 1.mo552.mail-out.ovh.net ([178.32.96.117])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIqs7-0004jQ-Tz
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:51:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674219115;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Fjt0717tIU8SMNBPjFzOfxu/Gokm7teZYh1vfMQFi9s=;
- b=AwC9cKes73I7sNgcJJKAi9e6yYK3kVZHcPtZU49aD72Fw0yl1PcM9tLBRH8whDggx7dPNJ
- xq3H/um2IwzhWquGTG8rBnd68jDnQnbnqMV0KSDbF4c2xYRXlPLkWQt7kl1TKJneUOd6sd
- gJIvkQmM2USo/VNs9XZnoc7O/99SrGA=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-475-iK2pWcrCOeOPXSZIAU5BFQ-1; Fri, 20 Jan 2023 07:51:54 -0500
-X-MC-Unique: iK2pWcrCOeOPXSZIAU5BFQ-1
-Received: by mail-qk1-f197.google.com with SMTP id
- v7-20020a05620a0f0700b006faffce43b2so3367893qkl.9
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 04:51:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Fjt0717tIU8SMNBPjFzOfxu/Gokm7teZYh1vfMQFi9s=;
- b=VciZAPx1R5bkCHCg+QEsTUW5LMtTYYwTxLvFlnWRqjTE5Lv6MM+YBL24IagjUXolo7
- ZKPGt7AW+H3bo185WW+uqEcCjtjI6jFe7sKWbTpeMeRbXkHosqHAdVKxU7FRjAZ2atZL
- kz2m80v2qrhl/slIJaIGP0b5Nuo1Q3adqV+quR12uVZmzEo3rYs7O/MweQ6uZ9hvpiah
- ZexG1fc9HRJ2/bbaxwqwFMrznGP20FtPEFsNRzg7/sYPD67p4W50oy/s1V1h2oeIIyxb
- tZsOyhbM5p0OSGxFNGQt6QP9EMStkR9WRRiUAjN79IT8aPAhYAVL7PDb4kuO9O9IHnjG
- 55Gw==
-X-Gm-Message-State: AFqh2krx2CSXNsPq+YQmgH/oTJ/aKozR+B/QH+bObmUhpAbD7tdQ82kC
- 87JTHXnyHKBpP495s5hKmsyhUns4RHfh2kly7S9184wGfG7iS6EC2K/KzMmzoaSU+pDZiMPeL/4
- anLkLN899/JbCrro=
-X-Received: by 2002:a05:622a:1b0e:b0:3b6:4544:1dfe with SMTP id
- bb14-20020a05622a1b0e00b003b645441dfemr16643108qtb.56.1674219113656; 
- Fri, 20 Jan 2023 04:51:53 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXs5GeeOczyj83sOzM/I3PydMjCOGgT88n+6KBa7NSvDu/YW9OxHirnflBDfMYFYh59+DnN0uA==
-X-Received: by 2002:a05:622a:1b0e:b0:3b6:4544:1dfe with SMTP id
- bb14-20020a05622a1b0e00b003b645441dfemr16643087qtb.56.1674219113407; 
- Fri, 20 Jan 2023 04:51:53 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-118.web.vodafone.de.
- [109.43.177.118]) by smtp.gmail.com with ESMTPSA id
- w13-20020a05620a444d00b00709041c3206sm2292312qkp.103.2023.01.20.04.51.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Jan 2023 04:51:52 -0800 (PST)
-Message-ID: <32e7aa36-8ce8-1866-e085-2b918c58fd35@redhat.com>
-Date: Fri, 20 Jan 2023 13:51:50 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pIqto-0004wa-9S
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:53:41 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.236])
+ by mo552.mail-out.ovh.net (Postfix) with ESMTPS id 5AEC53384D;
+ Fri, 20 Jan 2023 12:53:37 +0000 (UTC)
+Received: from kaod.org (37.59.142.101) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Fri, 20 Jan
+ 2023 13:53:36 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-101G004f41b5af8-fb4e-4642-8d24-0277d587a250,
+ B144956C13BBC382596DA5742790BEAB579A3E91) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <d0186ac6-b0cb-2dff-34d6-c8eee76d469c@kaod.org>
+Date: Fri, 20 Jan 2023 13:53:36 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PULL 0/5] tcg patch queue
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 1/2] tests/avocado: Factor file_truncate() helper out
 Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-References: <20230116223637.3512814-1-richard.henderson@linaro.org>
- <2c1eb92b-91f8-34d5-c5f7-a56a41ec807b@redhat.com>
- <fd1b116ac19feaaebbf82f8e41a24883af81f851.camel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <fd1b116ac19feaaebbf82f8e41a24883af81f851.camel@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ <qemu-devel@nongnu.org>
+CC: Peter Maydell <peter.maydell@linaro.org>, <qemu-arm@nongnu.org>, Cleber
+ Rosa <crosa@redhat.com>, Beraldo Leal <bleal@redhat.com>, Subbaraya Sundeep
+ <sundeep.lkml@gmail.com>, Wainer dos Santos Moschetta <wainersm@redhat.com>
+References: <20230120122836.81675-1-philmd@linaro.org>
+ <20230120122836.81675-2-philmd@linaro.org>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <20230120122836.81675-2-philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: 11
-X-Spam_score: 1.1
-X-Spam_bar: +
-X-Spam_report: (1.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Originating-IP: [37.59.142.101]
+X-ClientProxiedBy: DAG9EX2.mxp5.local (172.16.2.82) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: 534c7df5-6f9e-448a-afaf-71a8599412e3
+X-Ovh-Tracer-Id: 10291006624340216684
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudduvddggeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvvehfhfgjtgfgihesthekredttdefjeenucfhrhhomhepveorughrihgtucfnvgcuifhorghtvghruceotghlgheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffudefleeiudejfeffhfejffeigffhhffhvdekieejheelvdeufffhjedtheeggeenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtudenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepphhhihhlmhgusehlihhnrghrohdrohhrghdpqhgvmhhuqdguvghvvghlsehnohhnghhnuhdrohhrghdpphgvthgvrhdrmhgrhiguvghllheslhhinhgrrhhordhorhhgpdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdgtrhhoshgrsehrvgguhhgrthdrtghomhdpsghlvggrlhesrhgvughhrghtrdgtohhmpdhsuhhnuggvvghprdhlkhhmlhesghhmrghilhdrtghomhdpfigrihhnvghrshhmsehrvgguhhgrthdrtghomhdpoffvtefjohhsthepmhhoheehvddpmhhouggvpe
+ hsmhhtphhouhht
+Received-SPF: pass client-ip=178.32.96.117; envelope-from=clg@kaod.org;
+ helo=1.mo552.mail-out.ovh.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.089,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,78 +77,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/01/2023 11.53, Ilya Leoshkevich wrote:
-> On Fri, 2023-01-20 at 10:41 +0100, Thomas Huth wrote:
->> On 16/01/2023 23.36, Richard Henderson wrote:
->>> The following changes since commit
->>> fb7e7990342e59cf67dbd895c1a1e3fb1741df7a:
->>>
->>>     tests/qtest/qom-test: Do not print tested properties by default
->>> (2023-01-16 15:00:57 +0000)
->>>
->>> are available in the Git repository at:
->>>
->>>     https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230116
->>>
->>> for you to fetch changes up to
->>> 61710a7e23a63546da0071ea32adb96476fa5d07:
->>>
->>>     accel/tcg: Split out cpu_exec_{setjmp,loop} (2023-01-16 10:14:12
->>> -1000)
->>>
->>> ----------------------------------------------------------------
->>> - Reorg cpu_tb_exec around setjmp.
->>> - Use __attribute__((target)) for buffer_is_zero.
->>> - Add perfmap and jitdump for perf support.
->>>
->>> ----------------------------------------------------------------
->>> Ilya Leoshkevich (3):
->>>         linux-user: Clean up when exiting due to a signal
->>>         accel/tcg: Add debuginfo support
->>>         tcg: add perfmap and jitdump
->>>
->>> Richard Henderson (2):
->>>         util/bufferiszero: Use __attribute__((target)) for
->>> avx2/avx512
->>>         accel/tcg: Split out cpu_exec_{setjmp,loop}
->>
->>    Hi Richard, hi Ilya,
->>
->> with the recent QEMU master branch (commit 701ed34), I'm now seeing
->> failures
->> in Travis:
->>
->>    https://app.travis-ci.com/github/huth/qemu/jobs/593786529#L14411
->>
->> Everything was still fine a couple of days ago (commit fb7e799):
->>
->>    https://app.travis-ci.com/github/huth/qemu/builds/259755664
->>
->> ... so it seems this is likely related to this pull request. Could
->> you
->> please have a look?
->>
->>    Thanks,
->>     Thomas
->>
+On 1/20/23 13:28, Philippe Mathieu-Daudé wrote:
+> Factor file_truncate() helper out of image_pow2ceil_expand()
+> for reuse.
 > 
-> I would expect this to be (temporarily) fixed by [1], but we probably
-> don't set GITLAB_CI in Travis. Would it make sense to set it? It looks
-> as if this variable is currently used only to skip certain tests.
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>>
+> ---
+>   tests/avocado/boot_linux_console.py | 14 +++++++++-----
+>   1 file changed, 9 insertions(+), 5 deletions(-)
 > 
-> If not, then maybe split it into QEMU_CI, GITLAB_CI and TRAVIS_CI?
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg04438.html
+> diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+> index 8c1d981586..49a4b22fe1 100644
+> --- a/tests/avocado/boot_linux_console.py
+> +++ b/tests/avocado/boot_linux_console.py
+> @@ -30,15 +30,19 @@
+>   def pow2ceil(x):
+>       return 1 if x == 0 else 2**(x - 1).bit_length()
+>   
+> +"""
+> +Truncate file
+> +"""
+> +def file_truncate(path, size):
+> +    if size != os.path.getsize(path):
+> +        with open(path, 'ab+') as fd:
+> +            fd.truncate(size)
+> +
+>   """
+>   Expand file size to next power of 2
+>   """
+>   def image_pow2ceil_expand(path):
+> -        size = os.path.getsize(path)
+> -        size_aligned = pow2ceil(size)
+> -        if size != size_aligned:
+> -            with open(path, 'ab+') as fd:
+> -                fd.truncate(size_aligned)
+> +    file_truncate(path, pow2ceil(size))
 
-Ah, ok, so this test has issues in gitlab, too!
+size is required ^
 
-For Travis, I think we should either check the CI or TRAVIS environment 
-variables:
+C.
 
- 
-https://docs.travis-ci.com/user/environment-variables/#default-environment-variables
 
-  Thomas
-
+>   
+>   class LinuxKernelTest(QemuSystemTest):
+>       KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
 
 
