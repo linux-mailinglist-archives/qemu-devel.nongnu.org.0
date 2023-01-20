@@ -2,68 +2,146 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28736674B56
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 05:51:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31E1A674B6F
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 05:54:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIjMn-0005sh-BL; Thu, 19 Jan 2023 23:51:05 -0500
+	id 1pIjPr-0007uD-7E; Thu, 19 Jan 2023 23:54:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mtosatti@redhat.com>)
- id 1pIjMl-0005sR-NP
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 23:51:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1pIjPo-0007tV-UH
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 23:54:12 -0500
+Received: from mail-mw2nam10on2081.outbound.protection.outlook.com
+ ([40.107.94.81] helo=NAM10-MW2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mtosatti@redhat.com>)
- id 1pIjMk-0005g2-1J
- for qemu-devel@nongnu.org; Thu, 19 Jan 2023 23:51:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674190261;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- references:references; bh=+LRagk6PL+VCh4WXT1/1N+QScv/LuUh/E9vGhjKrpng=;
- b=dHjAbNUTBt/NKfRA7QxqAY9WD7oXli+peNBCFiVdnXvktRnF7TSf61L2FmW5s/vPHyXX++
- 6Niv79r14ogUB1ku/s4+GLgZtwO7+3Tg7nbMRoL0A+8ZD2yokCSWlTru5MERwZdv5r4YIz
- hfCMewkCdg0n2qg+A/1tGBC3eAMA40A=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-346-Pxq9fQkDMlqlGtbUtn9NVA-1; Thu, 19 Jan 2023 23:48:50 -0500
-X-MC-Unique: Pxq9fQkDMlqlGtbUtn9NVA-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 407E485CBE1;
- Fri, 20 Jan 2023 04:48:50 +0000 (UTC)
-Received: from tpad.localdomain (ovpn-112-2.gru2.redhat.com [10.97.112.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E2C711121315;
- Fri, 20 Jan 2023 04:48:49 +0000 (UTC)
-Received: by tpad.localdomain (Postfix, from userid 1000)
- id 0A2DE4099C363; Thu, 19 Jan 2023 22:15:17 -0300 (-03)
-Message-ID: <20230120011412.558538345@redhat.com>
-User-Agent: quilt/0.67
-Date: Thu, 19 Jan 2023 22:11:18 -0300
-From: Marcelo Tosatti <mtosatti@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, kvm@vger.kernel.org,
- Marcelo Tosatti <mtosatti@redhat.com>
-Subject: [PATCH 2/2] hw/i386/kvm/clock.c: read kvmclock from guest memory if
- !correct_tsc_shift
-References: <20230120011116.134437211@redhat.com>
+ (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
+ id 1pIjPm-0005zX-C4
+ for qemu-devel@nongnu.org; Thu, 19 Jan 2023 23:54:12 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Wjlp3Ql8WYb4B0mSbe9x5cnFdC4DQ4+fvGi1q/Osd1um2Q9MP7hkTFYkiN2XzMST9CZtsMeJra6mg5IhBYGNAwFWPXCgfAPiOa2UAKMo72ud+H/kMubycJwx55pYC6jFUyc1Wx6wyVjwIINZY3wyGc6mmSIH+GxwlLyb4FFl87LXHeaRS6sTzEcMrlrkifTNefrZcAZiLp8RY3jwFRGYBnupNoP9s9CJNmm3rhmM/RR6mJQRzFa4MbCqRQFSlryJFS/DuqH+OuHvXWqyW3ZBOgwGmc7RZvuy4QhRTlE+atrv9Pbh6y8uQ0UXnQLGTfzsqIynCl6RVowJPy7swBz0FQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=49s+uP1F4mc5sZHI6peOqUsUNaOES1YQVXQmYdNeTJ8=;
+ b=HNIbrVHAhX0C9K6PMU6QubUdQF+vpzLtJ3tIF8qYpyCLeCiOQrSfnixdSIybE9MORi4itjF+hlU++pTTz9eOhGhvvVIUkLDCqPgr+PE1inmJLfuuSV29dzQPjadRtU7W6X53xGW+Mh0yHnW5WOnHw8ck9gERrRKJWU7yJnPqc+ncUhPtzB82fp7SLveabEpJpqUlrrJyKMoxbHBD+6MJav5ORHnxcu7R+4TvmMc5HVxUv6Cja85WJlZTduWLLQrsKpM3rCNgVUjRwJax7lSNJ//9AkgrWe8QlseHwnsEv7ePA/pMX6UPj5MbuDU7ifTAibr8V00F5KOWGolnSYMY5Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
+ dkim=pass header.d=memverge.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=49s+uP1F4mc5sZHI6peOqUsUNaOES1YQVXQmYdNeTJ8=;
+ b=jl7J49fmWgJrTyaMZQEaGRRL7sNQW27gz8PRA5BkzenJsG+UtuaXcK9Dj2tTm2ofr7aigFc9JJt1plbOCmSNTOwkiXWQIMVcXlS+qE1JLwNV2Hd+Liu0vmrKhi34V/c50t3a73UL4YwYOvYy/RfIU3j+Kj51oVlN7IM4LOxKFZY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=memverge.com;
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
+ by SJ0PR17MB5040.namprd17.prod.outlook.com (2603:10b6:a03:3ac::5)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.25; Fri, 20 Jan
+ 2023 04:54:04 +0000
+Received: from BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
+ ([fe80::d253:1eb3:9347:c660%4]) with mapi id 15.20.5986.023; Fri, 20 Jan 2023
+ 04:54:02 +0000
+Date: Thu, 19 Jan 2023 23:53:53 -0500
+From: Gregory Price <gregory.price@memverge.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: Jonathan Cameron via <qemu-devel@nongnu.org>,
+ Lukas Wunner <lukas@wunner.de>, Michael Tsirkin <mst@redhat.com>,
+ Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
+ linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
+ Gregory Price <gourry.memverge@gmail.com>,
+ Dan Williams <dan.j.williams@intel.com>
+Subject: Re: cxl nvdimm Potential probe ordering issues.
+Message-ID: <Y8oeYfyqNuSIIxCt@memverge.com>
+References: <Y8CNw/fZT5fZJZcK@memverge.com>
+ <20230113091213.00002146@Huawei.com>
+ <Y8Foj/12QNl0C96o@memverge.com>
+ <20230113144026.000001fb@Huawei.com>
+ <20230113144511.00001207@Huawei.com>
+ <20230113151206.GA20583@wunner.de> <Y8hG4OyJL7l9oD2f@memverge.com>
+ <Y8hJKcy1993SFLLJ@memverge.com>
+ <20230119124244.000015b3@Huawei.com>
+ <20230119150449.000037f2@huawei.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230119150449.000037f2@huawei.com>
+X-ClientProxiedBy: BYAPR06CA0048.namprd06.prod.outlook.com
+ (2603:10b6:a03:14b::25) To BN6PR17MB3121.namprd17.prod.outlook.com
+ (2603:10b6:405:7c::19)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mtosatti@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|SJ0PR17MB5040:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9da4881f-0a99-45a8-e086-08dafaa259ea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4I+O7UFOus9uSN17wTbu1sAxKCs09J4BBRYxL9gheF0bu2YkiD670JqZEmAbwmdBL4uwVsBjkM6nVNILclpNUtxbVW9HPsLOKKjcYDd1OVii/9sxQzwi3hx0uVgIHI/04DdgE/8bcmPqz0CQga0v8GF1cIJg5uHKyQYJ/JPmOXZWxgkN35bGN6Monre/rVhvZk9wSnsfoIJN5pQLuijVxDs7AVzhZWXQGb5f6QE3EkywWgb50aMJX8XtavtuNt0mvLN1aBHdmIqZq8wyZsyfbcrKPEcERWpzEQet9qUL63+SWeGvX0Jm52ngolczwq5zRGBQlO2mWwEbVItULtJT+d1MoDH7gdXvcYCItYBcK2x6nImy8KtGO46dkaUZJSgHPftSqW0lNV+nS3sVU2J33vsNSubY+4NWIE3PUr/DOZ6x5KXgBAo51aYTLk3HW1oZnXjVqL8pKnwt07uybPC1q5Jxs/+tXRGpGmBet5AIzhKMBcpmUWt6RJXnniUVk22vh+BMjGTkI12vehUnB3Khsoa+Z+cfVv+Z/YpYnw6KEqVe1DYOvyldOhsVk5MpCmxfcxtHbwKXCDWcdsv3Espx3rWS/l0cMRWtULLcGSwxDPkML0XJqntCsjhtyPzxdUtvsG/wxZ5HS1cc5qWAWinjL1wuyP7Zl1lJCfAj4ZJtEj8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(346002)(366004)(39840400004)(396003)(376002)(136003)(451199015)(966005)(6486002)(86362001)(6506007)(36756003)(6666004)(478600001)(8936002)(5660300002)(316002)(6512007)(8676002)(6916009)(4326008)(66556008)(38100700002)(66476007)(7416002)(41300700001)(186003)(26005)(2616005)(2906002)(44832011)(83380400001)(66946007)(54906003);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?RnpXSWlMWnpWdmROY25OYm5jSkFPb3pWYnpLV0lZWHBEaHlmWGY4WWZhdERx?=
+ =?utf-8?B?NXB0NmRmdjVWS1FXMDJGQUd6QUtCQlB6UUdxaFJyUTUrSXc1ZWdZQXloV1FO?=
+ =?utf-8?B?K3FiK3k4dU11YUFVY3VRWHZlNXZ4VFFCMnZuUVBTZ0p0a2JtWE5rOTZhTCt5?=
+ =?utf-8?B?cVN0Vko2enBkQUVBRndPUDNINitzdnNkdlU1ZjhlL2VRaC9JWjc1Z3FKMHAw?=
+ =?utf-8?B?Tk9vK0JVMEVEeURIZnpnSlZYNi92djBPS0xnUHd3ekNqcERlb243QlVvTUpn?=
+ =?utf-8?B?V1l4SEd5RnpZeXFaNkZzYlE5MHpIanF4U0prMytKaFZnS08rUjBiOWRiMkdH?=
+ =?utf-8?B?Wk5Oc09kK3YyMlAyVXdWNCs3UWJQaFhsejBiN25IaFJ0dWVNd1hSZkRJaWRt?=
+ =?utf-8?B?cy9JK3EwNlJ5YmFyTWNxam1XQ2Vsbm1MSGRGUmFmUGNSeUVHazF5Ri9QUHlE?=
+ =?utf-8?B?RzJBb2NjbEdRV0xKM1JNZ0hKeDFON0RJQ3I0SjBCWG00eURZWWpqbTNyT2pI?=
+ =?utf-8?B?dHRuM0pmUGxDUkdIVnVSNzFMQVlNa1ArYkRqRWFCN0RuTFZFa0FhVjYzeTV5?=
+ =?utf-8?B?OVQ0RUdxTHUyVlYwdytrVGtvaDdCcHluNjNTRGcvbDl5USs1MjNWVFAwRThM?=
+ =?utf-8?B?UGZDbFhxQ3VmZWhobm1aK3VyRUQvK2krOE90RGRvaUpnUlBSN2ZnVHA0dXZo?=
+ =?utf-8?B?eGZUZldqQ2lCNHR4QmRCelFBeEpNRWlCWVBwSnh3ckRmbjcvVUFISEJaaFg3?=
+ =?utf-8?B?L3NWVmJkYXlyT2NHRFdhTlRZaE5ZaDRPTWxpVEVuZDk2NzNxZUZkclB1THFr?=
+ =?utf-8?B?MXE4d25pWDJUaHRIK0dubENsL25JSngvaXdlVWNvY2ZwekVOWUQ3eWcwYzVw?=
+ =?utf-8?B?am1tUEN2c3dnbWpHNlg4dmNnZ2YxNlRDVTJiVGhNSHNGaEg5Q3RFVk16WENP?=
+ =?utf-8?B?SVdCRUFxc0U0cU83ZllPVk1rbHBpbGttUXk5dllNNVdvam43NGVUYkRabVBu?=
+ =?utf-8?B?eEIyTEtmdzVTcVFZblU5ZnhiNldkbmNKbVpJVERPMjZmek5wdFZpVHAyNFY3?=
+ =?utf-8?B?SmZ3TVN2NHJZdjhRQlhBUEtqUCsxSjBXYkxtd1UrUGV3NmdHOUZNbEwySEpZ?=
+ =?utf-8?B?UVVtMVQvT3c1Ty92aUFUUW5kVjVWRTBpc28xd1paZmZScHVmNjI4OVY5WWtZ?=
+ =?utf-8?B?UFZoRkM3bzlIQlo2VHhwTnk2aEJWdDBlN25INi9XOVRkbUlZaUxiQTF5bzNw?=
+ =?utf-8?B?TEppRDRwcGJxY00wbnBzUVhMRGxodTdxL1FjSURpMll5OWlaczRWeWQrblN5?=
+ =?utf-8?B?a3pxV0NYeFlHOUZPNVdtb1JJRmJySjc5ZURPNG83Z01hVEdYSVRXWlhZS0Y4?=
+ =?utf-8?B?TmxrTWJkNmlkT1dpdEZNamxOQ3k3UmxGRTNJNUxPY2dvRWh3SFBkbzhYem04?=
+ =?utf-8?B?VFI2bDYvWW1MakpDd3VNTGsyTThEY2ZJaVBKTWFQSktlT1pjOHRrd25yUk5y?=
+ =?utf-8?B?L2NPdWNIL0ZMdytidElLa214QStqem5zL3pIZGlwZnlyaUdUcjkrMVpHcVp6?=
+ =?utf-8?B?RzgvL2Q3UldYVUs0WmtFZExGTURtZjRrNkR5VHkyZ2pxVDJkRXhrTDdDZWJN?=
+ =?utf-8?B?ejlaRm1FS0pBOGI0S0xPUnR5c2RhKzEvdDJSS21JdU1rM3Bodnk2YytUVzVz?=
+ =?utf-8?B?S052cyt3djNGK25ROWpvckpqelM3MWxNaXhWNmZFbGc2WmhlaFg0TzlPbWtV?=
+ =?utf-8?B?WFIzc1ZvbzhRa2k0ZGFIbnI1TDZYeWJkUWJjNUU1RWNseExkcjNlQTQzd0ZQ?=
+ =?utf-8?B?MnhMOURtTjZnaWZYNjc2SEp0NGk2cnJJeFBJZnlJV0QwaTU4RXY2ZTJUVjJw?=
+ =?utf-8?B?aWxPTmtOUjZPdHpISVBJTCtLSUZMMEp3MUU1T3M5SkpoMzRKeG15cFkvOTJm?=
+ =?utf-8?B?WmJiNXNmUXdrWE1ZempRZWFmSjBYTXFQQ1gySHA5RDZxS2FobnZNbDRXNmRw?=
+ =?utf-8?B?d3J6NEM4azN3eHlFTGpqWEgwMEQzdnhFdy9YeWNUME9kWXd2NmkxNkFCTHFn?=
+ =?utf-8?B?cENUdEQvS3U4NExNbHlzUXd0emp3U1dyRW9vMm1vL21GVnRmUTZDaFQvT0J2?=
+ =?utf-8?B?NGx1TWJGTklaNmVpSmtGRjRGWDUwSzlEOTBCZmJvRFNRZ2RsUHNCQ2tBUFQr?=
+ =?utf-8?B?NHc9PQ==?=
+X-OriginatorOrg: memverge.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9da4881f-0a99-45a8-e086-08dafaa259ea
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2023 04:54:02.8744 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: xJKWo421o07+5b+8C2/9CFQUVocr/bxCaF9jc4EdwNRP7oKPVrxGOQw5NG3ik75j0bM64o9r0a9wyCVGwmzRrKyrFSHnv7rXFjJ4AIGj84k=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR17MB5040
+Received-SPF: none client-ip=40.107.94.81;
+ envelope-from=gregory.price@memverge.com;
+ helo=NAM10-MW2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -10
+X-Spam_score: -1.1
+X-Spam_bar: -
+X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_NONE=0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,158 +157,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Before kernel commit 78db6a5037965429c04d708281f35a6e5562d31b,
-kvm_guest_time_update() would use vcpu->virtual_tsc_khz to calculate
-tsc_shift value in the vcpus pvclock structure written to guest memory.
+On Thu, Jan 19, 2023 at 03:04:49PM +0000, Jonathan Cameron wrote:
+> Gregory, would you mind checking if
+> cxl_nvb is NULL here...
+> https://elixir.bootlin.com/linux/v6.2-rc4/source/drivers/cxl/pmem.c#L67
+> (printk before it is used should work).
+> 
+> Might also be worth checking cxl_nvd and cxl_ds
+> but my guess is cxl_nvb is our problem (it is when I deliberate change
+> the load order).
+> 
+> Jonathan
+> 
 
-For those kernels, if vcpu->virtual_tsc_khz != tsc_khz (which can be the
-case when guest state is restored via migration, or if tsc-khz option is
-passed to QEMU), and TSC scaling is not enabled (which happens if the
-difference between the frequency requested via KVM_SET_TSC_KHZ and the
-host TSC KHZ is smaller than 250ppm), then there can be a difference
-between what KVM_GET_CLOCK would return and what the guest reads as
-kvmclock value.
+This is exactly the issue.  cxl_nvb is null, the rest appear fine.
 
-The effect is that the guest sees a jump in kvmclock value
-(either forwards or backwards) in such case.
+Also, note, that weirdly the non-volatile bridge shows up when launching
+this in volatile mode, but no stack trace appears.
 
-To fix incoming migration from pre-78db6a5037965 hosts, 
-read kvmclock value from guest memory.
+¯\_(ツ)_/¯
 
-Unless the KVM_CLOCK_CORRECT_TSC_SHIFT bit indicates
-that the value retrieved by KVM_GET_CLOCK on the source
-is safe to be used.
+After spending way too much time tracing through the current cxl driver
+code, i have only really determined that
 
-Signed-off-by: Marcelo Tosatti <mtosatti@redhat.com>
+1) The code is very pmem oriented, and it's unclear to me how the driver
+   as-is differentiates a persistent device from a volatile device. That
+	 code path still completely escapes me.  The only differentiating code
+	 i see is in the memdev probe path that creates mem#/pmem and mem#/ram
 
-Index: qemu/hw/i386/kvm/clock.c
-===================================================================
---- qemu.orig/hw/i386/kvm/clock.c
-+++ qemu/hw/i386/kvm/clock.c
-@@ -50,6 +50,16 @@ struct KVMClockState {
-     /* whether the 'clock' value was obtained in a host with
-      * reliable KVM_GET_CLOCK */
-     bool clock_is_reliable;
-+
-+    /* whether machine type supports correct_tsc_shift */
-+    bool mach_use_correct_tsc_shift;
-+
-+    /*
-+     * whether the 'clock' value was obtained in a host
-+     * that computes correct tsc_shift field (the one
-+     * written to guest memory)
-+     */
-+    bool clock_correct_tsc_shift;
- };
- 
- struct pvclock_vcpu_time_info {
-@@ -150,6 +160,8 @@ static void kvm_update_clock(KVMClockSta
-      *               read from memory
-      */
-     s->clock_is_reliable = kvm_has_adjust_clock_stable();
-+
-+    s->clock_correct_tsc_shift = kvm_has_correct_tsc_shift();
- }
- 
- static void do_kvmclock_ctrl(CPUState *cpu, run_on_cpu_data data)
-@@ -176,7 +188,7 @@ static void kvmclock_vm_state_change(voi
-          * If the host where s->clock was read did not support reliable
-          * KVM_GET_CLOCK, read kvmclock value from memory.
-          */
--        if (!s->clock_is_reliable) {
-+        if (!s->clock_is_reliable || !s->clock_correct_tsc_shift) {
-             uint64_t pvclock_via_mem = kvmclock_current_nsec(s);
-             /* We can't rely on the saved clock value, just discard it */
-             if (pvclock_via_mem) {
-@@ -252,14 +264,40 @@ static const VMStateDescription kvmclock
- };
- 
- /*
-+ * Sending clock_correct_tsc_shift=true means that the destination
-+ * can use VMSTATE_UINT64(clock, KVMClockState) value,
-+ * instead of reading from guest memory.
-+ */
-+static bool kvmclock_clock_correct_tsc_shift_needed(void *opaque)
-+{
-+    KVMClockState *s = opaque;
-+
-+    return s->mach_use_correct_tsc_shift;
-+}
-+
-+static const VMStateDescription kvmclock_correct_tsc_shift = {
-+    .name = "kvmclock/clock_correct_tsc_shift",
-+    .version_id = 1,
-+    .minimum_version_id = 1,
-+    .needed = kvmclock_clock_correct_tsc_shift_needed,
-+    .fields = (VMStateField[]) {
-+        VMSTATE_BOOL(clock_correct_tsc_shift, KVMClockState),
-+        VMSTATE_END_OF_LIST()
-+    }
-+};
-+
-+/*
-  * When migrating, assume the source has an unreliable
-- * KVM_GET_CLOCK unless told otherwise.
-+ * KVM_GET_CLOCK (and computes tsc shift
-+ * in guest memory using vcpu->virtual_tsc_khz),
-+ * unless told otherwise.
-  */
- static int kvmclock_pre_load(void *opaque)
- {
-     KVMClockState *s = opaque;
- 
-     s->clock_is_reliable = false;
-+    s->clock_correct_tsc_shift = false;
- 
-     return 0;
- }
-@@ -301,6 +339,7 @@ static const VMStateDescription kvmclock
-     },
-     .subsections = (const VMStateDescription * []) {
-         &kvmclock_reliable_get_clock,
-+        &kvmclock_correct_tsc_shift,
-         NULL
-     }
- };
-@@ -308,6 +347,8 @@ static const VMStateDescription kvmclock
- static Property kvmclock_properties[] = {
-     DEFINE_PROP_BOOL("x-mach-use-reliable-get-clock", KVMClockState,
-                       mach_use_reliable_get_clock, true),
-+    DEFINE_PROP_BOOL("x-mach-use-correct-tsc-shift", KVMClockState,
-+                      mach_use_correct_tsc_shift, true),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-Index: qemu/target/i386/kvm/kvm.c
-===================================================================
---- qemu.orig/target/i386/kvm/kvm.c
-+++ qemu/target/i386/kvm/kvm.c
-@@ -164,6 +164,13 @@ bool kvm_has_adjust_clock_stable(void)
-     return (ret & KVM_CLOCK_TSC_STABLE);
- }
- 
-+bool kvm_has_correct_tsc_shift(void)
-+{
-+    int ret = kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
-+
-+    return ret & KVM_CLOCK_CORRECT_TSC_SHIFT;
-+}
-+
- bool kvm_has_adjust_clock(void)
- {
-     return kvm_check_extension(kvm_state, KVM_CAP_ADJUST_CLOCK);
-Index: qemu/target/i386/kvm/kvm_i386.h
-===================================================================
---- qemu.orig/target/i386/kvm/kvm_i386.h
-+++ qemu/target/i386/kvm/kvm_i386.h
-@@ -35,6 +35,7 @@
- bool kvm_has_smm(void);
- bool kvm_has_adjust_clock(void);
- bool kvm_has_adjust_clock_stable(void);
-+bool kvm_has_correct_tsc_shift(void);
- bool kvm_has_exception_payload(void);
- void kvm_synchronize_all_tsc(void);
- void kvm_arch_reset_vcpu(X86CPU *cs);
+2) The code successfully manages probe, enable, and mount a REAL device
+   - cxl memdev appears (/sys/bus/cxl/devices/mem0)
+	 - a dax device appears (/sys/bus/dax/devices/)
+	   This happens at boot, which I assume must be bios related
+	 - The memory *does not* auto-online, instead the dax device can be
+	   onlined as system-ram *manually* via ndctl and friends
 
+3) The code creates an nvdimm_bridge IFF a CFMW is defined - regardless
+   of the type-3 device configuration (pmem-only or vmem-only)
+
+   # CFMW defined
+   [root@fedora ~]# ls /sys/bus/cxl/devices/
+   decoder0.0  decoder2.0  mem0            port1
+   decoder1.0  endpoint2   nvdimm-bridge0  root0
+
+   # CFMW not defined
+	 [root@fedora ~]# ls /sys/bus/cxl/devices/
+   decoder1.0  decoder2.0  endpoint2  mem0  port1  root0
+
+4) As you can see above, multiple decoders are registered.  I'm not sure
+   if that's correct or not, but it does seem odd given there's only one
+	 cxl type-3 device.  Odd that decoder0.0 shows up when CFMW is there,
+	 but not when it isn't.
+
+	 Note: All these tests have two root ports:
+	 -device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 \
+   -device cxl-rp,id=rp0,bus=cxl.0,chassis=0,port=0,slot=0 \
+   -device cxl-rp,id=rp1,bus=cxl.0,chassis=0,port=1,slot=1 \
+
+
+Don't know why I haven't thought of this until now, but is the CFMW code
+reporting something odd about what's behind it?  Is it assuming the
+devices are pmem?
 
 
