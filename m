@@ -2,55 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C2C6675614
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E5AA675615
 	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:44:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIrfv-00012m-Fd; Fri, 20 Jan 2023 08:43:23 -0500
+	id 1pIrfy-00013a-Jy; Fri, 20 Jan 2023 08:43:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIrfr-000111-Sb
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:43:19 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIrfw-000138-Bo
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:43:24 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIrfq-0007WG-7T
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:43:19 -0500
-Received: by mail-wr1-x436.google.com with SMTP id q5so245121wrv.0
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 05:43:17 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIrfu-0007Wx-SL
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:43:24 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id g10so4114050wmo.1
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 05:43:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=gXuDv/C0Rs9dQca1e1w0gMaDH945zae3nzhBwBhgYss=;
- b=aDdvOcVKHmz8bhEdKgqTPwFekE8EliPsTF+Sa5oudfNiSOWeY6HC9REVEjxaP0kaeV
- najG8MqQ5/QpV+1kb8N3jOen8oBs+cEu19dKChriLY4Az9vXM1z85Gj3RPYX9Jq1/cgE
- gfJ0/IN3RAgEga5qpdaGjgaU99e3hi5Ji+DT0s1kMBlPZuTmkoeE4kce/Pj1Um5ql1WS
- to4QpA22+taJfLjzbY3YjrIEO62HgsIELO4zV3C+JMSh9imq+dCs5LsB/yp4DWLFkvHP
- CaGHxZed66BgiQ2ucKUYejZVNcSrR2cmranV9Zg9jjpn2JY4P+WT2Hcl4qv2eg+x7SIx
- iE5A==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UNHd8/T89f0TRHea37adZgQvQ+f5+hWer7661K7hDXI=;
+ b=qHk0TYqXYGW8iALXaE11M3MlMIxhkCjmG4yJZismQtXQG97rzmhRqZ5r0GoMLNgsZ7
+ CN1qJ8bGYYWss5i1LGDomJnR+6JsKMZkqPzHOSqeAtLFWcLmHZA7akjkYXE4sqWhCqwt
+ IdQ5sCwaQgWNmhy4XkOLQlXbU2mMvKczMjhJasZfEjXQhivjGnnALEgMqZZPrQD84rLD
+ QBao2M9nkpE5JhiLb/vFWzUddlmrJ2/gN5Blhn9fMGz4SbOUh+NKA2hAVXREQujAiH3m
+ bJx4SII0RkieQnjQAFpZHUOWB3zdMJ8lU78T78YQMUpCj82hSpkjIGrBIKVP6X6bWp7y
+ Bs7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=gXuDv/C0Rs9dQca1e1w0gMaDH945zae3nzhBwBhgYss=;
- b=dfrTsDpTEGfoDJvQe7ff8MkHeu7Lpo0jjTHyZfuHSGZDNlO7rr4RIVo+hTbhVK8V/5
- 51E2wHym/9/XR8waKKjsMkT0NtflZomlC6XvWlitmkNi57jWcDJstS1+78G9n554qRqA
- r2Aw+bc/iTFU/iJoL8dT1QAI5Legg9s7lNIuwPi3iGznztHRchdJFrK423g2z3DHG0y0
- pp9uiZwphKcc2jfNGc/rmaRVew4d8+MnYMfDZxlyTybubM7OcOw4pUviYMOBB8xrH8rl
- TxqokGN0Z5maPkWgvz9B61CSqlUwIHVa+qa23F/sEYRg22ZANs0Dexkq6Rzp6RtoEdDJ
- NcRA==
-X-Gm-Message-State: AFqh2koBml2G+f1/IIQD+QC4odMXfcW19qcrjc4LLExshDX8pjgwtygP
- ZtpB11Np2s4XRIAP0CYCG5QocqFLNWh/7xg2
-X-Google-Smtp-Source: AMrXdXvhikfZj7180obvBhu/tnXHo0iEpacy+u63rAoVSbRq0GDpwOgrhHJ5BnZZNwdWPI16JqW7vQ==
-X-Received: by 2002:adf:cd81:0:b0:2bd:e0e8:694f with SMTP id
- q1-20020adfcd81000000b002bde0e8694fmr13257915wrj.32.1674222196127; 
- Fri, 20 Jan 2023 05:43:16 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UNHd8/T89f0TRHea37adZgQvQ+f5+hWer7661K7hDXI=;
+ b=6MRDE6uWpaNNkUdxXYOvf4oJrCcziAh32/Da135BtyYi7LkhkXO7HaQxbY8ltn1t8s
+ VVXFrZThZn6nPaC7FM9cTylNkSTeyjaktXLb/mUx6xV9mpgi0bQ4gLIHC2w0WGAkoRdK
+ +FXFrnCfPK9rslVbIhPFbJclprH46FPmFpCX8rj9ouy2Qf8QLWEi+Y7qvZE4ahq3Lgcm
+ hsc353ZPo6gK+9j1Lw5mQF+Ll4/qhDs01Gq8LB1gwJBhCUMHpSupQvZvdc17g4BkIc06
+ s2W/miVyhJ6g/VAmaIy7L/LWaqElIocuGUNL7gjFD7WE8pI9t9yyRQwsGYhvWehdA4jJ
+ x1gQ==
+X-Gm-Message-State: AFqh2kriXkRtT207ld8l6pr1XLtcPo5Y3VWTRTgH8WfD8f3ldXbynbDy
+ w1A0oT/XeWxs8w4CEd4p9ysiZQg1wd4O7MzK
+X-Google-Smtp-Source: AMrXdXu/p6afDDUBeaVXrcoNM/x+G1HbqU3AR1tfoBWY/bRoZof5jt6q5TBPWU849DQugXwle7lOyQ==
+X-Received: by 2002:a05:600c:1712:b0:3d9:a145:91a with SMTP id
+ c18-20020a05600c171200b003d9a145091amr14158241wmn.28.1674222201108; 
+ Fri, 20 Jan 2023 05:43:21 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- f7-20020a5d6647000000b002bbeb700c38sm31004057wrw.91.2023.01.20.05.43.15
+ h13-20020a05600c2cad00b003cfa622a18asm2691725wmc.3.2023.01.20.05.43.20
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 20 Jan 2023 05:43:15 -0800 (PST)
+ Fri, 20 Jan 2023 05:43:20 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Beraldo Leal <bleal@redhat.com>,
@@ -59,16 +60,17 @@ Cc: Beraldo Leal <bleal@redhat.com>,
  qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
  Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
  Subbaraya Sundeep <sundeep.lkml@gmail.com>
-Subject: [PATCH v2 0/2] tests/avocado: Truncate M2S-FG484 SOM SPI flash to
- 16MiB
-Date: Fri, 20 Jan 2023 14:43:12 +0100
-Message-Id: <20230120134314.81956-1-philmd@linaro.org>
+Subject: [PATCH v2 1/2] tests/avocado: Factor file_truncate() helper out
+Date: Fri, 20 Jan 2023 14:43:13 +0100
+Message-Id: <20230120134314.81956-2-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
+In-Reply-To: <20230120134314.81956-1-philmd@linaro.org>
+References: <20230120134314.81956-1-philmd@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,26 +93,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The M2S-FG484 SOM SPI flash is 16MiB. Truncate the file
-provided with the Avocado test to avoid:
+Factor file_truncate() helper out of image_pow2ceil_expand()
+for reuse.
 
- qemu-system-arm: device requires 16777216 bytes, block backend provides 67108864 bytes
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ tests/avocado/boot_linux_console.py | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-before merging the "m25p80: Improve error when the backend
-file size does not match the device" patch:
-https://lore.kernel.org/qemu-devel/20230119123449.531826-2-clg@kaod.org/
-
-Since v1:
-- add missing 'size' argument in file_truncate (Cédric)
-
-Philippe Mathieu-Daudé (2):
-  tests/avocado: Factor file_truncate() helper out
-  tests/avocado: Truncate M2S-FG484 SOM SPI flash to 16MiB
-
- hw/arm/msf2-som.c                   |  5 ++++-
- tests/avocado/boot_linux_console.py | 15 +++++++++------
- 2 files changed, 13 insertions(+), 7 deletions(-)
-
+diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
+index 8c1d981586..8a598be966 100644
+--- a/tests/avocado/boot_linux_console.py
++++ b/tests/avocado/boot_linux_console.py
+@@ -30,15 +30,16 @@
+ def pow2ceil(x):
+     return 1 if x == 0 else 2**(x - 1).bit_length()
+ 
++def file_truncate(path, size):
++    if size != os.path.getsize(path):
++        with open(path, 'ab+') as fd:
++            fd.truncate(size)
++
+ """
+ Expand file size to next power of 2
+ """
+-def image_pow2ceil_expand(path):
+-        size = os.path.getsize(path)
+-        size_aligned = pow2ceil(size)
+-        if size != size_aligned:
+-            with open(path, 'ab+') as fd:
+-                fd.truncate(size_aligned)
++def image_pow2ceil_expand(path, size):
++    file_truncate(path, pow2ceil(size))
+ 
+ class LinuxKernelTest(QemuSystemTest):
+     KERNEL_COMMON_COMMAND_LINE = 'printk.time=0 '
 -- 
 2.38.1
 
