@@ -2,69 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EBC5674D9E
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:03:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B233C674DCF
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:09:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIlPH-0000Bd-7l; Fri, 20 Jan 2023 02:01:47 -0500
+	id 1pIlVj-0007jL-I6; Fri, 20 Jan 2023 02:08:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlP0-0008VJ-PX
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:01:32 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlOy-0005Gg-SS
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:01:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674198088;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=xKXtZsO8lnptTaaBCHlOkSzR3qu9Uu3BLJo2fZPDBlk=;
- b=bLl8GCm6ED2zb52lxfKta47FAXt3IgLNe+khf8A0UsuQKaLUQ083yP+lf0vIkAjhSeh7DX
- 8p1AV6iEO8t8My4o3DIEIbe7dOrhfGc83t8NmPYelBQoRfpGv0BCqxguzOchaN/1PAwwsH
- 5kbmzKoB2FPp61DWq6DAYuskKW1etow=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-272-F8V4-s62Oki-vjQXyp2L_Q-1; Fri, 20 Jan 2023 02:01:25 -0500
-X-MC-Unique: F8V4-s62Oki-vjQXyp2L_Q-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3C50E1C068C7;
- Fri, 20 Jan 2023 07:01:25 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id E6D31492C3E;
- Fri, 20 Jan 2023 07:01:24 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 9EE8021E6609; Fri, 20 Jan 2023 08:01:22 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Subject: [PULL 12/12] include/hw/ppc include/hw/pci-host: Drop extra typedefs
-Date: Fri, 20 Jan 2023 08:01:22 +0100
-Message-Id: <20230120070122.3982588-13-armbru@redhat.com>
-In-Reply-To: <20230120070122.3982588-1-armbru@redhat.com>
-References: <20230120070122.3982588-1-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIlUJ-0006dl-45
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:07:02 -0500
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIlTM-0006EZ-DA
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:06:01 -0500
+Received: by mail-wr1-x42c.google.com with SMTP id d14so295935wrr.9
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:05:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=bMJ3V9AYtYIV6jg/SO4fWzGiyyLDrfEOLIuwcZNQWec=;
+ b=QcJNOWMKqN8hdkOYKXMLV6i4SuWlU+QSEc9KDfp4C1GsbjJYVvEOJm9Biih6IbI7gn
+ GzRo47r7Rvr8lYYwsJu8SqWmIqFqooCBp4LeQmi3LLKqNTFvO5gKRGCqSHXXWp7U5Sqk
+ GZ2PvUOkWA3EGLFqRouePeVZVj07qGLD6oAVcpXPp5lx6BSYbko0D/cb/Hu6GBAk+Y16
+ KVCDGp8Kc8eRRs+fh/Y0k2LfNCge+SAuhUSlbLlU+DFD4zUwMEvpjbOIVyZOixAwKiht
+ k/Xim3nXnlEFYRalZ6SyA68nSsCIXS29mH19OPhC0jGbGh8FFoCI4ARatfwwUcnP2yXB
+ 6CFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bMJ3V9AYtYIV6jg/SO4fWzGiyyLDrfEOLIuwcZNQWec=;
+ b=nqz4IeIhuJJYUfgEWB0hV4570PmKvC+IiYKvCy3FD7JRVOYWdkxgj/7PI+mqtlBWto
+ Qga1r2Jc3w5tvQGgm51QWebCg2KRr/RAqOA4+TUh0+DFenUv5R7ZgC+uSlTlRf9zf9pU
+ IX/+sMllwLeardOyRQ+a/fpZgwjy0MxWiCSIaWzqCipY6afwSWLHlHemt4P96UNtM/Uy
+ E9v/my4NH+d+JaSXoVc1CvcoK7aB+2GQN6cpUInETMgNXEWDu/5CiszvnyttV4NOdgQr
+ cBrjbIS3duz6K9FkmpcqyXXnWaflV2KIhqxJgXfKumjNTLY5nOrVi2eGCJaD3GemITub
+ k1zQ==
+X-Gm-Message-State: AFqh2kq8jfUXIzlTAtSbgsSS4rkQmA3DXFaCjLqaZnQhZN8P+259XPlZ
+ qJZqYT9O3ndFhWUqUvA0ZV62Ow==
+X-Google-Smtp-Source: AMrXdXvYAwvjRDbfvZo9Zjar3mxiLD+MNwDeBRy2x6vmTfQbylwab4ZNYScocFMP9TxSpGkW6WO3Ag==
+X-Received: by 2002:adf:e88f:0:b0:2bd:f388:841c with SMTP id
+ d15-20020adfe88f000000b002bdf388841cmr12306688wrm.42.1674198357935; 
+ Thu, 19 Jan 2023 23:05:57 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ o13-20020a5d670d000000b002bdc19f8e8asm23593549wru.79.2023.01.19.23.05.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 19 Jan 2023 23:05:57 -0800 (PST)
+Message-ID: <c5232976-2538-50f7-a6c8-8767fb62596d@linaro.org>
+Date: Fri, 20 Jan 2023 08:05:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 09/11] tests/qtest/migration-test: Build command line
+ using GString API (3/4)
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ Fabiano Rosas <farosas@suse.de>, Thomas Huth <thuth@redhat.com>
+References: <20230119145838.41835-1-philmd@linaro.org>
+ <20230119145838.41835-10-philmd@linaro.org>
+ <45067c0e-5f83-2ad4-ffdd-e187dab052a5@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <45067c0e-5f83-2ad4-ffdd-e187dab052a5@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42c.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,163 +95,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PnvChip is typedef'ed in five places, and PnvPhb4PecState in two.
-Keep one, drop the others.
+On 19/1/23 22:17, Richard Henderson wrote:
+> On 1/19/23 04:58, Philippe Mathieu-Daudé wrote:
+>> Part 3/4: Convert accelerator options.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>>   tests/qtest/migration-test.c | 11 +++++------
+>>   1 file changed, 5 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+>> index 8377b3976a..015b774a9e 100644
+>> --- a/tests/qtest/migration-test.c
+>> +++ b/tests/qtest/migration-test.c
+>> @@ -603,6 +603,9 @@ static int test_migrate_start(QTestState **from, 
+>> QTestState **to,
+>>       got_stop = false;
+>>       cmd_common = g_string_new("");
+>> +    g_string_append_printf(cmd_common, "-accel kvm%s ",
+>> +                           args->use_dirty_ring ? 
+>> ",dirty-ring-size=4096" : "");
+>> +    g_string_append(cmd_common, "-accel tcg ");
+> 
+> Maybe clearer as
+> 
+>    if (args->use_dirty_ring) {
+>        g_string_append(s, "-accel kvm,dirty-ring-size=4096 ");
+>    } else {
+>        g_string_append(s, "-accel kvm ");
+>    }
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-Message-Id: <20221222104628.659681-5-armbru@redhat.com>
----
- hw/pci-host/pnv_phb.h          | 2 +-
- include/hw/pci-host/pnv_phb3.h | 1 -
- include/hw/pci-host/pnv_phb4.h | 2 --
- include/hw/ppc/pnv_core.h      | 3 +--
- include/hw/ppc/pnv_homer.h     | 2 +-
- include/hw/ppc/pnv_lpc.h       | 8 ++------
- include/hw/ppc/pnv_xive.h      | 7 +++----
- 7 files changed, 8 insertions(+), 17 deletions(-)
-
-diff --git a/hw/pci-host/pnv_phb.h b/hw/pci-host/pnv_phb.h
-index 58ebd6dd0f..eb429d529f 100644
---- a/hw/pci-host/pnv_phb.h
-+++ b/hw/pci-host/pnv_phb.h
-@@ -12,9 +12,9 @@
- 
- #include "hw/pci/pcie_host.h"
- #include "hw/pci/pcie_port.h"
-+#include "hw/ppc/pnv.h"
- #include "qom/object.h"
- 
--typedef struct PnvChip PnvChip;
- typedef struct PnvPhb4PecState PnvPhb4PecState;
- 
- struct PnvPHB {
-diff --git a/include/hw/pci-host/pnv_phb3.h b/include/hw/pci-host/pnv_phb3.h
-index f791ebda9b..d62b3091ac 100644
---- a/include/hw/pci-host/pnv_phb3.h
-+++ b/include/hw/pci-host/pnv_phb3.h
-@@ -15,7 +15,6 @@
- #include "hw/pci-host/pnv_phb.h"
- 
- typedef struct PnvPHB3 PnvPHB3;
--typedef struct PnvChip PnvChip;
- 
- /*
-  * PHB3 XICS Source for MSIs
-diff --git a/include/hw/pci-host/pnv_phb4.h b/include/hw/pci-host/pnv_phb4.h
-index b4f2b29fb5..1f3237c9d5 100644
---- a/include/hw/pci-host/pnv_phb4.h
-+++ b/include/hw/pci-host/pnv_phb4.h
-@@ -16,10 +16,8 @@
- #include "hw/ppc/xive.h"
- #include "qom/object.h"
- 
--typedef struct PnvPhb4PecState PnvPhb4PecState;
- typedef struct PnvPhb4PecStack PnvPhb4PecStack;
- typedef struct PnvPHB4 PnvPHB4;
--typedef struct PnvChip PnvChip;
- 
- /*
-  * We have one such address space wrapper per possible device under
-diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
-index c22eab2e1f..3d75706e95 100644
---- a/include/hw/ppc/pnv_core.h
-+++ b/include/hw/ppc/pnv_core.h
-@@ -22,14 +22,13 @@
- 
- #include "hw/cpu/core.h"
- #include "target/ppc/cpu.h"
-+#include "hw/ppc/pnv.h"
- #include "qom/object.h"
- 
- #define TYPE_PNV_CORE "powernv-cpu-core"
- OBJECT_DECLARE_TYPE(PnvCore, PnvCoreClass,
-                     PNV_CORE)
- 
--typedef struct PnvChip PnvChip;
--
- struct PnvCore {
-     /*< private >*/
-     CPUCore parent_obj;
-diff --git a/include/hw/ppc/pnv_homer.h b/include/hw/ppc/pnv_homer.h
-index 07e8b19311..b1c5d498dc 100644
---- a/include/hw/ppc/pnv_homer.h
-+++ b/include/hw/ppc/pnv_homer.h
-@@ -39,7 +39,7 @@ DECLARE_INSTANCE_CHECKER(PnvHomer, PNV10_HOMER,
- struct PnvHomer {
-     DeviceState parent;
- 
--    struct PnvChip *chip;
-+    PnvChip *chip;
-     MemoryRegion pba_regs;
-     MemoryRegion regs;
- };
-diff --git a/include/hw/ppc/pnv_lpc.h b/include/hw/ppc/pnv_lpc.h
-index 001eee27d7..5d22c45570 100644
---- a/include/hw/ppc/pnv_lpc.h
-+++ b/include/hw/ppc/pnv_lpc.h
-@@ -21,6 +21,7 @@
- #define PPC_PNV_LPC_H
- 
- #include "exec/memory.h"
-+#include "hw/ppc/pnv.h"
- #include "hw/qdev-core.h"
- 
- #define TYPE_PNV_LPC "pnv-lpc"
-@@ -93,13 +94,8 @@ struct PnvLpcClass {
-     DeviceRealize parent_realize;
- };
- 
--/*
-- * Old compilers error on typdef forward declarations. Keep them happy.
-- */
--struct PnvChip;
--
- ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bool use_cpld, Error **errp);
--int pnv_dt_lpc(struct PnvChip *chip, void *fdt, int root_offset,
-+int pnv_dt_lpc(PnvChip *chip, void *fdt, int root_offset,
-                uint64_t lpcm_addr, uint64_t lpcm_size);
- 
- #endif /* PPC_PNV_LPC_H */
-diff --git a/include/hw/ppc/pnv_xive.h b/include/hw/ppc/pnv_xive.h
-index b5d91505e5..9c48430ee4 100644
---- a/include/hw/ppc/pnv_xive.h
-+++ b/include/hw/ppc/pnv_xive.h
-@@ -10,12 +10,11 @@
- #ifndef PPC_PNV_XIVE_H
- #define PPC_PNV_XIVE_H
- 
-+#include "hw/ppc/pnv.h"
- #include "hw/ppc/xive.h"
- #include "qom/object.h"
- #include "hw/ppc/xive2.h"
- 
--struct PnvChip;
--
- #define TYPE_PNV_XIVE "pnv-xive"
- OBJECT_DECLARE_TYPE(PnvXive, PnvXiveClass,
-                     PNV_XIVE)
-@@ -31,7 +30,7 @@ struct PnvXive {
-     XiveRouter    parent_obj;
- 
-     /* Owning chip */
--    struct PnvChip *chip;
-+    PnvChip *chip;
- 
-     /* XSCOM addresses giving access to the controller registers */
-     MemoryRegion  xscom_regs;
-@@ -106,7 +105,7 @@ typedef struct PnvXive2 {
-     Xive2Router   parent_obj;
- 
-     /* Owning chip */
--    struct PnvChip *chip;
-+    PnvChip *chip;
- 
-     /* XSCOM addresses giving access to the controller registers */
-     MemoryRegion  xscom_regs;
--- 
-2.39.0
+Agreed, I first did that change, then went back to have simpler "one
+big patch" in v1. Now since v2 splits the changes I'll do that.
 
 
