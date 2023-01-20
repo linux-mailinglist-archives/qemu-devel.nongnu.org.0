@@ -2,91 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A84C674E04
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:25:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF5B0674E2A
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:33:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIllW-00020M-69; Fri, 20 Jan 2023 02:24:51 -0500
+	id 1pIlss-0004w1-Ks; Fri, 20 Jan 2023 02:32:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIlkv-0001ub-AW
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:24:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIlkt-0001Uk-CR
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:24:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674199446;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=hij39TenzvHzbMcn00v54PqY0bRS8nLnB94MIVXjjMM=;
- b=OkUYumuPOLtHSuRTp6keM7J3wA5o1w3Zd4I5d5CSQuCcGx5E003n83gQ3PZ+UQB3mVRscK
- dzpHsDci6Y5QtgfZ7cCR9a4psRP0/myLI4I/SM61m+2ipDapfzb93RfUnQlS78U8nv2Q5C
- 57so5T9Fli8J5OOalohP3nWOZmd1HrY=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-378-hZSO3s_JMvKKqA5TMTAZLg-1; Fri, 20 Jan 2023 02:24:05 -0500
-X-MC-Unique: hZSO3s_JMvKKqA5TMTAZLg-1
-Received: by mail-qv1-f71.google.com with SMTP id
- ng1-20020a0562143bc100b004bb706b3a27so2146467qvb.20
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:24:05 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIlsq-0004ve-Fq
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:32:20 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIlso-0003ID-FY
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:32:20 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ d4-20020a05600c3ac400b003db1de2aef0so2987774wms.2
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:32:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=yzhvZFutE7S6+uC6TVcEW9GptLU9pvUHwFqb546VN+Y=;
+ b=UZkzRNLGvXvhytfX0ByWI0pSHatuAQwqjif7+KqRt2qZ1uN0TY4nlpunRWdPFvueQO
+ sM4NlELJ54ZNAXemprjqbkcMjnV9lRXSccdtl956jtlZQ4KoqLQX2ma0LmB/OCJ/iYf/
+ N6xhC1FNAvGSCQEidRHEbSvS34KY2r3hZd7WQOI45nDn0csA2B6hYFbfGjPPEe5+LhW9
+ EW5DdF1Ym6C9Bf1jPqej1swEnCXbpytcYmBAhy1hKg9PkpqRfv59/I3SvQw4J9Z/pnwX
+ 4bZt6MTorIy2PWD22TKqOUgYKPECWacXb96tG/wkbX+fxu+hYXPQsxu0/Vjh8cE+P4HE
+ paCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=hij39TenzvHzbMcn00v54PqY0bRS8nLnB94MIVXjjMM=;
- b=zC+PUOWDUJRzePmkVt64zlYr3jTHnthbnpXsyrShZhISm4JaLO4rbhlhOWL0xUwR/E
- FUiOgTKVREcu0NwRUzvnDCEmBUKrrMoHycuui2G04+ZttJDTtmXHchVDbp5iWqQhCcVL
- WLxSbicln/b7HvoVyf2Usld0ktP46XWS6+M440a88QBI3Pk/Bg7fEtxJnZTgYrJWn1ws
- fBodLoJdkms1EgXGEv7mEYbKJ2Up7s2qjAynR2EVnNv8H51euB7i/kMIGVXuZyzW/bK1
- 6ufieIWGwyf4b8Jnmwm7Jl0VfLCbe6cE4V9U15QwQcfzDnHMOkh+egGAmW3WKVoMpek8
- pMAg==
-X-Gm-Message-State: AFqh2kraoLFJwNC3OjW7apEMWt9y+G0O3kzJokAtGWSvs63xrGKMkfY/
- 9j2lQWyEyrIr+tZfv4JaiyrhZVID3/5loIJ6vpoCIsvz64YB73jAslThvMjnZZ5GMk8Up/UsmyV
- lcMw7YPOEnX7mRAE=
-X-Received: by 2002:ad4:4f24:0:b0:531:af57:3109 with SMTP id
- fc4-20020ad44f24000000b00531af573109mr48987964qvb.7.1674199444874; 
- Thu, 19 Jan 2023 23:24:04 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu1yCyvC89bvjmWW70bR/b9bFBAm521T1Tt7PVnmR+9L7c2HmVKlZGlVuAZnVM8CvPDhEL65Q==
-X-Received: by 2002:ad4:4f24:0:b0:531:af57:3109 with SMTP id
- fc4-20020ad44f24000000b00531af573109mr48987943qvb.7.1674199444613; 
- Thu, 19 Jan 2023 23:24:04 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-118.web.vodafone.de.
- [109.43.177.118]) by smtp.gmail.com with ESMTPSA id
- u12-20020a05620a430c00b006ee949b8051sm25457987qko.51.2023.01.19.23.24.03
+ bh=yzhvZFutE7S6+uC6TVcEW9GptLU9pvUHwFqb546VN+Y=;
+ b=E2t/RFq7mK3AOC6VuUUSjlggGHjLo+13ONbnAFBo1qhrwoMjo5Uw8Y9jOUjtmowURJ
+ Q4mmUrHttoq0rAiASSD5dRCB7k8VwEW+O6MTIfojZGgIBCZkrhTYD4BqKIJ4k9TcJl4z
+ z5ubCbjswHxAcLYG8cFe2nrwbnKJStpHzf8DJ4gmRJhzNMIGt3a853vaSyQaHivi3zUH
+ zjag3DvN6m4CmDmGp4a1g9XSHGiXlgGokAAjcul14ON6by4F7sgp+UFcmBNybEEJyt50
+ 2blsIENGcjZa/l5CVZ9lsMhO8wQmwBxt7SgjPlqlFrqjwDAY7wOEgDl3SsPZRsCrEKhk
+ imww==
+X-Gm-Message-State: AFqh2kqoy4poyDP2auKmkoKQTyQMyhKeDGFbrIpgQzCfWWidTcK2IJRP
+ oHL2p7WceElIz0gndhpPAfFtfw==
+X-Google-Smtp-Source: AMrXdXvdErLH5sOz5LaKBFmiX/ukslf5pxNcOgcrkDPmztyjWe1rSvmYkH8OFJ+w3v6cXSO0q4wAig==
+X-Received: by 2002:a05:600c:2255:b0:3da:f950:8168 with SMTP id
+ a21-20020a05600c225500b003daf9508168mr12480769wmm.35.1674199936784; 
+ Thu, 19 Jan 2023 23:32:16 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ d4-20020a05600c3ac400b003d9fa355387sm1378390wms.27.2023.01.19.23.32.15
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 19 Jan 2023 23:24:04 -0800 (PST)
-Message-ID: <9494369d-a498-81f7-0cd8-1cfe31029c2a@redhat.com>
-Date: Fri, 20 Jan 2023 08:24:01 +0100
+ Thu, 19 Jan 2023 23:32:16 -0800 (PST)
+Message-ID: <8af15c5e-044d-ffa4-cb78-85b9f5e0fbb2@linaro.org>
+Date: Fri, 20 Jan 2023 08:32:14 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 07/11] tests/qtest/migration-test: Build command line
+ using GString API (1/4)
 Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, qemu-ppc@nongnu.org, qemu-arm@nongnu.org,
- qemu-block@nongnu.org
-References: <20230111083909.42624-1-philmd@linaro.org>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v2 0/4] bulk: Replace TARGET_FMT_plx by HWADDR_PRIx
-In-Reply-To: <20230111083909.42624-1-philmd@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: Juan Quintela <quintela@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
+ Fabiano Rosas <farosas@suse.de>, Thomas Huth <thuth@redhat.com>
+References: <20230119145838.41835-1-philmd@linaro.org>
+ <20230119145838.41835-8-philmd@linaro.org>
+ <ca41b949-e31e-ba69-7876-e6180ef52a3b@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <ca41b949-e31e-ba69-7876-e6180ef52a3b@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: 36
-X-Spam_score: 3.6
-X-Spam_bar: +++
-X-Spam_report: (3.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- SUSPICIOUS_RECIPS=2.51 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,26 +96,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/01/2023 09.39, Philippe Mathieu-Daudé wrote:
-> Since v1:
-> - Fix checkpatch style violations
-> - Use HWADDR_PRIx instead of HWADDR_FMT_plx (Zoltan)
+On 19/1/23 22:10, Richard Henderson wrote:
+> On 1/19/23 04:58, Philippe Mathieu-Daudé wrote:
+>> Part 1/4: Convert memory & machine options.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> ---
+>>   tests/qtest/migration-test.c | 22 ++++++++++++----------
+>>   1 file changed, 12 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
+>> index 6c3db95113..7aa323a7a7 100644
+>> --- a/tests/qtest/migration-test.c
+>> +++ b/tests/qtest/migration-test.c
+>> @@ -582,6 +582,7 @@ typedef struct {
+>>   static int test_migrate_start(QTestState **from, QTestState **to,
+>>                                 const char *uri, MigrateStart *args)
+>>   {
+>> +    g_autoptr(GString) cmd_common = NULL;
+>>       g_autofree gchar *arch_source = NULL;
+>>       g_autofree gchar *arch_target = NULL;
+>>       g_autofree gchar *cmd_target = NULL;
+>> @@ -601,6 +602,9 @@ static int test_migrate_start(QTestState **from, 
+>> QTestState **to,
+>>       }
+>>       got_stop = false;
+>> +
+>> +    cmd_common = g_string_new("");
+>> +
+>>       bootpath = g_strdup_printf("%s/bootsect", tmpfs);
+>>       if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+>>           /* the assembled x86 boot sector should be exactly one 
+>> sector large */
+>> @@ -644,6 +648,10 @@ static int test_migrate_start(QTestState **from, 
+>> QTestState **to,
+>>       } else {
+>>           g_assert_not_reached();
+>>       }
+>> +    if (machine_opts) {
+>> +        g_string_append_printf(cmd_common, " -machine %s ", 
+>> machine_opts);
+>> +    }
+>> +    g_string_append_printf(cmd_common, "-m %s ", memory_size);
+>>       if (!getenv("QTEST_LOG") && args->hide_stderr) {
+>>   #ifdef _WIN32
+>> @@ -674,33 +682,27 @@ static int test_migrate_start(QTestState **from, 
+>> QTestState **to,
+>>       if (!args->only_target) {
+>>           g_autofree gchar *cmd_source = NULL;
+>> -        cmd_source = g_strdup_printf("-accel kvm%s -accel tcg%s%s "
+>> +        cmd_source = g_strdup_printf("-accel kvm%s -accel tcg%s "
+>>                                        "-name source,debug-threads=on "
+>> -                                     "-m %s "
+>>                                        "-serial file:%s/src_serial "
+>>                                        "%s %s %s %s",
+>>                                        args->use_dirty_ring ?
+>>                                        ",dirty-ring-size=4096" : "",
+>> -                                     machine_opts ? " -machine " : "",
+>> -                                     machine_opts ? machine_opts : "",
 > 
-> Supersedes: <20230110212947.34557-1-philmd@linaro.org>
->              "bulk: Rename TARGET_FMT_plx -> HWADDR_FMT_plx"
+> You removed two strings here, but only one %s above.
+
+>> -                                     memory_size, tmpfs,
+>> +                                     cmd_common->str, tmpfs,
+
+One new string is added here             ^^^^^^^^^^^^^^^.
+
+>>                                        arch_source, shmem_opts,
+>>                                        args->opts_source ? 
+>> args->opts_source : "",
+>>                                        ignore_stderr);
+>>           *from = qtest_init(cmd_source);
+>>       }
+>> -    cmd_target = g_strdup_printf("-accel kvm%s -accel tcg%s%s "
+>> +    cmd_target = g_strdup_printf("-accel kvm%s -accel tcg%s "
+>>                                    "-name target,debug-threads=on "
+>> -                                 "-m %s "
+>>                                    "-serial file:%s/dest_serial "
+>>                                    "-incoming %s "
+>>                                    "%s %s %s %s",
+>>                                    args->use_dirty_ring ?
+>>                                    ",dirty-ring-size=4096" : "",
+>> -                                 machine_opts ? " -machine " : "",
+>> -                                 machine_opts ? machine_opts : "",
+>> -                                 memory_size, tmpfs, uri,
+>> +                                 cmd_common->str, tmpfs, uri,
+>>                                    arch_target, shmem_opts,
+>>                                    args->opts_target ? 
+>> args->opts_target : "",
+>>                                    ignore_stderr);
 > 
-> Philippe Mathieu-Daudé (4):
->    hw: Remove hardcoded tabs (code style)
->    bulk: Coding style fixes
->    bulk: Replace TARGET_FMT_plx -> HWADDR_PRIx
->    bulk: Prefix '0x' to hex values displayed with HWADDR_PRIx format
-
-Big sorry, I picked up v1 for my last pull request before I saw that there 
-is a v2. But IMHO it's ok to have a separate macro with a %016 included, so 
-I'd rather tend to keep HWADDR_FMT_plx. Anyway, if you consider the other 
-changes in your series important enough, please rebase them. Sorry again for 
-the additional work that this might cause.
-
-  Thomas
 
 
