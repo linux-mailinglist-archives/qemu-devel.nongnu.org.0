@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B932767595B
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 16:56:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F16F67595A
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 16:56:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pItjI-0004Zu-Qn; Fri, 20 Jan 2023 10:55:00 -0500
+	id 1pItjN-0004bB-KA; Fri, 20 Jan 2023 10:55:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pItjG-0004YZ-Lc; Fri, 20 Jan 2023 10:54:58 -0500
+ id 1pItjH-0004ZX-Rm; Fri, 20 Jan 2023 10:54:59 -0500
 Received: from linux.microsoft.com ([13.77.154.182])
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pItjF-00068y-1A; Fri, 20 Jan 2023 10:54:58 -0500
+ id 1pItjG-00069b-Ee; Fri, 20 Jan 2023 10:54:59 -0500
 Received: from localhost.localdomain (unknown [77.64.253.186])
- by linux.microsoft.com (Postfix) with ESMTPSA id 9D5EF20E1A50;
- Fri, 20 Jan 2023 07:54:54 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 9D5EF20E1A50
+ by linux.microsoft.com (Postfix) with ESMTPSA id DEEA620E1A54;
+ Fri, 20 Jan 2023 07:54:55 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DEEA620E1A54
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1674230095;
- bh=OukxYZp0mxPPulJ0ZXIOyj5ZXhlBod5vf7Qiii3DBjY=;
+ s=default; t=1674230096;
+ bh=hA6UjCPH/KZisJeGGi0Pj05GPCIl4DXwLpG8cQ7M3eA=;
  h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
- b=kAbPjVHQoWRFgFrxw98AL0N5jps7/n1D6W7h6pTturLLsGGJ1/o6B3tOEi2rMhlX7
- ljAQiuHT098Dm6puuWXmyKCwPGAQrf6woM5tIQplBPrWT+XGejl0FNPcbpltt1M1zb
- Td1B786EosjFuSihntpf29kFahg/Ms7Pcn3H/p/4=
+ b=IyTfda6i2/pKpCR0Utb/t1/7A+F1PdI8fIRQt/j8sZwa4oNs934QNaOLU1mRCPnBt
+ t3XsnOwucn1SxeboqTVQDESTHy/WPp/p/WVT7TcmyFBSGudASZfDJ3kdSvEwOHjtxm
+ MtvT31xuXlpQ9bgo7XnR2BBH0zgo7fQ5tlW/PuHY=
 From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Subject: [PATCH v3 2/5] hw/char/pl011: add post_load hook for
- backwards-compatibility
-Date: Fri, 20 Jan 2023 16:54:44 +0100
-Message-Id: <20230120155447.31702-3-eiakovlev@linux.microsoft.com>
+Subject: [PATCH v3 3/5] hw/char/pl011: implement a reset method
+Date: Fri, 20 Jan 2023 16:54:45 +0100
+Message-Id: <20230120155447.31702-4-eiakovlev@linux.microsoft.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230120155447.31702-1-eiakovlev@linux.microsoft.com>
 References: <20230120155447.31702-1-eiakovlev@linux.microsoft.com>
@@ -65,66 +64,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Previous change slightly modified the way we handle data writes when
-FIFO is disabled. Previously we kept incrementing read_pos and were
-storing data at that position, although we only have a
-single-register-deep FIFO now. Then we changed it to always store data
-at pos 0.
-
-If guest disables FIFO and the proceeds to read data, it will work out
-fine, because we read from current read_pos before setting it to 0.
-
-However, to make code less fragile, introduce a post_load hook for
-PL011State and move fixup read FIFO state when FIFO is disabled. Since
-we are introducing a post_load hook, also do some sanity checking on
-untrusted incoming input state.
+PL011 currently lacks a reset method. Implement it.
 
 Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
 ---
- hw/char/pl011.c | 27 ++++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+ hw/char/pl011.c | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/hw/char/pl011.c b/hw/char/pl011.c
-index 3fa3b75d04..4df649a064 100644
+index 4df649a064..f9413f3703 100644
 --- a/hw/char/pl011.c
 +++ b/hw/char/pl011.c
-@@ -352,10 +352,35 @@ static const VMStateDescription vmstate_pl011_clock = {
-     }
- };
+@@ -427,11 +427,6 @@ static void pl011_init(Object *obj)
+     s->clk = qdev_init_clock_in(DEVICE(obj), "clk", pl011_clock_update, s,
+                                 ClockUpdate);
  
-+static int pl011_post_load(void *opaque, int version_id)
+-    s->read_trigger = 1;
+-    s->ifl = 0x12;
+-    s->cr = 0x300;
+-    s->flags = 0x90;
+-
+     s->id = pl011_id_arm;
+ }
+ 
+@@ -443,11 +438,32 @@ static void pl011_realize(DeviceState *dev, Error **errp)
+                              pl011_event, NULL, s, NULL, true);
+ }
+ 
++static void pl011_reset(DeviceState *dev)
 +{
-+    PL011State* s = opaque;
++    PL011State *s = PL011(dev);
 +
-+    /* Sanity-check input state */
-+    if (s->read_pos >= ARRAY_SIZE(s->read_fifo) ||
-+        s->read_count > ARRAY_SIZE(s->read_fifo)) {
-+        return -1;
-+    }
-+
-+    if (version_id < 3 && !pl011_is_fifo_enabled(s)) {
-+        /*
-+         * Older versions of PL011 didn't ensure that the single
-+         * character in the FIFO in FIFO-disabled mode is in
-+         * element 0 of the array; convert to follow the current
-+         * code's assumptions.
-+         */
-+        s->read_fifo[0] = s->read_fifo[s->read_pos];
-+        s->read_pos = 0;
-+    }
-+
-+    return 0;
++    s->lcr = 0;
++    s->rsr = 0;
++    s->dmacr = 0;
++    s->int_enabled = 0;
++    s->int_level = 0;
++    s->ilpr = 0;
++    s->ibrd = 0;
++    s->fbrd = 0;
++    s->read_pos = 0;
++    s->read_count = 0;
++    s->read_trigger = 1;
++    s->ifl = 0x12;
++    s->cr = 0x300;
++    s->flags = 0x90;
 +}
 +
- static const VMStateDescription vmstate_pl011 = {
-     .name = "pl011",
--    .version_id = 2,
-+    .version_id = 3,
-     .minimum_version_id = 2,
-+    .post_load = pl011_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(readbuff, PL011State),
-         VMSTATE_UINT32(flags, PL011State),
+ static void pl011_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+ 
+     dc->realize = pl011_realize;
++    dc->reset = pl011_reset;
+     dc->vmsd = &vmstate_pl011;
+     device_class_set_props(dc, pl011_properties);
+ }
 -- 
 2.34.1
 
