@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A58A67546C
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:29:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE7A8675484
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:31:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIqUR-0003bh-3s; Fri, 20 Jan 2023 07:27:27 -0500
+	id 1pIqUO-0003Q9-8b; Fri, 20 Jan 2023 07:27:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqUL-0003Lw-9m
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqUL-0003Mv-JV
  for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:21 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqUI-0000Ux-Tb
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:20 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqUJ-0000VJ-U2
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674217638;
+ s=mimecast20190719; t=1674217639;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+SG62ZQTVX1iRwA7+jdikTQH8AaBuGVJO2hqC/kjmuo=;
- b=NcWYAMfyNBTe+U21CMVFrrAyQw2hpM6MYE3O0dufzV8L5WMHIUCMVp+6e09U4YSp81dQFA
- DSuL51jwjQoJk8UCBbdKN0JzY62/8cZScmVYNlifjH9xTcR38JYSYsHNFkMC+WCe/hmid1
- B1FjuZOvEmnLDLQ7J8TgbYI+3Pc3EmE=
+ bh=GKojYdrMESCd942kK/e4cqghIL9ZAsgeFTcF29GcQWE=;
+ b=W7jJUJDcaZbmvD3k0khehOWhkJvlyQxnrjfypWjzKdJE192hZmcX0JkUo8tJgKueY/2cFi
+ +Rcw9GrcVkDmJLw44MuJ7Hck1Zn14sY1GLa1AN2dZpXxYWevL3NyIa9s/9MEY5d/pfbW4z
+ Vhwnc0KC9uEJGZ10imaPvI0w+bQMPF0=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-465-U4UMIEekOSGM7oOdpRK9Ag-1; Fri, 20 Jan 2023 07:27:15 -0500
-X-MC-Unique: U4UMIEekOSGM7oOdpRK9Ag-1
+ us-mta-335-yP3j3AciP-Sc-BHIi8AL5w-1; Fri, 20 Jan 2023 07:27:15 -0500
+X-MC-Unique: yP3j3AciP-Sc-BHIi8AL5w-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 88037811E6E;
- Fri, 20 Jan 2023 12:27:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8F4D6101157B;
+ Fri, 20 Jan 2023 12:27:15 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id BCCFC40C6EC4;
- Fri, 20 Jan 2023 12:27:13 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4E4A40C6EC4;
+ Fri, 20 Jan 2023 12:27:14 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 35/38] iotests: Filter child node information
-Date: Fri, 20 Jan 2023 13:26:30 +0100
-Message-Id: <20230120122633.84983-36-kwolf@redhat.com>
+Subject: [PULL 36/38] iotests/106, 214, 308: Read only one size line
+Date: Fri, 20 Jan 2023 13:26:31 +0100
+Message-Id: <20230120122633.84983-37-kwolf@redhat.com>
 In-Reply-To: <20230120122633.84983-1-kwolf@redhat.com>
 References: <20230120122633.84983-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -79,159 +79,87 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Hanna Reitz <hreitz@redhat.com>
 
-Before we let qemu-img info print child node information, have
-common.filter, common.rc, and iotests.py filter it from the test output
-so we get as few reference output changes as possible.
+These tests read size information (sometimes disk size, sometimes
+virtual size) from qemu-img info's output.  Once qemu-img starts
+printing info about child nodes, we are going to see multiple instances
+of that per image, but these tests are only interested in the first one,
+so use "head -n 1" to get it.
 
 Signed-off-by: Hanna Reitz <hreitz@redhat.com>
-Message-Id: <20220620162704.80987-10-hreitz@redhat.com>
-Tested-by: Kevin Wolf <kwolf@redhat.com>
+Message-Id: <20220620162704.80987-11-hreitz@redhat.com>
+Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/iotests.py    | 18 +++++++++++++++---
- tests/qemu-iotests/common.filter | 22 ++++++++++++++--------
- tests/qemu-iotests/common.rc     | 22 ++++++++++++++--------
- 3 files changed, 43 insertions(+), 19 deletions(-)
+ tests/qemu-iotests/106 | 4 ++--
+ tests/qemu-iotests/214 | 6 ++++--
+ tests/qemu-iotests/308 | 4 ++--
+ 3 files changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.py
-index da7d6637e1..94aeb3f3b2 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -329,7 +329,7 @@ def qemu_img_log(*args: str, check: bool = True
- 
- def img_info_log(filename: str, filter_path: Optional[str] = None,
-                  use_image_opts: bool = False, extra_args: Sequence[str] = (),
--                 check: bool = True,
-+                 check: bool = True, drop_child_info: bool = True,
-                  ) -> None:
-     args = ['info']
-     if use_image_opts:
-@@ -342,7 +342,7 @@ def img_info_log(filename: str, filter_path: Optional[str] = None,
-     output = qemu_img(*args, check=check).stdout
-     if not filter_path:
-         filter_path = filename
--    log(filter_img_info(output, filter_path))
-+    log(filter_img_info(output, filter_path, drop_child_info))
- 
- def qemu_io_wrap_args(args: Sequence[str]) -> List[str]:
-     if '-f' in args or '--image-opts' in args:
-@@ -642,11 +642,23 @@ def _filter(_key, value):
- def filter_generated_node_ids(msg):
-     return re.sub("#block[0-9]+", "NODE_NAME", msg)
- 
--def filter_img_info(output, filename):
-+def filter_img_info(output: str, filename: str,
-+                    drop_child_info: bool = True) -> str:
-     lines = []
-+    drop_indented = False
-     for line in output.split('\n'):
-         if 'disk size' in line or 'actual-size' in line:
-             continue
-+
-+        # Drop child node info
-+        if drop_indented:
-+            if line.startswith(' '):
-+                continue
-+            drop_indented = False
-+        if drop_child_info and "Child node '/" in line:
-+            drop_indented = True
-+            continue
-+
-         line = line.replace(filename, 'TEST_IMG')
-         line = filter_testfiles(line)
-         line = line.replace(imgfmt, 'IMGFMT')
-diff --git a/tests/qemu-iotests/common.filter b/tests/qemu-iotests/common.filter
-index cc9f1a5891..6b32c7fbfa 100644
---- a/tests/qemu-iotests/common.filter
-+++ b/tests/qemu-iotests/common.filter
-@@ -223,6 +223,7 @@ _filter_img_info()
- 
-     discard=0
-     regex_json_spec_start='^ *"format-specific": \{'
-+    regex_json_child_start='^ *"children": \['
-     gsed -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
-         -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
-         -e "s#$TEST_DIR#TEST_DIR#g" \
-@@ -251,20 +252,25 @@ _filter_img_info()
-         -e 's/\(compression type: \)\(zlib\|zstd\)/\1COMPRESSION_TYPE/' \
-         -e "s/uuid: [-a-f0-9]\\+/uuid: 00000000-0000-0000-0000-000000000000/" | \
-     while IFS='' read -r line; do
--        if [[ $format_specific == 1 ]]; then
--            discard=0
--        elif [[ $line == "Format specific information:" ]]; then
--            discard=1
--        elif [[ $line =~ $regex_json_spec_start ]]; then
--            discard=2
--            regex_json_spec_end="^${line%%[^ ]*}\\},? *$"
-+        if [[ $discard == 0 ]]; then
-+            if [[ $format_specific == 0 && $line == "Format specific information:" ]]; then
-+                discard=1
-+            elif [[ $line =~ "Child node '/" ]]; then
-+                discard=1
-+            elif [[ $line =~ $regex_json_spec_start ]]; then
-+                discard=2
-+                regex_json_end="^${line%%[^ ]*}\\},? *$"
-+            elif [[ $line =~ $regex_json_child_start ]]; then
-+                discard=2
-+                regex_json_end="^${line%%[^ ]*}\\],? *$"
-+            fi
+diff --git a/tests/qemu-iotests/106 b/tests/qemu-iotests/106
+index 9d6adb542d..ae0fc46691 100755
+--- a/tests/qemu-iotests/106
++++ b/tests/qemu-iotests/106
+@@ -66,7 +66,7 @@ for create_mode in off falloc full; do
+             expected_size=$((expected_size + $GROWTH_SIZE))
          fi
-         if [[ $discard == 0 ]]; then
-             echo "$line"
-         elif [[ $discard == 1 && ! $line ]]; then
-             echo
-             discard=0
--        elif [[ $discard == 2 && $line =~ $regex_json_spec_end ]]; then
-+        elif [[ $discard == 2 && $line =~ $regex_json_end ]]; then
-             discard=0
-         fi
-     done
-diff --git a/tests/qemu-iotests/common.rc b/tests/qemu-iotests/common.rc
-index db757025cb..f4476b62f7 100644
---- a/tests/qemu-iotests/common.rc
-+++ b/tests/qemu-iotests/common.rc
-@@ -711,6 +711,7 @@ _img_info()
  
-     discard=0
-     regex_json_spec_start='^ *"format-specific": \{'
-+    regex_json_child_start='^ *"children": \['
-     $QEMU_IMG info $QEMU_IMG_EXTRA_ARGS "$@" "$TEST_IMG" 2>&1 | \
-         sed -e "s#$REMOTE_TEST_DIR#TEST_DIR#g" \
-             -e "s#$IMGPROTO:$TEST_DIR#TEST_DIR#g" \
-@@ -721,20 +722,25 @@ _img_info()
-             -e "/^disk size:/ D" \
-             -e "/actual-size/ D" | \
-         while IFS='' read -r line; do
--            if [[ $format_specific == 1 ]]; then
--                discard=0
--            elif [[ $line == "Format specific information:" ]]; then
--                discard=1
--            elif [[ $line =~ $regex_json_spec_start ]]; then
--                discard=2
--                regex_json_spec_end="^${line%%[^ ]*}\\},? *$"
-+            if [[ $discard == 0 ]]; then
-+                if [[ $format_specific == 0 && $line == "Format specific information:" ]]; then
-+                    discard=1
-+                elif [[ $line =~ "Child node '/" ]]; then
-+                    discard=1
-+                elif [[ $format_specific == 0 && $line =~ $regex_json_spec_start ]]; then
-+                    discard=2
-+                    regex_json_end="^${line%%[^ ]*}\\},? *$"
-+                elif [[ $line =~ $regex_json_child_start ]]; then
-+                    discard=2
-+                    regex_json_end="^${line%%[^ ]*}\\],? *$"
-+                fi
-             fi
-             if [[ $discard == 0 ]]; then
-                 echo "$line"
-             elif [[ $discard == 1 && ! $line ]]; then
-                 echo
-                 discard=0
--            elif [[ $discard == 2 && $line =~ $regex_json_spec_end ]]; then
-+            elif [[ $discard == 2 && $line =~ $regex_json_end ]]; then
-                 discard=0
-             fi
-         done
+-        actual_size=$($QEMU_IMG info -f "$IMGFMT" "$TEST_IMG" | grep 'disk size')
++        actual_size=$($QEMU_IMG info -f "$IMGFMT" "$TEST_IMG" | grep 'disk size' | head -n 1)
+         actual_size=$(echo "$actual_size" | sed -e 's/^[^0-9]*\([0-9]\+\).*$/\1/')
+ 
+         # The actual size may exceed the expected size, depending on the file
+@@ -105,7 +105,7 @@ for growth_mode in falloc full; do
+     _make_test_img -o "extent_size_hint=0" 2G
+     $QEMU_IMG resize -f "$IMGFMT" --preallocation=$growth_mode "$TEST_IMG" +${GROWTH_SIZE}K
+ 
+-    actual_size=$($QEMU_IMG info -f "$IMGFMT" "$TEST_IMG" | grep 'disk size')
++    actual_size=$($QEMU_IMG info -f "$IMGFMT" "$TEST_IMG" | grep 'disk size' | head -n 1)
+     actual_size=$(echo "$actual_size" | sed -e 's/^[^0-9]*\([0-9]\+\).*$/\1/')
+ 
+     if [ $actual_size -lt $GROWTH_SIZE ]; then
+diff --git a/tests/qemu-iotests/214 b/tests/qemu-iotests/214
+index c66e246ba2..55ffcd7f44 100755
+--- a/tests/qemu-iotests/214
++++ b/tests/qemu-iotests/214
+@@ -102,7 +102,8 @@ let data_size="8 * $cluster_size"
+ $QEMU_IO -c "write -P 0xaa 0 $data_size" "$TEST_IMG" \
+          2>&1 | _filter_qemu_io | _filter_testdir
+ sizeA=$($QEMU_IMG info --output=json "$TEST_IMG" |
+-        sed -n '/"actual-size":/ s/[^0-9]//gp')
++        sed -n '/"actual-size":/ s/[^0-9]//gp' |
++        head -n 1)
+ 
+ _make_test_img 2M -o cluster_size=$cluster_size
+ echo "Write compressed data:"
+@@ -124,7 +125,8 @@ $QEMU_IO -c "write -P 0xcc $offset $data_size" "json:{\
+                           _filter_qemu_io | _filter_testdir
+ 
+ sizeB=$($QEMU_IMG info --output=json "$TEST_IMG" |
+-        sed -n '/"actual-size":/ s/[^0-9]//gp')
++        sed -n '/"actual-size":/ s/[^0-9]//gp' |
++        head -n 1)
+ 
+ if [ $sizeA -lt $sizeB ]
+ then
+diff --git a/tests/qemu-iotests/308 b/tests/qemu-iotests/308
+index bde4aac2fa..09275e9a10 100755
+--- a/tests/qemu-iotests/308
++++ b/tests/qemu-iotests/308
+@@ -217,12 +217,12 @@ echo
+ echo '=== Remove export ==='
+ 
+ # Double-check that $EXT_MP appears as a non-empty file (the raw image)
+-$QEMU_IMG info -f raw "$EXT_MP" | grep 'virtual size'
++$QEMU_IMG info -f raw "$EXT_MP" | grep 'virtual size' | head -n 1
+ 
+ fuse_export_del 'export-mp'
+ 
+ # See that the file appears empty again
+-$QEMU_IMG info -f raw "$EXT_MP" | grep 'virtual size'
++$QEMU_IMG info -f raw "$EXT_MP" | grep 'virtual size' | head -n 1
+ 
+ echo
+ echo '=== Writable export ==='
 -- 
 2.38.1
 
