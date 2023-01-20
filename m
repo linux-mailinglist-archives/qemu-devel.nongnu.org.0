@@ -2,98 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 733AC67526F
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:28:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4807675275
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 11:31:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIobz-0005v2-DZ; Fri, 20 Jan 2023 05:27:07 -0500
+	id 1pIofU-0006w6-Iw; Fri, 20 Jan 2023 05:30:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIobw-0005u2-VO
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:27:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
+ id 1pIofR-0006vN-Bo; Fri, 20 Jan 2023 05:30:41 -0500
+Received: from mail-ve1eur01on2134.outbound.protection.outlook.com
+ ([40.107.14.134] helo=EUR01-VE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pIobv-0001Wv-9G
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 05:27:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674210422;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rCVypidnFx4JW/rDZPAfoj7ZI+PT0BWLXal/Pm0vWNM=;
- b=RBK34XSrD+QLd24ryUY0ZcGwHnX9mRyt8loWTBkSTl+QL9twIo51cXgggnLPdOCCQp+5wD
- N/T3UTyPX9Y0+H9cFDtV8THycbyDYctiOoqTDJ5OGt/H4eJIb+4HB+sKHOYCnHVdPok9rh
- /Geo+iXsCqFhmA3bVCKvLt/1PqnIfhc=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-611-RXIwFJ8yO524xOFNdV4oYg-1; Fri, 20 Jan 2023 05:27:01 -0500
-X-MC-Unique: RXIwFJ8yO524xOFNdV4oYg-1
-Received: by mail-qk1-f200.google.com with SMTP id
- bq15-20020a05620a468f00b00706ae242abcso3194930qkb.7
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 02:27:01 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rCVypidnFx4JW/rDZPAfoj7ZI+PT0BWLXal/Pm0vWNM=;
- b=YVoS3s8CSTfk6T80Gk8K4uHlm02o2PsBB1fmZ4QbTywxSpwjLSO90icC6AK2MpMM82
- t5mQ8ZNg7PE8BxN0PQNxb1yv768pSc22QEIxFRFhOEE/Tabu3kwc5ASZqeQPu1HASgDR
- 1p7nYbo/KGmnKwAV5kDHKSfEeOPHUXPriZhgEEjdOZsmC4xQz1gxMmCO/kg8QgsL7WPv
- ir/D5crIQAFaTbfW99wtfkiJL+c1DHRu/bFYagqH491BRMFEJ3/kEAekl0gLXM8LX9D/
- 2kyTciy79HAoTVIKCcGxqn+qRkpRQzyHK2PskCeGzA2ydp10tY7r3Vl8WgqXicGAoxJU
- UWSQ==
-X-Gm-Message-State: AFqh2krNlvW8wf8PCbNxBrlnL43Bq8thb5QpIWkOeo1PNPD+YERTvTN3
- WB+GO/sZfIsQYGAquAQbRzCDbh3IMT0cofPbGcKBlq1sOPM08pkxINgizir6Qc9nBMOniQ6kiV/
- ld60s6/8hLRD6ca8=
-X-Received: by 2002:ac8:5444:0:b0:3ab:af8e:64e6 with SMTP id
- d4-20020ac85444000000b003abaf8e64e6mr16443128qtq.67.1674210420519; 
- Fri, 20 Jan 2023 02:27:00 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXttwxqa28U1p4sL4dGUzzQjuk4l/NzUng3MRDfYeGlcE1436ks/wu/OzJsaf65rmJskro5YZQ==
-X-Received: by 2002:ac8:5444:0:b0:3ab:af8e:64e6 with SMTP id
- d4-20020ac85444000000b003abaf8e64e6mr16443107qtq.67.1674210420281; 
- Fri, 20 Jan 2023 02:27:00 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-118.web.vodafone.de.
- [109.43.177.118]) by smtp.gmail.com with ESMTPSA id
- q44-20020a05620a2a6c00b006fc9fe67e34sm11812905qkp.81.2023.01.20.02.26.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Jan 2023 02:26:58 -0800 (PST)
-Message-ID: <c41c336a-d435-ec2a-ab05-2f50c05645df@redhat.com>
-Date: Fri, 20 Jan 2023 11:26:54 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [RFC PATCH 6/8] tests/qtest/libqtest: Allow checking for HVF
- accelerator
+ (Exim 4.90_1) (envelope-from <alexander.ivanov@virtuozzo.com>)
+ id 1pIofO-00028r-Rx; Fri, 20 Jan 2023 05:30:41 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=SUBGQARmHZb2aK193HEtJboXGVPL/7WWsc55xBrDE0mMnziu/U72rL0yikWiXu9qQqVhLMfuPMUGOXnt+CvtTZtnhSJYuEzqBbPYTBc1zcHERKeTfuEFnBh6fgbr+E6VSo9Qf3t8N6u5b4nT6w/5IZz0RvZ2bP/EUMYIKqw23nMVTuqm7E/ZDNyPPzy80ebb1X7E1D5ZpoLPbHR9VuUBvHZ/JAYKZly8wmMU5juXaxL3mTNSde6HdiOpnCR1tevbKtnt822mDqwg9YFWf+KKpZxBm+Svo3Cd/xwUKqNxytEdwHpI3regaiC1iB9jMIx/aM3vYN5N73BC8rKGy6OeaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rkF3yLuqfYm/CT0hRm5t7XTEZQXzbfHSSIGxhnMT/x8=;
+ b=HWnmZ1c2Eoic9rByiCTLwO+GkaQBWqzYI4kApf2sfoy2LXmZb5T3G+r4ETeC8A1J6xzaCafo4SjkWtV5dAfQDygszeAJZCTY6pEwGTyq/Cc3bKEWHnxrrq7q0bX23WmYmoyQ0lFuasF8w1484qqEc2WuW57syddMr+QQuH35O0NDBBvPwVpVQtmZJFPhz9BF807mM9sRqrS4eHT2amRICdcDhZ5ijs5QdWsuuZ853Dpu8kzV0W+FH60way2Tr5vCWIksDYKlksoHo7r33PSnEkYwMhhEVDCsDh9tQWYnT2J4dTzFFjh3AVQbl6yxDFvJ+kHQWLdAGSWM+mV/54RhGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rkF3yLuqfYm/CT0hRm5t7XTEZQXzbfHSSIGxhnMT/x8=;
+ b=ktfXCXWV/YXRJhgW79QAbutTwtWMKFzx2xwTJU9tLKEr5CELc9tw/yQIJEkEGhaWKd+uB8KaqN5Tz12g1BIIZdBRdEyU25gTAm/fGh5m2YX00LO9SRZRJ3v/kwrhhGTb4+sSiIjRn9QtjSRuErlAkHR9tvoPFdOW7oMnm+t8ZnOyjvgQUXkfXpd5HLsPbDpXFEnGjPC7YWneVnF7bSYREA98KWq9xzN52uu+B1VssJI8gTvv4qWpuesEuxs1apYJ3JmNleVAkizJBQbe7M696ZRxM7FgX4aPsV4JgHWsTWtC7sHPyOdlneA/Lz/7zgNQnbRccotLLobjSrPBgqg0Qg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from AS8PR08MB7095.eurprd08.prod.outlook.com (2603:10a6:20b:402::11)
+ by DB9PR08MB7794.eurprd08.prod.outlook.com (2603:10a6:10:399::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.26; Fri, 20 Jan
+ 2023 10:30:30 +0000
+Received: from AS8PR08MB7095.eurprd08.prod.outlook.com
+ ([fe80::73cd:4f7a:16fa:e648]) by AS8PR08MB7095.eurprd08.prod.outlook.com
+ ([fe80::73cd:4f7a:16fa:e648%6]) with mapi id 15.20.6002.025; Fri, 20 Jan 2023
+ 10:30:30 +0000
+Message-ID: <69c505db-0892-b128-1a27-ab9c14a8aef2@virtuozzo.com>
+Date: Fri, 20 Jan 2023 11:30:22 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v8 07/11] parallels: Move check of cluster outside image
+ to a separate function
+To: Hanna Czenczek <hreitz@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, den@virtuozzo.com, stefanha@redhat.com,
+ vsementsov@yandex-team.ru, kwolf@redhat.com
+References: <20230115155821.1534598-1-alexander.ivanov@virtuozzo.com>
+ <20230115155821.1534598-8-alexander.ivanov@virtuozzo.com>
+ <0f329372-e2e1-50c2-46a3-64ab6db4f5f4@redhat.com>
 Content-Language: en-US
-From: Thomas Huth <thuth@redhat.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Laurent Vivier <lvivier@redhat.com>, 
- Fabiano Rosas <farosas@suse.de>, Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-arm@nongnu.org,
- Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>
-References: <20230119100537.5114-1-philmd@linaro.org>
- <20230119100537.5114-7-philmd@linaro.org>
- <fc7802c3-afd7-2cd0-438e-7b75f4789879@redhat.com>
- <b61a6249-3b84-e0cf-6220-029086c72254@linaro.org>
- <147a979d-2d16-4ad3-4330-3e8187f88a2e@redhat.com>
-In-Reply-To: <147a979d-2d16-4ad3-4330-3e8187f88a2e@redhat.com>
+From: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+In-Reply-To: <0f329372-e2e1-50c2-46a3-64ab6db4f5f4@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: 4
-X-Spam_score: 0.4
-X-Spam_bar: /
-X-Spam_report: (0.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.094, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-ClientProxiedBy: VI1PR02CA0062.eurprd02.prod.outlook.com
+ (2603:10a6:802:14::33) To AS8PR08MB7095.eurprd08.prod.outlook.com
+ (2603:10a6:20b:402::11)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR08MB7095:EE_|DB9PR08MB7794:EE_
+X-MS-Office365-Filtering-Correlation-Id: 24ba6fc0-faf8-4c90-b455-08dafad15a8c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: JT0uJmc4+LFzEfvJ0Gss/fwGS7sL7mNB30s9oBjrOc+HuBqFvFxYFf6OgQOXLIcRpZ2JLlnZ4I/ryCsysVX8y7n0KQ/x15NXnUJRQANGtm79lYhxQMjKsc7mbRbPalne+J7839dJnm/YfH8qbfzXdmYNiXn7/bty80Tdi1IPQGgmtcsodOwnsuR5fi//eDZSZFJWmqa7Dm+F3+UmPYolpVxvWZHF0kkcyGZfYXmGh9dDPdQGlNf7v4ZCUJNMTdrvV/1RKYaI4vmBFYggrvVfe4iNHtfsLYAmYk7OGVQIFJ2Y6pLr8j7Tv7I3lHGBy06OZ4TGvPjShMRGyU5EUnyrouKhoOrt4nlAnxUV/ZHIYTtXbKG3mJXqUyDTKeLO7nRWVGIgP3CWCuX7nLc0i4CTrmp4mVVYqdLzr6QMI18PqwlbHEX05NA4Bf/xkDyrSnpy7jXTzv1fbYcYo0iVkg7ljvpR+BMTJE4fsKz3zNc9nOhRDQxymukU/NWFnPCyJKL8jnUwSRwsvs8Okigf/3cOjR+oZgsqpZPoGK2lK9TudvF5Ks4fPD1414KrIrPVBVEHzM/sIPTmhzXFqTObckxmLUN6tZqJ3MbwRU2QVJTKyywS3YiIdsxbnTHjJYvJaOoBzT1e+lZ5wdRUZLuDWZm2YBVctvN793FzNDjOul+MDYSmNjf9bP7WibH4O8pV8qND/i6olfpehXC8m6tfbPhfHTdyU8F9zrD/O3ESJhAEkUJPoZfiLnsagyJI4gChrLiJdLNtPfJr4ZeRX3xz+8gjLg==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:AS8PR08MB7095.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230022)(4636009)(366004)(346002)(136003)(39850400004)(396003)(376002)(451199015)(31686004)(6666004)(6512007)(186003)(26005)(38100700002)(478600001)(38350700002)(6486002)(53546011)(86362001)(6506007)(52116002)(31696002)(41300700001)(2906002)(8936002)(2616005)(8676002)(316002)(5660300002)(66556008)(66946007)(4326008)(83380400001)(66476007)(36756003)(44832011)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OVZiZHNkK2ZNaE8xTVA0RC8ySG91Tk5BQ0xRU0lBNFNReHdWZCt6Vlc0RGRP?=
+ =?utf-8?B?L1VHWlJwWjE0ZXpXUHBiUTdrNzhJMnYzWWJvS0pNbWVZQ05BUFhxTVdWU2NS?=
+ =?utf-8?B?TnE4VUVSTjBnTlozeVZNNExvRWRjM0E0aUVWY3kycU8raldYSEtqelVUM1Js?=
+ =?utf-8?B?TDhhbGVTRnp0MHRtWGRMaXZaWGxlWk9EdTh0bWlpUHlqUklzTm9CV1RJbXJZ?=
+ =?utf-8?B?MkVWdGhmZlBDQ3ZuMG95dDM2MXRoczdkNkFqVUJDZmMraERkMWt1R2lwVnZl?=
+ =?utf-8?B?WDFXdU1vRERSZk04N2ZwUGF1dCtCbzZ5MTBCWVRJQXFsMDU3SVdkdCtGNkt0?=
+ =?utf-8?B?R2F1K0pQcUR1OHVRNklKamQ0MHp5RTcxNHBrcmV1cG1EMjlFeEZxRTJ2L3JQ?=
+ =?utf-8?B?eUZoRHVoVit5UzYvN2w3eElpMVNYSHBOZ0pnYUxCNXErTmNGUFppdlBOZ2Nu?=
+ =?utf-8?B?ZUlZaTlXaU5qMjRKS1FwZUx3QUY2QldUQUd5VlB5VjJLd3MxdGl4S1o2em5t?=
+ =?utf-8?B?RVg3QmpQcWYrenZ0Qkt1bjJ5d25WcUZKRlhzdUFmcVJzcjNPendmdHVIQURp?=
+ =?utf-8?B?UWZvOVp0UmV5dFJDVjEvSXdNUFBjS2dHcUMya1FHd09BZXhCRUk2VXhIRTJ1?=
+ =?utf-8?B?SVZ6bnFVWEtYQzVETWNIQXVYdGMxWGlLNW1rM3c5UnFYUnhVaVV1MTgyajJl?=
+ =?utf-8?B?eEU3aXh1ZmdvYTRwc0VJRHIxSHd1a25iQ29ZT1QwZklmYThJaTBwOUJYNW1u?=
+ =?utf-8?B?WE1HZGVBaHBTYUZaT0tqK2dkemlmQnhBZ2dJZS9IUHlWYXlwa0NPbU80Vmlx?=
+ =?utf-8?B?cHdoSlh0RzZBUmtSTmpEaUdNZGhBSVlxQ2RwMkE0SnNBcFQ1dGYwcFhXUk9p?=
+ =?utf-8?B?VG9uSUZ2R0ZyeTloMEZ6KzM2d2htZ2d6eDYvbjd4N3FTb3RBcjA1WjVBWU9p?=
+ =?utf-8?B?TG9RYUxXM0FObHM3cVY0dGtEcm5DVFA0bFJJNE16SjZpQjcvWGpZYnNxVFJm?=
+ =?utf-8?B?WXNyajg0cFNsUVozTjJWK1dOSk1GOHlqeExJWjZaMDdWTE1nVVFkUUlyRU15?=
+ =?utf-8?B?MTEzWmR0MjhCYVdWWUIxd3dsRDVTL0NxeDh1N294QzY1ejViK3dmek1GUVNr?=
+ =?utf-8?B?MzJ0ZUNNbHp5czFtMXhUSWZTaU9sMy9oNWtLUXJpVTZGeUNYUDBOWmJYeVE2?=
+ =?utf-8?B?N29IRUZ2QTNSRHU2Q0lDeWtLVTVjRlZORmltb0xDQ25NVWZhSnMvNVVPWDJz?=
+ =?utf-8?B?enlmSC9WQjQxcEdDUTdkUVZISzVFZTNkRTZ0SXhwaHFqck5EQ2J4dlY2M0RU?=
+ =?utf-8?B?N29UUjIva3kyVkxWejFOQkoycmRXblc0a2ZKdE5TSXg5dHNkYUw4dXIzOG4z?=
+ =?utf-8?B?cXdIZE9pZlVUQWdPTithTTMvamFGaXhDaTF2RFljUFZVTzM0VlpwWmx4OUpT?=
+ =?utf-8?B?bE00blA4a1BiMURlZWpuVHJVVTczSTJDWTRvWW02Ry9vVVl2SEs5MWZTeU5Y?=
+ =?utf-8?B?TXUxNHh6ZGJGcURKU0VaeVl0QjdlWVE4Q0JLaWFTVVFBUjIxcGNyUTU1ZlVF?=
+ =?utf-8?B?YW5VOFJENTN2cDl4RHlaYUNYVC9vd2k5NUErK1pSRVFzcndic0UrMkUzSFc4?=
+ =?utf-8?B?QVpOMDc5eVhHSnprZXJYcjI2VFE5QmlJUlNta1FaMjhDWjZYcU81NDZsZVRn?=
+ =?utf-8?B?ZDRqSG9uWjA5L3hCR0xleXB1REVMNlZYRW9aNTFQTVYxRDB2S0hqYjRoenY0?=
+ =?utf-8?B?TWt3VDVxdjhEbGdQZzAzYXJaeFU5OXhaNGNqZHJ0bFU2VWZJVVlPdWZTN2hU?=
+ =?utf-8?B?MEtmNGxIQjVyVzJtQ0ZNT1BOL2l0eUI4bjRYR0tocktqMmlVb2ZseGlzV3hV?=
+ =?utf-8?B?VlZQeVdCemt5cnFTNTZzVjFNYU9TeEpBc2F1a3ArN0dpV2VETnhWbTJzRUcw?=
+ =?utf-8?B?Zi9pYnl4WDUzMU9OME5PK1VMRk9jUUozcmJCWjFCSE5Mc2ErMjNzYWdnVE5t?=
+ =?utf-8?B?dmZ2a2VBcVBXV2gzWndUZlZwNkdsRHNybFk2VE5IcVF3UTlkaGd3Vk1OZm1h?=
+ =?utf-8?B?TVp1UnhYWEVLUVBPbnoyYzFKMUJDZm91Y1UwcU1vMGQ5MjVuWW5iTThCYmVH?=
+ =?utf-8?B?cmowOGQ0UTNyZ1NNSWJFMW1GdWtIckFOb3J4SFVQL0gxbUEyR2lUREVYMHI1?=
+ =?utf-8?Q?fLMKkAQqwO1XP+/730Ap4NA=3D?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 24ba6fc0-faf8-4c90-b455-08dafad15a8c
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR08MB7095.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2023 10:30:30.2481 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: npowWh/kZCcsQgGcUXLff6M7imLWobfyexQcp1isXgcHilXgkATAe+81feJFuT00lJ0rfERLks4j7dLeQuuN7aujCPGT6GB4t9TIMmbX4tg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7794
+Received-SPF: pass client-ip=40.107.14.134;
+ envelope-from=alexander.ivanov@virtuozzo.com;
+ helo=EUR01-VE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.094,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,57 +148,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19/01/2023 13.05, Thomas Huth wrote:
-> On 19/01/2023 12.30, Philippe Mathieu-Daudé wrote:
->> On 19/1/23 12:24, Thomas Huth wrote:
->>> On 19/01/2023 11.05, Philippe Mathieu-Daudé wrote:
->>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>>> ---
->>>> RFC: CONFIG_HVF is poisoned.
->>>>
->>>> We could pass host config definitions to qtest using:
->>>>
->>>>    diff --git a/meson.build b/meson.build
->>>>    @@ -2547,6 +2547,7 @@ foreach target : target_dirs
->>>>
->>>>       accel_kconfig = []
->>>>       foreach sym: accelerators
->>>>    +    config_host_data.set(sym + '_QTEST', '')
->>>>         if sym == 'CONFIG_TCG' or target in accelerator_targets.get(sym, 
->>>> [])
->>>>           config_target += { sym: 'y' }
->>>>           config_all += { sym: 'y' }
->>>>
->>>> Then test for CONFIG_HVF_QTEST ...
->>>
->>> I don't think that would really work well. The qtests are build once for 
->>> all targets, and HVF is only available in the target that matches the 
->>> host architecture. It's poisoned on purpose.
->>>
->>> The TCG accelerator is special, since we have it in either none or in all 
->>> targets, that's why we can use CONFIG_TCG there.
->>>
->>> The kvm part is also rather a hack... we should maybe rather additionally 
->>> use the "query-kvm" QAPI command to check whether it is really available...?
->>>
->>> To fix this properly for HVF, I think you'd need a way to query the 
->>> available accelerators via QMP, too... Hmmm, weren't there some patches 
->>> for something like that in the past ... can't remember right now ...
+
+
+On 18.01.2023 15:45, Hanna Czenczek wrote:
+> On 15.01.23 16:58, Alexander Ivanov wrote:
+>> We will add more and more checks so we need a better code structure
+>> in parallels_co_check. Let each check performs in a separate loop
+>> in a separate helper.
 >>
->> https://lore.kernel.org/qemu-devel/20210505125806.1263441-3-philmd@redhat.com/ 
->> :(
-> 
-> Ah, right, and we ended up with the competing patch from Igor since we could 
-> not quite settle on the QAPI extensions?
-> 
-> Hmm, what happens if you execute "query-qmp-schema" on a HVF-enabled host 
-> these days? Is there a "hvf"-related entry somewhere in the response?
-
-Alternative idea: execute QEMU once with "-accel help" via 
-g_spawn_command_line_sync() or g_spawn_sync() once and look for the 
-accelerator in the standard output.
-
-  Thomas
-
-
+>> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+>> Reviewed-by: Denis V. Lunev <den@openvz.org>
+>> ---
+>>   block/parallels.c | 59 ++++++++++++++++++++++++++++++++++-------------
+>>   1 file changed, 43 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/block/parallels.c b/block/parallels.c
+>> index d48b447cca..3d06623355 100644
+>> --- a/block/parallels.c
+>> +++ b/block/parallels.c
+>
+> [...]
+>
+>> @@ -469,19 +511,6 @@ static int coroutine_fn 
+>> parallels_co_check(BlockDriverState *bs,
+>>               continue;
+>>           }
+>>   -        /* cluster outside the image */
+>> -        if (off > size) {
+>> -            fprintf(stderr, "%s cluster %u is outside image\n",
+>> -                    fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR", i);
+>> -            res->corruptions++;
+>> -            if (fix & BDRV_FIX_ERRORS) {
+>> -                parallels_set_bat_entry(s, i, 0);
+>> -                res->corruptions_fixed++;
+>> -            }
+>> -            prev_off = 0;
+>> -            continue;
+>> -        }
+>> -
+>>           res->bfi.allocated_clusters++;
+>>           if (off > high_off) {
+>>               high_off = off;
+>
+> parallels_co_check() keeps the `high_off` variable, and now it is also 
+> bumped for clusters that are outside the image.  This seems to go 
+> against patch 2’s intentions.
+>
+> Consider an image whose file length is larger than all of its clusters 
+> need (i.e. there’s leaked space), except for one cluster, which is 
+> beyond the EOF.  This one cluster is considered an error (because it’s 
+> outside the image).  Before this patch, we would have truncated the 
+> image’s file length to match all the other non-error clusters (and 
+> drop the leaked space).  With this patch, the error cluster, if it 
+> wasn’t fixed by parallels_check_outside_image(), the image’s file 
+> length is no longer truncated.  Basically, this seems to restore the 
+> behavior from before patch 2.
+>
+> Was this intentional?
+>
+> Hanna
+>
+Good point!
+I have missed the case with !BDRV_FIX_ERRORS.
+Thank you!
 
