@@ -2,111 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A779D6756FE
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 15:24:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26391675704
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 15:25:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIsHr-0007s2-Es; Fri, 20 Jan 2023 09:22:35 -0500
+	id 1pIsKC-0000X5-A8; Fri, 20 Jan 2023 09:25:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pIsHj-0007ne-7O; Fri, 20 Jan 2023 09:22:29 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pIsK9-0000WQ-Ir
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:24:57 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pIsHh-0006H6-G9; Fri, 20 Jan 2023 09:22:27 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30KDMGsi004257; Fri, 20 Jan 2023 14:22:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=pp1;
- bh=fbTDpz0/ozxIhvj4DA6UKvzCfCYbFE9WLsOcCeP99u0=;
- b=OfmTJGi5dA8MNL33ul89Ol22dEsFJDgE3m9V3KQviiu23KaiRPUF+y3KQuDY9ZkAXin8
- be7Bauvyd8BfKa6kqy06zGqijB8hH0LJ2PNPdQw/FpzmAfUR5WoHvrPKSZsGfDOiQevD
- zeLDXj6zoiPRYEEa2MVDC2DrKHp9nMKBWhWKIYBbJu0BphxJPEBMSEE6fs7r99YqRNr1
- 68R+nlAIkyCMa5SDGVJ84Gr5/F9PJ8zz2bjdRgiC5levMF/5+oTT5xDmhOj4V9co3gQE
- v7EGKyGNiP6v12Vm12q1VmdUWaXgaE8FCYdRenAWxEwCi20eroy4p9uuJJT3527hPdXI sA== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n7usghe2t-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 20 Jan 2023 14:22:19 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30KEBUe3023838;
- Fri, 20 Jan 2023 14:22:19 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3n7usghe1x-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 20 Jan 2023 14:22:19 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30KCVaJK009485;
- Fri, 20 Jan 2023 14:22:17 GMT
-Received: from smtprelay04.fra02v.mail.ibm.com ([9.218.2.228])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3n3knfr37u-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 20 Jan 2023 14:22:17 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay04.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30KEMDjF25428656
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 20 Jan 2023 14:22:13 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 6F83E20040;
- Fri, 20 Jan 2023 14:22:13 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 56E9720043;
- Fri, 20 Jan 2023 14:22:12 +0000 (GMT)
-Received: from [9.171.50.198] (unknown [9.171.50.198])
- by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 20 Jan 2023 14:22:12 +0000 (GMT)
-Message-ID: <772f43f2-9dc3-befb-9061-effda2e357eb@linux.ibm.com>
-Date: Fri, 20 Jan 2023 15:22:12 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pIsK6-0006aF-Nq
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:24:57 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Nz1r44bMyz67Qtq;
+ Fri, 20 Jan 2023 22:20:52 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Fri, 20 Jan 2023 14:24:50 +0000
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
+CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
+ <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Dave Jiang
+ <dave.jiang@intel.com>, <alison.schofield@intel.com>, Mike Maslenkin
+ <mike.maslenkin@gmail.com>
+Subject: [PATCH v2 0/7] hw/cxl: RAS error emulation and injection
+Date: Fri, 20 Jan 2023 14:24:43 +0000
+Message-ID: <20230120142450.16089-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v14 10/11] qapi/s390/cpu topology: POLARITY_CHANGE qapi
- event
-To: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- scgl@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com,
- clg@kaod.org
-References: <20230105145313.168489-1-pmorel@linux.ibm.com>
- <20230105145313.168489-11-pmorel@linux.ibm.com>
- <c338245c-82c3-ed57-9c98-f4d630fa1759@redhat.com>
- <5f177a1b-90d6-7e30-5b58-cdcae7919363@linux.ibm.com>
- <648e62ab-9d66-9a5a-0a03-124c16b85805@redhat.com>
-Content-Language: en-US
-From: Pierre Morel <pmorel@linux.ibm.com>
-In-Reply-To: <648e62ab-9d66-9a5a-0a03-124c16b85805@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: QamKRmy4ygtsxSOgYeNiAnPHfRD0siJz
-X-Proofpoint-ORIG-GUID: ao9lXoyzQK9iV_tQHhzkFiIHXeijHB40
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-20_08,2023-01-20_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- mlxscore=0 spamscore=0
- impostorscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
- clxscore=1015 phishscore=0 priorityscore=1501 mlxlogscore=999 bulkscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301200133
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.089,
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -121,62 +61,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+v2: Thanks to Mike Maslenkin for review.
+- Fix wrong parameter type to ct3d_qmp_cor_err_to_cxl()
+- Rework use of CXLError local variable in ct3d_reg_write() to improve
+  code readability.
 
+CXL error reporting is complex. This series only covers the protocol
+related errors reported via PCIE AER - Ira Weiny has posted support for
+Event log based injection and I will post an update of Poison list injection
+shortly. My proposal is to upstream this one first, followed by Ira's Event
+Log series, then finally the Poison List handling. That is based on likely
+order of Linux kernel support (the support for this type of error reporting
+went in during the recent merge window, the others are still under review).
+Note we may propose other non error related features in between!
+The current revisions of all the error injection can be found at:
+https://gitlab.com/jic23/qemu/-/tree/cxl-2023-01-11
 
-On 1/20/23 12:56, Thomas Huth wrote:
-> On 18/01/2023 18.09, Pierre Morel wrote:
->>
->> On 1/12/23 12:52, Thomas Huth wrote:
->>> On 05/01/2023 15.53, Pierre Morel wrote:
-> ...>>> +#
+In order to test the kernel support for RAS error handling, I previously
+provided this series via gitlab, enabling David Jiang's kernel patches
+to be tested.
 
-OK
+Now that Linux kernel support is upstream, this series is proposing the
+support for upstream inclusion in QEMU. Note that support for Multiple
+Header Recording has been added to QEMU the meantime and a kernel
+patch to use that feature sent out.
 
->>>> +# Emitted when the guest asks to change the polarity.
->>>> +#
->>>> +# @polarity: polarity specified by the guest
->>>
->>> Please elaborate: Where does the value come from (the PTF 
->>> instruction)? Which values are possible?
->>
->> Yes what about:
->>
->> # @polarity: the guest can specify with the PTF instruction a horizontal
->> #            or a vertical polarity.
-> 
-> Maybe something like: "The guest can tell the host (via the PTF 
-> instruction) whether a CPU should have horizontal or vertical polarity." ?
+https://lore.kernel.org/linux-cxl/20230113154058.16227-1-Jonathan.Cameron@huawei.com/T/#t
 
-Yes thanks, much better.
+There are two generic PCI AER precursor feature additions.
+1) The PCI_ERR_UCOR_MASK register has not been implemented until now
+   and is necessary for correct emulation.
+2) The routing for AER errors, via existing AER error injection, only
+   covered one of two paths given in the PCIe base specification,
+   unfortunately not the one used by the Linux kernel CXL support.
 
-> 
->> #         On horizontal polarity the host is expected to provision
->> #            the vCPU equally.
-> 
-> Maybe: "all vCPUs equally" ?
-> Or: "each vCPU equally" ?
+The use of MSI for the CXL root ports, both makes sense from the point
+of view of how it may well be implemented, and works around the documented
+lack of PCI interrupt routing in i386/q35. I have a hack that lets
+us correctly route those interrupts but don't currently plan to post it.
 
-yes, thx.
+The actual CXL error injection uses a new QMP interface as documented
+in the final patch description. The existing AER error injection
+internals are reused though it's HMP interface is not.
 
+Injection via QMP:
+{ "execute": "qmp_capabilities" }
+...
+{ "execute": "cxl-inject-uncorrectable-errors",
+  "arguments": {
+    "path": "/machine/peripheral/cxl-pmem0",
+    "errors": [
+        {
+            "type": "cache-address-parity",
+            "header": [ 3, 4]
+        },
+        {
+            "type": "cache-data-parity",
+            "header": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+        },
+        {
+            "type": "internal",
+            "header": [ 1, 2, 4]
+        }
+        ]
+  }}
+...
+{ "execute": "cxl-inject-correctable-error",
+    "arguments": {
+        "path": "/machine/peripheral/cxl-pmem0",
+        "type": "physical",
+        "header": [ 3, 4]
+    } }
 
-> 
->> #            On vertical polarity the host can provision each vCPU
->> #            differently
->> #            The guest can get information on the provisioning with
->> #            the STSI(15) instruction.
-> 
->   Thomas
-> 
+Based on top of:
+https://lore.kernel.org/all/20230112102644.27830-1-Jonathan.Cameron@huawei.com/
+[PATCH v2 0/8] hw/cxl: CXL emulation cleanups and minor fixes for upstream
 
-I make the changes.
+Jonathan Cameron (7):
+  hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register
+  hw/pci/aer: Add missing routing for AER errors
+  hw/pci-bridge/cxl_root_port: Wire up AER
+  hw/pci-bridge/cxl_root_port: Wire up MSI
+  hw/mem/cxl-type3: Add AER extended capability
+  hw/pci/aer: Make PCIE AER error injection facility available for other
+    emulation to use.
+  hw/mem/cxl_type3: Add CXL RAS Error Injection Support.
 
-Regards,
-Pierre
+ hw/cxl/cxl-component-utils.c   |   4 +-
+ hw/mem/cxl_type3.c             | 303 +++++++++++++++++++++++++++++++++
+ hw/mem/cxl_type3_stubs.c       |  10 ++
+ hw/mem/meson.build             |   2 +
+ hw/pci-bridge/cxl_root_port.c  |  64 +++++++
+ hw/pci/pci-internal.h          |   1 -
+ hw/pci/pcie_aer.c              |  14 +-
+ include/hw/cxl/cxl_component.h |  26 +++
+ include/hw/cxl/cxl_device.h    |  11 ++
+ include/hw/pci/pcie_aer.h      |   1 +
+ include/hw/pci/pcie_regs.h     |   3 +
+ qapi/cxl.json                  | 113 ++++++++++++
+ qapi/meson.build               |   1 +
+ qapi/qapi-schema.json          |   1 +
+ 14 files changed, 551 insertions(+), 3 deletions(-)
+ create mode 100644 hw/mem/cxl_type3_stubs.c
+ create mode 100644 qapi/cxl.json
 
 -- 
-Pierre Morel
-IBM Lab Boeblingen
+2.37.2
+
 
