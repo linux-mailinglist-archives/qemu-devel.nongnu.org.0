@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72BD4675D1B
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 19:52:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9D01675D16
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 19:52:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIwTi-0002ea-Qi; Fri, 20 Jan 2023 13:51:06 -0500
+	id 1pIwTk-0002hL-Uk; Fri, 20 Jan 2023 13:51:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIwTe-0002Us-CW; Fri, 20 Jan 2023 13:51:02 -0500
+ id 1pIwTi-0002eb-Dd; Fri, 20 Jan 2023 13:51:06 -0500
 Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pIwTc-0005WJ-RN; Fri, 20 Jan 2023 13:51:02 -0500
+ id 1pIwTg-0005Y9-QG; Fri, 20 Jan 2023 13:51:06 -0500
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id 4175A337C7;
- Fri, 20 Jan 2023 18:50:59 +0000 (UTC)
+ by smtp-out1.suse.de (Postfix) with ESMTPS id CE1E8337CA;
+ Fri, 20 Jan 2023 18:51:02 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674240659; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+ t=1674240662; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P/rV0PJIOUZCnnLBP0TDoGgeA0dRFVlBjTTK1Nu2RhU=;
- b=QIiaWelZepFLC+oDa3xMb1lXmxI8n9KbF0VqKqpi0kpml7hCGh6cV2S2sTLHAody4wWIub
- cUbw8WKLykysYyvh8JPcRJrOdeLhYQa1SdsKxF0HB3uI/8CqBi7zghqbkgrZuo8lotyjN8
- ip22jczp7nYzV23gsXg/5ZsmH9LdJCw=
+ bh=hbU7HrZCP93qfv9uhjdBYhL7a4UEt8xa3EKaz+dXueg=;
+ b=Tn7gLZsJk48uaPEB/DSmy9/I3C4Mkc8fLpBljO6bAWPzZzQm5bdII4gOSzz8o92hwqJ42e
+ 431tNsaiiDLeeUuNgCq1A8qu8rX4aGN+TwydTyyIw2sTk4i461C7hBfp1qy25iddpV53FM
+ RPDmhvaF8igIOBoURhHa4z+juH3q58w=
 DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674240659;
+ s=susede2_ed25519; t=1674240662;
  h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
  mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=P/rV0PJIOUZCnnLBP0TDoGgeA0dRFVlBjTTK1Nu2RhU=;
- b=3pxGQ4pOCEWc3N0Tmnsvc/otsKwKE3paxOEjohyWyxvwGvJ2lCk38mM9eD1WqWHCUFXX5d
- D+tsOeYu9ZKdGXDA==
+ bh=hbU7HrZCP93qfv9uhjdBYhL7a4UEt8xa3EKaz+dXueg=;
+ b=1dt9r5lf7Q9t90gfgrGLvaTDjasWRn2HPnEhDQQOrgLwlRzsEC331xU1NmN6rWwNB4lzc5
+ WmUrSWnTwATr+oBQ==
 Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
  (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
  key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 71E111390C;
- Fri, 20 Jan 2023 18:50:55 +0000 (UTC)
+ by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id B81381390C;
+ Fri, 20 Jan 2023 18:50:59 +0000 (UTC)
 Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id YIS9DY/iymNSbQAAMHmgww
- (envelope-from <farosas@suse.de>); Fri, 20 Jan 2023 18:50:55 +0000
+ by imap2.suse-dmz.suse.de with ESMTPSA id YDbhHpPiymNSbQAAMHmgww
+ (envelope-from <farosas@suse.de>); Fri, 20 Jan 2023 18:50:59 +0000
 From: Fabiano Rosas <farosas@suse.de>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
@@ -57,13 +57,11 @@ Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
  Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-Subject: [RFC PATCH v5 7/9] target/avocado: Pass parameters to migration test
- on aarch64
-Date: Fri, 20 Jan 2023 15:48:23 -0300
-Message-Id: <20230120184825.31626-8-farosas@suse.de>
+ Cornelia Huck <cohuck@redhat.com>
+Subject: [RFC PATCH v5 8/9] arm/Kconfig: Always select SEMIHOSTING when TCG is
+ present
+Date: Fri, 20 Jan 2023 15:48:24 -0300
+Message-Id: <20230120184825.31626-9-farosas@suse.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <20230120184825.31626-1-farosas@suse.de>
 References: <20230120184825.31626-1-farosas@suse.de>
@@ -93,48 +91,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The migration tests are currently broken for an aarch64 host because
-the tests pass no 'machine' and 'cpu' options on the QEMU command
-line. Most other architectures define a default value in QEMU for
-these options, but arm does not.
+We are about to enable the build without TCG, so CONFIG_SEMIHOSTING
+and CONFIG_ARM_COMPATIBLE_SEMIHOSTING cannot be unconditionally set in
+default.mak anymore. So reflect the change in a Kconfig.
 
-Add these options to the test class in case the test is being executed
-in an aarch64 host.
+Instead of using semihosting/Kconfig, use a target-specific file, so
+that the change doesn't affect other architectures which might
+implement semihosting in a way compatible with KVM.
+
+The selection from ARM_v7M needs to be removed to avoid a cycle during
+parsing.
 
 Signed-off-by: Fabiano Rosas <farosas@suse.de>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/avocado/migration.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ configs/devices/arm-softmmu/default.mak | 2 --
+ hw/arm/Kconfig                          | 1 -
+ target/arm/Kconfig                      | 7 +++++++
+ 3 files changed, 7 insertions(+), 3 deletions(-)
 
-diff --git a/tests/avocado/migration.py b/tests/avocado/migration.py
-index 4b25680c50..ffd3db0f35 100644
---- a/tests/avocado/migration.py
-+++ b/tests/avocado/migration.py
-@@ -11,6 +11,8 @@
+diff --git a/configs/devices/arm-softmmu/default.mak b/configs/devices/arm-softmmu/default.mak
+index 1b49a7830c..cb3e5aea65 100644
+--- a/configs/devices/arm-softmmu/default.mak
++++ b/configs/devices/arm-softmmu/default.mak
+@@ -40,6 +40,4 @@ CONFIG_MICROBIT=y
+ CONFIG_FSL_IMX25=y
+ CONFIG_FSL_IMX7=y
+ CONFIG_FSL_IMX6UL=y
+-CONFIG_SEMIHOSTING=y
+-CONFIG_ARM_COMPATIBLE_SEMIHOSTING=y
+ CONFIG_ALLWINNER_H3=y
+diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+index 19d6b9d95f..e0da8841db 100644
+--- a/hw/arm/Kconfig
++++ b/hw/arm/Kconfig
+@@ -316,7 +316,6 @@ config ARM_V7M
+     # currently v7M must be included in a TCG build due to translate.c
+     default y if TCG && (ARM || AARCH64)
+     select PTIMER
+-    select ARM_COMPATIBLE_SEMIHOSTING
  
- 
- import tempfile
-+import os
+ config ALLWINNER_A10
+     bool
+diff --git a/target/arm/Kconfig b/target/arm/Kconfig
+index 3f3394a22b..39f05b6420 100644
+--- a/target/arm/Kconfig
++++ b/target/arm/Kconfig
+@@ -4,3 +4,10 @@ config ARM
+ config AARCH64
+     bool
+     select ARM
 +
- from avocado_qemu import QemuSystemTest
- from avocado import skipUnless
- 
-@@ -26,6 +28,14 @@ class Migration(QemuSystemTest):
- 
-     timeout = 10
- 
-+    def setUp(self):
-+        super().setUp()
-+
-+        arch = os.uname()[4]
-+        if arch == 'aarch64':
-+            self.machine = 'virt'
-+            self.cpu = 'max'
-+
-     @staticmethod
-     def migration_finished(vm):
-         return vm.command('query-migrate')['status'] in ('completed', 'failed')
++# This config exists just so we can make SEMIHOSTING default when TCG
++# is selected without also changing it for other architectures.
++config ARM_SEMIHOSTING
++    bool
++    default y if TCG && ARM
++    select ARM_COMPATIBLE_SEMIHOSTING
 -- 
 2.35.3
 
