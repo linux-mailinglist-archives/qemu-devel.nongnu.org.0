@@ -2,55 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09502674D95
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:02:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF9F4674D9F
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:03:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIlPG-0000A1-0N; Fri, 20 Jan 2023 02:01:46 -0500
+	id 1pIlPD-00009Q-PG; Fri, 20 Jan 2023 02:01:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlOz-0008UH-RH
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlOz-0008UG-PR
  for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:01:32 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlOw-0005Fz-QZ
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pIlOx-0005GO-Th
  for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:01:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674198085;
+ s=mimecast20190719; t=1674198087;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=+T39vI+d7+kJY3GNW30TDsM+Poct2V5aathPLUdVJlI=;
- b=KLn/v4erIy38JJsOsf2OYH3EujtgYOHvg0bogdDk1ZhApYmmuGvS1Xc0lqC3K0RzcemoR7
- 5OsCw2FStvWN8uOwdRATP3mBQe4KPqk97Aa1Mp2qxBR6t5xzp0yhdkJeSzXtuVBv6b6gxA
- wOBVRGfNOgjEv04NmbAQ0QKgFxTetHk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7TC0jWFMGoAYpAGn99fdBxChxOKtjBjhu0HgZzGAObY=;
+ b=fPN2deqaGDKERAG5h19eC+IgMvKU5viRq4zMfDYeVLk0ukxi1nI5e5x/HUCrEXWqKuw/5D
+ HYfiRdMD9ugGLMPb0z+CnrO3v1vx+ZD1LV2eE3NwQRjcN6W72rKjS5tzDPhdx1vtl8c1YY
+ KoZBEyHxarAhPnpFJKtPD2b4nXgtl6o=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-215-GUVdM1FtOwKOZpxJW0x8dg-1; Fri, 20 Jan 2023 02:01:24 -0500
-X-MC-Unique: GUVdM1FtOwKOZpxJW0x8dg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-515-z05Pct72NW-LdJHZdLnv7g-1; Fri, 20 Jan 2023 02:01:24 -0500
+X-MC-Unique: z05Pct72NW-LdJHZdLnv7g-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C201C85A588;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CB12D3C0D194;
  Fri, 20 Jan 2023 07:01:23 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 826801121315;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82B15C15BAD;
  Fri, 20 Jan 2023 07:01:23 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 81A4121E6A28; Fri, 20 Jan 2023 08:01:22 +0100 (CET)
+ id 8307421E66CB; Fri, 20 Jan 2023 08:01:22 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Subject: [PULL 00/12] Header cleanup patches for 2023-01-20
-Date: Fri, 20 Jan 2023 08:01:10 +0100
-Message-Id: <20230120070122.3982588-1-armbru@redhat.com>
+Cc: peter.maydell@linaro.org,
+	Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PULL 01/12] coroutine: Clean up superfluous inclusion of
+ qemu/coroutine.h
+Date: Fri, 20 Jan 2023 08:01:11 +0100
+Message-Id: <20230120070122.3982588-2-armbru@redhat.com>
+In-Reply-To: <20230120070122.3982588-1-armbru@redhat.com>
+References: <20230120070122.3982588-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -27
@@ -75,181 +80,207 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 7ec8aeb6048018680c06fb9205c01ca6bda08846:
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20221221131435.3851212-2-armbru@redhat.com>
+---
+ crypto/block-luks-priv.h    | 1 -
+ include/block/raw-aio.h     | 1 -
+ include/scsi/pr-manager.h   | 1 -
+ nbd/nbd-internal.h          | 1 -
+ blockjob.c                  | 1 -
+ crypto/block-luks.c         | 1 -
+ hw/9pfs/codir.c             | 1 -
+ hw/9pfs/cofile.c            | 1 -
+ hw/9pfs/cofs.c              | 1 -
+ hw/9pfs/coxattr.c           | 1 -
+ tests/unit/test-coroutine.c | 1 -
+ tests/unit/test-vmstate.c   | 1 -
+ util/qemu-coroutine-lock.c  | 1 -
+ util/qemu-coroutine-sleep.c | 1 -
+ util/qemu-coroutine.c       | 1 -
+ 15 files changed, 15 deletions(-)
 
-  Merge tag 'pull-tpm-2023-01-17-1' of https://github.com/stefanberger/qemu-tpm into staging (2023-01-17 15:47:53 +0000)
-
-are available in the Git repository at:
-
-  https://repo.or.cz/qemu/armbru.git tags/pull-include-2023-01-20
-
-for you to fetch changes up to b6c80037ed3ba275eea2b33bc17e36af2b89813a:
-
-  include/hw/ppc include/hw/pci-host: Drop extra typedefs (2023-01-20 07:25:22 +0100)
-
-----------------------------------------------------------------
-Header cleanup patches for 2023-01-20
-
-----------------------------------------------------------------
-Markus Armbruster (12):
-      coroutine: Clean up superfluous inclusion of qemu/coroutine.h
-      coroutine: Move coroutine_fn to qemu/osdep.h, trim includes
-      coroutine: Clean up superfluous inclusion of qemu/lockable.h
-      coroutine: Split qemu/coroutine-core.h off qemu/coroutine.h
-      coroutine: Use Coroutine typedef name instead of structure tag
-      include/block: Untangle inclusion loops
-      hw/sparc64/niagara: Use blk_name() instead of open-coding it
-      include/hw/block: Include hw/block/block.h where needed
-      include/hw/ppc: Split pnv_chip.h off pnv.h
-      include/hw/ppc: Supply a few missing includes
-      include/hw/ppc: Don't include hw/pci-host/pnv_phb.h from pnv.h
-      include/hw/ppc include/hw/pci-host: Drop extra typedefs
-
- accel/tcg/debuginfo.h                  |   2 +
- crypto/block-luks-priv.h               |   1 -
- hw/9pfs/coth.h                         |   2 +-
- hw/pci-host/pnv_phb.h                  |   2 +-
- include/block/aio.h                    |   9 +-
- include/block/aio_task.h               |   2 -
- include/block/block-common.h           |  10 +--
- include/block/block-copy.h             |   4 +-
- include/block/block-global-state.h     |   4 +-
- include/block/block-hmp-cmds.h         |   2 +
- include/block/block-io.h               |   5 +-
- include/block/block.h                  |   4 +-
- include/block/block_backup.h           |   2 +-
- include/block/block_int-common.h       |  14 ++-
- include/block/block_int-global-state.h |   5 +-
- include/block/block_int-io.h           |   4 +-
- include/block/block_int.h              |   4 +-
- include/block/blockjob.h               |   2 +-
- include/block/blockjob_int.h           |   1 -
- include/block/dirty-bitmap.h           |   1 +
- include/block/graph-lock.h             |   2 -
- include/block/qapi.h                   |   2 +-
- include/block/raw-aio.h                |   1 -
- include/block/thread-pool.h            |   2 +-
- include/block/throttle-groups.h        |   2 +-
- include/hw/block/swim.h                |   1 +
- include/hw/pci-host/pnv_phb3.h         |   1 -
- include/hw/pci-host/pnv_phb4.h         |   5 +-
- include/hw/ppc/pnv.h                   | 146 +------------------------------
- include/hw/ppc/pnv_chip.h              | 147 +++++++++++++++++++++++++++++++
- include/hw/ppc/pnv_core.h              |   3 +-
- include/hw/ppc/pnv_homer.h             |   2 +-
- include/hw/ppc/pnv_lpc.h               |  11 +--
- include/hw/ppc/pnv_occ.h               |   3 +-
- include/hw/ppc/pnv_pnor.h              |   2 +-
- include/hw/ppc/pnv_sbe.h               |   3 +-
- include/hw/ppc/pnv_xive.h              |   7 +-
- include/hw/ppc/pnv_xscom.h             |   3 +-
- include/hw/ppc/xive2.h                 |   2 +
- include/hw/ppc/xive2_regs.h            |   2 +
- include/io/channel.h                   |   2 +-
- include/monitor/hmp.h                  |   1 -
- include/qemu/coroutine-core.h          | 154 +++++++++++++++++++++++++++++++++
- include/qemu/coroutine.h               | 113 ++----------------------
- include/qemu/lockable.h                |   2 +-
- include/qemu/osdep.h                   |  16 ++++
- include/qemu/progress_meter.h          |   2 +-
- include/qemu/typedefs.h                |   1 -
- include/scsi/pr-manager.h              |   1 -
- include/sysemu/block-backend-io.h      |   1 +
- nbd/nbd-internal.h                     |   1 -
- block.c                                |   1 +
- block/amend.c                          |   1 +
- block/backup.c                         |   1 +
- block/blkdebug.c                       |   1 +
- block/blklogwrites.c                   |   1 +
- block/blkreplay.c                      |   1 +
- block/blkverify.c                      |   1 +
- block/block-copy.c                     |   4 +
- block/bochs.c                          |   1 +
- block/cloop.c                          |   1 +
- block/copy-before-write.c              |   1 +
- block/copy-on-read.c                   |   1 +
- block/curl.c                           |   1 +
- block/dirty-bitmap.c                   |   2 +
- block/dmg.c                            |   1 +
- block/export/fuse.c                    |   3 +-
- block/file-posix.c                     |   1 +
- block/file-win32.c                     |   1 +
- block/filter-compress.c                |   1 +
- block/gluster.c                        |   1 +
- block/io.c                             |   1 +
- block/iscsi.c                          |   1 +
- block/mirror.c                         |   1 +
- block/monitor/bitmap-qmp-cmds.c        |   2 +
- block/nfs.c                            |   1 +
- block/null.c                           |   1 +
- block/nvme.c                           |   1 +
- block/parallels-ext.c                  |   2 +
- block/preallocate.c                    |   1 +
- block/progress_meter.c                 |   2 +
- block/qapi-sysemu.c                    |   1 +
- block/qapi.c                           |   1 +
- block/qcow2-bitmap.c                   |   2 +
- block/qcow2-cache.c                    |   1 +
- block/qcow2-cluster.c                  |   1 +
- block/qcow2-refcount.c                 |   1 +
- block/qcow2-threads.c                  |   1 +
- block/qcow2.c                          |   1 +
- block/qed-check.c                      |   1 +
- block/qed-table.c                      |   1 +
- block/raw-format.c                     |   1 +
- block/rbd.c                            |   1 +
- block/ssh.c                            |   1 +
- block/throttle.c                       |   2 +
- block/vhdx-log.c                       |   1 +
- block/vvfat.c                          |   1 +
- block/win32-aio.c                      |   1 +
- block/write-threshold.c                |   1 +
- blockdev.c                             |   1 +
- blockjob.c                             |   2 +-
- crypto/block-luks.c                    |   1 -
- hw/9pfs/codir.c                        |   1 -
- hw/9pfs/cofile.c                       |   1 -
- hw/9pfs/cofs.c                         |   1 -
- hw/9pfs/coxattr.c                      |   1 -
- hw/block/block.c                       |   1 +
- hw/intc/pnv_xive.c                     |   1 +
- hw/intc/pnv_xive2.c                    |   1 +
- hw/pci-host/pnv_phb3.c                 |   1 +
- hw/pci-host/pnv_phb4_pec.c             |   1 +
- hw/ppc/pnv.c                           |   3 +
- hw/ppc/pnv_core.c                      |   1 +
- hw/ppc/pnv_homer.c                     |   1 +
- hw/ppc/pnv_lpc.c                       |   1 +
- hw/ppc/pnv_psi.c                       |   1 +
- hw/ppc/pnv_xscom.c                     |   1 +
- hw/sparc64/niagara.c                   |   5 +-
- hw/virtio/virtio-pmem.c                |   1 +
- migration/block-dirty-bitmap.c         |   1 +
- migration/block.c                      |   1 +
- migration/savevm.c                     |   1 +
- monitor/qmp-cmds.c                     |   1 +
- nbd/client-connection.c                |   1 +
- nbd/server.c                           |   2 +
- qemu-img.c                             |   1 +
- softmmu/cpus.c                         |   1 +
- softmmu/physmem.c                      |   1 +
- storage-daemon/qemu-storage-daemon.c   |   1 +
- target/i386/kvm/kvm.c                  |   1 +
- tests/unit/test-aio.c                  |   2 +-
- tests/unit/test-bdrv-drain.c           |   2 +-
- tests/unit/test-block-iothread.c       |   1 +
- tests/unit/test-coroutine.c            |   2 -
- tests/unit/test-vmstate.c              |   1 -
- ui/console.c                           |   1 +
- util/async.c                           |   4 +-
- util/qemu-coroutine-lock.c             |   1 -
- util/qemu-coroutine-sleep.c            |   1 -
- util/qemu-coroutine.c                  |   1 -
- scripts/block-coroutine-wrapper.py     |   3 +-
- 141 files changed, 494 insertions(+), 344 deletions(-)
- create mode 100644 include/hw/ppc/pnv_chip.h
- create mode 100644 include/qemu/coroutine-core.h
-
+diff --git a/crypto/block-luks-priv.h b/crypto/block-luks-priv.h
+index 90a20d432b..dc2dd14e52 100644
+--- a/crypto/block-luks-priv.h
++++ b/crypto/block-luks-priv.h
+@@ -31,7 +31,6 @@
+ #include "crypto/random.h"
+ #include "qemu/uuid.h"
+ 
+-#include "qemu/coroutine.h"
+ #include "qemu/bitmap.h"
+ 
+ /*
+diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
+index 21fc10c4c9..f8cda9df91 100644
+--- a/include/block/raw-aio.h
++++ b/include/block/raw-aio.h
+@@ -17,7 +17,6 @@
+ #define QEMU_RAW_AIO_H
+ 
+ #include "block/aio.h"
+-#include "qemu/coroutine.h"
+ #include "qemu/iov.h"
+ 
+ /* AIO request types */
+diff --git a/include/scsi/pr-manager.h b/include/scsi/pr-manager.h
+index e4ecbe00f6..45de28d354 100644
+--- a/include/scsi/pr-manager.h
++++ b/include/scsi/pr-manager.h
+@@ -5,7 +5,6 @@
+ #include "qapi/visitor.h"
+ #include "qom/object_interfaces.h"
+ #include "block/aio.h"
+-#include "qemu/coroutine.h"
+ 
+ #define TYPE_PR_MANAGER "pr-manager"
+ 
+diff --git a/nbd/nbd-internal.h b/nbd/nbd-internal.h
+index 1b2141ab4b..df42fef706 100644
+--- a/nbd/nbd-internal.h
++++ b/nbd/nbd-internal.h
+@@ -13,7 +13,6 @@
+ #include "sysemu/block-backend.h"
+ #include "io/channel-tls.h"
+ 
+-#include "qemu/coroutine.h"
+ #include "qemu/iov.h"
+ 
+ #ifndef _WIN32
+diff --git a/blockjob.c b/blockjob.c
+index b7daf2a9f6..54b4091a36 100644
+--- a/blockjob.c
++++ b/blockjob.c
+@@ -32,7 +32,6 @@
+ #include "qapi/error.h"
+ #include "qapi/qapi-events-block-core.h"
+ #include "qapi/qmp/qerror.h"
+-#include "qemu/coroutine.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/timer.h"
+ 
+diff --git a/crypto/block-luks.c b/crypto/block-luks.c
+index ff9e3945d1..5688783ab1 100644
+--- a/crypto/block-luks.c
++++ b/crypto/block-luks.c
+@@ -32,7 +32,6 @@
+ #include "crypto/random.h"
+ #include "qemu/uuid.h"
+ 
+-#include "qemu/coroutine.h"
+ #include "qemu/bitmap.h"
+ 
+ /*
+diff --git a/hw/9pfs/codir.c b/hw/9pfs/codir.c
+index 93ba44fb75..7ba63be489 100644
+--- a/hw/9pfs/codir.c
++++ b/hw/9pfs/codir.c
+@@ -19,7 +19,6 @@
+ #include "qemu/osdep.h"
+ #include "fsdev/qemu-fsdev.h"
+ #include "qemu/thread.h"
+-#include "qemu/coroutine.h"
+ #include "qemu/main-loop.h"
+ #include "coth.h"
+ #include "9p-xattr.h"
+diff --git a/hw/9pfs/cofile.c b/hw/9pfs/cofile.c
+index 20f93a90e7..9c5344039e 100644
+--- a/hw/9pfs/cofile.c
++++ b/hw/9pfs/cofile.c
+@@ -19,7 +19,6 @@
+ #include "qemu/osdep.h"
+ #include "fsdev/qemu-fsdev.h"
+ #include "qemu/thread.h"
+-#include "qemu/coroutine.h"
+ #include "qemu/main-loop.h"
+ #include "coth.h"
+ 
+diff --git a/hw/9pfs/cofs.c b/hw/9pfs/cofs.c
+index 9d0adc2e78..67e3ae5c5c 100644
+--- a/hw/9pfs/cofs.c
++++ b/hw/9pfs/cofs.c
+@@ -19,7 +19,6 @@
+ #include "qemu/osdep.h"
+ #include "fsdev/qemu-fsdev.h"
+ #include "qemu/thread.h"
+-#include "qemu/coroutine.h"
+ #include "qemu/main-loop.h"
+ #include "coth.h"
+ 
+diff --git a/hw/9pfs/coxattr.c b/hw/9pfs/coxattr.c
+index dbcd09e0fd..cd0f8488ac 100644
+--- a/hw/9pfs/coxattr.c
++++ b/hw/9pfs/coxattr.c
+@@ -19,7 +19,6 @@
+ #include "qemu/osdep.h"
+ #include "fsdev/qemu-fsdev.h"
+ #include "qemu/thread.h"
+-#include "qemu/coroutine.h"
+ #include "qemu/main-loop.h"
+ #include "coth.h"
+ 
+diff --git a/tests/unit/test-coroutine.c b/tests/unit/test-coroutine.c
+index e16b80c245..513800d3db 100644
+--- a/tests/unit/test-coroutine.c
++++ b/tests/unit/test-coroutine.c
+@@ -12,7 +12,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu/coroutine.h"
+ #include "qemu/coroutine_int.h"
+ #include "qemu/lockable.h"
+ 
+diff --git a/tests/unit/test-vmstate.c b/tests/unit/test-vmstate.c
+index 541bb4f63e..79357b29ca 100644
+--- a/tests/unit/test-vmstate.c
++++ b/tests/unit/test-vmstate.c
+@@ -29,7 +29,6 @@
+ #include "migration/qemu-file-types.h"
+ #include "../migration/qemu-file.h"
+ #include "../migration/savevm.h"
+-#include "qemu/coroutine.h"
+ #include "qemu/module.h"
+ #include "io/channel-file.h"
+ 
+diff --git a/util/qemu-coroutine-lock.c b/util/qemu-coroutine-lock.c
+index 45c6b57374..58f3f77181 100644
+--- a/util/qemu-coroutine-lock.c
++++ b/util/qemu-coroutine-lock.c
+@@ -27,7 +27,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu/coroutine.h"
+ #include "qemu/coroutine_int.h"
+ #include "qemu/processor.h"
+ #include "qemu/queue.h"
+diff --git a/util/qemu-coroutine-sleep.c b/util/qemu-coroutine-sleep.c
+index 571ab521ff..af59f9af98 100644
+--- a/util/qemu-coroutine-sleep.c
++++ b/util/qemu-coroutine-sleep.c
+@@ -12,7 +12,6 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "qemu/coroutine.h"
+ #include "qemu/coroutine_int.h"
+ #include "qemu/timer.h"
+ #include "block/aio.h"
+diff --git a/util/qemu-coroutine.c b/util/qemu-coroutine.c
+index 356b746f0b..8494523692 100644
+--- a/util/qemu-coroutine.c
++++ b/util/qemu-coroutine.c
+@@ -16,7 +16,6 @@
+ #include "trace.h"
+ #include "qemu/thread.h"
+ #include "qemu/atomic.h"
+-#include "qemu/coroutine.h"
+ #include "qemu/coroutine_int.h"
+ #include "qemu/coroutine-tls.h"
+ #include "block/aio.h"
 -- 
 2.39.0
 
