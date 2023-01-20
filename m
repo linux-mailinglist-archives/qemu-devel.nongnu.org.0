@@ -2,98 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2748675A58
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 17:45:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00140675A80
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 17:52:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIuUd-0008KG-QT; Fri, 20 Jan 2023 11:43:55 -0500
+	id 1pIubZ-0001H7-Af; Fri, 20 Jan 2023 11:51:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pIuUc-0008K7-2B
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 11:43:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pIuUa-0006Vc-KU
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 11:43:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674233031;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=mUI9HmzZDhSu9I5huoJ52218XmdPghHRT6YdY9akK48=;
- b=E16CVLLRyxvq68GresO3gOsdLZDluT35tsU3P6LxOckdWYDCtV/1prAh/FlcFY7gZU2PBQ
- BTqhRG3vHuMG7MaxnddZSj8c+41ZT3UMv9OrMsSCe5kZQDbt8NY6Lh136OmllLZ9rBfgbu
- HzWUlGkE4JrlzgR4IBheZee0WejIN8o=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-556-x9R4hMY9MSCbgCGVq8441g-1; Fri, 20 Jan 2023 11:43:50 -0500
-X-MC-Unique: x9R4hMY9MSCbgCGVq8441g-1
-Received: by mail-qt1-f198.google.com with SMTP id
- bb10-20020a05622a1b0a00b003b68e868462so2597425qtb.15
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 08:43:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIubQ-0001Gd-2k
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 11:50:57 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pIubO-0007yq-6m
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 11:50:55 -0500
+Received: by mail-wr1-x432.google.com with SMTP id bk16so5358487wrb.11
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 08:50:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=2OPDj3eUOmfMuy6Exx6slfN1L4FPxth9hLd86tWdSBI=;
+ b=X9x4YG/quR6wUfdHTQrviV1Oww72dftWKkmUAcyvgqvBMJxn9uW1pAKJpjfji4QXnM
+ s4fcU7+z+Tk7zJCZniT2co+vIqpupuisUpRjD97KLYPZXSrYZVGZVHtpZ8OfsbAmjZbN
+ 8Ky2bVDDnICLpiZF7cocm2TSI+fG3lnpU8UvT66GnwIUdjZt9Z2gztqSEG7w72Dt1O2y
+ b7H8Xp3T1jlnLIrFWY5Fwsf9aXmF9BIB5m/zbWsXrwlXnFJOxWOSl2m+Lk2ggPp+glXZ
+ eiG7BKjUmokBQAH6PmSP35qjZOaycrgnO/iYiy7BJ9zfOU2waMeRnkWy4nXeDvheIjHk
+ SH3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mUI9HmzZDhSu9I5huoJ52218XmdPghHRT6YdY9akK48=;
- b=uJK90s33yLLntAmz9ykzEmieJbvwRg87V7EHJ9PZfUy4urr6+1G5b3QW9HMHkdQWJs
- vUTiNMBddTCHL32jgTaofxJm5pE8RYeJL80xh8O8YDFYhqfC8zBvhgwiJhPQy1Nsxef3
- cyq55pgoPUZz6bMcgHGlTZs9FX4UffuR8sRGy2G/mYVMQRUpTEalOrygzwFrZN7pp51R
- yn/197+XQEJSBuBEEZ6EoylkZtihyUSIBWz859b4NOBoXShh/gT5+Yc7sHQsBeLY70Zx
- QJsu5QdJTHDBKXuZJXD6KZJ0ZGkZ5w+00SHRaSpo9szVXExFf4YLfxBjoFINojBk+qx3
- Bn7Q==
-X-Gm-Message-State: AFqh2kr9WOY0k8LR1zXVbbXqwty+582FnlnLtieHtYLCMU0gNXEIYrLr
- fD9Hf611Oi57zE3CE1R46npz0u7H0BNKu/tSZARG/RYMJxNZNjlo5adM4TxNXbBliTnVvh1TSpU
- U2QCmezKP0rkzD/I=
-X-Received: by 2002:a05:622a:4209:b0:3b5:4aae:cb0b with SMTP id
- cp9-20020a05622a420900b003b54aaecb0bmr20311146qtb.22.1674233029695; 
- Fri, 20 Jan 2023 08:43:49 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvy/5XF/94JDuEhfTCp7b9fbvlWQpjl1y3NqzyHg5JdTOM8arnd3y9rzy+nIdHIhR2Bd8FwhA==
-X-Received: by 2002:a05:622a:4209:b0:3b5:4aae:cb0b with SMTP id
- cp9-20020a05622a420900b003b54aaecb0bmr20311128qtb.22.1674233029463; 
- Fri, 20 Jan 2023 08:43:49 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=2OPDj3eUOmfMuy6Exx6slfN1L4FPxth9hLd86tWdSBI=;
+ b=CT3rlCBY4zAO1ogjZ5CxXgcFQIky2LQ4L/iOt4PyaR3BAc3ed+XP6Z3Jq/Fc+wWBWq
+ yn4acZ77cYPr4gS2GxTEFAY5v8c3QjW/mOILXQ0uafRw7nCMwvkLN7+ZceQjRdG3sCIB
+ uCY3Rb2u9+Q3ywedmbP0SIJpKu+44UiANMkTJVapfch4e4p23gMgY0TU3eiOFCUje3uC
+ fqhm70fSpyYsbPaW3uo5yUHNAgSbNVUJCuO50k2dWjS1DVSQWgj505tpU+QEblRL042P
+ f25kvhsWSPmN+E60Y/EdmKC2wn/ba+6gbQ3MdV7P0oCNOGJcKbDybEBosEVfj0YlNnj1
+ s0Vw==
+X-Gm-Message-State: AFqh2kqJk2qvT9KVhAPQ0nYcUiz/fSDz1tZMka52Q35oc8MF57SszUGq
+ L+09s6kTmH8Q0Ssf4Odmk56KEg==
+X-Google-Smtp-Source: AMrXdXvEQuoGPipv+vnIKIvyzFQtYCDEp7gCcviKX3aRlBV0AsdSU83NoRWPwAPC/WbHGOGsMB32cw==
+X-Received: by 2002:adf:e908:0:b0:2bd:cdf9:b4ed with SMTP id
+ f8-20020adfe908000000b002bdcdf9b4edmr12943451wrm.2.1674233452131; 
+ Fri, 20 Jan 2023 08:50:52 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- bq35-20020a05620a46a300b0070209239b87sm6865847qkb.41.2023.01.20.08.43.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Jan 2023 08:43:48 -0800 (PST)
-Message-ID: <5cfc9d33-6845-0644-f120-de20fb1d3142@redhat.com>
-Date: Fri, 20 Jan 2023 17:43:45 +0100
+ h13-20020a05600016cd00b002be25db0b7bsm1398875wrf.10.2023.01.20.08.50.51
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Jan 2023 08:50:51 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 39DA31FFB7;
+ Fri, 20 Jan 2023 16:50:51 +0000 (GMT)
+References: <20230116223637.3512814-1-richard.henderson@linaro.org>
+ <2c1eb92b-91f8-34d5-c5f7-a56a41ec807b@redhat.com>
+ <fd1b116ac19feaaebbf82f8e41a24883af81f851.camel@linux.ibm.com>
+ <32e7aa36-8ce8-1866-e085-2b918c58fd35@redhat.com>
+User-agent: mu4e 1.9.15; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>, Richard Henderson
+ <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+ peter.maydell@linaro.org
+Subject: Re: [PULL 0/5] tcg patch queue
+Date: Fri, 20 Jan 2023 16:49:47 +0000
+In-reply-to: <32e7aa36-8ce8-1866-e085-2b918c58fd35@redhat.com>
+Message-ID: <87y1pxw3o4.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [RFC] virtio-iommu: Take into account possible aliasing in
- virtio_iommu_mr()
-Content-Language: en-US
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>,
- Robin Murphy <robin.murphy@arm.com>
-Cc: eric.auger.pro@gmail.com, qemu-devel@nongnu.org, peterx@redhat.com,
- alex.williamson@redhat.com, jasowang@redhat.com, mst@redhat.com
-References: <20230116124709.793084-1-eric.auger@redhat.com>
- <Y8qzOKm6kvhGWG1T@myrica> <4fead092-1058-198a-b430-3dee0fffcd51@arm.com>
- <Y8q/6NJhK1MhNuY9@myrica>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <Y8q/6NJhK1MhNuY9@myrica>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,36 +95,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Jean, Robin,
 
-On 1/20/23 17:23, Jean-Philippe Brucker wrote:
-> On Fri, Jan 20, 2023 at 03:50:18PM +0000, Robin Murphy wrote:
->> On 2023-01-20 15:28, Jean-Philippe Brucker wrote:
->>
->> For some reason this came through as blank mail with a text attachment,
-> Ugh sorry about that, looks like I hit ^D in mutt before sending
+Thomas Huth <thuth@redhat.com> writes:
+
+> On 20/01/2023 11.53, Ilya Leoshkevich wrote:
+>> On Fri, 2023-01-20 at 10:41 +0100, Thomas Huth wrote:
+>>> On 16/01/2023 23.36, Richard Henderson wrote:
+>>>> The following changes since commit
+>>>> fb7e7990342e59cf67dbd895c1a1e3fb1741df7a:
+>>>>
+>>>>  =C2=A0=C2=A0 tests/qtest/qom-test: Do not print tested properties by =
+default
+>>>> (2023-01-16 15:00:57 +0000)
+>>>>
+>>>> are available in the Git repository at:
+>>>>
+>>>>  =C2=A0=C2=A0 https://gitlab.com/rth7680/qemu.git=C2=A0tags/pull-tcg-2=
+0230116
+>>>>
+>>>> for you to fetch changes up to
+>>>> 61710a7e23a63546da0071ea32adb96476fa5d07:
+>>>>
+>>>>  =C2=A0=C2=A0 accel/tcg: Split out cpu_exec_{setjmp,loop} (2023-01-16 =
+10:14:12
+>>>> -1000)
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> - Reorg cpu_tb_exec around setjmp.
+>>>> - Use __attribute__((target)) for buffer_is_zero.
+>>>> - Add perfmap and jitdump for perf support.
+>>>>
+>>>> ----------------------------------------------------------------
+>>>> Ilya Leoshkevich (3):
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 linux-user: Clean up when exitin=
+g due to a signal
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accel/tcg: Add debuginfo support
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 tcg: add perfmap and jitdump
+>>>>
+>>>> Richard Henderson (2):
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 util/bufferiszero: Use __attribu=
+te__((target)) for
+>>>> avx2/avx512
+>>>>  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 accel/tcg: Split out cpu_exec_{s=
+etjmp,loop}
+>>>
+>>>  =C2=A0 Hi Richard, hi Ilya,
+>>>
+>>> with the recent QEMU master branch (commit 701ed34), I'm now seeing
+>>> failures
+>>> in Travis:
+>>>
+>>>  =C2=A0 https://app.travis-ci.com/github/huth/qemu/jobs/593786529#L14411
+>>>
+>>> Everything was still fine a couple of days ago (commit fb7e799):
+>>>
+>>>  =C2=A0 https://app.travis-ci.com/github/huth/qemu/builds/259755664
+>>>
+>>> ... so it seems this is likely related to this pull request. Could
+>>> you
+>>> please have a look?
+>>>
+>>>  =C2=A0 Thanks,
+>>>  =C2=A0=C2=A0 Thomas
+>>>
+>> I would expect this to be (temporarily) fixed by [1], but we
+>> probably
+>> don't set GITLAB_CI in Travis. Would it make sense to set it?=C2=A0It lo=
+oks
+>> as if this variable is currently used only to skip certain tests.
+>> If not, then maybe split it into QEMU_CI, GITLAB_CI and TRAVIS_CI?
+>> https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg04438.html
 >
->> so apologies for the lack of quoting, but for reference this is a
->> long-standing known issue:
->>
->> https://lore.kernel.org/linux-iommu/9625faf4-48ef-2dd3-d82f-931d9cf26976@huawei.com/
->>
->> In summary, yes, hanging {of,acpi}_iommu_configure() off driver probe is
->> massively wrong, and pulling that step into iommu_probe_device() in a sane
->> and robust manner is one of the next things to start on after getting the
->> bus ops out of the way.
-> Right, thanks for confirming
+> Ah, ok, so this test has issues in gitlab, too!
 
-Thank you very much for your support and confirmation of the probe issue!
+*sigh* yeah the test is flaky but this is a subtly different failure
+ mode. All the gitlab failures I saw where the test triggering the abort
+ rather than the assert catch we have here.
 
-Eric
+
 >
-> Thanks,
-> Jean
+> For Travis, I think we should either check the CI or TRAVIS
+> environment variables:
 >
+>
+> https://docs.travis-ci.com/user/environment-variables/#default-environmen=
+t-variables
+>
+>  Thomas
 
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
