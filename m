@@ -2,96 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91698675616
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 590E967562C
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:57:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIrgx-0001iW-AP; Fri, 20 Jan 2023 08:44:27 -0500
+	id 1pIrs4-0007lc-9k; Fri, 20 Jan 2023 08:55:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pIrgd-0001TR-OQ
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:44:10 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1pIrs1-0007lD-K1
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:55:53 -0500
+Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pIrgb-0007bc-UJ
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:44:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674222245;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=26GHsSlwqNT3KPrLDueI1UcE/5/gjksU9DsY0HFY+Sw=;
- b=QW177O1V4liRfdj2kkfC+m4p3LYUi1tbxuunZG/OAGzC+U3M+b8fuvQK+etEYIdI5LBvsh
- ldTuId5xnGJdtFpxTKWU45/LAHAMA5ShACufEC5G21Dh+35+5NnBdnRrOOMpT7ataAD1vZ
- 5smltU2S0xuojfY7Qdig+9wGswqWLIE=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-303-HP5CJNLROPKl8elcWzDn4w-1; Fri, 20 Jan 2023 08:44:03 -0500
-X-MC-Unique: HP5CJNLROPKl8elcWzDn4w-1
-Received: by mail-ed1-f70.google.com with SMTP id
- z20-20020a05640240d400b0049e1b5f6175so3894286edb.8
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 05:44:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=26GHsSlwqNT3KPrLDueI1UcE/5/gjksU9DsY0HFY+Sw=;
- b=xi2hNYbkgoC0OTu2az5opZy/TGL11KoaYtsuZsBAhDBP1kRkGqj7OwR8JO+xlOLmiH
- JfsFIspkKcnGbd8Ck5qkH62N5sKdqIKaqFfQ8QT1vx8JFvZR3NqikCNpGURt6XSGH9HS
- ENGyKpVjWUOqtJXp8HB69ENXBHibyVFAJ906deKjdiBsPmBsXe2LBeGCFqALBaV9KC8p
- n911GD7FKvll31MDaKZatrVEfw7XquBKDSvHQDvLYcOHJruSXuPmrfMe1rm5C2dcEMJ5
- pMRWgNlfhqlVEVqgfSs2X+WyFQB7xzrwMZQXqSJN+Zm/BbXf9+KA5cMEoFlQAEE3rfY9
- GotA==
-X-Gm-Message-State: AFqh2koeRietHR64tkPkKun7SVAReF8HwlP8bh5nKXWtJLfp8c499YTJ
- fFVhLEzdO3o9s7050d1FmyDiwIifizKrFZ7WR8jh63kxjeLBVPtgSq+3oejQOg5vGEIuWT+ZZNx
- +24LSscdg7eaBYmc=
-X-Received: by 2002:a17:906:d0c8:b0:84d:855:dd02 with SMTP id
- bq8-20020a170906d0c800b0084d0855dd02mr16582663ejb.46.1674222242725; 
- Fri, 20 Jan 2023 05:44:02 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu+5oH23Ol1GB/ASOHNGe+v+0sZE4/VUsEpsSbG0SeOBgNV09LqrD0PLb1Uxe9y2yyLB6q8CA==
-X-Received: by 2002:a17:906:d0c8:b0:84d:855:dd02 with SMTP id
- bq8-20020a170906d0c800b0084d0855dd02mr16582654ejb.46.1674222242580; 
- Fri, 20 Jan 2023 05:44:02 -0800 (PST)
-Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
- ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
- by smtp.gmail.com with ESMTPSA id
- hq15-20020a1709073f0f00b0084c4b87a69csm17921743ejc.153.2023.01.20.05.44.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 20 Jan 2023 05:44:02 -0800 (PST)
-Message-ID: <a657dc0f-1e90-09d5-f25d-a80474b8af52@redhat.com>
-Date: Fri, 20 Jan 2023 14:44:01 +0100
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1pIrrz-0001ms-7B
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:55:53 -0500
+Received: from vla5-b2806cb321eb.qloud-c.yandex.net
+ (vla5-b2806cb321eb.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 3D8525FD76;
+ Fri, 20 Jan 2023 16:48:02 +0300 (MSK)
+Received: from d-tatianin-nix.yandex.net (unknown
+ [2a02:6b8:0:419:8f3f:2197:162b:4096])
+ by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ wlngUQ0WWiE1-VdlrBPBd; Fri, 20 Jan 2023 16:48:01 +0300
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1674222481; bh=DsVY0G6eNNQGaLhlpDdgPPpaW0awJaEzY0R7Z3TaZKI=;
+ h=Message-Id:Date:Cc:Subject:To:From;
+ b=KfHxhWziFvFNaLpTDoacFPE5wBEJm6yColak4rXqn3X9PM0UJABApgQsr33NLXezi
+ g4Qz1iVg7iqbOjoEyEyxlHpqTkTx75CKctW04XjzRvhl6NzJqQaDouoIp/E0Ba1IFU
+ 5KZEV2+df/MnEDKX27Jw27qw03St1KkB7b7GmD6E=
+Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Daniil Tatianin <d-tatianin@yandex-team.ru>, qemu-devel@nongnu.org,
+ Stefan Weil <sw@weilnetz.de>, David Hildenbrand <david@redhat.com>,
+ Igor Mammedov <imammedo@redhat.com>, yc-core@yandex-team.ru
+Subject: [PATCH v0 0/4] backends/hostmem: add an ability to specify prealloc
+ timeout
+Date: Fri, 20 Jan 2023 16:47:45 +0300
+Message-Id: <20230120134749.550639-1-d-tatianin@yandex-team.ru>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.11.0
-Subject: Re: [PATCH v2 00/12] qemu-img info: Show protocol-level information
-Content-Language: en-US
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
- Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20220620162704.80987-1-hreitz@redhat.com>
- <7c2c9623-c865-91a3-01b7-0e7f90fde278@redhat.com>
- <Y8mkNvXmgKjSXZSt@redhat.com>
-From: Hanna Czenczek <hreitz@redhat.com>
-In-Reply-To: <Y8mkNvXmgKjSXZSt@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=178.154.239.72;
+ envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -103,28 +72,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 19.01.23 21:12, Kevin Wolf wrote:
-> Am 08.12.2022 um 13:24 hat Hanna Reitz geschrieben:
->> On 20.06.22 18:26, Hanna Reitz wrote:
->>> Hi,
->>>
->>> This series is a v2 to:
->>>
->>> https://lists.nongnu.org/archive/html/qemu-block/2022-05/msg00042.html
->> Ping, it looks like this still applies (to the master branch and kevin’s
->> block-next branch at least).
-> Not any more. :-)
->
-> But the conflicts seemed obvious enough, so I rebased it (including
-> changing the "Since: 7.1" occurrences to 8.0) and applied it to my block
-> branch.
+This series introduces new qemu_prealloc_mem_with_timeout() api,
+which allows limiting the maximum amount of time to be spent on memory
+preallocation. It also adds prealloc statistics collection that is
+exposed via an optional timeout handler.
 
-Ah, yes.  That I should have fixed.
+This new api is then utilized by hostmem for guest RAM preallocation
+controlled via new object properties called 'prealloc-timeout' and
+'prealloc-timeout-fatal'.
 
-> Thanks!
+This is useful for limiting VM startup time on systems with
+unpredictable page allocation delays due to memory fragmentation or the
+backing storage. The timeout can be configured to either simply emit a
+warning and continue VM startup without having preallocated the entire
+guest RAM or just abort startup entirely if that is not acceptable for
+a specific use case.
 
-Thank you! :)
+Daniil Tatianin (4):
+  oslib: introduce new qemu_prealloc_mem_with_timeout() api
+  backends/hostmem: move memory region preallocation logic into a helper
+  backends/hostmem: add an ability to specify prealloc timeout
+  backends/hostmem: add an ability to make prealloc timeout fatal
 
-Hanna
+ backends/hostmem.c       | 112 +++++++++++++++++++++++++++++++-------
+ include/qemu/osdep.h     |  19 +++++++
+ include/sysemu/hostmem.h |   3 ++
+ qapi/qom.json            |   8 +++
+ util/oslib-posix.c       | 114 +++++++++++++++++++++++++++++++++++----
+ util/oslib-win32.c       |   9 ++++
+ 6 files changed, 238 insertions(+), 27 deletions(-)
+
+-- 
+2.25.1
 
 
