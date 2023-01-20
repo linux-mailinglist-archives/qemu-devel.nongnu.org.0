@@ -2,136 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CC9B675FCD
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 22:55:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DEB7675FE8
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 23:06:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIzLH-0000zn-CC; Fri, 20 Jan 2023 16:54:35 -0500
+	id 1pIzVI-0003Wm-Ld; Fri, 20 Jan 2023 17:04:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pIzL2-0000xg-Nt
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 16:54:22 -0500
-Received: from mail-dm6nam10on2069.outbound.protection.outlook.com
- ([40.107.93.69] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <Bernhard.Kauer@incari.com>)
+ id 1pIzVF-0003WQ-Sf
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 17:04:53 -0500
+Received: from mail-fr2deu01on2046.outbound.protection.outlook.com
+ ([40.107.135.46] helo=DEU01-FR2-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pIzKz-00088y-5L
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 16:54:19 -0500
+ (Exim 4.90_1) (envelope-from <Bernhard.Kauer@incari.com>)
+ id 1pIzVD-0003G7-Ra
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 17:04:53 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j0U0YvidJQOVqlPU98dBOuLu4NVjM/66MvS2LwdE6Wx0MLzV6w3FZf4qAivLTWV9rD3eyYsJW7rnFjkO4tT7fMi/7kTrm0lSmkVJZMOAx5w4zR4k+9PBdaD6xTAfB1di9DNo91z6fIJVt4SEMIZRoSQ9XEMUDz4Tyv+2284rNJiyqaguCJ+r58MfeKzcnBh9i9bo5jkHeZzcBOw8XLm1TWVDqfgDMYzUqSYmuTtxnguhW1qpGOqY99qW4V3+J6c2pjjBJobQaXF/uJfLwqzxLi3roPzJBZYjl6OWzpZby2+1iu3xUYeHHAytnUfLp2kAE3Cvx7GFp/2MwxFpiHBThg==
+ b=X4VnkOG0yXA+/C9cTpA/9nTGsiTqNGQPkqtN/T7jakXWxfv+YQSByoX4RRPgUHWf/zFTEaQoTcJonthy9btlx3NOPd7FLAk3MWx0Yc0WDFIJeK/3+LcbPdTJjDM2fzRLAyawCzSljo3EZxuSUnxc01BAAqAO//n++RyJY+i+fvUratTFPpJwQvPPXAsgkMv04ns3e7/Bv04Z9nhyWKgu4cRJznehx/fSop1ix9xdbhZbgzr4OONbBFjarazzDfqDyMMo4d7ijEZgTiqsqCI5jJUyVAQPlTxRQiMWTz5bWoxSKofqeYfG2wkdEBcWh6pXhk7giUcbwQYxkUvl48iZ7Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qMKmLS/ZWFyZdQ/ap9Ho4dIUOBU1ezT8xny0ZB0Xd4c=;
- b=ahHGThAokZ5HvJ9GawbTF2RLiyuAjchDeOWS069W9zurCd5OruYEB+EWDggY26AIPTa+11L4zyJApZsc6HXXK3rbA3hGPlf5bd3QaiEwK4xY7Jcmtqk2mxjer3nPdw3gCkrtXgxfQB5olOlfpRAsA/T/5AKayPTmVkNch1vnsFDjdSimxhPzk9rlBzV28Ge+ErlqosG/ySl50pNtwrPFIQoqRTAYwRzggz9HJgUOJRxq5C2p3H5sjOIXAk8+6yfHQCwsXOMeMt1tkjY0hZd6cNHBCxTNUrd7CM+77faVFYBJE/otw7s/z/aPgw9l/ysygB/F4aVnE+JNgvjcNiAVbQ==
+ bh=DD6B12xKAHUy8U/ztiwXq0qc0iqLL7yz5pKZyPWbuG0=;
+ b=HFHBnMksd798q7PPNyBf1bGPPjjFWJJ8tj3Gzx1cfu0dtW1yUOuyuQqPwIaTt7qqMR8UK3fa1KnQBOGjvubG9ph30IvQby8xmm2PcMRUzwQicFWwjbEj8JMsh8HRh9Fe+qaUvzjsvntXSJGNakMmOUTMRK+RXMR0DGHTrohtangl4KsLwOli1dV29q2WbU4099z0Xr4pKScvqOjlwtp/nth5qVyw2p3nGwO7BrKWu7ARTVTWwxS2Phm+8y8W5O7c8TkCnbqq/Ye7NIvYc1DsGcfcngvL0U6FCg3rYpWk73zGw6EKgNakw0EPl99sXfLijmtfnLQRqQQ0AXb9gwfHCA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
+ smtp.mailfrom=incari.com; dmarc=pass action=none header.from=incari.com;
+ dkim=pass header.d=incari.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=incari.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qMKmLS/ZWFyZdQ/ap9Ho4dIUOBU1ezT8xny0ZB0Xd4c=;
- b=iz9hJyuGGnWk0X+PgozJ5P7nWvccMDnBek1IXyV4BSQxta4AoILYe2ESdHGNZxQHu4iz+dr2vlA4+rEGYKOuO6iHyhytM1/wgHsAA3R/62kPVlLkDftDOzvTUIJNPr9T1TcYNUojEsB/37MTbqVrs2QAtCXBbMRMwItikKT5Z4o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by IA1PR17MB6099.namprd17.prod.outlook.com (2603:10b6:208:3a9::12)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.13; Fri, 20 Jan
- 2023 21:54:11 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660%4]) with mapi id 15.20.6002.027; Fri, 20 Jan 2023
- 21:54:10 +0000
-Date: Fri, 20 Jan 2023 16:54:04 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Jonathan Cameron via <qemu-devel@nongnu.org>,
- Lukas Wunner <lukas@wunner.de>, Michael Tsirkin <mst@redhat.com>,
- Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
- linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
- Gregory Price <gourry.memverge@gmail.com>
-Subject: Re: cxl nvdimm Potential probe ordering issues.
-Message-ID: <Y8sNfC1YQVj/DfBU@memverge.com>
-References: <Y8Foj/12QNl0C96o@memverge.com>
- <20230113144026.000001fb@Huawei.com>
- <20230113144511.00001207@Huawei.com>
- <20230113151206.GA20583@wunner.de> <Y8hG4OyJL7l9oD2f@memverge.com>
- <Y8hJKcy1993SFLLJ@memverge.com>
- <20230119124244.000015b3@Huawei.com>
- <20230119150449.000037f2@huawei.com>
- <Y8oeYfyqNuSIIxCt@memverge.com>
- <63cad185343a1_c81f029469@dwillia2-xfh.jf.intel.com.notmuch>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <63cad185343a1_c81f029469@dwillia2-xfh.jf.intel.com.notmuch>
-X-ClientProxiedBy: SJ0PR03CA0210.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::35) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|IA1PR17MB6099:EE_
-X-MS-Office365-Filtering-Correlation-Id: 84498251-ab28-41b4-4869-08dafb30dcac
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 0a+fsS2RNFbGhxj6FJyE+NzPrCD1Ety/NqoSIgpPIxUD9LPhRousG1GyGuZ9lIVhzQBed7021ec95aogVUc76RDTwrcfcJ7gUgLblYoFE22NK9rIS9imna1nHvJqeTnAfofXRi4notvIiRY5VWguTSKW81Hpy1njhWlPIXBlto+TxCr2yllAvHOwmjnsdVaJmH+Q6ms9PGNa7J4YPoStfbLWL8QcEOa7CYMfeEYqBjaWKmv0iRFEBxA8zP9pZ/UdSmYbo7flnT4aL90VXm5tk/nD3z+8tSe78IvinrUVJLppKupKh3ziAlXI/Hkn1e3LaYusvFlwMrETzwwTYsLxeo1OJWpDIizmLEBSxZnER97rAhQC6kM37wVJcE6GzLH2M3ZnRKXJW4Dup+VJjTYs4e9tfNetvR4Hu22Q4B/Lh4Sg1Ls1a1VxNLpIxC0AmPUF/IdrAoHHAqJBqDPCCI6ekXDka3tWYj+BcJiNWkp9kCAYyo6/x9Yos8hlfStoKzHJ68pyKCxXR3BnyNOMCJdE1KRXzTfZjESNE7YAdJR8KvBOXPaZTRkDrdXemlHS0QiQUbQXLAT20wnU+LS/dQf4coGtx45vmG2VbcSG47cVqBmvHyPSZI5+4BXcvkC6ew+WtEXuH5SnzY0bWsIGcKvBkQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(366004)(396003)(39840400004)(346002)(136003)(376002)(451199015)(6506007)(186003)(26005)(6512007)(6666004)(316002)(6486002)(478600001)(2906002)(66556008)(66476007)(4326008)(6916009)(66946007)(8676002)(36756003)(2616005)(41300700001)(8936002)(83380400001)(44832011)(7416002)(5660300002)(38100700002)(54906003)(86362001);
+ bh=DD6B12xKAHUy8U/ztiwXq0qc0iqLL7yz5pKZyPWbuG0=;
+ b=3j2Q477X2t7rC6nodhmVju/vEckuMCe9wsM5cmEzSdaIWoW99giFMrz6noSP0MpiULgTlhx6KyRkyiBsVl+jhNgpKI8OiguJiUfEjR7VDL/PPduJayQ//v4OXd9HCUnNvk7K7KDZjgDYWAKxpvPHpS1Ww2G0Y402dPNM+ThE7L9/vJizCHDOw2l2+/wsRF9ZEgvrpUqQ60NOqVWciQPH1/kCGowRnQzvEWA6AA5DMf6k4KEcEoWkYUrF6HNePS5flz8Ivf/FByB5HexjAIMGe58k9SRVCYu8E+xl++ROsz55nd+OeiN7SmHhJ1/Sp1ZdZgdVnBIiLKGtX2Z0Dxc1NQ==
+Received: from BEZP281MB2965.DEUP281.PROD.OUTLOOK.COM (2603:10a6:b10:2e::6) by
+ FR3P281MB1630.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:7a::8) with
+ Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6002.27; Fri, 20 Jan 2023 22:04:47 +0000
+Received: from BEZP281MB2965.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::69f4:1511:acf4:d040]) by BEZP281MB2965.DEUP281.PROD.OUTLOOK.COM
+ ([fe80::69f4:1511:acf4:d040%3]) with mapi id 15.20.6002.027; Fri, 20 Jan 2023
+ 22:04:47 +0000
+From: Bernhard Kauer <Bernhard.Kauer@incari.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: Paolo Bonzini <pbonzini@redhat.com>
+Subject: [PATCH] target/i386: translate GPA to HPA even in unpaged mode
+Thread-Topic: [PATCH] target/i386: translate GPA to HPA even in unpaged mode
+Thread-Index: AQHZLRJLH8uL69hnX0iDYloHfXAGO66n2+YE
+Date: Fri, 20 Jan 2023 22:04:47 +0000
+Message-ID: <BEZP281MB2965D9D27639B815DB6BA2A9E9C59@BEZP281MB2965.DEUP281.PROD.OUTLOOK.COM>
+References: <BEZP281MB2965EA2D8C69925DEFD4B6C8E9C59@BEZP281MB2965.DEUP281.PROD.OUTLOOK.COM>
+In-Reply-To: <BEZP281MB2965EA2D8C69925DEFD4B6C8E9C59@BEZP281MB2965.DEUP281.PROD.OUTLOOK.COM>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=incari.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BEZP281MB2965:EE_|FR3P281MB1630:EE_
+x-ms-office365-filtering-correlation-id: 0c0bd423-e707-4809-73a9-08dafb32581a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: OEH3UD7/RuLLSTO2zziqITfl/KJ1HIUKSl0Al3v1T4jybExbDemMyNSg4nuXtWXDC0oRlGaTcpeeLNoi2qbVTs/LB5rOM6c0CPtGyn1Sjst0HC5UPQ6Tqskh2FivzEGanvBK45lVwlkx2bfa0gWtCKTbFDCziC0P3F4x1/dF9Wh79EK8/Ps353x7HClSPyLaG3EbsR71yOD4dT0a80jMHIV4WfPAu6rVdnZxTk1d7tbJFYrqIxBcO79Oua8c95ETatEwCzJYbcBAQwoJrtZh/96kZJexVk3mztpIs1rLEJ91ZUSu9QzW/0uh8vQ9TDZ6nF64JU9OV1RMfKDCajFfM0GjxVGB/4k+Kju6n6jQ8jxZA6wyIFQ5UMAwJqBKcrvTLrYxdyyf8e20MKfax2B5WhKZUMFYRFX4V58+sFrNQmRuhLixpJSm9KbtyDqMfcYRMoMdMJ83sDOSKA1C+mjkr3dmOIMp/AMPjKIynhehJTfhV/h7BZnmE8BnabFaC91I10gmlO97Hj4imeN5P4EFOTvX64kdafTaxYX5iU1yqEs56x++X3xI4htEAhxC2Cp2+Mev3qzOyyfd/jsY1Mx5uscZOTIMzFlIhCqvP0WA8TJhNcRlQPFlbUlHE6Wom07/qBoqeHCjc+2s8Jf5vYNdBFMM0GSFgbCMaMdmfrouVpg0JMGEfut4Uw1VamnhwVycgfZzq5CEuYLisJrMLerqeQ==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BEZP281MB2965.DEUP281.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230022)(39840400004)(376002)(346002)(396003)(366004)(136003)(451199015)(5660300002)(4744005)(8936002)(4326008)(64756008)(66556008)(66476007)(8676002)(66946007)(66446008)(6916009)(52536014)(76116006)(71200400001)(122000001)(38100700002)(6506007)(186003)(2906002)(2940100002)(9686003)(7696005)(316002)(478600001)(83380400001)(41300700001)(38070700005)(86362001)(55016003)(33656002);
  DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ybAvhj9UurELpHVMwe1/YVEZRD+oAseYqwBZz3goZm3deUj9fpVcDN87N548?=
- =?us-ascii?Q?lxlVo9RAM5SB1rA8uuFKprEP/0S3oEJmeIt/Dn34EzT8oc5yqu3oiWo78+Cp?=
- =?us-ascii?Q?HWdJpwjLKq7E7SuXK+PxRHwFb8j3JyEnTUoaK4zrdhGO3siOBtH8QJNRQsCM?=
- =?us-ascii?Q?PQwYZBEbLEUjRz9ZP9Lr6zGH2Kl3RCNMlr3pO+ZDlePNA96ADx2b4Bbr7As0?=
- =?us-ascii?Q?I6Ue7twfzYDd+dRL5o5E8PxwioBdiRL7jieeR0U18EalTjgvbQPfxBfhDpCj?=
- =?us-ascii?Q?BBVh3eGQQYSo+QkdBCykCzppsiEVeL3/gYH6njCTnNJ90st1cXlsnuMnHxtQ?=
- =?us-ascii?Q?ZOcXoNwBLRhqZ0CskuIBoKfyzZTRyzVcoBiFNxxFSj0zh35Gsin8+zrGGOes?=
- =?us-ascii?Q?SLLabuDtX55/wcAFIl1YnsfILGsn4RBYmhZiG77GZpWwa35DUZ5Yh7NHRY7y?=
- =?us-ascii?Q?MtUlTAdM/9MJQp8V89YtpMuG1XWcc/tqCtDiRZk/paq369DF7r8STeDpUyzd?=
- =?us-ascii?Q?kayyRHpfGG5cuTwiBD1PtrD00EUjX0IIpdkff3MoDk917a7lVHXt3tj8PUSk?=
- =?us-ascii?Q?EC3W0Qonje37n7TnbgIfTmTKQCL8cLoIIJnILr/Gvh5lPWgCm67WpslehWfx?=
- =?us-ascii?Q?yYqjjhgK1BBFCOdlrXFVRDvvIykvrs0F79WKYJ20w1v8auuIRmkTOYPJ19ra?=
- =?us-ascii?Q?CQMRPntuL5IHBQ2lTOP5FLYrlYQVbrb8Es8TIKxybkr9r6nEJxfkv4WADrNS?=
- =?us-ascii?Q?Y6Sroa7NZZrD5FqZepLYVIksH4HxS1NjbHNCLVwjqh4VuhAoAL1Dzpx9j9We?=
- =?us-ascii?Q?5pRIuxZk0vue+q3NslLBSpOAbC7uF93G/RiPVexeBxqx5T40+9uxetfT2hvu?=
- =?us-ascii?Q?uU1doxWjrjf64hCUftINSrJVGg8IOY1fHrOKr9McZT1+GNsVz5xMcvtm47tK?=
- =?us-ascii?Q?SBsdJVwAmQOPoMucRUEhBNcKQMMPByrnC5XXF1tmVC3ADVaT1F3NM2NaYJr4?=
- =?us-ascii?Q?4k7nqV6P8bBEXNbp5y4mJ3D9NqTttDVo7czg1u89GOzFmXmEoYL6cXqPSXC3?=
- =?us-ascii?Q?GnLit3KU4MGokkplQS4KkKCu3D+VfD5hmOk0VkIzqHj2bFMyi5ahgc4tKwKQ?=
- =?us-ascii?Q?v4APFlqgLDRF+aDHYF7AR19BcPcAxdjfYa9umivia/d2MClHvmk7QvuRG/Su?=
- =?us-ascii?Q?uRlZEgkc9tIkcVUQHMG3PEIepuGOHWoWeHPV65ovGsrEmwBi1Lx9A7yy9zhW?=
- =?us-ascii?Q?vP5SbRYTcfK74ukxkAbMJQUaRttgvrrtxGcTLSOuyPKdKFKg2qYrjGdcQ0Z1?=
- =?us-ascii?Q?yS5wje8fNK/oMxgF4QyQQr3Hzq3ObVT2nwHA8HDmuHavJqUzAsO6hSmDh8Uq?=
- =?us-ascii?Q?rhhiU0GpBOE9DXbO8C0tAk+LNtwXybwYa5RiflZFydqjX4a08ZJpTSP3owtk?=
- =?us-ascii?Q?8DLgpSsrUqIsFk+P3KOa6Adk5WKWo3yBhOG5OkaUAyC2FUis8QTHz9fW0iDq?=
- =?us-ascii?Q?Ar3uKQMJqJxFFCqp+BeuJmbpem2OXCd0A+Pk5svgNQEvFteero4xCBugOzvz?=
- =?us-ascii?Q?o8Q5sskaR0TaWjSDRSec2ZamIBbObR0TFYFyAJ3tZpKJ4wtdmzrzb/+lb9+v?=
- =?us-ascii?Q?0Q=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 84498251-ab28-41b4-4869-08dafb30dcac
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?vF2QC6+htdU/hyUpnMh64r8q2Sv9t5eW/tuVofk0pzCuE3Yp5svPwVRe60?=
+ =?iso-8859-1?Q?jW8rvYr0KOQ5dsiw4T5CPy4UKhQPeZ2+Mfnr2F3VLUJ04rx6QpatNz+XpR?=
+ =?iso-8859-1?Q?m1zbbW1XCOXjIy2jHBjzkCai9xoojc2jiAY0OVaL3yJx8qaOvsVCROrONU?=
+ =?iso-8859-1?Q?L8YVwLe9UGykzQSCvVYa1tNuHLvPQdR5ksqAF0HxzARZGuOneu4wRBn80I?=
+ =?iso-8859-1?Q?ojL0u+qc/cDMoU/8sIeL8FTEg6RTnANwLmXgtfEyWRM4+2Fs4bHLzkf+3N?=
+ =?iso-8859-1?Q?twjko7LCa1diI3xCAWAeUgp+FTX064sIYKXhQevJ8Xae5+v/vMRcCve0e5?=
+ =?iso-8859-1?Q?HDNvh5aQuAQXushpVG8Mpo7pne//nIvnxzbGvyUWbzneMChWD65AkBsnkQ?=
+ =?iso-8859-1?Q?m8lNzZIfQ+Y3LZFGu6c7bAJ4oFAF3p7bxHirZAcGHfbVdXw6xGXUugz7Tr?=
+ =?iso-8859-1?Q?qyvwr42U2sC9Eyfye08+xnxjGyq6NwGYAAzeCbK05vGLlU38if88h1FvUs?=
+ =?iso-8859-1?Q?XBhxlZRmqC+K0lKVzweVKW6TjjcIpquME8VdI7ZrIbBjtM8h8n2YKOmVdT?=
+ =?iso-8859-1?Q?uuapHy+O4GBCYHmdgBqlzJkjwN+bho/oTCLFzCpgCCgGjEhwYpwv7+8uVd?=
+ =?iso-8859-1?Q?VtnFuk7DrslloeU7fToSLB1URZvH1MFO0Q9m5yBQfGoIr9JYGuhf2bUKEL?=
+ =?iso-8859-1?Q?I/iMdOg5hpsClLh0nR986BhbxGEoEthzhkVCBdlQyXDlf8eEhvyiDmIU2m?=
+ =?iso-8859-1?Q?GcjxdUQxrVd+9655EXdnFiWDEsrDksbDbwtrfKJnW11trknBmEWTgkxySp?=
+ =?iso-8859-1?Q?yo3nYs5Pph4NAUOfhHTw/5yrP2TsRS0JOfQg7VSxm98Dt0esfXiGjm71eR?=
+ =?iso-8859-1?Q?ZyKut+HknAgAcqZPpzlGWYk3lo/9Aqrj5WhSgkgoe713bA+h4PJyW3Y+69?=
+ =?iso-8859-1?Q?axquPw/QqBuVk5L+RLhEYG74k7ap6UUDKSu30lskPnJ0GwXydaaNetYU8l?=
+ =?iso-8859-1?Q?+WrqW0d67dzWcBaQg8iUCZly4IuffsLGw4gV5fdDlt9xe/KtstO7sZ7hvL?=
+ =?iso-8859-1?Q?44VOavlfQUnRIWymcPfIz1RI3NrIxVDBXFY+9H27Q9F0RRWqLokn3nWuI9?=
+ =?iso-8859-1?Q?GlPxEoeL5Ld0+DJw6Iz+jJU+Xuz8j1TeWnUNJwXqgzzzld+jofx9wY1d/D?=
+ =?iso-8859-1?Q?KG47jWwv1XDgWlPMpB6Nfxs3y94usB2GcqMBXvvHQrMMXN9sGylL1D7ez0?=
+ =?iso-8859-1?Q?nTGplFx8gEh3vjCIsRAbG144vUa8KUCA2Hdst/4Rkbd6Js6/qczSisiKam?=
+ =?iso-8859-1?Q?8KJ1D6KOC8zBKln3i5eEAEViezKUDiSRVfpT9Vg/St64lARJccpT1aaVdp?=
+ =?iso-8859-1?Q?EdWLdx4iqre1QhB8dlWFnbAOs88amgIbLQOB5ey5gx72ODK7mbyq/6q9Zb?=
+ =?iso-8859-1?Q?8uqAXR2FJoGdHZZbbIIbkziOxIYGz9qFihp8MjpncAC9gipJkcxNCDXn7T?=
+ =?iso-8859-1?Q?u7CAyywhPdaRaimt8e30m8c5IIL5ddcl0jgOMfDDIdK3ECDmdEj2ctd3r2?=
+ =?iso-8859-1?Q?LcaYNyMf5FkLubHnHzVPGctw83HtZ0WBIEyZzY4ft3vqXYBF7/1BbPB/E4?=
+ =?iso-8859-1?Q?O6HlxU5CS/wHMuYLOiYs6HrYjYekBegNflQp5YMR8pH0spH/kvLQGllsO0?=
+ =?iso-8859-1?Q?uhOxMrXuLt0Fm9o42rdilSkxNHTfaXcY9NjOh338?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: incari.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Jan 2023 21:54:10.8439 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 2yZt2/1FK+t9dsZLQA3W3tW/RCJWh6tpOLrWDhJvRPjMHbZwTdHh6rqcRCYEPGxluQv0kyLrK2bAu7UYm/IU+NOxu1HmHyrSmg+3MSGPjS8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR17MB6099
-Received-SPF: none client-ip=40.107.93.69;
- envelope-from=gregory.price@memverge.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
+X-MS-Exchange-CrossTenant-AuthSource: BEZP281MB2965.DEUP281.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c0bd423-e707-4809-73a9-08dafb32581a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Jan 2023 22:04:47.1255 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a46cb45d-70c3-46b7-b011-a63d6a9c3c2c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: /AsoQFVmguEagxoHAW/PaULcmiO3NvSGaXkh9+9dxd8Du43aCj6mBtX5sBAwVKSJsbY4gD8I9d4DxfUEEw62gP7/meIsyAm6fhqSJeqqIec=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FR3P281MB1630
+Received-SPF: pass client-ip=40.107.135.46;
+ envelope-from=Bernhard.Kauer@incari.com;
+ helo=DEU01-FR2-obe.outbound.protection.outlook.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -147,70 +139,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 20, 2023 at 09:38:13AM -0800, Dan Williams wrote:
-> As it stands currently that dax device and the cxl device are not
-> related since a default dax-device is loaded just based on the presence
-> of an EFI_MEMORY_SP address range in the address map. With the new ram
-> enabling that default device will be elided and CXL will register a
-> dax-device parented by a cxl region.
-> 
-> > 	 - The memory *does not* auto-online, instead the dax device can be
-> > 	   onlined as system-ram *manually* via ndctl and friends
-> 
-> That *manually* part is the problem that needs distro help to solve. It
-> should be the case that by default all Linux distributions auto-online
-> all dax-devices. If that happens to online memory that is too slow for
-> general use, or too high-performance / precious for general purpose use
-> then the administrator can set policy after the fact. Unfortunately user
-> policy can not be applied if these memory ranges were onlined by the
-> kernel at boot , so that's why the kernel policy defaults to not-online.
-> 
-> In other words, there is no guarantee that memory that was assigned to
-> the general purpose pool at boot can be removed. The only guaranteed
-> behavior is to never give the memory to the core kernel in the first
-> instance and always let user policy route the memory.
-> 
-> > 3) The code creates an nvdimm_bridge IFF a CFMW is defined - regardless
-> >    of the type-3 device configuration (pmem-only or vmem-only)
-> 
-> Correct, the top-level bus code (cxl_acpi) and the endpoint code
-> (cxl_mem, cxl_port) need to handshake before establishing regions. For
-> pmem regions the platform needs to claim the availability of a pmem
-> capable CXL window.
-> 
-> > 4) As you can see above, multiple decoders are registered.  I'm not sure
-> >    if that's correct or not, but it does seem odd given there's only one
-> > 	 cxl type-3 device.  Odd that decoder0.0 shows up when CFMW is there,
-> > 	 but not when it isn't.
-> 
-> CXL windows are modeled as decoders hanging off the the CXL root device
-> (ACPI0017 on ACPI based platforms). An endpoint decoder can then map a
-> selection of that window.
-> 
-> > Don't know why I haven't thought of this until now, but is the CFMW code
-> > reporting something odd about what's behind it?  Is it assuming the
-> > devices are pmem?
-> 
-> No, the cxl_acpi code is just advertising platform decode possibilities
-> independent of what devices show up. Think of this like the PCI MMIO
-> space that gets allocated to a root bridge at the beginning of time.
-> That space may or may not get consumed based on what devices show up
-> downstream.
-
-Thank you for the explanation Dan, and thank you for you patience
-@JCameron.  I'm fairly sure I grok it now.
-
-Summarizing to make sure: the cxl driver is providing what would be the
-CXL.io (control) path, and the CXL.mem path is basically being simulated
-by what otherwise would be a traditional PCI memory region. This explains
-why turning off Legacy mode drops the dax devices, and why the topology
-looks strange - the devices are basically attached in 2 different ways.
-
-Might there be interest from the QEMU community to implement this
-legacy-style setup in the short term, in an effort to test the the
-control path of type-3 devices while we wait for the kernel to catch up?
-
-Or should we forget this mode ever existed and just barrel forward
-with HDM decoders and writing the kernel code to hook up the underlying
-devices in drivers/cxl?
+Guest to host page translation should be done even if the guest runs in unp=
+aged mode.=0A=
+See last sentence in AMD SDM rev 3.40 section 15.25.5.=0A=
+=0A=
+Signed-off-by: Bernhard Kauer <bernhard.kauer@incari.com>=0A=
+---=0A=
+=A0target/i386/tcg/sysemu/excp_helper.c | 3 +++=0A=
+=A01 file changed, 3 insertions(+)=0A=
+=0A=
+diff --git a/target/i386/tcg/sysemu/excp_helper.c b/target/i386/tcg/sysemu/=
+excp_helper.c=0A=
+index 55bd1194d3..8d9152245b 100644=0A=
+--- a/target/i386/tcg/sysemu/excp_helper.c=0A=
++++ b/target/i386/tcg/sysemu/excp_helper.c=0A=
+@@ -576,6 +576,9 @@ static bool get_physical_address(CPUX86State *env, vadd=
+r addr,=0A=
+=A0 =A0 =A0 =A0 =A0 =A0 =A0}=0A=
+=A0 =A0 =A0 =A0 =A0 =A0 =A0return mmu_translate(env, &in, out, err);=0A=
+=A0 =A0 =A0 =A0 =A0}=0A=
++ =A0 =A0 =A0 =A0if (use_stage2) {=0A=
++ =A0 =A0 =A0 =A0 =A0 =A0return get_physical_address(env, addr, access_type=
+, MMU_NESTED_IDX, out, err);=0A=
++ =A0 =A0 =A0 =A0}=0A=
+=A0 =A0 =A0 =A0 =A0break;=0A=
+=A0 =A0 =A0}=0A=
+=A0=0A=
 
