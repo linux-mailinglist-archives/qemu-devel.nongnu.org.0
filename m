@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50CE067546A
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:29:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65E367548A
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:32:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIqUC-0002t7-Nk; Fri, 20 Jan 2023 07:27:12 -0500
+	id 1pIqUI-0003Gx-8E; Fri, 20 Jan 2023 07:27:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqU4-0002oZ-Ca
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqU7-0002sw-6U
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqU0-0000Mf-4p
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:04 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqU2-0000NQ-Fq
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:27:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674217619;
+ s=mimecast20190719; t=1674217621;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=CCSwcZCP9iV5eU9tptIB2SlCDyIy7cSEZoyDDerNDMM=;
- b=TzTWYft/wZY45rxxRfHn06Phgve0SM47rgab9ysuMqGvADvWUYiEpBNfCPGxT5yNrZouzQ
- qBxLokoVcA/OhkRW/woG8sWKv3QVNa4UDqOqDJXK+E44wC1EqrVTrNJKUUFRSBDJwZYmW4
- 8R1DvU0IFoUtrpO0oUanWTqpm4BdYJw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=9asyn6LACfoBhUXZTueQVglThTGvDuuQ4SUtwadNGus=;
+ b=dZtRCM9rsROnRGNuiRwDc/FA75wOWuw11lIfgTo5h+8BEvRqbRf7WEavMN6VHgtM30fW2n
+ CSIpbhzMUXV6IMZDYpMckyUWiHXh3lDJibTMYA5COvmZLnoK6BHLdWsr2s7LFa5JZvb9L6
+ rFvv7nPHGeWQQt9SZQCDDYTQppzU9yQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-102-tAp4e2HzMfawSMPvWFouvg-1; Fri, 20 Jan 2023 07:26:58 -0500
-X-MC-Unique: tAp4e2HzMfawSMPvWFouvg-1
+ us-mta-301-Hcyzei2ZOyim8jfEHDHI2A-1; Fri, 20 Jan 2023 07:26:59 -0500
+X-MC-Unique: Hcyzei2ZOyim8jfEHDHI2A-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EE228800B30;
- Fri, 20 Jan 2023 12:26:57 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03A723814943;
+ Fri, 20 Jan 2023 12:26:59 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2AAF340C6EC4;
- Fri, 20 Jan 2023 12:26:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 362E340C6EC4;
+ Fri, 20 Jan 2023 12:26:58 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 19/38] block: use bdrv_co_refresh_total_sectors when possible
-Date: Fri, 20 Jan 2023 13:26:14 +0100
-Message-Id: <20230120122633.84983-20-kwolf@redhat.com>
+Subject: [PULL 20/38] block: Convert bdrv_get_allocated_file_size() to
+ co_wrapper
+Date: Fri, 20 Jan 2023 13:26:15 +0100
+Message-Id: <20230120122633.84983-21-kwolf@redhat.com>
 In-Reply-To: <20230120122633.84983-1-kwolf@redhat.com>
 References: <20230120122633.84983-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -61,7 +62,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,112 +80,358 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 
-In some places we are sure we are always running in a
-coroutine, therefore it's useless to call the generated_co_wrapper,
-instead call directly the _co_ function.
+bdrv_get_allocated_file_size() is categorized as an I/O function, and it
+currently doesn't run in a coroutine. We should let it take a graph
+rdlock since it traverses the block nodes graph, which however is only
+possible in a coroutine.
+
+Therefore turn it into a co_wrapper to move the actual function into a
+coroutine where the lock can be taken.
 
 Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-Message-Id: <20230113204212.359076-9-kwolf@redhat.com>
+Message-Id: <20230113204212.359076-10-kwolf@redhat.com>
 Reviewed-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/block-backend.c | 6 +++---
- block/io.c            | 4 ++--
- block/preallocate.c   | 6 +++---
- block/qed.c           | 2 +-
- 4 files changed, 9 insertions(+), 9 deletions(-)
+ include/block/block-io.h         |  4 +++-
+ include/block/block_int-common.h |  4 +++-
+ block.c                          | 12 ++++++------
+ block/file-posix.c               | 14 +++++---------
+ block/file-win32.c               | 10 ++++------
+ block/gluster.c                  | 11 ++++++-----
+ block/nfs.c                      |  4 ++--
+ block/null.c                     |  7 ++++---
+ block/qcow2-refcount.c           |  2 +-
+ block/vmdk.c                     |  9 +++++----
+ 10 files changed, 39 insertions(+), 38 deletions(-)
 
-diff --git a/block/block-backend.c b/block/block-backend.c
-index 7d4b08ee45..b4a8d259cf 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -1235,8 +1235,8 @@ void blk_set_disable_request_queuing(BlockBackend *blk, bool disable)
-     blk->disable_request_queuing = disable;
+diff --git a/include/block/block-io.h b/include/block/block-io.h
+index 3677d445a4..5b89b2d958 100644
+--- a/include/block/block-io.h
++++ b/include/block/block-io.h
+@@ -79,7 +79,9 @@ int64_t co_wrapper_mixed bdrv_nb_sectors(BlockDriverState *bs);
+ int64_t coroutine_fn bdrv_co_getlength(BlockDriverState *bs);
+ int64_t co_wrapper_mixed bdrv_getlength(BlockDriverState *bs);
+ 
+-int64_t bdrv_get_allocated_file_size(BlockDriverState *bs);
++int64_t coroutine_fn bdrv_co_get_allocated_file_size(BlockDriverState *bs);
++int64_t co_wrapper bdrv_get_allocated_file_size(BlockDriverState *bs);
++
+ BlockMeasureInfo *bdrv_measure(BlockDriver *drv, QemuOpts *opts,
+                                BlockDriverState *in_bs, Error **errp);
+ void bdrv_get_geometry(BlockDriverState *bs, uint64_t *nb_sectors_ptr);
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index 6336c7239a..cc03c599e7 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -685,7 +685,9 @@ struct BlockDriver {
+                                          bool exact, PreallocMode prealloc,
+                                          BdrvRequestFlags flags, Error **errp);
+     int64_t coroutine_fn (*bdrv_co_getlength)(BlockDriverState *bs);
+-    int64_t (*bdrv_get_allocated_file_size)(BlockDriverState *bs);
++    int64_t coroutine_fn (*bdrv_co_get_allocated_file_size)(
++        BlockDriverState *bs);
++
+     BlockMeasureInfo *(*bdrv_measure)(QemuOpts *opts, BlockDriverState *in_bs,
+                                       Error **errp);
+ 
+diff --git a/block.c b/block.c
+index c8c3e42080..ed7e15f4d4 100644
+--- a/block.c
++++ b/block.c
+@@ -5719,7 +5719,7 @@ exit:
  }
  
--static int blk_check_byte_request(BlockBackend *blk, int64_t offset,
--                                  int64_t bytes)
-+static coroutine_fn int blk_check_byte_request(BlockBackend *blk,
-+                                               int64_t offset, int64_t bytes)
+ /**
+- * Implementation of BlockDriver.bdrv_get_allocated_file_size() that
++ * Implementation of BlockDriver.bdrv_co_get_allocated_file_size() that
+  * sums the size of all data-bearing children.  (This excludes backing
+  * children.)
+  */
+@@ -5732,7 +5732,7 @@ static int64_t bdrv_sum_allocated_file_size(BlockDriverState *bs)
+         if (child->role & (BDRV_CHILD_DATA | BDRV_CHILD_METADATA |
+                            BDRV_CHILD_FILTERED))
+         {
+-            child_size = bdrv_get_allocated_file_size(child->bs);
++            child_size = bdrv_co_get_allocated_file_size(child->bs);
+             if (child_size < 0) {
+                 return child_size;
+             }
+@@ -5747,7 +5747,7 @@ static int64_t bdrv_sum_allocated_file_size(BlockDriverState *bs)
+  * Length of a allocated file in bytes. Sparse files are counted by actual
+  * allocated space. Return < 0 if error or unknown.
+  */
+-int64_t bdrv_get_allocated_file_size(BlockDriverState *bs)
++int64_t coroutine_fn bdrv_co_get_allocated_file_size(BlockDriverState *bs)
  {
-     int64_t len;
- 
-@@ -1253,7 +1253,7 @@ static int blk_check_byte_request(BlockBackend *blk, int64_t offset,
+     BlockDriver *drv = bs->drv;
+     IO_CODE();
+@@ -5755,8 +5755,8 @@ int64_t bdrv_get_allocated_file_size(BlockDriverState *bs)
+     if (!drv) {
+         return -ENOMEDIUM;
+     }
+-    if (drv->bdrv_get_allocated_file_size) {
+-        return drv->bdrv_get_allocated_file_size(bs);
++    if (drv->bdrv_co_get_allocated_file_size) {
++        return drv->bdrv_co_get_allocated_file_size(bs);
      }
  
-     if (!blk->allow_write_beyond_eof) {
--        len = bdrv_getlength(blk_bs(blk));
-+        len = bdrv_co_getlength(blk_bs(blk));
-         if (len < 0) {
-             return len;
-         }
-diff --git a/block/io.c b/block/io.c
-index e5e51563a5..fdc5ba9fb6 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3443,7 +3443,7 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
-     if (new_bytes && backing) {
-         int64_t backing_len;
- 
--        backing_len = bdrv_getlength(backing->bs);
-+        backing_len = bdrv_co_getlength(backing->bs);
-         if (backing_len < 0) {
-             ret = backing_len;
-             error_setg_errno(errp, -ret, "Could not get backing file size");
-@@ -3473,7 +3473,7 @@ int coroutine_fn bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
-         goto out;
-     }
- 
--    ret = bdrv_refresh_total_sectors(bs, offset >> BDRV_SECTOR_BITS);
-+    ret = bdrv_co_refresh_total_sectors(bs, offset >> BDRV_SECTOR_BITS);
-     if (ret < 0) {
-         error_setg_errno(errp, -ret, "Could not refresh total sector count");
+     if (drv->bdrv_file_open) {
+@@ -5768,7 +5768,7 @@ int64_t bdrv_get_allocated_file_size(BlockDriverState *bs)
+         return -ENOTSUP;
+     } else if (drv->is_filter) {
+         /* Filter drivers default to the size of their filtered child */
+-        return bdrv_get_allocated_file_size(bdrv_filter_bs(bs));
++        return bdrv_co_get_allocated_file_size(bdrv_filter_bs(bs));
      } else {
-diff --git a/block/preallocate.c b/block/preallocate.c
-index 94aa824e09..5815d7a78b 100644
---- a/block/preallocate.c
-+++ b/block/preallocate.c
-@@ -286,7 +286,7 @@ static bool coroutine_fn handle_write(BlockDriverState *bs, int64_t offset,
+         /* Other drivers default to summing their children's sizes */
+         return bdrv_sum_allocated_file_size(bs);
+diff --git a/block/file-posix.c b/block/file-posix.c
+index ef1fce3782..dd6427a281 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2463,7 +2463,7 @@ static int64_t coroutine_fn raw_co_getlength(BlockDriverState *bs)
+ }
+ #endif
+ 
+-static int64_t raw_get_allocated_file_size(BlockDriverState *bs)
++static int64_t coroutine_fn raw_co_get_allocated_file_size(BlockDriverState *bs)
+ {
+     struct stat st;
+     BDRVRawState *s = bs->opaque;
+@@ -3323,8 +3323,7 @@ BlockDriver bdrv_file = {
+     .bdrv_co_truncate                   = raw_co_truncate,
+     .bdrv_co_getlength                  = raw_co_getlength,
+     .bdrv_get_info = raw_get_info,
+-    .bdrv_get_allocated_file_size
+-                        = raw_get_allocated_file_size,
++    .bdrv_co_get_allocated_file_size    = raw_co_get_allocated_file_size,
+     .bdrv_get_specific_stats = raw_get_specific_stats,
+     .bdrv_check_perm = raw_check_perm,
+     .bdrv_set_perm   = raw_set_perm,
+@@ -3695,8 +3694,7 @@ static BlockDriver bdrv_host_device = {
+     .bdrv_co_truncate                   = raw_co_truncate,
+     .bdrv_co_getlength                  = raw_co_getlength,
+     .bdrv_get_info = raw_get_info,
+-    .bdrv_get_allocated_file_size
+-                        = raw_get_allocated_file_size,
++    .bdrv_co_get_allocated_file_size    = raw_co_get_allocated_file_size,
+     .bdrv_get_specific_stats = hdev_get_specific_stats,
+     .bdrv_check_perm = raw_check_perm,
+     .bdrv_set_perm   = raw_set_perm,
+@@ -3819,8 +3817,7 @@ static BlockDriver bdrv_host_cdrom = {
+     .bdrv_co_truncate                   = raw_co_truncate,
+     .bdrv_co_getlength                  = raw_co_getlength,
+     .has_variable_length                = true,
+-    .bdrv_get_allocated_file_size
+-                        = raw_get_allocated_file_size,
++    .bdrv_co_get_allocated_file_size    = raw_co_get_allocated_file_size,
+ 
+     /* removable device support */
+     .bdrv_co_is_inserted    = cdrom_co_is_inserted,
+@@ -3949,8 +3946,7 @@ static BlockDriver bdrv_host_cdrom = {
+     .bdrv_co_truncate                   = raw_co_truncate,
+     .bdrv_co_getlength                  = raw_co_getlength,
+     .has_variable_length                = true,
+-    .bdrv_get_allocated_file_size
+-                        = raw_get_allocated_file_size,
++    .bdrv_co_get_allocated_file_size    = raw_co_get_allocated_file_size,
+ 
+     /* removable device support */
+     .bdrv_co_is_inserted     = cdrom_co_is_inserted,
+diff --git a/block/file-win32.c b/block/file-win32.c
+index aedee695dd..6ff576b20d 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -558,7 +558,7 @@ static int64_t coroutine_fn raw_co_getlength(BlockDriverState *bs)
+     return l.QuadPart;
+ }
+ 
+-static int64_t raw_get_allocated_file_size(BlockDriverState *bs)
++static int64_t coroutine_fn raw_co_get_allocated_file_size(BlockDriverState *bs)
+ {
+     typedef DWORD (WINAPI * get_compressed_t)(const char *filename,
+                                               DWORD * high);
+@@ -764,8 +764,8 @@ BlockDriver bdrv_file = {
+ 
+     .bdrv_co_truncate   = raw_co_truncate,
+     .bdrv_co_getlength  = raw_co_getlength,
+-    .bdrv_get_allocated_file_size
+-                        = raw_get_allocated_file_size,
++    .bdrv_co_get_allocated_file_size
++                        = raw_co_get_allocated_file_size,
+ 
+     .create_opts        = &raw_create_opts,
+ };
+@@ -934,9 +934,7 @@ static BlockDriver bdrv_host_device = {
+ 
+     .bdrv_co_getlength                = raw_co_getlength,
+     .has_variable_length              = true,
+-
+-    .bdrv_get_allocated_file_size
+-                        = raw_get_allocated_file_size,
++    .bdrv_co_get_allocated_file_size  = raw_co_get_allocated_file_size,
+ };
+ 
+ static void bdrv_file_init(void)
+diff --git a/block/gluster.c b/block/gluster.c
+index 469cdf01d4..7b4e1dd795 100644
+--- a/block/gluster.c
++++ b/block/gluster.c
+@@ -1330,7 +1330,8 @@ static int64_t coroutine_fn qemu_gluster_co_getlength(BlockDriverState *bs)
+     }
+ }
+ 
+-static int64_t qemu_gluster_allocated_file_size(BlockDriverState *bs)
++static int64_t coroutine_fn
++qemu_gluster_co_get_allocated_file_size(BlockDriverState *bs)
+ {
+     BDRVGlusterState *s = bs->opaque;
+     struct stat st;
+@@ -1559,7 +1560,7 @@ static BlockDriver bdrv_gluster = {
+     .bdrv_co_create               = qemu_gluster_co_create,
+     .bdrv_co_create_opts          = qemu_gluster_co_create_opts,
+     .bdrv_co_getlength            = qemu_gluster_co_getlength,
+-    .bdrv_get_allocated_file_size = qemu_gluster_allocated_file_size,
++    .bdrv_co_get_allocated_file_size = qemu_gluster_co_get_allocated_file_size,
+     .bdrv_co_truncate             = qemu_gluster_co_truncate,
+     .bdrv_co_readv                = qemu_gluster_co_readv,
+     .bdrv_co_writev               = qemu_gluster_co_writev,
+@@ -1588,7 +1589,7 @@ static BlockDriver bdrv_gluster_tcp = {
+     .bdrv_co_create               = qemu_gluster_co_create,
+     .bdrv_co_create_opts          = qemu_gluster_co_create_opts,
+     .bdrv_co_getlength            = qemu_gluster_co_getlength,
+-    .bdrv_get_allocated_file_size = qemu_gluster_allocated_file_size,
++    .bdrv_co_get_allocated_file_size = qemu_gluster_co_get_allocated_file_size,
+     .bdrv_co_truncate             = qemu_gluster_co_truncate,
+     .bdrv_co_readv                = qemu_gluster_co_readv,
+     .bdrv_co_writev               = qemu_gluster_co_writev,
+@@ -1617,7 +1618,7 @@ static BlockDriver bdrv_gluster_unix = {
+     .bdrv_co_create               = qemu_gluster_co_create,
+     .bdrv_co_create_opts          = qemu_gluster_co_create_opts,
+     .bdrv_co_getlength            = qemu_gluster_co_getlength,
+-    .bdrv_get_allocated_file_size = qemu_gluster_allocated_file_size,
++    .bdrv_co_get_allocated_file_size = qemu_gluster_co_get_allocated_file_size,
+     .bdrv_co_truncate             = qemu_gluster_co_truncate,
+     .bdrv_co_readv                = qemu_gluster_co_readv,
+     .bdrv_co_writev               = qemu_gluster_co_writev,
+@@ -1652,7 +1653,7 @@ static BlockDriver bdrv_gluster_rdma = {
+     .bdrv_co_create               = qemu_gluster_co_create,
+     .bdrv_co_create_opts          = qemu_gluster_co_create_opts,
+     .bdrv_co_getlength            = qemu_gluster_co_getlength,
+-    .bdrv_get_allocated_file_size = qemu_gluster_allocated_file_size,
++    .bdrv_co_get_allocated_file_size = qemu_gluster_co_get_allocated_file_size,
+     .bdrv_co_truncate             = qemu_gluster_co_truncate,
+     .bdrv_co_readv                = qemu_gluster_co_readv,
+     .bdrv_co_writev               = qemu_gluster_co_writev,
+diff --git a/block/nfs.c b/block/nfs.c
+index ece22353ac..cbf742661e 100644
+--- a/block/nfs.c
++++ b/block/nfs.c
+@@ -731,7 +731,7 @@ nfs_get_allocated_file_size_cb(int ret, struct nfs_context *nfs, void *data,
+     bdrv_wakeup(task->bs);
+ }
+ 
+-static int64_t nfs_get_allocated_file_size(BlockDriverState *bs)
++static int64_t coroutine_fn nfs_co_get_allocated_file_size(BlockDriverState *bs)
+ {
+     NFSClient *client = bs->opaque;
+     NFSRPC task = {0};
+@@ -884,7 +884,7 @@ static BlockDriver bdrv_nfs = {
+     .bdrv_has_zero_init             = nfs_has_zero_init,
+ /* libnfs does not provide the allocated filesize of a file on win32. */
+ #if !defined(_WIN32)
+-    .bdrv_get_allocated_file_size   = nfs_get_allocated_file_size,
++    .bdrv_co_get_allocated_file_size = nfs_co_get_allocated_file_size,
+ #endif
+     .bdrv_co_truncate               = nfs_file_co_truncate,
+ 
+diff --git a/block/null.c b/block/null.c
+index 05dde6d9ab..aa5931effa 100644
+--- a/block/null.c
++++ b/block/null.c
+@@ -264,7 +264,8 @@ static void null_refresh_filename(BlockDriverState *bs)
+              bs->drv->format_name);
+ }
+ 
+-static int64_t null_allocated_file_size(BlockDriverState *bs)
++static int64_t coroutine_fn
++null_co_get_allocated_file_size(BlockDriverState *bs)
+ {
+     return 0;
+ }
+@@ -284,7 +285,7 @@ static BlockDriver bdrv_null_co = {
+     .bdrv_file_open         = null_file_open,
+     .bdrv_parse_filename    = null_co_parse_filename,
+     .bdrv_co_getlength      = null_co_getlength,
+-    .bdrv_get_allocated_file_size = null_allocated_file_size,
++    .bdrv_co_get_allocated_file_size = null_co_get_allocated_file_size,
+ 
+     .bdrv_co_preadv         = null_co_preadv,
+     .bdrv_co_pwritev        = null_co_pwritev,
+@@ -305,7 +306,7 @@ static BlockDriver bdrv_null_aio = {
+     .bdrv_file_open         = null_file_open,
+     .bdrv_parse_filename    = null_aio_parse_filename,
+     .bdrv_co_getlength      = null_co_getlength,
+-    .bdrv_get_allocated_file_size = null_allocated_file_size,
++    .bdrv_co_get_allocated_file_size = null_co_get_allocated_file_size,
+ 
+     .bdrv_aio_preadv        = null_aio_preadv,
+     .bdrv_aio_pwritev       = null_aio_pwritev,
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index 81264740f0..487681d85e 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -3719,7 +3719,7 @@ int coroutine_fn qcow2_detect_metadata_preallocation(BlockDriverState *bs)
+         return file_length;
      }
  
-     if (s->data_end < 0) {
--        s->data_end = bdrv_getlength(bs->file->bs);
-+        s->data_end = bdrv_co_getlength(bs->file->bs);
-         if (s->data_end < 0) {
-             return false;
+-    real_allocation = bdrv_get_allocated_file_size(bs->file->bs);
++    real_allocation = bdrv_co_get_allocated_file_size(bs->file->bs);
+     if (real_allocation < 0) {
+         return real_allocation;
+     }
+diff --git a/block/vmdk.c b/block/vmdk.c
+index 8894dac2d4..04f50d2e49 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -2856,14 +2856,15 @@ static void vmdk_close(BlockDriverState *bs)
+     error_free(s->migration_blocker);
+ }
+ 
+-static int64_t vmdk_get_allocated_file_size(BlockDriverState *bs)
++static int64_t coroutine_fn
++vmdk_co_get_allocated_file_size(BlockDriverState *bs)
+ {
+     int i;
+     int64_t ret = 0;
+     int64_t r;
+     BDRVVmdkState *s = bs->opaque;
+ 
+-    ret = bdrv_get_allocated_file_size(bs->file->bs);
++    ret = bdrv_co_get_allocated_file_size(bs->file->bs);
+     if (ret < 0) {
+         return ret;
+     }
+@@ -2871,7 +2872,7 @@ static int64_t vmdk_get_allocated_file_size(BlockDriverState *bs)
+         if (s->extents[i].file == bs->file) {
+             continue;
          }
-@@ -308,7 +308,7 @@ static bool coroutine_fn handle_write(BlockDriverState *bs, int64_t offset,
-     }
- 
-     if (s->file_end < 0) {
--        s->file_end = bdrv_getlength(bs->file->bs);
-+        s->file_end = bdrv_co_getlength(bs->file->bs);
-         if (s->file_end < 0) {
-             return false;
+-        r = bdrv_get_allocated_file_size(s->extents[i].file->bs);
++        r = bdrv_co_get_allocated_file_size(s->extents[i].file->bs);
+         if (r < 0) {
+             return r;
          }
-@@ -380,7 +380,7 @@ preallocate_co_truncate(BlockDriverState *bs, int64_t offset,
- 
-     if (s->data_end >= 0 && offset > s->data_end) {
-         if (s->file_end < 0) {
--            s->file_end = bdrv_getlength(bs->file->bs);
-+            s->file_end = bdrv_co_getlength(bs->file->bs);
-             if (s->file_end < 0) {
-                 error_setg(errp, "failed to get file length");
-                 return s->file_end;
-diff --git a/block/qed.c b/block/qed.c
-index c8f9045b72..16bf0cb080 100644
---- a/block/qed.c
-+++ b/block/qed.c
-@@ -424,7 +424,7 @@ static int coroutine_fn bdrv_qed_do_open(BlockDriverState *bs, QDict *options,
-     }
- 
-     /* Round down file size to the last cluster */
--    file_size = bdrv_getlength(bs->file->bs);
-+    file_size = bdrv_co_getlength(bs->file->bs);
-     if (file_size < 0) {
-         error_setg(errp, "Failed to get file length");
-         return file_size;
+@@ -3124,7 +3125,7 @@ static BlockDriver bdrv_vmdk = {
+     .bdrv_co_create_opts          = vmdk_co_create_opts,
+     .bdrv_co_create               = vmdk_co_create,
+     .bdrv_co_block_status         = vmdk_co_block_status,
+-    .bdrv_get_allocated_file_size = vmdk_get_allocated_file_size,
++    .bdrv_co_get_allocated_file_size = vmdk_co_get_allocated_file_size,
+     .bdrv_has_zero_init           = vmdk_has_zero_init,
+     .bdrv_get_specific_info       = vmdk_get_specific_info,
+     .bdrv_refresh_limits          = vmdk_refresh_limits,
 -- 
 2.38.1
 
