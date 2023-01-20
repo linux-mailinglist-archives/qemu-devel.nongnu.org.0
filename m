@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3F54674F64
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 09:25:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48A1674F66
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 09:25:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pImhZ-0005O9-9F; Fri, 20 Jan 2023 03:24:45 -0500
+	id 1pImhg-0005Yc-If; Fri, 20 Jan 2023 03:24:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pImhS-0005Ia-QX
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:24:38 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pImhY-0005T0-85
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:24:45 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pImhP-0004gJ-HP
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:24:37 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- f12-20020a7bc8cc000000b003daf6b2f9b9so5273068wml.3
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 00:24:35 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pImhV-0004h8-GH
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 03:24:43 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ d4-20020a05600c3ac400b003db1de2aef0so3068174wms.2
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 00:24:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=8eiWB2mgS5s8IODt1mSJBolF54HXrNWV0tPwSRIkLm8=;
- b=T9fNlr7qdkM84eEPuX5uCJ76nlAtPpVEul0xug1Pz08e652KrE84UQWICNDZMBTEp7
- If0+D41sb1wOoRWMMpmcG3Ab+JKEsBgY2q/ruawR0hNU3/U++QQc+uRklunMUUxHeyj1
- /o9FbNoE2iSiLlW2WdqfMOGYsNe/r9RYgTMwmBh8S6G3V+Ngr8M55U4jM+pIx5lDH2CC
- RopvZgZ0ERsE0Z4U7m3pZLlyclIxTFdwDKLavsoz1HyTOm5SN2gDgS09QOm8275Ze7Ux
- cMuOdMbkKTi9h7XrwddtIb3AOmk/0iUmW9B8ifWc45hqvc03zmkANKHf6RpUUyDRyP44
- CliQ==
+ bh=ZIdBPotAEeCeaU6kILE+ldJwz4Si4KaekjZjTSfk694=;
+ b=sHvxXtKKINDL5U6Fdhmg7M/qsjYAQGf7jqQBR9ve+9ggFVkRejHOhRUwvWa1s0Q5fx
+ +g8BJsZ3n/aQOGSDk3KKxYaov7iqSrSb5nHxix93hueSgapMFY7RArUk2lMxlJQ+azAg
+ nggVngL6RMipESmiyLR3BmJ7CYRz5qOZZiGcIE0DIPUvQUDHdIb9QyWPJdURibsk+hOI
+ SJmGbuLeJTfg2gmxWxlnqiqd81UcfV3aFXKvHb6qA+/xgQHPoZTlW5JQ9pnNldiawUIL
+ 4fPBBInWldoqtoBuvL9DvmCgRTP4Pr+YXuymCBo8ls95IoW6MYwjDdgq2BG9nnSo+O4y
+ SZug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8eiWB2mgS5s8IODt1mSJBolF54HXrNWV0tPwSRIkLm8=;
- b=eXL7CCYF8lVLOdpMH4KYSP8uvSQd2AP6Kykuj1j2HuGwIxtjUwWfuvdpQCdl95kTd/
- oWF1jOa8DEjER1HI0TMuc+d428q2afXXfcxiBu2Df+LXuer3gkGrsv9ZDwiFquxrnoMo
- PU/WnjFig1V19dmVu9sr6saTuz3g6q/L1Gi1xckUHCzCfn2P5nEc+muPqiQlT2I/nwr8
- 9CRS+AXr4ZAjTEyV5Dox45++lrJ9hZulT4lotNr19XPSKZfV2sUa2xkaFzm2UhIkzyIx
- OFyvxBL7SEb8oaVbY3zIJHvOOIxxdnEsiTwYKZ2o8aKB2yyzdGB6MDz9FrOaBOJxy5Bm
- AGdQ==
-X-Gm-Message-State: AFqh2krUg5WypVB++OvqqraiNeZN3V5z6ho7Fg1Ocz7gWmCNE6haIbXh
- RyzHVATboTpAFIs8Nc3Pxo0XdmEkyboX/UUf
-X-Google-Smtp-Source: AMrXdXtmC+HEvptR8nXq9UryNyg55l1bKzq96sDgtQebkqTaOxjpmybbYyq+wpG5lujY/PmZLwFzrw==
-X-Received: by 2002:a05:600c:354e:b0:3db:331b:bd57 with SMTP id
- i14-20020a05600c354e00b003db331bbd57mr1073167wmq.23.1674203073952; 
- Fri, 20 Jan 2023 00:24:33 -0800 (PST)
+ bh=ZIdBPotAEeCeaU6kILE+ldJwz4Si4KaekjZjTSfk694=;
+ b=t802sdBiMr7MXHbYDaiTgCuhJPYg2ZB0e3oXHG5vEAK/xCUcrg+G8tvLpQ4fo4T7D3
+ I6w4k8iO8+41cwgFezGhxJY+N/U7ln5P1PrvySMla1/1hF+qh6aYoZjK9HoRHIH+DURt
+ Fu4Fd9BWAVwOWxYPz4GWMXbn+txSvSSBhT7OkYn7SxJI1OJWtLXJ13nhp8QmleynuJyI
+ QbRaCp9SMip8ICLBbs9EHTFg7o2vGxPk5Tu6+DGubNPYmK3dY7rb0XN57G3PpL3FC1O3
+ MuUAu465l97/KnOXcOrXthBv2YKIatlYQwXHkrsg2ZR7VB9WFAKiUVITvUaiR2ZrZcsv
+ b65A==
+X-Gm-Message-State: AFqh2krwqc1Pf7Bhr9scimFPXouVjzqaLqg6WT9by9D9rloVEM2H0YZK
+ mzCIQHAmhLydoPTUz8ICjauOXO5fpwerp0cx
+X-Google-Smtp-Source: AMrXdXutn9acx2Abb9jKlleMzX/a7PqpWRWGDL6NBeEQvyMICa5w6TtgvWFAZ/57QMT2yWaZXOy6sA==
+X-Received: by 2002:a05:600c:a29e:b0:3d9:ee01:ae5b with SMTP id
+ hu30-20020a05600ca29e00b003d9ee01ae5bmr13156308wmb.12.1674203078971; 
+ Fri, 20 Jan 2023 00:24:38 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- hg8-20020a05600c538800b003d974076f13sm1552992wmb.3.2023.01.20.00.24.32
+ o28-20020a05600c511c00b003dab40f9eafsm1611013wms.35.2023.01.20.00.24.37
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 20 Jan 2023 00:24:33 -0800 (PST)
+ Fri, 20 Jan 2023 00:24:38 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Paolo Bonzini <pbonzini@redhat.com>,
@@ -62,18 +62,18 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  qemu-arm@nongnu.org,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PATCH v3 10/11] tests/qtest/migration-test: Build command line using
- GString API (4/4)
-Date: Fri, 20 Jan 2023 09:23:40 +0100
-Message-Id: <20230120082341.59913-11-philmd@linaro.org>
+Subject: [PATCH v3 11/11] tests/qtest/migration-test: Only use available
+ accelerators
+Date: Fri, 20 Jan 2023 09:23:41 +0100
+Message-Id: <20230120082341.59913-12-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230120082341.59913-1-philmd@linaro.org>
 References: <20230120082341.59913-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,97 +96,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Part 4/4: Convert rest of options.
+For example, avoid when TCG is disabled:
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+  $ make check-qtest-aarch64
+  ...
+  20/20 qemu:qtest+qtest-aarch64 / qtest-aarch64/migration-test
+  qemu-system-aarch64: -accel tcg: invalid accelerator tcg
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/qtest/migration-test.c | 53 +++++++++++++++++-------------------
- 1 file changed, 25 insertions(+), 28 deletions(-)
+ tests/qtest/migration-test.c | 21 ++++++++++++++-------
+ 1 file changed, 14 insertions(+), 7 deletions(-)
 
 diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-index 1ed3505c91..e7786bcbc5 100644
+index e7786bcbc5..b0eaddbf5a 100644
 --- a/tests/qtest/migration-test.c
 +++ b/tests/qtest/migration-test.c
-@@ -585,8 +585,8 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-     g_autoptr(GString) cmd_common = NULL;
-     g_autofree gchar *arch_source = NULL;
-     g_autofree gchar *arch_target = NULL;
--    g_autofree gchar *cmd_target = NULL;
--    const gchar *ignore_stderr;
-+    g_autoptr(GString) cmd_target = NULL;
-+    const gchar *ignore_stderr = NULL;
-     g_autofree char *bootpath = NULL;
-     g_autofree char *shmem_path = NULL;
-     const char *arch = qtest_get_arch();
-@@ -666,12 +666,9 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-          * IO redirection does not work, so don't bother adding IO redirection
-          * to the command line.
-          */
--        ignore_stderr = "";
- #else
-         ignore_stderr = "2>/dev/null";
- #endif
+@@ -45,6 +45,8 @@
+ 
+ unsigned start_address;
+ unsigned end_address;
++static bool has_tcg;
++static bool has_kvm;
+ static bool uffd_feature_thread_id;
+ 
+ /*
+@@ -603,13 +605,16 @@ static int test_migrate_start(QTestState **from, QTestState **to,
+     got_stop = false;
+ 
+     cmd_common = g_string_new("");
+-    /* KVM first */
+-    if (args->use_dirty_ring) {
+-        g_string_append(cmd_common, "-accel kvm,dirty-ring-size=4096 ");
 -    } else {
--        ignore_stderr = "";
-     }
- 
-     if (args->use_shmem) {
-@@ -683,31 +680,31 @@ static int test_migrate_start(QTestState **from, QTestState **to,
-     }
- 
-     if (!args->only_target) {
--        g_autofree gchar *cmd_source = NULL;
--
--        cmd_source = g_strdup_printf("%s "
--                                     "-name source,debug-threads=on "
--                                     "-serial file:%s/src_serial "
--                                     "%s %s %s",
--                                     cmd_common->str,
--                                     tmpfs,
--                                     arch_source,
--                                     args->opts_source ? args->opts_source : "",
--                                     ignore_stderr);
--        *from = qtest_init(cmd_source);
-+        g_autoptr(GString) cmd_source = g_string_new(cmd_common->str);
-+        g_string_append(cmd_source, "-name source,debug-threads=on ");
-+        g_string_append_printf(cmd_source, "-serial file:%s/src_serial ", tmpfs);
-+        g_string_append_printf(cmd_source, "%s ", arch_source);
-+        if (args->opts_source) {
-+            g_string_append_printf(cmd_source, "%s ", args->opts_source);
+-        g_string_append(cmd_common, "-accel kvm ");
++    if (has_kvm) { /* KVM first */
++        if (args->use_dirty_ring) {
++            g_string_append(cmd_common, "-accel kvm,dirty-ring-size=4096 ");
++        } else {
++            g_string_append(cmd_common, "-accel kvm ");
 +        }
-+        if (ignore_stderr) {
-+            g_string_append(cmd_source, ignore_stderr); /* last string */
-+        }
-+        *from = qtest_init(cmd_source->str);
++    }
++    if (has_tcg) {
++        g_string_append(cmd_common, "-accel tcg ");
      }
+-    g_string_append(cmd_common, "-accel tcg ");
  
--    cmd_target = g_strdup_printf("%s "
--                                 "-name target,debug-threads=on "
--                                 "-serial file:%s/dest_serial "
--                                 "-incoming %s "
--                                 "%s %s %s",
--                                 cmd_common->str,
--                                 tmpfs, uri,
--                                 arch_target,
--                                 args->opts_target ? args->opts_target : "",
--                                 ignore_stderr);
--    *to = qtest_init(cmd_target);
-+    cmd_target = g_string_new(cmd_common->str);
-+    g_string_append(cmd_target, "-name target,debug-threads=on ");
-+    g_string_append_printf(cmd_target, "-serial file:%s/dest_serial ", tmpfs);
-+    g_string_append_printf(cmd_target, "-incoming %s ", uri);
-+    g_string_append_printf(cmd_target, "%s ", arch_target);
-+    if (args->opts_target) {
-+        g_string_append_printf(cmd_target, "%s ", args->opts_target);
-+    }
-+    if (ignore_stderr) {
-+        g_string_append(cmd_target, ignore_stderr); /* last string */
-+    }
-+    *to = qtest_init(cmd_target->str);
+     bootpath = g_strdup_printf("%s/bootsect", tmpfs);
+     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+@@ -2460,12 +2465,14 @@ static bool kvm_dirty_ring_supported(void)
+ 
+ int main(int argc, char **argv)
+ {
+-    const bool has_kvm = qtest_has_accel("kvm");
+     const bool has_uffd = ufd_version_check();
+     const char *arch = qtest_get_arch();
+     g_autoptr(GError) err = NULL;
+     int ret;
+ 
++    has_tcg = qtest_has_accel("tcg");
++    has_kvm = qtest_has_accel("kvm");
++
+     g_test_init(&argc, &argv, NULL);
  
      /*
-      * Remove shmem file immediately to avoid memory leak in test failed case.
 -- 
 2.38.1
 
