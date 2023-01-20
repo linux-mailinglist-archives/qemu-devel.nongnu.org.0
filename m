@@ -2,90 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2979E674E3D
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:41:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70C15674E45
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 08:42:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIm0V-00081i-An; Fri, 20 Jan 2023 02:40:15 -0500
+	id 1pIm0U-00080n-ND; Fri, 20 Jan 2023 02:40:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIm0S-0007yh-Pb
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:12 -0500
+ id 1pIm0T-0007yv-Cx
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:13 -0500
 Received: from esa5.hgst.iphmx.com ([216.71.153.144])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=37747d9ec=alistair.francis@opensource.wdc.com>)
- id 1pIm0Q-0004pk-Rx
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:12 -0500
+ id 1pIm0R-0004qg-Im
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 02:40:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1674200410; x=1705736410;
+ t=1674200411; x=1705736411;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=EKhIL3sB0YjS2Y3opUv91e1iD5x/vPCaXL4hCE6m1ms=;
- b=n2Y0e/CnFhC+/OpNTdrucEqYtdF3//doRNZ57RyZyusS7E5MYVsBFdHC
- e19IzDujkJQ03224qNuqKw8POrM4xlhKdqE3Vsru2B4M+S74hgYpvze3o
- l69vryYVej+m9CuauhUkJXL74FJKoWFrJJYli6NgArfCG+vUD1NYV3h48
- 9rD8A87Ja1ZIJKjfWXF+Ef7T5x1YRwJCmjIKF8LJMxDgxTdkuRj6wYH0g
- Pj4guHCYmod2dOYVewFHIMtjjPtttf/8gj/OIGVBIj1v/eMXr33SLHhqi
- ssur773EortXZXQpWLeeZwm+QSQTECZOPoHHP1dvbQ+43dWG09iDTxI/7 Q==;
-X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176709"
+ bh=xVaa9JYNmmkdEbD+oVQeErPcR9zJk0gv+SPzAgaeL0k=;
+ b=Kmwr475gMttCdmHOXPBRY9d8w/0duBm0+v5OWnZQ6Iik+aWWfrifRSKh
+ DcaTxba8pHMN0aMipBvrDImA8E+rPhDrkqTUE7GUpqlxcepmW6mWHkNke
+ yXBREhUhymglQE0f2vaYuaELvzJFX47Zg8OXscGSVsRKdyf0AtmXGN8oX
+ TWfYUzDVrS74UfoKeYtR2UJ+PXcGqaI0VbqsUWiTDfiNz1KvV+4IhU6Ct
+ 8IFrBEMu0a+JpMkE5B4u5CrGgvLl0qvhlk+FSvJ0q9V0BmPXpIjFvlhW+
+ QU3n0rUEjfqesK/SGgxOfzyJcxFc6VQ14zL10T9jvwJX8Lze38ux2SrpS Q==;
+X-IronPort-AV: E=Sophos;i="5.97,231,1669046400"; d="scan'208";a="221176714"
 Received: from h199-255-45-14.hgst.com (HELO uls-op-cesaep01.wdc.com)
  ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:39:53 +0800
-IronPort-SDR: 7q5KJdekQRl+iQPU3/IGl70yP7pijLzbPRpzK+WZYG+cR6IGZvvPXHqkvwOE7fc8fqBrt7/2om
- anpEcYCPT2f4ZdJXDAqFrfc5a//kpCMPHQBcSvC+aAEWyKc+sXWPkaVL3IhTHCF4/OS6w2sOb3
- 5xyVHvrS/6/KMx+1qOxPrGL/D7QlOFEZmAqbLtWAyAzlymD1pYzZjpa2IWMlExludVlt67W9KX
- 8Igc1CZAIcFTsYo05yoZ+z/Ph0HyE7CoM66KHzBHuVr0mOAJHj3GGZTs/Yrlo0VF9Y9vIoQRl1
- FSw=
+ by ob1.hgst.iphmx.com with ESMTP; 20 Jan 2023 15:39:55 +0800
+IronPort-SDR: mhOMJ0ykkgH9+xUvkVP9Ze4wXfUwYLu2SGJMokWrnl+YqxmAk8MoUK+WhElSNXSOaUwvHYLz2M
+ hInL2ubvcYKRZaZ5/lUwhVgFoI1z4tAzKdpi/wbLkbAvrfuCkoLpLuN+W5Stt/vJwQdw6s4S54
+ QVbnC19AcX5R/dF0GutdabMMeVWf4NFlPQu/Nyv7mvpTMUxVE7ohIxotQpo+X7kQCiYq57Tuy3
+ n+rnJ7t44hj+vb+aawZnoUvV/pNNwSUblV54ZENvwN5mPIW77ivuF9iBEFpTC1eDCLo8lAtX1y
+ WQE=
 Received: from uls-op-cesaip01.wdc.com ([10.248.3.36])
  by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 22:57:31 -0800
-IronPort-SDR: GBd6zQGGSiWvakYhRnLkyMbZl6O7cGJrJ0ziOIOx9+AI3t7ajBh2fbcU8ZN1uYdwVWmdGqbyRy
- 50YANw8yRXJhBikHAlSSYU/qvTxnRJxpudLVfusmrKabxdleglOkvuLCj16pXQkIzAo6sM4Z3Z
- Quh30bE6tmWaxdH5RYghiW6zbXzrU5yvhIP9m0mcVNxBKbuGD67GjHVHZidnlnW80V0h5HvNsO
- neBKgA18UoL9i3Ny3nzicUjUug8joR/3Iri/WmELnFAIt2b1X2AxrAs2R5cQrjmrLuhabVaP7A
- euE=
+ 19 Jan 2023 22:57:33 -0800
+IronPort-SDR: Q5cVTEjt/KFRRb/eFJ3Ou69yjtdYpfFyIyC4sB/79UgJC/Byn75qu5OI1weUyhtDwtvaZx22f2
+ bhX/RWbArJcy7eMsHKxAidTf+Y0+m2NyFCE5brAPad30nDGvC7cr9cszuNmrWEjSjkdyJy1thA
+ Yogs/d4lJKK/4mAVuQ/LHkRblXMqSXSsgBOqx7DtmsQfv3aNw+KgAol7FjvN17WlQ+mYBJIYTL
+ rcPeyG2qcyGmyuVVk1zuAd21lc9leKbAKvoQhXcTH+RWTOvfYxeyyG9pSupi8FDEigr829Nkpa
+ SiM=
 WDCIronportException: Internal
 Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
  by uls-op-cesaip01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 19 Jan 2023 23:39:53 -0800
+ 19 Jan 2023 23:39:55 -0800
 Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NyrxN688Lz1RwqL
- for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:39:52 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4NyrxR0nfwz1Rwtm
+ for <qemu-devel@nongnu.org>; Thu, 19 Jan 2023 23:39:55 -0800 (PST)
 Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
  reason="pass (just generated, assumed good)"
  header.d=opensource.wdc.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
  opensource.wdc.com; h=content-transfer-encoding:content-type
  :mime-version:references:in-reply-to:x-mailer:message-id:date
- :subject:to:from; s=dkim; t=1674200392; x=1676792393; bh=EKhIL3s
- B0YjS2Y3opUv91e1iD5x/vPCaXL4hCE6m1ms=; b=ccOexEEdSeWu6AkfaNnW3pb
- mZMUzzvkC0y/LvebgWIIqkMQH2oBY4AASCdKX8u7DP2F1kfEXIne9wWh2abrVY7n
- VkOe8WzJLX7pz8J4z8mnCbSPsjQTyR/xhmmX1FYdV6144H92mrxi5UWrfqM15LYE
- tiAYO5/7XKHg93V6GnVaHy7iKsmQ8sayG03b3h/dl3sjP1A6COJ8x8vPdfiZ94GL
- c2JaiiPy2G/FeUr8zFKzTrLsr5nqN3ZuOvKV8ixyP/6+7eeCoFcP1m9MrneMTUEq
- 0OE0qA4FOzHEcW8ikvlsKyMHgwHndf1SB6QDIdgQsmcA7oewFasW75V/Mjo5KvQ=
+ :subject:to:from; s=dkim; t=1674200394; x=1676792395; bh=xVaa9JY
+ NmmkdEbD+oVQeErPcR9zJk0gv+SPzAgaeL0k=; b=qH1uyp7hA04FPV+woZxs4/N
+ Rk5ZN9wLJIp6jQx6KerfVVAQy/dgacXKjjbvT/PrNOMzdAqqdFbESWjXVZs0utTI
+ ZNvsBgFEi0u2EhLQYuS/vPlBa+A+7MmCFZD4kK0CTQlRgJlGP8yWJA66ic2M6dSp
+ DNj9yFuWpFL1OsCpA5bt2XnTj92xLJC067SJjXrFQ+Eh1yzLa3X/8I/UQuP97A3p
+ 3DKlwo2aw+Z3Lv+wUbbst9f8Nw/h82Ma3HhUXfeidXObgGCYQmKFYtvBr0YIoEi5
+ mkhkQ6sDa2OXo1DBuHr2YNzorNoxp9KalCf7bZb5RX+wcwgmO8ccG/44qeGo0sQ=
  =
 X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
 Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
  by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id OShwcz4YQRxu for <qemu-devel@nongnu.org>;
- Thu, 19 Jan 2023 23:39:52 -0800 (PST)
+ port 10026) with ESMTP id W2SOokSYzzQi for <qemu-devel@nongnu.org>;
+ Thu, 19 Jan 2023 23:39:54 -0800 (PST)
 Received: from toolbox.wdc.com (unknown [10.225.167.38])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NyrxL56BBz1RvLy;
- Thu, 19 Jan 2023 23:39:50 -0800 (PST)
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4NyrxN54fVz1RvTp;
+ Thu, 19 Jan 2023 23:39:52 -0800 (PST)
 From: Alistair Francis <alistair.francis@opensource.wdc.com>
 To: qemu-devel@nongnu.org
 Cc: alistair23@gmail.com, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bmeng@tinylab.org>
-Subject: [PULL 15/37] hw/riscv/spike: use 'fdt' from MachineState
-Date: Fri, 20 Jan 2023 17:38:51 +1000
-Message-Id: <20230120073913.1028407-16-alistair.francis@opensource.wdc.com>
+Subject: [PULL 16/37] hw/riscv/sifive_u: use 'fdt' from MachineState
+Date: Fri, 20 Jan 2023 17:38:52 +1000
+Message-Id: <20230120073913.1028407-17-alistair.francis@opensource.wdc.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
 References: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
@@ -123,80 +124,99 @@ The MachineState object provides a 'fdt' pointer that is already being
 used by other RISC-V machines, and it's also used by the 'dumpdtb' QMP
 command.
 
-Remove the 'fdt' pointer from SpikeState and use MachineState::fdt
+Remove the 'fdt' pointer from SiFiveUState and use MachineState::fdt
 instead.
 
+Cc: Palmer Dabbelt <palmer@dabbelt.com>
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Bin Meng <bmeng@tinylab.org>
-Message-Id: <20230102115241.25733-3-dbarboza@ventanamicro.com>
+Message-Id: <20230102115241.25733-4-dbarboza@ventanamicro.com>
 Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- include/hw/riscv/spike.h |  2 --
- hw/riscv/spike.c         | 12 +++++-------
- 2 files changed, 5 insertions(+), 9 deletions(-)
+ include/hw/riscv/sifive_u.h |  3 ---
+ hw/riscv/sifive_u.c         | 15 ++++++---------
+ 2 files changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/include/hw/riscv/spike.h b/include/hw/riscv/spike.h
-index 73bf2a9aad..0c2a223763 100644
---- a/include/hw/riscv/spike.h
-+++ b/include/hw/riscv/spike.h
-@@ -37,8 +37,6 @@ struct SpikeState {
-=20
+diff --git a/include/hw/riscv/sifive_u.h b/include/hw/riscv/sifive_u.h
+index a67328f7ad..65af306963 100644
+--- a/include/hw/riscv/sifive_u.h
++++ b/include/hw/riscv/sifive_u.h
+@@ -69,9 +69,6 @@ typedef struct SiFiveUState {
      /*< public >*/
-     RISCVHartArrayState soc[SPIKE_SOCKETS_MAX];
+     SiFiveUSoCState soc;
+=20
 -    void *fdt;
 -    int fdt_size;
- };
-=20
- enum {
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index 1679c325d5..25c5420ee6 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -53,6 +53,7 @@ static void create_fdt(SpikeState *s, const MemMapEntry=
- *memmap,
-                        bool is_32_bit, bool htif_custom_base)
+-
+     bool start_in_flash;
+     uint32_t msel;
+     uint32_t serial;
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index a58ddb36ac..ddceb750ea 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -98,7 +98,7 @@ static void create_fdt(SiFiveUState *s, const MemMapEnt=
+ry *memmap,
  {
+     MachineState *ms =3D MACHINE(qdev_get_machine());
      void *fdt;
-+    int fdt_size;
-     uint64_t addr, size;
-     unsigned long clint_addr;
-     int cpu, socket;
-@@ -65,7 +66,7 @@ static void create_fdt(SpikeState *s, const MemMapEntry=
- *memmap,
-         "sifive,clint0", "riscv,clint0"
+-    int cpu;
++    int cpu, fdt_size;
+     uint32_t *cells;
+     char *nodename;
+     uint32_t plic_phandle, prci_phandle, gpio_phandle, phandle =3D 1;
+@@ -112,14 +112,14 @@ static void create_fdt(SiFiveUState *s, const MemMa=
+pEntry *memmap,
      };
 =20
--    fdt =3D s->fdt =3D create_device_tree(&s->fdt_size);
-+    fdt =3D mc->fdt =3D create_device_tree(&fdt_size);
-     if (!fdt) {
-         error_report("create_device_tree() failed");
-         exit(1);
-@@ -327,18 +328,15 @@ static void spike_board_init(MachineState *machine)
-         hwaddr end =3D riscv_load_initrd(machine->initrd_filename,
-                                        machine->ram_size, kernel_entry,
-                                        &start);
--        qemu_fdt_setprop_cell(s->fdt, "/chosen",
-+        qemu_fdt_setprop_cell(machine->fdt, "/chosen",
-                               "linux,initrd-start", start);
--        qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
-+        qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd-end=
-",
-                               end);
-     }
+     if (ms->dtb) {
+-        fdt =3D s->fdt =3D load_device_tree(ms->dtb, &s->fdt_size);
++        fdt =3D ms->fdt =3D load_device_tree(ms->dtb, &fdt_size);
+         if (!fdt) {
+             error_report("load_device_tree() failed");
+             exit(1);
+         }
+         goto update_bootargs;
+     } else {
+-        fdt =3D s->fdt =3D create_device_tree(&s->fdt_size);
++        fdt =3D ms->fdt =3D create_device_tree(&fdt_size);
+         if (!fdt) {
+             error_report("create_device_tree() failed");
+             exit(1);
+@@ -612,9 +612,9 @@ static void sifive_u_machine_init(MachineState *machi=
+ne)
+             hwaddr end =3D riscv_load_initrd(machine->initrd_filename,
+                                            machine->ram_size, kernel_ent=
+ry,
+                                            &start);
+-            qemu_fdt_setprop_cell(s->fdt, "/chosen",
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen",
+                                   "linux,initrd-start", start);
+-            qemu_fdt_setprop_cell(s->fdt, "/chosen", "linux,initrd-end",
++            qemu_fdt_setprop_cell(machine->fdt, "/chosen", "linux,initrd=
+-end",
+                                   end);
+         }
+     } else {
+@@ -627,14 +627,11 @@ static void sifive_u_machine_init(MachineState *mac=
+hine)
 =20
      /* Compute the fdt load address in dram */
-     fdt_load_addr =3D riscv_load_fdt(memmap[SPIKE_DRAM].base,
+     fdt_load_addr =3D riscv_load_fdt(memmap[SIFIVE_U_DEV_DRAM].base,
 -                                   machine->ram_size, s->fdt);
--
++                                   machine->ram_size, machine->fdt);
+     if (!riscv_is_32bit(&s->soc.u_cpus)) {
+         start_addr_hi32 =3D (uint64_t)start_addr >> 32;
+     }
+=20
 -    /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
 -    machine->fdt =3D s->fdt;
-+                                   machine->ram_size, machine->fdt);
-=20
-     /* load the reset vector */
-     riscv_setup_rom_reset_vec(machine, &s->soc[0], memmap[SPIKE_DRAM].ba=
-se,
+-
+     /* reset vector */
+     uint32_t reset_vec[12] =3D {
+         s->msel,                       /* MSEL pin state */
 --=20
 2.39.0
 
