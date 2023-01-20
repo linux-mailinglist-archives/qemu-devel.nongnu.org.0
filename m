@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E157C6755B2
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:23:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D57F6755BD
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:25:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIrDW-0006Wd-Q2; Fri, 20 Jan 2023 08:14:03 -0500
+	id 1pIrHI-0002Ah-DF; Fri, 20 Jan 2023 08:17:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+010e331da30354bf639d+7089+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pIrDS-0006W0-RA
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:13:58 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+010e331da30354bf639d+7089+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pIrDQ-0000fZ-8C
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:13:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=hfPuvCj4GqDF20EkvMsDiaYFmdb98q3548EQxMuuUjM=; b=a/1AVPhUAb14kl190VttI+Nuhu
- x0EcoM6XAYjykAnAA4+4UUwzmjoCDJWroR+AFVjC8EuCQZSxIuAGwKTKx5+zuKyzRlUF3KEqWzSyA
- ZxXKFpRuVoZVYXu6Jc4T2NpXqTsXge4Jp47HsIvHkmq/GRBVv1H8h1fECvCTSDtP6x6J12CVk0tmd
- VHbV0DL727Im1H9EGr9nS4ccNl+XM6eS0ZOqytrrbjbwOR+urPNpFnhST9xsidyS9/TKszwEKk85B
- 7s7wq7JJu48fxRvSETeBJOExIf/rhS6FOhZZ58GRwABakj0tOXNCuXAyAClIdB7lgxeyEWugu8JtA
- N2Y9ZwHw==;
-Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pIrDK-001yFf-PM; Fri, 20 Jan 2023 13:13:51 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pIrDK-0063H5-2V; Fri, 20 Jan 2023 13:13:50 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [PATCH v8 58/58] kvm/i386: Add xen-evtchn-max-pirq property
-Date: Fri, 20 Jan 2023 13:13:43 +0000
-Message-Id: <20230120131343.1441939-59-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230120131343.1441939-1-dwmw2@infradead.org>
-References: <20230120131343.1441939-1-dwmw2@infradead.org>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pIrGv-00024C-20
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:17:33 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pIrGt-0001eb-BL
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:17:32 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ z4-20020a17090a170400b00226d331390cso4846010pjd.5
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 05:17:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=HBT+OLN8IlDrIm2y8D70zfRqpjRm6ATv3g3CGJjJZyI=;
+ b=At4J6+uSlHAae0xSY8HB2FDCH0rmp5cvvnAH3bd3oTJIb0Ms9QYgvCN8tKD2/4ZXMT
+ 5zRFPrWnA32W29Ua7qNXRHD81ljuxq0z7pznBZSm+G6aBqKTrq50E0rfMtFtoCyD9gAP
+ e+At/MAMAshpuM+vjnlsuWCnnqpNppPgbXTZiIRStb1HXIvrpeK7a60uokH4T2VZRDeJ
+ yrSiOdBphqaLw95A8tyoSeX6qpk7RQtb5LWjmuODDItJ4+ULwHuqgNYWsGzEHSvKnMdC
+ 8axnD1hpVJd2EZLy+G7tpT/tZzq98aEmwd8AdYxYgKK1stVK2olWcnoMaeIL/CERJAsx
+ 1wWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HBT+OLN8IlDrIm2y8D70zfRqpjRm6ATv3g3CGJjJZyI=;
+ b=I9FttMMrAeQJMv5qRWn3IJqDXF9R1VtywSfuFtR3Q3kEB4V94LlQONvdHHgk9akh4x
+ trHQMXHr0HAJU9qGuWbOubtd7HCjciYG0+DX3Wa172q4x7YosSFYiwoY3Z0fN5Hh581U
+ tTp4ZxImJayYFFJIIydqhu9vLl+KW4Q6GnB1w1leMfknVXVpnlOpqkEfE0/ICSX1awRP
+ yx7lh4nKVQIMsd2maSIkpvcKCZbHIecXnR/rZfeOz2BXBRd4VkgDxWZ1dRc00AU/RsiW
+ 9bxGHsEXyKhIQvrMAnlPZRpsVjfFDxTc1FjPyJ2EFuxPUeO5d+IaBhifT1wN2kme6H88
+ CH6Q==
+X-Gm-Message-State: AFqh2kp6Lb3NK/xX7GffxZvfDoV6W1FOhFUcOkMhTJ4Is7CswkrGrubg
+ j9hPUncjbiGj3syyMs0RwHG/+GJ/lhT7IiS/xIutxg==
+X-Google-Smtp-Source: AMrXdXu3p3PYBOKnfBpMcxJ+2vLyudtFS7olmTiOUX4K/HMzqfzazja89SZU+BQmRswp4z1pG8vzuawZlzrI9hVPEcs=
+X-Received: by 2002:a17:902:f7d6:b0:189:7bfe:1eb5 with SMTP id
+ h22-20020a170902f7d600b001897bfe1eb5mr1592246plw.9.1674220649697; Fri, 20 Jan
+ 2023 05:17:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+010e331da30354bf639d+7089+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20230119132713.3493556-1-armbru@redhat.com>
+In-Reply-To: <20230119132713.3493556-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 20 Jan 2023 13:17:18 +0000
+Message-ID: <CAFEAcA-cWY7vtSYZ7k85FkeRn_bdA_aKb+nu_hf5eeMSp+CDiQ@mail.gmail.com>
+Subject: Re: [PULL 00/17] Monitor patches for 2023-01-19
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1030.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,160 +83,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+On Thu, 19 Jan 2023 at 13:27, Markus Armbruster <armbru@redhat.com> wrote:
+>
+> The following changes since commit 7ec8aeb6048018680c06fb9205c01ca6bda08846:
+>
+>   Merge tag 'pull-tpm-2023-01-17-1' of https://github.com/stefanberger/qemu-tpm into staging (2023-01-17 15:47:53 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://repo.or.cz/qemu/armbru.git tags/pull-monitor-2023-01-19
+>
+> for you to fetch changes up to a0506b7c8fc72f7bca272647f359d76cc40a02c1:
+>
+>   ui: Simplify control flow in qemu_mouse_set() (2023-01-19 13:30:01 +0100)
+>
+> ----------------------------------------------------------------
+> Monitor patches for 2023-01-19
+>
+> ----------------------------------------------------------------
 
-The default number of PIRQs is set to 256 to avoid issues with 32-bit MSI
-devices. Allow it to be increased if the user desires.
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
----
- accel/kvm/kvm-all.c       |  1 +
- hw/i386/kvm/xen_evtchn.c  | 21 +++++++++++----------
- include/sysemu/kvm_int.h  |  1 +
- include/sysemu/kvm_xen.h  |  1 +
- target/i386/kvm/kvm.c     | 34 ++++++++++++++++++++++++++++++++++
- target/i386/kvm/xen-emu.c |  6 ++++++
- 6 files changed, 54 insertions(+), 10 deletions(-)
+Applied, thanks.
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 9c0c964296..69be2b6e02 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -3705,6 +3705,7 @@ static void kvm_accel_instance_init(Object *obj)
-     s->notify_window = 0;
-     s->xen_version = 0;
-     s->xen_gnttab_max_frames = 64;
-+    s->xen_evtchn_max_pirq = 256;
- }
- 
- /**
-diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index 297fb6aab4..17a88823d6 100644
---- a/hw/i386/kvm/xen_evtchn.c
-+++ b/hw/i386/kvm/xen_evtchn.c
-@@ -301,17 +301,18 @@ void xen_evtchn_create(void)
-     }
- 
-     /*
--     * We could parameterise the number of PIRQs available if needed,
--     * but for now limit it to 256. The Xen scheme for encoding PIRQ#
--     * into an MSI message is not compatible with 32-bit MSI, as it
--     * puts the high bits of the PIRQ# into the high bits of the MSI
--     * message address, instead of using the Extended Destination ID
--     * in address bits 4-11 which perhaps would have been a better
--     * choice. So to keep life simple, just stick with 256 as the
--     * default, which conveniently doesn't need to set anything
--     * outside the low 32 bits of the address.
-+     * The Xen scheme for encoding PIRQ# into an MSI message is not
-+     * compatible with 32-bit MSI, as it puts the high bits of the
-+     * PIRQ# into the high bits of the MSI message address, instead of
-+     * using the Extended Destination ID in address bits 4-11 which
-+     * perhaps would have been a better choice.
-+     *
-+     * To keep life simple, kvm_accel_instance_init() initialises the
-+     * default to 256. which conveniently doesn't need to set anything
-+     * outside the low 32 bits of the address. It can be increased by
-+     * setting the xen-evtchn-max-pirq property.
-      */
--    s->nr_pirqs = 256;
-+    s->nr_pirqs = kvm_xen_get_evtchn_max_pirq();
- 
-     s->nr_pirq_inuse_words = DIV_ROUND_UP(s->nr_pirqs, 64);
-     s->pirq_inuse_bitmap = g_new0(uint64_t, s->nr_pirq_inuse_words);
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index 39ce4d36f6..a641c974ea 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -121,6 +121,7 @@ struct KVMState
-     uint32_t xen_version;
-     uint32_t xen_caps;
-     uint16_t xen_gnttab_max_frames;
-+    uint16_t xen_evtchn_max_pirq;
- };
- 
- void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
-diff --git a/include/sysemu/kvm_xen.h b/include/sysemu/kvm_xen.h
-index 0b63bb81df..400aaa1490 100644
---- a/include/sysemu/kvm_xen.h
-+++ b/include/sysemu/kvm_xen.h
-@@ -26,6 +26,7 @@ void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type);
- void kvm_xen_set_callback_asserted(void);
- int kvm_xen_set_vcpu_virq(uint32_t vcpu_id, uint16_t virq, uint16_t port);
- uint16_t kvm_xen_get_gnttab_max_frames(void);
-+uint16_t kvm_xen_get_evtchn_max_pirq(void);
- 
- #define kvm_xen_has_cap(cap) (!!(kvm_xen_get_caps() &           \
-                                  KVM_XEN_HVM_CONFIG_ ## cap))
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index d2578a2f05..bba81d8a4d 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -5906,6 +5906,33 @@ static void kvm_arch_set_xen_gnttab_max_frames(Object *obj, Visitor *v,
-     s->xen_gnttab_max_frames = value;
- }
- 
-+static void kvm_arch_get_xen_evtchn_max_pirq(Object *obj, Visitor *v,
-+                                             const char *name, void *opaque,
-+                                             Error **errp)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+    uint16_t value = s->xen_evtchn_max_pirq;
-+
-+    visit_type_uint16(v, name, &value, errp);
-+}
-+
-+static void kvm_arch_set_xen_evtchn_max_pirq(Object *obj, Visitor *v,
-+                                             const char *name, void *opaque,
-+                                             Error **errp)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+    Error *error = NULL;
-+    uint16_t value;
-+
-+    visit_type_uint16(v, name, &value, &error);
-+    if (error) {
-+        error_propagate(errp, error);
-+        return;
-+    }
-+
-+    s->xen_evtchn_max_pirq = value;
-+}
-+
- void kvm_arch_accel_class_init(ObjectClass *oc)
- {
-     object_class_property_add_enum(oc, "notify-vmexit", "NotifyVMexitOption",
-@@ -5938,6 +5965,13 @@ void kvm_arch_accel_class_init(ObjectClass *oc)
-                               NULL, NULL);
-     object_class_property_set_description(oc, "xen-gnttab-max-frames",
-                                           "Maximum number of grant table frames");
-+
-+    object_class_property_add(oc, "xen-evtchn-max-pirq", "uint16",
-+                              kvm_arch_get_xen_evtchn_max_pirq,
-+                              kvm_arch_set_xen_evtchn_max_pirq,
-+                              NULL, NULL);
-+    object_class_property_set_description(oc, "xen-evtchn-max-pirq",
-+                                          "Maximum number of Xen PIRQs");
- }
- 
- void kvm_set_max_apic_id(uint32_t max_apic_id)
-diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index de1aadc736..19875d92b8 100644
---- a/target/i386/kvm/xen-emu.c
-+++ b/target/i386/kvm/xen-emu.c
-@@ -1729,6 +1729,12 @@ uint16_t kvm_xen_get_gnttab_max_frames(void)
-     return s->xen_gnttab_max_frames;
- }
- 
-+uint16_t kvm_xen_get_evtchn_max_pirq(void)
-+{
-+    KVMState *s = KVM_STATE(current_accel());
-+    return s->xen_evtchn_max_pirq;
-+}
-+
- int kvm_put_xen_state(CPUState *cs)
- {
-     X86CPU *cpu = X86_CPU(cs);
--- 
-2.39.0
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
+-- PMM
 
