@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0EEB67556B
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:18:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92306675595
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:20:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIrFk-0002oE-HZ; Fri, 20 Jan 2023 08:16:21 -0500
+	id 1pIrDv-0006ny-GG; Fri, 20 Jan 2023 08:14:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+11ac54132413ad4eaace+7089+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pIrDv-0006rx-Ee
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:14:27 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ <BATV+010e331da30354bf639d+7089+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pIrDq-0006ld-V2
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:14:22 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+11ac54132413ad4eaace+7089+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pIrDq-0000g8-Aa
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:14:27 -0500
+ <BATV+010e331da30354bf639d+7089+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pIrDa-0000ig-Jg
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:14:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=UCRArWHMuTPk0puFz+mOh2TRt/4JH9cPkzAK5VfYaws=; b=eyUArrwV+aULCfwOeohzr9AZi2
- gCcBvbPQ5lacv73Yab9/kFpe2Cr2R571bjv2LMJRpfSshaY0tfXSg9bOfmTjLp9+O8E5jrDJ/1G1K
- n8GiBvaDqvHqdJKUKxdv0IdWQ83ZB1PEu6VSL9mGSnJ2/P/p4hszQpNJL/MCg94G0LersCLZTQFwE
- Yv6wBwDz+2Acg4C4t/bqNz0UOaNInEIxsyBc1rR0Z7yIBP1Hn6ovhjSsaGN6gI9heUCyqhanpCYK4
- VRFmzNbZC6oipYDH5kzrqMCdzkdwChcAU03dB7QfFVtp89ane8iyRnBwrqsPQOq3ZxUh1//eA/4cb
- OEe1Mw3A==;
+ bh=GrNxIYc/xh9enjbmHYKfSXLXpIo1GkuYE+r2yAPDaMw=; b=AVLP+Iz2VdsZdKdjSmYZ2Fc02E
+ QHBUvcjWwEQrMUmbp/l7Tu1REVSN06RcINl7Evgtk8zLjkAOcn0HUbd0BwdAkGPe7fdaHHAu0FV6l
+ ESA4DF0pR+30ZmFc+6hMqu9497INY7DaeLjnGl4uxZEK5Z3RtP9CJZDDd52fhFTorUX5/PsYqltfi
+ vF4okop49BTdP8Fb2yE/QvcfQskCKMXsVvA6LuhLtCC+CFUurLHyAG2Ck0KhQlNXW2TtRxZ/uwy92
+ J54RSk/jxXnihROHgl4Je5ZdTQ15DPOJtaBmm1RECo1vIF2X6OeJCcSVeUrL2UzTOIHpBgW6mmPv9
+ U8Oc7d6g==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pIrCr-000dfD-1C; Fri, 20 Jan 2023 13:13:21 +0000
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pIrDJ-001yF7-GF; Fri, 20 Jan 2023 13:13:50 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pIrDJ-0063FC-1T; Fri, 20 Jan 2023 13:13:49 +0000
+ Linux)) id 1pIrDJ-0063FG-1f; Fri, 20 Jan 2023 13:13:49 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -49,19 +49,20 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [PATCH v8 37/58] hw/xen: Implement EVTCHNOP_reset
-Date: Fri, 20 Jan 2023 13:13:22 +0000
-Message-Id: <20230120131343.1441939-38-dwmw2@infradead.org>
+Subject: [PATCH v8 38/58] i386/xen: add monitor commands to test event
+ injection
+Date: Fri, 20 Jan 2023 13:13:23 +0000
+Message-Id: <20230120131343.1441939-39-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230120131343.1441939-1-dwmw2@infradead.org>
 References: <20230120131343.1441939-1-dwmw2@infradead.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+11ac54132413ad4eaace+7089+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+010e331da30354bf639d+7089+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -84,117 +85,347 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+From: Joao Martins <joao.m.martins@oracle.com>
 
+Specifically add listing, injection of event channels.
+
+Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- hw/i386/kvm/xen_evtchn.c  | 29 +++++++++++++++++++++++++++++
- hw/i386/kvm/xen_evtchn.h  |  3 +++
- target/i386/kvm/xen-emu.c | 17 +++++++++++++++++
- 3 files changed, 49 insertions(+)
+ hmp-commands.hx          |  29 +++++++++
+ hw/i386/kvm/xen_evtchn.c | 137 +++++++++++++++++++++++++++++++++++++++
+ include/monitor/hmp.h    |   2 +
+ qapi/misc-target.json    | 116 +++++++++++++++++++++++++++++++++
+ 4 files changed, 284 insertions(+)
 
+diff --git a/hmp-commands.hx b/hmp-commands.hx
+index 673e39a697..fd77c432c0 100644
+--- a/hmp-commands.hx
++++ b/hmp-commands.hx
+@@ -1815,3 +1815,32 @@ SRST
+   Dump the FDT in dtb format to *filename*.
+ ERST
+ #endif
++
++#if defined(CONFIG_XEN_EMU)
++    {
++        .name       = "xen-event-inject",
++        .args_type  = "port:i",
++        .params     = "port",
++        .help       = "inject event channel",
++        .cmd        = hmp_xen_event_inject,
++    },
++
++SRST
++``xen-event-inject`` *port*
++  Notify guest via event channel on port *port*.
++ERST
++
++
++    {
++        .name       = "xen-event-list",
++        .args_type  = "",
++        .params     = "",
++        .help       = "list event channel state",
++        .cmd        = hmp_xen_event_list,
++    },
++
++SRST
++``xen-event-list``
++  List event channels in the guest
++ERST
++#endif
 diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index e4535e14e8..bf4e3c61a8 100644
+index bf4e3c61a8..5fdb301f54 100644
 --- a/hw/i386/kvm/xen_evtchn.c
 +++ b/hw/i386/kvm/xen_evtchn.c
-@@ -745,6 +745,35 @@ static int close_port(XenEvtchnState *s, evtchn_port_t port)
-     return 0;
+@@ -14,7 +14,11 @@
+ #include "qemu/module.h"
+ #include "qemu/main-loop.h"
+ #include "qemu/log.h"
++#include "monitor/monitor.h"
++#include "monitor/hmp.h"
+ #include "qapi/error.h"
++#include "qapi/qapi-commands-misc-target.h"
++#include "qapi/qmp/qdict.h"
+ #include "qom/object.h"
+ #include "exec/target_page.h"
+ #include "exec/address-spaces.h"
+@@ -1066,3 +1070,136 @@ int xen_evtchn_send_op(struct evtchn_send *send)
+     return ret;
  }
  
-+int xen_evtchn_soft_reset(void)
++EvtchnInfoList *qmp_xen_event_list(Error **errp)
 +{
 +    XenEvtchnState *s = xen_evtchn_singleton;
++    EvtchnInfoList *head = NULL, **tail = &head;
++    void *shinfo, *pending, *mask;
 +    int i;
 +
 +    if (!s) {
-+        return -ENOTSUP;
++        error_setg(errp, "Xen event channel emulation not enabled");
++        return NULL;
 +    }
 +
-+    assert(qemu_mutex_iothread_locked());
++    shinfo = xen_overlay_get_shinfo_ptr();
++    if (!shinfo) {
++        error_setg(errp, "Xen shared info page not allocated");
++        return NULL;
++    }
++
++    if (xen_is_long_mode()) {
++        pending = shinfo + offsetof(struct shared_info, evtchn_pending);
++        mask = shinfo + offsetof(struct shared_info, evtchn_mask);
++    } else {
++        pending = shinfo + offsetof(struct compat_shared_info, evtchn_pending);
++        mask = shinfo + offsetof(struct compat_shared_info, evtchn_mask);
++    }
 +
 +    QEMU_LOCK_GUARD(&s->port_lock);
 +
 +    for (i = 0; i < s->nr_ports; i++) {
-+        close_port(s, i);
-+    }
++        XenEvtchnPort *p = &s->port_table[i];
++        EvtchnInfo *info;
 +
-+    return 0;
-+}
-+
-+int xen_evtchn_reset_op(struct evtchn_reset *reset)
-+{
-+    if (reset->dom != DOMID_SELF && reset->dom != xen_domid) {
-+        return -ESRCH;
-+    }
-+
-+    return xen_evtchn_soft_reset();
-+}
-+
- int xen_evtchn_close_op(struct evtchn_close *close)
- {
-     XenEvtchnState *s = xen_evtchn_singleton;
-diff --git a/hw/i386/kvm/xen_evtchn.h b/hw/i386/kvm/xen_evtchn.h
-index 486b031c82..5d3e03553f 100644
---- a/hw/i386/kvm/xen_evtchn.h
-+++ b/hw/i386/kvm/xen_evtchn.h
-@@ -13,6 +13,7 @@
- #define QEMU_XEN_EVTCHN_H
- 
- void xen_evtchn_create(void);
-+int xen_evtchn_soft_reset(void);
- int xen_evtchn_set_callback_param(uint64_t param);
- 
- struct evtchn_status;
-@@ -24,6 +25,7 @@ struct evtchn_send;
- struct evtchn_alloc_unbound;
- struct evtchn_bind_interdomain;
- struct evtchn_bind_vcpu;
-+struct evtchn_reset;
- int xen_evtchn_status_op(struct evtchn_status *status);
- int xen_evtchn_close_op(struct evtchn_close *close);
- int xen_evtchn_unmask_op(struct evtchn_unmask *unmask);
-@@ -33,5 +35,6 @@ int xen_evtchn_send_op(struct evtchn_send *send);
- int xen_evtchn_alloc_unbound_op(struct evtchn_alloc_unbound *alloc);
- int xen_evtchn_bind_interdomain_op(struct evtchn_bind_interdomain *interdomain);
- int xen_evtchn_bind_vcpu_op(struct evtchn_bind_vcpu *vcpu);
-+int xen_evtchn_reset_op(struct evtchn_reset *reset);
- 
- #endif /* QEMU_XEN_EVTCHN_H */
-diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index ed8ede6e3f..4283663fd4 100644
---- a/target/i386/kvm/xen-emu.c
-+++ b/target/i386/kvm/xen-emu.c
-@@ -961,6 +961,18 @@ static bool kvm_xen_hcall_evtchn_op(struct kvm_xen_exit *exit, X86CPU *cpu,
-         err = xen_evtchn_bind_vcpu_op(&vcpu);
-         break;
-     }
-+    case EVTCHNOP_reset: {
-+        struct evtchn_reset reset;
-+
-+        qemu_build_assert(sizeof(reset) == 2);
-+        if (kvm_copy_from_gva(cs, arg, &reset, sizeof(reset))) {
-+            err = -EFAULT;
-+            break;
++        if (p->type == EVTCHNSTAT_closed) {
++            continue;
 +        }
 +
-+        err = xen_evtchn_reset_op(&reset);
-+        break;
-+    }
-     default:
-         return false;
-     }
-@@ -978,6 +990,11 @@ int kvm_xen_soft_reset(void)
- 
-     trace_kvm_xen_soft_reset();
- 
-+    err = xen_evtchn_soft_reset();
-+    if (err) {
-+            return err;
++        info = g_new0(EvtchnInfo, 1);
++
++        info->port = i;
++        qemu_build_assert(EVTCHN_PORT_TYPE_CLOSED == EVTCHNSTAT_closed);
++        qemu_build_assert(EVTCHN_PORT_TYPE_UNBOUND == EVTCHNSTAT_unbound);
++        qemu_build_assert(EVTCHN_PORT_TYPE_INTERDOMAIN == EVTCHNSTAT_interdomain);
++        qemu_build_assert(EVTCHN_PORT_TYPE_PIRQ == EVTCHNSTAT_pirq);
++        qemu_build_assert(EVTCHN_PORT_TYPE_VIRQ == EVTCHNSTAT_virq);
++        qemu_build_assert(EVTCHN_PORT_TYPE_IPI == EVTCHNSTAT_ipi);
++
++        info->type = p->type;
++        if (p->type == EVTCHNSTAT_interdomain) {
++            info->remote_domain = g_strdup((p->type_val & PORT_INFO_TYPEVAL_REMOTE_QEMU) ?
++                                           "qemu" : "loopback");
++            info->target = p->type_val & PORT_INFO_TYPEVAL_REMOTE_PORT_MASK;
++        } else {
++            info->target = p->type_val;
++        }
++        info->vcpu = p->vcpu;
++        info->pending = test_bit(i, pending);
++        info->masked = test_bit(i, mask);
++
++        QAPI_LIST_APPEND(tail, info);
 +    }
 +
-     /*
-      * Zero is the reset/startup state for HVM_PARAM_CALLBACK_IRQ. Strictly,
-      * it maps to HVM_PARAM_CALLBACK_TYPE_GSI with GSI#0, but Xen refuses to
++    return head;
++}
++
++void qmp_xen_event_inject(uint32_t port, Error **errp)
++{
++    XenEvtchnState *s = xen_evtchn_singleton;
++
++    if (!s) {
++        error_setg(errp, "Xen event channel emulation not enabled");
++        return;
++    }
++
++    if (!valid_port(port)) {
++        error_setg(errp, "Invalid port %u", port);
++    }
++
++    QEMU_LOCK_GUARD(&s->port_lock);
++
++    if (set_port_pending(s, port)) {
++        error_setg(errp, "Failed to set port %u", port);
++        return;
++    }
++}
++
++void hmp_xen_event_list(Monitor *mon, const QDict *qdict)
++{
++    EvtchnInfoList *iter, *info_list;
++    Error *err = NULL;
++
++    info_list = qmp_xen_event_list(&err);
++    if (err) {
++        hmp_handle_error(mon, err);
++        return;
++    }
++
++    for (iter = info_list; iter; iter = iter->next) {
++        EvtchnInfo *info = iter->value;
++
++        monitor_printf(mon, "port %4lu: vcpu: %ld %s", info->port, info->vcpu,
++                       EvtchnPortType_str(info->type));
++        if (info->type != EVTCHN_PORT_TYPE_IPI) {
++            monitor_printf(mon,  "(");
++            if (info->remote_domain) {
++                monitor_printf(mon, "%s:", info->remote_domain);
++            }
++            monitor_printf(mon, "%ld)", info->target);
++        }
++        if (info->pending) {
++            monitor_printf(mon, " PENDING");
++        }
++        if (info->masked) {
++            monitor_printf(mon, " MASKED");
++        }
++        monitor_printf(mon, "\n");
++    }
++
++    qapi_free_EvtchnInfoList(info_list);
++}
++
++void hmp_xen_event_inject(Monitor *mon, const QDict *qdict)
++{
++    int port = qdict_get_int(qdict, "port");
++    Error *err = NULL;
++
++    qmp_xen_event_inject(port, &err);
++    if (err) {
++        hmp_handle_error(mon, err);
++    } else {
++        monitor_printf(mon, "Delivered port %d\n", port);
++    }
++}
++
+diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
+index 27f86399f7..ba1e6e8c2e 100644
+--- a/include/monitor/hmp.h
++++ b/include/monitor/hmp.h
+@@ -101,6 +101,8 @@ void hmp_virtio_status(Monitor *mon, const QDict *qdict);
+ void hmp_virtio_queue_status(Monitor *mon, const QDict *qdict);
+ void hmp_vhost_queue_status(Monitor *mon, const QDict *qdict);
+ void hmp_virtio_queue_element(Monitor *mon, const QDict *qdict);
++void hmp_xen_event_inject(Monitor *mon, const QDict *qdict);
++void hmp_xen_event_list(Monitor *mon, const QDict *qdict);
+ void object_add_completion(ReadLineState *rs, int nb_args, const char *str);
+ void object_del_completion(ReadLineState *rs, int nb_args, const char *str);
+ void device_add_completion(ReadLineState *rs, int nb_args, const char *str);
+diff --git a/qapi/misc-target.json b/qapi/misc-target.json
+index 5b6a8e9185..652e6e0b37 100644
+--- a/qapi/misc-target.json
++++ b/qapi/misc-target.json
+@@ -380,3 +380,119 @@
+ #
+ ##
+ { 'command': 'query-sgx-capabilities', 'returns': 'SGXInfo', 'if': 'TARGET_I386' }
++
++
++##
++# @EvtchnPortType:
++#
++# An enumeration of Xen event channel port types.
++#
++# @closed: The port is unused.
++#
++# @unbound: The port is allocated and ready to be bound.
++#
++# @interdomain: The port is connected as an interdomain interrupt.
++#
++# @pirq: The port is bound to a physical IRQ (PIRQ).
++#
++# @virq: The port is bound to a virtual IRQ (VIRQ).
++#
++# @ipi: The post is an inter-processor interrupt (IPI).
++#
++# Since: 8.0.0
++##
++{ 'enum': 'EvtchnPortType',
++  'data': ['closed', 'unbound', 'interdomain', 'pirq', 'virq', 'ipi'],
++  'if': 'TARGET_I386' }
++
++##
++# @EvtchnInfo:
++#
++# Information about a Xen event channel port
++#
++# @port: the port number
++#
++# @vcpu: target vCPU for this port
++#
++# @type: the port type
++#
++# @remote-domain: remote domain for interdomain ports
++#
++# @target: remote port ID, or virq/pirq number
++#
++# @pending: port is currently active pending delivery
++#
++# @masked: port is masked
++#
++# Since: 8.0.0
++##
++{ 'struct': 'EvtchnInfo',
++  'data': {'port': 'int',
++           'vcpu': 'int',
++           'type': 'EvtchnPortType',
++           'remote-domain': 'str',
++           'target': 'int',
++           'pending': 'bool',
++           'masked': 'bool'},
++  'if': 'TARGET_I386' }
++
++
++##
++# @xen-event-list:
++#
++# Query the Xen event channels opened by the guest.
++#
++# Returns: list of open event channel ports.
++#
++# Since: 8.0.0
++#
++# Example:
++#
++# -> { "execute": "xen-event-list" }
++# <- { "return": [
++#         {
++#             "pending": false,
++#             "port": 1,
++#             "vcpu": 1,
++#             "remote-domain": "qemu",
++#             "masked": false,
++#             "type": "interdomain",
++#             "target": 1
++#         },
++#         {
++#             "pending": false,
++#             "port": 2,
++#             "vcpu": 0,
++#             "remote-domain": "",
++#             "masked": false,
++#             "type": "virq",
++#             "target": 0
++#         }
++#      ]
++#    }
++#
++##
++{ 'command': 'xen-event-list',
++  'returns': ['EvtchnInfo'],
++  'if': 'TARGET_I386' }
++
++##
++# @xen-event-inject:
++#
++# Inject a Xen event channel port (interrupt) to the guest.
++#
++# @port: The port number
++#
++# Returns: - Nothing on success.
++#
++# Since: 8.0.0
++#
++# Example:
++#
++# -> { "execute": "xen-event-inject", "arguments": { "port": 1 } }
++# <- { "return": { } }
++#
++##
++{ 'command': 'xen-event-inject',
++  'data': { 'port': 'uint32' },
++  'if': 'TARGET_I386' }
 -- 
 2.39.0
 
