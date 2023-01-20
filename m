@@ -2,84 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88087675613
+	by mail.lfdr.de (Postfix) with ESMTPS id 80163675612
 	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 14:44:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIrg4-00018h-8C; Fri, 20 Jan 2023 08:43:32 -0500
+	id 1pIrg0-00016e-DF; Fri, 20 Jan 2023 08:43:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIrg2-00018C-5X
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:43:30 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pIrfz-0007Xi-M1
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:43:29 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- d4-20020a05600c3ac400b003db1de2aef0so3723055wms.2
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 05:43:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=s8GtNAPgyhpBwG+7nq0uxfOe9enuDqptYaOVvOfM+co=;
- b=lEIwHB3ugGTDTf+OxmLQetvIr4Mxakn7v4LQiSj/5uSRIZwt70Vk15vF7j5NAyfRJv
- M213FplsS8AHESMJhfkbsRAxkEeJhVPrVC9JhmcSx+dpDUnb2CiIj8YitCRIZbZuFM27
- HJqQP3KbkO86q5iT2N6QPRwCM5DQSqCBqoqVfOKhxH+k99IqIii3WfPNFBkegQgR634V
- 0iJF1ba16Lkpf7yuxW9WgAT4MZOXgclsTZ44w1jqsGtHebVZ6W7KxBa4cx/VaKw1y5iV
- EN75CKJceupP/YAHE5jzyzBEPS2HVqpZmmFBOBmArJK09/gatJPfPZRPbE3gZK3SDCso
- fKZA==
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pIrfy-00013p-4q
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:43:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hreitz@redhat.com>) id 1pIrfw-0007XB-L8
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 08:43:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674222203;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=UArJqVW381ofUdb2RLmJ9mZN+hHLcwctmdXM+iKpkOY=;
+ b=dFbd8p4PIzx6szRsiGOjQ2r0/mY+oL3exhxWU9FbZVeUCTgPYIeDxZtUuB4S+b+FkEw5xv
+ AtK8iujPrKnIp+L0ofvbPcpKFi7jxDOdLA7uv46a12nAjO8jy0MJNFIEXrTNFWhiQBVSDp
+ pKO9SZneMcUxYOqIgZsnlciO2U8vxlM=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-177-xuMiO_9lPmGu2r8Dl9NsCw-1; Fri, 20 Jan 2023 08:43:22 -0500
+X-MC-Unique: xuMiO_9lPmGu2r8Dl9NsCw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ v8-20020a056402348800b0049e1913bd43so3962230edc.20
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 05:43:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=s8GtNAPgyhpBwG+7nq0uxfOe9enuDqptYaOVvOfM+co=;
- b=VBf3+0t6TOcc0v8DhIuPSjRN3t+Tep/MOZWAuCJVKETzKY73vebHXTP/78Jh8UxIif
- FPNthlq019L53CjTIpa38USy655VM2mw0LF2D17M52MVMgFWZEvtoQvq/q4PHncGRRuY
- t58tZP5OM1iACqYEZELy/XuFXvYK8s27XWZmoiS0ZC+WGgjyTwuogWbocfOtw1Le5j0N
- p0hqQ636DvCmVAqLhx2uod5zfW/KInX9EMOp03g69ReZ2bA/RH345dXZtjJfXSiKj4kp
- 1MfmshROVOpjSumbifV41IURsfHOXKgxUPEjFkstubqBhYJ2ubNZlp0BP26eATiDnVG7
- N7bQ==
-X-Gm-Message-State: AFqh2kq7DJ9BF9VbCp66vOBbI0P5d+TUrHQi/w5NeZdzZTHck9oaHCZq
- 5TRScSv9jqq5Bea5gg99zJjFDvry47bGIy6H
-X-Google-Smtp-Source: AMrXdXu41bWO1PlX+66C1dzSABYSd5FbajgqhIqUhiJOW4UYegbdEj86B8mbvJHu/CFZb/bUbYilrw==
-X-Received: by 2002:a05:600c:540d:b0:3d9:fb59:c16b with SMTP id
- he13-20020a05600c540d00b003d9fb59c16bmr10559299wmb.36.1674222206112; 
- Fri, 20 Jan 2023 05:43:26 -0800 (PST)
-Received: from localhost.localdomain ([81.0.6.76])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=UArJqVW381ofUdb2RLmJ9mZN+hHLcwctmdXM+iKpkOY=;
+ b=mGaIMMST+oULs03OOj5C2JGc3D46OMN+7ksqUyfLrHwlcVDMu8MTmgQ+PBnEE3Fbsx
+ TI3JRbG9fOFNEigd33VSr9oVR7Ta19bE986XPLd+EXqkwcdcDi3VomVGcFgkJVxgnIGY
+ nFV3gzX1x905QLaqZe5letr9bVB4kzYUjawvjsstNKcwlwTjAB0v4uBe47S6XkK3/BQ7
+ TPRV9aMaPBS6tDk7hf7vj+Wg1i1RvFOQ0UjiNRR8tyLbU0nGxFE5kgU4PlkmUMtzmwY3
+ IWiU/E0nectC0m1qEyO2MmhXdDta+0NsdMA4t3KUkzEkQYaDjlrze6/870wfG+4Rstee
+ U0LQ==
+X-Gm-Message-State: AFqh2krmN77MxuwhXcs+KSIlvJyR3hWeGWc0eq+AhkCxfpmEwbwM/29A
+ dBbvh6lugc3YGuM6d53GwH2KuPdUp7oAaQzpWK/xhDClKuSIIo1E2ykXcaJso/2JgFj1Xzlx98w
+ IdGXqsV4Zk1Dpw8g=
+X-Received: by 2002:a17:906:2dd6:b0:86b:119c:7ea8 with SMTP id
+ h22-20020a1709062dd600b0086b119c7ea8mr15235425eji.49.1674222201342; 
+ Fri, 20 Jan 2023 05:43:21 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXt+Yy9991FEq0piuCJyBM/01F++20/6JYfMIDhqVjlT7se31sYMHds+CpURwFFcSj1y3BfSjg==
+X-Received: by 2002:a17:906:2dd6:b0:86b:119c:7ea8 with SMTP id
+ h22-20020a1709062dd600b0086b119c7ea8mr15235395eji.49.1674222200985; 
+ Fri, 20 Jan 2023 05:43:20 -0800 (PST)
+Received: from ?IPV6:2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3?
+ ([2a02:8071:5050:c500:3cbc:a8ad:61a8:57e3])
  by smtp.gmail.com with ESMTPSA id
- f22-20020a1cc916000000b003d35acb0fd7sm2344031wmb.34.2023.01.20.05.43.25
- (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 20 Jan 2023 05:43:25 -0800 (PST)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Beraldo Leal <bleal@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-arm@nongnu.org, =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
- Cleber Rosa <crosa@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
- Subbaraya Sundeep <sundeep.lkml@gmail.com>
-Subject: [PATCH v2 2/2] tests/avocado: Truncate M2S-FG484 SOM SPI flash to
- 16MiB
-Date: Fri, 20 Jan 2023 14:43:14 +0100
-Message-Id: <20230120134314.81956-3-philmd@linaro.org>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <20230120134314.81956-1-philmd@linaro.org>
-References: <20230120134314.81956-1-philmd@linaro.org>
+ q27-20020a1709066b1b00b0087329ff593fsm5420131ejr.144.2023.01.20.05.43.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 20 Jan 2023 05:43:20 -0800 (PST)
+Message-ID: <a79ae21b-67d1-d750-d891-652d29a0777b@redhat.com>
+Date: Fri, 20 Jan 2023 14:43:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.11.0
+Subject: Re: [PATCH v2 03/12] block/vmdk: Change extent info type
+Content-Language: en-US
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+ Eric Blake <eblake@redhat.com>, Markus Armbruster <armbru@redhat.com>
+References: <20220620162704.80987-1-hreitz@redhat.com>
+ <20220620162704.80987-4-hreitz@redhat.com> <Y8lfsJ5W2UxUPmWm@redhat.com>
+From: Hanna Czenczek <hreitz@redhat.com>
+In-Reply-To: <Y8lfsJ5W2UxUPmWm@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=hreitz@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,62 +102,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The M2S-FG484 SOM uses a 16 MiB SPI flash (Spansion
-S25FL128SDPBHICO).  Since the test asset is bigger,
-truncate it to the correct size to avoid when running
-the test_arm_emcraft_sf2 test:
+On 19.01.23 16:20, Kevin Wolf wrote:
+> Am 20.06.2022 um 18:26 hat Hanna Reitz geschrieben:
+>> VMDK's implementation of .bdrv_get_specific_info() returns information
+>> about its extent files, ostensibly in the form of ImageInfo objects.
+>> However, it does not get this information through
+>> bdrv_query_image_info(), but fills only a select few fields with custom
+>> information that does not always match the fields' purposes.
+>>
+>> For example, @format, which is supposed to be a block driver name, is
+>> filled with the extent type, e.g. SPARSE or FLAT.
+>>
+>> In ImageInfo, @compressed shows whether the data that can be seen in the
+>> image is stored in compressed form or not.  For example, a compressed
+>> qcow2 image will store compressed data in its data file, but when
+>> accessing the qcow2 node, you will see normal data.  This is not how
+>> VMDK uses the @compressed field for its extent files: Instead, it
+>> signifies whether accessing the extent file will yield compressed data
+>> (which the VMDK driver then (de-)compresses).
+> Actually, VMDK was the only user of the field in ImageInfo. qcow2
+> doesn't set the field at all because it would have to parse all L2
+> tables in order to set it.
 
-  qemu-system-arm: device requires 16777216 bytes, block backend provides 67108864 bytes
+Right, makes sense.
 
-Add comment regarding the M2S-FG484 SOM hardware in
-hw/arm/msf2-som.c.
+> So I suppose @compressed can now be removed from ImageInfo?
 
-Reported-by: Cédric Le Goater <clg@kaod.org>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Tested-by: Cédric Le Goater <clg@kaod.org>
----
- hw/arm/msf2-som.c                   | 5 ++++-
- tests/avocado/boot_linux_console.py | 2 ++
- 2 files changed, 6 insertions(+), 1 deletion(-)
+I think so.  Looks like it was indeed introduced specifically for VMDK’s extent information (cbe82d7fb32, f4c129a38a5) so that ImageInfo could be used there, which this patch here changes.  So we should probably indeed remove the field – it did lead me to naïvely believe that it would have a meaning on images that actually support compression (like qcow2) after all.
 
-diff --git a/hw/arm/msf2-som.c b/hw/arm/msf2-som.c
-index a6df473ec9..7b3106c790 100644
---- a/hw/arm/msf2-som.c
-+++ b/hw/arm/msf2-som.c
-@@ -1,6 +1,9 @@
- /*
-  * SmartFusion2 SOM starter kit(from Emcraft) emulation.
-  *
-+ * M2S-FG484 SOM hardware architecture specification:
-+ *   https://www.emcraft.com/jdownloads/som/m2s/m2s-som-ha.pdf
-+ *
-  * Copyright (c) 2017 Subbaraya Sundeep <sundeep.lkml@gmail.com>
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a copy
-@@ -87,7 +90,7 @@ static void emcraft_sf2_s2s010_init(MachineState *machine)
- 
-     /* Attach SPI flash to SPI0 controller */
-     spi_bus = qdev_get_child_bus(dev, "spi0");
--    spi_flash = qdev_new("s25sl12801");
-+    spi_flash = qdev_new("s25sl12801"); /* Spansion S25FL128SDPBHICO */
-     qdev_prop_set_uint8(spi_flash, "spansion-cr2nv", 1);
-     if (dinfo) {
-         qdev_prop_set_drive_err(spi_flash, "drive",
-diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_linux_console.py
-index 8a598be966..9f5077c791 100644
---- a/tests/avocado/boot_linux_console.py
-+++ b/tests/avocado/boot_linux_console.py
-@@ -396,6 +396,8 @@ def test_arm_emcraft_sf2(self):
-         spi_hash = '65523a1835949b6f4553be96dec1b6a38fb05501'
-         spi_path = self.fetch_asset(spi_url, asset_hash=spi_hash)
- 
-+        file_truncate(spi_path, 16 << 20) # Spansion S25FL128SDPBHICO is 16 MiB
-+
-         self.vm.set_console()
-         kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE
-         self.vm.add_args('-kernel', uboot_path,
--- 
-2.38.1
+Hanna
 
 
