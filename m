@@ -2,85 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C859675357
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 12:21:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 209A8675379
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 12:35:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIpRZ-0007uq-4z; Fri, 20 Jan 2023 06:20:25 -0500
+	id 1pIpeQ-0004jc-7g; Fri, 20 Jan 2023 06:33:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pIpRW-0007qI-Fq
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 06:20:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from
+ <BATV+010e331da30354bf639d+7089+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pIpeK-0004h0-0A
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 06:33:37 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pIpRU-0001ln-IV
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 06:20:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674213619;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=ZPyiV0nEYTG3fIQCdG7I66FTI5/s11cTfAJjl0hlo60=;
- b=jS3ln1mPG6wC5Xb0mcWLl+t3r8e5VF4LZYk/fkMDblVBC8jisC/JCHkT0R9Du5czrzPi2Y
- NhiikqK629cQ2orIyUKVFdmmGWTTILMXEoyKpiCoGRVH97eNtYsfDSEQD0LEnHCsJQP4Oc
- jp635uBpK/3G51MdJsCIxAc8NNoIFx8=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-344-e6QBEjvoPHSV8cP_Bitveg-1; Fri, 20 Jan 2023 06:20:18 -0500
-X-MC-Unique: e6QBEjvoPHSV8cP_Bitveg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- w8-20020a1cf608000000b003d9bb726833so1204304wmc.6
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 03:20:17 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ZPyiV0nEYTG3fIQCdG7I66FTI5/s11cTfAJjl0hlo60=;
- b=TSzBWfcHy5TOFbP766Hgw2a7lNNxhHh0T/HOCyib02qFsfszqkuSUhIjsXdgrNOTMe
- QopIefoCKg5A1DYR1jOFPTclNB4GyZ0DC4aVJFKr4EiexXnbRip0KBc3wb3pJwTAvh1s
- 4510vdh6yAlLB8AGBXgIf3o5SyluR13xp1dOvQxLXMC72lzBsg7e+isdRl/x61dh76Bo
- ryCYz71ffIioy/MO+Pdbh8Bg98KHYAHrRsUr/w9iCMIL9Drn1FOACyj44cPOmZdqk4sH
- /yKYG+35+TehvsLxq/ZyVFdCGKymtn1nPXki3NDv5detI5PQWqi6yIRbrL86aHoOD2HT
- fhfA==
-X-Gm-Message-State: AFqh2krGfdUjqTugoHL8kCkPB0+vxMrsq+nhf/j77dNdjyF1g3zrzwhn
- fv3JovGrfe8OHnSL18i7eak+mib0GD14oadC5u264YmphxzdhonIGs1WyqJZHzDX3uR9lp4ULzD
- kIqEbxtTRmvAJ7kw=
-X-Received: by 2002:a7b:c309:0:b0:3d9:f801:bb6 with SMTP id
- k9-20020a7bc309000000b003d9f8010bb6mr13197699wmj.10.1674213616915; 
- Fri, 20 Jan 2023 03:20:16 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuCjX3NRkwKAoXl1HwNs/lbCjU5asSnwwpz8ORv0O/6wCgChwqyy7CBa7b8iGomK4sEyCEm5w==
-X-Received: by 2002:a7b:c309:0:b0:3d9:f801:bb6 with SMTP id
- k9-20020a7bc309000000b003d9f8010bb6mr13197685wmj.10.1674213616641; 
- Fri, 20 Jan 2023 03:20:16 -0800 (PST)
-Received: from redhat.com ([2.52.19.29]) by smtp.gmail.com with ESMTPSA id
- m2-20020a05600c4f4200b003db0ad636d1sm2194850wmq.28.2023.01.20.03.20.15
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 20 Jan 2023 03:20:16 -0800 (PST)
-Date: Fri, 20 Jan 2023 06:20:12 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>,
- Qing Wang <qinwang@redhat.com>
-Subject: Re: [PATCH] virtio-scsi: reset SCSI devices from main loop thread
-Message-ID: <20230120061940-mutt-send-email-mst@kernel.org>
-References: <20230119214326.1339323-1-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from
+ <BATV+010e331da30354bf639d+7089+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pIpeH-00053S-HF
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 06:33:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:Date:Cc:To:
+ From:Subject:Message-ID:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
+ Content-Description:In-Reply-To:References;
+ bh=FPmMJJucX/DY1S9Sm3Up0z7xbAoQFdvYkviGDi2uMMs=; b=naiS7fk8gxacUZ3x4HlaciIzLf
+ XKqAH7AVLuriO6KopMrb+IwHuBvdaA5BMj3oqXseffvUXZofXK3ZI892h/OA77G3KPbVKcxStmlpm
+ 3YmPaEQQHJfao3h5dWXMtZpamyr/yOqF31QTFDqDXq4pp0Zwj9wH2kUlMzJ8WDVf7MzopLfkEWRQ7
+ EgKWSyVfjdisarVKmMlYdpxgWR4pLKwsO3mmaweeHoZ95GY6PHXIwgtkulGCxqzotLfwpIvLXjqg1
+ VoSfCBZouWaL3nGBlkYa1WOYRcppmCOWd5/6wixlvDF51RraYNAfiERzzHhMwGlmdbzRX+PB0M2WR
+ SRLCvh+Q==;
+Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pIpe3-001ttS-Vy; Fri, 20 Jan 2023 11:33:20 +0000
+Message-ID: <feef99dd2e1a5dce004d22baf07d716d6ea1344c.camel@infradead.org>
+Subject: [SeaBIOS PATCH] xen: require Xen info structure at 0x1000 to detect
+ Xen
+From: David Woodhouse <dwmw2@infradead.org>
+To: seabios <seabios@seabios.org>, xen-devel
+ <xen-devel@lists.xenproject.org>,  qemu-devel <qemu-devel@nongnu.org>
+Cc: paul <paul@xen.org>
+Date: Fri, 20 Jan 2023 11:33:19 +0000
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-j8Wo6X+P905qFelz4Cgk"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119214326.1339323-1-stefanha@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+010e331da30354bf639d+7089+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,314 +73,249 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 19, 2023 at 04:43:26PM -0500, Stefan Hajnoczi wrote:
-> When an IOThread is configured, the ctrl virtqueue is processed in the
-> IOThread. TMFs that reset SCSI devices are currently called directly
-> from the IOThread and trigger an assertion failure in blk_drain():
-> 
->   ../block/block-backend.c:1780: void blk_drain(BlockBackend *): Assertion `qemu_in_main_thread()' failed.
-> 
-> The blk_drain() function is not designed to be called from an IOThread
-> because it needs the Big QEMU Lock (BQL).
-> 
-> This patch defers TMFs that reset SCSI devices to a Bottom Half (BH)
-> that runs in the main loop thread under the BQL. This way it's safe to
-> call blk_drain() and the assertion failure is avoided.
-> 
-> Introduce s->tmf_bh_list for tracking TMF requests that have been
-> deferred to the BH. When the BH runs it will grab the entire list and
-> process all requests. Care must be taken to clear the list when the
-> virtio-scsi device is reset or unrealized. Otherwise deferred TMF
-> requests could execute later and lead to use-after-free or other
-> undefined behavior.
-> 
-> The s->resetting counter that's used by TMFs that reset SCSI devices is
-> accessed from multiple threads. This patch makes that explicit by using
-> atomic accessor functions. With this patch applied the counter is only
-> modified by the main loop thread under the BQL but can be read by any
-> thread.
-> 
-> Reported-by: Qing Wang <qinwang@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+--=-j8Wo6X+P905qFelz4Cgk
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-It's mostly a scsi thing so I guess SCSI tree is appropriate.
-Thanks!
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-> ---
->  include/hw/virtio/virtio-scsi.h |  11 ++-
->  hw/scsi/virtio-scsi.c           | 169 +++++++++++++++++++++++++-------
->  2 files changed, 143 insertions(+), 37 deletions(-)
-> 
-> diff --git a/include/hw/virtio/virtio-scsi.h b/include/hw/virtio/virtio-scsi.h
-> index 37b75e15e3..779568ab5d 100644
-> --- a/include/hw/virtio/virtio-scsi.h
-> +++ b/include/hw/virtio/virtio-scsi.h
-> @@ -74,13 +74,22 @@ struct VirtIOSCSICommon {
->      VirtQueue **cmd_vqs;
->  };
->  
-> +struct VirtIOSCSIReq;
-> +
->  struct VirtIOSCSI {
->      VirtIOSCSICommon parent_obj;
->  
->      SCSIBus bus;
-> -    int resetting;
-> +    int resetting; /* written from main loop thread, read from any thread */
->      bool events_dropped;
->  
-> +    /*
-> +     * TMFs deferred to main loop BH. These fields are protected by
-> +     * virtio_scsi_acquire().
-> +     */
-> +    QEMUBH *tmf_bh;
-> +    QTAILQ_HEAD(, VirtIOSCSIReq) tmf_bh_list;
-> +
->      /* Fields for dataplane below */
->      AioContext *ctx; /* one iothread per virtio-scsi-pci for now */
->  
-> diff --git a/hw/scsi/virtio-scsi.c b/hw/scsi/virtio-scsi.c
-> index 2b649ca976..612c525d9d 100644
-> --- a/hw/scsi/virtio-scsi.c
-> +++ b/hw/scsi/virtio-scsi.c
-> @@ -43,13 +43,11 @@ typedef struct VirtIOSCSIReq {
->      QEMUSGList qsgl;
->      QEMUIOVector resp_iov;
->  
-> -    union {
-> -        /* Used for two-stage request submission */
-> -        QTAILQ_ENTRY(VirtIOSCSIReq) next;
-> +    /* Used for two-stage request submission and TMFs deferred to BH */
-> +    QTAILQ_ENTRY(VirtIOSCSIReq) next;
->  
-> -        /* Used for cancellation of request during TMFs */
-> -        int remaining;
-> -    };
-> +    /* Used for cancellation of request during TMFs */
-> +    int remaining;
->  
->      SCSIRequest *sreq;
->      size_t resp_size;
-> @@ -294,6 +292,122 @@ static inline void virtio_scsi_ctx_check(VirtIOSCSI *s, SCSIDevice *d)
->      }
->  }
->  
-> +static void virtio_scsi_do_one_tmf_bh(VirtIOSCSIReq *req)
-> +{
-> +    VirtIOSCSI *s = req->dev;
-> +    SCSIDevice *d = virtio_scsi_device_get(s, req->req.tmf.lun);
-> +    BusChild *kid;
-> +    int target;
-> +
-> +    switch (req->req.tmf.subtype) {
-> +    case VIRTIO_SCSI_T_TMF_LOGICAL_UNIT_RESET:
-> +        if (!d) {
-> +            req->resp.tmf.response = VIRTIO_SCSI_S_BAD_TARGET;
-> +            goto out;
-> +        }
-> +        if (d->lun != virtio_scsi_get_lun(req->req.tmf.lun)) {
-> +            req->resp.tmf.response = VIRTIO_SCSI_S_INCORRECT_LUN;
-> +            goto out;
-> +        }
-> +        qatomic_inc(&s->resetting);
-> +        device_cold_reset(&d->qdev);
-> +        qatomic_dec(&s->resetting);
-> +        break;
-> +
-> +    case VIRTIO_SCSI_T_TMF_I_T_NEXUS_RESET:
-> +        target = req->req.tmf.lun[1];
-> +        qatomic_inc(&s->resetting);
-> +
-> +        rcu_read_lock();
-> +        QTAILQ_FOREACH_RCU(kid, &s->bus.qbus.children, sibling) {
-> +            SCSIDevice *d1 = SCSI_DEVICE(kid->child);
-> +            if (d1->channel == 0 && d1->id == target) {
-> +                device_cold_reset(&d1->qdev);
-> +            }
-> +        }
-> +        rcu_read_unlock();
-> +
-> +        qatomic_dec(&s->resetting);
-> +        break;
-> +
-> +    default:
-> +        g_assert_not_reached();
-> +        break;
-> +    }
-> +
-> +out:
-> +    object_unref(OBJECT(d));
-> +
-> +    virtio_scsi_acquire(s);
-> +    virtio_scsi_complete_req(req);
-> +    virtio_scsi_release(s);
-> +}
-> +
-> +/* Some TMFs must be processed from the main loop thread */
-> +static void virtio_scsi_do_tmf_bh(void *opaque)
-> +{
-> +    VirtIOSCSI *s = opaque;
-> +    QTAILQ_HEAD(, VirtIOSCSIReq) reqs = QTAILQ_HEAD_INITIALIZER(reqs);
-> +    VirtIOSCSIReq *req;
-> +    VirtIOSCSIReq *tmp;
-> +
-> +    GLOBAL_STATE_CODE();
-> +
-> +    virtio_scsi_acquire(s);
-> +
-> +    QTAILQ_FOREACH_SAFE(req, &s->tmf_bh_list, next, tmp) {
-> +        QTAILQ_REMOVE(&s->tmf_bh_list, req, next);
-> +        QTAILQ_INSERT_TAIL(&reqs, req, next);
-> +    }
-> +
-> +    qemu_bh_delete(s->tmf_bh);
-> +    s->tmf_bh = NULL;
-> +
-> +    virtio_scsi_release(s);
-> +
-> +    QTAILQ_FOREACH_SAFE(req, &reqs, next, tmp) {
-> +        QTAILQ_REMOVE(&reqs, req, next);
-> +        virtio_scsi_do_one_tmf_bh(req);
-> +    }
-> +}
-> +
-> +static void virtio_scsi_reset_tmf_bh(VirtIOSCSI *s)
-> +{
-> +    VirtIOSCSIReq *req;
-> +    VirtIOSCSIReq *tmp;
-> +
-> +    GLOBAL_STATE_CODE();
-> +
-> +    virtio_scsi_acquire(s);
-> +
-> +    if (s->tmf_bh) {
-> +        qemu_bh_delete(s->tmf_bh);
-> +        s->tmf_bh = NULL;
-> +    }
-> +
-> +    QTAILQ_FOREACH_SAFE(req, &s->tmf_bh_list, next, tmp) {
-> +        QTAILQ_REMOVE(&s->tmf_bh_list, req, next);
-> +
-> +        /* SAM-6 6.3.2 Hard reset */
-> +        req->resp.tmf.response = VIRTIO_SCSI_S_TARGET_FAILURE;
-> +        virtio_scsi_complete_req(req);
-> +    }
-> +
-> +    virtio_scsi_release(s);
-> +}
-> +
-> +static void virtio_scsi_defer_tmf_to_bh(VirtIOSCSIReq *req)
-> +{
-> +    VirtIOSCSI *s = req->dev;
-> +
-> +    QTAILQ_INSERT_TAIL(&s->tmf_bh_list, req, next);
-> +
-> +    if (!s->tmf_bh) {
-> +        s->tmf_bh = qemu_bh_new(virtio_scsi_do_tmf_bh, s);
-> +        qemu_bh_schedule(s->tmf_bh);
-> +    }
-> +}
-> +
->  /* Return 0 if the request is ready to be completed and return to guest;
->   * -EINPROGRESS if the request is submitted and will be completed later, in the
->   *  case of async cancellation. */
-> @@ -301,8 +415,6 @@ static int virtio_scsi_do_tmf(VirtIOSCSI *s, VirtIOSCSIReq *req)
->  {
->      SCSIDevice *d = virtio_scsi_device_get(s, req->req.tmf.lun);
->      SCSIRequest *r, *next;
-> -    BusChild *kid;
-> -    int target;
->      int ret = 0;
->  
->      virtio_scsi_ctx_check(s, d);
-> @@ -359,15 +471,9 @@ static int virtio_scsi_do_tmf(VirtIOSCSI *s, VirtIOSCSIReq *req)
->          break;
->  
->      case VIRTIO_SCSI_T_TMF_LOGICAL_UNIT_RESET:
-> -        if (!d) {
-> -            goto fail;
-> -        }
-> -        if (d->lun != virtio_scsi_get_lun(req->req.tmf.lun)) {
-> -            goto incorrect_lun;
-> -        }
-> -        s->resetting++;
-> -        device_cold_reset(&d->qdev);
-> -        s->resetting--;
-> +    case VIRTIO_SCSI_T_TMF_I_T_NEXUS_RESET:
-> +        virtio_scsi_defer_tmf_to_bh(req);
-> +        ret = -EINPROGRESS;
->          break;
->  
->      case VIRTIO_SCSI_T_TMF_ABORT_TASK_SET:
-> @@ -410,22 +516,6 @@ static int virtio_scsi_do_tmf(VirtIOSCSI *s, VirtIOSCSIReq *req)
->          }
->          break;
->  
-> -    case VIRTIO_SCSI_T_TMF_I_T_NEXUS_RESET:
-> -        target = req->req.tmf.lun[1];
-> -        s->resetting++;
-> -
-> -        rcu_read_lock();
-> -        QTAILQ_FOREACH_RCU(kid, &s->bus.qbus.children, sibling) {
-> -            SCSIDevice *d1 = SCSI_DEVICE(kid->child);
-> -            if (d1->channel == 0 && d1->id == target) {
-> -                device_cold_reset(&d1->qdev);
-> -            }
-> -        }
-> -        rcu_read_unlock();
-> -
-> -        s->resetting--;
-> -        break;
-> -
->      case VIRTIO_SCSI_T_TMF_CLEAR_ACA:
->      default:
->          req->resp.tmf.response = VIRTIO_SCSI_S_FUNCTION_REJECTED;
-> @@ -655,7 +745,7 @@ static void virtio_scsi_request_cancelled(SCSIRequest *r)
->      if (!req) {
->          return;
->      }
-> -    if (req->dev->resetting) {
-> +    if (qatomic_read(&req->dev->resetting)) {
->          req->resp.cmd.response = VIRTIO_SCSI_S_RESET;
->      } else {
->          req->resp.cmd.response = VIRTIO_SCSI_S_ABORTED;
-> @@ -831,9 +921,12 @@ static void virtio_scsi_reset(VirtIODevice *vdev)
->      VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(vdev);
->  
->      assert(!s->dataplane_started);
-> -    s->resetting++;
-> +
-> +    virtio_scsi_reset_tmf_bh(s);
-> +
-> +    qatomic_inc(&s->resetting);
->      bus_cold_reset(BUS(&s->bus));
-> -    s->resetting--;
-> +    qatomic_dec(&s->resetting);
->  
->      vs->sense_size = VIRTIO_SCSI_SENSE_DEFAULT_SIZE;
->      vs->cdb_size = VIRTIO_SCSI_CDB_DEFAULT_SIZE;
-> @@ -1053,6 +1146,8 @@ static void virtio_scsi_device_realize(DeviceState *dev, Error **errp)
->      VirtIOSCSI *s = VIRTIO_SCSI(dev);
->      Error *err = NULL;
->  
-> +    QTAILQ_INIT(&s->tmf_bh_list);
-> +
->      virtio_scsi_common_realize(dev,
->                                 virtio_scsi_handle_ctrl,
->                                 virtio_scsi_handle_event,
-> @@ -1090,6 +1185,8 @@ static void virtio_scsi_device_unrealize(DeviceState *dev)
->  {
->      VirtIOSCSI *s = VIRTIO_SCSI(dev);
->  
-> +    virtio_scsi_reset_tmf_bh(s);
-> +
->      qbus_set_hotplug_handler(BUS(&s->bus), NULL);
->      virtio_scsi_common_unrealize(dev);
->  }
-> -- 
-> 2.39.0
+When running under Xen, hvmloader places a table at 0x1000 with the e820
+information and BIOS tables. If this isn't present, SeaBIOS will=20
+currently panic.
 
+We now have support for running Xen guests natively in QEMU/KVM, which
+boots SeaBIOS directly instead of via hvmloader, and does not provide
+the same structure.
+
+As it happens, this doesn't matter on first boot. because although we
+set PlatformRunningOn to PF_QEMU|PF_XEN, reading it back again still
+gives zero. Presumably because in true Xen, this is all already RAM. But
+in QEMU with a faithfully-emulated PAM config in the host bridge, it's
+still in ROM mode at this point so we don't see what we've just written.
+
+On reboot, however, the region *is* set to RAM mode and we do see the
+updated value of PlatformRunningOn, do manage to remember that we've
+detected Xen in CPUID, and hit the panic.
+
+It's not trivial to detect QEMU vs. real Xen at the time xen_preinit()
+runs, because it's so early. We can't even make a XENVER_extraversion
+hypercall to look for hints, because we haven't set up the hypercall
+page (and don't have an allocator to give us a page in which to do so).
+
+So just make Xen detection contingent on the info structure being
+present. If it wasn't, we were going to panic anyway. That leaves us
+taking the standard QEMU init path for Xen guests in native QEMU,
+which is just fine.
+
+Untested on actual Xen but ObviouslyCorrect=E2=84=A2.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+---
+ src/fw/xen.c | 45 ++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 32 insertions(+), 13 deletions(-)
+
+diff --git a/src/fw/xen.c b/src/fw/xen.c
+index a215b9e..00e4b0c 100644
+--- a/src/fw/xen.c
++++ b/src/fw/xen.c
+@@ -40,16 +40,25 @@ struct xen_seabios_info {
+     u32 e820_nr;
+ } PACKED;
+=20
+-static void validate_info(struct xen_seabios_info *t)
++static struct xen_seabios_info *validate_info(void)
+ {
+-    if ( memcmp(t->signature, "XenHVMSeaBIOS", 14) )
+-        panic("Bad Xen info signature\n");
++    struct xen_seabios_info *t =3D (void *)INFO_PHYSICAL_ADDRESS;
+=20
+-    if ( t->length < sizeof(struct xen_seabios_info) )
+-        panic("Bad Xen info length\n");
++    if ( memcmp(t->signature, "XenHVMSeaBIOS", 14) ) {
++        dprintf(1, "Bad Xen info signature\n");
++        return NULL;
++    }
++
++    if ( t->length < sizeof(struct xen_seabios_info) ) {
++        dprintf(1, "Bad Xen info length\n");
++        return NULL;
++    }
+=20
+-    if (checksum(t, t->length) !=3D 0)
+-        panic("Bad Xen info checksum\n");
++    if (checksum(t, t->length) !=3D 0) {
++        dprintf(1, "Bad Xen info checksum\n");
++        return NULL;
++    }
++    return t;
+ }
+=20
+ void xen_preinit(void)
+@@ -86,7 +95,10 @@ void xen_preinit(void)
+         dprintf(1, "No Xen hypervisor found.\n");
+         return;
+     }
+-    PlatformRunningOn =3D PF_QEMU|PF_XEN;
++    if (validate_info())
++        PlatformRunningOn =3D PF_QEMU|PF_XEN;
++    else
++        dprintf(1, "Not enabling Xen support due to lack of Xen info\n");
+ }
+=20
+ static int hypercall_xen_version( int cmd, void *arg)
+@@ -122,10 +134,14 @@ void xen_hypercall_setup(void)
+=20
+ void xen_biostable_setup(void)
+ {
+-    struct xen_seabios_info *info =3D (void *)INFO_PHYSICAL_ADDRESS;
+-    void **tables =3D (void*)info->tables;
++    struct xen_seabios_info *info =3D validate_info();
++    void **tables;
+     int i;
+=20
++    if (!info)
++        panic("Xen info corrupted\n");
++
++    tables =3D (void*)info->tables;
+     dprintf(1, "xen: copy BIOS tables...\n");
+     for (i=3D0; i<info->tables_nr; i++)
+         copy_table(tables[i]);
+@@ -136,12 +152,15 @@ void xen_biostable_setup(void)
+ void xen_ramsize_preinit(void)
+ {
+     int i;
+-    struct xen_seabios_info *info =3D (void *)INFO_PHYSICAL_ADDRESS;
+-    struct e820entry *e820 =3D (struct e820entry *)info->e820;
+-    validate_info(info);
++    struct xen_seabios_info *info =3D validate_info();
++    struct e820entry *e820;
++
++    if (!info)
++        panic("Xen info corrupted\n");
+=20
+     dprintf(1, "xen: copy e820...\n");
+=20
++    e820 =3D (struct e820entry *)info->e820;
+     for (i =3D 0; i < info->e820_nr; i++) {
+         struct e820entry *e =3D &e820[i];
+         e820_add(e->start, e->size, e->type);
+--=20
+2.34.1
+
+
+
+--=-j8Wo6X+P905qFelz4Cgk
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMTIwMTEzMzE5WjAvBgkqhkiG9w0BCQQxIgQgt0UAYe1I
++LcFmYJrg6c89Ru3BLQ8skfDDkeczLgmevowgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgBIfcfobJqNP13umN2Ms9YmbaNrUnYVRYnQ
+yYo7rcjIZ+9rDtcDc3/vRqdWyCgTXAnG3CyXknQW8YLYT4RCjKe2cp3cBcszVEPwK4cPR4FyNYcA
+gOoosByBQXfYVdMa66PIr3RUwwObC3gsheDIUvqPMrAm/fLeivCTBSDLo8fD2YAAK7LXuxIl5Bnn
+1ze694ex3GX5KOmpr6jwOlosP1+51RMKH1Jvul47RgDvLPXQGm/D3q1nffFYC66dqZyxnF+co2tk
+eGqyRjQ+5O0u1e3cSJK7lnl+4P7rW7p8rub1jsRWVzQ032jKIX+45wK+2/MtNBB2lhqn3NmgiMhu
+wqIIzZF+3j+ywDz4JnUZe5QB1Do6T9ukqtIdKD2s3BSUSpnUxaMBAi1Ee1KRqmchQd9gqNFQ+uz2
+7C1devC13Cx2711/dntBkjweaNr8cZmw3SVyZ30Zq1UDw9S8kCgCslf0TireKVQQiMmxCRcezBQb
+VM/APe8Mq+KlvRM7npuKmr750dvRBQr53MZvTKfmMDX/MOByjABnzHroHjA6HQA67frjTM9M2BOc
+OLI5tDm5V7HaTSXEvNto1SUrzBVoakktQzYgeHK3BXDiygwO1LZ5CmJQqr74UK9bOUDVk1j0Lwu8
+dig4FHBAAAxYZzmkU6isIojVaDGRwCCce0NPwBH+NgAAAAAAAA==
+
+
+--=-j8Wo6X+P905qFelz4Cgk--
 
