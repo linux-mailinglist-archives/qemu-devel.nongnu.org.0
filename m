@@ -2,60 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6949B6757E4
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 15:59:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC426757E5
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 15:59:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIspe-0002gr-Jp; Fri, 20 Jan 2023 09:57:31 -0500
+	id 1pIsrJ-0004A3-64; Fri, 20 Jan 2023 09:59:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pIspW-0002cq-Pp
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:57:23 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
+ id 1pIsrG-00049S-G6
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:59:10 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pIspV-0003u0-3K
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:57:22 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id v3so4306791pgh.4
- for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 06:57:20 -0800 (PST)
+ id 1pIsrE-00048l-Q3
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 09:59:10 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ n20-20020a17090aab9400b00229ca6a4636so8435725pjq.0
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 06:59:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
- :date:message-id:reply-to;
- bh=p3A5LNAG9jGQs2w3PmCkqMyTp3v/nlq5Y1/UkrK7S2Q=;
- b=yt9yG79iy+mdeCzRFAV44NyBbKxgwWTcn2OTCG631Ct6D3Ht64T+LbKUM5tLh3UNur
- bztx3bElwn+q2RMEZgdSm9dPJ4fdG5m0zOUG2SvoTc9DtVmqe0n12mIFwW+oS588B2ay
- T8failVIIhc3+udujaIj906WKgfnUXEVehh8rDwHp6OgtI+s12wKvuhhsbeIadhTpPEb
- ucRj9WedwapjNCpbJq7bEZwmUMGmgELFSwhjKRH2JnmDAbWhAYiH94hzryneG4q1Tdy5
- L29RuIqAz4l8f86VmuJ7YJp0U0gVjH5aM+4lVUJ3kZ3BvtVFYhLDRncMmzrL59A9y7GF
- zY5g==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=YDKBYwteG91NDk7qv6c8eTy9yJSWUy4FnqfoR671MTI=;
+ b=BeYlnLRYcv/JaV545xqF3Bb7MZVDqYUNQ7ukb/Jx7pQhBL+Oc5Y/Z9919la8df4xwV
+ crOtpA3fkonfeadStshAybUmJ4vqFNPmYqZBdhfefJiw/UwdjMeL0Z6s6LFqZ3r98KFr
+ Sq/EMtiJXch882SQpImyed3c0BqU4cnUpD9NkMysRLKrl1yzHrbtWW4VZofNlz2sc487
+ JRm09Jj5aLOm0ip+TIF1C2pcEj76XNRWWMIe4kcdPbAPfDX38sDJT3ovnZw1QPl/8DaX
+ k0z3xU1w9fw4EK/zr1yFBl0HhFSzHxVXs7zNcl4p/6SeFKQiEjXaEcSxa45nLYgQsLjT
+ 6f6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:mime-version:x-gm-message-state
- :from:to:cc:subject:date:message-id:reply-to;
- bh=p3A5LNAG9jGQs2w3PmCkqMyTp3v/nlq5Y1/UkrK7S2Q=;
- b=fuPkjadbfCwImeiWL/JsdATGmzes2m+V5bRj6pQ17T8bNEjEcmvSDFYQDl4U//06Vu
- 11WtqTX19L6eJGnGlFf7UFg+6EygeRSxqKjNAnKvnWH2HEqNEY0WarO8UoKGqIBR//ss
- BQjr1lIeB5KjGHk7Tzcxzi0z8vYm8ZFzskT49y5bwrz08D5Ui8alxlGMcAob9cbrEmDz
- zJq0YnY6IdS+teQreSdfA24H68BOlvSqga11FhTXktPW4VkpZVKX9ky21VrW8ZXyuTr+
- dJrtH0IpWCdLJ1sSmMf0SR4uLXVqcVcVsPBphNjVm1zj7uUltxYpafe5EebrNl7hh8tK
- YH9w==
-X-Gm-Message-State: AFqh2krsU+Ex/bnRUQinYoP3OHV5cUVN349EpVrjiVk9VxnyNBU1Qkw7
- EKqdETUR0AltgidWL2m2qhRfG6Zlm4Khh/d/16w2CDTpCL1tUjIw
-X-Google-Smtp-Source: AMrXdXvh427g6XqRQKzzMTjmv1dWvfxCNzMdFFy9Q43ATvZ5vhJMt85qeBZZF4CS3ENf6ItUgu9ISq2/KKux6vU2EEI=
-X-Received: by 2002:a63:31c8:0:b0:4cd:418b:3d2d with SMTP id
- x191-20020a6331c8000000b004cd418b3d2dmr1316572pgx.221.1674226639484; Fri, 20
- Jan 2023 06:57:19 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=YDKBYwteG91NDk7qv6c8eTy9yJSWUy4FnqfoR671MTI=;
+ b=17Nq16mKqJZhlV6ZxZqlU1o8M5d4nTh9dF7cHzy/4uadUspJm3yD4RGlgJMZoMNItM
+ 4AdHwddjg8PbswUKf9VaXJsvnYtFtpOuEPhtSgXjp1lIf11p9p5+mbhnWOKwBxm559w1
+ rVFYV30N6+MsrnEBV9SQHBcEWT7rrvH2X7W3ROxzbYpTQZ7RfrrWCYBNiyOZVGsCa/LA
+ Hn4NwENBeyXrvEysReqgDHI9xjXEOq+LRHdez7lNTxG9CDJyx+JC14ICy/9KR2bkFtwJ
+ fqUiJP8FHDgzsxrixnbmBWT+wszRGJfp838CyqJs/NyVqzmNAdACxv4HQWUUIeL9LRuP
+ Rmag==
+X-Gm-Message-State: AFqh2krec67vinuW+LvonozHAFl8ZtLp6d9MXPGi48rG6AwKA7v+1aoq
+ asM3BmNcdZ1/q7QHCIgwzf3xRx3yO2bR+pJAsQ2rIw==
+X-Google-Smtp-Source: AMrXdXtDX/kvtRbPqG78lT76Ouws2G5w9p5K91q4ZebsrfzSx+4m4FwSw7PYQp+Aj9aOrw8AtipOZxFw+7jazHc8E8s=
+X-Received: by 2002:a17:902:f7d6:b0:189:7bfe:1eb5 with SMTP id
+ h22-20020a170902f7d600b001897bfe1eb5mr1630825plw.9.1674226747375; Fri, 20 Jan
+ 2023 06:59:07 -0800 (PST)
 MIME-Version: 1.0
+References: <20221224151821.464455-1-richard.henderson@linaro.org>
+ <20221224151821.464455-5-richard.henderson@linaro.org>
+ <CAFEAcA_viCsMxSjcpFtxL+hj-n5TTff0npg1RjOnLUpwGu47DA@mail.gmail.com>
+ <87pmbil5rn.fsf@linaro.org>
+In-Reply-To: <87pmbil5rn.fsf@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 20 Jan 2023 14:57:08 +0000
-Message-ID: <CAFEAcA8qX+9cZm2TgY5ziDV=VBQkiNYHTT44QBSoKMchJD+viQ@mail.gmail.com>
-Subject: proposed 8.0 cycle freeze/release dates
-To: QEMU Developers <qemu-devel@nongnu.org>
+Date: Fri, 20 Jan 2023 14:58:55 +0000
+Message-ID: <CAFEAcA_8KAWdjRfsDV5hHwS9pmkFQgD+yXurhJEocZ2PS5Xd=w@mail.gmail.com>
+Subject: Re: [PATCH 4/4] tests/tcg/multiarch: add vma-pthread.c
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: Richard Henderson <richard.henderson@linaro.org>, iii@linux.ibm.com,
+ qemu-devel@nongnu.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -78,22 +89,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Here's my proposal for 8.0 cycle freeze and release dates:
+On Fri, 13 Jan 2023 at 17:10, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+>
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+> > On Sat, 24 Dec 2022 at 15:19, Richard Henderson
+> > <richard.henderson@linaro.org> wrote:
+> >>
+> >> From: Ilya Leoshkevich <iii@linux.ibm.com>
+> >>
+> >> Add a test that locklessly changes and exercises page protection bits
+> >> from various threads. This helps catch race conditions in the VMA
+> >> handling.
+> >>
+> >> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> >> Message-Id: <20221223120252.513319-1-iii@linux.ibm.com>
+> >> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> >
+> > I've noticed that this newly added vma-pthread test seems to
+> > be flaky. Here's an example from a clang-user job:
+> > https://gitlab.com/qemu-project/qemu/-/jobs/3600385176
+> >
+> > TEST vma-pthread-with-libbb.so on aarch64
+> > fail indirect write 0x5500b1eff0 (Bad address)
+> > timeout: the monitored command dumped core
+> > Aborted
+> > make[1]: *** [Makefile:173: run-plugin-vma-pthread-with-libbb.so] Error=
+ 134
+> >
+> > and another from a few days earlier:
+> > https://gitlab.com/qemu-project/qemu/-/jobs/3572970612
+> >
+> > TEST vma-pthread-with-libsyscall.so on s390x
+> > fail indirect read 0x4000999000 (Bad address)
+> > timeout: the monitored command dumped core
+> > Aborted
+> > make[1]: *** [Makefile:173: run-plugin-vma-pthread-with-libsyscall.so] =
+Error 134
+> >
+> > thanks
+> > -- PMM
+>
+> Interesting those are both with plugins. I wonder if the tsan plugin
+> fixes in my latest tree help?
 
-https://wiki.qemu.org/Planning/8.0
+I think this is a failure in the non-plugin case:
+https://gitlab.com/qemu-project/qemu/-/jobs/3636082364
 
-2022-12-14 : Beginning of development phase
-2022-03-07 : Soft feature freeze. Only bug fixes after this point.
-             All feature changes must be already in a sub maintainer
-             tree and all pull requests from submaintainers must have
-             been sent to the list by this date.
-2022-03-14: Hard feature freeze. Tag rc0
-2022-03-21: Tag rc1
-2022-03-28: Tag rc2
-2022-04-04: Tag rc3
-2022-04-11: Release; or tag rc4 if needed
-2022-04-18: Release if we needed an rc4
-
-thanks
 -- PMM
 
