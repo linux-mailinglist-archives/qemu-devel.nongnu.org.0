@@ -2,19 +2,19 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100B4675485
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:31:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B41FB675467
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 13:28:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIqTt-0002Ts-Lf; Fri, 20 Jan 2023 07:26:53 -0500
+	id 1pIqTu-0002aM-F2; Fri, 20 Jan 2023 07:26:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqTp-0002R3-5L
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqTo-0002R0-EM
  for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:26:49 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqTm-0000Go-Aj
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pIqTl-0000Gy-MH
  for qemu-devel@nongnu.org; Fri, 20 Jan 2023 07:26:48 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1674217602;
@@ -22,40 +22,39 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=0/qovKCHixQ1h4ZvD0YYlb7bCZEWSK7CPqWq0G/k15A=;
- b=FLQfIhwnrBRVdYZiNpOqgljGUkHiuQ5XsnJpFcd4YJRv3SdzhmpA8c4E/vaZHVYhlynA7s
- DJC5SZdYpDcogxDBtVhwanBdOfaOV2uUNtJjeywwgwQdiEc2QisS3PZ5x1/Xk5JrWhpfkd
- 1c224WHyvp8dENoye/48MdlCnHaX7ks=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=j3CH6oLgoMZSvXdwH2OLunxeLunxPN5YJK8EBPDGf8E=;
+ b=bQrAp9I2s9wpwiwKdiRqnpEifORabKR8QKkBZmh/ESQsW2uyiUFD5tX85V2hOQWTZVPSeB
+ n1G7hgRp3m7CmdIYscm6dQFVu/rYbBv/RAz7CyYGStbicwe6f2CO/WI5e8n+RU3AA8nmff
+ frbUNn37S9L+9mSC1BYuFeR5R98o91I=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-249-O0ajlSq2P0q5Y-hDAvR5-w-1; Fri, 20 Jan 2023 07:26:40 -0500
-X-MC-Unique: O0ajlSq2P0q5Y-hDAvR5-w-1
+ us-mta-650-7xhM8ixoN4O3WBUW4sEdjA-1; Fri, 20 Jan 2023 07:26:41 -0500
+X-MC-Unique: 7xhM8ixoN4O3WBUW4sEdjA-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 264DF800B30;
- Fri, 20 Jan 2023 12:26:40 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2EB042801E50;
+ Fri, 20 Jan 2023 12:26:41 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.74])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5B88340C6EC4;
- Fri, 20 Jan 2023 12:26:39 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6369240C6EC4;
+ Fri, 20 Jan 2023 12:26:40 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com,
 	peter.maydell@linaro.org,
 	qemu-devel@nongnu.org
-Subject: [PULL 02/38] tests/qemu-iotests/262: Check for availability of
- "blkverify" first
-Date: Fri, 20 Jan 2023 13:25:57 +0100
-Message-Id: <20230120122633.84983-3-kwolf@redhat.com>
+Subject: [PULL 03/38] pflash: Only read non-zero parts of backend image
+Date: Fri, 20 Jan 2023 13:25:58 +0100
+Message-Id: <20230120122633.84983-4-kwolf@redhat.com>
 In-Reply-To: <20230120122633.84983-1-kwolf@redhat.com>
 References: <20230120122633.84983-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,36 +78,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Thomas Huth <thuth@redhat.com>
+From: Xiang Zheng <zhengxiang9@huawei.com>
 
-In downstream RHEL builds, we do not have "blkverify" enabled, so
-iotest 262 is currently failing there. Thus let's list "blkverify"
-as required item so that the test properly gets skipped instead if
-"blkverify" is missing.
+Currently we fill the VIRT_FLASH memory space with two 64MB NOR images
+when using persistent UEFI variables on virt board. Actually we only use
+a very small(non-zero) part of the memory while the rest significant
+large(zero) part of memory is wasted.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20230104112850.261480-1-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+So this patch checks the block status and only writes the non-zero part
+into memory. This requires pflash devices to use sparse files for
+backends.
+
+Signed-off-by: Xiang Zheng <zhengxiang9@huawei.com>
+
+[ kraxel: rebased to latest master ]
+
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-Id: <20221220084246.1984871-1-kraxel@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/qemu-iotests/262 | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/block/block.c | 36 +++++++++++++++++++++++++++++++++++-
+ 1 file changed, 35 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/262 b/tests/qemu-iotests/262
-index 2294fd5ecb..a4a92de45a 100755
---- a/tests/qemu-iotests/262
-+++ b/tests/qemu-iotests/262
-@@ -25,7 +25,8 @@ import iotests
- import os
+diff --git a/hw/block/block.c b/hw/block/block.c
+index f9c4fe6767..142ebe4267 100644
+--- a/hw/block/block.c
++++ b/hw/block/block.c
+@@ -14,6 +14,40 @@
+ #include "qapi/error.h"
+ #include "qapi/qapi-types-block.h"
  
- iotests.script_initialize(supported_fmts=['qcow2'],
--                          supported_platforms=['linux'])
-+                          supported_platforms=['linux'],
-+                          required_fmts=['blkverify'])
- 
- with iotests.FilePath('img') as img_path, \
-      iotests.FilePath('mig_fifo') as fifo, \
++/*
++ * Read the non-zeroes parts of @blk into @buf
++ * Reading all of the @blk is expensive if the zeroes parts of @blk
++ * is large enough. Therefore check the block status and only write
++ * the non-zeroes block into @buf.
++ *
++ * Return 0 on success, non-zero on error.
++ */
++static int blk_pread_nonzeroes(BlockBackend *blk, hwaddr size, void *buf)
++{
++    int ret;
++    int64_t bytes, offset = 0;
++    BlockDriverState *bs = blk_bs(blk);
++
++    for (;;) {
++        bytes = MIN(size - offset, BDRV_REQUEST_MAX_SECTORS);
++        if (bytes <= 0) {
++            return 0;
++        }
++        ret = bdrv_block_status(bs, offset, bytes, &bytes, NULL, NULL);
++        if (ret < 0) {
++            return ret;
++        }
++        if (!(ret & BDRV_BLOCK_ZERO)) {
++            ret = bdrv_pread(bs->file, offset, bytes,
++                             (uint8_t *) buf + offset, 0);
++            if (ret < 0) {
++                return ret;
++            }
++        }
++        offset += bytes;
++    }
++}
++
+ /*
+  * Read the entire contents of @blk into @buf.
+  * @blk's contents must be @size bytes, and @size must be at most
+@@ -53,7 +87,7 @@ bool blk_check_size_and_read_all(BlockBackend *blk, void *buf, hwaddr size,
+      * block device and read only on demand.
+      */
+     assert(size <= BDRV_REQUEST_MAX_BYTES);
+-    ret = blk_pread(blk, 0, size, buf, 0);
++    ret = blk_pread_nonzeroes(blk, size, buf);
+     if (ret < 0) {
+         error_setg_errno(errp, -ret, "can't read block backend");
+         return false;
 -- 
 2.38.1
 
