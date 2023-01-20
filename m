@@ -2,77 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B14FA675842
-	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 16:14:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13D37675848
+	for <lists+qemu-devel@lfdr.de>; Fri, 20 Jan 2023 16:16:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pIt4y-0002g4-A4; Fri, 20 Jan 2023 10:13:20 -0500
+	id 1pIt7a-000430-Vo; Fri, 20 Jan 2023 10:16:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1pIt4u-0002cb-RW
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 10:13:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1pIt4t-0006fE-As
- for qemu-devel@nongnu.org; Fri, 20 Jan 2023 10:13:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674227594;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TxDsk0Pjxqexvj0e8E3wGO5ASRGf1VjLI9O+kztGYm8=;
- b=PQxAIRgTzWtvOwLpz1Egv9QoKYXV4LU9AWlxlMg8okTmSwPiuq9nOagEm/DnZM4O0N+yEX
- 76nC/Y5iarTnUM2gB6j8/l1lDfVX27RCRaI6j+Ntl/7G7lDLpwSvX19wjBas8vKyJutUDS
- rKPZ79bQL+DJl52XxBywoBYeHqC8B50=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-213-Ni9sKXBtOOCc8QvKx0NFKg-1; Fri, 20 Jan 2023 10:13:12 -0500
-X-MC-Unique: Ni9sKXBtOOCc8QvKx0NFKg-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 14FB5802C1C;
- Fri, 20 Jan 2023 15:13:12 +0000 (UTC)
-Received: from [10.39.208.26] (unknown [10.39.208.26])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 01D981121318;
- Fri, 20 Jan 2023 15:13:09 +0000 (UTC)
-Message-ID: <fbe712bb-a1cc-6f83-501a-8549e842f49d@redhat.com>
-Date: Fri, 20 Jan 2023 16:13:08 +0100
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1pIt7Y-00042U-9f
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 10:16:00 -0500
+Received: from mail-ej1-x62c.google.com ([2a00:1450:4864:20::62c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1pIt7W-00078R-A5
+ for qemu-devel@nongnu.org; Fri, 20 Jan 2023 10:16:00 -0500
+Received: by mail-ej1-x62c.google.com with SMTP id ud5so14783686ejc.4
+ for <qemu-devel@nongnu.org>; Fri, 20 Jan 2023 07:15:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=QyADo8rV6n7VFmc6NHVuVNWiz2JftjzpgOovc7sRpb4=;
+ b=iGqBuQ5Zvc11VTxTWgCldVpqPleLlsTTEgJubylrMJBQy1gwUN49f+BtUTFfogchjh
+ JsPIOlyn5+cr6lRAKyKPJWMJq/FsvGrINnGQWVwaLPdEiyZ9Mm8dO3FrbNttSSWZPIDP
+ 8mgeJRj+hrT+rsR4qVHtZB8XwL5UYsVsiawmcIBIVkM12R0+ZVejqKMZ0VKNKeUIZa3n
+ SxCwXtCqQYglDBGz3q7X+2GyPqN03PXmzt1t9MoYVPtej6G08a/WKG6G1vqpxW5rmudS
+ JTx5VumKSsSPd/iu6jTEXRy6H1g3IA0L8+P1lq8SUqWvQWtGFjZl15Wz4JbiDhAv9i8U
+ 8/PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=QyADo8rV6n7VFmc6NHVuVNWiz2JftjzpgOovc7sRpb4=;
+ b=l17/gARTeDji/NE9EqXZ9DQJtD0LryCJXwBmdHlZU3J9yZPRdPqtUfeurZHntwZGq7
+ mJ/U8ka1gGJKB5lhuafLblzXd0n3atRAr1jPAXtfewgNUCaQMauAy0nYPiMQZ7hd9EvP
+ /QHtaQUKbl/0GAC1F+VHt3ERpe6cJ2nm0jO+Z6YGvuG1XoebW5UP6ePEPULBghi4tTsS
+ 4xfTb5owoau81e3imXS/6bVCx3jOoXsSayeIucWpocx0UsL40/Yte8OzcJs6mnYHYu6C
+ CbFthRJRmCE1WcIRbEi4UeMvK+L4PPTDQ42/u7Gt0shaMiIawTeayzByUWpk0Ev7kqWl
+ 9Fig==
+X-Gm-Message-State: AFqh2kqvWWfb2I6zy2CUa5ib8AYOYA/lmQ715Ov+SPA+bTZyw6lWHTXF
+ CuKxqWsI3bvpLzKC+P7DsXGkGouDQHqn9rOazYM=
+X-Google-Smtp-Source: AMrXdXugOAbRlpjm11c68fRhVETEyLE7nbbXI6LXHgqSSCRFLDwsENdrHdxVJKugFoc0dSbJnh9+jw==
+X-Received: by 2002:a17:907:c30c:b0:86c:cbfd:936 with SMTP id
+ tl12-20020a170907c30c00b0086ccbfd0936mr19092854ejc.11.1674227754926; 
+ Fri, 20 Jan 2023 07:15:54 -0800 (PST)
+Received: from ubuntu-focal.. ([2a01:4f9:3a:1e26::2])
+ by smtp.gmail.com with ESMTPSA id
+ g13-20020a170906538d00b0085a958808c6sm13395436ejo.7.2023.01.20.07.15.54
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 20 Jan 2023 07:15:54 -0800 (PST)
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+To: qemu-devel@nongnu.org
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>
+Subject: [PATCH v1] target/riscv: update disas.c for xnor/orn/andn and slli.uw
+Date: Fri, 20 Jan 2023 16:15:51 +0100
+Message-Id: <20230120151551.1022761-1-philipp.tomsich@vrull.eu>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 2/2] Revert "vhost-user: Introduce nested event loop in
- vhost_user_read()"
-Content-Language: en-US
-To: Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Yajun Wu <yajunw@nvidia.com>, Peter Maydell <peter.maydell@linaro.org>,
- Parav Pandit <parav@nvidia.com>, qemu-stable@nongnu.org
-References: <20230119172424.478268-1-groug@kaod.org>
- <20230119172424.478268-3-groug@kaod.org>
-From: Maxime Coquelin <maxime.coquelin@redhat.com>
-In-Reply-To: <20230119172424.478268-3-groug@kaod.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=maxime.coquelin@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62c;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-ej1-x62c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.089, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,26 +87,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The decoding of the following instructions from Zb[abcs] currently
+contains decoding/printing errors:
+ * xnor,orn,andn: the rs2 operand is not being printed
+ * slli.uw: decodes and prints the immediate shift-amount as a
+            register (e.g. 'shift-by-2' becomes 'sp') instead of
+	    interpreting this as an immediate
 
+This commit updates the instruction descriptions to use the
+appropriate decoding/printing formats.
 
-On 1/19/23 18:24, Greg Kurz wrote:
-> This reverts commit a7f523c7d114d445c5d83aecdba3efc038e5a692.
-> 
-> The nested event loop is broken by design. It's only user was removed.
-> Drop the code as well so that nobody ever tries to use it again.
-> 
-> I had to fix a couple of trivial conflicts around return values because
-> of 025faa872bcf ("vhost-user: stick to -errno error return convention").
-> 
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->   hw/virtio/vhost-user.c | 65 ++++--------------------------------------
->   1 file changed, 5 insertions(+), 60 deletions(-)
-> 
+Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 
-Acked-by: Maxime Coquelin <maxime.coquelin@redhat.com>
+---
 
-Thanks,
-Maxime
+ disas/riscv.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/disas/riscv.c b/disas/riscv.c
+index d216b9c39b..ddda687c13 100644
+--- a/disas/riscv.c
++++ b/disas/riscv.c
+@@ -1626,9 +1626,9 @@ const rv_opcode_data opcode_data[] = {
+     { "cpop", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+     { "sext.h", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+     { "sext.b", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+-    { "xnor", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+-    { "orn", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+-    { "andn", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
++    { "xnor", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "orn", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "andn", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+     { "rol", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+     { "ror", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+     { "sh1add", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+@@ -1647,7 +1647,7 @@ const rv_opcode_data opcode_data[] = {
+     { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+     { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+     { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+-    { "slli.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
++    { "slli.uw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
+     { "add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+     { "rolw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+     { "rorw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+-- 
+2.34.1
 
 
