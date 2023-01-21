@@ -2,84 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEA0967684B
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 20:19:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6F94676843
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 20:09:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJIkK-00078Y-Qy; Sat, 21 Jan 2023 13:37:44 -0500
+	id 1pJIVl-0006YE-BK; Sat, 21 Jan 2023 13:22:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pJIkH-00078N-R0
- for qemu-devel@nongnu.org; Sat, 21 Jan 2023 13:37:41 -0500
-Received: from mail-qt1-x841.google.com ([2607:f8b0:4864:20::841])
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pJIVj-0006Y3-49
+ for qemu-devel@nongnu.org; Sat, 21 Jan 2023 13:22:39 -0500
+Received: from sonic312-24.consmr.mail.gq1.yahoo.com ([98.137.69.205])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pJIkC-0007pz-ED
- for qemu-devel@nongnu.org; Sat, 21 Jan 2023 13:37:38 -0500
-Received: by mail-qt1-x841.google.com with SMTP id fd15so6707860qtb.9
- for <qemu-devel@nongnu.org>; Sat, 21 Jan 2023 10:37:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=1OIV7/IWjD2Q2PsX3VRFNxg4ZxzK66CWQ/k2Sv1g7nM=;
- b=fE6do+b5aYr5zzl7KjN64RXBki8SfWQ3XeuXb83wKI/340TZ/a9DGb+Nd6796Nuv5D
- BUJvEv+jr2wGZObStz+1Ad7ceC4is+fR3YiB0wD2w3miLmqLeVN/y0BVScMwfgRIK3Xh
- O851nbjIPIC/h1bQyGEZdrV7VWlSa+p+elbgIWHvGEm5gkPs9bRibTis9q26fzTtFZ2R
- c2PVAtFbuXBXEbWui2abEldXWDENe19u0dRaQRfN6Up4TKLw88TEgN+xHQtYzhPjlZG8
- VtaroG/bmSl6Kg5UaLd2HvThtBEBpPCdehGnfURlKDwbGNm3N2PM/52EIhHpS9BTBvnU
- o9mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1OIV7/IWjD2Q2PsX3VRFNxg4ZxzK66CWQ/k2Sv1g7nM=;
- b=siwiisgIfbutR2aYlhjFPBt/EJJe/iiXD4E5Wkq2r41d0Xz4HHWZzSrUuYuqWAKsGa
- I96UQo+AJgopMwJJ+Sns3xt5Pt4w8Kuxky3XvJ2SJNstbFKRg+g6R8NVkzk1DjF5WKSR
- gpNq/grQ/rlsIHZIniZ9DAxk55U3SyLhgU/6fIEdxZf9CpOZlgdJW5qKpBYSPMIcQ1+A
- GWhlKMXaDebzeIINk+8QOlzVug/ssQlAA1mIMDXC16MpD6tRpWJymWz76RKJvuZTOntp
- Zj2oe+FCoSMq24CNtZssKyvugh/OBt+uRdETNJ91GaihSrsPog6L3cUOzQbuVG1FwujQ
- /vFg==
-X-Gm-Message-State: AFqh2kqR+OiY8Ps+0wBQ7iT7IInNv01U8gjb1HRUFn3Gqd0bJ6HBwh7N
- LQR7AWqUrVZnEBR1kQq5Rq+Di3Oxc6fP7f/5XOE=
-X-Google-Smtp-Source: AMrXdXtYWXZhk9+bUeKXy/7KicnSDVdO2IZae0ds1nYxVjckRDrncZZJuHw2t59/XvfLb61C9AJKKw==
-X-Received: by 2002:aca:2b13:0:b0:355:1e71:768 with SMTP id
- i19-20020aca2b13000000b003551e710768mr8593232oik.39.1674323903693; 
- Sat, 21 Jan 2023 09:58:23 -0800 (PST)
-Received: from [192.168.68.107] ([191.17.222.2])
- by smtp.gmail.com with ESMTPSA id
- l16-20020a9d7a90000000b0068682fc91a1sm3292784otn.39.2023.01.21.09.58.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Jan 2023 09:58:23 -0800 (PST)
-Message-ID: <385b977b-d15f-6c54-1d05-ab68e122dfe8@ventanamicro.com>
-Date: Sat, 21 Jan 2023 14:58:19 -0300
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pJITF-0005F9-6o
+ for qemu-devel@nongnu.org; Sat, 21 Jan 2023 13:22:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1674325156; bh=GzDM3shPM+0VlMkN3ZhiZfEOMRwJWSsmB8h8wEu9+b0=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
+ b=MzH6jfZMq24WNkJQ6Arb4p9iEG2pW1MIi51XFbDUG5hCUnfwGSrhYhd8NMcwqjLnPW29GQGr8Jqb3hpT4e0QTzQ11dxPrZUdBvD5clZXgsDIucQnlbjyf7qbnkDL05nst7TAd2m5WPu/Hz3DfMV5dg14jmLKuxUFMPbOyXVcdY9ufNxRi91HiLQMBeqUW1SeykkuUpf9FsmpiNmtxuYeMxrRsWN1yhKedaX/Z7UdP9m6G16cDuyS85cyWrVWjIp8r+5vzwAFulc078W/yvH4h9wQ69PS+phWJtcQONsz9aP2sfaRQQ9POt1KutcsuBkRV1NYBTd8Uf30HzZdX0ifCQ==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1674325156; bh=rWUWi0Qdld4g51O7BCwcykDXNQrPvReWN74sOkXnq2F=;
+ h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
+ b=gIy2pK1WjyPI3QULj+MT0jwbPhcKXsCQ2YDZjhxO3PkAaz3j7ClFUq0Px4qbRCjy0rIguYQzIUleMdK5HKaH8N4+M4I68/9QI9aGzVwjFimoTR1PetK6yLY5TkrWv/vtzyvueV5fRvbcxDpUxAswuIUioqDfBUwl1EKux1mnQqFGPLGluGqRBQZcCUAIFI1LAPbP2miWcutBarjZI18FfsrqWzhQkmwploQ/PZEjGQLnarLZDtquyRHLyLPNMCldZ9YB0tEL+NuX+HcvTEPkWpO1kqQjKo53iGxIm/6DVffV8lI69y+xi6UfYSQGbd8gcCqRPAkVHY+785YgKUzDEQ==
+X-YMail-OSG: Z8rqCdYVM1m8DRiBBCrtes5ktRs4bL1jTcvO.gGFc7LXmWwbbjw.2TuS45m71wi
+ w_C.9WLcHesjYZA70xSDQIA0fLwyM.wxxMo8qE8JNJnBqkvRE6HYLR3SQ2SkHiz85d.xlmjWf6El
+ 9Lwyc.TDA7XRkO9ZqXR97V1aEnWGXBf3Kqe_8.5KYaUAUF_5Ms7tkRlHPslmGV3bdYTJgEo9O8sS
+ GGDNUCEtbfaM5DRTtE_z88IEqjOaO0VKjhEMvNgshGCP0FOkVVojoXAJ5TgF6g5j8F6T5Mym5WHe
+ QM9vHNxfW54OueXos9xxOgnFu02EuAQSJBJKdoaQWFn9faDIK8do6iDLdL1MEZZlIe1n0sHl2f8E
+ yfSkr2rKO0UIC8Shufly.NNa9SClhQ3T6pKEtfzhW3cQaBpiTyaoAE30fpDwFUB4XfkmqaxgPkSO
+ ypIXK39S74J4_2o1ghLefyOlsbTc79Uq_eN2tz0ePdAV9C954A1Bi4aYHpQKt.tsczjQkNYYMYoH
+ wAIzGKcM.x.RZX5bDQa3RCMMVmi5K_IzQ77uqZ0gyK6tpCLy6tzmTtZHGdma_78p0btLHo10uIEW
+ RBEJ7Imax6YkjAzEOpYq1xe1MnJtrEpgurXBiPcUGtx.t.yhRKw9ikU1cxVNKPLvSxH2uNEn_Hgh
+ z5T.eQnjJDXwJik0fOtvMeTPdsNrNZWQhLFd.WgBGoquenJnjkH7gbsS6mhiWsbwyFyHLU9ZmRz9
+ 2dY5XXvaVjzbU95xmqQGZdp5bNNZE9xA4U.dWk7XK1Jx7x.t97U1cWSLrpzZd8rO6A6JSY7.M0WD
+ v2q0jo0w0V_YsZ2wvRi4RFhEOtD0pt7VmFeMA.MYO4gFWqjam6sa.5kewiYPzpcYLn0hLQkYex6x
+ dY8_8dg8DNRdcmYEGFlEsP7KSnsXDHBNTl5p7cE2b63aLGuElTxOz30..vSI9yHfDVci34pGEj.i
+ _Hu6V7eU3pSDi9fhjRcOT_O8W92eFolM1aInYPDxxXo07hsC01I99h4WYDmR39DhbOeWSfudRmbK
+ VxYQseGyDQT9LM2APFun7G9vv5EbDJaHCljtGiPcXCvxMJ0zT9Uc1ZbdAWjsiivmT1HCB75tDNM5
+ LaU4rDmjip9WBkZkHRVbuD0.NBIA9B2.My0C9anlH.ru2KaDPyc6b60beriiFEJRcM0NJGdcsf6G
+ czNIQ8wWKL.ndH5rohQKp5kvRQJxxg7vukIj.rUdNXm9Zhgmck2LNVXBhhN9dErMLg6wsMn_GNZn
+ Szk9ZnkmMK93ILw7.Rc9w.rfmSWFg8V1Yo1nM73.i1yIYs7hd5qsUUnRiHvUr7kPs3E2UsiAvcKL
+ ZvVRrtATYpmzfftz7GIptP5THKMsFriPt.j1IzRbWAAnYuq6efAe74g4eQFVOeMGjSP.Sfe9iA6f
+ 3jyayngOAEJ.zIIsCfzUdHHEd_8cMfdXmg3q5fVlOI3zlMkcRPw93eNKcVrKt5m0_RjumhOR_DhG
+ i4DJDNwNRBaqRxZ3JJklqylaV6hrwTeS2Fbe0VGZpI_heFO4cmiKHPyw2HOcLiT.6syQPl.VfMKD
+ wi5nvukNKy9AAANFE8m9zDQqoQZBXWg5HGUYCEbIDAv1lBdUhKQ3w9xQYWWlONWIDLHwV4xsw6Mb
+ Yoqu3l9z8WTOJMp7YJ4WXN5dLnsDNTH22NHk4hDrm3eriHlk0Tmpw6ZCjIuGZEiu.z3PAv7fJypQ
+ FHOeXLiDx3E3BkJcIfHTn2sXYNssVc9KEdk8TYuMEhMzZ8fo8nLVb15YYXvgr.NNbvT_vAoxxhCW
+ T_ZkHBshdcd4GHTzU2UlgBqjjtuB81JDxWEJZoMkqKew_5IdmUCZPhoAWLS8lgwHvBvHbfIFu_P.
+ C3cO4CthzbWa2HhM9T9yioMGYz_kqj1oU1nglAf3sDYarS9RUzIR_5CNU3mnUtMHQL3aqS5GbKs_
+ TOB7_MBEAz4O6MnOqEc.Uz3w9ONK2j40H5PJKEmrUGH_6AfoqXbnRU3OSjpKfxiOXOvxNZ6Ooa_F
+ JLcw3ToELnG9U1RJ60VtsrTDgwDRD4Wr2xe3XdV0ynbCVfjAP.OiTeXFsmRR3.caepiHZjOIqpIw
+ MwaNN2Rni87D6ydktsQpQI5KOolQYrCSzP.tf9__W4BLYzCPIN6hugJdnVR67K.rmiwsmklmaDSr
+ T0J859mZRLP8vSbOdo.VMeetS.UsYKl4LYLGdI9.IAkMgCgmuUBkGSAjNlU7Frt2a_.ouS4_mA9K
+ W4adMarT8NdFXNQI7Zw--
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic312.consmr.mail.gq1.yahoo.com with HTTP; Sat, 21 Jan 2023 18:19:16 +0000
+Received: by hermes--production-bf1-6bb65c4965-7k2xj (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 933f982256ad66195c1bc98306f1939a; 
+ Sat, 21 Jan 2023 18:06:42 +0000 (UTC)
+Message-ID: <420b03de-3b1a-2096-529f-d18bfdf0cf53@aol.com>
+Date: Sat, 21 Jan 2023 13:06:40 -0500
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v3 3/7] hw/riscv/microchip_pfsoc.c: add an Icicle Kit fdt
- address function
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
+To: Anthony PERARD <anthony.perard@citrix.com>
+Cc: qemu-devel@nongnu.org, xen-devel@lists.xenproject.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ Stefano Stabellini <sstabellini@kernel.org>
+References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
+ <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
+ <Y7gqSLo8pMm4gfV+@perard.uk.xensource.com>
 Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
-References: <20230119191728.622081-1-dbarboza@ventanamicro.com>
- <20230119191728.622081-4-dbarboza@ventanamicro.com> <Y8ndFjv9prrRXLnL@spud>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <Y8ndFjv9prrRXLnL@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::841;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-qt1-x841.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
+From: Chuck Zmudzinski <brchuckz@aol.com>
+In-Reply-To: <Y7gqSLo8pMm4gfV+@perard.uk.xensource.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.21096
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.69.205; envelope-from=brchuckz@aim.com;
+ helo=sonic312-24.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.092,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,390 +106,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Conor,
+On 1/6/2023 9:03 AM, Anthony PERARD wrote:
+> On Sun, Jan 01, 2023 at 06:52:03PM -0500, Chuck Zmudzinski wrote:
+> > Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
+> > as noted in docs/igd-assign.txt in the Qemu source code.
+> > 
+> > Currently, when the xl toolstack is used to configure a Xen HVM guest with
+> > Intel IGD passthrough to the guest with the Qemu upstream device model,
+> > a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
+> > a different slot. This problem often prevents the guest from booting.
+> > 
+> > The only available workaround is not good: Configure Xen HVM guests to use
+> > the old and no longer maintained Qemu traditional device model available
+> > from xenbits.xen.org which does reserve slot 2 for the Intel IGD.
+> > 
+> > To implement this feature in the Qemu upstream device model for Xen HVM
+> > guests, introduce the following new functions, types, and macros:
+> > 
+> > * XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
+> > * XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
+> > * typedef XenPTQdevRealize function pointer
+> > * XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
+> > * xen_igd_reserve_slot and xen_igd_clear_slot functions
+> > 
+> > The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
+> > member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
+> > the xl toolstack with the gfx_passthru option enabled, which sets the
+> > igd-passthru=on option to Qemu for the Xen HVM machine type.
+> > 
+> > The new xen_igd_reserve_slot function also needs to be implemented in
+> > hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
+> > when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
+> > in which case it does nothing.
+> > 
+> > The new xen_igd_clear_slot function overrides qdev->realize of the parent
+> > PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
+> > since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
+> > created in hw/i386/pc_piix.c for the case when igd-passthru=on.
+> > 
+> > Move the call to xen_host_pci_device_get, and the associated error
+> > handling, from xen_pt_realize to the new xen_igd_clear_slot function to
+> > initialize the device class and vendor values which enables the checks for
+> > the Intel IGD to succeed. The verification that the host device is an
+> > Intel IGD to be passed through is done by checking the domain, bus, slot,
+> > and function values as well as by checking that gfx_passthru is enabled,
+> > the device class is VGA, and the device vendor in Intel.
+> > 
+> > Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+>
+>
+> This patch looks good enough. It only changes the "xenfv" machine so it
+> doesn't prevent a proper fix to be done in the toolstack libxl.
+>
+> The change in xen_pci_passthrough_class_init() to try to run some code
+> before pci_qdev_realize() could potentially break in the future due to
+> been uncommon but hopefully that will be ok.
+>
+> So if no work to fix libxl appear soon, I'm ok with this patch:
+>
+> Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
+>
+> Thanks,
+>
 
-Thanks for the Icicle-kit walk-through! I'll not claim that I fully understood it,
-but I understood enough to handle the situation ATM.
+Hi Anthony,
 
-Without this change, this is where the FDT is being installed in the board when
-I start it with 8Gb of RAM (retrieved via 'info roms'):
+If you have been following this patch it is now at v10. Since there is
+another approach of patching libxl by using the "pc" machine instead of
+patching Qemu to fix the "xenfv" machine and there have been other
+changes, I did not include your Reviewed-by tag in the later versions.
 
-addr=00000000bfe00000 size=0x00a720 mem=ram name="fdt"
+I presume you are not interested in dealing with the technical debt
+of patching libxl as proposed by this patch to libxl:
 
-Which surprised me at first because this is almost at the end of the LO area which has
-1Gb and I figured it would be in the middle of another RAM area. I took another read
-at what we're doing in riscv_load_fdt():
+https://lore.kernel.org/xen-devel/20230110073201.mdUvSjy1vKtxPriqMQuWAxIjQzf1eAqIlZgal1u3GBI@z/
 
------------
-temp = (dram_base < 3072 * MiB) ?  MIN(dram_end, 3072 * MiB) : dram_end;
-fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
------------
+because it would be more difficult to maintain and result in reduced
+startup performance with the Intel IGD than by patching Qemu and
+fixing the "xenfv" machine type with the Intel IGD directly.
 
-This code can be read as "if the starting address of the RAM is lower than 3Gb, put
-the FDT no further than 3Gb (0xc0000000). Otherwise, put it at the end of dram",
-where "dram_base" is the starting address of the RAM block that the function
-receives.
+So are you OK with v10 of this patch? If so, you can add your Reviewed-by
+again to v10. The v10 has several changes since v6 as requested by other
+reviewers (Michael, Stefano, Igor).
 
-For icicle-kit, this is being passed as  memmap[MICROCHIP_PFSOC_DRAM_LO].base,
-0x80000000, which is 2Gb.
+The v10 of the patch is here:
 
-So, regardless of how much RAM we have (dram_end), the FDT will always be capped at
-3Gb. At this moment, this fits exactly at the end of the LO area for the Icicle Kit.
-Which is funny because this 3Gb restriction was added by commit 1a475d39ef54 to fix
-32 bit guest boot and it happened to also work for the Microchip SoC.
-
-So yeah, I thought that I was fixing a bug and in the end I caused one. This patch
-needs to go.
-
-
-Alistair, I believe I should re-send v2, this time explaining why the existing function
-will not break the Microchip board because we'll never put the FDT out of the LO area
-of the board. Does this work for you?
-
-
-Conor, one more thing:
-
-
-On 1/19/23 21:15, Conor Dooley wrote:
-> Hey Daniel,
-> 
-> Got through the stuff I wanted to get done tonight faster than
-> expected...
-> 
-> On Thu, Jan 19, 2023 at 05:17:33PM -0300, Daniel Henrique Barboza wrote:
->> Are you testing it by using the command line
->> you mentioned in the "qemu icicle kit es" thread?
->>
->> $(QEMU)/qemu-system-riscv64 \
->> 	-M microchip-icicle-kit \
->> 	-m 2G -smp 5 \
->> 	-kernel $(vmlinux_bin) \
->> 	-dtb $(devkit).dtb \
->> 	-initrd $(initramfs) \
->> 	-display none \
->> 	-serial null \
->> 	-serial stdio
-> 
-> Yah, effectively. It's not quite that, but near enough as makes no real
-> difference:
-> qemu-icicle:
-> 	$(QEMU)/qemu-system-riscv64 -M microchip-icicle-kit \
-> 		-m 2G -smp 5 \
-> 		-kernel $(vmlinux_bin) \
-> 		-dtb $(wrkdir)/riscvpc.dtb \
-> 		-initrd $(initramfs) \
-> 		-display none -serial null \
-> 		-serial stdio \
-> 		-D qemu.log -d unimp
-> 
-> I just tried to make things somewhat more intelligible for that thread.
-
-I tried it out with kernel v6.0.0 (I saw you mentioning in the other thread that
-this was the latest kernel you were able to boot this way)  and it booted up until
-the kernel complained about missing initramfs. Any tips on how I can build an
-initrd disk for the board?
-
+https://lore.kernel.org/qemu-devel/d473914c4d2dc38ae87dca4b898d75b44751c9cb.1674297794.git.brchuckz@aol.com/
 
 Thanks,
 
-
-Daniel
-
-> 
-> Also in case it is not obvious, I do work for Microchip. As I mentioned
-> to Alistair at LPC, I/we don't have the cycles at the moment to do
-> anything with QEMU, so the bits of fixes I have sent are things I fixed
-> while debugging other issues etc, mostly in the evenings.
-> 
-> Anways, I'll attempt to explain what the craic is here..
-> 
-> On Thu, Jan 19, 2023 at 04:17:24PM -0300, Daniel Henrique Barboza wrote:
->> The Icicle Kit board works with 2 distinct RAM banks that are separated
-> 
-> Ehh, 2 isn't really true. There are 6 possible "windows" into the DDR on
-> MPFS, list here as with their start addresses.
-> 
-> 32-bit cached     0x0080000000
-> 64-bit cached     0x1000000000
-> 32-bit non-cached 0x00c0000000
-> 64-bit non-cached 0x1400000000
-> 32-bit WCB        0x00d0000000
-> 64-bit WCB        0x1800000000
-> 
-> These are the "bus" addresses, where the harts think the memory is, but
-> the memory is not actually connected there. There are some runtime
-> configurable registers which determine what addresses these correspond
-> to in the DDR itself.
-> 
-> When the QEMU port for MPFS was written, only two of these were in use,
-> the 32-bit and 64-bit non-cached regions. The config (seg) registers
-> were set up so that the 32-bit cached region pointed to 0x0 in DDR and
-> the 64-bit region pointed to 0x3000_0000 in DDR.
-> ⢰⠒⠒⠒⠒⡖⠒⠒⠒⣶⠒0x80000000
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸⡖⠒⠒⢲⡇   ⡇ 0x40000000
-> ⢸⡇  ⢸⡇   ⡇ ⡇
-> ⢸⡇  ⢸⠓⠒⠒⠒⠃ ⡇ <-- 64-bit starts here
-> ⢸⡇  ⢸      ⡇
-> ⢸⡇  ⢸      ⡇
-> ⢸⡇  ⢸      ⡇
-> ⢸⡇  ⢸      ⡇
-> ⢸⡇  ⢸      ⡇ <-- 32-bit starts at 0x0
-> ⠘⠓⠒0⠚⠒⠒1⠒⠒⠒0x00000000
-> 
-> (These diagrams are a bit crap, I'm copy pasting them from a TUI tool
-> for visualising these I made for myself. The ~s can be ignored.
-> https://github.com/ConchuOD/memory-aperature-configurator)
-> 
->> by a gap. We have a lower bank with 1GiB size, a gap follows,
->> then at 64GiB the high memory starts.
-> 
-> As you correctly pointed out, that lower region is in fact 1 GiB & hence
-> there is actually an overlapping region of 256 MiB.
-> 
-> The Devicetree at this point in time looked like:
-> 	ddrc_cache_lo: memory@80000000 {
-> 		device_type = "memory";
-> 		reg = <0x0 0x80000000 0x0 0x30000000>;
-> 		clocks = <&clkcfg CLK_DDRC>;
-> 		status = "okay";
-> 	};
-> 
-> 	ddrc_cache_hi: memory@1000000000 {
-> 		device_type = "memory";
-> 		reg = <0x10 0x0 0x0 0x40000000>;
-> 		clocks = <&clkcfg CLK_DDRC>;
-> 		status = "okay";
-> 	};
-> 
-> At some point, it was decided that instead we would use a configuration
-> with ~no memory at 32-bit addresses. I think it was this one here:
-> 
-> ⢰⡖⠒⠒⢲⡖⠒⠒⠒⣶⠒0x80000000
-> ⢸⡇  ⢸⡇   ⣿ ⡇
-> ⢸⠓⠒⠒⠚⡇   ⡟ ⡇ <-- 32-bit starts here
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ 0x40000000
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇ <-- 64-bit starts at 0x0
-> ⠘⠒⠒0⠒⠓⠒1⠒⠓⠒0x00000000
-> 
-> Because of how these windows work, the 32-bit cached region was always
-> there, just not used as the Devicetree became:
-> 	ddrc_cache: memory@1000000000 {
-> 		device_type = "memory";
-> 		reg = <0x10 0x0 0x0 0x76000000>;
-> 		status = "okay";
-> 	};
-> 
-> The remaining bit of memory is being used for some WCB buffers etc &
-> not for the OS itself. This was never upstreamed anywhere AFAIK as it
-> was a workaround.
-> 
-> The current Devicetree in Linux & U-Boot corresponds to a configuration
-> like:
-> ⢰⠒⠒⠒⠒⡖⠒⠒⠒⣶⠒0x80000000
-> ⢸    ⡇   ⣿ ⡇
-> ⢸    ⡇   ⡟ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸    ⡇   ⡇ ⡇
-> ⢸⡖⠒⠒⢲⡇   ⡇ 0x40000000
-> ⢸⡇  ⢸⡇   ⡇ ⡇
-> ⢸⡇  ⢸⡇   ⡇ ⡇
-> ⢸⡇  ⢸⡇   ⡇ ⡇
-> ⢸⡇  ⢸⡇   ⡇ ⡇
-> ⢸⡇  ⢸⡇   ⡇ ⡇
-> ⢸⡇  ⢸⡇   ⡇ ⡇
-> ⢸⡇  ⢸⡇   ⡇ ⡇ <-- 32- & 64-bit start at 0x0
-> ⠘⠓⠒0⠚⠓⠒1⠒⠓⠒0x00000000
-> 
-> That DT looks like:
-> 	ddrc_cache_lo: memory@80000000 {
-> 		device_type = "memory";
-> 		reg = <0x0 0x80000000 0x0 0x40000000>;
-> 		status = "okay";
-> 	};
-> 
-> 	ddrc_cache_hi: memory@1040000000 {
-> 		device_type = "memory";
-> 		reg = <0x10 0x40000000 0x0 0x40000000>;
-> 		status = "okay";
-> 	};
-> 
-> Each of these changes came as part of an FPGA reference design change &
-> a corresponding compatible change. I believe rtlv2203 was the second
-> configuration & rtlv2210 the third.
-> 
-> I can't boot the current configuration in QEMU, probably due to some of
-> the things you point out below.
-> To get it working, I remove the ddrc_cache_hi from my DT and boot with
-> the 32-bit cached memory only.
-> This is what the current changes have broken for me.
-> 
-> IMO it is a perfectly valid thing to boot a system using less than the
-> memory it *can* use.
-> 
-> I guess you read the other thread in which I stated that the HSS boot
-> that is documented doesn't work with recent HSSes. Ideally, and I am
-> most certainly _not_ expecting anyone to do this, when the HSS writes
-> the "seg" registers during boot to configure the memory layout as per
-> the FPGA bitstream QEMU would configure the memory layout it is
-> emulating to match.
-> Since direct kernel boot is a thing too, I was thinking that for that
-> mode, the config in the dtb should probably be used.
-> I don't know enough about QEMU to know if this is even possible!
-> 
-> The other possibility I was thinking of was just relaxing the DDR limit
-> entirely (and ignoring the overlaying) so that QEMU thinks there is 1
-> GiB at 0x8000_0000 and 16 GiB at 0x10_0000_0000.
-> Again, I've not had the cycles to look into any of this at all nor am I
-> expecting anyone else to - just while I am already typing about this
-> stuff there's no harm in broadcasting the other thoughts I had.
-> 
->> MachineClass::default_ram_size is set to 1.5Gb and machine_init() is
->> enforcing it as minimal RAM size, meaning that there we'll always have
-> 
-> I don't think that this is
-> 
->> at least 512 MiB in the Hi RAM area, and that the FDT will be located
->> there all the time.
-> 
-> All the time? That's odd.
-> I suppose my kernel then remaps the dtb into the memory range it can
-> access, and therefore things keep ticking.
-> 
-> I don't think that machine_init() should be enforcing a minimum ram size
-> of 1.5 GiB - although maybe Bin Meng has a reason for that that I don't
-> understand.
-> 
->> riscv_compute_fdt_addr() can't handle this setup because it assumes that
->> the RAM is always contiguous. It's also returning an uint32_t because
->> it's enforcing that fdt address is sitting on an area that is addressable
->> to 32 bit CPUs, but 32 bits won't be enough to point to the Hi area of
->> the Icicle Kit RAM (and to its FDT itself).
->>
->> Create a new function called microchip_compute_fdt_addr() that is able
->> to deal with all these details that are particular to the Icicle Kit.
->> Ditch riscv_compute_fdt_addr() and use it instead.
->>
->> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->> ---
->>   hw/riscv/microchip_pfsoc.c | 46 +++++++++++++++++++++++++++++++++++---
->>   1 file changed, 43 insertions(+), 3 deletions(-)
->>
->> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
->> index dcdbc2cac3..9b829e4d1a 100644
->> --- a/hw/riscv/microchip_pfsoc.c
->> +++ b/hw/riscv/microchip_pfsoc.c
->> @@ -54,6 +54,8 @@
->>   #include "sysemu/device_tree.h"
->>   #include "sysemu/sysemu.h"
->>   
->> +#include <libfdt.h>
->> +
->>   /*
->>    * The BIOS image used by this machine is called Hart Software Services (HSS).
->>    * See https://github.com/polarfire-soc/hart-software-services
->> @@ -513,6 +515,46 @@ static void microchip_pfsoc_soc_register_types(void)
->>   
->>   type_init(microchip_pfsoc_soc_register_types)
->>   
->> +static hwaddr microchip_compute_fdt_addr(MachineState *ms)
->> +{
->> +    const MemMapEntry *memmap = microchip_pfsoc_memmap;
->> +    hwaddr mem_low_size = memmap[MICROCHIP_PFSOC_DRAM_LO].size;
->> +    hwaddr mem_high_size, fdt_base;
->> +    int ret = fdt_pack(ms->fdt);
->> +    int fdtsize;
->> +
->> +    /* Should only fail if we've built a corrupted tree */
->> +    g_assert(ret == 0);
->> +
->> +    fdtsize = fdt_totalsize(ms->fdt);
->> +    if (fdtsize <= 0) {
->> +        error_report("invalid device-tree");
->> +        exit(1);
->> +    }
->> +
->> +    /*
->> +     * microchip_icicle_kit_machine_init() does a validation
->> +     * that guarantees that ms->ram_size is always greater
->> +     * than mem_low_size and that mem_high_size will be
->> +     * at least 512MiB.
-> 
-> Again, I don't think it should be doing this at all. I see the comment
-> about that size refers to DDR training, but given the overlaying of
-> memory it's entirely possible to train against 64-bit addresses but then
-> boot a kernel using only low memory addresses.
-> Perhaps by default & for booting via the bootloader, but I don't think
-> enforcing this makes sense when the bootloader is not involved.
-> 
-> If a dtb is used as the source for the memory layout, requiring memory
-> at high addresses doesn't make sense to me. I have no idea if there is a
-> mechanism for figuring that out though nor am I au fait with how these
-> memory sizes are calculated.
-> It is getting kinda late here, so I am sending this without having
-> investigated any of the detail, sorry.
-> 
-> Hopefully that wasn't too deranged and you can at least understand why I
-> have been doing what I have...
-> 
-> Thanks,
-> Conor.
-> 
->> +     *
->> +     * This also means that our fdt_addr will be based
->> +     * on the starting address of the HI DRAM block.
->> +     */
->> +    mem_high_size = ms->ram_size - mem_low_size;
->> +    fdt_base = memmap[MICROCHIP_PFSOC_DRAM_HI].base;
->> +
->> +    /*
->> +     * In theory we could copy riscv_compute_fdt_addr()
->> +     * and put the FDT capped at maximum 3Gb from fdt_base,
->> +     * but fdt_base is set at 0x1000000000 (64GiB). We
->> +     * make the assumption here that the OS is ready to
->> +     * handle the FDT, 2MB aligned, at the very end of
->> +     * the available RAM.
->> +     */
->> +    return QEMU_ALIGN_DOWN(fdt_base + mem_high_size - fdtsize, 2 * MiB);
->> +}
->> +
->>   static void microchip_icicle_kit_machine_init(MachineState *machine)
->>   {
->>       MachineClass *mc = MACHINE_GET_CLASS(machine);
->> @@ -640,9 +682,7 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
->>                                       "bootargs", machine->kernel_cmdline);
->>           }
->>   
->> -        /* Compute the fdt load address in dram */
->> -        fdt_load_addr = riscv_compute_fdt_addr(memmap[MICROCHIP_PFSOC_DRAM_LO].base,
->> -                                              machine->ram_size, machine->fdt);
->> +        fdt_load_addr = microchip_compute_fdt_addr(machine);
->>           riscv_load_fdt(fdt_load_addr, machine->fdt);
->>   
->>           /* Load the reset vector */
->> -- 
->> 2.39.0
->>
->>
->>
+Chuck
 
