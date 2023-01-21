@@ -2,46 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B739A67696B
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 21:39:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E571A67697B
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 21:57:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJKcg-0002uo-RO; Sat, 21 Jan 2023 15:37:58 -0500
+	id 1pJKuP-0007jr-K6; Sat, 21 Jan 2023 15:56:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pJKce-0002tl-8y; Sat, 21 Jan 2023 15:37:56 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pJKcb-0007nA-LF; Sat, 21 Jan 2023 15:37:55 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 57537746346;
- Sat, 21 Jan 2023 21:35:29 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 3B09D745712; Sat, 21 Jan 2023 21:35:29 +0100 (CET)
-Message-Id: <8801292992a304609e1eac680fe36b515592b926.1674333199.git.balaton@eik.bme.hu>
-In-Reply-To: <cover.1674333199.git.balaton@eik.bme.hu>
-References: <cover.1674333199.git.balaton@eik.bme.hu>
-From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH 3/3] hw/display/sm501: Code style fix
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pJKuO-0007jS-5Z; Sat, 21 Jan 2023 15:56:16 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pJKuM-0006wP-I4; Sat, 21 Jan 2023 15:56:15 -0500
+Received: by mail-ej1-x631.google.com with SMTP id u19so21884449ejm.8;
+ Sat, 21 Jan 2023 12:56:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=eUGuItvlLw8gIi6OK0GfQha+9gmmxYU5DpoLmRBRHog=;
+ b=S7DY8Wt3Y7yE6RJADSSDm5NWKGogyl+p5tyyDrnQuLvwMo6rTaNx0BwLoIFLlvqsAX
+ jkcug+rdS2RzLC7ik7t9hTESmxqgvuzZBhHd1J9jtm4YOxDjn5VaC9swfHh4FDat5JWF
+ elB0gGDSoMMroKyin5fjGsNfuj4CVG7RJ2/I0eTbXpMgpwa/2CgEasnZZwGkRUic0cWW
+ 5Ef3hSbDr2m1N7HZvwcv01ZXS6phXFQQv0eC85PnV/1aLiKRxmbsejsBChcnsr4kW7aq
+ Yczh2BlsjYUtW6aEG5YVN2pcEAJSjc9P7PkDkeTGZ7gfzljieNMegJTYQMF54bUsmw5b
+ VB7Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=eUGuItvlLw8gIi6OK0GfQha+9gmmxYU5DpoLmRBRHog=;
+ b=Vh9IXGxD+EqgQmJmLR1Hdx9agG7F3lo9FBgUnMRcqrwaTxStqWRHXQA66uJ2a6h9Wf
+ Ah1L6zx6PcZi0hHjkP3csbb6vZijMlEAFBQuA5fX9RtKVt6IZeSx4GeEq5Cod/vWgDQR
+ 4h9Pd9cLU9RT7lg41kI6/r5gn3G3GVEDRBXdC/I8IUKHTIyFNzS/EsCbOWYaxQ2NI3Qo
+ tFDM7duKlY0b/37zgBYxVodQGKQ8WozxicOJ4x3j2xDOyFQWSWwqu+x++FczimhJaTaE
+ 0zlBh0ZIM9NvLB9aOzbEpH+E/h0eFL07tv3X5YIazmwZ5UpfTLWrFu7GcTgnV4CnqPhj
+ vXug==
+X-Gm-Message-State: AFqh2kpt3+HPReVms1KTw2mR0NfNU59TZFCjm1U4sET7OqwHCtAAwAJM
+ FrAoHyfaLRtlyTpU8aS/Xz2p09z3q1rhFQ==
+X-Google-Smtp-Source: AMrXdXs0pWPqI+f8dWNF4W4aL14VDBBbZ/M834OD7RAaMQI8GgjystSxl8ViZHG9afH//s8v/8/J+w==
+X-Received: by 2002:a17:907:3a90:b0:7c0:e5c6:2a74 with SMTP id
+ fh16-20020a1709073a9000b007c0e5c62a74mr14395117ejc.34.1674334572340; 
+ Sat, 21 Jan 2023 12:56:12 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb200f0e5df3d05efd173.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:f0e5:df3d:5ef:d173])
+ by smtp.gmail.com with ESMTPSA id
+ k22-20020a1709063fd600b00862497eafb2sm13829525ejj.103.2023.01.21.12.56.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 21 Jan 2023 12:56:11 -0800 (PST)
+Date: Sat, 21 Jan 2023 20:56:03 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: qemu-devel@nongnu.org
+CC: qemu-ppc@nongnu.org, BALATON Zoltan <balaton@eik.bme.hu>
+Subject: Re: [PATCH] hw/pci-host/mv64361: Reuse pci_swizzle_map_irq_fn
+In-Reply-To: <20230106113927.8603-1-shentey@gmail.com>
+References: <20230106113927.8603-1-shentey@gmail.com>
+Message-ID: <73252BC9-79B9-407A-9A15-3C69065531D3@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-To: qemu-devel@nongnu.org,
-    qemu-ppc@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Gerd Hoffmann <kraxel@redhat.com>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-Date: Sat, 21 Jan 2023 21:35:29 +0100 (CET)
-X-Spam-Probability: 8%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -58,28 +90,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fix checkpatch warning about multi-line comment.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
----
- hw/display/sm501.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/display/sm501.c b/hw/display/sm501.c
-index 1e17072452..e1d0591d36 100644
---- a/hw/display/sm501.c
-+++ b/hw/display/sm501.c
-@@ -1768,7 +1768,8 @@ static const GraphicHwOps sm501_ops = {
- static void sm501_reset(SM501State *s)
- {
-     s->system_control = 0x00100000; /* 2D engine FIFO empty */
--    /* Bits 17 (SH), 7 (CDR), 6:5 (Test), 2:0 (Bus) are all supposed
-+    /*
-+     * Bits 17 (SH), 7 (CDR), 6:5 (Test), 2:0 (Bus) are all supposed
-      * to be determined at reset by GPIO lines which set config bits.
-      * We hardwire them:
-      *  SH = 0 : Hitachi Ready Polarity == Active Low
--- 
-2.30.6
+Am 6=2E Januar 2023 11:39:27 UTC schrieb Bernhard Beschow <shentey@gmail=
+=2Ecom>:
+>mv64361_pcihost_map_irq() is a reimplementation of
+>pci_swizzle_map_irq_fn()=2E Resolve this redundancy=2E
+>
+>Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
 
+Ping
+
+Patch is reviewed=2E Who will queue it? Daniel?
+
+Best regards,
+Bernhard
+
+>---
+>Testing done:
+>* `qemu-system-ppc -machine pegasos2 \
+>                   -rtc base=3Dlocaltime \
+>                   -device ati-vga,guest_hwcursor=3Dtrue,romfile=3D"" \
+>                   -cdrom morphos-3=2E17=2Eiso \
+>                   -kernel morphos-3=2E17/boot=2Eimg`
+>---
+> hw/pci-host/mv64361=2Ec | 7 +------
+> 1 file changed, 1 insertion(+), 6 deletions(-)
+>
+>diff --git a/hw/pci-host/mv64361=2Ec b/hw/pci-host/mv64361=2Ec
+>index cc9c4d6d3b=2E=2E70db142ec3 100644
+>--- a/hw/pci-host/mv64361=2Ec
+>+++ b/hw/pci-host/mv64361=2Ec
+>@@ -72,11 +72,6 @@ struct MV64361PCIState {
+>     uint64_t remap[5];
+> };
+>=20
+>-static int mv64361_pcihost_map_irq(PCIDevice *pci_dev, int n)
+>-{
+>-    return (n + PCI_SLOT(pci_dev->devfn)) % PCI_NUM_PINS;
+>-}
+>-
+> static void mv64361_pcihost_set_irq(void *opaque, int n, int level)
+> {
+>     MV64361PCIState *s =3D opaque;
+>@@ -97,7 +92,7 @@ static void mv64361_pcihost_realize(DeviceState *dev, E=
+rror **errp)
+>     g_free(name);
+>     name =3D g_strdup_printf("pci=2E%d", s->index);
+>     h->bus =3D pci_register_root_bus(dev, name, mv64361_pcihost_set_irq,
+>-                                   mv64361_pcihost_map_irq, dev,
+>+                                   pci_swizzle_map_irq_fn, dev,
+>                                    &s->mem, &s->io, 0, 4, TYPE_PCI_BUS);
+>     g_free(name);
+>     pci_create_simple(h->bus, 0, TYPE_MV64361_PCI_BRIDGE);
 
