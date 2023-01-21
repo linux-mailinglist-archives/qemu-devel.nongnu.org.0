@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 139DC67656F
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 10:49:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CEC9676584
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 10:53:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJATs-0006h4-7W; Sat, 21 Jan 2023 04:48:12 -0500
+	id 1pJATq-0006fk-Cw; Sat, 21 Jan 2023 04:48:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pJATg-0006ep-Oe
- for qemu-devel@nongnu.org; Sat, 21 Jan 2023 04:48:01 -0500
+ id 1pJATi-0006f6-Rx
+ for qemu-devel@nongnu.org; Sat, 21 Jan 2023 04:48:03 -0500
 Received: from mailout08.t-online.de ([194.25.134.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pJATe-00039w-Va
- for qemu-devel@nongnu.org; Sat, 21 Jan 2023 04:48:00 -0500
-Received: from fwd85.dcpf.telekom.de (fwd85.aul.t-online.de [10.223.144.111])
- by mailout08.t-online.de (Postfix) with SMTP id 927FB493D;
- Sat, 21 Jan 2023 10:47:57 +0100 (CET)
-Received: from linpower.localnet ([79.208.25.151]) by fwd85.t-online.de
+ id 1pJATh-0003AP-Dl
+ for qemu-devel@nongnu.org; Sat, 21 Jan 2023 04:48:02 -0500
+Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
+ by mailout08.t-online.de (Postfix) with SMTP id ACAB7493A;
+ Sat, 21 Jan 2023 10:47:59 +0100 (CET)
+Received: from linpower.localnet ([79.208.25.151]) by fwd72.t-online.de
  with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pJATd-2MjW3F0; Sat, 21 Jan 2023 10:47:57 +0100
+ esmtp id 1pJATf-0bakXR0; Sat, 21 Jan 2023 10:47:59 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 52EAC2006E7; Sat, 21 Jan 2023 10:47:35 +0100 (CET)
+ id 55AD02006E8; Sat, 21 Jan 2023 10:47:35 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
@@ -34,17 +34,17 @@ Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH v2 10/11] alsaaudio: change default playback settings
-Date: Sat, 21 Jan 2023 10:47:34 +0100
-Message-Id: <20230121094735.11644-10-vr_qemu@t-online.de>
+Subject: [PATCH v2 11/11] alsaaudio: reintroduce default recording settings
+Date: Sat, 21 Jan 2023 10:47:35 +0100
+Message-Id: <20230121094735.11644-11-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <0a4007dc-e11c-f16e-0e21-dbc4e60caa59@t-online.de>
 References: <0a4007dc-e11c-f16e-0e21-dbc4e60caa59@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1674294477-ABFF3DFF-DB886478/0/0 CLEAN NORMAL
-X-TOI-MSGID: 7363a95b-47c9-4380-90f0-e9510398da10
+X-TOI-EXPURGATEID: 150726::1674294479-81AEBD99-2A0AC74F/0/0 CLEAN NORMAL
+X-TOI-MSGID: f1d963d0-ac9f-4b0b-9f73-95df7cb0242f
 Received-SPF: none client-ip=194.25.134.20;
  envelope-from=volker.ruemelin@t-online.de; helo=mailout08.t-online.de
 X-Spam_score_int: -25
@@ -68,65 +68,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The currently used default playback settings in the ALSA audio
-backend are a bit unfortunate. With a few emulated audio devices,
-audio playback does not work properly. Here is a short part of
-the debug log while audio is playing (elapsed time in seconds).
+Audio recording with ALSA default settings currently doesn't
+work. The debug log shows updates every 0.75s and 1.5s.
 
-audio: Elapsed since last alsa run (running): 0.046244
-audio: Elapsed since last alsa run (running): 0.023137
-audio: Elapsed since last alsa run (running): 0.023170
-audio: Elapsed since last alsa run (running): 0.023650
-audio: Elapsed since last alsa run (running): 0.060802
-audio: Elapsed since last alsa run (running): 0.031931
+audio: Elapsed since last alsa run (running): 0.743030
+audio: Elapsed since last alsa run (running): 1.486048
+audio: Elapsed since last alsa run (running): 0.743008
+audio: Elapsed since last alsa run (running): 1.485878
+audio: Elapsed since last alsa run (running): 1.486040
+audio: Elapsed since last alsa run (running): 1.485886
 
-For some audio devices the time of more than 23ms between updates
-is too long.
+The time between updates should be in the 10ms range. Audio
+recording with ALSA has the same timing contraints as playback.
+Reintroduce the default recording settings and use the same
+default settings for recording as for playback.
 
-Set the period time to 5.8ms so that the maximum time between
-two updates typically does not exceed 11ms. This roughly matches
-the 10ms period time when doing playback with the audio timer.
-After this patch the debug log looks like this.
+The term "reintroduce" is correct because commit a93f328177
+("alsaaudio: port to -audiodev config") removed the default
+settings for recording.
 
-audio: Elapsed since last alsa run (running): 0.011919
-audio: Elapsed since last alsa run (running): 0.005788
-audio: Elapsed since last alsa run (running): 0.005995
-audio: Elapsed since last alsa run (running): 0.011069
-audio: Elapsed since last alsa run (running): 0.005901
-audio: Elapsed since last alsa run (running): 0.006084
-
-Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/alsaaudio.c | 11 ++++-------
- 1 file changed, 4 insertions(+), 7 deletions(-)
+ audio/alsaaudio.c | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
 
 diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index 5f50dfa0bf..0cc982e61f 100644
+index 0cc982e61f..057571dd1e 100644
 --- a/audio/alsaaudio.c
 +++ b/audio/alsaaudio.c
-@@ -913,17 +913,14 @@ static void *alsa_audio_init(Audiodev *dev)
-     alsa_init_per_direction(aopts->in);
-     alsa_init_per_direction(aopts->out);
+@@ -923,15 +923,13 @@ static void *alsa_audio_init(Audiodev *dev)
+         dev->u.alsa.out->buffer_length = 92880;
+     }
  
 -    /*
--     * need to define them, as otherwise alsa produces no sound
--     * doesn't set has_* so alsa_open can identify it wasn't set by the user
+-     * OptsVisitor sets unspecified optional fields to zero, but do not depend
+-     * on it...
 -     */
-+    /* don't set has_* so alsa_open can identify it wasn't set by the user */
-     if (!dev->u.alsa.out->has_period_length) {
--        /* 1024 frames assuming 44100Hz */
--        dev->u.alsa.out->period_length = 1024 * 1000000 / 44100;
+     if (!dev->u.alsa.in->has_period_length) {
+-        dev->u.alsa.in->period_length = 0;
 +        /* 256 frames assuming 44100Hz */
-+        dev->u.alsa.out->period_length = 5805;
++        dev->u.alsa.in->period_length = 5805;
      }
-     if (!dev->u.alsa.out->has_buffer_length) {
-         /* 4096 frames assuming 44100Hz */
--        dev->u.alsa.out->buffer_length = 4096ll * 1000000 / 44100;
-+        dev->u.alsa.out->buffer_length = 92880;
+     if (!dev->u.alsa.in->has_buffer_length) {
+-        dev->u.alsa.in->buffer_length = 0;
++        /* 4096 frames assuming 44100Hz */
++        dev->u.alsa.in->buffer_length = 92880;
      }
  
-     /*
+     return dev;
 -- 
 2.35.3
 
