@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD36F676570
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 10:49:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93D1B676581
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 10:51:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJATq-0006fn-J2; Sat, 21 Jan 2023 04:48:10 -0500
+	id 1pJATr-0006gP-Gt; Sat, 21 Jan 2023 04:48:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pJATW-0006d2-5C
+ id 1pJATX-0006d4-Ii
  for qemu-devel@nongnu.org; Sat, 21 Jan 2023 04:47:58 -0500
 Received: from mailout08.t-online.de ([194.25.134.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pJATT-00038D-5N
- for qemu-devel@nongnu.org; Sat, 21 Jan 2023 04:47:48 -0500
-Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
- by mailout08.t-online.de (Postfix) with SMTP id A2BDE24B64;
- Sat, 21 Jan 2023 10:47:45 +0100 (CET)
-Received: from linpower.localnet ([79.208.25.151]) by fwd72.t-online.de
+ id 1pJATV-00038Z-Tx
+ for qemu-devel@nongnu.org; Sat, 21 Jan 2023 04:47:51 -0500
+Received: from fwd78.dcpf.telekom.de (fwd78.aul.t-online.de [10.223.144.104])
+ by mailout08.t-online.de (Postfix) with SMTP id D5B0E24B5A;
+ Sat, 21 Jan 2023 10:47:47 +0100 (CET)
+Received: from linpower.localnet ([79.208.25.151]) by fwd78.t-online.de
  with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pJATR-1KL2xt0; Sat, 21 Jan 2023 10:47:45 +0100
+ esmtp id 1pJATT-1pTyOP0; Sat, 21 Jan 2023 10:47:47 +0100
 Received: by linpower.localnet (Postfix, from userid 1000)
- id 45671200638; Sat, 21 Jan 2023 10:47:35 +0100 (CET)
+ id 4815E2006E0; Sat, 21 Jan 2023 10:47:35 +0100 (CET)
 From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
 To: Gerd Hoffmann <kraxel@redhat.com>
 Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
@@ -34,17 +34,18 @@ Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
-Subject: [PATCH v2 05/11] audio/mixeng: use g_new0() instead of audio_calloc()
-Date: Sat, 21 Jan 2023 10:47:29 +0100
-Message-Id: <20230121094735.11644-5-vr_qemu@t-online.de>
+Subject: [PATCH v2 06/11] audio/alsaaudio: use g_new0() instead of
+ audio_calloc()
+Date: Sat, 21 Jan 2023 10:47:30 +0100
+Message-Id: <20230121094735.11644-6-vr_qemu@t-online.de>
 X-Mailer: git-send-email 2.35.3
 In-Reply-To: <0a4007dc-e11c-f16e-0e21-dbc4e60caa59@t-online.de>
 References: <0a4007dc-e11c-f16e-0e21-dbc4e60caa59@t-online.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1674294465-812ECD99-4F6A3A14/0/0 CLEAN NORMAL
-X-TOI-MSGID: 04682b54-739a-48ca-97f8-4d49b838e5a9
+X-TOI-EXPURGATEID: 150726::1674294467-C7FEA4E4-78E50816/0/0 CLEAN NORMAL
+X-TOI-MSGID: 5051f4cd-fac0-4d01-ae22-343e22ba7983
 Received-SPF: none client-ip=194.25.134.20;
  envelope-from=volker.ruemelin@t-online.de; helo=mailout08.t-online.de
 X-Spam_score_int: -25
@@ -70,68 +71,34 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Replace audio_calloc() with the equivalent g_new0().
 
-With a n_structs argument of 1, g_new0() never returns NULL.
-Also remove the unnecessary NULL checks.
+The value of the g_new0() argument count is >= 1, which means
+g_new0() will never return NULL. Also remove the unnecessary
+NULL check.
 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 ---
- audio/audio.c          | 5 -----
- audio/audio_template.h | 6 +-----
- audio/mixeng.c         | 7 +------
- 3 files changed, 2 insertions(+), 16 deletions(-)
+ audio/alsaaudio.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/audio/audio.c b/audio/audio.c
-index f6b420688d..ac5434a13c 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -507,11 +507,6 @@ static int audio_attach_capture (HWVoiceOut *hw)
-         sw->ratio = ((int64_t) hw_cap->info.freq << 32) / sw->info.freq;
-         sw->vol = nominal_volume;
-         sw->rate = st_rate_start (sw->info.freq, hw_cap->info.freq);
--        if (!sw->rate) {
--            dolog ("Could not start rate conversion for `%s'\n", SW_NAME (sw));
--            g_free (sw);
--            return -1;
--        }
-         QLIST_INSERT_HEAD (&hw_cap->sw_head, sw, entries);
-         QLIST_INSERT_HEAD (&hw->cap_head, sc, entries);
- #ifdef DEBUG_CAPTURE
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index ac744d3484..d343a1dcb3 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -141,11 +141,7 @@ static int glue (audio_pcm_sw_alloc_resources_, TYPE) (SW *sw)
- #else
-     sw->rate = st_rate_start (sw->hw->info.freq, sw->info.freq);
- #endif
--    if (!sw->rate) {
--        g_free (sw->buf);
--        sw->buf = NULL;
+diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+index 714bfb6453..5f50dfa0bf 100644
+--- a/audio/alsaaudio.c
++++ b/audio/alsaaudio.c
+@@ -222,11 +222,7 @@ static int alsa_poll_helper (snd_pcm_t *handle, struct pollhlp *hlp, int mask)
+         return -1;
+     }
+ 
+-    pfds = audio_calloc ("alsa_poll_helper", count, sizeof (*pfds));
+-    if (!pfds) {
+-        dolog ("Could not initialize poll mode\n");
 -        return -1;
 -    }
-+
-     return 0;
- }
++    pfds = g_new0(struct pollfd, count);
  
-diff --git a/audio/mixeng.c b/audio/mixeng.c
-index 100a306d6f..fe454e0725 100644
---- a/audio/mixeng.c
-+++ b/audio/mixeng.c
-@@ -414,12 +414,7 @@ struct rate {
-  */
- void *st_rate_start (int inrate, int outrate)
- {
--    struct rate *rate = audio_calloc(__func__, 1, sizeof(*rate));
--
--    if (!rate) {
--        dolog ("Could not allocate resampler (%zu bytes)\n", sizeof (*rate));
--        return NULL;
--    }
-+    struct rate *rate = g_new0(struct rate, 1);
- 
-     rate->opos = 0;
- 
+     err = snd_pcm_poll_descriptors (handle, pfds, count);
+     if (err < 0) {
 -- 
 2.35.3
 
