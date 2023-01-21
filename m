@@ -2,95 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6F94676843
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 20:09:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E1B867689C
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 20:52:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJIVl-0006YE-BK; Sat, 21 Jan 2023 13:22:41 -0500
+	id 1pJJtT-0007hr-5d; Sat, 21 Jan 2023 14:51:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pJIVj-0006Y3-49
- for qemu-devel@nongnu.org; Sat, 21 Jan 2023 13:22:39 -0500
-Received: from sonic312-24.consmr.mail.gq1.yahoo.com ([98.137.69.205])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pJITF-0005F9-6o
- for qemu-devel@nongnu.org; Sat, 21 Jan 2023 13:22:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1674325156; bh=GzDM3shPM+0VlMkN3ZhiZfEOMRwJWSsmB8h8wEu9+b0=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
- b=MzH6jfZMq24WNkJQ6Arb4p9iEG2pW1MIi51XFbDUG5hCUnfwGSrhYhd8NMcwqjLnPW29GQGr8Jqb3hpT4e0QTzQ11dxPrZUdBvD5clZXgsDIucQnlbjyf7qbnkDL05nst7TAd2m5WPu/Hz3DfMV5dg14jmLKuxUFMPbOyXVcdY9ufNxRi91HiLQMBeqUW1SeykkuUpf9FsmpiNmtxuYeMxrRsWN1yhKedaX/Z7UdP9m6G16cDuyS85cyWrVWjIp8r+5vzwAFulc078W/yvH4h9wQ69PS+phWJtcQONsz9aP2sfaRQQ9POt1KutcsuBkRV1NYBTd8Uf30HzZdX0ifCQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1674325156; bh=rWUWi0Qdld4g51O7BCwcykDXNQrPvReWN74sOkXnq2F=;
- h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
- b=gIy2pK1WjyPI3QULj+MT0jwbPhcKXsCQ2YDZjhxO3PkAaz3j7ClFUq0Px4qbRCjy0rIguYQzIUleMdK5HKaH8N4+M4I68/9QI9aGzVwjFimoTR1PetK6yLY5TkrWv/vtzyvueV5fRvbcxDpUxAswuIUioqDfBUwl1EKux1mnQqFGPLGluGqRBQZcCUAIFI1LAPbP2miWcutBarjZI18FfsrqWzhQkmwploQ/PZEjGQLnarLZDtquyRHLyLPNMCldZ9YB0tEL+NuX+HcvTEPkWpO1kqQjKo53iGxIm/6DVffV8lI69y+xi6UfYSQGbd8gcCqRPAkVHY+785YgKUzDEQ==
-X-YMail-OSG: Z8rqCdYVM1m8DRiBBCrtes5ktRs4bL1jTcvO.gGFc7LXmWwbbjw.2TuS45m71wi
- w_C.9WLcHesjYZA70xSDQIA0fLwyM.wxxMo8qE8JNJnBqkvRE6HYLR3SQ2SkHiz85d.xlmjWf6El
- 9Lwyc.TDA7XRkO9ZqXR97V1aEnWGXBf3Kqe_8.5KYaUAUF_5Ms7tkRlHPslmGV3bdYTJgEo9O8sS
- GGDNUCEtbfaM5DRTtE_z88IEqjOaO0VKjhEMvNgshGCP0FOkVVojoXAJ5TgF6g5j8F6T5Mym5WHe
- QM9vHNxfW54OueXos9xxOgnFu02EuAQSJBJKdoaQWFn9faDIK8do6iDLdL1MEZZlIe1n0sHl2f8E
- yfSkr2rKO0UIC8Shufly.NNa9SClhQ3T6pKEtfzhW3cQaBpiTyaoAE30fpDwFUB4XfkmqaxgPkSO
- ypIXK39S74J4_2o1ghLefyOlsbTc79Uq_eN2tz0ePdAV9C954A1Bi4aYHpQKt.tsczjQkNYYMYoH
- wAIzGKcM.x.RZX5bDQa3RCMMVmi5K_IzQ77uqZ0gyK6tpCLy6tzmTtZHGdma_78p0btLHo10uIEW
- RBEJ7Imax6YkjAzEOpYq1xe1MnJtrEpgurXBiPcUGtx.t.yhRKw9ikU1cxVNKPLvSxH2uNEn_Hgh
- z5T.eQnjJDXwJik0fOtvMeTPdsNrNZWQhLFd.WgBGoquenJnjkH7gbsS6mhiWsbwyFyHLU9ZmRz9
- 2dY5XXvaVjzbU95xmqQGZdp5bNNZE9xA4U.dWk7XK1Jx7x.t97U1cWSLrpzZd8rO6A6JSY7.M0WD
- v2q0jo0w0V_YsZ2wvRi4RFhEOtD0pt7VmFeMA.MYO4gFWqjam6sa.5kewiYPzpcYLn0hLQkYex6x
- dY8_8dg8DNRdcmYEGFlEsP7KSnsXDHBNTl5p7cE2b63aLGuElTxOz30..vSI9yHfDVci34pGEj.i
- _Hu6V7eU3pSDi9fhjRcOT_O8W92eFolM1aInYPDxxXo07hsC01I99h4WYDmR39DhbOeWSfudRmbK
- VxYQseGyDQT9LM2APFun7G9vv5EbDJaHCljtGiPcXCvxMJ0zT9Uc1ZbdAWjsiivmT1HCB75tDNM5
- LaU4rDmjip9WBkZkHRVbuD0.NBIA9B2.My0C9anlH.ru2KaDPyc6b60beriiFEJRcM0NJGdcsf6G
- czNIQ8wWKL.ndH5rohQKp5kvRQJxxg7vukIj.rUdNXm9Zhgmck2LNVXBhhN9dErMLg6wsMn_GNZn
- Szk9ZnkmMK93ILw7.Rc9w.rfmSWFg8V1Yo1nM73.i1yIYs7hd5qsUUnRiHvUr7kPs3E2UsiAvcKL
- ZvVRrtATYpmzfftz7GIptP5THKMsFriPt.j1IzRbWAAnYuq6efAe74g4eQFVOeMGjSP.Sfe9iA6f
- 3jyayngOAEJ.zIIsCfzUdHHEd_8cMfdXmg3q5fVlOI3zlMkcRPw93eNKcVrKt5m0_RjumhOR_DhG
- i4DJDNwNRBaqRxZ3JJklqylaV6hrwTeS2Fbe0VGZpI_heFO4cmiKHPyw2HOcLiT.6syQPl.VfMKD
- wi5nvukNKy9AAANFE8m9zDQqoQZBXWg5HGUYCEbIDAv1lBdUhKQ3w9xQYWWlONWIDLHwV4xsw6Mb
- Yoqu3l9z8WTOJMp7YJ4WXN5dLnsDNTH22NHk4hDrm3eriHlk0Tmpw6ZCjIuGZEiu.z3PAv7fJypQ
- FHOeXLiDx3E3BkJcIfHTn2sXYNssVc9KEdk8TYuMEhMzZ8fo8nLVb15YYXvgr.NNbvT_vAoxxhCW
- T_ZkHBshdcd4GHTzU2UlgBqjjtuB81JDxWEJZoMkqKew_5IdmUCZPhoAWLS8lgwHvBvHbfIFu_P.
- C3cO4CthzbWa2HhM9T9yioMGYz_kqj1oU1nglAf3sDYarS9RUzIR_5CNU3mnUtMHQL3aqS5GbKs_
- TOB7_MBEAz4O6MnOqEc.Uz3w9ONK2j40H5PJKEmrUGH_6AfoqXbnRU3OSjpKfxiOXOvxNZ6Ooa_F
- JLcw3ToELnG9U1RJ60VtsrTDgwDRD4Wr2xe3XdV0ynbCVfjAP.OiTeXFsmRR3.caepiHZjOIqpIw
- MwaNN2Rni87D6ydktsQpQI5KOolQYrCSzP.tf9__W4BLYzCPIN6hugJdnVR67K.rmiwsmklmaDSr
- T0J859mZRLP8vSbOdo.VMeetS.UsYKl4LYLGdI9.IAkMgCgmuUBkGSAjNlU7Frt2a_.ouS4_mA9K
- W4adMarT8NdFXNQI7Zw--
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic312.consmr.mail.gq1.yahoo.com with HTTP; Sat, 21 Jan 2023 18:19:16 +0000
-Received: by hermes--production-bf1-6bb65c4965-7k2xj (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 933f982256ad66195c1bc98306f1939a; 
- Sat, 21 Jan 2023 18:06:42 +0000 (UTC)
-Message-ID: <420b03de-3b1a-2096-529f-d18bfdf0cf53@aol.com>
-Date: Sat, 21 Jan 2023 13:06:40 -0500
+ (Exim 4.90_1) (envelope-from <conor@kernel.org>)
+ id 1pJJtQ-0007h6-Mt; Sat, 21 Jan 2023 14:51:12 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <conor@kernel.org>)
+ id 1pJJtO-0007Y8-Mv; Sat, 21 Jan 2023 14:51:12 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 5E73D60B07;
+ Sat, 21 Jan 2023 19:51:06 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C04DCC433D2;
+ Sat, 21 Jan 2023 19:51:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1674330665;
+ bh=5xv3EI3R/s6bgkFlULHWIsu8pYY/Wht1FAiQ/i9EMng=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ZYz06FYiO6X0AsPHzQsonkLElutrZLAHMwDFiFmv5f5oiHND5KITEr7xqTAjUbzRr
+ Q4StMMVYL0A/7OTIXT5+L6GfIq09HLxwQaO6slZgfyJAQMseX2JvOii8xYp7jWr54V
+ 4fYOJcjA31+KxV1ANOh42Ooomx6tlrp9mRNx8qyPNNJCa1oYLJ6L/gTQwCpiHsa6GL
+ jJsD6Rf2v8yGtFXzK6isyTz2tqdGTGZBK34DNuaLJBex6b/YUgOsvqytGfK5Jf3C+O
+ rDizzmJB+TRBY8lk/cSnfslpzdLIww5ps8G+duIQ6SePt839nRQTc+25vddQQikMNE
+ odvGPKhtqHl5A==
+Date: Sat, 21 Jan 2023 19:51:02 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
+Subject: Re: [PATCH v3 3/7] hw/riscv/microchip_pfsoc.c: add an Icicle Kit fdt
+ address function
+Message-ID: <Y8xCJqP9t6FzZ4OH@spud>
+References: <20230119191728.622081-1-dbarboza@ventanamicro.com>
+ <20230119191728.622081-4-dbarboza@ventanamicro.com>
+ <Y8ndFjv9prrRXLnL@spud>
+ <385b977b-d15f-6c54-1d05-ab68e122dfe8@ventanamicro.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v6] xen/pt: reserve PCI slot 2 for Intel igd-passthru
-To: Anthony PERARD <anthony.perard@citrix.com>
-Cc: qemu-devel@nongnu.org, xen-devel@lists.xenproject.org,
- "Michael S. Tsirkin" <mst@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
- Stefano Stabellini <sstabellini@kernel.org>
-References: <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz.ref@aol.com>
- <830263507e8f1a24a94f81909d5102c4b204e938.1672615492.git.brchuckz@aol.com>
- <Y7gqSLo8pMm4gfV+@perard.uk.xensource.com>
-Content-Language: en-US
-From: Chuck Zmudzinski <brchuckz@aol.com>
-In-Reply-To: <Y7gqSLo8pMm4gfV+@perard.uk.xensource.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.21096
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.69.205; envelope-from=brchuckz@aim.com;
- helo=sonic312-24.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -15
-X-Spam_score: -1.6
-X-Spam_bar: -
-X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.092,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="7/9P0CDH7AfIHltX"
+Content-Disposition: inline
+In-Reply-To: <385b977b-d15f-6c54-1d05-ab68e122dfe8@ventanamicro.com>
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=conor@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,94 +73,194 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/6/2023 9:03 AM, Anthony PERARD wrote:
-> On Sun, Jan 01, 2023 at 06:52:03PM -0500, Chuck Zmudzinski wrote:
-> > Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
-> > as noted in docs/igd-assign.txt in the Qemu source code.
-> > 
-> > Currently, when the xl toolstack is used to configure a Xen HVM guest with
-> > Intel IGD passthrough to the guest with the Qemu upstream device model,
-> > a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
-> > a different slot. This problem often prevents the guest from booting.
-> > 
-> > The only available workaround is not good: Configure Xen HVM guests to use
-> > the old and no longer maintained Qemu traditional device model available
-> > from xenbits.xen.org which does reserve slot 2 for the Intel IGD.
-> > 
-> > To implement this feature in the Qemu upstream device model for Xen HVM
-> > guests, introduce the following new functions, types, and macros:
-> > 
-> > * XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
-> > * XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
-> > * typedef XenPTQdevRealize function pointer
-> > * XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
-> > * xen_igd_reserve_slot and xen_igd_clear_slot functions
-> > 
-> > The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
-> > member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
-> > the xl toolstack with the gfx_passthru option enabled, which sets the
-> > igd-passthru=on option to Qemu for the Xen HVM machine type.
-> > 
-> > The new xen_igd_reserve_slot function also needs to be implemented in
-> > hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
-> > when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
-> > in which case it does nothing.
-> > 
-> > The new xen_igd_clear_slot function overrides qdev->realize of the parent
-> > PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
-> > since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
-> > created in hw/i386/pc_piix.c for the case when igd-passthru=on.
-> > 
-> > Move the call to xen_host_pci_device_get, and the associated error
-> > handling, from xen_pt_realize to the new xen_igd_clear_slot function to
-> > initialize the device class and vendor values which enables the checks for
-> > the Intel IGD to succeed. The verification that the host device is an
-> > Intel IGD to be passed through is done by checking the domain, bus, slot,
-> > and function values as well as by checking that gfx_passthru is enabled,
-> > the device class is VGA, and the device vendor in Intel.
-> > 
-> > Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
->
->
-> This patch looks good enough. It only changes the "xenfv" machine so it
-> doesn't prevent a proper fix to be done in the toolstack libxl.
->
-> The change in xen_pci_passthrough_class_init() to try to run some code
-> before pci_qdev_realize() could potentially break in the future due to
-> been uncommon but hopefully that will be ok.
->
-> So if no work to fix libxl appear soon, I'm ok with this patch:
->
-> Reviewed-by: Anthony PERARD <anthony.perard@citrix.com>
->
-> Thanks,
->
 
-Hi Anthony,
+--7/9P0CDH7AfIHltX
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-If you have been following this patch it is now at v10. Since there is
-another approach of patching libxl by using the "pc" machine instead of
-patching Qemu to fix the "xenfv" machine and there have been other
-changes, I did not include your Reviewed-by tag in the later versions.
+On Sat, Jan 21, 2023 at 02:58:19PM -0300, Daniel Henrique Barboza wrote:
+> Conor,
+>=20
+> Thanks for the Icicle-kit walk-through!
 
-I presume you are not interested in dealing with the technical debt
-of patching libxl as proposed by this patch to libxl:
+nw chief
 
-https://lore.kernel.org/xen-devel/20230110073201.mdUvSjy1vKtxPriqMQuWAxIjQzf1eAqIlZgal1u3GBI@z/
+> I'll not claim that I fully understood it,
+> but I understood enough to handle the situation ATM.
 
-because it would be more difficult to maintain and result in reduced
-startup performance with the Intel IGD than by patching Qemu and
-fixing the "xenfv" machine type with the Intel IGD directly.
+tbf, I struggle to explain/visualise that stuff with the "windows" etc
+well. I wrote myself a program to visualise it for a good reason!
+Well it was done in Rust, so there were two good reasons ;)
 
-So are you OK with v10 of this patch? If so, you can add your Reviewed-by
-again to v10. The v10 has several changes since v6 as requested by other
-reviewers (Michael, Stefano, Igor).
+> Without this change, this is where the FDT is being installed in the boar=
+d when
+> I start it with 8Gb of RAM (retrieved via 'info roms'):
+>=20
+> addr=3D00000000bfe00000 size=3D0x00a720 mem=3Dram name=3D"fdt"
+>=20
+> Which surprised me at first because this is almost at the end of the LO a=
+rea which has
+> 1Gb and I figured it would be in the middle of another RAM area. I took a=
+nother read
+> at what we're doing in riscv_load_fdt():
+>=20
+> -----------
+> temp =3D (dram_base < 3072 * MiB) ?  MIN(dram_end, 3072 * MiB) : dram_end;
+> fdt_addr =3D QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
+> -----------
+>=20
+> This code can be read as "if the starting address of the RAM is lower tha=
+n 3Gb, put
+> the FDT no further than 3Gb (0xc0000000). Otherwise, put it at the end of=
+ dram",
+> where "dram_base" is the starting address of the RAM block that the funct=
+ion
+> receives.
+>=20
+> For icicle-kit, this is being passed as  memmap[MICROCHIP_PFSOC_DRAM_LO].=
+base,
+> 0x80000000, which is 2Gb.
+>=20
+> So, regardless of how much RAM we have (dram_end), the FDT will always be=
+ capped at
+> 3Gb. At this moment, this fits exactly at the end of the LO area for the =
+Icicle Kit.
+> Which is funny because this 3Gb restriction was added by commit 1a475d39e=
+f54 to fix
+> 32 bit guest boot and it happened to also work for the Microchip SoC.
 
-The v10 of the patch is here:
+That's hilariously convenient hahah
 
-https://lore.kernel.org/qemu-devel/d473914c4d2dc38ae87dca4b898d75b44751c9cb.1674297794.git.brchuckz@aol.com/
+> So yeah, I thought that I was fixing a bug and in the end I caused one. T=
+his patch
+> needs to go.
+>=20
+> Alistair, I believe I should re-send v2, this time explaining why the exi=
+sting function
+> will not break the Microchip board because we'll never put the FDT out of=
+ the LO area
+> of the board. Does this work for you?
+> Conor, one more thing:
+>=20
+>=20
+> On 1/19/23 21:15, Conor Dooley wrote:
+> > Hey Daniel,
+> >=20
+> > Got through the stuff I wanted to get done tonight faster than
+> > expected...
+> >=20
+> > On Thu, Jan 19, 2023 at 05:17:33PM -0300, Daniel Henrique Barboza wrote:
+> > > Are you testing it by using the command line
+> > > you mentioned in the "qemu icicle kit es" thread?
+> > >=20
+> > > $(QEMU)/qemu-system-riscv64 \
+> > > 	-M microchip-icicle-kit \
+> > > 	-m 2G -smp 5 \
+> > > 	-kernel $(vmlinux_bin) \
+> > > 	-dtb $(devkit).dtb \
+> > > 	-initrd $(initramfs) \
+> > > 	-display none \
+> > > 	-serial null \
+> > > 	-serial stdio
+> >=20
+> > Yah, effectively. It's not quite that, but near enough as makes no real
+> > difference:
+> > qemu-icicle:
+> > 	$(QEMU)/qemu-system-riscv64 -M microchip-icicle-kit \
+> > 		-m 2G -smp 5 \
+> > 		-kernel $(vmlinux_bin) \
+> > 		-dtb $(wrkdir)/riscvpc.dtb \
+> > 		-initrd $(initramfs) \
+> > 		-display none -serial null \
+> > 		-serial stdio \
+> > 		-D qemu.log -d unimp
+> >=20
+> > I just tried to make things somewhat more intelligible for that thread.
+>=20
+> I tried it out with kernel v6.0.0 (I saw you mentioning in the other thre=
+ad that
+> this was the latest kernel you were able to boot this way)
+
+Yah, I said that because I didn't want them to have to mess with DT.
+Later kernels do work, but need DT modifications as things are now
+configured for the below case.
+> > The current Devicetree in Linux & U-Boot corresponds to a configuration
+> > like:
+> > =E2=A2=B0=E2=A0=92=E2=A0=92=E2=A0=92=E2=A0=92=E2=A1=96=E2=A0=92=E2=A0=
+=92=E2=A0=92=E2=A3=B6=E2=A0=920x80000000
+> > =E2=A2=B8    =E2=A1=87   =E2=A3=BF =E2=A1=87
+> > =E2=A2=B8    =E2=A1=87   =E2=A1=9F =E2=A1=87
+> > =E2=A2=B8    =E2=A1=87   =E2=A1=87 =E2=A1=87
+> > =E2=A2=B8    =E2=A1=87   =E2=A1=87 =E2=A1=87
+> > =E2=A2=B8    =E2=A1=87   =E2=A1=87 =E2=A1=87
+> > =E2=A2=B8    =E2=A1=87   =E2=A1=87 =E2=A1=87
+> > =E2=A2=B8    =E2=A1=87   =E2=A1=87 =E2=A1=87
+> > =E2=A2=B8=E2=A1=96=E2=A0=92=E2=A0=92=E2=A2=B2=E2=A1=87   =E2=A1=87 0x40=
+000000
+> > =E2=A2=B8=E2=A1=87  =E2=A2=B8=E2=A1=87   =E2=A1=87 =E2=A1=87
+> > =E2=A2=B8=E2=A1=87  =E2=A2=B8=E2=A1=87   =E2=A1=87 =E2=A1=87
+> > =E2=A2=B8=E2=A1=87  =E2=A2=B8=E2=A1=87   =E2=A1=87 =E2=A1=87
+> > =E2=A2=B8=E2=A1=87  =E2=A2=B8=E2=A1=87   =E2=A1=87 =E2=A1=87
+> > =E2=A2=B8=E2=A1=87  =E2=A2=B8=E2=A1=87   =E2=A1=87 =E2=A1=87
+> > =E2=A2=B8=E2=A1=87  =E2=A2=B8=E2=A1=87   =E2=A1=87 =E2=A1=87
+> > =E2=A2=B8=E2=A1=87  =E2=A2=B8=E2=A1=87   =E2=A1=87 =E2=A1=87 <-- 32- & =
+64-bit start at 0x0
+> > =E2=A0=98=E2=A0=93=E2=A0=920=E2=A0=9A=E2=A0=93=E2=A0=921=E2=A0=92=E2=A0=
+=93=E2=A0=920x00000000
+> >=20
+> > That DT looks like:
+> > 	ddrc_cache_lo: memory@80000000 {
+> > 		device_type =3D "memory";
+> > 		reg =3D <0x0 0x80000000 0x0 0x40000000>;
+> > 		status =3D "okay";
+> > 	};
+> >=20
+> > 	ddrc_cache_hi: memory@1040000000 {
+> > 		device_type =3D "memory";
+> > 		reg =3D <0x10 0x40000000 0x0 0x40000000>;
+> > 		status =3D "okay";
+> > 	};
+
+This one doesn't work in QEMU, so for those kernels I just delete the
+ddrc_cache_hi node, and v6.2-rcN works in that way.
+
+> and it booted up until
+> the kernel complained about missing initramfs. Any tips on how I can buil=
+d an
+> initrd disk for the board?
+
+Ehh, any old initramfs for RISC-V should work, right? I suppose passing
+a normal rootfs does either - I just mostly work w/ hardware & use NFS
+there, so have nothing scripted to build a rootfs for me, which is why
+I've been using initramfs.
+I build one using buildroot, with a config like:
+https://raw.githubusercontent.com/ConchuOD/riscv-env/dev/conf/lowmem/buildr=
+oot_initramfs_config
+
+I then do (ripped from my makefile rule):
+		$(linux_srcdir)/usr/gen_initramfs.sh \
+		-o initramfs.cpio -u $(shell id -u) -g $(shell id -g) \
+		initramfs.txt \
+		$(path_to_buildroot_sysroot)
+
+I'm lazy and CBA finding somewhere else to host this, so I put one here:
+https://github.com/ConchuOD/riscv-env/releases/download/v2022.03/initramfs.=
+cpio.gz
 
 Thanks,
+Conor.
 
-Chuck
+--7/9P0CDH7AfIHltX
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY8xCJgAKCRB4tDGHoIJi
+0qSNAP4lhmtV5x7uyEuDWom4NMNJGCxrcpB0Kfms8h9NqiB0VwD+PESebJpDpN0f
+u1pYuD8j9MgvbSsHzDwGLt7vV6eTUAo=
+=vZg/
+-----END PGP SIGNATURE-----
+
+--7/9P0CDH7AfIHltX--
 
