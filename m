@@ -2,57 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CEC9676584
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 10:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85CC06765C3
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 11:46:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJATq-0006fk-Cw; Sat, 21 Jan 2023 04:48:10 -0500
+	id 1pJBMX-0003yn-NZ; Sat, 21 Jan 2023 05:44:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pJATi-0006f6-Rx
- for qemu-devel@nongnu.org; Sat, 21 Jan 2023 04:48:03 -0500
-Received: from mailout08.t-online.de ([194.25.134.20])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <volker.ruemelin@t-online.de>)
- id 1pJATh-0003AP-Dl
- for qemu-devel@nongnu.org; Sat, 21 Jan 2023 04:48:02 -0500
-Received: from fwd72.dcpf.telekom.de (fwd72.aul.t-online.de [10.223.144.98])
- by mailout08.t-online.de (Postfix) with SMTP id ACAB7493A;
- Sat, 21 Jan 2023 10:47:59 +0100 (CET)
-Received: from linpower.localnet ([79.208.25.151]) by fwd72.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pJATf-0bakXR0; Sat, 21 Jan 2023 10:47:59 +0100
-Received: by linpower.localnet (Postfix, from userid 1000)
- id 55AD02006E8; Sat, 21 Jan 2023 10:47:35 +0100 (CET)
-From: =?UTF-8?q?Volker=20R=C3=BCmelin?= <vr_qemu@t-online.de>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Subject: [PATCH v2 11/11] alsaaudio: reintroduce default recording settings
-Date: Sat, 21 Jan 2023 10:47:35 +0100
-Message-Id: <20230121094735.11644-11-vr_qemu@t-online.de>
-X-Mailer: git-send-email 2.35.3
-In-Reply-To: <0a4007dc-e11c-f16e-0e21-dbc4e60caa59@t-online.de>
-References: <0a4007dc-e11c-f16e-0e21-dbc4e60caa59@t-online.de>
+ (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1pJBMV-0003yY-Kq
+ for qemu-devel@nongnu.org; Sat, 21 Jan 2023 05:44:39 -0500
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <rob@landley.net>) id 1pJBMT-0000bN-Rk
+ for qemu-devel@nongnu.org; Sat, 21 Jan 2023 05:44:39 -0500
+Received: by mail-ot1-x329.google.com with SMTP id
+ f88-20020a9d03e1000000b00684c4041ff1so4532376otf.8
+ for <qemu-devel@nongnu.org>; Sat, 21 Jan 2023 02:44:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=landley-net.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:subject:from:to:content-language
+ :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=lenBxHa8eY0Hzyuus8NlqdJj0tSFS6CEoe2Xul6Bigg=;
+ b=tg/tiXDoMMJqDaoFE/8G4cF+G6pr2u4lb1pvKPKyGA4UbLR6GrVLCoNVGHefXoZpNo
+ 0uPr4wxxOq4z/A2g5mbG0kwqCXVHTq9+SjTSUuf2r3zoqWKBmf+kxsbUMLPxGxD8Xiv+
+ a74w7iUM0qXjbspxlbn1emix+u5PfeF0+Orj5D1+GvCL33M6ujHFDgZ2vPUhfTn2Bm7e
+ WuiecLnYTkN/T3ojyTEJaH/lgEaiPZvLQpQGwruUxbWEMdVpQgZ3knl6Y3jl/h2m2F3f
+ MXsqUc7n6TXCpEKTPpWTV49iqs78kiJ1MY9zAUT5/0Sg3Ih8GyDwKFUQGd/vzENqYl3/
+ zNGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:subject:from:to:content-language
+ :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=lenBxHa8eY0Hzyuus8NlqdJj0tSFS6CEoe2Xul6Bigg=;
+ b=fF4zLa8DkCMyGQBlH39tFPfAiO5Rs2mL1X0jc03YsKY4kXA7rZf3+GUJ0BUfwmwjqY
+ k3Wig23aqBBGJh8/3aQ/O0tzS1D6t3osnOz16AyWhusKv0DNIpOYssl9GbvJMlLiRu9r
+ SqDgHqICVE14d/n8ZCAfbkRdy/z/MrbAz56llpun5x8hlkszfWi7Wx2ZCHMhKjnhEHC3
+ DGpVobwvNt1iigQDnjgs7pzkPVCGdPMEwHarBjeGDjoQvvTZCs0qSaaiOThtVfEeWA0Q
+ NNHNfTCFtazvzbKxl4gy3yYoNib4YsD/sR4Gif9J4UMHeUMdrJ1xHresqVokvLl59rqT
+ WVWg==
+X-Gm-Message-State: AFqh2krx8dM9aB5WQ72f1O0nNHoueV5D46h4Z1YugkhJGCzADybhvbb1
+ iEv88Ty6U9p5X2EHkPzIBS6oeHJ7tuMuO9hC
+X-Google-Smtp-Source: AMrXdXscksiSPIFoH7ZBji7EjL0T7VinlOVDaMPR7e7Y7ZbPv4agg1D/JPtdnRM+0eOlDcGC50oi2w==
+X-Received: by 2002:a9d:639a:0:b0:684:dc1c:fe85 with SMTP id
+ w26-20020a9d639a000000b00684dc1cfe85mr9617874otk.36.1674297875852; 
+ Sat, 21 Jan 2023 02:44:35 -0800 (PST)
+Received: from ?IPV6:2607:fb91:120e:c57a:644e:38ff:fe2e:c8e8?
+ ([2607:fb91:120e:c57a:644e:38ff:fe2e:c8e8])
+ by smtp.gmail.com with ESMTPSA id
+ q2-20020a9d6542000000b0067088ff2b45sm22271188otl.37.2023.01.21.02.44.35
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 21 Jan 2023 02:44:35 -0800 (PST)
+Message-ID: <d64812ad-5c7f-ac9e-bb87-ebc8451c3602@landley.net>
+Date: Sat, 21 Jan 2023 04:56:57 -0600
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.5.0
+Content-Language: en-US
+To: QEMU Developers <qemu-devel@nongnu.org>
+From: Rob Landley <rob@landley.net>
+Subject: Commit 145e2198d749 broke mips big endian.
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1674294479-81AEBD99-2A0AC74F/0/0 CLEAN NORMAL
-X-TOI-MSGID: f1d963d0-ac9f-4b0b-9f73-95df7cb0242f
-Received-SPF: none client-ip=194.25.134.20;
- envelope-from=volker.ruemelin@t-online.de; helo=mailout08.t-online.de
-X-Spam_score_int: -25
-X-Spam_score: -2.6
-X-Spam_bar: --
-X-Spam_report: (-2.6 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::329;
+ envelope-from=rob@landley.net; helo=mail-ot1-x329.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -68,55 +90,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Audio recording with ALSA default settings currently doesn't
-work. The debug log shows updates every 0.75s and 1.5s.
+wget https://landley.net/toybox/downloads/binaries/mkroot/0.8.9/mips.tgz extract
+and ./run-qemu.sh in there. Before this commit it goes:
 
-audio: Elapsed since last alsa run (running): 0.743030
-audio: Elapsed since last alsa run (running): 1.486048
-audio: Elapsed since last alsa run (running): 0.743008
-audio: Elapsed since last alsa run (running): 1.485878
-audio: Elapsed since last alsa run (running): 1.486040
-audio: Elapsed since last alsa run (running): 1.485886
+loop: module loaded
+ata_piix 0000:00:0a.1: enabling device (0000 -> 0001)
+scsi host0: ata_piix
+scsi host1: ata_piix
+ata1: PATA max UDMA/33 cmd 0x1f0 ctl 0x3f6 bmdma 0x1080 irq 14
+ata2: PATA max UDMA/33 cmd 0x170 ctl 0x376 bmdma 0x1088 irq 15
+pcnet32 0000:00:0b.0: enabling device (0000 -> 0003)
+pcnet32: PCnet/PCI II 79C970A at 0x1060, 52:54:00:12:34:56 assigned IRQ 10
+pcnet32: eth0: registered as PCnet/PCI II 79C970A
+pcnet32: 1 cards_found
+NET: Registered PF_INET6 protocol family
+Segment Routing with IPv6
 
-The time between updates should be in the 10ms range. Audio
-recording with ALSA has the same timing contraints as playback.
-Reintroduce the default recording settings and use the same
-default settings for recording as for playback.
+Afterwards:
 
-The term "reintroduce" is correct because commit a93f328177
-("alsaaudio: port to -audiodev config") removed the default
-settings for recording.
+loop: module loaded
+NET: Registered PF_INET6 protocol family
+Segment Routing with IPv6
 
-Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
----
- audio/alsaaudio.c | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+and lots of hardware is missing. (I noticed ethernet first.) The mipsel.tgz in
+the same directory still worked.
 
-diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
-index 0cc982e61f..057571dd1e 100644
---- a/audio/alsaaudio.c
-+++ b/audio/alsaaudio.c
-@@ -923,15 +923,13 @@ static void *alsa_audio_init(Audiodev *dev)
-         dev->u.alsa.out->buffer_length = 92880;
-     }
- 
--    /*
--     * OptsVisitor sets unspecified optional fields to zero, but do not depend
--     * on it...
--     */
-     if (!dev->u.alsa.in->has_period_length) {
--        dev->u.alsa.in->period_length = 0;
-+        /* 256 frames assuming 44100Hz */
-+        dev->u.alsa.in->period_length = 5805;
-     }
-     if (!dev->u.alsa.in->has_buffer_length) {
--        dev->u.alsa.in->buffer_length = 0;
-+        /* 4096 frames assuming 44100Hz */
-+        dev->u.alsa.in->buffer_length = 92880;
-     }
- 
-     return dev;
--- 
-2.35.3
-
+Rob
 
