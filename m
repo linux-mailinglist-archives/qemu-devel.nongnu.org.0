@@ -2,81 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 051E167662B
-	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 13:21:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDBD4676653
+	for <lists+qemu-devel@lfdr.de>; Sat, 21 Jan 2023 14:03:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJCrX-0005IB-Q1; Sat, 21 Jan 2023 07:20:47 -0500
+	id 1pJDVH-0006NR-GP; Sat, 21 Jan 2023 08:01:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pJCrV-0005Hm-UH; Sat, 21 Jan 2023 07:20:45 -0500
-Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pJDVE-0006N9-Hz
+ for qemu-devel@nongnu.org; Sat, 21 Jan 2023 08:01:48 -0500
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pJCrU-0002Sf-5p; Sat, 21 Jan 2023 07:20:45 -0500
-Received: by mail-oi1-x236.google.com with SMTP id p133so6594776oig.8;
- Sat, 21 Jan 2023 04:20:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=gjcmu28houJFFDb7SqGn8prNAmqVY+nRT93YgNb87Ko=;
- b=C2M8BgE23dLo3/xC/gdjT4uecLbYNTTzpxgxI9GehFabpmmFZlQ32tNFMlq05cKX9l
- c2qW8g31idjty/4rx56idGOAsfxcd2SPUYfIR3Vr4XfSh0i5reqQ8j4BgqAU3W2OcGIA
- T1KiKXRdmoCuLkG1n2Ls32l5bwPkfpwqtvUqQF8RdOIrd3x606xjnY/Htuf/+6U1x1QQ
- ZLAuvN76qk9rXIa6qxeMJ+RX8wUWYfUaCSenTftViifq3mtm15+DYk2i/mtjy2s3NvhC
- 8GXOFTtFmpWHDHXQx6FyHq98FW9d4XngcpkRbnb7E3bpcmvy5wH5FbaRAQlHkxT//r5V
- hpfQ==
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pJDVC-0003ch-U1
+ for qemu-devel@nongnu.org; Sat, 21 Jan 2023 08:01:48 -0500
+Received: by mail-pg1-x534.google.com with SMTP id r18so6007497pgr.12
+ for <qemu-devel@nongnu.org>; Sat, 21 Jan 2023 05:01:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=b2cQ7EPm+HzRVxk2JCnjdwDBUzACpgs91WuFCzwqJiI=;
+ b=mElUCWb+P0oa2HvC1uRvzj3w6l3Yee+CY9TDZbZ8M02nbzWhYu0VBiVKt74o8pXSyh
+ GUgAqQdbYc2inhGUsjGLdbQlENebKLf9pcOXxmqSEbXGEw87Z0KvRjsS6rkBe//gjeVr
+ C/vt2qNNL43tkjYyqqgt4CF3FhyWcD5xx46Y5XSaoRBEcIycw4oDsyq/BhYEeCwPYXC+
+ Q7LHxmSyTq7DBJuY6QzpNCicDuygITY5/0smS5hAIiCvaicjKESkV4F7HxdQ0naT7iBv
+ TCEoiOodh5t70R5KlWx/J/r0pxbVn28nfRwY8WrZpSpJjXMzvqri3p90OtIWaBZU5nud
+ Kiog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gjcmu28houJFFDb7SqGn8prNAmqVY+nRT93YgNb87Ko=;
- b=iYRoQxaiaGX4LXPwTtlD/wJnkjMjQ9jlCyhGBm281ydrXD/zXu5M/mEaE0c/vW5wcr
- mGV9xx1dYdmadCfQ+Ghx8fncwp4o3F4lsiivW640+tIfnyQnJPX9xhMXRB3soz+5Eozb
- jOBgPKG7qgztwUdSObihpsuaiUu7zwZmxKNyHHuCUyO2CL9zlHxfGw7xy0IB/YHzMKzk
- +VU8NhiP/ykCMNaWNp0oxfg9D20J9ZCEPnlXmdV8kInUaPvSbOupIThDclgP+keSqEoI
- MJbyIvNTiTh72HS6B+ZkhaTVgDfc3ClXPFAwiHkv4jKypC/+f7aLJVEFFYayc1SLMfsT
- GtGA==
-X-Gm-Message-State: AFqh2koivhhcK6ctrfEquMIIfqHTCR47+3fcstXrUgmVrU8kV/bWxZtV
- tFgF75x/5o+jFxugXnzQ/Sg=
-X-Google-Smtp-Source: AMrXdXtZuJbqX8rm7HUf8DUs92+BsJedF1ppffTaLxc2m4xGzU+wnLBSsQFgT8l1UYJQ9S7X6Bl8lA==
-X-Received: by 2002:a05:6808:17a6:b0:364:624d:ec1a with SMTP id
- bg38-20020a05680817a600b00364624dec1amr10846095oib.0.1674303642507; 
- Sat, 21 Jan 2023 04:20:42 -0800 (PST)
-Received: from [192.168.68.107] ([191.17.222.2])
- by smtp.gmail.com with ESMTPSA id
- a18-20020a544e12000000b00363760f96dcsm20199004oiy.42.2023.01.21.04.20.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 21 Jan 2023 04:20:42 -0800 (PST)
-Message-ID: <0332d7b8-83c9-e5ad-4659-f9095314e59d@gmail.com>
-Date: Sat, 21 Jan 2023 09:20:39 -0300
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=b2cQ7EPm+HzRVxk2JCnjdwDBUzACpgs91WuFCzwqJiI=;
+ b=eABMXqytiVuvU3TKwaMGdDLWQQNliAJ1pNDGTtKtNtCVLTOFMRLNx3v4RmdXrc09lN
+ 7oCzbkbfbz8IYmIBcQhJmDC4JIKVo2QPCjWiBn/4N00yYwgbwD6pGQlzXhFdy7loEnCb
+ Ohf08lcfLyPx1LHlg2ZkS/bhc5s5vDueBROfN4U9Hpsk38onMmOLPbTAoUi3Wr+qCcun
+ nkUyry4C+Gg5CCunZkrCaKJPL2V8W6OP26SIgeJ60XncEAv50BUB7+NQJLTURSEjDQa1
+ KL8fK5Nm/5SyJzNtWNIeXrklhtGmhNayh/PGb1HT3NaSweGZC6lghAfrNHycFnv3sJS0
+ XxDQ==
+X-Gm-Message-State: AFqh2krI4p+LL0sAqa6iAULt8Lu4OaP0eFKHU3EOdra33/LDHTONvQzH
+ yBX2C6HAIBvXJoCwRKxafJenip902ykXUwYjFLV7ew==
+X-Google-Smtp-Source: AMrXdXvNFif/wkVSjyUVMpAELuggrdHqrPC8WAV/Mwiv9+syDOb1VT5pf8a9yZ/PJ9bF0u3HiKfBTA4dnM1xS4QWb3A=
+X-Received: by 2002:a63:6dce:0:b0:4ce:2e45:1e4d with SMTP id
+ i197-20020a636dce000000b004ce2e451e4dmr1520121pgc.211.1674306105504; Sat, 21
+ Jan 2023 05:01:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 0/2] tests/migration: add support for ppc64le in
- guestperf.py
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-References: <20220809002451.91541-1-muriloo@linux.ibm.com>
- <835c0cce-ea5e-c9c7-fd6a-f0e6ebd7ed20@gmail.com>
- <c1d9c7eb-f129-eea1-5c65-9c5a1e80f184@eik.bme.hu>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <c1d9c7eb-f129-eea1-5c65-9c5a1e80f184@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
- envelope-from=danielhb413@gmail.com; helo=mail-oi1-x236.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
+In-Reply-To: <20230120073913.1028407-1-alistair.francis@opensource.wdc.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 21 Jan 2023 13:01:34 +0000
+Message-ID: <CAFEAcA96_qzqNSRC-Nk5zv9z+4uyPDMYDZ-rP8NuD9o-W=CNgA@mail.gmail.com>
+Subject: Re: [PULL 00/37] riscv-to-apply queue
+To: Alistair Francis <alistair.francis@opensource.wdc.com>
+Cc: qemu-devel@nongnu.org, alistair23@gmail.com, 
+ Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::534;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x534.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.092,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -94,22 +83,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Fri, 20 Jan 2023 at 07:47, Alistair Francis
+<alistair.francis@opensource.wdc.com> wrote:
+>
+> From: Alistair Francis <alistair.francis@wdc.com>
+>
+> The following changes since commit 239b8b0699a222fd21da1c5fdeba0a2456085a47:
+>
+>   Merge tag 'trivial-branch-for-8.0-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging (2023-01-19 15:05:29 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/alistair23/qemu.git tags/pull-riscv-to-apply-20230120
+>
+> for you to fetch changes up to b748352c555b42d497fe8ee00ee2e44eb8627660:
+>
+>   hw/riscv/virt.c: move create_fw_cfg() back to virt_machine_init() (2023-01-20 10:14:14 +1000)
+>
+> ----------------------------------------------------------------
+> Second RISC-V PR for QEMU 8.0
+>
+> * riscv_htif: Support console output via proxy syscall
+> * Cleanup firmware and device tree loading
+> * Fix elen check when using vector extensions
+> * add RISC-V OpenSBI boot test
+> * Ensure we always follow MISA parsing
+> * Fix up masking of vsip/vsie accesses
+> * Trap on writes to stimecmp from VS when hvictl.VTI=1
+> * Introduce helper_set_rounding_mode_chkfrm
+>
 
 
-On 1/21/23 08:57, BALATON Zoltan wrote:
-> On Sat, 21 Jan 2023, Daniel Henrique Barboza wrote:
->> Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
-> 
-> Unrelated to this patch but just so you won't miss it, can you please take care of this patch too?
-> 
-> https://patchew.org/QEMU/20230118164512.1BCFB745706@zero.eik.bme.hu/
+Applied, thanks.
 
-Already did when I queued this one. I was running some CIs first :D
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
-
-Daniel
-
-> 
-> Thank you,
-> BALATON Zoltan
+-- PMM
 
