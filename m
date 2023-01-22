@@ -2,42 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90531677123
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 18:41:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DA34677141
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 18:55:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJeJs-0004k7-FN; Sun, 22 Jan 2023 12:39:52 -0500
+	id 1pJeXw-0008PY-Cu; Sun, 22 Jan 2023 12:54:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pJeJq-0004jd-FK; Sun, 22 Jan 2023 12:39:50 -0500
+ id 1pJeXl-0008PD-3v; Sun, 22 Jan 2023 12:54:13 -0500
 Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pJeJo-0004QU-69; Sun, 22 Jan 2023 12:39:49 -0500
+ id 1pJeXh-0008AY-BI; Sun, 22 Jan 2023 12:54:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
  In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
  Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
  :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
  List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=j8WreAP2aoLEc8bKtoiKsaawaMzHLTIHrdVHPGqn8u0=; b=JlUhrjw1Rknp7C4DefbLKwGqT7
- qelpckcNGvbfkOYyigIVz5ffXlu+Ro8XXgTT5M1eRXEju21elSVJx+i2idfMglvkYCP47qSq+nq2t
- 8GNTv8MQ7XtaEF9MMcKbYH/koti5pmmtrMFXlW5KnhBKU2PAI4EcD693JFVAlMZipfYyKSsYPLq/J
- k3iI4muEo9UXksG+R7yDII3p3iFhAuNHgmRuhQ2sIawKxtKEfvPR9D6nNakdOkaqzibmfIU6Rxev+
- mHoSB0WuXVRDLkYYNxEtdh/Ft1XlI27KnkKM4njqpPA4OjmVBepONgyUo6AqbH9OQ2WQrUOq0oqzx
- JPcr+fHkqupKi9wApe5eMaICOW50t9q/bw3xt6T/qAGqQZLVfuH+FEsPFTOcrAPlH61M7DFjPcBk1
- pWEqI+ASegHv8IIiZWTHQYcbciGZSw69gTVe5m2s9RbqHcXrXi2Syo0Sd6rrvjtkswx7xZcaHGGqa
- PIBI3c2C6FNfRr0In6hkBjPlW4ztn9LCXsZik0FQV5aDyYAOnjYLqYt3NJ6EWsi8RrzIkfTrDOxp5
- w9rEJoJOMZ2LNdB/70mCERuW2q6Lwj54nFwjMmmaVxTe02rYKHLoSx0LG4zq7EhAGFn+YJK6jvFjj
- byQmucwiOHITmQMA+T6vjONYATSsqrNm39LdtU8w8=;
+ bh=rh6Aaw5LyvZBLqUzyqvbQYUEQkXHuFXwmAdyckqLwf4=; b=qlZ4sjJaj9rf2gIIdCw4igY5BY
+ vJlTG81o0Lu3bumeN605B3Vmr289fcwrX7YprdynJjo4EKLq4SCJKVcuD/SlBh0oEL2H/0kSQznpk
+ VAvBatBWaqFosz3AHsecXpOxEtAeQ8hM03Mhi/UrRRC5Z/D5JhPwStqutEwWUqAnNFZ5MVPi66fli
+ rbIQcmAm+BI+nt5Atgr9Gb03QdY6JPajaVdQVkHpFTePi9wxtrMG8iOagxONb+PQIJ5w2cyEaTH9y
+ o2DQo7zj0rwSg16trfSvsFAZ1rBU5ZAxAnUz+ZPaN/g3ckG/nuJKmDbRuuy+B3yHNk7oKc54U8yQp
+ SYLhtIac0AS4qp+opd5ayogHI6+YEZJr8DwNgTTfRP7k9sRgIG7wbvbbRTOf2oqezVgFm1LEPH9rW
+ 2NwC4WCVrsg1ZV7LEdO34fFM07YA1Z0rvp/WfdVT9UfZxwipNgiLP4zUTrSMPTHHKmfswrKJOoQqM
+ 85Xzhi6YWvE23bxAK9DMiSwcS82PhR5Q72ip0CjCVZW6csULvZMvsLxW/zGcFKy3BuJM7svJxcIc0
+ CsTY79kMBS9pA98Aw/jAKld6wY/nUhYhptDqyZCs32bkTlX7fhJuMhwmAKqg46QN876xNbPmM4CN+
+ XswaG0X8VbdSp9LVZNkUFj/E+QYXGZ6Y0jmX/MLyc=;
 Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
  by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pJeJH-00063W-A5; Sun, 22 Jan 2023 17:39:19 +0000
-Message-ID: <23f2ba9b-97b3-25f2-2642-667238f79d11@ilande.co.uk>
-Date: Sun, 22 Jan 2023 17:39:36 +0000
+ id 1pJeXC-00065g-Ir; Sun, 22 Jan 2023 17:53:42 +0000
+Message-ID: <78fff8b3-d1c1-74ec-94bf-8d5ae220c4e2@ilande.co.uk>
+Date: Sun, 22 Jan 2023 17:54:02 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
@@ -45,17 +45,17 @@ Content-Language: en-US
 To: BALATON Zoltan <balaton@eik.bme.hu>
 Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 References: <cover.1672868854.git.balaton@eik.bme.hu>
- <b8aa89c354027fc71cdb93b697b139e93ac05e25.1672868854.git.balaton@eik.bme.hu>
- <ece23a2e-33a9-d2e2-14fd-097878acfa1f@ilande.co.uk>
- <61305eda-439b-800e-2265-c2c48bc21be9@eik.bme.hu>
+ <e8d6aa41eeb0461d285fa4c12e0fff05d366e8fa.1672868854.git.balaton@eik.bme.hu>
+ <8e775600-f394-0e9c-9ee9-15dd635275e9@ilande.co.uk>
+ <a7d27169-97fd-2cb2-e6d1-a050dbf76e30@eik.bme.hu>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <61305eda-439b-800e-2265-c2c48bc21be9@eik.bme.hu>
+In-Reply-To: <a7d27169-97fd-2cb2-e6d1-a050dbf76e30@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH v7 4/7] mac_newworld: Add machine types for different
- mac99 configs
+Subject: Re: [PATCH v7 3/7] mac_{old,new}world: Pass MacOS VGA NDRV in card
+ ROM instead of fw_cfg
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
 Received-SPF: pass client-ip=2001:41c9:1:41f::167;
@@ -81,78 +81,155 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 11/01/2023 00:36, BALATON Zoltan wrote:
+On 11/01/2023 00:54, BALATON Zoltan wrote:
 
 > On Tue, 10 Jan 2023, Mark Cave-Ayland wrote:
 >> On 04/01/2023 21:59, BALATON Zoltan wrote:
->>> The mac99 machine emulates different machines depending on machine
->>> properties or even if it is run as qemu-system-ppc64 or
->>> qemu-system-ppc. This is very confusing for users and many hours were
->>> lost trying to explain it or finding out why commands users came up
->>> with are not working as expected. (E.g. Windows users might think
->>> qemu-system-ppc64 is just the 64 bit version of qemu-system-ppc and
->>> then fail to boot a 32 bit OS with -M mac99 trying to follow an
->>> example that had qemu-system-ppc.) To avoid such confusion, add
->>> explicit machine types for the different configs which will work the
->>> same with both qemu-system-ppc and qemu-system-ppc64 and also make the
->>> command line clearer for new users.
+>>> OpenBIOS cannot run FCode ROMs yet but it can detect NDRV in VGA card
+>>> ROM and add it to the device tree for MacOS. Pass the NDRV this way
+>>> instead of via fw_cfg. This solves the problem with OpenBIOS also
+>>> adding the NDRV to ati-vga which it does not work with. This does not
+>>> need any changes to OpenBIOS as this NDRV ROM handling is already
+>>> there but this patch also allows simplifying OpenBIOS later to remove
+>>> the fw_cfg ndrv handling from the vga FCode and also drop the
+>>> vga-ndrv? option which is not needed any more as users can disable the
+>>> ndrv with -device VGA,romfile="" (or override it with their own NDRV
+>>> or ROM). Once FCode support is implemented in OpenBIOS, the proper
+>>> FCode ROM can be set the same way so this paves the way to remove some
+>>> hacks.
 >>>
 >>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>> ---
+>>>   hw/ppc/mac_newworld.c | 18 ++++++------------
+>>>   hw/ppc/mac_oldworld.c | 18 ++++++------------
+>>>   2 files changed, 12 insertions(+), 24 deletions(-)
+>>>
+>>> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
+>>> index 460c14b5e3..60c9c27986 100644
+>>> --- a/hw/ppc/mac_newworld.c
+>>> +++ b/hw/ppc/mac_newworld.c
+>>> @@ -510,18 +510,6 @@ static void ppc_core99_init(MachineState *machine)
+>>>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
+>>>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_NVRAM_ADDR, nvram_addr);
+>>>   -    /* MacOS NDRV VGA driver */
+>>> -    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
+>>> -    if (filename) {
+>>> -        gchar *ndrv_file;
+>>> -        gsize ndrv_size;
+>>> -
+>>> -        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
+>>> -            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, ndrv_size);
+>>> -        }
+>>> -        g_free(filename);
+>>> -    }
+>>> -
+>>>       qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
+>>>   }
+>>>   @@ -565,6 +553,11 @@ static int core99_kvm_type(MachineState *machine, const 
+>>> char *arg)
+>>>       return 2;
+>>>   }
+>>>   +static GlobalProperty props[] = {
+>>> +    /* MacOS NDRV VGA driver */
+>>> +    { "VGA", "romfile", NDRV_VGA_FILENAME },
+>>> +};
+>>> +
+>>>   static void core99_machine_class_init(ObjectClass *oc, void *data)
+>>>   {
+>>>       MachineClass *mc = MACHINE_CLASS(oc);
+>>> @@ -585,6 +578,7 @@ static void core99_machine_class_init(ObjectClass *oc, void 
+>>> *data)
+>>>   #endif
+>>>       mc->default_ram_id = "ppc_core99.ram";
+>>>       mc->ignore_boot_device_suffixes = true;
+>>> +    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
+>>>       fwc->get_dev_path = core99_fw_dev_path;
+>>>   }
+>>>   diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+>>> index 5a7b25a4a8..6a1b1ad47a 100644
+>>> --- a/hw/ppc/mac_oldworld.c
+>>> +++ b/hw/ppc/mac_oldworld.c
+>>> @@ -344,18 +344,6 @@ static void ppc_heathrow_init(MachineState *machine)
+>>>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_CLOCKFREQ, CLOCKFREQ);
+>>>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
+>>>   -    /* MacOS NDRV VGA driver */
+>>> -    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
+>>> -    if (filename) {
+>>> -        gchar *ndrv_file;
+>>> -        gsize ndrv_size;
+>>> -
+>>> -        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) {
+>>> -            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, ndrv_size);
+>>> -        }
+>>> -        g_free(filename);
+>>> -    }
+>>> -
+>>>       qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
+>>>   }
+>>>   @@ -400,6 +388,11 @@ static int heathrow_kvm_type(MachineState *machine, const 
+>>> char *arg)
+>>>       return 2;
+>>>   }
+>>>   +static GlobalProperty props[] = {
+>>> +    /* MacOS NDRV VGA driver */
+>>> +    { "VGA", "romfile", NDRV_VGA_FILENAME },
+>>> +};
+>>> +
+>>>   static void heathrow_class_init(ObjectClass *oc, void *data)
+>>>   {
+>>>       MachineClass *mc = MACHINE_CLASS(oc);
+>>> @@ -420,6 +413,7 @@ static void heathrow_class_init(ObjectClass *oc, void *data)
+>>>       mc->default_display = "std";
+>>>       mc->ignore_boot_device_suffixes = true;
+>>>       mc->default_ram_id = "ppc_heathrow.ram";
+>>> +    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
+>>>       fwc->get_dev_path = heathrow_fw_dev_path;
+>>>   }
 >>
->> Some thoughts on this: the first is that not everyone agrees that for qemu-system-X 
->> that X represents the target. There were previous discussion where some KVM people 
->> assumed X represented the host, i.e. ppc64 was the binary that ran all PPC guests 
->> but with hardware acceleration for ppc64 guests on ppc64 hosts. This was a while 
->> ago, so it may be worth starting a thread on qemu-devel to see what the current 
->> consensus is.
+>> The qemu_vga.ndrv is deliberately kept separate from the PCI option ROM because it 
+>> is a binary generated by a separate project: otherwise you'd end up creating a 
+>> dependency between OpenBIOS and QemuMacDrivers, which is almost impossible to 
+>> achieve since qemu_vga.ndrv can only (currently) be built in an emulated MacOS 9 
+>> guest.
 > 
-> I don't see how this is relevant to this series, Also likely not the case any more as 
-> qemu-system-ppc and qemu-system-ppc64 share most of the code since a while with ppc64 
-> including the config of ppc and adding more machines.
+> I don't get this. The dependency is already there as qemu_vga.ndrv ships with QEMU 
+> such as all the vgabios-*.bin and SeaBIOS binaries which are also built from 
+> different projects. The qemu_vga.ndrv would also still be part of an FCode ROM 
+> together with vga.fs if OpenBIOS could run that so this patch solely changes the way 
+> of passing the ROM binary to OpenBIOS from fw_cfg to the card ROM which is closer to 
+> how it should be and can direcly be replaced with the FCode ROM later after OpenBIOS 
+> will be advanced to that point.
 
-Well the patch defines the powermac 7.3 machine just for TARGET_PPC64, no? So you're 
-making the assumption qemu-system-ppc64 represents a 64-bit target rather than a 
-64-bit host.
+Even if OpenBIOS were able to execute PCI option ROMs, the problem is that OpenBIOS 
+cannot generate the qemu_vga.ndrv binary from source and therefore cannot generate 
+the complete ROM by itself. Hence why the existing mechanism exists to inject 
+qemu_vga.ndrv via fw_cfg() so the OpenBIOS ROM is self-contained.
 
->> Secondly it's not clear to me why you've chosen names like "powermac_3_1" instead 
->> of "g4agp"? Does powermac_3_1 uniquely identify the G4 AGP Sawtooth model? For QEMU 
->> it is always best to emulate real machines, and whilst I understand you want to 
->> separate out the two versions of the mac99 machine, having "powermac_X_Y" seems 
->> less clear to me.
+>> The best way to do this would be to extract the PCI config words from your ATI 
+>> OpenBIOS patches and the alter drivers/vga.fs so that it only generates the 
+>> driver,AAPL,MacOS,PowerPC property if the device id and vendor id match that of the 
+>> QEMU VGA device.
 > 
-> These machine model identifiers are used by Apple to uniquely identify (all of) their 
-> machines since new-world Macs (even modern iPads and Macs have them) so for Mac 
-> people this should be clearer than the informal names that could get a bit long and 
-> confusing as there may be slight differences within a family. In any case, 
-> qemu-system-ppc -M mac99 is not corresponding to any real Mac so I'd like the options 
-> which do emulate real Macs to be called in a name that show which Mac is that. For 
-> the PPC Macs there's some info here for example:
-> 
-> https://en.wikipedia.org/wiki/Power_Mac_G4
-> 
-> And everymac.com also has info on all Macs. There were actually more than one G4 
-> PowerMac with AGP but the other one was informally called gigabit ethernet. So the 
-> model ID is a shorter and better way to clearly identify which hardware is it (and 
-> it's also referenced in the device-tree of these Macs).
+> This is further down the road and does not block this patch. The config access words 
+> should be provided by OpenBIOS not vga.fs. If we want to do it like on the real 
+> machine then vga.fs and qemu_vga,ndrv should be together the FCode ROM that the card 
+> has and OpenBIOS would run that. This is also how the ATI and NVIDIA ROMs do it which 
+> contain some Forth to init the card and add the embedded ndrv to the device tree for 
+> MacOS. But that's independent of this patch and needs OpenBIOS changes, while this 
+> patch does not need any change in OpenBIOS just moves to that direction to be able to 
+> attach a proper FCode ROM sometimes later and simpify fw_cfg handling in OpenBIOS. 
+> For now adding the ndrv in the ROM is enough for OpenBIOS as it has additional code 
+> to handle it already.
 
-Are you planning to work on different types of G4 Mac where this could be confusing? 
-Even to me "PowerMac 3.1" doesn't really tell me what model of Mac is being emulated, 
-whereas "g4agp" (much in the same way as g3beige) is much more friendlier to people 
-interested in using QEMU for Mac emulation.
+The problem you are ultimately trying to solve though is that OpenBIOS is loading the 
+NDRV for all VGA PCI devices, so why not just fix drivers/vga.fs so that the NDRV is 
+loaded only for the QEMU VGA device?
 
->> Finally can you post links to the device trees that you are using for each of the 
->> new machine types so that we have a clear reference point for future changes to the 
->> QEMU Mac machines? Even better include the links in the comments for each machine 
->> so that the information is easily visible for developers.
-> 
-> I still have those I've posted over the past 8 years when I made changes to OpenBIOS 
-> to make the device-tree closer to real machine. I've downloaded it back then, don't 
-> know where to find it now but searching for e.g. "PowerMac3,1" "device-tree" should 
-> get some results.
+> So this patch neither adds new dependency to QEMU nor repends on any change in 
+> OpenBIOS. It just gets rid of passing files via fw_cfg.
 
-Nothing shows up for me, I'm afraid (remember that Google searches are unique to each 
-user). If you want argue for changing the QEMU machines, then we should agree on the 
-reference device model for future changes.
+Unfortunately that still doesn't solve the problem of building a self-contained 
+OpenBIOS ROM, so this patch isn't the right way forward.
 
 
 ATB,
