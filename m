@@ -2,51 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 323956772FB
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 23:20:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D5367730E
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 23:55:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJig8-0001LE-Ma; Sun, 22 Jan 2023 17:19:08 -0500
+	id 1pJjEL-0006LL-R2; Sun, 22 Jan 2023 17:54:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pJig5-0001KF-L8; Sun, 22 Jan 2023 17:19:06 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pJig2-0007e7-V9; Sun, 22 Jan 2023 17:19:05 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 90D6F7470AF;
- Sun, 22 Jan 2023 23:16:35 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 3C8DA746377; Sun, 22 Jan 2023 23:16:35 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 3A951746346;
- Sun, 22 Jan 2023 23:16:35 +0100 (CET)
-Date: Sun, 22 Jan 2023 23:16:35 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v7 3/7] mac_{old,new}world: Pass MacOS VGA NDRV in card
- ROM instead of fw_cfg
-In-Reply-To: <78fff8b3-d1c1-74ec-94bf-8d5ae220c4e2@ilande.co.uk>
-Message-ID: <8ef24b01-534a-fd8f-ad99-abebff6197c8@eik.bme.hu>
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <e8d6aa41eeb0461d285fa4c12e0fff05d366e8fa.1672868854.git.balaton@eik.bme.hu>
- <8e775600-f394-0e9c-9ee9-15dd635275e9@ilande.co.uk>
- <a7d27169-97fd-2cb2-e6d1-a050dbf76e30@eik.bme.hu>
- <78fff8b3-d1c1-74ec-94bf-8d5ae220c4e2@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pJjEI-0006L2-UK; Sun, 22 Jan 2023 17:54:26 -0500
+Received: from mail-vs1-xe2c.google.com ([2607:f8b0:4864:20::e2c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pJjEG-0006eS-I0; Sun, 22 Jan 2023 17:54:25 -0500
+Received: by mail-vs1-xe2c.google.com with SMTP id l125so11189891vsc.2;
+ Sun, 22 Jan 2023 14:54:23 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=4I40+AVbej6AAPnbz8AePv5s3N9ys0uSGtrAZHOJVn8=;
+ b=fRm07AMhS+gbkHHOpiRPX+lL70vhaVxTI2dpRNeiUDe5Pah0157z3yY5Te/WzPQ9xc
+ dw2u076lW4fpYhZ6uELmbbhBP0CRoz8YXHq0q3NCASw0aYOueRqSFDdIeRyB30+GE5lL
+ TsTZyzR+0F8zM/D4doT3EUXhM3YOohGfZij6heND+5Xlg3nG+WQ8E/CU/ArZ7nQ2w76I
+ DTMcPnp0E4IICJJTpiDDx/me9aLtp81lGbhxSr0kU0HbjpXC4acl2VLvxeC9nSvLewif
+ T5zJeh/TmQ9QGFjNQ0uvVu994TjaT1pzjpi74/n77hzxS8HhwtJiV5xlZ746pvSM9Qil
+ rHhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=4I40+AVbej6AAPnbz8AePv5s3N9ys0uSGtrAZHOJVn8=;
+ b=XHS/KVfvbd/55vemQL43vqQwezok7YvRmhdtlr2orzfhXqiMsBS9kDXjtb8lLrkYB4
+ fdb4mAEByv9vKBJthWxLuXsku3FEOuTBLOmXiSb+FHemHpY1SEjFw35j/GyrhBM6Pn3F
+ 4lDeK8KGIaFw3luHwrA798lZWkLTCp4yOp49qy7+00pLeTcwIozOrLla172ducOivUb/
+ yBL5CrdHyE4z+Y/aQahjM4lp4VZIB9TpA9wNbnrzHC6JpYlOE6We7TFuBohsDRbu6OXE
+ cyDI83Gx8aMqqqNGKJrd3SF+UXPdyCtOWU1WTrJaWUHSatNJHr8QBuMfZTfMbFbiVXYU
+ CETA==
+X-Gm-Message-State: AFqh2kqQHlUtZy42f04n/RyM+bDTgX2cNKbZFIYBSyKuseuQT99LuW2T
+ jo2jh992qNh2hyQia3/DwbvNFnwGPJQ0x2UWcso=
+X-Google-Smtp-Source: AMrXdXvMP6iQg7byFJnOocAZ9jS1FnPaN/15bOui+N4iv58hyZ6iI1bD0n9y4bskBPHsVaa+RVHyoPeZcHGwA6tJLpk=
+X-Received: by 2002:a05:6102:f98:b0:3d3:c7d9:7b62 with SMTP id
+ e24-20020a0561020f9800b003d3c7d97b62mr2701722vsv.72.1674428062864; Sun, 22
+ Jan 2023 14:54:22 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1112667566-1674425795=:56868"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+References: <20230119191728.622081-1-dbarboza@ventanamicro.com>
+ <20230119191728.622081-4-dbarboza@ventanamicro.com> <Y8ndFjv9prrRXLnL@spud>
+ <385b977b-d15f-6c54-1d05-ab68e122dfe8@ventanamicro.com>
+In-Reply-To: <385b977b-d15f-6c54-1d05-ab68e122dfe8@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 23 Jan 2023 08:53:56 +1000
+Message-ID: <CAKmqyKN=XquxtTDGCstEu7jEvoOn=1HpHc=ax8+zs3XxZO2G3w@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] hw/riscv/microchip_pfsoc.c: add an Icicle Kit fdt
+ address function
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: Conor Dooley <conor@kernel.org>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, alistair.francis@wdc.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2c;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2c.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,190 +85,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-1112667566-1674425795=:56868
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Sun, 22 Jan 2023, Mark Cave-Ayland wrote:
-> On 11/01/2023 00:54, BALATON Zoltan wrote:
->> On Tue, 10 Jan 2023, Mark Cave-Ayland wrote:
->>> On 04/01/2023 21:59, BALATON Zoltan wrote:
->>>> OpenBIOS cannot run FCode ROMs yet but it can detect NDRV in VGA card
->>>> ROM and add it to the device tree for MacOS. Pass the NDRV this way
->>>> instead of via fw_cfg. This solves the problem with OpenBIOS also
->>>> adding the NDRV to ati-vga which it does not work with. This does not
->>>> need any changes to OpenBIOS as this NDRV ROM handling is already
->>>> there but this patch also allows simplifying OpenBIOS later to remove
->>>> the fw_cfg ndrv handling from the vga FCode and also drop the
->>>> vga-ndrv? option which is not needed any more as users can disable the
->>>> ndrv with -device VGA,romfile="" (or override it with their own NDRV
->>>> or ROM). Once FCode support is implemented in OpenBIOS, the proper
->>>> FCode ROM can be set the same way so this paves the way to remove some
->>>> hacks.
->>>> 
->>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>>> ---
->>>>   hw/ppc/mac_newworld.c | 18 ++++++------------
->>>>   hw/ppc/mac_oldworld.c | 18 ++++++------------
->>>>   2 files changed, 12 insertions(+), 24 deletions(-)
->>>> 
->>>> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
->>>> index 460c14b5e3..60c9c27986 100644
->>>> --- a/hw/ppc/mac_newworld.c
->>>> +++ b/hw/ppc/mac_newworld.c
->>>> @@ -510,18 +510,6 @@ static void ppc_core99_init(MachineState *machine)
->>>>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
->>>>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_NVRAM_ADDR, nvram_addr);
->>>>   -    /* MacOS NDRV VGA driver */
->>>> -    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
->>>> -    if (filename) {
->>>> -        gchar *ndrv_file;
->>>> -        gsize ndrv_size;
->>>> -
->>>> -        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) 
->>>> {
->>>> -            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, 
->>>> ndrv_size);
->>>> -        }
->>>> -        g_free(filename);
->>>> -    }
->>>> -
->>>>       qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
->>>>   }
->>>>   @@ -565,6 +553,11 @@ static int core99_kvm_type(MachineState *machine, 
->>>> const char *arg)
->>>>       return 2;
->>>>   }
->>>>   +static GlobalProperty props[] = {
->>>> +    /* MacOS NDRV VGA driver */
->>>> +    { "VGA", "romfile", NDRV_VGA_FILENAME },
->>>> +};
->>>> +
->>>>   static void core99_machine_class_init(ObjectClass *oc, void *data)
->>>>   {
->>>>       MachineClass *mc = MACHINE_CLASS(oc);
->>>> @@ -585,6 +578,7 @@ static void core99_machine_class_init(ObjectClass 
->>>> *oc, void *data)
->>>>   #endif
->>>>       mc->default_ram_id = "ppc_core99.ram";
->>>>       mc->ignore_boot_device_suffixes = true;
->>>> +    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
->>>>       fwc->get_dev_path = core99_fw_dev_path;
->>>>   }
->>>>   diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
->>>> index 5a7b25a4a8..6a1b1ad47a 100644
->>>> --- a/hw/ppc/mac_oldworld.c
->>>> +++ b/hw/ppc/mac_oldworld.c
->>>> @@ -344,18 +344,6 @@ static void ppc_heathrow_init(MachineState *machine)
->>>>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_CLOCKFREQ, CLOCKFREQ);
->>>>       fw_cfg_add_i32(fw_cfg, FW_CFG_PPC_BUSFREQ, BUSFREQ);
->>>>   -    /* MacOS NDRV VGA driver */
->>>> -    filename = qemu_find_file(QEMU_FILE_TYPE_BIOS, NDRV_VGA_FILENAME);
->>>> -    if (filename) {
->>>> -        gchar *ndrv_file;
->>>> -        gsize ndrv_size;
->>>> -
->>>> -        if (g_file_get_contents(filename, &ndrv_file, &ndrv_size, NULL)) 
->>>> {
->>>> -            fw_cfg_add_file(fw_cfg, "ndrv/qemu_vga.ndrv", ndrv_file, 
->>>> ndrv_size);
->>>> -        }
->>>> -        g_free(filename);
->>>> -    }
->>>> -
->>>>       qemu_register_boot_set(fw_cfg_boot_set, fw_cfg);
->>>>   }
->>>>   @@ -400,6 +388,11 @@ static int heathrow_kvm_type(MachineState 
->>>> *machine, const char *arg)
->>>>       return 2;
->>>>   }
->>>>   +static GlobalProperty props[] = {
->>>> +    /* MacOS NDRV VGA driver */
->>>> +    { "VGA", "romfile", NDRV_VGA_FILENAME },
->>>> +};
->>>> +
->>>>   static void heathrow_class_init(ObjectClass *oc, void *data)
->>>>   {
->>>>       MachineClass *mc = MACHINE_CLASS(oc);
->>>> @@ -420,6 +413,7 @@ static void heathrow_class_init(ObjectClass *oc, void 
->>>> *data)
->>>>       mc->default_display = "std";
->>>>       mc->ignore_boot_device_suffixes = true;
->>>>       mc->default_ram_id = "ppc_heathrow.ram";
->>>> +    compat_props_add(mc->compat_props, props, G_N_ELEMENTS(props));
->>>>       fwc->get_dev_path = heathrow_fw_dev_path;
->>>>   }
->>> 
->>> The qemu_vga.ndrv is deliberately kept separate from the PCI option ROM 
->>> because it is a binary generated by a separate project: otherwise you'd 
->>> end up creating a dependency between OpenBIOS and QemuMacDrivers, which is 
->>> almost impossible to achieve since qemu_vga.ndrv can only (currently) be 
->>> built in an emulated MacOS 9 guest.
->> 
->> I don't get this. The dependency is already there as qemu_vga.ndrv ships 
->> with QEMU such as all the vgabios-*.bin and SeaBIOS binaries which are also 
->> built from different projects. The qemu_vga.ndrv would also still be part 
->> of an FCode ROM together with vga.fs if OpenBIOS could run that so this 
->> patch solely changes the way of passing the ROM binary to OpenBIOS from 
->> fw_cfg to the card ROM which is closer to how it should be and can direcly 
->> be replaced with the FCode ROM later after OpenBIOS will be advanced to 
->> that point.
+On Sun, Jan 22, 2023 at 5:16 AM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
 >
-> Even if OpenBIOS were able to execute PCI option ROMs, the problem is that 
-> OpenBIOS cannot generate the qemu_vga.ndrv binary from source and therefore 
-> cannot generate the complete ROM by itself. Hence why the existing mechanism 
-> exists to inject qemu_vga.ndrv via fw_cfg() so the OpenBIOS ROM is 
-> self-contained.
-
-And how does this change by this patch? The ndrv is built separately and 
-included in QEMU currently. This does not change at all. The only thing 
-that changes is that QEMU does not add it to fw_cfg but to the ROM where 
-OpenBIOS adds it to the device tree but it can do it much simpler removing 
-some code to handle downloading the file as it already reads the ROM. The 
-option ROM is not self contained now and it will not be after this patch 
-it's just a different way to solve the same issue simpler. What you don't 
-like about it?
-
->>> The best way to do this would be to extract the PCI config words from your 
->>> ATI OpenBIOS patches and the alter drivers/vga.fs so that it only 
->>> generates the driver,AAPL,MacOS,PowerPC property if the device id and 
->>> vendor id match that of the QEMU VGA device.
->> 
->> This is further down the road and does not block this patch. The config 
->> access words should be provided by OpenBIOS not vga.fs. If we want to do it 
->> like on the real machine then vga.fs and qemu_vga,ndrv should be together 
->> the FCode ROM that the card has and OpenBIOS would run that. This is also 
->> how the ATI and NVIDIA ROMs do it which contain some Forth to init the card 
->> and add the embedded ndrv to the device tree for MacOS. But that's 
->> independent of this patch and needs OpenBIOS changes, while this patch does 
->> not need any change in OpenBIOS just moves to that direction to be able to 
->> attach a proper FCode ROM sometimes later and simpify fw_cfg handling in 
->> OpenBIOS. For now adding the ndrv in the ROM is enough for OpenBIOS as it 
->> has additional code to handle it already.
+> Conor,
 >
-> The problem you are ultimately trying to solve though is that OpenBIOS is 
-> loading the NDRV for all VGA PCI devices, so why not just fix drivers/vga.fs 
-> so that the NDRV is loaded only for the QEMU VGA device?
+> Thanks for the Icicle-kit walk-through! I'll not claim that I fully understood it,
+> but I understood enough to handle the situation ATM.
 >
->> So this patch neither adds new dependency to QEMU nor repends on any change 
->> in OpenBIOS. It just gets rid of passing files via fw_cfg.
+> Without this change, this is where the FDT is being installed in the board when
+> I start it with 8Gb of RAM (retrieved via 'info roms'):
 >
-> Unfortunately that still doesn't solve the problem of building a 
-> self-contained OpenBIOS ROM, so this patch isn't the right way forward.
+> addr=00000000bfe00000 size=0x00a720 mem=ram name="fdt"
+>
+> Which surprised me at first because this is almost at the end of the LO area which has
+> 1Gb and I figured it would be in the middle of another RAM area. I took another read
+> at what we're doing in riscv_load_fdt():
+>
+> -----------
+> temp = (dram_base < 3072 * MiB) ?  MIN(dram_end, 3072 * MiB) : dram_end;
+> fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
+> -----------
+>
+> This code can be read as "if the starting address of the RAM is lower than 3Gb, put
+> the FDT no further than 3Gb (0xc0000000). Otherwise, put it at the end of dram",
+> where "dram_base" is the starting address of the RAM block that the function
+> receives.
+>
+> For icicle-kit, this is being passed as  memmap[MICROCHIP_PFSOC_DRAM_LO].base,
+> 0x80000000, which is 2Gb.
+>
+> So, regardless of how much RAM we have (dram_end), the FDT will always be capped at
+> 3Gb. At this moment, this fits exactly at the end of the LO area for the Icicle Kit.
+> Which is funny because this 3Gb restriction was added by commit 1a475d39ef54 to fix
+> 32 bit guest boot and it happened to also work for the Microchip SoC.
+>
+> So yeah, I thought that I was fixing a bug and in the end I caused one. This patch
+> needs to go.
+>
+>
+> Alistair, I believe I should re-send v2, this time explaining why the existing function
+> will not break the Microchip board because we'll never put the FDT out of the LO area
+> of the board. Does this work for you?
 
-It does take a step to make it possible to eventually add a self contained 
-ROM and remove the vga.fs from OpenBIOS but it's not doing that fully. It 
-just simplifies QEMU and OpenBIOS vga.fs for now and making the ROM also 
-contain the FCode will be a further step but we can't get there if you 
-don't allow to make smaller steps or don't merge my patches for OpenBIOS 
-which would allow it to run FCode ROMs. If you're waiting for all this to 
-be finished I'll give up and it will never be finished. If you allow to 
-progress in smaller steps then maybe we'll get there.
+I think that's fine. My only worry is that we are losing some
+flexibility that some future board might want.
 
-Regards,
-BALATON Zoltan
---3866299591-1112667566-1674425795=:56868--
+Alistair
 
