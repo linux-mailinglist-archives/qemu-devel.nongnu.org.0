@@ -2,74 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03D5367730E
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 23:55:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C23BB677376
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 00:32:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJjEL-0006LL-R2; Sun, 22 Jan 2023 17:54:29 -0500
+	id 1pJjnY-0002Dz-4H; Sun, 22 Jan 2023 18:30:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pJjEI-0006L2-UK; Sun, 22 Jan 2023 17:54:26 -0500
-Received: from mail-vs1-xe2c.google.com ([2607:f8b0:4864:20::e2c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pJjEG-0006eS-I0; Sun, 22 Jan 2023 17:54:25 -0500
-Received: by mail-vs1-xe2c.google.com with SMTP id l125so11189891vsc.2;
- Sun, 22 Jan 2023 14:54:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4I40+AVbej6AAPnbz8AePv5s3N9ys0uSGtrAZHOJVn8=;
- b=fRm07AMhS+gbkHHOpiRPX+lL70vhaVxTI2dpRNeiUDe5Pah0157z3yY5Te/WzPQ9xc
- dw2u076lW4fpYhZ6uELmbbhBP0CRoz8YXHq0q3NCASw0aYOueRqSFDdIeRyB30+GE5lL
- TsTZyzR+0F8zM/D4doT3EUXhM3YOohGfZij6heND+5Xlg3nG+WQ8E/CU/ArZ7nQ2w76I
- DTMcPnp0E4IICJJTpiDDx/me9aLtp81lGbhxSr0kU0HbjpXC4acl2VLvxeC9nSvLewif
- T5zJeh/TmQ9QGFjNQ0uvVu994TjaT1pzjpi74/n77hzxS8HhwtJiV5xlZ746pvSM9Qil
- rHhA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=4I40+AVbej6AAPnbz8AePv5s3N9ys0uSGtrAZHOJVn8=;
- b=XHS/KVfvbd/55vemQL43vqQwezok7YvRmhdtlr2orzfhXqiMsBS9kDXjtb8lLrkYB4
- fdb4mAEByv9vKBJthWxLuXsku3FEOuTBLOmXiSb+FHemHpY1SEjFw35j/GyrhBM6Pn3F
- 4lDeK8KGIaFw3luHwrA798lZWkLTCp4yOp49qy7+00pLeTcwIozOrLla172ducOivUb/
- yBL5CrdHyE4z+Y/aQahjM4lp4VZIB9TpA9wNbnrzHC6JpYlOE6We7TFuBohsDRbu6OXE
- cyDI83Gx8aMqqqNGKJrd3SF+UXPdyCtOWU1WTrJaWUHSatNJHr8QBuMfZTfMbFbiVXYU
- CETA==
-X-Gm-Message-State: AFqh2kqQHlUtZy42f04n/RyM+bDTgX2cNKbZFIYBSyKuseuQT99LuW2T
- jo2jh992qNh2hyQia3/DwbvNFnwGPJQ0x2UWcso=
-X-Google-Smtp-Source: AMrXdXvMP6iQg7byFJnOocAZ9jS1FnPaN/15bOui+N4iv58hyZ6iI1bD0n9y4bskBPHsVaa+RVHyoPeZcHGwA6tJLpk=
-X-Received: by 2002:a05:6102:f98:b0:3d3:c7d9:7b62 with SMTP id
- e24-20020a0561020f9800b003d3c7d97b62mr2701722vsv.72.1674428062864; Sun, 22
- Jan 2023 14:54:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pJjnT-0002Dj-Fi
+ for qemu-devel@nongnu.org; Sun, 22 Jan 2023 18:30:47 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pJjnP-0007F6-T9
+ for qemu-devel@nongnu.org; Sun, 22 Jan 2023 18:30:46 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7EEE3746346;
+ Mon, 23 Jan 2023 00:28:17 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 534C6745720; Mon, 23 Jan 2023 00:28:16 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 4D3AC745712;
+ Mon, 23 Jan 2023 00:28:16 +0100 (CET)
+Date: Mon, 23 Jan 2023 00:28:16 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, Joelle van Dyne <j@getutm.app>
+Subject: Re: Display update issue on M1 Macs
+In-Reply-To: <7380ee42-8b39-8c5d-ba60-652d411c49b1@gmail.com>
+Message-ID: <5d385b04-ea56-5e30-9bcd-82c0b63f2dd4@eik.bme.hu>
+References: <5921db6f-0760-c380-7af2-5710a0cd479d@eik.bme.hu>
+ <3bad40aa-7920-0484-ca23-b9d424ad56f6@eik.bme.hu>
+ <28025639-840a-1e19-01d5-c817235ca423@gmail.com>
+ <08497582-3b11-1311-48d6-1e2db8c93559@eik.bme.hu>
+ <7380ee42-8b39-8c5d-ba60-652d411c49b1@gmail.com>
 MIME-Version: 1.0
-References: <20230119191728.622081-1-dbarboza@ventanamicro.com>
- <20230119191728.622081-4-dbarboza@ventanamicro.com> <Y8ndFjv9prrRXLnL@spud>
- <385b977b-d15f-6c54-1d05-ab68e122dfe8@ventanamicro.com>
-In-Reply-To: <385b977b-d15f-6c54-1d05-ab68e122dfe8@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 23 Jan 2023 08:53:56 +1000
-Message-ID: <CAKmqyKN=XquxtTDGCstEu7jEvoOn=1HpHc=ax8+zs3XxZO2G3w@mail.gmail.com>
-Subject: Re: [PATCH v3 3/7] hw/riscv/microchip_pfsoc.c: add an Icicle Kit fdt
- address function
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: Conor Dooley <conor@kernel.org>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, alistair.francis@wdc.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2c;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2c.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,51 +64,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Jan 22, 2023 at 5:16 AM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
+On Thu, 19 Jan 2023, Akihiko Odaki wrote:
+> On 2023/01/15 3:11, BALATON Zoltan wrote:
+>> On Sat, 14 Jan 2023, Akihiko Odaki wrote:
+>>> On 2023/01/13 22:43, BALATON Zoltan wrote:
+>>>> On Thu, 5 Jan 2023, BALATON Zoltan wrote:
+>>>>> Hello,
+>>>>> 
+>>>>> I got reports from several users trying to run AmigaOS4 on sam460ex on 
+>>>>> Apple silicon Macs that they get missing graphics that I can't reproduce 
+>>>>> on x86_64. With help from the users who get the problem we've narrowed 
+>>>>> it down to the following:
+>>>>> 
+>>>>> It looks like that data written to the sm501's ram in 
+>>>>> qemu/hw/display/sm501.c::sm501_2d_operation() is then not seen from 
+>>>>> sm501_update_display() in the same file. The sm501_2d_operation() 
+>>>>> function is called when the guest accesses the emulated card so it may 
+>>>>> run in a different thread than sm501_update_display() which is called by 
+>>>>> the ui backend but I'm not sure how QEMU calls these. Is device code 
+>>>>> running in iothread and display update in main thread? The problem is 
+>>>>> also independent of the display backend and was reproduced with both 
+>>>>> -display cocoa and -display sdl.
+>>>>> 
+>>>>> We have confirmed it's not the pixman routines that sm501_2d_operation() 
+>>>>> uses as the same issue is seen also with QEMU 4.x where pixman wasn't 
+>>>>> used and with all versions up to 7.2 so it's also not some bisectable 
+>>>>> change in QEMU. It also happens with --enable-debug so it doesn't seem 
+>>>>> to be related to optimisation either and I don't get it on x86_64 but 
+>>>>> even x86_64 QEMU builds run on Apple M1 with Rosetta 2 show the problem. 
+>>>>> It also only seems to affect graphics written from sm501_2d_operation() 
+>>>>> which AmigaOS4 uses extensively but other OSes don't and just render 
+>>>>> graphics with the vcpu which work without problem also on the M1 Macs 
+>>>>> that show this problem with AmigaOS4. Theoretically this could be some 
+>>>>> missing syncronisation which is something ARM and PPC may need while x86 
+>>>>> doesn't but I don't know if this is really the reason and if so where 
+>>>>> and how to fix it). Any idea what may cause this and what could be a fix 
+>>>>> to try?
+>>>> 
+>>>> Any idea anyone? At least some explanation if the above is plausible or 
+>>>> if there's an option to disable the iothread and run everyting in a 
+>>>> single thread to verify the theory could help. I've got reports from at 
+>>>> least 3 people getting this problem but I can't do much to fix it without 
+>>>> some help.
+>>>> 
+>>>>> (Info on how to run it is here:
+>>>>> http://zero.eik.bme.hu/~balaton/qemu/amiga/#amigaos
+>>>>> but AmigaOS4 is not freely distributable so it's a bit hard to 
+>>>>> reproduce. Some Linux X servers that support sm501/sm502 may also use 
+>>>>> the card's 2d engine but I don't know about any live CDs that readily 
+>>>>> run on sam460ex.)
+>>>>> 
+>>>>> Thank you,
+>>>>> BALATON Zoltan
+>>> 
+>>> Sorry, I missed the email.
+>>> 
+>>> Indeed the ui backend should call sm501_update_display() in the main 
+>>> thread, which should be different from the thread calling 
+>>> sm501_2d_operation(). However, if I understand it correctly, both of the 
+>>> functions should be called with iothread lock held so there should be no 
+>>> race condition in theory.
+>>> 
+>>> But there is an exception: memory_region_snapshot_and_clear_dirty() 
+>>> releases iothread lock, and that broke raspi3b display device:
+>>> https://lore.kernel.org/qemu-devel/CAFEAcA9odnPo2LPip295Uztri7JfoVnQbkJ=Wn+k8dQneB_ynQ@mail.gmail.com/T/
+>>> 
+>>> It is unexpected that gfx_update() callback releases iothread lock so it 
+>>> may break things in peculiar ways.
+>>> 
+>>> Peter, is there any change in the situation regarding the race introduced 
+>>> by memory_region_snapshot_and_clear_dirty()?
+>>> 
+>>> For now, to workaround the issue, I think you can create another mutex and 
+>>> make the entire sm501_2d_engine_write() and sm501_update_display() 
+>>> critical sections.
+>> 
+>> Interesting thread but not sure it's the same problem so this workaround 
+>> may not be enough to fix my issue. Here's a video posted by one of the 
+>> people who reported it showing the problem on M1 Mac:
+>> 
+>> https://www.youtube.com/watch?v=FDqoNbp6PQs
+>> 
+>> and here's how it looks like on other machines:
+>> 
+>> https://www.youtube.com/watch?v=ML7-F4HNFKQ
+>> 
+>> There are also videos showing it running on RPi 4 and G5 Mac without this 
+>> issue so it seems to only happen on Apple Silicon M1 Macs. What's strange 
+>> is that graphics elements are not just delayed which I think should happen 
+>> with missing thread synchronisation where the update callback would miss 
+>> some pixels rendered during it's running but subsequent update callbacks 
+>> would eventually draw those, woudn't they? Also setting full_update to 1 in 
+>> sm501_update_display() callback to disable dirty tracking does not fix the 
+>> problem. So it looks like as if sm501_2d_operation() running on one CPU 
+>> core only writes data to the local cache of that core which 
+>> sm501_update_display() running on other core can't see, so maybe some cache 
+>> synchronisation is needed in memory_region_set_dirty() or if that's already 
+>> there maybe I should call it for all changes not only those in the visible 
+>> display area? I'm still not sure I understand the problem and don't know 
+>> what could be a fix for it so anything to test to identify the issue better 
+>> might also bring us closer to a solution.
+>> 
+>> Regards,
+>> BALATON Zoltan
 >
-> Conor,
+> If you set full_update to 1, you may also comment out 
+> memory_region_snapshot_and_clear_dirty() and 
+> memory_region_snapshot_get_dirty() to avoid the iothread mutex being 
+> unlocked. The iothread mutex should ensure cache coherency as well.
 >
-> Thanks for the Icicle-kit walk-through! I'll not claim that I fully understood it,
-> but I understood enough to handle the situation ATM.
->
-> Without this change, this is where the FDT is being installed in the board when
-> I start it with 8Gb of RAM (retrieved via 'info roms'):
->
-> addr=00000000bfe00000 size=0x00a720 mem=ram name="fdt"
->
-> Which surprised me at first because this is almost at the end of the LO area which has
-> 1Gb and I figured it would be in the middle of another RAM area. I took another read
-> at what we're doing in riscv_load_fdt():
->
-> -----------
-> temp = (dram_base < 3072 * MiB) ?  MIN(dram_end, 3072 * MiB) : dram_end;
-> fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
-> -----------
->
-> This code can be read as "if the starting address of the RAM is lower than 3Gb, put
-> the FDT no further than 3Gb (0xc0000000). Otherwise, put it at the end of dram",
-> where "dram_base" is the starting address of the RAM block that the function
-> receives.
->
-> For icicle-kit, this is being passed as  memmap[MICROCHIP_PFSOC_DRAM_LO].base,
-> 0x80000000, which is 2Gb.
->
-> So, regardless of how much RAM we have (dram_end), the FDT will always be capped at
-> 3Gb. At this moment, this fits exactly at the end of the LO area for the Icicle Kit.
-> Which is funny because this 3Gb restriction was added by commit 1a475d39ef54 to fix
-> 32 bit guest boot and it happened to also work for the Microchip SoC.
->
-> So yeah, I thought that I was fixing a bug and in the end I caused one. This patch
-> needs to go.
->
->
-> Alistair, I believe I should re-send v2, this time explaining why the existing function
-> will not break the Microchip board because we'll never put the FDT out of the LO area
-> of the board. Does this work for you?
+> But as you say, it's weird that the rendered result is not just delayed but 
+> missed. That may imply other possibilities (e.g., the results are overwritten 
+> by someone else). If the problem persists after commenting out 
+> memory_region_snapshot_and_clear_dirty() and 
+> memory_region_snapshot_get_dirty(), I think you can assume the inter-thread 
+> coherency between sm501_2d_operation() and sm501_update_display() is not 
+> causing the problem.
 
-I think that's fine. My only worry is that we are losing some
-flexibility that some future board might want.
+I've asked people who reported and can reproduce it to test this but it 
+did not change anything so confirmed it's not that race condition but 
+looks more like some cache inconsistency maybe. Any other ideas?
 
-Alistair
+Regards,
+BALATON Zoltan
 
