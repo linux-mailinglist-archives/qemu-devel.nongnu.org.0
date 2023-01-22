@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1CFA676B9E
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 09:26:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05F42676B9C
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 09:26:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJVfT-0000O3-HM; Sun, 22 Jan 2023 03:25:35 -0500
+	id 1pJVfS-0000NN-II; Sun, 22 Jan 2023 03:25:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1pJVfP-0000Mw-7c
- for qemu-devel@nongnu.org; Sun, 22 Jan 2023 03:25:31 -0500
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1pJVfO-0000Mm-C5
+ for qemu-devel@nongnu.org; Sun, 22 Jan 2023 03:25:30 -0500
 Received: from mail.xen0n.name ([115.28.160.31] helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1pJVfL-0004Fx-54
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1pJVfL-0004FS-4i
  for qemu-devel@nongnu.org; Sun, 22 Jan 2023 03:25:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
- t=1674375917; bh=DtwXxY/RdxPWoh3wfvEzg7Tzww3a6Z2bU/8U37lhDHo=;
+ t=1674375917; bh=MCSsubis0Afv+Ds5piI2sNMY5XLzxHVPmfBZvDrqm9E=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=kQZEnL5yzy5yKIrYfQgoev+bmweFce3wxZM4DNeBOkMikzidI7Ezgo6JHbvp2fBTU
- XAD5atqVwH6oEQYaZaOaO8xIojtVYebkBo8H+7UyMiI/2g9XhrkUsvTYRZlbcr+kmH
- iENT/ht5ZuZ4qn92+UyMCwcrN1UuVQDupiGtQFWA=
+ b=pE8tIs7sE0I+h6fr1SivODaZsf4hSC+TTeplJ+yg0R4MaPM8ORpV+fLvyP67Qa5/j
+ aERpy66zazRQ8E+Vnz+Bl3gdCxBrRn5m3J3Eid1i4K+p3YDQEJL8xqt5YLfM6pCAax
+ 56PGoPrywn7H+4cjXD0O+JaSGtOYAdHsdV6sIJ0k=
 Received: from [192.168.9.172] (unknown [101.88.135.165])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 18A5D60106;
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 7BD2460132;
  Sun, 22 Jan 2023 16:25:17 +0800 (CST)
-Message-ID: <c4d684b5-367c-67d1-99c0-6fddff6aac95@xen0n.name>
-Date: Sun, 22 Jan 2023 16:20:32 +0800
+Message-ID: <af3908a9-4ed3-a22c-2765-3b88aa254d23@xen0n.name>
+Date: Sun, 22 Jan 2023 16:21:25 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101
  Firefox/111.0 Thunderbird/111.0a1
-Subject: Re: [PATCH v2 05/10] tcg/loongarch64: Update tcg-insn-defs.c.inc
+Subject: Re: [PATCH v2 04/10] tcg/loongarch64: Optimize immediate loading
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: git@xen0n.name
+Cc: git@xen0n.name, Rui Wang <wangrui@loongson.cn>
 References: <20230118011123.392823-1-richard.henderson@linaro.org>
- <20230118011123.392823-6-richard.henderson@linaro.org>
+ <20230118011123.392823-5-richard.henderson@linaro.org>
 From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <20230118011123.392823-6-richard.henderson@linaro.org>
+In-Reply-To: <20230118011123.392823-5-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
@@ -67,55 +67,26 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/18/23 09:11, Richard Henderson wrote:
-> Regenerate with ADDU16I included:
+> From: Rui Wang <wangrui@loongson.cn>
 >
->     $ cd loongarch-opcodes/scripts/go
->     $ go run ./genqemutcgdefs > $QEMU/tcg/loongarch64/tcg-insn-defs.c.inc
+> diff:
+>    Imm                 Before                  After
+>    0000000000000000    addi.w  rd, zero, 0     addi.w  rd, zero, 0
+>                        lu52i.d rd, zero, 0
+>    00000000fffff800    lu12i.w rd, -1          addi.w  rd, zero, -2048
+>                        ori     rd, rd, 2048    lu32i.d rd, 0
+>                        lu32i.d rd, 0
+>    ...
 >
+> Signed-off-by: Rui Wang <wangrui@loongson.cn>
+> Message-Id: <20221107144713.845550-1-wangrui@loongson.cn>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tcg/loongarch64/tcg-insn-defs.c.inc | 10 +++++++++-
->   1 file changed, 9 insertions(+), 1 deletion(-)
->   mode change 100644 => 100755 tcg/loongarch64/tcg-insn-defs.c.inc
->
-> diff --git a/tcg/loongarch64/tcg-insn-defs.c.inc b/tcg/loongarch64/tcg-insn-defs.c.inc
-> old mode 100644
-> new mode 100755
-> index d162571856..b5bb0c5e73
-> --- a/tcg/loongarch64/tcg-insn-defs.c.inc
-> +++ b/tcg/loongarch64/tcg-insn-defs.c.inc
-> @@ -4,7 +4,7 @@
->    *
->    * This file is auto-generated by genqemutcgdefs from
->    * https://github.com/loongson-community/loongarch-opcodes,
-> - * from commit 961f0c60f5b63e574d785995600c71ad5413fdc4.
-> + * from commit 25ca7effe9d88101c1cf96c4005423643386d81f.
->    * DO NOT EDIT.
->    */
->   
-> @@ -74,6 +74,7 @@ typedef enum {
->       OPC_ANDI = 0x03400000,
->       OPC_ORI = 0x03800000,
->       OPC_XORI = 0x03c00000,
-> +    OPC_ADDU16I_D = 0x10000000,
->       OPC_LU12I_W = 0x14000000,
->       OPC_CU32I_D = 0x16000000,
->       OPC_PCADDU2I = 0x18000000,
-> @@ -710,6 +711,13 @@ tcg_out_opc_xori(TCGContext *s, TCGReg d, TCGReg j, uint32_t uk12)
->       tcg_out32(s, encode_djuk12_insn(OPC_XORI, d, j, uk12));
->   }
->   
-> +/* Emits the `addu16i.d d, j, sk16` instruction.  */
-> +static void __attribute__((unused))
-> +tcg_out_opc_addu16i_d(TCGContext *s, TCGReg d, TCGReg j, int32_t sk16)
-> +{
-> +    tcg_out32(s, encode_djsk16_insn(OPC_ADDU16I_D, d, j, sk16));
-> +}
-> +
->   /* Emits the `lu12i.w d, sj20` instruction.  */
->   static void __attribute__((unused))
->   tcg_out_opc_lu12i_w(TCGContext *s, TCGReg d, int32_t sj20)
+>   tcg/loongarch64/tcg-target.c.inc | 35 +++++++++++---------------------
+>   1 file changed, 12 insertions(+), 23 deletions(-)
 
 Reviewed-by: WANG Xuerui <git@xen0n.name>
+
+Thanks!
 
 
