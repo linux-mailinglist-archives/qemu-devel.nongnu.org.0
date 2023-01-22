@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F43E6772DE
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 22:52:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFCF96772F2
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 23:11:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJiEy-0005Az-92; Sun, 22 Jan 2023 16:51:04 -0500
+	id 1pJiXo-0008Ee-E1; Sun, 22 Jan 2023 17:10:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pJiEs-0005An-UI; Sun, 22 Jan 2023 16:50:58 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ id 1pJiXm-0008CY-5G; Sun, 22 Jan 2023 17:10:30 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pJiEo-0001yw-Di; Sun, 22 Jan 2023 16:50:58 -0500
+ id 1pJiXj-0005z8-2W; Sun, 22 Jan 2023 17:10:29 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id D6FCD746377;
- Sun, 22 Jan 2023 22:48:18 +0100 (CET)
+ by localhost (Postfix) with SMTP id 38EA8746377;
+ Sun, 22 Jan 2023 23:08:00 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 82A09745720; Sun, 22 Jan 2023 22:48:18 +0100 (CET)
+ id D34BD745720; Sun, 22 Jan 2023 23:07:59 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 817F4745712;
- Sun, 22 Jan 2023 22:48:18 +0100 (CET)
-Date: Sun, 22 Jan 2023 22:48:18 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id D1F4C745712;
+ Sun, 22 Jan 2023 23:07:59 +0100 (CET)
+Date: Sun, 22 Jan 2023 23:07:59 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v7 4/7] mac_newworld: Add machine types for different
- mac99 configs
-In-Reply-To: <23f2ba9b-97b3-25f2-2642-667238f79d11@ilande.co.uk>
-Message-ID: <32babb9f-7914-8910-bb99-307c3bc50e8a@eik.bme.hu>
+cc: Howard Spoelstra <hsp.cat7@gmail.com>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
+In-Reply-To: <ab9e33e5-70fc-0a76-c548-16ec787ea1af@ilande.co.uk>
+Message-ID: <ed8ee369-c9a8-7853-3b65-7361fefc3c63@eik.bme.hu>
 References: <cover.1672868854.git.balaton@eik.bme.hu>
- <b8aa89c354027fc71cdb93b697b139e93ac05e25.1672868854.git.balaton@eik.bme.hu>
- <ece23a2e-33a9-d2e2-14fd-097878acfa1f@ilande.co.uk>
- <61305eda-439b-800e-2265-c2c48bc21be9@eik.bme.hu>
- <23f2ba9b-97b3-25f2-2642-667238f79d11@ilande.co.uk>
+ <4162db13bd1da9c6ddd77f185cef738e44790467.1672868854.git.balaton@eik.bme.hu>
+ <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
+ <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
+ <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
+ <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
+ <ab9e33e5-70fc-0a76-c548-16ec787ea1af@ilande.co.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII; format=flowed
 X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -63,175 +65,136 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On Sun, 22 Jan 2023, Mark Cave-Ayland wrote:
-> On 11/01/2023 00:36, BALATON Zoltan wrote:
->> On Tue, 10 Jan 2023, Mark Cave-Ayland wrote:
->>> On 04/01/2023 21:59, BALATON Zoltan wrote:
->>>> The mac99 machine emulates different machines depending on machine
->>>> properties or even if it is run as qemu-system-ppc64 or
->>>> qemu-system-ppc. This is very confusing for users and many hours were
->>>> lost trying to explain it or finding out why commands users came up
->>>> with are not working as expected. (E.g. Windows users might think
->>>> qemu-system-ppc64 is just the 64 bit version of qemu-system-ppc and
->>>> then fail to boot a 32 bit OS with -M mac99 trying to follow an
->>>> example that had qemu-system-ppc.) To avoid such confusion, add
->>>> explicit machine types for the different configs which will work the
->>>> same with both qemu-system-ppc and qemu-system-ppc64 and also make the
->>>> command line clearer for new users.
+> On 12/01/2023 23:51, BALATON Zoltan wrote:
+>> On Thu, 12 Jan 2023, Howard Spoelstra wrote:
+>>> On Wed, Jan 11, 2023 at 1:15 AM BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>>>> On Tue, 10 Jan 2023, Mark Cave-Ayland wrote:
+>>>>> On 04/01/2023 21:59, BALATON Zoltan wrote:
+>>>>>> Setting emulated machine type with a property called "via" is
+>>>>>> confusing users so deprecate the "via" option in favour of newly added
+>>>>>> explicit machine types. The default via=cuda option is not a valid
+>>>>>> config (no real Mac has this combination of hardware) so no machine
+>>>>>> type could be defined for that therefore it is kept for backwards
+>>>>>> compatibility with older QEMU versions for now but other options
+>>>>>> resembling real machines are deprecated.
+>>>>>> 
+>>>>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>>>>> 
+>>>>> I believe that people do use -M mac99,via=cuda to run some rare versions
+>>>> of
+>>>>> MacOS in QEMU (I think possibly OS X DP and Workgroup Server?), so we
+>>>> would
+>>>>> want to keep this option somewhere.
 >>>> 
->>>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->>> 
->>> Some thoughts on this: the first is that not everyone agrees that for 
->>> qemu-system-X that X represents the target. There were previous discussion 
->>> where some KVM people assumed X represented the host, i.e. ppc64 was the 
->>> binary that ran all PPC guests but with hardware acceleration for ppc64 
->>> guests on ppc64 hosts. This was a while ago, so it may be worth starting a 
->>> thread on qemu-devel to see what the current consensus is.
+>>>> The idea is that after previous patches we now have machine types for all
+>>>> other via option values (that also match real Mac machines) other than
+>>>> via=cude but that is the default for mac99 so after the reprecation 
+>>>> period
+>>>> when the via option is removed mac99 (which is the same as 
+>>>> mac99,via=cuda)
+>>>> can remain for this use case (and for backward compatibility) until the
+>>>> other machines are fixed to not need this any more. So all via options 
+>>>> are
+>>>> still available but as different machine types.
+>>>> 
+>>> My 2 cents about naming:
+>>> It seems less important how the machines are named when their name is not
+>>> covering their definition. F.i. the powermac3,1 never had adb, could not 
+>>> be
+>>> equipped with a G3 cpu, did not run at 900Mhz. The closest possible
+>>> qemu-options based definition of a powermac3,1 (via=pmu) will not run Mac
+>>> OS 9.0.4 ;-) due to the 2 USB devices problem. To run that via=cuda is
+>>> already needed.
 >> 
->> I don't see how this is relevant to this series, Also likely not the case 
->> any more as qemu-system-ppc and qemu-system-ppc64 share most of the code 
->> since a while with ppc64 including the config of ppc and adding more 
->> machines.
+>> What does that mean? Should we aim to emulate real Macs or are we happy 
+>> with the Franken-Mac we have now? The names also show what we intend to 
+>> emulate even though the emulation may not be complete or have bugs (this is 
+>> also true for other machines in QEMU where a lot of them are not fully 
+>> emulated, only well enough to boot guest OSes).
+>> 
+>> Looks like everybody has forgotten the previous discussion and not read the 
+>> docs and deprecation patches where this is explained so I summarise the 
+>> proposed change here again:
+>> 
+>> - qemu-system-ppc -M mac99 is unchanged and works like before it just warns 
+>> for the via option and when using it in qemu-system-ppc64 suggesting using 
+>> new machines instead so these could evetually be removed next year. 
+>> mac99,via=cuda is just mac99 so you can continue to use that, mac99 is not 
+>> deprecated and don't want to remove it.
+>> 
+>> - qemu-system-ppc64 -M mac99 -> powermac7_3
+>> 
+>> - qemu-system-ppc -M mac99,via=pmu -> powermac3,1
+>> 
+>> - qemu-system-ppc64 -M mac99,via=pmu-adb -> powerbook3_2
+>> 
+>> The last one is one of the rare Macs that had adb and pmu, all others with 
+>> pmu usually have USB. The PowerMac1,2 (G4 PCI) had CUDA but not with mac99 
+>> hardware but more similar to g3beige and no ADB ports according to 
+>> https://en.wikipedia.org/wiki/Power_Mac_G4#1st_generation:_Graphite
+>> https://en.wikipedia.org/wiki/Power_Macintosh_G3_(Blue_and_White)#Hardware
+>> 
+>> The PowerMac7,3 seems to be matching the PCI device listing in the comment 
+>> at the beginning of mac_newworld.c and also this article:
+>> https://www.informit.com/articles/article.aspx?p=606582
+>> 
+>> What is the 2 USB devices problem? Is it the one we've debugged before and 
+>> found that it's noted in a comment marked with ??? in hw/usb/hcd-ohci.c? 
+>> That could be fixed if there was somebody interested enough to provide a 
+>> patch.
+>> 
+>> But this series does not remove the mac99 and does not even deprecate it. 
+>> What it deprecates are the via option to select different machine types and 
+>> the automatic detection of ppc64 to emulate something different which are 
+>> hard to understand for users and caused several misunderstandings. It's 
+>> much more clear to have a separate machine type for each machine we emulate 
+>> even when they aren't yet complete but at least we know which way to go and 
+>> can compare to real hardware and fix the missing parts later. Also 
+>> introducing powermac7_3 to split the ppc64 mac99 would allow to remove 
+>> qemu-system-ppc if we wanted and only have one executable for all machines 
+>> but even without this it's clearer to have separate machnies for G5 and G4 
+>> macs than mac99 silently behaving differently.
 >
-> Well the patch defines the powermac 7.3 machine just for TARGET_PPC64, no? So 
-> you're making the assumption qemu-system-ppc64 represents a 64-bit target 
-> rather than a 64-bit host.
+> Ultimately the issue you are trying to solve is this, which is that -M mac99 
+> is different for qemu-system-ppc and qemu-system-ppc64. Perhaps the best way 
+> to start is to create a new "g5niagara" machine type (including OpenBIOS) and 
+> make it a clone of mac_newworld.c, and then issue a warning on 
+> qemu-system-ppc64 for -M mac99.
 
-I'm not making that assumption, it's already there:
+I don't get what you mean. Patch 4 introduces a new machine type called 
+powermac7_3 (or g5niagara if you want) which is a clone of mac99 and then 
+issues the warning to deprecate qemu-system-ppc64 -M mac99 in patch 5. Did 
+you actually test these patches at all?
 
-$ qemu-system-ppc -machine help
-Supported machines are:
-40p                  IBM RS/6000 7020 (40p)
-bamboo               bamboo
-g3beige              Heathrow based PowerMAC (default)
-mac99                Mac99 based PowerMAC
-mpc8544ds            mpc8544ds
-none                 empty machine
-pegasos2             Genesi/bPlan Pegasos II
-ppce500              generic paravirt e500 platform
-ref405ep             ref405ep
-sam460ex             aCube Sam460ex
-virtex-ml507         Xilinx Virtex ML507 reference design
+> The reason for suggesting this is that the number of users of 
+> qemu-system-ppc64 -M mac99 will be much smaller than those using 
+> qemu-system-ppc, which means there will be a lot less breakage for users. In
 
-$ qemu-system-ppc64 -machine help
-Supported machines are:
-40p                  IBM RS/6000 7020 (40p)
-bamboo               bamboo
-g3beige              Heathrow based PowerMAC
-mac99                Mac99 based PowerMAC
-mpc8544ds            mpc8544ds
-none                 empty machine
-pegasos2             Genesi/bPlan Pegasos II
-powernv10            IBM PowerNV (Non-Virtualized) POWER10
-powernv8             IBM PowerNV (Non-Virtualized) POWER8
-powernv              IBM PowerNV (Non-Virtualized) POWER9 (alias of  powernv9)
-powernv9             IBM PowerNV (Non-Virtualized) POWER9
-ppce500              generic paravirt e500 platform
-pseries-2.1          pSeries Logical Partition (PAPR compliant)
-[lots of different pseries versions omitted here]
-pseries              pSeries Logical Partition (PAPR compliant) (alias of pseries-8.0)
-pseries-8.0          pSeries Logical Partition (PAPR compliant) (default)
-ref405ep             ref405ep
-sam460ex             aCube Sam460ex
-virtex-ml507         Xilinx Virtex ML507 reference design
+Except those who mean to use ppc mac99 but think that they should use 
+qemu-system-ppc64 on 64 bit Windows which is probably the highest number 
+of users currently. I've cc'd you on the last instance of this but can dig 
+up some more from last year and look at the emaculation.com forum or ask 
+Howard how many times that happens. So after these patches users can still 
+use qemu-system-ppc -M mac99 as before without a warning but will get 
+warned for qemu-system-ppc64 -M mac99 to use powernac7_3 instead.
 
-It makes no sense to define it for qemu-system-ppc as that version does 
-not have G5 and 64 bit CPUs compiled in. Cf. qemu-system-ppc -cpu help and 
-qemu-system-ppc64 -cpu help or target/ppc/cpu-models.c so I don't know 
-what you're talking about.
+> the meantime we don't need to make a final decision re: machine names, yet it 
+> still gives you the freedom to work on -M mac99 for 32-bit Macs and move it 
+> closer towards the G4 AGP model.
 
->>> Secondly it's not clear to me why you've chosen names like "powermac_3_1" 
->>> instead of "g4agp"? Does powermac_3_1 uniquely identify the G4 AGP 
->>> Sawtooth model? For QEMU it is always best to emulate real machines, and 
->>> whilst I understand you want to separate out the two versions of the mac99 
->>> machine, having "powermac_X_Y" seems less clear to me.
->> 
->> These machine model identifiers are used by Apple to uniquely identify (all 
->> of) their machines since new-world Macs (even modern iPads and Macs have 
->> them) so for Mac people this should be clearer than the informal names that 
->> could get a bit long and confusing as there may be slight differences 
->> within a family. In any case, qemu-system-ppc -M mac99 is not corresponding 
->> to any real Mac so I'd like the options which do emulate real Macs to be 
->> called in a name that show which Mac is that. For the PPC Macs there's some 
->> info here for example:
->> 
->> https://en.wikipedia.org/wiki/Power_Mac_G4
->> 
->> And everymac.com also has info on all Macs. There were actually more than 
->> one G4 PowerMac with AGP but the other one was informally called gigabit 
->> ethernet. So the model ID is a shorter and better way to clearly identify 
->> which hardware is it (and it's also referenced in the device-tree of these 
->> Macs).
->
-> Are you planning to work on different types of G4 Mac where this could be 
-> confusing? Even to me "PowerMac 3.1" doesn't really tell me what model of Mac 
-> is being emulated, whereas "g4agp" (much in the same way as g3beige) is much 
-> more friendlier to people interested in using QEMU for Mac emulation.
-
-This is similar problem as some people like to call Mac OS X versions by 
-number and some by big cats names. Personally I prefer version numbers 
-because it's easy to tell which is newer or older that way without 
-remembering a nomenclature or having to look it up every time. It would be 
-good if others interested in this also shared their preference because if 
-it's only us two with different views then it's hard to make a decision. I 
-still think machine ID is better also because then these machines would be 
-grouped in the -machine help output like the others but as long as we 
-don't have other machines that start with a g or other Macs that have some 
-other name it might work so I could change the naming if that's all needed 
-for this to get in.
-
->>> Finally can you post links to the device trees that you are using for each 
->>> of the new machine types so that we have a clear reference point for 
->>> future changes to the QEMU Mac machines? Even better include the links in 
->>> the comments for each machine so that the information is easily visible 
->>> for developers.
->> 
->> I still have those I've posted over the past 8 years when I made changes to 
->> OpenBIOS to make the device-tree closer to real machine. I've downloaded it 
->> back then, don't know where to find it now but searching for e.g. 
->> "PowerMac3,1" "device-tree" should get some results.
->
-> Nothing shows up for me, I'm afraid (remember that Google searches are unique 
-> to each user). If you want argue for changing the QEMU machines, then we 
-> should agree on the reference device model for future changes.
-
-Sigh, maybe search your list archives instead of Googls. Also it's 
-"PowerMac3,1" where I've converted the comma to underscre for qemu command 
-line parsing so became powermac3_1 not powermac_3_1. Try searching with 
-quotes to reduce the number of false results.
-
-- mac99 (via=cuda) does not exist so no real device tree for this needed
-
-- powermac3_1 (currently mac99,via=pmu) I've sent links years ago e.g.:
-https://mail.coreboot.org/pipermail/openbios/2016-February/009145.html
-but you still keep asking
-
-- powermac7_3 (ppc64 mac99) The expected hardware is listed in a comment 
-in mac_newworld.c also it adds a 970fx CPU and according to 
-https://en.wikipedia.org/wiki/Power_Mac_G5 PowerMac7,3 was the first 
-version with 970fx so I think that was the target for whoever started it 
-back then. These G5 Macs are probably still around so you should be able 
-to ask someone to get a device tree dump, I've only seen Linux hardware 
-listings:
-https://gist.github.com/tomari/3689297 
-https://forum.ubuntu-fr.org/viewtopic.php?id=2026003 (last post)
-
--powerbook3_2 (mac99,via=pmi-adb) this is rare as Macs with PMU usually 
-have USB and not ADB; only the first PowerBooks had an ADB trackpad (but 
-no outside ports AFAIK). All other Macs with ADB had CUDA so I'm not even 
-sure we need this option but if we want it then the first PowerBooks are 
-candidates, I've picked the lowest number for 1st gen Titanium PowerBook 
-from here:
-https://en.wikipedia.org/wiki/PowerBook_G4
-and e.g. these links confirm it had ADB:
-https://forums.freebsd.org/threads/12-powerbook-g4-867mhz-xorg-doesnt-work.37815/
-http://macos9lives.com/smforum/index.php/topic,4781.msg41380.html?PHPSESSID=75b23dcb4c042b51c6dddd311cff2341#msg41380
-
-It would be tough to come up with a name for the powerbook3_2 though as 
-these were called Early 2001 Titanium PowerBook G4 or code name Mercury 
-but even Mac fanatics probably couldn't tell that was a powerbook if you 
-call it g4mercury so I'm open to votes on naming but hard to be convinced 
-there's anything simpler and more straightforward than using machine id 
-which is usually also listed everywhere for these.
+That's a different issue you're mixing in here. One issue is mac99 
+emulating different machines with ppc and pcc64, this is solved as above. 
+Another issue is that ppc mac99 is not a real mac, to get the hardware to 
+match the device tree OpenBIOS tells the guest it is you have to use 
+mac99,via=pmu which no user can guess. I want to rename this to simply 
+powermac3_1 and get rid of the via option eventually and make these 
+separate machines which is much more clear to the user. The implementation 
+remains the same, but we're free to change that later once the naming is 
+resolved. So I think we should decide on naming now and start deprecating 
+old names (which are ppc64 mac99 and macc99 with via option so we only 
+leave mac99 as before and all other variants will become -machine 
+options). What part of this is not clear to you. I feel like despite 
+trying to explain it for the third time we're still not on the same page.
 
 Regards,
 BALATON Zoltan
