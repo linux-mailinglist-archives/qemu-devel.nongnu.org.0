@@ -2,46 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6440676B9B
+	by mail.lfdr.de (Postfix) with ESMTPS id E17C6676B9A
 	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 09:26:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJVfS-0000NG-SB; Sun, 22 Jan 2023 03:25:34 -0500
+	id 1pJVfT-0000O5-IP; Sun, 22 Jan 2023 03:25:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1pJVfN-0000Mf-US
- for qemu-devel@nongnu.org; Sun, 22 Jan 2023 03:25:30 -0500
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1pJVfP-0000Mu-1Q
+ for qemu-devel@nongnu.org; Sun, 22 Jan 2023 03:25:31 -0500
 Received: from mail.xen0n.name ([115.28.160.31] helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1pJVfL-0004FR-50
- for qemu-devel@nongnu.org; Sun, 22 Jan 2023 03:25:29 -0500
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1pJVfL-0004Fv-4z
+ for qemu-devel@nongnu.org; Sun, 22 Jan 2023 03:25:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
- t=1674375917; bh=EmjwhJjolxcblqF/U7zimQxJwYA5oN2A5znuYJlG6XY=;
+ t=1674375918; bh=WiftgLA5yFyG9u0OgfkLWhr1RqYkh5lnPpEjgr8G2BY=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=mbjLkAvfYboRqQD8VkFn4fIaw1t9ZTWXIQgE+vQNzSsmztVGsWmLmIUiKItyR9agz
- 6+TNFUiIj2EzYsqqrfD6k4cDCKahmHeP+Qw2GpGRBaFxflguq/HwEJNSClK3r0lbGo
- YfAebIdjmN7HnqyWj8wRsBE5TxQ+PFY+GD28OvgI=
+ b=LQvqG1IQF2eS4VONPR1ObHm/EJzMoJ2+uqwxHgSt1eQ1+jXYwY0mSq6xsM02Sldcc
+ HB53I94WYCivAEp9Apo2rweN07S/SUZNednCg+2pk4G+rFECDpagfxeO30ewrU5aPa
+ On1tTMku9iBhfcfYta+FAPHb0M5ZPjbeQdmLVsvc=
 Received: from [192.168.9.172] (unknown [101.88.135.165])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
  key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id D03C660199;
- Sun, 22 Jan 2023 16:25:17 +0800 (CST)
-Message-ID: <e6663c5d-1888-09d3-3e6b-a9c17ee63101@xen0n.name>
-Date: Sun, 22 Jan 2023 16:22:54 +0800
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 298BD6019B;
+ Sun, 22 Jan 2023 16:25:18 +0800 (CST)
+Message-ID: <49af831d-d23d-11e7-a6df-2044a4c55b29@xen0n.name>
+Date: Sun, 22 Jan 2023 16:23:46 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101
  Firefox/111.0 Thunderbird/111.0a1
-Subject: Re: [PATCH v2 09/10] tcg/loongarch64: Use tcg_pcrel_diff in
- tcg_out_ldst
+Subject: Re: [PATCH v2 08/10] tcg/loongarch64: Implement movcond
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: git@xen0n.name
 References: <20230118011123.392823-1-richard.henderson@linaro.org>
- <20230118011123.392823-10-richard.henderson@linaro.org>
+ <20230118011123.392823-9-richard.henderson@linaro.org>
 From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <20230118011123.392823-10-richard.henderson@linaro.org>
+In-Reply-To: <20230118011123.392823-9-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
@@ -68,30 +67,13 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/18/23 09:11, Richard Henderson wrote:
-> Take the w^x split into account when computing the
-> pc-relative distance to an absolute pointer.
->
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->   tcg/loongarch64/tcg-target.c.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-> index 29d75c80eb..d6926bdb83 100644
-> --- a/tcg/loongarch64/tcg-target.c.inc
-> +++ b/tcg/loongarch64/tcg-target.c.inc
-> @@ -702,7 +702,7 @@ static void tcg_out_ldst(TCGContext *s, LoongArchInsn opc, TCGReg data,
->       intptr_t imm12 = sextreg(offset, 0, 12);
->   
->       if (offset != imm12) {
-> -        intptr_t diff = offset - (uintptr_t)s->code_ptr;
-> +        intptr_t diff = tcg_pcrel_diff(s, (void *)offset);
->   
->           if (addr == TCG_REG_ZERO && diff == (int32_t)diff) {
->               imm12 = sextreg(diff, 0, 12);
+>   tcg/loongarch64/tcg-target-con-set.h |  1 +
+>   tcg/loongarch64/tcg-target.h         |  4 ++--
+>   tcg/loongarch64/tcg-target.c.inc     | 33 ++++++++++++++++++++++++++++
+>   3 files changed, 36 insertions(+), 2 deletions(-)
 
 Reviewed-by: WANG Xuerui <git@xen0n.name>
-
-Thanks for the catch!
 
 
