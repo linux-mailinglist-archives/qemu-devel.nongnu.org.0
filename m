@@ -2,42 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A12AE67703C
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 16:40:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D085677061
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 17:05:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJcSE-0001TZ-Ho; Sun, 22 Jan 2023 10:40:22 -0500
+	id 1pJcoW-0005Af-Jm; Sun, 22 Jan 2023 11:03:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pJcSC-0001Rw-Ru; Sun, 22 Jan 2023 10:40:20 -0500
+ id 1pJcoT-00059i-BQ; Sun, 22 Jan 2023 11:03:21 -0500
 Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pJcSB-0007GK-9g; Sun, 22 Jan 2023 10:40:20 -0500
+ id 1pJcoQ-0004iM-Pf; Sun, 22 Jan 2023 11:03:21 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 6C18C745720;
- Sun, 22 Jan 2023 16:37:54 +0100 (CET)
+ by localhost (Postfix) with SMTP id DD55A745720;
+ Sun, 22 Jan 2023 17:00:51 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2B71A745712; Sun, 22 Jan 2023 16:37:53 +0100 (CET)
+ id 8C88E745712; Sun, 22 Jan 2023 17:00:51 +0100 (CET)
 Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 2A5137456E3;
- Sun, 22 Jan 2023 16:37:53 +0100 (CET)
-Date: Sun, 22 Jan 2023 16:37:53 +0100 (CET)
+ by zero.eik.bme.hu (Postfix) with ESMTP id 8A80A7456E3;
+ Sun, 22 Jan 2023 17:00:51 +0100 (CET)
+Date: Sun, 22 Jan 2023 17:00:51 +0100 (CET)
 From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH] mac_nvram: Add block backend to persist NVRAM contents
-In-Reply-To: <64b1bbda-37db-2751-073b-54572d186c83@kaod.org>
-Message-ID: <30c4ec97-2475-3e28-a30d-7d30f0a6d168@eik.bme.hu>
-References: <20230119222845.27209745706@zero.eik.bme.hu>
- <64b1bbda-37db-2751-073b-54572d186c83@kaod.org>
+To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH v7 0/8] Mac Old World ROM experiment
+In-Reply-To: <2d11ac69-fff6-7280-f2e9-2b348639e58e@eik.bme.hu>
+Message-ID: <9ae92d14-6c38-f3cf-37ca-693c65026d6e@eik.bme.hu>
+References: <cover.1593456926.git.balaton@eik.bme.hu>
+ <2d11ac69-fff6-7280-f2e9-2b348639e58e@eik.bme.hu>
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-1156829068-1674401873=:82194"
-X-Spam-Probability: 9%
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
 X-Spam_score_int: -41
@@ -60,86 +58,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---3866299591-1156829068-1674401873=:82194
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Fri, 20 Jan 2023, Cédric Le Goater wrote:
-> On 1/19/23 23:28, BALATON Zoltan wrote:
->> Add a way to set a backing store for the mac_nvram similar to what
->> spapr_nvram or mac_via PRAM already does to allow to save its contents
->> between runs. Use -drive file=nvram.img,format=raw,if=mtd to specify
->> backing file where nvram.img must be MACIO_NVRAM_SIZE which is 8192
->> bytes. It is only wired for mac_oldworld for now but could be used by
->> mac_newworld in the future too.
+On Sun, 22 Jan 2023, BALATON Zoltan wrote:
+> On Mon, 29 Jun 2020, BALATON Zoltan wrote:
+>> This is now a minimal set of patches needed to make it possible to
+>> experiment with a firmware ROM from real hardware. After finding out
+>> that the board firmware does not probe PCI devices but expects them at
+>> known fixed addresses we only need to change the address of the macio
+>> device to get the firmware correctly map it. This allows dropping
+>> workarounds in previous versions for this and now only the minimal set
+>> of patches are included to get the firmware loaded and do something.
+>> (Also excluded the grackle revision and machine ID pathes for now that
+>> may be needed as the firmware accesses these but seems to go further
+>> without them so until we hit a problem we can live without it,
+>> although I wonder if this causes us unnecessary debugging later so
+>> unless they cause regressions they could be merged).
 >> 
->> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
->> ---
->>   hw/nvram/mac_nvram.c         | 28 ++++++++++++++++++++++++++++
->>   hw/ppc/mac_oldworld.c        |  8 +++++++-
->>   include/hw/nvram/mac_nvram.h |  1 +
->>   3 files changed, 36 insertions(+), 1 deletion(-)
+>> I still don't get video output but at least it talks to the GPU chip
+>> now so it can be debugged and improved (this will either need
+>> emulating the correct chip the firmware has a driver for or an OF
+>> compliant ROM for the emulated card).
 >> 
->> diff --git a/hw/nvram/mac_nvram.c b/hw/nvram/mac_nvram.c
->> index 3d9ddda217..810e84f07e 100644
->> --- a/hw/nvram/mac_nvram.c
->> +++ b/hw/nvram/mac_nvram.c
->> @@ -24,9 +24,12 @@
->>    */
->>     #include "qemu/osdep.h"
->> +#include "qapi/error.h"
->>   #include "hw/nvram/chrp_nvram.h"
->>   #include "hw/nvram/mac_nvram.h"
->>   #include "hw/qdev-properties.h"
->> +#include "hw/qdev-properties-system.h"
->> +#include "sysemu/block-backend.h"
->>   #include "migration/vmstate.h"
->>   #include "qemu/cutils.h"
->>   #include "qemu/module.h"
->> @@ -44,6 +47,9 @@ static void macio_nvram_writeb(void *opaque, hwaddr addr,
->>       addr = (addr >> s->it_shift) & (s->size - 1);
->>       trace_macio_nvram_write(addr, value);
->>       s->data[addr] = value;
->> +    if (s->blk) {
->> +        blk_pwrite(s->blk, addr, 1, &s->data[addr], 0);
->> +    }
->>   }
->>     static uint64_t macio_nvram_readb(void *opaque, hwaddr addr,
->> @@ -91,6 +97,27 @@ static void macio_nvram_realizefn(DeviceState *dev, 
->> Error **errp)
->>         s->data = g_malloc0(s->size);
->>   +    if (s->blk) {
->> +        int64_t len = blk_getlength(s->blk);
->> +        if (len < 0) {
->> +            error_setg_errno(errp, -len,
->> +                             "could not get length of nvram backing 
->> image");
->> +            return;
->> +        } else if (len != s->size) {
->> +            error_setg_errno(errp, -len,
->> +                             "invalid size nvram backing image");
->> +            return;
->> +        }
->> +        if (blk_set_perm(s->blk, BLK_PERM_CONSISTENT_READ | 
->> BLK_PERM_WRITE,
->> +                         BLK_PERM_ALL, errp) < 0) {
->> +            return;
->> +        }
->> +        if (blk_pread(s->blk, 0, s->size, s->data, 0) < 0) {
->> +            error_setg(errp, "can't read-nvram contents");
->> +            return;
->> +        }
+>> As before the I2C part (patches 6-8) is RFC and unfinished but the
+>> first 5 patches should be good enough now. I hope someone can take
+>> care of I2C, I can look at the ati-vga side later.
+>> 
+>> Regards,
+>> BALATON Zoltan
+>> 
+>> BALATON Zoltan (8):
+>>  mac_oldworld: Allow loading binary ROM image
+>>  mac_newworld: Allow loading binary ROM image
+>>  mac_oldworld: Drop a variable, use get_system_memory() directly
+>>  mac_oldworld: Drop some variables
+>>  mac_oldworld: Change PCI address of macio to match real hardware
+>>  i2c: Match parameters of i2c_start_transfer and i2c_send_recv
 >
-> This could use blk_check_size_and_read_all() instead ?
+> Continuing experimenting with getting g3beige work with the original firmware 
+> ROM here's the current status. The above patches were already merged.
+>
+>>  WIP macio/cuda: Attempt to add i2c support
+>>  mac_oldworld: Add SPD data to cover RAM
+>
+> Adding these last two patches on top of Mark's screamer branch and increasing 
+> SCREAMER_BUFFER_SIZE define to 0x8000 in include/hw/audio/screamer.h to avoid 
+> a crash and using -memory 256 (as RAM size detection seems to be broken maybe 
+> due to imcomplete I2C emulation) I get the ROM to start but it cannot yet 
+> boot. We're past the initial OpenFirmware setup, can get a Forth prompt and 
+> explore the device tree and run Forth and also can start the Toolbox ROM from 
+> /AAPL,ROM but then it stops somewhere in there without giving any log or diag 
+> output. I think it may be waiting for some interrupt or missing some of the 
+> Heathrow emulation but I'm not really sure. I can get these traces:
+>
+> heathrow_write 0x28 1: 0x80000000
+> heathrow_read 0x24 1: 0x80000000
+> heathrow_read 0x2c 1: 0x0
+> heathrow_write 0x18 0: 0x80000000
+> heathrow_read 0x14 0: 0x0
+> heathrow_read 0x1c 0: 0x0
+> heathrow_write 0x28 1: 0x80000000
+> heathrow_read 0x24 1: 0x80000000
+> heathrow_read 0x2c 1: 0x0
+> heathrow_write 0x18 0: 0x80000000
+> heathrow_read 0x14 0: 0x0
+> heathrow_read 0x1c 0: 0x0
+> portA_write unimplemented
+> portA_write unimplemented
+> heathrow_read 0x24 1: 0x80000000
+> heathrow_write 0x24 1: 0x80000000
+> heathrow_read 0x14 0: 0x0
+> heathrow_write 0x14 0: 0x0
+> heathrow_read 0x24 1: 0x80000000
+> heathrow_write 0x24 1: 0x80040000
+> heathrow_set_irq set_irq: num=0x12 level=1
+> heathrow_write 0x28 1: 0x80000000
+> heathrow_read 0x24 1: 0x80040000
+> heathrow_read 0x2c 1: 0x40000
+> heathrow_write 0x18 0: 0x80000000
+> heathrow_read 0x14 0: 0x0
+> heathrow_read 0x1c 0: 0x0
+> heathrow_write 0x28 1: 0x80000000
+> heathrow_read 0x24 1: 0x80040000
+> heathrow_read 0x2c 1: 0x40000
+> heathrow_write 0x18 0: 0x80000000
+> heathrow_read 0x14 0: 0x0
+> heathrow_read 0x1c 0: 0x0
+> heathrow_write 0x28 1: 0x80000000
+> heathrow_read 0x24 1: 0x80040000
+> heathrow_read 0x2c 1: 0x40000
+> heathrow_write 0x18 0: 0x80000000
+> heathrow_read 0x14 0: 0x0
+> heathrow_read 0x1c 0: 0x0
 
-Good idea, except that comments in that function say its error handling is 
-not very good and tends to give unuseful messages to users so maybe until 
-that's sorted out I'd stay with open coding it here.
+Adding some cuda* traces and info via output in case that helps to tell 
+what's happening:
 
-Regards,
-BALATON Zoltan
---3866299591-1156829068-1674401873=:82194--
+portA_write unimplemented
+cuda_delay_set_sr_int
+cuda_delay_set_sr_int
+cuda_packet_send length 5
+cuda_packet_send_data [0] 0x00
+cuda_packet_send_data [1] 0x40
+cuda_packet_send_data [2] 0x2c
+cuda_packet_send_data [3] 0xa4
+cuda_packet_send_data [4] 0xff
+cuda_delay_set_sr_int
+portA_write unimplemented
+heathrow_set_irq set_irq: num=0x12 level=1
+(qemu) info via
+mos6522-cuda:
+   Registers:
+     ORB :    0x30
+     ORA :    0x10
+     DDRB:    0x30
+     DDRA:    0x58
+     T1CL:    0x11
+     T1CH:    0x14
+     T1LL:    0xff
+     T1LH:    0xff
+     T2CL:    0x1b
+     T2CH:    0x88
+     SR  :    0xff
+     ACR :    0x1c
+     PCR :    0x0
+     IFR :    0x60
+     IER :    0x20
+   Timers:
+     Using current time now(ns)=33052813591
+     T1 freq(hz)=783333 mode=one-shot counter=0x1411 latch=0xffff
+        load_time(ns)=0 next_irq_time(ns)=33131055374
+     T2 freq(hz)=1276 mode=one-shot counter=0x881b latch=0x30c
+        load_time(ns)=257468378 next_irq_time(ns)=33349161167
+
+> then the last 6 lines are repeating endlessly. Does anybody have an idea what 
+> these registers are doing and where they are implemented in QEMU? The model 
+> in hw/intc/heathrow_pic.c seems to be very simple but I'm not sure how are 
+> these connected to the rest of the mac_oldworld g3beige machine. I've checked 
+> that the IRQ numbers defined in include/hw/misc/macio/macio.h seems to match 
+> what's in the device tree generated by the ROM but there are some missing 
+> devices we don't emulate (such as SWIM floppy, PMAC ethernet and MESH SCSI). 
+> Yet the above looks like IRQ 0x12 is raised which should be CUDA and there 
+> were some portA write errors before that so maybe something with VIA or CUDA 
+> emulation? Any insight on this anyone?
+>
+> Regards,
+> BALATON Zoltan
+>
+>> hw/display/sm501.c           |  2 +-
+>> hw/i2c/core.c                | 34 +++++++-------
+>> hw/i2c/ppc4xx_i2c.c          |  2 +-
+>> hw/misc/macio/cuda.c         | 76 ++++++++++++++++++++++++++++++-
+>> hw/ppc/mac.h                 |  2 -
+>> hw/ppc/mac_newworld.c        | 22 +++++----
+>> hw/ppc/mac_oldworld.c        | 86 +++++++++++++++++++++++-------------
+>> include/hw/i2c/i2c.h         |  4 +-
+>> include/hw/misc/macio/cuda.h |  1 +
+>> 9 files changed, 167 insertions(+), 62 deletions(-)
+>> 
+>> 
+>
 
