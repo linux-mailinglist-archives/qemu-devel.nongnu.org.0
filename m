@@ -2,44 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E3D5676B9F
-	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 09:28:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF6A8676BA3
+	for <lists+qemu-devel@lfdr.de>; Sun, 22 Jan 2023 09:33:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJVi3-00041F-QB; Sun, 22 Jan 2023 03:28:15 -0500
+	id 1pJVmU-0005LB-0w; Sun, 22 Jan 2023 03:32:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1pJVi2-000416-FA
- for qemu-devel@nongnu.org; Sun, 22 Jan 2023 03:28:14 -0500
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1pJVmQ-0005EK-NC
+ for qemu-devel@nongnu.org; Sun, 22 Jan 2023 03:32:46 -0500
 Received: from mail.xen0n.name ([115.28.160.31] helo=mailbox.box.xen0n.name)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1pJVi0-0004vr-CV
- for qemu-devel@nongnu.org; Sun, 22 Jan 2023 03:28:13 -0500
+ (Exim 4.90_1) (envelope-from <i.qemu@xen0n.name>) id 1pJVmM-0006eQ-Gn
+ for qemu-devel@nongnu.org; Sun, 22 Jan 2023 03:32:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=xen0n.name; s=mail;
- t=1674376089; bh=gQ2L39MJaqSgYhIWjfM68g/410TT781H+yvVe7eZV4k=;
+ t=1674376357; bh=P5JTDCxaMfn1uKaBV8k5MIj65z0icdLL1JEUILwCjc4=;
  h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=WZjj1/yPQ9G6/ylshQ4HWqNpNK8JBnkM/udP44gzk9fRcToECv+AtOGIzH+jbnOvV
- j/81wJftmX3vkcOFvyC/pZRYzD9KHPhfDYYjtxKqHTE+/loYWbZoJh0sFANDvUfvYR
- mWAFmLfU+fZMZ2AYo3AoPxWwNh1HCbxsHnQRDQys=
+ b=TlFHgzuzpD+MqWiB2o/9YJkoKzCFHmX37l9/WKykvALPSU3ayXfVGvukVLbvkGohK
+ ATGFlwgCkD2PaaHGYgpcvNhRw7Hmd/DNX41g1DUc9WAhfxIX24q9SYqIQ2DdzkT8UN
+ GuOXbXBflhHfbwx3ConGjfHQYeHu0NTAlPT5iSZI=
 Received: from [192.168.9.172] (unknown [101.88.135.165])
  (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits))
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 3C13260106;
- Sun, 22 Jan 2023 16:28:09 +0800 (CST)
-Message-ID: <1048d5e2-6700-9700-5675-5216a6a735f7@xen0n.name>
-Date: Sun, 22 Jan 2023 16:28:08 +0800
+ by mailbox.box.xen0n.name (Postfix) with ESMTPSA id 4604F6006F;
+ Sun, 22 Jan 2023 16:32:37 +0800 (CST)
+Message-ID: <33b5bbc0-ae9d-41f2-0337-6d4af12f2726@xen0n.name>
+Date: Sun, 22 Jan 2023 16:32:36 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:109.0) Gecko/20100101
  Firefox/111.0 Thunderbird/111.0a1
-Subject: Re: [PATCH v2 00/10] tcg/loongarch64: Reorg goto_tb and cleanups
+Subject: Re: [PATCH v2 01/10] target/loongarch: Enable the disassembler for
+ host tcg
 Content-Language: en-US
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
 Cc: git@xen0n.name
 References: <20230118011123.392823-1-richard.henderson@linaro.org>
+ <20230118011123.392823-2-richard.henderson@linaro.org>
 From: WANG Xuerui <i.qemu@xen0n.name>
-In-Reply-To: <20230118011123.392823-1-richard.henderson@linaro.org>
+In-Reply-To: <20230118011123.392823-2-richard.henderson@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=115.28.160.31; envelope-from=i.qemu@xen0n.name;
@@ -65,52 +67,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-
 On 1/18/23 09:11, Richard Henderson wrote:
-> Based-on: 20230117231051.354444-1-richard.henderson@linaro.org
-> ("[PULL 00/22] tcg patch queue")
+> Reuse the decodetree based disassembler from
+> target/loongarch/ for tcg/loongarch64/.
 >
-> Includes:
->    * Disassembler from target/loongarch/.
->    * Improvements to movi by Rui Wang, with minor tweaks.
->    * Improvements to setcond.
->    * Implement movcond.
->    * Fix the same goto_tb bug that affected some others.
+> The generation of decode-insns.c.inc into ./libcommon.fa.p/ could
+> eventually result in conflict, if any other host requires the same
+> trick, but this is good enough for now.
 >
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   disas.c                      | 2 ++
+>   target/loongarch/meson.build | 3 ++-
+>   2 files changed, 4 insertions(+), 1 deletion(-)
 >
-> r~
->
->
-> Richard Henderson (9):
->    target/loongarch: Enable the disassembler for host tcg
->    target/loongarch: Disassemble jirl properly
->    target/loongarch: Disassemble pcadd* addresses
->    tcg/loongarch64: Update tcg-insn-defs.c.inc
->    tcg/loongarch64: Introduce tcg_out_addi
->    tcg/loongarch64: Improve setcond expansion
->    tcg/loongarch64: Implement movcond
->    tcg/loongarch64: Use tcg_pcrel_diff in tcg_out_ldst
->    tcg/loongarch64: Reorg goto_tb implementation
->
-> Rui Wang (1):
->    tcg/loongarch64: Optimize immediate loading
->
->   tcg/loongarch64/tcg-target-con-set.h          |   5 +-
->   tcg/loongarch64/tcg-target-con-str.h          |   2 +-
->   tcg/loongarch64/tcg-target.h                  |  11 +-
->   disas.c                                       |   2 +
->   target/loongarch/disas.c                      |  39 +-
->   .../loongarch/insn_trans/trans_branch.c.inc   |   2 +-
->   target/loongarch/insns.decode                 |   3 +-
->   target/loongarch/meson.build                  |   3 +-
->   tcg/loongarch64/tcg-insn-defs.c.inc           |  10 +-
->   tcg/loongarch64/tcg-target.c.inc              | 364 ++++++++++++------
->   10 files changed, 300 insertions(+), 141 deletions(-)
->   mode change 100644 => 100755 tcg/loongarch64/tcg-insn-defs.c.inc
->
-Sorry for the late review; I was focusing more on LLVM and day job these 
-days. I've reviewed some of these and will take a look at the rest (and 
-test all of them on native HW) tonight. Thanks very much for all the 
-refactoring!
+> diff --git a/disas.c b/disas.c
+> index 3b31315f40..c9fa38e6d7 100644
+> --- a/disas.c
+> +++ b/disas.c
+> @@ -198,6 +198,8 @@ static void initialize_debug_host(CPUDebug *s)
+>       s->info.cap_insn_split = 6;
+>   #elif defined(__hppa__)
+>       s->info.print_insn = print_insn_hppa;
+> +#elif defined(__loongarch64)
+This could just be `__loongarch__` because both LA32 and LA64 share the 
+same encoding, so although LA32 userland isn't quite there yet it 
+wouldn't do any harm.
+> +    s->info.print_insn = print_insn_loongarch;
+>   #endif
+>   }
+>   
+> diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
+> index 6376f9e84b..690633969f 100644
+> --- a/target/loongarch/meson.build
+> +++ b/target/loongarch/meson.build
+> @@ -3,7 +3,6 @@ gen = decodetree.process('insns.decode')
+>   loongarch_ss = ss.source_set()
+>   loongarch_ss.add(files(
+>     'cpu.c',
+> -  'disas.c',
+>   ))
+>   loongarch_tcg_ss = ss.source_set()
+>   loongarch_tcg_ss.add(gen)
+> @@ -24,6 +23,8 @@ loongarch_softmmu_ss.add(files(
+>     'iocsr_helper.c',
+>   ))
+>   
+> +common_ss.add(when: 'CONFIG_LOONGARCH_DIS', if_true: [files('disas.c'), gen])
+> +
+>   loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
+>   
+>   target_arch += {'loongarch': loongarch_ss}
+
+Apart from the minor suggestion above,
+
+Reviewed-by: WANG Xuerui <git@xen0n.name>
+
+Thanks!
+
 
