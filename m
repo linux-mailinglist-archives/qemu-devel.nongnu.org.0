@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B12A7677CA4
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:38:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88CDE677CC2
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:41:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJx01-0006DT-BS; Mon, 23 Jan 2023 08:36:37 -0500
+	id 1pJx03-0006GG-Kw; Mon, 23 Jan 2023 08:36:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwzj-00060h-Nk
+ id 1pJwzk-00060j-0z
  for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:23 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwzg-0002U1-MG
+ id 1pJwzi-0002Lc-6B
  for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:19 -0500
-Received: by mail-wm1-x332.google.com with SMTP id k16so9027400wms.2
+Received: by mail-wm1-x329.google.com with SMTP id
+ f12-20020a7bc8cc000000b003daf6b2f9b9so10607034wml.3
  for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:36:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=UKUCDtm5zNRWKAtz89l2k8txnv+LgwgNpjX50RbpUOg=;
- b=U5boNfvsqtBzHRVwYqUWgnrGX/YKuxqwfdJCEKt3D4v1E/5Tf8WMZCyYGhjXH0rDft
- Rh1eKJjGR+TN+PdmLsZWseWrrP9vbtrCOM0RJGVybzRn61Z9T2M8du2/mWNhzqiyOE8n
- fmIv8NgYpo2+VxtZpBhGpp0tx4F9fWKJhUqernTCjoG63ilML+PR/RmEyP27PDPgDrVx
- /inlDPoq1OpvL4v0KpFpm+5gRvjkIZIwPrqhoqVa4fk8WMpO5KZ+QXr5ird8ttOd9c+z
- E4K0eKADooTHcdkhlwiYh20TuV4v1wY6hRXmhua3bGmluvmgPX127hJld1fwFvLSofQJ
- hGDw==
+ :reply-to; bh=brguCCskR07IlO3tUdOSX78gsX0q+RbP7/3ek3OIEVI=;
+ b=oe00pt1Y7Exut/UqdK4ma9r5e400xIJ9sRy/7fHUKWoA6Y4C3tEDLnC3DZnEBdUuPK
+ 3K5uJz7qEld9FKcGXHecKalRLakl21bCv2t3cd8IW+Gt0YwNMb5G4mjqBBulY95lPRa5
+ Akw9nfaUoigcfUeeQYMm0iyTd++JAnIoFBmu1T55Y6cnXPzf+5NYyQnPlFwm8h2NUPse
+ hqc6pwD/ov1Iu01zPaULD6zhN1B4SINYjf7uZCTq2EdFW849hCDD3vgreDq3GUCMit8A
+ h7BVLFR6ssJON0S0momCdo+W9gzYnpribaCAwSm7W6U8qRdT5JorUo2ysl6liplkHkC9
+ 2QyA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=UKUCDtm5zNRWKAtz89l2k8txnv+LgwgNpjX50RbpUOg=;
- b=K1QCHoeckaJbyCe4rapb6C+BM4PLjy7OAZ2TERM1OIDiAyOz5tD+iMpnD4S1+Gv0PV
- WiFxw2SCnmhGI/GyTbuhMUTOlMZLB7f8zGNOjgEIIsOX3BnNfASL/BHt0yqgalzAd8J8
- U8RASFSHNfm3pKIKDyJBREuoju8AjdqUZjFUYOOGQpkCaRcNfcHJ6zNm0cSmnhQJLu+T
- WQiyPoo1GBgdruW7WyfmsyVxNo+IzcLkQFOwhTBLS7miusuSgqmw6wbgKgfT5eJnx8bx
- PLUAiOfgHwAvfx6HTMfElHqVNaUpZpUqkveNXYgrpem2t2J43+0fiDqeP6cV/ddDM9qp
- 82DQ==
-X-Gm-Message-State: AFqh2kpr8ZssB3cyTO3Yzlib0gXsw8+40ezzA0cvaJWsxA84JU+6L3BL
- KOpz0mycPPqOwPIrf7M2fY7GZIrYXaa+9ObT
-X-Google-Smtp-Source: AMrXdXsr9QMRelyFN34fFsQQzmDfIn5dlz5pmyl8AB3xDKyIVhOQUQomCrpXjxL6z3xCsbLodC2qXw==
-X-Received: by 2002:a05:600c:3b13:b0:3db:26b8:5023 with SMTP id
- m19-20020a05600c3b1300b003db26b85023mr15627804wms.10.1674480975407; 
- Mon, 23 Jan 2023 05:36:15 -0800 (PST)
+ bh=brguCCskR07IlO3tUdOSX78gsX0q+RbP7/3ek3OIEVI=;
+ b=xIlPXVlcR1/hgSWxr4w4wDC57jFAkgxJ+oRhcmXEtQ9y8sl0zPd3WmrMGY3uEYnr5p
+ NKlQyakhnfDKNO+hxpFrM01NvsxuM8LQbfCb328eb+pLShJBLmGogHdlH0oXZTt5heFO
+ IJLRzkOjl+ZsVyW/NLJT1eCKxyYbHoYwsE5GHLUmd5bCrF2rtA9nW4JEwPUMOoVgW1f9
+ RSC6XFOUttst0m8W4AoW/qgwC9ZZHpujXd18KV2titYZK4ZCFwgnXFiLlD5L8tkmhNqA
+ UGWooj0//5SOQCnfV5/cIkTjY+bUc0C5hxsr9G5PzFD6foAbZKw6buHEwf9Ci6/VvN2E
+ Lmww==
+X-Gm-Message-State: AFqh2kocTKlSiqbnUHWCWmZDJAIFdF2Bsr1ofrq9GjLKZGQvSjaV9ve4
+ pGm9bWlj1GyQN2HtX4cYT8njqYYyoyZfkMxo
+X-Google-Smtp-Source: AMrXdXvhy5ZMXxbcTbYz5ALHyo+ZLDcDjnPgcKbNkmXuDQwC+yhphRVdEXMX0iEweyaWhsR5oYLf3A==
+X-Received: by 2002:a05:600c:3d9b:b0:3db:1afd:ac36 with SMTP id
+ bi27-20020a05600c3d9b00b003db1afdac36mr17776682wmb.32.1674480976228; 
+ Mon, 23 Jan 2023 05:36:16 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- d19-20020a05600c34d300b003a6125562e1sm10817457wmq.46.2023.01.23.05.36.14
+ d19-20020a05600c34d300b003a6125562e1sm10817457wmq.46.2023.01.23.05.36.15
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 05:36:14 -0800 (PST)
+ Mon, 23 Jan 2023 05:36:15 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 22/26] target/arm: Don't set EXC_RETURN.ES if Security
- Extension not present
-Date: Mon, 23 Jan 2023 13:35:49 +0000
-Message-Id: <20230123133553.2171158-23-peter.maydell@linaro.org>
+Subject: [PULL 23/26] target/arm: implement DBGCLAIM registers
+Date: Mon, 23 Jan 2023 13:35:50 +0000
+Message-Id: <20230123133553.2171158-24-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230123133553.2171158-1-peter.maydell@linaro.org>
 References: <20230123133553.2171158-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x332.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,40 +89,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In v7m_exception_taken(), for v8M we set the EXC_RETURN.ES bit if
-either the exception targets Secure or if the CPU doesn't implement
-the Security Extension.  This is incorrect: the v8M Arm ARM specifies
-that the ES bit should be RES0 if the Security Extension is not
-implemented, and the pseudocode agrees.
+From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
 
-Remove the incorrect condition, so that we leave the ES bit 0
-if the Security Extension isn't implemented.
+The architecture does not define any functionality for the CLAIM tag bits.
+So we will just keep the raw bits, as per spec.
 
-This doesn't have any guest-visible effects for our current set of
-emulated CPUs, because all our v8M CPUs implement the Security
-Extension; but it's worth fixing in case we add a v8M CPU without
-the extension in future.
-
-Reported-by: Igor Kotrasinski <i.kotrasinsk@samsung.com>
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20230120155929.32384-2-eiakovlev@linux.microsoft.com
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/m_helper.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/cpu.h          |  1 +
+ target/arm/debug_helper.c | 33 +++++++++++++++++++++++++++++++++
+ 2 files changed, 34 insertions(+)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index d87b9ecd123..e7e746ea182 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -879,7 +879,7 @@ static void v7m_exception_taken(ARMCPU *cpu, uint32_t lr, bool dotailchain,
-         }
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index f3ddc3b7793..8cf70693be4 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -495,6 +495,7 @@ typedef struct CPUArchState {
+         uint64_t dbgbcr[16]; /* breakpoint control registers */
+         uint64_t dbgwvr[16]; /* watchpoint value registers */
+         uint64_t dbgwcr[16]; /* watchpoint control registers */
++        uint64_t dbgclaim;   /* DBGCLAIM bits */
+         uint64_t mdscr_el1;
+         uint64_t oslsr_el1; /* OS Lock Status */
+         uint64_t osdlr_el1; /* OS DoubleLock status */
+diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
+index 2f6ddc0da57..f95a73329db 100644
+--- a/target/arm/debug_helper.c
++++ b/target/arm/debug_helper.c
+@@ -632,6 +632,24 @@ static void osdlr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+     }
+ }
  
-         lr &= ~R_V7M_EXCRET_ES_MASK;
--        if (targets_secure || !arm_feature(env, ARM_FEATURE_M_SECURITY)) {
-+        if (targets_secure) {
-             lr |= R_V7M_EXCRET_ES_MASK;
-         }
-         lr &= ~R_V7M_EXCRET_SPSEL_MASK;
++static void dbgclaimset_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                              uint64_t value)
++{
++    env->cp15.dbgclaim |= (value & 0xFF);
++}
++
++static uint64_t dbgclaimset_read(CPUARMState *env, const ARMCPRegInfo *ri)
++{
++    /* CLAIM bits are RAO */
++    return 0xFF;
++}
++
++static void dbgclaimclr_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                              uint64_t value)
++{
++    env->cp15.dbgclaim &= ~(value & 0xFF);
++}
++
+ static const ARMCPRegInfo debug_cp_reginfo[] = {
+     /*
+      * DBGDRAR, DBGDSAR: always RAZ since we don't implement memory mapped
+@@ -715,6 +733,21 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
+       .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 2, .opc2 = 0,
+       .access = PL1_RW, .accessfn = access_tda,
+       .type = ARM_CP_NOP },
++    /*
++     * Dummy DBGCLAIM registers.
++     * "The architecture does not define any functionality for the CLAIM tag bits.",
++     * so we only keep the raw bits
++     */
++    { .name = "DBGCLAIMSET_EL1", .state = ARM_CP_STATE_BOTH,
++      .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 7, .crm = 8, .opc2 = 6,
++      .type = ARM_CP_ALIAS,
++      .access = PL1_RW, .accessfn = access_tda,
++      .writefn = dbgclaimset_write, .readfn = dbgclaimset_read },
++    { .name = "DBGCLAIMCLR_EL1", .state = ARM_CP_STATE_BOTH,
++      .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 6,
++      .access = PL1_RW, .accessfn = access_tda,
++      .writefn = dbgclaimclr_write, .raw_writefn = raw_write,
++      .fieldoffset = offsetof(CPUARMState, cp15.dbgclaim) },
+ };
+ 
+ static const ARMCPRegInfo debug_lpae_cp_reginfo[] = {
 -- 
 2.34.1
 
