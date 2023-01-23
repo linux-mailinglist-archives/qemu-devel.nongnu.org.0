@@ -2,61 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E75E2678A03
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 22:54:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD61C678A07
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 22:57:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK4k3-0003hk-9J; Mon, 23 Jan 2023 16:52:39 -0500
+	id 1pK4o2-0004nl-Eo; Mon, 23 Jan 2023 16:56:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nathan@kernel.org>) id 1pK4k0-0003ha-Tw
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 16:52:37 -0500
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pK4o0-0004nO-Di
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 16:56:44 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nathan@kernel.org>) id 1pK4jy-0005ae-N6
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 16:52:36 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pK4ny-00064o-LC
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 16:56:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674511001;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=HDJy22W4PuWuRO/O2Vx9dS09Kk/HBWgBXsgGohIWF7M=;
+ b=GeB/C3wePkxQsZefirC94RTZNhlfjBCNvmrC92yp6RSYRZAqHdqPHPby69y2aOhQsN/0je
+ NXIoTZEdFRIHbxjxd9/nO7EDG39K+k7wpuMj97r6IDqv/zU9Xa50tmuOoUKI9L9FjwjQVa
+ pL6Qr/lteP1JJ+r7mI+DM11P9ejTwrE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-335-I5ds5wEBOG23-E7WaUhpCw-1; Mon, 23 Jan 2023 16:56:37 -0500
+X-MC-Unique: I5ds5wEBOG23-E7WaUhpCw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 452AFB80DDD;
- Mon, 23 Jan 2023 21:52:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A70BAC433EF;
- Mon, 23 Jan 2023 21:52:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1674510750;
- bh=P/Q7W9StX969uGl/N32Nhtz9pgvH+oC1EJejjoJNOsY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=vM2IkGpHG/4mSUNARzkdcR6aeaK0oFadcM9b9tez9lDg+w+T28puDVcEasl0S1sKM
- CExMp6BiR00o7aOwuIMoPhRdJAsALnF2xZL3n/x0edDO+P7XGKG9YMHlmRmnwcs2Mc
- cO8MT2XwiA31xdCt5km8Ac9ps0MxTyk1VnHY62lLAMKrLwxdRBDrBUAmugGshgrYmZ
- lUO6Uee5txqQCAXFALdpUGLCosfWAjLVcqJYI3b2Gwd2OALMrlnEhLBfXqdbQfdfEL
- VsOZVxVzVgF7Gl2lPaO1vUlaGxtAfpbBGrLsDPpsdF1vPv5pKU8uH3RdDqFfbqQ5T8
- OoOaNZ6Ys5uzQ==
-Date: Mon, 23 Jan 2023 14:52:27 -0700
-From: Nathan Chancellor <nathan@kernel.org>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: Re: [PATCH 5/6] hw/mips/gt64xxx_pci: Endian-swap using
- PCI_HOST_BRIDGE MemoryRegionOps
-Message-ID: <Y88BmxzRqtnpAsWG@dev-arch.thelio-3990X>
-References: <20230104133935.4639-1-philmd@linaro.org>
- <20230104133935.4639-6-philmd@linaro.org>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5045B886461;
+ Mon, 23 Jan 2023 21:56:37 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.206])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B32C0492B02;
+ Mon, 23 Jan 2023 21:56:36 +0000 (UTC)
+Date: Mon, 23 Jan 2023 16:56:34 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, yc-core@yandex-team.ru
+Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
+Message-ID: <Y88Cknp1XwN8rGHA@fedora>
+References: <703d527f-de92-090c-6ce1-af0dec7de033@yandex-team.ru>
+ <20230122030455-mutt-send-email-mst@kernel.org>
+ <b7de3adc-cba7-09eb-ea93-f4bfb91bea9e@yandex-team.ru>
+ <20230122093903-mutt-send-email-mst@kernel.org>
+ <70c0f00a-7828-3ccf-c2ea-49aeef8693e9@yandex-team.ru>
+ <20230122111618-mutt-send-email-mst@kernel.org>
+ <CAJSP0QXnKGrX3WuSJxe7pLctcueW1AkEc_KUsHGucaDq=VJZkg@mail.gmail.com>
+ <21b87a0d-99b1-2755-00de-d1201d85a63e@yandex-team.ru>
+ <Y87k0wBnHuf5Oktp@fedora>
+ <20230123155228-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="Z50+DLanrM9+xm5R"
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230104133935.4639-6-philmd@linaro.org>
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=nathan@kernel.org; helo=ams.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+In-Reply-To: <20230123155228-mutt-send-email-mst@kernel.org>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,96 +92,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Philippe,
 
-On Wed, Jan 04, 2023 at 02:39:34PM +0100, Philippe Mathieu-Daudé wrote:
-> GT64120's PCI endianness swapping works on little-endian hosts,
-> but doesn't on big-endian ones. Instead of complicating how
-> CFGADDR/CFGDATA registers deal with endianness, use the existing
-> MemoryRegionOps from hw/pci/pci_host.c. Doing so also reduce the
-> access to internal PCI_HOST_BRIDGE fields.
-> 
-> Map the PCI_HOST_BRIDGE MemoryRegionOps into the corresponding
-> CFGADDR/CFGDATA regions in the ISD MMIO and remove the unused
-> code in the current ISD read/write handlers.
-> 
-> Update the mapping when PCI0_CMD register is accessed (in case
-> the endianness is changed).
-> 
-> This allows using the GT64120 on a big-endian host (and boot
-> the MIPS Malta machine in little-endian).
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+--Z50+DLanrM9+xm5R
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-This change as commit 145e2198d7 ("hw/mips/gt64xxx_pci: Endian-swap
-using PCI_HOST_BRIDGE MemoryRegionOps") in QEMU master causes a hang
-when trying to poweroff a malta_defconfig + CONFIG_CPU_BIG_ENDIAN=y
-kernel on an x86_64 host. The kernel has been built from latest mainline
-using the kernel.org toolchains [1], just in case it matters.
+On Mon, Jan 23, 2023 at 04:00:50PM -0500, Michael S. Tsirkin wrote:
+> On Mon, Jan 23, 2023 at 02:49:39PM -0500, Stefan Hajnoczi wrote:
+> > The point of the migration blocker is to prevent breaking running
+> > guests. Situations where a migration completes but results in a broken
+> > guest are problematic for users (especially when they are not logged in
+> > to guests and able to fix them interactively).
+>=20
+> I thought it's the reverse - we block when we are sure it can't work.
+> If we are not sure we should leave policy to orchestrators.
+>=20
+> You can always get into situations like this with stateful storage (as
+> opposed to RO one).  For example, naively scp the backend file then
+> start migration. Will seem to work but corrupts the disk (I didn't try,
+> for sure with raw but what about qcow2?)
 
-$ timeout --foreground 30s qemu-system-mips \
--cpu 24Kf \
--machine malta \
--kernel vmlinux \
--display none \
--initrd rootfs.cpio \
--m 512m \
--nodefaults \
--no-reboot \
--serial mon:stdio
-...
-Run /init as init process
-process '/bin/busybox' started with executable stack
-Starting syslogd: OK
-Starting klogd: OK
-Running sysctl: OK
-Saving random seed: OK
-Starting network: OK
-Linux version 6.2.0-rc5-00013-g2475bf0250de (tuxmake@tuxmake) (mips-linux-gcc (GCC) 12.2.0, GNU ld (GNU Binutils) 2.39) #1 SMP @1674418498
-Stopping network: OK
-Saving random seed: OK
-Stopping klogd: OK
-Stopping syslogd: OK
-umount: devtmpfs busy - remounted read-only
-umount: can't unmount /: Invalid argument
-The system is going down NOW!
-Sent SIGTERM to all processes
-Sent SIGKILL to all processes
-Requesting system poweroff
-reboot: System halted
-qemu-system-mips: terminating on signal 15 from pid 2213875 (timeout)
+You're right that ultimately QEMU cannot verify that the destination
+will 100% work. Who knows if the destination is even a real QEMU or just
+a process that throws away the migration stream? :)
 
-The rootfs is available at [2], if it is necessary. It is a simple
-buildroot initramfs that just prints the version string and shutsdown
-the machine
+> > If a command-line option is set to override the blocker, that's fine.
+> > But there needs to be a blocker by default if external knowledge is
+> > required to decide whether or not it's safe to migrate.
+>=20
+> If all the command line says is "I want migration to work" then
+> that's more like shifting the blame than helping users.
+> They just learn this one weird trick and it seems to work
+> until it doesn't.  Then we are like "we told you only to set this
+> flag if you are sure" and they are like "well I was sure".
 
-If there is any additional information that I can provide or patches I
-can test, please let me know.
+What I'm getting at is that this is a breaking change. Previously the
+management tool didn't need to be aware of vhost-user-fs migration
+support. QEMU would reject migrations. We cannot start allowing them
+because management tools may depend on QEMU's migration blocker.
 
-[1]: https://mirrors.edge.kernel.org/pub/tools/crosstool/
-[2]: https://github.com/ClangBuiltLinux/boot-utils/tree/1b837f3b0fca441e0cc694c9b587120e81299554/images/mips
+If management tools need to be aware now then the safe way to introduce
+this is via a parameter that new management tools must explicitly pass
+to QEMU.
 
-Cheers,
-Nathan
+Anton's same host migration case is valid but the majority of users
+migrate between hosts and that case is not supported yet. Most of the
+time vhost-user-fs migration won't work. Let's not break existing
+management tools and vhost-user-fs back-ends.
 
-# bad: [00b1faea41d283e931256aa78aa975a369ec3ae6] Merge tag 'pull-target-arm-20230123' of https://git.linaro.org/people/pmaydell/qemu-arm into staging
-# good: [886fb67020e32ce6a2cf7049c6f017acf1f0d69a] Merge tag 'pull-target-arm-20230113' of https://git.linaro.org/people/pmaydell/qemu-arm into staging
-git bisect start '00b1faea41d283e931256aa78aa975a369ec3ae6' '886fb67020e32ce6a2cf7049c6f017acf1f0d69a'
-# bad: [239b8b0699a222fd21da1c5fdeba0a2456085a47] Merge tag 'trivial-branch-for-8.0-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging
-git bisect bad 239b8b0699a222fd21da1c5fdeba0a2456085a47
-# bad: [a48f692929828212f75eb6e8d11bbb6cdffad153] hw/usb: Mark the XLNX_VERSAL-related files as target-independent
-git bisect bad a48f692929828212f75eb6e8d11bbb6cdffad153
-# bad: [a844873512400fae6bed9e87694dc96ff2f15f39] mips: Remove support for trap and emulate KVM
-git bisect bad a844873512400fae6bed9e87694dc96ff2f15f39
-# bad: [cd5066f8618bc6c80ec9088923c58f4a42ab0e7a] hw/mips/bootloader: Handle buffers as opaque arrays
-git bisect bad cd5066f8618bc6c80ec9088923c58f4a42ab0e7a
-# bad: [37e506b69a6791bede30677f05081296f3b77f77] hw/mips/gt64xxx_pci: Let the GT64120 manage the lower 512MiB hole
-git bisect bad 37e506b69a6791bede30677f05081296f3b77f77
-# good: [65423e6efeac1ee1057870361337c572c941140c] hw/mips/gt64xxx_pci: Accumulate address space changes
-git bisect good 65423e6efeac1ee1057870361337c572c941140c
-# bad: [7c032bfbe838c24dcbdc8f9c452553b24f20daad] hw/mips/Kconfig: Introduce CONFIG_GT64120 to select gt64xxx_pci.c
-git bisect bad 7c032bfbe838c24dcbdc8f9c452553b24f20daad
-# bad: [145e2198d749ec09a405f1607a9932499b76f1eb] hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE MemoryRegionOps
-git bisect bad 145e2198d749ec09a405f1607a9932499b76f1eb
-# first bad commit: [145e2198d749ec09a405f1607a9932499b76f1eb] hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE MemoryRegionOps
+Stefan
+
+--Z50+DLanrM9+xm5R
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPPApIACgkQnKSrs4Gr
+c8ixywf/eRBpkuEQnmrV3XXvPbY0Ms6YXmXTSC8kMtyT7MocFtl09uP0DIvbEcq2
+81JbuI9gSPTQKAT9Ybx6CfpwlXdV5iPuSHYSQ+orSpVQwuw7H4Lqy/RWVHfYRzz4
+7U5+/BOl8d9xvs8aHZsQdddMr3qtUgrDO8EM5OG7fLAjIOyQPaMs9lmeuHILOZTz
+tyvvlm805fD8diK7sskdJsOPVGiqW5du5BMH95T3MTZlLpXepB0rylapEqbfL4Qw
+x0z9bAo3OAsJ+hINz8O3JVEy4mgZjZKm+kKy83Uxr3MTwy1MIw+OlTOBmHs4bVKN
+5vORO2KVCRZ00foKSavmltOxJD697A==
+=pWJc
+-----END PGP SIGNATURE-----
+
+--Z50+DLanrM9+xm5R--
+
 
