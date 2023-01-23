@@ -2,125 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A5D7677D9F
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 15:07:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DFC0677DA9
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 15:10:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJxSe-0005a7-Dk; Mon, 23 Jan 2023 09:06:12 -0500
+	id 1pJxWE-0007o8-LT; Mon, 23 Jan 2023 09:09:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vbabka@suse.cz>) id 1pJxSD-0005U4-8Q
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 09:05:48 -0500
-Received: from smtp-out1.suse.de ([2001:67c:2178:6::1c])
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pJxWB-0007nU-W0
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 09:09:52 -0500
+Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vbabka@suse.cz>) id 1pJxS9-000103-2v
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 09:05:42 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out1.suse.de (Postfix) with ESMTPS id B4712339C7;
- Mon, 23 Jan 2023 14:05:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1674482737; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TboMeQ08DPimFEa6aGsq7T2+45CHDly2y+c6BUvgQZk=;
- b=Ohw7JlX3WCQz37Vbj1oIjlnjYp5zGfZW6t2Ldf4VxPph/WnY/v38NDh/e4hQhfkYr0L2nM
- tTDy+o417yh7yO/LPXj1Z8n7gftKOHJarxHrklKDBQus+7cmh+qEymeZvwvGa3iSoerIoa
- I9j84jts3ZCF0osIEYwGrzJjD6qJmeM=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1674482737;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=TboMeQ08DPimFEa6aGsq7T2+45CHDly2y+c6BUvgQZk=;
- b=sUrDJ3R05y4rVwKZW1U5xV5ItVofPAnrWqkqedb0xLRv5AUbA46qNL6KwfAMuDVn1ihKfs
- SrGGxk/QC3zf4NAQ==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id AE567134F5;
- Mon, 23 Jan 2023 14:05:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id cjdAKTCUzmN6IwAAMHmgww
- (envelope-from <vbabka@suse.cz>); Mon, 23 Jan 2023 14:05:36 +0000
-Message-ID: <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
-Date: Mon, 23 Jan 2023 15:03:45 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pJxWA-0001ZL-D6
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 09:09:51 -0500
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-4fd37a1551cso148282317b3.13
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 06:09:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=WucApCTkJT5rooZV90lXdHz09CCeNKU5flMO7geRqco=;
+ b=oqo0CKKGEoVI8y2f+qKAEt1ktzQfSouq5y/xJEEdkyUyoHoZMudW82tR6Qlb3HFyY6
+ 31Q5QbHz79EglxCroMPOwkrApl54lCd8VRFdAXywFAhOLasNCdl4zz2m0HFyRqhROJHY
+ JZvcG9WVooQ7yZfo+HAQ6saEYtTY5U7b+QSUfo3m7gMRk5/2L0YO1scnIAHFN/NUndzu
+ PpLDFjmS+w/r1SaFxkmWXKkW8X0gCXfMcbScf3Us837pzKwzSYBEG+Vd3tryJPxjhBmt
+ pcvlhm/JCr0egt42/Zhcxsd8geY7EcHd2ZmHaMFPE0qCI1xpLSPbwMUBHoUhEMafRPaD
+ tCdw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WucApCTkJT5rooZV90lXdHz09CCeNKU5flMO7geRqco=;
+ b=nelq/4i9A3RJ6UnILsGz3aiAKHh5ASc6pEdwWxTcRCBj7VTqQJUiu+Z8ACPH6GDedv
+ Scvpt2TsJo/v5Svj7bM3G+nsVCND9vygPorCH6+TSh54iK4pUImOGGk0qVmimXX76n/k
+ WuSw7VabCEdF/5aijeUh5XEdYa6Ujzx6wGtiXkma9tH7xP/vfFShqXXLYg5ooGfi+4VU
+ 5f4pe4tpePqRUl7eH0ziYWrbkD0ZvkAHzhOK9scvMBKK0MTfgdlJ4XyAnZFefl3yAdZo
+ pGWpCwI4IML7oppg5G0tFDoCqJvh+Zw87wnMFstvH4qj3EiUv69HVst0gUh7djj64F9/
+ xj7g==
+X-Gm-Message-State: AFqh2kpJLwvCChFcGtE6qYcVW2eviBGmjce07bXk1KLR7R7BAe3YOBDl
+ KACzhA2YoQLmnlC6ONoLJcOdrHo3s/2m93FM8q0=
+X-Google-Smtp-Source: AMrXdXub42T3IEY7oLJkBdTtTZrqpin6LItuXYdRTQBFBFBpL3UrqnfxubSZH0vzgxCgPj/Q+YNVsWALXP0tR9d6wlE=
+X-Received: by 2002:a81:4f07:0:b0:40a:2a0:71ee with SMTP id
+ d7-20020a814f07000000b0040a02a071eemr3027202ywb.156.1674482988482; Mon, 23
+ Jan 2023 06:09:48 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Content-Language: en-US
-To: "Huang, Kai" <kai.huang@intel.com>,
- "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>
-Cc: "tglx@linutronix.de" <tglx@linutronix.de>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "jmattson@google.com" <jmattson@google.com>, "Hocko, Michal"
- <mhocko@suse.com>, "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "ak@linux.intel.com" <ak@linux.intel.com>, "Lutomirski, Andy"
- <luto@kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "tabba@google.com" <tabba@google.com>, "david@redhat.com"
- <david@redhat.com>, "michael.roth@amd.com" <michael.roth@amd.com>,
- "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "dhildenb@redhat.com" <dhildenb@redhat.com>,
- "bfields@fieldses.org" <bfields@fieldses.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
- "ddutile@redhat.com" <ddutile@redhat.com>, "rppt@kernel.org"
- <rppt@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
- "vkuznets@redhat.com" <vkuznets@redhat.com>,
- "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
- "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
- "qperret@google.com" <qperret@google.com>, "arnd@arndb.de" <arnd@arndb.de>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
- "Christopherson,, Sean" <seanjc@google.com>,
- "wanpengli@tencent.com" <wanpengli@tencent.com>,
- "vannapurve@google.com" <vannapurve@google.com>,
- "hughd@google.com" <hughd@google.com>,
- "aarcange@redhat.com" <aarcange@redhat.com>,
- "mingo@redhat.com" <mingo@redhat.com>, "hpa@zytor.com" <hpa@zytor.com>,
- "Nakajima, Jun" <jun.nakajima@intel.com>,
- "jlayton@kernel.org" <jlayton@kernel.org>, "joro@8bytes.org"
- <joro@8bytes.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "Wang, Wei W" <wei.w.wang@intel.com>,
- "steven.price@arm.com" <steven.price@arm.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "Hansen, Dave" <dave.hansen@intel.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "linmiaohe@huawei.com" <linmiaohe@huawei.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
- <20221219075313.GB1691829@chaop.bj.intel.com>
- <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
- <20221220072228.GA1724933@chaop.bj.intel.com>
- <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
- <20221221133905.GA1766136@chaop.bj.intel.com>
- <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: softfail client-ip=2001:67c:2178:6::1c;
- envelope-from=vbabka@suse.cz; helo=smtp-out1.suse.de
-X-Spam_score_int: -48
-X-Spam_score: -4.9
-X-Spam_bar: ----
-X-Spam_report: (-4.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_SOFTFAIL=0.665 autolearn=ham autolearn_force=no
+References: <20230115170903.3416105-1-antonkuchin@yandex-team.ru>
+ <20230119074602-mutt-send-email-mst@kernel.org>
+ <f9993404-f8b8-7a23-37f8-530313783466@yandex-team.ru>
+ <20230120085534-mutt-send-email-mst@kernel.org>
+ <703d527f-de92-090c-6ce1-af0dec7de033@yandex-team.ru>
+ <20230122030455-mutt-send-email-mst@kernel.org>
+ <b7de3adc-cba7-09eb-ea93-f4bfb91bea9e@yandex-team.ru>
+ <20230122093903-mutt-send-email-mst@kernel.org>
+ <70c0f00a-7828-3ccf-c2ea-49aeef8693e9@yandex-team.ru>
+ <20230122111618-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20230122111618-mutt-send-email-mst@kernel.org>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 23 Jan 2023 09:09:36 -0500
+Message-ID: <CAJSP0QXnKGrX3WuSJxe7pLctcueW1AkEc_KUsHGucaDq=VJZkg@mail.gmail.com>
+Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Anton Kuchin <antonkuchin@yandex-team.ru>, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, 
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, 
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, yc-core@yandex-team.ru
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1130.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -136,39 +97,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/22/22 01:37, Huang, Kai wrote:
->>> I argue that this page pinning (or page migration prevention) is not
->>> tied to where the page comes from, instead related to how the page will
->>> be used. Whether the page is restrictedmem backed or GUP() backed, once
->>> it's used by current version of TDX then the page pinning is needed. So
->>> such page migration prevention is really TDX thing, even not KVM generic
->>> thing (that's why I think we don't need change the existing logic of
->>> kvm_release_pfn_clean()). 
->>>
-> This essentially boils down to who "owns" page migration handling, and sadly,
-> page migration is kinda "owned" by the core-kernel, i.e. KVM cannot handle page
-> migration by itself -- it's just a passive receiver.
-> 
-> For normal pages, page migration is totally done by the core-kernel (i.e. it
-> unmaps page from VMA, allocates a new page, and uses migrate_pape() or a_ops-
->> migrate_page() to actually migrate the page).
-> In the sense of TDX, conceptually it should be done in the same way. The more
-> important thing is: yes KVM can use get_page() to prevent page migration, but
-> when KVM wants to support it, KVM cannot just remove get_page(), as the core-
-> kernel will still just do migrate_page() which won't work for TDX (given
-> restricted_memfd doesn't have a_ops->migrate_page() implemented).
-> 
-> So I think the restricted_memfd filesystem should own page migration handling,
-> (i.e. by implementing a_ops->migrate_page() to either just reject page migration
-> or somehow support it).
+On Sun, 22 Jan 2023 at 11:18, Michael S. Tsirkin <mst@redhat.com> wrote:
+>
+> On Sun, Jan 22, 2023 at 06:09:40PM +0200, Anton Kuchin wrote:
+> >
+> > On 22/01/2023 16:46, Michael S. Tsirkin wrote:
+> > > On Sun, Jan 22, 2023 at 02:36:04PM +0200, Anton Kuchin wrote:
+> > > > > > This flag should be set when qemu don't need to worry about any
+> > > > > > external state stored in vhost-user daemons during migration:
+> > > > > > don't fail migration, just pack generic virtio device states to
+> > > > > > migration stream and orchestrator guarantees that the rest of the
+> > > > > > state will be present at the destination to restore full context and
+> > > > > > continue running.
+> > > > > Sorry  I still do not get it.  So fundamentally, why do we need this property?
+> > > > > vhost-user-fs is not created by default that we'd then need opt-in to
+> > > > > the special "migrateable" case.
+> > > > > That's why I said it might make some sense as a device property as qemu
+> > > > > tracks whether device is unplugged for us.
+> > > > >
+> > > > > But as written, if you are going to teach the orchestrator about
+> > > > > vhost-user-fs and its special needs, just teach it when to migrate and
+> > > > > where not to migrate.
+> > > > >
+> > > > > Either we describe the special situation to qemu and let qemu
+> > > > > make an intelligent decision whether to allow migration,
+> > > > > or we trust the orchestrator. And if it's the latter, then 'migrate'
+> > > > > already says orchestrator decided to migrate.
+> > > > The problem I'm trying to solve is that most of vhost-user devices
+> > > > now block migration in qemu. And this makes sense since qemu can't
+> > > > extract and transfer backend daemon state. But this prevents us from
+> > > > updating qemu executable via local migration. So this flag is
+> > > > intended more as a safety check that says "I know what I'm doing".
+> > > >
+> > > > I agree that it is not really necessary if we trust the orchestrator
+> > > > to request migration only when the migration can be performed in a
+> > > > safe way. But changing the current behavior of vhost-user-fs from
+> > > > "always blocks migration" to "migrates partial state whenever
+> > > > orchestrator requests it" seems a little  dangerous and can be
+> > > > misinterpreted as full support for migration in all cases.
+> > > It's not really different from block is it? orchestrator has to arrange
+> > > for backend migration. I think we just assumed there's no use-case where
+> > > this is practical for vhost-user-fs so we blocked it.
+> > > But in any case it's orchestrator's responsibility.
+> >
+> > Yes, you are right. So do you think we should just drop the blocker
+> > without adding a new flag?
+>
+> I'd be inclined to. I am curious what do dgilbert and stefanha think though.
 
-While this thread seems to be settled on refcounts already, just wanted
-to point out that it wouldn't be ideal to prevent migrations by
-a_ops->migrate_page() rejecting them. It would mean cputime wasted (i.e.
-by memory compaction) by isolating the pages for migration and then
-releasing them after the callback rejects it (at least we wouldn't waste
-time creating and undoing migration entries in the userspace page tables
-as there's no mmap). Elevated refcount on the other hand is detected
-very early in compaction so no isolation is attempted, so from that
-aspect it's optimal.
+If the migration blocker is removed, what happens when a user attempts
+to migrate with a management tool and/or vhost-user-fs server
+implementation that don't support migration?
+
+Anton: Can you explain how stateless migration will work on the
+vhost-user-fs back-end side? Is it reusing vhost-user reconnect
+functionality or introducing a new mode for stateless migration? I
+guess the vhost-user-fs back-end implementation is required to
+implement VHOST_F_LOG_ALL so dirty memory can be tracked and drain all
+in-flight requests when vrings are stopped?
+
+Stefan
 
