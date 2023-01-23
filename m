@@ -2,73 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AE71677CAD
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:39:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0393677CBA
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:41:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJwzw-00067Z-Gy; Mon, 23 Jan 2023 08:36:32 -0500
+	id 1pJwzy-00068o-Jn; Mon, 23 Jan 2023 08:36:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwzg-0005zk-U6
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:20 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ id 1pJwzi-00060a-DP
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:21 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwze-0002Lo-Le
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:16 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- f12-20020a7bc8cc000000b003daf6b2f9b9so10606901wml.3
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:36:13 -0800 (PST)
+ id 1pJwzf-0002Sy-06
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:17 -0500
+Received: by mail-wm1-x329.google.com with SMTP id l8so9024155wms.3
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:36:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=73fZODUVN+eHuckJW+3x93TAtbbakSn6uC4UQHq9gd4=;
- b=Dj+KcwUsgwcaxSvxsnwooipVuNR1Xxv4sDuvLgMRWJdIw0w5U4x6BT4foNMzleQv1A
- RneBfDz6uzdmmwm/stL4QKThQjUDLqHtFE8FSjoYM774C1g+RCJMsGylJnjCcWtC1aM9
- fcAOTTmrZ1gWgv/L9jBz1ExTybwGfHiKGpAgBEYEFWGUI0AaL+pOpsa1YVSjFirkihgZ
- zjYENw3kUt+Y+Wt+cxhjkLcnhxVs74nh4cefNAk2aPjpDgOkNxjW5L9ZWcBNLB16waRa
- Gc8TMRx2tJPc9qCazHES0j/9GIt+1Y3uk0q7esZS+Af8h3mmTwuacSaEMDM+7cpq2HZS
- FybQ==
+ :reply-to; bh=qLC1OizCVn68FH21GRDKjbsntWejSNUy0/YImu0bDg8=;
+ b=VGZ7W03/KX1ic4nVdv2+VWdXVpUupbOqE3gqbp5b4Mdgvw/dISi9dvGpPsxPUk3hGl
+ M71xjWlpx5KPy1kHUFLvCnRNJLesi6MYg5tWioXljWj3aBIzLZsLaUiVTmMg3gogn+mb
+ +Wk1xx1B5UANmBBLNG2PZhudz9w0kniNYh+gMKPnQJyrDkPvVQ9v3w0b4kNx56ZDs2XN
+ fzCwegpoTDJDjEBspGtSoRiYB+OhOvPVEDBQ0K9nI7wOg1cbG9iw968pd/y3n3Y9u32r
+ EkIMqAyHaPUnJY4zihtJxh56rv4ydtPefYvTIFbbs0CZ3pzErGjz3VZ3PtG2qRKhVBZP
+ m5dw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=73fZODUVN+eHuckJW+3x93TAtbbakSn6uC4UQHq9gd4=;
- b=2LN/JkA2nIhQrsKM21xCcCRKgWTyDuihMsxFEBSONwSc5uRxN0G/hRYo2Srfv2D6xv
- WxHIAUx/wytafkiTKI3kwfhdKU9qINJXNA6+f1MJTnyhqpsJplF6rRJyVMUpFUISfvjN
- jbUramJjKUjYQkJY2AmFdtTFbk968UO1kSqgjiLEgaBFlwDwkphbh6cisRssI3vgb8xP
- WbmdnTl4Fn0HwE3gR22d9XdkNt5Fb+FGY/3o891hrJL+zOfccvEbVMID3g8CTBJbIGTp
- RIwcgXNks1J2104oD3lCE1dBEc1EbLcKlSGSrPgijEkND5YMwKgBACK2VPdZAFd/mJFd
- 82BQ==
-X-Gm-Message-State: AFqh2krYiSwJosl/JcXVMeIJXoLSQJZJUn5xHBeU/DGtnTBkM5slysvG
- wzJk04+bF+Zd/TUipIUmMu9V22C4EvhiLP3v
-X-Google-Smtp-Source: AMrXdXvYI1Ea/wO94/9fipfePjs05Vwpxm/xbtslRJb1zKVZ9QYPnCbGrT+uIzEOrCDkADn9vhZclA==
-X-Received: by 2002:a05:600c:34d1:b0:3db:1434:c51a with SMTP id
- d17-20020a05600c34d100b003db1434c51amr18371567wmq.40.1674480972912; 
- Mon, 23 Jan 2023 05:36:12 -0800 (PST)
+ bh=qLC1OizCVn68FH21GRDKjbsntWejSNUy0/YImu0bDg8=;
+ b=hEo7aY+NzmcgAbqKa3JZMOKEMW4prVKLn308ZvUD4hwSfD2XSLcfGkWx8DtZYMFPz7
+ YHTeZ0s5TV7+H5Yua67QTFeYcMr2Pz44bhq041v2gtMhVrb+V/hwyfkGgoLyqO5Pu3tn
+ bMGJHig+BQm0O3s9Vzk1Bj+/hh8CBY5KCmEaaUFrIBT2WgA/Ta7F3kWaGYqfN1qN8f+n
+ RHbYWYwB0lJMFA5BCNzAZcUXK9z8u6q+FKpVfmBV/OYnM/knIcXhpM9d2fTsT7T4lP+V
+ rEY3Ck0myEKqvRoT37T9XgS0GyDutuToXSRWqMtpkZBqvdO86Up1wBf9Zz9i8s3hcz/M
+ e8ag==
+X-Gm-Message-State: AFqh2krTksgvpHTmSknIg+NvAKq9PA43zjyewGz0S/xHuyrp9v9O2Y7A
+ Y6VKQltz9/KLS49192bvKhTu3JfZRKYo84TQ
+X-Google-Smtp-Source: AMrXdXs0PM2lG8Fdsm0KX8ivbL0bFSkKwnK/+M78+0WV2Sl7LQjt/KqCfcfK4UyjhRYse5+e5Dj7Lw==
+X-Received: by 2002:a05:600c:2255:b0:3da:f950:8168 with SMTP id
+ a21-20020a05600c225500b003daf9508168mr22875737wmm.35.1674480973751; 
+ Mon, 23 Jan 2023 05:36:13 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
  d19-20020a05600c34d300b003a6125562e1sm10817457wmq.46.2023.01.23.05.36.12
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 05:36:12 -0800 (PST)
+ Mon, 23 Jan 2023 05:36:13 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 19/26] target/arm/sme: Unify set_pstate() SM/ZA helpers as
- set_svcr()
-Date: Mon, 23 Jan 2023 13:35:46 +0000
-Message-Id: <20230123133553.2171158-20-peter.maydell@linaro.org>
+Subject: [PULL 20/26] target/arm: Fix physical address resolution for MTE
+Date: Mon, 23 Jan 2023 13:35:47 +0000
+Message-Id: <20230123133553.2171158-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230123133553.2171158-1-peter.maydell@linaro.org>
 References: <20230123133553.2171158-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,93 +90,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
-Unify the two helper_set_pstate_{sm,za} in this function.
-Do not call helper_* functions from svcr_write.
+Conversion to probe_access_full missed applying the page offset.
 
+Fixes: b8967ddf ("target/arm: Use probe_access_full for MTE")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1416
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Fabiano Rosas <farosas@suse.de>
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-id: 20230112102436.1913-8-philmd@linaro.org
-Message-Id: <20230112004322.161330-1-richard.henderson@linaro.org>
-[PMD: Split patch in multiple tiny steps]
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-id: 20230114031213.2970349-1-richard.henderson@linaro.org
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/helper-sme.h    |  3 +--
- target/arm/helper.c        |  2 --
- target/arm/sme_helper.c    |  9 ++-------
- target/arm/translate-a64.c | 10 ++--------
- 4 files changed, 5 insertions(+), 19 deletions(-)
+ target/arm/mte_helper.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/target/arm/helper-sme.h b/target/arm/helper-sme.h
-index d2d544a6961..27eef49a11e 100644
---- a/target/arm/helper-sme.h
-+++ b/target/arm/helper-sme.h
-@@ -17,8 +17,7 @@
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
+diff --git a/target/arm/mte_helper.c b/target/arm/mte_helper.c
+index 86b37548386..98bcf59c225 100644
+--- a/target/arm/mte_helper.c
++++ b/target/arm/mte_helper.c
+@@ -142,7 +142,7 @@ static uint8_t *allocation_tag_mem(CPUARMState *env, int ptr_mmu_idx,
+      * Remember these values across the second lookup below,
+      * which may invalidate this pointer via tlb resize.
+      */
+-    ptr_paddr = full->phys_addr;
++    ptr_paddr = full->phys_addr | (ptr & ~TARGET_PAGE_MASK);
+     attrs = full->attrs;
+     full = NULL;
  
--DEF_HELPER_FLAGS_2(set_pstate_sm, TCG_CALL_NO_RWG, void, env, i32)
--DEF_HELPER_FLAGS_2(set_pstate_za, TCG_CALL_NO_RWG, void, env, i32)
-+DEF_HELPER_FLAGS_3(set_svcr, TCG_CALL_NO_RWG, void, env, i32, i32)
- 
- DEF_HELPER_FLAGS_3(sme_zero, TCG_CALL_NO_RWG, void, env, i32, i32)
- 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 80779678499..72b37b7cf17 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -6765,8 +6765,6 @@ void aarch64_set_svcr(CPUARMState *env, uint64_t new, uint64_t mask)
- static void svcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                        uint64_t value)
- {
--    helper_set_pstate_sm(env, FIELD_EX64(value, SVCR, SM));
--    helper_set_pstate_za(env, FIELD_EX64(value, SVCR, ZA));
-     aarch64_set_svcr(env, value, -1);
- }
- 
-diff --git a/target/arm/sme_helper.c b/target/arm/sme_helper.c
-index 3abe03e4cb3..1e67fcac308 100644
---- a/target/arm/sme_helper.c
-+++ b/target/arm/sme_helper.c
-@@ -29,14 +29,9 @@
- #include "vec_internal.h"
- #include "sve_ldst_internal.h"
- 
--void helper_set_pstate_sm(CPUARMState *env, uint32_t i)
-+void helper_set_svcr(CPUARMState *env, uint32_t val, uint32_t mask)
- {
--    aarch64_set_svcr(env, 0, R_SVCR_SM_MASK);
--}
--
--void helper_set_pstate_za(CPUARMState *env, uint32_t i)
--{
--    aarch64_set_svcr(env, 0, R_SVCR_ZA_MASK);
-+    aarch64_set_svcr(env, val, mask);
- }
- 
- void helper_sme_zero(CPUARMState *env, uint32_t imm, uint32_t svl)
-diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
-index 035e63bdc51..19cf371c4c8 100644
---- a/target/arm/translate-a64.c
-+++ b/target/arm/translate-a64.c
-@@ -1847,14 +1847,8 @@ static void handle_msr_i(DisasContext *s, uint32_t insn,
- 
-             if ((old ^ new) & msk) {
-                 /* At least one bit changes. */
--                bool i = crm & 1;
--
--                if ((crm & 2) && i != s->pstate_sm) {
--                    gen_helper_set_pstate_sm(cpu_env, tcg_constant_i32(i));
--                }
--                if ((crm & 4) && i != s->pstate_za) {
--                    gen_helper_set_pstate_za(cpu_env, tcg_constant_i32(i));
--                }
-+                gen_helper_set_svcr(cpu_env, tcg_constant_i32(new),
-+                                    tcg_constant_i32(msk));
-             } else {
-                 s->base.is_jmp = DISAS_NEXT;
-             }
 -- 
 2.34.1
 
