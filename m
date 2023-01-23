@@ -2,95 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92D5E6784E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 19:28:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31DE8678559
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 19:53:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK1Xb-0000cc-3F; Mon, 23 Jan 2023 13:27:35 -0500
+	id 1pK1vI-00051R-EW; Mon, 23 Jan 2023 13:52:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pK1XZ-0000cS-7V
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 13:27:33 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pK1vG-000515-Qq
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 13:52:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pK1XX-0007Hv-EW
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 13:27:32 -0500
+ id 1pK1vF-0002t2-2n
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 13:52:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674498449;
+ s=mimecast20190719; t=1674499918;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Sba/+uTWbJ7F7cTnBGqJtGA0puoRVfBR5yRmmV/ZbyE=;
- b=OqdTt/fhrUDVZkdN77xf5LbDPxCtX9pSg0E5MGkwRfZrk31JKVgTG8NuuLbEAe+UmVjDV0
- ANlhZ4TQXgJ9TVJ+B/zRRPWvFkNoM6AonOXyaKZp54fEGvh0GCNr4bR9y+/YeSUbzZrF1o
- 8Dz9UCm0sYDUTGIY3ZGl/wDAOJd65ds=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=UjjT4J9HxHMveIDbMaJsTI9aPu2k4ZORdssrc63odAI=;
+ b=ASQUA7TAaDbm6Vb5aoU/+Lbpjede1cKHJgI3WTO6zGU73WYl+gsKFEdeaQFpA5mPoQKfPx
+ yWaPO2AIx8Q413nC5B/DTw8sXkgTbJPqnhS2YYCBLkWG4xsTAWB4gDZ0S45Q28Z9hWPTr6
+ AUepPsNpsczlGs2f786I1aoDYqe3h98=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-596-4TExVCQXPJaFXtDauH9Y3g-1; Mon, 23 Jan 2023 13:27:27 -0500
-X-MC-Unique: 4TExVCQXPJaFXtDauH9Y3g-1
-Received: by mail-wr1-f69.google.com with SMTP id
- o15-20020a5d684f000000b002be540246e1so1682058wrw.22
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 10:27:27 -0800 (PST)
+ us-mta-107-7Gl2wWdoMLSh68hXaXpWIQ-1; Mon, 23 Jan 2023 13:51:55 -0500
+X-MC-Unique: 7Gl2wWdoMLSh68hXaXpWIQ-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ t4-20020adfe444000000b002be53a83610so1748019wrm.15
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 10:51:55 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Sba/+uTWbJ7F7cTnBGqJtGA0puoRVfBR5yRmmV/ZbyE=;
- b=b7jfP6XiTxQSlH81ldc8qnbJ0GCF9GhQJM2Pz6N5FmK1rvTzNb4Rau4kzHiHb+Bii1
- u7DDnEVxvxIpjfWLHLpE4DrBZx4kmsQDVC/pxcoZzbUkL/baWF0ma1Ara1Co8kmff4t9
- RQwDVXgJq/xFgZzUDKk2qD4ZK7rdWRWE6OYdikizuJDlBy/mxtCBuM/gpOEzOftLSUsD
- lL/zstg8rguKGKUX5NRzK1+rmE62jVhOSsdnTmMmt5sOVqr9fFg9cOKv+6MNrxJZuBqZ
- rORd2dd5whrlwB2UiNH8LaiJrjiQefjTIKKeWXJam79FbNZdHksB1rvDbuNpRdmVjiUk
- Z8Fg==
-X-Gm-Message-State: AFqh2kr40vCxUQH3GNaA4vSak2OMprC5waCX1/Jy7iPN2a674WTurnT8
- 0w4UdM15n5kBz5IBCqr0rL6enx0URs/UvtDQW4iUtLcXtpmXT+0Ls83bt3LKVKKTu9rhT+oMIL4
- Tc4tJZDpJIQ0oVv0=
-X-Received: by 2002:a05:600c:3b82:b0:3d3:5d0f:6dfc with SMTP id
- n2-20020a05600c3b8200b003d35d0f6dfcmr24394886wms.30.1674498446644; 
- Mon, 23 Jan 2023 10:27:26 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvLBdWiGs/wx7yesnY6alL9fDGKkem0nKoDWiaG2OxJYLqPSdPSCxeYcLBnFZ3pxI3Zd5gGOA==
-X-Received: by 2002:a05:600c:3b82:b0:3d3:5d0f:6dfc with SMTP id
- n2-20020a05600c3b8200b003d35d0f6dfcmr24394865wms.30.1674498446426; 
- Mon, 23 Jan 2023 10:27:26 -0800 (PST)
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=UjjT4J9HxHMveIDbMaJsTI9aPu2k4ZORdssrc63odAI=;
+ b=Hk+fv2BoXi+tnIwYC5U4FwiND1xrc9WIOKnEFK9VmklH6PiASXnInMchYjTXTq7+t4
+ Y7yntGk0wP7j+OWhz5/S+ouewWd5dQW+UJUU4KgfO3UYc1joDMzknsIjE+1+g9sgTX9s
+ NgB4xsnnlJu3mCwtMvD3lYZ7IQC/BiDCcUI/2bc/0bgTZfae/TFazH43hYhQKyzHWHIJ
+ FhWvBsHQqD86+vpgeZL+xvSzSCLmU2mGucc1oy/Qi4NehzPqDF/voZlV7MpDtI7RTTYf
+ J9zu0b+WXZy4jhcLFRjcqIpEOh+vqLTQzPEzwOhVV2vLu1d9mOkl4oMihHFAW3U4Shib
+ Dhrw==
+X-Gm-Message-State: AFqh2kosaGrij+TgtXZ0bM7PQiUWXWN6K8OzmhAE8WCSgPPVfoDTL7Xb
+ Oot194oFI9kHZ39es7TKqaqFuFpc6cZpb64+J6+I6dd7CaxaRrazsNFQSMtD8aG3CqFwd6xQX/E
+ 7uCGlCg+uJrlLOVk=
+X-Received: by 2002:adf:cd8f:0:b0:244:48b3:d12b with SMTP id
+ q15-20020adfcd8f000000b0024448b3d12bmr22265849wrj.45.1674499914246; 
+ Mon, 23 Jan 2023 10:51:54 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsR9+iGojZYfpWdMGNd8XN5foDOeib2nBKXoYyaGuulZNwNomRU9i3qZWM0BXOMn4i9kKeYCw==
+X-Received: by 2002:adf:cd8f:0:b0:244:48b3:d12b with SMTP id
+ q15-20020adfcd8f000000b0024448b3d12bmr22265834wrj.45.1674499914037; 
+ Mon, 23 Jan 2023 10:51:54 -0800 (PST)
 Received: from work-vm
  (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
  by smtp.gmail.com with ESMTPSA id
- i29-20020a1c541d000000b003dc0cb5e3f1sm132878wmb.46.2023.01.23.10.27.25
+ m11-20020a5d624b000000b002be5bdbe40csm109359wrv.27.2023.01.23.10.51.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 10:27:26 -0800 (PST)
-Date: Mon, 23 Jan 2023 18:27:23 +0000
+ Mon, 23 Jan 2023 10:51:53 -0800 (PST)
+Date: Mon, 23 Jan 2023 18:51:51 +0000
 From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Anton Kuchin <antonkuchin@yandex-team.ru>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Juan Quintela <quintela@redhat.com>, yc-core@yandex-team.ru
-Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
-Message-ID: <Y87Ri4r6SiETdCrt@work-vm>
-References: <20230115170903.3416105-1-antonkuchin@yandex-team.ru>
- <20230119074602-mutt-send-email-mst@kernel.org>
- <f9993404-f8b8-7a23-37f8-530313783466@yandex-team.ru>
- <20230120085534-mutt-send-email-mst@kernel.org>
- <703d527f-de92-090c-6ce1-af0dec7de033@yandex-team.ru>
- <20230122030455-mutt-send-email-mst@kernel.org>
- <b7de3adc-cba7-09eb-ea93-f4bfb91bea9e@yandex-team.ru>
- <20230122093903-mutt-send-email-mst@kernel.org>
- <70c0f00a-7828-3ccf-c2ea-49aeef8693e9@yandex-team.ru>
- <20230122111618-mutt-send-email-mst@kernel.org>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ James Houghton <jthoughton@google.com>, Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH RFC 08/21] ramblock: Cache the length to do file mmap()
+ on ramblocks
+Message-ID: <Y87XR8U1FaQVVJO+@work-vm>
+References: <20230117220914.2062125-1-peterx@redhat.com>
+ <20230117220914.2062125-9-peterx@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230122111618-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20230117220914.2062125-9-peterx@redhat.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -114,62 +102,98 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Michael S. Tsirkin (mst@redhat.com) wrote:
-> On Sun, Jan 22, 2023 at 06:09:40PM +0200, Anton Kuchin wrote:
-> > 
-> > On 22/01/2023 16:46, Michael S. Tsirkin wrote:
-> > > On Sun, Jan 22, 2023 at 02:36:04PM +0200, Anton Kuchin wrote:
-> > > > > > This flag should be set when qemu don't need to worry about any
-> > > > > > external state stored in vhost-user daemons during migration:
-> > > > > > don't fail migration, just pack generic virtio device states to
-> > > > > > migration stream and orchestrator guarantees that the rest of the
-> > > > > > state will be present at the destination to restore full context and
-> > > > > > continue running.
-> > > > > Sorry  I still do not get it.  So fundamentally, why do we need this property?
-> > > > > vhost-user-fs is not created by default that we'd then need opt-in to
-> > > > > the special "migrateable" case.
-> > > > > That's why I said it might make some sense as a device property as qemu
-> > > > > tracks whether device is unplugged for us.
-> > > > > 
-> > > > > But as written, if you are going to teach the orchestrator about
-> > > > > vhost-user-fs and its special needs, just teach it when to migrate and
-> > > > > where not to migrate.
-> > > > > 
-> > > > > Either we describe the special situation to qemu and let qemu
-> > > > > make an intelligent decision whether to allow migration,
-> > > > > or we trust the orchestrator. And if it's the latter, then 'migrate'
-> > > > > already says orchestrator decided to migrate.
-> > > > The problem I'm trying to solve is that most of vhost-user devices
-> > > > now block migration in qemu. And this makes sense since qemu can't
-> > > > extract and transfer backend daemon state. But this prevents us from
-> > > > updating qemu executable via local migration. So this flag is
-> > > > intended more as a safety check that says "I know what I'm doing".
-> > > > 
-> > > > I agree that it is not really necessary if we trust the orchestrator
-> > > > to request migration only when the migration can be performed in a
-> > > > safe way. But changing the current behavior of vhost-user-fs from
-> > > > "always blocks migration" to "migrates partial state whenever
-> > > > orchestrator requests it" seems a little  dangerous and can be
-> > > > misinterpreted as full support for migration in all cases.
-> > > It's not really different from block is it? orchestrator has to arrange
-> > > for backend migration. I think we just assumed there's no use-case where
-> > > this is practical for vhost-user-fs so we blocked it.
-> > > But in any case it's orchestrator's responsibility.
-> > 
-> > Yes, you are right. So do you think we should just drop the blocker
-> > without adding a new flag?
+* Peter Xu (peterx@redhat.com) wrote:
+> We do proper page size alignment for file backed mmap()s for ramblocks.
+> Even if it's as simple as that, cache the value because it'll be used in
+> multiple places.
 > 
-> I'd be inclined to. I am curious what do dgilbert and stefanha think though.
+> Since at it, drop size for file_ram_alloc() and just use max_length because
+> that's always true for file-backed ramblocks.
 
-Yes I think that's probably OK, as long as we use the flag for knowing
-how to handle the discard bitmap as a proxy for the daemon knowing how
-to handle *some* migrations; knowing which migrations is then the job
-for the orchestrator to be careful of.
+Having a length previously called 'memory' was a bit odd!
 
-Dave
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
+> ---
+>  include/exec/ramblock.h |  2 ++
+>  softmmu/physmem.c       | 14 +++++++-------
+>  2 files changed, 9 insertions(+), 7 deletions(-)
+> 
+> diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
+> index 76cd0812c8..3f31ce1591 100644
+> --- a/include/exec/ramblock.h
+> +++ b/include/exec/ramblock.h
+> @@ -32,6 +32,8 @@ struct RAMBlock {
+>      ram_addr_t offset;
+>      ram_addr_t used_length;
+>      ram_addr_t max_length;
+> +    /* Only used for file-backed ramblocks */
+> +    ram_addr_t mmap_length;
+>      void (*resized)(const char*, uint64_t length, void *host);
+>      uint32_t flags;
+>      /* Protected by iothread lock.  */
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index aa1a7466e5..b5be02f1cb 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -1533,7 +1533,6 @@ static int file_ram_open(const char *path,
+>  }
+>  
+>  static void *file_ram_alloc(RAMBlock *block,
+> -                            ram_addr_t memory,
+>                              int fd,
+>                              bool readonly,
+>                              bool truncate,
+> @@ -1563,14 +1562,14 @@ static void *file_ram_alloc(RAMBlock *block,
+>      }
+>  #endif
+>  
+> -    if (memory < block->page_size) {
+> +    if (block->max_length < block->page_size) {
+>          error_setg(errp, "memory size 0x" RAM_ADDR_FMT " must be equal to "
+>                     "or larger than page size 0x%zx",
+> -                   memory, block->page_size);
+> +                   block->max_length, block->page_size);
+>          return NULL;
+>      }
+>  
+> -    memory = ROUND_UP(memory, block->page_size);
+> +    block->mmap_length = ROUND_UP(block->max_length, block->page_size);
+>  
+>      /*
+>       * ftruncate is not supported by hugetlbfs in older
+> @@ -1586,7 +1585,7 @@ static void *file_ram_alloc(RAMBlock *block,
+>       * those labels. Therefore, extending the non-empty backend file
+>       * is disabled as well.
+>       */
+> -    if (truncate && ftruncate(fd, memory)) {
+> +    if (truncate && ftruncate(fd, block->mmap_length)) {
+>          perror("ftruncate");
+>      }
+>  
+> @@ -1594,7 +1593,8 @@ static void *file_ram_alloc(RAMBlock *block,
+>      qemu_map_flags |= (block->flags & RAM_SHARED) ? QEMU_MAP_SHARED : 0;
+>      qemu_map_flags |= (block->flags & RAM_PMEM) ? QEMU_MAP_SYNC : 0;
+>      qemu_map_flags |= (block->flags & RAM_NORESERVE) ? QEMU_MAP_NORESERVE : 0;
+> -    area = qemu_ram_mmap(fd, memory, block->mr->align, qemu_map_flags, offset);
+> +    area = qemu_ram_mmap(fd, block->mmap_length, block->mr->align,
+> +                         qemu_map_flags, offset);
+>      if (area == MAP_FAILED) {
+>          error_setg_errno(errp, errno,
+>                           "unable to map backing store for guest RAM");
+> @@ -2100,7 +2100,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+>      new_block->used_length = size;
+>      new_block->max_length = size;
+>      new_block->flags = ram_flags;
+> -    new_block->host = file_ram_alloc(new_block, size, fd, readonly,
+> +    new_block->host = file_ram_alloc(new_block, fd, readonly,
+>                                       !file_size, offset, errp);
+>      if (!new_block->host) {
+>          g_free(new_block);
 > -- 
-> MST
+> 2.37.3
 > 
 -- 
 Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
