@@ -2,91 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00A6067773C
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 10:17:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC8967774E
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 10:21:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJsvr-0005zR-LJ; Mon, 23 Jan 2023 04:16:03 -0500
+	id 1pJt0J-00082Q-2A; Mon, 23 Jan 2023 04:20:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pJsve-0005x3-M9
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:15:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pJsvc-0005dD-EL
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:15:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674465346;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=VN+NM16VDHUGHb0FcZzCe0zYLFT/jMzdhaIasM/6QEU=;
- b=h253ipaFkEAoH8RzPs84MKuE5EsSFp5CajQYupbrXObpo+CnlFQEo668LJ7dZ/BPIBGYgy
- p4xobG6KgWEZRZXlDGCcW7WVPyyzqvOOOCmA6FBj+y5VOWE0C6n5/XLp9yVusKtgNQtYpQ
- dOquEJaG+zYa2sDVJwsobThrrKA2ylA=
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
- [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-339-M3ojwT3gMamvraxYTTP9AA-1; Mon, 23 Jan 2023 04:15:45 -0500
-X-MC-Unique: M3ojwT3gMamvraxYTTP9AA-1
-Received: by mail-qv1-f71.google.com with SMTP id
- c10-20020a05621401ea00b004c72d0e92bcso5667242qvu.12
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 01:15:45 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJt0H-00082B-JG
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:20:37 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJt0C-0007B9-CC
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:20:33 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id l8so8443790wms.3
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 01:20:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=I4eCAZZXG3PP6QllNZ47e2FAjlUTur3WMvIuV/YRHrU=;
+ b=o8GQnK0DajwijZed5aLcqj5VxvzA/eisuxSRow4bMGY2i+VgAh3MSAi3AJyXP4fkT2
+ E/Fn8DN0hr+yJwdwcZrwp3RQei12+qktaBR4P5wE85FOXLq2f8ddcOvslRkHXTq2BW2r
+ DzTE5iuhQtyMjH+AM3OxsLtHAzqeI8S94oCDPiDq3iLjsCCbkxb3tUjNSXXnU5vGsQkQ
+ IOOoNl1Goim35MxUzgeI0rbyqeao4lqBuPx4vEITytfXaBIQIRFEWn9Ht3j2aVdvgKB6
+ KGQDVvu4sa7vS1T9P2v4dqG5fagFg143mvpMA5Iiq0G2GloyO5WuvwlywgMw0dgcV0lm
+ jmgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=VN+NM16VDHUGHb0FcZzCe0zYLFT/jMzdhaIasM/6QEU=;
- b=zs876IfFs0BWPCUm9ikZ8KmxnD+e5Fni4GL+zCYIY9pZFJiAOGDFgBIwMGGy4hLlMr
- yDGA2UQkPWB24c9AxweworP9PUrrYLNbXtBEnyx8YR1bfEql7eFsWtVC1go6LkMAFZ5N
- 41pqIXCQ3hT4SKSabeRYwETZGRU/P3fqNjzO0V1tPAGT6KiecAVDefpLfP0cQxEXQESh
- YtrOaKww6vRwuUzGwWp+WcD/yQIusvTe3PSVcg1ySkNw6YsBbX5Gh3L5z148AnQNPq2B
- T+ZbyUdwmJzMsBraxku7hqlAms5mOCLnCarR9q3canaSmStc8teHnvzTY/s4SF0Fv05f
- Zn4w==
-X-Gm-Message-State: AFqh2ko1Ip8LO1TaNzRuK+Xlu3mdsW5yYJc7Y39pZSUOl6Uf+rCq9Hef
- nIKl1/bBLzJYqVClBejXHr9Yo9MNRZVtOU2MMd1UMmMrokTK4sOx1ZqiGID9WU18jU73sI1CqJJ
- B+EZmeXu9ox4ZGzk=
-X-Received: by 2002:ac8:44b6:0:b0:3a5:9267:ee07 with SMTP id
- a22-20020ac844b6000000b003a59267ee07mr32473059qto.63.1674465344971; 
- Mon, 23 Jan 2023 01:15:44 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtbTIvus1bd4bbhR3pTGMecyroRAr+iOX8XIec2viR4NkmTcsbSBBjWwsgaWY5r7fZKemT55g==
-X-Received: by 2002:ac8:44b6:0:b0:3a5:9267:ee07 with SMTP id
- a22-20020ac844b6000000b003a59267ee07mr32473043qto.63.1674465344759; 
- Mon, 23 Jan 2023 01:15:44 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-178-90.web.vodafone.de.
- [109.43.178.90]) by smtp.gmail.com with ESMTPSA id
- br31-20020a05620a461f00b00706c1fc62desm8455469qkb.112.2023.01.23.01.15.43
+ bh=I4eCAZZXG3PP6QllNZ47e2FAjlUTur3WMvIuV/YRHrU=;
+ b=k1VtMHmmuXddObC26Y/ZoWvMKOSndNruR1fIVQZTiQDdtWte9RU2WLk1liBh9GJfJA
+ 62zp5BTDffASIEeIN9yM7T/QjzNT0DoxNAFxNupgIHTupKJMVcZVPu6GIdBvMdo1J7yE
+ L+y4IcyliPIOdmRjcs8d1stSAOucmHkrvLFBl9VcbzMQn+wpUy7zY+T6U/2J0AvgD7rM
+ j2LvKqgRFPn5vNmiRFXfjtrbL839nQ+alZI1LQwE6LHJoMFI3XCDvbXsh7AtXGgiwnLK
+ drHdsYyGM1fDUvAGbkAVDq4heEf4V06hIUcJZfM14tiUqXkZi4f4k3eG0R2wxdmTjwUW
+ /rpA==
+X-Gm-Message-State: AFqh2krvXAdmO5fDW1vHhz8ee50gugdB0sGYy8zl9JEeIgZjkCKWSzYu
+ HiX+mq1t5fee7t5YjCCCdp1rFA==
+X-Google-Smtp-Source: AMrXdXvRjkPiibgRpAEE3weKyfICXvjL8RH1nhAox/8B7soYTUdWTbMAM+pMECYSELJbrO+WEB4Bow==
+X-Received: by 2002:a05:600c:a11:b0:3db:f1f:bc31 with SMTP id
+ z17-20020a05600c0a1100b003db0f1fbc31mr20000980wmp.16.1674465630677; 
+ Mon, 23 Jan 2023 01:20:30 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ m37-20020a05600c3b2500b003daf681d05dsm10878030wms.26.2023.01.23.01.20.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 01:15:44 -0800 (PST)
-Message-ID: <c3dbfd5f-d97c-844e-4dfd-b8bf9290cf11@redhat.com>
-Date: Mon, 23 Jan 2023 10:15:42 +0100
+ Mon, 23 Jan 2023 01:20:30 -0800 (PST)
+Message-ID: <47d18f28-73b1-af59-ab65-2366ed3da55a@linaro.org>
+Date: Mon, 23 Jan 2023 10:20:29 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] migration: Fix migration crash when target psize larger
- than host
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 1/2] qapi, audio: add query-audiodev command
 Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, qemu-stable@nongnu.org
-References: <20230120163147.2343050-1-peterx@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230120163147.2343050-1-peterx@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+Cc: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>
+References: <20230123083957.20349-1-thuth@redhat.com>
+ <20230123083957.20349-2-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230123083957.20349-2-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,28 +94,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/01/2023 17.31, Peter Xu wrote:
-> Commit d9e474ea56 overlooked the case where the target psize is even larger
-> than the host psize.  One example is Alpha has 8K page size and migration
-> will start to crash the source QEMU when running Alpha migration on x86.
+On 23/1/23 09:39, Thomas Huth wrote:
+> From: Daniel P. Berrangé <berrange@redhat.com>
 > 
-> Fix it by detecting that case and set host start/end just to cover the
-> single page to be migrated.
+> Way back in QEMU 4.0, the -audiodev command line option was introduced
+> for configuring audio backends. This CLI option does not use QemuOpts
+> so it is not visible for introspection in 'query-command-line-options',
+> instead using the QAPI Audiodev type.  Unfortunately there is also no
+> QMP command that uses the Audiodev type, so it is not introspectable
+> with 'query-qmp-schema' either.
 > 
-> This will slightly optimize the common case where host psize equals to
-> guest psize so we don't even need to do the roundups, but that's trivial.
+> This introduces a 'query-audiodev' command that simply reflects back
+> the list of configured -audiodev command line options. This alone is
+> maybe not very useful by itself, but it makes Audiodev introspectable
+> via 'query-qmp-schema', so that libvirt (and other upper layer tools)
+> can discover the available audiodevs.
 > 
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1456
-> Fixes: d9e474ea56 ("migration: Teach PSS about host page")
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> [thuth: Update for upcoming QEMU v8.0, and use QAPI_LIST_PREPEND]
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->   migration/ram.c | 21 +++++++++++++++++++--
->   1 file changed, 19 insertions(+), 2 deletions(-)
+>   qapi/audio.json | 13 +++++++++++++
+>   audio/audio.c   | 12 ++++++++++++
+>   2 files changed, 25 insertions(+)
+> 
+> diff --git a/qapi/audio.json b/qapi/audio.json
+> index 1e0a24bdfc..c7aafa2763 100644
+> --- a/qapi/audio.json
+> +++ b/qapi/audio.json
+> @@ -443,3 +443,16 @@
+>       'sndio':     'AudiodevSndioOptions',
+>       'spice':     'AudiodevGenericOptions',
+>       'wav':       'AudiodevWavOptions' } }
+> +
+> +##
+> +# @query-audiodevs:
+> +#
+> +# Returns information about audiodev configuration
 
-Thanks, I've checked that this fixes the issue for me, indeed!
+Maybe clearer as 'audio backends'?
 
-Tested-by: Thomas Huth <thuth@redhat.com>
+So similarly, wouldn't be clearer to name this command
+'query-audio-backends'? Otherwise we need to go read QEMU
+source to understand what is 'audiodevs'.
+
+> +#
+> +# Returns: array of @Audiodev
+> +#
+> +# Since: 8.0
+> +#
+> +##
+> +{ 'command': 'query-audiodevs',
+> +  'returns': ['Audiodev'] }
+> diff --git a/audio/audio.c b/audio/audio.c
+> index d849a94a81..6f270c07b7 100644
+> --- a/audio/audio.c
+> +++ b/audio/audio.c
+> @@ -28,8 +28,10 @@
+>   #include "monitor/monitor.h"
+>   #include "qemu/timer.h"
+>   #include "qapi/error.h"
+> +#include "qapi/clone-visitor.h"
+>   #include "qapi/qobject-input-visitor.h"
+>   #include "qapi/qapi-visit-audio.h"
+> +#include "qapi/qapi-commands-audio.h"
+>   #include "qemu/cutils.h"
+>   #include "qemu/module.h"
+>   #include "qemu/help_option.h"
+> @@ -2311,3 +2313,13 @@ size_t audio_rate_get_bytes(RateCtl *rate, struct audio_pcm_info *info,
+>   
+>       return bytes;
+>   }
+> +
+> +AudiodevList *qmp_query_audiodevs(Error **errp)
+> +{
+> +    AudiodevList *ret = NULL;
+> +    AudiodevListEntry *e;
+> +    QSIMPLEQ_FOREACH(e, &audiodevs, next) {
+
+I am a bit confused here, isn't &audiodevs containing what the user 
+provided from CLI? How is that useful to libvirt? Maybe the corner case
+of a user hand-modifying the QEMU launch arguments from a XML config?
+
+Wouldn't a list of linked in AudiodevDriver be more useful to libvirt
+so it could pick the best available backend to start a VM?
+
+> +        QAPI_LIST_PREPEND(ret, QAPI_CLONE(Audiodev, e->dev));
+> +    }
+> +    return ret;
+> +}
 
 
