@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8153E6775A4
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 08:34:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E7A6775C2
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 08:44:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJrKo-0007qr-36; Mon, 23 Jan 2023 02:33:42 -0500
+	id 1pJrUd-0001hM-MD; Mon, 23 Jan 2023 02:43:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJrKi-0007mT-8v
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:33:39 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJrUR-0001h0-Em
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:43:39 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJrKf-0007a9-N6
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:33:35 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- bg13-20020a05600c3c8d00b003d9712b29d2so9925426wmb.2
- for <qemu-devel@nongnu.org>; Sun, 22 Jan 2023 23:33:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJrUP-0001DH-Tv
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:43:39 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id y1so5398258wru.2
+ for <qemu-devel@nongnu.org>; Sun, 22 Jan 2023 23:43:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=Ura99djb0EXiahdIcncYjSmjvULWjz1onuodQpmeCZ4=;
- b=sefh0cEAZX+m9SYNJt7dZ+lZXfHX28hwh4YnJT69DerhnAk7wIYwJI26YDR/yLUp4a
- w9LEvdDfHFKPAojh4VxoQGVPZFVUSNeYdKJugI2ZFGVZJGg32IG+YGpXOxKDHfYP6TL8
- zdNFRWOFLwGuTo6Qwf9sIG+GbxdEkS2XFfQGuyYcKg4z2JF9vItjTPZ+ZmS+J/hXr2Th
- 34b4XxK+XfFjglWhiga3ETmRDvZXapKokNAgdW3/c+CsyIG6yVdQPaucy5bOdUBo+6jJ
- Rb1iWFPM5pIkaZyd+xQswRmFdZt4Yvf2r/mCX9UJ+nOFJaQM1sZKNtWnGsF/4TCVfnCq
- oqOQ==
+ bh=U/HoV0FzQsXK00cyrBG3Z4fPSfw9cNDee3prXGYnnUc=;
+ b=Q1dgHkrPJ3/AtDKLJceOUMwrdAbDynein5RXTvHWccyltNxeEKFNIShj8ti+C8+d8R
+ czKxsTdxlYKS5qWnxGrQRIXKkvY31MO5l8MtmbLECewxMh3E/F2GmIBRm0Z2qzMbfGmv
+ UDYNKWYGNXpB8bhTbrs8E7+f9/UAlkHbcE0TgMJ9Ct7FTVLVQNnvioJOE+1Jf6IzoSxV
+ fQCXxaEhl07QGw2l0o8CwLCbdDsjt5HF0VTUKrbluAzAy47I8mJTEKdc4S3ONHnu7d+N
+ ujLzOufIUsLYLX6z9kEM2zSSxtZwEVzAn9hBJHJmLAqELbjdYU/B1iPBR/47yjnys2nd
+ DI0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ura99djb0EXiahdIcncYjSmjvULWjz1onuodQpmeCZ4=;
- b=floAnnNxp7pL7w+ulHOzIuD6Kt2FWMGS1JHsi79jdfJHibuMcCz7wQ9TlusuJBcMZ9
- 7bqS1febRxcas2mO6m+Sxxy1/p4FloGd1SgZYByDEjfth+IlBxsAghrXbreL8aQpZF7b
- Mf49ry0nkYf5+BQflb3Z6xIPEv/ou4fxCyALBgpwMpcUwLDFRnlTz1ZnAq0DJceLufCo
- h+W62ZwLyWZmRK2fSPlY7vxqKjHR1fkS+kXcXpitomtkxumr1xt/1ouWpKv7EvUrWyAx
- qcmesWAGuJrDQtaRfx3MhtcJzx0uSN/zW8t4/L7yEhzXO5OenIcye3+sEdG+EiGFHGGb
- S23Q==
-X-Gm-Message-State: AFqh2kpTdTZ/48vr5HJAHb0dlLn5z/cuSmf1kAmHv3OmywhSc9F1CAgy
- r+nVwh6J2xe4oM1y+i3cSdAotg==
-X-Google-Smtp-Source: AMrXdXthrgQC07xt1sI6b14NFL5y/xyukG3ZpUc8QAyJsjjYHWBor+3AkPClBLDaBg21Gcov6KTRJw==
-X-Received: by 2002:a05:600c:1508:b0:3d3:5166:2da4 with SMTP id
- b8-20020a05600c150800b003d351662da4mr22740228wmg.8.1674459211075; 
- Sun, 22 Jan 2023 23:33:31 -0800 (PST)
+ bh=U/HoV0FzQsXK00cyrBG3Z4fPSfw9cNDee3prXGYnnUc=;
+ b=bddW/58quVwCAiQRSpjGR9MgGywsmxTYhnknrTdJD4st3bb3P5B8q4lSao4aPtgRLU
+ UUS5FY6zrWXNy1SMEyLqD3aRX0ZO4kL+YZgMQtPILnIaxEMcY3VjrtaZfb6X3yhLA1WB
+ V24R8/PiAeafq1F6lFfXITrU9nwmwnEtbZEG05aNl7HzJuCmlpHnA95SHrCR+nUev5XX
+ eE2AGE+NoD5wetd72FWJV2dxS1qZIrOrzPlgzmUeCtfzKOh3A0u/QbPTavYZrfgxHXlS
+ byHlKodGl90M9A0RYYaPwOaaFxooQ3JSnpZQ4oP9IOExnBqgQ4NkmI3cpAyern4ft8ee
+ QZSA==
+X-Gm-Message-State: AFqh2kq1nV0GDvXhCFqp11KO+gjaQOHKuWkCOfQfsfhKp4a/aKYkyvvZ
+ MRs7noF9qlgGXIXE6FsOeqAqtw==
+X-Google-Smtp-Source: AMrXdXsH9xisZp62AGV+fL2x4rhFDDwY7piEmhoQYGJVbP1IBWfk+eocbFnoKgZjVBerAB2bNaNY4g==
+X-Received: by 2002:adf:dcc7:0:b0:2bd:c097:848b with SMTP id
+ x7-20020adfdcc7000000b002bdc097848bmr21830067wrm.16.1674459816118; 
+ Sun, 22 Jan 2023 23:43:36 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m31-20020a05600c3b1f00b003dafadd2f77sm10809944wms.1.2023.01.22.23.33.30
+ ba9-20020a0560001c0900b002b57bae7174sm3848964wrb.5.2023.01.22.23.43.35
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 Jan 2023 23:33:30 -0800 (PST)
-Message-ID: <c6de4517-fb08-3ad2-2cf0-ac0ed1e89ce1@linaro.org>
-Date: Mon, 23 Jan 2023 08:33:29 +0100
+ Sun, 22 Jan 2023 23:43:35 -0800 (PST)
+Message-ID: <63031751-f30a-d562-4e6e-6a6d936b1f74@linaro.org>
+Date: Mon, 23 Jan 2023 08:43:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 03/11] audio: rename hardware store to backend
+Subject: Re: [PATCH v2 10/11] alsaaudio: change default playback settings
 Content-Language: en-US
 To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
  Gerd Hoffmann <kraxel@redhat.com>
@@ -67,13 +66,13 @@ Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
  =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
  qemu-devel@nongnu.org
 References: <0a4007dc-e11c-f16e-0e21-dbc4e60caa59@t-online.de>
- <20230121094735.11644-3-vr_qemu@t-online.de>
+ <20230121094735.11644-10-vr_qemu@t-online.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230121094735.11644-3-vr_qemu@t-online.de>
+In-Reply-To: <20230121094735.11644-10-vr_qemu@t-online.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -97,15 +96,78 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 21/1/23 10:47, Volker Rümelin wrote:
-> Use a consistent friendly name for the HWVoiceOut and HWVoiceIn
-> structures.
+> The currently used default playback settings in the ALSA audio
+> backend are a bit unfortunate. With a few emulated audio devices,
+> audio playback does not work properly. Here is a short part of
+> the debug log while audio is playing (elapsed time in seconds).
 > 
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> audio: Elapsed since last alsa run (running): 0.046244
+> audio: Elapsed since last alsa run (running): 0.023137
+> audio: Elapsed since last alsa run (running): 0.023170
+> audio: Elapsed since last alsa run (running): 0.023650
+> audio: Elapsed since last alsa run (running): 0.060802
+> audio: Elapsed since last alsa run (running): 0.031931
+> 
+> For some audio devices the time of more than 23ms between updates
+> is too long.
+> 
+> Set the period time to 5.8ms so that the maximum time between
+> two updates typically does not exceed 11ms. This roughly matches
+> the 10ms period time when doing playback with the audio timer.
+> After this patch the debug log looks like this.
+> 
+> audio: Elapsed since last alsa run (running): 0.011919
+> audio: Elapsed since last alsa run (running): 0.005788
+> audio: Elapsed since last alsa run (running): 0.005995
+> audio: Elapsed since last alsa run (running): 0.011069
+> audio: Elapsed since last alsa run (running): 0.005901
+> audio: Elapsed since last alsa run (running): 0.006084
+> 
+> Acked-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
 > Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
 > ---
->   audio/audio_template.h | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+>   audio/alsaaudio.c | 11 ++++-------
+>   1 file changed, 4 insertions(+), 7 deletions(-)
+> 
+> diff --git a/audio/alsaaudio.c b/audio/alsaaudio.c
+> index 5f50dfa0bf..0cc982e61f 100644
+> --- a/audio/alsaaudio.c
+> +++ b/audio/alsaaudio.c
+> @@ -913,17 +913,14 @@ static void *alsa_audio_init(Audiodev *dev)
+>       alsa_init_per_direction(aopts->in);
+>       alsa_init_per_direction(aopts->out);
+>   
+> -    /*
+> -     * need to define them, as otherwise alsa produces no sound
+> -     * doesn't set has_* so alsa_open can identify it wasn't set by the user
+> -     */
+> +    /* don't set has_* so alsa_open can identify it wasn't set by the user */
+>       if (!dev->u.alsa.out->has_period_length) {
+> -        /* 1024 frames assuming 44100Hz */
+> -        dev->u.alsa.out->period_length = 1024 * 1000000 / 44100;
+> +        /* 256 frames assuming 44100Hz */
+> +        dev->u.alsa.out->period_length = 5805;
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Please use DIV_ROUND_UP():
+
+     DIV_ROUND_UP(1000000ul << 8, 44100);
+
+Or
+
+     DIV_ROUND_UP(512 * 1000000ul, 44100);
+
+>       }
+>       if (!dev->u.alsa.out->has_buffer_length) {
+>           /* 4096 frames assuming 44100Hz */
+> -        dev->u.alsa.out->buffer_length = 4096ll * 1000000 / 44100;
+> +        dev->u.alsa.out->buffer_length = 92880;
+
+Ditto:
+
+     DIV_ROUND_UP(1000000ul << 12, 44100);
+
+>       }
+>   
+>       /*
 
 
