@@ -2,71 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5B636786E0
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 20:54:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0BEA67871E
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 21:04:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK2sy-0000Xr-Vz; Mon, 23 Jan 2023 14:53:45 -0500
+	id 1pK31h-0002ce-6I; Mon, 23 Jan 2023 15:02:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pK2sx-0000Xd-N0
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 14:53:43 -0500
+ id 1pK31L-0002Vl-EQ
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 15:02:26 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pK2sw-0003sw-4n
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 14:53:43 -0500
+ id 1pK31J-0005WE-Db
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 15:02:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674503621;
+ s=mimecast20190719; t=1674504140;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=IkQ3ED2qqqm1GeC5Ss7DlZN1dGaNvWKGS7xpzbALOQk=;
- b=C2jqsN0an08VOKRUpczde4niPCLkYmvK6dqOpYChY8R3qloqSSYFUkU71EtbYjQF8PmYeI
- bd+Bn2op9uzPfv9pvKeaQio3krMjEu+bMnIkFonA4SzZN1Olh1H3OY1DJWXO5Z7VOL7zES
- WJn2V/HPvISsWsbpLECp6YRCb9MB8ag=
+ bh=tB6h7uyrKa3UJUuBah8OqJEl2dDBE99f+a6sFnMw6/k=;
+ b=bwl9GEZHc1WzfbBDYN7Xizhl8rIVIaFUGD+kCSgpJ+DISlBx+HFyaB9pPQ5/398YQ+MBcK
+ BA/0h+sf+2cg4m21UY2Qr/ukohl1+R4U4XifX/H+0kXE5hqOzw96yLFSTo+ypc7mPY4VqU
+ jnHPhO2nGZfaR8xP/JiRf7Hq3mPoVxg=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-448-e-FT1TdIPXKdbFxg-DhS3g-1; Mon, 23 Jan 2023 14:53:38 -0500
-X-MC-Unique: e-FT1TdIPXKdbFxg-DhS3g-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-522-taxD31oLNDqPth1Y6YgKQg-1; Mon, 23 Jan 2023 15:02:18 -0500
+X-MC-Unique: taxD31oLNDqPth1Y6YgKQg-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23BFD857F40;
- Mon, 23 Jan 2023 19:53:38 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C8C9D802BEE;
+ Mon, 23 Jan 2023 20:02:17 +0000 (UTC)
 Received: from localhost (unknown [10.39.193.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6367AC15BA0;
- Mon, 23 Jan 2023 19:53:37 +0000 (UTC)
-Date: Mon, 23 Jan 2023 14:53:35 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2FA01492C3C;
+ Mon, 23 Jan 2023 20:02:16 +0000 (UTC)
+Date: Mon, 23 Jan 2023 15:02:15 -0500
 From: Stefan Hajnoczi <stefanha@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Anton Kuchin <antonkuchin@yandex-team.ru>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
- yc-core@yandex-team.ru
-Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
-Message-ID: <Y87lv8fXrYpxkK/3@fedora>
-References: <20230119074602-mutt-send-email-mst@kernel.org>
- <f9993404-f8b8-7a23-37f8-530313783466@yandex-team.ru>
- <20230120085534-mutt-send-email-mst@kernel.org>
- <703d527f-de92-090c-6ce1-af0dec7de033@yandex-team.ru>
- <20230122030455-mutt-send-email-mst@kernel.org>
- <b7de3adc-cba7-09eb-ea93-f4bfb91bea9e@yandex-team.ru>
- <20230122093903-mutt-send-email-mst@kernel.org>
- <70c0f00a-7828-3ccf-c2ea-49aeef8693e9@yandex-team.ru>
- <20230122111618-mutt-send-email-mst@kernel.org>
- <Y87Ri4r6SiETdCrt@work-vm>
+To: Peter Krempa <pkrempa@redhat.com>
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>
+Subject: Re: [PATCH] block/blkio: Fix inclusion of required headers
+Message-ID: <Y87nx8rF8gVOg+BW@fedora>
+References: <2bc956011404a1ab03342aefde0087b5b4762562.1674477350.git.pkrempa@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="QdF4bo3qnNvnWMS/"
+ protocol="application/pgp-signature"; boundary="qCLnm7WrM7Z8vPff"
 Content-Disposition: inline
-In-Reply-To: <Y87Ri4r6SiETdCrt@work-vm>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+In-Reply-To: <2bc956011404a1ab03342aefde0087b5b4762562.1674477350.git.pkrempa@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -92,101 +81,80 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---QdF4bo3qnNvnWMS/
-Content-Type: text/plain; charset=iso-8859-1
+--qCLnm7WrM7Z8vPff
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jan 23, 2023 at 06:27:23PM +0000, Dr. David Alan Gilbert wrote:
-> * Michael S. Tsirkin (mst@redhat.com) wrote:
-> > On Sun, Jan 22, 2023 at 06:09:40PM +0200, Anton Kuchin wrote:
-> > >=20
-> > > On 22/01/2023 16:46, Michael S. Tsirkin wrote:
-> > > > On Sun, Jan 22, 2023 at 02:36:04PM +0200, Anton Kuchin wrote:
-> > > > > > > This flag should be set when qemu don't need to worry about a=
-ny
-> > > > > > > external state stored in vhost-user daemons during migration:
-> > > > > > > don't fail migration, just pack generic virtio device states =
-to
-> > > > > > > migration stream and orchestrator guarantees that the rest of=
- the
-> > > > > > > state will be present at the destination to restore full cont=
-ext and
-> > > > > > > continue running.
-> > > > > > Sorry  I still do not get it.  So fundamentally, why do we need=
- this property?
-> > > > > > vhost-user-fs is not created by default that we'd then need opt=
--in to
-> > > > > > the special "migrateable" case.
-> > > > > > That's why I said it might make some sense as a device property=
- as qemu
-> > > > > > tracks whether device is unplugged for us.
-> > > > > >=20
-> > > > > > But as written, if you are going to teach the orchestrator about
-> > > > > > vhost-user-fs and its special needs, just teach it when to migr=
-ate and
-> > > > > > where not to migrate.
-> > > > > >=20
-> > > > > > Either we describe the special situation to qemu and let qemu
-> > > > > > make an intelligent decision whether to allow migration,
-> > > > > > or we trust the orchestrator. And if it's the latter, then 'mig=
-rate'
-> > > > > > already says orchestrator decided to migrate.
-> > > > > The problem I'm trying to solve is that most of vhost-user devices
-> > > > > now block migration in qemu. And this makes sense since qemu can't
-> > > > > extract and transfer backend daemon state. But this prevents us f=
-rom
-> > > > > updating qemu executable via local migration. So this flag is
-> > > > > intended more as a safety check that says "I know what I'm doing".
-> > > > >=20
-> > > > > I agree that it is not really necessary if we trust the orchestra=
-tor
-> > > > > to request migration only when the migration can be performed in a
-> > > > > safe way. But changing the current behavior of vhost-user-fs from
-> > > > > "always blocks migration" to "migrates partial state whenever
-> > > > > orchestrator requests it" seems a little=A0 dangerous and can be
-> > > > > misinterpreted as full support for migration in all cases.
-> > > > It's not really different from block is it? orchestrator has to arr=
-ange
-> > > > for backend migration. I think we just assumed there's no use-case =
-where
-> > > > this is practical for vhost-user-fs so we blocked it.
-> > > > But in any case it's orchestrator's responsibility.
-> > >=20
-> > > Yes, you are right. So do you think we should just drop the blocker
-> > > without adding a new flag?
-> >=20
-> > I'd be inclined to. I am curious what do dgilbert and stefanha think th=
-ough.
+On Mon, Jan 23, 2023 at 01:39:27PM +0100, Peter Krempa wrote:
+> After recent header file inclusion rework the build fails when the blkio
+> module is enabled:
 >=20
-> Yes I think that's probably OK, as long as we use the flag for knowing
-> how to handle the discard bitmap as a proxy for the daemon knowing how
-> to handle *some* migrations; knowing which migrations is then the job
-> for the orchestrator to be careful of.
+> ../block/blkio.c: In function =E2=80=98blkio_detach_aio_context=E2=80=99:
+> ../block/blkio.c:321:24: error: implicit declaration of function =E2=80=
+=98bdrv_get_aio_context=E2=80=99; did you mean =E2=80=98qemu_get_aio_contex=
+t=E2=80=99? [-Werror=3Dimplicit-function-declaration]
+>   321 |     aio_set_fd_handler(bdrv_get_aio_context(bs),
+>       |                        ^~~~~~~~~~~~~~~~~~~~
+>       |                        qemu_get_aio_context
+> ../block/blkio.c:321:24: error: nested extern declaration of =E2=80=98bdr=
+v_get_aio_context=E2=80=99 [-Werror=3Dnested-externs]
+> ../block/blkio.c:321:24: error: passing argument 1 of =E2=80=98aio_set_fd=
+_handler=E2=80=99 makes pointer from integer without a cast [-Werror=3Dint-=
+conversion]
+>   321 |     aio_set_fd_handler(bdrv_get_aio_context(bs),
+>       |                        ^~~~~~~~~~~~~~~~~~~~~~~~
+>       |                        |
+>       |                        int
+> In file included from /home/pipo/git/qemu.git/include/qemu/job.h:33,
+>                  from /home/pipo/git/qemu.git/include/block/blockjob.h:30,
+>                  from /home/pipo/git/qemu.git/include/block/block_int-glo=
+bal-state.h:28,
+>                  from /home/pipo/git/qemu.git/include/block/block_int.h:2=
+7,
+>                  from ../block/blkio.c:13:
+> /home/pipo/git/qemu.git/include/block/aio.h:476:37: note: expected =E2=80=
+=98AioContext *=E2=80=99 but argument is of type =E2=80=98int=E2=80=99
+>   476 | void aio_set_fd_handler(AioContext *ctx,
+>       |                         ~~~~~~~~~~~~^~~
+> ../block/blkio.c: In function =E2=80=98blkio_file_open=E2=80=99:
+> ../block/blkio.c:821:34: error: passing argument 2 of =E2=80=98blkio_atta=
+ch_aio_context=E2=80=99 makes pointer from integer without a cast [-Werror=
+=3Dint-conversion]
+>   821 |     blkio_attach_aio_context(bs, bdrv_get_aio_context(bs));
+>       |                                  ^~~~~~~~~~~~~~~~~~~~~~~~
+>       |                                  |
+>       |                                  int
+>=20
+> Fix it by including 'block/block-io.h' which contains the required
+> declarations.
+>=20
+> Fixes: e2c1c34f139f49ef909bb4322607fb8b39002312
+> Signed-off-by: Peter Krempa <pkrempa@redhat.com>
+> ---
+>  block/blkio.c | 2 ++
+>  1 file changed, 2 insertions(+)
 
-I think the feature bit is not a good way to detect live migration
-support. vhost-user backends typically use libvhost-user, rust-vmm's
-vhost-user-backend crate, etc where this feature can be implemented for
-free. If the feature bit is advertized we don't know if the device
-implementation (net, blk, fs, etc) is aware of migration at all.
+Thanks, applied to my block-next tree:
+https://gitlab.com/stefanha/qemu/commits/block-next
 
 Stefan
 
---QdF4bo3qnNvnWMS/
+--qCLnm7WrM7Z8vPff
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPO5b8ACgkQnKSrs4Gr
-c8h3PggAibx2DqNveEjS7LgSZ4Ms8/+3Q/sxtdmCADNlgDZ+INE5Q8QqtfRxh5OG
-7nCaJvqdJ1qV97hYtTZlbfL7diEvFRykYO+3Re46wmXlOQLjC4NX3pWBbbCLl2g6
-4DITO8gVKmU8L/V2BagPdzA8PFsY4Ki4y4m5L/4cHUsiC748pxoRh4v4bXNKAk7u
-+fOFuOT4wfyYqT8N0ocV8uIUutOCaDeBUMxrNU2FYrSzVdZu8509HzAokIZsQXrt
-h5Yu9GcUkfmEkZD+UU2yMJ01Tc+jEEFECsDEhVPLlZ7e9mH8TycPBPEnbC+YuioA
-DOlw3/lnYrgv9gA2Fbizi46S0ar2qg==
-=2YF9
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPO58cACgkQnKSrs4Gr
+c8jcWwf/SnQMbxXpmeIr6g68rh6ci4v/aRDLHxUm8eWvN73gcGw5vh5a6SkmAm4a
+7GzsRTEFGfG6ggjQFzivemJfqiSCEADlRjOCDyDkefJZ3FfSYVYVLd+K4BkqougQ
+htD6Cgh7Nrb4Du5usePXWoV9sCLiC6x0aHREQss+g49aWytgYHOvIhV2S6BRRiAC
+SBZ/lTpHoGVYckWcb8u1Ca5KGPbJhU850Bd49/q4mP4gVNXUup4AAT1WeI0rBB86
+y8ZinqMTx8xziqfu8QECOBU5N/7cnEFmv1mqdqwnDLe4WXJyUs7QN4KFkCiO2QV9
+3ho0YYoWIuXTAjxUvBY1okoO2PzrUA==
+=bRbk
 -----END PGP SIGNATURE-----
 
---QdF4bo3qnNvnWMS/--
+--qCLnm7WrM7Z8vPff--
 
 
