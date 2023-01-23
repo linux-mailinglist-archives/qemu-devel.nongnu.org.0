@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E00F4677A7A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 13:04:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E61E677A8A
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 13:06:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJvXZ-0000KY-73; Mon, 23 Jan 2023 07:03:09 -0500
+	id 1pJvaH-0001Pa-H6; Mon, 23 Jan 2023 07:05:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pJvXW-0000KE-Vs
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:03:07 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJvaB-0001Oi-1K
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:05:51 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pJvXU-00012w-Uv
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:03:06 -0500
-Received: by mail-oi1-x241.google.com with SMTP id v17so10124848oie.5
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 04:03:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJva9-0001rw-5H
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:05:50 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ o17-20020a05600c511100b003db021ef437so8368041wms.4
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 04:05:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=lRsg1eHSy6dXcK398HZhrx7k4aUwyZw1FnC/dc/O1jg=;
- b=aKzrHYalwWa1VbDiCChcbh261PQV1drdWnJkKh4SnAhJZ0eeQRUAUro1nWdQpCCs7E
- ccwJXtCeMT94KpwjW4w8DZYz0Yvl7dyQR+klqgqynsoMTQhFHmb6OB6NXnrnKV5nkEwY
- Iw2+xQlWY4CsUfKv/0X0pVWOO2V4CszjjzWNsRC+j8QQriuYAic+OLSB9pii+83O87No
- h9h2QZ+Xlr8XCz+LRu8yWObOjxCvGVzehxNQ7LPHUKKsFL70+GUExyKOPBULDvluDk10
- RCvIcjNwWIUmf8yQMF0A0e2+l9iupj+O1wdZ7mwASP+s96wHEuck/iYXJk6l3NCWod04
- n55g==
+ bh=BcDngAGaZVRQSgdU7ckMXu1kfzbLj10vrove+FLauy4=;
+ b=CiZ33X0cYkCWs2+MwJyPXH5IBWkUdvx9OtioWEPllaB87kJFMSKvXHjhZiH3FVSCO3
+ ljO/mo1YSS2zqgekSkC1WOxxts298vBhGKZpd/3sPf7iEiUcy6kXPuXWU7gu4cvpYpOQ
+ +SKMfYwyCPiXoe5LdeQYQz/5UnzL9CqNw16PuhjugfY1gazZnlpqQSTnQnn/payQbvVI
+ yLvsxomPSLAvhDK+bfDwtZl3yJyUKDNSLjTstDJEU/G/q930qMfMTpyqH3LUBk+9A6DM
+ cW+g4FZ3lD8UtyX5WUbuFSAWzFdY/miAUZexnkf86ki9Gizfk3qSt2adUqENsf/eVgH4
+ /nhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lRsg1eHSy6dXcK398HZhrx7k4aUwyZw1FnC/dc/O1jg=;
- b=dvRjzWlZH7+SJ2EXaSpVnugH/aNW0LyKVHhQdlFSoc8FpmJqblVq3aN+dImu8SyNpF
- 7QD4rYaxEOmHMtVl+37I1fImRohyvsE969F3oKMJww6KiQgP4r1OJW2nvNa0CMJSgScA
- 2nQo8d8mV4fpOawoEkpgGF2QD99kqVbW3bY+AVGnaA3eb8O6Bqidl/vhyyWi/xpVmFYN
- JkynDq53WFX44Qs/+smDvD07K43ge6kMs6PfyT/gnjTLMBVkwtzp6NllC5BkT8cERf2H
- xhaE6d4mr9FPuCM6VHDGi6TUh/35mGoTASq+dh6c1ez/ukmOIrIn+l5jiM/FVSzCMLXE
- o+Ig==
-X-Gm-Message-State: AFqh2krfEEZ65o0s0/AJCt/dGbG8e8bQMvmYxHR06MqMDHhTiO6VACFS
- 2ZO9jzfqQqk/iZHv6ljtQvq7qA==
-X-Google-Smtp-Source: AMrXdXs1X7TEP3kOBrJnSohAwRGgt0phthWfbeevxj0yg0NY+51BY+HQHf1xcTMY2gxuaOktdPwC1g==
-X-Received: by 2002:aca:5a86:0:b0:364:e913:3a9 with SMTP id
- o128-20020aca5a86000000b00364e91303a9mr9945010oib.49.1674475383364; 
- Mon, 23 Jan 2023 04:03:03 -0800 (PST)
-Received: from [192.168.68.107] ([191.17.222.2])
- by smtp.gmail.com with ESMTPSA id
- s38-20020a05680820a600b0036eafb8eee9sm5326331oiw.22.2023.01.23.04.03.00
+ bh=BcDngAGaZVRQSgdU7ckMXu1kfzbLj10vrove+FLauy4=;
+ b=pZb/YlelK+WY9RMMPL3PEN8x2hnHbQ8k5SxSj3AxMrUIptZWeShwWHS9JGKkHV26va
+ r82x4QbPwKsC0q1mou8BGJ61yxkV+lCbfZnMXavkTTniMN0fhutvmDpbFILX/IFMkBZU
+ fpOh+0kgXcWXlgxEAJO0NOXyYVXAqjSyt7GqyKPIHJOnR2DWf9LTIllrqXiFonxgBU+C
+ SvxNtZOicppA6R4KB+UBjzGQrZlveaqYvDlhTcqGPqtRng/ImyFWWaW9fArk8+hwbehV
+ HjX9OEaMKOL5Yu7jnEFzouPPJxQoX9PL8xtm07J75TsL3RIbO0LrOXBJpMjLVNWXDlBp
+ RAOw==
+X-Gm-Message-State: AFqh2kraVsvISbKmXBF/ScjNFGc20kQd/e18oTz2WIhFJD20tIkIMqNV
+ h0QAKg+XKZuL7EzRXpFfmRrluQ==
+X-Google-Smtp-Source: AMrXdXuGXhTvcfVMNet84rfsc5nOspFQXQ6ZU2htxRxjXyDL1QccLrVRA9ErKa3nhtNvklx3N63ubA==
+X-Received: by 2002:a05:600c:331d:b0:3d3:591a:bfda with SMTP id
+ q29-20020a05600c331d00b003d3591abfdamr31579232wmp.27.1674475547425; 
+ Mon, 23 Jan 2023 04:05:47 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ f22-20020a1cc916000000b003d35acb0fd7sm10645535wmb.34.2023.01.23.04.05.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 04:03:02 -0800 (PST)
-Message-ID: <9ab1e3af-db52-4d55-03e7-263a2f7ae965@ventanamicro.com>
-Date: Mon, 23 Jan 2023 09:02:59 -0300
+ Mon, 23 Jan 2023 04:05:47 -0800 (PST)
+Message-ID: <c94b801d-3c19-24c7-505a-7ab0d98faa67@linaro.org>
+Date: Mon, 23 Jan 2023 13:05:45 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] hw/riscv: boot: Don't use CSRs if they are disabled
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 1/2] qapi, audio: add query-audiodev command
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Volker_R=c3=bcmelin?=
+ <vr_qemu@t-online.de>, Christian Schoenebeck <qemu_oss@crudebyte.com>
+References: <20230123083957.20349-1-thuth@redhat.com>
+ <20230123083957.20349-2-thuth@redhat.com>
+ <47d18f28-73b1-af59-ab65-2366ed3da55a@linaro.org>
+ <Y85rVoXhR5skLVOz@redhat.com>
 Content-Language: en-US
-To: Alistair Francis <alistair.francis@opensource.wdc.com>,
- qemu-devel@nongnu.org, qemu-riscv@nongnu.org
-Cc: palmer@dabbelt.com, alistair.francis@wdc.com,
- Bin Meng <bin.meng@windriver.com>, alistair23@gmail.com, bmeng.cn@gmail.com
-References: <20230123035754.75553-1-alistair.francis@opensource.wdc.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230123035754.75553-1-alistair.francis@opensource.wdc.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <Y85rVoXhR5skLVOz@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x241.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -95,48 +96,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 23/1/23 12:11, Daniel P. Berrangé wrote:
+> On Mon, Jan 23, 2023 at 10:20:29AM +0100, Philippe Mathieu-Daudé wrote:
+>> On 23/1/23 09:39, Thomas Huth wrote:
+>>> From: Daniel P. Berrangé <berrange@redhat.com>
+>>>
+>>> Way back in QEMU 4.0, the -audiodev command line option was introduced
+>>> for configuring audio backends. This CLI option does not use QemuOpts
+>>> so it is not visible for introspection in 'query-command-line-options',
+>>> instead using the QAPI Audiodev type.  Unfortunately there is also no
+>>> QMP command that uses the Audiodev type, so it is not introspectable
+>>> with 'query-qmp-schema' either.
+>>>
+>>> This introduces a 'query-audiodev' command that simply reflects back
+>>> the list of configured -audiodev command line options. This alone is
+>>> maybe not very useful by itself, but it makes Audiodev introspectable
+>>> via 'query-qmp-schema', so that libvirt (and other upper layer tools)
+>>> can discover the available audiodevs.
+>>>
+>>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>>> [thuth: Update for upcoming QEMU v8.0, and use QAPI_LIST_PREPEND]
+>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>> ---
+>>>    qapi/audio.json | 13 +++++++++++++
+>>>    audio/audio.c   | 12 ++++++++++++
+>>>    2 files changed, 25 insertions(+)
+>>>
+>>> diff --git a/qapi/audio.json b/qapi/audio.json
+>>> index 1e0a24bdfc..c7aafa2763 100644
+>>> --- a/qapi/audio.json
+>>> +++ b/qapi/audio.json
+>>> @@ -443,3 +443,16 @@
+>>>        'sndio':     'AudiodevSndioOptions',
+>>>        'spice':     'AudiodevGenericOptions',
+>>>        'wav':       'AudiodevWavOptions' } }
+>>> +
+>>> +##
+>>> +# @query-audiodevs:
+>>> +#
+>>> +# Returns information about audiodev configuration
+>>
+>> Maybe clearer as 'audio backends'?
+>>
+>> So similarly, wouldn't be clearer to name this command
+>> 'query-audio-backends'? Otherwise we need to go read QEMU
+>> source to understand what is 'audiodevs'.
+> 
+> The command line parameter is called '-audiodev' and this
+> query-audiodevs command reports the same data, so that
+> looks easy enough to understand IMHO.
+> 
+>>> +#
+>>> +# Returns: array of @Audiodev
+>>> +#
+>>> +# Since: 8.0
+>>> +#
+>>> +##
+>>> +{ 'command': 'query-audiodevs',
+>>> +  'returns': ['Audiodev'] }
+>>> diff --git a/audio/audio.c b/audio/audio.c
+>>> index d849a94a81..6f270c07b7 100644
+>>> --- a/audio/audio.c
+>>> +++ b/audio/audio.c
+>>> @@ -28,8 +28,10 @@
+>>>    #include "monitor/monitor.h"
+>>>    #include "qemu/timer.h"
+>>>    #include "qapi/error.h"
+>>> +#include "qapi/clone-visitor.h"
+>>>    #include "qapi/qobject-input-visitor.h"
+>>>    #include "qapi/qapi-visit-audio.h"
+>>> +#include "qapi/qapi-commands-audio.h"
+>>>    #include "qemu/cutils.h"
+>>>    #include "qemu/module.h"
+>>>    #include "qemu/help_option.h"
+>>> @@ -2311,3 +2313,13 @@ size_t audio_rate_get_bytes(RateCtl *rate, struct audio_pcm_info *info,
+>>>        return bytes;
+>>>    }
+>>> +
+>>> +AudiodevList *qmp_query_audiodevs(Error **errp)
+>>> +{
+>>> +    AudiodevList *ret = NULL;
+>>> +    AudiodevListEntry *e;
+>>> +    QSIMPLEQ_FOREACH(e, &audiodevs, next) {
+>>
+>> I am a bit confused here, isn't &audiodevs containing what the user provided
+>> from CLI? How is that useful to libvirt? Maybe the corner case
+>> of a user hand-modifying the QEMU launch arguments from a XML config?
+>>
+>> Wouldn't a list of linked in AudiodevDriver be more useful to libvirt
+>> so it could pick the best available backend to start a VM?
+> 
+> On the libvirt side we're never going to need to actually call the
+> query-audiodevs commands. The mere existance of the command, means
+> that the QMP schema now exposes information about what audio backends
+> have been compiled into the binary. This is the same trick we've used
+> for other aspects of QMP. IOW we don't need a separate command just
+> for the purpose of listing AudiodevDrivers.
 
+I understand having "what audio backends have been compiled into the
+binary" is useful, but I am missing how you get that from &audiodevs.
 
-On 1/23/23 00:57, Alistair Francis wrote:
-> From: Alistair Francis <alistair.francis@wdc.com>
-> 
-> If the CSRs and CSR instructions are disabled because the Zicsr
-> extension isn't enabled then we want to make sure we don't run any CSR
-> instructions in the boot ROM.
-> 
-> This patches removes the CSR instructions from the reset-vec if the
-> extension isn't enabled. We replace the instruction with a NOP instead.
-> 
-> Note that we don't do this for the SiFive U machine, as we are modelling
-> the hardware in that case.
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1447
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
+AFAICT &audiodevs is for the CLI parsed backends, not all the backends
+linked within a binary. I probably need sugar / coffee and will revisit
+after lunch.
 
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-
->   hw/riscv/boot.c | 9 +++++++++
->   1 file changed, 9 insertions(+)
+> The idea of a query-audiodevs command is useful in general. When we
+> later gain support for hotplug/unplug of audio, the set of audiodevs
+> will no longer be guaranteed to match the original CLI args.
 > 
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 2594276223..cb27798a25 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -356,6 +356,15 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
->           reset_vec[4] = 0x0182b283;   /*     ld     t0, 24(t0) */
->       }
->   
-> +    if (!harts->harts[0].cfg.ext_icsr) {
-> +        /*
-> +         * The Zicsr extension has been disabled, so let's ensure we don't
-> +         * run the CSR instruction. Let's fill the address with a non
-> +         * compressed nop.
-> +         */
-> +        reset_vec[2] = 0x00000013;   /*     addi   x0, x0, 0 */
-> +    }
-> +
->       /* copy in the reset vector in little_endian byte order */
->       for (i = 0; i < ARRAY_SIZE(reset_vec); i++) {
->           reset_vec[i] = cpu_to_le32(reset_vec[i]);
+> With regards,
+> Daniel
+
 
