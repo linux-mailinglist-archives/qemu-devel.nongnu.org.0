@@ -2,78 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 987BB6775DF
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 08:57:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E09B36775F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 09:00:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJrhc-0004kb-JI; Mon, 23 Jan 2023 02:57:16 -0500
+	id 1pJrjv-0005US-Bi; Mon, 23 Jan 2023 02:59:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJrha-0004kC-0B
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:57:14 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJrjr-0005Tw-0I
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:59:35 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJrhY-00055n-Dv
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:57:13 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- fl11-20020a05600c0b8b00b003daf72fc844so9970823wmb.0
- for <qemu-devel@nongnu.org>; Sun, 22 Jan 2023 23:57:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJrjp-0005av-EF
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:59:34 -0500
+Received: by mail-wr1-x429.google.com with SMTP id b7so9942928wrt.3
+ for <qemu-devel@nongnu.org>; Sun, 22 Jan 2023 23:59:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=AfXD4vTovgSGpDyzIOIg4P0dJNGVqIx9/WnefyEzN3Y=;
- b=WhP9PTNuJPM2xLe+dUmx9EX/WFX1XfUC+ruBYb+a5YwyCgJBPWw8kn4sLBIBmuUsv/
- QSylx0UYrdJ06o5Pn1/oQ0TuzBU28t4Zf76ZHwYiHm02+AgOTMABRHq6PfFI65Ci4gwq
- gtWaa03FoesJmnozaXYkGJzwrfF5qSXT1j8lUZtlbWSpJh4dZgf+rXyyOzpAKZTjjbgZ
- LYYWifbksmsIZlf+WhU3MhHaUg2/4x3OWlJPcIbKpbfB5t19plsxRcznaxOHHvcDFMDW
- usaLp9YkMqxp4DBIEnk3eTajKDJJYxbVAKoJ3iUgj+Ss1Zekgx1gy3o9OReOzNXbPkPZ
- zszA==
+ bh=llL+2yPoNeriYESGtAdbjIlGQ/tTcsiJTrw1Wy1rHbc=;
+ b=PjH5SQFWnorwIkBkvnhUrdUvMmutKTmWkeyTO/PlBP9WO5J+QpToZBUz8gJPReaU2p
+ Elk9aVtaah6YzzrOJNxAH9zuan0qMHGFSAdAJ2S5W/bDP6mkuaTwECqt5Ja5GYJoyM+m
+ d1/puNG6dbeAE2YnvvCV0nCinrOcT6Xvc4mWblbiinSTlOorDF5j7oU5jfeTKO+AZO07
+ NDvNPGePwhfRiDBB8MJKiwKqPe7xkrmXVC5c02RbqR4UJ/saBcwaDh5gAfq9U2st06lU
+ eDcBIzeJahZ9N0SKiEDkCUuUDP1aQox19TjD7KsUMl/lcZdNDrmSqYuH0Xo7ItqSW6C0
+ g77g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=AfXD4vTovgSGpDyzIOIg4P0dJNGVqIx9/WnefyEzN3Y=;
- b=smckMW3qSnCq0B+M+IBP4gYL6VvAGGqdysXNCuUIf/fsNVx1oOtay5BoewcyxgpS67
- Gw9C68vXmXSgRTH6pbM0yBdFSsovWR0VfirrTfsGxjiFqGas9BdYtOnbrYMzIa1N11uf
- OopfAJUTS0L9aYhq/Z5+c4rpiMU6Oy+YBtOSmFD4GvnCZPjL1wFa7iqHbFSfEJvVfFer
- aTCJqXygV4CTGTlz62Z/9RCRhMgvhul5GNxIZVey4ajbYnh9XFpkaO6GVZf+9A8G/5Br
- ObrW8dBYC6Rx8aec1RbfRNpmDQByhcvSfTRttuELu9ss7bR468992u9877XvDE5FgpKg
- m9oQ==
-X-Gm-Message-State: AFqh2kpTJsh4E0kT4bugF+HdCEAOwSWtcCTUdXPJyrCmd3gexlJbQZWW
- NkiXjMWzdsc9+RsGwa25ItUULg==
-X-Google-Smtp-Source: AMrXdXtupeo9mPoGrLyMpUhCgfuwKFsJ4AqGas23agZpu1PV9aekdf2bsAwEAmIPB58o1SFt6OPk9A==
-X-Received: by 2002:a05:600c:2d0b:b0:3da:fcf0:a31d with SMTP id
- x11-20020a05600c2d0b00b003dafcf0a31dmr23060824wmf.22.1674460630780; 
- Sun, 22 Jan 2023 23:57:10 -0800 (PST)
+ bh=llL+2yPoNeriYESGtAdbjIlGQ/tTcsiJTrw1Wy1rHbc=;
+ b=4aBDe9bx1m1Kl54Yb9rMq2wJuMljmuLtqLNSysxMht0tqkoiBrbV4kwrfTQ5QoQl8e
+ yPGgwKZ6QUENtJzm3E9q5+NKA1FUnROP7f7e/ngz09lzlDYfwHAu70UvfXmwOh9DwlDK
+ O8e23+cXK2V/MZ9IVKSo+Y4BU3swfGzx5ujQvgUsv85RzH9766DlUJeWl2Mf7RsOvu15
+ ZOYAjd9HcmLmhZWMl6oRml/Ooi/xRRhbIVDy4SD51n860mqz68kxM5VzfpQjIPYfMgbw
+ v94QuCiYrIhzRGNTYlW+HNFFeiYXWz3lKIVeL5LWM/vt5vn7iadfSikOJp98um++vcPp
+ rpSw==
+X-Gm-Message-State: AFqh2kofXtEwwZM9SRHBrcR53Ge9s2xD7ecMLcihZQjDpEEgCO+plqwm
+ wRJabVZDGgxHFf4XXblzKEczCw==
+X-Google-Smtp-Source: AMrXdXs8S/3t16H9+Lq9JX151hxAtVs4CNhsgd/f3m1TCq+rTws6MDAIQuFxylkFzymgaSw/jHdQ+w==
+X-Received: by 2002:a5d:4289:0:b0:2bd:d7e5:82fd with SMTP id
+ k9-20020a5d4289000000b002bdd7e582fdmr15851761wrq.15.1674460772074; 
+ Sun, 22 Jan 2023 23:59:32 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- fm17-20020a05600c0c1100b003db06224953sm11744754wmb.41.2023.01.22.23.57.09
+ h9-20020a5d4fc9000000b002bbb2d43f65sm2448437wrw.14.2023.01.22.23.59.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 Jan 2023 23:57:10 -0800 (PST)
-Message-ID: <c38c9c94-b629-0cdd-acd9-ac800ff9da8d@linaro.org>
-Date: Mon, 23 Jan 2023 08:57:08 +0100
+ Sun, 22 Jan 2023 23:59:31 -0800 (PST)
+Message-ID: <a2720373-3012-e4c4-57e5-c585b34075b0@linaro.org>
+Date: Mon, 23 Jan 2023 08:59:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 3/7] hw/acpi/{ich9,piix4}: Resolve redundant io_base
- address attributes
+Subject: Re: [PATCH 6/7] hw/acpi: Trace GPE access in all device models, not
+ just PIIX4
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Eduardo Habkost <eduardo@habkost.net>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
 Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
  "Michael S. Tsirkin" <mst@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 References: <20230122170724.21868-1-shentey@gmail.com>
- <20230122170724.21868-4-shentey@gmail.com>
+ <20230122170724.21868-7-shentey@gmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230122170724.21868-4-shentey@gmail.com>
+In-Reply-To: <20230122170724.21868-7-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -96,63 +93,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Bernhard,
-
 On 22/1/23 18:07, Bernhard Beschow wrote:
-> A MemoryRegion has an addr attribute which gets set to the same values
-> as the redundant io_addr attributes.
-> 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   include/hw/acpi/ich9.h  |  1 -
->   include/hw/acpi/piix4.h |  2 --
->   hw/acpi/ich9.c          | 17 ++++++++---------
->   hw/acpi/piix4.c         | 11 ++++++-----
->   4 files changed, 14 insertions(+), 17 deletions(-)
+>   hw/acpi/core.c       | 5 +++++
+>   hw/acpi/piix4.c      | 3 ---
+>   hw/acpi/trace-events | 8 ++++----
+>   3 files changed, 9 insertions(+), 7 deletions(-)
 
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index 370b34eacf..2e9bc63fca 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -91,13 +91,14 @@ static void apm_ctrl_changed(uint32_t val, void *arg)
->   static void pm_io_space_update(PIIX4PMState *s)
->   {
->       PCIDevice *d = PCI_DEVICE(s);
-> +    uint32_t io_base;
->   
-> -    s->io_base = le32_to_cpu(*(uint32_t *)(d->config + 0x40));
-> -    s->io_base &= 0xffc0;
-> +    io_base = le32_to_cpu(*(uint32_t *)(d->config + 0x40));
-> +    io_base &= 0xffc0;
->   
->       memory_region_transaction_begin();
->       memory_region_set_enabled(&s->io, d->config[0x80] & 1);
-> -    memory_region_set_address(&s->io, s->io_base);
-> +    memory_region_set_address(&s->io, io_base);
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-OK for this part.
-
->       memory_region_transaction_commit();
->   }
->   
-> @@ -433,8 +434,8 @@ static void piix4_pm_add_properties(PIIX4PMState *s)
->                                     &s->ar.gpe.len, OBJ_PROP_FLAG_READ);
->       object_property_add_uint16_ptr(OBJECT(s), ACPI_PM_PROP_SCI_INT,
->                                     &sci_int, OBJ_PROP_FLAG_READ);
-> -    object_property_add_uint32_ptr(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
-> -                                  &s->io_base, OBJ_PROP_FLAG_READ);
-> +    object_property_add_uint64_ptr(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
-> +                                   &s->io.addr, OBJ_PROP_FLAG_READ);
-
-+Eduardo/Mark
-
-We shouldn't do that IMO, because we access an internal field from
-another QOM object.
-
-We can however alias the MR property:
-
-   object_property_add_alias(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
-                             OBJECT(&s->io), "addr");
-
->   }
 
