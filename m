@@ -2,50 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E68576788B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 21:53:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11FD0678908
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 22:02:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK3oF-00019V-RY; Mon, 23 Jan 2023 15:52:55 -0500
+	id 1pK3wA-0002ti-PF; Mon, 23 Jan 2023 16:01:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1pK3oD-000198-A8
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 15:52:53 -0500
-Received: from mail.weilnetz.de ([37.120.169.71]
- helo=mail.v2201612906741603.powersrv.de)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pK3w4-0002qK-27
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 16:01:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1pK3o8-0004qn-Tw
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 15:52:53 -0500
-Received: from [192.168.178.59] (p5b151831.dip0.t-ipconnect.de [91.21.24.49])
- (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
- key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
- (No client certificate requested)
- by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 75C1EDA0760;
- Mon, 23 Jan 2023 21:52:45 +0100 (CET)
-Message-ID: <607a5f89-b01b-5c72-dccd-c739a9d2bb7d@weilnetz.de>
-Date: Mon, 23 Jan 2023 21:52:45 +0100
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pK3w2-00064N-HY
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 16:00:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674507657;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=rs7AeJ9uSx4PLAXOKh6hhs9WNuPQ2imOYOZshvQwmwo=;
+ b=Uk9jjcAMSL3DoFUBwohIBDTQavbPj6+s+A2pnJ7dnxQUSE6EJEB+qZHGxvzPrJL0JtwTSn
+ O0ifsfW/V9pFnh8HiJON8j24sCZiy7jvLBvbbRnxZnjrzvHk98g4WIULCPoNvPUm41mSke
+ 329Qc01hm7T9soAX55uTlDAYKXgBzWQ=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-659-m0pJ4MgzNByiTcwHgOjmrw-1; Mon, 23 Jan 2023 16:00:56 -0500
+X-MC-Unique: m0pJ4MgzNByiTcwHgOjmrw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ fl5-20020a05600c0b8500b003db12112fdeso8108527wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 13:00:56 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rs7AeJ9uSx4PLAXOKh6hhs9WNuPQ2imOYOZshvQwmwo=;
+ b=cPQ3gxDcbGGKkpdPQ2dygovdRoWGLGrfO6HvaZ+cvfQtLd5Gu0lsdYtEIT3E6AZLxy
+ jXW7pcEdB5uDbBFVwnZx96XD5mSkgipFoVD9rivyUTfIX1hh57D9wyck0hIZ3NTNyyTf
+ 7REy+SSyUmzW7+mQe4Sp9av84VLW3JdZ69f30X2JgA9Uh+HdiF2VJwl+B2b4viq09cAT
+ v7F+h/3DX2uC/KBtiIBKuIjD7ngnVoXKlMUky9AxY525Gjr52QJ0KR+q8o56GaPfSnRY
+ Zj/nQtZgQUUxkYhE4LuhssZ+Pbd2Vau+YRXokyFQVNL0VHvueC3wpuvSPmOST9WFSMaf
+ n7Qw==
+X-Gm-Message-State: AFqh2krQ4OBcst+RALDB6C4+IUSmO/o2vF0/MiIbaOSO/vw0FVkYYPsY
+ 0hu/7Zh3kaaMErWxuzJXQV4xQjjPIhSBb0gESdITczTdZp8eYUh1DmOcRYzkTcRuCYB4K/PuZyt
+ phUAwUdzi+ddm3m4=
+X-Received: by 2002:adf:b604:0:b0:242:1809:7e17 with SMTP id
+ f4-20020adfb604000000b0024218097e17mr21959516wre.6.1674507655242; 
+ Mon, 23 Jan 2023 13:00:55 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtOYvo43hTWlnIVDTzAy+okaNJw0aUeT0IkROZZ7OhK0oNx1V1zTqjKpD+g/u/txWTMWWYQIg==
+X-Received: by 2002:adf:b604:0:b0:242:1809:7e17 with SMTP id
+ f4-20020adfb604000000b0024218097e17mr21959497wre.6.1674507654947; 
+ Mon, 23 Jan 2023 13:00:54 -0800 (PST)
+Received: from redhat.com ([2.52.149.29]) by smtp.gmail.com with ESMTPSA id
+ v20-20020adfa1d4000000b00241cfe6e286sm261230wrv.98.2023.01.23.13.00.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Jan 2023 13:00:54 -0800 (PST)
+Date: Mon, 23 Jan 2023 16:00:50 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Anton Kuchin <antonkuchin@yandex-team.ru>,
+ Stefan Hajnoczi <stefanha@gmail.com>, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, yc-core@yandex-team.ru
+Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
+Message-ID: <20230123155228-mutt-send-email-mst@kernel.org>
+References: <20230120085534-mutt-send-email-mst@kernel.org>
+ <703d527f-de92-090c-6ce1-af0dec7de033@yandex-team.ru>
+ <20230122030455-mutt-send-email-mst@kernel.org>
+ <b7de3adc-cba7-09eb-ea93-f4bfb91bea9e@yandex-team.ru>
+ <20230122093903-mutt-send-email-mst@kernel.org>
+ <70c0f00a-7828-3ccf-c2ea-49aeef8693e9@yandex-team.ru>
+ <20230122111618-mutt-send-email-mst@kernel.org>
+ <CAJSP0QXnKGrX3WuSJxe7pLctcueW1AkEc_KUsHGucaDq=VJZkg@mail.gmail.com>
+ <21b87a0d-99b1-2755-00de-d1201d85a63e@yandex-team.ru>
+ <Y87k0wBnHuf5Oktp@fedora>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-To: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>, qemu-devel@nongnu.org
-Cc: den@virtuozzo.com, yur@openvz.org, marcandre.lureau@gmail.com,
- mike.maslenkin@gmail.com
-References: <20221129173809.544174-1-andrey.drobyshev@virtuozzo.com>
- <20221129173809.544174-2-andrey.drobyshev@virtuozzo.com>
- <d5b918b7-dae3-3084-d0fa-310d8c26f43d@weilnetz.de>
- <1330af6e-ee4e-2e1f-f7ca-bcf0109de786@virtuozzo.com>
-Subject: Re: [PATCH v2 1/2] qga-win: add logging to Windows event log
-In-Reply-To: <1330af6e-ee4e-2e1f-f7ca-bcf0109de786@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
- helo=mail.v2201612906741603.powersrv.de
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.147,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y87k0wBnHuf5Oktp@fedora>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,109 +105,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Stefan Weil <sw@weilnetz.de>
-From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 23.01.23 um 20:38 schrieb Andrey Drobyshev:
+On Mon, Jan 23, 2023 at 02:49:39PM -0500, Stefan Hajnoczi wrote:
+> The point of the migration blocker is to prevent breaking running
+> guests. Situations where a migration completes but results in a broken
+> guest are problematic for users (especially when they are not logged in
+> to guests and able to fix them interactively).
 
-> Hi Stefan,
->
-> On 1/23/23 19:28, Stefan Weil wrote:
->> Hi,
->>
->> cross builds fail with this code. Please see details below.
->>
->> Am 29.11.22 um 18:38 schrieb Andrey Drobyshev via:
->>> This commit allows QGA to write to Windows event log using Win32 API's
->>> ReportEvent() [1], much like syslog() under *nix guests.
->>>
->>> In order to generate log message definitions we use a very basic message
->>> text file [2], so that every QGA's message gets ID 1.  The tools
->>> "windmc" and "windres" respectively are used to generate ".rc" file and
->>> COFF object file, and then the COFF file is linked into qemu-ga.exe.
->>>
->>> [1]
->>> https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-reporteventa
->>> [2]
->>> https://learn.microsoft.com/en-us/windows/win32/eventlog/message-text-files
->>>
->>> Originally-by: Yuri Pudgorodskiy <yur@virtuozzo.com>
->>> Signed-off-by: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
->>> ---
->>>    configure                 |  3 +++
->>>    qga/installer/qemu-ga.wxs |  5 +++++
->>>    qga/main.c                | 16 +++++++++++++---
->>>    qga/meson.build           | 19 ++++++++++++++++++-
->>>    qga/messages-win32.mc     |  9 +++++++++
->>>    5 files changed, 48 insertions(+), 4 deletions(-)
->>>    create mode 100644 qga/messages-win32.mc
->>>
->>> diff --git a/configure b/configure
->>> index 26c7bc5154..789a4f6cc9 100755
->>> --- a/configure
->>> +++ b/configure
->>> @@ -372,6 +372,7 @@ smbd="$SMBD"
->>>    strip="${STRIP-${cross_prefix}strip}"
->>>    widl="${WIDL-${cross_prefix}widl}"
->>>    windres="${WINDRES-${cross_prefix}windres}"
->>> +windmc="${WINDMC-${cross_prefix}windmc}"
->> Here the needed cross prefix is added ...
->>
->>>    pkg_config_exe="${PKG_CONFIG-${cross_prefix}pkg-config}"
->>>    query_pkg_config() {
->>>        "${pkg_config_exe}" ${QEMU_PKG_CONFIG_FLAGS} "$@"
->> [...]
->>> diff --git a/qga/meson.build b/qga/meson.build
->>> index 3cfb9166e5..1ff159edc1 100644
->>> --- a/qga/meson.build
->>> +++ b/qga/meson.build
->>> @@ -98,7 +98,24 @@ if targetos == 'windows'
->>>      endif
->>>    endif
->>>    -qga = executable('qemu-ga', qga_ss.sources(),
->>> +qga_objs = []
->>> +if targetos == 'windows'
->>> +  windmc = find_program('windmc', required: true)
->> ... but here the cross prefix is missing and the cross build aborts
->> because windmc does not exist.
-> There's no need for the cross prefix here.  After you've run ./configure
-> with --cross-prefix, argument, you'll see the following in
-> build/config-meson.cross file:
->
-> [binaries]
-> ....
-> widl = ['x86_64-w64-mingw32-widl']
-> windres = ['x86_64-w64-mingw32-windres']
-> windmc = ['x86_64-w64-mingw32-windmc']
->
-> And these are the actual values meson's find_program() is going to be
-> looking for.  So it doesn't seem like there's anything broken here, it's
-> a matter of build requirements.
+I thought it's the reverse - we block when we are sure it can't work.
+If we are not sure we should leave policy to orchestrators.
 
+You can always get into situations like this with stateful storage (as
+opposed to RO one).  For example, naively scp the backend file then
+start migration. Will seem to work but corrupts the disk (I didn't try,
+for sure with raw but what about qcow2?)
 
-My configure terminates with an error because of the missing windmc 
-before it has written config-meson.cross. I have run an incremental build:
+> If a command-line option is set to override the blocker, that's fine.
+> But there needs to be a blocker by default if external knowledge is
+> required to decide whether or not it's safe to migrate.
 
-Program windmc found: NO
+If all the command line says is "I want migration to work" then
+that's more like shifting the blame than helping users.
+They just learn this one weird trick and it seems to work
+until it doesn't.  Then we are like "we told you only to set this
+flag if you are sure" and they are like "well I was sure".
 
-../../../qga/meson.build:103:2: ERROR: Program 'windmc' not found or not 
-executable
-
-A full log can be found at 
-/qemu/bin/debug/x86_64-w64-mingw32/meson-logs/meson-log.txt
-ninja: error: rebuilding 'build.ninja': subcommand failed
-FAILED: build.ninja
-/usr/bin/python3 /qemu/meson/meson.py --internal regenerate /qemu 
-/home/stefan/src/gitlab/qemu-project/qemu/bin/debug/x86_64-w64-mingw32 
---backend ninja
-make: *** [Makefile:165: run-ninja] Fehler 1
-make: Verzeichnis „/qemu/bin/debug/x86_64-w64-mingw32“ wird verlassen
-
-A clean fresh build works indeed fine.
-
-Stefan
-
+-- 
+MST
 
 
