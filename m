@@ -2,73 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8E3B677CBE
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6032A677C99
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:36:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJx02-0006F2-F6; Mon, 23 Jan 2023 08:36:38 -0500
+	id 1pJwzz-0006AB-Vm; Mon, 23 Jan 2023 08:36:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwzW-0005vx-0L
+ id 1pJwzX-0005wD-Bc
  for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:14 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwzS-0002MF-VN
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:05 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- f19-20020a1c6a13000000b003db0ef4dedcso10605050wmc.4
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:36:01 -0800 (PST)
+ id 1pJwzT-0002MS-VO
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:06 -0500
+Received: by mail-wm1-x335.google.com with SMTP id q8so9011389wmo.5
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:36:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=6g1ePUTRmriS5gLoLUmsa+TXq6zNdDNdJGL0C/i+UZw=;
- b=gapkhKbB3ip3m2EWJSaRXMuGmifZOlxOyeicz9GJew4wRgNjcwkonC7mfxJzkXFNq8
- ZFE1ugLpxLbj2n9zBtqlatRhsqh5Gj/p7zkzFmk6kn97oSL2xxJ0aTUDjkwLhNKllaOd
- 2OASyKZk1jQfLQedxwbttCQeyzgwaz8Kb8q8haM7gnUUYCYbxLTb6Q9izmnN2EaW+ACO
- CBU5D1QcAcXS26MecWDSUl5VaFfK5xHf3FsE0X6z8jj2LjeU9zfC53KW478Z8oPQtCr6
- VAN4530AUsyxjYSAIubbRlXvpCfjNm3JspXRgnAkLgbEh05Pr0KrDGkpFQBLQPF9X1vc
- O4fw==
+ :reply-to; bh=w55BWEiCagDu8rhFOm3b8OsC2R7luqRvAnPZEXr+dRQ=;
+ b=qRn8xLe9R6b8GOWtOqQVwxcoPKV7XoJpE7FRmfruv6HkCNhRX/ThP7Wg3UxPQ4drmA
+ 9n56YgSYRfjOYoRs9yrxceOlEiCHdu0Om+/Ij2/lTBXsRmhWTltURDTlWgr3axfvB+x8
+ 5+iAIIrRM9bkpbcj8FMZqeI3HL8FItC+wpU7APLZYejY0HeIS9RkbbnGRz4+iGBj6gHM
+ bHaUJ/wVfaNaaUC6ljWnoBB//M//pU0cyB1fZc9TjbKglFmUieYp4lzCjw3QqCROC191
+ RNcczzHaxcUw5eHWz89PV3XWxAlDk3bxSXTsY//sGCDdHGG5wejodSDIlsS2G4U3QliC
+ 2A9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6g1ePUTRmriS5gLoLUmsa+TXq6zNdDNdJGL0C/i+UZw=;
- b=CiHtU4846GbbImg8CgkZNKK1Uc4peC1pYGiVQdbrHn3aDw/zJBpcx9bfQWm5OZl+A4
- 4eVqZFee05+FIHDJ3hU6kWUBIsp0qSn3SSyeDnjQzFa1zFWJ2n42Xd3DBc1BkYFA2EOD
- 8it02/NbcvEqppjMHK2nF/L90xxnVlWj7LQWepRaydXR0Xh+/wQ1td0lgwaScHpOnwOm
- 6VTF3Jl1RubnzjjF69tyI6zrim8xvNM/q9DK7OWnvN/DBuLgPQ+2Ww72DKal+11Ed72w
- afUywnr02ovFDc3asthzlSUfZ0SfAqKtNgm+Te5sXZzvmEcBjnyjMxzqcOhHj2nU37nu
- k/vQ==
-X-Gm-Message-State: AFqh2krfZQHTeyHaGiGRlTE2wOKMg48WNyTmMXnXotTu+IbXtKyd6nWf
- b+os830PzK7MLIMkcWqfvQ8O9D+00bNnTXCV
-X-Google-Smtp-Source: AMrXdXtAARE7+HlZjRCUffaBFb7K9jYXhSRQ5SX0ntGQ/Q+7MnN0oHXQiNDdyGrYwohc3k1VcnoTtQ==
-X-Received: by 2002:a05:600c:510d:b0:3da:f6ae:faa9 with SMTP id
- o13-20020a05600c510d00b003daf6aefaa9mr28700687wms.29.1674480960748; 
- Mon, 23 Jan 2023 05:36:00 -0800 (PST)
+ bh=w55BWEiCagDu8rhFOm3b8OsC2R7luqRvAnPZEXr+dRQ=;
+ b=PHfJ3i0w5M1Ul9jT6sTzD4r7MEwyRX8UMTmIwfNSkmIWkFquX5cu3QaLjBIegw6N5h
+ +AvOiO5BPaLfpspJXvUpfmHhJ9A8Nc6xvOGP+MH/37Rpt7btVAdFeLvBXz2M5MOaTphj
+ J1hMs/UXqUdFD4gsD8BjiqU5gT5kQySTQuqp0Dy3E0GFqfjj3lmU8YX6pN2KhanTrIZZ
+ rgQCWUBEjutSnZ3tRLlyI3Z6eOGKoOY2ALq52vumsiaurnrAWs3Q0G9OaJ64db4/QqBj
+ Z++9knfUhW8Tj8zLXb941sGprq48FSHK64VbLw6ygxutg6hMlyl1+Imkk2vbvMPyOpIE
+ boDA==
+X-Gm-Message-State: AFqh2koGUnzAxt2hic82UuQqcvHm/1wnqv6p61dQITxLm5WCkQyQJbQG
+ BEqptY0OGBzWyE3MC8NmKqaElK5XDeXhfmTL
+X-Google-Smtp-Source: AMrXdXuUUaqwxWOV3AaELSN+sM8DdrpsCSeVLeAhqyyT9QbjPXXtb+4PdO+d/8ZbgKqv7ftFgrI3Fw==
+X-Received: by 2002:a05:600c:354a:b0:3da:1f6a:7b36 with SMTP id
+ i10-20020a05600c354a00b003da1f6a7b36mr24330608wmq.0.1674480961489; 
+ Mon, 23 Jan 2023 05:36:01 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- d19-20020a05600c34d300b003a6125562e1sm10817457wmq.46.2023.01.23.05.35.59
+ d19-20020a05600c34d300b003a6125562e1sm10817457wmq.46.2023.01.23.05.36.00
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 05:36:00 -0800 (PST)
+ Mon, 23 Jan 2023 05:36:01 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 05/26] hw/i2c/bitbang_i2c: Change state calling
- bitbang_i2c_set_state() helper
-Date: Mon, 23 Jan 2023 13:35:32 +0000
-Message-Id: <20230123133553.2171158-6-peter.maydell@linaro.org>
+Subject: [PULL 06/26] hw/i2c/bitbang_i2c: Trace state changes
+Date: Mon, 23 Jan 2023 13:35:33 +0000
+Message-Id: <20230123133553.2171158-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230123133553.2171158-1-peter.maydell@linaro.org>
 References: <20230123133553.2171158-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,97 +91,114 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Trace bitbang state machine changes with trace events.
+
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Acked-by: Corey Minyard <cminyard@mvista.com>
-Message-id: 20230111085016.44551-4-philmd@linaro.org
+Message-id: 20230111085016.44551-5-philmd@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/i2c/bitbang_i2c.c | 23 +++++++++++++++--------
- 1 file changed, 15 insertions(+), 8 deletions(-)
+ hw/i2c/bitbang_i2c.c | 33 ++++++++++++++++++++++++++++-----
+ hw/i2c/trace-events  |  3 +++
+ 2 files changed, 31 insertions(+), 5 deletions(-)
 
 diff --git a/hw/i2c/bitbang_i2c.c b/hw/i2c/bitbang_i2c.c
-index e41cb63daa7..bf4b781393d 100644
+index bf4b781393d..efc49b7502f 100644
 --- a/hw/i2c/bitbang_i2c.c
 +++ b/hw/i2c/bitbang_i2c.c
-@@ -26,13 +26,19 @@ do { printf("bitbang_i2c: " fmt , ## __VA_ARGS__); } while (0)
+@@ -16,6 +16,7 @@
+ #include "hw/sysbus.h"
+ #include "qemu/module.h"
+ #include "qom/object.h"
++#include "trace.h"
+ 
+ //#define DEBUG_BITBANG_I2C
+ 
+@@ -26,15 +27,41 @@ do { printf("bitbang_i2c: " fmt , ## __VA_ARGS__); } while (0)
  #define DPRINTF(fmt, ...) do {} while(0)
  #endif
  
-+static void bitbang_i2c_set_state(bitbang_i2c_interface *i2c,
-+                                  bitbang_i2c_state state)
-+{
-+    i2c->state = state;
-+}
++/* bitbang_i2c_state enum to name */
++static const char * const sname[] = {
++#define NAME(e) [e] = stringify(e)
++    NAME(STOPPED),
++    [SENDING_BIT7] = "SENDING_BIT7 (START)",
++    NAME(SENDING_BIT6),
++    NAME(SENDING_BIT5),
++    NAME(SENDING_BIT4),
++    NAME(SENDING_BIT3),
++    NAME(SENDING_BIT2),
++    NAME(SENDING_BIT1),
++    NAME(SENDING_BIT0),
++    NAME(WAITING_FOR_ACK),
++    [RECEIVING_BIT7] = "RECEIVING_BIT7 (ACK)",
++    NAME(RECEIVING_BIT6),
++    NAME(RECEIVING_BIT5),
++    NAME(RECEIVING_BIT4),
++    NAME(RECEIVING_BIT3),
++    NAME(RECEIVING_BIT2),
++    NAME(RECEIVING_BIT1),
++    NAME(RECEIVING_BIT0),
++    NAME(SENDING_ACK),
++    NAME(SENT_NACK)
++#undef NAME
++};
 +
+ static void bitbang_i2c_set_state(bitbang_i2c_interface *i2c,
+                                   bitbang_i2c_state state)
+ {
++    trace_bitbang_i2c_state(sname[i2c->state], sname[state]);
+     i2c->state = state;
+ }
+ 
  static void bitbang_i2c_enter_stop(bitbang_i2c_interface *i2c)
  {
-     DPRINTF("STOP\n");
+-    DPRINTF("STOP\n");
      if (i2c->current_addr >= 0)
          i2c_end_transfer(i2c->bus);
      i2c->current_addr = -1;
--    i2c->state = STOPPED;
-+    bitbang_i2c_set_state(i2c, STOPPED);
- }
- 
- /* Set device data pin.  */
-@@ -69,7 +75,7 @@ int bitbang_i2c_set(bitbang_i2c_interface *i2c, int line, int level)
+@@ -73,7 +100,6 @@ int bitbang_i2c_set(bitbang_i2c_interface *i2c, int line, int level)
+             return bitbang_i2c_nop(i2c);
+         }
          if (level == 0) {
-             DPRINTF("START\n");
+-            DPRINTF("START\n");
              /* START condition.  */
--            i2c->state = SENDING_BIT7;
-+            bitbang_i2c_set_state(i2c, SENDING_BIT7);
+             bitbang_i2c_set_state(i2c, SENDING_BIT7);
              i2c->current_addr = -1;
-         } else {
-             /* STOP condition.  */
-@@ -96,7 +102,7 @@ int bitbang_i2c_set(bitbang_i2c_interface *i2c, int line, int level)
-     case SENDING_BIT7 ... SENDING_BIT0:
-         i2c->buffer = (i2c->buffer << 1) | data;
-         /* will end up in WAITING_FOR_ACK */
--        i2c->state++; 
-+        bitbang_i2c_set_state(i2c, i2c->state + 1);
-         return bitbang_i2c_ret(i2c, 1);
- 
-     case WAITING_FOR_ACK:
-@@ -117,13 +123,14 @@ int bitbang_i2c_set(bitbang_i2c_interface *i2c, int line, int level)
+@@ -122,7 +148,6 @@ int bitbang_i2c_set(bitbang_i2c_interface *i2c, int line, int level)
+             /* NACK (either addressing a nonexistent device, or the
               * device we were sending to decided to NACK us).
               */
-             DPRINTF("Got NACK\n");
-+            bitbang_i2c_set_state(i2c, SENT_NACK);
+-            DPRINTF("Got NACK\n");
+             bitbang_i2c_set_state(i2c, SENT_NACK);
              bitbang_i2c_enter_stop(i2c);
              return bitbang_i2c_ret(i2c, 1);
-         }
-         if (i2c->current_addr & 1) {
--            i2c->state = RECEIVING_BIT7;
-+            bitbang_i2c_set_state(i2c, RECEIVING_BIT7);
-         } else {
--            i2c->state = SENDING_BIT7;
-+            bitbang_i2c_set_state(i2c, SENDING_BIT7);
-         }
-         return bitbang_i2c_ret(i2c, 0);
-     }
-@@ -134,18 +141,18 @@ int bitbang_i2c_set(bitbang_i2c_interface *i2c, int line, int level)
-     case RECEIVING_BIT6 ... RECEIVING_BIT0:
-         data = i2c->buffer >> 7;
-         /* will end up in SENDING_ACK */
--        i2c->state++;
-+        bitbang_i2c_set_state(i2c, i2c->state + 1);
-         i2c->buffer <<= 1;
-         return bitbang_i2c_ret(i2c, data);
+@@ -147,11 +172,9 @@ int bitbang_i2c_set(bitbang_i2c_interface *i2c, int line, int level)
  
      case SENDING_ACK:
--        i2c->state = RECEIVING_BIT7;
          if (data != 0) {
-             DPRINTF("NACKED\n");
--            i2c->state = SENT_NACK;
-+            bitbang_i2c_set_state(i2c, SENT_NACK);
+-            DPRINTF("NACKED\n");
+             bitbang_i2c_set_state(i2c, SENT_NACK);
              i2c_nack(i2c->bus);
          } else {
-             DPRINTF("ACKED\n");
-+            bitbang_i2c_set_state(i2c, RECEIVING_BIT7);
+-            DPRINTF("ACKED\n");
+             bitbang_i2c_set_state(i2c, RECEIVING_BIT7);
          }
          return bitbang_i2c_ret(i2c, 1);
-     }
+diff --git a/hw/i2c/trace-events b/hw/i2c/trace-events
+index 52dbd53a234..48aee4887c4 100644
+--- a/hw/i2c/trace-events
++++ b/hw/i2c/trace-events
+@@ -1,5 +1,8 @@
+ # See docs/devel/tracing.rst for syntax documentation.
+ 
++# bitbang_i2c.c
++bitbang_i2c_state(const char *old_state, const char *new_state) "state %s -> %s"
++
+ # core.c
+ 
+ i2c_event(const char *event, uint8_t address) "%s(addr:0x%02x)"
 -- 
 2.34.1
 
