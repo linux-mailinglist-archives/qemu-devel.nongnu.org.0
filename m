@@ -2,44 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D68067875A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 21:15:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE5BD6787CA
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 21:29:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK3DO-00014a-5M; Mon, 23 Jan 2023 15:14:50 -0500
+	id 1pK3QI-00034O-AM; Mon, 23 Jan 2023 15:28:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pK3DM-00011b-3U
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 15:14:48 -0500
-Received: from rev.ng ([5.9.113.41])
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1pK3QF-00033Z-CU; Mon, 23 Jan 2023 15:28:07 -0500
+Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pK3DK-0007AK-Dv
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 15:14:47 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:
- To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=VLL73lb2utPNE3jIRkpN4EnH4IiSRUHAVh9bTMXesto=; b=JhDb/m/pKgcIFOZpZYBCsrfgKY
- 9B+WPa3eAolUZZIP96TrwHGiDx+gXilUH3w1qgClTfoassAcGOkJGdKOoReapaub9I8W3D85QWFoO
- ibLUhOpZJnyrLhVLkmIG8PVbd/iJ8I7bXu9mQSWT234DFmXWAaz40QlBeL/msyJcKtfI=;
-To: qemu-devel@nongnu.org
-Cc: ale@rev.ng,
-	kwolf@redhat.com,
-	hreitz@redhat.com
-Subject: [PATCH] block: Handle curl 7.55.0, 7.85.0 version changes
-Date: Mon, 23 Jan 2023 21:14:31 +0100
-Message-Id: <20230123201431.23118-1-anjo@rev.ng>
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1pK3QB-0000tW-Kx; Mon, 23 Jan 2023 15:28:07 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 810A761029;
+ Mon, 23 Jan 2023 20:27:59 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 314CEC433D2;
+ Mon, 23 Jan 2023 20:27:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1674505678;
+ bh=pTUgUj0rudWGkaabcAfieQ/Wga7zg1phd06XWWevQoM=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=h9/ou6rQLxZs2xz2xXYqaZL8Mntkl4pJr0XJQKOZzCZPIxqThKJ0UYYvZ85/q81t3
+ FWjkk9Ft2XS8XUUtwxKzfiZv2OCmnHmuSa4SIBwJNKV1215HDInSy2ArCAWwNynMKh
+ OnniTykvy8zaApiSjg0cp8Ibdx8yUYj5NdHo3vDsREx9qeH9M9Riie8woOdWt5/m44
+ x0bpREPgLQ0+BfrgQKzg8QEEGeGnHxXbJ7YnDvvL40/SLuHKe0vd9diHXFtwGTzOnk
+ WZitmV1KIW57SDM+qt2WSFKvBv8tw0pOqPz7t3+JPFuHEOrEwEuE4LGGkzXp1hPaUe
+ tRVJwKt8Vd/4Q==
+Date: Mon, 23 Jan 2023 12:27:55 -0800 (PST)
+From: Stefano Stabellini <sstabellini@kernel.org>
+X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
+To: Chuck Zmudzinski <brchuckz@aol.com>
+cc: qemu-devel@nongnu.org, Stefano Stabellini <sstabellini@kernel.org>, 
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, 
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Eduardo Habkost <eduardo@habkost.net>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Igor Mammedov <imammedo@redhat.com>, xen-devel@lists.xenproject.org, 
+ qemu-stable@nongnu.org
+Subject: Re: [PATCH v11] xen/pt: reserve PCI slot 2 for Intel igd-passthru
+In-Reply-To: <b1b4a21fe9a600b1322742dda55a40e9961daa57.1674346505.git.brchuckz@aol.com>
+Message-ID: <alpine.DEB.2.22.394.2301231227430.1978264@ubuntu-linux-20-04-desktop>
+References: <b1b4a21fe9a600b1322742dda55a40e9961daa57.1674346505.git.brchuckz.ref@aol.com>
+ <b1b4a21fe9a600b1322742dda55a40e9961daa57.1674346505.git.brchuckz@aol.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=2604:1380:4641:c500::1;
+ envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -53,119 +75,422 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Anton Johansson <anjo@rev.ng>
-From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* 7.55.0 deprecates CURLINFO_CONTENT_LENGTH_DOWNLOAD in favour of a *_T
-  version, which returns curl_off_t instead of a double.
-* 7.85.0 deprecates CURLOPT_PROTOCOLS and CURLOPT_REDIR_PROTOCOLS in
-  favour of *_STR variants, specifying the desired protocols via a
-  string.
+On Sat, 21 Jan 2023, Chuck Zmudzinski wrote:
+> Intel specifies that the Intel IGD must occupy slot 2 on the PCI bus,
+> as noted in docs/igd-assign.txt in the Qemu source code.
+> 
+> Currently, when the xl toolstack is used to configure a Xen HVM guest with
+> Intel IGD passthrough to the guest with the Qemu upstream device model,
+> a Qemu emulated PCI device will occupy slot 2 and the Intel IGD will occupy
+> a different slot. This problem often prevents the guest from booting.
+> 
+> The only available workarounds are not good: Configure Xen HVM guests to
+> use the old and no longer maintained Qemu traditional device model
+> available from xenbits.xen.org which does reserve slot 2 for the Intel
+> IGD or use the "pc" machine type instead of the "xenfv" machine type and
+> add the xen platform device at slot 3 using a command line option
+> instead of patching qemu to fix the "xenfv" machine type directly. The
+> second workaround causes some degredation in startup performance such as
+> a longer boot time and reduced resolution of the grub menu that is
+> displayed on the monitor. This patch avoids that reduced startup
+> performance when using the Qemu upstream device model for Xen HVM guests
+> configured with the igd-passthru=on option.
+> 
+> To implement this feature in the Qemu upstream device model for Xen HVM
+> guests, introduce the following new functions, types, and macros:
+> 
+> * XEN_PT_DEVICE_CLASS declaration, based on the existing TYPE_XEN_PT_DEVICE
+> * XEN_PT_DEVICE_GET_CLASS macro helper function for XEN_PT_DEVICE_CLASS
+> * typedef XenPTQdevRealize function pointer
+> * XEN_PCI_IGD_SLOT_MASK, the value of slot_reserved_mask to reserve slot 2
+> * xen_igd_reserve_slot and xen_igd_clear_slot functions
+> 
+> Michael Tsirkin:
+> * Introduce XEN_PCI_IGD_DOMAIN, XEN_PCI_IGD_BUS, XEN_PCI_IGD_DEV, and
+>   XEN_PCI_IGD_FN - use them to compute the value of XEN_PCI_IGD_SLOT_MASK
+> 
+> The new xen_igd_reserve_slot function uses the existing slot_reserved_mask
+> member of PCIBus to reserve PCI slot 2 for Xen HVM guests configured using
+> the xl toolstack with the gfx_passthru option enabled, which sets the
+> igd-passthru=on option to Qemu for the Xen HVM machine type.
+> 
+> The new xen_igd_reserve_slot function also needs to be implemented in
+> hw/xen/xen_pt_stub.c to prevent FTBFS during the link stage for the case
+> when Qemu is configured with --enable-xen and --disable-xen-pci-passthrough,
+> in which case it does nothing.
+> 
+> The new xen_igd_clear_slot function overrides qdev->realize of the parent
+> PCI device class to enable the Intel IGD to occupy slot 2 on the PCI bus
+> since slot 2 was reserved by xen_igd_reserve_slot when the PCI bus was
+> created in hw/i386/pc_piix.c for the case when igd-passthru=on.
+> 
+> Move the call to xen_host_pci_device_get, and the associated error
+> handling, from xen_pt_realize to the new xen_igd_clear_slot function to
+> initialize the device class and vendor values which enables the checks for
+> the Intel IGD to succeed. The verification that the host device is an
+> Intel IGD to be passed through is done by checking the domain, bus, slot,
+> and function values as well as by checking that gfx_passthru is enabled,
+> the device class is VGA, and the device vendor in Intel.
+> 
+> Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+> ---
+> Notes that might be helpful to reviewers of patched code in hw/xen:
+> 
+> The new functions and types are based on recommendations from Qemu docs:
+> https://qemu.readthedocs.io/en/latest/devel/qom.html
+> 
+> Notes that might be helpful to reviewers of patched code in hw/i386:
+> 
+> The small patch to hw/i386/pc_piix.c is protected by CONFIG_XEN so it does
+> not affect builds that do not have CONFIG_XEN defined.
+> 
+> xen_igd_gfx_pt_enabled() in the patched hw/i386/pc_piix.c file is an
+> existing function that is only true when Qemu is built with
+> xen-pci-passthrough enabled and the administrator has configured the Xen
+> HVM guest with Qemu's igd-passthru=on option.
+> 
+> v2: Remove From: <email address> tag at top of commit message
+> 
+> v3: Changed the test for the Intel IGD in xen_igd_clear_slot:
+> 
+>     if (is_igd_vga_passthrough(&s->real_device) &&
+>         (s->real_device.vendor_id == PCI_VENDOR_ID_INTEL)) {
+> 
+>     is changed to
+> 
+>     if (xen_igd_gfx_pt_enabled() && (s->hostaddr.slot == 2)
+>         && (s->hostaddr.function == 0)) {
+> 
+>     I hoped that I could use the test in v2, since it matches the
+>     other tests for the Intel IGD in Qemu and Xen, but those tests
+>     do not work because the necessary data structures are not set with
+>     their values yet. So instead use the test that the administrator
+>     has enabled gfx_passthru and the device address on the host is
+>     02.0. This test does detect the Intel IGD correctly.
+> 
+> v4: Use brchuckz@aol.com instead of brchuckz@netscape.net for the author's
+>     email address to match the address used by the same author in commits
+>     be9c61da and c0e86b76
+>     
+>     Change variable for XEN_PT_DEVICE_CLASS: xptc changed to xpdc
+> 
+> v5: The patch of xen_pt.c was re-worked to allow a more consistent test
+>     for the Intel IGD that uses the same criteria as in other places.
+>     This involved moving the call to xen_host_pci_device_get from
+>     xen_pt_realize to xen_igd_clear_slot and updating the checks for the
+>     Intel IGD in xen_igd_clear_slot:
+>     
+>     if (xen_igd_gfx_pt_enabled() && (s->hostaddr.slot == 2)
+>         && (s->hostaddr.function == 0)) {
+> 
+>     is changed to
+> 
+>     if (is_igd_vga_passthrough(&s->real_device) &&
+>         s->real_device.domain == 0 && s->real_device.bus == 0 &&
+>         s->real_device.dev == 2 && s->real_device.func == 0 &&
+>         s->real_device.vendor_id == PCI_VENDOR_ID_INTEL) {
+> 
+>     Added an explanation for the move of xen_host_pci_device_get from
+>     xen_pt_realize to xen_igd_clear_slot to the commit message.
+> 
+>     Rebase.
+> 
+> v6: Fix logging by removing these lines from the move from xen_pt_realize
+>     to xen_igd_clear_slot that was done in v5:
+> 
+>     XEN_PT_LOG(d, "Assigning real physical device %02x:%02x.%d"
+>                " to devfn 0x%x\n",
+>                s->hostaddr.bus, s->hostaddr.slot, s->hostaddr.function,
+>                s->dev.devfn);
+> 
+>     This log needs to be in xen_pt_realize because s->dev.devfn is not
+>     set yet in xen_igd_clear_slot.
+> 
+> v7: The v7 that was posted to the mailing list was incorrect. v8 is what
+>     v7 was intended to be.
+> 
+> v8: Inhibit out of context log message and needless processing by
+>     adding 2 lines at the top of the new xen_igd_clear_slot function:
+> 
+>     if (!(pci_bus->slot_reserved_mask & XEN_PCI_IGD_SLOT_MASK))
+>         return;
+> 
+>     Rebase. This removed an unnecessary header file from xen_pt.h 
+> 
+> v9: Move check for xen_igd_gfx_pt_enabled() from pc_piix.c to xen_pt.c
+> 
+>     Move #include "hw/pci/pci_bus.h" from xen_pt.h to xen_pt.c
+> 
+>     Introduce macros for the IGD devfn constants and use them to compute
+>     the value of XEN_PCI_IGD_SLOT_MASK
+> 
+>     Also use the new macros at an appropriate place in xen_pt_realize
+> 
+>     Add Cc: to stable - This has been broken for a long time, ever since
+>                         support for igd-passthru was added to Qemu 7
+>                         years ago.
+> 
+>     Mention new macros in the commit message (Michael Tsirkin)
+> 
+>     N.B.: I could not follow the suggestion to move the statement
+>     pci_bus->slot_reserved_mask &= ~XEN_PCI_IGD_SLOT_MASK; to after
+>     pci_qdev_realize for symmetry. Doing that results in an error when
+>     creating the guest:
+>     
+>     libxl: error: libxl_qmp.c:1837:qmp_ev_parse_error_messages: Domain 4:PCI: slot 2 function 0 not available for xen-pci-passthrough, reserved
+>     libxl: error: libxl_pci.c:1809:device_pci_add_done: Domain 4:libxl__device_pci_add failed for PCI device 0:0:2.0 (rc -28)
+>     libxl: error: libxl_create.c:1921:domcreate_attach_devices: Domain 4:unable to add pci devices
+> 
+> v10: Change in xen_pt.c at xen_igd_clear_slot from
+> 
+>     if (!(pci_bus->slot_reserved_mask & XEN_PCI_IGD_SLOT_MASK))
+>         return;
+> 
+>     xen_host_pci_device_get(&s->real_device,
+>                             s->hostaddr.domain, s->hostaddr.bus,
+>                             s->hostaddr.slot, s->hostaddr.function,
+>                             errp);
+>     if (*errp) {
+>         error_append_hint(errp, "Failed to \"open\" the real pci device");
+>         return;
+>     }
+> 
+> to:
+> 
+>     xen_host_pci_device_get(&s->real_device,
+>                             s->hostaddr.domain, s->hostaddr.bus,
+>                             s->hostaddr.slot, s->hostaddr.function,
+>                             errp);
+>     if (*errp) {
+>         error_append_hint(errp, "Failed to \"open\" the real pci device");
+>         return;
+>     }
+> 
+>     if (!(pci_bus->slot_reserved_mask & XEN_PCI_IGD_SLOT_MASK)) {
+>         xpdc->pci_qdev_realize(qdev, errp);
+>         return;
+>     }
+> 
+>      Testing shows this fixes the problem of xen_host_pci_device_get
+>      and xpdc->pci_qdev_realize not being called if xen_igd_clear_slot
+>      returns because the bit to reserve slot 2 in slot_reserved_mask is
+>      not set. Without this change, guest creation fails in the cases
+>      when the bit to reserve slot 2 in slot_reserved_mask is not set.
+>      Thanks, Stefano!
+>      
+>      Also, in addition to mentioning the workaround of using the
+>      traditional qemu device model available from xenbits.xen.org in the
+>      commit message, also mention in the commit message the workaround
+>      of using the "pc" machine type instead of the "xenfv" machine type,
+>      which results in reduced startup performance.
+>      
+>      Rebase.
+>      
+>      Add Igor Mammedov <imammedo@redhat.com> to Cc.
+> 
+> v11: I noticed a style mistake that has been present in the past few
+>      versions that no one noticed. This version fixes it. No
+>      functional change in v11. I also did more tests on different guests
+>      such as guests that don't have igd-passthru=on set. No regressions
+>      were observed.
+>      
+>      The style mistake (missing braces) is fixed as follows:
+> 
+> xen_pt.c at xen_igd_reserve_slot is changed from
+> 
+>     if (!xen_igd_gfx_pt_enabled())
+>         return;
+> 
+> to
+> 
+>     if (!xen_igd_gfx_pt_enabled()) {
+>         return;
+>     }
+> 
+>  hw/i386/pc_piix.c    |  1 +
+>  hw/xen/xen_pt.c      | 64 ++++++++++++++++++++++++++++++++++++--------
+>  hw/xen/xen_pt.h      | 20 ++++++++++++++
+>  hw/xen/xen_pt_stub.c |  4 +++
+>  4 files changed, 78 insertions(+), 11 deletions(-)
 
-Signed-off-by: Anton Johansson <anjo@rev.ng>
----
- block/curl.c | 44 +++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 37 insertions(+), 7 deletions(-)
+Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
 
-diff --git a/block/curl.c b/block/curl.c
-index cba4c4cac7..0b125095e3 100644
---- a/block/curl.c
-+++ b/block/curl.c
-@@ -37,8 +37,15 @@
- 
- // #define DEBUG_VERBOSE
- 
-+/* CURL 7.85.0 switches to a string based API for specifying
-+ * the desired protocols.
-+ */
-+#if LIBCURL_VERSION_NUM >= 0x075500
-+#define PROTOCOLS "HTTP,HTTPS,FTP,FTPS"
-+#else
- #define PROTOCOLS (CURLPROTO_HTTP | CURLPROTO_HTTPS | \
-                    CURLPROTO_FTP | CURLPROTO_FTPS)
-+#endif
- 
- #define CURL_NUM_STATES 8
- #define CURL_NUM_ACB    8
-@@ -509,9 +516,18 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
-          * obscure protocols.  For example, do not allow POP3/SMTP/IMAP see
-          * CVE-2013-0249.
-          *
--         * Restricting protocols is only supported from 7.19.4 upwards.
-+         * Restricting protocols is only supported from 7.19.4 upwards. Note:
-+         * version 7.85.0 deprecates CURLOPT_*PROTOCOLS in favour of a string
-+         * based CURLOPT_*PROTOCOLS_STR API.
-          */
--#if LIBCURL_VERSION_NUM >= 0x071304
-+#if LIBCURL_VERSION_NUM >= 0x075500
-+        if (curl_easy_setopt(state->curl,
-+                             CURLOPT_PROTOCOLS_STR, PROTOCOLS) ||
-+            curl_easy_setopt(state->curl,
-+                             CURLOPT_REDIR_PROTOCOLS_STR, PROTOCOLS)) {
-+            goto err;
-+        }
-+#elif LIBCURL_VERSION_NUM >= 0x071304
-         if (curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS) ||
-             curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS)) {
-             goto err;
-@@ -669,7 +685,12 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
-     const char *file;
-     const char *cookie;
-     const char *cookie_secret;
--    double d;
-+    /* CURL >= 7.55.0 uses curl_off_t for content length instead of a double */
-+#if LIBCURL_VERSION_NUM >= 0x073700
-+    curl_off_t cl;
-+#else
-+    double cl;
-+#endif
-     const char *secretid;
-     const char *protocol_delimiter;
-     int ret;
-@@ -796,27 +817,36 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
-     }
-     if (curl_easy_perform(state->curl))
-         goto out;
--    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &d)) {
-+    /* CURL 7.55.0 deprecates CURLINFO_CONTENT_LENGTH_DOWNLOAD in favour of
-+     * the *_T version which returns a more sensible type for content length.
-+     */
-+#if LIBCURL_VERSION_NUM >= 0x073700
-+    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &cl)) {
-+        goto out;
-+    }
-+#else
-+    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &cl)) {
-         goto out;
-     }
-+#endif
-     /* Prior CURL 7.19.4 return value of 0 could mean that the file size is not
-      * know or the size is zero. From 7.19.4 CURL returns -1 if size is not
-      * known and zero if it is really zero-length file. */
- #if LIBCURL_VERSION_NUM >= 0x071304
--    if (d < 0) {
-+    if (cl < 0) {
-         pstrcpy(state->errmsg, CURL_ERROR_SIZE,
-                 "Server didn't report file size.");
-         goto out;
-     }
- #else
--    if (d <= 0) {
-+    if (cl <= 0) {
-         pstrcpy(state->errmsg, CURL_ERROR_SIZE,
-                 "Unknown file size or zero-length file.");
-         goto out;
-     }
- #endif
- 
--    s->len = d;
-+    s->len = cl;
- 
-     if ((!strncasecmp(s->url, "http://", strlen("http://"))
-         || !strncasecmp(s->url, "https://", strlen("https://")))
--- 
-2.39.0
 
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index df64dd8dcc..a9d535c815 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -421,6 +421,7 @@ static void pc_xen_hvm_init(MachineState *machine)
+>      }
+>  
+>      pc_xen_hvm_init_pci(machine);
+> +    xen_igd_reserve_slot(pcms->bus);
+>      pci_create_simple(pcms->bus, -1, "xen-platform");
+>  }
+>  #endif
+> diff --git a/hw/xen/xen_pt.c b/hw/xen/xen_pt.c
+> index 8db0532632..85c93cffcf 100644
+> --- a/hw/xen/xen_pt.c
+> +++ b/hw/xen/xen_pt.c
+> @@ -57,6 +57,7 @@
+>  #include <sys/ioctl.h>
+>  
+>  #include "hw/pci/pci.h"
+> +#include "hw/pci/pci_bus.h"
+>  #include "hw/qdev-properties.h"
+>  #include "hw/qdev-properties-system.h"
+>  #include "hw/xen/xen.h"
+> @@ -780,15 +781,6 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
+>                 s->hostaddr.bus, s->hostaddr.slot, s->hostaddr.function,
+>                 s->dev.devfn);
+>  
+> -    xen_host_pci_device_get(&s->real_device,
+> -                            s->hostaddr.domain, s->hostaddr.bus,
+> -                            s->hostaddr.slot, s->hostaddr.function,
+> -                            errp);
+> -    if (*errp) {
+> -        error_append_hint(errp, "Failed to \"open\" the real pci device");
+> -        return;
+> -    }
+> -
+>      s->is_virtfn = s->real_device.is_virtfn;
+>      if (s->is_virtfn) {
+>          XEN_PT_LOG(d, "%04x:%02x:%02x.%d is a SR-IOV Virtual Function\n",
+> @@ -803,8 +795,10 @@ static void xen_pt_realize(PCIDevice *d, Error **errp)
+>      s->io_listener = xen_pt_io_listener;
+>  
+>      /* Setup VGA bios for passthrough GFX */
+> -    if ((s->real_device.domain == 0) && (s->real_device.bus == 0) &&
+> -        (s->real_device.dev == 2) && (s->real_device.func == 0)) {
+> +    if ((s->real_device.domain == XEN_PCI_IGD_DOMAIN) &&
+> +        (s->real_device.bus == XEN_PCI_IGD_BUS) &&
+> +        (s->real_device.dev == XEN_PCI_IGD_DEV) &&
+> +        (s->real_device.func == XEN_PCI_IGD_FN)) {
+>          if (!is_igd_vga_passthrough(&s->real_device)) {
+>              error_setg(errp, "Need to enable igd-passthru if you're trying"
+>                      " to passthrough IGD GFX");
+> @@ -950,11 +944,58 @@ static void xen_pci_passthrough_instance_init(Object *obj)
+>      PCI_DEVICE(obj)->cap_present |= QEMU_PCI_CAP_EXPRESS;
+>  }
+>  
+> +void xen_igd_reserve_slot(PCIBus *pci_bus)
+> +{
+> +    if (!xen_igd_gfx_pt_enabled()) {
+> +        return;
+> +    }
+> +
+> +    XEN_PT_LOG(0, "Reserving PCI slot 2 for IGD\n");
+> +    pci_bus->slot_reserved_mask |= XEN_PCI_IGD_SLOT_MASK;
+> +}
+> +
+> +static void xen_igd_clear_slot(DeviceState *qdev, Error **errp)
+> +{
+> +    ERRP_GUARD();
+> +    PCIDevice *pci_dev = (PCIDevice *)qdev;
+> +    XenPCIPassthroughState *s = XEN_PT_DEVICE(pci_dev);
+> +    XenPTDeviceClass *xpdc = XEN_PT_DEVICE_GET_CLASS(s);
+> +    PCIBus *pci_bus = pci_get_bus(pci_dev);
+> +
+> +    xen_host_pci_device_get(&s->real_device,
+> +                            s->hostaddr.domain, s->hostaddr.bus,
+> +                            s->hostaddr.slot, s->hostaddr.function,
+> +                            errp);
+> +    if (*errp) {
+> +        error_append_hint(errp, "Failed to \"open\" the real pci device");
+> +        return;
+> +    }
+> +
+> +    if (!(pci_bus->slot_reserved_mask & XEN_PCI_IGD_SLOT_MASK)) {
+> +        xpdc->pci_qdev_realize(qdev, errp);
+> +        return;
+> +    }
+> +
+> +    if (is_igd_vga_passthrough(&s->real_device) &&
+> +        s->real_device.domain == XEN_PCI_IGD_DOMAIN &&
+> +        s->real_device.bus == XEN_PCI_IGD_BUS &&
+> +        s->real_device.dev == XEN_PCI_IGD_DEV &&
+> +        s->real_device.func == XEN_PCI_IGD_FN &&
+> +        s->real_device.vendor_id == PCI_VENDOR_ID_INTEL) {
+> +        pci_bus->slot_reserved_mask &= ~XEN_PCI_IGD_SLOT_MASK;
+> +        XEN_PT_LOG(pci_dev, "Intel IGD found, using slot 2\n");
+> +    }
+> +    xpdc->pci_qdev_realize(qdev, errp);
+> +}
+> +
+>  static void xen_pci_passthrough_class_init(ObjectClass *klass, void *data)
+>  {
+>      DeviceClass *dc = DEVICE_CLASS(klass);
+>      PCIDeviceClass *k = PCI_DEVICE_CLASS(klass);
+>  
+> +    XenPTDeviceClass *xpdc = XEN_PT_DEVICE_CLASS(klass);
+> +    xpdc->pci_qdev_realize = dc->realize;
+> +    dc->realize = xen_igd_clear_slot;
+>      k->realize = xen_pt_realize;
+>      k->exit = xen_pt_unregister_device;
+>      k->config_read = xen_pt_pci_read_config;
+> @@ -977,6 +1018,7 @@ static const TypeInfo xen_pci_passthrough_info = {
+>      .instance_size = sizeof(XenPCIPassthroughState),
+>      .instance_finalize = xen_pci_passthrough_finalize,
+>      .class_init = xen_pci_passthrough_class_init,
+> +    .class_size = sizeof(XenPTDeviceClass),
+>      .instance_init = xen_pci_passthrough_instance_init,
+>      .interfaces = (InterfaceInfo[]) {
+>          { INTERFACE_CONVENTIONAL_PCI_DEVICE },
+> diff --git a/hw/xen/xen_pt.h b/hw/xen/xen_pt.h
+> index cf10fc7bbf..e184699740 100644
+> --- a/hw/xen/xen_pt.h
+> +++ b/hw/xen/xen_pt.h
+> @@ -40,7 +40,20 @@ typedef struct XenPTReg XenPTReg;
+>  #define TYPE_XEN_PT_DEVICE "xen-pci-passthrough"
+>  OBJECT_DECLARE_SIMPLE_TYPE(XenPCIPassthroughState, XEN_PT_DEVICE)
+>  
+> +#define XEN_PT_DEVICE_CLASS(klass) \
+> +    OBJECT_CLASS_CHECK(XenPTDeviceClass, klass, TYPE_XEN_PT_DEVICE)
+> +#define XEN_PT_DEVICE_GET_CLASS(obj) \
+> +    OBJECT_GET_CLASS(XenPTDeviceClass, obj, TYPE_XEN_PT_DEVICE)
+> +
+> +typedef void (*XenPTQdevRealize)(DeviceState *qdev, Error **errp);
+> +
+> +typedef struct XenPTDeviceClass {
+> +    PCIDeviceClass parent_class;
+> +    XenPTQdevRealize pci_qdev_realize;
+> +} XenPTDeviceClass;
+> +
+>  uint32_t igd_read_opregion(XenPCIPassthroughState *s);
+> +void xen_igd_reserve_slot(PCIBus *pci_bus);
+>  void igd_write_opregion(XenPCIPassthroughState *s, uint32_t val);
+>  void xen_igd_passthrough_isa_bridge_create(XenPCIPassthroughState *s,
+>                                             XenHostPCIDevice *dev);
+> @@ -75,6 +88,13 @@ typedef int (*xen_pt_conf_byte_read)
+>  
+>  #define XEN_PCI_INTEL_OPREGION 0xfc
+>  
+> +#define XEN_PCI_IGD_DOMAIN 0
+> +#define XEN_PCI_IGD_BUS 0
+> +#define XEN_PCI_IGD_DEV 2
+> +#define XEN_PCI_IGD_FN 0
+> +#define XEN_PCI_IGD_SLOT_MASK \
+> +    (1UL << PCI_SLOT(PCI_DEVFN(XEN_PCI_IGD_DEV, XEN_PCI_IGD_FN)))
+> +
+>  typedef enum {
+>      XEN_PT_GRP_TYPE_HARDWIRED = 0,  /* 0 Hardwired reg group */
+>      XEN_PT_GRP_TYPE_EMU,            /* emul reg group */
+> diff --git a/hw/xen/xen_pt_stub.c b/hw/xen/xen_pt_stub.c
+> index 2d8cac8d54..5c108446a8 100644
+> --- a/hw/xen/xen_pt_stub.c
+> +++ b/hw/xen/xen_pt_stub.c
+> @@ -20,3 +20,7 @@ void xen_igd_gfx_pt_set(bool value, Error **errp)
+>          error_setg(errp, "Xen PCI passthrough support not built in");
+>      }
+>  }
+> +
+> +void xen_igd_reserve_slot(PCIBus *pci_bus)
+> +{
+> +}
+> -- 
+> 2.39.0
+> 
 
