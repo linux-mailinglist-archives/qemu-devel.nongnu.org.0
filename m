@@ -2,89 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E91386779B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 12:00:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 568D56779BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 12:00:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJuXz-0000Gp-HQ; Mon, 23 Jan 2023 05:59:31 -0500
+	id 1pJuYa-0000xJ-Kt; Mon, 23 Jan 2023 06:00:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pJuXr-0000FQ-Fs
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 05:59:24 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pJuYX-0000uq-5T
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 06:00:05 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pJuXp-0006U0-OM
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 05:59:22 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pJuYV-0006a6-6p
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 06:00:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674471561;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=myTxCe5PucInwvFDihFM6lx/CJUs8oHXuHxOxQX6gcI=;
- b=MvF5n+GgqvlUk1T39HOkUM0kVNrrCbulEbhylpoEClJ0b5r8X067C8GTHdLneq+TyUV82F
- a9JdewweaY5faupkMx60Xk9RLMZ5HPvq5crj8gCEKhzh8iesKMwaR0b6oATOjLKcZsvKk1
- xcQ2/cBSS26GBq2uDeGIpBAEnIShUf8=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-91-F6xp2dX0OhO3gA0ZPqSduw-1; Mon, 23 Jan 2023 05:59:19 -0500
-X-MC-Unique: F6xp2dX0OhO3gA0ZPqSduw-1
-Received: by mail-wr1-f71.google.com with SMTP id
- h21-20020adfaa95000000b002be47d1d79cso1813799wrc.5
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 02:59:19 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=myTxCe5PucInwvFDihFM6lx/CJUs8oHXuHxOxQX6gcI=;
- b=wpgYohUoHcJmLonNWL/MXDdUvy6uQsYjgFD8KJXF9kT1kmicUybM1WF3tu77B9783y
- QLIY3SLcSbCkMqH0H9G7AJym5tdfMzoEb3lu6yrqqSKcnxTj9ElEE8fM2JBmfjYbzhiP
- Is7xHQJoiATvxor6v+B/FK0UtMKwupBdM1A/nVG1EX8SNSqE+WMJdmNJIGPhw5AGM28o
- Udt45fDVS5cfbsfi9mfAiqXAB3CHIIY4iezROdalpa7hbrcXnj7dN+HCjpciLbt1HIwg
- Kc7AhWA/EYhFUQEvpkm71w/LRfIc7irGrxOUGVXdeM7G3rJzLWWHxZaVRSOGYv3oJd9q
- LalA==
-X-Gm-Message-State: AFqh2kqh2w4B/fombNtYOZ5oj8UbZJiCV81RqtFZNaGIqhvfGWellMlu
- zz+NI4FPM/waVZSzBR3O2wh7Jh9DewHbU7aOdIl6lR09k0AENjRO9F/t03s+3GI7z6MjZlDr77t
- W9kD76EOsIaGKaJU=
-X-Received: by 2002:a05:600c:2d05:b0:3d0:85b5:33d3 with SMTP id
- x5-20020a05600c2d0500b003d085b533d3mr22491898wmf.16.1674471558549; 
- Mon, 23 Jan 2023 02:59:18 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXscWyWBIc517/UBQns93A2Dddd/qAPCu3KisAwgyquIxnHVBIhgjZteEv9uKQzROTp0w9G4sg==
-X-Received: by 2002:a05:600c:2d05:b0:3d0:85b5:33d3 with SMTP id
- x5-20020a05600c2d0500b003d085b533d3mr22491880wmf.16.1674471558372; 
- Mon, 23 Jan 2023 02:59:18 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- l7-20020a7bc447000000b003dafa04ecc4sm10235937wmi.6.2023.01.23.02.59.17
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 02:59:17 -0800 (PST)
-Date: Mon, 23 Jan 2023 10:59:16 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Thomas Huth <thuth@redhat.com>, Fabiano Rosas <farosas@suse.de>,
- Juan Quintela <quintela@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, qemu-arm@nongnu.org,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH v3 09/11] tests/qtest/migration-test: Build command line
- using GString API (3/4)
-Message-ID: <Y85ohEspxLesiE1b@work-vm>
-References: <20230120082341.59913-1-philmd@linaro.org>
- <20230120082341.59913-10-philmd@linaro.org>
+ s=mimecast20190719; t=1674471602;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=DweCGtOWjeQiZkJRN6PJo8Wg1NKYM8gwMehBVn6IKxo=;
+ b=NQ+XxJk6VT+4aREw67d7u20AmQNV0nb3AboF7c5kvr20Y8krdX4twwTfAqL2cvcPO7KfYI
+ xdQQD8Y1q4nEfY0Bafzb3QlFMV10GnHEWQVIu+Bx/3nvtK0TIYbOMrJRwwCjSVRi86dkaJ
+ MjoUlo+UVy7GFnSwHKoAah9ulZHEZnI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-663-DBS4KEjLMLahFFF-YWiLhA-1; Mon, 23 Jan 2023 06:00:00 -0500
+X-MC-Unique: DBS4KEjLMLahFFF-YWiLhA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B7221885622;
+ Mon, 23 Jan 2023 10:59:59 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.197])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 82A972166B32;
+ Mon, 23 Jan 2023 10:59:58 +0000 (UTC)
+Date: Mon, 23 Jan 2023 10:59:56 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Anthony PERARD <anthony.perard@citrix.com>
+Cc: qemu-devel@nongnu.org, Andrew Cooper <Andrew.Cooper3@citrix.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] configure: Expand test which disable -Wmissing-braces
+Message-ID: <Y85orFuO9hDqTF9h@redhat.com>
+References: <20230106142110.672-1-anthony.perard@citrix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230120082341.59913-10-philmd@linaro.org>
+In-Reply-To: <20230106142110.672-1-anthony.perard@citrix.com>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -105,74 +78,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Philippe Mathieu-Daudé (philmd@linaro.org) wrote:
-> Part 3/4: Convert accelerator options.
+On Fri, Jan 06, 2023 at 03:21:10PM +0100, Anthony PERARD via wrote:
+> From: Anthony PERARD <anthony.perard@citrix.com>
 > 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> With "clang 6.0.0-1ubuntu2" on Ubuntu Bionic, the test with build
+> fine, but clang still suggest braces around the zero initializer in a
+> few places, where there is a subobject. Expand test to include a sub
+> struct which doesn't build on clang 6.0.0-1ubuntu2, and give:
+>     config-temp/qemu-conf.c:7:8: error: suggest braces around initialization of subobject [-Werror,-Wmissing-braces]
+>     } x = {0};
+>            ^
+>            {}
+> 
+> These are the error reported by clang on QEMU's code (v7.2.0):
+> hw/pci-bridge/cxl_downstream.c:101:51: error: suggest braces around initialization of subobject [-Werror,-Wmissing-braces]
+>     dvsec = (uint8_t *)&(CXLDVSECPortExtensions){ 0 };
+> 
+> hw/pci-bridge/cxl_root_port.c:62:51: error: suggest braces around initialization of subobject [-Werror,-Wmissing-braces]
+>     dvsec = (uint8_t *)&(CXLDVSECPortExtensions){ 0 };
+> 
+> tests/qtest/virtio-net-test.c:322:34: error: suggest braces around initialization of subobject [-Werror,-Wmissing-braces]
+>     QOSGraphTestOptions opts = { 0 };
+> 
+> Reported-by: Andrew Cooper <Andrew.Cooper3@citrix.com>
+> Signed-off-by: Anthony PERARD <anthony.perard@citrix.com>
 > ---
->  tests/qtest/migration-test.c | 15 +++++++++------
->  1 file changed, 9 insertions(+), 6 deletions(-)
 > 
-> diff --git a/tests/qtest/migration-test.c b/tests/qtest/migration-test.c
-> index 670097a956..1ed3505c91 100644
-> --- a/tests/qtest/migration-test.c
-> +++ b/tests/qtest/migration-test.c
-> @@ -603,6 +603,13 @@ static int test_migrate_start(QTestState **from, QTestState **to,
->      got_stop = false;
->  
->      cmd_common = g_string_new("");
-> +    /* KVM first */
-> +    if (args->use_dirty_ring) {
-> +        g_string_append(cmd_common, "-accel kvm,dirty-ring-size=4096 ");
-> +    } else {
-> +        g_string_append(cmd_common, "-accel kvm ");
-> +    }
-> +    g_string_append(cmd_common, "-accel tcg ");
+> While Ubuntu Bionic isn't supposed to be supported anymore, clang v6
+> is still the minimum required as tested by ./configure.
 
-Yep, that's the right way around this time :-)
+The configure checks don't always keep track with our supported OS
+versions, because we often don't update the min versions until we
+find a technical issue that motivates it. IOW, the supported OS
+versions are considered to be the overriding policy regardless of
+what the code tool/library versions checks currently implement.
 
+So if the compile problem only exists on OS versions that are outside
+our support matrix, then we should be bumping the minimum version
+check in configure, which could possibly enable us to get rid of the
+entire check for broken -Wmissing-braces.
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
->      bootpath = g_strdup_printf("%s/bootsect", tmpfs);
->      if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
-> @@ -678,12 +685,10 @@ static int test_migrate_start(QTestState **from, QTestState **to,
->      if (!args->only_target) {
->          g_autofree gchar *cmd_source = NULL;
->  
-> -        cmd_source = g_strdup_printf("-accel kvm%s -accel tcg %s "
-> +        cmd_source = g_strdup_printf("%s "
->                                       "-name source,debug-threads=on "
->                                       "-serial file:%s/src_serial "
->                                       "%s %s %s",
-> -                                     args->use_dirty_ring ?
-> -                                     ",dirty-ring-size=4096" : "",
->                                       cmd_common->str,
->                                       tmpfs,
->                                       arch_source,
-> @@ -692,13 +697,11 @@ static int test_migrate_start(QTestState **from, QTestState **to,
->          *from = qtest_init(cmd_source);
->      }
->  
-> -    cmd_target = g_strdup_printf("-accel kvm%s -accel tcg %s "
-> +    cmd_target = g_strdup_printf("%s "
->                                   "-name target,debug-threads=on "
->                                   "-serial file:%s/dest_serial "
->                                   "-incoming %s "
->                                   "%s %s %s",
-> -                                 args->use_dirty_ring ?
-> -                                 ",dirty-ring-size=4096" : "",
->                                   cmd_common->str,
->                                   tmpfs, uri,
->                                   arch_target,
+> ---
+>  configure | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/configure b/configure
+> index 9f0bc57546..3cd9b8bad4 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1290,7 +1290,11 @@ fi
+>  # Disable -Wmissing-braces on older compilers that warn even for
+>  # the "universal" C zero initializer {0}.
+>  cat > $TMPC << EOF
+> +struct s {
+> +  void *a;
+> +};
+>  struct {
+> +  struct s s;
+>    int a[2];
+>  } x = {0};
+>  EOF
 > -- 
-> 2.38.1
+> Anthony PERARD
 > 
+> 
+
+With regards,
+Daniel
 -- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
