@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A3B4677F86
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 16:22:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03AD7677FC9
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 16:31:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJyde-0008Td-Jc; Mon, 23 Jan 2023 10:21:38 -0500
+	id 1pJylV-0002fz-Bu; Mon, 23 Jan 2023 10:29:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJyda-0008Sn-JA
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:21:34 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJylS-0002fX-VX
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:29:42 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJydY-0000vY-PB
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:21:34 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id d14so7459795wrr.9
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 07:21:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJylR-0002Ou-7V
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:29:42 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id r9so11169892wrw.4
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 07:29:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=1PYMelAbiI4GIah2YOLL+y2cvxtnbXe0JpzsrPzkIfA=;
- b=ncMybC7xTqoEiTkrv2tMZxOdgNtHFufdev0oHuGFTPOGxMrSIPuvf9zK6M/bqz0Wzd
- Ovj1Vaxm3fcsrW/ZDvDd1oPQ0YpPshUxMNz8tNO6z5aoXs2jzsmulUyaRLG1BAYGVPTK
- t7xEQAMnO5dMjGdnTAnlFIy3DQ0IHkpj8N4VCbAzWcjuSOfsE/XUEzWCLpFrDuc1xLBu
- rAx/0j1nYTwMuguPQv09sKv8oCVkOS1KreUSlT8sH0s/9pmD4RJWBurWVyPjO4sfI0g3
- VMbB618MQetdoY9Mhf9hwfj93OPTpy4FqWgkXgRgu+Zp7aYxt1e+GMnvHdGQUwEHrfsI
- ZoCg==
+ bh=Ag7ITHTYVgJVxAJpVhIXSpT7l89y1QU2TY+2UBhcQLg=;
+ b=N/hfbLkwtIiOnnUCwe+6G0R0yH1OISVvccHsBfNnM9+68oB3frKpUvCyE+/GbmFbKI
+ 3mclV9s6eEUxxgvbKrrx3vCnsw2q3IX20e4hWfoHOo/zPyhDonsM1dFPNt0/8pUNDsZ+
+ 66nab0+RBgTUGeSRNXW8EEIYROXbY6yRfBgO7YPHRithOCVIMNhvmAVxfygm00BPMliP
+ xYKgS4I+vJ2gesohg928DrIer2QRUPkASRMugw/tnLJ6vv5GBkOkQb8dTRkaMeedFGUf
+ 8vpNLRhNTZMqb1WHyGxoBH+Pp3pmh+UNGmZItMgE8L9bC/V3UBVZS9BUlWfO4rFJqpTs
+ 1Arw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1PYMelAbiI4GIah2YOLL+y2cvxtnbXe0JpzsrPzkIfA=;
- b=goDm9nNCNH8qjql2EsGVefEqXTKuVMz2TFVVA2OT9N/aWL9/CN7G4PXuwCyLJks2I5
- FgB746tDY9s4Y0LwzFXYt2eqfelc3CEBJDkFhNjAqlE6zg3iaJYA8MXowIqYaVBfo5a4
- prq9+/tb87kx2iO7lwyDRE1M9IYnf7d3tiam0q+AeYnYBqd9WpZGmgyxvWGwuPsdFBHk
- 5votPgYIHQOYga6h/xHrUr9O84RThxZTgljYnxQoyyamUFC7iSy7zfLFM2Lv3cfabhOD
- ghNjr6yIqr2MCb646tNXY3mTB9syWU43XDbtVgEixYeDxFUPeWbO+hLyO9WoxiUKFxTO
- BzMQ==
-X-Gm-Message-State: AFqh2ko37aR+4j06Ra5SBTUZtD05W3JTgJPJqRRqlLmC0jDbxRkLzeCL
- 9MSkGP2phrmFzirgWc9OUuWSKg==
-X-Google-Smtp-Source: AMrXdXvaWt/R2W+HixvGENl4f8yqrjVUVkkaV24sKJ+IN03Aes68mquSeMkl7PqyyrmTPtNqCZgAEg==
-X-Received: by 2002:a05:6000:1f81:b0:2b5:dc24:e08e with SMTP id
- bw1-20020a0560001f8100b002b5dc24e08emr20768975wrb.69.1674487290204; 
- Mon, 23 Jan 2023 07:21:30 -0800 (PST)
+ bh=Ag7ITHTYVgJVxAJpVhIXSpT7l89y1QU2TY+2UBhcQLg=;
+ b=mpxKFmPgpcyirhRpQ93G4QK3E4ADcortrkwEOjIMsK78brum2scdByW5QYeJdRDFAZ
+ yQ81WQK8INmniw1f3HHGLePzkYxsV8PXdwuDas7gxBPTmSO5yLxGOcs42Jjvt9vcqpAr
+ s3k/RNj3jXxxWpoSrCWdFHcZyk8coynnwwtKVaFVyIEVgPlMLGb4GIxeWk6NxAjXV22H
+ LbczaPQo+okJlsLLERuUivJ/i9aUVHIQ/2yRK/ue/09/YjaKwbHgfb2g6E2ZWUI1MCQP
+ FHKjKnJNVyqIKiqDhAYfr9p1a6+81mMP7Cb560EQdJHU++EwDjYTYWWOeN/WKp5xlmPB
+ stzA==
+X-Gm-Message-State: AFqh2kp1CqAe9f4SizvpJN45cqJrlY19rtar4pMQqYmmcwGPVIg9ILAm
+ sz3kCzmVYVVLVgbtjX9otExhcQ==
+X-Google-Smtp-Source: AMrXdXu/0iu5bjJowzEZ4SCeKLJW3JFz/tPzrJX44rLswL/IRKsiW6tKvM1395eMYe2aH0KuiMSz2Q==
+X-Received: by 2002:adf:f852:0:b0:29f:4e42:33c3 with SMTP id
+ d18-20020adff852000000b0029f4e4233c3mr21866250wrq.56.1674487779750; 
+ Mon, 23 Jan 2023 07:29:39 -0800 (PST)
 Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- w10-20020adfde8a000000b002be34f87a34sm11990880wrl.1.2023.01.23.07.21.29
+ b9-20020adff909000000b002be5401ef5fsm8310826wrr.39.2023.01.23.07.29.38
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 07:21:29 -0800 (PST)
-Message-ID: <04d950dc-bd01-d9ca-cbec-25b52ccd70e8@linaro.org>
-Date: Mon, 23 Jan 2023 16:21:28 +0100
+ Mon, 23 Jan 2023 07:29:39 -0800 (PST)
+Message-ID: <3f577967-377f-aa6d-1c69-542988a26a26@linaro.org>
+Date: Mon, 23 Jan 2023 16:29:37 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v3 5/5] hw/char/pl011: check if UART is enabled before RX
- or TX operation
-To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
-References: <20230120155447.31702-1-eiakovlev@linux.microsoft.com>
- <20230120155447.31702-6-eiakovlev@linux.microsoft.com>
- <fc01ef6d-73d7-af1a-3e59-bd4f1e3e83ba@linaro.org>
- <1937dbbf-579d-e236-4669-afdc633995a1@linux.microsoft.com>
+Subject: Re: [RFC PATCH v5 7/9] target/avocado: Pass parameters to migration
+ test on aarch64
 Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Cornelia Huck <cohuck@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20230120184825.31626-1-farosas@suse.de>
+ <20230120184825.31626-8-farosas@suse.de>
+ <65cf6b01-a6d6-53ca-9ead-ebf50148cce7@linaro.org> <874jshco5h.fsf@suse.de>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <1937dbbf-579d-e236-4669-afdc633995a1@linux.microsoft.com>
+In-Reply-To: <874jshco5h.fsf@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,107 +101,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/1/23 15:43, Evgeny Iakovlev wrote:
+On 23/1/23 15:37, Fabiano Rosas wrote:
+> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
 > 
-> On 1/23/2023 09:14, Philippe Mathieu-Daudé wrote:
->> On 20/1/23 16:54, Evgeny Iakovlev wrote:
->>> UART should be enabled in general and have RX enabled specifically to be
->>> able to receive data from peripheral device. Same goes for transmitting
->>> data to peripheral device and a TXE flag.
->>>
->>> Check if UART CR register has EN and RXE or TXE bits enabled before
->>> trying to receive or transmit data.
->>>
->>> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
->>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->>> ---
->>>   hw/char/pl011.c | 22 +++++++++++++++++++---
->>>   1 file changed, 19 insertions(+), 3 deletions(-)
+>> On 20/1/23 19:48, Fabiano Rosas wrote:
+>>> The migration tests are currently broken for an aarch64 host because
+>>> the tests pass no 'machine' and 'cpu' options on the QEMU command
+>>> line. Most other architectures define a default value in QEMU for
+>>> these options, but arm does not.
 >>
->>> +static inline bool pl011_can_transmit(PL011State *s)
->>> +{
->>> +    return s->cr & PL011_CR_UARTEN && s->cr & PL011_CR_TXE;
->>> +}
->>> +
->>>   static void pl011_write(void *opaque, hwaddr offset,
->>>                           uint64_t value, unsigned size)
->>>   {
->>> @@ -221,7 +231,9 @@ static void pl011_write(void *opaque, hwaddr offset,
->>>         switch (offset >> 2) {
->>>       case 0: /* UARTDR */
->>> -        /* ??? Check if transmitter is enabled.  */
->>> +        if (!pl011_can_transmit(s)) {
->>> +            break;
->>> +        }
->>>           ch = value;
->>>           /* XXX this blocks entire thread. Rewrite to use
->>>            * qemu_chr_fe_write and background I/O callbacks */
->>> @@ -292,7 +304,11 @@ static int pl011_can_receive(void *opaque)
->>>       PL011State *s = (PL011State *)opaque;
->>>       int r;
->>>   -    r = s->read_count < pl011_get_fifo_depth(s);
->>> +    if (!(s->cr & PL011_CR_UARTEN) || !(s->cr & PL011_CR_RXE)) {
->>
->> Maybe add pl011_can_receive() similarly to pl011_can_transmit().
->>
->> Otherwise:
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>> There was some discussions around that in the past:
+>> https://lore.kernel.org/qemu-devel/20190621153806.13489-1-wainersm@redhat.com/
+>> https://lore.kernel.org/qemu-devel/CAFEAcA9NBu+L4wHfkLTv93wy90wjnV05EZ12PT6PmLjdZ5h_YA@mail.gmail.com/
 > 
+> There's more than one topic being discussed, specially in this last
+> thread, but here's my two cents.
 > 
-> Thanks! There's already a pl011_can_receive though, its the 
-> pl011_can_transmit that's new :)
+> About defaults: It's probably best to be explicit in tests. And if we
+> wanted, have a separate test to make sure the lack of an option still
+> does what it's expected, either outputting a message or behaving the
+> same as the explicit version.
+> 
+> About host architecture-specific tests: Unless we're talking about KVM,
+> I see no point. Having to change hosts to test agnostic features makes
+> no sense (the migration test is one example).
+> 
+> About generic tests: If a feature is required to behave the same for all
+> architectures/machines/cpus then sure. But most low level stuff would be
+> quite dependent on specifics.
+> 
+>>> Add these options to the test class in case the test is being executed
+>>> in an aarch64 host.
+>>
+>> I'm not sure what we are aiming to test here.
+>>
+>> Migration in general? If so, any random machine should work.
+>> By hardcoding the 'virt' machine, at least this test is reproducible.
+> 
+> Yeah, I cannot say for sure there isn't some machine property that gets
+> transferred during migration. It seemed more conservative to define a
+> specific one.
 
-pl011_can_receive() returns the number of bytes that pl011_receive() can 
-accept, pl011_can_transmit() returns a boolean.
+Why did you choose 'virt' and not 'xlnx-versal-virt' or 'sbsa-ref'?
 
-I was thinking of:
+What does this test require? Any machine running KVM?
 
--- >8 --
-diff --git a/hw/char/pl011.c b/hw/char/pl011.c
-index dd20b76609..ea5769a31c 100644
---- a/hw/char/pl011.c
-+++ b/hw/char/pl011.c
-@@ -221,6 +221,11 @@ static inline bool pl011_can_transmit(PL011State *s)
-      return s->cr & PL011_CR_UARTEN && s->cr & PL011_CR_TXE;
-  }
+Adding Juan and David for migration since I'm still confused trying
+to understand what we are trying to test here...
 
-+static inline bool pl011_can_receive(PL011State *s)
-+{
-+    return s->cr & PL011_CR_UARTEN && s->cr & PL011_CR_RXE;
-+}
-+
-  static void pl011_write(void *opaque, hwaddr offset,
-                          uint64_t value, unsigned size)
-  {
-@@ -299,12 +304,12 @@ static void pl011_write(void *opaque, hwaddr offset,
-      }
-  }
-
--static int pl011_can_receive(void *opaque)
-+static int pl011_receivable_bytes(void *opaque)
-  {
-      PL011State *s = (PL011State *)opaque;
-      int r;
-
--    if (!(s->cr & PL011_CR_UARTEN) || !(s->cr & PL011_CR_RXE)) {
-+    if (!pl011_can_receive(s)) {
-          r = 0;
-      } else {
-          r = s->read_count < pl011_get_fifo_depth(s);
-@@ -459,7 +464,7 @@ static void pl011_realize(DeviceState *dev, Error 
-**errp)
-  {
-      PL011State *s = PL011(dev);
-
--    qemu_chr_fe_set_handlers(&s->chr, pl011_can_receive, pl011_receive,
-+    qemu_chr_fe_set_handlers(&s->chr, pl011_receivable_bytes, 
-pl011_receive,
-                               pl011_event, NULL, s, NULL, true);
-  }
-
----
-
-with maybe a better name for pl011_receivable_bytes().
-
+>> I'd rather fix that generically as "if a test requires a default
+>> machine and the target doesn't provide any default, then SKIP the
+>> test". Then adding machine-specific tests. Can be done on top, so
+> 
+> I agree, but the only tests that should *require* a default are the ones
+> that test the command line parsing or adjacent features. We could always
+> test "-machine foo" and then separately test that the lack of a machine
+> option still gives the Foo machine.
+> 
+> The fact that we sometimes use defaults to be able to have the same-ish
+> command line for every case is more of a limitation of our testing
+> infrastructure in my opinion.
 
 
