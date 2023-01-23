@@ -2,61 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 703F06780F8
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 17:10:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0428D67814E
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 17:25:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJzNk-00055R-Ba; Mon, 23 Jan 2023 11:09:16 -0500
+	id 1pJzbK-0007bw-Eu; Mon, 23 Jan 2023 11:23:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pJzNe-00053K-Sd; Mon, 23 Jan 2023 11:09:11 -0500
+ id 1pJzbG-0007at-Sr; Mon, 23 Jan 2023 11:23:14 -0500
 Received: from linux.microsoft.com ([13.77.154.182])
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pJzNc-0000tr-MB; Mon, 23 Jan 2023 11:09:10 -0500
-Received: from [192.168.0.20] (unknown [77.64.253.114])
- by linux.microsoft.com (Postfix) with ESMTPSA id 4A26D20E1ABA;
- Mon, 23 Jan 2023 08:09:06 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4A26D20E1ABA
+ id 1pJzbF-0003a0-81; Mon, 23 Jan 2023 11:23:14 -0500
+Received: from localhost.localdomain (unknown [77.64.253.114])
+ by linux.microsoft.com (Postfix) with ESMTPSA id C824C20E1ABA;
+ Mon, 23 Jan 2023 08:23:09 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C824C20E1ABA
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1674490147;
- bh=lFPXkY3wKR5bj8jU13cXZhYwE7I8rrcePUJ9m+XuA/g=;
- h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
- b=oGQV7CCh6uKwftAknNo2X1LE7HWVDq/ZEeMZjBYzYebUQuQar49faqKLS/4ZGbCH2
- RLCsdajuAsjqq/FltSf8SKeQR0hqxw/gWGHBh0YGGji8hcY75J/YODMGjOAXmot0hd
- HhHF9DBk3E8rLJytcU6VJG0PvTdtDshYUA+883QQ=
-Message-ID: <767e54ca-53f4-7092-6171-2689e46709b8@linux.microsoft.com>
-Date: Mon, 23 Jan 2023 17:09:04 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v3 5/5] hw/char/pl011: check if UART is enabled before RX
- or TX operation
-Content-Language: en-US
+ s=default; t=1674490990;
+ bh=D4r48KVnk7ot18DtWCSTUBNmhBPIHZ6bG95OQJkFm5E=;
+ h=From:To:Cc:Subject:Date:From;
+ b=B2iic5TilhEFf/rbEu060LjiT/7DBM5xfcTCqYgMFsF7mKO87UNea/2/2NPcVRtvI
+ 7lIkci+SwVgSqPBX9aWSThoxk3lI4850dCGxBXg/A6Hx7DICqfJWBJ6s+c0BZQp+wP
+ h/RfNBt1odBt5TLSpz6E5GcdqLG6N1CKCRK4s27o=
 From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
-References: <20230120155447.31702-1-eiakovlev@linux.microsoft.com>
- <20230120155447.31702-6-eiakovlev@linux.microsoft.com>
- <fc01ef6d-73d7-af1a-3e59-bd4f1e3e83ba@linaro.org>
- <1937dbbf-579d-e236-4669-afdc633995a1@linux.microsoft.com>
- <04d950dc-bd01-d9ca-cbec-25b52ccd70e8@linaro.org>
- <be7dae6f-30d6-a6c6-af3c-4d826b39de07@linux.microsoft.com>
-In-Reply-To: <be7dae6f-30d6-a6c6-af3c-4d826b39de07@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: qemu-arm@nongnu.org
+Cc: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org,
+	philmd@linaro.org
+Subject: [PATCH v4 0/5] Series of fixes for PL011 char device
+Date: Mon, 23 Jan 2023 17:22:59 +0100
+Message-Id: <20230123162304.26254-1-eiakovlev@linux.microsoft.com>
+X-Mailer: git-send-email 2.34.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=13.77.154.182;
  envelope-from=eiakovlev@linux.microsoft.com; helo=linux.microsoft.com
-X-Spam_score_int: -208
-X-Spam_score: -20.9
-X-Spam_bar: --------------------
-X-Spam_report: (-20.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -197
+X-Spam_score: -19.8
+X-Spam_bar: -------------------
+X-Spam_report: (-19.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-1.147, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001, SPF_PASS=-0.001,
+ USER_IN_DEF_DKIM_WL=-7.5,
  USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,138 +64,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+v4:
+* Fixed post_load hook to be backwards-migratable
+* Refactored some code in 5/5 as per review comments
 
-On 1/23/2023 16:59, Evgeny Iakovlev wrote:
->
-> On 1/23/2023 16:21, Philippe Mathieu-Daudé wrote:
->> On 23/1/23 15:43, Evgeny Iakovlev wrote:
->>>
->>> On 1/23/2023 09:14, Philippe Mathieu-Daudé wrote:
->>>> On 20/1/23 16:54, Evgeny Iakovlev wrote:
->>>>> UART should be enabled in general and have RX enabled specifically 
->>>>> to be
->>>>> able to receive data from peripheral device. Same goes for 
->>>>> transmitting
->>>>> data to peripheral device and a TXE flag.
->>>>>
->>>>> Check if UART CR register has EN and RXE or TXE bits enabled before
->>>>> trying to receive or transmit data.
->>>>>
->>>>> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
->>>>> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->>>>> ---
->>>>>   hw/char/pl011.c | 22 +++++++++++++++++++---
->>>>>   1 file changed, 19 insertions(+), 3 deletions(-)
->>>>
->>>>> +static inline bool pl011_can_transmit(PL011State *s)
->>>>> +{
->>>>> +    return s->cr & PL011_CR_UARTEN && s->cr & PL011_CR_TXE;
->>>>> +}
->>>>> +
->>>>>   static void pl011_write(void *opaque, hwaddr offset,
->>>>>                           uint64_t value, unsigned size)
->>>>>   {
->>>>> @@ -221,7 +231,9 @@ static void pl011_write(void *opaque, hwaddr 
->>>>> offset,
->>>>>         switch (offset >> 2) {
->>>>>       case 0: /* UARTDR */
->>>>> -        /* ??? Check if transmitter is enabled.  */
->>>>> +        if (!pl011_can_transmit(s)) {
->>>>> +            break;
->>>>> +        }
->>>>>           ch = value;
->>>>>           /* XXX this blocks entire thread. Rewrite to use
->>>>>            * qemu_chr_fe_write and background I/O callbacks */
->>>>> @@ -292,7 +304,11 @@ static int pl011_can_receive(void *opaque)
->>>>>       PL011State *s = (PL011State *)opaque;
->>>>>       int r;
->>>>>   -    r = s->read_count < pl011_get_fifo_depth(s);
->>>>> +    if (!(s->cr & PL011_CR_UARTEN) || !(s->cr & PL011_CR_RXE)) {
->>>>
->>>> Maybe add pl011_can_receive() similarly to pl011_can_transmit().
->>>>
->>>> Otherwise:
->>>> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->>>
->>>
->>> Thanks! There's already a pl011_can_receive though, its the 
->>> pl011_can_transmit that's new :)
->>
->> pl011_can_receive() returns the number of bytes that pl011_receive() 
->> can accept, pl011_can_transmit() returns a boolean.
->
->
-> Hm, no, pl011_can_receive never actually returned the number of bytes. 
-> It's a boolean value as an int. Which is a bug, because 
-> qemu_chr_fe_set_handlers expects it to return the byte count, not a 
-> 0/1 value.
->
-> I'll fix it then.
+v3:
+* Introduced a post_load hook for PL011State migration for
+  backwards-compatibility due to some input state fragility.
+* No longer touching irq lines in reset method
+* Minor changes based on review feedback.
+
+v2:
+* Moved FIFO depth refactoring part of FIFO flags change into its own
+  commit.
+* Added a reset method for PL011
 
 
-Actually, no, i spoke too soon. qemu_chr_fe_set_handlers indeed expects 
-a number of bytes from pl011_can_receive, but pl011_can_receive also 
-deliberately gives it 1 and not how many bytes are there in queue 
-really, because everything else on the receive code path is written with 
-an assumption to only accept 1 element at a time (see pl011_put_fifo).
+Evgeny Iakovlev (5):
+  hw/char/pl011: refactor FIFO depth handling code
+  hw/char/pl011: add post_load hook for backwards-compatibility
+  hw/char/pl011: implement a reset method
+  hw/char/pl011: better handling of FIFO flags on LCR reset
+  hw/char/pl011: check if UART is enabled before RX or TX operation
 
-If we want to optimize this part, we would need to change that 
-assumption. That should better be done as a separate change though, 
-which i can send later.
+ hw/char/pl011.c         | 121 +++++++++++++++++++++++++++++++++-------
+ include/hw/char/pl011.h |   5 +-
+ 2 files changed, 105 insertions(+), 21 deletions(-)
 
+-- 
+2.34.1
 
->
->
->>
->> I was thinking of:
->>
->> -- >8 --
->> diff --git a/hw/char/pl011.c b/hw/char/pl011.c
->> index dd20b76609..ea5769a31c 100644
->> --- a/hw/char/pl011.c
->> +++ b/hw/char/pl011.c
->> @@ -221,6 +221,11 @@ static inline bool pl011_can_transmit(PL011State 
->> *s)
->>      return s->cr & PL011_CR_UARTEN && s->cr & PL011_CR_TXE;
->>  }
->>
->> +static inline bool pl011_can_receive(PL011State *s)
->> +{
->> +    return s->cr & PL011_CR_UARTEN && s->cr & PL011_CR_RXE;
->> +}
->> +
->>  static void pl011_write(void *opaque, hwaddr offset,
->>                          uint64_t value, unsigned size)
->>  {
->> @@ -299,12 +304,12 @@ static void pl011_write(void *opaque, hwaddr 
->> offset,
->>      }
->>  }
->>
->> -static int pl011_can_receive(void *opaque)
->> +static int pl011_receivable_bytes(void *opaque)
->>  {
->>      PL011State *s = (PL011State *)opaque;
->>      int r;
->>
->> -    if (!(s->cr & PL011_CR_UARTEN) || !(s->cr & PL011_CR_RXE)) {
->> +    if (!pl011_can_receive(s)) {
->>          r = 0;
->>      } else {
->>          r = s->read_count < pl011_get_fifo_depth(s);
->> @@ -459,7 +464,7 @@ static void pl011_realize(DeviceState *dev, Error 
->> **errp)
->>  {
->>      PL011State *s = PL011(dev);
->>
->> -    qemu_chr_fe_set_handlers(&s->chr, pl011_can_receive, pl011_receive,
->> +    qemu_chr_fe_set_handlers(&s->chr, pl011_receivable_bytes, 
->> pl011_receive,
->>                               pl011_event, NULL, s, NULL, true);
->>  }
->>
->> ---
->>
->> with maybe a better name for pl011_receivable_bytes().
->>
 
