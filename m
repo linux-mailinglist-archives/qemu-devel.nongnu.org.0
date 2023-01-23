@@ -2,81 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE03B680255
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 23:45:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF65E6788A5
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 21:49:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMGPc-0007YQ-Kq; Sun, 29 Jan 2023 17:44:36 -0500
+	id 1pK3jh-0007Rd-R2; Mon, 23 Jan 2023 15:48:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pMGPb-0007YA-3c
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:44:35 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pMGPZ-0000Vp-8A
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:44:34 -0500
-Received: by mail-wm1-x333.google.com with SMTP id l8so6889369wms.3
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 14:44:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=braap-org.20210112.gappssmtp.com; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=WsbRZA5e02vWUBBoXG2xIQDNdseHqZPa1Z4AOPr9aAc=;
- b=SZKMlzACnIAjqiAzsYRgH4dWzUNQr2pw10HosnHv2SWOrs50GZOCLS+RXO1jCFAwXB
- qXzNuNY9GiFbhfmRELsoloXOWHV/BWzLtH+/e7j58pFxwQ4l3lbf9nSia1Dv1pSmTkkX
- BZ78tAE+OQvw8dd1fkM9zxjf9UDXw3KwaWw/L109LWkvd7qF8FTmrGT/2ZWzAOM+JQ9x
- fw5zo16RgPFHUucfzR3vXv7XTyfXYL1iA714b6bRxojD+4iyVUxNttqy/VIuAUKJDjrc
- /rr9lK7PBZIKFWshCymzalqF/tDksejOwyAH+HZDqJErYmn5CXhMumO07oHa77K4y4rZ
- ui4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WsbRZA5e02vWUBBoXG2xIQDNdseHqZPa1Z4AOPr9aAc=;
- b=uWyYKBAxOwguc66JjAKZEXrG0FAsX5sFb0zro+vlA0oDXJEFnvy6HlSpkpjWT61FhT
- R6zEQKCNx87+HiJom6w8yC9P5o21UEyhcmiNQJptw9E52Yb/WVN3Kx8Ru5MOLa1mx0IK
- ymLfbFKG49AghlWBASdfpOc3ugIJbql3xQ5CEz9fW98mHwLvCbs93evTz9OXcj7Gb100
- Y0TXcCNPNvjAsDm6F4v7D0MhxVQJXxUHda/4aCIOJ/ITyLiESB2AnG9mL8Mb9vhbAHas
- 1bM5iCzZqGpFK2ao/5X6/z41Qp1ydPe0ArBVuGjJUG9ebbbQdweJ9ugYWxK3V8aMjNWc
- yuXw==
-X-Gm-Message-State: AO0yUKVq8hG/Q7bL4cMkq3rZQojbyi2Ki+yT8ljgxZ1rbX/+CqjMPSfW
- iP3HahFLzWH8JPwNWhgCeL8A8g==
-X-Google-Smtp-Source: AK7set+VrVf4FAiMpdXV5p5bAMbLuG7/vZOMLjbkBNpwEaf/Rdw8wMCvhyGO8sg6T/HxGcZDHMfbTg==
-X-Received: by 2002:a05:600c:d4:b0:3dc:5362:134a with SMTP id
- u20-20020a05600c00d400b003dc5362134amr3356491wmm.9.1675032270774; 
- Sun, 29 Jan 2023 14:44:30 -0800 (PST)
-Received: from localhost ([146.70.128.243]) by smtp.gmail.com with ESMTPSA id
- b48-20020a05600c4ab000b003db1ca20170sm1982976wmp.37.2023.01.29.14.44.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 14:44:30 -0800 (PST)
-Date: Tue, 10 Jan 2023 23:01:50 -0500
-From: Emilio Cota <cota@braap.org>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Cc: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org, Laurent Vivier <laurent@vivier.eu>,
- ncopa@alpinelinux.org, Kyle Evans <kevans@freebsd.org>,
- Warner Losh <imp@bsdimp.com>, Peter Maydell <peter.maydell@linaro.org>
-Subject: Re: [PATCH] linux-user,bsd-user: re-exec with G_SLICE=always-malloc
-Message-ID: <Y740rpN1VLMV64Vp@cota-l14>
-References: <20221004120047.857591-1-berrange@redhat.com>
- <Y4hP5HS8L4O6KsVO@cota-l14> <87cz93cpum.fsf@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <87cz93cpum.fsf@linaro.org>
-Received-SPF: softfail client-ip=2a00:1450:4864:20::333;
- envelope-from=cota@braap.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: 22
-X-Spam_score: 2.2
-X-Spam_bar: ++
-X-Spam_report: (2.2 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_96_XX=3.405,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_SOFTFAIL=0.665 autolearn=no autolearn_force=no
+ (Exim 4.90_1) (envelope-from <siddhi.katage@oracle.com>)
+ id 1pK1rm-0004U4-Rq
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 13:48:26 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <siddhi.katage@oracle.com>)
+ id 1pK1rk-0002N3-VS
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 13:48:26 -0500
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30NIO7V7031491; Mon, 23 Jan 2023 18:48:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2022-7-12;
+ bh=HkQnFRueSwZABowW8UVa5z0ZAp9tOAeSwszq79cyLJs=;
+ b=Fsrzduuxf8Xu+QOJrrf2vNXPDwomxRVIqaUpWHiTDKrJVN4Q/b2uX2qgXskkpCmFN8+u
+ lU4iEZbitpwGwiYc8adKonuUA+8ElxxSrqCK3CK9VG7YTI+G3Ld68wgaBdofvOM3aJ9B
+ b8h3SMQdvm/XfWZI3gK50w8HhkqsLjNuWhKKIAsBlULS0ZBxG4O3jQg2EcBOkyZMs0ER
+ ds/Z2/WWwkYz1+OWNoBkjNhqTFiGVVivBG467HkZyXn1a53+T9AqU001G7OWAysMgxyq
+ fZDbEg0NrQDXC7Bdm/y66pLbgLJnQo7l10qEZSl/CbAtLLuw6GhXUS1wzxWx38gGiigO 6g== 
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3n87xa3je9-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 23 Jan 2023 18:48:16 +0000
+Received: from pps.filterd
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 30NHjN8E001298; Mon, 23 Jan 2023 18:48:15 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
+ 3n86ga6pjk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 23 Jan 2023 18:48:14 +0000
+Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
+ (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30NImERY007833;
+ Mon, 23 Jan 2023 18:48:14 GMT
+Received: from siddhi-vm1.osdevelopmeniad.oraclevcn.com
+ (siddhi-vm1.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.254.70])
+ by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
+ 3n86ga6phw-1; Mon, 23 Jan 2023 18:48:14 +0000
+From: Siddhi Katage <siddhi.katage@oracle.com>
+To: qemu-devel@nongnu.org
+Cc: joe.jin@oracle.com, dongli.zhang@oracle.com, siddhi.katage@oracle.com,
+ christian.ehrhardt@canonical.com, berrange@redhat.com, pbonzini@redhat.com
+Subject: [PATCH 1/1] modules: load modules from /var/run/qemu/<version>
+ directory firstly
+Date: Mon, 23 Jan 2023 18:48:13 +0000
+Message-Id: <1674499693-9863-1-git-send-email-siddhi.katage@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-23_12,2023-01-23_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ phishscore=0
+ mlxlogscore=999 adultscore=0 mlxscore=0 suspectscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301230181
+X-Proofpoint-GUID: wn4JQvk87JLWHamXXmypg4iBgvgiprW1
+X-Proofpoint-ORIG-GUID: wn4JQvk87JLWHamXXmypg4iBgvgiprW1
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=siddhi.katage@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 23 Jan 2023 15:48:10 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -91,53 +96,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 01, 2022 at 10:49:27 +0000, Alex Bennée wrote:
-> Emilio Cota <cota@braap.org> writes:
-> > On Tue, Oct 04, 2022 at 13:00:47 +0100, Daniel P. Berrangé wrote:
-> > (snip)
-> >> Can't say I especially like this but I'm out of other ideas for how
-> >> to guarantee a solution. Users can't set env vars prior to launching
-> >> QEMU user emulators when using binfmt.
-> >
-> > An alternative is to not use GSlice between fork/exec. I'm
-> > not sure if within that region there are other users besides
-> > GTree (GArray perhaps?), but if there aren't, then just using
-> > a different binary tree implementation should do.
-> 
-> Hmm my distros version of GArray certainly does and that is used quite
-> heavily across gdbstub and plugins.
+From: Siddhi Katage <siddhi.katage@oracle.com>
 
-Then we might have to also import a GSlice-free GArray ("QArray").
-Currently we just deadlock on POSIX-compliant code, which is
-unacceptable.
+An old running QEMU will try to load modules with new build-id first,this
+will fail as expected ,then QEMU will fallback to load the old modules that
+matches its build-id from /var/run/qemu/<version> directory .
+Make /var/run/qemu/<version> directory as first search path to load modules.
 
-> > Untested patches using ccan's AVL tree: 
-> >   https://github.com/cota/qemu/commits/avl
-> >
-> > Would that be more palatable?
-> 
-> I think generally we wouldn't want to have multiple implementations
-> unless there was a definite benefit (c.f. QHT). That said I think
-> Richard's latest optimisation work:
-> 
->   Subject: [PATCH v2 0/7] accel/tcg: Rewrite user-only vma tracking
->   Date: Thu, 27 Oct 2022 22:12:51 +1100
->   Message-Id: <20221027111258.348196-1-richard.henderson@linaro.org>
-> 
-> brings in the kernel's interval tree (with unit tests). I wonder if the
-> page_collection use of GTree could be converted to that?
+Fixes: bd83c861c0 ("modules: load modules from versioned /var/run dir")
+Signed-off-by: Siddhi Katage <siddhi.katage@oracle.com>
+---
+ util/module.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Thanks. I looked into reusing this but I don't think it's a drop-in
-replacement for GTree.
+diff --git a/util/module.c b/util/module.c
+index 620412e..c4f6c57 100644
+--- a/util/module.c
++++ b/util/module.c
+@@ -194,6 +194,12 @@ bool module_load_one(const char *prefix, const char *lib_name)
+ 
+     exec_dir = qemu_get_exec_dir();
+     search_dir = getenv("QEMU_MODULE_DIR");
++#ifdef CONFIG_MODULE_UPGRADES
++    version_dir = g_strcanon(g_strdup(QEMU_PKGVERSION),
++                             G_CSET_A_2_Z G_CSET_a_2_z G_CSET_DIGITS "+-.~",
++                             '_');
++    dirs[n_dirs++] = g_strdup_printf("/var/run/qemu/%s", version_dir);
++#endif
+     if (search_dir != NULL) {
+         dirs[n_dirs++] = g_strdup_printf("%s", search_dir);
+     }
+@@ -201,12 +207,6 @@ bool module_load_one(const char *prefix, const char *lib_name)
+     dirs[n_dirs++] = g_strdup_printf("%s/..", exec_dir ? : "");
+     dirs[n_dirs++] = g_strdup_printf("%s", exec_dir ? : "");
+ 
+-#ifdef CONFIG_MODULE_UPGRADES
+-    version_dir = g_strcanon(g_strdup(QEMU_PKGVERSION),
+-                             G_CSET_A_2_Z G_CSET_a_2_z G_CSET_DIGITS "+-.~",
+-                             '_');
+-    dirs[n_dirs++] = g_strdup_printf("/var/run/qemu/%s", version_dir);
+-#endif
+ 
+     assert(n_dirs <= ARRAY_SIZE(dirs));
+ 
+-- 
+1.8.3.1
 
-> I don't know how you would defend against re-introducing it into
-> linux-user though aside from commentary.
-
-To close the loop:
-I've sent a patch series that imports GTree-sans-GSlice as QTree,
-and uses that for TCG:
-  https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02080.html
-
-Thanks,
-		Emilio
 
