@@ -2,72 +2,131 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1682F678C0D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 00:32:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED2B0678C22
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 00:39:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK6HI-00043d-O6; Mon, 23 Jan 2023 18:31:04 -0500
+	id 1pK6OM-0006Jc-Dv; Mon, 23 Jan 2023 18:38:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pK6H7-00043E-OF; Mon, 23 Jan 2023 18:30:53 -0500
-Received: from mail-vs1-xe29.google.com ([2607:f8b0:4864:20::e29])
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pK6OH-0006J8-Gn
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 18:38:17 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pK6H4-0004iq-BY; Mon, 23 Jan 2023 18:30:53 -0500
-Received: by mail-vs1-xe29.google.com with SMTP id n190so14771393vsc.11;
- Mon, 23 Jan 2023 15:30:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=UCf7gJb3BF5ns/V8z7IZszRw9qiM9m0BAmA8621oaNc=;
- b=lraAjCLv9GBHAw+lU//ZyuAuK3C0qAaOMscfY0pnK57J+iGjFxPLQfdyqWreWiBksZ
- qwmJVUCV4pDVSFE8x/tm3SKyoEdoWMxcO3opURbJSPFML0tZglXIhk8XoxMMXpqQMe3Y
- RcIza32yfLWBn1t9/whzpH5vsXN1zaR7diSa8eRjMqBaOyd+5p+YhVr4ne6hOy+2MdaP
- R2iaDJLY5CzHaxZ+CmQxKJY/3t4P1Tmwk9SV5mrhOy15NWK83v76g7aq+L53o5np+vQT
- 5l2KQd0o32umGDSr45wm4CXUZeECf+2jLmIu8kHinlVsF/gFYcVWRkmVcDVaaI0aLKXf
- BBJg==
+ (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pK6OE-00064w-Dw
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 18:38:16 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ n20-20020a17090aab9400b00229ca6a4636so15943236pjq.0
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 15:38:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=PDHB0ODlMstmhFdpIes6JLYo5+ikO8l0oYaAPmmlt1c=;
+ b=VkzHwRGnuLzzOCe+jd2+aXAC1B0Pi316N1RkmUx4r6ANqJcx0x+5Q72Z8UUWxTdy1r
+ pG5SCyLEjYuMfqhsFLdkkFHinHiEydOUFzX+r5WNej9OPd87nM0d7yREV+Rq8DkVOrGV
+ NNXVLr+T0ZRr5iz2mMx1Z0IHdQwR/sXaSDOinZlAX/u9O36ljHgPvbEvKqpZSoiKL/Ql
+ 2n5bBmNgSGwr5j9NkL7X+hI5ejHfVg7U5tPdlMMUlM5A7mUt0EJEbSqS9aevYAkYpR2i
+ P7CyNcMiBR5cvRjvE+wd+fhWDFEx7SAIHLLtgqKHLWXCd78gvhmYm3A32QaiqopBK3SZ
+ eGPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=UCf7gJb3BF5ns/V8z7IZszRw9qiM9m0BAmA8621oaNc=;
- b=W38kKUR3di251eCEsKHoX78eAjY55jhQFuJpqVZQSzgTd0/BxguwYgqIAQJNmKQMsj
- 9EoI20u7eXl/Jx83PyWo0W8FIh3XH1Nbiu9mXLVxFYckyYK020I4iCyGrWqrIbBnFJAS
- L3KLoDxkJmg1Ery3XV0YXEsOriNtDtU6Fs6cu6kVTAPPv7o4dlpjjqmRI0AoSrccEouN
- zjcDC+hDId8noTa4aKE9WsREL8bJeOOwKVKRwcORIFyuldyQjQSoF0Eizt55bChu8NJF
- AccP/4U22j7mwOah7PEyUnJzFLuGwknakhrMEkz/bG66UiCA0dqdM+Coca6Pt/vJPAUA
- JBUw==
-X-Gm-Message-State: AFqh2koMeaKN40Xm7E44dkkvNT83jc6IGrzmHA1niX6uuuvlrJNOtcUP
- dQus1FHpRDxlqzbjHhvBVpLHEeRzReHL/XKYqLA=
-X-Google-Smtp-Source: AMrXdXtzp0pHcRMNDzDbxoXLtSsnv1YWVn8+vkGDj9VHe3hUy7O5ofrqXyjOcOuB7SM/LTJjO2aApUAyY1M1Wz9jbfU=
-X-Received: by 2002:a05:6102:f98:b0:3d3:c7d9:7b62 with SMTP id
- e24-20020a0561020f9800b003d3c7d97b62mr3198421vsv.72.1674516645023; Mon, 23
- Jan 2023 15:30:45 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=PDHB0ODlMstmhFdpIes6JLYo5+ikO8l0oYaAPmmlt1c=;
+ b=1o/az1n4crN+KatzRpYqzoqPW91Vdg7Xv6y0EKzpd7L/x7x+xwbOOqloT5ERsOP5th
+ rFECHQ20m9vMlD34U44TVpIXan6VyPxfqa6+AYkgJjlzlh8n5bY1eaFkA4E6UB/btnzL
+ ZYRBoLzkVihJdtOmjbZJiVZVABC2MHZePYxPww7QjD03+EXGXBQzkG9JudO6tx4YbQ/P
+ m6eckOT189rgVAwWgnW1jDoAwY45kC9SmOzIifvKYTUgTz1zKXwGXGxKMRtHVlnVmtJa
+ 1X6JtXbM9OsAOyhO+PvDQxWNxbPWpXZeEztOcn1NZgjPXMJTdmtlTJM5rnS8btlBHP5b
+ quXQ==
+X-Gm-Message-State: AFqh2kqf7aj5yzGbGW56WgD/H2/wcFZddKUOh++him2O0eSHVjv9ttKC
+ Ii54RkqmB3coUBhEuSNIRkc/+A==
+X-Google-Smtp-Source: AMrXdXtrvJkyeLq8anFSJnOID4b9C3AaKf59uOM0fvrdASPfrf/mhyTzO8Q2iNKbj2o8vaNJGqEopA==
+X-Received: by 2002:a05:6a20:3ca7:b0:b8:c646:b0e2 with SMTP id
+ b39-20020a056a203ca700b000b8c646b0e2mr1004683pzj.3.1674517091557; 
+ Mon, 23 Jan 2023 15:38:11 -0800 (PST)
+Received: from google.com (7.104.168.34.bc.googleusercontent.com.
+ [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
+ t6-20020a63b246000000b00499a90cce5bsm102181pgo.50.2023.01.23.15.38.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Jan 2023 15:38:10 -0800 (PST)
+Date: Mon, 23 Jan 2023 23:38:07 +0000
+From: Sean Christopherson <seanjc@google.com>
+To: "Huang, Kai" <kai.huang@intel.com>
+Cc: "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>,
+ "vbabka@suse.cz" <vbabka@suse.cz>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "jmattson@google.com" <jmattson@google.com>,
+ "Lutomirski, Andy" <luto@kernel.org>,
+ "ak@linux.intel.com" <ak@linux.intel.com>,
+ "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+ "Hocko, Michal" <mhocko@suse.com>, "tabba@google.com" <tabba@google.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "david@redhat.com" <david@redhat.com>,
+ "michael.roth@amd.com" <michael.roth@amd.com>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "dhildenb@redhat.com" <dhildenb@redhat.com>,
+ "bfields@fieldses.org" <bfields@fieldses.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+ "ddutile@redhat.com" <ddutile@redhat.com>,
+ "rppt@kernel.org" <rppt@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
+ "vkuznets@redhat.com" <vkuznets@redhat.com>,
+ "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+ "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+ "qperret@google.com" <qperret@google.com>, "arnd@arndb.de" <arnd@arndb.de>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "Annapurve, Vishal" <vannapurve@google.com>,
+ "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
+ "wanpengli@tencent.com" <wanpengli@tencent.com>,
+ "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
+ "hughd@google.com" <hughd@google.com>,
+ "aarcange@redhat.com" <aarcange@redhat.com>,
+ "mingo@redhat.com" <mingo@redhat.com>, "hpa@zytor.com" <hpa@zytor.com>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>,
+ "jlayton@kernel.org" <jlayton@kernel.org>,
+ "joro@8bytes.org" <joro@8bytes.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,
+ "Wang, Wei W" <wei.w.wang@intel.com>,
+ "steven.price@arm.com" <steven.price@arm.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "Hansen, Dave" <dave.hansen@intel.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linmiaohe@huawei.com" <linmiaohe@huawei.com>
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <Y88aX+MIZeteDQju@google.com>
+References: <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+ <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
+ <20221219075313.GB1691829@chaop.bj.intel.com>
+ <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
+ <20221220072228.GA1724933@chaop.bj.intel.com>
+ <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
+ <20221221133905.GA1766136@chaop.bj.intel.com>
+ <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
+ <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
+ <0959c72ec635688f4b6c1b516815f79f52543b31.camel@intel.com>
 MIME-Version: 1.0
-References: <20230123063619.222459-1-wilfred.mallawa@opensource.wdc.com>
-In-Reply-To: <20230123063619.222459-1-wilfred.mallawa@opensource.wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 24 Jan 2023 09:30:18 +1000
-Message-ID: <CAKmqyKOwU0gNZhsALyPRgD+KpMWoJVhGNfEZbykRtijaJ4BfqQ@mail.gmail.com>
-Subject: Re: [PATCH v2] include/hw/riscv/opentitan: update opentitan IRQs
-To: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
-Cc: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com, 
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
- Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e29;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe29.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0959c72ec635688f4b6c1b516815f79f52543b31.camel@intel.com>
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=seanjc@google.com; helo=mail-pj1-x102f.google.com
+X-Spam_score_int: -175
+X-Spam_score: -17.6
+X-Spam_bar: -----------------
+X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,179 +142,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 23, 2023 at 4:40 PM Wilfred Mallawa
-<wilfred.mallawa@opensource.wdc.com> wrote:
->
-> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
->
-> Updates the opentitan IRQs to match the latest supported commit of
-> Opentitan from TockOS.
->
-> OPENTITAN_SUPPORTED_SHA := 565e4af39760a123c59a184aa2f5812a961fde47
->
-> Memory layout as per [1]
->
-> [1] https://github.com/lowRISC/opentitan/blob/565e4af39760a123c59a184aa2f5812a961fde47/hw/top_earlgrey/sw/autogen/top_earlgrey_memory.h
->
-> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+On Mon, Jan 23, 2023, Huang, Kai wrote:
+> On Mon, 2023-01-23 at 15:03 +0100, Vlastimil Babka wrote:
+> > On 12/22/22 01:37, Huang, Kai wrote:
+> > > > > I argue that this page pinning (or page migration prevention) is not
+> > > > > tied to where the page comes from, instead related to how the page will
+> > > > > be used. Whether the page is restrictedmem backed or GUP() backed, once
+> > > > > it's used by current version of TDX then the page pinning is needed. So
+> > > > > such page migration prevention is really TDX thing, even not KVM generic
+> > > > > thing (that's why I think we don't need change the existing logic of
+> > > > > kvm_release_pfn_clean()). 
+> > > > > 
+> > > This essentially boils down to who "owns" page migration handling, and sadly,
+> > > page migration is kinda "owned" by the core-kernel, i.e. KVM cannot handle page
+> > > migration by itself -- it's just a passive receiver.
+> > > 
+> > > For normal pages, page migration is totally done by the core-kernel (i.e. it
+> > > unmaps page from VMA, allocates a new page, and uses migrate_pape() or a_ops-
+> > > > migrate_page() to actually migrate the page).
+> > > In the sense of TDX, conceptually it should be done in the same way. The more
+> > > important thing is: yes KVM can use get_page() to prevent page migration, but
+> > > when KVM wants to support it, KVM cannot just remove get_page(), as the core-
+> > > kernel will still just do migrate_page() which won't work for TDX (given
+> > > restricted_memfd doesn't have a_ops->migrate_page() implemented).
+> > > 
+> > > So I think the restricted_memfd filesystem should own page migration handling,
+> > > (i.e. by implementing a_ops->migrate_page() to either just reject page migration
+> > > or somehow support it).
+> > 
+> > While this thread seems to be settled on refcounts already, 
+> > 
+> 
+> I am not sure but will let Sean/Paolo to decide.
 
-Thanks!
+My preference is whatever is most performant without being hideous :-)
 
-Applied to riscv-to-apply.next
+> > just wanted
+> > to point out that it wouldn't be ideal to prevent migrations by
+> > a_ops->migrate_page() rejecting them. It would mean cputime wasted (i.e.
+> > by memory compaction) by isolating the pages for migration and then
+> > releasing them after the callback rejects it (at least we wouldn't waste
+> > time creating and undoing migration entries in the userspace page tables
+> > as there's no mmap). Elevated refcount on the other hand is detected
+> > very early in compaction so no isolation is attempted, so from that
+> > aspect it's optimal.
+> 
+> I am probably missing something,
 
-Alistair
+Heh, me too, I could have sworn that using refcounts was the least efficient way
+to block migration.
 
-> ---
-> Changes in v2:
->         - Updated the MMIO register layout/size
->         - Bumped the supported commit sha
->         - Added link to OT register layout for reference in the commit
->           msg
->
->  hw/riscv/opentitan.c         | 80 ++++++++++++++++++------------------
->  include/hw/riscv/opentitan.h | 14 +++----
->  2 files changed, 47 insertions(+), 47 deletions(-)
->
-> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-> index 64d5d435b9..353f030d80 100644
-> --- a/hw/riscv/opentitan.c
-> +++ b/hw/riscv/opentitan.c
-> @@ -31,47 +31,47 @@
->  /*
->   * This version of the OpenTitan machine currently supports
->   * OpenTitan RTL version:
-> - * <lowRISC/opentitan@d072ac505f82152678d6e04be95c72b728a347b8>
-> + * <lowRISC/opentitan@565e4af39760a123c59a184aa2f5812a961fde47>
->   *
->   * MMIO mapping as per (specified commit):
->   * lowRISC/opentitan: hw/top_earlgrey/sw/autogen/top_earlgrey_memory.h
->   */
->  static const MemMapEntry ibex_memmap[] = {
-> -    [IBEX_DEV_ROM] =            {  0x00008000,  0x8000 },
-> -    [IBEX_DEV_RAM] =            {  0x10000000,  0x20000 },
-> -    [IBEX_DEV_FLASH] =          {  0x20000000,  0x100000 },
-> -    [IBEX_DEV_UART] =           {  0x40000000,  0x1000  },
-> -    [IBEX_DEV_GPIO] =           {  0x40040000,  0x1000  },
-> -    [IBEX_DEV_SPI_DEVICE] =     {  0x40050000,  0x1000  },
-> -    [IBEX_DEV_I2C] =            {  0x40080000,  0x1000  },
-> -    [IBEX_DEV_PATTGEN] =        {  0x400e0000,  0x1000  },
-> -    [IBEX_DEV_TIMER] =          {  0x40100000,  0x1000  },
-> -    [IBEX_DEV_OTP_CTRL] =       {  0x40130000,  0x4000  },
-> -    [IBEX_DEV_LC_CTRL] =        {  0x40140000,  0x1000  },
-> -    [IBEX_DEV_ALERT_HANDLER] =  {  0x40150000,  0x1000  },
-> -    [IBEX_DEV_SPI_HOST0] =      {  0x40300000,  0x1000  },
-> -    [IBEX_DEV_SPI_HOST1] =      {  0x40310000,  0x1000  },
-> -    [IBEX_DEV_USBDEV] =         {  0x40320000,  0x1000  },
-> -    [IBEX_DEV_PWRMGR] =         {  0x40400000,  0x1000  },
-> -    [IBEX_DEV_RSTMGR] =         {  0x40410000,  0x1000  },
-> -    [IBEX_DEV_CLKMGR] =         {  0x40420000,  0x1000  },
-> -    [IBEX_DEV_PINMUX] =         {  0x40460000,  0x1000  },
-> -    [IBEX_DEV_AON_TIMER] =      {  0x40470000,  0x1000  },
-> -    [IBEX_DEV_SENSOR_CTRL] =    {  0x40490000,  0x1000  },
-> -    [IBEX_DEV_FLASH_CTRL] =     {  0x41000000,  0x1000  },
-> -    [IBEX_DEV_AES] =            {  0x41100000,  0x1000  },
-> -    [IBEX_DEV_HMAC] =           {  0x41110000,  0x1000  },
-> -    [IBEX_DEV_KMAC] =           {  0x41120000,  0x1000  },
-> -    [IBEX_DEV_OTBN] =           {  0x41130000,  0x10000 },
-> -    [IBEX_DEV_KEYMGR] =         {  0x41140000,  0x1000  },
-> -    [IBEX_DEV_CSRNG] =          {  0x41150000,  0x1000  },
-> -    [IBEX_DEV_ENTROPY] =        {  0x41160000,  0x1000  },
-> -    [IBEX_DEV_EDNO] =           {  0x41170000,  0x1000  },
-> -    [IBEX_DEV_EDN1] =           {  0x41180000,  0x1000  },
-> -    [IBEX_DEV_NMI_GEN] =        {  0x411c0000,  0x1000  },
-> -    [IBEX_DEV_PERI] =           {  0x411f0000,  0x10000 },
-> -    [IBEX_DEV_PLIC] =           {  0x48000000,  0x4005000 },
-> -    [IBEX_DEV_FLASH_VIRTUAL] =  {  0x80000000,  0x80000 },
-> +    [IBEX_DEV_ROM] =            {  0x00008000,  0x8000      },
-> +    [IBEX_DEV_RAM] =            {  0x10000000,  0x20000     },
-> +    [IBEX_DEV_FLASH] =          {  0x20000000,  0x100000    },
-> +    [IBEX_DEV_UART] =           {  0x40000000,  0x40        },
-> +    [IBEX_DEV_GPIO] =           {  0x40040000,  0x40        },
-> +    [IBEX_DEV_SPI_DEVICE] =     {  0x40050000,  0x2000      },
-> +    [IBEX_DEV_I2C] =            {  0x40080000,  0x80        },
-> +    [IBEX_DEV_PATTGEN] =        {  0x400e0000,  0x40        },
-> +    [IBEX_DEV_TIMER] =          {  0x40100000,  0x200       },
-> +    [IBEX_DEV_OTP_CTRL] =       {  0x40130000,  0x2000      },
-> +    [IBEX_DEV_LC_CTRL] =        {  0x40140000,  0x100       },
-> +    [IBEX_DEV_ALERT_HANDLER] =  {  0x40150000,  0x800       },
-> +    [IBEX_DEV_SPI_HOST0] =      {  0x40300000,  0x40        },
-> +    [IBEX_DEV_SPI_HOST1] =      {  0x40310000,  0x40        },
-> +    [IBEX_DEV_USBDEV] =         {  0x40320000,  0x1000      },
-> +    [IBEX_DEV_PWRMGR] =         {  0x40400000,  0x80        },
-> +    [IBEX_DEV_RSTMGR] =         {  0x40410000,  0x80        },
-> +    [IBEX_DEV_CLKMGR] =         {  0x40420000,  0x80        },
-> +    [IBEX_DEV_PINMUX] =         {  0x40460000,  0x1000      },
-> +    [IBEX_DEV_AON_TIMER] =      {  0x40470000,  0x40        },
-> +    [IBEX_DEV_SENSOR_CTRL] =    {  0x40490000,  0x40        },
-> +    [IBEX_DEV_FLASH_CTRL] =     {  0x41000000,  0x200       },
-> +    [IBEX_DEV_AES] =            {  0x41100000,  0x100       },
-> +    [IBEX_DEV_HMAC] =           {  0x41110000,  0x1000      },
-> +    [IBEX_DEV_KMAC] =           {  0x41120000,  0x1000      },
-> +    [IBEX_DEV_OTBN] =           {  0x41130000,  0x10000     },
-> +    [IBEX_DEV_KEYMGR] =         {  0x41140000,  0x100       },
-> +    [IBEX_DEV_CSRNG] =          {  0x41150000,  0x80        },
-> +    [IBEX_DEV_ENTROPY] =        {  0x41160000,  0x100       },
-> +    [IBEX_DEV_EDNO] =           {  0x41170000,  0x80        },
-> +    [IBEX_DEV_EDN1] =           {  0x41180000,  0x80        },
-> +    [IBEX_DEV_SRAM_CTRL] =      {  0x411c0000,  0x20        },
-> +    [IBEX_DEV_IBEX_CFG] =       {  0x411f0000,  0x100       },
-> +    [IBEX_DEV_PLIC] =           {  0x48000000,  0x8000000   },
-> +    [IBEX_DEV_FLASH_VIRTUAL] =  {  0x80000000,  0x80000     },
->  };
->
->  static void opentitan_board_init(MachineState *machine)
-> @@ -294,12 +294,12 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
->          memmap[IBEX_DEV_EDN1].base, memmap[IBEX_DEV_EDN1].size);
->      create_unimplemented_device("riscv.lowrisc.ibex.alert_handler",
->          memmap[IBEX_DEV_ALERT_HANDLER].base, memmap[IBEX_DEV_ALERT_HANDLER].size);
-> -    create_unimplemented_device("riscv.lowrisc.ibex.nmi_gen",
-> -        memmap[IBEX_DEV_NMI_GEN].base, memmap[IBEX_DEV_NMI_GEN].size);
-> +    create_unimplemented_device("riscv.lowrisc.ibex.sram_ctrl",
-> +        memmap[IBEX_DEV_SRAM_CTRL].base, memmap[IBEX_DEV_SRAM_CTRL].size);
->      create_unimplemented_device("riscv.lowrisc.ibex.otbn",
->          memmap[IBEX_DEV_OTBN].base, memmap[IBEX_DEV_OTBN].size);
-> -    create_unimplemented_device("riscv.lowrisc.ibex.peri",
-> -        memmap[IBEX_DEV_PERI].base, memmap[IBEX_DEV_PERI].size);
-> +    create_unimplemented_device("riscv.lowrisc.ibex.ibex_cfg",
-> +        memmap[IBEX_DEV_IBEX_CFG].base, memmap[IBEX_DEV_IBEX_CFG].size);
->  }
->
->  static Property lowrisc_ibex_soc_props[] = {
-> diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-> index 7659d1bc5b..c40b05052a 100644
-> --- a/include/hw/riscv/opentitan.h
-> +++ b/include/hw/riscv/opentitan.h
-> @@ -94,9 +94,9 @@ enum {
->      IBEX_DEV_EDNO,
->      IBEX_DEV_EDN1,
->      IBEX_DEV_ALERT_HANDLER,
-> -    IBEX_DEV_NMI_GEN,
-> +    IBEX_DEV_SRAM_CTRL,
->      IBEX_DEV_OTBN,
-> -    IBEX_DEV_PERI,
-> +    IBEX_DEV_IBEX_CFG,
->  };
->
->  enum {
-> @@ -108,11 +108,11 @@ enum {
->      IBEX_UART0_RX_BREAK_ERR_IRQ   = 6,
->      IBEX_UART0_RX_TIMEOUT_IRQ     = 7,
->      IBEX_UART0_RX_PARITY_ERR_IRQ  = 8,
-> -    IBEX_TIMER_TIMEREXPIRED0_0    = 127,
-> -    IBEX_SPI_HOST0_ERR_IRQ        = 134,
-> -    IBEX_SPI_HOST0_SPI_EVENT_IRQ  = 135,
-> -    IBEX_SPI_HOST1_ERR_IRQ        = 136,
-> -    IBEX_SPI_HOST1_SPI_EVENT_IRQ  = 137,
-> +    IBEX_TIMER_TIMEREXPIRED0_0    = 124,
-> +    IBEX_SPI_HOST0_ERR_IRQ        = 131,
-> +    IBEX_SPI_HOST0_SPI_EVENT_IRQ  = 132,
-> +    IBEX_SPI_HOST1_ERR_IRQ        = 133,
-> +    IBEX_SPI_HOST1_SPI_EVENT_IRQ  = 134,
->  };
->
->  #endif
-> --
-> 2.39.1
->
->
+> but IIUC the checking of refcount happens at very last stage of page migration too 
 
