@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0428D67814E
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 17:25:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB4F167814A
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 17:24:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJzbK-0007bw-Eu; Mon, 23 Jan 2023 11:23:18 -0500
+	id 1pJzbN-0007eE-13; Mon, 23 Jan 2023 11:23:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pJzbG-0007at-Sr; Mon, 23 Jan 2023 11:23:14 -0500
+ id 1pJzbH-0007b5-Ps; Mon, 23 Jan 2023 11:23:15 -0500
 Received: from linux.microsoft.com ([13.77.154.182])
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pJzbF-0003a0-81; Mon, 23 Jan 2023 11:23:14 -0500
+ id 1pJzbF-0003aN-Sn; Mon, 23 Jan 2023 11:23:15 -0500
 Received: from localhost.localdomain (unknown [77.64.253.114])
- by linux.microsoft.com (Postfix) with ESMTPSA id C824C20E1ABA;
- Mon, 23 Jan 2023 08:23:09 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C824C20E1ABA
+ by linux.microsoft.com (Postfix) with ESMTPSA id 3ECD420E2C01;
+ Mon, 23 Jan 2023 08:23:11 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3ECD420E2C01
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1674490990;
- bh=D4r48KVnk7ot18DtWCSTUBNmhBPIHZ6bG95OQJkFm5E=;
- h=From:To:Cc:Subject:Date:From;
- b=B2iic5TilhEFf/rbEu060LjiT/7DBM5xfcTCqYgMFsF7mKO87UNea/2/2NPcVRtvI
- 7lIkci+SwVgSqPBX9aWSThoxk3lI4850dCGxBXg/A6Hx7DICqfJWBJ6s+c0BZQp+wP
- h/RfNBt1odBt5TLSpz6E5GcdqLG6N1CKCRK4s27o=
+ s=default; t=1674490992;
+ bh=4oqNjtWV5XHXopxp73MULIexxMjPeEHnzsjLi/LM2aU=;
+ h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+ b=i7c8nd9eequBlWd1HiYBDQ6SlvXognEiwNvZI57YZubC27nQTzGtyz7CGdHIvOlQ7
+ aodEi64nWve9XjG2K92gN6xmCaWZlRSyUvHXckA2qy7VNE9ANLzIiW/4yrCWMyA/Z3
+ Z2dAXDtBV/mEocWKr4HaG5WjdOlaLYWhjRbOUvbE=
 From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
 To: qemu-arm@nongnu.org
 Cc: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org,
 	philmd@linaro.org
-Subject: [PATCH v4 0/5] Series of fixes for PL011 char device
-Date: Mon, 23 Jan 2023 17:22:59 +0100
-Message-Id: <20230123162304.26254-1-eiakovlev@linux.microsoft.com>
+Subject: [PATCH v4 1/5] hw/char/pl011: refactor FIFO depth handling code
+Date: Mon, 23 Jan 2023 17:23:00 +0100
+Message-Id: <20230123162304.26254-2-eiakovlev@linux.microsoft.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230123162304.26254-1-eiakovlev@linux.microsoft.com>
+References: <20230123162304.26254-1-eiakovlev@linux.microsoft.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -64,33 +66,122 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-v4:
-* Fixed post_load hook to be backwards-migratable
-* Refactored some code in 5/5 as per review comments
+PL011 can be in either of 2 modes depending guest config: FIFO and
+single register. The last mode could be viewed as a 1-element-deep FIFO.
 
-v3:
-* Introduced a post_load hook for PL011State migration for
-  backwards-compatibility due to some input state fragility.
-* No longer touching irq lines in reset method
-* Minor changes based on review feedback.
+Current code open-codes a bunch of depth-dependent logic. Refactor FIFO
+depth handling code to isolate calculating current FIFO depth.
 
-v2:
-* Moved FIFO depth refactoring part of FIFO flags change into its own
-  commit.
-* Added a reset method for PL011
+One functional (albeit guest-invisible) side-effect of this change is
+that previously we would always increment s->read_pos in UARTDR read
+handler even if FIFO was disabled, now we are limiting read_pos to not
+exceed FIFO depth (read_pos itself is reset to 0 if user disables FIFO).
 
+Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+---
+ hw/char/pl011.c         | 30 ++++++++++++++++++------------
+ include/hw/char/pl011.h |  5 ++++-
+ 2 files changed, 22 insertions(+), 13 deletions(-)
 
-Evgeny Iakovlev (5):
-  hw/char/pl011: refactor FIFO depth handling code
-  hw/char/pl011: add post_load hook for backwards-compatibility
-  hw/char/pl011: implement a reset method
-  hw/char/pl011: better handling of FIFO flags on LCR reset
-  hw/char/pl011: check if UART is enabled before RX or TX operation
-
- hw/char/pl011.c         | 121 +++++++++++++++++++++++++++++++++-------
- include/hw/char/pl011.h |   5 +-
- 2 files changed, 105 insertions(+), 21 deletions(-)
-
+diff --git a/hw/char/pl011.c b/hw/char/pl011.c
+index c076813423..3fa3b75d04 100644
+--- a/hw/char/pl011.c
++++ b/hw/char/pl011.c
+@@ -81,6 +81,17 @@ static void pl011_update(PL011State *s)
+     }
+ }
+ 
++static bool pl011_is_fifo_enabled(PL011State *s)
++{
++    return (s->lcr & 0x10) != 0;
++}
++
++static inline unsigned pl011_get_fifo_depth(PL011State *s)
++{
++    /* Note: FIFO depth is expected to be power-of-2 */
++    return pl011_is_fifo_enabled(s) ? PL011_FIFO_DEPTH : 1;
++}
++
+ static uint64_t pl011_read(void *opaque, hwaddr offset,
+                            unsigned size)
+ {
+@@ -94,8 +105,7 @@ static uint64_t pl011_read(void *opaque, hwaddr offset,
+         c = s->read_fifo[s->read_pos];
+         if (s->read_count > 0) {
+             s->read_count--;
+-            if (++s->read_pos == 16)
+-                s->read_pos = 0;
++            s->read_pos = (s->read_pos + 1) & (pl011_get_fifo_depth(s) - 1);
+         }
+         if (s->read_count == 0) {
+             s->flags |= PL011_FLAG_RXFE;
+@@ -273,11 +283,7 @@ static int pl011_can_receive(void *opaque)
+     PL011State *s = (PL011State *)opaque;
+     int r;
+ 
+-    if (s->lcr & 0x10) {
+-        r = s->read_count < 16;
+-    } else {
+-        r = s->read_count < 1;
+-    }
++    r = s->read_count < pl011_get_fifo_depth(s);
+     trace_pl011_can_receive(s->lcr, s->read_count, r);
+     return r;
+ }
+@@ -286,15 +292,15 @@ static void pl011_put_fifo(void *opaque, uint32_t value)
+ {
+     PL011State *s = (PL011State *)opaque;
+     int slot;
++    unsigned pipe_depth;
+ 
+-    slot = s->read_pos + s->read_count;
+-    if (slot >= 16)
+-        slot -= 16;
++    pipe_depth = pl011_get_fifo_depth(s);
++    slot = (s->read_pos + s->read_count) & (pipe_depth - 1);
+     s->read_fifo[slot] = value;
+     s->read_count++;
+     s->flags &= ~PL011_FLAG_RXFE;
+     trace_pl011_put_fifo(value, s->read_count);
+-    if (!(s->lcr & 0x10) || s->read_count == 16) {
++    if (s->read_count == pipe_depth) {
+         trace_pl011_put_fifo_full();
+         s->flags |= PL011_FLAG_RXFF;
+     }
+@@ -359,7 +365,7 @@ static const VMStateDescription vmstate_pl011 = {
+         VMSTATE_UINT32(dmacr, PL011State),
+         VMSTATE_UINT32(int_enabled, PL011State),
+         VMSTATE_UINT32(int_level, PL011State),
+-        VMSTATE_UINT32_ARRAY(read_fifo, PL011State, 16),
++        VMSTATE_UINT32_ARRAY(read_fifo, PL011State, PL011_FIFO_DEPTH),
+         VMSTATE_UINT32(ilpr, PL011State),
+         VMSTATE_UINT32(ibrd, PL011State),
+         VMSTATE_UINT32(fbrd, PL011State),
+diff --git a/include/hw/char/pl011.h b/include/hw/char/pl011.h
+index dc2c90eedc..926322e242 100644
+--- a/include/hw/char/pl011.h
++++ b/include/hw/char/pl011.h
+@@ -27,6 +27,9 @@ OBJECT_DECLARE_SIMPLE_TYPE(PL011State, PL011)
+ /* This shares the same struct (and cast macro) as the base pl011 device */
+ #define TYPE_PL011_LUMINARY "pl011_luminary"
+ 
++/* Depth of UART FIFO in bytes, when FIFO mode is enabled (else depth == 1) */
++#define PL011_FIFO_DEPTH 16
++
+ struct PL011State {
+     SysBusDevice parent_obj;
+ 
+@@ -39,7 +42,7 @@ struct PL011State {
+     uint32_t dmacr;
+     uint32_t int_enabled;
+     uint32_t int_level;
+-    uint32_t read_fifo[16];
++    uint32_t read_fifo[PL011_FIFO_DEPTH];
+     uint32_t ilpr;
+     uint32_t ibrd;
+     uint32_t fbrd;
 -- 
 2.34.1
 
