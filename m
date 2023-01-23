@@ -2,75 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49825677C93
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EE7D677C92
 	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:33:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJww3-0001iw-Tb; Mon, 23 Jan 2023 08:32:31 -0500
+	id 1pJww4-0001k4-Lu; Mon, 23 Jan 2023 08:32:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1pJwvO-0001WV-H6
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:31:59 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pJwva-0001bg-6S
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:32:11 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1pJwui-00018y-Kr
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:31:22 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- l41-20020a05600c1d2900b003daf986faaeso8561922wms.3
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:30:58 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pJwvR-0001AT-9m
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:31:56 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003d9712b29d2so10621719wmb.2
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:31:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=rJ+NTy4gErUqe3J/rKHXwISGJuTXa4/wfP/P8jVuQk8=;
- b=gUcqb3Fwhd6L6g7IERSuIu/TgI492IHOy6HijKxFlOaWxw1aoKisPrO5dga5Ln/VUe
- Lq3Q6WBNeCYMCEvmbvqeTtQHQLjTwIYL9Qb0ggRIkENiliTxW8vzd9ZseSKa29w/THrp
- IhBmBySvzikG0WIpHhaJYS7LkpOznnpp1jarcvKGsBzPPMN1OdK6mM4+1OOjBwFKi0nN
- 1mpQivM/ANo4ZHyuCShjBIjY+8K0e4lVzP5WS1cJnFSdlplpoUlAvLvHRbMyHGGqCLsB
- 5IAriQOK2EMBJnUFlIWnzGOF2c5eMYbuphlCI8BtcQQ9AWWssWGvgM5jFE+toh9mQKV0
- Sssg==
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=mBD5y8cfI6GMwahAw4KyuJkxWK4yyvM9tjn4dxB1/vk=;
+ b=gKnnmDA7IXowzA524+ovhlLeVCltdsaZnzPaNV+xZPY2Dv+x6Guxo+DQbmQfKTetHS
+ 0+BahoM/KESIalrOeTLg4TYFigyGMKF/GjFuk6NQwBPsrTU4SNjiUcqxKbJQ9LNhYmlb
+ ZqD5FqqAbGtBo6DO3AE6DyM5Bx/9Xbe/gwcXZ8CPhkBd7EK+yKzRQL4Ujrm6IcSYaaPu
+ zw8B0RMDkr+sH3HKH+BCVKR7ykiJTTRtxHyRWDwrTg6qesBE+Lpm32Pgx0x1jNOi4f/B
+ aKcW3IJyMW+bdXg9oZ4Di0sw1HFudTD5fdisvheelPLYFsfhdP827zAwYA95fT24M8/C
+ eh1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rJ+NTy4gErUqe3J/rKHXwISGJuTXa4/wfP/P8jVuQk8=;
- b=NeIZc8h1X/x43dtmnpkIZGEzDoMZzc0eNlS+WZofJ6V65WxqMvrJisXgK5pUWjEria
- 9fTIu+jQqF09IDOdGFMzQifFfxw4ukAQLw7gC5fhM9a0ZwrtowDUrdZjGGL+f5q7mnOl
- gYmRRw08tAg8tsQ1f0Yp3Ty4sIi/TyGcImzneRCGCrH3YArSUH3GHrAY2rk/sHsXl8n/
- vKLaAogNoU0PUCDCexWXEDdnjr58JSEWfrX1JqGXkAs0RDVqQOnYSxW3a5moOFRyWTVJ
- l9Ycu3Uev5TDYwXEAHgjQbTA3WQp288ZJ/IGgXrazkzPQBVJVsCooCFT7eMnozK2fnf9
- kOtw==
-X-Gm-Message-State: AFqh2koC1IrLVm+/ujqwPmHU2KM3YRHjEHFK/KD8TVStM501KKxTNjZ2
- eTNxicMiWMKi/p6tG65sbELv8j08HJJJjj7U
-X-Google-Smtp-Source: AMrXdXsbIOAaIN0JZumf0FpPypdUglr+dzsvOrQoZPpo+cn9URN3SJlVWATgezepA6GzzuVnHarEuA==
-X-Received: by 2002:a05:600c:4f08:b0:3db:9e3:3bf1 with SMTP id
- l8-20020a05600c4f0800b003db09e33bf1mr22844182wmq.31.1674480656115; 
- Mon, 23 Jan 2023 05:30:56 -0800 (PST)
-Received: from bark.. (bzq-84-110-34-91.static-ip.bezeqint.net. [84.110.34.91])
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=mBD5y8cfI6GMwahAw4KyuJkxWK4yyvM9tjn4dxB1/vk=;
+ b=tajIpUNs47V6SgEpDeG/AV5updUBuH3kyITNkUSkjthBcWmZqcY98sOua3xgzVj1TF
+ QBBXYL1p34rNYBSf0jX9tdrVzYqnWfY6MzL8IOBy/ozXxZJnVSOQEwegoPOFjBnQDrY/
+ g0zrEqqaEG5UEKDs50PSndltvUEtvAInyslozY1nBWo1JxzBCtEI7U6CZRbPCfmZweG1
+ psUNOYaxYfWko4leT4rVk61Wxpk+GcRfAExeOYsK25IuaHO53kwe8ypC6/Wee2gezT1z
+ I+JSqFntNBoR+mdb4jLsmfSoIH1ggxFLm4N8a1bx+prcwFU/VNTVkURZTEr2GlESzqR0
+ WzSg==
+X-Gm-Message-State: AFqh2kqRSDCavQsYu7Zyv4VymFUOFAC7UbH3PORS7vSJkLK2IoB0m2HK
+ Vm5a26pvd2GU8coXOkmopltXTA==
+X-Google-Smtp-Source: AMrXdXtCJQH+shuT8TM2DWLcDW3vfAmXySSIts6bimE43JL+BXwiojejXuGvVjmMtUyKFdP+LZnqtA==
+X-Received: by 2002:a05:600c:a4e:b0:3db:14d0:65be with SMTP id
+ c14-20020a05600c0a4e00b003db14d065bemr19426771wmq.34.1674480688621; 
+ Mon, 23 Jan 2023 05:31:28 -0800 (PST)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz.
+ [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
  by smtp.gmail.com with ESMTPSA id
- b16-20020adff910000000b002bdf8dd6a8bsm20379622wrr.80.2023.01.23.05.30.54
+ 17-20020a05600c021100b003dafb0c8dfbsm12169287wmi.14.2023.01.23.05.31.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 05:30:55 -0800 (PST)
-From: Kfir Manor <kfir@daynix.com>
-To: qemu-devel@nongnu.org, Konstantin Kostiuk <kkostiuk@redhat.com>,
- Michael Roth <michael.roth@amd.com>
-Cc: Yan Vugenfirer <yan@daynix.com>
-Subject: [PATCH v2] qga/linux: add usb support to guest-get-fsinfo
-Date: Mon, 23 Jan 2023 15:30:49 +0200
-Message-Id: <20230123133049.1053505-1-kfir@daynix.com>
-X-Mailer: git-send-email 2.38.1
+ Mon, 23 Jan 2023 05:31:28 -0800 (PST)
+Date: Mon, 23 Jan 2023 14:31:27 +0100
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 5/5] riscv: Introduce satp mode hw capabilities
+Message-ID: <20230123133127.7dyqhdryrbp27o46@orel>
+References: <20230123090324.732681-1-alexghiti@rivosinc.com>
+ <20230123090324.732681-6-alexghiti@rivosinc.com>
+ <20230123105112.zidabgiswkpnzo5r@orel>
+ <CAHVXubg77ywMLWh=JOmdhWA=pYeQ5nLAif_9VhRmkcpD6wKZng@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2a00:1450:4864:20::333;
- envelope-from=kfir@daynix.com; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHVXubg77ywMLWh=JOmdhWA=pYeQ5nLAif_9VhRmkcpD6wKZng@mail.gmail.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=ajones@ventanamicro.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,36 +98,111 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Kfir Manor <kfir@daynix.com>
----
- qga/commands-posix.c | 6 +++++-
- 1 file changed, 5 insertions(+), 1 deletion(-)
+On Mon, Jan 23, 2023 at 12:15:08PM +0100, Alexandre Ghiti wrote:
+> On Mon, Jan 23, 2023 at 11:51 AM Andrew Jones <ajones@ventanamicro.com> wrote:
+> >
+> > On Mon, Jan 23, 2023 at 10:03:24AM +0100, Alexandre Ghiti wrote:
+> > > Currently, the max satp mode is set with the only constraint that it must be
+> > > implemented in qemu, i.e. set in valid_vm_1_10_[32|64].
+> > >
+> > > But we actually need to add another level of constraint: what the hw is
+> > > actually capable of, because currently, a linux booting on a sifive-u54
+> > > boots in sv57 mode which is incompatible with the cpu's sv39 max
+> > > capability.
+> > >
+> > > So add a new bitmap to RISCVSATPMap which contains this capability and
+> > > initialize it in every XXX_cpu_init.
+> > >
+> > > Finally, we have the following chain of constraints:
+> > >
+> > > Qemu capability > HW capability > User choice > Software capability
+> >
+> >                                                   ^ What software is this?
+> >                          I'd think the user's choice would always be last.
+> >
+> > >
+> > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > > ---
+> > >  target/riscv/cpu.c | 78 +++++++++++++++++++++++++++++++---------------
+> > >  target/riscv/cpu.h |  8 +++--
+> > >  2 files changed, 59 insertions(+), 27 deletions(-)
+> > >
+> > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > > index e409e6ab64..19a37fee2b 100644
+> > > --- a/target/riscv/cpu.c
+> > > +++ b/target/riscv/cpu.c
+> > > @@ -292,24 +292,39 @@ const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit)
+> > >      g_assert_not_reached();
+> > >  }
+> > >
+> > > -/* Sets the satp mode to the max supported */
+> > > -static void set_satp_mode_default(RISCVCPU *cpu, bool is_32_bit)
+> > > +static void set_satp_mode_max_supported(RISCVCPU *cpu,
+> > > +                                        const char *satp_mode_str,
+> > > +                                        bool is_32_bit)
+> > >  {
+> > > -    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
+> > > -        cpu->cfg.satp_mode.map |=
+> > > -                        (1 << satp_mode_from_str(is_32_bit ? "sv32" : "sv57"));
+> > > -    } else {
+> > > -        cpu->cfg.satp_mode.map |= (1 << satp_mode_from_str("mbare"));
+> > > +    uint8_t satp_mode = satp_mode_from_str(satp_mode_str);
+> > > +    const bool *valid_vm = is_32_bit ? valid_vm_1_10_32 : valid_vm_1_10_64;
+> > > +
+> > > +    for (int i = 0; i <= satp_mode; ++i) {
+> > > +        if (valid_vm[i]) {
+> > > +            cpu->cfg.satp_mode.supported |= (1 << i);
+> >
+> > I don't think we need a new 'supported' bitmap, I think each board that
+> > needs to further constrain va-bits from what QEMU supports should just set
+> > valid_vm_1_10_32/64. I.e. drop const from the arrays and add an init
+> > function something like
+> 
+> This was my first idea too, but those arrays are global and I have to
+> admit that I thought it was possible to emulate a cpu with different
+> cores. Anyway, isn't it a bit weird to store this into some global
+> array whereas it is intimately linked to the CPU? To me, it makes
+> sense to keep those variables as a way to know what qemu is able to
+> emulate and have a CPU specific map like in this patch for the hw
+> capabilities. Does it make sense to you?
 
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-index ebd33a643c..aab9d3bd50 100644
---- a/qga/commands-posix.c
-+++ b/qga/commands-posix.c
-@@ -880,7 +880,9 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
-                        g_str_equal(driver, "sym53c8xx") ||
-                        g_str_equal(driver, "virtio-pci") ||
-                        g_str_equal(driver, "ahci") ||
--                       g_str_equal(driver, "nvme"))) {
-+                       g_str_equal(driver, "nvme") ||
-+                       g_str_equal(driver, "xhci_hcd") ||
-+                       g_str_equal(driver, "ehci-pci"))) {
-             break;
-         }
- 
-@@ -977,6 +979,8 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
-         }
-     } else if (strcmp(driver, "nvme") == 0) {
-         disk->bus_type = GUEST_DISK_BUS_TYPE_NVME;
-+    } else if (strcmp(driver, "ehci-pci") == 0 || strcmp(driver, "xhci_hcd") == 0) {
-+        disk->bus_type = GUEST_DISK_BUS_TYPE_USB;
-     } else {
-         g_debug("unknown driver '%s' (sysfs path '%s')", driver, syspath);
-         goto cleanup;
--- 
-2.38.1
+Ah, yes, to support heterogeneous configs it's best to keep this
+information per-cpu. I'll take another look at the patch.
 
+> 
+> >
+> >  #define QEMU_SATP_MODE_MAX VM_1_10_SV64
+> >
+> >  void riscv_cpu_set_satp_mode_max(RISCVCPU *cpu, uint8_t satp_mode_max)
+> >  {
+> >      bool is_32_bit = cpu->env.misa_mxl == MXL_RV32;
+> >      bool *valid_vm = is_32_bit ? valid_vm_1_10_32 : valid_vm_1_10_64;
+> >
+> >      g_assert(satp_mode_max <= QEMU_SATP_MODE_MAX);
+> >      g_assert(!is_32_bit || satp_mode_max < 2);
+> >
+> >      memset(valid_vm, 0, sizeof(*valid_vm));
+> >
+> >      for (int i = 0; i <= satp_mode_max; i++) {
+> >          valid_vm[i] = true;
+> >      }
+> >  }
+> >
+> > The valid_vm[] checks already in finalize should then manage the
+> > validation needed to constrain boards. Only boards that care about
+> > this need to call this function, otherwise they'll get the default.
+> >
+> > Also, this patch should come before the patch that changes the default
+> > for all boards to sv57 in order to avoid breaking bisection.
+> 
+> As I explained earlier, I didn't change the default to sv57! Just
+> fixed what was passed via the device tree, which should not be used
+> anyway :)
+
+OK, I keep misunderstanding how we're "fixing" something which is
+is wrong, but apparently doesn't exhibit any symptoms. So, assuming
+it doesn't matter, then I guess it can come anywhere in the series.
+
+Thanks,
+drew
 
