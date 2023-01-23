@@ -2,88 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83D1B6775DC
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 08:56:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 987BB6775DF
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 08:57:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJrfv-0003wI-73; Mon, 23 Jan 2023 02:55:31 -0500
+	id 1pJrhc-0004kb-JI; Mon, 23 Jan 2023 02:57:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pJrfp-0003uQ-Du
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:55:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pJrfn-0004XX-Cj
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:55:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674460521;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dZbLIvdq+jFGla8r5E9rjvW/zCpYemsZXz/7OZ2n4Yc=;
- b=SLSyGZLSrWJeVKcuHwaO14RfgWRQmq3/d6T0URw62C37x9dwY3OWUWQsxvsZR9svkHhnpQ
- 3FdqSoqSDuOkVmA6qTBbDi+pTOjzJ8z/O8jW+shc41nc/zQrfhApAm+fEQCNelrlWt+sei
- ZRu+2BZ38sn/S51JI30xdeZqT6gb5ns=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-631-eEK7SRhfN9CkCk-geuHlYg-1; Mon, 23 Jan 2023 02:55:20 -0500
-X-MC-Unique: eEK7SRhfN9CkCk-geuHlYg-1
-Received: by mail-qk1-f198.google.com with SMTP id
- bm30-20020a05620a199e00b007090f3c5ec0so6629166qkb.21
- for <qemu-devel@nongnu.org>; Sun, 22 Jan 2023 23:55:20 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJrha-0004kC-0B
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:57:14 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJrhY-00055n-Dv
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:57:13 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ fl11-20020a05600c0b8b00b003daf72fc844so9970823wmb.0
+ for <qemu-devel@nongnu.org>; Sun, 22 Jan 2023 23:57:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=AfXD4vTovgSGpDyzIOIg4P0dJNGVqIx9/WnefyEzN3Y=;
+ b=WhP9PTNuJPM2xLe+dUmx9EX/WFX1XfUC+ruBYb+a5YwyCgJBPWw8kn4sLBIBmuUsv/
+ QSylx0UYrdJ06o5Pn1/oQ0TuzBU28t4Zf76ZHwYiHm02+AgOTMABRHq6PfFI65Ci4gwq
+ gtWaa03FoesJmnozaXYkGJzwrfF5qSXT1j8lUZtlbWSpJh4dZgf+rXyyOzpAKZTjjbgZ
+ LYYWifbksmsIZlf+WhU3MhHaUg2/4x3OWlJPcIbKpbfB5t19plsxRcznaxOHHvcDFMDW
+ usaLp9YkMqxp4DBIEnk3eTajKDJJYxbVAKoJ3iUgj+Ss1Zekgx1gy3o9OReOzNXbPkPZ
+ zszA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=dZbLIvdq+jFGla8r5E9rjvW/zCpYemsZXz/7OZ2n4Yc=;
- b=KkzZcStbC93yLniFGUgz4TlMowTxEVUGnzFT7nKzocnKpyvH3RhkLs2Jd5ESVfgBcE
- hitxPtsd2BR7mZ7F9HRsQ2RrMDqcveBqiIWAfnh6XvW7IpO73XMoxDUbiFz62clcpBhW
- B5nUiYlQWPyvQwP0gmswtpBp2AM5ycqvBPiEOHl/ZsLWQIurwuhCiw+IMPkitKdNuz+X
- hEVxZLvXw5He53tjMwosVcv5ynnjliC4YnJiDykTdBw4/XKbjzdlVrCR6qSiqQMeyBmD
- NK2FqkT5WzGu2O3gpUWZSjzrbk2H9NAKDFaRJyP9kTaIoUUzsLQbTY+F88iGDWjb9/Vk
- zjIQ==
-X-Gm-Message-State: AFqh2krDOeJwAnQ+qNZkYiNDm8SYdrVm+mSGBXoqiR48a5PuLhgHVeNC
- Q6C64gBTAIdaqAJMqaNKiihPRsxjBcO/L9F8hwFY/UGKyDeusN9CuKR7jvZGKtx68R+aCQvewgX
- mmcsyq3w9v5epkOc=
-X-Received: by 2002:ac8:6743:0:b0:3b6:3995:54f0 with SMTP id
- n3-20020ac86743000000b003b6399554f0mr32710248qtp.54.1674460519695; 
- Sun, 22 Jan 2023 23:55:19 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsgfOvzwnT28QL6ZV6OMqNPyjFbt//3DRhIVNB8Sw/tRIlbQ8m49jSBiXhoy0XI3s7IaapLpQ==
-X-Received: by 2002:ac8:6743:0:b0:3b6:3995:54f0 with SMTP id
- n3-20020ac86743000000b003b6399554f0mr32710231qtp.54.1674460519421; 
- Sun, 22 Jan 2023 23:55:19 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-178-90.web.vodafone.de.
- [109.43.178.90]) by smtp.gmail.com with ESMTPSA id
- h20-20020ac85154000000b003b69b37e036sm4713786qtn.81.2023.01.22.23.55.17
+ bh=AfXD4vTovgSGpDyzIOIg4P0dJNGVqIx9/WnefyEzN3Y=;
+ b=smckMW3qSnCq0B+M+IBP4gYL6VvAGGqdysXNCuUIf/fsNVx1oOtay5BoewcyxgpS67
+ Gw9C68vXmXSgRTH6pbM0yBdFSsovWR0VfirrTfsGxjiFqGas9BdYtOnbrYMzIa1N11uf
+ OopfAJUTS0L9aYhq/Z5+c4rpiMU6Oy+YBtOSmFD4GvnCZPjL1wFa7iqHbFSfEJvVfFer
+ aTCJqXygV4CTGTlz62Z/9RCRhMgvhul5GNxIZVey4ajbYnh9XFpkaO6GVZf+9A8G/5Br
+ ObrW8dBYC6Rx8aec1RbfRNpmDQByhcvSfTRttuELu9ss7bR468992u9877XvDE5FgpKg
+ m9oQ==
+X-Gm-Message-State: AFqh2kpTJsh4E0kT4bugF+HdCEAOwSWtcCTUdXPJyrCmd3gexlJbQZWW
+ NkiXjMWzdsc9+RsGwa25ItUULg==
+X-Google-Smtp-Source: AMrXdXtupeo9mPoGrLyMpUhCgfuwKFsJ4AqGas23agZpu1PV9aekdf2bsAwEAmIPB58o1SFt6OPk9A==
+X-Received: by 2002:a05:600c:2d0b:b0:3da:fcf0:a31d with SMTP id
+ x11-20020a05600c2d0b00b003dafcf0a31dmr23060824wmf.22.1674460630780; 
+ Sun, 22 Jan 2023 23:57:10 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ fm17-20020a05600c0c1100b003db06224953sm11744754wmb.41.2023.01.22.23.57.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 Jan 2023 23:55:18 -0800 (PST)
-Message-ID: <77fcbf0a-0f9a-d3bc-c1cf-0ec3e21399c9@redhat.com>
-Date: Mon, 23 Jan 2023 08:55:16 +0100
+ Sun, 22 Jan 2023 23:57:10 -0800 (PST)
+Message-ID: <c38c9c94-b629-0cdd-acd9-ac800ff9da8d@linaro.org>
+Date: Mon, 23 Jan 2023 08:57:08 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] tests/qtest: Plug memory leaks in qtest_get_machines
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 3/7] hw/acpi/{ich9,piix4}: Resolve redundant io_base
+ address attributes
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20230120194435.29796-1-farosas@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230120194435.29796-1-farosas@suse.de>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Eduardo Habkost <eduardo@habkost.net>
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+References: <20230122170724.21868-1-shentey@gmail.com>
+ <20230122170724.21868-4-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230122170724.21868-4-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,72 +96,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/01/2023 20.44, Fabiano Rosas wrote:
-> These leaks can be avoided:
+Hi Bernhard,
+
+On 22/1/23 18:07, Bernhard Beschow wrote:
+> A MemoryRegion has an addr attribute which gets set to the same values
+> as the redundant io_addr attributes.
 > 
->   759 bytes in 61 blocks are still reachable in loss record 56 of 60
->      at 0x4034744: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
->      by 0x4A88518: g_malloc (in /usr/lib64/libglib-2.0.so.0.7000.5)
->      by 0x4AA313E: g_strdup (in /usr/lib64/libglib-2.0.so.0.7000.5)
->      by 0x12083E: qtest_get_machines (libqtest.c:1323)
->      by 0x12098C: qtest_cb_for_every_machine (libqtest.c:1348)
->      by 0x11556C: main (test-hmp.c:160)
-> 
->   992 bytes in 1 blocks are still reachable in loss record 57 of 60
->      at 0x4034744: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
->      by 0x4A88518: g_malloc (in /usr/lib64/libglib-2.0.so.0.7000.5)
->      by 0x120725: qtest_get_machines (libqtest.c:1313)
->      by 0x12098C: qtest_cb_for_every_machine (libqtest.c:1348)
->      by 0x11556C: main (test-hmp.c:160)
-> 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   tests/qtest/libqtest.c | 14 ++++++++++++++
->   1 file changed, 14 insertions(+)
-> 
-> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> index 6b2216cb20..65abac5029 100644
-> --- a/tests/qtest/libqtest.c
-> +++ b/tests/qtest/libqtest.c
-> @@ -1285,6 +1285,18 @@ struct MachInfo {
->       char *alias;
->   };
+>   include/hw/acpi/ich9.h  |  1 -
+>   include/hw/acpi/piix4.h |  2 --
+>   hw/acpi/ich9.c          | 17 ++++++++---------
+>   hw/acpi/piix4.c         | 11 ++++++-----
+>   4 files changed, 14 insertions(+), 17 deletions(-)
+
+> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> index 370b34eacf..2e9bc63fca 100644
+> --- a/hw/acpi/piix4.c
+> +++ b/hw/acpi/piix4.c
+> @@ -91,13 +91,14 @@ static void apm_ctrl_changed(uint32_t val, void *arg)
+>   static void pm_io_space_update(PIIX4PMState *s)
+>   {
+>       PCIDevice *d = PCI_DEVICE(s);
+> +    uint32_t io_base;
 >   
-> +static void qtest_free_machine_info(gpointer data)
-> +{
-> +    struct MachInfo *machines = data;
-> +    int i;
-> +
-> +    for (i = 0; machines[i].name != NULL; i++) {
-> +        g_free((void *)machines[i].name); > +        g_free((void *)machines[i].alias);
-
-I'd suggest setting .name and .alias to NULL after freeing them, to avoid 
-that danling pointers are left behind.
-
-> +    }
-> +    g_free(machines);
-> +}
-> +
->   /*
->    * Returns an array with pointers to the available machine names.
->    * The terminating entry has the name set to NULL.
-> @@ -1336,6 +1348,8 @@ static struct MachInfo *qtest_get_machines(void)
->       qobject_unref(response);
+> -    s->io_base = le32_to_cpu(*(uint32_t *)(d->config + 0x40));
+> -    s->io_base &= 0xffc0;
+> +    io_base = le32_to_cpu(*(uint32_t *)(d->config + 0x40));
+> +    io_base &= 0xffc0;
 >   
->       memset(&machines[idx], 0, sizeof(struct MachInfo)); /* Terminating entry */
-> +    g_test_queue_destroy(qtest_free_machine_info, machines);
+>       memory_region_transaction_begin();
+>       memory_region_set_enabled(&s->io, d->config[0x80] & 1);
+> -    memory_region_set_address(&s->io, s->io_base);
+> +    memory_region_set_address(&s->io, io_base);
 
-So this frees the machines structure...
+OK for this part.
 
->       return machines;
-
-... but here it gets returned, too? ... that looks wrong. Did you maybe 
-rather want to free it at the end of qtest_cb_for_every_machine() and 
-qtest_has_machine ?
-
-  Thomas
-
+>       memory_region_transaction_commit();
 >   }
 >   
+> @@ -433,8 +434,8 @@ static void piix4_pm_add_properties(PIIX4PMState *s)
+>                                     &s->ar.gpe.len, OBJ_PROP_FLAG_READ);
+>       object_property_add_uint16_ptr(OBJECT(s), ACPI_PM_PROP_SCI_INT,
+>                                     &sci_int, OBJ_PROP_FLAG_READ);
+> -    object_property_add_uint32_ptr(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
+> -                                  &s->io_base, OBJ_PROP_FLAG_READ);
+> +    object_property_add_uint64_ptr(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
+> +                                   &s->io.addr, OBJ_PROP_FLAG_READ);
 
++Eduardo/Mark
+
+We shouldn't do that IMO, because we access an internal field from
+another QOM object.
+
+We can however alias the MR property:
+
+   object_property_add_alias(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
+                             OBJECT(&s->io), "addr");
+
+>   }
 
