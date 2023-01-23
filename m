@@ -2,84 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E61E677A8A
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 13:06:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40D5B677A95
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 13:10:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJvaH-0001Pa-H6; Mon, 23 Jan 2023 07:05:57 -0500
+	id 1pJve0-0003Zv-E7; Mon, 23 Jan 2023 07:09:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJvaB-0001Oi-1K
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:05:51 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJva9-0001rw-5H
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:05:50 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- o17-20020a05600c511100b003db021ef437so8368041wms.4
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 04:05:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BcDngAGaZVRQSgdU7ckMXu1kfzbLj10vrove+FLauy4=;
- b=CiZ33X0cYkCWs2+MwJyPXH5IBWkUdvx9OtioWEPllaB87kJFMSKvXHjhZiH3FVSCO3
- ljO/mo1YSS2zqgekSkC1WOxxts298vBhGKZpd/3sPf7iEiUcy6kXPuXWU7gu4cvpYpOQ
- +SKMfYwyCPiXoe5LdeQYQz/5UnzL9CqNw16PuhjugfY1gazZnlpqQSTnQnn/payQbvVI
- yLvsxomPSLAvhDK+bfDwtZl3yJyUKDNSLjTstDJEU/G/q930qMfMTpyqH3LUBk+9A6DM
- cW+g4FZ3lD8UtyX5WUbuFSAWzFdY/miAUZexnkf86ki9Gizfk3qSt2adUqENsf/eVgH4
- /nhw==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pJvdy-0003Zl-IJ
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:09:46 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pJvdw-0002u3-T1
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:09:46 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674475783;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cCzNTLmTqb+tYP3FlfJsh82GID+HvwgXYb0MQFz8aZM=;
+ b=hhlkaNh5r08/B0u1QVy5E2xG9MR94f/duItNdllfOVMVv3o59CxTLjiOm5ySWehh3gx1SX
+ c/vjkOb1L4Of4UFXF1q1TfbNYTie4GwOEJUZsXJwhPa7cc+4IBlyM2C2e2HKaWbHwA9Hbs
+ wZ1k3BP2SF8W+b1tycgQoamJS6AqC0s=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-141-L1KxZKiUMkGtlzfhYI3VCA-1; Mon, 23 Jan 2023 07:09:42 -0500
+X-MC-Unique: L1KxZKiUMkGtlzfhYI3VCA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ c66-20020a1c3545000000b003d355c13229so9341518wma.0
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 04:09:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BcDngAGaZVRQSgdU7ckMXu1kfzbLj10vrove+FLauy4=;
- b=pZb/YlelK+WY9RMMPL3PEN8x2hnHbQ8k5SxSj3AxMrUIptZWeShwWHS9JGKkHV26va
- r82x4QbPwKsC0q1mou8BGJ61yxkV+lCbfZnMXavkTTniMN0fhutvmDpbFILX/IFMkBZU
- fpOh+0kgXcWXlgxEAJO0NOXyYVXAqjSyt7GqyKPIHJOnR2DWf9LTIllrqXiFonxgBU+C
- SvxNtZOicppA6R4KB+UBjzGQrZlveaqYvDlhTcqGPqtRng/ImyFWWaW9fArk8+hwbehV
- HjX9OEaMKOL5Yu7jnEFzouPPJxQoX9PL8xtm07J75TsL3RIbO0LrOXBJpMjLVNWXDlBp
- RAOw==
-X-Gm-Message-State: AFqh2kraVsvISbKmXBF/ScjNFGc20kQd/e18oTz2WIhFJD20tIkIMqNV
- h0QAKg+XKZuL7EzRXpFfmRrluQ==
-X-Google-Smtp-Source: AMrXdXuGXhTvcfVMNet84rfsc5nOspFQXQ6ZU2htxRxjXyDL1QccLrVRA9ErKa3nhtNvklx3N63ubA==
-X-Received: by 2002:a05:600c:331d:b0:3d3:591a:bfda with SMTP id
- q29-20020a05600c331d00b003d3591abfdamr31579232wmp.27.1674475547425; 
- Mon, 23 Jan 2023 04:05:47 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- f22-20020a1cc916000000b003d35acb0fd7sm10645535wmb.34.2023.01.23.04.05.46
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 04:05:47 -0800 (PST)
-Message-ID: <c94b801d-3c19-24c7-505a-7ab0d98faa67@linaro.org>
-Date: Mon, 23 Jan 2023 13:05:45 +0100
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=cCzNTLmTqb+tYP3FlfJsh82GID+HvwgXYb0MQFz8aZM=;
+ b=XrBi7V0jEtSoiCtWIThx4BGec3iqzOoqVxTvjYBEh5aIcPqodMmJyNhU+0jl9ereOs
+ 7BfTFwZ4HKyLCyGJeuMYD19oDcZupuPSUYO4n2jnGjvu80g2GxwPS/vPkUbS0eQy9kUL
+ qMqoqNCBT16sV61tuYKBF9Wvt0/0vvfcHaIo1UGyXSsS3bYONYw96EzwsIIk8ejDKxbc
+ cQYCv4AEt3Xaa9wJM15dpVjbZ1SdiV9Kd41kx9+Oqf7uhu15G47Op4RO8QX+L1cMF3t/
+ JqlkiZxH8pgKxwK75y/jH/n6BI3BzWg7H3Vl7v3oB0UUOyS8Gz09Zgjfa/1Purd6OgqV
+ W6Uw==
+X-Gm-Message-State: AFqh2kq849DEjaR8NpQJ9K0Vq66+/7y1Mv1pzWx9JfrO/f8iEPanBmfA
+ Zzl2cXDzdnIsoHazJZ5mU4n4136G55H8GJfyzszLe1LFrAZDu1KA+jnc/1Jlk+nN7GAadWx5CmH
+ AF82bq5xj8v8mUTM=
+X-Received: by 2002:a5d:6648:0:b0:2bc:805a:3e77 with SMTP id
+ f8-20020a5d6648000000b002bc805a3e77mr17224865wrw.15.1674475781010; 
+ Mon, 23 Jan 2023 04:09:41 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuHUIZH4I2HeOVCLOLrvy1Vp18R+KRuOEnYw4gwnfEVmytabgVNJEfNXu+qYZdXuFm2WSHbIw==
+X-Received: by 2002:a5d:6648:0:b0:2bc:805a:3e77 with SMTP id
+ f8-20020a5d6648000000b002bc805a3e77mr17224847wrw.15.1674475780714; 
+ Mon, 23 Jan 2023 04:09:40 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ h10-20020a05600016ca00b00267bcb1bbe5sm4815421wrf.56.2023.01.23.04.09.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Jan 2023 04:09:40 -0800 (PST)
+Date: Mon, 23 Jan 2023 12:09:38 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
+ qemu-devel@nongnu.org, Bin Meng <bin.meng@windriver.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: [RFC PATCH 2/2] hw/sd: skip double power-up in
+ sd_vmstate_pre_load()
+Message-ID: <Y855ApwNhuo3qLmR@work-vm>
+References: <20230120120133.666993-1-dbarboza@ventanamicro.com>
+ <20230120120133.666993-3-dbarboza@ventanamicro.com>
+ <1ddbd1ec-6419-3b73-b913-c0584e041ffe@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 1/2] qapi, audio: add query-audiodev command
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Volker_R=c3=bcmelin?=
- <vr_qemu@t-online.de>, Christian Schoenebeck <qemu_oss@crudebyte.com>
-References: <20230123083957.20349-1-thuth@redhat.com>
- <20230123083957.20349-2-thuth@redhat.com>
- <47d18f28-73b1-af59-ab65-2366ed3da55a@linaro.org>
- <Y85rVoXhR5skLVOz@redhat.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <Y85rVoXhR5skLVOz@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+In-Reply-To: <1ddbd1ec-6419-3b73-b913-c0584e041ffe@linaro.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,115 +107,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/1/23 12:11, Daniel P. Berrangé wrote:
-> On Mon, Jan 23, 2023 at 10:20:29AM +0100, Philippe Mathieu-Daudé wrote:
->> On 23/1/23 09:39, Thomas Huth wrote:
->>> From: Daniel P. Berrangé <berrange@redhat.com>
->>>
->>> Way back in QEMU 4.0, the -audiodev command line option was introduced
->>> for configuring audio backends. This CLI option does not use QemuOpts
->>> so it is not visible for introspection in 'query-command-line-options',
->>> instead using the QAPI Audiodev type.  Unfortunately there is also no
->>> QMP command that uses the Audiodev type, so it is not introspectable
->>> with 'query-qmp-schema' either.
->>>
->>> This introduces a 'query-audiodev' command that simply reflects back
->>> the list of configured -audiodev command line options. This alone is
->>> maybe not very useful by itself, but it makes Audiodev introspectable
->>> via 'query-qmp-schema', so that libvirt (and other upper layer tools)
->>> can discover the available audiodevs.
->>>
->>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
->>> [thuth: Update for upcoming QEMU v8.0, and use QAPI_LIST_PREPEND]
->>> Signed-off-by: Thomas Huth <thuth@redhat.com>
->>> ---
->>>    qapi/audio.json | 13 +++++++++++++
->>>    audio/audio.c   | 12 ++++++++++++
->>>    2 files changed, 25 insertions(+)
->>>
->>> diff --git a/qapi/audio.json b/qapi/audio.json
->>> index 1e0a24bdfc..c7aafa2763 100644
->>> --- a/qapi/audio.json
->>> +++ b/qapi/audio.json
->>> @@ -443,3 +443,16 @@
->>>        'sndio':     'AudiodevSndioOptions',
->>>        'spice':     'AudiodevGenericOptions',
->>>        'wav':       'AudiodevWavOptions' } }
->>> +
->>> +##
->>> +# @query-audiodevs:
->>> +#
->>> +# Returns information about audiodev configuration
->>
->> Maybe clearer as 'audio backends'?
->>
->> So similarly, wouldn't be clearer to name this command
->> 'query-audio-backends'? Otherwise we need to go read QEMU
->> source to understand what is 'audiodevs'.
+* Philippe Mathieu-Daud� (philmd@linaro.org) wrote:
+> +David / Juan / Peter for migration and timers.
 > 
-> The command line parameter is called '-audiodev' and this
-> query-audiodevs command reports the same data, so that
-> looks easy enough to understand IMHO.
-> 
->>> +#
->>> +# Returns: array of @Audiodev
->>> +#
->>> +# Since: 8.0
->>> +#
->>> +##
->>> +{ 'command': 'query-audiodevs',
->>> +  'returns': ['Audiodev'] }
->>> diff --git a/audio/audio.c b/audio/audio.c
->>> index d849a94a81..6f270c07b7 100644
->>> --- a/audio/audio.c
->>> +++ b/audio/audio.c
->>> @@ -28,8 +28,10 @@
->>>    #include "monitor/monitor.h"
->>>    #include "qemu/timer.h"
->>>    #include "qapi/error.h"
->>> +#include "qapi/clone-visitor.h"
->>>    #include "qapi/qobject-input-visitor.h"
->>>    #include "qapi/qapi-visit-audio.h"
->>> +#include "qapi/qapi-commands-audio.h"
->>>    #include "qemu/cutils.h"
->>>    #include "qemu/module.h"
->>>    #include "qemu/help_option.h"
->>> @@ -2311,3 +2313,13 @@ size_t audio_rate_get_bytes(RateCtl *rate, struct audio_pcm_info *info,
->>>        return bytes;
->>>    }
->>> +
->>> +AudiodevList *qmp_query_audiodevs(Error **errp)
->>> +{
->>> +    AudiodevList *ret = NULL;
->>> +    AudiodevListEntry *e;
->>> +    QSIMPLEQ_FOREACH(e, &audiodevs, next) {
->>
->> I am a bit confused here, isn't &audiodevs containing what the user provided
->> from CLI? How is that useful to libvirt? Maybe the corner case
->> of a user hand-modifying the QEMU launch arguments from a XML config?
->>
->> Wouldn't a list of linked in AudiodevDriver be more useful to libvirt
->> so it could pick the best available backend to start a VM?
-> 
-> On the libvirt side we're never going to need to actually call the
-> query-audiodevs commands. The mere existance of the command, means
-> that the QMP schema now exposes information about what audio backends
-> have been compiled into the binary. This is the same trick we've used
-> for other aspects of QMP. IOW we don't need a separate command just
-> for the purpose of listing AudiodevDrivers.
+> On 20/1/23 13:01, Daniel Henrique Barboza wrote:
+> > At this moment any migration with the RISC-V sifive_u machine
+> > fails with the following error:
+> > 
+> > qemu-system-riscv64: ../hw/sd/sd.c:297: sd_ocr_powerup: Assertion
+> > `!FIELD_EX32(sd->ocr, OCR, CARD_POWER_UP)' failed.
+> > 
+> > The assert was introduced by dd26eb43337a ("hw/sd: model a power-up
+> > delay, as a workaround for an EDK2 bug"). It introduced a delayed timer
+> > of 0.5ms to power up the card after the first ACMD41 command. The assert
+> > prevents the card from being turned on twice.
+> > 
+> > When migrating a machine that uses a sd card, e.g. RISC-V sifive_u, the
+> > card is turned on during machine_init() in both source and destination
+> > hosts.
 
-I understand having "what audio backends have been compiled into the
-binary" is useful, but I am missing how you get that from &audiodevs.
+If that's a problem, then why don't you make that machine_init code
+check whether we're INMIGRATE, and skip the power on?
 
-AFAICT &audiodevs is for the CLI parsed backends, not all the backends
-linked within a binary. I probably need sugar / coffee and will revisit
-after lunch.
+> When the migration stream finishes in the destination, the
+> > pre_load() hook will attempt to turn on the card before loading its
+> > vmstate. The assert() is always going to hit because the card was
+> > already on.
+> > 
+> > Change sd_vmstate_pre_load() to check first if the sd card is turned on
+> > before executing a sd_ocr_powerup() and triggering the assert.
 
-> The idea of a query-audiodevs command is useful in general. When we
-> later gain support for hotplug/unplug of audio, the set of audiodevs
-> will no longer be guaranteed to match the original CLI args.
+Again, not knowing this device, but the other thought is a Post_load
+that determines if the OCR state hasn't been loaded, and then turns it
+on.
+
+Dave
+
+> > Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> > ---
+> >   hw/sd/sd.c | 12 ++++++++++--
+> >   1 file changed, 10 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+> > index bd88c1a8f0..4add719643 100644
+> > --- a/hw/sd/sd.c
+> > +++ b/hw/sd/sd.c
+> > @@ -664,11 +664,19 @@ static int sd_vmstate_pre_load(void *opaque)
+> >   {
+> >       SDState *sd = opaque;
+> > -    /* If the OCR state is not included (prior versions, or not
+> > +    /*
+> > +     * If the OCR state is not included (prior versions, or not
+> >        * needed), then the OCR must be set as powered up. If the OCR state
+> >        * is included, this will be replaced by the state restore.
+> > +     *
+> > +     * However, there's a chance that the board will powerup the SD
+> > +     * before reaching INMIGRATE state in the destination host.
+> > +     * Powering up the SD again in this case will cause an assert
+> > +     * inside sd_ocr_powerup(). Skip sd_ocr_powerup() in this case.
+> >        */
+> > -    sd_ocr_powerup(sd);
+> > +    if (!sd_card_powered_up(sd)) {
+> > +        sd_ocr_powerup(sd);
+> > +    }
+> >       return 0;
+> >   }
 > 
-> With regards,
-> Daniel
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
 
