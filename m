@@ -2,71 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 816CE677A51
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 12:46:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E043677A5A
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 12:50:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJvFs-0003W3-75; Mon, 23 Jan 2023 06:44:52 -0500
+	id 1pJvKY-000580-F4; Mon, 23 Jan 2023 06:49:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pJvFq-0003Vv-LH
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 06:44:50 -0500
-Received: from mail-vs1-xe2c.google.com ([2607:f8b0:4864:20::e2c])
+ id 1pJvKW-00057k-Ev; Mon, 23 Jan 2023 06:49:40 -0500
+Received: from mail-vk1-xa34.google.com ([2607:f8b0:4864:20::a34])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pJvFp-0005gp-10
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 06:44:50 -0500
-Received: by mail-vs1-xe2c.google.com with SMTP id 3so12501457vsq.7
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 03:44:48 -0800 (PST)
+ id 1pJvKU-0006UT-Px; Mon, 23 Jan 2023 06:49:40 -0500
+Received: by mail-vk1-xa34.google.com with SMTP id b81so5803403vkf.1;
+ Mon, 23 Jan 2023 03:49:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=A1uatPTETXUG7oX1WoM7Frud5++O+J/lLe8g/pz/Wms=;
- b=jASGKEZ9vwcAN/MrLNXpyZCxtk085QxtRfpKtaMdMy46tcAs7a13YD+ln6luTs1Phi
- wjAokRlYA/Y9BzCZdUJQ74Oa98CUG6wPXU/0W3uRwy/bY7sKJRoso3lHxVYVMB3J87M6
- ScbrLPnwKiQtdMGneJ2f9U9+ajn8ienNijKFDTkxzjt3RNzmhJvaRPDtK+kgdyMB7aY7
- 6z2ZTdA9qMEC2m6HOiUQRydiCTdsJ8SqbxaZCKqq0NHdqwA1KEfa9/ft62BGpbNeo2vV
- TCWyIrylL5eja5E0qe9MrciD0Vefvmr8R9PeTJjmS7Tg7PzOIQ8N/cm7MT1HD7QHVIvU
- DF+g==
+ bh=fe3wQWfTwAwJBdmmp+ksAlwmOP05eh7YvVMspuYv9SU=;
+ b=WD6hp6ZGeyxDd+b55aCySRjVrV++x6XVzUhe9IpgpsjL5l93ymW1bEW22sLiMMlFSc
+ TifVsjrh/I9TKo5oZgx0q742YTKdTVHXFQ0Hhx8gZ+4FgzGu/cPfuwk+SECey+H6Mrn0
+ Mh+Kr5lqtc83v57NdhCNaQy2c4gDf4Wbnybk1lTNuerAIEMOf1vIlrNHyRaOjaDcIJ5A
+ OFzfTGSy7Z/v6tQdLn9X3CHRcb8dl/OXh6JBXQA/TOad/J3pGmgZKW09tgQu1e0iaNky
+ kRlzuoTBgGt5tpEAxXupE70HTamiHCnvHpDcCG9mWPLehwAB0fVBv7JVnYYtfqR4UK/e
+ 20NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=A1uatPTETXUG7oX1WoM7Frud5++O+J/lLe8g/pz/Wms=;
- b=isQ4jh8BRSjF75SAdb3OtPaVebvH1fyDXOZxJSSfyB212hUjcSPmwYBW79Xg/VLJ9v
- 8hQAhQbFymiLtz08h5NKUSElX9AcClLbEYLuPbJeTUBzPid1B7ApGEPQKykgZ1fW2QOr
- PI7w1zIg+nkLFR/7p2LCnJ6NW5+VEo7jalwqcMqt6LR5VqSwAAAb8cjTr9l5mhMC9pR4
- jBAtihhh/W6w6CRWb3xWRHnAd+hn4P1xP2FQ8Dv1FqIjJdU0+o66EYdr7lhJxuELd6PS
- H0sHaTWaT3j0mCpD7OZc8HTSqiDXGtLIdNngBpoCAIPH9a2glXxCCQyERgsqSGJoDeG1
- dzQA==
-X-Gm-Message-State: AFqh2kqr2iL5QBa1Xf0WAThfb8h5Pg9eqtLuXm0dIlVl5djVXRFEVQJj
- UbpFRX0ZnNke7uyNlzyIrxcPvZHkKfBVTzTwB08=
-X-Google-Smtp-Source: AMrXdXuYPc5RNQGrRlTmw16p0K9bUfNwZZQcV7TYqrSmY5eDz2inARljRWwFF6OnKF+6Ktu9O8MxLO2Lf5LbWM46vus=
-X-Received: by 2002:a67:e14a:0:b0:3d3:f10a:4f56 with SMTP id
- o10-20020a67e14a000000b003d3f10a4f56mr3154428vsl.10.1674474287841; Mon, 23
- Jan 2023 03:44:47 -0800 (PST)
+ bh=fe3wQWfTwAwJBdmmp+ksAlwmOP05eh7YvVMspuYv9SU=;
+ b=qgOQHl9jqsehq3jaEB/D7AT4dcmJ6SztBFb/LP7HS5MxlyCBwErxGjvmFu4E29MSkY
+ KwBCpuEfQpJnaOPcpykwsoCzDgR3/m1YldKfbCC5JHoilBKnunpRDqNUM0fHuttf5EwL
+ 8j98gmFD7UyF6IOeodxKTpjlNrqjrRxHvsWRqVXsDIho6AmeNaAHv8yxuo535Zv8qQYr
+ toVC55rvXjQNfEAPdPASWkh2drelTRAS6iBsy7gZ4ufriJ2kCG5Tye0/oPiCUgJXmdVZ
+ W3Dem16UIkH+uuZWhGddWGVnPWQpE4PfIa6kzLr7ziBUnQyhUogL4nvM5hTVFz9lyMMt
+ IrAw==
+X-Gm-Message-State: AFqh2koTz5vPnJ9LkQmKNNj6C4ErwXLl3fpsm9h5Cv3dIDMFYBb8G7zZ
+ LamYXHLgCiw0Ra3oKGo8AeUyY5vNLHcirF+kJpQ=
+X-Google-Smtp-Source: AMrXdXuFVhIA+WFT1MWZq/dZSa407zky4j2y4alVMDLgfhzhClAvivZHlBAwa91KOFQEPefkmkBGpWaVcbLzOM/I7UY=
+X-Received: by 2002:a1f:b681:0:b0:3dd:fc42:994d with SMTP id
+ g123-20020a1fb681000000b003ddfc42994dmr3231523vkf.25.1674474577415; Mon, 23
+ Jan 2023 03:49:37 -0800 (PST)
 MIME-Version: 1.0
-References: <20230121023542.1726168-1-philipp.tomsich@vrull.eu>
- <20230121023542.1726168-2-philipp.tomsich@vrull.eu>
- <CAKmqyKOQbeLwDuMNKjV5Pfk52pxHLVEviKZ+7gmopgxFE9WKQQ@mail.gmail.com>
- <CAAeLtUBC-bBp2vbc4+8kZVtZP0TrkSgbTGRpJsO3==0Mgw0NZA@mail.gmail.com>
-In-Reply-To: <CAAeLtUBC-bBp2vbc4+8kZVtZP0TrkSgbTGRpJsO3==0Mgw0NZA@mail.gmail.com>
+References: <20230119191728.622081-1-dbarboza@ventanamicro.com>
+ <20230119191728.622081-4-dbarboza@ventanamicro.com> <Y8ndFjv9prrRXLnL@spud>
+ <385b977b-d15f-6c54-1d05-ab68e122dfe8@ventanamicro.com>
+ <CAKmqyKN=XquxtTDGCstEu7jEvoOn=1HpHc=ax8+zs3XxZO2G3w@mail.gmail.com>
+ <14efb6ee-4de0-ce26-569b-3a7ec6647e7d@ventanamicro.com>
+In-Reply-To: <14efb6ee-4de0-ce26-569b-3a7ec6647e7d@ventanamicro.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 23 Jan 2023 21:44:21 +1000
-Message-ID: <CAKmqyKPA2ZsMc5s3XLOk6qcy7tY+rcoR79HVSqSJceDoexecLA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/2] target/riscv: redirect XVentanaCondOps to use the
- Zicond functions
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Cc: qemu-devel@nongnu.org, Kito Cheng <kito.cheng@sifive.com>, 
- Christoph Muellner <christoph.muellner@vrull.eu>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Richard Henderson <richard.henderson@linaro.org>
+Date: Mon, 23 Jan 2023 21:49:11 +1000
+Message-ID: <CAKmqyKMTuxpqv2uHope8-oK+LBRJOei4x7LYyL0M6Tj2EGmwVw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/7] hw/riscv/microchip_pfsoc.c: add an Icicle Kit fdt
+ address function
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: Conor Dooley <conor@kernel.org>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, alistair.francis@wdc.com
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2c;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a34;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa34.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -90,64 +87,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 23, 2023 at 11:37 AM Philipp Tomsich
-<philipp.tomsich@vrull.eu> wrote:
+On Mon, Jan 23, 2023 at 8:19 PM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
 >
-> On Mon, 23 Jan 2023 at 02:29, Alistair Francis <alistair23@gmail.com> wrote:
+>
+>
+> On 1/22/23 19:53, Alistair Francis wrote:
+> > On Sun, Jan 22, 2023 at 5:16 AM Daniel Henrique Barboza
+> > <dbarboza@ventanamicro.com> wrote:
+> >>
+> >> Conor,
+> >>
+> >> Thanks for the Icicle-kit walk-through! I'll not claim that I fully understood it,
+> >> but I understood enough to handle the situation ATM.
+> >>
+> >> Without this change, this is where the FDT is being installed in the board when
+> >> I start it with 8Gb of RAM (retrieved via 'info roms'):
+> >>
+> >> addr=00000000bfe00000 size=0x00a720 mem=ram name="fdt"
+> >>
+> >> Which surprised me at first because this is almost at the end of the LO area which has
+> >> 1Gb and I figured it would be in the middle of another RAM area. I took another read
+> >> at what we're doing in riscv_load_fdt():
+> >>
+> >> -----------
+> >> temp = (dram_base < 3072 * MiB) ?  MIN(dram_end, 3072 * MiB) : dram_end;
+> >> fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
+> >> -----------
+> >>
+> >> This code can be read as "if the starting address of the RAM is lower than 3Gb, put
+> >> the FDT no further than 3Gb (0xc0000000). Otherwise, put it at the end of dram",
+> >> where "dram_base" is the starting address of the RAM block that the function
+> >> receives.
+> >>
+> >> For icicle-kit, this is being passed as  memmap[MICROCHIP_PFSOC_DRAM_LO].base,
+> >> 0x80000000, which is 2Gb.
+> >>
+> >> So, regardless of how much RAM we have (dram_end), the FDT will always be capped at
+> >> 3Gb. At this moment, this fits exactly at the end of the LO area for the Icicle Kit.
+> >> Which is funny because this 3Gb restriction was added by commit 1a475d39ef54 to fix
+> >> 32 bit guest boot and it happened to also work for the Microchip SoC.
+> >>
+> >> So yeah, I thought that I was fixing a bug and in the end I caused one. This patch
+> >> needs to go.
+> >>
+> >>
+> >> Alistair, I believe I should re-send v2, this time explaining why the existing function
+> >> will not break the Microchip board because we'll never put the FDT out of the LO area
+> >> of the board. Does this work for you?
 > >
-> > On Sat, Jan 21, 2023 at 12:36 PM Philipp Tomsich
-> > <philipp.tomsich@vrull.eu> wrote:
-> > >
-> > > The Zicond standard extension implements the same instruction
-> > > semantics as XVentanaCondOps, although using different mnemonics and
-> > > opcodes.
-> > >
-> > > Point XVentanaCondOps to the (newly implemented) Zicond implementation
-> > > to reduce the future maintenance burden.
-> > >
-> > > Also updating MAINTAINERS as trans_xventanacondops.c.inc will not see
-> > > active maintenance from here forward.
-> > >
-> > > Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> > > ---
-> > >
-> > > Changes in v2:
-> > > - Calls into the gen_czero_{eqz,nez} helpers instead of calling
-> > >   trans_czero_{eqz,nez} to bypass the require-check and ensure that
-> > >   XVentanaCondOps can be enabled/disabled independently of Zicond.
-> > >
-> > >  MAINTAINERS                                    |  2 +-
-> > >  .../insn_trans/trans_xventanacondops.c.inc     | 18 +++---------------
-> > >  2 files changed, 4 insertions(+), 16 deletions(-)
-> > >
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index ca914c42fa..293a9d1c8c 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -305,7 +305,7 @@ F: target/riscv/insn_trans/trans_zicond.c.inc
-> > >  RISC-V XVentanaCondOps extension
-> > >  M: Philipp Tomsich <philipp.tomsich@vrull.eu>
-> > >  L: qemu-riscv@nongnu.org
-> > > -S: Supported
-> > > +S: Odd Fixes
-> >
-> > Should this extension be deprecated then?
+> > I think that's fine. My only worry is that we are losing some
+> > flexibility that some future board might want.
 >
-> The extension is out in the wild (as the Ventana Veyron V1 core
-> implements it), so we shouldn't deprecate it.
-> However, this now is the thinnest possible layer of implementation
-> (and will pick up any fixes/updates from Zicond).
+> What if we change riscv_load_fdt() parameters to pass a MemoryRegion/MemMapEntry
+> instead of just dram_base?
 >
-> I felt that downgrading it to "Odd Fixes" was the right way to
-> indicate this.  Let me know if you would like to handle it
-> differently.
+> Instead of this:
+>
+> uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+>
+> We would have this:
+>
+> uint64_t riscv_load_fdt(MemMapEntry mem, uint64_t mem_size, void *fdt)
+>
+> Or even this:
+>
+> uint64_t riscv_load_fdt(hwaddr dram_base, hwaddr dram_size,
+>                          uint64_t mem_size, void *fdt)
+>
+>
+> And then we can make assumptions based on the actual memory region that the fdt
+> is going to fit into, instead of having a starting address and a total memory
+> size and have to deal with issues such as sparse memory.
+>
+> We can keep all the assumptions already made today (e.g. the 3Gb maximum addr)
+> while also having a guarantee that the fdt isn't going to be put in the wrong
+> memory region/spot if we decide to change the assumptions later on.
 
-It probably makes sense to just leave it as supported then. It's up to
-a vendor to support their extensions, so I feel that marking it as
-"Off Fixes" is a little strange.
+That seems like a good direction. We currently don't need this though,
+so don't feel like it needs to be done today.
 
 Alistair
 
 >
-> Philipp.
+>
+> Thanks,
+>
+> Daniel
+>
+>
+>
+> >
+> > Alistair
 
