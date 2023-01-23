@@ -2,86 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD466678317
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 18:28:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F87F67831C
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 18:29:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK0ah-0004No-QR; Mon, 23 Jan 2023 12:26:43 -0500
+	id 1pK0ce-00058x-1j; Mon, 23 Jan 2023 12:28:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pK0ae-0004ND-Sz; Mon, 23 Jan 2023 12:26:40 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pK0ad-0005gk-19; Mon, 23 Jan 2023 12:26:40 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1pK0cX-00058k-Sz
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 12:28:37 -0500
+Received: from mail.weilnetz.de ([37.120.169.71]
+ helo=mail.v2201612906741603.powersrv.de)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sw@weilnetz.de>) id 1pK0cV-0005x1-Nj
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 12:28:37 -0500
+Received: from [172.18.97.248] (unknown [46.183.103.8])
+ (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+ key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
  (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 1F1751F385;
- Mon, 23 Jan 2023 17:26:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1674494797; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y4yc6+xONXZhHsHwmC58I+3SIqrE99U/Wlxon/l7SBw=;
- b=k4+PJbZ0UFwwreCWSuHMkh3n70Bx+CIHKkLsIAbbzmztzhzf4lqJ8utOhFv9SB9B0KYB0h
- Aqs3UeGWBfDaQ6MA+kRRjHdv7zItVYRKHEfzN3WVgIgtldllDM569NCv1WnIFW2hqLBAUS
- oFhroRz90NcviajhENS+aWUYHglZwp4=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1674494797;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Y4yc6+xONXZhHsHwmC58I+3SIqrE99U/Wlxon/l7SBw=;
- b=5HQIIWoaWQMlqDSr0InH/N86Ds4j7IUP4zqKmo7+v8Sgym0udJiY/pHQfwfP+d7GPB3r57
- aOZVnYh2iyQs0PAw==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 97AF31357F;
- Mon, 23 Jan 2023 17:26:36 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id PyQ0GEzDzmOeGgAAMHmgww
- (envelope-from <farosas@suse.de>); Mon, 23 Jan 2023 17:26:36 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org, Juan
- Quintela <quintela@redhat.com>, "Dr. David Alan Gilbert (git)"
- <dgilbert@redhat.com>
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Richard
- Henderson <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>, Claudio
- Fontana <cfontana@suse.de>, Eduardo Habkost <ehabkost@redhat.com>,
- Alexander Graf <agraf@csgraf.de>, Cornelia Huck <cohuck@redhat.com>,
- Cleber Rosa <crosa@redhat.com>, Wainer dos Santos Moschetta
- <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: Re: [RFC PATCH v5 7/9] target/avocado: Pass parameters to migration
- test on aarch64
-In-Reply-To: <3f577967-377f-aa6d-1c69-542988a26a26@linaro.org>
-References: <20230120184825.31626-1-farosas@suse.de>
- <20230120184825.31626-8-farosas@suse.de>
- <65cf6b01-a6d6-53ca-9ead-ebf50148cce7@linaro.org> <874jshco5h.fsf@suse.de>
- <3f577967-377f-aa6d-1c69-542988a26a26@linaro.org>
-Date: Mon, 23 Jan 2023 14:26:34 -0300
-Message-ID: <87r0vlxiut.fsf@suse.de>
+ by mail.v2201612906741603.powersrv.de (Postfix) with ESMTPSA id 539A9DA0721;
+ Mon, 23 Jan 2023 18:28:32 +0100 (CET)
+Message-ID: <d5b918b7-dae3-3084-d0fa-310d8c26f43d@weilnetz.de>
+Date: Mon, 23 Jan 2023 18:28:31 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 1/2] qga-win: add logging to Windows event log
+To: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: den@virtuozzo.com, yur@openvz.org, marcandre.lureau@gmail.com,
+ mike.maslenkin@gmail.com
+References: <20221129173809.544174-1-andrey.drobyshev@virtuozzo.com>
+ <20221129173809.544174-2-andrey.drobyshev@virtuozzo.com>
+In-Reply-To: <20221129173809.544174-2-andrey.drobyshev@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=37.120.169.71; envelope-from=sw@weilnetz.de;
+ helo=mail.v2201612906741603.powersrv.de
+X-Spam_score_int: 3
+X-Spam_score: 0.3
+X-Spam_bar: /
+X-Spam_report: (0.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.147,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,55 +57,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Stefan Weil <sw@weilnetz.de>
+From:  Stefan Weil via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
+Hi,
 
-> On 23/1/23 15:37, Fabiano Rosas wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
->>=20
->>> On 20/1/23 19:48, Fabiano Rosas wrote:
->>>> The migration tests are currently broken for an aarch64 host because
->>>> the tests pass no 'machine' and 'cpu' options on the QEMU command
->>>> line. Most other architectures define a default value in QEMU for
->>>> these options, but arm does not.
->>>
->>> There was some discussions around that in the past:
->>> https://lore.kernel.org/qemu-devel/20190621153806.13489-1-wainersm@redh=
-at.com/
->>> https://lore.kernel.org/qemu-devel/CAFEAcA9NBu+L4wHfkLTv93wy90wjnV05EZ1=
-2PT6PmLjdZ5h_YA@mail.gmail.com/
->>=20
->> There's more than one topic being discussed, specially in this last
->> thread, but here's my two cents.
->>=20
->> About defaults: It's probably best to be explicit in tests. And if we
->> wanted, have a separate test to make sure the lack of an option still
->> does what it's expected, either outputting a message or behaving the
->> same as the explicit version.
->>=20
->> About host architecture-specific tests: Unless we're talking about KVM,
->> I see no point. Having to change hosts to test agnostic features makes
->> no sense (the migration test is one example).
->>=20
->> About generic tests: If a feature is required to behave the same for all
->> architectures/machines/cpus then sure. But most low level stuff would be
->> quite dependent on specifics.
->>=20
->>>> Add these options to the test class in case the test is being executed
->>>> in an aarch64 host.
->>>
->>> I'm not sure what we are aiming to test here.
->>>
->>> Migration in general? If so, any random machine should work.
->>> By hardcoding the 'virt' machine, at least this test is reproducible.
->>=20
->> Yeah, I cannot say for sure there isn't some machine property that gets
->> transferred during migration. It seemed more conservative to define a
->> specific one.
->
-> Why did you choose 'virt' and not 'xlnx-versal-virt' or 'sbsa-ref'?
+cross builds fail with this code. Please see details below.
 
-It is the only one guaranteed to be present with both TCG and KVM.
+Am 29.11.22 um 18:38 schrieb Andrey Drobyshev via:
+> This commit allows QGA to write to Windows event log using Win32 API's
+> ReportEvent() [1], much like syslog() under *nix guests.
+> 
+> In order to generate log message definitions we use a very basic message
+> text file [2], so that every QGA's message gets ID 1.  The tools
+> "windmc" and "windres" respectively are used to generate ".rc" file and
+> COFF object file, and then the COFF file is linked into qemu-ga.exe.
+> 
+> [1] https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-reporteventa
+> [2] https://learn.microsoft.com/en-us/windows/win32/eventlog/message-text-files
+> 
+> Originally-by: Yuri Pudgorodskiy <yur@virtuozzo.com>
+> Signed-off-by: Andrey Drobyshev <andrey.drobyshev@virtuozzo.com>
+> ---
+>   configure                 |  3 +++
+>   qga/installer/qemu-ga.wxs |  5 +++++
+>   qga/main.c                | 16 +++++++++++++---
+>   qga/meson.build           | 19 ++++++++++++++++++-
+>   qga/messages-win32.mc     |  9 +++++++++
+>   5 files changed, 48 insertions(+), 4 deletions(-)
+>   create mode 100644 qga/messages-win32.mc
+> 
+> diff --git a/configure b/configure
+> index 26c7bc5154..789a4f6cc9 100755
+> --- a/configure
+> +++ b/configure
+> @@ -372,6 +372,7 @@ smbd="$SMBD"
+>   strip="${STRIP-${cross_prefix}strip}"
+>   widl="${WIDL-${cross_prefix}widl}"
+>   windres="${WINDRES-${cross_prefix}windres}"
+> +windmc="${WINDMC-${cross_prefix}windmc}"
+
+Here the needed cross prefix is added ...
+
+>   pkg_config_exe="${PKG_CONFIG-${cross_prefix}pkg-config}"
+>   query_pkg_config() {
+>       "${pkg_config_exe}" ${QEMU_PKG_CONFIG_FLAGS} "$@"
+[...]
+> diff --git a/qga/meson.build b/qga/meson.build
+> index 3cfb9166e5..1ff159edc1 100644
+> --- a/qga/meson.build
+> +++ b/qga/meson.build
+> @@ -98,7 +98,24 @@ if targetos == 'windows'
+>     endif
+>   endif
+>   
+> -qga = executable('qemu-ga', qga_ss.sources(),
+> +qga_objs = []
+> +if targetos == 'windows'
+> +  windmc = find_program('windmc', required: true)
+
+... but here the cross prefix is missing and the cross build aborts 
+because windmc does not exist.
+
+Regards
+Stefan
 
