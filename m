@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE98F677C9C
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:38:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15F73677C98
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:36:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJwzv-00066B-Ks; Mon, 23 Jan 2023 08:36:31 -0500
+	id 1pJwzv-000669-QR; Mon, 23 Jan 2023 08:36:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwzU-0005vR-5Z
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:14 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
+ id 1pJwzS-0005v4-A0
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:07 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwzP-0002Lc-3m
+ id 1pJwzP-0002Lo-Q3
  for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:02 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- f12-20020a7bc8cc000000b003daf6b2f9b9so10606305wml.3
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:35:58 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id
+ f12-20020a7bc8cc000000b003daf6b2f9b9so10606339wml.3
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:35:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=yoMZ5Lhhpa4yw40aAugkzPNGIP1VZYIJaNLaSg584+0=;
- b=pubc/w3r0SHPLirgKvZ9tHunQbNO5r3h/hqejuqylpI0HP8guO9+oJPDljcEMokFWr
- QBZaE/tDjd/PCxyZP0+k0mU/saGFHCtunk+clT35B7pn6k1UmbwnUv7XqTgwFr6cONyY
- SNbRsTSj9npVgd//gsS63A+HpBwC5xDjNolMoi1I/KGl/YqYDHv2E1PZ8LCtifHjujAe
- gbyNvmgmU7lOx2m4Pojhpqf86TrIcV4SDHR302GSLoogFOzE0N26SfAsC8awTKwPTbyy
- THrsCT+KS+akKkFVgBzuQZTajJ+ITDLAxT/YcWS+Vn2Y4sHsNHSNRNscr/rLUrdNow/k
- H7CA==
+ :reply-to; bh=baS6RwiqJNceR0oUd3JGQ4ePjOLEDMiL7ZbUGHl6dos=;
+ b=Tv+4vSouO/lxvncrcG2hxr3tqLXJE/K3HXmeVFPvtutpjqCoV1mbBfb2C7MhpVDU+7
+ voTLEADPeFHgVH0inQ2Id/4+XlYnfMQIKx3jlbMdYD1F8ZoXS9KCmN5AfP9N/Fwgi14M
+ CNWEQTYhqkM176Y4iZVAAwNRY2JwF29UtGvuNs4+J1QvTz7Uq5u5WKy26oajKG6qGS8i
+ ZzghEx1Qly3cAMOFiJS9wSu09w1jsrhjM6zFB21HrrG2BWS/+q7DrWEBWsd7f4tkSstz
+ n4+aEK7Vq6lmoi3uK1ncvhHIjkxGydJ4GePpPuCF1f2bbN4gf1ccdKmjPuuvKfr9UC8D
+ DrTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yoMZ5Lhhpa4yw40aAugkzPNGIP1VZYIJaNLaSg584+0=;
- b=fFEXGwyf7/6LkNchnVW0rVw5b5VmG6DF+xcCZ3jqR3ql98gWdAOK701YGHrWdOsUpm
- MYRx5dVmN6H9GO0dNGVg/z9MfctEgaZQkweqeM2NqlOgkjoq9trdQUXGHP7tiRJyt4fc
- meZdjqRHcovuqC5czfnxOhUtWBtszyI7f6N59Y6pyw7EL35qZctRukTbpxbxop3Ul4di
- PoXaBemQRX/lyUJ26Ulj1fxncyDwA0qPB2Z5jVqF5FeT8M26jWT27SZEh1WRmYbCBbuD
- DWgkLZmNcrRwp9Jlg7LBuLKFTf9WFAEmWMg3FguQKl4Ee8Hv1gCP8bgsw+q9RD2YzOJB
- aw9Q==
-X-Gm-Message-State: AFqh2kpDM6uqPVwWrHjdWUS5O1pUp6Kn/LnWBtXaIepV/GnTGFsBbsv5
- N3FI2jO5UlEzdfKrv9ycqoGEupCNEWK1Nz08
-X-Google-Smtp-Source: AMrXdXtzuOgDZRvCoy1QGAoOy17sgxIC0fQEopdp26qgZNu3opubZxVoC7oqy1hTG6cIJZW6j69aqw==
-X-Received: by 2002:a05:600c:1d05:b0:3d2:3be4:2d9a with SMTP id
- l5-20020a05600c1d0500b003d23be42d9amr22945882wms.20.1674480957198; 
- Mon, 23 Jan 2023 05:35:57 -0800 (PST)
+ bh=baS6RwiqJNceR0oUd3JGQ4ePjOLEDMiL7ZbUGHl6dos=;
+ b=Oz+xqtkp3aQDskSV+wlEJycr0yHYmPgttIbRf0nNpqaw5ybTtBtejRYHToTF1XykSb
+ OtFQxku9fap2H/c24XNrOkl+GrEqwZW2g/8U6CAoNHcH41KyFfuhTh2Btb6XSmYX7C5T
+ EMjLOzXzXxEgnr6fuINvvpoStVkYhu6vMKUuq8wyjXlffdY0h3BdR2FMY1KgzifPCZp9
+ KkS8eJYDhRCtnfJ9QSm7o9j+lhLwjp8BPKv9sUPn/fNjcvgQcTM0C/aQG6oajN0igAYb
+ nPFLAegEXXEgnlXNeSTB+eQGSMbk8vzSVwi6ddlyK8N9BujgbW9Ay7PI93kA2gSiKKX1
+ rhZQ==
+X-Gm-Message-State: AFqh2kpFRE6GL/sVwXOilYxA0u46H9VdwUVEc51cHtKWLeQHMy7z0K6U
+ LqRuMw/+68TaCroxdsywkun/FUhx3IhTV+eW
+X-Google-Smtp-Source: AMrXdXsvxfR90fAQyh8EYeBuTTKQHFax0LeSA4wmmmK0GBccJ3y+PywSqKkRz1UD3FANOGG0yp2CJw==
+X-Received: by 2002:a05:600c:1c01:b0:3da:fc07:5e80 with SMTP id
+ j1-20020a05600c1c0100b003dafc075e80mr26768238wms.12.1674480958099; 
+ Mon, 23 Jan 2023 05:35:58 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- d19-20020a05600c34d300b003a6125562e1sm10817457wmq.46.2023.01.23.05.35.56
+ d19-20020a05600c34d300b003a6125562e1sm10817457wmq.46.2023.01.23.05.35.57
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 05:35:56 -0800 (PST)
+ Mon, 23 Jan 2023 05:35:57 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 01/26] target/arm: Widen cnthctl_el2 to uint64_t
-Date: Mon, 23 Jan 2023 13:35:28 +0000
-Message-Id: <20230123133553.2171158-2-peter.maydell@linaro.org>
+Subject: [PULL 02/26] target/arm: Unify checking for M Main Extension in
+ MRS/MSR
+Date: Mon, 23 Jan 2023 13:35:29 +0000
+Message-Id: <20230123133553.2171158-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230123133553.2171158-1-peter.maydell@linaro.org>
 References: <20230123133553.2171158-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,34 +90,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
+From: David Reiss <dreiss@meta.com>
 
-This is a 64-bit register on AArch64, even if the high 44 bits
-are RES0.  Because this is defined as ARM_CP_STATE_BOTH, we are
-asserting that the cpreg field is 64-bits.
+BASEPRI, FAULTMASK, and their _NS equivalents only exist on devices with
+the Main Extension.  However, the MRS instruction did not check this,
+and the MSR instruction handled it inconsistently (warning BASEPRI, but
+silently ignoring writes to BASEPRI_NS).  Unify this behavior and always
+warn when reading or writing any of these registers if the extension is
+not present.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1400
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230115171633.3171890-1-richard.henderson@linaro.org
+Signed-off-by: David Reiss <dreiss@meta.com>
+Message-id: 167330628518.10497.13100425787268927786-0@git.sr.ht
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/m_helper.c | 22 ++++++++++++++++++++--
+ 1 file changed, 20 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index bf2bce046d5..1feb63b4d73 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -479,7 +479,7 @@ typedef struct CPUArchState {
-         };
-         uint64_t c14_cntfrq; /* Counter Frequency register */
-         uint64_t c14_cntkctl; /* Timer Control register */
--        uint32_t cnthctl_el2; /* Counter/Timer Hyp Control register */
-+        uint64_t cnthctl_el2; /* Counter/Timer Hyp Control register */
-         uint64_t cntvoff_el2; /* Counter Virtual Offset register */
-         ARMGenericTimer c14_timer[NUM_GTIMERS];
-         uint32_t c15_cpar; /* XScale Coprocessor Access Register */
+diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
+index 033a4d92614..d87b9ecd123 100644
+--- a/target/arm/m_helper.c
++++ b/target/arm/m_helper.c
+@@ -2465,11 +2465,17 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
+             }
+             return env->v7m.primask[M_REG_NS];
+         case 0x91: /* BASEPRI_NS */
++            if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
++                goto bad_reg;
++            }
+             if (!env->v7m.secure) {
+                 return 0;
+             }
+             return env->v7m.basepri[M_REG_NS];
+         case 0x93: /* FAULTMASK_NS */
++            if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
++                goto bad_reg;
++            }
+             if (!env->v7m.secure) {
+                 return 0;
+             }
+@@ -2515,8 +2521,14 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
+         return env->v7m.primask[env->v7m.secure];
+     case 17: /* BASEPRI */
+     case 18: /* BASEPRI_MAX */
++        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
++            goto bad_reg;
++        }
+         return env->v7m.basepri[env->v7m.secure];
+     case 19: /* FAULTMASK */
++        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
++            goto bad_reg;
++        }
+         return env->v7m.faultmask[env->v7m.secure];
+     default:
+     bad_reg:
+@@ -2581,13 +2593,19 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
+             env->v7m.primask[M_REG_NS] = val & 1;
+             return;
+         case 0x91: /* BASEPRI_NS */
+-            if (!env->v7m.secure || !arm_feature(env, ARM_FEATURE_M_MAIN)) {
++            if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
++                goto bad_reg;
++            }
++            if (!env->v7m.secure) {
+                 return;
+             }
+             env->v7m.basepri[M_REG_NS] = val & 0xff;
+             return;
+         case 0x93: /* FAULTMASK_NS */
+-            if (!env->v7m.secure || !arm_feature(env, ARM_FEATURE_M_MAIN)) {
++            if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
++                goto bad_reg;
++            }
++            if (!env->v7m.secure) {
+                 return;
+             }
+             env->v7m.faultmask[M_REG_NS] = val & 1;
 -- 
 2.34.1
 
