@@ -2,141 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B60B67803F
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 16:45:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB53F678075
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 16:50:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJyz4-0005sf-PC; Mon, 23 Jan 2023 10:43:46 -0500
+	id 1pJz4o-0007MJ-6j; Mon, 23 Jan 2023 10:49:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1pJyz2-0005sT-N8
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:43:44 -0500
-Received: from new2-smtp.messagingengine.com ([66.111.4.224])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
- id 1pJyz0-0004pd-Gt
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:43:44 -0500
-Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
- by mailnew.nyi.internal (Postfix) with ESMTP id 66FC4581E78;
- Mon, 23 Jan 2023 10:43:40 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute1.internal (MEProxy); Mon, 23 Jan 2023 10:43:40 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
- h=cc:cc:content-type:date:date:from:from:in-reply-to
- :in-reply-to:message-id:mime-version:references:reply-to:sender
- :subject:subject:to:to; s=fm1; t=1674488620; x=1674495820; bh=1O
- gaq/NHK6eStvgMVKzL5cpxUJ9xgelhgV+DlJrnlBI=; b=fKImP3+1/fxku1d/ow
- ory+wUM94kY5ZjH+IidzNwjHGgh4tQz9NDcEVEQ8jJ0LJNf9T1sWK1K7W3Ufmddl
- 8pbd/oC0nFKp/kSQ+28GVPbYdE3kax2no/JdW398dfts0vUh1PvtoX7D7WThDmgJ
- nva/M0wP7Y6Y5lTwgNrKyiWnhqVQiKizo5NQh6G+JZpIe0m6UXTeN0Xw3H2148jY
- GdUWPISNpws+ECtk14v2/7E9S+DEh3yDFhdIHwwl01jyGltPRTPXSl4FYvebcbs9
- npTOeqLgCdTKdPpxn3Jf2B0W3OGVBfjN1CksIAc/fooLeqSk2vQmgEkk4me20U9i
- LwcQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1674488620; x=1674495820; bh=1Ogaq/NHK6eStvgMVKzL5cpxUJ9x
- gelhgV+DlJrnlBI=; b=YFqMDiZM0UCTr5f94G5BdSn/gZq2B48tLXky4/Gqz5gd
- XNZVQJpmVbzVOO3qBPJSouscWKlh4gWM5EPwvvzJuR+x00kd9aX7WXKZ1EYea1Kt
- XEEJGjzA/cwKJrDXRfNjv6XLENLyIySEiSumyug000sNJnvAzVnikfU74NfUeha6
- kJ1MFq7EOYLKWU15vr6hEa7LsP82NibglhHpu0tA+bME3rlQ+Yw5QbbSJFzylPnu
- kLZN/PsgbEFAk15Id0g+QcFA3F+b+bAf/Tfk1Q5Cj4MBaea9LIdIhXQcgjDFbRFc
- rx0UAv8//8phodaD9ks47vs+TNdfmu/Jx4AT8z0Hjw==
-X-ME-Sender: <xms:KavOYw5R5y5eRkSsKJ__eGxvv7_0g6i0SOTDk1pXq4B9u80_1Lpj4A>
- <xme:KavOYx4zLvAHW7aj56lqlGuDHPZcK7Lml5fo1nSY2EkxdXvF6sdjIUsdaoQNrr558
- 4rCAUTbtEiboy_pCaU>
-X-ME-Received: <xmr:KavOY_cPoeAUIiMrrerhAhqFTWBofweoACxa3F-z2euZ44JfG9jfxtzGo0zm5FggtS36iQ>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddukedgieekucetufdoteggodetrfdotf
- fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
- cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepfdfmihhr
- ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
- grmhgvqeenucggtffrrghtthgvrhhnpeekvddvjeffheetgedtvdfgieejiedvgeejieet
- jeehieehveffueekfeehffdvveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
- epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
-X-ME-Proxy: <xmx:KqvOY1Iig4eQ5H0bEgma-RItAZIGVWvr2YcZ8wPjsMZvHRFxxEGqvg>
- <xmx:KqvOY0INh3-2WBZ88DroB9KpbMdrB01vZER2qWazgNyXDVIWiYATYg>
- <xmx:KqvOY2yNKJjwz1k0E2f4v_sAKzGdLEGlhYyFyGSIR_mMhBpUz8aOmg>
- <xmx:LKvOY0urh1QWRKQChREFoUwSS_HF59v9xwQ9YYT4B6xeK0yUf_X_GQ>
-Feedback-ID: ie3994620:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 23 Jan 2023 10:43:37 -0500 (EST)
-Received: by box.shutemov.name (Postfix, from userid 1000)
- id F337010352A; Mon, 23 Jan 2023 18:43:34 +0300 (+03)
-Date: Mon, 23 Jan 2023 18:43:34 +0300
-From: "Kirill A. Shutemov" <kirill@shutemov.name>
-To: Sean Christopherson <seanjc@google.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>,	"Huang,
- Kai" <kai.huang@intel.com>,	"tglx@linutronix.de" <tglx@linutronix.de>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "jmattson@google.com" <jmattson@google.com>,	"Lutomirski,
- Andy" <luto@kernel.org>,	"ak@linux.intel.com" <ak@linux.intel.com>,
- "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
- "Hocko, Michal" <mhocko@suse.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "tabba@google.com" <tabba@google.com>,
- "david@redhat.com" <david@redhat.com>,
- "michael.roth@amd.com" <michael.roth@amd.com>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "bfields@fieldses.org" <bfields@fieldses.org>,
- "dhildenb@redhat.com" <dhildenb@redhat.com>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "rppt@kernel.org" <rppt@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
- "vkuznets@redhat.com" <vkuznets@redhat.com>,
- "vbabka@suse.cz" <vbabka@suse.cz>,
- "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
- "ddutile@redhat.com" <ddutile@redhat.com>,
- "qperret@google.com" <qperret@google.com>, "arnd@arndb.de" <arnd@arndb.de>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "vannapurve@google.com" <vannapurve@google.com>,
- "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
- "wanpengli@tencent.com" <wanpengli@tencent.com>,
- "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
- "hughd@google.com" <hughd@google.com>,
- "aarcange@redhat.com" <aarcange@redhat.com>,
- "mingo@redhat.com" <mingo@redhat.com>,	"hpa@zytor.com" <hpa@zytor.com>,
- "Nakajima, Jun" <jun.nakajima@intel.com>,
- "jlayton@kernel.org" <jlayton@kernel.org>,
- "joro@8bytes.org" <joro@8bytes.org>,
- "linux-mm@kvack.org" <linux-mm@kvack.org>,	"Wang,
- Wei W" <wei.w.wang@intel.com>,
- "steven.price@arm.com" <steven.price@arm.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,	"Hansen,
- Dave" <dave.hansen@intel.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "linmiaohe@huawei.com" <linmiaohe@huawei.com>
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Message-ID: <20230123154334.mmbdpniy76zsec5m@box>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
- <20221219075313.GB1691829@chaop.bj.intel.com>
- <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
- <20221220072228.GA1724933@chaop.bj.intel.com>
- <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
- <20221221133905.GA1766136@chaop.bj.intel.com>
- <Y6SevJt6XXOsmIBD@google.com>
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pJz4m-0007M9-8T
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:49:40 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pJz4k-0005mH-KY
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:49:39 -0500
+Received: by mail-ej1-x634.google.com with SMTP id qx13so31549734ejb.13
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 07:49:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=VueTAy1shfh8OufQZJIlKrJGOqWkThTsR9lYab//mKE=;
+ b=gk2ZUDj2Ze8KLBxOiDjmwy+FuyUuBhwYb5pNkivjy3Yfb4ES4sdKX3Vf3WrnAtazxb
+ mqiazukNwbZ3Qac+gf3bX3K8JweKh0HVQYLHIuav4WSXXS21iQYp01sSGrBjP2awiZAH
+ cBtc/EgUKqOKAEMvZcfr/tFUDbnG2oDc7B2nh2lTpRsSPFCGsOe1dAkNYwsk7fUzz8wB
+ z/cuSmp1tdNJaewvupBXfLYBG86+ose4wh1hNGmN1d6tqJbguPS4rwcpQ5q+pXvmDzF0
+ 53Sp8wIGHtkmpsXv2KwqaNoqingVWCjMjsvU4U967Mi6jTaPo18oC/5T/OWb9/cm1XY/
+ DxOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=VueTAy1shfh8OufQZJIlKrJGOqWkThTsR9lYab//mKE=;
+ b=2aq2MAQOFSJQCVvA81hupu17Z17pq7WgpeS8QCJT1Os0z0x6n/Ao2hQo6Y3d0EzTN3
+ P8+yKnA8J5OUQHBBK2jw5RMj2bZs0HL98WXu4b3DvDXmpXOpDCd1emnxXBxUW+tc+DTt
+ etPKwOqBowFDDUAXhn8+7Us3lg/hdd2xfL18Hy/L9fed/rXP4VzLffnrls1vkiuZmFOJ
+ jXEzDg8SYvIJm8JF5EGBKokvd6WPRdoiUjIdINgwSvBBBG3V/RVWI2vWG9rFTso9S5T4
+ zeaSIeCAmONHBeTqfBGHaEHZoRgLLBubCO7MtzkI9DiuzqtP4yY0Hij8K8KJeB6Csra7
+ AnOQ==
+X-Gm-Message-State: AFqh2koMYXqGBcBd81eUnu4kifX+V8IUsrUWItHSr/nO2a9ApLff/x78
+ 498tcTRv8fpaLlG8+5CZO2c=
+X-Google-Smtp-Source: AMrXdXuZNAUgo3XMPQdsYXlPSSwGv5sCl/9GxL34Ye2R6TzKqLI1mKYFAkshGNIMmx9e5S1nt74jkA==
+X-Received: by 2002:a17:907:a708:b0:86d:e1ce:5c9c with SMTP id
+ vw8-20020a170907a70800b0086de1ce5c9cmr27833790ejc.76.1674488977008; 
+ Mon, 23 Jan 2023 07:49:37 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb20021b9da3234f1ff5e.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:21b9:da32:34f1:ff5e])
+ by smtp.gmail.com with ESMTPSA id
+ bi12-20020a170906a24c00b00868ef175e6asm14971021ejb.74.2023.01.23.07.49.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Jan 2023 07:49:36 -0800 (PST)
+Date: Mon, 23 Jan 2023 15:49:29 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Eduardo Habkost <eduardo@habkost.net>
+CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_3/7=5D_hw/acpi/=7Bich9=2Cpiix4=7D=3A_Res?=
+ =?US-ASCII?Q?olve_redundant_io=5Fbase_address_attributes?=
+In-Reply-To: <c38c9c94-b629-0cdd-acd9-ac800ff9da8d@linaro.org>
+References: <20230122170724.21868-1-shentey@gmail.com>
+ <20230122170724.21868-4-shentey@gmail.com>
+ <c38c9c94-b629-0cdd-acd9-ac800ff9da8d@linaro.org>
+Message-ID: <8BFD0F5A-088F-4A17-8998-E9C618558FF6@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y6SevJt6XXOsmIBD@google.com>
-Received-SPF: pass client-ip=66.111.4.224; envelope-from=kirill@shutemov.name;
- helo=new2-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x634.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -153,246 +97,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Dec 22, 2022 at 06:15:24PM +0000, Sean Christopherson wrote:
-> On Wed, Dec 21, 2022, Chao Peng wrote:
-> > On Tue, Dec 20, 2022 at 08:33:05AM +0000, Huang, Kai wrote:
-> > > On Tue, 2022-12-20 at 15:22 +0800, Chao Peng wrote:
-> > > > On Mon, Dec 19, 2022 at 08:48:10AM +0000, Huang, Kai wrote:
-> > > > > On Mon, 2022-12-19 at 15:53 +0800, Chao Peng wrote:
-> > > But for non-restricted-mem case, it is correct for KVM to decrease page's
-> > > refcount after setting up mapping in the secondary mmu, otherwise the page will
-> > > be pinned by KVM for normal VM (since KVM uses GUP to get the page).
-> > 
-> > That's true. Actually even true for restrictedmem case, most likely we
-> > will still need the kvm_release_pfn_clean() for KVM generic code. On one
-> > side, other restrictedmem users like pKVM may not require page pinning
-> > at all. On the other side, see below.
-> > 
-> > > 
-> > > So what we are expecting is: for KVM if the page comes from restricted mem, then
-> > > KVM cannot decrease the refcount, otherwise for normal page via GUP KVM should.
-> 
-> No, requiring the user (KVM) to guard against lack of support for page migration
-> in restricted mem is a terrible API.  It's totally fine for restricted mem to not
-> support page migration until there's a use case, but punting the problem to KVM
-> is not acceptable.  Restricted mem itself doesn't yet support page migration,
-> e.g. explosions would occur even if KVM wanted to allow migration since there is
-> no notification to invalidate existing mappings.
 
-I tried to find a way to hook into migration path from restrictedmem. It
-is not easy because from code-mm PoV the restrictedmem page just yet
-another shmem page.
 
-It is somewhat dubious, but I think it should be safe to override
-mapping->a_ops for the shmem mapping.
+Am 23=2E Januar 2023 07:57:08 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <p=
+hilmd@linaro=2Eorg>:
+>Hi Bernhard,
+>
+>On 22/1/23 18:07, Bernhard Beschow wrote:
+>> A MemoryRegion has an addr attribute which gets set to the same values
+>> as the redundant io_addr attributes=2E
+>>=20
+>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>> ---
+>>   include/hw/acpi/ich9=2Eh  |  1 -
+>>   include/hw/acpi/piix4=2Eh |  2 --
+>>   hw/acpi/ich9=2Ec          | 17 ++++++++---------
+>>   hw/acpi/piix4=2Ec         | 11 ++++++-----
+>>   4 files changed, 14 insertions(+), 17 deletions(-)
+>
+>> diff --git a/hw/acpi/piix4=2Ec b/hw/acpi/piix4=2Ec
+>> index 370b34eacf=2E=2E2e9bc63fca 100644
+>> --- a/hw/acpi/piix4=2Ec
+>> +++ b/hw/acpi/piix4=2Ec
+>> @@ -91,13 +91,14 @@ static void apm_ctrl_changed(uint32_t val, void *ar=
+g)
+>>   static void pm_io_space_update(PIIX4PMState *s)
+>>   {
+>>       PCIDevice *d =3D PCI_DEVICE(s);
+>> +    uint32_t io_base;
+>>   -    s->io_base =3D le32_to_cpu(*(uint32_t *)(d->config + 0x40));
+>> -    s->io_base &=3D 0xffc0;
+>> +    io_base =3D le32_to_cpu(*(uint32_t *)(d->config + 0x40));
+>> +    io_base &=3D 0xffc0;
+>>         memory_region_transaction_begin();
+>>       memory_region_set_enabled(&s->io, d->config[0x80] & 1);
+>> -    memory_region_set_address(&s->io, s->io_base);
+>> +    memory_region_set_address(&s->io, io_base);
+>
+>OK for this part=2E
+>
+>>       memory_region_transaction_commit();
+>>   }
+>>   @@ -433,8 +434,8 @@ static void piix4_pm_add_properties(PIIX4PMState =
+*s)
+>>                                     &s->ar=2Egpe=2Elen, OBJ_PROP_FLAG_R=
+EAD);
+>>       object_property_add_uint16_ptr(OBJECT(s), ACPI_PM_PROP_SCI_INT,
+>>                                     &sci_int, OBJ_PROP_FLAG_READ);
+>> -    object_property_add_uint32_ptr(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
+>> -                                  &s->io_base, OBJ_PROP_FLAG_READ);
+>> +    object_property_add_uint64_ptr(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
+>> +                                   &s->io=2Eaddr, OBJ_PROP_FLAG_READ);
+>
+>+Eduardo/Mark
+>
+>We shouldn't do that IMO, because we access an internal field from
+>another QOM object=2E
+>
+>We can however alias the MR property:
+>
+>  object_property_add_alias(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
+>                            OBJECT(&s->io), "addr");
 
-It also eliminates need in special treatment for the restrictedmem pages
-from memory-failure code.
+Indeed! And the "addr" property is already read-only -- which seems like a=
+ good fit=2E
 
-shmem_mapping() uses ->a_ops to detect shmem mapping. Modify the
-implementation to still be true for restrictedmem pages.
-
-Build tested only.
-
-Any comments?
-
-diff --git a/include/linux/restrictedmem.h b/include/linux/restrictedmem.h
-index 6fddb08f03cc..73ded3c3bad1 100644
---- a/include/linux/restrictedmem.h
-+++ b/include/linux/restrictedmem.h
-@@ -36,8 +36,6 @@ static inline bool file_is_restrictedmem(struct file *file)
- 	return file->f_inode->i_sb->s_magic == RESTRICTEDMEM_MAGIC;
- }
- 
--void restrictedmem_error_page(struct page *page, struct address_space *mapping);
--
- #else
- 
- static inline bool file_is_restrictedmem(struct file *file)
-@@ -45,11 +43,6 @@ static inline bool file_is_restrictedmem(struct file *file)
- 	return false;
- }
- 
--static inline void restrictedmem_error_page(struct page *page,
--					    struct address_space *mapping)
--{
--}
--
- #endif /* CONFIG_RESTRICTEDMEM */
- 
- #endif /* _LINUX_RESTRICTEDMEM_H */
-diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
-index d500ea967dc7..a4af160f37e4 100644
---- a/include/linux/shmem_fs.h
-+++ b/include/linux/shmem_fs.h
-@@ -9,6 +9,7 @@
- #include <linux/percpu_counter.h>
- #include <linux/xattr.h>
- #include <linux/fs_parser.h>
-+#include <linux/magic.h>
- 
- /* inode in-kernel data */
- 
-@@ -75,10 +76,9 @@ extern unsigned long shmem_get_unmapped_area(struct file *, unsigned long addr,
- 		unsigned long len, unsigned long pgoff, unsigned long flags);
- extern int shmem_lock(struct file *file, int lock, struct ucounts *ucounts);
- #ifdef CONFIG_SHMEM
--extern const struct address_space_operations shmem_aops;
- static inline bool shmem_mapping(struct address_space *mapping)
- {
--	return mapping->a_ops == &shmem_aops;
-+	return mapping->host->i_sb->s_magic == TMPFS_MAGIC;
- }
- #else
- static inline bool shmem_mapping(struct address_space *mapping)
-diff --git a/mm/memory-failure.c b/mm/memory-failure.c
-index f91b444e471e..145bb561ddb3 100644
---- a/mm/memory-failure.c
-+++ b/mm/memory-failure.c
-@@ -62,7 +62,6 @@
- #include <linux/page-isolation.h>
- #include <linux/pagewalk.h>
- #include <linux/shmem_fs.h>
--#include <linux/restrictedmem.h>
- #include "swap.h"
- #include "internal.h"
- #include "ras/ras_event.h"
-@@ -941,8 +940,6 @@ static int me_pagecache_clean(struct page_state *ps, struct page *p)
- 		goto out;
- 	}
- 
--	restrictedmem_error_page(p, mapping);
--
- 	/*
- 	 * The shmem page is kept in page cache instead of truncating
- 	 * so is expected to have an extra refcount after error-handling.
-diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
-index 15c52301eeb9..d0ca609b82cb 100644
---- a/mm/restrictedmem.c
-+++ b/mm/restrictedmem.c
-@@ -189,6 +189,51 @@ static struct file *restrictedmem_file_create(struct file *memfd)
- 	return file;
- }
- 
-+static int restricted_error_remove_page(struct address_space *mapping,
-+					struct page *page)
-+{
-+	struct super_block *sb = restrictedmem_mnt->mnt_sb;
-+	struct inode *inode, *next;
-+	pgoff_t start, end;
-+
-+	start = page->index;
-+	end = start + thp_nr_pages(page);
-+
-+	spin_lock(&sb->s_inode_list_lock);
-+	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
-+		struct restrictedmem *rm = inode->i_mapping->private_data;
-+		struct restrictedmem_notifier *notifier;
-+		struct file *memfd = rm->memfd;
-+		unsigned long index;
-+
-+		if (memfd->f_mapping != mapping)
-+			continue;
-+
-+		xa_for_each_range(&rm->bindings, index, notifier, start, end)
-+			notifier->ops->error(notifier, start, end);
-+		break;
-+	}
-+	spin_unlock(&sb->s_inode_list_lock);
-+
-+	return 0;
-+}
-+
-+#ifdef CONFIG_MIGRATION
-+static int restricted_folio(struct address_space *mapping, struct folio *dst,
-+			    struct folio *src, enum migrate_mode mode)
-+{
-+	return -EBUSY;
-+}
-+#endif
-+
-+static struct address_space_operations restricted_aops = {
-+	.dirty_folio	= noop_dirty_folio,
-+	.error_remove_page = restricted_error_remove_page,
-+#ifdef CONFIG_MIGRATION
-+	.migrate_folio	= restricted_folio,
-+#endif
-+};
-+
- SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
- {
- 	struct file *file, *restricted_file;
-@@ -209,6 +254,8 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
- 	file->f_mode |= FMODE_LSEEK | FMODE_PREAD | FMODE_PWRITE;
- 	file->f_flags |= O_LARGEFILE;
- 
-+	file->f_mapping->a_ops = &restricted_aops;
-+
- 	restricted_file = restrictedmem_file_create(file);
- 	if (IS_ERR(restricted_file)) {
- 		err = PTR_ERR(restricted_file);
-@@ -293,31 +340,3 @@ int restrictedmem_get_page(struct file *file, pgoff_t offset,
- }
- EXPORT_SYMBOL_GPL(restrictedmem_get_page);
- 
--void restrictedmem_error_page(struct page *page, struct address_space *mapping)
--{
--	struct super_block *sb = restrictedmem_mnt->mnt_sb;
--	struct inode *inode, *next;
--	pgoff_t start, end;
--
--	if (!shmem_mapping(mapping))
--		return;
--
--	start = page->index;
--	end = start + thp_nr_pages(page);
--
--	spin_lock(&sb->s_inode_list_lock);
--	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
--		struct restrictedmem *rm = inode->i_mapping->private_data;
--		struct restrictedmem_notifier *notifier;
--		struct file *memfd = rm->memfd;
--		unsigned long index;
--
--		if (memfd->f_mapping != mapping)
--			continue;
--
--		xa_for_each_range(&rm->bindings, index, notifier, start, end)
--			notifier->ops->error(notifier, start, end);
--		break;
--	}
--	spin_unlock(&sb->s_inode_list_lock);
--}
-diff --git a/mm/shmem.c b/mm/shmem.c
-index c1d8b8a1aa3b..3df4d95784b9 100644
---- a/mm/shmem.c
-+++ b/mm/shmem.c
-@@ -231,7 +231,7 @@ static inline void shmem_inode_unacct_blocks(struct inode *inode, long pages)
- }
- 
- static const struct super_operations shmem_ops;
--const struct address_space_operations shmem_aops;
-+static const struct address_space_operations shmem_aops;
- static const struct file_operations shmem_file_operations;
- static const struct inode_operations shmem_inode_operations;
- static const struct inode_operations shmem_dir_inode_operations;
-@@ -3894,7 +3894,7 @@ static int shmem_error_remove_page(struct address_space *mapping,
- 	return 0;
- }
- 
--const struct address_space_operations shmem_aops = {
-+static const struct address_space_operations shmem_aops = {
- 	.writepage	= shmem_writepage,
- 	.dirty_folio	= noop_dirty_folio,
- #ifdef CONFIG_TMPFS
-@@ -3906,7 +3906,6 @@ const struct address_space_operations shmem_aops = {
- #endif
- 	.error_remove_page = shmem_error_remove_page,
- };
--EXPORT_SYMBOL(shmem_aops);
- 
- static const struct file_operations shmem_file_operations = {
- 	.mmap		= shmem_mmap,
--- 
-  Kiryl Shutsemau / Kirill A. Shutemov
+>
+>>   }
 
