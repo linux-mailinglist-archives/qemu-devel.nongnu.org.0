@@ -2,88 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A32677E37
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 15:40:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF93D677E35
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 15:40:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJxz4-0006lS-Aj; Mon, 23 Jan 2023 09:39:42 -0500
+	id 1pJxz7-0006m4-4f; Mon, 23 Jan 2023 09:39:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pJxz2-0006kh-M0
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 09:39:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pJxyy-0008KF-BM
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 09:39:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674484774;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=vlPs/xnYf9eSLUpV0+u3A/OnnZ4leNWYacmTMIWC7JI=;
- b=AUMWATjHVyVqDRZLY4RIcZcw221of/86SOAhfr9XRCdwrTg9Pt5KaruNpOzycku4ZZ/WBj
- 1NWW73A9jBPYBFEZTgrw4UMbAA82orfQrb8N8mGfylyvyWFltAzRyPGc+1pDRPqw40X0aq
- CJ3SE2EOOqvcnkXlU7ZBT5vUYoiyQng=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-286-ZhXa5wyYMo6A_hGmRJXihQ-1; Mon, 23 Jan 2023 09:39:33 -0500
-X-MC-Unique: ZhXa5wyYMo6A_hGmRJXihQ-1
-Received: by mail-ej1-f71.google.com with SMTP id
- qb2-20020a1709077e8200b00842b790008fso7936947ejc.21
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 06:39:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=vlPs/xnYf9eSLUpV0+u3A/OnnZ4leNWYacmTMIWC7JI=;
- b=K+z3xABHIj3o8Kf/TwMOgeNw+9YMKv+XHlSH4Bj7xskF15Mh5tD3oLUitX8WIepnPz
- 1+B9dbzI5K9Wfuq70xwx34rvqXD+32ZxYiCoaHb20PZUDZtE79apY6ipui0cKkKvSCGe
- AkpH3uqwLbrnpTf5IYiTL4iWd9Do+PSDdd17mYoBE/c3KHQwFRX/tEqN8MGWLQGaxGhf
- j7cvRRVgWl3cahdpwF3g/PjCj85xJauRIImJ1h8VcARYJN3n5t+xeK1HEJHxKcViSqdI
- u9TsNxMlrc17b13lNgFtWOmbxKYB/P9a4UOCcfrbeEd+BXytkfxuaeAKw6Y2+CYXhLrA
- qtMw==
-X-Gm-Message-State: AFqh2kr+BVJQhegDLAFHR4ADOj7tSYRg9oujVaC/RTEHR9rI4bN3asbJ
- mf+OSNpd0NvAykTwCvI/dH1oC3iLXSX0860/oWw71AbztiiHly9Q0mlopG/6dIdhdS+uPYZvI2Y
- L5LtQMzMKO+Oy6uc=
-X-Received: by 2002:a17:906:79d8:b0:877:a2d1:7560 with SMTP id
- m24-20020a17090679d800b00877a2d17560mr11865473ejo.27.1674484772431; 
- Mon, 23 Jan 2023 06:39:32 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuIeuYVPeQBECwd04ae6mDjEiiVn7e7Rq3u8YlQ1FaZnuwVbG5Eglg+eS70hhEttanEoUz1Kw==
-X-Received: by 2002:a17:906:79d8:b0:877:a2d1:7560 with SMTP id
- m24-20020a17090679d800b00877a2d17560mr11865452ejo.27.1674484772167; 
- Mon, 23 Jan 2023 06:39:32 -0800 (PST)
-Received: from redhat.com ([2.52.149.29]) by smtp.gmail.com with ESMTPSA id
- 21-20020a170906301500b007c0985aa6b0sm22222824ejz.191.2023.01.23.06.39.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 06:39:31 -0800 (PST)
-Date: Mon, 23 Jan 2023 09:39:27 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio =?iso-8859-1?Q?P=E9rez?= <eperezma@redhat.com>
-Cc: elic@nvidia.com, Zhu Lingshan <lingshan.zhu@intel.com>,
- Si-Wei Liu <si-wei.liu@oracle.com>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Gautam Dawar <gdawar@xilinx.com>, leiyang@redhat.com
-Subject: Re: [PATCH] vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check
-Message-ID: <20230123093908-mutt-send-email-mst@kernel.org>
-References: <20230117105308.1337120-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
+ id 1pJxz5-0006lr-Ie; Mon, 23 Jan 2023 09:39:43 -0500
+Received: from linux.microsoft.com ([13.77.154.182])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <eiakovlev@linux.microsoft.com>)
+ id 1pJxz3-0008Kg-VQ; Mon, 23 Jan 2023 09:39:43 -0500
+Received: from [192.168.0.20] (unknown [77.64.253.114])
+ by linux.microsoft.com (Postfix) with ESMTPSA id A5D6F20E2D02;
+ Mon, 23 Jan 2023 06:39:38 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A5D6F20E2D02
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1674484779;
+ bh=5xpjNFjSNFRczxxgFFK3YrQ42HyOzHNfjfnUUCkT+Uw=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=jhXVgan+hfwMxdo8W1p4qlW8WLVd3ulu8CQqwPElS8DV2QxaDVEJYXP1XppnXSZGg
+ yYHyzQHo9Hb+S3xHixNXxZ2xFn7xpJ85GPFTUqwgduPdVPlpbpJdq+dmoRj+lipur4
+ fvHuI/M5PX00bJUPNAttYiOmsoaazPs+9SMfjBtQ=
+Message-ID: <3bb5a011-6947-8376-a51b-9a3c857daeaa@linux.microsoft.com>
+Date: Mon, 23 Jan 2023 15:39:36 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230117105308.1337120-1-eperezma@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v3 2/5] hw/char/pl011: add post_load hook for
+ backwards-compatibility
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20230120155447.31702-1-eiakovlev@linux.microsoft.com>
+ <20230120155447.31702-3-eiakovlev@linux.microsoft.com>
+ <CAFEAcA8RSCvkt+k2N+At67CYZejJgnrkqCox-meq0TtraooBCg@mail.gmail.com>
+Content-Language: en-US
+From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+In-Reply-To: <CAFEAcA8RSCvkt+k2N+At67CYZejJgnrkqCox-meq0TtraooBCg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=13.77.154.182;
+ envelope-from=eiakovlev@linux.microsoft.com; helo=linux.microsoft.com
+X-Spam_score_int: -208
+X-Spam_score: -20.9
+X-Spam_bar: --------------------
+X-Spam_report: (-20.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-1.147, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,42 +69,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 17, 2023 at 11:53:08AM +0100, Eugenio Pérez wrote:
-> VHOST_BACKEND_F_IOTLB_ASID is the feature bit, not the bitmask. Since
-> the device under test also provided VHOST_BACKEND_F_IOTLB_MSG_V2 and
-> VHOST_BACKEND_F_IOTLB_BATCH, this went unnoticed.
-> 
-> Fixes: c1a1008685 ("vdpa: always start CVQ in SVQ mode if possible")
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> Acked-by: Jason Wang <jasowang@redhat.com>
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+On 1/20/2023 19:22, Peter Maydell wrote:
+> On Fri, 20 Jan 2023 at 15:54, Evgeny Iakovlev
+> <eiakovlev@linux.microsoft.com> wrote:
+>> Previous change slightly modified the way we handle data writes when
+>> FIFO is disabled. Previously we kept incrementing read_pos and were
+>> storing data at that position, although we only have a
+>> single-register-deep FIFO now. Then we changed it to always store data
+>> at pos 0.
+>>
+>> If guest disables FIFO and the proceeds to read data, it will work out
+>> fine, because we read from current read_pos before setting it to 0.
+>>
+>> However, to make code less fragile, introduce a post_load hook for
+>> PL011State and move fixup read FIFO state when FIFO is disabled. Since
+>> we are introducing a post_load hook, also do some sanity checking on
+>> untrusted incoming input state.
+>>
+>> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+>> ---
+>>   hw/char/pl011.c | 27 ++++++++++++++++++++++++++-
+>>   1 file changed, 26 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/char/pl011.c b/hw/char/pl011.c
+>> index 3fa3b75d04..4df649a064 100644
+>> --- a/hw/char/pl011.c
+>> +++ b/hw/char/pl011.c
+>> @@ -352,10 +352,35 @@ static const VMStateDescription vmstate_pl011_clock = {
+>>       }
+>>   };
+>>
+>> +static int pl011_post_load(void *opaque, int version_id)
+>> +{
+>> +    PL011State* s = opaque;
+>> +
+>> +    /* Sanity-check input state */
+>> +    if (s->read_pos >= ARRAY_SIZE(s->read_fifo) ||
+>> +        s->read_count > ARRAY_SIZE(s->read_fifo)) {
+>> +        return -1;
+>> +    }
+>> +
+>> +    if (version_id < 3 && !pl011_is_fifo_enabled(s)) {
+>> +        /*
+>> +         * Older versions of PL011 didn't ensure that the single
+>> +         * character in the FIFO in FIFO-disabled mode is in
+>> +         * element 0 of the array; convert to follow the current
+>> +         * code's assumptions.
+>> +         */
+>> +        s->read_fifo[0] = s->read_fifo[s->read_pos];
+>> +        s->read_pos = 0;
+>> +    }
+> You don't need to bump the version id and do this
+> check based on version ID. You can just check whether
+> the old state indicates that the data isn't in slot 0
+> of the array, the way I suggested in my comment on the
+> previous version of the patchset.
+>
+> (New->old migration will work fine.)
 
-Jason are you merging this?
 
-> ---
-> Originally on SUSPEND series, but it is a fix that it is worth to send
-> and apply individually:
-> https://lists.nongnu.org/archive/html/qemu-devel/2023-01/msg02574.html
-> 
-> ---
->  net/vhost-vdpa.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 1a13a34d35..de5ed8ff22 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -384,7 +384,7 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
->              g_strerror(errno), errno);
->          return -1;
->      }
-> -    if (!(backend_features & VHOST_BACKEND_F_IOTLB_ASID) ||
-> +    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) ||
->          !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
->          return 0;
->      }
-> --
-> 2.31.1
+Right, i thought this was a cleaner check, because it doesn't rely as 
+much on internal state. Breaking backwards migration is not as great 
+though..
 
+
+>
+> thanks
+> -- PMM
 
