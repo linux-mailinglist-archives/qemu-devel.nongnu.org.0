@@ -2,94 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 553C2677D0C
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:51:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12E2D677D11
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:51:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJxDR-0006Hx-07; Mon, 23 Jan 2023 08:50:29 -0500
+	id 1pJxEU-00073q-Qe; Mon, 23 Jan 2023 08:51:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pJxDK-0006FS-To
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:50:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pJxDI-0006Jo-N9
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:50:22 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674481819;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ln7RV5TktuNnFYrmLpu+ljAXvmQvp0L9lRlGKHLDIYM=;
- b=PZp4TaauqfN+q19+oNskfgGN4drhywS18444beKCwEYb65Kqv4ZppofKnlII79JkaxbAT4
- BLF3KdKLJnbfNzwHliyypQFaOXD2Rov3uAiI0styDdHiy5fkWAozf3y92fsDNDrAh+2eEv
- zMeSjtyIdAB/89JJWhl3rwDgsA/3PSg=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-645-vP7GHIRbMgi5gUuMv2sL0w-1; Mon, 23 Jan 2023 08:50:18 -0500
-X-MC-Unique: vP7GHIRbMgi5gUuMv2sL0w-1
-Received: by mail-qk1-f200.google.com with SMTP id
- br6-20020a05620a460600b007021e1a5c48so8832113qkb.6
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:50:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pJxER-000711-9C
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:51:31 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pJxEP-0006cU-1z
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:51:31 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id g10so9072479wmo.1
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:51:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=pB5HH4yHacuaSXFeR4M3fVfhrIi2ZrUbS9tHIQedDyY=;
+ b=hqEyUlwrz6/ZSup9Kg3UazdylCajo70cGs6Zdo9AJApoeQRH94vuYLmNYbHmmFzxDu
+ rSHCnwra7K6WfuzaG8F1lt5fgRPLE9+ucCctKwZ5XsVUWGRP2ecWzugxQryklf/ZMKr9
+ d3MPVGhebjfRSJCJ2S3a3AXcvhOYLMbAvB+dpgzQStBS50SJ78pIuhIwwPRuXJ7PH29l
+ z+Lvb55v0wu9pQtJCwDNZxcLlBDSlJ3PGuBMW7mBCeeJOj3lgq1pHgsT4+PLcJ2hUrOn
+ aAjsEm2LtiBNh76Ngc3KnT1jm0J/0fRa8HqFHHOXooZTzDg4mJLl8GIkcRreXi83Rv+m
+ ZMGQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ln7RV5TktuNnFYrmLpu+ljAXvmQvp0L9lRlGKHLDIYM=;
- b=0pEMAPFUi2oTZR7yXfIH2Jb7OkL6HAXscSR0T5gcVR9eRfhRMt0Ic8jmn2q2CLUlKF
- IkP5q01HhdigSl4vAolFOhpYro3F+ssyn3aE39i5v3eIZS7ygXbXVO8YBy210u8tdsZD
- oYbPrGV7kE7mCnEuv+45lEBPFfIQtYgveoxUxl4X8zauphprBofKHBk/3daP9SGeC/Nj
- 9EzlCZgJsqRuDTZ3/bDnaYGQcfBrleSG9pEmcu/L8ZMPLZ1KoMB9oePXMJ4SaOJqtpZ/
- xnEZn/NrlLlJT38x8BK/SSTs/HsE9XL/XMIfYbfSvUw9w2xPrZtHUH1QN1L9ulXTJbcW
- 7fww==
-X-Gm-Message-State: AFqh2krUVby57fBHzk8GdnoNTGiACariQzh9qgpURCbvSmAaDJgJvIHC
- vKPyCKCQAHlA5SqcUm2kxllUuZO2O6fESdvBeTSHEqAv8m5PZ3+DBdmT9Q7oDYHD+6ElQvBEx3/
- 5687yF7eswdlu2lI=
-X-Received: by 2002:a05:622a:1e1b:b0:3a9:8842:5860 with SMTP id
- br27-20020a05622a1e1b00b003a988425860mr34502635qtb.45.1674481817682; 
- Mon, 23 Jan 2023 05:50:17 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXv0NyC3ib4pxPx5PQVybNmtY0pcmro7NE/DE44hN66hOO6DcYqZ8nN72nMDG4t4L7yA9jCNLQ==
-X-Received: by 2002:a05:622a:1e1b:b0:3a9:8842:5860 with SMTP id
- br27-20020a05622a1e1b00b003a988425860mr34502599qtb.45.1674481817312; 
- Mon, 23 Jan 2023 05:50:17 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pB5HH4yHacuaSXFeR4M3fVfhrIi2ZrUbS9tHIQedDyY=;
+ b=5Rv/g7bTiz8lgj72l1cNwkwJ/cCFhNVtw0Sj1tFlblVLIgtt25ziILg3cE/BDUFPPC
+ fIt85Fj3HsZCFz02sHAQ8xMvlcSRW6ryNXaAJTTgZkFrGSyqJ79mF8I0xx+jPA023fv5
+ /88FQuIugpqvfSBjezuPl6rV0UoPg8OQSUiogVaZgNkusueJc4wx5hRl+3G0Zh4aJfzx
+ y1iazxrOm7i4TuEc8WXZf80eBKghfzlONZPc0rFPOd5NqixtvonMi3doH3ek80SIaCAy
+ dkhqKF1vJDkAZtHCyE9MxIqNd5+MOtAhZphgrh73fwi66k97iB7VG6hdZlZAvtxu7n0Q
+ UeNw==
+X-Gm-Message-State: AFqh2kpg7vAAhKMZWKosx1rSIbtn+gInPpr/4upSAe3rh/6hrVLbzrkd
+ opgypeipsmRCWVjpzX5ctMK9YQ==
+X-Google-Smtp-Source: AMrXdXtY/up1ISH8T/bWSHKAXhpqxyBBgFi7ie3BPW3YsxYaW+39tGXqkrnqRVEDhuDtk3WyZQXFsg==
+X-Received: by 2002:a05:600c:3ba5:b0:3cf:7925:7a3 with SMTP id
+ n37-20020a05600c3ba500b003cf792507a3mr24301013wms.24.1674481887474; 
+ Mon, 23 Jan 2023 05:51:27 -0800 (PST)
+Received: from localhost (2001-1ae9-1c2-4c00-20f-c6b4-1e57-7965.ip6.tmcz.cz.
+ [2001:1ae9:1c2:4c00:20f:c6b4:1e57:7965])
  by smtp.gmail.com with ESMTPSA id
- ez11-20020a05622a4c8b00b003afbf704c7csm8558178qtb.24.2023.01.23.05.50.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 05:50:16 -0800 (PST)
-Message-ID: <44d82d98-6a27-f4d3-9773-670231f82c63@redhat.com>
-Date: Mon, 23 Jan 2023 14:50:13 +0100
+ q7-20020a05600c46c700b003db11dfc687sm11290922wmo.36.2023.01.23.05.51.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Jan 2023 05:51:27 -0800 (PST)
+Date: Mon, 23 Jan 2023 14:51:26 +0100
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v6 5/5] riscv: Introduce satp mode hw capabilities
+Message-ID: <20230123135126.koxdvloakhwk2gcy@orel>
+References: <20230123090324.732681-1-alexghiti@rivosinc.com>
+ <20230123090324.732681-6-alexghiti@rivosinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PATCH v4 1/2] arm/kvm: add support for MTE
-Content-Language: en-US
-To: Cornelia Huck <cohuck@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>
-References: <20230111161317.52250-1-cohuck@redhat.com>
- <20230111161317.52250-2-cohuck@redhat.com>
-From: Eric Auger <eauger@redhat.com>
-In-Reply-To: <20230111161317.52250-2-cohuck@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eauger@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.147, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230123090324.732681-6-alexghiti@rivosinc.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=ajones@ventanamicro.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,378 +95,278 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Connie,
-On 1/11/23 17:13, Cornelia Huck wrote:
-> Introduce a new cpu feature flag to control MTE support. To preserve
-> backwards compatibility for tcg, MTE will continue to be enabled as
-> long as tag memory has been provided.
+On Mon, Jan 23, 2023 at 10:03:24AM +0100, Alexandre Ghiti wrote:
+> Currently, the max satp mode is set with the only constraint that it must be
+> implemented in qemu, i.e. set in valid_vm_1_10_[32|64].
 > 
-> If MTE has been enabled, we need to disable migration, as we do not
-this only applies to KVM acceleration
-> yet have a way to migrate the tags as well. Therefore, MTE will stay
-> off with KVM unless requested explicitly.
+> But we actually need to add another level of constraint: what the hw is
+> actually capable of, because currently, a linux booting on a sifive-u54
+> boots in sv57 mode which is incompatible with the cpu's sv39 max
+> capability.
 > 
-> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> So add a new bitmap to RISCVSATPMap which contains this capability and
+> initialize it in every XXX_cpu_init.
+> 
+> Finally, we have the following chain of constraints:
+> 
+> Qemu capability > HW capability > User choice > Software capability
+> 
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
 > ---
->  docs/system/arm/cpu-features.rst |  21 +++++
->  hw/arm/virt.c                    |   2 +-
->  target/arm/cpu.c                 |  18 ++---
->  target/arm/cpu.h                 |   1 +
->  target/arm/cpu64.c               | 133 +++++++++++++++++++++++++++++++
->  target/arm/internals.h           |   1 +
->  target/arm/kvm64.c               |   5 ++
->  target/arm/kvm_arm.h             |  12 +++
->  target/arm/monitor.c             |   1 +
->  9 files changed, 181 insertions(+), 13 deletions(-)
+>  target/riscv/cpu.c | 78 +++++++++++++++++++++++++++++++---------------
+>  target/riscv/cpu.h |  8 +++--
+>  2 files changed, 59 insertions(+), 27 deletions(-)
 > 
-> diff --git a/docs/system/arm/cpu-features.rst b/docs/system/arm/cpu-features.rst
-> index 00c444042ff5..e278650c837e 100644
-> --- a/docs/system/arm/cpu-features.rst
-> +++ b/docs/system/arm/cpu-features.rst
-> @@ -443,3 +443,24 @@ As with ``sve-default-vector-length``, if the default length is larger
->  than the maximum vector length enabled, the actual vector length will
->  be reduced.  If this property is set to ``-1`` then the default vector
->  length is set to the maximum possible length.
-> +
-> +MTE CPU Property
-> +================
-> +
-> +The ``mte`` property controls the Memory Tagging Extension. For TCG, it requires
-> +presence of tag memory (which can be turned on for the ``virt`` machine via
-> +``mte=on``). For KVM, it requires the ``KVM_CAP_ARM_MTE`` capability; until
-> +proper migration support is implemented, enabling MTE will install a migration
-> +blocker.
-maybe re-emphasize: when KVM is enabled
-> +
-> +If not specified explicitly via ``on`` or ``off``, MTE will be available
-> +according to the following rules:
-> +
-> +* When TCG is used, MTE will be available iff tag memory is available; i.e. it
-suggestion: is available at machine level
-> +  preserves the behaviour prior to introduction of the feature.
-s/prior to/prior to the ?
-> +
-> +* When KVM is used, MTE will default to off, so that migration will not
-> +  unintentionally be blocked.
-> +
-> +* Other accelerators currently don't support MTE.
-> +
-> diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-> index ea2413a0bad7..42359e256ad0 100644
-> --- a/hw/arm/virt.c
-> +++ b/hw/arm/virt.c
-> @@ -2136,7 +2136,7 @@ static void machvirt_init(MachineState *machine)
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index e409e6ab64..19a37fee2b 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -292,24 +292,39 @@ const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit)
+>      g_assert_not_reached();
+>  }
 >  
->      if (vms->mte && (kvm_enabled() || hvf_enabled())) {
->          error_report("mach-virt: %s does not support providing "
-> -                     "MTE to the guest CPU",
-> +                     "emulated MTE to the guest CPU",
-each time I read this message I feel difficult to understand it. Why not
-replacing by
-"mach-virt does not support tag memory with %s acceleration" or
-something alike?
->                       kvm_enabled() ? "KVM" : "HVF");
->          exit(1);
->      }
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index 5f63316dbf22..decab743d0d5 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -1529,6 +1529,11 @@ void arm_cpu_finalize_features(ARMCPU *cpu, Error **errp)
->              error_propagate(errp, local_err);
->              return;
->          }
-> +        arm_cpu_mte_finalize(cpu, &local_err);
-> +        if (local_err != NULL) {
-> +            error_propagate(errp, local_err);
-> +            return;
+> -/* Sets the satp mode to the max supported */
+> -static void set_satp_mode_default(RISCVCPU *cpu, bool is_32_bit)
+> +static void set_satp_mode_max_supported(RISCVCPU *cpu,
+> +                                        const char *satp_mode_str,
+> +                                        bool is_32_bit)
+
+I'd drop 'is_32_bit' and get it from 'cpu', which would "clean up" all the
+callsites by getting rid of all the true/false stuff. Also, why take the
+string instead of the VM_1_10_SV* define?
+
+>  {
+> -    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
+> -        cpu->cfg.satp_mode.map |=
+> -                        (1 << satp_mode_from_str(is_32_bit ? "sv32" : "sv57"));
+> -    } else {
+> -        cpu->cfg.satp_mode.map |= (1 << satp_mode_from_str("mbare"));
+> +    uint8_t satp_mode = satp_mode_from_str(satp_mode_str);
+> +    const bool *valid_vm = is_32_bit ? valid_vm_1_10_32 : valid_vm_1_10_64;
+> +
+> +    for (int i = 0; i <= satp_mode; ++i) {
+> +        if (valid_vm[i]) {
+> +            cpu->cfg.satp_mode.supported |= (1 << i);
 > +        }
 >      }
+>  }
+>  
+> +/* Sets the satp mode to the max supported */
+> +static void set_satp_mode_default(RISCVCPU *cpu)
+> +{
+> +    uint8_t satp_mode = satp_mode_max_from_map(cpu->cfg.satp_mode.supported);
+> +
+> +    cpu->cfg.satp_mode.map |= (1 << satp_mode);
+
+Let's do 'cpu->cfg.satp_mode.map = cpu->cfg.satp_mode.supported' to make
+sure 'map' has all supported bits set for property probing.
+
+> +}
+> +
+>  static void riscv_any_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> +    RISCVCPU *cpu = RISCV_CPU(obj);
+> +
+>  #if defined(TARGET_RISCV32)
+>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+> +    set_satp_mode_max_supported(cpu, "sv32", true);
+>  #elif defined(TARGET_RISCV64)
+>      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+> +    set_satp_mode_max_supported(cpu, "sv57", false);
+>  #endif
+>      set_priv_version(env, PRIV_VERSION_1_12_0);
+>      register_cpu_props(obj);
+> @@ -319,18 +334,24 @@ static void riscv_any_cpu_init(Object *obj)
+>  static void rv64_base_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> +    RISCVCPU *cpu = RISCV_CPU(obj);
+> +
+>      /* We set this in the realise function */
+>      set_misa(env, MXL_RV64, 0);
+>      register_cpu_props(obj);
+>      /* Set latest version of privileged specification */
+>      set_priv_version(env, PRIV_VERSION_1_12_0);
+> +    set_satp_mode_max_supported(cpu, "sv57", false);
+>  }
+>  
+>  static void rv64_sifive_u_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> +    RISCVCPU *cpu = RISCV_CPU(obj);
+> +
+>      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+> +    set_satp_mode_max_supported(cpu, "sv39", false);
+>  }
+>  
+>  static void rv64_sifive_e_cpu_init(Object *obj)
+> @@ -341,6 +362,7 @@ static void rv64_sifive_e_cpu_init(Object *obj)
+>      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>      cpu->cfg.mmu = false;
+> +    set_satp_mode_max_supported(cpu, "mbare", false);
+>  }
+>  
+>  static void rv128_base_cpu_init(Object *obj)
+> @@ -352,11 +374,13 @@ static void rv128_base_cpu_init(Object *obj)
+>          exit(EXIT_FAILURE);
+>      }
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> +    RISCVCPU *cpu = RISCV_CPU(obj);
+>      /* We set this in the realise function */
+>      set_misa(env, MXL_RV128, 0);
+>      register_cpu_props(obj);
+>      /* Set latest version of privileged specification */
+>      set_priv_version(env, PRIV_VERSION_1_12_0);
+> +    set_satp_mode_max_supported(cpu, "sv57", false);
+>  }
+>  #else
+>  static void rv32_base_cpu_init(Object *obj)
+> @@ -367,13 +391,17 @@ static void rv32_base_cpu_init(Object *obj)
+>      register_cpu_props(obj);
+>      /* Set latest version of privileged specification */
+>      set_priv_version(env, PRIV_VERSION_1_12_0);
+> +    set_satp_mode_max_supported(cpu, "sv32", true);
+>  }
+>  
+>  static void rv32_sifive_u_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> +    RISCVCPU *cpu = RISCV_CPU(obj);
+> +
+>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+> +    set_satp_mode_max_supported(cpu, "sv32", true);
+>  }
+>  
+>  static void rv32_sifive_e_cpu_init(Object *obj)
+> @@ -384,6 +412,7 @@ static void rv32_sifive_e_cpu_init(Object *obj)
+>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>      cpu->cfg.mmu = false;
+> +    set_satp_mode_max_supported(cpu, "mbare", true);
+>  }
+>  
+>  static void rv32_ibex_cpu_init(Object *obj)
+> @@ -394,6 +423,7 @@ static void rv32_ibex_cpu_init(Object *obj)
+>      set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_11_0);
+>      cpu->cfg.mmu = false;
+> +    set_satp_mode_max_supported(cpu, "mbare", true);
+>      cpu->cfg.epmp = true;
+>  }
+>  
+> @@ -405,6 +435,7 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
+>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>      cpu->cfg.mmu = false;
+> +    set_satp_mode_max_supported(cpu, "mbare", true);
+>  }
 >  #endif
 >  
-> @@ -1605,7 +1610,7 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
->          }
->          if (cpu->tag_memory) {
->              error_setg(errp,
-> -                       "Cannot enable %s when guest CPUs has MTE enabled",
-> +                       "Cannot enable %s when guest CPUs has tag memory enabled",
->                         current_accel_name());
->              return;
->          }
-> @@ -1984,17 +1989,6 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
->                                         ID_PFR1, VIRTUALIZATION, 0);
->      }
+> @@ -696,7 +727,9 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+>  static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
+>  {
+>      bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
+> -    const bool *valid_vm = rv32 ? valid_vm_1_10_32 : valid_vm_1_10_64;
+> +    uint8_t satp_mode_map_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
+> +    uint8_t satp_mode_supported_max =
+> +                        satp_mode_max_from_map(cpu->cfg.satp_mode.supported);
 >  
-> -#ifndef CONFIG_USER_ONLY
-> -    if (cpu->tag_memory == NULL && cpu_isar_feature(aa64_mte, cpu)) {
-> -        /*
-> -         * Disable the MTE feature bits if we do not have tag-memory
-> -         * provided by the machine.
-> -         */
-> -        cpu->isar.id_aa64pfr1 =
-> -            FIELD_DP64(cpu->isar.id_aa64pfr1, ID_AA64PFR1, MTE, 0);
-> -    }
-> -#endif
-> -
->      if (tcg_enabled()) {
+>      if (cpu->cfg.satp_mode.map == 0) {
 >          /*
->           * Don't report the Statistical Profiling Extension in the ID
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index bf2bce046d56..f1a9015a7ed7 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -1038,6 +1038,7 @@ struct ArchCPU {
->      bool prop_pauth;
->      bool prop_pauth_impdef;
->      bool prop_lpa2;
-> +    OnOffAuto prop_mte;
->  
->      /* DCZ blocksize, in log_2(words), ie low 4 bits of DCZID_EL0 */
->      uint32_t dcz_blocksize;
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-> index 0e021960fb5b..3cf42ee05ca3 100644
-> --- a/target/arm/cpu64.c
-> +++ b/target/arm/cpu64.c
-> @@ -29,6 +29,13 @@
->  #include "qapi/visitor.h"
->  #include "hw/qdev-properties.h"
->  #include "internals.h"
-> +#include "migration/blocker.h"
-> +#include "qapi/qapi-visit-common.h"
-> +#include "hw/arm/virt.h"
-> +
-> +#ifdef CONFIG_KVM
-> +static Error *mte_migration_blocker;
-> +#endif
->  
->  static void aarch64_a35_initfn(Object *obj)
->  {
-> @@ -1096,6 +1103,130 @@ static void aarch64_neoverse_n1_initfn(Object *obj)
->      cpu->isar.reset_pmcr_el0 = 0x410c3000;
->  }
->  
-> +static void aarch64_cpu_get_mte(Object *obj, Visitor *v, const char *name,
-> +                                void *opaque, Error **errp)
-> +{
-> +    ARMCPU *cpu = ARM_CPU(obj);
-> +    OnOffAuto mte = cpu->prop_mte;
-> +
-> +    visit_type_OnOffAuto(v, name, &mte, errp);
-> +}
-> +
-> +static void aarch64_cpu_set_mte(Object *obj, Visitor *v, const char *name,
-> +                                void *opaque, Error **errp)
-> +{
-> +    ARMCPU *cpu = ARM_CPU(obj);
-> +
-> +    visit_type_OnOffAuto(v, name, &cpu->prop_mte, errp);
-> +
-nit: spare void line
-> +}
-> +
-> +static void aarch64_add_mte_properties(Object *obj)
-> +{
-> +    /*
-> +     * For tcg, "AUTO" means turn on mte if tag memory has been provided, and
-> +     * turn it off (without error) if not.
-> +     * For kvm, "AUTO" currently means mte off, as migration is not supported
-> +     * yet.
-> +     * For all others, "AUTO" means mte off.
-> +     */
-> +    object_property_add(obj, "mte", "OnOffAuto", aarch64_cpu_get_mte,
-> +                        aarch64_cpu_set_mte, NULL, NULL);
-> +}
-> +
-> +static inline bool arm_machine_has_tag_memory(void)
-> +{
-> +#ifndef CONFIG_USER_ONLY
-> +    Object *obj = object_dynamic_cast(qdev_get_machine(), TYPE_VIRT_MACHINE);
-> +
-> +    /* so far, only the virt machine has support for tag memory */
-> +    if (obj) {
-> +        VirtMachineState *vms = VIRT_MACHINE(obj);
-> +
-> +        return vms->mte;
-> +    }
-> +#endif
-> +    return false;
-> +}
-> +
-> +void arm_cpu_mte_finalize(ARMCPU *cpu, Error **errp)
-> +{
-> +    bool enable_mte;
-> +
-> +    switch (cpu->prop_mte) {
-> +    case ON_OFF_AUTO_OFF:
-> +        enable_mte = false;
-> +        break;
-> +    case ON_OFF_AUTO_ON:
-> +        if (!kvm_enabled()) {
-> +            if (cpu_isar_feature(aa64_mte, cpu)) {
-> +                if (!arm_machine_has_tag_memory()) {
-> +                    error_setg(errp, "mte=on requires tag memory");
-> +                    return;
-> +                }
-> +            } else {
-> +                error_setg(errp, "mte not provided");
-mte not supported by this CPU type?
-> +                return;
-> +            }
-> +        }
-> +#ifdef CONFIG_KVM
-> +        if (kvm_enabled() && !kvm_arm_mte_supported()) {
-as you have stubs for both, is the #ifdef needed?
-> +            error_setg(errp, "mte not supported by kvm");
-> +            return;
-> +        }
-> +#endif
-> +        enable_mte = true;
-> +        break;
-> +    default: /* AUTO */
-> +        if (!kvm_enabled()) {
-> +            if (cpu_isar_feature(aa64_mte, cpu)) {
-> +                /*
-> +                 * Tie mte enablement to presence of tag memory, in order to
-> +                 * preserve pre-existing behaviour.
-> +                 */
-> +                enable_mte = arm_machine_has_tag_memory();
-> +            } else {
-> +                enable_mte = false;
-> +            }
-> +            break;
-> +        } else {
-> +            /*
-> +             * This cannot yet be
-> +             * enable_mte = kvm_arm_mte_supported();
-> +             * as we don't support migration yet.
-> +             */
-> +            enable_mte = false;
-> +        }
-> +    }
-> +
-> +    if (!enable_mte) {
-> +        /* Disable MTE feature bits. */
-> +        cpu->isar.id_aa64pfr1 =
-> +            FIELD_DP64(cpu->isar.id_aa64pfr1, ID_AA64PFR1, MTE, 0);
-> +        return;
-> +    }
-> +
-> +    /* accelerator-specific enablement */
-> +    if (kvm_enabled()) {
-> +#ifdef CONFIG_KVM
-> +        if (kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_MTE, 0)) {
-> +            error_setg(errp, "Failed to enable KVM_CAP_ARM_MTE");
-nit: return and remove the else?
-> +        } else {
-> +            /* TODO: add proper migration support with MTE enabled */
-> +            if (!mte_migration_blocker) {
-> +                error_setg(&mte_migration_blocker,
-> +                           "Live migration disabled due to MTE enabled");
-> +                if (migrate_add_blocker(mte_migration_blocker, NULL)) {
-Can't you pass the erro directly to migrate_add_blocker. Also  in
-arm_gicv3_its_kvm.c or virtio-gpu-pci, < 0 is checked. Maybe worth to
-double check the rationale.
-> +                    error_setg(errp, "Failed to add MTE migration blocker");
-> +                    error_free(mte_migration_blocker);
-> +                    mte_migration_blocker = NULL;
-> +                }
-> +            }
-> +        }
-> +#endif
-> +    }
-> +}
-> +
->  static void aarch64_host_initfn(Object *obj)
->  {
->  #if defined(CONFIG_KVM)
-> @@ -1104,6 +1235,7 @@ static void aarch64_host_initfn(Object *obj)
->      if (arm_feature(&cpu->env, ARM_FEATURE_AARCH64)) {
->          aarch64_add_sve_properties(obj);
->          aarch64_add_pauth_properties(obj);
-> +        aarch64_add_mte_properties(obj);
+> @@ -704,7 +737,7 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
+>           * satp mode.
+>           */
+>          if (cpu->cfg.satp_mode.init == 0) {
+> -            set_satp_mode_default(cpu, rv32);
+> +            set_satp_mode_default(cpu);
+>          } else {
+>              /*
+>               * Find the lowest level that was disabled and then enable the
+> @@ -714,9 +747,9 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
+>              for (int i = 1; i < 16; ++i) {
+>                  if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
+>                      (cpu->cfg.satp_mode.init & (1 << i)) &&
+> -                    valid_vm[i]) {
+> +                    (cpu->cfg.satp_mode.supported & (1 << i))) {
+>                      for (int j = i - 1; j >= 0; --j) {
+> -                        if (valid_vm[j]) {
+> +                        if (cpu->cfg.satp_mode.supported & (1 << j)) {
+>                              cpu->cfg.satp_mode.map |= (1 << j);
+>                              break;
+>                          }
+> @@ -727,13 +760,12 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
+>          }
 >      }
->  #elif defined(CONFIG_HVF)
->      ARMCPU *cpu = ARM_CPU(obj);
-> @@ -1300,6 +1432,7 @@ static void aarch64_max_initfn(Object *obj)
->      object_property_add(obj, "sve-max-vq", "uint32", cpu_max_get_sve_max_vq,
->                          cpu_max_set_sve_max_vq, NULL, NULL);
->      qdev_property_add_static(DEVICE(obj), &arm_cpu_lpa2_property);
-> +    aarch64_add_mte_properties(obj);
->  }
 >  
->  static const ARMCPUInfo aarch64_cpus[] = {
-> diff --git a/target/arm/internals.h b/target/arm/internals.h
-> index d9555309df0f..4dc6d19be42b 100644
-> --- a/target/arm/internals.h
-> +++ b/target/arm/internals.h
-> @@ -1348,6 +1348,7 @@ void arm_cpu_sve_finalize(ARMCPU *cpu, Error **errp);
->  void arm_cpu_sme_finalize(ARMCPU *cpu, Error **errp);
->  void arm_cpu_pauth_finalize(ARMCPU *cpu, Error **errp);
->  void arm_cpu_lpa2_finalize(ARMCPU *cpu, Error **errp);
-> +void arm_cpu_mte_finalize(ARMCPU *cpu, Error **errp);
->  #endif
+> -    /* Make sure the configuration asked is supported by qemu */
+> -    for (int i = 0; i < 16; ++i) {
+> -        if ((cpu->cfg.satp_mode.map & (1 << i)) && !valid_vm[i]) {
+> -            error_setg(errp, "satp_mode %s is not valid",
+> -                       satp_mode_str(i, rv32));
+> -            return;
+> -        }
+> +    /* Make sure the user asked for a supported configuration (HW and qemu) */
+> +    if (satp_mode_map_max > satp_mode_supported_max) {
+> +        error_setg(errp, "satp_mode %s is higher than hw max capability %s",
+> +                   satp_mode_str(satp_mode_map_max, rv32),
+> +                   satp_mode_str(satp_mode_supported_max, rv32));
+> +        return;
+>      }
 >  
->  #ifdef CONFIG_USER_ONLY
-> diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-> index 1197253d12f7..b777bd0a11d2 100644
-> --- a/target/arm/kvm64.c
-> +++ b/target/arm/kvm64.c
-> @@ -764,6 +764,11 @@ bool kvm_arm_steal_time_supported(void)
->      return kvm_check_extension(kvm_state, KVM_CAP_STEAL_TIME);
->  }
+>      /*
+> @@ -741,17 +773,13 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
+>       * the specification.
+>       */
+>      if (!rv32) {
+> -        uint8_t satp_mode_max;
+> -
+> -        satp_mode_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
+> -
+> -        for (int i = satp_mode_max - 1; i >= 0; --i) {
+> +        for (int i = satp_mode_map_max - 1; i >= 0; --i) {
+>              if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
+>                  (cpu->cfg.satp_mode.init & (1 << i)) &&
+> -                valid_vm[i]) {
+> +                (cpu->cfg.satp_mode.supported & (1 << i))) {
+>                  error_setg(errp, "cannot disable %s satp mode if %s "
+>                             "is enabled", satp_mode_str(i, false),
+> -                           satp_mode_str(satp_mode_max, false));
+> +                           satp_mode_str(satp_mode_map_max, false));
+>                  return;
+>              }
+>          }
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index e37177db5c..b591122099 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -416,13 +416,17 @@ struct RISCVCPUClass {
 >  
-> +bool kvm_arm_mte_supported(void)
-> +{
-> +    return kvm_check_extension(kvm_state, KVM_CAP_ARM_MTE);
-> +}
-> +
->  QEMU_BUILD_BUG_ON(KVM_ARM64_SVE_VQ_MIN != 1);
->  
->  uint32_t kvm_arm_sve_get_vls(CPUState *cs)
-> diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-> index 99017b635ce4..762443f8a7c0 100644
-> --- a/target/arm/kvm_arm.h
-> +++ b/target/arm/kvm_arm.h
-> @@ -305,6 +305,13 @@ bool kvm_arm_pmu_supported(void);
->   */
->  bool kvm_arm_sve_supported(void);
->  
-> +/**
-> + * kvm_arm_mte_supported:
-> + *
-> + * Returns: true if KVM can enable MTE, and false otherwise.
-> + */
-> +bool kvm_arm_mte_supported(void);
-> +
->  /**
->   * kvm_arm_get_max_vm_ipa_size:
->   * @ms: Machine state handle
-> @@ -395,6 +402,11 @@ static inline bool kvm_arm_steal_time_supported(void)
->      return false;
->  }
->  
-> +static inline bool kvm_arm_mte_supported(void)
-> +{
-> +    return false;
-> +}
-> +
 >  /*
->   * These functions should never actually be called without KVM support.
+>   * map is a 16-bit bitmap: the most significant set bit in map is the maximum
+> - * satp mode that is supported.
+> + * satp mode that is supported. It may be chosen by the user and must respect
+> + * what qemu implements (valid_1_10_32/64) and what the hw is capable of
+> + * (supported bitmap below).
+>   *
+>   * init is a 16-bit bitmap used to make sure the user selected a correct
+>   * configuration as per the specification.
+> + *
+> + * supported is a 16-bit bitmap used to reflect the hw capabilities.
 >   */
-> diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-> index ecdd5ee81742..c419c81612ed 100644
-> --- a/target/arm/monitor.c
-> +++ b/target/arm/monitor.c
-> @@ -96,6 +96,7 @@ static const char *cpu_model_advertised_features[] = {
->      "sve1408", "sve1536", "sve1664", "sve1792", "sve1920", "sve2048",
->      "kvm-no-adjvtime", "kvm-steal-time",
->      "pauth", "pauth-impdef",
-> +    "mte",
->      NULL
->  };
+>  typedef struct {
+> -    uint16_t map, init;
+> +    uint16_t map, init, supported;
+>  } RISCVSATPMap;
 >  
-Thanks
+>  struct RISCVCPUConfig {
+> -- 
+> 2.37.2
+>
 
-Eric
-
+Thanks,
+drew
 
