@@ -2,59 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB485677E4B
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 15:44:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 406E9677F70
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 16:18:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJy2T-0000sd-Ll; Mon, 23 Jan 2023 09:43:13 -0500
+	id 1pJyZr-0005KN-G4; Mon, 23 Jan 2023 10:17:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pJy2N-0000rK-4L; Mon, 23 Jan 2023 09:43:07 -0500
-Received: from linux.microsoft.com ([13.77.154.182])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <eiakovlev@linux.microsoft.com>)
- id 1pJy2L-0000eE-Mg; Mon, 23 Jan 2023 09:43:06 -0500
-Received: from [192.168.0.20] (unknown [77.64.253.114])
- by linux.microsoft.com (Postfix) with ESMTPSA id 3922E20E2D07;
- Mon, 23 Jan 2023 06:43:02 -0800 (PST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3922E20E2D07
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
- s=default; t=1674484983;
- bh=2GWLY1N1oXzoQM3H+Mu71nQ/nLi1bQVm99dloDvq4bI=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
- b=hwl5sS/zyKRxSi7CxOG8yD73Me2IIfuODtRuaeRJ+cuNuE2vZdwDcbd2WdxDVkB1w
- r4S7fBmrKj9ejJ3z0y0aHGJiARivA9dmaT8jSl2/nZkW0Q7aLaPHYQRikA6uWf4yCp
- vmn76vZebMc9tJbjYcfVEd38XqdPZLVGjQmp0JwI=
-Message-ID: <1937dbbf-579d-e236-4669-afdc633995a1@linux.microsoft.com>
-Date: Mon, 23 Jan 2023 15:43:00 +0100
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pJyZk-0005JN-Py
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:17:36 -0500
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pJyZj-0008PK-5F
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:17:36 -0500
+Received: by mail-pf1-x42b.google.com with SMTP id a184so9003870pfa.9
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 07:17:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=YH7Z/EDh5IQtzrl7QkgrQ4kqySm185HV8flLysOpi6o=;
+ b=zSBxLtcl8w39nsZVhvDF0pzQz7pZXPStkCxYK9g4DbDs1TJ+tb6fz+QcBO4pz2iXjY
+ lJzjoZQ336IMjmF1u0CJcyJTz9+nVEkoJquyZz4VDMG8ZJepuEqOOq8ZwzaAiZLXX5Ch
+ h8FZrUsvYbOZb3+LFE8u5x6ZfSwHAD3jBVMJ+V97e1ZDiBlybek9/YTCzg6AhC5xpb1i
+ hOsgLy2N5fwEmi4rdUvkmmfTQ7fYLWBVNUmgM4l16EgbA9PB1M2sIRJYJpHVsG9AGTPn
+ bCJLCZBIjNY0JYHSRjHjUyxcwsJErhjnTiDNCiPfjUVqh/fdVnxJ6Jv53mFm4+UbOF08
+ syWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=YH7Z/EDh5IQtzrl7QkgrQ4kqySm185HV8flLysOpi6o=;
+ b=YbIrsmUKvpS44l3he43HWPJ7DCgAhggVhPcarqGBK4NTYWPuB3I8z1YnSC4ViUWzX9
+ 4PTUYfPew0YzrfPadFf3F5TmBTfQMyZWTQqXs3r0QxDbRE4tfIYWhTPdEQ0WFhqq/9TF
+ Y/O7lyD6L3m706BjVs2VRMILHLPiPhGmdiXE8nUo4XclAPH8MbHrC/0taUFrxXjkhrHw
+ 3tLQqRt7Xh3uVdRhOW15EVwibkx3CfUpwKSJYwYAy6xKq2d4D9CjFWYOwaXPGtPV0Zhp
+ t/9gcCG/dHgzfwryWpf8sba5RwpCTv5X+sfetH9sybXx1XiCfjS7KlyylaUArEflCcUi
+ 24Rw==
+X-Gm-Message-State: AFqh2kol+vRV87s4DPKXN7OGXitZ2HsrgqqSqI0w6banLSitC75jLO8w
+ qpDOwHRLnJuY0iikUr355tmE+ty2lkqYWIHLLebIpGnm+geHAg==
+X-Google-Smtp-Source: AMrXdXv8S3O66zaEXKE661AXNHQtQKvoW8PIvZq8f5TODC9zDuveBdabnqAEtJQ4WaFMoNquHOk55S0zxlEbbYT90tg=
+X-Received: by 2002:a63:6dce:0:b0:4ce:2e45:1e4d with SMTP id
+ i197-20020a636dce000000b004ce2e451e4dmr2125092pgc.211.1674487052941; Mon, 23
+ Jan 2023 07:17:32 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v3 5/5] hw/char/pl011: check if UART is enabled before RX
- or TX operation
-Content-Language: en-US
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
-References: <20230120155447.31702-1-eiakovlev@linux.microsoft.com>
- <20230120155447.31702-6-eiakovlev@linux.microsoft.com>
- <fc01ef6d-73d7-af1a-3e59-bd4f1e3e83ba@linaro.org>
-From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-In-Reply-To: <fc01ef6d-73d7-af1a-3e59-bd4f1e3e83ba@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=13.77.154.182;
- envelope-from=eiakovlev@linux.microsoft.com; helo=linux.microsoft.com
-X-Spam_score_int: -208
-X-Spam_score: -20.9
-X-Spam_bar: --------------------
-X-Spam_report: (-20.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, ENV_AND_HDR_SPF_MATCH=-0.5,
- NICE_REPLY_A=-1.147, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+References: <20230123133553.2171158-1-peter.maydell@linaro.org>
+In-Reply-To: <20230123133553.2171158-1-peter.maydell@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 23 Jan 2023 15:17:21 +0000
+Message-ID: <CAFEAcA97nQS8srfXNmAr1KXaOBC=nVYDvJi3F9G4SuM6YMNO=w@mail.gmail.com>
+Subject: Re: [PULL 00/26] target-arm queue
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,62 +80,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-On 1/23/2023 09:14, Philippe Mathieu-Daudé wrote:
-> On 20/1/23 16:54, Evgeny Iakovlev wrote:
->> UART should be enabled in general and have RX enabled specifically to be
->> able to receive data from peripheral device. Same goes for transmitting
->> data to peripheral device and a TXE flag.
->>
->> Check if UART CR register has EN and RXE or TXE bits enabled before
->> trying to receive or transmit data.
->>
->> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
->> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->> ---
->>   hw/char/pl011.c | 22 +++++++++++++++++++---
->>   1 file changed, 19 insertions(+), 3 deletions(-)
+On Mon, 23 Jan 2023 at 13:35, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
->> +static inline bool pl011_can_transmit(PL011State *s)
->> +{
->> +    return s->cr & PL011_CR_UARTEN && s->cr & PL011_CR_TXE;
->> +}
->> +
->>   static void pl011_write(void *opaque, hwaddr offset,
->>                           uint64_t value, unsigned size)
->>   {
->> @@ -221,7 +231,9 @@ static void pl011_write(void *opaque, hwaddr offset,
->>         switch (offset >> 2) {
->>       case 0: /* UARTDR */
->> -        /* ??? Check if transmitter is enabled.  */
->> +        if (!pl011_can_transmit(s)) {
->> +            break;
->> +        }
->>           ch = value;
->>           /* XXX this blocks entire thread. Rewrite to use
->>            * qemu_chr_fe_write and background I/O callbacks */
->> @@ -292,7 +304,11 @@ static int pl011_can_receive(void *opaque)
->>       PL011State *s = (PL011State *)opaque;
->>       int r;
->>   -    r = s->read_count < pl011_get_fifo_depth(s);
->> +    if (!(s->cr & PL011_CR_UARTEN) || !(s->cr & PL011_CR_RXE)) {
+> The following changes since commit 65cc5ccf06a74c98de73ec683d9a543baa302a12:
 >
-> Maybe add pl011_can_receive() similarly to pl011_can_transmit().
+>   Merge tag 'pull-riscv-to-apply-20230120' of https://github.com/alistair23/qemu into staging (2023-01-20 16:17:56 +0000)
 >
-> Otherwise:
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-
-Thanks! There's already a pl011_can_receive though, its the 
-pl011_can_transmit that's new :)
-
-
+> are available in the Git repository at:
 >
->> +        r = 0;
->> +    } else {
->> +        r = s->read_count < pl011_get_fifo_depth(s);
->> +    }
->>       trace_pl011_can_receive(s->lcr, s->read_count, r);
->>       return r;
->>   }
+>   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230123
+>
+> for you to fetch changes up to 3b07a936d3bfe97b07ddffcfbb532985a88033dd:
+>
+>   target/arm: Look up ARMCPRegInfo at runtime (2023-01-23 13:32:38 +0000)
+>
+> ----------------------------------------------------------------
+> target-arm queue:
+>  * Widen cnthctl_el2 to uint64_t
+>  * Unify checking for M Main Extension in MRS/MSR
+>  * bitbang_i2c, versatile_i2c: code cleanups
+>  * SME: refactor SME SM/ZA handling
+>  * Fix physical address resolution for MTE
+>  * Fix in_debug path in S1_ptw_translate
+>  * Don't set EXC_RETURN.ES if Security Extension not present
+>  * Implement DBGCLAIM registers
+>  * Provide stubs for more external debug registers
+>  * Look up ARMCPRegInfo at runtime, not translate time
+
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
+
+-- PMM
 
