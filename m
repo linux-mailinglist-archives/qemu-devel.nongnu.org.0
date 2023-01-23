@@ -2,84 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08E0B6775C5
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 08:45:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83D1B6775DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 08:56:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJrVc-0002LS-DF; Mon, 23 Jan 2023 02:44:52 -0500
+	id 1pJrfv-0003wI-73; Mon, 23 Jan 2023 02:55:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJrVZ-0002Ku-SG
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:44:49 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJrVY-0001OD-2r
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:44:49 -0500
-Received: by mail-wr1-x432.google.com with SMTP id z5so9900716wrt.6
- for <qemu-devel@nongnu.org>; Sun, 22 Jan 2023 23:44:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=HkGSvtDue5tb5qH1aE/RmIXpjs8bnJY2nZhWy/e8iSI=;
- b=yabRoidcu51jUOVEPXX9Jq82/37o/u/Z/HcrLQLTCAoJjhrFd26zYLeffSeT8h0caB
- cUNRX03v2xu6l6zxHvVfSFIHctWMbrn0QWQFece2GuyxbAAnJ9l826iM84Z+rh186/UX
- w2Rrvw9y0ZhHKaPSzrkMXZASWa+4HAsdQp2maFliaY32Cr0QKYgufs5wUOA6703uF+/Y
- PW2raRoZCdAFs0L14x/3aCN8/wlI7V0I6rdGxATgfrgQxzwmDFqi1nTKXUb+KtGEn2me
- ah0apEiqFptvQ0J/rIRsoedPU9RjQ3FAilNEup1qzwS2MJEHo6PwD3Oy0FBV1qsUgziJ
- LeeA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pJrfp-0003uQ-Du
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:55:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pJrfn-0004XX-Cj
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 02:55:24 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674460521;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=dZbLIvdq+jFGla8r5E9rjvW/zCpYemsZXz/7OZ2n4Yc=;
+ b=SLSyGZLSrWJeVKcuHwaO14RfgWRQmq3/d6T0URw62C37x9dwY3OWUWQsxvsZR9svkHhnpQ
+ 3FdqSoqSDuOkVmA6qTBbDi+pTOjzJ8z/O8jW+shc41nc/zQrfhApAm+fEQCNelrlWt+sei
+ ZRu+2BZ38sn/S51JI30xdeZqT6gb5ns=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-631-eEK7SRhfN9CkCk-geuHlYg-1; Mon, 23 Jan 2023 02:55:20 -0500
+X-MC-Unique: eEK7SRhfN9CkCk-geuHlYg-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ bm30-20020a05620a199e00b007090f3c5ec0so6629166qkb.21
+ for <qemu-devel@nongnu.org>; Sun, 22 Jan 2023 23:55:20 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=HkGSvtDue5tb5qH1aE/RmIXpjs8bnJY2nZhWy/e8iSI=;
- b=tLL2DL1mhTUouPlSdzHKGjqTSrY2GTwhy4WWueBxSQzd5tKFTgZ5DGELNkkDqcQS6f
- 1xPryooJutb8nXDUBTOxszY6gH76nMUAFmbds6zvEbN/cz/yAgDO2aGkGL7eQAizCn98
- U8wfK4g2Y8aBfhhohMl0Hobg3dY/BLDPk4JFQfrxI/RQGttYaxRdt61ry1KwPLt2VcPl
- cglq5DpRBFw77TSQtvS3RJC9WEt7WzbN3cg4WawsZPMmcd8gcMwBb4m0DJzEOpHOMhr7
- S78GU+hwyk8iHIbndK+yq5zHxR2cAkGRYtXv4ns0xvCFwt7jx+j9tiiOlpX6rac2I/6L
- NCNw==
-X-Gm-Message-State: AFqh2kqpiLKxfXPjvM1ArHl+AXs6inTwj1SJJEvuna5XuJQARuNr2KGS
- K8ESeP4u5/19Bj/Z0d8BVceZng==
-X-Google-Smtp-Source: AMrXdXtyy1vOcTvYP0zBWby3XYAeEHtjD1mOMMZ6I+S4VYJMvVXNoOPO3lWmCekHq2JHbJu5I3CSUA==
-X-Received: by 2002:adf:f5c8:0:b0:2bc:83ee:e319 with SMTP id
- k8-20020adff5c8000000b002bc83eee319mr21452387wrp.34.1674459885946; 
- Sun, 22 Jan 2023 23:44:45 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- u24-20020adfa198000000b002bc84c55758sm41080424wru.63.2023.01.22.23.44.45
+ bh=dZbLIvdq+jFGla8r5E9rjvW/zCpYemsZXz/7OZ2n4Yc=;
+ b=KkzZcStbC93yLniFGUgz4TlMowTxEVUGnzFT7nKzocnKpyvH3RhkLs2Jd5ESVfgBcE
+ hitxPtsd2BR7mZ7F9HRsQ2RrMDqcveBqiIWAfnh6XvW7IpO73XMoxDUbiFz62clcpBhW
+ B5nUiYlQWPyvQwP0gmswtpBp2AM5ycqvBPiEOHl/ZsLWQIurwuhCiw+IMPkitKdNuz+X
+ hEVxZLvXw5He53tjMwosVcv5ynnjliC4YnJiDykTdBw4/XKbjzdlVrCR6qSiqQMeyBmD
+ NK2FqkT5WzGu2O3gpUWZSjzrbk2H9NAKDFaRJyP9kTaIoUUzsLQbTY+F88iGDWjb9/Vk
+ zjIQ==
+X-Gm-Message-State: AFqh2krDOeJwAnQ+qNZkYiNDm8SYdrVm+mSGBXoqiR48a5PuLhgHVeNC
+ Q6C64gBTAIdaqAJMqaNKiihPRsxjBcO/L9F8hwFY/UGKyDeusN9CuKR7jvZGKtx68R+aCQvewgX
+ mmcsyq3w9v5epkOc=
+X-Received: by 2002:ac8:6743:0:b0:3b6:3995:54f0 with SMTP id
+ n3-20020ac86743000000b003b6399554f0mr32710248qtp.54.1674460519695; 
+ Sun, 22 Jan 2023 23:55:19 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsgfOvzwnT28QL6ZV6OMqNPyjFbt//3DRhIVNB8Sw/tRIlbQ8m49jSBiXhoy0XI3s7IaapLpQ==
+X-Received: by 2002:ac8:6743:0:b0:3b6:3995:54f0 with SMTP id
+ n3-20020ac86743000000b003b6399554f0mr32710231qtp.54.1674460519421; 
+ Sun, 22 Jan 2023 23:55:19 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-178-90.web.vodafone.de.
+ [109.43.178.90]) by smtp.gmail.com with ESMTPSA id
+ h20-20020ac85154000000b003b69b37e036sm4713786qtn.81.2023.01.22.23.55.17
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 22 Jan 2023 23:44:45 -0800 (PST)
-Message-ID: <ea8f9ee3-f30b-9327-de84-e1dcc5628471@linaro.org>
-Date: Mon, 23 Jan 2023 08:44:44 +0100
+ Sun, 22 Jan 2023 23:55:18 -0800 (PST)
+Message-ID: <77fcbf0a-0f9a-d3bc-c1cf-0ec3e21399c9@redhat.com>
+Date: Mon, 23 Jan 2023 08:55:16 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 11/11] alsaaudio: reintroduce default recording settings
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] tests/qtest: Plug memory leaks in qtest_get_machines
 Content-Language: en-US
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>
-Cc: Christian Schoenebeck <qemu_oss@crudebyte.com>,
- Thomas Huth <thuth@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-References: <0a4007dc-e11c-f16e-0e21-dbc4e60caa59@t-online.de>
- <20230121094735.11644-11-vr_qemu@t-online.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230121094735.11644-11-vr_qemu@t-online.de>
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20230120194435.29796-1-farosas@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230120194435.29796-1-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.149, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,46 +99,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 21/1/23 10:47, Volker Rümelin wrote:
-> Audio recording with ALSA default settings currently doesn't
-> work. The debug log shows updates every 0.75s and 1.5s.
+On 20/01/2023 20.44, Fabiano Rosas wrote:
+> These leaks can be avoided:
 > 
-> audio: Elapsed since last alsa run (running): 0.743030
-> audio: Elapsed since last alsa run (running): 1.486048
-> audio: Elapsed since last alsa run (running): 0.743008
-> audio: Elapsed since last alsa run (running): 1.485878
-> audio: Elapsed since last alsa run (running): 1.486040
-> audio: Elapsed since last alsa run (running): 1.485886
+>   759 bytes in 61 blocks are still reachable in loss record 56 of 60
+>      at 0x4034744: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+>      by 0x4A88518: g_malloc (in /usr/lib64/libglib-2.0.so.0.7000.5)
+>      by 0x4AA313E: g_strdup (in /usr/lib64/libglib-2.0.so.0.7000.5)
+>      by 0x12083E: qtest_get_machines (libqtest.c:1323)
+>      by 0x12098C: qtest_cb_for_every_machine (libqtest.c:1348)
+>      by 0x11556C: main (test-hmp.c:160)
 > 
-> The time between updates should be in the 10ms range. Audio
-> recording with ALSA has the same timing contraints as playback.
-> Reintroduce the default recording settings and use the same
-> default settings for recording as for playback.
+>   992 bytes in 1 blocks are still reachable in loss record 57 of 60
+>      at 0x4034744: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+>      by 0x4A88518: g_malloc (in /usr/lib64/libglib-2.0.so.0.7000.5)
+>      by 0x120725: qtest_get_machines (libqtest.c:1313)
+>      by 0x12098C: qtest_cb_for_every_machine (libqtest.c:1348)
+>      by 0x11556C: main (test-hmp.c:160)
 > 
-> The term "reintroduce" is correct because commit a93f328177
-> ("alsaaudio: port to -audiodev config") removed the default
-> settings for recording.
-> 
-> Signed-off-by: Volker Rümelin <vr_qemu@t-online.de>
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
 > ---
->   audio/alsaaudio.c | 10 ++++------
->   1 file changed, 4 insertions(+), 6 deletions(-)
+>   tests/qtest/libqtest.c | 14 ++++++++++++++
+>   1 file changed, 14 insertions(+)
+> 
+> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+> index 6b2216cb20..65abac5029 100644
+> --- a/tests/qtest/libqtest.c
+> +++ b/tests/qtest/libqtest.c
+> @@ -1285,6 +1285,18 @@ struct MachInfo {
+>       char *alias;
+>   };
+>   
+> +static void qtest_free_machine_info(gpointer data)
+> +{
+> +    struct MachInfo *machines = data;
+> +    int i;
+> +
+> +    for (i = 0; machines[i].name != NULL; i++) {
+> +        g_free((void *)machines[i].name); > +        g_free((void *)machines[i].alias);
 
-> -    /*
-> -     * OptsVisitor sets unspecified optional fields to zero, but do not depend
-> -     * on it...
-> -     */
->       if (!dev->u.alsa.in->has_period_length) {
-> -        dev->u.alsa.in->period_length = 0;
-> +        /* 256 frames assuming 44100Hz */
-> +        dev->u.alsa.in->period_length = 5805;
->       }
->       if (!dev->u.alsa.in->has_buffer_length) {
-> -        dev->u.alsa.in->buffer_length = 0;
-> +        /* 4096 frames assuming 44100Hz */
-> +        dev->u.alsa.in->buffer_length = 92880;
->       }
+I'd suggest setting .name and .alias to NULL after freeing them, to avoid 
+that danling pointers are left behind.
 
-Please use DIV_ROUND_UP(). Maybe worth adding definitions?
+> +    }
+> +    g_free(machines);
+> +}
+> +
+>   /*
+>    * Returns an array with pointers to the available machine names.
+>    * The terminating entry has the name set to NULL.
+> @@ -1336,6 +1348,8 @@ static struct MachInfo *qtest_get_machines(void)
+>       qobject_unref(response);
+>   
+>       memset(&machines[idx], 0, sizeof(struct MachInfo)); /* Terminating entry */
+> +    g_test_queue_destroy(qtest_free_machine_info, machines);
+
+So this frees the machines structure...
+
+>       return machines;
+
+... but here it gets returned, too? ... that looks wrong. Did you maybe 
+rather want to free it at the end of qtest_cb_for_every_machine() and 
+qtest_has_machine ?
+
+  Thomas
+
+>   }
+>   
 
 
