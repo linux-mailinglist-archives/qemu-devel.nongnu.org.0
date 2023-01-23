@@ -2,207 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99387678B9E
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 00:02:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A26E678BAF
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 00:04:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK5on-0005VF-E0; Mon, 23 Jan 2023 18:01:37 -0500
+	id 1pK5qt-000798-H3; Mon, 23 Jan 2023 18:03:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kai.huang@intel.com>)
- id 1pK5ok-0005UZ-FR
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 18:01:34 -0500
-Received: from mga17.intel.com ([192.55.52.151])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kai.huang@intel.com>)
- id 1pK5og-0008MV-Ul
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 18:01:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674514890; x=1706050890;
- h=from:to:cc:subject:date:message-id:references:
- in-reply-to:content-id:content-transfer-encoding: mime-version;
- bh=xP/xrMfRyWQ2j2mzFtbVlXsuqlh/G3CHjRu4binF2Pg=;
- b=CIGQSJRsX/P9Uga5wGQWhFJLEapCDJnEk3zyyLn0SpVHYjaxPmVYIXLT
- vlBXi0QLeC2E1G3z5lMJ1ozxGvhg1Nkj0dsxoQO/Letn9nxxs0pfPGxwu
- gxAWDY8G2Ka5E02N/oDs8JWZFuBY777qh8qbY3pxIvWLG1hu4BwIO7Pkz
- 53jfquRlT/UyqX66Sm7ZIZAk4YeLpC66wDV3wmMOVLLkAiqINhy5VClZB
- FwX/yw7lcD3zHBmTTffz08Afbk3WcrZAYx0teN1XRgfMeWpt8TSda3Krq
- nENBYL3anmE+rQq8zGXTmFgWcbDD+59R2ajLCOuILyabmYGB05TkpQlz9 w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="306534223"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="306534223"
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
- by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 23 Jan 2023 15:01:23 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10599"; a="990647659"
-X-IronPort-AV: E=Sophos;i="5.97,240,1669104000"; d="scan'208";a="990647659"
-Received: from orsmsx601.amr.corp.intel.com ([10.22.229.14])
- by fmsmga005.fm.intel.com with ESMTP; 23 Jan 2023 15:01:22 -0800
-Received: from orsmsx603.amr.corp.intel.com (10.22.229.16) by
- ORSMSX601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Mon, 23 Jan 2023 15:01:21 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx603.amr.corp.intel.com (10.22.229.16) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Mon, 23 Jan 2023 15:01:21 -0800
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.48) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Mon, 23 Jan 2023 15:01:21 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=mJ4K8bqfcvdroO0LYxzhUKQjKcuIHhlnV+Z2dJe695qHihoQP9WPPDsHT17vP2mLfprDfvM9k0WAfLCcMOZG7VZe0tqfZGhowadqTfQQ+IzOTiZN3wUQOlSvZAql3i+3erlkKuRYgSY+z0VJXZVa4mTZEy1bzb/XPNRrGJ/nn2oDqZOhI53Gcce31QMzsgoK+2uoFeATbBjkkQOIVIPS+q+nNEiFMnhnPIYtyU/DMN5LsfKKSFSa4pE+QKmeiLPSnf/Eg56aL9GScbAAIh2vaz+BOkaTPjLgeSxFM68Npf+KRp5woXtQNcHZvMY3uXQVpPWGIJ+1p+e2DMxd38RKtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xP/xrMfRyWQ2j2mzFtbVlXsuqlh/G3CHjRu4binF2Pg=;
- b=HhqXs9nSqNY8mPlbi+dYchscj+3kyST0Pbk1uM0ku4RiikqteZ8G0YmvfL61Safx+G0Sjyrms1tlAv5frW3Elp8NxeUX7XL9qpZluwfBQ5iwJ0b6SdY3qX0ioPyAggqnxvtpFAqoiLy3KvZUgJEWbujSLaO9EI4YeeyS07hFh2xWMVsK9KP2SoHM0yfURMp3+q0SLvzVDchwnbszzZBaQfwUm40zVKP7BWX5kU6GztvT/v0ckBWcxfrom8YbEJCb+kGKMEREibTc39raMZs92PdMEwkqRaBLvUBjXZdNDjqm3C05h82UM1QTWf/U5JOSeyqWy/mzGcio6ZxKF5vIOg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BL1PR11MB5978.namprd11.prod.outlook.com (2603:10b6:208:385::18)
- by DS0PR11MB6447.namprd11.prod.outlook.com (2603:10b6:8:c4::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
- 2023 23:01:18 +0000
-Received: from BL1PR11MB5978.namprd11.prod.outlook.com
- ([fe80::3f19:b226:ebf1:b04a]) by BL1PR11MB5978.namprd11.prod.outlook.com
- ([fe80::3f19:b226:ebf1:b04a%8]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
- 23:01:18 +0000
-From: "Huang, Kai" <kai.huang@intel.com>
-To: "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>,
- "vbabka@suse.cz" <vbabka@suse.cz>
-CC: "tglx@linutronix.de" <tglx@linutronix.de>, "linux-arch@vger.kernel.org"
- <linux-arch@vger.kernel.org>, "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "jmattson@google.com" <jmattson@google.com>, "Lutomirski, Andy"
- <luto@kernel.org>, "ak@linux.intel.com" <ak@linux.intel.com>,
- "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>, "Hocko,
- Michal" <mhocko@suse.com>, "tabba@google.com" <tabba@google.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "david@redhat.com"
- <david@redhat.com>, "michael.roth@amd.com" <michael.roth@amd.com>,
- "corbet@lwn.net" <corbet@lwn.net>, "linux-kernel@vger.kernel.org"
- <linux-kernel@vger.kernel.org>, "dhildenb@redhat.com" <dhildenb@redhat.com>,
- "bfields@fieldses.org" <bfields@fieldses.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
- "ddutile@redhat.com" <ddutile@redhat.com>, "rppt@kernel.org"
- <rppt@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
- "vkuznets@redhat.com" <vkuznets@redhat.com>, "naoya.horiguchi@nec.com"
- <naoya.horiguchi@nec.com>, "linux-api@vger.kernel.org"
- <linux-api@vger.kernel.org>, "qperret@google.com" <qperret@google.com>,
- "arnd@arndb.de" <arnd@arndb.de>, "pbonzini@redhat.com" <pbonzini@redhat.com>, 
- "Annapurve, Vishal" <vannapurve@google.com>, "mail@maciej.szmigiero.name"
- <mail@maciej.szmigiero.name>, "Christopherson,, Sean" <seanjc@google.com>,
- "wanpengli@tencent.com" <wanpengli@tencent.com>, "yu.c.zhang@linux.intel.com"
- <yu.c.zhang@linux.intel.com>, "hughd@google.com" <hughd@google.com>,
- "aarcange@redhat.com" <aarcange@redhat.com>, "mingo@redhat.com"
- <mingo@redhat.com>, "hpa@zytor.com" <hpa@zytor.com>, "Nakajima, Jun"
- <jun.nakajima@intel.com>, "jlayton@kernel.org" <jlayton@kernel.org>,
- "joro@8bytes.org" <joro@8bytes.org>, "linux-mm@kvack.org"
- <linux-mm@kvack.org>, "Wang, Wei W" <wei.w.wang@intel.com>,
- "steven.price@arm.com" <steven.price@arm.com>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, "Hansen, Dave" <dave.hansen@intel.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "linmiaohe@huawei.com" <linmiaohe@huawei.com>
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Thread-Topic: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
-Thread-Index: AQHZBhXuq53UEB1w4kqtU0OzCkPOIq5sjtQAgAhi5ICAAA9XAIABemYAgAATugCAAefUgIAAt+UAgDMr74CAAJYsAA==
-Date: Mon, 23 Jan 2023 23:01:17 +0000
-Message-ID: <0959c72ec635688f4b6c1b516815f79f52543b31.camel@intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
- <20221219075313.GB1691829@chaop.bj.intel.com>
- <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
- <20221220072228.GA1724933@chaop.bj.intel.com>
- <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
- <20221221133905.GA1766136@chaop.bj.intel.com>
- <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
- <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
-In-Reply-To: <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Evolution 3.46.3 (3.46.3-1.fc37) 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BL1PR11MB5978:EE_|DS0PR11MB6447:EE_
-x-ms-office365-filtering-correlation-id: a18e27ac-4d82-4bc1-38a9-08dafd95bc66
-x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: SxTYODu4nwk4j0tTgnmjA7bHbSoFNY3fE6L894EggV1SyuotAKF/Gcsk4oDPO1JLOI0uRgJq7iJzyDDlzFylJ76IggZ96XMl/4BP+Wg9wjyVFeBg72wu/R+IoakB93kHn40mp2U/T4t/4BJhCVJAMoTNeFtaJwB22KTMw5ywOpd24r8FikhuyR/iKEXRAk9xebRJ+NoD9WD5OHpGu6UjDU4oXO5TM4kvOYJ7nre+vjPusCDMAEOoej2gIeapyc2AyABRB6m1bpnOtImCDE+4gIZLys2m51kknZnN+3NVdrzDc8JaUFdQRgyciP5W9VP0j37QIV2ReNVsncifwmnOBymsULC3hzq8Mu3kAEELQHqXqMiRsiPVvhvyPSsr8ODDctlnrVH5bVns8icAAYUzwDQLgHmKbw+3pMVfGOmtzd0BbxGdQvgcGHcMNzOPxRm1CXUH9s1PiYjUTuETEubp+oghURbUXexQTZ8hY8VbcZhlIiWmtseSPQYrdgzG0ILrs9K5O09orWsN77r+pD61r1OjUcPdj48UUyPSNDY+APJ3vtmgzundkr6vuFPozUVcSp0g2avm7BRTPiuE5+EJmRwVXnhYs08B+hhAH+7YY5KSoMKogbK8UTT806ba5l1uhYwI5oBf0LKfw6B7yeXJ0fAHOgffXRj5u+gh5cbBao3aN5mHmC0tSG+X67K/BoY05YOnWRl7dedOfLs0LCR1oA==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BL1PR11MB5978.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(366004)(346002)(136003)(376002)(39860400002)(396003)(451199015)(122000001)(38100700002)(82960400001)(36756003)(38070700005)(86362001)(8676002)(76116006)(4326008)(66946007)(2616005)(54906003)(110136005)(26005)(316002)(6512007)(478600001)(53546011)(6506007)(71200400001)(186003)(6486002)(91956017)(7406005)(7416002)(8936002)(5660300002)(2906002)(66899015)(66446008)(66556008)(66476007)(64756008)(41300700001)(83380400001);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Rm1nQmVWN1RFalo0SUhkdTZ5MXhOK3VQWitXRis2Zm5ISzlKZStjZXdFTzc1?=
- =?utf-8?B?QTBuanNRVUc3ekIzQ2t6STc2R1lQYXphWGZvQWVNRFhlTVYvOWZESTRCLzIx?=
- =?utf-8?B?Uk1vSWNYYW96MVc4KzY5SWs0M2daWlh5UWk4YWJsWHN4L2dRZGg3TG80bzlX?=
- =?utf-8?B?ODM1R1U1S1BXYzRyQk9rME5NS0ZFZ2NQdGFYTjZuVzlEVTNqSWlNaWtzWXVq?=
- =?utf-8?B?TFl5dUVjSTd3NVZDWWVSYmZQWmo1T0hST0I3eWRLOFU1cmtGSnlDQVpxNGlU?=
- =?utf-8?B?MVZNaWU5aUJLRlIySVYvWDJXY1UzRTNrRVdTdTh4a2JDUm93RHBIZkdHVjhK?=
- =?utf-8?B?czJ6MmRsaEY4REdYTGVnRkFXeWJnWVlBb000NlJOZHRtRVpoUld3K0VZMk13?=
- =?utf-8?B?UndKQWMzOWp6VzRDSS9DOUNRNVpKUTNGVXc4NzlvV1htbWdBVU9aUGIrLzlG?=
- =?utf-8?B?YUl3M3Vjb1JVcUh2N1JDYzVHdStwTDRRVGt4Q2JmaUJFVjFydDFRU2plUmhq?=
- =?utf-8?B?ZVNBelVnNlFIRHF0cG5GY2hZdXlGcTAzUnpod01SeThUVFNKUHpqaTRESzhz?=
- =?utf-8?B?cUd0dkFGSTdlU3JMY0RSNTFXYUVYMkNkUU5ydml0WGEwL3RkaDlVdjNIYzRU?=
- =?utf-8?B?eW1DVkd1Rm1MVXhyU243bmFJVzdlQ3k2UGMrUlllWmFyTWs3WmttZmRpTHU2?=
- =?utf-8?B?QTZvTEdybWVkcUZ3ZlZSbnd4UUVyTmZlUDU0c2gzM2hHU1FtR1lCRGtvU0Fj?=
- =?utf-8?B?a0VEbUwzN2pqQmVRa0h4SlVBYlVqVjBEbmZzR1Zqb3U1WWpaRWorNTVvdTlw?=
- =?utf-8?B?ZnNaR1lZWUdaVlU4dFVFTUxrQStNbW5WMnJUM1dCU2RSNTF1NlBFcStXLzFj?=
- =?utf-8?B?NU9NUzZteFNsampRc3kzZ3hqQy9MZHZ2RzNpc3NYdThWdXNZVVVxM29nMVJX?=
- =?utf-8?B?OEUwRmFTbXJmNzgzRGRRWXBvZVFhcUVqZ0JvbUY2TlN4MUFoZ25RQzBnYm56?=
- =?utf-8?B?UmdTU0ZmZDRYN0JkOHBIMkw0SEx3UE9waFFuc3RUVlVCWlpJbHgzK0FBN1pM?=
- =?utf-8?B?RWtLWUFtMmUxU2pkMW56ZWtad2NRZmhndkFic21jaGFJS3FlcytISCs3MjZL?=
- =?utf-8?B?b2t1QUFCRitucVVhMmFZWVpremRSSFVvdXdYZFg3cExyVlJVcDZVeHl1d2pI?=
- =?utf-8?B?NlY4UXI5NFdJd0dMMXk4MVpCa0I3b3JLb01QOXJ4MTM2dDlTOWVxMHZnSUFR?=
- =?utf-8?B?THFrbmF5dHNDQjBHdVNKWDRWTHhFSU8xUWVValFWYUhzb2JpNFgxODRacWNO?=
- =?utf-8?B?SzJSa2hSTDJ5Q2QzR1RoZFQyYUxwc1pXNVZFbXZOcHhmeVJZQk5IS3Bob1Vv?=
- =?utf-8?B?WmFiQ1YyMmN5MlBwVWhxVGlpNDhVS01Sa1A4Z2NGSGZ0REliSGN6RGFocFhO?=
- =?utf-8?B?Y3k5WFRoam90bnN4RkdwcWVLVXVSM1crL3QxeGZqNjBvTjBWWVNpbTF3Zkht?=
- =?utf-8?B?WjE3U3BrQk1zNWhwSmlENjFOclloOVJEWi9IajVDczBPeGVtaitPY0habjJm?=
- =?utf-8?B?WG9DMFhuUnJVQXAwdUUxVkNCT1I0MEtHWHFzZWdEOXdERlk5VWIwWkxBNnpL?=
- =?utf-8?B?ZnBFWkVPMkxTTXFLSm1HbC90ck9DUTQ3MUtpWDRoK0ZvN3hiMloydmYvQUJS?=
- =?utf-8?B?WW81OWNmU05ZMnV3RmF4cHdXY0hBNWplTThZdkxIUS9xR0NxNFU3enI1M21K?=
- =?utf-8?B?bklDY0l6L1ZjODA3WHI1VGhOQ2ZyVkg3QzBKbHFpSFM4OXViQm13K09UODBu?=
- =?utf-8?B?d2FIN29UNXhqR25yeGs3Qk5NRmhvOFBIeERMR0t6USs5NVhYVG8xendPSHhU?=
- =?utf-8?B?T0tIUzIxNHlHSGlOb3VVbkxPalp3V2ZLanFheHZWTzlCbnhteUJySzF0UXcx?=
- =?utf-8?B?M2RWVEdjQzliakFuN1EyU0t4L2JjajZFZVJGVU8veVRwOU5XdTR5NVR2NXZS?=
- =?utf-8?B?L1c3R0pTdldZc2pmckszTjc0Ni9BaFhLVWZjZ01hcGhvSVBRRFVyYm05WHB1?=
- =?utf-8?B?R25OVXMrdnBuSVF4TWsrbXZPdTcwZG05OG5PUnpZKzBHVHErbnVsWWN6Zjk0?=
- =?utf-8?B?WWNKdzJ0ZmZOLy9yODZkQ203cWt3MHdpYWdOd3A4clkvUlJTY0dySVh3T0g1?=
- =?utf-8?B?SVE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <7B85396C7BF4DD46BFC6728D6FA12D21@namprd11.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pK5qr-00078n-Vx; Mon, 23 Jan 2023 18:03:46 -0500
+Received: from mail-vk1-xa31.google.com ([2607:f8b0:4864:20::a31])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pK5ql-0000IG-M6; Mon, 23 Jan 2023 18:03:42 -0500
+Received: by mail-vk1-xa31.google.com with SMTP id q21so6790576vka.3;
+ Mon, 23 Jan 2023 15:03:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=G6uotCIrH9kgx39hALGEYozhwzXnjW5ND5izePuTzZ0=;
+ b=dGLYYnf0wk2elxDEc+6JKI2x0fZYoASFp0Eh62R+E24xtskE5qX2x1wmRwdYkC3H6e
+ uiR9Wyce/fvetmrU5JekFm23tAjAntpWgVJunb3JVa1z0Y+JntmauAo/fpxE0Hra9gI2
+ Y95P8Q0I62nBZedOMzCQLzQcK2bivCWUY+fV0lBP5FUntGuEzUt910JCTT0jYbKMfnB/
+ VNdHrbwvnUIAwoC7xhg8xA8wLL0rtn0a/rsyQbzKyIKVxn/c5+UhqzCTpKSMWsIGM3Hu
+ resWh+bb193SGZ5LEpde0Q2HYtxzrXdUlLIPOV/ncpTQ4YZgESxFYwEAB9VLU/SuK7aE
+ BDnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=G6uotCIrH9kgx39hALGEYozhwzXnjW5ND5izePuTzZ0=;
+ b=fdhYnBs4i/M6u5Q8R5etXLW9n0D7u4yiPtDrxD0gtlOr8QHTB0WigVQqXCJCSYV7ZV
+ puVw2I4lW3cpGZfXOrZSSuK8QOq0uSHbhx7ZKvVE3sswYjg+qEsJPwRP+Bu4D+a5McnX
+ 8/7b4cRfEv6yXDmafYo4HfNy9F7YPrD9S1x+1258Kf4AfCT3JA/QQ6t4isi3MGYowV1r
+ K6VjPZ8Mf69PUya7al/hlmIvSNmaMyLPjEOUby8APC16w+b2fHxah9fcsaAcEJpjylxl
+ 22y+xRAfCOtkN9HL0h8ih6vWvzo8MAiXX1QX617lNroQh/PVSnFFtuKBTt6hJqcOjkYT
+ rCeQ==
+X-Gm-Message-State: AFqh2krE0r3WFGioaATh1RDRm91O4THcm71RksmeYIacXZzIEN/f2ahF
+ 0yjhe4+OqymsU2/4kd00bC8b84ZTuCZn8dRiMFM=
+X-Google-Smtp-Source: AMrXdXtEsyDx358zHdtCK1PACgSp/Ka9n/+WbqOmBGI5GtM+JwjCJ9yxmXsR9vVjWSqgZu9DbEEpwZQRmhSLui3Oszs=
+X-Received: by 2002:a1f:2c0c:0:b0:3e1:7e08:a117 with SMTP id
+ s12-20020a1f2c0c000000b003e17e08a117mr3451644vks.34.1674515018331; Mon, 23
+ Jan 2023 15:03:38 -0800 (PST)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL1PR11MB5978.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a18e27ac-4d82-4bc1-38a9-08dafd95bc66
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Jan 2023 23:01:17.8804 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: aUb3gyFMZYWu/6CKFevqe4ahNkNTkcreGb82cpN8KO1jGpmJe9xuTve3r3ppzr7JnB33xasqro5/c0t+WuCjqg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6447
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.151; envelope-from=kai.huang@intel.com;
- helo=mga17.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+References: <20221223180016.2068508-1-christoph.muellner@vrull.eu>
+ <20221223180016.2068508-9-christoph.muellner@vrull.eu>
+In-Reply-To: <20221223180016.2068508-9-christoph.muellner@vrull.eu>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 24 Jan 2023 09:03:12 +1000
+Message-ID: <CAKmqyKNqH1xTj_Fc2gRsxbf4qN3Qi0WRsMgVOPoZA5QgVekJpg@mail.gmail.com>
+Subject: Re: [PATCH v2 08/15] RISC-V: Adding T-Head MemPair extension
+To: Christoph Muellner <christoph.muellner@vrull.eu>
+Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
+ Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
+ Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko.stuebner@vrull.eu>, 
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Richard Henderson <richard.henderson@linaro.org>, 
+ Nelson Chu <nelson@rivosinc.com>, Kito Cheng <kito.cheng@sifive.com>, 
+ Cooper Qu <cooper.qu@linux.alibaba.com>,
+ Lifang Xia <lifang_xia@linux.alibaba.com>, 
+ Yunhai Shang <yunhai@linux.alibaba.com>,
+ Zhiwei Liu <zhiwei_liu@linux.alibaba.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a31;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa31.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -219,63 +94,257 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-T24gTW9uLCAyMDIzLTAxLTIzIGF0IDE1OjAzICswMTAwLCBWbGFzdGltaWwgQmFia2Egd3JvdGU6
-DQo+IE9uIDEyLzIyLzIyIDAxOjM3LCBIdWFuZywgS2FpIHdyb3RlOg0KPiA+ID4gPiBJIGFyZ3Vl
-IHRoYXQgdGhpcyBwYWdlIHBpbm5pbmcgKG9yIHBhZ2UgbWlncmF0aW9uIHByZXZlbnRpb24pIGlz
-IG5vdA0KPiA+ID4gPiB0aWVkIHRvIHdoZXJlIHRoZSBwYWdlIGNvbWVzIGZyb20sIGluc3RlYWQg
-cmVsYXRlZCB0byBob3cgdGhlIHBhZ2Ugd2lsbA0KPiA+ID4gPiBiZSB1c2VkLiBXaGV0aGVyIHRo
-ZSBwYWdlIGlzIHJlc3RyaWN0ZWRtZW0gYmFja2VkIG9yIEdVUCgpIGJhY2tlZCwgb25jZQ0KPiA+
-ID4gPiBpdCdzIHVzZWQgYnkgY3VycmVudCB2ZXJzaW9uIG9mIFREWCB0aGVuIHRoZSBwYWdlIHBp
-bm5pbmcgaXMgbmVlZGVkLiBTbw0KPiA+ID4gPiBzdWNoIHBhZ2UgbWlncmF0aW9uIHByZXZlbnRp
-b24gaXMgcmVhbGx5IFREWCB0aGluZywgZXZlbiBub3QgS1ZNIGdlbmVyaWMNCj4gPiA+ID4gdGhp
-bmcgKHRoYXQncyB3aHkgSSB0aGluayB3ZSBkb24ndCBuZWVkIGNoYW5nZSB0aGUgZXhpc3Rpbmcg
-bG9naWMgb2YNCj4gPiA+ID4ga3ZtX3JlbGVhc2VfcGZuX2NsZWFuKCkpLsKgDQo+ID4gPiA+IA0K
-PiA+IFRoaXMgZXNzZW50aWFsbHkgYm9pbHMgZG93biB0byB3aG8gIm93bnMiIHBhZ2UgbWlncmF0
-aW9uIGhhbmRsaW5nLCBhbmQgc2FkbHksDQo+ID4gcGFnZSBtaWdyYXRpb24gaXMga2luZGEgIm93
-bmVkIiBieSB0aGUgY29yZS1rZXJuZWwsIGkuZS4gS1ZNIGNhbm5vdCBoYW5kbGUgcGFnZQ0KPiA+
-IG1pZ3JhdGlvbiBieSBpdHNlbGYgLS0gaXQncyBqdXN0IGEgcGFzc2l2ZSByZWNlaXZlci4NCj4g
-PiANCj4gPiBGb3Igbm9ybWFsIHBhZ2VzLCBwYWdlIG1pZ3JhdGlvbiBpcyB0b3RhbGx5IGRvbmUg
-YnkgdGhlIGNvcmUta2VybmVsIChpLmUuIGl0DQo+ID4gdW5tYXBzIHBhZ2UgZnJvbSBWTUEsIGFs
-bG9jYXRlcyBhIG5ldyBwYWdlLCBhbmQgdXNlcyBtaWdyYXRlX3BhcGUoKSBvciBhX29wcy0NCj4g
-PiA+IG1pZ3JhdGVfcGFnZSgpIHRvIGFjdHVhbGx5IG1pZ3JhdGUgdGhlIHBhZ2UpLg0KPiA+IElu
-IHRoZSBzZW5zZSBvZiBURFgsIGNvbmNlcHR1YWxseSBpdCBzaG91bGQgYmUgZG9uZSBpbiB0aGUg
-c2FtZSB3YXkuIFRoZSBtb3JlDQo+ID4gaW1wb3J0YW50IHRoaW5nIGlzOiB5ZXMgS1ZNIGNhbiB1
-c2UgZ2V0X3BhZ2UoKSB0byBwcmV2ZW50IHBhZ2UgbWlncmF0aW9uLCBidXQNCj4gPiB3aGVuIEtW
-TSB3YW50cyB0byBzdXBwb3J0IGl0LCBLVk0gY2Fubm90IGp1c3QgcmVtb3ZlIGdldF9wYWdlKCks
-IGFzIHRoZSBjb3JlLQ0KPiA+IGtlcm5lbCB3aWxsIHN0aWxsIGp1c3QgZG8gbWlncmF0ZV9wYWdl
-KCkgd2hpY2ggd29uJ3Qgd29yayBmb3IgVERYIChnaXZlbg0KPiA+IHJlc3RyaWN0ZWRfbWVtZmQg
-ZG9lc24ndCBoYXZlIGFfb3BzLT5taWdyYXRlX3BhZ2UoKSBpbXBsZW1lbnRlZCkuDQo+ID4gDQo+
-ID4gU28gSSB0aGluayB0aGUgcmVzdHJpY3RlZF9tZW1mZCBmaWxlc3lzdGVtIHNob3VsZCBvd24g
-cGFnZSBtaWdyYXRpb24gaGFuZGxpbmcsDQo+ID4gKGkuZS4gYnkgaW1wbGVtZW50aW5nIGFfb3Bz
-LT5taWdyYXRlX3BhZ2UoKSB0byBlaXRoZXIganVzdCByZWplY3QgcGFnZSBtaWdyYXRpb24NCj4g
-PiBvciBzb21laG93IHN1cHBvcnQgaXQpLg0KPiANCj4gV2hpbGUgdGhpcyB0aHJlYWQgc2VlbXMg
-dG8gYmUgc2V0dGxlZCBvbiByZWZjb3VudHMgYWxyZWFkeSzCoA0KPiANCg0KSSBhbSBub3Qgc3Vy
-ZSBidXQgd2lsbCBsZXQgU2Vhbi9QYW9sbyB0byBkZWNpZGUuDQoNCj4ganVzdCB3YW50ZWQNCj4g
-dG8gcG9pbnQgb3V0IHRoYXQgaXQgd291bGRuJ3QgYmUgaWRlYWwgdG8gcHJldmVudCBtaWdyYXRp
-b25zIGJ5DQo+IGFfb3BzLT5taWdyYXRlX3BhZ2UoKSByZWplY3RpbmcgdGhlbS4gSXQgd291bGQg
-bWVhbiBjcHV0aW1lIHdhc3RlZCAoaS5lLg0KPiBieSBtZW1vcnkgY29tcGFjdGlvbikgYnkgaXNv
-bGF0aW5nIHRoZSBwYWdlcyBmb3IgbWlncmF0aW9uIGFuZCB0aGVuDQo+IHJlbGVhc2luZyB0aGVt
-IGFmdGVyIHRoZSBjYWxsYmFjayByZWplY3RzIGl0IChhdCBsZWFzdCB3ZSB3b3VsZG4ndCB3YXN0
-ZQ0KPiB0aW1lIGNyZWF0aW5nIGFuZCB1bmRvaW5nIG1pZ3JhdGlvbiBlbnRyaWVzIGluIHRoZSB1
-c2Vyc3BhY2UgcGFnZSB0YWJsZXMNCj4gYXMgdGhlcmUncyBubyBtbWFwKS4gRWxldmF0ZWQgcmVm
-Y291bnQgb24gdGhlIG90aGVyIGhhbmQgaXMgZGV0ZWN0ZWQNCj4gdmVyeSBlYXJseSBpbiBjb21w
-YWN0aW9uIHNvIG5vIGlzb2xhdGlvbiBpcyBhdHRlbXB0ZWQsIHNvIGZyb20gdGhhdA0KPiBhc3Bl
-Y3QgaXQncyBvcHRpbWFsLg0KDQpJIGFtIHByb2JhYmx5IG1pc3Npbmcgc29tZXRoaW5nLCBidXQg
-SUlVQyB0aGUgY2hlY2tpbmcgb2YgcmVmY291bnQgaGFwcGVucyBhdA0KdmVyeSBsYXN0IHN0YWdl
-IG9mIHBhZ2UgbWlncmF0aW9uIHRvbywgZm9yIGluc3RhbmNlOg0KDQoJbWlncmF0ZV9mb2xpbygu
-Li4pIC0+DQoJCW1pZ3JhdGVfZm9saW9fZXh0cmEoLi4uLCAwIC8qIGV4dHJhX2NvdW50ICovKSAt
-Pg0KCQkJZm9saW9fbWlncmF0ZV9tYXBwaW5nKC4uLikuDQoNCkFuZCBpdCBpcyBmb2xpb19taWdy
-YXRlX21hcHBpbmcoKSB3aG8gZG9lcyB0aGUgYWN0dWFsIGNvbXBhcmUgd2l0aCB0aGUgcmVmY291
-bnQsDQp3aGljaCBpcyBhdCB2ZXJ5IGxhdGUgc3RhZ2UgdG9vOg0KDQppbnQgZm9saW9fbWlncmF0
-ZV9tYXBwaW5nKHN0cnVjdCBhZGRyZXNzX3NwYWNlICptYXBwaW5nLA0KICAgICAgICAgICAgICAg
-IHN0cnVjdCBmb2xpbyAqbmV3Zm9saW8sIHN0cnVjdCBmb2xpbyAqZm9saW8sIGludCBleHRyYV9j
-b3VudCkNCnsNCgkuLi4NCiAgICAgICAgaW50IGV4cGVjdGVkX2NvdW50ID0gZm9saW9fZXhwZWN0
-ZWRfcmVmcyhtYXBwaW5nLCBmb2xpbykgKyBleHRyYV9jb3VudDsNCg0KICAgICAgICBpZiAoIW1h
-cHBpbmcpIHsNCiAgICAgICAgICAgICAgICAvKiBBbm9ueW1vdXMgcGFnZSB3aXRob3V0IG1hcHBp
-bmcgKi8NCiAgICAgICAgICAgICAgICBpZiAoZm9saW9fcmVmX2NvdW50KGZvbGlvKSAhPSBleHBl
-Y3RlZF9jb3VudCkNCiAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiAtRUFHQUlOOw0KDQoJ
-CS4uLi4NCiAgICAgICAgICAgICAgICByZXR1cm4gTUlHUkFURVBBR0VfU1VDQ0VTUzsNCiAgICAg
-ICAgfQ0KDQoJLi4uLg0KICAgICAgICBpZiAoIWZvbGlvX3JlZl9mcmVlemUoZm9saW8sIGV4cGVj
-dGVkX2NvdW50KSkgew0KICAgICAgICAgICAgICAgIHhhc191bmxvY2tfaXJxKCZ4YXMpOw0KICAg
-ICAgICAgICAgICAgIHJldHVybiAtRUFHQUlOOw0KICAgICAgICB9DQoJLi4uDQp9DQoNCg0K
+On Sat, Dec 24, 2022 at 4:01 AM Christoph Muellner
+<christoph.muellner@vrull.eu> wrote:
+>
+> From: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
+>
+> This patch adds support for the T-Head MemPair instructions.
+> The patch uses the T-Head specific decoder and translation.
+>
+> Changes in v2:
+> - Add ISA_EXT_DATA_ENTRY()
+> - Use single decoder for XThead extensions
+> - Use get_address() to calculate addresses
+>
+> Co-developed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
+> Signed-off-by: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+>  target/riscv/cpu.c                         |  2 +
+>  target/riscv/cpu.h                         |  1 +
+>  target/riscv/insn_trans/trans_xthead.c.inc | 88 ++++++++++++++++++++++
+>  target/riscv/translate.c                   |  2 +-
+>  target/riscv/xthead.decode                 | 13 ++++
+>  5 files changed, 105 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 88ad2138db..de00f69710 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -114,6 +114,7 @@ static const struct isa_ext_data isa_edata_arr[] =3D =
+{
+>      ISA_EXT_DATA_ENTRY(xtheadcmo, true, PRIV_VERSION_1_11_0, ext_xtheadc=
+mo),
+>      ISA_EXT_DATA_ENTRY(xtheadcondmov, true, PRIV_VERSION_1_11_0, ext_xth=
+eadcondmov),
+>      ISA_EXT_DATA_ENTRY(xtheadmac, true, PRIV_VERSION_1_11_0, ext_xtheadm=
+ac),
+> +    ISA_EXT_DATA_ENTRY(xtheadmempair, true, PRIV_VERSION_1_11_0, ext_xth=
+eadmempair),
+>      ISA_EXT_DATA_ENTRY(xtheadsync, true, PRIV_VERSION_1_11_0, ext_xthead=
+sync),
+>      ISA_EXT_DATA_ENTRY(xventanacondops, true, PRIV_VERSION_1_12_0, ext_X=
+VentanaCondOps),
+>  };
+> @@ -1073,6 +1074,7 @@ static Property riscv_cpu_extensions[] =3D {
+>      DEFINE_PROP_BOOL("xtheadcmo", RISCVCPU, cfg.ext_xtheadcmo, false),
+>      DEFINE_PROP_BOOL("xtheadcondmov", RISCVCPU, cfg.ext_xtheadcondmov, f=
+alse),
+>      DEFINE_PROP_BOOL("xtheadmac", RISCVCPU, cfg.ext_xtheadmac, false),
+> +    DEFINE_PROP_BOOL("xtheadmempair", RISCVCPU, cfg.ext_xtheadmempair, f=
+alse),
+>      DEFINE_PROP_BOOL("xtheadsync", RISCVCPU, cfg.ext_xtheadsync, false),
+>      DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOp=
+s, false),
+>
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 92198be9d8..836445115e 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -471,6 +471,7 @@ struct RISCVCPUConfig {
+>      bool ext_xtheadcmo;
+>      bool ext_xtheadcondmov;
+>      bool ext_xtheadmac;
+> +    bool ext_xtheadmempair;
+>      bool ext_xtheadsync;
+>      bool ext_XVentanaCondOps;
+>
+> diff --git a/target/riscv/insn_trans/trans_xthead.c.inc b/target/riscv/in=
+sn_trans/trans_xthead.c.inc
+> index 109be58c9b..49314306eb 100644
+> --- a/target/riscv/insn_trans/trans_xthead.c.inc
+> +++ b/target/riscv/insn_trans/trans_xthead.c.inc
+> @@ -52,6 +52,12 @@
+>      }                                            \
+>  } while (0)
+>
+> +#define REQUIRE_XTHEADMEMPAIR(ctx) do {          \
+> +    if (!ctx->cfg_ptr->ext_xtheadmempair) {      \
+> +        return false;                            \
+> +    }                                            \
+> +} while (0)
+> +
+>  #define REQUIRE_XTHEADSYNC(ctx) do {             \
+>      if (!ctx->cfg_ptr->ext_xtheadsync) {         \
+>          return false;                            \
+> @@ -390,6 +396,88 @@ static bool trans_th_mulsw(DisasContext *ctx, arg_th=
+_mulsw *a)
+>      return gen_th_mac(ctx, a, tcg_gen_sub_tl, NULL);
+>  }
+>
+> +/* XTheadMemPair */
+> +
+> +static bool gen_loadpair_tl(DisasContext *ctx, arg_th_pair *a, MemOp mem=
+op,
+> +                            int shamt)
+> +{
+> +    TCGv rd1 =3D dest_gpr(ctx, a->rd1);
+> +    TCGv rd2 =3D dest_gpr(ctx, a->rd2);
+> +    TCGv addr1 =3D tcg_temp_new();
+> +    TCGv addr2 =3D tcg_temp_new();
+> +
+> +    addr1 =3D get_address(ctx, a->rs, a->sh2 << shamt);
+> +    if ((memop & MO_SIZE) =3D=3D MO_64) {
+> +        addr2 =3D get_address(ctx, a->rs, 8 + (a->sh2 << shamt));
+> +    } else {
+> +        addr2 =3D get_address(ctx, a->rs, 4 + (a->sh2 << shamt));
+> +    }
+> +
+> +    tcg_gen_qemu_ld_tl(rd1, addr1, ctx->mem_idx, memop);
+> +    tcg_gen_qemu_ld_tl(rd2, addr2, ctx->mem_idx, memop);
+> +    gen_set_gpr(ctx, a->rd1, rd1);
+> +    gen_set_gpr(ctx, a->rd2, rd2);
+> +
+> +    tcg_temp_free(addr1);
+> +    tcg_temp_free(addr2);
+> +    return true;
+> +}
+> +
+> +static bool trans_th_ldd(DisasContext *ctx, arg_th_pair *a)
+> +{
+> +    REQUIRE_XTHEADMEMPAIR(ctx);
+> +    REQUIRE_64BIT(ctx);
+> +    return gen_loadpair_tl(ctx, a, MO_TESQ, 4);
+> +}
+> +
+> +static bool trans_th_lwd(DisasContext *ctx, arg_th_pair *a)
+> +{
+> +    REQUIRE_XTHEADMEMPAIR(ctx);
+> +    return gen_loadpair_tl(ctx, a, MO_TESL, 3);
+> +}
+> +
+> +static bool trans_th_lwud(DisasContext *ctx, arg_th_pair *a)
+> +{
+> +    REQUIRE_XTHEADMEMPAIR(ctx);
+> +    return gen_loadpair_tl(ctx, a, MO_TEUL, 3);
+> +}
+> +
+> +static bool gen_storepair_tl(DisasContext *ctx, arg_th_pair *a, MemOp me=
+mop,
+> +                             int shamt)
+> +{
+> +    TCGv data1 =3D get_gpr(ctx, a->rd1, EXT_NONE);
+> +    TCGv data2 =3D get_gpr(ctx, a->rd2, EXT_NONE);
+> +    TCGv addr1 =3D tcg_temp_new();
+> +    TCGv addr2 =3D tcg_temp_new();
+> +
+> +    addr1 =3D get_address(ctx, a->rs, a->sh2 << shamt);
+> +    if ((memop & MO_SIZE) =3D=3D MO_64) {
+> +        addr2 =3D get_address(ctx, a->rs, 8 + (a->sh2 << shamt));
+> +    } else {
+> +        addr2 =3D get_address(ctx, a->rs, 4 + (a->sh2 << shamt));
+> +    }
+> +
+> +    tcg_gen_qemu_st_tl(data1, addr1, ctx->mem_idx, memop);
+> +    tcg_gen_qemu_st_tl(data2, addr2, ctx->mem_idx, memop);
+> +
+> +    tcg_temp_free(addr1);
+> +    tcg_temp_free(addr2);
+> +    return true;
+> +}
+> +
+> +static bool trans_th_sdd(DisasContext *ctx, arg_th_pair *a)
+> +{
+> +    REQUIRE_XTHEADMEMPAIR(ctx);
+> +    REQUIRE_64BIT(ctx);
+> +    return gen_storepair_tl(ctx, a, MO_TESQ, 4);
+> +}
+> +
+> +static bool trans_th_swd(DisasContext *ctx, arg_th_pair *a)
+> +{
+> +    REQUIRE_XTHEADMEMPAIR(ctx);
+> +    return gen_storepair_tl(ctx, a, MO_TESL, 3);
+> +}
+> +
+>  /* XTheadSync */
+>
+>  static bool trans_th_sfence_vmas(DisasContext *ctx, arg_th_sfence_vmas *=
+a)
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index 36f512baa8..348fe511e1 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -130,7 +130,7 @@ static bool has_xthead_p(DisasContext *ctx  __attribu=
+te__((__unused__)))
+>      return ctx->cfg_ptr->ext_xtheadba || ctx->cfg_ptr->ext_xtheadbb ||
+>             ctx->cfg_ptr->ext_xtheadbs || ctx->cfg_ptr->ext_xtheadcmo ||
+>             ctx->cfg_ptr->ext_xtheadcondmov || ctx->cfg_ptr->ext_xtheadma=
+c ||
+> -           ctx->cfg_ptr->ext_xtheadsync;
+> +           ctx->cfg_ptr->ext_xtheadmempair || ctx->cfg_ptr->ext_xtheadsy=
+nc;
+>  }
+>
+>  #define MATERIALISE_EXT_PREDICATE(ext)  \
+> diff --git a/target/riscv/xthead.decode b/target/riscv/xthead.decode
+> index 696de6cecf..ff2a83b56d 100644
+> --- a/target/riscv/xthead.decode
+> +++ b/target/riscv/xthead.decode
+> @@ -11,16 +11,21 @@
+>
+>  # Fields:
+>  %rd        7:5
+> +%rd1       7:5
+> +%rs        15:5
+>  %rs1       15:5
+> +%rd2       20:5
+>  %rs2       20:5
+>  %sh5       20:5
+>  %sh6       20:6
+> +%sh2       25:2
+>
+>  # Argument sets
+>  &r         rd rs1 rs2                               !extern
+>  &r2        rd rs1                                   !extern
+>  &shift     shamt rs1 rd                             !extern
+>  &th_bfext  msb lsb rs1 rd
+> +&th_pair   rd1 rs rd2 sh2
+>
+>  # Formats
+>  @sfence_vm  ....... ..... .....   ... ..... ....... %rs1
+> @@ -30,6 +35,7 @@
+>  @th_bfext   msb:6  lsb:6  .....  ... ..... .......  &th_bfext %rs1 %rd
+>  @sh5        ....... ..... .....  ... ..... .......  &shift  shamt=3D%sh5=
+      %rs1 %rd
+>  @sh6        ...... ...... .....  ... ..... .......  &shift shamt=3D%sh6 =
+%rs1 %rd
+> +@th_pair    ..... .. ..... ..... ... ..... .......  &th_pair %rd1 %rs %r=
+d2 %sh2
+>
+>  # XTheadBa
+>  # Instead of defining a new encoding, we simply use the decoder to
+> @@ -96,6 +102,13 @@ th_muls          00100 01 ..... ..... 001 ..... 00010=
+11 @r
+>  th_mulsh         00101 01 ..... ..... 001 ..... 0001011 @r
+>  th_mulsw         00100 11 ..... ..... 001 ..... 0001011 @r
+>
+> +# XTheadMemPair
+> +th_ldd           11111 .. ..... ..... 100 ..... 0001011 @th_pair
+> +th_lwd           11100 .. ..... ..... 100 ..... 0001011 @th_pair
+> +th_lwud          11110 .. ..... ..... 100 ..... 0001011 @th_pair
+> +th_sdd           11111 .. ..... ..... 101 ..... 0001011 @th_pair
+> +th_swd           11100 .. ..... ..... 101 ..... 0001011 @th_pair
+> +
+>  # XTheadSync
+>  th_sfence_vmas   0000010 ..... ..... 000 00000 0001011 @rs2_s
+>  th_sync          0000000 11000 00000 000 00000 0001011
+> --
+> 2.38.1
+>
+>
 
