@@ -2,97 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A2304677C42
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:18:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85419677C94
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:33:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJwhj-0006uO-Ui; Mon, 23 Jan 2023 08:17:43 -0500
+	id 1pJww2-0001cA-B6; Mon, 23 Jan 2023 08:32:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pJwhh-0006ts-EL
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:17:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1pJwtv-0001Jy-SS
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:30:24 -0500
+Received: from forwardcorp1a.mail.yandex.net ([178.154.239.72])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
- id 1pJwhf-0006zn-TU
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:17:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674479858;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=rH0KvBXUNksZmkR7CZj76LFS40TYV5pw7RL2bJPPbA4=;
- b=DPsGnn2xX56nmh5HMFCtriAF8fWpIm2KSwuyN6TLPuLWEX1a0mzovdp5mdKljWEfxp5a9w
- nKfaun55GpybAhMvsS6i7+a+nh2uAv8qsQMxxDns3ZeQgl9xrGS4+YYuasgO77bjINqQgA
- D3TTe3/fCG7BxPqhR5kiktKUcMcwbro=
-Received: from mail-vk1-f198.google.com (mail-vk1-f198.google.com
- [209.85.221.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-149-ydOd8fk0PbaCsP0ahHDO7w-1; Mon, 23 Jan 2023 08:17:37 -0500
-X-MC-Unique: ydOd8fk0PbaCsP0ahHDO7w-1
-Received: by mail-vk1-f198.google.com with SMTP id
- n131-20020a1f2789000000b003d93a6e6162so4893910vkn.21
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:17:37 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rH0KvBXUNksZmkR7CZj76LFS40TYV5pw7RL2bJPPbA4=;
- b=RIGxUKEApwjUJaytudPOcPOwWeRst3/PkYczatanQ15w733cNwkNnvkKng9Y67pS3M
- QXpyoblcNLTFH2zVDuBO+FMbggZpQZCSJmV/ly/doaNNCwkPJRHa+hmhNwHcbX5gn/ng
- Z4fkh23I8gFJqD/SGYlbgNejRby+2ULHHr7R4+psTdA3B10dtFw+a38eO48jwNQ9AAz5
- Kf8R5Z51WLB4Pa2mCAX+CiKRWzlwRN60Y/MQT/WH731UnmkA/0f5U32gydQhnZgZ2SSK
- irVQKIn1eXzZ1c3JFY7UOSRaBDccSFETudLEniLYfD6Ptv+Sd4uw204Wa/xK8Ipm4jR1
- nA5Q==
-X-Gm-Message-State: AFqh2kp3hvtM+kc9o740Xg27oq2dkxv95sQpMAVwhMZRbgFgCnR2NWUZ
- 98S4HbqSSOkpaG9fGcPUjjCzGKsewHFwjetbTTGtOSQUvtSsxiokDpRDaiCch0vvCNKMhnQ8XWG
- 9liw/+oFOsh7l8sA=
-X-Received: by 2002:a05:6102:356e:b0:3c5:60eb:5a90 with SMTP id
- bh14-20020a056102356e00b003c560eb5a90mr13200070vsb.25.1674479857029; 
- Mon, 23 Jan 2023 05:17:37 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvIHbX+Dvvl/5f1XgRtPT5rMhwPeHxFvJMdD9A9kZIrSArYMNqw16BHEdVV/1wkjzIlD0ySaw==
-X-Received: by 2002:a05:6102:356e:b0:3c5:60eb:5a90 with SMTP id
- bh14-20020a056102356e00b003c560eb5a90mr13200044vsb.25.1674479856713; 
- Mon, 23 Jan 2023 05:17:36 -0800 (PST)
-Received: from [192.168.100.30] ([82.142.8.70])
- by smtp.gmail.com with ESMTPSA id
- q5-20020a05620a0d8500b006eee3a09ff3sm31816933qkl.69.2023.01.23.05.17.34
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 05:17:36 -0800 (PST)
-Message-ID: <d8f21135-968e-055d-0fd9-5a23c6d04b86@redhat.com>
-Date: Mon, 23 Jan 2023 14:17:33 +0100
+ (Exim 4.90_1) (envelope-from <d-tatianin@yandex-team.ru>)
+ id 1pJwtr-0000pv-Ho
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:30:18 -0500
+Received: from vla5-b2806cb321eb.qloud-c.yandex.net
+ (vla5-b2806cb321eb.qloud-c.yandex.net
+ [IPv6:2a02:6b8:c18:3e0d:0:640:b280:6cb3])
+ by forwardcorp1a.mail.yandex.net (Yandex) with ESMTP id 29B4E5FE18;
+ Mon, 23 Jan 2023 16:30:04 +0300 (MSK)
+Received: from [IPV6:2a02:6b8:b081:b684::1:1b] (unknown
+ [2a02:6b8:b081:b684::1:1b])
+ by vla5-b2806cb321eb.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
+ 3UN32p0WTiE1-79dO4i6K; Mon, 23 Jan 2023 16:30:03 +0300
+Precedence: bulk
+X-Yandex-Fwd: 1
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
+ s=default; 
+ t=1674480603; bh=dHffjsJMHD7AySNcNASLmhwAhA7GdBT+2QD468Kd7K8=;
+ h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
+ b=EIPIR30a2PjVVXa0ni8YM0vxZleqgRugQeP24/EpPm8pK1o2+f5zQQF6tQIziWIin
+ R3WrK8apTHywiKQtcSDj4xRB+8p6vcoJt9TmQJLpP5PzwP19cm6K1AMFFIVjnV5Ito
+ i29pk1b084NFIlamQtLaS7NCeP6NAKK/CEjMlfHc=
+Authentication-Results: vla5-b2806cb321eb.qloud-c.yandex.net;
+ dkim=pass header.i=@yandex-team.ru
+Message-ID: <ace54833-f254-1b30-b720-c530e60c8266@yandex-team.ru>
+Date: Mon, 23 Jan 2023 16:30:03 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v0 0/4] backends/hostmem: add an ability to specify
+ prealloc timeout
+To: David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-devel@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+ Igor Mammedov <imammedo@redhat.com>, yc-core@yandex-team.ru
+References: <20230120134749.550639-1-d-tatianin@yandex-team.ru>
+ <338cbc9a-4eea-a76c-8042-98372fb70854@redhat.com>
 Content-Language: en-US
-To: =?UTF-8?Q?Eugenio_P=c3=a9rez?= <eperezma@redhat.com>, mst@redhat.com
-Cc: elic@nvidia.com, Zhu Lingshan <lingshan.zhu@intel.com>,
- Si-Wei Liu <si-wei.liu@oracle.com>, qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Gautam Dawar <gdawar@xilinx.com>, leiyang@redhat.com
-References: <20230117105308.1337120-1-eperezma@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-In-Reply-To: <20230117105308.1337120-1-eperezma@redhat.com>
+From: Daniil Tatianin <d-tatianin@yandex-team.ru>
+In-Reply-To: <338cbc9a-4eea-a76c-8042-98372fb70854@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=lvivier@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -38
-X-Spam_score: -3.9
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=178.154.239.72;
+ envelope-from=d-tatianin@yandex-team.ru; helo=forwardcorp1a.mail.yandex.net
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.147, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -104,39 +77,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/17/23 11:53, Eugenio Pérez wrote:
-> VHOST_BACKEND_F_IOTLB_ASID is the feature bit, not the bitmask. Since
-> the device under test also provided VHOST_BACKEND_F_IOTLB_MSG_V2 and
-> VHOST_BACKEND_F_IOTLB_BATCH, this went unnoticed.
+On 1/23/23 11:57 AM, David Hildenbrand wrote:
+> On 20.01.23 14:47, Daniil Tatianin wrote:
+>> This series introduces new qemu_prealloc_mem_with_timeout() api,
+>> which allows limiting the maximum amount of time to be spent on memory
+>> preallocation. It also adds prealloc statistics collection that is
+>> exposed via an optional timeout handler.
+>>
+>> This new api is then utilized by hostmem for guest RAM preallocation
+>> controlled via new object properties called 'prealloc-timeout' and
+>> 'prealloc-timeout-fatal'.
+>>
+>> This is useful for limiting VM startup time on systems with
+>> unpredictable page allocation delays due to memory fragmentation or the
+>> backing storage. The timeout can be configured to either simply emit a
+>> warning and continue VM startup without having preallocated the entire
+>> guest RAM or just abort startup entirely if that is not acceptable for
+>> a specific use case.
 > 
-> Fixes: c1a1008685 ("vdpa: always start CVQ in SVQ mode if possible")
-> Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
-> Acked-by: Jason Wang <jasowang@redhat.com>
-> ---
-> Originally on SUSPEND series, but it is a fix that it is worth to send
-> and apply individually:
-> https://lists.nongnu.org/archive/html/qemu-devel/2023-01/msg02574.html
-> 
-> ---
->   net/vhost-vdpa.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> index 1a13a34d35..de5ed8ff22 100644
-> --- a/net/vhost-vdpa.c
-> +++ b/net/vhost-vdpa.c
-> @@ -384,7 +384,7 @@ static int vhost_vdpa_net_cvq_start(NetClientState *nc)
->               g_strerror(errno), errno);
->           return -1;
->       }
-> -    if (!(backend_features & VHOST_BACKEND_F_IOTLB_ASID) ||
-> +    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) ||
->           !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
->           return 0;
->       }
-> --
-> 2.31.1
+> The major use case for preallocation is memory resources that cannot be 
+> overcommitted (hugetlb, file blocks, ...), to avoid running out of such 
+> resources later, while the guest is already running, and crashing it.
 
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Wouldn't you say that preallocating memory for the sake of speeding up 
+guest kernel startup & runtime is a valid use case of prealloc? This way 
+we can avoid expensive (for a multitude of reasons) page faults that 
+will otherwise slow down the guest significantly at runtime and affect 
+the user experience.
 
+> Allocating only a fraction "because it takes too long" looks quite 
+> useless in that (main use-case) context. We shouldn't encourage QEMU 
+> users to play with fire in such a way. IOW, there should be no way 
+> around "prealloc-timeout-fatal". Either preallocation succeeded and the 
+> guest can run, or it failed, and the guest can't run.
+
+Here we basically accept the fact that e.g with fragmented memory the 
+kernel might take a while in a page fault handler especially for hugetlb 
+because of page compaction that has to run for every fault.
+
+This way we can prefault at least some number of pages and let the guest 
+fault the rest on demand later on during runtime even if it's slow and 
+would cause a noticeable lag.
+
+> ... but then, management tools can simply start QEMU with "-S", start an 
+> own timer, and zap QEMU if it didn't manage to come up in time, and 
+> simply start a new QEMU instance without preallocation enabled.
+> 
+> The "good" thing about that approach is that it will also cover any 
+> implicit memory preallocation, like using mlock() or VFIO, that don't 
+> run in ordinary per-hostmem preallocation context. If setting QEMU up 
+> takes to long, you might want to try on a different hypervisor in your 
+> cluster instead.
+
+This approach definitely works too but again it assumes that we always 
+want 'prealloc-timeout-fatal' to be on, which is, for the most part only 
+the case for working around issues that might be caused by overcommit.
+
+> 
+> I don't immediately see why we want to make our preallcoation+hostmem 
+> implementation in QEMU more complicated for such a use case.
+> 
 
