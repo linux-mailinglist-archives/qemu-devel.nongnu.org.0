@@ -2,56 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58FC3677AA8
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 13:19:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56F6C677AB0
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 13:21:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJvmr-0008Fz-HF; Mon, 23 Jan 2023 07:18:57 -0500
+	id 1pJvoj-00011m-3K; Mon, 23 Jan 2023 07:20:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pJvmF-00085B-IH
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:18:21 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1pJvoX-00011B-QK
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:20:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pJvmC-0004gs-FW
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:18:18 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P0ptV5Zzlz6J7YR;
- Mon, 23 Jan 2023 20:14:10 +0800 (CST)
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Mon, 23 Jan 2023 12:18:13 +0000
-To: <qemu-devel@nongnu.org>
-CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
- <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Dave Jiang
- <dave.jiang@intel.com>, <alison.schofield@intel.com>, Fan Ni
- <fan.ni@samsung.com>
-Subject: [RFC PATCH 2/2] hw/pxb-cxl: Support passthrough HDM Decoders unless
- overridden
-Date: Mon, 23 Jan 2023 12:17:12 +0000
-Message-ID: <20230123121712.29892-3-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230123121712.29892-1-Jonathan.Cameron@huawei.com>
-References: <20230123121712.29892-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
+ id 1pJvoW-0005AX-5h
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:20:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674476438;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=wPK6OqZaZjA+b4U81gVhyHQEzqleg0bm+wvkm123L1M=;
+ b=FG380GrhkQYgUlKwYIGwCMoljR+QqcidFjfnxQi6930NCgeI7t6nfegt0Ho0UDkWF9xnxw
+ VZ1dHR3WelIlJcdgVXj2KL0MQwwfkhkBsLWEGsUfVS+M01tedN6/XKuwJv802WJc1p/Krf
+ H/xFeIHVyksHRsSZCDmetj9OKoSfoxY=
+Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
+ [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-373-4m5VX3K5OFKrncn8eTTBAQ-1; Mon, 23 Jan 2023 07:20:37 -0500
+X-MC-Unique: 4m5VX3K5OFKrncn8eTTBAQ-1
+Received: by mail-vs1-f72.google.com with SMTP id
+ a62-20020a671a41000000b003c08f2a8d7bso2827424vsa.14
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 04:20:37 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=wPK6OqZaZjA+b4U81gVhyHQEzqleg0bm+wvkm123L1M=;
+ b=dRvJjckm8fnWlMqKQkSm6tsE8GuHw7bkEiw0F61i9YhOdqeW3L0ENgp9HFV0Z3pKXp
+ dUwt4bydGiCIh0Da+l4WurVIhOHVXJFzgQhjqmhMB4f1lpyXhUjTIIAqiNuUPiYPZ11r
+ tGAjx3RmH/nrO+YphjUpeJ75yGnevBKN5wIusEZPEQA8Moo396kq1OJnSixcEv1L+1s/
+ 1AZyjjddCeHF6ud+u4BDiePwtU8hbzP+I2q1iQSBeBhAEgHClhZs8rY0ZjWQ21+FbqSH
+ WV6xUqrkMR6DJvozgXu/ALh6eFVRDeM6vEIB+HVk1dlQS2nK3eAft1dBnnKCythF0qwq
+ aNJw==
+X-Gm-Message-State: AFqh2krwJBQ06qL/eX7aYQx4c0aT4dkSTYnTuuesp2fnYZagHqBrvY3b
+ I0cDdNM2yv++lhRdLEKVBe+GqSZsVHJ+Qb+duG+6oE6oBLF3PMpdFH2RbriWVX8p2VSpDvVuVzI
+ MOMieE6FQOAjivf3BIkH2IVGNIuOQUx8=
+X-Received: by 2002:a67:de19:0:b0:3d2:3590:e690 with SMTP id
+ q25-20020a67de19000000b003d23590e690mr3336645vsk.1.1674476436599; 
+ Mon, 23 Jan 2023 04:20:36 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuCpzOr1SPN+0hECsypfLpZiwWsU6pT692JmJtTj/RuWtnUYevSg17Diw0xosk4sShvHU4+3rkaJh2YWBHvHtA=
+X-Received: by 2002:a67:de19:0:b0:3d2:3590:e690 with SMTP id
+ q25-20020a67de19000000b003d23590e690mr3336640vsk.1.1674476436383; Mon, 23 Jan
+ 2023 04:20:36 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230122153307.1050593-1-kfir@daynix.com>
+In-Reply-To: <20230122153307.1050593-1-kfir@daynix.com>
+From: Konstantin Kostiuk <kkostiuk@redhat.com>
+Date: Mon, 23 Jan 2023 14:20:25 +0200
+Message-ID: <CAPMcbCr5zGsTFW0vsqjSkSNBYiutLgGKYVkzt_67yLWANDOKwg@mail.gmail.com>
+Subject: Re: [PATCH] qga/linux: add usb support to guest-get-fsinfo
+To: Kfir Manor <kfir@daynix.com>
+Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>, 
+ Yan Vugenfirer <yan@daynix.com>
+Content-Type: multipart/alternative; boundary="0000000000002cfb1205f2ed6d53"
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -64,215 +89,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The CXL r3.0 specification allows for there to be no HDM decoders on CXL
-Host Bridges if they have only a single root port. Instead, all accesses
-directed to the host bridge (as specified in CXL Fixed Memory Windows)
-are assumed to be routed to the single root port.
+--0000000000002cfb1205f2ed6d53
+Content-Type: text/plain; charset="UTF-8"
 
-Linux currently assumes this implementation choice. So to simplify testing,
-make QEMU emulation also default to no HDM decoders under these particular
-circumstances, but provide a hdm_for_passthrough boolean option to have
-HDM decoders as previously.
+Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
 
-Technically this is breaking backwards compatibility, but given the only
-known software stack used with the QEMU emulation is the Linux kernel
-and this configuration did not work before this change, there are
-unlikely to be any complaints that it now works. The option is retained
-to allow testing of software that does allow for these HDM decoders to exist,
-once someone writes it.
+On Sun, Jan 22, 2023 at 5:33 PM Kfir Manor <kfir@daynix.com> wrote:
 
-Reported-by: Fan Ni <fan.ni@samsung.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- hw/cxl/cxl-host.c                   | 31 +++++++++++++--------
- hw/pci-bridge/pci_expander_bridge.c | 43 +++++++++++++++++++++++++----
- include/hw/cxl/cxl.h                |  1 +
- include/hw/cxl/cxl_component.h      |  1 +
- include/hw/pci/pci_bridge.h         |  1 +
- 5 files changed, 60 insertions(+), 17 deletions(-)
+> ---
+>  qga/commands-posix.c | 6 +++++-
+>  1 file changed, 5 insertions(+), 1 deletion(-)
+>
+> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+> index ebd33a643c..aab9d3bd50 100644
+> --- a/qga/commands-posix.c
+> +++ b/qga/commands-posix.c
+> @@ -880,7 +880,9 @@ static bool build_guest_fsinfo_for_pci_dev(char const
+> *syspath,
+>                         g_str_equal(driver, "sym53c8xx") ||
+>                         g_str_equal(driver, "virtio-pci") ||
+>                         g_str_equal(driver, "ahci") ||
+> -                       g_str_equal(driver, "nvme"))) {
+> +                       g_str_equal(driver, "nvme") ||
+> +                       g_str_equal(driver, "xhci_hcd") ||
+> +                       g_str_equal(driver, "ehci-pci"))) {
+>              break;
+>          }
+>
+> @@ -977,6 +979,8 @@ static bool build_guest_fsinfo_for_pci_dev(char const
+> *syspath,
+>          }
+>      } else if (strcmp(driver, "nvme") == 0) {
+>          disk->bus_type = GUEST_DISK_BUS_TYPE_NVME;
+> +    } else if (strcmp(driver, "ehci-pci") == 0 || strcmp(driver,
+> "xhci_hcd") == 0) {
+> +        disk->bus_type = GUEST_DISK_BUS_TYPE_USB;
+>      } else {
+>          g_debug("unknown driver '%s' (sysfs path '%s')", driver, syspath);
+>          goto cleanup;
+> --
+> 2.38.1
+>
+>
 
-diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
-index 3c1ec8732a..6e923ceeaf 100644
---- a/hw/cxl/cxl-host.c
-+++ b/hw/cxl/cxl-host.c
-@@ -146,21 +146,28 @@ static PCIDevice *cxl_cfmws_find_device(CXLFixedWindow *fw, hwaddr addr)
-         return NULL;
-     }
- 
--    hb_cstate = cxl_get_hb_cstate(hb);
--    if (!hb_cstate) {
--        return NULL;
--    }
-+    if (cxl_get_hb_passthrough(hb)) {
-+        rp = pcie_find_port_first(hb->bus);
-+        if (!rp) {
-+            return NULL;
-+        }
-+    } else {
-+        hb_cstate = cxl_get_hb_cstate(hb);
-+        if (!hb_cstate) {
-+            return NULL;
-+        }
- 
--    cache_mem = hb_cstate->crb.cache_mem_registers;
-+        cache_mem = hb_cstate->crb.cache_mem_registers;
- 
--    target_found = cxl_hdm_find_target(cache_mem, addr, &target);
--    if (!target_found) {
--        return NULL;
--    }
-+        target_found = cxl_hdm_find_target(cache_mem, addr, &target);
-+        if (!target_found) {
-+            return NULL;
-+        }
- 
--    rp = pcie_find_port_by_pn(hb->bus, target);
--    if (!rp) {
--        return NULL;
-+        rp = pcie_find_port_by_pn(hb->bus, target);
-+        if (!rp) {
-+            return NULL;
-+        }
-     }
- 
-     d = pci_bridge_get_sec_bus(PCI_BRIDGE(rp))->devices[0];
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index e752a21292..e2aabc12aa 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -15,6 +15,7 @@
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bus.h"
- #include "hw/pci/pci_host.h"
-+#include "hw/pci/pcie_port.h"
- #include "hw/qdev-properties.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci-bridge/pci_expander_bridge.h"
-@@ -79,6 +80,13 @@ CXLComponentState *cxl_get_hb_cstate(PCIHostState *hb)
-     return &host->cxl_cstate;
- }
- 
-+bool cxl_get_hb_passthrough(PCIHostState *hb)
-+{
-+    CXLHost *host = PXB_CXL_HOST(hb);
-+
-+    return host->passthrough;
-+}
-+
- static int pxb_bus_num(PCIBus *bus)
- {
-     PXBDev *pxb = convert_to_pxb(bus->parent_dev);
-@@ -289,15 +297,31 @@ static int pxb_map_irq_fn(PCIDevice *pci_dev, int pin)
-     return pin - PCI_SLOT(pxb->devfn);
- }
- 
--static void pxb_dev_reset(DeviceState *dev)
-+static void pxb_cxl_dev_reset(DeviceState *dev)
- {
-     CXLHost *cxl = PXB_CXL_DEV(dev)->cxl.cxl_host_bridge;
-     CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
-+    PCIHostState *hb = PCI_HOST_BRIDGE(cxl);
-     uint32_t *reg_state = cxl_cstate->crb.cache_mem_registers;
-     uint32_t *write_msk = cxl_cstate->crb.cache_mem_regs_write_mask;
-+    int dsp_count = 0;
- 
-     cxl_component_register_init_common(reg_state, write_msk, CXL2_ROOT_PORT);
--    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT, 8);
-+    /*
-+     * The CXL specification allows for host bridges with no HDM decoders
-+     * if they only have a single root port.
-+     */
-+    if (!PXB_DEV(dev)->hdm_for_passthrough) {
-+        dsp_count = pcie_count_ds_ports(hb->bus);
-+    }
-+    /* Initial reset will have 0 dsp so wait until > 0 */
-+    if (dsp_count == 1) {
-+        cxl->passthrough = true;
-+        /* Set Capability ID in header to NONE */
-+        ARRAY_FIELD_DP32(reg_state, CXL_HDM_CAPABILITY_HEADER, ID, 0);
-+    } else {
-+        ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT, 8);
-+    }
- }
- 
- static gint pxb_compare(gconstpointer a, gconstpointer b)
-@@ -481,9 +505,18 @@ static void pxb_cxl_dev_realize(PCIDevice *dev, Error **errp)
-     }
- 
-     pxb_dev_realize_common(dev, CXL, errp);
--    pxb_dev_reset(DEVICE(dev));
-+    pxb_cxl_dev_reset(DEVICE(dev));
- }
- 
-+static Property pxb_cxl_dev_properties[] = {
-+    /* Note: 0 is not a legal PXB bus number. */
-+    DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
-+    DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNASSIGNED),
-+    DEFINE_PROP_BOOL("bypass_iommu", PXBDev, bypass_iommu, false),
-+    DEFINE_PROP_BOOL("hdm_for_passthrough", PXBDev, hdm_for_passthrough, false),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc   = DEVICE_CLASS(klass);
-@@ -497,12 +530,12 @@ static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
-      */
- 
-     dc->desc = "CXL Host Bridge";
--    device_class_set_props(dc, pxb_dev_properties);
-+    device_class_set_props(dc, pxb_cxl_dev_properties);
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
- 
-     /* Host bridges aren't hotpluggable. FIXME: spec reference */
-     dc->hotpluggable = false;
--    dc->reset = pxb_dev_reset;
-+    dc->reset = pxb_cxl_dev_reset;
- }
- 
- static const TypeInfo pxb_cxl_dev_info = {
-diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-index 716f0f0f2a..9c8185ae88 100644
---- a/include/hw/cxl/cxl.h
-+++ b/include/hw/cxl/cxl.h
-@@ -50,6 +50,7 @@ struct CXLHost {
-     PCIHostState parent_obj;
- 
-     CXLComponentState cxl_cstate;
-+    bool passthrough;
- };
- 
- #define TYPE_PXB_CXL_HOST "pxb-cxl-host"
-diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
-index 870faeb6dd..97e45e6747 100644
---- a/include/hw/cxl/cxl_component.h
-+++ b/include/hw/cxl/cxl_component.h
-@@ -251,6 +251,7 @@ static inline hwaddr cxl_decode_ig(int ig)
- }
- 
- CXLComponentState *cxl_get_hb_cstate(PCIHostState *hb);
-+bool cxl_get_hb_passthrough(PCIHostState *hb);
- 
- void cxl_doe_cdat_init(CXLComponentState *cxl_cstate, Error **errp);
- void cxl_doe_cdat_release(CXLComponentState *cxl_cstate);
-diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
-index 63a7521567..81a058bb2c 100644
---- a/include/hw/pci/pci_bridge.h
-+++ b/include/hw/pci/pci_bridge.h
-@@ -92,6 +92,7 @@ struct PXBDev {
-     uint8_t bus_nr;
-     uint16_t numa_node;
-     bool bypass_iommu;
-+    bool hdm_for_passthrough;
-     struct cxl_dev {
-         CXLHost *cxl_host_bridge; /* Pointer to a CXLHost */
-     } cxl;
--- 
-2.37.2
+--0000000000002cfb1205f2ed6d53
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
+tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
+v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jan 2=
+2, 2023 at 5:33 PM Kfir Manor &lt;<a href=3D"mailto:kfir@daynix.com">kfir@d=
+aynix.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">---<br>
+=C2=A0qga/commands-posix.c | 6 +++++-<br>
+=C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
+<br>
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
+index ebd33a643c..aab9d3bd50 100644<br>
+--- a/qga/commands-posix.c<br>
++++ b/qga/commands-posix.c<br>
+@@ -880,7 +880,9 @@ static bool build_guest_fsinfo_for_pci_dev(char const *=
+syspath,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 g_str_equal(driver, &quot;sym53c8xx&quot;) ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 g_str_equal(driver, &quot;virtio-pci&quot;) ||<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 g_str_equal(driver, &quot;ahci&quot;) ||<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0g_str_equal(driver, &quot;nvme&quot;))) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0g_str_equal(driver, &quot;nvme&quot;) ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0g_str_equal(driver, &quot;xhci_hcd&quot;) ||<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0g_str_equal(driver, &quot;ehci-pci&quot;))) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+<br>
+@@ -977,6 +979,8 @@ static bool build_guest_fsinfo_for_pci_dev(char const *=
+syspath,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+=C2=A0 =C2=A0 =C2=A0} else if (strcmp(driver, &quot;nvme&quot;) =3D=3D 0) {=
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0disk-&gt;bus_type =3D GUEST_DISK_BUS_TYPE=
+_NVME;<br>
++=C2=A0 =C2=A0 } else if (strcmp(driver, &quot;ehci-pci&quot;) =3D=3D 0 || =
+strcmp(driver, &quot;xhci_hcd&quot;) =3D=3D 0) {<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 disk-&gt;bus_type =3D GUEST_DISK_BUS_TYPE_USB;=
+<br>
+=C2=A0 =C2=A0 =C2=A0} else {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_debug(&quot;unknown driver &#39;%s&#39;=
+ (sysfs path &#39;%s&#39;)&quot;, driver, syspath);<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto cleanup;<br>
+-- <br>
+2.38.1<br>
+<br>
+</blockquote></div>
+
+--0000000000002cfb1205f2ed6d53--
 
 
