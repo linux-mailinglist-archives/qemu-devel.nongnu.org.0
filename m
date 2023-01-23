@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C39D677799
+	by mail.lfdr.de (Postfix) with ESMTPS id 4230B67779A
 	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 10:46:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJtNo-0003np-Mb; Mon, 23 Jan 2023 04:44:56 -0500
+	id 1pJtNy-0003qX-7n; Mon, 23 Jan 2023 04:45:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJtNn-0003nh-E4
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:44:55 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJtNl-0002al-8E
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:44:55 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- fl11-20020a05600c0b8b00b003daf72fc844so10169573wmb.0
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 01:44:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=6Eb7Mc53r5PP4aCCndo0bGrV/P36fpq6XLrv0U0ZBTA=;
- b=yI2oDFChgUsp1B+tQHyTq36Kz75xKeEGVJSpG+vAhKtgWmIbZ67pZ2qRIRqq7qDbiY
- +rJ9Dgvhm4YPgDzGA82zBRmsT6N39cJHNK4js3SfRTXJlnzldK2L7fPjh6mnIkCHMgOm
- xbo6iyjWWHo4fj1hOtwhzbUo9EYYm7mGwhSOspON/WgRfASmmSeTsNvO32nl8vyTsyzI
- OwaoMabcJur74a+kuewRMHJEHRM8ErlSLn4jkywf6eOwFFFGaxGxQ8/HDtzC3XWGEsP8
- Da9hDWVKquy1zGkKccD23r6hnusaz2zcgXMlz20teu2IHXqpdhN+YoPuDcvOauh/mqpT
- iuKQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6Eb7Mc53r5PP4aCCndo0bGrV/P36fpq6XLrv0U0ZBTA=;
- b=b0zyHaIx9VFEsH+WXOrtOxnW4eafP16Au/mC8KeLLzBOG/jmJqjZSjzoi91hycCjYQ
- tR9rAYwS2B2frK5ZubPHykueHuT8cZym9RPPEwRJpZtuR4db4NcKbKnM4wg7CwAsoI5w
- pYDC0OjXGxWmYo4HpvDLnT5FutQMTB37VaeTkfRbUlMi/qjQynnEZPb5yQvvSXZy0nDX
- ynLOZZusUXUuJlLDjW0huf8WpG98QXV2M6A8LZqkbNtilKP90yHbec2CmL5JfMJ7RVC9
- Ot7r5PN5glHgOmojNpEMhtiQ871ATlK+CKdBMh5WuvXB/qp/OcsJWnbcnlBtfEflG9nj
- xFfA==
-X-Gm-Message-State: AFqh2kpSJApuEBj3jRDG3x+Qn6AP5O0s4u/mYJITQ5WF4rTgZmy+6BH7
- efQvc6TgZcJ1sqlnhq/ZTVQLQg==
-X-Google-Smtp-Source: AMrXdXsy3OZSKT4RDIatMhggLReSYbgBIaH1uq3yCwhfSYzx2ATRCaM64lqNccvBF/64yMOV4RrS2g==
-X-Received: by 2002:a05:600c:33a8:b0:3d9:ed3b:5b3e with SMTP id
- o40-20020a05600c33a800b003d9ed3b5b3emr22329554wmp.19.1674467091615; 
- Mon, 23 Jan 2023 01:44:51 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m9-20020a7bca49000000b003c65c9a36dfsm9982923wml.48.2023.01.23.01.44.50
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 01:44:51 -0800 (PST)
-Message-ID: <d8106f3d-ee31-ca51-40ba-4329238851de@linaro.org>
-Date: Mon, 23 Jan 2023 10:44:14 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pJtNv-0003qA-9g
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:45:03 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pJtNs-0002aX-VD
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:45:03 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P0lTP36ZBz6J7dX;
+ Mon, 23 Jan 2023 17:40:41 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 23 Jan
+ 2023 09:44:43 +0000
+Date: Mon, 23 Jan 2023 09:44:44 +0000
+To: Dan Williams <dan.j.williams@intel.com>
+CC: Gregory Price <gregory.price@memverge.com>, Jonathan Cameron via
+ <qemu-devel@nongnu.org>, Lukas Wunner <lukas@wunner.de>, Michael Tsirkin
+ <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
+ <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>
+Subject: Re: cxl nvdimm Potential probe ordering issues.
+Message-ID: <20230123094444.00006bd3@Huawei.com>
+In-Reply-To: <63cb1881b078a_3a36e5294ab@dwillia2-xfh.jf.intel.com.notmuch>
+References: <20230113144026.000001fb@Huawei.com>
+ <20230113144511.00001207@Huawei.com>
+ <20230113151206.GA20583@wunner.de> <Y8hG4OyJL7l9oD2f@memverge.com>
+ <Y8hJKcy1993SFLLJ@memverge.com>
+ <20230119124244.000015b3@Huawei.com>
+ <20230119150449.000037f2@huawei.com>
+ <Y8oeYfyqNuSIIxCt@memverge.com>
+ <63cad185343a1_c81f029469@dwillia2-xfh.jf.intel.com.notmuch>
+ <Y8sNfC1YQVj/DfBU@memverge.com>
+ <63cb1881b078a_3a36e5294ab@dwillia2-xfh.jf.intel.com.notmuch>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PULL 09/12] include/hw/ppc: Split pnv_chip.h off pnv.h
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, =?UTF-8?Q?C=c3=a9dric_Le_Goater?=
- <clg@kaod.org>, Daniel Henrique Barboza <danielhb413@gmail.com>
-References: <20230120070122.3982588-1-armbru@redhat.com>
- <20230120070122.3982588-10-armbru@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230120070122.3982588-10-armbru@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,365 +74,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Markus,
+On Fri, 20 Jan 2023 14:41:05 -0800
+Dan Williams <dan.j.williams@intel.com> wrote:
 
-On 20/1/23 08:01, Markus Armbruster wrote:
-> PnvChipClass, PnvChip, Pnv8Chip, Pnv9Chip, and Pnv10Chip are defined
-> in pnv.h.  Many users of the header don't actually need them.  One
-> instance is this inclusion loop: hw/ppc/pnv_homer.h includes
-> hw/ppc/pnv.h for typedef PnvChip, and vice versa for struct PnvHomer.
-> 
-> Similar structs live in their own headers: PnvHomerClass and PnvHomer
-> in pnv_homer.h, PnvLpcClass and PnvLpcController in pci_lpc.h,
-> PnvPsiClass, PnvPsi, Pnv8Psi, Pnv9Psi, Pnv10Psi in pnv_psi.h, ...
-> 
-> Move PnvChipClass, PnvChip, Pnv8Chip, Pnv9Chip, and Pnv10Chip to new
-> pnv_chip.h, and adjust include directives.  This breaks the inclusion
-> loop mentioned above.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> Reviewed-by: Cédric Le Goater <clg@kaod.org>
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Message-Id: <20221222104628.659681-2-armbru@redhat.com>
-> ---
->   include/hw/ppc/pnv.h       | 143 +-----------------------------------
->   include/hw/ppc/pnv_chip.h  | 147 +++++++++++++++++++++++++++++++++++++
->   hw/intc/pnv_xive.c         |   1 +
->   hw/intc/pnv_xive2.c        |   1 +
->   hw/pci-host/pnv_phb3.c     |   1 +
->   hw/pci-host/pnv_phb4_pec.c |   1 +
->   hw/ppc/pnv.c               |   3 +
->   hw/ppc/pnv_core.c          |   1 +
->   hw/ppc/pnv_homer.c         |   1 +
->   hw/ppc/pnv_lpc.c           |   1 +
->   hw/ppc/pnv_xscom.c         |   1 +
->   11 files changed, 160 insertions(+), 141 deletions(-)
->   create mode 100644 include/hw/ppc/pnv_chip.h
-> 
-> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
-> index 9ef7e2d0dc..ca49e4281d 100644
-> --- a/include/hw/ppc/pnv.h
-> +++ b/include/hw/ppc/pnv.h
-> @@ -20,158 +20,19 @@
->   #ifndef PPC_PNV_H
->   #define PPC_PNV_H
->   
-> +#include "cpu.h"
+> Gregory Price wrote:
+> > On Fri, Jan 20, 2023 at 09:38:13AM -0800, Dan Williams wrote:  
+> > > As it stands currently that dax device and the cxl device are not
+> > > related since a default dax-device is loaded just based on the presence
+> > > of an EFI_MEMORY_SP address range in the address map. With the new ram
+> > > enabling that default device will be elided and CXL will register a
+> > > dax-device parented by a cxl region.
+> > >   
+> > > > 	 - The memory *does not* auto-online, instead the dax device can be
+> > > > 	   onlined as system-ram *manually* via ndctl and friends  
+> > > 
+> > > That *manually* part is the problem that needs distro help to solve. It
+> > > should be the case that by default all Linux distributions auto-online
+> > > all dax-devices. If that happens to online memory that is too slow for
+> > > general use, or too high-performance / precious for general purpose use
+> > > then the administrator can set policy after the fact. Unfortunately user
+> > > policy can not be applied if these memory ranges were onlined by the
+> > > kernel at boot , so that's why the kernel policy defaults to not-online.
+> > > 
+> > > In other words, there is no guarantee that memory that was assigned to
+> > > the general purpose pool at boot can be removed. The only guaranteed
+> > > behavior is to never give the memory to the core kernel in the first
+> > > instance and always let user policy route the memory.
+> > >   
+> > > > 3) The code creates an nvdimm_bridge IFF a CFMW is defined - regardless
+> > > >    of the type-3 device configuration (pmem-only or vmem-only)  
+> > > 
+> > > Correct, the top-level bus code (cxl_acpi) and the endpoint code
+> > > (cxl_mem, cxl_port) need to handshake before establishing regions. For
+> > > pmem regions the platform needs to claim the availability of a pmem
+> > > capable CXL window.
+> > >   
+> > > > 4) As you can see above, multiple decoders are registered.  I'm not sure
+> > > >    if that's correct or not, but it does seem odd given there's only one
+> > > > 	 cxl type-3 device.  Odd that decoder0.0 shows up when CFMW is there,
+> > > > 	 but not when it isn't.  
+> > > 
+> > > CXL windows are modeled as decoders hanging off the the CXL root device
+> > > (ACPI0017 on ACPI based platforms). An endpoint decoder can then map a
+> > > selection of that window.
+> > >   
+> > > > Don't know why I haven't thought of this until now, but is the CFMW code
+> > > > reporting something odd about what's behind it?  Is it assuming the
+> > > > devices are pmem?  
+> > > 
+> > > No, the cxl_acpi code is just advertising platform decode possibilities
+> > > independent of what devices show up. Think of this like the PCI MMIO
+> > > space that gets allocated to a root bridge at the beginning of time.
+> > > That space may or may not get consumed based on what devices show up
+> > > downstream.  
+> > 
+> > Thank you for the explanation Dan, and thank you for you patience
+> > @JCameron.  I'm fairly sure I grok it now.
+> > 
+> > Summarizing to make sure: the cxl driver is providing what would be the
+> > CXL.io (control) path, and the CXL.mem path is basically being simulated
+> > by what otherwise would be a traditional PCI memory region. This explains
+> > why turning off Legacy mode drops the dax devices, and why the topology
+> > looks strange - the devices are basically attached in 2 different ways.
+> > 
+> > Might there be interest from the QEMU community to implement this
+> > legacy-style setup in the short term, in an effort to test the the
+> > control path of type-3 devices while we wait for the kernel to catch up?
 
-Why is "cpu.h" required here? For pnv_chip_find_cpu()?
+I'd happily review such code, but it's not on my list of things to work on
+otherwise. Too many other things to support!
 
-Isn't "target/ppc/cpu-qom.h" enough?
+Jonathan
 
->   #include "hw/boards.h"
->   #include "hw/sysbus.h"
->   #include "hw/ipmi/ipmi.h"
-> -#include "hw/ppc/pnv_lpc.h"
->   #include "hw/ppc/pnv_pnor.h"
-> -#include "hw/ppc/pnv_psi.h"
-> -#include "hw/ppc/pnv_occ.h"
-> -#include "hw/ppc/pnv_sbe.h"
-> -#include "hw/ppc/pnv_homer.h"
-> -#include "hw/ppc/pnv_xive.h"
-> -#include "hw/ppc/pnv_core.h"
-> -#include "hw/pci-host/pnv_phb3.h"
-> -#include "hw/pci-host/pnv_phb4.h"
->   #include "hw/pci-host/pnv_phb.h"
-> -#include "qom/object.h"
->   
->   #define TYPE_PNV_CHIP "pnv-chip"
-> -OBJECT_DECLARE_TYPE(PnvChip, PnvChipClass,
-> -                    PNV_CHIP)
->   
-> -struct PnvChip {
-> -    /*< private >*/
-> -    SysBusDevice parent_obj;
-> -
-> -    /*< public >*/
-> -    uint32_t     chip_id;
-> -    uint64_t     ram_start;
-> -    uint64_t     ram_size;
-> -
-> -    uint32_t     nr_cores;
-> -    uint32_t     nr_threads;
-> -    uint64_t     cores_mask;
-> -    PnvCore      **cores;
-> -
-> -    uint32_t     num_pecs;
-> -
-> -    MemoryRegion xscom_mmio;
-> -    MemoryRegion xscom;
-> -    AddressSpace xscom_as;
-> -
-> -    MemoryRegion *fw_mr;
-> -    gchar        *dt_isa_nodename;
-> -};
-> -
-> -#define TYPE_PNV8_CHIP "pnv8-chip"
-> +typedef struct PnvChip PnvChip;
->   typedef struct Pnv8Chip Pnv8Chip;
-> -DECLARE_INSTANCE_CHECKER(Pnv8Chip, PNV8_CHIP,
-> -                         TYPE_PNV8_CHIP)
-> -
-> -struct Pnv8Chip {
-> -    /*< private >*/
-> -    PnvChip      parent_obj;
-> -
-> -    /*< public >*/
-> -    MemoryRegion icp_mmio;
-> -
-> -    PnvLpcController lpc;
-> -    Pnv8Psi      psi;
-> -    PnvOCC       occ;
-> -    PnvHomer     homer;
-> -
-> -#define PNV8_CHIP_PHB3_MAX 4
-> -    /*
-> -     * The array is used to allow quick access to the phbs by
-> -     * pnv_ics_get_child() and pnv_ics_resend_child().
-> -     */
-> -    PnvPHB       *phbs[PNV8_CHIP_PHB3_MAX];
-> -    uint32_t     num_phbs;
-> -
-> -    XICSFabric    *xics;
-> -};
-> -
-> -#define TYPE_PNV9_CHIP "pnv9-chip"
->   typedef struct Pnv9Chip Pnv9Chip;
-> -DECLARE_INSTANCE_CHECKER(Pnv9Chip, PNV9_CHIP,
-> -                         TYPE_PNV9_CHIP)
-> -
-> -struct Pnv9Chip {
-> -    /*< private >*/
-> -    PnvChip      parent_obj;
-> -
-> -    /*< public >*/
-> -    PnvXive      xive;
-> -    Pnv9Psi      psi;
-> -    PnvLpcController lpc;
-> -    PnvOCC       occ;
-> -    PnvSBE       sbe;
-> -    PnvHomer     homer;
-> -
-> -    uint32_t     nr_quads;
-> -    PnvQuad      *quads;
-> -
-> -#define PNV9_CHIP_MAX_PEC 3
-> -    PnvPhb4PecState pecs[PNV9_CHIP_MAX_PEC];
-> -};
-> -
-> -/*
-> - * A SMT8 fused core is a pair of SMT4 cores.
-> - */
-> -#define PNV9_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
-> -#define PNV9_PIR2CHIP(pir)      (((pir) >> 8) & 0x7f)
-> -
-> -#define TYPE_PNV10_CHIP "pnv10-chip"
->   typedef struct Pnv10Chip Pnv10Chip;
-> -DECLARE_INSTANCE_CHECKER(Pnv10Chip, PNV10_CHIP,
-> -                         TYPE_PNV10_CHIP)
-> -
-> -struct Pnv10Chip {
-> -    /*< private >*/
-> -    PnvChip      parent_obj;
-> -
-> -    /*< public >*/
-> -    PnvXive2     xive;
-> -    Pnv9Psi      psi;
-> -    PnvLpcController lpc;
-> -    PnvOCC       occ;
-> -    PnvSBE       sbe;
-> -    PnvHomer     homer;
-> -
-> -    uint32_t     nr_quads;
-> -    PnvQuad      *quads;
-> -
-> -#define PNV10_CHIP_MAX_PEC 2
-> -    PnvPhb4PecState pecs[PNV10_CHIP_MAX_PEC];
-> -};
-> -
-> -#define PNV10_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
-> -#define PNV10_PIR2CHIP(pir)      (((pir) >> 8) & 0x7f)
-> -
-> -struct PnvChipClass {
-> -    /*< private >*/
-> -    SysBusDeviceClass parent_class;
-> -
-> -    /*< public >*/
-> -    uint64_t     chip_cfam_id;
-> -    uint64_t     cores_mask;
-> -    uint32_t     num_pecs;
-> -    uint32_t     num_phbs;
-> -
-> -    DeviceRealize parent_realize;
-> -
-> -    uint32_t (*core_pir)(PnvChip *chip, uint32_t core_id);
-> -    void (*intc_create)(PnvChip *chip, PowerPCCPU *cpu, Error **errp);
-> -    void (*intc_reset)(PnvChip *chip, PowerPCCPU *cpu);
-> -    void (*intc_destroy)(PnvChip *chip, PowerPCCPU *cpu);
-> -    void (*intc_print_info)(PnvChip *chip, PowerPCCPU *cpu, Monitor *mon);
-> -    ISABus *(*isa_create)(PnvChip *chip, Error **errp);
-> -    void (*dt_populate)(PnvChip *chip, void *fdt);
-> -    void (*pic_print_info)(PnvChip *chip, Monitor *mon);
-> -    uint64_t (*xscom_core_base)(PnvChip *chip, uint32_t core_id);
-> -    uint32_t (*xscom_pcba)(PnvChip *chip, uint64_t addr);
-> -};
->   
->   #define PNV_CHIP_TYPE_SUFFIX "-" TYPE_PNV_CHIP
->   #define PNV_CHIP_TYPE_NAME(cpu_model) cpu_model PNV_CHIP_TYPE_SUFFIX
-> diff --git a/include/hw/ppc/pnv_chip.h b/include/hw/ppc/pnv_chip.h
-> new file mode 100644
-> index 0000000000..53e1d921d7
-> --- /dev/null
-> +++ b/include/hw/ppc/pnv_chip.h
-> @@ -0,0 +1,147 @@
-> +#ifndef PPC_PNV_CHIP_H
-> +#define PPC_PNV_CHIP_H
-> +
-> +#include "hw/pci-host/pnv_phb4.h"
-> +#include "hw/ppc/pnv_core.h"
-> +#include "hw/ppc/pnv_homer.h"
-> +#include "hw/ppc/pnv_lpc.h"
-> +#include "hw/ppc/pnv_occ.h"
-> +#include "hw/ppc/pnv_psi.h"
-> +#include "hw/ppc/pnv_sbe.h"
-> +#include "hw/ppc/pnv_xive.h"
-> +#include "hw/sysbus.h"
-> +
-> +OBJECT_DECLARE_TYPE(PnvChip, PnvChipClass,
-> +                    PNV_CHIP)
-> +
-> +struct PnvChip {
-> +    /*< private >*/
-> +    SysBusDevice parent_obj;
-> +
-> +    /*< public >*/
-> +    uint32_t     chip_id;
-> +    uint64_t     ram_start;
-> +    uint64_t     ram_size;
-> +
-> +    uint32_t     nr_cores;
-> +    uint32_t     nr_threads;
-> +    uint64_t     cores_mask;
-> +    PnvCore      **cores;
-> +
-> +    uint32_t     num_pecs;
-> +
-> +    MemoryRegion xscom_mmio;
-> +    MemoryRegion xscom;
-> +    AddressSpace xscom_as;
-> +
-> +    MemoryRegion *fw_mr;
-> +    gchar        *dt_isa_nodename;
-> +};
-> +
-> +#define TYPE_PNV8_CHIP "pnv8-chip"
-> +DECLARE_INSTANCE_CHECKER(Pnv8Chip, PNV8_CHIP,
-> +                         TYPE_PNV8_CHIP)
-> +
-> +struct Pnv8Chip {
-> +    /*< private >*/
-> +    PnvChip      parent_obj;
-> +
-> +    /*< public >*/
-> +    MemoryRegion icp_mmio;
-> +
-> +    PnvLpcController lpc;
-> +    Pnv8Psi      psi;
-> +    PnvOCC       occ;
-> +    PnvHomer     homer;
-> +
-> +#define PNV8_CHIP_PHB3_MAX 4
-> +    /*
-> +     * The array is used to allow quick access to the phbs by
-> +     * pnv_ics_get_child() and pnv_ics_resend_child().
-> +     */
-> +    PnvPHB       *phbs[PNV8_CHIP_PHB3_MAX];
-> +    uint32_t     num_phbs;
-> +
-> +    XICSFabric    *xics;
-> +};
-> +
-> +#define TYPE_PNV9_CHIP "pnv9-chip"
-> +DECLARE_INSTANCE_CHECKER(Pnv9Chip, PNV9_CHIP,
-> +                         TYPE_PNV9_CHIP)
-> +
-> +struct Pnv9Chip {
-> +    /*< private >*/
-> +    PnvChip      parent_obj;
-> +
-> +    /*< public >*/
-> +    PnvXive      xive;
-> +    Pnv9Psi      psi;
-> +    PnvLpcController lpc;
-> +    PnvOCC       occ;
-> +    PnvSBE       sbe;
-> +    PnvHomer     homer;
-> +
-> +    uint32_t     nr_quads;
-> +    PnvQuad      *quads;
-> +
-> +#define PNV9_CHIP_MAX_PEC 3
-> +    PnvPhb4PecState pecs[PNV9_CHIP_MAX_PEC];
-> +};
-> +
-> +/*
-> + * A SMT8 fused core is a pair of SMT4 cores.
-> + */
-> +#define PNV9_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
-> +#define PNV9_PIR2CHIP(pir)      (((pir) >> 8) & 0x7f)
-> +
-> +#define TYPE_PNV10_CHIP "pnv10-chip"
-> +DECLARE_INSTANCE_CHECKER(Pnv10Chip, PNV10_CHIP,
-> +                         TYPE_PNV10_CHIP)
-> +
-> +struct Pnv10Chip {
-> +    /*< private >*/
-> +    PnvChip      parent_obj;
-> +
-> +    /*< public >*/
-> +    PnvXive2     xive;
-> +    Pnv9Psi      psi;
-> +    PnvLpcController lpc;
-> +    PnvOCC       occ;
-> +    PnvSBE       sbe;
-> +    PnvHomer     homer;
-> +
-> +    uint32_t     nr_quads;
-> +    PnvQuad      *quads;
-> +
-> +#define PNV10_CHIP_MAX_PEC 2
-> +    PnvPhb4PecState pecs[PNV10_CHIP_MAX_PEC];
-> +};
-> +
-> +#define PNV10_PIR2FUSEDCORE(pir) (((pir) >> 3) & 0xf)
-> +#define PNV10_PIR2CHIP(pir)      (((pir) >> 8) & 0x7f)
-> +
-> +struct PnvChipClass {
-> +    /*< private >*/
-> +    SysBusDeviceClass parent_class;
-> +
-> +    /*< public >*/
-> +    uint64_t     chip_cfam_id;
-> +    uint64_t     cores_mask;
-> +    uint32_t     num_pecs;
-> +    uint32_t     num_phbs;
-> +
-> +    DeviceRealize parent_realize;
-> +
-> +    uint32_t (*core_pir)(PnvChip *chip, uint32_t core_id);
-> +    void (*intc_create)(PnvChip *chip, PowerPCCPU *cpu, Error **errp);
-> +    void (*intc_reset)(PnvChip *chip, PowerPCCPU *cpu);
-> +    void (*intc_destroy)(PnvChip *chip, PowerPCCPU *cpu);
-> +    void (*intc_print_info)(PnvChip *chip, PowerPCCPU *cpu, Monitor *mon);
-> +    ISABus *(*isa_create)(PnvChip *chip, Error **errp);
-> +    void (*dt_populate)(PnvChip *chip, void *fdt);
-> +    void (*pic_print_info)(PnvChip *chip, Monitor *mon);
-> +    uint64_t (*xscom_core_base)(PnvChip *chip, uint32_t core_id);
-> +    uint32_t (*xscom_pcba)(PnvChip *chip, uint64_t addr);
-> +};
-> +
-> +#endif
+> > 
+> > Or should we forget this mode ever existed and just barrel forward
+> > with HDM decoders and writing the kernel code to hook up the underlying
+> > devices in drivers/cxl?  
+> 
+> Which mode are you referring?
+> 
+> The next steps for the kernel enabling relevant to this thread are:
+> 
+> * ram region discovery (platform firmware or kexec established)
+> * ram region creation
+> * pmem region discovery (from labels)
+
 
