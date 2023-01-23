@@ -2,89 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03AD7677FC9
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 16:31:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B60B67803F
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 16:45:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJylV-0002fz-Bu; Mon, 23 Jan 2023 10:29:45 -0500
+	id 1pJyz4-0005sf-PC; Mon, 23 Jan 2023 10:43:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJylS-0002fX-VX
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:29:42 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJylR-0002Ou-7V
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:29:42 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id r9so11169892wrw.4
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 07:29:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Ag7ITHTYVgJVxAJpVhIXSpT7l89y1QU2TY+2UBhcQLg=;
- b=N/hfbLkwtIiOnnUCwe+6G0R0yH1OISVvccHsBfNnM9+68oB3frKpUvCyE+/GbmFbKI
- 3mclV9s6eEUxxgvbKrrx3vCnsw2q3IX20e4hWfoHOo/zPyhDonsM1dFPNt0/8pUNDsZ+
- 66nab0+RBgTUGeSRNXW8EEIYROXbY6yRfBgO7YPHRithOCVIMNhvmAVxfygm00BPMliP
- xYKgS4I+vJ2gesohg928DrIer2QRUPkASRMugw/tnLJ6vv5GBkOkQb8dTRkaMeedFGUf
- 8vpNLRhNTZMqb1WHyGxoBH+Pp3pmh+UNGmZItMgE8L9bC/V3UBVZS9BUlWfO4rFJqpTs
- 1Arw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Ag7ITHTYVgJVxAJpVhIXSpT7l89y1QU2TY+2UBhcQLg=;
- b=mpxKFmPgpcyirhRpQ93G4QK3E4ADcortrkwEOjIMsK78brum2scdByW5QYeJdRDFAZ
- yQ81WQK8INmniw1f3HHGLePzkYxsV8PXdwuDas7gxBPTmSO5yLxGOcs42Jjvt9vcqpAr
- s3k/RNj3jXxxWpoSrCWdFHcZyk8coynnwwtKVaFVyIEVgPlMLGb4GIxeWk6NxAjXV22H
- LbczaPQo+okJlsLLERuUivJ/i9aUVHIQ/2yRK/ue/09/YjaKwbHgfb2g6E2ZWUI1MCQP
- FHKjKnJNVyqIKiqDhAYfr9p1a6+81mMP7Cb560EQdJHU++EwDjYTYWWOeN/WKp5xlmPB
- stzA==
-X-Gm-Message-State: AFqh2kp1CqAe9f4SizvpJN45cqJrlY19rtar4pMQqYmmcwGPVIg9ILAm
- sz3kCzmVYVVLVgbtjX9otExhcQ==
-X-Google-Smtp-Source: AMrXdXu/0iu5bjJowzEZ4SCeKLJW3JFz/tPzrJX44rLswL/IRKsiW6tKvM1395eMYe2aH0KuiMSz2Q==
-X-Received: by 2002:adf:f852:0:b0:29f:4e42:33c3 with SMTP id
- d18-20020adff852000000b0029f4e4233c3mr21866250wrq.56.1674487779750; 
- Mon, 23 Jan 2023 07:29:39 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- b9-20020adff909000000b002be5401ef5fsm8310826wrr.39.2023.01.23.07.29.38
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 07:29:39 -0800 (PST)
-Message-ID: <3f577967-377f-aa6d-1c69-542988a26a26@linaro.org>
-Date: Mon, 23 Jan 2023 16:29:37 +0100
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1pJyz2-0005sT-N8
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:43:44 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1pJyz0-0004pd-Gt
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:43:44 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 66FC4581E78;
+ Mon, 23 Jan 2023 10:43:40 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute1.internal (MEProxy); Mon, 23 Jan 2023 10:43:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+ h=cc:cc:content-type:date:date:from:from:in-reply-to
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1674488620; x=1674495820; bh=1O
+ gaq/NHK6eStvgMVKzL5cpxUJ9xgelhgV+DlJrnlBI=; b=fKImP3+1/fxku1d/ow
+ ory+wUM94kY5ZjH+IidzNwjHGgh4tQz9NDcEVEQ8jJ0LJNf9T1sWK1K7W3Ufmddl
+ 8pbd/oC0nFKp/kSQ+28GVPbYdE3kax2no/JdW398dfts0vUh1PvtoX7D7WThDmgJ
+ nva/M0wP7Y6Y5lTwgNrKyiWnhqVQiKizo5NQh6G+JZpIe0m6UXTeN0Xw3H2148jY
+ GdUWPISNpws+ECtk14v2/7E9S+DEh3yDFhdIHwwl01jyGltPRTPXSl4FYvebcbs9
+ npTOeqLgCdTKdPpxn3Jf2B0W3OGVBfjN1CksIAc/fooLeqSk2vQmgEkk4me20U9i
+ LwcQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1674488620; x=1674495820; bh=1Ogaq/NHK6eStvgMVKzL5cpxUJ9x
+ gelhgV+DlJrnlBI=; b=YFqMDiZM0UCTr5f94G5BdSn/gZq2B48tLXky4/Gqz5gd
+ XNZVQJpmVbzVOO3qBPJSouscWKlh4gWM5EPwvvzJuR+x00kd9aX7WXKZ1EYea1Kt
+ XEEJGjzA/cwKJrDXRfNjv6XLENLyIySEiSumyug000sNJnvAzVnikfU74NfUeha6
+ kJ1MFq7EOYLKWU15vr6hEa7LsP82NibglhHpu0tA+bME3rlQ+Yw5QbbSJFzylPnu
+ kLZN/PsgbEFAk15Id0g+QcFA3F+b+bAf/Tfk1Q5Cj4MBaea9LIdIhXQcgjDFbRFc
+ rx0UAv8//8phodaD9ks47vs+TNdfmu/Jx4AT8z0Hjw==
+X-ME-Sender: <xms:KavOYw5R5y5eRkSsKJ__eGxvv7_0g6i0SOTDk1pXq4B9u80_1Lpj4A>
+ <xme:KavOYx4zLvAHW7aj56lqlGuDHPZcK7Lml5fo1nSY2EkxdXvF6sdjIUsdaoQNrr558
+ 4rCAUTbtEiboy_pCaU>
+X-ME-Received: <xmr:KavOY_cPoeAUIiMrrerhAhqFTWBofweoACxa3F-z2euZ44JfG9jfxtzGo0zm5FggtS36iQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddukedgieekucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggujgesthdtredttddtvdenucfhrhhomhepfdfmihhr
+ ihhllhcutedrucfuhhhuthgvmhhovhdfuceokhhirhhilhhlsehshhhuthgvmhhovhdrnh
+ grmhgvqeenucggtffrrghtthgvrhhnpeekvddvjeffheetgedtvdfgieejiedvgeejieet
+ jeehieehveffueekfeehffdvveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmh
+ epmhgrihhlfhhrohhmpehkihhrihhllhesshhhuhhtvghmohhvrdhnrghmvg
+X-ME-Proxy: <xmx:KqvOY1Iig4eQ5H0bEgma-RItAZIGVWvr2YcZ8wPjsMZvHRFxxEGqvg>
+ <xmx:KqvOY0INh3-2WBZ88DroB9KpbMdrB01vZER2qWazgNyXDVIWiYATYg>
+ <xmx:KqvOY2yNKJjwz1k0E2f4v_sAKzGdLEGlhYyFyGSIR_mMhBpUz8aOmg>
+ <xmx:LKvOY0urh1QWRKQChREFoUwSS_HF59v9xwQ9YYT4B6xeK0yUf_X_GQ>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 23 Jan 2023 10:43:37 -0500 (EST)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id F337010352A; Mon, 23 Jan 2023 18:43:34 +0300 (+03)
+Date: Mon, 23 Jan 2023 18:43:34 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Sean Christopherson <seanjc@google.com>
+Cc: Chao Peng <chao.p.peng@linux.intel.com>,	"Huang,
+ Kai" <kai.huang@intel.com>,	"tglx@linutronix.de" <tglx@linutronix.de>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "jmattson@google.com" <jmattson@google.com>,	"Lutomirski,
+ Andy" <luto@kernel.org>,	"ak@linux.intel.com" <ak@linux.intel.com>,
+ "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+ "Hocko, Michal" <mhocko@suse.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "tabba@google.com" <tabba@google.com>,
+ "david@redhat.com" <david@redhat.com>,
+ "michael.roth@amd.com" <michael.roth@amd.com>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "bfields@fieldses.org" <bfields@fieldses.org>,
+ "dhildenb@redhat.com" <dhildenb@redhat.com>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+ "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+ "rppt@kernel.org" <rppt@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
+ "vkuznets@redhat.com" <vkuznets@redhat.com>,
+ "vbabka@suse.cz" <vbabka@suse.cz>,
+ "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
+ "ddutile@redhat.com" <ddutile@redhat.com>,
+ "qperret@google.com" <qperret@google.com>, "arnd@arndb.de" <arnd@arndb.de>,
+ "pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "vannapurve@google.com" <vannapurve@google.com>,
+ "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+ "wanpengli@tencent.com" <wanpengli@tencent.com>,
+ "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
+ "hughd@google.com" <hughd@google.com>,
+ "aarcange@redhat.com" <aarcange@redhat.com>,
+ "mingo@redhat.com" <mingo@redhat.com>,	"hpa@zytor.com" <hpa@zytor.com>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>,
+ "jlayton@kernel.org" <jlayton@kernel.org>,
+ "joro@8bytes.org" <joro@8bytes.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,	"Wang,
+ Wei W" <wei.w.wang@intel.com>,
+ "steven.price@arm.com" <steven.price@arm.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,	"Hansen,
+ Dave" <dave.hansen@intel.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linmiaohe@huawei.com" <linmiaohe@huawei.com>
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20230123154334.mmbdpniy76zsec5m@box>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+ <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
+ <20221219075313.GB1691829@chaop.bj.intel.com>
+ <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
+ <20221220072228.GA1724933@chaop.bj.intel.com>
+ <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
+ <20221221133905.GA1766136@chaop.bj.intel.com>
+ <Y6SevJt6XXOsmIBD@google.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [RFC PATCH v5 7/9] target/avocado: Pass parameters to migration
- test on aarch64
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org,
- Juan Quintela <quintela@redhat.com>,
- "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>
-References: <20230120184825.31626-1-farosas@suse.de>
- <20230120184825.31626-8-farosas@suse.de>
- <65cf6b01-a6d6-53ca-9ead-ebf50148cce7@linaro.org> <874jshco5h.fsf@suse.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <874jshco5h.fsf@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y6SevJt6XXOsmIBD@google.com>
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=kirill@shutemov.name;
+ helo=new2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,65 +153,246 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/1/23 15:37, Fabiano Rosas wrote:
-> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
+On Thu, Dec 22, 2022 at 06:15:24PM +0000, Sean Christopherson wrote:
+> On Wed, Dec 21, 2022, Chao Peng wrote:
+> > On Tue, Dec 20, 2022 at 08:33:05AM +0000, Huang, Kai wrote:
+> > > On Tue, 2022-12-20 at 15:22 +0800, Chao Peng wrote:
+> > > > On Mon, Dec 19, 2022 at 08:48:10AM +0000, Huang, Kai wrote:
+> > > > > On Mon, 2022-12-19 at 15:53 +0800, Chao Peng wrote:
+> > > But for non-restricted-mem case, it is correct for KVM to decrease page's
+> > > refcount after setting up mapping in the secondary mmu, otherwise the page will
+> > > be pinned by KVM for normal VM (since KVM uses GUP to get the page).
+> > 
+> > That's true. Actually even true for restrictedmem case, most likely we
+> > will still need the kvm_release_pfn_clean() for KVM generic code. On one
+> > side, other restrictedmem users like pKVM may not require page pinning
+> > at all. On the other side, see below.
+> > 
+> > > 
+> > > So what we are expecting is: for KVM if the page comes from restricted mem, then
+> > > KVM cannot decrease the refcount, otherwise for normal page via GUP KVM should.
 > 
->> On 20/1/23 19:48, Fabiano Rosas wrote:
->>> The migration tests are currently broken for an aarch64 host because
->>> the tests pass no 'machine' and 'cpu' options on the QEMU command
->>> line. Most other architectures define a default value in QEMU for
->>> these options, but arm does not.
->>
->> There was some discussions around that in the past:
->> https://lore.kernel.org/qemu-devel/20190621153806.13489-1-wainersm@redhat.com/
->> https://lore.kernel.org/qemu-devel/CAFEAcA9NBu+L4wHfkLTv93wy90wjnV05EZ12PT6PmLjdZ5h_YA@mail.gmail.com/
-> 
-> There's more than one topic being discussed, specially in this last
-> thread, but here's my two cents.
-> 
-> About defaults: It's probably best to be explicit in tests. And if we
-> wanted, have a separate test to make sure the lack of an option still
-> does what it's expected, either outputting a message or behaving the
-> same as the explicit version.
-> 
-> About host architecture-specific tests: Unless we're talking about KVM,
-> I see no point. Having to change hosts to test agnostic features makes
-> no sense (the migration test is one example).
-> 
-> About generic tests: If a feature is required to behave the same for all
-> architectures/machines/cpus then sure. But most low level stuff would be
-> quite dependent on specifics.
-> 
->>> Add these options to the test class in case the test is being executed
->>> in an aarch64 host.
->>
->> I'm not sure what we are aiming to test here.
->>
->> Migration in general? If so, any random machine should work.
->> By hardcoding the 'virt' machine, at least this test is reproducible.
-> 
-> Yeah, I cannot say for sure there isn't some machine property that gets
-> transferred during migration. It seemed more conservative to define a
-> specific one.
+> No, requiring the user (KVM) to guard against lack of support for page migration
+> in restricted mem is a terrible API.  It's totally fine for restricted mem to not
+> support page migration until there's a use case, but punting the problem to KVM
+> is not acceptable.  Restricted mem itself doesn't yet support page migration,
+> e.g. explosions would occur even if KVM wanted to allow migration since there is
+> no notification to invalidate existing mappings.
 
-Why did you choose 'virt' and not 'xlnx-versal-virt' or 'sbsa-ref'?
+I tried to find a way to hook into migration path from restrictedmem. It
+is not easy because from code-mm PoV the restrictedmem page just yet
+another shmem page.
 
-What does this test require? Any machine running KVM?
+It is somewhat dubious, but I think it should be safe to override
+mapping->a_ops for the shmem mapping.
 
-Adding Juan and David for migration since I'm still confused trying
-to understand what we are trying to test here...
+It also eliminates need in special treatment for the restrictedmem pages
+from memory-failure code.
 
->> I'd rather fix that generically as "if a test requires a default
->> machine and the target doesn't provide any default, then SKIP the
->> test". Then adding machine-specific tests. Can be done on top, so
-> 
-> I agree, but the only tests that should *require* a default are the ones
-> that test the command line parsing or adjacent features. We could always
-> test "-machine foo" and then separately test that the lack of a machine
-> option still gives the Foo machine.
-> 
-> The fact that we sometimes use defaults to be able to have the same-ish
-> command line for every case is more of a limitation of our testing
-> infrastructure in my opinion.
+shmem_mapping() uses ->a_ops to detect shmem mapping. Modify the
+implementation to still be true for restrictedmem pages.
 
+Build tested only.
+
+Any comments?
+
+diff --git a/include/linux/restrictedmem.h b/include/linux/restrictedmem.h
+index 6fddb08f03cc..73ded3c3bad1 100644
+--- a/include/linux/restrictedmem.h
++++ b/include/linux/restrictedmem.h
+@@ -36,8 +36,6 @@ static inline bool file_is_restrictedmem(struct file *file)
+ 	return file->f_inode->i_sb->s_magic == RESTRICTEDMEM_MAGIC;
+ }
+ 
+-void restrictedmem_error_page(struct page *page, struct address_space *mapping);
+-
+ #else
+ 
+ static inline bool file_is_restrictedmem(struct file *file)
+@@ -45,11 +43,6 @@ static inline bool file_is_restrictedmem(struct file *file)
+ 	return false;
+ }
+ 
+-static inline void restrictedmem_error_page(struct page *page,
+-					    struct address_space *mapping)
+-{
+-}
+-
+ #endif /* CONFIG_RESTRICTEDMEM */
+ 
+ #endif /* _LINUX_RESTRICTEDMEM_H */
+diff --git a/include/linux/shmem_fs.h b/include/linux/shmem_fs.h
+index d500ea967dc7..a4af160f37e4 100644
+--- a/include/linux/shmem_fs.h
++++ b/include/linux/shmem_fs.h
+@@ -9,6 +9,7 @@
+ #include <linux/percpu_counter.h>
+ #include <linux/xattr.h>
+ #include <linux/fs_parser.h>
++#include <linux/magic.h>
+ 
+ /* inode in-kernel data */
+ 
+@@ -75,10 +76,9 @@ extern unsigned long shmem_get_unmapped_area(struct file *, unsigned long addr,
+ 		unsigned long len, unsigned long pgoff, unsigned long flags);
+ extern int shmem_lock(struct file *file, int lock, struct ucounts *ucounts);
+ #ifdef CONFIG_SHMEM
+-extern const struct address_space_operations shmem_aops;
+ static inline bool shmem_mapping(struct address_space *mapping)
+ {
+-	return mapping->a_ops == &shmem_aops;
++	return mapping->host->i_sb->s_magic == TMPFS_MAGIC;
+ }
+ #else
+ static inline bool shmem_mapping(struct address_space *mapping)
+diff --git a/mm/memory-failure.c b/mm/memory-failure.c
+index f91b444e471e..145bb561ddb3 100644
+--- a/mm/memory-failure.c
++++ b/mm/memory-failure.c
+@@ -62,7 +62,6 @@
+ #include <linux/page-isolation.h>
+ #include <linux/pagewalk.h>
+ #include <linux/shmem_fs.h>
+-#include <linux/restrictedmem.h>
+ #include "swap.h"
+ #include "internal.h"
+ #include "ras/ras_event.h"
+@@ -941,8 +940,6 @@ static int me_pagecache_clean(struct page_state *ps, struct page *p)
+ 		goto out;
+ 	}
+ 
+-	restrictedmem_error_page(p, mapping);
+-
+ 	/*
+ 	 * The shmem page is kept in page cache instead of truncating
+ 	 * so is expected to have an extra refcount after error-handling.
+diff --git a/mm/restrictedmem.c b/mm/restrictedmem.c
+index 15c52301eeb9..d0ca609b82cb 100644
+--- a/mm/restrictedmem.c
++++ b/mm/restrictedmem.c
+@@ -189,6 +189,51 @@ static struct file *restrictedmem_file_create(struct file *memfd)
+ 	return file;
+ }
+ 
++static int restricted_error_remove_page(struct address_space *mapping,
++					struct page *page)
++{
++	struct super_block *sb = restrictedmem_mnt->mnt_sb;
++	struct inode *inode, *next;
++	pgoff_t start, end;
++
++	start = page->index;
++	end = start + thp_nr_pages(page);
++
++	spin_lock(&sb->s_inode_list_lock);
++	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
++		struct restrictedmem *rm = inode->i_mapping->private_data;
++		struct restrictedmem_notifier *notifier;
++		struct file *memfd = rm->memfd;
++		unsigned long index;
++
++		if (memfd->f_mapping != mapping)
++			continue;
++
++		xa_for_each_range(&rm->bindings, index, notifier, start, end)
++			notifier->ops->error(notifier, start, end);
++		break;
++	}
++	spin_unlock(&sb->s_inode_list_lock);
++
++	return 0;
++}
++
++#ifdef CONFIG_MIGRATION
++static int restricted_folio(struct address_space *mapping, struct folio *dst,
++			    struct folio *src, enum migrate_mode mode)
++{
++	return -EBUSY;
++}
++#endif
++
++static struct address_space_operations restricted_aops = {
++	.dirty_folio	= noop_dirty_folio,
++	.error_remove_page = restricted_error_remove_page,
++#ifdef CONFIG_MIGRATION
++	.migrate_folio	= restricted_folio,
++#endif
++};
++
+ SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+ {
+ 	struct file *file, *restricted_file;
+@@ -209,6 +254,8 @@ SYSCALL_DEFINE1(memfd_restricted, unsigned int, flags)
+ 	file->f_mode |= FMODE_LSEEK | FMODE_PREAD | FMODE_PWRITE;
+ 	file->f_flags |= O_LARGEFILE;
+ 
++	file->f_mapping->a_ops = &restricted_aops;
++
+ 	restricted_file = restrictedmem_file_create(file);
+ 	if (IS_ERR(restricted_file)) {
+ 		err = PTR_ERR(restricted_file);
+@@ -293,31 +340,3 @@ int restrictedmem_get_page(struct file *file, pgoff_t offset,
+ }
+ EXPORT_SYMBOL_GPL(restrictedmem_get_page);
+ 
+-void restrictedmem_error_page(struct page *page, struct address_space *mapping)
+-{
+-	struct super_block *sb = restrictedmem_mnt->mnt_sb;
+-	struct inode *inode, *next;
+-	pgoff_t start, end;
+-
+-	if (!shmem_mapping(mapping))
+-		return;
+-
+-	start = page->index;
+-	end = start + thp_nr_pages(page);
+-
+-	spin_lock(&sb->s_inode_list_lock);
+-	list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list) {
+-		struct restrictedmem *rm = inode->i_mapping->private_data;
+-		struct restrictedmem_notifier *notifier;
+-		struct file *memfd = rm->memfd;
+-		unsigned long index;
+-
+-		if (memfd->f_mapping != mapping)
+-			continue;
+-
+-		xa_for_each_range(&rm->bindings, index, notifier, start, end)
+-			notifier->ops->error(notifier, start, end);
+-		break;
+-	}
+-	spin_unlock(&sb->s_inode_list_lock);
+-}
+diff --git a/mm/shmem.c b/mm/shmem.c
+index c1d8b8a1aa3b..3df4d95784b9 100644
+--- a/mm/shmem.c
++++ b/mm/shmem.c
+@@ -231,7 +231,7 @@ static inline void shmem_inode_unacct_blocks(struct inode *inode, long pages)
+ }
+ 
+ static const struct super_operations shmem_ops;
+-const struct address_space_operations shmem_aops;
++static const struct address_space_operations shmem_aops;
+ static const struct file_operations shmem_file_operations;
+ static const struct inode_operations shmem_inode_operations;
+ static const struct inode_operations shmem_dir_inode_operations;
+@@ -3894,7 +3894,7 @@ static int shmem_error_remove_page(struct address_space *mapping,
+ 	return 0;
+ }
+ 
+-const struct address_space_operations shmem_aops = {
++static const struct address_space_operations shmem_aops = {
+ 	.writepage	= shmem_writepage,
+ 	.dirty_folio	= noop_dirty_folio,
+ #ifdef CONFIG_TMPFS
+@@ -3906,7 +3906,6 @@ const struct address_space_operations shmem_aops = {
+ #endif
+ 	.error_remove_page = shmem_error_remove_page,
+ };
+-EXPORT_SYMBOL(shmem_aops);
+ 
+ static const struct file_operations shmem_file_operations = {
+ 	.mmap		= shmem_mmap,
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
 
