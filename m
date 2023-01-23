@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68F8E677AED
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 13:29:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04A34677B24
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 13:38:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJvvn-00034A-QZ; Mon, 23 Jan 2023 07:28:11 -0500
+	id 1pJw55-0004Xz-Sc; Mon, 23 Jan 2023 07:37:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1pJvvl-000329-IY
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:28:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1)
+ (envelope-from <SRS0=8ZYY=5U=zx2c4.com=Jason@kernel.org>)
+ id 1pJw53-0004XX-Fy
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:37:45 -0500
+Received: from ams.source.kernel.org ([145.40.68.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1pJvvj-0006gV-QS
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:28:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674476887;
+ (Exim 4.90_1)
+ (envelope-from <SRS0=8ZYY=5U=zx2c4.com=Jason@kernel.org>)
+ id 1pJw51-0008HU-AC
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:37:45 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 71260B80CB1
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 12:37:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5EC5C4339C
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 12:37:37 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="F4Y8Xr0o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1674477453;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=SpfZrDSUPw9DKK82uZkBmYQNa9aSvZ1G1JiM85/PhnQ=;
- b=Ug/uPrVh+KuwD37OTd330AM5U/xsFWXyA7VYYB9ARIIWiGzf0kP9lvNgymqUo0wxscWwSd
- 4sxVwBY9A1Y/IKg26lI/1q44QEh9n6wNOm31JypzEj224BcsgwRJf6F4/Fp4xaEu4WOZzW
- 5rhiWNWUoRyMqKAV1tZyANK9SBnyp54=
-Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
- [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-265-P_CCLVSLORiJBF7RQ3XQeg-1; Mon, 23 Jan 2023 07:28:05 -0500
-X-MC-Unique: P_CCLVSLORiJBF7RQ3XQeg-1
-Received: by mail-vs1-f72.google.com with SMTP id
- 68-20020a670347000000b003bf750cb86eso2792214vsd.8
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 04:28:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=SpfZrDSUPw9DKK82uZkBmYQNa9aSvZ1G1JiM85/PhnQ=;
- b=mV+shfv0m3KOGDo3dqTHILc/eIxAaf/qqD0KFdcwS8h5BS6N2qdP8JJwhHNS2yoR6z
- UAoXjrqFG2zbg2SMjTpk4EkHY2EGrMZTs8a/FZQYtTivxRDlq6sxtdrOJz6Iul/mgrPb
- yDAodB7kBvfvMr3U39XZAnWktvNbEIQZiQ0tTMuFGcFZoGjhnIMzSONNfIOSLKx4bfL2
- j44/suWLqesWwAmmGnHV08hghLDxDZ0Ts46H2BJQoCRB20rAP04A40huUchP9FYMQVSt
- XUtYouq17/VOY9fdkZDENBbt8fV/YxGOYFvp11uX0qCYIpW2In3DnW9cuY5eaYGTtEYe
- Aeqw==
-X-Gm-Message-State: AFqh2kqomU+7puweY6o1vqLFgVg4PIDWp4TEE6dzDrQpbv6+WRYe069e
- 8uSAMHVnu4+yT+L0LCxJfk6T5ll9cmPgx/07jCHwf9SAmpnM2Zv975bRd+LfT1pfnNts/7DsG7r
- lBEvdW+2HadJH0AE0LCIy0TM7tTmouyI=
-X-Received: by 2002:a67:ff81:0:b0:3d3:f129:2031 with SMTP id
- v1-20020a67ff81000000b003d3f1292031mr3008352vsq.74.1674476884952; 
- Mon, 23 Jan 2023 04:28:04 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvrLRu9qSd/fBZiV0wHNnE+IIodmOwvkrY0Ph0uFVzGLTcRhkjrAApzzCZAIkf/7NWh0wALfQZjppfYmp/l4cE=
-X-Received: by 2002:a67:ff81:0:b0:3d3:f129:2031 with SMTP id
- v1-20020a67ff81000000b003d3f1292031mr3008351vsq.74.1674476884734; Mon, 23 Jan
- 2023 04:28:04 -0800 (PST)
+ bh=L3miQvQC0cZlIZi6tyTVnWDly9nWp+4Dd9TAq9R8CDw=;
+ b=F4Y8Xr0ojToFRfRSnQpsVyFFLkDQV3FV+olu+UOpTxgk295GxxvOIOmxqBfg7+Mvve9ZYj
+ AmRXljNpxMvf34Wsp3JJgnpwBIAkVYsmwk/Gus28fjrz3lNvvtu0cf0K8GtBvQYtJLU6f/
+ V05Lg/HXdwmya/lwoF6dqtIydpPuHN0=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 34c6d90d
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Mon, 23 Jan 2023 12:37:33 +0000 (UTC)
+Received: by mail-yw1-f182.google.com with SMTP id
+ 00721157ae682-4fd37a1551cso144613097b3.13
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 04:37:33 -0800 (PST)
+X-Gm-Message-State: AFqh2krKkmIqmGV9HV27Pv5glhVsv3iaQTKY7209Gu+b2bdhUHfXpIqu
+ xCuFV4dhIrnUw63Qy5Mq4GX6P7JBOqHmTNPTywI=
+X-Google-Smtp-Source: AMrXdXtR9UhOqU7K6MuJdZEkZJsgFbTCVEcgedPwnSE79WpNZOkqUxwN43hiS7wpa/l2KTcBMK0Qg3uVXGSy8CRIS2I=
+X-Received: by 2002:a0d:dd4f:0:b0:501:4be5:7457 with SMTP id
+ g76-20020a0ddd4f000000b005014be57457mr1239128ywe.79.1674477452485; Mon, 23
+ Jan 2023 04:37:32 -0800 (PST)
 MIME-Version: 1.0
-References: <20230122153307.1050593-1-kfir@daynix.com>
-In-Reply-To: <20230122153307.1050593-1-kfir@daynix.com>
-From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Mon, 23 Jan 2023 14:27:53 +0200
-Message-ID: <CAPMcbCqNRA+7_00BhQZSjiAEvoWRK6dbprwUdkuc3P-qZaj-GQ@mail.gmail.com>
-Subject: Re: [PATCH] qga/linux: add usb support to guest-get-fsinfo
-To: Kfir Manor <kfir@daynix.com>
-Cc: qemu-devel@nongnu.org, Yan Vugenfirer <yan@daynix.com>
-Content-Type: multipart/alternative; boundary="000000000000e64c2105f2ed87f7"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <Y69fUstLKNv/RLd7@zx2c4.com>
+ <20221230220725.618763-1-Jason@zx2c4.com>
+ <Y72FmQlNwBsp8Ntc@zx2c4.com> <20230110125005-mutt-send-email-mst@kernel.org>
+ <Y84LSgtrq1Rq3ItD@sol.localdomain>
+ <20230123071128-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20230123071128-mutt-send-email-mst@kernel.org>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Mon, 23 Jan 2023 06:37:21 -0600
+X-Gmail-Original-Message-ID: <CAHmME9qXnA=0tBwXe=S=X_LzdBa0irDbWNSNnTdUHSQYJkfPpQ@mail.gmail.com>
+Message-ID: <CAHmME9qXnA=0tBwXe=S=X_LzdBa0irDbWNSNnTdUHSQYJkfPpQ@mail.gmail.com>
+Subject: Re: [PATCH qemu v3] x86: don't let decompressed kernel image clobber
+ setup_data
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Eric Biggers <ebiggers@kernel.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
+ pbonzini@redhat.com, 
+ Mathias Krause <minipli@grsecurity.net>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=145.40.68.75;
+ envelope-from=SRS0=8ZYY=5U=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -67
+X-Spam_score: -6.8
+X-Spam_bar: ------
+X-Spam_report: (-6.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,116 +96,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000e64c2105f2ed87f7
-Content-Type: text/plain; charset="UTF-8"
-
-Hi Kfir,
-
-You missed adding the Signed-off-by line to the patch.
-Please resend.
-
-Best Regards,
-Konstantin Kostiuk.
-
-
-On Sun, Jan 22, 2023 at 5:33 PM Kfir Manor <kfir@daynix.com> wrote:
-
-> ---
->  qga/commands-posix.c | 6 +++++-
->  1 file changed, 5 insertions(+), 1 deletion(-)
+On Mon, Jan 23, 2023 at 6:12 AM Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index ebd33a643c..aab9d3bd50 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -880,7 +880,9 @@ static bool build_guest_fsinfo_for_pci_dev(char const
-> *syspath,
->                         g_str_equal(driver, "sym53c8xx") ||
->                         g_str_equal(driver, "virtio-pci") ||
->                         g_str_equal(driver, "ahci") ||
-> -                       g_str_equal(driver, "nvme"))) {
-> +                       g_str_equal(driver, "nvme") ||
-> +                       g_str_equal(driver, "xhci_hcd") ||
-> +                       g_str_equal(driver, "ehci-pci"))) {
->              break;
->          }
+> On Sun, Jan 22, 2023 at 08:21:30PM -0800, Eric Biggers wrote:
+> > Hi Michael,
+> >
+> > On Tue, Jan 10, 2023 at 12:50:42PM -0500, Michael S. Tsirkin wrote:
+> > > On Tue, Jan 10, 2023 at 04:34:49PM +0100, Jason A. Donenfeld wrote:
+> > > > Hi Michael,
+> > > >
+> > > > Could you queue up this patch and mark it as a fix for 7.2.1? It is a
+> > > > straight-up bug fix for a 7.2 regression that's now affected several
+> > > > users.
+> > >
+> > > OK. In the future pls cc me if you want me to merge a patch. Thanks!
+> > >
+> > > > - It has two Tested-by tags on the thread.
+> > > > - hpa, the maintainer of the kernel side of this, confirmed on one of
+> > > >   the various tributary threads that this approach is a correct one.
+> > > > - It doesn't introduce any new functionality.
+> > > >
+> > > > For your convenience, you can grab this out of lore here:
+> > > >
+> > > >   https://lore.kernel.org/lkml/20221230220725.618763-1-Jason@zx2c4.com/
+> > > >
+> > > > Or if you want to yolo it:
+> > > >
+> > > >   curl https://lore.kernel.org/lkml/20221230220725.618763-1-Jason@zx2c4.com/raw | git am -s
+> > > >
+> > > > It's now sat silent on the mailing list for a while. So let's please get
+> > > > this committed and backported so that the bug reports stop coming in.
+> > > >
+> >
+> > This patch still isn't on QEMU's master branch.  What happened to it?
+> >
+> > - Eric
 >
-> @@ -977,6 +979,8 @@ static bool build_guest_fsinfo_for_pci_dev(char const
-> *syspath,
->          }
->      } else if (strcmp(driver, "nvme") == 0) {
->          disk->bus_type = GUEST_DISK_BUS_TYPE_NVME;
-> +    } else if (strcmp(driver, "ehci-pci") == 0 || strcmp(driver,
-> "xhci_hcd") == 0) {
-> +        disk->bus_type = GUEST_DISK_BUS_TYPE_USB;
->      } else {
->          g_debug("unknown driver '%s' (sysfs path '%s')", driver, syspath);
->          goto cleanup;
-> --
-> 2.38.1
->
->
+> Indeed though I remember picking it up. Tagged again now. Thanks!
 
---000000000000e64c2105f2ed87f7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>Hi Kfir,</div><div><br></div><div>You missed adding t=
-he Signed-off-by line to the patch. <br></div><div>Please resend.<br></div>=
-<div><br></div><div><div><div dir=3D"ltr" class=3D"gmail_signature" data-sm=
-artmail=3D"gmail_signature"><div dir=3D"ltr"><div>Best Regards,</div><div>K=
-onstantin Kostiuk.</div></div></div></div><br></div></div><br><div class=3D=
-"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jan 22, 2023 at=
- 5:33 PM Kfir Manor &lt;<a href=3D"mailto:kfir@daynix.com">kfir@daynix.com<=
-/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
-px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">-=
---<br>
-=C2=A0qga/commands-posix.c | 6 +++++-<br>
-=C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
-<br>
-diff --git a/qga/commands-posix.c b/qga/commands-posix.c<br>
-index ebd33a643c..aab9d3bd50 100644<br>
---- a/qga/commands-posix.c<br>
-+++ b/qga/commands-posix.c<br>
-@@ -880,7 +880,9 @@ static bool build_guest_fsinfo_for_pci_dev(char const *=
-syspath,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 g_str_equal(driver, &quot;sym53c8xx&quot;) ||<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 g_str_equal(driver, &quot;virtio-pci&quot;) ||<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 g_str_equal(driver, &quot;ahci&quot;) ||<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0g_str_equal(driver, &quot;nvme&quot;))) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0g_str_equal(driver, &quot;nvme&quot;) ||<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0g_str_equal(driver, &quot;xhci_hcd&quot;) ||<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0g_str_equal(driver, &quot;ehci-pci&quot;))) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-@@ -977,6 +979,8 @@ static bool build_guest_fsinfo_for_pci_dev(char const *=
-syspath,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0} else if (strcmp(driver, &quot;nvme&quot;) =3D=3D 0) {=
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0disk-&gt;bus_type =3D GUEST_DISK_BUS_TYPE=
-_NVME;<br>
-+=C2=A0 =C2=A0 } else if (strcmp(driver, &quot;ehci-pci&quot;) =3D=3D 0 || =
-strcmp(driver, &quot;xhci_hcd&quot;) =3D=3D 0) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 disk-&gt;bus_type =3D GUEST_DISK_BUS_TYPE_USB;=
-<br>
-=C2=A0 =C2=A0 =C2=A0} else {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_debug(&quot;unknown driver &#39;%s&#39;=
- (sysfs path &#39;%s&#39;)&quot;, driver, syspath);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0goto cleanup;<br>
--- <br>
-2.38.1<br>
-<br>
-</blockquote></div>
-
---000000000000e64c2105f2ed87f7--
-
+Thanks. What branch is this in? I didn't see it on:
+https://gitlab.com/mstredhat/qemu/-/branches/active
+https://github.com/mstsirkin/qemu/branches
 
