@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E11A677BF5
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 13:55:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A775677C21
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:08:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJwM5-0000c7-Fv; Mon, 23 Jan 2023 07:55:21 -0500
+	id 1pJwXw-0004Nu-FD; Mon, 23 Jan 2023 08:07:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwM2-0000Tb-DF
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:55:18 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1pJwXo-0004Ge-Kf
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:07:32 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwM0-0002YT-TZ
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:55:18 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id z13so11272500plg.6
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 04:55:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=LsymGaurdbvzt3AMVJ70iIgIZo8AfIsH09TZhMekPQw=;
- b=hEO01prMoNcItP0JlIb9UXa+j+tao72cQhNdDVFhe9eC5kq2Vct6ebLgeWjP8C9FRx
- Z3oYc8OF6KqQrshhfBtVDJ+XnmgpKyaaMk6C0AFPFuPRV/OBtrKYDuEMbW3xCEOw8mie
- HTO/FGopZ3rzOxZ6S5KAop9iENj8xebTB8Ox5q8D2UflydqzadL9i5Lq8ipfYmIWMV3g
- D7v3ASp/NnhzWtI73XA5N+GM62PDV6gD4Bqs0l+0v97cfKQNSNgriDwJkmY9710VEL1J
- aMj+DFEvhM+VugTyfLDYJt18/SbH1td+w70iY15lzDjxUvBYdLp2iKa7bBcqDLrIMq3M
- r45w==
+ (Exim 4.90_1) (envelope-from <kfir@daynix.com>) id 1pJwXm-0005D8-MK
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:07:28 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id bk16so10729275wrb.11
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:07:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=rJ+NTy4gErUqe3J/rKHXwISGJuTXa4/wfP/P8jVuQk8=;
+ b=23o1U9TrdsONqoy1z0aUKJwUbQLy2TvkwoZzO1rS52VgYzpz64q8I1XdvMxnxxLkhb
+ Wf+laaNck9AMock4j4d6Kr1Ih095OMOSuw7OfCXw8ERa4g7J93D0j9/vXuUjtPCqu4cP
+ Wv4ZAqb094b4WiJyaGRtpeEHjQv7KCuGFBqOITlQEHz8Q+eRaXEOWuPUfvcr/qIbbBP7
+ j4IpnFcDFGWtWKDH0Rw2sDHjTPv2siHLXp80AIbELA+oH6fAFFNmWELxNfQ8yQK66l4r
+ mEYpbk4I50fTrnZnoAgiVQxgNsgHjVU21JhGzshsGDAb+5SacP19Byw5P2ujtupGQpv3
+ uI+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=LsymGaurdbvzt3AMVJ70iIgIZo8AfIsH09TZhMekPQw=;
- b=b4W1EMWWiowuFANSjKHfE7GHS57Nxl65vjgmLZa4N1tVKXliAatFNdHpw74+/iEuz4
- Ygqf8FwQJ8vxun9VfJKBXTAJKl0kNfv7tG9VJQydELJo9rreyzYbwH5p2hsN9ldeFnky
- mnymIMKV+0j7iaWobFCa1HaE7oYEoBkM3CvJNuk+3UBg9w5PO/cw4k0m71aGGib/Erh9
- 7r92mzONJNXUQaLsIkCwHKv1ky/3sDZG0DHLYWOl/RUY3OOjf8zC0ue1MqKtZXmaBEJx
- 1TkJoMhiyzYcIm2j1J+4H1w06/9ptZ0F+lVxOmG6DtkwesQ+rUMjyTe7DoLesd6HwA0G
- 4ILg==
-X-Gm-Message-State: AFqh2kqcy+KRpZp+wVnNyLjYFYGkJEuygsIg3HCaiFjEQOtrzaPgT03C
- RWqcrjR87rn8mhKzcunrwAo0HO1dp1n30afTWqMWxg==
-X-Google-Smtp-Source: AMrXdXu78vhIEzIw836D7d4JWVE2YecpP6Wt98THuIC47GU1Y540dATeF3yRfBaWhQUDlnyQgM2EmV+6BdZyyCouH6Q=
-X-Received: by 2002:a17:902:f7d6:b0:189:7bfe:1eb5 with SMTP id
- h22-20020a170902f7d600b001897bfe1eb5mr2539057plw.9.1674478515382; Mon, 23 Jan
- 2023 04:55:15 -0800 (PST)
+ bh=rJ+NTy4gErUqe3J/rKHXwISGJuTXa4/wfP/P8jVuQk8=;
+ b=NdewRFGQwyWRdWdb9A6meSrtuTPsbduKh8QpHcQYQg6qCD5zzQ6E8JINvZ5ZKk8mtv
+ hvq03AifTOZnBR9Fer8nV4yGtk8meS51mYBJMReEp8sraSsekzYNbyeJc5GMX2/s2n3s
+ Onzqw8hcuVVYx0fch6MUQClOX8hSmRjSZXiDplKi8M0zrGPQC4+lA2OGlnHNKehPrZv8
+ P+LPI6ZN3oFy4EKwOYGf+mcWD9YmGZ8AnxnMf8ANytGk0NDHwkaCEEcooMtFrophI4xM
+ n9GMRf7SZkTnpPL9rGQ+IeTQHPnATOyPtb2o1Ek3dHWoCVquDY3o07j4hmfX6E0A0mM8
+ +fJg==
+X-Gm-Message-State: AFqh2kpRL0C7YFmN3P6Hp2Si36EIbjVjpvTqzgPVurw+Lb0kZp11Fktm
+ miX/OejyPPEpWyg7+ywMQybAH57QieyNmqKY
+X-Google-Smtp-Source: AMrXdXvK2rNbmKZ1o8R/mOS76J/jQI/X2XyvCP5nl2ybqS83bf/Ix4Irdn7c9Cy5CYxIiCUTGODEzQ==
+X-Received: by 2002:a5d:4608:0:b0:2bd:ce83:5fd8 with SMTP id
+ t8-20020a5d4608000000b002bdce835fd8mr28955705wrq.33.1674479244584; 
+ Mon, 23 Jan 2023 05:07:24 -0800 (PST)
+Received: from bark.. (bzq-84-110-34-91.static-ip.bezeqint.net. [84.110.34.91])
+ by smtp.gmail.com with ESMTPSA id
+ e1-20020a5d65c1000000b002be15ee1377sm16370356wrw.22.2023.01.23.05.07.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Jan 2023 05:07:22 -0800 (PST)
+From: Kfir Manor <kfir@daynix.com>
+To: qemu-devel@nongnu.org, Konstantin Kostiuk <kkostiuk@redhat.com>,
+ Michael Roth <michael.roth@amd.com>
+Cc: Yan Vugenfirer <yan@daynix.com>
+Subject: [PATCH] qga/linux: add usb support to guest-get-fsinfo
+Date: Mon, 23 Jan 2023 15:07:18 +0200
+Message-Id: <20230123130718.1053000-1-kfir@daynix.com>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-References: <20230106194451.1213153-1-richard.henderson@linaro.org>
-In-Reply-To: <20230106194451.1213153-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 Jan 2023 12:55:04 +0000
-Message-ID: <CAFEAcA9p3AftyMk26RZgcpoTMT8xFoOVVj8kHT1dM6O9oaa4yw@mail.gmail.com>
-Subject: Re: [PATCH 0/2] target/arm: Look up ARMCPRegInfo at runtime
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2a00:1450:4864:20::42b;
+ envelope-from=kfir@daynix.com; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,27 +85,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 6 Jan 2023 at 19:45, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Here's a short-to-medium term alternative to moving all of the ARMCPU
-> cp_regs hash table to the ARMCPUClass, so that we're no longer leaving
-> dangling pointers to freed objects encoded in the compiled
-> TranslationBlocks.  (I still think we ought to do less work at
-> object_{init,realize}, but that may be a much longer term project.)
->
-> Instead of giving the helper a direct pointer, pass the cpreg hash key,
-> which will be constant across cpus.  Perform this lookup in the existing
-> helper_access_check_cp_reg (which had a return value going spare), or a
-> new helper_lookup_cp_reg.  The other cp_regs functions are unchanged,
-> because they still get a pointer.
->
-> This ought to be enough to re-instate Alex's linux-user patch
-> to free the cpu object after thread termination.
+Signed-off-by: Kfir Manor <kfir@daynix.com>
+---
+ qga/commands-posix.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
+diff --git a/qga/commands-posix.c b/qga/commands-posix.c
+index ebd33a643c..aab9d3bd50 100644
+--- a/qga/commands-posix.c
++++ b/qga/commands-posix.c
+@@ -880,7 +880,9 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
+                        g_str_equal(driver, "sym53c8xx") ||
+                        g_str_equal(driver, "virtio-pci") ||
+                        g_str_equal(driver, "ahci") ||
+-                       g_str_equal(driver, "nvme"))) {
++                       g_str_equal(driver, "nvme") ||
++                       g_str_equal(driver, "xhci_hcd") ||
++                       g_str_equal(driver, "ehci-pci"))) {
+             break;
+         }
+ 
+@@ -977,6 +979,8 @@ static bool build_guest_fsinfo_for_pci_dev(char const *syspath,
+         }
+     } else if (strcmp(driver, "nvme") == 0) {
+         disk->bus_type = GUEST_DISK_BUS_TYPE_NVME;
++    } else if (strcmp(driver, "ehci-pci") == 0 || strcmp(driver, "xhci_hcd") == 0) {
++        disk->bus_type = GUEST_DISK_BUS_TYPE_USB;
+     } else {
+         g_debug("unknown driver '%s' (sysfs path '%s')", driver, syspath);
+         goto cleanup;
+-- 
+2.38.1
 
-
-Applied to target-arm.next, thanks.
-
--- PMM
 
