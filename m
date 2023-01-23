@@ -2,73 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EF53678DB8
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 02:50:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A7B678ADC
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 23:41:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK8S5-00067d-9n; Mon, 23 Jan 2023 20:50:21 -0500
+	id 1pK5U0-00063r-E6; Mon, 23 Jan 2023 17:40:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mr.bossman075@gmail.com>)
- id 1pK55S-0001he-Ck
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 17:14:46 -0500
-Received: from mail-qt1-x82b.google.com ([2607:f8b0:4864:20::82b])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pK5Tx-00062H-0V; Mon, 23 Jan 2023 17:40:05 -0500
+Received: from mail-vk1-xa2b.google.com ([2607:f8b0:4864:20::a2b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <mr.bossman075@gmail.com>)
- id 1pK55P-0000it-O3
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 17:14:46 -0500
-Received: by mail-qt1-x82b.google.com with SMTP id g16so9543900qtu.2
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 14:14:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pK5Tu-0004p2-GK; Mon, 23 Jan 2023 17:40:04 -0500
+Received: by mail-vk1-xa2b.google.com with SMTP id i82so6753060vki.8;
+ Mon, 23 Jan 2023 14:40:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:subject:from:reply-to:cc:to
- :content-language:user-agent:mime-version:date:message-id:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ea4CQWauu0D4jmEu5atMkYUmuu8BPCmG7UTcpSGdauI=;
- b=EJK0HJ4M0GPu0Lyjis2d+EyKY0wpF04ukXWk5kPB3+7ZVDHvi+TXI4lkV/K+ej3n9F
- 1Y0v3qgc19o+HRxcoOFkzPx+rOAiyhtYqcsnhQBKnqiptrliyG8gQ7eylNgIrZTAAwt1
- 5SvsXv0p+t/VbRB0THPR5wZXzaiHGr+rc1Z0Q9XQEqmMw7UgW0Z1FYYil4aVBIlnVQTm
- 12JFvUESG18Vhk+RqMbgQzdmODuAEou2M6FP7QRwUFCLaM61X0NCLbypPBnVZ4kbAy8+
- kQybAariUHPFnB/kQC0rZUznuDmk8zdtJSPrHFzgPICpdBRd6uPUUxPxbgq8QGiIQrjQ
- noRQ==
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=R6qDaSB1eZAp6e7Eb1wnVLWxQEGT7OzrisF9ZhbUIdo=;
+ b=Tjzze3o+3HUwFv+2hrI7HyO1d79LkWUeB72AeZ/bBVJoh1fiqiGs8kVgYE2L//kkXF
+ QYsYhemaFlZGj+nCazl9z/rQSg55to2pPh2idmRGJ+sem4LYFWh+H2KwCeJ74rVZH7bS
+ PYfOI4Hiv3b/V0VU64vL9ae85HdCZaPr6L8jwUC9vGpzR3JnAz8hZ/OJy5+eZogCyvF9
+ yNHyrAdIxhqlgaBaqWQpO7u3pC6YxWrfl7rx3IBeERWDCtbuf2N4hn/J56Y19uWNrWWb
+ Y5aNyS1L5Hx6M9BzdNlqTsUc2CESjERhVWHISU15GaEl61xk6ZsNUf2EJ/cIONM1mMQy
+ x6cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:subject:from:reply-to:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ea4CQWauu0D4jmEu5atMkYUmuu8BPCmG7UTcpSGdauI=;
- b=Ee3lqa4t1CgAXmRZHNv8ecBnbLeg2Po1Fvk23oDjP8mHSWmIGtqgVKbT0IFKcXTmSy
- UaiVYK47mwVGGn7NP7VmlepRbqOFqH0EqD1JPqfhJ9XuCxvj3NESRFKbGN1qdFbslyvo
- Vs+nQ4C0MagI73qPpVnq8HK1iKtXmy8D4SqBjlEhNkajfDPx/Oj2+obg7r7GnIHd3KzT
- tB4Wh0vvpM5Y8dXf0+yVf25uQMaosjf3rqm5Cw32DBp3B5ROroklmie0wIGY/hhHs5LW
- /opWRKdweOSy8qrQaS9k6Ghus248etw8JN00hayM9MZsV/s9PlOZvxPeIexidPqOEJq7
- KZZg==
-X-Gm-Message-State: AFqh2kqLP7kJo5gInFfICJQpTAPYUfEF5E8OAY03q06teEsioaYH6/2o
- rBrcCgxRqjsA4fBV1iF3oVI=
-X-Google-Smtp-Source: AMrXdXsG4Irhdd7SIGxl2AS82OEfxJa90yTsONNfEnOksO6nSXhj9ecJbsk1c60fn8BJLgAKmCG3OQ==
-X-Received: by 2002:a05:622a:6005:b0:3ab:d187:9e7 with SMTP id
- he5-20020a05622a600500b003abd18709e7mr38043336qtb.44.1674512082256; 
- Mon, 23 Jan 2023 14:14:42 -0800 (PST)
-Received: from [10.4.10.38] (pool-108-26-182-112.bstnma.fios.verizon.net.
- [108.26.182.112]) by smtp.gmail.com with ESMTPSA id
- g18-20020ac87752000000b003b7ea583c7csm74745qtu.58.2023.01.23.14.14.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 14:14:41 -0800 (PST)
-Message-ID: <56b3f55d-9178-984b-6ef4-af7309b008d4@gmail.com>
-Date: Mon, 23 Jan 2023 17:14:40 -0500
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=R6qDaSB1eZAp6e7Eb1wnVLWxQEGT7OzrisF9ZhbUIdo=;
+ b=ZAl12DFNsxxiW0fQgnL5edJtzuxMKVnIEAU734Pxh1w1a0S+ttywDJ3debi4gFWsLN
+ 3IrEKVkIB9OUWKAN9cY7Pk8Zxs1L+mtQuZ+KvWJpkUpZvbqgMc4gaAx3vLT4+sQudcmJ
+ S9jjFnXNDHk7RL/qMOC5dkwjhRHshPmhlyOUTotKU5HMxkoIIBQCKj/UhcyC9qKqZR6a
+ KC7Im0ffJ9DMZyaF7A/IbFJk1/0X94lhbM3m93aVXOnXOYR2W0+osa4J2pQNWo8JJ/3R
+ ttYmoFmKAQkxFqUeJeiMYAEKH2lMGr0S4/74ZM9jPcElp6p+sHAs3VsL6ahaP/n5T/eQ
+ d0kQ==
+X-Gm-Message-State: AFqh2kqG78j2G45yOvWN+wNeIJhbfiJAgke4YMyY3f2HgsjmmYav3yR9
+ PRHOTwS1/K53cbkyIDDc4z4REpNlEGK03vAkzYc=
+X-Google-Smtp-Source: AMrXdXtva2IT59FPFTe1UiSjnsp1P4KDi+yzH/6SI7RUQwN3f3ta3/UVVQljpHk8kgSvxm3qEz2of/a7rGl7j55Y6hU=
+X-Received: by 2002:a05:6122:924:b0:3d5:5f93:53f with SMTP id
+ j36-20020a056122092400b003d55f93053fmr3391315vka.7.1674513599622; Mon, 23 Jan
+ 2023 14:39:59 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US
-To: Alistair Francis <alistair.francis@wdc.com>
-Cc: qemu-devel@nongnu.org, Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-From: Jesse Taube <mr.bossman075@gmail.com>
-Subject: Re: [PATCH] hw/riscv: boot: Don't use CSRs if they are disabled
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::82b;
- envelope-from=mr.bossman075@gmail.com; helo=mail-qt1-x82b.google.com
+References: <20230123063619.222459-1-wilfred.mallawa@opensource.wdc.com>
+In-Reply-To: <20230123063619.222459-1-wilfred.mallawa@opensource.wdc.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Tue, 24 Jan 2023 08:39:33 +1000
+Message-ID: <CAKmqyKN1cQHctN6LGobM9XZR6iHO7D=7m9P=mtNr8AUGmS61RQ@mail.gmail.com>
+Subject: Re: [PATCH v2] include/hw/riscv/opentitan: update opentitan IRQs
+To: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
+Cc: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com, 
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
+ Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2b;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa2b.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -78,7 +69,6 @@ X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 23 Jan 2023 20:50:19 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -90,57 +80,180 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: 20230123035754.75553-1-alistair.francis@opensource.wdc.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
- > From: Alistair Francis <alistair.francis@wdc.com>
- >
- > If the CSRs and CSR instructions are disabled because the Zicsr
- > extension isn't enabled then we want to make sure we don't run any CSR
- > instructions in the boot ROM.
- >
- > This patches removes the CSR instructions from the reset-vec if the
- > extension isn't enabled. We replace the instruction with a NOP instead.
- >
- > Note that we don't do this for the SiFive U machine, as we are modelling
- > the hardware in that case.
- >
- > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1447
- > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
- > ---
- >  hw/riscv/boot.c | 9 +++++++++
- >  1 file changed, 9 insertions(+)
- >
- > diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
- > index 2594276223..cb27798a25 100644
- > --- a/hw/riscv/boot.c
- > +++ b/hw/riscv/boot.c
- > @@ -356,6 +356,15 @@ void riscv_setup_rom_reset_vec(MachineState 
-*machine,
- > RISCVHartArrayState *harts
- >          reset_vec[4] = 0x0182b283;   /*     ld     t0, 24(t0) */
- >      }
- >
- > +    if (!harts->harts[0].cfg.ext_icsr) {
- > +        /*
- > +         * The Zicsr extension has been disabled, so let's ensure we 
-don't
- > +         * run the CSR instruction. Let's fill the address with a non
- > +         * compressed nop.
- > +         */
- > +        reset_vec[2] = 0x00000013;   /*     addi   x0, x0, 0 */
-		reset_vec[2] = 0x00000513; /*     li   a0, 0 */
-Shouldn't it be li as a0 should contain the cpu number. The regs are
-initialized with 0 so its not necessary but nice to be explicit.
+On Mon, Jan 23, 2023 at 4:40 PM Wilfred Mallawa
+<wilfred.mallawa@opensource.wdc.com> wrote:
+>
+> From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+>
+> Updates the opentitan IRQs to match the latest supported commit of
+> Opentitan from TockOS.
+>
+> OPENTITAN_SUPPORTED_SHA := 565e4af39760a123c59a184aa2f5812a961fde47
+>
+> Memory layout as per [1]
+>
+> [1] https://github.com/lowRISC/opentitan/blob/565e4af39760a123c59a184aa2f5812a961fde47/hw/top_earlgrey/sw/autogen/top_earlgrey_memory.h
+>
+> Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-Thanks,
-Jesse T
- > +    }
- > +
- >      /* copy in the reset vector in little_endian byte order */
- >      for (i = 0; i < ARRAY_SIZE(reset_vec); i++) {
- >          reset_vec[i] = cpu_to_le32(reset_vec[i]);
- > --
- > 2.39.0
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
+> ---
+> Changes in v2:
+>         - Updated the MMIO register layout/size
+>         - Bumped the supported commit sha
+>         - Added link to OT register layout for reference in the commit
+>           msg
+>
+>  hw/riscv/opentitan.c         | 80 ++++++++++++++++++------------------
+>  include/hw/riscv/opentitan.h | 14 +++----
+>  2 files changed, 47 insertions(+), 47 deletions(-)
+>
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index 64d5d435b9..353f030d80 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -31,47 +31,47 @@
+>  /*
+>   * This version of the OpenTitan machine currently supports
+>   * OpenTitan RTL version:
+> - * <lowRISC/opentitan@d072ac505f82152678d6e04be95c72b728a347b8>
+> + * <lowRISC/opentitan@565e4af39760a123c59a184aa2f5812a961fde47>
+>   *
+>   * MMIO mapping as per (specified commit):
+>   * lowRISC/opentitan: hw/top_earlgrey/sw/autogen/top_earlgrey_memory.h
+>   */
+>  static const MemMapEntry ibex_memmap[] = {
+> -    [IBEX_DEV_ROM] =            {  0x00008000,  0x8000 },
+> -    [IBEX_DEV_RAM] =            {  0x10000000,  0x20000 },
+> -    [IBEX_DEV_FLASH] =          {  0x20000000,  0x100000 },
+> -    [IBEX_DEV_UART] =           {  0x40000000,  0x1000  },
+> -    [IBEX_DEV_GPIO] =           {  0x40040000,  0x1000  },
+> -    [IBEX_DEV_SPI_DEVICE] =     {  0x40050000,  0x1000  },
+> -    [IBEX_DEV_I2C] =            {  0x40080000,  0x1000  },
+> -    [IBEX_DEV_PATTGEN] =        {  0x400e0000,  0x1000  },
+> -    [IBEX_DEV_TIMER] =          {  0x40100000,  0x1000  },
+> -    [IBEX_DEV_OTP_CTRL] =       {  0x40130000,  0x4000  },
+> -    [IBEX_DEV_LC_CTRL] =        {  0x40140000,  0x1000  },
+> -    [IBEX_DEV_ALERT_HANDLER] =  {  0x40150000,  0x1000  },
+> -    [IBEX_DEV_SPI_HOST0] =      {  0x40300000,  0x1000  },
+> -    [IBEX_DEV_SPI_HOST1] =      {  0x40310000,  0x1000  },
+> -    [IBEX_DEV_USBDEV] =         {  0x40320000,  0x1000  },
+> -    [IBEX_DEV_PWRMGR] =         {  0x40400000,  0x1000  },
+> -    [IBEX_DEV_RSTMGR] =         {  0x40410000,  0x1000  },
+> -    [IBEX_DEV_CLKMGR] =         {  0x40420000,  0x1000  },
+> -    [IBEX_DEV_PINMUX] =         {  0x40460000,  0x1000  },
+> -    [IBEX_DEV_AON_TIMER] =      {  0x40470000,  0x1000  },
+> -    [IBEX_DEV_SENSOR_CTRL] =    {  0x40490000,  0x1000  },
+> -    [IBEX_DEV_FLASH_CTRL] =     {  0x41000000,  0x1000  },
+> -    [IBEX_DEV_AES] =            {  0x41100000,  0x1000  },
+> -    [IBEX_DEV_HMAC] =           {  0x41110000,  0x1000  },
+> -    [IBEX_DEV_KMAC] =           {  0x41120000,  0x1000  },
+> -    [IBEX_DEV_OTBN] =           {  0x41130000,  0x10000 },
+> -    [IBEX_DEV_KEYMGR] =         {  0x41140000,  0x1000  },
+> -    [IBEX_DEV_CSRNG] =          {  0x41150000,  0x1000  },
+> -    [IBEX_DEV_ENTROPY] =        {  0x41160000,  0x1000  },
+> -    [IBEX_DEV_EDNO] =           {  0x41170000,  0x1000  },
+> -    [IBEX_DEV_EDN1] =           {  0x41180000,  0x1000  },
+> -    [IBEX_DEV_NMI_GEN] =        {  0x411c0000,  0x1000  },
+> -    [IBEX_DEV_PERI] =           {  0x411f0000,  0x10000 },
+> -    [IBEX_DEV_PLIC] =           {  0x48000000,  0x4005000 },
+> -    [IBEX_DEV_FLASH_VIRTUAL] =  {  0x80000000,  0x80000 },
+> +    [IBEX_DEV_ROM] =            {  0x00008000,  0x8000      },
+> +    [IBEX_DEV_RAM] =            {  0x10000000,  0x20000     },
+> +    [IBEX_DEV_FLASH] =          {  0x20000000,  0x100000    },
+> +    [IBEX_DEV_UART] =           {  0x40000000,  0x40        },
+> +    [IBEX_DEV_GPIO] =           {  0x40040000,  0x40        },
+> +    [IBEX_DEV_SPI_DEVICE] =     {  0x40050000,  0x2000      },
+> +    [IBEX_DEV_I2C] =            {  0x40080000,  0x80        },
+> +    [IBEX_DEV_PATTGEN] =        {  0x400e0000,  0x40        },
+> +    [IBEX_DEV_TIMER] =          {  0x40100000,  0x200       },
+> +    [IBEX_DEV_OTP_CTRL] =       {  0x40130000,  0x2000      },
+> +    [IBEX_DEV_LC_CTRL] =        {  0x40140000,  0x100       },
+> +    [IBEX_DEV_ALERT_HANDLER] =  {  0x40150000,  0x800       },
+> +    [IBEX_DEV_SPI_HOST0] =      {  0x40300000,  0x40        },
+> +    [IBEX_DEV_SPI_HOST1] =      {  0x40310000,  0x40        },
+> +    [IBEX_DEV_USBDEV] =         {  0x40320000,  0x1000      },
+> +    [IBEX_DEV_PWRMGR] =         {  0x40400000,  0x80        },
+> +    [IBEX_DEV_RSTMGR] =         {  0x40410000,  0x80        },
+> +    [IBEX_DEV_CLKMGR] =         {  0x40420000,  0x80        },
+> +    [IBEX_DEV_PINMUX] =         {  0x40460000,  0x1000      },
+> +    [IBEX_DEV_AON_TIMER] =      {  0x40470000,  0x40        },
+> +    [IBEX_DEV_SENSOR_CTRL] =    {  0x40490000,  0x40        },
+> +    [IBEX_DEV_FLASH_CTRL] =     {  0x41000000,  0x200       },
+> +    [IBEX_DEV_AES] =            {  0x41100000,  0x100       },
+> +    [IBEX_DEV_HMAC] =           {  0x41110000,  0x1000      },
+> +    [IBEX_DEV_KMAC] =           {  0x41120000,  0x1000      },
+> +    [IBEX_DEV_OTBN] =           {  0x41130000,  0x10000     },
+> +    [IBEX_DEV_KEYMGR] =         {  0x41140000,  0x100       },
+> +    [IBEX_DEV_CSRNG] =          {  0x41150000,  0x80        },
+> +    [IBEX_DEV_ENTROPY] =        {  0x41160000,  0x100       },
+> +    [IBEX_DEV_EDNO] =           {  0x41170000,  0x80        },
+> +    [IBEX_DEV_EDN1] =           {  0x41180000,  0x80        },
+> +    [IBEX_DEV_SRAM_CTRL] =      {  0x411c0000,  0x20        },
+> +    [IBEX_DEV_IBEX_CFG] =       {  0x411f0000,  0x100       },
+> +    [IBEX_DEV_PLIC] =           {  0x48000000,  0x8000000   },
+> +    [IBEX_DEV_FLASH_VIRTUAL] =  {  0x80000000,  0x80000     },
+>  };
+>
+>  static void opentitan_board_init(MachineState *machine)
+> @@ -294,12 +294,12 @@ static void lowrisc_ibex_soc_realize(DeviceState *dev_soc, Error **errp)
+>          memmap[IBEX_DEV_EDN1].base, memmap[IBEX_DEV_EDN1].size);
+>      create_unimplemented_device("riscv.lowrisc.ibex.alert_handler",
+>          memmap[IBEX_DEV_ALERT_HANDLER].base, memmap[IBEX_DEV_ALERT_HANDLER].size);
+> -    create_unimplemented_device("riscv.lowrisc.ibex.nmi_gen",
+> -        memmap[IBEX_DEV_NMI_GEN].base, memmap[IBEX_DEV_NMI_GEN].size);
+> +    create_unimplemented_device("riscv.lowrisc.ibex.sram_ctrl",
+> +        memmap[IBEX_DEV_SRAM_CTRL].base, memmap[IBEX_DEV_SRAM_CTRL].size);
+>      create_unimplemented_device("riscv.lowrisc.ibex.otbn",
+>          memmap[IBEX_DEV_OTBN].base, memmap[IBEX_DEV_OTBN].size);
+> -    create_unimplemented_device("riscv.lowrisc.ibex.peri",
+> -        memmap[IBEX_DEV_PERI].base, memmap[IBEX_DEV_PERI].size);
+> +    create_unimplemented_device("riscv.lowrisc.ibex.ibex_cfg",
+> +        memmap[IBEX_DEV_IBEX_CFG].base, memmap[IBEX_DEV_IBEX_CFG].size);
+>  }
+>
+>  static Property lowrisc_ibex_soc_props[] = {
+> diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+> index 7659d1bc5b..c40b05052a 100644
+> --- a/include/hw/riscv/opentitan.h
+> +++ b/include/hw/riscv/opentitan.h
+> @@ -94,9 +94,9 @@ enum {
+>      IBEX_DEV_EDNO,
+>      IBEX_DEV_EDN1,
+>      IBEX_DEV_ALERT_HANDLER,
+> -    IBEX_DEV_NMI_GEN,
+> +    IBEX_DEV_SRAM_CTRL,
+>      IBEX_DEV_OTBN,
+> -    IBEX_DEV_PERI,
+> +    IBEX_DEV_IBEX_CFG,
+>  };
+>
+>  enum {
+> @@ -108,11 +108,11 @@ enum {
+>      IBEX_UART0_RX_BREAK_ERR_IRQ   = 6,
+>      IBEX_UART0_RX_TIMEOUT_IRQ     = 7,
+>      IBEX_UART0_RX_PARITY_ERR_IRQ  = 8,
+> -    IBEX_TIMER_TIMEREXPIRED0_0    = 127,
+> -    IBEX_SPI_HOST0_ERR_IRQ        = 134,
+> -    IBEX_SPI_HOST0_SPI_EVENT_IRQ  = 135,
+> -    IBEX_SPI_HOST1_ERR_IRQ        = 136,
+> -    IBEX_SPI_HOST1_SPI_EVENT_IRQ  = 137,
+> +    IBEX_TIMER_TIMEREXPIRED0_0    = 124,
+> +    IBEX_SPI_HOST0_ERR_IRQ        = 131,
+> +    IBEX_SPI_HOST0_SPI_EVENT_IRQ  = 132,
+> +    IBEX_SPI_HOST1_ERR_IRQ        = 133,
+> +    IBEX_SPI_HOST1_SPI_EVENT_IRQ  = 134,
+>  };
+>
+>  #endif
+> --
+> 2.39.1
+>
+>
 
