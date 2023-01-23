@@ -2,82 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9706777B4
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 10:49:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07818677886
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 11:08:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJtRK-0005KK-Jw; Mon, 23 Jan 2023 04:48:34 -0500
+	id 1pJtjH-0000hs-Fc; Mon, 23 Jan 2023 05:07:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pJtRI-0005Jw-CT
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:48:32 -0500
-Received: from mail-ed1-x532.google.com ([2a00:1450:4864:20::532])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pJtRF-0003KF-PX
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:48:31 -0500
-Received: by mail-ed1-x532.google.com with SMTP id 18so13844764edw.7
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 01:48:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=SBM/C96GofxGllCvWI14+I+kD6WGsHTa+H4lr4tmoDw=;
- b=UG4vLTwSCPcHB/cOw72FHVeFgRHyj1XQ3+kjqVzsNBOlFuWpDPLM205aN9KBnEf13d
- u3SM3L30Gl+Hy14BNmXeEM+DCTVHbwj9bHrslykNpWFYYeoVOtv+RrFhEgCMyNxJKiSN
- aBDUwErX1N0z/SFQMp6JQXhve/WT2c1Sd9+jbfbDcsHGYODHWpCxaq39zDsVOR5hDm7o
- tJvNMNLVTZfXYks/bHBNi4T7VWi71ezzoSAn1OWi00yP0aEqWlSpszR/OoqqFcFKq0IX
- xtIxwgD4fBneg7FMbdaQ/6JQNwKRU4sFfzXs3JjQrEH/4sHY15WGPwpJb30L8iqctMeC
- LvjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SBM/C96GofxGllCvWI14+I+kD6WGsHTa+H4lr4tmoDw=;
- b=v/BgF4GDjBh/yADtLVjbhAeC/xODUDY956iAi24SW3dBKbJOSA8nA8icjYpjo3Mufa
- dx0Adb10lqqH0vQKFLMTey5cAuk87kjOF43I/JVBmU3EIUQyQ18LbPVXQE74/6GnIyEm
- W0stGLFy0+W1rMm1gWUGO1bTLJPLdijDLPdMIbAiCsQ8+RGXQw8J8RGyhBFezxtto9M5
- H7f39CGyV7kDVXnSKFxIznPFije5FF+Ok7dyUxxu9ftzaIRFvL/+hmu2Tls97bz8Ipav
- HM/rJnPB7ebi0vZzXm8wYGj6nUXLTBHvnWJvJCdeJFrGku55uKl//GcW4hkH9ptdh9jI
- iUrQ==
-X-Gm-Message-State: AFqh2kpqVep2BcftUCy/VpfKnQkqnI7YjwUmV4Va9WwZz/2qVK+V3Bak
- 40wSqOHfT+BPXOkE6hB6apk2qw==
-X-Google-Smtp-Source: AMrXdXv1TPLvJaenhJn6oLD9uBeAbR0XmFvttWTso0dGT1n1s95PceQsuof0UDfo0LHR8E65oIZNRA==
-X-Received: by 2002:a05:6402:5110:b0:49d:32d0:126 with SMTP id
- m16-20020a056402511000b0049d32d00126mr30578288edd.20.1674467307887; 
- Mon, 23 Jan 2023 01:48:27 -0800 (PST)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
- by smtp.gmail.com with ESMTPSA id
- r8-20020a05640251c800b0049df0f91b78sm12578154edd.78.2023.01.23.01.48.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 01:48:27 -0800 (PST)
-Date: Mon, 23 Jan 2023 10:48:26 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v6 2/5] riscv: Change type of valid_vm_1_10_[32|64] to bool
-Message-ID: <20230123094826.sszyj5lq3ol3zoqy@orel>
-References: <20230123090324.732681-1-alexghiti@rivosinc.com>
- <20230123090324.732681-3-alexghiti@rivosinc.com>
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pJtjD-0000g1-Ik
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 05:07:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pJtjB-0006MH-93
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 05:07:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674468420;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=PgWgxK09nEOPg70Djcm+QF9SqsnK4MjZ4Jsojvum89c=;
+ b=aAGmU9yjVDoxx/prq8evAWPQx9IVV53BYzOH1uuoe0DDu/KeAPs2CVys7023IwCN4+wfzU
+ 0CzLbC5e1BqB+z3EKqdlIlurBDmEhHgs1E8Z/18lyBt9TdJeIHveTA6qAURkbKqy+Pug8U
+ A1U1KXCo0h01CbjOrOVWCp/PsUF0d38=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-656-yy8neSvlMtOE-Yu2KiPoFQ-1; Mon, 23 Jan 2023 05:06:56 -0500
+X-MC-Unique: yy8neSvlMtOE-Yu2KiPoFQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 49571100F90D;
+ Mon, 23 Jan 2023 10:06:56 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.186])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 0EC1040C1141;
+ Mon, 23 Jan 2023 10:06:55 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 940E9180060E; Mon, 23 Jan 2023 11:06:54 +0100 (CET)
+Date: Mon, 23 Jan 2023 11:06:54 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: qemu-devel@nongnu.org,
+ =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
+ Dongwon Kim <dongwon.kim@intel.com>
+Subject: Re: [RFC v2 2/2] spice: Add an option to forward the dmabuf directly
+ to the encoder (v2)
+Message-ID: <20230123100654.bqiauwjbkkqroq7f@sirius.home.kraxel.org>
+References: <20230123083755.1038286-1-vivek.kasireddy@intel.com>
+ <20230123083755.1038286-3-vivek.kasireddy@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230123090324.732681-3-alexghiti@rivosinc.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::532;
- envelope-from=ajones@ventanamicro.com; helo=mail-ed1-x532.google.com
+In-Reply-To: <20230123083755.1038286-3-vivek.kasireddy@intel.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,69 +81,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 23, 2023 at 10:03:21AM +0100, Alexandre Ghiti wrote:
-> This array is actually used as a boolean so swap its current char type
-> to a boolean and at the same time, change the type of validate_vm to
-> bool since it returns valid_vm_1_10_[32|64].
-> 
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+  Hi,
 
-Suggested-by: Andrew Jones <ajones@ventanamicro.com>
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> Here is the flow of things from the Qemu side:
+> - Call gl_scanout (to update the fd) and gl_draw_async just like
+>   in the local display case.
 
-> ---
->  target/riscv/csr.c | 21 +++++++++++----------
->  1 file changed, 11 insertions(+), 10 deletions(-)
-> 
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 0db2c233e5..6b157806a5 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1117,16 +1117,16 @@ static const target_ulong hip_writable_mask = MIP_VSSIP;
->  static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
->  static const target_ulong vsip_writable_mask = MIP_VSSIP;
->  
-> -static const char valid_vm_1_10_32[16] = {
-> -    [VM_1_10_MBARE] = 1,
-> -    [VM_1_10_SV32] = 1
-> +static const bool valid_vm_1_10_32[16] = {
-> +    [VM_1_10_MBARE] = true,
-> +    [VM_1_10_SV32] = true
->  };
->  
-> -static const char valid_vm_1_10_64[16] = {
-> -    [VM_1_10_MBARE] = 1,
-> -    [VM_1_10_SV39] = 1,
-> -    [VM_1_10_SV48] = 1,
-> -    [VM_1_10_SV57] = 1
-> +static const bool valid_vm_1_10_64[16] = {
-> +    [VM_1_10_MBARE] = true,
-> +    [VM_1_10_SV39] = true,
-> +    [VM_1_10_SV48] = true,
-> +    [VM_1_10_SV57] = true
->  };
->  
->  /* Machine Information Registers */
-> @@ -1209,7 +1209,7 @@ static RISCVException read_mstatus(CPURISCVState *env, int csrno,
->      return RISCV_EXCP_NONE;
->  }
->  
-> -static int validate_vm(CPURISCVState *env, target_ulong vm)
-> +static bool validate_vm(CPURISCVState *env, target_ulong vm)
->  {
->      if (riscv_cpu_mxl(env) == MXL_RV32) {
->          return valid_vm_1_10_32[vm & 0xf];
-> @@ -2648,7 +2648,8 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
->  static RISCVException write_satp(CPURISCVState *env, int csrno,
->                                   target_ulong val)
->  {
-> -    target_ulong vm, mask;
-> +    target_ulong mask;
-> +    bool vm;
->  
->      if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
->          return RISCV_EXCP_NONE;
-> -- 
-> 2.37.2
-> 
+Ok.
+
+> - Additionally, create an update with the cmd set to QXL_CMD_DRAW
+>   to trigger the creation of a new drawable (associated with the fd)
+>   by the Spice server.
+> - Wait (or block) until the Encoder is done encoding the content.
+> - Unblock the pipeline once the async completion cookie is received.
+
+Care to explain?  For qemu it should make a difference what spice-server
+does with the dma-bufs passed (local display / encode video + send to
+remote).
+
+>  #ifdef HAVE_SPICE_GL
+> +        } else if (spice_dmabuf_encode) {
+> +            if (g_strcmp0(preferred_codec, "gstreamer:h264")) {
+> +                error_report("dmabuf-encode=on currently only works and tested"
+> +                             "with gstreamer:h264");
+> +                exit(1);
+> +            }
+
+IMHO we should not hard-code todays spice-server capabilities like this.
+For starters this isn't true for spice-server versions which don't (yet)
+have your patches.  Also the capability might depend on hardware
+support.  IMHO we need some feature negotiation between qemu and spice
+here.
+
+take care,
+  Gerd
+
 
