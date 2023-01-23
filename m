@@ -2,83 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C667677713
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 10:09:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F5E3677708
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 10:06:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJsog-00045v-Ki; Mon, 23 Jan 2023 04:08:38 -0500
+	id 1pJsmO-0001rA-4M; Mon, 23 Jan 2023 04:06:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1pJsoe-00045S-3X
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:08:36 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJsmM-0001pA-4o
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:06:14 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1pJsoa-0004Fc-Hf
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:08:35 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- bg13-20020a05600c3c8d00b003d9712b29d2so10082950wmb.2
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 01:08:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Qr/ERDROO1HGG21jrwxqHkkkc01Ji3MuIEf8D5M7NcA=;
- b=eicicoKNB7AggkhUVe3JRm7VPMjSKFYl9tthqqsS+JlGaLBYigPSyYo2HUpSTtWSnB
- eBDegAkngnh3CDrZQ6bmWW1kLZyhalU3ZT02G5eL4w+SEY42wjXR6nY3gTsUoi96NBu9
- Fqq+SxMQTcZrRBDJvl0BRGkqqtRXvX/yHxcrMlbSmwHlkAQKO7AnfE1RtZA7hpl9iN42
- mkGBHg6RBxTEIfStfQv2rMumu/0MyEA77iczZmEBDUyzJVvJCgThleiHbvjeV/srZ4mS
- TRm+uhT9RqO8qjHxwxL3ayI2LwKc7A2ebqSnPfonXS4d+KjXhMVgYTwmvtl9sQazRdOA
- tcww==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJsmK-0003vU-C1
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 04:06:13 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ e19-20020a05600c439300b003db1cac0c1fso8573276wmn.5
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 01:06:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=hIjvQDBGwwQeJuOT9CrMS+HyRAjzK4pbkFrNNZr1/Lk=;
+ b=M9yDVT8DU/AeAF9GI6W7VUD2f+ZFAvqGux0Siour8QWVCSsgElP2/gGMV969yEepWQ
+ S9atQ8dgWOsstmHZWqKauALIs2fyhEg5UyeL4jBfDuhCjKbN8V16TVwTY0DmlSgxgB+3
+ YBQqv2CNfLweISllJLA1AGxxSVlWIgneAHQFq/cBGbnFs7N6w3Nofoa8wz1bHAFICPGd
+ J8BohYN25ElWRXyCzEjr7AK14Cumt7ZSHaIcxhbJRdOCvJCvre68jIxQA6hxxde92/Lb
+ oqSZsDBGBvY5uVeGnhM2AWXaHSRobd0Wr9d3pPiIAwOtbR8Zo5A0V3WAhnF5DNRUe2sh
+ BRFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Qr/ERDROO1HGG21jrwxqHkkkc01Ji3MuIEf8D5M7NcA=;
- b=7nwPuKeaLacZeqltxJkkMQVcCNZxRzdcomP/Mezy50QclPJQbz2T+MvfvfeDfo0Cjo
- 2Cw9QdO/YPleXfhbHTw4/JmZZZaKCV3RExD66a2idYZO9TrRCsaDIYUZyV2LYM/21LHG
- RIP8oKBztvVHHtS8H+uxuSKFRPsqD3MAoYB6ntcFO17F9DOG4bQdPQSd7ykQEBX3eSrZ
- JtRBjjZfM8C9LfeGXH3CAfpjBjBupz8towPEk7eGI/F7GCs9IGQgu9Gi+osujosfH2Lg
- Wj9Ki5Bhx7y95jc3oH/1SbeE6CBt852QsFwR1lJR2lrfUa7KG4pKvpC/qLaudO9iUe5+
- HCAQ==
-X-Gm-Message-State: AFqh2ko2ojjJocQBrYPHctCQh6In9jXvfkV1u4FjQZi+sB+s4qFUDlGQ
- 6jZjnVmHuBOqs3JhjvepEyrfCQ==
-X-Google-Smtp-Source: AMrXdXvfHoaZqKwh1AMxaBkZHwGb6icfdzfQPkP+MQfC88jfcEZs7V8Ex1bZS+MEN3j2gYtf7oqH2Q==
-X-Received: by 2002:a7b:c4d7:0:b0:3db:2fc6:e124 with SMTP id
- g23-20020a7bc4d7000000b003db2fc6e124mr12234012wmk.7.1674464910790; 
- Mon, 23 Jan 2023 01:08:30 -0800 (PST)
-Received: from alex-rivos.ba.rivosinc.com
- (lfbn-lyo-1-450-160.w2-7.abo.wanadoo.fr. [2.7.42.160])
- by smtp.gmail.com with ESMTPSA id
- f14-20020a05600c154e00b003daff80f16esm13908803wmg.27.2023.01.23.01.08.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 01:08:30 -0800 (PST)
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-To: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>,
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v6 5/5] riscv: Introduce satp mode hw capabilities
-Date: Mon, 23 Jan 2023 10:03:24 +0100
-Message-Id: <20230123090324.732681-6-alexghiti@rivosinc.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230123090324.732681-1-alexghiti@rivosinc.com>
-References: <20230123090324.732681-1-alexghiti@rivosinc.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=hIjvQDBGwwQeJuOT9CrMS+HyRAjzK4pbkFrNNZr1/Lk=;
+ b=NE737fxr1DVPpsBK9+3rq54V6FD6/dp4N273SuxMOo9DvPNTG+4d68hF2mErGCHMuZ
+ OIfWytwG2wmtxq1zKxu0HYN5xtb+2vFNzQEO/VXMjTliDg3uKS0O+RvRVwDhCp/ot90g
+ JOrKpdfUcANhV8MsjQbTYbpRRvbo7nkm8Ayamo8J0v1YEJh573IhzyXLhiVDn/u5T3D+
+ /BpmGMKuO96QF81R1c3vXf3e2cMTiubbeqshkAqbyND5y3bw0JeucZMRXiaAqKKha2Gf
+ OluRzTHkUiUgHCxxAoq5KeS885egVcp/70geEQQ1HTfQbZzszsz5HlfxQvrUnA3xhqAI
+ uByw==
+X-Gm-Message-State: AFqh2krragaFfmPy17jV/MbnqMxKgg/PL85o8JHJz9y+PnN1VS1tZFVd
+ LLWfziHSH7n6vUcNmue2j/lb7Q==
+X-Google-Smtp-Source: AMrXdXu+nVvXVBNsstdccS+ESlhP6SnwAyJ17uVYrFRly6CeyVLLVY4feu/ZmEBWCto95plTEQq8kg==
+X-Received: by 2002:a05:600c:4f86:b0:3db:66e:cfdd with SMTP id
+ n6-20020a05600c4f8600b003db066ecfddmr21534011wmq.9.1674464770854; 
+ Mon, 23 Jan 2023 01:06:10 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ j8-20020a05600c1c0800b003d9862ec435sm10904586wms.20.2023.01.23.01.06.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Jan 2023 01:06:10 -0800 (PST)
+Message-ID: <65cf6b01-a6d6-53ca-9ead-ebf50148cce7@linaro.org>
+Date: Mon, 23 Jan 2023 10:06:09 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [RFC PATCH v5 7/9] target/avocado: Pass parameters to migration
+ test on aarch64
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
+ Cornelia Huck <cohuck@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20230120184825.31626-1-farosas@suse.de>
+ <20230120184825.31626-8-farosas@suse.de>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230120184825.31626-8-farosas@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alexghiti@rivosinc.com; helo=mail-wm1-x336.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,265 +99,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently, the max satp mode is set with the only constraint that it must be
-implemented in qemu, i.e. set in valid_vm_1_10_[32|64].
+On 20/1/23 19:48, Fabiano Rosas wrote:
+> The migration tests are currently broken for an aarch64 host because
+> the tests pass no 'machine' and 'cpu' options on the QEMU command
+> line. Most other architectures define a default value in QEMU for
+> these options, but arm does not.
 
-But we actually need to add another level of constraint: what the hw is
-actually capable of, because currently, a linux booting on a sifive-u54
-boots in sv57 mode which is incompatible with the cpu's sv39 max
-capability.
+There was some discussions around that in the past:
+https://lore.kernel.org/qemu-devel/20190621153806.13489-1-wainersm@redhat.com/
+https://lore.kernel.org/qemu-devel/CAFEAcA9NBu+L4wHfkLTv93wy90wjnV05EZ12PT6PmLjdZ5h_YA@mail.gmail.com/
 
-So add a new bitmap to RISCVSATPMap which contains this capability and
-initialize it in every XXX_cpu_init.
+> Add these options to the test class in case the test is being executed
+> in an aarch64 host.
 
-Finally, we have the following chain of constraints:
+I'm not sure what we are aiming to test here.
 
-Qemu capability > HW capability > User choice > Software capability
+Migration in general? If so, any random machine should work.
+By hardcoding the 'virt' machine, at least this test is reproducible.
 
-Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
----
- target/riscv/cpu.c | 78 +++++++++++++++++++++++++++++++---------------
- target/riscv/cpu.h |  8 +++--
- 2 files changed, 59 insertions(+), 27 deletions(-)
+I'd rather fix that generically as "if a test requires a default
+machine and the target doesn't provide any default, then SKIP the
+test". Then adding machine-specific tests. Can be done on top, so
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index e409e6ab64..19a37fee2b 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -292,24 +292,39 @@ const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit)
-     g_assert_not_reached();
- }
- 
--/* Sets the satp mode to the max supported */
--static void set_satp_mode_default(RISCVCPU *cpu, bool is_32_bit)
-+static void set_satp_mode_max_supported(RISCVCPU *cpu,
-+                                        const char *satp_mode_str,
-+                                        bool is_32_bit)
- {
--    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
--        cpu->cfg.satp_mode.map |=
--                        (1 << satp_mode_from_str(is_32_bit ? "sv32" : "sv57"));
--    } else {
--        cpu->cfg.satp_mode.map |= (1 << satp_mode_from_str("mbare"));
-+    uint8_t satp_mode = satp_mode_from_str(satp_mode_str);
-+    const bool *valid_vm = is_32_bit ? valid_vm_1_10_32 : valid_vm_1_10_64;
-+
-+    for (int i = 0; i <= satp_mode; ++i) {
-+        if (valid_vm[i]) {
-+            cpu->cfg.satp_mode.supported |= (1 << i);
-+        }
-     }
- }
- 
-+/* Sets the satp mode to the max supported */
-+static void set_satp_mode_default(RISCVCPU *cpu)
-+{
-+    uint8_t satp_mode = satp_mode_max_from_map(cpu->cfg.satp_mode.supported);
-+
-+    cpu->cfg.satp_mode.map |= (1 << satp_mode);
-+}
-+
- static void riscv_any_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-+    RISCVCPU *cpu = RISCV_CPU(obj);
-+
- #if defined(TARGET_RISCV32)
-     set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
-+    set_satp_mode_max_supported(cpu, "sv32", true);
- #elif defined(TARGET_RISCV64)
-     set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
-+    set_satp_mode_max_supported(cpu, "sv57", false);
- #endif
-     set_priv_version(env, PRIV_VERSION_1_12_0);
-     register_cpu_props(obj);
-@@ -319,18 +334,24 @@ static void riscv_any_cpu_init(Object *obj)
- static void rv64_base_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-+    RISCVCPU *cpu = RISCV_CPU(obj);
-+
-     /* We set this in the realise function */
-     set_misa(env, MXL_RV64, 0);
-     register_cpu_props(obj);
-     /* Set latest version of privileged specification */
-     set_priv_version(env, PRIV_VERSION_1_12_0);
-+    set_satp_mode_max_supported(cpu, "sv57", false);
- }
- 
- static void rv64_sifive_u_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-+    RISCVCPU *cpu = RISCV_CPU(obj);
-+
-     set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
-+    set_satp_mode_max_supported(cpu, "sv39", false);
- }
- 
- static void rv64_sifive_e_cpu_init(Object *obj)
-@@ -341,6 +362,7 @@ static void rv64_sifive_e_cpu_init(Object *obj)
-     set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
-     cpu->cfg.mmu = false;
-+    set_satp_mode_max_supported(cpu, "mbare", false);
- }
- 
- static void rv128_base_cpu_init(Object *obj)
-@@ -352,11 +374,13 @@ static void rv128_base_cpu_init(Object *obj)
-         exit(EXIT_FAILURE);
-     }
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-+    RISCVCPU *cpu = RISCV_CPU(obj);
-     /* We set this in the realise function */
-     set_misa(env, MXL_RV128, 0);
-     register_cpu_props(obj);
-     /* Set latest version of privileged specification */
-     set_priv_version(env, PRIV_VERSION_1_12_0);
-+    set_satp_mode_max_supported(cpu, "sv57", false);
- }
- #else
- static void rv32_base_cpu_init(Object *obj)
-@@ -367,13 +391,17 @@ static void rv32_base_cpu_init(Object *obj)
-     register_cpu_props(obj);
-     /* Set latest version of privileged specification */
-     set_priv_version(env, PRIV_VERSION_1_12_0);
-+    set_satp_mode_max_supported(cpu, "sv32", true);
- }
- 
- static void rv32_sifive_u_cpu_init(Object *obj)
- {
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-+    RISCVCPU *cpu = RISCV_CPU(obj);
-+
-     set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
-+    set_satp_mode_max_supported(cpu, "sv32", true);
- }
- 
- static void rv32_sifive_e_cpu_init(Object *obj)
-@@ -384,6 +412,7 @@ static void rv32_sifive_e_cpu_init(Object *obj)
-     set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
-     cpu->cfg.mmu = false;
-+    set_satp_mode_max_supported(cpu, "mbare", true);
- }
- 
- static void rv32_ibex_cpu_init(Object *obj)
-@@ -394,6 +423,7 @@ static void rv32_ibex_cpu_init(Object *obj)
-     set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);
-     set_priv_version(env, PRIV_VERSION_1_11_0);
-     cpu->cfg.mmu = false;
-+    set_satp_mode_max_supported(cpu, "mbare", true);
-     cpu->cfg.epmp = true;
- }
- 
-@@ -405,6 +435,7 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
-     set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
-     set_priv_version(env, PRIV_VERSION_1_10_0);
-     cpu->cfg.mmu = false;
-+    set_satp_mode_max_supported(cpu, "mbare", true);
- }
- #endif
- 
-@@ -696,7 +727,9 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
- static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
- {
-     bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
--    const bool *valid_vm = rv32 ? valid_vm_1_10_32 : valid_vm_1_10_64;
-+    uint8_t satp_mode_map_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
-+    uint8_t satp_mode_supported_max =
-+                        satp_mode_max_from_map(cpu->cfg.satp_mode.supported);
- 
-     if (cpu->cfg.satp_mode.map == 0) {
-         /*
-@@ -704,7 +737,7 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
-          * satp mode.
-          */
-         if (cpu->cfg.satp_mode.init == 0) {
--            set_satp_mode_default(cpu, rv32);
-+            set_satp_mode_default(cpu);
-         } else {
-             /*
-              * Find the lowest level that was disabled and then enable the
-@@ -714,9 +747,9 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
-             for (int i = 1; i < 16; ++i) {
-                 if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
-                     (cpu->cfg.satp_mode.init & (1 << i)) &&
--                    valid_vm[i]) {
-+                    (cpu->cfg.satp_mode.supported & (1 << i))) {
-                     for (int j = i - 1; j >= 0; --j) {
--                        if (valid_vm[j]) {
-+                        if (cpu->cfg.satp_mode.supported & (1 << j)) {
-                             cpu->cfg.satp_mode.map |= (1 << j);
-                             break;
-                         }
-@@ -727,13 +760,12 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
-         }
-     }
- 
--    /* Make sure the configuration asked is supported by qemu */
--    for (int i = 0; i < 16; ++i) {
--        if ((cpu->cfg.satp_mode.map & (1 << i)) && !valid_vm[i]) {
--            error_setg(errp, "satp_mode %s is not valid",
--                       satp_mode_str(i, rv32));
--            return;
--        }
-+    /* Make sure the user asked for a supported configuration (HW and qemu) */
-+    if (satp_mode_map_max > satp_mode_supported_max) {
-+        error_setg(errp, "satp_mode %s is higher than hw max capability %s",
-+                   satp_mode_str(satp_mode_map_max, rv32),
-+                   satp_mode_str(satp_mode_supported_max, rv32));
-+        return;
-     }
- 
-     /*
-@@ -741,17 +773,13 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
-      * the specification.
-      */
-     if (!rv32) {
--        uint8_t satp_mode_max;
--
--        satp_mode_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
--
--        for (int i = satp_mode_max - 1; i >= 0; --i) {
-+        for (int i = satp_mode_map_max - 1; i >= 0; --i) {
-             if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
-                 (cpu->cfg.satp_mode.init & (1 << i)) &&
--                valid_vm[i]) {
-+                (cpu->cfg.satp_mode.supported & (1 << i))) {
-                 error_setg(errp, "cannot disable %s satp mode if %s "
-                            "is enabled", satp_mode_str(i, false),
--                           satp_mode_str(satp_mode_max, false));
-+                           satp_mode_str(satp_mode_map_max, false));
-                 return;
-             }
-         }
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index e37177db5c..b591122099 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -416,13 +416,17 @@ struct RISCVCPUClass {
- 
- /*
-  * map is a 16-bit bitmap: the most significant set bit in map is the maximum
-- * satp mode that is supported.
-+ * satp mode that is supported. It may be chosen by the user and must respect
-+ * what qemu implements (valid_1_10_32/64) and what the hw is capable of
-+ * (supported bitmap below).
-  *
-  * init is a 16-bit bitmap used to make sure the user selected a correct
-  * configuration as per the specification.
-+ *
-+ * supported is a 16-bit bitmap used to reflect the hw capabilities.
-  */
- typedef struct {
--    uint16_t map, init;
-+    uint16_t map, init, supported;
- } RISCVSATPMap;
- 
- struct RISCVCPUConfig {
--- 
-2.37.2
+Acked-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
+> Signed-off-by: Fabiano Rosas <farosas@suse.de>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   tests/avocado/migration.py | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/tests/avocado/migration.py b/tests/avocado/migration.py
+> index 4b25680c50..ffd3db0f35 100644
+> --- a/tests/avocado/migration.py
+> +++ b/tests/avocado/migration.py
+> @@ -11,6 +11,8 @@
+>   
+>   
+>   import tempfile
+> +import os
+> +
+>   from avocado_qemu import QemuSystemTest
+>   from avocado import skipUnless
+>   
+> @@ -26,6 +28,14 @@ class Migration(QemuSystemTest):
+>   
+>       timeout = 10
+>   
+> +    def setUp(self):
+> +        super().setUp()
+> +
+> +        arch = os.uname()[4]
+> +        if arch == 'aarch64':
+> +            self.machine = 'virt'
+> +            self.cpu = 'max'
+> +
+>       @staticmethod
+>       def migration_finished(vm):
+>           return vm.command('query-migrate')['status'] in ('completed', 'failed')
 
 
