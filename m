@@ -2,79 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E15D67765D
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 09:38:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4711C6776E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 09:58:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJsKZ-0007mh-6j; Mon, 23 Jan 2023 03:37:31 -0500
+	id 1pJse5-00052z-NK; Mon, 23 Jan 2023 03:57:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJsKX-0007mF-Jh
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 03:37:29 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJsKV-0007Vh-Gm
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 03:37:29 -0500
-Received: by mail-wr1-x436.google.com with SMTP id z5so10022280wrt.6
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 00:37:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=IUIgary9RXENMxy7nzJ7Ao0W0cQ9lm20rzbl8LXNc/o=;
- b=itGVZoO2NBBOlEp/nu8KvSS9A0QiULjjW6nlGQFTHkLrjs5bjImL+3gmcFTZm2pPWV
- 0kPT78ftyX43ivIdznC07jur6L6aFsVzrVHJCjPjwwCfbQ1DbP8+8COyE87NXIdo4K1J
- uFQg6/VUlAf+pg7V3SNCqVbvUs/lJzWmnsmV/Hfqz7KdAG6iRR81b9+vOT0tC4iwhfZu
- klflg3ye8eQrYtawshYARAqxDQcSyKWXxEkjQfu+LfoekdO7EPs8JnOT1krbapHDhsW+
- 9jmVMYQ19T527DZgHRNiekvsfyrcO+TB3Vb1cD2fVK01+SHKX7yQwKCByiEf5fOnU+/m
- bRKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=IUIgary9RXENMxy7nzJ7Ao0W0cQ9lm20rzbl8LXNc/o=;
- b=lc4NBZISKt3dYOOfW20CabSTP9nw0MuornTmPwc/k4xWcJw06hPEPoxFr6VeVLEEGN
- w8SbTsr1FqB8uKTvQXA/HwBUE0egeNasakGUGlwqqtWprB74hfE3goF7l0ijikkyxRJq
- wTO4+ny7VCcyWz+OQJa3veTNFG7km3HbeMWRR+WOyg27GS6earxJJgk3fFunF+/hHRZ/
- bKaJ0upaRlH1JVPw4sFFxTPV/1w9nCFBwLDOQcKiiTBNVAlcNxSBpC4hXCklf3x5UKS4
- Y7W8vO0+i8jDV3X3go5fGq0wNoZmtrBbkbyjWgv15HxGEzfuPkioDL/xprvI6s3swpnZ
- OigQ==
-X-Gm-Message-State: AFqh2kojrOrAcORdEFSDWG+YMIEzkXaCaIayhAGNslXn3xnAkl+ldaMX
- wspsfG3zozDYt2KDTILs/C/ZZ3vS1qW97ks+
-X-Google-Smtp-Source: AMrXdXuCURM8NDzKIrBS0MWqDdThBovmq1aM0KoG2jipvDoIiqzZ3r2U8vdKTe6Sek0FVm2CzdtWIA==
-X-Received: by 2002:a5d:660a:0:b0:2be:5162:c8da with SMTP id
- n10-20020a5d660a000000b002be5162c8damr12272407wru.16.1674463045625; 
- Mon, 23 Jan 2023 00:37:25 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- o15-20020a5d62cf000000b002bbedd60a9asm36055349wrv.77.2023.01.23.00.37.24
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 00:37:25 -0800 (PST)
-Message-ID: <fbac07b4-8a58-b6fd-6744-2634ca863a4e@linaro.org>
-Date: Mon, 23 Jan 2023 09:37:24 +0100
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1pJse1-00052i-IQ
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 03:57:37 -0500
+Received: from mga05.intel.com ([192.55.52.43])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vivek.kasireddy@intel.com>)
+ id 1pJsdx-0002Sq-NJ
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 03:57:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1674464253; x=1706000253;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=CrqdKlNYFoE81HgcDk5ebw5xqo9N1X3MEOLRDRsme+s=;
+ b=ErG9Rn5IO2M9/3C39xmw5seQjGioc5bJYc+oio8BmWyaJjp95N8yri4b
+ wJ8KoCChlFTvFEa3pgvpJ5nrtyM+UiJCTI0Oy4QySkwMrccp5iSTgVkru
+ DurHb39xBSRaQzfhmfeJNo1CpMIB8hoCqdgmKdSSr1Z5apSZ/30/cLCKM
+ hLhRtUTjFjzdhzNp0JwRFtZPd3Pn9ttV7xfYjqFpg0/cPZmGAbjF3dbfD
+ HTiW+KQh62wqXowSI83gLMw3a4Ri/QDtzt9mMd6m3IvPfAbg+gldB+RrG
+ dRPcDTalzb5Y/FigX1tCtHzBIq1d5HTZ7puGBhCmDQNCOBVXDxI+6/n/V A==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="412227797"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="412227797"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+ by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 00:57:28 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10598"; a="639057568"
+X-IronPort-AV: E=Sophos;i="5.97,239,1669104000"; d="scan'208";a="639057568"
+Received: from vkasired-desk2.fm.intel.com ([10.105.128.127])
+ by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 23 Jan 2023 00:57:27 -0800
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+To: qemu-devel@nongnu.org
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+ Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Dongwon Kim <dongwon.kim@intel.com>
+Subject: [RFC v2 0/2] spice: Add an option to forward the dmabuf directly to
+ the encoder (v2)
+Date: Mon, 23 Jan 2023 00:37:53 -0800
+Message-Id: <20230123083755.1038286-1-vivek.kasireddy@intel.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 01/10] target/loongarch: Enable the disassembler for
- host tcg
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: git@xen0n.name
-References: <20230118011123.392823-1-richard.henderson@linaro.org>
- <20230118011123.392823-2-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230118011123.392823-2-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=192.55.52.43;
+ envelope-from=vivek.kasireddy@intel.com; helo=mga05.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,21 +78,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/1/23 02:11, Richard Henderson wrote:
-> Reuse the decodetree based disassembler from
-> target/loongarch/ for tcg/loongarch64/.
-> 
-> The generation of decode-insns.c.inc into ./libcommon.fa.p/ could
-> eventually result in conflict, if any other host requires the same
-> trick, but this is good enough for now.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   disas.c                      | 2 ++
->   target/loongarch/meson.build | 3 ++-
->   2 files changed, 4 insertions(+), 1 deletion(-)
+This patch series adds options to select a preferred codec and also
+to forward a dmabuf directly to the encoder module that is part of
+the Spice server. Currently, gstreamer:h264 is the only combination
+tested but additional work is ongoing to test other combinations. 
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Tested with: -device virtio-gpu-pci,max_outputs=1,blob=true,xres=1920,yres=1080
+             -spice port=3001,gl=on,disable-ticketing=on,dmabuf-encode=on,
+              preferred-codec=gstreamer:h264
 
+and remote-viewer --spice-debug spice://x.x.x.x:3001 on the client side.
+
+Associated Spice server patches (v1) can be found here:
+https://lists.freedesktop.org/archives/spice-devel/2023-January/052927.html
+
+v2:
+- Used the already available gl_scanout and gl_draw_async APIs instead
+  of adding new ones to Spice.
+- Improved the commit message of the second patch
+
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Marc-André Lureau <marcandre.lureau@redhat.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>
+
+Vivek Kasireddy (2):
+  spice: Add an option for users to provide a preferred codec
+  spice: Add an option to forward the dmabuf directly to the encoder
+    (v2)
+
+ include/ui/spice-display.h |  1 +
+ qemu-options.hx            | 11 +++++-
+ ui/spice-core.c            | 36 ++++++++++++++++--
+ ui/spice-display.c         | 75 ++++++++++++++++++++++++++++----------
+ 4 files changed, 100 insertions(+), 23 deletions(-)
+
+-- 
+2.37.2
 
 
