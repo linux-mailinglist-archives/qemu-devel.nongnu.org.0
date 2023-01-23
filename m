@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56F6C677AB0
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 13:21:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 68F8E677AED
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 13:29:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJvoj-00011m-3K; Mon, 23 Jan 2023 07:20:53 -0500
+	id 1pJvvn-00034A-QZ; Mon, 23 Jan 2023 07:28:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1pJvoX-00011B-QK
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:20:41 -0500
+ id 1pJvvl-000329-IY
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:28:09 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkostiuk@redhat.com>)
- id 1pJvoW-0005AX-5h
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:20:41 -0500
+ id 1pJvvj-0006gV-QS
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:28:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674476438;
+ s=mimecast20190719; t=1674476887;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=wPK6OqZaZjA+b4U81gVhyHQEzqleg0bm+wvkm123L1M=;
- b=FG380GrhkQYgUlKwYIGwCMoljR+QqcidFjfnxQi6930NCgeI7t6nfegt0Ho0UDkWF9xnxw
- VZ1dHR3WelIlJcdgVXj2KL0MQwwfkhkBsLWEGsUfVS+M01tedN6/XKuwJv802WJc1p/Krf
- H/xFeIHVyksHRsSZCDmetj9OKoSfoxY=
+ bh=SpfZrDSUPw9DKK82uZkBmYQNa9aSvZ1G1JiM85/PhnQ=;
+ b=Ug/uPrVh+KuwD37OTd330AM5U/xsFWXyA7VYYB9ARIIWiGzf0kP9lvNgymqUo0wxscWwSd
+ 4sxVwBY9A1Y/IKg26lI/1q44QEh9n6wNOm31JypzEj224BcsgwRJf6F4/Fp4xaEu4WOZzW
+ 5rhiWNWUoRyMqKAV1tZyANK9SBnyp54=
 Received: from mail-vs1-f72.google.com (mail-vs1-f72.google.com
  [209.85.217.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-373-4m5VX3K5OFKrncn8eTTBAQ-1; Mon, 23 Jan 2023 07:20:37 -0500
-X-MC-Unique: 4m5VX3K5OFKrncn8eTTBAQ-1
+ us-mta-265-P_CCLVSLORiJBF7RQ3XQeg-1; Mon, 23 Jan 2023 07:28:05 -0500
+X-MC-Unique: P_CCLVSLORiJBF7RQ3XQeg-1
 Received: by mail-vs1-f72.google.com with SMTP id
- a62-20020a671a41000000b003c08f2a8d7bso2827424vsa.14
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 04:20:37 -0800 (PST)
+ 68-20020a670347000000b003bf750cb86eso2792214vsd.8
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 04:28:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=wPK6OqZaZjA+b4U81gVhyHQEzqleg0bm+wvkm123L1M=;
- b=dRvJjckm8fnWlMqKQkSm6tsE8GuHw7bkEiw0F61i9YhOdqeW3L0ENgp9HFV0Z3pKXp
- dUwt4bydGiCIh0Da+l4WurVIhOHVXJFzgQhjqmhMB4f1lpyXhUjTIIAqiNuUPiYPZ11r
- tGAjx3RmH/nrO+YphjUpeJ75yGnevBKN5wIusEZPEQA8Moo396kq1OJnSixcEv1L+1s/
- 1AZyjjddCeHF6ud+u4BDiePwtU8hbzP+I2q1iQSBeBhAEgHClhZs8rY0ZjWQ21+FbqSH
- WV6xUqrkMR6DJvozgXu/ALh6eFVRDeM6vEIB+HVk1dlQS2nK3eAft1dBnnKCythF0qwq
- aNJw==
-X-Gm-Message-State: AFqh2krwJBQ06qL/eX7aYQx4c0aT4dkSTYnTuuesp2fnYZagHqBrvY3b
- I0cDdNM2yv++lhRdLEKVBe+GqSZsVHJ+Qb+duG+6oE6oBLF3PMpdFH2RbriWVX8p2VSpDvVuVzI
- MOMieE6FQOAjivf3BIkH2IVGNIuOQUx8=
-X-Received: by 2002:a67:de19:0:b0:3d2:3590:e690 with SMTP id
- q25-20020a67de19000000b003d23590e690mr3336645vsk.1.1674476436599; 
- Mon, 23 Jan 2023 04:20:36 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuCpzOr1SPN+0hECsypfLpZiwWsU6pT692JmJtTj/RuWtnUYevSg17Diw0xosk4sShvHU4+3rkaJh2YWBHvHtA=
-X-Received: by 2002:a67:de19:0:b0:3d2:3590:e690 with SMTP id
- q25-20020a67de19000000b003d23590e690mr3336640vsk.1.1674476436383; Mon, 23 Jan
- 2023 04:20:36 -0800 (PST)
+ bh=SpfZrDSUPw9DKK82uZkBmYQNa9aSvZ1G1JiM85/PhnQ=;
+ b=mV+shfv0m3KOGDo3dqTHILc/eIxAaf/qqD0KFdcwS8h5BS6N2qdP8JJwhHNS2yoR6z
+ UAoXjrqFG2zbg2SMjTpk4EkHY2EGrMZTs8a/FZQYtTivxRDlq6sxtdrOJz6Iul/mgrPb
+ yDAodB7kBvfvMr3U39XZAnWktvNbEIQZiQ0tTMuFGcFZoGjhnIMzSONNfIOSLKx4bfL2
+ j44/suWLqesWwAmmGnHV08hghLDxDZ0Ts46H2BJQoCRB20rAP04A40huUchP9FYMQVSt
+ XUtYouq17/VOY9fdkZDENBbt8fV/YxGOYFvp11uX0qCYIpW2In3DnW9cuY5eaYGTtEYe
+ Aeqw==
+X-Gm-Message-State: AFqh2kqomU+7puweY6o1vqLFgVg4PIDWp4TEE6dzDrQpbv6+WRYe069e
+ 8uSAMHVnu4+yT+L0LCxJfk6T5ll9cmPgx/07jCHwf9SAmpnM2Zv975bRd+LfT1pfnNts/7DsG7r
+ lBEvdW+2HadJH0AE0LCIy0TM7tTmouyI=
+X-Received: by 2002:a67:ff81:0:b0:3d3:f129:2031 with SMTP id
+ v1-20020a67ff81000000b003d3f1292031mr3008352vsq.74.1674476884952; 
+ Mon, 23 Jan 2023 04:28:04 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvrLRu9qSd/fBZiV0wHNnE+IIodmOwvkrY0Ph0uFVzGLTcRhkjrAApzzCZAIkf/7NWh0wALfQZjppfYmp/l4cE=
+X-Received: by 2002:a67:ff81:0:b0:3d3:f129:2031 with SMTP id
+ v1-20020a67ff81000000b003d3f1292031mr3008351vsq.74.1674476884734; Mon, 23 Jan
+ 2023 04:28:04 -0800 (PST)
 MIME-Version: 1.0
 References: <20230122153307.1050593-1-kfir@daynix.com>
 In-Reply-To: <20230122153307.1050593-1-kfir@daynix.com>
 From: Konstantin Kostiuk <kkostiuk@redhat.com>
-Date: Mon, 23 Jan 2023 14:20:25 +0200
-Message-ID: <CAPMcbCr5zGsTFW0vsqjSkSNBYiutLgGKYVkzt_67yLWANDOKwg@mail.gmail.com>
+Date: Mon, 23 Jan 2023 14:27:53 +0200
+Message-ID: <CAPMcbCqNRA+7_00BhQZSjiAEvoWRK6dbprwUdkuc3P-qZaj-GQ@mail.gmail.com>
 Subject: Re: [PATCH] qga/linux: add usb support to guest-get-fsinfo
 To: Kfir Manor <kfir@daynix.com>
-Cc: qemu-devel@nongnu.org, Michael Roth <michael.roth@amd.com>, 
- Yan Vugenfirer <yan@daynix.com>
-Content-Type: multipart/alternative; boundary="0000000000002cfb1205f2ed6d53"
+Cc: qemu-devel@nongnu.org, Yan Vugenfirer <yan@daynix.com>
+Content-Type: multipart/alternative; boundary="000000000000e64c2105f2ed87f7"
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=kkostiuk@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -92,10 +91,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000002cfb1205f2ed6d53
+--000000000000e64c2105f2ed87f7
 Content-Type: text/plain; charset="UTF-8"
 
-Reviewed-by: Konstantin Kostiuk <kkostiuk@redhat.com>
+Hi Kfir,
+
+You missed adding the Signed-off-by line to the patch.
+Please resend.
+
+Best Regards,
+Konstantin Kostiuk.
+
 
 On Sun, Jan 22, 2023 at 5:33 PM Kfir Manor <kfir@daynix.com> wrote:
 
@@ -135,17 +141,20 @@ On Sun, Jan 22, 2023 at 5:33 PM Kfir Manor <kfir@daynix.com> wrote:
 >
 >
 
---0000000000002cfb1205f2ed6d53
+--000000000000e64c2105f2ed87f7
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Reviewed-by: Konstantin Kostiuk &lt;<a href=3D"mailto:kkos=
-tiuk@redhat.com" target=3D"_blank">kkostiuk@redhat.com</a>&gt;</div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jan 2=
-2, 2023 at 5:33 PM Kfir Manor &lt;<a href=3D"mailto:kfir@daynix.com">kfir@d=
-aynix.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">---<br>
+<div dir=3D"ltr"><div>Hi Kfir,</div><div><br></div><div>You missed adding t=
+he Signed-off-by line to the patch. <br></div><div>Please resend.<br></div>=
+<div><br></div><div><div><div dir=3D"ltr" class=3D"gmail_signature" data-sm=
+artmail=3D"gmail_signature"><div dir=3D"ltr"><div>Best Regards,</div><div>K=
+onstantin Kostiuk.</div></div></div></div><br></div></div><br><div class=3D=
+"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Jan 22, 2023 at=
+ 5:33 PM Kfir Manor &lt;<a href=3D"mailto:kfir@daynix.com">kfir@daynix.com<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">-=
+--<br>
 =C2=A0qga/commands-posix.c | 6 +++++-<br>
 =C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
 <br>
@@ -192,6 +201,6 @@ strcmp(driver, &quot;xhci_hcd&quot;) =3D=3D 0) {<br>
 <br>
 </blockquote></div>
 
---0000000000002cfb1205f2ed6d53--
+--000000000000e64c2105f2ed87f7--
 
 
