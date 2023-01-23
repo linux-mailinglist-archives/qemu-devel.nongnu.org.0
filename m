@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CAD0677CBB
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:41:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 666D7677CA2
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:38:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJx00-0006Aa-Bp; Mon, 23 Jan 2023 08:36:36 -0500
+	id 1pJx05-0006JN-9f; Mon, 23 Jan 2023 08:36:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwze-0005xz-Tr
+ id 1pJwze-0005xy-U0
  for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:15 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwzb-0002Rk-GN
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:13 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- e19-20020a05600c439300b003db1cac0c1fso9123868wmn.5
+ id 1pJwzb-0002La-QQ
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:14 -0500
+Received: by mail-wm1-x335.google.com with SMTP id l8so9024032wms.3
  for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:36:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=IeF7jJTB/G2ZdwYbP4k411cz0vGAuT9uWrSxSGjM9fc=;
- b=zfCG6HNrHIIzntEHcbjfgW53hdjauA9FhrnSmDQJIxbor6sEzh6oOQM6Xf7YS31mvC
- E0UARUp5PPc0K0YIr6IAlwzHOsRA88hwCphaQrbPWIZ81SXcaf7+erCD6+Dhqlnt/DRB
- M734cdpPf1UmrqFeR6c/DlazLuUSwhD/NjYHmRv+PYvkYeNGsV19hW6Sn8p/wRk4vJoZ
- 8BYXXn0xe67KJwWHSOLTZYxyorQ4g+wXf3cm7RA0ateMBJJQN3CXBqtwR2k2lLNuo3ip
- hhBvTwL5s4iLCnjAllJ5hrRpjvcbubRRgojfs5N5gwiCXub0Fkf52BxFxN2o6BPWyqJ1
- 7fXw==
+ :reply-to; bh=ClfwKQfwQPNiuEhLu9/OoLk23WFzZiEhdIdZyE3JTl4=;
+ b=zMXytAplMMlhHTKcgA8ZrPuZ/KmQC3RGPKA6YBRJ3qGnOWZ81D2qUzR6Ntn0gRpWyk
+ cCX71eR71q7rJiZrkw1oR60XpoucJy2D4aO1Z733a+EgrGXyPgbV25e0Q1QQCc4kc5Tm
+ QKUKwvuIdUOrITl+mNIhqongisYuAvRlD6MJ+DbTRfqogEoIK533YcPMozuujVw73p3w
+ KDAvU+WyQuvQ68DzTNM6H2HxlcPtUuwmkog/nxYYxLmjDIoUuOE9w1RxR0bcqCWtFKyB
+ DYYKYr0rTkmdIoiR5XybUhQ9KLfVP4V16QJ/avBABia94Hdyp/dUJH7HC/XB4OTt2Ezy
+ kUUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=IeF7jJTB/G2ZdwYbP4k411cz0vGAuT9uWrSxSGjM9fc=;
- b=JKvxZT8Sa6a4trmYlOvT3l9HlkJY/0nTtR0OjWGZAzdJqJxWwnPDv6z0Uoz1CtPVt0
- E1044bprrH29WYWflGAszp4Nvv7BxsFvhJQ2li+LsKd5UUpeyo/Ktj9hT6phS3NX/qma
- xo/VnxnIqUSV/UTGOyztLQgR4PU9Q5WFAMeViHYVSC/v8vpZVoQXfKCJGDWThYoqpmuG
- qfUYPEYoSzT1xKaVPDtstcKHdQcpYNaorp7L6ByrVIaRBjRbK3JCrU2+xuzkmIYd85jc
- M8/RglCSkInq5Wf2wxgnAMusoDinvVleVpRpgGknPQBzaivrTVcV4Agqh4VnCTvb/wn8
- nGYg==
-X-Gm-Message-State: AFqh2koUs1bqds0OlTbDUopT+bg0YxLz48votm2XDMTHtfMjSUOOQTNw
- hruK4FTWjl1kaVuoCCqEsxFxYl9sOrCji07g
-X-Google-Smtp-Source: AMrXdXvajyFKujbvjSSuoX6u1RSzarGV+EO/V8TGludsemNFYMboVDS5QsmaPCRRMm+d835v6UcqeA==
-X-Received: by 2002:a05:600c:5d1:b0:3d0:761b:f86 with SMTP id
- p17-20020a05600c05d100b003d0761b0f86mr24220974wmd.28.1674480969259; 
- Mon, 23 Jan 2023 05:36:09 -0800 (PST)
+ bh=ClfwKQfwQPNiuEhLu9/OoLk23WFzZiEhdIdZyE3JTl4=;
+ b=6SFzJuToa6HLmG/Oze1cUUyVZYJeJ99TFgxTSXBOvCouhvHqkhZ65SFr5vR+PRWLTN
+ 7kLNg1cvhRfNywjxdZXHTkvy8KbkmcpIdOYaafDkU08dpSTATGOqJzFS319tz9KHpAIQ
+ 0gbWhVClqwGYhCt2oAqlak2bnEMiPJFqfnjDrJomAiZPy1O0rM8d/ZeSyDz+GbEPYu1p
+ 5r6c30/yPFW9bIxFyiFImVN1Rn5CeTTFoMBYLF5Hq7QtumQNKcbDfPTThN7//Ppu7Zqh
+ w+3jlTKT9MFdUsQdeJZ6jyHCqT1kRJCrjc765HspF2w6dSMKf+z0fWkpQWyyo87hnaQc
+ Lxdg==
+X-Gm-Message-State: AFqh2kqmBBPs7fzClySGjEJgCx1nAfmytjoJo6p1zZ1jta8jkC7YBI0w
+ i0/m5SlmEzYpQVPTB1xUtlpLGKPo/Qu7IkfX
+X-Google-Smtp-Source: AMrXdXvRfFY9nQn2ozVnGZ+974ptMiwYCQuHyTaHes0WzQQtC8kW17TcaHvET6ahS29d88zPXqZahg==
+X-Received: by 2002:a05:600c:1e1f:b0:3db:e13:750c with SMTP id
+ ay31-20020a05600c1e1f00b003db0e13750cmr22355969wmb.29.1674480970076; 
+ Mon, 23 Jan 2023 05:36:10 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- d19-20020a05600c34d300b003a6125562e1sm10817457wmq.46.2023.01.23.05.36.08
+ d19-20020a05600c34d300b003a6125562e1sm10817457wmq.46.2023.01.23.05.36.09
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 05:36:08 -0800 (PST)
+ Mon, 23 Jan 2023 05:36:09 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 15/26] target/arm/sme: Introduce aarch64_set_svcr()
-Date: Mon, 23 Jan 2023 13:35:42 +0000
-Message-Id: <20230123133553.2171158-16-peter.maydell@linaro.org>
+Subject: [PULL 16/26] target/arm/sme: Reset SVE state in aarch64_set_svcr()
+Date: Mon, 23 Jan 2023 13:35:43 +0000
+Message-Id: <20230123133553.2171158-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230123133553.2171158-1-peter.maydell@linaro.org>
 References: <20230123133553.2171158-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,111 +91,124 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Richard Henderson <richard.henderson@linaro.org>
 
+Move arm_reset_sve_state() calls to aarch64_set_svcr().
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Fabiano Rosas <farosas@suse.de>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Message-id: 20230112102436.1913-4-philmd@linaro.org
+Message-id: 20230112102436.1913-5-philmd@linaro.org
 Message-Id: <20230112004322.161330-1-richard.henderson@linaro.org>
 [PMD: Split patch in multiple tiny steps]
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h              | 1 +
- linux-user/aarch64/cpu_loop.c | 2 +-
- linux-user/aarch64/signal.c   | 2 +-
- target/arm/helper.c           | 8 ++++++++
- target/arm/sme_helper.c       | 4 ++--
- 5 files changed, 13 insertions(+), 4 deletions(-)
+ target/arm/cpu.h              |  1 -
+ linux-user/aarch64/cpu_loop.c |  1 -
+ linux-user/aarch64/signal.c   |  8 +-------
+ target/arm/helper.c           | 13 +++++++++++++
+ target/arm/sme_helper.c       | 10 ----------
+ 5 files changed, 14 insertions(+), 19 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 1feb63b4d73..ef61849eb1d 100644
+index ef61849eb1d..f3ddc3b7793 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -1123,6 +1123,7 @@ int aarch64_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
+@@ -1124,7 +1124,6 @@ void aarch64_sve_narrow_vq(CPUARMState *env, unsigned vq);
  void aarch64_sve_change_el(CPUARMState *env, int old_el,
                             int new_el, bool el0_a64);
-+void aarch64_set_svcr(CPUARMState *env, uint64_t new, uint64_t mask);
- void arm_reset_sve_state(CPUARMState *env);
+ void aarch64_set_svcr(CPUARMState *env, uint64_t new, uint64_t mask);
+-void arm_reset_sve_state(CPUARMState *env);
  
  /*
+  * SVE registers are encoded in KVM's memory in an endianness-invariant format.
 diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
-index 9875d609a91..d53742e10bb 100644
+index d53742e10bb..5e93d27d8f6 100644
 --- a/linux-user/aarch64/cpu_loop.c
 +++ b/linux-user/aarch64/cpu_loop.c
-@@ -93,8 +93,8 @@ void cpu_loop(CPUARMState *env)
-              * On syscall, PSTATE.ZA is preserved, along with the ZA matrix.
-              * PSTATE.SM is cleared, per SMSTOP, which does ResetSVEState.
-              */
-+            aarch64_set_svcr(env, 0, R_SVCR_SM_MASK);
+@@ -96,7 +96,6 @@ void cpu_loop(CPUARMState *env)
+             aarch64_set_svcr(env, 0, R_SVCR_SM_MASK);
              if (FIELD_EX64(env->svcr, SVCR, SM)) {
--                env->svcr = FIELD_DP64(env->svcr, SVCR, SM, 0);
                  arm_rebuild_hflags(env);
-                 arm_reset_sve_state(env);
+-                arm_reset_sve_state(env);
              }
+             ret = do_syscall(env,
+                              env->xregs[8],
 diff --git a/linux-user/aarch64/signal.c b/linux-user/aarch64/signal.c
-index 6a2c6e06d28..b6e4dcb494d 100644
+index b6e4dcb494d..a326a6def5e 100644
 --- a/linux-user/aarch64/signal.c
 +++ b/linux-user/aarch64/signal.c
-@@ -669,11 +669,11 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
-      * Invoke the signal handler with both SM and ZA disabled.
-      * When clearing SM, ResetSVEState, per SMSTOP.
-      */
-+    aarch64_set_svcr(env, 0, R_SVCR_SM_MASK | R_SVCR_ZA_MASK);
-     if (FIELD_EX64(env->svcr, SVCR, SM)) {
-         arm_reset_sve_state(env);
-     }
-     if (env->svcr) {
--        env->svcr = 0;
-         arm_rebuild_hflags(env);
+@@ -665,14 +665,8 @@ static void target_setup_frame(int usig, struct target_sigaction *ka,
+         env->btype = 2;
      }
  
+-    /*
+-     * Invoke the signal handler with both SM and ZA disabled.
+-     * When clearing SM, ResetSVEState, per SMSTOP.
+-     */
++    /* Invoke the signal handler with both SM and ZA disabled. */
+     aarch64_set_svcr(env, 0, R_SVCR_SM_MASK | R_SVCR_ZA_MASK);
+-    if (FIELD_EX64(env->svcr, SVCR, SM)) {
+-        arm_reset_sve_state(env);
+-    }
+     if (env->svcr) {
+         arm_rebuild_hflags(env);
+     }
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 22ea8fbe368..24c069b8acf 100644
+index 24c069b8acf..0ac867c4119 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -6725,11 +6725,19 @@ static CPAccessResult access_esm(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -6725,11 +6725,24 @@ static CPAccessResult access_esm(CPUARMState *env, const ARMCPRegInfo *ri,
      return CP_ACCESS_OK;
  }
  
-+void aarch64_set_svcr(CPUARMState *env, uint64_t new, uint64_t mask)
++/* ResetSVEState */
++static void arm_reset_sve_state(CPUARMState *env)
 +{
-+    uint64_t change = (env->svcr ^ new) & mask;
-+
-+    env->svcr ^= change;
++    memset(env->vfp.zregs, 0, sizeof(env->vfp.zregs));
++    /* Recall that FFR is stored as pregs[16]. */
++    memset(env->vfp.pregs, 0, sizeof(env->vfp.pregs));
++    vfp_set_fpcr(env, 0x0800009f);
 +}
 +
- static void svcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                        uint64_t value)
+ void aarch64_set_svcr(CPUARMState *env, uint64_t new, uint64_t mask)
  {
-     helper_set_pstate_sm(env, FIELD_EX64(value, SVCR, SM));
-     helper_set_pstate_za(env, FIELD_EX64(value, SVCR, ZA));
-+    aarch64_set_svcr(env, value, -1);
-     arm_rebuild_hflags(env);
+     uint64_t change = (env->svcr ^ new) & mask;
+ 
+     env->svcr ^= change;
++
++    if (change & R_SVCR_SM_MASK) {
++        arm_reset_sve_state(env);
++    }
  }
  
+ static void svcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
 diff --git a/target/arm/sme_helper.c b/target/arm/sme_helper.c
-index b5aefa3edaf..94dc084135d 100644
+index 94dc084135d..f73bf4d2853 100644
 --- a/target/arm/sme_helper.c
 +++ b/target/arm/sme_helper.c
-@@ -43,7 +43,7 @@ void helper_set_pstate_sm(CPUARMState *env, uint32_t i)
+@@ -29,22 +29,12 @@
+ #include "vec_internal.h"
+ #include "sve_ldst_internal.h"
+ 
+-/* ResetSVEState */
+-void arm_reset_sve_state(CPUARMState *env)
+-{
+-    memset(env->vfp.zregs, 0, sizeof(env->vfp.zregs));
+-    /* Recall that FFR is stored as pregs[16]. */
+-    memset(env->vfp.pregs, 0, sizeof(env->vfp.pregs));
+-    vfp_set_fpcr(env, 0x0800009f);
+-}
+-
+ void helper_set_pstate_sm(CPUARMState *env, uint32_t i)
+ {
      if (i == FIELD_EX64(env->svcr, SVCR, SM)) {
          return;
      }
--    env->svcr ^= R_SVCR_SM_MASK;
-+    aarch64_set_svcr(env, 0, R_SVCR_SM_MASK);
-     arm_reset_sve_state(env);
+     aarch64_set_svcr(env, 0, R_SVCR_SM_MASK);
+-    arm_reset_sve_state(env);
      arm_rebuild_hflags(env);
  }
-@@ -53,7 +53,7 @@ void helper_set_pstate_za(CPUARMState *env, uint32_t i)
-     if (i == FIELD_EX64(env->svcr, SVCR, ZA)) {
-         return;
-     }
--    env->svcr ^= R_SVCR_ZA_MASK;
-+    aarch64_set_svcr(env, 0, R_SVCR_ZA_MASK);
  
-     /*
-      * ResetSMEState.
 -- 
 2.34.1
 
