@@ -2,136 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E91467848B
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 19:23:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D5E6784E0
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 19:28:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK1Ry-0007D8-1b; Mon, 23 Jan 2023 13:21:46 -0500
+	id 1pK1Xb-0000cc-3F; Mon, 23 Jan 2023 13:27:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pK1Rv-0007Cl-GF
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 13:21:43 -0500
-Received: from mail-dm6nam11on20631.outbound.protection.outlook.com
- ([2a01:111:f400:7eaa::631]
- helo=NAM11-DM6-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pK1XZ-0000cS-7V
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 13:27:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pK1Rt-0006Ex-RD
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 13:21:43 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=JA62oerronco/sBQdpCpej+o/jMO1H5JL0KEYX9cu4xyZ2duFPVJI7CulWIYBLnqD9gwFsiKJ2Jfu+/9SzVACpk5nc2kFHH1YIN2mjqZ3v47Cd2D51WssLhAANsJd1epNBDjyUzEyMqaCU87CIUU5eOHuO8CSXPSFPbY7blssC9YIx3RcQzktc+pucuFiMMCqLyZVN0aZlC9onusLJTEH8nJrRVjgI5/yVMV+qRvyUyZgMLrG5DP4e9MoaGLijtbufZQ66B1JfZuqPltbqv3QVxXnNe7x8HdrLK2lD7quZ3IxNLfjD6O0e8YjwJbPEPZ9MuyNykNUTViChBN1VeOtg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mFPeE9iLGQlKjGuVDum49q/UVp55MTSSefFQaOogiJg=;
- b=d4R67/1bOG6NzLjwQMAPlchapvKKZm6meyZRL5wLIjQg2VzEkUEtFXnjGOl30HtafrNoO0+RaF5YMr5YAe3+yi5LQ0kdye+YNcRsVeBjnh80nsngLq/0+6t/W/x+KrbmB4Q1l6Au4wk/xoopGA60jik24fgAqU+Blcysn+6S6o0rgI3AdLcebvxMM21A9u9xLZi9/QBHGDf5g8/ihWGVad7mmNW62oxLyfYoCCxQq61ViHUsPjh0gWRl71eC8fmLQMPsF6SspIcXME/ccbCmt2uyLMXri73eelYpnZ0EFk3M7SMaDUoNAmdLwDTUlA6FUTPPNe5HBmg9arHAwP2Bww==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mFPeE9iLGQlKjGuVDum49q/UVp55MTSSefFQaOogiJg=;
- b=CJxYBTMsh1+qN18c549fwbIEw+//08GRxGdo+x1fwxZPP0UDumlrpW7n+cQJmDDERRpWKtLofTkDck1tltOYiYqIoJnEI2vCQsNnbrtrhk6bPDw8+HdO7O5G/bwE69e4XYnoxZEtcVUL0MocQgFSaN+rOz0PR+JlT0Xt1VE1AMY=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by BY1PR17MB6831.namprd17.prod.outlook.com (2603:10b6:a03:524::16)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Mon, 23 Jan
- 2023 18:16:37 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660%4]) with mapi id 15.20.6002.033; Mon, 23 Jan 2023
- 18:16:37 +0000
-Date: Mon, 23 Jan 2023 13:16:31 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Jonathan Cameron via <qemu-devel@nongnu.org>,
- Lukas Wunner <lukas@wunner.de>, Michael Tsirkin <mst@redhat.com>,
- Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
- linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
- Gregory Price <gourry.memverge@gmail.com>
-Subject: Re: cxl nvdimm Potential probe ordering issues.
-Message-ID: <Y87O/3E/66XAhpls@memverge.com>
-References: <20230113144511.00001207@Huawei.com>
- <20230113151206.GA20583@wunner.de> <Y8hG4OyJL7l9oD2f@memverge.com>
- <Y8hJKcy1993SFLLJ@memverge.com>
- <20230119124244.000015b3@Huawei.com>
- <20230119150449.000037f2@huawei.com>
- <Y8oeYfyqNuSIIxCt@memverge.com>
- <63cad185343a1_c81f029469@dwillia2-xfh.jf.intel.com.notmuch>
- <Y8sNfC1YQVj/DfBU@memverge.com>
- <63cb1881b078a_3a36e5294ab@dwillia2-xfh.jf.intel.com.notmuch>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <63cb1881b078a_3a36e5294ab@dwillia2-xfh.jf.intel.com.notmuch>
-X-ClientProxiedBy: BY3PR04CA0022.namprd04.prod.outlook.com
- (2603:10b6:a03:217::27) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pK1XX-0007Hv-EW
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 13:27:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674498449;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Sba/+uTWbJ7F7cTnBGqJtGA0puoRVfBR5yRmmV/ZbyE=;
+ b=OqdTt/fhrUDVZkdN77xf5LbDPxCtX9pSg0E5MGkwRfZrk31JKVgTG8NuuLbEAe+UmVjDV0
+ ANlhZ4TQXgJ9TVJ+B/zRRPWvFkNoM6AonOXyaKZp54fEGvh0GCNr4bR9y+/YeSUbzZrF1o
+ 8Dz9UCm0sYDUTGIY3ZGl/wDAOJd65ds=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-596-4TExVCQXPJaFXtDauH9Y3g-1; Mon, 23 Jan 2023 13:27:27 -0500
+X-MC-Unique: 4TExVCQXPJaFXtDauH9Y3g-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ o15-20020a5d684f000000b002be540246e1so1682058wrw.22
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 10:27:27 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-transfer-encoding
+ :content-disposition:mime-version:references:message-id:subject:cc
+ :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Sba/+uTWbJ7F7cTnBGqJtGA0puoRVfBR5yRmmV/ZbyE=;
+ b=b7jfP6XiTxQSlH81ldc8qnbJ0GCF9GhQJM2Pz6N5FmK1rvTzNb4Rau4kzHiHb+Bii1
+ u7DDnEVxvxIpjfWLHLpE4DrBZx4kmsQDVC/pxcoZzbUkL/baWF0ma1Ara1Co8kmff4t9
+ RQwDVXgJq/xFgZzUDKk2qD4ZK7rdWRWE6OYdikizuJDlBy/mxtCBuM/gpOEzOftLSUsD
+ lL/zstg8rguKGKUX5NRzK1+rmE62jVhOSsdnTmMmt5sOVqr9fFg9cOKv+6MNrxJZuBqZ
+ rORd2dd5whrlwB2UiNH8LaiJrjiQefjTIKKeWXJam79FbNZdHksB1rvDbuNpRdmVjiUk
+ Z8Fg==
+X-Gm-Message-State: AFqh2kr40vCxUQH3GNaA4vSak2OMprC5waCX1/Jy7iPN2a674WTurnT8
+ 0w4UdM15n5kBz5IBCqr0rL6enx0URs/UvtDQW4iUtLcXtpmXT+0Ls83bt3LKVKKTu9rhT+oMIL4
+ Tc4tJZDpJIQ0oVv0=
+X-Received: by 2002:a05:600c:3b82:b0:3d3:5d0f:6dfc with SMTP id
+ n2-20020a05600c3b8200b003d35d0f6dfcmr24394886wms.30.1674498446644; 
+ Mon, 23 Jan 2023 10:27:26 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvLBdWiGs/wx7yesnY6alL9fDGKkem0nKoDWiaG2OxJYLqPSdPSCxeYcLBnFZ3pxI3Zd5gGOA==
+X-Received: by 2002:a05:600c:3b82:b0:3d3:5d0f:6dfc with SMTP id
+ n2-20020a05600c3b8200b003d35d0f6dfcmr24394865wms.30.1674498446426; 
+ Mon, 23 Jan 2023 10:27:26 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ i29-20020a1c541d000000b003dc0cb5e3f1sm132878wmb.46.2023.01.23.10.27.25
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Jan 2023 10:27:26 -0800 (PST)
+Date: Mon, 23 Jan 2023 18:27:23 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Anton Kuchin <antonkuchin@yandex-team.ru>, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, yc-core@yandex-team.ru
+Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
+Message-ID: <Y87Ri4r6SiETdCrt@work-vm>
+References: <20230115170903.3416105-1-antonkuchin@yandex-team.ru>
+ <20230119074602-mutt-send-email-mst@kernel.org>
+ <f9993404-f8b8-7a23-37f8-530313783466@yandex-team.ru>
+ <20230120085534-mutt-send-email-mst@kernel.org>
+ <703d527f-de92-090c-6ce1-af0dec7de033@yandex-team.ru>
+ <20230122030455-mutt-send-email-mst@kernel.org>
+ <b7de3adc-cba7-09eb-ea93-f4bfb91bea9e@yandex-team.ru>
+ <20230122093903-mutt-send-email-mst@kernel.org>
+ <70c0f00a-7828-3ccf-c2ea-49aeef8693e9@yandex-team.ru>
+ <20230122111618-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|BY1PR17MB6831:EE_
-X-MS-Office365-Filtering-Correlation-Id: d5615194-4d2f-4f3a-5522-08dafd6df75d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: zhijLZp2EDUYhSwN+41UmZxJBRC45FyUtFrH0u3DgiRdi2BcvGuiiPlOaUKRy3/aTWzCO1V21a29dt1pOcQ7VxifuI+qZIngP8yUb2wde+U+AsiJ8YH9EbCBGTHZGOHNO80NtjAX51H6CVlIiHs7CFIOFq7za7G0fZsMnKbEkzLE1Reqg1Bndorp+UM1mMXgHamBa7GvNOCwq1FG/y36UUXsXy50ZmqA1hdWUmvwJijBX9FP9eKsqLdgmz160g1Eyn1V8M/2lQs0/AzzTEbpTFO/a4I84y0GZOqN6ReQ8NCCtUHw10Kr3xhyNg+EjMIRsb3kS0VBZ+BLOTCNzTtFW5JpNgeoI2rXW8Fy46xKi1Z0shAuZXTyvxgiEV0oOhjuj/2LBcf2UNOAhYy6Gxdynrt2Y4YYdvx8S+8cNEtB2nM6MswFL6G3ffjDLGoSRm2FsS5MDwy8DnZ5AtJ6fmiWwaBM5CfkBYAgdykMdZet9sXjm/MVBsuMlmEcwP7W6vgG6whjgDhZKE2eCTj503dcWRWDt1fjBLxixXZsO3taZPQMHilNhUsnlHikAUWCILSG5gh7qmoLzfLBt1gnTYPNQ/lJCPzn8oSxRIGJNuM3iVJtd3Z9npeXqte4I+WtdErcfAeaMm/xh+i9nnbrvOjF8g==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230022)(396003)(366004)(346002)(39840400004)(376002)(136003)(451199015)(38100700002)(83380400001)(7416002)(41300700001)(86362001)(4744005)(2906002)(44832011)(8936002)(5660300002)(4326008)(6512007)(26005)(8676002)(6916009)(186003)(6506007)(6666004)(66476007)(66556008)(316002)(54906003)(2616005)(66946007)(478600001)(6486002)(36756003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ie7fKjXk6w5MJb9ssnscpvgqHRzOWXUYUSaTn6UZqUKYzuLWfEhXjR9iild9?=
- =?us-ascii?Q?bP08qaubE9B8z5omtA7aOks4kGisn6ft8l78S0UaDplDFaX2BlpFoZwf5QvF?=
- =?us-ascii?Q?prDxN0sg/TtNkuAR/1NVT10x8g8LtR3EpcSpzAMPpIasVdPwc023imbLkTL5?=
- =?us-ascii?Q?yXDVtxCO7YHAvQKEoeNpqi9bei2ttvsBuS1V6+8iru7KTTFfcZDUNtf9zVBI?=
- =?us-ascii?Q?STcmLrU3JEYlgfhKoKtupZ2kTFlfU+goNQundo5z5M8lkP1jGhCgzNjsUQnb?=
- =?us-ascii?Q?VqO5k7163pUHPfB74kYsu5pXGGZY05okmzLz+xfXQKvd10uYilouz4KY1wUq?=
- =?us-ascii?Q?Wm7UaSvbX4CK3didDg2gioP+yQ8thQHrRmImWIN1tR0eHql/Qpx0dTDGSU+Q?=
- =?us-ascii?Q?KcVU9Rc5Xwn7pJu96zTlWirFTdh47054pUdBaajVJyi8TXNWfbTlcdbRnnhZ?=
- =?us-ascii?Q?AqjehdJeotlKHaZXBeQd2LQmxw1vymnVvqigbCPB+uJba1JC1WG1128wPLsV?=
- =?us-ascii?Q?mPDilOb1q33lYXsKxrHUP4Ywe1UOk25zKCidnkLA8dANNt1un10VBQMCd12Z?=
- =?us-ascii?Q?nTa9+LFcll8GUewIbcV9MeVhYoC/bjDACgatIQxvEAPSrtqnS8GcoSwHUz71?=
- =?us-ascii?Q?EAHcny0xb22veL/hSrumQdSyNUtj9898OMbWuAb+T3VSD/Ef8ti1Cs09OW7X?=
- =?us-ascii?Q?PpOpXgj+rpbWAu9VAqtWctPFoSe9kENXca/V7mM+TCYvO1qy3pWy79neVk7f?=
- =?us-ascii?Q?1/wwSsTHzwRMtdBolq8BSRC32LsXscLcKe621Y7/QSnPJuyZBm9LEELTyvn/?=
- =?us-ascii?Q?jFpGbf0LytSCl1VJ9giESacQ8Jme6AK4IV86NCEMMLMDFOvuvCQ+1hFoub2E?=
- =?us-ascii?Q?D/aQkzs8ycfO5bPghw2w/XM8dmYbyqI490joF2DMLlsnKnV44/lL3CjfJAAT?=
- =?us-ascii?Q?9I70fsZJ3pBrFGAZM+kz+VD9uW+KPfaaBbpwmEOU0ErjPCPJFU67n65C5fe+?=
- =?us-ascii?Q?8Tt6w2QRgf+qNd1sfDKEK24x9yvEHme9y9xuJJoh/3hHGP9KfUl5NtWMabrX?=
- =?us-ascii?Q?Bn1jUJx2ncaXQDljBvZXIOEvpktZqLTPOcjB0mqzP5dcFx3Dx0WwrYRrBvnB?=
- =?us-ascii?Q?k1oTAVhy/K1MJM0BpClkVM2GMQiRAWuzpx9kNhPhESQldxs7I+Mz0I1iO/sF?=
- =?us-ascii?Q?mtaapZDLkDP1Sa/Mj7nfQc7AXiklPwdqBgytME7AZ29rx7Qv58tu9jJTO7eD?=
- =?us-ascii?Q?4+WA3Nb4PYkoEUzU2mjRA+Y0S0Oc5vq2pB8BYyXOWSTwebGrdqcsq0wp7eNh?=
- =?us-ascii?Q?vq35J8wEd3uq4ai42TwLUMb3vJydSup9Lw4Vs2nWHHIN+eEWodRkyRNt80vn?=
- =?us-ascii?Q?+5QKqrRsixyqU46Ggtv9UKX5yi6cuUnT7KTmVuChUPhHw3gNmoqmqTl4AOBm?=
- =?us-ascii?Q?g4SO3DfskyDGf7dACJ3nscQMpNDyq5QelYNqqnJDghQh0fsiuonOxEWMe2xN?=
- =?us-ascii?Q?x3zgCqgGk6qPQy0QWD5eFdHprdoU/7leUfzZFtiPGYNMK8f0zO/xg2CgPxnQ?=
- =?us-ascii?Q?2aSBJEXV5o1wm3eKbKcKCIISLMXDlaymkUS9bGoZe6TXvN88D8C9nzdG6uO3?=
- =?us-ascii?Q?Nw=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d5615194-4d2f-4f3a-5522-08dafd6df75d
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Jan 2023 18:16:37.1885 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: oMvd2YeI4PK7O+09BlrOtFU7aTh/WMrpthgh9Oyo3mjJnWKPbuJU0LeF4qfRARP0yj8tyFTOU96fZm6swAiyyK8utzifq25+EjcoGkjCUHA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR17MB6831
-Received-SPF: none client-ip=2a01:111:f400:7eaa::631;
- envelope-from=gregory.price@memverge.com;
- helo=NAM11-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230122111618-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -147,21 +114,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 20, 2023 at 02:41:05PM -0800, Dan Williams wrote:
+* Michael S. Tsirkin (mst@redhat.com) wrote:
+> On Sun, Jan 22, 2023 at 06:09:40PM +0200, Anton Kuchin wrote:
+> > 
+> > On 22/01/2023 16:46, Michael S. Tsirkin wrote:
+> > > On Sun, Jan 22, 2023 at 02:36:04PM +0200, Anton Kuchin wrote:
+> > > > > > This flag should be set when qemu don't need to worry about any
+> > > > > > external state stored in vhost-user daemons during migration:
+> > > > > > don't fail migration, just pack generic virtio device states to
+> > > > > > migration stream and orchestrator guarantees that the rest of the
+> > > > > > state will be present at the destination to restore full context and
+> > > > > > continue running.
+> > > > > Sorry  I still do not get it.  So fundamentally, why do we need this property?
+> > > > > vhost-user-fs is not created by default that we'd then need opt-in to
+> > > > > the special "migrateable" case.
+> > > > > That's why I said it might make some sense as a device property as qemu
+> > > > > tracks whether device is unplugged for us.
+> > > > > 
+> > > > > But as written, if you are going to teach the orchestrator about
+> > > > > vhost-user-fs and its special needs, just teach it when to migrate and
+> > > > > where not to migrate.
+> > > > > 
+> > > > > Either we describe the special situation to qemu and let qemu
+> > > > > make an intelligent decision whether to allow migration,
+> > > > > or we trust the orchestrator. And if it's the latter, then 'migrate'
+> > > > > already says orchestrator decided to migrate.
+> > > > The problem I'm trying to solve is that most of vhost-user devices
+> > > > now block migration in qemu. And this makes sense since qemu can't
+> > > > extract and transfer backend daemon state. But this prevents us from
+> > > > updating qemu executable via local migration. So this flag is
+> > > > intended more as a safety check that says "I know what I'm doing".
+> > > > 
+> > > > I agree that it is not really necessary if we trust the orchestrator
+> > > > to request migration only when the migration can be performed in a
+> > > > safe way. But changing the current behavior of vhost-user-fs from
+> > > > "always blocks migration" to "migrates partial state whenever
+> > > > orchestrator requests it" seems a little  dangerous and can be
+> > > > misinterpreted as full support for migration in all cases.
+> > > It's not really different from block is it? orchestrator has to arrange
+> > > for backend migration. I think we just assumed there's no use-case where
+> > > this is practical for vhost-user-fs so we blocked it.
+> > > But in any case it's orchestrator's responsibility.
+> > 
+> > Yes, you are right. So do you think we should just drop the blocker
+> > without adding a new flag?
 > 
-> Which mode are you referring?
-> 
-> The next steps for the kernel enabling relevant to this thread are:
-> 
-> * ram region discovery (platform firmware or kexec established)
-> * ram region creation
-> * pmem region discovery (from labels)
+> I'd be inclined to. I am curious what do dgilbert and stefanha think though.
 
-On some bios there is an option for "legacy cxl" which produces the
-nvdimm-esque behavior described above.  After further investigation,
-supporting this would require a bigger lift than i expected since the
-existing emulated CXL devices don't carry any kind of node assignment
-and we'd have to plumb that through
+Yes I think that's probably OK, as long as we use the flag for knowing
+how to handle the discard bitmap as a proxy for the daemon knowing how
+to handle *some* migrations; knowing which migrations is then the job
+for the orchestrator to be careful of.
 
-Not worth it, better off working towards the new stuff.
+Dave
+
+> -- 
+> MST
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
 
