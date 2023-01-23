@@ -2,75 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F8A677392
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 01:03:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF12A677398
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 01:06:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJkHV-0007ua-W5; Sun, 22 Jan 2023 19:01:50 -0500
+	id 1pJkLm-000118-DU; Sun, 22 Jan 2023 19:06:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pJkHT-0007tu-VN; Sun, 22 Jan 2023 19:01:47 -0500
-Received: from mail-vk1-xa2b.google.com ([2607:f8b0:4864:20::a2b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pJkHR-0006mP-RO; Sun, 22 Jan 2023 19:01:47 -0500
-Received: by mail-vk1-xa2b.google.com with SMTP id q21so5226631vka.3;
- Sun, 22 Jan 2023 16:01:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=2NBcqqjcEF0dc5fWct4sV6OKuKM5spyiDbli2Qgd4Ow=;
- b=JJ8V89sGhdj5qNJkNNpRwykGvSyUULXVv7IJJOuiBA0/aTw26k7cMutyJxl7lQBxO5
- 091NyHgocD/6u+gFtxEL9GvVOMijUPFmVVNYzvu2GrGl6Ki98w8eL7OozPJkVPAD+Q7N
- AHxCTjRDoSBtp1HSJ9H20ojoW+ngAZjSeJ28mSCHMy5lvoJ9vQK8/FRIpmd78UmlapV9
- 8QCFSTGch8cxle21kWCjU6AdID3/6JxFx0xzEZVdg9D/4/5lIiHURAMd6I+/g1IBWd25
- pbytGPZfwWOy6TSjXxrP+x4T7qkj2JixHCtlnXpmrM/iUTi0TR4gl+xw/dbGF0+WKN9I
- bHfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=2NBcqqjcEF0dc5fWct4sV6OKuKM5spyiDbli2Qgd4Ow=;
- b=KG+Zj/n5jjNzVpmj7sekEJVmmyVvR+R5U8O74R0aX7bVKUE6uggAlb7LHJpCodMIP0
- 0/NKOy8wG9fEw4q8EhldgLGpKorMQf0L2b1iFrUaOOnaN8jjKqx4SLpgYtFpA7V9/6EQ
- cxnq/mgwmCHirVOtc3DU1EbTWuHbCcPrAl/knh0DJC0Nyft9MQRS8NOCFGFaWQg8Edcj
- GBt9w6hWohw4kG0r/qk/aJRXs/Fr+XM8odKF9p+NkhoErFplX1a/fL7utm4NukTeerjP
- OGqS4IlggpKyyxk6UvhQ9iEhMuxUu06NWgCdKqT3em48ulvCPfsvzlu2DEr0PvBOC7uG
- D52w==
-X-Gm-Message-State: AFqh2kq/USzqIo1TbgtmGvdnclaJ6wlRcebqpLcaUDLELQcL6NSX9U+c
- 4BiMBekrZw2IjTKrTZOgRUUshC6xZBxE/GcQVHs=
-X-Google-Smtp-Source: AMrXdXse0v/P04PggFKeZOl8SgzuHXzgx8pftcoqT5cBcIAcJCNBL3nL1eKcqd2NoKP5194p21b/G+YIt13zZxV6LMk=
-X-Received: by 2002:a1f:2c0c:0:b0:3e1:7e08:a117 with SMTP id
- s12-20020a1f2c0c000000b003e17e08a117mr2969781vks.34.1674432104307; Sun, 22
- Jan 2023 16:01:44 -0800 (PST)
+ (Exim 4.90_1)
+ (envelope-from <prvs=380668d3b=wilfred.mallawa@opensource.wdc.com>)
+ id 1pJkLk-00010u-3b
+ for qemu-devel@nongnu.org; Sun, 22 Jan 2023 19:06:12 -0500
+Received: from esa1.hgst.iphmx.com ([68.232.141.245])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=380668d3b=wilfred.mallawa@opensource.wdc.com>)
+ id 1pJkLf-0007TV-7X
+ for qemu-devel@nongnu.org; Sun, 22 Jan 2023 19:06:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
+ t=1674432367; x=1705968367;
+ h=from:to:cc:subject:date:message-id:mime-version:
+ content-transfer-encoding;
+ bh=5oa6UUini4nihWHrDxq/euHryq8YHHpTXQ5iJqv+FnE=;
+ b=foD+NS03CbjIPV7klQDTMxF1wuB3BYfmplxDp9kmSBnGax7oyb0VX8zK
+ ZeC0idNt23Ox1Q4DjTODmIprYuX/9TS91ikvbWxwp8dM/sNmcyOXWs2Uu
+ ZDgaMQ5wPz7rzO04o9ehGMuxxHr2o8JgtmIzQYhqcFzo9SfekFJK8ujh9
+ YnvW4Ar1YTF6xhGgkKd3HIiqCK1Q9kxb7hjMFJVMSpAseyONNY6BeZYdl
+ h/4o7MQq4f/g14wlhpOJMcAh0MzAHClveZLncislLYGQXFmEbJo02+gDd
+ oicEYHzSLqFAscVp9onOoot9wlHJ84LQkigSYEyhBuW4TGLJiibM4Tcju A==;
+X-IronPort-AV: E=Sophos;i="5.97,238,1669046400"; d="scan'208";a="333494696"
+Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
+ ([199.255.45.14])
+ by ob1.hgst.iphmx.com with ESMTP; 23 Jan 2023 08:06:01 +0800
+IronPort-SDR: ojsHL9ikuIhhx/7mCrsZNsl/96fcB9wCtok1KDq5tCOKif2npDNtiwwz76jH9GICsKpqAPblY+
+ lC1iQ0ZFelthKGJ18eRtJZdtdxA3CfKJo1CYTnFay23ggZMJ+v5m2qdNTLqjJOK5plbJxm8I9U
+ pQvnHBUyi8D2Z8bjzHUbTDmA7jlUqIvWGczVtPGsb4zLeqlq7mt3YVa/qbOJNf4zYP+X/eyNTd
+ v8/MOmtE46wiuYmobp9HeaVQHwguWKdhKiQYcuB8zNDx4ld+DTX6FCvAawcpuAVoHVDIsW8QqM
+ lPw=
+Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
+ by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 22 Jan 2023 15:23:36 -0800
+IronPort-SDR: XXhMzQcGph3C1TB0A+Hclvj1p6WL1z15hQf76X8KB27czyZ9DHvT3o8UcP3n5C16PLeehHWAPI
+ SuyGtsxtLGF4TpkVQB4hbwutI1cR/hRGQFVxGclXRc+t/4vAm0+tl9pXmR1mecCeKGxzMkUyxU
+ 0yAir6ow9PFNxt0EKXD6s/9KrRYFyyZM4f+MIstrZhn7QVJJf5b12Ol/TLXiy5Go/Gm/lLcJvm
+ VRvNXWFpC/MSpqjoM3XLJRdRbX6WP9ifEwp2xlpwz/FgpfObs1F8kynUU85StWhWlQ+3iAqdFA
+ iqE=
+WDCIronportException: Internal
+Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
+ by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
+ 22 Jan 2023 16:06:01 -0800
+Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P0VkK2JPkz1Rwrq
+ for <qemu-devel@nongnu.org>; Sun, 22 Jan 2023 16:06:01 -0800 (PST)
+Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
+ reason="pass (just generated, assumed good)"
+ header.d=opensource.wdc.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
+ opensource.wdc.com; h=content-transfer-encoding:mime-version
+ :x-mailer:message-id:date:subject:to:from; s=dkim; t=1674432360;
+ x=1677024361; bh=5oa6UUini4nihWHrDxq/euHryq8YHHpTXQ5iJqv+FnE=; b=
+ P3XTDTMhYw5Z8421mkigARHmzoK2kjb/coQ5tadiiXuPGQsMz3q49pBcFKbAcmFn
+ s+GecnSZJZ+W8JzaoyT/+oyDR7CaYgDL0ONOIKRaWFhwB0czXA0+UBF/Cyu9yRuF
+ xFg3a+F/ToNyfP6Uhhr1wyoqs+Y+OxnUGOgeA6p0u6Z1XTtZfeYloHu8YfCsUvVc
+ HKOWVyj24h90emBmWA4MrciH+bGiJhxrp9ZiJWfe0M64rHZXaTyDkfGPU46gqWdy
+ iHvNdWcaVClIxR6pFj/cJFe7epmPX4ROU/IaCayT63bL/jzVBhL3qynYj30Ajl9W
+ I27IQ5nZFb5r4/n7WeRI+g==
+X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
+Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
+ by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
+ port 10026) with ESMTP id nkCpqJssY4K1 for <qemu-devel@nongnu.org>;
+ Sun, 22 Jan 2023 16:06:00 -0800 (PST)
+Received: from localhost.localdomain (unknown [10.225.165.30])
+ by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P0VkG1vffz1RvLy;
+ Sun, 22 Jan 2023 16:05:57 -0800 (PST)
+From: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
+To: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
+ qemu-riscv@nongnu.org
+Cc: qemu-devel@nongnu.org,
+	Wilfred Mallawa <wilfred.mallawa@wdc.com>
+Subject: [PATCH] include/hw/riscv/opentitan: update opentitan IRQs
+Date: Mon, 23 Jan 2023 10:05:41 +1000
+Message-Id: <20230123000540.58351-1-wilfred.mallawa@opensource.wdc.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230119213707.651533-1-dbarboza@ventanamicro.com>
- <20230119213707.651533-2-dbarboza@ventanamicro.com>
-In-Reply-To: <20230119213707.651533-2-dbarboza@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 23 Jan 2023 10:01:18 +1000
-Message-ID: <CAKmqyKPpUo-ZXVLJuUh5ZrXmvfoh69D+wXfjsdTP=TMa5J2nAw@mail.gmail.com>
-Subject: Re: [PATCH v9 1/3] hw/riscv: clear kernel_entry higher bits from
- load_elf_ram_sym()
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2b;
- envelope-from=alistair23@gmail.com; helo=mail-vk1-xa2b.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=68.232.141.245;
+ envelope-from=prvs=380668d3b=wilfred.mallawa@opensource.wdc.com;
+ helo=esa1.hgst.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,195 +113,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 20, 2023 at 7:38 AM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
-> load_elf_ram_sym() will sign-extend 32 bit addresses. If a 32 bit
-> QEMU guest happens to be running in a hypervisor that are using 64
-> bits to encode its address, kernel_entry can be padded with '1's
-> and create problems [1].
->
-> Use a translate_fn() callback to be called by load_elf_ram_sym() and
-> return only the 32 bits address if we're running a 32 bit CPU.
->
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02281.html
->
-> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Suggested-by: Bin Meng <bmeng.cn@gmail.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Updates the opentitan IRQs to match the latest supported commit of
+Opentitan from TockOS.
 
-Alistair
+OPENTITAN_SUPPORTED_SHA :=3D 565e4af39760a123c59a184aa2f5812a961fde47
 
-> ---
->  hw/riscv/boot.c            | 20 +++++++++++++++++++-
->  hw/riscv/microchip_pfsoc.c |  3 ++-
->  hw/riscv/opentitan.c       |  3 ++-
->  hw/riscv/sifive_e.c        |  3 ++-
->  hw/riscv/sifive_u.c        |  3 ++-
->  hw/riscv/spike.c           |  3 ++-
->  hw/riscv/virt.c            |  3 ++-
->  include/hw/riscv/boot.h    |  1 +
->  8 files changed, 32 insertions(+), 7 deletions(-)
->
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 2594276223..46fc7adccf 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -173,7 +173,24 @@ target_ulong riscv_load_firmware(const char *firmwar=
-e_filename,
->      exit(1);
->  }
->
-> +static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
-> +{
-> +    RISCVHartArrayState *harts =3D opaque;
-> +
-> +    if (riscv_is_32bit(harts)) {
-> +        /*
-> +         * For 32 bit CPUs, kernel_load_base is sign-extended
-> +         * (i.e. it can be padded with '1's) by load_elf().
-> +         * Remove the sign extension by truncating to 32-bit.
-> +         */
-> +        return extract64(addr, 0, 32);
-> +    }
-> +
-> +    return addr;
-> +}
-> +
->  target_ulong riscv_load_kernel(MachineState *machine,
-> +                               RISCVHartArrayState *harts,
->                                 target_ulong kernel_start_addr,
->                                 symbol_fn_t sym_cb)
->  {
-> @@ -189,7 +206,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
->       * the (expected) load address load address. This allows kernels to =
-have
->       * separate SBI and ELF entry points (used by FreeBSD, for example).
->       */
-> -    if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
-> +    if (load_elf_ram_sym(kernel_filename, NULL,
-> +                         translate_kernel_address, harts,
->                           NULL, &kernel_load_base, NULL, NULL, 0,
->                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
->          return kernel_load_base;
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index 82ae5e7023..bdefeb3cbb 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -629,7 +629,8 @@ static void microchip_icicle_kit_machine_init(Machine=
-State *machine)
->          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc.u_cpu=
-s,
->                                                           firmware_end_ad=
-dr);
->
-> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr, N=
-ULL);
-> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc.u_cpus,
-> +                                         kernel_start_addr, NULL);
->
->          if (machine->initrd_filename) {
->              riscv_load_initrd(machine, kernel_entry);
-> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-> index 64d5d435b9..2731138c41 100644
-> --- a/hw/riscv/opentitan.c
-> +++ b/hw/riscv/opentitan.c
-> @@ -101,7 +101,8 @@ static void opentitan_board_init(MachineState *machin=
-e)
->      }
->
->      if (machine->kernel_filename) {
-> -        riscv_load_kernel(machine, memmap[IBEX_DEV_RAM].base, NULL);
-> +        riscv_load_kernel(machine, &s->soc.cpus,
-> +                          memmap[IBEX_DEV_RAM].base, NULL);
->      }
->  }
->
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index 3e3f4b0088..1a7d381514 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -114,7 +114,8 @@ static void sifive_e_machine_init(MachineState *machi=
-ne)
->                            memmap[SIFIVE_E_DEV_MROM].base, &address_space=
-_memory);
->
->      if (machine->kernel_filename) {
-> -        riscv_load_kernel(machine, memmap[SIFIVE_E_DEV_DTIM].base, NULL)=
-;
-> +        riscv_load_kernel(machine, &s->soc.cpus,
-> +                          memmap[SIFIVE_E_DEV_DTIM].base, NULL);
->      }
->  }
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 2fb6ee231f..83dfe09877 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -598,7 +598,8 @@ static void sifive_u_machine_init(MachineState *machi=
-ne)
->          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc.u_cpu=
-s,
->                                                           firmware_end_ad=
-dr);
->
-> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr, N=
-ULL);
-> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc.u_cpus,
-> +                                         kernel_start_addr, NULL);
->
->          if (machine->initrd_filename) {
->              riscv_load_initrd(machine, kernel_entry);
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index badc11ec43..2bcc50d90d 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -305,7 +305,8 @@ static void spike_board_init(MachineState *machine)
->          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc[0],
->                                                           firmware_end_ad=
-dr);
->
-> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr,
-> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc[0],
-> +                                         kernel_start_addr,
->                                           htif_symbol_callback);
->
->          if (machine->initrd_filename) {
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 4a11b4b010..ac173a6ed6 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -1274,7 +1274,8 @@ static void virt_machine_done(Notifier *notifier, v=
-oid *data)
->          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc[0],
->                                                           firmware_end_ad=
-dr);
->
-> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr, N=
-ULL);
-> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc[0],
-> +                                         kernel_start_addr, NULL);
->
->          if (machine->initrd_filename) {
->              riscv_load_initrd(machine, kernel_entry);
-> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-> index f94653a09b..105706bf25 100644
-> --- a/include/hw/riscv/boot.h
-> +++ b/include/hw/riscv/boot.h
-> @@ -44,6 +44,7 @@ target_ulong riscv_load_firmware(const char *firmware_f=
-ilename,
->                                   hwaddr firmware_load_addr,
->                                   symbol_fn_t sym_cb);
->  target_ulong riscv_load_kernel(MachineState *machine,
-> +                               RISCVHartArrayState *harts,
->                                 target_ulong firmware_end_addr,
->                                 symbol_fn_t sym_cb);
->  void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry);
-> --
-> 2.39.0
->
->
+Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+---
+ include/hw/riscv/opentitan.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
+index 7659d1bc5b..235728b9cc 100644
+--- a/include/hw/riscv/opentitan.h
++++ b/include/hw/riscv/opentitan.h
+@@ -108,11 +108,11 @@ enum {
+     IBEX_UART0_RX_BREAK_ERR_IRQ   =3D 6,
+     IBEX_UART0_RX_TIMEOUT_IRQ     =3D 7,
+     IBEX_UART0_RX_PARITY_ERR_IRQ  =3D 8,
+-    IBEX_TIMER_TIMEREXPIRED0_0    =3D 127,
+-    IBEX_SPI_HOST0_ERR_IRQ        =3D 134,
+-    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 135,
+-    IBEX_SPI_HOST1_ERR_IRQ        =3D 136,
+-    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 137,
++    IBEX_TIMER_TIMEREXPIRED0_0    =3D 124,
++    IBEX_SPI_HOST0_ERR_IRQ        =3D 131,
++    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 132,
++    IBEX_SPI_HOST1_ERR_IRQ        =3D 133,
++    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 134,
+ };
+=20
+ #endif
+--=20
+2.39.0
+
 
