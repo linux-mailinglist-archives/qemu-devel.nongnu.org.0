@@ -2,71 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 890CF678728
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 21:05:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D68067875A
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 21:15:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK33f-0003w0-CZ; Mon, 23 Jan 2023 15:04:47 -0500
+	id 1pK3DO-00014a-5M; Mon, 23 Jan 2023 15:14:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pK33X-0003rq-6G
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 15:04:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pK3DM-00011b-3U
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 15:14:48 -0500
+Received: from rev.ng ([5.9.113.41])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pK33U-0005jw-01
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 15:04:38 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674504271;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GBjPg5PzJ5sOh9yR6sFRUSXxSz+BW0v18YTeNVXw93Y=;
- b=GtFwWNcf59n53BDKq1ehp778WGHcMoGkWes2aNaEDKtqkKeSTQCjmMN0CNWbd9etm/rD7M
- opPuoPfwyskACww8IuIwwn1NIa9YHEvGaCGoxTcPq3XZ6L1rd8ZGssiuQOfMB5uvBvYu2C
- iNcGaJqH8UvAl67ZxVz9tr8pLN3OaHY=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-396-1Wq8hbefOZqx5KbINNDb9w-1; Mon, 23 Jan 2023 15:04:27 -0500
-X-MC-Unique: 1Wq8hbefOZqx5KbINNDb9w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ACC141C189A1;
- Mon, 23 Jan 2023 20:04:26 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.206])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1C612C15BA0;
- Mon, 23 Jan 2023 20:04:25 +0000 (UTC)
-From: Stefan Hajnoczi <stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pK3DK-0007AK-Dv
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 15:14:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:
+ To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=VLL73lb2utPNE3jIRkpN4EnH4IiSRUHAVh9bTMXesto=; b=JhDb/m/pKgcIFOZpZYBCsrfgKY
+ 9B+WPa3eAolUZZIP96TrwHGiDx+gXilUH3w1qgClTfoassAcGOkJGdKOoReapaub9I8W3D85QWFoO
+ ibLUhOpZJnyrLhVLkmIG8PVbd/iJ8I7bXu9mQSWT234DFmXWAaz40QlBeL/msyJcKtfI=;
 To: qemu-devel@nongnu.org
-Cc: Hanna Reitz <hreitz@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Fam Zheng <fam@euphon.net>, qemu-block@nongnu.org,
- Paolo Bonzini <pbonzini@redhat.com>, Peter Krempa <pkrempa@redhat.com>,
- Markus Armbruster <armbru@redhat.com>
-Subject: [PULL 3/3] block/blkio: Fix inclusion of required headers
-Date: Mon, 23 Jan 2023 15:04:17 -0500
-Message-Id: <20230123200417.169053-4-stefanha@redhat.com>
-In-Reply-To: <20230123200417.169053-1-stefanha@redhat.com>
-References: <20230123200417.169053-1-stefanha@redhat.com>
+Cc: ale@rev.ng,
+	kwolf@redhat.com,
+	hreitz@redhat.com
+Subject: [PATCH] block: Handle curl 7.55.0, 7.85.0 version changes
+Date: Mon, 23 Jan 2023 21:14:31 +0100
+Message-Id: <20230123201431.23118-1-anjo@rev.ng>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,65 +53,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Peter Krempa <pkrempa@redhat.com>
+* 7.55.0 deprecates CURLINFO_CONTENT_LENGTH_DOWNLOAD in favour of a *_T
+  version, which returns curl_off_t instead of a double.
+* 7.85.0 deprecates CURLOPT_PROTOCOLS and CURLOPT_REDIR_PROTOCOLS in
+  favour of *_STR variants, specifying the desired protocols via a
+  string.
 
-After recent header file inclusion rework the build fails when the blkio
-module is enabled:
-
-../block/blkio.c: In function ‘blkio_detach_aio_context’:
-../block/blkio.c:321:24: error: implicit declaration of function ‘bdrv_get_aio_context’; did you mean ‘qemu_get_aio_context’? [-Werror=implicit-function-declaration]
-  321 |     aio_set_fd_handler(bdrv_get_aio_context(bs),
-      |                        ^~~~~~~~~~~~~~~~~~~~
-      |                        qemu_get_aio_context
-../block/blkio.c:321:24: error: nested extern declaration of ‘bdrv_get_aio_context’ [-Werror=nested-externs]
-../block/blkio.c:321:24: error: passing argument 1 of ‘aio_set_fd_handler’ makes pointer from integer without a cast [-Werror=int-conversion]
-  321 |     aio_set_fd_handler(bdrv_get_aio_context(bs),
-      |                        ^~~~~~~~~~~~~~~~~~~~~~~~
-      |                        |
-      |                        int
-In file included from /home/pipo/git/qemu.git/include/qemu/job.h:33,
-                 from /home/pipo/git/qemu.git/include/block/blockjob.h:30,
-                 from /home/pipo/git/qemu.git/include/block/block_int-global-state.h:28,
-                 from /home/pipo/git/qemu.git/include/block/block_int.h:27,
-                 from ../block/blkio.c:13:
-/home/pipo/git/qemu.git/include/block/aio.h:476:37: note: expected ‘AioContext *’ but argument is of type ‘int’
-  476 | void aio_set_fd_handler(AioContext *ctx,
-      |                         ~~~~~~~~~~~~^~~
-../block/blkio.c: In function ‘blkio_file_open’:
-../block/blkio.c:821:34: error: passing argument 2 of ‘blkio_attach_aio_context’ makes pointer from integer without a cast [-Werror=int-conversion]
-  821 |     blkio_attach_aio_context(bs, bdrv_get_aio_context(bs));
-      |                                  ^~~~~~~~~~~~~~~~~~~~~~~~
-      |                                  |
-      |                                  int
-
-Fix it by including 'block/block-io.h' which contains the required
-declarations.
-
-Fixes: e2c1c34f139f49ef909bb4322607fb8b39002312
-Signed-off-by: Peter Krempa <pkrempa@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-id: 2bc956011404a1ab03342aefde0087b5b4762562.1674477350.git.pkrempa@redhat.com
-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+Signed-off-by: Anton Johansson <anjo@rev.ng>
 ---
- block/blkio.c | 2 ++
- 1 file changed, 2 insertions(+)
+ block/curl.c | 44 +++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 37 insertions(+), 7 deletions(-)
 
-diff --git a/block/blkio.c b/block/blkio.c
-index 5eae3adfaf..6ad86b23d1 100644
---- a/block/blkio.c
-+++ b/block/blkio.c
-@@ -19,6 +19,8 @@
- #include "qemu/module.h"
- #include "exec/memory.h" /* for ram_block_discard_disable() */
+diff --git a/block/curl.c b/block/curl.c
+index cba4c4cac7..0b125095e3 100644
+--- a/block/curl.c
++++ b/block/curl.c
+@@ -37,8 +37,15 @@
  
-+#include "block/block-io.h"
-+
- /*
-  * Keep the QEMU BlockDriver names identical to the libblkio driver names.
-  * Using macros instead of typing out the string literals avoids typos.
+ // #define DEBUG_VERBOSE
+ 
++/* CURL 7.85.0 switches to a string based API for specifying
++ * the desired protocols.
++ */
++#if LIBCURL_VERSION_NUM >= 0x075500
++#define PROTOCOLS "HTTP,HTTPS,FTP,FTPS"
++#else
+ #define PROTOCOLS (CURLPROTO_HTTP | CURLPROTO_HTTPS | \
+                    CURLPROTO_FTP | CURLPROTO_FTPS)
++#endif
+ 
+ #define CURL_NUM_STATES 8
+ #define CURL_NUM_ACB    8
+@@ -509,9 +516,18 @@ static int curl_init_state(BDRVCURLState *s, CURLState *state)
+          * obscure protocols.  For example, do not allow POP3/SMTP/IMAP see
+          * CVE-2013-0249.
+          *
+-         * Restricting protocols is only supported from 7.19.4 upwards.
++         * Restricting protocols is only supported from 7.19.4 upwards. Note:
++         * version 7.85.0 deprecates CURLOPT_*PROTOCOLS in favour of a string
++         * based CURLOPT_*PROTOCOLS_STR API.
+          */
+-#if LIBCURL_VERSION_NUM >= 0x071304
++#if LIBCURL_VERSION_NUM >= 0x075500
++        if (curl_easy_setopt(state->curl,
++                             CURLOPT_PROTOCOLS_STR, PROTOCOLS) ||
++            curl_easy_setopt(state->curl,
++                             CURLOPT_REDIR_PROTOCOLS_STR, PROTOCOLS)) {
++            goto err;
++        }
++#elif LIBCURL_VERSION_NUM >= 0x071304
+         if (curl_easy_setopt(state->curl, CURLOPT_PROTOCOLS, PROTOCOLS) ||
+             curl_easy_setopt(state->curl, CURLOPT_REDIR_PROTOCOLS, PROTOCOLS)) {
+             goto err;
+@@ -669,7 +685,12 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
+     const char *file;
+     const char *cookie;
+     const char *cookie_secret;
+-    double d;
++    /* CURL >= 7.55.0 uses curl_off_t for content length instead of a double */
++#if LIBCURL_VERSION_NUM >= 0x073700
++    curl_off_t cl;
++#else
++    double cl;
++#endif
+     const char *secretid;
+     const char *protocol_delimiter;
+     int ret;
+@@ -796,27 +817,36 @@ static int curl_open(BlockDriverState *bs, QDict *options, int flags,
+     }
+     if (curl_easy_perform(state->curl))
+         goto out;
+-    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &d)) {
++    /* CURL 7.55.0 deprecates CURLINFO_CONTENT_LENGTH_DOWNLOAD in favour of
++     * the *_T version which returns a more sensible type for content length.
++     */
++#if LIBCURL_VERSION_NUM >= 0x073700
++    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD_T, &cl)) {
++        goto out;
++    }
++#else
++    if (curl_easy_getinfo(state->curl, CURLINFO_CONTENT_LENGTH_DOWNLOAD, &cl)) {
+         goto out;
+     }
++#endif
+     /* Prior CURL 7.19.4 return value of 0 could mean that the file size is not
+      * know or the size is zero. From 7.19.4 CURL returns -1 if size is not
+      * known and zero if it is really zero-length file. */
+ #if LIBCURL_VERSION_NUM >= 0x071304
+-    if (d < 0) {
++    if (cl < 0) {
+         pstrcpy(state->errmsg, CURL_ERROR_SIZE,
+                 "Server didn't report file size.");
+         goto out;
+     }
+ #else
+-    if (d <= 0) {
++    if (cl <= 0) {
+         pstrcpy(state->errmsg, CURL_ERROR_SIZE,
+                 "Unknown file size or zero-length file.");
+         goto out;
+     }
+ #endif
+ 
+-    s->len = d;
++    s->len = cl;
+ 
+     if ((!strncasecmp(s->url, "http://", strlen("http://"))
+         || !strncasecmp(s->url, "https://", strlen("https://")))
 -- 
 2.39.0
 
