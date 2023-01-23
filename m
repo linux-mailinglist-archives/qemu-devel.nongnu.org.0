@@ -2,82 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9766677A94
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 13:10:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96EE0677A96
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 13:12:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJvet-0004cQ-92; Mon, 23 Jan 2023 07:10:43 -0500
+	id 1pJvgV-000679-2q; Mon, 23 Jan 2023 07:12:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJveq-0004aE-Om
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:10:40 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJveo-0003Kj-33
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:10:40 -0500
-Received: by mail-wm1-x330.google.com with SMTP id l8so8826890wms.3
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 04:10:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=2BWq5n3drYbZxc9eXEogamswrsQbLJ3xXLmasblSQcs=;
- b=zz0qZx3QvXzUwjAmiKTfz3a+y4DvRI648pm3c8dU9S7OqSCQIl7rY+M8SHN7Gfqhcq
- m6CBq1gBcztEd9/l/9qpm3RhuZDktTUQHqqYs7GPYbK5z40hCNLivejwmzCvxwkCTBTz
- 6RTAROl2BS1HefmAgDV0M24HPT7CL4bXP6IsD8kGkwg0NTq3vB6FOp4m6PzIfFPvD626
- atX+mGEx2+DelrsFZUkmoZrkhUVAweCFozIeG/q8T5ItTj9MMYW+e7Jl7hCPZS6lMf52
- tRvLsMzkVnUYe5FIszWbC5TnzLHBgIt3B50o4X7EoUQh9LWlkVw68ogYqScwN3BwbUj9
- zd4A==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pJvgL-00066k-VX
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:12:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pJvgK-0003ij-7Z
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 07:12:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674475931;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=9Pz5bqC+1dFWHXTHCuh3EPA33hDztJpxpjwvljUkZAg=;
+ b=frbeqUElPSmGuuKcK3gWvELZrBb3WDqIPvznAhOAKyilCcYbFV+4YltgjANSLCFRk80vD8
+ 3c5mbhfJeiNkGRVaA3QPThEK52jcKkFeYtCQ+J8bH7RcqVRuDZx7LtUPJSf4Ug2sA+X63V
+ 0J3Pg++3l+FTs9gS9Ep9vBP9HklZyKQ=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-590-lLbB4oKJMCy47IJNPlf5FA-1; Mon, 23 Jan 2023 07:12:09 -0500
+X-MC-Unique: lLbB4oKJMCy47IJNPlf5FA-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ w3-20020a056402268300b00487e0d9b53fso8391204edd.10
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 04:12:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2BWq5n3drYbZxc9eXEogamswrsQbLJ3xXLmasblSQcs=;
- b=SmDgHN88bNFBnc+Rq6J6IJbhIWh3AezBJxkQaTmyMkWUg4jnpnv3Cc9lURgLIzhsO/
- epuhIksKpEObrXZgnIWWgLqkOE/5ggg5ExHiJIgLukEgDlmqNEECkVmIlqVBXFpmjfa3
- iXZoiPyAOcCoKfKEFMFn2du7N4voAAX2FePD02uiz9vkHKV39SeD0E+iVWj7gurmwhw8
- had1upeUwRzZcUUEG/DmUdAxCB8Nwx5mm6K6vTZieKIrpbeYUKnEqzuOkzlxXuZYoZPg
- JDTBBjcdz/eExFNEWUJ6y49fMfk4KiJMgwWlyeDJMUa9fOR8fEAwUi8fSjnu5Fyt7AS8
- 3+tg==
-X-Gm-Message-State: AFqh2kpvX+PNLUa+l1ioNnAbCifn2e5eEKBdZJNv0FKzyuc0mTcNMbEH
- SgziJ/LTxuveUeEtPUIrVwFkCBN4kIsYGmSJ
-X-Google-Smtp-Source: AMrXdXu2LGGeiApSi1Oj3mQg+BDFvCYDY2JSIklypyaRhnaJhsZG56ceEY2ONr02OuVxGkbNb7Zfsw==
-X-Received: by 2002:a7b:ce15:0:b0:3da:2932:b61a with SMTP id
- m21-20020a7bce15000000b003da2932b61amr23643245wmc.18.1674475836427; 
- Mon, 23 Jan 2023 04:10:36 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- he7-20020a05600c540700b003d9fb04f658sm10349501wmb.4.2023.01.23.04.10.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 04:10:36 -0800 (PST)
-Message-ID: <5128572f-1bfe-6fad-3afd-efd3fd0e1908@linaro.org>
-Date: Mon, 23 Jan 2023 13:10:35 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=9Pz5bqC+1dFWHXTHCuh3EPA33hDztJpxpjwvljUkZAg=;
+ b=1KGBmhVKcZL4isKHM60om4Wvctdgs40Jro+YOJS4BhXjHjIEkUtMXmmSqRqpq1vKZu
+ iNuMJUDI24BAdWIQ3jyW4he7yiDR2ERVUbvxiEsKdvEx4SqDC2WgCH5ckwuNkpSZwGI4
+ lBFIs42bGywTcCF6sZzOBXPOSeRnmSHB3aFo5zR76fJkVRJo0LqkzisBf8quD5SlnqB6
+ 9yjPuzIaenk22cHAUCQi7iGtt0xpiyx48bpF3fz0DZvEnTMhzuy+MBKQE4jU1/fQxohi
+ gIMEACgNIv9HJMPYPHMY60P6nFbIAfJj1BC5WBJEuEiGVoHmzyOOENMxXB5VvpLsrdsT
+ GBng==
+X-Gm-Message-State: AFqh2koMMIyXWktiEZwmmLCrxn+NkrlnzKpq1x463Myv+w+odjndkydp
+ +F69VZpE5NZUorkL8aQN1oG7RS4O5Ws8qHCNQB3oMalFLuMUHxzdjgz/HrsR9Rr5+Ps3raj8id5
+ PdCTGCVpay/xSPAU=
+X-Received: by 2002:a50:c049:0:b0:49e:5902:39d0 with SMTP id
+ u9-20020a50c049000000b0049e590239d0mr18696343edd.12.1674475928528; 
+ Mon, 23 Jan 2023 04:12:08 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvjSraSuZrhamfx9NcVTJNClI4px1dEDL9c1v8L+blMlG1YGnPb0dkO685NX269VLr8Kqtmxw==
+X-Received: by 2002:a50:c049:0:b0:49e:5902:39d0 with SMTP id
+ u9-20020a50c049000000b0049e590239d0mr18696325edd.12.1674475928293; 
+ Mon, 23 Jan 2023 04:12:08 -0800 (PST)
+Received: from redhat.com ([2.52.149.29]) by smtp.gmail.com with ESMTPSA id
+ ec49-20020a0564020d7100b0049e249c0e56sm10594377edb.56.2023.01.23.04.12.06
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Jan 2023 04:12:07 -0800 (PST)
+Date: Mon, 23 Jan 2023 07:12:04 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Eric Biggers <ebiggers@kernel.org>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
+ pbonzini@redhat.com, Mathias Krause <minipli@grsecurity.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH qemu v3] x86: don't let decompressed kernel image clobber
+ setup_data
+Message-ID: <20230123071128-mutt-send-email-mst@kernel.org>
+References: <Y69fUstLKNv/RLd7@zx2c4.com>
+ <20221230220725.618763-1-Jason@zx2c4.com>
+ <Y72FmQlNwBsp8Ntc@zx2c4.com>
+ <20230110125005-mutt-send-email-mst@kernel.org>
+ <Y84LSgtrq1Rq3ItD@sol.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PULL 09/12] include/hw/ppc: Split pnv_chip.h off pnv.h
-Content-Language: en-US
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org,
- =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>,
- Daniel Henrique Barboza <danielhb413@gmail.com>
-References: <20230120070122.3982588-1-armbru@redhat.com>
- <20230120070122.3982588-10-armbru@redhat.com>
- <d8106f3d-ee31-ca51-40ba-4329238851de@linaro.org>
- <87y1ptbm32.fsf@pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <87y1ptbm32.fsf@pond.sub.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y84LSgtrq1Rq3ItD@sol.localdomain>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,68 +103,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/1/23 11:07, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <philmd@linaro.org> writes:
+On Sun, Jan 22, 2023 at 08:21:30PM -0800, Eric Biggers wrote:
+> Hi Michael,
 > 
->> Hi Markus,
->>
->> On 20/1/23 08:01, Markus Armbruster wrote:
->>> PnvChipClass, PnvChip, Pnv8Chip, Pnv9Chip, and Pnv10Chip are defined
->>> in pnv.h.  Many users of the header don't actually need them.  One
->>> instance is this inclusion loop: hw/ppc/pnv_homer.h includes
->>> hw/ppc/pnv.h for typedef PnvChip, and vice versa for struct PnvHomer.
->>> Similar structs live in their own headers: PnvHomerClass and PnvHomer
->>> in pnv_homer.h, PnvLpcClass and PnvLpcController in pci_lpc.h,
->>> PnvPsiClass, PnvPsi, Pnv8Psi, Pnv9Psi, Pnv10Psi in pnv_psi.h, ...
->>> Move PnvChipClass, PnvChip, Pnv8Chip, Pnv9Chip, and Pnv10Chip to new
->>> pnv_chip.h, and adjust include directives.  This breaks the inclusion
->>> loop mentioned above.
->>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>> Reviewed-by: Cédric Le Goater <clg@kaod.org>
->>> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
->>> Message-Id: <20221222104628.659681-2-armbru@redhat.com>
->>> ---
->>>    include/hw/ppc/pnv.h       | 143 +-----------------------------------
->>>    include/hw/ppc/pnv_chip.h  | 147 +++++++++++++++++++++++++++++++++++++
->>>    hw/intc/pnv_xive.c         |   1 +
->>>    hw/intc/pnv_xive2.c        |   1 +
->>>    hw/pci-host/pnv_phb3.c     |   1 +
->>>    hw/pci-host/pnv_phb4_pec.c |   1 +
->>>    hw/ppc/pnv.c               |   3 +
->>>    hw/ppc/pnv_core.c          |   1 +
->>>    hw/ppc/pnv_homer.c         |   1 +
->>>    hw/ppc/pnv_lpc.c           |   1 +
->>>    hw/ppc/pnv_xscom.c         |   1 +
->>>    11 files changed, 160 insertions(+), 141 deletions(-)
->>>    create mode 100644 include/hw/ppc/pnv_chip.h
->>> diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
->>> index 9ef7e2d0dc..ca49e4281d 100644
->>> --- a/include/hw/ppc/pnv.h
->>> +++ b/include/hw/ppc/pnv.h
->>> @@ -20,158 +20,19 @@
->>>    #ifndef PPC_PNV_H
->>>    #define PPC_PNV_H
->>>    +#include "cpu.h"
->>
->> Why is "cpu.h" required here? For pnv_chip_find_cpu()?
+> On Tue, Jan 10, 2023 at 12:50:42PM -0500, Michael S. Tsirkin wrote:
+> > On Tue, Jan 10, 2023 at 04:34:49PM +0100, Jason A. Donenfeld wrote:
+> > > Hi Michael,
+> > > 
+> > > Could you queue up this patch and mark it as a fix for 7.2.1? It is a
+> > > straight-up bug fix for a 7.2 regression that's now affected several
+> > > users.
+> > 
+> > OK. In the future pls cc me if you want me to merge a patch. Thanks!
+> > 
+> > > - It has two Tested-by tags on the thread.
+> > > - hpa, the maintainer of the kernel side of this, confirmed on one of
+> > >   the various tributary threads that this approach is a correct one.
+> > > - It doesn't introduce any new functionality.
+> > > 
+> > > For your convenience, you can grab this out of lore here:
+> > > 
+> > >   https://lore.kernel.org/lkml/20221230220725.618763-1-Jason@zx2c4.com/
+> > > 
+> > > Or if you want to yolo it:
+> > > 
+> > >   curl https://lore.kernel.org/lkml/20221230220725.618763-1-Jason@zx2c4.com/raw | git am -s
+> > > 
+> > > It's now sat silent on the mailing list for a while. So let's please get
+> > > this committed and backported so that the bug reports stop coming in.
+> > > 
 > 
-> Yes:
+> This patch still isn't on QEMU's master branch.  What happened to it?
 > 
->      ../include/hw/ppc/pnv.h:58:1: error: unknown type name ‘PowerPCCPU’
->         58 | PowerPCCPU *pnv_chip_find_cpu(PnvChip *chip, uint32_t pir);
->            | ^~~~~~~~~~
-> 
->> Isn't "target/ppc/cpu-qom.h" enough?
-> 
-> Seems to suffice.  Would you like to post a followup?
+> - Eric
 
-Good.
+Indeed though I remember picking it up. Tagged again now. Thanks!
 
-First I need to finish the ARM part and deal with this comment:
-https://lore.kernel.org/qemu-devel/325310d0-aad6-fc39-748a-80762d644dd8@linaro.org/
-Then this change will be included in the PPC equivalent series.
-
-Thanks,
-
-Phil.
 
