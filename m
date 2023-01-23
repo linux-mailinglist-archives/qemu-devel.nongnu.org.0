@@ -2,101 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF12A677398
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 01:06:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A2067739E
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 01:23:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJkLm-000118-DU; Sun, 22 Jan 2023 19:06:14 -0500
+	id 1pJkbV-00034M-6g; Sun, 22 Jan 2023 19:22:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=380668d3b=wilfred.mallawa@opensource.wdc.com>)
- id 1pJkLk-00010u-3b
- for qemu-devel@nongnu.org; Sun, 22 Jan 2023 19:06:12 -0500
-Received: from esa1.hgst.iphmx.com ([68.232.141.245])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=380668d3b=wilfred.mallawa@opensource.wdc.com>)
- id 1pJkLf-0007TV-7X
- for qemu-devel@nongnu.org; Sun, 22 Jan 2023 19:06:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
- t=1674432367; x=1705968367;
- h=from:to:cc:subject:date:message-id:mime-version:
- content-transfer-encoding;
- bh=5oa6UUini4nihWHrDxq/euHryq8YHHpTXQ5iJqv+FnE=;
- b=foD+NS03CbjIPV7klQDTMxF1wuB3BYfmplxDp9kmSBnGax7oyb0VX8zK
- ZeC0idNt23Ox1Q4DjTODmIprYuX/9TS91ikvbWxwp8dM/sNmcyOXWs2Uu
- ZDgaMQ5wPz7rzO04o9ehGMuxxHr2o8JgtmIzQYhqcFzo9SfekFJK8ujh9
- YnvW4Ar1YTF6xhGgkKd3HIiqCK1Q9kxb7hjMFJVMSpAseyONNY6BeZYdl
- h/4o7MQq4f/g14wlhpOJMcAh0MzAHClveZLncislLYGQXFmEbJo02+gDd
- oicEYHzSLqFAscVp9onOoot9wlHJ84LQkigSYEyhBuW4TGLJiibM4Tcju A==;
-X-IronPort-AV: E=Sophos;i="5.97,238,1669046400"; d="scan'208";a="333494696"
-Received: from uls-op-cesaip01.wdc.com (HELO uls-op-cesaep01.wdc.com)
- ([199.255.45.14])
- by ob1.hgst.iphmx.com with ESMTP; 23 Jan 2023 08:06:01 +0800
-IronPort-SDR: ojsHL9ikuIhhx/7mCrsZNsl/96fcB9wCtok1KDq5tCOKif2npDNtiwwz76jH9GICsKpqAPblY+
- lC1iQ0ZFelthKGJ18eRtJZdtdxA3CfKJo1CYTnFay23ggZMJ+v5m2qdNTLqjJOK5plbJxm8I9U
- pQvnHBUyi8D2Z8bjzHUbTDmA7jlUqIvWGczVtPGsb4zLeqlq7mt3YVa/qbOJNf4zYP+X/eyNTd
- v8/MOmtE46wiuYmobp9HeaVQHwguWKdhKiQYcuB8zNDx4ld+DTX6FCvAawcpuAVoHVDIsW8QqM
- lPw=
-Received: from uls-op-cesaip02.wdc.com ([10.248.3.37])
- by uls-op-cesaep01.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 22 Jan 2023 15:23:36 -0800
-IronPort-SDR: XXhMzQcGph3C1TB0A+Hclvj1p6WL1z15hQf76X8KB27czyZ9DHvT3o8UcP3n5C16PLeehHWAPI
- SuyGtsxtLGF4TpkVQB4hbwutI1cR/hRGQFVxGclXRc+t/4vAm0+tl9pXmR1mecCeKGxzMkUyxU
- 0yAir6ow9PFNxt0EKXD6s/9KrRYFyyZM4f+MIstrZhn7QVJJf5b12Ol/TLXiy5Go/Gm/lLcJvm
- VRvNXWFpC/MSpqjoM3XLJRdRbX6WP9ifEwp2xlpwz/FgpfObs1F8kynUU85StWhWlQ+3iAqdFA
- iqE=
-WDCIronportException: Internal
-Received: from usg-ed-osssrv.wdc.com ([10.3.10.180])
- by uls-op-cesaip02.wdc.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 22 Jan 2023 16:06:01 -0800
-Received: from usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTP id 4P0VkK2JPkz1Rwrq
- for <qemu-devel@nongnu.org>; Sun, 22 Jan 2023 16:06:01 -0800 (PST)
-Authentication-Results: usg-ed-osssrv.wdc.com (amavisd-new); dkim=pass
- reason="pass (just generated, assumed good)"
- header.d=opensource.wdc.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=
- opensource.wdc.com; h=content-transfer-encoding:mime-version
- :x-mailer:message-id:date:subject:to:from; s=dkim; t=1674432360;
- x=1677024361; bh=5oa6UUini4nihWHrDxq/euHryq8YHHpTXQ5iJqv+FnE=; b=
- P3XTDTMhYw5Z8421mkigARHmzoK2kjb/coQ5tadiiXuPGQsMz3q49pBcFKbAcmFn
- s+GecnSZJZ+W8JzaoyT/+oyDR7CaYgDL0ONOIKRaWFhwB0czXA0+UBF/Cyu9yRuF
- xFg3a+F/ToNyfP6Uhhr1wyoqs+Y+OxnUGOgeA6p0u6Z1XTtZfeYloHu8YfCsUvVc
- HKOWVyj24h90emBmWA4MrciH+bGiJhxrp9ZiJWfe0M64rHZXaTyDkfGPU46gqWdy
- iHvNdWcaVClIxR6pFj/cJFe7epmPX4ROU/IaCayT63bL/jzVBhL3qynYj30Ajl9W
- I27IQ5nZFb5r4/n7WeRI+g==
-X-Virus-Scanned: amavisd-new at usg-ed-osssrv.wdc.com
-Received: from usg-ed-osssrv.wdc.com ([127.0.0.1])
- by usg-ed-osssrv.wdc.com (usg-ed-osssrv.wdc.com [127.0.0.1]) (amavisd-new,
- port 10026) with ESMTP id nkCpqJssY4K1 for <qemu-devel@nongnu.org>;
- Sun, 22 Jan 2023 16:06:00 -0800 (PST)
-Received: from localhost.localdomain (unknown [10.225.165.30])
- by usg-ed-osssrv.wdc.com (Postfix) with ESMTPSA id 4P0VkG1vffz1RvLy;
- Sun, 22 Jan 2023 16:05:57 -0800 (PST)
-From: Wilfred Mallawa <wilfred.mallawa@opensource.wdc.com>
-To: Alistair.Francis@wdc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- qemu-riscv@nongnu.org
-Cc: qemu-devel@nongnu.org,
-	Wilfred Mallawa <wilfred.mallawa@wdc.com>
-Subject: [PATCH] include/hw/riscv/opentitan: update opentitan IRQs
-Date: Mon, 23 Jan 2023 10:05:41 +1000
-Message-Id: <20230123000540.58351-1-wilfred.mallawa@opensource.wdc.com>
-X-Mailer: git-send-email 2.39.1
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pJkbS-00033n-Iw
+ for qemu-devel@nongnu.org; Sun, 22 Jan 2023 19:22:26 -0500
+Received: from mail-vs1-xe2f.google.com ([2607:f8b0:4864:20::e2f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pJkbR-0002mc-1o
+ for qemu-devel@nongnu.org; Sun, 22 Jan 2023 19:22:26 -0500
+Received: by mail-vs1-xe2f.google.com with SMTP id k6so11327346vsk.1
+ for <qemu-devel@nongnu.org>; Sun, 22 Jan 2023 16:22:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=ej78zHwWtXGe90wBXd7U5szb5uQRfTkUPAqa/0lS6U4=;
+ b=RpKJEvVE/4q0n7NeQH32IWKJ2CJqnc6SQEOIJROX2Ey7b5PKMm41e1HyEVQ+3sG03x
+ K8J4RV8m8VOAsBPtZP7tjHdwbhOupbd0HQ+N5V79dt+r34aAv0jMMSDz0LK48qdyZAmV
+ MvN/13It4by/ainR0hkIvsTau8mR4o8Kexs/sGdrJXwbR0JPvWM3QD46cCP2Cics3Mf5
+ Obn2/tNu//TCQpTVW4rMtqGxBUl3vTkgKcrBtKPZBlS42whtaQ5IqcWhqX1nUpWccQrS
+ e1l4cksnMCKnG/iyIaJLi1Nc+6/EuWAcqtkbCqtpDedrkNET5TNlaRh/OhU9Y4UXhhwb
+ QVLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=ej78zHwWtXGe90wBXd7U5szb5uQRfTkUPAqa/0lS6U4=;
+ b=JDaMqwPM7h9oriXzrM0TO/DN5bfoTUB9UW8y4EKTF35IYxUqpsnvGTTpFnUOSMdMjp
+ O1B15I5+Jt4JkswQLO3ZoOmDupBXw6P7Nq4G2Ey4givqiBIeVtYaJJYdaoDtksnp7nGf
+ S7WRimELYT0bwqUoRWqHBawYgR5IxKAhxhNjJ9565uZwhTg80XnFLMskd7BRt5hg6mmz
+ o+JDV6aRMHAi7QWwDiyeqxJLGFxTZsNGaGX+ieOal0SQpI/UR56dCj4AtIBSXzZhN2HR
+ YqqwvYjuMo3nlxnOy0Y9ZwvV+YXdtxVyf4hgExuTLKIRyqXYxy9k3y+ixOeVID6q+48N
+ Jm9g==
+X-Gm-Message-State: AFqh2kqbn4574OjA9OlnbE1GGC8ohHwZwTjS2WowISakLlRwejH/HQ0z
+ qWJdRYIR6OdWqFcU8IPgxkwEcjJ7nYY5TLupMwQ=
+X-Google-Smtp-Source: AMrXdXuSNhdFQ6xGOcjPFkNh/3Hls0nK3ChgWcx6bp633rLn7g4Yp3iig8cgMo7pCKIZ1nwLDQncYzVw6gdKP4mgB94=
+X-Received: by 2002:a67:eb10:0:b0:3c9:8cc2:dd04 with SMTP id
+ a16-20020a67eb10000000b003c98cc2dd04mr3191415vso.73.1674433343899; Sun, 22
+ Jan 2023 16:22:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=68.232.141.245;
- envelope-from=prvs=380668d3b=wilfred.mallawa@opensource.wdc.com;
- helo=esa1.hgst.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+References: <20230120151551.1022761-1-philipp.tomsich@vrull.eu>
+In-Reply-To: <20230120151551.1022761-1-philipp.tomsich@vrull.eu>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 23 Jan 2023 10:21:57 +1000
+Message-ID: <CAKmqyKOzkNHYNMOwxyZ9iyt0G+fpBQ86JKtfZkyHY3uKqPnheA@mail.gmail.com>
+Subject: Re: [PATCH v1] target/riscv: update disas.c for xnor/orn/andn and
+ slli.uw
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Cc: qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e2f;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -113,40 +84,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Wilfred Mallawa <wilfred.mallawa@wdc.com>
+On Sat, Jan 21, 2023 at 1:16 AM Philipp Tomsich
+<philipp.tomsich@vrull.eu> wrote:
+>
+> The decoding of the following instructions from Zb[abcs] currently
+> contains decoding/printing errors:
+>  * xnor,orn,andn: the rs2 operand is not being printed
+>  * slli.uw: decodes and prints the immediate shift-amount as a
+>             register (e.g. 'shift-by-2' becomes 'sp') instead of
+>             interpreting this as an immediate
+>
+> This commit updates the instruction descriptions to use the
+> appropriate decoding/printing formats.
+>
+> Signed-off-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
 
-Updates the opentitan IRQs to match the latest supported commit of
-Opentitan from TockOS.
+Thanks!
 
-OPENTITAN_SUPPORTED_SHA :=3D 565e4af39760a123c59a184aa2f5812a961fde47
+Applied to riscv-to-apply.next
 
-Signed-off-by: Wilfred Mallawa <wilfred.mallawa@wdc.com>
----
- include/hw/riscv/opentitan.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+Alistair
 
-diff --git a/include/hw/riscv/opentitan.h b/include/hw/riscv/opentitan.h
-index 7659d1bc5b..235728b9cc 100644
---- a/include/hw/riscv/opentitan.h
-+++ b/include/hw/riscv/opentitan.h
-@@ -108,11 +108,11 @@ enum {
-     IBEX_UART0_RX_BREAK_ERR_IRQ   =3D 6,
-     IBEX_UART0_RX_TIMEOUT_IRQ     =3D 7,
-     IBEX_UART0_RX_PARITY_ERR_IRQ  =3D 8,
--    IBEX_TIMER_TIMEREXPIRED0_0    =3D 127,
--    IBEX_SPI_HOST0_ERR_IRQ        =3D 134,
--    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 135,
--    IBEX_SPI_HOST1_ERR_IRQ        =3D 136,
--    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 137,
-+    IBEX_TIMER_TIMEREXPIRED0_0    =3D 124,
-+    IBEX_SPI_HOST0_ERR_IRQ        =3D 131,
-+    IBEX_SPI_HOST0_SPI_EVENT_IRQ  =3D 132,
-+    IBEX_SPI_HOST1_ERR_IRQ        =3D 133,
-+    IBEX_SPI_HOST1_SPI_EVENT_IRQ  =3D 134,
- };
-=20
- #endif
---=20
-2.39.0
-
+>
+> ---
+>
+>  disas/riscv.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
+>
+> diff --git a/disas/riscv.c b/disas/riscv.c
+> index d216b9c39b..ddda687c13 100644
+> --- a/disas/riscv.c
+> +++ b/disas/riscv.c
+> @@ -1626,9 +1626,9 @@ const rv_opcode_data opcode_data[] = {
+>      { "cpop", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+>      { "sext.h", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+>      { "sext.b", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "xnor", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "orn", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "andn", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> +    { "xnor", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+> +    { "orn", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+> +    { "andn", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+>      { "rol", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+>      { "ror", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+>      { "sh1add", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+> @@ -1647,7 +1647,7 @@ const rv_opcode_data opcode_data[] = {
+>      { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+>      { "clzw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+>      { "cpopw", rv_codec_r, rv_fmt_rd_rs1, NULL, 0, 0, 0 },
+> -    { "slli.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+> +    { "slli.uw", rv_codec_i_sh5, rv_fmt_rd_rs1_imm, NULL, 0, 0, 0 },
+>      { "add.uw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+>      { "rolw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+>      { "rorw", rv_codec_r, rv_fmt_rd_rs1_rs2, NULL, 0, 0, 0 },
+> --
+> 2.34.1
+>
+>
 
