@@ -2,68 +2,145 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 406E9677F70
+	by mail.lfdr.de (Postfix) with ESMTPS id 68DB5677F71
 	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 16:18:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJyZr-0005KN-G4; Mon, 23 Jan 2023 10:17:43 -0500
+	id 1pJyaP-0005mf-8D; Mon, 23 Jan 2023 10:18:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJyZk-0005JN-Py
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:17:36 -0500
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJyZj-0008PK-5F
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:17:36 -0500
-Received: by mail-pf1-x42b.google.com with SMTP id a184so9003870pfa.9
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 07:17:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :from:to:cc:subject:date:message-id:reply-to;
- bh=YH7Z/EDh5IQtzrl7QkgrQ4kqySm185HV8flLysOpi6o=;
- b=zSBxLtcl8w39nsZVhvDF0pzQz7pZXPStkCxYK9g4DbDs1TJ+tb6fz+QcBO4pz2iXjY
- lJzjoZQ336IMjmF1u0CJcyJTz9+nVEkoJquyZz4VDMG8ZJepuEqOOq8ZwzaAiZLXX5Ch
- h8FZrUsvYbOZb3+LFE8u5x6ZfSwHAD3jBVMJ+V97e1ZDiBlybek9/YTCzg6AhC5xpb1i
- hOsgLy2N5fwEmi4rdUvkmmfTQ7fYLWBVNUmgM4l16EgbA9PB1M2sIRJYJpHVsG9AGTPn
- bCJLCZBIjNY0JYHSRjHjUyxcwsJErhjnTiDNCiPfjUVqh/fdVnxJ6Jv53mFm4+UbOF08
- syWw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YH7Z/EDh5IQtzrl7QkgrQ4kqySm185HV8flLysOpi6o=;
- b=YbIrsmUKvpS44l3he43HWPJ7DCgAhggVhPcarqGBK4NTYWPuB3I8z1YnSC4ViUWzX9
- 4PTUYfPew0YzrfPadFf3F5TmBTfQMyZWTQqXs3r0QxDbRE4tfIYWhTPdEQ0WFhqq/9TF
- Y/O7lyD6L3m706BjVs2VRMILHLPiPhGmdiXE8nUo4XclAPH8MbHrC/0taUFrxXjkhrHw
- 3tLQqRt7Xh3uVdRhOW15EVwibkx3CfUpwKSJYwYAy6xKq2d4D9CjFWYOwaXPGtPV0Zhp
- t/9gcCG/dHgzfwryWpf8sba5RwpCTv5X+sfetH9sybXx1XiCfjS7KlyylaUArEflCcUi
- 24Rw==
-X-Gm-Message-State: AFqh2kol+vRV87s4DPKXN7OGXitZ2HsrgqqSqI0w6banLSitC75jLO8w
- qpDOwHRLnJuY0iikUr355tmE+ty2lkqYWIHLLebIpGnm+geHAg==
-X-Google-Smtp-Source: AMrXdXv8S3O66zaEXKE661AXNHQtQKvoW8PIvZq8f5TODC9zDuveBdabnqAEtJQ4WaFMoNquHOk55S0zxlEbbYT90tg=
-X-Received: by 2002:a63:6dce:0:b0:4ce:2e45:1e4d with SMTP id
- i197-20020a636dce000000b004ce2e451e4dmr2125092pgc.211.1674487052941; Mon, 23
- Jan 2023 07:17:32 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1pJyaM-0005gE-MO
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:18:14 -0500
+Received: from new2-smtp.messagingengine.com ([66.111.4.224])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kirill@shutemov.name>)
+ id 1pJyaK-0008Th-T1
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 10:18:14 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailnew.nyi.internal (Postfix) with ESMTP id 16807581DF8;
+ Mon, 23 Jan 2023 10:18:10 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute5.internal (MEProxy); Mon, 23 Jan 2023 10:18:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=shutemov.name;
+ h=cc:cc:content-transfer-encoding:content-type:date:date:from
+ :from:in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1674487090; x=
+ 1674494290; bh=5kISd+ukDqvXoyuUF5unW5X7Gt8EcZaBqFcmuVPXAbs=; b=N
+ Axston+PNN+fEVioeD1V/lezUKAdjHfU9WuPeXM7fHsZvGjnyyO2FVQ+2IoofTD3
+ jrYl4JgKxDGXYTYKPMymgiEMsC6peKta1bphKVU1+UBG482ZbUobglIP4uLXLjvh
+ iz8svKCfNXQ9/sb9i3m+ZwF5ZaddAN//4EqhB6TPnfp+I0l6pe5vuwRi/QBKI2DA
+ cqTe9fYYC3tH3u6FnXRVcaV+S9g7rlE4KqmpdJeD8mCh158fZwqoQlGQz8gdR2RT
+ TZ5v5u6AHEuv162fcDTraiqMcKEIhKISRcihlR2d/22rn6pKJO8WIigCLYMAcka4
+ KPN16U9YlPtzjLX8HdEjg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674487090; x=
+ 1674494290; bh=5kISd+ukDqvXoyuUF5unW5X7Gt8EcZaBqFcmuVPXAbs=; b=Z
+ 3pTD1YXyo5r/MKhvY5k85GR656ULBrcYsZOWggTr2ZC9w1c1I7Z+bY6sDSWgAvWJ
+ pM9aBZtww7dRFxUv0HoqMx4JpXc19n0xHG4h7LLGQ/08CnSbx2/q5hLy1/xprtl9
+ qgZlahCrM5wO2hvkE4Tfk+OSCUq8ywtwPX2h8kxtc5LDqf8FTDbrxmiXwVaQVDxJ
+ xy3rZPsc21uBW4nhTe5K7Yh1Z/O1Dh7LFReqE6wP2gfn1gkC7JRM4oIl+QfDAPt2
+ WTHg5DxjkMM4wlaD4/wKzLCzEXARGfJLoC5MplhMLol16WrJvJqE5JOjumf6rDBs
+ A9ScnDZUD2WKfbk/pDqkw==
+X-ME-Sender: <xms:L6XOY4oW7cZ0KsMoQyyuZwGY6jxIFenT4PMiIaNSantfsE6uWTbs7Q>
+ <xme:L6XOY-qwYHDktIPazniKsn1AzUL4NopVlq5iIgFWK6yLtyjtue5J0HMAdGfxcfvIb
+ CUpYKUzjwhHy2gSVpo>
+X-ME-Received: <xmr:L6XOY9PnNbOfZeVRWc98vtlCAHFsQcqdhzKjr484mTEUBaeQgt7coobZR7I4Vk5VDQZ57g>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddukedgieegucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpedfmfhi
+ rhhilhhlucetrdcuufhhuhhtvghmohhvfdcuoehkihhrihhllhesshhhuhhtvghmohhvrd
+ hnrghmvgeqnecuggftrfgrthhtvghrnhepvdfgjeffteevffetleefgfehjefffefftdeh
+ ffeljeevfffgffefueegfeeuuefgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+ hmpehmrghilhhfrhhomhepkhhirhhilhhlsehshhhuthgvmhhovhdrnhgrmhgv
+X-ME-Proxy: <xmx:L6XOY_6yorHsS7PDkOUT35AZUSKjesOd8aMtN7N5ktN03p3PIE_yAg>
+ <xmx:L6XOY34uglE0JUtYx3xfFAjCtULHppwxo-Xi9yXUcwt4A53OqeQTJg>
+ <xmx:L6XOY_ibQUsgnKvUQ-qOWqsyFDdeARW97L0u0i9DUtUP8-Pi_dwYWA>
+ <xmx:MqXOY6cPQD-FBOYGYtkZJfYS69Xrq4oiYU-q5LMz6mcdWQpO5Xl6rA>
+Feedback-ID: ie3994620:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 23 Jan 2023 10:18:06 -0500 (EST)
+Received: by box.shutemov.name (Postfix, from userid 1000)
+ id 45D7C10352A; Mon, 23 Jan 2023 18:18:03 +0300 (+03)
+Date: Mon, 23 Jan 2023 18:18:03 +0300
+From: "Kirill A. Shutemov" <kirill@shutemov.name>
+To: Vlastimil Babka <vbabka@suse.cz>
+Cc: "Huang, Kai" <kai.huang@intel.com>,
+ "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>,
+ "tglx@linutronix.de" <tglx@linutronix.de>,
+ "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+ "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "jmattson@google.com" <jmattson@google.com>,	"Hocko,
+ Michal" <mhocko@suse.com>,	"pbonzini@redhat.com" <pbonzini@redhat.com>,
+ "ak@linux.intel.com" <ak@linux.intel.com>,	"Lutomirski,
+ Andy" <luto@kernel.org>,
+ "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
+ "tabba@google.com" <tabba@google.com>,
+ "david@redhat.com" <david@redhat.com>,
+ "michael.roth@amd.com" <michael.roth@amd.com>,
+ "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
+ "corbet@lwn.net" <corbet@lwn.net>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "dhildenb@redhat.com" <dhildenb@redhat.com>,
+ "bfields@fieldses.org" <bfields@fieldses.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
+ "ddutile@redhat.com" <ddutile@redhat.com>,
+ "rppt@kernel.org" <rppt@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
+ "vkuznets@redhat.com" <vkuznets@redhat.com>,
+ "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
+ "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
+ "qperret@google.com" <qperret@google.com>, "arnd@arndb.de" <arnd@arndb.de>,
+ "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
+ "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
+ "Christopherson,, Sean" <seanjc@google.com>,
+ "wanpengli@tencent.com" <wanpengli@tencent.com>,
+ "vannapurve@google.com" <vannapurve@google.com>,
+ "hughd@google.com" <hughd@google.com>,
+ "aarcange@redhat.com" <aarcange@redhat.com>,
+ "mingo@redhat.com" <mingo@redhat.com>,	"hpa@zytor.com" <hpa@zytor.com>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>,
+ "jlayton@kernel.org" <jlayton@kernel.org>,
+ "joro@8bytes.org" <joro@8bytes.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>,	"Wang,
+ Wei W" <wei.w.wang@intel.com>,
+ "steven.price@arm.com" <steven.price@arm.com>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,	"Hansen,
+ Dave" <dave.hansen@intel.com>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+ "linmiaohe@huawei.com" <linmiaohe@huawei.com>
+Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Message-ID: <20230123151803.lwbjug6fm45olmru@box>
+References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
+ <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
+ <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
+ <20221219075313.GB1691829@chaop.bj.intel.com>
+ <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
+ <20221220072228.GA1724933@chaop.bj.intel.com>
+ <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
+ <20221221133905.GA1766136@chaop.bj.intel.com>
+ <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
+ <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
 MIME-Version: 1.0
-References: <20230123133553.2171158-1-peter.maydell@linaro.org>
-In-Reply-To: <20230123133553.2171158-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 23 Jan 2023 15:17:21 +0000
-Message-ID: <CAFEAcA97nQS8srfXNmAr1KXaOBC=nVYDvJi3F9G4SuM6YMNO=w@mail.gmail.com>
-Subject: Re: [PULL 00/26] target-arm queue
-To: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
+Received-SPF: pass client-ip=66.111.4.224; envelope-from=kirill@shutemov.name;
+ helo=new2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,38 +157,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 23 Jan 2023 at 13:35, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The following changes since commit 65cc5ccf06a74c98de73ec683d9a543baa302a12:
->
->   Merge tag 'pull-riscv-to-apply-20230120' of https://github.com/alistair23/qemu into staging (2023-01-20 16:17:56 +0000)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20230123
->
-> for you to fetch changes up to 3b07a936d3bfe97b07ddffcfbb532985a88033dd:
->
->   target/arm: Look up ARMCPRegInfo at runtime (2023-01-23 13:32:38 +0000)
->
-> ----------------------------------------------------------------
-> target-arm queue:
->  * Widen cnthctl_el2 to uint64_t
->  * Unify checking for M Main Extension in MRS/MSR
->  * bitbang_i2c, versatile_i2c: code cleanups
->  * SME: refactor SME SM/ZA handling
->  * Fix physical address resolution for MTE
->  * Fix in_debug path in S1_ptw_translate
->  * Don't set EXC_RETURN.ES if Security Extension not present
->  * Implement DBGCLAIM registers
->  * Provide stubs for more external debug registers
->  * Look up ARMCPRegInfo at runtime, not translate time
+On Mon, Jan 23, 2023 at 03:03:45PM +0100, Vlastimil Babka wrote:
+> On 12/22/22 01:37, Huang, Kai wrote:
+> >>> I argue that this page pinning (or page migration prevention) is not
+> >>> tied to where the page comes from, instead related to how the page will
+> >>> be used. Whether the page is restrictedmem backed or GUP() backed, once
+> >>> it's used by current version of TDX then the page pinning is needed. So
+> >>> such page migration prevention is really TDX thing, even not KVM generic
+> >>> thing (that's why I think we don't need change the existing logic of
+> >>> kvm_release_pfn_clean()). 
+> >>>
+> > This essentially boils down to who "owns" page migration handling, and sadly,
+> > page migration is kinda "owned" by the core-kernel, i.e. KVM cannot handle page
+> > migration by itself -- it's just a passive receiver.
+> > 
+> > For normal pages, page migration is totally done by the core-kernel (i.e. it
+> > unmaps page from VMA, allocates a new page, and uses migrate_pape() or a_ops-
+> >> migrate_page() to actually migrate the page).
+> > In the sense of TDX, conceptually it should be done in the same way. The more
+> > important thing is: yes KVM can use get_page() to prevent page migration, but
+> > when KVM wants to support it, KVM cannot just remove get_page(), as the core-
+> > kernel will still just do migrate_page() which won't work for TDX (given
+> > restricted_memfd doesn't have a_ops->migrate_page() implemented).
+> > 
+> > So I think the restricted_memfd filesystem should own page migration handling,
+> > (i.e. by implementing a_ops->migrate_page() to either just reject page migration
+> > or somehow support it).
+> 
+> While this thread seems to be settled on refcounts already, just wanted
+> to point out that it wouldn't be ideal to prevent migrations by
+> a_ops->migrate_page() rejecting them. It would mean cputime wasted (i.e.
+> by memory compaction) by isolating the pages for migration and then
+> releasing them after the callback rejects it (at least we wouldn't waste
+> time creating and undoing migration entries in the userspace page tables
+> as there's no mmap). Elevated refcount on the other hand is detected
+> very early in compaction so no isolation is attempted, so from that
+> aspect it's optimal.
 
+Hm. Do we need a new hook in a_ops to check if the page is migratable
+before going with longer path to migrate_page().
 
-Applied, thanks.
+Or maybe add AS_UNMOVABLE?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
--- PMM
+-- 
+  Kiryl Shutsemau / Kirill A. Shutemov
 
