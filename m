@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F73677C98
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:36:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C2656677CC4
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 14:42:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJwzv-000669-QR; Mon, 23 Jan 2023 08:36:31 -0500
+	id 1pJx01-0006DM-Ai; Mon, 23 Jan 2023 08:36:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwzS-0005v4-A0
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:07 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ id 1pJwzU-0005vj-KU
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:14 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pJwzP-0002Lo-Q3
+ id 1pJwzQ-0002Lw-DR
  for qemu-devel@nongnu.org; Mon, 23 Jan 2023 08:36:02 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- f12-20020a7bc8cc000000b003daf6b2f9b9so10606339wml.3
+Received: by mail-wm1-x32d.google.com with SMTP id
+ fl11-20020a05600c0b8b00b003daf72fc844so10639881wmb.0
  for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 05:35:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=baS6RwiqJNceR0oUd3JGQ4ePjOLEDMiL7ZbUGHl6dos=;
- b=Tv+4vSouO/lxvncrcG2hxr3tqLXJE/K3HXmeVFPvtutpjqCoV1mbBfb2C7MhpVDU+7
- voTLEADPeFHgVH0inQ2Id/4+XlYnfMQIKx3jlbMdYD1F8ZoXS9KCmN5AfP9N/Fwgi14M
- CNWEQTYhqkM176Y4iZVAAwNRY2JwF29UtGvuNs4+J1QvTz7Uq5u5WKy26oajKG6qGS8i
- ZzghEx1Qly3cAMOFiJS9wSu09w1jsrhjM6zFB21HrrG2BWS/+q7DrWEBWsd7f4tkSstz
- n4+aEK7Vq6lmoi3uK1ncvhHIjkxGydJ4GePpPuCF1f2bbN4gf1ccdKmjPuuvKfr9UC8D
- DrTg==
+ :reply-to; bh=IIgxyXSUr0bntZmMjT7iADRhtvV5tpYANa73KzeI1HU=;
+ b=Wipqwz5NeTk00+eJZWzcr0HtL7TnYmoeHgZKTwYw5SgAgsOs3RM+FJfbRRxcezsKye
+ UnK98NXl8ri6RM1UGhMsfaD2oWtiD7oUvZfVfnFUFOW7rsEjgFKoj2mXwBcLjZ8fZHp3
+ AoxzmVbVv6e38rSPiOyHETsKzaz6NPYdQ567diI22pz+ncMhWYCwZkSUl5KDsDUi/+To
+ zJcyt8HwHSHQM4MXNi1gmm1s/eIjCc2CTOX1AxOGbi7tmUZkw65Gl8b0aZfCU5zUYj0r
+ bXfSskDn7/nt9AZVPQdpiUTArlO6/Nc5BaM3VXfAFCLSB4DBGQ5Zwx4is/dHpKOz59hd
+ 9Zlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=baS6RwiqJNceR0oUd3JGQ4ePjOLEDMiL7ZbUGHl6dos=;
- b=Oz+xqtkp3aQDskSV+wlEJycr0yHYmPgttIbRf0nNpqaw5ybTtBtejRYHToTF1XykSb
- OtFQxku9fap2H/c24XNrOkl+GrEqwZW2g/8U6CAoNHcH41KyFfuhTh2Btb6XSmYX7C5T
- EMjLOzXzXxEgnr6fuINvvpoStVkYhu6vMKUuq8wyjXlffdY0h3BdR2FMY1KgzifPCZp9
- KkS8eJYDhRCtnfJ9QSm7o9j+lhLwjp8BPKv9sUPn/fNjcvgQcTM0C/aQG6oajN0igAYb
- nPFLAegEXXEgnlXNeSTB+eQGSMbk8vzSVwi6ddlyK8N9BujgbW9Ay7PI93kA2gSiKKX1
- rhZQ==
-X-Gm-Message-State: AFqh2kpFRE6GL/sVwXOilYxA0u46H9VdwUVEc51cHtKWLeQHMy7z0K6U
- LqRuMw/+68TaCroxdsywkun/FUhx3IhTV+eW
-X-Google-Smtp-Source: AMrXdXsvxfR90fAQyh8EYeBuTTKQHFax0LeSA4wmmmK0GBccJ3y+PywSqKkRz1UD3FANOGG0yp2CJw==
-X-Received: by 2002:a05:600c:1c01:b0:3da:fc07:5e80 with SMTP id
- j1-20020a05600c1c0100b003dafc075e80mr26768238wms.12.1674480958099; 
- Mon, 23 Jan 2023 05:35:58 -0800 (PST)
+ bh=IIgxyXSUr0bntZmMjT7iADRhtvV5tpYANa73KzeI1HU=;
+ b=PwfdKnGPtwBbtqpqxJEDe/vJ1kiwJrMhSldyPUnFR1rz4nexcHQV6GSH5Kfn5uo0YN
+ QYoeHEw8+h/HYV+SGPQ/+SUcIJL+B+gMmf03j75a1diYX+db1lA9DiTljuq8sLVGO11K
+ QBMxmEY48hXl/W0duMyFWmmI2Vl/sP2max5+G0GVAFOevu/fx1ZriAHf1MBT2a9GLsI1
+ P2xn6qPPSScFki5uUstQdOMt2j6bXZTBbhRtPklWIDNT7S7Rq36+nRgkvZhsXw5HJ+W8
+ CwD3ixUG7PifIUU4420hPsr7t7luJZiLpcftNI3KWfIu1E5YFfqP8+4TdamiMULi9kuY
+ kvnA==
+X-Gm-Message-State: AFqh2kqOTpaPIhtSB/uprPU9OvtGgTuldcBK36SBfPlfbq30ibI6tKOJ
+ fj34elARlaL9ksQoPQtaPRCKSpQHTDC8dHls
+X-Google-Smtp-Source: AMrXdXuof8zoX3VAI7znaoA0j2GgqgDgneFAqXnYNLTRAzzD4hcoN6NlCfVPp6mz4R+yIxDt0qF45g==
+X-Received: by 2002:a05:600c:5409:b0:3da:f66a:e866 with SMTP id
+ he9-20020a05600c540900b003daf66ae866mr23992383wmb.10.1674480959023; 
+ Mon, 23 Jan 2023 05:35:59 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- d19-20020a05600c34d300b003a6125562e1sm10817457wmq.46.2023.01.23.05.35.57
+ d19-20020a05600c34d300b003a6125562e1sm10817457wmq.46.2023.01.23.05.35.58
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 05:35:57 -0800 (PST)
+ Mon, 23 Jan 2023 05:35:58 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 02/26] target/arm: Unify checking for M Main Extension in
- MRS/MSR
-Date: Mon, 23 Jan 2023 13:35:29 +0000
-Message-Id: <20230123133553.2171158-3-peter.maydell@linaro.org>
+Subject: [PULL 03/26] hw/i2c/bitbang_i2c: Define TYPE_GPIO_I2C in public header
+Date: Mon, 23 Jan 2023 13:35:30 +0000
+Message-Id: <20230123133553.2171158-4-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230123133553.2171158-1-peter.maydell@linaro.org>
 References: <20230123133553.2171158-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,82 +90,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Reiss <dreiss@meta.com>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-BASEPRI, FAULTMASK, and their _NS equivalents only exist on devices with
-the Main Extension.  However, the MRS instruction did not check this,
-and the MSR instruction handled it inconsistently (warning BASEPRI, but
-silently ignoring writes to BASEPRI_NS).  Unify this behavior and always
-warn when reading or writing any of these registers if the extension is
-not present.
+Define TYPE_GPIO_I2C in the public "hw/i2c/bitbang_i2c.h"
+header and use it in hw/arm/musicpal.c.
 
-Signed-off-by: David Reiss <dreiss@meta.com>
-Message-id: 167330628518.10497.13100425787268927786-0@git.sr.ht
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Acked-by: Corey Minyard <cminyard@mvista.com>
+Message-id: 20230111085016.44551-2-philmd@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/m_helper.c | 22 ++++++++++++++++++++--
- 1 file changed, 20 insertions(+), 2 deletions(-)
+ include/hw/i2c/bitbang_i2c.h | 2 ++
+ hw/arm/musicpal.c            | 3 ++-
+ hw/i2c/bitbang_i2c.c         | 1 -
+ 3 files changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/m_helper.c b/target/arm/m_helper.c
-index 033a4d92614..d87b9ecd123 100644
---- a/target/arm/m_helper.c
-+++ b/target/arm/m_helper.c
-@@ -2465,11 +2465,17 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
-             }
-             return env->v7m.primask[M_REG_NS];
-         case 0x91: /* BASEPRI_NS */
-+            if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+                goto bad_reg;
-+            }
-             if (!env->v7m.secure) {
-                 return 0;
-             }
-             return env->v7m.basepri[M_REG_NS];
-         case 0x93: /* FAULTMASK_NS */
-+            if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+                goto bad_reg;
-+            }
-             if (!env->v7m.secure) {
-                 return 0;
-             }
-@@ -2515,8 +2521,14 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
-         return env->v7m.primask[env->v7m.secure];
-     case 17: /* BASEPRI */
-     case 18: /* BASEPRI_MAX */
-+        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_reg;
-+        }
-         return env->v7m.basepri[env->v7m.secure];
-     case 19: /* FAULTMASK */
-+        if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+            goto bad_reg;
-+        }
-         return env->v7m.faultmask[env->v7m.secure];
-     default:
-     bad_reg:
-@@ -2581,13 +2593,19 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
-             env->v7m.primask[M_REG_NS] = val & 1;
-             return;
-         case 0x91: /* BASEPRI_NS */
--            if (!env->v7m.secure || !arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+            if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+                goto bad_reg;
-+            }
-+            if (!env->v7m.secure) {
-                 return;
-             }
-             env->v7m.basepri[M_REG_NS] = val & 0xff;
-             return;
-         case 0x93: /* FAULTMASK_NS */
--            if (!env->v7m.secure || !arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+            if (!arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+                goto bad_reg;
-+            }
-+            if (!env->v7m.secure) {
-                 return;
-             }
-             env->v7m.faultmask[M_REG_NS] = val & 1;
+diff --git a/include/hw/i2c/bitbang_i2c.h b/include/hw/i2c/bitbang_i2c.h
+index 92334e9016a..a079e6d70f9 100644
+--- a/include/hw/i2c/bitbang_i2c.h
++++ b/include/hw/i2c/bitbang_i2c.h
+@@ -3,6 +3,8 @@
+ 
+ #include "hw/i2c/i2c.h"
+ 
++#define TYPE_GPIO_I2C "gpio_i2c"
++
+ typedef struct bitbang_i2c_interface bitbang_i2c_interface;
+ 
+ #define BITBANG_I2C_SDA 0
+diff --git a/hw/arm/musicpal.c b/hw/arm/musicpal.c
+index 73e2b7e4cef..89b66606c32 100644
+--- a/hw/arm/musicpal.c
++++ b/hw/arm/musicpal.c
+@@ -26,6 +26,7 @@
+ #include "hw/block/flash.h"
+ #include "ui/console.h"
+ #include "hw/i2c/i2c.h"
++#include "hw/i2c/bitbang_i2c.h"
+ #include "hw/irq.h"
+ #include "hw/or-irq.h"
+ #include "hw/audio/wm8750.h"
+@@ -1303,7 +1304,7 @@ static void musicpal_init(MachineState *machine)
+ 
+     dev = sysbus_create_simple(TYPE_MUSICPAL_GPIO, MP_GPIO_BASE,
+                                qdev_get_gpio_in(pic, MP_GPIO_IRQ));
+-    i2c_dev = sysbus_create_simple("gpio_i2c", -1, NULL);
++    i2c_dev = sysbus_create_simple(TYPE_GPIO_I2C, -1, NULL);
+     i2c = (I2CBus *)qdev_get_child_bus(i2c_dev, "i2c");
+ 
+     lcd_dev = sysbus_create_simple(TYPE_MUSICPAL_LCD, MP_LCD_BASE, NULL);
+diff --git a/hw/i2c/bitbang_i2c.c b/hw/i2c/bitbang_i2c.c
+index e9a0612a043..ac84bf02624 100644
+--- a/hw/i2c/bitbang_i2c.c
++++ b/hw/i2c/bitbang_i2c.c
+@@ -162,7 +162,6 @@ void bitbang_i2c_init(bitbang_i2c_interface *s, I2CBus *bus)
+ 
+ /* GPIO interface.  */
+ 
+-#define TYPE_GPIO_I2C "gpio_i2c"
+ OBJECT_DECLARE_SIMPLE_TYPE(GPIOI2CState, GPIO_I2C)
+ 
+ struct GPIOI2CState {
 -- 
 2.34.1
 
