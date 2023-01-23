@@ -2,80 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2FA567762B
-	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 09:15:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDABA677638
+	for <lists+qemu-devel@lfdr.de>; Mon, 23 Jan 2023 09:22:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pJryV-0001jE-0P; Mon, 23 Jan 2023 03:14:43 -0500
+	id 1pJs5D-0003S0-M8; Mon, 23 Jan 2023 03:21:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJryH-0001iH-Hc
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 03:14:31 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pJryD-0005IM-H5
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 03:14:27 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- l41-20020a05600c1d2900b003daf986faaeso7880378wms.3
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 00:14:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=DzBKvDs+bANJTA3YXdEwqYSjp5CkfEwWPAB+J5og4dw=;
- b=H973MFYK2G0AopTO1xX6ZGYVa5Z7kyQhtxySwvHbuwdRd2lVaFu2j/qFYl3bOq47sL
- NjWIxMak0Vz56v+j4FXpwZvbZwy88bfJAw/JSuza1cnDB4oC+vo3GKwvQBCFb7tTAWKd
- /y/CeZdnMx82jANlwTdfHVxADyErR3Q9DxA4K7Lyja/PaqCybktFqvGlo/ZkjQdjJF1h
- HhSD8MsQ7X3q6XdPX+Z0pmJKguXM+j/BrPI5PmvzfJSp94fSfPl7md7rQFZHyyW6b8hu
- CrEqzXmYb6Lsm4+hJ1UwkrTkShAO+nQq1TKujXFcQBfV6kFAYmXxzw/Ab2/ANbcKUcBA
- fN3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DzBKvDs+bANJTA3YXdEwqYSjp5CkfEwWPAB+J5og4dw=;
- b=ZHUbmb0Q2Z6eWnokb+8GBSw5FQTQv9cA90/H8mYtD0zkygWv74VCiM+IcmGOkHDPPA
- N1GLJLbYUbPLIeDgwhcEPQ3T8O8zLsmUbbzgBt1eyuW4kXvzxDG6LtOnXOhfGyLj4Hk1
- bBxE7ZTdwANlZxMbdsqbZgsDcs87zwWXhcc/1uemi55BCaToK81YhUO81JVYY/NAqZvp
- mJ9gKfPT4a/QZ0MVroWERwVy0ANSmquxDENggnJpSS0h7cJsH4vKAGtS19ObJe3JPgEQ
- vOjaqwvdg487rZbTayQH2D/vuw/wIDt9WVfoF1Dz16IkPR9zBdguJhdQczjPoBKetbe3
- UKHA==
-X-Gm-Message-State: AFqh2kogoTylD52sinZr3P1seZumNwCzUiUhtJXx+VYIIinPDv20Aswm
- Ux1Gt5ypkjul/92F+tKHFb9dvQ==
-X-Google-Smtp-Source: AMrXdXttFyMZOF87JW6mRPsD8/LZZ9VJ8PP97mRxF9jOF5Msk6FcFLGjOONp5qN2hf1SuCoulOXMbQ==
-X-Received: by 2002:a05:600c:4f8d:b0:3d3:3d1b:6354 with SMTP id
- n13-20020a05600c4f8d00b003d33d1b6354mr19813693wmq.3.1674461663243; 
- Mon, 23 Jan 2023 00:14:23 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- he11-20020a05600c540b00b003d9b89a39b2sm9837994wmb.10.2023.01.23.00.14.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 00:14:22 -0800 (PST)
-Message-ID: <fc01ef6d-73d7-af1a-3e59-bd4f1e3e83ba@linaro.org>
-Date: Mon, 23 Jan 2023 09:14:21 +0100
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1pJs59-0003Rf-05
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 03:21:35 -0500
+Received: from 3.mo548.mail-out.ovh.net ([188.165.32.156])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <groug@kaod.org>) id 1pJs56-0001sR-E3
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 03:21:34 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.108.16.68])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 9C8862289A;
+ Mon, 23 Jan 2023 08:21:21 +0000 (UTC)
+Received: from kaod.org (37.59.142.99) by DAG8EX2.mxp5.local (172.16.2.72)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.16; Mon, 23 Jan
+ 2023 09:21:20 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-99G003c236452c-ce6a-415c-b31e-4eb968f8763a,
+ 50F971C67E06351E5895DAE5ED0110D8D9269BCE) smtp.auth=groug@kaod.org
+X-OVh-ClientIp: 78.197.208.248
+Date: Mon, 23 Jan 2023 09:21:19 +0100
+From: Greg Kurz <groug@kaod.org>
+To: <qemu-devel@nongnu.org>
+CC: Stefan Hajnoczi <stefanha@redhat.com>, "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>, Maxime Coquelin <maxime.coquelin@redhat.com>, Laurent
+ Vivier <lvivier@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Yajun Wu
+ <yajunw@nvidia.com>, Peter Maydell <peter.maydell@linaro.org>, Parav Pandit
+ <parav@nvidia.com>, <qemu-stable@nongnu.org>
+Subject: Re: [PATCH 0/2] vhost-user: Remove the nested event loop to unbreak
+ the DPDK use case
+Message-ID: <20230123092119.074e456b@bahia>
+In-Reply-To: <20230119172424.478268-1-groug@kaod.org>
+References: <20230119172424.478268-1-groug@kaod.org>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v3 5/5] hw/char/pl011: check if UART is enabled before RX
- or TX operation
-Content-Language: en-US
-To: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>, qemu-arm@nongnu.org
-Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org
-References: <20230120155447.31702-1-eiakovlev@linux.microsoft.com>
- <20230120155447.31702-6-eiakovlev@linux.microsoft.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230120155447.31702-6-eiakovlev@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.149,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [37.59.142.99]
+X-ClientProxiedBy: DAG7EX1.mxp5.local (172.16.2.61) To DAG8EX2.mxp5.local
+ (172.16.2.72)
+X-Ovh-Tracer-GUID: 16678e64-6888-4caa-84ef-e2033f55300c
+X-Ovh-Tracer-Id: 4864169075651353010
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedruddujedguddukecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhfogggtgfhisehtjeertdertddvnecuhfhrohhmpefirhgvghcumfhurhiiuceoghhrohhugheskhgrohgurdhorhhgqeenucggtffrrghtthgvrhhnpeffheefheevleetieetheffjeetgfdttedtlefgieelfffhgedvteekvddttdehleenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhrvgguhhgrthdrtghomhenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddrleelnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpeeoghhrohhugheskhgrohgurdhorhhgqedpnhgspghrtghpthhtohepuddprhgtphhtthhopehqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhsthgvfhgrnhhhrgesrhgvughhrghtrdgtohhmpdgughhilhgsvghrthesrhgvughhrghtrdgtohhmpdhmrgigihhmvgdrtghoqhhuvghlihhnsehrvgguhhgrthdrtghomhdplhhvihhvihgvrhesrhgvughhrghtrdgtohhmpdhmshhtsehrvgguhhgrthdrtghomhdphigrjhhunhifsehnvhhiughirgdrtghomhdpphgvthgvrhdrmhgrhiguvghllh
+ eslhhinhgrrhhordhorhhgpdhprghrrghvsehnvhhiughirgdrtghomhdpqhgvmhhuqdhsthgrsghlvgesnhhonhhgnhhurdhorhhgpdfovfetjfhoshhtpehmohehgeekpdhmohguvgepshhmthhpohhuth
+Received-SPF: pass client-ip=188.165.32.156; envelope-from=groug@kaod.org;
+ helo=3.mo548.mail-out.ovh.net
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,57 +76,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/1/23 16:54, Evgeny Iakovlev wrote:
-> UART should be enabled in general and have RX enabled specifically to be
-> able to receive data from peripheral device. Same goes for transmitting
-> data to peripheral device and a TXE flag.
+On Thu, 19 Jan 2023 18:24:22 +0100
+Greg Kurz <groug@kaod.org> wrote:
+
+> The nested event loop was introduced in QEMU 6.0 to allow servicing
+> of requests coming from the slave channel while waiting for an ack
+> from the back-end on the master socket. It turns out this is fragile
+> and breaks if the servicing of the slave channel causes a new message
+> to be sent on the master socket. This is exactly what happens when
+> using DPDK as reported in [0].
 > 
-> Check if UART CR register has EN and RXE or TXE bits enabled before
-> trying to receive or transmit data.
+> The only identified user for the nested loop is DAX enablement that
+> isn't upstream yet. Just drop the code for now. Some more clever
+> solution should be designed when the need to service concurrent
+> requests from both channels arises again.
 > 
-> Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   hw/char/pl011.c | 22 +++++++++++++++++++---
->   1 file changed, 19 insertions(+), 3 deletions(-)
+> Greg Kurz (2):
+>   Revert "vhost-user: Monitor slave channel in vhost_user_read()"
+>   Revert "vhost-user: Introduce nested event loop in vhost_user_read()"
+> 
+>  hw/virtio/vhost-user.c | 100 ++++-------------------------------------
+>  1 file changed, 8 insertions(+), 92 deletions(-)
+> 
 
-> +static inline bool pl011_can_transmit(PL011State *s)
-> +{
-> +    return s->cr & PL011_CR_UARTEN && s->cr & PL011_CR_TXE;
-> +}
-> +
->   static void pl011_write(void *opaque, hwaddr offset,
->                           uint64_t value, unsigned size)
->   {
-> @@ -221,7 +231,9 @@ static void pl011_write(void *opaque, hwaddr offset,
->   
->       switch (offset >> 2) {
->       case 0: /* UARTDR */
-> -        /* ??? Check if transmitter is enabled.  */
-> +        if (!pl011_can_transmit(s)) {
-> +            break;
-> +        }
->           ch = value;
->           /* XXX this blocks entire thread. Rewrite to use
->            * qemu_chr_fe_write and background I/O callbacks */
-> @@ -292,7 +304,11 @@ static int pl011_can_receive(void *opaque)
->       PL011State *s = (PL011State *)opaque;
->       int r;
->   
-> -    r = s->read_count < pl011_get_fifo_depth(s);
-> +    if (!(s->cr & PL011_CR_UARTEN) || !(s->cr & PL011_CR_RXE)) {
+Hi Michael,
 
-Maybe add pl011_can_receive() similarly to pl011_can_transmit().
+Can you please merge this series as you kindly proposed in [0] ?
+This will help to fix [1] which is currently blocking downstream
+testing.
 
-Otherwise:
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Cheers,
 
-> +        r = 0;
-> +    } else {
-> +        r = s->read_count < pl011_get_fifo_depth(s);
-> +    }
->       trace_pl011_can_receive(s->lcr, s->read_count, r);
->       return r;
->   }
+--
+Greg
 
+[0] https://lore.kernel.org/qemu-devel/20230118060102-mutt-send-email-mst@kernel.org/
+[1] https://bugzilla.redhat.com/show_bug.cgi?id=2155173
 
