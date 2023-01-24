@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80B4D678CB6
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 01:20:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9DE1678CBD
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 01:23:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK736-0003vy-Fe; Mon, 23 Jan 2023 19:20:28 -0500
+	id 1pK75n-0004wl-Co; Mon, 23 Jan 2023 19:23:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK731-0003vb-TJ
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:20:26 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK72w-0004uS-Hg
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:20:21 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- u1-20020a17090a450100b0022936a63a21so16870600pjg.4
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 16:20:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=WUd9nFA3GIgQlMP5IMjs6T0NTOPKmW20F4EGMXravUE=;
- b=yoQo1dSYOPllcSRlTNsdrRULILoKyw8RB5YMQ20RPRkpcewCwYshb3JgMbeQxTBdi/
- 1za+CVvqojamj+LveHBRN+n8Z/t9aokXzliLs7bTi/xpW4bx+DFgCEuJWpMvM+BcVw8q
- viZ0IWN7ISNiOg/v7HdEVpUzyPgCV9ZMpoETVkGhs+DL2aGZ6uKJFilCu/v1MQKMghiv
- z+p5WusmC+HcUBb9+fCmmxNPIKj9FYDX/OWOnfv/0LTviGjc+8fovSSRC7t70Z+Fi2Tu
- 3iIsn/ruqLLUeLut2Q3z89vtdCXT5UUI/ambz1PXEsHTopXddX0fetaEjZIhKMUrVrzM
- 0sjw==
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pK75g-0004wS-7V
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:23:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pK75e-0005M5-5a
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:23:07 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674519784;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OvGumtR8/Y+hinMESfn+r5LklswupM3tDlYwxT02q7s=;
+ b=Qv+zZI7oTjDNJ+u20WXOwVJTe69zsWcgyCEOQp812OjH4qrkx7RRgAzbPLLayQxH4EhuLK
+ 0AMkRgViu61kiOBs+L7ciDF8JXSqiYUPAMZnSUWVtX5wnXk1Geyd77pV2yjRhel5zTqnaR
+ ReGfCmgHwOqpDHxI+ujwp2GK+wsEa5k=
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com
+ [209.85.214.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-433-znlWB7yMPPe9TC3wFMBgWg-1; Mon, 23 Jan 2023 19:23:03 -0500
+X-MC-Unique: znlWB7yMPPe9TC3wFMBgWg-1
+Received: by mail-pl1-f197.google.com with SMTP id
+ b9-20020a170903228900b00194a0110d7bso7984818plh.6
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 16:23:02 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=WUd9nFA3GIgQlMP5IMjs6T0NTOPKmW20F4EGMXravUE=;
- b=32tGmL0i4+WSeYQyXm+d/TuHKUJlRgHdfG7jyadjHhQ30sYo92VtroMI9+By0sdGFn
- iLH+Ba1Y/vMRWhdt2ch0F7EnNlyTXujjpqerCw1sSyfka3fGeg9n6YQtVzS7V5ow9TEW
- 6y4S1jRDgrVjiwIGTwt19F9tbxx0qZnHP6c07xe+9H4bl7YEquDiiczMAtueqLyvRpj7
- JPdh9+dMAKghgHdail0egAWkkgGUKBpx3wLaYygQslHz2jnerjLX0kSFpYb+UjI7gYVz
- ft8NVtkgtQldr2TRx5HCg9DyikD/eU4M1gMdYSayujORzohh8+oM5y9dPTR0DDGHubIV
- ieag==
-X-Gm-Message-State: AFqh2kqx1oHQOrroJr0dset+TPaTmHf9Mtb6yd9rx6W3szoVI12SA3By
- GJnQX8kbETRN4W1EOIfeELa+1w==
-X-Google-Smtp-Source: AMrXdXuEDrwiNvC969WSzpFFL4GlHV8Vvq9PQslvmVgApPgnM+UxwyxXx0biIGkUNT1hpplgLyknvA==
-X-Received: by 2002:a17:902:7c15:b0:191:3ec0:9166 with SMTP id
- x21-20020a1709027c1500b001913ec09166mr26072737pll.6.1674519615342; 
- Mon, 23 Jan 2023 16:20:15 -0800 (PST)
-Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- m12-20020a1709026bcc00b0019498ee0cf4sm291359plt.109.2023.01.23.16.20.13
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 23 Jan 2023 16:20:14 -0800 (PST)
-Message-ID: <3443cf40-4013-6ac6-895d-08f86c229809@linaro.org>
-Date: Mon, 23 Jan 2023 14:20:11 -1000
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=OvGumtR8/Y+hinMESfn+r5LklswupM3tDlYwxT02q7s=;
+ b=8RljeaLcFBcod4Jjo+rcFYHdyXa2j/nRbPuTyF7ZgUrrnyERzHA9fzSrfkRimdsgU9
+ UbWvBSviWEYMNlEWDnMGHJKwwyhiiJcfq03Lwj8JtoWWiBRnLi5yOUoY7sbBuXA9iRj5
+ IZjH5CmgkkQnAIj6/Dn4eMdVJdQ7o7cbfmOmc6mcCz2NyCoGFSWpu83DdGXU89F8EjU4
+ alUtZ3Af3Oym+Tj1HEcUzhnnIjxzRL5Z6EhwIc9nV8QSinaMdhcUFpBlaeBvgPiozl2p
+ ZBI94PIHsf24a0dFFtcovu0tu9s9oiMwjc+6Y9txbXKHui+LrzLQQ/frtDHmY7wV9OJD
+ HXqg==
+X-Gm-Message-State: AFqh2koHbt1seZ3aYW6QlE3hap4uUgeGQrT0PMsKpIXlgmC1ac8yqp2n
+ rVwZAPmcntO7HMjG2UI11JXNGkiYQB+VBkKmTQcQufympVoumr7ga5UMv8H3+7V4OLPjwna4LCK
+ YsNostUj65ERRdP4PT+WX9w5KPI+tV3g=
+X-Received: by 2002:a17:90b:3d8:b0:22b:af8f:b02b with SMTP id
+ go24-20020a17090b03d800b0022baf8fb02bmr1394482pjb.134.1674519781359; 
+ Mon, 23 Jan 2023 16:23:01 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXv3wArGjy0n4ka/oaP62RjqXSHseH15I6UIPNy1FGAv3i4YZSfiRgeI5PDiQPUx/b7Cg/hf75EhF20oNnGaLP0=
+X-Received: by 2002:a17:90b:3d8:b0:22b:af8f:b02b with SMTP id
+ go24-20020a17090b03d800b0022baf8fb02bmr1394478pjb.134.1674519781028; Mon, 23
+ Jan 2023 16:23:01 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 2/2] target/arm: Look up ARMCPRegInfo at runtime
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20230106194451.1213153-1-richard.henderson@linaro.org>
- <20230106194451.1213153-3-richard.henderson@linaro.org>
- <CAFEAcA9mh+eS8rHwqmyjOAmcnPDJ7K54QbJPd7itKZskQeox5g@mail.gmail.com>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAFEAcA9mh+eS8rHwqmyjOAmcnPDJ7K54QbJPd7itKZskQeox5g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+References: <20230111080101.969151-1-marcandre.lureau@redhat.com>
+ <20230111080101.969151-4-marcandre.lureau@redhat.com>
+ <CAFn=p-bbU23Hr67ONF6Vo0fNpiCC9+77CSmdF5-145QbtWc7Cg@mail.gmail.com>
+ <CAJ+F1C+JdP6C6_H7jLwQuW1hx18TxGqJhH50uus-+mKjh=xB=A@mail.gmail.com>
+In-Reply-To: <CAJ+F1C+JdP6C6_H7jLwQuW1hx18TxGqJhH50uus-+mKjh=xB=A@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Date: Mon, 23 Jan 2023 19:22:49 -0500
+Message-ID: <CAFn=p-bKoDKe_qw1cWD78=iCDz0ZO7tNJhOFpfmRMpkpTzX5Sw@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] python/qemu/machine: use socketpair() for QMP by
+ default
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: qemu-devel@nongnu.org, berrange@redhat.com, 
+ Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,31 +96,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/23/23 02:53, Peter Maydell wrote:
-> On Fri, 6 Jan 2023 at 19:45, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Do not encode the pointer as a constant in the opcode stream.
->> This pointer is specific to the cpu that first generated the
->> translation, which runs into problems with both hot-pluggable
->> cpus and user-only threads, as cpus are removed.
->>
->> Perform the lookup in either helper_access_check_cp_reg,
->> or a new helper_lookup_cp_reg.
-> 
-> As well as the use-after-free, this is also a correctness
-> bug, isn't it? If we hardwire in the cpregs pointer for
-> CPU 0 into the TB, and then CPU 1 with a slightly different
-> config executes the TB, it will get the cpregs of CPU 0,
-> not its own, so it might see a register it should not or
-> vice-versa.
+On Wed, Jan 18, 2023 at 3:03 AM Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
+> Hi
+>
+> On Wed, Jan 18, 2023 at 2:36 AM John Snow <jsnow@redhat.com> wrote:
+> >
+> > On Wed, Jan 11, 2023 at 3:01 AM <marcandre.lureau@redhat.com> wrote:
+> > >
+> > > From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > >
+> > > When no monitor address is given, establish the QMP communication thr=
+ough
+> > > a socketpair() (API is also supported on Windows since Python 3.5)
+> > >
+> > > Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> > > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > > ---
+> > >  python/qemu/machine/machine.py | 24 ++++++++++++++++--------
+> > >  1 file changed, 16 insertions(+), 8 deletions(-)
+> > >
+> > > diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/mac=
+hine.py
+> > > index 748a0d807c..5b2e499e68 100644
+> > > --- a/python/qemu/machine/machine.py
+> > > +++ b/python/qemu/machine/machine.py
+> > > @@ -158,17 +158,13 @@ def __init__(self,
+> > >          self._qmp_timer =3D qmp_timer
+> > >
+> > >          self._name =3D name or f"qemu-{os.getpid()}-{id(self):02x}"
+> > > +        self._sock_pair: Optional[Tuple[socket.socket, socket.socket=
+]] =3D None
+> > >          self._temp_dir: Optional[str] =3D None
+> > >          self._base_temp_dir =3D base_temp_dir
+> > >          self._sock_dir =3D sock_dir
+> > >          self._log_dir =3D log_dir
+> > >
+> > > -        if monitor_address is not None:
+> > > -            self._monitor_address =3D monitor_address
+> > > -        else:
+> > > -            self._monitor_address =3D os.path.join(
+> > > -                self.sock_dir, f"{self._name}-monitor.sock"
+> > > -            )
+> > > +        self._monitor_address =3D monitor_address
+> > >
+> > >          self._console_log_path =3D console_log
+> > >          if self._console_log_path:
+> > > @@ -303,7 +299,11 @@ def _base_args(self) -> List[str]:
+> > >          args =3D ['-display', 'none', '-vga', 'none']
+> > >
+> > >          if self._qmp_set:
+> > > -            if isinstance(self._monitor_address, tuple):
+> > > +            if self._sock_pair:
+> > > +                fd =3D self._sock_pair[0].fileno()
+> > > +                os.set_inheritable(fd, True)
+> > > +                moncdev =3D f"socket,id=3Dmon,fd=3D{fd}"
+> > > +            elif isinstance(self._monitor_address, tuple):
+> > >                  moncdev =3D "socket,id=3Dmon,host=3D{},port=3D{}".fo=
+rmat(
+> > >                      *self._monitor_address
+> > >                  )
+> > > @@ -337,10 +337,17 @@ def _pre_launch(self) -> None:
+> > >              self._remove_files.append(self._console_address)
+> > >
+> > >          if self._qmp_set:
+> > > +            monitor_address =3D None
+> > > +            sock =3D None
+> > > +            if self._monitor_address is None:
+> > > +                self._sock_pair =3D socket.socketpair()
+> > > +                sock =3D self._sock_pair[1]
+> > >              if isinstance(self._monitor_address, str):
+> > >                  self._remove_files.append(self._monitor_address)
+> > > +                monitor_address =3D self._monitor_address
+> > >              self._qmp_connection =3D QEMUMonitorProtocol(
+> > > -                self._monitor_address,
+> > > +                address=3Dmonitor_address,
+> > > +                sock=3Dsock,
+> > >                  server=3DTrue,
+> > >                  nickname=3Dself._name
+> > >              )
+> > > @@ -360,6 +367,7 @@ def _pre_launch(self) -> None:
+> > >          ))
+> > >
+> > >      def _post_launch(self) -> None:
+> > > +        self._sock_pair[0].close()
+> >
+> > Needs an assert or an error-check here for _sock_pair to be non-None,
+> > otherwise mypy will shout. Try running "make check-dev" from
+> > qemu.git/python directory as a smoke test.
+>
+> Good catch, it should be:
+>
+> +        if self._sock_pair:
+> +            self._sock_pair[0].close()
+>
+> Let me know if you want me to resend the whole series, or if you can
+> touch it during picking.
 
-Existing assumption was that each cpu configuration would have its own cluster_index, 
-which gets encoded into cpu->tcg_cflags, which is part of the comparison used when hashing 
-TBs.
+Touching it up during picking, running tests, PR soon. Thanks,
+--js
 
-But including this patch allows relaxation of what constitutes a "cpu configuration".
-
-
-r~
 
