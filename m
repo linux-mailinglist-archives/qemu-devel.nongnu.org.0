@@ -2,84 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 228F667A386
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 21:01:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0016167A3A3
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 21:11:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKPTE-0007Gq-R5; Tue, 24 Jan 2023 15:00:42 -0500
+	id 1pKPck-0001jr-2a; Tue, 24 Jan 2023 15:10:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1pKPSn-00077c-9I
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 15:00:14 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pKPch-0001jO-Ns
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 15:10:27 -0500
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1pKPSl-0002PN-Hi
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 15:00:12 -0500
-Received: by mail-wr1-x433.google.com with SMTP id e3so14977441wru.13
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 12:00:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=9ngmCKEbGmiNN84NDbW+3K0xXi/3+pWJWDAQxLO/NxY=;
- b=NJlWBaC0G+FAgj2A0r9d+GyabuR9eVx+HdvmKTdwGJLUIsec5kEnvbdgHbt5myvRPR
- juSk9PjAqGIYS/7xIZd8mWG72k8TYlM6t/6bePUUEiSZl5KnaP/ASAXxbde6aucvsd8Y
- zKGN2L35iEMpJpLU7y8yKHQByPbRlTAw9s98wX4NZUJLiBg89xUwn00SjlICVP0kQ911
- /GWpbSfkAtJPJBnsBC2eAeN6cDY2GbKT2rhmqd+1Kd1fD3Rj6FSKSk7ymNNovozk9AhC
- D0d2bZzOPCyAt9tM0kwnCLYxZohvHke2Tg3fRK3XvRUBtl4jnUfDYayqsy/OGsqACvOK
- Rj6A==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pKPcf-0004ZY-S0
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 15:10:27 -0500
+Received: by mail-pf1-x42c.google.com with SMTP id x4so12017236pfj.1
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 12:10:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=+zf6cP1xRQEyfQngEfnLHySxm6xVJWrwYZFSZ8DzkOY=;
+ b=AnljH28z3Gly+CJU1/sGVoKitxIeT0fRZAhjKygnRWWplyEMwMLrzM6ecg4+94ujdc
+ r3H/iFSBwzAy9uqi9/6+yTjYte4l/6GjaA370q8uTIgHExTXvzYSih7wOngBPDzDXH7Y
+ CUGh2Tf66i7PyTxE9SV8ccvSkSMbA2wgpbjyoi/a+ROMkFYed3YdigmCcDR2ZjCCqA5D
+ asSlsCYOVVC1/nggIn26BwzTIoKgJPAyxutzDkybuaxw5Of8k42HNMYO8g1/qNDnJ2NM
+ K0mGPtLMBrQW5vo8WEjCt+xcbe/kMLSBrAO9vMwOj/7f0WN4mMWZaOLwlwRhy9twQEi4
+ Te2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=9ngmCKEbGmiNN84NDbW+3K0xXi/3+pWJWDAQxLO/NxY=;
- b=flf0lLWIRXoh67nMyp4bBq9dzEX29IyjKmsuRfdesPbm1hHbikJYQKEct257H6YyCa
- xl4ZXs7/EtrFS4j11Jw6L9FeG5oesMXyAIrLSv58HRKlVlmY/uy7Nzju5J9eDLC8jfJV
- ZkDbvxpRQZRhiKesMwo0ylfQb4VUCQFf4f8FwS7wwi8vEeFXq9W8krFxt2kqejpOD6gb
- D+ZembYKWIIHfU34v6D7kN5Pg0uUlmhwJV4qI0LMo66dNXkokrnsdKIyrCkoeGtRTJ3B
- pJLbDER1nWXtIJNE6LQA/4nqwXsGRc+aHXtgDWNzxexxEohB9h5Rh3KQI7uONmcQh8iI
- v8eQ==
-X-Gm-Message-State: AFqh2ko0sJ7AzrlHEZ3uLBcM3hE1EGkbHphE7kzdA3nPgRxKHuLltXAd
- ut4EYesqjlhxoRYHF2nXk6QoNQ==
-X-Google-Smtp-Source: AMrXdXvZPZhJCjuvPq+ScUra0tIKOLDe6fZgjNhJFf6lUKAx0A5uNzDgP/3fIfE+opLwjAJ/+WQ0eA==
-X-Received: by 2002:adf:dc41:0:b0:2be:5c3b:9d28 with SMTP id
- m1-20020adfdc41000000b002be5c3b9d28mr15336959wrj.67.1674590410853; 
- Tue, 24 Jan 2023 12:00:10 -0800 (PST)
-Received: from beast.fritz.box (62-178-148-172.cable.dynamic.surfer.at.
- [62.178.148.172]) by smtp.gmail.com with ESMTPSA id
- j26-20020a5d453a000000b002bdf3809f59sm2607005wra.38.2023.01.24.12.00.09
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=+zf6cP1xRQEyfQngEfnLHySxm6xVJWrwYZFSZ8DzkOY=;
+ b=08pH+/rIFHaFTOL9/EhurjPAX6khMkM7tLD8DNbMsMGcvw9hyU8FgEFZpmrN46l/Gg
+ CWJhzv3MDTdCzAf83A7svD2HZBx7YRtoS+6kAanQ85aSG6u+XnD6eQ5fuQrbbCdP3ivO
+ rabp/SLO0Lo8OaabWqwZNp80DycbQwzL1N8w21FNs0/+MNToRdAq69xqO196XrFferRL
+ GTEIDCipOocqSGuK4KUBrTkZDmsts2YGbhMzku7kVVkw6QSU5Ih0VYDyXyfNxvDcXpz0
+ ljWbnV+jVIVLLfmW2xZmK42eOOmta2tHg/yJXlaBL+MwNXlDx9ZHcMfXU9CNZ6g4yBoI
+ IgqQ==
+X-Gm-Message-State: AFqh2kq1bQRmiUtsNyrKzLIwiYAqJhvba8GjFIQcF9DxumTRTUPAPE7T
+ RfRsaTW9M0woN4batfHiI3c3LWVRWIHoptPG
+X-Google-Smtp-Source: AMrXdXvRcpEixDIVPDBCJOq83cVRhaRnbyb3mLe9k6tft8zmrel79xK4tOpWUnn+WVxoA8WVubWJnA==
+X-Received: by 2002:a05:6a00:331b:b0:578:333d:d6ab with SMTP id
+ cq27-20020a056a00331b00b00578333dd6abmr32417217pfb.21.1674591023104; 
+ Tue, 24 Jan 2023 12:10:23 -0800 (PST)
+Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id
+ b192-20020a621bc9000000b005817fa83bcesm1968520pfb.76.2023.01.24.12.10.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 12:00:10 -0800 (PST)
-From: Christoph Muellner <christoph.muellner@vrull.eu>
-To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko.stuebner@vrull.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Nelson Chu <nelson@rivosinc.com>, Kito Cheng <kito.cheng@sifive.com>,
- Cooper Qu <cooper.qu@linux.alibaba.com>,
- Lifang Xia <lifang_xia@linux.alibaba.com>,
- Yunhai Shang <yunhai@linux.alibaba.com>,
- Zhiwei Liu <zhiwei_liu@linux.alibaba.com>
-Cc: =?UTF-8?q?Christoph=20M=C3=BCllner?= <christoph.muellner@vrull.eu>
-Subject: [PATCH v3 14/14] target/riscv: add a MAINTAINERS entry for XThead*
- extension support
-Date: Tue, 24 Jan 2023 20:59:45 +0100
-Message-Id: <20230124195945.181842-15-christoph.muellner@vrull.eu>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230124195945.181842-1-christoph.muellner@vrull.eu>
-References: <20230124195945.181842-1-christoph.muellner@vrull.eu>
+ Tue, 24 Jan 2023 12:10:21 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH] linux-user: un-parent OBJECT(cpu) when closing thread
+Date: Tue, 24 Jan 2023 10:10:19 -1000
+Message-Id: <20230124201019.3935934-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::433;
- envelope-from=christoph.muellner@vrull.eu; helo=mail-wr1-x433.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -102,38 +88,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Christoph Müllner <christoph.muellner@vrull.eu>
+This reinstates commit 52f0c1607671293afcdb2acc2f83e9bccbfa74bb:
 
-The XThead* extensions are maintained by T-Head and VRULL.
-Adding a point of contact from both companies.
+While forcing the CPU to unrealize by hand does trigger the clean-up
+code we never fully free resources because refcount never reaches
+zero. This is because QOM automatically added objects without an
+explicit parent to /unattached/, incrementing the refcount.
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Christoph Müllner <christoph.muellner@vrull.eu>
+Instead of manually triggering unrealization just unparent the object
+and let the device machinery deal with that for us.
+
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/866
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Message-Id: <20220811151413.3350684-2-alex.bennee@linaro.org>
+
+The original patch tickled a problem in target/arm, and was reverted.
+But that problem is fixed as of commit 3b07a936d3bf.
+
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ linux-user/syscall.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6982be48c6..f16916fd07 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -295,6 +295,14 @@ F: include/hw/riscv/
- F: linux-user/host/riscv32/
- F: linux-user/host/riscv64/
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 1f8c10f8ef..4ca1b59343 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8642,7 +8642,13 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+         if (CPU_NEXT(first_cpu)) {
+             TaskState *ts = cpu->opaque;
  
-+RISC-V XThead* extensions
-+M: Christoph Muellner <christoph.muellner@vrull.eu>
-+M: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-+L: qemu-riscv@nongnu.org
-+S: Supported
-+F: target/riscv/insn_trans/trans_xthead.c.inc
-+F: target/riscv/xthead*.decode
+-            object_property_set_bool(OBJECT(cpu), "realized", false, NULL);
++            if (ts->child_tidptr) {
++                put_user_u32(0, ts->child_tidptr);
++                do_sys_futex(g2h(cpu, ts->child_tidptr),
++                             FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
++            }
 +
- RISC-V XVentanaCondOps extension
- M: Philipp Tomsich <philipp.tomsich@vrull.eu>
- L: qemu-riscv@nongnu.org
++            object_unparent(OBJECT(cpu));
+             object_unref(OBJECT(cpu));
+             /*
+              * At this point the CPU should be unrealized and removed
+@@ -8652,11 +8658,6 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, abi_long arg1,
+ 
+             pthread_mutex_unlock(&clone_lock);
+ 
+-            if (ts->child_tidptr) {
+-                put_user_u32(0, ts->child_tidptr);
+-                do_sys_futex(g2h(cpu, ts->child_tidptr),
+-                             FUTEX_WAKE, INT_MAX, NULL, NULL, 0);
+-            }
+             thread_cpu = NULL;
+             g_free(ts);
+             rcu_unregister_thread();
 -- 
-2.39.0
+2.34.1
 
 
