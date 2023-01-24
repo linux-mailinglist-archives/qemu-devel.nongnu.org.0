@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83F8767A0EE
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:10:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9888D67A0F0
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:10:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKNhd-0005Gs-1s; Tue, 24 Jan 2023 13:07:25 -0500
+	id 1pKNi8-000671-H6; Tue, 24 Jan 2023 13:07:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNhI-0004zZ-0I
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:04 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ id 1pKNhN-00058K-IU
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:12 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNhE-000745-5U
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:03 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id h16so14702879wrz.12
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:06:59 -0800 (PST)
+ id 1pKNhH-00075N-KY
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:09 -0500
+Received: by mail-wr1-x436.google.com with SMTP id h16so14703009wrz.12
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:07:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ETifGALS4KmBJlNwYTjtra3baBU/IlLzVll0TgmEm7I=;
- b=VcfhsapgAqIuVGUBppvmxX0rDEi5T07SCnXSbt+ILThlbqIkp+R9km33EImmtlf0Q1
- h+7yXCdpYuNdtUphFC7xMpqCtTteHI+fs2MoNfX7rNcyuQjzfQ5jPV6E+QUQG79WDrpJ
- vPf2RxliY4YoVRfcMqpRdrcMVwwz9EnJv2b4LQX4bj3EuGYyqa4cvGHOgQsBvg0WgBGz
- 2HC/p1IWP3zUgiXBIuSrDr/LBmJ9mMEfSIlnk3kSBwV9zuVwpVAUECtP69j9wiysqHGv
- zdaJ/KQtVjKB3+NH2t84f8f6M/KdtnFZc+TozDNxeB8NA2rgP0zh7DC/e56UGhvuY00B
- r8LQ==
+ bh=k+FrLym2gYoR5e6WGI0PlTaXexogReS4GR+wH8SNJig=;
+ b=mB4kPFksLoWlC26xJhrdbHo0FgqHs3d97kopnHgne+fbIXosBmIacwtjTbTpLEhrIf
+ h4QRIEIGii+FH/AbTkL2MFR7r0DMSLpMvZvOTots4oEIa4bKYIFT6PKdk+VbFOvTQori
+ G3fxpEGeT8UzgHOXcVai/s3IsIfWDM2FNCM7o1b5rrIBnU+ZnRGVdjhcn6BpFvSTWYmz
+ J4B46Gg+TIDEgeLl7suZmdmOp7KNuLdxmxkMZPBmJxTen9Gn4/J8jOKZSrMe5pqcvbux
+ 12lp3x5jfpT1tkevxHkV/LgCAmJhvgeOcYnCRF8Tg1RYA0iGoBedUvhXfWD4MjL0411Q
+ HN4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ETifGALS4KmBJlNwYTjtra3baBU/IlLzVll0TgmEm7I=;
- b=WK3Lta/eHcZdJpJlEtYeKiLHk9BgXh7xIV4XJ+PY6Q4baqc+gxYC+dYcQMwf6hh6f5
- nqJ+/+3jwE+SWMviM1fMc04p0z0nErrVRZ7/q1smtCazlMpF/1MZb7QqTnfDuH88XAsS
- kKlCZiFP+MSDVuKj8O81ok0hmGJmSGy79B173w2UABxZkNNzd0TgedCN6AHDjBctn3/+
- 7qtBjFK+i+CYERpVRo5P6nECrHoEsXrDEkziM4RRTnat9g2L4tAz3sm6go3JbU71m4iV
- tCY5+6nOMO6vQY8cd7BkYOL3NYu3x+ypeVujamVU+Wkhu5SSWLgp71Kqo8a+3mtiGYEf
- Zgig==
-X-Gm-Message-State: AFqh2kqq2NF1nqMifj5V+FjbUh9pGWAJk/6EjEihYPoaBOxig2pYhXxy
- YrBBPMPGcRqAMuLHInGYPeNBMg==
-X-Google-Smtp-Source: AMrXdXt5t58fQj5N9diEGDwNER++CaG+oX/nIoh6aQ/pxMF+k/X5d+Fc9ySLv6sFnvugfQBaBiW8ag==
-X-Received: by 2002:a5d:55c5:0:b0:242:3812:f948 with SMTP id
- i5-20020a5d55c5000000b002423812f948mr34064351wrw.24.1674583618856; 
- Tue, 24 Jan 2023 10:06:58 -0800 (PST)
+ bh=k+FrLym2gYoR5e6WGI0PlTaXexogReS4GR+wH8SNJig=;
+ b=g+lhcrxOACzfns7hOqXAPCVWdD7Tldkjyogv2lKfFvGNHBfb51boFhEWqylXIqiuGs
+ Ie0lb96g7TVhEC7zujkhjperjooD4HeiRCGM7pkQjdDHsTUQBT1fgtGlJi/qGBlJGioC
+ 5Ay/mfwE2SPFBhXARZLHTpDZX/NChXdMUFLs0yv2Nys5LNhpnSXpz5YiGctKe+ELOf0j
+ mtLY3MsBFNoLQIa9UoPErJHFeDyIZSiIHlq5ZJWkx0P2eDxQBwepqaUlhbfMP2efwxbr
+ v5zuWQtKatpZhtHO9kcMBSHwCLD9Zi0ak6Lj86n4EvcEe//TA763ybyPYkXUga87D8JG
+ 7zWw==
+X-Gm-Message-State: AFqh2kr5MRUXUBMJcNny75zik6D6gixCV63qhMX6FF77SBUzNthLuV1D
+ 8CHsJK3aPO4S0rhuyCLbyqs4Dg==
+X-Google-Smtp-Source: AMrXdXulFPA0t8ezGx6VWEp7QN74L5jeNO9Wq1Z+y0qDGZtrxivVpYMhqAvug8FRPg92g1Y/DGVVgA==
+X-Received: by 2002:a5d:6e82:0:b0:242:5563:c3b with SMTP id
+ k2-20020a5d6e82000000b0024255630c3bmr26598627wrz.59.1674583621890; 
+ Tue, 24 Jan 2023 10:07:01 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- y4-20020adfd084000000b0028e55b44a99sm2366949wrh.17.2023.01.24.10.06.56
+ v1-20020a5d4b01000000b002be53aa2260sm2707513wrq.117.2023.01.24.10.06.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 10:06:56 -0800 (PST)
+ Tue, 24 Jan 2023 10:06:59 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 959431FFCC;
+ by zen.linaroharston (Postfix) with ESMTP id AEFF01FFCD;
  Tue, 24 Jan 2023 18:01:30 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -80,20 +80,19 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>,
- Evgeny Iakovlev <eiakovlev@linux.microsoft.com>,
- Bin Meng <bmeng.cn@gmail.com>
-Subject: [PATCH v2 24/35] semihosting: add O_BINARY flag in host_open for NT
- compatibility
-Date: Tue, 24 Jan 2023 18:01:16 +0000
-Message-Id: <20230124180127.1881110-25-alex.bennee@linaro.org>
+ Robert Henry <robhenry@microsoft.com>,
+ Aaron Lindsay <aaron@os.amperecomputing.com>
+Subject: [PATCH v2 25/35] tests/tcg: add memory-sve test for aarch64
+Date: Tue, 24 Jan 2023 18:01:17 +0000
+Message-Id: <20230124180127.1881110-26-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124180127.1881110-1-alex.bennee@linaro.org>
 References: <20230124180127.1881110-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -116,50 +115,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+This will be helpful in debugging problems with tracking SVE memory
+accesses via the TCG plugins system.
 
-Windows open(2) implementation opens files in text mode by default and
-needs a Windows-only O_BINARY flag to open files as binary. QEMU already
-knows about that flag in osdep and it is defined to 0 on non-Windows,
-so we can just add it to the host_flags for better compatibility.
-
-Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Bin Meng <bmeng.cn@gmail.com>
-Message-Id: <20230106102018.20520-1-eiakovlev@linux.microsoft.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Robert Henry <robhenry@microsoft.com>
+Cc: Aaron Lindsay <aaron@os.amperecomputing.com>
 ---
- semihosting/syscalls.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ tests/tcg/aarch64/Makefile.softmmu-target | 7 +++++++
+ tests/tcg/aarch64/system/boot.S           | 3 ++-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
 
-diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
-index ba28194b59..e89992cf90 100644
---- a/semihosting/syscalls.c
-+++ b/semihosting/syscalls.c
-@@ -253,7 +253,7 @@ static void host_open(CPUState *cs, gdb_syscall_complete_cb complete,
- {
-     CPUArchState *env G_GNUC_UNUSED = cs->env_ptr;
-     char *p;
--    int ret, host_flags;
-+    int ret, host_flags = O_BINARY;
+diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
+index a1368905f5..df9747bae8 100644
+--- a/tests/tcg/aarch64/Makefile.softmmu-target
++++ b/tests/tcg/aarch64/Makefile.softmmu-target
+@@ -36,6 +36,13 @@ config-cc.mak: Makefile
  
-     ret = validate_lock_user_string(&p, cs, fname, fname_len);
-     if (ret < 0) {
-@@ -262,11 +262,11 @@ static void host_open(CPUState *cs, gdb_syscall_complete_cb complete,
-     }
+ memory: CFLAGS+=-DCHECK_UNALIGNED=1
  
-     if (gdb_flags & GDB_O_WRONLY) {
--        host_flags = O_WRONLY;
-+        host_flags |= O_WRONLY;
-     } else if (gdb_flags & GDB_O_RDWR) {
--        host_flags = O_RDWR;
-+        host_flags |= O_RDWR;
-     } else {
--        host_flags = O_RDONLY;
-+        host_flags |= O_RDONLY;
-     }
-     if (gdb_flags & GDB_O_CREAT) {
-         host_flags |= O_CREAT;
++memory-sve: memory.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
++	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
++
++memory-sve: CFLAGS+=-DCHECK_UNALIGNED=1 -march=armv8.1-a+sve -O3 -fno-tree-loop-distribute-patterns
++
++TESTS+=memory-sve
++
+ # Running
+ QEMU_BASE_MACHINE=-M virt -cpu max -display none
+ QEMU_OPTS+=$(QEMU_BASE_MACHINE) -semihosting-config enable=on,target=native,chardev=output -kernel
+diff --git a/tests/tcg/aarch64/system/boot.S b/tests/tcg/aarch64/system/boot.S
+index e190b1efa6..f136363d2a 100644
+--- a/tests/tcg/aarch64/system/boot.S
++++ b/tests/tcg/aarch64/system/boot.S
+@@ -179,12 +179,13 @@ __start:
+ 	isb
+ 
+ 	/*
+-	 * Enable FP registers. The standard C pre-amble will be
++	 * Enable FP/SVE registers. The standard C pre-amble will be
+ 	 * saving these and A-profile compilers will use AdvSIMD
+ 	 * registers unless we tell it not to.
+ 	*/
+ 	mrs	x0, cpacr_el1
+ 	orr	x0, x0, #(3 << 20)
++	orr	x0, x0, #(3 << 16)
+ 	msr	cpacr_el1, x0
+ 
+ 	/* Setup some stack space and enter the test code.
 -- 
 2.34.1
 
