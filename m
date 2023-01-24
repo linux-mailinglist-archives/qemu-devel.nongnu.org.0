@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE427679CB0
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 15:56:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF9CA679CB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 15:57:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKKha-0006av-7e; Tue, 24 Jan 2023 09:55:10 -0500
+	id 1pKKiw-0007LA-DX; Tue, 24 Jan 2023 09:56:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKKhX-0006Zs-9v
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 09:55:07 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKKhU-0007fx-MX
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 09:55:06 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- f25-20020a1c6a19000000b003da221fbf48so11128312wmc.1
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 06:55:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=O9tJ5JqSX0qY23kZm7822PG8DEOOssIxzNJ11h7Nj8Q=;
- b=gDgSN1KuZ2EP0ID0sy62FJzTZ9w3tiovATlx6QC98FWjrkAuR3YYc+nC9wHXiaMqS8
- 08jsPx3HcPvUbW4FmSsSVKPEG5ycS5kwruX4Ds2H5e/VB+qdnXlS0CBxO/D++Zq2Bgkq
- 2Ox3e6k/0WnAxavgI0PHan8V+j6Yyy9uCHOKfV0atQgsHnwClpMBXNzRlgEkcRo5k3mA
- 4DoQBbkft+T2DGXzD/UCE589gMhQIA0Biz/v+XLx+yBr3JtAKHyAk9TuNsJ0F9q+PEdV
- 6pEoQ7uKLUmcuy6a8o1uCI/sirxN4yubN5PWq9EB6El8UwKluQ1ceoO9Mhrz8+9P8Vwp
- 3lDw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pKKil-0007I2-Bc
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 09:56:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pKKij-00084P-FQ
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 09:56:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674572180;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:mime-version:mime-version:
+ content-type:content-type; bh=ChITr7Qhr9nwz/X+4II6I4+FYa5Bsc0VGpOVDoqL48s=;
+ b=b/USpkjfaYJDpsizv72WVgMRHxapesFVyIHGslWp+x4vBQ24NcWfj6SG+c1l9CSqqsXLGf
+ sLeclDc7oKNkbTy5tjD63MMEA65FNxmAHAOeqhq3vCzTQ3oxEc395tETcfMUerMCsFvAZy
+ fdu088MqHLWYm6dn5CmXdF7GH3NO2/8=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-658-qzIhR6cUPbSiZ3c4_VgaxQ-1; Tue, 24 Jan 2023 09:56:19 -0500
+X-MC-Unique: qzIhR6cUPbSiZ3c4_VgaxQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ l19-20020a05600c1d1300b003dc13fc9e42so938426wms.3
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 06:56:18 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=mime-version:message-id:date:reply-to:user-agent:subject:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=O9tJ5JqSX0qY23kZm7822PG8DEOOssIxzNJ11h7Nj8Q=;
- b=O0csWIG7Olo/TmLXjgj8l1sKDhD+subnXidvj9cYzxTGEKx4Weq2hUGZV9Ogh97JFq
- WkrhJ11er64cUxZ6KoErlDBysrqlledyTwhTjB8geiBNO3+N9TXK+yq831rjrQ0hmzsq
- dEEA7oTrYJAjgN35ytpdbndD87kcnPK7qnXS+btYFAuhHRsunAJDkDPdEpM4BMC75SqX
- G1hQNuXARWaLKBtbINzV03Y31x+NQMPuKr0WyWQPd1T4sbHfhD/v/nscsqMYV8aAHmDH
- auEHo5li9JPBf3dBeIY7g0GuOzDbqBO4v1Ywynag4fgSXoPM51ZZjo6pO4YKiJ23C1L4
- jjDw==
-X-Gm-Message-State: AFqh2kpGFviwskPqGtlUR22/jdCL5eoJTweuQS/zFnkhAujxRELk8RDR
- IOcjoJYNSl4DKX3PfQEurJo/GA==
-X-Google-Smtp-Source: AMrXdXuIuaW7jcDZTFYLMlFgNbLLzBoXzB29KdBD8r2B/WHnOqj/EC2sogJF72obuejnfZeKjK1aVA==
-X-Received: by 2002:a05:600c:3ac8:b0:3da:270b:ba6b with SMTP id
- d8-20020a05600c3ac800b003da270bba6bmr29392804wms.41.1674572103182; 
- Tue, 24 Jan 2023 06:55:03 -0800 (PST)
-Received: from [192.168.37.175] (173.red-88-29-178.dynamicip.rima-tde.net.
- [88.29.178.173]) by smtp.gmail.com with ESMTPSA id
- v7-20020a05600c444700b003db06493ee7sm14107586wmn.47.2023.01.24.06.55.02
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Jan 2023 06:55:02 -0800 (PST)
-Message-ID: <28c8fbd7-a85b-6c0e-7da2-411d438d81ab@linaro.org>
-Date: Tue, 24 Jan 2023 15:55:01 +0100
+ bh=ChITr7Qhr9nwz/X+4II6I4+FYa5Bsc0VGpOVDoqL48s=;
+ b=gT6OVqP9U9A6Xzrhz7v4uchiqFBc2TTdCeLErKITNDa1O/YkqMpEKINq5ZJjtTvhyl
+ dm9BQZVxM+Gpbhiczc1mnElcQwozJ902WFG5VB0awJtpWS8qqd+Uvv0ji3u8LD43DuR5
+ Ja/9TAXEFe/FmHfL/e2EJ/zjGMLR5wv/IpOJ2hDwM3iykhNUiHQKCY6IvaRMshda2wpH
+ PgEbe71VbgAj8lztdmhFXeK4vlBLvc7YFCh2uwOylBArKH3R3ctOPKZDbJMuKNogtQbU
+ FZfilzLbroWpMJodyPvNHlfu8Ohz5RAkZ1pQqVNnQSe6m2alSLlBa1TS/MMBax8QD8Yf
+ REfA==
+X-Gm-Message-State: AFqh2kojpxxbvRYSVPPg8onoTgTpw6kodoGYf4/C0kIAlEEsfAzyIXXx
+ tUJwvKXlSV1jVjzA3smCfhBNSnKpnE876Ji3uph5/ZK2TeItR46A+fhnf9q98dHbMausyhmQjTZ
+ CKNqpBDI21yDJ21w=
+X-Received: by 2002:a05:6000:1816:b0:2bd:fe5a:b579 with SMTP id
+ m22-20020a056000181600b002bdfe5ab579mr22886675wrh.70.1674572177291; 
+ Tue, 24 Jan 2023 06:56:17 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsHe1YzvNCX46JuK4XR/df1BCMeEfzavFFDAocn1pipZmxAFxwf6Qb/tkqZ0rBblq2hSVdj5Q==
+X-Received: by 2002:a05:6000:1816:b0:2bd:fe5a:b579 with SMTP id
+ m22-20020a056000181600b002bdfe5ab579mr22886656wrh.70.1674572176977; 
+ Tue, 24 Jan 2023 06:56:16 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ d2-20020adfa402000000b002bdfb97e029sm2122358wra.19.2023.01.24.06.56.15
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Jan 2023 06:56:16 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
+Subject: Fortnightly KVM call minutes for 2023-01-24
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 24 Jan 2023 15:56:15 +0100
+Message-ID: <87zga8f0c0.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] tests/docker/dockerfiles: Add libfdt to the i386 and to
- the riscv64 container
-Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, qemu-devel@nongnu.org
-References: <20230124143824.844040-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230124143824.844040-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,22 +88,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/1/23 15:38, Thomas Huth wrote:
-> No need to recompile the dtc submodule here again and again, we can
-> use the pre-built binary from the distribution instead.
-> (And this will also help in case we finally get rid of the dtc submodule
-> in QEMU one day)
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   tests/docker/dockerfiles/debian-riscv64-cross.docker | 1 +
->   tests/docker/dockerfiles/fedora-i386-cross.docker    | 1 +
->   2 files changed, 2 insertions(+)
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
+
+
+First part stolen from: https://etherpad.opendev.org/p/qemu-emulation-bof%402023-01-24
+      thanks Phillippe
+
+Single QEMU-system binary and Dynamic Machine Models
+
+Meeting link: https://meet.jit.si/kvmcallmeeting
+Just want to dial in on your phone? Dial-in: +1.512.647.1431 PIN: 1518845548#
+Click this link to see the dial in phone numbers for this meeting https://meet.jit.si/static/dialInInfo.html?room=kvmcallmeeting
+
+What needs to be done?
+
+    TCG
+
+    How to use different page sizes
+
+    -> convert to page-vary (already used by ARM/MIPS)
+
+    ref: https://lore.kernel.org/qemu-devel/20221228171617.059750c3@orange/
+
+
+    HW models / machine
+
+
+    How to create/realize 2 QOM objects which depend on each other?
+
+    what (properties) need to be wired? IRQ, reset lines, MR?
+
+
+    Sysbus: Demote it to plain qdev?
+
+    con:
+
+    sysbus helpful to remove qdev boilerplace/verbose code
+
+    sysbus tree does the resets [currently blocking qdev conversion]
+
+    pro:
+
+    sysbus IRQ API
+
+    too abstract, not very helpful, "named gpios" API is clearer
+
+    sysbus MMIO API
+
+    also kinda abstract, MRs indexed. No qdev equivalent
+
+    sysbus IO API:
+
+    not very used. first we need to get rid of ISA bus singleton
+
+
+    Single 32/64 *targets* binary
+
+    Which 32-bit hosts are still used? OK to deprecate them?
+
+    Some targets need special care i.e. KVM 32-bit ARM vCPU on 64-bit Aarch64 host
+
+
+Previous notes:
+    https://etherpad.opendev.org/p/qemu-emulation-bof%402022-12-13
+    https://etherpad.opendev.org/p/qemu-emulation-bof%402022-11-29
+
+
+Do we care about this?
+
+64 bits guests on 32 bits hosts: OK to deprecate
+32 bits hosts: still in (some) use
+
+Creating and realizing two objects than need to be linked together.
+
+We can't do it with realize, perhaps we need an intermediate state to
+do the link, and then realize.
+
+Can we get Peter or Markus or Paolo for the next call?
+waiting to get some patches into the list for discussing.
+
+Problem for Phillipe is that he has to do changes to the API's and
+want to be sure that they are agreed before he changes all
+devices/targets, a multi month task.
+
+For removing sysbus, we need to wait for reset rework from Peter?
+
+Expose the memory API to external processes.
+
+Under what circumstances you should be able to create/destroy a memory
+region?
+
+
+
+Later, Juan.
 
 
