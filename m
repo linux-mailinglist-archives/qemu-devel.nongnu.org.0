@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37BD1678DDF
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:06:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D0D8678DE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:06:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK8gW-0008Mz-Ez; Mon, 23 Jan 2023 21:05:16 -0500
+	id 1pK8gY-0008NU-Nl; Mon, 23 Jan 2023 21:05:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8gU-0008Mk-CA
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:14 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1pK8gV-0008Mx-V2
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:15 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8gS-0003m4-Kt
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:14 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- b24-20020a17090a551800b0022beefa7a23so309168pji.5
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:12 -0800 (PST)
+ id 1pK8gU-0003mC-5N
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:15 -0500
+Received: by mail-pl1-x634.google.com with SMTP id d3so13324236plr.10
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=9JRd0oYcShkUVxwrdxGixPt3BC5iKHXkm/SWl8UGf5I=;
- b=xKwjNlc1mFc4TKLJw4zrtFhMS3iSZxPVrmlxYwznYJQmMmwwggR/09MQb+BlxJ/1Dt
- IJBEayWm0sDJdt/mAp6U+ILbBXkeU0o3EOKEyaaLvf6oDzLXOiuuS/QOYZqwv9CDxGPP
- Jhcpz7dsiptjCu0nNIF7/MzjlVCQNNKmqnjWYvEgEfpMkJ0L3x/oR212yMF7bv+YTjiz
- aDQGSULTDHjaX1viz0WidUfRoChTqxbgdBwaWhRDBpaaJolfh1ZvEEh2MxorPupFa8zd
- vfDUCuT2v4dphZ4nSLn9PfdrqpmwlkVpGAcxy+ynFizbVvEDFXcwDkjmhQGqaGAIRp4D
- JuhA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=U9vjpxFE1AEIlgkthxEfz8zh3TVx+kl7oOc+q8wWGhQ=;
+ b=CRIAj2FyiN/mdJPd0XgC9uAKSugvVSw3c/p6X7+jOGRJeypSCtTwv102R/pRFRjdUO
+ 46fdVIVZDLaPlShg1zdNwBsOZ5cwCoTw8uDdiKhkfQ7EL+ofShGl61q4v99cKD+Q27YI
+ SrYxMZTaaSfW0NVtH5SIG5u9+wpi34TiQmgAXYzV/g69Ag+ViYUll3Q1fW+/c+smokpu
+ B/3o4qTjOhAqHVtDwLp87Up4aXWTTtPJjpe5q3Au8gFF530mz2b3kuHvjBOfT6RJsDtg
+ lHGXUapyhp6TDBpHiuRCye5Y8/UzeZ8Ecii9rviuzEnb+dkhi3SDj0EX045AXSoO0vhJ
+ GPWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=9JRd0oYcShkUVxwrdxGixPt3BC5iKHXkm/SWl8UGf5I=;
- b=uhgxmLImknuLCYgq/KJOE5sE5ImADD9GjOGi2KfYWOZZjIGuTU4R7dSp8or8miLlK3
- SShPR7vzrdB0msZYTCp/mtITcooM7E/wIbtSwgGbmKc6rMPNHK34vxLABFOh+DIWxyy4
- CeL0sO/Wld84c6+AX4Hq2i4MnDorf2xPmRh31RNJFFYt154N+VFraUcdiqDhKaHv/7S6
- sZOzlYhAyAIu2e3iDHzfgZWzeD2sYnciuCUvmjEeumUZ2YWpVF7tmmFH/PsfeAT0WEhw
- EwwaHtkSYGadNcTgzCgVjIs3vbrw9V2i433OzFBxNgyIU9L3jHuj9uKhyg16Ci8kOonV
- Q4Aw==
-X-Gm-Message-State: AFqh2krcEAxl3Lv3RsmZ0RtmCDUPHnSyLk4DWtIY1fvW29RlZFRkpzWM
- z4sSKwvcnKVvTbIHO4QwgflanyPhScqs8VMj
-X-Google-Smtp-Source: AMrXdXvH/pjVXeWf5AV6vh5QEBAL2czDQDj0nUjblrb1dGfV7DoHLHxuf3Jf6OWMJxRBlGkYvmjADA==
-X-Received: by 2002:a05:6a21:998d:b0:b8:4ced:c326 with SMTP id
- ve13-20020a056a21998d00b000b84cedc326mr38058743pzb.7.1674525910833; 
- Mon, 23 Jan 2023 18:05:10 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=U9vjpxFE1AEIlgkthxEfz8zh3TVx+kl7oOc+q8wWGhQ=;
+ b=IKs4bRXCMArV3Z9LBZ39rp/6tcSXn4UnafPKk8psDmReL1HYJHCFIWBuA4zp48U9Hh
+ sOzvxw2eOPanUrWoHDkVdVxvvCAg5+m7pcEzT0tUkLMaofU6U3m7RLblSLscLzy3RIO7
+ ocwEJYrQNJnYnxRkCevbZ4dzGp1McSUOYIbOEZccfT/NUZ7pbH07VMRVp5LmnGFRxPl0
+ Y/DzMhQgQyQDoPGXxlCpkernzx7gorhhb8KDt4wA6Zm07HxWOGZWbf8AaDr9atWA8XVr
+ Ya2UG0fuIQQ20mcpsB7iA3fDgiAYGIvSHjFqjnzH5txjM9UsA+n4h4obTpnbJ0kVipDc
+ 6uug==
+X-Gm-Message-State: AFqh2krHQtmFISMzP2qMY+cDpxnlSJpvPMmLP0sgKtA33d3hESbjq1hB
+ qtcWGj34CU8kopeV2QY0la8kyVxRm67ALV6L
+X-Google-Smtp-Source: AMrXdXtmK6BgDkWd7QY97ndptLfMvqsXXNeJaHkYL4RWe3iSE2P5Eme6zu3gU8BpzHa2WOzhoUfK2Q==
+X-Received: by 2002:a05:6a21:910a:b0:b9:46a1:7f14 with SMTP id
+ tn10-20020a056a21910a00b000b946a17f14mr15480317pzb.56.1674525912397; 
+ Mon, 23 Jan 2023 18:05:12 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.09
+ fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 18:05:10 -0800 (PST)
+ Mon, 23 Jan 2023 18:05:11 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org
-Subject: [PULL v2 00/15] tcg patch queue
-Date: Mon, 23 Jan 2023 16:04:52 -1000
-Message-Id: <20230124020507.3732200-1-richard.henderson@linaro.org>
+Subject: [PULL v2 01/15] tcg: Avoid recursion in tcg_gen_mulu2_i32
+Date: Mon, 23 Jan 2023 16:04:53 -1000
+Message-Id: <20230124020507.3732200-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230124020507.3732200-1-richard.henderson@linaro.org>
+References: <20230124020507.3732200-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,76 +89,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Second try's the charm today, right?
+We have a test for one of TCG_TARGET_HAS_mulu2_i32 or
+TCG_TARGET_HAS_muluh_i32 being defined, but the test
+became non-functional when we changed to always define
+all of these macros.
 
+Replace this with a build-time test in tcg_gen_mulu2_i32.
 
-r~
+Fixes: 25c4d9cc845 ("tcg: Always define all of the TCGOpcode enum members.")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1435
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/tcg/tcg.h | 7 -------
+ tcg/tcg-op.c      | 4 +++-
+ 2 files changed, 3 insertions(+), 8 deletions(-)
 
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 6f497172f8..9a0ae7d20b 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -155,13 +155,6 @@ typedef uint64_t TCGRegSet;
+ #define TCG_TARGET_HAS_rem_i64          0
+ #endif
+ 
+-/* For 32-bit targets, some sort of unsigned widening multiply is required.  */
+-#if TCG_TARGET_REG_BITS == 32 \
+-    && !(defined(TCG_TARGET_HAS_mulu2_i32) \
+-         || defined(TCG_TARGET_HAS_muluh_i32))
+-# error "Missing unsigned widening multiply"
+-#endif
+-
+ #if !defined(TCG_TARGET_HAS_v64) \
+     && !defined(TCG_TARGET_HAS_v128) \
+     && !defined(TCG_TARGET_HAS_v256)
+diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
+index 9fa9f1b0fd..326a9180ef 100644
+--- a/tcg/tcg-op.c
++++ b/tcg/tcg-op.c
+@@ -874,7 +874,7 @@ void tcg_gen_mulu2_i32(TCGv_i32 rl, TCGv_i32 rh, TCGv_i32 arg1, TCGv_i32 arg2)
+         tcg_gen_op3_i32(INDEX_op_muluh_i32, rh, arg1, arg2);
+         tcg_gen_mov_i32(rl, t);
+         tcg_temp_free_i32(t);
+-    } else {
++    } else if (TCG_TARGET_REG_BITS == 64) {
+         TCGv_i64 t0 = tcg_temp_new_i64();
+         TCGv_i64 t1 = tcg_temp_new_i64();
+         tcg_gen_extu_i32_i64(t0, arg1);
+@@ -883,6 +883,8 @@ void tcg_gen_mulu2_i32(TCGv_i32 rl, TCGv_i32 rh, TCGv_i32 arg1, TCGv_i32 arg2)
+         tcg_gen_extr_i64_i32(rl, rh, t0);
+         tcg_temp_free_i64(t0);
+         tcg_temp_free_i64(t1);
++    } else {
++        qemu_build_not_reached();
+     }
+ }
+ 
+-- 
+2.34.1
 
-The following changes since commit 00b1faea41d283e931256aa78aa975a369ec3ae6:
-
-  Merge tag 'pull-target-arm-20230123' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2023-01-23 13:40:28 +0000)
-
-are available in the Git repository at:
-
-  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230123
-
-for you to fetch changes up to 709bcd7da3f6b4655d910634a0d520fa1439df38:
-
-  tcg/loongarch64: Reorg goto_tb implementation (2023-01-23 16:00:13 -1000)
-
-----------------------------------------------------------------
-common-user: Re-enable ppc32 host
-tcg: Avoid recursion in tcg_gen_mulu2_i32
-tcg: Mark tcg helpers noinline to avoid an issue with LTO
-tcg/arm: Use register pair allocation for qemu_{ld,st}_i64
-disas: Enable loongarch disassembler, and fixes
-tcg/loongarch64: Improve move immediate
-tcg/loongarch64: Improve add immediate
-tcg/loongarch64: Improve setcond
-tcg/loongarch64: Implement movcond
-tcg/loongarch64: Use tcg_pcrel_diff in tcg_out_ldst
-tcg/loongarch64: Reorg goto_tb implementation
-
-----------------------------------------------------------------
-Richard Henderson (14):
-      tcg: Avoid recursion in tcg_gen_mulu2_i32
-      tcg/arm: Use register pair allocation for qemu_{ld,st}_i64
-      common-user/host/ppc: Implement safe-syscall.inc.S
-      linux-user: Implment host/ppc/host-signal.h
-      tcg: Mark tcg helpers noinline to avoid an issue with LTO
-      target/loongarch: Enable the disassembler for host tcg
-      target/loongarch: Disassemble jirl properly
-      target/loongarch: Disassemble pcadd* addresses
-      tcg/loongarch64: Update tcg-insn-defs.c.inc
-      tcg/loongarch64: Introduce tcg_out_addi
-      tcg/loongarch64: Improve setcond expansion
-      tcg/loongarch64: Implement movcond
-      tcg/loongarch64: Use tcg_pcrel_diff in tcg_out_ldst
-      tcg/loongarch64: Reorg goto_tb implementation
-
-Rui Wang (1):
-      tcg/loongarch64: Optimize immediate loading
-
- include/exec/helper-proto.h                    |  32 ++-
- include/tcg/tcg.h                              |   7 -
- linux-user/include/host/ppc/host-signal.h      |  39 +++
- tcg/arm/tcg-target-con-set.h                   |   7 +-
- tcg/arm/tcg-target-con-str.h                   |   2 +
- tcg/loongarch64/tcg-target-con-set.h           |   5 +-
- tcg/loongarch64/tcg-target-con-str.h           |   2 +-
- tcg/loongarch64/tcg-target.h                   |  11 +-
- target/loongarch/insns.decode                  |   3 +-
- disas.c                                        |   2 +
- target/loongarch/disas.c                       |  39 ++-
- tcg/tcg-op.c                                   |   4 +-
- target/loongarch/insn_trans/trans_branch.c.inc |   2 +-
- tcg/arm/tcg-target.c.inc                       |  28 +-
- tcg/loongarch64/tcg-insn-defs.c.inc            |  10 +-
- tcg/loongarch64/tcg-target.c.inc               | 364 ++++++++++++++++---------
- common-user/host/ppc/safe-syscall.inc.S        | 107 ++++++++
- target/loongarch/meson.build                   |   3 +-
- 18 files changed, 497 insertions(+), 170 deletions(-)
- create mode 100644 linux-user/include/host/ppc/host-signal.h
- create mode 100644 common-user/host/ppc/safe-syscall.inc.S
 
