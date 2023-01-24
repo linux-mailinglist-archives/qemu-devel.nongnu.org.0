@@ -2,87 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6056B679539
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 11:31:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6893C6795B1
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 11:49:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKGZb-0001vt-HW; Tue, 24 Jan 2023 05:30:39 -0500
+	id 1pKGqH-0004gQ-PN; Tue, 24 Jan 2023 05:47:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pKGZa-0001vl-0P
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:30:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pKGZY-0003Ig-H9
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:30:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674556235;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=XNlBQMxC/ZWTxP5w2DLPrkm+B3GMpDCeD6q04Um8jRY=;
- b=ewD5dJMaodFFk0zgrTL33JG4nPm2WQKRgElrzIN4WoRlMm6h2rjDGNgjGLL97tM3Asb3jf
- c5dshv0juhVqP8oq1B+XVVvmLI8q3HCN6WNiahNCjT+PR+6IosOv/d4QZ4smjI7EQFyKre
- nfU3i6cOH7fLayO4Of9Kc889StCO/Zg=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-620-lJDMvuS2N1GsrWTGbePaow-1; Tue, 24 Jan 2023 05:30:34 -0500
-X-MC-Unique: lJDMvuS2N1GsrWTGbePaow-1
-Received: by mail-qk1-f200.google.com with SMTP id
- br6-20020a05620a460600b007021e1a5c48so10627496qkb.6
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 02:30:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pKGqE-0004f7-QE
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:47:50 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pKGqD-0005qN-6q
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:47:50 -0500
+Received: by mail-wr1-x435.google.com with SMTP id b7so13455326wrt.3
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 02:47:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=pGmTi4T92hKKrDyCA2KHuQGxpktnT8jQr/Eo+QQgM00=;
+ b=SaWwCVBsdDITHGjG8lFxO97iAcjQ1K70vVJ5t91GYmcvK3sOmLOeQ3WmNbm8mRwgcB
+ Ifs9q8UnnJVJclc9G7vr36FXTF0FcpUuhUI6V8QaswYuJ1CDgnptJ40E+qfXNqTk/LHg
+ kVnjiK+SGBRoCimuvzb8nsNKLyC9v7FeYg25NMXxfubWuMmnJ6sJducy5ilOSIreER2Y
+ RrTwiwFVo9M9laBf49n+7FG1SrMPoHXCutAaF/w/Yoav9om6v1WSZPZadDRZz3AqM8Zk
+ 6Zhv0K03rODtzChX3id3Hpss84X3nASLElw0PawLmBf9SlpSBsJ7FmM/3j1i3XntksYe
+ lhyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=XNlBQMxC/ZWTxP5w2DLPrkm+B3GMpDCeD6q04Um8jRY=;
- b=t7XQl11TVTVbpx+thgp6jg58OZC/DG5MeVfh3AvwyEVAYppF62FpV0cLx2U6Wzvqe0
- 6FytdO73WzqU7aI+6XRxeI0GB6s4iiqxtP+4Wy/VhGWEh39ulKdNyFt+m+AsGrlXm/p3
- WHl4DKxDn1n/GEKsdSfAbEOuYqY3Cp/1YOmVmdPBJFmiMBGJkB3P3Sj+QGAyW9hwtVE3
- w4sv9bS/vcwWe9qb27Wa5yRNzHC4Ma7OKrEvzyx+RKeq9wtE8GBkpyqclI/wcX+OSR/J
- zRg1DlY7XYUeyC8FRCol3iSMIBqKBeGMf8T4fcZi3Bl3QGxcC+68NZrF8jqRsFCvfFNl
- k44A==
-X-Gm-Message-State: AFqh2kqw7mRrlbWCOrEsBfJbFrcN1MsC7So7q0OYCluIRYe4bYeYQVGB
- kbQDmMT3PClnZc06itv274CX7Bh4xHgeezMpZlc6Z/Vcih8bxkyLy0FnHzLUR2FGRWuZ7MXxbdd
- VYtGFNa3swfXKAQo=
-X-Received: by 2002:a0c:e7ca:0:b0:537:4b24:7fba with SMTP id
- c10-20020a0ce7ca000000b005374b247fbamr22237511qvo.28.1674556233541; 
- Tue, 24 Jan 2023 02:30:33 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvDST+M/X9Fu/JIMqyIIoT6550U8Mw/TvFtiBpkXcc1/z5PpBJ37M0gu86CKO4fujU8mOMbTA==
-X-Received: by 2002:a0c:e7ca:0:b0:537:4b24:7fba with SMTP id
- c10-20020a0ce7ca000000b005374b247fbamr22237483qvo.28.1674556233233; 
- Tue, 24 Jan 2023 02:30:33 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- l123-20020a37bb81000000b006fb8239db65sm1195410qkf.43.2023.01.24.02.30.30
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=pGmTi4T92hKKrDyCA2KHuQGxpktnT8jQr/Eo+QQgM00=;
+ b=dIxOOGAUMPHOAmtA9QC/ujq6VwKngfsIqm4xN2wif1fk4A8SwiThqTM8TtdZ9BQYai
+ +1TP+K9DGbfVz2yRXnTwhwFn1V0VCwi8+put5N6Jmk24DtVl7g7Xy2sBrv6d+vVBOsrb
+ MvzWiD7+f4Wf/Z0QKWpP+/YMsM9MYlHWpIlt53emAqCmvuNCUexFY0tqIgAoWzvwHwOl
+ C7SVApuUn0p2bcPADbZZM60fDwGSqlunUpDHkpmlPSgQ+mp7v6j+Xi+Xwk+qk2gQzUmN
+ S9vq7lQD76X35Zvxfe+aoWv7y5hiH01Lbv72RqH235SPi7AbRtfLJwlpVKROA7gRJtg4
+ iBbA==
+X-Gm-Message-State: AFqh2kqYmoCVCvQgVg+qw7cgv8CfDrjQIJqbL1FbRLR8toaq5VLCixfJ
+ inXDF6sDJmsqetuh6MBlPy3fDQ==
+X-Google-Smtp-Source: AMrXdXtBHo2k/WsMZV3W+rlUTZ7kCjyIbFrguky9awMh/fLBwEvDF2wsow2iE6g0Qe4rud2Q/fOjKQ==
+X-Received: by 2002:a5d:688a:0:b0:2be:51a2:c6e2 with SMTP id
+ h10-20020a5d688a000000b002be51a2c6e2mr14977078wru.39.1674557267167; 
+ Tue, 24 Jan 2023 02:47:47 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ x15-20020a5d650f000000b002bdda9856b5sm1570418wru.50.2023.01.24.02.47.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 02:30:32 -0800 (PST)
-Date: Tue, 24 Jan 2023 11:30:29 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Sun Feng <loyou85@gmail.com>
-Cc: qemu-devel@nongnu.org, mst@redhat.com, ani@anisinha.ca
-Subject: Re: [PATCH] acpi: Set maximum size to 64k for "etc/acpi/rsdp" blob
-Message-ID: <20230124113029.7a02e5ff@imammedo.users.ipa.redhat.com>
-In-Reply-To: <1673954121-23942-1-git-send-email-loyou85@gmail.com>
-References: <1673954121-23942-1-git-send-email-loyou85@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ Tue, 24 Jan 2023 02:47:46 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 3B6F41FFB7;
+ Tue, 24 Jan 2023 10:47:46 +0000 (GMT)
+References: <20230106194451.1213153-1-richard.henderson@linaro.org>
+ <20230106194451.1213153-3-richard.henderson@linaro.org>
+ <CAFEAcA9mh+eS8rHwqmyjOAmcnPDJ7K54QbJPd7itKZskQeox5g@mail.gmail.com>
+ <3443cf40-4013-6ac6-895d-08f86c229809@linaro.org>
+User-agent: mu4e 1.9.16; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ qemu-arm@nongnu.org
+Subject: Re: [PATCH 2/2] target/arm: Look up ARMCPRegInfo at runtime
+Date: Tue, 24 Jan 2023 10:39:31 +0000
+In-reply-to: <3443cf40-4013-6ac6-895d-08f86c229809@linaro.org>
+Message-ID: <87a628ryy5.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -99,48 +97,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 17 Jan 2023 19:15:21 +0800
-Sun Feng <loyou85@gmail.com> wrote:
 
-> Migrate from aarch64 host with PAGE_SIZE 64k to 4k failed with following errors:
-> 
-> qmp_cmd_name: migrate-incoming, arguments: {"uri": "tcp:[::]:49152"}
-> {"timestamp": {"seconds": 1673922775, "microseconds": 534702}, "event": "MIGRATION", "data": {"status": "setup"}}
-> {"timestamp": {"seconds": 1673922776, "microseconds": 53003}, "event": "MIGRATION", "data": {"status": "active"}}
-> 2023-01-17T02:32:56.058827Z qemu-system-aarch64: Length too large: /rom@etc/acpi/rsdp: 0x10000 > 0x1000: Invalid argument
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-this should mention/explain why it's happening.
+> On 1/23/23 02:53, Peter Maydell wrote:
+>> On Fri, 6 Jan 2023 at 19:45, Richard Henderson
+>> <richard.henderson@linaro.org> wrote:
+>>>
+>>> Do not encode the pointer as a constant in the opcode stream.
+>>> This pointer is specific to the cpu that first generated the
+>>> translation, which runs into problems with both hot-pluggable
+>>> cpus and user-only threads, as cpus are removed.
+>>>
+>>> Perform the lookup in either helper_access_check_cp_reg,
+>>> or a new helper_lookup_cp_reg.
+>> As well as the use-after-free, this is also a correctness
+>> bug, isn't it? If we hardwire in the cpregs pointer for
+>> CPU 0 into the TB, and then CPU 1 with a slightly different
+>> config executes the TB, it will get the cpregs of CPU 0,
+>> not its own, so it might see a register it should not or
+>> vice-versa.
+>
+> Existing assumption was that each cpu configuration would have its own
+> cluster_index, which gets encoded into cpu->tcg_cflags, which is part
+> of the comparison used when hashing TBs.
 
-i.e we now have 4k limit for RSDP, but then source somehow managed to start with 64k
-allocated to for RSDP. It looks like limit isn't working as expected to me.
+I understand the cluster_index is used for things like A/R and A/M
+splits (and eventually heterogeneous). We also have language to cover
+the increasingly weird set of big.LITTLE offspring like M1's
+Performance/Efficiency split or the Tensor's X1/A76/A55 split.
 
-> 2023-01-17T02:32:56.058832Z qemu-system-aarch64: error while loading state for instance 0x0 of device 'ram'
-> 2023-01-17T02:32:56.059236Z qemu-system-aarch64: load of migration failed: Invalid argument
-> {"timestamp": {"seconds": 1673922776, "microseconds": 59248}, "event": "MIGRATION", "data": {"status": "failed"}}
-> 2023-01-17 02:32:56.306+0000: shutting down, reason=failed
-> 
-> refer to the following commit, set blob "etc/acpi/rsdp" maximum size to 64k works.
-> 
-> 5033728 acpi: Set proper maximum size for "etc/acpi/rsdp" blob
-> 6c2b24d acpi: Set proper maximum size for "etc/table-loader" blob
-> 
-> Signed-off-by: Sun Feng <loyou85@gmail.com>
-> ---
->  hw/acpi/utils.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/acpi/utils.c b/hw/acpi/utils.c
-> index 0c486ea..85f6ff3 100644
-> --- a/hw/acpi/utils.c
-> +++ b/hw/acpi/utils.c
-> @@ -37,7 +37,7 @@ MemoryRegion *acpi_add_rom_blob(FWCfgCallback update, void *opaque,
->      } else if (!strcmp(name, ACPI_BUILD_LOADER_FILE)) {
->          max_size = 0x10000;
->      } else if (!strcmp(name, ACPI_BUILD_RSDP_FILE)) {
-> -        max_size = 0x1000;
-> +        max_size = 0x10000;
->      } else {
->          g_assert_not_reached();
->      }
+ * If CPUs are not identical (for example, Cortex-A53 and Cortex-A57 CPUs i=
+n an
+ * Arm big.LITTLE system) they should be in different clusters. If the CPUs=
+ do
+ * not have the same view of memory (for example the main CPU and a managem=
+ent
+ * controller processor) they should be in different clusters.
 
+> But including this patch allows relaxation of what constitutes a "cpu con=
+figuration".
+>
+>
+> r~
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
