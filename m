@@ -2,61 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F84679510
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 11:20:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6056B679539
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 11:31:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKGOh-00007u-Lb; Tue, 24 Jan 2023 05:19:23 -0500
+	id 1pKGZb-0001vt-HW; Tue, 24 Jan 2023 05:30:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pKGOB-0008Tz-Uh
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:18:54 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pKGZa-0001vl-0P
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:30:38 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pKGO9-0001IG-Qh
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:18:51 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pKGZY-0003Ig-H9
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:30:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674555528;
+ s=mimecast20190719; t=1674556235;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=FonaZJHenX2eXtjoNC1YBwas1/EXOUzFxeMp0baqkxI=;
- b=Vm+ELgXBN8hpw+LxxyoRdasf6TtMZhkj+SXiiokwwpysgnLLSFK225ZeKoTjokVHOrmMMY
- mw9uLkWOMAofN2yfHby14Vxcb/MrAOX44TvtgRlLg63xuACein0Us5SvrH5U8CE5rtAKl7
- BiYKsqVtU9jY06NeKmXragbSIrBwotw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-332-KJqv2dfLNp6LQjhH95Ki2w-1; Tue, 24 Jan 2023 05:18:44 -0500
-X-MC-Unique: KJqv2dfLNp6LQjhH95Ki2w-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C14D85CCE1;
- Tue, 24 Jan 2023 10:18:44 +0000 (UTC)
-Received: from [10.39.195.138] (unknown [10.39.195.138])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D8FC40C2004;
- Tue, 24 Jan 2023 10:18:42 +0000 (UTC)
-Message-ID: <9b1e6554-c56d-cb55-4904-05caee2143a3@redhat.com>
-Date: Tue, 24 Jan 2023 11:18:41 +0100
+ bh=XNlBQMxC/ZWTxP5w2DLPrkm+B3GMpDCeD6q04Um8jRY=;
+ b=ewD5dJMaodFFk0zgrTL33JG4nPm2WQKRgElrzIN4WoRlMm6h2rjDGNgjGLL97tM3Asb3jf
+ c5dshv0juhVqP8oq1B+XVVvmLI8q3HCN6WNiahNCjT+PR+6IosOv/d4QZ4smjI7EQFyKre
+ nfU3i6cOH7fLayO4Of9Kc889StCO/Zg=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-620-lJDMvuS2N1GsrWTGbePaow-1; Tue, 24 Jan 2023 05:30:34 -0500
+X-MC-Unique: lJDMvuS2N1GsrWTGbePaow-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ br6-20020a05620a460600b007021e1a5c48so10627496qkb.6
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 02:30:34 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XNlBQMxC/ZWTxP5w2DLPrkm+B3GMpDCeD6q04Um8jRY=;
+ b=t7XQl11TVTVbpx+thgp6jg58OZC/DG5MeVfh3AvwyEVAYppF62FpV0cLx2U6Wzvqe0
+ 6FytdO73WzqU7aI+6XRxeI0GB6s4iiqxtP+4Wy/VhGWEh39ulKdNyFt+m+AsGrlXm/p3
+ WHl4DKxDn1n/GEKsdSfAbEOuYqY3Cp/1YOmVmdPBJFmiMBGJkB3P3Sj+QGAyW9hwtVE3
+ w4sv9bS/vcwWe9qb27Wa5yRNzHC4Ma7OKrEvzyx+RKeq9wtE8GBkpyqclI/wcX+OSR/J
+ zRg1DlY7XYUeyC8FRCol3iSMIBqKBeGMf8T4fcZi3Bl3QGxcC+68NZrF8jqRsFCvfFNl
+ k44A==
+X-Gm-Message-State: AFqh2kqw7mRrlbWCOrEsBfJbFrcN1MsC7So7q0OYCluIRYe4bYeYQVGB
+ kbQDmMT3PClnZc06itv274CX7Bh4xHgeezMpZlc6Z/Vcih8bxkyLy0FnHzLUR2FGRWuZ7MXxbdd
+ VYtGFNa3swfXKAQo=
+X-Received: by 2002:a0c:e7ca:0:b0:537:4b24:7fba with SMTP id
+ c10-20020a0ce7ca000000b005374b247fbamr22237511qvo.28.1674556233541; 
+ Tue, 24 Jan 2023 02:30:33 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvDST+M/X9Fu/JIMqyIIoT6550U8Mw/TvFtiBpkXcc1/z5PpBJ37M0gu86CKO4fujU8mOMbTA==
+X-Received: by 2002:a0c:e7ca:0:b0:537:4b24:7fba with SMTP id
+ c10-20020a0ce7ca000000b005374b247fbamr22237483qvo.28.1674556233233; 
+ Tue, 24 Jan 2023 02:30:33 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ l123-20020a37bb81000000b006fb8239db65sm1195410qkf.43.2023.01.24.02.30.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Jan 2023 02:30:32 -0800 (PST)
+Date: Tue, 24 Jan 2023 11:30:29 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Sun Feng <loyou85@gmail.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, ani@anisinha.ca
+Subject: Re: [PATCH] acpi: Set maximum size to 64k for "etc/acpi/rsdp" blob
+Message-ID: <20230124113029.7a02e5ff@imammedo.users.ipa.redhat.com>
+In-Reply-To: <1673954121-23942-1-git-send-email-loyou85@gmail.com>
+References: <1673954121-23942-1-git-send-email-loyou85@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Subject: Re: [PATCH] docs/pcie.txt: Replace ioh3420 with pcie-root-port
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Marcel Apfelbaum <marcel@redhat.com>, Andrew Jones <drjones@redhat.com>
-References: <20230123174205.683979-1-berrange@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-In-Reply-To: <20230123174205.683979-1-berrange@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,77 +99,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/23/23 18:42, Daniel P. Berrangé wrote:
-> From: Marcel Apfelbaum <marcel@redhat.com>
+On Tue, 17 Jan 2023 19:15:21 +0800
+Sun Feng <loyou85@gmail.com> wrote:
+
+> Migrate from aarch64 host with PAGE_SIZE 64k to 4k failed with following errors:
 > 
-> Do not mention ioh3420 in the "how to" doc.
-> The device still works and can be used by already
-> existing setups, but no need to be mentioned.
+> qmp_cmd_name: migrate-incoming, arguments: {"uri": "tcp:[::]:49152"}
+> {"timestamp": {"seconds": 1673922775, "microseconds": 534702}, "event": "MIGRATION", "data": {"status": "setup"}}
+> {"timestamp": {"seconds": 1673922776, "microseconds": 53003}, "event": "MIGRATION", "data": {"status": "active"}}
+> 2023-01-17T02:32:56.058827Z qemu-system-aarch64: Length too large: /rom@etc/acpi/rsdp: 0x10000 > 0x1000: Invalid argument
+
+this should mention/explain why it's happening.
+
+i.e we now have 4k limit for RSDP, but then source somehow managed to start with 64k
+allocated to for RSDP. It looks like limit isn't working as expected to me.
+
+> 2023-01-17T02:32:56.058832Z qemu-system-aarch64: error while loading state for instance 0x0 of device 'ram'
+> 2023-01-17T02:32:56.059236Z qemu-system-aarch64: load of migration failed: Invalid argument
+> {"timestamp": {"seconds": 1673922776, "microseconds": 59248}, "event": "MIGRATION", "data": {"status": "failed"}}
+> 2023-01-17 02:32:56.306+0000: shutting down, reason=failed
 > 
-> Suggested-by: Andrew Jones <drjones@redhat.com>
-> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-> Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> refer to the following commit, set blob "etc/acpi/rsdp" maximum size to 64k works.
+> 
+> 5033728 acpi: Set proper maximum size for "etc/acpi/rsdp" blob
+> 6c2b24d acpi: Set proper maximum size for "etc/table-loader" blob
+> 
+> Signed-off-by: Sun Feng <loyou85@gmail.com>
 > ---
+>  hw/acpi/utils.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> This patch was posted 5 years ago:
-> 
->   https://lore.kernel.org/all/20170802155113.62471-1-marcel@redhat.com/
-> 
-> but seems to have fallen through the cracks and did not get merged.
-> 
-> This just had the obvious/trivial conflict resolution done, along with
-> trimming hugely excessive whitespace before the '\' line continuation.
-> 
->  docs/pcie.txt | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
-
-Thanks for resurrecting this!
-Laszlo
-
-> diff --git a/docs/pcie.txt b/docs/pcie.txt
-> index 89e3502075..df49178311 100644
-> --- a/docs/pcie.txt
-> +++ b/docs/pcie.txt
-> @@ -48,8 +48,8 @@ Place only the following kinds of devices directly on the Root Complex:
->          strangely when PCI Express devices are integrated
->          with the Root Complex.
->  
-> -    (2) PCI Express Root Ports (ioh3420), for starting exclusively PCI Express
-> -        hierarchies.
-> +    (2) PCI Express Root Ports (pcie-root-port), for starting exclusively
-> +        PCI Express hierarchies.
->  
->      (3) PCI Express to PCI Bridge (pcie-pci-bridge), for starting legacy PCI
->          hierarchies.
-> @@ -70,7 +70,7 @@ Place only the following kinds of devices directly on the Root Complex:
->            -device pxb-pcie,id=pcie.1,bus_nr=x[,numa_node=y][,addr=z]
->        PCI Express Root Ports and PCI Express to PCI bridges can be
->        connected to the pcie.1 bus:
-> -          -device ioh3420,id=root_port1[,bus=pcie.1][,chassis=x][,slot=y][,addr=z]                                     \
-> +          -device pcie-root-port,id=root_port1[,bus=pcie.1][,chassis=x][,slot=y][,addr=z] \
->            -device pcie-pci-bridge,id=pcie_pci_bridge1,bus=pcie.1
->  
->  
-> @@ -112,14 +112,14 @@ Plug only PCI Express devices into PCI Express Ports.
->                                               ------------
->  
->  2.2.1 Plugging a PCI Express device into a PCI Express Root Port:
-> -          -device ioh3420,id=root_port1,chassis=x,slot=y[,bus=pcie.0][,addr=z]  \
-> +          -device pcie-root-port,id=root_port1,chassis=x,slot=y[,bus=pcie.0][,addr=z]  \
->            -device <dev>,bus=root_port1
->  2.2.2 Using multi-function PCI Express Root Ports:
-> -      -device ioh3420,id=root_port1,multifunction=on,chassis=x,addr=z.0[,slot=y][,bus=pcie.0] \
-> -      -device ioh3420,id=root_port2,chassis=x1,addr=z.1[,slot=y1][,bus=pcie.0] \
-> -      -device ioh3420,id=root_port3,chassis=x2,addr=z.2[,slot=y2][,bus=pcie.0] \
-> +      -device pcie-root-port,id=root_port1,multifunction=on,chassis=x,addr=z.0[,slot=y][,bus=pcie.0] \
-> +      -device pcie-root-port,id=root_port2,chassis=x1,addr=z.1[,slot=y1][,bus=pcie.0] \
-> +      -device pcie-root-port,id=root_port3,chassis=x2,addr=z.2[,slot=y2][,bus=pcie.0] \
->  2.2.3 Plugging a PCI Express device into a Switch:
-> -      -device ioh3420,id=root_port1,chassis=x,slot=y[,bus=pcie.0][,addr=z]  \
-> +      -device pcie-root-port,id=root_port1,chassis=x,slot=y[,bus=pcie.0][,addr=z]  \
->        -device x3130-upstream,id=upstream_port1,bus=root_port1[,addr=x]          \
->        -device xio3130-downstream,id=downstream_port1,bus=upstream_port1,chassis=x1,slot=y1[,addr=z1]] \
->        -device <dev>,bus=downstream_port1
+> diff --git a/hw/acpi/utils.c b/hw/acpi/utils.c
+> index 0c486ea..85f6ff3 100644
+> --- a/hw/acpi/utils.c
+> +++ b/hw/acpi/utils.c
+> @@ -37,7 +37,7 @@ MemoryRegion *acpi_add_rom_blob(FWCfgCallback update, void *opaque,
+>      } else if (!strcmp(name, ACPI_BUILD_LOADER_FILE)) {
+>          max_size = 0x10000;
+>      } else if (!strcmp(name, ACPI_BUILD_RSDP_FILE)) {
+> -        max_size = 0x1000;
+> +        max_size = 0x10000;
+>      } else {
+>          g_assert_not_reached();
+>      }
 
 
