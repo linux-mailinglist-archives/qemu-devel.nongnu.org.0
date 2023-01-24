@@ -2,92 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C758679F48
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 17:56:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 987FB679F87
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 18:03:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKMaI-0003tG-6S; Tue, 24 Jan 2023 11:55:46 -0500
+	id 1pKMfO-0005Ct-BM; Tue, 24 Jan 2023 12:01:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pKMaG-0003t7-5p
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 11:55:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
+ id 1pKMf6-00057n-CC
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 12:00:45 -0500
+Received: from mailout1.w2.samsung.com ([211.189.100.11])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pKMaE-00029T-O8
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 11:55:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674579342;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=L0iox1l7sYtCSF18ty33gCbidmNX4LDWLCyWx7AQr68=;
- b=F85FkxospJ7ePVE1LOeM9EY5y4c2PuOkSsX7jhVtyyXVzqR4jV5k1cqPTy7lc94YiIXlh1
- OmTHamxv4R/zqzzwES2gO/CFswROS9abG+/kBIA6nvQctpglmqSjjiKg5MsQwnW+s627x5
- fLVc3NZAeFfKK9aIQxzlTYF5V8cVs2Y=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-496-xdMjhcRWMIKnIDzCHk6qSQ-1; Tue, 24 Jan 2023 11:55:39 -0500
-X-MC-Unique: xdMjhcRWMIKnIDzCHk6qSQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- xj11-20020a170906db0b00b0077b6ecb23fcso10251159ejb.5
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 08:55:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=L0iox1l7sYtCSF18ty33gCbidmNX4LDWLCyWx7AQr68=;
- b=wM4jhGQkNiO/AVO6Y1L6gL5ZYZkgo2mJ4GE8d1C4f2y2QpRPdauSODFIyWsD4BjRKY
- 9O/hnSlmW2J3Ui73N8rOGppjhsRk20Mt4Qzg99UW50uxiCRl9UED1ug0tzl/kPuf9xGC
- mnXzZ0YRDMtVapMkBVg0v8+OjH1Jk6IoqT5PR2j3Xf04MiFRb15tPrMBdBSFxpByhxie
- xj+9R7AMapYKx8PcQsEj8KgVldQmliYwzQmR4mk3vicMSHXGpj7j5V4lzqh6AGRjIi3H
- ooBHFnADjSxdR0JUvRuzlrm7j9h2wS01pdkJ3FeRUWs8R9m8KC8505bCQxiqAfIjbkXQ
- IuTQ==
-X-Gm-Message-State: AFqh2koKFmQZe860kVKvDOpBKoMlu128pdcvKRjNzOHMZUS0HVjpv1sj
- EupofXv3h0lObMGyXR5tWMz8bOy1j7Rfl60sYRENEn63JLqZXf4LwGEiCwvh/8x0hcvUU4y+twV
- fNQciGZEoOgA0z7A=
-X-Received: by 2002:a17:906:8d86:b0:870:dceb:696d with SMTP id
- ry6-20020a1709068d8600b00870dceb696dmr36505619ejc.43.1674579338393; 
- Tue, 24 Jan 2023 08:55:38 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtUBJ5U3KSbxPj5dNQAboHHi0jin+E+vu6pb62IibxPTOnk/ESw2HLRBEtdf+epGNYdWxlBvQ==
-X-Received: by 2002:a17:906:8d86:b0:870:dceb:696d with SMTP id
- ry6-20020a1709068d8600b00870dceb696dmr36505603ejc.43.1674579338195; 
- Tue, 24 Jan 2023 08:55:38 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- m26-20020a1709066d1a00b008779b5c7db6sm1148098ejr.107.2023.01.24.08.55.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 08:55:37 -0800 (PST)
-Date: Tue, 24 Jan 2023 17:55:37 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Ani Sinha
- <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>, Aurelien Jarno
- <aurelien@aurel32.net>
-Subject: Re: [PATCH 2/7] hw/acpi/ich9: Remove unneeded assignments
-Message-ID: <20230124175537.5cb5da48@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230122170724.21868-3-shentey@gmail.com>
-References: <20230122170724.21868-1-shentey@gmail.com>
- <20230122170724.21868-3-shentey@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
+ id 1pKMf2-00034E-GI
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 12:00:44 -0500
+Received: from uscas1p2.samsung.com (unknown [182.198.245.207])
+ by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id
+ 20230124170034usoutp016f4b39e8af096842ea23dec8dccf6246~9TU4fKvfq3145731457usoutp01p;
+ Tue, 24 Jan 2023 17:00:34 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com
+ 20230124170034usoutp016f4b39e8af096842ea23dec8dccf6246~9TU4fKvfq3145731457usoutp01p
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1674579634;
+ bh=FMDrPaTF0+Vi9fjCCtYMriQMtblV6FJtS64E1cQbpFk=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+ b=ulEn8uCN44kljbp8hWzy+ryVJe4pRQNeyUup+JF4gGL53ax+Ovnd0iz2lTEweb6EY
+ 0rDdpTkRRqBsYHfBEFWYGyd+cqH/iV59fanoRFq8TG89VLNkZUb79Oyk3Df4qao8Vr
+ 8V9HLPUpAqwFlmgP+s/9BRhfKSGLugQepVQ/Yx6c=
+Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
+ [203.254.195.111]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20230124170034uscas1p2fa263e7c5e873b4b347f427f2eff3b92~9TU4Q8jZo1958219582uscas1p27;
+ Tue, 24 Jan 2023 17:00:34 +0000 (GMT)
+Received: from uscas1p2.samsung.com ( [182.198.245.207]) by
+ ussmges2new.samsung.com (USCPEMTA) with SMTP id 9F.E2.49129.2BE00D36; Tue,
+ 24 Jan 2023 12:00:34 -0500 (EST)
+Received: from ussmgxs3new.samsung.com (u92.gpu85.samsung.co.kr
+ [203.254.195.92]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20230124170033uscas1p10baa61b555ae09696d2f5cfa74555913~9TU3-2xF11230912309uscas1p1r;
+ Tue, 24 Jan 2023 17:00:33 +0000 (GMT)
+X-AuditID: cbfec36f-6f006a800001bfe9-f4-63d00eb29eb9
+Received: from SSI-EX4.ssi.samsung.com ( [105.128.2.146]) by
+ ussmgxs3new.samsung.com (USCPEXMTA) with SMTP id 75.5E.11346.1BE00D36; Tue,
+ 24 Jan 2023 12:00:33 -0500 (EST)
+Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
+ SSI-EX4.ssi.samsung.com (105.128.2.229) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.2375.24; Tue, 24 Jan 2023 09:00:33 -0800
+Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
+ SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Tue,
+ 24 Jan 2023 09:00:33 -0800
+From: Fan Ni <fan.ni@samsung.com>
+To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Ben Widawsky
+ <bwidawsk@kernel.org>, "linux-cxl@vger.kernel.org"
+ <linux-cxl@vger.kernel.org>, "linuxarm@huawei.com" <linuxarm@huawei.com>,
+ "Ira Weiny" <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ "alison.schofield@intel.com" <alison.schofield@intel.com>, Adam Manzanares
+ <a.manzanares@samsung.com>, "dave@stgolabs.net" <dave@stgolabs.net>
+Subject: Re: [RFC PATCH 0/2] hw/cxl: Passthrough HDM decoder emulation
+Thread-Topic: [RFC PATCH 0/2] hw/cxl: Passthrough HDM decoder emulation
+Thread-Index: AQHZLySkNAH6qX3/wkmwdVXQT9dTIK6szvqAgAEKjACAAHkEAA==
+Date: Tue, 24 Jan 2023 17:00:32 +0000
+Message-ID: <20230124170008.GA173757@bgt-140510-bm03>
+In-Reply-To: <20230124094720.00005c97@Huawei.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [105.128.2.176]
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <209EB741507E2448A133E680AE32429C@ssi.samsung.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-CFilter-Loop: Reflected
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrBKsWRmVeSWpSXmKPExsWy7djX87qb+C4kGxz/yWJx9/EFNovmyYsZ
+ LU7cbGSzWH1zDaPF/qfPWSxWLbzGZnF+1ikWi8MbzzBZHO/dweLA6dFy5C2rx+I9L5k8Nq3q
+ ZPN4cm0zk8fU2fUenzfJBbBFcdmkpOZklqUW6dslcGU8+Zte0C9dsevXE/YGxkWiXYycHBIC
+ JhLv9p1i6mLk4hASWMko8ff0ZyinlUniyJ5prDBVbR9bmEFsIYG1jBJfF3JBFH1ilGi8fBiq
+ YxmjxJ5ZXWAdbAKKEvu6trOB2CICRhJXlh1kByliFpjLLHHz0VqwUcICbhJT3s2HKnKX2HBm
+ MzOE7STxonMp2CAWAVWJOV2fGLsYOTh4BUwlOpYEgIQ5BQwlWp7tAytnFBCT+H5qDROIzSwg
+ LnHryXwmiKsFJRbN3sMMYYtJ/Nv1kA3CVpS4//0lO0S9jsSC3Z/YIGw7iZUXH7NC2NoSyxa+
+ BuvlBZpzcuYTFoheSYmDK26wgPwiIfCGQ+JK5zd2iISLRNfXeVC2tMT0NZdZQG6WEEiWWPWR
+ CyKcIzF/yRaoOdYSC/+sZ5rAqDILydmzkJw0C8lJs5CcNAvJSQsYWVcxipcWF+empxYb5aWW
+ 6xUn5haX5qXrJefnbmIEJq7T/w7n72C8fuuj3iFGJg7GQ4wSHMxKIrw9s88nC/GmJFZWpRbl
+ xxeV5qQWH2KU5mBREuc1tD2ZLCSQnliSmp2aWpBaBJNl4uCUamCa6jzVSWLupD8XuireMZg/
+ lRLRzFwkuugSC98PZ+FLFRXfqxl2iPiJX2ROWvEsJfja09/hm+sZkmzPKr+xnPDz6zyzGy5b
+ MqYdmNs9Q+PPJfXi6ETmR46Lfbm+vTiQqiVTfbdxtmJD/4KV3uqLri1LZfSd9+ryPvsClyU7
+ jv14fMvVwMDY8naWx1zbaJkGTqPHicd+Hl2gV1I/QWseR4hd4LP4S2el7WucnrPKHEg947ao
+ N2XaHd7Fx1sM5B1sLAPXrHzN+eiusFXWohtbrEuu8m59N8FWtHibSVO587VOntbv1YIf2X7s
+ SNzuLPbv2QnF1SVSXw7s73os6G6Xe+HR5dZWmXKnkGkRfwrbZdiVWIozEg21mIuKEwH91OZ7
+ ywMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrOIsWRmVeSWpSXmKPExsWS2cA0SXcj34Vkg9s7dS3uPr7AZtE8eTGj
+ xYmbjWwWq2+uYbTY//Q5i8WqhdfYLM7POsVicXjjGSaL4707WBw4PVqOvGX1WLznJZPHplWd
+ bB5Prm1m8pg6u97j8ya5ALYoLpuU1JzMstQifbsErownf9ML+qUrdv16wt7AuEi0i5GTQ0LA
+ RKLtYwtzFyMXh5DAakaJZW1nGCGcT4wS5w/eY4FwljFK7Pu9iA2khU1AUWJf13YwW0TASOLK
+ soPsIEXMAnOZJW4+WssMkhAWcJOY8m4+VJG7xIYzm5khbCeJF51LWUFsFgFViTldn4DWcXDw
+ CphKdCwJAAkLCTxnlFg/Vx/E5hQwlGh5tg+slVFATOL7qTVMIDazgLjErSfzmSBeEJBYsuc8
+ M4QtKvHy8T9WCFtR4v73l+wQ9ToSC3Z/YoOw7SRWXnzMCmFrSyxb+Bqsl1dAUOLkzCcsEL2S
+ EgdX3GCZwCgxC8m6WUhGzUIyahaSUbOQjFrAyLqKUby0uDg3vaLYOC+1XK84Mbe4NC9dLzk/
+ dxMjMO5P/zscs4Px3q2PeocYmTgYDzFKcDArifD2zD6fLMSbklhZlVqUH19UmpNafIhRmoNF
+ SZzXI3ZivJBAemJJanZqakFqEUyWiYNTqoHJeY7Vs829Fuy1ce2c5ayvsxnV+s8r9H5bzRJa
+ amd5dnvllK4am5net4xfN84vjG86VMMkwOt4O2bKlJWChQFR/LsfSruxbxFrnWucFW63+uZC
+ BVmLNz3HFksdtdOwlvCN+GlncOj88o3Nq1vf7ZDfdnOF/75Dh11qZ5197MbAMiPm+CbW3slu
+ SxctNzsrnuPLdcAu54Wp5Stdi1YpLpYnZ37dmTNNYrW67cLqe2Ic2h61/mdn9nYYMLf8n/lK
+ 1OtXf2RF4c3E4oS6mM2cc9XMZkvPMbosLrC6//rMqvQFFyvSlrbUsJ8IylQIfsTQMO85t8/R
+ utSLDEKKnnnJqyWfXNrPrhc7vyj8Ts4eBiWW4oxEQy3mouJEALj1+1pqAwAA
+X-CMS-MailID: 20230124170033uscas1p10baa61b555ae09696d2f5cfa74555913
+CMS-TYPE: 301P
+X-CMS-RootMailID: 20230123175325uscas1p134d834ae3636c7c56e93299c01a4f351
+References: <20230123121712.29892-1-Jonathan.Cameron@huawei.com>
+ <CGME20230123175325uscas1p134d834ae3636c7c56e93299c01a4f351@uscas1p1.samsung.com>
+ <20230123175315.GA168673@bgt-140510-bm03>
+ <20230124094720.00005c97@Huawei.com>
+Received-SPF: pass client-ip=211.189.100.11; envelope-from=fan.ni@samsung.com;
+ helo=mailout1.w2.samsung.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,41 +140,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 22 Jan 2023 18:07:19 +0100
-Bernhard Beschow <shentey@gmail.com> wrote:
+On Tue, Jan 24, 2023 at 09:47:20AM +0000, Jonathan Cameron wrote:
 
-> The first thing ich9_pm_iospace_update() does is to set pm->pm_io_base to
-> the pm_io_base parameter.
-try to explain why 'pm->pm_io_base = 0' was there , what's changed 
-and then why it's no longer needed.
-
-> The pm_io_base parameter's value is the old
-> one of pm->pm_io_base.
-I can't parse this sentence.
-
-
-fixes: cacaab8bdd7460
-
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->  hw/acpi/ich9.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
-> index 2050af67b9..0313e71e74 100644
-> --- a/hw/acpi/ich9.c
-> +++ b/hw/acpi/ich9.c
-> @@ -136,9 +136,7 @@ void ich9_pm_iospace_update(ICH9LPCPMRegs *pm, uint32_t pm_io_base)
->  static int ich9_pm_post_load(void *opaque, int version_id)
->  {
->      ICH9LPCPMRegs *pm = opaque;
-> -    uint32_t pm_io_base = pm->pm_io_base;
-> -    pm->pm_io_base = 0;
-> -    ich9_pm_iospace_update(pm, pm_io_base);
-> +    ich9_pm_iospace_update(pm, pm->pm_io_base);
->      return 0;
->  }
->  
-
+> On Mon, 23 Jan 2023 17:53:24 +0000
+> Fan Ni <fan.ni@samsung.com> wrote:
+>=20
+> > On Mon, Jan 23, 2023 at 12:17:10PM +0000, Jonathan Cameron wrote:
+> >=20
+> >=20
+> >=20
+> > > Until now, testing using CXL has relied up always using two root port=
+s
+> > > below a host bridge, to work around a current assumption in the Linux
+> > > kernel support that, in the single root port case, the implementation=
+ will
+> > > use the allowed passthrough decoder implementation choice. If that ch=
+oice
+> > > is made all accesses are routed from the host bridge to the single
+> > > root port that is present. Effectively we have a pass through decoder
+> > > (it is called that in the kernel driver).
+> > >=20
+> > > This patch series implements that functionality and makes it the defa=
+ult
+> > > See patch 2 for a discussion of why I think we can make this change
+> > > without backwards compatibility issues (basically if it didn't work b=
+efore
+> > > who are we breaking by making it work?)
+> > >=20
+> > > Whilst this limitation has been known since the initial QEMU patch
+> > > postings / kernel CXL region support, Fan Ni Ran into it recently rem=
+inding
+> > > me that we should solve it.
+> > >=20
+> > > https://urldefense.com/v3/__https://lore.kernel.org/linux-cxl/2023011=
+3171044.GA24788@bgt-140510-bm03/__;!!EwVzqGoTKBqv-0DWAJBm!WsD6FV-KV_YnhhHWL=
+ll72cHLqLQ_8kpps3MlpAa6Bonsdz6aifuWT40-QnlRyFqWyeyaVb-RiC03_qajbeCGsI5DcPYv=
+$=20
+> > >=20
+> > > Tree with a large set of patches before this at:
+> > > https://urldefense.com/v3/__https://gitlab.com/jic23/qemu/-/tree/cxl-=
+2023-01-20__;!!EwVzqGoTKBqv-0DWAJBm!WsD6FV-KV_YnhhHWLll72cHLqLQ_8kpps3MlpAa=
+6Bonsdz6aifuWT40-QnlRyFqWyeyaVb-RiC03_qajbeCGsPjbv12T$=20
+> > >=20
+> > > I've done some basic testing, though I did hit what appears to be
+> > > a kernel race on region bring up of existing region / namespace in a
+> > > 1HB 2RP 2EP test case. That is proving hard to replicate consistently
+> > > but doesn't seem to have anything to do with the emulation other than
+> > > perhaps we are opening up a race by responding slowly to something.
+> > >=20
+> > > Jonathan Cameron (2):
+> > >   hw/pci: Add pcie_count_ds_port() and pcie_find_port_first() helpers
+> > >   hw/pxb-cxl: Support passthrough HDM Decoders unless overridden
+> > >=20
+> > >  hw/cxl/cxl-host.c                   | 31 +++++++++++++--------
+> > >  hw/pci-bridge/pci_expander_bridge.c | 43 +++++++++++++++++++++++++--=
+--
+> > >  hw/pci/pcie_port.c                  | 38 +++++++++++++++++++++++++
+> > >  include/hw/cxl/cxl.h                |  1 +
+> > >  include/hw/cxl/cxl_component.h      |  1 +
+> > >  include/hw/pci/pci_bridge.h         |  1 +
+> > >  include/hw/pci/pcie_port.h          |  2 ++
+> > >  7 files changed, 100 insertions(+), 17 deletions(-)
+> > >=20
+> > > --=20
+> > > 2.37.2
+> > >=20
+> > >  =20
+> > Tried three different cxl topology setups (1HB1RP, 1HB2RP2Memdev, with
+> > switch), the patch works fine for me.
+> > Btw, there seem some format issues with the patch, got warnings with
+> > checkpatch tool.
+> Thanks! I'll clean those up.  Was being lazy on it as it's an RFC for
+> now :)  Given this is small and useful I'll probably pull it nearer the
+> head of the queue.
+>=20
+> When I repost, if you could give a Tested-by tag that would be great!
+>=20
+> Thanks,
+>=20
+> Jonathan
+>=20
+Will do. Thanks.=
 
