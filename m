@@ -2,72 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7791679DAF
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 16:39:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA90D679E31
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 17:07:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKLNS-0000t7-LZ; Tue, 24 Jan 2023 10:38:26 -0500
+	id 1pKLo3-0007Ep-OS; Tue, 24 Jan 2023 11:05:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pKLNH-0000si-9A
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 10:38:16 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pKLND-0006d0-R8
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 10:38:14 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- k10-20020a17090a590a00b0022ba875a1a4so11956739pji.3
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 07:38:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=kAqPXPYtWTPR1Aw+FnY0fnoJ9iamxDsZFRy8Jo0758E=;
- b=fmlGh2ApyJaL8ruzDhO1cq1VjYQlMRJCF9+zBWydhp8uAKSRQRiW5yWlpPZJSjS6XV
- XvI+tJ4H75GF6/fgsv5vVjwr58715y5re3G+jpFWH8zAAJ0jsc8AqDltMtys8qL/hECO
- EJf3uoEfCtLhCbafFhtqoU0jFqFjk1ulDSPc4RgDwWV6mJ0EuSLfh7F5xIKay1XNsW8L
- QTVJPjOYIUluywOg9BZ2+a+DqwSTdLPHrW+0mm+0/B7XXUv5PM21OdXBgO5fKAlXdqtW
- KSHpW3Q0QqEdLbq9ClRjLWuAozdzLmt1APNxdI+dXGQUALflCsAPirqIHZi5k9gxCUZK
- 99dw==
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pKLnz-0007Cc-QI
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 11:05:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pKLnx-0002of-R0
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 11:05:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674576349;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=u8Z4lzjFZdQvs6PtQvM4HEy07Fz5hNTy9HSrxDKdTBg=;
+ b=LHiXkp4yBRTvI0lyi56NMkZbwbw7ed00SnRYWm9NajK6xh47sqppwqT0gpuYL7GpAuERpV
+ 3qQDNtchrCqXWEYsJuaz3sPmPl7FcTWmlrvHwTlSO5/eUaJuHkgIoT53yvBUMotWNaHuWb
+ /cugdEdAkRAiIVfNpzJiMcAxoUpjySw=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-296-FZBq_dmLMSiWFtr9nDsAow-1; Tue, 24 Jan 2023 11:05:46 -0500
+X-MC-Unique: FZBq_dmLMSiWFtr9nDsAow-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ xj11-20020a170906db0b00b0077b6ecb23fcso10157927ejb.5
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 08:05:43 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=kAqPXPYtWTPR1Aw+FnY0fnoJ9iamxDsZFRy8Jo0758E=;
- b=cOF4Obw2HeuNCjrpKtZRXrdQQOOOIebSQVuYweyJToYqXueJTaVroXsDPphJhyTm6f
- tpWlMjSVzN4waz/KtHZfW39Ni2uc/L3oRSkZi4NMkJ0bz04D+Bo5Sm3FxyKhRrOtqmku
- sXN27XtqGMZpL6co5Wh6jGE943EsJCfQ0ShxsE3qzTiuDuLxxI2+Gc6g4JqJ0iDKTW+B
- NwDjvLU1WEwyQFA1aw+LaCWSPKPePycoVH8tB99S6lbnVNZIpSfIZglq+HgUL0WUmZz3
- U3iY9BxxFYrzvXJjB+eK0zzya3OjAO7+8TkxfDLlQIq3gBC8e1UUthXGUDWBAXjkcqXK
- iF4g==
-X-Gm-Message-State: AFqh2kpnnK42MEDyNKZHDD08xZ8KDXAbZMfT5SPVlgxCbTF0l6ukUrhI
- HoYTsaq8x+mNX4UqoRVpWk1ThdYhKaltokMvKSiQGg==
-X-Google-Smtp-Source: AMrXdXtqMXSQ6tJI0odbebi7BR/cSNSu6E7UmZMcnWmLsaZw7r6SkOO0DuHeCny24Y/Stcz40OxpuVxv+IT5yWD0CzM=
-X-Received: by 2002:a17:90a:53e4:b0:22b:b025:38ed with SMTP id
- y91-20020a17090a53e400b0022bb02538edmr1956524pjh.19.1674574689930; Tue, 24
- Jan 2023 07:38:09 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=u8Z4lzjFZdQvs6PtQvM4HEy07Fz5hNTy9HSrxDKdTBg=;
+ b=cmsOCIPjhSB0lGBNE+eOGQX0tX35SvAY66+vYBCN6b5MULeZefrbjKqZEp3iHgDWYD
+ kFqgTSv2rp59zB0vfvhqAVahSmFy03dyplVX+V/tMd8P8hR9REzNZE7cyK4FCxI1TWu+
+ tMdv2kfTo0JyyYSG+8alO4OKgN7uF2uJY4TXUY8EVsdYuV9zf9V8Y29pH9kpdFmJBXj8
+ gbtS3AwlWInbg9UXbKYGxhXIyXdYCP3QyoV54WE6LqR/igEzVg7MiK6/zw8RgU/fXOrA
+ HzZsyDHYPgsLbHsgugpwzBrCbrAoOXB2AQewth08BRmozioxfLKdS7a3iIJmn8XpKbhW
+ YZhg==
+X-Gm-Message-State: AFqh2kp/OWZ7q6ZehVdJQoW5ZkNvh97rp0ZjvnxBVxDVV3Lh/uqJZ0R/
+ ZhF89HjsbgeQSJYUcX7z/4HK9H/MzZPTXs5OrBbA2y0pqoMtym1M1Ud3/pQFnbPufn4DdkBMDs3
+ m6EY5QU/Z/07hkcw=
+X-Received: by 2002:a17:906:4ed9:b0:7c1:7145:5b3c with SMTP id
+ i25-20020a1709064ed900b007c171455b3cmr31081612ejv.46.1674576342012; 
+ Tue, 24 Jan 2023 08:05:42 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXve4YnS/OAdLW+F3Z19MlmoSq78ERWAuncuBEOkEn5D9a1q1/4V77uSv0VOPxDUrZYuAbisvw==
+X-Received: by 2002:a17:906:4ed9:b0:7c1:7145:5b3c with SMTP id
+ i25-20020a1709064ed900b007c171455b3cmr31081586ejv.46.1674576341747; 
+ Tue, 24 Jan 2023 08:05:41 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ p4-20020a056402044400b0048ecd372fc9sm1223166edw.2.2023.01.24.08.05.40
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Jan 2023 08:05:41 -0800 (PST)
+Date: Tue, 24 Jan 2023 17:05:40 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Bernhard Beschow <shentey@gmail.com>
+Cc: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Eduardo Habkost <eduardo@habkost.net>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Ani Sinha <ani@anisinha.ca>, "Michael S.
+ Tsirkin" <mst@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Subject: Re: [PATCH 3/7] hw/acpi/{ich9,piix4}: Resolve redundant io_base
+ address attributes
+Message-ID: <20230124170540.3995c49c@imammedo.users.ipa.redhat.com>
+In-Reply-To: <8BFD0F5A-088F-4A17-8998-E9C618558FF6@gmail.com>
+References: <20230122170724.21868-1-shentey@gmail.com>
+ <20230122170724.21868-4-shentey@gmail.com>
+ <c38c9c94-b629-0cdd-acd9-ac800ff9da8d@linaro.org>
+ <8BFD0F5A-088F-4A17-8998-E9C618558FF6@gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20230124112157.37437-1-kwolf@redhat.com>
-In-Reply-To: <20230124112157.37437-1-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 24 Jan 2023 15:37:58 +0000
-Message-ID: <CAFEAcA_UUHxrW31V_KXtCBCAEhgU+enBOUE3Q0wZXTULsaW+AQ@mail.gmail.com>
-Subject: Re: [PULL v2 00/38] Block layer patches
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,45 +107,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 24 Jan 2023 at 11:22, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> The following changes since commit 00b1faea41d283e931256aa78aa975a369ec3ae6:
->
->   Merge tag 'pull-target-arm-20230123' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2023-01-23 13:40:28 +0000)
->
-> are available in the Git repository at:
->
->   https://repo.or.cz/qemu/kevin.git tags/for-upstream
->
-> for you to fetch changes up to 19a9c20a68f47b133e7bc8da789f2b21831fb9b0:
->
->   qemu-img: Change info key names for protocol nodes (2023-01-24 12:09:26 +0100)
->
-> v2:
-> - Rebased to resolve merge conflicts in coroutine.h
->
-> ----------------------------------------------------------------
-> Block layer patches
->
-> - qemu-img info: Show protocol-level information
-> - Move more functions to coroutines
-> - Make coroutine annotations ready for static analysis
-> - qemu-img: Fix exit code for errors closing the image
-> - qcow2 bitmaps: Fix theoretical corruption in error path
-> - pflash: Only load non-zero parts of backend image to save memory
-> - Code cleanup and test case improvements
->
-> ----------------------------------------------------------------
+s/resolve/remove|drop/
 
-Hi; this fails to compile/warns on the BSDs:
-https://gitlab.com/qemu-project/qemu/-/jobs/3652646535
+On Mon, 23 Jan 2023 15:49:29 +0000
+Bernhard Beschow <shentey@gmail.com> wrote:
 
-../block/file-posix.c:3098:19: error: unused variable 's'
-[-Werror,-Wunused-variable]
-BDRVRawState *s = bs->opaque;
-^
-1 error generated.
+> Am 23. Januar 2023 07:57:08 UTC schrieb "Philippe Mathieu-Daud=C3=A9" <ph=
+ilmd@linaro.org>:
+> >Hi Bernhard,
+> >
+> >On 22/1/23 18:07, Bernhard Beschow wrote: =20
+> >> A MemoryRegion has an addr attribute which gets set to the same values
+> >> as the redundant io_addr attributes.
 
-thanks
--- PMM
+
+MemoryRegion::addr is an offset within subregion while fields you
+are removing are absolute values (offset within address space).
+
+Assuming that the former is the same as the later seems wrong
+to me (even if they both match at the moment).
+So I'd drop this patch.
+
+
+> >> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> >> ---
+> >>   include/hw/acpi/ich9.h  |  1 -
+> >>   include/hw/acpi/piix4.h |  2 --
+> >>   hw/acpi/ich9.c          | 17 ++++++++---------
+> >>   hw/acpi/piix4.c         | 11 ++++++-----
+> >>   4 files changed, 14 insertions(+), 17 deletions(-) =20
+> > =20
+> >> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+> >> index 370b34eacf..2e9bc63fca 100644
+> >> --- a/hw/acpi/piix4.c
+> >> +++ b/hw/acpi/piix4.c
+> >> @@ -91,13 +91,14 @@ static void apm_ctrl_changed(uint32_t val, void *a=
+rg)
+> >>   static void pm_io_space_update(PIIX4PMState *s)
+> >>   {
+> >>       PCIDevice *d =3D PCI_DEVICE(s);
+> >> +    uint32_t io_base;
+> >>   -    s->io_base =3D le32_to_cpu(*(uint32_t *)(d->config + 0x40));
+> >> -    s->io_base &=3D 0xffc0;
+> >> +    io_base =3D le32_to_cpu(*(uint32_t *)(d->config + 0x40));
+> >> +    io_base &=3D 0xffc0;
+> >>         memory_region_transaction_begin();
+> >>       memory_region_set_enabled(&s->io, d->config[0x80] & 1);
+> >> -    memory_region_set_address(&s->io, s->io_base);
+> >> +    memory_region_set_address(&s->io, io_base); =20
+> >
+> >OK for this part.
+> > =20
+> >>       memory_region_transaction_commit();
+> >>   }
+> >>   @@ -433,8 +434,8 @@ static void piix4_pm_add_properties(PIIX4PMState=
+ *s)
+> >>                                     &s->ar.gpe.len, OBJ_PROP_FLAG_READ=
+);
+> >>       object_property_add_uint16_ptr(OBJECT(s), ACPI_PM_PROP_SCI_INT,
+> >>                                     &sci_int, OBJ_PROP_FLAG_READ);
+> >> -    object_property_add_uint32_ptr(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
+> >> -                                  &s->io_base, OBJ_PROP_FLAG_READ);
+> >> +    object_property_add_uint64_ptr(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
+> >> +                                   &s->io.addr, OBJ_PROP_FLAG_READ); =
+=20
+> >
+> >+Eduardo/Mark
+> >
+> >We shouldn't do that IMO, because we access an internal field from
+> >another QOM object.
+> >
+> >We can however alias the MR property:
+> >
+> >  object_property_add_alias(OBJECT(s), ACPI_PM_PROP_PM_IO_BASE,
+> >                            OBJECT(&s->io), "addr"); =20
+
+also, do not access 'io.addr' directly elsewhere in the patch either.
+
+>=20
+> Indeed! And the "addr" property is already read-only -- which seems like =
+a good fit.
+>=20
+> > =20
+> >>   } =20
+>=20
+
 
