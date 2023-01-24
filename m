@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D0D8678DE7
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:06:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430B8678DE0
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:06:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK8gY-0008NU-Nl; Mon, 23 Jan 2023 21:05:18 -0500
+	id 1pK8gZ-0008Nc-RZ; Mon, 23 Jan 2023 21:05:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8gV-0008Mx-V2
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:15 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ id 1pK8gX-0008NM-2u
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:17 -0500
+Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8gU-0003mC-5N
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:15 -0500
-Received: by mail-pl1-x634.google.com with SMTP id d3so13324236plr.10
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:13 -0800 (PST)
+ id 1pK8gV-0003mP-98
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:16 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ u1-20020a17090a450100b0022936a63a21so17062125pjg.4
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=U9vjpxFE1AEIlgkthxEfz8zh3TVx+kl7oOc+q8wWGhQ=;
- b=CRIAj2FyiN/mdJPd0XgC9uAKSugvVSw3c/p6X7+jOGRJeypSCtTwv102R/pRFRjdUO
- 46fdVIVZDLaPlShg1zdNwBsOZ5cwCoTw8uDdiKhkfQ7EL+ofShGl61q4v99cKD+Q27YI
- SrYxMZTaaSfW0NVtH5SIG5u9+wpi34TiQmgAXYzV/g69Ag+ViYUll3Q1fW+/c+smokpu
- B/3o4qTjOhAqHVtDwLp87Up4aXWTTtPJjpe5q3Au8gFF530mz2b3kuHvjBOfT6RJsDtg
- lHGXUapyhp6TDBpHiuRCye5Y8/UzeZ8Ecii9rviuzEnb+dkhi3SDj0EX045AXSoO0vhJ
- GPWw==
+ bh=aZuwAJqzP7Egb7aI8Buoh7A0UjJ62m3w+Hid4HWJcXg=;
+ b=J1r6zS48hsSBZEnMRIYUBjIm4Jo4mEFqZW/cElMYC9vuHc5Et93JKACBBnhSLWeFIl
+ mT6uJd/N9fudNbBxwt7DT81L0bWZUaB25YHwlP/YnPNzKVul6uLdQsuT1gOs0+XgCiIn
+ TjMZFw5Kqu45wAVfm7gj7VzvWAW6SR3+xf8ag7TDMPEislr1/MCSqmsO+CatWmF00tf9
+ ZtpDTF8gbSmm3u6UWTCwloZ8p1im+OA2DTP6vJQn7ZBFtGsLUCGGS1sNZy/RuZdDcX1B
+ nJw7oHxlJBGP5vPb8qSSr63uDjgwFTPDz3Xd3LBPgthp3XNbdcV+Eaze4X9bbq2HI2p6
+ K6bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=U9vjpxFE1AEIlgkthxEfz8zh3TVx+kl7oOc+q8wWGhQ=;
- b=IKs4bRXCMArV3Z9LBZ39rp/6tcSXn4UnafPKk8psDmReL1HYJHCFIWBuA4zp48U9Hh
- sOzvxw2eOPanUrWoHDkVdVxvvCAg5+m7pcEzT0tUkLMaofU6U3m7RLblSLscLzy3RIO7
- ocwEJYrQNJnYnxRkCevbZ4dzGp1McSUOYIbOEZccfT/NUZ7pbH07VMRVp5LmnGFRxPl0
- Y/DzMhQgQyQDoPGXxlCpkernzx7gorhhb8KDt4wA6Zm07HxWOGZWbf8AaDr9atWA8XVr
- Ya2UG0fuIQQ20mcpsB7iA3fDgiAYGIvSHjFqjnzH5txjM9UsA+n4h4obTpnbJ0kVipDc
- 6uug==
-X-Gm-Message-State: AFqh2krHQtmFISMzP2qMY+cDpxnlSJpvPMmLP0sgKtA33d3hESbjq1hB
- qtcWGj34CU8kopeV2QY0la8kyVxRm67ALV6L
-X-Google-Smtp-Source: AMrXdXtmK6BgDkWd7QY97ndptLfMvqsXXNeJaHkYL4RWe3iSE2P5Eme6zu3gU8BpzHa2WOzhoUfK2Q==
-X-Received: by 2002:a05:6a21:910a:b0:b9:46a1:7f14 with SMTP id
- tn10-20020a056a21910a00b000b946a17f14mr15480317pzb.56.1674525912397; 
- Mon, 23 Jan 2023 18:05:12 -0800 (PST)
+ bh=aZuwAJqzP7Egb7aI8Buoh7A0UjJ62m3w+Hid4HWJcXg=;
+ b=MJTW37OWD67BP6tKTRsTDlrDywvkbLswcKASG34rbT5kYbepLZy5tshr+Kw9v8aRcQ
+ rbTkgkq4q53IgmSyACHPdPHJhu9ocmcuKFibmWNkTJgNhkp1wu7bJjP3KZNq2dB13fVF
+ mg6hxBWSD3VrhxW7M9KQPx22iCvtrxrUej/0zAeTwts0FMQRruJmDXIIbpi56HV5hMKj
+ YjjoURNTz/lfF8gjJl2sFIaVi9dZ1uwitFsqN+IVPeK3F0tF4Gq85Je3NWQXT66ei7qa
+ fZhMdf927k4ObwRLIdk7r/IInsVIampKSSEhlVNyFwumtckK+RD54BR93Sty+kDYA4c4
+ 8WEw==
+X-Gm-Message-State: AFqh2kotyOL/aF538qn8rULKI5kUIKrJdrmGjrzC562HlkD8OW1ma4Z5
+ 3TKsRpe/OtmbtM2/4kgRc32ugO6YS1aQ8G/z
+X-Google-Smtp-Source: AMrXdXvYC9LA5E8PHdw/Tp6dMtn23DLTHyH3VPtJW6JETGzaL0PKeFbwTEohWX4hTxPBc8dY2SC2aA==
+X-Received: by 2002:a17:90a:1a5c:b0:22b:b76b:5043 with SMTP id
+ 28-20020a17090a1a5c00b0022bb76b5043mr13466244pjl.9.1674525913762; 
+ Mon, 23 Jan 2023 18:05:13 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.11
+ fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 18:05:11 -0800 (PST)
+ Mon, 23 Jan 2023 18:05:13 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org
-Subject: [PULL v2 01/15] tcg: Avoid recursion in tcg_gen_mulu2_i32
-Date: Mon, 23 Jan 2023 16:04:53 -1000
-Message-Id: <20230124020507.3732200-2-richard.henderson@linaro.org>
+Subject: [PULL v2 02/15] tcg/arm: Use register pair allocation for qemu_{ld,
+ st}_i64
+Date: Mon, 23 Jan 2023 16:04:54 -1000
+Message-Id: <20230124020507.3732200-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124020507.3732200-1-richard.henderson@linaro.org>
 References: <20230124020507.3732200-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,61 +91,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have a test for one of TCG_TARGET_HAS_mulu2_i32 or
-TCG_TARGET_HAS_muluh_i32 being defined, but the test
-became non-functional when we changed to always define
-all of these macros.
+Although we still can't use ldrd and strd for all operations,
+increase the chances by getting the register allocation correct.
 
-Replace this with a build-time test in tcg_gen_mulu2_i32.
-
-Fixes: 25c4d9cc845 ("tcg: Always define all of the TCGOpcode enum members.")
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1435
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg.h | 7 -------
- tcg/tcg-op.c      | 4 +++-
- 2 files changed, 3 insertions(+), 8 deletions(-)
+ tcg/arm/tcg-target-con-set.h |  7 ++++---
+ tcg/arm/tcg-target-con-str.h |  2 ++
+ tcg/arm/tcg-target.c.inc     | 28 ++++++++++++++++++----------
+ 3 files changed, 24 insertions(+), 13 deletions(-)
 
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 6f497172f8..9a0ae7d20b 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -155,13 +155,6 @@ typedef uint64_t TCGRegSet;
- #define TCG_TARGET_HAS_rem_i64          0
- #endif
+diff --git a/tcg/arm/tcg-target-con-set.h b/tcg/arm/tcg-target-con-set.h
+index 3685e1786a..b8849b2478 100644
+--- a/tcg/arm/tcg-target-con-set.h
++++ b/tcg/arm/tcg-target-con-set.h
+@@ -15,8 +15,9 @@ C_O0_I2(r, rIN)
+ C_O0_I2(s, s)
+ C_O0_I2(w, r)
+ C_O0_I3(s, s, s)
++C_O0_I3(S, p, s)
+ C_O0_I4(r, r, rI, rI)
+-C_O0_I4(s, s, s, s)
++C_O0_I4(S, p, s, s)
+ C_O1_I1(r, l)
+ C_O1_I1(r, r)
+ C_O1_I1(w, r)
+@@ -38,8 +39,8 @@ C_O1_I2(w, w, wZ)
+ C_O1_I3(w, w, w, w)
+ C_O1_I4(r, r, r, rI, rI)
+ C_O1_I4(r, r, rIN, rIK, 0)
+-C_O2_I1(r, r, l)
+-C_O2_I2(r, r, l, l)
++C_O2_I1(e, p, l)
++C_O2_I2(e, p, l, l)
+ C_O2_I2(r, r, r, r)
+ C_O2_I4(r, r, r, r, rIN, rIK)
+ C_O2_I4(r, r, rI, rI, rIN, rIK)
+diff --git a/tcg/arm/tcg-target-con-str.h b/tcg/arm/tcg-target-con-str.h
+index 8f501149e1..24b4b59feb 100644
+--- a/tcg/arm/tcg-target-con-str.h
++++ b/tcg/arm/tcg-target-con-str.h
+@@ -8,9 +8,11 @@
+  * Define constraint letters for register sets:
+  * REGS(letter, register_mask)
+  */
++REGS('e', ALL_GENERAL_REGS & 0x5555) /* even regs */
+ REGS('r', ALL_GENERAL_REGS)
+ REGS('l', ALL_QLOAD_REGS)
+ REGS('s', ALL_QSTORE_REGS)
++REGS('S', ALL_QSTORE_REGS & 0x5555)  /* even qstore */
+ REGS('w', ALL_VECTOR_REGS)
  
--/* For 32-bit targets, some sort of unsigned widening multiply is required.  */
--#if TCG_TARGET_REG_BITS == 32 \
--    && !(defined(TCG_TARGET_HAS_mulu2_i32) \
--         || defined(TCG_TARGET_HAS_muluh_i32))
--# error "Missing unsigned widening multiply"
--#endif
--
- #if !defined(TCG_TARGET_HAS_v64) \
-     && !defined(TCG_TARGET_HAS_v128) \
-     && !defined(TCG_TARGET_HAS_v256)
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 9fa9f1b0fd..326a9180ef 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -874,7 +874,7 @@ void tcg_gen_mulu2_i32(TCGv_i32 rl, TCGv_i32 rh, TCGv_i32 arg1, TCGv_i32 arg2)
-         tcg_gen_op3_i32(INDEX_op_muluh_i32, rh, arg1, arg2);
-         tcg_gen_mov_i32(rl, t);
-         tcg_temp_free_i32(t);
--    } else {
-+    } else if (TCG_TARGET_REG_BITS == 64) {
-         TCGv_i64 t0 = tcg_temp_new_i64();
-         TCGv_i64 t1 = tcg_temp_new_i64();
-         tcg_gen_extu_i32_i64(t0, arg1);
-@@ -883,6 +883,8 @@ void tcg_gen_mulu2_i32(TCGv_i32 rl, TCGv_i32 rh, TCGv_i32 arg1, TCGv_i32 arg2)
-         tcg_gen_extr_i64_i32(rl, rh, t0);
-         tcg_temp_free_i64(t0);
-         tcg_temp_free_i64(t1);
-+    } else {
-+        qemu_build_not_reached();
-     }
- }
+ /*
+diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+index 6abe94137e..0f5f9f4925 100644
+--- a/tcg/arm/tcg-target.c.inc
++++ b/tcg/arm/tcg-target.c.inc
+@@ -1694,9 +1694,11 @@ static void tcg_out_qemu_ld_index(TCGContext *s, MemOp opc,
+         tcg_out_ld32_r(s, COND_AL, datalo, addrlo, addend);
+         break;
+     case MO_UQ:
++        /* We used pair allocation for datalo, so already should be aligned. */
++        tcg_debug_assert((datalo & 1) == 0);
++        tcg_debug_assert(datahi == datalo + 1);
+         /* LDRD requires alignment; double-check that. */
+-        if (get_alignment_bits(opc) >= MO_64
+-            && (datalo & 1) == 0 && datahi == datalo + 1) {
++        if (get_alignment_bits(opc) >= MO_64) {
+             /*
+              * Rm (the second address op) must not overlap Rt or Rt + 1.
+              * Since datalo is aligned, we can simplify the test via alignment.
+@@ -1750,9 +1752,11 @@ static void tcg_out_qemu_ld_direct(TCGContext *s, MemOp opc, TCGReg datalo,
+         tcg_out_ld32_12(s, COND_AL, datalo, addrlo, 0);
+         break;
+     case MO_UQ:
++        /* We used pair allocation for datalo, so already should be aligned. */
++        tcg_debug_assert((datalo & 1) == 0);
++        tcg_debug_assert(datahi == datalo + 1);
+         /* LDRD requires alignment; double-check that. */
+-        if (get_alignment_bits(opc) >= MO_64
+-            && (datalo & 1) == 0 && datahi == datalo + 1) {
++        if (get_alignment_bits(opc) >= MO_64) {
+             tcg_out_ldrd_8(s, COND_AL, datalo, addrlo, 0);
+         } else if (datalo == addrlo) {
+             tcg_out_ld32_12(s, COND_AL, datahi, addrlo, 4);
+@@ -1834,9 +1838,11 @@ static void tcg_out_qemu_st_index(TCGContext *s, ARMCond cond, MemOp opc,
+         tcg_out_st32_r(s, cond, datalo, addrlo, addend);
+         break;
+     case MO_64:
++        /* We used pair allocation for datalo, so already should be aligned. */
++        tcg_debug_assert((datalo & 1) == 0);
++        tcg_debug_assert(datahi == datalo + 1);
+         /* STRD requires alignment; double-check that. */
+-        if (get_alignment_bits(opc) >= MO_64
+-            && (datalo & 1) == 0 && datahi == datalo + 1) {
++        if (get_alignment_bits(opc) >= MO_64) {
+             tcg_out_strd_r(s, cond, datalo, addrlo, addend);
+         } else if (scratch_addend) {
+             tcg_out_st32_rwb(s, cond, datalo, addend, addrlo);
+@@ -1871,9 +1877,11 @@ static void tcg_out_qemu_st_direct(TCGContext *s, MemOp opc, TCGReg datalo,
+         tcg_out_st32_12(s, COND_AL, datalo, addrlo, 0);
+         break;
+     case MO_64:
++        /* We used pair allocation for datalo, so already should be aligned. */
++        tcg_debug_assert((datalo & 1) == 0);
++        tcg_debug_assert(datahi == datalo + 1);
+         /* STRD requires alignment; double-check that. */
+-        if (get_alignment_bits(opc) >= MO_64
+-            && (datalo & 1) == 0 && datahi == datalo + 1) {
++        if (get_alignment_bits(opc) >= MO_64) {
+             tcg_out_strd_8(s, COND_AL, datalo, addrlo, 0);
+         } else {
+             tcg_out_st32_12(s, COND_AL, datalo, addrlo, 0);
+@@ -2372,11 +2380,11 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_qemu_ld_i32:
+         return TARGET_LONG_BITS == 32 ? C_O1_I1(r, l) : C_O1_I2(r, l, l);
+     case INDEX_op_qemu_ld_i64:
+-        return TARGET_LONG_BITS == 32 ? C_O2_I1(r, r, l) : C_O2_I2(r, r, l, l);
++        return TARGET_LONG_BITS == 32 ? C_O2_I1(e, p, l) : C_O2_I2(e, p, l, l);
+     case INDEX_op_qemu_st_i32:
+         return TARGET_LONG_BITS == 32 ? C_O0_I2(s, s) : C_O0_I3(s, s, s);
+     case INDEX_op_qemu_st_i64:
+-        return TARGET_LONG_BITS == 32 ? C_O0_I3(s, s, s) : C_O0_I4(s, s, s, s);
++        return TARGET_LONG_BITS == 32 ? C_O0_I3(S, p, s) : C_O0_I4(S, p, s, s);
  
+     case INDEX_op_st_vec:
+         return C_O0_I2(w, r);
 -- 
 2.34.1
 
