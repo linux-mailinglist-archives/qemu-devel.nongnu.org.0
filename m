@@ -2,75 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F9CE678DE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:06:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3266A678DE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:06:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK8gi-0008Q9-6x; Mon, 23 Jan 2023 21:05:28 -0500
+	id 1pK8gk-0008Qs-OI; Mon, 23 Jan 2023 21:05:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8gc-0008Oi-Cc
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:22 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ id 1pK8gd-0008PB-He
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:24 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8ga-0003rF-I5
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:22 -0500
-Received: by mail-pl1-x634.google.com with SMTP id v23so13366929plo.1
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:19 -0800 (PST)
+ id 1pK8gb-0003se-Lb
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:23 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id o13so13449916pjg.2
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=M+X3JDFyAdIiq7GuR1lXz08iKvUAJh5EzFJMUQ6OLSg=;
- b=zhZKY1iLJ0tJpVwvD/7YJDpyoW/JarwVO0HSzDFFj/eL90SQtR8B3slbGcZ+dgOLF8
- wwAvIrncNf7S1aIosQ6DzLS0QPiWj3A981O1c3tiOI0xLrKcDGw2fbvFyAuppjmuEDEO
- i0L3jsnhQ0bd3BT9M0T7REhYh8tQZTTfuMz8uA/bLJ0qrgy475EjvCoCUC6ZKLxv/35Z
- LieOeJeBkptKOA+YHbbD3WopmUELmWtV/dZRoLPaRz+FL/WLVSf8SRNkG5wFZ5UdthAi
- bxma+CHLPb1HLOJLR5XN08aHbnGcvNBlC6SpSvZOwxGfvIj52C2g5F291oBxZSuasTta
- 3tGw==
+ bh=gK/RYDKYmyheuWzEx2e/8fES02grPktU+6HiGLPgSJw=;
+ b=daAYxI9MwewWigLTaaAZX8CvImZz5m630ZPFGko+cTVKJTB6TEcdjuPoMFJB1yzBD9
+ LnfU5guLbNTgJcIU3xuUQ60at8IBYVTESrZsvcQLUamW5BX20y9oSt48nxyRtLOkhx5K
+ FoDT9rSCHeqNX/ofK7ftjqn7XtQSq3Wdv7ATZeiXV1C0kIXhqcRBQKkrHDdmuiCB+k7/
+ qiOkRhl6P8lP70bS9qj8rYiwJSNdw7p616LDJsqToCcBMpftKdeHOK3LbZrIG24vUGxS
+ zcl2+nNua13Qe3nVB0WhiHYI8MiRD55Ur7I1hEntVzDOhEtcFM+zDRkOikYl4POhUta3
+ kHTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=M+X3JDFyAdIiq7GuR1lXz08iKvUAJh5EzFJMUQ6OLSg=;
- b=1tKjPU1F4L0XfBDUKM5likXW9KrSxn8LYrnGpajGPX2i321Y4fnak51kX8x98iuREZ
- 44hwSj680WTugp9C+YYBL8QP4vUuz7DRtvxYFqN9XWoySjABDsPhsfuCZmh55uSokvBL
- llcOSfdD+54wJEixafbYp5e5eizLDQQKD6qo9KcWCJ6dY4XyuqRFahUqgFhYZtHr8SZp
- RdneckcuyGmqMff8tytAuWgl/R8s625uRKVANIZynne8Xx5+uehTq7TWmtyNM8Qedh/D
- mdQ/4s1E1GUFPYV/xpWjlXddIerpntUcG0ROWHrYAl97QceeHQpJmjCr+AMKUOGcqSaL
- jRTQ==
-X-Gm-Message-State: AFqh2kqMVvhkMWz4+eKgzYDKNahg77dzpEh72dz6rN15VCBKLIIbFmnO
- F9aAmYkOE+pIOgF8HPki8tsIW60YJCkaukvl
-X-Google-Smtp-Source: AMrXdXuW0qGHylvRtLGZSm8/0unQiw5UBloK/Rs6953GNhN2Tn27W+AEFpgUcp8OlWU1aCIhPOun3g==
-X-Received: by 2002:a17:90a:1a5e:b0:22b:bc63:c8b0 with SMTP id
- 30-20020a17090a1a5e00b0022bbc63c8b0mr12528204pjl.34.1674525918509; 
- Mon, 23 Jan 2023 18:05:18 -0800 (PST)
+ bh=gK/RYDKYmyheuWzEx2e/8fES02grPktU+6HiGLPgSJw=;
+ b=Q/7DIQeaorsqCOrqElgJwyXxWgM6ppOsQT5pumd14TB8nZb9seYP6gNZhSoJkDVo2k
+ Z2fZqGzP4KdUu6Fc/LtWtdCQDYYbrOqLm6TpquDPsyqrexmWoyu2jERvqxz/CaSSA7fS
+ 17L+3Q2BX48tpRRbs+pAi6AM6rbtD/tsUy7SJ/U3XWNst03aQiZMouTX8z1LhQX8/usX
+ UixAEPMxEn+QqbfQSa2b58yBi71gpBaOkXIPIF1Lanr9cAde4XzFhxEyS28mpzv3zjUn
+ DHxRO+3YSnl1pA8cNTGTie43ECVGFyTUdDbet18u9dNZK98U1TvqxA61JQFdCxG7MJ5x
+ SjBA==
+X-Gm-Message-State: AFqh2kppyPa6N3Cdrz4MhrMxsWnigD2obxMXkYzR9iX0+dMTOstrGVaQ
+ zISX2JtqVLEWenMADkVb4k0t4C71p6Fqr4HJ
+X-Google-Smtp-Source: AMrXdXvtkSKH0gY+SO5SpgSilBsyLlDhLK8YgSxEPyPrDlNjwAMtfR1sjbUV5hyr5uVIvGAkH2nbyA==
+X-Received: by 2002:a17:90b:1d0c:b0:22b:b76b:5047 with SMTP id
+ on12-20020a17090b1d0c00b0022bb76b5047mr14092285pjb.8.1674525920227; 
+ Mon, 23 Jan 2023 18:05:20 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.17
+ fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 18:05:17 -0800 (PST)
+ Mon, 23 Jan 2023 18:05:19 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Idan Horowitz <idan.horowitz@gmail.com>
-Subject: [PULL v2 05/15] tcg: Mark tcg helpers noinline to avoid an issue with
- LTO
-Date: Mon, 23 Jan 2023 16:04:57 -1000
-Message-Id: <20230124020507.3732200-6-richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org, WANG Xuerui <git@xen0n.name>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL v2 06/15] target/loongarch: Enable the disassembler for host tcg
+Date: Mon, 23 Jan 2023 16:04:58 -1000
+Message-Id: <20230124020507.3732200-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124020507.3732200-1-richard.henderson@linaro.org>
 References: <20230124020507.3732200-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,86 +91,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Marking helpers __attribute__((noinline)) prevents an issue
-with GCC's ipa-split pass under --enable-lto.
+Reuse the decodetree based disassembler from
+target/loongarch/ for tcg/loongarch64/.
 
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1454
+The generation of decode-insns.c.inc into ./libcommon.fa.p/ could
+eventually result in conflict, if any other host requires the same
+trick, but this is good enough for now.
+
+Reviewed-by: WANG Xuerui <git@xen0n.name>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Tested-by: Idan Horowitz <idan.horowitz@gmail.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/exec/helper-proto.h | 32 ++++++++++++++++++++++++--------
- 1 file changed, 24 insertions(+), 8 deletions(-)
+ disas.c                      | 2 ++
+ target/loongarch/meson.build | 3 ++-
+ 2 files changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/include/exec/helper-proto.h b/include/exec/helper-proto.h
-index c4b1bda632..7a3f04b58c 100644
---- a/include/exec/helper-proto.h
-+++ b/include/exec/helper-proto.h
-@@ -6,34 +6,49 @@
+diff --git a/disas.c b/disas.c
+index 3b31315f40..b087c12c47 100644
+--- a/disas.c
++++ b/disas.c
+@@ -198,6 +198,8 @@ static void initialize_debug_host(CPUDebug *s)
+     s->info.cap_insn_split = 6;
+ #elif defined(__hppa__)
+     s->info.print_insn = print_insn_hppa;
++#elif defined(__loongarch__)
++    s->info.print_insn = print_insn_loongarch;
+ #endif
+ }
  
- #include "exec/helper-head.h"
+diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
+index 6376f9e84b..690633969f 100644
+--- a/target/loongarch/meson.build
++++ b/target/loongarch/meson.build
+@@ -3,7 +3,6 @@ gen = decodetree.process('insns.decode')
+ loongarch_ss = ss.source_set()
+ loongarch_ss.add(files(
+   'cpu.c',
+-  'disas.c',
+ ))
+ loongarch_tcg_ss = ss.source_set()
+ loongarch_tcg_ss.add(gen)
+@@ -24,6 +23,8 @@ loongarch_softmmu_ss.add(files(
+   'iocsr_helper.c',
+ ))
  
-+/*
-+ * Work around an issue with --enable-lto, in which GCC's ipa-split pass
-+ * decides to split out the noreturn code paths that raise an exception,
-+ * taking the __builtin_return_address() along into the new function,
-+ * where it no longer computes a value that returns to TCG generated code.
-+ * Despite the name, the noinline attribute affects splitter, so this
-+ * prevents the optimization in question.  Given that helpers should not
-+ * otherwise be called directly, this should have any other visible effect.
-+ *
-+ * See https://gitlab.com/qemu-project/qemu/-/issues/1454
-+ */
-+#define DEF_HELPER_ATTR  __attribute__((noinline))
++common_ss.add(when: 'CONFIG_LOONGARCH_DIS', if_true: [files('disas.c'), gen])
 +
- #define DEF_HELPER_FLAGS_0(name, flags, ret) \
--dh_ctype(ret) HELPER(name) (void);
-+dh_ctype(ret) HELPER(name) (void) DEF_HELPER_ATTR;
+ loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
  
- #define DEF_HELPER_FLAGS_1(name, flags, ret, t1) \
--dh_ctype(ret) HELPER(name) (dh_ctype(t1));
-+dh_ctype(ret) HELPER(name) (dh_ctype(t1)) DEF_HELPER_ATTR;
- 
- #define DEF_HELPER_FLAGS_2(name, flags, ret, t1, t2) \
--dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2));
-+dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2)) DEF_HELPER_ATTR;
- 
- #define DEF_HELPER_FLAGS_3(name, flags, ret, t1, t2, t3) \
--dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3));
-+dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), \
-+                            dh_ctype(t3)) DEF_HELPER_ATTR;
- 
- #define DEF_HELPER_FLAGS_4(name, flags, ret, t1, t2, t3, t4) \
- dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
--                                   dh_ctype(t4));
-+                            dh_ctype(t4)) DEF_HELPER_ATTR;
- 
- #define DEF_HELPER_FLAGS_5(name, flags, ret, t1, t2, t3, t4, t5) \
- dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
--                            dh_ctype(t4), dh_ctype(t5));
-+                            dh_ctype(t4), dh_ctype(t5)) DEF_HELPER_ATTR;
- 
- #define DEF_HELPER_FLAGS_6(name, flags, ret, t1, t2, t3, t4, t5, t6) \
- dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
--                            dh_ctype(t4), dh_ctype(t5), dh_ctype(t6));
-+                            dh_ctype(t4), dh_ctype(t5), \
-+                            dh_ctype(t6)) DEF_HELPER_ATTR;
- 
- #define DEF_HELPER_FLAGS_7(name, flags, ret, t1, t2, t3, t4, t5, t6, t7) \
- dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
-                             dh_ctype(t4), dh_ctype(t5), dh_ctype(t6), \
--                            dh_ctype(t7));
-+                            dh_ctype(t7)) DEF_HELPER_ATTR;
- 
- #define IN_HELPER_PROTO
- 
-@@ -51,5 +66,6 @@ dh_ctype(ret) HELPER(name) (dh_ctype(t1), dh_ctype(t2), dh_ctype(t3), \
- #undef DEF_HELPER_FLAGS_5
- #undef DEF_HELPER_FLAGS_6
- #undef DEF_HELPER_FLAGS_7
-+#undef DEF_HELPER_ATTR
- 
- #endif /* HELPER_PROTO_H */
+ target_arch += {'loongarch': loongarch_ss}
 -- 
 2.34.1
 
