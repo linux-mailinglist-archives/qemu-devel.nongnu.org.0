@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EEB867987C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 13:48:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C798F6798E6
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 14:05:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKIiz-0002rT-Vg; Tue, 24 Jan 2023 07:48:30 -0500
+	id 1pKIya-0007dU-Fa; Tue, 24 Jan 2023 08:04:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pKIix-0002qY-1m
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 07:48:27 -0500
-Received: from mail-yw1-x112c.google.com ([2607:f8b0:4864:20::112c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pKIiu-0004lY-No
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 07:48:26 -0500
-Received: by mail-yw1-x112c.google.com with SMTP id
- 00721157ae682-4ff1fa82bbbso169562267b3.10
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 04:48:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=LXH6JsvmPYr3TwSmlX7IsEsxVcOAu/DwAhEjlQYwQuo=;
- b=RB835QzPfHzVmYxh/gJIJPAO4lDUo+7I7Fv8fcQKiSWMLQE+An+KzJVUC0pdXzcj5M
- bCtAKYt8VvcxMhpFrN1q5oa3pr9l7Hk3BzywduXqCJLaTFE1S2Ru1vl/hwb3xm/DSxHI
- xkktK6cMo8oa0Kb1VYue5dwxW7pYFuE+jLQ55sBzKc4WycV+/eS8WgJrOs5OMkUW0rUP
- crOceXPD5HhP1qqGKOq4MX8Pkci78ZyyYyEv6NQxL0xHaHtEtacrkR5CqLOeHjPQQVB2
- oUbhEDxKzSF75Ks7ct93P+wLTLuh80rv2SMuowS9mmCGnNbtaxOcL4xuQNl/0PHp+swP
- FVTg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKIyO-0007cs-4p
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 08:04:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKIyD-0000sX-D8
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 08:04:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674565452;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Pk4MbEigUqfkPDpfxtlt5L30xROiHGSo4jHlC8cmF/g=;
+ b=NgEQQyvo7TChHFttwZu0HnZB3ajSt4oBZbpntM9EIz3OIOaGzheVk4HGPAeuBb6PCkFyVI
+ hTjPZbkM4EwMJ5eVVDmHUhd49C7NIHZ4GxoeZZIU7iVNuLPOnWgM6mo3FjVhyJrtNfqJcZ
+ NVBcaFwH9VQSAKtshK7YCccueyxCdE0=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-515-q9WlOai2OcWMYRCjg5Xlcw-1; Tue, 24 Jan 2023 08:04:11 -0500
+X-MC-Unique: q9WlOai2OcWMYRCjg5Xlcw-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ g73-20020a25db4c000000b00802b0159bccso11418712ybf.22
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 05:04:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=LXH6JsvmPYr3TwSmlX7IsEsxVcOAu/DwAhEjlQYwQuo=;
- b=LL6aq/5AUCpyIHT2NCrpiBYhm+FRQmygyF4AkLsfwEB2kGKhBRVzHVYYVyQVFJ718j
- 9hEhQxJBMEQVhIle0WKXIquOitVAB9szF1gqfRmZkCh5y0lMWUKHBOcT7FYDHti1q9y6
- jtu0XNMyYftO8taxZ29EYoaYtOPVFW+m3TBTzh/RjBbbsvuMlw+7thzqcq9oTjuP2Sjd
- Ax98GOOWzcOC5IqO26OOeec2ZlnW7o6XkWJ5T2cTjXq8YjHgnj2112Rs2r5YSjpCizZB
- fKrGw8EOG1VZ+um2Bv+K3ShqSbqnP8KeVlJCA2WgD7r+7tLmOZI5Q4gMZ2tzk+HkTNCX
- ZM2w==
-X-Gm-Message-State: AFqh2koRDrYUpZSRtP3xEI2DfYpKZS7Qv/e544pud53SjJr1LKN6otme
- HqQlTb8gLzJwECoetf/nN8djUggTc0i0GeMXydA=
-X-Google-Smtp-Source: AMrXdXv9kp+s/UPVPV3DTfG5mjjtaW3itnH5GTKw6whJnpLMMKY8PzQfd4bsSWelMnPdu4nR/+apVyiJLeWTApTMSV4=
-X-Received: by 2002:a81:9a8e:0:b0:476:b2b8:1c5f with SMTP id
- r136-20020a819a8e000000b00476b2b81c5fmr2970441ywg.62.1674564503557; Tue, 24
- Jan 2023 04:48:23 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Pk4MbEigUqfkPDpfxtlt5L30xROiHGSo4jHlC8cmF/g=;
+ b=ijLxuLK+sF5YjDJeczIIqeFocCx7J3wpJc0xbc6x/iLbZcM4JYNRdiF4LLQZfxYHYo
+ IU13rTQaSze1rB0ncQkDYoORu4fM9MnOkTUaQARS1UfBtSDkYi9SyzcITtQBYiyd7zU+
+ dJFfJ3++SGqFuN0RctNFMcaY9MdSRihfkjTPBybAvAFfAuVwoQ1dqpHsCQ2e5uJqWv/f
+ v0TbydYCRnDQCmdGHjpF2bH8ce6WGzLvahq2SSumpIPi4G3EgGAnsjOk2f9Sjwsf1c0Q
+ 4Y02lTlIbaGVPqmaBl7thc5xIKBWrEnv4wQNfO4/M3+rU+tGUxZSabOjfhl8jqMZ6hg8
+ sNRA==
+X-Gm-Message-State: AO0yUKVXcUMn6Ywu+NIjr22R7H1vC131aHvJiA4dnzV60nO9LtV00fG8
+ 39P7xBk7VggyGzB2/7Sua9W3h3RPHz4nDCxUDgiL+t8rA3Axl3aYF8qiuvx8g+WotviKNcB+SqZ
+ OQ5R9q+XAlry/jqM=
+X-Received: by 2002:a05:7500:10d5:b0:f3:9a2b:fd88 with SMTP id
+ 21-20020a05750010d500b000f39a2bfd88mr14710gai.0.1674565450531; 
+ Tue, 24 Jan 2023 05:04:10 -0800 (PST)
+X-Google-Smtp-Source: AK7set9Wb9MS6OA/Ztzbf8xdYbeR/wAdXZuZuT7ozNDbI+mfgHp3MX1kfo1e9IV4I5l3eMn8GuM1XA==
+X-Received: by 2002:a05:7500:10d5:b0:f3:9a2b:fd88 with SMTP id
+ 21-20020a05750010d500b000f39a2bfd88mr14689gai.0.1674565450087; 
+ Tue, 24 Jan 2023 05:04:10 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-179-158.web.vodafone.de.
+ [109.43.179.158]) by smtp.gmail.com with ESMTPSA id
+ t21-20020ac85315000000b003b68ea3d5c8sm1197914qtn.41.2023.01.24.05.04.08
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Jan 2023 05:04:09 -0800 (PST)
+Message-ID: <9807ec99-a746-20e3-10fa-3cc32959fd00@redhat.com>
+Date: Tue, 24 Jan 2023 14:04:07 +0100
 MIME-Version: 1.0
-References: <20230120085534-mutt-send-email-mst@kernel.org>
- <703d527f-de92-090c-6ce1-af0dec7de033@yandex-team.ru>
- <20230122030455-mutt-send-email-mst@kernel.org>
- <b7de3adc-cba7-09eb-ea93-f4bfb91bea9e@yandex-team.ru>
- <20230122093903-mutt-send-email-mst@kernel.org>
- <70c0f00a-7828-3ccf-c2ea-49aeef8693e9@yandex-team.ru>
- <20230122111618-mutt-send-email-mst@kernel.org>
- <Y87Ri4r6SiETdCrt@work-vm> <Y87lv8fXrYpxkK/3@fedora>
- <CAJSP0QV5wfXxhvjjFnLLUCvmSxiHxTPXh4qQJwHhnKdBu3EOQQ@mail.gmail.com>
- <Y8+p8HFG8NxYlfoo@work-vm>
-In-Reply-To: <Y8+p8HFG8NxYlfoo@work-vm>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 24 Jan 2023 07:48:12 -0500
-Message-ID: <CAJSP0QUANuLkOjkLsB4LqKdi5_sJj+y6zK5vgcNmYZ5BLQ73rQ@mail.gmail.com>
-Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Anton Kuchin <antonkuchin@yandex-team.ru>, qemu-devel <qemu-devel@nongnu.org>, 
- "open list:virtiofs" <virtio-fs@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, 
- Juan Quintela <quintela@redhat.com>, yc-core@yandex-team.ru
-Content-Type: multipart/alternative; boundary="000000000000635dc705f301ee7c"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::112c;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x112c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH] tests/qtest: Plug memory leaks in qtest_get_machines
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20230120194435.29796-1-farosas@suse.de>
+ <77fcbf0a-0f9a-d3bc-c1cf-0ec3e21399c9@redhat.com> <877cxdcr5l.fsf@suse.de>
+ <4dd2d0d8-d2a3-7636-a422-6b99b7e24e07@redhat.com> <87r0vleykh.fsf@suse.de>
+ <de042a7e-f9eb-8fe0-cad6-b3277e79b9c6@redhat.com> <87v8kw5cew.fsf@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <87v8kw5cew.fsf@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,286 +102,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000635dc705f301ee7c
-Content-Type: text/plain; charset="UTF-8"
+On 24/01/2023 13.45, Fabiano Rosas wrote:
+> Thomas Huth <thuth@redhat.com> writes:
+> 
+>> On 23/01/2023 22.22, Fabiano Rosas wrote:
+>>> Thomas Huth <thuth@redhat.com> writes:
+>>>
+>>>> On 23/01/2023 14.32, Fabiano Rosas wrote:
+>>>>> Thomas Huth <thuth@redhat.com> writes:
+>>>>>
+>>>>>> On 20/01/2023 20.44, Fabiano Rosas wrote:
+>>>>>>> These leaks can be avoided:
+>>>>>>>
+>>>>>>>      759 bytes in 61 blocks are still reachable in loss record 56 of 60
+>>>>>>>         at 0x4034744: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+>>>>>>>         by 0x4A88518: g_malloc (in /usr/lib64/libglib-2.0.so.0.7000.5)
+>>>>>>>         by 0x4AA313E: g_strdup (in /usr/lib64/libglib-2.0.so.0.7000.5)
+>>>>>>>         by 0x12083E: qtest_get_machines (libqtest.c:1323)
+>>>>>>>         by 0x12098C: qtest_cb_for_every_machine (libqtest.c:1348)
+>>>>>>>         by 0x11556C: main (test-hmp.c:160)
+>>>>>>>
+>>>>>>>      992 bytes in 1 blocks are still reachable in loss record 57 of 60
+>>>>>>>         at 0x4034744: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+>>>>>>>         by 0x4A88518: g_malloc (in /usr/lib64/libglib-2.0.so.0.7000.5)
+>>>>>>>         by 0x120725: qtest_get_machines (libqtest.c:1313)
+>>>>>>>         by 0x12098C: qtest_cb_for_every_machine (libqtest.c:1348)
+>>>>>>>         by 0x11556C: main (test-hmp.c:160)
+>> ...
+>>>> (Also, it's valgrind that you used, isn't it? - I wonder why it's
+>>>> complaining here at all since the pointer to the memory should still be
+>>>> valid at the end?)
+>>>
+>>> valgrind is complaining about the memory not being explicitly freed at
+>>> any point. I guess "leak" was not the most precise term to use in the
+>>> commit message.
+>>
+>> How did you run valgrind? For me, it does not really complain about the
+>> non-freed memory here since it is still reachable. The only difference that
+>> I see is in the summary. Without your patch:
+>>
+>>       still reachable: 27,471 bytes in 152 blocks
+>>
+>> with your patch:
+>>
+>>       still reachable: 25,713 bytes in 88 blocks
+> 
+> valgrind --leak-check=full --show-leak-kinds=all
 
-On Tue, Jan 24, 2023, 04:50 Dr. David Alan Gilbert <dgilbert@redhat.com>
-wrote:
+Ok, so that "--show-leak-kinds=all" is the issue here. I think it does not 
+make sense to go hunting for each and every "reachable" non-freed memory 
+block - since they have not really been leaked during runtime. It's maybe 
+better if you just use "--show-leak-kinds=definite,indirect,possible" instead.
 
-> * Stefan Hajnoczi (stefanha@gmail.com) wrote:
-> > On Mon, 23 Jan 2023 at 14:54, Stefan Hajnoczi <stefanha@redhat.com>
-> wrote:
-> > >
-> > > On Mon, Jan 23, 2023 at 06:27:23PM +0000, Dr. David Alan Gilbert wrote:
-> > > > * Michael S. Tsirkin (mst@redhat.com) wrote:
-> > > > > On Sun, Jan 22, 2023 at 06:09:40PM +0200, Anton Kuchin wrote:
-> > > > > >
-> > > > > > On 22/01/2023 16:46, Michael S. Tsirkin wrote:
-> > > > > > > On Sun, Jan 22, 2023 at 02:36:04PM +0200, Anton Kuchin wrote:
-> > > > > > > > > > This flag should be set when qemu don't need to worry
-> about any
-> > > > > > > > > > external state stored in vhost-user daemons during
-> migration:
-> > > > > > > > > > don't fail migration, just pack generic virtio device
-> states to
-> > > > > > > > > > migration stream and orchestrator guarantees that the
-> rest of the
-> > > > > > > > > > state will be present at the destination to restore full
-> context and
-> > > > > > > > > > continue running.
-> > > > > > > > > Sorry  I still do not get it.  So fundamentally, why do we
-> need this property?
-> > > > > > > > > vhost-user-fs is not created by default that we'd then
-> need opt-in to
-> > > > > > > > > the special "migrateable" case.
-> > > > > > > > > That's why I said it might make some sense as a device
-> property as qemu
-> > > > > > > > > tracks whether device is unplugged for us.
-> > > > > > > > >
-> > > > > > > > > But as written, if you are going to teach the orchestrator
-> about
-> > > > > > > > > vhost-user-fs and its special needs, just teach it when to
-> migrate and
-> > > > > > > > > where not to migrate.
-> > > > > > > > >
-> > > > > > > > > Either we describe the special situation to qemu and let
-> qemu
-> > > > > > > > > make an intelligent decision whether to allow migration,
-> > > > > > > > > or we trust the orchestrator. And if it's the latter, then
-> 'migrate'
-> > > > > > > > > already says orchestrator decided to migrate.
-> > > > > > > > The problem I'm trying to solve is that most of vhost-user
-> devices
-> > > > > > > > now block migration in qemu. And this makes sense since qemu
-> can't
-> > > > > > > > extract and transfer backend daemon state. But this prevents
-> us from
-> > > > > > > > updating qemu executable via local migration. So this flag is
-> > > > > > > > intended more as a safety check that says "I know what I'm
-> doing".
-> > > > > > > >
-> > > > > > > > I agree that it is not really necessary if we trust the
-> orchestrator
-> > > > > > > > to request migration only when the migration can be
-> performed in a
-> > > > > > > > safe way. But changing the current behavior of vhost-user-fs
-> from
-> > > > > > > > "always blocks migration" to "migrates partial state whenever
-> > > > > > > > orchestrator requests it" seems a little  dangerous and can
-> be
-> > > > > > > > misinterpreted as full support for migration in all cases.
-> > > > > > > It's not really different from block is it? orchestrator has
-> to arrange
-> > > > > > > for backend migration. I think we just assumed there's no
-> use-case where
-> > > > > > > this is practical for vhost-user-fs so we blocked it.
-> > > > > > > But in any case it's orchestrator's responsibility.
-> > > > > >
-> > > > > > Yes, you are right. So do you think we should just drop the
-> blocker
-> > > > > > without adding a new flag?
-> > > > >
-> > > > > I'd be inclined to. I am curious what do dgilbert and stefanha
-> think though.
-> > > >
-> > > > Yes I think that's probably OK, as long as we use the flag for
-> knowing
-> > > > how to handle the discard bitmap as a proxy for the daemon knowing
-> how
-> > > > to handle *some* migrations; knowing which migrations is then the job
-> > > > for the orchestrator to be careful of.
-> > >
-> > > I think the feature bit is not a good way to detect live migration
-> > > support. vhost-user backends typically use libvhost-user, rust-vmm's
-> > > vhost-user-backend crate, etc where this feature can be implemented for
-> > > free. If the feature bit is advertized we don't know if the device
-> > > implementation (net, blk, fs, etc) is aware of migration at all.
-> >
-> > I checked how bad the situation is. libvhost-user currently enables
-> > LOG_ALL by default. :(
-> >
-> > So I don't think the front-end can use LOG_ALL alone to determine
-> > whether or not migration is supported by the back-end.
-> >
-> > There are several existing back-ends based on libvhost-user that have
-> > no concept of reconnection or migration but report the LOG_ALL feature
-> > bit.
->
-> Ouch, yes that's messy.
->
-> Going back to the original question; I don't think a command line flag
-> will work though, because even for a given VM there's the possibility
-> of some (local) migrations working but other (remote) migrations not
-> working; so you don't know at the point you start the VM whether
-> your migrations are going to work.
->
+  Thomas
 
-The user or management tool should know which types of migration a
-vhost-user-fs backend supports. That can be passed in as a per-device
-parameter.
 
-Then a migration parameter can be used to distinguish between same host and
-remote host migration? QEMU already distinguishes between pre-copy and
-post-copy migration, so this can be thought of as yet another type of
-migration.
-
-Stefan
-
->
-
---000000000000635dc705f301ee7c
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Tue, Jan 24, 2023, 04:50 Dr. David Alan Gilbert &lt=
-;<a href=3D"mailto:dgilbert@redhat.com">dgilbert@redhat.com</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;borde=
-r-left:1px #ccc solid;padding-left:1ex">* Stefan Hajnoczi (<a href=3D"mailt=
-o:stefanha@gmail.com" target=3D"_blank" rel=3D"noreferrer">stefanha@gmail.c=
-om</a>) wrote:<br>
-&gt; On Mon, 23 Jan 2023 at 14:54, Stefan Hajnoczi &lt;<a href=3D"mailto:st=
-efanha@redhat.com" target=3D"_blank" rel=3D"noreferrer">stefanha@redhat.com=
-</a>&gt; wrote:<br>
-&gt; &gt;<br>
-&gt; &gt; On Mon, Jan 23, 2023 at 06:27:23PM +0000, Dr. David Alan Gilbert =
-wrote:<br>
-&gt; &gt; &gt; * Michael S. Tsirkin (<a href=3D"mailto:mst@redhat.com" targ=
-et=3D"_blank" rel=3D"noreferrer">mst@redhat.com</a>) wrote:<br>
-&gt; &gt; &gt; &gt; On Sun, Jan 22, 2023 at 06:09:40PM +0200, Anton Kuchin =
-wrote:<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; On 22/01/2023 16:46, Michael S. Tsirkin wrote:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; On Sun, Jan 22, 2023 at 02:36:04PM +0200, Ant=
-on Kuchin wrote:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; This flag should be set when q=
-emu don&#39;t need to worry about any<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; external state stored in vhost=
--user daemons during migration:<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; don&#39;t fail migration, just=
- pack generic virtio device states to<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; migration stream and orchestra=
-tor guarantees that the rest of the<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; state will be present at the d=
-estination to restore full context and<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; continue running.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; Sorry=C2=A0 I still do not get it.=
-=C2=A0 So fundamentally, why do we need this property?<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; vhost-user-fs is not created by def=
-ault that we&#39;d then need opt-in to<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; the special &quot;migrateable&quot;=
- case.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; That&#39;s why I said it might make=
- some sense as a device property as qemu<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; tracks whether device is unplugged =
-for us.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; But as written, if you are going to=
- teach the orchestrator about<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; vhost-user-fs and its special needs=
-, just teach it when to migrate and<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; where not to migrate.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; Either we describe the special situ=
-ation to qemu and let qemu<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; make an intelligent decision whethe=
-r to allow migration,<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; or we trust the orchestrator. And i=
-f it&#39;s the latter, then &#39;migrate&#39;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &gt; already says orchestrator decided t=
-o migrate.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; The problem I&#39;m trying to solve is t=
-hat most of vhost-user devices<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; now block migration in qemu. And this ma=
-kes sense since qemu can&#39;t<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; extract and transfer backend daemon stat=
-e. But this prevents us from<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; updating qemu executable via local migra=
-tion. So this flag is<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; intended more as a safety check that say=
-s &quot;I know what I&#39;m doing&quot;.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; I agree that it is not really necessary =
-if we trust the orchestrator<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; to request migration only when the migra=
-tion can be performed in a<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; safe way. But changing the current behav=
-ior of vhost-user-fs from<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; &quot;always blocks migration&quot; to &=
-quot;migrates partial state whenever<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; orchestrator requests it&quot; seems a l=
-ittle=C2=A0 dangerous and can be<br>
-&gt; &gt; &gt; &gt; &gt; &gt; &gt; misinterpreted as full support for migra=
-tion in all cases.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; It&#39;s not really different from block is i=
-t? orchestrator has to arrange<br>
-&gt; &gt; &gt; &gt; &gt; &gt; for backend migration. I think we just assume=
-d there&#39;s no use-case where<br>
-&gt; &gt; &gt; &gt; &gt; &gt; this is practical for vhost-user-fs so we blo=
-cked it.<br>
-&gt; &gt; &gt; &gt; &gt; &gt; But in any case it&#39;s orchestrator&#39;s r=
-esponsibility.<br>
-&gt; &gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; &gt; Yes, you are right. So do you think we should just=
- drop the blocker<br>
-&gt; &gt; &gt; &gt; &gt; without adding a new flag?<br>
-&gt; &gt; &gt; &gt;<br>
-&gt; &gt; &gt; &gt; I&#39;d be inclined to. I am curious what do dgilbert a=
-nd stefanha think though.<br>
-&gt; &gt; &gt;<br>
-&gt; &gt; &gt; Yes I think that&#39;s probably OK, as long as we use the fl=
-ag for knowing<br>
-&gt; &gt; &gt; how to handle the discard bitmap as a proxy for the daemon k=
-nowing how<br>
-&gt; &gt; &gt; to handle *some* migrations; knowing which migrations is the=
-n the job<br>
-&gt; &gt; &gt; for the orchestrator to be careful of.<br>
-&gt; &gt;<br>
-&gt; &gt; I think the feature bit is not a good way to detect live migratio=
-n<br>
-&gt; &gt; support. vhost-user backends typically use libvhost-user, rust-vm=
-m&#39;s<br>
-&gt; &gt; vhost-user-backend crate, etc where this feature can be implement=
-ed for<br>
-&gt; &gt; free. If the feature bit is advertized we don&#39;t know if the d=
-evice<br>
-&gt; &gt; implementation (net, blk, fs, etc) is aware of migration at all.<=
-br>
-&gt; <br>
-&gt; I checked how bad the situation is. libvhost-user currently enables<br=
->
-&gt; LOG_ALL by default. :(<br>
-&gt; <br>
-&gt; So I don&#39;t think the front-end can use LOG_ALL alone to determine<=
-br>
-&gt; whether or not migration is supported by the back-end.<br>
-&gt; <br>
-&gt; There are several existing back-ends based on libvhost-user that have<=
-br>
-&gt; no concept of reconnection or migration but report the LOG_ALL feature=
-<br>
-&gt; bit.<br>
-<br>
-Ouch, yes that&#39;s messy.<br>
-<br>
-Going back to the original question; I don&#39;t think a command line flag<=
-br>
-will work though, because even for a given VM there&#39;s the possibility<b=
-r>
-of some (local) migrations working but other (remote) migrations not<br>
-working; so you don&#39;t know at the point you start the VM whether<br>
-your migrations are going to work.<br></blockquote></div></div><div dir=3D"=
-auto"><br></div><div dir=3D"auto">The user or management tool should know w=
-hich types of migration a vhost-user-fs backend supports. That can be passe=
-d in as a per-device parameter.</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Then a migration parameter can be used to distinguish between sam=
-e host and remote host migration? QEMU already distinguishes between pre-co=
-py and post-copy migration, so this can be thought of as yet another type o=
-f migration.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Stefan</div=
-><div dir=3D"auto"><div class=3D"gmail_quote"><blockquote class=3D"gmail_qu=
-ote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex=
-">
-</blockquote></div></div></div>
-
---000000000000635dc705f301ee7c--
 
