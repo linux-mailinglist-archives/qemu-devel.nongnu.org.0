@@ -2,103 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85D0F67A0EC
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:09:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B05067A3EE
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 21:31:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKNhf-0005cT-RT; Tue, 24 Jan 2023 13:07:27 -0500
+	id 1pKPwS-00084w-FJ; Tue, 24 Jan 2023 15:30:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNhL-00057i-90
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:09 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ (Exim 4.90_1) (envelope-from <sudipm.mukherjee@gmail.com>)
+ id 1pKNeg-00068L-MF; Tue, 24 Jan 2023 13:04:33 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNhH-00074t-1D
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:07 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- f19-20020a1c6a13000000b003db0ef4dedcso13413590wmc.4
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:07:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=KCv4GZIK6k8jIwysULPrpggmGg7wtqEW43qJ6E7mFEA=;
- b=MnYY6H5edYg10qXbLwVMm/0qs99bf7I8cEPBz9gDAYjmZV2F+RpQZsinb92NxXZ+rB
- B3kWOtfsSiM/wp73MWRuonJse0PMOnSli0SqRqaHOjXzH8HdjStUJEQtFMWzEMpJLHp8
- DNyP/lAv4iW+AJr7PLAnkWgIbM+/OT6wlE9Ps6s8eG7G4hXv03lSkCyDj0ywXJXtbfqS
- CDhCtcbAk5wxE8OMLNNh9WJJNrabyy9MClNkWm2lxvPfzommzfNuUnC3BhRZkLQ/8xon
- AcfoEJ3um4aCIrUj2iKIMOhwSILqkhLEfc8I+4ZJlooqEDNQdm2H9UsYrWV7gIVHw8BP
- E1eA==
+ (Exim 4.90_1) (envelope-from <sudipm.mukherjee@gmail.com>)
+ id 1pKNee-0006Qj-UJ; Tue, 24 Jan 2023 13:04:22 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id bk16so14698521wrb.11;
+ Tue, 24 Jan 2023 10:04:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=WNOdRMqZW1+9BMIW8PgIFJ3fdOuSUkIMnKM8A3/iBtk=;
+ b=Af1yp1jkcgoJL9KCUM/3EOswCm7YxlEdK+2MV05qczS1k2D0WfOeqeuCwl9ARkmjQA
+ SWYttUampYMRMM9AaPKy5B+Rlle7TUJil/lxr3lsShNjG3ZmiS9ioiVnu2fhLNL8Sxhq
+ zEKGTb3BTT6KAR4BzBN2jwnuV3YzF3pJdzySLKuwN17pT52nDSWW77emCfpiYlhsqHYv
+ 3uec5/jBfdvhKHfUqi3+IF/5/s2LPjfdUBMt/eBMVLmAKsdcKUJZymNDU7R1C2kQOCs3
+ QGxIKmGKgefgbDZoEYWSnonydZ5AcT/lY7SoNxCyolB/Dfft+zHLytOeM03PujOgVgPz
+ 4UJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=KCv4GZIK6k8jIwysULPrpggmGg7wtqEW43qJ6E7mFEA=;
- b=BaOBu0qkYgOpgzcLF4wVo+hGOIT0tsR2D8U2pw6dAoEQ96uX67d6Va1hvREciYbAgk
- zsO9FpvF2++SXI/hZCRgssf72QkVopmQQ60+Dhi8IzKGkQTcbIAhbfhW4cngOqpbr/eZ
- FJ0stYL4RS/pDUGoL1LK4yBYBWPugwfy6xNK2UzC2srxzJIvwWrF+eFeQRQZF784PAfv
- 5odpp3PZKtZAiupf0zyrukv5MJU5jXh84iqCN2aVjlYGAXPk2m4Z9E14Ef65pThC+nsm
- 9CWutihFxKEi64YdGPKBu7603czjAjlq5Hi0u5z/HvxmXY9KL1YzDD3bG3unBOMxc4PN
- F2LA==
-X-Gm-Message-State: AFqh2kpQ7+6a/HduCEygFwU/o1RH4qBCq6oyQKIRLGY3HhNEzHVBYq9D
- 5qPCeyMP9ZdrO1S3VHxOgKc6Iw==
-X-Google-Smtp-Source: AMrXdXsxWLDYfkWn2Ll/7wQLyh6AzK4i41hxTrtEzuszVd6PWegqifoqiWKg7ljOJyg0AhxX0yqn0Q==
-X-Received: by 2002:a05:600c:3489:b0:3db:693:3fc9 with SMTP id
- a9-20020a05600c348900b003db06933fc9mr27692535wmq.27.1674583620890; 
- Tue, 24 Jan 2023 10:07:00 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=WNOdRMqZW1+9BMIW8PgIFJ3fdOuSUkIMnKM8A3/iBtk=;
+ b=UTm4CPpEZtIxY1NVAVjl+zCQKot2Hc2rf7kYuA+MNCV8FwHPwh6Ob1pT8U6ZIBQ250
+ X3XRUkx7kWlFVXJtD6Xqfoqh21jib8kqpo7oEpHS4QLtuGILvCTwZpm5hMkD615NpGl8
+ zUM1ZXr8np5dbneatERr4J8hKsSpVVPCIQ+eHR7tTWFEWhCsMjmK6WZMZF/Y1k6Oe4dA
+ 6yqwJSITUB/EfckKfOlW+RAeij5145FgK0KzivlNKaJPCcixG2EDnyozuC55RpjKaQc5
+ HsrA/mg+4ZQGrF91Gb6bNAmNg7Zo0o71G/vbU2MKQiqHDHUQAqNNEoPOEm2uv4gICLDj
+ K+4Q==
+X-Gm-Message-State: AFqh2ko2XIItgkomh0tp3Oo04DUgIQVs0Mn688DMjwuhWZbFtBK/dA+J
+ /flO8kL1BldCj4BzjDDaggnoOYkR9dw=
+X-Google-Smtp-Source: AMrXdXtW8QM9m3/YrlFjdBhagkyGe39yMmnbAxVB7oDrrizuLE1xNDtETwZi+qDLn8TgKhr5EKwKzw==
+X-Received: by 2002:adf:e98b:0:b0:2bc:804a:d1bb with SMTP id
+ h11-20020adfe98b000000b002bc804ad1bbmr25127556wrm.49.1674583457891; 
+ Tue, 24 Jan 2023 10:04:17 -0800 (PST)
+Received: from debian ([2a10:d582:3bb:0:63f8:f640:f53e:dd47])
  by smtp.gmail.com with ESMTPSA id
- h13-20020a05600c2cad00b003cfa622a18asm15401351wmc.3.2023.01.24.10.06.58
+ v15-20020a5d43cf000000b002bdec340a1csm2413867wrr.110.2023.01.24.10.04.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 10:06:59 -0800 (PST)
-Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id BDE071FFD9;
- Tue, 24 Jan 2023 18:01:31 +0000 (GMT)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Richard Henderson <richard.henderson@linaro.org>,
- Ed Maste <emaste@freebsd.org>, Thomas Huth <thuth@redhat.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Markus Armbruster <armbru@redhat.com>,
- Jagannathan Raman <jag.raman@oracle.com>,
- John G Johnson <john.g.johnson@oracle.com>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
- Bandan Das <bsd@redhat.com>, Elena Ufimtseva <elena.ufimtseva@oracle.com>,
- Michael Roth <michael.roth@amd.com>, Eduardo Habkost <eduardo@habkost.net>,
- Beraldo Leal <bleal@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- Qiuhao Li <Qiuhao.Li@outlook.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, qemu-arm@nongnu.org,
- Yanan Wang <wangyanan55@huawei.com>, Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 35/35] plugins: Iterate on cb_lists in qemu_plugin_user_exit
-Date: Tue, 24 Jan 2023 18:01:27 +0000
-Message-Id: <20230124180127.1881110-36-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230124180127.1881110-1-alex.bennee@linaro.org>
-References: <20230124180127.1881110-1-alex.bennee@linaro.org>
+ Tue, 24 Jan 2023 10:04:17 -0800 (PST)
+Date: Tue, 24 Jan 2023 18:04:10 +0000
+From: Sudip Mukherjee <sudipm.mukherjee@gmail.com>
+To: Christoph Muellner <cmuellner@linux.com>
+Cc: Atish Patra <atishp@rivosinc.com>, Anup Patel <anup@brainfault.org>,
+ =?iso-8859-1?B?RnLpZOlyaWMgUOl0cm90?= <frederic.petrot@univ-grenoble-alpes.fr>,
+ Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Weiwei Li <liweiwei@iscas.ac.cn>
+Subject: Re: [PATCH v4 0/2] riscv: Add support for Zicbo[m,z,p] instructions
+Message-ID: <Y9Admgur0rul8X2d@debian>
+References: <20220216154839.1024927-1-cmuellner@linux.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20220216154839.1024927-1-cmuellner@linux.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=sudipm.mukherjee@gmail.com; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Tue, 24 Jan 2023 15:30:40 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -113,36 +94,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Hi Christoph,
 
-Rather than iterate over all plugins for all events,
-iterate over plugins that have registered a given event.
+On Wed, Feb 16, 2022 at 04:48:37PM +0100, Christoph Muellner wrote:
+> The RISC-V base cache management operation ISA extension has been
+> ratified [1]. This patchset adds support for the defined instructions.
+> 
+> As the exception behavior of these instructions depend on the PMP
+> configuration, the first patch introduces a new API to probe the access
+> of an address range with a specified size with optional nonfaulting
+> behavior.
+> 
+> The Zicbo[m,z,p] patch should be straight-forward and has been reviewed
+> in previous versions of this patchset.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230117035701.168514-4-richard.henderson@linaro.org>
----
- plugins/core.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+I have not seen any v5 yet, unless I have missed. Are you planning to
+send one?
+fwiw, I rebased them on top of v7.2.0 and tested that it works.
 
-diff --git a/plugins/core.c b/plugins/core.c
-index 728bacef95..e04ffa1ba4 100644
---- a/plugins/core.c
-+++ b/plugins/core.c
-@@ -514,9 +514,10 @@ void qemu_plugin_user_exit(void)
-     /* un-register all callbacks except the final AT_EXIT one */
-     for (ev = 0; ev < QEMU_PLUGIN_EV_MAX; ev++) {
-         if (ev != QEMU_PLUGIN_EV_ATEXIT) {
--            struct qemu_plugin_ctx *ctx;
--            QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
--                plugin_unregister_cb__locked(ctx, ev);
-+            struct qemu_plugin_cb *cb, *next;
-+
-+            QLIST_FOREACH_SAFE_RCU(cb, &plugin.cb_lists[ev], entry, next) {
-+                plugin_unregister_cb__locked(cb->ctx, ev);
-             }
-         }
-     }
 -- 
-2.34.1
-
+Regards
+Sudip
 
