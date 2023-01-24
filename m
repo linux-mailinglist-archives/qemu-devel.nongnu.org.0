@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA78C6791B1
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 08:13:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A373E6791B2
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 08:13:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKDUh-0003kh-NV; Tue, 24 Jan 2023 02:13:23 -0500
+	id 1pKDUl-0004A0-Sj; Tue, 24 Jan 2023 02:13:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1pKDUP-0003LM-EZ
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 02:13:06 -0500
+ id 1pKDUV-0003So-ID
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 02:13:12 -0500
 Received: from mail.ispras.ru ([83.149.199.84])
  by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1pKDUN-0002il-Aj
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 02:13:04 -0500
+ id 1pKDUQ-0002m4-TP
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 02:13:08 -0500
 Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 1D5BB44C101F;
- Tue, 24 Jan 2023 07:12:40 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 1D5BB44C101F
+ by mail.ispras.ru (Postfix) with ESMTPSA id BF89344C1020;
+ Tue, 24 Jan 2023 07:12:45 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru BF89344C1020
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
- s=default; t=1674544360;
- bh=L2I13tbYa5Ch2qZ3iY2YZciKmcqbiZeNs3i8OALiDUg=;
+ s=default; t=1674544365;
+ bh=guAH/cOw0v56m2IcaCamWVCWxD+lBjmVEFeXkfrEF64=;
  h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=Ecjn/or3FP/1HmPYN0CPybzXrf3G385ALVbmie4FeWiib8W1b8RmXuGhp/JkzB0VF
- zz755twWwFuHC21pDUdpotgXFYZ+InP0kKyCo/e1t1scWKeg1n9tToRxzDhhzGOdZr
- FrgvYvp0+X4Py+iXPV+7kVJ6gAsyhdbobxb240FU=
-Subject: [PATCH v2 3/5] target/avr: fix avr features processing
+ b=rwOFMEM/6oO06EgHGfLwXSp/tUyuejnas6mChNgNcqLvQ8X+7lDOf5wFauihSqvaP
+ E5uZOwKsp0jTKClQsSBX/B1oztuL7by01/XdivLi2IaqzkoicFzFq6ZvzvQBPpDvQ3
+ fn0FB8SCTyIxjTMJ9u2yRcgxZQpyuDH+bqIxotB4=
+Subject: [PATCH v2 4/5] target/avr: fix interrupt processing
 From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
 To: qemu-devel@nongnu.org
 Cc: pavel.dovgalyuk@ispras.ru, mrolnik@gmail.com, philmd@linaro.org,
  richard.henderson@linaro.org
-Date: Tue, 24 Jan 2023 10:12:39 +0300
-Message-ID: <167454435991.3686700.16133135311878315725.stgit@pasha-ThinkPad-X280>
+Date: Tue, 24 Jan 2023 10:12:45 +0300
+Message-ID: <167454436558.3686700.7820951378493451968.stgit@pasha-ThinkPad-X280>
 In-Reply-To: <167454434356.3686700.6888237867240722060.stgit@pasha-ThinkPad-X280>
 References: <167454434356.3686700.6888237867240722060.stgit@pasha-ThinkPad-X280>
 User-Agent: StGit/0.23
@@ -65,35 +65,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Bit vector for features has 64 bits. This patch fixes bit shifts in
-avr_feature and set_avr_feature functions to be 64-bit too.
+Interrupt bit vector has 64 bits, but interrupt vector is found with ctz32
+function. This patch replaces it with ctz64.
 
 Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Reviewed-by: Michael Rolnik <mrolnik@gmail.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/avr/cpu.h |    4 ++--
+ target/avr/helper.c |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/target/avr/cpu.h b/target/avr/cpu.h
-index 7c3895b65e..280edc495b 100644
---- a/target/avr/cpu.h
-+++ b/target/avr/cpu.h
-@@ -166,12 +166,12 @@ vaddr avr_cpu_gdb_adjust_breakpoint(CPUState *cpu, vaddr addr);
+diff --git a/target/avr/helper.c b/target/avr/helper.c
+index 156dde4e92..61ab6feb25 100644
+--- a/target/avr/helper.c
++++ b/target/avr/helper.c
+@@ -51,7 +51,7 @@ bool avr_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+     }
+     if (interrupt_request & CPU_INTERRUPT_HARD) {
+         if (cpu_interrupts_enabled(env) && env->intsrc != 0) {
+-            int index = ctz32(env->intsrc);
++            int index = ctz64(env->intsrc);
+             cs->exception_index = EXCP_INT(index);
+             avr_cpu_do_interrupt(cs);
  
- static inline int avr_feature(CPUAVRState *env, AVRFeature feature)
- {
--    return (env->features & (1U << feature)) != 0;
-+    return (env->features & (1ULL << feature)) != 0;
- }
+@@ -78,7 +78,7 @@ void avr_cpu_do_interrupt(CPUState *cs)
+     if (cs->exception_index == EXCP_RESET) {
+         vector = 0;
+     } else if (env->intsrc != 0) {
+-        vector = ctz32(env->intsrc) + 1;
++        vector = ctz64(env->intsrc) + 1;
+     }
  
- static inline void set_avr_feature(CPUAVRState *env, int feature)
- {
--    env->features |= (1U << feature);
-+    env->features |= (1ULL << feature);
- }
- 
- #define cpu_list avr_cpu_list
+     if (avr_feature(env, AVR_FEATURE_3_BYTE_PC)) {
 
 
