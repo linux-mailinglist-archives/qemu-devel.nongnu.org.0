@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B3BB678C67
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 01:02:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D9BEF678C60
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 01:01:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK6kB-0007yn-Sa; Mon, 23 Jan 2023 19:00:55 -0500
+	id 1pK6kD-000860-78; Mon, 23 Jan 2023 19:00:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK6k8-0007mi-8H
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:00:52 -0500
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+ id 1pK6kB-0007zc-56
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:00:55 -0500
+Received: from mail-pf1-x429.google.com ([2607:f8b0:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK6k5-0001qI-Q8
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:00:52 -0500
-Received: by mail-pf1-x431.google.com with SMTP id 20so10083392pfu.13
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 16:00:49 -0800 (PST)
+ id 1pK6k7-0001qY-MF
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:00:54 -0500
+Received: by mail-pf1-x429.google.com with SMTP id s3so10082576pfd.12
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 16:00:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=WHiUfCNScuj5b8UaTFKcutwQlH91thfqJKII3X2ibc0=;
- b=AQNAHJLCyoCkg074RzrDdBWr27u1dLXHQp4dCNyWB4U7vd1eCsSoMtRUUCe0ZlDfNg
- IEC/lWygI6T/Xkq9PIwsPwxO5eWJss1npOumWERbYaV1hS/9Sj1kzxjjDtl4IAo9CbTj
- 9S/I/8vE3NIf/l7kXoK/O3uNe6f+qjKXmjKpUxcKRUfADmpsUL/KujG0Pb3Yi6sUmtGm
- NscBqqid2cu9rpOGOy0hb3J8ZdHp30loWHL3nW8rCwswfonV890lfW4N+P49gLIcGrsT
- 8wB6U+boad38BOUKeKOWLDQKriWoFm1+VVbguXNYimm9K/vU/xuXyLreEhxdSqxHV519
- h54w==
+ bh=QFtg05tnMoQbda+pdmKHzaqxzHXCvc/zyUatL7UKJGo=;
+ b=TFJTT63Q32h0RPFn5vpwT6oN4dPiuhk6QriCs8aekolb+D/IpCyfPtXP4GnEA66Zq5
+ XHocpe+mrwj0VqEqXJrh2uE8dt05J1LH6MRrpcPXwoB2XoxfNNdC3KqxghH7iK0pNYCC
+ +kBh9sRwJI1bMHJ7UQQgW0jNn6EtBoDHt1FeucNjFvOiHBPJtjXSfIsCcfTANdQoqsF3
+ V+wwXayNSCIhHJIP+pSIHpmvBLsQElkROKx7xCj5PNPH4XoXF/jkgbGun9gYBR/6Tz3a
+ qwKPnlnNpKbhq6vXG7yoUoctNh6sfUVNH+1XxAAgQmAZOQvVs0M4DLsmay09Bs4HmLgn
+ pdXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WHiUfCNScuj5b8UaTFKcutwQlH91thfqJKII3X2ibc0=;
- b=g2FbghyL/IWipRHMcNETpSbKjbEhfkFm8lfRIJTLHwF07xWhaZvpx/cc0miW5uq5Te
- CKql62pR/R7lQTPkREbvVxa4z+qJ6VI3J4d/WtZjf1bMKecDN8kZAWimKgTrWEvSsCtW
- xPZaxNG8CJ8HDtqTbMHnZJTVKQ832jxL7ttAllqlR28oVZ9HS0JdaOGW4up5tN3ikm+k
- l95lNbIYPQG1uEZr6W9g8Q5SyBQZmWUHgiMrUi32A5+kfYw427ywMApO9DvbTxsHbe0B
- r/UuCd7udbM6m4F5ZdXQm6P4aS8OK9cB2kkRF9rH6Y6JFxqQlcNkN1F10dxIjjwyg4TB
- BHQw==
-X-Gm-Message-State: AFqh2koPVcGFsBcRXgYo2+59b5DsW8yukFROsfhv0d6cGokpAG81cFRv
- DZOxE1KAbq5SjiglcGh3+gGKjKnq6jk+pp/s
-X-Google-Smtp-Source: AMrXdXttokHTtdyQoEQr4Jqp7QNHYN7yk5uLR6E0WaCS+gXW7RdhPhv+IVs34LqaH+GV42sXsPifeg==
-X-Received: by 2002:a05:6a00:300f:b0:58d:94a2:f404 with SMTP id
- ay15-20020a056a00300f00b0058d94a2f404mr30318795pfb.12.1674518448351; 
- Mon, 23 Jan 2023 16:00:48 -0800 (PST)
+ bh=QFtg05tnMoQbda+pdmKHzaqxzHXCvc/zyUatL7UKJGo=;
+ b=ZAJbfaORJtcyez9vRUcdxfn2rqVpOLbR78lLr+Qm1XCJ9VA0gBpjGyH92GBZGGAyfv
+ yrLmvt+kZPAgyLdVzZgEj0CA6lkGqIX1dIN7F4EivihN0C70s9ovodP8rw/fuUMTT9CM
+ nVJlGmQAIkYsbuQYbhrGd6URRlxCleYibLzRAX1wJWf0RYH2gp/3IFMXPBaoIzSQ4l/y
+ x9fkiw2pJGZqmu9c5mMdAPsYqvor+jBpp+C1VUjNP5DiKICq97cpaDhXqfsaBqRco0qi
+ SaMGQN1phvVYVpFLEtDbvSPWd35U97sekHnlyu4Y/bSeCsazr2/gc3RoekXgkQWic5bz
+ k2RA==
+X-Gm-Message-State: AFqh2koVoqXjXS4rs/NM2dcOxmiIT/vul642sHOjD6WjWAog71JNTBBZ
+ e+I54v8VEzrnt4JOHJ/6ESHXTYEW4nLW7QuX
+X-Google-Smtp-Source: AMrXdXsPTV8wAL3HB0CDu3ebq2kA2K+f6DQpth8uSUXBIyNYdm/1NhyPxBmBOU8/zxXfLKc51G6JBg==
+X-Received: by 2002:aa7:9467:0:b0:58b:aaaa:82a9 with SMTP id
+ t7-20020aa79467000000b0058baaaa82a9mr26859532pfq.25.1674518450151; 
+ Mon, 23 Jan 2023 16:00:50 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- x21-20020a056a00189500b0058bc37f3d13sm174104pfh.43.2023.01.23.16.00.32
+ x21-20020a056a00189500b0058bc37f3d13sm174104pfh.43.2023.01.23.16.00.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 16:00:47 -0800 (PST)
+ Mon, 23 Jan 2023 16:00:49 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, yier.jin@huawei.com, jonathan.cameron@huawei.com,
  leonardo.garcia@linaro.org
-Subject: [PATCH 01/22] target/arm: Fix pmsav8 stage2 secure parameter
-Date: Mon, 23 Jan 2023 14:00:06 -1000
-Message-Id: <20230124000027.3565716-2-richard.henderson@linaro.org>
+Subject: [PATCH 02/22] target/arm: Rewrite check_s2_mmu_setup
+Date: Mon, 23 Jan 2023 14:00:07 -1000
+Message-Id: <20230124000027.3565716-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124000027.3565716-1-richard.henderson@linaro.org>
 References: <20230124000027.3565716-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::429;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x429.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,28 +90,232 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have computed the security state for the stage2 lookup
-into s2walk_secure -- use it.
+Integrate neighboring code from get_phys_addr_lpae which computed
+starting level, as it is easier to validate when doing both at the
+same time.  Mirror the checks at the start of AArch{64,32}.S2Walk,
+especially S2InvalidESL and S2InconsistentSL.
 
-Fixes: fca45e3467f ("target/arm: Add PMSAv8r functionality")
+This reverts 49ba115bb74, which was incorrect -- there is nothing
+in the ARM pseudocode that depends on TxSZ, i.e. outputsize; the
+pseudocode is consistent in referencing PAMax.
+
+Fixes: 49ba115bb74 ("target/arm: Pass outputsize down to check_s2_mmu_setup")
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/ptw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/arm/ptw.c | 173 ++++++++++++++++++++++++++---------------------
+ 1 file changed, 97 insertions(+), 76 deletions(-)
 
 diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-index 57f3615a66..b0f8c59767 100644
+index b0f8c59767..437f6fefa9 100644
 --- a/target/arm/ptw.c
 +++ b/target/arm/ptw.c
-@@ -2727,7 +2727,7 @@ static bool get_phys_addr_twostage(CPUARMState *env, S1Translate *ptw,
+@@ -1077,70 +1077,119 @@ static ARMVAParameters aa32_va_parameters(CPUARMState *env, uint32_t va,
+  * check_s2_mmu_setup
+  * @cpu:        ARMCPU
+  * @is_aa64:    True if the translation regime is in AArch64 state
+- * @startlevel: Suggested starting level
+- * @inputsize:  Bitsize of IPAs
++ * @tcr:        VTCR_EL2 or VSTCR_EL2
++ * @ds:         Effective value of TCR.DS.
++ * @iasize:     Bitsize of IPAs
+  * @stride:     Page-table stride (See the ARM ARM)
+  *
+- * Returns true if the suggested S2 translation parameters are OK and
+- * false otherwise.
++ * Decode the starting level of the S2 lookup, returning INT_MIN if
++ * the configuration is invalid.
+  */
+-static bool check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, int level,
+-                               int inputsize, int stride, int outputsize)
++static int check_s2_mmu_setup(ARMCPU *cpu, bool is_aa64, uint64_t tcr,
++                              bool ds, int iasize, int stride)
+ {
+-    const int grainsize = stride + 3;
+-    int startsizecheck;
+-
+-    /*
+-     * Negative levels are usually not allowed...
+-     * Except for FEAT_LPA2, 4k page table, 52-bit address space, which
+-     * begins with level -1.  Note that previous feature tests will have
+-     * eliminated this combination if it is not enabled.
+-     */
+-    if (level < (inputsize == 52 && stride == 9 ? -1 : 0)) {
+-        return false;
+-    }
+-
+-    startsizecheck = inputsize - ((3 - level) * stride + grainsize);
+-    if (startsizecheck < 1 || startsizecheck > stride + 4) {
+-        return false;
+-    }
++    int sl0, sl2, startlevel, granulebits, levels;
++    int s1_min_iasize, s1_max_iasize;
  
-     if (arm_feature(env, ARM_FEATURE_PMSA)) {
-         ret = get_phys_addr_pmsav8(env, ipa, access_type,
--                                   ptw->in_mmu_idx, is_secure, result, fi);
-+                                   ptw->in_mmu_idx, s2walk_secure, result, fi);
++    sl0 = extract32(tcr, 6, 2);
+     if (is_aa64) {
++        /*
++         * AArch64.S2InvalidTxSZ: While we checked tsz_oob near the top of
++         * get_phys_addr_lpae, that used aa64_va_parameters which apply
++         * to aarch64.  If Stage1 is aarch32, the min_txsz is larger.
++         * See AArch64.S2MinTxSZ, where min_tsz is 24, translated to
++         * inputsize is 64 - 24 = 40.
++         */
++        if (iasize < 40 && !arm_el_is_aa64(&cpu->env, 1)) {
++            goto fail;
++        }
++
++        /*
++         * AArch64.S2InvalidSL: Interpretation of SL depends on the page size,
++         * so interleave AArch64.S2StartLevel.
++         */
+         switch (stride) {
+-        case 13: /* 64KB Pages.  */
+-            if (level == 0 || (level == 1 && outputsize <= 42)) {
+-                return false;
++        case 9: /* 4KB */
++            /* SL2 is RES0 unless DS=1 & 4KB granule. */
++            sl2 = extract64(tcr, 33, 1);
++            if (ds && sl2) {
++                if (sl0 != 0) {
++                    goto fail;
++                }
++                startlevel = -1;
++            } else {
++                startlevel = 2 - sl0;
++                switch (sl0) {
++                case 2:
++                    if (arm_pamax(cpu) < 44) {
++                        goto fail;
++                    }
++                    break;
++                case 3:
++                    if (!cpu_isar_feature(aa64_st, cpu)) {
++                        goto fail;
++                    }
++                    startlevel = 3;
++                    break;
++                }
+             }
+             break;
+-        case 11: /* 16KB Pages.  */
+-            if (level == 0 || (level == 1 && outputsize <= 40)) {
+-                return false;
++        case 11: /* 16KB */
++            switch (sl0) {
++            case 2:
++                if (arm_pamax(cpu) < 42) {
++                    goto fail;
++                }
++                break;
++            case 3:
++                if (!ds) {
++                    goto fail;
++                }
++                break;
+             }
++            startlevel = 3 - sl0;
+             break;
+-        case 9: /* 4KB Pages.  */
+-            if (level == 0 && outputsize <= 42) {
+-                return false;
++        case 13: /* 64KB */
++            switch (sl0) {
++            case 2:
++                if (arm_pamax(cpu) < 44) {
++                    goto fail;
++                }
++                break;
++            case 3:
++                goto fail;
+             }
++            startlevel = 3 - sl0;
+             break;
+         default:
+             g_assert_not_reached();
+         }
+-
+-        /* Inputsize checks.  */
+-        if (inputsize > outputsize &&
+-            (arm_el_is_aa64(&cpu->env, 1) || inputsize > 40)) {
+-            /* This is CONSTRAINED UNPREDICTABLE and we choose to fault.  */
+-            return false;
+-        }
      } else {
-         ret = get_phys_addr_lpae(env, ptw, ipa, access_type,
-                                  is_el0, result, fi);
+-        /* AArch32 only supports 4KB pages. Assert on that.  */
++        /*
++         * Things are simpler for AArch32 EL2, with only 4k pages.
++         * There is no separate S2InvalidSL function, but AArch32.S2Walk
++         * begins with walkparms.sl0 in {'1x'}.
++         */
+         assert(stride == 9);
+-
+-        if (level == 0) {
+-            return false;
++        if (sl0 >= 2) {
++            goto fail;
+         }
++        startlevel = 2 - sl0;
+     }
+-    return true;
++
++    /* AArch{64,32}.S2InconsistentSL are functionally equivalent.  */
++    levels = 3 - startlevel;
++    granulebits = stride + 3;
++
++    s1_min_iasize = levels * stride + granulebits + 1;
++    s1_max_iasize = s1_min_iasize + (stride - 1) + 4;
++
++    if (iasize >= s1_min_iasize && iasize <= s1_max_iasize) {
++        return startlevel;
++    }
++
++ fail:
++    return INT_MIN;
+ }
+ 
+ /**
+@@ -1296,38 +1345,10 @@ static bool get_phys_addr_lpae(CPUARMState *env, S1Translate *ptw,
+          */
+         level = 4 - (inputsize - 4) / stride;
+     } else {
+-        /*
+-         * For stage 2 translations the starting level is specified by the
+-         * VTCR_EL2.SL0 field (whose interpretation depends on the page size)
+-         */
+-        uint32_t sl0 = extract32(tcr, 6, 2);
+-        uint32_t sl2 = extract64(tcr, 33, 1);
+-        int32_t startlevel;
+-        bool ok;
+-
+-        /* SL2 is RES0 unless DS=1 & 4kb granule. */
+-        if (param.ds && stride == 9 && sl2) {
+-            if (sl0 != 0) {
+-                level = 0;
+-                goto do_translation_fault;
+-            }
+-            startlevel = -1;
+-        } else if (!aarch64 || stride == 9) {
+-            /* AArch32 or 4KB pages */
+-            startlevel = 2 - sl0;
+-
+-            if (cpu_isar_feature(aa64_st, cpu)) {
+-                startlevel &= 3;
+-            }
+-        } else {
+-            /* 16KB or 64KB pages */
+-            startlevel = 3 - sl0;
+-        }
+-
+-        /* Check that the starting level is valid. */
+-        ok = check_s2_mmu_setup(cpu, aarch64, startlevel,
+-                                inputsize, stride, outputsize);
+-        if (!ok) {
++        int startlevel = check_s2_mmu_setup(cpu, aarch64, tcr, param.ds,
++                                            inputsize, stride);
++        if (startlevel == INT_MIN) {
++            level = 0;
+             goto do_translation_fault;
+         }
+         level = startlevel;
 -- 
 2.34.1
 
