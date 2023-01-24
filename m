@@ -2,82 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E9C96795CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 11:53:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 485B6679684
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 12:23:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKGuo-0006am-2Y; Tue, 24 Jan 2023 05:52:34 -0500
+	id 1pKHNP-0004Fc-QB; Tue, 24 Jan 2023 06:22:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
- id 1pKGul-0006a1-0F
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:52:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pKHNN-0004FL-Me
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 06:22:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yvugenfi@redhat.com>)
- id 1pKGui-0006mi-Vl
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:52:30 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pKHNL-0003iE-IY
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 06:22:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674557547;
+ s=mimecast20190719; t=1674559321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Abe37cA5shEvwbPtidUv038jJQM0wM6mEjB/yoKMtzw=;
- b=JxpAOV/AiaV1U66qxFh4pFnVn8bnS5G76YtaRBwKgAv1G1zbsnuki6MD7plKTNid0sqHpl
- ml4MXYbguqkoJ4rb9ePnFniTihxqyk32zWpBLi87laNPNaPn1JV2BSt25cN+oNy+QJMQS6
- J/jgle2CvnrYKW5ye2sUkMtuNIfofXA=
-Received: from mail-vk1-f199.google.com (mail-vk1-f199.google.com
- [209.85.221.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-56-9L6t97f7PvSU7YgTq_t8Fw-1; Tue, 24 Jan 2023 05:51:15 -0500
-X-MC-Unique: 9L6t97f7PvSU7YgTq_t8Fw-1
-Received: by mail-vk1-f199.google.com with SMTP id
- u2-20020a1f6002000000b003e2481d7a4aso402716vkb.10
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 02:51:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Abe37cA5shEvwbPtidUv038jJQM0wM6mEjB/yoKMtzw=;
- b=F0cjMXB4rFbf9d9TMpg3MygaBu1XmP2Udy8r+eXHnvr56kfl8Sol4xFoL3zMSsAKy7
- 9AseVind4vvafjslSvvDHQRBASVelzOj0FK6MLxs5vdPZEVurHiXanZQ/SW6uRvc5Z5f
- /yK7Q6VjpvavYXb9YVhV0nQ4n5ugIhts7iWUKiVlsXU3FrciP5AzyiLAa2CQP4L/i7Mq
- JlVOV8LxVgrrMuIFR7BBAvBDb1sZgOeC2mtVz7eNN42zOao4AFQWNfNj6o/6KZ7nT5gq
- OIpWHqYlZhJrFVO9MWTtldHPcPO/s6OsXdUmrpA/vf+BvwM4sFMl4O06EgddVihK1w6w
- yQ4g==
-X-Gm-Message-State: AFqh2koxvIHfW8DG4khP3HuAFk9xZV4EwSQTtxjfNYg6VWRTWim0b9n3
- 3er49JnFO9vhQFBw08LUI+NHFvXBvvPQ1tsZXW1xPyzesFrjeBWFRm5N1JiUXZMq7jrg9dsaisi
- cLcTuMLfPQ3j9zZrokR6wMarcxaw4yE8=
-X-Received: by 2002:a67:d097:0:b0:3d0:cb3d:ad47 with SMTP id
- s23-20020a67d097000000b003d0cb3dad47mr4391298vsi.76.1674557474883; 
- Tue, 24 Jan 2023 02:51:14 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvc8hgmoZArslCfQ5IGH4QEd1/POJDAylEmfnr3oC8dn/TRjLdVUxTNeK/ZmzitKlu6ZSr5h1ZX7k+kIWRmTks=
-X-Received: by 2002:a67:d097:0:b0:3d0:cb3d:ad47 with SMTP id
- s23-20020a67d097000000b003d0cb3dad47mr4391293vsi.76.1674557474632; Tue, 24
- Jan 2023 02:51:14 -0800 (PST)
+ content-transfer-encoding:content-transfer-encoding;
+ bh=kDeXCKmXVLBgJsC+ZYew7EJa2jqHcINXJ8uk4c65gZc=;
+ b=QQqusn/DFNJ7PvROjGhxh494GLTE+0DR4aJVMsa1AVZDZGEUh/5R78DxkgaYtFNpHXV2G4
+ EX7vE1FMFP6os/XCTYBfhzWlrjtpFPDfaXFM1jtAT+sE9OzHTruryEdsfTcx/5avqle2l5
+ M3JB4NlTGKEI2NsbXZTuyjSvmEpnaNY=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-445-2hZIzhakOrCwl-iBMtTCnQ-1; Tue, 24 Jan 2023 06:22:00 -0500
+X-MC-Unique: 2hZIzhakOrCwl-iBMtTCnQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08274811E9C;
+ Tue, 24 Jan 2023 11:22:00 +0000 (UTC)
+Received: from merkur.fritz.box (unknown [10.39.194.160])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3F39F2026D2A;
+ Tue, 24 Jan 2023 11:21:59 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: kwolf@redhat.com,
+	peter.maydell@linaro.org,
+	qemu-devel@nongnu.org
+Subject: [PULL v2 00/38] Block layer patches
+Date: Tue, 24 Jan 2023 12:21:57 +0100
+Message-Id: <20230124112157.37437-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20221130000320.287976-1-viktor@daynix.com>
- <a7ad8724-af5c-5a38-49a4-a534d8454203@phystech.edu>
-In-Reply-To: <a7ad8724-af5c-5a38-49a4-a534d8454203@phystech.edu>
-From: Yan Vugenfirer <yvugenfi@redhat.com>
-Date: Tue, 24 Jan 2023 12:51:03 +0200
-Message-ID: <CAGoVJZwtbGLUHynoPCksDooJdL92X42xLcm3NwVTGXK=-0F+uA@mail.gmail.com>
-Subject: Re: [PATCH v1 0/3] contrib/elf2dmp: Windows Server 2022 support
-To: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
-Cc: pbonzini@redhat.com, Viktor Prutyanov <viktor@daynix.com>,
- yuri.benditovich@daynix.com, yan@daynix.com, qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="0000000000006e8e4005f3004b1d"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=yvugenfi@redhat.com;
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,91 +75,158 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000006e8e4005f3004b1d
-Content-Type: text/plain; charset="UTF-8"
+The following changes since commit 00b1faea41d283e931256aa78aa975a369ec3ae6:
 
-Ping.
+  Merge tag 'pull-target-arm-20230123' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2023-01-23 13:40:28 +0000)
 
+are available in the Git repository at:
 
+  https://repo.or.cz/qemu/kevin.git tags/for-upstream
 
-On Tue, Jan 10, 2023 at 6:10 PM Viktor Prutyanov <
-viktor.prutyanov@phystech.edu> wrote:
+for you to fetch changes up to 19a9c20a68f47b133e7bc8da789f2b21831fb9b0:
 
-> On 11/30/22 3:03 AM, Viktor Prutyanov wrote:
-> > Hi,
-> >
-> > For now, elf2dmp is unable to convert ELF-dump to DMP-dump made of
-> > Windows Server 2022 guest. This patch series fixes it.
-> >
-> > v1: improve code-style fix
-> >
-> > Viktor Prutyanov (3):
-> >    contrib/elf2dmp: fix code style
-> >    contrib/elf2dmp: move PE dir search to pe_get_data_dir_entry
-> >    contrib/elf2dmp: add PE name check and Windows Server 2022 support
-> >
-> >   contrib/elf2dmp/addrspace.c |   1 +
-> >   contrib/elf2dmp/main.c      | 103 +++++++++++++++++++++-----------
-> >   contrib/elf2dmp/pe.h        | 115 ++++++++++++++++++++----------------
-> >   3 files changed, 135 insertions(+), 84 deletions(-)
-> >
->
-> Hi Paolo,
->
-> Could you please add the series to your branch?
-> I've sent it from my other email. I can add
-> Signed-off-by: Viktor Prutyanov <viktor.prutyanov@phystech.edu>
->
-> Thanks,
-> Viktor Prutyanov
->
->
+  qemu-img: Change info key names for protocol nodes (2023-01-24 12:09:26 +0100)
 
---0000000000006e8e4005f3004b1d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v2:
+- Rebased to resolve merge conflicts in coroutine.h
 
-<div dir=3D"ltr">Ping.<div><br></div><div><br></div></div><br><div class=3D=
-"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 10, 2023 at=
- 6:10 PM Viktor Prutyanov &lt;<a href=3D"mailto:viktor.prutyanov@phystech.e=
-du">viktor.prutyanov@phystech.edu</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;bo=
-rder-left-style:solid;border-left-color:rgb(204,204,204);padding-left:1ex">=
-On 11/30/22 3:03 AM, Viktor Prutyanov wrote:<br>
-&gt; Hi,<br>
-&gt; <br>
-&gt; For now, elf2dmp is unable to convert ELF-dump to DMP-dump made of<br>
-&gt; Windows Server 2022 guest. This patch series fixes it.<br>
-&gt; <br>
-&gt; v1: improve code-style fix<br>
-&gt; <br>
-&gt; Viktor Prutyanov (3):<br>
-&gt;=C2=A0 =C2=A0 contrib/elf2dmp: fix code style<br>
-&gt;=C2=A0 =C2=A0 contrib/elf2dmp: move PE dir search to pe_get_data_dir_en=
-try<br>
-&gt;=C2=A0 =C2=A0 contrib/elf2dmp: add PE name check and Windows Server 202=
-2 support<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0contrib/elf2dmp/addrspace.c |=C2=A0 =C2=A01 +<br>
-&gt;=C2=A0 =C2=A0contrib/elf2dmp/main.c=C2=A0 =C2=A0 =C2=A0 | 103 +++++++++=
-++++++++++++-----------<br>
-&gt;=C2=A0 =C2=A0contrib/elf2dmp/pe.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 115 ++++=
-++++++++++++++++----------------<br>
-&gt;=C2=A0 =C2=A03 files changed, 135 insertions(+), 84 deletions(-)<br>
-&gt; <br>
-<br>
-Hi Paolo,<br>
-<br>
-Could you please add the series to your branch?<br>
-I&#39;ve sent it from my other email. I can add<br>
-Signed-off-by: Viktor Prutyanov &lt;<a href=3D"mailto:viktor.prutyanov@phys=
-tech.edu" target=3D"_blank">viktor.prutyanov@phystech.edu</a>&gt;<br>
-<br>
-Thanks,<br>
-Viktor Prutyanov<br>
-<br>
-</blockquote></div>
+----------------------------------------------------------------
+Block layer patches
 
---0000000000006e8e4005f3004b1d--
+- qemu-img info: Show protocol-level information
+- Move more functions to coroutines
+- Make coroutine annotations ready for static analysis
+- qemu-img: Fix exit code for errors closing the image
+- qcow2 bitmaps: Fix theoretical corruption in error path
+- pflash: Only load non-zero parts of backend image to save memory
+- Code cleanup and test case improvements
+
+----------------------------------------------------------------
+Alberto Faria (2):
+      coroutine: annotate coroutine_fn for libclang
+      block: Add no_coroutine_fn and coroutine_mixed_fn marker
+
+Emanuele Giuseppe Esposito (14):
+      block-coroutine-wrapper: support void functions
+      block: Convert bdrv_io_plug() to co_wrapper
+      block: Convert bdrv_io_unplug() to co_wrapper
+      block: Convert bdrv_is_inserted() to co_wrapper
+      block: Rename refresh_total_sectors to bdrv_refresh_total_sectors
+      block: Convert bdrv_refresh_total_sectors() to co_wrapper_mixed
+      block-backend: use bdrv_getlength instead of blk_getlength
+      block: use bdrv_co_refresh_total_sectors when possible
+      block: Convert bdrv_get_allocated_file_size() to co_wrapper
+      block: Convert bdrv_get_info() to co_wrapper_mixed
+      block: Convert bdrv_eject() to co_wrapper
+      block: Convert bdrv_lock_medium() to co_wrapper
+      block: Convert bdrv_debug_event() to co_wrapper_mixed
+      block: Rename bdrv_load/save_vmstate() to bdrv_co_load/save_vmstate()
+
+Hanna Reitz (12):
+      block: Improve empty format-specific info dump
+      block/file: Add file-specific image info
+      block/vmdk: Change extent info type
+      block: Split BlockNodeInfo off of ImageInfo
+      qemu-img: Use BlockNodeInfo
+      block/qapi: Let bdrv_query_image_info() recurse
+      block/qapi: Introduce BlockGraphInfo
+      block/qapi: Add indentation to bdrv_node_info_dump()
+      iotests: Filter child node information
+      iotests/106, 214, 308: Read only one size line
+      qemu-img: Let info print block graph
+      qemu-img: Change info key names for protocol nodes
+
+Kevin Wolf (4):
+      qcow2: Fix theoretical corruption in store_bitmap() error path
+      qemu-img commit: Report errors while closing the image
+      qemu-img bitmap: Report errors while closing the image
+      qemu-iotests: Test qemu-img bitmap/commit exit code on error
+
+Paolo Bonzini (2):
+      qemu-io: do not reinvent the blk_pwrite_zeroes wheel
+      block: remove bdrv_coroutine_enter
+
+Philippe Mathieu-Daudé (1):
+      block/nbd: Add missing <qemu/bswap.h> include
+
+Thomas Huth (2):
+      tests/qemu-iotests/312: Mark "quorum" as required driver
+      tests/qemu-iotests/262: Check for availability of "blkverify" first
+
+Xiang Zheng (1):
+      pflash: Only read non-zero parts of backend image
+
+ qapi/block-core.json                               | 123 +++++++-
+ include/block/block-common.h                       |  11 +-
+ include/block/block-io.h                           |  41 ++-
+ include/block/block_int-common.h                   |  26 +-
+ include/block/block_int-io.h                       |   5 +-
+ include/block/nbd.h                                |   1 +
+ include/block/qapi.h                               |  14 +-
+ include/qemu/osdep.h                               |  44 +++
+ include/sysemu/block-backend-io.h                  |  31 +-
+ block.c                                            |  88 +++---
+ block/blkdebug.c                                   |  11 +-
+ block/blkio.c                                      |  15 +-
+ block/blklogwrites.c                               |   6 +-
+ block/blkreplay.c                                  |   6 +-
+ block/blkverify.c                                  |   6 +-
+ block/block-backend.c                              |  38 +--
+ block/commit.c                                     |   4 +-
+ block/copy-on-read.c                               |  18 +-
+ block/crypto.c                                     |  14 +-
+ block/curl.c                                       |  10 +-
+ block/file-posix.c                                 | 137 +++++----
+ block/file-win32.c                                 |  18 +-
+ block/filter-compress.c                            |  20 +-
+ block/gluster.c                                    |  23 +-
+ block/io.c                                         |  76 ++---
+ block/iscsi.c                                      |  17 +-
+ block/mirror.c                                     |   6 +-
+ block/monitor/block-hmp-cmds.c                     |   2 +-
+ block/nbd.c                                        |   8 +-
+ block/nfs.c                                        |   4 +-
+ block/null.c                                       |  13 +-
+ block/nvme.c                                       |  14 +-
+ block/preallocate.c                                |  16 +-
+ block/qapi.c                                       | 317 ++++++++++++++++-----
+ block/qcow.c                                       |   5 +-
+ block/qcow2-bitmap.c                               |   5 +-
+ block/qcow2-refcount.c                             |   2 +-
+ block/qcow2.c                                      |  17 +-
+ block/qed.c                                        |  11 +-
+ block/quorum.c                                     |   8 +-
+ block/raw-format.c                                 |  25 +-
+ block/rbd.c                                        |   9 +-
+ block/replication.c                                |   6 +-
+ block/ssh.c                                        |   4 +-
+ block/throttle.c                                   |   6 +-
+ block/vdi.c                                        |   7 +-
+ block/vhdx.c                                       |   5 +-
+ block/vmdk.c                                       |  22 +-
+ block/vpc.c                                        |   5 +-
+ blockdev.c                                         |   8 +-
+ hw/block/block.c                                   |  36 ++-
+ hw/scsi/scsi-disk.c                                |   5 +
+ qemu-img.c                                         | 100 +++++--
+ qemu-io-cmds.c                                     |  62 +---
+ tests/unit/test-block-iothread.c                   |   3 +
+ scripts/block-coroutine-wrapper.py                 |  20 +-
+ tests/qemu-iotests/iotests.py                      |  18 +-
+ block/meson.build                                  |   1 +
+ tests/qemu-iotests/065                             |   2 +-
+ tests/qemu-iotests/106                             |   4 +-
+ tests/qemu-iotests/214                             |   6 +-
+ tests/qemu-iotests/262                             |   3 +-
+ tests/qemu-iotests/302.out                         |   5 +
+ tests/qemu-iotests/308                             |   4 +-
+ tests/qemu-iotests/312                             |   1 +
+ tests/qemu-iotests/common.filter                   |  22 +-
+ tests/qemu-iotests/common.rc                       |  22 +-
+ tests/qemu-iotests/tests/qemu-img-close-errors     |  95 ++++++
+ tests/qemu-iotests/tests/qemu-img-close-errors.out |  23 ++
+ 69 files changed, 1208 insertions(+), 552 deletions(-)
+ create mode 100755 tests/qemu-iotests/tests/qemu-img-close-errors
+ create mode 100644 tests/qemu-iotests/tests/qemu-img-close-errors.out
 
 
