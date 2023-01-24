@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E22C678F51
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 05:37:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99CDC678F41
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 05:33:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKAzD-0002pK-U7; Mon, 23 Jan 2023 23:32:43 -0500
+	id 1pKAzF-0002rk-UD; Mon, 23 Jan 2023 23:32:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pKAzC-0002os-Bd
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 23:32:42 -0500
-Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ id 1pKAzE-0002po-7k
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 23:32:44 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pKAzA-0002Tj-BJ
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 23:32:42 -0500
-Received: by mail-pl1-x62c.google.com with SMTP id d9so13564541pll.9
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 20:32:40 -0800 (PST)
+ id 1pKAzC-0002SO-RG
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 23:32:43 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ e10-20020a17090a630a00b0022bedd66e6dso772142pjj.1
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 20:32:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OWlFLD5ygT+tWS9MzrjqLMpgJNI+nJdKdHyIRvJKJ6U=;
- b=6rAT6597t7eEAmRCS7UWNpMGFefC5J6wyzhBYurXYh3q9Wfu6hs0PjUIsD13JWBs6+
- GUTwaFPuJlSJpREmKMExa1Qo2MriwawptGmDjc5jVFY4Cy+CPmFHZ3htsx6g+fVeWsyy
- KFx3a3lqAH5hqbYaos+n2827ggw7fS2g+xnyK+bDhXHcyH2FdDWKBTE2s4uA/zCYjlHN
- TRTrPdjmDjGeJ6O8jIHuHBqjyTVxO5TcPJflkKDXFNhaiqsDO/JodCg7lq9Jv/QTwh62
- Yk0eK/W9k+0NfHdWwEHhY7k82xfNvtsg5GaOWbLssTsJNF2a6cGvq5Zh2kF9rBYZkcg0
- dmNg==
+ bh=S2yWCEgQIhN3QzPkw0K6Wvtt0U+sc6KSxASGdiiNxV0=;
+ b=BIN7zeEhj0fi7vIUsUEKNXhW2jnfX2BVVVuH24zwtlyYuOGK5FUHzapQXYqmyEf9JT
+ mddijqUl6mxBhB/5Rtj3MeAp0sY3VQW0z3pdVMzzaa01IdqiAVrjDWaAY3qVDIYTOy4t
+ i2wwWO5jPtEICrMw3uNg6GH8aW0fHh8hbJSBI2yuOXiZkOZsDABroEYsELEQ0lDSYaZC
+ g0ENRAuMGO0tbmhgb3DI1MjB4P8HsFvlJv14nXTHe0HuofujZ0W+PNBumtm50/0k/fcv
+ dWZbksxhssEIu+65I/r5jx9ab9F2xwP6rLav7knmViOcdTn/x9zKA1nfOZ91NQrzDHFn
+ jYOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OWlFLD5ygT+tWS9MzrjqLMpgJNI+nJdKdHyIRvJKJ6U=;
- b=mD+/+tPoR22fPt2ipn7Ky6KPuIqlAUM2fTvyDp1BoRP49UqXBim9vr2gc6wcoG4pap
- 9kXQ3BosznXyiW+slVrdw4Tz5C89a7QGRsybnhxCm53G4q1aIgnQT1OODDHzcsf7gu/r
- eXFxUNOlqCDfAZJpblBocZa8M/0yIKF37Wywqo1aTdir3gfN0wu6VcwFH4W27x3Sfgw+
- yHXj0C9XgF/JKXvdV84XP45os8bT1owtsz5KRtdCpm1ka9FsQRwTkdf4XzmeIj54gE8+
- 8hhsKutoQjE1cqky/n70JLEYKldzXfD4wkCykEEkqBN5pCv19dPIaIUxmtOb9QOg/A/W
- cQpg==
-X-Gm-Message-State: AFqh2kpFlfpz6PNGTAXCM0Dr2OEmoGuary+YIstlOyN0FZG7hnbdpKqm
- VOTuStAd3X+qL7wXVxqHMbpO+Q==
-X-Google-Smtp-Source: AMrXdXsR7QmW2sk/8Tz4LfY5Wkby0sAtOttLe/FVAhJI8GEzOnli/vspOJTq3SqMTg3i8EP8oEgdGA==
-X-Received: by 2002:a17:903:32cb:b0:194:dd83:613d with SMTP id
- i11-20020a17090332cb00b00194dd83613dmr22408003plr.21.1674534759183; 
- Mon, 23 Jan 2023 20:32:39 -0800 (PST)
+ bh=S2yWCEgQIhN3QzPkw0K6Wvtt0U+sc6KSxASGdiiNxV0=;
+ b=u+KHX0zgzvcAbu7I9YMSwnIuWcCZoIhZNBXSLo20VpacOj6dn2BoauxnZMwD1RzZIF
+ 5PsVvN7tTgXmU1Kobi4CygnhmToq72kGeo2A9MbteTf5d4/dQgOh1Venmtp9D9KdcNQz
+ 99anmjlbAG+mUyETF/BJ6qNMJEPejYfUCZ2KBdhKXUvlGrcBzM/yccFWvLQA92mWHQVT
+ xc4Bx4nERqNDphByg7t10Ra9wWwDgjiryLjKrn2e+45K+DY+eV7PTiyckaUdGx1817N0
+ D7nqp14R1JIsE3qPlNs0jIe/2KH6vRjAhdensALxMXW2d5OC+ez1JBlD/BQ8FR709vlF
+ 1Hkw==
+X-Gm-Message-State: AFqh2koQvDo7m54L4b+6Dm4aV/01GN9nzzwd6u39ari/RaoGSYqb+kdS
+ A+76NiTHq6J8cz329fxJqRTwKg==
+X-Google-Smtp-Source: AMrXdXsg0kzLuhC07x6OvjBFlI4oTz7pSPro9cJtMFEiiDudfcJdLNewsVzdW9yOmGGJ5QeiRY9BbQ==
+X-Received: by 2002:a17:903:2284:b0:194:9480:fbc4 with SMTP id
+ b4-20020a170903228400b001949480fbc4mr38524512plh.30.1674534762223; 
+ Mon, 23 Jan 2023 20:32:42 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- z5-20020a170902708500b00196030312ccsm548033plk.78.2023.01.23.20.32.36
+ z5-20020a170902708500b00196030312ccsm548033plk.78.2023.01.23.20.32.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 20:32:38 -0800 (PST)
+ Mon, 23 Jan 2023 20:32:42 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -65,17 +66,19 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Yan Vugenfirer <yvugenfi@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v2 15/26] e1000e: Introduce e1000_rx_desc_union
-Date: Tue, 24 Jan 2023 13:31:32 +0900
-Message-Id: <20230124043143.5515-16-akihiko.odaki@daynix.com>
+ Akihiko Odaki <akihiko.odaki@daynix.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v2 16/26] e1000e: Set MII_ANER_NWAY
+Date: Tue, 24 Jan 2023 13:31:33 +0900
+Message-Id: <20230124043143.5515-17-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230124043143.5515-1-akihiko.odaki@daynix.com>
 References: <20230124043143.5515-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62c;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -97,305 +100,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Before this change, e1000e_write_packet_to_guest() allocated the
-receive descriptor buffer as an array of uint8_t. This does not ensure
-the buffer is sufficiently aligned.
-
-Introduce e1000_rx_desc_union type, a union type of all receive
-descriptor types to correct this.
+This keeps Windows driver 12.18.9.23 from generating an event with ID
+30. The description of the event is as follows:
+> Intel(R) 82574L Gigabit Network Connection
+>  PROBLEM: The network adapter is configured for auto-negotiation but
+> the link partner is not.  This may result in a duplex mismatch.
+>  ACTION: Configure the link partner for auto-negotiation.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/net/e1000_regs.h  |   1 -
- hw/net/e1000e_core.c | 115 +++++++++++++++++++++----------------------
- 2 files changed, 57 insertions(+), 59 deletions(-)
+ hw/net/e1000e_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/net/e1000_regs.h b/hw/net/e1000_regs.h
-index 6a36573802..4545fe25a6 100644
---- a/hw/net/e1000_regs.h
-+++ b/hw/net/e1000_regs.h
-@@ -1061,7 +1061,6 @@ union e1000_rx_desc_packet_split {
- #define E1000_RING_DESC_LEN_SHIFT (4)
- 
- #define E1000_MIN_RX_DESC_LEN   E1000_RING_DESC_LEN
--#define E1000_MAX_RX_DESC_LEN   (sizeof(union e1000_rx_desc_packet_split))
- 
- /* Receive Descriptor bit definitions */
- #define E1000_RXD_STAT_DD       0x01    /* Descriptor Done */
 diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index b8670662c8..d8c17baf8f 100644
+index d8c17baf8f..736708407c 100644
 --- a/hw/net/e1000e_core.c
 +++ b/hw/net/e1000e_core.c
-@@ -55,6 +55,12 @@
- 
- #define E1000E_MAX_TX_FRAGS (64)
- 
-+union e1000_rx_desc_union {
-+    struct e1000_rx_desc legacy;
-+    union e1000_rx_desc_extended extended;
-+    union e1000_rx_desc_packet_split packet_split;
-+};
-+
- static inline void
- e1000e_set_interrupt_cause(E1000ECore *core, uint32_t val);
- 
-@@ -1053,29 +1059,28 @@ e1000e_receive_filter(E1000ECore *core, const uint8_t *buf, int size)
- }
- 
- static inline void
--e1000e_read_lgcy_rx_descr(E1000ECore *core, uint8_t *desc, hwaddr *buff_addr)
-+e1000e_read_lgcy_rx_descr(E1000ECore *core, struct e1000_rx_desc *desc,
-+                          hwaddr *buff_addr)
- {
--    struct e1000_rx_desc *d = (struct e1000_rx_desc *) desc;
--    *buff_addr = le64_to_cpu(d->buffer_addr);
-+    *buff_addr = le64_to_cpu(desc->buffer_addr);
- }
- 
- static inline void
--e1000e_read_ext_rx_descr(E1000ECore *core, uint8_t *desc, hwaddr *buff_addr)
-+e1000e_read_ext_rx_descr(E1000ECore *core, union e1000_rx_desc_extended *desc,
-+                         hwaddr *buff_addr)
- {
--    union e1000_rx_desc_extended *d = (union e1000_rx_desc_extended *) desc;
--    *buff_addr = le64_to_cpu(d->read.buffer_addr);
-+    *buff_addr = le64_to_cpu(desc->read.buffer_addr);
- }
- 
- static inline void
--e1000e_read_ps_rx_descr(E1000ECore *core, uint8_t *desc,
-+e1000e_read_ps_rx_descr(E1000ECore *core,
-+                        union e1000_rx_desc_packet_split *desc,
-                         hwaddr (*buff_addr)[MAX_PS_BUFFERS])
- {
-     int i;
--    union e1000_rx_desc_packet_split *d =
--        (union e1000_rx_desc_packet_split *) desc;
- 
-     for (i = 0; i < MAX_PS_BUFFERS; i++) {
--        (*buff_addr)[i] = le64_to_cpu(d->read.buffer_addr[i]);
-+        (*buff_addr)[i] = le64_to_cpu(desc->read.buffer_addr[i]);
-     }
- 
-     trace_e1000e_rx_desc_ps_read((*buff_addr)[0], (*buff_addr)[1],
-@@ -1083,17 +1088,17 @@ e1000e_read_ps_rx_descr(E1000ECore *core, uint8_t *desc,
- }
- 
- static inline void
--e1000e_read_rx_descr(E1000ECore *core, uint8_t *desc,
-+e1000e_read_rx_descr(E1000ECore *core, union e1000_rx_desc_union *desc,
-                      hwaddr (*buff_addr)[MAX_PS_BUFFERS])
- {
-     if (e1000e_rx_use_legacy_descriptor(core)) {
--        e1000e_read_lgcy_rx_descr(core, desc, &(*buff_addr)[0]);
-+        e1000e_read_lgcy_rx_descr(core, &desc->legacy, &(*buff_addr)[0]);
-         (*buff_addr)[1] = (*buff_addr)[2] = (*buff_addr)[3] = 0;
-     } else {
-         if (core->mac[RCTL] & E1000_RCTL_DTYP_PS) {
--            e1000e_read_ps_rx_descr(core, desc, buff_addr);
-+            e1000e_read_ps_rx_descr(core, &desc->packet_split, buff_addr);
-         } else {
--            e1000e_read_ext_rx_descr(core, desc, &(*buff_addr)[0]);
-+            e1000e_read_ext_rx_descr(core, &desc->extended, &(*buff_addr)[0]);
-             (*buff_addr)[1] = (*buff_addr)[2] = (*buff_addr)[3] = 0;
-         }
-     }
-@@ -1264,7 +1269,7 @@ func_exit:
- }
- 
- static inline void
--e1000e_write_lgcy_rx_descr(E1000ECore *core, uint8_t *desc,
-+e1000e_write_lgcy_rx_descr(E1000ECore *core, struct e1000_rx_desc *desc,
-                            struct NetRxPkt *pkt,
-                            const E1000E_RSSInfo *rss_info,
-                            uint16_t length)
-@@ -1272,71 +1277,66 @@ e1000e_write_lgcy_rx_descr(E1000ECore *core, uint8_t *desc,
-     uint32_t status_flags, rss, mrq;
-     uint16_t ip_id;
- 
--    struct e1000_rx_desc *d = (struct e1000_rx_desc *) desc;
--
-     assert(!rss_info->enabled);
- 
--    d->length = cpu_to_le16(length);
--    d->csum = 0;
-+    desc->length = cpu_to_le16(length);
-+    desc->csum = 0;
- 
-     e1000e_build_rx_metadata(core, pkt, pkt != NULL,
-                              rss_info,
-                              &rss, &mrq,
-                              &status_flags, &ip_id,
--                             &d->special);
--    d->errors = (uint8_t) (le32_to_cpu(status_flags) >> 24);
--    d->status = (uint8_t) le32_to_cpu(status_flags);
-+                             &desc->special);
-+    desc->errors = (uint8_t) (le32_to_cpu(status_flags) >> 24);
-+    desc->status = (uint8_t) le32_to_cpu(status_flags);
- }
- 
- static inline void
--e1000e_write_ext_rx_descr(E1000ECore *core, uint8_t *desc,
-+e1000e_write_ext_rx_descr(E1000ECore *core, union e1000_rx_desc_extended *desc,
-                           struct NetRxPkt *pkt,
-                           const E1000E_RSSInfo *rss_info,
-                           uint16_t length)
- {
--    union e1000_rx_desc_extended *d = (union e1000_rx_desc_extended *) desc;
--
--    memset(&d->wb, 0, sizeof(d->wb));
-+    memset(&desc->wb, 0, sizeof(desc->wb));
- 
--    d->wb.upper.length = cpu_to_le16(length);
-+    desc->wb.upper.length = cpu_to_le16(length);
- 
-     e1000e_build_rx_metadata(core, pkt, pkt != NULL,
-                              rss_info,
--                             &d->wb.lower.hi_dword.rss,
--                             &d->wb.lower.mrq,
--                             &d->wb.upper.status_error,
--                             &d->wb.lower.hi_dword.csum_ip.ip_id,
--                             &d->wb.upper.vlan);
-+                             &desc->wb.lower.hi_dword.rss,
-+                             &desc->wb.lower.mrq,
-+                             &desc->wb.upper.status_error,
-+                             &desc->wb.lower.hi_dword.csum_ip.ip_id,
-+                             &desc->wb.upper.vlan);
- }
- 
- static inline void
--e1000e_write_ps_rx_descr(E1000ECore *core, uint8_t *desc,
-+e1000e_write_ps_rx_descr(E1000ECore *core,
-+                         union e1000_rx_desc_packet_split *desc,
-                          struct NetRxPkt *pkt,
-                          const E1000E_RSSInfo *rss_info,
-                          size_t ps_hdr_len,
-                          uint16_t(*written)[MAX_PS_BUFFERS])
- {
-     int i;
--    union e1000_rx_desc_packet_split *d =
--        (union e1000_rx_desc_packet_split *) desc;
- 
--    memset(&d->wb, 0, sizeof(d->wb));
-+    memset(&desc->wb, 0, sizeof(desc->wb));
- 
--    d->wb.middle.length0 = cpu_to_le16((*written)[0]);
-+    desc->wb.middle.length0 = cpu_to_le16((*written)[0]);
- 
-     for (i = 0; i < PS_PAGE_BUFFERS; i++) {
--        d->wb.upper.length[i] = cpu_to_le16((*written)[i + 1]);
-+        desc->wb.upper.length[i] = cpu_to_le16((*written)[i + 1]);
-     }
- 
-     e1000e_build_rx_metadata(core, pkt, pkt != NULL,
-                              rss_info,
--                             &d->wb.lower.hi_dword.rss,
--                             &d->wb.lower.mrq,
--                             &d->wb.middle.status_error,
--                             &d->wb.lower.hi_dword.csum_ip.ip_id,
--                             &d->wb.middle.vlan);
-+                             &desc->wb.lower.hi_dword.rss,
-+                             &desc->wb.lower.mrq,
-+                             &desc->wb.middle.status_error,
-+                             &desc->wb.lower.hi_dword.csum_ip.ip_id,
-+                             &desc->wb.middle.vlan);
- 
--    d->wb.upper.header_status =
-+    desc->wb.upper.header_status =
-         cpu_to_le16(ps_hdr_len | (ps_hdr_len ? E1000_RXDPS_HDRSTAT_HDRSP : 0));
- 
-     trace_e1000e_rx_desc_ps_write((*written)[0], (*written)[1],
-@@ -1344,20 +1344,21 @@ e1000e_write_ps_rx_descr(E1000ECore *core, uint8_t *desc,
- }
- 
- static inline void
--e1000e_write_rx_descr(E1000ECore *core, uint8_t *desc,
-+e1000e_write_rx_descr(E1000ECore *core, union e1000_rx_desc_union *desc,
- struct NetRxPkt *pkt, const E1000E_RSSInfo *rss_info,
-     size_t ps_hdr_len, uint16_t(*written)[MAX_PS_BUFFERS])
- {
-     if (e1000e_rx_use_legacy_descriptor(core)) {
-         assert(ps_hdr_len == 0);
--        e1000e_write_lgcy_rx_descr(core, desc, pkt, rss_info, (*written)[0]);
-+        e1000e_write_lgcy_rx_descr(core, &desc->legacy, pkt, rss_info,
-+                                   (*written)[0]);
-     } else {
-         if (core->mac[RCTL] & E1000_RCTL_DTYP_PS) {
--            e1000e_write_ps_rx_descr(core, desc, pkt, rss_info,
-+            e1000e_write_ps_rx_descr(core, &desc->packet_split, pkt, rss_info,
-                                       ps_hdr_len, written);
-         } else {
-             assert(ps_hdr_len == 0);
--            e1000e_write_ext_rx_descr(core, desc, pkt, rss_info,
-+            e1000e_write_ext_rx_descr(core, &desc->extended, pkt, rss_info,
-                                        (*written)[0]);
-         }
-     }
-@@ -1365,12 +1366,12 @@ struct NetRxPkt *pkt, const E1000E_RSSInfo *rss_info,
- 
- static inline void
- e1000e_pci_dma_write_rx_desc(E1000ECore *core, dma_addr_t addr,
--                             uint8_t *desc, dma_addr_t len)
-+                             union e1000_rx_desc_union *desc, dma_addr_t len)
- {
-     PCIDevice *dev = core->owner;
- 
-     if (e1000e_rx_use_legacy_descriptor(core)) {
--        struct e1000_rx_desc *d = (struct e1000_rx_desc *) desc;
-+        struct e1000_rx_desc *d = &desc->legacy;
-         size_t offset = offsetof(struct e1000_rx_desc, status);
-         uint8_t status = d->status;
- 
-@@ -1383,8 +1384,7 @@ e1000e_pci_dma_write_rx_desc(E1000ECore *core, dma_addr_t addr,
-         }
-     } else {
-         if (core->mac[RCTL] & E1000_RCTL_DTYP_PS) {
--            union e1000_rx_desc_packet_split *d =
--                (union e1000_rx_desc_packet_split *) desc;
-+            union e1000_rx_desc_packet_split *d = &desc->packet_split;
-             size_t offset = offsetof(union e1000_rx_desc_packet_split,
-                 wb.middle.status_error);
-             uint32_t status = d->wb.middle.status_error;
-@@ -1397,8 +1397,7 @@ e1000e_pci_dma_write_rx_desc(E1000ECore *core, dma_addr_t addr,
-                 pci_dma_write(dev, addr + offset, &status, sizeof(status));
-             }
-         } else {
--            union e1000_rx_desc_extended *d =
--                (union e1000_rx_desc_extended *) desc;
-+            union e1000_rx_desc_extended *d = &desc->extended;
-             size_t offset = offsetof(union e1000_rx_desc_extended,
-                 wb.upper.status_error);
-             uint32_t status = d->wb.upper.status_error;
-@@ -1542,7 +1541,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
- {
-     PCIDevice *d = core->owner;
-     dma_addr_t base;
--    uint8_t desc[E1000_MAX_RX_DESC_LEN];
-+    union e1000_rx_desc_union desc;
-     size_t desc_size;
-     size_t desc_offset = 0;
-     size_t iov_ofs = 0;
-@@ -1578,7 +1577,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
- 
-         trace_e1000e_rx_descr(rxi->idx, base, core->rx_desc_len);
- 
--        e1000e_read_rx_descr(core, desc, &ba);
-+        e1000e_read_rx_descr(core, &desc, &ba);
- 
-         if (ba[0]) {
-             if (desc_offset < size) {
-@@ -1648,9 +1647,9 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
-             is_last = true;
-         }
- 
--        e1000e_write_rx_descr(core, desc, is_last ? core->rx_pkt : NULL,
-+        e1000e_write_rx_descr(core, &desc, is_last ? core->rx_pkt : NULL,
-                            rss_info, do_ps ? ps_hdr_len : 0, &bastate.written);
--        e1000e_pci_dma_write_rx_desc(core, base, desc, core->rx_desc_len);
-+        e1000e_pci_dma_write_rx_desc(core, base, &desc, core->rx_desc_len);
- 
-         e1000e_ring_advance(core, rxi,
-                             core->rx_desc_len / E1000_MIN_RX_DESC_LEN);
+@@ -3426,7 +3426,7 @@ e1000e_phy_reg_init[E1000E_PHY_PAGES][E1000E_PHY_PAGE_SIZE] = {
+         [MII_ANLPAR]            = MII_ANLPAR_10 | MII_ANLPAR_10FD |
+                                   MII_ANLPAR_TX | MII_ANLPAR_TXFD |
+                                   MII_ANLPAR_T4 | MII_ANLPAR_PAUSE,
+-        [MII_ANER]              = MII_ANER_NP,
++        [MII_ANER]              = MII_ANER_NP | MII_ANER_NWAY,
+         [MII_ANNP]              = 1 | MII_ANNP_MP,
+         [MII_CTRL1000]          = MII_CTRL1000_HALF | MII_CTRL1000_FULL |
+                                   MII_CTRL1000_PORT | MII_CTRL1000_MASTER,
 -- 
 2.39.0
 
