@@ -2,72 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53106678DA4
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 02:43:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55940678DAE
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 02:47:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK8Kh-0003tV-KZ; Mon, 23 Jan 2023 20:42:43 -0500
+	id 1pK8Oo-0004w6-Bl; Mon, 23 Jan 2023 20:46:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pK8KY-0003t3-17; Mon, 23 Jan 2023 20:42:34 -0500
-Received: from mail-vs1-xe2e.google.com ([2607:f8b0:4864:20::e2e])
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pK8Om-0004vl-Ri
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 20:46:56 -0500
+Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pK8KW-0008I3-BT; Mon, 23 Jan 2023 20:42:33 -0500
-Received: by mail-vs1-xe2e.google.com with SMTP id 187so14999963vsv.10;
- Mon, 23 Jan 2023 17:42:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pK8Ol-0000kw-4R
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 20:46:56 -0500
+Received: by mail-yb1-xb36.google.com with SMTP id m199so1415491ybm.4
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 17:46:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=FU7jGxZFLK8s7TG/kSqqFuKrnDJwir6nsjwswJ5QelI=;
- b=GZMyRraVmiRzabG8i9WBS4OP9CqvOSNRtx0K3Cjjlddm/yecDY6EDiZXh3awdD80hA
- Nw2S4RhO6V+NWgLCIk/Y4hRqASqO7E8nVqOP2Gc5nJoCCDwlq0OHWJWgaBSomUIEhfij
- 1Je4jVzwK+5b22VJk1nYEK69Gz6t+pTkNmslYklDk3CF+a5/WMRbillFOfi/GkyoRqxX
- utUuTeZwY01rrD+ihRjjoMth1kUQDtqO75kc/0VMsJBDMUrPPS1QS5uFPzQXovCJANsG
- AW/eK3b3ZW66GdOcFO8ROn1rKcQx9SimjpPLcw8Cn5eXDNJi2T7GOlBZ5+ah4PsqKgbQ
- HmzQ==
+ bh=7rxaJ/1EfL1OB3C4ie6J8+jg/0++/S8+Ov+z6ACUdPE=;
+ b=MsTrnZ95vQszfwRjmHxBsGFGpwYRIe20oK0xBilaPKrnpkJtqnh9y8KJzWmDCL57lD
+ +13XvdcEq0QoVwx1FcLC7rwG/qXuQtXesB8zXkbrUsI+pIgKZgxSu7Vh4BnJNYHtNovi
+ pxA9Zb3Qroie3WDQjE3vtKRFaRxqvRXrmXcPL7C6nQ5SnwXa0teD514zsugTzGUQ3LF4
+ 2wNmNfEwuCPTMKEyISmuLoEp0VSfi2pS/i4ntkN32V0F9ID8KHG2bEVZI0xKGMPPfvJ0
+ fM0PGVStpigXV6JC7IyZDUlaH2lpZXVgKKIR8KwWVLFsMV9PcP5oKE9ssGvnC2kjCOOn
+ f7oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=FU7jGxZFLK8s7TG/kSqqFuKrnDJwir6nsjwswJ5QelI=;
- b=poRdSArpu+uaI2NrXZJQqw2mj2rMWcp57jVlGH3+aTUkERwMgCtCg0nhn5Hr+L3ArM
- TJKnI/0ipNKpH23M/LC1/tcDS8V7LJh8LldBINafgyZ+iWvJktdIVJc7QPyQy6IfJHZi
- bcoS8Ym6zopadWDkNIiijGf6Q31CTpqc7Lpv0AlFTfqt8VDr+FePCgAkIsgmjOOfxRPn
- fNgYnf+B7vo92yo8qMyUeP8elFmxGsU7w7+u25MsPxA25fHozmcxF0yh2491MThaOwbQ
- TBdRZhYZvOy8SYDAquvAHknWDHEDpclfC96ZzNqEFa9XMi8uDulpJf8a7QJhlAAdhclY
- 5k5Q==
-X-Gm-Message-State: AFqh2krkWHYD0V24EC1exqDq412IDyyjLSIx/8vtlrfR/ZzESDG4pS9J
- TrTq0Q9kBEryCK7CqR/GsF40CqnFe6AOoPM6xcA=
-X-Google-Smtp-Source: AMrXdXv+aaxL1/fqoVmUs9V+DeKmgBy8c3N2VEAV/aH4WdUNteY3U8V/qoRGnmk8sERJWM7vMraGuFOEJwBV90uMJsc=
-X-Received: by 2002:a67:e14a:0:b0:3d3:f10a:4f56 with SMTP id
- o10-20020a67e14a000000b003d3f10a4f56mr3535517vsl.10.1674524548266; Mon, 23
- Jan 2023 17:42:28 -0800 (PST)
+ bh=7rxaJ/1EfL1OB3C4ie6J8+jg/0++/S8+Ov+z6ACUdPE=;
+ b=KlGUvUyfXGdXwpaMHiMRhEp/+lA/qzShChBmXXNCcpGB2qmYNVw7eID4kdEf/6wcYc
+ FzB4rHW+BO4vkZEcnlv1CMo+lFteM4yYp9q0Tk1RuW33wkJ3+sFCKKz6aiUgMByRNZ21
+ hZoX9z8TqgK1zvPEzBY2U2WKxrP+GYrXwGfsa+bmtPds4RQEhllbuqa/jKz8GACSS1IE
+ /tLAYWXbvCSrl57oJefbch+/awzY31CucG9xCrbtp5GOKjcgheAbhx6WNQvBtWjNJlZw
+ sblapcZvvyhpAKoZrGkTT8EFW9Q7Algn96X6RYXi+sNlJQxyFaBvqNBRMh1kH7ELXUC7
+ a15g==
+X-Gm-Message-State: AFqh2kqkTy11LU+e1I+D0uBlEhcycB9h9BzqAbVB5Q1+G6tYiogGQtQG
+ QYmxD7y96COLHDl/X4xYwqdWdC/gQnATFSe4OSQ=
+X-Google-Smtp-Source: AMrXdXvpBtEoW73IXLZBKyXGk/icYCMOtjwc1rX92eFQQhUnYXjaQ26aahHziA19fVuvaimqnQjfQCEAXX7+PJOaDQ8=
+X-Received: by 2002:a25:344a:0:b0:803:60ae:431c with SMTP id
+ b71-20020a25344a000000b0080360ae431cmr1289454yba.642.1674524813756; Mon, 23
+ Jan 2023 17:46:53 -0800 (PST)
 MIME-Version: 1.0
-References: <20230123035754.75553-1-alistair.francis@opensource.wdc.com>
- <CAEUhbmUisvp3QFhnz0Ty74=7zn-h4UpdC_b9E3LNr8B7Bp8Y1Q@mail.gmail.com>
-In-Reply-To: <CAEUhbmUisvp3QFhnz0Ty74=7zn-h4UpdC_b9E3LNr8B7Bp8Y1Q@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 24 Jan 2023 11:42:01 +1000
-Message-ID: <CAKmqyKNQ5php2gdJsmL6cmRKkjggHcdoo2Lfw4Z9goQAHtLVQg@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: boot: Don't use CSRs if they are disabled
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: Alistair Francis <alistair.francis@opensource.wdc.com>,
- qemu-devel@nongnu.org, 
- qemu-riscv@nongnu.org, palmer@dabbelt.com, alistair.francis@wdc.com, 
- Bin Meng <bin.meng@windriver.com>
+References: <20230119074602-mutt-send-email-mst@kernel.org>
+ <f9993404-f8b8-7a23-37f8-530313783466@yandex-team.ru>
+ <20230120085534-mutt-send-email-mst@kernel.org>
+ <703d527f-de92-090c-6ce1-af0dec7de033@yandex-team.ru>
+ <20230122030455-mutt-send-email-mst@kernel.org>
+ <b7de3adc-cba7-09eb-ea93-f4bfb91bea9e@yandex-team.ru>
+ <20230122093903-mutt-send-email-mst@kernel.org>
+ <70c0f00a-7828-3ccf-c2ea-49aeef8693e9@yandex-team.ru>
+ <20230122111618-mutt-send-email-mst@kernel.org>
+ <Y87Ri4r6SiETdCrt@work-vm> <Y87lv8fXrYpxkK/3@fedora>
+In-Reply-To: <Y87lv8fXrYpxkK/3@fedora>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 23 Jan 2023 20:46:41 -0500
+Message-ID: <CAJSP0QV5wfXxhvjjFnLLUCvmSxiHxTPXh4qQJwHhnKdBu3EOQQ@mail.gmail.com>
+Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, 
+ Anton Kuchin <antonkuchin@yandex-team.ru>, qemu-devel@nongnu.org,
+ virtio-fs@redhat.com, 
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>, yc-core@yandex-team.ru
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2e;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb36.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -85,66 +96,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 24, 2023 at 11:24 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+On Mon, 23 Jan 2023 at 14:54, Stefan Hajnoczi <stefanha@redhat.com> wrote:
 >
-> On Mon, Jan 23, 2023 at 11:58 AM Alistair Francis
-> <alistair.francis@opensource.wdc.com> wrote:
+> On Mon, Jan 23, 2023 at 06:27:23PM +0000, Dr. David Alan Gilbert wrote:
+> > * Michael S. Tsirkin (mst@redhat.com) wrote:
+> > > On Sun, Jan 22, 2023 at 06:09:40PM +0200, Anton Kuchin wrote:
+> > > >
+> > > > On 22/01/2023 16:46, Michael S. Tsirkin wrote:
+> > > > > On Sun, Jan 22, 2023 at 02:36:04PM +0200, Anton Kuchin wrote:
+> > > > > > > > This flag should be set when qemu don't need to worry about any
+> > > > > > > > external state stored in vhost-user daemons during migration:
+> > > > > > > > don't fail migration, just pack generic virtio device states to
+> > > > > > > > migration stream and orchestrator guarantees that the rest of the
+> > > > > > > > state will be present at the destination to restore full context and
+> > > > > > > > continue running.
+> > > > > > > Sorry  I still do not get it.  So fundamentally, why do we need this property?
+> > > > > > > vhost-user-fs is not created by default that we'd then need opt-in to
+> > > > > > > the special "migrateable" case.
+> > > > > > > That's why I said it might make some sense as a device property as qemu
+> > > > > > > tracks whether device is unplugged for us.
+> > > > > > >
+> > > > > > > But as written, if you are going to teach the orchestrator about
+> > > > > > > vhost-user-fs and its special needs, just teach it when to migrate and
+> > > > > > > where not to migrate.
+> > > > > > >
+> > > > > > > Either we describe the special situation to qemu and let qemu
+> > > > > > > make an intelligent decision whether to allow migration,
+> > > > > > > or we trust the orchestrator. And if it's the latter, then 'migrate'
+> > > > > > > already says orchestrator decided to migrate.
+> > > > > > The problem I'm trying to solve is that most of vhost-user devices
+> > > > > > now block migration in qemu. And this makes sense since qemu can't
+> > > > > > extract and transfer backend daemon state. But this prevents us from
+> > > > > > updating qemu executable via local migration. So this flag is
+> > > > > > intended more as a safety check that says "I know what I'm doing".
+> > > > > >
+> > > > > > I agree that it is not really necessary if we trust the orchestrator
+> > > > > > to request migration only when the migration can be performed in a
+> > > > > > safe way. But changing the current behavior of vhost-user-fs from
+> > > > > > "always blocks migration" to "migrates partial state whenever
+> > > > > > orchestrator requests it" seems a little  dangerous and can be
+> > > > > > misinterpreted as full support for migration in all cases.
+> > > > > It's not really different from block is it? orchestrator has to arrange
+> > > > > for backend migration. I think we just assumed there's no use-case where
+> > > > > this is practical for vhost-user-fs so we blocked it.
+> > > > > But in any case it's orchestrator's responsibility.
+> > > >
+> > > > Yes, you are right. So do you think we should just drop the blocker
+> > > > without adding a new flag?
+> > >
+> > > I'd be inclined to. I am curious what do dgilbert and stefanha think though.
 > >
-> > From: Alistair Francis <alistair.francis@wdc.com>
-> >
-> > If the CSRs and CSR instructions are disabled because the Zicsr
-> > extension isn't enabled then we want to make sure we don't run any CSR
-> > instructions in the boot ROM.
-> >
-> > This patches removes the CSR instructions from the reset-vec if the
-> > extension isn't enabled. We replace the instruction with a NOP instead.
-> >
-> > Note that we don't do this for the SiFive U machine, as we are modelling
-> > the hardware in that case.
-> >
-> > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1447
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  hw/riscv/boot.c | 9 +++++++++
-> >  1 file changed, 9 insertions(+)
-> >
-> > diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> > index 2594276223..cb27798a25 100644
-> > --- a/hw/riscv/boot.c
-> > +++ b/hw/riscv/boot.c
-> > @@ -356,6 +356,15 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
-> >          reset_vec[4] = 0x0182b283;   /*     ld     t0, 24(t0) */
-> >      }
-> >
-> > +    if (!harts->harts[0].cfg.ext_icsr) {
-> > +        /*
-> > +         * The Zicsr extension has been disabled, so let's ensure we don't
-> > +         * run the CSR instruction. Let's fill the address with a non
-> > +         * compressed nop.
-> > +         */
-> > +        reset_vec[2] = 0x00000013;   /*     addi   x0, x0, 0 */
-> > +    }
+> > Yes I think that's probably OK, as long as we use the flag for knowing
+> > how to handle the discard bitmap as a proxy for the daemon knowing how
+> > to handle *some* migrations; knowing which migrations is then the job
+> > for the orchestrator to be careful of.
 >
-> This is fine for a UP system. I am not sure how SMP can be supported
-> without Zicsr as we need to assign hartid in a0.
+> I think the feature bit is not a good way to detect live migration
+> support. vhost-user backends typically use libvhost-user, rust-vmm's
+> vhost-user-backend crate, etc where this feature can be implemented for
+> free. If the feature bit is advertized we don't know if the device
+> implementation (net, blk, fs, etc) is aware of migration at all.
 
-Yeah. My thinking was that no one would be using a multicore system
-without Zicsr as it's such a core extension. If they are running
-without Zicsr they have probably hard coded a lot of things anyway and
-don't expect this to work.
+I checked how bad the situation is. libvhost-user currently enables
+LOG_ALL by default. :(
 
-In general I think it's pretty rare to even run a RISC-V core without
-Zicsr at all.
+So I don't think the front-end can use LOG_ALL alone to determine
+whether or not migration is supported by the back-end.
 
-Alistair
+There are several existing back-ends based on libvhost-user that have
+no concept of reconnection or migration but report the LOG_ALL feature
+bit.
 
->
-> > +
-> >      /* copy in the reset vector in little_endian byte order */
-> >      for (i = 0; i < ARRAY_SIZE(reset_vec); i++) {
-> >          reset_vec[i] = cpu_to_le32(reset_vec[i]);
-> > --
->
-> Regards,
-> Bin
+Stefan
 
