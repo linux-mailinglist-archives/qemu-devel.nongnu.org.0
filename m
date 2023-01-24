@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C43D678F4A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 05:36:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 13A13678F42
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 05:33:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKAyn-0002Lm-DA; Mon, 23 Jan 2023 23:32:17 -0500
+	id 1pKAyq-0002O9-0c; Mon, 23 Jan 2023 23:32:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pKAyk-0002Kj-TG
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 23:32:14 -0500
+ id 1pKAyo-0002MI-8M
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 23:32:18 -0500
 Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pKAyj-0002Nm-0t
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 23:32:14 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id b10so13684254pjo.1
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 20:32:12 -0800 (PST)
+ id 1pKAym-0002OT-1f
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 23:32:17 -0500
+Received: by mail-pj1-x102e.google.com with SMTP id
+ y3-20020a17090a390300b00229add7bb36so12910819pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 20:32:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=qQAThEFT+OOf4M3xlMKLI4kuAC9hcUfjxpclwetq4QM=;
- b=kdf6DqrXKLpL+m2jc0q27dYR6HUwNa/bXeKlKLDO3kN4NubhOAQl4uetM+taoA471+
- CZBS2vChthOW+KdS0H1ON8zBsnqv21NGsKnLiOBAtJfuaHKEMF/APH0tCE07P0/JEVAP
- YiUTNcUyFoyWJSobgtMhO3xhZu90CEeP5tGGRyLy8yzUsxuySUAOxSWr0zdqyP1/bKG2
- xsFx7miH+vPwP9mb/hYHp1mY1cI+0bpw4H7cyBYIOIhdSHGJp2ZnmfoXBtnnH5hWm+Zu
- N8JWudTuTNCgTYqeUZQ69RobOtUkSG10weq9ykdbIejsg+NB/yhW0MfiA9pzlynCYFZK
- B/hg==
+ bh=DeSwxIIF4Jth3AqEMShTMZwzFnXESjinfyzNZ4cR+Go=;
+ b=DOOKrCoRRQnmJoFgGFUTYzoHd5riCN0UwVBzmVDCkQiBcNqoANGkR/S8VUEq2pnSQI
+ 6P1824ElPZcd8YdIKUPw3633oMyF7tfAqudUsT1uDjvfWolC0dn+ruQXuNyL+Cq5g9vn
+ vP+xdBM2W3AzBna/Mxu8TdR3APV++yR/b8RST/9oB2SBDdZamq6/8Q6K/OsWKCG6x3xC
+ J+VFbixnOrHYyNCaSU9e27+kZ+p+83VlWTH+ecQkmQXldQVN6FSnu9Xtwh8NKeFRDWwj
+ QlwKH1cEfHE4nQBuKGxF0BIxgG0I+gxpvBCGKOMWT3qdu7wpT8sqsfsEda5gC6+ryGUH
+ brow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=qQAThEFT+OOf4M3xlMKLI4kuAC9hcUfjxpclwetq4QM=;
- b=7BxMsYkuGl5qrhyK2reyULKyWNWTyhoVrIHeG7/Spnd2c5hUcY2FeuOw8Tby/3e8NF
- 8b4/7Z4gnB0bk9KecIWYWuntDenbx1/rHU5h27gXoUOa+c9RRdrocEbAkfLFaI4Cokil
- myzM/FyYNPQYD465XDuKqft1viubeJL7Ofhwl+SRqRomhOH+S1oChaaGirO6yJv8pYdR
- IucbbgryO/siJJmzStvBSV365D9OkbDLINsLYd1YoGabrZccX93avUHP9AbisSocOm5s
- QFAvDDTGA2ti/xEZVkh/XK5Mbga+Qvsesh0oWkPKD0ZXvBeiJpLqsvETQfr1FXyiJLEk
- 9Q4Q==
-X-Gm-Message-State: AFqh2koEYBQGm+DtIcWMj29x/dMHrzh6+x8b0ucEAUBlOks8hctuCApl
- UkJjNCSrDuBVtWwIyxSI0bW//qoCWZxDqN1l
-X-Google-Smtp-Source: AMrXdXvRPIKeUPPZeU0nELbBL7PUff17Dqq6c+1i8Gklq9JQu/duEktVvWXyBZLKf1Xb+p/rVE27gw==
-X-Received: by 2002:a17:902:e54b:b0:194:7efa:702f with SMTP id
- n11-20020a170902e54b00b001947efa702fmr35711244plf.53.1674534731852; 
- Mon, 23 Jan 2023 20:32:11 -0800 (PST)
+ bh=DeSwxIIF4Jth3AqEMShTMZwzFnXESjinfyzNZ4cR+Go=;
+ b=hCHdcSHK8VVdL2/QOLSC2u6p7HrxyF+0m4VzVrxfNuzoOvdShL9YK0Gi4p90dEaO18
+ 49JY9TxRO4a7vI4QbgXN30Wk/n+1ujeUv8lft/38hSNIvQJNnCir2IPijwOrizdbhnZ7
+ vhFI9WxXLcA1SyZsQYxnM/6NOFkmoTvxJxdpMPk7nOyIpzEya4AhknYmFYFgz2RR0QJT
+ r2Mjn9imsGjGSw3AcVmiqkIJsR35DYW8LmNaY3e+H0C5goX0qoExxlmuvSJW1Q2eDoK6
+ 6DcMQ/0Pz32pELS2f2Lo47J/2UaGFBFX58cbEfHVfaC+k11mAvcbnyrBnxLNkzK9zwrm
+ xKSg==
+X-Gm-Message-State: AFqh2kqh8x0828P3aDFOTzwwkJQHfHW17GqSieYQTxQyndqVa/0YDoi6
+ tn7NU15/wiAOajsN81mPgjOs7Q==
+X-Google-Smtp-Source: AMrXdXtC3arMbIpxUam9mDWPBiqbeCFdw2solNsmVoUiePLDYAvKRT08pyOCLp5VxxKFjHTw0qe8eQ==
+X-Received: by 2002:a17:902:b18f:b0:193:234:443a with SMTP id
+ s15-20020a170902b18f00b001930234443amr24719857plr.45.1674534734954; 
+ Mon, 23 Jan 2023 20:32:14 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- z5-20020a170902708500b00196030312ccsm548033plk.78.2023.01.23.20.32.09
+ z5-20020a170902708500b00196030312ccsm548033plk.78.2023.01.23.20.32.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 20:32:11 -0800 (PST)
+ Mon, 23 Jan 2023 20:32:14 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -65,14 +66,16 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Yan Vugenfirer <yvugenfi@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v2 06/26] e1000e: Mask registers when writing
-Date: Tue, 24 Jan 2023 13:31:23 +0900
-Message-Id: <20230124043143.5515-7-akihiko.odaki@daynix.com>
+ Akihiko Odaki <akihiko.odaki@daynix.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v2 07/26] e1000: Use more constant definitions
+Date: Tue, 24 Jan 2023 13:31:24 +0900
+Message-Id: <20230124043143.5515-8-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230124043143.5515-1-akihiko.odaki@daynix.com>
 References: <20230124043143.5515-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
  envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102e.google.com
@@ -97,195 +100,213 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When a register has effective bits fewer than their width, the old code
-inconsistently masked when writing or reading. Make the code consistent
-by always masking when writing, and remove some code duplication.
+The definitions for E1000_VFTA_ENTRY_SHIFT, E1000_VFTA_ENTRY_MASK, and
+E1000_VFTA_ENTRY_BIT_SHIFT_MASK were copied from:
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/net/ethernet/intel/e1000/e1000_hw.h?h=v6.0.9#n306
+
+The definitions for E1000_NUM_UNICAST, E1000_MC_TBL_SIZE, and
+E1000_VLAN_FILTER_TBL_SIZE were copied from:
+https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/net/ethernet/intel/e1000/e1000_hw.h?h=v6.0.9#n707
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/net/e1000e_core.c | 94 +++++++++++++++++++-------------------------
- 1 file changed, 40 insertions(+), 54 deletions(-)
+ hw/net/e1000.c         | 50 +++++++++++++++++++++++-------------------
+ hw/net/e1000_regs.h    |  9 ++++++++
+ hw/net/e1000x_common.c |  5 +++--
+ hw/net/e1000x_common.h |  2 +-
+ 4 files changed, 41 insertions(+), 25 deletions(-)
 
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index 181c1e0c2a..e6fc85ea51 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -2440,17 +2440,19 @@ e1000e_set_fcrtl(E1000ECore *core, int index, uint32_t val)
-     core->mac[FCRTL] = val & 0x8000FFF8;
- }
+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+index 0925a99511..d9d048f665 100644
+--- a/hw/net/e1000.c
++++ b/hw/net/e1000.c
+@@ -43,8 +43,6 @@
+ #include "trace.h"
+ #include "qom/object.h"
  
--static inline void
--e1000e_set_16bit(E1000ECore *core, int index, uint32_t val)
--{
--    core->mac[index] = val & 0xffff;
--}
-+#define E1000E_LOW_BITS_SET_FUNC(num)                                \
-+    static void                                                      \
-+    e1000e_set_##num##bit(E1000ECore *core, int index, uint32_t val) \
-+    {                                                                \
-+        core->mac[index] = val & (BIT(num) - 1);                     \
-+    }
- 
--static void
--e1000e_set_12bit(E1000ECore *core, int index, uint32_t val)
--{
--    core->mac[index] = val & 0xfff;
--}
-+E1000E_LOW_BITS_SET_FUNC(4)
-+E1000E_LOW_BITS_SET_FUNC(6)
-+E1000E_LOW_BITS_SET_FUNC(11)
-+E1000E_LOW_BITS_SET_FUNC(12)
-+E1000E_LOW_BITS_SET_FUNC(13)
-+E1000E_LOW_BITS_SET_FUNC(16)
- 
- static void
- e1000e_set_vet(E1000ECore *core, int index, uint32_t val)
-@@ -2621,22 +2623,6 @@ e1000e_mac_ims_read(E1000ECore *core, int index)
-     return core->mac[IMS];
- }
- 
--#define E1000E_LOW_BITS_READ_FUNC(num)                      \
--    static uint32_t                                         \
--    e1000e_mac_low##num##_read(E1000ECore *core, int index) \
--    {                                                       \
--        return core->mac[index] & (BIT(num) - 1);           \
--    }                                                       \
+-static const uint8_t bcast[] = {0xff, 0xff, 0xff, 0xff, 0xff, 0xff};
 -
--#define E1000E_LOW_BITS_READ(num)                           \
--    e1000e_mac_low##num##_read
--
--E1000E_LOW_BITS_READ_FUNC(4);
--E1000E_LOW_BITS_READ_FUNC(6);
--E1000E_LOW_BITS_READ_FUNC(11);
--E1000E_LOW_BITS_READ_FUNC(13);
--E1000E_LOW_BITS_READ_FUNC(16);
--
- static uint32_t
- e1000e_mac_swsm_read(E1000ECore *core, int index)
+ /* #define E1000_DEBUG */
+ 
+ #ifdef E1000_DEBUG
+@@ -67,9 +65,8 @@ static int debugflags = DBGBIT(TXERR) | DBGBIT(GENERAL);
+ 
+ #define IOPORT_SIZE       0x40
+ #define PNPMMIO_SIZE      0x20000
+-#define MIN_BUF_SIZE      60 /* Min. octets in an ethernet frame sans FCS */
+ 
+-#define MAXIMUM_ETHERNET_HDR_LEN (14+4)
++#define MAXIMUM_ETHERNET_HDR_LEN (ETH_HLEN + 4)
+ 
+ /*
+  * HW models:
+@@ -239,10 +236,16 @@ static const uint16_t phy_reg_init[] = {
+ 
+     [MII_PHYID1] = 0x141,
+     /* [MII_PHYID2] configured per DevId, from e1000_reset() */
+-    [MII_ANAR] = 0xde1,
+-    [MII_ANLPAR] = 0x1e0,
+-    [MII_CTRL1000] = 0x0e00,
+-    [MII_STAT1000] = 0x3c00,
++    [MII_ANAR] = MII_ANAR_CSMACD | MII_ANAR_10 |
++                 MII_ANAR_10FD | MII_ANAR_TX |
++                 MII_ANAR_TXFD | MII_ANAR_PAUSE |
++                 MII_ANAR_PAUSE_ASYM,
++    [MII_ANLPAR] = MII_ANLPAR_10 | MII_ANLPAR_10FD |
++                   MII_ANLPAR_TX | MII_ANLPAR_TXFD,
++    [MII_CTRL1000] = MII_CTRL1000_FULL | MII_CTRL1000_PORT |
++                     MII_CTRL1000_MASTER,
++    [MII_STAT1000] = MII_STAT1000_HALF | MII_STAT1000_FULL |
++                     MII_STAT1000_ROK | MII_STAT1000_LOK,
+     [M88E1000_PHY_SPEC_CTRL] = 0x360,
+     [M88E1000_PHY_SPEC_STATUS] = 0xac00,
+     [M88E1000_EXT_PHY_SPEC_CTRL] = 0x0d60,
+@@ -548,9 +551,9 @@ putsum(uint8_t *data, uint32_t n, uint32_t sloc, uint32_t css, uint32_t cse)
+ static inline void
+ inc_tx_bcast_or_mcast_count(E1000State *s, const unsigned char *arr)
  {
-@@ -2930,7 +2916,19 @@ static const readops e1000e_macreg_readops[] = {
-     e1000e_getreg(LATECOL),
-     e1000e_getreg(SEQEC),
-     e1000e_getreg(XONTXC),
-+    e1000e_getreg(AIT),
-+    e1000e_getreg(TDFH),
-+    e1000e_getreg(TDFT),
-+    e1000e_getreg(TDFHS),
-+    e1000e_getreg(TDFTS),
-+    e1000e_getreg(TDFPC),
-     e1000e_getreg(WUS),
-+    e1000e_getreg(PBS),
-+    e1000e_getreg(RDFH),
-+    e1000e_getreg(RDFT),
-+    e1000e_getreg(RDFHS),
-+    e1000e_getreg(RDFTS),
-+    e1000e_getreg(RDFPC),
-     e1000e_getreg(GORCL),
-     e1000e_getreg(MGTPRC),
-     e1000e_getreg(EERD),
-@@ -3066,16 +3064,9 @@ static const readops e1000e_macreg_readops[] = {
-     [MPTC]    = e1000e_mac_read_clr4,
-     [IAC]     = e1000e_mac_read_clr4,
-     [ICR]     = e1000e_mac_icr_read,
--    [RDFH]    = E1000E_LOW_BITS_READ(13),
--    [RDFHS]   = E1000E_LOW_BITS_READ(13),
--    [RDFPC]   = E1000E_LOW_BITS_READ(13),
--    [TDFH]    = E1000E_LOW_BITS_READ(13),
--    [TDFHS]   = E1000E_LOW_BITS_READ(13),
-     [STATUS]  = e1000e_get_status,
-     [TARC0]   = e1000e_get_tarc,
--    [PBS]     = E1000E_LOW_BITS_READ(6),
-     [ICS]     = e1000e_mac_ics_read,
--    [AIT]     = E1000E_LOW_BITS_READ(16),
-     [TORH]    = e1000e_mac_read_clr8,
-     [GORCH]   = e1000e_mac_read_clr8,
-     [PRC127]  = e1000e_mac_read_clr4,
-@@ -3091,11 +3082,6 @@ static const readops e1000e_macreg_readops[] = {
-     [BPTC]    = e1000e_mac_read_clr4,
-     [TSCTC]   = e1000e_mac_read_clr4,
-     [ITR]     = e1000e_mac_itr_read,
--    [RDFT]    = E1000E_LOW_BITS_READ(13),
--    [RDFTS]   = E1000E_LOW_BITS_READ(13),
--    [TDFPC]   = E1000E_LOW_BITS_READ(13),
--    [TDFT]    = E1000E_LOW_BITS_READ(13),
--    [TDFTS]   = E1000E_LOW_BITS_READ(13),
-     [CTRL]    = e1000e_get_ctrl,
-     [TARC1]   = e1000e_get_tarc,
-     [SWSM]    = e1000e_mac_swsm_read,
-@@ -3108,10 +3094,10 @@ static const readops e1000e_macreg_readops[] = {
-     [WUPM ... WUPM + 31]   = e1000e_mac_readreg,
-     [MTA ... MTA + 127]    = e1000e_mac_readreg,
-     [VFTA ... VFTA + 127]  = e1000e_mac_readreg,
--    [FFMT ... FFMT + 254]  = E1000E_LOW_BITS_READ(4),
-+    [FFMT ... FFMT + 254]  = e1000e_mac_readreg,
-     [FFVT ... FFVT + 254]  = e1000e_mac_readreg,
-     [MDEF ... MDEF + 7]    = e1000e_mac_readreg,
--    [FFLT ... FFLT + 10]   = E1000E_LOW_BITS_READ(11),
-+    [FFLT ... FFLT + 10]   = e1000e_mac_readreg,
-     [FTFT ... FTFT + 254]  = e1000e_mac_readreg,
-     [PBM ... PBM + 10239]  = e1000e_mac_readreg,
-     [RETA ... RETA + 31]   = e1000e_mac_readreg,
-@@ -3134,19 +3120,8 @@ static const writeops e1000e_macreg_writeops[] = {
-     e1000e_putreg(LEDCTL),
-     e1000e_putreg(FCAL),
-     e1000e_putreg(FCRUC),
--    e1000e_putreg(AIT),
--    e1000e_putreg(TDFH),
--    e1000e_putreg(TDFT),
--    e1000e_putreg(TDFHS),
--    e1000e_putreg(TDFTS),
--    e1000e_putreg(TDFPC),
-     e1000e_putreg(WUC),
-     e1000e_putreg(WUS),
--    e1000e_putreg(RDFH),
--    e1000e_putreg(RDFT),
--    e1000e_putreg(RDFHS),
--    e1000e_putreg(RDFTS),
--    e1000e_putreg(RDFPC),
-     e1000e_putreg(IPAV),
-     e1000e_putreg(TDBAH1),
-     e1000e_putreg(TIMINCA),
-@@ -3157,7 +3132,6 @@ static const writeops e1000e_macreg_writeops[] = {
-     e1000e_putreg(TARC1),
-     e1000e_putreg(FLSWDATA),
-     e1000e_putreg(POEMB),
--    e1000e_putreg(PBS),
-     e1000e_putreg(MFUTP01),
-     e1000e_putreg(MFUTP23),
-     e1000e_putreg(MANC),
-@@ -3222,6 +3196,18 @@ static const writeops e1000e_macreg_writeops[] = {
-     [TADV]     = e1000e_set_16bit,
-     [ITR]      = e1000e_set_itr,
-     [EERD]     = e1000e_set_eerd,
-+    [AIT]      = e1000e_set_16bit,
-+    [TDFH]     = e1000e_set_13bit,
-+    [TDFT]     = e1000e_set_13bit,
-+    [TDFHS]    = e1000e_set_13bit,
-+    [TDFTS]    = e1000e_set_13bit,
-+    [TDFPC]    = e1000e_set_13bit,
-+    [RDFH]     = e1000e_set_13bit,
-+    [RDFHS]    = e1000e_set_13bit,
-+    [RDFT]     = e1000e_set_13bit,
-+    [RDFTS]    = e1000e_set_13bit,
-+    [RDFPC]    = e1000e_set_13bit,
-+    [PBS]      = e1000e_set_6bit,
-     [GCR]      = e1000e_set_gcr,
-     [PSRCTL]   = e1000e_set_psrctl,
-     [RXCSUM]   = e1000e_set_rxcsum,
-@@ -3261,11 +3247,11 @@ static const writeops e1000e_macreg_writeops[] = {
-     [WUPM ... WUPM + 31]     = e1000e_mac_writereg,
-     [MTA ... MTA + 127]      = e1000e_mac_writereg,
-     [VFTA ... VFTA + 127]    = e1000e_mac_writereg,
--    [FFMT ... FFMT + 254]    = e1000e_mac_writereg,
-+    [FFMT ... FFMT + 254]    = e1000e_set_4bit,
-     [FFVT ... FFVT + 254]    = e1000e_mac_writereg,
-     [PBM ... PBM + 10239]    = e1000e_mac_writereg,
-     [MDEF ... MDEF + 7]      = e1000e_mac_writereg,
--    [FFLT ... FFLT + 10]     = e1000e_mac_writereg,
-+    [FFLT ... FFLT + 10]     = e1000e_set_11bit,
-     [FTFT ... FTFT + 254]    = e1000e_mac_writereg,
-     [RETA ... RETA + 31]     = e1000e_mac_writereg,
-     [RSSRK ... RSSRK + 31]   = e1000e_mac_writereg,
+-    if (!memcmp(arr, bcast, sizeof bcast)) {
++    if (is_broadcast_ether_addr(arr)) {
+         e1000x_inc_reg_if_not_full(s->mac_reg, BPTC);
+-    } else if (arr[0] & 1) {
++    } else if (is_multicast_ether_addr(arr)) {
+         e1000x_inc_reg_if_not_full(s->mac_reg, MPTC);
+     }
+ }
+@@ -804,14 +807,16 @@ static int
+ receive_filter(E1000State *s, const uint8_t *buf, int size)
+ {
+     uint32_t rctl = s->mac_reg[RCTL];
+-    int isbcast = !memcmp(buf, bcast, sizeof bcast), ismcast = (buf[0] & 1);
++    int isbcast = is_broadcast_ether_addr(buf);
++    int ismcast = is_multicast_ether_addr(buf);
+ 
+     if (e1000x_is_vlan_packet(buf, le16_to_cpu(s->mac_reg[VET])) &&
+         e1000x_vlan_rx_filter_enabled(s->mac_reg)) {
+-        uint16_t vid = lduw_be_p(buf + 14);
+-        uint32_t vfta = ldl_le_p((uint32_t *)(s->mac_reg + VFTA) +
+-                                 ((vid >> 5) & 0x7f));
+-        if ((vfta & (1 << (vid & 0x1f))) == 0) {
++        uint16_t vid = lduw_be_p(&PKT_GET_VLAN_HDR(buf)->h_tci);
++        uint32_t vfta =
++            ldl_le_p((uint32_t *)(s->mac_reg + VFTA) +
++                     ((vid >> E1000_VFTA_ENTRY_SHIFT) & E1000_VFTA_ENTRY_MASK));
++        if ((vfta & (1 << (vid & E1000_VFTA_ENTRY_BIT_SHIFT_MASK))) == 0) {
+             return 0;
+         }
+     }
+@@ -909,7 +914,7 @@ e1000_receive_iov(NetClientState *nc, const struct iovec *iov, int iovcnt)
+     uint32_t rdh_start;
+     uint16_t vlan_special = 0;
+     uint8_t vlan_status = 0;
+-    uint8_t min_buf[MIN_BUF_SIZE];
++    uint8_t min_buf[ETH_ZLEN];
+     struct iovec min_iov;
+     uint8_t *filter_buf = iov->iov_base;
+     size_t size = iov_size(iov, iovcnt);
+@@ -1204,8 +1209,8 @@ static const readops macreg_readops[] = {
+     [FFLT ... FFLT + 6]   = &mac_readreg,
+     [RA ... RA + 31]      = &mac_readreg,
+     [WUPM ... WUPM + 31]  = &mac_readreg,
+-    [MTA ... MTA + 127]   = &mac_readreg,
+-    [VFTA ... VFTA + 127] = &mac_readreg,
++    [MTA ... MTA + E1000_MC_TBL_SIZE - 1]   = &mac_readreg,
++    [VFTA ... VFTA + E1000_VLAN_FILTER_TBL_SIZE - 1] = &mac_readreg,
+     [FFMT ... FFMT + 254] = &mac_readreg,
+     [FFVT ... FFVT + 254] = &mac_readreg,
+     [PBM ... PBM + 16383] = &mac_readreg,
+@@ -1236,8 +1241,8 @@ static const writeops macreg_writeops[] = {
+     [FFLT ... FFLT + 6]   = &set_11bit,
+     [RA ... RA + 31]      = &mac_writereg,
+     [WUPM ... WUPM + 31]  = &mac_writereg,
+-    [MTA ... MTA + 127]   = &mac_writereg,
+-    [VFTA ... VFTA + 127] = &mac_writereg,
++    [MTA ... MTA + E1000_MC_TBL_SIZE - 1] = &mac_writereg,
++    [VFTA ... VFTA + E1000_VLAN_FILTER_TBL_SIZE - 1] = &mac_writereg,
+     [FFMT ... FFMT + 254] = &set_4bit,     [FFVT ... FFVT + 254] = &mac_writereg,
+     [PBM ... PBM + 16383] = &mac_writereg,
+ };
+@@ -1603,8 +1608,9 @@ static const VMStateDescription vmstate_e1000 = {
+         VMSTATE_UINT32(mac_reg[WUFC], E1000State),
+         VMSTATE_UINT32(mac_reg[VET], E1000State),
+         VMSTATE_UINT32_SUB_ARRAY(mac_reg, E1000State, RA, 32),
+-        VMSTATE_UINT32_SUB_ARRAY(mac_reg, E1000State, MTA, 128),
+-        VMSTATE_UINT32_SUB_ARRAY(mac_reg, E1000State, VFTA, 128),
++        VMSTATE_UINT32_SUB_ARRAY(mac_reg, E1000State, MTA, E1000_MC_TBL_SIZE),
++        VMSTATE_UINT32_SUB_ARRAY(mac_reg, E1000State, VFTA,
++                                 E1000_VLAN_FILTER_TBL_SIZE),
+         VMSTATE_END_OF_LIST()
+     },
+     .subsections = (const VMStateDescription*[]) {
+diff --git a/hw/net/e1000_regs.h b/hw/net/e1000_regs.h
+index 59d6eb3189..3f6b5d0c52 100644
+--- a/hw/net/e1000_regs.h
++++ b/hw/net/e1000_regs.h
+@@ -1154,6 +1154,11 @@ struct e1000_data_desc {
+     } upper;
+ };
+ 
++/* Filters */
++#define E1000_NUM_UNICAST          16  /* Unicast filter entries */
++#define E1000_MC_TBL_SIZE          128 /* Multicast Filter Table (4096 bits) */
++#define E1000_VLAN_FILTER_TBL_SIZE 128 /* VLAN Filter Table (4096 bits) */
++
+ /* Management Control */
+ #define E1000_MANC_SMBUS_EN      0x00000001 /* SMBus Enabled - RO */
+ #define E1000_MANC_ASF_EN        0x00000002 /* ASF Enabled - RO */
+@@ -1202,4 +1207,8 @@ struct e1000_data_desc {
+ #define E1000_IOADDR 0x00
+ #define E1000_IODATA 0x04
+ 
++#define E1000_VFTA_ENTRY_SHIFT          5
++#define E1000_VFTA_ENTRY_MASK           0x7F
++#define E1000_VFTA_ENTRY_BIT_SHIFT_MASK 0x1F
++
+ #endif /* HW_E1000_REGS_H */
+diff --git a/hw/net/e1000x_common.c b/hw/net/e1000x_common.c
+index e79d4c79bd..b3bbf31582 100644
+--- a/hw/net/e1000x_common.c
++++ b/hw/net/e1000x_common.c
+@@ -26,6 +26,7 @@
+ #include "qemu/units.h"
+ #include "hw/net/mii.h"
+ #include "hw/pci/pci_device.h"
++#include "net/eth.h"
+ #include "net/net.h"
+ 
+ #include "e1000x_common.h"
+@@ -48,7 +49,7 @@ bool e1000x_rx_ready(PCIDevice *d, uint32_t *mac)
+ 
+ bool e1000x_is_vlan_packet(const uint8_t *buf, uint16_t vet)
+ {
+-    uint16_t eth_proto = lduw_be_p(buf + 12);
++    uint16_t eth_proto = lduw_be_p(&PKT_GET_ETH_HDR(buf)->h_proto);
+     bool res = (eth_proto == vet);
+ 
+     trace_e1000x_vlan_is_vlan_pkt(res, eth_proto, vet);
+@@ -67,7 +68,7 @@ bool e1000x_rx_group_filter(uint32_t *mac, const uint8_t *buf)
+         }
+         ra[0] = cpu_to_le32(rp[0]);
+         ra[1] = cpu_to_le32(rp[1]);
+-        if (!memcmp(buf, (uint8_t *)ra, 6)) {
++        if (!memcmp(buf, (uint8_t *)ra, ETH_ALEN)) {
+             trace_e1000x_rx_flt_ucast_match((int)(rp - mac - RA) / 2,
+                                             MAC_ARG(buf));
+             return true;
+diff --git a/hw/net/e1000x_common.h b/hw/net/e1000x_common.h
+index 3501e4855a..b991d814b1 100644
+--- a/hw/net/e1000x_common.h
++++ b/hw/net/e1000x_common.h
+@@ -102,7 +102,7 @@ enum {
+ static inline void
+ e1000x_inc_reg_if_not_full(uint32_t *mac, int index)
+ {
+-    if (mac[index] != 0xffffffff) {
++    if (mac[index] != UINT32_MAX) {
+         mac[index]++;
+     }
+ }
 -- 
 2.39.0
 
