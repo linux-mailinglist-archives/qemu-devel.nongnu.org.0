@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3266A678DE4
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:06:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4AA08678DE1
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:06:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK8gk-0008Qs-OI; Mon, 23 Jan 2023 21:05:30 -0500
+	id 1pK8gj-0008QS-CK; Mon, 23 Jan 2023 21:05:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8gd-0008PB-He
+ id 1pK8ge-0008PD-Cd
  for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:24 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8gb-0003se-Lb
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:23 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id o13so13449916pjg.2
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:21 -0800 (PST)
+ id 1pK8gc-0003oT-KD
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:24 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id a18so789953plm.2
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=gK/RYDKYmyheuWzEx2e/8fES02grPktU+6HiGLPgSJw=;
- b=daAYxI9MwewWigLTaaAZX8CvImZz5m630ZPFGko+cTVKJTB6TEcdjuPoMFJB1yzBD9
- LnfU5guLbNTgJcIU3xuUQ60at8IBYVTESrZsvcQLUamW5BX20y9oSt48nxyRtLOkhx5K
- FoDT9rSCHeqNX/ofK7ftjqn7XtQSq3Wdv7ATZeiXV1C0kIXhqcRBQKkrHDdmuiCB+k7/
- qiOkRhl6P8lP70bS9qj8rYiwJSNdw7p616LDJsqToCcBMpftKdeHOK3LbZrIG24vUGxS
- zcl2+nNua13Qe3nVB0WhiHYI8MiRD55Ur7I1hEntVzDOhEtcFM+zDRkOikYl4POhUta3
- kHTg==
+ bh=S4RKktMcPf3rE7CRNPQPl4hZIXa54SUO3jBV2MtYQsw=;
+ b=f8sfINkTADLVNu4YdzXrTS3VT1PnAjgEi7bG4VKoQvhyTPCI8vIzp8FhFxfTSEF6N8
+ jhfwiHS/1PMLMTO+IWWFQ+nVQOA6GS0qWyI+daApp86g8GgNFT+hKi7QIbbGXGKFAqzX
+ xt4KK2/InoBU7L6GWOUF8O3BC/eTS6l+HNUFrMQpM0sEYlkgfCW0XvTgMBuljAWSudOT
+ H3maPj4M230T488VKt24r8WhWV7zK6lVJ4NMDcgmcl741SmdTILpc2wYXV9ZKt3LOIRS
+ fizynaKsDdNJLu0nQN7uDw3CMVg5QFP+cWUHozF+tX/cGhZjGD4sS/LYNbq4WltuE4V3
+ 2T7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gK/RYDKYmyheuWzEx2e/8fES02grPktU+6HiGLPgSJw=;
- b=Q/7DIQeaorsqCOrqElgJwyXxWgM6ppOsQT5pumd14TB8nZb9seYP6gNZhSoJkDVo2k
- Z2fZqGzP4KdUu6Fc/LtWtdCQDYYbrOqLm6TpquDPsyqrexmWoyu2jERvqxz/CaSSA7fS
- 17L+3Q2BX48tpRRbs+pAi6AM6rbtD/tsUy7SJ/U3XWNst03aQiZMouTX8z1LhQX8/usX
- UixAEPMxEn+QqbfQSa2b58yBi71gpBaOkXIPIF1Lanr9cAde4XzFhxEyS28mpzv3zjUn
- DHxRO+3YSnl1pA8cNTGTie43ECVGFyTUdDbet18u9dNZK98U1TvqxA61JQFdCxG7MJ5x
- SjBA==
-X-Gm-Message-State: AFqh2kppyPa6N3Cdrz4MhrMxsWnigD2obxMXkYzR9iX0+dMTOstrGVaQ
- zISX2JtqVLEWenMADkVb4k0t4C71p6Fqr4HJ
-X-Google-Smtp-Source: AMrXdXvtkSKH0gY+SO5SpgSilBsyLlDhLK8YgSxEPyPrDlNjwAMtfR1sjbUV5hyr5uVIvGAkH2nbyA==
-X-Received: by 2002:a17:90b:1d0c:b0:22b:b76b:5047 with SMTP id
- on12-20020a17090b1d0c00b0022bb76b5047mr14092285pjb.8.1674525920227; 
- Mon, 23 Jan 2023 18:05:20 -0800 (PST)
+ bh=S4RKktMcPf3rE7CRNPQPl4hZIXa54SUO3jBV2MtYQsw=;
+ b=gF4JqfElMUpDDJvBjqarMNlK6FUy8Ziz0NcE4TwAGnR1IcTzoxmfX1KEuEjFli2yZZ
+ jK1lX0/Qrt2xztUAkjVmsToZkQ5GKW7Kzi1NKLDrJAxzeEx9NVdaLi2KlfYZ3p6u9y8y
+ U0LShfhzcmpyoHDVeU2uLjPMm8kwKwu2vVxcvDNbh+LEX9MwdZVeaSkRSr4Tca8HSB8p
+ /aLnmdlBZ+ifRCXKspYFGCF5cH7vf6NWo64dy6tlheKbBzQDIOtGoCozHnbvBGDzaDre
+ YT54qM/M+TGqlIchSDIg8IzcvUot233tXBxuqxWEgLQ6qnHkgJCTqPuu/C6yfwW7C97R
+ rO+g==
+X-Gm-Message-State: AFqh2krw9E/OuLUbzMc5AVT6SXYqXdPaw9ZVAAgtgbm2C6CWTZLwYV4I
+ l10MEtFcC4x7DCtKYyVhf0tRsKP2iU7TfwKV
+X-Google-Smtp-Source: AMrXdXsjxCq5kpRKjaQWFBXw2q7s/vmTBhRo4AY21fraigXDtRakhDA9SdMZza9d+KNbvvrmHK0xrw==
+X-Received: by 2002:a17:90a:2f89:b0:219:6619:848a with SMTP id
+ t9-20020a17090a2f8900b002196619848amr28083402pjd.36.1674525921783; 
+ Mon, 23 Jan 2023 18:05:21 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.18
+ fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 18:05:19 -0800 (PST)
+ Mon, 23 Jan 2023 18:05:21 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, WANG Xuerui <git@xen0n.name>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL v2 06/15] target/loongarch: Enable the disassembler for host tcg
-Date: Mon, 23 Jan 2023 16:04:58 -1000
-Message-Id: <20230124020507.3732200-7-richard.henderson@linaro.org>
+Cc: peter.maydell@linaro.org,
+	WANG Xuerui <git@xen0n.name>
+Subject: [PULL v2 07/15] target/loongarch: Disassemble jirl properly
+Date: Mon, 23 Jan 2023 16:04:59 -1000
+Message-Id: <20230124020507.3732200-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124020507.3732200-1-richard.henderson@linaro.org>
 References: <20230124020507.3732200-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,55 +90,68 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Reuse the decodetree based disassembler from
-target/loongarch/ for tcg/loongarch64/.
+While jirl shares the same instruction format as bne etc,
+it is not assembled the same.  In particular, rd is printed
+first not second and the immediate is not pc-relative.
 
-The generation of decode-insns.c.inc into ./libcommon.fa.p/ could
-eventually result in conflict, if any other host requires the same
-trick, but this is good enough for now.
+Decode into the arg_rr_i structure, which prints correctly.
+This changes the "offs" member to "imm", to update translate.
 
 Reviewed-by: WANG Xuerui <git@xen0n.name>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- disas.c                      | 2 ++
- target/loongarch/meson.build | 3 ++-
- 2 files changed, 4 insertions(+), 1 deletion(-)
+ target/loongarch/insns.decode                  | 3 ++-
+ target/loongarch/disas.c                       | 2 +-
+ target/loongarch/insn_trans/trans_branch.c.inc | 2 +-
+ 3 files changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/disas.c b/disas.c
-index 3b31315f40..b087c12c47 100644
---- a/disas.c
-+++ b/disas.c
-@@ -198,6 +198,8 @@ static void initialize_debug_host(CPUDebug *s)
-     s->info.cap_insn_split = 6;
- #elif defined(__hppa__)
-     s->info.print_insn = print_insn_hppa;
-+#elif defined(__loongarch__)
-+    s->info.print_insn = print_insn_loongarch;
- #endif
- }
+diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
+index 3fdc6e148c..de7b8f0f3c 100644
+--- a/target/loongarch/insns.decode
++++ b/target/loongarch/insns.decode
+@@ -67,6 +67,7 @@
+ @rr_ui12                 .... ...... imm:12 rj:5 rd:5    &rr_i
+ @rr_i14s2         .... ....  .............. rj:5 rd:5    &rr_i imm=%i14s2
+ @rr_i16                     .... .. imm:s16 rj:5 rd:5    &rr_i
++@rr_i16s2         .... ..  ................ rj:5 rd:5    &rr_i imm=%offs16
+ @hint_r_i12           .... ...... imm:s12 rj:5 hint:5    &hint_r_i
+ @rrr_sa2p1        .... ........ ... .. rk:5 rj:5 rd:5    &rrr_sa  sa=%sa2p1
+ @rrr_sa2        .... ........ ... sa:2 rk:5 rj:5 rd:5    &rrr_sa
+@@ -444,7 +445,7 @@ beqz            0100 00 ................ ..... .....     @r_offs21
+ bnez            0100 01 ................ ..... .....     @r_offs21
+ bceqz           0100 10 ................ 00 ... .....    @c_offs21
+ bcnez           0100 10 ................ 01 ... .....    @c_offs21
+-jirl            0100 11 ................ ..... .....     @rr_offs16
++jirl            0100 11 ................ ..... .....     @rr_i16s2
+ b               0101 00 ..........................       @offs26
+ bl              0101 01 ..........................       @offs26
+ beq             0101 10 ................ ..... .....     @rr_offs16
+diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
+index 858dfcc53a..7cffd853ec 100644
+--- a/target/loongarch/disas.c
++++ b/target/loongarch/disas.c
+@@ -628,7 +628,7 @@ INSN(beqz,         r_offs)
+ INSN(bnez,         r_offs)
+ INSN(bceqz,        c_offs)
+ INSN(bcnez,        c_offs)
+-INSN(jirl,         rr_offs)
++INSN(jirl,         rr_i)
+ INSN(b,            offs)
+ INSN(bl,           offs)
+ INSN(beq,          rr_offs)
+diff --git a/target/loongarch/insn_trans/trans_branch.c.inc b/target/loongarch/insn_trans/trans_branch.c.inc
+index 65dbdff41e..a860f7e733 100644
+--- a/target/loongarch/insn_trans/trans_branch.c.inc
++++ b/target/loongarch/insn_trans/trans_branch.c.inc
+@@ -23,7 +23,7 @@ static bool trans_jirl(DisasContext *ctx, arg_jirl *a)
+     TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
+     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
  
-diff --git a/target/loongarch/meson.build b/target/loongarch/meson.build
-index 6376f9e84b..690633969f 100644
---- a/target/loongarch/meson.build
-+++ b/target/loongarch/meson.build
-@@ -3,7 +3,6 @@ gen = decodetree.process('insns.decode')
- loongarch_ss = ss.source_set()
- loongarch_ss.add(files(
-   'cpu.c',
--  'disas.c',
- ))
- loongarch_tcg_ss = ss.source_set()
- loongarch_tcg_ss.add(gen)
-@@ -24,6 +23,8 @@ loongarch_softmmu_ss.add(files(
-   'iocsr_helper.c',
- ))
- 
-+common_ss.add(when: 'CONFIG_LOONGARCH_DIS', if_true: [files('disas.c'), gen])
-+
- loongarch_ss.add_all(when: 'CONFIG_TCG', if_true: [loongarch_tcg_ss])
- 
- target_arch += {'loongarch': loongarch_ss}
+-    tcg_gen_addi_tl(cpu_pc, src1, a->offs);
++    tcg_gen_addi_tl(cpu_pc, src1, a->imm);
+     tcg_gen_movi_tl(dest, ctx->base.pc_next + 4);
+     gen_set_gpr(a->rd, dest, EXT_NONE);
+     tcg_gen_lookup_and_goto_ptr();
 -- 
 2.34.1
 
