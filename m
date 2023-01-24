@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B5733678C5D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 01:00:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 123DA678C61
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 01:01:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK6jF-00073i-G1; Mon, 23 Jan 2023 18:59:57 -0500
+	id 1pK6k3-0007d7-GL; Mon, 23 Jan 2023 19:00:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pK6jA-00072x-Q2; Mon, 23 Jan 2023 18:59:52 -0500
-Received: from mail-vs1-xe2f.google.com ([2607:f8b0:4864:20::e2f])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pK6k0-0007bK-Pe
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:00:44 -0500
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pK6j7-0001SI-42; Mon, 23 Jan 2023 18:59:51 -0500
-Received: by mail-vs1-xe2f.google.com with SMTP id t10so14860984vsr.3;
- Mon, 23 Jan 2023 15:59:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=PFWOPvOnxnFt1nZS/xroCnvkkHE6ZU3CpyTkzzQJIf0=;
- b=O+4VsXDAaQB/2VR18qjEXjgDPYpfoQll8zFMi1RbLfFbcMpGj/qXJ9gDRg4dLLb70u
- zgcCSrm77ema8nl+DbukjGNxoY5qQcCQdE8aPHjtBE9Dzx642eWSkWUSJXIQALyA1uxW
- pcaqJENCmBHib5QozkqwkshbbUxtQsK7KOFh+Teg4MHDJyJJ/4JOLvn+QOUTyz03ZiNf
- SYjG9uE6g1+Rbbr5RJlPUZdTztonkz/O7KfrvX3ElekhiU6SX9UtpzCCSkZnPNTq8GFo
- uTCSp5X4e2iVWegSW9Hho4r0CJ3CNCPuh384A0q9nceGhQNqSAHio1+fbpJowjF60VrP
- elSg==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pK6jv-0001jO-Tu
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:00:44 -0500
+Received: by mail-pf1-x434.google.com with SMTP id a184so10095830pfa.9
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 16:00:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=CL44+ydYax+R/gEeZjkpX+Dp1aSuInc2mv+DfWtfLe0=;
+ b=WA3u5HlY97U1esLHHkoQW3+tYvwBUsriRxADZ1NxPO9OlRWkxH/dnjRLCSLHA5xIYL
+ DpXCx59bC1olRjnZvKbWbmEFb5kuzBOrBT3pIKMaz5QBcMOJF6JtseB47V88p5mj+HLk
+ XiujGJHam0AUA1jpjRN3Do9DlfNc57EQ34JA9P4nL/mSWdCpk9arUFVhb4NVDVcmkGkZ
+ nhfbIx25PB/fHQ4aAupuZbhVz/JnUbp0gI/4G/yMtvRSUIWgJWcEFhJy9NNVyA+iCU+Z
+ 4dGMgYm5IWhQzi8u8FdD3tqHFZ7exAx3sMRUYvh1to9taIkxCrrCrHX0Mi4qoFyH0C4L
+ kIWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=PFWOPvOnxnFt1nZS/xroCnvkkHE6ZU3CpyTkzzQJIf0=;
- b=AbGRFN37qHqvd+9Q7TqMo16MATXmMtl7O5gs+pzpNGnmNO2jdnXSEecWZjF0WCUA3o
- nSDFS2+Z1davxg6bspi/Aj5+gxuu1/h+7jphA/oePKdhoHfa7pR2k7ywtWPNe2JAkni+
- NzteHcaWbz7u2C8njXiR2RKjMyHpBVH89IrOgC9HaAJBQLUb8RiNYo4T37Q6adjgK5GL
- PBJ5AFiTqKn0jkOWi6zkktiYeV7IKu78Gj53oEKFo2w90bLZ9woLWidQzI+jzLCxVk79
- uudnmE2mAEbALsgseBy5tyxDzbzd6ZPzd+mHZ5weG6lDO+Os1UUsM0wBS9C6JrsB5Mvh
- YPNw==
-X-Gm-Message-State: AFqh2kp1m9Jfx6VRk0gE41AqJuXw9t1e9IUUDHMtv4fNMb5x9klVwbKw
- 7mmS+HHPh5GDN+AuLmqa3+llSN7HmEVsU6wCa0w=
-X-Google-Smtp-Source: AMrXdXskhhOeOpy3YKC0fGtsYfuGJKqPh72FvPiYw8B5xJvi/WtELek3SqpDrQrlmt1nerirUh89wcCdJW+oDeikL4s=
-X-Received: by 2002:a05:6102:cd4:b0:3d0:c2e9:cb77 with SMTP id
- g20-20020a0561020cd400b003d0c2e9cb77mr3386149vst.54.1674518387689; Mon, 23
- Jan 2023 15:59:47 -0800 (PST)
+ bh=CL44+ydYax+R/gEeZjkpX+Dp1aSuInc2mv+DfWtfLe0=;
+ b=iB8/4qM1VjDneyI+Yuf6V8H0FI6/T9z6VKx7cEEPvvZKexciE9A0pYngVdw8UfgrMr
+ PB7pj9qWWyn9mX1+7nzrUB7IHHSRRmdXGZI0br36b0pdvulxbPZNryEr+BkYXMAwvfUK
+ XbFIPh8UtbbL+S/3KrgU3XkbAS0ru3Ip+vBnj+QdSiYu7Ua9ntAfZ7GekARq1TSKd/PK
+ 6iR5C/jqUpEPwbG7Xw6tIJeeerao9XoNMvFN1HgvA71/sHcdNHOZ+rYnCaPY+hmwmQER
+ +Qp3jAxvYxKP17OeRagoMDQEFokEXR9oBnvScWTtpSc1D5dl8N2l+O7TlKcklPBcKtUg
+ foVw==
+X-Gm-Message-State: AFqh2kqca3gMe+Xsp5pTwIt9LQPIdxF1l2pj5EM3iyNSEcsnEcBJYmIe
+ W6XCXvVVkgmkghVDx39o/cTIAzHrFaT+k5zP
+X-Google-Smtp-Source: AMrXdXuMXDjhxUs9ltwqjjhFDuwwHTiOHu7buyFgPWumj63n57FhANPFU9Lo9pKdZAJQJxJhehEAXw==
+X-Received: by 2002:a62:154f:0:b0:581:3557:f75b with SMTP id
+ 76-20020a62154f000000b005813557f75bmr51546963pfv.5.1674518432460; 
+ Mon, 23 Jan 2023 16:00:32 -0800 (PST)
+Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id
+ x21-20020a056a00189500b0058bc37f3d13sm174104pfh.43.2023.01.23.16.00.30
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Jan 2023 16:00:31 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, yier.jin@huawei.com, jonathan.cameron@huawei.com,
+ leonardo.garcia@linaro.org
+Subject: [PATCH 00/22] target/arm: Implement FEAT_RME
+Date: Mon, 23 Jan 2023 14:00:05 -1000
+Message-Id: <20230124000027.3565716-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20230123035754.75553-1-alistair.francis@opensource.wdc.com>
-In-Reply-To: <20230123035754.75553-1-alistair.francis@opensource.wdc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 24 Jan 2023 09:59:21 +1000
-Message-ID: <CAKmqyKP02-6cU6NVLon9ih5R+uazFDex2HMssOcSKrFbXX6fZw@mail.gmail.com>
-Subject: Re: [PATCH] hw/riscv: boot: Don't use CSRs if they are disabled
-To: Alistair Francis <alistair.francis@opensource.wdc.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, palmer@dabbelt.com, 
- alistair.francis@wdc.com, Bin Meng <bin.meng@windriver.com>, bmeng.cn@gmail.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e2f;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe2f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,55 +87,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 23, 2023 at 1:58 PM Alistair Francis
-<alistair.francis@opensource.wdc.com> wrote:
->
-> From: Alistair Francis <alistair.francis@wdc.com>
->
-> If the CSRs and CSR instructions are disabled because the Zicsr
-> extension isn't enabled then we want to make sure we don't run any CSR
-> instructions in the boot ROM.
->
-> This patches removes the CSR instructions from the reset-vec if the
-> extension isn't enabled. We replace the instruction with a NOP instead.
->
-> Note that we don't do this for the SiFive U machine, as we are modelling
-> the hardware in that case.
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1447
-> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+This is based on mainline, without any extra ARMv9-A dependencies
+which are still under development.  This is good enough to pass
+all of the tests within
 
-Thanks!
+    https://github.com/Huawei/Huawei_CCA_QEMU
 
-Applied to riscv-to-apply.next
+With the exception of the final patch, all of the code below is my own.
+The Huawei code was based on last year's qemu-6.2, and the Granule
+Protection Check was done at the wrong level.  I have integrated the
+GPC into the normal arm_cpu_tlb_fill code path.
 
-Alistair
+The first two patches are bug fixes that are unrelated to RME.
+The bug fixed by the second patch was uncovered by the VTCR_EL2
+setting used by the Realm Management Monitor included with TF-A.
 
-> ---
->  hw/riscv/boot.c | 9 +++++++++
->  1 file changed, 9 insertions(+)
->
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 2594276223..cb27798a25 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -356,6 +356,15 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
->          reset_vec[4] = 0x0182b283;   /*     ld     t0, 24(t0) */
->      }
->
-> +    if (!harts->harts[0].cfg.ext_icsr) {
-> +        /*
-> +         * The Zicsr extension has been disabled, so let's ensure we don't
-> +         * run the CSR instruction. Let's fill the address with a non
-> +         * compressed nop.
-> +         */
-> +        reset_vec[2] = 0x00000013;   /*     addi   x0, x0, 0 */
-> +    }
-> +
->      /* copy in the reset vector in little_endian byte order */
->      for (i = 0; i < ARRAY_SIZE(reset_vec); i++) {
->          reset_vec[i] = cpu_to_le32(reset_vec[i]);
-> --
-> 2.39.0
->
+The final patch is more or less a hack, required by Huawei's changes
+to TF-A.  Given that current TF-A supports QEMU virt board, using FDT,
+I think the correct solution going forward is to *not* skip creating
+the fdt node.  I have not yet tried to build mainline TF-A and TF-RMM,
+or see what has been integrated into TF-A-TESTS.  See
+
+    https://git.trustedfirmware.org/
+
+for the relevant repos.
+
+
+r~
+
+
+Richard Henderson (22):
+  target/arm: Fix pmsav8 stage2 secure parameter
+  target/arm: Rewrite check_s2_mmu_setup
+  target/arm: Add isar_feature_aa64_rme
+  target/arm: Update SCR and HCR for RME
+  target/arm: SCR_EL3.NS may be RES1
+  target/arm: Add RME cpregs
+  target/arm: Introduce ARMSecuritySpace
+  include/exec/memattrs: Add two bits of space to MemTxAttrs
+  target/arm: Adjust the order of Phys and Stage2 ARMMMUIdx
+  target/arm: Introduce ARMMMUIdx_Phys_{Realm,Root}
+  target/arm: Pipe ARMSecuritySpace through ptw.c
+  target/arm: NSTable is RES0 for the RME EL3 regime
+  target/arm: Handle Block and Page bits for security space
+  target/arm: Handle no-execute for Realm and Root regimes
+  target/arm: Use get_phys_addr_with_struct in S1_ptw_translate
+  target/arm: Move s1_is_El0 into S1Translate
+  target/arm: Use get_phys_addr_with_struct for stage2
+  target/arm: Add GPC syndrome
+  target/arm: Implement GPC exceptions
+  target/arm: Implement the granule protection check
+  target/arm: Enable RME for -cpu max
+  hw/arm/virt: Add some memory for Realm Management Monitor
+
+ include/exec/memattrs.h |   9 +-
+ include/hw/arm/virt.h   |   2 +
+ target/arm/cpu-param.h  |   2 +-
+ target/arm/cpu.h        | 143 ++++++--
+ target/arm/internals.h  |  27 ++
+ target/arm/syndrome.h   |   9 +
+ hw/arm/virt.c           |  43 +++
+ target/arm/cpu.c        |   4 +
+ target/arm/cpu64.c      |  37 ++
+ target/arm/helper.c     | 138 +++++++-
+ target/arm/ptw.c        | 749 ++++++++++++++++++++++++++++++----------
+ target/arm/tlb_helper.c |  92 ++++-
+ 12 files changed, 1030 insertions(+), 225 deletions(-)
+
+-- 
+2.34.1
+
 
