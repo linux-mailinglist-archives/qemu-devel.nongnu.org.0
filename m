@@ -2,63 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 485B6679684
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 12:23:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16B5167968B
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 12:25:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKHNP-0004Fc-QB; Tue, 24 Jan 2023 06:22:07 -0500
+	id 1pKHPz-00052h-EX; Tue, 24 Jan 2023 06:24:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pKHNN-0004FL-Me
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 06:22:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pKHNL-0003iE-IY
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 06:22:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674559321;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=kDeXCKmXVLBgJsC+ZYew7EJa2jqHcINXJ8uk4c65gZc=;
- b=QQqusn/DFNJ7PvROjGhxh494GLTE+0DR4aJVMsa1AVZDZGEUh/5R78DxkgaYtFNpHXV2G4
- EX7vE1FMFP6os/XCTYBfhzWlrjtpFPDfaXFM1jtAT+sE9OzHTruryEdsfTcx/5avqle2l5
- M3JB4NlTGKEI2NsbXZTuyjSvmEpnaNY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-445-2hZIzhakOrCwl-iBMtTCnQ-1; Tue, 24 Jan 2023 06:22:00 -0500
-X-MC-Unique: 2hZIzhakOrCwl-iBMtTCnQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 08274811E9C;
- Tue, 24 Jan 2023 11:22:00 +0000 (UTC)
-Received: from merkur.fritz.box (unknown [10.39.194.160])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3F39F2026D2A;
- Tue, 24 Jan 2023 11:21:59 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com,
-	peter.maydell@linaro.org,
-	qemu-devel@nongnu.org
-Subject: [PULL v2 00/38] Block layer patches
-Date: Tue, 24 Jan 2023 12:21:57 +0100
-Message-Id: <20230124112157.37437-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1pKHPq-00052N-Na; Tue, 24 Jan 2023 06:24:39 -0500
+Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <hsp.cat7@gmail.com>)
+ id 1pKHPn-0004AL-Ek; Tue, 24 Jan 2023 06:24:38 -0500
+Received: by mail-ej1-x62e.google.com with SMTP id qx13so38015363ejb.13;
+ Tue, 24 Jan 2023 03:24:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=f6CvaLTf3jdT/IjwC8dbwLGjw+2L9UfFe+vO7rfI3G4=;
+ b=BXTNHjiwcV5j/AcUrGcUTGqgRGe5IlIGKFPhKsg35SZLV96chyRs5hTw/6x4LXQatl
+ ito2Vcru104EdJO4TUBYA1PPEbjpOHgsixeC7VCeaxH1Vj83GBFmO5CzWBnyQ7ZlkGea
+ l+9uq1m1mugQcc7sawXBoEm3w5LkCksa7koBSel0e3BzirGpQt4+XfeL3MkgupDg1ly3
+ vNkA3xhUMw1poMvS+hAdxj1mG/elJsy97jSuVjZLePB5V9wQkqvmJ24rwxZbYShRMjUM
+ f2Fx5yLHuLOy0cJEpZvesjpLwm8mCPN5JqAoI+kzr4ZzIa/7u461kUesQV29mQLCMYyU
+ nX3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=f6CvaLTf3jdT/IjwC8dbwLGjw+2L9UfFe+vO7rfI3G4=;
+ b=l79JXbQVrb4xEnBBxn5jIRiZnujKTAWC9oO6iVyi/AxFsLyfvK+1q5Fh66eY83N/uQ
+ cY6lr2qVu0wM4E7rmN+DuJrrilRYRRgF0MCm2PRqGV+7LzdnwESMcmgA9WRAm2TK+BQQ
+ /+czosRu3hHtTVgnrcldFRlnqkbQn20mbWKzs2iMFECPLnMlz5Cb34gd5pH40jNiQWo4
+ Vd5KzhBhEymDW9MXr2tpY2xyHXpYbALlqVHlZxbuRm9xaWiq8zsnyz68cVNqk/hxompI
+ qNrviKhlGIR2NO+Psyl2yp45pR+ozT7ld9/ighyEZERuOeozBES5nlCzhAlj2pyhSBU0
+ LDew==
+X-Gm-Message-State: AFqh2kq77e+D0OFl/91goUcMmwR6c+kW3hZikIjqYwX1isXH+3ZBlsMr
+ Nf9rPGRoYYP2PWisPubEY+XTq8Yw+4I3xc8xbT0=
+X-Google-Smtp-Source: AMrXdXuq2kTZPGOUu85txP2/qBqCluEdOH8r9CUeIeaaIWSTayew+78fKlp1MVimcbNm8Fu4UrKAn+p2UiFaPNHMAKw=
+X-Received: by 2002:a17:906:c017:b0:84d:4dbb:ffcd with SMTP id
+ e23-20020a170906c01700b0084d4dbbffcdmr2252872ejz.153.1674559472955; Tue, 24
+ Jan 2023 03:24:32 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <cover.1672868854.git.balaton@eik.bme.hu>
+ <4162db13bd1da9c6ddd77f185cef738e44790467.1672868854.git.balaton@eik.bme.hu>
+ <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
+ <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
+ <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
+ <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
+ <ab9e33e5-70fc-0a76-c548-16ec787ea1af@ilande.co.uk>
+ <ed8ee369-c9a8-7853-3b65-7361fefc3c63@eik.bme.hu>
+ <ca5240e6-e00d-6213-22d6-f7b43d8bed18@ilande.co.uk>
+ <CABLmASGc6fybw7mL5JHUCukwoB6KjGaaWHct5mi20A2vXZhtaA@mail.gmail.com>
+ <8e6f46fb-5e1b-8016-c595-85e8e83ace47@eik.bme.hu>
+In-Reply-To: <8e6f46fb-5e1b-8016-c595-85e8e83ace47@eik.bme.hu>
+From: Howard Spoelstra <hsp.cat7@gmail.com>
+Date: Tue, 24 Jan 2023 12:24:19 +0100
+Message-ID: <CABLmASEJ_MKr5gP=C7_AXg2UbYmJyDMHtm77AXoyQnsa+f2HHA@mail.gmail.com>
+Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000008a758605f300c26d"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
+ envelope-from=hsp.cat7@gmail.com; helo=mail-ej1-x62e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -75,158 +92,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 00b1faea41d283e931256aa78aa975a369ec3ae6:
+--0000000000008a758605f300c26d
+Content-Type: text/plain; charset="UTF-8"
 
-  Merge tag 'pull-target-arm-20230123' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2023-01-23 13:40:28 +0000)
+On Tue, Jan 24, 2023 at 2:49 AM BALATON Zoltan <balaton@eik.bme.hu> wrote:
 
-are available in the Git repository at:
+> On Tue, 24 Jan 2023, Howard Spoelstra wrote:
+> > From a Mac OS guest perspective, via=cuda is needed for Mac OS 9.0.4 due
+> to
+> > the 2 usb devices (mouse/kbd) issue. And for 10.0/10.1 (my guess would be
+> > that these suffer the same usb issue)
+> > The real powermac3,1 AGP has no adb.
+>
+> And do these OSes run on real PowerMac3,1? If so then we likely have a bug
+> in USB emulation so maybe that could be fixed? In any case my patch does
+> not change mac99 and this should continue to work.
+>
+> > via=cuda supports Mac OS 9.0.4 up to OS X 10.4. via=pmu is strictly only
+> > needed for Mac OS X 10.5 guest (for which the speed reported was hacked
+> to
+> > 900Mhz to fool the installer), but should support all Mac OS/OS X that
+> are
+> > now supported.
+>
+> Since via=pmu is what should be a real machine does it run OS X >=10.2
+> already?
+>
 
-  https://repo.or.cz/qemu/kevin.git tags/for-upstream
+A real powermac3,1 (G4 400Mhz/AGP) runs 8.6 up to10.4.11
 
-for you to fetch changes up to 19a9c20a68f47b133e7bc8da789f2b21831fb9b0:
+qemu-system-ppc status:
+8.6 will not boot from CD or HD.
+9.0.4* with via=pmu only supports mouse, not kbd. Needs via=cuda due to 2
+usb device problem
+9.1 and 9.2 with via=pmu
+10.0 and 10.1 with via=pmu: no mouse and kdb. Needs via=cuda. (so also with
+an usb problem)
+10.2 with via=pmu (but has serious graphics speed problem, also with
+via=cuda)
+10.3 and 10.4 with via=pmu
+10.5 only with via=pmu (but needs the 900Mhz speed hack).
 
-  qemu-img: Change info key names for protocol nodes (2023-01-24 12:09:26 +0100)
+*9.0.4 will only run with Mac OS Rom version 5.2.1 and above.
 
-v2:
-- Rebased to resolve merge conflicts in coroutine.h
+It seems via=pmu provides usb mouse first, usb kbd second.
+With Mac OS 9.0.4 the second device will not work.
+With 10.0 / 10.1 both usb mouse and kbd do not work.
 
-----------------------------------------------------------------
-Block layer patches
+Real hardware provides two USB buses: USB 0 and USB 1. In Qemu by default I
+only see one bus: USB 0 into which both mouse and kdb are plugged.
+On the real G4 the mouse and kbd are each plugged into another bus, so I
+see the kbd on e.g. USB 0 and the mouse on e.g. USB 1.
 
-- qemu-img info: Show protocol-level information
-- Move more functions to coroutines
-- Make coroutine annotations ready for static analysis
-- qemu-img: Fix exit code for errors closing the image
-- qcow2 bitmaps: Fix theoretical corruption in error path
-- pflash: Only load non-zero parts of backend image to save memory
-- Code cleanup and test case improvements
+With -M mac99,via=cuda one USB bus is always created. It has id "usb-bus"
+We can add a second USB bus with e.g. -device pci-ohci,id=usb1  (this is
+the Apple USB controller).
 
-----------------------------------------------------------------
-Alberto Faria (2):
-      coroutine: annotate coroutine_fn for libclang
-      block: Add no_coroutine_fn and coroutine_mixed_fn marker
+Then add mouse and kbd to different buses with:
+-device usb-mouse,bus=usb-bus.0    (attaches to first and default bus)
+-device usb-kbd,bus=usb1.0 (attaches to second bus).
 
-Emanuele Giuseppe Esposito (14):
-      block-coroutine-wrapper: support void functions
-      block: Convert bdrv_io_plug() to co_wrapper
-      block: Convert bdrv_io_unplug() to co_wrapper
-      block: Convert bdrv_is_inserted() to co_wrapper
-      block: Rename refresh_total_sectors to bdrv_refresh_total_sectors
-      block: Convert bdrv_refresh_total_sectors() to co_wrapper_mixed
-      block-backend: use bdrv_getlength instead of blk_getlength
-      block: use bdrv_co_refresh_total_sectors when possible
-      block: Convert bdrv_get_allocated_file_size() to co_wrapper
-      block: Convert bdrv_get_info() to co_wrapper_mixed
-      block: Convert bdrv_eject() to co_wrapper
-      block: Convert bdrv_lock_medium() to co_wrapper
-      block: Convert bdrv_debug_event() to co_wrapper_mixed
-      block: Rename bdrv_load/save_vmstate() to bdrv_co_load/save_vmstate()
+This then mimics what I see on real hardware. Should qemu-system-ppc by
+default provide the same?
 
-Hanna Reitz (12):
-      block: Improve empty format-specific info dump
-      block/file: Add file-specific image info
-      block/vmdk: Change extent info type
-      block: Split BlockNodeInfo off of ImageInfo
-      qemu-img: Use BlockNodeInfo
-      block/qapi: Let bdrv_query_image_info() recurse
-      block/qapi: Introduce BlockGraphInfo
-      block/qapi: Add indentation to bdrv_node_info_dump()
-      iotests: Filter child node information
-      iotests/106, 214, 308: Read only one size line
-      qemu-img: Let info print block graph
-      qemu-img: Change info key names for protocol nodes
 
-Kevin Wolf (4):
-      qcow2: Fix theoretical corruption in store_bitmap() error path
-      qemu-img commit: Report errors while closing the image
-      qemu-img bitmap: Report errors while closing the image
-      qemu-iotests: Test qemu-img bitmap/commit exit code on error
 
-Paolo Bonzini (2):
-      qemu-io: do not reinvent the blk_pwrite_zeroes wheel
-      block: remove bdrv_coroutine_enter
+> > via=pmu-adb seems only needed to trick mac os server installations that
+> > would later run on the g3beige.
+> >
+> > To my knowledge 32 bit Linux guests all require via=pmu
+> > See here: https://wiki.qemu.org/Documentation/Platforms/PowerPC
+>
+> That doc might need some updating. It seems to be from before pegasos2 was
+> added. Maybe we would be better off linking from this page to others that
+> are more actively maintained such as:
+> https://www.emaculation.com/doku.php/qemu
+> and
+> http://zero.eik.bme.hu/~balaton/qemu/amiga/
+>
+>
+I "maintain" that page with only general information. I can link to the
+specific sites you mention.
 
-Philippe Mathieu-Daudé (1):
-      block/nbd: Add missing <qemu/bswap.h> include
 
-Thomas Huth (2):
-      tests/qemu-iotests/312: Mark "quorum" as required driver
-      tests/qemu-iotests/262: Check for availability of "blkverify" first
+> or even better updating the main docs in
+>
+> https://www.qemu.org/docs/master/system/ppc/powermac.html
+>
+>
+That would have to be taken up by someone else.
 
-Xiang Zheng (1):
-      pflash: Only read non-zero parts of backend image
+Best,
+Howard
 
- qapi/block-core.json                               | 123 +++++++-
- include/block/block-common.h                       |  11 +-
- include/block/block-io.h                           |  41 ++-
- include/block/block_int-common.h                   |  26 +-
- include/block/block_int-io.h                       |   5 +-
- include/block/nbd.h                                |   1 +
- include/block/qapi.h                               |  14 +-
- include/qemu/osdep.h                               |  44 +++
- include/sysemu/block-backend-io.h                  |  31 +-
- block.c                                            |  88 +++---
- block/blkdebug.c                                   |  11 +-
- block/blkio.c                                      |  15 +-
- block/blklogwrites.c                               |   6 +-
- block/blkreplay.c                                  |   6 +-
- block/blkverify.c                                  |   6 +-
- block/block-backend.c                              |  38 +--
- block/commit.c                                     |   4 +-
- block/copy-on-read.c                               |  18 +-
- block/crypto.c                                     |  14 +-
- block/curl.c                                       |  10 +-
- block/file-posix.c                                 | 137 +++++----
- block/file-win32.c                                 |  18 +-
- block/filter-compress.c                            |  20 +-
- block/gluster.c                                    |  23 +-
- block/io.c                                         |  76 ++---
- block/iscsi.c                                      |  17 +-
- block/mirror.c                                     |   6 +-
- block/monitor/block-hmp-cmds.c                     |   2 +-
- block/nbd.c                                        |   8 +-
- block/nfs.c                                        |   4 +-
- block/null.c                                       |  13 +-
- block/nvme.c                                       |  14 +-
- block/preallocate.c                                |  16 +-
- block/qapi.c                                       | 317 ++++++++++++++++-----
- block/qcow.c                                       |   5 +-
- block/qcow2-bitmap.c                               |   5 +-
- block/qcow2-refcount.c                             |   2 +-
- block/qcow2.c                                      |  17 +-
- block/qed.c                                        |  11 +-
- block/quorum.c                                     |   8 +-
- block/raw-format.c                                 |  25 +-
- block/rbd.c                                        |   9 +-
- block/replication.c                                |   6 +-
- block/ssh.c                                        |   4 +-
- block/throttle.c                                   |   6 +-
- block/vdi.c                                        |   7 +-
- block/vhdx.c                                       |   5 +-
- block/vmdk.c                                       |  22 +-
- block/vpc.c                                        |   5 +-
- blockdev.c                                         |   8 +-
- hw/block/block.c                                   |  36 ++-
- hw/scsi/scsi-disk.c                                |   5 +
- qemu-img.c                                         | 100 +++++--
- qemu-io-cmds.c                                     |  62 +---
- tests/unit/test-block-iothread.c                   |   3 +
- scripts/block-coroutine-wrapper.py                 |  20 +-
- tests/qemu-iotests/iotests.py                      |  18 +-
- block/meson.build                                  |   1 +
- tests/qemu-iotests/065                             |   2 +-
- tests/qemu-iotests/106                             |   4 +-
- tests/qemu-iotests/214                             |   6 +-
- tests/qemu-iotests/262                             |   3 +-
- tests/qemu-iotests/302.out                         |   5 +
- tests/qemu-iotests/308                             |   4 +-
- tests/qemu-iotests/312                             |   1 +
- tests/qemu-iotests/common.filter                   |  22 +-
- tests/qemu-iotests/common.rc                       |  22 +-
- tests/qemu-iotests/tests/qemu-img-close-errors     |  95 ++++++
- tests/qemu-iotests/tests/qemu-img-close-errors.out |  23 ++
- 69 files changed, 1208 insertions(+), 552 deletions(-)
- create mode 100755 tests/qemu-iotests/tests/qemu-img-close-errors
- create mode 100644 tests/qemu-iotests/tests/qemu-img-close-errors.out
+--0000000000008a758605f300c26d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 24, 2023 at 2:49 AM BALAT=
+ON Zoltan &lt;<a href=3D"mailto:balaton@eik.bme.hu" target=3D"_blank">balat=
+on@eik.bme.hu</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" sty=
+le=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);paddi=
+ng-left:1ex">On Tue, 24 Jan 2023, Howard Spoelstra wrote:<br>
+&gt; From a Mac OS guest perspective, via=3Dcuda is needed for Mac OS 9.0.4=
+ due to<br>
+&gt; the 2 usb devices (mouse/kbd) issue. And for 10.0/10.1 (my guess would=
+ be<br>
+&gt; that these suffer the same usb issue)<br>
+&gt; The real powermac3,1 AGP has no adb.<br>
+<br>
+And do these OSes run on real PowerMac3,1? If so then we likely have a bug =
+<br>
+in USB emulation so maybe that could be fixed? In any case my patch does <b=
+r>
+not change mac99 and this should continue to work.<br>
+<br>
+&gt; via=3Dcuda supports Mac OS 9.0.4 up to OS X 10.4. via=3Dpmu is strictl=
+y only<br>
+&gt; needed for Mac OS X 10.5 guest (for which the speed reported was hacke=
+d to<br>
+&gt; 900Mhz to fool the installer), but should support all Mac OS/OS X that=
+ are<br>
+&gt; now supported.<br>
+<br>
+Since via=3Dpmu is what should be a real machine does it run OS X &gt;=3D10=
+.2 <br>
+already?<br></blockquote><div><br></div><div>A real powermac3,1 (G4 400Mhz/=
+AGP) runs 8.6 up to10.4.11</div><div><br></div><div>qemu-system-ppc status:=
+</div><div>
+8.6 will not boot from CD or HD.
+
+</div><div>9.0.4* with via=3Dpmu only supports mouse, not kbd. Needs via=3D=
+cuda due to 2 usb device problem <br></div><div>9.1 and 9.2 with via=3Dpmu<=
+/div><div>10.0 and 10.1 with via=3Dpmu: no mouse and kdb. Needs via=3Dcuda.=
+ (so also with an usb problem)<br></div><div>10.2 with via=3Dpmu (but has s=
+erious graphics speed problem, also with via=3Dcuda)</div><div>10.3 and 10.=
+4 with via=3Dpmu</div><div>10.5 only with via=3Dpmu (but needs the 900Mhz s=
+peed hack).<br></div><div><br></div><div>
+<div>
+*9.0.4 will only run with Mac OS Rom version 5.2.1 and above.<br></div><div=
+><br></div>
+
+</div><div>It seems via=3Dpmu provides usb mouse first, usb kbd second. <br=
+></div><div>With Mac OS 9.0.4 the second device will not work. <br></div><d=
+iv>With 10.0 / 10.1 both usb mouse and kbd do not work.</div><div><br></div=
+><div>Real hardware provides two USB buses: USB 0 and USB 1. In Qemu by def=
+ault I only see one bus: USB 0 into which both mouse and kdb are plugged.<b=
+r><div>On
+ the real G4 the mouse and kbd are each plugged into another bus, so I=20
+see the kbd on e.g. USB 0 and the mouse on e.g. USB 1.</div><br><div>With -=
+M mac99,via=3Dcuda one USB bus is always created. It has id &quot;usb-bus&q=
+uot;<br></div><div>We can add a second USB bus with e.g. -device pci-ohci,i=
+d=3Dusb1=C2=A0 (this is the Apple USB controller).<br></div><div><br></div>=
+<div>Then add mouse and kbd to different buses with:<br>-device usb-mouse,b=
+us=3Dusb-bus.0 =C2=A0=C2=A0 (attaches to first and default bus)<br>-device =
+usb-kbd,bus=3Dusb1.0 (attaches to second bus).<br></div><div><br></div><div=
+>This then mimics what I see on real hardware. Should qemu-system-ppc by de=
+fault provide the same?<br></div>
+
+</div><br><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; via=3Dpmu-adb seems only needed to trick mac os server installations t=
+hat<br>
+&gt; would later run on the g3beige.<br>
+&gt;<br>
+&gt; To my knowledge 32 bit Linux guests all require via=3Dpmu<br>
+&gt; See here: <a href=3D"https://wiki.qemu.org/Documentation/Platforms/Pow=
+erPC" rel=3D"noreferrer" target=3D"_blank">https://wiki.qemu.org/Documentat=
+ion/Platforms/PowerPC</a><br>
+<br>
+That doc might need some updating. It seems to be from before pegasos2 was =
+<br>
+added. Maybe we would be better off linking from this page to others that <=
+br>
+are more actively maintained such as: <br>
+<a href=3D"https://www.emaculation.com/doku.php/qemu" rel=3D"noreferrer" ta=
+rget=3D"_blank">https://www.emaculation.com/doku.php/qemu</a> <br>
+and <br>
+<a href=3D"http://zero.eik.bme.hu/~balaton/qemu/amiga/" rel=3D"noreferrer" =
+target=3D"_blank">http://zero.eik.bme.hu/~balaton/qemu/amiga/</a><br>
+<br></blockquote><div><br></div><div>I &quot;maintain&quot; that page with =
+only general information. I can link to the specific sites you mention. <br=
+></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+or even better updating the main docs in<br>
+<br>
+<a href=3D"https://www.qemu.org/docs/master/system/ppc/powermac.html" rel=
+=3D"noreferrer" target=3D"_blank">https://www.qemu.org/docs/master/system/p=
+pc/powermac.html</a><br>
+<br></blockquote><div><br></div><div>That would have to be taken up by some=
+one else.</div><div><br></div><div>Best,</div><div>Howard<br></div></div></=
+div>
+
+--0000000000008a758605f300c26d--
 
