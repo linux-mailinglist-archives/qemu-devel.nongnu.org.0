@@ -2,38 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A4D6679ABE
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 14:57:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67A22679AC7
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 14:58:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKJm5-0002xZ-KW; Tue, 24 Jan 2023 08:55:45 -0500
+	id 1pKJnz-0003tJ-Sb; Tue, 24 Jan 2023 08:57:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pKJlj-0002x1-4x
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 08:55:23 -0500
+ id 1pKJnn-0003ro-Pe; Tue, 24 Jan 2023 08:57:32 -0500
 Received: from proxmox-new.maurer-it.com ([94.136.29.106])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pKJlh-00051F-5z
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 08:55:22 -0500
+ id 1pKJnk-0005Pf-BJ; Tue, 24 Jan 2023 08:57:31 -0500
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 34E5645F22;
- Tue, 24 Jan 2023 14:55:08 +0100 (CET)
-Message-ID: <d4384eef-f55b-8ca8-9aeb-5ff77ceae8c2@proxmox.com>
-Date: Tue, 24 Jan 2023 14:55:07 +0100
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 9D3CD45F23;
+ Tue, 24 Jan 2023 14:57:25 +0100 (CET)
+Message-ID: <64e1a713-9806-29fe-3859-10c87608522b@proxmox.com>
+Date: Tue, 24 Jan 2023 14:57:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.5.0
-Subject: Re: [PATCH v2] vl: defuse PID file path resolve error
+Subject: Re: [PATCH] block/mirror: add 'write-blocking-after-ready' copy mode
 Content-Language: en-US
 From: Fiona Ebner <f.ebner@proxmox.com>
 To: qemu-devel@nongnu.org
-Cc: pbonzini@redhat.com, hreitz@redhat.com, t.lamprecht@proxmox.com,
- d.csapak@proxmox.com, berrange@redhat.com
-References: <20221031094716.39786-1-f.ebner@proxmox.com>
-In-Reply-To: <20221031094716.39786-1-f.ebner@proxmox.com>
+Cc: t.lamprecht@proxmox.com, jsnow@redhat.com, vsementsov@yandex-team.ru,
+ kwolf@redhat.com, hreitz@redhat.com, eblake@redhat.com, armbru@redhat.com,
+ qemu-block@nongnu.org
+References: <20221207132719.131227-1-f.ebner@proxmox.com>
+In-Reply-To: <20221207132719.131227-1-f.ebner@proxmox.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
@@ -58,51 +57,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 31.10.22 um 10:47 schrieb Fiona Ebner:
-> Commit 85c4bf8aa6 ("vl: Unlink absolute PID file path") introduced a
-> critical error when the PID file path cannot be resolved. Before this
-> commit, it was possible to invoke QEMU when the PID file was a file
-> created with mkstemp that was already unlinked at the time of the
-> invocation. There might be other similar scenarios.
+Am 07.12.22 um 14:27 schrieb Fiona Ebner:
+> The new copy mode starts out in 'background' mode and switches to
+> 'write-blocking' mode once the job transitions to ready.
 > 
-> It should not be a critical error when the PID file unlink notifier
-> can't be registered, because the path can't be resolved. If the file
-> is already gone from QEMU's perspective, silently ignore the error.
-> Otherwise, only print a warning.
+> Before switching to active mode and indicating that the drives are
+> actively synced, it is necessary to have seen and handled all guest
+> I/O. This is done by checking the dirty bitmap inside a drained
+> section. Transitioning to ready is also only done at the same time.
 > 
-> Fixes: 85c4bf8aa6 ("vl: Unlink absolute PID file path")
-> Reported-by: Dominik Csapak <d.csapak@proxmox.com>
-> Suggested-by: Thomas Lamprecht <t.lamprecht@proxmox.com>
+> The new mode is useful for management applications using drive-mirror
+> in combination with migration. Currently, migration doesn't check on
+> mirror jobs before inactivating the blockdrives, so it's necessary to
+> either:
+> 1) use the 'pause-before-switchover' migration capability and complete
+>    mirror jobs before actually switching over.
+> 2) use 'write-blocking' copy mode for the drive mirrors.
+> 
+> The downside with 1) is longer downtime for the guest, while the
+> downside with 2) is that guest write speed is limited by the
+> synchronous writes to the mirror target. The newly introduced copy
+> mode reduces the time that limit is in effect.
+> 
 > Signed-off-by: Fiona Ebner <f.ebner@proxmox.com>
 > ---
 > 
-> v1 -> v2:
->     * Ignore error if errno == ENOENT.
+> See [0] for a bit more context. While the new copy mode doesn't
+> fundamentally improve the downside of 2) (especially when multiple
+> drives are mirrored), it would still improve things a little. And I
+> guess when trying to keep downtime short, guest write speed needs to
+> be limited at /some/ point (always in the context of migration with
+> drive-mirror of course). Ideally, that could go hand-in-hand with
+> migration convergence, but that would require some larger changes to
+> implement and introduce more coupling.
 > 
->  softmmu/vl.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
+> [0] https://lists.nongnu.org/archive/html/qemu-devel/2022-09/msg04886.html
 > 
-> diff --git a/softmmu/vl.c b/softmmu/vl.c
-> index b464da25bc..cf2c591ba5 100644
-> --- a/softmmu/vl.c
-> +++ b/softmmu/vl.c
-> @@ -2432,10 +2432,11 @@ static void qemu_maybe_daemonize(const char *pid_file)
->  
->          pid_file_realpath = g_malloc0(PATH_MAX);
->          if (!realpath(pid_file, pid_file_realpath)) {
-> -            error_report("cannot resolve PID file path: %s: %s",
-> -                         pid_file, strerror(errno));
-> -            unlink(pid_file);
-> -            exit(1);
-> +            if (errno != ENOENT) {
-> +                warn_report("not removing PID file on exit: cannot resolve PID "
-> +                            "file path: %s: %s", pid_file, strerror(errno));
-> +            }
-> +            return;
->          }
->  
->          qemu_unlink_pidfile_notifier = (struct UnlinkPidfileNotifier) {
-
-Ping
+Ping. If there is no interest from upstream in such a feature, it would
+still be nice to know.
 
 
