@@ -2,52 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 037B6678CB2
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 01:17:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B4D678CB6
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 01:20:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK6yi-0002ay-T6; Mon, 23 Jan 2023 19:15:56 -0500
+	id 1pK736-0003vy-Fe; Mon, 23 Jan 2023 19:20:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pK6yg-0002aM-T5; Mon, 23 Jan 2023 19:15:54 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pK6yd-0004Nv-PW; Mon, 23 Jan 2023 19:15:54 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 9C9CF746377;
- Tue, 24 Jan 2023 01:13:23 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 73E94746376; Tue, 24 Jan 2023 01:13:23 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 72EF674635C;
- Tue, 24 Jan 2023 01:13:23 +0100 (CET)
-Date: Tue, 24 Jan 2023 01:13:23 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
-Subject: Re: [PATCH v7 3/7] mac_{old,new}world: Pass MacOS VGA NDRV in card
- ROM instead of fw_cfg
-In-Reply-To: <3da914a8-ca58-e578-ae8d-0a82b28a6cbf@ilande.co.uk>
-Message-ID: <f245ead8-2ff8-55eb-3884-01e8d791d672@eik.bme.hu>
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <e8d6aa41eeb0461d285fa4c12e0fff05d366e8fa.1672868854.git.balaton@eik.bme.hu>
- <8e775600-f394-0e9c-9ee9-15dd635275e9@ilande.co.uk>
- <a7d27169-97fd-2cb2-e6d1-a050dbf76e30@eik.bme.hu>
- <78fff8b3-d1c1-74ec-94bf-8d5ae220c4e2@ilande.co.uk>
- <8ef24b01-534a-fd8f-ad99-abebff6197c8@eik.bme.hu>
- <3da914a8-ca58-e578-ae8d-0a82b28a6cbf@ilande.co.uk>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pK731-0003vb-TJ
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:20:26 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pK72w-0004uS-Hg
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:20:21 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ u1-20020a17090a450100b0022936a63a21so16870600pjg.4
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 16:20:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=WUd9nFA3GIgQlMP5IMjs6T0NTOPKmW20F4EGMXravUE=;
+ b=yoQo1dSYOPllcSRlTNsdrRULILoKyw8RB5YMQ20RPRkpcewCwYshb3JgMbeQxTBdi/
+ 1za+CVvqojamj+LveHBRN+n8Z/t9aokXzliLs7bTi/xpW4bx+DFgCEuJWpMvM+BcVw8q
+ viZ0IWN7ISNiOg/v7HdEVpUzyPgCV9ZMpoETVkGhs+DL2aGZ6uKJFilCu/v1MQKMghiv
+ z+p5WusmC+HcUBb9+fCmmxNPIKj9FYDX/OWOnfv/0LTviGjc+8fovSSRC7t70Z+Fi2Tu
+ 3iIsn/ruqLLUeLut2Q3z89vtdCXT5UUI/ambz1PXEsHTopXddX0fetaEjZIhKMUrVrzM
+ 0sjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=WUd9nFA3GIgQlMP5IMjs6T0NTOPKmW20F4EGMXravUE=;
+ b=32tGmL0i4+WSeYQyXm+d/TuHKUJlRgHdfG7jyadjHhQ30sYo92VtroMI9+By0sdGFn
+ iLH+Ba1Y/vMRWhdt2ch0F7EnNlyTXujjpqerCw1sSyfka3fGeg9n6YQtVzS7V5ow9TEW
+ 6y4S1jRDgrVjiwIGTwt19F9tbxx0qZnHP6c07xe+9H4bl7YEquDiiczMAtueqLyvRpj7
+ JPdh9+dMAKghgHdail0egAWkkgGUKBpx3wLaYygQslHz2jnerjLX0kSFpYb+UjI7gYVz
+ ft8NVtkgtQldr2TRx5HCg9DyikD/eU4M1gMdYSayujORzohh8+oM5y9dPTR0DDGHubIV
+ ieag==
+X-Gm-Message-State: AFqh2kqx1oHQOrroJr0dset+TPaTmHf9Mtb6yd9rx6W3szoVI12SA3By
+ GJnQX8kbETRN4W1EOIfeELa+1w==
+X-Google-Smtp-Source: AMrXdXuEDrwiNvC969WSzpFFL4GlHV8Vvq9PQslvmVgApPgnM+UxwyxXx0biIGkUNT1hpplgLyknvA==
+X-Received: by 2002:a17:902:7c15:b0:191:3ec0:9166 with SMTP id
+ x21-20020a1709027c1500b001913ec09166mr26072737pll.6.1674519615342; 
+ Mon, 23 Jan 2023 16:20:15 -0800 (PST)
+Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
+ [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
+ m12-20020a1709026bcc00b0019498ee0cf4sm291359plt.109.2023.01.23.16.20.13
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Jan 2023 16:20:14 -0800 (PST)
+Message-ID: <3443cf40-4013-6ac6-895d-08f86c229809@linaro.org>
+Date: Mon, 23 Jan 2023 14:20:11 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 2/2] target/arm: Look up ARMCPRegInfo at runtime
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20230106194451.1213153-1-richard.henderson@linaro.org>
+ <20230106194451.1213153-3-richard.henderson@linaro.org>
+ <CAFEAcA9mh+eS8rHwqmyjOAmcnPDJ7K54QbJPd7itKZskQeox5g@mail.gmail.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAFEAcA9mh+eS8rHwqmyjOAmcnPDJ7K54QbJPd7itKZskQeox5g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,76 +95,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 23 Jan 2023, Mark Cave-Ayland wrote:
-> On 22/01/2023 22:16, BALATON Zoltan wrote:
->>> The problem you are ultimately trying to solve though is that OpenBIOS is 
->>> loading the NDRV for all VGA PCI devices, so why not just fix 
->>> drivers/vga.fs so that the NDRV is loaded only for the QEMU VGA device?
->>> 
->>>> So this patch neither adds new dependency to QEMU nor repends on any 
->>>> change in OpenBIOS. It just gets rid of passing files via fw_cfg.
->>> 
->>> Unfortunately that still doesn't solve the problem of building a 
->>> self-contained OpenBIOS ROM, so this patch isn't the right way forward.
->> 
->> It does take a step to make it possible to eventually add a self contained 
->> ROM and remove the vga.fs from OpenBIOS but it's not doing that fully. It 
->> just simplifies QEMU and OpenBIOS vga.fs for now and making the ROM also 
->> contain the FCode will be a further step but we can't get there if you 
->> don't allow to make smaller steps or don't merge my patches for OpenBIOS 
->> which would allow it to run FCode ROMs. If you're waiting for all this to 
->> be finished I'll give up and it will never be finished. If you allow to 
->> progress in smaller steps then maybe we'll get there.
->
-> You can already add a self-contained rom using the romfile= property, so 
-> that's not preventing you from doing anything though? Even once OpenBIOS can
+On 1/23/23 02:53, Peter Maydell wrote:
+> On Fri, 6 Jan 2023 at 19:45, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> Do not encode the pointer as a constant in the opcode stream.
+>> This pointer is specific to the cpu that first generated the
+>> translation, which runs into problems with both hot-pluggable
+>> cpus and user-only threads, as cpus are removed.
+>>
+>> Perform the lookup in either helper_access_check_cp_reg,
+>> or a new helper_lookup_cp_reg.
+> 
+> As well as the use-after-free, this is also a correctness
+> bug, isn't it? If we hardwire in the cpregs pointer for
+> CPU 0 into the TB, and then CPU 1 with a slightly different
+> config executes the TB, it will get the cpregs of CPU 0,
+> not its own, so it might see a register it should not or
+> vice-versa.
 
-Except that OpenBIOS will break the device tree by adding the 
-qemu_vga.ndrv to the video card node so the card rom I pass via romfile 
-will see it's already there and won't install its owm. Then MacOS will try 
-to use the wrong driver and it does not work and I spend a lot of time to 
-find out I also need -prom env vga-ndrv?=false to avoid this problem which 
-I always forget and somebody trying this for the first time won't even 
-know.
+Existing assumption was that each cpu configuration would have its own cluster_index, 
+which gets encoded into cpu->tcg_cflags, which is part of the comparison used when hashing 
+TBs.
 
-What's more, all this complication is not needed. With this patch 
-everything works as before for std VGA as it will have the qemu_vga.ndrv 
-as its romfile but ati-vga won't so OpenBIOS only installs it for std VGA 
-without adding anything to OpenBIOS to handle this. Adding a romfile to 
-ati-vga will work without further hassle and the romfile option can also 
-be used to replace or disable the qemu_vga.ndrv for std VGA as -device 
-VGA,romdile="" (or add your FCode in development here). Due to the way 
-standard VGA works adding -device VGA,romfile= to the command line won't 
-add a second VGA device just set the option for the default one (actually 
-it omits the default and adds the specified one but the point is this 
-just works).
+But including this patch allows relaxation of what constitutes a "cpu configuration".
 
-Then we not only not need to add anythig to OpenBIOS but we can drop the 
-vga-ndrv? option (which does not exist on real machines anyway) and also 
-all the code in vga.fs to get the driver from fw_cfg so simplifying it 
-leaving only the code which will eventually need to be part of the FCode 
-ROM. Once this patch is accepted it fixes the above problem and allows to 
-simplify OpenBIOS later and when we're there you just have to replace 
-qemu_vga.ndrv with the version that prepends the FCode from vga.fs before 
-it so I don't see what's your problem with this patch. Can you give a 
-reason why it can't be accepted?
 
-> read PCI option ROMs, the option ROM will still need to contain OpenBIOS's 
-> vga.fs as a payload, and it will still need to be able to inject 
-> qemu_vga.ndrv because OpenBIOS cannot have an external dependency upon 
-> QemuMacDrivers.
-
-The way real card ROMs work is that they embed the driver binary and have 
-some FCode that adds that to the device tree. It should be the same for 
-QEMU emulated cards so if you say that you want only vga.fs as the card 
-ROM which then downloads the qemu_vga.ndrv from QEMU that makes no sense 
-at all. Currently the qemu_vga.ndrv is build from QemuMacDrivers and added 
-as a binary to QEMU. You can add it as a binary the same way to OpenBIOS 
-then build the FCOde ROM from vga.fs and qemu_vga.ndrv bin that results in 
-the FCode ROM that will replace qemu_vga.ndrv binaty in QEMU. You just say 
-this is not possible because you're OK with adding the qemu_vga,ndrv 
-binary to QEMU but doing the same with OpenBIOS cannot be done?
-
-Regards,
-BALATON Zoltan
+r~
 
