@@ -2,79 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6365A67A43C
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 21:48:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C37D867A47B
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 22:00:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKQCX-0003HS-7C; Tue, 24 Jan 2023 15:47:29 -0500
+	id 1pKQNc-0006Ku-7G; Tue, 24 Jan 2023 15:58:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pKQCU-0003HI-S9
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 15:47:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1pKQNW-0006Ka-Rk
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 15:58:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pKQCR-0001x1-NL
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 15:47:26 -0500
+ (Exim 4.90_1) (envelope-from <mcascell@redhat.com>)
+ id 1pKQNV-0003Vh-2x
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 15:58:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674593242;
+ s=mimecast20190719; t=1674593927;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=QFcDzybwH3Xk+10x5SHm/c9/Yn+tUnrTi5Pr0jZ5h4w=;
- b=NivcmWxwWKnXMvUaqxj+mjKrl/3Qgm1XpqaO0e3Nbzzxz0P5ztN1I1uzbdp7Px8dl1sBET
- UbhdCX0/hLisijkWSoDcybSoDA/ERYmNq/bNDzPPZznUwkopjlovozikDcgy0Lz7rvTPif
- jvsbvAFr9DCDIQ62v7q9TiWhpziLS2k=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=DG15zjdn50RjsTnEWGlhKPR0wYDfAxWcPTh2H8KzWqE=;
+ b=M4RyiisOpCXGG5k/qqvS0YgkiFvQOowZAq9iCGasN5amscg98JJC3b3lFDiJ9EBBaAP4H6
+ MJXlgbLLl15LafPtT2pTZ16mzvTrjIL3U/Pcybeq3zLfs7aCJidjJUMpEqAP6DCTgCxgZx
+ nr+L/MLyRoAX4puuGdwJHOzy7kDJZ/U=
+Received: from mail-vk1-f200.google.com (mail-vk1-f200.google.com
+ [209.85.221.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-581-16-u-JOEPQCCqyV3jASSpg-1; Tue, 24 Jan 2023 15:47:20 -0500
-X-MC-Unique: 16-u-JOEPQCCqyV3jASSpg-1
-Received: by mail-qt1-f198.google.com with SMTP id
- k8-20020ac84788000000b003b631e8cc4dso6547310qtq.16
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 12:47:20 -0800 (PST)
+ us-mta-342-A7vth9GEO5iYBkCgj8AP1A-1; Tue, 24 Jan 2023 15:58:46 -0500
+X-MC-Unique: A7vth9GEO5iYBkCgj8AP1A-1
+Received: by mail-vk1-f200.google.com with SMTP id
+ x22-20020a1f3116000000b003c67dc01d12so6541337vkx.17
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 12:58:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QFcDzybwH3Xk+10x5SHm/c9/Yn+tUnrTi5Pr0jZ5h4w=;
- b=JMwb/IWa7He0hKmsv9lWjs9kRdg3xu4v7MAC6FbjxxUn+qNJz3g8mNznrTgUoBelK0
- NXwzh+bGzpNpYTtKBjWURV0ZpIVpzEJNzSFTYdu6tLNWV7VctJ2ikqJZ+AJ501ALQQy7
- 1XuldhRc3bY1eNDMF/etSpMChcNP9NlRAqpda5+RG2EntPL9buEskRmWUKdcZMnYQted
- 5oyi0rlA90XmFXsj5rynh9odsGfbBVerWrKCb3MCMaKHij2paJYskVUxr1j7/VikXd8T
- UZGj18aynWBO4r+t30csq1iIrZpH6QUt0OdkyvBa4Y/taaqjg81J6BWJu3PPhevPa3/1
- QgvA==
-X-Gm-Message-State: AFqh2krdQshbBRbeAHz/TqikwwxIGR2W482+mBr3Bv54QD5ofOB+LCMn
- 491jdJFeD12ZcQVC89AFHZk3QUw7s2QXKWqM8LrVNHaUc7gvrCb9819YSVLn1Sa/YYg9uQsmxcj
- aHJ85bTQDikSCPZs=
-X-Received: by 2002:ac8:67c1:0:b0:3b6:8ad1:3be9 with SMTP id
- r1-20020ac867c1000000b003b68ad13be9mr31586484qtp.32.1674593240264; 
- Tue, 24 Jan 2023 12:47:20 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtL6pFFbF0aRnfGqKJmCj0JSMrQA9pB2lefwbPrhAoVgxeDrqsNvW0gqx4/xVkcAovVkwcuRA==
-X-Received: by 2002:ac8:67c1:0:b0:3b6:8ad1:3be9 with SMTP id
- r1-20020ac867c1000000b003b68ad13be9mr31586464qtp.32.1674593239993; 
- Tue, 24 Jan 2023 12:47:19 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- h11-20020ac8776b000000b003b62e9c82ebsm1886647qtu.48.2023.01.24.12.47.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 12:47:19 -0800 (PST)
-Date: Tue, 24 Jan 2023 15:47:18 -0500
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- James Houghton <jthoughton@google.com>, Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH RFC 10/21] ramblock: Add ramblock_file_map()
-Message-ID: <Y9BD1jcBYzPDR9VX@x1n>
-References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-11-peterx@redhat.com>
- <Y8+tuN1t9EWMIuzk@work-vm>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=DG15zjdn50RjsTnEWGlhKPR0wYDfAxWcPTh2H8KzWqE=;
+ b=KyGbs8m9BqcPQ74mKdIwf7a4d57m5DolvhHYmt+ufXeSNai6mdhLew2m0cxKSkMrpT
+ zMIWgHxqJi+jVEYzQHNrTT2jP2xVh7AaO6w6VRGR8pGntkz+T+bSj8j9f6YUKO9dvn/W
+ u6KM9du7olY5V1SdDQ/Fv/q4Uvt+Q+pS4bLLyYNjIa22K4PoRy9zQtD52jw/+JpWP+xR
+ g6W73q258gIxSJqEm/TkhnsMkI/mJ8XmuHzNAH1nT38m+fwlX+DJOE/oAILNA9lUwkJr
+ KXP6Xzm/k5WPofLgdmd6V/9tbm8yLlQo0TdjiIKgFWdMuXdBHmloCBu+nbpDTzsd1ooI
+ 4c+A==
+X-Gm-Message-State: AFqh2koT8Qv7gSs/5H7S159E4pGQI2IZczImsoAbE/HtUmNh1LFb9SV+
+ bz057cd5UOq05IbhbzUVXIgbsvDGuuR1qJDg3fvYP/SBPhZlzHMXH78l6F7Dh0vHn+ZFpxcKMDo
+ VMcoplmi2FcpxLHgipApz80NpfnDdOyw=
+X-Received: by 2002:a05:6102:3203:b0:3d0:a51c:58cc with SMTP id
+ r3-20020a056102320300b003d0a51c58ccmr3929582vsf.51.1674593925680; 
+ Tue, 24 Jan 2023 12:58:45 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXskJCRGaQXnm8PPX33irFZRJ6Eb0ewN3YJtFtN79sA4UhU2REZY+t5p/zMZXFhO/8B7qolSOpU6rWz5KQ7Q138=
+X-Received: by 2002:a05:6102:3203:b0:3d0:a51c:58cc with SMTP id
+ r3-20020a056102320300b003d0a51c58ccmr3929578vsf.51.1674593925472; Tue, 24 Jan
+ 2023 12:58:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y8+tuN1t9EWMIuzk@work-vm>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+References: <20221222172915.671597-1-mcascell@redhat.com>
+In-Reply-To: <20221222172915.671597-1-mcascell@redhat.com>
+From: Mauro Matteo Cascella <mcascell@redhat.com>
+Date: Tue, 24 Jan 2023 21:58:34 +0100
+Message-ID: <CAA8xKjWhdUBrr59ih7OkfW-ZUfnmCtmCAfh8EaApO=5d8-qj_w@mail.gmail.com>
+Subject: Re: [PATCH] nubus-device: fix memory leak in nubus_device_realize
+To: qemu-devel@nongnu.org
+Cc: laurent@vivier.eu,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mcascell@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,83 +92,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 24, 2023 at 10:06:48AM +0000, Dr. David Alan Gilbert wrote:
-> * Peter Xu (peterx@redhat.com) wrote:
-> > Add a helper to do mmap() for a ramblock based on the cached informations.
-> > 
-> > A trivial thing to mention is we need to move ramblock->fd setup to be
-> > earlier, before the ramblock_file_map() call, because it'll need to
-> > reference the fd being mapped.  However that should not be a problem at
-> > all, majorly because the fd won't be freed if successful, and if it failed
-> > the fd will be freeed (or to be explicit, close()ed) by the caller.
-> > 
-> > Export it - prepare to be used outside this file.
-> > 
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > ---
-> >  include/exec/ram_addr.h |  1 +
-> >  softmmu/physmem.c       | 25 +++++++++++++++++--------
-> >  2 files changed, 18 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-> > index 0bf9cfc659..56db25009a 100644
-> > --- a/include/exec/ram_addr.h
-> > +++ b/include/exec/ram_addr.h
-> > @@ -98,6 +98,7 @@ bool ramblock_is_pmem(RAMBlock *rb);
-> >  
-> >  long qemu_minrampagesize(void);
-> >  long qemu_maxrampagesize(void);
-> > +void *ramblock_file_map(RAMBlock *block);
-> >  
-> >  /**
-> >   * qemu_ram_alloc_from_file,
-> > diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> > index 6096eac286..cdda7eaea5 100644
-> > --- a/softmmu/physmem.c
-> > +++ b/softmmu/physmem.c
-> > @@ -1532,17 +1532,31 @@ static int file_ram_open(const char *path,
-> >      return fd;
-> >  }
-> >  
-> > +/* Do the mmap() for a ramblock based on information already setup */
-> > +void *ramblock_file_map(RAMBlock *block)
-> > +{
-> > +    uint32_t qemu_map_flags;
-> > +
-> > +    qemu_map_flags = (block->flags & RAM_READONLY) ? QEMU_MAP_READONLY : 0;
-> > +    qemu_map_flags |= (block->flags & RAM_SHARED) ? QEMU_MAP_SHARED : 0;
-> > +    qemu_map_flags |= (block->flags & RAM_PMEM) ? QEMU_MAP_SYNC : 0;
-> > +    qemu_map_flags |= (block->flags & RAM_NORESERVE) ? QEMU_MAP_NORESERVE : 0;
-> > +
-> > +    return qemu_ram_mmap(block->fd, block->mmap_length, block->mr->align,
-> > +                         qemu_map_flags, block->file_offset);
-> > +}
-> > +
-> >  static void *file_ram_alloc(RAMBlock *block,
-> >                              int fd,
-> >                              bool truncate,
-> >                              off_t offset,
-> >                              Error **errp)
-> >  {
-> > -    uint32_t qemu_map_flags;
-> >      void *area;
-> >  
-> >      /* Remember the offset just in case we'll need to map the range again */
-> 
-> Note that this comment is now wrong; you need to always set that for the
-> map call.
+On Thu, Dec 22, 2022 at 6:29 PM Mauro Matteo Cascella
+<mcascell@redhat.com> wrote:
+>
+> Local variable "name" is allocated through strdup_printf and should be
+> freed with g_free() to avoid memory leak.
+>
+> Fixes: 3616f424 ("nubus-device: add romfile property for loading declaration ROMs")
+> Signed-off-by: Mauro Matteo Cascella <mcascell@redhat.com>
+> ---
+>  hw/nubus/nubus-device.c | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/hw/nubus/nubus-device.c b/hw/nubus/nubus-device.c
+> index 0f1852f671..49008e4938 100644
+> --- a/hw/nubus/nubus-device.c
+> +++ b/hw/nubus/nubus-device.c
+> @@ -80,6 +80,7 @@ static void nubus_device_realize(DeviceState *dev, Error **errp)
+>                                 &error_abort);
+>          ret = load_image_mr(path, &nd->decl_rom);
+>          g_free(path);
+> +        g_free(name);
+>          if (ret < 0) {
+>              error_setg(errp, "could not load romfile \"%s\"", nd->romfile);
+>              return;
+> --
+> 2.38.1
 
-This line is added in patch 7.  After this patch, a ramblock should always
-be mapped with ramblock_file_map(), so it keeps being true?
-
-> 
-> Other than that,
-> 
-> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Hi, any updates here? Is this patch going to be merged?
 
 Thanks,
 
--- 
-Peter Xu
+--
+Mauro Matteo Cascella
+Red Hat Product Security
+PGP-Key ID: BB3410B0
 
 
