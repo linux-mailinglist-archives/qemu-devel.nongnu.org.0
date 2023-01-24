@@ -2,90 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D1DD679928
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 14:22:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 044CC67993B
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 14:25:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKJEI-00038w-KK; Tue, 24 Jan 2023 08:20:50 -0500
+	id 1pKJHv-0004Sl-7b; Tue, 24 Jan 2023 08:24:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pKJEE-00038g-9o
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 08:20:46 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pKJEC-0005Rn-Cg
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 08:20:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674566443;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=b2RpsIoq6XA1cWoKYMiqjp5d5NLo3GNYHHcTKwRAC74=;
- b=Vs3fO7mOr5ExHO8+RMjfBlz+yB4i7O0xvM08R204HR9opJ+YfOd6B5XpbRJ7Q/5g8OlM/x
- LzE25NjOhLGEhsgQlvUkfWvRnJNUnHaHYaa0EKMFyVNSN+cAb7/j3HIbU65wVknCZqX2KZ
- ZfUHgEGtTwVmQUKSaDFUrMKr4glwlVQ=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-636-0kMbqSZxNOGMO8tDuqGuTg-1; Tue, 24 Jan 2023 08:20:42 -0500
-X-MC-Unique: 0kMbqSZxNOGMO8tDuqGuTg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h9-20020a1ccc09000000b003db1c488826so9991085wmb.3
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 05:20:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
+ id 1pKJHs-0004RY-Iq
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 08:24:32 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
+ id 1pKJHq-0006IK-4M
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 08:24:32 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id
+ fl11-20020a05600c0b8b00b003daf72fc844so12841812wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 05:24:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=6JnF7rKYo8Dtt6tK5CM56Rc7pqTYb5px+8L52G3rLPY=;
+ b=iuBG/ok/v5/ow+ih+YjAye9Ygc+h9RisvWtkTK+tFTFbkQ9C4KxRPhOvsNIwe8S08y
+ 8Z6e5w0/nV05fbNclIZTeWNy6bb1vG2iSsXLMEX+m03UdM2rn8mGXVA/ctq9xgqdLjLV
+ RuC/RjSElgXLPUMlyc6MrmFQXL0WlcSfDKan8laUt8t2ttL6DJ/q6kG4kXJ+4coM/Kl4
+ FVvkYKcDanbLArwDyu7N+gdc5yyWJPK2mqQjacrqXAOuf7nSELQ7cAAOgKEwS4AuteFL
+ nwxixCcXFURm6uWsAGeHs1MKwHn1LlsuinOmnh9hO656ny9I3ww2h8NTTbMNepQuKU/r
+ yrIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=b2RpsIoq6XA1cWoKYMiqjp5d5NLo3GNYHHcTKwRAC74=;
- b=MCmxqrS6hB3JHqFUYE8WBdj2nkINjxFBI4lJeEHJhm6H13Ap6BDop+LSW8Zr0f3WxM
- a4cMXmOcEnY7tsnkurZwd/JbrXJu5SWAuji3OEDWTXoEUqRHCAXTj7vUevkvZZ0WWSnk
- uABR9FfB8NcJa+lpM7eVah1ZjFFk2HR1Zk55tHvOgVtiPMRxMS0tW/uHqFX+lc0tGASN
- OJULO9lD/AZE7/IMudXVdwa1e2mykYAksqr16sfgu0OAEL23so1hfESvvLy7d8/OhaxM
- LeYKC0BCnRsw+lP2qPbgx6HXXBB/pG4onzK6TawNlRXytwgdo83LDlpcebd2aJ5bQpkF
- 7iMA==
-X-Gm-Message-State: AFqh2kqqWvkZ6KUU1DCkwR4uKaRV4L05BWzahWESTzsLsvQYRMcOwAFu
- BdraI1hM2RhJlVNAPEVXDrjqOwrzkTXKETskgzF1i7hxoXE5A1jTtPhoo+yPB0W8yJAYahuK8Io
- aOLtBJ7dYV5Zculk=
-X-Received: by 2002:a05:600c:1d8e:b0:3d1:fcb4:4074 with SMTP id
- p14-20020a05600c1d8e00b003d1fcb44074mr28876442wms.22.1674566440826; 
- Tue, 24 Jan 2023 05:20:40 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXspWvW0aGsY4RGe37AD2DsBEcKXBCyHbOoGP4IPBZztpmisoBv3yDzpIlkmYinvddJEqx4MUg==
-X-Received: by 2002:a05:600c:1d8e:b0:3d1:fcb4:4074 with SMTP id
- p14-20020a05600c1d8e00b003d1fcb44074mr28876426wms.22.1674566440528; 
- Tue, 24 Jan 2023 05:20:40 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- 5-20020a05600c230500b003d04e4ed873sm13152950wmo.22.2023.01.24.05.20.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 05:20:39 -0800 (PST)
-Date: Tue, 24 Jan 2023 13:20:37 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- James Houghton <jthoughton@google.com>, Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH RFC 12/21] migration: Introduce page size
- for-migration-only
-Message-ID: <Y8/bJQncX3pdWYQr@work-vm>
-References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-13-peterx@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=6JnF7rKYo8Dtt6tK5CM56Rc7pqTYb5px+8L52G3rLPY=;
+ b=wZblCh79UOcTX96fymX3Qolztp6kodD4hoAXpdZ9rawah9wEfZ6fUmM/xTVscZxPzL
+ 5ZKLlnK4VeH9kCvVI5BwVLSaxESOsK+1jVMdZGHtBCaJCAKDKF+QW97fN6MpZ2Zdfo0B
+ ycS6F8+lXqSwnee5bT6ML19GeXkwYInApT65J1ad2ez7tK6Ju79s0hDZe7IXE7cFsSrk
+ Zzje6YnUIEtAY95dolJVvucO6jpOf+LIbKaziGHErKWkA9+iOKjTFjoJE3QQ6jAuOFm/
+ vrCHYBOHf+QCWcWJcnItPkBlkFw5eBy/bTGpAVgxXVXZ/4m+pAd184uX4zX3rJSHq1W3
+ tF8w==
+X-Gm-Message-State: AFqh2kpB7btLl5xQJr9tNjQDgdlUvjKjE5FLdebRtiaAO8hJur9SQ3uB
+ 2JWifyoDXsx2CcFTxgNW2Mdc2BLK26h/BHdJnTDZQczeU2rVzg==
+X-Google-Smtp-Source: AMrXdXssQ6+9QAiocLWY7Yuq9PM04LwCC04fq1R26kls36dpcBUv/CMcK16dkw+/qQemeXKTMoqkoQjjnI1/GXZ2kis=
+X-Received: by 2002:a05:600c:2e42:b0:3da:f648:9ea7 with SMTP id
+ q2-20020a05600c2e4200b003daf6489ea7mr1710403wmf.27.1674566668051; Tue, 24 Jan
+ 2023 05:24:28 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230117220914.2062125-13-peterx@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20230123090324.732681-1-alexghiti@rivosinc.com>
+ <20230123090324.732681-6-alexghiti@rivosinc.com>
+ <20230123135126.koxdvloakhwk2gcy@orel>
+In-Reply-To: <20230123135126.koxdvloakhwk2gcy@orel>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Tue, 24 Jan 2023 14:24:17 +0100
+Message-ID: <CAHVXubhNP1O-v_wpweV99q5L8WHKcoZa_=zDEXGwVTMLPOZn3w@mail.gmail.com>
+Subject: Re: [PATCH v6 5/5] riscv: Introduce satp mode hw capabilities
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=alexghiti@rivosinc.com; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,229 +88,289 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Migration may not want to recognize memory chunks in page size of the host
-> only, but sometimes we may want to recognize the memory in smaller chunks
-> if e.g. they're doubly mapped as both huge and small.
-> 
-> In those cases we'll prefer to assume the memory page size is always mapped
-> small (qemu_real_host_page_size) and we'll do things just like when the
-> pages was only smally mapped.
-> 
-> Let's do this to be prepared of postcopy double-mapping for hugetlbfs.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  migration/migration.c    |  6 ++++--
->  migration/postcopy-ram.c | 16 +++++++++-------
->  migration/ram.c          | 29 ++++++++++++++++++++++-------
->  migration/ram.h          |  1 +
->  4 files changed, 36 insertions(+), 16 deletions(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index b174f2af92..f6fe474fc3 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -408,7 +408,7 @@ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
->  {
->      uint8_t bufc[12 + 1 + 255]; /* start (8), len (4), rbname up to 256 */
->      size_t msglen = 12; /* start + len */
-> -    size_t len = qemu_ram_pagesize(rb);
-> +    size_t len = migration_ram_pagesize(rb);
->      enum mig_rp_message_type msg_type;
->      const char *rbname;
->      int rbname_len;
-> @@ -443,8 +443,10 @@ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
->  int migrate_send_rp_req_pages(MigrationIncomingState *mis,
->                                RAMBlock *rb, ram_addr_t start, uint64_t haddr)
->  {
-> -    void *aligned = (void *)(uintptr_t)ROUND_DOWN(haddr, qemu_ram_pagesize(rb));
->      bool received = false;
-> +    void *aligned;
-> +
-> +    aligned = (void *)(uintptr_t)ROUND_DOWN(haddr, migration_ram_pagesize(rb));
->  
->      WITH_QEMU_LOCK_GUARD(&mis->page_request_mutex) {
->          received = ramblock_recv_bitmap_test_byte_offset(rb, start);
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index 2c86bfc091..acae1dc6ae 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -694,7 +694,7 @@ int postcopy_wake_shared(struct PostCopyFD *pcfd,
->                           uint64_t client_addr,
->                           RAMBlock *rb)
->  {
-> -    size_t pagesize = qemu_ram_pagesize(rb);
-> +    size_t pagesize = migration_ram_pagesize(rb);
->      struct uffdio_range range;
->      int ret;
->      trace_postcopy_wake_shared(client_addr, qemu_ram_get_idstr(rb));
-> @@ -712,7 +712,9 @@ int postcopy_wake_shared(struct PostCopyFD *pcfd,
->  static int postcopy_request_page(MigrationIncomingState *mis, RAMBlock *rb,
->                                   ram_addr_t start, uint64_t haddr)
->  {
-> -    void *aligned = (void *)(uintptr_t)ROUND_DOWN(haddr, qemu_ram_pagesize(rb));
-> +    void *aligned;
-> +
-> +    aligned = (void *)(uintptr_t)ROUND_DOWN(haddr, migration_ram_pagesize(rb));
->  
->      /*
->       * Discarded pages (via RamDiscardManager) are never migrated. On unlikely
-> @@ -722,7 +724,7 @@ static int postcopy_request_page(MigrationIncomingState *mis, RAMBlock *rb,
->       * Checking a single bit is sufficient to handle pagesize > TPS as either
->       * all relevant bits are set or not.
->       */
-> -    assert(QEMU_IS_ALIGNED(start, qemu_ram_pagesize(rb)));
-> +    assert(QEMU_IS_ALIGNED(start, migration_ram_pagesize(rb)));
->      if (ramblock_page_is_discarded(rb, start)) {
->          bool received = ramblock_recv_bitmap_test_byte_offset(rb, start);
->  
-> @@ -740,7 +742,7 @@ static int postcopy_request_page(MigrationIncomingState *mis, RAMBlock *rb,
->  int postcopy_request_shared_page(struct PostCopyFD *pcfd, RAMBlock *rb,
->                                   uint64_t client_addr, uint64_t rb_offset)
->  {
-> -    uint64_t aligned_rbo = ROUND_DOWN(rb_offset, qemu_ram_pagesize(rb));
-> +    uint64_t aligned_rbo = ROUND_DOWN(rb_offset, migration_ram_pagesize(rb));
->      MigrationIncomingState *mis = migration_incoming_get_current();
->  
->      trace_postcopy_request_shared_page(pcfd->idstr, qemu_ram_get_idstr(rb),
-> @@ -1020,7 +1022,7 @@ static void *postcopy_ram_fault_thread(void *opaque)
->                  break;
->              }
->  
-> -            rb_offset = ROUND_DOWN(rb_offset, qemu_ram_pagesize(rb));
-> +            rb_offset = ROUND_DOWN(rb_offset, migration_ram_pagesize(rb));
->              trace_postcopy_ram_fault_thread_request(msg.arg.pagefault.address,
->                                                  qemu_ram_get_idstr(rb),
->                                                  rb_offset,
-> @@ -1281,7 +1283,7 @@ int postcopy_notify_shared_wake(RAMBlock *rb, uint64_t offset)
->  int postcopy_place_page(MigrationIncomingState *mis, void *host, void *from,
->                          RAMBlock *rb)
->  {
-> -    size_t pagesize = qemu_ram_pagesize(rb);
-> +    size_t pagesize = migration_ram_pagesize(rb);
->  
->      /* copy also acks to the kernel waking the stalled thread up
->       * TODO: We can inhibit that ack and only do it if it was requested
-> @@ -1308,7 +1310,7 @@ int postcopy_place_page(MigrationIncomingState *mis, void *host, void *from,
->  int postcopy_place_page_zero(MigrationIncomingState *mis, void *host,
->                               RAMBlock *rb)
->  {
-> -    size_t pagesize = qemu_ram_pagesize(rb);
-> +    size_t pagesize = migration_ram_pagesize(rb);
->      trace_postcopy_place_page_zero(host);
->  
->      /* Normal RAMBlocks can zero a page using UFFDIO_ZEROPAGE
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 334309f1c6..945c6477fd 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -121,6 +121,20 @@ static struct {
->      uint8_t *decoded_buf;
->  } XBZRLE;
->  
-> +/* Get the page size we should use for migration purpose. */
-> +size_t migration_ram_pagesize(RAMBlock *block)
-> +{
-> +    /*
-> +     * When hugetlb doublemap is enabled, we should always use the smallest
-> +     * page for migration.
-> +     */
-> +    if (migrate_hugetlb_doublemap()) {
-> +        return qemu_real_host_page_size();
-> +    }
-> +
-> +    return qemu_ram_pagesize(block);
-> +}
-> +
->  static void XBZRLE_cache_lock(void)
->  {
->      if (migrate_use_xbzrle()) {
-> @@ -1049,7 +1063,7 @@ bool ramblock_page_is_discarded(RAMBlock *rb, ram_addr_t start)
->          MemoryRegionSection section = {
->              .mr = rb->mr,
->              .offset_within_region = start,
-> -            .size = int128_make64(qemu_ram_pagesize(rb)),
-> +            .size = int128_make64(migration_ram_pagesize(rb)),
->          };
->  
->          return !ram_discard_manager_is_populated(rdm, &section);
-> @@ -2152,7 +2166,7 @@ int ram_save_queue_pages(const char *rbname, ram_addr_t start, ram_addr_t len)
->       */
->      if (postcopy_preempt_active()) {
->          ram_addr_t page_start = start >> TARGET_PAGE_BITS;
-> -        size_t page_size = qemu_ram_pagesize(ramblock);
-> +        size_t page_size = migration_ram_pagesize(ramblock);
->          PageSearchStatus *pss = &ram_state->pss[RAM_CHANNEL_POSTCOPY];
->          int ret = 0;
->  
-> @@ -2316,7 +2330,7 @@ static int ram_save_target_page(RAMState *rs, PageSearchStatus *pss)
->  static void pss_host_page_prepare(PageSearchStatus *pss)
->  {
->      /* How many guest pages are there in one host page? */
-> -    size_t guest_pfns = qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
-> +    size_t guest_pfns = migration_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
->  
->      pss->host_page_sending = true;
->      pss->host_page_start = ROUND_DOWN(pss->page, guest_pfns);
-> @@ -2425,7 +2439,7 @@ static int ram_save_host_page(RAMState *rs, PageSearchStatus *pss)
->      bool page_dirty, preempt_active = postcopy_preempt_active();
->      int tmppages, pages = 0;
->      size_t pagesize_bits =
-> -        qemu_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
-> +        migration_ram_pagesize(pss->block) >> TARGET_PAGE_BITS;
->      unsigned long start_page = pss->page;
->      int res;
->  
-> @@ -3518,7 +3532,7 @@ static void *host_page_from_ram_block_offset(RAMBlock *block,
->  {
->      /* Note: Explicitly no check against offset_in_ramblock(). */
->      return (void *)QEMU_ALIGN_DOWN((uintptr_t)(block->host + offset),
-> -                                   block->page_size);
-> +                                   migration_ram_pagesize(block));
->  }
->  
->  static ram_addr_t host_page_offset_from_ram_block_offset(RAMBlock *block,
-> @@ -3970,7 +3984,8 @@ int ram_load_postcopy(QEMUFile *f, int channel)
->                  break;
->              }
->              tmp_page->target_pages++;
-> -            matches_target_page_size = block->page_size == TARGET_PAGE_SIZE;
-> +            matches_target_page_size =
-> +                migration_ram_pagesize(block) == TARGET_PAGE_SIZE;
->              /*
->               * Postcopy requires that we place whole host pages atomically;
->               * these may be huge pages for RAMBlocks that are backed by
+On Mon, Jan 23, 2023 at 2:51 PM Andrew Jones <ajones@ventanamicro.com> wrote:
+>
+> On Mon, Jan 23, 2023 at 10:03:24AM +0100, Alexandre Ghiti wrote:
+> > Currently, the max satp mode is set with the only constraint that it must be
+> > implemented in qemu, i.e. set in valid_vm_1_10_[32|64].
+> >
+> > But we actually need to add another level of constraint: what the hw is
+> > actually capable of, because currently, a linux booting on a sifive-u54
+> > boots in sv57 mode which is incompatible with the cpu's sv39 max
+> > capability.
+> >
+> > So add a new bitmap to RISCVSATPMap which contains this capability and
+> > initialize it in every XXX_cpu_init.
+> >
+> > Finally, we have the following chain of constraints:
+> >
+> > Qemu capability > HW capability > User choice > Software capability
+> >
+> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > ---
+> >  target/riscv/cpu.c | 78 +++++++++++++++++++++++++++++++---------------
+> >  target/riscv/cpu.h |  8 +++--
+> >  2 files changed, 59 insertions(+), 27 deletions(-)
+> >
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index e409e6ab64..19a37fee2b 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -292,24 +292,39 @@ const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit)
+> >      g_assert_not_reached();
+> >  }
+> >
+> > -/* Sets the satp mode to the max supported */
+> > -static void set_satp_mode_default(RISCVCPU *cpu, bool is_32_bit)
+> > +static void set_satp_mode_max_supported(RISCVCPU *cpu,
+> > +                                        const char *satp_mode_str,
+> > +                                        bool is_32_bit)
+>
+> I'd drop 'is_32_bit' and get it from 'cpu', which would "clean up" all the
+> callsites by getting rid of all the true/false stuff.
 
-Hmm do you really want this change?
+Indeed, better this way
 
-Dave
+> Also, why take the string instead of the VM_1_10_SV* define?
 
-> @@ -4005,7 +4020,7 @@ int ram_load_postcopy(QEMUFile *f, int channel)
->               * page
->               */
->              if (tmp_page->target_pages ==
-> -                (block->page_size / TARGET_PAGE_SIZE)) {
-> +                (migration_ram_pagesize(block) / TARGET_PAGE_SIZE)) {
->                  place_needed = true;
->              }
->              place_source = tmp_page->tmp_huge_page;
-> diff --git a/migration/ram.h b/migration/ram.h
-> index 81cbb0947c..162b3e7cb8 100644
-> --- a/migration/ram.h
-> +++ b/migration/ram.h
-> @@ -68,6 +68,7 @@ bool ramblock_is_ignored(RAMBlock *block);
->          if (!qemu_ram_is_migratable(block)) {} else
->  
->  int xbzrle_cache_resize(uint64_t new_size, Error **errp);
-> +size_t migration_ram_pagesize(RAMBlock *block);
->  uint64_t ram_bytes_remaining(void);
->  uint64_t ram_bytes_total(void);
->  void mig_throttle_counter_reset(void);
-> -- 
-> 2.37.3
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+No particular reason, but I changed it to VM_1_10_SV*, thanks
 
+>
+> >  {
+> > -    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
+> > -        cpu->cfg.satp_mode.map |=
+> > -                        (1 << satp_mode_from_str(is_32_bit ? "sv32" : "sv57"));
+> > -    } else {
+> > -        cpu->cfg.satp_mode.map |= (1 << satp_mode_from_str("mbare"));
+> > +    uint8_t satp_mode = satp_mode_from_str(satp_mode_str);
+> > +    const bool *valid_vm = is_32_bit ? valid_vm_1_10_32 : valid_vm_1_10_64;
+> > +
+> > +    for (int i = 0; i <= satp_mode; ++i) {
+> > +        if (valid_vm[i]) {
+> > +            cpu->cfg.satp_mode.supported |= (1 << i);
+> > +        }
+> >      }
+> >  }
+> >
+> > +/* Sets the satp mode to the max supported */
+> > +static void set_satp_mode_default(RISCVCPU *cpu)
+> > +{
+> > +    uint8_t satp_mode = satp_mode_max_from_map(cpu->cfg.satp_mode.supported);
+> > +
+> > +    cpu->cfg.satp_mode.map |= (1 << satp_mode);
+>
+> Let's do 'cpu->cfg.satp_mode.map = cpu->cfg.satp_mode.supported' to make
+> sure 'map' has all supported bits set for property probing.
+
+Indeed now the map is fully set.
+
+>
+> > +}
+> > +
+> >  static void riscv_any_cpu_init(Object *obj)
+> >  {
+> >      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> > +    RISCVCPU *cpu = RISCV_CPU(obj);
+> > +
+> >  #if defined(TARGET_RISCV32)
+> >      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+> > +    set_satp_mode_max_supported(cpu, "sv32", true);
+> >  #elif defined(TARGET_RISCV64)
+> >      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+> > +    set_satp_mode_max_supported(cpu, "sv57", false);
+> >  #endif
+> >      set_priv_version(env, PRIV_VERSION_1_12_0);
+> >      register_cpu_props(obj);
+> > @@ -319,18 +334,24 @@ static void riscv_any_cpu_init(Object *obj)
+> >  static void rv64_base_cpu_init(Object *obj)
+> >  {
+> >      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> > +    RISCVCPU *cpu = RISCV_CPU(obj);
+> > +
+> >      /* We set this in the realise function */
+> >      set_misa(env, MXL_RV64, 0);
+> >      register_cpu_props(obj);
+> >      /* Set latest version of privileged specification */
+> >      set_priv_version(env, PRIV_VERSION_1_12_0);
+> > +    set_satp_mode_max_supported(cpu, "sv57", false);
+> >  }
+> >
+> >  static void rv64_sifive_u_cpu_init(Object *obj)
+> >  {
+> >      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> > +    RISCVCPU *cpu = RISCV_CPU(obj);
+> > +
+> >      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+> >      set_priv_version(env, PRIV_VERSION_1_10_0);
+> > +    set_satp_mode_max_supported(cpu, "sv39", false);
+> >  }
+> >
+> >  static void rv64_sifive_e_cpu_init(Object *obj)
+> > @@ -341,6 +362,7 @@ static void rv64_sifive_e_cpu_init(Object *obj)
+> >      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);
+> >      set_priv_version(env, PRIV_VERSION_1_10_0);
+> >      cpu->cfg.mmu = false;
+> > +    set_satp_mode_max_supported(cpu, "mbare", false);
+> >  }
+> >
+> >  static void rv128_base_cpu_init(Object *obj)
+> > @@ -352,11 +374,13 @@ static void rv128_base_cpu_init(Object *obj)
+> >          exit(EXIT_FAILURE);
+> >      }
+> >      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> > +    RISCVCPU *cpu = RISCV_CPU(obj);
+> >      /* We set this in the realise function */
+> >      set_misa(env, MXL_RV128, 0);
+> >      register_cpu_props(obj);
+> >      /* Set latest version of privileged specification */
+> >      set_priv_version(env, PRIV_VERSION_1_12_0);
+> > +    set_satp_mode_max_supported(cpu, "sv57", false);
+> >  }
+> >  #else
+> >  static void rv32_base_cpu_init(Object *obj)
+> > @@ -367,13 +391,17 @@ static void rv32_base_cpu_init(Object *obj)
+> >      register_cpu_props(obj);
+> >      /* Set latest version of privileged specification */
+> >      set_priv_version(env, PRIV_VERSION_1_12_0);
+> > +    set_satp_mode_max_supported(cpu, "sv32", true);
+> >  }
+> >
+> >  static void rv32_sifive_u_cpu_init(Object *obj)
+> >  {
+> >      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> > +    RISCVCPU *cpu = RISCV_CPU(obj);
+> > +
+> >      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+> >      set_priv_version(env, PRIV_VERSION_1_10_0);
+> > +    set_satp_mode_max_supported(cpu, "sv32", true);
+> >  }
+> >
+> >  static void rv32_sifive_e_cpu_init(Object *obj)
+> > @@ -384,6 +412,7 @@ static void rv32_sifive_e_cpu_init(Object *obj)
+> >      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);
+> >      set_priv_version(env, PRIV_VERSION_1_10_0);
+> >      cpu->cfg.mmu = false;
+> > +    set_satp_mode_max_supported(cpu, "mbare", true);
+> >  }
+> >
+> >  static void rv32_ibex_cpu_init(Object *obj)
+> > @@ -394,6 +423,7 @@ static void rv32_ibex_cpu_init(Object *obj)
+> >      set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);
+> >      set_priv_version(env, PRIV_VERSION_1_11_0);
+> >      cpu->cfg.mmu = false;
+> > +    set_satp_mode_max_supported(cpu, "mbare", true);
+> >      cpu->cfg.epmp = true;
+> >  }
+> >
+> > @@ -405,6 +435,7 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
+> >      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
+> >      set_priv_version(env, PRIV_VERSION_1_10_0);
+> >      cpu->cfg.mmu = false;
+> > +    set_satp_mode_max_supported(cpu, "mbare", true);
+> >  }
+> >  #endif
+> >
+> > @@ -696,7 +727,9 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+> >  static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
+> >  {
+> >      bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
+> > -    const bool *valid_vm = rv32 ? valid_vm_1_10_32 : valid_vm_1_10_64;
+> > +    uint8_t satp_mode_map_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
+> > +    uint8_t satp_mode_supported_max =
+> > +                        satp_mode_max_from_map(cpu->cfg.satp_mode.supported);
+> >
+> >      if (cpu->cfg.satp_mode.map == 0) {
+> >          /*
+> > @@ -704,7 +737,7 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
+> >           * satp mode.
+> >           */
+> >          if (cpu->cfg.satp_mode.init == 0) {
+> > -            set_satp_mode_default(cpu, rv32);
+> > +            set_satp_mode_default(cpu);
+> >          } else {
+> >              /*
+> >               * Find the lowest level that was disabled and then enable the
+> > @@ -714,9 +747,9 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
+> >              for (int i = 1; i < 16; ++i) {
+> >                  if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
+> >                      (cpu->cfg.satp_mode.init & (1 << i)) &&
+> > -                    valid_vm[i]) {
+> > +                    (cpu->cfg.satp_mode.supported & (1 << i))) {
+> >                      for (int j = i - 1; j >= 0; --j) {
+> > -                        if (valid_vm[j]) {
+> > +                        if (cpu->cfg.satp_mode.supported & (1 << j)) {
+> >                              cpu->cfg.satp_mode.map |= (1 << j);
+> >                              break;
+> >                          }
+> > @@ -727,13 +760,12 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
+> >          }
+> >      }
+> >
+> > -    /* Make sure the configuration asked is supported by qemu */
+> > -    for (int i = 0; i < 16; ++i) {
+> > -        if ((cpu->cfg.satp_mode.map & (1 << i)) && !valid_vm[i]) {
+> > -            error_setg(errp, "satp_mode %s is not valid",
+> > -                       satp_mode_str(i, rv32));
+> > -            return;
+> > -        }
+> > +    /* Make sure the user asked for a supported configuration (HW and qemu) */
+> > +    if (satp_mode_map_max > satp_mode_supported_max) {
+> > +        error_setg(errp, "satp_mode %s is higher than hw max capability %s",
+> > +                   satp_mode_str(satp_mode_map_max, rv32),
+> > +                   satp_mode_str(satp_mode_supported_max, rv32));
+> > +        return;
+> >      }
+> >
+> >      /*
+> > @@ -741,17 +773,13 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
+> >       * the specification.
+> >       */
+> >      if (!rv32) {
+> > -        uint8_t satp_mode_max;
+> > -
+> > -        satp_mode_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
+> > -
+> > -        for (int i = satp_mode_max - 1; i >= 0; --i) {
+> > +        for (int i = satp_mode_map_max - 1; i >= 0; --i) {
+> >              if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
+> >                  (cpu->cfg.satp_mode.init & (1 << i)) &&
+> > -                valid_vm[i]) {
+> > +                (cpu->cfg.satp_mode.supported & (1 << i))) {
+> >                  error_setg(errp, "cannot disable %s satp mode if %s "
+> >                             "is enabled", satp_mode_str(i, false),
+> > -                           satp_mode_str(satp_mode_max, false));
+> > +                           satp_mode_str(satp_mode_map_max, false));
+> >                  return;
+> >              }
+> >          }
+> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> > index e37177db5c..b591122099 100644
+> > --- a/target/riscv/cpu.h
+> > +++ b/target/riscv/cpu.h
+> > @@ -416,13 +416,17 @@ struct RISCVCPUClass {
+> >
+> >  /*
+> >   * map is a 16-bit bitmap: the most significant set bit in map is the maximum
+> > - * satp mode that is supported.
+> > + * satp mode that is supported. It may be chosen by the user and must respect
+> > + * what qemu implements (valid_1_10_32/64) and what the hw is capable of
+> > + * (supported bitmap below).
+> >   *
+> >   * init is a 16-bit bitmap used to make sure the user selected a correct
+> >   * configuration as per the specification.
+> > + *
+> > + * supported is a 16-bit bitmap used to reflect the hw capabilities.
+> >   */
+> >  typedef struct {
+> > -    uint16_t map, init;
+> > +    uint16_t map, init, supported;
+> >  } RISCVSATPMap;
+> >
+> >  struct RISCVCPUConfig {
+> > --
+> > 2.37.2
+> >
+>
+> Thanks,
+> drew
 
