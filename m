@@ -2,55 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 228C5678DB7
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 02:50:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37BD1678DDF
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:06:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK8RJ-0005cy-Ga; Mon, 23 Jan 2023 20:49:33 -0500
+	id 1pK8gW-0008Mz-Ez; Mon, 23 Jan 2023 21:05:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pK8RG-0005cf-K8; Mon, 23 Jan 2023 20:49:30 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pK8RE-00012x-5P; Mon, 23 Jan 2023 20:49:29 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id EA5D0746376;
- Tue, 24 Jan 2023 02:47:00 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id B2A5974635C; Tue, 24 Jan 2023 02:47:00 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id B0ACF746346;
- Tue, 24 Jan 2023 02:47:00 +0100 (CET)
-Date: Tue, 24 Jan 2023 02:47:00 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
- qemu-ppc@nongnu.org
-Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
-In-Reply-To: <CABLmASGc6fybw7mL5JHUCukwoB6KjGaaWHct5mi20A2vXZhtaA@mail.gmail.com>
-Message-ID: <8e6f46fb-5e1b-8016-c595-85e8e83ace47@eik.bme.hu>
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <4162db13bd1da9c6ddd77f185cef738e44790467.1672868854.git.balaton@eik.bme.hu>
- <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
- <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
- <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
- <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
- <ab9e33e5-70fc-0a76-c548-16ec787ea1af@ilande.co.uk>
- <ed8ee369-c9a8-7853-3b65-7361fefc3c63@eik.bme.hu>
- <ca5240e6-e00d-6213-22d6-f7b43d8bed18@ilande.co.uk>
- <CABLmASGc6fybw7mL5JHUCukwoB6KjGaaWHct5mi20A2vXZhtaA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pK8gU-0008Mk-CA
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:14 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pK8gS-0003m4-Kt
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:14 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ b24-20020a17090a551800b0022beefa7a23so309168pji.5
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=9JRd0oYcShkUVxwrdxGixPt3BC5iKHXkm/SWl8UGf5I=;
+ b=xKwjNlc1mFc4TKLJw4zrtFhMS3iSZxPVrmlxYwznYJQmMmwwggR/09MQb+BlxJ/1Dt
+ IJBEayWm0sDJdt/mAp6U+ILbBXkeU0o3EOKEyaaLvf6oDzLXOiuuS/QOYZqwv9CDxGPP
+ Jhcpz7dsiptjCu0nNIF7/MzjlVCQNNKmqnjWYvEgEfpMkJ0L3x/oR212yMF7bv+YTjiz
+ aDQGSULTDHjaX1viz0WidUfRoChTqxbgdBwaWhRDBpaaJolfh1ZvEEh2MxorPupFa8zd
+ vfDUCuT2v4dphZ4nSLn9PfdrqpmwlkVpGAcxy+ynFizbVvEDFXcwDkjmhQGqaGAIRp4D
+ JuhA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9JRd0oYcShkUVxwrdxGixPt3BC5iKHXkm/SWl8UGf5I=;
+ b=uhgxmLImknuLCYgq/KJOE5sE5ImADD9GjOGi2KfYWOZZjIGuTU4R7dSp8or8miLlK3
+ SShPR7vzrdB0msZYTCp/mtITcooM7E/wIbtSwgGbmKc6rMPNHK34vxLABFOh+DIWxyy4
+ CeL0sO/Wld84c6+AX4Hq2i4MnDorf2xPmRh31RNJFFYt154N+VFraUcdiqDhKaHv/7S6
+ sZOzlYhAyAIu2e3iDHzfgZWzeD2sYnciuCUvmjEeumUZ2YWpVF7tmmFH/PsfeAT0WEhw
+ EwwaHtkSYGadNcTgzCgVjIs3vbrw9V2i433OzFBxNgyIU9L3jHuj9uKhyg16Ci8kOonV
+ Q4Aw==
+X-Gm-Message-State: AFqh2krcEAxl3Lv3RsmZ0RtmCDUPHnSyLk4DWtIY1fvW29RlZFRkpzWM
+ z4sSKwvcnKVvTbIHO4QwgflanyPhScqs8VMj
+X-Google-Smtp-Source: AMrXdXvH/pjVXeWf5AV6vh5QEBAL2czDQDj0nUjblrb1dGfV7DoHLHxuf3Jf6OWMJxRBlGkYvmjADA==
+X-Received: by 2002:a05:6a21:998d:b0:b8:4ced:c326 with SMTP id
+ ve13-20020a056a21998d00b000b84cedc326mr38058743pzb.7.1674525910833; 
+ Mon, 23 Jan 2023 18:05:10 -0800 (PST)
+Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
+ by smtp.gmail.com with ESMTPSA id
+ fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 23 Jan 2023 18:05:10 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
+Subject: [PULL v2 00/15] tcg patch queue
+Date: Mon, 23 Jan 2023 16:04:52 -1000
+Message-Id: <20230124020507.3732200-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,43 +88,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 24 Jan 2023, Howard Spoelstra wrote:
-> From a Mac OS guest perspective, via=cuda is needed for Mac OS 9.0.4 due to
-> the 2 usb devices (mouse/kbd) issue. And for 10.0/10.1 (my guess would be
-> that these suffer the same usb issue)
-> The real powermac3,1 AGP has no adb.
+Second try's the charm today, right?
 
-And do these OSes run on real PowerMac3,1? If so then we likely have a bug 
-in USB emulation so maybe that could be fixed? In any case my patch does 
-not change mac99 and this should continue to work.
 
-> via=cuda supports Mac OS 9.0.4 up to OS X 10.4. via=pmu is strictly only
-> needed for Mac OS X 10.5 guest (for which the speed reported was hacked to
-> 900Mhz to fool the installer), but should support all Mac OS/OS X that are
-> now supported.
+r~
 
-Since via=pmu is what should be a real machine does it run OS X >=10.2 
-already?
 
-> via=pmu-adb seems only needed to trick mac os server installations that
-> would later run on the g3beige.
->
-> To my knowledge 32 bit Linux guests all require via=pmu
-> See here: https://wiki.qemu.org/Documentation/Platforms/PowerPC
+The following changes since commit 00b1faea41d283e931256aa78aa975a369ec3ae6:
 
-That doc might need some updating. It seems to be from before pegasos2 was 
-added. Maybe we would be better off linking from this page to others that 
-are more actively maintained such as: 
-https://www.emaculation.com/doku.php/qemu 
-and 
-http://zero.eik.bme.hu/~balaton/qemu/amiga/
+  Merge tag 'pull-target-arm-20230123' of https://git.linaro.org/people/pmaydell/qemu-arm into staging (2023-01-23 13:40:28 +0000)
 
-or even better updating the main docs in
+are available in the Git repository at:
 
-https://www.qemu.org/docs/master/system/ppc/powermac.html
+  https://gitlab.com/rth7680/qemu.git tags/pull-tcg-20230123
 
-or somehow link these sources together.
+for you to fetch changes up to 709bcd7da3f6b4655d910634a0d520fa1439df38:
 
-Regards,
-BALATON Zoltan
+  tcg/loongarch64: Reorg goto_tb implementation (2023-01-23 16:00:13 -1000)
+
+----------------------------------------------------------------
+common-user: Re-enable ppc32 host
+tcg: Avoid recursion in tcg_gen_mulu2_i32
+tcg: Mark tcg helpers noinline to avoid an issue with LTO
+tcg/arm: Use register pair allocation for qemu_{ld,st}_i64
+disas: Enable loongarch disassembler, and fixes
+tcg/loongarch64: Improve move immediate
+tcg/loongarch64: Improve add immediate
+tcg/loongarch64: Improve setcond
+tcg/loongarch64: Implement movcond
+tcg/loongarch64: Use tcg_pcrel_diff in tcg_out_ldst
+tcg/loongarch64: Reorg goto_tb implementation
+
+----------------------------------------------------------------
+Richard Henderson (14):
+      tcg: Avoid recursion in tcg_gen_mulu2_i32
+      tcg/arm: Use register pair allocation for qemu_{ld,st}_i64
+      common-user/host/ppc: Implement safe-syscall.inc.S
+      linux-user: Implment host/ppc/host-signal.h
+      tcg: Mark tcg helpers noinline to avoid an issue with LTO
+      target/loongarch: Enable the disassembler for host tcg
+      target/loongarch: Disassemble jirl properly
+      target/loongarch: Disassemble pcadd* addresses
+      tcg/loongarch64: Update tcg-insn-defs.c.inc
+      tcg/loongarch64: Introduce tcg_out_addi
+      tcg/loongarch64: Improve setcond expansion
+      tcg/loongarch64: Implement movcond
+      tcg/loongarch64: Use tcg_pcrel_diff in tcg_out_ldst
+      tcg/loongarch64: Reorg goto_tb implementation
+
+Rui Wang (1):
+      tcg/loongarch64: Optimize immediate loading
+
+ include/exec/helper-proto.h                    |  32 ++-
+ include/tcg/tcg.h                              |   7 -
+ linux-user/include/host/ppc/host-signal.h      |  39 +++
+ tcg/arm/tcg-target-con-set.h                   |   7 +-
+ tcg/arm/tcg-target-con-str.h                   |   2 +
+ tcg/loongarch64/tcg-target-con-set.h           |   5 +-
+ tcg/loongarch64/tcg-target-con-str.h           |   2 +-
+ tcg/loongarch64/tcg-target.h                   |  11 +-
+ target/loongarch/insns.decode                  |   3 +-
+ disas.c                                        |   2 +
+ target/loongarch/disas.c                       |  39 ++-
+ tcg/tcg-op.c                                   |   4 +-
+ target/loongarch/insn_trans/trans_branch.c.inc |   2 +-
+ tcg/arm/tcg-target.c.inc                       |  28 +-
+ tcg/loongarch64/tcg-insn-defs.c.inc            |  10 +-
+ tcg/loongarch64/tcg-target.c.inc               | 364 ++++++++++++++++---------
+ common-user/host/ppc/safe-syscall.inc.S        | 107 ++++++++
+ target/loongarch/meson.build                   |   3 +-
+ 18 files changed, 497 insertions(+), 170 deletions(-)
+ create mode 100644 linux-user/include/host/ppc/host-signal.h
+ create mode 100644 common-user/host/ppc/safe-syscall.inc.S
 
