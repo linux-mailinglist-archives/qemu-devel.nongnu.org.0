@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E55267A0E7
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:08:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E85767A0F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:10:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKNiC-0006WK-P4; Tue, 24 Jan 2023 13:08:01 -0500
+	id 1pKNi8-00066l-Ch; Tue, 24 Jan 2023 13:07:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNhO-0005BM-Us
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:13 -0500
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430])
+ id 1pKNhJ-00056S-U9
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:05 -0500
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNhI-00075o-PW
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:10 -0500
-Received: by mail-wr1-x430.google.com with SMTP id t18so1903254wro.1
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:07:04 -0800 (PST)
+ id 1pKNhG-00074U-9S
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:05 -0500
+Received: by mail-wm1-x32e.google.com with SMTP id
+ q10-20020a1cf30a000000b003db0edfdb74so1309712wmq.1
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:07:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=RBDzHQZqYrP1DcvcucqhZ7MZ+pIiIprtov8SIQRPHqs=;
- b=RU/pQA+wXpGF26W1f+Chp64hCSArdV7QdJQ4z7ariEUrkAuvtFq6vPL6ifBG46YsJq
- BDuaFI4dMkODcxa3VroUnUjBOPnamDGPAlidtpxY7wFeO+P5p7mz+Yxu41v0POUkL9it
- f4IGrMOQU59MM8xyk4QDUv1buiZPU2Ldlpuy8iV8abSoqO7xVaTgBQiFAziBN92qVfk5
- UKqA05rsK11oAXnU0P2dnn0Wb9wuxClmKCt9SyLKzsLqJDUnbmpjdOGxm2ZqFD3iLx/a
- 7Us+T5016CgblpNBqgchBbzT0JeYB5dqQxSpLIS332ilCQ/4BtVvwI3mvgLOCpWiCGVP
- gKAg==
+ bh=PgyfneOjw1nm+q621r4vl43tV7pgTZ+t6Ze4357XpBo=;
+ b=cO7GfWVPt7HMjWZaTNmlQZ195pIxC1pgRtouZ2f0p8PpNL6JiJQxtXbIz0NeFPrAsD
+ 3Y7lQtJjpRto/h3wUdtZ62HTRcw8xMU+4kg82nJyl5KsV6VmVmEXHlGdn16FvA3dHHn5
+ PZgA76VhBbSrzK+YEXqRnQW0JHZ/DYwuStukFwQYbS/QdzAjIfqM9iXwjPFPxmH441jN
+ ObEd2SOdshscxGjUcvOhn5rQeqSMG0q+Wz8jdn/RckI7zYQePJPeGG8Trx8eRP3jSAY7
+ DjzFfDlNtI/7uXwsZTkppZDTOPm77foZ7qG38MT/wxMhX2MaQrqggdHYNvK2b85iVswg
+ 1J1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=RBDzHQZqYrP1DcvcucqhZ7MZ+pIiIprtov8SIQRPHqs=;
- b=JIkGGBR368R+hRXhflTbyhRj+EhUxSm6drvA4wmirchDuKMnpqFcmLY/tHX2haONkN
- r8LC1VFfmYxRu9c/a8tptlSk+JI16LZKDlwpBVp6EWogPm6FMBD8XTNeZI2QzAN0X+fb
- sC4q65UimnGit9/lkw9g37CIa0HZ8C2LdR5GkmncU1vOQ6YvRTMjcLUc3ZOTZqjSG+jb
- OcIN+jzub72olF6fLqKrU4gK+5TwW9rsA1IceWZ++nNbkdFhn8A0hOYFaqYUx4ZWeSXv
- BUcJ7jzJYwfI/EpB8hynHONlJHbx/peUqNtl1kIW9yLkob4vlfEq9+U0WydPCO6dY+Gt
- IVgQ==
-X-Gm-Message-State: AFqh2krU+zS/Czz+Hrv2EbFZHoBCi0mCafMK1asCG+nuiulM3+QcxEAQ
- u2MV+wEMJCK6sSSo2Y2UF7w60g==
-X-Google-Smtp-Source: AMrXdXuWNJz/4i1f3PCDekqyBrzoBbDT64rdY3XGjs4RxNP8SxYXNeMrfgFINOeh3y9sMyswHL6wpA==
-X-Received: by 2002:a5d:5182:0:b0:242:4697:d826 with SMTP id
- k2-20020a5d5182000000b002424697d826mr24847215wrv.29.1674583623317; 
- Tue, 24 Jan 2023 10:07:03 -0800 (PST)
+ bh=PgyfneOjw1nm+q621r4vl43tV7pgTZ+t6Ze4357XpBo=;
+ b=p6PfQNzCud/YO5myC0AFY2LwYXj2gYY6RtlO8EkUHWZ7WxxGJlS1Zs9O+oUnMKB6pt
+ r0nRViuS1IJpWHZEZ92KAggONa3jcSizDluECWIBNEmeHm6qk4qTNyJ8MdcKmoSv7dHB
+ 85OPBTnTvl1/e3tAnrpzQS0anHwl9eaQu3qAm/TltbqucKHdGN13CSnp/m7zcZDZYgN3
+ h1g/9Af3qfoL3MnKZhnK1ilApltVzuVdXH3M7hrZiCLcDGYhOHoWYb7CTBDH1lj6y0CN
+ jY/BdL2ecbeMUCUyKPNlv9XJ1zHhQ3+kN43GCbGNXDQZMcm/AWPbeEB0gO5XuSEXYpWZ
+ 4t9A==
+X-Gm-Message-State: AFqh2kpMslYuCjy6a5lVPa3gFeolAkOV5dUPuquZvB8sol2oOMpaTE0w
+ BBFr6dlBj8m4dSFwgIVL1/rj/g==
+X-Google-Smtp-Source: AMrXdXtqjGELv+z6ikav/EHGcR9mbC4vbUpzhirJUaOyrIFklJh02HsY7P/IKlkDSVysRlYs9LhCzQ==
+X-Received: by 2002:a1c:7417:0:b0:3da:fcd:7dfe with SMTP id
+ p23-20020a1c7417000000b003da0fcd7dfemr36566186wmc.10.1674583619909; 
+ Tue, 24 Jan 2023 10:06:59 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- a5-20020a5d5705000000b002bdbde1d3absm2334399wrv.78.2023.01.24.10.06.59
+ hu30-20020a05600ca29e00b003db0659c454sm3049876wmb.32.2023.01.24.10.06.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 10:07:02 -0800 (PST)
+ Tue, 24 Jan 2023 10:06:58 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 895FB1FFD3;
+ by zen.linaroharston (Postfix) with ESMTP id A50D61FFD6;
  Tue, 24 Jan 2023 18:01:31 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -81,25 +82,25 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>,
  Emilio Cota <cota@braap.org>
-Subject: [PATCH v2 33/35] tcg: exclude non-memory effecting helpers from
- instrumentation
-Date: Tue, 24 Jan 2023 18:01:25 +0000
-Message-Id: <20230124180127.1881110-34-alex.bennee@linaro.org>
+Subject: [PATCH v2 34/35] cpu-exec: assert that plugin_mem_cbs is NULL after
+ execution
+Date: Tue, 24 Jan 2023 18:01:26 +0000
+Message-Id: <20230124180127.1881110-35-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124180127.1881110-1-alex.bennee@linaro.org>
 References: <20230124180127.1881110-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::430;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x430.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,69 +118,59 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Emilio Cota <cota@braap.org>
 
-There are actually a whole bunch of helpers that don't affect memory
-that we shouldn't instrument. They are helpfully identified by the
-TCG_CALL_NO_SIDE_EFFECTS flag which marks out lookup_tb_ptr as well as
-a lot of the maths helpers. To avoid the string compare we introduce a
-new flag for plugin internals so we skip that too.
+Fixes: #1381
 
-Related: #1381
 Signed-off-by: Emilio Cota <cota@braap.org>
-Message-Id: <20230108164731.61469-4-cota@braap.org>
-[AJB: updated to skip all no SE plugins, add flag for plugin helper]
+Message-Id: <20230108165107.62488-1-cota@braap.org>
+[AJB: manually applied follow-up fix]
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-
 ---
-v2
-  - use TCG_CALL_NO_SIDE_EFFECTS as suggested by rth
-  - add flag for plugin specific helpers
----
- accel/tcg/plugin-helpers.h | 4 ++--
- include/tcg/tcg.h          | 2 ++
- tcg/tcg.c                  | 6 ++++--
- 3 files changed, 8 insertions(+), 4 deletions(-)
+ include/qemu/plugin.h | 4 ++++
+ accel/tcg/cpu-exec.c  | 2 ++
+ 2 files changed, 6 insertions(+)
 
-diff --git a/accel/tcg/plugin-helpers.h b/accel/tcg/plugin-helpers.h
-index 9829abe4a9..8e685e0654 100644
---- a/accel/tcg/plugin-helpers.h
-+++ b/accel/tcg/plugin-helpers.h
-@@ -1,4 +1,4 @@
+diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
+index e0ebedef84..fb338ba576 100644
+--- a/include/qemu/plugin.h
++++ b/include/qemu/plugin.h
+@@ -59,6 +59,8 @@ get_plugin_meminfo_rw(qemu_plugin_meminfo_t i)
  #ifdef CONFIG_PLUGIN
--DEF_HELPER_FLAGS_2(plugin_vcpu_udata_cb, TCG_CALL_NO_RWG, void, i32, ptr)
--DEF_HELPER_FLAGS_4(plugin_vcpu_mem_cb, TCG_CALL_NO_RWG, void, i32, i32, i64, ptr)
-+DEF_HELPER_FLAGS_2(plugin_vcpu_udata_cb, TCG_CALL_NO_RWG | TCG_CALL_PLUGIN, void, i32, ptr)
-+DEF_HELPER_FLAGS_4(plugin_vcpu_mem_cb, TCG_CALL_NO_RWG | TCG_CALL_PLUGIN, void, i32, i32, i64, ptr)
- #endif
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index 6f497172f8..8dc291d030 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -405,6 +405,8 @@ typedef TCGv_ptr TCGv_env;
- #define TCG_CALL_NO_SIDE_EFFECTS    0x0004
- /* Helper is G_NORETURN.  */
- #define TCG_CALL_NO_RETURN          0x0008
-+/* Helper is part of Plugins.  */
-+#define TCG_CALL_PLUGIN             0x0010
+ extern QemuOptsList qemu_plugin_opts;
  
- /* convenience version of most used call flags */
- #define TCG_CALL_NO_RWG         TCG_CALL_NO_READ_GLOBALS
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index d502327be2..fd557d55d3 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -1674,8 +1674,10 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
-     op = tcg_op_alloc(INDEX_op_call, total_args);
++#define QEMU_PLUGIN_ASSERT(cond) g_assert(cond)
++
+ static inline void qemu_plugin_add_opts(void)
+ {
+     qemu_add_opts(&qemu_plugin_opts);
+@@ -250,6 +252,8 @@ void qemu_plugin_user_postfork(bool is_child);
  
- #ifdef CONFIG_PLUGIN
--    /* detect non-plugin helpers */
--    if (tcg_ctx->plugin_insn && unlikely(strncmp(info->name, "plugin_", 7))) {
-+    /* Flag helpers that may affect guest state */
-+    if (tcg_ctx->plugin_insn &&
-+        !(info->flags & TCG_CALL_PLUGIN) &&
-+        !(info->flags & TCG_CALL_NO_SIDE_EFFECTS)) {
-         tcg_ctx->plugin_insn->calls_helpers = true;
+ #else /* !CONFIG_PLUGIN */
+ 
++#define QEMU_PLUGIN_ASSERT(cond)
++
+ static inline void qemu_plugin_add_opts(void)
+ { }
+ 
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 25ec73ef9a..9c857eeb07 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -504,6 +504,7 @@ static void cpu_exec_exit(CPUState *cpu)
+     if (cc->tcg_ops->cpu_exec_exit) {
+         cc->tcg_ops->cpu_exec_exit(cpu);
      }
- #endif
++    QEMU_PLUGIN_ASSERT(cpu->plugin_mem_cbs == NULL);
+ }
+ 
+ void cpu_exec_step_atomic(CPUState *cpu)
+@@ -980,6 +981,7 @@ cpu_exec_loop(CPUState *cpu, SyncClocks *sc)
+ 
+             cpu_loop_exec_tb(cpu, tb, pc, &last_tb, &tb_exit);
+ 
++            QEMU_PLUGIN_ASSERT(cpu->plugin_mem_cbs == NULL);
+             /* Try to align the host and virtual clocks
+                if the guest is in advance */
+             align_clocks(sc, cpu);
 -- 
 2.34.1
 
