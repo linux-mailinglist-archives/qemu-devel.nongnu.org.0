@@ -2,78 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCAC6678DEE
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:07:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54408678E32
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:21:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK8gu-0008Uz-PU; Mon, 23 Jan 2023 21:05:40 -0500
+	id 1pK8ux-0003Ha-TW; Mon, 23 Jan 2023 21:20:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8gt-0008Ul-1y
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:39 -0500
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8gr-0003wy-2q
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:38 -0500
-Received: by mail-pl1-x631.google.com with SMTP id d9so13321597pll.9
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ycDNlyVkOyKHrJ0BvJFSbfLZ/ORnpZWUbp0ZNx4qwK8=;
- b=LszmwAgudm48hcLgSYcJpz7A33tcAl5nPldTXFiViCe+NWJzAkh+/c6rUNf5EHqaWN
- DMYWwNB3JEabgeUsdCVNtFjhiZ4M3UWH1kO4TsWhAjDoV8fqrQ/LBEM6KB5UV8GUdCTQ
- VoFZ29H/yPSljnHdv0R/VjcTSfoR8AAnjd4DlWWQMIeavt+5PqY369r2v7lLAbDKEDvK
- 2ZNNSBEYqsHH8+4J/YoiCXf0qU1n4bTuRWWDZayc6jHnUAO+YK1Cgq6cUSuJ5Qj1heKM
- 1AdBCp+ZXBSooboXBRta3njcY7qhLosmVDz51Te7yeqnDrgFsxph+m/GarmWLK45rqgV
- v3wA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ycDNlyVkOyKHrJ0BvJFSbfLZ/ORnpZWUbp0ZNx4qwK8=;
- b=16rYVja+IrhewfeVQOAzuUaq+isSIWLYak6Ld2zyiQhSlHhw9V4eEAY5Zg83F2Ao7m
- PTSVaftHs/U9paoeSQjRAA2ko9SWgQ4bcOOuiFLIAMcEaESk/FSewF5HKYkVCm2QB5ad
- NT1MOa4uGAzrKcpaFfJOcCyv/rQW5iKh/04rZ6nsZTgR2VFOMXk2xuQ1n0HUnwNPNNVX
- rfyen3n8sTCCZsnHgPJdRw/48LErXHGjW2YN8l/qWwOKxYDm8fJaNNfFdvdd4q+Ty7dI
- VBJVEybJ1rixbjMjfkw4pmGVdD8ftubh3JqOOSyOE74r54Bx/JG9zA+Oj1U8yqkcVfGg
- LvcQ==
-X-Gm-Message-State: AFqh2kqk3PONzkPQN/aLjRzu8964OQTED6F8Sw3c8He9hPCR0cexcGPn
- 6NHccf/DGl+BSRPMMFpChgEUEF7NjCU+AQNB
-X-Google-Smtp-Source: AMrXdXtxmHbbvVsvzMHV42gf4MXH5ywSNc+NQmAqCXcfBahuleooupktloqWn8+UsMMmfwrdKvWzzQ==
-X-Received: by 2002:a17:90a:5410:b0:226:de98:ee43 with SMTP id
- z16-20020a17090a541000b00226de98ee43mr27372046pjh.43.1674525935562; 
- Mon, 23 Jan 2023 18:05:35 -0800 (PST)
-Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
- by smtp.gmail.com with ESMTPSA id
- fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 18:05:35 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
-	WANG Xuerui <git@xen0n.name>
-Subject: [PULL v2 15/15] tcg/loongarch64: Reorg goto_tb implementation
-Date: Mon, 23 Jan 2023 16:05:07 -1000
-Message-Id: <20230124020507.3732200-16-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230124020507.3732200-1-richard.henderson@linaro.org>
-References: <20230124020507.3732200-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pK8uc-0003Fl-2P
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:20:04 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pK8uZ-0006q0-KH
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:19:49 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id E11ED746346;
+ Tue, 24 Jan 2023 03:17:20 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 8F2A87462DB; Tue, 24 Jan 2023 03:17:20 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 8E0A8745720;
+ Tue, 24 Jan 2023 03:17:20 +0100 (CET)
+Date: Tue, 24 Jan 2023 03:17:20 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Nathan Chancellor <nathan@kernel.org>
+cc: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org, Bernhard Beschow <shentey@gmail.com>, 
+ Aurelien Jarno <aurelien@aurel32.net>, 
+ Jiaxun Yang <jiaxun.yang@flygoat.com>
+Subject: Re: [PATCH 5/6] hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE
+ MemoryRegionOps
+In-Reply-To: <Y88BmxzRqtnpAsWG@dev-arch.thelio-3990X>
+Message-ID: <7fd8f270-10b5-4931-b2f0-99eb8d779f93@eik.bme.hu>
+References: <20230104133935.4639-1-philmd@linaro.org>
+ <20230104133935.4639-6-philmd@linaro.org>
+ <Y88BmxzRqtnpAsWG@dev-arch.thelio-3990X>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-2116630810-1674526640=:74593"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,153 +66,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The old implementation replaces two insns, swapping between
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-        b       <dest>
-        nop
-and
-        pcaddu18i tmp, <dest>
-        jirl      zero, tmp, <dest> & 0xffff
+--3866299591-2116630810-1674526640=:74593
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-There is a race condition in which a thread could be stopped at
-the jirl, i.e. with the top of the address loaded, and when
-restarted we have re-linked to a different TB, so that the top
-half no longer matches the bottom half.
+On Mon, 23 Jan 2023, Nathan Chancellor wrote:
+> Hi Philippe,
+> On Wed, Jan 04, 2023 at 02:39:34PM +0100, Philippe Mathieu-Daudé wrote:
+>> GT64120's PCI endianness swapping works on little-endian hosts,
+>> but doesn't on big-endian ones. Instead of complicating how
+>> CFGADDR/CFGDATA registers deal with endianness, use the existing
+>> MemoryRegionOps from hw/pci/pci_host.c. Doing so also reduce the
+>> access to internal PCI_HOST_BRIDGE fields.
+>>
+>> Map the PCI_HOST_BRIDGE MemoryRegionOps into the corresponding
+>> CFGADDR/CFGDATA regions in the ISD MMIO and remove the unused
+>> code in the current ISD read/write handlers.
+>>
+>> Update the mapping when PCI0_CMD register is accessed (in case
+>> the endianness is changed).
+>>
+>> This allows using the GT64120 on a big-endian host (and boot
+>> the MIPS Malta machine in little-endian).
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>
+> This change as commit 145e2198d7 ("hw/mips/gt64xxx_pci: Endian-swap
+> using PCI_HOST_BRIDGE MemoryRegionOps") in QEMU master causes a hang
+> when trying to poweroff a malta_defconfig + CONFIG_CPU_BIG_ENDIAN=y
+> kernel on an x86_64 host. The kernel has been built from latest mainline
 
-Note that while we never directly re-link to a different TB, we
-can link, unlink, and link again all while the stopped thread
-remains stopped.
+Could this be a similar issue like this:
 
-The new implementation replaces only one insn, swapping between
+https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg03025.html
 
-        b       <dest>
-and
-        pcadd   tmp, <jmp_addr>
+For that the patch I've proposed was this:
 
-falling through to load the address from tmp, and branch.
+https://lists.nongnu.org/archive/html/qemu-devel/2021-11/msg01871.html
 
-Reviewed-by: WANG Xuerui <git@xen0n.name>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/loongarch64/tcg-target.h     |  7 +---
- tcg/loongarch64/tcg-target.c.inc | 72 ++++++++++++++------------------
- 2 files changed, 33 insertions(+), 46 deletions(-)
+but I was told it's in memory layer and then we just gave up after several 
+pings:
 
-diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
-index 533a539ce9..8b151e7f6f 100644
---- a/tcg/loongarch64/tcg-target.h
-+++ b/tcg/loongarch64/tcg-target.h
-@@ -42,11 +42,8 @@
- 
- #define TCG_TARGET_INSN_UNIT_SIZE 4
- #define TCG_TARGET_NB_REGS 32
--/*
-- * PCADDU18I + JIRL sequence can give 20 + 16 + 2 = 38 bits
-- * signed offset, which is +/- 128 GiB.
-- */
--#define MAX_CODE_GEN_BUFFER_SIZE  (128 * GiB)
-+
-+#define MAX_CODE_GEN_BUFFER_SIZE  ((size_t)-1)
- 
- typedef enum {
-     TCG_REG_ZERO,
-diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index d6926bdb83..ce4a153887 100644
---- a/tcg/loongarch64/tcg-target.c.inc
-+++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -1151,37 +1151,6 @@ static void tcg_out_qemu_st(TCGContext *s, const TCGArg *args)
- #endif
- }
- 
--/* LoongArch uses `andi zero, zero, 0` as NOP.  */
--#define NOP OPC_ANDI
--static void tcg_out_nop(TCGContext *s)
--{
--    tcg_out32(s, NOP);
--}
--
--void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
--                              uintptr_t jmp_rx, uintptr_t jmp_rw)
--{
--    tcg_insn_unit i1, i2;
--    ptrdiff_t upper, lower;
--    uintptr_t addr = tb->jmp_target_addr[n];
--    ptrdiff_t offset = (ptrdiff_t)(addr - jmp_rx) >> 2;
--
--    if (offset == sextreg(offset, 0, 26)) {
--        i1 = encode_sd10k16_insn(OPC_B, offset);
--        i2 = NOP;
--    } else {
--        tcg_debug_assert(offset == sextreg(offset, 0, 36));
--        lower = (int16_t)offset;
--        upper = (offset - lower) >> 16;
--
--        i1 = encode_dsj20_insn(OPC_PCADDU18I, TCG_REG_TMP0, upper);
--        i2 = encode_djsk16_insn(OPC_JIRL, TCG_REG_ZERO, TCG_REG_TMP0, lower);
--    }
--    uint64_t pair = ((uint64_t)i2 << 32) | i1;
--    qatomic_set((uint64_t *)jmp_rw, pair);
--    flush_idcache_range(jmp_rx, jmp_rw, 8);
--}
--
- /*
-  * Entry-points
-  */
-@@ -1202,22 +1171,43 @@ static void tcg_out_exit_tb(TCGContext *s, uintptr_t a0)
- static void tcg_out_goto_tb(TCGContext *s, int which)
- {
-     /*
--     * Ensure that patch area is 8-byte aligned so that an
--     * atomic write can be used to patch the target address.
-+     * Direct branch, or load indirect address, to be patched
-+     * by tb_target_set_jmp_target.  Check indirect load offset
-+     * in range early, regardless of direct branch distance,
-+     * via assert within tcg_out_opc_pcaddu2i.
-      */
--    if ((uintptr_t)s->code_ptr & 7) {
--        tcg_out_nop(s);
--    }
-+    uintptr_t i_addr = get_jmp_target_addr(s, which);
-+    intptr_t i_disp = tcg_pcrel_diff(s, (void *)i_addr);
-+
-     set_jmp_insn_offset(s, which);
--    /*
--     * actual branch destination will be patched by
--     * tb_target_set_jmp_target later
--     */
--    tcg_out_opc_pcaddu18i(s, TCG_REG_TMP0, 0);
-+    tcg_out_opc_pcaddu2i(s, TCG_REG_TMP0, i_disp >> 2);
-+
-+    /* Finish the load and indirect branch. */
-+    tcg_out_ld(s, TCG_TYPE_PTR, TCG_REG_TMP0, TCG_REG_TMP0, 0);
-     tcg_out_opc_jirl(s, TCG_REG_ZERO, TCG_REG_TMP0, 0);
-     set_jmp_reset_offset(s, which);
- }
- 
-+void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
-+                              uintptr_t jmp_rx, uintptr_t jmp_rw)
-+{
-+    uintptr_t d_addr = tb->jmp_target_addr[n];
-+    ptrdiff_t d_disp = (ptrdiff_t)(d_addr - jmp_rx) >> 2;
-+    tcg_insn_unit insn;
-+
-+    /* Either directly branch, or load slot address for indirect branch. */
-+    if (d_disp == sextreg(d_disp, 0, 26)) {
-+        insn = encode_sd10k16_insn(OPC_B, d_disp);
-+    } else {
-+        uintptr_t i_addr = (uintptr_t)&tb->jmp_target_addr[n];
-+        intptr_t i_disp = i_addr - jmp_rx;
-+        insn = encode_dsj20_insn(OPC_PCADDU2I, TCG_REG_TMP0, i_disp >> 2);
-+    }
-+
-+    qatomic_set((tcg_insn_unit *)jmp_rw, insn);
-+    flush_idcache_range(jmp_rx, jmp_rw, 4);
-+}
-+
- static void tcg_out_op(TCGContext *s, TCGOpcode opc,
-                        const TCGArg args[TCG_MAX_OP_ARGS],
-                        const int const_args[TCG_MAX_OP_ARGS])
--- 
-2.34.1
+https://lists.nongnu.org/archive/html/qemu-devel/2022-02/msg04775.html
 
+The patch may still work as an interim fix though.
+
+Regards,
+BALATON Zoltan
+
+> using the kernel.org toolchains [1], just in case it matters.
+>
+> $ timeout --foreground 30s qemu-system-mips \
+> -cpu 24Kf \
+> -machine malta \
+> -kernel vmlinux \
+> -display none \
+> -initrd rootfs.cpio \
+> -m 512m \
+> -nodefaults \
+> -no-reboot \
+> -serial mon:stdio
+> ...
+> Run /init as init process
+> process '/bin/busybox' started with executable stack
+> Starting syslogd: OK
+> Starting klogd: OK
+> Running sysctl: OK
+> Saving random seed: OK
+> Starting network: OK
+> Linux version 6.2.0-rc5-00013-g2475bf0250de (tuxmake@tuxmake) (mips-linux-gcc (GCC) 12.2.0, GNU ld (GNU Binutils) 2.39) #1 SMP @1674418498
+> Stopping network: OK
+> Saving random seed: OK
+> Stopping klogd: OK
+> Stopping syslogd: OK
+> umount: devtmpfs busy - remounted read-only
+> umount: can't unmount /: Invalid argument
+> The system is going down NOW!
+> Sent SIGTERM to all processes
+> Sent SIGKILL to all processes
+> Requesting system poweroff
+> reboot: System halted
+> qemu-system-mips: terminating on signal 15 from pid 2213875 (timeout)
+>
+> The rootfs is available at [2], if it is necessary. It is a simple
+> buildroot initramfs that just prints the version string and shutsdown
+> the machine
+>
+> If there is any additional information that I can provide or patches I
+> can test, please let me know.
+>
+> [1]: https://mirrors.edge.kernel.org/pub/tools/crosstool/
+> [2]: https://github.com/ClangBuiltLinux/boot-utils/tree/1b837f3b0fca441e0cc694c9b587120e81299554/images/mips
+>
+> Cheers,
+> Nathan
+>
+> # bad: [00b1faea41d283e931256aa78aa975a369ec3ae6] Merge tag 'pull-target-arm-20230123' of https://git.linaro.org/people/pmaydell/qemu-arm into staging
+> # good: [886fb67020e32ce6a2cf7049c6f017acf1f0d69a] Merge tag 'pull-target-arm-20230113' of https://git.linaro.org/people/pmaydell/qemu-arm into staging
+> git bisect start '00b1faea41d283e931256aa78aa975a369ec3ae6' '886fb67020e32ce6a2cf7049c6f017acf1f0d69a'
+> # bad: [239b8b0699a222fd21da1c5fdeba0a2456085a47] Merge tag 'trivial-branch-for-8.0-pull-request' of https://gitlab.com/laurent_vivier/qemu into staging
+> git bisect bad 239b8b0699a222fd21da1c5fdeba0a2456085a47
+> # bad: [a48f692929828212f75eb6e8d11bbb6cdffad153] hw/usb: Mark the XLNX_VERSAL-related files as target-independent
+> git bisect bad a48f692929828212f75eb6e8d11bbb6cdffad153
+> # bad: [a844873512400fae6bed9e87694dc96ff2f15f39] mips: Remove support for trap and emulate KVM
+> git bisect bad a844873512400fae6bed9e87694dc96ff2f15f39
+> # bad: [cd5066f8618bc6c80ec9088923c58f4a42ab0e7a] hw/mips/bootloader: Handle buffers as opaque arrays
+> git bisect bad cd5066f8618bc6c80ec9088923c58f4a42ab0e7a
+> # bad: [37e506b69a6791bede30677f05081296f3b77f77] hw/mips/gt64xxx_pci: Let the GT64120 manage the lower 512MiB hole
+> git bisect bad 37e506b69a6791bede30677f05081296f3b77f77
+> # good: [65423e6efeac1ee1057870361337c572c941140c] hw/mips/gt64xxx_pci: Accumulate address space changes
+> git bisect good 65423e6efeac1ee1057870361337c572c941140c
+> # bad: [7c032bfbe838c24dcbdc8f9c452553b24f20daad] hw/mips/Kconfig: Introduce CONFIG_GT64120 to select gt64xxx_pci.c
+> git bisect bad 7c032bfbe838c24dcbdc8f9c452553b24f20daad
+> # bad: [145e2198d749ec09a405f1607a9932499b76f1eb] hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE MemoryRegionOps
+> git bisect bad 145e2198d749ec09a405f1607a9932499b76f1eb
+> # first bad commit: [145e2198d749ec09a405f1607a9932499b76f1eb] hw/mips/gt64xxx_pci: Endian-swap using PCI_HOST_BRIDGE MemoryRegionOps
+>
+>
+--3866299591-2116630810-1674526640=:74593--
 
