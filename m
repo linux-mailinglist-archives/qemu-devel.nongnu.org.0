@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48FB9678C63
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 01:01:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1A11678C64
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 01:01:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK6kD-00087R-Oc; Mon, 23 Jan 2023 19:00:57 -0500
+	id 1pK6kL-0008Tf-0j; Mon, 23 Jan 2023 19:01:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK6kB-00081t-OI
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:00:55 -0500
-Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432])
+ id 1pK6kF-0008BW-PR
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:01:01 -0500
+Received: from mail-pf1-x434.google.com ([2607:f8b0:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK6k9-0001qq-CA
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:00:55 -0500
-Received: by mail-pf1-x432.google.com with SMTP id i65so10136680pfc.0
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 16:00:52 -0800 (PST)
+ id 1pK6kA-0001jO-Uj
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 19:00:59 -0500
+Received: by mail-pf1-x434.google.com with SMTP id a184so10096355pfa.9
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 16:00:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=roMq0cKqYUSuqmepPgcMOSqHad1ObHN98rGJI0Zfrfk=;
- b=ZfJC03gq9ckBR1NFci4XY0r9zkl/MW5c1L0ShZw7t0ZlcqnHicBTjqd3paqp4D+7zH
- OWh3ibRbbB+IB6g9uorJlOhushVCZdgXpmlkNylnj1Uc3fT7N5I+JU3LVjn2CTkTz5YN
- 5DRa6CdmNHdugGHW7FP2Lt87Gj56HhxAXsudaacnMybZ5hNI6zhQiQumEYWAhL9mqr/K
- i7k40Jn0KYHoGGzWyvxJ5KkYxPh3qmCD7p6bo5018SFhuXa1tIqU+7IZZQIP08glbuiR
- WiXyD0yX4n7iEBtKFVrSIgXhinOMoQhOE0DLOvVsYu99jxSvk1SR9LbCv3Cn+Ryx1jRQ
- zDlg==
+ bh=4KPCpSfOS3MJgxEieajg71yzTiyoHQkyPgf80iICoXk=;
+ b=PQ15xiPemBcAFX7MBj1LRvs+4eHEz4bC9dqtgCa4H9FMD8CNyZff0+jn7G3RYoYrNS
+ GJUTsrjedkyyygRoGSb4TudSqaYOPM2uH879/W2VYmINlMBwELjsEvYg4KyfLAjEQ2YN
+ H4QjLlmxrAzlxZzEvdckLVZ0lsy5hwLvmNEuEWs2HnzbsUcOPKFgokT6qLF4tez+327n
+ x8OxOXKFitlDGmJVI2hSHAziupH+6JF/PQywPDw0zZTxkhQ0/IrAOT3E2FfeS+95B62R
+ 0rCoKdb6dy0ggHCcwLmU3SxHntV2pfFPLPXoeInNRXj+I6LCSi9kM/dO7E1TZiV+29oV
+ e5Qw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=roMq0cKqYUSuqmepPgcMOSqHad1ObHN98rGJI0Zfrfk=;
- b=al8x61EcfxoHNM5ZiY93IYsDZO+AXxDxEdN6t9r6wjsu1Y7b6plJRM/ior1J7ZnWfW
- wjiRuSFTfQLuhes0uO+tMek5Lv1Rm+uApjhf1KDiWK/AUC/IezYEgpbCO7mD1Btn4Ok5
- orQjXjRLBJfSsLs+EFt6xGf+48TdUDIwVKD3WuJ1KMONpV9YQRRUYFZZxbMqKlc/Xtqe
- NeHRyROUqbf7RZM/LtdTDOyiZuiCKKhcQN0OI0dvWfaMHULOUCn1cqaHLvkSeeFieNq0
- GpnyrcS35UL/rrPNOfq8gx0ZJxPHET1Gh92ImU2uNugo6Q5dIfypizUVENUQs/zMCmEQ
- l1yQ==
-X-Gm-Message-State: AFqh2kqifqxQ5QO5RTSmyAUItwcBq9TVXF4Z2Q9BdcLJjripQDsDmOCU
- WhsYWmxFoBA9I7F+yW6+PIRnApuKbfcragqV
-X-Google-Smtp-Source: AMrXdXu3xDLhZ/R4zYo3CWaOud9hN4QWeFpd6p86xW1EpWUug2JVN9rM+FM4VAnz7/ksgGEuggyjEQ==
-X-Received: by 2002:a05:6a00:3020:b0:58d:92ff:8a2a with SMTP id
- ay32-20020a056a00302000b0058d92ff8a2amr25340215pfb.23.1674518452051; 
- Mon, 23 Jan 2023 16:00:52 -0800 (PST)
+ bh=4KPCpSfOS3MJgxEieajg71yzTiyoHQkyPgf80iICoXk=;
+ b=pdyD02o7bWWXJEXGAFeH7h75VuD3+wisnOiDIaE9YE6PDwCMVu2lt2imUXwGMYWrRT
+ 96yqQWBid5MJT+Cg7sUzJPsRgU0XflI5h+7HW8rxz0SBn89TMnOOj9it8yiIl9txo+Jf
+ TfQUohs2cN510fibvuGG+hn1lezds1+WI/wrmJfa73gbcRAiaJ0pgeKk2/mBXOVDLZia
+ i9oUq1qoKPz9OSKUHy6wtHWPJjl9OuvROnUZP2DrA4xnWB2p8sWzoynx1eRR+/XlYPNM
+ bFImEh8I1MXxcP8r5PaWOWtRCurJamz73hEDxAOjk2WEqFZVLFkdzJatRDMnpBXquEw8
+ SAwQ==
+X-Gm-Message-State: AFqh2kqhsdfcxr/edLuAXWtgEs6Hlw/g7Otym0x7lUplgDdvbbO4j4AH
+ LZcGBlM3SLrlrnw3FrvEuu6KRUrI9tR6AI9D
+X-Google-Smtp-Source: AMrXdXtbLoZ4YrFrdoUs3WMR/2YqC652jvQiGKyW2tA3Ilwn85/MB5Y9uh117CKqmmCAfdZ4Hr3waA==
+X-Received: by 2002:a05:6a00:430a:b0:574:35fd:379e with SMTP id
+ cb10-20020a056a00430a00b0057435fd379emr25538922pfb.2.1674518453705; 
+ Mon, 23 Jan 2023 16:00:53 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- x21-20020a056a00189500b0058bc37f3d13sm174104pfh.43.2023.01.23.16.00.50
+ x21-20020a056a00189500b0058bc37f3d13sm174104pfh.43.2023.01.23.16.00.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 16:00:51 -0800 (PST)
+ Mon, 23 Jan 2023 16:00:53 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, yier.jin@huawei.com, jonathan.cameron@huawei.com,
  leonardo.garcia@linaro.org
-Subject: [PATCH 03/22] target/arm: Add isar_feature_aa64_rme
-Date: Mon, 23 Jan 2023 14:00:08 -1000
-Message-Id: <20230124000027.3565716-4-richard.henderson@linaro.org>
+Subject: [PATCH 04/22] target/arm: Update SCR and HCR for RME
+Date: Mon, 23 Jan 2023 14:00:09 -1000
+Message-Id: <20230124000027.3565716-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124000027.3565716-1-richard.henderson@linaro.org>
 References: <20230124000027.3565716-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::432;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x432.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::434;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x434.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ T_SPF_TEMPERROR=0.01 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,54 +90,82 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add the missing field for ID_AA64PFR0, and the predicate.
-Disable it if EL3 is forced off by the board or command-line.
+Define the missing SCR and HCR bits, allow SCR_NSE and {SCR,HCR}_GPF
+to be set, and invalidate TLBs when NSE changes.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h | 6 ++++++
- target/arm/cpu.c | 4 ++++
- 2 files changed, 10 insertions(+)
+ target/arm/cpu.h    |  5 +++--
+ target/arm/helper.c | 10 ++++++++--
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 8cf70693be..81d5a51b62 100644
+index 81d5a51b62..9d1a6b346d 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -2178,6 +2178,7 @@ FIELD(ID_AA64PFR0, SEL2, 36, 4)
- FIELD(ID_AA64PFR0, MPAM, 40, 4)
- FIELD(ID_AA64PFR0, AMU, 44, 4)
- FIELD(ID_AA64PFR0, DIT, 48, 4)
-+FIELD(ID_AA64PFR0, RME, 52, 4)
- FIELD(ID_AA64PFR0, CSV2, 56, 4)
- FIELD(ID_AA64PFR0, CSV3, 60, 4)
+@@ -1638,7 +1638,7 @@ static inline void xpsr_write(CPUARMState *env, uint32_t val, uint32_t mask)
+ #define HCR_TERR      (1ULL << 36)
+ #define HCR_TEA       (1ULL << 37)
+ #define HCR_MIOCNCE   (1ULL << 38)
+-/* RES0 bit 39 */
++#define HCR_TME       (1ULL << 39)
+ #define HCR_APK       (1ULL << 40)
+ #define HCR_API       (1ULL << 41)
+ #define HCR_NV        (1ULL << 42)
+@@ -1647,7 +1647,7 @@ static inline void xpsr_write(CPUARMState *env, uint32_t val, uint32_t mask)
+ #define HCR_NV2       (1ULL << 45)
+ #define HCR_FWB       (1ULL << 46)
+ #define HCR_FIEN      (1ULL << 47)
+-/* RES0 bit 48 */
++#define HCR_GPF       (1ULL << 48)
+ #define HCR_TID4      (1ULL << 49)
+ #define HCR_TICAB     (1ULL << 50)
+ #define HCR_AMVOFFEN  (1ULL << 51)
+@@ -1712,6 +1712,7 @@ static inline void xpsr_write(CPUARMState *env, uint32_t val, uint32_t mask)
+ #define SCR_TRNDR             (1ULL << 40)
+ #define SCR_ENTP2             (1ULL << 41)
+ #define SCR_GPF               (1ULL << 48)
++#define SCR_NSE               (1ULL << 62)
  
-@@ -4001,6 +4002,11 @@ static inline bool isar_feature_aa64_sel2(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, SEL2) != 0;
- }
+ #define HSTR_TTEE (1 << 16)
+ #define HSTR_TJDBX (1 << 17)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 72b37b7cf1..293f8eda8c 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -1869,6 +1869,9 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+         if (cpu_isar_feature(aa64_hcx, cpu)) {
+             valid_mask |= SCR_HXEN;
+         }
++        if (cpu_isar_feature(aa64_rme, cpu)) {
++            valid_mask |= SCR_NSE | SCR_GPF;
++        }
+     } else {
+         valid_mask &= ~(SCR_RW | SCR_ST);
+         if (cpu_isar_feature(aa32_ras, cpu)) {
+@@ -1898,10 +1901,10 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
+     env->cp15.scr_el3 = value;
  
-+static inline bool isar_feature_aa64_rme(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64pfr0, ID_AA64PFR0, RME) != 0;
-+}
-+
- static inline bool isar_feature_aa64_vh(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64mmfr1, ID_AA64MMFR1, VH) != 0;
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index 5f63316dbf..b10ace74cd 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -1944,6 +1944,10 @@ static void arm_cpu_realizefn(DeviceState *dev, Error **errp)
-         cpu->isar.id_dfr0 = FIELD_DP32(cpu->isar.id_dfr0, ID_DFR0, COPSDBG, 0);
-         cpu->isar.id_aa64pfr0 = FIELD_DP64(cpu->isar.id_aa64pfr0,
-                                            ID_AA64PFR0, EL3, 0);
-+
-+        /* Disable the realm management extension, which requires EL3. */
-+        cpu->isar.id_aa64pfr0 = FIELD_DP64(cpu->isar.id_aa64pfr0,
-+                                           ID_AA64PFR0, RME, 0);
+     /*
+-     * If SCR_EL3.NS changes, i.e. arm_is_secure_below_el3, then
++     * If SCR_EL3.{NS,NSE} changes, i.e. change of security state,
+      * we must invalidate all TLBs below EL3.
+      */
+-    if (changed & SCR_NS) {
++    if (changed & (SCR_NS | SCR_NSE)) {
+         tlb_flush_by_mmuidx(env_cpu(env), (ARMMMUIdxBit_E10_0 |
+                                            ARMMMUIdxBit_E20_0 |
+                                            ARMMMUIdxBit_E10_1 |
+@@ -5578,6 +5581,9 @@ static void do_hcr_write(CPUARMState *env, uint64_t value, uint64_t valid_mask)
+         if (cpu_isar_feature(aa64_fwb, cpu)) {
+             valid_mask |= HCR_FWB;
+         }
++        if (cpu_isar_feature(aa64_rme, cpu)) {
++            valid_mask |= HCR_GPF;
++        }
      }
  
-     if (!cpu->has_el2) {
+     if (cpu_isar_feature(any_evt, cpu)) {
 -- 
 2.34.1
 
