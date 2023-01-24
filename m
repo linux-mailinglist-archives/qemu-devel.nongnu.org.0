@@ -2,76 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5090E678CEC
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 01:37:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36833678CED
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 01:39:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK7I6-0007OV-7z; Mon, 23 Jan 2023 19:35:58 -0500
+	id 1pK7L0-00009Y-Nc; Mon, 23 Jan 2023 19:38:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pK7I2-0007Nj-Or; Mon, 23 Jan 2023 19:35:54 -0500
-Received: from mail-ua1-x935.google.com ([2607:f8b0:4864:20::935])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pK7I1-0007Jd-6S; Mon, 23 Jan 2023 19:35:54 -0500
-Received: by mail-ua1-x935.google.com with SMTP id u29so2396766uaa.8;
- Mon, 23 Jan 2023 16:35:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=iKGy/WFeY2rJTk2S9uoVm6D99IT95wU7r4H/zpY7XQU=;
- b=LkQ4R+xpBjtZU0pJjPvhK00OOKxwsRUlRdPDMGlUIEZB++yWqxcZTOqixgfzDXUX63
- T+G7ieecBhi1cpEG4+z9woQumfWg258+Dvq1j3MCV9n+lZpa0P+SBM7SeAnDjoK8Flr4
- R+KgM5O77PWP8gN3K8bsmMKE45yR/ydAlv4Caw0b3hz2RfrpRGhKuS49nR7uNWZOurCR
- gYQXgEVy9C9fwJ6ijyzQrUMuswEZD0YO1vzUH92Ash82q4JLt2SQtRZZ+WZcf6ERgCMC
- Hy1JZL/QB4fnAjjhO3ErD5HlwpnsROnWUdVC3AQU+zLk+fF5+eicOQB9SRARvLpQ6jOJ
- sSkA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=iKGy/WFeY2rJTk2S9uoVm6D99IT95wU7r4H/zpY7XQU=;
- b=HXrEc8tuaxjRegEASYbGFr1ETIr/W7aQ+eDdTK6chx2hWYXV7/x5E4BWSD1kALUAkx
- lavqtl/NRBD8FrpOLC9H8MKbfKeJrwp2Ycz2XbGemEEUIrr4IKbp/4MIAehMiFMPHv34
- r2yFBzkhxZlFDdpTBJHALwOMODmnLBI3ErNXhAwe/knsyzthHKXsODVdVx+jYkWY+qYh
- 1LeFNySxEHMExjSH6rRpV2WP1vtgRSvdZyj9SQwZeoUpNskVruVOu/Mr8gvVFkqi76Xf
- L8w9DFJRWVgj6xexqOJ2YwGAuyolc74J8fN6tfCVRxdx3ubOiIxkD7dTJcbF0+9CPWLW
- 178w==
-X-Gm-Message-State: AO0yUKVvY9IGhgikY27/c0Tg5eYKX8phvTQt5b7H9x1R+jpahp66SYVg
- sG7KAatBeeUAAcyEy5VAahaVVNgt2FULyqiN3O4=
-X-Google-Smtp-Source: AK7set+a+UGvbUe9KEDJLQfs3Id0uc8HQz3FPM5iTWl7w6umGLG7djDsreGALSXsMF2Vo8FmKrzPXRf8OqkeUcdeZlA=
-X-Received: by 2002:a9f:3e0c:0:b0:653:32f1:db47 with SMTP id
- o12-20020a9f3e0c000000b0065332f1db47mr62770uai.70.1674520551650; Mon, 23 Jan
- 2023 16:35:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pK7Ky-00008R-0w; Mon, 23 Jan 2023 19:38:56 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pK7Kv-0007Wy-Qh; Mon, 23 Jan 2023 19:38:55 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id E0B6D746346;
+ Tue, 24 Jan 2023 01:36:27 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id A20607462DB; Tue, 24 Jan 2023 01:36:27 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id A0786745720;
+ Tue, 24 Jan 2023 01:36:27 +0100 (CET)
+Date: Tue, 24 Jan 2023 01:36:27 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH v7 4/7] mac_newworld: Add machine types for different
+ mac99 configs
+In-Reply-To: <3aa7d09c-bf38-9aa2-359d-77cde3250eed@ilande.co.uk>
+Message-ID: <ff78efa4-af8f-49ce-0680-c3ef06fbcd5d@eik.bme.hu>
+References: <cover.1672868854.git.balaton@eik.bme.hu>
+ <b8aa89c354027fc71cdb93b697b139e93ac05e25.1672868854.git.balaton@eik.bme.hu>
+ <ece23a2e-33a9-d2e2-14fd-097878acfa1f@ilande.co.uk>
+ <61305eda-439b-800e-2265-c2c48bc21be9@eik.bme.hu>
+ <23f2ba9b-97b3-25f2-2642-667238f79d11@ilande.co.uk>
+ <32babb9f-7914-8910-bb99-307c3bc50e8a@eik.bme.hu>
+ <3aa7d09c-bf38-9aa2-359d-77cde3250eed@ilande.co.uk>
 MIME-Version: 1.0
-References: <20230123090324.732681-1-alexghiti@rivosinc.com>
- <20230123090324.732681-5-alexghiti@rivosinc.com>
-In-Reply-To: <20230123090324.732681-5-alexghiti@rivosinc.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 24 Jan 2023 10:35:25 +1000
-Message-ID: <CAKmqyKMDsgG8vWtadkq706qbJzGbmrbOm-GpmfqGX_q3DpcY4g@mail.gmail.com>
-Subject: Re: [PATCH v6 4/5] riscv: Correctly set the device-tree entry
- 'mmu-type'
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>, 
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::935;
- envelope-from=alistair23@gmail.com; helo=mail-ua1-x935.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,60 +64,81 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 23, 2023 at 7:08 PM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
+On Mon, 23 Jan 2023, Mark Cave-Ayland wrote:
+> On 22/01/2023 21:48, BALATON Zoltan wrote:
+>> On Sun, 22 Jan 2023, Mark Cave-Ayland wrote:
+>>> On 11/01/2023 00:36, BALATON Zoltan wrote:
+>>>> On Tue, 10 Jan 2023, Mark Cave-Ayland wrote:
+>>>>> On 04/01/2023 21:59, BALATON Zoltan wrote:
+>>>>> Secondly it's not clear to me why you've chosen names like 
+>>>>> "powermac_3_1" instead of "g4agp"? Does powermac_3_1 uniquely identify 
+>>>>> the G4 AGP Sawtooth model? For QEMU it is always best to emulate real 
+>>>>> machines, and whilst I understand you want to separate out the two 
+>>>>> versions of the mac99 machine, having "powermac_X_Y" seems less clear to 
+>>>>> me.
+>>>> 
+>>>> These machine model identifiers are used by Apple to uniquely identify 
+>>>> (all of) their machines since new-world Macs (even modern iPads and Macs 
+>>>> have them) so for Mac people this should be clearer than the informal 
+>>>> names that could get a bit long and confusing as there may be slight 
+>>>> differences within a family. In any case, qemu-system-ppc -M mac99 is not 
+>>>> corresponding to any real Mac so I'd like the options which do emulate 
+>>>> real Macs to be called in a name that show which Mac is that. For the PPC 
+>>>> Macs there's some info here for example:
+>>>> 
+>>>> https://en.wikipedia.org/wiki/Power_Mac_G4
+>>>> 
+>>>> And everymac.com also has info on all Macs. There were actually more than 
+>>>> one G4 PowerMac with AGP but the other one was informally called gigabit 
+>>>> ethernet. So the model ID is a shorter and better way to clearly identify 
+>>>> which hardware is it (and it's also referenced in the device-tree of 
+>>>> these Macs).
+>>> 
+>>> Are you planning to work on different types of G4 Mac where this could be 
+>>> confusing? Even to me "PowerMac 3.1" doesn't really tell me what model of 
+>>> Mac is being emulated, whereas "g4agp" (much in the same way as g3beige) 
+>>> is much more friendlier to people interested in using QEMU for Mac 
+>>> emulation.
+>> 
+>> This is similar problem as some people like to call Mac OS X versions by 
+>> number and some by big cats names. Personally I prefer version numbers 
+>> because it's easy to tell which is newer or older that way without 
+>> remembering a nomenclature or having to look it up every time. It would be 
+>> good if others interested in this also shared their preference because if 
+>> it's only us two with different views then it's hard to make a decision. I 
+>> still think machine ID is better also because then these machines would be 
+>> grouped in the -machine help output like the others but as long as we don't 
+>> have other machines that start with a g or other Macs that have some other 
+>> name it might work so I could change the naming if that's all needed for 
+>> this to get in.
 >
-> The 'mmu-type' should reflect what the hardware is capable of so use the
-> new satp_mode field in RISCVCPUConfig to do that.
->
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> I'd lean towards the g* naming, because not only is it more obvious to less 
+> technical Mac users what is being emulated, it matches the existing precedent 
+> set by g3beige.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+The g3beige is not a good example as model ids were introduced with new 
+world Macs and the beige G3 is one of the last old world ones which had a 
+numeric ID so we can't give that a name by model ID. All later Macs though 
+have a model ID which is a short and clear way to idenfify a model. Found 
+a list here:
 
-Alistair
+https://www.macupgrades.co.uk/store/mac_model_id/
 
-> ---
->  hw/riscv/virt.c | 19 ++++++++++---------
->  1 file changed, 10 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 94ff2a1584..48d034a5f7 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -228,7 +228,8 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
->      int cpu;
->      uint32_t cpu_phandle;
->      MachineState *mc = MACHINE(s);
-> -    char *name, *cpu_name, *core_name, *intc_name;
-> +    uint8_t satp_mode_max;
-> +    char *name, *cpu_name, *core_name, *intc_name, *sv_name;
->
->      for (cpu = s->soc[socket].num_harts - 1; cpu >= 0; cpu--) {
->          cpu_phandle = (*phandle)++;
-> @@ -236,14 +237,14 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, int socket,
->          cpu_name = g_strdup_printf("/cpus/cpu@%d",
->              s->soc[socket].hartid_base + cpu);
->          qemu_fdt_add_subnode(mc->fdt, cpu_name);
-> -        if (riscv_feature(&s->soc[socket].harts[cpu].env,
-> -                          RISCV_FEATURE_MMU)) {
-> -            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
-> -                                    (is_32_bit) ? "riscv,sv32" : "riscv,sv48");
-> -        } else {
-> -            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
-> -                                    "riscv,none");
-> -        }
-> +
-> +        satp_mode_max = satp_mode_max_from_map(
-> +                            s->soc[socket].harts[cpu].cfg.satp_mode.map);
-> +        sv_name = g_strdup_printf("riscv,%s",
-> +                                  satp_mode_str(satp_mode_max, is_32_bit));
-> +        qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type", sv_name);
-> +        g_free(sv_name);
-> +
->          name = riscv_isa_string(&s->soc[socket].harts[cpu]);
->          qemu_fdt_setprop_string(mc->fdt, cpu_name, "riscv,isa", name);
->          g_free(name);
-> --
-> 2.37.2
->
->
+and it even carries on for modern Macs:
+
+https://support.apple.com/en-us/HT201634
+
+and it's listed in System Profiler next to the model name:
+
+https://support.apple.com/en-gb/HT201581
+
+so it should be pretty obvious and familiar to Mac users. So I think 
+anything else would be more confusing but I don't care that much as long 
+as we can have a separate name for each machine we emulate. I'll take 
+whatever names you come up with if that's what it takes for this patch to 
+get merged. Please tell me what names you want and I'll change it if 
+nobody else votes fot the names I've proposed.
+
+Regards,
+BALATON Zoltan
 
