@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AA08678DE1
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:06:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DF7678DE8
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:07:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK8gj-0008QS-CK; Mon, 23 Jan 2023 21:05:29 -0500
+	id 1pK8gm-0008RC-LE; Mon, 23 Jan 2023 21:05:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8ge-0008PD-Cd
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:24 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ id 1pK8gg-0008Q7-Nu
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:27 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8gc-0003oT-KD
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:24 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id a18so789953plm.2
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:22 -0800 (PST)
+ id 1pK8gf-0003ut-9X
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:26 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id dw9so13412844pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=S4RKktMcPf3rE7CRNPQPl4hZIXa54SUO3jBV2MtYQsw=;
- b=f8sfINkTADLVNu4YdzXrTS3VT1PnAjgEi7bG4VKoQvhyTPCI8vIzp8FhFxfTSEF6N8
- jhfwiHS/1PMLMTO+IWWFQ+nVQOA6GS0qWyI+daApp86g8GgNFT+hKi7QIbbGXGKFAqzX
- xt4KK2/InoBU7L6GWOUF8O3BC/eTS6l+HNUFrMQpM0sEYlkgfCW0XvTgMBuljAWSudOT
- H3maPj4M230T488VKt24r8WhWV7zK6lVJ4NMDcgmcl741SmdTILpc2wYXV9ZKt3LOIRS
- fizynaKsDdNJLu0nQN7uDw3CMVg5QFP+cWUHozF+tX/cGhZjGD4sS/LYNbq4WltuE4V3
- 2T7w==
+ bh=kZ0R7Dq38BbYtuszwNBcRlA+IEjeNWX33fjdLIAJGTI=;
+ b=BUvfGklQqtb0GyNMzDOZa8igbc9eH7ijUQWkoQRyeMczT1ILwRpwTZZjOmOWADFCIZ
+ ds7FI8LGrOdVatU9j3Q3vqJU73N0vZfQYRTRgak1Q+8p8IDqHmC+qY8PQuuDAngZkbFR
+ r4K5fWhVDYq9HZQTuFUvA0fOYmJ+gOhZZIGRGiK7jLyf1fba1zdx5TaQm2ghVoZDdNJu
+ wUoErab5xjxfFgvgfirGEncHlgvunOGXW+NdDOr1QdHLU5oymgbU8QMwk0xxHpQi6Dnn
+ xt1npSD/eGE6KluuEvOROUs6Z6TEJqt1ooQXUVvKLn8qSp254FWnis6LJeBCZeovlIX2
+ amiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=S4RKktMcPf3rE7CRNPQPl4hZIXa54SUO3jBV2MtYQsw=;
- b=gF4JqfElMUpDDJvBjqarMNlK6FUy8Ziz0NcE4TwAGnR1IcTzoxmfX1KEuEjFli2yZZ
- jK1lX0/Qrt2xztUAkjVmsToZkQ5GKW7Kzi1NKLDrJAxzeEx9NVdaLi2KlfYZ3p6u9y8y
- U0LShfhzcmpyoHDVeU2uLjPMm8kwKwu2vVxcvDNbh+LEX9MwdZVeaSkRSr4Tca8HSB8p
- /aLnmdlBZ+ifRCXKspYFGCF5cH7vf6NWo64dy6tlheKbBzQDIOtGoCozHnbvBGDzaDre
- YT54qM/M+TGqlIchSDIg8IzcvUot233tXBxuqxWEgLQ6qnHkgJCTqPuu/C6yfwW7C97R
- rO+g==
-X-Gm-Message-State: AFqh2krw9E/OuLUbzMc5AVT6SXYqXdPaw9ZVAAgtgbm2C6CWTZLwYV4I
- l10MEtFcC4x7DCtKYyVhf0tRsKP2iU7TfwKV
-X-Google-Smtp-Source: AMrXdXsjxCq5kpRKjaQWFBXw2q7s/vmTBhRo4AY21fraigXDtRakhDA9SdMZza9d+KNbvvrmHK0xrw==
-X-Received: by 2002:a17:90a:2f89:b0:219:6619:848a with SMTP id
- t9-20020a17090a2f8900b002196619848amr28083402pjd.36.1674525921783; 
- Mon, 23 Jan 2023 18:05:21 -0800 (PST)
+ bh=kZ0R7Dq38BbYtuszwNBcRlA+IEjeNWX33fjdLIAJGTI=;
+ b=jZp3G4TWxWY//JI0v9FsdqhzcMocWOx7ulXxYikfttutEWiGkC46WA2txy9iclpWgu
+ HQrMJ3/oLJ6u7UanW56a/jfA+1Ml1LYEuBIoxKYwi6BVbGwD0a3KsCqYr0yHVXfN47H4
+ hcM5uZXurknZJUqjYt8ErMn+kJReOG8RiqLdONW1dCHcMvUAaZwwwPvQcIpuuw0tvYqK
+ 2R4bJcC948UdXKDa4WYNBZx9yKivZU9Bu+NG+Zr7RF9qdSEhw7DuqNx/KppP2GUb8DWk
+ ympdjWRijfFm2JpaqIvGUY6DO0QZgs2Q0kR8JQXx02fcWSH2nnnPoaIO38HBcTjcXruY
+ ySjw==
+X-Gm-Message-State: AFqh2kownE2kJ/FX5w6Q5WveL+c8GzQ4ZU6iaCeIKtw8tXCftfNfDaYw
+ qUZoFgm+PxpNhlP0Dvg8+tUlvOIBToMr8m3g
+X-Google-Smtp-Source: AMrXdXuA4kGVpdQGzzlp2Pg+WAZKB9m/90E5sxpza/CpXwdd/ivMyABkiCg/CAC17wOMPmzxTF7hkA==
+X-Received: by 2002:a17:90b:3b45:b0:22b:b6c5:fa7e with SMTP id
+ ot5-20020a17090b3b4500b0022bb6c5fa7emr13588174pjb.35.1674525923849; 
+ Mon, 23 Jan 2023 18:05:23 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.20
+ fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 18:05:21 -0800 (PST)
+ Mon, 23 Jan 2023 18:05:23 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	WANG Xuerui <git@xen0n.name>
-Subject: [PULL v2 07/15] target/loongarch: Disassemble jirl properly
-Date: Mon, 23 Jan 2023 16:04:59 -1000
-Message-Id: <20230124020507.3732200-8-richard.henderson@linaro.org>
+Subject: [PULL v2 08/15] target/loongarch: Disassemble pcadd* addresses
+Date: Mon, 23 Jan 2023 16:05:00 -1000
+Message-Id: <20230124020507.3732200-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124020507.3732200-1-richard.henderson@linaro.org>
 References: <20230124020507.3732200-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,68 +90,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-While jirl shares the same instruction format as bne etc,
-it is not assembled the same.  In particular, rd is printed
-first not second and the immediate is not pc-relative.
-
-Decode into the arg_rr_i structure, which prints correctly.
-This changes the "offs" member to "imm", to update translate.
+Print both the raw field and the resolved pc-relative
+address, as we do for branches.
 
 Reviewed-by: WANG Xuerui <git@xen0n.name>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/loongarch/insns.decode                  | 3 ++-
- target/loongarch/disas.c                       | 2 +-
- target/loongarch/insn_trans/trans_branch.c.inc | 2 +-
- 3 files changed, 4 insertions(+), 3 deletions(-)
+ target/loongarch/disas.c | 37 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 33 insertions(+), 4 deletions(-)
 
-diff --git a/target/loongarch/insns.decode b/target/loongarch/insns.decode
-index 3fdc6e148c..de7b8f0f3c 100644
---- a/target/loongarch/insns.decode
-+++ b/target/loongarch/insns.decode
-@@ -67,6 +67,7 @@
- @rr_ui12                 .... ...... imm:12 rj:5 rd:5    &rr_i
- @rr_i14s2         .... ....  .............. rj:5 rd:5    &rr_i imm=%i14s2
- @rr_i16                     .... .. imm:s16 rj:5 rd:5    &rr_i
-+@rr_i16s2         .... ..  ................ rj:5 rd:5    &rr_i imm=%offs16
- @hint_r_i12           .... ...... imm:s12 rj:5 hint:5    &hint_r_i
- @rrr_sa2p1        .... ........ ... .. rk:5 rj:5 rd:5    &rrr_sa  sa=%sa2p1
- @rrr_sa2        .... ........ ... sa:2 rk:5 rj:5 rd:5    &rrr_sa
-@@ -444,7 +445,7 @@ beqz            0100 00 ................ ..... .....     @r_offs21
- bnez            0100 01 ................ ..... .....     @r_offs21
- bceqz           0100 10 ................ 00 ... .....    @c_offs21
- bcnez           0100 10 ................ 01 ... .....    @c_offs21
--jirl            0100 11 ................ ..... .....     @rr_offs16
-+jirl            0100 11 ................ ..... .....     @rr_i16s2
- b               0101 00 ..........................       @offs26
- bl              0101 01 ..........................       @offs26
- beq             0101 10 ................ ..... .....     @rr_offs16
 diff --git a/target/loongarch/disas.c b/target/loongarch/disas.c
-index 858dfcc53a..7cffd853ec 100644
+index 7cffd853ec..2e93e77e0d 100644
 --- a/target/loongarch/disas.c
 +++ b/target/loongarch/disas.c
-@@ -628,7 +628,7 @@ INSN(beqz,         r_offs)
- INSN(bnez,         r_offs)
- INSN(bceqz,        c_offs)
- INSN(bcnez,        c_offs)
--INSN(jirl,         rr_offs)
-+INSN(jirl,         rr_i)
- INSN(b,            offs)
- INSN(bl,           offs)
- INSN(beq,          rr_offs)
-diff --git a/target/loongarch/insn_trans/trans_branch.c.inc b/target/loongarch/insn_trans/trans_branch.c.inc
-index 65dbdff41e..a860f7e733 100644
---- a/target/loongarch/insn_trans/trans_branch.c.inc
-+++ b/target/loongarch/insn_trans/trans_branch.c.inc
-@@ -23,7 +23,7 @@ static bool trans_jirl(DisasContext *ctx, arg_jirl *a)
-     TCGv dest = gpr_dst(ctx, a->rd, EXT_NONE);
-     TCGv src1 = gpr_src(ctx, a->rj, EXT_NONE);
+@@ -519,10 +519,6 @@ INSN(fsel,         fffc)
+ INSN(addu16i_d,    rr_i)
+ INSN(lu12i_w,      r_i)
+ INSN(lu32i_d,      r_i)
+-INSN(pcaddi,       r_i)
+-INSN(pcalau12i,    r_i)
+-INSN(pcaddu12i,    r_i)
+-INSN(pcaddu18i,    r_i)
+ INSN(ll_w,         rr_i)
+ INSN(sc_w,         rr_i)
+ INSN(ll_d,         rr_i)
+@@ -755,3 +751,36 @@ static bool trans_fcmp_cond_##suffix(DisasContext *ctx, \
  
--    tcg_gen_addi_tl(cpu_pc, src1, a->offs);
-+    tcg_gen_addi_tl(cpu_pc, src1, a->imm);
-     tcg_gen_movi_tl(dest, ctx->base.pc_next + 4);
-     gen_set_gpr(a->rd, dest, EXT_NONE);
-     tcg_gen_lookup_and_goto_ptr();
+ FCMP_INSN(s)
+ FCMP_INSN(d)
++
++#define PCADD_INSN(name)                                        \
++static bool trans_##name(DisasContext *ctx, arg_##name *a)      \
++{                                                               \
++    output(ctx, #name, "r%d, %d # 0x%" PRIx64,                  \
++           a->rd, a->imm, gen_##name(ctx->pc, a->imm));         \
++    return true;                                                \
++}
++
++static uint64_t gen_pcaddi(uint64_t pc, int imm)
++{
++    return pc + (imm << 2);
++}
++
++static uint64_t gen_pcalau12i(uint64_t pc, int imm)
++{
++    return (pc + (imm << 12)) & ~0xfff;
++}
++
++static uint64_t gen_pcaddu12i(uint64_t pc, int imm)
++{
++    return pc + (imm << 12);
++}
++
++static uint64_t gen_pcaddu18i(uint64_t pc, int imm)
++{
++    return pc + ((uint64_t)(imm) << 18);
++}
++
++PCADD_INSN(pcaddi)
++PCADD_INSN(pcalau12i)
++PCADD_INSN(pcaddu12i)
++PCADD_INSN(pcaddu18i)
 -- 
 2.34.1
 
