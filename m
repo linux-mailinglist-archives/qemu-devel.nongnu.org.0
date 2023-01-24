@@ -2,126 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9A467925B
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 08:54:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18523679272
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 09:00:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKE7q-0000dJ-GN; Tue, 24 Jan 2023 02:53:50 -0500
+	id 1pKEDT-0001ka-Cy; Tue, 24 Jan 2023 02:59:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vbabka@suse.cz>) id 1pKE7h-0000ct-Tl
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 02:53:42 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKEDR-0001kN-62
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 02:59:37 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vbabka@suse.cz>) id 1pKE7g-0001ld-1h
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 02:53:41 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id E57DA1F889;
- Tue, 24 Jan 2023 07:53:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
- t=1674546816; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ruXNUJNdlgxTcKpGQIIryFyEkOXceoGZmlzFPRxeoas=;
- b=KBZy/6rf1TQ67g44L7GTiJ8oSbfhPfVBczpwAWnzfsUxhfC2iuCIk6qk9LBZzqbdqHS9ij
- Xo/ephBOmafeSayjs7c5/FPCJUSd2Msf8a1NMzxX8FC7m33OJCMAr4kwrcZhMcXrY5NeLZ
- PTRszq6e6uAR3JoT+NAAk5grhZN/cnk=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
- s=susede2_ed25519; t=1674546816;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ruXNUJNdlgxTcKpGQIIryFyEkOXceoGZmlzFPRxeoas=;
- b=5qR8OroDRbnLzHCA3YaBwq02hXFJllZS99kT3/fzfEAfh1RBI9ipdG1fjVOHFRLXyqtRUK
- okE5lPcauQAR8tCA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id CA32C139FB;
- Tue, 24 Jan 2023 07:53:35 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id E4c3MH+Oz2OlHgAAMHmgww
- (envelope-from <vbabka@suse.cz>); Tue, 24 Jan 2023 07:53:35 +0000
-Message-ID: <8ac234a3-9dc3-3ebf-309a-b4a6bcb72d2d@suse.cz>
-Date: Tue, 24 Jan 2023 08:51:43 +0100
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKEDP-00032b-Mi
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 02:59:36 -0500
+Received: by mail-wr1-x434.google.com with SMTP id r9so13005944wrw.4
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 23:59:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=sBEedCc5INHJh7G8+4JRzFbNPKnISCHn1cZg09BxI6o=;
+ b=XAmPQjMjwK1Y9UanIb/3750Oo/Xkiw0X3X2x27CpM8iPAvShngQU47AfWIicmUp66u
+ LqDN00k0letLjOcSdv7o6/pEhn59ZgI+UVgSqkiMHKbPOTGa9p/ws6r8b+bXnv1cYYHM
+ svYooO5deI3zALbUsxCFMhMJJggPHwQ4jrYW83qJe0tSJkmEjIlQMNtVL22v+hN/wDct
+ 5Mfa18Dw7VRHKtTxx4fR6eXln4LbM2YVIChCmEmhZ8TBpSTk/gGTdBX3kXXzzTv/idhR
+ i3DTGmwx5kvj85POpKrXGkGTrPD7U7tmmj2YsS/xo46pYZBvBXr2omsL0cC+tI9Bu6kb
+ MNMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sBEedCc5INHJh7G8+4JRzFbNPKnISCHn1cZg09BxI6o=;
+ b=ymuO8nsk2CjSQFxRbSyAsxO/7ffD7NbnghHzmGwoJ5RviAlOjnhQNZEIHr5moWV59T
+ A1mL3oRRi6WTupZ1KKTrcgVa0vq5lQ51vxGL+gVGrjMT2HT6AnqESTwlIzxeZ6zYUMWR
+ Ok1hO194nX0mdkeICTUaJOz5nsopQIu6TB9tKSASb1pD9tRQ8QlutKHV6BXYuCrekT1J
+ PYgBtvTJFLHUxaz79OAT3XB3HSfQrXt1AEpNb4nKBdgF/praadviOlBSshI/rfhRCUsg
+ em5uGmcu8MXq5yGZ5otJIpxfInB+RxGoa/ADA/TsQLRPjyuWzsu0XHZO/ps7TXzO/lot
+ Ej1A==
+X-Gm-Message-State: AFqh2kqT1U3jqWKOW/reAhQfnoOZU+ZSjR0OjYD9Pbb57ioQMNgqRItS
+ OC31v3v0AyH91LVv6qi3Ar0whA==
+X-Google-Smtp-Source: AMrXdXu9Mf8mIgHpICnWKIDcs/I9/gUmnAWWuq6cyxoAjmkNi2gQ3MpEZQxjKZ6T8R4IM3rITEF8IA==
+X-Received: by 2002:a5d:50d0:0:b0:2bd:d9ae:41d4 with SMTP id
+ f16-20020a5d50d0000000b002bdd9ae41d4mr23020187wrt.44.1674547173631; 
+ Mon, 23 Jan 2023 23:59:33 -0800 (PST)
+Received: from [192.168.159.175] (92.red-88-29-181.dynamicip.rima-tde.net.
+ [88.29.181.92]) by smtp.gmail.com with ESMTPSA id
+ i2-20020a5d4382000000b002bf95500254sm1228589wrq.64.2023.01.23.23.59.32
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 23 Jan 2023 23:59:33 -0800 (PST)
+Message-ID: <ad8788bb-e41b-b234-a45b-e8466aed12db@linaro.org>
+Date: Tue, 24 Jan 2023 08:55:44 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
- create restricted user memory
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] block: Handle curl 7.55.0, 7.85.0 version changes
 Content-Language: en-US
-To: Sean Christopherson <seanjc@google.com>, "Huang, Kai" <kai.huang@intel.com>
-Cc: "chao.p.peng@linux.intel.com" <chao.p.peng@linux.intel.com>,
- "tglx@linutronix.de" <tglx@linutronix.de>,
- "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
- "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
- "jmattson@google.com" <jmattson@google.com>,
- "Lutomirski, Andy" <luto@kernel.org>, "ak@linux.intel.com"
- <ak@linux.intel.com>,
- "kirill.shutemov@linux.intel.com" <kirill.shutemov@linux.intel.com>,
- "Hocko, Michal" <mhocko@suse.com>, "tabba@google.com" <tabba@google.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "david@redhat.com" <david@redhat.com>,
- "michael.roth@amd.com" <michael.roth@amd.com>,
- "corbet@lwn.net" <corbet@lwn.net>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "dhildenb@redhat.com" <dhildenb@redhat.com>,
- "bfields@fieldses.org" <bfields@fieldses.org>,
- "linux-fsdevel@vger.kernel.org" <linux-fsdevel@vger.kernel.org>,
- "x86@kernel.org" <x86@kernel.org>, "bp@alien8.de" <bp@alien8.de>,
- "ddutile@redhat.com" <ddutile@redhat.com>, "rppt@kernel.org"
- <rppt@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
- "vkuznets@redhat.com" <vkuznets@redhat.com>,
- "naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>,
- "linux-api@vger.kernel.org" <linux-api@vger.kernel.org>,
- "qperret@google.com" <qperret@google.com>, "arnd@arndb.de" <arnd@arndb.de>,
- "pbonzini@redhat.com" <pbonzini@redhat.com>,
- "Annapurve, Vishal" <vannapurve@google.com>,
- "mail@maciej.szmigiero.name" <mail@maciej.szmigiero.name>,
- "wanpengli@tencent.com" <wanpengli@tencent.com>,
- "yu.c.zhang@linux.intel.com" <yu.c.zhang@linux.intel.com>,
- "hughd@google.com" <hughd@google.com>,
- "aarcange@redhat.com" <aarcange@redhat.com>,
- "mingo@redhat.com" <mingo@redhat.com>, "hpa@zytor.com" <hpa@zytor.com>,
- "Nakajima, Jun" <jun.nakajima@intel.com>,
- "jlayton@kernel.org" <jlayton@kernel.org>, "joro@8bytes.org"
- <joro@8bytes.org>, "linux-mm@kvack.org" <linux-mm@kvack.org>,
- "Wang, Wei W" <wei.w.wang@intel.com>,
- "steven.price@arm.com" <steven.price@arm.com>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- "Hansen, Dave" <dave.hansen@intel.com>,
- "akpm@linux-foundation.org" <akpm@linux-foundation.org>,
- "linmiaohe@huawei.com" <linmiaohe@huawei.com>
-References: <20221202061347.1070246-2-chao.p.peng@linux.intel.com>
- <5c6e2e516f19b0a030eae9bf073d555c57ca1f21.camel@intel.com>
- <20221219075313.GB1691829@chaop.bj.intel.com>
- <deba096c85e41c3a15d122f2159986a74b16770f.camel@intel.com>
- <20221220072228.GA1724933@chaop.bj.intel.com>
- <126046ce506df070d57e6fe5ab9c92cdaf4cf9b7.camel@intel.com>
- <20221221133905.GA1766136@chaop.bj.intel.com>
- <b898e28d7fd7182e5d069646f84b650c748d9ca2.camel@intel.com>
- <010a330c-a4d5-9c1a-3212-f9107d1c5f4e@suse.cz>
- <0959c72ec635688f4b6c1b516815f79f52543b31.camel@intel.com>
- <Y88aX+MIZeteDQju@google.com>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <Y88aX+MIZeteDQju@google.com>
-Content-Type: text/plain; charset=UTF-8
+To: Anton Johansson <anjo@rev.ng>, qemu-devel@nongnu.org
+Cc: ale@rev.ng, kwolf@redhat.com, hreitz@redhat.com
+References: <20230123201431.23118-1-anjo@rev.ng>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230123201431.23118-1-anjo@rev.ng>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=vbabka@suse.cz;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -54
-X-Spam_score: -5.5
-X-Spam_bar: -----
-X-Spam_report: (-5.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.147,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -138,84 +90,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/24/23 00:38, Sean Christopherson wrote:
-> On Mon, Jan 23, 2023, Huang, Kai wrote:
->> On Mon, 2023-01-23 at 15:03 +0100, Vlastimil Babka wrote:
->>> On 12/22/22 01:37, Huang, Kai wrote:
->>>>>> I argue that this page pinning (or page migration prevention) is not
->>>>>> tied to where the page comes from, instead related to how the page will
->>>>>> be used. Whether the page is restrictedmem backed or GUP() backed, once
->>>>>> it's used by current version of TDX then the page pinning is needed. So
->>>>>> such page migration prevention is really TDX thing, even not KVM generic
->>>>>> thing (that's why I think we don't need change the existing logic of
->>>>>> kvm_release_pfn_clean()). 
->>>>>>
->>>> This essentially boils down to who "owns" page migration handling, and sadly,
->>>> page migration is kinda "owned" by the core-kernel, i.e. KVM cannot handle page
->>>> migration by itself -- it's just a passive receiver.
->>>>
->>>> For normal pages, page migration is totally done by the core-kernel (i.e. it
->>>> unmaps page from VMA, allocates a new page, and uses migrate_pape() or a_ops-
->>>>> migrate_page() to actually migrate the page).
->>>> In the sense of TDX, conceptually it should be done in the same way. The more
->>>> important thing is: yes KVM can use get_page() to prevent page migration, but
->>>> when KVM wants to support it, KVM cannot just remove get_page(), as the core-
->>>> kernel will still just do migrate_page() which won't work for TDX (given
->>>> restricted_memfd doesn't have a_ops->migrate_page() implemented).
->>>>
->>>> So I think the restricted_memfd filesystem should own page migration handling,
->>>> (i.e. by implementing a_ops->migrate_page() to either just reject page migration
->>>> or somehow support it).
->>>
->>> While this thread seems to be settled on refcounts already, 
->>>
->>
->> I am not sure but will let Sean/Paolo to decide.
+On 23/1/23 21:14, Anton Johansson via wrote:
+> * 7.55.0 deprecates CURLINFO_CONTENT_LENGTH_DOWNLOAD in favour of a *_T
+>    version, which returns curl_off_t instead of a double.
+> * 7.85.0 deprecates CURLOPT_PROTOCOLS and CURLOPT_REDIR_PROTOCOLS in
+>    favour of *_STR variants, specifying the desired protocols via a
+>    string.
 > 
-> My preference is whatever is most performant without being hideous :-)
-> 
->>> just wanted
->>> to point out that it wouldn't be ideal to prevent migrations by
->>> a_ops->migrate_page() rejecting them. It would mean cputime wasted (i.e.
->>> by memory compaction) by isolating the pages for migration and then
->>> releasing them after the callback rejects it (at least we wouldn't waste
->>> time creating and undoing migration entries in the userspace page tables
->>> as there's no mmap). Elevated refcount on the other hand is detected
->>> very early in compaction so no isolation is attempted, so from that
->>> aspect it's optimal.
->>
->> I am probably missing something,
-> 
-> Heh, me too, I could have sworn that using refcounts was the least efficient way
-> to block migration.
+> Signed-off-by: Anton Johansson <anjo@rev.ng>
+> ---
+>   block/curl.c | 44 +++++++++++++++++++++++++++++++++++++-------
+>   1 file changed, 37 insertions(+), 7 deletions(-)
 
-Well I admit that due to my experience with it, I do mostly consider
-migration through memory compaction POV, which is a significant user of
-migration on random pages that's not requested by userspace actions on
-specific ranges.
-
-And compaction has in isolate_migratepages_block():
-
-/*
- * Migration will fail if an anonymous page is pinned in memory,
- * so avoid taking lru_lock and isolating it unnecessarily in an
- * admittedly racy check.
- */
-mapping = page_mapping(page);
-if (!mapping && page_count(page) > page_mapcount(page))
-        goto isolate_fail;
-
-so that prevents migration of pages with elevated refcount very early,
-before they are even isolated, so before migrate_pages() is called.
-
-But it's true there are other sources of "random pages migration" - numa
-balancing, demotion in lieu of reclaim... and I'm not sure if all have
-such early check too.
-
-Anyway, whatever is decided to be a better way than elevated refcounts,
-would ideally be checked before isolation as well, as that's the most
-efficient way.
-
->> but IIUC the checking of refcount happens at very last stage of page migration too 
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
