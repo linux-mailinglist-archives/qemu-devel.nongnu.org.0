@@ -2,100 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75EE8679489
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 10:51:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F20267948A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 10:52:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKFxS-0000LT-HO; Tue, 24 Jan 2023 04:51:14 -0500
+	id 1pKFyL-0001GD-NK; Tue, 24 Jan 2023 04:52:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pKFx5-0000Kz-NB
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 04:50:55 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pKFx2-00050Z-H8
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 04:50:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674553846;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=8B4V8KSUHh+qyrsWknlUgKTa2GQHTtAZSFSdRcBsBZ8=;
- b=Cl60m+m6SX9/aEvp8WYKluZbAgWi+8q+WOgoCWU6DepGWl1aJHFthT1OeD4apf/DvI/6+w
- fnNflbOpzmLkqb75tpsOET6NE1oYEC5SdjXxacKepmOEW938LUh0ZSJFHdeaRBOrbCNqzO
- rhhFbv/oebArSTlCTlSj+VMsBDtwO2Q=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-538-GmKa_sonMs-VCHVyB9saAQ-1; Tue, 24 Jan 2023 04:50:44 -0500
-X-MC-Unique: GmKa_sonMs-VCHVyB9saAQ-1
-Received: by mail-wr1-f69.google.com with SMTP id
- l8-20020adfc788000000b002bdfe72089cso2489341wrg.21
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 01:50:44 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pKFyG-0001FT-Qv
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 04:52:05 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pKFyF-0005B1-4q
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 04:52:04 -0500
+Received: by mail-pl1-x633.google.com with SMTP id a18so1648734plm.2
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 01:52:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=61HFkIAi7XPzYJ3+cbxhG0j/N6HP4KtHnqpSvo0/Yrw=;
+ b=koljb1FxQFbwHinblogie9g1L1cHKPGQR2hYytZmpWPFw1sgAWMBo4f53IbXFD7EwB
+ hxCItRZLAKBv6E1bBwWYm7RJeIootZ0ScdSBCnJJz4RrCHqM6oenB42fbdCCupv/jKxR
+ 5Uf8BgYXTUYS2EF13YvVB7BvW0Lgrn0YMF5FFXl+dEbHV7E+CIhi0voGNC6NCkr9p4hs
+ QOG8IPUzxPUuYtJRcj9gNL7zpfi7yeFLa0KZQ9ap1hk65uw5BgQcxXuWBl1YSidx5Ous
+ 1SVrm2JaIyv6rsCN+D2UaFRab8VOkx6pcKypOYI1JX7BAMyrgVdpjULt8hx4ZfG4tsFH
+ GsZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8B4V8KSUHh+qyrsWknlUgKTa2GQHTtAZSFSdRcBsBZ8=;
- b=eGgxgkOcJ9MfW3Sy5ff/OOyKAENs3V+r6blKc5EBVBGAq/EYTp7DWVoKURdvVqp6DD
- qbfW5ZXC4lTBTTX8BGwfEnNxJng9pmUanmZwm/K52OpxkY8Fp3lu+kU7MD4a5qk4CHNc
- 3KSxoxwHEhWbWX0WkxC0hSRr9MxcY/FoTv9lNJ/nGoLSVLErMQQSedXCKbPtkFMTsCjy
- /jcPVox7hUHdOFlL+KzoNKwUxFg86+qdcJMs0pnjMCJl2r5P1E6LwCZzQ537zqYqxnom
- MAtWnKGVFxeUmySQOITQKFBbzwnx75p1cQwIz39NgU4yevz+p+wNuJPoYIZDlPX9nZZ0
- z/8A==
-X-Gm-Message-State: AFqh2krXjmegrrs5isNhJh6+ePnV1J/gQfV1jUUDa5kY5t+5x+GCdzE/
- e20nDTgChEfR1IBK/c77TnWXWACqvXd69KmFRuhjrPLYIynrjF0lHFf2yGLx5/E4jgWz9Gzdplr
- fuy77iTY73r1TyPc=
-X-Received: by 2002:a05:6000:a0a:b0:2be:5d57:ca19 with SMTP id
- co10-20020a0560000a0a00b002be5d57ca19mr13601654wrb.58.1674553843542; 
- Tue, 24 Jan 2023 01:50:43 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsubAwa1lP5ULy8/6Qk+pQtxhu03HrPrZZkLyz/5jXBUXJvuDxBI1uV182vNi81DCvZ3QT93Q==
-X-Received: by 2002:a05:6000:a0a:b0:2be:5d57:ca19 with SMTP id
- co10-20020a0560000a0a00b002be5d57ca19mr13601626wrb.58.1674553843218; 
- Tue, 24 Jan 2023 01:50:43 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- a2-20020a056000100200b002be50604c81sm1483696wrx.47.2023.01.24.01.50.42
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 01:50:42 -0800 (PST)
-Date: Tue, 24 Jan 2023 09:50:40 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Anton Kuchin <antonkuchin@yandex-team.ru>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, Juan Quintela <quintela@redhat.com>,
- yc-core@yandex-team.ru
-Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
-Message-ID: <Y8+p8HFG8NxYlfoo@work-vm>
-References: <20230120085534-mutt-send-email-mst@kernel.org>
- <703d527f-de92-090c-6ce1-af0dec7de033@yandex-team.ru>
- <20230122030455-mutt-send-email-mst@kernel.org>
- <b7de3adc-cba7-09eb-ea93-f4bfb91bea9e@yandex-team.ru>
- <20230122093903-mutt-send-email-mst@kernel.org>
- <70c0f00a-7828-3ccf-c2ea-49aeef8693e9@yandex-team.ru>
- <20230122111618-mutt-send-email-mst@kernel.org>
- <Y87Ri4r6SiETdCrt@work-vm> <Y87lv8fXrYpxkK/3@fedora>
- <CAJSP0QV5wfXxhvjjFnLLUCvmSxiHxTPXh4qQJwHhnKdBu3EOQQ@mail.gmail.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=61HFkIAi7XPzYJ3+cbxhG0j/N6HP4KtHnqpSvo0/Yrw=;
+ b=hBCTufT0KS+H/fAHkqR031L5hvb8p30bEWHFOH61AfZXWTi1Z9DDraS3x8R2I95uLA
+ lGOBZGXRZDLiNUnFn7IXyCcFIvLPHBzT1Y9Df5Drcrr1JTxhkvpitLGTD0Vff3arv3g4
+ /X9raQ1nzsU9GY5QMyVTyb1DeqybsflKf5hG0XIw127Jrr0mUwKrVYynp7e+eYMNk4sn
+ UFx7AR//h+2yov4W8u5590gncgrFbm13LW0INeZH4GrtVtgS5dqTgqySIr8+9CjQ6gW+
+ j3RR8iPTQDivM6DAerlIoL1u2bmnWl7yDvNrwjHCWNMD23rBtjquJ8wxAMeeafDx0R6U
+ I3LA==
+X-Gm-Message-State: AFqh2kqIfN5y40w1+3xdvOXPr7Z1d4/ZN5raz2hlAfV4pCTR5IIiHapm
+ Eyt88+H9kK5yrDIYoyUhg9KP0Gk8gBoUnBuczAHBSQ==
+X-Google-Smtp-Source: AMrXdXtcrPXhpe5YH8Oju7j8V0tsIgHiZzP3PCpDsSYX7txhbezXa4TxtHlPFjQ55EPMeRot07W4GTUJVm95lF+H36w=
+X-Received: by 2002:a17:903:1053:b0:194:5066:2630 with SMTP id
+ f19-20020a170903105300b0019450662630mr2917051plc.28.1674553921770; Tue, 24
+ Jan 2023 01:52:01 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJSP0QV5wfXxhvjjFnLLUCvmSxiHxTPXh4qQJwHhnKdBu3EOQQ@mail.gmail.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230123201431.23118-1-anjo@rev.ng>
+In-Reply-To: <20230123201431.23118-1-anjo@rev.ng>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 24 Jan 2023 09:51:50 +0000
+Message-ID: <CAFEAcA8MtUy_xugp6zPQaUuq6sSU6+VgCyb1eUUDK1xPngN_Pw@mail.gmail.com>
+Subject: Re: [PATCH] block: Handle curl 7.55.0, 7.85.0 version changes
+To: Anton Johansson <anjo@rev.ng>
+Cc: qemu-devel@nongnu.org, ale@rev.ng, kwolf@redhat.com, hreitz@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -112,91 +82,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Stefan Hajnoczi (stefanha@gmail.com) wrote:
-> On Mon, 23 Jan 2023 at 14:54, Stefan Hajnoczi <stefanha@redhat.com> wrote:
-> >
-> > On Mon, Jan 23, 2023 at 06:27:23PM +0000, Dr. David Alan Gilbert wrote:
-> > > * Michael S. Tsirkin (mst@redhat.com) wrote:
-> > > > On Sun, Jan 22, 2023 at 06:09:40PM +0200, Anton Kuchin wrote:
-> > > > >
-> > > > > On 22/01/2023 16:46, Michael S. Tsirkin wrote:
-> > > > > > On Sun, Jan 22, 2023 at 02:36:04PM +0200, Anton Kuchin wrote:
-> > > > > > > > > This flag should be set when qemu don't need to worry about any
-> > > > > > > > > external state stored in vhost-user daemons during migration:
-> > > > > > > > > don't fail migration, just pack generic virtio device states to
-> > > > > > > > > migration stream and orchestrator guarantees that the rest of the
-> > > > > > > > > state will be present at the destination to restore full context and
-> > > > > > > > > continue running.
-> > > > > > > > Sorry  I still do not get it.  So fundamentally, why do we need this property?
-> > > > > > > > vhost-user-fs is not created by default that we'd then need opt-in to
-> > > > > > > > the special "migrateable" case.
-> > > > > > > > That's why I said it might make some sense as a device property as qemu
-> > > > > > > > tracks whether device is unplugged for us.
-> > > > > > > >
-> > > > > > > > But as written, if you are going to teach the orchestrator about
-> > > > > > > > vhost-user-fs and its special needs, just teach it when to migrate and
-> > > > > > > > where not to migrate.
-> > > > > > > >
-> > > > > > > > Either we describe the special situation to qemu and let qemu
-> > > > > > > > make an intelligent decision whether to allow migration,
-> > > > > > > > or we trust the orchestrator. And if it's the latter, then 'migrate'
-> > > > > > > > already says orchestrator decided to migrate.
-> > > > > > > The problem I'm trying to solve is that most of vhost-user devices
-> > > > > > > now block migration in qemu. And this makes sense since qemu can't
-> > > > > > > extract and transfer backend daemon state. But this prevents us from
-> > > > > > > updating qemu executable via local migration. So this flag is
-> > > > > > > intended more as a safety check that says "I know what I'm doing".
-> > > > > > >
-> > > > > > > I agree that it is not really necessary if we trust the orchestrator
-> > > > > > > to request migration only when the migration can be performed in a
-> > > > > > > safe way. But changing the current behavior of vhost-user-fs from
-> > > > > > > "always blocks migration" to "migrates partial state whenever
-> > > > > > > orchestrator requests it" seems a little  dangerous and can be
-> > > > > > > misinterpreted as full support for migration in all cases.
-> > > > > > It's not really different from block is it? orchestrator has to arrange
-> > > > > > for backend migration. I think we just assumed there's no use-case where
-> > > > > > this is practical for vhost-user-fs so we blocked it.
-> > > > > > But in any case it's orchestrator's responsibility.
-> > > > >
-> > > > > Yes, you are right. So do you think we should just drop the blocker
-> > > > > without adding a new flag?
-> > > >
-> > > > I'd be inclined to. I am curious what do dgilbert and stefanha think though.
-> > >
-> > > Yes I think that's probably OK, as long as we use the flag for knowing
-> > > how to handle the discard bitmap as a proxy for the daemon knowing how
-> > > to handle *some* migrations; knowing which migrations is then the job
-> > > for the orchestrator to be careful of.
-> >
-> > I think the feature bit is not a good way to detect live migration
-> > support. vhost-user backends typically use libvhost-user, rust-vmm's
-> > vhost-user-backend crate, etc where this feature can be implemented for
-> > free. If the feature bit is advertized we don't know if the device
-> > implementation (net, blk, fs, etc) is aware of migration at all.
-> 
-> I checked how bad the situation is. libvhost-user currently enables
-> LOG_ALL by default. :(
-> 
-> So I don't think the front-end can use LOG_ALL alone to determine
-> whether or not migration is supported by the back-end.
-> 
-> There are several existing back-ends based on libvhost-user that have
-> no concept of reconnection or migration but report the LOG_ALL feature
-> bit.
+On Mon, 23 Jan 2023 at 20:15, Anton Johansson via <qemu-devel@nongnu.org> wrote:
+>
+> * 7.55.0 deprecates CURLINFO_CONTENT_LENGTH_DOWNLOAD in favour of a *_T
+>   version, which returns curl_off_t instead of a double.
+> * 7.85.0 deprecates CURLOPT_PROTOCOLS and CURLOPT_REDIR_PROTOCOLS in
+>   favour of *_STR variants, specifying the desired protocols via a
+>   string.
+>
+> Signed-off-by: Anton Johansson <anjo@rev.ng>
 
-Ouch, yes that's messy.
+We should note that this
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1440
 
-Going back to the original question; I don't think a command line flag
-will work though, because even for a given VM there's the possibility
-of some (local) migrations working but other (remote) migrations not
-working; so you don't know at the point you start the VM whether
-your migrations are going to work.
+There also seems to be a different set of patches that
+somebody attached to that bug report, but yours wins
+since you actually submitted it :-)
 
-Dave
-
-> Stefan
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+thanks
+-- PMM
 
