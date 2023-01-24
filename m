@@ -2,95 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A81567940A
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 10:22:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEDA9679482
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 10:49:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKFU7-0000j9-BI; Tue, 24 Jan 2023 04:20:55 -0500
+	id 1pKFuB-0007Ix-NZ; Tue, 24 Jan 2023 04:47:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKFTW-0000i9-Tl
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 04:20:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pKFu7-0007Ik-SY
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 04:47:47 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKFTU-00080G-TC
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 04:20:18 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674552013;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=2dWWSVoS42wbM/MS+WH5H0m60GGDAk2YPBnz3Z9glKs=;
- b=BQdHbduYSg20ebEwkEAw2fXU38J6kdCVI3iMuy+QrYpe8o/rxfcaUC0NVLjgB3QW5LBRmO
- MBO6L0+F7NS7SRtC7B1UmlyYEfL2ls6/WGudVLAFnQ5b7fkr07vjcmuzzvAbloMwRH+cUD
- vj8CITYRqWaZV9Gr7gyUpxT4ImWi4zQ=
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
- [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-558-PhRgtlUhMtiOcaG-KMMtcw-1; Tue, 24 Jan 2023 04:20:12 -0500
-X-MC-Unique: PhRgtlUhMtiOcaG-KMMtcw-1
-Received: by mail-qk1-f198.google.com with SMTP id
- q21-20020a05620a0d9500b0070572ccdbf9so10631364qkl.10
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 01:20:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=2dWWSVoS42wbM/MS+WH5H0m60GGDAk2YPBnz3Z9glKs=;
- b=PdySd0ABX8AV8gIjRc364w5CX/owN0RRPLFnjKWV1az3daxuXmtUQt95Zz5bpSPkyO
- a2TlahNOSTtjglgr/P5J/nbCKs+QQYIEAee1KahzQ6L+pdH4hwjOEfwxAj9vPIcMhFgU
- Dq3ek7hD2kSjqDo41BfFFMP8mm/U824cPFWV+daPfnvK97Remd0a0MHCC0FBzUKf7/2K
- KUu0mQIwcws/YEBKdvoPyrEaebJxUpzu41yniFQk4R8TF3+Z0PSgJoh5OUbsWQPZ1RVa
- GpxGKJ72kJjRJC6ojcwVqaQ68IcPO563vu9FclV149KKktz7YGkuE9ybX/DdI0YAWLp7
- 8faA==
-X-Gm-Message-State: AFqh2krgDye0wVOgJjHU8hX3UUhdgULOXp6N/4vxrXeNhO7uJ1DpX0Er
- veoYjPDYPVPMEkN9hbGvgs1J1MHRkuKJjbCJADmrmvPJSw3eeWfZ0dyGS66rLlQcFnZUPIq9gwZ
- jCwP8sVTOwcWZTEQ=
-X-Received: by 2002:ac8:48d9:0:b0:3b6:2f49:1acc with SMTP id
- l25-20020ac848d9000000b003b62f491accmr37622966qtr.16.1674552011434; 
- Tue, 24 Jan 2023 01:20:11 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsMtKNqWxdUeT6Crdros/vlrCAMJFLIzxSkAd1kUPmOHuOlGN98frvsRaVoduFEi3WHDZ6B5Q==
-X-Received: by 2002:ac8:48d9:0:b0:3b6:2f49:1acc with SMTP id
- l25-20020ac848d9000000b003b62f491accmr37622948qtr.16.1674552011180; 
- Tue, 24 Jan 2023 01:20:11 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-179-158.web.vodafone.de.
- [109.43.179.158]) by smtp.gmail.com with ESMTPSA id
- c23-20020ac85197000000b003ab1ee36ee7sm908640qtn.51.2023.01.24.01.20.09
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Jan 2023 01:20:10 -0800 (PST)
-Message-ID: <2bce671f-d91a-72ab-d38f-2e284d9d3ee2@redhat.com>
-Date: Tue, 24 Jan 2023 10:20:08 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pKFu5-0004BA-2r
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 04:47:47 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P1MTx4rDXz6J7B6;
+ Tue, 24 Jan 2023 17:43:17 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 24 Jan
+ 2023 09:47:21 +0000
+Date: Tue, 24 Jan 2023 09:47:20 +0000
+To: Fan Ni <fan.ni@samsung.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Ben Widawsky
+ <bwidawsk@kernel.org>, "linux-cxl@vger.kernel.org"
+ <linux-cxl@vger.kernel.org>, "linuxarm@huawei.com" <linuxarm@huawei.com>, Ira
+ Weiny <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ "alison.schofield@intel.com" <alison.schofield@intel.com>, Adam Manzanares
+ <a.manzanares@samsung.com>, "dave@stgolabs.net" <dave@stgolabs.net>
+Subject: Re: [RFC PATCH 0/2] hw/cxl: Passthrough HDM decoder emulation
+Message-ID: <20230124094720.00005c97@Huawei.com>
+In-Reply-To: <20230123175315.GA168673@bgt-140510-bm03>
+References: <20230123121712.29892-1-Jonathan.Cameron@huawei.com>
+ <CGME20230123175325uscas1p134d834ae3636c7c56e93299c01a4f351@uscas1p1.samsung.com>
+ <20230123175315.GA168673@bgt-140510-bm03>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Biswapriyo Nath <nathbappai@gmail.com>
-References: <c2246b1a-51b3-2843-5164-c424c571874f@redhat.com>
- <CAJ+F1C+EC-tgDOyX5e56utKdUz-DXMMtwrtVyKXT2Jj4r43OCA@mail.gmail.com>
- <839268cb-b65c-68d6-1294-47548ed383b1@redhat.com>
- <CAJ+F1CJteJ665MLSUhWg-p9=tH6B7w-m=pop+o9ktGffxCiZaA@mail.gmail.com>
- <Y860hPT+o15BGQYq@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: MSYS2 and libfdt
-In-Reply-To: <Y860hPT+o15BGQYq@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.147, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500004.china.huawei.com (7.191.163.9) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,71 +68,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/01/2023 17.23, Daniel P. Berrangé wrote:
-> On Fri, Jan 20, 2023 at 05:57:29PM +0400, Marc-André Lureau wrote:
->> Hi Thomas
->>
->> On Fri, Jan 20, 2023 at 12:31 PM Thomas Huth <thuth@redhat.com> wrote:
->>>
->>> On 19/01/2023 09.56, Marc-André Lureau wrote:
->>>> Hi
->>>>
->>>> On Thu, Jan 19, 2023 at 12:31 PM Thomas Huth <thuth@redhat.com> wrote:
->>>>>
->>>>>     Hi all,
->>>>>
->>>>> in some spare minutes, I started playing with a patch to try to remove the
->>>>> dtc submodule from the QEMU git repository - according to
->>>>> https://repology.org/project/dtc/versions our supported build platforms
->>>>> should now all provide the minimum required version.
->>>>>
->>>>> However, I'm hitting a problem with Windows / MSYS2 in the CI jobs: The
->>>>> libfdt is packaged as part of the dtc package there:
->>>>>
->>>>>     https://packages.msys2.org/package/dtc
->>>>>
->>>>> ... meaning that it is added with a usr/include and usr/lib path prefix
->>>>> instead of mingw64/include and mingw64/lib like other packages are using
->>>>> (see e.g.
->>>>> https://packages.msys2.org/package/mingw-w64-x86_64-zlib?repo=mingw64). Thus
->>>>> the compiler does not find the library there. Also there does not seem to be
->>>>> a difference between a i686 (32-bit) and x86_64 (64-bit) variant available
->>>>> here? Does anybody know how libfdt is supposed to be used with MSYS2 ?
->>>>
->>>> The msys environment is a bit special, it's not an environment for a
->>>> particular build target, my understanding is that it holds common
->>>> files/tools.
->>>>
->>>> dtc should be added to https://github.com/msys2/MINGW-packages for it
->>>> to be available as a target dependency.
->>>
->>> Do you have already any experience in requesting a new package there? Could
->>> you maybe do it? ... since I don't have a proper MinGW installation here, it
->>> would be very cumbersome for me right now.
->>>
->>
->> Here you go (although let see what CI has to say):
->> https://github.com/msys2/MINGW-packages/pull/15168
->>
->> The msys2 maintainers are usually very quick and helpful, in my experience.
+On Mon, 23 Jan 2023 17:53:24 +0000
+Fan Ni <fan.ni@samsung.com> wrote:
 
-Great, I just gave it a try, and it seems to be working, indeed:
-
-https://gitlab.com/thuth/qemu/-/jobs/3649509495#L668
-
-Thank you very much Marc-André and Biswapriyo!
-
-> And it merged 1 day after you posted it. So yes, the msys2 maintainers
-> are indeed very quick & helpful :-)
+> On Mon, Jan 23, 2023 at 12:17:10PM +0000, Jonathan Cameron wrote:
 > 
-> So in theory we can try to drop the submodule for dtc now
+> 
+> 
+> > Until now, testing using CXL has relied up always using two root ports
+> > below a host bridge, to work around a current assumption in the Linux
+> > kernel support that, in the single root port case, the implementation will
+> > use the allowed passthrough decoder implementation choice. If that choice
+> > is made all accesses are routed from the host bridge to the single
+> > root port that is present. Effectively we have a pass through decoder
+> > (it is called that in the kernel driver).
+> > 
+> > This patch series implements that functionality and makes it the default
+> > See patch 2 for a discussion of why I think we can make this change
+> > without backwards compatibility issues (basically if it didn't work before
+> > who are we breaking by making it work?)
+> > 
+> > Whilst this limitation has been known since the initial QEMU patch
+> > postings / kernel CXL region support, Fan Ni Ran into it recently reminding
+> > me that we should solve it.
+> > 
+> > https://lore.kernel.org/linux-cxl/20230113171044.GA24788@bgt-140510-bm03/
+> > 
+> > Tree with a large set of patches before this at:
+> > https://gitlab.com/jic23/qemu/-/tree/cxl-2023-01-20
+> > 
+> > I've done some basic testing, though I did hit what appears to be
+> > a kernel race on region bring up of existing region / namespace in a
+> > 1HB 2RP 2EP test case. That is proving hard to replicate consistently
+> > but doesn't seem to have anything to do with the emulation other than
+> > perhaps we are opening up a race by responding slowly to something.
+> > 
+> > Jonathan Cameron (2):
+> >   hw/pci: Add pcie_count_ds_port() and pcie_find_port_first() helpers
+> >   hw/pxb-cxl: Support passthrough HDM Decoders unless overridden
+> > 
+> >  hw/cxl/cxl-host.c                   | 31 +++++++++++++--------
+> >  hw/pci-bridge/pci_expander_bridge.c | 43 +++++++++++++++++++++++++----
+> >  hw/pci/pcie_port.c                  | 38 +++++++++++++++++++++++++
+> >  include/hw/cxl/cxl.h                |  1 +
+> >  include/hw/cxl/cxl_component.h      |  1 +
+> >  include/hw/pci/pci_bridge.h         |  1 +
+> >  include/hw/pci/pcie_port.h          |  2 ++
+> >  7 files changed, 100 insertions(+), 17 deletions(-)
+> > 
+> > -- 
+> > 2.37.2
+> > 
+> >   
+> Tried three different cxl topology setups (1HB1RP, 1HB2RP2Memdev, with
+> switch), the patch works fine for me.
+> Btw, there seem some format issues with the patch, got warnings with
+> checkpatch tool.
+Thanks! I'll clean those up.  Was being lazy on it as it's an RFC for
+now :)  Given this is small and useful I'll probably pull it nearer the
+head of the queue.
 
-Ok, I'll give my patch another try to see whether all the other systems have 
-a usable version of libfdt available, too.
+When I repost, if you could give a Tested-by tag that would be great!
 
-  Thomas
+Thanks,
+
+Jonathan
 
 
