@@ -2,84 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69AF267A17F
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:41:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42DB967A26E
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 20:12:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKODS-0004n9-Rg; Tue, 24 Jan 2023 13:40:19 -0500
+	id 1pKOgr-0003Fy-01; Tue, 24 Jan 2023 14:10:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <siddhi.katage@oracle.com>)
- id 1pKODB-0004if-Jp
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:40:02 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <siddhi.katage@oracle.com>)
- id 1pKOD9-00079Z-Ft
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:40:01 -0500
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
- by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30OGOIhm031376; Tue, 24 Jan 2023 18:39:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
- h=from : to : cc :
- subject : date : message-id; s=corp-2022-7-12;
- bh=hs19veO+RBYTY/eKLU+q6T37HdoBeeC5MBS8KyTNRgk=;
- b=Fsge4sdt5CPEOEqfruF/odhWfdUmWscoRdV0K9IWzVozLoSOhf8ADYTjB0NiEAD3A7wQ
- YRu8cm4w44SNlyKUhrGh5XSzjKBiSLX+nA4+NpqOlnUXakIg6KNoZNjFp4cBiicsrgQC
- m4MwG1bqy0e5xsSOTZJRx5k69ksDOejM78fetl9BTC6nsr/01NHCM6f/+Xk7yTQVJFM4
- FbH++TsuF1jUg+3g1T7U/xyqSXwpM4rNH8wAKZZFywfc/x3MKlRg4N8KZ1EH9OBW9/Xl
- qSux8i607pC2vWVzyaRqOw0N0NJGJm1UGYoqYNnY5/Q2Yf5Aw5bOKTj7rWsTSOI9M9Ul 8A== 
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3n86ybe4re-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 24 Jan 2023 18:39:53 +0000
-Received: from pps.filterd
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 30OH35Qq030200; Tue, 24 Jan 2023 18:39:52 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3n86g5n118-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Tue, 24 Jan 2023 18:39:51 +0000
-Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com
- (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30OIckFj008683;
- Tue, 24 Jan 2023 18:39:51 GMT
-Received: from siddhi-vm1.osdevelopmeniad.oraclevcn.com
- (siddhi-vm1.allregionaliads.osdevelopmeniad.oraclevcn.com [100.100.254.70])
- by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTP id
- 3n86g5n10t-1; Tue, 24 Jan 2023 18:39:51 +0000
-From: Siddhi Katage <siddhi.katage@oracle.com>
-To: qemu-devel@nongnu.org
-Cc: joe.jin@oracle.com, dongli.zhang@oracle.com, siddhi.katage@oracle.com,
- christian.ehrhardt@canonical.com, berrange@redhat.com,
- pbonzini@redhat.com, philmd@linaro.org
-Subject: [PATCH 1/1] modules: load modules from /var/run/qemu/<version>
- directory firstly
-Date: Tue, 24 Jan 2023 18:39:50 +0000
-Message-Id: <1674585590-13888-1-git-send-email-siddhi.katage@oracle.com>
-X-Mailer: git-send-email 1.8.3.1
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-24_13,2023-01-24_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- spamscore=0 phishscore=0
- suspectscore=0 malwarescore=0 adultscore=0 mlxlogscore=999 mlxscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301240170
-X-Proofpoint-GUID: W1VVQhXm57UIVlNwD0Om0UqdbNQID8dW
-X-Proofpoint-ORIG-GUID: W1VVQhXm57UIVlNwD0Om0UqdbNQID8dW
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=siddhi.katage@oracle.com; helo=mx0a-00069f02.pphosted.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pKOgl-0003Fi-A8
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 14:10:35 -0500
+Received: from mail-lj1-x232.google.com ([2a00:1450:4864:20::232])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pKOgj-0003iQ-LO
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 14:10:35 -0500
+Received: by mail-lj1-x232.google.com with SMTP id g14so17798685ljh.10
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 11:10:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=oaahApBzKzReGy4DPJeMXf95J1542dLEbKC/PsLpLP4=;
+ b=o9R9+Iyb68TPmtV/bagLGo+km9pNLYL2Gy467doGvWP02IiBIT4NDn98EGY9L5K2lT
+ P/z3uSq3Ok6YF2SUrOXXXUhy06akjE1+GZE+cJPoFQoRVJMMBkk/hE0i0HFkjwlKDUSy
+ bNmSv8MLITJeoJqnWwciYL+e7DLijSEJ5pYk/lrL98ccYRf78FCWavEDwCZFOT5J9zWp
+ 9UFKeK/Wq816aAfWWHv0EBXiI+Rw8014D5glZiuXomBT6beFn2Uirz/Uj12TmMgkxAZa
+ p2kUZXk4ZV6Twv6E2JUC9iO2157jQcTj4kRLf/bgcjoKUx5pej/1QtWyVBoYdRLz4HOt
+ 6Knw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=oaahApBzKzReGy4DPJeMXf95J1542dLEbKC/PsLpLP4=;
+ b=kuDCVArgFxFWKGzmhaTEISFQe/1sOfYJfGal7eOUU0w0f7js+TvKlhs5IUQrtjr8yn
+ +y/GuqYyInHgf/WjzV0LpwecA8V6B0Wze9Oypw/kkr4A9FstxWeaQDx35JDqUKATCzVc
+ XEFsGDfxWZlYKVzUPG98BZO4BFaa3y9qbxojX3D2kI7bAJSxazxKxirH2qrRQEPXVI5p
+ vXy/sXLYtjyZ1lz+haSxP1OOTroBN0NUAfClVa+vfWPkbZrh9+zFdrIfXPeIMdD+R5+t
+ KHI3lh4KFx4WC6efSYYsyMaWdZTNAEENAMWe6sNqkx7rWBJ6JZsyEes26JcYkL6th6ks
+ Iz7Q==
+X-Gm-Message-State: AFqh2kq+bMNyMAbg2GpqnM1ip/hMA7jEuWQB8TAtPlbGd5cY2ddE87wv
+ YBTiJZco2oam8aUG8Toji+VuiE2UGcLnOS6nCSc=
+X-Google-Smtp-Source: AMrXdXsypIMiYg5PqeW9RyeOiwIlIR2Fc7bM90XGZXpxfQ8sLvFM4zclYurXRUCEQB0biegGo9K3b/JXX2VSRsOsG54=
+X-Received: by 2002:a05:651c:10af:b0:285:31d2:a898 with SMTP id
+ k15-20020a05651c10af00b0028531d2a898mr2028998ljn.452.1674587431560; Tue, 24
+ Jan 2023 11:10:31 -0800 (PST)
+MIME-Version: 1.0
+References: <c2246b1a-51b3-2843-5164-c424c571874f@redhat.com>
+ <CAJ+F1C+EC-tgDOyX5e56utKdUz-DXMMtwrtVyKXT2Jj4r43OCA@mail.gmail.com>
+ <839268cb-b65c-68d6-1294-47548ed383b1@redhat.com>
+ <CAJ+F1CJteJ665MLSUhWg-p9=tH6B7w-m=pop+o9ktGffxCiZaA@mail.gmail.com>
+ <Y860hPT+o15BGQYq@redhat.com>
+ <0c771cc2-4746-0e5b-e372-c2a7be830144@redhat.com>
+ <Y8/0bBPM0cxnYnKy@redhat.com>
+In-Reply-To: <Y8/0bBPM0cxnYnKy@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 24 Jan 2023 23:10:20 +0400
+Message-ID: <CAJ+F1CJvSiD9Hp4s24enRw06Er+XrCaOYmH61=zP9jCLYLoHLA@mail.gmail.com>
+Subject: Re: MinGW and libfdt (was: Re: MSYS2 and libfdt)
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Bin Meng <bin.meng@windriver.com>, 
+ Stefan Weil <sw@weilnetz.de>, QEMU Developers <qemu-devel@nongnu.org>, 
+ Cole Robinson <crobinso@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::232;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lj1-x232.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,47 +92,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Siddhi Katage <siddhi.katage@oracle.com>
+Hi
 
-An old running QEMU will try to load modules with new build-id first, this
-will fail as expected, then QEMU will fallback to load the old modules that
-matches its build-id from /var/run/qemu/<version> directory.
-Make /var/run/qemu/<version> directory as first search path to load modules.
+On Tue, Jan 24, 2023 at 7:08 PM Daniel P. Berrang=C3=A9 <berrange@redhat.co=
+m> wrote:
+>
+> On Tue, Jan 24, 2023 at 03:43:25PM +0100, Thomas Huth wrote:
+> > On 23/01/2023 17.23, Daniel P. Berrang=C3=A9 wrote:
+> > > On Fri, Jan 20, 2023 at 05:57:29PM +0400, Marc-Andr=C3=A9 Lureau wrot=
+e:
+> > ...
+> > > > > > On Thu, Jan 19, 2023 at 12:31 PM Thomas Huth <thuth@redhat.com>=
+ wrote:
+> > > > > > >
+> > > > > > >
+> > > > > > >     Hi all,
+> > > > > > >
+> > > > > > > in some spare minutes, I started playing with a patch to try =
+to remove the
+> > > > > > > dtc submodule from the QEMU git repository - according to
+> > > > > > > https://repology.org/project/dtc/versions our supported build=
+ platforms
+> > > > > > > should now all provide the minimum required version.
+> > ...
+> > > So in theory we can try to drop the submodule for dtc now
+> >
+> > The dtc package is also still missing in the MinGW cross compiler suite=
+ in
+> > Fedora ... does anybody know what's the right way to request it there?
+>
+> Someone will need to write a specfile, and submit it for review. I can do
+> the submission, or the review, but not both (can't mark your own homework=
+)
+>
 
-Fixes: bd83c861c0 ("modules: load modules from versioned /var/run dir")
-Signed-off-by: Siddhi Katage <siddhi.katage@oracle.com>
----
- util/module.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+It's already been in rawhide for a few months. We can probably merge
+and update f37.
+https://packages.fedoraproject.org/pkgs/dtc/dtc/
 
-diff --git a/util/module.c b/util/module.c
-index 32e2631..b723d65 100644
---- a/util/module.c
-+++ b/util/module.c
-@@ -233,17 +233,17 @@ int module_load(const char *prefix, const char *name, Error **errp)
-     g_hash_table_add(loaded_modules, module_name);
- 
-     search_dir = getenv("QEMU_MODULE_DIR");
--    if (search_dir != NULL) {
--        dirs[n_dirs++] = g_strdup_printf("%s", search_dir);
--    }
--    dirs[n_dirs++] = get_relocated_path(CONFIG_QEMU_MODDIR);
--
- #ifdef CONFIG_MODULE_UPGRADES
-     version_dir = g_strcanon(g_strdup(QEMU_PKGVERSION),
-                              G_CSET_A_2_Z G_CSET_a_2_z G_CSET_DIGITS "+-.~",
-                              '_');
-     dirs[n_dirs++] = g_strdup_printf("/var/run/qemu/%s", version_dir);
- #endif
-+    if (search_dir != NULL) {
-+        dirs[n_dirs++] = g_strdup_printf("%s", search_dir);
-+    }
-+    dirs[n_dirs++] = get_relocated_path(CONFIG_QEMU_MODDIR);
-+
-     assert(n_dirs <= ARRAY_SIZE(dirs));
- 
-     /* end of resources managed by the out: label */
--- 
-1.8.3.1
 
+--=20
+Marc-Andr=C3=A9 Lureau
 
