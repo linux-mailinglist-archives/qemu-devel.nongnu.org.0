@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C2367A10F
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:18:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A741B67A0E5
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:08:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKNr1-0003us-1w; Tue, 24 Jan 2023 13:17:07 -0500
+	id 1pKNiA-0006OP-WC; Tue, 24 Jan 2023 13:07:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNqu-0003nH-KH
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:17:01 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ id 1pKNhQ-0005BQ-Gg
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:13 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNqs-00010J-EN
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:16:59 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- e19-20020a05600c439300b003db1cac0c1fso11952797wmn.5
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:16:57 -0800 (PST)
+ id 1pKNhJ-00076e-LA
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:12 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ iv8-20020a05600c548800b003db04a0a46bso1493397wmb.0
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:07:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=4qbDvp85POUXncnPDWXMO/+Z4Ga30ccTwEsD+MJEPGw=;
- b=qhRRcx+dTdi54MuSsh+GW9AMtIbwoWrD2y4ee+nM1qYydSdi7VwsBX5UfSiCRV4HBm
- aaqs4WaeG1ySmzR17n48EXN7ySSYzEQWBqY6buANvYzEMz/eswGbllFVElt5rrgdmKx9
- tV2wA9C6tj0FcLlRZ9sx0u8UVVyv0okpaIO7I5rngWAs+aTtgPkSzErOb6mdDAJ8crNe
- bla3ukCdlmrMq/C0nfcOE4nIyYQVup3DDto7tiKIxop2G94wpUTlgNnvJc/Gyik2kD9l
- 24X9nOxEJ+f2APe43tYppLIqpNzoSuVwlYDkmFAtlDPwy0ALEDAwDIddxdQxrr4ykhs1
- fz0w==
+ bh=S+2u77xSDgQOoeHR5vxTZWd3BOfsZOlOwvnJdeLJLGI=;
+ b=lJuDQcIRCtZsbLTaKq897zMyWEBhh2NQcfDygdFL4H0EzDolSYC3RQLX8zGYmCY2SD
+ bQvJRab8excsaffcY60ZFeWMLr6/EDqmZi0+QsxbhKYyiAxETgR/D5v35iP78nFGcKLS
+ lMiLXLp+0HnraokwxQOPSiqCi0kN7zV/K9S7mLF3qCrDQh4w5PmxwUKdj2+sXVd0p2U7
+ hGMCcWhECbWi+79voBeIr2camFyIIAwXJbPZ18kQ1b9Z7f/vCtiO9sr3UQQSrH4jzJRd
+ NDgY4vmIHJjz1a5RlFQ/FnqB9ZJ5cIQrLHn0MMAXJ63UWHyy2P5K6RA0JkPOXHR7yk2G
+ D1XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=4qbDvp85POUXncnPDWXMO/+Z4Ga30ccTwEsD+MJEPGw=;
- b=pl8FWl6ZDanapouLP5Bbq7eAztaM6t/RipOqhIFXEmuOJoO1YSMmpReoIuRhCG8IIe
- 1L0so2vFTTJ3juzn8O8vY7S4WT6l0PsjCYgVomn8TTvt/FivqLBBGfkedP8pLydbHkNo
- ok8Ip7FikhUfoCFv10FqvTLbGuzafzY07L4cOqKfp2mdy3RfTEzn1Pgi4tWq20bM49tU
- PDgJZs9BcDoyDddsVkZtqkmvVHjpKatMM8VwMs8Pm5IbAttLgtSNwvBH9xlWA9IYhgRu
- BKZoVUtq250Yf0LSybjBQZLcBf3B4ByK1G97Qg2rZ/0zndAs/KDR81WkoyAdNYdyeaSI
- Ps3A==
-X-Gm-Message-State: AFqh2kreTPEDz9UuQs8RMwu7oj/SD3zp4TPOLKg0OrEJHWscxW+v1ux0
- KgPc7UT5AW/FP6whrT+cFwphhA==
-X-Google-Smtp-Source: AMrXdXsHPXEYaBSSh3OrysUsCSHLnGVWScngSJ/m1kgbtxtnSpcSkjNcB1IorEIUR4ehPJvUUeQsQg==
-X-Received: by 2002:a05:600c:2d84:b0:3d9:e8b3:57f9 with SMTP id
- i4-20020a05600c2d8400b003d9e8b357f9mr29158303wmg.8.1674584216676; 
- Tue, 24 Jan 2023 10:16:56 -0800 (PST)
+ bh=S+2u77xSDgQOoeHR5vxTZWd3BOfsZOlOwvnJdeLJLGI=;
+ b=oznSykf4jY5r0MS20LaeWgI7L2U3ltLaEd8zbMcNpN9WfftWqzTuXnkyxuRYAwwuWN
+ LKgI0aK5FdLJ8+5qWgrOHhY/l8HzGKx//hlkVP+2+Wx1lJePuNso3tQe0E+bp0hSt5Lk
+ 3j//76uRsHLz/8jGaBMc8sLtqjOsEjxQOYYSQvjpy6khVqQ20f4LmUGFCEfTYn6WjIHx
+ fhVCle/nP4hOpF3xDUL6kDvTqZBLrHv4nKjpYT8PrjOO9W2AzoFhyYgaCcLpF28a7YmE
+ yNRHhn3vINh2wCyxe00V/UB+uXgeQ9sgQDYSxq4kV6h0Yn/VTi9nS9aLPeaI9H7Ka/eN
+ gDLA==
+X-Gm-Message-State: AFqh2krYW2vvVQkeVs13/EyiHrzj7IF9LGYniYUL7NoqDblTPB6EcN0J
+ mYwn5wFyyZrdoLPR9JJQomWSYA==
+X-Google-Smtp-Source: AMrXdXtlsBty/PQmHZ3wFPuA4vilWX1uGVnhhnsKrnn+tIlmwGHBFMu76mpAa5vKagt7yEPAW41CvQ==
+X-Received: by 2002:a05:600c:4928:b0:3d9:a5a2:65fa with SMTP id
+ f40-20020a05600c492800b003d9a5a265famr28798989wmp.7.1674583624287; 
+ Tue, 24 Jan 2023 10:07:04 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- t13-20020a1c770d000000b003db0ee277b2sm14076015wmi.5.2023.01.24.10.16.56
+ n42-20020a05600c3baa00b003d96efd09b7sm16050022wms.19.2023.01.24.10.06.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 10:16:56 -0800 (PST)
+ Tue, 24 Jan 2023 10:07:02 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A3D351FFC6;
+ by zen.linaroharston (Postfix) with ESMTP id C32D51FFC7;
  Tue, 24 Jan 2023 18:01:29 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -81,24 +81,24 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 16/35] tests/tcg: Use SIGKILL for timeout
-Date: Tue, 24 Jan 2023 18:01:08 +0000
-Message-Id: <20230124180127.1881110-17-alex.bennee@linaro.org>
+Subject: [PATCH v2 17/35] gitlab: wrap up test results for custom runners
+Date: Tue, 24 Jan 2023 18:01:09 +0000
+Message-Id: <20230124180127.1881110-18-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124180127.1881110-1-alex.bennee@linaro.org>
 References: <20230124180127.1881110-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,37 +114,204 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Instead of spewing the whole log to stdout lets just define them as
+build artefacts so we can examine them later. Where we are running
+check-tcg run it first as those tests are yet to be integrated into
+meson. To avoid confusion we don't run multiple check-tcg tests at
+once.
 
-linux-user blocks all signals while attempting to handle guest
-signals (e.g. ABRT), which means that the default TERM sent by timeout
-has no effect -- KILL instead.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230117035701.168514-2-richard.henderson@linaro.org>
-[AJB: expanded commit message from cover letter]
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/tcg/Makefile.target | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/tests/tcg/Makefile.target b/tests/tcg/Makefile.target
-index 14bc013181..a3b0aaf8af 100644
---- a/tests/tcg/Makefile.target
-+++ b/tests/tcg/Makefile.target
-@@ -54,10 +54,10 @@ cc-option = if $(call cc-test, $1); then \
+---
+v2
+  - mention we don't parallelise check-tcg
+---
+ .gitlab-ci.d/custom-runners.yml                     | 11 +++++++++++
+ .gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml  | 13 ++++++-------
+ .../custom-runners/ubuntu-22.04-aarch32.yml         |  2 +-
+ .../custom-runners/ubuntu-22.04-aarch64.yml         | 13 ++++++-------
+ 4 files changed, 24 insertions(+), 15 deletions(-)
+
+diff --git a/.gitlab-ci.d/custom-runners.yml b/.gitlab-ci.d/custom-runners.yml
+index 97f99e29c2..9fdc476c48 100644
+--- a/.gitlab-ci.d/custom-runners.yml
++++ b/.gitlab-ci.d/custom-runners.yml
+@@ -13,6 +13,17 @@
+ variables:
+   GIT_STRATEGY: clone
  
- # $1 = test name, $2 = cmd, $3 = desc
- ifeq ($(filter %-softmmu, $(TARGET)),)
--run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2 > $1.out, \
-+run-test = $(call quiet-command, timeout -s KILL --foreground $(TIMEOUT) $2 > $1.out, \
- 	TEST,$(or $3, $*, $<) on $(TARGET_NAME))
- else
--run-test = $(call quiet-command, timeout --foreground $(TIMEOUT) $2, \
-+run-test = $(call quiet-command, timeout -s KILL --foreground $(TIMEOUT) $2, \
-         TEST,$(or $3, $*, $<) on $(TARGET_NAME))
- endif
++# All custom runners can extend this template to upload the testlog
++# data as an artifact and also feed the junit report
++.custom_artifacts_template:
++  artifacts:
++    name: "$CI_JOB_NAME-$CI_COMMIT_REF_SLUG"
++    expire_in: 7 days
++    paths:
++      - build/meson-logs/testlog.txt
++    reports:
++      junit: build/meson-logs/testlog.junit.xml
++
+ include:
+   - local: '/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml'
+   - local: '/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml'
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+index fcaef9e5ef..f512eaeaa3 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-20.04-s390x.yml
+@@ -3,6 +3,7 @@
+ # "Install basic packages to build QEMU on Ubuntu 20.04/20.04"
  
+ ubuntu-20.04-s390x-all-linux-static:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -19,12 +20,11 @@ ubuntu-20.04-s390x-all-linux-static:
+  - ../configure --enable-debug --static --disable-system --disable-glusterfs --disable-libssh
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc`
++ - make --output-sync check-tcg
+  - make --output-sync -j`nproc` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+- - make --output-sync -j`nproc` check-tcg
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-20.04-s390x-all:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -41,9 +41,9 @@ ubuntu-20.04-s390x-all:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc`
+  - make --output-sync -j`nproc` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-20.04-s390x-alldbg:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -64,9 +64,9 @@ ubuntu-20.04-s390x-alldbg:
+  - make clean
+  - make --output-sync -j`nproc`
+  - make --output-sync -j`nproc` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-20.04-s390x-clang:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -86,7 +86,6 @@ ubuntu-20.04-s390x-clang:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc`
+  - make --output-sync -j`nproc` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-20.04-s390x-tci:
+  needs: []
+@@ -109,6 +108,7 @@ ubuntu-20.04-s390x-tci:
+  - make --output-sync -j`nproc`
+ 
+ ubuntu-20.04-s390x-notcg:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -128,4 +128,3 @@ ubuntu-20.04-s390x-notcg:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc`
+  - make --output-sync -j`nproc` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
+index 2c386fa3e9..42137aaf2a 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch32.yml
+@@ -3,6 +3,7 @@
+ # "Install basic packages to build QEMU on Ubuntu 20.04"
+ 
+ ubuntu-22.04-aarch32-all:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -22,4 +23,3 @@ ubuntu-22.04-aarch32-all:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc --ignore=40`
+  - make --output-sync -j`nproc --ignore=40` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+diff --git a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
+index 725ca8ffea..8ba85be440 100644
+--- a/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
++++ b/.gitlab-ci.d/custom-runners/ubuntu-22.04-aarch64.yml
+@@ -3,6 +3,7 @@
+ # "Install basic packages to build QEMU on Ubuntu 20.04"
+ 
+ ubuntu-22.04-aarch64-all-linux-static:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -19,12 +20,11 @@ ubuntu-22.04-aarch64-all-linux-static:
+  - ../configure --enable-debug --static --disable-system --disable-pie
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc --ignore=40`
++ - make check-tcg
+  - make --output-sync -j`nproc --ignore=40` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+- - make --output-sync -j`nproc --ignore=40` check-tcg
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-22.04-aarch64-all:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -44,9 +44,9 @@ ubuntu-22.04-aarch64-all:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc --ignore=40`
+  - make --output-sync -j`nproc --ignore=40` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-22.04-aarch64-alldbg:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -63,9 +63,9 @@ ubuntu-22.04-aarch64-alldbg:
+  - make clean
+  - make --output-sync -j`nproc --ignore=40`
+  - make --output-sync -j`nproc --ignore=40` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-22.04-aarch64-clang:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -85,7 +85,6 @@ ubuntu-22.04-aarch64-clang:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc --ignore=40`
+  - make --output-sync -j`nproc --ignore=40` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
+ 
+ ubuntu-22.04-aarch64-tci:
+  needs: []
+@@ -108,6 +107,7 @@ ubuntu-22.04-aarch64-tci:
+  - make --output-sync -j`nproc --ignore=40`
+ 
+ ubuntu-22.04-aarch64-notcg:
++ extends: .custom_artifacts_template
+  needs: []
+  stage: build
+  tags:
+@@ -127,4 +127,3 @@ ubuntu-22.04-aarch64-notcg:
+    || { cat config.log meson-logs/meson-log.txt; exit 1; }
+  - make --output-sync -j`nproc --ignore=40`
+  - make --output-sync -j`nproc --ignore=40` check
+-   || { cat meson-logs/testlog.txt; exit 1; } ;
 -- 
 2.34.1
 
