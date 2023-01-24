@@ -2,83 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D03F67A03D
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 18:33:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0994867A040
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 18:35:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKN91-0008EN-3Y; Tue, 24 Jan 2023 12:31:39 -0500
+	id 1pKNCE-0002KC-Vy; Tue, 24 Jan 2023 12:34:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1pKN8s-0008Cn-2y
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 12:31:30 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1pKN8p-0000Xo-WB
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 12:31:29 -0500
-Received: by mail-wr1-x432.google.com with SMTP id bk16so14606440wrb.11
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 09:31:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Pd4xwn7t+vRql5ciugXSa/3ZzrfRriKwhEgYAHyx0/A=;
- b=MdzmTHeg9bop+z5ks5sfVCDk63KLmKgfPcHmRCvCnbQxAVIqg8iWTPpLwUzJAN59tx
- /joDAPy8fsAVb0ogKjaMaaUM0ExeBj6bcKQyk36feXnQMBRq51MlcaJdoL9XfPHMRYTO
- peTqnrNBJDWFjxuBj+lnFMf1nRnc13k5jTr/2qjC9hTBUGiGqMI8kvIVo37KE4bzLYFx
- rQuTdtJEkKHXaEQTYeAVW8Uo6Cb3+R7A4b16p4QthX4lR6dG60qVdL0DbYbVX4OJbehC
- QsfSZyNaucZad6G3Rb4otn5PRjJHUsFbcO7VcWiQ1RbeSWHKKuHOrCYXK7EHg9UIMqa/
- H2Ww==
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pKNCC-0002K3-Qm
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 12:34:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pKNCA-00016I-CH
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 12:34:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674581693;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=Qh8pNExEVp1CJfrFRHI4WXDgKhit4DHCP64vQTqqjGo=;
+ b=PV7Lb//7OPO5cnT0LdLcX0WR+9rpgczNRCevb7FiFThWt/5KHzE8o0OnatdRObqSL1VmzY
+ hnGTWHOGic1ZQEg5GwBQZbK2vritim7He4qWG7O18PzEq9cNI3B2PGzg2VOmb0TSvwMhDD
+ +Ubd3oXCxn0TLn0j60VkIFo9r11Mo34=
+Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
+ [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-436-2A57NPAvNzu4yvXDhLX-Jg-1; Tue, 24 Jan 2023 12:34:51 -0500
+X-MC-Unique: 2A57NPAvNzu4yvXDhLX-Jg-1
+Received: by mail-wr1-f71.google.com with SMTP id
+ b15-20020adfc74f000000b002be276d2052so2743309wrh.1
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 09:34:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Pd4xwn7t+vRql5ciugXSa/3ZzrfRriKwhEgYAHyx0/A=;
- b=ffurDI1RF3VInuYBx+MfqgyAKo3oW03U0PiKPNMFu0uGDFEosHk2NrCxDVpn7y/UyX
- UYbhqQa3SbiN5DfccfpYyDe1rpgqm2TNs3nmCZeg4as5KqAYl7xEJcy2Z6amB2HeTkQF
- arijuKvf7LC2SHUYAaJC9zVyn9RJWJvKPvD2S78Nsfvqe4GCdeSUgIhwNmOZTk4phlBj
- YLJxJmxfigJoQArCBD21KHdxq3y1dWgJaCPTSxsizXcKQvbK60i+998BAkbWEUrTgPfL
- 3DrrECo+5udtrIB24eTLU6eE/Qt3bF0kMaZf5HTlLLRB53+asYgGb9gLBwD82yoi93xm
- ENEA==
-X-Gm-Message-State: AFqh2kpBGf7bd4nBHxIvAhBuRxC9f4Zco50UpuYZ1RoOOCR7IZMkcQQQ
- pUatbQtCyUotF1fLY7aWDJ4k4NoT4NOdvtEryZI8GA==
-X-Google-Smtp-Source: AMrXdXvP+N8FxA4uuFUzQfxJjPi9Fa/WsUEjH5sv8MoiCBJVemtre0HZhLBD/QsHBbHASl7yjoFSQ5KG19U6K0J3gDU=
-X-Received: by 2002:adf:e64c:0:b0:2bc:8399:f994 with SMTP id
- b12-20020adfe64c000000b002bc8399f994mr874945wrn.674.1674581486422; Tue, 24
- Jan 2023 09:31:26 -0800 (PST)
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Qh8pNExEVp1CJfrFRHI4WXDgKhit4DHCP64vQTqqjGo=;
+ b=RyRWHprtbsNJxsIJgIm64XPC90aH1n5KPleQlmp7gTwtEY8ONHl8khE3ex6+2paTFN
+ xiL5dX3NiKB72mTV9/HLkeBrZE3B9nwQ0O86MR3ky8cKyv3eZGk6ZefWZEYRpMzpM5nH
+ WAnunnnI4qDp8hn/szOX9fo1uPrvB/+ySWxesGSx5CiP51fMBCcIlIJ+F3DLNK+sGdn3
+ EkeQawYja5h235n4otn8DBVmiB6MKy6I4JGzbRSnvfK574yTfbS1ekxDc/fYZiIJcNhp
+ Dgm/o4i49braFQDm6hgbtdgOkKfNaRDFI/FkQzEr3BfYtYaifrqGC0kHwCujYiTEwSK4
+ 6+ig==
+X-Gm-Message-State: AFqh2koJ6Fd3lVVpq4pNKA8PnjWswUZg+BmDptm1RDZq6r8zvo+l7o9Y
+ pU9uJ3m7Ul/KAO62Gf2cxkIRaN1NU0m9bshCinLLgDQ3Amf6QEoD9Njhz1JvWGvxLXrtkhKp2u/
+ nhL2285MedlqAYuo=
+X-Received: by 2002:a05:600c:331d:b0:3d3:591a:bfda with SMTP id
+ q29-20020a05600c331d00b003d3591abfdamr36411660wmp.27.1674581689906; 
+ Tue, 24 Jan 2023 09:34:49 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtQOPrUNQzL2eRTw6g4UPBR9678SUWp1WjI1z/EecG7V5y2DLtEojEhRX6qIxlbmjcck2Xg/g==
+X-Received: by 2002:a05:600c:331d:b0:3d3:591a:bfda with SMTP id
+ q29-20020a05600c331d00b003d3591abfdamr36411647wmp.27.1674581689743; 
+ Tue, 24 Jan 2023 09:34:49 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ w12-20020a05600c474c00b003db2b81660esm14398240wmo.21.2023.01.24.09.34.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Jan 2023 09:34:49 -0800 (PST)
+Date: Tue, 24 Jan 2023 17:34:46 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ James Houghton <jthoughton@google.com>, Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH RFC 13/21] migration: Add migration_ram_pagesize_largest()
+Message-ID: <Y9AWtl9UUzc8y9QY@work-vm>
+References: <20230117220914.2062125-1-peterx@redhat.com>
+ <20230117220914.2062125-14-peterx@redhat.com>
 MIME-Version: 1.0
-References: <20221223180016.2068508-1-christoph.muellner@vrull.eu>
- <20221223180016.2068508-12-christoph.muellner@vrull.eu>
- <CAKmqyKPPr_nkKZH9Z6r0H2E=TZ0Jz6EPbL--w_TSfbGJ+o55yg@mail.gmail.com>
-In-Reply-To: <CAKmqyKPPr_nkKZH9Z6r0H2E=TZ0Jz6EPbL--w_TSfbGJ+o55yg@mail.gmail.com>
-From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <christoph.muellner@vrull.eu>
-Date: Tue, 24 Jan 2023 18:31:14 +0100
-Message-ID: <CAEg0e7gn9Qd0S6xsGu+C2tVZZC+4ec_ia=rGoq8P=xiyR=NrxA@mail.gmail.com>
-Subject: Re: [PATCH v2 11/15] RISC-V: Adding T-Head XMAE support
-To: Alistair Francis <alistair23@gmail.com>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko.stuebner@vrull.eu>, 
- Palmer Dabbelt <palmer@dabbelt.com>,
- Richard Henderson <richard.henderson@linaro.org>, 
- Nelson Chu <nelson@rivosinc.com>, Kito Cheng <kito.cheng@sifive.com>, 
- Cooper Qu <cooper.qu@linux.alibaba.com>,
- Lifang Xia <lifang_xia@linux.alibaba.com>, 
- Yunhai Shang <yunhai@linux.alibaba.com>,
- Zhiwei Liu <zhiwei_liu@linux.alibaba.com>
-Content-Type: multipart/alternative; boundary="000000000000a55f4805f305e2f0"
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=christoph.muellner@vrull.eu; helo=mail-wr1-x432.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230117220914.2062125-14-peterx@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,265 +101,113 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000a55f4805f305e2f0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+* Peter Xu (peterx@redhat.com) wrote:
+> Let it replace the old qemu_ram_pagesize_largest() just to fetch the page
+> sizes using migration_ram_pagesize(), because it'll start to consider
+> double mapping effect in migrations.
+> 
+> Also don't account the ignored ramblocks as they won't be migrated.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-On Tue, Jan 24, 2023 at 12:49 AM Alistair Francis <alistair23@gmail.com>
-wrote:
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
-> On Sat, Dec 24, 2022 at 4:04 AM Christoph Muellner
-> <christoph.muellner@vrull.eu> wrote:
-> >
-> > From: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
-> >
-> > This patch adds support for the T-Head specific extended memory
-> > attributes. Similar like Svpbmt, this support does not have much effect
-> > as most behaviour is not modelled in QEMU.
-> >
-> > We also don't set any EDATA information, because XMAE discovery is done
-> > using the vendor ID in the Linux kernel.
-> >
-> > Changes in v2:
-> > - Add ISA_EXT_DATA_ENTRY()
-> >
-> > Co-developed-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-> > Signed-off-by: Christoph M=C3=BCllner <christoph.muellner@vrull.eu>
-> > ---
-> >  target/riscv/cpu.c        | 2 ++
-> >  target/riscv/cpu.h        | 1 +
-> >  target/riscv/cpu_helper.c | 6 ++++--
-> >  3 files changed, 7 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index 9c31a50e90..bb310755b1 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -118,6 +118,7 @@ static const struct isa_ext_data isa_edata_arr[] =
-=3D {
-> >      ISA_EXT_DATA_ENTRY(xtheadmemidx, true, PRIV_VERSION_1_11_0,
-> ext_xtheadmemidx),
-> >      ISA_EXT_DATA_ENTRY(xtheadmempair, true, PRIV_VERSION_1_11_0,
-> ext_xtheadmempair),
-> >      ISA_EXT_DATA_ENTRY(xtheadsync, true, PRIV_VERSION_1_11_0,
-> ext_xtheadsync),
-> > +    ISA_EXT_DATA_ENTRY(xtheadxmae, true, PRIV_VERSION_1_11_0,
-> ext_xtheadxmae),
-> >      ISA_EXT_DATA_ENTRY(xventanacondops, true, PRIV_VERSION_1_12_0,
-> ext_XVentanaCondOps),
-> >  };
-> >
-> > @@ -1080,6 +1081,7 @@ static Property riscv_cpu_extensions[] =3D {
-> >      DEFINE_PROP_BOOL("xtheadmemidx", RISCVCPU, cfg.ext_xtheadmemidx,
-> false),
-> >      DEFINE_PROP_BOOL("xtheadmempair", RISCVCPU, cfg.ext_xtheadmempair,
-> false),
-> >      DEFINE_PROP_BOOL("xtheadsync", RISCVCPU, cfg.ext_xtheadsync, false=
-),
-> > +    DEFINE_PROP_BOOL("xtheadxmae", RISCVCPU, cfg.ext_xtheadxmae, false=
-),
-> >      DEFINE_PROP_BOOL("xventanacondops", RISCVCPU,
-> cfg.ext_XVentanaCondOps, false),
-> >
-> >      /* These are experimental so mark with 'x-' */
-> > diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> > index c97c1c0af0..897962f107 100644
-> > --- a/target/riscv/cpu.h
-> > +++ b/target/riscv/cpu.h
-> > @@ -475,6 +475,7 @@ struct RISCVCPUConfig {
-> >      bool ext_xtheadmemidx;
-> >      bool ext_xtheadmempair;
-> >      bool ext_xtheadsync;
-> > +    bool ext_xtheadxmae;
-> >      bool ext_XVentanaCondOps;
-> >
-> >      uint8_t pmu_num;
-> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > index 278d163803..345bb69b79 100644
-> > --- a/target/riscv/cpu_helper.c
-> > +++ b/target/riscv/cpu_helper.c
-> > @@ -938,7 +938,8 @@ restart:
-> >
-> >          if (riscv_cpu_sxl(env) =3D=3D MXL_RV32) {
-> >              ppn =3D pte >> PTE_PPN_SHIFT;
-> > -        } else if (cpu->cfg.ext_svpbmt || cpu->cfg.ext_svnapot) {
-> > +        } else if (cpu->cfg.ext_svpbmt || cpu->cfg.ext_svnapot ||
-> > +                   cpu->cfg.ext_xtheadxmae) {
->
-> I don't like this. This is some pretty core code that is now getting
-> vendor extensions. I know this is very simple, but I'm worried we are
-> opening the doors to other vendors adding their MMU changes.
->
-> Can we just set ext_svpbmt instead?
->
+> ---
+>  include/exec/cpu-common.h |  1 -
+>  migration/migration.c     |  2 +-
+>  migration/ram.c           | 12 ++++++++++++
+>  migration/ram.h           |  1 +
+>  softmmu/physmem.c         | 13 -------------
+>  5 files changed, 14 insertions(+), 15 deletions(-)
+> 
+> diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
+> index 94452aa17f..4c394ccdfc 100644
+> --- a/include/exec/cpu-common.h
+> +++ b/include/exec/cpu-common.h
+> @@ -96,7 +96,6 @@ int qemu_ram_get_fd(RAMBlock *rb);
+>  
+>  size_t qemu_ram_pagesize(RAMBlock *block);
+>  bool qemu_ram_is_hugetlb(RAMBlock *rb);
+> -size_t qemu_ram_pagesize_largest(void);
+>  
+>  /**
+>   * cpu_address_space_init:
+> diff --git a/migration/migration.c b/migration/migration.c
+> index f6fe474fc3..7724e00c47 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -604,7 +604,7 @@ process_incoming_migration_co(void *opaque)
+>  
+>      assert(mis->from_src_file);
+>      mis->migration_incoming_co = qemu_coroutine_self();
+> -    mis->largest_page_size = qemu_ram_pagesize_largest();
+> +    mis->largest_page_size = migration_ram_pagesize_largest();
+>      postcopy_state_set(POSTCOPY_INCOMING_NONE);
+>      migrate_set_state(&mis->state, MIGRATION_STATUS_NONE,
+>                        MIGRATION_STATUS_ACTIVE);
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 945c6477fd..2ebf414f5f 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -135,6 +135,18 @@ size_t migration_ram_pagesize(RAMBlock *block)
+>      return qemu_ram_pagesize(block);
+>  }
+>  
+> +size_t migration_ram_pagesize_largest(void)
+> +{
+> +    RAMBlock *block;
+> +    size_t largest = 0;
+> +
+> +    RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+> +        largest = MAX(largest, migration_ram_pagesize(block));
+> +    }
+> +
+> +    return largest;
+> +}
+> +
+>  static void XBZRLE_cache_lock(void)
+>  {
+>      if (migrate_use_xbzrle()) {
+> diff --git a/migration/ram.h b/migration/ram.h
+> index 162b3e7cb8..cefe166841 100644
+> --- a/migration/ram.h
+> +++ b/migration/ram.h
+> @@ -69,6 +69,7 @@ bool ramblock_is_ignored(RAMBlock *block);
+>  
+>  int xbzrle_cache_resize(uint64_t new_size, Error **errp);
+>  size_t migration_ram_pagesize(RAMBlock *block);
+> +size_t migration_ram_pagesize_largest(void);
+>  uint64_t ram_bytes_remaining(void);
+>  uint64_t ram_bytes_total(void);
+>  void mig_throttle_counter_reset(void);
+> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+> index cdda7eaea5..536c204811 100644
+> --- a/softmmu/physmem.c
+> +++ b/softmmu/physmem.c
+> @@ -1813,19 +1813,6 @@ bool qemu_ram_is_hugetlb(RAMBlock *rb)
+>      return rb->page_size > qemu_real_host_page_size();
+>  }
+>  
+> -/* Returns the largest size of page in use */
+> -size_t qemu_ram_pagesize_largest(void)
+> -{
+> -    RAMBlock *block;
+> -    size_t largest = 0;
+> -
+> -    RAMBLOCK_FOREACH(block) {
+> -        largest = MAX(largest, qemu_ram_pagesize(block));
+> -    }
+> -
+> -    return largest;
+> -}
+> -
+>  static int memory_try_enable_merging(void *addr, size_t len)
+>  {
+>      if (!machine_mem_merge(current_machine)) {
+> -- 
+> 2.37.3
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-Ok.
-I will drop this patch.
-
-
->
-> Alistair
->
-> >              ppn =3D (pte & (target_ulong)PTE_PPN_MASK) >> PTE_PPN_SHIF=
-T;
-> >          } else {
-> >              ppn =3D pte >> PTE_PPN_SHIFT;
-> > @@ -950,7 +951,8 @@ restart:
-> >          if (!(pte & PTE_V)) {
-> >              /* Invalid PTE */
-> >              return TRANSLATE_FAIL;
-> > -        } else if (!cpu->cfg.ext_svpbmt && (pte & PTE_PBMT)) {
-> > +        } else if (!cpu->cfg.ext_svpbmt && (pte & PTE_PBMT) &&
-> > +                   !cpu->cfg.ext_xtheadxmae) {
-> >              return TRANSLATE_FAIL;
-> >          } else if (!(pte & (PTE_R | PTE_W | PTE_X))) {
-> >              /* Inner PTE, continue walking */
-> > --
-> > 2.38.1
-> >
-> >
->
-
---000000000000a55f4805f305e2f0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 24, 2023 at 12:49 AM Alis=
-tair Francis &lt;<a href=3D"mailto:alistair23@gmail.com">alistair23@gmail.c=
-om</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">On Sat, Dec 24, 2022 at 4:04 AM Christoph Muellner<br>
-&lt;<a href=3D"mailto:christoph.muellner@vrull.eu" target=3D"_blank">christ=
-oph.muellner@vrull.eu</a>&gt; wrote:<br>
-&gt;<br>
-&gt; From: Christoph M=C3=BCllner &lt;<a href=3D"mailto:christoph.muellner@=
-vrull.eu" target=3D"_blank">christoph.muellner@vrull.eu</a>&gt;<br>
-&gt;<br>
-&gt; This patch adds support for the T-Head specific extended memory<br>
-&gt; attributes. Similar like Svpbmt, this support does not have much effec=
-t<br>
-&gt; as most behaviour is not modelled in QEMU.<br>
-&gt;<br>
-&gt; We also don&#39;t set any EDATA information, because XMAE discovery is=
- done<br>
-&gt; using the vendor ID in the Linux kernel.<br>
-&gt;<br>
-&gt; Changes in v2:<br>
-&gt; - Add ISA_EXT_DATA_ENTRY()<br>
-&gt;<br>
-&gt; Co-developed-by: LIU Zhiwei &lt;<a href=3D"mailto:zhiwei_liu@linux.ali=
-baba.com" target=3D"_blank">zhiwei_liu@linux.alibaba.com</a>&gt;<br>
-&gt; Signed-off-by: Christoph M=C3=BCllner &lt;<a href=3D"mailto:christoph.=
-muellner@vrull.eu" target=3D"_blank">christoph.muellner@vrull.eu</a>&gt;<br=
->
-&gt; ---<br>
-&gt;=C2=A0 target/riscv/cpu.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 ++<br>
-&gt;=C2=A0 target/riscv/cpu.h=C2=A0 =C2=A0 =C2=A0 =C2=A0 | 1 +<br>
-&gt;=C2=A0 target/riscv/cpu_helper.c | 6 ++++--<br>
-&gt;=C2=A0 3 files changed, 7 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
-&gt; index 9c31a50e90..bb310755b1 100644<br>
-&gt; --- a/target/riscv/cpu.c<br>
-&gt; +++ b/target/riscv/cpu.c<br>
-&gt; @@ -118,6 +118,7 @@ static const struct isa_ext_data isa_edata_arr[] =
-=3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ISA_EXT_DATA_ENTRY(xtheadmemidx, true, PRIV_VERSIO=
-N_1_11_0, ext_xtheadmemidx),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ISA_EXT_DATA_ENTRY(xtheadmempair, true, PRIV_VERSI=
-ON_1_11_0, ext_xtheadmempair),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ISA_EXT_DATA_ENTRY(xtheadsync, true, PRIV_VERSION_=
-1_11_0, ext_xtheadsync),<br>
-&gt; +=C2=A0 =C2=A0 ISA_EXT_DATA_ENTRY(xtheadxmae, true, PRIV_VERSION_1_11_=
-0, ext_xtheadxmae),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 ISA_EXT_DATA_ENTRY(xventanacondops, true, PRIV_VER=
-SION_1_12_0, ext_XVentanaCondOps),<br>
-&gt;=C2=A0 };<br>
-&gt;<br>
-&gt; @@ -1080,6 +1081,7 @@ static Property riscv_cpu_extensions[] =3D {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;xtheadmemidx&quot;, RISCVCP=
-U, cfg.ext_xtheadmemidx, false),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;xtheadmempair&quot;, RISCVC=
-PU, cfg.ext_xtheadmempair, false),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;xtheadsync&quot;, RISCVCPU,=
- cfg.ext_xtheadsync, false),<br>
-&gt; +=C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;xtheadxmae&quot;, RISCVCPU, cfg.=
-ext_xtheadxmae, false),<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 DEFINE_PROP_BOOL(&quot;xventanacondops&quot;, RISC=
-VCPU, cfg.ext_XVentanaCondOps, false),<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 /* These are experimental so mark with &#39;x-&#39=
-; */<br>
-&gt; diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
-&gt; index c97c1c0af0..897962f107 100644<br>
-&gt; --- a/target/riscv/cpu.h<br>
-&gt; +++ b/target/riscv/cpu.h<br>
-&gt; @@ -475,6 +475,7 @@ struct RISCVCPUConfig {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_xtheadmemidx;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_xtheadmempair;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_xtheadsync;<br>
-&gt; +=C2=A0 =C2=A0 bool ext_xtheadxmae;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 bool ext_XVentanaCondOps;<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 uint8_t pmu_num;<br>
-&gt; diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c<br>
-&gt; index 278d163803..345bb69b79 100644<br>
-&gt; --- a/target/riscv/cpu_helper.c<br>
-&gt; +++ b/target/riscv/cpu_helper.c<br>
-&gt; @@ -938,7 +938,8 @@ restart:<br>
-&gt;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (riscv_cpu_sxl(env) =3D=3D MXL_RV=
-32) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ppn =3D pte &gt;&gt; P=
-TE_PPN_SHIFT;<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (cpu-&gt;cfg.ext_svpbmt || cpu-=
-&gt;cfg.ext_svnapot) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (cpu-&gt;cfg.ext_svpbmt || cpu-=
-&gt;cfg.ext_svnapot ||<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-cpu-&gt;cfg.ext_xtheadxmae) {<br>
-<br>
-I don&#39;t like this. This is some pretty core code that is now getting<br=
->
-vendor extensions. I know this is very simple, but I&#39;m worried we are<b=
-r>
-opening the doors to other vendors adding their MMU changes.<br>
-<br>
-Can we just set ext_svpbmt instead?<br></blockquote><div><br></div><div>Ok.=
-</div><div>I will drop this patch.</div><div>=C2=A0</div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">
-<br>
-Alistair<br>
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ppn =3D (pte &amp; (ta=
-rget_ulong)PTE_PPN_MASK) &gt;&gt; PTE_PPN_SHIFT;<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ppn =3D pte &gt;&gt; P=
-TE_PPN_SHIFT;<br>
-&gt; @@ -950,7 +951,8 @@ restart:<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if (!(pte &amp; PTE_V)) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Invalid PTE */<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return TRANSLATE_FAIL;=
-<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (!cpu-&gt;cfg.ext_svpbmt &amp;&=
-amp; (pte &amp; PTE_PBMT)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (!cpu-&gt;cfg.ext_svpbmt &amp;&=
-amp; (pte &amp; PTE_PBMT) &amp;&amp;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
-!cpu-&gt;cfg.ext_xtheadxmae) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return TRANSLATE_FAIL;=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 } else if (!(pte &amp; (PTE_R | PTE_=
-W | PTE_X))) {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* Inner PTE, continue=
- walking */<br>
-&gt; --<br>
-&gt; 2.38.1<br>
-&gt;<br>
-&gt;<br>
-</blockquote></div></div>
-
---000000000000a55f4805f305e2f0--
 
