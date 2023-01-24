@@ -2,66 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F0C6679E53
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 17:12:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 522CA679E56
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 17:13:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKLuA-0000fe-4U; Tue, 24 Jan 2023 11:12:14 -0500
+	id 1pKLuk-0002F7-3b; Tue, 24 Jan 2023 11:12:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pKLu7-0000fS-Na
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 11:12:11 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pKLu6-0003nf-5C
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 11:12:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674576727;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=32eiDBHtG7MKyAsmiOA0+36jTt4YeYC/JVTHFzduPsE=;
- b=h63rfGnohLXmo4s799AbDmaIVIKejHmeKbGM+O3jjoNfA362k8kfgGOvIAjiFUPli5aGFL
- lYOPEIr2BtLwOXQkaA1ByqEXZLlAxS0gbkkJ7oSbm3SOVvSSg30wwxTEKpIi6/a//V8dxs
- MT/XCygqCCDsBKE6P2hxaFUou0UEJW8=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-546-b65YHP07N5KL5zgdPZWGWA-1; Tue, 24 Jan 2023 11:12:04 -0500
-X-MC-Unique: b65YHP07N5KL5zgdPZWGWA-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C97C7293249D;
- Tue, 24 Jan 2023 16:12:03 +0000 (UTC)
-Received: from eperezma.remote.csb (unknown [10.39.194.230])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 82DB52166B26;
- Tue, 24 Jan 2023 16:12:02 +0000 (UTC)
-From: =?UTF-8?q?Eugenio=20P=C3=A9rez?= <eperezma@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: leiyang@redhat.com, "Michael S. Tsirkin" <mst@redhat.com>,
- gautam.dawar@amd.com, Jason Wang <jasowang@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>
-Subject: [PATCH] virtio-net: clear guest_announce feature if no cvq backend
-Date: Tue, 24 Jan 2023 17:11:59 +0100
-Message-Id: <20230124161159.2182117-1-eperezma@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pKLui-0002Al-N3
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 11:12:48 -0500
+Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pKLuh-0003s7-3Z
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 11:12:48 -0500
+Received: by mail-pf1-x42a.google.com with SMTP id x4so11540757pfj.1
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 08:12:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=d/92yOfPC4quQ0Hjjdafz7RrLaQ9Cr/2dayimzGP+m4=;
+ b=VV5GTAwEo16SgQUcigaADg3meFOjdJphHrDViP2i4CJXrOKWBOOOGNJCRN9qYNaWN3
+ lOrzL0IM2mws4V6s+8ltVdnLSauZINhBMpMI/XbqHqiDkWgi9BMu+7/uqjt32J0ZdcBx
+ jhZL+Yq3Bw7W7hSoaLZSbO2OaQqKyueYDNQXixH9NntCMq+vp/D6RLg96o1Bfc1cbgCX
+ 4xr+e98LGI0k1xbvzM7dmBXPtM5EEHP/mxV8AyM2WJoz3bRpZSIkd3sj6ztRqxcVHHmB
+ cAjSOk1NdtjCFbbzSD2GM8SREq8Djd7h/8V6aTopsqjA5fCQUm4MlFNPreQLR58j2HQt
+ /2WA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=d/92yOfPC4quQ0Hjjdafz7RrLaQ9Cr/2dayimzGP+m4=;
+ b=YqPR8umP40oF+udtPkbbgXVfHDqL1zRaavT4Ed9SXDjPbwbR6Xixpf92zZxJ4bMpet
+ jQrv3nRhCVMDqGIX21dMpNd6K67efPpoSvMDg7qYHcfLNgAQ0tue71/VJO2LO9Ktw74y
+ xMwdiU8ukVj3L+e/O2ol2/5/0JT9G+qbLbuZg764Og2B1iuXBDyRBh1V9VLg9s+kpSMj
+ /iV5n8ld8goLUb3s51wRkJy2yPotatJ6RmjGoqPcbYCEloP4TeOMJOK74R7be4Hex53/
+ Er8bGEspS9BWGo10zZ5qUZIyWybePWxzfIPc3TKLbrKSX4VbXSSchrb0uJN4oTLKa+O5
+ f1yw==
+X-Gm-Message-State: AFqh2kq4aX27KrOcTRhumLCQAcAciph4m9sQQHeuUv6dKuKiDpqW8irw
+ reU4FCwno9GoJYoC4x8x1JLEky43j162D/Cym8jCew==
+X-Google-Smtp-Source: AMrXdXvQ7xLfJE7QLJmqKZ4GkFnqznDBO3boAwjSFpfc8/Oz2rKhdhbcNCuy9GIb8xliwIKmDxGl+6x9R1GPKI3Twa4=
+X-Received: by 2002:a62:61c4:0:b0:58b:e9af:948b with SMTP id
+ v187-20020a6261c4000000b0058be9af948bmr3194053pfb.26.1674576764642; Tue, 24
+ Jan 2023 08:12:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20221201103312.70720-1-akihiko.odaki@daynix.com>
+In-Reply-To: <20221201103312.70720-1-akihiko.odaki@daynix.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 24 Jan 2023 16:12:33 +0000
+Message-ID: <CAFEAcA9sj838rCyPrxAOncXKmdOftZeM16rKiXB5ww7dSYY0tA@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Propagate errno when writing list
+To: Akihiko Odaki <akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, kvm@vger.kernel.org, 
+ Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,55 +83,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since GUEST_ANNOUNCE is emulated the feature bit could be set without
-backend support.  This happens in the vDPA case.
+On Thu, 1 Dec 2022 at 10:33, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+>
+> Before this change, write_kvmstate_to_list() and
+> write_list_to_kvmstate() tolerated even if it failed to access some
+> register, and returned a bool indicating whether one of the register
+> accesses failed. However, it does not make sen not to fail early as the
+> the callers check the returned value and fail early anyway.
+>
+> So let write_kvmstate_to_list() and write_list_to_kvmstate() fail early
+> too. This will allow to propagate errno to the callers and log it if
+> appropriate.
 
-However, backend vDPA parent may not have CVQ support.  This causes an
-incoherent feature set, and the driver may refuse to start.  This
-happens in virtio-net Linux driver.
+(Sorry this one didn't get reviewed earlier.)
 
-This may be solved differently in the future.  Qemu is able to emulate a
-CVQ just for guest_announce purposes, helping guest to notify the new
-location with vDPA devices that does not support it.  However, this is
-left as a TODO as it is way more complex to backport.
+I agree that all the callers of these functions check for
+failure, so there's no major benefit from doing the
+don't-fail-early logic. But is there a reason why we should
+actively make this change?
 
-Tested with vdpa_net_sim, toggling manually VIRTIO_NET_F_CTRL_VQ in the
-driver and migrating it with x-svq=on.
+In particular, these functions form part of a family with the
+similar write_cpustate_to_list() and write_list_to_cpustate(),
+and it's inconsistent to have the kvmstate ones return
+negative-errno while the cpustate ones still return bool.
+For the cpustate ones we *do* rely in some places on
+the "don't fail early" behaviour. The kvmstate ones do the
+same thing I think mostly for consistency.
 
-Fixes: 980003debddd ("vdpa: do not handle VIRTIO_NET_F_GUEST_ANNOUNCE in vhost-vdpa")
-Reported-by: Dawar, Gautam <gautam.dawar@amd.com>
-Signed-off-by: Eugenio Pérez <eperezma@redhat.com>
----
- hw/net/virtio-net.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+So unless there's a specific reason why changing these
+functions improves behaviour as seen by users, I think
+I favour retaining the consistency.
 
-diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-index 3ae909041a..09d5c7a664 100644
---- a/hw/net/virtio-net.c
-+++ b/hw/net/virtio-net.c
-@@ -820,6 +820,21 @@ static uint64_t virtio_net_get_features(VirtIODevice *vdev, uint64_t features,
-         features |= (1ULL << VIRTIO_NET_F_MTU);
-     }
- 
-+    /*
-+     * Since GUEST_ANNOUNCE is emulated the feature bit could be set without
-+     * enabled. This happens in the vDPA case.
-+     *
-+     * Make sure the feature set is not incoherent, as the driver could refuse
-+     * to start.
-+     *
-+     * TODO: QEMU is able to emulate a CVQ just for guest_announce purposes,
-+     * helping guest to notify the new location with vDPA devices that does not
-+     * support it.
-+     */
-+    if (!virtio_has_feature(vdev->backend_features, VIRTIO_NET_F_CTRL_VQ)) {
-+        virtio_clear_feature(&features, VIRTIO_NET_F_GUEST_ANNOUNCE);
-+    }
-+
-     return features;
- }
- 
--- 
-2.31.1
-
+thanks
+-- PMM
 
