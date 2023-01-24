@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D429C67A0C8
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:03:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87D9C67A0E6
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:08:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKNcf-0001kc-9G; Tue, 24 Jan 2023 13:02:17 -0500
+	id 1pKNij-0007SR-VJ; Tue, 24 Jan 2023 13:08:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNcM-0001dX-L6
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:01:59 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ id 1pKNhQ-0005BO-4q
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:13 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNc4-00066r-Ae
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:01:58 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id
- c4-20020a1c3504000000b003d9e2f72093so13412810wma.1
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:01:38 -0800 (PST)
+ id 1pKNhJ-00074K-Dp
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:11 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id l8so12108226wms.3
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:07:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ubrWiDX95hI7G/MydAghP79JSe41uyREbhHBG/66qgA=;
- b=VGfin0iBDV2H6giHdCcOzAWdLVFiVp4Jdt8Gjl+GpSMzx90mgS1hhzOiXzC1OlgglT
- rJ6rfCLID7qUPaim/wlqDfzQves4hcm+HD39s/IovkLlALgGFS7q4Q+X3laCed2tOaxz
- vzFSgvKbauN76VLrj2elebi9HWaJUklV2c+bsPhQTRhkCkliofsOPflktv5DIFj/tJYB
- ax/0iu28KCzxM6U+J52qLfqOniJR919+D6dHdxYZ7xVG1pJTo/IaH6v37jZMeQp0N3xp
- yJlzcHRERFvGMcOaHvsaVqE55P1FXpsfCBuDu9j7BWstRqtyb20l42Fp3L9xuXsuR11a
- CVHg==
+ bh=/kMBc7kYwawlV6mjDVr7qPyvgsdPKM2HCAFr0iHJ9Nw=;
+ b=Px4XXAAPoI99BxJOfqALUUKnq1EnuJL94V8Voql9G1D5kQZm8b0tKOLptf6K1KIA6n
+ 0cIUr6HEtlotahjoTFdqiusDgDNlaiy/wDRQMtz96UThe/g4ZhK8nBK47VTH1A6c9790
+ 6SO0WaOll5IFBdRLIvGbE1jXdMC3DRzITHGDCBCG1hv3edbUkfh/xCi3Q/Ww+KM8v0g8
+ 7jq7RRauaPAsF09GOltJqZpJ7Deam90g46CY/It4Fe7imRxNYL0Wx7XzTU1QoP3jkZRh
+ BdiXXLZJfLGuij8qipmmQ7fyoHn5pgTRKaFMT70BKOdwNPDCsJyYztzx1oyIo7UOcX+9
+ Ezmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ubrWiDX95hI7G/MydAghP79JSe41uyREbhHBG/66qgA=;
- b=UvSnRQzk8CSqGTDFrtJx3nPntZ5GoV16L/gLSFnf09uj3CiSeakZnQK2feYATIdvcS
- STU6iImu58D2mQydBlVZdtiXTcYALqkFi/PH3cvDyiTqsAmVxS97MPA9/O6zPvc5aIED
- 0j00jKkXhLZgHo1SnBmt/RbZFoBI62dmxuMvee3CwTkmFexyHhKO6AJiClcZ8jbCoElu
- CybtlRMM8QHlt9CNbNYpJqkNYTe3Ptxdu8uI1buZ0Rs/IWT55TfSdIbNYeCrHkQr98q7
- CmVoHbBRqyJYDgWGKEMnm4i9zFx3Btun+BH2pjRAqnzxaY0Im8ZH0eJl0gZEaNSXcjmQ
- EI0g==
-X-Gm-Message-State: AFqh2kpGV2jPXxBY7v5jB0NKp4KsHFoPc/DmZX5Vk1BDezHIlxr4p4QB
- k3phNNV++bap67ADJgnxnTzM2A==
-X-Google-Smtp-Source: AMrXdXshHggzbtduI9vtJqXlsoAtdy7H1okUdN4ogLyhY9MAbDDSvPGb1vMqcT54RAaaKbtY+MimQQ==
-X-Received: by 2002:a05:600c:1c2a:b0:3cf:d0b1:8aa1 with SMTP id
- j42-20020a05600c1c2a00b003cfd0b18aa1mr28216457wms.0.1674583296931; 
- Tue, 24 Jan 2023 10:01:36 -0800 (PST)
+ bh=/kMBc7kYwawlV6mjDVr7qPyvgsdPKM2HCAFr0iHJ9Nw=;
+ b=nIUjF/V+nRKdtADkPmmvPja7hb1ymoVdYZt/yAHnl4Xj+DZuy//M2Buh0Xf8MvYwD+
+ xE9aNZBZbYwcuO+Kiay1t1iAMzKHX459+9t5ljkoDTKeuYOyg2TfyjeLz2Mv2M3L5qLA
+ tcU+Sah9z+pJov/1jXXYElGg9UU0vLvfnY5chSmUUU68P75NLpNGartFUVFfaXhOn8n2
+ H2Gc7dQn12cMu+A7tskIuJEje+Ld738fKnScDTNraFW5eRiRP5HEDQgOuSRmNFM2KYuD
+ JS6vnOH2h+HiterTeh8whCzjavHyGOv4NB5oSccfriptkNg+xfro+m7Bb2Ne0SjQb5Hg
+ 408g==
+X-Gm-Message-State: AO0yUKV3sm6r/0CZFAbnwOfHEQ3TYXKgyPeA1Jksvg+vNwKl2ej/MhvQ
+ a9YBsfMztIu52msv4w3xG0emlA==
+X-Google-Smtp-Source: AK7set+tjY7DVvpe8qJNKyZ6IfxNMsFQhyyJ63u2qK4uj1wh5VE3E6xa9v2w2u+qrK5c5Ne4Ld+r3Q==
+X-Received: by 2002:a05:600c:354b:b0:3dc:16d2:ae5e with SMTP id
+ i11-20020a05600c354b00b003dc16d2ae5emr2207733wmq.32.1674583624622; 
+ Tue, 24 Jan 2023 10:07:04 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- z18-20020a05600c079200b003d9780466b0sm2431477wmo.31.2023.01.24.10.01.32
+ az41-20020a05600c602900b003dab77aa911sm14298103wmb.23.2023.01.24.10.06.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 10:01:35 -0800 (PST)
+ Tue, 24 Jan 2023 10:07:02 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 6680F1FFBA;
+ by zen.linaroharston (Postfix) with ESMTP id 7E6351FFCB;
  Tue, 24 Jan 2023 18:01:30 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -81,25 +80,26 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>,
- Kashyap Chamarthy <kchamart@redhat.com>
-Subject: [PATCH v2 22/35] docs: add an introduction to the system docs
-Date: Tue, 24 Jan 2023 18:01:14 +0000
-Message-Id: <20230124180127.1881110-23-alex.bennee@linaro.org>
+ Keith Packard <keithp@keithp.com>
+Subject: [PATCH v2 23/35] semihosting: Write back semihosting data before
+ completion callback
+Date: Tue, 24 Jan 2023 18:01:15 +0000
+Message-Id: <20230124180127.1881110-24-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124180127.1881110-1-alex.bennee@linaro.org>
 References: <20230124180127.1881110-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,349 +115,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Drop the frankly misleading quickstart section for a more rounded
-introduction section. This new section gives an overview of the
-accelerators as well as a high level introduction to some of the key
-features of the emulator. We also expand on a general form for a QEMU
-command line with a hopefully not too scary worked example of what
-this looks like.
+From: Keith Packard <keithp@keithp.com>
 
-Acked-by: Richard Henderson <richard.henderson@linaro.org>
+'lock_user' allocates a host buffer to shadow a target buffer,
+'unlock_user' copies that host buffer back to the target and frees the
+host memory. If the completion function uses the target buffer, it
+must be called after unlock_user to ensure the data are present.
+
+This caused the arm-compatible TARGET_SYS_READC to fail as the
+completion function, common_semi_readc_cb, pulled data from the target
+buffer which would not have been gotten the console data.
+
+I decided to fix all instances of this pattern instead of just the
+console_read function to make things consistent and potentially fix
+bugs in other cases.
+
+Signed-off-by: Keith Packard <keithp@keithp.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20221012014822.1242170-1-keithp@keithp.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
-
 ---
-v2
-  - integrated Kashyap's comments
-  - used -blockdev for pflash
-  - remove extra whitespace
-  - some punctuation fixes from Peter
-  - make it clearer TCG is the default accelerator
----
- docs/interop/live-block-operations.rst |   2 +
- docs/interop/qemu-qmp-ref.rst          |   2 +
- docs/system/index.rst                  |   2 +-
- docs/system/introduction.rst           | 220 +++++++++++++++++++++++++
- docs/system/multi-process.rst          |   2 +
- docs/system/quickstart.rst             |  21 ---
- qemu-options.hx                        |   3 +
- 7 files changed, 230 insertions(+), 22 deletions(-)
- create mode 100644 docs/system/introduction.rst
- delete mode 100644 docs/system/quickstart.rst
+ semihosting/syscalls.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
-diff --git a/docs/interop/live-block-operations.rst b/docs/interop/live-block-operations.rst
-index 135784ab33..691429c7af 100644
---- a/docs/interop/live-block-operations.rst
-+++ b/docs/interop/live-block-operations.rst
-@@ -4,6 +4,8 @@
-     This work is licensed under the terms of the GNU GPL, version 2 or
-     later.  See the COPYING file in the top-level directory.
+diff --git a/semihosting/syscalls.c b/semihosting/syscalls.c
+index 5893c760c5..ba28194b59 100644
+--- a/semihosting/syscalls.c
++++ b/semihosting/syscalls.c
+@@ -319,11 +319,11 @@ static void host_read(CPUState *cs, gdb_syscall_complete_cb complete,
+     }
+     ret = RETRY_ON_EINTR(read(gf->hostfd, ptr, len));
+     if (ret == -1) {
+-        complete(cs, -1, errno);
+         unlock_user(ptr, buf, 0);
++        complete(cs, -1, errno);
+     } else {
+-        complete(cs, ret, 0);
+         unlock_user(ptr, buf, ret);
++        complete(cs, ret, 0);
+     }
+ }
  
-+.. _Live Block Operations:
-+
- ============================
- Live Block Device Operations
- ============================
-diff --git a/docs/interop/qemu-qmp-ref.rst b/docs/interop/qemu-qmp-ref.rst
-index 357effd64f..f94614a0b2 100644
---- a/docs/interop/qemu-qmp-ref.rst
-+++ b/docs/interop/qemu-qmp-ref.rst
-@@ -1,3 +1,5 @@
-+.. _QMP Ref:
-+
- QEMU QMP Reference Manual
- =========================
+@@ -339,8 +339,8 @@ static void host_write(CPUState *cs, gdb_syscall_complete_cb complete,
+         return;
+     }
+     ret = write(gf->hostfd, ptr, len);
+-    complete(cs, ret, ret == -1 ? errno : 0);
+     unlock_user(ptr, buf, 0);
++    complete(cs, ret, ret == -1 ? errno : 0);
+ }
  
-diff --git a/docs/system/index.rst b/docs/system/index.rst
-index 282b6ffb56..3605bbe1ce 100644
---- a/docs/system/index.rst
-+++ b/docs/system/index.rst
-@@ -12,7 +12,7 @@ or Hypervisor.Framework.
- .. toctree::
-    :maxdepth: 3
+ static void host_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
+@@ -426,8 +426,8 @@ static void host_stat(CPUState *cs, gdb_syscall_complete_cb complete,
+             ret = -1;
+         }
+     }
+-    complete(cs, ret, err);
+     unlock_user(name, fname, 0);
++    complete(cs, ret, err);
+ }
  
--   quickstart
-+   introduction
-    invocation
-    device-emulation
-    keys
-diff --git a/docs/system/introduction.rst b/docs/system/introduction.rst
-new file mode 100644
-index 0000000000..a4a6130b02
---- /dev/null
-+++ b/docs/system/introduction.rst
-@@ -0,0 +1,220 @@
-+Introduction
-+============
-+
-+Virtualisation Accelerators
-+---------------------------
-+
-+QEMU's system emulation provides a virtual model of a machine (CPU,
-+memory and emulated devices) to run a guest OS. It supports a number
-+of hypervisors (known as accelerators) as well as a JIT known as the
-+Tiny Code Generator (TCG) capable of emulating many CPUs.
-+
-+.. list-table:: Supported Accelerators
-+  :header-rows: 1
-+
-+  * - Accelerator
-+    - Host OS
-+    - Host Architectures
-+  * - KVM
-+    - Linux
-+    - Arm (64 bit only), MIPS, PPC, RISC-V, s390x, x86
-+  * - Xen
-+    - Linux (as dom0)
-+    - Arm, x86
-+  * - Intel HAXM (hax)
-+    - Linux, Windows
-+    - x86
-+  * - Hypervisor Framework (hvf)
-+    - MacOS
-+    - x86 (64 bit only), Arm (64 bit only)
-+  * - Windows Hypervisor Platform (wphx)
-+    - Windows
-+    - x86
-+  * - NetBSD Virtual Machine Monitor (nvmm)
-+    - NetBSD
-+    - x86
-+  * - Tiny Code Generator (tcg)
-+    - Linux, other POSIX, Windows, MacOS
-+    - Arm, x86, Loongarch64, MIPS, PPC, s390x, Sparc64
-+
-+Feature Overview
-+----------------
-+
-+System emulation provides a wide range of device models to emulate
-+various hardware components you may want to add to your machine. This
-+includes a wide number of VirtIO devices which are specifically tuned
-+for efficient operation under virtualisation. Some of the device
-+emulation can be offloaded from the main QEMU process using either
-+vhost-user (for VirtIO) or :ref:`Multi-process QEMU`. If the platform
-+supports it QEMU also supports directly passing devices through to
-+guest VMs to eliminate the device emulation overhead. See
-+:ref:`device-emulation` for more details.
-+
-+There is a full :ref:`featured block layer<Live Block Operations>`
-+which allows for construction of complex storage topology which can be
-+stacked across multiple layers supporting redirection, networking,
-+snapshots and migration support.
-+
-+The flexible ``chardev`` system allows for handling IO from character
-+like devices using stdio, files, unix sockets and TCP networking.
-+
-+QEMU provides a number of management interfaces including a line based
-+:ref:`Human Monitor Protocol (HMP)<QEMU monitor>` that allows you to
-+dynamically add and remove devices as well as introspect the system
-+state. The :ref:`QEMU Monitor Protocol<QMP Ref>` (QMP) is a well
-+defined, versioned, machine usable API that presents a rich interface
-+to other tools to create, control and manage Virtual Machines. This is
-+the interface used by higher level tools interfaces such as `Virt
-+Manager <https://virt-manager.org/>`_ using the `libvirt framework
-+<https://libvirt.org>`_.
-+
-+For the common accelerators QEMU, supported debugging with its
-+:ref:`gdbstub<GDB usage>` which allows users to connect GDB and debug
-+system software images.
-+
-+Running
-+-------
-+
-+QEMU provides a rich and complex API which can be overwhelming to
-+understand. While some architectures can boot something with just a
-+disk image, those examples elide a lot of details with defaults that
-+may not be optimal for modern systems.
-+
-+For a non-x86 system where we emulate a broad range of machine types,
-+the command lines are generally more explicit in defining the machine
-+and boot behaviour. You will find often find example command lines in
-+the :ref:`system-targets-ref` section of the manual.
-+
-+While the project doesn't want to discourage users from using the
-+command line to launch VMs, we do want to highlight that there are a
-+number of projects dedicated to providing a more user friendly
-+experience. Those built around the ``libvirt`` framework can make use
-+of feature probing to build modern VM images tailored to run on the
-+hardware you have.
-+
-+That said, the general form of a QEMU command line can be expressed
-+as:
-+
-+.. parsed-literal::
-+
-+  $ |qemu_system| [machine opts] \\
-+                  [cpu opts] \\
-+                  [accelerator opts] \\
-+                  [device opts] \\
-+                  [backend opts] \\
-+                  [interface opts] \\
-+                  [boot opts] 
-+
-+Most options will generate some help information. So for example:
-+
-+.. parsed-literal::
-+
-+   $ |qemu_system| -M help
-+
-+will list the machine types supported by that QEMU binary. ``help``
-+can also be passed as an argument to another option. For example:
-+
-+.. parsed-literal::
-+
-+  $ |qemu_system| -device scsi-hd,help
-+
-+will list the arguments and their default values of additional options
-+that can control the behaviour of the ``scsi-hd`` device.
-+
-+.. list-table:: Options Overview
-+  :header-rows: 1
-+  :widths: 10, 90
-+
-+  * - Options
-+    -
-+  * - Machine
-+    - Define the :ref:`machine type<Machine Options>`, amount of memory etc
-+  * - CPU
-+    - Type and number/topology of vCPUs. Most accelerators offer
-+      a ``host`` cpu option which simply passes through your host CPU
-+      configuration without filtering out any features.
-+  * - Accelerator
-+    - This will depend on the hypervisor you run. Note that the
-+      default is TCG, which is purely emulated, so you must specify an
-+      accelerator type to take advantage of hardware virtualization.
-+  * - Devices
-+    - Additional devices that are not defined by default with the
-+      machine type.
-+  * - Backends
-+    - Backends are how QEMU deals with the guest's data, for example
-+      how a block device is stored, how network devices see the
-+      network or how a serial device is directed to the outside world.
-+  * - Interfaces
-+    - How the system is displayed, how it is managed and controlled or
-+      debugged.
-+  * - Boot
-+    - How the system boots, via firmware or direct kernel boot.
-+
-+In the following example we first define a ``virt`` machine which is a
-+general purpose platform for running Aarch64 guests. We enable
-+virtualisation so we can use KVM inside the emulated guest. As the
-+``virt`` machine comes with some built in pflash devices we give them
-+names so we can override the defaults later.
-+
-+.. code::
-+
-+ $ qemu-system-aarch64 \
-+    -machine type=virt,virtualization=on,pflash0=rom,pflash1=efivars \
-+    -m 4096 \
-+
-+We then define the 4 vCPUs using the ``max`` option which gives us all
-+the Arm features QEMU is capable of emulating. We enable a more
-+emulation friendly implementation of Arm's pointer authentication
-+algorithm. We explicitly specify TCG acceleration even though QEMU
-+would default to it anyway.
-+
-+.. code::
-+
-+ -cpu max,pauth-impdef=on \
-+ -smp 4 \
-+ -accel tcg \
-+
-+As the ``virt`` platform doesn't have any default network or storage
-+devices we need to define them. We give them ids so we can link them
-+with the backend later on.
-+
-+.. code::
-+
-+ -device virtio-net-pci,netdev=unet \
-+ -device virtio-scsi-pci \
-+ -device scsi-hd,drive=hd \
-+
-+We connect the user-mode networking to our network device. As
-+user-mode networking isn't directly accessible from the outside world
-+we forward localhost port 2222 to the ssh port on the guest.
-+
-+.. code::
-+
-+ -netdev user,id=unet,hostfwd=tcp::2222-:22 \
-+
-+We connect the guest visible block device to an LVM partition we have
-+set aside for our guest.
-+
-+.. code::
-+
-+ -blockdev driver=raw,node-name=hd,file.driver=host_device,file.filename=/dev/lvm-disk/debian-bullseye-arm64 \
-+
-+We then tell QEMU to multiplex the :ref:`QEMU monitor` with the serial
-+port output (we can switch between the two using :ref:`keys in the
-+character backend multiplexer`). As there is no default graphical
-+device we disable the display as we can work entirely in the terminal.
-+
-+.. code::
-+
-+ -serial mon:stdio \
-+ -display none \
-+
-+Finally we override the default firmware to ensure we have some
-+storage for EFI to persist its configuration. That firmware is
-+responsible for finding the disk, booting grub and eventually running
-+our system.
-+
-+.. code::
-+
-+ -blockdev node-name=rom,driver=file,filename=(pwd)/pc-bios/edk2-aarch64-code.fd,read-only=true \
-+ -blockdev node-name=efivars,driver=file,filename=$HOME/images/qemu-arm64-efivars
-diff --git a/docs/system/multi-process.rst b/docs/system/multi-process.rst
-index 210531ee17..16f0352416 100644
---- a/docs/system/multi-process.rst
-+++ b/docs/system/multi-process.rst
-@@ -1,3 +1,5 @@
-+.. _Multi-process QEMU:
-+
- Multi-process QEMU
- ==================
+ static void host_remove(CPUState *cs, gdb_syscall_complete_cb complete,
+@@ -444,8 +444,8 @@ static void host_remove(CPUState *cs, gdb_syscall_complete_cb complete,
+     }
  
-diff --git a/docs/system/quickstart.rst b/docs/system/quickstart.rst
-deleted file mode 100644
-index 681678c86e..0000000000
---- a/docs/system/quickstart.rst
-+++ /dev/null
-@@ -1,21 +0,0 @@
--.. _pcsys_005fquickstart:
--
--Quick Start
-------------
--
--Download and uncompress a PC hard disk image with Linux installed (e.g.
--``linux.img``) and type:
--
--.. parsed-literal::
--
--   |qemu_system| linux.img
--
--Linux should boot and give you a prompt.
--
--Users should be aware the above example elides a lot of the complexity
--of setting up a VM with x86_64 specific defaults and assumes the
--first non switch argument is a PC compatible disk image with a boot
--sector. For a non-x86 system where we emulate a broad range of machine
--types, the command lines are generally more explicit in defining the
--machine and boot behaviour. You will find more example command lines
--in the :ref:`system-targets-ref` section of the manual.
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 4508a00c59..fd5347657a 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -20,6 +20,9 @@ DEF("version", 0, QEMU_OPTION_version,
- SRST
- ``-version``
-     Display version information and exit
-+
-+    .. _Machine Options:
-+
- ERST
+     ret = remove(p);
+-    complete(cs, ret, ret ? errno : 0);
+     unlock_user(p, fname, 0);
++    complete(cs, ret, ret ? errno : 0);
+ }
  
- DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
+ static void host_rename(CPUState *cs, gdb_syscall_complete_cb complete,
+@@ -469,9 +469,9 @@ static void host_rename(CPUState *cs, gdb_syscall_complete_cb complete,
+     }
+ 
+     ret = rename(ostr, nstr);
+-    complete(cs, ret, ret ? errno : 0);
+     unlock_user(ostr, oname, 0);
+     unlock_user(nstr, nname, 0);
++    complete(cs, ret, ret ? errno : 0);
+ }
+ 
+ static void host_system(CPUState *cs, gdb_syscall_complete_cb complete,
+@@ -488,8 +488,8 @@ static void host_system(CPUState *cs, gdb_syscall_complete_cb complete,
+     }
+ 
+     ret = system(p);
+-    complete(cs, ret, ret == -1 ? errno : 0);
+     unlock_user(p, cmd, 0);
++    complete(cs, ret, ret == -1 ? errno : 0);
+ }
+ 
+ static void host_gettimeofday(CPUState *cs, gdb_syscall_complete_cb complete,
+@@ -554,8 +554,8 @@ static void staticfile_read(CPUState *cs, gdb_syscall_complete_cb complete,
+     }
+     memcpy(ptr, gf->staticfile.data + gf->staticfile.off, len);
+     gf->staticfile.off += len;
+-    complete(cs, len, 0);
+     unlock_user(ptr, buf, len);
++    complete(cs, len, 0);
+ }
+ 
+ static void staticfile_lseek(CPUState *cs, gdb_syscall_complete_cb complete,
+@@ -608,8 +608,8 @@ static void console_read(CPUState *cs, gdb_syscall_complete_cb complete,
+         return;
+     }
+     ret = qemu_semihosting_console_read(cs, ptr, len);
+-    complete(cs, ret, 0);
+     unlock_user(ptr, buf, ret);
++    complete(cs, ret, 0);
+ }
+ 
+ static void console_write(CPUState *cs, gdb_syscall_complete_cb complete,
+@@ -624,8 +624,8 @@ static void console_write(CPUState *cs, gdb_syscall_complete_cb complete,
+         return;
+     }
+     ret = qemu_semihosting_console_write(ptr, len);
+-    complete(cs, ret ? ret : -1, ret ? 0 : EIO);
+     unlock_user(ptr, buf, 0);
++    complete(cs, ret ? ret : -1, ret ? 0 : EIO);
+ }
+ 
+ static void console_fstat(CPUState *cs, gdb_syscall_complete_cb complete,
 -- 
 2.34.1
 
