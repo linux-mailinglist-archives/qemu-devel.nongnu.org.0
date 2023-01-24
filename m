@@ -2,75 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B71836794CB
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 11:09:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A1F84679510
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 11:20:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKGEJ-0006cy-PP; Tue, 24 Jan 2023 05:08:39 -0500
+	id 1pKGOh-00007u-Lb; Tue, 24 Jan 2023 05:19:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1pKGDn-0006Xc-QV
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:08:10 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1pKGDl-0008HS-Pu
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:08:07 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id j17so11039403wms.0
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 02:08:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=/SF36r8i+Z8W4TYL8FvIHMioH37dqgLJBRI+fSQpfWc=;
- b=QCRag0NoooLK+heS8bG2D0ldrob3bcfnlP0fc17T3y1t1KUwn6sz09+ewLZydw7X2Y
- ad7DnUy8zBTWt9n6hGtPJ4Gj/NRR7vXgnxGjtKQZnvUFS3Cd8jkRo0ilNO/+ILqL9fpz
- OOXMISGjy3/6BcKptKmWpHP/vK4yUIIDCxkVwvKfF+J3NKlTQzf5/GVtHGmZCyVYABRb
- Bhl20Q/gXOXqj+xa4PiR1267ai0/3PaY+2SkCtBREswtNuexWAsgo0IVhVGYR36rNzAP
- D6hwLY6s/ed1czDep4hT3terYuPLC0QQ+c8S4OcE+t/Y7q1Bed74EEimYT6JbRThIofi
- 7wTg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=/SF36r8i+Z8W4TYL8FvIHMioH37dqgLJBRI+fSQpfWc=;
- b=a2TVDPHjP5PE/TWN+++qEZTwYhIfbIUJ2tpkSGEueam8l2YXBlw02wCokOLLV/I74D
- h/Uc8jvh6SHy56SvORfysNGTiu5YnEIOm+7mS9cdS0rWXVSDHuOC9OZdOCbzjsp42wvF
- jXRSMHIo3xKoIzt6mNPxhm5CYA1WbZJgxtjGa2s+/oUm/gM79LvzCkV7JFqR6azgbc6j
- lWHCFufRVlETyT+n7NUi3OcsKPykKjvNR9woLABbmxfLPtpcPy3zPX93MWcyo2V6+ohz
- iexX6+5WG81aZyd0flu8r49mpo4FGh7dXg+S0IyJ/HLMLH5B/08sMemnaeHfbPmygYcj
- fF7w==
-X-Gm-Message-State: AFqh2kp8uICQROp46QDLvgIYRqC8jfgM2LFi48ZrdarLJ/Xl/yQoL1Ch
- pXj+FYo+cjLpGnu9I1v0a0E6JVqpvgMMwmfZhGH9HA==
-X-Google-Smtp-Source: AMrXdXukbsxDm0D742UTfUIfaGrcBxOjXzH/zL+8iaHBAQQzA5pF1sw9AxggkFl7XJyiAERl4MqjjXNU/KqsnuAQTCc=
-X-Received: by 2002:a05:600c:35c6:b0:3d1:e710:9905 with SMTP id
- r6-20020a05600c35c600b003d1e7109905mr1236227wmq.81.1674554884271; Tue, 24 Jan
- 2023 02:08:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pKGOB-0008Tz-Uh
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:18:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lersek@redhat.com>) id 1pKGO9-0001IG-Qh
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:18:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674555528;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=FonaZJHenX2eXtjoNC1YBwas1/EXOUzFxeMp0baqkxI=;
+ b=Vm+ELgXBN8hpw+LxxyoRdasf6TtMZhkj+SXiiokwwpysgnLLSFK225ZeKoTjokVHOrmMMY
+ mw9uLkWOMAofN2yfHby14Vxcb/MrAOX44TvtgRlLg63xuACein0Us5SvrH5U8CE5rtAKl7
+ BiYKsqVtU9jY06NeKmXragbSIrBwotw=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-332-KJqv2dfLNp6LQjhH95Ki2w-1; Tue, 24 Jan 2023 05:18:44 -0500
+X-MC-Unique: KJqv2dfLNp6LQjhH95Ki2w-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4C14D85CCE1;
+ Tue, 24 Jan 2023 10:18:44 +0000 (UTC)
+Received: from [10.39.195.138] (unknown [10.39.195.138])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1D8FC40C2004;
+ Tue, 24 Jan 2023 10:18:42 +0000 (UTC)
+Message-ID: <9b1e6554-c56d-cb55-4904-05caee2143a3@redhat.com>
+Date: Tue, 24 Jan 2023 11:18:41 +0100
 MIME-Version: 1.0
-References: <20230123090324.732681-1-alexghiti@rivosinc.com>
- <20230123090324.732681-6-alexghiti@rivosinc.com>
- <20230123105112.zidabgiswkpnzo5r@orel>
-In-Reply-To: <20230123105112.zidabgiswkpnzo5r@orel>
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Tue, 24 Jan 2023 11:07:53 +0100
-Message-ID: <CAHVXubjvwF+VOqKSXOF8WZsjY+NzEEXVKyAxh+L02Shu0TKASA@mail.gmail.com>
-Subject: Re: [PATCH v6 5/5] riscv: Introduce satp mode hw capabilities
-To: Andrew Jones <ajones@ventanamicro.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alexghiti@rivosinc.com; helo=mail-wm1-x32c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Subject: Re: [PATCH] docs/pcie.txt: Replace ioh3420 with pcie-root-port
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Marcel Apfelbaum <marcel@redhat.com>, Andrew Jones <drjones@redhat.com>
+References: <20230123174205.683979-1-berrange@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+In-Reply-To: <20230123174205.683979-1-berrange@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lersek@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,93 +80,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 23, 2023 at 11:51 AM Andrew Jones <ajones@ventanamicro.com> wrote:
->
-> On Mon, Jan 23, 2023 at 10:03:24AM +0100, Alexandre Ghiti wrote:
-> > Currently, the max satp mode is set with the only constraint that it must be
-> > implemented in qemu, i.e. set in valid_vm_1_10_[32|64].
-> >
-> > But we actually need to add another level of constraint: what the hw is
-> > actually capable of, because currently, a linux booting on a sifive-u54
-> > boots in sv57 mode which is incompatible with the cpu's sv39 max
-> > capability.
-> >
-> > So add a new bitmap to RISCVSATPMap which contains this capability and
-> > initialize it in every XXX_cpu_init.
-> >
-> > Finally, we have the following chain of constraints:
-> >
-> > Qemu capability > HW capability > User choice > Software capability
->
->                                                   ^ What software is this?
->                          I'd think the user's choice would always be last.
+On 1/23/23 18:42, Daniel P. Berrangé wrote:
+> From: Marcel Apfelbaum <marcel@redhat.com>
+> 
+> Do not mention ioh3420 in the "how to" doc.
+> The device still works and can be used by already
+> existing setups, but no need to be mentioned.
+> 
+> Suggested-by: Andrew Jones <drjones@redhat.com>
+> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+> Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
+> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> ---
+> 
+> This patch was posted 5 years ago:
+> 
+>   https://lore.kernel.org/all/20170802155113.62471-1-marcel@redhat.com/
+> 
+> but seems to have fallen through the cracks and did not get merged.
+> 
+> This just had the obvious/trivial conflict resolution done, along with
+> trimming hugely excessive whitespace before the '\' line continuation.
+> 
+>  docs/pcie.txt | 16 ++++++++--------
+>  1 file changed, 8 insertions(+), 8 deletions(-)
 
-Hmm maybe that's not clear, but I meant that the last constraint was
-what the emulated software is capable of handling.
+Thanks for resurrecting this!
+Laszlo
 
->
-> >
-> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> > ---
-> >  target/riscv/cpu.c | 78 +++++++++++++++++++++++++++++++---------------
-> >  target/riscv/cpu.h |  8 +++--
-> >  2 files changed, 59 insertions(+), 27 deletions(-)
-> >
-> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> > index e409e6ab64..19a37fee2b 100644
-> > --- a/target/riscv/cpu.c
-> > +++ b/target/riscv/cpu.c
-> > @@ -292,24 +292,39 @@ const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit)
-> >      g_assert_not_reached();
-> >  }
-> >
-> > -/* Sets the satp mode to the max supported */
-> > -static void set_satp_mode_default(RISCVCPU *cpu, bool is_32_bit)
-> > +static void set_satp_mode_max_supported(RISCVCPU *cpu,
-> > +                                        const char *satp_mode_str,
-> > +                                        bool is_32_bit)
-> >  {
-> > -    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
-> > -        cpu->cfg.satp_mode.map |=
-> > -                        (1 << satp_mode_from_str(is_32_bit ? "sv32" : "sv57"));
-> > -    } else {
-> > -        cpu->cfg.satp_mode.map |= (1 << satp_mode_from_str("mbare"));
-> > +    uint8_t satp_mode = satp_mode_from_str(satp_mode_str);
-> > +    const bool *valid_vm = is_32_bit ? valid_vm_1_10_32 : valid_vm_1_10_64;
-> > +
-> > +    for (int i = 0; i <= satp_mode; ++i) {
-> > +        if (valid_vm[i]) {
-> > +            cpu->cfg.satp_mode.supported |= (1 << i);
->
-> I don't think we need a new 'supported' bitmap, I think each board that
-> needs to further constrain va-bits from what QEMU supports should just set
-> valid_vm_1_10_32/64. I.e. drop const from the arrays and add an init
-> function something like
->
->  #define QEMU_SATP_MODE_MAX VM_1_10_SV64
->
->  void riscv_cpu_set_satp_mode_max(RISCVCPU *cpu, uint8_t satp_mode_max)
->  {
->      bool is_32_bit = cpu->env.misa_mxl == MXL_RV32;
->      bool *valid_vm = is_32_bit ? valid_vm_1_10_32 : valid_vm_1_10_64;
->
->      g_assert(satp_mode_max <= QEMU_SATP_MODE_MAX);
->      g_assert(!is_32_bit || satp_mode_max < 2);
->
->      memset(valid_vm, 0, sizeof(*valid_vm));
->
->      for (int i = 0; i <= satp_mode_max; i++) {
->          valid_vm[i] = true;
->      }
->  }
->
-> The valid_vm[] checks already in finalize should then manage the
-> validation needed to constrain boards. Only boards that care about
-> this need to call this function, otherwise they'll get the default.
->
-> Also, this patch should come before the patch that changes the default
-> for all boards to sv57 in order to avoid breaking bisection.
->
-> Thanks,
-> drew
+> diff --git a/docs/pcie.txt b/docs/pcie.txt
+> index 89e3502075..df49178311 100644
+> --- a/docs/pcie.txt
+> +++ b/docs/pcie.txt
+> @@ -48,8 +48,8 @@ Place only the following kinds of devices directly on the Root Complex:
+>          strangely when PCI Express devices are integrated
+>          with the Root Complex.
+>  
+> -    (2) PCI Express Root Ports (ioh3420), for starting exclusively PCI Express
+> -        hierarchies.
+> +    (2) PCI Express Root Ports (pcie-root-port), for starting exclusively
+> +        PCI Express hierarchies.
+>  
+>      (3) PCI Express to PCI Bridge (pcie-pci-bridge), for starting legacy PCI
+>          hierarchies.
+> @@ -70,7 +70,7 @@ Place only the following kinds of devices directly on the Root Complex:
+>            -device pxb-pcie,id=pcie.1,bus_nr=x[,numa_node=y][,addr=z]
+>        PCI Express Root Ports and PCI Express to PCI bridges can be
+>        connected to the pcie.1 bus:
+> -          -device ioh3420,id=root_port1[,bus=pcie.1][,chassis=x][,slot=y][,addr=z]                                     \
+> +          -device pcie-root-port,id=root_port1[,bus=pcie.1][,chassis=x][,slot=y][,addr=z] \
+>            -device pcie-pci-bridge,id=pcie_pci_bridge1,bus=pcie.1
+>  
+>  
+> @@ -112,14 +112,14 @@ Plug only PCI Express devices into PCI Express Ports.
+>                                               ------------
+>  
+>  2.2.1 Plugging a PCI Express device into a PCI Express Root Port:
+> -          -device ioh3420,id=root_port1,chassis=x,slot=y[,bus=pcie.0][,addr=z]  \
+> +          -device pcie-root-port,id=root_port1,chassis=x,slot=y[,bus=pcie.0][,addr=z]  \
+>            -device <dev>,bus=root_port1
+>  2.2.2 Using multi-function PCI Express Root Ports:
+> -      -device ioh3420,id=root_port1,multifunction=on,chassis=x,addr=z.0[,slot=y][,bus=pcie.0] \
+> -      -device ioh3420,id=root_port2,chassis=x1,addr=z.1[,slot=y1][,bus=pcie.0] \
+> -      -device ioh3420,id=root_port3,chassis=x2,addr=z.2[,slot=y2][,bus=pcie.0] \
+> +      -device pcie-root-port,id=root_port1,multifunction=on,chassis=x,addr=z.0[,slot=y][,bus=pcie.0] \
+> +      -device pcie-root-port,id=root_port2,chassis=x1,addr=z.1[,slot=y1][,bus=pcie.0] \
+> +      -device pcie-root-port,id=root_port3,chassis=x2,addr=z.2[,slot=y2][,bus=pcie.0] \
+>  2.2.3 Plugging a PCI Express device into a Switch:
+> -      -device ioh3420,id=root_port1,chassis=x,slot=y[,bus=pcie.0][,addr=z]  \
+> +      -device pcie-root-port,id=root_port1,chassis=x,slot=y[,bus=pcie.0][,addr=z]  \
+>        -device x3130-upstream,id=upstream_port1,bus=root_port1[,addr=x]          \
+>        -device xio3130-downstream,id=downstream_port1,bus=upstream_port1,chassis=x1,slot=y1[,addr=z1]] \
+>        -device <dev>,bus=downstream_port1
+
 
