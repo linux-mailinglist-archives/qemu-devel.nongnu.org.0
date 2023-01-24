@@ -2,81 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BADE767A541
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 22:55:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA0167A55A
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 23:05:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKRFL-0005H5-OP; Tue, 24 Jan 2023 16:54:27 -0500
+	id 1pKROb-0007KD-9D; Tue, 24 Jan 2023 17:04:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pKRFK-0005GO-4M
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 16:54:26 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pKRFI-00054j-H5
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 16:54:25 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id o13so16544457pjg.2
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 13:54:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=33I3gmOMrqXDAgIkPqkp+uQ5domRkC5NGptWhMIhogg=;
- b=U5wHs2p3QtL3fW7wbrxQmXxNAqb4wBp2iWS60BzdogxkZJBB2UYiLDWU3OL4X4EywO
- tngiXdj/DHWAMZIiAdvDAuFmyjscdAwn7ya1ItxKVR0Ki2UvBK0ReEIszPW6jZWopIxW
- +Bp3fS9gKWLrhsxpyVQAu4KrrcilQqWGmfwU1/fYLT9dTdNw1ZBliCbOC0tdcobXc7oI
- ZGSKudJs6mw6LACWb+qWhisJHSj3W8DNuvIZ+gVrgizgKIgIoyEPJOh0U1pilQFOI3Pn
- +Bmq8dArqt23Rqt0/QC0/qQ+VGFyFViFLr2VYPgoCeklFIqZxd+dIijie8TtXp26RvQc
- 4AQQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pKROV-0007G6-5O
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 17:03:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pKROT-00071A-Am
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 17:03:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674597832;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=ebMw7dg7NK9iuAenf4sY6avUGZZGO/lzufrYeqS/wfk=;
+ b=ap2yjkp8OjsmsUVNly1Bafkb8jK2kaE5ajalbz4NcYjuH1Ut1kOEf3vXAGB3L0TnwIE57W
+ S2deThTwha3F8sTkXKVXmwu5ZyiiMHW7Wvg1oXArwRbxEYrUIhRtwvstuaJR2jfOr2R1Gc
+ 3h2qaU6QrbI7r3DTc7ahoZge9MVg2QM=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-443-g1fjGXJ3NRut6nAladC6HQ-1; Tue, 24 Jan 2023 17:03:50 -0500
+X-MC-Unique: g1fjGXJ3NRut6nAladC6HQ-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ n194-20020a2540cb000000b008038647d9ebso12200625yba.5
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 14:03:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=33I3gmOMrqXDAgIkPqkp+uQ5domRkC5NGptWhMIhogg=;
- b=wFSzawYVeBxnMejAcuL21rvSN5dL0WJDJNo2LJFDofg9gZu2V+T/mLlhdotlJ5SUmt
- De8PSJyXrOgjQpBEsqdQDGpieV+GULrz4CQOf31DaFydUv9eMMBGiyHRjPFekPHLG4c4
- +6e79eLyiYUjlnwDYD+EqzJU9UlMvtPy6tTEd7NbTBzNxulrB5nTp+KOXWRN33ns7+Ly
- at53l84xY9CpIM6gQKCJPAr+z6g4Skso0varAg/ElGPaazpjKaVGFOZYLi/2RX+jT6hx
- Cwi35iO93DRIdpnyR4XkMHyk2Qu8M+adjaZwHsY+teTEWjbywDZp/kCK+XjSK/OEsEjY
- t1jQ==
-X-Gm-Message-State: AO0yUKU8xOuAmbv3It6ymN9wzPkgjjz9Zuv9ckxCkcy4G8ReXpqIldie
- UWA5DFVUFmQA4DSNI6ZFTz14yiOtI53dAQ5K
-X-Google-Smtp-Source: AK7set90rRdU2o7QMLyGc0kQ4H+BIf4JTmjvmC7Bw/tjOEeqCT38lwBRR10aWc21bDf3z9d83PK5Sg==
-X-Received: by 2002:a17:903:1107:b0:196:191b:6b22 with SMTP id
- n7-20020a170903110700b00196191b6b22mr3760694plh.59.1674597262967; 
- Tue, 24 Jan 2023 13:54:22 -0800 (PST)
-Received: from [192.168.5.146] (rrcs-173-198-77-218.west.biz.rr.com.
- [173.198.77.218]) by smtp.gmail.com with ESMTPSA id
- z2-20020aa791c2000000b0058a7bacd31fsm2083427pfa.32.2023.01.24.13.54.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Jan 2023 13:54:22 -0800 (PST)
-Message-ID: <4068c032-2210-65c7-3f5c-04f89b778e04@linaro.org>
-Date: Tue, 24 Jan 2023 11:54:18 -1000
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=ebMw7dg7NK9iuAenf4sY6avUGZZGO/lzufrYeqS/wfk=;
+ b=1VizUCGbCjwKQ/OFnsyC7Omme5ocJyb8K2JjqopNSi1r7V/hwfpdA2m1Je61fRxDLQ
+ S0y0Q++7JuotVR1351AqvhVYFTbWKZlQgyuXyuD/Z/G9eME87oDTIkpJNIOmx41rKz+H
+ Sxbvpx5bqZeNyuZCWIscCOXPwgrOAa0gsrF73xfDFWQxQetwTjRILf5QR7EcraYUIG1Y
+ 12j8j37n2JDJ4Jw9lWHnYr8lSjE1Qx+7iVt/Uo6L8RJA00hvA1IMZ8DcYoKBogMEg7Y0
+ +lO9gsRbDZfdCFfrClkiMecESc0EgGjVZUKayolggzRdWtHq/WjTZvtz58yrfqtDYbZ/
+ /hiA==
+X-Gm-Message-State: AFqh2krD2hb7kZb+hkwXhN+IcmZVocBj0BFKQjVxfLIe9zNm2iewmTjR
+ 3g2hfxZId29E03A5Z9tGPkKVZ9maoNeKNc0kkQu/49xhD2WCIs4ulPU/9EalcmLYJCRKlgraswN
+ TDkUoLDDAYrhxwt0=
+X-Received: by 2002:a81:1904:0:b0:501:235d:4dcc with SMTP id
+ 4-20020a811904000000b00501235d4dccmr10073819ywz.37.1674597830187; 
+ Tue, 24 Jan 2023 14:03:50 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuhRn4yYUy6WIqtpVkeBNCGHDFkXsZKIBz8TuMOveFy90mJRvXW4tikGw0ZEAdqGwKrppc9Tw==
+X-Received: by 2002:a81:1904:0:b0:501:235d:4dcc with SMTP id
+ 4-20020a811904000000b00501235d4dccmr10073792ywz.37.1674597829909; 
+ Tue, 24 Jan 2023 14:03:49 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ d199-20020ae9efd0000000b0070383f1b6f1sm2201273qkg.31.2023.01.24.14.03.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Jan 2023 14:03:49 -0800 (PST)
+Date: Tue, 24 Jan 2023 17:03:48 -0500
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ James Houghton <jthoughton@google.com>, Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH RFC 12/21] migration: Introduce page size
+ for-migration-only
+Message-ID: <Y9BVxKj1O0MKHlTl@x1n>
+References: <20230117220914.2062125-1-peterx@redhat.com>
+ <20230117220914.2062125-13-peterx@redhat.com>
+ <Y8/bJQncX3pdWYQr@work-vm> <Y9BPVDBpR25kRpoc@x1n>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v4 00/36] tcg: Support for Int128 with helpers
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org,
- qemu-riscv@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net
-References: <20230108023719.2466341-1-richard.henderson@linaro.org>
-In-Reply-To: <20230108023719.2466341-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y9BPVDBpR25kRpoc@x1n>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,33 +99,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/7/23 16:36, Richard Henderson wrote:
-> Patches requiring review:
->    01-tcg-Define-TCG_TYPE_I128-and-related-helper-macro.patch
->    02-tcg-Handle-dh_typecode_i128-with-TCG_CALL_-RET-AR.patch
->    03-tcg-Allocate-objects-contiguously-in-temp_allocat.patch
->    05-tcg-Add-TCG_CALL_-RET-ARG-_BY_REF.patch
->    07-tcg-Add-TCG_CALL_RET_BY_VEC.patch
->    08-include-qemu-int128-Use-Int128-structure-for-TCI.patch
->    09-tcg-i386-Add-TCG_TARGET_CALL_-RET-ARG-_I128.patch
->    10-tcg-tci-Fix-big-endian-return-register-ordering.patch
->    11-tcg-tci-Add-TCG_TARGET_CALL_-RET-ARG-_I128.patch
->    13-tcg-Add-temp-allocation-for-TCGv_i128.patch
->    14-tcg-Add-basic-data-movement-for-TCGv_i128.patch
->    15-tcg-Add-guest-load-store-primitives-for-TCGv_i128.patch
->    16-tcg-Add-tcg_gen_-non-atomic_cmpxchg_i128.patch
->    17-tcg-Split-out-tcg_gen_nonatomic_cmpxchg_i-32-64.patch
->    24-target-s390x-Use-a-single-return-for-helper_divs3.patch
->    31-target-s390x-Use-Int128-for-passing-float128.patch
->    32-target-s390x-Use-tcg_gen_atomic_cmpxchg_i128-for-.patch
->    33-target-s390x-Implement-CC_OP_NZ-in-gen_op_calc_cc.patch
->    34-target-i386-Split-out-gen_cmpxchg8b-gen_cmpxchg16.patch
->    35-target-i386-Inline-cmpxchg8b.patch
->    36-target-i386-Inline-cmpxchg16b.patch
+On Tue, Jan 24, 2023 at 04:36:20PM -0500, Peter Xu wrote:
+> On Tue, Jan 24, 2023 at 01:20:37PM +0000, Dr. David Alan Gilbert wrote:
+> > > @@ -3970,7 +3984,8 @@ int ram_load_postcopy(QEMUFile *f, int channel)
+> > >                  break;
+> > >              }
+> > >              tmp_page->target_pages++;
+> > > -            matches_target_page_size = block->page_size == TARGET_PAGE_SIZE;
+> > > +            matches_target_page_size =
+> > > +                migration_ram_pagesize(block) == TARGET_PAGE_SIZE;
+> > >              /*
+> > >               * Postcopy requires that we place whole host pages atomically;
+> > >               * these may be huge pages for RAMBlocks that are backed by
+> > 
+> > Hmm do you really want this change?
+> 
+> Yes that's intended.  I want to reuse the same logic here when receiving
+> small pages from huge pages, just like when we're receiving small pages on
+> non-hugetlb mappings.
+> 
+> matches_target_page_size majorly affects two things:
+> 
+>   1) For a small zero page, whether we want to pre-set the page_buffer, or
+>      simply use postcopy_place_page_zero():
+>   
+>         case RAM_SAVE_FLAG_ZERO:
+>             ch = qemu_get_byte(f);
+>             /*
+>              * Can skip to set page_buffer when
+>              * this is a zero page and (block->page_size == TARGET_PAGE_SIZE).
+>              */
+>             if (ch || !matches_target_page_size) {
+>                 memset(page_buffer, ch, TARGET_PAGE_SIZE);
+>             }
+> 
+>   2) For normal page, whether we need to use a page buffer or we can
+>      directly reuse the page buffer in QEMUFile:
+> 
+>             if (!matches_target_page_size) {
+>                 /* For huge pages, we always use temporary buffer */
+>                 qemu_get_buffer(f, page_buffer, TARGET_PAGE_SIZE);
+>             } else {
+>                 /*
+>                  * For small pages that matches target page size, we
+>                  * avoid the qemu_file copy.  Instead we directly use
+>                  * the buffer of QEMUFile to place the page.  Note: we
+>                  * cannot do any QEMUFile operation before using that
+>                  * buffer to make sure the buffer is valid when
+>                  * placing the page.
+>                  */
+>                 qemu_get_buffer_in_place(f, (uint8_t **)&place_source,
+>                                          TARGET_PAGE_SIZE);
+>             }
+> 
+> Here:
+> 
+> I want 1) to reuse postcopy_place_page_zero().  For the doublemap case,
+> it'll reuse postcopy_tmp_zero_page() (because qemu_ram_is_uf_zeroable()
+> will return false for such a ramblock).
+> 
+> I want 2) to reuse qemu_get_buffer_in_place(), so we avoid a copy process
+> for the small page which is faster (even if it's hugetlb backed, now we can
+> reuse the qemufile buffer safely).
 
-Ping.  Only 2, 3, 10, 14 reviewed in the past 2 weeks.
-There is a very minor patch conflict now in patch 4, nothing worth re-posting over.
+Since at it, one more thing worth mentioning is I didn't actually know
+whether the original code is always correct when target and host small
+psizes don't match..  This is the original line:
 
+  matches_target_page_size = block->page_size == TARGET_PAGE_SIZE;
 
-r~
+The problem is we're comparing block page size against target page size,
+however block page size should be in host page size granule:
+
+  RAMBlock *qemu_ram_alloc_internal()
+  {
+    new_block->page_size = qemu_real_host_page_size();
+
+IOW, I am not sure whether postcopy will run at all in that case.  For
+example, when we run an Alpha emulator upon x86_64, we can have target
+psize 8K while host psize 4K.
+
+The migration protocol should be TARGET_PAGE_SIZE based.  It means, for
+postcopy when receiving a single page for Alpha VM being migrated, maybe we
+should call UFFDIO_COPY (or UFFDIO_CONTINUE; doesn't matter here) twice
+because one guest page contains two host pages.
+
+I'm not sure whether I get all these right.. if so, we have two options:
+
+  a) Forbid postcopy as a whole when detecting qemu_real_host_page_size()
+     != TARGET_PAGE_SIZE.
+
+  b) Implement postcopy for that case
+
+I'd go with a) even if it's an issue because it means no one is migrating
+that thing in postcopy way in the past N years, so it justifies that maybe
+b) doesn't worth it.
+
+-- 
+Peter Xu
+
 
