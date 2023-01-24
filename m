@@ -2,91 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C798F6798E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 14:05:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA8506798F4
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 14:14:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKIya-0007dU-Fa; Tue, 24 Jan 2023 08:04:36 -0500
+	id 1pKJ7b-00010g-1w; Tue, 24 Jan 2023 08:13:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKIyO-0007cs-4p
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 08:04:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKIyD-0000sX-D8
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 08:04:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674565452;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Pk4MbEigUqfkPDpfxtlt5L30xROiHGSo4jHlC8cmF/g=;
- b=NgEQQyvo7TChHFttwZu0HnZB3ajSt4oBZbpntM9EIz3OIOaGzheVk4HGPAeuBb6PCkFyVI
- hTjPZbkM4EwMJ5eVVDmHUhd49C7NIHZ4GxoeZZIU7iVNuLPOnWgM6mo3FjVhyJrtNfqJcZ
- NVBcaFwH9VQSAKtshK7YCccueyxCdE0=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-515-q9WlOai2OcWMYRCjg5Xlcw-1; Tue, 24 Jan 2023 08:04:11 -0500
-X-MC-Unique: q9WlOai2OcWMYRCjg5Xlcw-1
-Received: by mail-yb1-f199.google.com with SMTP id
- g73-20020a25db4c000000b00802b0159bccso11418712ybf.22
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 05:04:11 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
+ id 1pKJ7W-0000zp-CZ
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 08:13:50 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
+ id 1pKJ7U-0003QF-DE
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 08:13:50 -0500
+Received: by mail-wr1-x435.google.com with SMTP id bk16so13816261wrb.11
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 05:13:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=63gUpz/DHEnLeNiJ2GufmxcXpmtP/k4mWXKdkbg54Jo=;
+ b=5tZ2gRVjKdIpaE1srPCHAfpE/km4KUEU28InTrpWz89n3rCI9kGt78lK8z9Znehbn8
+ zmSITicK8BJlTCTZiQn/oK8dnD5R6KFFtR1XmJ7t5EyWzjR6FtCa/DgMaWv+xYXv/luA
+ 9OpBS7Ct1hmDARlWnxUwuHgKrzsElJwLEVbIueT+CCnpIGxi+QprIKA5is2W8ChoaFC+
+ zHmL9vgkvWhP4Fp0gqdxzRBSG54wZ+tP7Ca7SisAtGzW2TYUDI8wOKdQFmSzcMMu/VSb
+ zPVtU0Jo7QeyerOngJvt46dk8c+tcxcgnA8ilYYdQrsYfIP2MVojBeqh+KLlK8+nXBCv
+ godQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Pk4MbEigUqfkPDpfxtlt5L30xROiHGSo4jHlC8cmF/g=;
- b=ijLxuLK+sF5YjDJeczIIqeFocCx7J3wpJc0xbc6x/iLbZcM4JYNRdiF4LLQZfxYHYo
- IU13rTQaSze1rB0ncQkDYoORu4fM9MnOkTUaQARS1UfBtSDkYi9SyzcITtQBYiyd7zU+
- dJFfJ3++SGqFuN0RctNFMcaY9MdSRihfkjTPBybAvAFfAuVwoQ1dqpHsCQ2e5uJqWv/f
- v0TbydYCRnDQCmdGHjpF2bH8ce6WGzLvahq2SSumpIPi4G3EgGAnsjOk2f9Sjwsf1c0Q
- 4Y02lTlIbaGVPqmaBl7thc5xIKBWrEnv4wQNfO4/M3+rU+tGUxZSabOjfhl8jqMZ6hg8
- sNRA==
-X-Gm-Message-State: AO0yUKVXcUMn6Ywu+NIjr22R7H1vC131aHvJiA4dnzV60nO9LtV00fG8
- 39P7xBk7VggyGzB2/7Sua9W3h3RPHz4nDCxUDgiL+t8rA3Axl3aYF8qiuvx8g+WotviKNcB+SqZ
- OQ5R9q+XAlry/jqM=
-X-Received: by 2002:a05:7500:10d5:b0:f3:9a2b:fd88 with SMTP id
- 21-20020a05750010d500b000f39a2bfd88mr14710gai.0.1674565450531; 
- Tue, 24 Jan 2023 05:04:10 -0800 (PST)
-X-Google-Smtp-Source: AK7set9Wb9MS6OA/Ztzbf8xdYbeR/wAdXZuZuT7ozNDbI+mfgHp3MX1kfo1e9IV4I5l3eMn8GuM1XA==
-X-Received: by 2002:a05:7500:10d5:b0:f3:9a2b:fd88 with SMTP id
- 21-20020a05750010d500b000f39a2bfd88mr14689gai.0.1674565450087; 
- Tue, 24 Jan 2023 05:04:10 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-179-158.web.vodafone.de.
- [109.43.179.158]) by smtp.gmail.com with ESMTPSA id
- t21-20020ac85315000000b003b68ea3d5c8sm1197914qtn.41.2023.01.24.05.04.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Jan 2023 05:04:09 -0800 (PST)
-Message-ID: <9807ec99-a746-20e3-10fa-3cc32959fd00@redhat.com>
-Date: Tue, 24 Jan 2023 14:04:07 +0100
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=63gUpz/DHEnLeNiJ2GufmxcXpmtP/k4mWXKdkbg54Jo=;
+ b=rOtVIsz2vOmn/CRJswNKQfuWsygjFSxNIh6CHePLjTcKU3ewFoOuYZWgelJEqU1FGN
+ 7Xotzcgyp20dwPYetW4KDdCwe3O+c9agYtrq/6oDFJ6d45hOjx/doD6UBRzC08khNhuQ
+ DzblGMbm3yhkPRyNIKL4rXG4YANjGoM0oRXJ90TIiUcS6A7X6ZlH4QDQs/g/SmvfwFTZ
+ KpKkpH/BT7dj00zlK9XaaQ6OzaSieN/nZ4ntJfYO+g5AMkrivDkW8zHoC9cSKu/TBrnx
+ qj/Q3g6xDtkQ2uq0JO0rdLM0guShgqLdIMntQOdwr9lxj1neuEEGxfig4kphOC1XqcjC
+ GVkw==
+X-Gm-Message-State: AFqh2kopSO8PlrUhtv82tpGNEySynwWNfmCPMXWzrf6Da7CAMrBpOqiB
+ GDZmUK9c+XQYRZ2CFJSR2oNQkDcCNrhFs05W6MijoQ==
+X-Google-Smtp-Source: AMrXdXtW3SScwMi6JvNxjKjZuOJHimsaVevjttlxkPykqFVV0pSrkbZpTDoONZgHfOLgGrEGi3QQp5BBYJomcIFe0Rg=
+X-Received: by 2002:a5d:5190:0:b0:2bd:d6bc:e35c with SMTP id
+ k16-20020a5d5190000000b002bdd6bce35cmr1265377wrv.144.1674566025934; Tue, 24
+ Jan 2023 05:13:45 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH] tests/qtest: Plug memory leaks in qtest_get_machines
-Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20230120194435.29796-1-farosas@suse.de>
- <77fcbf0a-0f9a-d3bc-c1cf-0ec3e21399c9@redhat.com> <877cxdcr5l.fsf@suse.de>
- <4dd2d0d8-d2a3-7636-a422-6b99b7e24e07@redhat.com> <87r0vleykh.fsf@suse.de>
- <de042a7e-f9eb-8fe0-cad6-b3277e79b9c6@redhat.com> <87v8kw5cew.fsf@suse.de>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <87v8kw5cew.fsf@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230123090324.732681-1-alexghiti@rivosinc.com>
+ <20230123090324.732681-6-alexghiti@rivosinc.com>
+ <20230123105112.zidabgiswkpnzo5r@orel>
+ <CAHVXubg77ywMLWh=JOmdhWA=pYeQ5nLAif_9VhRmkcpD6wKZng@mail.gmail.com>
+ <20230123133127.7dyqhdryrbp27o46@orel>
+In-Reply-To: <20230123133127.7dyqhdryrbp27o46@orel>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Tue, 24 Jan 2023 14:13:35 +0100
+Message-ID: <CAHVXubjV4wt9C_oCTXYAbz-=qet0AiPRQ=ON2tnAAimcv0Az4g@mail.gmail.com>
+Subject: Re: [PATCH v6 5/5] riscv: Introduce satp mode hw capabilities
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alexghiti@rivosinc.com; helo=mail-wr1-x435.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,59 +89,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/01/2023 13.45, Fabiano Rosas wrote:
-> Thomas Huth <thuth@redhat.com> writes:
-> 
->> On 23/01/2023 22.22, Fabiano Rosas wrote:
->>> Thomas Huth <thuth@redhat.com> writes:
->>>
->>>> On 23/01/2023 14.32, Fabiano Rosas wrote:
->>>>> Thomas Huth <thuth@redhat.com> writes:
->>>>>
->>>>>> On 20/01/2023 20.44, Fabiano Rosas wrote:
->>>>>>> These leaks can be avoided:
->>>>>>>
->>>>>>>      759 bytes in 61 blocks are still reachable in loss record 56 of 60
->>>>>>>         at 0x4034744: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
->>>>>>>         by 0x4A88518: g_malloc (in /usr/lib64/libglib-2.0.so.0.7000.5)
->>>>>>>         by 0x4AA313E: g_strdup (in /usr/lib64/libglib-2.0.so.0.7000.5)
->>>>>>>         by 0x12083E: qtest_get_machines (libqtest.c:1323)
->>>>>>>         by 0x12098C: qtest_cb_for_every_machine (libqtest.c:1348)
->>>>>>>         by 0x11556C: main (test-hmp.c:160)
->>>>>>>
->>>>>>>      992 bytes in 1 blocks are still reachable in loss record 57 of 60
->>>>>>>         at 0x4034744: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
->>>>>>>         by 0x4A88518: g_malloc (in /usr/lib64/libglib-2.0.so.0.7000.5)
->>>>>>>         by 0x120725: qtest_get_machines (libqtest.c:1313)
->>>>>>>         by 0x12098C: qtest_cb_for_every_machine (libqtest.c:1348)
->>>>>>>         by 0x11556C: main (test-hmp.c:160)
->> ...
->>>> (Also, it's valgrind that you used, isn't it? - I wonder why it's
->>>> complaining here at all since the pointer to the memory should still be
->>>> valid at the end?)
->>>
->>> valgrind is complaining about the memory not being explicitly freed at
->>> any point. I guess "leak" was not the most precise term to use in the
->>> commit message.
->>
->> How did you run valgrind? For me, it does not really complain about the
->> non-freed memory here since it is still reachable. The only difference that
->> I see is in the summary. Without your patch:
->>
->>       still reachable: 27,471 bytes in 152 blocks
->>
->> with your patch:
->>
->>       still reachable: 25,713 bytes in 88 blocks
-> 
-> valgrind --leak-check=full --show-leak-kinds=all
+On Mon, Jan 23, 2023 at 2:31 PM Andrew Jones <ajones@ventanamicro.com> wrote:
+>
+> On Mon, Jan 23, 2023 at 12:15:08PM +0100, Alexandre Ghiti wrote:
+> > On Mon, Jan 23, 2023 at 11:51 AM Andrew Jones <ajones@ventanamicro.com> wrote:
+> > >
+> > > On Mon, Jan 23, 2023 at 10:03:24AM +0100, Alexandre Ghiti wrote:
+> > > > Currently, the max satp mode is set with the only constraint that it must be
+> > > > implemented in qemu, i.e. set in valid_vm_1_10_[32|64].
+> > > >
+> > > > But we actually need to add another level of constraint: what the hw is
+> > > > actually capable of, because currently, a linux booting on a sifive-u54
+> > > > boots in sv57 mode which is incompatible with the cpu's sv39 max
+> > > > capability.
+> > > >
+> > > > So add a new bitmap to RISCVSATPMap which contains this capability and
+> > > > initialize it in every XXX_cpu_init.
+> > > >
+> > > > Finally, we have the following chain of constraints:
+> > > >
+> > > > Qemu capability > HW capability > User choice > Software capability
+> > >
+> > >                                                   ^ What software is this?
+> > >                          I'd think the user's choice would always be last.
+> > >
+> > > >
+> > > > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > > > ---
+> > > >  target/riscv/cpu.c | 78 +++++++++++++++++++++++++++++++---------------
+> > > >  target/riscv/cpu.h |  8 +++--
+> > > >  2 files changed, 59 insertions(+), 27 deletions(-)
+> > > >
+> > > > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > > > index e409e6ab64..19a37fee2b 100644
+> > > > --- a/target/riscv/cpu.c
+> > > > +++ b/target/riscv/cpu.c
+> > > > @@ -292,24 +292,39 @@ const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit)
+> > > >      g_assert_not_reached();
+> > > >  }
+> > > >
+> > > > -/* Sets the satp mode to the max supported */
+> > > > -static void set_satp_mode_default(RISCVCPU *cpu, bool is_32_bit)
+> > > > +static void set_satp_mode_max_supported(RISCVCPU *cpu,
+> > > > +                                        const char *satp_mode_str,
+> > > > +                                        bool is_32_bit)
+> > > >  {
+> > > > -    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
+> > > > -        cpu->cfg.satp_mode.map |=
+> > > > -                        (1 << satp_mode_from_str(is_32_bit ? "sv32" : "sv57"));
+> > > > -    } else {
+> > > > -        cpu->cfg.satp_mode.map |= (1 << satp_mode_from_str("mbare"));
+> > > > +    uint8_t satp_mode = satp_mode_from_str(satp_mode_str);
+> > > > +    const bool *valid_vm = is_32_bit ? valid_vm_1_10_32 : valid_vm_1_10_64;
+> > > > +
+> > > > +    for (int i = 0; i <= satp_mode; ++i) {
+> > > > +        if (valid_vm[i]) {
+> > > > +            cpu->cfg.satp_mode.supported |= (1 << i);
+> > >
+> > > I don't think we need a new 'supported' bitmap, I think each board that
+> > > needs to further constrain va-bits from what QEMU supports should just set
+> > > valid_vm_1_10_32/64. I.e. drop const from the arrays and add an init
+> > > function something like
+> >
+> > This was my first idea too, but those arrays are global and I have to
+> > admit that I thought it was possible to emulate a cpu with different
+> > cores. Anyway, isn't it a bit weird to store this into some global
+> > array whereas it is intimately linked to the CPU? To me, it makes
+> > sense to keep those variables as a way to know what qemu is able to
+> > emulate and have a CPU specific map like in this patch for the hw
+> > capabilities. Does it make sense to you?
+>
+> Ah, yes, to support heterogeneous configs it's best to keep this
+> information per-cpu. I'll take another look at the patch.
+>
+> >
+> > >
+> > >  #define QEMU_SATP_MODE_MAX VM_1_10_SV64
+> > >
+> > >  void riscv_cpu_set_satp_mode_max(RISCVCPU *cpu, uint8_t satp_mode_max)
+> > >  {
+> > >      bool is_32_bit = cpu->env.misa_mxl == MXL_RV32;
+> > >      bool *valid_vm = is_32_bit ? valid_vm_1_10_32 : valid_vm_1_10_64;
+> > >
+> > >      g_assert(satp_mode_max <= QEMU_SATP_MODE_MAX);
+> > >      g_assert(!is_32_bit || satp_mode_max < 2);
+> > >
+> > >      memset(valid_vm, 0, sizeof(*valid_vm));
+> > >
+> > >      for (int i = 0; i <= satp_mode_max; i++) {
+> > >          valid_vm[i] = true;
+> > >      }
+> > >  }
+> > >
+> > > The valid_vm[] checks already in finalize should then manage the
+> > > validation needed to constrain boards. Only boards that care about
+> > > this need to call this function, otherwise they'll get the default.
+> > >
+> > > Also, this patch should come before the patch that changes the default
+> > > for all boards to sv57 in order to avoid breaking bisection.
+> >
+> > As I explained earlier, I didn't change the default to sv57! Just
+> > fixed what was passed via the device tree, which should not be used
+> > anyway :)
+>
+> OK, I keep misunderstanding how we're "fixing" something which is
+> is wrong, but apparently doesn't exhibit any symptoms. So, assuming
+> it doesn't matter, then I guess it can come anywhere in the series.
 
-Ok, so that "--show-leak-kinds=all" is the issue here. I think it does not 
-make sense to go hunting for each and every "reachable" non-freed memory 
-block - since they have not really been leaked during runtime. It's maybe 
-better if you just use "--show-leak-kinds=definite,indirect,possible" instead.
+Actually *I* think it should not matter, but I can't be sure so I'll
+do what you ask.
 
-  Thomas
-
-
+>
+> Thanks,
+> drew
 
