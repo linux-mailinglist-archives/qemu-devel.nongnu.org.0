@@ -2,51 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95870679F06
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 17:42:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E538B679F29
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 17:49:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKMLT-0007kA-WA; Tue, 24 Jan 2023 11:40:28 -0500
+	id 1pKMSb-00019s-SA; Tue, 24 Jan 2023 11:47:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pKMLK-0007js-Pl; Tue, 24 Jan 2023 11:40:18 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pKMLI-00086f-KK; Tue, 24 Jan 2023 11:40:18 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 1F2C1746361;
- Tue, 24 Jan 2023 17:37:44 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id DF076746324; Tue, 24 Jan 2023 17:37:43 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id DCEFF74635C;
- Tue, 24 Jan 2023 17:37:43 +0100 (CET)
-Date: Tue, 24 Jan 2023 17:37:43 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
- qemu-ppc@nongnu.org
-Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
-In-Reply-To: <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
-Message-ID: <d2ca3316-b8fe-3714-df03-62e51938c40d@eik.bme.hu>
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <4162db13bd1da9c6ddd77f185cef738e44790467.1672868854.git.balaton@eik.bme.hu>
- <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
- <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
- <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pKMST-00014E-4e
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 11:47:46 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pKMSO-0000md-ER
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 11:47:40 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id lp10so12131817pjb.4
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 08:47:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=l5UFNlo87HYCjRuV0v9OXAtBOngBlaZT5HNlM8zZwF0=;
+ b=gLrVGuyaltCyCMKe1qJSROQt32Rt00/lMr7h56SHQ4SkqM1wR5EfTzar9HhiugwJnT
+ 0e46JZ+ptaBW8V5wQI3Ve2yrqf6unM8nxzqh43nYO5VBccitk8z5PER3m8OTJ000mQL0
+ 5rIT9SSyPbs97MF0+L5dSXj7lhg6N2CUHX3toPUrEAGEtzOmPuLUtQFMl/pLZO7z6GA3
+ osKM8uYtWgJyMSOZcHE/+RAg0hzwtcB/QcZV+/ZPvMMoVHc/mfLP87I2GxqzrQ+ZJMQI
+ bX1vcuj4qbvemFaI3ioxipFZ2CKMMSRggxahQA1bVNQQpIEkSSrXy99DbcVUKikIOQYn
+ iH6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=l5UFNlo87HYCjRuV0v9OXAtBOngBlaZT5HNlM8zZwF0=;
+ b=DnNJmaFkkHc8zoOMFQKGLpmlkTDBIhR/oTck4/xdgJERKaP059A6BddIjZYgGfo5C+
+ 1u+ezgCL5zJGxSpV+WEZQDRkeKCS0WdbQ6/qBPJecjqGtAX8iWtIKDyos0qwI28QiOO+
+ dv4IRFNMh9oyz7QVw4PeQKCp5+rypOcG9iC9ATlVcrTr6DcHEaQgqxhAuGE24xClV3AU
+ uonWdzgRAhI3j6kk6GJuNAQ1jY2AWBNJ0fLNedlSrHiqAkauSqizKgy1RCvcVRLtO2kI
+ US8qH3lxdmrCr297bD2L6otl3U6I+i3zmqflk0iSqtpgV01Tjzvs9ekWqV7iUTLy5tv2
+ HGFw==
+X-Gm-Message-State: AO0yUKXEd19qbU7mnTVJmOZ6q+Y6ApUMFjqokIP4EoPDUbwIYlJWE4Bq
+ bS4Ls8mPGkStMp02voUBonI6V6wBHC759PAfEPLMxA==
+X-Google-Smtp-Source: AK7set+pmm24nyT5TCdKrfiFaAiOyNWy+4h2dKOgJ4Nst/UEJ67umAukRy9hyeZ53Fq0D4+j04oDBIa8Qmtvv4vmT2E=
+X-Received: by 2002:a17:90a:8a0b:b0:22b:e329:7262 with SMTP id
+ w11-20020a17090a8a0b00b0022be3297262mr726866pjn.221.1674578854781; Tue, 24
+ Jan 2023 08:47:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20221223090107.98888-1-agraf@csgraf.de>
+In-Reply-To: <20221223090107.98888-1-agraf@csgraf.de>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 24 Jan 2023 16:47:23 +0000
+Message-ID: <CAFEAcA8Mk_E7e5dYZoC3qzm4DV2Brdqj4Of_VkaxDfe4wSV-ug@mail.gmail.com>
+Subject: Re: [PATCH v3 0/2] hw/arm/virt: Handle HVF in finalize_gic_version()
+To: Alexander Graf <agraf@csgraf.de>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, 
+ Zenghui Yu <yuzenghui@huawei.com>, Eric Auger <eric.auger@redhat.com>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Cornelia Huck <cohuck@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102a.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,32 +85,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 12 Jan 2023, Howard Spoelstra wrote:
-> My 2 cents about naming:
-> It seems less important how the machines are named when their name is not
-> covering their definition. F.i. the powermac3,1 never had adb, could not be
-> equipped with a G3 cpu, did not run at 900Mhz.
+On Fri, 23 Dec 2022 at 09:01, Alexander Graf <agraf@csgraf.de> wrote:
+>
+> The finalize_gic_version() function tries to determine which GIC version
+> the current accelerator / host combination supports. During the initial
+> HVF porting efforts, I didn't realize that I also had to touch this
+> function. Then Zenghui brought up this function as reply to my HVF GICv3
+> enablement patch - and boy it is a mess.
+>
+> This patch set cleans up all of the GIC finalization so that we can
+> easily plug HVF in and also hopefully will have a better time extending
+> it in the future. As second step, it explicitly adds HVF support and
+> fails loudly for any unsupported accelerators.
+>
+> Alex
+>
+> v1 -> v2:
+>
+>   - Leave VIRT_GIC_VERSION defines intact, we need them for MADT generation
+>   - Include TCG header for tcg_enabled()
+>
+> v2 -> v3:
+>
+>   - Fix comment
+>   - Flip kvm-enabled logic for host around
+>
+> Alexander Graf (2):
+>   hw/arm/virt: Consolidate GIC finalize logic
+>   hw/arm/virt: Make accels in GIC finalize logic explicit
 
-True it never had ADB and makes not much sense to run it with a G3 
-(although you probably could, just nobody wanted to; but the other way 
-around, i.e. according to https://en.wikipedia.org/wiki/Power_Mac_G4 the 
-first PCI only G4 PowerMac1,2 had a motherboard from a G3 Mac just with a 
-G4 CPU). But the G4 AGP could have a 900 MHz or faster CPU via a CPU 
-upgrade:
+Since AIUI these patches depend on "hvf: arm: Add support for GICv3",
+would you mind including these when you respin that one (ie make
+a series-of-3-patches)? That way I don't need to keep this series
+on my to-review queue just because it's blocked on another patch :-)
 
-https://lowendmac.com/newsrev/07/0330.html#b
-https://lowendmac.com/newsrev/mnr07/1029.html
-https://lowendmac.com/ppc/power-mac-g4-upgrade-guide.html
-
-These links are from this page:
-
-https://lowendmac.com/1999/power-mac-g4-sawtooth/
-
-also may be of interest:
-
-https://lowendmac.com/1998/beige-power-mac-g3-1998/
-https://lowendmac.com/1997/beige-power-mac-g3-1997/
-
-Regards,
-BALATON Zoltan
+thanks
+-- PMM
 
