@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E85767A0F1
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:10:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85D0F67A0EC
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:09:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKNi8-00066l-Ch; Tue, 24 Jan 2023 13:07:56 -0500
+	id 1pKNhf-0005cT-RT; Tue, 24 Jan 2023 13:07:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNhJ-00056S-U9
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:05 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
+ id 1pKNhL-00057i-90
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:09 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNhG-00074U-9S
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:05 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- q10-20020a1cf30a000000b003db0edfdb74so1309712wmq.1
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:07:01 -0800 (PST)
+ id 1pKNhH-00074t-1D
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:07 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ f19-20020a1c6a13000000b003db0ef4dedcso13413590wmc.4
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:07:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=PgyfneOjw1nm+q621r4vl43tV7pgTZ+t6Ze4357XpBo=;
- b=cO7GfWVPt7HMjWZaTNmlQZ195pIxC1pgRtouZ2f0p8PpNL6JiJQxtXbIz0NeFPrAsD
- 3Y7lQtJjpRto/h3wUdtZ62HTRcw8xMU+4kg82nJyl5KsV6VmVmEXHlGdn16FvA3dHHn5
- PZgA76VhBbSrzK+YEXqRnQW0JHZ/DYwuStukFwQYbS/QdzAjIfqM9iXwjPFPxmH441jN
- ObEd2SOdshscxGjUcvOhn5rQeqSMG0q+Wz8jdn/RckI7zYQePJPeGG8Trx8eRP3jSAY7
- DjzFfDlNtI/7uXwsZTkppZDTOPm77foZ7qG38MT/wxMhX2MaQrqggdHYNvK2b85iVswg
- 1J1w==
+ bh=KCv4GZIK6k8jIwysULPrpggmGg7wtqEW43qJ6E7mFEA=;
+ b=MnYY6H5edYg10qXbLwVMm/0qs99bf7I8cEPBz9gDAYjmZV2F+RpQZsinb92NxXZ+rB
+ B3kWOtfsSiM/wp73MWRuonJse0PMOnSli0SqRqaHOjXzH8HdjStUJEQtFMWzEMpJLHp8
+ DNyP/lAv4iW+AJr7PLAnkWgIbM+/OT6wlE9Ps6s8eG7G4hXv03lSkCyDj0ywXJXtbfqS
+ CDhCtcbAk5wxE8OMLNNh9WJJNrabyy9MClNkWm2lxvPfzommzfNuUnC3BhRZkLQ/8xon
+ AcfoEJ3um4aCIrUj2iKIMOhwSILqkhLEfc8I+4ZJlooqEDNQdm2H9UsYrWV7gIVHw8BP
+ E1eA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PgyfneOjw1nm+q621r4vl43tV7pgTZ+t6Ze4357XpBo=;
- b=p6PfQNzCud/YO5myC0AFY2LwYXj2gYY6RtlO8EkUHWZ7WxxGJlS1Zs9O+oUnMKB6pt
- r0nRViuS1IJpWHZEZ92KAggONa3jcSizDluECWIBNEmeHm6qk4qTNyJ8MdcKmoSv7dHB
- 85OPBTnTvl1/e3tAnrpzQS0anHwl9eaQu3qAm/TltbqucKHdGN13CSnp/m7zcZDZYgN3
- h1g/9Af3qfoL3MnKZhnK1ilApltVzuVdXH3M7hrZiCLcDGYhOHoWYb7CTBDH1lj6y0CN
- jY/BdL2ecbeMUCUyKPNlv9XJ1zHhQ3+kN43GCbGNXDQZMcm/AWPbeEB0gO5XuSEXYpWZ
- 4t9A==
-X-Gm-Message-State: AFqh2kpMslYuCjy6a5lVPa3gFeolAkOV5dUPuquZvB8sol2oOMpaTE0w
- BBFr6dlBj8m4dSFwgIVL1/rj/g==
-X-Google-Smtp-Source: AMrXdXtqjGELv+z6ikav/EHGcR9mbC4vbUpzhirJUaOyrIFklJh02HsY7P/IKlkDSVysRlYs9LhCzQ==
-X-Received: by 2002:a1c:7417:0:b0:3da:fcd:7dfe with SMTP id
- p23-20020a1c7417000000b003da0fcd7dfemr36566186wmc.10.1674583619909; 
- Tue, 24 Jan 2023 10:06:59 -0800 (PST)
+ bh=KCv4GZIK6k8jIwysULPrpggmGg7wtqEW43qJ6E7mFEA=;
+ b=BaOBu0qkYgOpgzcLF4wVo+hGOIT0tsR2D8U2pw6dAoEQ96uX67d6Va1hvREciYbAgk
+ zsO9FpvF2++SXI/hZCRgssf72QkVopmQQ60+Dhi8IzKGkQTcbIAhbfhW4cngOqpbr/eZ
+ FJ0stYL4RS/pDUGoL1LK4yBYBWPugwfy6xNK2UzC2srxzJIvwWrF+eFeQRQZF784PAfv
+ 5odpp3PZKtZAiupf0zyrukv5MJU5jXh84iqCN2aVjlYGAXPk2m4Z9E14Ef65pThC+nsm
+ 9CWutihFxKEi64YdGPKBu7603czjAjlq5Hi0u5z/HvxmXY9KL1YzDD3bG3unBOMxc4PN
+ F2LA==
+X-Gm-Message-State: AFqh2kpQ7+6a/HduCEygFwU/o1RH4qBCq6oyQKIRLGY3HhNEzHVBYq9D
+ 5qPCeyMP9ZdrO1S3VHxOgKc6Iw==
+X-Google-Smtp-Source: AMrXdXsxWLDYfkWn2Ll/7wQLyh6AzK4i41hxTrtEzuszVd6PWegqifoqiWKg7ljOJyg0AhxX0yqn0Q==
+X-Received: by 2002:a05:600c:3489:b0:3db:693:3fc9 with SMTP id
+ a9-20020a05600c348900b003db06933fc9mr27692535wmq.27.1674583620890; 
+ Tue, 24 Jan 2023 10:07:00 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- hu30-20020a05600ca29e00b003db0659c454sm3049876wmb.32.2023.01.24.10.06.58
+ h13-20020a05600c2cad00b003cfa622a18asm15401351wmc.3.2023.01.24.10.06.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 10:06:58 -0800 (PST)
+ Tue, 24 Jan 2023 10:06:59 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id A50D61FFD6;
+ by zen.linaroharston (Postfix) with ESMTP id BDE071FFD9;
  Tue, 24 Jan 2023 18:01:31 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -80,20 +80,17 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Yanan Wang <wangyanan55@huawei.com>, Cleber Rosa <crosa@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>,
- Emilio Cota <cota@braap.org>
-Subject: [PATCH v2 34/35] cpu-exec: assert that plugin_mem_cbs is NULL after
- execution
-Date: Tue, 24 Jan 2023 18:01:26 +0000
-Message-Id: <20230124180127.1881110-35-alex.bennee@linaro.org>
+ Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v2 35/35] plugins: Iterate on cb_lists in qemu_plugin_user_exit
+Date: Tue, 24 Jan 2023 18:01:27 +0000
+Message-Id: <20230124180127.1881110-36-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124180127.1881110-1-alex.bennee@linaro.org>
 References: <20230124180127.1881110-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -116,61 +113,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Emilio Cota <cota@braap.org>
+From: Richard Henderson <richard.henderson@linaro.org>
 
-Fixes: #1381
+Rather than iterate over all plugins for all events,
+iterate over plugins that have registered a given event.
 
-Signed-off-by: Emilio Cota <cota@braap.org>
-Message-Id: <20230108165107.62488-1-cota@braap.org>
-[AJB: manually applied follow-up fix]
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230117035701.168514-4-richard.henderson@linaro.org>
 ---
- include/qemu/plugin.h | 4 ++++
- accel/tcg/cpu-exec.c  | 2 ++
- 2 files changed, 6 insertions(+)
+ plugins/core.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/include/qemu/plugin.h b/include/qemu/plugin.h
-index e0ebedef84..fb338ba576 100644
---- a/include/qemu/plugin.h
-+++ b/include/qemu/plugin.h
-@@ -59,6 +59,8 @@ get_plugin_meminfo_rw(qemu_plugin_meminfo_t i)
- #ifdef CONFIG_PLUGIN
- extern QemuOptsList qemu_plugin_opts;
- 
-+#define QEMU_PLUGIN_ASSERT(cond) g_assert(cond)
+diff --git a/plugins/core.c b/plugins/core.c
+index 728bacef95..e04ffa1ba4 100644
+--- a/plugins/core.c
++++ b/plugins/core.c
+@@ -514,9 +514,10 @@ void qemu_plugin_user_exit(void)
+     /* un-register all callbacks except the final AT_EXIT one */
+     for (ev = 0; ev < QEMU_PLUGIN_EV_MAX; ev++) {
+         if (ev != QEMU_PLUGIN_EV_ATEXIT) {
+-            struct qemu_plugin_ctx *ctx;
+-            QTAILQ_FOREACH(ctx, &plugin.ctxs, entry) {
+-                plugin_unregister_cb__locked(ctx, ev);
++            struct qemu_plugin_cb *cb, *next;
 +
- static inline void qemu_plugin_add_opts(void)
- {
-     qemu_add_opts(&qemu_plugin_opts);
-@@ -250,6 +252,8 @@ void qemu_plugin_user_postfork(bool is_child);
- 
- #else /* !CONFIG_PLUGIN */
- 
-+#define QEMU_PLUGIN_ASSERT(cond)
-+
- static inline void qemu_plugin_add_opts(void)
- { }
- 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 25ec73ef9a..9c857eeb07 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -504,6 +504,7 @@ static void cpu_exec_exit(CPUState *cpu)
-     if (cc->tcg_ops->cpu_exec_exit) {
-         cc->tcg_ops->cpu_exec_exit(cpu);
++            QLIST_FOREACH_SAFE_RCU(cb, &plugin.cb_lists[ev], entry, next) {
++                plugin_unregister_cb__locked(cb->ctx, ev);
+             }
+         }
      }
-+    QEMU_PLUGIN_ASSERT(cpu->plugin_mem_cbs == NULL);
- }
- 
- void cpu_exec_step_atomic(CPUState *cpu)
-@@ -980,6 +981,7 @@ cpu_exec_loop(CPUState *cpu, SyncClocks *sc)
- 
-             cpu_loop_exec_tb(cpu, tb, pc, &last_tb, &tb_exit);
- 
-+            QEMU_PLUGIN_ASSERT(cpu->plugin_mem_cbs == NULL);
-             /* Try to align the host and virtual clocks
-                if the guest is in advance */
-             align_clocks(sc, cpu);
 -- 
 2.34.1
 
