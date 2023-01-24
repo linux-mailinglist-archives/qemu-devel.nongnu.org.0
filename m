@@ -2,89 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 071F36794C7
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 11:08:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B71836794CB
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 11:09:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKGCu-0006EK-Px; Tue, 24 Jan 2023 05:07:12 -0500
+	id 1pKGEJ-0006cy-PP; Tue, 24 Jan 2023 05:08:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pKGCq-0006Cn-B1
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:07:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pKGCc-0008BZ-Lr
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:06:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674554813;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=CJra4aSxaCadB2LeTx1Hkub9h0gKJ8k6pRFeR4b21ss=;
- b=Z3HPEVfaCMkQG+5B9h5vIDu7/m1mMhGCrvVuj3NKASBZVVWXs2zieOm0dfWfGGsBEf/iyr
- cF0ywMeuBoXTpv2RdN8wIZ8vvro1Iib/GUSEmSBRjmWtN7uwuJAHeYZ+z4S9rL8Zb7kQam
- erEK5+G9bZTtFE2s94PCFlRnH4D37jA=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-508-R9M8Z_FMOWW8os-w6AoeIw-1; Tue, 24 Jan 2023 05:06:52 -0500
-X-MC-Unique: R9M8Z_FMOWW8os-w6AoeIw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z22-20020a7bc7d6000000b003daf671f7b2so3728562wmk.9
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 02:06:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
+ id 1pKGDn-0006Xc-QV
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:08:10 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
+ id 1pKGDl-0008HS-Pu
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 05:08:07 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id j17so11039403wms.0
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 02:08:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=/SF36r8i+Z8W4TYL8FvIHMioH37dqgLJBRI+fSQpfWc=;
+ b=QCRag0NoooLK+heS8bG2D0ldrob3bcfnlP0fc17T3y1t1KUwn6sz09+ewLZydw7X2Y
+ ad7DnUy8zBTWt9n6hGtPJ4Gj/NRR7vXgnxGjtKQZnvUFS3Cd8jkRo0ilNO/+ILqL9fpz
+ OOXMISGjy3/6BcKptKmWpHP/vK4yUIIDCxkVwvKfF+J3NKlTQzf5/GVtHGmZCyVYABRb
+ Bhl20Q/gXOXqj+xa4PiR1267ai0/3PaY+2SkCtBREswtNuexWAsgo0IVhVGYR36rNzAP
+ D6hwLY6s/ed1czDep4hT3terYuPLC0QQ+c8S4OcE+t/Y7q1Bed74EEimYT6JbRThIofi
+ 7wTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=CJra4aSxaCadB2LeTx1Hkub9h0gKJ8k6pRFeR4b21ss=;
- b=s28gZ0zwJHR1gjHGJZZpCXYxcKe+ag/jC3yH246W3FFJhcFYD1lbZUB1i5I+M6AmnC
- uSf0WfMnWLFwg4eXinB2BPYValqlcIsiXWu+OKxWUIMWIGY6kuXWliDcVB9Hgtp1Grk0
- 7FIoi1FDZUvuXRFc9MuBhe0dqBGxX4eeS7UAwex2jVby46j6uiBtBGoQn5Dd75xdi5l5
- ahj1RK7bUtpnrU5dA9YVf4qiYyRUO3ACstssOu8GoNiusMYF5N7+DGm0MqR3aryvZHaB
- EV9sCFWhYQJF+oYJ/P/lP9Y6F7Nei1CiONxlysUz/6c0wuMFaY+Q5QDSaihq6FcN9cwf
- UiHw==
-X-Gm-Message-State: AFqh2krfpeQoBTTEat3BX2U/IFe3gZFggb6Yz6KAAB8IK/tfMc4kGlIh
- sgf9OPpSrQt1uI7QLIgRGEqyavVSl5D1jybymEkXTpfYPX5OsAqwJBgCUp/Ka5Hhj2GYvVKnqeU
- TBSCvyfhoFUf1BcM=
-X-Received: by 2002:a7b:c8cc:0:b0:3d1:ee6c:f897 with SMTP id
- f12-20020a7bc8cc000000b003d1ee6cf897mr25988890wml.3.1674554811163; 
- Tue, 24 Jan 2023 02:06:51 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtyeQKbH5tZMHcmYjeToH0x2REKBBiR4lq1idedw6ydB3GeTIH3T6a/YF8rH5G0FRohpeX6Ww==
-X-Received: by 2002:a7b:c8cc:0:b0:3d1:ee6c:f897 with SMTP id
- f12-20020a7bc8cc000000b003d1ee6cf897mr25988868wml.3.1674554810905; 
- Tue, 24 Jan 2023 02:06:50 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- m31-20020a05600c3b1f00b003dafadd2f77sm14326576wms.1.2023.01.24.02.06.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 02:06:50 -0800 (PST)
-Date: Tue, 24 Jan 2023 10:06:48 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- James Houghton <jthoughton@google.com>, Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH RFC 10/21] ramblock: Add ramblock_file_map()
-Message-ID: <Y8+tuN1t9EWMIuzk@work-vm>
-References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-11-peterx@redhat.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=/SF36r8i+Z8W4TYL8FvIHMioH37dqgLJBRI+fSQpfWc=;
+ b=a2TVDPHjP5PE/TWN+++qEZTwYhIfbIUJ2tpkSGEueam8l2YXBlw02wCokOLLV/I74D
+ h/Uc8jvh6SHy56SvORfysNGTiu5YnEIOm+7mS9cdS0rWXVSDHuOC9OZdOCbzjsp42wvF
+ jXRSMHIo3xKoIzt6mNPxhm5CYA1WbZJgxtjGa2s+/oUm/gM79LvzCkV7JFqR6azgbc6j
+ lWHCFufRVlETyT+n7NUi3OcsKPykKjvNR9woLABbmxfLPtpcPy3zPX93MWcyo2V6+ohz
+ iexX6+5WG81aZyd0flu8r49mpo4FGh7dXg+S0IyJ/HLMLH5B/08sMemnaeHfbPmygYcj
+ fF7w==
+X-Gm-Message-State: AFqh2kp8uICQROp46QDLvgIYRqC8jfgM2LFi48ZrdarLJ/Xl/yQoL1Ch
+ pXj+FYo+cjLpGnu9I1v0a0E6JVqpvgMMwmfZhGH9HA==
+X-Google-Smtp-Source: AMrXdXukbsxDm0D742UTfUIfaGrcBxOjXzH/zL+8iaHBAQQzA5pF1sw9AxggkFl7XJyiAERl4MqjjXNU/KqsnuAQTCc=
+X-Received: by 2002:a05:600c:35c6:b0:3d1:e710:9905 with SMTP id
+ r6-20020a05600c35c600b003d1e7109905mr1236227wmq.81.1674554884271; Tue, 24 Jan
+ 2023 02:08:04 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230117220914.2062125-11-peterx@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20230123090324.732681-1-alexghiti@rivosinc.com>
+ <20230123090324.732681-6-alexghiti@rivosinc.com>
+ <20230123105112.zidabgiswkpnzo5r@orel>
+In-Reply-To: <20230123105112.zidabgiswkpnzo5r@orel>
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+Date: Tue, 24 Jan 2023 11:07:53 +0100
+Message-ID: <CAHVXubjvwF+VOqKSXOF8WZsjY+NzEEXVKyAxh+L02Shu0TKASA@mail.gmail.com>
+Subject: Re: [PATCH v6 5/5] riscv: Introduce satp mode hw capabilities
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Frank Chang <frank.chang@sifive.com>,
+ qemu-riscv@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alexghiti@rivosinc.com; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -101,107 +87,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Peter Xu (peterx@redhat.com) wrote:
-> Add a helper to do mmap() for a ramblock based on the cached informations.
-> 
-> A trivial thing to mention is we need to move ramblock->fd setup to be
-> earlier, before the ramblock_file_map() call, because it'll need to
-> reference the fd being mapped.  However that should not be a problem at
-> all, majorly because the fd won't be freed if successful, and if it failed
-> the fd will be freeed (or to be explicit, close()ed) by the caller.
-> 
-> Export it - prepare to be used outside this file.
-> 
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  include/exec/ram_addr.h |  1 +
->  softmmu/physmem.c       | 25 +++++++++++++++++--------
->  2 files changed, 18 insertions(+), 8 deletions(-)
-> 
-> diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-> index 0bf9cfc659..56db25009a 100644
-> --- a/include/exec/ram_addr.h
-> +++ b/include/exec/ram_addr.h
-> @@ -98,6 +98,7 @@ bool ramblock_is_pmem(RAMBlock *rb);
->  
->  long qemu_minrampagesize(void);
->  long qemu_maxrampagesize(void);
-> +void *ramblock_file_map(RAMBlock *block);
->  
->  /**
->   * qemu_ram_alloc_from_file,
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index 6096eac286..cdda7eaea5 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -1532,17 +1532,31 @@ static int file_ram_open(const char *path,
->      return fd;
->  }
->  
-> +/* Do the mmap() for a ramblock based on information already setup */
-> +void *ramblock_file_map(RAMBlock *block)
-> +{
-> +    uint32_t qemu_map_flags;
-> +
-> +    qemu_map_flags = (block->flags & RAM_READONLY) ? QEMU_MAP_READONLY : 0;
-> +    qemu_map_flags |= (block->flags & RAM_SHARED) ? QEMU_MAP_SHARED : 0;
-> +    qemu_map_flags |= (block->flags & RAM_PMEM) ? QEMU_MAP_SYNC : 0;
-> +    qemu_map_flags |= (block->flags & RAM_NORESERVE) ? QEMU_MAP_NORESERVE : 0;
-> +
-> +    return qemu_ram_mmap(block->fd, block->mmap_length, block->mr->align,
-> +                         qemu_map_flags, block->file_offset);
-> +}
-> +
->  static void *file_ram_alloc(RAMBlock *block,
->                              int fd,
->                              bool truncate,
->                              off_t offset,
->                              Error **errp)
+On Mon, Jan 23, 2023 at 11:51 AM Andrew Jones <ajones@ventanamicro.com> wrote:
+>
+> On Mon, Jan 23, 2023 at 10:03:24AM +0100, Alexandre Ghiti wrote:
+> > Currently, the max satp mode is set with the only constraint that it must be
+> > implemented in qemu, i.e. set in valid_vm_1_10_[32|64].
+> >
+> > But we actually need to add another level of constraint: what the hw is
+> > actually capable of, because currently, a linux booting on a sifive-u54
+> > boots in sv57 mode which is incompatible with the cpu's sv39 max
+> > capability.
+> >
+> > So add a new bitmap to RISCVSATPMap which contains this capability and
+> > initialize it in every XXX_cpu_init.
+> >
+> > Finally, we have the following chain of constraints:
+> >
+> > Qemu capability > HW capability > User choice > Software capability
+>
+>                                                   ^ What software is this?
+>                          I'd think the user's choice would always be last.
+
+Hmm maybe that's not clear, but I meant that the last constraint was
+what the emulated software is capable of handling.
+
+>
+> >
+> > Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> > ---
+> >  target/riscv/cpu.c | 78 +++++++++++++++++++++++++++++++---------------
+> >  target/riscv/cpu.h |  8 +++--
+> >  2 files changed, 59 insertions(+), 27 deletions(-)
+> >
+> > diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> > index e409e6ab64..19a37fee2b 100644
+> > --- a/target/riscv/cpu.c
+> > +++ b/target/riscv/cpu.c
+> > @@ -292,24 +292,39 @@ const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit)
+> >      g_assert_not_reached();
+> >  }
+> >
+> > -/* Sets the satp mode to the max supported */
+> > -static void set_satp_mode_default(RISCVCPU *cpu, bool is_32_bit)
+> > +static void set_satp_mode_max_supported(RISCVCPU *cpu,
+> > +                                        const char *satp_mode_str,
+> > +                                        bool is_32_bit)
+> >  {
+> > -    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
+> > -        cpu->cfg.satp_mode.map |=
+> > -                        (1 << satp_mode_from_str(is_32_bit ? "sv32" : "sv57"));
+> > -    } else {
+> > -        cpu->cfg.satp_mode.map |= (1 << satp_mode_from_str("mbare"));
+> > +    uint8_t satp_mode = satp_mode_from_str(satp_mode_str);
+> > +    const bool *valid_vm = is_32_bit ? valid_vm_1_10_32 : valid_vm_1_10_64;
+> > +
+> > +    for (int i = 0; i <= satp_mode; ++i) {
+> > +        if (valid_vm[i]) {
+> > +            cpu->cfg.satp_mode.supported |= (1 << i);
+>
+> I don't think we need a new 'supported' bitmap, I think each board that
+> needs to further constrain va-bits from what QEMU supports should just set
+> valid_vm_1_10_32/64. I.e. drop const from the arrays and add an init
+> function something like
+>
+>  #define QEMU_SATP_MODE_MAX VM_1_10_SV64
+>
+>  void riscv_cpu_set_satp_mode_max(RISCVCPU *cpu, uint8_t satp_mode_max)
 >  {
-> -    uint32_t qemu_map_flags;
->      void *area;
->  
->      /* Remember the offset just in case we'll need to map the range again */
-
-Note that this comment is now wrong; you need to always set that for the
-map call.
-
-Other than that,
-
-
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-
->      block->file_offset = offset;
-> +    block->fd = fd;
->      block->page_size = qemu_fd_getpagesize(fd);
->      if (block->mr->align % block->page_size) {
->          error_setg(errp, "alignment 0x%" PRIx64
-> @@ -1588,19 +1602,14 @@ static void *file_ram_alloc(RAMBlock *block,
->          perror("ftruncate");
+>      bool is_32_bit = cpu->env.misa_mxl == MXL_RV32;
+>      bool *valid_vm = is_32_bit ? valid_vm_1_10_32 : valid_vm_1_10_64;
+>
+>      g_assert(satp_mode_max <= QEMU_SATP_MODE_MAX);
+>      g_assert(!is_32_bit || satp_mode_max < 2);
+>
+>      memset(valid_vm, 0, sizeof(*valid_vm));
+>
+>      for (int i = 0; i <= satp_mode_max; i++) {
+>          valid_vm[i] = true;
 >      }
->  
-> -    qemu_map_flags = (block->flags & RAM_READONLY) ? QEMU_MAP_READONLY : 0;
-> -    qemu_map_flags |= (block->flags & RAM_SHARED) ? QEMU_MAP_SHARED : 0;
-> -    qemu_map_flags |= (block->flags & RAM_PMEM) ? QEMU_MAP_SYNC : 0;
-> -    qemu_map_flags |= (block->flags & RAM_NORESERVE) ? QEMU_MAP_NORESERVE : 0;
-> -    area = qemu_ram_mmap(fd, block->mmap_length, block->mr->align,
-> -                         qemu_map_flags, offset);
-> +    area = ramblock_file_map(block);
-> +
->      if (area == MAP_FAILED) {
->          error_setg_errno(errp, errno,
->                           "unable to map backing store for guest RAM");
->          return NULL;
->      }
->  
-> -    block->fd = fd;
->      return area;
 >  }
->  #endif
-> -- 
-> 2.37.3
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
-
+>
+> The valid_vm[] checks already in finalize should then manage the
+> validation needed to constrain boards. Only boards that care about
+> this need to call this function, otherwise they'll get the default.
+>
+> Also, this patch should come before the patch that changes the default
+> for all boards to sv57 in order to avoid breaking bisection.
+>
+> Thanks,
+> drew
 
