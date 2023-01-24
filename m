@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A04E467A0D7
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:05:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E534A67A0EF
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:10:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKNcW-0001gf-Hd; Tue, 24 Jan 2023 13:02:08 -0500
+	id 1pKNhR-00055j-Od; Tue, 24 Jan 2023 13:07:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNcB-0001WV-1i
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:01:47 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ id 1pKNhH-0004yr-2h
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:03 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNc1-00065v-8o
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:01:46 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id bk16so14690936wrb.11
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:01:35 -0800 (PST)
+ id 1pKNhD-00073s-KH
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:02 -0500
+Received: by mail-wr1-x431.google.com with SMTP id q5so10058960wrv.0
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:06:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=abhryp1MJV0DshEz140LPVlJItKpk8kE7C1e6LVlgyk=;
- b=QvJJcd7F1SdC82DC0XVomKIfMMfwJsuMqxPQXOS+50NFPpxkLjN+XlVP7dtTUKd31Y
- /cNQoLetDE8wQDgyGVQmlluoJ4jTxUkbmfzU6wLKqDUYIK0/EhkOt46KJMCJ4hOj+fYu
- KLgFTw9wg/p96c9vR52mV1VcC97L2l5vY/0k7e1Y9a72bOr8+u1SZ+rnkmnb3LH80whk
- 1BLwTfsryG8ZqUPk3I6qxUv4Cu8ThcArphld3IdV/t4g5+gxpi75cBLvU9CHOAGn4ze+
- NWwhYhqf/ovEmen4M81w9pKKePjWLFjafigLgsSgFinMEl1QLJLmlTkoQgM9NRZrBfuh
- N15w==
+ bh=AnZDkxLzgFFSav85Au8pAya0nVRLiogiOeok78nk0b8=;
+ b=KYNP5p1rwdClS8daP3mgitLOL+o+UPsFXVQZJ8M8X14dGXT1gXzT+y7El//QysRwjM
+ rWj8GwlUXfmItAQI+qhfGoJCwp+UVJeRptprTwSXmm3V1UwzoHaGzXl3YNmFO4dFucEZ
+ fwOVB3APHxe6ID8gdgbQUfrEvaZGWSEOVoY3qVc2tnN5WkkGgNUh8/s1DB0nJkq7ffX4
+ 6TXuU9NEp/14oQQuFC/Ncce3FMFGLwlvycq83qcw11nGitr6inlX3TMuaMGB7M52NDa5
+ 2zj/nYh0hf2YGuEASU/reBwQBcl+qEIXjQGMCbTI8/QTcbpc1s9qjO0XwE3ysHbTWHxw
+ z5Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=abhryp1MJV0DshEz140LPVlJItKpk8kE7C1e6LVlgyk=;
- b=tz4vBKV+piIF+2WVNOGPGMvvckOgj6k+6h4qC2S0+95qX4lPHQA6X+Ok7j6Uxlk0hG
- hGE9ZmQwigj7dVm/kAAL+D8wAxgPN6w2LH90bx8iOWyH1iL70WujZejmWm8iVuwx2cMN
- 2ic7OhwonDv62brAurVLzEhgQd99d0GWhRydz6XtciTCqkKCkI+6hJguEfS2gK3vyJWA
- 0lqWNWKFZe72Zjo/qpngqezBDIgPSfPh8DYWGjnFFJ/Y+iAfDKRvGa3ly1Uo2LhLqVo4
- FWGhqCc+kTSyaVlLJX2eZa3jULD4iZlMeDcAUIWSpcHt2gWoL8S1QaoIyb/+6iCiBlNz
- BS/A==
-X-Gm-Message-State: AFqh2koSfJsg6cGsc8CJb+xoRrPNRou8LOZ/r55ka6kvH6LAI4Sd1P2d
- S+GNP80nn7P8k7vKRazv4S9fkw==
-X-Google-Smtp-Source: AMrXdXu2K2hOT4IzpzVcCcb6z/FsFWFWPnk+TawriAMPDKfbnG2/LuEgPNki6OqcoHmdYbig9AnYoA==
-X-Received: by 2002:adf:f0c8:0:b0:2bf:9656:d1a8 with SMTP id
- x8-20020adff0c8000000b002bf9656d1a8mr13693619wro.32.1674583294435; 
- Tue, 24 Jan 2023 10:01:34 -0800 (PST)
+ bh=AnZDkxLzgFFSav85Au8pAya0nVRLiogiOeok78nk0b8=;
+ b=gmow7GEHLs1DeeQ1TlqT4U0MO57bfiz5YJiqzwjzWAB8fmAQrKtb3XQscNkuPwrmsS
+ k2hVfK92phe/1ZuUxPxxLOdV+9Dn4H0N3effKdpWxVT563D4ugCHtBjL4IvYWO16HKj9
+ mIY16aqCXNtMHtbOxjPZfVcGwEWb710ipxxx1R8ZpfuIx4wNt6gq3ToUJ9QD7WkuyqgL
+ yGl5hxswT6WizWXJgYVMWCXUeSn9Gl0vNjPNlwLmZEnDod7YogtUlaAh0GoHPJC/Ckr4
+ Gk/ppkBcGiwZ/+zTeLgtS7sTvYfMr/GdQO9WxibWwoCbFLRhvM8yGMnU5nCz1sUesXpX
+ NqNQ==
+X-Gm-Message-State: AFqh2kqgxsJZJiAMzAde1AwohjejVNJo8Kc3yj21QIfXFiTrSuwfy30t
+ z0F8zPkjfX5SIYQebW53jo6TlQ==
+X-Google-Smtp-Source: AMrXdXuLGK6cz3vjaYjvkRoWRKV6NFqOVvNaMPq31LYQxVTXNd1KVP8xmbXe+EXfS42f6xUouxxrEg==
+X-Received: by 2002:a5d:5450:0:b0:2be:4c99:1751 with SMTP id
+ w16-20020a5d5450000000b002be4c991751mr16394967wrv.69.1674583618150; 
+ Tue, 24 Jan 2023 10:06:58 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- n6-20020a5d4c46000000b002bbb2d43f65sm2403806wrt.14.2023.01.24.10.01.30
+ c4-20020adffb44000000b002bdc19f8e8asm2422687wrs.79.2023.01.24.10.06.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 10:01:33 -0800 (PST)
+ Tue, 24 Jan 2023 10:06:56 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 445E81FFBB;
+ by zen.linaroharston (Postfix) with ESMTP id 5E3691FFC3;
  Tue, 24 Jan 2023 18:01:29 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -79,18 +79,19 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Yanan Wang <wangyanan55@huawei.com>, Cleber Rosa <crosa@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 12/35] lcitool: drop texinfo from QEMU project/dependencies
-Date: Tue, 24 Jan 2023 18:01:04 +0000
-Message-Id: <20230124180127.1881110-13-alex.bennee@linaro.org>
+ Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>,
+ Bastian-Koppelmann <kbastian@mail.uni-paderborn.de>
+Subject: [PATCH v2 13/35] tests/docker: Install flex in debian-tricore-cross
+Date: Tue, 24 Jan 2023 18:01:05 +0000
+Message-Id: <20230124180127.1881110-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124180127.1881110-1-alex.bennee@linaro.org>
 References: <20230124180127.1881110-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -113,304 +114,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20230110132700.833690-9-marcandre.lureau@redhat.com>
+When flex is not available, binutils sources default to the
+'missing' script, but the current script available is not in
+the format expected by the 'configure' script:
+
+  $ ./configure
+  ...
+  /usr/src/binutils/missing: Unknown `--run' option
+  Try `/usr/src/binutils/missing --help' for more information
+  configure: WARNING: `missing' script is too old or missing
+  ...
+  checking for bison... bison -y
+  checking for flex... no
+  checking for lex... no
+  checking for flex... /usr/src/binutils/missing flex
+
+  $ make
+  ...
+  updating ldgram.h
+  gcc -DHAVE_CONFIG_H -I. -I. -I. -D_GNU_SOURCE -I. -I. -I../bfd -I./../bfd -I./../include -I./../intl -I../intl  -w -DLOCALEDIR="\"/usr/local/share/locale\""   -W -Wall -Wstrict-prototypes -Wmissing-prototypes -w -c `test -f 'ldgram.c' || echo './'`ldgram.c
+  `test -f ldlex.l || echo './'`ldlex.l
+  /bin/sh: 1: ldlex.l: not found
+  make[3]: *** [Makefile:662: ldlex.c] Error 127
+  make[3]: Leaving directory '/usr/src/binutils/ld'
+  make[2]: *** [Makefile:799: all-recursive] Error 1
+
+By pass the 'missing' script use by directly installing 'flex'
+in the container.
+
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230112155643.7408-1-philmd@linaro.org>
+Reviewed-by: Bastian-Koppelmann <kbastian@mail.uni-paderborn.de>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- .gitlab-ci.d/cirrus/freebsd-12.vars                   | 2 +-
- .gitlab-ci.d/cirrus/freebsd-13.vars                   | 2 +-
- .gitlab-ci.d/cirrus/macos-12.vars                     | 2 +-
- tests/docker/dockerfiles/alpine.docker                | 1 -
- tests/docker/dockerfiles/centos8.docker               | 1 -
- tests/docker/dockerfiles/debian-amd64-cross.docker    | 3 +--
- tests/docker/dockerfiles/debian-amd64.docker          | 1 -
- tests/docker/dockerfiles/debian-arm64-cross.docker    | 3 +--
- tests/docker/dockerfiles/debian-armel-cross.docker    | 3 +--
- tests/docker/dockerfiles/debian-armhf-cross.docker    | 3 +--
- tests/docker/dockerfiles/debian-mips64el-cross.docker | 3 +--
- tests/docker/dockerfiles/debian-mipsel-cross.docker   | 3 +--
- tests/docker/dockerfiles/debian-ppc64el-cross.docker  | 3 +--
- tests/docker/dockerfiles/debian-s390x-cross.docker    | 3 +--
- tests/docker/dockerfiles/debian-toolchain.docker      | 1 -
- tests/docker/dockerfiles/fedora-win32-cross.docker    | 1 -
- tests/docker/dockerfiles/fedora-win64-cross.docker    | 1 -
- tests/docker/dockerfiles/fedora.docker                | 1 -
- tests/docker/dockerfiles/opensuse-leap.docker         | 1 -
- tests/docker/dockerfiles/ubuntu2004.docker            | 1 -
- tests/lcitool/projects/qemu.yml                       | 1 -
- 21 files changed, 11 insertions(+), 29 deletions(-)
+ tests/docker/dockerfiles/debian-tricore-cross.docker | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/.gitlab-ci.d/cirrus/freebsd-12.vars b/.gitlab-ci.d/cirrus/freebsd-12.vars
-index f32f01a954..8934e5d57f 100644
---- a/.gitlab-ci.d/cirrus/freebsd-12.vars
-+++ b/.gitlab-ci.d/cirrus/freebsd-12.vars
-@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
- NINJA='/usr/local/bin/ninja'
- PACKAGING_COMMAND='pkg'
- PIP3='/usr/local/bin/pip-3.8'
--PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
-+PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol tesseract usbredir virglrenderer vte3 zstd'
- PYPI_PKGS=''
- PYTHON='/usr/local/bin/python3'
-diff --git a/.gitlab-ci.d/cirrus/freebsd-13.vars b/.gitlab-ci.d/cirrus/freebsd-13.vars
-index 813c051616..65ce456c48 100644
---- a/.gitlab-ci.d/cirrus/freebsd-13.vars
-+++ b/.gitlab-ci.d/cirrus/freebsd-13.vars
-@@ -11,6 +11,6 @@ MAKE='/usr/local/bin/gmake'
- NINJA='/usr/local/bin/ninja'
- PACKAGING_COMMAND='pkg'
- PIP3='/usr/local/bin/pip-3.8'
--PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol tesseract texinfo usbredir virglrenderer vte3 zstd'
-+PKGS='alsa-lib bash bison bzip2 ca_root_nss capstone4 ccache cdrkit-genisoimage cmocka ctags curl cyrus-sasl dbus diffutils dtc flex fusefs-libs3 gettext git glib gmake gnutls gsed gtk3 json-c libepoxy libffi libgcrypt libjpeg-turbo libnfs libslirp libspice-server libssh libtasn1 llvm lzo2 meson ncurses nettle ninja opencv pixman pkgconf png py39-numpy py39-pillow py39-pip py39-sphinx py39-sphinx_rtd_theme py39-yaml python3 rpm2cpio sdl2 sdl2_image snappy sndio spice-protocol tesseract usbredir virglrenderer vte3 zstd'
- PYPI_PKGS=''
- PYTHON='/usr/local/bin/python3'
-diff --git a/.gitlab-ci.d/cirrus/macos-12.vars b/.gitlab-ci.d/cirrus/macos-12.vars
-index 33bb4e1040..65b78fa08f 100644
---- a/.gitlab-ci.d/cirrus/macos-12.vars
-+++ b/.gitlab-ci.d/cirrus/macos-12.vars
-@@ -11,6 +11,6 @@ MAKE='/opt/homebrew/bin/gmake'
- NINJA='/opt/homebrew/bin/ninja'
- PACKAGING_COMMAND='brew'
- PIP3='/opt/homebrew/bin/pip3'
--PKGS='bash bc bison bzip2 capstone ccache cmocka ctags curl dbus diffutils dtc flex gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo json-c libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract texinfo usbredir vde vte3 zlib zstd'
-+PKGS='bash bc bison bzip2 capstone ccache cmocka ctags curl dbus diffutils dtc flex gcovr gettext git glib gnu-sed gnutls gtk+3 jemalloc jpeg-turbo json-c libepoxy libffi libgcrypt libiscsi libnfs libpng libslirp libssh libtasn1 libusb llvm lzo make meson ncurses nettle ninja pixman pkg-config python3 rpm2cpio sdl2 sdl2_image snappy sparse spice-protocol tesseract usbredir vde vte3 zlib zstd'
- PYPI_PKGS='PyYAML numpy pillow sphinx sphinx-rtd-theme'
- PYTHON='/opt/homebrew/bin/python3'
-diff --git a/tests/docker/dockerfiles/alpine.docker b/tests/docker/dockerfiles/alpine.docker
-index 3293c790c9..4a569d82f6 100644
---- a/tests/docker/dockerfiles/alpine.docker
-+++ b/tests/docker/dockerfiles/alpine.docker
-@@ -99,7 +99,6 @@ RUN apk update && \
-         spice-protocol \
-         tar \
-         tesseract-ocr \
--        texinfo \
-         usbredir-dev \
-         util-linux \
-         vde2-dev \
-diff --git a/tests/docker/dockerfiles/centos8.docker b/tests/docker/dockerfiles/centos8.docker
-index f13745e6cc..fbc953c6dc 100644
---- a/tests/docker/dockerfiles/centos8.docker
-+++ b/tests/docker/dockerfiles/centos8.docker
-@@ -110,7 +110,6 @@ RUN dnf distro-sync -y && \
-         systemd-devel \
-         systemtap-sdt-devel \
-         tar \
--        texinfo \
-         usbredir-devel \
-         util-linux \
-         virglrenderer-devel \
-diff --git a/tests/docker/dockerfiles/debian-amd64-cross.docker b/tests/docker/dockerfiles/debian-amd64-cross.docker
-index d0ace6d0f7..5175095a85 100644
---- a/tests/docker/dockerfiles/debian-amd64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-amd64-cross.docker
-@@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       sparse \
-                       tar \
-                       tesseract-ocr \
--                      tesseract-ocr-eng \
--                      texinfo && \
-+                      tesseract-ocr-eng && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
-diff --git a/tests/docker/dockerfiles/debian-amd64.docker b/tests/docker/dockerfiles/debian-amd64.docker
-index 0517c4c315..b61f664ea2 100644
---- a/tests/docker/dockerfiles/debian-amd64.docker
-+++ b/tests/docker/dockerfiles/debian-amd64.docker
-@@ -125,7 +125,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       tar \
-                       tesseract-ocr \
-                       tesseract-ocr-eng \
--                      texinfo \
-                       xfslibs-dev \
-                       zlib1g-dev && \
-     eatmydata apt-get autoremove -y && \
-diff --git a/tests/docker/dockerfiles/debian-arm64-cross.docker b/tests/docker/dockerfiles/debian-arm64-cross.docker
-index 9ac1c1ba3f..b69958c69f 100644
---- a/tests/docker/dockerfiles/debian-arm64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-arm64-cross.docker
-@@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       sparse \
-                       tar \
-                       tesseract-ocr \
--                      tesseract-ocr-eng \
--                      texinfo && \
-+                      tesseract-ocr-eng && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
-diff --git a/tests/docker/dockerfiles/debian-armel-cross.docker b/tests/docker/dockerfiles/debian-armel-cross.docker
-index 8be492f4ad..96b524fab6 100644
---- a/tests/docker/dockerfiles/debian-armel-cross.docker
-+++ b/tests/docker/dockerfiles/debian-armel-cross.docker
-@@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       sparse \
-                       tar \
-                       tesseract-ocr \
--                      tesseract-ocr-eng \
--                      texinfo && \
-+                      tesseract-ocr-eng && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
-diff --git a/tests/docker/dockerfiles/debian-armhf-cross.docker b/tests/docker/dockerfiles/debian-armhf-cross.docker
-index da789e04af..08a75cebdb 100644
---- a/tests/docker/dockerfiles/debian-armhf-cross.docker
-+++ b/tests/docker/dockerfiles/debian-armhf-cross.docker
-@@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       sparse \
-                       tar \
-                       tesseract-ocr \
--                      tesseract-ocr-eng \
--                      texinfo && \
-+                      tesseract-ocr-eng && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
-diff --git a/tests/docker/dockerfiles/debian-mips64el-cross.docker b/tests/docker/dockerfiles/debian-mips64el-cross.docker
-index 8b7c59c4f9..5930e6fa5d 100644
---- a/tests/docker/dockerfiles/debian-mips64el-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mips64el-cross.docker
-@@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       sparse \
-                       tar \
-                       tesseract-ocr \
--                      tesseract-ocr-eng \
--                      texinfo && \
-+                      tesseract-ocr-eng && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
-diff --git a/tests/docker/dockerfiles/debian-mipsel-cross.docker b/tests/docker/dockerfiles/debian-mipsel-cross.docker
-index f9f1ed5fd2..c65d9830e7 100644
---- a/tests/docker/dockerfiles/debian-mipsel-cross.docker
-+++ b/tests/docker/dockerfiles/debian-mipsel-cross.docker
-@@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       sparse \
-                       tar \
-                       tesseract-ocr \
--                      tesseract-ocr-eng \
--                      texinfo && \
-+                      tesseract-ocr-eng && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
-diff --git a/tests/docker/dockerfiles/debian-ppc64el-cross.docker b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-index e423d88c2d..2ae56c978e 100644
---- a/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-+++ b/tests/docker/dockerfiles/debian-ppc64el-cross.docker
-@@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       sparse \
-                       tar \
-                       tesseract-ocr \
--                      tesseract-ocr-eng \
--                      texinfo && \
-+                      tesseract-ocr-eng && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
-diff --git a/tests/docker/dockerfiles/debian-s390x-cross.docker b/tests/docker/dockerfiles/debian-s390x-cross.docker
-index c1134f4cec..0db86a0fcd 100644
---- a/tests/docker/dockerfiles/debian-s390x-cross.docker
-+++ b/tests/docker/dockerfiles/debian-s390x-cross.docker
-@@ -55,8 +55,7 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       sparse \
-                       tar \
-                       tesseract-ocr \
--                      tesseract-ocr-eng \
--                      texinfo && \
-+                      tesseract-ocr-eng && \
-     eatmydata apt-get autoremove -y && \
-     eatmydata apt-get autoclean -y && \
-     sed -Ei 's,^# (en_US\.UTF-8 .*)$,\1,' /etc/locale.gen && \
-diff --git a/tests/docker/dockerfiles/debian-toolchain.docker b/tests/docker/dockerfiles/debian-toolchain.docker
-index d3d4d3344e..6c73408b34 100644
---- a/tests/docker/dockerfiles/debian-toolchain.docker
-+++ b/tests/docker/dockerfiles/debian-toolchain.docker
-@@ -21,7 +21,6 @@ RUN apt update && \
-         libmpc-dev \
-         libmpfr-dev \
-         rsync \
--        texinfo \
-         wget && \
-     DEBIAN_FRONTEND=noninteractive eatmydata \
-     apt build-dep -yy --arch-only gcc glibc
-diff --git a/tests/docker/dockerfiles/fedora-win32-cross.docker b/tests/docker/dockerfiles/fedora-win32-cross.docker
-index de811b332b..b659c0b8a8 100644
---- a/tests/docker/dockerfiles/fedora-win32-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win32-cross.docker
-@@ -57,7 +57,6 @@ exec "$@"' > /usr/bin/nosync && \
-                tar \
-                tesseract \
-                tesseract-langpack-eng \
--               texinfo \
-                util-linux \
-                which && \
-     nosync dnf autoremove -y && \
-diff --git a/tests/docker/dockerfiles/fedora-win64-cross.docker b/tests/docker/dockerfiles/fedora-win64-cross.docker
-index 71681d6f92..0a404c15bf 100644
---- a/tests/docker/dockerfiles/fedora-win64-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-win64-cross.docker
-@@ -57,7 +57,6 @@ exec "$@"' > /usr/bin/nosync && \
-                tar \
-                tesseract \
-                tesseract-langpack-eng \
--               texinfo \
-                util-linux \
-                which && \
-     nosync dnf autoremove -y && \
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-index ca3793b04b..5d60a96141 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -121,7 +121,6 @@ exec "$@"' > /usr/bin/nosync && \
-                tar \
-                tesseract \
-                tesseract-langpack-eng \
--               texinfo \
-                usbredir-devel \
-                util-linux \
-                virglrenderer-devel \
-diff --git a/tests/docker/dockerfiles/opensuse-leap.docker b/tests/docker/dockerfiles/opensuse-leap.docker
-index 680f49e7dc..4b2c02d6ab 100644
---- a/tests/docker/dockerfiles/opensuse-leap.docker
-+++ b/tests/docker/dockerfiles/opensuse-leap.docker
-@@ -111,7 +111,6 @@ RUN zypper update -y && \
-            tar \
-            tesseract-ocr \
-            tesseract-ocr-traineddata-english \
--           texinfo \
-            usbredir-devel \
-            util-linux \
-            virglrenderer-devel \
-diff --git a/tests/docker/dockerfiles/ubuntu2004.docker b/tests/docker/dockerfiles/ubuntu2004.docker
-index 6594bba338..13ab0b6887 100644
---- a/tests/docker/dockerfiles/ubuntu2004.docker
-+++ b/tests/docker/dockerfiles/ubuntu2004.docker
-@@ -124,7 +124,6 @@ RUN export DEBIAN_FRONTEND=noninteractive && \
-                       tar \
-                       tesseract-ocr \
-                       tesseract-ocr-eng \
--                      texinfo \
-                       xfslibs-dev \
-                       zlib1g-dev && \
-     eatmydata apt-get autoremove -y && \
-diff --git a/tests/lcitool/projects/qemu.yml b/tests/lcitool/projects/qemu.yml
-index c2af92348a..6467bcf08a 100644
---- a/tests/lcitool/projects/qemu.yml
-+++ b/tests/lcitool/projects/qemu.yml
-@@ -109,7 +109,6 @@ packages:
-  - tar
-  - tesseract
-  - tesseract-eng
-- - texinfo
-  - usbredir
-  - virglrenderer
-  - vte
+diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
+index 34b2cea4e3..5ae58efa09 100644
+--- a/tests/docker/dockerfiles/debian-tricore-cross.docker
++++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
+@@ -20,6 +20,7 @@ RUN apt update && \
+        bzip2 \
+        ca-certificates \
+        ccache \
++       flex \
+        g++ \
+        gcc \
+        git \
 -- 
 2.34.1
 
