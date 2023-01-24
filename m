@@ -2,79 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361E767A493
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 22:06:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E42E67A4C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 22:17:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKQUh-0008Lh-U1; Tue, 24 Jan 2023 16:06:15 -0500
+	id 1pKQe2-0002FS-1M; Tue, 24 Jan 2023 16:15:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pKQUd-0008LN-0a
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 16:06:12 -0500
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pKQUX-0004ez-M2
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 16:06:10 -0500
-Received: by mail-pf1-x435.google.com with SMTP id c26so12098552pfp.10
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 13:06:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
- h=to:references:message-id:cc:date:in-reply-to:from:subject
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=OwQ+hG5QpadEp+GH/miBxUvJK/KWnQ5tk6SPD7U4jpA=;
- b=RJNS8G/UqB4b7ziB/8fAQQHK+QR5ciNmbk474FBSSeLi9Xwkrk5132eSmdMqXeUx7o
- nVQSXOw26ZUjb0VDsBUruPHhS55eF+LurADPvZhnllGDKr+ErryyyeVt9QJY61oV+0hs
- /IRTNCS1o+YSSx1lucD2KhE2VJwwtW6VbgM5FX/B2Zl8KccDt5kzB3jUHC8bCaPY7hPa
- y1cHr/100pgy6PpXa7qZJoBrKY7WZs2WXrbeo5vVEretZ+4AU5msuvkD7el4iHeNLUlx
- uyf3IYByn/RxrNJXGak+5M5Ni7OeccmZyXGhUDAyhtZMAoTVwbfYGSu+/YFFeHzY+KUl
- +Lqg==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pKQdt-0002E3-B0
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 16:15:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pKQdq-00064H-Sa
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 16:15:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674594941;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=EnF2zHCl/g77u7ZKJHlVYcKODRXwTueyyyQ5FzVNhGM=;
+ b=SSiFSvYnQqC1cgg7IvSEdk71d/7ORbSx991/F3X0qBPOB6AjxiCWFOAIYx3Uxt2l0UrIrT
+ 9S2zlc9fhXQtgSUBY6iQlTA2qAJD3TyCvjLr+CsvaK//k8e5EM8J5wGYVSTuedHSgNdzD7
+ j2BYly6SXu5pq7cBa+/Ero84udf6/bs=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-638-9XWqGbJLNcmUtAw1PTD4Og-1; Tue, 24 Jan 2023 16:15:39 -0500
+X-MC-Unique: 9XWqGbJLNcmUtAw1PTD4Og-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ jh2-20020a0562141fc200b004c74bbb0affso8261750qvb.21
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 13:15:39 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=to:references:message-id:cc:date:in-reply-to:from:subject
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=OwQ+hG5QpadEp+GH/miBxUvJK/KWnQ5tk6SPD7U4jpA=;
- b=icRaYxBMUC9vcbVD3U7wALZEAaC3PUxz5YpXbfpmIAIXeWHXlO3mVzYATqqlHFDhgY
- AHQvppkxfhe93VVaSUhb/lmpEzHCP0ZJjUfjff9FR37gCQ7styR3RsA1yz94lXext13F
- 8pU0rDB3Wr4Q+y0ma1GchW/hcOpg58eJTKvSiRYE3KXpxMNqpjzoXa6mxpznh3R4S3wy
- wOzhN4COVVMYdw4w9+cXz2NlQhSVMlYu83UQS4XPV7U3x6UduHSm9nzE3EYa9ogOjHW2
- aGpcsJqLOfDwQPR7c0wpunjpNyGMAeyMvjYClFDItcWFBtiig/0VXxTeE9+shYr8AqHr
- HwKg==
-X-Gm-Message-State: AFqh2koAF6SYuFDPHmvN29BOpfhQRo1ahh8Luh/crFL0fK+69Ym1arpM
- MpmKlORn5/SVjkmkdi7DG+mh0A==
-X-Google-Smtp-Source: AMrXdXsXal5h6Io8p/kqowu6L82XDpQFm4VD3UJWzj0ASHiBH7V9Bfac9Ilbv3oVll6i4eG1M/EeRg==
-X-Received: by 2002:a62:de44:0:b0:58d:a565:e2ea with SMTP id
- h65-20020a62de44000000b0058da565e2eamr31375649pfg.14.1674594363312; 
- Tue, 24 Jan 2023 13:06:03 -0800 (PST)
-Received: from smtpclient.apple ([2603:300b:6:5100:74dc:6b49:c998:af16])
- by smtp.gmail.com with ESMTPSA id
- k7-20020aa788c7000000b00589c467ed88sm2047029pff.69.2023.01.24.13.06.01
- (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
- Tue, 24 Jan 2023 13:06:02 -0800 (PST)
-Content-Type: multipart/signed;
- boundary="Apple-Mail=_D86D4FBE-91C2-4F11-8080-65E245D62F8A";
- protocol="application/pgp-signature"; micalg=pgp-sha512
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3696.120.41.1.1\))
-Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
-From: Warner Losh <wlosh@bsdimp.com>
-In-Reply-To: <4162db13bd1da9c6ddd77f185cef738e44790467.1672868854.git.balaton@eik.bme.hu>
-Date: Tue, 24 Jan 2023 14:05:59 -0700
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Message-Id: <DFBECD58-A4F5-44A3-8819-6C4FBCB3DF43@bsdimp.com>
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <4162db13bd1da9c6ddd77f185cef738e44790467.1672868854.git.balaton@eik.bme.hu>
-To: BALATON Zoltan <balaton@eik.bme.hu>
-X-Mailer: Apple Mail (2.3696.120.41.1.1)
-Received-SPF: none client-ip=2607:f8b0:4864:20::435;
- envelope-from=wlosh@bsdimp.com; helo=mail-pf1-x435.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=EnF2zHCl/g77u7ZKJHlVYcKODRXwTueyyyQ5FzVNhGM=;
+ b=YIIZLPsPUVue8rHQoOVfSKidt/j/bZctSokYKlw1f0mmjuCniEycW9mWLLEmqYdG6J
+ bH1xUnx21DSStxJJNbkQ9pzkfimvNVigWHiPWB8ua9AN8xQyAizM6YNbSo6uJcT3NjUj
+ aQkDKo5AJ+9cd8th630+C8tu4iIjTckTJTtxOFlIah9IU2FYdYiI93Gjxy7VSXbIR4yg
+ d47gAoICMvUosKjTL21HLilpSEwG/cH08Z4PNQk6eGgetB79dPFvjo/EQYtIhNnCaHED
+ kK6ajJvy9EmyUtaigKAYiKBve1KHmjAEw/ep7+0vs/vIW3qXRrmkVWpwtlgp9hvSCxhh
+ ACsQ==
+X-Gm-Message-State: AO0yUKVoATWhdLYvR5/Y1fFSHTNdLXFsUVJlMgcEna1NHk9DMxTbmXAI
+ FYFK1Hu2aTRnaYOSxHHZOfSOW2zPdn7AQMkFkEUf7F+H2+O6U1/+13BneczmxjVwE5kIiKePehr
+ QX3B75ArlCrMhF1k=
+X-Received: by 2002:a05:622a:180d:b0:3b7:fb43:e740 with SMTP id
+ t13-20020a05622a180d00b003b7fb43e740mr1308852qtc.67.1674594939261; 
+ Tue, 24 Jan 2023 13:15:39 -0800 (PST)
+X-Google-Smtp-Source: AK7set/cP1Lt55yPXvCvHpJbbzwXAeA5Xlfld9e560I44bJovAs9Ek6WAgs4MW03L8Ljke8T3IfK/A==
+X-Received: by 2002:a05:622a:180d:b0:3b7:fb43:e740 with SMTP id
+ t13-20020a05622a180d00b003b7fb43e740mr1308820qtc.67.1674594939001; 
+ Tue, 24 Jan 2023 13:15:39 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ t4-20020ae9df04000000b00705cef9b84asm2051554qkf.131.2023.01.24.13.15.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 24 Jan 2023 13:15:38 -0800 (PST)
+Date: Tue, 24 Jan 2023 16:15:37 -0500
+From: Peter Xu <peterx@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ James Houghton <jthoughton@google.com>, Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH RFC 11/21] migration: Add hugetlb-doublemap cap
+Message-ID: <Y9BKeZjQG53X5kZb@x1n>
+References: <20230117220914.2062125-1-peterx@redhat.com>
+ <20230117220914.2062125-12-peterx@redhat.com>
+ <Y8/S8g4s42RCBTEV@work-vm>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y8/S8g4s42RCBTEV@work-vm>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,104 +98,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Tue, Jan 24, 2023 at 12:45:38PM +0000, Dr. David Alan Gilbert wrote:
+> * Peter Xu (peterx@redhat.com) wrote:
+> > Add a new cap to allow mapping hugetlbfs backed RAMs in small page sizes.
+> > 
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
+> 
+> 
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 
---Apple-Mail=_D86D4FBE-91C2-4F11-8080-65E245D62F8A
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=utf-8
+Thanks.
 
+> 
+> although, I'm curious if the protocol actually changes
 
+Yes it does.
 
-> On Jan 4, 2023, at 2:59 PM, BALATON Zoltan <balaton@eik.bme.hu> wrote:
->=20
-> Setting emulated machine type with a property called "via" is
-> confusing users so deprecate the "via" option in favour of newly added
-> explicit machine types. The default via=3Dcuda option is not a valid
-> config (no real Mac has this combination of hardware) so no machine
-> type could be defined for that therefore it is kept for backwards
-> compatibility with older QEMU versions for now but other options
-> resembling real machines are deprecated.
->=20
-> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-> ---
-> hw/ppc/mac_newworld.c | 9 +++++++++
-> 1 file changed, 9 insertions(+)
->=20
-> diff --git a/hw/ppc/mac_newworld.c b/hw/ppc/mac_newworld.c
-> index f07c37328b..adf185bd3a 100644
-> --- a/hw/ppc/mac_newworld.c
-> +++ b/hw/ppc/mac_newworld.c
-> @@ -169,6 +169,15 @@ static void ppc_core99_init(MachineState =
-*machine)
->         if (PPC_INPUT(env) =3D=3D PPC_FLAGS_INPUT_970) {
->             warn_report("mac99 with G5 CPU is deprecated, "
->                         "use powermac7_3 instead");
-> +        } else {
-> +            if (core99_machine->via_config =3D=3D =
-CORE99_VIA_CONFIG_PMU) {
-> +                warn_report("mac99,via=3Dpmu is deprecated, "
-> +                            "use powermac3_1 instead");
+It differs not in the form of a changed header or any frame definitions,
+but in the format of how huge pages are sent.  The old binary can only send
+a huge page by sending all the small pages sequentially starting from index
+0 to index N_HUGE-1; while the new binary can send the huge page out of
+order.  For the latter it's the same as when huge page is not used.
 
-so use =E2=80=98-m mac99,via=3Dpowermac3_1=E2=80=99 or =E2=80=98-m =
-powermac3_1=E2=80=99 or =E2=80=98-m mac99,powerpmac3_1=E2=80=99
+> or whether a doublepage enabled destination would work with an unmodified
+> source?
 
-I have no clue which one I=E2=80=99m supposed to use. It would be better =
-to tell the user
-which of these three possibilities they should really use. =46rom the =
-other patches
-in the series, I=E2=80=99m guessing it=E2=80=99s the middle one, but =
-even after looking at the code, I=E2=80=99m
-unsure.
+This is an interesting question.
 
-> +            }
-> +            if (core99_machine->via_config =3D=3D =
-CORE99_VIA_CONFIG_PMU_ADB) {
-> +                warn_report("mac99,via=3Dpmu-adb is deprecated, "
-> +                            "use powerbook3_2 instead");
+I would expect old -> new work as usual, because the page frames are not
+modified so the dest node will just see pages being migrated in a
+sequential manner.  The latency of page request will be the same as old
+binary though because even if dest host can handle small pages it won't be
+able to get asap on the pages it wants - src host decides which page to
+send.
 
-Same basic comment here.
+Meanwhile new -> old shouldn't work I think as described above, because the
+dest host should see weird things happening, e.g., a huge page was sent not
+starting fron index 0 but index X (0<X<N_HUGE-1).  It should quickly bail
+out assuming there's something wrong.
 
-I=E2=80=99m thinking adding '-m=E2=80=99 or =E2=80=98machine type=E2=80=99=
- before powerbook=E2=80=A6 in both of these would
-resolve it..
+> I guess potentially you can get away without the dirty clearing
+> of the partially sent hugepages that the source normally does.
 
-Warner
+Good point. It's actually more relevant to the other patch later on
+reworking the discard logic.  I kept it as-is for majorly two reasons:
 
-> +            }
->         }
->     }
->     /* allocate RAM */
-> --
-> 2.30.6
->=20
->=20
+ 1) It is still not 100% confirmed on how MADV_DONTNEED should behave on
+    HGM enabled memory ranges where huge pages used to be mapped.  It's
+    part of the discussion upstream on the kernel patchset.  I think it's
+    settling, but in the current series I kept it in a form so it'll work
+    in all cases.
 
+ 2) Not dirtying the partially sent huge pages can always reduce small
+    pages being migrated, but it can also change the content of discard
+    messages due to the frame format of MIG_CMD_POSTCOPY_RAM_DISCARD, in
+    that we can have a lot more scattered ranges, so a lot more messaging
+    can be needed.  While when with the existing logic, since we'll always
+    re-dirty the partial sent pages, the ranges are more likely to be
+    efficient.
+    
+        * CMD_POSTCOPY_RAM_DISCARD consist of:
+        *      byte   version (0)
+        *      byte   Length of name field (not including 0)
+        *  n x byte   RAM block name
+        *      byte   0 terminator (just for safety)
+        *  n x        Byte ranges within the named RAMBlock
+        *      be64   Start of the range
+        *      be64   Length
 
---Apple-Mail=_D86D4FBE-91C2-4F11-8080-65E245D62F8A
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
+I think 1) may not hold as the kernel series evolves, so it may not be true
+anymore.  2) may still be true, but I think worth some testing (especially
+on 1G pages) to see how it could interfere the discard procedure.  Maybe it
+won't be as bad as I think.  Even if it could, we can evaluate the tradeoff
+between "slower discard sync" and "less page need to send".  E.g., we can
+consider changing the frame layout by boosting postcopy_ram_discard_version.
 
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - https://gpgtools.org
+I'll take a note on this one and provide more update in the next version.
 
-iQIzBAEBCgAdFiEEIDX4lLAKo898zeG3bBzRKH2wEQAFAmPQSDcACgkQbBzRKH2w
-EQAQSRAAq50JJMJjkLfxOW+Jo/kZ9ZlauvOmsRcR7A2dIBKeerk8yOZn7xw7TdHs
-fwQ21AmBpgVXiCEvU2SWzwLX5EEfqGtGkJoHqP+QO4F9L5P7xNiYYyvnbwMZxBcn
-w8AYoV0yQoLUkv40fyQYI+Z4b1Dbu4GN3q/UdfOWpKvmaYs12YJxFg1vFx7nyw4H
-JuwVUwCw5//C1MW9Du6rlrXY4j/0JugWbUOR3y14qL5INYcBJ/aySXk7f3XpxDEr
-H7WlwvRMrIMrgzqpWAgPIN+daMhA8sm6SLrFr+IAXw8C8km1Shhiye+QKzZURYhs
-efKPbmFtp88QZyY1aPx06OiJhNCJu8BSGoDI2T5nlS4lvRJXJwQnFJ+hA1irRgD3
-VjQ+vbGudE+TxRWCm7GRLHihv/H+6IAruDkrDfqr6juu6ifLCAk99E1advCVwW80
-QqHRfCSpmqwvDFnRo1bn+6/yhg7sNl8aCV044jsllnS+o/cNEGmylG6bozU0oi1J
-bx9zoTEKYDMxiqssWAQrWb19RBt0nJgLCwcp/X2bJ5SCXCBWDRZ3SsowZSC+1iCM
-6jj0GHeK6pIkeYq3IplMDxZO5N82c+gPEhYqJUVvgJgzpH4p60MEtHmuZvv1C4Lq
-9ZFHIKpx4qaD2MuuTPyh9BzcfOe68oD8IsEnbLr7yWvnAHNBg38=
-=RsoN
------END PGP SIGNATURE-----
+-- 
+Peter Xu
 
---Apple-Mail=_D86D4FBE-91C2-4F11-8080-65E245D62F8A--
 
