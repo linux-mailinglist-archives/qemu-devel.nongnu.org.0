@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5EBFA678F76
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 05:48:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08D54678F78
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 05:48:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKBDB-0005zJ-I0; Mon, 23 Jan 2023 23:47:09 -0500
+	id 1pKBDG-000600-5E; Mon, 23 Jan 2023 23:47:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pKBD9-0005yV-Dd
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 23:47:07 -0500
+ id 1pKBDE-0005zY-GF
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 23:47:12 -0500
 Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pKBD7-0004xk-Tq
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 23:47:07 -0500
+ id 1pKBDD-0004y5-0O
+ for qemu-devel@nongnu.org; Mon, 23 Jan 2023 23:47:12 -0500
 Received: by mail-pj1-x1030.google.com with SMTP id
- mm11-20020a17090b358b00b0022bf61de7beso6864pjb.2
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 20:47:05 -0800 (PST)
+ e10-20020a17090a630a00b0022bedd66e6dso796650pjj.1
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 20:47:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=31UNhnQD3wPnVE0Wq0E+3g5/UlpM2T3rdfjZKAYdn6A=;
- b=fvNHmNMiCIYsx+xIXBZ+7xPtIPCnDMi6eGaRD21OpDf1qwphp+0HLxBoL0vG4evboA
- DAJjieQSrTF49oju5KLdsfvSpfdHb5Mu986lQTYJnr/FR1abxQUdIrgYoTQct3oZS8WT
- 41nE7agj01+Y6/ZF5pog0Z8AGLN2re28MDS0YPabSu50NxFwhOy/4yOsGLjf5lHJAnaJ
- nt5WneysxdJudtIQqohNlzfUHSz3QnnDaepS2PcYPCSP7K6NtRyXcQ/NYzQ3LpxWra1e
- kX1ijlgM+IV4i6fufZ+YoUPlb+JE5ZASL4x8Tih1saVh1BkLs0nxOBo4Bg3d+nM2zgRC
- jduw==
+ bh=nZlB6YuuFFLe1JRaJyxgcOjzVGUTGnF5/BNvI7AcDYE=;
+ b=ZLoH5WAwu7J1fwM1EmVuPD1ooeJCF+FYQ28PKvsXl28ncnGwKnSGpoaGPtAjCBHXdU
+ NnQjNg4lHa0AX7FXEw0cAX+5KF6nMTHU4TkhTVPnmlcY4lPLZqfob/3brJdHnudgW2YY
+ s61Oz1DxbD9vJ/uzfAgnnpNzpkgbXx/boENNi5LSAZKtjgcIeFAE/EbUPo/gW4pU6XGz
+ CanxuQ2IuVzyjePv/nupPPX2stDP0sGjs0ShrH1tXpmKLuUmtLP4q27zMstBsznqVjB6
+ jASEI1ufx0sE9cptG2xMX8+T3Psk4shDeAE7BHRyqHcdgkHYd61SkbAKrKCBgP3rENPf
+ Z6sA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=31UNhnQD3wPnVE0Wq0E+3g5/UlpM2T3rdfjZKAYdn6A=;
- b=IU2LFob67+RxSkGX0ZUwuV/qaBa0OOnleRvNkvUWfmU54KJkCAT9s9gUhTJ1TsN/JY
- 0Z5PmV63Q/39mP/Rsuu8msffRQbwtAJDYef4Y/wExtiuTR7AJt7P6HeIsqbJYrLpJHuL
- g+VpCQH2+agQV0keecEhzqJrTSK5yhUjG0FRLXlrKZI0B4EU6QDR17eox8sMCIERl+Pt
- lv16tyUQ0Bco33d04bQPjOlE5Xa3dQ9ElFTdXZx1rfEnByHYICAAQz8UzLOoTZhbv+nE
- bgCi+Jx3C/5cb0q3MC7Q3SkuRBAk6CN4ZsZSkkCNolBrmbOoQJTa9mpXfkbhBL1YHg7J
- e5ZA==
-X-Gm-Message-State: AFqh2kphXFQnLjabAGHjS5DypYs/tbJpGbZ8gFa8etuodVHa6TJgtiTr
- MugrCf4UCizdybkGa8jauOBW+A==
-X-Google-Smtp-Source: AMrXdXt7wISBYrnkYmQq1fUnraBNC+/rXHer1G14Lmgfp36SfUDTqRUKW1X6Yfu9Th1dt4v7EqLLZg==
-X-Received: by 2002:a17:90a:199:b0:22b:b794:bb43 with SMTP id
- 25-20020a17090a019900b0022bb794bb43mr14031931pjc.38.1674535624536; 
- Mon, 23 Jan 2023 20:47:04 -0800 (PST)
+ bh=nZlB6YuuFFLe1JRaJyxgcOjzVGUTGnF5/BNvI7AcDYE=;
+ b=B6fyW0+ifyOagqM9K8iORBglZVqBiwkwmIfgKhRAuwwt5m7mIWq0RWRPWh070nNvAW
+ R654MqSyAFJJ6MQpLrS+G8WHIA9tWZ1c+JNVgN01LC4w+bQlw/mOOcB8YSsxaUp19x5m
+ GKTLODIrdl9ul7z+jmG/IfeIllDz8hA0HvNniAR8J0GBbkac/6ZugAwPrG4PYxxXirPk
+ HrCLuO4KzsxisI5wnx3dFWX+gYafFlUmY4zcBMVYdXgmMshm1LOaJJJclZxC5YMcfqqN
+ YEXz0WLla11FRwrzeHtj7F4n2PoiP7gYr/lkiG8fzG/hbsLhjNhNkb4NVuCxlodmP26+
+ BbQg==
+X-Gm-Message-State: AFqh2kqFIxsbeC1yQ03gd1ygk9qzHaMJk4IMox3UkIBlk34lKL+Eh+PY
+ /j7Gd2JbSYXERF8mnv2uNDjrpA==
+X-Google-Smtp-Source: AMrXdXsu87v4C9LLewbXilKF/NQOUH1N3yfcOGLCQLM+4iQcJNfnu7h/qO4UrOnPdOUNWGI2yfHOXQ==
+X-Received: by 2002:a17:90a:5886:b0:227:4d5:6d67 with SMTP id
+ j6-20020a17090a588600b0022704d56d67mr28376455pji.24.1674535629565; 
+ Mon, 23 Jan 2023 20:47:09 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- l6-20020a17090a4d4600b00226f9c7474esm7324855pjh.54.2023.01.23.20.46.59
+ l6-20020a17090a4d4600b00226f9c7474esm7324855pjh.54.2023.01.23.20.47.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 20:47:04 -0800 (PST)
+ Mon, 23 Jan 2023 20:47:09 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -76,13 +76,14 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Akihiko Odaki <akihiko.odaki@daynix.com>, Gal Hammer <gal.hammer@sap.com>
-Subject: [PATCH v3 01/13] hw/net/net_tx_pkt: Introduce net_tx_pkt_get_eth_hdr
-Date: Tue, 24 Jan 2023 13:46:38 +0900
-Message-Id: <20230124044650.14144-2-akihiko.odaki@daynix.com>
+Subject: [PATCH v3 02/13] pcie: Introduce pcie_sriov_num_vfs
+Date: Tue, 24 Jan 2023 13:46:39 +0900
+Message-Id: <20230124044650.14144-3-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230124044650.14144-1-akihiko.odaki@daynix.com>
 References: <20230124044650.14144-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=2607:f8b0:4864:20::1030;
  envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1030.google.com
@@ -91,7 +92,7 @@ X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,53 +108,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Expose the ethernet header so that igb can utilize it to perform the
-internal routing among its SR-IOV functions.
+igb can use this function to change its behavior depending on the
+number of virtual functions currently enabled.
 
 Signed-off-by: Gal Hammer <gal.hammer@sap.com>
 Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/net/net_tx_pkt.c | 6 ++++++
- hw/net/net_tx_pkt.h | 8 ++++++++
- 2 files changed, 14 insertions(+)
+ hw/pci/pcie_sriov.c         | 5 +++++
+ include/hw/pci/pcie_sriov.h | 3 +++
+ 2 files changed, 8 insertions(+)
 
-diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-index e5c3e1e10b..cab10eecd5 100644
---- a/hw/net/net_tx_pkt.c
-+++ b/hw/net/net_tx_pkt.c
-@@ -273,6 +273,12 @@ bool net_tx_pkt_parse(struct NetTxPkt *pkt)
+diff --git a/hw/pci/pcie_sriov.c b/hw/pci/pcie_sriov.c
+index f0bd72e069..aa5a757b11 100644
+--- a/hw/pci/pcie_sriov.c
++++ b/hw/pci/pcie_sriov.c
+@@ -300,3 +300,8 @@ PCIDevice *pcie_sriov_get_vf_at_index(PCIDevice *dev, int n)
      }
+     return NULL;
  }
- 
-+struct eth_header *net_tx_pkt_get_eth_hdr(struct NetTxPkt *pkt)
++
++uint16_t pcie_sriov_num_vfs(PCIDevice *dev)
 +{
-+    assert(pkt);
-+    return (struct eth_header *)&pkt->l2_hdr;
++    return dev->exp.sriov_pf.num_vfs;
 +}
-+
- struct virtio_net_hdr *net_tx_pkt_get_vhdr(struct NetTxPkt *pkt)
- {
-     assert(pkt);
-diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
-index f57b4e034b..2e51b73b6c 100644
---- a/hw/net/net_tx_pkt.h
-+++ b/hw/net/net_tx_pkt.h
-@@ -45,6 +45,14 @@ void net_tx_pkt_init(struct NetTxPkt **pkt, PCIDevice *pci_dev,
+diff --git a/include/hw/pci/pcie_sriov.h b/include/hw/pci/pcie_sriov.h
+index 96cc743309..095fb0c9ed 100644
+--- a/include/hw/pci/pcie_sriov.h
++++ b/include/hw/pci/pcie_sriov.h
+@@ -76,4 +76,7 @@ PCIDevice *pcie_sriov_get_pf(PCIDevice *dev);
   */
- void net_tx_pkt_uninit(struct NetTxPkt *pkt);
+ PCIDevice *pcie_sriov_get_vf_at_index(PCIDevice *dev, int n);
  
-+/**
-+ * get ethernet header
-+ *
-+ * @pkt:            packet
-+ * @ret:            ethernet header
-+ */
-+struct eth_header *net_tx_pkt_get_eth_hdr(struct NetTxPkt *pkt);
++/* Returns the current number of virtual functions. */
++uint16_t pcie_sriov_num_vfs(PCIDevice *dev);
 +
- /**
-  * get virtio header
-  *
+ #endif /* QEMU_PCIE_SRIOV_H */
 -- 
 2.39.0
 
