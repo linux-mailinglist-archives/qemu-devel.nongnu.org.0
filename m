@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62EA67A0E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:08:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D429C67A0C8
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:03:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKNiV-0006c5-Q2; Tue, 24 Jan 2023 13:08:20 -0500
+	id 1pKNcf-0001kc-9G; Tue, 24 Jan 2023 13:02:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNhO-0005BL-Tf
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:13 -0500
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
+ id 1pKNcM-0001dX-L6
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:01:59 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNhI-00075b-Er
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:10 -0500
-Received: by mail-wm1-x336.google.com with SMTP id
- f12-20020a7bc8cc000000b003daf6b2f9b9so13413371wml.3
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:07:03 -0800 (PST)
+ id 1pKNc4-00066r-Ae
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:01:58 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id
+ c4-20020a1c3504000000b003d9e2f72093so13412810wma.1
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:01:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VtC2HtpKin4UrNqNqeKJgg5NfJ+lmXNI0G+VdILgJfA=;
- b=MjO19im85MdlWJG4f5j296Q95BNFHQlTBBit/k7q2bcwfJxNwq7EmpRo5lgAXtXA9/
- 5ZyphAD7f/acxB4qcTkdfTuyBehDpqv0HrTMqpDIDhlpZJwo8h+N4mvX3bgf09VQInzZ
- elFGHTdfDctDcnVK8HAhIyHCwt4cu23ITumP5tySqRzromLDwPozrfMwyJPoEBjfCSRg
- aS9l1nAENDdtVE8kXcXm/mlHXEy3R11Vuipgiv01m0JnlrK9BqrafFXpiXfy8vZNep3J
- 2OGaOzA6nVldk1v9ptw5LFD0pj0M0B0yCcmnXJmp+IjUgFEV7S82ohj1amL+QIFhnNao
- 9oNg==
+ bh=ubrWiDX95hI7G/MydAghP79JSe41uyREbhHBG/66qgA=;
+ b=VGfin0iBDV2H6giHdCcOzAWdLVFiVp4Jdt8Gjl+GpSMzx90mgS1hhzOiXzC1OlgglT
+ rJ6rfCLID7qUPaim/wlqDfzQves4hcm+HD39s/IovkLlALgGFS7q4Q+X3laCed2tOaxz
+ vzFSgvKbauN76VLrj2elebi9HWaJUklV2c+bsPhQTRhkCkliofsOPflktv5DIFj/tJYB
+ ax/0iu28KCzxM6U+J52qLfqOniJR919+D6dHdxYZ7xVG1pJTo/IaH6v37jZMeQp0N3xp
+ yJlzcHRERFvGMcOaHvsaVqE55P1FXpsfCBuDu9j7BWstRqtyb20l42Fp3L9xuXsuR11a
+ CVHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VtC2HtpKin4UrNqNqeKJgg5NfJ+lmXNI0G+VdILgJfA=;
- b=oxAQZ4Mp0cSJjH/gOys0bftuhLkL58iez2U6MtIRkJJxuKWPntvXtzU7AWBnihHE76
- f/NUhqTuIQAdBYt1t3A2uV/wOqyYjaYfJNhQq4Lr0nAaSJmfmyBcCSz+e4qtHC57bqv+
- qtB5qix0Sb5IZjmXXB5EY2Hx6gDRYqiINRVs40MpVaRcAqr500npK+wDIXP+unmpd7uN
- 9S1DFF+CNZfyYEHcJg37eu6Yht1yd5IoI2bc7ba44oDFRnSGlPxhZD5vFZyJrbwUWuY0
- fwNzpOWMQBgoBrbKOU4Krg6k3S4k9cIJV8hjqQaipQWxDKwCwTdu9RL2jA7za1/Mmo93
- lU3w==
-X-Gm-Message-State: AFqh2koF85KzRB4pZsMQbwowopDYHYAtl3vISXRq+S3EqTe3K5Q6Nyvv
- S3fXnvQDjviStiJFUqxWpptSnw==
-X-Google-Smtp-Source: AMrXdXtI05INx5aGuWkrVXgfI+KkXA0jQCOKlQODMMN/+7UDRDmkbj4Prw0GuNhrSFXOoYlU5q4FRg==
-X-Received: by 2002:a05:600c:4f96:b0:3db:2df0:f2b8 with SMTP id
- n22-20020a05600c4f9600b003db2df0f2b8mr18118781wmq.36.1674583622546; 
- Tue, 24 Jan 2023 10:07:02 -0800 (PST)
+ bh=ubrWiDX95hI7G/MydAghP79JSe41uyREbhHBG/66qgA=;
+ b=UvSnRQzk8CSqGTDFrtJx3nPntZ5GoV16L/gLSFnf09uj3CiSeakZnQK2feYATIdvcS
+ STU6iImu58D2mQydBlVZdtiXTcYALqkFi/PH3cvDyiTqsAmVxS97MPA9/O6zPvc5aIED
+ 0j00jKkXhLZgHo1SnBmt/RbZFoBI62dmxuMvee3CwTkmFexyHhKO6AJiClcZ8jbCoElu
+ CybtlRMM8QHlt9CNbNYpJqkNYTe3Ptxdu8uI1buZ0Rs/IWT55TfSdIbNYeCrHkQr98q7
+ CmVoHbBRqyJYDgWGKEMnm4i9zFx3Btun+BH2pjRAqnzxaY0Im8ZH0eJl0gZEaNSXcjmQ
+ EI0g==
+X-Gm-Message-State: AFqh2kpGV2jPXxBY7v5jB0NKp4KsHFoPc/DmZX5Vk1BDezHIlxr4p4QB
+ k3phNNV++bap67ADJgnxnTzM2A==
+X-Google-Smtp-Source: AMrXdXshHggzbtduI9vtJqXlsoAtdy7H1okUdN4ogLyhY9MAbDDSvPGb1vMqcT54RAaaKbtY+MimQQ==
+X-Received: by 2002:a05:600c:1c2a:b0:3cf:d0b1:8aa1 with SMTP id
+ j42-20020a05600c1c2a00b003cfd0b18aa1mr28216457wms.0.1674583296931; 
+ Tue, 24 Jan 2023 10:01:36 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- r18-20020a05600c435200b003db06224953sm2888995wme.41.2023.01.24.10.06.57
+ z18-20020a05600c079200b003d9780466b0sm2431477wmo.31.2023.01.24.10.01.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 10:06:58 -0800 (PST)
+ Tue, 24 Jan 2023 10:01:35 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3ED521FFCA;
+ by zen.linaroharston (Postfix) with ESMTP id 6680F1FFBA;
  Tue, 24 Jan 2023 18:01:30 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -80,18 +80,19 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Yanan Wang <wangyanan55@huawei.com>, Cleber Rosa <crosa@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PATCH v2 21/35] semihosting: add semihosting section to the docs
-Date: Tue, 24 Jan 2023 18:01:13 +0000
-Message-Id: <20230124180127.1881110-22-alex.bennee@linaro.org>
+ Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>,
+ Kashyap Chamarthy <kchamart@redhat.com>
+Subject: [PATCH v2 22/35] docs: add an introduction to the system docs
+Date: Tue, 24 Jan 2023 18:01:14 +0000
+Message-Id: <20230124180127.1881110-23-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124180127.1881110-1-alex.bennee@linaro.org>
 References: <20230124180127.1881110-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::336;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x336.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -114,172 +115,349 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The main reason to do this is to document our O_BINARY implementation
-decision somewhere. However I've also moved some of the implementation
-details out of qemu-options and added links between the two. As a
-bonus I've highlighted the scary warnings about host access with the
-appropriate RST tags.
+Drop the frankly misleading quickstart section for a more rounded
+introduction section. This new section gives an overview of the
+accelerators as well as a high level introduction to some of the key
+features of the emulator. We also expand on a general form for a QEMU
+command line with a hopefully not too scary worked example of what
+this looks like.
 
 Acked-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
 
 ---
 v2
-  - moved inside the generic emulation section
-  - make it clearer semihosting is specified by the architecture
-  - more expansive description for O_BINARY
-  - s/mips/MIPS/
+  - integrated Kashyap's comments
+  - used -blockdev for pflash
+  - remove extra whitespace
+  - some punctuation fixes from Peter
+  - make it clearer TCG is the default accelerator
 ---
- docs/about/emulation.rst | 89 ++++++++++++++++++++++++++++++++++++++++
- qemu-options.hx          | 27 +++++-------
- 2 files changed, 99 insertions(+), 17 deletions(-)
+ docs/interop/live-block-operations.rst |   2 +
+ docs/interop/qemu-qmp-ref.rst          |   2 +
+ docs/system/index.rst                  |   2 +-
+ docs/system/introduction.rst           | 220 +++++++++++++++++++++++++
+ docs/system/multi-process.rst          |   2 +
+ docs/system/quickstart.rst             |  21 ---
+ qemu-options.hx                        |   3 +
+ 7 files changed, 230 insertions(+), 22 deletions(-)
+ create mode 100644 docs/system/introduction.rst
+ delete mode 100644 docs/system/quickstart.rst
 
-diff --git a/docs/about/emulation.rst b/docs/about/emulation.rst
-index bdc0630b35..dde892a226 100644
---- a/docs/about/emulation.rst
-+++ b/docs/about/emulation.rst
-@@ -101,3 +101,92 @@ depending on the guest architecture.
+diff --git a/docs/interop/live-block-operations.rst b/docs/interop/live-block-operations.rst
+index 135784ab33..691429c7af 100644
+--- a/docs/interop/live-block-operations.rst
++++ b/docs/interop/live-block-operations.rst
+@@ -4,6 +4,8 @@
+     This work is licensed under the terms of the GNU GPL, version 2 or
+     later.  See the COPYING file in the top-level directory.
  
- A number of features are are only available when running under
- emulation including :ref:`Record/Replay<replay>` and :ref:`TCG Plugins`.
++.. _Live Block Operations:
 +
-+.. _Semihosting:
+ ============================
+ Live Block Device Operations
+ ============================
+diff --git a/docs/interop/qemu-qmp-ref.rst b/docs/interop/qemu-qmp-ref.rst
+index 357effd64f..f94614a0b2 100644
+--- a/docs/interop/qemu-qmp-ref.rst
++++ b/docs/interop/qemu-qmp-ref.rst
+@@ -1,3 +1,5 @@
++.. _QMP Ref:
 +
-+Semihosting
-+-----------
+ QEMU QMP Reference Manual
+ =========================
+ 
+diff --git a/docs/system/index.rst b/docs/system/index.rst
+index 282b6ffb56..3605bbe1ce 100644
+--- a/docs/system/index.rst
++++ b/docs/system/index.rst
+@@ -12,7 +12,7 @@ or Hypervisor.Framework.
+ .. toctree::
+    :maxdepth: 3
+ 
+-   quickstart
++   introduction
+    invocation
+    device-emulation
+    keys
+diff --git a/docs/system/introduction.rst b/docs/system/introduction.rst
+new file mode 100644
+index 0000000000..a4a6130b02
+--- /dev/null
++++ b/docs/system/introduction.rst
+@@ -0,0 +1,220 @@
++Introduction
++============
 +
-+Semihosting is a feature defined by the owner of the architecture to
-+allow programs to interact with a debugging host system. On real
-+hardware this is usually provided by an In-circuit emulator (ICE)
-+hooked directly to the board. QEMU's implementation allows for
-+semihosting calls to be passed to the host system or via the
-+``gdbstub``.
++Virtualisation Accelerators
++---------------------------
 +
-+Generally semihosting makes it easier to bring up low level code before a
-+more fully functional operating system has been enabled. On QEMU it
-+also allows for embedded micro-controller code which typically doesn't
-+have a full libc to be run as "bare-metal" code under QEMU's user-mode
-+emulation. It is also useful for writing test cases and indeed a
-+number of compiler suites as well as QEMU itself use semihosting calls
-+to exit test code while reporting the success state.
++QEMU's system emulation provides a virtual model of a machine (CPU,
++memory and emulated devices) to run a guest OS. It supports a number
++of hypervisors (known as accelerators) as well as a JIT known as the
++Tiny Code Generator (TCG) capable of emulating many CPUs.
 +
-+Semihosting is only available using TCG emulation. This is because the
-+instructions to trigger a semihosting call are typically reserved
-+causing most hypervisors to trap and fault on them.
-+
-+.. warning::
-+   Semihosting inherently bypasses any isolation there may be between
-+   the guest and the host. As a result a program using semihosting can
-+   happily trash your host system. You should only ever run trusted
-+   code with semihosting enabled.
-+
-+Redirection
-+~~~~~~~~~~~
-+
-+Semihosting calls can be re-directed to a (potentially remote) gdb
-+during debugging via the :ref:`gdbstub<GDB usage>`. Output to the
-+semihosting console is configured as a ``chardev`` so can be
-+redirected to a file, pipe or socket like any other ``chardev``
-+device.
-+
-+See :ref:`Semihosting Options<Semihosting Options>` for details.
-+
-+Supported Targets
-+~~~~~~~~~~~~~~~~~
-+
-+Most targets offer similar semihosting implementations with some
-+minor changes to define the appropriate instruction to encode the
-+semihosting call and which registers hold the parameters. They tend to
-+presents a simple POSIX-like API which allows your program to read and
-+write files, access the console and some other basic interactions.
-+
-+For full details of the ABI for a particular target, and the set of
-+calls it provides, you should consult the semihosting specification
-+for that architecture.
-+
-+.. note::
-+   QEMU makes an implementation decision to implement all file
-+   access in ``O_BINARY`` mode. The user-visible effect of this is
-+   regardless of the text/binary mode the program sets QEMU will
-+   always select a binary mode ensuring no line-terminator conversion
-+   is performed on input or output. This is because gdb semihosting
-+   support doesn't make the distinction between the modes and
-+   magically processing line endings can be confusing.
-+
-+.. list-table:: Guest Architectures supporting Semihosting
-+  :widths: 10 10 80
++.. list-table:: Supported Accelerators
 +  :header-rows: 1
 +
-+  * - Architecture
-+    - Modes
-+    - Specification
-+  * - Arm
-+    - System and User-mode
-+    - https://github.com/ARM-software/abi-aa/blob/main/semihosting/semihosting.rst
-+  * - m68k
-+    - System
-+    - https://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=libgloss/m68k/m68k-semi.txt;hb=HEAD
-+  * - MIPS
-+    - System
-+    - Unified Hosting Interface (MD01069)
-+  * - Nios II
-+    - System
-+    - https://sourceware.org/git/gitweb.cgi?p=newlib-cygwin.git;a=blob;f=libgloss/nios2/nios2-semi.txt;hb=HEAD
-+  * - RISC-V
-+    - System and User-mode
-+    - https://github.com/riscv/riscv-semihosting-spec/blob/main/riscv-semihosting-spec.adoc
-+  * - Xtensa
-+    - System
-+    - Tensilica ISS SIMCALL
++  * - Accelerator
++    - Host OS
++    - Host Architectures
++  * - KVM
++    - Linux
++    - Arm (64 bit only), MIPS, PPC, RISC-V, s390x, x86
++  * - Xen
++    - Linux (as dom0)
++    - Arm, x86
++  * - Intel HAXM (hax)
++    - Linux, Windows
++    - x86
++  * - Hypervisor Framework (hvf)
++    - MacOS
++    - x86 (64 bit only), Arm (64 bit only)
++  * - Windows Hypervisor Platform (wphx)
++    - Windows
++    - x86
++  * - NetBSD Virtual Machine Monitor (nvmm)
++    - NetBSD
++    - x86
++  * - Tiny Code Generator (tcg)
++    - Linux, other POSIX, Windows, MacOS
++    - Arm, x86, Loongarch64, MIPS, PPC, s390x, Sparc64
++
++Feature Overview
++----------------
++
++System emulation provides a wide range of device models to emulate
++various hardware components you may want to add to your machine. This
++includes a wide number of VirtIO devices which are specifically tuned
++for efficient operation under virtualisation. Some of the device
++emulation can be offloaded from the main QEMU process using either
++vhost-user (for VirtIO) or :ref:`Multi-process QEMU`. If the platform
++supports it QEMU also supports directly passing devices through to
++guest VMs to eliminate the device emulation overhead. See
++:ref:`device-emulation` for more details.
++
++There is a full :ref:`featured block layer<Live Block Operations>`
++which allows for construction of complex storage topology which can be
++stacked across multiple layers supporting redirection, networking,
++snapshots and migration support.
++
++The flexible ``chardev`` system allows for handling IO from character
++like devices using stdio, files, unix sockets and TCP networking.
++
++QEMU provides a number of management interfaces including a line based
++:ref:`Human Monitor Protocol (HMP)<QEMU monitor>` that allows you to
++dynamically add and remove devices as well as introspect the system
++state. The :ref:`QEMU Monitor Protocol<QMP Ref>` (QMP) is a well
++defined, versioned, machine usable API that presents a rich interface
++to other tools to create, control and manage Virtual Machines. This is
++the interface used by higher level tools interfaces such as `Virt
++Manager <https://virt-manager.org/>`_ using the `libvirt framework
++<https://libvirt.org>`_.
++
++For the common accelerators QEMU, supported debugging with its
++:ref:`gdbstub<GDB usage>` which allows users to connect GDB and debug
++system software images.
++
++Running
++-------
++
++QEMU provides a rich and complex API which can be overwhelming to
++understand. While some architectures can boot something with just a
++disk image, those examples elide a lot of details with defaults that
++may not be optimal for modern systems.
++
++For a non-x86 system where we emulate a broad range of machine types,
++the command lines are generally more explicit in defining the machine
++and boot behaviour. You will find often find example command lines in
++the :ref:`system-targets-ref` section of the manual.
++
++While the project doesn't want to discourage users from using the
++command line to launch VMs, we do want to highlight that there are a
++number of projects dedicated to providing a more user friendly
++experience. Those built around the ``libvirt`` framework can make use
++of feature probing to build modern VM images tailored to run on the
++hardware you have.
++
++That said, the general form of a QEMU command line can be expressed
++as:
++
++.. parsed-literal::
++
++  $ |qemu_system| [machine opts] \\
++                  [cpu opts] \\
++                  [accelerator opts] \\
++                  [device opts] \\
++                  [backend opts] \\
++                  [interface opts] \\
++                  [boot opts] 
++
++Most options will generate some help information. So for example:
++
++.. parsed-literal::
++
++   $ |qemu_system| -M help
++
++will list the machine types supported by that QEMU binary. ``help``
++can also be passed as an argument to another option. For example:
++
++.. parsed-literal::
++
++  $ |qemu_system| -device scsi-hd,help
++
++will list the arguments and their default values of additional options
++that can control the behaviour of the ``scsi-hd`` device.
++
++.. list-table:: Options Overview
++  :header-rows: 1
++  :widths: 10, 90
++
++  * - Options
++    -
++  * - Machine
++    - Define the :ref:`machine type<Machine Options>`, amount of memory etc
++  * - CPU
++    - Type and number/topology of vCPUs. Most accelerators offer
++      a ``host`` cpu option which simply passes through your host CPU
++      configuration without filtering out any features.
++  * - Accelerator
++    - This will depend on the hypervisor you run. Note that the
++      default is TCG, which is purely emulated, so you must specify an
++      accelerator type to take advantage of hardware virtualization.
++  * - Devices
++    - Additional devices that are not defined by default with the
++      machine type.
++  * - Backends
++    - Backends are how QEMU deals with the guest's data, for example
++      how a block device is stored, how network devices see the
++      network or how a serial device is directed to the outside world.
++  * - Interfaces
++    - How the system is displayed, how it is managed and controlled or
++      debugged.
++  * - Boot
++    - How the system boots, via firmware or direct kernel boot.
++
++In the following example we first define a ``virt`` machine which is a
++general purpose platform for running Aarch64 guests. We enable
++virtualisation so we can use KVM inside the emulated guest. As the
++``virt`` machine comes with some built in pflash devices we give them
++names so we can override the defaults later.
++
++.. code::
++
++ $ qemu-system-aarch64 \
++    -machine type=virt,virtualization=on,pflash0=rom,pflash1=efivars \
++    -m 4096 \
++
++We then define the 4 vCPUs using the ``max`` option which gives us all
++the Arm features QEMU is capable of emulating. We enable a more
++emulation friendly implementation of Arm's pointer authentication
++algorithm. We explicitly specify TCG acceleration even though QEMU
++would default to it anyway.
++
++.. code::
++
++ -cpu max,pauth-impdef=on \
++ -smp 4 \
++ -accel tcg \
++
++As the ``virt`` platform doesn't have any default network or storage
++devices we need to define them. We give them ids so we can link them
++with the backend later on.
++
++.. code::
++
++ -device virtio-net-pci,netdev=unet \
++ -device virtio-scsi-pci \
++ -device scsi-hd,drive=hd \
++
++We connect the user-mode networking to our network device. As
++user-mode networking isn't directly accessible from the outside world
++we forward localhost port 2222 to the ssh port on the guest.
++
++.. code::
++
++ -netdev user,id=unet,hostfwd=tcp::2222-:22 \
++
++We connect the guest visible block device to an LVM partition we have
++set aside for our guest.
++
++.. code::
++
++ -blockdev driver=raw,node-name=hd,file.driver=host_device,file.filename=/dev/lvm-disk/debian-bullseye-arm64 \
++
++We then tell QEMU to multiplex the :ref:`QEMU monitor` with the serial
++port output (we can switch between the two using :ref:`keys in the
++character backend multiplexer`). As there is no default graphical
++device we disable the display as we can work entirely in the terminal.
++
++.. code::
++
++ -serial mon:stdio \
++ -display none \
++
++Finally we override the default firmware to ensure we have some
++storage for EFI to persist its configuration. That firmware is
++responsible for finding the disk, booting grub and eventually running
++our system.
++
++.. code::
++
++ -blockdev node-name=rom,driver=file,filename=(pwd)/pc-bios/edk2-aarch64-code.fd,read-only=true \
++ -blockdev node-name=efivars,driver=file,filename=$HOME/images/qemu-arm64-efivars
+diff --git a/docs/system/multi-process.rst b/docs/system/multi-process.rst
+index 210531ee17..16f0352416 100644
+--- a/docs/system/multi-process.rst
++++ b/docs/system/multi-process.rst
+@@ -1,3 +1,5 @@
++.. _Multi-process QEMU:
++
+ Multi-process QEMU
+ ==================
+ 
+diff --git a/docs/system/quickstart.rst b/docs/system/quickstart.rst
+deleted file mode 100644
+index 681678c86e..0000000000
+--- a/docs/system/quickstart.rst
++++ /dev/null
+@@ -1,21 +0,0 @@
+-.. _pcsys_005fquickstart:
+-
+-Quick Start
+------------
+-
+-Download and uncompress a PC hard disk image with Linux installed (e.g.
+-``linux.img``) and type:
+-
+-.. parsed-literal::
+-
+-   |qemu_system| linux.img
+-
+-Linux should boot and give you a prompt.
+-
+-Users should be aware the above example elides a lot of the complexity
+-of setting up a VM with x86_64 specific defaults and assumes the
+-first non switch argument is a PC compatible disk image with a boot
+-sector. For a non-x86 system where we emulate a broad range of machine
+-types, the command lines are generally more explicit in defining the
+-machine and boot behaviour. You will find more example command lines
+-in the :ref:`system-targets-ref` section of the manual.
 diff --git a/qemu-options.hx b/qemu-options.hx
-index d59d19704b..4508a00c59 100644
+index 4508a00c59..fd5347657a 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -4633,10 +4633,13 @@ DEF("semihosting", 0, QEMU_OPTION_semihosting,
-     QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
+@@ -20,6 +20,9 @@ DEF("version", 0, QEMU_OPTION_version,
  SRST
- ``-semihosting``
--    Enable semihosting mode (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V only).
-+    Enable :ref:`Semihosting` mode (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V only).
- 
--    Note that this allows guest direct access to the host filesystem, so
--    should only be used with a trusted guest OS.
-+    .. warning::
-+      Note that this allows guest direct access to the host filesystem, so
-+      should only be used with a trusted guest OS.
+ ``-version``
+     Display version information and exit
 +
-+    .. _Semihosting Options:
++    .. _Machine Options:
++
+ ERST
  
-     See the -semihosting-config option documentation for further
-     information about the facilities this enables.
-@@ -4648,22 +4651,12 @@ QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA |
- QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
- SRST
- ``-semihosting-config [enable=on|off][,target=native|gdb|auto][,chardev=id][,userspace=on|off][,arg=str[,...]]``
--    Enable and configure semihosting (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V
-+    Enable and configure :ref:`Semihosting` (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V
-     only).
- 
--    Note that this allows guest direct access to the host filesystem, so
--    should only be used with a trusted guest OS.
--
--    On Arm this implements the standard semihosting API, version 2.0.
--
--    On M68K this implements the "ColdFire GDB" interface used by
--    libgloss.
--
--    Xtensa semihosting provides basic file IO calls, such as
--    open/read/write/seek/select. Tensilica baremetal libc for ISS and
--    linux platform "sim" use this interface.
--
--    On RISC-V this implements the standard semihosting API, version 0.2.
-+    .. warning::
-+      Note that this allows guest direct access to the host filesystem, so
-+      should only be used with a trusted guest OS.
- 
-     ``target=native|gdb|auto``
-         Defines where the semihosting calls will be addressed, to QEMU
+ DEF("machine", HAS_ARG, QEMU_OPTION_machine, \
 -- 
 2.34.1
 
