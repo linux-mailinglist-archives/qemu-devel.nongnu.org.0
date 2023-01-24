@@ -2,84 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55940678DAE
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 02:47:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 228C5678DB7
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 02:50:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK8Oo-0004w6-Bl; Mon, 23 Jan 2023 20:46:58 -0500
+	id 1pK8RJ-0005cy-Ga; Mon, 23 Jan 2023 20:49:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pK8Om-0004vl-Ri
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 20:46:56 -0500
-Received: from mail-yb1-xb36.google.com ([2607:f8b0:4864:20::b36])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pK8Ol-0000kw-4R
- for qemu-devel@nongnu.org; Mon, 23 Jan 2023 20:46:56 -0500
-Received: by mail-yb1-xb36.google.com with SMTP id m199so1415491ybm.4
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 17:46:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=7rxaJ/1EfL1OB3C4ie6J8+jg/0++/S8+Ov+z6ACUdPE=;
- b=MsTrnZ95vQszfwRjmHxBsGFGpwYRIe20oK0xBilaPKrnpkJtqnh9y8KJzWmDCL57lD
- +13XvdcEq0QoVwx1FcLC7rwG/qXuQtXesB8zXkbrUsI+pIgKZgxSu7Vh4BnJNYHtNovi
- pxA9Zb3Qroie3WDQjE3vtKRFaRxqvRXrmXcPL7C6nQ5SnwXa0teD514zsugTzGUQ3LF4
- 2wNmNfEwuCPTMKEyISmuLoEp0VSfi2pS/i4ntkN32V0F9ID8KHG2bEVZI0xKGMPPfvJ0
- fM0PGVStpigXV6JC7IyZDUlaH2lpZXVgKKIR8KwWVLFsMV9PcP5oKE9ssGvnC2kjCOOn
- f7oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=7rxaJ/1EfL1OB3C4ie6J8+jg/0++/S8+Ov+z6ACUdPE=;
- b=KlGUvUyfXGdXwpaMHiMRhEp/+lA/qzShChBmXXNCcpGB2qmYNVw7eID4kdEf/6wcYc
- FzB4rHW+BO4vkZEcnlv1CMo+lFteM4yYp9q0Tk1RuW33wkJ3+sFCKKz6aiUgMByRNZ21
- hZoX9z8TqgK1zvPEzBY2U2WKxrP+GYrXwGfsa+bmtPds4RQEhllbuqa/jKz8GACSS1IE
- /tLAYWXbvCSrl57oJefbch+/awzY31CucG9xCrbtp5GOKjcgheAbhx6WNQvBtWjNJlZw
- sblapcZvvyhpAKoZrGkTT8EFW9Q7Algn96X6RYXi+sNlJQxyFaBvqNBRMh1kH7ELXUC7
- a15g==
-X-Gm-Message-State: AFqh2kqkTy11LU+e1I+D0uBlEhcycB9h9BzqAbVB5Q1+G6tYiogGQtQG
- QYmxD7y96COLHDl/X4xYwqdWdC/gQnATFSe4OSQ=
-X-Google-Smtp-Source: AMrXdXvpBtEoW73IXLZBKyXGk/icYCMOtjwc1rX92eFQQhUnYXjaQ26aahHziA19fVuvaimqnQjfQCEAXX7+PJOaDQ8=
-X-Received: by 2002:a25:344a:0:b0:803:60ae:431c with SMTP id
- b71-20020a25344a000000b0080360ae431cmr1289454yba.642.1674524813756; Mon, 23
- Jan 2023 17:46:53 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pK8RG-0005cf-K8; Mon, 23 Jan 2023 20:49:30 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pK8RE-00012x-5P; Mon, 23 Jan 2023 20:49:29 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id EA5D0746376;
+ Tue, 24 Jan 2023 02:47:00 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id B2A5974635C; Tue, 24 Jan 2023 02:47:00 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id B0ACF746346;
+ Tue, 24 Jan 2023 02:47:00 +0100 (CET)
+Date: Tue, 24 Jan 2023 02:47:00 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Howard Spoelstra <hsp.cat7@gmail.com>
+cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
+In-Reply-To: <CABLmASGc6fybw7mL5JHUCukwoB6KjGaaWHct5mi20A2vXZhtaA@mail.gmail.com>
+Message-ID: <8e6f46fb-5e1b-8016-c595-85e8e83ace47@eik.bme.hu>
+References: <cover.1672868854.git.balaton@eik.bme.hu>
+ <4162db13bd1da9c6ddd77f185cef738e44790467.1672868854.git.balaton@eik.bme.hu>
+ <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
+ <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
+ <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
+ <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
+ <ab9e33e5-70fc-0a76-c548-16ec787ea1af@ilande.co.uk>
+ <ed8ee369-c9a8-7853-3b65-7361fefc3c63@eik.bme.hu>
+ <ca5240e6-e00d-6213-22d6-f7b43d8bed18@ilande.co.uk>
+ <CABLmASGc6fybw7mL5JHUCukwoB6KjGaaWHct5mi20A2vXZhtaA@mail.gmail.com>
 MIME-Version: 1.0
-References: <20230119074602-mutt-send-email-mst@kernel.org>
- <f9993404-f8b8-7a23-37f8-530313783466@yandex-team.ru>
- <20230120085534-mutt-send-email-mst@kernel.org>
- <703d527f-de92-090c-6ce1-af0dec7de033@yandex-team.ru>
- <20230122030455-mutt-send-email-mst@kernel.org>
- <b7de3adc-cba7-09eb-ea93-f4bfb91bea9e@yandex-team.ru>
- <20230122093903-mutt-send-email-mst@kernel.org>
- <70c0f00a-7828-3ccf-c2ea-49aeef8693e9@yandex-team.ru>
- <20230122111618-mutt-send-email-mst@kernel.org>
- <Y87Ri4r6SiETdCrt@work-vm> <Y87lv8fXrYpxkK/3@fedora>
-In-Reply-To: <Y87lv8fXrYpxkK/3@fedora>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 23 Jan 2023 20:46:41 -0500
-Message-ID: <CAJSP0QV5wfXxhvjjFnLLUCvmSxiHxTPXh4qQJwHhnKdBu3EOQQ@mail.gmail.com>
-Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Anton Kuchin <antonkuchin@yandex-team.ru>, qemu-devel@nongnu.org,
- virtio-fs@redhat.com, 
- Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>, 
- Juan Quintela <quintela@redhat.com>, yc-core@yandex-team.ru
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::b36;
- envelope-from=stefanha@gmail.com; helo=mail-yb1-xb36.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,76 +67,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 23 Jan 2023 at 14:54, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+On Tue, 24 Jan 2023, Howard Spoelstra wrote:
+> From a Mac OS guest perspective, via=cuda is needed for Mac OS 9.0.4 due to
+> the 2 usb devices (mouse/kbd) issue. And for 10.0/10.1 (my guess would be
+> that these suffer the same usb issue)
+> The real powermac3,1 AGP has no adb.
+
+And do these OSes run on real PowerMac3,1? If so then we likely have a bug 
+in USB emulation so maybe that could be fixed? In any case my patch does 
+not change mac99 and this should continue to work.
+
+> via=cuda supports Mac OS 9.0.4 up to OS X 10.4. via=pmu is strictly only
+> needed for Mac OS X 10.5 guest (for which the speed reported was hacked to
+> 900Mhz to fool the installer), but should support all Mac OS/OS X that are
+> now supported.
+
+Since via=pmu is what should be a real machine does it run OS X >=10.2 
+already?
+
+> via=pmu-adb seems only needed to trick mac os server installations that
+> would later run on the g3beige.
 >
-> On Mon, Jan 23, 2023 at 06:27:23PM +0000, Dr. David Alan Gilbert wrote:
-> > * Michael S. Tsirkin (mst@redhat.com) wrote:
-> > > On Sun, Jan 22, 2023 at 06:09:40PM +0200, Anton Kuchin wrote:
-> > > >
-> > > > On 22/01/2023 16:46, Michael S. Tsirkin wrote:
-> > > > > On Sun, Jan 22, 2023 at 02:36:04PM +0200, Anton Kuchin wrote:
-> > > > > > > > This flag should be set when qemu don't need to worry about any
-> > > > > > > > external state stored in vhost-user daemons during migration:
-> > > > > > > > don't fail migration, just pack generic virtio device states to
-> > > > > > > > migration stream and orchestrator guarantees that the rest of the
-> > > > > > > > state will be present at the destination to restore full context and
-> > > > > > > > continue running.
-> > > > > > > Sorry  I still do not get it.  So fundamentally, why do we need this property?
-> > > > > > > vhost-user-fs is not created by default that we'd then need opt-in to
-> > > > > > > the special "migrateable" case.
-> > > > > > > That's why I said it might make some sense as a device property as qemu
-> > > > > > > tracks whether device is unplugged for us.
-> > > > > > >
-> > > > > > > But as written, if you are going to teach the orchestrator about
-> > > > > > > vhost-user-fs and its special needs, just teach it when to migrate and
-> > > > > > > where not to migrate.
-> > > > > > >
-> > > > > > > Either we describe the special situation to qemu and let qemu
-> > > > > > > make an intelligent decision whether to allow migration,
-> > > > > > > or we trust the orchestrator. And if it's the latter, then 'migrate'
-> > > > > > > already says orchestrator decided to migrate.
-> > > > > > The problem I'm trying to solve is that most of vhost-user devices
-> > > > > > now block migration in qemu. And this makes sense since qemu can't
-> > > > > > extract and transfer backend daemon state. But this prevents us from
-> > > > > > updating qemu executable via local migration. So this flag is
-> > > > > > intended more as a safety check that says "I know what I'm doing".
-> > > > > >
-> > > > > > I agree that it is not really necessary if we trust the orchestrator
-> > > > > > to request migration only when the migration can be performed in a
-> > > > > > safe way. But changing the current behavior of vhost-user-fs from
-> > > > > > "always blocks migration" to "migrates partial state whenever
-> > > > > > orchestrator requests it" seems a little  dangerous and can be
-> > > > > > misinterpreted as full support for migration in all cases.
-> > > > > It's not really different from block is it? orchestrator has to arrange
-> > > > > for backend migration. I think we just assumed there's no use-case where
-> > > > > this is practical for vhost-user-fs so we blocked it.
-> > > > > But in any case it's orchestrator's responsibility.
-> > > >
-> > > > Yes, you are right. So do you think we should just drop the blocker
-> > > > without adding a new flag?
-> > >
-> > > I'd be inclined to. I am curious what do dgilbert and stefanha think though.
-> >
-> > Yes I think that's probably OK, as long as we use the flag for knowing
-> > how to handle the discard bitmap as a proxy for the daemon knowing how
-> > to handle *some* migrations; knowing which migrations is then the job
-> > for the orchestrator to be careful of.
->
-> I think the feature bit is not a good way to detect live migration
-> support. vhost-user backends typically use libvhost-user, rust-vmm's
-> vhost-user-backend crate, etc where this feature can be implemented for
-> free. If the feature bit is advertized we don't know if the device
-> implementation (net, blk, fs, etc) is aware of migration at all.
+> To my knowledge 32 bit Linux guests all require via=pmu
+> See here: https://wiki.qemu.org/Documentation/Platforms/PowerPC
 
-I checked how bad the situation is. libvhost-user currently enables
-LOG_ALL by default. :(
+That doc might need some updating. It seems to be from before pegasos2 was 
+added. Maybe we would be better off linking from this page to others that 
+are more actively maintained such as: 
+https://www.emaculation.com/doku.php/qemu 
+and 
+http://zero.eik.bme.hu/~balaton/qemu/amiga/
 
-So I don't think the front-end can use LOG_ALL alone to determine
-whether or not migration is supported by the back-end.
+or even better updating the main docs in
 
-There are several existing back-ends based on libvhost-user that have
-no concept of reconnection or migration but report the LOG_ALL feature
-bit.
+https://www.qemu.org/docs/master/system/ppc/powermac.html
 
-Stefan
+or somehow link these sources together.
+
+Regards,
+BALATON Zoltan
 
