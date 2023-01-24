@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87691678DED
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:07:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EBFA678DEC
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 03:07:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pK8gr-0008U0-UR; Mon, 23 Jan 2023 21:05:37 -0500
+	id 1pK8gr-0008TK-CF; Mon, 23 Jan 2023 21:05:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8gp-0008So-3s
+ id 1pK8gp-0008Sp-5v
  for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:35 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pK8gm-0003wE-HT
+ id 1pK8gn-0003se-3N
  for qemu-devel@nongnu.org; Mon, 23 Jan 2023 21:05:34 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id jl3so13330054plb.8
- for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:31 -0800 (PST)
+Received: by mail-pj1-x102f.google.com with SMTP id o13so13450247pjg.2
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 18:05:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=oSN4q2/trOO3CWE4wgzA7y5a7w/3XkcLOKjOmfpe6tk=;
- b=dTu6hHgjCjYu4vb0HzGPYJnlPfyiRNNp7hG8cdXWwXCyRAdx/zLplrIUUpys/InvlT
- hzLU1IvVVmbGAd5xxlAK9vA56ggQWn6DYRiNAqYnLZD9txk7o5fF5JOoilZJ0dN2Mn3Z
- GPGbDU9QoetCLzVmj7UcikK9DNWVZS7D0Jri2UHSJdYEx/q9KIvPd+BfCSrmFEYJhzuI
- fIBJ+KKn/psPkFB+tGkBnWWm5L0ylFiuBp/fCI0TncyPGgkuCaRNxtw72cYreIRUIfQI
- XrPovPjl6M8BOoGDNA0wj6Z43+DgQS6iRWUjCfauVaMdd0g9Y8EBvcciLHPnaGVsccmo
- oTZw==
+ bh=0mmDm29bhUF/un9qqegtPH06CTbT3PUUr5zUFrPrVJw=;
+ b=VhtfjV0VWIgq4balisUgNQAYRQyAc3JvpXii6AUxIXqZSFgl4o/BnANQRepR47G34L
+ 154d4UvF/8AG4QbmUJLaQ4RYB3fI7HTN3kW3Lk/UuT+4z2sQloiF5Ie9WPtXhddFh90l
+ 81570mLLTgNogySep/PIMOO3m2BDJvqiSoNKnD73aN0jS2HakFlkwfXDgIjMggsY3Vqv
+ tnrCGzjj6q8YbN2PbWKJ2UhvNrkF7T+tGrRtAhPRmRDeXBQFbQ4FjazmQfE9eqy+tat6
+ Km+dtFD5UTaIP2YEru1UlTQJhm6aVglL31IFU3o5GodfTy/ynzekcQI7igiajhwD4Vyx
+ f3aQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=oSN4q2/trOO3CWE4wgzA7y5a7w/3XkcLOKjOmfpe6tk=;
- b=seRtvHYWS+zXe/ZEr7Al7qtx4ETAH/OWfiQ6tQknE/gX+HyifG3aK7UV1+jv86o+m3
- xwaVCeU+NBTOL31fwOz0/gq73drMmFsJHdyymyyf5qY2EQ/eelxAl23JbhcKpsaPGdxt
- Nz3BaoAcJcVEe4QQ8HGol79hSmR+YwTN8yCzdgp/A5VPzY/zhgj5KXvS9Ud1UHnONI5u
- 6HNm9NgnNlGqC/vhowkDrkA61/apJ7xvESfw8EJSSPaNgZYYNrFkfaaFtXNRy9mIj/GE
- HAZefgwQdx0YX1dQfS5pZHJl/yFZOhdEaLECqHG6bwHkPRZpMsTZX9OSFWKe7RT2RNc+
- Ay1A==
-X-Gm-Message-State: AFqh2krZAAIDUop4F8o2K50GG89dpxWI0vVRf8Ym6dteYpuPSielGmun
- 631FnwSc0LzQugAyCGWgr7Jcxmb0W2gvVTg0
-X-Google-Smtp-Source: AMrXdXt4hgqE/ivIipbWzIT6hAxNgxN0YHQLe85eIoMlEkgjHuG7XC2Ba6rY+lWgPtkYjExFDncXKA==
-X-Received: by 2002:a17:90a:170c:b0:229:cc2b:524b with SMTP id
- z12-20020a17090a170c00b00229cc2b524bmr21729039pjd.24.1674525930657; 
- Mon, 23 Jan 2023 18:05:30 -0800 (PST)
+ bh=0mmDm29bhUF/un9qqegtPH06CTbT3PUUr5zUFrPrVJw=;
+ b=HphWvpsUkNyJS13UUlWZssFykYK++U0BE105u4W5YbaoTTaBeVWueqmolsICk9kJp/
+ u6x0eT3SOodkU4dzFIDLk53G3l2IWMNdFQ//wgMnWaORrSd/fcSkzU2zzTF/yMuXQoC7
+ SYe9IDUAh3YiiDD0HvZeZF+oXZA/OZr64oDzBa1B+YaBLNUlxv6DxrauhwR2j5VMSljk
+ Ici36WRFBbzyr3Ac405jxSZrsRMF8lRBwr91R+CYQHG6/v3Q+dgkmIQKMBpVWSq4/KLf
+ 89s9WsGBANhD36v0rAuhI8ZJNzSmlINLgSUM5G3PPUji7Z/OekYSshO8kJcqdIT1RTdf
+ /EiA==
+X-Gm-Message-State: AFqh2kpFBpBgSN4F/lTsOYATSoowMdHRfPcBHyILq/mqO6VBkSpVXuyA
+ DsczrKn3VQNTefrvgYhgFSoroLdaNQytPCTC
+X-Google-Smtp-Source: AMrXdXvb8pW5ML76UrvfElUOUCgIuH4atYtWBzThHZJZYHnGkHUnjwpMT5ypnY1hOrdHVM5Jw17mKQ==
+X-Received: by 2002:a17:90a:aa12:b0:229:14ec:a3b9 with SMTP id
+ k18-20020a17090aaa1200b0022914eca3b9mr27178611pjq.22.1674525932280; 
+ Mon, 23 Jan 2023 18:05:32 -0800 (PST)
 Received: from stoup.. (rrcs-173-198-77-218.west.biz.rr.com. [173.198.77.218])
  by smtp.gmail.com with ESMTPSA id
- fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.29
+ fh3-20020a17090b034300b00228e56d375asm283936pjb.33.2023.01.23.18.05.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 23 Jan 2023 18:05:30 -0800 (PST)
+ Mon, 23 Jan 2023 18:05:31 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	WANG Xuerui <git@xen0n.name>
-Subject: [PULL v2 12/15] tcg/loongarch64: Improve setcond expansion
-Date: Mon, 23 Jan 2023 16:05:04 -1000
-Message-Id: <20230124020507.3732200-13-richard.henderson@linaro.org>
+Subject: [PULL v2 13/15] tcg/loongarch64: Implement movcond
+Date: Mon, 23 Jan 2023 16:05:05 -1000
+Message-Id: <20230124020507.3732200-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124020507.3732200-1-richard.henderson@linaro.org>
 References: <20230124020507.3732200-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,222 +90,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Split out a helper function, tcg_out_setcond_int, which
-does not always produce the complete boolean result, but
-returns a set of flags to do so.
-
-Accept all int32_t as constant input, so that LE/GT can
-adjust the constant to LT.
-
 Reviewed-by: WANG Xuerui <git@xen0n.name>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/loongarch64/tcg-target.c.inc | 165 +++++++++++++++++++++----------
- 1 file changed, 115 insertions(+), 50 deletions(-)
+ tcg/loongarch64/tcg-target-con-set.h |  1 +
+ tcg/loongarch64/tcg-target.h         |  4 ++--
+ tcg/loongarch64/tcg-target.c.inc     | 33 ++++++++++++++++++++++++++++
+ 3 files changed, 36 insertions(+), 2 deletions(-)
 
+diff --git a/tcg/loongarch64/tcg-target-con-set.h b/tcg/loongarch64/tcg-target-con-set.h
+index 7b5a7a3f5d..172c107289 100644
+--- a/tcg/loongarch64/tcg-target-con-set.h
++++ b/tcg/loongarch64/tcg-target-con-set.h
+@@ -31,3 +31,4 @@ C_O1_I2(r, 0, rZ)
+ C_O1_I2(r, rZ, ri)
+ C_O1_I2(r, rZ, rJ)
+ C_O1_I2(r, rZ, rZ)
++C_O1_I4(r, rZ, rJ, rZ, rZ)
+diff --git a/tcg/loongarch64/tcg-target.h b/tcg/loongarch64/tcg-target.h
+index 1c3e48d662..533a539ce9 100644
+--- a/tcg/loongarch64/tcg-target.h
++++ b/tcg/loongarch64/tcg-target.h
+@@ -97,7 +97,7 @@ typedef enum {
+ #define TCG_TARGET_CALL_ARG_I64         TCG_CALL_ARG_NORMAL
+ 
+ /* optional instructions */
+-#define TCG_TARGET_HAS_movcond_i32      0
++#define TCG_TARGET_HAS_movcond_i32      1
+ #define TCG_TARGET_HAS_div_i32          1
+ #define TCG_TARGET_HAS_rem_i32          1
+ #define TCG_TARGET_HAS_div2_i32         0
+@@ -133,7 +133,7 @@ typedef enum {
+ #define TCG_TARGET_HAS_qemu_st8_i32     0
+ 
+ /* 64-bit operations */
+-#define TCG_TARGET_HAS_movcond_i64      0
++#define TCG_TARGET_HAS_movcond_i64      1
+ #define TCG_TARGET_HAS_div_i64          1
+ #define TCG_TARGET_HAS_rem_i64          1
+ #define TCG_TARGET_HAS_div2_i64         0
 diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-target.c.inc
-index 8cc6c5eec2..ccc1c0f392 100644
+index ccc1c0f392..29d75c80eb 100644
 --- a/tcg/loongarch64/tcg-target.c.inc
 +++ b/tcg/loongarch64/tcg-target.c.inc
-@@ -469,64 +469,131 @@ static void tcg_out_clzctz(TCGContext *s, LoongArchInsn opc,
-     tcg_out_opc_or(s, a0, TCG_REG_TMP0, a0);
+@@ -596,6 +596,30 @@ static void tcg_out_setcond(TCGContext *s, TCGCond cond, TCGReg ret,
+     }
  }
  
--static void tcg_out_setcond(TCGContext *s, TCGCond cond, TCGReg ret,
--                            TCGReg arg1, TCGReg arg2, bool c2)
--{
--    TCGReg tmp;
-+#define SETCOND_INV    TCG_TARGET_NB_REGS
-+#define SETCOND_NEZ    (SETCOND_INV << 1)
-+#define SETCOND_FLAGS  (SETCOND_INV | SETCOND_NEZ)
- 
--    if (c2) {
--        tcg_debug_assert(arg2 == 0);
-+static int tcg_out_setcond_int(TCGContext *s, TCGCond cond, TCGReg ret,
-+                               TCGReg arg1, tcg_target_long arg2, bool c2)
++static void tcg_out_movcond(TCGContext *s, TCGCond cond, TCGReg ret,
++                            TCGReg c1, tcg_target_long c2, bool const2,
++                            TCGReg v1, TCGReg v2)
 +{
-+    int flags = 0;
++    int tmpflags = tcg_out_setcond_int(s, cond, TCG_REG_TMP0, c1, c2, const2);
++    TCGReg t;
 +
-+    switch (cond) {
-+    case TCG_COND_EQ:    /* -> NE  */
-+    case TCG_COND_GE:    /* -> LT  */
-+    case TCG_COND_GEU:   /* -> LTU */
-+    case TCG_COND_GT:    /* -> LE  */
-+    case TCG_COND_GTU:   /* -> LEU */
-+        cond = tcg_invert_cond(cond);
-+        flags ^= SETCOND_INV;
-+        break;
-+    default:
-+        break;
-     }
- 
-     switch (cond) {
--    case TCG_COND_EQ:
--        if (c2) {
--            tmp = arg1;
--        } else {
--            tcg_out_opc_sub_d(s, ret, arg1, arg2);
--            tmp = ret;
--        }
--        tcg_out_opc_sltui(s, ret, tmp, 1);
--        break;
--    case TCG_COND_NE:
--        if (c2) {
--            tmp = arg1;
--        } else {
--            tcg_out_opc_sub_d(s, ret, arg1, arg2);
--            tmp = ret;
--        }
--        tcg_out_opc_sltu(s, ret, TCG_REG_ZERO, tmp);
--        break;
--    case TCG_COND_LT:
--        tcg_out_opc_slt(s, ret, arg1, arg2);
--        break;
--    case TCG_COND_GE:
--        tcg_out_opc_slt(s, ret, arg1, arg2);
--        tcg_out_opc_xori(s, ret, ret, 1);
--        break;
-     case TCG_COND_LE:
--        tcg_out_setcond(s, TCG_COND_GE, ret, arg2, arg1, false);
--        break;
--    case TCG_COND_GT:
--        tcg_out_setcond(s, TCG_COND_LT, ret, arg2, arg1, false);
--        break;
--    case TCG_COND_LTU:
--        tcg_out_opc_sltu(s, ret, arg1, arg2);
--        break;
--    case TCG_COND_GEU:
--        tcg_out_opc_sltu(s, ret, arg1, arg2);
--        tcg_out_opc_xori(s, ret, ret, 1);
--        break;
-     case TCG_COND_LEU:
--        tcg_out_setcond(s, TCG_COND_GEU, ret, arg2, arg1, false);
-+        /*
-+         * If we have a constant input, the most efficient way to implement
-+         * LE is by adding 1 and using LT.  Watch out for wrap around for LEU.
-+         * We don't need to care for this for LE because the constant input
-+         * is still constrained to int32_t, and INT32_MAX+1 is representable
-+         * in the 64-bit temporary register.
-+         */
-+        if (c2) {
-+            if (cond == TCG_COND_LEU) {
-+                /* unsigned <= -1 is true */
-+                if (arg2 == -1) {
-+                    tcg_out_movi(s, TCG_TYPE_REG, ret, !(flags & SETCOND_INV));
-+                    return ret;
-+                }
-+                cond = TCG_COND_LTU;
-+            } else {
-+                cond = TCG_COND_LT;
-+            }
-+            arg2 += 1;
-+        } else {
-+            TCGReg tmp = arg2;
-+            arg2 = arg1;
-+            arg1 = tmp;
-+            cond = tcg_swap_cond(cond);    /* LE -> GE */
-+            cond = tcg_invert_cond(cond);  /* GE -> LT */
-+            flags ^= SETCOND_INV;
-+        }
-         break;
--    case TCG_COND_GTU:
--        tcg_out_setcond(s, TCG_COND_LTU, ret, arg2, arg1, false);
-+    default:
-         break;
++    /* Standardize the test below to t != 0. */
++    if (tmpflags & SETCOND_INV) {
++        t = v1, v1 = v2, v2 = t;
 +    }
 +
-+    switch (cond) {
-+    case TCG_COND_NE:
-+        flags |= SETCOND_NEZ;
-+        if (!c2) {
-+            tcg_out_opc_xor(s, ret, arg1, arg2);
-+        } else if (arg2 == 0) {
-+            ret = arg1;
-+        } else if (arg2 >= 0 && arg2 <= 0xfff) {
-+            tcg_out_opc_xori(s, ret, arg1, arg2);
-+        } else {
-+            tcg_out_addi(s, TCG_TYPE_REG, ret, arg1, -arg2);
-+        }
++    t = tmpflags & ~SETCOND_FLAGS;
++    if (v1 == TCG_REG_ZERO) {
++        tcg_out_opc_masknez(s, ret, v2, t);
++    } else if (v2 == TCG_REG_ZERO) {
++        tcg_out_opc_maskeqz(s, ret, v1, t);
++    } else {
++        tcg_out_opc_masknez(s, TCG_REG_TMP2, v2, t); /* t ? 0 : v2 */
++        tcg_out_opc_maskeqz(s, TCG_REG_TMP1, v1, t); /* t ? v1 : 0 */
++        tcg_out_opc_or(s, ret, TCG_REG_TMP1, TCG_REG_TMP2);
++    }
++}
++
+ /*
+  * Branch helpers
+  */
+@@ -1538,6 +1562,11 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc,
+         tcg_out_setcond(s, args[3], a0, a1, a2, c2);
+         break;
+ 
++    case INDEX_op_movcond_i32:
++    case INDEX_op_movcond_i64:
++        tcg_out_movcond(s, args[5], a0, a1, a2, c2, args[3], args[4]);
 +        break;
 +
-+    case TCG_COND_LT:
-+    case TCG_COND_LTU:
-+        if (c2) {
-+            if (arg2 >= -0x800 && arg2 <= 0x7ff) {
-+                if (cond == TCG_COND_LT) {
-+                    tcg_out_opc_slti(s, ret, arg1, arg2);
-+                } else {
-+                    tcg_out_opc_sltui(s, ret, arg1, arg2);
-+                }
-+                break;
-+            }
-+            tcg_out_movi(s, TCG_TYPE_REG, TCG_REG_TMP0, arg2);
-+            arg2 = TCG_REG_TMP0;
-+        }
-+        if (cond == TCG_COND_LT) {
-+            tcg_out_opc_slt(s, ret, arg1, arg2);
-+        } else {
-+            tcg_out_opc_sltu(s, ret, arg1, arg2);
-+        }
-+        break;
+     case INDEX_op_ld8s_i32:
+     case INDEX_op_ld8s_i64:
+         tcg_out_ldst(s, OPC_LD_B, a0, a1, a2);
+@@ -1741,6 +1770,10 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
+     case INDEX_op_remu_i64:
+         return C_O1_I2(r, rZ, rZ);
+ 
++    case INDEX_op_movcond_i32:
++    case INDEX_op_movcond_i64:
++        return C_O1_I4(r, rZ, rJ, rZ, rZ);
 +
      default:
          g_assert_not_reached();
-         break;
      }
-+
-+    return ret | flags;
-+}
-+
-+static void tcg_out_setcond(TCGContext *s, TCGCond cond, TCGReg ret,
-+                            TCGReg arg1, tcg_target_long arg2, bool c2)
-+{
-+    int tmpflags = tcg_out_setcond_int(s, cond, ret, arg1, arg2, c2);
-+
-+    if (tmpflags != ret) {
-+        TCGReg tmp = tmpflags & ~SETCOND_FLAGS;
-+
-+        switch (tmpflags & SETCOND_FLAGS) {
-+        case SETCOND_INV:
-+            /* Intermediate result is boolean: simply invert. */
-+            tcg_out_opc_xori(s, ret, tmp, 1);
-+            break;
-+        case SETCOND_NEZ:
-+            /* Intermediate result is zero/non-zero: test != 0. */
-+            tcg_out_opc_sltu(s, ret, TCG_REG_ZERO, tmp);
-+            break;
-+        case SETCOND_NEZ | SETCOND_INV:
-+            /* Intermediate result is zero/non-zero: test == 0. */
-+            tcg_out_opc_sltui(s, ret, tmp, 1);
-+            break;
-+        default:
-+            g_assert_not_reached();
-+        }
-+    }
- }
- 
- /*
-@@ -1646,18 +1713,16 @@ static TCGConstraintSetIndex tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_ctz_i64:
-         return C_O1_I2(r, r, rW);
- 
--    case INDEX_op_setcond_i32:
--    case INDEX_op_setcond_i64:
--        return C_O1_I2(r, r, rZ);
--
-     case INDEX_op_deposit_i32:
-     case INDEX_op_deposit_i64:
-         /* Must deposit into the same register as input */
-         return C_O1_I2(r, 0, rZ);
- 
-     case INDEX_op_sub_i32:
-+    case INDEX_op_setcond_i32:
-         return C_O1_I2(r, rZ, ri);
-     case INDEX_op_sub_i64:
-+    case INDEX_op_setcond_i64:
-         return C_O1_I2(r, rZ, rJ);
- 
-     case INDEX_op_mul_i32:
 -- 
 2.34.1
 
