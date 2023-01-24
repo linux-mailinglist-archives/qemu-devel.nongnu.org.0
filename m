@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9888D67A0F0
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:10:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A06E967A0D0
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 19:04:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKNi8-000671-H6; Tue, 24 Jan 2023 13:07:56 -0500
+	id 1pKNcU-0001eP-1O; Tue, 24 Jan 2023 13:02:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNhN-00058K-IU
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:12 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ id 1pKNcF-0001al-VP
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:01:52 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKNhH-00075N-KY
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:07:09 -0500
-Received: by mail-wr1-x436.google.com with SMTP id h16so14703009wrz.12
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:07:03 -0800 (PST)
+ id 1pKNc2-00066a-SO
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 13:01:51 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id m7so1049571wru.8
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 10:01:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=k+FrLym2gYoR5e6WGI0PlTaXexogReS4GR+wH8SNJig=;
- b=mB4kPFksLoWlC26xJhrdbHo0FgqHs3d97kopnHgne+fbIXosBmIacwtjTbTpLEhrIf
- h4QRIEIGii+FH/AbTkL2MFR7r0DMSLpMvZvOTots4oEIa4bKYIFT6PKdk+VbFOvTQori
- G3fxpEGeT8UzgHOXcVai/s3IsIfWDM2FNCM7o1b5rrIBnU+ZnRGVdjhcn6BpFvSTWYmz
- J4B46Gg+TIDEgeLl7suZmdmOp7KNuLdxmxkMZPBmJxTen9Gn4/J8jOKZSrMe5pqcvbux
- 12lp3x5jfpT1tkevxHkV/LgCAmJhvgeOcYnCRF8Tg1RYA0iGoBedUvhXfWD4MjL0411Q
- HN4g==
+ bh=ftsHmsTGZgDT5Qa4G5a0O07a98aZVecpYU74M0jo0rk=;
+ b=h3R0AHc5vyoZjG/S3OaXzMXJ1Z2rsw09AHzm7pRNKTiQq1Tgkcp/Tk48stLAymfHph
+ 2BUoIqRkPsjnRr9IXBc62Se8HI9wf87iVUlc9qwwRUWCQxcnbGIhoyHD+K7/FWLPQeh1
+ ihTbdejWD8TOHVfF7dzDu6mx4Pmj174Y/Xk/LKw4Ec60lOG/VJDPFeNmSRSa9vsyVDc1
+ MBxxe3ZjMRXFLKWGwI2jOZQS9LzfEKEr/P9enQk5uDDKNdA35cu6wMkGRWzufrc3TLWJ
+ sx/Efd8QnlsVhMwv4U/3kx7LDeUAaPnBuXHzCOxQnYml9zLfo9njlYO0kBLqyKQcFv7f
+ IY/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=k+FrLym2gYoR5e6WGI0PlTaXexogReS4GR+wH8SNJig=;
- b=g+lhcrxOACzfns7hOqXAPCVWdD7Tldkjyogv2lKfFvGNHBfb51boFhEWqylXIqiuGs
- Ie0lb96g7TVhEC7zujkhjperjooD4HeiRCGM7pkQjdDHsTUQBT1fgtGlJi/qGBlJGioC
- 5Ay/mfwE2SPFBhXARZLHTpDZX/NChXdMUFLs0yv2Nys5LNhpnSXpz5YiGctKe+ELOf0j
- mtLY3MsBFNoLQIa9UoPErJHFeDyIZSiIHlq5ZJWkx0P2eDxQBwepqaUlhbfMP2efwxbr
- v5zuWQtKatpZhtHO9kcMBSHwCLD9Zi0ak6Lj86n4EvcEe//TA763ybyPYkXUga87D8JG
- 7zWw==
-X-Gm-Message-State: AFqh2kr5MRUXUBMJcNny75zik6D6gixCV63qhMX6FF77SBUzNthLuV1D
- 8CHsJK3aPO4S0rhuyCLbyqs4Dg==
-X-Google-Smtp-Source: AMrXdXulFPA0t8ezGx6VWEp7QN74L5jeNO9Wq1Z+y0qDGZtrxivVpYMhqAvug8FRPg92g1Y/DGVVgA==
-X-Received: by 2002:a5d:6e82:0:b0:242:5563:c3b with SMTP id
- k2-20020a5d6e82000000b0024255630c3bmr26598627wrz.59.1674583621890; 
- Tue, 24 Jan 2023 10:07:01 -0800 (PST)
+ bh=ftsHmsTGZgDT5Qa4G5a0O07a98aZVecpYU74M0jo0rk=;
+ b=w9Ff3wtpt35uPXNzQ9Eg6o9Hsbcw+26qN6EJ815ASj2e9nYcBXquBgZNAYjXWCLxqS
+ lY1fn0cZ1CKF+vd9gnU7mq3jzd51Tr0zsbUQvqqSish8BJYFAr4CmX8QXy8MSmES+6bF
+ jISOJm+jaHyz/xVxjYsJOqRPhzORw98/i/M0wEj8ASAK4GHD3tMYxQplOB9IOPtiRMPa
+ 8pKiWafGLf5UQToptqUJQoWl/cfFyIklg482KdDHafxe1kgCJUr5Oa42k/VZA3t63fdw
+ 8ozwxsjo2wTZMt5hDknYEcn0wgB3aNUUXhmhxItX2eUc/vyrTWK1he+Xq6ySI4FeQsQ1
+ 0vYA==
+X-Gm-Message-State: AFqh2ko0HgIewgMXBgKq+quoFJ6xLII7iqn8FS3H5qCHELUNau2G7zR9
+ 2rjzFC5cklgAhtCy0S8B1WKK4w==
+X-Google-Smtp-Source: AMrXdXsVGUuyZ6jtV3MVc7xWRcM3rtfXRjQUzL1FHA38EQ9/ITo2pnKqJJbICeGcCX8yZOSXfZTL2A==
+X-Received: by 2002:adf:de81:0:b0:2bd:dc5c:7e4c with SMTP id
+ w1-20020adfde81000000b002bddc5c7e4cmr24950707wrl.15.1674583296234; 
+ Tue, 24 Jan 2023 10:01:36 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- v1-20020a5d4b01000000b002be53aa2260sm2707513wrq.117.2023.01.24.10.06.58
+ g9-20020adff3c9000000b002bfb29d19e4sm1552773wrp.88.2023.01.24.10.01.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 10:06:59 -0800 (PST)
+ Tue, 24 Jan 2023 10:01:35 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AEFF01FFCD;
+ by zen.linaroharston (Postfix) with ESMTP id CCB241FFCE;
  Tue, 24 Jan 2023 18:01:30 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
@@ -80,19 +80,18 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Li-Wen Hsu <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>,
- Robert Henry <robhenry@microsoft.com>,
- Aaron Lindsay <aaron@os.amperecomputing.com>
-Subject: [PATCH v2 25/35] tests/tcg: add memory-sve test for aarch64
-Date: Tue, 24 Jan 2023 18:01:17 +0000
-Message-Id: <20230124180127.1881110-26-alex.bennee@linaro.org>
+ Emilio Cota <cota@braap.org>
+Subject: [PATCH v2 26/35] cpu: free cpu->tb_jmp_cache with RCU
+Date: Tue, 24 Jan 2023 18:01:18 +0000
+Message-Id: <20230124180127.1881110-27-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230124180127.1881110-1-alex.bennee@linaro.org>
 References: <20230124180127.1881110-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x436.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -115,55 +114,103 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This will be helpful in debugging problems with tracking SVE memory
-accesses via the TCG plugins system.
+From: Emilio Cota <cota@braap.org>
 
+Fixes the appended use-after-free. The root cause is that
+during tb invalidation we use CPU_FOREACH, and therefore
+to safely free a vCPU we must wait for an RCU grace period
+to elapse.
+
+$ x86_64-linux-user/qemu-x86_64 tests/tcg/x86_64-linux-user/munmap-pthread
+=================================================================
+==1800604==ERROR: AddressSanitizer: heap-use-after-free on address 0x62d0005f7418 at pc 0x5593da6704eb bp 0x7f4961a7ac70 sp 0x7f4961a7ac60
+READ of size 8 at 0x62d0005f7418 thread T2
+    #0 0x5593da6704ea in tb_jmp_cache_inval_tb ../accel/tcg/tb-maint.c:244
+    #1 0x5593da6704ea in do_tb_phys_invalidate ../accel/tcg/tb-maint.c:290
+    #2 0x5593da670631 in tb_phys_invalidate__locked ../accel/tcg/tb-maint.c:306
+    #3 0x5593da670631 in tb_invalidate_phys_page_range__locked ../accel/tcg/tb-maint.c:542
+    #4 0x5593da67106d in tb_invalidate_phys_range ../accel/tcg/tb-maint.c:614
+    #5 0x5593da6a64d4 in target_munmap ../linux-user/mmap.c:766
+    #6 0x5593da6dba05 in do_syscall1 ../linux-user/syscall.c:10105
+    #7 0x5593da6f564c in do_syscall ../linux-user/syscall.c:13329
+    #8 0x5593da49e80c in cpu_loop ../linux-user/x86_64/../i386/cpu_loop.c:233
+    #9 0x5593da6be28c in clone_func ../linux-user/syscall.c:6633
+    #10 0x7f496231cb42 in start_thread nptl/pthread_create.c:442
+    #11 0x7f49623ae9ff  (/lib/x86_64-linux-gnu/libc.so.6+0x1269ff)
+
+0x62d0005f7418 is located 28696 bytes inside of 32768-byte region [0x62d0005f0400,0x62d0005f8400)
+freed by thread T148 here:
+    #0 0x7f49627b6460 in __interceptor_free ../../../../src/libsanitizer/asan/asan_malloc_linux.cpp:52
+    #1 0x5593da5ac057 in cpu_exec_unrealizefn ../cpu.c:180
+    #2 0x5593da81f851  (/home/cota/src/qemu/build/qemu-x86_64+0x484851)
+
+Signed-off-by: Emilio Cota <cota@braap.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230111151628.320011-2-cota@braap.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Cc: Robert Henry <robhenry@microsoft.com>
-Cc: Aaron Lindsay <aaron@os.amperecomputing.com>
 ---
- tests/tcg/aarch64/Makefile.softmmu-target | 7 +++++++
- tests/tcg/aarch64/system/boot.S           | 3 ++-
- 2 files changed, 9 insertions(+), 1 deletion(-)
+ accel/tcg/tb-jmp-cache.h |  1 +
+ accel/tcg/cpu-exec.c     |  3 +--
+ cpu.c                    | 11 ++++++++++-
+ 3 files changed, 12 insertions(+), 3 deletions(-)
 
-diff --git a/tests/tcg/aarch64/Makefile.softmmu-target b/tests/tcg/aarch64/Makefile.softmmu-target
-index a1368905f5..df9747bae8 100644
---- a/tests/tcg/aarch64/Makefile.softmmu-target
-+++ b/tests/tcg/aarch64/Makefile.softmmu-target
-@@ -36,6 +36,13 @@ config-cc.mak: Makefile
+diff --git a/accel/tcg/tb-jmp-cache.h b/accel/tcg/tb-jmp-cache.h
+index ff5ffc8fc2..b3f6e78835 100644
+--- a/accel/tcg/tb-jmp-cache.h
++++ b/accel/tcg/tb-jmp-cache.h
+@@ -18,6 +18,7 @@
+  * a load_acquire/store_release to 'tb'.
+  */
+ struct CPUJumpCache {
++    struct rcu_head rcu;
+     struct {
+         TranslationBlock *tb;
+ #if TARGET_TB_PCREL
+diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
+index 04cd1f3092..25ec73ef9a 100644
+--- a/accel/tcg/cpu-exec.c
++++ b/accel/tcg/cpu-exec.c
+@@ -1064,13 +1064,12 @@ void tcg_exec_realizefn(CPUState *cpu, Error **errp)
+ /* undo the initializations in reverse order */
+ void tcg_exec_unrealizefn(CPUState *cpu)
+ {
+-    qemu_plugin_vcpu_exit_hook(cpu);
+ #ifndef CONFIG_USER_ONLY
+     tcg_iommu_free_notifier_list(cpu);
+ #endif /* !CONFIG_USER_ONLY */
  
- memory: CFLAGS+=-DCHECK_UNALIGNED=1
+     tlb_destroy(cpu);
+-    g_free(cpu->tb_jmp_cache);
++    g_free_rcu(cpu->tb_jmp_cache, rcu);
+ }
  
-+memory-sve: memory.c $(LINK_SCRIPT) $(CRT_OBJS) $(MINILIB_OBJS)
-+	$(CC) $(CFLAGS) $(EXTRA_CFLAGS) $< -o $@ $(LDFLAGS)
+ #ifndef CONFIG_USER_ONLY
+diff --git a/cpu.c b/cpu.c
+index 4a7d865427..21cf809614 100644
+--- a/cpu.c
++++ b/cpu.c
+@@ -176,11 +176,20 @@ void cpu_exec_unrealizefn(CPUState *cpu)
+         vmstate_unregister(NULL, &vmstate_cpu_common, cpu);
+     }
+ #endif
 +
-+memory-sve: CFLAGS+=-DCHECK_UNALIGNED=1 -march=armv8.1-a+sve -O3 -fno-tree-loop-distribute-patterns
-+
-+TESTS+=memory-sve
-+
- # Running
- QEMU_BASE_MACHINE=-M virt -cpu max -display none
- QEMU_OPTS+=$(QEMU_BASE_MACHINE) -semihosting-config enable=on,target=native,chardev=output -kernel
-diff --git a/tests/tcg/aarch64/system/boot.S b/tests/tcg/aarch64/system/boot.S
-index e190b1efa6..f136363d2a 100644
---- a/tests/tcg/aarch64/system/boot.S
-+++ b/tests/tcg/aarch64/system/boot.S
-@@ -179,12 +179,13 @@ __start:
- 	isb
++    /* Call the plugin hook before clearing cpu->cpu_index in cpu_list_remove */
+     if (tcg_enabled()) {
+-        tcg_exec_unrealizefn(cpu);
++        qemu_plugin_vcpu_exit_hook(cpu);
+     }
  
- 	/*
--	 * Enable FP registers. The standard C pre-amble will be
-+	 * Enable FP/SVE registers. The standard C pre-amble will be
- 	 * saving these and A-profile compilers will use AdvSIMD
- 	 * registers unless we tell it not to.
- 	*/
- 	mrs	x0, cpacr_el1
- 	orr	x0, x0, #(3 << 20)
-+	orr	x0, x0, #(3 << 16)
- 	msr	cpacr_el1, x0
+     cpu_list_remove(cpu);
++    /*
++     * Now that the vCPU has been removed from the RCU list, we can call
++     * tcg_exec_unrealizefn, which may free fields using call_rcu.
++     */
++    if (tcg_enabled()) {
++        tcg_exec_unrealizefn(cpu);
++    }
+ }
  
- 	/* Setup some stack space and enter the test code.
+ /*
 -- 
 2.34.1
 
