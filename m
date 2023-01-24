@@ -2,53 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 875FA6791B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 08:13:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3642A6791CC
+	for <lists+qemu-devel@lfdr.de>; Tue, 24 Jan 2023 08:20:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKDUY-0003LB-BY; Tue, 24 Jan 2023 02:13:14 -0500
+	id 1pKDbe-0001xB-01; Tue, 24 Jan 2023 02:20:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1pKDUH-0002i2-C9
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 02:13:00 -0500
-Received: from mail.ispras.ru ([83.149.199.84])
- by eggs.gnu.org with esmtps (TLS1.2:DHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pavel.dovgalyuk@ispras.ru>)
- id 1pKDUF-0002pn-6e
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 02:12:57 -0500
-Received: from [127.0.1.1] (unknown [85.142.117.226])
- by mail.ispras.ru (Postfix) with ESMTPSA id 373D744C1024;
- Tue, 24 Jan 2023 07:12:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru 373D744C1024
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
- s=default; t=1674544371;
- bh=JDkSTOF4ZSccLuN0+D1LwxUKAELn+F8RW9JWW5Fjo0U=;
- h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
- b=EkxvzW62HRNLsBzx7+cUJckTCmHqlSuYZ8TtSFuc277ZGRcaECrD6VzM751q+ok8I
- 4wDZGRyaKwrNX/j6sA1+n5VvSswfXQbdxB+O5usMOvYMNrcp8NL2fxur9PMID+gRWl
- EvprApzQ2N/AjFPqsmNLKIlyKlpKdcHJ6BhOQIYI=
-Subject: [PATCH v2 5/5] target/avr: enable icount mode
-From: Pavel Dovgalyuk <pavel.dovgalyuk@ispras.ru>
-To: qemu-devel@nongnu.org
-Cc: pavel.dovgalyuk@ispras.ru, mrolnik@gmail.com, philmd@linaro.org,
- richard.henderson@linaro.org
-Date: Tue, 24 Jan 2023 10:12:51 +0300
-Message-ID: <167454437102.3686700.12946995765767009502.stgit@pasha-ThinkPad-X280>
-In-Reply-To: <167454434356.3686700.6888237867240722060.stgit@pasha-ThinkPad-X280>
-References: <167454434356.3686700.6888237867240722060.stgit@pasha-ThinkPad-X280>
-User-Agent: StGit/0.23
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pKDbc-0001wy-6Y
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 02:20:32 -0500
+Received: from mail-lf1-x134.google.com ([2a00:1450:4864:20::134])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <marcandre.lureau@gmail.com>)
+ id 1pKDba-0003yr-7J
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 02:20:31 -0500
+Received: by mail-lf1-x134.google.com with SMTP id w11so18282918lfu.11
+ for <qemu-devel@nongnu.org>; Mon, 23 Jan 2023 23:20:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=n0TCONyJgMXo1OB/OgmyJ/2qX5G5J18JdPkcug6nOIo=;
+ b=neVYHxrWqBub/vViJC23/wNUPL7UnDcP9PPGENKvjAJeFA4mhmdQ6jHwwh+68gJT37
+ 0wX3dMFwv14atS2Fy8S3yJu9VKZ5jWue/Hx+wEiJcr1YhA49+dS5Ucl0vEz8HcVm3CFU
+ W09a1jUM6fEJDBe5R1/RGbOWggcatl/J0FbsNYBKMErFzp6IjFWzbsREWM9Bhr3uPZYp
+ qHU3ycKpum8Ek/6LbwtCh5sc6TIZ/JjQAj7dhkTCjGoRa1sEk3Z0DkCv9R007VHn0VMK
+ Cwws0cwHkLQdYXOE2cxiCMK8g1aGhpCOwUr/cENG/3Pdf22Y3nv60+FBwVkwkC7tE9v1
+ zChA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=n0TCONyJgMXo1OB/OgmyJ/2qX5G5J18JdPkcug6nOIo=;
+ b=7N95mlM6h4xAQiSW8OGh61NJROilOqKDEpakxEozq+S//kFwN99aeGoxeHgq2ksv9H
+ /NL4BpwmTa1D02K6ExxYDtkbjwNCc6cF4+KjhZta5+9Q/vwPzZn123V6DAnGo56RUIGb
+ dg+V3/yAUv7QZWqtoLjvO3cUW2T8KTJo1Vd4XWf3oWT+FwUYUfHgPmi+6KDH0NblkToG
+ dAkIEekRigF7sMVfGQVDqTNdSce+7qWZDZc8sc52pp9AHYdp91NqvYxYkyOmPqZI1jPw
+ oUNJbH3y5yUhUcXHxz+WpRYgRLjxt4KMyhfnxTDJKin9SdGe8cIRJtRf+fIEzK7WVLfn
+ MXuA==
+X-Gm-Message-State: AFqh2kqs3bf3vcmYiiJ9EcI+FB7ICcTaiiNXgkIaUYNtOhcDVU0FOOF7
+ YmYWgLv2Zd2z5MP/yg1+3DDwZz0OTWpGfwKMxcg=
+X-Google-Smtp-Source: AMrXdXuW1HzEx6o7T0dVaz0Eshm2ngUrcK7DThhRN8w6wXDMzQPihVhcG8/Is2FDmBjyvbVfrK3pGNPN+/BPdrDi4N4=
+X-Received: by 2002:a05:6512:3f1b:b0:4c6:5879:2eb1 with SMTP id
+ y27-20020a0565123f1b00b004c658792eb1mr1275169lfa.362.1674544827565; Mon, 23
+ Jan 2023 23:20:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=83.149.199.84;
- envelope-from=pavel.dovgalyuk@ispras.ru; helo=mail.ispras.ru
+References: <20230124034632.1268545-1-anton.kochkov@proton.me>
+In-Reply-To: <20230124034632.1268545-1-anton.kochkov@proton.me>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 24 Jan 2023 11:20:16 +0400
+Message-ID: <CAJ+F1C+4KPqvT=8sdbBxC5cMLiKFJJkAi3Ra6Qg-gxDaosb62A@mail.gmail.com>
+Subject: Re: [PATCH] po/meson: make i18n module optional
+To: Anton Kochkov <anton.kochkov@proton.me>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::134;
+ envelope-from=marcandre.lureau@gmail.com; helo=mail-lf1-x134.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -65,107 +84,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Icount mode requires correct can_do_io flag management for checking
-that IO operations are performed only in the last TB instruction.
-This patch sets this flag before every helper which can lead to
-virtual hardware access. It enables deterministic execution
-in icount mode for AVR.
+Hi
 
-Signed-off-by: Pavel Dovgalyuk <Pavel.Dovgalyuk@ispras.ru>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/avr/translate.c |   30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+On Tue, Jan 24, 2023 at 7:48 AM Anton Kochkov <anton.kochkov@proton.me> wro=
+te:
+>
+> This is necessary for Muon build system compatibility and
+> prevents the following error:
+>
+> meson.build:4:8: error module 'i18n' is unimplemented,
+>   If you would like to make your build files portable to muon,
+>   use `import('i18n', required: false)`,
+>   and then check the .found() method before use.
+>   4 |   i18n.gettext(meson.project_name(),
+>              ^
+> qemu/meson.build:3640:3: error in function subdir()
+> 3640 |   subdir('po')
+>          ^
+>
+> Signed-off-by: Anton Kochkov <anton.kochkov@proton.me>
+> ---
+>  po/meson.build | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/po/meson.build b/po/meson.build
+> index a863f0575f..f7be95cf5f 100644
+> --- a/po/meson.build
+> +++ b/po/meson.build
+> @@ -1,4 +1,4 @@
+> -i18n =3D import('i18n')
+> +i18n =3D import('i18n', required: false)
 
-diff --git a/target/avr/translate.c b/target/avr/translate.c
-index 40b15d116e..ee137dfe54 100644
---- a/target/avr/translate.c
-+++ b/target/avr/translate.c
-@@ -1406,6 +1406,10 @@ static bool trans_SBIC(DisasContext *ctx, arg_SBIC *a)
- {
-     TCGv temp = tcg_const_i32(a->reg);
- 
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-     gen_helper_inb(temp, cpu_env, temp);
-     tcg_gen_andi_tl(temp, temp, 1 << a->bit);
-     ctx->skip_cond = TCG_COND_EQ;
-@@ -1424,6 +1428,10 @@ static bool trans_SBIS(DisasContext *ctx, arg_SBIS *a)
- {
-     TCGv temp = tcg_const_i32(a->reg);
- 
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-     gen_helper_inb(temp, cpu_env, temp);
-     tcg_gen_andi_tl(temp, temp, 1 << a->bit);
-     ctx->skip_cond = TCG_COND_NE;
-@@ -1621,6 +1629,9 @@ static TCGv gen_get_zaddr(DisasContext *ctx, bool ram)
- static void gen_data_store(DisasContext *ctx, TCGv data, TCGv addr)
- {
-     if (ctx->base.tb->flags & TB_FLAGS_FULL_ACCESS) {
-+        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+            gen_io_start();
-+        }
-         gen_helper_fullwr(cpu_env, data, addr);
-     } else {
-         tcg_gen_qemu_st8(data, addr, MMU_DATA_IDX); /* mem[addr] = data */
-@@ -1630,6 +1641,9 @@ static void gen_data_store(DisasContext *ctx, TCGv data, TCGv addr)
- static void gen_data_load(DisasContext *ctx, TCGv data, TCGv addr)
- {
-     if (ctx->base.tb->flags & TB_FLAGS_FULL_ACCESS) {
-+        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+            gen_io_start();
-+        }
-         gen_helper_fullrd(data, cpu_env, addr);
-     } else {
-         tcg_gen_qemu_ld8u(data, addr, MMU_DATA_IDX); /* data = mem[addr] */
-@@ -2335,6 +2349,10 @@ static bool trans_IN(DisasContext *ctx, arg_IN *a)
-     TCGv Rd = cpu_r[a->rd];
-     TCGv port = tcg_const_i32(a->imm);
- 
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-     gen_helper_inb(Rd, cpu_env, port);
- 
-     tcg_temp_free_i32(port);
-@@ -2351,6 +2369,10 @@ static bool trans_OUT(DisasContext *ctx, arg_OUT *a)
-     TCGv Rd = cpu_r[a->rd];
-     TCGv port = tcg_const_i32(a->imm);
- 
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-     gen_helper_outb(cpu_env, port, Rd);
- 
-     tcg_temp_free_i32(port);
-@@ -2651,6 +2673,10 @@ static bool trans_SBI(DisasContext *ctx, arg_SBI *a)
-     TCGv data = tcg_temp_new_i32();
-     TCGv port = tcg_const_i32(a->reg);
- 
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-     gen_helper_inb(data, cpu_env, port);
-     tcg_gen_ori_tl(data, data, 1 << a->bit);
-     gen_helper_outb(cpu_env, port, data);
-@@ -2670,6 +2696,10 @@ static bool trans_CBI(DisasContext *ctx, arg_CBI *a)
-     TCGv data = tcg_temp_new_i32();
-     TCGv port = tcg_const_i32(a->reg);
- 
-+    if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+        gen_io_start();
-+    }
-+
-     gen_helper_inb(data, cpu_env, port);
-     tcg_gen_andi_tl(data, data, ~(1 << a->bit));
-     gen_helper_outb(cpu_env, port, data);
+It should probably be "required: get_option('gettext')" instead,...
 
+>
+>  if find_program('xgettext', required: get_option('gettext')).found()
+>    i18n.gettext(meson.project_name(),
+
+..what if you move the import below here?
+
+Fwiw, the i18n module is not the most complex. It may be a good idea
+to try implementing it..
+
+Impressive that muon can handle qemu though! I tried "configure
+--meson=3Dmuon" but that didn't go far, how do you test it?
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
