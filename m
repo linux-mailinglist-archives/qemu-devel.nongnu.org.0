@@ -2,38 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 362B467B5E3
+	by mail.lfdr.de (Postfix) with ESMTPS id 44A5467B5E5
 	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 16:28:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKhgO-00033i-7i; Wed, 25 Jan 2023 10:27:28 -0500
+	id 1pKhgZ-00034R-Kg; Wed, 25 Jan 2023 10:27:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pKhgL-00033V-NV
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 10:27:25 -0500
+ id 1pKhgW-00034E-Ri
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 10:27:36 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pKhgJ-0002Nb-38
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 10:27:25 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P273H0LCkz6J9b0;
- Wed, 25 Jan 2023 23:26:19 +0800 (CST)
+ id 1pKhgV-0002R9-B4
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 10:27:36 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P26zz5jd0z6J7Ts;
+ Wed, 25 Jan 2023 23:23:27 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Wed, 25 Jan 2023 15:27:02 +0000
+ 15.1.2375.34; Wed, 25 Jan 2023 15:27:33 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
  <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Dave Jiang
  <dave.jiang@intel.com>, <alison.schofield@intel.com>, Fan Ni
  <fan.ni@samsung.com>
-Subject: [PATCH 0/2] hw/cxl: Passthrough HDM decoder emulation
-Date: Wed, 25 Jan 2023 15:27:01 +0000
-Message-ID: <20230125152703.9928-1-Jonathan.Cameron@huawei.com>
+Subject: [PATCH 1/2] hw/pci: Add pcie_count_ds_port() and
+ pcie_find_port_first() helpers
+Date: Wed, 25 Jan 2023 15:27:02 +0000
+Message-ID: <20230125152703.9928-2-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230125152703.9928-1-Jonathan.Cameron@huawei.com>
+References: <20230125152703.9928-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
@@ -66,46 +69,81 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Changes since RFC: (Thanks to Fan Ni)
-- Fix trivial whitespace and long line issues.
+These two helpers enable host bridges to operate differently depending on
+the number of downstream ports, in particular if there is only a single
+port.
 
-Until now, testing using CXL has relied up always using two root ports
-below a host bridge, to work around a current assumption in the Linux
-kernel support that, in the single root port case, the implementation will
-use the allowed passthrough decoder implementation choice. If that choice
-is made all accesses are routed from the host bridge to the single
-root port that is present. Effectively we have a pass through decoder
-(it is called that in the kernel driver).
+Useful for CXL where HDM address decoders are allowed to be implicit in
+the host bridge if there is only a single root port.
 
-This patch series implements that functionality and makes it the default
-See patch 2 for a discussion of why I think we can make this change
-without backwards compatibility issues (basically if it didn't work before
-who are we breaking by making it work?)
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+---
+ hw/pci/pcie_port.c         | 38 ++++++++++++++++++++++++++++++++++++++
+ include/hw/pci/pcie_port.h |  2 ++
+ 2 files changed, 40 insertions(+)
 
-Whilst this limitation has been known since the initial QEMU patch
-postings / kernel CXL region support, Fan Ni Ran into it recently reminding
-me that we should solve it.
-
-Based on top of:
-https://lore.kernel.org/linux-cxl/20230120142450.16089-1-Jonathan.Cameron@huawei.com/
-[PATCH v2 0/7] hw/cxl: RAS error emulation and injection
-which is in turn on top of:
-https://lore.kernel.org/all/20230112102644.27830-1-Jonathan.Cameron@huawei.com/
-[PATCH v2 0/8] hw/cxl: CXL emulation cleanups and minor fixes for upstream
-
-Jonathan Cameron (2):
-  hw/pci: Add pcie_count_ds_port() and pcie_find_port_first() helpers
-  hw/pxb-cxl: Support passthrough HDM Decoders unless overridden
-
- hw/cxl/cxl-host.c                   | 31 ++++++++++++--------
- hw/pci-bridge/pci_expander_bridge.c | 44 +++++++++++++++++++++++++----
- hw/pci/pcie_port.c                  | 38 +++++++++++++++++++++++++
- include/hw/cxl/cxl.h                |  1 +
- include/hw/cxl/cxl_component.h      |  1 +
- include/hw/pci/pci_bridge.h         |  1 +
- include/hw/pci/pcie_port.h          |  2 ++
- 7 files changed, 101 insertions(+), 17 deletions(-)
-
+diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
+index 687e4e763a..cae22e8b28 100644
+--- a/hw/pci/pcie_port.c
++++ b/hw/pci/pcie_port.c
+@@ -161,6 +161,44 @@ PCIDevice *pcie_find_port_by_pn(PCIBus *bus, uint8_t pn)
+     return NULL;
+ }
+ 
++/* Find first port in devfn number order */
++PCIDevice *pcie_find_port_first(PCIBus *bus)
++{
++    int devfn;
++
++    for (devfn = 0; devfn < ARRAY_SIZE(bus->devices); devfn++) {
++        PCIDevice *d = bus->devices[devfn];
++
++        if (!d || !pci_is_express(d) || !d->exp.exp_cap) {
++            continue;
++        }
++
++        if (object_dynamic_cast(OBJECT(d), TYPE_PCIE_PORT)) {
++            return d;
++        }
++    }
++
++    return NULL;
++}
++
++int pcie_count_ds_ports(PCIBus *bus)
++{
++    int dsp_count = 0;
++    int devfn;
++
++    for (devfn = 0; devfn < ARRAY_SIZE(bus->devices); devfn++) {
++        PCIDevice *d = bus->devices[devfn];
++
++        if (!d || !pci_is_express(d) || !d->exp.exp_cap) {
++            continue;
++        }
++        if (object_dynamic_cast(OBJECT(d), TYPE_PCIE_PORT)) {
++            dsp_count++;
++        }
++    }
++    return dsp_count;
++}
++
+ static const TypeInfo pcie_port_type_info = {
+     .name = TYPE_PCIE_PORT,
+     .parent = TYPE_PCI_BRIDGE,
+diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
+index fd484afb30..2cbad72555 100644
+--- a/include/hw/pci/pcie_port.h
++++ b/include/hw/pci/pcie_port.h
+@@ -41,6 +41,8 @@ struct PCIEPort {
+ void pcie_port_init_reg(PCIDevice *d);
+ 
+ PCIDevice *pcie_find_port_by_pn(PCIBus *bus, uint8_t pn);
++PCIDevice *pcie_find_port_first(PCIBus *bus);
++int pcie_count_ds_ports(PCIBus *bus);
+ 
+ #define TYPE_PCIE_SLOT "pcie-slot"
+ OBJECT_DECLARE_SIMPLE_TYPE(PCIESlot, PCIE_SLOT)
 -- 
 2.37.2
 
