@@ -2,79 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEAED67B06C
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 11:58:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF18367B0A3
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 12:08:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKdTO-0002EL-4M; Wed, 25 Jan 2023 05:57:46 -0500
+	id 1pKdcB-0005Jt-Ht; Wed, 25 Jan 2023 06:06:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <freddy77@gmail.com>)
- id 1pKdTL-0002Dl-79
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 05:57:43 -0500
-Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <freddy77@gmail.com>)
- id 1pKdTJ-0002w6-N0
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 05:57:42 -0500
-Received: by mail-ot1-x32f.google.com with SMTP id
- d6-20020a056830138600b0068585c52f86so10901305otq.4
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 02:57:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tqrmqkUPb6O8PDW/TN9+fPgPsF3uhAmPTTJ3zBO9o4c=;
- b=ekOJtbzbNPhnQQisVl4/mhCP5ckMRRHz0NtKySKpauFpY402BMvvMThW/YTTdNNjP/
- SNu9RzTFDQdpbjGxFGUgH/cH8uqTNSACNPQ2AfIOThtzgu/lCmUM4Wdzpvhl9mAODEW/
- 9hH+8bUZFRT8EhpemIHpCkqFO0yOh9Q+quGYuovb84bubkUZVhD96VrJTPNiYyylMnwc
- u5+lNCnM2D+QlIdai66wauFxupABZnlvdF0BJjMtVNzyFPaAG6mlQBkeesvQfaN1SIDZ
- mfFR0FCz2wbdQft6lXfYVXI6LBb5X6vTzEAKd/EgkzZLzsskMlMx/5E2Rwd55bi6ZRjR
- Yd7A==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKdc9-0005Jk-1J
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:06:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKdc7-0004Cj-4J
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:06:48 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674644805;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=OO2/ZauJ6QROwhcWjYwRaD7ZC8cMKRdGRQWgwUuoHtc=;
+ b=OUObUBUl+/F/AYnpEWeSROeiWetrVdO3+XtvRS2wOImXSd6Hperfvx9swOatvWxBgdgDme
+ dmLdcyQ7imal78AxcmX+kf2djJ2Ro8LU2ALgQvdlYnFdLA2VULyS/tqEdUBaerVok3B2vf
+ Rfwk/0s/VfnEyk4QpkhHZYpu8Ca2AJQ=
+Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
+ [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-122-QLIEGLYgOLWsEezE_xv6lw-1; Wed, 25 Jan 2023 06:06:44 -0500
+X-MC-Unique: QLIEGLYgOLWsEezE_xv6lw-1
+Received: by mail-qt1-f197.google.com with SMTP id
+ br26-20020a05622a1e1a00b003b62dc86831so7325567qtb.8
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 03:06:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=tqrmqkUPb6O8PDW/TN9+fPgPsF3uhAmPTTJ3zBO9o4c=;
- b=ZrFDP+WmCuuIM0EwL2yhamcPa4QBexRBRoJGXy3cDynGIKfrfDttgtcf7M3z/vYlHB
- /anZKtFTWC2lVd/diNe1u70tjEu3phz/sva3Cx7LW1ke3onfAu6uQ1zvC8TsqgS8CjaQ
- l+lYAXv5iBLURHNm7c504x4mAblLGYG0i4Cgc0GhvteLyQOnc1pHAVwxlVsOiplhZvxY
- bsVRz/FPcjVhOvBmDbyQUAKQJH/cmk+adr5hT+kWMEeTO4DXWmfTCyYV7NIWq2ied/2s
- FB86uQBVleLMyHicLypjtmtUVFncEQnrn6DEWS7TJQn4Njy4q9FEnIDwDBkkPLnhH6WG
- es2Q==
-X-Gm-Message-State: AFqh2kps6llNEhfqowK8NOLQBmgACCbK7bJT8fNo7nxaxN6sq916ICfR
- WCUHzyZwrRmc77slconzSvs8HrhVbIo15s1dZzI=
-X-Google-Smtp-Source: AMrXdXu9IS/IJnds0zf7p7DYt8vhyJL+CAC/en0NnMRAo3HQvc2XxUId+SwhhMa/T4AG+THwDb59tbBDg18mkJ3ssts=
-X-Received: by 2002:a05:6830:1db7:b0:686:3b42:b7d with SMTP id
- z23-20020a0568301db700b006863b420b7dmr1629544oti.36.1674644259403; Wed, 25
- Jan 2023 02:57:39 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OO2/ZauJ6QROwhcWjYwRaD7ZC8cMKRdGRQWgwUuoHtc=;
+ b=pqqYc29mG40WLEDvozgW6XxFE4/aTH7LbJEkOI9kgPBk41oimuystz2DnQ/kINUqK1
+ nmRexjlYW8a5/EnuGElw7oYRZFd9bQC/yK6IyBzWxjawDsWeSdhlkgOTNpjvAsq23sZb
+ OfLtQTsdm6+aBOolOlat6qBgsN/UQ4wW8vsj7F1E+/ko8/KdbzUiqSCHINOd0SpzlBO+
+ ca64WX/GsVhX4fMEQehq4jcJw7yrre+KyP32Ks/sL9sRX9lztNeElRN0iRifkSOfenfx
+ H4dqCODXLQ0k+ypA9OGGY7zBbLy7qhWt87nJcs7ZcC4xqU3tXY3Txi3zxuz3Os3zdHLT
+ KF1Q==
+X-Gm-Message-State: AFqh2kq2pSfstlnbzeM7L7twQB5uYm+sDLtqk856dEQ7C6NHTMBz8Nt2
+ TTVB+F20TNgeWUMZXYnQk87RbaPaEv8IBiLxFA2/JQOG2bJQ6vw4TZe9TVxp4GxunGJytcGo2kp
+ 78cBjppUIUR9qbNE=
+X-Received: by 2002:ac8:6a0e:0:b0:3ab:7928:526c with SMTP id
+ t14-20020ac86a0e000000b003ab7928526cmr43496807qtr.17.1674644803603; 
+ Wed, 25 Jan 2023 03:06:43 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXu47iEvJYtnPbvDTbb8jwAdOZhs6a1wXOyLadvnJx4F9BEfsZkqtzXt0dcC1Lo5MX/r1OsN/g==
+X-Received: by 2002:ac8:6a0e:0:b0:3ab:7928:526c with SMTP id
+ t14-20020ac86a0e000000b003ab7928526cmr43496784qtr.17.1674644803338; 
+ Wed, 25 Jan 2023 03:06:43 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-178-209.web.vodafone.de.
+ [109.43.178.209]) by smtp.gmail.com with ESMTPSA id
+ q126-20020ae9dc84000000b00706adbdf8b8sm3273668qkf.83.2023.01.25.03.06.41
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Jan 2023 03:06:42 -0800 (PST)
+Message-ID: <a1ce59ee-98ef-eb77-7a46-21cbbe73fd07@redhat.com>
+Date: Wed, 25 Jan 2023 12:06:40 +0100
 MIME-Version: 1.0
-References: <20230123083755.1038286-1-vivek.kasireddy@intel.com>
- <20230123083755.1038286-2-vivek.kasireddy@intel.com>
-In-Reply-To: <20230123083755.1038286-2-vivek.kasireddy@intel.com>
-From: Frediano Ziglio <freddy77@gmail.com>
-Date: Wed, 25 Jan 2023 10:57:28 +0000
-Message-ID: <CAHt6W4cSMsPnV+6p6Li+Tvt+qmqsU_coP+kj9-MYDq+-EJbA+A@mail.gmail.com>
-Subject: Re: [RFC v2 1/2] spice: Add an option for users to provide a
- preferred codec
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- Dongwon Kim <dongwon.kim@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
- envelope-from=freddy77@gmail.com; helo=mail-ot1-x32f.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v2 1/2] qapi, audio: add query-audiodev command
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
+ qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
+ Christian Schoenebeck <qemu_oss@crudebyte.com>
+References: <20230123083957.20349-1-thuth@redhat.com>
+ <20230123083957.20349-2-thuth@redhat.com>
+ <47d18f28-73b1-af59-ab65-2366ed3da55a@linaro.org>
+ <Y85rVoXhR5skLVOz@redhat.com>
+ <c94b801d-3c19-24c7-505a-7ab0d98faa67@linaro.org>
+ <Y855BSwizi0n+w7r@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <Y855BSwizi0n+w7r@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,93 +108,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Il giorno lun 23 gen 2023 alle ore 08:37 Vivek Kasireddy
-<vivek.kasireddy@intel.com> ha scritto:
->
-> Giving users an option to choose a particular codec will enable
-> them to make an appropriate decision based on their hardware and
-> use-case.
->
-> Cc: Gerd Hoffmann <kraxel@redhat.com>
-> Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-> Cc: Dongwon Kim <dongwon.kim@intel.com>
-> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
-> ---
->  qemu-options.hx |  5 +++++
->  ui/spice-core.c | 14 ++++++++++++++
->  2 files changed, 19 insertions(+)
->
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 3aa3a2f5a3..aab8df0922 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -2142,6 +2142,7 @@ DEF("spice", HAS_ARG, QEMU_OPTION_spice,
->      "       [,streaming-video=3D[off|all|filter]][,disable-copy-paste=3D=
-on|off]\n"
->      "       [,disable-agent-file-xfer=3Don|off][,agent-mouse=3D[on|off]]=
-\n"
->      "       [,playback-compression=3D[on|off]][,seamless-migration=3D[on=
-|off]]\n"
-> +    "       [,preferred-codec=3D<encoder>:<codec>\n"
->      "       [,gl=3D[on|off]][,rendernode=3D<file>]\n"
->      "   enable spice\n"
->      "   at least one of {port, tls-port} is mandatory\n",
-> @@ -2237,6 +2238,10 @@ SRST
->      ``seamless-migration=3D[on|off]``
->          Enable/disable spice seamless migration. Default is off.
->
-> +    ``preferred-codec=3D<encoder>:<codec>``
-> +        Provide the preferred codec the Spice server should use.
-> +        Default would be spice:mjpeg.
-> +
->      ``gl=3D[on|off]``
->          Enable/disable OpenGL context. Default is off.
->
-> diff --git a/ui/spice-core.c b/ui/spice-core.c
-> index 72f8f1681c..6e00211e3a 100644
-> --- a/ui/spice-core.c
-> +++ b/ui/spice-core.c
-> @@ -469,6 +469,9 @@ static QemuOptsList qemu_spice_opts =3D {
->          },{
->              .name =3D "streaming-video",
->              .type =3D QEMU_OPT_STRING,
-> +        },{
-> +            .name =3D "preferred-codec",
-> +            .type =3D QEMU_OPT_STRING,
->          },{
->              .name =3D "agent-mouse",
->              .type =3D QEMU_OPT_BOOL,
-> @@ -644,6 +647,7 @@ static void qemu_spice_init(void)
->      char *x509_key_file =3D NULL,
->          *x509_cert_file =3D NULL,
->          *x509_cacert_file =3D NULL;
-> +    const char *preferred_codec =3D NULL;
->      int port, tls_port, addr_flags;
->      spice_image_compression_t compression;
->      spice_wan_compression_t wan_compr;
-> @@ -795,6 +799,16 @@ static void qemu_spice_init(void)
->          spice_server_set_streaming_video(spice_server, SPICE_STREAM_VIDE=
-O_OFF);
->      }
->
-> +    preferred_codec =3D qemu_opt_get(opts, "preferred-codec");
-> +    if (preferred_codec) {
-> +        if (spice_server_set_video_codecs(spice_server, preferred_codec)=
-) {
-> +            error_report("Preferred codec name is not valid");
-> +            exit(1);
-> +        }
-> +    } else {
-> +        spice_server_set_video_codecs(spice_server, "spice:mjpeg");
+On 23/01/2023 13.09, Daniel P. Berrangé wrote:
+> On Mon, Jan 23, 2023 at 01:05:45PM +0100, Philippe Mathieu-Daudé wrote:
+>> On 23/1/23 12:11, Daniel P. Berrangé wrote:
+>>> On Mon, Jan 23, 2023 at 10:20:29AM +0100, Philippe Mathieu-Daudé wrote:
+>>>> On 23/1/23 09:39, Thomas Huth wrote:
+>>>>> From: Daniel P. Berrangé <berrange@redhat.com>
+>>>>>
+>>>>> Way back in QEMU 4.0, the -audiodev command line option was introduced
+>>>>> for configuring audio backends. This CLI option does not use QemuOpts
+>>>>> so it is not visible for introspection in 'query-command-line-options',
+>>>>> instead using the QAPI Audiodev type.  Unfortunately there is also no
+>>>>> QMP command that uses the Audiodev type, so it is not introspectable
+>>>>> with 'query-qmp-schema' either.
+>>>>>
+>>>>> This introduces a 'query-audiodev' command that simply reflects back
+>>>>> the list of configured -audiodev command line options. This alone is
+>>>>> maybe not very useful by itself, but it makes Audiodev introspectable
+>>>>> via 'query-qmp-schema', so that libvirt (and other upper layer tools)
+>>>>> can discover the available audiodevs.
+>>>>>
+>>>>> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+>>>>> [thuth: Update for upcoming QEMU v8.0, and use QAPI_LIST_PREPEND]
+>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>>> ---
+>>>>>     qapi/audio.json | 13 +++++++++++++
+>>>>>     audio/audio.c   | 12 ++++++++++++
+>>>>>     2 files changed, 25 insertions(+)
+>>>>>
+>>>>> diff --git a/qapi/audio.json b/qapi/audio.json
+>>>>> index 1e0a24bdfc..c7aafa2763 100644
+>>>>> --- a/qapi/audio.json
+>>>>> +++ b/qapi/audio.json
+>>>>> @@ -443,3 +443,16 @@
+>>>>>         'sndio':     'AudiodevSndioOptions',
+>>>>>         'spice':     'AudiodevGenericOptions',
+>>>>>         'wav':       'AudiodevWavOptions' } }
+>>>>> +
+>>>>> +##
+>>>>> +# @query-audiodevs:
+>>>>> +#
+>>>>> +# Returns information about audiodev configuration
+>>>>
+>>>> Maybe clearer as 'audio backends'?
+>>>>
+>>>> So similarly, wouldn't be clearer to name this command
+>>>> 'query-audio-backends'? Otherwise we need to go read QEMU
+>>>> source to understand what is 'audiodevs'.
+>>>
+>>> The command line parameter is called '-audiodev' and this
+>>> query-audiodevs command reports the same data, so that
+>>> looks easy enough to understand IMHO.
 
-Why overriding the compiled in Spice default?
-Apart from that the commit seems good to me.
+Should we maybe use a "x-" prefix here if we feel not certain enough about 
+this command yet? ... that would still enable the Audiodev part in the qapi 
+schema, but give us the flexibility to rename or drop it later in case there 
+is some better way to enable the Audiodevs in the schema?
 
-> +    }
-> +
->      spice_server_set_agent_mouse
->          (spice_server, qemu_opt_get_bool(opts, "agent-mouse", 1));
->      spice_server_set_playback_compression
+  Thomas
 
-Frediano
 
