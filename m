@@ -2,80 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA07D67B0C2
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 12:11:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5B5767B15A
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 12:33:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKdfv-0006QD-2S; Wed, 25 Jan 2023 06:10:43 -0500
+	id 1pKe0Z-00015c-2o; Wed, 25 Jan 2023 06:32:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <freddy77@gmail.com>)
- id 1pKdfr-0006Po-DL
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:10:39 -0500
-Received: from mail-oa1-x2a.google.com ([2001:4860:4864:20::2a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKe0X-00015G-Jx
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:32:01 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <freddy77@gmail.com>)
- id 1pKdfp-0004p1-JX
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:10:38 -0500
-Received: by mail-oa1-x2a.google.com with SMTP id
- 586e51a60fabf-15ff0a1f735so12739956fac.5
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 03:10:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=H5cJWcljm7PIGZR7j/eRUXvbdrx3J5UXW024e8zbdro=;
- b=h3X+FehB3+9/y8I+N1JZWadKqKQ+FjNQfbXXoVbIPVE8zyLI1LWEQdHaAbSj0a//Cr
- NWC8COQLvzA3slpKyrWtDk5ScCdhDVtqXUNE3uNFZzaxdtssRjNZd1T6za18maGQVwHr
- ADGwXFrbR56oF8VjUj6yN7oiYxRDptHDCyEjV3NOMUkJ3JQTZiqputk2GOODmBKCuXFt
- f69rTVU/ddCxwI5tvF0dh6vDbzbAI/s31e3FZKCHfcJ98PqNWAmSnnU3gsNrOtSUNnBe
- awXBZIsiY6J4g1gWqh8V07PwrlrNFdN6oYRkWHmeTlKxu5mLFz/kGYOgd8KpUlS0/jsR
- kXtg==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKe0V-00084q-Ok
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:32:01 -0500
+Received: by mail-wr1-x429.google.com with SMTP id z5so16719241wrt.6
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 03:31:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=aWzIeQYx7+uRvsu0aoBUBUuKpHuCt29sqw2DF3nu6Qc=;
+ b=LMGw5NSxskvNz7x9scCCLkWx3CsJ0hLxPu03VB4Yh9hbvGvyK6PeZMK3PRmB0bEj9T
+ HlKvWJehAuokwWdHS9lT03ndZXAoJSBCKwOiVuQucVAArQ8Bp9zGc2bUUzlzqZq5h/da
+ Gc8olF8exgudT7+bVTnvBezSq4w9er1wp1Pc2INIZOjP5xjcpHRMxbYSU5Gnviz89plx
+ Au5u5EMZ5VjK/Nj4DxTc2kUrcLar7iAbJfCto652onIGr78SHROlAB7gR/VGAF2Yly/Y
+ fuFcVgu8GZjBuOColZZYhpwhkFEcjhTPDzZMK3dR/4PrY9cF931Ypm/UjsIEYrE7fEME
+ aUsQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=H5cJWcljm7PIGZR7j/eRUXvbdrx3J5UXW024e8zbdro=;
- b=xkj607Nn5eukcY5ujmR2WxyTMRCBDLi/f9Mv6otBQGkkwo4r5DzV8WgmyfotOdSO7S
- 4rA6kqi6uuphxNDftcjN7HYp9H6Uq/GPvIbu+4Xn2NCVAlS+jCD4/yvsZlrQ0b4r17Bp
- u5Ov1+AKbVdui7g5wgHlV8buQ4vo2mRK9wHaVefQijZOT/28N6wUwWBrVS7FpPGA2cGu
- gyxXbqwgirtSWXC4SptNV+rlsOzxU7teq3fsRwEChq50oRXRAt1v4YhACOP4yU8IjXMB
- seTkOO7+Ubmu4FVrwZc6eOK3KhHDH8NqFK0TuRRADOv4vB1wgP6iYDzptq1S1uNrgFu3
- Nmeg==
-X-Gm-Message-State: AO0yUKWo+VRgTpftL25urOcZlItfHuHzSq2CT2gS1Ibwocvr1iFHQOss
- Fy5IizwrsRwUCcncVYVQG7h5rX1vpR+FKT2wT48=
-X-Google-Smtp-Source: AK7set+wTG8xP5KcvComII1b//Q84XwwKsm4kpa2JwzzjoeSFhx2kBWSl+eoGj+zxvkFlxcLc4Uli+L4sDVdEqFtzxw=
-X-Received: by 2002:a05:6870:a548:b0:163:1a0d:d749 with SMTP id
- p8-20020a056870a54800b001631a0dd749mr480525oal.179.1674645036084; Wed, 25 Jan
- 2023 03:10:36 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aWzIeQYx7+uRvsu0aoBUBUuKpHuCt29sqw2DF3nu6Qc=;
+ b=EIYz3Qq4WoO14S7HjIfsXBHDE+zLWl4c3zSN1Vd0XYnWowl69MLrfhIKEDcDimeIFy
+ fcQpM3Bcty5DSV5JP7aXuAr85O6p7LGP4KFHVl3rzxQJZh021EXlXn1Y0/1HUIm9DBgR
+ lco5qcw5bGDxVpbVTpofBXxi2vT5fFjIe9b0l5ws3x72oIyg699GbZ7jgSezbjEnvlej
+ 5J1MWB/x+YawTPjvMb0bxqU8HJughqHinyNh4GI+tq79Os76MmgZ/aNXth/TVzy43S3w
+ tPZL28C2ceZDWgVHd3G0w4TtBnvodIcq01XFxezjM73c/YXnjLmGgjUMnjLCUfiDgcaT
+ w/Yg==
+X-Gm-Message-State: AFqh2kr9GqljPgHCApNzTxysfA6B1W6Iy2SvweEFbDIbmaOllYaU9YQL
+ E6KCYRRWH7m66toqcDNn9kROqg==
+X-Google-Smtp-Source: AMrXdXt75mHo4XI2ZxLF9uUXy3Kv3j8DOiGD6JRymoBxwsUwWL+5A12Q6gNuYlYjJShOhdPtfAqQpA==
+X-Received: by 2002:a05:6000:1049:b0:242:15d6:1a75 with SMTP id
+ c9-20020a056000104900b0024215d61a75mr25031725wrx.66.1674646317849; 
+ Wed, 25 Jan 2023 03:31:57 -0800 (PST)
+Received: from [192.168.0.114] ([196.77.22.181])
+ by smtp.gmail.com with ESMTPSA id
+ a17-20020a5d53d1000000b0024274a5db0asm4277248wrw.2.2023.01.25.03.31.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Jan 2023 03:31:57 -0800 (PST)
+Message-ID: <4c15f40f-1c70-d867-99e1-c8552e0b6f04@linaro.org>
+Date: Wed, 25 Jan 2023 12:31:55 +0100
 MIME-Version: 1.0
-References: <20230123083755.1038286-1-vivek.kasireddy@intel.com>
- <20230123083755.1038286-3-vivek.kasireddy@intel.com>
- <20230123100654.bqiauwjbkkqroq7f@sirius.home.kraxel.org>
- <IA0PR11MB71852AF9DF58977B578C2F43F8C99@IA0PR11MB7185.namprd11.prod.outlook.com>
-In-Reply-To: <IA0PR11MB71852AF9DF58977B578C2F43F8C99@IA0PR11MB7185.namprd11.prod.outlook.com>
-From: Frediano Ziglio <freddy77@gmail.com>
-Date: Wed, 25 Jan 2023 11:10:24 +0000
-Message-ID: <CAHt6W4fvhv7TUT2hSYn9Vh4LgucMiRhQoaz92S4mGwdsyPxVhQ@mail.gmail.com>
-Subject: Re: [RFC v2 2/2] spice: Add an option to forward the dmabuf directly
- to the encoder (v2)
-To: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
- =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
- "Kim, Dongwon" <dongwon.kim@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2001:4860:4864:20::2a;
- envelope-from=freddy77@gmail.com; helo=mail-oa1-x2a.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] docs/about/deprecated: Mark HAXM as deprecated
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, wenchao.wang@intel.com
+References: <20230125102053.902098-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230125102053.902098-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::429;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,102 +90,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Il giorno mar 24 gen 2023 alle ore 06:41 Kasireddy, Vivek
-<vivek.kasireddy@intel.com> ha scritto:
->
-> + Frediano
->
-> Hi Gerd,
->
-> >
-> >   Hi,
-> >
-> > > Here is the flow of things from the Qemu side:
-> > > - Call gl_scanout (to update the fd) and gl_draw_async just like
-> > >   in the local display case.
-> >
-> > Ok.
-> >
-> > > - Additionally, create an update with the cmd set to QXL_CMD_DRAW
-> > >   to trigger the creation of a new drawable (associated with the fd)
-> > >   by the Spice server.
-> > > - Wait (or block) until the Encoder is done encoding the content.
-> > > - Unblock the pipeline once the async completion cookie is received.
-> >
-> > Care to explain?  For qemu it should make a difference what spice-server
-> > does with the dma-bufs passed (local display / encode video + send to
-> > remote).
-> [Kasireddy, Vivek] I agree that Qemu shouldn't care what the spice-server does
-> with the dmabuf fds but somehow a drawable has to be created in the remote client
-> case. This is needed as most of the core functions in the server (associated with
-> display-channel, video-stream, encoder, etc) operate on drawables. Therefore, I
-> figured since Qemu already tells the server to create a drawable in the non-gl case
-> (by creating an update that includes a QXL_CMD_DRAW cmd), the same thing
-> can be done in the gl + remote client case as well.
->
+On 25/1/23 11:20, Thomas Huth wrote:
+> The HAXM project has been retired (see https://github.com/intel/haxm#status),
+> so we should mark the code in QEMU as deprecated (and finally remove it
+> unless somebody else picks the project up again - which is quite unlikely
+> since there are now whpx and hvf on these operating systems, too).
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>   docs/about/deprecated.rst | 6 ++++++
+>   1 file changed, 6 insertions(+)
 
-This is a hack. It's combining an invalid command in order to cause
-some side effects on spice server but it also needs a change in spice
-server to detect and handle this hack. QXL_CMD_DRAW is mainly bound to
-2D commands and should come with valid bitmap data.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> Alternatively, we could make the server create a drawable as a response to gl_scanout,
-> when it detects a remote client. IIUC, I think this can be done but seems rather messy
-> given that currently, the server only creates a drawable (inside red_process_display)
-> in the case of QXL_CMD_DRAW sent by Qemu/applications:
->         switch (ext_cmd.cmd.type) {
->         case QXL_CMD_DRAW: {
->             auto red_drawable = red_drawable_new(worker->qxl, &worker->mem_slots,
->                                                  ext_cmd.group_id, ext_cmd.cmd.data,
->                                                  ext_cmd.flags); // returns with 1 ref
->
->             if (red_drawable) {
->                 display_channel_process_draw(worker->display_channel, std::move(red_drawable),
->                                              worker->process_display_generation);
->             }
->
 
-Yes, it sounds a bit long but surely better than hacking Qemu, spice
-server and defining a new hacky ABI that will be hard to maintain and
-understand.
-
-> The other option I can think of is to just not deal with drawables at all and somehow
-> directly share the dmabuf fd with the Encoder. This solution also seems very messy
-> and invasive to me as we'd not be able to leverage the existing APIs (in display-channel,
-> video-stream, etc) that create and manage streams efficiently.
->
-
-Yes, that currently seems pretty long as a change but possibly the
-most clean in future, it's up to some refactory. The Encoder does not
-either need technically a RedDrawable, Drawable but frame data encoded
-in a format it can manage (either raw memory data or dmabuf at the
-moment).
-
-> >
-> > >  #ifdef HAVE_SPICE_GL
-> > > +        } else if (spice_dmabuf_encode) {
-> > > +            if (g_strcmp0(preferred_codec, "gstreamer:h264")) {
-> > > +                error_report("dmabuf-encode=on currently only works and tested"
-> > > +                             "with gstreamer:h264");
-> > > +                exit(1);
-> > > +            }
-> >
-> > IMHO we should not hard-code todays spice-server capabilities like this.
-> > For starters this isn't true for spice-server versions which don't (yet)
-> > have your patches.  Also the capability might depend on hardware
-> > support.  IMHO we need some feature negotiation between qemu and spice
-> > here.
-> [Kasireddy, Vivek] Ok, I can get rid of this chunk in v3. However, given the numerous
-> features supported by the Spice server, I suspect implementing feature negotiation
-> might get really challenging. Is there any other way around this that you can think of?
->
-> Thanks,
-> Vivek
->
-> >
-> > take care,
-> >   Gerd
->
-
-Frediano
 
