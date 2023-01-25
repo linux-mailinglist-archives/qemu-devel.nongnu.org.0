@@ -2,52 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B442867B34A
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 14:27:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03BA967B34F
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 14:31:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKfnv-0002X2-G8; Wed, 25 Jan 2023 08:27:07 -0500
+	id 1pKfrK-0003e2-EQ; Wed, 25 Jan 2023 08:30:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pKfns-0002WY-Ex
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 08:27:04 -0500
-Received: from mout.kundenserver.de ([212.227.126.133])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pKfrA-0003an-AX
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 08:30:28 -0500
+Received: from mout.kundenserver.de ([212.227.126.187])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pKfnq-0004Nb-SD
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 08:27:04 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pKfr2-0004w6-15
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 08:30:28 -0500
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1Mmhs6-1ow1Q21dKw-00jouH; Wed, 25 Jan 2023 14:27:00 +0100
-Message-ID: <ca4abde3-dc59-77a7-6987-ce7b22424af1@vivier.eu>
-Date: Wed, 25 Jan 2023 14:26:59 +0100
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MI5Dj-1pQQTb3SSN-00FD1o; Wed, 25 Jan 2023 14:30:12 +0100
+Message-ID: <10887328-9d15-0cd8-c496-af85ac717a2a@vivier.eu>
+Date: Wed, 25 Jan 2023 14:30:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH] linux-user: add more netlink protocol constants
+Subject: Re: [PATCH 0/2] linux-user: revert previous workaround for glibc >=
+ 2.36
 Content-Language: fr
-To: Letu Ren <fantasquex@gmail.com>, qemu-devel@nongnu.org
-References: <20230101141105.12024-1-fantasquex@gmail.com>
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20230110174901.2580297-1-berrange@redhat.com>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20230101141105.12024-1-fantasquex@gmail.com>
+In-Reply-To: <20230110174901.2580297-1-berrange@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Zw3qVIwnEVYqWF7quYJNpqsseP7ixmR1lqpzhbgIeQenwZhHPOm
- p0DTGzntKdu+72u+jp7xgbT6A3mKDIYYg8u40LawGN21gWwIE2XD0bWtaQDphZIQ5UXPBnc
- Bd30plZJfYsjbhxSbJ1Xotflc17NJdkJ875+HIRL12EyGeiJu8DPVkEKQNUW2xgXuAcr5Tx
- wALb9uh72XCJp8/27NNnQ==
-UI-OutboundReport: notjunk:1;M01:P0:fgigKCl2dMw=;IB8zxxhnRm5bFSR/9+Q2T+ZwQwh
- 6V+NAfwvRnX7DWoB4y853fNrC9e9DBwusMGFQtZ1cCCAM6HQKH5d+Baf66cSkRKPmHEXIjW1V
- CXGtuT9jPIMv4WLWWQ5bZ0bumSWAuVXwiBobcSpKdpKb7eoyjSPaExw/5+M2CdpExrUKcZmgM
- r82b5tX2PSZXZHr8ooZKY4mAXD6xrn4L4aTweb7sSRdQEn+MgFZyHhqlt/c5ULrgTAxnASYnW
- 9dodf054f1vkVAkqJ6NVxfe6pBYyyoEnMDY63Swt2naWAjKJ+cdMeL4ciU709C7m+wqjWeJcu
- AAUIGvEhUZ6llpVcDtmB2RQjbLj7rcGg1yCzHkh3dJCO3iDmuV74vdekOj1V12MdnYXMgEr50
- 2mYxsrM4KKTPds/s/h5v3u+nsAATT+Ouym6ptGq2WXFwE+EpLHPPYAmGtWHYOddh4/n2MukQf
- 1k330zvqOlYjnqM2IZvgJ51qTpLfYUaV1aSrpaW0hXpM1m675NVU/7FUCfs1TyS7x8F2SXjXX
- EGZsFdtbJLPgpMbeu0D8ltfwydSzGAoKXEWcznbrvDDctOv32bbyEr4wgWyZhknJdAtjPKf8p
- hcnc23/qpO8qTy44BCtLuB3KWumQT/H9F1hWRycOG48TejrIOXK/Ca7ELT3lAmkqHicvndQtu
- 8ztNrWJ1SyEOtSNhDWrqcs/Kx6CqvUcbYLy3FYU5cQ==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:UpMXeU1h8B5dK/sblz5Ole7/RLTT9AEEJRTsLfiD2zviMV4fmyA
+ RHFWarTTlnkcpHKYy+ao2hDHxthClWytpN2PqF6rj9dJTn8ovqzR+S7F1W10CU6uVeb0Lq6
+ tJ2neTmo70jTJgi5lOzhlBTC8xFKd563HuDamW1Kr/bZ4ccP4mb5DQBYlht7klEYV3INfgi
+ myI0ufoF5ftwn8fUduc7w==
+UI-OutboundReport: notjunk:1;M01:P0:vi1BOpyEdjQ=;GLUF7pmWII3zMCZFl6MXA/iwDXi
+ sOoh7eyFMcgFryLnPKLe6yzZS9vJY2kq58b92LuhBcVTBwxJaDE2h2LAhvk3Qxtuwf8FBcOXR
+ O9Dnsh2+Vcie/NceGe+oOa0B05zkPZ/v426/p9sMl8fu+Z1ddNT1GP4ZG5Sbu/9Dq80eel9js
+ zJnSBaagASjFmkY08JyX4WILad1Uk8n2tfKtf/OhPtRXGlN58tqI5sirke1rD1skBAKWbCk0S
+ YRsWw4+/vJBine0Xst/cfY685boR4MFkqMabVubSUdn30kifPn8JQx6sGcnSDN5XQZI4xlB57
+ /LtdMFzxVk8clcDJuXiY7JFm+fq2iyEZaGgxIUzPCc0fbMhb0cyhDmv84+tSfVpa9GPhW7Zak
+ af+nQ64d6S80wFjo7tQIB7KVWKALpk3FhwH5+TSjneZNWhX1tduNo2DVWSNj5bebgBL5/qEJI
+ l+klcz49in06Tf+lr+DTPgUZqPdZ5F6q4qm5l8HFl9wXn4ZUj02V2x9LvIGr33EcxLGj8Ui5A
+ ZzdPP2yt/qA0qy+Vunh/731wDHnYskWylp/wXucwOrA/o66OLSp8sodaJ2ZvlIGDXy1rIFaln
+ M9j5XNuWOqwb8iBv+k25GLgt4MCGficCf2CbopIjMcbXPVCp2xvVnDVPfaoNouIDLgT17Vyj1
+ md5fhsyS1THkY7dqeJ4UUU1VtwBnXsI5UvGBekV2Dg==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -70,99 +75,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 01/01/2023 à 15:11, Letu Ren a écrit :
-> Currently, qemu strace only prints four protocol contants. This patch
-> adds others listed in "linux/netlink.h".
+Le 10/01/2023 à 18:48, Daniel P. Berrangé a écrit :
+> It didn't appear that glibc was going to fix the problem
+> breaking includes of linux/mount.h vs sys/mount.h, so
+> QEMU applied a workaround copying the symbols/structs we
+> need into a local header.
 > 
-> Signed-off-by: Letu Ren <fantasquex@gmail.com>
-> ---
-> I found this issue when running networkmanager using qemu-user.
-> `socket(PF_NETLINK,SOCK_RAW,16) = -1 errno=93 (Protocol not supported)`
-> I don't know whether this protocol can be implemented. However, a better
-> log is much easier.
+> Since then Linux modified linux/btrfs.h to pull in
+> linux/fs.h which caused a clash with our workaround.
+> Rather than invent workarounds for our workarounds,
+> we can luckily just drop our previous workarounds.
+> glibc has been fixed after all, and backported this
+> fix to the stable 2.36 release series too. We should
+> just expect distros to pull in the stable fix, which
+> Fedora at least has already done.
 > 
->   linux-user/strace.c | 48 +++++++++++++++++++++++++++++++++++++++++++++
->   1 file changed, 48 insertions(+)
+> Daniel P. Berrangé (2):
+>    Revert "linux-user: add more compat ioctl definitions"
+>    Revert "linux-user: fix compat with glibc >= 2.36 sys/mount.h"
 > 
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index 9ae5a812cd..a2b2aa7248 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -506,21 +506,69 @@ print_socket_protocol(int domain, int type, int protocol)
->           case NETLINK_ROUTE:
->               qemu_log("NETLINK_ROUTE");
->               break;
-> +        case NETLINK_UNUSED:
-> +            qemu_log("NETLINK_UNUSED");
-> +            break;
-> +        case NETLINK_USERSOCK:
-> +            qemu_log("NETLINK_USERSOCK");
-> +            break;
-> +        case NETLINK_FIREWALL:
-> +            qemu_log("NETLINK_FIREWALL");
-> +            break;
-> +        case NETLINK_SOCK_DIAG:
-> +            qemu_log("NETLINK_SOCK_DIAG");
-> +            break;
-> +        case NETLINK_NFLOG:
-> +            qemu_log("NETLINK_NFLOG");
-> +            break;
-> +        case NETLINK_XFRM:
-> +            qemu_log("NETLINK_XFRM");
-> +            break;
-> +        case NETLINK_SELINUX:
-> +            qemu_log("NETLINK_SELINUX");
-> +            break;
-> +        case NETLINK_ISCSI:
-> +            qemu_log("NETLINK_ISCSI");
-> +            break;
->           case NETLINK_AUDIT:
->               qemu_log("NETLINK_AUDIT");
->               break;
-> +        case NETLINK_FIB_LOOKUP:
-> +            qemu_log("NETLINK_FIB_LOOKUP");
-> +            break;
-> +        case NETLINK_CONNECTOR:
-> +            qemu_log("NETLINK_CONNECTOR");
-> +            break;
->           case NETLINK_NETFILTER:
->               qemu_log("NETLINK_NETFILTER");
->               break;
-> +        case NETLINK_IP6_FW:
-> +            qemu_log("NETLINK_IP6_FW");
-> +            break;
-> +        case NETLINK_DNRTMSG:
-> +            qemu_log("NETLINK_DNRTMSG");
-> +            break;
->           case NETLINK_KOBJECT_UEVENT:
->               qemu_log("NETLINK_KOBJECT_UEVENT");
->               break;
-> +        case NETLINK_GENERIC:
-> +            qemu_log("NETLINK_GENERIC");
-> +            break;
-> +        case NETLINK_SCSITRANSPORT:
-> +            qemu_log("NETLINK_SCSITRANSPORT");
-> +            break;
-> +        case NETLINK_ECRYPTFS:
-> +            qemu_log("NETLINK_ECRYPTFS");
-> +            break;
->           case NETLINK_RDMA:
->               qemu_log("NETLINK_RDMA");
->               break;
->           case NETLINK_CRYPTO:
->               qemu_log("NETLINK_CRYPTO");
->               break;
-> +        case NETLINK_SMC:
-> +            qemu_log("NETLINK_SMC");
-> +            break;
->           default:
->               qemu_log("%d", protocol);
->               break;
+>   linux-user/syscall.c | 43 -------------------------------------------
+>   meson.build          |  2 --
+>   2 files changed, 45 deletions(-)
+> 
 
 Applied to my linux-user-for-8.0 branch.
 
 Thanks,
 Laurent
-
 
 
