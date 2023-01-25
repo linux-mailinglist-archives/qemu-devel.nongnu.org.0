@@ -2,141 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5D567C001
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 23:40:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFA5F67C005
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 23:41:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKoQG-0002p8-P8; Wed, 25 Jan 2023 17:39:16 -0500
+	id 1pKoRn-0003r1-E3; Wed, 25 Jan 2023 17:40:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
- id 1pKoQ0-0002mu-CH
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 17:39:04 -0500
-Received: from mail-co1nam11on2045.outbound.protection.outlook.com
- ([40.107.220.45] helo=NAM11-CO1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pKoRR-0003WO-Mn
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 17:40:29 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
- id 1pKoPx-0002xY-A9
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 17:38:59 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ji8EGikVIjrqdqnOkXJJBbDgd8FQzTYmzS3DNT/ehmpEUfVaddrSJMsYA/EH7KoMml+dyylCsdl330MlG8VMEKebWbOWn7dokA2UK6afPHDYOBIfoSb8YhI6QY8RKX3kVSm5q2NmleiwG/YO+zU+3YJk/sSzs+RbCx2xgMiAgoV56dQ8jnt4rjY3cy1rHXVGNJn59x+zl/rL/3myxKUbMESkcwPOCMMn8ODyl6/WhfGgkfkv4RyvglJTUxpH1cnZfcchQxX3P0mI/Dll7wOeOEyuttMic60uRweKY4vHhhUfSpZaKhJCArSSP8bTcgCJg6Ad+Oz3Oq2DYpJfif2UJw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1RU7lzqCpBB1280QOXUVIR+DSuSw8vtfdFZGSytrw4Y=;
- b=mPihZU5KU3871/Pmd1cY7z4ST77wHrPtYOIw5x8KKloo0PdfjqcTjR1x2awLaSkVBusukfTKHL6h6OXeumGaij6PmO1Ne2eBxlP5DcrYIb2YS111l82edUB9ouoL1xOaTfEMcsjVDreXunPqSpf744IzqI5ULU4gmBiyUbRy0vl9mAeTi6SHfAP3ZcvQ3Mk75pd1BPRt7S1Vpfoapq7x/AExF2jXdoAp4z2vJAWHszPHIToI+jG7sWgPn00MfRbabCUPSYbbarpfmz0CY5gnwnY1yZp4OtaagO1gqfQ9AHErvEQ8EaSTOykEOVIKTeZr6/+wUv0CdmuUQmWrw1n5mA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1RU7lzqCpBB1280QOXUVIR+DSuSw8vtfdFZGSytrw4Y=;
- b=MoNWpsCwxbd5vcY56FTmTdy8Djq8QQGtw0B46hAW5T2hboWwcjXllmGIhQhiwQGbUguZkhB33pu3sjlZCnweHqHIqDn3W/x0cANLN+/w9FRHeB2RY4ZavNbIPpHsIeUAWYoTJpyUz8IjE07bzpBsgKZ8uGdkxnPH8oA8FDuAYQg=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4409.namprd12.prod.outlook.com (2603:10b6:303:2d::23)
- by DS7PR12MB6309.namprd12.prod.outlook.com (2603:10b6:8:96::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Wed, 25 Jan
- 2023 22:38:50 +0000
-Received: from MW3PR12MB4409.namprd12.prod.outlook.com
- ([fe80::f803:f951:a68f:663a]) by MW3PR12MB4409.namprd12.prod.outlook.com
- ([fe80::f803:f951:a68f:663a%6]) with mapi id 15.20.6002.033; Wed, 25 Jan 2023
- 22:38:49 +0000
-Message-ID: <35e561e8-df9e-5ca8-7367-07db3388b0ac@amd.com>
-Date: Wed, 25 Jan 2023 14:38:47 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [QEMU][PATCH v4 04/10] xen-hvm: reorganize xen-hvm and move
- common function to xen-hvm-common
-Content-Language: en-US
-To: Stefano Stabellini <sstabellini@kernel.org>
-Cc: qemu-devel@nongnu.org, xen-devel@lists.xenproject.org,
- stefano.stabellini@amd.com, alex.bennee@linaro.org,
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>, "Michael S. Tsirkin"
- <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20230125085407.7144-1-vikram.garhwal@amd.com>
- <20230125085407.7144-5-vikram.garhwal@amd.com>
- <alpine.DEB.2.22.394.2301251329520.1978264@ubuntu-linux-20-04-desktop>
-From: Vikram Garhwal <vikram.garhwal@amd.com>
-In-Reply-To: <alpine.DEB.2.22.394.2301251329520.1978264@ubuntu-linux-20-04-desktop>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR03CA0361.namprd03.prod.outlook.com
- (2603:10b6:a03:3a1::6) To MW3PR12MB4409.namprd12.prod.outlook.com
- (2603:10b6:303:2d::23)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pKoRQ-0003Rr-2x
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 17:40:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674686426;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=x7OxwPWQzVeukiblOWS1UlUMmh+JKLMk//gEtsjeDxE=;
+ b=SsC5yJXujpVVQNA0MiicuC86O+s1aCfS7DMLXzcDWm5Ntr9231MtQjNjkkh/fqot5bXd8M
+ QIoGL7EgAKp2Y54EWDATcfvGq2hHgIHSCkOaFhQJUYcnL3KmRe0jpIdvHMBSdv82cmGwIR
+ ijVwgR3bKU13OlEVU0s0YiK08g+1/o0=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-301-ND3fqbX5NTO_nIsik0yv5A-1; Wed, 25 Jan 2023 17:40:20 -0500
+X-MC-Unique: ND3fqbX5NTO_nIsik0yv5A-1
+Received: by mail-qt1-f200.google.com with SMTP id
+ bs22-20020ac86f16000000b003b686e0ef0bso8322807qtb.19
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 14:40:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=x7OxwPWQzVeukiblOWS1UlUMmh+JKLMk//gEtsjeDxE=;
+ b=TKD16IiQyf/JZQtIvMC6Lri7WZajO2/I2st2J+ICU5XBaozMYOiF5y34wAvdruPEvL
+ l4pUgRaUauIT5Va4Y+QDEqxLRUCRvwQE4WbEnQUhxqIpg0H9+1RVV3Yn8FD8bHu+/zeA
+ zK+NspOGWJqgyeVJMKCnoB5R6jnFKFxzOWkC37tU21QiqJJO/KQEZ2u/n/8SgV0RiORn
+ JUdwdFq16FEiBKGH0AC65q9155/XBex96y+WhK0DZRa8pF8wffQsG8Plu6yoPsDgrF/e
+ UOIaNKUQxGfnovIhcl5YD7q9qWw12Il3X/lSi9amIaGDFkryC5zN2anSRVh5I223zhqW
+ jCrg==
+X-Gm-Message-State: AFqh2kp5e0yoSczF2a/Ej+i/wrFq4CNbcLItpqMvbF1PaSaaEzX/b2kA
+ KddUt7kY9a/1aqgbjkZUSI+Js+SRCvYeAmsXGeY4RRsg8ccNUay1In3qOyypBk/mp3rvWOF6Bv2
+ p7pyp9cFZV3Mk1ZKgQDn8kK2p2rq9ExpgkjnGq23DbUxEgIksMOND8fE4e9Dvm9o/
+X-Received: by 2002:ac8:5284:0:b0:3ab:b6cd:3758 with SMTP id
+ s4-20020ac85284000000b003abb6cd3758mr49595417qtn.54.1674686418614; 
+ Wed, 25 Jan 2023 14:40:18 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuX78sZ/bN2xBS9CKSJwxGa5IhO4+7l8HXOslnJAnqVkdWOml0mTkCXEZNjZCqze6YTyLwX5g==
+X-Received: by 2002:ac8:5284:0:b0:3ab:b6cd:3758 with SMTP id
+ s4-20020ac85284000000b003abb6cd3758mr49595389qtn.54.1674686418332; 
+ Wed, 25 Jan 2023 14:40:18 -0800 (PST)
+Received: from x1n.redhat.com
+ (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca. [70.30.145.63])
+ by smtp.gmail.com with ESMTPSA id
+ z10-20020ac8430a000000b003b6325dfc4esm4133279qtm.67.2023.01.25.14.40.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Jan 2023 14:40:17 -0800 (PST)
+From: Peter Xu <peterx@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>, peterx@redhat.com,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: [PATCH 0/3] util/userfaultfd: Support /dev/userfaultfd
+Date: Wed, 25 Jan 2023 17:40:13 -0500
+Message-Id: <20230125224016.212529-1-peterx@redhat.com>
+X-Mailer: git-send-email 2.37.3
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4409:EE_|DS7PR12MB6309:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4569b997-3058-4173-c0b3-08daff24ed59
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: vJ/21zRa5FJLD8XGnqFsFsPjJgnyI9IAvvRLjEOFpNijOwwJCClkhdhQHH9/qC/Ck0fXmmMyDeNuuaM6eXZUTiXrPZdiGv92lKw2XvnWK0Zvlg9fCLzour/reo7hkXUzU5DDdCBMa4JuHYrvHJcn44kNc3jdVX5Unl3VeixvPJcJP7dc+N2j+XIXd3hmHzJ2wKjvBmtV8nkb2mEpVH0m9iLYIHvFZr6dxulynDnlWjBoz+zuxqkevd+wjZ2SP3qo3uOP+RYk4kbqZfUwlhuEptfw+kti44xxWC2MJLLGFXbJOiwaPAt5KYdinDVDpVlZiErJGEoZLeWajKB1DgVCY6y+j2E8jzYOa9wtRNItV/NnQHjLHIBXY5HaEjJ2yjn0rFhM6wNMvq4S5YeCcp/SQ2wj3Z46m7mNo+nGphYC2XWtNh44GyfOjZq58tqoIqU0i2JqdC88vl7wCVhYhuT3cfOvVImky7l6x0npCvdjRa5/MUveMDMNGA4+8Cgrglu2+iXX2R1KRlUWVDfXxkLx9HMHQR4zBONkvAv3gb3Gkei69VUJ8JbPHLhY3PcB1lECrY8FjRq5C6uxaIviRQXHoGyHqAmWpnO9C/hdQ8JjJihntuFLCbIdN8txGPCixMyg+1DFazq/Dead+rsYlb4SorfWmykbXTh17vpH054DEBqySrJRY2yXaj0QZvOK2TiXVEk+ECxt27uEToEx0TXki1Uj2+VRgZHBHHD5Lmz+48c=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:MW3PR12MB4409.namprd12.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(396003)(376002)(346002)(39860400002)(136003)(366004)(451199018)(2616005)(8936002)(86362001)(31696002)(478600001)(2906002)(8676002)(38100700002)(4326008)(7416002)(6486002)(5660300002)(36756003)(31686004)(44832011)(186003)(26005)(316002)(6506007)(54906003)(41300700001)(53546011)(6512007)(66556008)(83380400001)(66946007)(66476007)(6916009)(43740500002)(45980500001);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VGJ5a2x6NUVMSExEZ3VCUXhOTWVOTm10NXVWSDlFMEdHNEZ0V3FLVjFlUzc5?=
- =?utf-8?B?RWRsTUQ0QTJjLzF3ZSt3a3czbGNYamhYMFF4MmxWRnA4M3RqVExSOGoxVkhS?=
- =?utf-8?B?OFVsTTJ1NVdFaG0zbGhDUnVlUXR1cE9Ec1pLUFpwNTFIaVBUTmFaRWg5K1l5?=
- =?utf-8?B?cTFpeGpMVWNRNzBPYmZJSjcyczBIUnlBK2h3OGRVL3hWWTZqUk44L0tNNTRE?=
- =?utf-8?B?aWpKWjNJWWJCSTVvY3ZlSlFLVmgvN25Ld2o5SktLY0RlMTBqWlFqa2F4Z2Zr?=
- =?utf-8?B?NXlVTlo1MHRubUZKd3pJUVJ5L0UzbCt2VGJKd3pQRGIxMy9ubkttMXRZaUZR?=
- =?utf-8?B?TFlMWVJiQ1pNaWIxenZKTElLcG9qZzdPczljR1hhZU83TDNHQ0dNVXJ5d0hl?=
- =?utf-8?B?TUNzNDdrbkxCelh0bHo0TmhzdnRWUzhLSGlBcHdFKzBjbXNzTGkydjNPZTZX?=
- =?utf-8?B?enJzNmZFc2FPZzBneFZheGxJdUNJcFlsU0hvK1J2VnVQRWNFVFBUbkVjRkV0?=
- =?utf-8?B?OUtGN1dNeVdITWhOYlluck9GUjJYN3NBTkVYc01DQVMzK0J5VUFxcFI1c1VF?=
- =?utf-8?B?aGZoV3Y4Y04wNFRuWE1iYXFQdlZ0UEtpWmR4MkR4Vk55YVNXVU9sSHdrRlR1?=
- =?utf-8?B?RDNsSmM5cGhsdVJXVG1ta2RMdzBmQVJINkxYMFVNa0U4ZkUyT2NweGE3c0M1?=
- =?utf-8?B?YUJha3FyYlpaR2JKR3I1NklzZnVobWdaMnFaOFNpVDBvOE8vMDdiVW9CakJ1?=
- =?utf-8?B?WTFOM0NwaTNvQmFkaUdXV0VvNGllR25GbmRDb0djakE2NDFkYTJwbG91V0VE?=
- =?utf-8?B?U2JLOEorR1lBL0tETllOS0RqRENQbmZMNUloK3NzdVM5Si8xb0ZkVTRSOWtT?=
- =?utf-8?B?Ulc1YkdtNCtyVzJaam1ldDh5Y0VEVkFVK1JabFk5VGV3KzhtYlo3NkVkSy8y?=
- =?utf-8?B?eml6bmJPVHpnbXJzZThmd2wzTlBqZ2Y1Z0tHNys4ZDFuWmRYSEIvQ0tObjZs?=
- =?utf-8?B?NzBsZW81Y1VzWjVYSHU1YmN2ZUIydGFVc3BDK2Q2QzVhYThJMC9wbEd4ZVVk?=
- =?utf-8?B?VEt6aG95SzFkNU96SzFkRVJadVhyWG91aVlUVTdadTJVMUVabnNRNkJIZWk1?=
- =?utf-8?B?NG9DN3NZQVcvVWVCQ2l6U1FVWjlTSVFPYzhvVlg1QS9MVmNwZGdtWFU5TkVo?=
- =?utf-8?B?UDBKczMxTEYxZ3JmWmpMaG5maW0wd1VYbnBnMk9DdlRKRXl0aGxzWE5zQXNE?=
- =?utf-8?B?M3V1STgxQ3BoTkpZZUg4SVJ0dk9nZVZORXM0U1FlRytjM3FhbEI2OUcxR3Vz?=
- =?utf-8?B?T1hFQ0J1RllxTjVPNzlMNlMrK2pRVmFqdWJtYlNPSzBscmVzckRqc3kxT1RU?=
- =?utf-8?B?aEVHTVl6SU55aHlLQ1dzTXMzbHRXNnk5MWJtRVh1SG9jWm5VTnhab0puNFVC?=
- =?utf-8?B?UWpwZUhHTU9rcjN2Y2tUQTdYR3p0WGlBZCtXQVdMV0hmNEhidlgvN1hPeDRh?=
- =?utf-8?B?d2JiQisyTzY1Yk1rbjBtNGlSNElpQmViL2h5MGw5SXZZejFlL2ZpcVBDazdK?=
- =?utf-8?B?b005dTdnaTBRRHQ1d0EzaGpwaDljdmNWam9nVVVndFBoTm5rV1J6QTZBN04z?=
- =?utf-8?B?UVV0RXptdm9yWE5nSENkK3BzYVNTaUdGZUZXQWVYKzlKWjB1WUNjTEpOUE5j?=
- =?utf-8?B?YXVWeVlDcXJ2a0hVY2tkNGMwZVhYbXJONW9JUUxtWlVTRUJjSzBaTVJMbHNV?=
- =?utf-8?B?L2t5ZW1qdjlJUTNEVjE5S2VHSW8yb2FPSDJjRUhadkhyZzZSMmxOVytTVjZG?=
- =?utf-8?B?OG0vaklZWFZ4TWZ4UE42d2JhN2YwbTJtQitsWWxram13VkZWVzl5ZkRWYWU2?=
- =?utf-8?B?bTA2YWRxVjIzdHNCUUZ5Y1AyQVZHcGRtTHZIdTJsWVBkbzZQdlFEcWFzOW1W?=
- =?utf-8?B?L3Y3blNJTFk5d00wMEMzdy8raStTaWtWai9RcW1nNnlORXNOR05PTjFzYnNs?=
- =?utf-8?B?UzVkYWZacTlMMWlHV3F1N1N6Y0E3TWpQb2tqelFSdnljc2NUUnJzRVQwOUtx?=
- =?utf-8?B?d3VjNnpGZllvT1NzTnMwRkljeE4zRlFscnFkeSs5Q1F6MEdSeTcza2QwbUFr?=
- =?utf-8?Q?T7Nh9x8xs2jyrOyNKNZ7Fv6ws?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4569b997-3058-4173-c0b3-08daff24ed59
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4409.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Jan 2023 22:38:49.4051 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jpRnYWngK3/JphQlzNHsQSBO9aA8ufeNPhJOOV/O+2bU8f3A1Z7BAGizwRq4hbUqisulCddtnmTTWaamLoXLNQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6309
-Received-SPF: softfail client-ip=40.107.220.45;
- envelope-from=vikram.garhwal@amd.com;
- helo=NAM11-CO1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -32
-X-Spam_score: -3.3
-X-Spam_bar: ---
-X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -153,81 +97,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Stefano,
+The new /dev/userfaultfd handle is superior to the system call with a
+better permission control and also works for a restricted seccomp
+environment.
 
-On 1/25/23 1:55 PM, Stefano Stabellini wrote:
-> On Wed, 25 Jan 2023, Vikram Garhwal wrote:
->> From: Stefano Stabellini <stefano.stabellini@amd.com>
->>
->> This patch does following:
->> 1. creates arch_handle_ioreq() and arch_xen_set_memory(). This is done in
->>      preparation for moving most of xen-hvm code to an arch-neutral location,
->>      move the x86-specific portion of xen_set_memory to arch_xen_set_memory.
->>      Also, move handle_vmport_ioreq to arch_handle_ioreq.
->>
->> 2. Pure code movement: move common functions to hw/xen/xen-hvm-common.c
->>      Extract common functionalities from hw/i386/xen/xen-hvm.c and move them to
->>      hw/xen/xen-hvm-common.c. These common functions are useful for creating
->>      an IOREQ server.
->>
->>      xen_hvm_init_pc() contains the architecture independent code for creating
->>      and mapping a IOREQ server, connecting memory and IO listeners, initializing
->>      a xen bus and registering backends. Moved this common xen code to a new
->>      function xen_register_ioreq() which can be used by both x86 and ARM machines.
->>
->>      Following functions are moved to hw/xen/xen-hvm-common.c:
->>          xen_vcpu_eport(), xen_vcpu_ioreq(), xen_ram_alloc(), xen_set_memory(),
->>          xen_region_add(), xen_region_del(), xen_io_add(), xen_io_del(),
->>          xen_device_realize(), xen_device_unrealize(),
->>          cpu_get_ioreq_from_shared_memory(), cpu_get_ioreq(), do_inp(),
->>          do_outp(), rw_phys_req_item(), read_phys_req_item(),
->>          write_phys_req_item(), cpu_ioreq_pio(), cpu_ioreq_move(),
->>          cpu_ioreq_config(), handle_ioreq(), handle_buffered_iopage(),
->>          handle_buffered_io(), cpu_handle_ioreq(), xen_main_loop_prepare(),
->>          xen_hvm_change_state_handler(), xen_exit_notifier(),
->>          xen_map_ioreq_server(), destroy_hvm_domain() and
->>          xen_shutdown_fatal_error()
->>
->> 3. Removed static type from below functions:
->>      1. xen_region_add()
->>      2. xen_region_del()
->>      3. xen_io_add()
->>      4. xen_io_del()
->>      5. xen_device_realize()
->>      6. xen_device_unrealize()
->>      7. xen_hvm_change_state_handler()
->>      8. cpu_ioreq_pio()
->>      9. xen_exit_notifier()
->>
->> 4. Replace TARGET_PAGE_SIZE with XC_PAGE_SIZE to match the page side with Xen.
->>
->> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
->> Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
-> One comment below
->
-> [...]
->
->> +void xen_exit_notifier(Notifier *n, void *data)
->> +{
->> +    XenIOState *state = container_of(n, XenIOState, exit);
->> +
->> +    xen_destroy_ioreq_server(xen_domid, state->ioservid);
-> In the original code we had:
->
-> -    if (state->fres != NULL) {
-> -        xenforeignmemory_unmap_resource(xen_fmem, state->fres);
-> -    }
->
-> Should we add it here?
->
->
-> I went through the manual process of comparing all the code additions
-> and deletions (not fun!) and everything checks out except for this.
-thanks for catching this. There were two recent commits in upstream and 
-i missed those. I rechecked and there are actually three other lines 
-which needs update. I will address it in v5.
->
->> +    xenevtchn_close(state->xce_handle);
->> +    xs_daemon_close(state->xenstore);
->> +}
+The new device was only introduced in v6.1 so we need a header update.
+
+Please have a look, thanks.
+
+Peter Xu (3):
+  linux-headers: Update to v6.1
+  util/userfaultfd: Add uffd_open()
+  util/userfaultfd: Support /dev/userfaultfd
+
+ include/qemu/userfaultfd.h                    |   1 +
+ include/standard-headers/drm/drm_fourcc.h     |  34 ++++-
+ include/standard-headers/linux/ethtool.h      |  63 +++++++-
+ include/standard-headers/linux/fuse.h         |   6 +-
+ .../linux/input-event-codes.h                 |   1 +
+ include/standard-headers/linux/virtio_blk.h   |  19 +++
+ linux-headers/asm-generic/hugetlb_encode.h    |  26 ++--
+ linux-headers/asm-generic/mman-common.h       |   2 +
+ linux-headers/asm-mips/mman.h                 |   2 +
+ linux-headers/asm-riscv/kvm.h                 |   4 +
+ linux-headers/linux/kvm.h                     |   1 +
+ linux-headers/linux/psci.h                    |  14 ++
+ linux-headers/linux/userfaultfd.h             |   4 +
+ linux-headers/linux/vfio.h                    | 142 ++++++++++++++++++
+ migration/postcopy-ram.c                      |  11 +-
+ tests/qtest/migration-test.c                  |   3 +-
+ util/trace-events                             |   1 +
+ util/userfaultfd.c                            |  49 +++++-
+ 18 files changed, 354 insertions(+), 29 deletions(-)
+
+-- 
+2.37.3
+
 
