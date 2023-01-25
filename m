@@ -2,55 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D9D867B5E4
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 16:28:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C18267B65D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 16:54:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKhh6-0003HI-Si; Wed, 25 Jan 2023 10:28:12 -0500
+	id 1pKi54-0000ED-Iy; Wed, 25 Jan 2023 10:52:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pKhh3-0003H2-7d
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 10:28:09 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pKi50-0000Dg-L7
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 10:52:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pKhh0-0002TB-Jn
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 10:28:08 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P271S5y68z67xt4;
- Wed, 25 Jan 2023 23:24:44 +0800 (CST)
-Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
- lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Wed, 25 Jan 2023 15:28:04 +0000
-To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
-CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
- <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Dave Jiang
- <dave.jiang@intel.com>, <alison.schofield@intel.com>, Fan Ni
- <fan.ni@samsung.com>
-Subject: [PATCH 2/2] hw/pxb-cxl: Support passthrough HDM Decoders unless
- overridden
-Date: Wed, 25 Jan 2023 15:27:03 +0000
-Message-ID: <20230125152703.9928-3-Jonathan.Cameron@huawei.com>
-X-Mailer: git-send-email 2.37.2
-In-Reply-To: <20230125152703.9928-1-Jonathan.Cameron@huawei.com>
-References: <20230125152703.9928-1-Jonathan.Cameron@huawei.com>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pKi4x-0006Mk-4Z
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 10:52:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674661969;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=AzIiUG0pxgtP6W9XpsukXYGxB4pJxg8WndfMvOqeHCE=;
+ b=M+0c3J+STa1Rihe9fvw3PBaE7lUbF6mvzx8bnkJSPM+wd7ZZyV6ZpS7s6Id0XHv5jNX4mp
+ UI2exo8L6cWTo4BeXdnrjDjl74AfpDNVdXJX1WQ2uzW3tvwetVPaPq20JRB49+50oh+8Jl
+ LQvBhWioHkjwVkgE0SzTW1XNt3dD5Vc=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-31-NT0h22L4OxKfrjvUNkubhA-1; Wed, 25 Jan 2023 10:52:46 -0500
+X-MC-Unique: NT0h22L4OxKfrjvUNkubhA-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ y66-20020a253245000000b007cb4f1e3e57so20058288yby.8
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 07:52:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=AzIiUG0pxgtP6W9XpsukXYGxB4pJxg8WndfMvOqeHCE=;
+ b=tQ/7fBMjAIZ3LYCElejpmeX/bj9/+D/pXVMHbnDsshbUvcl5heop9X6ye5c4Wo4HbP
+ BRV7oZ9T7t6HLHLHVTFBODCBMnFt/X2Is1WcNQLMc9o3y3oHEfdDEXRFw/+o6JMmOTii
+ c4URsvQQvq160nF/pxuSv2rQUv/04XbdQr8++VvoS3a/sfmg9ozkZYwPaAm+ek5kzY7w
+ RRYoXgP7zhkxYV/S050dHkq5YHkURYX3ZBaWo5TLU5M9euIhH3RFdh0meblbHCltFUnr
+ 0zSoPvZWEX4WN3Q20xqI9gwokXWqcTFeCW50oQeHEaMVU8jJHQV4MPbIeOWPdgkysPM6
+ ZV0w==
+X-Gm-Message-State: AFqh2koSMTdY8s7rr15SHSN7UZAP6PTax++mm/gQoMhGZt1Sp72nGEgo
+ +zlAhG1Zm1slYAqPf8bFFfI2S6XSXqOsHZF5I0tIloRmb1zh7oEOmhSjm7505RSkiCYCaapbOtl
+ /QVy7l17K0IkxyCkkJW1i2BOjqPhJ6Ns=
+X-Received: by 2002:a0d:ff42:0:b0:4e0:8133:2a5a with SMTP id
+ p63-20020a0dff42000000b004e081332a5amr3626897ywf.187.1674661965958; 
+ Wed, 25 Jan 2023 07:52:45 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtcOYRxXSP11zvAV4i5gUKFqoFYBA+lIvqPdY6ZGuWJlhd6cqwfBg9mpOIcAlJmggy9IDmfR+7HLQSMiFhp1mw=
+X-Received: by 2002:a0d:ff42:0:b0:4e0:8133:2a5a with SMTP id
+ p63-20020a0dff42000000b004e081332a5amr3626890ywf.187.1674661965779; Wed, 25
+ Jan 2023 07:52:45 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <20230124161159.2182117-1-eperezma@redhat.com>
+ <m2y1pq1xy9.fsf@oracle.com>
+In-Reply-To: <m2y1pq1xy9.fsf@oracle.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 25 Jan 2023 16:52:09 +0100
+Message-ID: <CAJaqyWfcftb69Hh5O7gQqUZ6aK+wKsP3p3rquSjbr8avnR-prQ@mail.gmail.com>
+Subject: Re: [PATCH] virtio-net: clear guest_announce feature if no cvq backend
+To: David Edmondson <david.edmondson@oracle.com>
+Cc: qemu-devel@nongnu.org, leiyang@redhat.com, 
+ "Michael S. Tsirkin" <mst@redhat.com>, gautam.dawar@amd.com,
+ Jason Wang <jasowang@redhat.com>, Laurent Vivier <lvivier@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,216 +93,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The CXL r3.0 specification allows for there to be no HDM decoders on CXL
-Host Bridges if they have only a single root port. Instead, all accesses
-directed to the host bridge (as specified in CXL Fixed Memory Windows)
-are assumed to be routed to the single root port.
+On Wed, Jan 25, 2023 at 4:20 PM David Edmondson
+<david.edmondson@oracle.com> wrote:
+>
+> On Tuesday, 2023-01-24 at 17:11:59 +01, Eugenio P=C3=A9rez wrote:
+> > Since GUEST_ANNOUNCE is emulated the feature bit could be set without
+> > backend support.  This happens in the vDPA case.
+> >
+> > However, backend vDPA parent may not have CVQ support.  This causes an
+> > incoherent feature set, and the driver may refuse to start.  This
+> > happens in virtio-net Linux driver.
+>
+> Could you now simplify the tests in virtio_net_announce() and
+> virtio_net_post_load_device() to look only for the presence of
+> GUEST_ANNOUNCE, given that you can now presume that it implies CTRL_VQ?
+>
 
-Linux currently assumes this implementation choice. So to simplify testing,
-make QEMU emulation also default to no HDM decoders under these particular
-circumstances, but provide a hdm_for_passthrough boolean option to have
-HDM decoders as previously.
+That's a good question. As far as I know qemu emits an error if only
+GUEST_ANNOUNCE is given in a purely emulated device.
 
-Technically this is breaking backwards compatibility, but given the only
-known software stack used with the QEMU emulation is the Linux kernel
-and this configuration did not work before this change, there are
-unlikely to be any complaints that it now works. The option is retained
-to allow testing of software that does allow for these HDM decoders to exist,
-once someone writes it.
+At this moment vhost-kernel and vhost-vdpa do not handle it, but
+vhost-user do. Would it be beneficial to preserve previous behavior
+and passthrough the features? I guess not, so I think we could
+simplify those functions on top of this series.
 
-Reported-by: Fan Ni <fan.ni@samsung.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
----
- hw/cxl/cxl-host.c                   | 31 ++++++++++++--------
- hw/pci-bridge/pci_expander_bridge.c | 44 +++++++++++++++++++++++++----
- include/hw/cxl/cxl.h                |  1 +
- include/hw/cxl/cxl_component.h      |  1 +
- include/hw/pci/pci_bridge.h         |  1 +
- 5 files changed, 61 insertions(+), 17 deletions(-)
+> But anyway:
+>
+> Reviewed-by: David Edmondson <david.edmondson@oracle.com>
+>
 
-diff --git a/hw/cxl/cxl-host.c b/hw/cxl/cxl-host.c
-index 3c1ec8732a..6e923ceeaf 100644
---- a/hw/cxl/cxl-host.c
-+++ b/hw/cxl/cxl-host.c
-@@ -146,21 +146,28 @@ static PCIDevice *cxl_cfmws_find_device(CXLFixedWindow *fw, hwaddr addr)
-         return NULL;
-     }
- 
--    hb_cstate = cxl_get_hb_cstate(hb);
--    if (!hb_cstate) {
--        return NULL;
--    }
-+    if (cxl_get_hb_passthrough(hb)) {
-+        rp = pcie_find_port_first(hb->bus);
-+        if (!rp) {
-+            return NULL;
-+        }
-+    } else {
-+        hb_cstate = cxl_get_hb_cstate(hb);
-+        if (!hb_cstate) {
-+            return NULL;
-+        }
- 
--    cache_mem = hb_cstate->crb.cache_mem_registers;
-+        cache_mem = hb_cstate->crb.cache_mem_registers;
- 
--    target_found = cxl_hdm_find_target(cache_mem, addr, &target);
--    if (!target_found) {
--        return NULL;
--    }
-+        target_found = cxl_hdm_find_target(cache_mem, addr, &target);
-+        if (!target_found) {
-+            return NULL;
-+        }
- 
--    rp = pcie_find_port_by_pn(hb->bus, target);
--    if (!rp) {
--        return NULL;
-+        rp = pcie_find_port_by_pn(hb->bus, target);
-+        if (!rp) {
-+            return NULL;
-+        }
-     }
- 
-     d = pci_bridge_get_sec_bus(PCI_BRIDGE(rp))->devices[0];
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index e752a21292..ead33f0c05 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -15,6 +15,7 @@
- #include "hw/pci/pci.h"
- #include "hw/pci/pci_bus.h"
- #include "hw/pci/pci_host.h"
-+#include "hw/pci/pcie_port.h"
- #include "hw/qdev-properties.h"
- #include "hw/pci/pci_bridge.h"
- #include "hw/pci-bridge/pci_expander_bridge.h"
-@@ -79,6 +80,13 @@ CXLComponentState *cxl_get_hb_cstate(PCIHostState *hb)
-     return &host->cxl_cstate;
- }
- 
-+bool cxl_get_hb_passthrough(PCIHostState *hb)
-+{
-+    CXLHost *host = PXB_CXL_HOST(hb);
-+
-+    return host->passthrough;
-+}
-+
- static int pxb_bus_num(PCIBus *bus)
- {
-     PXBDev *pxb = convert_to_pxb(bus->parent_dev);
-@@ -289,15 +297,32 @@ static int pxb_map_irq_fn(PCIDevice *pci_dev, int pin)
-     return pin - PCI_SLOT(pxb->devfn);
- }
- 
--static void pxb_dev_reset(DeviceState *dev)
-+static void pxb_cxl_dev_reset(DeviceState *dev)
- {
-     CXLHost *cxl = PXB_CXL_DEV(dev)->cxl.cxl_host_bridge;
-     CXLComponentState *cxl_cstate = &cxl->cxl_cstate;
-+    PCIHostState *hb = PCI_HOST_BRIDGE(cxl);
-     uint32_t *reg_state = cxl_cstate->crb.cache_mem_registers;
-     uint32_t *write_msk = cxl_cstate->crb.cache_mem_regs_write_mask;
-+    int dsp_count = 0;
- 
-     cxl_component_register_init_common(reg_state, write_msk, CXL2_ROOT_PORT);
--    ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT, 8);
-+    /*
-+     * The CXL specification allows for host bridges with no HDM decoders
-+     * if they only have a single root port.
-+     */
-+    if (!PXB_DEV(dev)->hdm_for_passthrough) {
-+        dsp_count = pcie_count_ds_ports(hb->bus);
-+    }
-+    /* Initial reset will have 0 dsp so wait until > 0 */
-+    if (dsp_count == 1) {
-+        cxl->passthrough = true;
-+        /* Set Capability ID in header to NONE */
-+        ARRAY_FIELD_DP32(reg_state, CXL_HDM_CAPABILITY_HEADER, ID, 0);
-+    } else {
-+        ARRAY_FIELD_DP32(reg_state, CXL_HDM_DECODER_CAPABILITY, TARGET_COUNT,
-+                         8);
-+    }
- }
- 
- static gint pxb_compare(gconstpointer a, gconstpointer b)
-@@ -481,9 +506,18 @@ static void pxb_cxl_dev_realize(PCIDevice *dev, Error **errp)
-     }
- 
-     pxb_dev_realize_common(dev, CXL, errp);
--    pxb_dev_reset(DEVICE(dev));
-+    pxb_cxl_dev_reset(DEVICE(dev));
- }
- 
-+static Property pxb_cxl_dev_properties[] = {
-+    /* Note: 0 is not a legal PXB bus number. */
-+    DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
-+    DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNASSIGNED),
-+    DEFINE_PROP_BOOL("bypass_iommu", PXBDev, bypass_iommu, false),
-+    DEFINE_PROP_BOOL("hdm_for_passthrough", PXBDev, hdm_for_passthrough, false),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc   = DEVICE_CLASS(klass);
-@@ -497,12 +531,12 @@ static void pxb_cxl_dev_class_init(ObjectClass *klass, void *data)
-      */
- 
-     dc->desc = "CXL Host Bridge";
--    device_class_set_props(dc, pxb_dev_properties);
-+    device_class_set_props(dc, pxb_cxl_dev_properties);
-     set_bit(DEVICE_CATEGORY_BRIDGE, dc->categories);
- 
-     /* Host bridges aren't hotpluggable. FIXME: spec reference */
-     dc->hotpluggable = false;
--    dc->reset = pxb_dev_reset;
-+    dc->reset = pxb_cxl_dev_reset;
- }
- 
- static const TypeInfo pxb_cxl_dev_info = {
-diff --git a/include/hw/cxl/cxl.h b/include/hw/cxl/cxl.h
-index b161be59b7..b2cffbb364 100644
---- a/include/hw/cxl/cxl.h
-+++ b/include/hw/cxl/cxl.h
-@@ -49,6 +49,7 @@ struct CXLHost {
-     PCIHostState parent_obj;
- 
-     CXLComponentState cxl_cstate;
-+    bool passthrough;
- };
- 
- #define TYPE_PXB_CXL_HOST "pxb-cxl-host"
-diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
-index 8752171f70..b4104b78b5 100644
---- a/include/hw/cxl/cxl_component.h
-+++ b/include/hw/cxl/cxl_component.h
-@@ -249,6 +249,7 @@ static inline hwaddr cxl_decode_ig(int ig)
- }
- 
- CXLComponentState *cxl_get_hb_cstate(PCIHostState *hb);
-+bool cxl_get_hb_passthrough(PCIHostState *hb);
- 
- void cxl_doe_cdat_init(CXLComponentState *cxl_cstate, Error **errp);
- void cxl_doe_cdat_release(CXLComponentState *cxl_cstate);
-diff --git a/include/hw/pci/pci_bridge.h b/include/hw/pci/pci_bridge.h
-index 63a7521567..81a058bb2c 100644
---- a/include/hw/pci/pci_bridge.h
-+++ b/include/hw/pci/pci_bridge.h
-@@ -92,6 +92,7 @@ struct PXBDev {
-     uint8_t bus_nr;
-     uint16_t numa_node;
-     bool bypass_iommu;
-+    bool hdm_for_passthrough;
-     struct cxl_dev {
-         CXLHost *cxl_host_bridge; /* Pointer to a CXLHost */
-     } cxl;
--- 
-2.37.2
+Thanks for the review!
+
+> > This may be solved differently in the future.  Qemu is able to emulate =
+a
+> > CVQ just for guest_announce purposes, helping guest to notify the new
+> > location with vDPA devices that does not support it.  However, this is
+> > left as a TODO as it is way more complex to backport.
+> >
+> > Tested with vdpa_net_sim, toggling manually VIRTIO_NET_F_CTRL_VQ in the
+> > driver and migrating it with x-svq=3Don.
+> >
+> > Fixes: 980003debddd ("vdpa: do not handle VIRTIO_NET_F_GUEST_ANNOUNCE i=
+n vhost-vdpa")
+> > Reported-by: Dawar, Gautam <gautam.dawar@amd.com>
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > ---
+> >  hw/net/virtio-net.c | 15 +++++++++++++++
+> >  1 file changed, 15 insertions(+)
+> >
+> > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > index 3ae909041a..09d5c7a664 100644
+> > --- a/hw/net/virtio-net.c
+> > +++ b/hw/net/virtio-net.c
+> > @@ -820,6 +820,21 @@ static uint64_t virtio_net_get_features(VirtIODevi=
+ce *vdev, uint64_t features,
+> >          features |=3D (1ULL << VIRTIO_NET_F_MTU);
+> >      }
+> >
+> > +    /*
+> > +     * Since GUEST_ANNOUNCE is emulated the feature bit could be set w=
+ithout
+> > +     * enabled. This happens in the vDPA case.
+> > +     *
+> > +     * Make sure the feature set is not incoherent, as the driver coul=
+d refuse
+> > +     * to start.
+> > +     *
+> > +     * TODO: QEMU is able to emulate a CVQ just for guest_announce pur=
+poses,
+> > +     * helping guest to notify the new location with vDPA devices that=
+ does not
+> > +     * support it.
+> > +     */
+> > +    if (!virtio_has_feature(vdev->backend_features, VIRTIO_NET_F_CTRL_=
+VQ)) {
+> > +        virtio_clear_feature(&features, VIRTIO_NET_F_GUEST_ANNOUNCE);
+> > +    }
+> > +
+> >      return features;
+> >  }
+> --
+> Why stay in college? Why go to night school?
+>
 
 
