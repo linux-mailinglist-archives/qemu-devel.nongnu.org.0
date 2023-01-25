@@ -2,92 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D41767B6B2
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 17:18:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A88867B6B3
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 17:18:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKiSf-0007dG-OE; Wed, 25 Jan 2023 11:17:21 -0500
+	id 1pKiSn-0007eR-Vk; Wed, 25 Jan 2023 11:17:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pKiSa-0007cq-PK
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 11:17:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1pKiSl-0007eJ-MK
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 11:17:27 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pKiSX-0002Ee-Sg
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 11:17:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674663432;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=/j+ngRqyg5gTSPIwHilNzA3sWMLVPB+jSG1dHjpIw3g=;
- b=CfsrnnqIIPFkm388ZHUC0RN3kuJIyzNQ04/9JlpsZh2GLK2N41Zvnquxr/F/o4HSHkOaDB
- UF3zgrD5R0fkJwc4iundb+MbHS4xQuRcxRQEC/7fjUii1sNNME58EHSwUnF7aW7P4PmUnn
- 8JQJxEaFX2q1D6SWloi2sXdAV9KFBtE=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-46-mI_ao66YOeKC3Cx3CcrOMA-1; Wed, 25 Jan 2023 11:17:10 -0500
-X-MC-Unique: mI_ao66YOeKC3Cx3CcrOMA-1
-Received: by mail-ej1-f71.google.com with SMTP id
- og35-20020a1709071de300b00877faf0a4b4so2960039ejc.6
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 08:17:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/j+ngRqyg5gTSPIwHilNzA3sWMLVPB+jSG1dHjpIw3g=;
- b=dILGUS+b1l0VStK16xBPzwbr8xYaHnEMBtOTFg9X1TJsUU2HRUORdsS79ZFL+b3kT1
- o6X35eAsgwiR/dWpnLKHSgcI78Vz8YfCJm6wnPzQA4pDwL41dgt3XMbSszO/kC6eDkI5
- NVJ+bFdo4rJ82gUJ0WLoAxpqSXglmwkCqDRqlsSbI3Hj4n3BfHn7FTq6XqgyGcxJIEVJ
- sx1i/H1rBcN9x7PTtnvVdm9hgLi2o2/CokZbOTSGZ4GxqqaYzwuCZoC2DV/TU2877xUW
- 05j6DZ6awNtL2UWud20bfySKgwP1H6g48SpK0baesi+7z8geDffy99kaa6m/NojPXJjk
- BRPQ==
-X-Gm-Message-State: AO0yUKWtcvkAvAU+O2zuwTjwjSxiUQKNc8ihkSETvDPMZHm66Mqxd04o
- Z4JrzYTVMN90n1USt1ydqjqASHWV7RQKE4s7Di0Svys1E7x7MgorpytAGi2mcrZnMp1c2ohpe3K
- IxBAzgSKa2YAu7vI=
-X-Received: by 2002:a50:d5de:0:b0:4a0:b64d:1c3f with SMTP id
- g30-20020a50d5de000000b004a0b64d1c3fmr644429edj.16.1674663429055; 
- Wed, 25 Jan 2023 08:17:09 -0800 (PST)
-X-Google-Smtp-Source: AK7set/8tT/H33i+EjcjH1dxJ5ryPxbhSRh/AUr9dww+L2kDecE5RbuCKQiKtQbwVrXn3L8qHhII5Q==
-X-Received: by 2002:a50:d5de:0:b0:4a0:b64d:1c3f with SMTP id
- g30-20020a50d5de000000b004a0b64d1c3fmr644405edj.16.1674663428823; 
- Wed, 25 Jan 2023 08:17:08 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- en11-20020a056402528b00b0049fc459ef1fsm2481362edb.90.2023.01.25.08.17.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 08:17:08 -0800 (PST)
-Date: Wed, 25 Jan 2023 17:17:07 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Bernhard Beschow <shentey@gmail.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Ani Sinha
- <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>, Aurelien Jarno
- <aurelien@aurel32.net>
-Subject: Re: [PATCH 7/7] hw/acpi/core: Trace enable and status registers of
- GPE separately
-Message-ID: <20230125171707.409f2b41@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230122170724.21868-8-shentey@gmail.com>
-References: <20230122170724.21868-1-shentey@gmail.com>
- <20230122170724.21868-8-shentey@gmail.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=imammedo@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <steven.sistare@oracle.com>)
+ id 1pKiSi-0002I0-SQ
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 11:17:27 -0500
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30PFQ7eW029151; Wed, 25 Jan 2023 16:17:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+ h=from : to : cc :
+ subject : date : message-id; s=corp-2022-7-12;
+ bh=Gr/kPpCXSSt2cT+lKjtbC5qDFuvnvX+AO4H7MP2mRjE=;
+ b=Dteamh9ifcP0qBOSYm1UTEgb4hMQlKlZPlrrrR/jvuB0xyfjrxHo36LsFjiEaHvaXGp5
+ AkBLmvHA2iMYKawOhymlximm0ScOUY/suiCmQKUGKiHb9MK3ut4GPFV/Gnsjf9bNxRiW
+ kM1QdeWqqIxhTiZV+/9t6YbIb087w1eV6eeCzYIpvE700wo2iedhc9uk70W+a7N9wDXm
+ QIc7GgHv5Kh4L6ZfGM9Yj2jUmm8O0961gMEoFZ66KVEhbrspQ3k5RnRmirDMsTJorpEg
+ qH/QGb0So+rcnKhCVS5N+naWIaNWRFanrsvoOm/GohRxRNVrd/1emiF9LOLJA49XGLgn /A== 
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com
+ (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3n88ku09fd-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 25 Jan 2023 16:17:18 +0000
+Received: from pps.filterd
+ (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
+ with ESMTP id 30PG9vki028439; Wed, 25 Jan 2023 16:17:17 GMT
+Received: from ca-dev63.us.oracle.com (ca-dev63.us.oracle.com [10.211.8.221])
+ by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with
+ ESMTP id 3n86g68ttc-1; Wed, 25 Jan 2023 16:17:17 +0000
+From: Steve Sistare <steven.sistare@oracle.com>
+To: qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philippe.mathieu.daude@gmail.com>
+Subject: [PATCH V1] meson: fix dependency on qemu-keymap
+Date: Wed, 25 Jan 2023 08:17:16 -0800
+Message-Id: <1674663436-380426-1-git-send-email-steven.sistare@oracle.com>
+X-Mailer: git-send-email 1.8.3.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-25_10,2023-01-25_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
+ mlxlogscore=974
+ malwarescore=0 mlxscore=0 bulkscore=0 adultscore=0 phishscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301250144
+X-Proofpoint-GUID: LAl3YBG9PxVX-tMuPRCUiYhU9bZ-20FG
+X-Proofpoint-ORIG-GUID: LAl3YBG9PxVX-tMuPRCUiYhU9bZ-20FG
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=steven.sistare@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -104,71 +86,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 22 Jan 2023 18:07:24 +0100
-Bernhard Beschow <shentey@gmail.com> wrote:
+When qemu-keymap is not available on the host, and enable-xkbcommon
+is specified, parallel make fails with:
 
-> The bit positions of both registers are related. Tracing the registers
-> independently results in the same offsets across these registers which
-> eases debugging.
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+  % make clean
+  ...
+  % make -j 32
+  ...
+  FAILED: pc-bios/keymaps/is
+  ./qemu-keymap -f pc-bios/keymaps/is -l is
+  /bin/sh: ./qemu-keymap: No such file or directory
+  ... many similar messages ...
 
-Acked-by: Igor Mammedov <imammedo@redhat.com>
+The code always runs find_program, rather than waiting to build
+qemu-keymap, because it looks for CONFIG_XKBCOMMON in config_host
+rather than config_host_data.  Making serially succeeds, by soft
+linking files from pc-bios/keymaps, but that is not the desired
+result for enable-xkbcommon.
 
-> ---
->  hw/acpi/core.c       | 10 +++++++---
->  hw/acpi/trace-events |  6 ++++--
->  2 files changed, 11 insertions(+), 5 deletions(-)
-> 
-> diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-> index a33e410e69..cc33605d61 100644
-> --- a/hw/acpi/core.c
-> +++ b/hw/acpi/core.c
-> @@ -687,13 +687,13 @@ void acpi_gpe_ioport_writeb(ACPIREGS *ar, uint32_t addr, uint32_t val)
->  {
->      uint8_t *cur;
->  
-> -    trace_acpi_gpe_ioport_writeb(addr, val);
-> -
->      cur = acpi_gpe_ioport_get_ptr(ar, addr);
->      if (addr < ar->gpe.len / 2) {
-> +        trace_acpi_gpe_sts_ioport_writeb(addr, val);
->          /* GPE_STS */
->          *cur = (*cur) & ~val;
->      } else if (addr < ar->gpe.len) {
-> +        trace_acpi_gpe_en_ioport_writeb(addr - (ar->gpe.len / 2), val);
->          /* GPE_EN */
->          *cur = val;
->      } else {
-> @@ -712,7 +712,11 @@ uint32_t acpi_gpe_ioport_readb(ACPIREGS *ar, uint32_t addr)
->          val = *cur;
->      }
->  
-> -    trace_acpi_gpe_ioport_readb(addr, val);
-> +    if (addr < ar->gpe.len / 2) {
-> +        trace_acpi_gpe_sts_ioport_readb(addr, val);
-> +    } else {
-> +        trace_acpi_gpe_en_ioport_readb(addr - (ar->gpe.len / 2), val);
-> +    }
->  
->      return val;
->  }
-> diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
-> index 159937ddb9..d387adfb0b 100644
-> --- a/hw/acpi/trace-events
-> +++ b/hw/acpi/trace-events
-> @@ -18,8 +18,10 @@ mhp_acpi_pc_dimm_deleted(uint32_t slot) "slot[0x%"PRIx32"] pc-dimm deleted"
->  mhp_acpi_pc_dimm_delete_failed(uint32_t slot) "slot[0x%"PRIx32"] pc-dimm delete failed"
->  
->  # core.c
-> -acpi_gpe_ioport_readb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " ==> 0x%" PRIx8
-> -acpi_gpe_ioport_writeb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " <== 0x%" PRIx8
-> +acpi_gpe_sts_ioport_readb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " ==> 0x%" PRIx8
-> +acpi_gpe_en_ioport_readb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " ==> 0x%" PRIx8
-> +acpi_gpe_sts_ioport_writeb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " <== 0x%" PRIx8
-> +acpi_gpe_en_ioport_writeb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " <== 0x%" PRIx8
->  
->  # cpu.c
->  cpuhp_acpi_invalid_idx_selected(uint32_t idx) "0x%"PRIx32
+Examining all occurrences of 'in config_host' for similar bugs shows one
+instance in the docs, which is also fixed here.
+
+Fixes: 28742467c9c0.. ("meson: convert pc-bios/keymaps/Makefile")
+
+Signed-off-by: Steve Sistare <steven.sistare@oracle.com>
+---
+ docs/devel/kconfig.rst      | 2 +-
+ pc-bios/keymaps/meson.build | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/docs/devel/kconfig.rst b/docs/devel/kconfig.rst
+index 69674d0..cc1a456 100644
+--- a/docs/devel/kconfig.rst
++++ b/docs/devel/kconfig.rst
+@@ -306,6 +306,6 @@ variable::
+ 
+     host_kconfig = \
+       (have_tpm ? ['CONFIG_TPM=y'] : []) + \
+-      ('CONFIG_SPICE' in config_host ? ['CONFIG_SPICE=y'] : []) + \
++      ('CONFIG_LINUX' in config_host ? ['CONFIG_LINUX=y'] : []) + \
+       (have_ivshmem ? ['CONFIG_IVSHMEM=y'] : []) + \
+       ...
+diff --git a/pc-bios/keymaps/meson.build b/pc-bios/keymaps/meson.build
+index 06c75e6..a9e5103 100644
+--- a/pc-bios/keymaps/meson.build
++++ b/pc-bios/keymaps/meson.build
+@@ -33,7 +33,7 @@ keymaps = {
+   'tr': '-l tr',
+ }
+ 
+-if meson.is_cross_build() or 'CONFIG_XKBCOMMON' not in config_host
++if meson.is_cross_build() or not config_host_data.get('CONFIG_XKBCOMMON')
+   native_qemu_keymap = find_program('qemu-keymap', required: false, disabler: true)
+ else
+   native_qemu_keymap = qemu_keymap
+-- 
+1.8.3.1
 
 
