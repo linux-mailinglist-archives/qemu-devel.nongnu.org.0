@@ -2,85 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AB3267B555
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 16:02:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC02B67B556
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 16:02:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKhGe-0003Zc-Tt; Wed, 25 Jan 2023 10:00:52 -0500
+	id 1pKhI2-00044D-Lw; Wed, 25 Jan 2023 10:02:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pKhGY-0003YY-0A
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 10:00:50 -0500
-Received: from mail-ej1-x62e.google.com ([2a00:1450:4864:20::62e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pKhGW-0005un-DB
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 10:00:45 -0500
-Received: by mail-ej1-x62e.google.com with SMTP id rl14so45054154ejb.2
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 07:00:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=DkCMA5p8shoIw9bXSUeqIvRFNyjW3JdiSdkKDaGgizk=;
- b=WSNlVa93DFrkSdvK83vWG1r6N8LQvZ+uSkD2f79Qzm5PyxrR9IyPTYgnx0YH393SMB
- ty9cL8MJBREvxa8oUmeeoB0PQUBP/+07RbaiOWBzRWu/WMSRvIxCXT0zy0E1EPzQ2TcN
- 5EHE1uLGROJNf4Q7vSrj0gmMvA1/uZd+qvVgVzkQIGuUKwchsE+HS4rHVmgxrOT+1Y/M
- o+NzVsHVCI1Kn5fc2bkP1zuAOPUvGTztzzPlziPrbUjPS8GAKtOIMgwjgJ4hxXqgB2LT
- y9CLdV5j9Xju9f2YG0lqsBV642UicI/4rX1q2/viOScYtHMWEyvLJde5EEpIn+OLvCdT
- g7TA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKhHx-00041Y-GE
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 10:02:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKhHr-0006Fj-Ta
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 10:02:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674658926;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=vuqyoRlBTKBw4Hxx24mQYrHIAYddMY3+RhhR3dZXymA=;
+ b=U9HAVG9djuVf9C2QBNXnP4opSq35WxZuvQy6jp63rrE3OFMJTqEZ+ArLegKOCtx45Tgrjp
+ ZcRRaIi+Tu/sZKaxvXG+QZHOtxHGu6gRXKQ5anACZyI92f/WVmfwOniOE+dqazyfps210O
+ lOP0QeYE/7pOHGTXilU9CQFwI19i9Uc=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-321-XNA7WrU_NKS82TS6hKO8rg-1; Wed, 25 Jan 2023 10:02:04 -0500
+X-MC-Unique: XNA7WrU_NKS82TS6hKO8rg-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ k8-20020ac84788000000b003b631e8cc4dso7706896qtq.16
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 07:02:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=DkCMA5p8shoIw9bXSUeqIvRFNyjW3JdiSdkKDaGgizk=;
- b=odAdDe7PKAGr2qiTH6WL9o7fO3n74iY5bb5jL+P9Erd+gabSPRtS9yy8CZmwvm40ha
- CD26ly5Y0C3zNqrWLyNGYhqeWHPvpxZNifKbziAZe/lbEnKxaENac4KXGYIKBi6KzO3O
- SSe+Vou3JipLjshPNkBWgModFE/YEoE885nSux0NsQKs/1ByNuqakI/QVc5uLPSOjZqf
- 0dLkAwgv87pV9VXNqAUk+dYDDswKg0UQZdcb/wo60LB3GUFMvMeaiofSWRDo8cR8x1pr
- fYjhxZbnlRyntoyEmQml0p5egHmphzbsBh4on/vrNJG3U75q6OeR5pzMEnwI+DHisel3
- /v8g==
-X-Gm-Message-State: AFqh2koTCYkuuNKLOehHonpsRGa6RJlAboMNdfcNHf3ZGoC105lr34Ac
- VgDumFAbFQpIKDNr+jqi3wbu3A==
-X-Google-Smtp-Source: AMrXdXtraShb0epMn+qzqjLaZ7jNwWVUMmQ5bQjYdCq52g2oM+DGwq0KYfwipbVgQqUsHS14yWkCcA==
-X-Received: by 2002:a17:906:f0d1:b0:84d:450b:8767 with SMTP id
- dk17-20020a170906f0d100b0084d450b8767mr33485607ejb.21.1674658842607; 
- Wed, 25 Jan 2023 07:00:42 -0800 (PST)
-Received: from localhost (cst2-173-16.cust.vodafone.cz. [31.30.173.16])
- by smtp.gmail.com with ESMTPSA id
- p18-20020a17090635d200b007c0b28b85c5sm2434816ejb.138.2023.01.25.07.00.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 07:00:42 -0800 (PST)
-Date: Wed, 25 Jan 2023 16:00:35 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Ludovic Henry <ludovic@rivosinc.com>
-Subject: Re: [PATCH v7 3/5] riscv: Allow user to set the satp mode
-Message-ID: <20230125150035.mx6y65aqx7si32mm@orel>
-References: <20230125084107.1580972-1-alexghiti@rivosinc.com>
- <20230125084107.1580972-4-alexghiti@rivosinc.com>
- <20230125120107.mjh54hcmustfplgi@orel>
- <CAHVXubjxRZmhzWJz3fcpC7enec_1VRs7qnhE=UFx4ijYN55UsQ@mail.gmail.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=vuqyoRlBTKBw4Hxx24mQYrHIAYddMY3+RhhR3dZXymA=;
+ b=c2j8eJLjsE/Gn34ItysMvG237i6t06njc261cfSqbT/On630DWZ1LNrEdtmX8dvJup
+ PHeooqS/D6cLGEdg0ajsBbmqprPcy8qHjKMeB5OEvVP8VnkvGmbjihqtPc6Ad5/A7J6A
+ LXv2/Ha97kD5GCmx2iOFz0InLwWuvS9sWEhOyk0BSl3CB9GSUt91wCmj+bFuiJ/nYrch
+ vGKOsTKBY5CETmb0LQL76XCoLkPCPxSARdkmXsWQWL4P88QgpHlkU01PVdTjHHcf0CfB
+ rruiGMWxG9d1E3yFCJXg7mGKoSPRM7L0gQ9axwmS0B+mQtWBerIwlXxfsA+G6vI51GXG
+ /7Xw==
+X-Gm-Message-State: AFqh2kp39a9/ywn+tVNQbb52bKkQV/uayg6sq2V02+VeY7jwrJ6jEuyY
+ RX9lIaK2QdAd6yyt7Du3zlnIxochSJGzkrbjKrayS1cSQtgulPxfbHh3qlkvAdK+PQYqtQaYTX7
+ G4LvvcZ/u9Eu1AlE=
+X-Received: by 2002:a05:622a:5d9a:b0:3b6:2e27:390a with SMTP id
+ fu26-20020a05622a5d9a00b003b62e27390amr46765309qtb.12.1674658924337; 
+ Wed, 25 Jan 2023 07:02:04 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtVx2k1yhdLy9ejHo0yZLVPLXOIwcLMaoJSGHreSaO9BqKz5QfIO7j5EK7aoV+yHWmqaK9wZw==
+X-Received: by 2002:a05:622a:5d9a:b0:3b6:2e27:390a with SMTP id
+ fu26-20020a05622a5d9a00b003b62e27390amr46765282qtb.12.1674658923921; 
+ Wed, 25 Jan 2023 07:02:03 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-178-209.web.vodafone.de.
+ [109.43.178.209]) by smtp.gmail.com with ESMTPSA id
+ z10-20020ac8430a000000b003b6325dfc4esm3425429qtm.67.2023.01.25.07.02.02
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Jan 2023 07:02:03 -0800 (PST)
+Message-ID: <66026c02-9136-0fb2-396a-2dc13fb830bf@redhat.com>
+Date: Wed, 25 Jan 2023 16:02:00 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHVXubjxRZmhzWJz3fcpC7enec_1VRs7qnhE=UFx4ijYN55UsQ@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::62e;
- envelope-from=ajones@ventanamicro.com; helo=mail-ej1-x62e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: Announcement of aborting HAXM maintenance
+Content-Language: en-US
+To: "Wang, Wenchao" <wenchao.wang@intel.com>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
+ "Yuan, Hang" <hang.yuan@intel.com>
+References: <DM6PR11MB40903663BB06C7A64136DF3587C49@DM6PR11MB4090.namprd11.prod.outlook.com>
+ <Y8kXhd2EcRU2QxVC@redhat.com>
+ <DM6PR11MB40903B55C23D5140E5BEF17687C49@DM6PR11MB4090.namprd11.prod.outlook.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <DM6PR11MB40903B55C23D5140E5BEF17687C49@DM6PR11MB4090.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,27 +104,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 25, 2023 at 01:23:45PM +0100, Alexandre Ghiti wrote:
-> On Wed, Jan 25, 2023 at 1:01 PM Andrew Jones <ajones@ventanamicro.com> wrote:
-> >
-> > On Wed, Jan 25, 2023 at 09:41:05AM +0100, Alexandre Ghiti wrote:
-...
-> > > +    if (!rv32) {
-> > > +        for (int i = satp_mode_max - 1; i >= 0; --i) {
-> >
-> > satp_mode_max can be zero when configs only support mbare, so we need
-> > to be careful here. We should only run this loop when it's greater than
-> > zero.
+On 19/01/2023 13.40, Wang, Wenchao wrote:
+> Hi, Daniel,
 > 
-> If satp_mode_max == 0, we don't enter the loop, so no problem for me.
->
+> Thanks for your reply. Could you please help to merge below attached patch to update the status of HAXM in QEMU? Thanks a lot.
 
-Oh, right, i is signed. I reviewed this right after reviewing some
-unsigned comparisons and had the wrong thought process engaged...
-And now I recall that when I'd read this before in previous revisions
-I had had the same impulse at least once, but those times I noticed
-it was signed before sending comments. Anyway, sorry for the noise.
+I can add the patch to my next pull request.
+Thanks for your contribution!
 
-Thanks,
-drew
+  Thomas
+
+
+> 
+> ----------
+>  From d88ba9ab3e32c991566443f3b52c45de67bf10c8 Mon Sep 17 00:00:00 2001
+> From: Wenchao Wang <wenchao.wang@intel.com>
+> Date: Thu, 19 Jan 2023 20:08:37 +0800
+> Subject: [PATCH] MAINTAINERS: Abort HAXM maintenance
+> 
+> Abort the maintenance of Guest CPU Cores (HAXM).
+> 
+> * Clean up the maintainer list of X86 HAXM CPUs
+> * Remove the web page URL and the mailing list
+> * Change the status to Orphan
+> 
+> Reviewed-by: Hang Yuan <hang.yuan@intel.com>
+> Signed-off-by: Wenchao Wang <wenchao.wang@intel.com>
+> ---
+>   MAINTAINERS | 5 +----
+>   1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 0fe50d01e3..0950061dc4 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -500,10 +500,7 @@ F: stubs/xen-hw-stub.c
+>   Guest CPU Cores (HAXM)
+>   ---------------------
+>   X86 HAXM CPUs
+> -M: Wenchao Wang <wenchao.wang@intel.com>
+> -L: haxm-team@intel.com
+> -W: https://github.com/intel/haxm/issues
+> -S: Maintained
+> +S: Orphan
+>   F: accel/stubs/hax-stub.c
+>   F: include/sysemu/hax.h
+>   F: target/i386/hax/
+
 
