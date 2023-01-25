@@ -2,74 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC0C67B41D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 15:20:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB08467B45F
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 15:27:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKgbz-0008Ia-AS; Wed, 25 Jan 2023 09:18:51 -0500
+	id 1pKgis-0001nH-ES; Wed, 25 Jan 2023 09:25:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pKgbw-0008I6-Eg
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 09:18:48 -0500
-Received: from mout.gmx.net ([212.227.17.21])
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pKgir-0001n9-5f
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 09:25:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pKgbu-0005Lw-Ni
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 09:18:48 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1674656324; bh=qX8FjLFKAUgmo/FarYJ05TaPbgXVLXHcOnc4fsbO+qY=;
- h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
- b=DwxRqDQjcohXSLQG33vk09g3qnzPs8OWlUQ5khYnWBopNOcJmn6QOEc8yrDZIcTj7
- qCPnTRLjA+GsP4rhCoq/T9Bl/dKBiYd9HS9plbqdRC9EGTME5ejnVyB2eDMg99hHp1
- McLdG1rY4MAbAKS7ZzgveFP2kvlixo0za9dc3ZU6Sn70U3zdTOJfosSLK3tkwdKDbG
- 7Xjj5yszz886Tnb9XEfH4n1hGtOUQU3Ih9FJ5ZcJsRMMGrIlr+AB66U/9qnodlf3PN
- yc6Rb1PFIz2dttppG0IZE9Sdrty60l+Jjn3IG5hrCL0UqfPFEW7+qiArmu77jTqRHB
- Ug6DjwJN+6GSA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([92.116.173.109]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MsHnm-1oWpqg2IZO-00tjKl; Wed, 25
- Jan 2023 15:18:44 +0100
-Message-ID: <7b2ca9ba-8866-b2a5-e71a-f66143f9daa3@gmx.de>
-Date: Wed, 25 Jan 2023 15:18:43 +0100
+ (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
+ id 1pKgip-0006XK-3m
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 09:25:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674656752;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=D1wSWaPlYQ00BrWZjKxB64IqvfgDEx7C9a3JlD004KQ=;
+ b=QsgDlA98N2TcXX57Sc+MeNdRDdeiQ40QtmV+3c5vvqxhRVvhOlEog8+irordQgVFP3doik
+ 22zBysDBJ1cNJjUb+Qhk8No9HjWoxrEjSDRu542C/UfxhweluFr12pp9uH1dEoQSZ9qsAJ
+ qXcgE9hugw/R2qSFB4V77+oh9uj453w=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-456-rNYK4v4IMQ6CVSslXDwu6g-1; Wed, 25 Jan 2023 09:25:51 -0500
+X-MC-Unique: rNYK4v4IMQ6CVSslXDwu6g-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ 12-20020a05600c228c00b003db09699216so604502wmf.1
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 06:25:51 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=user-agent:in-reply-to:content-disposition:mime-version:references
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=D1wSWaPlYQ00BrWZjKxB64IqvfgDEx7C9a3JlD004KQ=;
+ b=PmXLBpD2ZV+YsEeVjW+1VhshVoe5M9+ATW1sbyoQGkyCZQ7m0LnhSvAfbPUQ6MOm6O
+ tR13d+2OveqmVpFF60o1PHzPHWTgd1+eToNaL6AGO8+GrHKxIdW6eH43v2+SuOhbVl27
+ UXVE31sRIuy34C+/9+aPMS1AgMVUgTJ9g/LGHg90tSC2bfoSEZu/Oup6NULsF8Mvr8mz
+ 30C5BJKD9YiSGdGaVvP1Ln1GFn7qrVPOiMtbWMLC3KOLIM5R/iZBkFk9wSmoGboQn5ge
+ ANJhynZPV2e2fofxq7lhP75QZo8zUB3t7s0MNVM9/Qv7EcRNQ/Tts0f+RRrWBSSFbWVJ
+ VkSg==
+X-Gm-Message-State: AFqh2kqsi1Lqi8yGbgd0v8FFThuVO02Jp9v4CETaK3herUeds758id2q
+ 9a2a/CR/fJzChRRgJRUaJBQyaGXNqDAaTXiuC8UvzYIR39twLRpjEIUjMIV6rfqvuOjr5Qt4Xxi
+ njsP41YTFMfSC7z0=
+X-Received: by 2002:a5d:4588:0:b0:2bb:f255:6bb4 with SMTP id
+ p8-20020a5d4588000000b002bbf2556bb4mr21542066wrq.25.1674656750104; 
+ Wed, 25 Jan 2023 06:25:50 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvItABFDviB2PescErMCQmX1pr7rnCsNxb12xlkuL533pe3Uf6034fB8l9w1USQ+hpieSrIew==
+X-Received: by 2002:a5d:4588:0:b0:2bb:f255:6bb4 with SMTP id
+ p8-20020a5d4588000000b002bbf2556bb4mr21542037wrq.25.1674656749629; 
+ Wed, 25 Jan 2023 06:25:49 -0800 (PST)
+Received: from work-vm
+ (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
+ by smtp.gmail.com with ESMTPSA id
+ o2-20020a5d6842000000b002be5401ef5fsm4625316wrw.39.2023.01.25.06.25.48
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Jan 2023 06:25:49 -0800 (PST)
+Date: Wed, 25 Jan 2023 14:25:47 +0000
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ James Houghton <jthoughton@google.com>, Juan Quintela <quintela@redhat.com>
+Subject: Re: [PATCH RFC 14/21] migration: Map hugetlbfs ramblocks twice, and
+ pre-allocate
+Message-ID: <Y9E769Iag8YL5iQy@work-vm>
+References: <20230117220914.2062125-1-peterx@redhat.com>
+ <20230117220914.2062125-15-peterx@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 1/2] linux-user: Show SIGCHLD in clone() strace output
-Content-Language: en-US
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-References: <20230125135749.4594-1-deller@gmx.de>
-From: Helge Deller <deller@gmx.de>
-In-Reply-To: <20230125135749.4594-1-deller@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:VZvWhM+FQdt20yrMQp50FPk5j6liaEqcY69NIomgHhZ0wg/NicE
- N+Kd87h2uFWXRmltrnZKnfIrryTx2bS9z0Poa7nEPQbPn4jhyFVpIB4HvZmylU0nlgHLvqC
- 7sLabRIWZ5GUqZ6apGW99yJT7aDAcxR+0NICnGIEXVdV3XUbGRzbM3jts6YZnPDNnLWPN7w
- nEQRmDs+hQrZkb5B4HQXA==
-UI-OutboundReport: notjunk:1;M01:P0:Nwue8GAP9Fw=;rZkn9uGKvb3zDmJ7stysZN5dc35
- u6Q3xQmXEWFuRamaF3ANPJM6QBo5BvqyphQZwTynnvhh1FraIAnNHOvJSQWwYFZwYYy3fJgOq
- K5Xtoq3bwKBGuIo8tZrW3cVwkRFERM700BCvDv2/C9zy6nKAbRr14Zr+31topsoG0WFV32DDb
- uvEvG0LfdBbjqpjkmL1lT5hCdbEZfYdZIwX7rCxvl6qlD0j2q0/aqxojTHzEzGTXdykUMwfef
- BRVqV+DAnNx2D4VplnlQBipa/wZOr4KDbTh7z1dp5iwgsy1fOAbt9tbewqgqucHaIkZcFs7aO
- Zk+Nu5TGV6H9OBHHhGecEUPiGLCW4yKboAskxZWRXv6yNvlir2YYvhts/U7T/cdhxuj4jioC5
- IYHJoW3crPHpRPrIhomKu4EidFjefF0z1f0GQgRO++dlsL2XnZ7UY+l4+02fW20fFCUwMO/O2
- nnh2AEAXLuO5BHEUzYcqkGG9beLpbkarNkYtZH26XszXXcDfieqMvIdiVs9BzlVVP/d9Uf/N5
- b9FyUL9GWAn0lhjSkXmbx2owYzo1Q4He/xGySRiaNREX1EeikjpUywHhnJ/vU5F0GwY90pQA/
- 9RkItF5N7glsPXoMpXooclmxxymMf8SSB3FX1kftoK2C9V9sM+Q3lpU9Rz413B5ApRqVxSSbq
- Wx7s8Eu2UtyjxHtq910oUxB0Kyq6mUyhCOeqkcZyr53Ar+Z+T3gfqez7qvW7FZ3Ckw0ttjce9
- g5ONWQu21/CmNbHg8aI4VFmdBtMCDzC75weU4fyTZW42P4CbZ/opmkqxF2fkGcsmhRtxwHPMU
- CJzD+T0ebzL5z6LL/wY4CzYacKMLOwEWYQvAYV41HRl+dpdEShEFcOm53vyEHGNfOftWVoa4u
- keZ8GjuhSdKRwJBsrOngccIz5PuHI2gVpD0HdP3OR03kuBi+atBkzr1oBPcvLyxbGDCQ8oTVx
- XWXFI6Zb5dZK2EMQ2EpFWB5T8r4=
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -38
-X-Spam_score: -3.9
-X-Spam_bar: ---
-X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230117220914.2062125-15-peterx@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=dgilbert@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -85,35 +102,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/25/23 14:57, Helge Deller wrote:
-> When stracing a program, show up the SIGCHLD value the same
-> way as it's done when running strace natively, e.g.:
-> clone(child_stack=3D0xf7af0040, flags=3DCLONE_VM|CLONE_VFORK|SIGCHLD, ..=
-.
->
-> Signed-off-by: Helge Deller <deller@gmx.de>
+* Peter Xu (peterx@redhat.com) wrote:
+> Add a RAMBlock.host_mirror for all the hugetlbfs backed guest memories.
+> It'll be used to remap the same region twice and it'll be used to service
+> page faults using UFFDIO_CONTINUE.
+> 
+> To make sure all accesses to these ranges will generate minor page faults
+> not missing page faults, we need to pre-allocate the files to make sure
+> page cache exist start from the beginning.
+> 
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+
 > ---
->   linux-user/strace.c | 1 +
->   1 file changed, 1 insertion(+)
->
-> diff --git a/linux-user/strace.c b/linux-user/strace.c
-> index 82dc1a1e20..3157e4b420 100644
-> --- a/linux-user/strace.c
-> +++ b/linux-user/strace.c
-> @@ -1136,6 +1136,7 @@ UNUSED static struct flags clone_flags[] =3D {
->   #if defined(CLONE_IO)
->       FLAG_GENERIC(CLONE_IO),
->   #endif
-> +    FLAG_TARGET(SIGCHLD),
+>  include/exec/ramblock.h |  7 +++++
+>  migration/ram.c         | 59 +++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 66 insertions(+)
+> 
+> diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
+> index 3f31ce1591..c76683c3c8 100644
+> --- a/include/exec/ramblock.h
+> +++ b/include/exec/ramblock.h
+> @@ -28,6 +28,13 @@ struct RAMBlock {
+>      struct rcu_head rcu;
+>      struct MemoryRegion *mr;
+>      uint8_t *host;
+> +    /*
+> +     * This is only used for hugetlbfs ramblocks where doublemap is
+> +     * enabled.  The pointer is managed by dest host migration code, and
+> +     * should be NULL when migration is finished.  On src host, it should
+> +     * always be NULL.
+> +     */
+> +    uint8_t *host_mirror;
+>      uint8_t *colo_cache; /* For colo, VM's ram cache */
+>      ram_addr_t offset;
+>      ram_addr_t used_length;
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 2ebf414f5f..37d7b3553a 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -3879,6 +3879,57 @@ void colo_release_ram_cache(void)
+>      ram_state_cleanup(&ram_state);
+>  }
+>  
+> +static int migrate_hugetlb_doublemap_init(void)
+> +{
+> +    RAMBlock *rb;
+> +    void *addr;
+> +    int ret;
+> +
+> +    if (!migrate_hugetlb_doublemap()) {
+> +        return 0;
+> +    }
+> +
+> +    RAMBLOCK_FOREACH_NOT_IGNORED(rb) {
+> +        if (qemu_ram_is_hugetlb(rb)) {
+> +            /*
+> +             * Firstly, we remap the same ramblock into another range of
+> +             * virtual address, so that we can write to the pages without
+> +             * touching the page tables that directly mapped for the guest.
+> +             */
+> +            addr = ramblock_file_map(rb);
+> +            if (addr == MAP_FAILED) {
+> +                ret = -errno;
+> +                error_report("%s: Duplicate mapping for hugetlb ramblock '%s'"
+> +                             "failed: %s", __func__, qemu_ram_get_idstr(rb),
+> +                             strerror(errno));
+> +                return ret;
+> +            }
+> +            rb->host_mirror = addr;
+> +
+> +            /*
+> +             * We need to make sure we pre-allocate the range with
+> +             * hugetlbfs pages before hand, so that all the page fault will
+> +             * be trapped as MINOR faults always, rather than MISSING
+> +             * faults in userfaultfd.
+> +             */
+> +            ret = qemu_madvise(addr, rb->mmap_length, QEMU_MADV_POPULATE_WRITE);
+> +            if (ret) {
+> +                error_report("Failed to populate hugetlb ramblock '%s': "
+> +                             "%s", qemu_ram_get_idstr(rb), strerror(-ret));
+> +                return ret;
+> +            }
+> +        }
+> +    }
+> +
+> +    /*
+> +     * When reach here, it means we've setup the mirror mapping for all the
+> +     * hugetlbfs pages.  Hence when page fault happens, we'll be able to
+> +     * resolve page faults using UFFDIO_CONTINUE for hugetlbfs pages, but
+> +     * we'll keep using UFFDIO_COPY for anonymous pages.
+> +     */
+> +    return 0;
+> +}
+> +
+>  /**
+>   * ram_load_setup: Setup RAM for migration incoming side
+>   *
+> @@ -3893,6 +3944,10 @@ static int ram_load_setup(QEMUFile *f, void *opaque)
+>          return -1;
+>      }
+>  
+> +    if (migrate_hugetlb_doublemap_init()) {
+> +        return -1;
+> +    }
+> +
+>      xbzrle_load_setup();
+>      ramblock_recv_map_init();
+>  
+> @@ -3913,6 +3968,10 @@ static int ram_load_cleanup(void *opaque)
+>      RAMBLOCK_FOREACH_NOT_IGNORED(rb) {
+>          g_free(rb->receivedmap);
+>          rb->receivedmap = NULL;
+> +        if (rb->host_mirror) {
+> +            munmap(rb->host_mirror, rb->mmap_length);
+> +            rb->host_mirror = NULL;
+> +        }
+>      }
+>  
+>      return 0;
+> -- 
+> 2.37.3
+> 
+-- 
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
-It's actually not 100% correct, as this would trigger for other SIGxxx val=
-ues too,
-which have the same bits set as TARGET_SIGCHLD. Given the fact that we onl=
-y support
-TARGET_SIGCHLD in clone(), it would nevertheless in most cases show the co=
-rrect output.
-
-So, probably it's best to not apply this patch it as-is.
-
-Helge
 
