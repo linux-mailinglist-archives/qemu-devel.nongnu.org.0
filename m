@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9668467AB3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 08:54:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9363267AB42
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 08:59:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKabD-0006pT-S3; Wed, 25 Jan 2023 02:53:39 -0500
+	id 1pKag1-00080C-VL; Wed, 25 Jan 2023 02:58:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKabC-0006pK-OG
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 02:53:38 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKag0-000803-T7
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 02:58:36 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKabB-0005yZ-9v
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 02:53:38 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKafz-0007Dp-0W
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 02:58:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674633216;
+ s=mimecast20190719; t=1674633514;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=kaQeXSEqA7tAJkWYVxlVs5Qabn1lJYU3QabjwKzPGsw=;
- b=KwV2/DwoAI3HAK0M/BoOk+Xz991d1O06V/0w4Q7oSGXrqGurTbwmhLXJyYOuHKRc7y9c5C
- gOExGI5jV7oicuOt/1i4ziV2ElJ5sdedDiK36HbwV5DGO3Bz10f5lQkAQDOlXBfrSRaUtI
- 5TpOThYBLt7cCGnzuDv+n8pzHsFOXIw=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Fv886kjrQJymLC26y6gcI9Cr3G7XhDYkbOZY3nZbwqU=;
+ b=M1EiXegYdWIsZhE+vdXzU5+1/gqB1tiXf0pDf8Yi+7tYzurUXD3qTIDr0NojfFb/8ztVD1
+ 24w/wWrOoqJuvdhUlJyTTKcaVF5XKYEsvJK4fVyCpsZcgW8dwFtzsI5+6l/icVy+Jmlf4E
+ FADAg6m92rdVh6ogal2tNeN1sPbsgis=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-653-n3s7OBR5M8-sES8n5TM3Hw-1; Wed, 25 Jan 2023 02:53:29 -0500
-X-MC-Unique: n3s7OBR5M8-sES8n5TM3Hw-1
-Received: by mail-qt1-f198.google.com with SMTP id
- cr22-20020a05622a429600b003b694a9f291so6453755qtb.1
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 23:53:29 -0800 (PST)
+ us-mta-563-NQwF7puUOr2IZVmTyL8BMg-1; Wed, 25 Jan 2023 02:58:32 -0500
+X-MC-Unique: NQwF7puUOr2IZVmTyL8BMg-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ q21-20020a05620a0d9500b0070572ccdbf9so12528308qkl.10
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 23:58:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kaQeXSEqA7tAJkWYVxlVs5Qabn1lJYU3QabjwKzPGsw=;
- b=ky5sC+aL0klrlLkfy5ZespbgLimVO2rY8Tso8QW+lGVl3bkmSSePJ/gzaGuKhu9bMl
- 3ooF6ch/h+UHQayi3dOtQIHLupEbxBjy1kd+h2TvGJd4mXWb8O7hbMdxmsDxtEk0NLea
- I+c3HwxSlCTiDrogrTMKps856HpKc8OjY42TC5DhJEgt6jlNzaeFu1pxFPP2r6BwxV8k
- ID0NU2dTvTxHdRNZIBxnixRs9CEBtk0JQpv9Tx4CKEOBmd3ryvgrWFHZJBvzJQKdU/tE
- IjzEOaigPkdUX6rg+hDn10khuyyZADkAmBU4WWeRygU9ykriX7Y67Mg4mIcQ9UsBI9I5
- 1l/g==
-X-Gm-Message-State: AFqh2kphSzwpS+icVM79DAm1XICEAmBnLG8tGdUL58XLZrA6oqK1vVIC
- DDHG7mUoVkImhyivYcFOfVn1GvLotttes3ebXU4tu4055PJEKHgML4EThQaone2H9s/ZUyt5CEV
- CndMICH2xPbGAFs0=
-X-Received: by 2002:ac8:4706:0:b0:3b3:8de0:cacd with SMTP id
- f6-20020ac84706000000b003b38de0cacdmr43658158qtp.32.1674633208937; 
- Tue, 24 Jan 2023 23:53:28 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXv4p2rPkA8qGJVa+RjsE+Sb2NPi4SaPkM1PQSWjRWx16ih3yaAQAsbzzcK+HWE6+ph5wKaNtg==
-X-Received: by 2002:ac8:4706:0:b0:3b3:8de0:cacd with SMTP id
- f6-20020ac84706000000b003b38de0cacdmr43658126qtp.32.1674633208713; 
- Tue, 24 Jan 2023 23:53:28 -0800 (PST)
+ bh=Fv886kjrQJymLC26y6gcI9Cr3G7XhDYkbOZY3nZbwqU=;
+ b=GGSQvcBhNTP5NPiKJkh+MFySWD0p4RJqfqZHLZDnrPFpEbUC8v+u8qUG2s1vo5KGp8
+ yf0LUqbfBYcmH8kueO3T0fhV6UOPWlj0zQqXVzrYHyyUuQBPgNhByigntsvgokyssoOZ
+ qCmKJ798ifOPZHvqEtojIz3Nq/zmlS5A4rqIzARgxChUOe/w9Z9FNmk7gjuLnGtRmUOH
+ ZjhsBkWYmaJqRDv72JBG8UaZ+dWV1bowQszo/RkQCdxbVsRQNKiJkCJzluS9xs6FlWud
+ l932OE1snJ4Sp7PJkkxG3LHaL8yAL8tMPfmY0Wzib/VLLos6S+bXUWss2nVLJT5OKts4
+ 5gmw==
+X-Gm-Message-State: AFqh2koROG4sNRUbqRoLBZBxvi/zxD83DdzsUK34Mij1XGzkU9ps1qfU
+ 43Sl8GF3yGrQ/GGqYBN51jGLWDtTS/9t2ltMy4EF3f+c4V8BuiWWmi+CdSRYZd2y0sz8xAizWOY
+ cve84j5sB2VmjNbk=
+X-Received: by 2002:ac8:1301:0:b0:3b6:2cc8:e120 with SMTP id
+ e1-20020ac81301000000b003b62cc8e120mr41384721qtj.39.1674633512330; 
+ Tue, 24 Jan 2023 23:58:32 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvaykEZmUQl7UiWqKsic4wwNGBwsnZRjIdK/4L84NukqPs62Ann+8Qysd+VJozc+T7bBS7eHQ==
+X-Received: by 2002:ac8:1301:0:b0:3b6:2cc8:e120 with SMTP id
+ e1-20020ac81301000000b003b62cc8e120mr41384699qtj.39.1674633512070; 
+ Tue, 24 Jan 2023 23:58:32 -0800 (PST)
 Received: from [192.168.0.2] (ip-109-43-178-209.web.vodafone.de.
  [109.43.178.209]) by smtp.gmail.com with ESMTPSA id
- o3-20020ac80243000000b003a6a19ee4f0sm2876856qtg.33.2023.01.24.23.53.23
+ e2-20020ac80642000000b0039cba52974fsm2791620qth.94.2023.01.24.23.58.27
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 24 Jan 2023 23:53:28 -0800 (PST)
-Message-ID: <fed02d8c-8a56-1137-d11c-5e319a62f6f5@redhat.com>
-Date: Wed, 25 Jan 2023 08:53:22 +0100
+ Tue, 24 Jan 2023 23:58:31 -0800 (PST)
+Message-ID: <f21ac8e6-911f-b156-18ff-3929d89ba3d1@redhat.com>
+Date: Wed, 25 Jan 2023 08:58:26 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
  Thunderbird/91.13.0
-Subject: Re: [PATCH v2 22/35] docs: add an introduction to the system docs
 Content-Language: en-US
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
@@ -89,12 +88,13 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Cleber Rosa <crosa@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Li-Wen Hsu
- <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>,
- Kashyap Chamarthy <kchamart@redhat.com>
+ <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>
 References: <20230124180127.1881110-1-alex.bennee@linaro.org>
- <20230124180127.1881110-23-alex.bennee@linaro.org>
+ <20230124180127.1881110-21-alex.bennee@linaro.org>
 From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230124180127.1881110-23-alex.bennee@linaro.org>
+Subject: Re: [PATCH v2 20/35] docs: add a new section to outline emulation
+ support
+In-Reply-To: <20230124180127.1881110-21-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -105,7 +105,7 @@ X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -122,32 +122,106 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 24/01/2023 19.01, Alex Bennée wrote:
-> Drop the frankly misleading quickstart section for a more rounded
-> introduction section. This new section gives an overview of the
-> accelerators as well as a high level introduction to some of the key
-> features of the emulator. We also expand on a general form for a QEMU
-> command line with a hopefully not too scary worked example of what
-> this looks like.
+> This affects both system and user mode emulation so we should probably
+> list it up front.
 > 
 > Acked-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> Reviewed-by: Kashyap Chamarthy <kchamart@redhat.com>
-...
-> +That said, the general form of a QEMU command line can be expressed
-> +as:
+> 
+> ---
+> v2
+>    - HPs -> HP's
+>    - MIPs-like -> MIPS-like
+> ---
+>   docs/about/emulation.rst      | 103 ++++++++++++++++++++++++++++++++++
+>   docs/about/index.rst          |   1 +
+>   docs/devel/tcg-plugins.rst    |   2 +
+>   docs/system/arm/emulation.rst |   2 +
+>   4 files changed, 108 insertions(+)
+>   create mode 100644 docs/about/emulation.rst
+> 
+> diff --git a/docs/about/emulation.rst b/docs/about/emulation.rst
+> new file mode 100644
+> index 0000000000..bdc0630b35
+> --- /dev/null
+> +++ b/docs/about/emulation.rst
+> @@ -0,0 +1,103 @@
+> +Emulation
+> +=========
 > +
-> +.. parsed-literal::
-> +
-> +  $ |qemu_system| [machine opts] \\
-> +                  [cpu opts] \\
-> +                  [accelerator opts] \\
-> +                  [device opts] \\
-> +                  [backend opts] \\
-> +                  [interface opts] \\
-> +                  [boot opts]
+> +QEMU's Tiny Code Generator (TCG) gives it the ability to emulate a
 
-FYI: My "git am" complains about a trailing white space after "[boot opts]" 
-here. Please remove it.
+I'd maybe rather say "provides" instead of "gives it".
+
+> +number of CPU architectures on any supported platform. Both
+
+I'd maybe add a "host" between "supported" and "platform.
+
+> +:ref:`System Emulation` and :ref:`User Mode Emulation` are supported
+> +depending on the guest architecture.
+> +
+> +.. list-table:: Supported Guest Architectures for Emulation
+> +  :widths: 30 10 10 50
+> +  :header-rows: 1
+> +
+> +  * - Architecture (qemu name)
+> +    - System
+> +    - User-mode
+
+Maybe just use "User" instead of "User-mode" to make the column smaller?
+
+> +    - Notes
+> +  * - Alpha
+> +    - Yes
+> +    - Yes
+> +    - Legacy 64 bit RISC ISA developed by DEC
+> +  * - Arm (arm, aarch64)
+> +    - Yes
+> +    - Yes
+> +    - Wide range of features, see :ref:`Arm Emulation` for details
+> +  * - AVR
+> +    - Yes
+> +    - No
+> +    - 8 bit micro controller, often used in maker projects
+> +  * - Cris
+> +    - Yes
+> +    - Yes
+> +    - Embedded RISC chip developed by AXIS
+> +  * - Hexagon
+> +    - No
+> +    - Yes
+> +    - Family of DSPs by Qualcomm
+> +  * - PA-RISC (hppa)
+> +    - Yes
+> +    - Yes
+> +    - A legacy RISC system used in HP's old minicomputers
+> +  * - x86 (i386, x86_64)
+> +    - Yes
+> +    - Yes
+> +    - The ubiquitous desktop PC CPU architecture, 32 and 64 bit.
+> +  * - Loongarch
+> +    - Yes
+> +    - Yes
+> +    - A MIPS-like 64bit RISC architecture developed in China
+> +  * - m68k
+> +    - Yes
+
+Would it be possible to link the "Yes" entries in the "System" column to 
+corresponding target-*.rst files? E.g. docs/system/target-m68k.rst for the 
+m68k entry?
+
+> +    - Yes
+> +    - Motorola 68000 variants and ColdFire
+> +  * - Microblaze
+> +    - Yes
+> +    - Yes
+> +    - RISC based soft-core by Xilinx
+> +  * - MIPS (mips, mipsel, mips64, mips64el)
+
+The table renders very badly for me, the last column is cut off and you need 
+to scroll to see its contents. This seems mainly to happen since this MIPS 
+entry is very long. Could the information in the parentheses maybe be 
+shortened to "(mips*)" or be dropped completely?
 
   Thomas
 
