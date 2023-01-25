@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF7C067AE0D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 10:34:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7518067AE19
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 10:37:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKc9r-0002Ag-FX; Wed, 25 Jan 2023 04:33:31 -0500
+	id 1pKcCw-0003Vb-2z; Wed, 25 Jan 2023 04:36:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pKc9l-00023j-0w
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 04:33:25 -0500
-Received: from mout.kundenserver.de ([212.227.126.133])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pKcCk-0003Ob-GT
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 04:36:38 -0500
+Received: from mout.kundenserver.de ([212.227.126.134])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pKc9j-0006nq-GJ
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 04:33:24 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pKcCi-0007Hh-Kw
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 04:36:29 -0500
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MQuwR-1p0Rli1lm3-00NyoH; Wed, 25 Jan 2023 10:33:17 +0100
-Message-ID: <5ec7f95c-df5c-c8f8-1542-ad4aa5befbf9@vivier.eu>
-Date: Wed, 25 Jan 2023 10:33:14 +0100
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MOm9H-1p2eds1JXT-00QDkY; Wed, 25 Jan 2023 10:36:23 +0100
+Message-ID: <e9412af8-c02b-fb7b-1094-c0259e921e46@vivier.eu>
+Date: Wed, 25 Jan 2023 10:36:22 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v5 3/5] linux-user/strace: Add output for execveat()
- syscall
+Subject: Re: [PATCH v5 4/5] linux-user/syscall: Extract do_execve() from
+ do_syscall1()
 Content-Language: fr
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  qemu-devel@nongnu.org
 Cc: Helge Deller <deller@gmx.de>, Drew DeVault <sir@cmpwn.com>,
  =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20221104173632.1052-1-philmd@linaro.org>
- <20221104173632.1052-4-philmd@linaro.org>
+ <20221104173632.1052-5-philmd@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221104173632.1052-4-philmd@linaro.org>
+In-Reply-To: <20221104173632.1052-5-philmd@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:AquPQYlcchs1HCuwEVtmN1mJiwA6/N1B90LaTUC23sdCVzisLA0
- D24wxJaU4j+aM2WKBizwZOGHaCtOEo04HJTc4kE99gd0Anqf0/HBVXNTJZCavOO82Q/tPvu
- pp7Dyuma9F+n2HgCn36I4URJOX7PVDBc4uPmV40HQ1bCzk7P6Dv7RVX4vgM/kFAtQwUrwId
- WBs2/KQLyEsrhxmCKArkQ==
-UI-OutboundReport: notjunk:1;M01:P0:6/EK3wrepVc=;dtq9psauZ4IHPSWFDCm3ce0jK2f
- ZlltlS1cFh7xtaULy5qfIABS2pmblZ798daFRXduMTzzLVrr+3sFjiG+Kz9kc0Y1cUMFhd8KF
- 0GvpNCYEzdZqiEu+zdCKvv8hwBgc6Q6ZbsYcXJI5rSoAsuJCOkxXSWKpYuj4ZJtu4njKfPwHC
- aHi0bEOmKgnfiNDZZinxEFmNUByMJRfc0dBeMIUeMn+sbV3oplZhCaCCPsMj6upXYc8TeaGMS
- wlCcsffVWNFdkLIBMqkcosETfW3VPEhJa5axJqiSsWkQyYRy+C9c9H59Ti0Ojxm5Ul5PlhvRW
- rb024y6VHtUbQNxIcj4i1qzIWUUTw6PTMZlzv5knpE9AZB1MWxQeism73bLTy6QVUtJNH9oiT
- 8j5eRKSMxG6sQjyYkPjUiZyOTwLEM2rGoTLekQzHrAdr02Eyoa+3Xod8F6wpvV528HRXtvPzp
- jA7dQdroPw1DeEXTr53lprXybffwt2r64MKhIWUhP+YixNSXqV1esaTvbNk7toAfl3Kmz8tpM
- tuIZ4+r7Uv5+PHEiiwQBnbm38B7vTJUwVTJyiESpO7yU+X05jNGB8ektEaBRP4rvu1FjrJFvk
- zTqN6pCctTIS2a7ajAKsEnxpsy9gD7oFrJArZDIR0GRHWkO0O1j/RqKjytvavnQlEmcOS4uEE
- w3EA75j1I8qMMZJKD3wmu+uTWSW/BraCTjnlHbrEoQ==
-Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:/6tILmsTgxrqZZYDX4kcKr7NCAGPGIHHGHr7v1XMN3XDUr19okt
+ pvlEuXsN3G3o4kTNPLLWT+F0+FTSnoBkpTMe6jCunTY5de75Nb37mPyugEXEAGMYt+OVyj9
+ YfNsC1qIFHJAxdfIDipRZd4Ru1pIR7Cfz1iM2hjuINc+1r9sNjxpQauufIgMDSPy4JNuw6Y
+ uCePv+zRemd0H3y2sYZRw==
+UI-OutboundReport: notjunk:1;M01:P0:yH1lPZ6AOS0=;zygs1N4CS3Yr+Wq4WdTqNZ2HTrV
+ JKusljnojoQZ09UUP/2SoTCSUE+la2yv+nRKm2FqvxUzt3n1sEUqBI5eB59hrNUW4ZooxHzzF
+ MH8UOQSBNv17lpfUh97Ij1m1LdY62O9MKyoN+nC3K0dbC9uK9fM9keR9NKlrIdXy23pudJOBc
+ FuqbSVmKlWfzdw1ewca2PzsfdSBXKZUDdU+NB7DFIm31yJdQP2TRne4y+Jl2LhutN8v6/ys/6
+ /ULPBbLc5QEpLhbDciIrJ8s/gBPZZZ8CwKakqPEP5PrzaagKwmDaXCGRkfk1AfnX9L4xFK/bp
+ HHRXA7hvVzhKKO/LbIKQQV8ietxOQas5pvlUnJecxxjVVc2hfy6L1mzNt99SSypb5MlJy7qB2
+ O/0730csg0G5nWtYT86nklmMB9rG0uGln/vxV3yms/oUgd4TEjgSUQKFauhDjnWJBTr1FP05O
+ ETTxjXCk1XWRXWbph1clEGE4g3sa5tU4VkaH59G1NtNmrURhG042yQ02xtgc/mWpa9xjaHlE3
+ JLL+we7n5/wte+DnI7bGaa3195RxL6/QxkxlcW/rSgmRsjy3PgB1F6fGT7kMWUW91j2cjDqGI
+ cWAK7vOFCkvdHLek1PCTEvFKzY6FCg1kFcA7Dz4BsKNRU2nZjkQMnR1mHbyRBYAMJb+z9lwox
+ /P5cCgAXi9JPIGVn/O2XbHjIjMmHCgkMgs26RuyBUw==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -78,16 +78,19 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Le 04/11/2022 à 18:36, Philippe Mathieu-Daudé a écrit :
 > From: Drew DeVault <sir@cmpwn.com>
 > 
+> execve() is a particular case of execveat(). In order
+> to add do_execveat(), first factor do_execve() out.
+> 
 > Signed-off-by: Drew DeVault <sir@cmpwn.com>
 > Message-Id: <20221104081015.706009-1-sir@cmpwn.com>
-> Suggested-by: Helge Deller <deller@gmx.de>
-> [PMD: Split of bigger patch]
+> [PMD: Split of bigger patch, filled description, fixed style]
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
->   linux-user/strace.c    | 23 +++++++++++++++++++++++
->   linux-user/strace.list |  2 +-
->   2 files changed, 24 insertions(+), 1 deletion(-)
+>   linux-user/syscall.c | 211 +++++++++++++++++++++++--------------------
+>   1 file changed, 114 insertions(+), 97 deletions(-)
+> 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+
 
 
