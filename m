@@ -2,97 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3246C67AFA6
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 11:26:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEAED67B06C
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 11:58:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKcz7-0004ZI-MC; Wed, 25 Jan 2023 05:26:29 -0500
+	id 1pKdTO-0002EL-4M; Wed, 25 Jan 2023 05:57:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKcz5-0004Z8-QD
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 05:26:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKcz4-0006nW-5n
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 05:26:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674642385;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=CToGZGoOarziJdDXGWR0AtbFWPZHF7qkaD8J/CoRiGE=;
- b=PSxtJZTkpp/z8+pAQTgoMNNDe/LYO3gPe1SC9uqDP96l7lkmkPKo/O7N5BQufeOLK9W9yM
- eDIZLXoLQ7QDc/BryZSs1yATMSXYAvdVnZJdqnD26vKoC4nVqO6tzjARo4HIYaXqOgea6c
- l3wSLNKFtVsIkFesJwcXk+camonXyUE=
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com
- [209.85.160.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-81-UPA52SZ3N0SX88_n3C8Dmw-1; Wed, 25 Jan 2023 05:26:23 -0500
-X-MC-Unique: UPA52SZ3N0SX88_n3C8Dmw-1
-Received: by mail-qt1-f197.google.com with SMTP id
- k8-20020ac84788000000b003b631e8cc4dso7369345qtq.16
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 02:26:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <freddy77@gmail.com>)
+ id 1pKdTL-0002Dl-79
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 05:57:43 -0500
+Received: from mail-ot1-x32f.google.com ([2607:f8b0:4864:20::32f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <freddy77@gmail.com>)
+ id 1pKdTJ-0002w6-N0
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 05:57:42 -0500
+Received: by mail-ot1-x32f.google.com with SMTP id
+ d6-20020a056830138600b0068585c52f86so10901305otq.4
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 02:57:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=tqrmqkUPb6O8PDW/TN9+fPgPsF3uhAmPTTJ3zBO9o4c=;
+ b=ekOJtbzbNPhnQQisVl4/mhCP5ckMRRHz0NtKySKpauFpY402BMvvMThW/YTTdNNjP/
+ SNu9RzTFDQdpbjGxFGUgH/cH8uqTNSACNPQ2AfIOThtzgu/lCmUM4Wdzpvhl9mAODEW/
+ 9hH+8bUZFRT8EhpemIHpCkqFO0yOh9Q+quGYuovb84bubkUZVhD96VrJTPNiYyylMnwc
+ u5+lNCnM2D+QlIdai66wauFxupABZnlvdF0BJjMtVNzyFPaAG6mlQBkeesvQfaN1SIDZ
+ mfFR0FCz2wbdQft6lXfYVXI6LBb5X6vTzEAKd/EgkzZLzsskMlMx/5E2Rwd55bi6ZRjR
+ Yd7A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=CToGZGoOarziJdDXGWR0AtbFWPZHF7qkaD8J/CoRiGE=;
- b=y+SVjj0ahIBtLm3Y+pmbbwh/SYeEqq3KkYkYy4KBapIIexQSXJtKp7z6wVh+tYaZv9
- TN6caiplYxqpD5mOnBlVJk0gwZX7WL2/A/gjp+3SEm4BsT/EcuBeUJGf2UuIwwZ3zMnE
- RSHwK1V/MFGGViLJQzKxogq7A249Fmzw/wVove9MCO67BghBlfWVuwAK9/u/nToCNqkd
- 8SvZtaCTfHFW4mnypQO+gu/h2XyJz5Ezik42NGg8QEWCQTqcEQeuPQnJdl7DK4H3kr2y
- ikYuZApfu5uGuJh8mIn8zyZ38o8HQDkcOLDPbzkDlbTIN3MuitlC7Nw15IoCAxGiJa6M
- uSTA==
-X-Gm-Message-State: AFqh2kqClIzIkfzB+6XcCYC5mKeMbrzSM+U5l7AQz+99VLXKA8Wa+qtJ
- Yp2tKWcvymY3Kg8rzXiEG2S7w4EkzozhVaxykUsVKRdn9eqB02zJf6IpnzNx/U8zrZOzuopOE3z
- Ca5HqjHRh48OSmY8=
-X-Received: by 2002:ac8:60d7:0:b0:3b1:2604:634b with SMTP id
- i23-20020ac860d7000000b003b12604634bmr46537712qtm.30.1674642383536; 
- Wed, 25 Jan 2023 02:26:23 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuBxhJbGkn5QthhB3oeYKDT0xFod01H+CQlFDaS+nZcXPuGRJ0WfSwpz5n4wBlOS9v1/lkcBA==
-X-Received: by 2002:ac8:60d7:0:b0:3b1:2604:634b with SMTP id
- i23-20020ac860d7000000b003b12604634bmr46537700qtm.30.1674642383317; 
- Wed, 25 Jan 2023 02:26:23 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-178-209.web.vodafone.de.
- [109.43.178.209]) by smtp.gmail.com with ESMTPSA id
- c10-20020a05620a11aa00b006fca1691425sm3218213qkk.63.2023.01.25.02.26.21
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Jan 2023 02:26:22 -0800 (PST)
-Message-ID: <bb2369d1-bb7a-5275-9616-53b7101de0e8@redhat.com>
-Date: Wed, 25 Jan 2023 11:26:20 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=tqrmqkUPb6O8PDW/TN9+fPgPsF3uhAmPTTJ3zBO9o4c=;
+ b=ZrFDP+WmCuuIM0EwL2yhamcPa4QBexRBRoJGXy3cDynGIKfrfDttgtcf7M3z/vYlHB
+ /anZKtFTWC2lVd/diNe1u70tjEu3phz/sva3Cx7LW1ke3onfAu6uQ1zvC8TsqgS8CjaQ
+ l+lYAXv5iBLURHNm7c504x4mAblLGYG0i4Cgc0GhvteLyQOnc1pHAVwxlVsOiplhZvxY
+ bsVRz/FPcjVhOvBmDbyQUAKQJH/cmk+adr5hT+kWMEeTO4DXWmfTCyYV7NIWq2ied/2s
+ FB86uQBVleLMyHicLypjtmtUVFncEQnrn6DEWS7TJQn4Njy4q9FEnIDwDBkkPLnhH6WG
+ es2Q==
+X-Gm-Message-State: AFqh2kps6llNEhfqowK8NOLQBmgACCbK7bJT8fNo7nxaxN6sq916ICfR
+ WCUHzyZwrRmc77slconzSvs8HrhVbIo15s1dZzI=
+X-Google-Smtp-Source: AMrXdXu9IS/IJnds0zf7p7DYt8vhyJL+CAC/en0NnMRAo3HQvc2XxUId+SwhhMa/T4AG+THwDb59tbBDg18mkJ3ssts=
+X-Received: by 2002:a05:6830:1db7:b0:686:3b42:b7d with SMTP id
+ z23-20020a0568301db700b006863b420b7dmr1629544oti.36.1674644259403; Wed, 25
+ Jan 2023 02:57:39 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: MinGW and libfdt (was: Re: MSYS2 and libfdt)
-Content-Language: en-US
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
- QEMU Developers <qemu-devel@nongnu.org>, Cole Robinson <crobinso@redhat.com>
-References: <c2246b1a-51b3-2843-5164-c424c571874f@redhat.com>
- <CAJ+F1C+EC-tgDOyX5e56utKdUz-DXMMtwrtVyKXT2Jj4r43OCA@mail.gmail.com>
- <839268cb-b65c-68d6-1294-47548ed383b1@redhat.com>
- <CAJ+F1CJteJ665MLSUhWg-p9=tH6B7w-m=pop+o9ktGffxCiZaA@mail.gmail.com>
- <Y860hPT+o15BGQYq@redhat.com>
- <0c771cc2-4746-0e5b-e372-c2a7be830144@redhat.com>
- <Y8/0bBPM0cxnYnKy@redhat.com>
- <CAJ+F1CJvSiD9Hp4s24enRw06Er+XrCaOYmH61=zP9jCLYLoHLA@mail.gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <CAJ+F1CJvSiD9Hp4s24enRw06Er+XrCaOYmH61=zP9jCLYLoHLA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230123083755.1038286-1-vivek.kasireddy@intel.com>
+ <20230123083755.1038286-2-vivek.kasireddy@intel.com>
+In-Reply-To: <20230123083755.1038286-2-vivek.kasireddy@intel.com>
+From: Frediano Ziglio <freddy77@gmail.com>
+Date: Wed, 25 Jan 2023 10:57:28 +0000
+Message-ID: <CAHt6W4cSMsPnV+6p6Li+Tvt+qmqsU_coP+kj9-MYDq+-EJbA+A@mail.gmail.com>
+Subject: Re: [RFC v2 1/2] spice: Add an option for users to provide a
+ preferred codec
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Dongwon Kim <dongwon.kim@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32f;
+ envelope-from=freddy77@gmail.com; helo=mail-ot1-x32f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,42 +90,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/01/2023 20.10, Marc-André Lureau wrote:
-> Hi
-> 
-> On Tue, Jan 24, 2023 at 7:08 PM Daniel P. Berrangé <berrange@redhat.com> wrote:
->>
->> On Tue, Jan 24, 2023 at 03:43:25PM +0100, Thomas Huth wrote:
->>> On 23/01/2023 17.23, Daniel P. Berrangé wrote:
->>>> On Fri, Jan 20, 2023 at 05:57:29PM +0400, Marc-André Lureau wrote:
->>> ...
->>>>>>> On Thu, Jan 19, 2023 at 12:31 PM Thomas Huth <thuth@redhat.com> wrote:
->>>>>>>>
->>>>>>>>
->>>>>>>>      Hi all,
->>>>>>>>
->>>>>>>> in some spare minutes, I started playing with a patch to try to remove the
->>>>>>>> dtc submodule from the QEMU git repository - according to
->>>>>>>> https://repology.org/project/dtc/versions our supported build platforms
->>>>>>>> should now all provide the minimum required version.
->>> ...
->>>> So in theory we can try to drop the submodule for dtc now
->>>
->>> The dtc package is also still missing in the MinGW cross compiler suite in
->>> Fedora ... does anybody know what's the right way to request it there?
->>
->> Someone will need to write a specfile, and submit it for review. I can do
->> the submission, or the review, but not both (can't mark your own homework)
->>
-> 
-> It's already been in rawhide for a few months. We can probably merge
-> and update f37.
-> https://packages.fedoraproject.org/pkgs/dtc/dtc/
+Il giorno lun 23 gen 2023 alle ore 08:37 Vivek Kasireddy
+<vivek.kasireddy@intel.com> ha scritto:
+>
+> Giving users an option to choose a particular codec will enable
+> them to make an appropriate decision based on their hardware and
+> use-case.
+>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Cc: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+> Cc: Dongwon Kim <dongwon.kim@intel.com>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> ---
+>  qemu-options.hx |  5 +++++
+>  ui/spice-core.c | 14 ++++++++++++++
+>  2 files changed, 19 insertions(+)
+>
+> diff --git a/qemu-options.hx b/qemu-options.hx
+> index 3aa3a2f5a3..aab8df0922 100644
+> --- a/qemu-options.hx
+> +++ b/qemu-options.hx
+> @@ -2142,6 +2142,7 @@ DEF("spice", HAS_ARG, QEMU_OPTION_spice,
+>      "       [,streaming-video=3D[off|all|filter]][,disable-copy-paste=3D=
+on|off]\n"
+>      "       [,disable-agent-file-xfer=3Don|off][,agent-mouse=3D[on|off]]=
+\n"
+>      "       [,playback-compression=3D[on|off]][,seamless-migration=3D[on=
+|off]]\n"
+> +    "       [,preferred-codec=3D<encoder>:<codec>\n"
+>      "       [,gl=3D[on|off]][,rendernode=3D<file>]\n"
+>      "   enable spice\n"
+>      "   at least one of {port, tls-port} is mandatory\n",
+> @@ -2237,6 +2238,10 @@ SRST
+>      ``seamless-migration=3D[on|off]``
+>          Enable/disable spice seamless migration. Default is off.
+>
+> +    ``preferred-codec=3D<encoder>:<codec>``
+> +        Provide the preferred codec the Spice server should use.
+> +        Default would be spice:mjpeg.
+> +
+>      ``gl=3D[on|off]``
+>          Enable/disable OpenGL context. Default is off.
+>
+> diff --git a/ui/spice-core.c b/ui/spice-core.c
+> index 72f8f1681c..6e00211e3a 100644
+> --- a/ui/spice-core.c
+> +++ b/ui/spice-core.c
+> @@ -469,6 +469,9 @@ static QemuOptsList qemu_spice_opts =3D {
+>          },{
+>              .name =3D "streaming-video",
+>              .type =3D QEMU_OPT_STRING,
+> +        },{
+> +            .name =3D "preferred-codec",
+> +            .type =3D QEMU_OPT_STRING,
+>          },{
+>              .name =3D "agent-mouse",
+>              .type =3D QEMU_OPT_BOOL,
+> @@ -644,6 +647,7 @@ static void qemu_spice_init(void)
+>      char *x509_key_file =3D NULL,
+>          *x509_cert_file =3D NULL,
+>          *x509_cacert_file =3D NULL;
+> +    const char *preferred_codec =3D NULL;
+>      int port, tls_port, addr_flags;
+>      spice_image_compression_t compression;
+>      spice_wan_compression_t wan_compr;
+> @@ -795,6 +799,16 @@ static void qemu_spice_init(void)
+>          spice_server_set_streaming_video(spice_server, SPICE_STREAM_VIDE=
+O_OFF);
+>      }
+>
+> +    preferred_codec =3D qemu_opt_get(opts, "preferred-codec");
+> +    if (preferred_codec) {
+> +        if (spice_server_set_video_codecs(spice_server, preferred_codec)=
+) {
+> +            error_report("Preferred codec name is not valid");
+> +            exit(1);
+> +        }
+> +    } else {
+> +        spice_server_set_video_codecs(spice_server, "spice:mjpeg");
 
-Ah, great, good to know that it is on its way already. Even if this only 
-gets released in F38 this still should be fine ... F38 is not that far away 
-anymore.
+Why overriding the compiled in Spice default?
+Apart from that the commit seems good to me.
 
-  Thomas
+> +    }
+> +
+>      spice_server_set_agent_mouse
+>          (spice_server, qemu_opt_get_bool(opts, "agent-mouse", 1));
+>      spice_server_set_playback_compression
 
+Frediano
 
