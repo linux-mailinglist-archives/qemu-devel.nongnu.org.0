@@ -2,74 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC76167A8D7
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 03:36:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1721D67A8EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 03:44:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKVct-0008ME-4G; Tue, 24 Jan 2023 21:35:03 -0500
+	id 1pKVkJ-0006lu-Bu; Tue, 24 Jan 2023 21:42:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pKVco-0008HA-7k
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 21:34:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1pKVkB-0006jG-6N
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 21:42:35 -0500
+Received: from mx0a-0031df01.pphosted.com ([205.220.168.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jsnow@redhat.com>) id 1pKVcl-0005Mv-Oe
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 21:34:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674614095;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=eFgFFOfo5jZZDru0T2DPfy03Qokj9J7YN68vjcMzOgs=;
- b=QDHAZUvvxzYQyS3c1q5EQBY4Cb5hmxWAWlDP3rvVq4lPIa242B3wQ9pyDA+48xq/Ta2tr7
- 2B4cdnZYDAZcA/wcMPQmFsTY8KnQE0gDyzVIg2HIf2MTE3Tyk5pAoQFyroVTeGWSj9vcTN
- 3yUXLuNGxpb3j/KCO0uzma6BA3GhTSw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-cwMJIGBEP5auXKucFyLIpg-1; Tue, 24 Jan 2023 21:34:51 -0500
-X-MC-Unique: cwMJIGBEP5auXKucFyLIpg-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 57FC21869B12;
- Wed, 25 Jan 2023 02:34:51 +0000 (UTC)
-Received: from scv.redhat.com (unknown [10.22.16.119])
- by smtp.corp.redhat.com (Postfix) with ESMTP id C0F052026D4B;
- Wed, 25 Jan 2023 02:34:50 +0000 (UTC)
-From: John Snow <jsnow@redhat.com>
+ (Exim 4.90_1) (envelope-from <tsimpson@qualcomm.com>)
+ id 1pKVk8-00079M-HC
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 21:42:34 -0500
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30P2Gijm002862; Wed, 25 Jan 2023 02:42:18 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : mime-version : content-type :
+ content-transfer-encoding; s=qcppdkim1;
+ bh=Npkkt2s5n+wnWg3gQZV/FF7MpZOP+C9Dlmj3tkr5HRE=;
+ b=RmpjLXg6lGoQNYJ0sXTuhKXvZUyAAekCaitCEnuZ6ufx0lGQe1/sPT4M6HmjkuXHumI4
+ LQ/m4qxxHU2bdUktKXjd17VwtdWy56RzPuQGbACVdPPxghOXBSVJ24U7naI7SM+Yo72C
+ 68PGsobif5m0XUeP5A00t0fE7qI2Brl2B9dVAfycspIGY8mk/ZaftQzEzpxTy8UVeTBr
+ Tt1Yuu5pPu8tZQ0lYw2c8Wj/w2gZkvRGrwmolhdQyBVHD2zzPmqG4W7va5nmDFdw64ff
+ 2msaWzyA8Fljw3l0mog9Jl9RkxU+GUJLKqzKU/UncDoF9xoh3efdS2cdgIwvr2AwZAd7 TQ== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com
+ [129.46.96.20])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3n89hk6aph-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 25 Jan 2023 02:42:18 +0000
+Received: from pps.filterd (NALASPPMTA04.qualcomm.com [127.0.0.1])
+ by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTP id 30P2gHdU026506; 
+ Wed, 25 Jan 2023 02:42:17 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+ by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 3n894kr76n-1;
+ Wed, 25 Jan 2023 02:42:17 +0000
+Received: from NALASPPMTA04.qualcomm.com (NALASPPMTA04.qualcomm.com
+ [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30P2gGQP026499;
+ Wed, 25 Jan 2023 02:42:17 GMT
+Received: from hu-devc-lv-u18-c.qualcomm.com (hu-tsimpson-lv.qualcomm.com
+ [10.47.235.220])
+ by NALASPPMTA04.qualcomm.com (PPS) with ESMTP id 30P2gGhP026496;
+ Wed, 25 Jan 2023 02:42:16 +0000
+Received: by hu-devc-lv-u18-c.qualcomm.com (Postfix, from userid 47164)
+ id 732C35000A7; Tue, 24 Jan 2023 18:42:16 -0800 (PST)
+From: Taylor Simpson <tsimpson@quicinc.com>
 To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>, John Snow <jsnow@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- Cleber Rosa <crosa@redhat.com>,
- Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>,
- Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 7/7] python/qemu/machine: use socketpair() for QMP by default
-Date: Tue, 24 Jan 2023 21:34:45 -0500
-Message-Id: <20230125023445.3655253-8-jsnow@redhat.com>
-In-Reply-To: <20230125023445.3655253-1-jsnow@redhat.com>
-References: <20230125023445.3655253-1-jsnow@redhat.com>
+Cc: tsimpson@quicinc.com, richard.henderson@linaro.org, philmd@linaro.org,
+ ale@rev.ng, anjo@rev.ng, bcain@quicinc.com, quic_mathbern@quicinc.com
+Subject: [PATCH v4 00/13] Hexagon: COF overrides, new generator,
+ test/bug update
+Date: Tue, 24 Jan 2023 18:42:02 -0800
+Message-Id: <20230125024215.10430-1-tsimpson@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jsnow@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800
+ signatures=585085
+X-Proofpoint-GUID: 1jFXW-0vNqFqw0TYTHNN_sn8pX1VVVcq
+X-Proofpoint-ORIG-GUID: 1jFXW-0vNqFqw0TYTHNN_sn8pX1VVVcq
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-24_17,2023-01-24_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=565 phishscore=0
+ suspectscore=0 clxscore=1015 mlxscore=0 impostorscore=0 spamscore=0
+ adultscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301250020
+Received-SPF: pass client-ip=205.220.168.131;
+ envelope-from=tsimpson@qualcomm.com; helo=mx0a-0031df01.pphosted.com
+X-Spam_score_int: -24
+X-Spam_score: -2.5
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.248,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,86 +105,50 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marc-André Lureau <marcandre.lureau@redhat.com>
-
-When no monitor address is given, establish the QMP communication through
-a socketpair() (API is also supported on Windows since Python 3.5)
-
-Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-id: 20230111080101.969151-4-marcandre.lureau@redhat.com
-[Resolved conflicts, fixed typing error. --js]
-Signed-off-by: John Snow <jsnow@redhat.com>
----
- python/qemu/machine/machine.py | 25 +++++++++++++++++--------
- 1 file changed, 17 insertions(+), 8 deletions(-)
-
-diff --git a/python/qemu/machine/machine.py b/python/qemu/machine/machine.py
-index a71d87ead40..e57c2544842 100644
---- a/python/qemu/machine/machine.py
-+++ b/python/qemu/machine/machine.py
-@@ -158,17 +158,13 @@ def __init__(self,
-         self._qmp_timer = qmp_timer
- 
-         self._name = name or f"{id(self):x}"
-+        self._sock_pair: Optional[Tuple[socket.socket, socket.socket]] = None
-         self._temp_dir: Optional[str] = None
-         self._base_temp_dir = base_temp_dir
-         self._sock_dir = sock_dir
-         self._log_dir = log_dir
- 
--        if monitor_address is not None:
--            self._monitor_address = monitor_address
--        else:
--            self._monitor_address = os.path.join(
--                self.sock_dir, f"{self._name}.qmp"
--            )
-+        self._monitor_address = monitor_address
- 
-         self._console_log_path = console_log
-         if self._console_log_path:
-@@ -303,7 +299,11 @@ def _base_args(self) -> List[str]:
-         args = ['-display', 'none', '-vga', 'none']
- 
-         if self._qmp_set:
--            if isinstance(self._monitor_address, tuple):
-+            if self._sock_pair:
-+                fd = self._sock_pair[0].fileno()
-+                os.set_inheritable(fd, True)
-+                moncdev = f"socket,id=mon,fd={fd}"
-+            elif isinstance(self._monitor_address, tuple):
-                 moncdev = "socket,id=mon,host={},port={}".format(
-                     *self._monitor_address
-                 )
-@@ -337,10 +337,17 @@ def _pre_launch(self) -> None:
-             self._remove_files.append(self._console_address)
- 
-         if self._qmp_set:
-+            monitor_address = None
-+            sock = None
-+            if self._monitor_address is None:
-+                self._sock_pair = socket.socketpair()
-+                sock = self._sock_pair[1]
-             if isinstance(self._monitor_address, str):
-                 self._remove_files.append(self._monitor_address)
-+                monitor_address = self._monitor_address
-             self._qmp_connection = QEMUMonitorProtocol(
--                self._monitor_address,
-+                address=monitor_address,
-+                sock=sock,
-                 server=True,
-                 nickname=self._name
-             )
-@@ -360,6 +367,8 @@ def _pre_launch(self) -> None:
-         ))
- 
-     def _post_launch(self) -> None:
-+        if self._sock_pair:
-+            self._sock_pair[0].close()
-         if self._qmp_connection:
-             self._qmp.accept(self._qmp_timer)
- 
--- 
-2.39.0
-
+VGhlIGlkZWYtcGFyc2VyIHNraXBzIHRoZSBjaGFuZ2Utb2YtZmxvdyAoQ09GKSBpbnN0cnVjdGlv
+bnMsIHNvIGFkZApvdmVycmlkZXMKCioqKiogQ2hhbmdlcyBpbiB2MiAqKioqCkFkZCBhIG5ldyBn
+ZW5lcmF0b3IgZm9yIGFuYWx5emVfPHRhZz4gaW5zdHJ1Y3Rpb25zLiAgUG91cGxhdGUgdGhlCkRp
+c2FzQ29udGV4dCBhaGVhZCBvZiBnZW5lcmF0aW5nIGNvZGUuCgoqKioqIENoYW5nZXMgaW4gdjMg
+KioqKgpDbGVhbnVwIG9mIGFuYWx5c2lzIGNvZGUKQWRkZWQgdGVzdCB1cGRhdGVzIGVuYWJsZWQg
+YnkgbmV3IHRvb2xjaGFpbiBjb250YWluZXIKCioqKiogQ2hhbmdlcyBpbiB2NCAqKioqCkFkZGl0
+aW9uYWwgcGF0Y2ggZm9yIGJ1ZyBmaXgKUmVtb3ZlIHBrdF9oYXNfc3RvcmVfczEgZnJvbSBydW50
+aW1lIHN0YXRlIHdpdGggZGVhbGxvYy1yZXR1cm4gcGF0Y2gKTmV3IHBhdGNoZXMgdG8gdXRpbGl6
+ZSBuZXcgYW5hbHl6ZXIgdG8gaW1wcm92ZSBwcmVkaWNhdGVkIGluc3RydWN0aW9ucwoKClRheWxv
+ciBTaW1wc29uICgxMyk6CiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIEFkZCBvdmVycmlkZXMg
+Zm9yIGp1bXByMzEgaW5zdHJ1Y3Rpb25zCiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIEFkZCBv
+dmVycmlkZXMgZm9yIGNhbGxyCiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIEFkZCBvdmVycmlk
+ZXMgZm9yIGVuZGxvb3AxL2VuZGxvb3AwMQogIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBBZGQg
+b3ZlcnJpZGVzIGZvciBkZWFsbG9jLXJldHVybiBpbnN0cnVjdGlvbnMKICBIZXhhZ29uICh0YXJn
+ZXQvaGV4YWdvbikgQW5hbHl6ZSBwYWNrZXQgYmVmb3JlIGdlbmVyYXRpbmcgVENHCiAgSGV4YWdv
+biAodGFyZ2V0L2hleGFnb24pIEFuYWx5emUgcGFja2V0IGZvciBIVlgKICBIZXhhZ29uICh0ZXN0
+cy90Y2cvaGV4YWdvbikgVXBkYXRlIHByZWdfYWxpYXMuYwogIEhleGFnb24gKHRlc3RzL3RjZy9o
+ZXhhZ29uKSBSZW1vdmUgX19idWlsdGluIGZyb20gc2NhdHRlcl9nYXRoZXIKICBIZXhhZ29uICh0
+ZXN0cy90Y2cvaGV4YWdvbikgRW5hYmxlIEhWWCB0ZXN0cwogIEhleGFnb24gKHRhcmdldC9oZXhh
+Z29uKSBDaGFuZ2Ugc3VidHJhY3QgZnJvbSB6ZXJvIHRvIGNoYW5nZSBzaWduCiAgSGV4YWdvbiAo
+dGFyZ2V0L2hleGFnb24pIFJlbW92ZSBnZW5fbG9nX3ByZWRpY2F0ZWRfcmVnX3dyaXRlW19wYWly
+XQogIEhleGFnb24gKHRhcmdldC9oZXhhZ29uKSBSZWR1Y2UgbWFuaXB1bGF0aW9uIG9mIHNsb3Rf
+Y2FuY2VsbGVkCiAgSGV4YWdvbiAodGFyZ2V0L2hleGFnb24pIEltcHJvdmUgY29kZSBnZW4gZm9y
+IHByZWRpY2F0ZWQgSFZYCiAgICBpbnN0cnVjdGlvbnMKCiB0YXJnZXQvaGV4YWdvbi9jcHUuaCAg
+ICAgICAgICAgICAgICAgICAgICAgIHwgICA2ICstCiB0YXJnZXQvaGV4YWdvbi9nZW5fdGNnLmgg
+ICAgICAgICAgICAgICAgICAgIHwgIDc4ICsrLQogdGFyZ2V0L2hleGFnb24vZ2VuX3RjZ19odngu
+aCAgICAgICAgICAgICAgICB8ICAxNyArLQogdGFyZ2V0L2hleGFnb24vbWFjcm9zLmggICAgICAg
+ICAgICAgICAgICAgICB8ICAxNCArLQogdGFyZ2V0L2hleGFnb24vb3BfaGVscGVyLmggICAgICAg
+ICAgICAgICAgICB8ICAgMSAtCiB0YXJnZXQvaGV4YWdvbi90cmFuc2xhdGUuaCAgICAgICAgICAg
+ICAgICAgIHwgIDc2ICstLQogdGFyZ2V0L2hleGFnb24vZ2VucHRyLmMgICAgICAgICAgICAgICAg
+ICAgICB8IDMwNyArKysrKysrLS0tLS0KIHRhcmdldC9oZXhhZ29uL2lkZWYtcGFyc2VyL3BhcnNl
+ci1oZWxwZXJzLmMgfCAgMTIgKy0KIHRhcmdldC9oZXhhZ29uL29wX2hlbHBlci5jICAgICAgICAg
+ICAgICAgICAgfCAgOTYgKy0tLQogdGFyZ2V0L2hleGFnb24vdHJhbnNsYXRlLmMgICAgICAgICAg
+ICAgICAgICB8IDI3MSArKysrKystLS0tLQogdGVzdHMvdGNnL2hleGFnb24vZnBzdHVmZi5jICAg
+ICAgICAgICAgICAgICB8ICAzMSArLQogdGVzdHMvdGNnL2hleGFnb24vcHJlZ19hbGlhcy5jICAg
+ICAgICAgICAgICB8ICAxMCArLQogdGVzdHMvdGNnL2hleGFnb24vc2NhdHRlcl9nYXRoZXIuYyAg
+ICAgICAgICB8IDUxMyArKysrKysrKysrKy0tLS0tLS0tLQogdGFyZ2V0L2hleGFnb24vUkVBRE1F
+ICAgICAgICAgICAgICAgICAgICAgICB8ICAzOCArLQogdGFyZ2V0L2hleGFnb24vZ2VuX2FuYWx5
+emVfZnVuY3MucHkgICAgICAgICB8IDIzNSArKysrKysrKysKIHRhcmdldC9oZXhhZ29uL2dlbl90
+Y2dfZnVuY3MucHkgICAgICAgICAgICAgfCAxMjggKystLS0KIHRhcmdldC9oZXhhZ29uL2lkZWYt
+cGFyc2VyL2lkZWYtcGFyc2VyLmxleCAgfCAgIDQgKy0KIHRhcmdldC9oZXhhZ29uL2lkZWYtcGFy
+c2VyL2lkZWYtcGFyc2VyLnkgICAgfCAgIDcgKy0KIHRhcmdldC9oZXhhZ29uL21lc29uLmJ1aWxk
+ICAgICAgICAgICAgICAgICAgfCAgMTEgKy0KIHRlc3RzL3RjZy9oZXhhZ29uL01ha2VmaWxlLnRh
+cmdldCAgICAgICAgICAgfCAgMTMgKy0KIDIwIGZpbGVzIGNoYW5nZWQsIDEwOTggaW5zZXJ0aW9u
+cygrKSwgNzcwIGRlbGV0aW9ucygtKQogY3JlYXRlIG1vZGUgMTAwNzU1IHRhcmdldC9oZXhhZ29u
+L2dlbl9hbmFseXplX2Z1bmNzLnB5CgotLSAKMi4xNy4xCgo=
 
