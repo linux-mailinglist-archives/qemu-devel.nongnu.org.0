@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5B5767B15A
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 12:33:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C74F867B192
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 12:37:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKe0Z-00015c-2o; Wed, 25 Jan 2023 06:32:03 -0500
+	id 1pKe4l-0002iZ-4K; Wed, 25 Jan 2023 06:36:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKe0X-00015G-Jx
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:32:01 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKe0V-00084q-Ok
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:32:01 -0500
-Received: by mail-wr1-x429.google.com with SMTP id z5so16719241wrt.6
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 03:31:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aWzIeQYx7+uRvsu0aoBUBUuKpHuCt29sqw2DF3nu6Qc=;
- b=LMGw5NSxskvNz7x9scCCLkWx3CsJ0hLxPu03VB4Yh9hbvGvyK6PeZMK3PRmB0bEj9T
- HlKvWJehAuokwWdHS9lT03ndZXAoJSBCKwOiVuQucVAArQ8Bp9zGc2bUUzlzqZq5h/da
- Gc8olF8exgudT7+bVTnvBezSq4w9er1wp1Pc2INIZOjP5xjcpHRMxbYSU5Gnviz89plx
- Au5u5EMZ5VjK/Nj4DxTc2kUrcLar7iAbJfCto652onIGr78SHROlAB7gR/VGAF2Yly/Y
- fuFcVgu8GZjBuOColZZYhpwhkFEcjhTPDzZMK3dR/4PrY9cF931Ypm/UjsIEYrE7fEME
- aUsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aWzIeQYx7+uRvsu0aoBUBUuKpHuCt29sqw2DF3nu6Qc=;
- b=EIYz3Qq4WoO14S7HjIfsXBHDE+zLWl4c3zSN1Vd0XYnWowl69MLrfhIKEDcDimeIFy
- fcQpM3Bcty5DSV5JP7aXuAr85O6p7LGP4KFHVl3rzxQJZh021EXlXn1Y0/1HUIm9DBgR
- lco5qcw5bGDxVpbVTpofBXxi2vT5fFjIe9b0l5ws3x72oIyg699GbZ7jgSezbjEnvlej
- 5J1MWB/x+YawTPjvMb0bxqU8HJughqHinyNh4GI+tq79Os76MmgZ/aNXth/TVzy43S3w
- tPZL28C2ceZDWgVHd3G0w4TtBnvodIcq01XFxezjM73c/YXnjLmGgjUMnjLCUfiDgcaT
- w/Yg==
-X-Gm-Message-State: AFqh2kr9GqljPgHCApNzTxysfA6B1W6Iy2SvweEFbDIbmaOllYaU9YQL
- E6KCYRRWH7m66toqcDNn9kROqg==
-X-Google-Smtp-Source: AMrXdXt75mHo4XI2ZxLF9uUXy3Kv3j8DOiGD6JRymoBxwsUwWL+5A12Q6gNuYlYjJShOhdPtfAqQpA==
-X-Received: by 2002:a05:6000:1049:b0:242:15d6:1a75 with SMTP id
- c9-20020a056000104900b0024215d61a75mr25031725wrx.66.1674646317849; 
- Wed, 25 Jan 2023 03:31:57 -0800 (PST)
-Received: from [192.168.0.114] ([196.77.22.181])
- by smtp.gmail.com with ESMTPSA id
- a17-20020a5d53d1000000b0024274a5db0asm4277248wrw.2.2023.01.25.03.31.56
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Jan 2023 03:31:57 -0800 (PST)
-Message-ID: <4c15f40f-1c70-d867-99e1-c8552e0b6f04@linaro.org>
-Date: Wed, 25 Jan 2023 12:31:55 +0100
+ (Exim 4.90_1) (envelope-from <nick.hudson@gmx.co.uk>)
+ id 1pKe4i-0002gs-Bh
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:36:20 -0500
+Received: from mout.gmx.net ([212.227.17.21])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <nick.hudson@gmx.co.uk>)
+ id 1pKe4g-0000Tt-Jl
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:36:20 -0500
+Received: from [192.168.1.239] ([109.158.255.86]) by mail.gmx.net (mrgmx104
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MV63q-1pDb4Q32hC-00S3ai; Wed, 25
+ Jan 2023 12:36:08 +0100
+Message-ID: <3413ad2e-28dc-438c-a962-9a74533b25dc@gmx.co.uk>
+Date: Wed, 25 Jan 2023 11:36:03 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] docs/about/deprecated: Mark HAXM as deprecated
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: NetBSD and libfdt (was: Re: MSYS2 and libfdt)
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
+ <marcandre.lureau@gmail.com>, Reinoud Zandijk <reinoud@netbsd.org>,
+ Ryo ONODERA <ryoon@netbsd.org>
+Cc: Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Biswapriyo Nath <nathbappai@gmail.com>, skrll@netbsd.org
+References: <c2246b1a-51b3-2843-5164-c424c571874f@redhat.com>
+ <CAJ+F1C+EC-tgDOyX5e56utKdUz-DXMMtwrtVyKXT2Jj4r43OCA@mail.gmail.com>
+ <839268cb-b65c-68d6-1294-47548ed383b1@redhat.com>
+ <CAJ+F1CJteJ665MLSUhWg-p9=tH6B7w-m=pop+o9ktGffxCiZaA@mail.gmail.com>
+ <Y860hPT+o15BGQYq@redhat.com>
+ <2bce671f-d91a-72ab-d38f-2e284d9d3ee2@redhat.com>
+ <4f30fcd1-a773-40af-48c3-0e017f85e079@redhat.com>
 Content-Language: en-US
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, wenchao.wang@intel.com
-References: <20230125102053.902098-1-thuth@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230125102053.902098-1-thuth@redhat.com>
+From: Nick Hudson <nick.hudson@gmx.co.uk>
+In-Reply-To: <4f30fcd1-a773-40af-48c3-0e017f85e079@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x429.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+X-Provags-ID: V03:K1:qt1tXGQYOR9AaHCeSJym3JBq++2gbcKqqm223aHPZcOxJotw+yX
+ Q/QA+7UfZ+2GuC5uO/JvaYgLlxqN0riOWhUo9kP+NKlypgTHI1VpJ2qoqhDM3noOY6k9/yh
+ rp6gBj22XY/4cj6QMTPOmhW1wKwh+sk7XYJVtg+Uf53XkLZEJdn44rflRDuaBKuNzuPDajR
+ 65HvGNDe6i3GAEgbG0CeA==
+UI-OutboundReport: notjunk:1;M01:P0:pYGhfgYWDHQ=;OuJL2P8hm/4b2FiTlROXfPpNj6E
+ oa6Zps0iuXkVFHfK6Mu9OMq7hn56uEvkjYaSyvCjh9ZgkOIi02kmfMg6xRaihCrQEinslBP9y
+ HLuUf0eyphVdCjfYuk1fmb3yFTX+WX325G3CxnSum5y8toQgRbgRT+1gzZZbqYgHTR6gSihY4
+ 5bgvXAScAFmNZPR9I4kZDbbejza3MaNMqE+aznm14+wF6RpfhGDcmj3oBI3D3IyzqhpEvev1n
+ r9Bbw2SBSRL+Yu8ycSUUxn2lI0lcdUR+nUuTH3DZmkp8nGywtBH5+lG57BR87Ew5/jO/VS2Ug
+ lKSP9pu41DYXO5yuFUpiXYZo31Pw+fzQ/HWx8RZsiGb/xzxC7Xv85ED5mxVcnE3Rkrn8wPPeW
+ 7dLBj2VfGViT5NC338a7RPgCLL7dmriRgKROEkIVN7JMxhrCSqZuDUWRmuZZZsExYKJPiMjcK
+ cRogHMe+V8Id/raFCphWovxLn59LtKyZXJk3tbxduj2aJ1lfrzKGcEKJLwbiu9Y2C7PWKAHt7
+ NMeZPRPUjdmItu6yfb6jppwnvgDynXaB9qRvtpTva0YCzyzDQda2TZW0HyMTf2CAxJP1HFNWA
+ aL4etrhHZU8zbZ99ENWNxKXdPrg2ZY4nB5ft9xztvBOfl6fdjDsjRS+w6SEwKtzSGS5EhJmej
+ XT/dQHRkibdDY9Cl5cu6z7LfP4lIWxUFhgNZTV9Iqr/xOTbklg8rNwFWZIbb/IMSCyUQNEKxP
+ NLW4vd+NHWZjeWIwYuaRx7uN6lIVIMxjJc4aDBU93+uGaN3O6frYWVwPEny7APuxW7yUvMNCX
+ Ns8flz8QXEY6nH2slBotJsM2pw0IAB3dCSuOeRBZL8EJbxRvvCuBUzjnb8VO3tWKbCCo6gqtA
+ RpMrb3EGRUoM9Ceh/h89SHR1P7dhD9P512BJzlSS/JygO2BDFZK7Yg0Uxa+C/soFpcuzpQzrt
+ SOHAHN83PiqZUdWbcJ0+kCGLKFM=
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=nick.hudson@gmx.co.uk;
+ helo=mout.gmx.net
+X-Spam_score_int: -36
+X-Spam_score: -3.7
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,18 +88,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 25/1/23 11:20, Thomas Huth wrote:
-> The HAXM project has been retired (see https://github.com/intel/haxm#status),
-> so we should mark the code in QEMU as deprecated (and finally remove it
-> unless somebody else picks the project up again - which is quite unlikely
-> since there are now whpx and hvf on these operating systems, too).
+hi,
+
+On 24/01/2023 11:27, Thomas Huth wrote:
+> On 24/01/2023 10.20, Thomas Huth wrote:
+> [...]
+>>>>>> On Thu, Jan 19, 2023 at 12:31 PM Thomas Huth <thuth@redhat.com> 
+>>>>>> wrote:
+>>>>>>>
+>>>>>>>     Hi all,
+>>>>>>>
+>>>>>>> in some spare minutes, I started playing with a patch to try to 
+>>>>>>> remove the
+>>>>>>> dtc submodule from the QEMU git repository - according to
+>>>>>>> https://repology.org/project/dtc/versions our supported build 
+>>>>>>> platforms
+>>>>>>> should now all provide the minimum required version.
+> [...]
+>> Ok, I'll give my patch another try to see whether all the other 
+>> systems have a usable version of libfdt available, too.
 > 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   docs/about/deprecated.rst | 6 ++++++
->   1 file changed, 6 insertions(+)
+> ... and I apparently missed NetBSD in my first research: Looks like 
+> NetBSD is still using dtc v1.4.7 which is too old for QEMU. (though 
+> https://www.netbsd.org/docs/software/3rdparty/ talks about v1.5.1, I 
+> only get dtc 1.4.7 in our NetBSD VM).
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+The not yet released netbsd-10 and -current have 1.5.1. Perhaps you can 
+use netbsd-10 for your VM?
 
-
+Thanks,
+Nick
 
