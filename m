@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 722C867BFD7
+	by mail.lfdr.de (Postfix) with ESMTPS id 70A9967BFD6
 	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 23:21:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKo7h-0005va-Gm; Wed, 25 Jan 2023 17:20:05 -0500
+	id 1pKo7l-0005x9-Mg; Wed, 25 Jan 2023 17:20:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pKo7f-0005ui-47
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 17:20:03 -0500
+ id 1pKo7j-0005wy-IF
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 17:20:07 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pKo7c-0005Kb-EF
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 17:20:02 -0500
+ id 1pKo7h-0005X8-Kz
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 17:20:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674685199;
+ s=mimecast20190719; t=1674685205;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=SXWTS7PEfK4jfis5AMTJ0jfF1+NWNTH+CYWW0b9TfAk=;
- b=J2pR41XaZNUqyzbhJleSSRIW7xsHDrTjpUVUTt0cTMmqfoFqQlq5zlITztOqBHYxsUc8S4
- IiX/KiESTRGNTP4FsLjksyhv36pUDYdLcA+wDlX4fPzK9ox/Pq2QYK+7qbrqLNKJRU/e2k
- b7xBQkNAyQ67vgf5NPSNLmapDn9eBNU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Na3xe+QZCW01A+v/Yj9/ftxjQvjcENPbaW+sNyyenXI=;
+ b=N5WY1p+6abgutvkUrG4GwTS9d+Frf+D/7nI3MZOD2yOHk56GWRLvsVsml6DUVxhBI2FiDF
+ bZHVLcT9iUx9PmVlMyN44Ui0Ax4rLHyYtvTbKyufAVOkeLlcmzTFaqacIKQ5NDjdt4bnVn
+ uHwHCPYz5hhTx2IHXmEslll2HWapwmU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-523-Eg2ockkrMBCcGSKv08KftQ-1; Wed, 25 Jan 2023 17:19:55 -0500
-X-MC-Unique: Eg2ockkrMBCcGSKv08KftQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-653-dZa9kRTuPoi_YhvH_rzgJQ-1; Wed, 25 Jan 2023 17:19:59 -0500
+X-MC-Unique: dZa9kRTuPoi_YhvH_rzgJQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AE2F43C0CD39;
- Wed, 25 Jan 2023 22:19:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8D7D7100F903;
+ Wed, 25 Jan 2023 22:19:58 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.105])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4F4CC15BA0;
- Wed, 25 Jan 2023 22:19:51 +0000 (UTC)
-Date: Wed, 25 Jan 2023 17:19:49 -0500
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B172F1121330;
+ Wed, 25 Jan 2023 22:19:57 +0000 (UTC)
+Date: Wed, 25 Jan 2023 17:19:55 -0500
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: Alexander Bulekov <alxndr@bu.edu>
 Cc: qemu-devel@nongnu.org,
@@ -75,15 +75,15 @@ Cc: qemu-devel@nongnu.org,
  "open list:Old World (g3beige)" <qemu-ppc@nongnu.org>
 Subject: Re: [PATCH v4 3/3] hw: replace most qemu_bh_new calls with
  qemu_bh_new_guarded
-Message-ID: <Y9GrBTALs18YkSKG@fedora>
+Message-ID: <Y9GrC87Nbp6ViSBj@fedora>
 References: <20230119070308.321653-1-alxndr@bu.edu>
  <20230119070308.321653-4-alxndr@bu.edu>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="M2N6eqImXDUC6qNs"
+ protocol="application/pgp-signature"; boundary="PR/kp6ea097A6OkX"
 Content-Disposition: inline
 In-Reply-To: <20230119070308.321653-4-alxndr@bu.edu>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -109,7 +109,7 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
---M2N6eqImXDUC6qNs
+--PR/kp6ea097A6OkX
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
@@ -146,27 +146,23 @@ On Thu, Jan 19, 2023 at 02:03:08AM -0500, Alexander Bulekov wrote:
 >  hw/virtio/virtio-crypto.c       | 3 ++-
 >  25 files changed, 66 insertions(+), 35 deletions(-)
 
-Should scripts/checkpatch.pl complain when qemu_bh_new() or aio_bh_new()
-are called from hw/? Adding a check is important so new instances cannot
-be added accidentally in the future.
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Stefan
-
---M2N6eqImXDUC6qNs
+--PR/kp6ea097A6OkX
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPRqwUACgkQnKSrs4Gr
-c8gRpgf/XSMSSsqXecEYX86MfvLzEtDZEi3FpITflNUsNp60gUR3RxhOHYM1uYKt
-JJsD58pqNmAqE+w3Yp3IfsHiqN2/Nn4M11DhA+LTtr/aOBDj2Avtn8cjlD9B/9sv
-pdBlSmT9qdqNSMV0Vf3PeTQoFPgO0HfszA90SWOxVtRSPY5+I0ogrcBQnF9CniKP
-ckWq3++62BxEnQDD74thjGagTPexUnMER/G5RGu7bEHZZPnVCUZSrRN413f5eco2
-8hJZwVfvUmr/28Pn57ShdIm0T4VAr8A2T4+BpaGpc5oiBL5Jxblkj7J8+A78tv0v
-jeSYTaMqrl98ceiYFrymlZCjC9aaOQ==
-=MJ1Z
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPRqwsACgkQnKSrs4Gr
+c8j5WQf9F8Eg3nUxaGWZRHD3I8wFILb8NIBkmrWVzzVmfcZcxecQEQX/AJnoFfSP
+7SY83PXVaWxyH5HHtNQMGMMchQ2bMO4m/8Rci3LPGKgDkauPzWbQVdj4mqkODrnl
+/T+qIamwv5Zu7ddBh68Fi5qnA9OUGc6ycrKaQ0tDjA0xQ9j2ubdIw3i+KLLuUKLo
+woyYb5kim7fMMt/1kVhUOM21c85TsFqe1hsyUjkbWN5fO3JifQPwoFjpYvNWDHdu
+ysmdkchT2ekz2COepAVv5yc7yWI1ID8r7i//3xKrA486/GIm3XickhVNWoYNoU0e
+Qo53IYuDqiMcWlTjSsfBJbq4CQa5iw==
+=f/lH
 -----END PGP SIGNATURE-----
 
---M2N6eqImXDUC6qNs--
+--PR/kp6ea097A6OkX--
 
 
