@@ -2,69 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30D5A67B31D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 14:19:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA16567B2E9
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 14:03:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKehO-00050U-7D; Wed, 25 Jan 2023 07:16:18 -0500
+	id 1pKeje-0006NF-2U; Wed, 25 Jan 2023 07:18:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKehG-0004wL-Hb
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:16:13 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKejc-0006Mt-JY
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:18:36 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKehD-0008Mu-Og
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:16:09 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id
- m5-20020a05600c4f4500b003db03b2559eso1141956wmq.5
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 04:16:06 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKeja-00007x-KF
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:18:36 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ o17-20020a05600c511100b003db021ef437so1146792wms.4
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 04:18:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=ER2SI4PlaWHGQyH2e2dd96iwPQoAleiGSkVyIcN6NyE=;
- b=oJEKCV5G3wULQ5/rTU24gUwxEFgmQ6i6MzOpcn6cRF1KLaxiN/ecbQSX2wmPb46eKE
- ff0+4tslLvVUSw9iOPKRegyyLrqPpSdvlMen569CuJfBzl4JsDRM6jERXS/MT0mQ6MK7
- lkW0kESfBC0mliv58D6IZnNbNUecPdS0Kv3dE8V38qSCRQeBOaaV9RPJ55ylvfAFhb0O
- X7eDMhfxE+srAQOEiLPYzQVoskR2KRP9hxPcExm14rarBpIbHOzCykBiug7OfF1xNFfz
- x5KTI3Z54DE1hB4h40QZyO//bQKLOjMs3/ipB4fVRJLIHplONZJAoDUXYi+vM1WmroBr
- 5COQ==
+ bh=3sEN5kbOw+2jZmdBXHhxE/xNu6E2VOYJgZaT+5A393Y=;
+ b=PeEaBvn1A+CuZOOl384nszACPDSoESPoZNyEc3XHj2jPL9ksAdJ9NJZ7gyxtjLFxxP
+ JoMEqQopYMPYXppJDiitUGoSUFsB+RMuQvWWk8XLmZnOB2N48eaVIkDhmrPRGhI5JmCz
+ pjUjQw2XAvHy8UPCuBsGAQrWpVurk/Vs+Q5ZDJCThXkuefhKNthEjWlZz+vAMQV+KPlZ
+ FPHDnv2R1YBJ0GgxcMKi82MMQxvG5Gd3MrhFRkwz/D4Zw5ls/JTbAD9Uz/cUmS7vYVeZ
+ yi2R0V7YlAl0DWVEc8uwFtZvAYKTFaGurybkSQ042FdwZIUEQl/+1fRYLhHtJY6SXq6k
+ quCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ER2SI4PlaWHGQyH2e2dd96iwPQoAleiGSkVyIcN6NyE=;
- b=tsFnLOpdB7AmBfWO1R8KkSgWW4QY6LU2U4UNna6iDo6tYrnGMjOxrSbKg7Da+HD+Tl
- VGnEdmUXxIcMlo8DsmI9vafIevymHPV/79H1DiNmTH8sPE/XxuFIeMGCgJ1dbzWVueFl
- ac9wwTj1lPYy3SXgzARpN/JunCTYgHxb3dp+i1xaiScXhGyzbK5d1gzWbP1xibICgTq/
- irWzsoLp27bPK8EzkdBJoS/PT27hbL5BzQw+kqcVhWx+PzYCfdBkXDJdC2jHlPPZukR0
- hendNHtPG+gqGIIwAW9AC09Ew3ES74nU24/jY0w17haXwyk41GxAsiW9meFXCacY/38r
- 1FYg==
-X-Gm-Message-State: AFqh2krSBBCNXEGCbPVkLN45YrSAKf2mlSIIO8L3OF8YN/60t0X4Txv6
- BDL5R6g/rI4Usn77rDy3uF59Lw==
-X-Google-Smtp-Source: AMrXdXvNv+mdbb7AtqIq+hx/VRRyNRmxWORy4dDdYX2jOFNqxY/aKSTVG4e6+cVCuwdVgbaphIDiqA==
-X-Received: by 2002:a05:600c:ad4:b0:3db:11d0:21e2 with SMTP id
- c20-20020a05600c0ad400b003db11d021e2mr28325094wmr.29.1674648965603; 
- Wed, 25 Jan 2023 04:16:05 -0800 (PST)
+ bh=3sEN5kbOw+2jZmdBXHhxE/xNu6E2VOYJgZaT+5A393Y=;
+ b=oJTQcJ7uL/OQdynXDiRfCuzXXNci52DjIRXG6EpLZ615Le8Onj7/Pe6VQ/8VaZY0By
+ VPQ7NhQcN15ZpAoxpRb1aGDS45KNQERYYWbSHleaAIxsTnA+TOXBWVJ5xMkk3/e8IJ6r
+ iqk/AgAktno9q38qcPH4QQslst7EiPy92dp1/ZcwYew8tvV4Qnax2B2qhTlUIseEUYMM
+ DF3YeXs4Ql8ycw2MTYJDQQZZUA/3aBTq7EmzkrPG2uwmUWZ2aLrBpMpsQs8AILTWJ2AN
+ 4vIhKfzIbuStuD+ptYA3RRYIN4PBLYqOqZ0xc7MatVF2ZsN8AOvEvbCVD7qJgYW0/A9i
+ p4Eg==
+X-Gm-Message-State: AFqh2koc9+qHfkmz3YpaKa2McUTrVnP+Gu9OxqaMUuqH46H4VmyiYvdE
+ 3eiwzhnPhsHJjLce/V+c0J9giA==
+X-Google-Smtp-Source: AMrXdXt7XkHFK1LEuV+HW/WcP62139yPIHwOM54QfkhWj0JHlHdg1E0en53gD9xbVxcOEu3MWDSEkQ==
+X-Received: by 2002:a05:600c:4d98:b0:3d3:5c7d:a5f3 with SMTP id
+ v24-20020a05600c4d9800b003d35c7da5f3mr39226897wmp.37.1674649112918; 
+ Wed, 25 Jan 2023 04:18:32 -0800 (PST)
 Received: from [192.168.0.114] ([196.77.22.181])
  by smtp.gmail.com with ESMTPSA id
- b5-20020a05600c150500b003dafb0c8dfbsm1939388wmg.14.2023.01.25.04.16.03
+ d24-20020a05600c4c1800b003db0cab0844sm1603947wmp.40.2023.01.25.04.18.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Jan 2023 04:16:04 -0800 (PST)
-Message-ID: <657d1e7c-875f-9eb5-4ab5-9d8f9094063b@linaro.org>
-Date: Wed, 25 Jan 2023 13:16:02 +0100
+ Wed, 25 Jan 2023 04:18:32 -0800 (PST)
+Message-ID: <8c21fc0a-de49-60e3-60b1-bd9f805e3d5f@linaro.org>
+Date: Wed, 25 Jan 2023 13:18:29 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 19/35] docs: add hotlinks to about preface text
+Subject: Re: [PATCH v2 20/35] docs: add a new section to outline emulation
+ support
 Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- qemu-devel@nongnu.org
+To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
- Ed Maste <emaste@freebsd.org>, Thomas Huth <thuth@redhat.com>,
- Alexandre Iooss <erdnaxe@crans.org>, Markus Armbruster <armbru@redhat.com>,
+ Ed Maste <emaste@freebsd.org>, Alexandre Iooss <erdnaxe@crans.org>,
+ Markus Armbruster <armbru@redhat.com>,
  Jagannathan Raman <jag.raman@oracle.com>,
  John G Johnson <john.g.johnson@oracle.com>,
  Mahmoud Mandour <ma.mandourr@gmail.com>,
@@ -82,13 +83,14 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, Li-Wen Hsu
  <lwhsu@freebsd.org>, Peter Maydell <peter.maydell@linaro.org>
 References: <20230124180127.1881110-1-alex.bennee@linaro.org>
- <20230124180127.1881110-20-alex.bennee@linaro.org>
+ <20230124180127.1881110-21-alex.bennee@linaro.org>
+ <f21ac8e6-911f-b156-18ff-3929d89ba3d1@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230124180127.1881110-20-alex.bennee@linaro.org>
+In-Reply-To: <f21ac8e6-911f-b156-18ff-3929d89ba3d1@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -111,19 +113,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 24/1/23 19:01, Alex Bennée wrote:
-> Make it easier to navigate the documentation.
+On 25/1/23 08:58, Thomas Huth wrote:
+> On 24/01/2023 19.01, Alex Bennée wrote:
+>> This affects both system and user mode emulation so we should probably
+>> list it up front.
+>>
+>> Acked-by: Richard Henderson <richard.henderson@linaro.org>
+>> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+>>
+>> ---
+>> v2
+>>    - HPs -> HP's
+>>    - MIPs-like -> MIPS-like
+>> ---
+>>   docs/about/emulation.rst      | 103 ++++++++++++++++++++++++++++++++++
+>>   docs/about/index.rst          |   1 +
+>>   docs/devel/tcg-plugins.rst    |   2 +
+>>   docs/system/arm/emulation.rst |   2 +
+>>   4 files changed, 108 insertions(+)
+>>   create mode 100644 docs/about/emulation.rst
+>>
+>> diff --git a/docs/about/emulation.rst b/docs/about/emulation.rst
+>> new file mode 100644
+>> index 0000000000..bdc0630b35
+>> --- /dev/null
+>> +++ b/docs/about/emulation.rst
+>> @@ -0,0 +1,103 @@
+>> +Emulation
+>> +=========
+>> +
+>> +QEMU's Tiny Code Generator (TCG) gives it the ability to emulate a
 > 
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Acked-by: Richard Henderson <richard.henderson@linaro.org>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->   docs/about/index.rst  | 16 ++++++++--------
->   docs/system/index.rst |  2 ++
->   docs/tools/index.rst  |  2 ++
->   docs/user/index.rst   |  2 ++
->   4 files changed, 14 insertions(+), 8 deletions(-)
+> I'd maybe rather say "provides" instead of "gives it".
+> 
+>> +number of CPU architectures on any supported platform. Both
+> 
+> I'd maybe add a "host" between "supported" and "platform.
+> 
+>> +:ref:`System Emulation` and :ref:`User Mode Emulation` are supported
+>> +depending on the guest architecture.
+>> +
+>> +.. list-table:: Supported Guest Architectures for Emulation
+>> +  :widths: 30 10 10 50
+>> +  :header-rows: 1
+>> +
+>> +  * - Architecture (qemu name)
+>> +    - System
+>> +    - User-mode
+> 
+> Maybe just use "User" instead of "User-mode" to make the column smaller?
+> 
+>> +    - Notes
+>> +  * - Alpha
+>> +    - Yes
+>> +    - Yes
+>> +    - Legacy 64 bit RISC ISA developed by DEC
+>> +  * - Arm (arm, aarch64)
+>> +    - Yes
+>> +    - Yes
+>> +    - Wide range of features, see :ref:`Arm Emulation` for details
+>> +  * - AVR
+>> +    - Yes
+>> +    - No
+>> +    - 8 bit micro controller, often used in maker projects
+>> +  * - Cris
+>> +    - Yes
+>> +    - Yes
+>> +    - Embedded RISC chip developed by AXIS
+>> +  * - Hexagon
+>> +    - No
+>> +    - Yes
+>> +    - Family of DSPs by Qualcomm
+>> +  * - PA-RISC (hppa)
+>> +    - Yes
+>> +    - Yes
+>> +    - A legacy RISC system used in HP's old minicomputers
+>> +  * - x86 (i386, x86_64)
+>> +    - Yes
+>> +    - Yes
+>> +    - The ubiquitous desktop PC CPU architecture, 32 and 64 bit.
+>> +  * - Loongarch
+>> +    - Yes
+>> +    - Yes
+>> +    - A MIPS-like 64bit RISC architecture developed in China
+>> +  * - m68k
+>> +    - Yes
+> 
+> Would it be possible to link the "Yes" entries in the "System" column to 
+> corresponding target-*.rst files? E.g. docs/system/target-m68k.rst for 
+> the m68k entry?
+> 
+>> +    - Yes
+>> +    - Motorola 68000 variants and ColdFire
+>> +  * - Microblaze
+>> +    - Yes
+>> +    - Yes
+>> +    - RISC based soft-core by Xilinx
+>> +  * - MIPS (mips, mipsel, mips64, mips64el)
+> 
+> The table renders very badly for me, the last column is cut off and you 
+> need to scroll to see its contents. This seems mainly to happen since 
+> this MIPS entry is very long. Could the information in the parentheses 
+> maybe be shortened to "(mips*)" or be dropped completely?
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Or "32 and 64 bit".
 
 
