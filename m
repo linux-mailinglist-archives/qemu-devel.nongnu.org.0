@@ -2,76 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C74F867B192
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 12:37:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E9E567B199
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 12:38:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKe4l-0002iZ-4K; Wed, 25 Jan 2023 06:36:23 -0500
+	id 1pKe5q-0003Qx-Nk; Wed, 25 Jan 2023 06:37:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nick.hudson@gmx.co.uk>)
- id 1pKe4i-0002gs-Bh
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:36:20 -0500
-Received: from mout.gmx.net ([212.227.17.21])
+ (Exim 4.90_1)
+ (envelope-from <prvs=3821facd5=anthony.perard@citrix.com>)
+ id 1pKe5o-0003Qj-E5
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:37:28 -0500
+Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nick.hudson@gmx.co.uk>)
- id 1pKe4g-0000Tt-Jl
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:36:20 -0500
-Received: from [192.168.1.239] ([109.158.255.86]) by mail.gmx.net (mrgmx104
- [212.227.17.174]) with ESMTPSA (Nemesis) id 1MV63q-1pDb4Q32hC-00S3ai; Wed, 25
- Jan 2023 12:36:08 +0100
-Message-ID: <3413ad2e-28dc-438c-a962-9a74533b25dc@gmx.co.uk>
-Date: Wed, 25 Jan 2023 11:36:03 +0000
+ (Exim 4.90_1)
+ (envelope-from <prvs=3821facd5=anthony.perard@citrix.com>)
+ id 1pKe5l-0000fC-Vv
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:37:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+ d=citrix.com; s=securemail; t=1674646645;
+ h=date:from:to:cc:subject:message-id:references:
+ mime-version:in-reply-to;
+ bh=RfCE76XoGdXJb6w1WTkggE9lANZ0qxu5K2hgVoiyY8I=;
+ b=Ll3io0Ad65ggLRH8lwIeKVYrEsoA5AUmqJ8V+G7hHydsGSmVb6m1HOu9
+ zq8y4RSO+1TgsgkDPoLdSkMiW8iFRbAZ8iTYx2ZiNBaFsTrfp3NwiEg+L
+ BWTX6ZKC0jgdByVcE6YnrTdW9Td4x95EwIc4Q7iDNQGFA/XWIRQHJUz03 o=;
+Authentication-Results: esa5.hc3370-68.iphmx.com;
+ dkim=none (message not signed) header.i=none
+X-SBRS: 4.0
+X-MesageID: 93075483
+X-Ironport-Server: esa5.hc3370-68.iphmx.com
+X-Remote-IP: 162.221.156.123
+X-Policy: $RELAYED
+IronPort-Data: A9a23:yPRC8KPVAj519NjvrR1ql8FynXyQoLVcMsEvi/4bfWQNrUp0g2YBn
+ WdOWmiEbPfYZWv8KIsgaYjj90lSvZ/czodiHgto+SlhQUwRpJueD7x1DKtS0wC6dZSfER09v
+ 63yTvGacajYm1eF/k/F3oDJ9CU6jufQA+KmU4YoAwgpLSd8UiAtlBl/rOAwh49skLCRDhiE/
+ Nj/uKUzAnf8s9JPGj9Suv3rRC9H5qyo42tB5AFmP5ingXeF/5UrJMNHTU2OByOQrrl8RoaSW
+ +vFxbelyWLVlz9F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq/0Te5p0TJvsEAXq7vh3S9zxHJ
+ HehgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/ZqAJGpfh66wGMa04AWEX0stKKGZv7
+ M5HFGoqPkuFqtmZ4fGXUdA506zPLOGzVG8eknRpzDWfBvc6W5HTBa7N4Le03h9p2JoIR6yHI
+ ZNEN3w2Nk+ojx5nYz/7DLo3mvuogX/uNSVVsluPqYI84nTJzRw327/oWDbQUo3RHZoIwhbDz
+ o7A11b1JgE+PsGc8CSi1kmxi76SvxjlYbtHQdVU8dY12QbOlwT/EiY+V1ShpuKiolWjQN8ZI
+ EsRkgI3oK0vsUCmUNT5dxu/pnGCo1gbQdU4O+Qi5RuE0Kb8/weTDW9CRTlEAPQsrsQ2WDcpx
+ HeAmNevDjtq2JWFRHTY+rqKoDeaPSkOMXREdSICVREC4dTovMc0lB2nZslnOL64iJvyAz6Y/
+ tyRhHFg3fNJ15dNjvjluwmd2FpAu6QlUCYY2yzQf3uXsT8jQ97+YaGTxnmYwe15edPxoka6g
+ FAInM2X7eYrBJ6LlTCQTOhlIIxF98ppIxWH3wcxQsBJGyCFvif6INsOuG0WyFJBaJ5sRNP/X
+ KPEVeq9Drd3NWDiU6J4apnZ5y8Cnfm5ToSNuhw5g7NzjnlNmO2vpnkGia24hTqFfK0QfUYXZ
+ /+mnT6EVypyNEie5GPeqx0h+bEq3Dsi4mjYWIr2yR+quZLHOiHJFOdYagDXNr5phE9hnOky2
+ 48PX/ZmNj0FCLGuCsUp2dB7wa82wYgTWsmt9p0/mh+rKQt6AmAxY8I9Mpt4E7GJa599z7+Sl
+ lnkAx8w9bYKrSGfQel8Qiw5OeyHsFcWhS5TABHAyn75hyh6PNf0vM/ytfIfJNEayQCq9tYsJ
+ 9FtRilKKq4npujvk9jFUaTAkQ==
+IronPort-HdrOrdr: A9a23:QPddUK4JEDstzmnoCwPXwKvXdLJyesId70hD6qkRc3xom6mj/P
+ xG88536faZslwssRIb+OxoRpPufZq0z/cc3WB7B9uftWfd1leVEA==
+X-IronPort-AV: E=Sophos;i="5.97,245,1669093200"; d="scan'208";a="93075483"
+Date: Wed, 25 Jan 2023 11:37:14 +0000
+To: Chuck Zmudzinski <brchuckz@aol.com>
+CC: <xen-devel@lists.xenproject.org>, Wei Liu <wl@xen.org>, Juergen Gross
+ <jgross@suse.com>, <qemu-devel@nongnu.org>
+Subject: Re: [XEN PATCH v2 0/3] Configure qemu upstream correctly by default
+ for igd-passthru
+Message-ID: <Y9EUarVVWr223API@perard.uk.xensource.com>
+References: <cover.1673300848.git.brchuckz.ref@aol.com>
+ <cover.1673300848.git.brchuckz@aol.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: NetBSD and libfdt (was: Re: MSYS2 and libfdt)
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>, =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?=
- <marcandre.lureau@gmail.com>, Reinoud Zandijk <reinoud@netbsd.org>,
- Ryo ONODERA <ryoon@netbsd.org>
-Cc: Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Biswapriyo Nath <nathbappai@gmail.com>, skrll@netbsd.org
-References: <c2246b1a-51b3-2843-5164-c424c571874f@redhat.com>
- <CAJ+F1C+EC-tgDOyX5e56utKdUz-DXMMtwrtVyKXT2Jj4r43OCA@mail.gmail.com>
- <839268cb-b65c-68d6-1294-47548ed383b1@redhat.com>
- <CAJ+F1CJteJ665MLSUhWg-p9=tH6B7w-m=pop+o9ktGffxCiZaA@mail.gmail.com>
- <Y860hPT+o15BGQYq@redhat.com>
- <2bce671f-d91a-72ab-d38f-2e284d9d3ee2@redhat.com>
- <4f30fcd1-a773-40af-48c3-0e017f85e079@redhat.com>
-Content-Language: en-US
-From: Nick Hudson <nick.hudson@gmx.co.uk>
-In-Reply-To: <4f30fcd1-a773-40af-48c3-0e017f85e079@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qt1tXGQYOR9AaHCeSJym3JBq++2gbcKqqm223aHPZcOxJotw+yX
- Q/QA+7UfZ+2GuC5uO/JvaYgLlxqN0riOWhUo9kP+NKlypgTHI1VpJ2qoqhDM3noOY6k9/yh
- rp6gBj22XY/4cj6QMTPOmhW1wKwh+sk7XYJVtg+Uf53XkLZEJdn44rflRDuaBKuNzuPDajR
- 65HvGNDe6i3GAEgbG0CeA==
-UI-OutboundReport: notjunk:1;M01:P0:pYGhfgYWDHQ=;OuJL2P8hm/4b2FiTlROXfPpNj6E
- oa6Zps0iuXkVFHfK6Mu9OMq7hn56uEvkjYaSyvCjh9ZgkOIi02kmfMg6xRaihCrQEinslBP9y
- HLuUf0eyphVdCjfYuk1fmb3yFTX+WX325G3CxnSum5y8toQgRbgRT+1gzZZbqYgHTR6gSihY4
- 5bgvXAScAFmNZPR9I4kZDbbejza3MaNMqE+aznm14+wF6RpfhGDcmj3oBI3D3IyzqhpEvev1n
- r9Bbw2SBSRL+Yu8ycSUUxn2lI0lcdUR+nUuTH3DZmkp8nGywtBH5+lG57BR87Ew5/jO/VS2Ug
- lKSP9pu41DYXO5yuFUpiXYZo31Pw+fzQ/HWx8RZsiGb/xzxC7Xv85ED5mxVcnE3Rkrn8wPPeW
- 7dLBj2VfGViT5NC338a7RPgCLL7dmriRgKROEkIVN7JMxhrCSqZuDUWRmuZZZsExYKJPiMjcK
- cRogHMe+V8Id/raFCphWovxLn59LtKyZXJk3tbxduj2aJ1lfrzKGcEKJLwbiu9Y2C7PWKAHt7
- NMeZPRPUjdmItu6yfb6jppwnvgDynXaB9qRvtpTva0YCzyzDQda2TZW0HyMTf2CAxJP1HFNWA
- aL4etrhHZU8zbZ99ENWNxKXdPrg2ZY4nB5ft9xztvBOfl6fdjDsjRS+w6SEwKtzSGS5EhJmej
- XT/dQHRkibdDY9Cl5cu6z7LfP4lIWxUFhgNZTV9Iqr/xOTbklg8rNwFWZIbb/IMSCyUQNEKxP
- NLW4vd+NHWZjeWIwYuaRx7uN6lIVIMxjJc4aDBU93+uGaN3O6frYWVwPEny7APuxW7yUvMNCX
- Ns8flz8QXEY6nH2slBotJsM2pw0IAB3dCSuOeRBZL8EJbxRvvCuBUzjnb8VO3tWKbCCo6gqtA
- RpMrb3EGRUoM9Ceh/h89SHR1P7dhD9P512BJzlSS/JygO2BDFZK7Yg0Uxa+C/soFpcuzpQzrt
- SOHAHN83PiqZUdWbcJ0+kCGLKFM=
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=nick.hudson@gmx.co.uk;
- helo=mout.gmx.net
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <cover.1673300848.git.brchuckz@aol.com>
+Received-SPF: pass client-ip=216.71.155.168;
+ envelope-from=prvs=3821facd5=anthony.perard@citrix.com;
+ helo=esa5.hc3370-68.iphmx.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,37 +91,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
+From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-hi,
+On Tue, Jan 10, 2023 at 02:32:01AM -0500, Chuck Zmudzinski wrote:
+> I call attention to the commit message of the first patch which points
+> out that using the "pc" machine and adding the xen platform device on
+> the qemu upstream command line is not functionally equivalent to using
+> the "xenfv" machine which automatically adds the xen platform device
+> earlier in the guest creation process. As a result, there is a noticeable
+> reduction in the performance of the guest during startup with the "pc"
+> machne type even if the xen platform device is added via the qemu
+> command line options, although eventually both Linux and Windows guests
+> perform equally well once the guest operating system is fully loaded.
 
-On 24/01/2023 11:27, Thomas Huth wrote:
-> On 24/01/2023 10.20, Thomas Huth wrote:
-> [...]
->>>>>> On Thu, Jan 19, 2023 at 12:31 PM Thomas Huth <thuth@redhat.com> 
->>>>>> wrote:
->>>>>>>
->>>>>>>     Hi all,
->>>>>>>
->>>>>>> in some spare minutes, I started playing with a patch to try to 
->>>>>>> remove the
->>>>>>> dtc submodule from the QEMU git repository - according to
->>>>>>> https://repology.org/project/dtc/versions our supported build 
->>>>>>> platforms
->>>>>>> should now all provide the minimum required version.
-> [...]
->> Ok, I'll give my patch another try to see whether all the other 
->> systems have a usable version of libfdt available, too.
+There shouldn't be a difference between "xenfv" machine or using the
+"pc" machine while adding the "xen-platform" device, at least with
+regards to access to disk or network.
+
+The first patch of the series is using the "pc" machine without any
+"xen-platform" device, so we can't compare startup performance based on
+that.
+
+> Specifically, startup time is longer and neither the grub vga drivers
+> nor the windows vga drivers in early startup perform as well when the
+> xen platform device is added via the qemu command line instead of being
+> added immediately after the other emulated i440fx pci devices when the
+> "xenfv" machine type is used.
+
+The "xen-platform" device is mostly an hint to a guest that they can use
+pv-disk and pv-network devices. I don't think it would change anything
+with regards to graphics.
+
+> For example, when using the "pc" machine, which adds the xen platform
+> device using a command line option, the Linux guest could not display
+> the grub boot menu at the native resolution of the monitor, but with the
+> "xenfv" machine, the grub menu is displayed at the full 1920x1080
+> native resolution of the monitor for testing. So improved startup
+> performance is an advantage for the patch for qemu.
+
+I've just found out that when doing IGD passthrough, both machine
+"xenfv" and "pc" are much more different than I though ... :-(
+pc_xen_hvm_init_pci() in QEMU changes the pci-host device, which in
+turns copy some informations from the real host bridge.
+I guess this new host bridge help when the firmware setup the graphic
+for grub.
+
+> I also call attention to the last point of the commit message of the
+> second patch and the comments for reviewers section of the second patch.
+> This approach, as opposed to fixing this in qemu upstream, makes
+> maintaining the code in libxl__build_device_model_args_new more
+> difficult and therefore increases the chances of problems caused by
+> coding errors and typos for users of libxl. So that is another advantage
+> of the patch for qemu.
+
+We would just needs to use a different approach in libxl when generating
+the command line. We could probably avoid duplications. I was hopping to
+have patch series for libxl that would change the machine used to start
+using "pc" instead of "xenfv" for all configurations, but based on the
+point above (IGD specific change to "xenfv"), then I guess we can't
+really do anything from libxl to fix IGD passthrough.
+
+> OTOH, fixing this in qemu causes newer qemu versions to behave
+> differently than previous versions of qemu, which the qemu community
+> does not like, although they seem OK with the other patch since it only
+> affects qemu "xenfv" machine types, but they do not want the patch to
+> affect toolstacks like libvirt that do not use qemu upstream's
+> autoconfiguration options as much as libxl does, and, of course, libvirt
+> can manage qemu "xenfv" machines so exising "xenfv" guests configured
+> manually by libvirt could be adversely affected by the patch to qemu,
+> but only if those same guests are also configured for igd-passthrough,
+> which is likely a very small number of possibly affected libvirt users
+> of qemu.
 > 
-> ... and I apparently missed NetBSD in my first research: Looks like 
-> NetBSD is still using dtc v1.4.7 which is too old for QEMU. (though 
-> https://www.netbsd.org/docs/software/3rdparty/ talks about v1.5.1, I 
-> only get dtc 1.4.7 in our NetBSD VM).
+> A year or two ago I tried to configure guests for pci passthrough on xen
+> using libvirt's tool to convert a libxl xl.cfg file to libvirt xml. It
+> could not convert an xl.cfg file with a configuration item
+> pci = [ "PCI_SPEC_STRING", "PCI_SPEC_STRING", ...] for pci passthrough.
+> So it is unlikely there are any users out there using libvirt to
+> configure xen hvm guests for igd passthrough on xen, and those are the
+> only users that could be adversely affected by the simpler patch to qemu
+> to fix this.
 
-The not yet released netbsd-10 and -current have 1.5.1. Perhaps you can 
-use netbsd-10 for your VM?
+FYI, libvirt should be using libxl to create guest, I don't think there
+is another way for libvirt to create xen guests.
+
+
+
+So overall, unfortunately the "pc" machine in QEMU isn't suitable to do
+IGD passthrough as the "xenfv" machine has already some workaround to
+make IGD work and just need some more.
+
+I've seen that the patch for QEMU is now reviewed, so I look at having
+it merged soonish.
 
 Thanks,
-Nick
+
+-- 
+Anthony PERARD
 
