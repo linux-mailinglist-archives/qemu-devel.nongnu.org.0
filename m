@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B2C367B69D
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 17:09:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6D41767B6B2
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 17:18:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKiKC-0005un-O8; Wed, 25 Jan 2023 11:08:36 -0500
+	id 1pKiSf-0007dG-OE; Wed, 25 Jan 2023 11:17:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pKiK3-0005tb-VO
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 11:08:28 -0500
+ id 1pKiSa-0007cq-PK
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 11:17:18 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pKiK1-0000gW-8R
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 11:08:26 -0500
+ id 1pKiSX-0002Ee-Sg
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 11:17:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674662904;
+ s=mimecast20190719; t=1674663432;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zpwAIyrPSy2F0HzrnW9q7eFrDeA8WA5yRsenGqbWAXU=;
- b=dtXsoef9hnn5EmvVMlEtGyIOSdzci47kS43ApbzGRfp1EZqBenxNUHPMJ7uKomdLlZWQV9
- 9TlBrg0W5fZMPCcdL7PnlI2mS1A7SUE4vAQUflEUWWlIBDEX9uhsqs4C88fqZLNSLdDk3t
- a+wPUZo7T4lHnwxS1s7dnow6AkdJs10=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/j+ngRqyg5gTSPIwHilNzA3sWMLVPB+jSG1dHjpIw3g=;
+ b=CfsrnnqIIPFkm388ZHUC0RN3kuJIyzNQ04/9JlpsZh2GLK2N41Zvnquxr/F/o4HSHkOaDB
+ UF3zgrD5R0fkJwc4iundb+MbHS4xQuRcxRQEC/7fjUii1sNNME58EHSwUnF7aW7P4PmUnn
+ 8JQJxEaFX2q1D6SWloi2sXdAV9KFBtE=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-574-_MR528jeM4az6Hqpwj3TEQ-1; Wed, 25 Jan 2023 11:08:21 -0500
-X-MC-Unique: _MR528jeM4az6Hqpwj3TEQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- l17-20020a056402255100b00472d2ff0e59so13236810edb.19
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 08:08:20 -0800 (PST)
+ us-mta-46-mI_ao66YOeKC3Cx3CcrOMA-1; Wed, 25 Jan 2023 11:17:10 -0500
+X-MC-Unique: mI_ao66YOeKC3Cx3CcrOMA-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ og35-20020a1709071de300b00877faf0a4b4so2960039ejc.6
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 08:17:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zpwAIyrPSy2F0HzrnW9q7eFrDeA8WA5yRsenGqbWAXU=;
- b=0XFV4kcuqyPY3/7gqef3R2BlO9lBE4g6tnR6DKGeuiWe5+GMo7u2oiU8jLS8BFnFMg
- crwkKgcHbx+8MFm3jYEGhcg4MlYK5kMyNcwr7Ru2Qyc3FSECB+gWWrYW1iysy3r9wAdz
- nnxHo01kZg9vbxVOPFMZwYAKswsrVbKWdYI69Wk1g9maE7Nm7CbhRILuMz/cUx9pj92L
- KtNyLlTer8JVnV7qilpvqD6UV06Nm3M245YNhaKs412tGHRT5sbh0M8RjTXj6VPe4T2K
- FbUagKIjUeWSq4Kdhds+thnyTWyfFTMA/7g8FC+4oZQUPyJ8bEkDyCRFAj00lwCYS082
- Rtpg==
-X-Gm-Message-State: AFqh2kpxCCg7dKtyQ8XoBEAJ18nXUlcG6sPWYS9nEuHEcVy6ulabjaEZ
- B17CDVdfO3h04kZOQh/tvHpzgPOn+IPaaNVRwgCQgq0qX+N/FWlgtOyR8RZVthlJZo8fQ9r0wjt
- jiyYF9J3o8x1GOaI=
-X-Received: by 2002:a17:906:4d0a:b0:84d:3e38:2f0c with SMTP id
- r10-20020a1709064d0a00b0084d3e382f0cmr47598253eju.67.1674662899871; 
- Wed, 25 Jan 2023 08:08:19 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXv81MJy4i/t7D7PYWTBxudwh9gbU6L+qeZ/JZZPOgoko7ZQflVdyvM5CuqcdAtZ3DRpIiMbfw==
-X-Received: by 2002:a17:906:4d0a:b0:84d:3e38:2f0c with SMTP id
- r10-20020a1709064d0a00b0084d3e382f0cmr47598237eju.67.1674662899603; 
- Wed, 25 Jan 2023 08:08:19 -0800 (PST)
+ bh=/j+ngRqyg5gTSPIwHilNzA3sWMLVPB+jSG1dHjpIw3g=;
+ b=dILGUS+b1l0VStK16xBPzwbr8xYaHnEMBtOTFg9X1TJsUU2HRUORdsS79ZFL+b3kT1
+ o6X35eAsgwiR/dWpnLKHSgcI78Vz8YfCJm6wnPzQA4pDwL41dgt3XMbSszO/kC6eDkI5
+ NVJ+bFdo4rJ82gUJ0WLoAxpqSXglmwkCqDRqlsSbI3Hj4n3BfHn7FTq6XqgyGcxJIEVJ
+ sx1i/H1rBcN9x7PTtnvVdm9hgLi2o2/CokZbOTSGZ4GxqqaYzwuCZoC2DV/TU2877xUW
+ 05j6DZ6awNtL2UWud20bfySKgwP1H6g48SpK0baesi+7z8geDffy99kaa6m/NojPXJjk
+ BRPQ==
+X-Gm-Message-State: AO0yUKWtcvkAvAU+O2zuwTjwjSxiUQKNc8ihkSETvDPMZHm66Mqxd04o
+ Z4JrzYTVMN90n1USt1ydqjqASHWV7RQKE4s7Di0Svys1E7x7MgorpytAGi2mcrZnMp1c2ohpe3K
+ IxBAzgSKa2YAu7vI=
+X-Received: by 2002:a50:d5de:0:b0:4a0:b64d:1c3f with SMTP id
+ g30-20020a50d5de000000b004a0b64d1c3fmr644429edj.16.1674663429055; 
+ Wed, 25 Jan 2023 08:17:09 -0800 (PST)
+X-Google-Smtp-Source: AK7set/8tT/H33i+EjcjH1dxJ5ryPxbhSRh/AUr9dww+L2kDecE5RbuCKQiKtQbwVrXn3L8qHhII5Q==
+X-Received: by 2002:a50:d5de:0:b0:4a0:b64d:1c3f with SMTP id
+ g30-20020a50d5de000000b004a0b64d1c3fmr644405edj.16.1674663428823; 
+ Wed, 25 Jan 2023 08:17:08 -0800 (PST)
 Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
  [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- p9-20020a170906614900b0084d43def70esm2539515ejl.25.2023.01.25.08.08.18
+ en11-20020a056402528b00b0049fc459ef1fsm2481362edb.90.2023.01.25.08.17.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 08:08:19 -0800 (PST)
-Date: Wed, 25 Jan 2023 17:08:18 +0100
+ Wed, 25 Jan 2023 08:17:08 -0800 (PST)
+Date: Wed, 25 Jan 2023 17:17:07 +0100
 From: Igor Mammedov <imammedo@redhat.com>
 To: Bernhard Beschow <shentey@gmail.com>
 Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Ani Sinha
  <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>, Aurelien Jarno
  <aurelien@aurel32.net>
-Subject: Re: [PATCH 6/7] hw/acpi: Trace GPE access in all device models, not
- just PIIX4
-Message-ID: <20230125170818.3013d56c@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230122170724.21868-7-shentey@gmail.com>
+Subject: Re: [PATCH 7/7] hw/acpi/core: Trace enable and status registers of
+ GPE separately
+Message-ID: <20230125171707.409f2b41@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230122170724.21868-8-shentey@gmail.com>
 References: <20230122170724.21868-1-shentey@gmail.com>
- <20230122170724.21868-7-shentey@gmail.com>
+ <20230122170724.21868-8-shentey@gmail.com>
 X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -104,102 +104,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 22 Jan 2023 18:07:23 +0100
+On Sun, 22 Jan 2023 18:07:24 +0100
 Bernhard Beschow <shentey@gmail.com> wrote:
 
+> The bit positions of both registers are related. Tracing the registers
+> independently results in the same offsets across these registers which
+> eases debugging.
+> 
 > Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Acked-by: Igor Mammedov <imammedo@redhat.com>
 
 > ---
->  hw/acpi/core.c       | 5 +++++
->  hw/acpi/piix4.c      | 3 ---
->  hw/acpi/trace-events | 8 ++++----
->  3 files changed, 9 insertions(+), 7 deletions(-)
+>  hw/acpi/core.c       | 10 +++++++---
+>  hw/acpi/trace-events |  6 ++++--
+>  2 files changed, 11 insertions(+), 5 deletions(-)
 > 
 > diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-> index 6da275c599..a33e410e69 100644
+> index a33e410e69..cc33605d61 100644
 > --- a/hw/acpi/core.c
 > +++ b/hw/acpi/core.c
-> @@ -32,6 +32,7 @@
->  #include "qemu/module.h"
->  #include "qemu/option.h"
->  #include "sysemu/runstate.h"
-> +#include "trace.h"
->  
->  struct acpi_table_header {
->      uint16_t _length;         /* our length, not actual part of the hdr */
-> @@ -686,6 +687,8 @@ void acpi_gpe_ioport_writeb(ACPIREGS *ar, uint32_t addr, uint32_t val)
+> @@ -687,13 +687,13 @@ void acpi_gpe_ioport_writeb(ACPIREGS *ar, uint32_t addr, uint32_t val)
 >  {
 >      uint8_t *cur;
 >  
-> +    trace_acpi_gpe_ioport_writeb(addr, val);
-> +
+> -    trace_acpi_gpe_ioport_writeb(addr, val);
+> -
 >      cur = acpi_gpe_ioport_get_ptr(ar, addr);
 >      if (addr < ar->gpe.len / 2) {
+> +        trace_acpi_gpe_sts_ioport_writeb(addr, val);
 >          /* GPE_STS */
-> @@ -709,6 +712,8 @@ uint32_t acpi_gpe_ioport_readb(ACPIREGS *ar, uint32_t addr)
+>          *cur = (*cur) & ~val;
+>      } else if (addr < ar->gpe.len) {
+> +        trace_acpi_gpe_en_ioport_writeb(addr - (ar->gpe.len / 2), val);
+>          /* GPE_EN */
+>          *cur = val;
+>      } else {
+> @@ -712,7 +712,11 @@ uint32_t acpi_gpe_ioport_readb(ACPIREGS *ar, uint32_t addr)
 >          val = *cur;
 >      }
 >  
-> +    trace_acpi_gpe_ioport_readb(addr, val);
-> +
+> -    trace_acpi_gpe_ioport_readb(addr, val);
+> +    if (addr < ar->gpe.len / 2) {
+> +        trace_acpi_gpe_sts_ioport_readb(addr, val);
+> +    } else {
+> +        trace_acpi_gpe_en_ioport_readb(addr - (ar->gpe.len / 2), val);
+> +    }
+>  
 >      return val;
->  }
->  
-> diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-> index 836f9026b1..b65ddb8e44 100644
-> --- a/hw/acpi/piix4.c
-> +++ b/hw/acpi/piix4.c
-> @@ -45,7 +45,6 @@
->  #include "hw/acpi/acpi_dev_interface.h"
->  #include "migration/vmstate.h"
->  #include "hw/core/cpu.h"
-> -#include "trace.h"
->  #include "qom/object.h"
->  
->  #define GPE_BASE 0xafe0
-> @@ -510,7 +509,6 @@ static uint64_t gpe_readb(void *opaque, hwaddr addr, unsigned width)
->      PIIX4PMState *s = opaque;
->      uint32_t val = acpi_gpe_ioport_readb(&s->ar, addr);
->  
-> -    trace_piix4_gpe_readb(addr, width, val);
->      return val;
->  }
->  
-> @@ -519,7 +517,6 @@ static void gpe_writeb(void *opaque, hwaddr addr, uint64_t val,
->  {
->      PIIX4PMState *s = opaque;
->  
-> -    trace_piix4_gpe_writeb(addr, width, val);
->      acpi_gpe_ioport_writeb(&s->ar, addr, val);
->      acpi_update_sci(&s->ar, s->irq);
 >  }
 > diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
-> index 78e0a8670e..159937ddb9 100644
+> index 159937ddb9..d387adfb0b 100644
 > --- a/hw/acpi/trace-events
 > +++ b/hw/acpi/trace-events
-> @@ -17,6 +17,10 @@ mhp_acpi_clear_remove_evt(uint32_t slot) "slot[0x%"PRIx32"] clear remove event"
->  mhp_acpi_pc_dimm_deleted(uint32_t slot) "slot[0x%"PRIx32"] pc-dimm deleted"
+> @@ -18,8 +18,10 @@ mhp_acpi_pc_dimm_deleted(uint32_t slot) "slot[0x%"PRIx32"] pc-dimm deleted"
 >  mhp_acpi_pc_dimm_delete_failed(uint32_t slot) "slot[0x%"PRIx32"] pc-dimm delete failed"
 >  
-> +# core.c
-> +acpi_gpe_ioport_readb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " ==> 0x%" PRIx8
-> +acpi_gpe_ioport_writeb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " <== 0x%" PRIx8
-> +
+>  # core.c
+> -acpi_gpe_ioport_readb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " ==> 0x%" PRIx8
+> -acpi_gpe_ioport_writeb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " <== 0x%" PRIx8
+> +acpi_gpe_sts_ioport_readb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " ==> 0x%" PRIx8
+> +acpi_gpe_en_ioport_readb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " ==> 0x%" PRIx8
+> +acpi_gpe_sts_ioport_writeb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " <== 0x%" PRIx8
+> +acpi_gpe_en_ioport_writeb(uint32_t addr, uint8_t val) "addr: 0x%" PRIx32 " <== 0x%" PRIx8
+>  
 >  # cpu.c
 >  cpuhp_acpi_invalid_idx_selected(uint32_t idx) "0x%"PRIx32
->  cpuhp_acpi_read_flags(uint32_t idx, uint8_t flags) "idx[0x%"PRIx32"] flags: 0x%"PRIx8
-> @@ -48,10 +52,6 @@ acpi_pci_sel_read(uint32_t val) "%" PRIu32
->  acpi_pci_ej_write(uint64_t addr, uint64_t data) "0x%" PRIx64 " <== %" PRIu64
->  acpi_pci_sel_write(uint64_t addr, uint64_t data) "0x%" PRIx64 " <== %" PRIu64
->  
-> -# piix4.c
-> -piix4_gpe_readb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64 " width: %d ==> 0x%" PRIx64
-> -piix4_gpe_writeb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64 " width: %d <== 0x%" PRIx64
-> -
->  # tco.c
->  tco_timer_reload(int ticks, int msec) "ticks=%d (%d ms)"
->  tco_timer_expired(int timeouts_no, bool strap, bool no_reboot) "timeouts_no=%d no_reboot=%d/%d"
 
 
