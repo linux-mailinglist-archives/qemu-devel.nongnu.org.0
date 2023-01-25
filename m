@@ -2,91 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E898067ADB2
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 10:25:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DE8A67ADD3
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 10:29:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKc1K-00076P-5w; Wed, 25 Jan 2023 04:24:42 -0500
+	id 1pKc5c-0000bx-Lc; Wed, 25 Jan 2023 04:29:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pKc1H-00076A-Ra
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 04:24:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pKc5a-0000bZ-4d
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 04:29:06 -0500
+Received: from mout.kundenserver.de ([212.227.126.187])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pKc1G-0005Uv-62
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 04:24:39 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674638677;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=Ta9riAV5X61HBALGjiIpp4+AYPCue56Vq8dGe5yYgfA=;
- b=dJ8i9nd3L/OKIOJMGpXfqLsEi8qiZU0oqp6Kx1Pj81ehpGPvXN7yZoR1mxOhe3rOgUa7AR
- wV8eRbL22rQpnOIXJGWe/e8x0cHgxk2H1ossM9XyNQ8kp5M5yF+OYceJWnfWOAaYRiRuoY
- 2R8lX/T7wfaVk0wUYbP/vmCVuoRBq2k=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-391-HFoXVe2MMFqzt3nZVjwIwg-1; Wed, 25 Jan 2023 04:24:27 -0500
-X-MC-Unique: HFoXVe2MMFqzt3nZVjwIwg-1
-Received: by mail-wm1-f70.google.com with SMTP id
- k34-20020a05600c1ca200b003db30c3ed63so8769866wms.2
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 01:24:27 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-disposition:mime-version:references
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ta9riAV5X61HBALGjiIpp4+AYPCue56Vq8dGe5yYgfA=;
- b=YRPWt+hep+24za+prX+zsQc4EgsBrLqVjvJGVPG8GpejG+v9YV9fyE6MQM+oyAOBeh
- Ecmi80omMW+o8GkcrSSFT2sHlQYGHtLi5AjHvaR1mFdFmelc3p8SCRR/D3FyNKLhPb/x
- ytpgHNRPH9Vag6BnV8tkSfjJok6HunFfFkZFPerzzk0+jpFdhxAv3cM9YYFh4l9U4zVw
- V22fgFG73VKQAihgfnHw1dPLea1odNsilkpEmjmQlkNkUsjD7DpwWaNWhjX73bgk05FQ
- 2y0OyUVIXCo60GIAVYYFLiwAFV9j2LbYrgJM6uw+8+qi6UL2bt6fLD6iOC5a/04fvY1x
- YcDA==
-X-Gm-Message-State: AFqh2koBxw8l9s9yBXLYiQNR/+zjE6kgu6OvmrHBTS3CsoT4b3+BdDCi
- BVnJ4lF9W4cXtVL+abXl+PIhozI+5gYRXp/r1q7iYxkEb4OFjaT6oaJkv2VAxFc8jwXd1hNeh7e
- CZRGYs3EOSrE1Iys=
-X-Received: by 2002:a5d:58f2:0:b0:2bd:fcd8:c778 with SMTP id
- f18-20020a5d58f2000000b002bdfcd8c778mr23971777wrd.31.1674638666878; 
- Wed, 25 Jan 2023 01:24:26 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsHhS8Tgd5E3kmhPIdnFPq5SdCrtDNNWyd5oPHSG7V3bRLqnSQFOaR7MdrQ3eaGONltWoB2iA==
-X-Received: by 2002:a5d:58f2:0:b0:2bd:fcd8:c778 with SMTP id
- f18-20020a5d58f2000000b002bdfcd8c778mr23971767wrd.31.1674638666659; 
- Wed, 25 Jan 2023 01:24:26 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- r4-20020a5d4e44000000b0027cb20605e3sm3925276wrt.105.2023.01.25.01.24.25
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 01:24:26 -0800 (PST)
-Date: Wed, 25 Jan 2023 09:24:24 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- James Houghton <jthoughton@google.com>, Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH RFC 10/21] ramblock: Add ramblock_file_map()
-Message-ID: <Y9D1SMakob6GT07e@work-vm>
-References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-11-peterx@redhat.com>
- <Y8+tuN1t9EWMIuzk@work-vm> <Y9BD1jcBYzPDR9VX@x1n>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pKc5Y-0006Cj-96
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 04:29:05 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MVaQW-1pCo3A3CYG-00Rbej; Wed, 25 Jan 2023 10:28:56 +0100
+Message-ID: <4e4ad1a0-cf14-aaee-611b-392a3204b543@vivier.eu>
+Date: Wed, 25 Jan 2023 10:28:55 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9BD1jcBYzPDR9VX@x1n>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 2/5] linux-user/strace: Extract print_execve_argv()
+ from print_execve()
+Content-Language: fr
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org
+Cc: Helge Deller <deller@gmx.de>, Drew DeVault <sir@cmpwn.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+References: <20221104173632.1052-1-philmd@linaro.org>
+ <20221104173632.1052-3-philmd@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20221104173632.1052-3-philmd@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:UbBRdjYYzy650hrA0iHT0gL7cCRAR+eTuogOgAyZiIsRUw9S8nw
+ qQilF9HP+eufOPScSamUuOOd0HkTv9IMu/mOOA9DZJaBmgt9LkRM4KkeeYqzVz0rw+oheR0
+ +X2zySUspamEh0w6dooZq4F7XuX+8tNV0IUfoKnuUrdU9N4GNIzKubRzq1rASaX8p1mW8T/
+ s3tGCknBKye7E4bMx7P2Q==
+UI-OutboundReport: notjunk:1;M01:P0:+I/A9U/A1/k=;JymyPLOYXWJVImZYsM3VbkCIIWE
+ 8cWY8d2UKXJLFVFVsG0BidS7ZBYKIz62TW/7w0wsJqX29zka32Ye8E1Z7kjMo83tJ1xQ9L5Zg
+ 7mAuYZrvZ6rPBFGP+34WRa3leWhY/qSq+PxCF6I9Wu4/5Ue9yl4oG2BKiTe//ee7PE1Xuqrfs
+ qoQFPO5xqLEHD8aNwRe5yJAW8VKzbPO57iZSKULLPlF+AHjLUzYO8TJy9euApW8XgT5ZkOlVG
+ sxJqjRpvoEIm5XZjETM+qNVK/hgWYfjU5w/E23nLNvL/DZNI6NB31WVqP0ULtZ32eblDKPsU6
+ tK7wlsIyMT1uJfSDSnz7LywlcpKjbWXCTCeIz34qKyump5xXxPd6tBGs4tgRcrRMBOhBJ2nH9
+ zBSqKHy1/7uOqCmvW5IE/jy2ICAmk9EzUDiADndfIJgHjq0gJy3WjxIwyz9RYCvM/TwL0A6pd
+ uc3luwUX9p+mI5qtbhfpOb0PECvnoC6DBuQyYxdbKvKEirdfFXjg6+JM4Z1uYElZv5G3dzKL4
+ qcJmsePILZHcfyTBa642lqvSp9ur+e9vh7L+r8ecnblLpGs2aLEIjM8iDESwkt3H/ovx2dilM
+ N23A+XzlASSc/rrgHlgYYRhyw2E5eIIA7Axq88rAe9UMF5Yl1p8KWP1W66iUC7XQyFNPddzIr
+ KPrScapMI6lRgH9pgpkP98ql2f23/Xm5Sqc3ETPg8A==
+Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,92 +75,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Peter Xu (peterx@redhat.com) wrote:
-> On Tue, Jan 24, 2023 at 10:06:48AM +0000, Dr. David Alan Gilbert wrote:
-> > * Peter Xu (peterx@redhat.com) wrote:
-> > > Add a helper to do mmap() for a ramblock based on the cached informations.
-> > > 
-> > > A trivial thing to mention is we need to move ramblock->fd setup to be
-> > > earlier, before the ramblock_file_map() call, because it'll need to
-> > > reference the fd being mapped.  However that should not be a problem at
-> > > all, majorly because the fd won't be freed if successful, and if it failed
-> > > the fd will be freeed (or to be explicit, close()ed) by the caller.
-> > > 
-> > > Export it - prepare to be used outside this file.
-> > > 
-> > > Signed-off-by: Peter Xu <peterx@redhat.com>
-> > > ---
-> > >  include/exec/ram_addr.h |  1 +
-> > >  softmmu/physmem.c       | 25 +++++++++++++++++--------
-> > >  2 files changed, 18 insertions(+), 8 deletions(-)
-> > > 
-> > > diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-> > > index 0bf9cfc659..56db25009a 100644
-> > > --- a/include/exec/ram_addr.h
-> > > +++ b/include/exec/ram_addr.h
-> > > @@ -98,6 +98,7 @@ bool ramblock_is_pmem(RAMBlock *rb);
-> > >  
-> > >  long qemu_minrampagesize(void);
-> > >  long qemu_maxrampagesize(void);
-> > > +void *ramblock_file_map(RAMBlock *block);
-> > >  
-> > >  /**
-> > >   * qemu_ram_alloc_from_file,
-> > > diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> > > index 6096eac286..cdda7eaea5 100644
-> > > --- a/softmmu/physmem.c
-> > > +++ b/softmmu/physmem.c
-> > > @@ -1532,17 +1532,31 @@ static int file_ram_open(const char *path,
-> > >      return fd;
-> > >  }
-> > >  
-> > > +/* Do the mmap() for a ramblock based on information already setup */
-> > > +void *ramblock_file_map(RAMBlock *block)
-> > > +{
-> > > +    uint32_t qemu_map_flags;
-> > > +
-> > > +    qemu_map_flags = (block->flags & RAM_READONLY) ? QEMU_MAP_READONLY : 0;
-> > > +    qemu_map_flags |= (block->flags & RAM_SHARED) ? QEMU_MAP_SHARED : 0;
-> > > +    qemu_map_flags |= (block->flags & RAM_PMEM) ? QEMU_MAP_SYNC : 0;
-> > > +    qemu_map_flags |= (block->flags & RAM_NORESERVE) ? QEMU_MAP_NORESERVE : 0;
-> > > +
-> > > +    return qemu_ram_mmap(block->fd, block->mmap_length, block->mr->align,
-> > > +                         qemu_map_flags, block->file_offset);
-> > > +}
-> > > +
-> > >  static void *file_ram_alloc(RAMBlock *block,
-> > >                              int fd,
-> > >                              bool truncate,
-> > >                              off_t offset,
-> > >                              Error **errp)
-> > >  {
-> > > -    uint32_t qemu_map_flags;
-> > >      void *area;
-> > >  
-> > >      /* Remember the offset just in case we'll need to map the range again */
-> > 
-> > Note that this comment is now wrong; you need to always set that for the
-> > map call.
+Le 04/11/2022 à 18:36, Philippe Mathieu-Daudé a écrit :
+> From: Drew DeVault <sir@cmpwn.com>
 > 
-> This line is added in patch 7.  After this patch, a ramblock should always
-> be mapped with ramblock_file_map(), so it keeps being true?
+> In order to add print_execveat() which re-use common code from
+> print_execve(), extract print_execve_argv() from it.
+> 
+> Signed-off-by: Drew DeVault <sir@cmpwn.com>
+> Message-Id: <20221104081015.706009-1-sir@cmpwn.com>
+> [PMD: Split of bigger patch, filled description, fixed style]
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> ---
+>   linux-user/strace.c | 71 +++++++++++++++++++++++++--------------------
+>   1 file changed, 39 insertions(+), 32 deletions(-)
 
-With ramblock_file_map() it's not a 'just in case' any more though is
-it?  This value always goes through the block-> now?
 
-Dave
-
-> > 
-> > Other than that,
-> > 
-> > Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> 
-> Thanks,
-> 
-> -- 
-> Peter Xu
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
 
