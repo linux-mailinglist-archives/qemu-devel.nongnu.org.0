@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3C4767AC8A
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 09:42:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E877C67AC9C
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 09:44:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKbMI-0007pH-Ot; Wed, 25 Jan 2023 03:42:18 -0500
+	id 1pKbNL-0000h0-HE; Wed, 25 Jan 2023 03:43:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1pKbMG-0007ok-V7
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 03:42:16 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ id 1pKbNF-0000eH-9E
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 03:43:17 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1pKbME-0007QO-Po
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 03:42:16 -0500
-Received: by mail-wr1-x435.google.com with SMTP id r2so16239448wrv.7
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 00:42:14 -0800 (PST)
+ id 1pKbND-0007bo-Dv
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 03:43:16 -0500
+Received: by mail-wr1-x431.google.com with SMTP id r2so16241788wrv.7
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 00:43:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=cwmWUou3n7EK2dJeuj7/aaDxziEUHfXgfhDPpUIodg0=;
- b=WpL9rvglxaPJswbSjl+3hVNq/kFYhxjifUM9Ob7HJnPn44ZYY8X53kpuVkvdyBz9Rr
- hLwUupIAy7G/JYeO/Hbk1XcZXonFtqRWNmQENa1CzUguuVnvjeiXkCqN7YLqE/xd1UjT
- GCNjbuvpYkZPiUFfZQG6yfb65mY9ZYzzG2bQV/OLHaMBC2lfmSva7hg/hLktnR3/j2fe
- AK2Ky2IFPyBZz9jAbEKSmdOvu9JyB5PiqpJe7wrStb2qXOIGZJwEZafKqDU2X4tLqIiU
- BIZVsTYzDupDfl/BK1I1LR4Ee3J2Phrvfch69vKmDgrxR4hXomowtt57vFtyhgK/HJG3
- SiqQ==
+ bh=+TrQUDShuSlYfHT4YnhyHx3S9WBzIjkLW6v+vF/2lyw=;
+ b=8R8nHv1V9HmeyRvkLYOz7Z1J45Ddw22pteExu33h0koeI9zCq3p8DqaqXl2yapLjmg
+ 7pRUe0+YqAWByDSBGW0x9Nk72aKZwFvkoDQVNR8xidwYTifRFvwxpCqR4PLoZeSGPijg
+ Z4NTSfl5urKLdMp/uVtGcruqM7jLVU/svfqezBd2vkiNeNg52l/LlbaEv17gJlJwNRVd
+ tP6nZOQQWQqxS/bXx/g1XP9CQNC42DBS/pnXtpJP8QTFzoi+vscpQmLIoMAGzGHQiNhK
+ U1P9Qd+bmtmQWxyvbxrb5Kn6SBA9YYxv5BanCPXNsxD+BD7ALSEG+PQbT/X5uxGH2Fca
+ JbVA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=cwmWUou3n7EK2dJeuj7/aaDxziEUHfXgfhDPpUIodg0=;
- b=qgJWAr0aW2mXOMidS5cJMLAFjQ8zVXqmEN6FLhKPag7FEacuuYTiaJTticqdwKOJsX
- jVxkm6pGeNvpymnLXA6br0Mg7fcHZrKg+5RYFhYfkxbY2Dy9nItY7MDu+Nt07UhzHqe1
- FyW/5P6+Gw51g58zRn6hrad1F5mwNasvQQAL5MlTtBjb+W0O7XGVPUUhODtvJbWfECrI
- 10knDrLutEqJgN5B3xU810R0l9j4rCP6zJFgD9oJ7kWK86LN0WCh2x8mYe9V4FXG/zYI
- hHu+naEk9aYR75AfxPY+AyWPdqu7pLRk1mh7kXzuf2CtSNVL9ACirtNJ5mTqS4jlh9kV
- EhNg==
-X-Gm-Message-State: AO0yUKVD7Lwu0Zccqvp4D49wSX1veMoWVcmRm984CidQZcYLvgrTN2Jb
- dDlmzNtd1vsexKS48BbfFRa9iQ==
-X-Google-Smtp-Source: AK7set/F+bJPoWvq+YGQie12Nf1t3royEghLt6hYxMUUxx43b8XbzIBllSNNcA2OeN/X+GqwuX6nzQ==
-X-Received: by 2002:a05:6000:257:b0:2bf:bb48:ddaf with SMTP id
- m23-20020a056000025700b002bfbb48ddafmr834899wrz.7.1674636133233; 
- Wed, 25 Jan 2023 00:42:13 -0800 (PST)
+ bh=+TrQUDShuSlYfHT4YnhyHx3S9WBzIjkLW6v+vF/2lyw=;
+ b=7QI9Y6fdQUGE7iRLNQ/lTX6Zj7TGEeJ/5lFt31c9GNdRTiakkXJHU2ojRfedkY0iNZ
+ b4AnyIHqh4uDDxwlPx3tj9c8Hljkps5QWmRx1QY4yKLyC7OvX6VoY5CQ64vjs8I0fYB6
+ /LUUxGIR7Iyt7odl9IlSVH1NLfjc/eVHpDEn1U9d0h+POmz8Gpq/CJwlWXliczrxoMDP
+ /eDNOPnrvWuH6fb2ubL5zWSSTI+G6L5d4uipmwygHiD/H1IgoZzN0fxWIZKQBegbEZ0b
+ WHIgWXypKGxtbuYM3dBEqo0Ey4I5cMpr3KJzMdR9Zs2RK5oce26755zyWbVlCjQuogFQ
+ 1veQ==
+X-Gm-Message-State: AFqh2kqLB70k83S5NLbXpUUn8ntgplI1Rwr4ASICIIKlw31jm5MrB+/j
+ zrQAtNTnAhgsk+fCei0aS/xpGgd8HTDRCjgm
+X-Google-Smtp-Source: AMrXdXud3UfGnFAFnf/YYiPjD1LXALQ4hLzEvqlmsCQaKviyKF25Mqoy8ZEt7oOHGIfvB5h1fQyNzQ==
+X-Received: by 2002:a05:6000:1f81:b0:2bd:f444:9677 with SMTP id
+ bw1-20020a0560001f8100b002bdf4449677mr28128780wrb.66.1674636194042; 
+ Wed, 25 Jan 2023 00:43:14 -0800 (PST)
 Received: from alex-rivos.home (lfbn-lyo-1-450-160.w2-7.abo.wanadoo.fr.
  [2.7.42.160]) by smtp.gmail.com with ESMTPSA id
- w14-20020a5d608e000000b002bc84c55758sm4609145wrt.63.2023.01.25.00.42.12
+ x6-20020a5d4906000000b002bc6c180738sm4363839wrq.90.2023.01.25.00.43.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 00:42:12 -0800 (PST)
+ Wed, 25 Jan 2023 00:43:13 -0800 (PST)
 From: Alexandre Ghiti <alexghiti@rivosinc.com>
 To: Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
@@ -62,17 +62,16 @@ To: Palmer Dabbelt <palmer@dabbelt.com>,
  Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
  qemu-devel@nongnu.org
 Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
-Subject: [PATCH v7 1/5] riscv: Pass Object to register_cpu_props instead of
- DeviceState
-Date: Wed, 25 Jan 2023 09:41:03 +0100
-Message-Id: <20230125084107.1580972-2-alexghiti@rivosinc.com>
+Subject: [PATCH v7 2/5] riscv: Change type of valid_vm_1_10_[32|64] to bool
+Date: Wed, 25 Jan 2023 09:41:04 +0100
+Message-Id: <20230125084107.1580972-3-alexghiti@rivosinc.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230125084107.1580972-1-alexghiti@rivosinc.com>
 References: <20230125084107.1580972-1-alexghiti@rivosinc.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alexghiti@rivosinc.com; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alexghiti@rivosinc.com; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -94,89 +93,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-One can extract the DeviceState pointer from the Object pointer, so pass
-the Object for future commits to access other fields of Object.
+This array is actually used as a boolean so swap its current char type
+to a boolean and at the same time, change the type of validate_vm to
+bool since it returns valid_vm_1_10_[32|64].
 
-No functional changes intended.
-
+Suggested-by: Andrew Jones <ajones@ventanamicro.com>
 Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
 Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 ---
- target/riscv/cpu.c | 15 ++++++++-------
- 1 file changed, 8 insertions(+), 7 deletions(-)
+ target/riscv/csr.c | 21 +++++++++++----------
+ 1 file changed, 11 insertions(+), 10 deletions(-)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index cc75ca7667..7181b34f86 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -200,7 +200,7 @@ static const char * const riscv_intr_names[] = {
-     "reserved"
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 0db2c233e5..6b157806a5 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -1117,16 +1117,16 @@ static const target_ulong hip_writable_mask = MIP_VSSIP;
+ static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
+ static const target_ulong vsip_writable_mask = MIP_VSSIP;
+ 
+-static const char valid_vm_1_10_32[16] = {
+-    [VM_1_10_MBARE] = 1,
+-    [VM_1_10_SV32] = 1
++static const bool valid_vm_1_10_32[16] = {
++    [VM_1_10_MBARE] = true,
++    [VM_1_10_SV32] = true
  };
  
--static void register_cpu_props(DeviceState *dev);
-+static void register_cpu_props(Object *obj);
- 
- const char *riscv_cpu_get_trap_name(target_ulong cause, bool async)
- {
-@@ -238,7 +238,7 @@ static void riscv_any_cpu_init(Object *obj)
-     set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
- #endif
-     set_priv_version(env, PRIV_VERSION_1_12_0);
--    register_cpu_props(DEVICE(obj));
-+    register_cpu_props(obj);
- }
- 
- #if defined(TARGET_RISCV64)
-@@ -247,7 +247,7 @@ static void rv64_base_cpu_init(Object *obj)
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     /* We set this in the realise function */
-     set_misa(env, MXL_RV64, 0);
--    register_cpu_props(DEVICE(obj));
-+    register_cpu_props(obj);
-     /* Set latest version of privileged specification */
-     set_priv_version(env, PRIV_VERSION_1_12_0);
- }
-@@ -280,7 +280,7 @@ static void rv128_base_cpu_init(Object *obj)
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     /* We set this in the realise function */
-     set_misa(env, MXL_RV128, 0);
--    register_cpu_props(DEVICE(obj));
-+    register_cpu_props(obj);
-     /* Set latest version of privileged specification */
-     set_priv_version(env, PRIV_VERSION_1_12_0);
- }
-@@ -290,7 +290,7 @@ static void rv32_base_cpu_init(Object *obj)
-     CPURISCVState *env = &RISCV_CPU(obj)->env;
-     /* We set this in the realise function */
-     set_misa(env, MXL_RV32, 0);
--    register_cpu_props(DEVICE(obj));
-+    register_cpu_props(obj);
-     /* Set latest version of privileged specification */
-     set_priv_version(env, PRIV_VERSION_1_12_0);
- }
-@@ -343,7 +343,7 @@ static void riscv_host_cpu_init(Object *obj)
- #elif defined(TARGET_RISCV64)
-     set_misa(env, MXL_RV64, 0);
- #endif
--    register_cpu_props(DEVICE(obj));
-+    register_cpu_props(obj);
- }
- #endif
- 
-@@ -1083,9 +1083,10 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_END_OF_LIST(),
+-static const char valid_vm_1_10_64[16] = {
+-    [VM_1_10_MBARE] = 1,
+-    [VM_1_10_SV39] = 1,
+-    [VM_1_10_SV48] = 1,
+-    [VM_1_10_SV57] = 1
++static const bool valid_vm_1_10_64[16] = {
++    [VM_1_10_MBARE] = true,
++    [VM_1_10_SV39] = true,
++    [VM_1_10_SV48] = true,
++    [VM_1_10_SV57] = true
  };
  
--static void register_cpu_props(DeviceState *dev)
-+static void register_cpu_props(Object *obj)
- {
-     Property *prop;
-+    DeviceState *dev = DEVICE(obj);
+ /* Machine Information Registers */
+@@ -1209,7 +1209,7 @@ static RISCVException read_mstatus(CPURISCVState *env, int csrno,
+     return RISCV_EXCP_NONE;
+ }
  
-     for (prop = riscv_cpu_extensions; prop && prop->name; prop++) {
-         qdev_property_add_static(dev, prop);
+-static int validate_vm(CPURISCVState *env, target_ulong vm)
++static bool validate_vm(CPURISCVState *env, target_ulong vm)
+ {
+     if (riscv_cpu_mxl(env) == MXL_RV32) {
+         return valid_vm_1_10_32[vm & 0xf];
+@@ -2648,7 +2648,8 @@ static RISCVException read_satp(CPURISCVState *env, int csrno,
+ static RISCVException write_satp(CPURISCVState *env, int csrno,
+                                  target_ulong val)
+ {
+-    target_ulong vm, mask;
++    target_ulong mask;
++    bool vm;
+ 
+     if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
+         return RISCV_EXCP_NONE;
 -- 
 2.37.2
 
