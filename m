@@ -2,92 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A80567B310
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 14:13:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB04767B222
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 13:01:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKefH-0003YS-Un; Wed, 25 Jan 2023 07:14:08 -0500
+	id 1pKeRZ-0000lV-3g; Wed, 25 Jan 2023 06:59:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKefF-0003XN-Kl
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:14:05 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKefD-0007wd-Nv
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:14:05 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id h12so12847372wrv.10
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 04:14:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=rn2nY+ltckL/Mu2HykNzQ4ItNDcSSA4bLTDc9nzYREU=;
- b=o8eVf2szFH4lGql5a79SRVBwmNOB/OIFMHYw2DgCEKpTQoOY+1Y754Zu0UN5nmLTR9
- yCyp/Yjj0mErrRToYW+g4gFRTHXCB7w+um98v108lzxJRg7WLtiYv/2LorNMvTO1ytXL
- lyqq5NFq+YE6HZV9+jHxOzCwrr7mbGbx+OR82SaiHWCoUzPwZHvCupaSrw91GUT2F1UF
- O4W9uwEiXqiWuNPAcwAUbepPIR3XBye2OdnOUK7Cye+LrVEqiWzKUelrq1Zqd4VpN/H9
- 7ebs841udGCcnLQ0eHovJmK2mL/FxH3o/y74rrboHe2tjXUbSDrhKAA4ycQI2EVXciVr
- q5qw==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKeRX-0000lJ-BD
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:59:55 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pKeRV-0004Zz-3R
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:59:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674647991;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=TaXU68pQPdD0Br/nCi36XxN4HGxsjDd29Ce6cxihJmk=;
+ b=YyX+7AEY6/B7HAu8v7vW0AoyxxgYdGCnnW0ccDOQR7AgVLddJgDPtIVlrIw57PTvSJrdAO
+ x5MFWMxDtm/E59FVNz2cYuTdsVkBeGpHdplqpa7EEVhGBDFFpw9yyunEhV9URQF076on7J
+ tmJWeXlAVHCirPQtCHcj8LarqPZDc4o=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-304-mH-dtIZ4OjibLSwrAmEs6Q-1; Wed, 25 Jan 2023 06:59:50 -0500
+X-MC-Unique: mH-dtIZ4OjibLSwrAmEs6Q-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ k15-20020a0cd68f000000b00535261af1b1so9205115qvi.13
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 03:59:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=rn2nY+ltckL/Mu2HykNzQ4ItNDcSSA4bLTDc9nzYREU=;
- b=NwPHZ42KtQnnw/80vPvxQQ5WbsdWFjNVJ+GJ3THH8/okJ+ll3OyAhLyebFKsvuk+Dz
- /Fxwdu6UVZZosauZuImOj9EFjSrK1oG45JGKcMVmW3+SmwVcfRdBKQqcctVNmxmd6rIn
- RTKHtPGu52QlVjiPwU6pEp7eYnfnA3K186i2b3ZmfRwfgfh/JOr0thE3T9gv8DHKshAg
- TqBcH/W8T8TizY6mjbcqSSL3a+XM7ziUPw6D1i/pbsxbdLIeZzA9sS7eLOTgWv01SvF3
- M+xZcAF9sHxH86h239qZepdp/gSkeCbJXraJNv0O3EXSQX/QPj1HDlfzA4+MyLQvfj9J
- jEdw==
-X-Gm-Message-State: AFqh2kpGutHRcrXPYB01p1r8NkzL8l9zeX64eqlYHmi0YDjjoONtVNKV
- rwc2lfU1SPP7xfHsN2tsrAuNyw==
-X-Google-Smtp-Source: AMrXdXu4Gwt/+Tw5KUELUP0dB0zv3Znwl5ESMx3Pzt+eEhu2tgqxl9FsLoRg4Ps2OtTOq3TelmUl1Q==
-X-Received: by 2002:adf:dd01:0:b0:289:773c:59ee with SMTP id
- a1-20020adfdd01000000b00289773c59eemr25932818wrm.6.1674648841932; 
- Wed, 25 Jan 2023 04:14:01 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- u13-20020a5d6acd000000b002bc7f64efa3sm4160252wrw.29.2023.01.25.04.14.01
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 04:14:01 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C3DF21FFB7;
- Wed, 25 Jan 2023 12:14:00 +0000 (GMT)
-References: <20230110164406.94366-1-philmd@linaro.org>
- <20230110164406.94366-13-philmd@linaro.org>
- <CAFEAcA-yEN3F3p6W16vfML4dAHzdwSnOS=759MkqQ0qDpArnaw@mail.gmail.com>
-User-agent: mu4e 1.9.16; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org,
- ale@rev.ng, Andrey Smirnov <andrew.smirnov@gmail.com>, Thomas Huth
- <thuth@redhat.com>, qemu-arm@nongnu.org, Niek Linnenbank
- <nieklinnenbank@gmail.com>, Jean-Christophe Dubois <jcd@tribudubois.net>,
- Antonio Caggiano <antonio.caggiano@collabora.com>, Rob Herring
- <robh@kernel.org>, Antony Pavlov <antonynpavlov@gmail.com>, Jan Kiszka
- <jan.kiszka@web.de>, Beniamino Galvani <b.galvani@gmail.com>
-Subject: Re: [PATCH 12/18] hw/arm/digic: Replace object_initialize(ARMCPU)
- by object_new(ARMCPU)
-Date: Wed, 25 Jan 2023 11:58:23 +0000
-In-reply-to: <CAFEAcA-yEN3F3p6W16vfML4dAHzdwSnOS=759MkqQ0qDpArnaw@mail.gmail.com>
-Message-ID: <87sffyreuv.fsf@linaro.org>
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TaXU68pQPdD0Br/nCi36XxN4HGxsjDd29Ce6cxihJmk=;
+ b=wbHdtS0T3OpVhTdJFnASQJPJjqJFnd6UeDHbLKEAVMpbWqDO9sH0N0zvn6/5m0lDMM
+ up/L1odlT+lGcA4+hDyk1yE2luxXsSMhPofeabAEAOzmz/45Cxf4chMZr4YnsG/9txws
+ r9pY8DQrefxqB+R+PD6XE8AwKPeDufb7j4ZuSBRu1Y1Ylzdp8Lc5NZH3si4nX6ccr/+W
+ YZIT7UaHRvm1oMmACWuracSCvTyIk8bgscW9pNt1iCm8IV14g6jfrazq8vDHqTMbT5T7
+ G6fjr4vVUAGDF0VD5kybsESjB09mVrLS9/xeuLPdohErBre1PY2So3HAOlBrqNu0o1Ug
+ nmnA==
+X-Gm-Message-State: AFqh2koWdWgb1dVaNTm/T5OTLB2zexDYoOnk1Zb6MhIKLPyRG0ZoJSxJ
+ W7/iFzWmk9S/E7SWuKWYmGMSFcg8gA5sxb349a3hD2YwVJVjepDgTbLjR5/UyoP88MMMb2sJdef
+ H1GDEhpTuphA8cp0=
+X-Received: by 2002:a05:622a:1828:b0:3b6:3a12:2bf9 with SMTP id
+ t40-20020a05622a182800b003b63a122bf9mr55291680qtc.2.1674647989847; 
+ Wed, 25 Jan 2023 03:59:49 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXt7Z4bX/4r7saANs8WCyv7hecbl4PbQ+nmqCrYkwm4Lgvf8Ea8zM1p/dKOL9tUSFTWFGv08cg==
+X-Received: by 2002:a05:622a:1828:b0:3b6:3a12:2bf9 with SMTP id
+ t40-20020a05622a182800b003b63a122bf9mr55291661qtc.2.1674647989596; 
+ Wed, 25 Jan 2023 03:59:49 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-178-209.web.vodafone.de.
+ [109.43.178.209]) by smtp.gmail.com with ESMTPSA id
+ o17-20020ac841d1000000b003a5c6ad428asm3132098qtm.92.2023.01.25.03.59.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Jan 2023 03:59:49 -0800 (PST)
+Message-ID: <ea77cd84-d71e-51b4-afca-8c2159cc43f3@redhat.com>
+Date: Wed, 25 Jan 2023 12:59:46 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Content-Language: en-US
+To: Nick Hudson <nick.hudson@gmx.co.uk>,
+ =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+ Reinoud Zandijk <reinoud@netbsd.org>, Ryo ONODERA <ryoon@netbsd.org>
+Cc: Bin Meng <bin.meng@windriver.com>, Stefan Weil <sw@weilnetz.de>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Biswapriyo Nath <nathbappai@gmail.com>, skrll@netbsd.org
+References: <c2246b1a-51b3-2843-5164-c424c571874f@redhat.com>
+ <CAJ+F1C+EC-tgDOyX5e56utKdUz-DXMMtwrtVyKXT2Jj4r43OCA@mail.gmail.com>
+ <839268cb-b65c-68d6-1294-47548ed383b1@redhat.com>
+ <CAJ+F1CJteJ665MLSUhWg-p9=tH6B7w-m=pop+o9ktGffxCiZaA@mail.gmail.com>
+ <Y860hPT+o15BGQYq@redhat.com>
+ <2bce671f-d91a-72ab-d38f-2e284d9d3ee2@redhat.com>
+ <4f30fcd1-a773-40af-48c3-0e017f85e079@redhat.com>
+ <3413ad2e-28dc-438c-a962-9a74533b25dc@gmx.co.uk>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: NetBSD and libfdt
+In-Reply-To: <3413ad2e-28dc-438c-a962-9a74533b25dc@gmx.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,56 +111,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-Peter Maydell <peter.maydell@linaro.org> writes:
-
-> On Tue, 10 Jan 2023 at 16:45, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.=
-org> wrote:
+On 25/01/2023 12.36, Nick Hudson wrote:
+> hi,
+> 
+> On 24/01/2023 11:27, Thomas Huth wrote:
+>> On 24/01/2023 10.20, Thomas Huth wrote:
+>> [...]
+>>>>>>> On Thu, Jan 19, 2023 at 12:31 PM Thomas Huth <thuth@redhat.com> wrote:
+>>>>>>>>
+>>>>>>>>     Hi all,
+>>>>>>>>
+>>>>>>>> in some spare minutes, I started playing with a patch to try to 
+>>>>>>>> remove the
+>>>>>>>> dtc submodule from the QEMU git repository - according to
+>>>>>>>> https://repology.org/project/dtc/versions our supported build platforms
+>>>>>>>> should now all provide the minimum required version.
+>> [...]
+>>> Ok, I'll give my patch another try to see whether all the other systems 
+>>> have a usable version of libfdt available, too.
 >>
->> Replace the ARMCPU field in DigicState by a reference to
->> an allocated ARMCPU. Instead of initializing the field
->> with object_initialize(), allocate it with object_new().
->>
->> As we don't access ARMCPU internal fields or size, we can
->> move digic.c from arm_ss[] to the more generic softmmu_ss[].
->
-> I'm not really a fan of this, because it moves away
-> from a standard coding pattern we've been using for
-> new QOM 'container' devices, where all the sub-components
-> of the device are structs embedded in the device's own
-> struct. This is as opposed to the old style which tended
-> to use "allocate memory for the sub-component and have
-> pointers to it". It means the CPU object is now being
-> treated differently from all the timers, UARTs, etc.
+>> ... and I apparently missed NetBSD in my first research: Looks like NetBSD 
+>> is still using dtc v1.4.7 which is too old for QEMU. (though 
+>> https://www.netbsd.org/docs/software/3rdparty/ talks about v1.5.1, I only 
+>> get dtc 1.4.7 in our NetBSD VM).
+> 
+> The not yet released netbsd-10 and -current have 1.5.1. Perhaps you can use 
+> netbsd-10 for your VM?
 
-I think you can certainly make the argument that CPU's have always been
-treated separately because we pass it around as an anonymous pointer all
-the time. We currently can't support two concrete CPU types in the same
-structure. For example zyncmp has:
+Ah, ok, thanks, I didn't know yet that NetBSD 10 is just about to get 
+released (hopefully?) soon...
+Anyway, even if it gets released this year, it means we have to carry the 
+dtc submodule in QEMU for two more years according to our support policy:
 
-  struct XlnxZynqMPState {
-      /*< private >*/
-      DeviceState parent_obj;
+ 
+https://www.qemu.org/docs/master/about/build-platforms.html#linux-os-macos-freebsd-netbsd-openbsd
 
-      /*< public >*/
-      CPUClusterState apu_cluster;
-      CPUClusterState rpu_cluster;
-      ARMCPU apu_cpu[XLNX_ZYNQMP_NUM_APU_CPUS];
-      ARMCPU rpu_cpu[XLNX_ZYNQMP_NUM_RPU_CPUS];
+(since NetBSD will be supported by QEMU for two more years)
 
-which only works because A/R cpus are the same underlying type. However
-when we want to add Microblaze how would we do it?
+Will there be another minor release of NetBSD 9 where it would be possible 
+to update dtc to at least version 1.5.1, too?
 
-Is the main problem preventing us from including multiple cpu.h
-definitions that we overload CPUArch and CPUArchState? What are the
-implications if we convert them to fully anonymous pointer types?
+  Thanks,
+   Thomas
 
->
-> thanks
-> -- PMM
-
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
