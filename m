@@ -2,105 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FCF67A775
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 01:21:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8068C67A777
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 01:22:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKTWm-00061Y-Ji; Tue, 24 Jan 2023 19:20:36 -0500
+	id 1pKTYA-0006jf-Th; Tue, 24 Jan 2023 19:22:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pKTWk-00061A-Ht
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 19:20:34 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKTY8-0006jL-K6
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 19:22:00 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <seanjc@google.com>) id 1pKTWi-0004oN-LC
- for qemu-devel@nongnu.org; Tue, 24 Jan 2023 19:20:34 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- h5-20020a17090a9c0500b0022bb85eb35dso382921pjp.3
- for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 16:20:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=Vd0fuRLUDjU8rvXBur9NhqOrPTXVZKZJ4oN8G/lkhJI=;
- b=o+HXYRIxPxQ8KPpGLHKkZdPsJO5M09uHZapYHKFtwuihESZLkI6Zkm4ULLnmfHYxaN
- z6Bkf5/oL9w9YxifsJFcA+QqHXQpANCQz/OmWBa9Rlyll+JFY8LEgS0okBOrevjCF1S3
- zR7B+TPDrrG/OfCNb5TJIPizamziaqvNbn8/9CvRZxXi09FQ5URRCGE/FpZIYdJ6T4/N
- AY4adBiPMnMz+1wL4iuMS9jBXixwStGqund1wI/dbZkKpFhaJDOGRoji+PGQ7Xch442u
- xgwPTskywSS01/xVU1ilxRAsaLiYsitEfD5ZykZTycKtYgDSWCaIA6Ar69OkijI/Sgc/
- 1/Fw==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKTY7-00059W-54
+ for qemu-devel@nongnu.org; Tue, 24 Jan 2023 19:22:00 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ o17-20020a05600c511100b003db021ef437so190931wms.4
+ for <qemu-devel@nongnu.org>; Tue, 24 Jan 2023 16:21:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xuFq6RJivLim++G3MXmi7Zykq658fQT1Tb9saKt4XlA=;
+ b=DE9fuVm8CJzeTq/c18zqNjl5/AZYF7RSYcNG8roparpA661fpmeablKRA9kWeP5gfZ
+ Jv2hkpMm1sb6sq8q9X2C/sUF5Q0+9X2qmbIHUyLYXFL7JqdCdjDPvLlcdlEP5m9Owq39
+ al6kDFld+1IKrsbTQW7GgJaHabB+PR9gny8fRqa0DZPaVT82XKBqfTud9mTbQPO3QvuW
+ fU0mkC35zWvZNaNyV2LofWIcwGFzyh0NhjJqSYInhtK12RvHY9+l9KHbObnoI1dVN5wp
+ a+zo8XSbZ5FLUNfS5vR4eblGAkZJI6Y2VhLQAI/KIq5wjmdpnkslpKIPQj+rQrAseDUV
+ 97UQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Vd0fuRLUDjU8rvXBur9NhqOrPTXVZKZJ4oN8G/lkhJI=;
- b=View3Rmfzia50cpb49l9coiLE88Q2VcydyEnYfSZkT4SNejiLQXTjgr5lKP+idPZv/
- cMuPWhuAx/pnBk/JAbd7gomgofxvnwmWr7AxEf2c4Tl35clReIP53DnU2do1QXa4gtcX
- SyEeGo6HTzA3m4u7WELS3whd5a17gAZDaYf0YW470RKCjFH7rux7VZP7Bq0c2soi3vQU
- y4SODscFCu/MdnzHXUBsGNFTAd4dZNR3Ad+6eD/arMDUFn9nGBzN9nv0wxf5qf++RdIz
- urWc/6yT1VFMEyvmzNmgotmhQjobsY9rg45ulx00I0lSlWimuDtPRe4oYA06gDgm6o1E
- jAUw==
-X-Gm-Message-State: AO0yUKXSpkqCLyarHG49LkmMLGaiLB+VVgsMHF5uM+EDhfnkkUBf6UxM
- qnfQh/JM4dkmuq3GeAe1Oj0f2w==
-X-Google-Smtp-Source: AK7set8DMFuhHtJA8X11WSyZdq14F8cMlJuZ6jde92u/m6yVtA5WC0P8SrmivvZz4XbeH1VArDptDg==
-X-Received: by 2002:a17:90a:690e:b0:22b:b82a:8b5f with SMTP id
- r14-20020a17090a690e00b0022bb82a8b5fmr436422pjj.2.1674606030366; 
- Tue, 24 Jan 2023 16:20:30 -0800 (PST)
-Received: from google.com (7.104.168.34.bc.googleusercontent.com.
- [34.168.104.7]) by smtp.gmail.com with ESMTPSA id
- l8-20020a17090a49c800b0022bae5c3e1esm148419pjm.9.2023.01.24.16.20.29
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 24 Jan 2023 16:20:29 -0800 (PST)
-Date: Wed, 25 Jan 2023 00:20:26 +0000
-From: Sean Christopherson <seanjc@google.com>
-To: Liam Merwick <liam.merwick@oracle.com>
-Cc: Chao Peng <chao.p.peng@linux.intel.com>, kvm@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 0/9] KVM: mm: fd-based approach for supporting KVM
-Message-ID: <Y9B1yiRR8DpANAEo@google.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <Y8H5Z3e4hZkFxAVS@google.com>
- <48953bf2-cee9-f818-dc50-5fb5b9b410bf@oracle.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xuFq6RJivLim++G3MXmi7Zykq658fQT1Tb9saKt4XlA=;
+ b=FQNoQc73hxKVWX6D/nwMdziTXvaR9CzvOccmUlDrCQMSy/kRUVCCildePLgje11D+U
+ mXghm6g9tueI2WCEOXdJl8HtS81q2Dmc60S6MWKmYfq8C4MwjDObnQa0LhHk3NKjl6LR
+ scVUq0GeuUMUrb6dj4lIUO+Nc3MNZ1jDKsOXy6fgRmh4LvrDhQcOA79wDdNr4ubcE3Bp
+ tSQqthMoUx7bq2tWAoRG1EBK21P2cdReU4VD1caMwXKyrquPg7wk6GQWPiMUSAmVrDM2
+ 80IzuEx0Md0FDtCFx2FyTek9f2Fso/eRCAP9+L4pS0oG8YYo5RIz7WPpEhxSYElHpqBx
+ r69A==
+X-Gm-Message-State: AFqh2kq+a+mZtyx0rK7WwqXv7T28iOHkUnaUpLaH/14n/JNZQaKc7ZMX
+ 3bQ6Dawtn7h5n3hhm4cGE1y+9g==
+X-Google-Smtp-Source: AMrXdXurzMdmlAjSpjgRkWFxmUUPdDSXsVBrkt9SQviKzHPVRaHD0tuC41jp3IWR7ow2ajfHxiKRiw==
+X-Received: by 2002:a05:600c:1695:b0:3da:1c49:d632 with SMTP id
+ k21-20020a05600c169500b003da1c49d632mr28997783wmn.1.1674606117864; 
+ Tue, 24 Jan 2023 16:21:57 -0800 (PST)
+Received: from [192.168.0.114] ([196.89.153.183])
+ by smtp.gmail.com with ESMTPSA id
+ b5-20020a05600c150500b003dafb0c8dfbsm301896wmg.14.2023.01.24.16.21.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 24 Jan 2023 16:21:57 -0800 (PST)
+Message-ID: <3982a6f6-9c36-52c4-f512-f3ad31a59584@linaro.org>
+Date: Wed, 25 Jan 2023 01:21:56 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <48953bf2-cee9-f818-dc50-5fb5b9b410bf@oracle.com>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=seanjc@google.com; helo=mail-pj1-x1030.google.com
-X-Spam_score_int: -175
-X-Spam_score: -17.6
-X-Spam_bar: -----------------
-X-Spam_report: (-17.6 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_MED=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- ENV_AND_HDR_SPF_MATCH=-0.5, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 1/1] modules: load modules from /var/run/qemu/<version>
+ directory firstly
+Content-Language: en-US
+To: Siddhi Katage <siddhi.katage@oracle.com>, qemu-devel@nongnu.org
+Cc: joe.jin@oracle.com, dongli.zhang@oracle.com,
+ christian.ehrhardt@canonical.com, berrange@redhat.com, pbonzini@redhat.com
+References: <1674585590-13888-1-git-send-email-siddhi.katage@oracle.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <1674585590-13888-1-git-send-email-siddhi.katage@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -116,44 +93,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 24, 2023, Liam Merwick wrote:
-> On 14/01/2023 00:37, Sean Christopherson wrote:
-> > On Fri, Dec 02, 2022, Chao Peng wrote:
-> > > This patch series implements KVM guest private memory for confidential
-> > > computing scenarios like Intel TDX[1]. If a TDX host accesses
-> > > TDX-protected guest memory, machine check can happen which can further
-> > > crash the running host system, this is terrible for multi-tenant
-> > > configurations. The host accesses include those from KVM userspace like
-> > > QEMU. This series addresses KVM userspace induced crash by introducing
-> > > new mm and KVM interfaces so KVM userspace can still manage guest memory
-> > > via a fd-based approach, but it can never access the guest memory
-> > > content.
-> > > 
-> > > The patch series touches both core mm and KVM code. I appreciate
-> > > Andrew/Hugh and Paolo/Sean can review and pick these patches. Any other
-> > > reviews are always welcome.
-> > >    - 01: mm change, target for mm tree
-> > >    - 02-09: KVM change, target for KVM tree
-> > 
-> > A version with all of my feedback, plus reworked versions of Vishal's selftest,
-> > is available here:
-> > 
-> >    git@github.com:sean-jc/linux.git x86/upm_base_support
-> > 
-> > It compiles and passes the selftest, but it's otherwise barely tested.  There are
-> > a few todos (2 I think?) and many of the commits need changelogs, i.e. it's still
-> > a WIP.
-> > 
+On 24/1/23 19:39, Siddhi Katage wrote:
+> From: Siddhi Katage <siddhi.katage@oracle.com>
 > 
-> When running LTP (https://github.com/linux-test-project/ltp) on the v10
-> bits (and also with Sean's branch above) I encounter the following NULL
-> pointer dereference with testcases/kernel/syscalls/madvise/madvise01
-> (100% reproducible).
-> 
-> It appears that in restrictedmem_error_page() inode->i_mapping->private_data
-> is NULL
-> in the list_for_each_entry_safe(inode, next, &sb->s_inodes, i_sb_list)
-> but I don't know why.
+> An old running QEMU will try to load modules with new build-id first, this
+> will fail as expected, then QEMU will fallback to load the old modules that
 
-Kirill, can you take a look?  Or pass the buck to someone who can? :-)
+You corrected the comma/space typo :)
+
+> matches its build-id from /var/run/qemu/<version> directory.
+> Make /var/run/qemu/<version> directory as first search path to load modules.
+> 
+> Fixes: bd83c861c0 ("modules: load modules from versioned /var/run dir")
+> Signed-off-by: Siddhi Katage <siddhi.katage@oracle.com>
+> ---
+>   util/module.c | 10 +++++-----
+>   1 file changed, 5 insertions(+), 5 deletions(-)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 
