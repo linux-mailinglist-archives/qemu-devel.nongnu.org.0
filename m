@@ -2,95 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76B6C67BC73
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 21:21:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA44A67BDDF
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 22:13:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKmG0-000473-2w; Wed, 25 Jan 2023 15:20:32 -0500
+	id 1pKn4N-00060f-JB; Wed, 25 Jan 2023 16:12:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pKmFy-00046r-13
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 15:20:30 -0500
-Received: from sonic310-21.consmr.mail.gq1.yahoo.com ([98.137.69.147])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pKn4K-0005xH-TG
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 16:12:32 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pKmFu-0007iQ-RL
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 15:20:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1674678022; bh=wxgIj3YaWUYlS3Z+C9Gh5GQC6tw9/QqKuYdS8h0YavU=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
- b=BKoXZc9FPFBbXIsHPBUchBdwrDvfFyWVitHSf0s2/II2w3GPgimJy/I728ueUMkMWjRw6tLPHWYErH4PyapVlouNNwS5AdbLqkFK/w1Ve0F5DsHo3q0mdroom4MsvvldC3yn3VcsgjdOvvRDapf90rwbDdZb/wqGyMN0dpAapQiOUBq9EFHe5qFgxQ+9NSr1B92CODLDxdQD/xav2ovyZ2WFuHmzjYUOOWGCntYRczD7DV5SV5xO8X9/9EBDo4LTitdkicqgMCMChS96skRa4ydrrcLYjG5sjqGSHViYvOj+tZcmJYCVVArfsWejTBAAhJc3N1dE6wcTPK1kwGbxBA==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1674678022; bh=3TQtTIUh0wupZImavFLQ8RVWW78DhFn+WpCO8H3vcmJ=;
- h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
- b=OEAYP5H6DLExazYSgWVCVKJKzZY1GlZcAYK3nTctoArjEUl0p4kymL5KaM6bwwSgQBm0FS2/AVV+w6hQ4VCOXDHv4G6gzRJ2B8OohbnuH50z3JqxZ4eBf6WTlJ5xnBSJN9/mDmnjGyLdS2/Sci51Hmkf9DJEAzTux7DOj6YIIGfKP4ohJOA5DoZQRmx6v+l+PYglFJEqb70rDXPCGYuDoFvUlKx4wuX46tZtlR/QSpslFF5WNbF/OJiZhbO1RzqQYRU6FttjehOXMEMc/2BlhBLgG7YiDR46Pg/nckQFS6TSNo84+b+RYOu/XVzV8meoyz0kRbiOG7jSg9iif/c5MQ==
-X-YMail-OSG: RJOOyIUVM1ntvRVshJc0ZyBGDbe9YhAAiYg0J6unhsMZkx2HGulPelIgSk_mVc2
- wl7l6En8fxXXCyBQgUt9DMVjGwRVZoY1BUq0prMOAySG2VP38.Yq6VNGO47RbGGYtT79yWG5KjEm
- z8POalhuTnVAjHtCfk.Q7LGL4FsL1AOz7SMD87xWGpAVykGRV5XJo8dFzOw8k9snOYjCGHeO6PKo
- Kr6Ykp2YPuF7bath4ltkKtQJErB1.Yx_PMUiAnU4rrrh97Wc9SOONrljoHqv6S5c61f8J9chy7RS
- Ap2fDEzNq0Ma2QjQhSN5Tc1rUBaNURBSZb9F4Tu.xq_YIXa6rMYcEoNzCj4CjZ_tfINATDGqHOPL
- GPhS7GQk4LES_cMgVY2mEAklMdZoqcuTXykXenPjpf.srgdqnq4nZeo76dB1snb7YzaygRb9kwOM
- 3LjdVi5NpyFeSBsYoXs8yGWqCRazx5IUGDw7VZWlnffRuW67lf8v.duEWAQt9sJPSr.XqD3e35us
- NbTQ8ib4l2u1Ip95oAaKl.9bkSBBnwsQDRNqSQz1ppjXD6A53fQ75o2CjCrJKeCQ74RbRbfusF_X
- UcvsEr.1_N487mIk2Lhn2h7smObmUx06uATXAOd05RshIn48zrXHWc6UnmmY_ySu.LhOYSa0jJv3
- i8CbWYJtNmSiJoDmrq3vTbQdvKl2E.bEyk862dW4LwIjJFBc7kVxlzCPpxZwJB1F7VIeJ3QqvjzV
- OdkbJ9ZVgkoa1Znjd_yswtnlQn_P.s6hMGheqXQ9VC66e.bYw21X4az8vvkw26je1e3G1uwfAtIb
- qTYrJwF9SWMH0ioJgXcPrTSmM_si1k8hFa6muWis4WFgx4_bnzTHvWl4elYtRjeIwXqOPIKukHsz
- OoG.WBDq_ag7igwTd3uYxxm40kpvyS1fkk3x21GvKcmPoJU0fAZcplc8jO7OiBjtpkYd4Pa6G.JP
- 30.4BE7sHFOKskNAq2Zd2FsyZhqQaFe2p.2qoDr_n6TziLtUoHb45Fe88A9D6_7PELzcr2UnP.As
- pmQJ5eG.TZllqeeLP39UXyYwoIdgYZx.nfc7i3CN0yPwdRiMu_cYzUML7WSXG8CLLgGsgicpN52x
- szP04Cldz94SnFUuazqYv4ra896JOtxTwKb02z96Z6J.jyndHd8wDWy3z9JDoMAoiVQ2CGzcJ_ow
- HDMv1oOXHZoH1EbeKjTB8jpoFtUn_dkW5ZSturdmZJwhPU1URmKwSZtwGCOQDJqgo8P9ctI3f3K5
- L9u5bqPBiI6EQKaQs73KDUhxp9pWw.uxgtJGlxuGR3ev4bo_LAtWN6GauZ7x8BQuCViRoSOoYF4T
- Rl2X0dH5U6Vp_NmGe.r0T4L6NUxn3u3FTCJd_AHS0NsDQ_QkgUlJQkRQtefHMBR1sqaq5oqQbG3z
- rr5Qmvcedw5QzwTs7xoH_.P.SUWaPuc2_Ye1.DQsXt5DyIazmvn4WllKY1Jsdd5ID4solZLt3nqs
- ybzHRT.Fx_jhSrgmHZ29fqiWP8Y1WgZ9Qi4kTHIUHZevN40dibvo9gCaAVSdzQMuq29tMAbzwFLm
- 0KGSG9Prlue70gI15GUXaaBLgRPutMYPnGG9Qzqz2iaiXv2imbDN5cBz_rUl0SLzI80T2KEgFaip
- 1b6HUz0sEHF_fLXM61g4k_zbkjKcKM5Q93yrpvZjvMzJ7ENABIdbIim2v5nLQVFHDt304Wlc8NNJ
- YW407Eq37spiP46AEeWsqo6JNFZidTSUGJSjzwMl1ilJqiH548BttI6kx4HvJPC9kAS3auJ0MehG
- c9z6K5ZVjwov8cNuP6CsSMHgp06XBE5jG7.BsnDbRfu7c7Ky2Okm1F65E8JNKa5QcFEW7EfCpn5a
- UV4oMMtte5vHZsRQlyCMjJhGsv6zzXyjV0BFoywG5C1oKf6qSn3DrVEp.spUNq48ZhrquoAWG4jf
- vSzwagPDmUj7P2jqjrfpiDXZTAupqvGokWy4axqwcu6CVQN6Ca6uofcvnWtrWJ5F4vX83rdxwtfB
- r4hFWn3msYZO7RqGgbLMulMZg3Pxd4dcUcNPbUguCrJHN.Mfs2vHDpy0waV7CCXMt0v46Re8EH8G
- _WgtM5btQWxKlbuJviPQHi9V0e7DI_WyZ2YRGKUOw7yE5sa0sPANhP8YfHO_zIjgo3Gd8QMErKZb
- BZh0Rt711tIQ1Q.TnKmIsLpOqf8QmPCAfq6LeKzBiMHgHAIf9xAltXyKMHQDf.U8hDv6opuEsHvD
- _E2w30fP99A--
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic310.consmr.mail.gq1.yahoo.com with HTTP; Wed, 25 Jan 2023 20:20:22 +0000
-Received: by hermes--production-ne1-746bc6c6c4-wq9r9 (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID 2ac2f41faba65782946ecdf6ca09df93; 
- Wed, 25 Jan 2023 20:20:16 +0000 (UTC)
-Message-ID: <18d8d8e5-bb1a-8a82-622f-3c6a60b97660@aol.com>
-Date: Wed, 25 Jan 2023 15:20:16 -0500
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pKn4G-0007ti-Qd
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 16:12:32 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003d9712b29d2so2109282wmb.2
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 13:12:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jZP05581uw4/3OAibbLYQX8/d/UgIw9IpV1CgbOFulw=;
+ b=EVa/yD0Hfl6QzlgohnwpunmfzyDOmnX8omLmaSmnQwf7++8I60kZapFsXQFp07hatT
+ f91AKJaBPmXfKo2PzQ5DFrL8/iUmV9zXmjhbi7uio5R+ZPKVRHTcg+zzS1QbMffcsbEu
+ 2bX4hPcg8EdcGpgQUvXqYIx0Z3kgDe3MOmOUfpdcirK/l/WZ4u0fvTT1OznxGKZ0+n7g
+ myAXYCeQecKPJBsXKBhHHEfZapw8uDDmVN2gN0EyoIpNLfoZ/RXHsJZy3tttaMJyenmT
+ DG5jC+54Rd4fKG2Xs9xbtaN1g/pbWt7d977bi89cxaqKtyCwULrSpqbzXX6DLJstaBDU
+ Hmzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=jZP05581uw4/3OAibbLYQX8/d/UgIw9IpV1CgbOFulw=;
+ b=7OLdCxwHy3ykk/6RmpELNcfq1CWMDI/+dU3aQkvaVFEj/fl1KPs4DZhWj81hFvhTTO
+ uW5uXAZsc/EZbWqraeoxI9Zu8sVpslxPszvYdPCAI9dTnUJAOGwmCVjPafY/zgSJoY5i
+ tgJBYMTdtrnm+QfyvP8oeBfV8nIzV1sMKvoLEtJC8inI+QZBYfBXUAiGhY2RyaDnbd4F
+ +BdrYX7ZGPAxnMTM9s72FmOXHcQAS5jfWljcdtqetoNGbcfBgHK6AAKOYtoZmC4DeNr3
+ rpwIMkq9LTe0RshJvs4c5Qaap1JY0pN1WWbfAyTlejv8BJmFo33c1U//anh3T/DNP9Tz
+ LHlQ==
+X-Gm-Message-State: AFqh2koP8dc7sxIdvco2mZzOejj6561Y8aZNjt39wwwjEZHub3KiaSmK
+ 90SEyiBOyMzLUWFbIBORBt485g==
+X-Google-Smtp-Source: AMrXdXtaiFu7Z0NZl5mrCbGWEYd2GLx5FUF/Og5Oxom4IU9MV1WWLieGU90hgiWD5vTlHsdmr3Ki6A==
+X-Received: by 2002:a05:600c:5116:b0:3db:1a8:c041 with SMTP id
+ o22-20020a05600c511600b003db01a8c041mr33278318wms.17.1674681147019; 
+ Wed, 25 Jan 2023 13:12:27 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ ip6-20020a05600ca68600b003d04e4ed873sm2820187wmb.22.2023.01.25.13.12.26
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Jan 2023 13:12:26 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 0222A1FFB7;
+ Wed, 25 Jan 2023 21:12:26 +0000 (GMT)
+References: <20230108023719.2466341-1-richard.henderson@linaro.org>
+ <20230108023719.2466341-7-richard.henderson@linaro.org>
+User-agent: mu4e 1.9.16; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org,
+ qemu-riscv@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net, Daniel
+ Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+Subject: Re: [PATCH v4 06/36] tcg: Introduce tcg_target_call_oarg_reg
+Date: Wed, 25 Jan 2023 21:09:23 +0000
+In-reply-to: <20230108023719.2466341-7-richard.henderson@linaro.org>
+Message-ID: <877cxaqpxi.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [XEN PATCH v2 0/3] Configure qemu upstream correctly by default
- for igd-passthru
-To: Anthony PERARD <anthony.perard@citrix.com>
-Cc: xen-devel@lists.xenproject.org, Wei Liu <wl@xen.org>,
- Juergen Gross <jgross@suse.com>, qemu-devel@nongnu.org
-References: <cover.1673300848.git.brchuckz.ref@aol.com>
- <cover.1673300848.git.brchuckz@aol.com>
- <Y9EUarVVWr223API@perard.uk.xensource.com>
-Content-Language: en-US
-From: Chuck Zmudzinski <brchuckz@aol.com>
-In-Reply-To: <Y9EUarVVWr223API@perard.uk.xensource.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.21123
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.69.147; envelope-from=brchuckz@aim.com;
- helo=sonic310-21.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.091,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.148,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,130 +97,306 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/25/2023 6:37 AM, Anthony PERARD wrote:
-> On Tue, Jan 10, 2023 at 02:32:01AM -0500, Chuck Zmudzinski wrote:
-> > I call attention to the commit message of the first patch which points
-> > out that using the "pc" machine and adding the xen platform device on
-> > the qemu upstream command line is not functionally equivalent to using
-> > the "xenfv" machine which automatically adds the xen platform device
-> > earlier in the guest creation process. As a result, there is a noticeable
-> > reduction in the performance of the guest during startup with the "pc"
-> > machne type even if the xen platform device is added via the qemu
-> > command line options, although eventually both Linux and Windows guests
-> > perform equally well once the guest operating system is fully loaded.
->
-> There shouldn't be a difference between "xenfv" machine or using the
-> "pc" machine while adding the "xen-platform" device, at least with
-> regards to access to disk or network.
->
-> The first patch of the series is using the "pc" machine without any
-> "xen-platform" device, so we can't compare startup performance based on
-> that.
->
-> > Specifically, startup time is longer and neither the grub vga drivers
-> > nor the windows vga drivers in early startup perform as well when the
-> > xen platform device is added via the qemu command line instead of being
-> > added immediately after the other emulated i440fx pci devices when the
-> > "xenfv" machine type is used.
->
-> The "xen-platform" device is mostly an hint to a guest that they can use
-> pv-disk and pv-network devices. I don't think it would change anything
-> with regards to graphics.
->
-> > For example, when using the "pc" machine, which adds the xen platform
-> > device using a command line option, the Linux guest could not display
-> > the grub boot menu at the native resolution of the monitor, but with the
-> > "xenfv" machine, the grub menu is displayed at the full 1920x1080
-> > native resolution of the monitor for testing. So improved startup
-> > performance is an advantage for the patch for qemu.
->
-> I've just found out that when doing IGD passthrough, both machine
-> "xenfv" and "pc" are much more different than I though ... :-(
-> pc_xen_hvm_init_pci() in QEMU changes the pci-host device, which in
-> turns copy some informations from the real host bridge.
-> I guess this new host bridge help when the firmware setup the graphic
-> for grub.
->
-> > I also call attention to the last point of the commit message of the
-> > second patch and the comments for reviewers section of the second patch.
-> > This approach, as opposed to fixing this in qemu upstream, makes
-> > maintaining the code in libxl__build_device_model_args_new more
-> > difficult and therefore increases the chances of problems caused by
-> > coding errors and typos for users of libxl. So that is another advantage
-> > of the patch for qemu.
->
-> We would just needs to use a different approach in libxl when generating
-> the command line. We could probably avoid duplications. I was hopping to
-> have patch series for libxl that would change the machine used to start
-> using "pc" instead of "xenfv" for all configurations, but based on the
-> point above (IGD specific change to "xenfv"), then I guess we can't
-> really do anything from libxl to fix IGD passthrough.
->
-> > OTOH, fixing this in qemu causes newer qemu versions to behave
-> > differently than previous versions of qemu, which the qemu community
-> > does not like, although they seem OK with the other patch since it only
-> > affects qemu "xenfv" machine types, but they do not want the patch to
-> > affect toolstacks like libvirt that do not use qemu upstream's
-> > autoconfiguration options as much as libxl does, and, of course, libvirt
-> > can manage qemu "xenfv" machines so exising "xenfv" guests configured
-> > manually by libvirt could be adversely affected by the patch to qemu,
-> > but only if those same guests are also configured for igd-passthrough,
-> > which is likely a very small number of possibly affected libvirt users
-> > of qemu.
-> > 
-> > A year or two ago I tried to configure guests for pci passthrough on xen
-> > using libvirt's tool to convert a libxl xl.cfg file to libvirt xml. It
-> > could not convert an xl.cfg file with a configuration item
-> > pci = [ "PCI_SPEC_STRING", "PCI_SPEC_STRING", ...] for pci passthrough.
-> > So it is unlikely there are any users out there using libvirt to
-> > configure xen hvm guests for igd passthrough on xen, and those are the
-> > only users that could be adversely affected by the simpler patch to qemu
-> > to fix this.
->
-> FYI, libvirt should be using libxl to create guest, I don't think there
-> is another way for libvirt to create xen guests.
 
-I have success using libvirt as a frontend to libxl for most of my xen guests,
-except for HVM guests that have pci devices passed through because the
-tool to convert an xl.cfg file to libvirt xml was not able to convert the
-pci = ... line in xl.cfg. Perhaps newer versions of libvirt can do it (I haven't
-tried it since at least a couple of years ago with an older version of libvirt).
+Richard Henderson <richard.henderson@linaro.org> writes:
 
+> Replace the flat array tcg_target_call_oarg_regs[] with
+> a function call including the TCGCallReturnKind.
 >
+> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/tcg.c                        |  9 ++++++---
+>  tcg/aarch64/tcg-target.c.inc     | 10 +++++++---
+>  tcg/arm/tcg-target.c.inc         | 10 +++++++---
+>  tcg/i386/tcg-target.c.inc        | 16 ++++++++++------
+>  tcg/loongarch64/tcg-target.c.inc | 10 ++++++----
+>  tcg/mips/tcg-target.c.inc        | 10 ++++++----
+>  tcg/ppc/tcg-target.c.inc         | 10 ++++++----
+>  tcg/riscv/tcg-target.c.inc       | 10 ++++++----
+>  tcg/s390x/tcg-target.c.inc       |  9 ++++++---
+>  tcg/sparc64/tcg-target.c.inc     | 12 ++++++------
+>  tcg/tci/tcg-target.c.inc         | 12 ++++++------
+>  11 files changed, 72 insertions(+), 46 deletions(-)
 >
->
-> So overall, unfortunately the "pc" machine in QEMU isn't suitable to do
-> IGD passthrough as the "xenfv" machine has already some workaround to
-> make IGD work and just need some more.
->
-> I've seen that the patch for QEMU is now reviewed, so I look at having
-> it merged soonish.
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index 93d1331f93..092cdaf422 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -148,6 +148,7 @@ static bool tcg_out_sti(TCGContext *s, TCGType type, =
+TCGArg val,
+>                          TCGReg base, intptr_t ofs);
+>  static void tcg_out_call(TCGContext *s, const tcg_insn_unit *target,
+>                           const TCGHelperInfo *info);
+> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot);
+>  static bool tcg_target_const_match(int64_t val, TCGType type, int ct);
+>  #ifdef TCG_TARGET_NEED_LDST_LABELS
+>  static int tcg_out_ldst_finalize(TCGContext *s);
+> @@ -719,14 +720,16 @@ static void init_call_layout(TCGHelperInfo *info)
+>      case dh_typecode_s64:
+>          info->nr_out =3D 64 / TCG_TARGET_REG_BITS;
+>          info->out_kind =3D TCG_CALL_RET_NORMAL;
+> -        assert(info->nr_out <=3D ARRAY_SIZE(tcg_target_call_oarg_regs));
+> +        /* Query the last register now to trigger any assert early. */
+> +        tcg_target_call_oarg_reg(info->out_kind, info->nr_out - 1);
+>          break;
+>      case dh_typecode_i128:
+>          info->nr_out =3D 128 / TCG_TARGET_REG_BITS;
+>          info->out_kind =3D TCG_CALL_RET_NORMAL; /* TODO */
+>          switch (/* TODO */ TCG_CALL_RET_NORMAL) {
+>          case TCG_CALL_RET_NORMAL:
+> -            assert(info->nr_out <=3D ARRAY_SIZE(tcg_target_call_oarg_reg=
+s));
+> +            /* Query the last register now to trigger any assert early. =
+*/
+> +            tcg_target_call_oarg_reg(info->out_kind, info->nr_out - 1);
+>              break;
+>          case TCG_CALL_RET_BY_REF:
+>              /*
+> @@ -4563,7 +4566,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp=
+ *op)
+>      case TCG_CALL_RET_NORMAL:
+>          for (i =3D 0; i < nb_oargs; i++) {
+>              TCGTemp *ts =3D arg_temp(op->args[i]);
+> -            TCGReg reg =3D tcg_target_call_oarg_regs[i];
+> +            TCGReg reg =3D tcg_target_call_oarg_reg(TCG_CALL_RET_NORMAL,=
+ i);
+>=20=20
+>              /* ENV should not be modified.  */
+>              tcg_debug_assert(!temp_readonly(ts));
+> diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
+> index 2279a14c11..dfe569dd8c 100644
+> --- a/tcg/aarch64/tcg-target.c.inc
+> +++ b/tcg/aarch64/tcg-target.c.inc
+> @@ -63,9 +63,13 @@ static const int tcg_target_call_iarg_regs[8] =3D {
+>      TCG_REG_X0, TCG_REG_X1, TCG_REG_X2, TCG_REG_X3,
+>      TCG_REG_X4, TCG_REG_X5, TCG_REG_X6, TCG_REG_X7
+>  };
+> -static const int tcg_target_call_oarg_regs[1] =3D {
+> -    TCG_REG_X0
+> -};
+> +
+> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
+> +{
+> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
+> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 1);
+> +    return TCG_REG_X0 + slot;
+> +}
+>=20=20
+>  #define TCG_REG_TMP TCG_REG_X30
+>  #define TCG_VEC_TMP TCG_REG_V31
+> diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
+> index 8b24481d8c..4e1d06dcd8 100644
+> --- a/tcg/arm/tcg-target.c.inc
+> +++ b/tcg/arm/tcg-target.c.inc
+> @@ -79,9 +79,13 @@ static const int tcg_target_reg_alloc_order[] =3D {
+>  static const int tcg_target_call_iarg_regs[4] =3D {
+>      TCG_REG_R0, TCG_REG_R1, TCG_REG_R2, TCG_REG_R3
+>  };
+> -static const int tcg_target_call_oarg_regs[2] =3D {
+> -    TCG_REG_R0, TCG_REG_R1
+> -};
+> +
+> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
+> +{
+> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
+> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 3);
+> +    return TCG_REG_R0 + slot;
+> +}
 
-Hi Anthony,
+So this is now returning allocations of TCG_REG_R0 to TCG_REG_R3? Do we
+have to take care to get things right if slot is ever bigger w.r.t.
+tcg_target_reg_alloc_order?
 
-Thanks for looking at this and for also looking at the Qemu patch
-to fix this. As I said earlier, I think to fix this problem for the IGD,
-the qemu patch is probably better than this patch to libxl.
+>=20=20
+>  #define TCG_REG_TMP  TCG_REG_R12
+>  #define TCG_VEC_TMP  TCG_REG_Q15
+> diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
+> index 6a021dda8b..ab6881a4f3 100644
+> --- a/tcg/i386/tcg-target.c.inc
+> +++ b/tcg/i386/tcg-target.c.inc
+> @@ -109,12 +109,16 @@ static const int tcg_target_call_iarg_regs[] =3D {
+>  #endif
+>  };
+>=20=20
+> -static const int tcg_target_call_oarg_regs[] =3D {
+> -    TCG_REG_EAX,
+> -#if TCG_TARGET_REG_BITS =3D=3D 32
+> -    TCG_REG_EDX
+> -#endif
+> -};
+> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
+> +{
+> +    switch (kind) {
+> +    case TCG_CALL_RET_NORMAL:
+> +        tcg_debug_assert(slot >=3D 0 && slot <=3D 1);
+> +        return slot ? TCG_REG_EDX : TCG_REG_EAX;
+> +    default:
+> +        g_assert_not_reached();
+> +    }
+> +}
+>=20=20
+>  /* Constants we accept.  */
+>  #define TCG_CT_CONST_S32 0x100
+> diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-targe=
+t.c.inc
+> index 54b1dcd911..f6b0ed00bb 100644
+> --- a/tcg/loongarch64/tcg-target.c.inc
+> +++ b/tcg/loongarch64/tcg-target.c.inc
+> @@ -114,10 +114,12 @@ static const int tcg_target_call_iarg_regs[] =3D {
+>      TCG_REG_A7,
+>  };
+>=20=20
+> -static const int tcg_target_call_oarg_regs[] =3D {
+> -    TCG_REG_A0,
+> -    TCG_REG_A1,
+> -};
+> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
+> +{
+> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
+> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 1);
+> +    return TCG_REG_A0 + slot;
+> +}
+>=20=20
+>  #ifndef CONFIG_SOFTMMU
+>  #define USE_GUEST_BASE     (guest_base !=3D 0)
+> diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
+> index 22b5463f0f..92883176c6 100644
+> --- a/tcg/mips/tcg-target.c.inc
+> +++ b/tcg/mips/tcg-target.c.inc
+> @@ -136,10 +136,12 @@ static const TCGReg tcg_target_call_iarg_regs[] =3D=
+ {
+>  #endif
+>  };
+>=20=20
+> -static const TCGReg tcg_target_call_oarg_regs[2] =3D {
+> -    TCG_REG_V0,
+> -    TCG_REG_V1
+> -};
+> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
+> +{
+> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
+> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 1);
+> +    return TCG_REG_V0 + slot;
+> +}
+>=20=20
+>  static const tcg_insn_unit *tb_ret_addr;
+>  static const tcg_insn_unit *bswap32_addr;
+> diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
+> index bf3812eb8d..d31e6c3de4 100644
+> --- a/tcg/ppc/tcg-target.c.inc
+> +++ b/tcg/ppc/tcg-target.c.inc
+> @@ -186,10 +186,12 @@ static const int tcg_target_call_iarg_regs[] =3D {
+>      TCG_REG_R10
+>  };
+>=20=20
+> -static const int tcg_target_call_oarg_regs[] =3D {
+> -    TCG_REG_R3,
+> -    TCG_REG_R4
+> -};
+> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
+> +{
+> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
+> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 1);
+> +    return TCG_REG_R3 + slot;
+> +}
+>=20=20
+>  static const int tcg_target_callee_save_regs[] =3D {
+>  #ifdef _CALL_DARWIN
+> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
+> index b961972b9f..7cfd35e753 100644
+> --- a/tcg/riscv/tcg-target.c.inc
+> +++ b/tcg/riscv/tcg-target.c.inc
+> @@ -113,10 +113,12 @@ static const int tcg_target_call_iarg_regs[] =3D {
+>      TCG_REG_A7,
+>  };
+>=20=20
+> -static const int tcg_target_call_oarg_regs[] =3D {
+> -    TCG_REG_A0,
+> -    TCG_REG_A1,
+> -};
+> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
+> +{
+> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
+> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 1);
+> +    return TCG_REG_A0 + slot;
+> +}
+>=20=20
+>  #define TCG_CT_CONST_ZERO  0x100
+>  #define TCG_CT_CONST_S12   0x200
+> diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
+> index d65cd79899..cebf180777 100644
+> --- a/tcg/s390x/tcg-target.c.inc
+> +++ b/tcg/s390x/tcg-target.c.inc
+> @@ -390,9 +390,12 @@ static const int tcg_target_call_iarg_regs[] =3D {
+>      TCG_REG_R6,
+>  };
+>=20=20
+> -static const int tcg_target_call_oarg_regs[] =3D {
+> -    TCG_REG_R2,
+> -};
+> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
+> +{
+> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
+> +    tcg_debug_assert(slot =3D=3D 0);
+> +    return TCG_REG_R2;
+> +}
+>=20=20
+>  #define S390_CC_EQ      8
+>  #define S390_CC_LT      4
+> diff --git a/tcg/sparc64/tcg-target.c.inc b/tcg/sparc64/tcg-target.c.inc
+> index f6a8a8e605..9b5afb8248 100644
+> --- a/tcg/sparc64/tcg-target.c.inc
+> +++ b/tcg/sparc64/tcg-target.c.inc
+> @@ -133,12 +133,12 @@ static const int tcg_target_call_iarg_regs[6] =3D {
+>      TCG_REG_O5,
+>  };
+>=20=20
+> -static const int tcg_target_call_oarg_regs[] =3D {
+> -    TCG_REG_O0,
+> -    TCG_REG_O1,
+> -    TCG_REG_O2,
+> -    TCG_REG_O3,
+> -};
+> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
+> +{
+> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
+> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 3);
+> +    return TCG_REG_O0 + slot;
+> +}
+>=20=20
+>  #define INSN_OP(x)  ((x) << 30)
+>  #define INSN_OP2(x) ((x) << 22)
+> diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
+> index 633345d74b..cd53cb6b6b 100644
+> --- a/tcg/tci/tcg-target.c.inc
+> +++ b/tcg/tci/tcg-target.c.inc
+> @@ -200,12 +200,12 @@ static const int tcg_target_reg_alloc_order[] =3D {
+>  /* No call arguments via registers.  All will be stored on the "stack". =
+*/
+>  static const int tcg_target_call_iarg_regs[] =3D { };
+>=20=20
+> -static const int tcg_target_call_oarg_regs[] =3D {
+> -    TCG_REG_R0,
+> -#if TCG_TARGET_REG_BITS =3D=3D 32
+> -    TCG_REG_R1
+> -#endif
+> -};
+> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
+> +{
+> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
+> +    tcg_debug_assert(slot >=3D 0 && slot < 64 / TCG_TARGET_REG_BITS);
+> +    return TCG_REG_R0 + slot;
+> +}
+>=20=20
+>  #ifdef CONFIG_DEBUG_TCG
+>  static const char *const tcg_target_reg_names[TCG_TARGET_NB_REGS] =3D {
 
-Regarding the rest of your comments, I think the Xen developers
-need to decide what the roadmap for the future development of
-Xen HVM machines on x86 is before deciding on any further
-changes. I have not noticed much development in this feature
-in the past few years, except for Bernhard Beschow who has been
-doing some work to make the piix3 stuff more maintainable in
-Qemu upstream. When that is done, it might be an opportunity to do
-some work improving the "xenfv" machine in Qemu upstream.
-The "pc" machine type is of course a very old machine type
-to still be using as the device model for modern systems.
+Otherwise:
 
-I noticed about four or five years ago there was a patch set
-proposed to use "q35" instead of "pc" for Xen HVM guests and
-Qemu upstream, but there did not seem to be any agreement
-about the best way to implement that change, with some saying
-more of it should be implemented outside of Qemu and by libxl
-or maybe hvmloader instead. If anyone can describe if there is a
-roadmap for the future of Xen HVM on x86, that would be helpful.
-Thanks,
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Chuck
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
