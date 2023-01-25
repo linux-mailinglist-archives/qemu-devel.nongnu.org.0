@@ -2,80 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FF1067B226
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 13:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3904B67B242
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 13:05:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKeSt-00022O-3m; Wed, 25 Jan 2023 07:01:19 -0500
+	id 1pKeWF-00040f-3Z; Wed, 25 Jan 2023 07:04:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pKeSn-00021p-FM
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:01:14 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKeW1-0003pD-Rd
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:04:34 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
- id 1pKeSl-0004wz-4x
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:01:13 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id y11so21475102edd.6
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 04:01:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=uUzgvWhuc5mZrtlI5BgHRErNa7pkJbCtImUGH8Aoq/k=;
- b=JMrHmoYAJ9J6h2p7YZQjPMy0O92EswYPWHZrGNwBzm0VaFjdcJEKismzpQsxtnzk5d
- kwzaKVlrtxU2VA6y9zrvCICixZMwf4yKqMpHEVA6r3hLYFkiD8DOuw++Zbtp0X+YQAZX
- u6v5s8Xhe93OkAsXnw+Euavhes6J3PrD3jrZsdIIgUCt/fgnoirlYpdE5xuDfOCnh6O4
- GxW7iEDtKPXmCMNKVrj/ObUns5IJ8rFo3ue7WomFKFc/IfcwL1L2fVVVuTq7Ubaqgs5t
- /8GjvT5OgovbenTuM5mpExB4uLa0rGqh7MzHKTOcmavl/KJbN4gcjBF9rKWK4ibNY6kV
- hAhg==
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKeW0-0005QG-28
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:04:33 -0500
+Received: by mail-wr1-x432.google.com with SMTP id e3so16792838wru.13
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 04:04:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=FVVALoV7jaNOOxAnaklUaAayBWSuzKz72M+4GPlzCYw=;
+ b=ZcXdkabmrvPJ+/15CVHcfF/Cp4gSKK8g1DJZMFqRXz3KhSjI3sCXEUGp+h6xP4rBeV
+ CY0jQgupX6E3TXJb/wnPqGApxInuiNCSH3OcJUP6UvGbA5JwkJ4TOLcxJcF2HM6X/360
+ MNblw+qGypLZ5WMZlikjJ723YxKkvPRUALYeR5ltBjJXLq5VmAp34HDmSpNdD2wSFQMy
+ wcWydQxUxAeOkrbiOCKaBb/Fvl8Kfy3DXj/6aSeMXW71Z74xAam1eZmm0SmOgD1JxejU
+ j49MOROByuV6JQBeQ7g5AcgY2j1v/8xysuYrNo1dIlftRl1Vym0zmsDVYkaWaSr+NMej
+ tdXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=uUzgvWhuc5mZrtlI5BgHRErNa7pkJbCtImUGH8Aoq/k=;
- b=noaOnGYO/dT8BRU8c6NPLCalADOMIVeGApZwD2Zgnk19NXMW5maFcnCfSMzTRh8skz
- jnJieL/leMIswMj/PBrlP3bTIs5uoBqRXPSYNoGcC0rH6MtuOxFQJBhR1EcjXmh25z7f
- VZO0Tl3U4WcLpXGxv7THErvOiLz92xEWSxJZY791NENsDhhGv+XhB4m05At8HSYN7PT4
- cEW+vIGtluVYPOJKf7cSKqkbc+tDCpFhIGAAQA3mlhIvWF2Lc5MgRL8+ni32Eif67Gu3
- 7/hfr1SBw0OjrsVtI4s37hH/uK1MtiPDpmndeBGB5RuUxq8M2I27ck/hqdYq8mq6mHaF
- Q58Q==
-X-Gm-Message-State: AO0yUKWy652cwzpAi4f3VXPnPKY31uwNyQLYnMouYmU519c/QSWR9y+i
- k7RzJzUIIwKMyBWACTkCNt7ZIw==
-X-Google-Smtp-Source: AK7set9ZALSmot+FI3ZmL4F434I3r2DzwoeqZxHgmXP6T5rg+2GJPBsKTqRYR+Xc5qB/04yWshlO0g==
-X-Received: by 2002:a50:baa5:0:b0:4a0:8dbc:d486 with SMTP id
- x34-20020a50baa5000000b004a08dbcd486mr5921078ede.28.1674648068903; 
- Wed, 25 Jan 2023 04:01:08 -0800 (PST)
-Received: from localhost ([93.99.189.36]) by smtp.gmail.com with ESMTPSA id
- b23-20020a17090636d700b0086dd8f20a6asm2265509ejc.77.2023.01.25.04.01.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 04:01:08 -0800 (PST)
-Date: Wed, 25 Jan 2023 13:01:07 +0100
-From: Andrew Jones <ajones@ventanamicro.com>
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Ludovic Henry <ludovic@rivosinc.com>
-Subject: Re: [PATCH v7 3/5] riscv: Allow user to set the satp mode
-Message-ID: <20230125120107.mjh54hcmustfplgi@orel>
-References: <20230125084107.1580972-1-alexghiti@rivosinc.com>
- <20230125084107.1580972-4-alexghiti@rivosinc.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=FVVALoV7jaNOOxAnaklUaAayBWSuzKz72M+4GPlzCYw=;
+ b=BJ6aIS5Vpmm0HW1NwFNTHjg+1dc7tTt/czHJXCSg63L++DagA23nUq9PTpiizsnBGP
+ cO/NSppaF7EnlhYXjrGttIWtm4A1ti/DhBvYD3Fw8gfLIsGOCEiBgSfQCKRqzbiPSDSD
+ sdKJA3QfbHyOpqYZ5FbpUxrxkr/em98qdGhusfqL1lm04tMGTxDeQKt1BXVxiyB1xDoY
+ CF/L32d4sY4Yye0QV3qLmFJEeg8C01eH5E1IoZF/osSko1vPrnI+nZKCqSapxIdAfjoM
+ yX8YqXdLZXdO6Jfg6PnKF6S9RVIBVkjrrtnyE+LtZV9Ls+ycfJzAkIsEckznaiNY2hse
+ IrEw==
+X-Gm-Message-State: AFqh2kozlUVd3MypWYicqdMn4HV08wtTV+rBUEly4F/v/XRJsf0x1DA0
+ gu/J6jqtTFrMC/u6iB6V+G3neQ==
+X-Google-Smtp-Source: AMrXdXv1Pwqmom2gbZYgtUsrnVbzk0CJtlT+iuNPn46vI/YSIOGvkQhjsgXvd+BHJVI3KZSGvuLa6g==
+X-Received: by 2002:a5d:4bce:0:b0:2be:4ae1:215a with SMTP id
+ l14-20020a5d4bce000000b002be4ae1215amr17661411wrt.16.1674648269243; 
+ Wed, 25 Jan 2023 04:04:29 -0800 (PST)
+Received: from [192.168.0.114] ([196.77.22.181])
+ by smtp.gmail.com with ESMTPSA id
+ m15-20020adffa0f000000b0024cb961b6aesm4189310wrr.104.2023.01.25.04.04.28
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 25 Jan 2023 04:04:28 -0800 (PST)
+Message-ID: <9bf80a28-be03-3fe3-760b-d53970c29d26@linaro.org>
+Date: Wed, 25 Jan 2023 13:04:27 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230125084107.1580972-4-alexghiti@rivosinc.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=ajones@ventanamicro.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 1/2] qapi, audio: add query-audiodev command
+Content-Language: en-US
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+ Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Volker_R=c3=bcmelin?=
+ <vr_qemu@t-online.de>, Christian Schoenebeck <qemu_oss@crudebyte.com>
+References: <20230123083957.20349-1-thuth@redhat.com>
+ <20230123083957.20349-2-thuth@redhat.com>
+ <47d18f28-73b1-af59-ab65-2366ed3da55a@linaro.org>
+ <Y85rVoXhR5skLVOz@redhat.com>
+ <c94b801d-3c19-24c7-505a-7ab0d98faa67@linaro.org>
+ <Y855BSwizi0n+w7r@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <Y855BSwizi0n+w7r@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -93,401 +98,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 25, 2023 at 09:41:05AM +0100, Alexandre Ghiti wrote:
-> RISC-V specifies multiple sizes for addressable memory and Linux probes for
-> the machine's support at startup via the satp CSR register (done in
-> csr.c:validate_vm).
-> 
-> As per the specification, sv64 must support sv57, which in turn must
-> support sv48...etc. So we can restrict machine support by simply setting the
-> "highest" supported mode and the bare mode is always supported.
-> 
-> You can set the satp mode using the new properties "sv32", "sv39", "sv48",
-> "sv57" and "sv64" as follows:
-> -cpu rv64,sv57=on  # Linux will boot using sv57 scheme
-> -cpu rv64,sv39=on  # Linux will boot using sv39 scheme
-> -cpu rv64,sv57=off # Linux will boot using sv48 scheme
-> -cpu rv64          # Linux will boot using sv57 scheme by default
-> 
-> We take the highest level set by the user:
-> -cpu rv64,sv48=on,sv57=on # Linux will boot using sv57 scheme
-> 
-> We make sure that invalid configurations are rejected:
-> -cpu rv64,sv39=off,sv48=on # sv39 must be supported if higher modes are
->                            # enabled
-> 
-> We accept "redundant" configurations:
-> -cpu rv64,sv48=on,sv57=off # Linux will boot using sv48 scheme
-> 
-> And contradictory configurations:
-> -cpu rv64,sv48=on,sv48=off # Linux will boot using sv39 scheme
-> 
-> Co-Developed-by: Ludovic Henry <ludovic@rivosinc.com>
-> Signed-off-by: Ludovic Henry <ludovic@rivosinc.com>
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> ---
->  target/riscv/cpu.c | 207 +++++++++++++++++++++++++++++++++++++++++++++
->  target/riscv/cpu.h |  19 +++++
->  target/riscv/csr.c |  12 ++-
->  3 files changed, 231 insertions(+), 7 deletions(-)
-> 
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 7181b34f86..87153a0219 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -27,6 +27,7 @@
->  #include "time_helper.h"
->  #include "exec/exec-all.h"
->  #include "qapi/error.h"
-> +#include "qapi/visitor.h"
->  #include "qemu/error-report.h"
->  #include "hw/qdev-properties.h"
->  #include "migration/vmstate.h"
-> @@ -229,6 +230,81 @@ static void set_vext_version(CPURISCVState *env, int vext_ver)
->      env->vext_ver = vext_ver;
->  }
->  
-> +static uint8_t satp_mode_from_str(const char *satp_mode_str)
-> +{
-> +    if (!strncmp(satp_mode_str, "mbare", 5)) {
-> +        return VM_1_10_MBARE;
-> +    }
-> +
-> +    if (!strncmp(satp_mode_str, "sv32", 4)) {
-> +        return VM_1_10_SV32;
-> +    }
-> +
-> +    if (!strncmp(satp_mode_str, "sv39", 4)) {
-> +        return VM_1_10_SV39;
-> +    }
-> +
-> +    if (!strncmp(satp_mode_str, "sv48", 4)) {
-> +        return VM_1_10_SV48;
-> +    }
-> +
-> +    if (!strncmp(satp_mode_str, "sv57", 4)) {
-> +        return VM_1_10_SV57;
-> +    }
-> +
-> +    if (!strncmp(satp_mode_str, "sv64", 4)) {
-> +        return VM_1_10_SV64;
-> +    }
-> +
-> +    g_assert_not_reached();
-> +}
-> +
-> +uint8_t satp_mode_max_from_map(uint32_t map)
-> +{
-> +    /* map here has at least one bit set, so no problem with clz */
-> +    return 31 - __builtin_clz(map);
-> +}
-> +
-> +const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit)
-> +{
-> +    if (is_32_bit) {
-> +        switch (satp_mode) {
-> +        case VM_1_10_SV32:
-> +            return "sv32";
-> +        case VM_1_10_MBARE:
-> +            return "none";
-> +        }
-> +    } else {
-> +        switch (satp_mode) {
-> +        case VM_1_10_SV64:
-> +            return "sv64";
-> +        case VM_1_10_SV57:
-> +            return "sv57";
-> +        case VM_1_10_SV48:
-> +            return "sv48";
-> +        case VM_1_10_SV39:
-> +            return "sv39";
-> +        case VM_1_10_MBARE:
-> +            return "none";
-> +        }
-> +    }
-> +
-> +    g_assert_not_reached();
-> +}
-> +
-> +/* Sets the satp mode to the max supported */
-> +static void set_satp_mode_default(RISCVCPU *cpu)
-> +{
-> +    bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
-> +
-> +    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
-> +        cpu->cfg.satp_mode.map |=
-> +                        (1 << satp_mode_from_str(rv32 ? "sv32" : "sv57"));
-> +    } else {
-> +        cpu->cfg.satp_mode.map |= (1 << satp_mode_from_str("mbare"));
-> +    }
-> +}
-> +
->  static void riscv_any_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> @@ -619,6 +695,83 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
->      }
->  }
->  
-> +static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
-> +{
-> +    bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
-> +    const bool *valid_vm = rv32 ? valid_vm_1_10_32 : valid_vm_1_10_64;
-> +    uint8_t satp_mode_max;
-> +
-> +    if (cpu->cfg.satp_mode.map == 0) {
-> +        if (cpu->cfg.satp_mode.init == 0) {
-> +            /* If unset by the user, we fallback to the default satp mode. */
-> +            set_satp_mode_default(cpu);
-> +        } else {
-> +            /*
-> +             * Find the lowest level that was disabled and then enable the
-> +             * first valid level below which can be found in
-> +             * valid_vm_1_10_32/64.
-> +             */
-> +            for (int i = 1; i < 16; ++i) {
-> +                if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
+On 23/1/23 13:09, Daniel P. Berrangé wrote:
+> On Mon, Jan 23, 2023 at 01:05:45PM +0100, Philippe Mathieu-Daudé wrote:
+>> On 23/1/23 12:11, Daniel P. Berrangé wrote:
+>>> On Mon, Jan 23, 2023 at 10:20:29AM +0100, Philippe Mathieu-Daudé wrote:
+>>>> On 23/1/23 09:39, Thomas Huth wrote:
+>>>>> From: Daniel P. Berrangé <berrange@redhat.com>
 
-We don't need the condition above because we came here with map == 0
-and we only visit each bit once.
+>>>>> +AudiodevList *qmp_query_audiodevs(Error **errp)
+>>>>> +{
+>>>>> +    AudiodevList *ret = NULL;
+>>>>> +    AudiodevListEntry *e;
+>>>>> +    QSIMPLEQ_FOREACH(e, &audiodevs, next) {
+>>>>
+>>>> I am a bit confused here, isn't &audiodevs containing what the user provided
+>>>> from CLI? How is that useful to libvirt? Maybe the corner case
+>>>> of a user hand-modifying the QEMU launch arguments from a XML config?
+>>>>
+>>>> Wouldn't a list of linked in AudiodevDriver be more useful to libvirt
+>>>> so it could pick the best available backend to start a VM?
+>>>
+>>> On the libvirt side we're never going to need to actually call the
+>>> query-audiodevs commands. The mere existance of the command, means
+>>> that the QMP schema now exposes information about what audio backends
+>>> have been compiled into the binary. This is the same trick we've used
+>>> for other aspects of QMP. IOW we don't need a separate command just
+>>> for the purpose of listing AudiodevDrivers.
+>>
+>> I understand having "what audio backends have been compiled into the
+>> binary" is useful, but I am missing how you get that from &audiodevs.
+>>
+>> AFAICT &audiodevs is for the CLI parsed backends, not all the backends
+>> linked within a binary. I probably need sugar / coffee and will revisit
+>> after lunch.
+> 
+> It ties into the 'query-qmp-schema' command, along with patch #2 in
+> this series.
+> 
+> The query-audiodevs command will cause the 'AudiodevDriver' enum to
+> be reported in the 'query-qmp-schema' response. Patch #2, makes all
+> the AudiodevDriver enum entries conditional on CONFIG_XXXX.
+> 
+> IOW now query-qmp-schema data will tell you what AudiodevDriver
+> backends are compiled into the binary you're talking to.
 
-> +                    (cpu->cfg.satp_mode.init & (1 << i)) &&
-> +                    valid_vm[i]) {
-> +                    for (int j = i - 1; j >= 0; --j) {
-> +                        if (valid_vm[j]) {
-> +                            cpu->cfg.satp_mode.map |= (1 << j);
-> +                            break;
-> +                        }
-> +                    }
-> +                    break;
-> +                }
-> +            }
-> +        }
-> +    }
-> +
-> +    /* Make sure the configuration asked is supported by qemu */
-> +    for (int i = 0; i < 16; ++i) {
-> +        if ((cpu->cfg.satp_mode.map & (1 << i)) && !valid_vm[i]) {
-> +            error_setg(errp, "satp_mode %s is not valid",
-> +                       satp_mode_str(i, rv32));
-> +            return;
-> +        }
-> +    }
-> +
-> +    /*
-> +     * Make sure the user did not ask for an invalid configuration as per
-> +     * the specification.
-> +     */
-> +    satp_mode_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
-> +
-> +    if (!rv32) {
-> +        for (int i = satp_mode_max - 1; i >= 0; --i) {
+Thanks for the explanation Daniel.
 
-satp_mode_max can be zero when configs only support mbare, so we need
-to be careful here. We should only run this loop when it's greater than
-zero.
+Just FTR, while I'm not confident enough to add a R-b tag, I am
+not opposed to it.
 
-> +            if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
-> +                (cpu->cfg.satp_mode.init & (1 << i)) &&
-> +                valid_vm[i]) {
-> +                error_setg(errp, "cannot disable %s satp mode if %s "
-> +                           "is enabled", satp_mode_str(i, false),
-> +                           satp_mode_str(satp_mode_max, false));
-> +                return;
-> +            }
-> +        }
-> +    }
-> +
-> +    /* Finally expand the map so that all valid modes are set */
-> +    for (int i = satp_mode_max - 1; i >= 0; --i) {
+Regards,
 
-Same here, need to heck satp_mode_max is greater than zero.
-
-> +        cpu->cfg.satp_mode.map |= (1 << i);
-> +    }
-> +}
-> +
-> +static void riscv_cpu_finalize_features(RISCVCPU *cpu, Error **errp)
-> +{
-> +    Error *local_err = NULL;
-> +
-> +    riscv_cpu_satp_mode_finalize(cpu, &local_err);
-> +    if (local_err != NULL) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +}
-> +
->  static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->  {
->      CPUState *cs = CPU(dev);
-> @@ -919,6 +1072,12 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->       }
->  #endif
->  
-> +    riscv_cpu_finalize_features(cpu, &local_err);
-> +    if (local_err != NULL) {
-> +        error_propagate(errp, local_err);
-> +        return;
-> +    }
-> +
->      riscv_cpu_register_gdb_regs_for_features(cs);
->  
->      qemu_init_vcpu(cs);
-> @@ -927,6 +1086,52 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
->      mcc->parent_realize(dev, errp);
->  }
->  
-> +static void cpu_riscv_get_satp(Object *obj, Visitor *v, const char *name,
-> +                           void *opaque, Error **errp)
-> +{
-> +    RISCVSATPMap *satp_map = opaque;
-> +    uint8_t satp = satp_mode_from_str(name);
-> +    bool value;
-> +
-> +    value = (satp_map->map & (1 << satp));
-> +
-> +    visit_type_bool(v, name, &value, errp);
-> +}
-> +
-> +static void cpu_riscv_set_satp(Object *obj, Visitor *v, const char *name,
-> +                           void *opaque, Error **errp)
-> +{
-> +    RISCVSATPMap *satp_map = opaque;
-> +    uint8_t satp = satp_mode_from_str(name);
-> +    bool value;
-> +
-> +    if (!visit_type_bool(v, name, &value, errp)) {
-> +        return;
-> +    }
-> +
-> +    satp_map->map = deposit32(satp_map->map, satp, 1, value);
-> +    satp_map->init |= 1 << satp;
-> +}
-> +
-> +static void riscv_add_satp_mode_properties(Object *obj)
-> +{
-> +    RISCVCPU *cpu = RISCV_CPU(obj);
-> +
-> +    if (cpu->env.misa_mxl == MXL_RV32) {
-> +        object_property_add(obj, "sv32", "bool", cpu_riscv_get_satp,
-> +                            cpu_riscv_set_satp, NULL, &cpu->cfg.satp_mode);
-> +    } else {
-> +        object_property_add(obj, "sv39", "bool", cpu_riscv_get_satp,
-> +                            cpu_riscv_set_satp, NULL, &cpu->cfg.satp_mode);
-> +        object_property_add(obj, "sv48", "bool", cpu_riscv_get_satp,
-> +                            cpu_riscv_set_satp, NULL, &cpu->cfg.satp_mode);
-> +        object_property_add(obj, "sv57", "bool", cpu_riscv_get_satp,
-> +                            cpu_riscv_set_satp, NULL, &cpu->cfg.satp_mode);
-> +        object_property_add(obj, "sv64", "bool", cpu_riscv_get_satp,
-> +                            cpu_riscv_set_satp, NULL, &cpu->cfg.satp_mode);
-> +    }
-> +}
-> +
->  #ifndef CONFIG_USER_ONLY
->  static void riscv_cpu_set_irq(void *opaque, int irq, int level)
->  {
-> @@ -1091,6 +1296,8 @@ static void register_cpu_props(Object *obj)
->      for (prop = riscv_cpu_extensions; prop && prop->name; prop++) {
->          qdev_property_add_static(dev, prop);
->      }
-> +
-> +    riscv_add_satp_mode_properties(obj);
->  }
->  
->  static Property riscv_cpu_properties[] = {
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index f5609b62a2..e37177db5c 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -27,6 +27,7 @@
->  #include "qom/object.h"
->  #include "qemu/int128.h"
->  #include "cpu_bits.h"
-> +#include "qapi/qapi-types-common.h"
->  
->  #define TCG_GUEST_DEFAULT_MO 0
->  
-> @@ -413,6 +414,17 @@ struct RISCVCPUClass {
->      ResettablePhases parent_phases;
->  };
->  
-> +/*
-> + * map is a 16-bit bitmap: the most significant set bit in map is the maximum
-> + * satp mode that is supported.
-> + *
-> + * init is a 16-bit bitmap used to make sure the user selected a correct
-> + * configuration as per the specification.
-> + */
-> +typedef struct {
-> +    uint16_t map, init;
-> +} RISCVSATPMap;
-> +
->  struct RISCVCPUConfig {
->      bool ext_i;
->      bool ext_e;
-> @@ -488,6 +500,8 @@ struct RISCVCPUConfig {
->      bool debug;
->  
->      bool short_isa_string;
-> +
-> +    RISCVSATPMap satp_mode;
->  };
->  
->  typedef struct RISCVCPUConfig RISCVCPUConfig;
-> @@ -794,9 +808,14 @@ enum riscv_pmu_event_idx {
->  /* CSR function table */
->  extern riscv_csr_operations csr_ops[CSR_TABLE_SIZE];
->  
-> +extern const bool valid_vm_1_10_32[], valid_vm_1_10_64[];
-> +
->  void riscv_get_csr_ops(int csrno, riscv_csr_operations *ops);
->  void riscv_set_csr_ops(int csrno, riscv_csr_operations *ops);
->  
->  void riscv_cpu_register_gdb_regs_for_features(CPUState *cs);
->  
-> +uint8_t satp_mode_max_from_map(uint32_t map);
-> +const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit);
-> +
->  #endif /* RISCV_CPU_H */
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 6b157806a5..3c02055825 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1117,12 +1117,12 @@ static const target_ulong hip_writable_mask = MIP_VSSIP;
->  static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP | MIP_VSEIP;
->  static const target_ulong vsip_writable_mask = MIP_VSSIP;
->  
-> -static const bool valid_vm_1_10_32[16] = {
-> +const bool valid_vm_1_10_32[16] = {
->      [VM_1_10_MBARE] = true,
->      [VM_1_10_SV32] = true
->  };
->  
-> -static const bool valid_vm_1_10_64[16] = {
-> +const bool valid_vm_1_10_64[16] = {
->      [VM_1_10_MBARE] = true,
->      [VM_1_10_SV39] = true,
->      [VM_1_10_SV48] = true,
-> @@ -1211,11 +1211,9 @@ static RISCVException read_mstatus(CPURISCVState *env, int csrno,
->  
->  static bool validate_vm(CPURISCVState *env, target_ulong vm)
->  {
-> -    if (riscv_cpu_mxl(env) == MXL_RV32) {
-> -        return valid_vm_1_10_32[vm & 0xf];
-> -    } else {
-> -        return valid_vm_1_10_64[vm & 0xf];
-> -    }
-> +    RISCVCPU *cpu = RISCV_CPU(env_cpu(env));
-> +
-> +    return ((vm & 0xf) <= satp_mode_max_from_map(cpu->cfg.satp_mode.map));
->  }
->  
->  static RISCVException write_mstatus(CPURISCVState *env, int csrno,
-> -- 
-> 2.37.2
->
-
-Thanks,
-drew
+Phil.
 
