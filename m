@@ -2,64 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04AE867BF83
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 23:02:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF9F67BF99
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 23:08:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKnq4-0006SF-4m; Wed, 25 Jan 2023 17:01:52 -0500
+	id 1pKnuz-0007pE-K5; Wed, 25 Jan 2023 17:06:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pKnpx-0006S0-JY
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 17:01:45 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217])
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pKnuj-0007lK-PV; Wed, 25 Jan 2023 17:06:41 -0500
+Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pKnpv-0001Um-2R
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 17:01:45 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 3546E616C2;
- Wed, 25 Jan 2023 22:01:41 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 79BA5C433D2;
- Wed, 25 Jan 2023 22:01:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1674684100;
- bh=Z8Z+kV8zvQPaDPI2dAWyQXmqy22O8fHjplm46zAzBBY=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=OYQzzHlz6UEq1bihNNY79A4KseLIpdDOw/8yuhwDfoTgoIXbNoc3QyW7p2oBAb1+M
- qRudygQYHXR53MBv6o1G3v+dvCtawgUbMWEnpdmbxPMrb1zw4ZupEF/ccb/tVFxsEw
- 4NHjdO9XomyyAI2mvFE5B0vBB+M5+p2vVgDAebSG6QZlSbv3dvvNDLE53BkxlopI+0
- 5fJpAn5wHvkHRPAnoX3Y1baotdFFzGL8rpmtAcwLn1TJZ+eX0Xh1Md+RbDyDMUiIMh
- oBrh+OlWxWJzlciHoZkcpV4qWGl2K6Q5/SpnuooGPhp6Bjxg1Byax5dYcHY+USt+Xo
- em3rWPl+NqwIg==
-Date: Wed, 25 Jan 2023 14:01:37 -0800 (PST)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
-To: Vikram Garhwal <vikram.garhwal@amd.com>
-cc: qemu-devel@nongnu.org, xen-devel@lists.xenproject.org, 
- stefano.stabellini@amd.com, alex.bennee@linaro.org, 
- Stefano Stabellini <sstabellini@kernel.org>, 
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>
-Subject: Re: [QEMU][PATCH v4 06/10] hw/xen/xen-hvm-common: skip ioreq creation
- on ioreq registration failure
-In-Reply-To: <20230125085407.7144-7-vikram.garhwal@amd.com>
-Message-ID: <alpine.DEB.2.22.394.2301251400500.1978264@ubuntu-linux-20-04-desktop>
-References: <20230125085407.7144-1-vikram.garhwal@amd.com>
- <20230125085407.7144-7-vikram.garhwal@amd.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pKnuh-0002Kp-Rl; Wed, 25 Jan 2023 17:06:41 -0500
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+ by mailout.west.internal (Postfix) with ESMTP id C6BD732009C5;
+ Wed, 25 Jan 2023 17:06:35 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute5.internal (MEProxy); Wed, 25 Jan 2023 17:06:36 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1674684395; x=1674770795; bh=fWOQF8Qeve
+ qlwiVl8p7yDNnr2qk1T7DXm+XUtf4RqQw=; b=jVdPb8ZFT0Jn7hRcoquqN5PlZB
+ aeCBkGYt/EzYdv2W4KN/6PS89/gZrA3L57qfe0473jnHdVKjgkn3eBk7EWwy8V4n
+ BEkd7k1eE4F8KcGc2cCHD4+AAKg9BZsZNCz9GQp67WNNiiIrvTy14TYi5JRBf3Lp
+ zAlZpqsIMm4fcGHTXYyPyXqOOYpMZK0vfUJ0a317/C6/zyICS09+79xc+h8Kx/Up
+ aTCGdud857LuXAmVA/D+D6yQeTy9EXwTGqGMxpcJdUXYBFwNEF0eqSBgYaLZiKzS
+ NGtBpErVRBEE9hzOHDkEGdrO3w5BzDdibZ3zANQs6t1WiOV5Fh7DoJLniJFQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1674684395; x=1674770795; bh=fWOQF8QeveqlwiVl8p7yDNnr2qk1
+ T7DXm+XUtf4RqQw=; b=ecegVLYu7RmTIX98z4Qp7DY0f48NjpYdXVFucZHyBv1p
+ X12/q/hNCsUo1pBDxpQrrE+Ypfj6TMD1TcIixU0inKeNX+DWy2MRgzlgyw4SQG7Q
+ J2k8tVH4U7nPI9nEXNEDQm2SxX1+uLKf91bPhgeDLt/JkxyzOO+D5huskcDBX3PT
+ YVpmmAUbqF2NUPd6NZB76AEvXQY8AL1paLqgSEDXu7zWuQs/vgyWPWVcYQbQBWay
+ SgScEn8bP6D8OnOJPbDNrUuLfO+FU+bbNsJ2643wyQqhAXLJQ4UytMppQ12yROnx
+ AXbTUZxwWibBhNLDStLWYFUyDufA5JmD5wJuK9TsVg==
+X-ME-Sender: <xms:6qfRY5fC0ILwIgnu8WVQ8NSLJouQTTok2xyQZfqvJcfQV4fitbDMaA>
+ <xme:6qfRY3Og4N6stahunbEpiGk3L_61Qo8qS4ZYgOTt6AJ6hlR2l_JWfpDHu0HZX-H8m
+ G_RNLaA5d-IjXDEoKo>
+X-ME-Received: <xmr:6qfRYyj7L1Hy7u-kFT39GOVV0e1mocBCa-uRd6I_pcBAeKE_nM7OwEJAQz2GXpJQwMVKk4-pwZGh2jhbV-XNg3N9>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvvddgudehlecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpeduteeihfffleeuveekgedugfeffeehtdeguefffffhleehgfduueejjeek
+ feeukeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hpvghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:6qfRYy9M1yqVXsZ5HzqbPRlumL74dpInR4j9iETMBKsWO2CLAQzphw>
+ <xmx:6qfRY1tuteVj7l4JsQ1Y5ox_Rm9YuHZD7ddpGL5MUlYsIuqTN0vQPA>
+ <xmx:6qfRYxFbMPYkA_AtqxFWk-_HwO_KKqKfX5K-xj19zGBzV2GzeDkjvA>
+ <xmx:66fRY7D98wKroa47g810iylZ5_C0GQ3CSUK3QSj3HJPUv8d4UqV3Jw>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 Jan 2023 17:06:32 -0500 (EST)
+Date: Wed, 25 Jan 2023 14:06:30 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: Corey Minyard <minyard@acm.org>
+Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
+ hskinnemoen@google.com, kfting@nuvoton.com, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, philmd@linaro.org
+Subject: Re: [PATCH v4 3/5] hw/nvram/eeprom_at24c: Add init_rom field and
+ at24c_eeprom_init_rom helper
+Message-ID: <Y9Gn5iLM87MKycMn@pdel-mbp.dhcp.thefacebook.com>
+References: <20230118024214.14413-1-peter@pjd.dev>
+ <20230118024214.14413-4-peter@pjd.dev>
+ <Y9Gg15hBJ/aQgd3e@minyard.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=139.178.84.217;
- envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y9Gg15hBJ/aQgd3e@minyard.net>
+Received-SPF: pass client-ip=64.147.123.21; envelope-from=peter@pjd.dev;
+ helo=wout5-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -76,110 +102,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 25 Jan 2023, Vikram Garhwal wrote:
-> From: Stefano Stabellini <stefano.stabellini@amd.com>
+On Wed, Jan 25, 2023 at 03:36:23PM -0600, Corey Minyard wrote:
+> On Tue, Jan 17, 2023 at 06:42:12PM -0800, Peter Delevoryas wrote:
+> > Allows users to specify binary data to initialize an EEPROM, allowing users to
+> > emulate data programmed at manufacturing time.
+> > 
+> > - Added init_rom and init_rom_size attributes to TYPE_AT24C_EE
+> > - Added at24c_eeprom_init_rom helper function to initialize attributes
+> > - If -drive property is provided, it overrides init_rom data
+> > 
+> > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
+> > Reviewed-by: Joel Stanley <joel@jms.id.au>
+> > ---
+> >  hw/nvram/eeprom_at24c.c         | 37 ++++++++++++++++++++++++++++-----
+> >  include/hw/nvram/eeprom_at24c.h | 16 ++++++++++++++
+> >  2 files changed, 48 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
+> > index 98857e3626b9..f8d751fa278d 100644
+> > --- a/hw/nvram/eeprom_at24c.c
+> > +++ b/hw/nvram/eeprom_at24c.c
+> > @@ -50,6 +50,9 @@ struct EEPROMState {
+> >      uint8_t *mem;
+> >  
+> >      BlockBackend *blk;
+> > +
+> > +    const uint8_t *init_rom;
+> > +    uint32_t init_rom_size;
+> >  };
+> >  
+> >  static
+> > @@ -131,19 +134,38 @@ int at24c_eeprom_send(I2CSlave *s, uint8_t data)
+> >  
+> >  I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size)
+> >  {
+> > -    I2CSlave *i2c_dev = i2c_slave_new(TYPE_AT24C_EE, address);
+> > -    DeviceState *dev = DEVICE(i2c_dev);
+> > +    return at24c_eeprom_init_rom(bus, address, rom_size, NULL, 0);
+> > +}
+> > +
+> > +I2CSlave *at24c_eeprom_init_rom(I2CBus *bus, uint8_t address, uint32_t rom_size,
+> > +                                const uint8_t *init_rom, uint32_t init_rom_size)
+> > +{
+> > +    EEPROMState *s;
+> > +
+> > +    s = AT24C_EE(qdev_new(TYPE_AT24C_EE));
+> > +
+> > +    qdev_prop_set_uint8(DEVICE(s), "address", address);
 > 
-> On ARM it is possible to have a functioning xenpv machine with only the
-> PV backends and no IOREQ server. If the IOREQ server creation fails continue
-> to the PV backends initialization.
-> 
-> Also, moved the IOREQ registration and mapping subroutine to new function
-> xen_do_ioreq_register().
-> 
-> Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
-> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+> Why did you switch from using i2c_slave_new()?  Using it is more
+> documentation and future-proofing than convenience.
 
-as per my previous reply, even though I am listed as co-author, for
-tracking that I did review this version of the patch:
+Oh, yeah that's my bad. I was probably doing it so that all the qdev_prop_set
+calls to the object are in the same place, but I probably should have just kept
+i2c_slave_new() and initialized only the at24c-eeprom properties here, instead
+of initializing the I2CSlave ones too.
 
-Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
+- Peter
 
-
-> ---
->  hw/xen/xen-hvm-common.c | 53 ++++++++++++++++++++++++++++-------------
->  1 file changed, 36 insertions(+), 17 deletions(-)
 > 
-> diff --git a/hw/xen/xen-hvm-common.c b/hw/xen/xen-hvm-common.c
-> index e748d8d423..94dbbe97ed 100644
-> --- a/hw/xen/xen-hvm-common.c
-> +++ b/hw/xen/xen-hvm-common.c
-> @@ -777,25 +777,12 @@ err:
->      exit(1);
->  }
->  
-> -void xen_register_ioreq(XenIOState *state, unsigned int max_cpus,
-> -                        MemoryListener xen_memory_listener)
-> +static void xen_do_ioreq_register(XenIOState *state,
-> +                                           unsigned int max_cpus,
-> +                                           MemoryListener xen_memory_listener)
->  {
->      int i, rc;
->  
-> -    state->xce_handle = xenevtchn_open(NULL, 0);
-> -    if (state->xce_handle == NULL) {
-> -        perror("xen: event channel open");
-> -        goto err;
-> -    }
-> -
-> -    state->xenstore = xs_daemon_open();
-> -    if (state->xenstore == NULL) {
-> -        perror("xen: xenstore open");
-> -        goto err;
-> -    }
-> -
-> -    xen_create_ioreq_server(xen_domid, &state->ioservid);
-> -
->      state->exit.notify = xen_exit_notifier;
->      qemu_add_exit_notifier(&state->exit);
->  
-> @@ -859,12 +846,44 @@ void xen_register_ioreq(XenIOState *state, unsigned int max_cpus,
->      QLIST_INIT(&state->dev_list);
->      device_listener_register(&state->device_listener);
->  
-> +    return;
-> +
-> +err:
-> +    error_report("xen hardware virtual machine initialisation failed");
-> +    exit(1);
-> +}
-> +
-> +void xen_register_ioreq(XenIOState *state, unsigned int max_cpus,
-> +                        MemoryListener xen_memory_listener)
-> +{
-> +    int rc;
-> +
-> +    state->xce_handle = xenevtchn_open(NULL, 0);
-> +    if (state->xce_handle == NULL) {
-> +        perror("xen: event channel open");
-> +        goto err;
-> +    }
-> +
-> +    state->xenstore = xs_daemon_open();
-> +    if (state->xenstore == NULL) {
-> +        perror("xen: xenstore open");
-> +        goto err;
-> +    }
-> +
-> +    rc = xen_create_ioreq_server(xen_domid, &state->ioservid);
-> +    if (!rc) {
-> +        xen_do_ioreq_register(state, max_cpus, xen_memory_listener);
-> +    } else {
-> +        warn_report("xen: failed to create ioreq server");
-> +    }
-> +
->      xen_bus_init();
->  
->      xen_register_backend(state);
->  
->      return;
-> +
->  err:
-> -    error_report("xen hardware virtual machine initialisation failed");
-> +    error_report("xen hardware virtual machine backend registration failed");
->      exit(1);
->  }
-> -- 
-> 2.17.0
+> Other than that, looks good to me.
 > 
+> Reviewed-by: Corey Minyard <cminyard@mvista.com>
 > 
+> > +    qdev_prop_set_uint32(DEVICE(s), "rom-size", rom_size);
+> >  
+> > -    qdev_prop_set_uint32(dev, "rom-size", rom_size);
+> > -    i2c_slave_realize_and_unref(i2c_dev, bus, &error_abort);
+> > +    /* TODO: Model init_rom with QOM properties. */
+> > +    s->init_rom = init_rom;
+> > +    s->init_rom_size = init_rom_size;
+> >  
+> > -    return i2c_dev;
+> > +    i2c_slave_realize_and_unref(I2C_SLAVE(s), bus, &error_abort);
+> > +
+> > +    return I2C_SLAVE(s);
+> >  }
+> >  
+> >  static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
+> >  {
+> >      EEPROMState *ee = AT24C_EE(dev);
+> >  
+> > +    if (ee->init_rom_size > ee->rsize) {
+> > +        error_setg(errp, "%s: init rom is larger than rom: %u > %u",
+> > +                   TYPE_AT24C_EE, ee->init_rom_size, ee->rsize);
+> > +        return;
+> > +    }
+> > +
+> >      if (ee->blk) {
+> >          int64_t len = blk_getlength(ee->blk);
+> >  
+> > @@ -163,6 +185,7 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
+> >      }
+> >  
+> >      ee->mem = g_malloc0(ee->rsize);
+> > +
+> >  }
+> >  
+> >  static
+> > @@ -176,6 +199,10 @@ void at24c_eeprom_reset(DeviceState *state)
+> >  
+> >      memset(ee->mem, 0, ee->rsize);
+> >  
+> > +    if (ee->init_rom) {
+> > +        memcpy(ee->mem, ee->init_rom, MIN(ee->init_rom_size, ee->rsize));
+> > +    }
+> > +
+> >      if (ee->blk) {
+> >          int ret = blk_pread(ee->blk, 0, ee->rsize, ee->mem, 0);
+> >  
+> > diff --git a/include/hw/nvram/eeprom_at24c.h b/include/hw/nvram/eeprom_at24c.h
+> > index 196db309d451..acb9857b2add 100644
+> > --- a/include/hw/nvram/eeprom_at24c.h
+> > +++ b/include/hw/nvram/eeprom_at24c.h
+> > @@ -20,4 +20,20 @@
+> >   */
+> >  I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size);
+> >  
+> > +
+> > +/*
+> > + * Create and realize an AT24C EEPROM device on the heap with initial data.
+> > + * @bus: I2C bus to put it on
+> > + * @address: I2C address of the EEPROM slave when put on a bus
+> > + * @rom_size: size of the EEPROM
+> > + * @init_rom: Array of bytes to initialize EEPROM memory with
+> > + * @init_rom_size: Size of @init_rom, must be less than or equal to @rom_size
+> > + *
+> > + * Create the device state structure, initialize it, put it on the specified
+> > + * @bus, and drop the reference to it (the device is realized). Copies the data
+> > + * from @init_rom to the beginning of the EEPROM memory buffer.
+> > + */
+> > +I2CSlave *at24c_eeprom_init_rom(I2CBus *bus, uint8_t address, uint32_t rom_size,
+> > +                                const uint8_t *init_rom, uint32_t init_rom_size);
+> > +
+> >  #endif
+> > -- 
+> > 2.39.0
+> > 
+> > 
 
