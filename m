@@ -2,85 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 436E667B8AD
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 18:36:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CFF0767BA71
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 20:14:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKjfg-00080L-KX; Wed, 25 Jan 2023 12:34:52 -0500
+	id 1pKlCa-0007nn-GI; Wed, 25 Jan 2023 14:12:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pKjff-0007zv-0P
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 12:34:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pKlCY-0007nX-WE; Wed, 25 Jan 2023 14:12:55 -0500
+Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pKjfc-0006Ei-Iw
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 12:34:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674668087;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gC/8fIu4ghCQxIr5cPjoyY3K+sgUXKJuosj2mEv57GQ=;
- b=G0F6PIWklHY10Ri8ODEjfOonp8/+Qqh0PHqNkb65PBSwzuQIssnq/OGaMG2g+Z2vSHR5ns
- t7LaztgEGOy91brIG3ADDa7r4zh+1urvynWg+B7w0Tb5qEWC3OLaMD9EBCrRRN24s0hP+r
- 5aFU5DPA6EIrmC3a4F6TH0Bz4hNOwjU=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-323-bTvk1RBZOSCkq2PJyPetLQ-1; Wed, 25 Jan 2023 12:34:45 -0500
-X-MC-Unique: bTvk1RBZOSCkq2PJyPetLQ-1
-Received: by mail-ed1-f72.google.com with SMTP id
- m12-20020a056402430c00b0049e4ac58509so13426243edc.16
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 09:34:45 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gC/8fIu4ghCQxIr5cPjoyY3K+sgUXKJuosj2mEv57GQ=;
- b=UGYSjr88OlNvFUBpjxb2ox1p0NySBjZYmAA1QUbq9/D84VEsoQG4Qmk/GgVbSqHcmL
- QW52hyWjAbXRIdUf4Tc//bPuafzrJa3zgXW3fieimWzyxxqKAymKlEMBB3AmDq1RSKiC
- QLKygc22NOw7V+QClCnt24ynttAqpvw8D7BCiuZcEittYpf4VxqWk9F1/+gT01Z68qXK
- KfU1tLwpIUI+uzlw43UfEAQUY4qPqPctd2uAnF6oCFHtZ4MAFYjcwILXm/4+SMzmvbT0
- w6maqZqjb5hpXUXs98z0406rY3gCAk7MlbRqrVbQzRXhNp+Dh2AmNw6DH/CMoGQoMAn9
- /XxQ==
-X-Gm-Message-State: AFqh2krvcdL2Ps9KX1FE8StpYcraQ39+zGG7MXcuyt5CXNs8eGPmD6Mg
- iCBTLYoGZCFp0U/+dPVWjlw5OkgKzCg32rI8AzLL6dQ7iC6m7pe6uImgSvewGHFpOowcmoTF3HW
- SGgfGQCS5UNvsbts=
-X-Received: by 2002:a17:906:4f93:b0:877:61e8:915a with SMTP id
- o19-20020a1709064f9300b0087761e8915amr26497826eju.75.1674668084772; 
- Wed, 25 Jan 2023 09:34:44 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXu+9mp5rtY1xsRDT8G72pnNhVm3QUWUmmBt9aS28eD6b3QrWyoHmRjxieb8wjSUypSKJ/Es0Q==
-X-Received: by 2002:a17:906:4f93:b0:877:61e8:915a with SMTP id
- o19-20020a1709064f9300b0087761e8915amr26497811eju.75.1674668084530; 
- Wed, 25 Jan 2023 09:34:44 -0800 (PST)
-Received: from redhat.com ([2.52.134.175]) by smtp.gmail.com with ESMTPSA id
- d12-20020a170906174c00b007a8de84ce36sm2603063eje.206.2023.01.25.09.34.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 09:34:43 -0800 (PST)
-Date: Wed, 25 Jan 2023 12:34:41 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Cc: qemu-devel@nongnu.org, Ani Sinha <ani@anisinha.ca>
-Subject: Re: [PATCH 00/40] x86: fixing and cleaning up ACPI PCI code part 3
-Message-ID: <20230125123423-mutt-send-email-mst@kernel.org>
-References: <20230112140312.3096331-1-imammedo@redhat.com>
- <20230125180209.597c0983@imammedo.users.ipa.redhat.com>
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pKlCX-0005N2-2a; Wed, 25 Jan 2023 14:12:54 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.west.internal (Postfix) with ESMTP id B86B0320091B;
+ Wed, 25 Jan 2023 14:12:48 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+ by compute3.internal (MEProxy); Wed, 25 Jan 2023 14:12:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-type:date:date:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to; s=fm1; t=1674673968; x=1674760368; bh=m9C45R8EbV
+ QNfBcbp2lSbRIBq4bQIlGDLwQrbSVTA6A=; b=q4Om+qnUSiI5xSbgyQwcr4yLXK
+ m3KE4QzYL2Tam0+I5HYZMssZXAxc/hhkfY6V9u25JVXFpWgb+Zphq1Uen6eOB6Mf
+ CGL00Ym0zebq8BA6v0eqs7Boktakaozv/RMk7rLtTGgU6RKRTM1TGLpON1T1MycB
+ TU/ELzXYyKdWFb2bX9vVnanTZh6yMwq6mHIaq8m2NqNIpLGYAE8/NEXlHY3/8AD8
+ G4iu6rIWv1oAxP/n8ZtR11tMonacLZSwrf+vcLSX9ci9KatFZi12Bi2Z+tdqrGJI
+ InTIOds6fox4c+Ym6XNxhav2Delt6pwo4TNPQtQzVvn+9qxqpcUO0GBweFLg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
+ :feedback-id:from:from:in-reply-to:in-reply-to:message-id
+ :mime-version:references:reply-to:sender:subject:subject:to:to
+ :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+ fm3; t=1674673968; x=1674760368; bh=m9C45R8EbVQNfBcbp2lSbRIBq4bQ
+ IlGDLwQrbSVTA6A=; b=LY365FxMbTfKpKCrsdGRWSVDbMgFIp0ZRE4/ZNSyq7ZS
+ K6SNWb5bz1bVKdO+/j3fIE+enWLfh5M9F/6/iTLHckCI04UJgBllQcbgFl8Csq5F
+ Hz75PKY8zUZKt+wSm7gjJ3P7W0eUcGATmIQNG37yOlR5d0APAZE9wL5GfPka8Flj
+ h+bOyz8iIv1YHmqWRKcOiSvT+0mytw+E7BQ+AHd2AmBNTLOPThjPCXs4Bzsep2rt
+ cvd7ySq/2Kn3acbbyPDCffj5/ONLquNQu5nfE9yAQPodilR2SxEfsApYtxqPjaKt
+ 6W0GFIEzMIsHq3hRfKocNDttk7/yfxIinx9jjJgfZw==
+X-ME-Sender: <xms:L3_RYzCCeJAqIiwB7T-Z5tS08bW_X_Ao3_1rBmVnCE5H3RnSLSrLeg>
+ <xme:L3_RY5iqfLSX3uVtevpvN6NF3EvMZY_HZ0AvPwHLPLRjCU1Pdjo_vHWlk3rpMWeGj
+ CuxFNeBjZJhRYvLB1w>
+X-ME-Received: <xmr:L3_RY-mK2eW9ANKUBbLqi1y2Upt5yhn_Ts3k8szI2tFUP2tTxggL8fvh4VLpZ7J-wCYs9z-skL-ijezdfOJXeJjp>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvvddguddvfecutefuodetggdotefrod
+ ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+ necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+ enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpeduteeihfffleeuveekgedugfeffeehtdeguefffffhleehgfduueejjeek
+ feeukeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hpvghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:L3_RY1znHLI7miqMqjf1bv_rj7gugrPCxM4zNKvNdIKmv6F_ZdIy3w>
+ <xmx:L3_RY4TuPhs0g3uPP3tD4S_6MhjE5qjk4hjSROLbHuC7wsqoWLMw1Q>
+ <xmx:L3_RY4bCrP64ES9GEXZ7cbMmB1W0iYfp4KBbtq8e6jLCX6-EZKj2BQ>
+ <xmx:MH_RY7H_lJhb_7CWXfG3LgWF6va_8bMgD84N4wMQWJtUASg4vr8wvw>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 25 Jan 2023 14:12:44 -0500 (EST)
+Date: Wed, 25 Jan 2023 11:12:41 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: Ninad S Palsule <ninadpalsule@us.ibm.com>
+Cc: "andrew@aj.id.au" <andrew@aj.id.au>, "clg@kaod.org" <clg@kaod.org>,
+ "hskinnemoen@google.com" <hskinnemoen@google.com>,
+ "joel@jms.id.au" <joel@jms.id.au>,
+ "kfting@nuvoton.com" <kfting@nuvoton.com>,
+ "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+ "philmd@linaro.org" <philmd@linaro.org>,
+ "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Subject: Re: [PATCH v4 3/5] hw/nvram/eeprom_at24c: Add init_rom field and
+ at24c_eeprom_init_rom helper
+Message-ID: <Y9F/KS1cPueMfyI4@pdel-mbp.dhcp.thefacebook.com>
+References: <20230118024214.14413-4-peter@pjd.dev>
+ <3C616E21-EED8-4A17-9FC9-970939CC0926@contoso.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230125180209.597c0983@imammedo.users.ipa.redhat.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+In-Reply-To: <3C616E21-EED8-4A17-9FC9-970939CC0926@contoso.com>
+Received-SPF: pass client-ip=64.147.123.24; envelope-from=peter@pjd.dev;
+ helo=wout1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,175 +106,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 25, 2023 at 06:02:09PM +0100, Igor Mammedov wrote:
-> On Thu, 12 Jan 2023 15:02:32 +0100
-> Igor Mammedov <imammedo@redhat.com> wrote:
+On Wed, Jan 25, 2023 at 04:53:20PM +0000, Ninad S Palsule wrote:
+> Signed-off-by: Peter Delevoryas peter@pjd.dev<mailto:peter@pjd.dev>
+> Reviewed-by: Joel Stanley joel@jms.id.au<mailto:joel@jms.id.au>
 > 
-> ping,
+> Tested-by: Ninad Palsule ninadpalsule@us.ibm.com<mailto:ninadpalsule@us.ibm.com>
 > 
-> Michael can you take a look at this series and queue it
-> if it looks acceptable to you.
+> Hi Peter,
+> I applied your patches and made sure that different EEPROM images can be loaded from
+> appropriate image files and it is working as expected.
 
-Yes it's tagged already. RSN.
+Thanks Ninad, this is a good regression test to make sure I didn't break the
+existing drive proprerty.
+
+- Peter
 
 > 
-> PS:
-> I'm waiting on this being merged, to send acpi-index
-> support on non-hotpluggable ports (due to heavy dependency
-> on this refactoring). After which I plan to post
-> series that allows resources reallocation on bridges.
-> (both should be doable in 8.0 timeframe)
-> 
-> (the rest: acpi-index for pxb and other targets/machines,
-> pci-hostbridge cleanups will be after that but probably
-> won't make into 8.0)
-> 
-> > Series continues refactoring on top of [1].
-> > 
-> > It focuses on isolating creation of non hotplug and
-> > hotplug slot descriptions. In state it's posted, it's
-> > not complete, but pretty close to it. The series contains
-> > stable patches from refactoring and is already too large
-> > to keep it to myself, hence I'm publishing it fro review.
-> > 
-> > It will be followed by separate series on top of this one,
-> > that will finish concrete feature[s] in following order:
-> >    1 introduce acpi-index support for non-hotpluggable PCI
-> >      devices (i.e. NICs directly attached to Q35 host-bridge)
-> >      making acpi-index support complete within pc/q35 machines.
-> >    2 let guest OS to re-arrange bridge resources when ACPI PCI
-> >      hotplug is enabled. (should fix insuficient resources issue
-> >      during PCI hotplug)
-> >    3 finish isolating hotplug code from non-hotplug one,
-> >      which should allow to re-use non-hotplug parts in other
-> >      machines (arm/virt and microvm) and bring acpi-index
-> >      support there.
-> > 
-> > PS:
-> > Refactoring also adds testing for various corner cases
-> > and fixes (present/latent/imagined) bugs where they were
-> > spotted.
-> > 
-> > 1) "[PATCH 00/11] x86: clean up ACPI PCI code part 2"
-> >    https://www.mail-archive.com/qemu-devel@nongnu.org/msg915493.html
-> > 
-> > CC: "Michael S. Tsirkin" <mst@redhat.com>
-> > CC: Ani Sinha <ani@anisinha.ca>
-> > 
-> > Igor Mammedov (40):
-> >   tests: qtest: print device_add error before failing test
-> >   tests: acpi: cleanup arguments to make them more readable
-> >   tests: acpi: whitelist DSDT blobs for tests that use pci-bridges
-> >   tests: acpi: extend pcihp with nested bridges
-> >   tests: acpi: update expected blobs
-> >   tests: acpi: cleanup use_uefi argument usage
-> >   pci_bridge: remove whitespace
-> >   x86: acpi: pcihp: clean up duplicate bridge_in_acpi assignment
-> >   pci: acpi hotplug: rename x-native-hotplug to
-> >     x-do-not-expose-native-hotplug-cap
-> >   pcihp: piix4: do not call acpi_pcihp_reset() when ACPI PCI hotplug is
-> >     disabled
-> >   pci: acpihp: assign BSEL only to coldplugged bridges
-> >   x86: pcihp: fix invalid AML PCNT calls to hotplugged bridges
-> >   tests: boot_sector_test: avoid crashing if status is not available yet
-> >   tests: acpi: extend bridge tests with hotplugged bridges
-> >   tests: boot_sector_test(): make it multi-shot
-> >   tests: acpi: add reboot cycle to bridge test
-> >   tests: acpi: whitelist DSDT before refactoring acpi based PCI hotplug
-> >     machinery
-> >   pcihp: drop pcihp_bridge_en dependency when composing PCNT method
-> >   tests: acpi: update expected blobs
-> >   tests: acpi: whitelist DSDT before refactoring acpi based PCI hotplug
-> >     machinery
-> >   pcihp: compose PCNT callchain right before its user _GPE._E01
-> >   pcihp: do not put empty PCNT in DSDT
-> >   tests: acpi: update expected blobs
-> >   whitelist DSDT before adding endpoint devices to bridge testcases
-> >   tests: acpi: add endpoint devices to bridges
-> >   tests: acpi: update expected blobs
-> >   x86: pcihp: acpi: prepare slot ignore rule to work with self
-> >     describing bridges
-> >   pci: acpi: wire up AcpiDevAmlIf interface to generic bridge
-> >   pcihp: make bridge describe itself using
-> >     AcpiDevAmlIfClass:build_dev_aml
-> >   pci: make sure pci_bus_is_express() won't error out with  "discards
-> >     ‘const’ qualifier"
-> >   pcihp: isolate rule whether slot should be described in DSDT
-> >   tests: acpi: whitelist DSDT before decoupling PCI hotplug code from
-> >     basic slots description
-> >   pcihp: acpi: decouple hotplug and generic slots description
-> >   tests: acpi: update expected blobs
-> >   tests: acpi: whitelist DSDT blobs before removing dynamic _DSM on
-> >     coldplugged bridges
-> >   pcihp: acpi: ignore coldplugged bridges when composing hotpluggable
-> >     slots
-> >   tests: acpi: update expected blobs
-> >   tests: acpi: whitelist DSDT before moving non-hotpluggble slots
-> >     description from hotplug path
-> >   pcihp: generate populated non-hotpluggble slot descriptions on
-> >     non-hotplug path
-> >   tests: acpi: update expected blobs
-> > 
-> >  include/hw/acpi/pci.h                         |   4 +
-> >  include/hw/pci/pci.h                          |   2 +-
-> >  include/hw/pci/pcie_port.h                    |   3 +-
-> >  hw/acpi/Kconfig                               |   4 +
-> >  hw/acpi/meson.build                           |   4 +-
-> >  hw/acpi/pci-bridge-stub.c                     |  20 ++
-> >  hw/acpi/pci-bridge.c                          |  27 ++
-> >  hw/acpi/pcihp.c                               |  35 ++-
-> >  hw/acpi/piix4.c                               |   4 +-
-> >  hw/i386/Kconfig                               |   1 +
-> >  hw/i386/acpi-build.c                          | 279 ++++++++++--------
-> >  hw/i386/pc_q35.c                              |   5 +-
-> >  hw/pci-bridge/gen_pcie_root_port.c            |   7 +-
-> >  hw/pci-bridge/pci_bridge_dev.c                |   1 -
-> >  hw/pci/pci.c                                  |   2 +-
-> >  hw/pci/pci_bridge.c                           |  14 +
-> >  hw/pci/pcie.c                                 |   6 +-
-> >  hw/pci/pcie_port.c                            |   3 +-
-> >  tests/data/acpi/pc/DSDT                       | Bin 6458 -> 6360 bytes
-> >  tests/data/acpi/pc/DSDT.acpierst              | Bin 6418 -> 6283 bytes
-> >  tests/data/acpi/pc/DSDT.acpihmat              | Bin 7783 -> 7685 bytes
-> >  tests/data/acpi/pc/DSDT.bridge                | Bin 9532 -> 12487 bytes
-> >  tests/data/acpi/pc/DSDT.cphp                  | Bin 6922 -> 6824 bytes
-> >  tests/data/acpi/pc/DSDT.dimmpxm               | Bin 8112 -> 8014 bytes
-> >  tests/data/acpi/pc/DSDT.hpbridge              | Bin 6418 -> 6289 bytes
-> >  tests/data/acpi/pc/DSDT.hpbrroot              | Bin 3064 -> 3081 bytes
-> >  tests/data/acpi/pc/DSDT.ipmikcs               | Bin 6530 -> 6432 bytes
-> >  tests/data/acpi/pc/DSDT.memhp                 | Bin 7817 -> 7719 bytes
-> >  tests/data/acpi/pc/DSDT.nohpet                | Bin 6316 -> 6218 bytes
-> >  tests/data/acpi/pc/DSDT.numamem               | Bin 6464 -> 6366 bytes
-> >  tests/data/acpi/pc/DSDT.roothp                | Bin 6656 -> 9745 bytes
-> >  tests/data/acpi/q35/DSDT                      | Bin 8310 -> 8252 bytes
-> >  tests/data/acpi/q35/DSDT.acpierst             | Bin 8327 -> 8269 bytes
-> >  tests/data/acpi/q35/DSDT.acpihmat             | Bin 9635 -> 9577 bytes
-> >  tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 8589 -> 8531 bytes
-> >  tests/data/acpi/q35/DSDT.applesmc             | Bin 8356 -> 8298 bytes
-> >  tests/data/acpi/q35/DSDT.bridge               | Bin 11439 -> 11481 bytes
-> >  tests/data/acpi/q35/DSDT.core-count2          | Bin 32450 -> 32392 bytes
-> >  tests/data/acpi/q35/DSDT.cphp                 | Bin 8774 -> 8716 bytes
-> >  tests/data/acpi/q35/DSDT.cxl                  | Bin 9636 -> 9578 bytes
-> >  tests/data/acpi/q35/DSDT.dimmpxm              | Bin 9964 -> 9906 bytes
-> >  tests/data/acpi/q35/DSDT.ipmibt               | Bin 8385 -> 8327 bytes
-> >  tests/data/acpi/q35/DSDT.ipmismbus            | Bin 8398 -> 8340 bytes
-> >  tests/data/acpi/q35/DSDT.ivrs                 | Bin 8327 -> 8269 bytes
-> >  tests/data/acpi/q35/DSDT.memhp                | Bin 9669 -> 9611 bytes
-> >  tests/data/acpi/q35/DSDT.mmio64               | Bin 9440 -> 9382 bytes
-> >  tests/data/acpi/q35/DSDT.multi-bridge         | Bin 8630 -> 12337 bytes
-> >  tests/data/acpi/q35/DSDT.nohpet               | Bin 8168 -> 8110 bytes
-> >  tests/data/acpi/q35/DSDT.numamem              | Bin 8316 -> 8258 bytes
-> >  tests/data/acpi/q35/DSDT.pvpanic-isa          | Bin 8411 -> 8353 bytes
-> >  tests/data/acpi/q35/DSDT.tis.tpm12            | Bin 8916 -> 8858 bytes
-> >  tests/data/acpi/q35/DSDT.tis.tpm2             | Bin 8942 -> 8884 bytes
-> >  tests/data/acpi/q35/DSDT.viot                 | Bin 9419 -> 9361 bytes
-> >  tests/data/acpi/q35/DSDT.xapic                | Bin 35673 -> 35615 bytes
-> >  tests/qtest/bios-tables-test.c                | 144 ++++++---
-> >  tests/qtest/boot-sector.c                     |   6 +-
-> >  tests/qtest/libqtest.c                        |   4 +
-> >  57 files changed, 394 insertions(+), 181 deletions(-)
-> >  create mode 100644 hw/acpi/pci-bridge-stub.c
-> >  create mode 100644 hw/acpi/pci-bridge.c
-> > 
-
+> # Used following command to invoke the qemu.
+> qemu-system-arm -M rainier-bmc -nographic \
+>   -kernel fitImage-linux.bin \
+>   -dtb aspeed-bmc-ibm-rainier.dtb \
+>   -initrd obmc-phosphor-initramfs.rootfs.cpio.xz \
+>   -drive file=obmc-phosphor-image.rootfs.wic.qcow2,if=sd,index=2 \
+>   -append "rootwait console=ttyS4,115200n8 root=PARTLABEL=rofs-a" \
+>   -device at24c-eeprom,bus=aspeed.i2c.bus.0,address=0x51,drive=a,rom-size=32768 -drive file=tpm.eeprom.bin,format=raw,if=none,id=a \
+>   -device at24c-eeprom,bus=aspeed.i2c.bus.7,address=0x50,drive=b,rom-size=65536 -drive file=oppanel.eeprom.bin,format=raw,if=none,id=b \
+>   -device at24c-eeprom,bus=aspeed.i2c.bus.7,address=0x51,drive=c,rom-size=65536 -drive file=lcd.eeprom.bin,format=raw,if=none,id=c \
+>   -device at24c-eeprom,bus=aspeed.i2c.bus.8,address=0x50,drive=d,rom-size=65536 -drive file=baseboard.eeprom.bin,format=raw,if=none,id=d \
+>   -device at24c-eeprom,bus=aspeed.i2c.bus.8,address=0x51,drive=e,rom-size=65536 -drive file=bmc.eeprom.bin,format=raw,if=none,id=e \
+>   -device at24c-eeprom,bus=aspeed.i2c.bus.9,address=0x50,drive=f,rom-size=131072 -drive file=vrm.eeprom.bin,format=raw,if=none,id=f \
+>   -device at24c-eeprom,bus=aspeed.i2c.bus.10,address=0x50,drive=g,rom-size=131072 -drive file=vrm.eeprom.bin,format=raw,if=none,id=g \
+>   -device at24c-eeprom,bus=aspeed.i2c.bus.13,address=0x50,drive=h,rom-size=65536 -drive file=nvme.eeprom.bin,format=raw,if=none,id=h \
+>   -device at24c-eeprom,bus=aspeed.i2c.bus.14,address=0x50,drive=i,rom-size=65536 -drive file=nvme.eeprom.bin,format=raw,if=none,id=i \
+>   -device at24c-eeprom,bus=aspeed.i2c.bus.15,address=0x50,drive=j,rom-size=65536 -drive file=nvme.eeprom.bin,format=raw,if=none,id=j
 
