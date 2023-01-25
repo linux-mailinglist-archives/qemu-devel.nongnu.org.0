@@ -2,85 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3904B67B242
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 13:05:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC53867B251
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 13:07:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKeWF-00040f-3Z; Wed, 25 Jan 2023 07:04:47 -0500
+	id 1pKeYL-00063z-7O; Wed, 25 Jan 2023 07:06:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKeW1-0003pD-Rd
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:04:34 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pKeXg-0005SL-OQ
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:06:34 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pKeW0-0005QG-28
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:04:33 -0500
-Received: by mail-wr1-x432.google.com with SMTP id e3so16792838wru.13
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 04:04:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=FVVALoV7jaNOOxAnaklUaAayBWSuzKz72M+4GPlzCYw=;
- b=ZcXdkabmrvPJ+/15CVHcfF/Cp4gSKK8g1DJZMFqRXz3KhSjI3sCXEUGp+h6xP4rBeV
- CY0jQgupX6E3TXJb/wnPqGApxInuiNCSH3OcJUP6UvGbA5JwkJ4TOLcxJcF2HM6X/360
- MNblw+qGypLZ5WMZlikjJ723YxKkvPRUALYeR5ltBjJXLq5VmAp34HDmSpNdD2wSFQMy
- wcWydQxUxAeOkrbiOCKaBb/Fvl8Kfy3DXj/6aSeMXW71Z74xAam1eZmm0SmOgD1JxejU
- j49MOROByuV6JQBeQ7g5AcgY2j1v/8xysuYrNo1dIlftRl1Vym0zmsDVYkaWaSr+NMej
- tdXw==
+ (Exim 4.90_1) (envelope-from <ajones@ventanamicro.com>)
+ id 1pKeXa-0005uD-U7
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:06:13 -0500
+Received: by mail-ed1-x533.google.com with SMTP id w11so6231369edv.0
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 04:06:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+ bh=rL+WSxYP2vSkH8BUjNinhG2rOQ6HOrQi6MjxkFa6XIw=;
+ b=dziSvb3joBvAqDAFylim/xf8GOIaa7c3OHocI+6fh5RIzaNAQ78LUhnaR8ve0GXyLE
+ gD3zRZMxxjKpcCP1KCaXw5KBb+AJb7c+sOFWlygEJoYaTkq7nTTVybLu3Z0X7CkSLNEd
+ fhEIJXlOSEwMJxspfSb5l0+5LO7Qq0AnRxEvEBIrLymnAEvhH4l0prMtveUGhRwHRpuQ
+ uAupRAcz04x/JxZ9vg+6tN7ooc4qLJchCSiu4hTzGWEB0M9Fp/DMfXZBLGJSUun9zhxN
+ Q1O6zukILTv6l3Sn+DPOI9AmYFOwQl4Z+L9xkOB43p376tBsO1HY2f0zsjrdL9eFfmRc
+ vkkg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=FVVALoV7jaNOOxAnaklUaAayBWSuzKz72M+4GPlzCYw=;
- b=BJ6aIS5Vpmm0HW1NwFNTHjg+1dc7tTt/czHJXCSg63L++DagA23nUq9PTpiizsnBGP
- cO/NSppaF7EnlhYXjrGttIWtm4A1ti/DhBvYD3Fw8gfLIsGOCEiBgSfQCKRqzbiPSDSD
- sdKJA3QfbHyOpqYZ5FbpUxrxkr/em98qdGhusfqL1lm04tMGTxDeQKt1BXVxiyB1xDoY
- CF/L32d4sY4Yye0QV3qLmFJEeg8C01eH5E1IoZF/osSko1vPrnI+nZKCqSapxIdAfjoM
- yX8YqXdLZXdO6Jfg6PnKF6S9RVIBVkjrrtnyE+LtZV9Ls+ycfJzAkIsEckznaiNY2hse
- IrEw==
-X-Gm-Message-State: AFqh2kozlUVd3MypWYicqdMn4HV08wtTV+rBUEly4F/v/XRJsf0x1DA0
- gu/J6jqtTFrMC/u6iB6V+G3neQ==
-X-Google-Smtp-Source: AMrXdXv1Pwqmom2gbZYgtUsrnVbzk0CJtlT+iuNPn46vI/YSIOGvkQhjsgXvd+BHJVI3KZSGvuLa6g==
-X-Received: by 2002:a5d:4bce:0:b0:2be:4ae1:215a with SMTP id
- l14-20020a5d4bce000000b002be4ae1215amr17661411wrt.16.1674648269243; 
- Wed, 25 Jan 2023 04:04:29 -0800 (PST)
-Received: from [192.168.0.114] ([196.77.22.181])
- by smtp.gmail.com with ESMTPSA id
- m15-20020adffa0f000000b0024cb961b6aesm4189310wrr.104.2023.01.25.04.04.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Jan 2023 04:04:28 -0800 (PST)
-Message-ID: <9bf80a28-be03-3fe3-760b-d53970c29d26@linaro.org>
-Date: Wed, 25 Jan 2023 13:04:27 +0100
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rL+WSxYP2vSkH8BUjNinhG2rOQ6HOrQi6MjxkFa6XIw=;
+ b=sM+wiQVJCJ6TxNDn3cldNzvL/CTUEwnCo4xQ1975JqvFm5u7AOYMdLtxuTR0Ae53Mr
+ /U1bPdKlbj6pYhkyvHVe59Og2d6r3SYmRDCtwSLmR2BuUaa//8ev9QNvNPu1udeB3u1z
+ 7YKNUE2Gk5cG3m6sXgJW0WcsEKpzA0Q9ev1fJ/6hSNhBZeczd6deBErCSgARiwZIVfp9
+ VHLaF7DUk/XdzLAwqJax4O6uzRYlME+5OTtisLTTy+nV/1mQlW+BABJez8/2R7AFNOoS
+ YJkAfgiZdXlTEskLIjIexGnw2LRUJycTzYxkhaI8dNlXIrralEHv2nxbUH87dpnhhK7r
+ d7GQ==
+X-Gm-Message-State: AFqh2kqtknEGLhOJiq0TXTIl8xPIYePyZRmPBYQskxS2V3ThxRmfblLC
+ JTQnn+tvSBZ2RFbNDySzR31W8A==
+X-Google-Smtp-Source: AMrXdXtvVRu1/8bHq7372A82nuOXsNruIpyXmeEUDXzeOX9vJwpZp7tnzHeRyE3JWaXltaj3PkItJQ==
+X-Received: by 2002:a05:6402:3786:b0:499:8849:5fac with SMTP id
+ et6-20020a056402378600b0049988495facmr36171903edb.40.1674648368722; 
+ Wed, 25 Jan 2023 04:06:08 -0800 (PST)
+Received: from localhost ([93.99.189.36]) by smtp.gmail.com with ESMTPSA id
+ v26-20020a056402175a00b0049ef70a2894sm2307102edx.38.2023.01.25.04.06.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Jan 2023 04:06:08 -0800 (PST)
+Date: Wed, 25 Jan 2023 13:06:07 +0100
+From: Andrew Jones <ajones@ventanamicro.com>
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v7 4/5] riscv: Introduce satp mode hw capabilities
+Message-ID: <20230125120607.v3ooio7hh3uadinj@orel>
+References: <20230125084107.1580972-1-alexghiti@rivosinc.com>
+ <20230125084107.1580972-5-alexghiti@rivosinc.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v2 1/2] qapi, audio: add query-audiodev command
-Content-Language: en-US
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, =?UTF-8?Q?Volker_R=c3=bcmelin?=
- <vr_qemu@t-online.de>, Christian Schoenebeck <qemu_oss@crudebyte.com>
-References: <20230123083957.20349-1-thuth@redhat.com>
- <20230123083957.20349-2-thuth@redhat.com>
- <47d18f28-73b1-af59-ab65-2366ed3da55a@linaro.org>
- <Y85rVoXhR5skLVOz@redhat.com>
- <c94b801d-3c19-24c7-505a-7ab0d98faa67@linaro.org>
- <Y855BSwizi0n+w7r@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <Y855BSwizi0n+w7r@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230125084107.1580972-5-alexghiti@rivosinc.com>
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=ajones@ventanamicro.com; helo=mail-ed1-x533.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -98,56 +93,271 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/1/23 13:09, Daniel P. Berrangé wrote:
-> On Mon, Jan 23, 2023 at 01:05:45PM +0100, Philippe Mathieu-Daudé wrote:
->> On 23/1/23 12:11, Daniel P. Berrangé wrote:
->>> On Mon, Jan 23, 2023 at 10:20:29AM +0100, Philippe Mathieu-Daudé wrote:
->>>> On 23/1/23 09:39, Thomas Huth wrote:
->>>>> From: Daniel P. Berrangé <berrange@redhat.com>
-
->>>>> +AudiodevList *qmp_query_audiodevs(Error **errp)
->>>>> +{
->>>>> +    AudiodevList *ret = NULL;
->>>>> +    AudiodevListEntry *e;
->>>>> +    QSIMPLEQ_FOREACH(e, &audiodevs, next) {
->>>>
->>>> I am a bit confused here, isn't &audiodevs containing what the user provided
->>>> from CLI? How is that useful to libvirt? Maybe the corner case
->>>> of a user hand-modifying the QEMU launch arguments from a XML config?
->>>>
->>>> Wouldn't a list of linked in AudiodevDriver be more useful to libvirt
->>>> so it could pick the best available backend to start a VM?
->>>
->>> On the libvirt side we're never going to need to actually call the
->>> query-audiodevs commands. The mere existance of the command, means
->>> that the QMP schema now exposes information about what audio backends
->>> have been compiled into the binary. This is the same trick we've used
->>> for other aspects of QMP. IOW we don't need a separate command just
->>> for the purpose of listing AudiodevDrivers.
->>
->> I understand having "what audio backends have been compiled into the
->> binary" is useful, but I am missing how you get that from &audiodevs.
->>
->> AFAICT &audiodevs is for the CLI parsed backends, not all the backends
->> linked within a binary. I probably need sugar / coffee and will revisit
->> after lunch.
+On Wed, Jan 25, 2023 at 09:41:06AM +0100, Alexandre Ghiti wrote:
+> Currently, the max satp mode is set with the only constraint that it must be
+> implemented in qemu, i.e. set in valid_vm_1_10_[32|64].
 > 
-> It ties into the 'query-qmp-schema' command, along with patch #2 in
-> this series.
+> But we actually need to add another level of constraint: what the hw is
+> actually capable of, because currently, a linux booting on a sifive-u54
+> boots in sv57 mode which is incompatible with the cpu's sv39 max
+> capability.
 > 
-> The query-audiodevs command will cause the 'AudiodevDriver' enum to
-> be reported in the 'query-qmp-schema' response. Patch #2, makes all
-> the AudiodevDriver enum entries conditional on CONFIG_XXXX.
+> So add a new bitmap to RISCVSATPMap which contains this capability and
+> initialize it in every XXX_cpu_init.
 > 
-> IOW now query-qmp-schema data will tell you what AudiodevDriver
-> backends are compiled into the binary you're talking to.
+> Finally:
+> - valid_vm_1_10_[32|64] constrains which satp mode the CPU can use
+> - the CPU hw capabilities constrains what the user may select
+> - the user's selection then constrains what's available to the guest
+>   OS.
+> 
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> ---
+>  target/riscv/cpu.c | 74 +++++++++++++++++++++++++++++++---------------
+>  target/riscv/cpu.h |  8 +++--
+>  2 files changed, 56 insertions(+), 26 deletions(-)
+> 
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index 87153a0219..bba9c39bb8 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -292,26 +292,36 @@ const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit)
+>      g_assert_not_reached();
+>  }
+>  
+> -/* Sets the satp mode to the max supported */
+> -static void set_satp_mode_default(RISCVCPU *cpu)
+> +static void set_satp_mode_max_supported(RISCVCPU *cpu,
+> +                                        uint8_t satp_mode)
+>  {
+>      bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
+> +    const bool *valid_vm = rv32 ? valid_vm_1_10_32 : valid_vm_1_10_64;
+>  
+> -    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
+> -        cpu->cfg.satp_mode.map |=
+> -                        (1 << satp_mode_from_str(rv32 ? "sv32" : "sv57"));
+> -    } else {
+> -        cpu->cfg.satp_mode.map |= (1 << satp_mode_from_str("mbare"));
+> +    for (int i = 0; i <= satp_mode; ++i) {
+> +        if (valid_vm[i]) {
+> +            cpu->cfg.satp_mode.supported |= (1 << i);
+> +        }
+>      }
+>  }
+>  
+> +/* Sets the satp mode to the max supported */
+> +static void set_satp_mode_default(RISCVCPU *cpu)
+> +{
+> +    cpu->cfg.satp_mode.map = cpu->cfg.satp_mode.supported;
+> +}
+> +
+>  static void riscv_any_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> +    RISCVCPU *cpu = RISCV_CPU(obj);
+> +
+>  #if defined(TARGET_RISCV32)
+>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+> +    set_satp_mode_max_supported(cpu, VM_1_10_SV32);
+>  #elif defined(TARGET_RISCV64)
+>      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
+> +    set_satp_mode_max_supported(cpu, VM_1_10_SV57);
+>  #endif
+>      set_priv_version(env, PRIV_VERSION_1_12_0);
+>      register_cpu_props(obj);
+> @@ -321,18 +331,24 @@ static void riscv_any_cpu_init(Object *obj)
+>  static void rv64_base_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> +    RISCVCPU *cpu = RISCV_CPU(obj);
+> +
+>      /* We set this in the realise function */
+>      set_misa(env, MXL_RV64, 0);
+>      register_cpu_props(obj);
+>      /* Set latest version of privileged specification */
+>      set_priv_version(env, PRIV_VERSION_1_12_0);
+> +    set_satp_mode_max_supported(cpu, VM_1_10_SV57);
+>  }
+>  
+>  static void rv64_sifive_u_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> +    RISCVCPU *cpu = RISCV_CPU(obj);
+> +
+>      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+> +    set_satp_mode_max_supported(cpu, VM_1_10_SV39);
+>  }
+>  
+>  static void rv64_sifive_e_cpu_init(Object *obj)
+> @@ -343,6 +359,7 @@ static void rv64_sifive_e_cpu_init(Object *obj)
+>      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>      cpu->cfg.mmu = false;
+> +    set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
+>  }
+>  
+>  static void rv128_base_cpu_init(Object *obj)
+> @@ -354,11 +371,13 @@ static void rv128_base_cpu_init(Object *obj)
+>          exit(EXIT_FAILURE);
+>      }
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> +    RISCVCPU *cpu = RISCV_CPU(obj);
+>      /* We set this in the realise function */
+>      set_misa(env, MXL_RV128, 0);
+>      register_cpu_props(obj);
+>      /* Set latest version of privileged specification */
+>      set_priv_version(env, PRIV_VERSION_1_12_0);
+> +    set_satp_mode_max_supported(cpu, VM_1_10_SV57);
+>  }
+>  #else
+>  static void rv32_base_cpu_init(Object *obj)
+> @@ -369,13 +388,17 @@ static void rv32_base_cpu_init(Object *obj)
+>      register_cpu_props(obj);
+>      /* Set latest version of privileged specification */
+>      set_priv_version(env, PRIV_VERSION_1_12_0);
+> +    set_satp_mode_max_supported(cpu, VM_1_10_SV32);
+>  }
+>  
+>  static void rv32_sifive_u_cpu_init(Object *obj)
+>  {
+>      CPURISCVState *env = &RISCV_CPU(obj)->env;
+> +    RISCVCPU *cpu = RISCV_CPU(obj);
+> +
+>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+> +    set_satp_mode_max_supported(cpu, VM_1_10_SV32);
+>  }
+>  
+>  static void rv32_sifive_e_cpu_init(Object *obj)
+> @@ -386,6 +409,7 @@ static void rv32_sifive_e_cpu_init(Object *obj)
+>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>      cpu->cfg.mmu = false;
+> +    set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
+>  }
+>  
+>  static void rv32_ibex_cpu_init(Object *obj)
+> @@ -396,6 +420,7 @@ static void rv32_ibex_cpu_init(Object *obj)
+>      set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_11_0);
+>      cpu->cfg.mmu = false;
+> +    set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
+>      cpu->cfg.epmp = true;
+>  }
+>  
+> @@ -407,6 +432,7 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
+>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
+>      set_priv_version(env, PRIV_VERSION_1_10_0);
+>      cpu->cfg.mmu = false;
+> +    set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
+>  }
+>  #endif
+>  
+> @@ -698,8 +724,9 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
+>  static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
+>  {
+>      bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
+> -    const bool *valid_vm = rv32 ? valid_vm_1_10_32 : valid_vm_1_10_64;
+> -    uint8_t satp_mode_max;
+> +    uint8_t satp_mode_map_max;
+> +    uint8_t satp_mode_supported_max =
+> +                        satp_mode_max_from_map(cpu->cfg.satp_mode.supported);
+>  
+>      if (cpu->cfg.satp_mode.map == 0) {
+>          if (cpu->cfg.satp_mode.init == 0) {
+> @@ -714,9 +741,9 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
+>              for (int i = 1; i < 16; ++i) {
+>                  if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
+>                      (cpu->cfg.satp_mode.init & (1 << i)) &&
+> -                    valid_vm[i]) {
+> +                    (cpu->cfg.satp_mode.supported & (1 << i))) {
+>                      for (int j = i - 1; j >= 0; --j) {
+> -                        if (valid_vm[j]) {
+> +                        if (cpu->cfg.satp_mode.supported & (1 << j)) {
+>                              cpu->cfg.satp_mode.map |= (1 << j);
+>                              break;
+>                          }
+> @@ -727,36 +754,35 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
+>          }
+>      }
+>  
+> -    /* Make sure the configuration asked is supported by qemu */
+> -    for (int i = 0; i < 16; ++i) {
+> -        if ((cpu->cfg.satp_mode.map & (1 << i)) && !valid_vm[i]) {
+> -            error_setg(errp, "satp_mode %s is not valid",
+> -                       satp_mode_str(i, rv32));
+> -            return;
+> -        }
+> +    satp_mode_map_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
+> +
+> +    /* Make sure the user asked for a supported configuration (HW and qemu) */
+> +    if (satp_mode_map_max > satp_mode_supported_max) {
+> +        error_setg(errp, "satp_mode %s is higher than hw max capability %s",
+> +                   satp_mode_str(satp_mode_map_max, rv32),
+> +                   satp_mode_str(satp_mode_supported_max, rv32));
+> +        return;
+>      }
+>  
+>      /*
+>       * Make sure the user did not ask for an invalid configuration as per
+>       * the specification.
+>       */
+> -    satp_mode_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
+> -
+>      if (!rv32) {
+> -        for (int i = satp_mode_max - 1; i >= 0; --i) {
+> +        for (int i = satp_mode_map_max - 1; i >= 0; --i) {
+>              if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
+>                  (cpu->cfg.satp_mode.init & (1 << i)) &&
+> -                valid_vm[i]) {
+> +                (cpu->cfg.satp_mode.supported & (1 << i))) {
+>                  error_setg(errp, "cannot disable %s satp mode if %s "
+>                             "is enabled", satp_mode_str(i, false),
+> -                           satp_mode_str(satp_mode_max, false));
+> +                           satp_mode_str(satp_mode_map_max, false));
+>                  return;
+>              }
+>          }
+>      }
+>  
+>      /* Finally expand the map so that all valid modes are set */
+> -    for (int i = satp_mode_max - 1; i >= 0; --i) {
+> +    for (int i = satp_mode_map_max - 1; i >= 0; --i) {
+>          cpu->cfg.satp_mode.map |= (1 << i);
+>      }
+>  }
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index e37177db5c..b591122099 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -416,13 +416,17 @@ struct RISCVCPUClass {
+>  
+>  /*
+>   * map is a 16-bit bitmap: the most significant set bit in map is the maximum
+> - * satp mode that is supported.
+> + * satp mode that is supported. It may be chosen by the user and must respect
+> + * what qemu implements (valid_1_10_32/64) and what the hw is capable of
+> + * (supported bitmap below).
+>   *
+>   * init is a 16-bit bitmap used to make sure the user selected a correct
+>   * configuration as per the specification.
+> + *
+> + * supported is a 16-bit bitmap used to reflect the hw capabilities.
+>   */
+>  typedef struct {
+> -    uint16_t map, init;
+> +    uint16_t map, init, supported;
+>  } RISCVSATPMap;
+>  
+>  struct RISCVCPUConfig {
+> -- 
+> 2.37.2
+>
 
-Thanks for the explanation Daniel.
 
-Just FTR, while I'm not confident enough to add a R-b tag, I am
-not opposed to it.
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 
-Regards,
-
-Phil.
+Thanks,
+drew
 
