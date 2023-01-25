@@ -2,82 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E9E567B199
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 12:38:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A80567B310
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 14:13:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKe5q-0003Qx-Nk; Wed, 25 Jan 2023 06:37:30 -0500
+	id 1pKefH-0003YS-Un; Wed, 25 Jan 2023 07:14:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=3821facd5=anthony.perard@citrix.com>)
- id 1pKe5o-0003Qj-E5
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:37:28 -0500
-Received: from esa5.hc3370-68.iphmx.com ([216.71.155.168])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <prvs=3821facd5=anthony.perard@citrix.com>)
- id 1pKe5l-0000fC-Vv
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 06:37:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
- d=citrix.com; s=securemail; t=1674646645;
- h=date:from:to:cc:subject:message-id:references:
- mime-version:in-reply-to;
- bh=RfCE76XoGdXJb6w1WTkggE9lANZ0qxu5K2hgVoiyY8I=;
- b=Ll3io0Ad65ggLRH8lwIeKVYrEsoA5AUmqJ8V+G7hHydsGSmVb6m1HOu9
- zq8y4RSO+1TgsgkDPoLdSkMiW8iFRbAZ8iTYx2ZiNBaFsTrfp3NwiEg+L
- BWTX6ZKC0jgdByVcE6YnrTdW9Td4x95EwIc4Q7iDNQGFA/XWIRQHJUz03 o=;
-Authentication-Results: esa5.hc3370-68.iphmx.com;
- dkim=none (message not signed) header.i=none
-X-SBRS: 4.0
-X-MesageID: 93075483
-X-Ironport-Server: esa5.hc3370-68.iphmx.com
-X-Remote-IP: 162.221.156.123
-X-Policy: $RELAYED
-IronPort-Data: A9a23:yPRC8KPVAj519NjvrR1ql8FynXyQoLVcMsEvi/4bfWQNrUp0g2YBn
- WdOWmiEbPfYZWv8KIsgaYjj90lSvZ/czodiHgto+SlhQUwRpJueD7x1DKtS0wC6dZSfER09v
- 63yTvGacajYm1eF/k/F3oDJ9CU6jufQA+KmU4YoAwgpLSd8UiAtlBl/rOAwh49skLCRDhiE/
- Nj/uKUzAnf8s9JPGj9Suv3rRC9H5qyo42tB5AFmP5ingXeF/5UrJMNHTU2OByOQrrl8RoaSW
- +vFxbelyWLVlz9F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq/0Te5p0TJvsEAXq7vh3S9zxHJ
- HehgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/ZqAJGpfh66wGMa04AWEX0stKKGZv7
- M5HFGoqPkuFqtmZ4fGXUdA506zPLOGzVG8eknRpzDWfBvc6W5HTBa7N4Le03h9p2JoIR6yHI
- ZNEN3w2Nk+ojx5nYz/7DLo3mvuogX/uNSVVsluPqYI84nTJzRw327/oWDbQUo3RHZoIwhbDz
- o7A11b1JgE+PsGc8CSi1kmxi76SvxjlYbtHQdVU8dY12QbOlwT/EiY+V1ShpuKiolWjQN8ZI
- EsRkgI3oK0vsUCmUNT5dxu/pnGCo1gbQdU4O+Qi5RuE0Kb8/weTDW9CRTlEAPQsrsQ2WDcpx
- HeAmNevDjtq2JWFRHTY+rqKoDeaPSkOMXREdSICVREC4dTovMc0lB2nZslnOL64iJvyAz6Y/
- tyRhHFg3fNJ15dNjvjluwmd2FpAu6QlUCYY2yzQf3uXsT8jQ97+YaGTxnmYwe15edPxoka6g
- FAInM2X7eYrBJ6LlTCQTOhlIIxF98ppIxWH3wcxQsBJGyCFvif6INsOuG0WyFJBaJ5sRNP/X
- KPEVeq9Drd3NWDiU6J4apnZ5y8Cnfm5ToSNuhw5g7NzjnlNmO2vpnkGia24hTqFfK0QfUYXZ
- /+mnT6EVypyNEie5GPeqx0h+bEq3Dsi4mjYWIr2yR+quZLHOiHJFOdYagDXNr5phE9hnOky2
- 48PX/ZmNj0FCLGuCsUp2dB7wa82wYgTWsmt9p0/mh+rKQt6AmAxY8I9Mpt4E7GJa599z7+Sl
- lnkAx8w9bYKrSGfQel8Qiw5OeyHsFcWhS5TABHAyn75hyh6PNf0vM/ytfIfJNEayQCq9tYsJ
- 9FtRilKKq4npujvk9jFUaTAkQ==
-IronPort-HdrOrdr: A9a23:QPddUK4JEDstzmnoCwPXwKvXdLJyesId70hD6qkRc3xom6mj/P
- xG88536faZslwssRIb+OxoRpPufZq0z/cc3WB7B9uftWfd1leVEA==
-X-IronPort-AV: E=Sophos;i="5.97,245,1669093200"; d="scan'208";a="93075483"
-Date: Wed, 25 Jan 2023 11:37:14 +0000
-To: Chuck Zmudzinski <brchuckz@aol.com>
-CC: <xen-devel@lists.xenproject.org>, Wei Liu <wl@xen.org>, Juergen Gross
- <jgross@suse.com>, <qemu-devel@nongnu.org>
-Subject: Re: [XEN PATCH v2 0/3] Configure qemu upstream correctly by default
- for igd-passthru
-Message-ID: <Y9EUarVVWr223API@perard.uk.xensource.com>
-References: <cover.1673300848.git.brchuckz.ref@aol.com>
- <cover.1673300848.git.brchuckz@aol.com>
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pKefF-0003XN-Kl
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:14:05 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pKefD-0007wd-Nv
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 07:14:05 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id h12so12847372wrv.10
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 04:14:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=rn2nY+ltckL/Mu2HykNzQ4ItNDcSSA4bLTDc9nzYREU=;
+ b=o8eVf2szFH4lGql5a79SRVBwmNOB/OIFMHYw2DgCEKpTQoOY+1Y754Zu0UN5nmLTR9
+ yCyp/Yjj0mErrRToYW+g4gFRTHXCB7w+um98v108lzxJRg7WLtiYv/2LorNMvTO1ytXL
+ lyqq5NFq+YE6HZV9+jHxOzCwrr7mbGbx+OR82SaiHWCoUzPwZHvCupaSrw91GUT2F1UF
+ O4W9uwEiXqiWuNPAcwAUbepPIR3XBye2OdnOUK7Cye+LrVEqiWzKUelrq1Zqd4VpN/H9
+ 7ebs841udGCcnLQ0eHovJmK2mL/FxH3o/y74rrboHe2tjXUbSDrhKAA4ycQI2EVXciVr
+ q5qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=rn2nY+ltckL/Mu2HykNzQ4ItNDcSSA4bLTDc9nzYREU=;
+ b=NwPHZ42KtQnnw/80vPvxQQ5WbsdWFjNVJ+GJ3THH8/okJ+ll3OyAhLyebFKsvuk+Dz
+ /Fxwdu6UVZZosauZuImOj9EFjSrK1oG45JGKcMVmW3+SmwVcfRdBKQqcctVNmxmd6rIn
+ RTKHtPGu52QlVjiPwU6pEp7eYnfnA3K186i2b3ZmfRwfgfh/JOr0thE3T9gv8DHKshAg
+ TqBcH/W8T8TizY6mjbcqSSL3a+XM7ziUPw6D1i/pbsxbdLIeZzA9sS7eLOTgWv01SvF3
+ M+xZcAF9sHxH86h239qZepdp/gSkeCbJXraJNv0O3EXSQX/QPj1HDlfzA4+MyLQvfj9J
+ jEdw==
+X-Gm-Message-State: AFqh2kpGutHRcrXPYB01p1r8NkzL8l9zeX64eqlYHmi0YDjjoONtVNKV
+ rwc2lfU1SPP7xfHsN2tsrAuNyw==
+X-Google-Smtp-Source: AMrXdXu4Gwt/+Tw5KUELUP0dB0zv3Znwl5ESMx3Pzt+eEhu2tgqxl9FsLoRg4Ps2OtTOq3TelmUl1Q==
+X-Received: by 2002:adf:dd01:0:b0:289:773c:59ee with SMTP id
+ a1-20020adfdd01000000b00289773c59eemr25932818wrm.6.1674648841932; 
+ Wed, 25 Jan 2023 04:14:01 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ u13-20020a5d6acd000000b002bc7f64efa3sm4160252wrw.29.2023.01.25.04.14.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 25 Jan 2023 04:14:01 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id C3DF21FFB7;
+ Wed, 25 Jan 2023 12:14:00 +0000 (GMT)
+References: <20230110164406.94366-1-philmd@linaro.org>
+ <20230110164406.94366-13-philmd@linaro.org>
+ <CAFEAcA-yEN3F3p6W16vfML4dAHzdwSnOS=759MkqQ0qDpArnaw@mail.gmail.com>
+User-agent: mu4e 1.9.16; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org,
+ ale@rev.ng, Andrey Smirnov <andrew.smirnov@gmail.com>, Thomas Huth
+ <thuth@redhat.com>, qemu-arm@nongnu.org, Niek Linnenbank
+ <nieklinnenbank@gmail.com>, Jean-Christophe Dubois <jcd@tribudubois.net>,
+ Antonio Caggiano <antonio.caggiano@collabora.com>, Rob Herring
+ <robh@kernel.org>, Antony Pavlov <antonynpavlov@gmail.com>, Jan Kiszka
+ <jan.kiszka@web.de>, Beniamino Galvani <b.galvani@gmail.com>
+Subject: Re: [PATCH 12/18] hw/arm/digic: Replace object_initialize(ARMCPU)
+ by object_new(ARMCPU)
+Date: Wed, 25 Jan 2023 11:58:23 +0000
+In-reply-to: <CAFEAcA-yEN3F3p6W16vfML4dAHzdwSnOS=759MkqQ0qDpArnaw@mail.gmail.com>
+Message-ID: <87sffyreuv.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <cover.1673300848.git.brchuckz@aol.com>
-Received-SPF: pass client-ip=216.71.155.168;
- envelope-from=prvs=3821facd5=anthony.perard@citrix.com;
- helo=esa5.hc3370-68.iphmx.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,104 +100,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Anthony PERARD <anthony.perard@citrix.com>
-From:  Anthony PERARD via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 10, 2023 at 02:32:01AM -0500, Chuck Zmudzinski wrote:
-> I call attention to the commit message of the first patch which points
-> out that using the "pc" machine and adding the xen platform device on
-> the qemu upstream command line is not functionally equivalent to using
-> the "xenfv" machine which automatically adds the xen platform device
-> earlier in the guest creation process. As a result, there is a noticeable
-> reduction in the performance of the guest during startup with the "pc"
-> machne type even if the xen platform device is added via the qemu
-> command line options, although eventually both Linux and Windows guests
-> perform equally well once the guest operating system is fully loaded.
 
-There shouldn't be a difference between "xenfv" machine or using the
-"pc" machine while adding the "xen-platform" device, at least with
-regards to access to disk or network.
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-The first patch of the series is using the "pc" machine without any
-"xen-platform" device, so we can't compare startup performance based on
-that.
+> On Tue, 10 Jan 2023 at 16:45, Philippe Mathieu-Daud=C3=A9 <philmd@linaro.=
+org> wrote:
+>>
+>> Replace the ARMCPU field in DigicState by a reference to
+>> an allocated ARMCPU. Instead of initializing the field
+>> with object_initialize(), allocate it with object_new().
+>>
+>> As we don't access ARMCPU internal fields or size, we can
+>> move digic.c from arm_ss[] to the more generic softmmu_ss[].
+>
+> I'm not really a fan of this, because it moves away
+> from a standard coding pattern we've been using for
+> new QOM 'container' devices, where all the sub-components
+> of the device are structs embedded in the device's own
+> struct. This is as opposed to the old style which tended
+> to use "allocate memory for the sub-component and have
+> pointers to it". It means the CPU object is now being
+> treated differently from all the timers, UARTs, etc.
 
-> Specifically, startup time is longer and neither the grub vga drivers
-> nor the windows vga drivers in early startup perform as well when the
-> xen platform device is added via the qemu command line instead of being
-> added immediately after the other emulated i440fx pci devices when the
-> "xenfv" machine type is used.
+I think you can certainly make the argument that CPU's have always been
+treated separately because we pass it around as an anonymous pointer all
+the time. We currently can't support two concrete CPU types in the same
+structure. For example zyncmp has:
 
-The "xen-platform" device is mostly an hint to a guest that they can use
-pv-disk and pv-network devices. I don't think it would change anything
-with regards to graphics.
+  struct XlnxZynqMPState {
+      /*< private >*/
+      DeviceState parent_obj;
 
-> For example, when using the "pc" machine, which adds the xen platform
-> device using a command line option, the Linux guest could not display
-> the grub boot menu at the native resolution of the monitor, but with the
-> "xenfv" machine, the grub menu is displayed at the full 1920x1080
-> native resolution of the monitor for testing. So improved startup
-> performance is an advantage for the patch for qemu.
+      /*< public >*/
+      CPUClusterState apu_cluster;
+      CPUClusterState rpu_cluster;
+      ARMCPU apu_cpu[XLNX_ZYNQMP_NUM_APU_CPUS];
+      ARMCPU rpu_cpu[XLNX_ZYNQMP_NUM_RPU_CPUS];
 
-I've just found out that when doing IGD passthrough, both machine
-"xenfv" and "pc" are much more different than I though ... :-(
-pc_xen_hvm_init_pci() in QEMU changes the pci-host device, which in
-turns copy some informations from the real host bridge.
-I guess this new host bridge help when the firmware setup the graphic
-for grub.
+which only works because A/R cpus are the same underlying type. However
+when we want to add Microblaze how would we do it?
 
-> I also call attention to the last point of the commit message of the
-> second patch and the comments for reviewers section of the second patch.
-> This approach, as opposed to fixing this in qemu upstream, makes
-> maintaining the code in libxl__build_device_model_args_new more
-> difficult and therefore increases the chances of problems caused by
-> coding errors and typos for users of libxl. So that is another advantage
-> of the patch for qemu.
+Is the main problem preventing us from including multiple cpu.h
+definitions that we overload CPUArch and CPUArchState? What are the
+implications if we convert them to fully anonymous pointer types?
 
-We would just needs to use a different approach in libxl when generating
-the command line. We could probably avoid duplications. I was hopping to
-have patch series for libxl that would change the machine used to start
-using "pc" instead of "xenfv" for all configurations, but based on the
-point above (IGD specific change to "xenfv"), then I guess we can't
-really do anything from libxl to fix IGD passthrough.
-
-> OTOH, fixing this in qemu causes newer qemu versions to behave
-> differently than previous versions of qemu, which the qemu community
-> does not like, although they seem OK with the other patch since it only
-> affects qemu "xenfv" machine types, but they do not want the patch to
-> affect toolstacks like libvirt that do not use qemu upstream's
-> autoconfiguration options as much as libxl does, and, of course, libvirt
-> can manage qemu "xenfv" machines so exising "xenfv" guests configured
-> manually by libvirt could be adversely affected by the patch to qemu,
-> but only if those same guests are also configured for igd-passthrough,
-> which is likely a very small number of possibly affected libvirt users
-> of qemu.
-> 
-> A year or two ago I tried to configure guests for pci passthrough on xen
-> using libvirt's tool to convert a libxl xl.cfg file to libvirt xml. It
-> could not convert an xl.cfg file with a configuration item
-> pci = [ "PCI_SPEC_STRING", "PCI_SPEC_STRING", ...] for pci passthrough.
-> So it is unlikely there are any users out there using libvirt to
-> configure xen hvm guests for igd passthrough on xen, and those are the
-> only users that could be adversely affected by the simpler patch to qemu
-> to fix this.
-
-FYI, libvirt should be using libxl to create guest, I don't think there
-is another way for libvirt to create xen guests.
+>
+> thanks
+> -- PMM
 
 
-
-So overall, unfortunately the "pc" machine in QEMU isn't suitable to do
-IGD passthrough as the "xenfv" machine has already some workaround to
-make IGD work and just need some more.
-
-I've seen that the patch for QEMU is now reviewed, so I look at having
-it merged soonish.
-
-Thanks,
-
--- 
-Anthony PERARD
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
