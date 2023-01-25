@@ -2,94 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF0767BA71
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 20:14:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7728167BAFA
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 20:47:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKlCa-0007nn-GI; Wed, 25 Jan 2023 14:12:56 -0500
+	id 1pKlip-0005cl-Qe; Wed, 25 Jan 2023 14:46:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pKlCY-0007nX-WE; Wed, 25 Jan 2023 14:12:55 -0500
-Received: from wout1-smtp.messagingengine.com ([64.147.123.24])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pKlin-0005cc-4f
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 14:46:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pKlCX-0005N2-2a; Wed, 25 Jan 2023 14:12:54 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id B86B0320091B;
- Wed, 25 Jan 2023 14:12:48 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
- by compute3.internal (MEProxy); Wed, 25 Jan 2023 14:12:49 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1674673968; x=1674760368; bh=m9C45R8EbV
- QNfBcbp2lSbRIBq4bQIlGDLwQrbSVTA6A=; b=q4Om+qnUSiI5xSbgyQwcr4yLXK
- m3KE4QzYL2Tam0+I5HYZMssZXAxc/hhkfY6V9u25JVXFpWgb+Zphq1Uen6eOB6Mf
- CGL00Ym0zebq8BA6v0eqs7Boktakaozv/RMk7rLtTGgU6RKRTM1TGLpON1T1MycB
- TU/ELzXYyKdWFb2bX9vVnanTZh6yMwq6mHIaq8m2NqNIpLGYAE8/NEXlHY3/8AD8
- G4iu6rIWv1oAxP/n8ZtR11tMonacLZSwrf+vcLSX9ci9KatFZi12Bi2Z+tdqrGJI
- InTIOds6fox4c+Ym6XNxhav2Delt6pwo4TNPQtQzVvn+9qxqpcUO0GBweFLg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1674673968; x=1674760368; bh=m9C45R8EbVQNfBcbp2lSbRIBq4bQ
- IlGDLwQrbSVTA6A=; b=LY365FxMbTfKpKCrsdGRWSVDbMgFIp0ZRE4/ZNSyq7ZS
- K6SNWb5bz1bVKdO+/j3fIE+enWLfh5M9F/6/iTLHckCI04UJgBllQcbgFl8Csq5F
- Hz75PKY8zUZKt+wSm7gjJ3P7W0eUcGATmIQNG37yOlR5d0APAZE9wL5GfPka8Flj
- h+bOyz8iIv1YHmqWRKcOiSvT+0mytw+E7BQ+AHd2AmBNTLOPThjPCXs4Bzsep2rt
- cvd7ySq/2Kn3acbbyPDCffj5/ONLquNQu5nfE9yAQPodilR2SxEfsApYtxqPjaKt
- 6W0GFIEzMIsHq3hRfKocNDttk7/yfxIinx9jjJgfZw==
-X-ME-Sender: <xms:L3_RYzCCeJAqIiwB7T-Z5tS08bW_X_Ao3_1rBmVnCE5H3RnSLSrLeg>
- <xme:L3_RY5iqfLSX3uVtevpvN6NF3EvMZY_HZ0AvPwHLPLRjCU1Pdjo_vHWlk3rpMWeGj
- CuxFNeBjZJhRYvLB1w>
-X-ME-Received: <xmr:L3_RY-mK2eW9ANKUBbLqi1y2Upt5yhn_Ts3k8szI2tFUP2tTxggL8fvh4VLpZ7J-wCYs9z-skL-ijezdfOJXeJjp>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvvddguddvfecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvght
- vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
- htthgvrhhnpeduteeihfffleeuveekgedugfeffeehtdeguefffffhleehgfduueejjeek
- feeukeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hpvghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:L3_RY1znHLI7miqMqjf1bv_rj7gugrPCxM4zNKvNdIKmv6F_ZdIy3w>
- <xmx:L3_RY4TuPhs0g3uPP3tD4S_6MhjE5qjk4hjSROLbHuC7wsqoWLMw1Q>
- <xmx:L3_RY4bCrP64ES9GEXZ7cbMmB1W0iYfp4KBbtq8e6jLCX6-EZKj2BQ>
- <xmx:MH_RY7H_lJhb_7CWXfG3LgWF6va_8bMgD84N4wMQWJtUASg4vr8wvw>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Jan 2023 14:12:44 -0500 (EST)
-Date: Wed, 25 Jan 2023 11:12:41 -0800
-From: Peter Delevoryas <peter@pjd.dev>
-To: Ninad S Palsule <ninadpalsule@us.ibm.com>
-Cc: "andrew@aj.id.au" <andrew@aj.id.au>, "clg@kaod.org" <clg@kaod.org>,
- "hskinnemoen@google.com" <hskinnemoen@google.com>,
- "joel@jms.id.au" <joel@jms.id.au>,
- "kfting@nuvoton.com" <kfting@nuvoton.com>,
- "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
- "philmd@linaro.org" <philmd@linaro.org>,
- "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Subject: Re: [PATCH v4 3/5] hw/nvram/eeprom_at24c: Add init_rom field and
- at24c_eeprom_init_rom helper
-Message-ID: <Y9F/KS1cPueMfyI4@pdel-mbp.dhcp.thefacebook.com>
-References: <20230118024214.14413-4-peter@pjd.dev>
- <3C616E21-EED8-4A17-9FC9-970939CC0926@contoso.com>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pKlii-0002NU-6S
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 14:46:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674675965;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=uNr88SPLYYvo3iE3N0wzTOEQEswp1GT/mJbLFPKrOTo=;
+ b=CDTX7xeYNi2cmB4DL4kU4wKb/rrWNuao2aW0BL7fzooLF7nKwcOWeT37SlJrfe+1/ijEe8
+ uYr0cqPQ+OdRjuhKxpbxX3pVxL3YTNsZ0ZaXwTmSlwIj396B40cXohTOYzs9FJvSIOOfwd
+ vhosRThtF6NgxfENcDiX1RQVGqaywfc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-492-mUJoueHcNE-BVFENXRQgpQ-1; Wed, 25 Jan 2023 14:46:03 -0500
+X-MC-Unique: mUJoueHcNE-BVFENXRQgpQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 453333804073;
+ Wed, 25 Jan 2023 19:46:03 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 971F12166B26;
+ Wed, 25 Jan 2023 19:46:02 +0000 (UTC)
+Date: Wed, 25 Jan 2023 14:46:00 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Anton Kuchin <antonkuchin@yandex-team.ru>
+Cc: qemu-devel@nongnu.org, virtio-fs@redhat.com,
+ Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, yc-core@yandex-team.ru,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
+Message-ID: <Y9GG+EXX03TAvWDS@fedora>
+References: <20230115170903.3416105-1-antonkuchin@yandex-team.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="ygiLBLz14JAm0xgO"
 Content-Disposition: inline
-In-Reply-To: <3C616E21-EED8-4A17-9FC9-970939CC0926@contoso.com>
-Received-SPF: pass client-ip=64.147.123.24; envelope-from=peter@pjd.dev;
- helo=wout1-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20230115170903.3416105-1-antonkuchin@yandex-team.ru>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,37 +82,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 25, 2023 at 04:53:20PM +0000, Ninad S Palsule wrote:
-> Signed-off-by: Peter Delevoryas peter@pjd.dev<mailto:peter@pjd.dev>
-> Reviewed-by: Joel Stanley joel@jms.id.au<mailto:joel@jms.id.au>
-> 
-> Tested-by: Ninad Palsule ninadpalsule@us.ibm.com<mailto:ninadpalsule@us.ibm.com>
-> 
-> Hi Peter,
-> I applied your patches and made sure that different EEPROM images can be loaded from
-> appropriate image files and it is working as expected.
 
-Thanks Ninad, this is a good regression test to make sure I didn't break the
-existing drive proprerty.
+--ygiLBLz14JAm0xgO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-- Peter
+On Sun, Jan 15, 2023 at 07:09:03PM +0200, Anton Kuchin wrote:
+> Now any vhost-user-fs device makes VM unmigratable, that also prevents
+> qemu update without stopping the VM. In most cases that makes sense
+> because qemu has no way to transfer FUSE session state.
+>=20
+> But we can give an option to orchestrator to override this if it can
+> guarantee that state will be preserved (e.g. it uses migration to
+> update qemu and dst will run on the same host as src and use the same
+> socket endpoints).
+>=20
+> This patch keeps default behavior that prevents migration with such devic=
+es
+> but adds migration capability 'vhost-user-fs' to explicitly allow migrati=
+on.
+>=20
+> Signed-off-by: Anton Kuchin <antonkuchin@yandex-team.ru>
+> ---
+>  hw/virtio/vhost-user-fs.c | 25 ++++++++++++++++++++++++-
+>  qapi/migration.json       |  7 ++++++-
+>  2 files changed, 30 insertions(+), 2 deletions(-)
 
-> 
-> # Used following command to invoke the qemu.
-> qemu-system-arm -M rainier-bmc -nographic \
->   -kernel fitImage-linux.bin \
->   -dtb aspeed-bmc-ibm-rainier.dtb \
->   -initrd obmc-phosphor-initramfs.rootfs.cpio.xz \
->   -drive file=obmc-phosphor-image.rootfs.wic.qcow2,if=sd,index=2 \
->   -append "rootwait console=ttyS4,115200n8 root=PARTLABEL=rofs-a" \
->   -device at24c-eeprom,bus=aspeed.i2c.bus.0,address=0x51,drive=a,rom-size=32768 -drive file=tpm.eeprom.bin,format=raw,if=none,id=a \
->   -device at24c-eeprom,bus=aspeed.i2c.bus.7,address=0x50,drive=b,rom-size=65536 -drive file=oppanel.eeprom.bin,format=raw,if=none,id=b \
->   -device at24c-eeprom,bus=aspeed.i2c.bus.7,address=0x51,drive=c,rom-size=65536 -drive file=lcd.eeprom.bin,format=raw,if=none,id=c \
->   -device at24c-eeprom,bus=aspeed.i2c.bus.8,address=0x50,drive=d,rom-size=65536 -drive file=baseboard.eeprom.bin,format=raw,if=none,id=d \
->   -device at24c-eeprom,bus=aspeed.i2c.bus.8,address=0x51,drive=e,rom-size=65536 -drive file=bmc.eeprom.bin,format=raw,if=none,id=e \
->   -device at24c-eeprom,bus=aspeed.i2c.bus.9,address=0x50,drive=f,rom-size=131072 -drive file=vrm.eeprom.bin,format=raw,if=none,id=f \
->   -device at24c-eeprom,bus=aspeed.i2c.bus.10,address=0x50,drive=g,rom-size=131072 -drive file=vrm.eeprom.bin,format=raw,if=none,id=g \
->   -device at24c-eeprom,bus=aspeed.i2c.bus.13,address=0x50,drive=h,rom-size=65536 -drive file=nvme.eeprom.bin,format=raw,if=none,id=h \
->   -device at24c-eeprom,bus=aspeed.i2c.bus.14,address=0x50,drive=i,rom-size=65536 -drive file=nvme.eeprom.bin,format=raw,if=none,id=i \
->   -device at24c-eeprom,bus=aspeed.i2c.bus.15,address=0x50,drive=j,rom-size=65536 -drive file=nvme.eeprom.bin,format=raw,if=none,id=j
+Hi Anton,
+Sorry for holding up your work with the discussions that we had. I still
+feel it's important to agree on command-line and/or vhost-user protocol
+changes that will be able to support non-migratable, stateless
+migration/reconnect, and stateful migration vhost-user-fs back-ends. All
+three will exist.
+
+As a next step, could you share your code that implements the QEMU side
+of stateless migration?
+
+I think that will make it clearer whether a command-line option
+(migration capability or per-device) is sufficient or whether the
+vhost-user protocol needs to be extended.
+
+If the vhost-user protocol is extended then maybe no user-visible
+changes are necessary. QEMU will know if the vhost-user-fs backend
+supports migration and which type of migration. It can block migration
+in cases where it's not possible.
+
+Thanks,
+Stefan
+
+--ygiLBLz14JAm0xgO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPRhvgACgkQnKSrs4Gr
+c8izOgf/byjN54t5uv1VugMSLblTq6dHpjGJDpdmjIb7QjBk/VTe57XFhBOp4VEg
+mlDNTVHBc4lU0NHize5dueoW8wUMKT+gQq8Tb6O5VabHZA1NJVQ2TOrlwWt4Q6bn
+eS3IAIRB+4JoFPlYzJMa9MhkEjbnlJ6yYpVvuo8tNfTOMCHdirDiBWx/P43F0X2W
+6TNkpr56+NixIO5E0wfnKPfkiS083h9PqVYFy7WH6debjBM+IRyBSaRSaLpgJRHt
+a8D4rjb+XFxW71qFFMK3XWa/8sy2MfLCW2oPC1Zc137ItjqxaxRwqiZKsrU79GLi
+WuQcgk2e7RYTUbLRfJXdbrH27j0N8g==
+=VwlJ
+-----END PGP SIGNATURE-----
+
+--ygiLBLz14JAm0xgO--
+
 
