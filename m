@@ -2,88 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD8967B511
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 15:47:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1BF0267B51D
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 15:51:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKh2f-0000CX-3k; Wed, 25 Jan 2023 09:46:25 -0500
+	id 1pKh6h-00010K-2W; Wed, 25 Jan 2023 09:50:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pKh2Y-0000C9-AC
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 09:46:20 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pKh2T-0002YL-0v
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 09:46:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674657967;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=QyApVNjHT7kdB0u9f+Nknmn7OSzEqumLcqYvF2Od314=;
- b=V0KhgUWo8Achy1uFbFzaz8IMmbFNKKboCw6aTX4Qc9qVJ7kvHqD1QuH74FA1hyhY9nBcdz
- 2Yetqp+efm6bZs6TGxOn7JNFCB08yeIfWJjdPA58m6ZU0vKc28IIsrRO1bQUgnZCHCozYQ
- IQdxSNyPbdUkfzR8Mf2qlx98lYc2nwc=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-256-opqDcMAENmq3CoSWRanWzw-1; Wed, 25 Jan 2023 09:46:06 -0500
-X-MC-Unique: opqDcMAENmq3CoSWRanWzw-1
-Received: by mail-yw1-f198.google.com with SMTP id
- 00721157ae682-5062f3a2977so74394127b3.21
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 06:46:06 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=QyApVNjHT7kdB0u9f+Nknmn7OSzEqumLcqYvF2Od314=;
- b=AE74OBgjJ66FdOm2v/qZ6mTNUuqwfJTDFUUHQqCg7OxnCVnGod5cBnh6FC3ZyobPFE
- a4VnSc6JiMiScAk2jq4Wff25G3jCsV42u91kx3LXTMb6KenoroTwVJv9NOZxyzX0AWQY
- PFi1ttbwvnlCRDXe//yx7NQhO/WITy4K5t/ChHVGAhXgr1SvJGxILlOyczZo+lGA7soq
- GxbaLUs7gsA0R2/oMeRDG5orzWHi1bnNR/CFry9Ii/sk5L406ZGXl0w99nYMF++jLjod
- RvVvtz9PB3hP5RxLI99bi990w2+ifC28UtZh5Lu4ufOLt5FVaZL6qeQRHEHq4MpnuugZ
- bbCQ==
-X-Gm-Message-State: AFqh2koaKaKSjGG2EC2Nqig4ju5BiAz6NG/AzDKGEeNboeHkqbdA38Wh
- FcyjgF2ascGtHtHLZHQtOF0Per82hw3v/Vc3YHHbcJOJci5XtYyL7tUHysDG6UeRvV1GakYCcXk
- jRCAb8DcX4oGG5CI=
-X-Received: by 2002:a25:9f06:0:b0:7b1:5cbe:98e5 with SMTP id
- n6-20020a259f06000000b007b15cbe98e5mr21759015ybq.34.1674657965573; 
- Wed, 25 Jan 2023 06:46:05 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsWPW71hC3mOncih9BpzWnRngaDJbOI8P29eT3V1EWi5WvPJN5bQjyB2tsPfQKMRCRUKeqYLg==
-X-Received: by 2002:a25:9f06:0:b0:7b1:5cbe:98e5 with SMTP id
- n6-20020a259f06000000b007b15cbe98e5mr21758999ybq.34.1674657965281; 
- Wed, 25 Jan 2023 06:46:05 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- b5-20020a378005000000b00704a2a40cf2sm3572360qkd.38.2023.01.25.06.46.03
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 06:46:04 -0800 (PST)
-Date: Wed, 25 Jan 2023 09:46:03 -0500
-From: Peter Xu <peterx@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- James Houghton <jthoughton@google.com>, Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH RFC 10/21] ramblock: Add ramblock_file_map()
-Message-ID: <Y9FAq7mKJYmV4KOL@x1n>
-References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-11-peterx@redhat.com>
- <Y8+tuN1t9EWMIuzk@work-vm> <Y9BD1jcBYzPDR9VX@x1n>
- <Y9D1SMakob6GT07e@work-vm>
+ (Exim 4.90_1) (envelope-from <eiakovlev@linux.microsoft.com>)
+ id 1pKh6X-0000zY-8z; Wed, 25 Jan 2023 09:50:29 -0500
+Received: from linux.microsoft.com ([13.77.154.182])
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <eiakovlev@linux.microsoft.com>)
+ id 1pKh6V-0003cT-42; Wed, 25 Jan 2023 09:50:25 -0500
+Received: from [192.168.0.20] (unknown [77.64.253.114])
+ by linux.microsoft.com (Postfix) with ESMTPSA id CD21E20E580E;
+ Wed, 25 Jan 2023 06:50:18 -0800 (PST)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CD21E20E580E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+ s=default; t=1674658219;
+ bh=USZiNuJEoiOuVF5clpkTLG8fOjsoeIsxtFfKzGiab/k=;
+ h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+ b=PUjywKKWmNre7yVF1FTjIWQyUfjRD25/+WEvcMm94PD463nbBNSsQKkWIaNAQQwbL
+ vy7gdltEdfxal9EtLtdAR99/DwS4zRpAwoGZOEORnE6gbGd9Y25cEQ144AezmVYbsh
+ lM3s8xKNqMkx1ZFyV9luzaGA4M2T03bcKoGoi8yY=
+Message-ID: <c1568ae1-2740-9628-ee70-ed3914d37e56@linux.microsoft.com>
+Date: Wed, 25 Jan 2023 15:50:17 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y9D1SMakob6GT07e@work-vm>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH v3 5/5] hw/char/pl011: check if UART is enabled before RX
+ or TX operation
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20230120155447.31702-1-eiakovlev@linux.microsoft.com>
+ <20230120155447.31702-6-eiakovlev@linux.microsoft.com>
+ <fc01ef6d-73d7-af1a-3e59-bd4f1e3e83ba@linaro.org>
+ <1937dbbf-579d-e236-4669-afdc633995a1@linux.microsoft.com>
+ <04d950dc-bd01-d9ca-cbec-25b52ccd70e8@linaro.org>
+ <CAFEAcA_93iF+oiYAs_tymHGSkFAZx3-1Rh=z22ggBggz+3KnKA@mail.gmail.com>
+ <484f5d72-2186-c60c-112a-1ae76b7b7e45@linaro.org>
+Content-Language: en-US
+From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
+In-Reply-To: <484f5d72-2186-c60c-112a-1ae76b7b7e45@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=13.77.154.182;
+ envelope-from=eiakovlev@linux.microsoft.com; helo=linux.microsoft.com
+X-Spam_score_int: -208
+X-Spam_score: -20.9
+X-Spam_bar: --------------------
+X-Spam_report: (-20.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, ENV_AND_HDR_SPF_MATCH=-0.5,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, USER_IN_DEF_DKIM_WL=-7.5,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,31 +74,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 25, 2023 at 09:24:24AM +0000, Dr. David Alan Gilbert wrote:
-> > > >  static void *file_ram_alloc(RAMBlock *block,
-> > > >                              int fd,
-> > > >                              bool truncate,
-> > > >                              off_t offset,
-> > > >                              Error **errp)
-> > > >  {
-> > > > -    uint32_t qemu_map_flags;
-> > > >      void *area;
-> > > >  
-> > > >      /* Remember the offset just in case we'll need to map the range again */
-> > > 
-> > > Note that this comment is now wrong; you need to always set that for the
-> > > map call.
-> > 
-> > This line is added in patch 7.  After this patch, a ramblock should always
-> > be mapped with ramblock_file_map(), so it keeps being true?
-> 
-> With ramblock_file_map() it's not a 'just in case' any more though is
-> it?  This value always goes through the block-> now?
 
-Ah yes.. Since the comment is not extremely informative, instead of
-changing it, I can drop it in the previous patch when introduced.
+On 1/23/2023 17:41, Philippe Mathieu-Daudé wrote:
+> On 23/1/23 17:23, Peter Maydell wrote:
+>> On Mon, 23 Jan 2023 at 15:21, Philippe Mathieu-Daudé 
+>> <philmd@linaro.org> wrote:
+>>> pl011_can_receive() returns the number of bytes that pl011_receive() 
+>>> can
+>>> accept, pl011_can_transmit() returns a boolean.
+>>>
+>>> I was thinking of:
+>>>
+>>> -- >8 --
+>>> diff --git a/hw/char/pl011.c b/hw/char/pl011.c
+>>> index dd20b76609..ea5769a31c 100644
+>>> --- a/hw/char/pl011.c
+>>> +++ b/hw/char/pl011.c
+>>> @@ -221,6 +221,11 @@ static inline bool 
+>>> pl011_can_transmit(PL011State *s)
+>>>        return s->cr & PL011_CR_UARTEN && s->cr & PL011_CR_TXE;
+>>>    }
+>>>
+>>> +static inline bool pl011_can_receive(PL011State *s)
+>>> +{
+>>> +    return s->cr & PL011_CR_UARTEN && s->cr & PL011_CR_RXE;
+>>> +}
+>>> +
+>>>    static void pl011_write(void *opaque, hwaddr offset,
+>>>                            uint64_t value, unsigned size)
+>>>    {
+>>> @@ -299,12 +304,12 @@ static void pl011_write(void *opaque, hwaddr 
+>>> offset,
+>>>        }
+>>>    }
+>>>
+>>> -static int pl011_can_receive(void *opaque)
+>>> +static int pl011_receivable_bytes(void *opaque)
+>>>    {
+>>>        PL011State *s = (PL011State *)opaque;
+>>>        int r;
+>>>
+>>> -    if (!(s->cr & PL011_CR_UARTEN) || !(s->cr & PL011_CR_RXE)) {
+>>> +    if (!pl011_can_receive(s)) {
+>>>            r = 0;
+>>>        } else {
+>>>            r = s->read_count < pl011_get_fifo_depth(s);
+>>> @@ -459,7 +464,7 @@ static void pl011_realize(DeviceState *dev, Error
+>>> **errp)
+>>>    {
+>>>        PL011State *s = PL011(dev);
+>>>
+>>> -    qemu_chr_fe_set_handlers(&s->chr, pl011_can_receive, 
+>>> pl011_receive,
+>>> +    qemu_chr_fe_set_handlers(&s->chr, pl011_receivable_bytes,
+>>> pl011_receive,
+>>>                                 pl011_event, NULL, s, NULL, true);
+>>>    }
+>>>
+>>> ---
+>>>
+>>> with maybe a better name for pl011_receivable_bytes().
+>>
+>> Our standard-ish name for the function you pass to
+>> qemu_chr_fe_set_handlers() is either foo_can_receive
+>> or foo_can_read, though. That is followed through in
+>> the name of the function argument (fd_can_read),
+>> its type (IOCanReadHandler), and the field it gets stored
+>> in (CharBackend::chr_can_read). It's not a great convention
+>> but at least it is a convention...
+>
+> I agree this deserves a better name; maybe this is not a
+> convention but I'd expect functions starting with is_* / can_*
+> to return a boolean value, not a number:
+>
+> /**
+>  * IOCanReadHandler: Return the number of bytes that #IOReadHandler 
+> can accept
+>  *
+>  * This function reports how many bytes #IOReadHandler is prepared to 
+> accept.
+>  * #IOReadHandler may be invoked with up to this number of bytes. If this
+>  * function returns 0 then #IOReadHandler is not invoked.
+>  *
+>  * This function is typically called from an event loop.  If the 
+> number of
+>  * bytes changes outside the event loop (e.g. because a vcpu thread 
+> drained the
+>  * buffer), then it is necessary to kick the event loop so that this 
+> function
+>  * is called again.  aio_notify() or qemu_notify_event() can be used 
+> to kick
+>  * the event loop.
+>  */
+> typedef int IOCanReadHandler(void *opaque);
+>
+> Also, maybe using unsigned or size_t type for the return value would
+> better fit. Anyhow, not really a priority :)
 
--- 
-Peter Xu
+
+I've made a rename for v4 though :) Feel free to ignore it then and take 
+the current version, there's no functional change in 5/5 otherwise.
+
 
 
