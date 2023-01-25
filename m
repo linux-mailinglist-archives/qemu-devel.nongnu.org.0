@@ -2,74 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8633367B2EF
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 14:03:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E74C67B2DF
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 14:02:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKfOr-0002aG-3g; Wed, 25 Jan 2023 08:01:13 -0500
+	id 1pKfOz-0002ew-VC; Wed, 25 Jan 2023 08:01:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pKfOf-0002Xb-Tt; Wed, 25 Jan 2023 08:01:08 -0500
-Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
+ id 1pKfOf-0002Xa-OH; Wed, 25 Jan 2023 08:01:08 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pKfOd-0007Tq-IJ; Wed, 25 Jan 2023 08:01:01 -0500
-Received: by mail-wm1-x331.google.com with SMTP id
- d4-20020a05600c3ac400b003db1de2aef0so1236507wms.2; 
+ id 1pKfOd-0007VX-IJ; Wed, 25 Jan 2023 08:01:00 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ bg13-20020a05600c3c8d00b003d9712b29d2so1167169wmb.2; 
  Wed, 25 Jan 2023 05:00:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=uoQgTm6KxRr/NTQpjZmPPpUvLTia7O3X8jkSnsZs31Q=;
- b=cr3VdEJz+5dH/UoNV4LWbUOjCF4cMKNZSM8TLXN5943jh6RBpAYLFw258ZbedGIuoY
- c5NbEikmou6bn5EpcpiX0eS5g28CvHNJ/TohTXAw/4MHghBGv9/M2KGwIdV7j1sFWoO4
- Nz5KJMyTbhbFfaG0wNqnhLqxxP8WYIQxzTeIBf/x7setH60o+XfCb9Cb973ROVqDGkqN
- jX2EFnXuvvLaR3Ke/4yat+c/l+IV/0WwJKTlVRy2ua90udzgD3fRddPZeep7h3AMiq8R
- c7PFwHvAzY9fjj+cj5F1E4ulwkVpKGuM5/ghy0v0bDk4Qww41HgFV3z7pHeJCZqyRbWB
- NkCw==
+ bh=Tm2HfgjxNCIKiUMmVm5C1G/KwgcC7AB6x1Fwz+gWZxc=;
+ b=Map46ZWWhIB8ypFmRC8j6jD09Enul8Vs7UtdDpmj95Azbsq7mwyHIqldc8OJpMCavl
+ EgitrG3IDwDMInNRLM6CzumZN/fuIQzDiUe8La2Xm/40OqVOIKVyj7tBIIEK1U4Pgqk7
+ kZ+F6t6JajTByjU0y/d12fOLPJ3HBeLTkvWIHzbewtzDZnVqkfcZZKCcZx4gTs0FOYSb
+ UD5Z6way+Jbj1Jsy3M0ncVWuC525+lynPOfHEB49H80jXwr5DlQwnr0Sc55/jjibO4Bg
+ DTTFFB2KP1taE3VpDU0xSHIuyp6cBzqlr1/qHDnD9MytL5k0Rco6cNrU6d+f2KIWdQmf
+ 15Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=uoQgTm6KxRr/NTQpjZmPPpUvLTia7O3X8jkSnsZs31Q=;
- b=kHyB/MYMuYV9iGUSthFGaC8/WloBnTiUvW44M2o8cLd7iM0rdFs8B5+/SMjdyfbcI+
- /z7hq/dHZO3p+kbAahmLS/IHfmOqTsSaDHwHCLEI+YGt9r9tVBux9TiFISl9hunqs0e5
- xCV5xIwN1BEoTVGT1ceUeiHWaR2OfWzQe2kn+et+D6sb+4dF2I7zbYR8cz+noB8gbukd
- gYgES6OWmVIsktW5WxsbQFw/0rCG34WNx7lN/wq9GhWgUv5axTnaIK5IWx72uSOkjcWA
- YPIwHIsNrfOYd8RgrjaSHXfElldCpRQun4HtDHYsvIqpJJEJ+3XcDgybptJrBIRrr2Wl
- PZog==
-X-Gm-Message-State: AFqh2koeOrdqxTfiQ3zn4X9E1iX8DFJpqslwCURVQ4Mf13ajDX9PiP5r
- 91iHv5xeVNsE6Vklqha8WjClRnpPIazuMw==
-X-Google-Smtp-Source: AMrXdXsVyDdMhe8TAL5VafQB7xIuh26Y9+z6acpiLotsUp3cqS+liPs0IJchlfDUxAMSXuW7voyBjg==
-X-Received: by 2002:a05:600c:4928:b0:3cf:a41d:844b with SMTP id
- f40-20020a05600c492800b003cfa41d844bmr30097893wmp.5.1674651650642; 
- Wed, 25 Jan 2023 05:00:50 -0800 (PST)
+ bh=Tm2HfgjxNCIKiUMmVm5C1G/KwgcC7AB6x1Fwz+gWZxc=;
+ b=yWAdlihpujbxhRdeFCkp6tkFEBhwo6x/aY+1Wva19LAe6rVMXrdcx3ib1fk6X6kM+q
+ VkdW1HnccwxmrZDt5d7vlvbxKQ9z5Roc+R09/qmS9PtDyvhFY7nPYUhBN8wxuwDpFcua
+ c+M7TPBrHdR3NIE22gJxtY55cXEzuPkYb1d5CRXihL4CC/9KNBQ/gPbD4w22CDFfAL3N
+ Nc94obOvoKRptShd0a4XOiLDtz8RqgXxHuSU7KbeozRZ9r0bvRL0tsfzx/xhnvEl9KTQ
+ AbtRrnm+5Xqqws5YmNgchWkuIIusv7vbx9hjeQGK19eiJaGYCcDB8n9WU5sNrcTHNzos
+ uxQg==
+X-Gm-Message-State: AFqh2ko856ABHW3Oj6lgKPNPjLbALf0gXFgRKmov5TFGOIj/ZctjBOjM
+ FwUT9ixGNwGqAu0mggAk7OvU0DbucBow9Q==
+X-Google-Smtp-Source: AMrXdXsOS80jTF/ecIuDAMH8iNQWlDb91Xg8nKHdxrGW1ptMD8YVGncW8fTDWV2/uEIX0Lnhy/t71g==
+X-Received: by 2002:a05:600c:3d10:b0:3d9:ee3d:2f54 with SMTP id
+ bh16-20020a05600c3d1000b003d9ee3d2f54mr39569863wmb.13.1674651651485; 
+ Wed, 25 Jan 2023 05:00:51 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- s15-20020a05600c384f00b003d9de0c39fasm2078828wmr.36.2023.01.25.05.00.49
+ s15-20020a05600c384f00b003d9de0c39fasm2078828wmr.36.2023.01.25.05.00.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 05:00:50 -0800 (PST)
+ Wed, 25 Jan 2023 05:00:51 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-trivial@nongnu.org, qemu-ppc@nongnu.org,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 3/4] hw/ppc/e500.c: Avoid hardcoding parent device in
- create_devtree_etsec()
-Date: Wed, 25 Jan 2023 14:00:23 +0100
-Message-Id: <20230125130024.158721-4-shentey@gmail.com>
+Subject: [PATCH 4/4] hw/ppc/e500.c: Attach eSDHC unimplemented region to
+ ccsr_addr_space
+Date: Wed, 25 Jan 2023 14:00:24 +0100
+Message-Id: <20230125130024.158721-5-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230125130024.158721-1-shentey@gmail.com>
 References: <20230125130024.158721-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::331;
- envelope-from=shentey@gmail.com; helo=mail-wm1-x331.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=shentey@gmail.com; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,27 +92,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The "platform" node is available through data->node, so use that instead
-of making assumptions about the parent device.
+Makes the unimplemented region move together with the CCSR address space
+if moved by a bootloader. Moving the CCSR address space isn't
+implemented yet but this patch is a preparation for it.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/ppc/e500.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/ppc/e500.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index 48288c0b41..e3b29d1d97 100644
+index e3b29d1d97..117c9c08ed 100644
 --- a/hw/ppc/e500.c
 +++ b/hw/ppc/e500.c
-@@ -241,7 +241,7 @@ static int create_devtree_etsec(SysBusDevice *sbdev, PlatformDevtreeData *data)
-     int irq0 = platform_bus_get_irqn(pbus, sbdev, 0);
-     int irq1 = platform_bus_get_irqn(pbus, sbdev, 1);
-     int irq2 = platform_bus_get_irqn(pbus, sbdev, 2);
--    gchar *node = g_strdup_printf("/platform/ethernet@%"PRIx64, mmio0);
-+    gchar *node = g_strdup_printf("%s/ethernet@%"PRIx64, data->node, mmio0);
-     gchar *group = g_strdup_printf("%s/queue-group", node);
-     void *fdt = data->fdt;
+@@ -1022,9 +1022,13 @@ void ppce500_init(MachineState *machine)
  
+     /* eSDHC */
+     if (pmc->has_esdhc) {
+-        create_unimplemented_device("esdhc",
+-                                    pmc->ccsrbar_base + MPC85XX_ESDHC_REGS_OFFSET,
+-                                    MPC85XX_ESDHC_REGS_SIZE);
++        dev = qdev_new(TYPE_UNIMPLEMENTED_DEVICE);
++        qdev_prop_set_string(dev, "name", "esdhc");
++        qdev_prop_set_uint64(dev, "size", MPC85XX_ESDHC_REGS_SIZE);
++        s = SYS_BUS_DEVICE(dev);
++        sysbus_realize_and_unref(s, &error_fatal);
++        memory_region_add_subregion(ccsr_addr_space, MPC85XX_ESDHC_REGS_OFFSET,
++                                    sysbus_mmio_get_region(s, 0));
+ 
+         /*
+          * Compatible with:
 -- 
 2.39.1
 
