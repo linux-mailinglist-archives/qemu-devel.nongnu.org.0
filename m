@@ -2,86 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA44A67BDDF
+	by mail.lfdr.de (Postfix) with ESMTPS id D521767BDE0
 	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 22:13:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKn4N-00060f-JB; Wed, 25 Jan 2023 16:12:35 -0500
+	id 1pKn4X-00063H-HY; Wed, 25 Jan 2023 16:12:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKn4K-0005xH-TG
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 16:12:32 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pKn4G-0007ti-Qd
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 16:12:32 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- bg13-20020a05600c3c8d00b003d9712b29d2so2109282wmb.2
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 13:12:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jZP05581uw4/3OAibbLYQX8/d/UgIw9IpV1CgbOFulw=;
- b=EVa/yD0Hfl6QzlgohnwpunmfzyDOmnX8omLmaSmnQwf7++8I60kZapFsXQFp07hatT
- f91AKJaBPmXfKo2PzQ5DFrL8/iUmV9zXmjhbi7uio5R+ZPKVRHTcg+zzS1QbMffcsbEu
- 2bX4hPcg8EdcGpgQUvXqYIx0Z3kgDe3MOmOUfpdcirK/l/WZ4u0fvTT1OznxGKZ0+n7g
- myAXYCeQecKPJBsXKBhHHEfZapw8uDDmVN2gN0EyoIpNLfoZ/RXHsJZy3tttaMJyenmT
- DG5jC+54Rd4fKG2Xs9xbtaN1g/pbWt7d977bi89cxaqKtyCwULrSpqbzXX6DLJstaBDU
- Hmzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=jZP05581uw4/3OAibbLYQX8/d/UgIw9IpV1CgbOFulw=;
- b=7OLdCxwHy3ykk/6RmpELNcfq1CWMDI/+dU3aQkvaVFEj/fl1KPs4DZhWj81hFvhTTO
- uW5uXAZsc/EZbWqraeoxI9Zu8sVpslxPszvYdPCAI9dTnUJAOGwmCVjPafY/zgSJoY5i
- tgJBYMTdtrnm+QfyvP8oeBfV8nIzV1sMKvoLEtJC8inI+QZBYfBXUAiGhY2RyaDnbd4F
- +BdrYX7ZGPAxnMTM9s72FmOXHcQAS5jfWljcdtqetoNGbcfBgHK6AAKOYtoZmC4DeNr3
- rpwIMkq9LTe0RshJvs4c5Qaap1JY0pN1WWbfAyTlejv8BJmFo33c1U//anh3T/DNP9Tz
- LHlQ==
-X-Gm-Message-State: AFqh2koP8dc7sxIdvco2mZzOejj6561Y8aZNjt39wwwjEZHub3KiaSmK
- 90SEyiBOyMzLUWFbIBORBt485g==
-X-Google-Smtp-Source: AMrXdXtaiFu7Z0NZl5mrCbGWEYd2GLx5FUF/Og5Oxom4IU9MV1WWLieGU90hgiWD5vTlHsdmr3Ki6A==
-X-Received: by 2002:a05:600c:5116:b0:3db:1a8:c041 with SMTP id
- o22-20020a05600c511600b003db01a8c041mr33278318wms.17.1674681147019; 
- Wed, 25 Jan 2023 13:12:27 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- ip6-20020a05600ca68600b003d04e4ed873sm2820187wmb.22.2023.01.25.13.12.26
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 13:12:26 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 0222A1FFB7;
- Wed, 25 Jan 2023 21:12:26 +0000 (GMT)
-References: <20230108023719.2466341-1-richard.henderson@linaro.org>
- <20230108023719.2466341-7-richard.henderson@linaro.org>
-User-agent: mu4e 1.9.16; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-arm@nongnu.org, qemu-ppc@nongnu.org, qemu-s390x@nongnu.org,
- qemu-riscv@nongnu.org, pbonzini@redhat.com, eduardo@habkost.net, Daniel
- Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
-Subject: Re: [PATCH v4 06/36] tcg: Introduce tcg_target_call_oarg_reg
-Date: Wed, 25 Jan 2023 21:09:23 +0000
-In-reply-to: <20230108023719.2466341-7-richard.henderson@linaro.org>
-Message-ID: <877cxaqpxi.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pKn4V-000630-88
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 16:12:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pKn4Q-0007vB-7t
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 16:12:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674681156;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=VB5Iv7J9O2l7xi/f/zngZZ0KtYCw8ODLzXWR+g0FOlM=;
+ b=Uj/rmSTCCrYYs96qXG3vQSJ8ASSEUd9JcmAcAPEx1srVR5GIDjg3qHg4rg3WYpo5Mku58K
+ RZAXwPcFz7HYmpdX4bB3KfwiI9E6MSy1wYTJyPxCQdyR36kYWMyKgarD06fnrNsrdvlCcz
+ yaIUjvvrn+VKWKI79HkS1zGYgcbrKf8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-312-fi9i7LLkPuOm8cCB2wG2cg-1; Wed, 25 Jan 2023 16:12:33 -0500
+X-MC-Unique: fi9i7LLkPuOm8cCB2wG2cg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6E6C229AB3F8;
+ Wed, 25 Jan 2023 21:12:32 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8E8C12026D4B;
+ Wed, 25 Jan 2023 21:12:31 +0000 (UTC)
+Date: Wed, 25 Jan 2023 16:12:29 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Cc: qemu-devel@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>
+Subject: Re: [PATCH v4 1/3] memory: prevent dma-reentracy issues
+Message-ID: <Y9GbPTqUmZcGcMQs@fedora>
+References: <20230119070308.321653-1-alxndr@bu.edu>
+ <20230119070308.321653-2-alxndr@bu.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="JEeC1fvID3M/9vOl"
+Content-Disposition: inline
+In-Reply-To: <20230119070308.321653-2-alxndr@bu.edu>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,305 +94,57 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+--JEeC1fvID3M/9vOl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Replace the flat array tcg_target_call_oarg_regs[] with
-> a function call including the TCGCallReturnKind.
->
-> Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+On Thu, Jan 19, 2023 at 02:03:06AM -0500, Alexander Bulekov wrote:
+> Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
+> This flag is set/checked prior to calling a device's MemoryRegion
+> handlers, and set when device code initiates DMA.  The purpose of this
+> flag is to prevent two types of DMA-based reentrancy issues:
+>=20
+> 1.) mmio -> dma -> mmio case
+> 2.) bh -> dma write -> mmio case
+>=20
+> These issues have led to problems such as stack-exhaustion and
+> use-after-frees.
+>=20
+> Summary of the problem from Peter Maydell:
+> https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5K=
+cknhPRD5fPBZA@mail.gmail.com
+>=20
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/62
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/540
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/541
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/556
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/557
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/827
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
 > ---
->  tcg/tcg.c                        |  9 ++++++---
->  tcg/aarch64/tcg-target.c.inc     | 10 +++++++---
->  tcg/arm/tcg-target.c.inc         | 10 +++++++---
->  tcg/i386/tcg-target.c.inc        | 16 ++++++++++------
->  tcg/loongarch64/tcg-target.c.inc | 10 ++++++----
->  tcg/mips/tcg-target.c.inc        | 10 ++++++----
->  tcg/ppc/tcg-target.c.inc         | 10 ++++++----
->  tcg/riscv/tcg-target.c.inc       | 10 ++++++----
->  tcg/s390x/tcg-target.c.inc       |  9 ++++++---
->  tcg/sparc64/tcg-target.c.inc     | 12 ++++++------
->  tcg/tci/tcg-target.c.inc         | 12 ++++++------
->  11 files changed, 72 insertions(+), 46 deletions(-)
->
-> diff --git a/tcg/tcg.c b/tcg/tcg.c
-> index 93d1331f93..092cdaf422 100644
-> --- a/tcg/tcg.c
-> +++ b/tcg/tcg.c
-> @@ -148,6 +148,7 @@ static bool tcg_out_sti(TCGContext *s, TCGType type, =
-TCGArg val,
->                          TCGReg base, intptr_t ofs);
->  static void tcg_out_call(TCGContext *s, const tcg_insn_unit *target,
->                           const TCGHelperInfo *info);
-> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot);
->  static bool tcg_target_const_match(int64_t val, TCGType type, int ct);
->  #ifdef TCG_TARGET_NEED_LDST_LABELS
->  static int tcg_out_ldst_finalize(TCGContext *s);
-> @@ -719,14 +720,16 @@ static void init_call_layout(TCGHelperInfo *info)
->      case dh_typecode_s64:
->          info->nr_out =3D 64 / TCG_TARGET_REG_BITS;
->          info->out_kind =3D TCG_CALL_RET_NORMAL;
-> -        assert(info->nr_out <=3D ARRAY_SIZE(tcg_target_call_oarg_regs));
-> +        /* Query the last register now to trigger any assert early. */
-> +        tcg_target_call_oarg_reg(info->out_kind, info->nr_out - 1);
->          break;
->      case dh_typecode_i128:
->          info->nr_out =3D 128 / TCG_TARGET_REG_BITS;
->          info->out_kind =3D TCG_CALL_RET_NORMAL; /* TODO */
->          switch (/* TODO */ TCG_CALL_RET_NORMAL) {
->          case TCG_CALL_RET_NORMAL:
-> -            assert(info->nr_out <=3D ARRAY_SIZE(tcg_target_call_oarg_reg=
-s));
-> +            /* Query the last register now to trigger any assert early. =
-*/
-> +            tcg_target_call_oarg_reg(info->out_kind, info->nr_out - 1);
->              break;
->          case TCG_CALL_RET_BY_REF:
->              /*
-> @@ -4563,7 +4566,7 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp=
- *op)
->      case TCG_CALL_RET_NORMAL:
->          for (i =3D 0; i < nb_oargs; i++) {
->              TCGTemp *ts =3D arg_temp(op->args[i]);
-> -            TCGReg reg =3D tcg_target_call_oarg_regs[i];
-> +            TCGReg reg =3D tcg_target_call_oarg_reg(TCG_CALL_RET_NORMAL,=
- i);
->=20=20
->              /* ENV should not be modified.  */
->              tcg_debug_assert(!temp_readonly(ts));
-> diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-> index 2279a14c11..dfe569dd8c 100644
-> --- a/tcg/aarch64/tcg-target.c.inc
-> +++ b/tcg/aarch64/tcg-target.c.inc
-> @@ -63,9 +63,13 @@ static const int tcg_target_call_iarg_regs[8] =3D {
->      TCG_REG_X0, TCG_REG_X1, TCG_REG_X2, TCG_REG_X3,
->      TCG_REG_X4, TCG_REG_X5, TCG_REG_X6, TCG_REG_X7
->  };
-> -static const int tcg_target_call_oarg_regs[1] =3D {
-> -    TCG_REG_X0
-> -};
-> +
-> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
-> +{
-> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
-> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 1);
-> +    return TCG_REG_X0 + slot;
-> +}
->=20=20
->  #define TCG_REG_TMP TCG_REG_X30
->  #define TCG_VEC_TMP TCG_REG_V31
-> diff --git a/tcg/arm/tcg-target.c.inc b/tcg/arm/tcg-target.c.inc
-> index 8b24481d8c..4e1d06dcd8 100644
-> --- a/tcg/arm/tcg-target.c.inc
-> +++ b/tcg/arm/tcg-target.c.inc
-> @@ -79,9 +79,13 @@ static const int tcg_target_reg_alloc_order[] =3D {
->  static const int tcg_target_call_iarg_regs[4] =3D {
->      TCG_REG_R0, TCG_REG_R1, TCG_REG_R2, TCG_REG_R3
->  };
-> -static const int tcg_target_call_oarg_regs[2] =3D {
-> -    TCG_REG_R0, TCG_REG_R1
-> -};
-> +
-> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
-> +{
-> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
-> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 3);
-> +    return TCG_REG_R0 + slot;
-> +}
+>  include/hw/qdev-core.h |  7 +++++++
+>  softmmu/memory.c       | 15 +++++++++++++++
+>  softmmu/trace-events   |  1 +
+>  3 files changed, 23 insertions(+)
 
-So this is now returning allocations of TCG_REG_R0 to TCG_REG_R3? Do we
-have to take care to get things right if slot is ever bigger w.r.t.
-tcg_target_reg_alloc_order?
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
->=20=20
->  #define TCG_REG_TMP  TCG_REG_R12
->  #define TCG_VEC_TMP  TCG_REG_Q15
-> diff --git a/tcg/i386/tcg-target.c.inc b/tcg/i386/tcg-target.c.inc
-> index 6a021dda8b..ab6881a4f3 100644
-> --- a/tcg/i386/tcg-target.c.inc
-> +++ b/tcg/i386/tcg-target.c.inc
-> @@ -109,12 +109,16 @@ static const int tcg_target_call_iarg_regs[] =3D {
->  #endif
->  };
->=20=20
-> -static const int tcg_target_call_oarg_regs[] =3D {
-> -    TCG_REG_EAX,
-> -#if TCG_TARGET_REG_BITS =3D=3D 32
-> -    TCG_REG_EDX
-> -#endif
-> -};
-> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
-> +{
-> +    switch (kind) {
-> +    case TCG_CALL_RET_NORMAL:
-> +        tcg_debug_assert(slot >=3D 0 && slot <=3D 1);
-> +        return slot ? TCG_REG_EDX : TCG_REG_EAX;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +}
->=20=20
->  /* Constants we accept.  */
->  #define TCG_CT_CONST_S32 0x100
-> diff --git a/tcg/loongarch64/tcg-target.c.inc b/tcg/loongarch64/tcg-targe=
-t.c.inc
-> index 54b1dcd911..f6b0ed00bb 100644
-> --- a/tcg/loongarch64/tcg-target.c.inc
-> +++ b/tcg/loongarch64/tcg-target.c.inc
-> @@ -114,10 +114,12 @@ static const int tcg_target_call_iarg_regs[] =3D {
->      TCG_REG_A7,
->  };
->=20=20
-> -static const int tcg_target_call_oarg_regs[] =3D {
-> -    TCG_REG_A0,
-> -    TCG_REG_A1,
-> -};
-> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
-> +{
-> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
-> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 1);
-> +    return TCG_REG_A0 + slot;
-> +}
->=20=20
->  #ifndef CONFIG_SOFTMMU
->  #define USE_GUEST_BASE     (guest_base !=3D 0)
-> diff --git a/tcg/mips/tcg-target.c.inc b/tcg/mips/tcg-target.c.inc
-> index 22b5463f0f..92883176c6 100644
-> --- a/tcg/mips/tcg-target.c.inc
-> +++ b/tcg/mips/tcg-target.c.inc
-> @@ -136,10 +136,12 @@ static const TCGReg tcg_target_call_iarg_regs[] =3D=
- {
->  #endif
->  };
->=20=20
-> -static const TCGReg tcg_target_call_oarg_regs[2] =3D {
-> -    TCG_REG_V0,
-> -    TCG_REG_V1
-> -};
-> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
-> +{
-> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
-> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 1);
-> +    return TCG_REG_V0 + slot;
-> +}
->=20=20
->  static const tcg_insn_unit *tb_ret_addr;
->  static const tcg_insn_unit *bswap32_addr;
-> diff --git a/tcg/ppc/tcg-target.c.inc b/tcg/ppc/tcg-target.c.inc
-> index bf3812eb8d..d31e6c3de4 100644
-> --- a/tcg/ppc/tcg-target.c.inc
-> +++ b/tcg/ppc/tcg-target.c.inc
-> @@ -186,10 +186,12 @@ static const int tcg_target_call_iarg_regs[] =3D {
->      TCG_REG_R10
->  };
->=20=20
-> -static const int tcg_target_call_oarg_regs[] =3D {
-> -    TCG_REG_R3,
-> -    TCG_REG_R4
-> -};
-> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
-> +{
-> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
-> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 1);
-> +    return TCG_REG_R3 + slot;
-> +}
->=20=20
->  static const int tcg_target_callee_save_regs[] =3D {
->  #ifdef _CALL_DARWIN
-> diff --git a/tcg/riscv/tcg-target.c.inc b/tcg/riscv/tcg-target.c.inc
-> index b961972b9f..7cfd35e753 100644
-> --- a/tcg/riscv/tcg-target.c.inc
-> +++ b/tcg/riscv/tcg-target.c.inc
-> @@ -113,10 +113,12 @@ static const int tcg_target_call_iarg_regs[] =3D {
->      TCG_REG_A7,
->  };
->=20=20
-> -static const int tcg_target_call_oarg_regs[] =3D {
-> -    TCG_REG_A0,
-> -    TCG_REG_A1,
-> -};
-> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
-> +{
-> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
-> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 1);
-> +    return TCG_REG_A0 + slot;
-> +}
->=20=20
->  #define TCG_CT_CONST_ZERO  0x100
->  #define TCG_CT_CONST_S12   0x200
-> diff --git a/tcg/s390x/tcg-target.c.inc b/tcg/s390x/tcg-target.c.inc
-> index d65cd79899..cebf180777 100644
-> --- a/tcg/s390x/tcg-target.c.inc
-> +++ b/tcg/s390x/tcg-target.c.inc
-> @@ -390,9 +390,12 @@ static const int tcg_target_call_iarg_regs[] =3D {
->      TCG_REG_R6,
->  };
->=20=20
-> -static const int tcg_target_call_oarg_regs[] =3D {
-> -    TCG_REG_R2,
-> -};
-> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
-> +{
-> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
-> +    tcg_debug_assert(slot =3D=3D 0);
-> +    return TCG_REG_R2;
-> +}
->=20=20
->  #define S390_CC_EQ      8
->  #define S390_CC_LT      4
-> diff --git a/tcg/sparc64/tcg-target.c.inc b/tcg/sparc64/tcg-target.c.inc
-> index f6a8a8e605..9b5afb8248 100644
-> --- a/tcg/sparc64/tcg-target.c.inc
-> +++ b/tcg/sparc64/tcg-target.c.inc
-> @@ -133,12 +133,12 @@ static const int tcg_target_call_iarg_regs[6] =3D {
->      TCG_REG_O5,
->  };
->=20=20
-> -static const int tcg_target_call_oarg_regs[] =3D {
-> -    TCG_REG_O0,
-> -    TCG_REG_O1,
-> -    TCG_REG_O2,
-> -    TCG_REG_O3,
-> -};
-> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
-> +{
-> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
-> +    tcg_debug_assert(slot >=3D 0 && slot <=3D 3);
-> +    return TCG_REG_O0 + slot;
-> +}
->=20=20
->  #define INSN_OP(x)  ((x) << 30)
->  #define INSN_OP2(x) ((x) << 22)
-> diff --git a/tcg/tci/tcg-target.c.inc b/tcg/tci/tcg-target.c.inc
-> index 633345d74b..cd53cb6b6b 100644
-> --- a/tcg/tci/tcg-target.c.inc
-> +++ b/tcg/tci/tcg-target.c.inc
-> @@ -200,12 +200,12 @@ static const int tcg_target_reg_alloc_order[] =3D {
->  /* No call arguments via registers.  All will be stored on the "stack". =
-*/
->  static const int tcg_target_call_iarg_regs[] =3D { };
->=20=20
-> -static const int tcg_target_call_oarg_regs[] =3D {
-> -    TCG_REG_R0,
-> -#if TCG_TARGET_REG_BITS =3D=3D 32
-> -    TCG_REG_R1
-> -#endif
-> -};
-> +static TCGReg tcg_target_call_oarg_reg(TCGCallReturnKind kind, int slot)
-> +{
-> +    tcg_debug_assert(kind =3D=3D TCG_CALL_RET_NORMAL);
-> +    tcg_debug_assert(slot >=3D 0 && slot < 64 / TCG_TARGET_REG_BITS);
-> +    return TCG_REG_R0 + slot;
-> +}
->=20=20
->  #ifdef CONFIG_DEBUG_TCG
->  static const char *const tcg_target_reg_names[TCG_TARGET_NB_REGS] =3D {
+--JEeC1fvID3M/9vOl
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Otherwise:
+-----BEGIN PGP SIGNATURE-----
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPRmz0ACgkQnKSrs4Gr
+c8ivPgf+Nb8+jf4rYcSSlW97lzn5zM1XYq9sgmGSmST1Zvk7rj3K5q8nuj4aEjDM
+wluSsfvYQSpxmyKs4y4uADCdxa9m9/jLW6bqN7/L4/A1N2dXaD94Y6HhJnCQJKGg
+2DvWuQSlxLa6riMACmisx2ZTwskv/MNBGBC/7Cbd93MA65N8lUKEcyCaGRjBBHD+
+BpERawG5Wb8Tt03f3+Me8MtOhNTyjftsMSOgRKSRfdf0X99vOvHc4Fymi4g6bXDI
+7UZq8PkJtJCoHAdsT+C9TAQ7CWgLFq4kMHpl9tt8W7cQMJmmt8jizWbg/GdJPnlt
+HFWQSGXZJpV1dGu21YcYdGea24zCLA==
+=Z35F
+-----END PGP SIGNATURE-----
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+--JEeC1fvID3M/9vOl--
+
 
