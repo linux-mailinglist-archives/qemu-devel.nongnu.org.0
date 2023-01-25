@@ -2,81 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E74C67B2DF
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 14:02:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4025567B315
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 14:14:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKfOz-0002ew-VC; Wed, 25 Jan 2023 08:01:22 -0500
+	id 1pKfbX-0002xa-E3; Wed, 25 Jan 2023 08:14:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pKfOf-0002Xa-OH; Wed, 25 Jan 2023 08:01:08 -0500
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pKfOd-0007VX-IJ; Wed, 25 Jan 2023 08:01:00 -0500
-Received: by mail-wm1-x329.google.com with SMTP id
- bg13-20020a05600c3c8d00b003d9712b29d2so1167169wmb.2; 
- Wed, 25 Jan 2023 05:00:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Tm2HfgjxNCIKiUMmVm5C1G/KwgcC7AB6x1Fwz+gWZxc=;
- b=Map46ZWWhIB8ypFmRC8j6jD09Enul8Vs7UtdDpmj95Azbsq7mwyHIqldc8OJpMCavl
- EgitrG3IDwDMInNRLM6CzumZN/fuIQzDiUe8La2Xm/40OqVOIKVyj7tBIIEK1U4Pgqk7
- kZ+F6t6JajTByjU0y/d12fOLPJ3HBeLTkvWIHzbewtzDZnVqkfcZZKCcZx4gTs0FOYSb
- UD5Z6way+Jbj1Jsy3M0ncVWuC525+lynPOfHEB49H80jXwr5DlQwnr0Sc55/jjibO4Bg
- DTTFFB2KP1taE3VpDU0xSHIuyp6cBzqlr1/qHDnD9MytL5k0Rco6cNrU6d+f2KIWdQmf
- 15Mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Tm2HfgjxNCIKiUMmVm5C1G/KwgcC7AB6x1Fwz+gWZxc=;
- b=yWAdlihpujbxhRdeFCkp6tkFEBhwo6x/aY+1Wva19LAe6rVMXrdcx3ib1fk6X6kM+q
- VkdW1HnccwxmrZDt5d7vlvbxKQ9z5Roc+R09/qmS9PtDyvhFY7nPYUhBN8wxuwDpFcua
- c+M7TPBrHdR3NIE22gJxtY55cXEzuPkYb1d5CRXihL4CC/9KNBQ/gPbD4w22CDFfAL3N
- Nc94obOvoKRptShd0a4XOiLDtz8RqgXxHuSU7KbeozRZ9r0bvRL0tsfzx/xhnvEl9KTQ
- AbtRrnm+5Xqqws5YmNgchWkuIIusv7vbx9hjeQGK19eiJaGYCcDB8n9WU5sNrcTHNzos
- uxQg==
-X-Gm-Message-State: AFqh2ko856ABHW3Oj6lgKPNPjLbALf0gXFgRKmov5TFGOIj/ZctjBOjM
- FwUT9ixGNwGqAu0mggAk7OvU0DbucBow9Q==
-X-Google-Smtp-Source: AMrXdXsOS80jTF/ecIuDAMH8iNQWlDb91Xg8nKHdxrGW1ptMD8YVGncW8fTDWV2/uEIX0Lnhy/t71g==
-X-Received: by 2002:a05:600c:3d10:b0:3d9:ee3d:2f54 with SMTP id
- bh16-20020a05600c3d1000b003d9ee3d2f54mr39569863wmb.13.1674651651485; 
- Wed, 25 Jan 2023 05:00:51 -0800 (PST)
-Received: from osoxes.fritz.box
- (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
- by smtp.gmail.com with ESMTPSA id
- s15-20020a05600c384f00b003d9de0c39fasm2078828wmr.36.2023.01.25.05.00.50
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 05:00:51 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, qemu-ppc@nongnu.org,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 4/4] hw/ppc/e500.c: Attach eSDHC unimplemented region to
- ccsr_addr_space
-Date: Wed, 25 Jan 2023 14:00:24 +0100
-Message-Id: <20230125130024.158721-5-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230125130024.158721-1-shentey@gmail.com>
-References: <20230125130024.158721-1-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pKfbU-0002wu-7j
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 08:14:16 -0500
+Received: from mout.kundenserver.de ([212.227.126.134])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pKfbS-0001rF-HC
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 08:14:15 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MDN3O-1pV5SJ0n5i-00AULC; Wed, 25 Jan 2023 14:14:09 +0100
+Message-ID: <527f9f81-6765-3cf3-f96a-6cd3b67521b5@vivier.eu>
+Date: Wed, 25 Jan 2023 14:14:06 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] linux-user: Add missing MAP_HUGETLB and MAP_STACK flags
+ in strace
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <Y5iiED4PpnGAHpyz@p100>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <Y5iiED4PpnGAHpyz@p100>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::329;
- envelope-from=shentey@gmail.com; helo=mail-wm1-x329.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Provags-ID: V03:K1:LFudNDzbbYDwfeEiSng8qElwRnaXEeR5bE2I3c5/6eGA7WFmyMb
+ KaMXDBHgqfCMLwqDfe/3ZM9fk6OAUbxvCpp1Ul9m1+ZwCZHgrceoPnlnJE4DTIH43fwVyV9
+ e6Xt73BHfjnpcajPbzwvnC7W2x8FNVlpRYr9Z5CP9J9Kk7P0MLrqx9ytpxZk1xD8+fVmPgr
+ nDLCuYohgHtWD9KSyeuXA==
+UI-OutboundReport: notjunk:1;M01:P0:qxpHbWrViO0=;DJo3gTBtah9bSoauvWJQMZb0K/9
+ +VK4J+m8SIu+dIUlQbdHvO1SU2DjNTfa6HTU7zwDXVfhyNj29ICmc9Uj+sCBuuQ0WP5Ta/Akw
+ cGmGitneT2wf1EDzVUEV51ZRzHCg5HuE7j73upmhzxB9+AtOC5FCVwKpx5UzomjkYogtuI8ID
+ kYaeY662uqwIuCNfdaAC5V8OBC2zEuOb82BqS+bn6A4SEWtMsAmMIJlBMOw/lztO1xZEaE3Ue
+ yad0OmOrPrSTc7K3XqfbL9cKcXw4iyx5s71TmbbS3qUcnqPIHfmiES4+rlrsDd1Q2G3tXqEEz
+ fdy4ejeFoqQuZnN7/CDF1xqbg+CXQMq6TVIX7JQfOzhaj77JedCsNk94pBGacfevLYbuFMHmf
+ ZfR+BUQSKfJABMFVqDEmvI/jdIjo99xHvidvxtjdrrGFt30Alk1+9zXzmjpWqF4bRtz51R8On
+ +bgsoIXe4K6RYg8NF6UQXYya2rxp0NTkPwzZZCe2JwrYez/YRt70B2EA7r8cBakxxdBeXfrYj
+ YPa96mtu2GPs2R+EADEYargCT3G7iXIRi1SoeNnsw0wbcP81uuSw84Ii+e979vntTihxyTFPr
+ WLprpx2zXNEixF9Pv/VeY1gW1acr5EMuxFb5E/LsSyptvOIW3RJpbPVm4sBJun66DeIPXLYBv
+ CWyARkBnGznmMN3xI02hjSCHPu/Fa/LXrq2ub63OiA==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,37 +72,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Makes the unimplemented region move together with the CCSR address space
-if moved by a bootloader. Moving the CCSR address space isn't
-implemented yet but this patch is a preparation for it.
-
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/ppc/e500.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-index e3b29d1d97..117c9c08ed 100644
---- a/hw/ppc/e500.c
-+++ b/hw/ppc/e500.c
-@@ -1022,9 +1022,13 @@ void ppce500_init(MachineState *machine)
- 
-     /* eSDHC */
-     if (pmc->has_esdhc) {
--        create_unimplemented_device("esdhc",
--                                    pmc->ccsrbar_base + MPC85XX_ESDHC_REGS_OFFSET,
--                                    MPC85XX_ESDHC_REGS_SIZE);
-+        dev = qdev_new(TYPE_UNIMPLEMENTED_DEVICE);
-+        qdev_prop_set_string(dev, "name", "esdhc");
-+        qdev_prop_set_uint64(dev, "size", MPC85XX_ESDHC_REGS_SIZE);
-+        s = SYS_BUS_DEVICE(dev);
-+        sysbus_realize_and_unref(s, &error_fatal);
-+        memory_region_add_subregion(ccsr_addr_space, MPC85XX_ESDHC_REGS_OFFSET,
-+                                    sysbus_mmio_get_region(s, 0));
- 
-         /*
-          * Compatible with:
--- 
-2.39.1
+Le 13/12/2022 à 17:02, Helge Deller a écrit :
+> Add two missing mmap flags.
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
+> 
+> diff --git a/linux-user/strace.c b/linux-user/strace.c
+> index 8fa5c1ec3d..3ea91084fb 100644
+> --- a/linux-user/strace.c
+> +++ b/linux-user/strace.c
+> @@ -1089,6 +1089,8 @@ UNUSED static struct flags mmap_flags[] = {
+>   #ifdef TARGET_MAP_UNINITIALIZED
+>       FLAG_TARGET(MAP_UNINITIALIZED),
+>   #endif
+> +    FLAG_TARGET(MAP_HUGETLB),
+> +    FLAG_TARGET(MAP_STACK),
+>       FLAG_END,
+>   };
+> 
+> 
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
 
