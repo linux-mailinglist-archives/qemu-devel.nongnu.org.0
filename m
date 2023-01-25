@@ -2,91 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4582E67BF9B
-	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 23:08:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 722C867BFD7
+	for <lists+qemu-devel@lfdr.de>; Wed, 25 Jan 2023 23:21:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKnvn-0000L4-BA; Wed, 25 Jan 2023 17:07:48 -0500
+	id 1pKo7h-0005va-Gm; Wed, 25 Jan 2023 17:20:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pKnvg-0000EC-Rf; Wed, 25 Jan 2023 17:07:41 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pKo7f-0005ui-47
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 17:20:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
- id 1pKnvd-0002VM-Bw; Wed, 25 Jan 2023 17:07:39 -0500
-Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
- by mailout.west.internal (Postfix) with ESMTP id F3D9B320090E;
- Wed, 25 Jan 2023 17:07:34 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
- by compute3.internal (MEProxy); Wed, 25 Jan 2023 17:07:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
- :content-type:date:date:from:from:in-reply-to:in-reply-to
- :message-id:mime-version:references:reply-to:sender:subject
- :subject:to:to; s=fm1; t=1674684454; x=1674770854; bh=OIGcSgi+FN
- 6vHWNhF43c2FHv9XBW7xmBBYI4y2iyfl8=; b=quZcD//Me75AOUTEm5pUle4wr+
- SOSRdDSlL3ZsGEecVZdSEpH8wNBhDG4wACg7JwdTAlxtHxaXNMAtkWjXRiDVFfc0
- mLB+MooQX0wEi/uYQh6Gp73NxO6p0SS/sgsPF0Alyz54Qg2cjGdvuTCsx7JEVtFx
- wDAkKtC9whP8aYqqJvpOnG2kSBCKNpGbXtoE5Pvb/gRDiZXhk1lzHx/Op30Iyyvm
- 8b9F8GbV72zbZ/gtHMFd3rgb7I6adALqdcw4bYBPxB34yO/lKaLy9MFj6Kq9F3zw
- psguRETLaFVUBcqGxRMNb/u0agzumxVgCjv/aAK2jMJgchAP5TICVma0aMSA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
- messagingengine.com; h=cc:cc:content-type:date:date:feedback-id
- :feedback-id:from:from:in-reply-to:in-reply-to:message-id
- :mime-version:references:reply-to:sender:subject:subject:to:to
- :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
- fm3; t=1674684454; x=1674770854; bh=OIGcSgi+FN6vHWNhF43c2FHv9XBW
- 7xmBBYI4y2iyfl8=; b=Wt+E56KlZXJ0fHqH2R5c12L9rsQ8XBjAdWm3gI8XiLRn
- sg7cwddIJrB3peiQX7/bba0MM7egTswHNSyCWh4zdnPA19gPZj5i2bsRMflSUqPS
- ySbTt+zyKsdqSR1uwlksauYcmMCp2loNLjs+86HctRpL7xGnkRD2R/MJDQLgpPw+
- 5ssr3hZgzL8M64dLze7FpPv6zjZz+wSOB1A2s13tDUaNX6jA6Oa6r5UrFtTpyaYf
- mhtSmnZGKycU53z/Z9ruTSEHUqDsflk+7ZThGEikv7TnTqRd9Pyp1JT9Z3/oMI/O
- 3Hethctup00BzLZaeBh10pjhppxn9MIrQ9GdS6mryw==
-X-ME-Sender: <xms:JqjRYzZqWmIP034ZlQC7RByH6qnmjTSFMkN9M6mRBsDxSZ8avlx53A>
- <xme:JqjRYybZqSEmfEdIm7fJr4BovMzp3731DdV6NcjBh5POlCfxSvaiZ5mN6N2rNDVwo
- 96x5yCaaEwlC5f8KEA>
-X-ME-Received: <xmr:JqjRY1_x0Qi1eYcg_R26tR0XBPVyuE-Cob_HOPC_yf1q6qX2puSQsO8tWUYiyl-RqOEeSFP5rEHusVLBm7_Z58fc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvvddgudehlecutefuodetggdotefrod
- ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
- necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
- enucfjughrpeffhffvvefukfhfgggtuggjsehttdertddttddvnecuhfhrohhmpefrvght
- vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
- htthgvrhhnpeduteeihfffleeuveekgedugfeffeehtdeguefffffhleehgfduueejjeek
- feeukeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
- hpvghtvghrsehpjhgurdguvghv
-X-ME-Proxy: <xmx:JqjRY5qLtorWoMk_QLE87vixWe76hYPB5Dn6FwrEbsa-2g91ecWsBg>
- <xmx:JqjRY-qQYYut41QvDLVY-N5jwoByCk0SzyE0cWXamWYsCeroFtQmOA>
- <xmx:JqjRY_SLWwWIdkzDGSE78Y94ryqhSbyzzGd6ej-IvBp422mwgQkLzQ>
- <xmx:JqjRY6fv6xfFl7p6U2qWpTbmyproTl9tvljLCATS3kor61W4kxnTsA>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 25 Jan 2023 17:07:32 -0500 (EST)
-Date: Wed, 25 Jan 2023 14:07:30 -0800
-From: Peter Delevoryas <peter@pjd.dev>
-To: Corey Minyard <minyard@acm.org>
-Cc: clg@kaod.org, peter.maydell@linaro.org, andrew@aj.id.au, joel@jms.id.au,
- hskinnemoen@google.com, kfting@nuvoton.com, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org, philmd@linaro.org
-Subject: Re: [PATCH v4 5/5] hw/nvram/eeprom_at24c: Make reset behavior more
- like hardware
-Message-ID: <Y9GoIsyCamKsQJVK@pdel-mbp.dhcp.thefacebook.com>
-References: <20230118024214.14413-1-peter@pjd.dev>
- <20230118024214.14413-6-peter@pjd.dev>
- <Y9GiCmi7GRW0e/dm@minyard.net>
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pKo7c-0005Kb-EF
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 17:20:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674685199;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=SXWTS7PEfK4jfis5AMTJ0jfF1+NWNTH+CYWW0b9TfAk=;
+ b=J2pR41XaZNUqyzbhJleSSRIW7xsHDrTjpUVUTt0cTMmqfoFqQlq5zlITztOqBHYxsUc8S4
+ IiX/KiESTRGNTP4FsLjksyhv36pUDYdLcA+wDlX4fPzK9ox/Pq2QYK+7qbrqLNKJRU/e2k
+ b7xBQkNAyQ67vgf5NPSNLmapDn9eBNU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-523-Eg2ockkrMBCcGSKv08KftQ-1; Wed, 25 Jan 2023 17:19:55 -0500
+X-MC-Unique: Eg2ockkrMBCcGSKv08KftQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AE2F43C0CD39;
+ Wed, 25 Jan 2023 22:19:53 +0000 (UTC)
+Received: from localhost (unknown [10.39.192.105])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B4F4CC15BA0;
+ Wed, 25 Jan 2023 22:19:51 +0000 (UTC)
+Date: Wed, 25 Jan 2023 17:19:49 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Cc: qemu-devel@nongnu.org,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Mauro Matteo Cascella <mcascell@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ David Hildenbrand <david@redhat.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
+ "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Daniel P =?iso-8859-1?Q?=2E_Berrang=E9?= <berrange@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ Paul Durrant <paul@xen.org>, Kevin Wolf <kwolf@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>, Amit Shah <amit@kernel.org>,
+ =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+ John Snow <jsnow@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Keith Busch <kbusch@kernel.org>, Klaus Jensen <its@irrelevant.dk>,
+ Fam Zheng <fam@euphon.net>, Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>,
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>,
+ "open list:virtio-blk" <qemu-block@nongnu.org>,
+ "open list:i.MX31 (kzm)" <qemu-arm@nongnu.org>,
+ "open list:Old World (g3beige)" <qemu-ppc@nongnu.org>
+Subject: Re: [PATCH v4 3/3] hw: replace most qemu_bh_new calls with
+ qemu_bh_new_guarded
+Message-ID: <Y9GrBTALs18YkSKG@fedora>
+References: <20230119070308.321653-1-alxndr@bu.edu>
+ <20230119070308.321653-4-alxndr@bu.edu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="M2N6eqImXDUC6qNs"
 Content-Disposition: inline
-In-Reply-To: <Y9GiCmi7GRW0e/dm@minyard.net>
-Received-SPF: pass client-ip=64.147.123.21; envelope-from=peter@pjd.dev;
- helo=wout5-smtp.messagingengine.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+In-Reply-To: <20230119070308.321653-4-alxndr@bu.edu>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,86 +108,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 25, 2023 at 03:41:30PM -0600, Corey Minyard wrote:
-> On Tue, Jan 17, 2023 at 06:42:14PM -0800, Peter Delevoryas wrote:
-> > EEPROM's are a form of non-volatile memory. After power-cycling an EEPROM,
-> > I would expect the I2C state machine to be reset to default values, but I
-> > wouldn't really expect the memory to change at all.
-> 
-> Yes, I agree, I was actually wondering about this reviewing earlier
-> changes.  Thanks for fixing this.
 
-Oh great! I'm glad everyone has agreed with this so far.
+--M2N6eqImXDUC6qNs
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-- Peter
+On Thu, Jan 19, 2023 at 02:03:08AM -0500, Alexander Bulekov wrote:
+> This protects devices from bh->mmio reentrancy issues.
+>=20
+> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+> ---
+>  hw/9pfs/xen-9p-backend.c        | 4 +++-
+>  hw/block/dataplane/virtio-blk.c | 3 ++-
+>  hw/block/dataplane/xen-block.c  | 5 +++--
+>  hw/block/virtio-blk.c           | 5 +++--
+>  hw/char/virtio-serial-bus.c     | 3 ++-
+>  hw/display/qxl.c                | 9 ++++++---
+>  hw/display/virtio-gpu.c         | 6 ++++--
+>  hw/ide/ahci.c                   | 3 ++-
+>  hw/ide/core.c                   | 3 ++-
+>  hw/misc/imx_rngc.c              | 6 ++++--
+>  hw/misc/macio/mac_dbdma.c       | 2 +-
+>  hw/net/virtio-net.c             | 3 ++-
+>  hw/nvme/ctrl.c                  | 6 ++++--
+>  hw/scsi/mptsas.c                | 3 ++-
+>  hw/scsi/scsi-bus.c              | 3 ++-
+>  hw/scsi/vmw_pvscsi.c            | 3 ++-
+>  hw/usb/dev-uas.c                | 3 ++-
+>  hw/usb/hcd-dwc2.c               | 3 ++-
+>  hw/usb/hcd-ehci.c               | 3 ++-
+>  hw/usb/hcd-uhci.c               | 2 +-
+>  hw/usb/host-libusb.c            | 6 ++++--
+>  hw/usb/redirect.c               | 6 ++++--
+>  hw/usb/xen-usb.c                | 3 ++-
+>  hw/virtio/virtio-balloon.c      | 5 +++--
+>  hw/virtio/virtio-crypto.c       | 3 ++-
+>  25 files changed, 66 insertions(+), 35 deletions(-)
 
-> 
-> Reviewed-by: Corey Minyard <cminyard@mvista.com>
-> 
-> > 
-> > The current implementation of the at24c EEPROM resets its internal memory on
-> > reset. This matches the specification in docs/devel/reset.rst:
-> > 
-> >   Cold reset is supported by every resettable object. In QEMU, it means we reset
-> >   to the initial state corresponding to the start of QEMU; this might differ
-> >   from what is a real hardware cold reset. It differs from other resets (like
-> >   warm or bus resets) which may keep certain parts untouched.
-> > 
-> > But differs from my intuition. For example, if someone writes some information
-> > to an EEPROM, then AC power cycles their board, they would expect the EEPROM to
-> > retain that information. It's very useful to be able to test things like this
-> > in QEMU as well, to verify software instrumentation like determining the cause
-> > of a reboot.
-> > 
-> > Fixes: 5d8424dbd3e8 ("nvram: add AT24Cx i2c eeprom")
-> > Signed-off-by: Peter Delevoryas <peter@pjd.dev>
-> > Reviewed-by: Joel Stanley <joel@jms.id.au>
-> > ---
-> >  hw/nvram/eeprom_at24c.c | 22 ++++++++++------------
-> >  1 file changed, 10 insertions(+), 12 deletions(-)
-> > 
-> > diff --git a/hw/nvram/eeprom_at24c.c b/hw/nvram/eeprom_at24c.c
-> > index f8d751fa278d..5074776bff04 100644
-> > --- a/hw/nvram/eeprom_at24c.c
-> > +++ b/hw/nvram/eeprom_at24c.c
-> > @@ -185,18 +185,6 @@ static void at24c_eeprom_realize(DeviceState *dev, Error **errp)
-> >      }
-> >  
-> >      ee->mem = g_malloc0(ee->rsize);
-> > -
-> > -}
-> > -
-> > -static
-> > -void at24c_eeprom_reset(DeviceState *state)
-> > -{
-> > -    EEPROMState *ee = AT24C_EE(state);
-> > -
-> > -    ee->changed = false;
-> > -    ee->cur = 0;
-> > -    ee->haveaddr = 0;
-> > -
-> >      memset(ee->mem, 0, ee->rsize);
-> >  
-> >      if (ee->init_rom) {
-> > @@ -214,6 +202,16 @@ void at24c_eeprom_reset(DeviceState *state)
-> >      }
-> >  }
-> >  
-> > +static
-> > +void at24c_eeprom_reset(DeviceState *state)
-> > +{
-> > +    EEPROMState *ee = AT24C_EE(state);
-> > +
-> > +    ee->changed = false;
-> > +    ee->cur = 0;
-> > +    ee->haveaddr = 0;
-> > +}
-> > +
-> >  static Property at24c_eeprom_props[] = {
-> >      DEFINE_PROP_UINT32("rom-size", EEPROMState, rsize, 0),
-> >      DEFINE_PROP_BOOL("writable", EEPROMState, writable, true),
-> > -- 
-> > 2.39.0
-> > 
-> > 
+Should scripts/checkpatch.pl complain when qemu_bh_new() or aio_bh_new()
+are called from hw/? Adding a check is important so new instances cannot
+be added accidentally in the future.
+
+Stefan
+
+--M2N6eqImXDUC6qNs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPRqwUACgkQnKSrs4Gr
+c8gRpgf/XSMSSsqXecEYX86MfvLzEtDZEi3FpITflNUsNp60gUR3RxhOHYM1uYKt
+JJsD58pqNmAqE+w3Yp3IfsHiqN2/Nn4M11DhA+LTtr/aOBDj2Avtn8cjlD9B/9sv
+pdBlSmT9qdqNSMV0Vf3PeTQoFPgO0HfszA90SWOxVtRSPY5+I0ogrcBQnF9CniKP
+ckWq3++62BxEnQDD74thjGagTPexUnMER/G5RGu7bEHZZPnVCUZSrRN413f5eco2
+8hJZwVfvUmr/28Pn57ShdIm0T4VAr8A2T4+BpaGpc5oiBL5Jxblkj7J8+A78tv0v
+jeSYTaMqrl98ceiYFrymlZCjC9aaOQ==
+=MJ1Z
+-----END PGP SIGNATURE-----
+
+--M2N6eqImXDUC6qNs--
+
 
