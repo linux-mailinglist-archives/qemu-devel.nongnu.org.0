@@ -2,54 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2049667D419
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 19:25:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3173367D428
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 19:28:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL6vl-0004Xe-LL; Thu, 26 Jan 2023 13:25:01 -0500
+	id 1pL6yD-0005iG-3d; Thu, 26 Jan 2023 13:27:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pL6ve-0004XV-Mt
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 13:24:54 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pL6y1-0005gk-3F
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 13:27:21 -0500
+Received: from mout.gmx.net ([212.227.15.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pL6vc-0001yG-F3
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 13:24:54 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P2pt06Qm9z67J5b;
- Fri, 27 Jan 2023 02:20:40 +0800 (CST)
-Received: from localhost (10.81.202.191) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 26 Jan
- 2023 18:24:47 +0000
-Date: Thu, 26 Jan 2023 18:24:46 +0000
-To: Dave Jiang <dave.jiang@intel.com>
-CC: <mst@redhat.com>, <bwidawsk@kernel.org>, <peter.maydell@linaro.org>,
- <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>
-Subject: Re: [PATCH] hw/cxl: Add QTG _DSM support for ACPI0017 device
-Message-ID: <20230126182446.00001ce7@Huawei.com>
-In-Reply-To: <167475645654.1386523.7101990863993668595.stgit@djiang5-mobl3.local>
-References: <167475645654.1386523.7101990863993668595.stgit@djiang5-mobl3.local>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pL6xz-0002x4-Bp
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 13:27:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1674757634; bh=HyHKnZGWZDpn491JVQ2mSF3t8aVO/n2m4veCYTG3Ltk=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=UDBQ6e/5V+JhSipCv4RxS9wtYfxoFKjriyePquuhHJr1KzlNT4VZpv81UmeT+Odnu
+ GG7x/qrtpvT+aSlATzxAZNYEIV/S5Jttn9rROj9tc4XPR2btY7PeqagjMs/e6lwl/d
+ xHzdgikGlrxFChC/xyJ/qCm35N9l2eUEIzN0kk9mL2JmEz6zuWNopfAuv/pbXGrsXi
+ Q9x94ns6GN0B22v+MTwkRa67ok4yStCOunVEXUNn1F8SEP/7PaGuCT+r244mleZIoS
+ Tttft1q0FBSGM+bMFAkvFKN81KF/fgEBrrJXk9DSZs9NCTv0fcXpmqfn5aEFOcKrTX
+ kfe9Y22FVfi7Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.142.22]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N33Ed-1ogWVz1LEz-013Jp4; Thu, 26
+ Jan 2023 19:27:14 +0100
+Message-ID: <db38ab56-d632-8cb4-9e60-aef83477ca74@gmx.de>
+Date: Thu, 26 Jan 2023 19:27:11 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.81.202.191]
-X-ClientProxiedBy: lhrpeml500006.china.huawei.com (7.191.161.198) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] linux-user: Fix SO_ERROR return code of getsockopt()
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221216101033.8352-1-deller@gmx.de>
+ <8ec83c02-0e87-90c2-835d-e01a330b1969@vivier.eu>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <8ec83c02-0e87-90c2-835d-e01a330b1969@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:sG8MTYnBo8iUwwur95s69rEd7Zql4JoPGGzzjwUHlAoTLjkZ8Rb
+ kYgxQsVQbGMqK2dXzTbOXO1zCbP87uPTDJalrvyaZI1VOVuYK+l8sCAdQSM6MfX4Y9MVrQJ
+ Sq5kuxW1IrXCtkMl+2Xmf0FUPJyaJel+lvORjvylpnqySfS0+qBhBuOwCzIhkvXrt5MIQxF
+ HeqT7FyHaVHISIRiREEmQ==
+UI-OutboundReport: notjunk:1;M01:P0:+Mj7yM96fBk=;kL5c3X/bwgiVRSVpJtC4QiwvOSv
+ 42I6AuZaK4A5vefmgTzN9u/ZURe1aBqamaIv6ZGx6HRE0+FIfmO5+daRkjlahKW3nX1p0AFnt
+ OTkdXK7RbyOtJ9KxC3AC8lKIyTDgKLm3gSS3EURgQGRgkm/6f+2dACgtaxzGS/K3+dtNmeadS
+ Om9weBfGGDPMeIToYvpa8Aqy9zt4cK1XRVTBa9wrr2lVgktgP+pv6o14XNKHf1hGFSAhMcxb2
+ 9eJKus85/pjAcOGb3eTFYjfr0EwWam/0CZ9Wmvm0zN4BtWbkZuEQYgqk5ymbnH9wzyw60q0vq
+ Bc4fkx5thG0/e/hHDma1fln/z1vmciG7iwm4xTwb2a+lBRiyfZ1sAwlN4WjpLa/pUd3U+Etj9
+ 9N48iVrsX1ST5/Ni06MIoPArOhqOY+oRF702Fe9eHmGL0+DM0CnV13XlOXB0/WlCwbpCWOyX9
+ Q3k0R93YIVHaZENT0VVzkyz+G9MqM2FeIhUv2/7Iqat8xZ3HyZKUUuekMcvKUctYrHhPY6Lha
+ BVN81tC1yWKDpxYMpYhzgHh4MJH4E40gti6dcS8dg290hB7S2ZbDT9ZJDCNOh/K6AkLvHOEJc
+ EM69tJUg6zhPOhXruhDqheTptWRl3CtekINwpEXPx3MdB5dhuzqgWvOwvi3V0nUWlQ7kkRL6Y
+ nAKskWVqHhqnNk4hMiSy1+AbcakGqBLrBMjK9fbBfzaMZWV6IAFix6Ghera+nqCtJmfB2OJXb
+ a/aVxBtcSs5wXn0KPmQHLaptFirima3mV3uJrKVwO5U8CaKIhs3XypGNXv6kplvUg5L5/GkHK
+ Lo3KXZRQsrf+g9zCCo57B8H2ktPBNGWyvXU1Y9xYJKrbQ6Wbg5TXmQ0HeWyNHcn0iWT9FCIRw
+ 6YIlhpmX5EKGFQcZUHBZshJoWZrrZBIAxOmSHvzBeDEU0w01YOSwQHVdfc5fs5EON3rkkKQqT
+ bsZyCy1/Hksuxy5cqSdrSG9SxeI=
+Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -39
+X-Spam_score: -4.0
 X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.15, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -62,146 +84,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 26 Jan 2023 11:07:37 -0700
-Dave Jiang <dave.jiang@intel.com> wrote:
+On 1/26/23 17:55, Laurent Vivier wrote:
+> Le 16/12/2022 =C3=A0 11:10, Helge Deller a =C3=A9crit=C2=A0:
+>> Add translation for the host error return code of:
+>> =C2=A0=C2=A0=C2=A0=C2=A0 getsockopt(19, SOL_SOCKET, SO_ERROR, [ECONNREF=
+USED], [4]) =3D 0
+>>
+>> This fixes the testsuite of the cockpit debian package with a
+>> hppa-linux guest on a x86-64 host.
+>>
+>> Signed-off-by: Helge Deller <deller@gmx.de>
+>> ---
+>> =C2=A0 linux-user/syscall.c | 5 +++--
+>> =C2=A0 1 file changed, 3 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+>> index e541fbe09a..52693b4239 100644
+>> --- a/linux-user/syscall.c
+>> +++ b/linux-user/syscall.c
+>> @@ -2809,8 +2809,9 @@ get_timeout:
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D get_errn=
+o(getsockopt(sockfd, level, optname, &val, &lv));
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret < 0)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 return ret;
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (optname =3D=3D SO_TYPE)=
+ {
+>> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val=
+ =3D host_to_target_sock_type(val);
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 switch (optname) {
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case SO_TYPE:=C2=A0=C2=A0 v=
+al =3D host_to_target_sock_type(val);=C2=A0=C2=A0=C2=A0 break;
+>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 case SO_ERROR:=C2=A0 val =
+=3D host_to_target_errno(val);=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 b=
+reak;
+>
+> It looks good but I think compiler will complain if you don't have a def=
+ault case.
 
-Hi Dave,
+It didn't for me, but I'm not sure for others.
 
-That was quick!
+> perhaps "if (optname =3D=3D SO_TYPE) { }=C2=A0else if (optname =3D=3D SO=
+_ERROR) { }" would be better.
 
-> Add a simple _DSM call support for the ACPI0017 device to return a fake QTG
-> ID value. Given the current CXL implementation does not involve switches,
+Personally I do prefer this type of switch statement here (which actually =
+avoids such nested
+"if" statements). But I'm not religious about it, so if you want it as nes=
+ted "if"s I can
+send a new patch which will be larger and less readable... Please let me k=
+now.
 
-I don't follow.  What part doesn't involve switches?
+Helge
 
-> a faked value of 0 can be returned for the QTG ID. The enabling is for _DSM
-> plumbing testing from the OS.
-
-Can you include a dump iasl -d for the DSDT chunk this generates. Much
-easier to review with that available. 
-
-On that note, tests need updating I think
-tests/qtest/bios-tables-test.c data which is in
-tests/data/acpi/q35/DSDT.cxl
-
-We should update that test code as part of the volatile series as well
-as it's using the deprecated memdev parameter - not critical
-but never a good thing to leave old examples of what not to use in
-the tests.
-
-Thanks,
-
-Jonathan
-
-p.s. I'm too lazy to look at the code without the AML to compare with
-as I'll review the AML first then look at if there are any oddities
-in the generation code.
-
-> 
-> Signed-off-by: Dave Jiang <dave.jiang@intel.com>
-> ---
->  hw/acpi/cxl.c         |   57 +++++++++++++++++++++++++++++++++++++++++++++++++
->  hw/i386/acpi-build.c  |    1 +
->  include/hw/acpi/cxl.h |    1 +
->  3 files changed, 59 insertions(+)
-> 
-> diff --git a/hw/acpi/cxl.c b/hw/acpi/cxl.c
-> index 2bf8c0799359..cd6839c24416 100644
-> --- a/hw/acpi/cxl.c
-> +++ b/hw/acpi/cxl.c
-> @@ -30,6 +30,63 @@
->  #include "qapi/error.h"
->  #include "qemu/uuid.h"
->  
-> +void build_cxl_dsm_method(Aml *dev)
-> +{
-> +    Aml *method, *ifctx, *ifctx2;
-> +
-> +    method = aml_method("_DSM", 4, AML_SERIALIZED);
-> +    {
-> +        Aml *function, *uuid;
-> +
-> +        uuid = aml_arg(0);
-> +        function = aml_arg(2);
-> +        /* CXL spec v3.0 9.17.3.1 *, QTG ID _DSM */
-> +        ifctx = aml_if(aml_equal(
-> +            uuid, aml_touuid("F365F9A6-A7DE-4071-A66A-B40C0B4F8E52")));
-> +
-> +        /* Function 0, standard DSM query function */
-> +        ifctx2 = aml_if(aml_equal(function, aml_int(0)));
-> +        {
-> +            uint8_t byte_list[1] = { 0x01 }; /* functions 1 only */
-> +
-> +            aml_append(ifctx2,
-> +                       aml_return(aml_buffer(sizeof(byte_list), byte_list)));
-> +        }
-> +        aml_append(ifctx, ifctx2);
-> +
-> +        /*
-> +         * Function 1
-> +         * A return value of {1, {0}} inciate that
-> +         * max supported QTG ID of 1 and recommended QTG is 0.
-> +         * The values here are faked to simplify emulation.
-> +         */
-> +        ifctx2 = aml_if(aml_equal(function, aml_int(1)));
-> +        {
-> +            uint16_t word_list[1] = { 0x01 };
-> +            uint16_t word_list2[1] = { 0 };
-> +            uint8_t *byte_list = (uint8_t *)word_list;
-> +            uint8_t *byte_list2 = (uint8_t *)word_list2;
-> +            Aml *pak, *pak1;
-> +
-> +            /*
-> +             * The return package is a package of a WORD and another package.
-> +             * The embedded package contains 0 or more WORDs for the
-> +             * recommended QTG IDs.
-> +             */
-> +            pak1 = aml_package(1);
-> +            aml_append(pak1, aml_buffer(sizeof(uint16_t), byte_list2));
-> +            pak = aml_package(2);
-> +            aml_append(pak, aml_buffer(sizeof(uint16_t), byte_list));
-> +            aml_append(pak, pak1);
-> +
-> +            aml_append(ifctx2, aml_return(pak));
-> +        }
-> +        aml_append(ifctx, ifctx2);
-> +    }
-> +    aml_append(method, ifctx);
-> +    aml_append(dev, method);
-> +}
-> +
->  static void cedt_build_chbs(GArray *table_data, PXBDev *cxl)
->  {
->      SysBusDevice *sbd = SYS_BUS_DEVICE(cxl->cxl.cxl_host_bridge);
-> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-> index 285829802b1a..623f26a16db3 100644
-> --- a/hw/i386/acpi-build.c
-> +++ b/hw/i386/acpi-build.c
-> @@ -1313,6 +1313,7 @@ static void build_acpi0017(Aml *table)
->      method = aml_method("_STA", 0, AML_NOTSERIALIZED);
->      aml_append(method, aml_return(aml_int(0x01)));
->      aml_append(dev, method);
-> +    build_cxl_dsm_method(dev);
->  
->      aml_append(scope, dev);
->      aml_append(table, scope);
-> diff --git a/include/hw/acpi/cxl.h b/include/hw/acpi/cxl.h
-> index acf441888683..8f22c71530d8 100644
-> --- a/include/hw/acpi/cxl.h
-> +++ b/include/hw/acpi/cxl.h
-> @@ -25,5 +25,6 @@ void cxl_build_cedt(GArray *table_offsets, GArray *table_data,
->                      BIOSLinker *linker, const char *oem_id,
->                      const char *oem_table_id, CXLState *cxl_state);
->  void build_cxl_osc_method(Aml *dev);
-> +void build_cxl_dsm_method(Aml *dev);
->  
->  #endif
-> 
-> 
+>
+> Thanks,
+> Laurent
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (len > lv)
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 len =3D lv;
+>> --
+>> 2.38.1
+>>
+>>
+>
 
 
