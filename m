@@ -2,94 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 892E267CD63
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 15:16:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7FA867CD87
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 15:19:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL33N-0006td-UZ; Thu, 26 Jan 2023 09:16:37 -0500
+	id 1pL35e-0008Od-UT; Thu, 26 Jan 2023 09:18:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pL33L-0006tU-SN
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:16:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pL35Y-0008Nv-NC; Thu, 26 Jan 2023 09:18:52 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dgilbert@redhat.com>)
- id 1pL33K-0006ii-Hq
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:16:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674742593;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Xp9QBeld717KsTDKw/ILMgnHH9pjDskMHfcGd8b49qU=;
- b=L9dyyFCWlRwvJ8nAhpIrGDtOl+mLRGKdU2UNKiKsy4+wU1DAYCpD1P/HSCMwBKcSLiVgH5
- E90afXYW3KM14e22XgBG5IekSbK7Xro5YTK04YtlzUo2O+awfkexSXooK5yPcF5QSDtlOp
- 4nV20KHFKyEOM3IkU4B8fRXuNxrn3O0=
-Received: from mail-wr1-f71.google.com (mail-wr1-f71.google.com
- [209.85.221.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-561-CrZrZ8RQPwGZPxkwWbEyzQ-1; Thu, 26 Jan 2023 09:15:20 -0500
-X-MC-Unique: CrZrZ8RQPwGZPxkwWbEyzQ-1
-Received: by mail-wr1-f71.google.com with SMTP id
- v15-20020adfe4cf000000b002bf9413bc50so338675wrm.16
- for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 06:15:15 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=user-agent:in-reply-to:content-transfer-encoding
- :content-disposition:mime-version:references:message-id:subject:cc
- :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Xp9QBeld717KsTDKw/ILMgnHH9pjDskMHfcGd8b49qU=;
- b=c5CGFDMDCEOs4924IkliO4kqhd9bOP3dClEpUeFg+0J3o/QjexbGKcW/pR8Kn9fyId
- l9LdvpZAZtS1F0bfyVcTpGLg4uQ5zz7n6ArYBsUlmBN+22c7U4P5hCpTytsZBLhjGCKM
- HCnqNItBb8mrPX4/XbdrGZyjM5fp0Q2fW36oBV1PqgPkX5A+MvzjJE1FcGbYbZle5ArT
- gqCtj1uXBmBzM6OUH8TR9mXAGMp648n6/JGXGHmzph7RmWGQ3sbj2iGuZgPpqd/bfXe0
- +++6WYWZOxFhRbXqc1ZXX6cRAgO7yc27EZxolS9WUDVd7HTnzHuT+4nkGRy2KPw/ENhm
- u5QA==
-X-Gm-Message-State: AFqh2kq6XWyejxGYGcTUEPZ2hKRr4keWzJTpHyATdze6U3JOvOsi2iss
- Sptl9O0DO/sItMdry8+Uq4MhUJFQ7xOmK8cEXImHWI7Pwsko8qkCRocnsZiV6CrqAcIdOVdgck6
- 5pZsJbkVlbnZQiEs=
-X-Received: by 2002:a05:600c:538e:b0:3da:516:19ed with SMTP id
- hg14-20020a05600c538e00b003da051619edmr35083484wmb.29.1674742514140; 
- Thu, 26 Jan 2023 06:15:14 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtczbTSluIvvLd7Vi8lJ5n0len8h2tZzIm4TSLxykrLm+9lq4JX2oDLZEpRVUtWfTLjquBC4g==
-X-Received: by 2002:a05:600c:538e:b0:3da:516:19ed with SMTP id
- hg14-20020a05600c538e00b003da051619edmr35083470wmb.29.1674742513929; 
- Thu, 26 Jan 2023 06:15:13 -0800 (PST)
-Received: from work-vm
- (ward-16-b2-v4wan-166627-cust863.vm18.cable.virginm.net. [81.97.203.96])
- by smtp.gmail.com with ESMTPSA id
- u32-20020a05600c4d2000b003db0659c454sm1791717wmp.32.2023.01.26.06.15.12
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 06:15:13 -0800 (PST)
-Date: Thu, 26 Jan 2023 14:15:11 +0000
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Michal =?iso-8859-1?B?UHLtdm96bu1r?= <mprivozn@redhat.com>
-Cc: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH 0/3] util/userfaultfd: Support /dev/userfaultfd
-Message-ID: <Y9KK72k8dZU7Ccau@work-vm>
-References: <20230125224016.212529-1-peterx@redhat.com>
- <0f8ad497-202d-ae55-e468-77bb726a2699@redhat.com>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pL35W-00075H-1A; Thu, 26 Jan 2023 09:18:52 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id A9398746361;
+ Thu, 26 Jan 2023 15:16:20 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id A686C74634B; Thu, 26 Jan 2023 15:16:19 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id A48537457E7;
+ Thu, 26 Jan 2023 15:16:19 +0100 (CET)
+Date: Thu, 26 Jan 2023 15:16:19 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Howard Spoelstra <hsp.cat7@gmail.com>
+cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
+In-Reply-To: <CABLmASFqzt8f_Qk8O_KvYOqSqeffsVVBaaknbUxL86Ch3VR3kA@mail.gmail.com>
+Message-ID: <6bf1e427-311a-1d96-e84a-ab65f62b8b48@eik.bme.hu>
+References: <cover.1672868854.git.balaton@eik.bme.hu>
+ <4162db13bd1da9c6ddd77f185cef738e44790467.1672868854.git.balaton@eik.bme.hu>
+ <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
+ <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
+ <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
+ <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
+ <ab9e33e5-70fc-0a76-c548-16ec787ea1af@ilande.co.uk>
+ <ed8ee369-c9a8-7853-3b65-7361fefc3c63@eik.bme.hu>
+ <ca5240e6-e00d-6213-22d6-f7b43d8bed18@ilande.co.uk>
+ <CABLmASGc6fybw7mL5JHUCukwoB6KjGaaWHct5mi20A2vXZhtaA@mail.gmail.com>
+ <8e6f46fb-5e1b-8016-c595-85e8e83ace47@eik.bme.hu>
+ <CABLmASEJ_MKr5gP=C7_AXg2UbYmJyDMHtm77AXoyQnsa+f2HHA@mail.gmail.com>
+ <123b1c96-febb-ebc8-2d05-3c7379fbec27@eik.bme.hu>
+ <CABLmASHotQcPDRQxhMdL729wGHNkT0gfYt2GH8U5e190eOTCQQ@mail.gmail.com>
+ <a9dbc41c-29e5-7672-d9ec-4ec43ae3a6c8@eik.bme.hu>
+ <CABLmASFqzt8f_Qk8O_KvYOqSqeffsVVBaaknbUxL86Ch3VR3kA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0f8ad497-202d-ae55-e468-77bb726a2699@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=dgilbert@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,32 +73,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-* Michal Prívozník (mprivozn@redhat.com) wrote:
-> On 1/25/23 23:40, Peter Xu wrote:
-> > The new /dev/userfaultfd handle is superior to the system call with a
-> > better permission control and also works for a restricted seccomp
-> > environment.
-> > 
-> > The new device was only introduced in v6.1 so we need a header update.
-> > 
-> > Please have a look, thanks.
-> 
-> I was wondering whether it would make sense/be possible for mgmt app
-> (libvirt) to pass FD for /dev/userfaultfd instead of QEMU opening it
-> itself. But looking into the code, libvirt would need to do that when
-> spawning QEMU because that's when QEMU itself initializes internal state
-> and queries userfaultfd caps.
+On Thu, 26 Jan 2023, Howard Spoelstra wrote:
+> I tested all Mac OS/OSX available to me with mouse and kbd alternately
+> connected to usb-bus1 or usb-bus2.
+>
+> ./qemu-system-ppc \
+> -M mac99,usb=off \
+> -L pc-bios \
+> -boot c \
+> -prom-env "auto-boot?=true" \
+> -display gtk -monitor stdio \
+> -drive file=/home/hsp/Mac-disks/9.0.4.img,format=raw,media=disk \
+> -device pci-ohci,id=usb-bus1 \
+> -device pci-ohci,id=usb-bus2 \
+> -device usb-mouse,bus=usb-bus1.0,pcap=9.0.4_p1_mouse-2usb.pcap \
+> -device usb-kbd,bus=usb-bus2.0,pcap=9.0.4_p2_kbd-2usb.pcap \
+> -device sungem,netdev=network01 -netdev user,id=network01 \
+> -trace "usb_ohci*"
+>
+> These are the results:
+>
+> Mac OS:
+> #9.0.4 bus1 kbd: works up to usb_ohci_port_reset port #0 in trace, pcap
+> shows normal operation and recognition as HID device .
+> #9.0.4 bus2 mouse. Reverts to adb mouse. No recognition as HID device.
+> #9.0.4 bus1 mouse: usb_ohci_port_reset port #0 (twice). No further traffic
+> in trace. Reverts to adb mouse. No recognition as HID device.
+> #9.0.4 bus2 kbd then no longer works (due to reset?)
+>
+> I attempted to replace the 9.0.4 disk based USB drivers with the drivers
+> from 9.1, which did not work.
+>
+> #9.1/9.2: mouse and kbd work on both buses. Profiler shows 2 buses with one
+> device each.
+>
+> Mac OS X
+> #10.0 bus1 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
+> mouse. No recognition as HID device.
+> #10.0 bus2 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point kbd
+> pcap shows normal interrupt operation and recognition as HID device
+> #10.0 bus1 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point kbd
+> pcap shows normal interrupt operation and recognition as HID device
+> #10.0 bus2 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
+> mouse. pcap shows no recognition as HID device.
+> #10.0 in both cases apple system profiler shows 2 usb buses but no devices.
+>
+>
+> #10.1 bus1 mouse: pcap shows normal interrupt operation and recognition as
+> HID device, trace shows continuous traffic
+> #10.1 bus2 kbd: works. pcap shows normal interrupt operation and
+> recognition as HID device, trace shows continuous traffic
+> #10.1 bus1 kbd: works. pcap shows normal interrupt operation and
+> recognition as HID device, trace shows continuous traffic
+> #10.1 bus2 mouse: pcap shows normal interrupt operation and recognition as
+> HID device, trace shows continuous traffic
+> #10.1 Mouse does not move on desktop, but trace shows packets flow.
+>
+> #10.2/10.3/10.4/10.5 mouse and kbd work on both buses. Profiler shows 2
+> buses with one device each.
 
-You also have to be careful about what the userfaultfd semantics are; I
-can't remember them - but if you open it in one process and pass it to
-another process, which processes address space are you trying to
-monitor?
+Maybe we need a bit more details from around the point the traces start to 
+differ between the versions and about 10-20 lines before it srops and 
+10-20 lines after (around) that point with versions that work for 
+comparison. It seems the versions that don't work get some error and the 
+OHCI device stops or it's something around reset as the suspend is also 
+called from there. But we need to locate more where is it in the driver to 
+be able to tell what's happening. Maybe also add -trace enable="usb_ohci*" 
+-trace enable="usb_port*" and try to correlate what the driver is doing 
+by that. The OS X driver sources are available at
 
-Dave
+https://github.com/apple-oss-distributions/IOHIDFamily
 
-> Michal
-> 
--- 
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+the versions correslonding to OS releases are at
 
+https://opensource.apple.com/releases/
+
+10.1.x had 8.3 and 10.2 had version 33 of this driver but new in 10.2 was
+
+https://github.com/apple-oss-distributions/IOUSBFamily/tree/IOUSBFamily-190.4.1
+
+so it seems there was some bigger change in USB handling between those 
+versions. Darwin sources may have more detailed info but I don't know 
+where to find those.
+
+> 10.0 and 9.0.4 seem to suffer the same issue (mouse not communicating as a
+> HID device, but 10.1 seems to have another issue.
+>
+> Attempts to run Mac OS X ioreg show that it fails in that it cannot read
+> the full registry.
+> This was already noticed here:
+> https://lists.gnu.org/archive/html/qemu-devel/2016-09/msg05260.html
+
+If this is related to the NVRAM format as speculated in later that thread:
+
+https://lists.gnu.org/archive/html/qemu-devel/2016-09/msg05315.html
+
+Then that format is also documented in the sources:
+
+https://github.com/apple-oss-distributions/AppleCore99NVRAM
+
+and there are other emulators that implement it:
+
+https://github.com/dingusdev/dingusppc/blob/master/devices/common/ofnvram.cpp
+
+so this should be easy to fix. Ask Mark to do that in QEMU and OpenBIOS or 
+let somebody do it without making a fuss about it. (If we could boot these 
+OSes with a firmware ROM from the real machine we could verify if it's a 
+problem with NVRAM format or something else. Maybe I should try OS X on 
+g3beige but it currently stops in Toolbox ROM before display is up or 
+accessing CD so not sure if OS X could boor. If it does not need Toolbox 
+just OpenFirmware maybe it could work but I haven't tried yet. What's a 
+good version of OS X to run on a real G3 beige?)
+
+> -Ioreg from a real G4 running 10.4 and output from the PCI DDK name
+> registry tool from a real G4 running 9.0.4 and from Qemu running 9.0.4, 9.1
+> and 9.2 are available here:
+> https://surfdrive.surf.nl/files/index.php/s/1wcC3GGaagqKVpj/download
+
+This ioreg output is truncated. Use ioreg -w 0 -l to get a full output.
+
+Regards,
+BALATON Zoltan
 
