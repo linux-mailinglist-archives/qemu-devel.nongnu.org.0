@@ -2,92 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03BD67CD5B
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 15:15:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2655367CD6F
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 15:17:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL31u-0006AN-3a; Thu, 26 Jan 2023 09:15:06 -0500
+	id 1pL34A-00079m-0d; Thu, 26 Jan 2023 09:17:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1pL31s-0006AC-NP
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:15:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1pL31r-0006Er-1C
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:15:04 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674742502;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=sb/v9HMjUz0vqBy+msoVyyjLEpuo1yrc8JMxk0yTsK8=;
- b=X4I7eSWk8pWVTx0mA2IRdvZ4RUtpPzivjVguUDS6LAPz+oAH6YGwtpaeenDU0147qykQZ3
- xW6JvdVAP1r0mB+tyjK+r9XUMyeDOrNZjerk8uoBSwEPpMnQDwwz/Ywj8Li4JNQw6ZLVLa
- vrKO0y++LJy5Q9hc28AAbfQBwytj1vc=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-533-CWTMUhdePN6rTBQiUpg-ew-1; Thu, 26 Jan 2023 09:13:23 -0500
-X-MC-Unique: CWTMUhdePN6rTBQiUpg-ew-1
-Received: by mail-ed1-f70.google.com with SMTP id
- j10-20020a05640211ca00b0049e385d5830so1493116edw.22
- for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 06:13:22 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pL33W-0006vx-3R
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:16:57 -0500
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pL33T-0006ju-Sq
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:16:45 -0500
+Received: by mail-wm1-x32c.google.com with SMTP id q8so1210472wmo.5
+ for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 06:16:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OBBssYuXJsmRIcPY22KRXjGBHg2tbEhkTsrsKHCe+eE=;
+ b=NN9aNm7PP0LBRgXJEg24AXokFM9AD3Gvb7Np8Eoz71MhMdwRqZUdnS/dgqU837er8D
+ /cwR/8G0fUSZWaQFbe8kvjX+rsUrgo7T646Q84dHAfZ2bGAKzk34tqj9FyC84LC/CO8t
+ aMGN4VVvRGdMz/EhDbx/ZPO2ksSZCyR9G0kpW3pYzbkSxxWUgO9RKJ+oG/WRLI50wrX1
+ AMOwvCFLyy3PlvAShMbIb7ZuW2gkuLHtljiFTN3gEuykeVCLxWXlWifNjOVdiHVs+J4C
+ vGTzqiDwffTOOd9ixN36DzTKLpxn6m8HjKtjKcOx/+e1bKffFeHTBVv4HmJ06hJ2jnyv
+ RRhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=sb/v9HMjUz0vqBy+msoVyyjLEpuo1yrc8JMxk0yTsK8=;
- b=kENPQt2T5uyfBHnczdbei4VO3XgjJrWICeRuoKo7cy2hDlwmV4KoVkZWbYwJsmAmzy
- 2NKY1Po4Xie6+R758AoedmGpB5QLlEzNurVf7eBC5RN6ZAedCPKTwpAOHi+tilm3bfxu
- U8V/zAhSuJN4kB0x/yt75rrxxD/1NtyVsWuf3I/gpJ5UkxB9BbYH4hmOWELgB2JtOp/B
- K707Y+ijRvyAioytPjDhywo4A4HFyq4ly81EfRAi4nhW+1mMLpfmaPa0vNKcCqxbLb0W
- 0+KsdzoXHzw8PsC1zI8sKZkwmGGkirkq44A3jrU8zou3Uu3VHbKlZkVMgvdOrgBYsZQS
- UQ2g==
-X-Gm-Message-State: AFqh2kqT1QwUH2qyKMdZjA3j7PguHe2wjt/tj3/+mFSo40w8J2PD3Nat
- tiPhM5+Vx39i+uq8p83FO0UVyQ+Cryj8NAsYs89CO0H2qjpAjY3GKecDDdgaNmEhbvpZNK3lrP7
- Tf0K+DINRVg2CgmE=
-X-Received: by 2002:a05:6402:43cf:b0:472:f7c1:361 with SMTP id
- p15-20020a05640243cf00b00472f7c10361mr41155211edc.29.1674742401957; 
- Thu, 26 Jan 2023 06:13:21 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsHhc3YwxSYXhVNFmWpAkx/k+L/ttUnBj7/monmArNxYlqGIot8jWhRoz0PCQnlZizxiUV41Q==
-X-Received: by 2002:a05:6402:43cf:b0:472:f7c1:361 with SMTP id
- p15-20020a05640243cf00b00472f7c10361mr41155198edc.29.1674742401781; 
- Thu, 26 Jan 2023 06:13:21 -0800 (PST)
-Received: from [10.43.2.39] (nat-pool-brq-t.redhat.com. [213.175.37.10])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=OBBssYuXJsmRIcPY22KRXjGBHg2tbEhkTsrsKHCe+eE=;
+ b=ol7ovtuErXRAeqlSHtnhH+rdkSFPHR/Rvu5ZgcSCb1QqyglhqKBaQzFhS4ExIGlYdO
+ PVM1CYlAIZ6yi3HAAolEq8K6a15luhS5L6WsTA5WKZoWUvcjRy3UZ9VC1e0i0B98qVT9
+ xA8yg/FFSD4ms+8Hb1C+VAvj8zKsn6YtjCSeYhU7dgoBT74yhX5pyfAWfr4Hj2D4FHmm
+ e9wwU/JXArQ+syzI6uOqNRqJJcKE4HMd1oFdPjSHuiBNTbu3Eh/uzh5zOVJTUdF25Jnf
+ msUUOG9ejLfW4MrPuTDchtW94Rci83feZNQ0mQIzGOImd0MUwfo3nX6nJcgo1fjGJtFC
+ oMAw==
+X-Gm-Message-State: AFqh2krMRjPwT5xU0clXjQYBABHxVKd39eOR5jH7dl/9OTLQnoueILtK
+ qWfW1TY+uGls4eXfelCrBkAE+w==
+X-Google-Smtp-Source: AMrXdXs282f7IGjZvbzXD/565mLuPuHzUr+Jwv7sKQr/m2n+2aTzTjsNnANHqG4MdKMVXXpFsqb/Zw==
+X-Received: by 2002:a05:600c:995:b0:3da:f4f5:ad0e with SMTP id
+ w21-20020a05600c099500b003daf4f5ad0emr34861570wmp.9.1674742600361; 
+ Thu, 26 Jan 2023 06:16:40 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- s9-20020aa7c549000000b004a0afea4c9csm793684edr.18.2023.01.26.06.13.20
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Jan 2023 06:13:21 -0800 (PST)
-Message-ID: <0f8ad497-202d-ae55-e468-77bb726a2699@redhat.com>
-Date: Thu, 26 Jan 2023 15:13:19 +0100
+ u12-20020a05600c19cc00b003db0ee277b2sm5383297wmq.5.2023.01.26.06.16.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 26 Jan 2023 06:16:39 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 525971FFB7;
+ Thu, 26 Jan 2023 14:16:39 +0000 (GMT)
+References: <CAFEAcA8v8hrqkFemdT5x_O5_mdps4wpdRCoVAfts+oVJj_qTVw@mail.gmail.com>
+ <Y9KFp06pp/qohgV1@invalid>
+User-agent: mu4e 1.9.16; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Eldon Stegall <eldon-qemu@eldondev.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, QEMU Developers
+ <qemu-devel@nongnu.org>, Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>, "Daniel P.
+ Berrange" <berrange@redhat.com>
+Subject: Re: no more pullreq processing til February
+Date: Thu, 26 Jan 2023 14:13:22 +0000
+In-reply-to: <Y9KFp06pp/qohgV1@invalid>
+Message-ID: <87h6wdpeig.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 0/3] util/userfaultfd: Support /dev/userfaultfd
-Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-References: <20230125224016.212529-1-peterx@redhat.com>
-From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
-In-Reply-To: <20230125224016.212529-1-peterx@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-1.15, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,21 +97,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/25/23 23:40, Peter Xu wrote:
-> The new /dev/userfaultfd handle is superior to the system call with a
-> better permission control and also works for a restricted seccomp
-> environment.
-> 
-> The new device was only introduced in v6.1 so we need a header update.
-> 
-> Please have a look, thanks.
 
-I was wondering whether it would make sense/be possible for mgmt app
-(libvirt) to pass FD for /dev/userfaultfd instead of QEMU opening it
-itself. But looking into the code, libvirt would need to do that when
-spawning QEMU because that's when QEMU itself initializes internal state
-and queries userfaultfd caps.
+Eldon Stegall <eldon-qemu@eldondev.com> writes:
 
-Michal
+> On Thu, Jan 26, 2023 at 01:22:32PM +0000, Peter Maydell wrote:
+>> Hi; we've run out of gitlab CI pipeline minutes for this month.
+>> This leaves us the choice of:
+>>  (a) don't process any more pullreqs til we get more minutes in Feb
+>>  (b) merge pullreqs blindly without CI testing
+>>  (c) buy more minutes
+>>=20
+>> For the moment I propose to take option (a). My mail filter will
+>> continue to track pullreqs that get sent to the list, but I won't
+>> do anything with them.
+>>=20
+>> If anybody has a better suggestion feel free :-)
+>
+> Would it be possible if (d) were to run self-hosted instances of the
+> runner? I am not sure how gitlab pricing works, but I believe on github
+> self-hosted runners are free.
 
+Yes running more stuff on custom runners would be great (and also
+possibly not as slow as the heavily loaded shared runners).
+
+> I have several baremetal machines colocated that I could dedicate to
+> execute these runs, dual processor xeons with a couple hundred gigs of
+> RAM. I would need approx 48 hours notice to initially provision the
+> machines. I would be happy to provide root credentials and work out IPMI
+> access if that becomes necessary.
+
+I think we would need:
+
+  - provisioning scripts in scripts/ci/setup (if existing not already
+    good enough)
+  - tweak to handle multiple runner instances (or more -j on the build)
+  - changes to .gitlab-ci.d/ so we can use those machines while keeping
+    ability to run on shared runners for those outside the project
+
+> If this offering isn't suitable, let me know how we can consider
+> adapting something to the project's needs.
+>
+> Thanks,
+> Eldon
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
