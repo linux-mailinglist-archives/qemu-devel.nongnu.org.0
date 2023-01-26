@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78C2567D6F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 21:58:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BE6467D6EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 21:57:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL9Jd-0002PS-GT; Thu, 26 Jan 2023 15:57:49 -0500
+	id 1pL9J6-0002Ad-Dt; Thu, 26 Jan 2023 15:57:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pL9JY-0002Mm-Vq; Thu, 26 Jan 2023 15:57:45 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pL9JP-0000iQ-85; Thu, 26 Jan 2023 15:57:44 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A22E7746361;
- Thu, 26 Jan 2023 21:55:05 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 673F07457E7; Thu, 26 Jan 2023 21:55:05 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 64F3F745706;
- Thu, 26 Jan 2023 21:55:05 +0100 (CET)
-Date: Thu, 26 Jan 2023 21:55:05 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
- qemu-ppc@nongnu.org
-Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
-In-Reply-To: <CABLmASFqzt8f_Qk8O_KvYOqSqeffsVVBaaknbUxL86Ch3VR3kA@mail.gmail.com>
-Message-ID: <f13d890c-35a7-53f9-0cb7-7903582043d1@eik.bme.hu>
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <4162db13bd1da9c6ddd77f185cef738e44790467.1672868854.git.balaton@eik.bme.hu>
- <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
- <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
- <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
- <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
- <ab9e33e5-70fc-0a76-c548-16ec787ea1af@ilande.co.uk>
- <ed8ee369-c9a8-7853-3b65-7361fefc3c63@eik.bme.hu>
- <ca5240e6-e00d-6213-22d6-f7b43d8bed18@ilande.co.uk>
- <CABLmASGc6fybw7mL5JHUCukwoB6KjGaaWHct5mi20A2vXZhtaA@mail.gmail.com>
- <8e6f46fb-5e1b-8016-c595-85e8e83ace47@eik.bme.hu>
- <CABLmASEJ_MKr5gP=C7_AXg2UbYmJyDMHtm77AXoyQnsa+f2HHA@mail.gmail.com>
- <123b1c96-febb-ebc8-2d05-3c7379fbec27@eik.bme.hu>
- <CABLmASHotQcPDRQxhMdL729wGHNkT0gfYt2GH8U5e190eOTCQQ@mail.gmail.com>
- <a9dbc41c-29e5-7672-d9ec-4ec43ae3a6c8@eik.bme.hu>
- <CABLmASFqzt8f_Qk8O_KvYOqSqeffsVVBaaknbUxL86Ch3VR3kA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pL9J4-0002AR-BU; Thu, 26 Jan 2023 15:57:14 -0500
+Received: from mail-yw1-x112f.google.com ([2607:f8b0:4864:20::112f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pL9J3-0000ft-06; Thu, 26 Jan 2023 15:57:14 -0500
+Received: by mail-yw1-x112f.google.com with SMTP id
+ 00721157ae682-4c24993965eso40102627b3.12; 
+ Thu, 26 Jan 2023 12:57:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=9fp5qR221Js1ug9dqi6qWixazlFUGfRttCyA6YXuo20=;
+ b=iHzgoZTyPA4Qvbsmhoit0/cfjnCzsIwGwXx4inc9FyZcDOOkPuLSsieDKWk86wIn4T
+ PIhZQRRAN3eze/WO7LucKZYfBm4w4xllPE5i0vLsglnlok1S5uFY2x2ox+1ry2PBYaeN
+ Jkf++kT57VLVHrnzUf7PwFOaUDDVkT68QjQ8dVZoa7EkdJHQkT5SayDpR7pwpFFUCyNl
+ 0xGFkCppGqUWPzQfDRrcqYL1zOByQJ8slv63BOsKYLbgTBcisC+wfJFn9+rKfksvb+Uh
+ zNGJClWqFnQubpCte1YDI+iYdxdU0muyTBqa41mjZ71kvg7DtGyr+Zf0CT4k/1QNJdBt
+ x8oQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=9fp5qR221Js1ug9dqi6qWixazlFUGfRttCyA6YXuo20=;
+ b=WwmJ45YFDZPJPs5teinzLkN25pHpnp6qJ1ti1DRLQLB9q4orVOMJP45B8ozZDKppz6
+ DQyPZqWhdG2uy0AJJdwVonQuGewdoUBI4XAP6Pyh8ETSGXadoox87m28O+vLbsrtzuaC
+ ZjCK1p7eEDbgH2/2MZa4rC8uvJ8KyPHBFVonMj69n0rCs1oxc4Ex8SDENXrUDxuH/2ts
+ XowOqapI/FMEQGqxyB/Faf/X5K0pAc8cPGA860dBZkb97CK08MJdMxAVx9SiO9Y2hORI
+ e13+0cd68FTZY4MqiIKaLahfEMqOOhF2Y2pCingrHjp+rZIjc9D1qoiaSdaNQQKYjZUO
+ yf4w==
+X-Gm-Message-State: AO0yUKUzROC0WSiW/jWm48aCNrVEljokyzEQx2oAHcABM5kVsHzDNF3A
+ 9AZUMBMueyfrXMbpoSn8LWWUmWV6x8+xNPv4v5AGYlVl
+X-Google-Smtp-Source: AK7set8Ai4D0SKPeGMNkS464x93t/G3U+mCL4vP8720VK45aUZePfgj1fWT1QKnF6JaYjko5uZjDf9Yf2J4ngohuhi4=
+X-Received: by 2002:a0d:cc46:0:b0:506:65ef:ba9d with SMTP id
+ o67-20020a0dcc46000000b0050665efba9dmr1080285ywd.156.1674766631551; Thu, 26
+ Jan 2023 12:57:11 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+References: <CAJSP0QV+snj62LnD35WVA05s0msRr-xxwkfYKMb-eGTnffLwDA@mail.gmail.com>
+In-Reply-To: <CAJSP0QV+snj62LnD35WVA05s0msRr-xxwkfYKMb-eGTnffLwDA@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Thu, 26 Jan 2023 15:56:59 -0500
+Message-ID: <CAJSP0QXjv2sGMZfuL5Qhct48dM+NYavOVrChjRE_MkjtwpR29A@mail.gmail.com>
+Subject: Re: Migration of download.qemu.org server in progress
+To: qemu-devel <qemu-devel@nongnu.org>, qemu_mail <qemu-discuss@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::112f;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x112f.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -73,55 +81,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 26 Jan 2023, Howard Spoelstra wrote:
-> Mac OS X
-> #10.0 bus1 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
-> mouse. No recognition as HID device.
-> #10.0 bus2 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point kbd
-> pcap shows normal interrupt operation and recognition as HID device
-> #10.0 bus1 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point kbd
-> pcap shows normal interrupt operation and recognition as HID device
-> #10.0 bus2 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
-> mouse. pcap shows no recognition as HID device.
-> #10.0 in both cases apple system profiler shows 2 usb buses but no devices.
+SSL is working now.
 
-These are all the logs I get booting a 10.0 install iso with  mac99,via=pmu
-
->> =============================================================
->> OpenBIOS 1.1 [May 25 2022 20:04]
->> Configuration device id QEMU version 1 machine id 1
->> CPUs: 1
->> Memory: 256M
->> UUID: 00000000-0000-0000-0000-000000000000
->> CPU type PowerPC,G4
-milliseconds isn't unique.
->> switching to new context:
->> call-method slw_update_keymap failed with error ffffffdf
->> call-method slw_update_keymap failed with error ffffffdf
-usb_ohci_reset pci-ohci
-usb_ohci_stop pci-ohci: USB Suspended
-usb_ohci_set_ctl pci-ohci: new state 0x0
-usb_ohci_stop pci-ohci: USB Suspended
-usb_ohci_port_detach port #0
-usb_ohci_port_attach port #0
-usb_ohci_port_detach port #1
-usb_ohci_port_attach port #1
-dbdma_unassigned_flush: use of unassigned channel 0
-dbdma_unassigned_flush: use of unassigned channel 0
-usb_ohci_mem_write_bad_offset 0x30
-usb_ohci_set_ctl pci-ohci: new state 0x80
-usb_ohci_start pci-ohci: USB Operational
-usb_ohci_hub_power_up powered up all ports
-usb_ohci_hub_power_up powered up all ports
-usb_ohci_set_ctl pci-ohci: new state 0xc0
-usb_ohci_stop pci-ohci: USB Suspended
-usb_ohci_hub_power_up powered up all ports
-usb_ohci_hub_power_up powered up all ports
-usb_ohci_port_reset port #0
-
-It's probably OK until it restarts but the seems to be stopped. Anybody 
-wants to have a look? Maybe start with finding what the states mean.
-
-Regards,
-BALATON Zoltan
+Stefan
 
