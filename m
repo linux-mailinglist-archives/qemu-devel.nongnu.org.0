@@ -2,74 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDFAF67CA94
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 13:09:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECB867CA9B
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 13:11:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL131-0003Dx-VA; Thu, 26 Jan 2023 07:08:09 -0500
+	id 1pL15Z-0004qF-Kl; Thu, 26 Jan 2023 07:10:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pL12r-0003AF-2n; Thu, 26 Jan 2023 07:07:58 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pL12p-0005k8-7x; Thu, 26 Jan 2023 07:07:56 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id kt14so4506722ejc.3;
- Thu, 26 Jan 2023 04:07:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=ozZDDQPu756cdggNVo7hNGEpna7Trfyoz81RZ42y4VY=;
- b=MdsV64vqKhMaf78PyKmquIxNLfxmO0ahIMOIpuuAVVP+X0oTOLjcb+vq8p2hIfPu+D
- wwuyMKpBo6RttpotDOyDKaV66KQcx4hIytw5rZf4z136Y6MoR3NsjZxI8hr/L1acUb33
- T9ueCE5BwjxXKOwvUkqFGvlvpszerL4kh/iKmYknqFu8KmEVcr53DFNkRUxAEjzmBmq4
- RtCsi7hXXk9dHr32y/vv3Q/F4s8GYOxVHRHVqznw16IxCYYE4ejwTjQ+Sso0vyaHEMgN
- 1r7RtPy94UdVnopG0xCoZnL0yePd47GFN8WjQszThXPNMj6XHgn7FRnCwTEQ9ettKpdd
- Qvfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ozZDDQPu756cdggNVo7hNGEpna7Trfyoz81RZ42y4VY=;
- b=DXd0llux7X9HJ735Gd8XTw0ahY+nUMOVCWEQ3GaRrCGDpbZhg+RePMNA4DmfGT6LUX
- 058JnBJ5eKaDKpdn0WoQy14IDIgdETnv6+Xb1BGlID6YHCEFTibuY66P3eeEcX9cMpxU
- tpIQwoh9kaNSG3ByYNBB38onKqyvqUJb+HqmsPcRZ7xgqq6cuiCZgLw8IyWwyYGJiYht
- XhuWYZjovI/hRWaDFOJzB7BXVpgCCvcruvmY0ZSQcjAz/EIUZGhawlFlsuSoKRX7Qdrj
- X93YyJQZXF3OsrsS9lGlhD2A/y2cF3eQn91N87+3CQ/XwUxg2S03etnaG9NB4esz89lU
- CK9A==
-X-Gm-Message-State: AO0yUKWAovLfPr9mJrlRkjo1rHoXlg5E4cG+ZgyczjnwrRnU+MJ7pIy/
- Q8Iwumb1f6lpZm7HL3Iu0USVafteJX8yIquFOiEEWqbY
-X-Google-Smtp-Source: AK7set/zby+EGgWdFCPSsduz2ZbIj2gP+ARvJKvQEQDMv4OMZkKohoGnXZhm+jA6QWTNyOTH/owbwyNWZ34HxgdoddA=
-X-Received: by 2002:a17:906:8514:b0:878:786e:8c39 with SMTP id
- i20-20020a170906851400b00878786e8c39mr138062ejx.105.1674734871894; Thu, 26
- Jan 2023 04:07:51 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pL15X-0004py-1l
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 07:10:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pL15U-0007K8-IK
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 07:10:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674735038;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Wgj/rWcPURHnuh/Sx9iwJbw//7RRu9EmoF+Mf3X3z7I=;
+ b=SVHe4lUor2eZN9bumOi1Tz9DCECvSxOncMXTIEBYSeSSlt8jFYHwsYDBLv/icxOh2Y6ddu
+ H3H+OnzqxvBP0tAtVgqPjCenxypSo+8zo2yshU/Q/x3I/32XOfaF0kumMJt/sCtOW/3vB8
+ wtuFDvCtdI/Lv3inW5tYIX8V3J3zuT4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-597-UXywKPu3OcSW67tZ2_pY0Q-1; Thu, 26 Jan 2023 07:10:37 -0500
+X-MC-Unique: UXywKPu3OcSW67tZ2_pY0Q-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03E38380450B;
+ Thu, 26 Jan 2023 12:10:37 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.193.107])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 07BBA39DCA;
+ Thu, 26 Jan 2023 12:10:35 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org,
+	wenchao.wang@intel.com,
+	haxm-team@intel.com
+Subject: [PATCH v2] docs/about/deprecated: Mark HAXM in QEMU as deprecated
+Date: Thu, 26 Jan 2023 13:10:34 +0100
+Message-Id: <20230126121034.1035138-1-thuth@redhat.com>
 MIME-Version: 1.0
-References: <20230113171805.470252-1-dbarboza@ventanamicro.com>
- <20230113171805.470252-4-dbarboza@ventanamicro.com>
- <CAEUhbmUKEHX5bQ2=7GfgjPY1YVFs-5MqzkbwEy_SgG43WdeAfg@mail.gmail.com>
- <CAKmqyKOGrdcoVWBzhuUpdDVwHdK6PREsLO1MypMQyggWdcHjJA@mail.gmail.com>
-In-Reply-To: <CAKmqyKOGrdcoVWBzhuUpdDVwHdK6PREsLO1MypMQyggWdcHjJA@mail.gmail.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Thu, 26 Jan 2023 20:07:40 +0800
-Message-ID: <CAEUhbmUhF_vd1yj0O=Kap__yjh9a4eFzWgsPA2k4a4sHZ9TbLA@mail.gmail.com>
-Subject: Re: [PATCH v7 3/3] hw/riscv: clear kernel_entry higher bits in
- load_elf_ram_sym()
-To: Alistair Francis <alistair23@gmail.com>
-Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org,
- qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62a.google.com
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,52 +74,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Alistair,
+The HAXM project has been retired (see https://github.com/intel/haxm#status),
+so we should mark the code in QEMU as deprecated (and finally remove it
+unless somebody else picks the project up again - which is quite unlikely
+since there are now whpx and hvf on these operating systems, too).
 
-On Mon, Jan 16, 2023 at 12:28 PM Alistair Francis <alistair23@gmail.com> wrote:
->
-> On Sat, Jan 14, 2023 at 11:41 PM Bin Meng <bmeng.cn@gmail.com> wrote:
-> >
-> > On Sat, Jan 14, 2023 at 1:18 AM Daniel Henrique Barboza
-> > <dbarboza@ventanamicro.com> wrote:
-> > >
-> > > Recent hw/risc/boot.c changes caused a regression in an use case with
-> > > the Xvisor hypervisor. Running a 32 bit QEMU guest with '-kernel'
-> > > stopped working. The reason seems to be that Xvisor is using 64 bit to
-> > > encode the 32 bit addresses from the guest, and load_elf_ram_sym() is
-> > > sign-extending the result with '1's [1].
-> >
-> > I would say it's not a regression of QEMU but something weird happened
-> > to Alistair's 32-bit Xvisor image.
->
-> I don't think it's a Xvisor issue.
->
-> >
-> > I just built a 32-bit Xvisor image from the latest Xvisor head
-> > following the instructions provided in its source tree. With the
-> > mainline QEMU only BIN file boots, but ELF does not. My 32-bit Xvisor
-> > image has an address of 0x10000000. Apparently this address is not
-> > correct, and the issue I saw is different from Alistair's. Alistair,
-> > could you investigate why your 32-bit Xvisor ELF image has an address
-> > of 0xffffffff80000000 set to kernel_load_base?
->
-> Looking in load_elf() in include/hw/elf_ops.h at this line:
->
->     if (lowaddr)
->         *lowaddr = (uint64_t)(elf_sword)low;
->
-> I can see that `low` is 0x80000000 but lowaddr is set to
-> 0xffffffff80000000. So the address is being sign extended with 1s.
->
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ v2: Added a message to hax_accel_init(), too
 
-I don't understand the sign extension here. This seems intentional as
-the codes does the signed extension then casted to unsigned 64-bit.
+ docs/about/deprecated.rst | 6 ++++++
+ target/i386/hax/hax-all.c | 3 +++
+ 2 files changed, 9 insertions(+)
 
-Do you know why?
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 3f4d678eb4..da2e6fe63d 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -93,6 +93,12 @@ form is preferred.
+ The HPET setting has been turned into a machine property.
+ Use ``-machine hpet=off`` instead.
+ 
++``-accel hax`` (since 8.0)
++''''''''''''''''''''''''''
++
++The HAXM project has been retired (see https://github.com/intel/haxm#status).
++Use "whpx" (on Windows) or "hvf" (on macOS) instead.
++
+ 
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
+diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
+index b7fb5385b2..3e5992a63b 100644
+--- a/target/i386/hax/hax-all.c
++++ b/target/i386/hax/hax-all.c
+@@ -357,6 +357,9 @@ static int hax_accel_init(MachineState *ms)
+         fprintf(stdout, "HAX is %s and emulator runs in %s mode.\n",
+                 !ret ? "working" : "not working",
+                 !ret ? "fast virt" : "emulation");
++        fprintf(stdout,
++                "NOTE: HAX is deprecated and will be removed in a future release.\n"
++                "      Use 'whpx' (on Windows) or 'hvf' (on macOS) instead.\n");
+     }
+     return ret;
+ }
+-- 
+2.31.1
 
-> This patch seems to be the correct fix.
->
-
-Regards,
-Bin
 
