@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E704267C3DD
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 05:39:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F58867C3F0
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 05:42:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKu2N-0000Ej-Ji; Wed, 25 Jan 2023 23:38:59 -0500
+	id 1pKu2V-0000F1-MY; Wed, 25 Jan 2023 23:39:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pKu2L-0000EE-7g
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:38:57 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ id 1pKu2M-0000Ek-L0
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:38:59 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pKu2J-0004TF-DA
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:38:56 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- nn18-20020a17090b38d200b0022bfb584987so723359pjb.2
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 20:38:55 -0800 (PST)
+ id 1pKu2K-0004TZ-Jq
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:38:58 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id m11so563204pji.0
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 20:38:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=a0WrnpFv1Nw89i7DTl3h+lKdWz/K7go9+e+qOQj+GaM=;
- b=Vq83fiap5kMVZzHxPq42p7tMVo7ccxiqdUJFitJgniK4lMZc/pGorIy/L+MIuUgrGq
- 12xgrFdhDk73h8aTnE0miDmLhC0Kv96/zD5dfli+vjrqd3AEiREB0fbj1HXfJVHhRUFM
- h3Lzs+zcLDezC/ZdU8mQBJBradCRPW1QdqAzBLBtkb1g+NJ8c511HJlhrb7/PHBSHg2z
- Oxe9wsJjdy+AgKvt3eu1oX1djYrooovFszQ8PtYgLUP3kChzWlOKgzhWCZdeiCSoFqp5
- lX/b/IoRxfW4z7uYgaC1Jt4U7zGVzVpldGcdWqbA1YCWSFwTu8016V1nQu6E+Wk8FL3R
- Cg8Q==
+ bh=/YmjqRjimF5pBKzTT9PtXE7Qwz8sieC4JwIiThrHTeM=;
+ b=EKhm35dRn03Z5Re6Ak/NAZ3VStSqOY+YrkntUBwFAt6LvHLswsCUWqumpY9mqqX+Nk
+ ExlsanmpOKQmCUqv4ZZ0EVbN53z4799V36lY11mr7Chbd3nKp4Ihi8yepcR12vWaHohn
+ A4P6iYnLy0DQ6wL8kxPkDI6F2+SqOs0Fsu1iM6QYInPbnD9Gecp0I8fXjE3zuEejZ7A5
+ rI53ZD+OJ3xKKf6JG5xvlI47zxWRXBiq5NQajSlON7UGqcFCu5CgPwXxOYqzqJKunVFj
+ Zi+0EfVHwbvaFJtDgklWYjIe5sjrbAP5i+y+Yk/N4/zhrBDjmfIfjOGXcbKJDDQesSW0
+ PD8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=a0WrnpFv1Nw89i7DTl3h+lKdWz/K7go9+e+qOQj+GaM=;
- b=WdftEr4dqJyJwNNsMYjZ+RcKH9PTt+qs7hfs9coUrW8Q1ggsxHITV5qLyK1P9u5R5S
- KSeGmiO5Wj9jvGW80JPgu6LglNsK8a1yqzGh66b5J83lkF+i2M/lopNq0CnNSXHDwN40
- MqD0KrNuZ4JZyuUCs8Yj8XWeHYhP6g9OiY4WYceqilRWnHAjNAIDD7iOHPT4k5zbJBQ3
- hJfcTkHwYn7E2KEDmwQVpWn/4iVaWS9Bai0ggH/YzVxWt9iF6motm94okWkYUveO2Jxx
- xJ356lzTQy7JxHyFc23+q2f8iZ1yodTRvMRWE04TBg/sYMUVGzaybjt+Qg58vNk05zQH
- brWg==
-X-Gm-Message-State: AO0yUKVOXG9yDv1SECxSTp8k2+EzzEvbdnQBNWg+8Y3TLWcQ2b/8yBT7
- ExYCwygg2Ihrai4jReKKqJI+brsnFY7q+a93JjE=
-X-Google-Smtp-Source: AK7set8pB8kCZmjYcpuyRAY8PZLv7P0Uq5/Vp5uu39NGzBB12yPByGTDqTC6tQ4fa6aE6PHVlPLPDg==
-X-Received: by 2002:a17:90a:4e:b0:22b:f6fa:dd98 with SMTP id
- 14-20020a17090a004e00b0022bf6fadd98mr7640609pjb.20.1674707933872; 
- Wed, 25 Jan 2023 20:38:53 -0800 (PST)
+ bh=/YmjqRjimF5pBKzTT9PtXE7Qwz8sieC4JwIiThrHTeM=;
+ b=qcjJ3IQvmRFEqwodadjKtuRSkO+E7xhl5Quu9MSUkdQj6bfCYzxf7FaWJJU6fIde+U
+ WQ2jeYoF8Go2ib7UW+NpNkWiuzhAyhydWUyma7D+Mub3xLt54FV1YsJY/Z9axQcVzeoZ
+ dKX9Q+7UxQ6E0QZr+ad9EP5y/yEz4Nd32+nfn5gZ62WFHeF9UhjxRGc4WeuE9HnHtqDm
+ IxdHxmAWpUA06XrqEkPWpG8bnnTKHp+F7NryQvhAmFkQ36Dmofr7FdMB4k75ZEy3ikVA
+ NdSwWCxMlR3BTY5GxQBAausoYjRT9zNqGb6fQYNbTool6WyToJZRGxOcq3sU6s+5dl19
+ fgew==
+X-Gm-Message-State: AFqh2kp7QtGgWPD/2Y53RVK3mB4eatZqz0ViqmUGAF57/RkiRrkfzsOi
+ xUbFcGRqHDlDWjTX6/yrS4CLKXlipi/JHSbSPTE=
+X-Google-Smtp-Source: AMrXdXuo2d/q719rV6OrZod3EusVeE9sHTqqsLdxXZPdzrjU00lqmag1UAj/eWNQSx219Cf6xfw9Cg==
+X-Received: by 2002:a17:90a:19d5:b0:223:ed96:e3ca with SMTP id
+ 21-20020a17090a19d500b00223ed96e3camr36418108pjj.28.1674707935428; 
+ Wed, 25 Jan 2023 20:38:55 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- s62-20020a17090a69c400b00228e56d375asm233376pjj.33.2023.01.25.20.38.52
+ s62-20020a17090a69c400b00228e56d375asm233376pjj.33.2023.01.25.20.38.54
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 20:38:53 -0800 (PST)
+ Wed, 25 Jan 2023 20:38:54 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org
-Subject: [PATCH v5 17/36] tcg: Split out tcg_gen_nonatomic_cmpxchg_i{32,64}
-Date: Wed, 25 Jan 2023 18:38:05 -1000
-Message-Id: <20230126043824.54819-18-richard.henderson@linaro.org>
+Cc: alex.bennee@linaro.org,
+	Peter Maydell <peter.maydell@linaro.org>
+Subject: [PATCH v5 18/36] target/arm: Use tcg_gen_atomic_cmpxchg_i128 for STXP
+Date: Wed, 25 Jan 2023 18:38:06 -1000
+Message-Id: <20230126043824.54819-19-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230126043824.54819-1-richard.henderson@linaro.org>
 References: <20230126043824.54819-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,217 +90,219 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Normally this is automatically handled by the CF_PARALLEL checks
-with in tcg_gen_atomic_cmpxchg_i{32,64}, but x86 has a special
-case of !PREFIX_LOCK where it always wants the non-atomic version.
-
-Split these out so that x86 does not have to roll its own.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-Id: <20221112042555.2622152-2-richard.henderson@linaro.org>
 ---
- include/tcg/tcg-op.h |   4 ++
- tcg/tcg-op.c         | 154 +++++++++++++++++++++++++++----------------
- 2 files changed, 101 insertions(+), 57 deletions(-)
+ target/arm/helper-a64.h    |   6 ---
+ target/arm/helper-a64.c    | 104 -------------------------------------
+ target/arm/translate-a64.c |  60 ++++++++++++---------
+ 3 files changed, 35 insertions(+), 135 deletions(-)
 
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index 31bf3d287e..839d91c0c7 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -910,6 +910,10 @@ void tcg_gen_atomic_cmpxchg_i64(TCGv_i64, TCGv, TCGv_i64, TCGv_i64,
- void tcg_gen_atomic_cmpxchg_i128(TCGv_i128, TCGv, TCGv_i128, TCGv_i128,
-                                  TCGArg, MemOp);
- 
-+void tcg_gen_nonatomic_cmpxchg_i32(TCGv_i32, TCGv, TCGv_i32, TCGv_i32,
-+                                   TCGArg, MemOp);
-+void tcg_gen_nonatomic_cmpxchg_i64(TCGv_i64, TCGv, TCGv_i64, TCGv_i64,
-+                                   TCGArg, MemOp);
- void tcg_gen_nonatomic_cmpxchg_i128(TCGv_i128, TCGv, TCGv_i128, TCGv_i128,
-                                     TCGArg, MemOp);
- 
-diff --git a/tcg/tcg-op.c b/tcg/tcg-op.c
-index 5811ecd3e7..c581ae77c4 100644
---- a/tcg/tcg-op.c
-+++ b/tcg/tcg-op.c
-@@ -3325,82 +3325,122 @@ static void * const table_cmpxchg[(MO_SIZE | MO_BSWAP) + 1] = {
-     WITH_ATOMIC128([MO_128 | MO_BE] = gen_helper_atomic_cmpxchgo_be)
- };
- 
-+void tcg_gen_nonatomic_cmpxchg_i32(TCGv_i32 retv, TCGv addr, TCGv_i32 cmpv,
-+                                   TCGv_i32 newv, TCGArg idx, MemOp memop)
-+{
-+    TCGv_i32 t1 = tcg_temp_new_i32();
-+    TCGv_i32 t2 = tcg_temp_new_i32();
-+
-+    tcg_gen_ext_i32(t2, cmpv, memop & MO_SIZE);
-+
-+    tcg_gen_qemu_ld_i32(t1, addr, idx, memop & ~MO_SIGN);
-+    tcg_gen_movcond_i32(TCG_COND_EQ, t2, t1, t2, newv, t1);
-+    tcg_gen_qemu_st_i32(t2, addr, idx, memop);
-+    tcg_temp_free_i32(t2);
-+
-+    if (memop & MO_SIGN) {
-+        tcg_gen_ext_i32(retv, t1, memop);
-+    } else {
-+        tcg_gen_mov_i32(retv, t1);
-+    }
-+    tcg_temp_free_i32(t1);
-+}
-+
- void tcg_gen_atomic_cmpxchg_i32(TCGv_i32 retv, TCGv addr, TCGv_i32 cmpv,
-                                 TCGv_i32 newv, TCGArg idx, MemOp memop)
- {
--    memop = tcg_canonicalize_memop(memop, 0, 0);
-+    gen_atomic_cx_i32 gen;
-+    MemOpIdx oi;
- 
-     if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
--        TCGv_i32 t1 = tcg_temp_new_i32();
--        TCGv_i32 t2 = tcg_temp_new_i32();
--
--        tcg_gen_ext_i32(t2, cmpv, memop & MO_SIZE);
--
--        tcg_gen_qemu_ld_i32(t1, addr, idx, memop & ~MO_SIGN);
--        tcg_gen_movcond_i32(TCG_COND_EQ, t2, t1, t2, newv, t1);
--        tcg_gen_qemu_st_i32(t2, addr, idx, memop);
--        tcg_temp_free_i32(t2);
--
--        if (memop & MO_SIGN) {
--            tcg_gen_ext_i32(retv, t1, memop);
--        } else {
--            tcg_gen_mov_i32(retv, t1);
--        }
--        tcg_temp_free_i32(t1);
--    } else {
--        gen_atomic_cx_i32 gen;
--        MemOpIdx oi;
--
--        gen = table_cmpxchg[memop & (MO_SIZE | MO_BSWAP)];
--        tcg_debug_assert(gen != NULL);
--
--        oi = make_memop_idx(memop & ~MO_SIGN, idx);
--        gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
--
--        if (memop & MO_SIGN) {
--            tcg_gen_ext_i32(retv, retv, memop);
--        }
-+        tcg_gen_nonatomic_cmpxchg_i32(retv, addr, cmpv, newv, idx, memop);
-+        return;
-     }
-+
-+    memop = tcg_canonicalize_memop(memop, 0, 0);
-+    gen = table_cmpxchg[memop & (MO_SIZE | MO_BSWAP)];
-+    tcg_debug_assert(gen != NULL);
-+
-+    oi = make_memop_idx(memop & ~MO_SIGN, idx);
-+    gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
-+
-+    if (memop & MO_SIGN) {
-+        tcg_gen_ext_i32(retv, retv, memop);
-+    }
-+}
-+
-+void tcg_gen_nonatomic_cmpxchg_i64(TCGv_i64 retv, TCGv addr, TCGv_i64 cmpv,
-+                                   TCGv_i64 newv, TCGArg idx, MemOp memop)
-+{
-+    TCGv_i64 t1, t2;
-+
-+    if (TCG_TARGET_REG_BITS == 32 && (memop & MO_SIZE) < MO_64) {
-+        tcg_gen_nonatomic_cmpxchg_i32(TCGV_LOW(retv), addr, TCGV_LOW(cmpv),
-+                                      TCGV_LOW(newv), idx, memop);
-+        if (memop & MO_SIGN) {
-+            tcg_gen_sari_i32(TCGV_HIGH(retv), TCGV_LOW(retv), 31);
-+        } else {
-+            tcg_gen_movi_i32(TCGV_HIGH(retv), 0);
-+        }
-+        return;
-+    }
-+
-+    t1 = tcg_temp_new_i64();
-+    t2 = tcg_temp_new_i64();
-+
-+    tcg_gen_ext_i64(t2, cmpv, memop & MO_SIZE);
-+
-+    tcg_gen_qemu_ld_i64(t1, addr, idx, memop & ~MO_SIGN);
-+    tcg_gen_movcond_i64(TCG_COND_EQ, t2, t1, t2, newv, t1);
-+    tcg_gen_qemu_st_i64(t2, addr, idx, memop);
-+    tcg_temp_free_i64(t2);
-+
-+    if (memop & MO_SIGN) {
-+        tcg_gen_ext_i64(retv, t1, memop);
-+    } else {
-+        tcg_gen_mov_i64(retv, t1);
-+    }
-+    tcg_temp_free_i64(t1);
+diff --git a/target/arm/helper-a64.h b/target/arm/helper-a64.h
+index 7b706571bb..94065d1917 100644
+--- a/target/arm/helper-a64.h
++++ b/target/arm/helper-a64.h
+@@ -50,12 +50,6 @@ DEF_HELPER_FLAGS_2(frecpx_f16, TCG_CALL_NO_RWG, f16, f16, ptr)
+ DEF_HELPER_FLAGS_2(fcvtx_f64_to_f32, TCG_CALL_NO_RWG, f32, f64, env)
+ DEF_HELPER_FLAGS_3(crc32_64, TCG_CALL_NO_RWG_SE, i64, i64, i64, i32)
+ DEF_HELPER_FLAGS_3(crc32c_64, TCG_CALL_NO_RWG_SE, i64, i64, i64, i32)
+-DEF_HELPER_FLAGS_4(paired_cmpxchg64_le, TCG_CALL_NO_WG, i64, env, i64, i64, i64)
+-DEF_HELPER_FLAGS_4(paired_cmpxchg64_le_parallel, TCG_CALL_NO_WG,
+-                   i64, env, i64, i64, i64)
+-DEF_HELPER_FLAGS_4(paired_cmpxchg64_be, TCG_CALL_NO_WG, i64, env, i64, i64, i64)
+-DEF_HELPER_FLAGS_4(paired_cmpxchg64_be_parallel, TCG_CALL_NO_WG,
+-                   i64, env, i64, i64, i64)
+ DEF_HELPER_5(casp_le_parallel, void, env, i32, i64, i64, i64)
+ DEF_HELPER_5(casp_be_parallel, void, env, i32, i64, i64, i64)
+ DEF_HELPER_FLAGS_3(advsimd_maxh, TCG_CALL_NO_RWG, f16, f16, f16, ptr)
+diff --git a/target/arm/helper-a64.c b/target/arm/helper-a64.c
+index 77a8502b6b..7dbdb2c233 100644
+--- a/target/arm/helper-a64.c
++++ b/target/arm/helper-a64.c
+@@ -505,110 +505,6 @@ uint64_t HELPER(crc32c_64)(uint64_t acc, uint64_t val, uint32_t bytes)
+     return crc32c(acc, buf, bytes) ^ 0xffffffff;
  }
  
- void tcg_gen_atomic_cmpxchg_i64(TCGv_i64 retv, TCGv addr, TCGv_i64 cmpv,
-                                 TCGv_i64 newv, TCGArg idx, MemOp memop)
- {
--    memop = tcg_canonicalize_memop(memop, 1, 0);
+-uint64_t HELPER(paired_cmpxchg64_le)(CPUARMState *env, uint64_t addr,
+-                                     uint64_t new_lo, uint64_t new_hi)
+-{
+-    Int128 cmpv = int128_make128(env->exclusive_val, env->exclusive_high);
+-    Int128 newv = int128_make128(new_lo, new_hi);
+-    Int128 oldv;
+-    uintptr_t ra = GETPC();
+-    uint64_t o0, o1;
+-    bool success;
+-    int mem_idx = cpu_mmu_index(env, false);
+-    MemOpIdx oi0 = make_memop_idx(MO_LEUQ | MO_ALIGN_16, mem_idx);
+-    MemOpIdx oi1 = make_memop_idx(MO_LEUQ, mem_idx);
 -
-     if (!(tcg_ctx->gen_tb->cflags & CF_PARALLEL)) {
--        TCGv_i64 t1 = tcg_temp_new_i64();
--        TCGv_i64 t2 = tcg_temp_new_i64();
-+        tcg_gen_nonatomic_cmpxchg_i64(retv, addr, cmpv, newv, idx, memop);
-+        return;
-+    }
- 
--        tcg_gen_ext_i64(t2, cmpv, memop & MO_SIZE);
+-    o0 = cpu_ldq_le_mmu(env, addr + 0, oi0, ra);
+-    o1 = cpu_ldq_le_mmu(env, addr + 8, oi1, ra);
+-    oldv = int128_make128(o0, o1);
 -
--        tcg_gen_qemu_ld_i64(t1, addr, idx, memop & ~MO_SIGN);
--        tcg_gen_movcond_i64(TCG_COND_EQ, t2, t1, t2, newv, t1);
--        tcg_gen_qemu_st_i64(t2, addr, idx, memop);
--        tcg_temp_free_i64(t2);
+-    success = int128_eq(oldv, cmpv);
+-    if (success) {
+-        cpu_stq_le_mmu(env, addr + 0, int128_getlo(newv), oi1, ra);
+-        cpu_stq_le_mmu(env, addr + 8, int128_gethi(newv), oi1, ra);
+-    }
 -
--        if (memop & MO_SIGN) {
--            tcg_gen_ext_i64(retv, t1, memop);
--        } else {
--            tcg_gen_mov_i64(retv, t1);
--        }
--        tcg_temp_free_i64(t1);
--    } else if ((memop & MO_SIZE) == MO_64) {
--#ifdef CONFIG_ATOMIC64
-+    if ((memop & MO_SIZE) == MO_64) {
-         gen_atomic_cx_i64 gen;
--        MemOpIdx oi;
- 
-+        memop = tcg_canonicalize_memop(memop, 1, 0);
-         gen = table_cmpxchg[memop & (MO_SIZE | MO_BSWAP)];
--        tcg_debug_assert(gen != NULL);
-+        if (gen) {
-+            MemOpIdx oi = make_memop_idx(memop, idx);
-+            gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
-+            return;
-+        }
- 
--        oi = make_memop_idx(memop, idx);
--        gen(retv, cpu_env, addr, cmpv, newv, tcg_constant_i32(oi));
--#else
-         gen_helper_exit_atomic(cpu_env);
--        /* Produce a result, so that we have a well-formed opcode stream
--           with respect to uses of the result in the (dead) code following.  */
+-    return !success;
+-}
+-
+-uint64_t HELPER(paired_cmpxchg64_le_parallel)(CPUARMState *env, uint64_t addr,
+-                                              uint64_t new_lo, uint64_t new_hi)
+-{
+-    Int128 oldv, cmpv, newv;
+-    uintptr_t ra = GETPC();
+-    bool success;
+-    int mem_idx;
+-    MemOpIdx oi;
+-
+-    assert(HAVE_CMPXCHG128);
+-
+-    mem_idx = cpu_mmu_index(env, false);
+-    oi = make_memop_idx(MO_LE | MO_128 | MO_ALIGN, mem_idx);
+-
+-    cmpv = int128_make128(env->exclusive_val, env->exclusive_high);
+-    newv = int128_make128(new_lo, new_hi);
+-    oldv = cpu_atomic_cmpxchgo_le_mmu(env, addr, cmpv, newv, oi, ra);
+-
+-    success = int128_eq(oldv, cmpv);
+-    return !success;
+-}
+-
+-uint64_t HELPER(paired_cmpxchg64_be)(CPUARMState *env, uint64_t addr,
+-                                     uint64_t new_lo, uint64_t new_hi)
+-{
+-    /*
+-     * High and low need to be switched here because this is not actually a
+-     * 128bit store but two doublewords stored consecutively
+-     */
+-    Int128 cmpv = int128_make128(env->exclusive_high, env->exclusive_val);
+-    Int128 newv = int128_make128(new_hi, new_lo);
+-    Int128 oldv;
+-    uintptr_t ra = GETPC();
+-    uint64_t o0, o1;
+-    bool success;
+-    int mem_idx = cpu_mmu_index(env, false);
+-    MemOpIdx oi0 = make_memop_idx(MO_BEUQ | MO_ALIGN_16, mem_idx);
+-    MemOpIdx oi1 = make_memop_idx(MO_BEUQ, mem_idx);
+-
+-    o1 = cpu_ldq_be_mmu(env, addr + 0, oi0, ra);
+-    o0 = cpu_ldq_be_mmu(env, addr + 8, oi1, ra);
+-    oldv = int128_make128(o0, o1);
+-
+-    success = int128_eq(oldv, cmpv);
+-    if (success) {
+-        cpu_stq_be_mmu(env, addr + 0, int128_gethi(newv), oi1, ra);
+-        cpu_stq_be_mmu(env, addr + 8, int128_getlo(newv), oi1, ra);
+-    }
+-
+-    return !success;
+-}
+-
+-uint64_t HELPER(paired_cmpxchg64_be_parallel)(CPUARMState *env, uint64_t addr,
+-                                              uint64_t new_lo, uint64_t new_hi)
+-{
+-    Int128 oldv, cmpv, newv;
+-    uintptr_t ra = GETPC();
+-    bool success;
+-    int mem_idx;
+-    MemOpIdx oi;
+-
+-    assert(HAVE_CMPXCHG128);
+-
+-    mem_idx = cpu_mmu_index(env, false);
+-    oi = make_memop_idx(MO_BE | MO_128 | MO_ALIGN, mem_idx);
+-
+-    /*
+-     * High and low need to be switched here because this is not actually a
+-     * 128bit store but two doublewords stored consecutively
+-     */
+-    cmpv = int128_make128(env->exclusive_high, env->exclusive_val);
+-    newv = int128_make128(new_hi, new_lo);
+-    oldv = cpu_atomic_cmpxchgo_be_mmu(env, addr, cmpv, newv, oi, ra);
+-
+-    success = int128_eq(oldv, cmpv);
+-    return !success;
+-}
+-
+ /* Writes back the old data into Rs.  */
+ void HELPER(casp_le_parallel)(CPUARMState *env, uint32_t rs, uint64_t addr,
+                               uint64_t new_lo, uint64_t new_hi)
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 52b1b8a1f0..bd97666ddc 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -2586,32 +2586,42 @@ static void gen_store_exclusive(DisasContext *s, int rd, int rt, int rt2,
+                                        get_mem_index(s),
+                                        MO_64 | MO_ALIGN | s->be_data);
+             tcg_gen_setcond_i64(TCG_COND_NE, tmp, tmp, cpu_exclusive_val);
+-        } else if (tb_cflags(s->base.tb) & CF_PARALLEL) {
+-            if (!HAVE_CMPXCHG128) {
+-                gen_helper_exit_atomic(cpu_env);
+-                /*
+-                 * Produce a result so we have a well-formed opcode
+-                 * stream when the following (dead) code uses 'tmp'.
+-                 * TCG will remove the dead ops for us.
+-                 */
+-                tcg_gen_movi_i64(tmp, 0);
+-            } else if (s->be_data == MO_LE) {
+-                gen_helper_paired_cmpxchg64_le_parallel(tmp, cpu_env,
+-                                                        cpu_exclusive_addr,
+-                                                        cpu_reg(s, rt),
+-                                                        cpu_reg(s, rt2));
+-            } else {
+-                gen_helper_paired_cmpxchg64_be_parallel(tmp, cpu_env,
+-                                                        cpu_exclusive_addr,
+-                                                        cpu_reg(s, rt),
+-                                                        cpu_reg(s, rt2));
+-            }
+-        } else if (s->be_data == MO_LE) {
+-            gen_helper_paired_cmpxchg64_le(tmp, cpu_env, cpu_exclusive_addr,
+-                                           cpu_reg(s, rt), cpu_reg(s, rt2));
+         } else {
+-            gen_helper_paired_cmpxchg64_be(tmp, cpu_env, cpu_exclusive_addr,
+-                                           cpu_reg(s, rt), cpu_reg(s, rt2));
++            TCGv_i128 t16 = tcg_temp_new_i128();
++            TCGv_i128 c16 = tcg_temp_new_i128();
++            TCGv_i64 a, b;
 +
-+        /*
-+         * Produce a result for a well-formed opcode stream.  This satisfies
-+         * liveness for set before used, which happens before this dead code
-+         * is removed.
-+         */
-         tcg_gen_movi_i64(retv, 0);
--#endif /* CONFIG_ATOMIC64 */
-+        return;
-+    }
++            if (s->be_data == MO_LE) {
++                tcg_gen_concat_i64_i128(t16, cpu_reg(s, rt), cpu_reg(s, rt2));
++                tcg_gen_concat_i64_i128(c16, cpu_exclusive_val,
++                                        cpu_exclusive_high);
++            } else {
++                tcg_gen_concat_i64_i128(t16, cpu_reg(s, rt2), cpu_reg(s, rt));
++                tcg_gen_concat_i64_i128(c16, cpu_exclusive_high,
++                                        cpu_exclusive_val);
++            }
 +
-+    if (TCG_TARGET_REG_BITS == 32) {
-+        tcg_gen_atomic_cmpxchg_i32(TCGV_LOW(retv), addr, TCGV_LOW(cmpv),
-+                                   TCGV_LOW(newv), idx, memop);
-+        if (memop & MO_SIGN) {
-+            tcg_gen_sari_i32(TCGV_HIGH(retv), TCGV_LOW(retv), 31);
-+        } else {
-+            tcg_gen_movi_i32(TCGV_HIGH(retv), 0);
-+        }
++            tcg_gen_atomic_cmpxchg_i128(t16, cpu_exclusive_addr, c16, t16,
++                                        get_mem_index(s),
++                                        MO_128 | MO_ALIGN | s->be_data);
++            tcg_temp_free_i128(c16);
++
++            a = tcg_temp_new_i64();
++            b = tcg_temp_new_i64();
++            if (s->be_data == MO_LE) {
++                tcg_gen_extr_i128_i64(a, b, t16);
++            } else {
++                tcg_gen_extr_i128_i64(b, a, t16);
++            }
++
++            tcg_gen_xor_i64(a, a, cpu_exclusive_val);
++            tcg_gen_xor_i64(b, b, cpu_exclusive_high);
++            tcg_gen_or_i64(tmp, a, b);
++            tcg_temp_free_i64(a);
++            tcg_temp_free_i64(b);
++            tcg_temp_free_i128(t16);
++
++            tcg_gen_setcondi_i64(TCG_COND_NE, tmp, tmp, 0);
+         }
      } else {
-         TCGv_i32 c32 = tcg_temp_new_i32();
-         TCGv_i32 n32 = tcg_temp_new_i32();
+         tcg_gen_atomic_cmpxchg_i64(tmp, cpu_exclusive_addr, cpu_exclusive_val,
 -- 
 2.34.1
 
