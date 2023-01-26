@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD4767C9C5
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 12:23:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2C6667C9B2
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 12:21:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL0IV-0001uC-PU; Thu, 26 Jan 2023 06:20:03 -0500
+	id 1pL0IW-0001uR-4w; Thu, 26 Jan 2023 06:20:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pL0IO-0001rw-TI
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:19:56 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ id 1pL0IS-0001sb-UE
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:20:00 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pL0IM-0001Tw-GV
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:19:56 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id d9so1524145pll.9
- for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 03:19:53 -0800 (PST)
+ id 1pL0IQ-0001Vh-Ot
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:19:59 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id d3so1519614plr.10
+ for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 03:19:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=ujatnH5B2GeAxHobLWDXLcVwJmJ4RC+XnW58fee841g=;
- b=fivxjwQG/euI1st6ViU+FbDs3TqoAgfnXlD15HG6WbD3aWy2hYEDhA5e7H3HGCfdFW
- 0R9sIWJJz/hi14mrGi2GP74sS841h/thYFqkDz1/eovM9VCIGRauPg3Lx0unJ2XTSDeL
- fZ9nLmtZnkzP80rA2nMvw/Ene24iDDYSZSqMDBvU0s7K6clQfRisppY3bdphEg1QneDh
- P/z9EpVHonqZ/VQ8sw5GZXsQiOeh8NuWuXOPFd/a8q4DlnB0W1EbYJldSbbSbkyuC9EJ
- 6VPIQ7Y4Y73tBF/fcIoJmm2pjFfY+F2/peLmCZnkVuJEQqqi9JCv2B0RB8rZ/3VmdTst
- t8NA==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=31UNhnQD3wPnVE0Wq0E+3g5/UlpM2T3rdfjZKAYdn6A=;
+ b=376tr8hZJLBLf3LnRtuQD+1xxyrx7iUm7zm4cLIYAiwVKnSRtW5K8phmf/UZj94fQE
+ G2fVo1QdrtBd54nk71jPvZLwBm/tTvkMmIFTx/4VVPNZkjoDCCWQIi2SbJIxxh/HRZNy
+ b22hcXqwbO6wGU9gA/R9oT7Wer2ag3kwqn+gMhI55W1AmJxQ6O+Yh7WHL19zu9Naa4gR
+ kvffq38w8Py5eMHYtaG+sAZXZ/dUJzxuEEVlq1dKWjNMUlnjQKGUoMVe+pBLrq6LFjyF
+ GBbyPNjovY+/i6KGAava16piqg3nr1E0+n7/zhgntinUz2GhbWjdMR41r8Lxa/V841x/
+ uQmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=ujatnH5B2GeAxHobLWDXLcVwJmJ4RC+XnW58fee841g=;
- b=NN1R5eDPkbQk3AzM01T9sonowYQ6Eh4KmUtZUnEKdOx4wSZWjrLeJMnogqn17YPh8N
- VeMUMzRb1/MZN75s0gLjFjrsMX97/8i5T9BzIuG9s90B6UX/tNDUeBvKR7LBBstCHPio
- 9P/M0QQRus4wE/yfwZmzTUGbBos+gZhNuB2aca/l2KON4nXPpsJXkY1Bu2IMc1Eayr0s
- 0kXhdPA/uwHpm/xSmnh3gxVhzcqgJIThdn1zciW2pVCUJo0qMb69BoGD4y8hRwXYU7K3
- LM286BjwfdhmtqHmErUsfej9CnSOmmhQh90WPLgXdU5m85IfedHlxqId8H5nQEOnDXJh
- 0Jlg==
-X-Gm-Message-State: AFqh2kpurwOZ1sRByGF85OKwf383xbO/YeHhQ3Xb/VN61yClmzlpvwqQ
- 5bmXBIvpA5zBY2RQWJmFGUf8cw==
-X-Google-Smtp-Source: AMrXdXtDJf5kGSfqddMWbLr85B0ZGG5F2d5j08EepD3aRN9k0xp9x/i1hHmcjHWIxmn5Gd0ukd93qA==
-X-Received: by 2002:a17:90a:7309:b0:228:e521:3430 with SMTP id
- m9-20020a17090a730900b00228e5213430mr36997299pjk.21.1674731992579; 
- Thu, 26 Jan 2023 03:19:52 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=31UNhnQD3wPnVE0Wq0E+3g5/UlpM2T3rdfjZKAYdn6A=;
+ b=B/PPR1ijLXzubjbyK5aUXHWtk9BZsrlSuL20j91ftu8sODtF7ip2QbKmKikR2NlaqO
+ Q7Fa66YWVJc1AwXIOqmCeGF4f6Oxm6XvPF3qfnOgHnKdKs7eKG2cLD39TTGbiV3cl5X1
+ +Ae4Hok2yAtjPaGWAEZZcwHdzw8rGpTvaC1vXq1uMW1xVvm3+wtZ7tHeQH7l4ZeX1lKJ
+ Z2GfsdgPFO0HzmVW9fNR8cZuFNekagwPYS8eZC21Jvv6ImQVCf/y3L/oRBwqBogyyqaQ
+ VXoyunNxII+Wuf2oWR1MsIeSGorXGF6RiX2Y9dsuP9smUAWhGsnm3yK+g5pECfTOBb9S
+ zttQ==
+X-Gm-Message-State: AFqh2krHAgLTHRJsKFL0sTf5dIzgdcpEu3PfRky9kyuqAngQBncCFlJD
+ P0tPSkswkoJIK4WMdwY7TH/oiQ==
+X-Google-Smtp-Source: AMrXdXtZ50gJiKuNBMNM97QR45vJ44nuQxu4TONaYnikTVob8mYHkZQSG0fK/BNf8kMdbu8/NQLcdQ==
+X-Received: by 2002:a17:90b:1d03:b0:22a:3d:4c22 with SMTP id
+ on3-20020a17090b1d0300b0022a003d4c22mr25513489pjb.13.1674731997621; 
+ Thu, 26 Jan 2023 03:19:57 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- z14-20020a17090a468e00b00229d7f2abd4sm849520pjf.54.2023.01.26.03.19.47
+ z14-20020a17090a468e00b00229d7f2abd4sm849520pjf.54.2023.01.26.03.19.52
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 03:19:52 -0800 (PST)
+ Thu, 26 Jan 2023 03:19:57 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -73,22 +74,23 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Yan Vugenfirer <yvugenfi@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v4 00/13] Introduce igb
-Date: Thu, 26 Jan 2023 20:19:30 +0900
-Message-Id: <20230126111943.38695-1-akihiko.odaki@daynix.com>
+ Akihiko Odaki <akihiko.odaki@daynix.com>, Gal Hammer <gal.hammer@sap.com>
+Subject: [PATCH v4 01/13] hw/net/net_tx_pkt: Introduce net_tx_pkt_get_eth_hdr
+Date: Thu, 26 Jan 2023 20:19:31 +0900
+Message-Id: <20230126111943.38695-2-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230126111943.38695-1-akihiko.odaki@daynix.com>
+References: <20230126111943.38695-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62e;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,99 +106,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Based-on: <20230126104705.35023-1-akihiko.odaki@daynix.com>
-([PATCH v3 00/26] e1000x cleanups (preliminary for IGB))
+Expose the ethernet header so that igb can utilize it to perform the
+internal routing among its SR-IOV functions.
 
-igb is a family of Intel's gigabit ethernet controllers. This series implements
-82576 emulation in particular. You can see the last patch for the documentation.
+Signed-off-by: Gal Hammer <gal.hammer@sap.com>
+Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ hw/net/net_tx_pkt.c | 6 ++++++
+ hw/net/net_tx_pkt.h | 8 ++++++++
+ 2 files changed, 14 insertions(+)
 
-Note that there is another effort to bring 82576 emulation. This series was
-developed independently by Sriram Yagnaraman.
-https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg04670.html
-
-V3 -> V4:
-- Rebased.
-- Corrected PCIDevice specified for DMA.
-
-V2 -> V3:
-- Rebased.
-- Fixed PCIDevice reference in hw/net/igbvf.c.
-- Fixed TX packet switching when VM loopback is enabled.
-- Fixed VMDq enablement check.
-- Fixed RX descriptor length parser.
-- Fixed the definitions of RQDPC readers.
-- Implemented VLAN VM filter.
-- Implemented VT_CTL.Def_PL.
-- Implemented the combination of VMDq and RSS.
-- Noted that igb is tested with Windows HLK.
-
-V1 -> V2:
-- Spun off e1000e general improvements to a distinct series.
-- Restored vnet_hdr offload as there seems nothing preventing from that.
-
-Akihiko Odaki (13):
-  hw/net/net_tx_pkt: Introduce net_tx_pkt_get_eth_hdr
-  pcie: Introduce pcie_sriov_num_vfs
-  e1000: Split header files
-  igb: Copy e1000e code
-  igb: Rename identifiers
-  igb: Build igb
-  igb: Transform to 82576 implementation
-  tests/qtest/e1000e-test: Fabricate ethernet header
-  tests/qtest/libqos/e1000e: Export macreg functions
-  tests/qtest/libqos/igb: Copy e1000e code
-  tests/qtest/libqos/igb: Transform to igb tests
-  tests/avocado: Add igb test
-  docs/system/devices/igb: Add igb documentation
-
- MAINTAINERS                                   |    9 +
- docs/system/device-emulation.rst              |    1 +
- docs/system/devices/igb.rst                   |   71 +
- hw/net/Kconfig                                |    5 +
- hw/net/e1000.c                                |    1 +
- hw/net/e1000_common.h                         |  102 +
- hw/net/e1000_regs.h                           |  927 +---
- hw/net/e1000e.c                               |    3 +-
- hw/net/e1000e_core.c                          |    1 +
- hw/net/e1000x_common.c                        |    1 +
- hw/net/e1000x_common.h                        |   74 -
- hw/net/e1000x_regs.h                          |  940 ++++
- hw/net/igb.c                                  |  614 +++
- hw/net/igb_common.h                           |  146 +
- hw/net/igb_core.c                             | 4058 +++++++++++++++++
- hw/net/igb_core.h                             |  146 +
- hw/net/igb_regs.h                             |  648 +++
- hw/net/igbvf.c                                |  327 ++
- hw/net/meson.build                            |    2 +
- hw/net/net_tx_pkt.c                           |    6 +
- hw/net/net_tx_pkt.h                           |    8 +
- hw/net/trace-events                           |   32 +
- hw/pci/pcie_sriov.c                           |    5 +
- include/hw/pci/pcie_sriov.h                   |    3 +
- .../org.centos/stream/8/x86_64/test-avocado   |    1 +
- tests/avocado/igb.py                          |   38 +
- tests/qtest/e1000e-test.c                     |   17 +-
- tests/qtest/fuzz/generic_fuzz_configs.h       |    5 +
- tests/qtest/igb-test.c                        |  243 +
- tests/qtest/libqos/e1000e.c                   |   12 -
- tests/qtest/libqos/e1000e.h                   |   14 +
- tests/qtest/libqos/igb.c                      |  185 +
- tests/qtest/libqos/meson.build                |    1 +
- tests/qtest/meson.build                       |    1 +
- 34 files changed, 7629 insertions(+), 1018 deletions(-)
- create mode 100644 docs/system/devices/igb.rst
- create mode 100644 hw/net/e1000_common.h
- create mode 100644 hw/net/e1000x_regs.h
- create mode 100644 hw/net/igb.c
- create mode 100644 hw/net/igb_common.h
- create mode 100644 hw/net/igb_core.c
- create mode 100644 hw/net/igb_core.h
- create mode 100644 hw/net/igb_regs.h
- create mode 100644 hw/net/igbvf.c
- create mode 100644 tests/avocado/igb.py
- create mode 100644 tests/qtest/igb-test.c
- create mode 100644 tests/qtest/libqos/igb.c
-
+diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+index e5c3e1e10b..cab10eecd5 100644
+--- a/hw/net/net_tx_pkt.c
++++ b/hw/net/net_tx_pkt.c
+@@ -273,6 +273,12 @@ bool net_tx_pkt_parse(struct NetTxPkt *pkt)
+     }
+ }
+ 
++struct eth_header *net_tx_pkt_get_eth_hdr(struct NetTxPkt *pkt)
++{
++    assert(pkt);
++    return (struct eth_header *)&pkt->l2_hdr;
++}
++
+ struct virtio_net_hdr *net_tx_pkt_get_vhdr(struct NetTxPkt *pkt)
+ {
+     assert(pkt);
+diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
+index f57b4e034b..2e51b73b6c 100644
+--- a/hw/net/net_tx_pkt.h
++++ b/hw/net/net_tx_pkt.h
+@@ -45,6 +45,14 @@ void net_tx_pkt_init(struct NetTxPkt **pkt, PCIDevice *pci_dev,
+  */
+ void net_tx_pkt_uninit(struct NetTxPkt *pkt);
+ 
++/**
++ * get ethernet header
++ *
++ * @pkt:            packet
++ * @ret:            ethernet header
++ */
++struct eth_header *net_tx_pkt_get_eth_hdr(struct NetTxPkt *pkt);
++
+ /**
+  * get virtio header
+  *
 -- 
 2.39.0
 
