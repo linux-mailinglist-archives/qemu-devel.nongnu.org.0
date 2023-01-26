@@ -2,102 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFA3167C9F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 12:32:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08ED967CA34
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 12:43:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL0UB-0004Z5-Vw; Thu, 26 Jan 2023 06:32:08 -0500
+	id 1pL0dV-0006hw-56; Thu, 26 Jan 2023 06:41:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pL0Tm-00044B-EN
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:31:49 -0500
-Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pL0Tj-0007g7-Pw
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:31:42 -0500
-Received: by mail-pf1-x435.google.com with SMTP id u5so580191pfm.10
- for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 03:31:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=+3j5lLGFuPWsaagnYc64mnuiaJ0GCbjZjpAjF6+5pi4=;
- b=QFR88o8AtyRpCTd4j9xr7NctA9nb+fEru/8AsllcOGCkKB9c2JhTTzdTesj8cNJWJ+
- oWX6/FNl9HNdSXzZ+sjLED7CNkXxoAHzu487Dmu05nF2MU3lvQJxx6v3J4K4tYu4t1Ju
- ORVgXuaRCv4GgG+XfX7DGShMZcZDTPw0EgEUTCdsYzlwahK2gJudx6LiKOEOLdTDtk+A
- kT7zcxbxvOBndReDb7pHMsNN8vUwOwwE6Dxb/Bu/vFsjzSUq2e63CXDWk9sgb1BD6MPV
- sAP6nPDbTvPWBdVCvkC1KiGY1KiHB6z+InxORchonu7v5PQc7dLkKNbBbG776TqR7uPO
- IIMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+3j5lLGFuPWsaagnYc64mnuiaJ0GCbjZjpAjF6+5pi4=;
- b=TGrrKUBscWptNc4nvCNZcwgz8B0FZldvA6bRW9NYMSKSss7WOePfCUSjj4pz7Fi10C
- TJPoYJvAGqCTSs/Db4Ewbm6LaM9QxTMeNIlaGsUIdNDylY6kKywG/y2xLNbVDAKsls9g
- ij5apq4hRNxmgXpiOtcnqI0qnK0SrMMM7Y6pugcAmfBAYk8anhH5m+iZ7TpOzGMvNfW8
- WXiBcs3dwRa6ZsIFbkxG8Kr6YikwGkZajOKkMG5fR6OQueeCPvG3/GrGl0ydS7fdJA2u
- 9Xg0DRhQYiOATTsqdgZ0SXD6Mbc87C03oQJVXOgwMxHjuEbqBdu6YUAggteGCHXCglzz
- erRQ==
-X-Gm-Message-State: AFqh2kq3Jv0c5ZZahhtuii7ceICafrfKq66Re4I/OEhQ7roNbE7mqamd
- sRdmwRO6DjVk4aL7YJfCCVl/dw==
-X-Google-Smtp-Source: AMrXdXukUyV9k/Y4Qft2sJthHbxclBPuHvAowMBbLWxzn1Dj3WcPkdM1cLpohIX5tDUaH81A4D8pGA==
-X-Received: by 2002:a05:6a00:1c95:b0:581:6f06:659 with SMTP id
- y21-20020a056a001c9500b005816f060659mr34565693pfw.6.1674732698204; 
- Thu, 26 Jan 2023 03:31:38 -0800 (PST)
-Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
- ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- br13-20020a056a00440d00b00581ad007a9fsm658782pfb.153.2023.01.26.03.31.33
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Jan 2023 03:31:37 -0800 (PST)
-Message-ID: <f849216a-7518-3a01-7946-15c77698a1c9@daynix.com>
-Date: Thu, 26 Jan 2023 20:31:32 +0900
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pL0dS-0006hL-NC
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:41:42 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pL0dP-0002Iy-Bk
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:41:42 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P2f0Y4W2sz67JwR;
+ Thu, 26 Jan 2023 19:40:45 +0800 (CST)
+Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 26 Jan
+ 2023 11:41:31 +0000
+Date: Thu, 26 Jan 2023 11:41:30 +0000
+To: Ira Weiny <ira.weiny@intel.com>
+CC: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ Peter Maydell <peter.maydell@linaro.org>, <qemu-devel@nongnu.org>,
+ <linux-cxl@vger.kernel.org>
+Subject: Re: [PATCH 1/2] hw/cxl: Fix event log time stamp fields
+Message-ID: <20230126114130.00000b98@huawei.com>
+In-Reply-To: <20230125-ira-cxl-events-fixups-2023-01-11-v1-1-1931378515f5@intel.com>
+References: <20230125-ira-cxl-events-fixups-2023-01-11-v1-0-1931378515f5@intel.com>
+ <20230125-ira-cxl-events-fixups-2023-01-11-v1-1-1931378515f5@intel.com>
+Organization: Huawei Technologies R&D (UK) Ltd.
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v2 00/13] Introduce igb
-Content-Language: en-US
-To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Jason Wang <jasowang@redhat.com>
-Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Darren Kenny
- <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "qemu-ppc@nongnu.org" <qemu-ppc@nongnu.org>,
- "devel@daynix.com" <devel@daynix.com>, Yan Vugenfirer <yvugenfi@redhat.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>
-References: <20230114041004.36459-1-akihiko.odaki@daynix.com>
- <CACGkMEvAwrfUwQVAj0qZFy+Wib5FSBwayyN_qGbZ8edNwB_18g@mail.gmail.com>
- <afbd035c-e275-4600-d2b8-7445008ebbd2@daynix.com>
- <DBBP189MB1433ACFCB19263B4CD0414AF95C99@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
- <DBBP189MB1433E546762B9D56CA40E9C495CF9@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <DBBP189MB1433E546762B9D56CA40E9C495CF9@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::435;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x435.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,202 +64,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/01/26 18:34, Sriram Yagnaraman wrote:
+On Wed, 25 Jan 2023 21:37:27 -0800
+Ira Weiny <ira.weiny@intel.com> wrote:
+
+> CXL 3.0 8.2.9.4.2 Set Timestamp and 8.2.9.4.1 Get Timestamp define the
+> way for software to set and get the time stamp of a device.  Events
+> should use a time stamp consistent with the Get Timestamp mailbox
+> command.
 > 
->> -----Original Message-----
->> From: Sriram Yagnaraman
->> Sent: Tuesday, 24 January 2023 09:54
->> To: Akihiko Odaki <akihiko.odaki@daynix.com>; Jason Wang
->> <jasowang@redhat.com>
->> Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>; Michael S. Tsirkin
->> <mst@redhat.com>; Marcel Apfelbaum <marcel.apfelbaum@gmail.com>;
->> Alex Bennée <alex.bennee@linaro.org>; Philippe Mathieu-Daudé
->> <philmd@linaro.org>; Thomas Huth <thuth@redhat.com>; Wainer dos Santos
->> Moschetta <wainersm@redhat.com>; Beraldo Leal <bleal@redhat.com>;
->> Cleber Rosa <crosa@redhat.com>; Laurent Vivier <lvivier@redhat.com>;
->> Paolo Bonzini <pbonzini@redhat.com>; Alexander Bulekov <alxndr@bu.edu>;
->> Bandan Das <bsd@redhat.com>; Stefan Hajnoczi <stefanha@redhat.com>;
->> Darren Kenny <darren.kenny@oracle.com>; Qiuhao Li
->> <Qiuhao.Li@outlook.com>; qemu-devel@nongnu.org; qemu-
->> ppc@nongnu.org; devel@daynix.com; Yan Vugenfirer
->> <yvugenfi@redhat.com>; Yuri Benditovich <yuri.benditovich@daynix.com>
->> Subject: RE: [PATCH v2 00/13] Introduce igb
->>
->>
->>> -----Original Message-----
->>> From: Akihiko Odaki <akihiko.odaki@daynix.com>
->>> Sent: Tuesday, 24 January 2023 05:54
->>> To: Jason Wang <jasowang@redhat.com>; Sriram Yagnaraman
->>> <sriram.yagnaraman@est.tech>
->>> Cc: Dmitry Fleytman <dmitry.fleytman@gmail.com>; Michael S. Tsirkin
->>> <mst@redhat.com>; Marcel Apfelbaum <marcel.apfelbaum@gmail.com>;
->> Alex
->>> Bennée <alex.bennee@linaro.org>; Philippe Mathieu-Daudé
->>> <philmd@linaro.org>; Thomas Huth <thuth@redhat.com>; Wainer dos
->> Santos
->>> Moschetta <wainersm@redhat.com>; Beraldo Leal <bleal@redhat.com>;
->>> Cleber Rosa <crosa@redhat.com>; Laurent Vivier <lvivier@redhat.com>;
->>> Paolo Bonzini <pbonzini@redhat.com>; Alexander Bulekov
->>> <alxndr@bu.edu>; Bandan Das <bsd@redhat.com>; Stefan Hajnoczi
->>> <stefanha@redhat.com>; Darren Kenny <darren.kenny@oracle.com>;
->> Qiuhao
->>> Li <Qiuhao.Li@outlook.com>; qemu-devel@nongnu.org; qemu-
->>> ppc@nongnu.org; devel@daynix.com; Yan Vugenfirer
->>> <yvugenfi@redhat.com>; Yuri Benditovich <yuri.benditovich@daynix.com>
->>> Subject: Re: [PATCH v2 00/13] Introduce igb
->>>
->>> On 2023/01/16 17:01, Jason Wang wrote:
->>>> On Sat, Jan 14, 2023 at 12:10 PM Akihiko Odaki
->>> <akihiko.odaki@daynix.com> wrote:
->>>>>
->>>>> Based-on: <20230114035919.35251-1-akihiko.odaki@daynix.com>
->>>>> ([PATCH 00/19] e1000x cleanups (preliminary for IGB))
->>>>>
->>>>> igb is a family of Intel's gigabit ethernet controllers. This
->>>>> series implements
->>>>> 82576 emulation in particular. You can see the last patch for the
->>> documentation.
->>>>>
->>>>> Note that there is another effort to bring 82576 emulation. This
->>>>> series was developed independently by Sriram Yagnaraman.
->>>>> https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg04670.html
->>>>>
->>>>> It is possible to merge the work from Sriram Yagnaraman and to
->>>>> cherry-pick useful changes from this series later.
->>>>>
->>>>> I think there are several different ways to get the changes into the
->> mainline.
->>>>> I'm open to any options.
->>>>
->>>> I can only do reviews for the general networking part but not the
->>>> 82576 specific part. It would be better if either of the series can
->>>> get some ACKs from some ones that they are familiar with 82576, then
->>>> I can try to merge.
->>>>
->>>> Thanks
->>>
->>> I have just sent v3 to the list.
->>>
->>> Sriram Yagnaraman, who wrote another series for 82576, is the only
->>> person I know who is familiar with the device.
->>>
->>> Sriram, can you take a look at v3 I have just sent?
->>
->> I am at best a good interpreter of the 82576 datasheet. I will review your
->> changes get back here.
+> In addition avoid setting the time stamp twice.
 > 
-> I have reviewed and tested your changes and it looks great to me in general.
-> I would like to note some features that I would like to add on top of your patch, if you have not worked on these already :)
-> - PFRSTD (PF reset done)
-> - SRRCTL (Rx desc buf size)
-> - RLPML (oversized packet handling)
-> - MAC/VLAN anti-spoof checks
-> - VMOLR_STRVLAN and RPLOLR_STRVLAN (VLAN stripping for VFs)
-> - VMVIR (VLAN insertion for VFs)
-> - VF reset
-> - VFTE, VFRE, VFLRE
-> - VF stats
-> - Set EITR initial value
+> Fixes: fb64c5661d5f ("hw/cxl/events: Wire up get/clear event mailbox commands")
+> Reported-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+> Signed-off-by: Ira Weiny <ira.weiny@intel.com>
+Hi Ira,
+
+I'm going to split this patch as I am carrying a very similar
+utility function for an updated version of the poison list code
+and I'm not sure what order everything will go upstream in.
+
+So I'll split this into:
+1) Patch that adds cxl_device_get_timestamp() - adding the
+use of this in the GET_TIMESTAMP mailbox command.
+
+2) Changes pushed down into the patch you mention above.
+
+Given all the code is yours, just split up, I'll keep the SOB.
+Shout if you mind me doing that.
+
+Thanks,
+
+Jonathan
+
+> ---
+>  hw/cxl/cxl-device-utils.c   | 15 +++++++++++++++
+>  hw/cxl/cxl-events.c         |  4 +++-
+>  hw/cxl/cxl-mailbox-utils.c  | 11 +----------
+>  hw/mem/cxl_type3.c          |  1 -
+>  include/hw/cxl/cxl_device.h |  2 ++
+>  5 files changed, 21 insertions(+), 12 deletions(-)
 > 
-> Since this is a new device and there are no existing users, is it possible to get the change into baseline first and fix missing features and bugs soon after?
-
-Thanks for reviewing,
-
-I have just submitted v4. The difference from v3 is only that igb now 
-correctly specifies VFs associated with queues for DMA.
-
-RX descriptor buffer size in SRRCTL is respected since v3. I think the 
-other features are missing. I am not planning to implement them either, 
-but I'm considering to test the code with DPDK and I may add features it 
-requires.
-
-I also want to get this series into the mainline before adding new 
-features as it is already so big, but please tell me if you noticed 
-bugs, especially ones which can be fixed without adding more code.
-
-Regards,
-Akihiko Odaki
-
+> diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
+> index 7f29d40be04a..5876a3703e85 100644
+> --- a/hw/cxl/cxl-device-utils.c
+> +++ b/hw/cxl/cxl-device-utils.c
+> @@ -325,3 +325,18 @@ void cxl_device_register_init_swcci(CXLDeviceState *cxl_dstate)
+>  
+>      cxl_initialize_mailbox(cxl_dstate, true);
+>  }
+> +
+> +uint64_t cxl_device_get_timestamp(CXLDeviceState *cxl_dstate)
+> +{
+> +    uint64_t time, delta;
+> +    uint64_t final_time = 0;
+> +
+> +    if (cxl_dstate->timestamp.set) {
+> +        /* First find the delta from the last time the host set the time. */
+> +        time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> +        delta = time - cxl_dstate->timestamp.last_set;
+> +        final_time = cxl_dstate->timestamp.host_set + delta;
+> +    }
+> +
+> +    return final_time;
+> +}
+> diff --git a/hw/cxl/cxl-events.c b/hw/cxl/cxl-events.c
+> index 08fd52b66188..2536aafc55fb 100644
+> --- a/hw/cxl/cxl-events.c
+> +++ b/hw/cxl/cxl-events.c
+> @@ -100,7 +100,7 @@ bool cxl_event_insert(CXLDeviceState *cxlds,
+>                        enum cxl_event_log_type log_type,
+>                        struct cxl_event_record_raw *event)
+>  {
+> -    uint64_t time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> +    uint64_t time;
+>      struct cxl_event_log *log;
+>      CXLEvent *entry;
+>  
+> @@ -108,6 +108,8 @@ bool cxl_event_insert(CXLDeviceState *cxlds,
+>          return false;
+>      }
+>  
+> +    time = cxl_device_get_timestamp(cxlds);
+> +
+>      log = &cxlds->event_logs[log_type];
+>  
+>      QEMU_LOCK_GUARD(&log->lock);
+> diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+> index 75703023434b..0e64873c2395 100644
+> --- a/hw/cxl/cxl-mailbox-utils.c
+> +++ b/hw/cxl/cxl-mailbox-utils.c
+> @@ -394,17 +394,8 @@ static CXLRetCode cmd_timestamp_get(struct cxl_cmd *cmd,
+>                                      CXLDeviceState *cxl_dstate,
+>                                      uint16_t *len)
+>  {
+> -    uint64_t time, delta;
+> -    uint64_t final_time = 0;
+> -
+> -    if (cxl_dstate->timestamp.set) {
+> -        /* First find the delta from the last time the host set the time. */
+> -        time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+> -        delta = time - cxl_dstate->timestamp.last_set;
+> -        final_time = cxl_dstate->timestamp.host_set + delta;
+> -    }
+> +    uint64_t final_time = cxl_device_get_timestamp(cxl_dstate);
+>  
+> -    /* Then adjust the actual time */
+>      stq_le_p(cmd->payload, final_time);
+>      *len = 8;
+>  
+> diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+> index a7b587780af2..42e291dd9f76 100644
+> --- a/hw/mem/cxl_type3.c
+> +++ b/hw/mem/cxl_type3.c
+> @@ -1291,7 +1291,6 @@ static void cxl_assign_event_header(struct cxl_event_record_hdr *hdr,
+>      hdr->flags[0] = flags;
+>      hdr->length = length;
+>      memcpy(&hdr->id, uuid, sizeof(hdr->id));
+> -    hdr->timestamp = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+>  }
+>  
+>  static const QemuUUID gen_media_uuid = {
+> diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+> index cbb37c541c44..31579af342f1 100644
+> --- a/include/hw/cxl/cxl_device.h
+> +++ b/include/hw/cxl/cxl_device.h
+> @@ -426,4 +426,6 @@ CXLRetCode cxl_event_clear_records(CXLDeviceState *cxlds,
+>  
+>  void cxl_event_irq_assert(CXLType3Dev *ct3d);
+>  
+> +uint64_t cxl_device_get_timestamp(CXLDeviceState *cxlds);
+> +
+>  #endif
 > 
->>
->>>
->>> Regards,
->>> Akihiko Odaki
->>>
->>>>
->>>>>
->>>>> V1 -> V2:
->>>>> - Spun off e1000e general improvements to a distinct series.
->>>>> - Restored vnet_hdr offload as there seems nothing preventing from that.
->>>>>
->>>>> Akihiko Odaki (13):
->>>>>     hw/net/net_tx_pkt: Introduce net_tx_pkt_get_eth_hdr
->>>>>     pcie: Introduce pcie_sriov_num_vfs
->>>>>     e1000: Split header files
->>>>>     igb: Copy e1000e code
->>>>>     igb: Rename identifiers
->>>>>     igb: Build igb
->>>>>     igb: Transform to 82576 implementation
->>>>>     tests/qtest/e1000e-test: Fabricate ethernet header
->>>>>     tests/qtest/libqos/e1000e: Export macreg functions
->>>>>     tests/qtest/libqos/igb: Copy e1000e code
->>>>>     tests/qtest/libqos/igb: Transform to igb tests
->>>>>     tests/avocado: Add igb test
->>>>>     docs/system/devices/igb: Add igb documentation
->>>>>
->>>>>    MAINTAINERS                                   |    9 +
->>>>>    docs/system/device-emulation.rst              |    1 +
->>>>>    docs/system/devices/igb.rst                   |   70 +
->>>>>    hw/net/Kconfig                                |    5 +
->>>>>    hw/net/e1000.c                                |    1 +
->>>>>    hw/net/e1000_common.h                         |  102 +
->>>>>    hw/net/e1000_regs.h                           |  927 +---
->>>>>    hw/net/e1000e.c                               |    3 +-
->>>>>    hw/net/e1000e_core.c                          |    1 +
->>>>>    hw/net/e1000x_common.c                        |    1 +
->>>>>    hw/net/e1000x_common.h                        |   74 -
->>>>>    hw/net/e1000x_regs.h                          |  940 ++++
->>>>>    hw/net/igb.c                                  |  615 +++
->>>>>    hw/net/igb_common.h                           |  144 +
->>>>>    hw/net/igb_core.c                             | 3946 +++++++++++++++++
->>>>>    hw/net/igb_core.h                             |  147 +
->>>>>    hw/net/igb_regs.h                             |  624 +++
->>>>>    hw/net/igbvf.c                                |  327 ++
->>>>>    hw/net/meson.build                            |    2 +
->>>>>    hw/net/net_tx_pkt.c                           |    6 +
->>>>>    hw/net/net_tx_pkt.h                           |    8 +
->>>>>    hw/net/trace-events                           |   32 +
->>>>>    hw/pci/pcie_sriov.c                           |    5 +
->>>>>    include/hw/pci/pcie_sriov.h                   |    3 +
->>>>>    .../org.centos/stream/8/x86_64/test-avocado   |    1 +
->>>>>    tests/avocado/igb.py                          |   38 +
->>>>>    tests/qtest/e1000e-test.c                     |   17 +-
->>>>>    tests/qtest/fuzz/generic_fuzz_configs.h       |    5 +
->>>>>    tests/qtest/igb-test.c                        |  243 +
->>>>>    tests/qtest/libqos/e1000e.c                   |   12 -
->>>>>    tests/qtest/libqos/e1000e.h                   |   14 +
->>>>>    tests/qtest/libqos/igb.c                      |  185 +
->>>>>    tests/qtest/libqos/meson.build                |    1 +
->>>>>    tests/qtest/meson.build                       |    1 +
->>>>>    34 files changed, 7492 insertions(+), 1018 deletions(-)
->>>>>    create mode 100644 docs/system/devices/igb.rst
->>>>>    create mode 100644 hw/net/e1000_common.h
->>>>>    create mode 100644 hw/net/e1000x_regs.h
->>>>>    create mode 100644 hw/net/igb.c
->>>>>    create mode 100644 hw/net/igb_common.h
->>>>>    create mode 100644 hw/net/igb_core.c
->>>>>    create mode 100644 hw/net/igb_core.h
->>>>>    create mode 100644 hw/net/igb_regs.h
->>>>>    create mode 100644 hw/net/igbvf.c
->>>>>    create mode 100644 tests/avocado/igb.py
->>>>>    create mode 100644 tests/qtest/igb-test.c
->>>>>    create mode 100644 tests/qtest/libqos/igb.c
->>>>>
->>>>> --
->>>>> 2.39.0
->>>>>
->>>>
+
 
