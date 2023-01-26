@@ -2,87 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC98F67C307
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 04:10:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9541067C3AA
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 04:36:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKsda-0001u6-Ew; Wed, 25 Jan 2023 22:09:18 -0500
+	id 1pKt2d-0006KH-KI; Wed, 25 Jan 2023 22:35:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pKsdY-0001tv-46
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 22:09:16 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ id 1pKt2b-0006Jf-90
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 22:35:09 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pKsdW-0000tH-4C
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 22:09:15 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id k18so787002pll.5
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 19:09:13 -0800 (PST)
+ id 1pKt2Y-0004FD-IY
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 22:35:08 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id be8so816073plb.7
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 19:35:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=I4ivT8AAE4lzNER76osvbNwgB024Bjl9ImhCavzrtSI=;
- b=Jr4xXwDBGWmfC1er5X4bwQI9WZhuGS0oskhqf0HfHmb4KEfYERMGAeuTGURt98wvDR
- GH0fOMsq2Hav2ewIFBu4R++GpyqTVPpa0sqJCRRoeydKmdP33R/cX8FRDKy19nqrc2Rr
- I/Uf/FPS+J7FYshqky3HiAYIAxVT2eDkr5BQR0iskAWNIxdqKabzAspMAtpJMhQqHtxs
- QGwgSdifO+Ar4+0ozgmJg2cRL54Aakqc5hHBaJ/shki7fzcx6T9ySJneoB7HMLNbmp/A
- I59CREnAELtXu8aYBXIXXElOXWcK6THjJuXJUzvpm5hSlFkdjXcSeFINCZzI7cBNVf8n
- /34w==
+ bh=dDScx//a87dxLoQohvQY1QUup8T0Y2nk5LUfGW/gtcw=;
+ b=lbhDnOIjAppM55ee5j71GlkiYCsEJ3JlX37TcXNcg2C5ilQFmqfq+RFeig90hl52oQ
+ gDCIgNQF5M8QdreRfJ7AeTjOY2DHIDRojnNMs5Nqdt0LsQse1iWfvcuz1/K7hyO6poW7
+ dBl5nPdzEZSptgKxYkUzG/7n6bzRAbJHod0oHTX2CU8XLLkNzeL5Ms0U24HBrB82MN2G
+ Ze1E7mq2rFZ82IQ1oOWvvcv6Po91+vUiD8CZN3/r1Hi4KJIyEzyP+lnoHAoiIErETKVK
+ 3nIgvOhFADLaQ8mxByW4kGOeyybN7OtNjMUW4Ydnpen+jjoUXs9GJOUGV6hpCKs7oLMV
+ RDHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I4ivT8AAE4lzNER76osvbNwgB024Bjl9ImhCavzrtSI=;
- b=R+KDKUxoHLDAWqG50qOztSR/92ckq2PjNomiX8CmaJO+gC7w+rsWBughCANn3L5edR
- sa+kL7A6Qn9ySTJrd0Ap3wKjRMiAvE6sfILEIKgd9iw5OM5tyTIOYLDtvkfSncF/4tta
- nmglCPTHH/Md0EgfPx4l+4g64xsfgIL+zqBAo6FfnlRWMEpxUf6DvuDUCmOPolarcMRx
- 0QkshWWFjSFWfYnJYNM2fJ7ojqG+zajVvWfaIcbE9EGFxrTvj6htdnaK+SHnH9MThwbk
- ti0Fy1q94uPrL+jLGAw40N6EmmdIZQLNXcHgp8YY29ZBz27+INm/3ecYF0RxmFCh2dpH
- JsmQ==
-X-Gm-Message-State: AO0yUKXVV8xdD/cDa4eeo96R43hatfD8geRyEdNvAmYgI52JYL2lhXzo
- VU/Vvrzbo4FwscTEZV7WNNwLbA==
-X-Google-Smtp-Source: AK7set9ur362/lqi6zAu1vUZ429JDBvXWjcWZ9ZMACpiV5CNnQNm082aO74gbu2jOfFsJH6BtcoYgg==
-X-Received: by 2002:a17:90b:4f43:b0:22b:e304:a85 with SMTP id
- pj3-20020a17090b4f4300b0022be3040a85mr10292781pjb.28.1674702551932; 
- Wed, 25 Jan 2023 19:09:11 -0800 (PST)
+ bh=dDScx//a87dxLoQohvQY1QUup8T0Y2nk5LUfGW/gtcw=;
+ b=i2CEiIngwPxRyKRs/JBJ7j6VhoZ81q1bMjJ1wPsSQfahppQjMvTI1BuRj6jUf085ze
+ LPg2F2JV7607KXxcSASz05LuE0xeMFM7d8HQdfg1CYt63wf7KUDx+i2cYps3LvAz7win
+ hj4zez3Y+Gkg7jySDifsxqXC0wRNWO92VcKOm/5C3ELSHNMV1ZdXz5Bzd20QsNw8Ar7i
+ zcx7lygybk+J5Tcm+DwzSPQV2QgHy3b3bkkRIz+mJVc9lTyjuMTx4SimGNxIVsR1D8O6
+ Hok6DYzH3RGQ2MA9aDhdPykuWsZT04zpIVgiR60kfBep7aKZVG3J+AphJE4jmgJeHrHD
+ Q6eA==
+X-Gm-Message-State: AO0yUKWwbtieVgaSqHB2GaBe52gFkovgptb8twNmGoBjo+muK60wk3yQ
+ J2/8DKCirX308w7gTlrnQaJHzQ==
+X-Google-Smtp-Source: AK7set+os+6sOsE+zsprZBKSjr+ThRclWO9o19IAbQIxp2TxI7kR8GLafiKjBEDmkkkinnfqSK1cUg==
+X-Received: by 2002:a17:903:41cc:b0:196:37a4:775b with SMTP id
+ u12-20020a17090341cc00b0019637a4775bmr3150345ple.33.1674704103788; 
+ Wed, 25 Jan 2023 19:35:03 -0800 (PST)
 Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
  [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- w9-20020a63af09000000b0046fefb18a09sm3838044pge.91.2023.01.25.19.09.10
+ g5-20020a1709026b4500b0018b025d9a40sm123259plt.256.2023.01.25.19.35.02
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 25 Jan 2023 19:09:11 -0800 (PST)
-Message-ID: <1d938e78-5654-25cc-b901-aa8bf09b5287@linaro.org>
-Date: Wed, 25 Jan 2023 17:09:06 -1000
+ Wed, 25 Jan 2023 19:35:03 -0800 (PST)
+Message-ID: <f527ecff-7597-33f4-2909-1ebe7126447f@linaro.org>
+Date: Wed, 25 Jan 2023 17:34:57 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: ARM: ptw.c:S1_ptw_translate
-To: Sid Manning <sidneym@quicinc.com>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Cc: "philmd@linaro.org" <philmd@linaro.org>,
- Mark Burton <mburton@qti.qualcomm.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-References: <BYAPR02MB550905E891B95879D05846B9BEF59@BYAPR02MB5509.namprd02.prod.outlook.com>
- <a07b1be0-7ee2-9b7b-a2d7-7d2435f25007@linaro.org>
- <BYAPR02MB55099839E05FC89E5EBB9D9EBEFB9@BYAPR02MB5509.namprd02.prod.outlook.com>
- <BYAPR02MB550960AECCDF2B28D2C4F8EABECE9@BYAPR02MB5509.namprd02.prod.outlook.com>
+Subject: Re: [PATCH qemu 1/1] Remove a stray "@end table" marker
 Content-Language: en-US
+To: ~gurjeet <gurjeet@singh.im>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost
+ <eduardo@habkost.net>, qemu-trivial <qemu-trivial@nongnu.org>
+References: <167470125128.13083.10933855577484761075-1@git.sr.ht>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <BYAPR02MB550960AECCDF2B28D2C4F8EABECE9@BYAPR02MB5509.namprd02.prod.outlook.com>
+In-Reply-To: <167470125128.13083.10933855577484761075-1@git.sr.ht>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
 X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,33 +93,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/25/23 13:27, Sid Manning wrote:
-> On 7.2 VA to PA mappings are not consistent:
+On 1/25/23 16:12, ~gurjeet wrote:
+> From: Gurjeet Singh <gurjeet@singh.im>
 > 
->   Thread 10 "vp" hit Breakpoint 1, tlb_add_large_page (env=0xeb7ac0, mmu_idx=0x2, vaddr=0xffffff809977f000, size=0x1000) at ../../../../../../src/qemu/accel/tcg/cputlb.c:1090
-> tlb_set_page_full: vaddr=ffffff809977f000 paddr=0x0000000f35f32000 prot=3 idx=2
-> Thread 14 "vp" hit Breakpoint 1, tlb_add_large_page (env=0xf185e0, mmu_idx=0x2, vaddr=0xffffff809977f000, size=0x1000) at ../../../../../../src/qemu/accel/tcg/cputlb.c:1090
-> tlb_set_page_full: vaddr=ffffff809977f000 paddr=0x0000000f42a16000 prot=3 idx=2
+> Signed-off-by: Gurjeet Singh <gurjeet@singh.im>
+> ---
+>   docs/system/cpu-models-x86.rst.inc | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Using the monitor to view the memory I see that on 7.2 the first entry appears to be accurate.
-> xp /2x 0x0000000f35f32018
-> 0000000f35f32018: 0x9977eff0 0xffffff80
-> 
-> And the second is not:
-> xp /2x 0x0000000f42a16018
-> 0000000f42a16018: 0x00000000 0x00000000
-> 
-> 7.2 is calling arm_cpu_tlb_fill more often now and I don't know if that is related to the problem I'm seeing or a natural result of the changes made to S1_ptw_translate between the releases.
+> diff --git a/docs/system/cpu-models-x86.rst.inc b/docs/system/cpu-models-x86.rst.inc
+> index 7f6368f999..261da6e21d 100644
+> --- a/docs/system/cpu-models-x86.rst.inc
+> +++ b/docs/system/cpu-models-x86.rst.inc
+> @@ -25,7 +25,7 @@ Two ways to configure CPU models with QEMU / KVM
+>       typically refer to specific generations of hardware released by
+>       Intel and AMD.  These allow the guest VMs to have a degree of
+>       isolation from the host CPU, allowing greater flexibility in live
+> -    migrating between hosts with differing hardware.  @end table
+> +    migrating between hosts with differing hardware.
+>   
+>   In both cases, it is possible to optionally add or remove individual CPU
+>   features, to alter what is presented to the guest by default.
 
-Well, there are more calls to tlb_fill, since we're now also using tlb_fill for the stage2 
-translation, and for the translation tables themselves.  It's possible that there's a bug 
-in the stage2 tlb flushing that wouldn't have been visible before (and also not visible 
-from the monitor, since that avoids tlb_fill entirely).
+Cc: qemu-trivial.
 
-While it would still be handier to have a test case, the next best thing may be for me to 
-add some tracepoints within ptw.c.  I'll work on that later today or tomorrow.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 r~
-
 
