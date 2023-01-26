@@ -2,30 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D99467D4BC
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 19:55:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF85067D4BF
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 19:55:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL7MD-0006ec-Sj; Thu, 26 Jan 2023 13:52:21 -0500
+	id 1pL7LL-0005uv-KA; Thu, 26 Jan 2023 13:51:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pL7LD-0005Q3-8Z
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 13:51:21 -0500
-Received: from mail-dm6nam10on2058.outbound.protection.outlook.com
- ([40.107.93.58] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
+ id 1pL7LG-0005Zm-Vq
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 13:51:23 -0500
+Received: from mail-sn1nam02on2060a.outbound.protection.outlook.com
+ ([2a01:111:f400:7ea9::60a]
+ helo=NAM02-SN1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <avihaih@nvidia.com>)
- id 1pL7L9-0002vX-Bu
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 13:51:17 -0500
+ id 1pL7LE-0002wP-VC
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 13:51:22 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Mdb1IgGlKBA3jNWxym3UX+TEVOP1ahYI6RtF1uHH5xUNcA5zkXm2zJ0s/sJDsG8d0ypinqbwe2oq6LztnkCBWnB3lkBqzqHMVYfxQbwif5zuDl/vdhRMY1v+VM4GxDOIQqpzd5TGMbV6x+T2cIjnX9p5VLyWh/ins55Cugiu/PBbNJ5YJy29dnPcrQBeFad3F8K92zvJCqfNdYHnwajORkcoiJc9nsDiRjuDYYCXtPxqdc/570tbCKdhQwF7awHJ73kARn/7ZkIHRw96LA1uX76VQ1SNWnNF3NbbFCPF73QXdDKvObiKpD6a+eTfOHGG0OPvuIKNUnOCpoR0Zqo1LA==
+ b=Hr1wTGQOH+yye5pxMKiJ59z5y3LyT8KsoYM6I67VNVJJ4rqs86ZmJaaKFHwT8LsIbIwnD7rWBeGDagqUA9AbPgQqB5AgG1x66F3+bsc6V8jMaUnjEbJBQqaPSo0LlbMd6YgAmvH9VKaSoSXx0AsiOET9huu3IZu7Dbgai7c/ZQ1McC83aA9aCc9sP2KtWgYr2AX4TEnadB86wHGCUR8HRSSbYQc/BaJjO3fBMaqSzaaL9/n1j75XV6SYArY02QdaN9lOhK/QxFfPs3InWPrifsvfJMtNnObpOhp9cr8TLcDb9YrPN5ux7Zn5tFHbLHvs6qIKRZKR/ojHJi33kqTWsg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j5yF22RW/SrZOIWrGxgv6eqD3vJgAmcuK9WMhCuu+6Q=;
- b=PU0WYT7S1tcN8g4t4rjYkoCvltvAKaMOdqKIoeAojNIIjFpajaGwBrHIjOtefsrFpTWsgGBY3S73Y1YMj15ufl7aQrZ2JwpMiT3caaoimccvbhs55C7X9ejVyokDpwegt12CQVwgUeq4hg9YA05vFDJG+YqXmtSHJSfwH7O1jdM8XpQQ/z5MBIp/1JPp6dbOZ5edr5pg+BIR+wJOGwNq/G9ccOTObtrwlNa8b5bl5wyNfAmmK5hdI1kiesN5giYl+o79afTbPBNjJTIJf27XK2mPh9jWMmY3M1uDW4M2bqQ4SFyhQeH1mmTIY6L18cj5RB5VrEnl38Ri+c5mzi9ASw==
+ bh=X/A8ipv6Lf7VuO3oB5cyO3T7DidUjD5L14Pjy0wSW5M=;
+ b=mfccVmbIQTIwc9ngRihgJMfj+xWzvmDbnnukv5uJAgFtwZyj6GNAuM2tLH8zRybPgf8WJYcPNvJqCNHHT+e17fg06zSYY2h4fwI1K+evltOsEw89MtB1Ekwf3oeatwUmiG5NdvB+6Af9c95hvHdZqOAiHaLvF3n01hMUyzCyc3xXmvvPktar7Y8X58TySThMIf81Lwvpa+FRW4/IXv4sX7IAN0a8btxNU/BoMdsP1lXXHoZSF9Q88UA8ZiNxG1VEA3uBYuPaNFZ2k8bFTF/5mRgVThulyplHgeclyIPl/E/WadVckAmXF18Yfu53NAneWTCvDGnekRJ2xL/LffjTdA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  216.228.118.232) smtp.rcpttodomain=nongnu.org smtp.mailfrom=nvidia.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
@@ -33,18 +34,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j5yF22RW/SrZOIWrGxgv6eqD3vJgAmcuK9WMhCuu+6Q=;
- b=lyGyYz8QnEEvL+WcrBJdhWtKY1GqGGJf7fqsl9zHgZ03N/ipFha0C0ojEihgnTwoxOT0AwEU7yaQywLuOG4TVEZWCLaOrvUmqDZxG3vEso/shzyFSTx6+zuEOCMDgjRcNFtFNCKiusDnPWTKefNBV96NZ526M+h2DcpTaDOhqHD1D7dIVvlPxF4jG9pUf7+2PCXThK92lvxeGiPUaJSSYojm/lTrA42Uw4YYQpKxJaiKrF6+2MUibZ5qqd5/s8w0aL3OoGaWcFF9R5DePXDDOUIuIMO6gqiTX8xLG7CCqJvQ2fgQkPdHoLLz0wh0pjRZesUooe3l1WqlEmXF/ym/Qg==
-Received: from MW3PR05CA0008.namprd05.prod.outlook.com (2603:10b6:303:2b::13)
- by PH8PR12MB7303.namprd12.prod.outlook.com (2603:10b6:510:220::16)
- with Microsoft SMTP Server (version=TLS1_2,
+ bh=X/A8ipv6Lf7VuO3oB5cyO3T7DidUjD5L14Pjy0wSW5M=;
+ b=Nn91ga9NSplZUxRgxv+GiNIJhBjA/RrvDqTaaMesdDk6IsMDlHiLxKmkg4giSm0LCsmye5mrQE4ptL/yNCk21RpeMUUeRsr4Md+ICjWiopRjD/v/lkMKqKdbsd229HnT/HobKB9ya/ZfSqRdSsy4iXtfYbN0fzxrhXrCXgZ1pfAf6CXaUjSipcmoUYUS02I8xOkbWXUKBlRaIZPeIwAvwHedtP6m9DX+XIWtaf4aAYuNB970ArLODjdeQu3UObaRPRr35oi4whMKyFK1oyaswXPoXrBjiufvluuEHM41J1xP9OmW8kyXtWs9awQ0e/1Jh+vXLF6tu27iVcoR72v7wQ==
+Received: from DM6PR11CA0044.namprd11.prod.outlook.com (2603:10b6:5:14c::21)
+ by DM6PR12MB4057.namprd12.prod.outlook.com (2603:10b6:5:213::9) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.22; Thu, 26 Jan
- 2023 18:51:12 +0000
-Received: from CO1NAM11FT014.eop-nam11.prod.protection.outlook.com
- (2603:10b6:303:2b:cafe::1a) by MW3PR05CA0008.outlook.office365.com
- (2603:10b6:303:2b::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.22 via Frontend
- Transport; Thu, 26 Jan 2023 18:51:12 +0000
+ 2023 18:51:16 +0000
+Received: from DM6NAM11FT073.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:14c:cafe::86) by DM6PR11CA0044.outlook.office365.com
+ (2603:10b6:5:14c::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.17 via Frontend
+ Transport; Thu, 26 Jan 2023 18:51:16 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
  smtp.mailfrom=nvidia.com;
  dkim=none (message not signed)
@@ -53,20 +54,20 @@ Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
  216.228.118.232 as permitted sender) receiver=protection.outlook.com;
  client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
 Received: from mail.nvidia.com (216.228.118.232) by
- CO1NAM11FT014.mail.protection.outlook.com (10.13.175.99) with Microsoft SMTP
+ DM6NAM11FT073.mail.protection.outlook.com (10.13.173.152) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6043.21 via Frontend Transport; Thu, 26 Jan 2023 18:51:12 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ 15.20.6043.17 via Frontend Transport; Thu, 26 Jan 2023 18:51:16 +0000
+Received: from drhqmail202.nvidia.com (10.126.190.181) by mail.nvidia.com
  (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.986.36; Thu, 26 Jan
- 2023 10:51:01 -0800
+ 2023 10:51:06 -0800
 Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ drhqmail202.nvidia.com (10.126.190.181) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.986.36; Thu, 26 Jan 2023 10:51:01 -0800
+ 15.2.986.36; Thu, 26 Jan 2023 10:51:05 -0800
 Received: from vdi.nvidia.com (10.127.8.9) by mail.nvidia.com (10.126.190.181)
  with Microsoft SMTP Server id 15.2.986.36 via Frontend Transport;
- Thu, 26 Jan 2023 10:50:57 -0800
+ Thu, 26 Jan 2023 10:51:01 -0800
 From: Avihai Horon <avihaih@nvidia.com>
 To: <qemu-devel@nongnu.org>
 CC: Alex Williamson <alex.williamson@redhat.com>, "Michael S. Tsirkin"
@@ -79,10 +80,10 @@ CC: Alex Williamson <alex.williamson@redhat.com>, "Michael S. Tsirkin"
  <jgg@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>, Avihai Horon
  <avihaih@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
  <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: [PATCH 15/18] vfio/common: Support device dirty page tracking with
+Subject: [PATCH 16/18] vfio/common: Optimize device dirty page tracking with
  vIOMMU
-Date: Thu, 26 Jan 2023 20:49:45 +0200
-Message-ID: <20230126184948.10478-16-avihaih@nvidia.com>
+Date: Thu, 26 Jan 2023 20:49:46 +0200
+Message-ID: <20230126184948.10478-17-avihaih@nvidia.com>
 X-Mailer: git-send-email 2.21.3
 In-Reply-To: <20230126184948.10478-1-avihaih@nvidia.com>
 References: <20230126184948.10478-1-avihaih@nvidia.com>
@@ -91,35 +92,35 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1NAM11FT014:EE_|PH8PR12MB7303:EE_
-X-MS-Office365-Filtering-Correlation-Id: 641d6370-0ea1-4936-d4be-08daffce4b79
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT073:EE_|DM6PR12MB4057:EE_
+X-MS-Office365-Filtering-Correlation-Id: 02a72282-4d94-4b9d-398c-08daffce4e3f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: N0BVoAVUQ0xMowC6I9zUg7SIPanvjQtzdXOnGFBy/+GAAKP/Nc0WATpy9N8sKK1vZsD0nuQsy+BcIU2eVlWZqKC5yP6vP9XHGg6AMKCmUEdsO89VIlu1L24jNQdDmN/bNW5+u3A3EPolBLJOo4kd36PdGjxxv6mENKKzdc2YWKVkA0enzOxChQkYY2bjBVMIQYhIeCfCNCidPiQTTME9ePyR5Mq4VaXteiDrY3wxZhRFrPpvtD7iC8iW+O4bmkyGRBanshkW2wzxIaN8gj9jPsjhX2JHzTBufZdcDjTC61Ys9XhQ/Qi+3IrhEgBsyXZX/o9ox7/mc2ysr+R9HwqrnoCnYeTF54xGv8eembN0y3Ro6IbfWHNsceJ04g2U9/PlY/pqAXseJVOz6N/YHj7zfWmBIQsx7HCAhQoeloqEwo54TE2w6qsNSZj9v2MjwxYSwprMC90/nuBM1LJA8636axy73Bw9eHlcvWUkJ3EYYpyGvVbSfwLMQK3glOrjZ6eJI/VKsLyscIoHs2QYvKf8kziBe5tFN3R0BlPz8AtWtA2IfhGSsWpWoJg0znHx4pGQF305oZEki/ZUivjL+6wcw4ocCc/8BtOq7f7mc2YXbDOF6sg53JcXqe3dLwZ4TUi2pkc+df5tVmV1lkqrg+Lsp7KSILHVI964LZuwfpomaKUyRS4T16UARVyvUMTDewaOFIGMIjXSldYUhZbaOd42e5GeI1VOIda6/AHTTRfsVso=
+X-Microsoft-Antispam-Message-Info: ov/HlA/Ia8JrdtuFCiCC2F1TQYMBmz8KzWlbKLoq2Q7H9dtqrfTC9heeWmSYurstHn2fX7EnPPcCY+o0U83vETA8lH9zaBSUI9X6lrBDu4qMPQHDambzKGsFZRq88n+gC3Lac+6fvbqCSaVOk2ZMQ2qDyKbMhltiKC8hB2nUsljzlxL4coL2PkTc2mLyyaIa6mFN20HhhMjPvpuwqb+UUYmqTKOJa9KEf858PvzbzCCihol3DJR87vwbo1bcu7nMjFS6VKk8pYx9/yJI9XWXRXzlAbsvZ3BoC0O7EsCTvXZnQMMki0JJHxEWnMEAsNMov1vb9hthc/EzrhRiyJrAIpvuUHvplwslIX9iWKzjbD7Kab9rDnGuJYuH2M/vaWmELgX+t3oNXTRVMDfOV7vUaCMPxjWsdIkgyKGAWwFOgi2UnG9um1wDxT4RXftWv3rHbyfQAPlLcoZQOfo8lyZm80VNjUQ73nDSGGxeccy32TDPjjdRL6JSDiYKKGNO70jl3HgSw2cTvlJe/lGAzxUehGKwMu1ytvQJ8u7xE4jyihreCmeheM8StaiyzEPbAc5AGdaEVLf+BmJwYJFCkJhlG3aG50QGIGtYywPAK8f+9kocgZh2xIac3fnd9ocefx0BDx0G2n9SamtvL4ukwjpXqkywBBhZr5+mDa0L5gIxeqK3Z/BzjMXDw8bCVHz6oPWWD5sZJjGn6GnxR7XkocvySzIkaV99YsfbRUE0MruXckc=
 X-Forefront-Antispam-Report: CIP:216.228.118.232; CTRY:US; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:mail.nvidia.com; PTR:dc7edge1.nvidia.com; CAT:NONE;
- SFS:(13230025)(4636009)(396003)(376002)(39860400002)(136003)(346002)(451199018)(46966006)(36840700001)(40470700004)(2906002)(426003)(36860700001)(336012)(83380400001)(5660300002)(41300700001)(8936002)(7416002)(8676002)(478600001)(2616005)(1076003)(4326008)(26005)(186003)(6666004)(86362001)(40460700003)(356005)(82740400003)(47076005)(40480700001)(7636003)(70586007)(6916009)(70206006)(36756003)(54906003)(7696005)(82310400005)(316002)(14143004);
+ SFS:(13230025)(4636009)(396003)(346002)(39860400002)(136003)(376002)(451199018)(36840700001)(40470700004)(46966006)(66899018)(47076005)(8676002)(86362001)(36756003)(7696005)(40460700003)(40480700001)(356005)(7636003)(36860700001)(426003)(2616005)(26005)(336012)(83380400001)(82310400005)(186003)(5660300002)(478600001)(7416002)(6666004)(316002)(54906003)(1076003)(82740400003)(70206006)(70586007)(41300700001)(8936002)(6916009)(2906002)(4326008)(14143004);
  DIR:OUT; SFP:1101; 
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2023 18:51:12.0030 (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 641d6370-0ea1-4936-d4be-08daffce4b79
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2023 18:51:16.6208 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 02a72282-4d94-4b9d-398c-08daffce4e3f
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a; Ip=[216.228.118.232];
  Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource: CO1NAM11FT014.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT073.eop-nam11.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7303
-Received-SPF: softfail client-ip=40.107.93.58; envelope-from=avihaih@nvidia.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB4057
+Received-SPF: softfail client-ip=2a01:111:f400:7ea9::60a;
+ envelope-from=avihaih@nvidia.com;
+ helo=NAM02-SN1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -135,272 +136,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Currently, device dirty page tracking with vIOMMU is not supported - RAM
-pages are perpetually marked dirty in this case.
+When vIOMMU is enabled, syncing dirty page bitmaps is done by replaying
+the vIOMMU mappings and querying the dirty bitmap for each mapping.
 
-When vIOMMU is used, IOVA ranges are DMA mapped/unmapped on the fly as
-the vIOMMU maps/unmaps them. These IOVA ranges can potentially be mapped
-anywhere in the vIOMMU IOVA space.
+With device dirty tracking this causes a lot of overhead, since the HW
+is queried many times (even with small idle guest this can end up with
+thousands of calls to HW).
 
-Due to this dynamic nature of vIOMMU mapping/unmapping, tracking only
-the currently mapped IOVA ranges, as done in the non-vIOMMU case,
-doesn't work very well.
-
-Instead, to support device dirty tracking when vIOMMU is enabled, track
-the entire vIOMMU IOVA space. If that fails (IOVA space can be rather
-big and we might hit HW limitation), try tracking smaller range while
-marking untracked ranges dirty.
+Optimize this by de-coupling dirty bitmap query from vIOMMU replay.
+Now a single dirty bitmap is queried per vIOMMU MR section, which is
+then used for all corresponding vIOMMU mappings within that MR section.
 
 Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 ---
- include/hw/vfio/vfio-common.h |   2 +
- hw/vfio/common.c              | 153 ++++++++++++++++++++++++++++++----
- 2 files changed, 138 insertions(+), 17 deletions(-)
+ hw/vfio/common.c | 85 ++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 83 insertions(+), 2 deletions(-)
 
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index cde6ffb9d6..15109c311d 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -97,6 +97,8 @@ typedef struct VFIOContainer {
-     unsigned int dma_max_mappings;
-     IOVATree *mappings;
-     QemuMutex mappings_mutex;
-+    /* Represents the range [0, giommu_tracked_range) not inclusive */
-+    hwaddr giommu_tracked_range;
-     QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
-     QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
-     QLIST_HEAD(, VFIOGroup) group_list;
 diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 9792c2c935..c3a27cbbd5 100644
+index c3a27cbbd5..4f27cd669f 100644
 --- a/hw/vfio/common.c
 +++ b/hw/vfio/common.c
-@@ -44,6 +44,8 @@
- #include "migration/qemu-file.h"
- #include "sysemu/tpm.h"
- #include "qemu/iova-tree.h"
-+#include "hw/boards.h"
-+#include "hw/mem/memory-device.h"
+@@ -1848,8 +1848,42 @@ out:
+ typedef struct {
+     IOMMUNotifier n;
+     VFIOGuestIOMMU *giommu;
++    VFIOBitmap *vbmap;
+ } vfio_giommu_dirty_notifier;
  
- VFIOGroupList vfio_group_list =
-     QLIST_HEAD_INITIALIZER(vfio_group_list);
-@@ -377,6 +379,38 @@ bool vfio_mig_active(void)
-     return true;
- }
- 
-+static uint64_t vfio_get_ram_size(void)
++static int vfio_iommu_set_dirty_bitmap(VFIOContainer *container,
++                                       vfio_giommu_dirty_notifier *gdn,
++                                       hwaddr iova, hwaddr size,
++                                       ram_addr_t ram_addr)
 +{
-+    MachineState *ms = MACHINE(qdev_get_machine());
-+    uint64_t plugged_size;
++    VFIOBitmap *vbmap = gdn->vbmap;
++    VFIOBitmap *dst_vbmap;
++    hwaddr start_iova = REAL_HOST_PAGE_ALIGN(gdn->n.start);
++    hwaddr copy_offset;
 +
-+    plugged_size = get_plugged_memory_size();
-+    if (plugged_size == (uint64_t)-1) {
-+        plugged_size = 0;
++    dst_vbmap = vfio_bitmap_alloc(size);
++    if (!dst_vbmap) {
++        return -errno;
 +    }
 +
-+    return ms->ram_size + plugged_size;
-+}
++    if (!vfio_iommu_range_is_device_tracked(container, iova, size)) {
++        bitmap_set(dst_vbmap->bitmap, 0, dst_vbmap->pages);
 +
-+static int vfio_giommu_get_max_iova(VFIOContainer *container, hwaddr *max_iova)
-+{
-+    VFIOGuestIOMMU *giommu;
-+    int ret;
-+
-+    giommu = QLIST_FIRST(&container->giommu_list);
-+    if (!giommu) {
-+        return -ENOENT;
++        goto out;
 +    }
 +
-+    ret = memory_region_iommu_get_attr(giommu->iommu_mr, IOMMU_ATTR_MAX_IOVA,
-+                                       max_iova);
-+    if (ret) {
-+        return ret;
-+    }
++    copy_offset = (iova - start_iova) / qemu_real_host_page_size();
++    bitmap_copy_with_src_offset(dst_vbmap->bitmap, vbmap->bitmap, copy_offset,
++                                dst_vbmap->pages);
++
++out:
++    cpu_physical_memory_set_dirty_lebitmap(dst_vbmap->bitmap, ram_addr,
++                                           dst_vbmap->pages);
++    vfio_bitmap_dealloc(dst_vbmap);
 +
 +    return 0;
 +}
 +
- static bool vfio_have_giommu(VFIOContainer *container)
+ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
  {
-     return !QLIST_EMPTY(&container->giommu_list);
-@@ -1456,7 +1490,8 @@ static gboolean vfio_iova_tree_get_last(DMAMap *map, gpointer data)
- }
+     vfio_giommu_dirty_notifier *gdn = container_of(n,
+@@ -1870,8 +1904,15 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
  
- static struct vfio_device_feature *
--vfio_device_feature_dma_logging_start_create(VFIOContainer *container)
-+vfio_device_feature_dma_logging_start_create(VFIOContainer *container,
-+                                             bool giommu)
- {
-     struct vfio_device_feature *feature;
-     size_t feature_size;
-@@ -1475,6 +1510,16 @@ vfio_device_feature_dma_logging_start_create(VFIOContainer *container)
-     control = (struct vfio_device_feature_dma_logging_control *)feature->data;
-     control->page_size = qemu_real_host_page_size();
- 
-+    if (giommu) {
-+        ranges = g_malloc0(sizeof(*ranges));
-+        ranges->iova = 0;
-+        ranges->length = container->giommu_tracked_range;
-+        control->num_ranges = 1;
-+        control->ranges = (uint64_t)ranges;
-+
-+        return feature;
-+    }
-+
-     QEMU_LOCK_GUARD(&container->mappings_mutex);
- 
-     /*
-@@ -1524,12 +1569,12 @@ static void vfio_device_feature_dma_logging_start_destroy(
-     g_free(feature);
- }
- 
--static int vfio_devices_dma_logging_start(VFIOContainer *container)
-+static int vfio_devices_dma_logging_start(VFIOContainer *container, bool giommu)
- {
-     struct vfio_device_feature *feature;
-     int ret;
- 
--    feature = vfio_device_feature_dma_logging_start_create(container);
-+    feature = vfio_device_feature_dma_logging_start_create(container, giommu);
-     if (!feature) {
-         return -errno;
-     }
-@@ -1544,18 +1589,85 @@ static int vfio_devices_dma_logging_start(VFIOContainer *container)
-     return ret;
- }
- 
-+/*
-+ * This value is used in the second attempt to start device dirty tracking with
-+ * vIOMMU, if the first attempt fails. It should be in the middle, not too big
-+ * and not too small, allowing devices with HW limitations to do device dirty
-+ * tracking while covering a fair amount of the IOVA space.
-+ *
-+ * This arbitrary value was chosen becasue it is the minimum value of Intel
-+ * IOMMU max IOVA and mlx5 device supports tracking a range of this size.
-+ */
-+#define VFIO_GIOMMU_RETRY_IOVA ((1ULL << 39) - 1)
-+
-+#define VFIO_GIOMMU_RETRY_COUNT 3
-+static int vfio_devices_start_dirty_page_tracking(VFIOContainer *container)
-+{
-+    hwaddr giommu_max_iova, iova_size, iova_retry_size, ram_size;
-+    hwaddr iova_to_track[VFIO_GIOMMU_RETRY_COUNT] = {};
-+    int ret;
-+    int i;
-+
-+    if (!vfio_have_giommu(container)) {
-+        return vfio_devices_dma_logging_start(container, false);
-+    }
-+
-+    /*
-+     * With vIOMMU we try to track the entire IOVA space. As the IOVA space can
-+     * be rather big, devices might not be able to track it due to HW
-+     * limitations. Therefore, retry tracking smaller ranges as follows:
-+     * (1) Retry tracking a smaller part of the IOVA space.
-+     * (2) Retry tracking a range in the size of the physical memory.
-+     * (3) If all fail, give up.
-+     */
-+    ret = vfio_giommu_get_max_iova(container, &giommu_max_iova);
-+    if (!ret && !REAL_HOST_PAGE_ALIGN(giommu_max_iova)) {
-+        giommu_max_iova -= qemu_real_host_page_size();
-+    }
-+
-+    iova_size = ret ? 0 : giommu_max_iova;
-+    iova_retry_size = iova_size ? MIN(VFIO_GIOMMU_RETRY_IOVA, iova_size / 2) :
-+                                  VFIO_GIOMMU_RETRY_IOVA;
-+    ram_size = vfio_get_ram_size();
-+
-+    iova_to_track[0] = REAL_HOST_PAGE_ALIGN(iova_size);
-+    iova_to_track[1] = REAL_HOST_PAGE_ALIGN(iova_retry_size);
-+    iova_to_track[2] = REAL_HOST_PAGE_ALIGN(MIN(ram_size, iova_retry_size / 2));
-+
-+    for (i = 0; i < VFIO_GIOMMU_RETRY_COUNT; i++) {
-+        if (!iova_to_track[i]) {
-+            continue;
-+        }
-+
-+        container->giommu_tracked_range = iova_to_track[i];
-+        ret = vfio_devices_dma_logging_start(container, true);
-+        if (!ret) {
-+            break;
-+        }
-+
-+        if (i < VFIO_GIOMMU_RETRY_COUNT - 1) {
-+            warn_report("Failed to start device dirty tracking with vIOMMU "
-+                        "with range of size 0x%" HWADDR_PRIx
-+                        ", err: %d. Retrying with range "
-+                        "of size 0x%" HWADDR_PRIx,
-+                        iova_to_track[i], ret, iova_to_track[i + 1]);
+     rcu_read_lock();
+     if (vfio_get_xlat_addr(iotlb, NULL, &translated_addr, NULL)) {
+-        ret = vfio_get_dirty_bitmap(container, iova, iotlb->addr_mask + 1,
+-                                    translated_addr);
++        if (gdn->vbmap) {
++            ret = vfio_iommu_set_dirty_bitmap(container, gdn, iova,
++                                              iotlb->addr_mask + 1,
++                                              translated_addr);
 +        } else {
-+            error_report("Failed to start device dirty tracking with vIOMMU "
-+                         "with range of size 0x%" HWADDR_PRIx ", err: %d",
-+                         iova_to_track[i], ret);
++            ret = vfio_get_dirty_bitmap(container, iova, iotlb->addr_mask + 1,
++                                        translated_addr);
 +        }
++
+         if (ret) {
+             error_report("vfio_iommu_map_dirty_notify(%p, 0x%"HWADDR_PRIx", "
+                          "0x%"HWADDR_PRIx") = %d (%s)",
+@@ -1935,6 +1976,7 @@ static int vfio_sync_iommu_dirty_bitmap(VFIOContainer *container,
+ {
+     VFIOGuestIOMMU *giommu;
+     bool found = false;
++    VFIOBitmap *vbmap = NULL;
+     Int128 llend;
+     vfio_giommu_dirty_notifier gdn;
+     int idx;
+@@ -1952,6 +1994,7 @@ static int vfio_sync_iommu_dirty_bitmap(VFIOContainer *container,
+     }
+ 
+     gdn.giommu = giommu;
++    gdn.vbmap = NULL;
+     idx = memory_region_iommu_attrs_to_index(giommu->iommu_mr,
+                                              MEMTXATTRS_UNSPECIFIED);
+ 
+@@ -1959,11 +2002,49 @@ static int vfio_sync_iommu_dirty_bitmap(VFIOContainer *container,
+                        section->size);
+     llend = int128_sub(llend, int128_one());
+ 
++    /*
++     * Optimize device dirty tracking if the MR section is at least partially
++     * tracked. Optimization is done by querying a single dirty bitmap for the
++     * entire range instead of querying dirty bitmap for each vIOMMU mapping.
++     */
++    if (vfio_devices_all_device_dirty_tracking(container)) {
++        hwaddr start = REAL_HOST_PAGE_ALIGN(section->offset_within_region);
++        hwaddr end = int128_get64(llend);
++        hwaddr size;
++        int ret;
++
++        if (start >= container->giommu_tracked_range) {
++            goto notifier_init;
++        }
++
++        size = REAL_HOST_PAGE_ALIGN(
++            MIN(container->giommu_tracked_range - 1, end) - start);
++
++        vbmap = vfio_bitmap_alloc(size);
++        if (!vbmap) {
++            return -errno;
++        }
++
++        ret = vfio_devices_query_dirty_bitmap(container, vbmap, start, size);
++        if (ret) {
++            vfio_bitmap_dealloc(vbmap);
++
++            return ret;
++        }
++
++        gdn.vbmap = vbmap;
 +    }
 +
-+    return ret;
-+}
++notifier_init:
+     iommu_notifier_init(&gdn.n, vfio_iommu_map_dirty_notify, IOMMU_NOTIFIER_MAP,
+                         section->offset_within_region, int128_get64(llend),
+                         idx);
+     memory_region_iommu_replay(giommu->iommu_mr, &gdn.n);
+ 
++    if (vbmap) {
++        vfio_bitmap_dealloc(vbmap);
++    }
 +
- static void vfio_listener_log_global_start(MemoryListener *listener)
- {
-     VFIOContainer *container = container_of(listener, VFIOContainer, listener);
-     int ret;
- 
-     if (vfio_devices_all_device_dirty_tracking(container)) {
--        if (vfio_have_giommu(container)) {
--            /* Device dirty page tracking currently doesn't support vIOMMU */
--            return;
--        }
--
--        ret = vfio_devices_dma_logging_start(container);
-+        ret = vfio_devices_start_dirty_page_tracking(container);
-     } else {
-         ret = vfio_set_dirty_page_tracking(container, true);
-     }
-@@ -1573,11 +1685,6 @@ static void vfio_listener_log_global_stop(MemoryListener *listener)
-     int ret;
- 
-     if (vfio_devices_all_device_dirty_tracking(container)) {
--        if (vfio_have_giommu(container)) {
--            /* Device dirty page tracking currently doesn't support vIOMMU */
--            return;
--        }
--
-         ret = vfio_devices_dma_logging_stop(container);
-     } else {
-         ret = vfio_set_dirty_page_tracking(container, false);
-@@ -1616,6 +1723,17 @@ static int vfio_device_dma_logging_report(VFIODevice *vbasedev, hwaddr iova,
      return 0;
  }
  
-+static bool vfio_iommu_range_is_device_tracked(VFIOContainer *container,
-+                                               hwaddr iova, hwaddr size)
-+{
-+    /* Check overflow */
-+    if (iova + size < iova) {
-+        return false;
-+    }
-+
-+    return iova + size <= container->giommu_tracked_range;
-+}
-+
- static int vfio_devices_query_dirty_bitmap(VFIOContainer *container,
-                                            VFIOBitmap *vbmap, hwaddr iova,
-                                            hwaddr size)
-@@ -1625,10 +1743,11 @@ static int vfio_devices_query_dirty_bitmap(VFIOContainer *container,
-     int ret;
- 
-     if (vfio_have_giommu(container)) {
--        /* Device dirty page tracking currently doesn't support vIOMMU */
--        bitmap_set(vbmap->bitmap, 0, vbmap->pages);
-+        if (!vfio_iommu_range_is_device_tracked(container, iova, size)) {
-+            bitmap_set(vbmap->bitmap, 0, vbmap->pages);
- 
--        return 0;
-+            return 0;
-+        }
-     }
- 
-     QLIST_FOREACH(group, &container->group_list, container_next) {
 -- 
 2.26.3
 
