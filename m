@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D71A67C9CE
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 12:25:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F46A67C9F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 12:32:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL0LW-0002yJ-SR; Thu, 26 Jan 2023 06:23:10 -0500
+	id 1pL0UF-000589-8D; Thu, 26 Jan 2023 06:32:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pL0LS-0002jI-Hc
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:23:06 -0500
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ id 1pL0U8-0004dt-Hc
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:32:04 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pL0LQ-00044a-DG
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:23:06 -0500
-Received: by mail-wm1-x334.google.com with SMTP id
- l41-20020a05600c1d2900b003daf986faaeso892472wms.3
- for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 03:23:03 -0800 (PST)
+ id 1pL0U6-0007oN-0J
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:32:03 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ m5-20020a05600c4f4500b003db03b2559eso905085wmq.5
+ for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 03:32:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=SSF1EEW5P8K/ZY5KGpCY9LUtrhXdSdbhv1qq20jYFBc=;
- b=EPpwEbYH1ukoq2zOoXwFTYhPtGxnyD5BSpIUk+vtHisbiITJQfjnte+21i5SkeOi3I
- ApZSvEMsbe7CVHPIw9PpkuIJbr9G02lvFBRAfQnlmVY3AJd27NlOVUfIKqLzMMtmcuIp
- iaqYrxLULGyn0pG45dEdOnqWg1wOV7sqtiRNIByrJK2xPqCp2niIdR6WnFk/qn8POTVX
- A6HP0wsAfDgk+mvsxgF/p+QS2BEib4L2ksiJ0aEHjiZuGEDxhNZm7up/Gm0QLukaYYgC
- 6fXIPlkbk/TD/2SM6NDD0do99i2MZvPiqlv+9DWgYTck/txOZQ2LeOGx6d4cmFutfcu4
- eUvg==
+ bh=yNzmMM0/3BQDahEZFPzAsDhN6zKpXbSxcLNK930hAI4=;
+ b=prSANjbgBfQCY52O/+e13tQUPttSm96susxd9wAfyNTzQ8As5ZaaKPWMQY1ovHB1i+
+ U50R7MG4R5+p5MAXWSm4x2yAQqidq+l/T0rdut52Y9g1WTluKPCFrVqQTykQrXLklXbB
+ yssdPak2r3yQmbYIKGP/NTnidMpPrd+9mbpAt6ju1uZWeYFxpdrQioe0oc/fTRStW3Mn
+ eMq2nfpg4uqS5eV1DVi4O6EhbPgTy+OXlzIkbLIX6WMfsxEF+A6igEPfR7pRXEFe0LC9
+ TNGHlBC71g23eyIfNfPiHGZqva8dyxBmX78yQ7yiSS4nE2g1vvBrTPnJIxSQ6eeq5YlR
+ eFgA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=SSF1EEW5P8K/ZY5KGpCY9LUtrhXdSdbhv1qq20jYFBc=;
- b=JISHoMuDx+DqraCB63I2Kqmh9M5aqVkaBNuxNmaLFUm2H6AQpbyTNhlCOiXlj8gv4j
- 8WESH4lMqC27a3nQ+DCuSPlgEU2/qO/0KSWrIP/Y5G+7OQ7UJMlW8jaDTg3zPA2fBVs2
- urRt8osJDF1ynhbWFXZFP27kwMlFaSxDI3XtDH6FS5SkyJAK8O/hR5fkcQ7CeJ/94CxC
- w/P9ggRf3ZR/BFPeP9wfcwZ6sKh+cT4zZdV/Buc+bXopU75D+56zfkNlYD+HIwj4Pm3H
- qQ8Utk41/v7ZEC3i596RpYwE4YMo5GgOKxwOi9SFb7esUqxRU2MlhiEUteCoye74Zdnf
- zZdg==
-X-Gm-Message-State: AFqh2krdRXWdYjJbiRb6BMdi4JrUzbajyBpLI8O/bbisgU+RS1ejECZg
- 1HJqyK+vK4T2LvgPWJ238k/7jzPN/NSM7oZq
-X-Google-Smtp-Source: AMrXdXsX5hxGi4palg8/mS02X0ktiUVNO7rICYnpcwfNs/ozAZDZSu9MFYKGEpjoFJUttwn92c2MVw==
-X-Received: by 2002:a05:600c:3d98:b0:3d6:ecc4:6279 with SMTP id
- bi24-20020a05600c3d9800b003d6ecc46279mr32010331wmb.27.1674732182707; 
- Thu, 26 Jan 2023 03:23:02 -0800 (PST)
+ bh=yNzmMM0/3BQDahEZFPzAsDhN6zKpXbSxcLNK930hAI4=;
+ b=tgq2OTKLkPWtlzZv7cjqLJnoZTs5elimd4yO4JjWm5V4ZbD7K2AM99oXycHORtxiCk
+ Suow/E9LmL7Rvusc5ueYgQTpPAtbfgUsoeKJfc1sziHXcvSQmwn7dLd+Wr0MfHRKRJBH
+ DMBRMjVQhJC6fOXF98oBuSshJGgHisNrF4453p30Vm/hKeI9moh2jht1czjRpA+n8KF/
+ H33gPn/RArFkCg1cor3q3oEygV/zp8dxfxaEAvrz2yUIlYI5ocDvN5xlIcWpqnYUuFYb
+ IUEehMhRn0jMIkwsC5ypWcBoo0YHA2gx/FQ4GSpM9CsNr3Fja50dv07+qvkZ7IR0QG5N
+ 1C3w==
+X-Gm-Message-State: AO0yUKVqqqTomXgG6oCjq1Ludyx8K+pRUDx5UNf+P6R+YyO73w+i83A7
+ p1FwCJLdqyK3jtTa1l9kOEXilA==
+X-Google-Smtp-Source: AK7set+K4ow++v9TEv3NzI7DG503Z1/gEby5nW1U+m0OiBMItwaE12XshI/1bNgW4yOPOy7zLmQJJg==
+X-Received: by 2002:a05:600c:310c:b0:3dc:18de:b20d with SMTP id
+ g12-20020a05600c310c00b003dc18deb20dmr7311976wmo.33.1674732719895; 
+ Thu, 26 Jan 2023 03:31:59 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- n24-20020a7bcbd8000000b003daf7721bb3sm4156811wmi.12.2023.01.26.03.22.57
+ h17-20020a05600c415100b003da2932bde0sm1483128wmm.23.2023.01.26.03.31.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 03:23:01 -0800 (PST)
+ Thu, 26 Jan 2023 03:31:59 -0800 (PST)
 Received: from zen.lan (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id B67971FFBE;
- Thu, 26 Jan 2023 11:22:56 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 090091FFC5;
+ Thu, 26 Jan 2023 11:22:57 +0000 (GMT)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
  =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Alexandre Iooss <erdnaxe@crans.org>,
- Mahmoud Mandour <ma.mandourr@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 20/35] docs: add a new section to outline emulation support
-Date: Thu, 26 Jan 2023 11:22:35 +0000
-Message-Id: <20230126112250.2584701-21-alex.bennee@linaro.org>
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 21/35] semihosting: add semihosting section to the docs
+Date: Thu, 26 Jan 2023 11:22:36 +0000
+Message-Id: <20230126112250.2584701-22-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230126112250.2584701-1-alex.bennee@linaro.org>
 References: <20230126112250.2584701-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::334;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x334.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -99,157 +96,162 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This affects both system and user mode emulation so we should probably
-list it up front.
+The main reason to do this is to document our O_BINARY implementation
+decision somewhere. However I've also moved some of the implementation
+details out of qemu-options and added links between the two. As a
+bonus I've highlighted the scary warnings about host access with the
+appropriate RST tags.
 
 Acked-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20230124180127.1881110-21-alex.bennee@linaro.org>
+Message-Id: <20230124180127.1881110-22-alex.bennee@linaro.org>
 
 diff --git a/docs/about/emulation.rst b/docs/about/emulation.rst
-new file mode 100644
-index 0000000000..7ec7e09381
---- /dev/null
+index 7ec7e09381..635b085732 100644
+--- a/docs/about/emulation.rst
 +++ b/docs/about/emulation.rst
-@@ -0,0 +1,103 @@
-+Emulation
-+=========
+@@ -101,3 +101,92 @@ depending on the guest architecture.
+ 
+ A number of features are are only available when running under
+ emulation including :ref:`Record/Replay<replay>` and :ref:`TCG Plugins`.
 +
-+QEMU's Tiny Code Generator (TCG) provides the ability to emulate a
-+number of CPU architectures on any supported host platform. Both
-+:ref:`System Emulation` and :ref:`User Mode Emulation` are supported
-+depending on the guest architecture.
++.. _Semihosting:
 +
-+.. list-table:: Supported Guest Architectures for Emulation
-+  :widths: 30 10 10 50
++Semihosting
++-----------
++
++Semihosting is a feature defined by the owner of the architecture to
++allow programs to interact with a debugging host system. On real
++hardware this is usually provided by an In-circuit emulator (ICE)
++hooked directly to the board. QEMU's implementation allows for
++semihosting calls to be passed to the host system or via the
++``gdbstub``.
++
++Generally semihosting makes it easier to bring up low level code before a
++more fully functional operating system has been enabled. On QEMU it
++also allows for embedded micro-controller code which typically doesn't
++have a full libc to be run as "bare-metal" code under QEMU's user-mode
++emulation. It is also useful for writing test cases and indeed a
++number of compiler suites as well as QEMU itself use semihosting calls
++to exit test code while reporting the success state.
++
++Semihosting is only available using TCG emulation. This is because the
++instructions to trigger a semihosting call are typically reserved
++causing most hypervisors to trap and fault on them.
++
++.. warning::
++   Semihosting inherently bypasses any isolation there may be between
++   the guest and the host. As a result a program using semihosting can
++   happily trash your host system. You should only ever run trusted
++   code with semihosting enabled.
++
++Redirection
++~~~~~~~~~~~
++
++Semihosting calls can be re-directed to a (potentially remote) gdb
++during debugging via the :ref:`gdbstub<GDB usage>`. Output to the
++semihosting console is configured as a ``chardev`` so can be
++redirected to a file, pipe or socket like any other ``chardev``
++device.
++
++See :ref:`Semihosting Options<Semihosting Options>` for details.
++
++Supported Targets
++~~~~~~~~~~~~~~~~~
++
++Most targets offer similar semihosting implementations with some
++minor changes to define the appropriate instruction to encode the
++semihosting call and which registers hold the parameters. They tend to
++presents a simple POSIX-like API which allows your program to read and
++write files, access the console and some other basic interactions.
++
++For full details of the ABI for a particular target, and the set of
++calls it provides, you should consult the semihosting specification
++for that architecture.
++
++.. note::
++   QEMU makes an implementation decision to implement all file
++   access in ``O_BINARY`` mode. The user-visible effect of this is
++   regardless of the text/binary mode the program sets QEMU will
++   always select a binary mode ensuring no line-terminator conversion
++   is performed on input or output. This is because gdb semihosting
++   support doesn't make the distinction between the modes and
++   magically processing line endings can be confusing.
++
++.. list-table:: Guest Architectures supporting Semihosting
++  :widths: 10 10 80
 +  :header-rows: 1
 +
-+  * - Architecture (qemu name)
-+    - System
-+    - User
-+    - Notes
-+  * - Alpha
-+    - Yes
-+    - Yes
-+    - Legacy 64 bit RISC ISA developed by DEC
-+  * - Arm (arm, aarch64)
-+    - :ref:`Yes<ARM-System-emulator>`
-+    - Yes
-+    - Wide range of features, see :ref:`Arm Emulation` for details
-+  * - AVR
-+    - :ref:`Yes<AVR-System-emulator>`
-+    - No
-+    - 8 bit micro controller, often used in maker projects
-+  * - Cris
-+    - Yes
-+    - Yes
-+    - Embedded RISC chip developed by AXIS
-+  * - Hexagon
-+    - No
-+    - Yes
-+    - Family of DSPs by Qualcomm
-+  * - PA-RISC (hppa)
-+    - Yes
-+    - Yes
-+    - A legacy RISC system used in HP's old minicomputers
-+  * - x86 (i386, x86_64)
-+    - :ref:`Yes<QEMU-PC-System-emulator>`
-+    - Yes
-+    - The ubiquitous desktop PC CPU architecture, 32 and 64 bit.
-+  * - Loongarch
-+    - Yes
-+    - Yes
-+    - A MIPS-like 64bit RISC architecture developed in China
++  * - Architecture
++    - Modes
++    - Specification
++  * - Arm
++    - System and User-mode
++    - https://github.com/ARM-software/abi-aa/blob/main/semihosting/semihosting.rst
 +  * - m68k
-+    - :ref:`Yes<ColdFire-System-emulator>`
-+    - Yes
-+    - Motorola 68000 variants and ColdFire
-+  * - Microblaze
-+    - Yes
-+    - Yes
-+    - RISC based soft-core by Xilinx
-+  * - MIPS (mips*)
-+    - :ref:`Yes<MIPS-System-emulator>`
-+    - Yes
-+    - Venerable RISC architecture originally out of Stanford University
-+  * - Nios2
-+    - Yes
-+    - Yes
-+    - 32 bit embedded soft-core by Altera
-+  * - OpenRISC
-+    - :ref:`Yes<OpenRISC-System-emulator>`
-+    - Yes
-+    - Open source RISC architecture developed by the OpenRISC community
-+  * - Power (ppc, ppc64)
-+    - :ref:`Yes<PowerPC-System-emulator>`
-+    - Yes
-+    - A general purpose RISC architecture now managed by IBM
++    - System
++    - https://sourceware.org/git/?p=newlib-cygwin.git;a=blob;f=libgloss/m68k/m68k-semi.txt;hb=HEAD
++  * - MIPS
++    - System
++    - Unified Hosting Interface (MD01069)
++  * - Nios II
++    - System
++    - https://sourceware.org/git/gitweb.cgi?p=newlib-cygwin.git;a=blob;f=libgloss/nios2/nios2-semi.txt;hb=HEAD
 +  * - RISC-V
-+    - :ref:`Yes<RISC-V-System-emulator>`
-+    - Yes
-+    - An open standard RISC ISA maintained by RISC-V International
-+  * - RX
-+    - :ref:`Yes<RX-System-emulator>`
-+    - No
-+    - A 32 bit micro controller developed by Renesas
-+  * - s390x
-+    - :ref:`Yes<s390x-System-emulator>`
-+    - Yes
-+    - A 64 bit CPU found in IBM's System Z mainframes
-+  * - sh4
-+    - Yes
-+    - Yes
-+    - A 32 bit RISC embedded CPU developed by Hitachi
-+  * - SPARC (sparc, sparc64)
-+    - :ref:`Yes<Sparc32-System-emulator>`
-+    - Yes
-+    - A RISC ISA originally developed by Sun Microsystems
-+  * - Tricore
-+    - Yes
-+    - No
-+    - A 32 bit RISC/uController/DSP developed by Infineon
++    - System and User-mode
++    - https://github.com/riscv/riscv-semihosting-spec/blob/main/riscv-semihosting-spec.adoc
 +  * - Xtensa
-+    - :ref:`Yes<Xtensa-System-emulator>`
-+    - Yes
-+    - A configurable 32 bit soft core now owned by Cadence
++    - System
++    - Tensilica ISS SIMCALL
+diff --git a/qemu-options.hx b/qemu-options.hx
+index d59d19704b..4508a00c59 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -4633,10 +4633,13 @@ DEF("semihosting", 0, QEMU_OPTION_semihosting,
+     QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
+ SRST
+ ``-semihosting``
+-    Enable semihosting mode (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V only).
++    Enable :ref:`Semihosting` mode (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V only).
+ 
+-    Note that this allows guest direct access to the host filesystem, so
+-    should only be used with a trusted guest OS.
++    .. warning::
++      Note that this allows guest direct access to the host filesystem, so
++      should only be used with a trusted guest OS.
 +
-+A number of features are are only available when running under
-+emulation including :ref:`Record/Replay<replay>` and :ref:`TCG Plugins`.
-diff --git a/docs/about/index.rst b/docs/about/index.rst
-index bae1309cc6..b00b584b31 100644
---- a/docs/about/index.rst
-+++ b/docs/about/index.rst
-@@ -23,6 +23,7 @@ allows you to create, convert and modify disk images.
-    :maxdepth: 2
++    .. _Semihosting Options:
  
-    build-platforms
-+   emulation
-    deprecated
-    removed-features
-    license
-diff --git a/docs/devel/tcg-plugins.rst b/docs/devel/tcg-plugins.rst
-index 9740a70406..81dcd43a61 100644
---- a/docs/devel/tcg-plugins.rst
-+++ b/docs/devel/tcg-plugins.rst
-@@ -3,6 +3,8 @@
-    Copyright (c) 2019, Linaro Limited
-    Written by Emilio Cota and Alex Bennée
+     See the -semihosting-config option documentation for further
+     information about the facilities this enables.
+@@ -4648,22 +4651,12 @@ QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA |
+ QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2 | QEMU_ARCH_RISCV)
+ SRST
+ ``-semihosting-config [enable=on|off][,target=native|gdb|auto][,chardev=id][,userspace=on|off][,arg=str[,...]]``
+-    Enable and configure semihosting (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V
++    Enable and configure :ref:`Semihosting` (ARM, M68K, Xtensa, MIPS, Nios II, RISC-V
+     only).
  
-+.. _TCG Plugins:
-+
- QEMU TCG Plugins
- ================
+-    Note that this allows guest direct access to the host filesystem, so
+-    should only be used with a trusted guest OS.
+-
+-    On Arm this implements the standard semihosting API, version 2.0.
+-
+-    On M68K this implements the "ColdFire GDB" interface used by
+-    libgloss.
+-
+-    Xtensa semihosting provides basic file IO calls, such as
+-    open/read/write/seek/select. Tensilica baremetal libc for ISS and
+-    linux platform "sim" use this interface.
+-
+-    On RISC-V this implements the standard semihosting API, version 0.2.
++    .. warning::
++      Note that this allows guest direct access to the host filesystem, so
++      should only be used with a trusted guest OS.
  
-diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
-index b33d7c28dc..b87e064d9d 100644
---- a/docs/system/arm/emulation.rst
-+++ b/docs/system/arm/emulation.rst
-@@ -1,3 +1,5 @@
-+.. _Arm Emulation:
-+
- A-profile CPU architecture support
- ==================================
- 
+     ``target=native|gdb|auto``
+         Defines where the semihosting calls will be addressed, to QEMU
 -- 
 2.34.1
 
