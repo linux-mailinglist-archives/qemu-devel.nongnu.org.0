@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F18267D792
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 22:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7790A67D788
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 22:19:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL9dP-000868-FR; Thu, 26 Jan 2023 16:18:15 -0500
+	id 1pL9dK-000815-W0; Thu, 26 Jan 2023 16:18:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pL9d7-0007wW-4c; Thu, 26 Jan 2023 16:17:57 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ id 1pL9d8-0007x5-1U; Thu, 26 Jan 2023 16:17:58 -0500
+Received: from mail-ej1-x633.google.com ([2a00:1450:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pL9d5-0007jF-Lo; Thu, 26 Jan 2023 16:17:56 -0500
-Received: by mail-ed1-x531.google.com with SMTP id w11so3143875edv.0;
- Thu, 26 Jan 2023 13:17:54 -0800 (PST)
+ id 1pL9d6-0007jX-FH; Thu, 26 Jan 2023 16:17:57 -0500
+Received: by mail-ej1-x633.google.com with SMTP id v6so8638139ejg.6;
+ Thu, 26 Jan 2023 13:17:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fGhWaMW25bDreQ5GS2SvNFJnZIg8Fsu2CnnXot6JUbI=;
- b=OsA2JAo06+Z6ba8ZsjiIInnSNpgVpyEIv2tzf5Z47/YXb+iOsU7WsUHWreTB0h+iXK
- NHLnF8478edYfjCylnwDk7mGkk0ZW0/QPat2Bav7aw8zQncEup8MZ/L0ZUduuaou0d40
- MZBCLDY1pVtyJptAliEC+xucUQEUd4Nbqz1YkkDKoMZiqgvIF22l2oViHYrt3b9Dycb0
- jv+GnpuTLBPEoq/hQUhR2PwGcuGqoSo8Z445gjeSebccDjAMdUkUMJqeh7ZhQiV3o2cn
- ujGd3VtlhYY6AldGWiV3XQ+PTW+wxMeXb/H2a5/DMnzy+rtZkRsHfYv0Xu8I17zFpCKs
- bIPw==
+ bh=o8JuCJ+MK8BSdi47hiI3ktQK7/lqejbuLuPqwQLbMvQ=;
+ b=F2DImfWJINLLnKTzuAuSDKbCpo4DRQicKtocvpoq2HxJL354sDM0Mzxky13GqWwvzi
+ xwRhNZR/MIdyMUwYYPIublC+IiD5eyP/Kk5HLMQ/l4fQW/Pr2hycGuJx1r7a4AmZWrHF
+ chHaKcdEjR/f3kaUTKVaWx+fp3EV8f+RJp162wH+ixhKqVP1IHP6/2lLAKYnNsw6bzD/
+ rssy4aZqQR4FIxMJOfofYpjFuDjBDmvJwS1SoZTAYtBaccu4x8nF3cPwinQpNe0fASlM
+ 8uYgC1bDOZ/eHF3qmlJjwiPBYYDhpD8SMm4ymmzjsw3WOEJLAehHHnkWEunA1wtMNVSv
+ 5dng==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fGhWaMW25bDreQ5GS2SvNFJnZIg8Fsu2CnnXot6JUbI=;
- b=Wopj4HmCipQIDMkMJ84q0f6wOnEMy8RnJtudoc6u79npH7ksOZszeJAiuzzCbD2cp5
- +ORUs8dmKWGNA1606WYnCS2CezSRRdHEWeEwjN/qzOYJuKQPSBFpaTiouakdGG9JMhaD
- J34fKnFa5KWuUkK2FbOdSDwfkr2BZxyq7vBEcgnZ3IoAd1d3aO6zU3JhWGpdy8Rq5S4r
- yCYpGYayvhhFN6f1vrni8S6xKzXYVuUyVG/mb+T+ooz/zHdtmY7/Czn6icJq+aYmg9Xn
- fnT2+o2Cj+T1ZTPGqvHhNzljl9mwdAPG1d+WsTqbaWgiahqqMeu3V8HnQEH71RDfgYLj
- Yv2Q==
-X-Gm-Message-State: AFqh2kqZBv4dm5qvIwML9fAC74MWLK6TaGlWeguXNXRdTU+sofLVa7b8
- zvMRVIs11bKVYg5xtIVx//zPU4bmHn0hxQ==
-X-Google-Smtp-Source: AMrXdXsg9IoXVr6eCqMDSDoR/ZCRvofinSweOU+ws9sIh241Mp1s17q0MfIBXveKNXRCWaTmwH11dA==
-X-Received: by 2002:a05:6402:194c:b0:498:b9ea:1896 with SMTP id
- f12-20020a056402194c00b00498b9ea1896mr45122812edz.9.1674767873221; 
- Thu, 26 Jan 2023 13:17:53 -0800 (PST)
+ bh=o8JuCJ+MK8BSdi47hiI3ktQK7/lqejbuLuPqwQLbMvQ=;
+ b=nrqeDvqG6glrbF6jKznf402k+dSwjCSynS9ceRxyKSd+QL5229Rll9V+Z0/EOzHGhl
+ On9NYnskCZstJzMK17BIyS/rpwF0cJ5razYLD4B5+8ST9dU8i/metIFRuJYbUcysoujS
+ g08Y/NTQAzMMy1Xv5PrGf4M/EItpfsdl+v7xiPTzjJHp7BnAgK7FVpWCHDuCCfQwkBxB
+ aYI/uZEZqtGXTKqp5ahIJw5ee9QYTsBeuUVsFiowjo5SNx19Wjohe0dTjQIdEovc7MEK
+ n8Yqcn5sbSzYB1SGBXHkhXt3sNKRo2h8cgnsvoPNQTtqr9uvqSq4RpCRmyVomfJGyB3X
+ zsCg==
+X-Gm-Message-State: AFqh2koQjiRAibNs7UAxWd5PGhys63sGFVnP44+Ve4X+tCaqG/9l0BmS
+ pRKuxZyMM+6GM9w+CUPRbsy+a5tnlhQxYg==
+X-Google-Smtp-Source: AMrXdXst8Higc9bV5z7c3cicO70+hC743R96fQwVzO/4xNwNfYX2A/6stZHPoWLuVkGinqmrrie90Q==
+X-Received: by 2002:a17:907:2a07:b0:86f:4a4e:4853 with SMTP id
+ fd7-20020a1709072a0700b0086f4a4e4853mr33236951ejc.49.1674767874176; 
+ Thu, 26 Jan 2023 13:17:54 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- w5-20020a170906384500b00878003adeeesm1117568ejc.23.2023.01.26.13.17.52
+ w5-20020a170906384500b00878003adeeesm1117568ejc.23.2023.01.26.13.17.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 13:17:52 -0800 (PST)
+ Thu, 26 Jan 2023 13:17:53 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -64,16 +64,16 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
  qemu-ppc@nongnu.org, qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 03/10] softmmu/ioport: Remove unused functions
-Date: Thu, 26 Jan 2023 22:17:33 +0100
-Message-Id: <20230126211740.66874-4-shentey@gmail.com>
+Subject: [PATCH v2 04/10] hw/ide/piix: Disuse isa_get_irq()
+Date: Thu, 26 Jan 2023 22:17:34 +0100
+Message-Id: <20230126211740.66874-5-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230126211740.66874-1-shentey@gmail.com>
 References: <20230126211740.66874-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::633;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,63 +96,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+isa_get_irq() asks for an ISADevice which piix-ide doesn't provide.
+Passing a NULL pointer works but causes the isabus global to be used
+then. By fishing out TYPE_ISA_BUS from the QOM tree it is possible to
+achieve the same as isa_get_irq().
+
+This is an alternative solution to commit 9405d87be25d 'hw/ide: Fix
+crash when plugging a piix3-ide device into the x-remote machine' which
+allows for cleaning up the ISA API while keeping PIIX IDE functions
+user-createable.
+
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- include/exec/ioport.h |  2 --
- softmmu/ioport.c      | 24 ------------------------
- 2 files changed, 26 deletions(-)
+ hw/ide/piix.c | 21 ++++++++++++++++++---
+ 1 file changed, 18 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/ioport.h b/include/exec/ioport.h
-index ec3e8e5942..1ef5aebba3 100644
---- a/include/exec/ioport.h
-+++ b/include/exec/ioport.h
-@@ -67,7 +67,5 @@ void portio_list_init(PortioList *piolist, Object *owner,
-                       void *opaque, const char *name,
-                       MemoryRegion *address_space_io, uint16_t start);
- void portio_list_set_flush_coalesced(PortioList *piolist);
--void portio_list_destroy(PortioList *piolist);
--void portio_list_del(PortioList *piolist);
- 
- #endif /* IOPORT_H */
-diff --git a/softmmu/ioport.c b/softmmu/ioport.c
-index c92e3cb27d..0a55d39196 100644
---- a/softmmu/ioport.c
-+++ b/softmmu/ioport.c
-@@ -118,19 +118,6 @@ void portio_list_set_flush_coalesced(PortioList *piolist)
-     piolist->flush_coalesced_mmio = true;
+diff --git a/hw/ide/piix.c b/hw/ide/piix.c
+index 267dbf37db..a6646d9657 100644
+--- a/hw/ide/piix.c
++++ b/hw/ide/piix.c
+@@ -126,7 +126,7 @@ static void piix_ide_reset(DeviceState *dev)
+     pci_set_byte(pci_conf + 0x20, 0x01);  /* BMIBA: 20-23h */
  }
  
--void portio_list_destroy(PortioList *piolist)
--{
--    MemoryRegionPortioList *mrpio;
--    unsigned i;
--
--    for (i = 0; i < piolist->nr; ++i) {
--        mrpio = container_of(piolist->regions[i], MemoryRegionPortioList, mr);
--        object_unparent(OBJECT(&mrpio->mr));
--        g_free(mrpio);
--    }
--    g_free(piolist->regions);
--}
--
- static const MemoryRegionPortio *find_portio(MemoryRegionPortioList *mrpio,
-                                              uint64_t offset, unsigned size,
-                                              bool write)
-@@ -280,14 +267,3 @@ void portio_list_init(PortioList *piolist, Object *owner,
-     /* There will always be an open sub-list.  */
-     portio_list_add_1(piolist, pio_start, count, start, off_low, off_high);
- }
--
--void portio_list_del(PortioList *piolist)
--{
--    MemoryRegionPortioList *mrpio;
--    unsigned i;
--
--    for (i = 0; i < piolist->nr; ++i) {
--        mrpio = container_of(piolist->regions[i], MemoryRegionPortioList, mr);
--        memory_region_del_subregion(piolist->address_space, &mrpio->mr);
--    }
--}
+-static int pci_piix_init_ports(PCIIDEState *d)
++static int pci_piix_init_ports(PCIIDEState *d, ISABus *isa_bus)
+ {
+     static const struct {
+         int iobase;
+@@ -145,7 +145,7 @@ static int pci_piix_init_ports(PCIIDEState *d)
+         if (ret) {
+             return ret;
+         }
+-        ide_init2(&d->bus[i], isa_get_irq(NULL, port_info[i].isairq));
++        ide_init2(&d->bus[i], isa_bus->irqs[port_info[i].isairq]);
+ 
+         bmdma_init(&d->bus[i], &d->bmdma[i], d);
+         d->bmdma[i].bus = &d->bus[i];
+@@ -159,6 +159,8 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+ {
+     PCIIDEState *d = PCI_IDE(dev);
+     uint8_t *pci_conf = dev->config;
++    ISABus *isa_bus;
++    bool ambiguous;
+     int rc;
+ 
+     pci_conf[PCI_CLASS_PROG] = 0x80; // legacy ATA mode
+@@ -168,7 +170,20 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
+ 
+     vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
+ 
+-    rc = pci_piix_init_ports(d);
++    isa_bus = ISA_BUS(object_resolve_path_type("", TYPE_ISA_BUS, &ambiguous));
++    if (ambiguous) {
++        error_setg(errp,
++                   "More than one ISA bus found while %s supports only one",
++                   object_get_typename(OBJECT(dev)));
++        return;
++    }
++    if (!isa_bus) {
++        error_setg(errp, "No ISA bus found while %s requires one",
++                   object_get_typename(OBJECT(dev)));
++        return;
++    }
++
++    rc = pci_piix_init_ports(d, isa_bus);
+     if (rc) {
+         error_setg_errno(errp, -rc, "Failed to realize %s",
+                          object_get_typename(OBJECT(dev)));
 -- 
 2.39.1
 
