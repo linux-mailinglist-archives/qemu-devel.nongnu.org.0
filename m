@@ -2,62 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7FA867CD87
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 15:19:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2675A67CD82
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 15:19:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL35e-0008Od-UT; Thu, 26 Jan 2023 09:18:58 -0500
+	id 1pL35M-0008IM-9z; Thu, 26 Jan 2023 09:18:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pL35Y-0008Nv-NC; Thu, 26 Jan 2023 09:18:52 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pL35J-0008I6-Iz
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:18:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pL35W-00075H-1A; Thu, 26 Jan 2023 09:18:52 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id A9398746361;
- Thu, 26 Jan 2023 15:16:20 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id A686C74634B; Thu, 26 Jan 2023 15:16:19 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id A48537457E7;
- Thu, 26 Jan 2023 15:16:19 +0100 (CET)
-Date: Thu, 26 Jan 2023 15:16:19 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
- qemu-ppc@nongnu.org
-Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
-In-Reply-To: <CABLmASFqzt8f_Qk8O_KvYOqSqeffsVVBaaknbUxL86Ch3VR3kA@mail.gmail.com>
-Message-ID: <6bf1e427-311a-1d96-e84a-ab65f62b8b48@eik.bme.hu>
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <4162db13bd1da9c6ddd77f185cef738e44790467.1672868854.git.balaton@eik.bme.hu>
- <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
- <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
- <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
- <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
- <ab9e33e5-70fc-0a76-c548-16ec787ea1af@ilande.co.uk>
- <ed8ee369-c9a8-7853-3b65-7361fefc3c63@eik.bme.hu>
- <ca5240e6-e00d-6213-22d6-f7b43d8bed18@ilande.co.uk>
- <CABLmASGc6fybw7mL5JHUCukwoB6KjGaaWHct5mi20A2vXZhtaA@mail.gmail.com>
- <8e6f46fb-5e1b-8016-c595-85e8e83ace47@eik.bme.hu>
- <CABLmASEJ_MKr5gP=C7_AXg2UbYmJyDMHtm77AXoyQnsa+f2HHA@mail.gmail.com>
- <123b1c96-febb-ebc8-2d05-3c7379fbec27@eik.bme.hu>
- <CABLmASHotQcPDRQxhMdL729wGHNkT0gfYt2GH8U5e190eOTCQQ@mail.gmail.com>
- <a9dbc41c-29e5-7672-d9ec-4ec43ae3a6c8@eik.bme.hu>
- <CABLmASFqzt8f_Qk8O_KvYOqSqeffsVVBaaknbUxL86Ch3VR3kA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pL35E-00074F-35
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:18:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674742710;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=icAu4YmiyuUnaLN7Q7+q8Bxabp6PA+VW4FcVFLSQipE=;
+ b=A3kWMGtkTZqepJoO+2DVxfypqkD6+5f9cbdPcbB4NYjn22E02uFRpWlnFfK2GIkqSF3SDY
+ NQ4UU8shGoxuxSy/lX4q6cQ3ahWiyHp+Unr8tsbJRPc/7TzDhzqsuW4sRTqaOUZgI7eizT
+ ya46Zf/AvuMfzKp7/g/ZDLWLcRpewZA=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-551-CSBzuzgCMjWZz_XLGPM1LQ-1; Thu, 26 Jan 2023 09:18:27 -0500
+X-MC-Unique: CSBzuzgCMjWZz_XLGPM1LQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C61C33C16E8D;
+ Thu, 26 Jan 2023 14:18:26 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BEAD82166B26;
+ Thu, 26 Jan 2023 14:18:25 +0000 (UTC)
+Date: Thu, 26 Jan 2023 14:18:23 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Eldon Stegall <eldon-qemu@eldondev.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>
+Subject: Re: no more pullreq processing til February
+Message-ID: <Y9KLr691LwO8WUgI@redhat.com>
+References: <CAFEAcA8v8hrqkFemdT5x_O5_mdps4wpdRCoVAfts+oVJj_qTVw@mail.gmail.com>
+ <Y9KFp06pp/qohgV1@invalid>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <Y9KFp06pp/qohgV1@invalid>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,128 +80,112 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 26 Jan 2023, Howard Spoelstra wrote:
-> I tested all Mac OS/OSX available to me with mouse and kbd alternately
-> connected to usb-bus1 or usb-bus2.
->
-> ./qemu-system-ppc \
-> -M mac99,usb=off \
-> -L pc-bios \
-> -boot c \
-> -prom-env "auto-boot?=true" \
-> -display gtk -monitor stdio \
-> -drive file=/home/hsp/Mac-disks/9.0.4.img,format=raw,media=disk \
-> -device pci-ohci,id=usb-bus1 \
-> -device pci-ohci,id=usb-bus2 \
-> -device usb-mouse,bus=usb-bus1.0,pcap=9.0.4_p1_mouse-2usb.pcap \
-> -device usb-kbd,bus=usb-bus2.0,pcap=9.0.4_p2_kbd-2usb.pcap \
-> -device sungem,netdev=network01 -netdev user,id=network01 \
-> -trace "usb_ohci*"
->
-> These are the results:
->
-> Mac OS:
-> #9.0.4 bus1 kbd: works up to usb_ohci_port_reset port #0 in trace, pcap
-> shows normal operation and recognition as HID device .
-> #9.0.4 bus2 mouse. Reverts to adb mouse. No recognition as HID device.
-> #9.0.4 bus1 mouse: usb_ohci_port_reset port #0 (twice). No further traffic
-> in trace. Reverts to adb mouse. No recognition as HID device.
-> #9.0.4 bus2 kbd then no longer works (due to reset?)
->
-> I attempted to replace the 9.0.4 disk based USB drivers with the drivers
-> from 9.1, which did not work.
->
-> #9.1/9.2: mouse and kbd work on both buses. Profiler shows 2 buses with one
-> device each.
->
-> Mac OS X
-> #10.0 bus1 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
-> mouse. No recognition as HID device.
-> #10.0 bus2 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point kbd
-> pcap shows normal interrupt operation and recognition as HID device
-> #10.0 bus1 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point kbd
-> pcap shows normal interrupt operation and recognition as HID device
-> #10.0 bus2 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
-> mouse. pcap shows no recognition as HID device.
-> #10.0 in both cases apple system profiler shows 2 usb buses but no devices.
->
->
-> #10.1 bus1 mouse: pcap shows normal interrupt operation and recognition as
-> HID device, trace shows continuous traffic
-> #10.1 bus2 kbd: works. pcap shows normal interrupt operation and
-> recognition as HID device, trace shows continuous traffic
-> #10.1 bus1 kbd: works. pcap shows normal interrupt operation and
-> recognition as HID device, trace shows continuous traffic
-> #10.1 bus2 mouse: pcap shows normal interrupt operation and recognition as
-> HID device, trace shows continuous traffic
-> #10.1 Mouse does not move on desktop, but trace shows packets flow.
->
-> #10.2/10.3/10.4/10.5 mouse and kbd work on both buses. Profiler shows 2
-> buses with one device each.
+On Thu, Jan 26, 2023 at 01:52:39PM +0000, Eldon Stegall wrote:
+> On Thu, Jan 26, 2023 at 01:22:32PM +0000, Peter Maydell wrote:
+> > Hi; we've run out of gitlab CI pipeline minutes for this month.
+> > This leaves us the choice of:
+> >  (a) don't process any more pullreqs til we get more minutes in Feb
+> >  (b) merge pullreqs blindly without CI testing
+> >  (c) buy more minutes
+> > 
+> > For the moment I propose to take option (a). My mail filter will
+> > continue to track pullreqs that get sent to the list, but I won't
+> > do anything with them.
+> > 
+> > If anybody has a better suggestion feel free :-)
+> 
+> Would it be possible if (d) were to run self-hosted instances of the
+> runner? I am not sure how gitlab pricing works, but I believe on github
+> self-hosted runners are free.
+> 
+> I have several baremetal machines colocated that I could dedicate to
+> execute these runs, dual processor xeons with a couple hundred gigs of
+> RAM. I would need approx 48 hours notice to initially provision the
+> machines. I would be happy to provide root credentials and work out IPMI
+> access if that becomes necessary.
 
-Maybe we need a bit more details from around the point the traces start to 
-differ between the versions and about 10-20 lines before it srops and 
-10-20 lines after (around) that point with versions that work for 
-comparison. It seems the versions that don't work get some error and the 
-OHCI device stops or it's something around reset as the suspend is also 
-called from there. But we need to locate more where is it in the driver to 
-be able to tell what's happening. Maybe also add -trace enable="usb_ohci*" 
--trace enable="usb_port*" and try to correlate what the driver is doing 
-by that. The OS X driver sources are available at
+We do currently have some private runners registered against the
+/qemu-project namespace, so we can do some non-x86 native testing.
 
-https://github.com/apple-oss-distributions/IOHIDFamily
+The challenge is the integration and configuration. The GitLab CI
+YAML config rules need to be written such that specific jobs  get
+targetted for the right private runners, instead of the shared
+runners, by including the 'tags' element in the job config, and
+some 'rules' logic.
 
-the versions correslonding to OS releases are at
+Any job we switch to work against private runners though, now become
+inaccessible to our contributors who are running pipelines in their
+forks, because the tags we add won't match against public shared
+runners. So we'd be putting a burden on our contributors to run
+private runners two, which is not desirable.
 
-https://opensource.apple.com/releases/
+The alternative is to duplicate all our jobs, once for private
+runners and once for shared runners. It is a bit repetative but
+with job inheritance it isn't a 100% copy+paste job, just about
+20-30% tedious boilerplate perhaps.
 
-10.1.x had 8.3 and 10.2 had version 33 of this driver but new in 10.2 was
+eg
 
-https://github.com/apple-oss-distributions/IOUSBFamily/tree/IOUSBFamily-190.4.1
 
-so it seems there was some bigger change in USB handling between those 
-versions. Darwin sources may have more detailed info but I don't know 
-where to find those.
+avocado-system-debian:
+  extends: .avocado_test_job_template
+  needs:
+    - job: build-system-debian
+      artifacts: true
+  variables:
+    IMAGE: debian-amd64
+    MAKE_CHECK_ARGS: check-avocado
 
-> 10.0 and 9.0.4 seem to suffer the same issue (mouse not communicating as a
-> HID device, but 10.1 seems to have another issue.
->
-> Attempts to run Mac OS X ioreg show that it fails in that it cannot read
-> the full registry.
-> This was already noticed here:
-> https://lists.gnu.org/archive/html/qemu-devel/2016-09/msg05260.html
+would have to be replaced with
 
-If this is related to the NVRAM format as speculated in later that thread:
 
-https://lists.gnu.org/archive/html/qemu-devel/2016-09/msg05315.html
+.avocado-system-debian_base:
+  extends: .avocado_test_job_template
+  needs:
+    - job: build-system-debian
+      artifacts: true
+  variables:
+    IMAGE: debian-amd64
+    MAKE_CHECK_ARGS: check-avocado
 
-Then that format is also documented in the sources:
+avocado-system-debian-shared:
+  extends: .avocado-system-debian_base
+  rules:
+    - if '$CI_PROJECT_NAMESPACE == "qemu-project"'
+      when: never
+    - if '$CI_PROJECT_NAMESPACE != "qemu-project"'
+      when: on_success
 
-https://github.com/apple-oss-distributions/AppleCore99NVRAM
+avocado-system-debian-private:
+  extends: .avocado-system-debian_base
+  tags:
+    - qemu-private-runner-x86
+  rules:
+    - if '$CI_PROJECT_NAMESPACE == "qemu-project"'
+      when: on_success
+    - if '$CI_PROJECT_NAMESPACE != "qemu-project"'
+      when: never
 
-and there are other emulators that implement it:
 
-https://github.com/dingusdev/dingusppc/blob/master/devices/common/ofnvram.cpp
+there's many variations, that's just a crude example off top of my head.
+This example wouldn't work if the base project incldues 'rules' as the
+parent rules don't get merged. So actually we would need to play some
+further games to get this to work in most cases.
 
-so this should be easy to fix. Ask Mark to do that in QEMU and OpenBIOS or 
-let somebody do it without making a fuss about it. (If we could boot these 
-OSes with a firmware ROM from the real machine we could verify if it's a 
-problem with NVRAM format or something else. Maybe I should try OS X on 
-g3beige but it currently stops in Toolbox ROM before display is up or 
-accessing CD so not sure if OS X could boor. If it does not need Toolbox 
-just OpenFirmware maybe it could work but I haven't tried yet. What's a 
-good version of OS X to run on a real G3 beige?)
+Anyway, private runners are potentially useful, especially if this becomes
+a long term problems for QEMU. They just aren't a quickly insertable
+solution we can deploy in a matter of days, as we need much YML config
+work first AFAICT.
 
-> -Ioreg from a real G4 running 10.4 and output from the PCI DDK name
-> registry tool from a real G4 running 9.0.4 and from Qemu running 9.0.4, 9.1
-> and 9.2 are available here:
-> https://surfdrive.surf.nl/files/index.php/s/1wcC3GGaagqKVpj/download
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-This ioreg output is truncated. Use ioreg -w 0 -l to get a full output.
-
-Regards,
-BALATON Zoltan
 
