@@ -2,60 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AC3D67D039
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 16:31:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B041967D06D
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 16:40:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL4Cu-0001Vr-H7; Thu, 26 Jan 2023 10:30:32 -0500
+	id 1pL4L8-0004rG-JV; Thu, 26 Jan 2023 10:39:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pL4Cn-0001VP-Vd
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 10:30:25 -0500
-Received: from mout.kundenserver.de ([212.227.126.131])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pL4Cm-0003tQ-3M
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 10:30:25 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MyK1E-1oT4Td2KNA-00yk7x; Thu, 26 Jan 2023 16:30:17 +0100
-Message-ID: <b645585a-1093-fb97-60a1-5acc40b17271@vivier.eu>
-Date: Thu, 26 Jan 2023 16:30:16 +0100
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pL4L5-0004qq-Vk
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 10:39:00 -0500
+Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pL4L4-0005VE-EK
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 10:38:59 -0500
+Received: by mail-pl1-x62d.google.com with SMTP id 5so2168194plo.3
+ for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 07:38:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=BbFjzNaRKGW2A6L7+E19GfnwvTEEz6x/7c9e0Ylp7HQ=;
+ b=bY2NXrIvKvpXWIg7uv9ek3LbqXhLhqmXLvq252T41TUjeb+AkzmYwglzSZC8X0GK+H
+ z49MZdZCVY4mwy7rKIa1dQmpcTGKaUuKJpN3mxmHNQHXyGCJeSNEOKw9Ov2JKW9Rpnua
+ dkjJ0Xij2ZElnqemjkE1kcgdi5Gcz1zWk47C7FnQtuBgcS+2WztrBiuCQ+oLiiB3n+cB
+ f2HR3kHAXyjukcdZTbSa3w77EOUhuPtl0JNQbgt8+cu4+KIxYOwX0zSBRs8BioAziouT
+ dCeZbTJv54Vn/PRaWnSkB8Bvbt5HHJ4gO9KjESkuCFmtsZWCnmf5T9RRYzRxJUljbo64
+ DE2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=BbFjzNaRKGW2A6L7+E19GfnwvTEEz6x/7c9e0Ylp7HQ=;
+ b=LclMdgA/vZv34CiJOxntfH7100YzIFU250YPcMPG3G4Oi55SH7Nbf99EM0PmDoMIYW
+ ns6ie0DH3HWf5hQmlUOUfBITQOQEfG1aCPSQ+lKVoozi1w/JiyVD1mGoUM6swoKhBdaS
+ Mz2bahP3EyvfWWL5wwa1m4H8rr32er8Jj01F9AxBVV+qe2wmgX/EhDiXnq/P6w/J0ISR
+ +lkirtL1laQwMv74tjowjkLueY5727oP/f35rr57mBaJ6dz3a58VgUxWAmcuFdIoWWAk
+ 0kcNvolrrtddPJbRFhv/XuL4fgK9BDJFaq397zv6px34qzX1BxJuWu9cNleYt2Nv2GBF
+ JDEQ==
+X-Gm-Message-State: AO0yUKXoDLnl6s99YP1UACPssKGYwUElgTQ0ea8jB5Kk30s13INaLIX2
+ t/jQUVC7mp6LlU6Khk2nh9EP4g==
+X-Google-Smtp-Source: AK7set++YVAgVWARstllEirHwZocO5PftbA8oQfhyQZzIT/a9Thi2ly03CZTkxpCvZPgM+MbH7mzow==
+X-Received: by 2002:a17:90b:4a8e:b0:22b:f035:c09c with SMTP id
+ lp14-20020a17090b4a8e00b0022bf035c09cmr10589918pjb.4.1674747536853; 
+ Thu, 26 Jan 2023 07:38:56 -0800 (PST)
+Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
+ [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
+ 101-20020a17090a09ee00b002276ba8fb71sm3466904pjo.25.2023.01.26.07.38.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Jan 2023 07:38:56 -0800 (PST)
+Message-ID: <579dcb33-739c-a850-0f17-f5feee55d00a@linaro.org>
+Date: Thu, 26 Jan 2023 05:38:47 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: fr
-To: Helge Deller <deller@gmx.de>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <Y6ywbxuxqQ/cGPJW@p100>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH v3] linux-user: Fix /proc/cpuinfo output for sparc and hppa
-In-Reply-To: <Y6ywbxuxqQ/cGPJW@p100>
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] sbsa-ref: remove cortex-a76 from list of supported cpus
+Content-Language: en-US
+To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>,
+ Radoslaw Biernacki <rad@semihalf.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ Leif Lindholm <quic_llindhol@quicinc.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+References: <20230126114416.2447685-1-marcin.juszkiewicz@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230126114416.2447685-1-marcin.juszkiewicz@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+ix66RfOx26NDtKeOJVsjhFmwZ9zYEpmcdDQBtG4/UAq7qQ8nUv
- s/W1GUT5facKV3b6rhMEKM2Js7pxfyc0oernUP+8ad6bMBq0X5RxaUQRrq0sZ8Y0t95EizX
- /ZXa8/VkipHKKOdmyofAbqeAb2IaLBRqSi3rmQQLCo33OMWHS3TcB/Z1J5GsPp8FXM1KDhN
- upY7UMD2BQTROYC/43EbQ==
-UI-OutboundReport: notjunk:1;M01:P0:ItqdHoNsfvk=;3OHn2yszttDP32edM8oq2v+nSdL
- cfWwryAjSWcVOjA2dFkqUnA8HFPC8HROkXmH2l9OmiysSUiRmNfDXUZXfkpFd+wGJDUZHVydA
- 6fmzmN3R95yeoxbxl5rGiK+TeOldkVFqfAEZKpI7H2ujDSR4DpC/gmuC1LzOnn/gzubSiW9nX
- kOi7/cg4wGQ+Oi5g1zkXYDcZOH2xBTbti0vgq1I1d5rv9V9WHXv1jPGXU+ACLwtcDMDM2Fnmm
- v+Nkh5tcEkWPqH1fXssYCBZoNfJflIJT2ULC9wrlsaJmMtMrOBAvUlX+gXPIYZkLLHYQVWItk
- 466+GF7EuuTwGcWKASNYaYiYCSNnCfsh40EsJxiRNK5HsINcE0se+jyabdnwMz1y3oF0G6yYz
- 3GgXAXabUXkHCxIbOcho7lU2fLbPr7txF3c6/iRNKoMxrrVipU0D1jAC6Zn7317waFGZ8VapS
- nktlekf+cZlaBN8PSoaGYNlkdu8hd6NnqdViYVI2fqmV4y4ULB0Wp5OCEekHhHXUV6+7/O0nw
- Bmf+WUi2m7SuyhVO8VhOHLXSYnB973Nv8925zlK16B9b3HLO/AeAohHbQaq/vBHlV9f9kUjgP
- W25aGbjLAxUOd2wEbq5cTt1MnEFjWFVcxKEYssgS2m1Njao6A8a+aiQ5iczOdiVV9k3wCMYkF
- H1heFvfPsPc51xshUcFkbleNEtEjNzYk/FRfjBCVRg==
-Received-SPF: none client-ip=212.227.126.131; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62d.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.15,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.15,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -71,83 +95,16 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 28/12/2022 à 22:09, Helge Deller a écrit :
-> The sparc and hppa architectures provide an own output for the emulated
-> /proc/cpuinfo file.
+On 1/26/23 01:44, Marcin Juszkiewicz wrote:
+> Cortex-A76 supports 40bits of address space. sbsa-ref's memory
+> starts above this limit.
 > 
-> Some userspace applications count (even if that's not the recommended
-> way) the number of lines which start with "processor:" and assume that
-> this number then reflects the number of online CPUs. Since those 3
-> architectures don't provide any such line, applications may assume "0"
-> CPUs.  One such issue can be seen in debian bug report:
-> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1024653
-> 
-> Avoid such issues by adding a "processor:" line for each of the online
-> CPUs.
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> 
+> Signed-off-by: Marcin Juszkiewicz<marcin.juszkiewicz@linaro.org>
 > ---
-> v3:
-> - add trailing newline at end of /proc/cpuinfo file (needed by procps)
-> 
-> v2:
-> - drop m68k part (based on feedback from Laurent Vivier <laurent@vivier.eu>)
-> - change commit message
-> 
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index afb24fd0b9..5ec11a3683 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -8310,7 +8310,13 @@ static int open_net_route(CPUArchState *cpu_env, int fd)
->   #if defined(TARGET_SPARC)
->   static int open_cpuinfo(CPUArchState *cpu_env, int fd)
->   {
-> -    dprintf(fd, "type\t\t: sun4u\n");
-> +    int i, num_cpus;
-> +
-> +    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-> +    for (i = 0; i < num_cpus; i++) {
-> +        dprintf(fd, "processor\t: %d\n", i);
-> +        dprintf(fd, "type\t\t: sun4u\n\n");
-> +    }
+>   hw/arm/sbsa-ref.c | 1 -
+>   1 file changed, 1 deletion(-)
 
-I'm sorry, kernel on real hardware doesn't use the "processor:" entry on sparc.
-See show_cpuinfo() in arch/sparc/kernel/cpu.c.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-In this case, fix the userspace application, as it would not work on the real hardware too.
-
->       return 0;
->   }
->   #endif
-> @@ -8318,11 +8324,17 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
->   #if defined(TARGET_HPPA)
->   static int open_cpuinfo(CPUArchState *cpu_env, int fd)
->   {
-> -    dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
-> -    dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
-> -    dprintf(fd, "capabilities\t: os32\n");
-> -    dprintf(fd, "model\t\t: 9000/778/B160L\n");
-> -    dprintf(fd, "model name\t: Merlin L2 160 QEMU (9000/778/B160L)\n");
-> +    int i, num_cpus;
-> +
-> +    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
-> +    for (i = 0; i < num_cpus; i++) {
-> +        dprintf(fd, "processor\t: %d\n", i);
-> +        dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
-> +        dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
-> +        dprintf(fd, "capabilities\t: os32\n");
-> +        dprintf(fd, "model\t\t: 9000/778/B160L - "
-> +                    "Merlin L2 160 QEMU (9000/778/B160L)\n\n");
-> +    }
->       return 0;
->   }
->   #endif
-
-It's good for hppa. Please, send a v4 with only hppa.
-
-Thanks,
-Laurent
-
+r~
 
