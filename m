@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C48C67C9BB
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 12:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4499667C9C1
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 12:22:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL0JC-0002RX-B7; Thu, 26 Jan 2023 06:20:46 -0500
+	id 1pL0JD-0002SJ-47; Thu, 26 Jan 2023 06:20:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pL0J5-0002Ie-0b
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:20:40 -0500
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ id 1pL0J9-0002PZ-Sf
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:20:43 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pL0J2-0001Tw-PV
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:20:38 -0500
-Received: by mail-pl1-x62e.google.com with SMTP id d9so1525476pll.9
- for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 03:20:36 -0800 (PST)
+ id 1pL0J8-0001q1-AR
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:20:43 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id j5so1217217pjn.5
+ for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 03:20:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QKz8NM0/A8Hgswx+4MXKSDHppx0dxLxGzCKxbK2Z1F0=;
- b=ZFOrE8a0zlCgSOVjlZY3YColwngJc8xOInGfRZZDpxLXGLM+X5Ly4Isic/xMnHnwkd
- 8EiuNjfyFT89t/PRrF/XZyzvUP6T995U3B8fNCp1yD/vMOmBmyUVPZ6wo5yUbYI/bsEd
- 6lPw/F6nJOwg8whDBoXcdMUW1zsogCPFepAn1DrLObCaG3ixeLi05EPG2L1/OV4ToTPd
- 9cq5TWBb0kI4PG+sebJrQdnslc6IcSqpGOIiwHOdo6ZYRJSDmIEjzCeInKj3pxk14QWA
- R9hXbJTeM0LsCtMwEfr/XhF4YRa8YNwDNIu6PBsX6S//NW7CnQlJRoNBrBoIXWg78TkW
- mC8A==
+ bh=O4FcszSrN0Z8qZkzBy36ozCpKc4AAg08VRBsT7xQa8Y=;
+ b=JtKk15QbrmP9odj8pkf0MVOi6D/1MF6EgnIieduhgiMa+iSvIlrt7u0/mjcbIXXSD1
+ HiqHMnX1cIGfZYB8ZU8Sh1rgEEt5EBV2xL2Ppwt1pdwXg4VhSap2WatTtECrBOPKYNoX
+ C/SyP8M//hIcLSqbnpluWB7+SGDoEmYnp17HIqnjyZTx/NEgcwvxYkwhqpsxOY6CwYHz
+ OZwX1Dv+f/LZZizO5QZRRBsrhwy4bBhMPUqFVHu19G7j2ocUdo+ucGJgAhglCY32BZne
+ e+x3LwZ47GPH4TEckzgoh/NoHWtsnRhSIsa4mF/rStzWPXQYE4D5mf0QMvW1YNfCpHht
+ xhPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QKz8NM0/A8Hgswx+4MXKSDHppx0dxLxGzCKxbK2Z1F0=;
- b=acihMZTQ8t3Rv+qzcGDipz8IvC169kqWVeULoHbleL0VbvWELb/ScOYCXyEAajPh/X
- Vp8wXFg4eMDfV7W5bxtgbq6sxMd/FnkIyWZg/hq7yoCklXwEeq1vwaN8d0SLGT+kkRV4
- +Y6xp668rsdULPyZq3guR3uwCbdcp0WdsO8iUKNzgZ79N7qXSCeEv1jkQx8qS17AoQ+Z
- wbWZI1HUWyGW4wMhpUVXJTNndme1nIZccbGrrxxLLzQ2JVQdlFLYDWAfd592cnzuSiiQ
- 7eahN5sEssrtMBhxhkvdhc6+ByuoxwRoo56L+hZis/FPHVg0GXT177FnPf3dCqRO77+J
- pPVg==
-X-Gm-Message-State: AFqh2kqrr4FFWuA/6olVg9eu20CqLUTGOczpVtP+FfvCXxmt12XboQI1
- /tZATcr7evOOxtRb6ClqG5HpqA==
-X-Google-Smtp-Source: AMrXdXvCiqkf+jQF6rAushxn0B8r9I8Y8ggd5S1ZZhwVNOE6xDK0opZAc6AnfARxyjLaXCDzUcR3PA==
-X-Received: by 2002:a17:90a:4bc2:b0:229:7b29:54ac with SMTP id
- u2-20020a17090a4bc200b002297b2954acmr35925617pjl.35.1674732036114; 
- Thu, 26 Jan 2023 03:20:36 -0800 (PST)
+ bh=O4FcszSrN0Z8qZkzBy36ozCpKc4AAg08VRBsT7xQa8Y=;
+ b=mxlAF+oDNoYGIdIIutRpPpYLAwHKFTPd5kKFNLU3rKQMvlD0UzY2NQXovIqdU4P8g5
+ fzVaRO7Ribp3+9y+EVWQli1br5QX3r9p0z+Yh6d8V4WK8v3LWpH0xfVYl2YZ/Y5cRb82
+ QXv4+riAxlnyXTDF1l+CCjhplXvMNnGrVLIpd+eELhkdzSq44Lto2/sopB1qVwLwq2+Y
+ Pz82agOG4/iu2DHqU0rh4I144araqtRhKaqBqIEyPFyYz/pYHvbDC1kAqkdXgKg6t+xs
+ tLK8t4hpoo6N/IjpZzkv8VboD3jnPhnrzw6LYSMOgcAiSNvTjrVynJqtQMX2mFcqfc6t
+ 5ovQ==
+X-Gm-Message-State: AO0yUKVVrhugNursAfShw/cclnBZXjl6PJEnPEHJcBAlpsagmOuFV9em
+ 2gIKNhNdJCrcJvtn7dr+T1mmnQ==
+X-Google-Smtp-Source: AK7set+W0KbYLnUMfnTFMXJoY2bIgElgCjLYroF0dGfb4clJUMCvUi/aZkRHfAp5Cz+PQ93WGdQyZA==
+X-Received: by 2002:a17:90a:1a15:b0:22c:912:b80d with SMTP id
+ 21-20020a17090a1a1500b0022c0912b80dmr5726366pjk.33.1674732041216; 
+ Thu, 26 Jan 2023 03:20:41 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- z14-20020a17090a468e00b00229d7f2abd4sm849520pjf.54.2023.01.26.03.20.31
+ z14-20020a17090a468e00b00229d7f2abd4sm849520pjf.54.2023.01.26.03.20.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 03:20:35 -0800 (PST)
+ Thu, 26 Jan 2023 03:20:40 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -75,16 +75,16 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v4 08/13] tests/qtest/e1000e-test: Fabricate ethernet header
-Date: Thu, 26 Jan 2023 20:19:38 +0900
-Message-Id: <20230126111943.38695-9-akihiko.odaki@daynix.com>
+Subject: [PATCH v4 09/13] tests/qtest/libqos/e1000e: Export macreg functions
+Date: Thu, 26 Jan 2023 20:19:39 +0900
+Message-Id: <20230126111943.38695-10-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230126111943.38695-1-akihiko.odaki@daynix.com>
 References: <20230126111943.38695-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62e;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -106,98 +106,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-e1000e understands ethernet header so fabricate something convincing.
+They will be useful for igb testing.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- tests/qtest/e1000e-test.c   | 17 +++++++++++------
- tests/qtest/libqos/e1000e.h |  2 ++
- 2 files changed, 13 insertions(+), 6 deletions(-)
+ tests/qtest/libqos/e1000e.c | 12 ------------
+ tests/qtest/libqos/e1000e.h | 12 ++++++++++++
+ 2 files changed, 12 insertions(+), 12 deletions(-)
 
-diff --git a/tests/qtest/e1000e-test.c b/tests/qtest/e1000e-test.c
-index b63a4d3c91..98706355e3 100644
---- a/tests/qtest/e1000e-test.c
-+++ b/tests/qtest/e1000e-test.c
-@@ -27,6 +27,7 @@
- #include "qemu/osdep.h"
- #include "libqtest-single.h"
- #include "libqos/pci-pc.h"
-+#include "net/eth.h"
- #include "qemu/sockets.h"
- #include "qemu/iov.h"
- #include "qemu/module.h"
-@@ -35,9 +36,13 @@
- #include "libqos/e1000e.h"
- #include "hw/net/e1000_regs.h"
+diff --git a/tests/qtest/libqos/e1000e.c b/tests/qtest/libqos/e1000e.c
+index 28fb3052aa..925654c7fd 100644
+--- a/tests/qtest/libqos/e1000e.c
++++ b/tests/qtest/libqos/e1000e.c
+@@ -36,18 +36,6 @@
  
-+static const struct eth_header test = {
-+    .h_dest = E1000E_ADDRESS,
-+    .h_source = E1000E_ADDRESS,
-+};
-+
- static void e1000e_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *alloc)
+ #define E1000E_RING_LEN (0x1000)
+ 
+-static void e1000e_macreg_write(QE1000E *d, uint32_t reg, uint32_t val)
+-{
+-    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
+-    qpci_io_writel(&d_pci->pci_dev, d_pci->mac_regs, reg, val);
+-}
+-
+-static uint32_t e1000e_macreg_read(QE1000E *d, uint32_t reg)
+-{
+-    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
+-    return qpci_io_readl(&d_pci->pci_dev, d_pci->mac_regs, reg);
+-}
+-
+ void e1000e_tx_ring_push(QE1000E *d, void *descr)
  {
--    static const char test[] = "TEST";
-     struct e1000_tx_desc descr;
-     char buffer[64];
-     int ret;
-@@ -45,7 +50,7 @@ static void e1000e_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *a
- 
-     /* Prepare test data buffer */
-     uint64_t data = guest_alloc(alloc, sizeof(buffer));
--    memwrite(data, test, sizeof(test));
-+    memwrite(data, &test, sizeof(test));
- 
-     /* Prepare TX descriptor */
-     memset(&descr, 0, sizeof(descr));
-@@ -71,7 +76,7 @@ static void e1000e_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *a
-     g_assert_cmpint(ret, == , sizeof(recv_len));
-     ret = recv(test_sockets[0], buffer, sizeof(buffer), 0);
-     g_assert_cmpint(ret, ==, sizeof(buffer));
--    g_assert_cmpstr(buffer, == , test);
-+    g_assert_false(memcmp(buffer, &test, sizeof(test)));
- 
-     /* Free test data buffer */
-     guest_free(alloc, data);
-@@ -81,14 +86,14 @@ static void e1000e_receive_verify(QE1000E *d, int *test_sockets, QGuestAllocator
- {
-     union e1000_rx_desc_extended descr;
- 
--    char test[] = "TEST";
-+    struct eth_header test_iov = test;
-     int len = htonl(sizeof(test));
-     struct iovec iov[] = {
-         {
-             .iov_base = &len,
-             .iov_len = sizeof(len),
-         },{
--            .iov_base = test,
-+            .iov_base = &test_iov,
-             .iov_len = sizeof(test),
-         },
-     };
-@@ -119,7 +124,7 @@ static void e1000e_receive_verify(QE1000E *d, int *test_sockets, QGuestAllocator
- 
-     /* Check data sent to the backend */
-     memread(data, buffer, sizeof(buffer));
--    g_assert_cmpstr(buffer, == , test);
-+    g_assert_false(memcmp(buffer, &test, sizeof(test)));
- 
-     /* Free test data buffer */
-     guest_free(alloc, data);
+     QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
 diff --git a/tests/qtest/libqos/e1000e.h b/tests/qtest/libqos/e1000e.h
-index 091ce139da..5e2b201aa7 100644
+index 5e2b201aa7..30643c8094 100644
 --- a/tests/qtest/libqos/e1000e.h
 +++ b/tests/qtest/libqos/e1000e.h
-@@ -25,6 +25,8 @@
- #define E1000E_RX0_MSG_ID           (0)
- #define E1000E_TX0_MSG_ID           (1)
+@@ -42,6 +42,18 @@ struct QE1000E_PCI {
+     QE1000E e1000e;
+ };
  
-+#define E1000E_ADDRESS { 0x52, 0x54, 0x00, 0x12, 0x34, 0x56 }
++static inline void e1000e_macreg_write(QE1000E *d, uint32_t reg, uint32_t val)
++{
++    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
++    qpci_io_writel(&d_pci->pci_dev, d_pci->mac_regs, reg, val);
++}
 +
- typedef struct QE1000E QE1000E;
- typedef struct QE1000E_PCI QE1000E_PCI;
- 
++static inline uint32_t e1000e_macreg_read(QE1000E *d, uint32_t reg)
++{
++    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
++    return qpci_io_readl(&d_pci->pci_dev, d_pci->mac_regs, reg);
++}
++
+ void e1000e_wait_isr(QE1000E *d, uint16_t msg_id);
+ void e1000e_tx_ring_push(QE1000E *d, void *descr);
+ void e1000e_rx_ring_push(QE1000E *d, void *descr);
 -- 
 2.39.0
 
