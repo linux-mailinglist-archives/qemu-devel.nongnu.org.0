@@ -2,74 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8858267CE01
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 15:26:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BDDD67CE0F
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 15:27:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL3CT-0002OO-2O; Thu, 26 Jan 2023 09:26:01 -0500
+	id 1pL3Do-000378-U2; Thu, 26 Jan 2023 09:27:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pL3CQ-0002O1-RQ
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:25:59 -0500
-Received: from mail-yw1-x1135.google.com ([2607:f8b0:4864:20::1135])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pL3CP-0002Aw-7i
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:25:58 -0500
-Received: by mail-yw1-x1135.google.com with SMTP id
- 00721157ae682-5063029246dso24873157b3.6
- for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 06:25:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+x7jfDMZ+jOMPA4ZtUo7ZFn/ou51kBaSGS04ndojUM8=;
- b=CAF1Foy+mWkbWdi/Ynn5r9lqMXlc3l+4VV4hFo3ziL6hxHmO8A0fxQ0tcgMl2Z8fET
- 4fPERAsQzi/tqOpqyIVoDR/YS+uo8aizyCTU293qVgEtGaANprIcaFZFOMf0+2ji2hNF
- IypHvaO4nx1kO3FKbE17RdI+yf+RTML4xHuQ1e5JWvcLKTR7CBON0eQZr210BJudVPAh
- 7ZzXveVduBPC+a9RMSNttr306a0z4Bxo9/WpC8x7qzeBe3wAvo4/WPYzc+9wfXiNizSn
- Q+l1yDknUWFQGSZAA/pWPBSIi9lLWTUv2JOK3yirRiHwLWXqIOEb4stMumBW1UWveAot
- 9wPw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=+x7jfDMZ+jOMPA4ZtUo7ZFn/ou51kBaSGS04ndojUM8=;
- b=0+Ap/z6mTrFNQmuFiQf40VuCdpr3cXZ7OIndQKf8tXMHheYIy9xOR709/clIUw6XMl
- Fm2Njz3zyJFve8UOqzohBzQ0iL8Q9BlvLwHGwC+Xp9HrOGA9EeczpIT3httQ6KpQkgiy
- LgR/0L80TJz0g2oLk8NdLhaHJu+esvDpo0CIVr4ZIY2ZufkyyJSEr0CYXjh39znxBZ6I
- 6MfnuWyw6cb9ALVzfBtPjhhvc/IJ6vBFKq8SW5RZ0M3wS9BpI3CfsSNWGg6Z053Qp/oV
- MCJSvUBrPxH+mUYDOeS6+U6uOimViz0PteASVHAOwCEsnnWjACmFJhcql5vqNWCx5z2W
- gv7A==
-X-Gm-Message-State: AFqh2kpMSR629+NXjZe9rt1cWtYY5e9GfSxN2sOYS4CEWSfAT7O0yc/N
- 7M+kSEaxSIYhBFTWgDxQHwCTiH/RFzUdGFcJ2Rs=
-X-Google-Smtp-Source: AMrXdXugYSBX2xV1UpjRRYq4HyfSGRTAbd+TBt7+flsBuVVRd/+zD6z+mluR9iENwQI+bHl2MDswXMDWQg9d9WnBwxU=
-X-Received: by 2002:a81:9a8e:0:b0:476:b2b8:1c5f with SMTP id
- r136-20020a819a8e000000b00476b2b81c5fmr3857601ywg.62.1674743155928; Thu, 26
- Jan 2023 06:25:55 -0800 (PST)
-MIME-Version: 1.0
-References: <CAFEAcA8v8hrqkFemdT5x_O5_mdps4wpdRCoVAfts+oVJj_qTVw@mail.gmail.com>
-In-Reply-To: <CAFEAcA8v8hrqkFemdT5x_O5_mdps4wpdRCoVAfts+oVJj_qTVw@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Thu, 26 Jan 2023 09:25:44 -0500
-Message-ID: <CAJSP0QXC3z-UyP5HoVTOmAfyz_vV6cpZJvnTYazWq9=52bndpA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pL3Dl-00036s-0T
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:27:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pL3Dj-0002N3-6Q
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:27:20 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674743238;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=fVc7FxCjY8iuKxLD4wtUIs+7/MHx5KJq7FoHxJxQXS4=;
+ b=LQkTA4nR1s26rnrflkAcT4IubPj1HlY4NlOKNAKdiLc6RWRdsqv2or36T0YzoLFHaEipU5
+ cIADgT0fy0nDmcq9ZeCF9A+OPABRfEhlMr1IU1znc6UoRwMpS0nxJf7VCbSCubnTyH3ggT
+ ClY1FNiNjICZn1A8DoKlpn7E8kVgKL4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-478-geR0aZXRPPqKQOMc1vuSJQ-1; Thu, 26 Jan 2023 09:27:14 -0500
+X-MC-Unique: geR0aZXRPPqKQOMc1vuSJQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3A9963C0DDBD;
+ Thu, 26 Jan 2023 14:27:14 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.108])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1C4202026D4B;
+ Thu, 26 Jan 2023 14:27:13 +0000 (UTC)
+Date: Thu, 26 Jan 2023 14:27:11 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>
+Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 Subject: Re: no more pullreq processing til February
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
- John Snow <jsnow@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1135;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1135.google.com
+Message-ID: <Y9KNv/vMGhDvX+oo@redhat.com>
+References: <CAFEAcA8v8hrqkFemdT5x_O5_mdps4wpdRCoVAfts+oVJj_qTVw@mail.gmail.com>
+ <87pmb1pfas.fsf@linaro.org>
+ <334e1cd4-04e1-2ec9-a342-de13e3fd922f@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <334e1cd4-04e1-2ec9-a342-de13e3fd922f@gmail.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,22 +85,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Are you batching pull requests? I used that approach last release
-cycle. CI takes so long to run that I didn't want to run it for every
-pull request. Batching worked well overall.
+On Thu, Jan 26, 2023 at 11:07:37AM -0300, Daniel Henrique Barboza wrote:
+> 
+> 
+> On 1/26/23 10:57, Alex Bennée wrote:
+> > 
+> > Peter Maydell <peter.maydell@linaro.org> writes:
+> > 
+> > > Hi; we've run out of gitlab CI pipeline minutes for this month.
+> > > This leaves us the choice of:
+> > >   (a) don't process any more pullreqs til we get more minutes in Feb
+> > >   (b) merge pullreqs blindly without CI testing
+> > >   (c) buy more minutes
+> > > 
+> > > For the moment I propose to take option (a). My mail filter will
+> > > continue to track pullreqs that get sent to the list, but I won't
+> > > do anything with them.
+> > > 
+> > > If anybody has a better suggestion feel free :-)
+> > 
+> > I've submitted a support request (#366644) to GitLab to see if they will
+> > give us more minutes for this month. Longer term ideas:
+> > 
+> >   * Reduce compile time by reducing number of identical object files we
+> >     build for specific_ss
+> >   * Move more tests over to custom runners (don't we have an x86 box
+> >     somewhere?)
+> >   * Carry out an audit of code coverage for different test sets and
+> >     rationalise our CI set
+> 
+> What about sub-maintainers running the CI jobs before sending PRs? Should we
+> stop it? I usually do a full CI run before sending a ppc queue but if we're
+> having problems with gitlab pipeline minutes then perhaps we should stop
+> doing that.
 
-You could try the apply-pullreq --apply-many option in the modified
-script I sent in <Y5nom0ji4S/CmvZL@fedora> on Wed, 14 Dec 2022.
+Any CI you run in your repo fork has no impact on QEMU CI allowance
+upstream.
 
-The workflow was:
-1. Apply multiple requests on the staging branch locally.
-2. Push staging to GitLab when you're ready to run CI.
-3. When there is a failure, drop the pull request most likely
-responsible for the failure and run CI again with the remaining pull
-requests.
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-Stefan
 
