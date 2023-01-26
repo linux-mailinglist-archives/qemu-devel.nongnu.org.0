@@ -2,71 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF57667CABA
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 13:17:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02B0F67CB0A
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 13:45:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL1Ac-0007KY-AR; Thu, 26 Jan 2023 07:15:58 -0500
+	id 1pL1bY-00069x-LE; Thu, 26 Jan 2023 07:43:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pL1Aa-0007Jz-4V
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 07:15:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pL1AY-0008JK-OE
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 07:15:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674735353;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5EQavsdE/3IYLViHPQWkDrpyC8OTHXrhqf97l3UpJIQ=;
- b=KhQvIaFcSyJ1f/BvG1oILkzB1DEs4qzxYv9pSNNrJs0XnyWc1Q4zYAPdHaJ14DclSxnxna
- 6zHdyHE6Ajy6vKUaboq+xLsXXtnNROfWu+xK/cvo4AAEKw1ifwu0uROUBbaZn8KEbMDK5m
- y5OBChxyBW+grzhJ2ug8KC5lnuXmZPM=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-554-886ZYJ3kP_iALkext6bJVA-1; Thu, 26 Jan 2023 07:15:50 -0500
-X-MC-Unique: 886ZYJ3kP_iALkext6bJVA-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 251C42802E31;
- Thu, 26 Jan 2023 12:15:50 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.233])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 7181C14171BB;
- Thu, 26 Jan 2023 12:15:49 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Eric Auger <eauger@redhat.com>, Peter Maydell
- <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, Laurent Vivier
- <lvivier@redhat.com>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org, "Dr.
- David Alan Gilbert" <dgilbert@redhat.com>, Juan Quintela
- <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>
-Subject: Re: [PATCH v4 1/2] arm/kvm: add support for MTE
-In-Reply-To: <877cx9y0t6.fsf@redhat.com>
-Organization: Red Hat GmbH
-References: <20230111161317.52250-1-cohuck@redhat.com>
- <20230111161317.52250-2-cohuck@redhat.com>
- <44d82d98-6a27-f4d3-9773-670231f82c63@redhat.com>
- <877cx9y0t6.fsf@redhat.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Thu, 26 Jan 2023 13:15:46 +0100
-Message-ID: <874jsdxzil.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pL1bO-00067Y-Kb
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 07:43:38 -0500
+Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pL1bL-0005X4-TY
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 07:43:37 -0500
+Received: by mail-pj1-x1034.google.com with SMTP id
+ n20-20020a17090aab9400b00229ca6a4636so5170988pjq.0
+ for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 04:43:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=D2hlvI8lyCcJMPlrPJST1vcEL6w9MkuLh14hpGUqyys=;
+ b=ASWppiC5fQXEsg/mmROIFcS2qBpdkrjTX1VJKnfQ2/k03QZaFOxoKXXQhQRx8hSUrW
+ TEHJ0C0DiKorAnM1FNlYuQEiEb2ApQtDfXMLxeVZqcv0UkqfgQeV4EKHVVaDgpn6a4my
+ wgXiyD/lbqCXX6K+n8wOk45uIeC2WdUgKNEGmFVvayemjKMkszC2ilZCVORsJqX6T5ib
+ mgTuZkYX68hij2JyHaTwb3LrdZwcDWjiobhq60hvRB7YI06Odb1TN+6Q6fsY6noLDwCI
+ VRQtnIDejk3Q2C6NP2G0tZpi7tentRxJ2GhRxNb3jMhtDJ2jfUZAH9Eliq8FGYjO8BZA
+ 2SBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=D2hlvI8lyCcJMPlrPJST1vcEL6w9MkuLh14hpGUqyys=;
+ b=fp6LhNdQz1F1/gFRXQb/q1nCfmOjwTRLX+/NHTzcPrMYpHgocpI7DjuWQQQmPbcERz
+ 0KU4Xtsp926Q8z3kllsMnPMYN88H/hpV8A0X0/nxxRujNQKi/u0XINR/6TBAxMKr2dI0
+ 4JQe/HwdoPSNf7cASjwmKkCvOPA+Mwq3LdQ0x6mkhTK86ASyqCyZlLPeJq9X78Bxgrgw
+ wpdxxaAhWg5Wy+Du26M/MR35z/Z9+00GQkWAiwQgtwWf6YF+WTxZhK7nkqKLSbm0+44L
+ bvdxJSeR97PMUFUHee84CKNuFXM1ir9MSPewNgQ7HmHxvXAwnGNnB+ha8ZtG8m684u86
+ +7gw==
+X-Gm-Message-State: AFqh2kqGnsI8JfO5Q2WyXcIL5lK56ueDzqnkHZYlLb1ZlWHLobesnkUY
+ Z1FlxKz78sDmIbqc/sLQblKHPndQictYTp/L0Ah5Ag==
+X-Google-Smtp-Source: AMrXdXs400WuawVLDuFJZyW+uz2qtMMPSdzkALNh4CWMBjNnVT1DTl2fekfvxxh7Z1TtcOdXSXeiungt30WkzYAY/gc=
+X-Received: by 2002:a17:90a:d801:b0:22b:bc67:1dec with SMTP id
+ a1-20020a17090ad80100b0022bbc671decmr3023795pjv.67.1674737014315; Thu, 26 Jan
+ 2023 04:43:34 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230110164406.94366-1-philmd@linaro.org>
+ <20230110164406.94366-13-philmd@linaro.org>
+ <CAFEAcA-yEN3F3p6W16vfML4dAHzdwSnOS=759MkqQ0qDpArnaw@mail.gmail.com>
+ <87sffyreuv.fsf@linaro.org>
+In-Reply-To: <87sffyreuv.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 Jan 2023 12:43:22 +0000
+Message-ID: <CAFEAcA_KRTzJy6ywjBVPx34ccWNTdcnNsC=5JYVkTNDSRSRsRA@mail.gmail.com>
+Subject: Re: [PATCH 12/18] hw/arm/digic: Replace object_initialize(ARMCPU) by
+ object_new(ARMCPU)
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ qemu-devel@nongnu.org, ale@rev.ng, Andrey Smirnov <andrew.smirnov@gmail.com>, 
+ Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org, 
+ Niek Linnenbank <nieklinnenbank@gmail.com>,
+ Jean-Christophe Dubois <jcd@tribudubois.net>, 
+ Antonio Caggiano <antonio.caggiano@collabora.com>,
+ Rob Herring <robh@kernel.org>, 
+ Antony Pavlov <antonynpavlov@gmail.com>, Jan Kiszka <jan.kiszka@web.de>, 
+ Beniamino Galvani <b.galvani@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1034.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,38 +97,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 26 2023, Cornelia Huck <cohuck@redhat.com> wrote:
-
-> On Mon, Jan 23 2023, Eric Auger <eauger@redhat.com> wrote:
+On Wed, 25 Jan 2023 at 12:14, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+> Peter Maydell <peter.maydell@linaro.org> writes:
+> > I'm not really a fan of this, because it moves away
+> > from a standard coding pattern we've been using for
+> > new QOM 'container' devices, where all the sub-components
+> > of the device are structs embedded in the device's own
+> > struct. This is as opposed to the old style which tended
+> > to use "allocate memory for the sub-component and have
+> > pointers to it". It means the CPU object is now being
+> > treated differently from all the timers, UARTs, etc.
 >
->> Hi Connie,
->> On 1/11/23 17:13, Cornelia Huck wrote:
->>>      if (vms->mte && (kvm_enabled() || hvf_enabled())) {
->>>          error_report("mach-virt: %s does not support providing "
->>> -                     "MTE to the guest CPU",
->>> +                     "emulated MTE to the guest CPU",
->> each time I read this message I feel difficult to understand it. Why not
->> replacing by
->> "mach-virt does not support tag memory with %s acceleration" or
->> something alike?
+> I think you can certainly make the argument that CPU's have always been
+> treated separately because we pass it around as an anonymous pointer all
+> the time. We currently can't support two concrete CPU types in the same
+> structure. For example zyncmp has:
 >
-> Hmm... well, it does not support tag memory with kvm/hvf, and the
-> consequence of this is that kvm/hvf cannot provide support for emulated
-> mte... what about
+>   struct XlnxZynqMPState {
+>       /*< private >*/
+>       DeviceState parent_obj;
 >
-> "mach-virt: tag memory not supported with %s, emulated MTE cannot be
-> provided to the guest CPU"
+>       /*< public >*/
+>       CPUClusterState apu_cluster;
+>       CPUClusterState rpu_cluster;
+>       ARMCPU apu_cpu[XLNX_ZYNQMP_NUM_APU_CPUS];
+>       ARMCPU rpu_cpu[XLNX_ZYNQMP_NUM_RPU_CPUS];
 >
-> Might be a bit long, though.
+> which only works because A/R cpus are the same underlying type. However
+> when we want to add Microblaze how would we do it?
 
-"mach-virt: %s does not support providing emulated MTE to the guest CPU
-(tag memory not supported)" seems to align better with the other error
-messages in that function.
+You'd add fields
+    MicroBlazeCPU other_cpu;
 
+As you note, at the moment that doesn't work because cpu.h
+is magic and embeds an assumption that it's only included
+in compile-per-target objects and therefore any given source
+file only includes one of them at once. I think we should be
+aiming to remove those assumptions, not work around them.
 
->
->>>                       kvm_enabled() ? "KVM" : "HVF");
->>>          exit(1);
->>>      }
-
+thanks
+-- PMM
 
