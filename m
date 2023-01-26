@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3112367C3F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 05:43:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D728B67C3F1
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 05:43:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKu27-00007W-GT; Wed, 25 Jan 2023 23:38:43 -0500
+	id 1pKu27-00007y-NQ; Wed, 25 Jan 2023 23:38:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pKu25-00006h-5r
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:38:41 -0500
-Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
+ id 1pKu23-00006N-Gd
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:38:40 -0500
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pKu21-0004ON-Tq
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:38:40 -0500
-Received: by mail-pj1-x1031.google.com with SMTP id o13so538635pjg.2
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 20:38:31 -0800 (PST)
+ id 1pKu21-0004OR-TW
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:38:39 -0500
+Received: by mail-pl1-x636.google.com with SMTP id z13so912795plg.6
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 20:38:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+sAayCS/0n8o12l1+Nu9dY41aCtQpJmApolHzbMbLL8=;
- b=NeYD11B0N8/wIy7wpHawxSplemFxpN57G8mMXJCwRdpTVg1rn/af4aTTh3i//6UDLl
- epD4E22y5l/Rr2cHGAY/+Sb1UhL/fKF/PBW5gXmIOWzQ9Okt/pvVUktKkte96GjMmDYI
- s+cZcL8wCw8k5o/jhP/Moub+bYdOcg69Hws5CDmBLngMh6aGgV7/0Xe6/hIFL/vObNvR
- 4PoDNV2RFkFLoy28WShcNvH1p59PoPOrMHdVd0ptor1a3rFVUmLYPo/1EObSdemTmD+o
- JndqK7yjAFnRrmq1TUm+8kVmTChxzBda3vrYmfxpvSvTvVnXm0nI997BeAGU7EMeAiaU
- 1nxg==
+ bh=P9o9Kqlm4R8WHQAINVfaYH28J5DgA1McwtQxHNZ+nmQ=;
+ b=i+6TR3WypDeSkb5T1+LwAjTNom+Yf8SM7IBIzWXbFHMZuYkBnP43Ni+tfT+MDvQVZw
+ wf7tg0OkDXu3kbWEDxlB3hpvyuUxY9HMEjp9q2JIBm1tCbXYMOsO3eBjr3dn1qTYncOd
+ Y+/mQiRwfH7lg8GfcEyCeuxjqxnKoPdXTNneCv4mxqdPfiaCKqqQ23NteAziPHLyI1pm
+ zAE5TZ7Sry6FXEa0M2JpIqy2g/sZUGoFYNhTdzR7YbytPGcrKOYAdt3noYeXvU4aRA9U
+ VFbnBTMcLYtRPiSy26rSS0RN9vtxWhI5c+0ScKM6rsU412qag9S/SLFEoduDhKtgwzr4
+ f4jw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+sAayCS/0n8o12l1+Nu9dY41aCtQpJmApolHzbMbLL8=;
- b=unznZcPwb6UkB09v9LzJGN0rCBmNtjyqNuTjnv0Dzo4FS0oeOT/zLVIZMsWKyGLx3m
- RoxkRtncJ7hNXik58XPr+Z0uzigL9t4GDdjhuJt2h7kmGpZ+BSxwYalZcQnJqqeJ7N5M
- ScUD+eUtpX+LFgftT3ruagCNRAwunoMJViP1/Qj7jzUahNLLAZ3k+Qt3OSufONBUn4uV
- B4whyKKRW3r91613R8KcxcZLNeNib+ijG5PAj5gRZwqXrtCJgvFGyaim8Vbs5z9bPpQU
- rFT/dlCzu2HbJZ73+p+ps9EAswhvfh5XYXF0FJjCPUF6oQtchNtABZIHmA41NKItJ6q7
- Fq5Q==
-X-Gm-Message-State: AFqh2kpbV/RQmwAMLtOfwek4coTbi+1J/JcSonfJK98Fj3lYysahPu02
- ZbfGtSA9fz+ItqPaND7cU4oXF00vsrawFwjCJfI=
-X-Google-Smtp-Source: AMrXdXs0RzvCIKTV8Ag1u9a2KDTnreQ55d2KV2JR0EPrmu9aZ45VQj/xwSLEwjxP2LM3T9+wnuTm8w==
-X-Received: by 2002:a17:90a:d344:b0:229:ef6c:4139 with SMTP id
- i4-20020a17090ad34400b00229ef6c4139mr25572738pjx.22.1674707910921; 
- Wed, 25 Jan 2023 20:38:30 -0800 (PST)
+ bh=P9o9Kqlm4R8WHQAINVfaYH28J5DgA1McwtQxHNZ+nmQ=;
+ b=HN1DMQLn6jnQyxtjW6yI7OXOqOBf6AFVzmBpX2XmwBjzcuCF6Wr0f+xPjcOYNK3DuY
+ eu/P2gPIbDZxMsRtSwHy3AENeXlul5V1pmcnc2pIk3t4hfpxga8o65Na8hnvF6DMBRQ9
+ N0DEEYHKGyCJaKYJzJCV3L0UnZqsWHOQTphaEIzcV3sdi3uWcOA7J1hRvR5nSb8wbNl7
+ aM26l3sZXmt32CEX574NFC2vjwnaB/k3zvEXKI2A8VoQEUbh/Li25SgzbdYSHms/mIUU
+ NbHKsBJ5JPKe3pPFI2UrTDdNjEip9fM23c821N/YHSD0jeKArApCITKoP9EWecfliQZS
+ Nk4w==
+X-Gm-Message-State: AO0yUKXPU/WzBHrD/JGFtEYhjtEPKJkCOZfhhEUISzzVcb+NzbdLALX9
+ ecscLtBqAA2RqD9JhCDTIHVLVMK9ZnXnTPhSl4c=
+X-Google-Smtp-Source: AK7set+eOxFwVO7ZJa84DpuV4a5NWuJYuxFzwpFBMXJ/wDPoCwW2KQYSC/0WEWAJ98NqRxR2Lnk2Eg==
+X-Received: by 2002:a17:90a:1da:b0:22b:e2ef:6845 with SMTP id
+ 26-20020a17090a01da00b0022be2ef6845mr10552033pjd.41.1674707912408; 
+ Wed, 25 Jan 2023 20:38:32 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- s62-20020a17090a69c400b00228e56d375asm233376pjj.33.2023.01.25.20.38.29
+ s62-20020a17090a69c400b00228e56d375asm233376pjj.33.2023.01.25.20.38.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 20:38:30 -0800 (PST)
+ Wed, 25 Jan 2023 20:38:31 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org
-Subject: [PATCH v5 02/36] tcg: Handle dh_typecode_i128 with TCG_CALL_{RET,
- ARG}_NORMAL
-Date: Wed, 25 Jan 2023 18:37:50 -1000
-Message-Id: <20230126043824.54819-3-richard.henderson@linaro.org>
+Subject: [PATCH v5 03/36] tcg: Allocate objects contiguously in
+ temp_allocate_frame
+Date: Wed, 25 Jan 2023 18:37:51 -1000
+Message-Id: <20230126043824.54819-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230126043824.54819-1-richard.henderson@linaro.org>
 References: <20230126043824.54819-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1031;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1031.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -91,91 +90,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Many hosts pass and return 128-bit quantities like sequential
-64-bit quantities.  Treat this just like we currently break
-down 64-bit quantities for a 32-bit host.
+When allocating a temp to the stack frame, consider the
+base type and allocate all parts at once.
 
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 37 +++++++++++++++++++++++++++++++++----
- 1 file changed, 33 insertions(+), 4 deletions(-)
+ tcg/tcg.c | 30 ++++++++++++++++++++++--------
+ 1 file changed, 22 insertions(+), 8 deletions(-)
 
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index d502327be2..ffddda96ed 100644
+index ffddda96ed..ff30f5e141 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -707,11 +707,22 @@ static void init_call_layout(TCGHelperInfo *info)
-     case dh_typecode_s64:
-         info->nr_out = 64 / TCG_TARGET_REG_BITS;
-         info->out_kind = TCG_CALL_RET_NORMAL;
-+        assert(info->nr_out <= ARRAY_SIZE(tcg_target_call_oarg_regs));
-+        break;
-+    case dh_typecode_i128:
-+        info->nr_out = 128 / TCG_TARGET_REG_BITS;
-+        info->out_kind = TCG_CALL_RET_NORMAL; /* TODO */
-+        switch (/* TODO */ TCG_CALL_RET_NORMAL) {
-+        case TCG_CALL_RET_NORMAL:
-+            assert(info->nr_out <= ARRAY_SIZE(tcg_target_call_oarg_regs));
-+            break;
-+        default:
-+            qemu_build_not_reached();
-+        }
+@@ -3264,11 +3264,12 @@ static bool liveness_pass_2(TCGContext *s)
+ 
+ static void temp_allocate_frame(TCGContext *s, TCGTemp *ts)
+ {
+-    int size = tcg_type_size(ts->type);
+-    int align;
+     intptr_t off;
++    int size, align;
+ 
+-    switch (ts->type) {
++    /* When allocating an object, look at the full type. */
++    size = tcg_type_size(ts->base_type);
++    switch (ts->base_type) {
+     case TCG_TYPE_I32:
+         align = 4;
          break;
-     default:
-         g_assert_not_reached();
+@@ -3299,13 +3300,26 @@ static void temp_allocate_frame(TCGContext *s, TCGTemp *ts)
+         tcg_raise_tb_overflow(s);
      }
--    assert(info->nr_out <= ARRAY_SIZE(tcg_target_call_oarg_regs));
- 
-     /*
-      * Parse and place function arguments.
-@@ -733,6 +744,9 @@ static void init_call_layout(TCGHelperInfo *info)
-         case dh_typecode_ptr:
-             type = TCG_TYPE_PTR;
-             break;
-+        case dh_typecode_i128:
-+            type = TCG_TYPE_I128;
-+            break;
-         default:
-             g_assert_not_reached();
-         }
-@@ -772,6 +786,19 @@ static void init_call_layout(TCGHelperInfo *info)
-             }
-             break;
- 
-+        case TCG_TYPE_I128:
-+            switch (/* TODO */ TCG_CALL_ARG_NORMAL) {
-+            case TCG_CALL_ARG_EVEN:
-+                layout_arg_even(&cum);
-+                /* fall through */
-+            case TCG_CALL_ARG_NORMAL:
-+                layout_arg_normal_n(&cum, info, 128 / TCG_TARGET_REG_BITS);
-+                break;
-+            default:
-+                qemu_build_not_reached();
-+            }
-+            break;
+     s->current_frame_offset = off + size;
+-
+-    ts->mem_offset = off;
+ #if defined(__sparc__)
+-    ts->mem_offset += TCG_TARGET_STACK_BIAS;
++    off += TCG_TARGET_STACK_BIAS;
+ #endif
+-    ts->mem_base = s->frame_temp;
+-    ts->mem_allocated = 1;
 +
-         default:
-             g_assert_not_reached();
-         }
-@@ -1690,11 +1717,13 @@ void tcg_gen_callN(void *func, TCGTemp *ret, int nargs, TCGTemp **args)
-         op->args[pi++] = temp_arg(ret);
-         break;
-     case 2:
-+    case 4:
-         tcg_debug_assert(ret != NULL);
--        tcg_debug_assert(ret->base_type == ret->type + 1);
-+        tcg_debug_assert(ret->base_type == ret->type + ctz32(n));
-         tcg_debug_assert(ret->temp_subindex == 0);
--        op->args[pi++] = temp_arg(ret);
--        op->args[pi++] = temp_arg(ret + 1);
-+        for (i = 0; i < n; ++i) {
-+            op->args[pi++] = temp_arg(ret + i);
++    /* If the object was subdivided, assign memory to all the parts. */
++    if (ts->base_type != ts->type) {
++        int part_size = tcg_type_size(ts->type);
++        int part_count = size / part_size;
++
++        ts -= ts->temp_subindex;
++        for (int i = 0; i < part_count; ++i) {
++            ts[i].mem_offset = off + i * part_size;
++            ts[i].mem_base = s->frame_temp;
++            ts[i].mem_allocated = 1;
 +        }
-         break;
-     default:
-         g_assert_not_reached();
++    } else {
++        ts->mem_offset = off;
++        ts->mem_base = s->frame_temp;
++        ts->mem_allocated = 1;
++    }
+ }
+ 
+ /* Assign @reg to @ts, and update reg_to_temp[]. */
 -- 
 2.34.1
 
