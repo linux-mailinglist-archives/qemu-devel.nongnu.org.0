@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CA8A67CF4D
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DA2167CF4E
 	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 16:08:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL3qh-0000fR-Tw; Thu, 26 Jan 2023 10:07:36 -0500
+	id 1pL3rV-000109-Tf; Thu, 26 Jan 2023 10:08:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pL3qd-0000eK-Na
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 10:07:32 -0500
-Received: from mout.kundenserver.de ([212.227.126.134])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pL3rT-0000zt-TY
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 10:08:23 -0500
+Received: from mout.kundenserver.de ([212.227.126.130])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pL3qc-0003Fc-6r
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 10:07:31 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pL3rS-0003LA-7O
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 10:08:23 -0500
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
  (mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MSI6i-1pEZba2cG0-00SiNR; Thu, 26 Jan 2023 16:07:26 +0100
-Message-ID: <fda462bb-fb33-f680-4a79-bdbadcb67bd1@vivier.eu>
-Date: Thu, 26 Jan 2023 16:07:25 +0100
+ 1N0qmr-1oR9IE3xSv-00wnmP; Thu, 26 Jan 2023 16:08:20 +0100
+Message-ID: <aefa9392-1731-0223-d1a6-42a6b0c35a9b@vivier.eu>
+Date: Thu, 26 Jan 2023 16:08:19 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH] linux-user: Improve strace output of getgroups() and
- setgroups()
+Subject: Re: [PATCH] linux-user: Add strace output for clock_getres_time64()
+ and futex_time64()
 Content-Language: fr
 To: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
-References: <20230115210057.445132-1-deller@gmx.de>
+References: <20230115113517.25143-1-deller@gmx.de>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20230115210057.445132-1-deller@gmx.de>
+In-Reply-To: <20230115113517.25143-1-deller@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:VqfaPdk/AlHi7W9tUvfmjTDV/L28CYuyeFvghKuuS7TH9q6TV5l
- V0OJM4iQXK0jVmqmI5/irJslgiUhKjB+25MrtrwcafAF/wzT1yrKMB1/s5XktXNuEfPh/kw
- 1EXBTs6w2JyrRAibRK2gUMnZMc8LhyjdTaL7z/Yp3EOGzRd+tD3/hx6+d7WUdWBnhRQazxO
- nnc4U018Sb3DktZQOA0lA==
-UI-OutboundReport: notjunk:1;M01:P0:gwIQp7cLgRI=;X2nE1wy6uShuDEAol3z/fGfcjc1
- VdFDU8ULHXbR4uSBXotEY+H88qU5t3R9XdlM7byOyiB6A1k2F/Zc37WAK2w63UvAvOT+TKbdl
- BFEMU3UFzOS3dVMSMgYOURJB+PpVh3llL38UQJbgsFPvlvF3qo/bqi1BR800wrQYlBLy6erXW
- suj5G3+BajrIr0SxUDzhCZ9LXwsQYmhR572RjQXyc0pd0AEXyKZHfXHPUNxv6fVd+ILgq9vkj
- syw42LHRwxLpB30UdjxxR/wCMnLdGFQgzY0D+g70zu02OjC4SvXeIaMPuLQYZWviI2mHRBNX+
- Tep7MqqaSHIKaiLK2/7q3A9eJOIWVjV3L+NyrrjNFIMNE5YZ9U2xCB7GITYTHA2uq/s9x6CL5
- pyJLXhAH7Jy267uLavydpPgdYLZL98epmp0SILfWZ29Idym2FZvBsxMOtcGdppfb4HyN7qxUY
- 8mBY6iY/tudYOdQgeE1q06BskxNGTy/wFxcMGBQ86mtQ/WQazX7YrhoBtC5DpBmzd0paYOzNG
- F6yRTX1/j4Sdits8DfimDUlNloDWZ6EcgMPeLWaRb8gEpO/y/sVpzLjzLe4YeRviu7bbKkF+f
- zoAjX9Qixgo1W0I5yGXDd49Spzek9fAUjNmmphVgs5BSCPYYx3wsb8dGmu7Rbw9uCRwXjCJpY
- n7GKXiH5XxE7oT2IV+Jiby35yCSpwIADDgl6VYMQtA==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:mXRFX9QKCTvjbye1+iBS/DmeWbAcR1CkLchE+Qyv8gudUMjJZDb
+ OM295Q33lvJNgrOfmsJg2oVEVBaYeUKY98q3IMSEmzl410gg2pWyzeQiOkIC2Y6S8i4siNI
+ IiR41LJ39aX94KMnXCYlu+4bKk8ewRqQOYXjZWYJFH95Z5jas0MH2gj8MdQ7/d8qwx6YNAu
+ ZIIsGTOgTysnaKgffbnQg==
+UI-OutboundReport: notjunk:1;M01:P0:QSR235MnGfw=;Sv4q+2xJ8AJuA2lajUm/puDe9DT
+ 9BR/2mr1nNslC8uCqNg5wdttzP8HUmw6ZJ7W90QS1je4j/QcpGzAFh/w0Ws7q+r5R0nWUfQ9Q
+ WplU9xAZEJCJGNnSPRwaw11Nun1hmW+3R6m86qqLY8mkxLYwQ9qYTH8ENQavxpYLBgdnI5Jeg
+ rvFYQh5FzlUgP+kbgJHW8/G3acEQBJikxPmXeUbCUsJxFpYmW6vF5thxZ6SwI21c0sYMO2s1i
+ pg8ZH3E9xDKAlPKCAWSXkEFe7TLUzeyRYygFHBq8rQ2aTMekPy1St+AhFDAVDwBpFY5W+a1gB
+ WWGym74v4gytO5MDPPFAbtWSv1VNb+ZQH0MZs81HytEStp+YpyRrUerOFZSfNYyHu9uNcQy5/
+ 1tjxNBb6cavwJVY1PtDGT/bBe3mpU6M1jzKMAdkoL/dq8/1nOYt5ryWZl8FTmfkVlkJD9fFaI
+ W4VwKY/s0JeCQ5uaUNzQfYY1CqlrQXRuet5Zbz8mIV3rqU5ByZE3y2DDMfCkdu1Ljqxquesa+
+ YxysGm2WIPHyxk/IADW4IRt8Mw2VAiszdF9UaBfA8UByDDvQh9ceOybH+P5DHd6EwNKvXAVlt
+ 6HkuTxqumqI3QYKqRmvgCDQLHcBYkKCjyt48OM4ZlDEAI0qGfNabU/YpJ5422WArASwwCuNaJ
+ W+DjXdbGhboXnw5y6U+2G9rmG83ouMVEBm+tZ5k8Hg==
+Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -29
 X-Spam_score: -3.0
@@ -71,13 +71,13 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 15/01/2023 à 22:00, Helge Deller a écrit :
-> Make the strace look nicer for those syscalls.
+Le 15/01/2023 à 12:35, Helge Deller a écrit :
+> Add the two syscalls to strace output to avoid "Unknown syscall" message.
 > 
 > Signed-off-by: Helge Deller <deller@gmx.de>
 > ---
->   linux-user/strace.list | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+>   linux-user/strace.list | 6 ++++++
+>   1 file changed, 6 insertions(+)
 > 
 
 
