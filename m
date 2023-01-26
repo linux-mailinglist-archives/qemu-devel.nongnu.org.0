@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C2767D310
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 18:26:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EF9267D321
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 18:27:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL5zz-0005os-25; Thu, 26 Jan 2023 12:25:19 -0500
+	id 1pL5zx-0005lb-K2; Thu, 26 Jan 2023 12:25:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pL5zq-0005iQ-RB
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 12:25:11 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pL5zp-0005iG-Jm
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 12:25:09 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pL5zo-0006Sp-VF
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 12:25:10 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pL5zn-0006NT-C7
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 12:25:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1674753905;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OB2QkAx4//j07ptpSbifaQSPrr+k32xH9bUthagqZcc=;
- b=BcZQTjLmrM7nTEv1iSvhNuJpVnbzT7Tmbt22NNigi9mB49zVKTGtBccY6E1cCjjoMSDwh/
- RBImAcSHg6lspXgZml1TAUWXvIXftVRcyITYJHn2QlNzOQLpM8svMLc0iO4jmzxD5etUoa
- FwOAgtHayEfzcsCE3Yd6NhkpT0OIocs=
+ bh=qwZqVhO5mgih2lxqXqOvu1E7lteqTYsMWPIsuUqXc84=;
+ b=f9DIxc7G0bpzRNEpPfQnd8GIMYXibuoR+jS6AHbim7yOYny6mG4mS7axhh1PPL60VcUbHy
+ E07QsL1bUXV8WKH+HofaSB0fHUmyfPPcA0YerjRFX/KN0AR9jAjpxM8RwDDw/8fRJah1uB
+ qaj6gVpGevStnQ/551PBnjy40S6W3kw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-193-WeZWiVnYOL2rrn9dlnkOKQ-1; Thu, 26 Jan 2023 12:25:02 -0500
-X-MC-Unique: WeZWiVnYOL2rrn9dlnkOKQ-1
+ us-mta-167-7LFmHMK4PrOaPOUMwzpbXQ-1; Thu, 26 Jan 2023 12:25:03 -0500
+X-MC-Unique: 7LFmHMK4PrOaPOUMwzpbXQ-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D460685C095;
- Thu, 26 Jan 2023 17:25:01 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0F5D3183B3D3;
+ Thu, 26 Jan 2023 17:25:03 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DCC16492C14;
- Thu, 26 Jan 2023 17:25:00 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 18379492C14;
+ Thu, 26 Jan 2023 17:25:01 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, hreitz@redhat.com, eesposit@redhat.com,
  pbonzini@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH 11/13] vpc: Fix .bdrv_co_create(_opts) to open images with
- no_co_wrapper
-Date: Thu, 26 Jan 2023 18:24:30 +0100
-Message-Id: <20230126172432.436111-12-kwolf@redhat.com>
+Subject: [PATCH 12/13] block: Fix bdrv_co_create_opts_simple() to open images
+ with no_co_wrapper
+Date: Thu, 26 Jan 2023 18:24:31 +0100
+Message-Id: <20230126172432.436111-13-kwolf@redhat.com>
 In-Reply-To: <20230126172432.436111-1-kwolf@redhat.com>
 References: <20230126172432.436111-1-kwolf@redhat.com>
 MIME-Version: 1.0
@@ -61,7 +61,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,47 +77,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-.bdrv_co_create implementations run in a coroutine. Therefore they are
-not allowed to open images directly. Fix the calls to use the
-corresponding no_co_wrappers instead.
+bdrv_co_create_opts_simpl() runs in a coroutine. Therefore it is not
+allowed to open images directly. Fix the call to use the corresponding
+no_co_wrapper instead.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/vpc.c | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ block.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/block/vpc.c b/block/vpc.c
-index cfdea7db80..3c256fc5a4 100644
---- a/block/vpc.c
-+++ b/block/vpc.c
-@@ -1005,13 +1005,13 @@ static int coroutine_fn vpc_co_create(BlockdevCreateOptions *opts,
-     }
+diff --git a/block.c b/block.c
+index aa9062f2c1..6eac16eac5 100644
+--- a/block.c
++++ b/block.c
+@@ -657,8 +657,8 @@ int coroutine_fn bdrv_co_create_opts_simple(BlockDriver *drv,
+     options = qdict_new();
+     qdict_put_str(options, "driver", drv->format_name);
  
-     /* Create BlockBackend to write to the image */
--    bs = bdrv_open_blockdev_ref(vpc_opts->file, errp);
-+    bs = bdrv_co_open_blockdev_ref(vpc_opts->file, errp);
-     if (bs == NULL) {
-         return -EIO;
-     }
- 
--    blk = blk_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL,
--                          errp);
-+    blk = blk_co_new_with_bs(bs, BLK_PERM_WRITE | BLK_PERM_RESIZE, BLK_PERM_ALL,
-+                             errp);
+-    blk = blk_new_open(filename, NULL, options,
+-                       BDRV_O_RDWR | BDRV_O_RESIZE, errp);
++    blk = blk_co_new_open(filename, NULL, options,
++                          BDRV_O_RDWR | BDRV_O_RESIZE, errp);
      if (!blk) {
-         ret = -EPERM;
-         goto out;
-@@ -1117,8 +1117,8 @@ static int coroutine_fn vpc_co_create_opts(BlockDriver *drv,
-         goto fail;
-     }
- 
--    bs = bdrv_open(filename, NULL, NULL,
--                   BDRV_O_RDWR | BDRV_O_RESIZE | BDRV_O_PROTOCOL, errp);
-+    bs = bdrv_co_open(filename, NULL, NULL,
-+                      BDRV_O_RDWR | BDRV_O_RESIZE | BDRV_O_PROTOCOL, errp);
-     if (bs == NULL) {
-         ret = -EIO;
-         goto fail;
+         error_prepend(errp, "Protocol driver '%s' does not support image "
+                       "creation, and opening the image failed: ",
 -- 
 2.38.1
 
