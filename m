@@ -2,123 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86DEE67C3D0
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 05:20:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1AA867C3F8
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 05:43:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKtj6-00055k-0f; Wed, 25 Jan 2023 23:19:04 -0500
+	id 1pKu26-00007L-UT; Wed, 25 Jan 2023 23:38:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pKtj3-00055K-Tn
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:19:01 -0500
-Received: from esa12.hc2706-39.iphmx.com ([216.71.137.82])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pKtj0-0003Z8-DN
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:19:01 -0500
-X-IronPort-RemoteIP: 209.85.160.200
-X-IronPort-MID: 254323623
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:VydCi6JZ3+z+ouz7FE+Rb5clxSXFcZb7ZxGr2PjKsXjdYENShTBRz
- mIfC23XaPyDYzekftF2a4S09hwA6sCEm4Q3SgtorCE8RH908vbIVI+TRqvS04J+DSFhoGZPt
- Zh2hgzodZhsJpPkjk7xdOOn9Twkj/rgqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziJ2yDhjlV
- ena+qUzA3f4nW8rWo4ow/jb8kg35a6s4GpwUmEWPpingnePzxH5M7pCfcldH1OgKqFIE+izQ
- fr0zb3R1gs1KD90V7tJOp6iGqE7aue60Tqm0xK6aID76vR2nRHe545gXBYqhea7vB3S9zx54
- I0lWZVd0m7FNIWV8AgWe0Aw/y2TocSqUVIISJSymZX78qHIT5fj69tyDlwuGKsjxsxUJDxW1
- qBEGgkLVw/W0opawJrjIgVtrsEqLc2uJZ9G/386lWmfAvEhTpTOBa7N4Le03h9q3pEITauYP
- pRBL2A3NHwsYDUWUrsTIJs6jOGknFH1bntVpE/9Sa8fuTWPl1YqjuK2WDbTUt+zau5vsn+gm
- kPXz03cUkhZLP+QzTXQpxpAgceKx0sXQrk6DbC967tmjUOewkQVDxsZU0b9puO24nNSQPpaI
- k0QvzMy9O08rhTzCNb6WBK8rTiPuRt0t8dsLtDWITqlksL8izt1zEBfJtKdQLTKbPMLeAE=
-IronPort-HdrOrdr: A9a23:7kGddKPsFbsD38BcThejsMiBIKoaSvp037Dk7TEXdfVwSL3kqy
- nOpoVg6faQslwssR4b6LK90cW7MBbhHNtOkPUs1NSZLXLbUQmTXfhfBOLZqlWKak7DH6xmpN
- 9dmsBFaOEYZmIK6/oSjjPId+oI8Z2s3Jrtq93j70pAeylXVoAI1XYHNu9ZKCFLrct9aKbR2K
- Dz2iOPnVXARUgq
-Received: from mail-qt1-f200.google.com ([209.85.160.200])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 25 Jan 2023 23:18:53 -0500
-Received: by mail-qt1-f200.google.com with SMTP id
- cn7-20020a05622a248700b003b7f2a89829so307325qtb.6
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 20:18:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=n3jAuGfcRVyZ64cbD6dmc2V7mL6ZeVbAgsAGjD9ba74=;
- b=XwX4yqg+J0JEzvJ29Hsb6jBgG2sh4sOgNahC4Sk8aDS0vkKaAmma/2lfpkJH0Hy3hA
- plDO3KqatdrDmXN+nNrPMLWQlk/aIFEpOj29Sn7zUu/Qlry7VFa8N/IvLL/UL8/e28Sy
- v8SMWRKaIPButgHoQCCQJhqUyzhJAlfu1PFDzyUO2w0qwqLFgLwdF346h+6435i4s3b4
- fZBfVuW6DXYFun3sPJPG/vqw+C2JMLoiOu2F0fZsHKjLDjGbOvQlbg/G4S5MEzTR8Y+F
- m7hw9D+QZMZX6opzSlJSFh4zWRpW5K8yW+7o5eVSiHy+quk3KYlqn7diH01HUqHw2D/w
- faIw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pKu24-00006O-0K
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:38:40 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pKu21-0004OB-S7
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:38:39 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ nm12-20020a17090b19cc00b0022c2155cc0bso698518pjb.4
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 20:38:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=HvvnZ+DP2gVFRQj0md4ipNkDtNnx4QPOZL1UpmZDX08=;
+ b=zBmi0u2wwCfYjyDwUs5otUZQdiTOidIpE2FyQ9L5sAQ5W43zkwJh52prVgYYcKbsfp
+ 59oL+PrPUtTxw6u69KsWkyynbn6UW0yeHg8OgwccMrX7Q8T4yYFYCRtFtAxCLdrMjWGJ
+ UNAUJ8j1p/TMaegS+umbo6kfejMypB4/agCOeKM3tzpEbnWB1RdVwHQNk7L0038lEVFe
+ L3N8bk8hCLV86oUzhzbNPLGq/tIZyjvNyrPHT377Qx+t3V54tiI4zGQeUrOE6oLlq41X
+ ZfuMEW+Qj91FHmLJvPKMe6s3OXQzMKQU2RLw1vsz8IWA40gYeeKbs1Yd+/tC0ce+b+s9
+ fp/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=n3jAuGfcRVyZ64cbD6dmc2V7mL6ZeVbAgsAGjD9ba74=;
- b=iJ+v55awkeKeVBTO1cDuuH941WlJmt65ETc+rT8o42CNuScYiBQexOgVHhYZTNzNms
- Xv8JPHszX7jkKDYnL5i3t9A38Zu8+pxkb8Daio82KI1LoTNVzEVa30ZzB1GSy5St36Eh
- YtOdonF4I0Xe2uzTqDnsFU5MF49TthNjgUfKlpOb7JVLl2M8wvD9tkp0tXKhwcL9F2Hl
- 6CdvoDHMFDDGNx/eXx8ZNzY0S63FC4K+oQJyYXubytPWptKEy5Sw6hbw+ILciOS/3Nfx
- c5f6hHidTLCYCJjrUimYnIRLUc3qW5TqOKh7SirU710EsPkxguxJpTXlfhOIBjDf4FgA
- 5rVw==
-X-Gm-Message-State: AFqh2kpjGXM0bfOIor32E0i5ckLrHazBaneONet4w3UytEeOygcincBe
- //c3nY2Q+PI3fEYd6QHM9qCraK3S8BdrBqaH/sFUsI/UQC50Cdlt819b3UC0g+SMHPRRegVEbjV
- PjAFM8f3HsRiS74YlaPfdoK9fS5dt/A==
-X-Received: by 2002:ac8:7ed7:0:b0:3b6:3260:fa1d with SMTP id
- x23-20020ac87ed7000000b003b63260fa1dmr49950347qtj.45.1674706732857; 
- Wed, 25 Jan 2023 20:18:52 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsQyranx81B2g4BAC2E7P+B3Jm85oU0rh+DFdSpYZbgJb/wXMvmiRwOv4NLb8q1lontU/v4Zg==
-X-Received: by 2002:ac8:7ed7:0:b0:3b6:3260:fa1d with SMTP id
- x23-20020ac87ed7000000b003b63260fa1dmr49950312qtj.45.1674706732431; 
- Wed, 25 Jan 2023 20:18:52 -0800 (PST)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=HvvnZ+DP2gVFRQj0md4ipNkDtNnx4QPOZL1UpmZDX08=;
+ b=Lod19RWZXyUBqE6iLUsyU+KwEWErqLmdbqiAlh3t5nD6cD7BrfGIH07jmgLw1Gs69H
+ XyODFDhm/rkGXD3OQVFOaeR8XvVSORFS7nK6zLZZHfOFEhPRimxw00mG1HbwErT/QmAb
+ r7Diel72CDq/QYFa6R+149XZdIaGAvr8SbDY7ncfhpWdXdlmO1CxSKIVOza3Zd+X8OSd
+ RTQvVG+df1sLseYMR1ktRspArYYGcutrgtkgfHMOMgRmn5Z98QO5Pvj/+9esEnBt8aC3
+ 13WTbOvdFgM4wXmNz1B7y0ONPeibPraYxLUA/pVtSOoPNT8zROjCW285Cp3Tqui1Lwgs
+ qp/Q==
+X-Gm-Message-State: AO0yUKX3x9QXX/jb58lNyU1zyasgzUnERTtl6Fv7SqzW1IGSR2iwjGqp
+ YDRAv9LSa5YFYzlEnHmZGxqS462DkM5uLG1y
+X-Google-Smtp-Source: AK7set8Qtw1RN3if+Ol2F8+Qzzv/OAYjvp+Dty/h+aQM8bF52O6nsF1Ds9ZqsQrlI5IpMIQCYmm08A==
+X-Received: by 2002:a17:90a:358:b0:229:f8e6:4bd2 with SMTP id
+ 24-20020a17090a035800b00229f8e64bd2mr796145pjf.18.1674707907975; 
+ Wed, 25 Jan 2023 20:38:27 -0800 (PST)
+Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- f8-20020ac84648000000b003b6464eda40sm85569qto.25.2023.01.25.20.18.50
+ s62-20020a17090a69c400b00228e56d375asm233376pjj.33.2023.01.25.20.38.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 20:18:51 -0800 (PST)
-Date: Wed, 25 Jan 2023 23:18:45 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Peter Xu <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>,
- David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>,
- Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
- Hanna Reitz <hreitz@redhat.com>,
- "open list:Block I/O path" <qemu-block@nongnu.org>
-Subject: Re: [PATCH v4 2/3] async: Add an optional reentrancy guard to the BH
- API
-Message-ID: <20230126041845.6oasqvrpj2ltgto4@mozz.bu.edu>
-References: <20230119070308.321653-1-alxndr@bu.edu>
- <20230119070308.321653-3-alxndr@bu.edu> <Y9Gd/BDwNXeElTNR@fedora>
+ Wed, 25 Jan 2023 20:38:27 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org
+Subject: [PATCH v5 00/36] tcg: Support for Int128 with helpers
+Date: Wed, 25 Jan 2023 18:37:48 -1000
+Message-Id: <20230126043824.54819-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y9Gd/BDwNXeElTNR@fedora>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.137.82; envelope-from=alxndr@bu.edu;
- helo=esa12.hc2706-39.iphmx.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -134,235 +88,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 230125 1624, Stefan Hajnoczi wrote:
-> On Thu, Jan 19, 2023 at 02:03:07AM -0500, Alexander Bulekov wrote:
-> > Devices can pass their MemoryReentrancyGuard (from their DeviceState),
-> > when creating new BHes. Then, the async API will toggle the guard
-> > before/after calling the BH call-back. This prevents bh->mmio reentrancy
-> > issues.
-> > 
-> > Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
-> > ---
-> >  docs/devel/multiple-iothreads.txt |  2 ++
-> >  include/block/aio.h               | 18 ++++++++++++++++--
-> >  include/qemu/main-loop.h          |  7 +++++--
-> >  tests/unit/ptimer-test-stubs.c    |  3 ++-
-> >  util/async.c                      | 12 +++++++++++-
-> >  util/main-loop.c                  |  5 +++--
-> >  6 files changed, 39 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/docs/devel/multiple-iothreads.txt b/docs/devel/multiple-iothreads.txt
-> > index 343120f2ef..e4fafed9d9 100644
-> > --- a/docs/devel/multiple-iothreads.txt
-> > +++ b/docs/devel/multiple-iothreads.txt
-> > @@ -61,6 +61,7 @@ There are several old APIs that use the main loop AioContext:
-> >   * LEGACY qemu_aio_set_event_notifier() - monitor an event notifier
-> >   * LEGACY timer_new_ms() - create a timer
-> >   * LEGACY qemu_bh_new() - create a BH
-> > + * LEGACY qemu_bh_new_guarded() - create a BH with a device re-entrancy guard
-> >   * LEGACY qemu_aio_wait() - run an event loop iteration
-> >  
-> >  Since they implicitly work on the main loop they cannot be used in code that
-> > @@ -72,6 +73,7 @@ Instead, use the AioContext functions directly (see include/block/aio.h):
-> >   * aio_set_event_notifier() - monitor an event notifier
-> >   * aio_timer_new() - create a timer
-> >   * aio_bh_new() - create a BH
-> > + * aio_bh_new_guarded() - create a BH with a device re-entrancy guard
-> >   * aio_poll() - run an event loop iteration
-> >  
-> >  The AioContext can be obtained from the IOThread using
-> > diff --git a/include/block/aio.h b/include/block/aio.h
-> > index 0f65a3cc9e..94d661ff7e 100644
-> > --- a/include/block/aio.h
-> > +++ b/include/block/aio.h
-> > @@ -23,6 +23,8 @@
-> >  #include "qemu/thread.h"
-> >  #include "qemu/timer.h"
-> >  #include "block/graph-lock.h"
-> > +#include "hw/qdev-core.h"
-> > +
-> >  
-> >  typedef struct BlockAIOCB BlockAIOCB;
-> >  typedef void BlockCompletionFunc(void *opaque, int ret);
-> > @@ -332,9 +334,11 @@ void aio_bh_schedule_oneshot_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
-> >   * is opaque and must be allocated prior to its use.
-> >   *
-> >   * @name: A human-readable identifier for debugging purposes.
-> > + * @reentrancy_guard: A guard set when entering a cb to prevent
-> > + * device-reentrancy issues
-> >   */
-> >  QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
-> > -                        const char *name);
-> > +                        const char *name, MemReentrancyGuard *reentrancy_guard);
-> >  
-> >  /**
-> >   * aio_bh_new: Allocate a new bottom half structure
-> > @@ -343,7 +347,17 @@ QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
-> >   * string.
-> >   */
-> >  #define aio_bh_new(ctx, cb, opaque) \
-> > -    aio_bh_new_full((ctx), (cb), (opaque), (stringify(cb)))
-> > +    aio_bh_new_full((ctx), (cb), (opaque), (stringify(cb)), NULL)
-> > +
-> > +/**
-> > + * aio_bh_new_guarded: Allocate a new bottom half structure with a
-> > + * reentrancy_guard
-> > + *
-> > + * A convenience wrapper for aio_bh_new_full() that uses the cb as the name
-> > + * string.
-> > + */
-> > +#define aio_bh_new_guarded(ctx, cb, opaque, guard) \
-> > +    aio_bh_new_full((ctx), (cb), (opaque), (stringify(cb)), guard)
-> >  
-> >  /**
-> >   * aio_notify: Force processing of pending events.
-> > diff --git a/include/qemu/main-loop.h b/include/qemu/main-loop.h
-> > index c25f390696..84d1ce57f0 100644
-> > --- a/include/qemu/main-loop.h
-> > +++ b/include/qemu/main-loop.h
-> > @@ -389,9 +389,12 @@ void qemu_cond_timedwait_iothread(QemuCond *cond, int ms);
-> >  
-> >  void qemu_fd_register(int fd);
-> >  
-> > +#define qemu_bh_new_guarded(cb, opaque, guard) \
-> > +    qemu_bh_new_full((cb), (opaque), (stringify(cb)), guard)
-> >  #define qemu_bh_new(cb, opaque) \
-> > -    qemu_bh_new_full((cb), (opaque), (stringify(cb)))
-> > -QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name);
-> > +    qemu_bh_new_full((cb), (opaque), (stringify(cb)), NULL)
-> > +QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name,
-> > +                         MemReentrancyGuard *reentrancy_guard);
-> >  void qemu_bh_schedule_idle(QEMUBH *bh);
-> >  
-> >  enum {
-> > diff --git a/tests/unit/ptimer-test-stubs.c b/tests/unit/ptimer-test-stubs.c
-> > index f5e75a96b6..24d5413f9d 100644
-> > --- a/tests/unit/ptimer-test-stubs.c
-> > +++ b/tests/unit/ptimer-test-stubs.c
-> > @@ -107,7 +107,8 @@ int64_t qemu_clock_deadline_ns_all(QEMUClockType type, int attr_mask)
-> >      return deadline;
-> >  }
-> >  
-> > -QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name)
-> > +QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name,
-> > +                         MemReentrancyGuard *reentrancy_guard)
-> >  {
-> >      QEMUBH *bh = g_new(QEMUBH, 1);
-> >  
-> > diff --git a/util/async.c b/util/async.c
-> > index 14d63b3091..08924c3212 100644
-> > --- a/util/async.c
-> > +++ b/util/async.c
-> > @@ -65,6 +65,7 @@ struct QEMUBH {
-> >      void *opaque;
-> >      QSLIST_ENTRY(QEMUBH) next;
-> >      unsigned flags;
-> > +    MemReentrancyGuard *reentrancy_guard;
-> >  };
-> >  
-> >  /* Called concurrently from any thread */
-> > @@ -133,7 +134,7 @@ void aio_bh_schedule_oneshot_full(AioContext *ctx, QEMUBHFunc *cb,
-> >  }
-> >  
-> >  QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
-> > -                        const char *name)
-> > +                        const char *name, MemReentrancyGuard *reentrancy_guard)
-> >  {
-> >      QEMUBH *bh;
-> >      bh = g_new(QEMUBH, 1);
-> > @@ -142,13 +143,22 @@ QEMUBH *aio_bh_new_full(AioContext *ctx, QEMUBHFunc *cb, void *opaque,
-> >          .cb = cb,
-> >          .opaque = opaque,
-> >          .name = name,
-> > +        .reentrancy_guard = reentrancy_guard,
-> >      };
-> >      return bh;
-> >  }
-> >  
-> >  void aio_bh_call(QEMUBH *bh)
-> >  {
-> > +    if (bh->reentrancy_guard) {
-> > +        bh->reentrancy_guard->engaged_in_io = true;
-> > +    }
-> > +
-> >      bh->cb(bh->opaque);
-> > +
-> > +    if (bh->reentrancy_guard) {
-> > +        bh->reentrancy_guard->engaged_in_io = false;
-> > +    }
-> >  }
-> 
-> QEMU supports nested event loops. I think aio_bh_call() -> cb() ->
-> aio_poll() -> aio_bh_call() -> ... is possible although it should be
-> rare.
-> 
+Branch: https://gitlab.com/rth7680/qemu/-/tree/tcg-i128
+Based-on: 20230124020507.3732200-1-richard.henderson@linaro.org
+("[PULL v2 00/15] tcg patch queue")
 
-Maybe 9p's v9fs_co_run_in_worker is an example of that, though I'm not
-sure. That was one of the calls to qemu_bh_new that I could not find
-a straightforward way to refactor..
+Changes for v5:
+  * Rebase, minor conflicts fixed.
 
-> ->engaged_in_io will set to false after the innermost aio_bh_call()
-> returns. Therefore the protection doesn't cover the remainder of the
-> parent cb() functions.
-> 
-> I think aio_bh_call() should be:
-> 
->   void aio_bh_call(QEMUBH *bh)
->   {
->       bool last_engaged_in_io = false;
-> 
->       if (bh->reentrancy_guard) {
->           last_engaged_in_io = bh->reentrancy_guard->engaged_in_io;
->           bh->reentrancy_guard->engaged_in_io = true;
->       }
-> 
->       bh->cb(bh->opaque);
-> 
->       if (bh->reentrancy_guard) {
->           bh->reentrancy_guard->engaged_in_io = last_engaged_in_io;
->       }
->   }
-> 
-> That way nested aio_poll() calls work as expected.
-> 
-> This also raises the question whether aio_bh_call() should call abort(3)
-> if ->engaged_in_io is already true when the function is entered? I think
-> that may be too strict, but I'm not sure. A scenario where this can
-> happen:
-> 
-> The memory region read/write function calls aio_poll() -> aio_bh_call()
-> and a BH with our device's re-entrancy guard is executed.
-> 
+Patches lacking review:
+  common:
+    03-tcg-Allocate-objects-contiguously-in-temp_allocat.patch
+    05-tcg-Add-TCG_CALL_-RET-ARG-_BY_REF.patch
+    09-tcg-i386-Add-TCG_TARGET_CALL_-RET-ARG-_I128.patch
+    11-tcg-tci-Add-TCG_TARGET_CALL_-RET-ARG-_I128.patch
+    15-tcg-Add-guest-load-store-primitives-for-TCGv_i128.patch
+    16-tcg-Add-tcg_gen_-non-atomic_cmpxchg_i128.patch
+    17-tcg-Split-out-tcg_gen_nonatomic_cmpxchg_i-32-64.patch
+  target/s390x/
+    24-target-s390x-Use-a-single-return-for-helper_divs3.patch
+    29-target-s390x-Copy-wout_x1-to-wout_x1_P.patch
+    31-target-s390x-Use-Int128-for-passing-float128.patch
+    32-target-s390x-Use-tcg_gen_atomic_cmpxchg_i128-for-.patch
+    33-target-s390x-Implement-CC_OP_NZ-in-gen_op_calc_cc.patch
+  target/i386/
+    35-target-i386-Inline-cmpxchg8b.patch
+    36-target-i386-Inline-cmpxchg16b.patch
 
-Is this sort of "bh reentrancy" only likely through a deliberate
-design-decision by the code author? If so then, maybe it doesn't need to
-be treated with the same severity as the memory-reentrancy case. I'll
-add a tracepoint in the next version.
-Thanks
--Alex
 
-> >  
-> >  /* Multiple occurrences of aio_bh_poll cannot be called concurrently. */
-> > diff --git a/util/main-loop.c b/util/main-loop.c
-> > index 58f776a8c9..07d2e2040a 100644
-> > --- a/util/main-loop.c
-> > +++ b/util/main-loop.c
-> > @@ -617,9 +617,10 @@ void main_loop_wait(int nonblocking)
-> >  
-> >  /* Functions to operate on the main QEMU AioContext.  */
-> >  
-> > -QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name)
-> > +QEMUBH *qemu_bh_new_full(QEMUBHFunc *cb, void *opaque, const char *name, MemReentrancyGuard *reentrancy_guard)
-> >  {
-> > -    return aio_bh_new_full(qemu_aio_context, cb, opaque, name);
-> > +    return aio_bh_new_full(qemu_aio_context, cb, opaque, name,
-> > +                           reentrancy_guard);
-> >  }
-> >  
-> >  /*
-> > -- 
-> > 2.39.0
-> > 
+r~
 
+
+Ilya Leoshkevich (2):
+  tests/tcg/s390x: Add div.c
+  tests/tcg/s390x: Add clst.c
+
+Richard Henderson (34):
+  tcg: Define TCG_TYPE_I128 and related helper macros
+  tcg: Handle dh_typecode_i128 with TCG_CALL_{RET,ARG}_NORMAL
+  tcg: Allocate objects contiguously in temp_allocate_frame
+  tcg: Introduce tcg_out_addi_ptr
+  tcg: Add TCG_CALL_{RET,ARG}_BY_REF
+  tcg: Introduce tcg_target_call_oarg_reg
+  tcg: Add TCG_CALL_RET_BY_VEC
+  include/qemu/int128: Use Int128 structure for TCI
+  tcg/i386: Add TCG_TARGET_CALL_{RET,ARG}_I128
+  tcg/tci: Fix big-endian return register ordering
+  tcg/tci: Add TCG_TARGET_CALL_{RET,ARG}_I128
+  tcg: Add TCG_TARGET_CALL_{RET,ARG}_I128
+  tcg: Add temp allocation for TCGv_i128
+  tcg: Add basic data movement for TCGv_i128
+  tcg: Add guest load/store primitives for TCGv_i128
+  tcg: Add tcg_gen_{non}atomic_cmpxchg_i128
+  tcg: Split out tcg_gen_nonatomic_cmpxchg_i{32,64}
+  target/arm: Use tcg_gen_atomic_cmpxchg_i128 for STXP
+  target/arm: Use tcg_gen_atomic_cmpxchg_i128 for CASP
+  target/ppc: Use tcg_gen_atomic_cmpxchg_i128 for STQCX
+  tests/tcg/s390x: Add long-double.c
+  target/s390x: Use a single return for helper_divs32/u32
+  target/s390x: Use a single return for helper_divs64/u64
+  target/s390x: Use Int128 for return from CLST
+  target/s390x: Use Int128 for return from CKSM
+  target/s390x: Use Int128 for return from TRE
+  target/s390x: Copy wout_x1 to wout_x1_P
+  target/s390x: Use Int128 for returning float128
+  target/s390x: Use Int128 for passing float128
+  target/s390x: Use tcg_gen_atomic_cmpxchg_i128 for CDSG
+  target/s390x: Implement CC_OP_NZ in gen_op_calc_cc
+  target/i386: Split out gen_cmpxchg8b, gen_cmpxchg16b
+  target/i386: Inline cmpxchg8b
+  target/i386: Inline cmpxchg16b
+
+ accel/tcg/tcg-runtime.h          |  11 +
+ include/exec/cpu_ldst.h          |  10 +
+ include/exec/helper-head.h       |   7 +
+ include/qemu/atomic128.h         |  29 ++-
+ include/qemu/int128.h            |  25 +-
+ include/tcg/tcg-op.h             |  15 ++
+ include/tcg/tcg.h                |  49 +++-
+ target/arm/helper-a64.h          |   8 -
+ target/i386/helper.h             |   6 -
+ target/ppc/helper.h              |   2 -
+ target/s390x/helper.h            |  54 ++---
+ tcg/aarch64/tcg-target.h         |   2 +
+ tcg/arm/tcg-target.h             |   2 +
+ tcg/i386/tcg-target.h            |  10 +
+ tcg/loongarch64/tcg-target.h     |   2 +
+ tcg/mips/tcg-target.h            |   2 +
+ tcg/riscv/tcg-target.h           |   3 +
+ tcg/s390x/tcg-target.h           |   2 +
+ tcg/sparc64/tcg-target.h         |   2 +
+ tcg/tcg-internal.h               |  17 ++
+ tcg/tci/tcg-target.h             |   3 +
+ target/s390x/tcg/insn-data.h.inc |  60 ++---
+ accel/tcg/cputlb.c               | 112 +++++++++
+ accel/tcg/user-exec.c            |  66 ++++++
+ target/arm/helper-a64.c          | 147 ------------
+ target/arm/translate-a64.c       | 121 +++++-----
+ target/i386/tcg/mem_helper.c     | 126 ----------
+ target/i386/tcg/translate.c      | 126 ++++++++--
+ target/ppc/mem_helper.c          |  44 ----
+ target/ppc/translate.c           | 102 ++++----
+ target/s390x/tcg/fpu_helper.c    | 103 ++++----
+ target/s390x/tcg/int_helper.c    |  64 ++---
+ target/s390x/tcg/mem_helper.c    |  77 +-----
+ target/s390x/tcg/translate.c     | 217 +++++++++++------
+ tcg/tcg-op.c                     | 393 ++++++++++++++++++++++++++-----
+ tcg/tcg.c                        | 303 +++++++++++++++++++++---
+ tcg/tci.c                        |  65 ++---
+ tests/tcg/s390x/clst.c           |  82 +++++++
+ tests/tcg/s390x/div.c            |  75 ++++++
+ tests/tcg/s390x/long-double.c    |  24 ++
+ util/int128.c                    |  42 ++++
+ accel/tcg/atomic_common.c.inc    |  45 ++++
+ tcg/aarch64/tcg-target.c.inc     |  17 +-
+ tcg/arm/tcg-target.c.inc         |  30 ++-
+ tcg/i386/tcg-target.c.inc        |  52 +++-
+ tcg/loongarch64/tcg-target.c.inc |  17 +-
+ tcg/mips/tcg-target.c.inc        |  17 +-
+ tcg/ppc/tcg-target.c.inc         |  20 +-
+ tcg/riscv/tcg-target.c.inc       |  17 +-
+ tcg/s390x/tcg-target.c.inc       |  16 +-
+ tcg/sparc64/tcg-target.c.inc     |  19 +-
+ tcg/tci/tcg-target.c.inc         |  27 ++-
+ tests/tcg/s390x/Makefile.target  |   3 +
+ 53 files changed, 1936 insertions(+), 954 deletions(-)
+ create mode 100644 tests/tcg/s390x/clst.c
+ create mode 100644 tests/tcg/s390x/div.c
+ create mode 100644 tests/tcg/s390x/long-double.c
+
+-- 
+2.34.1
 
 
