@@ -2,63 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3602167CAA8
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 13:12:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF57667CABA
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 13:17:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL17G-0005hb-1C; Thu, 26 Jan 2023 07:12:30 -0500
+	id 1pL1Ac-0007KY-AR; Thu, 26 Jan 2023 07:15:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pL17D-0005hI-Vy
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 07:12:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pL1Aa-0007Jz-4V
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 07:15:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pL17C-0007av-F4
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 07:12:27 -0500
+ (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pL1AY-0008JK-OE
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 07:15:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674735145;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
+ s=mimecast20190719; t=1674735353;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=UAjqVvnJiEaPWWQIorvHj1S74sQzg8vVLQpnV9Yxx6Q=;
- b=Mi2arJuB2tlEsrxpxTdysq1Zylbo9mW+zJ2i7FItF7b56eyFnBeSVBKTCOPcBOnYi1SXAq
- LRs8vey9iMKmjZ/GNZM7UsfWpEa6cKuI/Jn5V5URKYubl4tbBtdI9Gm7nOofdVnNE27pgM
- B9lmz0s49UgEp0wlNYFQ7qc2eJUIQrY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5EQavsdE/3IYLViHPQWkDrpyC8OTHXrhqf97l3UpJIQ=;
+ b=KhQvIaFcSyJ1f/BvG1oILkzB1DEs4qzxYv9pSNNrJs0XnyWc1Q4zYAPdHaJ14DclSxnxna
+ 6zHdyHE6Ajy6vKUaboq+xLsXXtnNROfWu+xK/cvo4AAEKw1ifwu0uROUBbaZn8KEbMDK5m
+ y5OBChxyBW+grzhJ2ug8KC5lnuXmZPM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-593-nj4V-kgmPni_uqP-3R4KZw-1; Thu, 26 Jan 2023 07:12:23 -0500
-X-MC-Unique: nj4V-kgmPni_uqP-3R4KZw-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-554-886ZYJ3kP_iALkext6bJVA-1; Thu, 26 Jan 2023 07:15:50 -0500
+X-MC-Unique: 886ZYJ3kP_iALkext6bJVA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6FA7D811E9C;
- Thu, 26 Jan 2023 12:12:23 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.108])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A2937492C14;
- Thu, 26 Jan 2023 12:12:22 +0000 (UTC)
-Date: Thu, 26 Jan 2023 12:12:20 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-trivial@nongnu.org, wenchao.wang@intel.com,
- haxm-team@intel.com
-Subject: Re: [PATCH v2] docs/about/deprecated: Mark HAXM in QEMU as deprecated
-Message-ID: <Y9JuJEaylyKo93af@redhat.com>
-References: <20230126121034.1035138-1-thuth@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 251C42802E31;
+ Thu, 26 Jan 2023 12:15:50 +0000 (UTC)
+Received: from localhost (unknown [10.39.193.233])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7181C14171BB;
+ Thu, 26 Jan 2023 12:15:49 +0000 (UTC)
+From: Cornelia Huck <cohuck@redhat.com>
+To: Eric Auger <eauger@redhat.com>, Peter Maydell
+ <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>, Laurent Vivier
+ <lvivier@redhat.com>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, kvm@vger.kernel.org, "Dr.
+ David Alan Gilbert" <dgilbert@redhat.com>, Juan Quintela
+ <quintela@redhat.com>, Gavin Shan <gshan@redhat.com>
+Subject: Re: [PATCH v4 1/2] arm/kvm: add support for MTE
+In-Reply-To: <877cx9y0t6.fsf@redhat.com>
+Organization: Red Hat GmbH
+References: <20230111161317.52250-1-cohuck@redhat.com>
+ <20230111161317.52250-2-cohuck@redhat.com>
+ <44d82d98-6a27-f4d3-9773-670231f82c63@redhat.com>
+ <877cx9y0t6.fsf@redhat.com>
+User-Agent: Notmuch/0.37 (https://notmuchmail.org)
+Date: Thu, 26 Jan 2023 13:15:46 +0100
+Message-ID: <874jsdxzil.fsf@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230126121034.1035138-1-thuth@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=cohuck@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,30 +80,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 26, 2023 at 01:10:34PM +0100, Thomas Huth wrote:
-> The HAXM project has been retired (see https://github.com/intel/haxm#status),
-> so we should mark the code in QEMU as deprecated (and finally remove it
-> unless somebody else picks the project up again - which is quite unlikely
-> since there are now whpx and hvf on these operating systems, too).
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  v2: Added a message to hax_accel_init(), too
-> 
->  docs/about/deprecated.rst | 6 ++++++
->  target/i386/hax/hax-all.c | 3 +++
->  2 files changed, 9 insertions(+)
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+On Thu, Jan 26 2023, Cornelia Huck <cohuck@redhat.com> wrote:
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> On Mon, Jan 23 2023, Eric Auger <eauger@redhat.com> wrote:
+>
+>> Hi Connie,
+>> On 1/11/23 17:13, Cornelia Huck wrote:
+>>>      if (vms->mte && (kvm_enabled() || hvf_enabled())) {
+>>>          error_report("mach-virt: %s does not support providing "
+>>> -                     "MTE to the guest CPU",
+>>> +                     "emulated MTE to the guest CPU",
+>> each time I read this message I feel difficult to understand it. Why not
+>> replacing by
+>> "mach-virt does not support tag memory with %s acceleration" or
+>> something alike?
+>
+> Hmm... well, it does not support tag memory with kvm/hvf, and the
+> consequence of this is that kvm/hvf cannot provide support for emulated
+> mte... what about
+>
+> "mach-virt: tag memory not supported with %s, emulated MTE cannot be
+> provided to the guest CPU"
+>
+> Might be a bit long, though.
+
+"mach-virt: %s does not support providing emulated MTE to the guest CPU
+(tag memory not supported)" seems to align better with the other error
+messages in that function.
+
+
+>
+>>>                       kvm_enabled() ? "KVM" : "HVF");
+>>>          exit(1);
+>>>      }
 
 
