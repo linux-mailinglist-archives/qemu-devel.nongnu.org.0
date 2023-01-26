@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF6A667C458
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 06:38:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED56767C457
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 06:38:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKuxC-0003v7-PM; Thu, 26 Jan 2023 00:37:42 -0500
+	id 1pKuxF-0003vg-5m; Thu, 26 Jan 2023 00:37:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1pKuxA-0003um-VN
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 00:37:41 -0500
+ id 1pKuxD-0003vO-F9
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 00:37:43 -0500
 Received: from mga18.intel.com ([134.134.136.126])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1pKux8-00066H-6n
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 00:37:40 -0500
+ id 1pKuxB-00066H-Dt
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 00:37:42 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674711458; x=1706247458;
- h=from:subject:date:message-id:mime-version:
- content-transfer-encoding:to:cc;
- bh=3pLT6cnZImwRDptO85gOUw4tEX3x33aoYAisv7ppXro=;
- b=VlpDD7eMsMGLqM4jR49RwivSW/E+Bvk54RRl3cTS+L4yzgSRfwjDmw9R
- TYzM9qcq/HkWbwzVqvg1C3cOpKcXBSOkhmi3tMg1Skc2ftcG/gbEIlN8z
- mA03AQN4ZOC53FLqCmOJs8YE6H9rG46+6kkK4Bq+GoiqfB3GPiMh6eKa5
- RWcKUneOLmR3SPeMC03Ew4JxWeUExD2cPg2IgEmApveXbFN42TjaEvWmm
- O7gQwC3W/8sBRJ5ntnrtfhaaHl8TubkmRxbmIDAT8ACjDybbzfgQFejYQ
- YQ1WlnjKV9SWy2FC3Z1f0tN2xuiexHflKI4ytbU5cAQAJxXRBsOcndhu0 Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="310328959"
-X-IronPort-AV: E=Sophos;i="5.97,247,1669104000"; d="scan'208";a="310328959"
+ t=1674711461; x=1706247461;
+ h=from:date:subject:mime-version:content-transfer-encoding:
+ message-id:references:in-reply-to:to:cc;
+ bh=wbtXIUSQfh3quDpVU0waBxAZRw2Bard66Q1jLzQ6/v4=;
+ b=MmN0kr+3rSsQVDl2dgVi4LqPMJGggFm1VJ6mJEGkVZnqMrhmiwKBwrcb
+ usxgEYfyYFn6y9TpRfCbI2l4k6jKuRI8iU55DONmNPoyezrjOekNZ7yGh
+ BbIHBaSjZVleI9VuKRdc6lHrQKeHpS4wLZJpI/loYBcEHrxk2BlWqlL+U
+ O0b/OWuWmyTn+xSNdtbZwlAdwlyTnmLEacSanWbELbxz9hNn/9nV322oH
+ bry5zmDcE1Xi5OLqiyk0E7STgcqcQ3QoKavltTcPFAS5FJCwGwXEZe0oT
+ K5ZX5WjghVj9+RSzWBx/X2yI76hyXi/6IHIfIVSYordHpGYMMQFn4g/uA Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="310328967"
+X-IronPort-AV: E=Sophos;i="5.97,247,1669104000"; d="scan'208";a="310328967"
 Received: from orsmga004.jf.intel.com ([10.7.209.38])
  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2023 21:37:30 -0800
-X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="786704001"
-X-IronPort-AV: E=Sophos;i="5.97,247,1669104000"; d="scan'208";a="786704001"
+ 25 Jan 2023 21:37:31 -0800
+X-IronPort-AV: E=McAfee;i="6500,9779,10601"; a="786704008"
+X-IronPort-AV: E=Sophos;i="5.97,247,1669104000"; d="scan'208";a="786704008"
 Received: from iweiny-mobl.amr.corp.intel.com (HELO localhost)
  ([10.212.115.122])
  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 25 Jan 2023 21:37:29 -0800
+ 25 Jan 2023 21:37:30 -0800
 From: Ira Weiny <ira.weiny@intel.com>
-Subject: [PATCH 0/2] hw/cxl: CXL Event processing fixups
 Date: Wed, 25 Jan 2023 21:37:27 -0800
-Message-Id: <20230125-ira-cxl-events-fixups-2023-01-11-v1-0-1931378515f5@intel.com>
+Subject: [PATCH 1/2] hw/cxl: Fix event log time stamp fields
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAJcR0mMC/x2NSwrDMAxErxK0rsAfTNpepXThOEojMGqwmhAIu
- XvVLt8M8+YApcakcO8OaLSx8lsM/KWDMmd5EfJoDMGF6HxIyC1j2SvSRvJRnHhfF8Vfjc6j9xhj
- f0uRrv2URjDNkJVwaFnKbCJZa7VwaWTL/+/jeZ5fVn/dGYcAAAA=
+Message-Id: <20230125-ira-cxl-events-fixups-2023-01-11-v1-1-1931378515f5@intel.com>
+References: <20230125-ira-cxl-events-fixups-2023-01-11-v1-0-1931378515f5@intel.com>
+In-Reply-To: <20230125-ira-cxl-events-fixups-2023-01-11-v1-0-1931378515f5@intel.com>
 To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 Cc: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
  linux-cxl@vger.kernel.org, Ira Weiny <ira.weiny@intel.com>,
  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 X-Mailer: b4 0.12-dev-cc11a
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1674711449; l=1246;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1674711449; l=4001;
  i=ira.weiny@intel.com; s=20221211; h=from:subject:message-id;
- bh=3pLT6cnZImwRDptO85gOUw4tEX3x33aoYAisv7ppXro=;
- b=mGx9oQox9Po489OmHsWlMI6Vj8QO8GxdVuOZeG6l6wwpdyg9mRifirA7QcpuNINevLucah1epm1d
- OKPO0TTiDoi3y2eEK5Xho+SFy8prh78TQ8GX7rkvz70Zhgw6/aKU
+ bh=wbtXIUSQfh3quDpVU0waBxAZRw2Bard66Q1jLzQ6/v4=;
+ b=JpcOxvvrvGTjf1ozWyWNB8NAoCkavbUxwTNnrwrTW2etv+OTwmsLyC1AIdK3RSrHAyhHDeJi2uX2
+ W+v3cP5pDMx3sWgkF4r1iPVz2StVtOHh+YNn+81GTRBQVWZkiR4f
 X-Developer-Key: i=ira.weiny@intel.com; a=ed25519;
  pk=noldbkG+Wp1qXRrrkfY1QJpDf7QsOEthbOT7vm0PqsE=
 Received-SPF: pass client-ip=134.134.136.126; envelope-from=ira.weiny@intel.com;
@@ -87,41 +86,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-During review of the CXL Event processing series[1] these minor fixes were caught
-but I did not have time to respin before Jonathan picked them up.
+CXL 3.0 8.2.9.4.2 Set Timestamp and 8.2.9.4.1 Get Timestamp define the
+way for software to set and get the time stamp of a device.  Events
+should use a time stamp consistent with the Get Timestamp mailbox
+command.
 
-Make the fixes now.
+In addition avoid setting the time stamp twice.
 
-These are based on Jonathan's latest branch:
-
-        https://gitlab.com/jic23/qemu/-/tree/cxl-2023-01-20
-
-[1] https://lore.kernel.org/all/20221221-ira-cxl-events-2022-11-17-v2-0-2ce2ecc06219@intel.com/
-
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Michael Tsirkin <mst@redhat.com>
-Cc: Ben Widawsky <bwidawsk@kernel.org>
-Cc: Peter Maydell <peter.maydell@linaro.org>
-Cc: <qemu-devel@nongnu.org>
-Cc: <linux-cxl@vger.kernel.org>
+Fixes: fb64c5661d5f ("hw/cxl/events: Wire up get/clear event mailbox commands")
+Reported-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
 Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-
 ---
-Ira Weiny (2):
-      hw/cxl: Fix event log time stamp fields
-      hw/cxl: Remove check for g_new0() failure
-
  hw/cxl/cxl-device-utils.c   | 15 +++++++++++++++
- hw/cxl/cxl-events.c         | 10 +++-------
+ hw/cxl/cxl-events.c         |  4 +++-
  hw/cxl/cxl-mailbox-utils.c  | 11 +----------
  hw/mem/cxl_type3.c          |  1 -
  include/hw/cxl/cxl_device.h |  2 ++
- 5 files changed, 21 insertions(+), 18 deletions(-)
----
-base-commit: bb3f9b2853f9723c11a38c6b7bca7368677f2b43
-change-id: 20230125-ira-cxl-events-fixups-2023-01-11-337953e87f5d
+ 5 files changed, 21 insertions(+), 12 deletions(-)
 
-Best regards,
+diff --git a/hw/cxl/cxl-device-utils.c b/hw/cxl/cxl-device-utils.c
+index 7f29d40be04a..5876a3703e85 100644
+--- a/hw/cxl/cxl-device-utils.c
++++ b/hw/cxl/cxl-device-utils.c
+@@ -325,3 +325,18 @@ void cxl_device_register_init_swcci(CXLDeviceState *cxl_dstate)
+ 
+     cxl_initialize_mailbox(cxl_dstate, true);
+ }
++
++uint64_t cxl_device_get_timestamp(CXLDeviceState *cxl_dstate)
++{
++    uint64_t time, delta;
++    uint64_t final_time = 0;
++
++    if (cxl_dstate->timestamp.set) {
++        /* First find the delta from the last time the host set the time. */
++        time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++        delta = time - cxl_dstate->timestamp.last_set;
++        final_time = cxl_dstate->timestamp.host_set + delta;
++    }
++
++    return final_time;
++}
+diff --git a/hw/cxl/cxl-events.c b/hw/cxl/cxl-events.c
+index 08fd52b66188..2536aafc55fb 100644
+--- a/hw/cxl/cxl-events.c
++++ b/hw/cxl/cxl-events.c
+@@ -100,7 +100,7 @@ bool cxl_event_insert(CXLDeviceState *cxlds,
+                       enum cxl_event_log_type log_type,
+                       struct cxl_event_record_raw *event)
+ {
+-    uint64_t time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
++    uint64_t time;
+     struct cxl_event_log *log;
+     CXLEvent *entry;
+ 
+@@ -108,6 +108,8 @@ bool cxl_event_insert(CXLDeviceState *cxlds,
+         return false;
+     }
+ 
++    time = cxl_device_get_timestamp(cxlds);
++
+     log = &cxlds->event_logs[log_type];
+ 
+     QEMU_LOCK_GUARD(&log->lock);
+diff --git a/hw/cxl/cxl-mailbox-utils.c b/hw/cxl/cxl-mailbox-utils.c
+index 75703023434b..0e64873c2395 100644
+--- a/hw/cxl/cxl-mailbox-utils.c
++++ b/hw/cxl/cxl-mailbox-utils.c
+@@ -394,17 +394,8 @@ static CXLRetCode cmd_timestamp_get(struct cxl_cmd *cmd,
+                                     CXLDeviceState *cxl_dstate,
+                                     uint16_t *len)
+ {
+-    uint64_t time, delta;
+-    uint64_t final_time = 0;
+-
+-    if (cxl_dstate->timestamp.set) {
+-        /* First find the delta from the last time the host set the time. */
+-        time = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+-        delta = time - cxl_dstate->timestamp.last_set;
+-        final_time = cxl_dstate->timestamp.host_set + delta;
+-    }
++    uint64_t final_time = cxl_device_get_timestamp(cxl_dstate);
+ 
+-    /* Then adjust the actual time */
+     stq_le_p(cmd->payload, final_time);
+     *len = 8;
+ 
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index a7b587780af2..42e291dd9f76 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -1291,7 +1291,6 @@ static void cxl_assign_event_header(struct cxl_event_record_hdr *hdr,
+     hdr->flags[0] = flags;
+     hdr->length = length;
+     memcpy(&hdr->id, uuid, sizeof(hdr->id));
+-    hdr->timestamp = qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL);
+ }
+ 
+ static const QemuUUID gen_media_uuid = {
+diff --git a/include/hw/cxl/cxl_device.h b/include/hw/cxl/cxl_device.h
+index cbb37c541c44..31579af342f1 100644
+--- a/include/hw/cxl/cxl_device.h
++++ b/include/hw/cxl/cxl_device.h
+@@ -426,4 +426,6 @@ CXLRetCode cxl_event_clear_records(CXLDeviceState *cxlds,
+ 
+ void cxl_event_irq_assert(CXLType3Dev *ct3d);
+ 
++uint64_t cxl_device_get_timestamp(CXLDeviceState *cxlds);
++
+ #endif
+
 -- 
-Ira Weiny <ira.weiny@intel.com>
+2.39.1
 
