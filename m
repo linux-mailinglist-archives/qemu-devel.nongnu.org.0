@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17F4A67C3EF
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 05:42:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6233367C3E1
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 05:40:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKu2j-0000Ii-8A; Wed, 25 Jan 2023 23:39:21 -0500
+	id 1pKu2e-0000HP-PM; Wed, 25 Jan 2023 23:39:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pKu2Y-0000Hi-JE
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:39:10 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1pKu2X-0000H3-18
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:39:09 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pKu2V-0004U8-FV
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:39:10 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id j5so518356pjn.5
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 20:39:02 -0800 (PST)
+ id 1pKu2V-0004Rg-Fw
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:39:08 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ z1-20020a17090a66c100b00226f05b9595so756996pjl.0
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 20:39:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=LHzGWvWFa4q7FhR/Zjnl6sZxcznG5V94Bca4nmBi0Ko=;
- b=rOVlxI8YqoKxFk72U9ZAs/52C4kwvRR+c4od1L3IHzN+ut5OXGPc5pKM9KaLHAlOdG
- v4hcGbtqFY4Z1gS5NyltnJHAuR4366QTNOMp5lQT6P+v+aow2Pa5Cz2mOyLtlGid7RLO
- eF9DhtbM/s9FGlYQM+sPiSCN7s2K10yqhLpOcb7sCw/+dMpGRg8mrO5mJmpb+y6EArLc
- zqzGh8D/H1m49ip46R1Tdo5R1XhlKaqWaONCjcn6U4xJNHpBb8mMxyItBLunZucmlt8P
- NihkrGLBDgFx/lL2azz3MLCTUwC9BrOMLaST7kfZ19uQkJlKj9/G/QOD7zoE/OChHpF6
- Lg4Q==
+ bh=wHZLFNNm0ZFp31ulDF75QeL44+XwFwYbg39T7b6YDuI=;
+ b=DRk6XXyztC0i8zM1NC8JU0QlibApXebR0Xvz2JS2Z62Ch95pvxhxtkxJWUe9ykvzro
+ KHhaKHjz5aXe0cmQqJ64+j2o1rbASsS086cYkWAKQJK8OoIeaJkpGDPKCaRaXvYEa42d
+ s+3aLvQ3oJyyIAXbeAqDFPD/026GS58Le3W2YjKtr6VLnYr6ZNKF5l9POtlAUg8EZq3d
+ v4ug8uFHOj6BsFIeRdATlinQt+X0Sy+kHS+lhA8LYZEappLj+h5a4Mew4ehgg7muiwrr
+ 0GqREtGMJN+2SY8BSe9nw/N3/oD2AqCIW02uuyCwsVleB2g4ytOsQXddwVo0slyLKxEi
+ aiXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=LHzGWvWFa4q7FhR/Zjnl6sZxcznG5V94Bca4nmBi0Ko=;
- b=pRs+wimGcy11pGBARquPUfNAVJ4gHpq/U0VkMKpy8bsrcUnjfcb13KYwZ37w21a7JJ
- +RQz+2vTIwr3A2Uz1CIOtEzmOY6y3MB7m5LV2+tZBVLb6pKcLT1//Qvf0qNca0Wiqopc
- 6E3E7PNi0mhJIllHJhGqnTvWpRE0vnmaBnmyMb5qxURli9jvAIy1RBo1+MiBrRYO2fDp
- lQfPjuq40ntqKTxv1F+k6iH5iLgAuGcBXazCkfJcTBSy9vOj//k59A75ttv8tHHeA/I0
- i93XPgDpPxZX1dZ61QkqCjYyNCkSV0mhW3azc8+tmXLyTWBISTdl8SdaAPEKgQBPezfe
- MdUA==
-X-Gm-Message-State: AO0yUKUAVYYZ+czoRTCladcQvy+H1yh5LDesdxIgBWA1l7TZBlGmUhW6
- ZlbnfxcGcqElfDtM8DMBK8CBy500nXYFb725HY8=
-X-Google-Smtp-Source: AK7set/G8xvW2tUdOpeC6juLeK4Pk6AVi3Xx4DGw7W2SGHj9cn+RVsW+xJGF5L5pxnzEiTAxjRFL8g==
-X-Received: by 2002:a17:90b:4c8e:b0:22c:1749:7ea5 with SMTP id
- my14-20020a17090b4c8e00b0022c17497ea5mr856234pjb.12.1674707941785; 
- Wed, 25 Jan 2023 20:39:01 -0800 (PST)
+ bh=wHZLFNNm0ZFp31ulDF75QeL44+XwFwYbg39T7b6YDuI=;
+ b=agjusueq45T2O6wImamFQr1sjzxQ10HtIj+GwonbJHEHa0S6LAgoTZWZMGvk2BB/At
+ JX/Q4sb5PusomFf8FVoiCac+jGVJWnP1hXljuyRJtRRJdZ9R5ycqa9yfZ80XfPmerPsG
+ oS0fhzCeHlCrCSwHDtqjH1oIGVdaDlKNJiIGsN/GzT5aNMAS7C3txEozBh3IDGY90XkS
+ H1yqHPjAL7W+NeVmlUcepU7ROKO8fk2GhCgyjr8N5SUzx/UX35v4Qe2RmA4JSkRhjLmo
+ vGL7jAEEYY6oQwwm+YFGjxN+tJgkYITdoHGWmMAh9h3MPIi3MMNwgMNfFxis8n/h8zOc
+ /nuQ==
+X-Gm-Message-State: AFqh2krd/slLFFmaRTKpVcxTUL1yvzRJx8w91AT8JfpbFA4tCktY0pvv
+ Tbfu4nSafG5Hn3VYwNDGdnMkI+bjQiUc8dezXXQ=
+X-Google-Smtp-Source: AMrXdXu1PuwkYeYlLAi5dB574aQc2FYJZa5N1iaHlwhFoTMor8T1Q05nV8YugeTvURI/buTPuc1VtQ==
+X-Received: by 2002:a17:90b:3143:b0:22b:b6b0:7889 with SMTP id
+ ip3-20020a17090b314300b0022bb6b07889mr21150978pjb.15.1674707943423; 
+ Wed, 25 Jan 2023 20:39:03 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- s62-20020a17090a69c400b00228e56d375asm233376pjj.33.2023.01.25.20.39.00
+ s62-20020a17090a69c400b00228e56d375asm233376pjj.33.2023.01.25.20.39.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 20:39:01 -0800 (PST)
+ Wed, 25 Jan 2023 20:39:02 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org,
-	Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v5 22/36] tests/tcg/s390x: Add clst.c
-Date: Wed, 25 Jan 2023 18:38:10 -1000
-Message-Id: <20230126043824.54819-23-richard.henderson@linaro.org>
+Cc: alex.bennee@linaro.org, Ilya Leoshkevich <iii@linux.ibm.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH v5 23/36] tests/tcg/s390x: Add long-double.c
+Date: Wed, 25 Jan 2023 18:38:11 -1000
+Message-Id: <20230126043824.54819-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230126043824.54819-1-richard.henderson@linaro.org>
 References: <20230126043824.54819-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102e;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102e.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,116 +92,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-
-Add a basic test to prevent regressions.
-
-Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Message-Id: <20221025213008.2209006-2-iii@linux.ibm.com>
+Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/s390x/clst.c          | 82 +++++++++++++++++++++++++++++++++
+ tests/tcg/s390x/long-double.c   | 24 ++++++++++++++++++++++++
  tests/tcg/s390x/Makefile.target |  1 +
- 2 files changed, 83 insertions(+)
- create mode 100644 tests/tcg/s390x/clst.c
+ 2 files changed, 25 insertions(+)
+ create mode 100644 tests/tcg/s390x/long-double.c
 
-diff --git a/tests/tcg/s390x/clst.c b/tests/tcg/s390x/clst.c
+diff --git a/tests/tcg/s390x/long-double.c b/tests/tcg/s390x/long-double.c
 new file mode 100644
-index 0000000000..ed2fe7326c
+index 0000000000..757a6262fd
 --- /dev/null
-+++ b/tests/tcg/s390x/clst.c
-@@ -0,0 +1,82 @@
-+#define _GNU_SOURCE
-+#include <stdio.h>
-+#include <stdlib.h>
++++ b/tests/tcg/s390x/long-double.c
+@@ -0,0 +1,24 @@
++/*
++ * Perform some basic arithmetic with long double, as a sanity check.
++ * With small integral numbers, we can cross-check with integers.
++ */
 +
-+static int clst(char sep, const char **s1, const char **s2)
++#include <assert.h>
++
++int main()
 +{
-+    const char *r1 = *s1;
-+    const char *r2 = *s2;
-+    int cc;
++    int i, j;
 +
-+    do {
-+        register int r0 asm("r0") = sep;
++    for (i = 1; i < 5; i++) {
++        for (j = 1; j < 5; j++) {
++            long double la = (long double)i + j;
++            long double lm = (long double)i * j;
++            long double ls = (long double)i - j;
 +
-+        asm("clst %[r1],%[r2]\n"
-+            "ipm %[cc]\n"
-+            "srl %[cc],28"
-+            : [r1] "+r" (r1), [r2] "+r" (r2), "+r" (r0), [cc] "=r" (cc)
-+            :
-+            : "cc");
-+        *s1 = r1;
-+        *s2 = r2;
-+    } while (cc == 3);
-+
-+    return cc;
-+}
-+
-+static const struct test {
-+    const char *name;
-+    char sep;
-+    const char *s1;
-+    const char *s2;
-+    int exp_cc;
-+    int exp_off;
-+} tests[] = {
-+    {
-+        .name = "cc0",
-+        .sep = 0,
-+        .s1 = "aa",
-+        .s2 = "aa",
-+        .exp_cc = 0,
-+        .exp_off = 0,
-+    },
-+    {
-+        .name = "cc1",
-+        .sep = 1,
-+        .s1 = "a\x01",
-+        .s2 = "aa\x01",
-+        .exp_cc = 1,
-+        .exp_off = 1,
-+    },
-+    {
-+        .name = "cc2",
-+        .sep = 2,
-+        .s1 = "abc\x02",
-+        .s2 = "abb\x02",
-+        .exp_cc = 2,
-+        .exp_off = 2,
-+    },
-+};
-+
-+int main(void)
-+{
-+    const struct test *t;
-+    const char *s1, *s2;
-+    size_t i;
-+    int cc;
-+
-+    for (i = 0; i < sizeof(tests) / sizeof(tests[0]); i++) {
-+        t = &tests[i];
-+        s1 = t->s1;
-+        s2 = t->s2;
-+        cc = clst(t->sep, &s1, &s2);
-+        if (cc != t->exp_cc ||
-+                s1 != t->s1 + t->exp_off ||
-+                s2 != t->s2 + t->exp_off) {
-+            fprintf(stderr, "%s\n", t->name);
-+            return EXIT_FAILURE;
++            assert(la == i + j);
++            assert(lm == i * j);
++            assert(ls == i - j);
 +        }
 +    }
-+
-+    return EXIT_SUCCESS;
++    return 0;
 +}
 diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index ab7a3bcfb2..79250f31dd 100644
+index 79250f31dd..1d454270c0 100644
 --- a/tests/tcg/s390x/Makefile.target
 +++ b/tests/tcg/s390x/Makefile.target
-@@ -25,6 +25,7 @@ TESTS+=signals-s390x
- TESTS+=branch-relative-long
+@@ -26,6 +26,7 @@ TESTS+=branch-relative-long
  TESTS+=noexec
  TESTS+=div
-+TESTS+=clst
+ TESTS+=clst
++TESTS+=long-double
  
  Z13_TESTS=vistr
  $(Z13_TESTS): CFLAGS+=-march=z13 -O2
