@@ -2,54 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B76367D30B
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 18:26:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8982267D31E
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 18:27:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL5zc-0005Yq-C1; Thu, 26 Jan 2023 12:24:56 -0500
+	id 1pL5zd-0005Zd-1C; Thu, 26 Jan 2023 12:24:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pL5za-0005Y8-4n
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pL5za-0005YG-EZ
  for qemu-devel@nongnu.org; Thu, 26 Jan 2023 12:24:54 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pL5zY-0005ZB-Az
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 12:24:53 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pL5zY-0005ZM-CW
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 12:24:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674753890;
+ s=mimecast20190719; t=1674753891;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=tn37tfIIvwZx1z4fPEiMO1TtcNejkt7e4PT41wY/LMo=;
- b=c5FL4In+1M5AsM+ILt5qadAojb1Nq0M8CHVnGkclhwiW42vBc0k7NOtdqMqDUlcTBKOFei
- EOL5MJ1geQZ3oOfhQOao2SEVpSlgRe4BqIqBbwhJvkO7iKJ+lhIRw4GZo4YkkmGK8MS/NO
- FBjVYHQoTFxksPmXqokXi89+i4EsevU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7BYMFS/8PtWqHGNh5WeliJohybv9/yI3hk1UNgRIPo0=;
+ b=K33a17JsUB554Uo5OGlQWLqPJ8Df7bet79XGN30gDTIwUZKC18AfzqZ+E0hJP8k8pZLJB2
+ X4142e5QrXZGEOLNIpMbPAA+prFsU7f2MS1NB467sTZebEK6hBf5a9ltJmjTCZs/ljeDDO
+ l7vA3pWaKakvnwCyKt0eDlGGYl6slhQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-563-Kyi0l_yoMZmh0ooOO4HX1A-1; Thu, 26 Jan 2023 12:24:48 -0500
-X-MC-Unique: Kyi0l_yoMZmh0ooOO4HX1A-1
+ us-mta-94-hbvlMwGnNyqjGVE1euZdXg-1; Thu, 26 Jan 2023 12:24:50 -0500
+X-MC-Unique: hbvlMwGnNyqjGVE1euZdXg-1
 Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
  [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8C5ED183B3CF;
- Thu, 26 Jan 2023 17:24:48 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BB4E43C01DFA;
+ Thu, 26 Jan 2023 17:24:49 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.193.123])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 953A1492C14;
- Thu, 26 Jan 2023 17:24:47 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C4D36492C14;
+ Thu, 26 Jan 2023 17:24:48 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, hreitz@redhat.com, eesposit@redhat.com,
  pbonzini@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH 00/13] block: Fix bdrv_open*() calls from coroutine context
-Date: Thu, 26 Jan 2023 18:24:19 +0100
-Message-Id: <20230126172432.436111-1-kwolf@redhat.com>
+Subject: [PATCH 01/13] block-coroutine-wrapper: Introduce no_co_wrapper
+Date: Thu, 26 Jan 2023 18:24:20 +0100
+Message-Id: <20230126172432.436111-2-kwolf@redhat.com>
+In-Reply-To: <20230126172432.436111-1-kwolf@redhat.com>
+References: <20230126172432.436111-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -73,51 +76,194 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-bdrv_open*() must not be called from coroutine context, amongst others
-because it modifies the block graph. However, some functions - in
-particular all .bdrv_co_create* implementations of image formats - do
-call it from coroutine context. This is already wrong today, but when we
-add locking, it actually becomes visible.
+Some functions must not be called from coroutine context. The common
+pattern to use them anyway from a coroutine is running them in a BH and
+letting the calling coroutine yield to be woken up when the BH is
+completed.
 
-This series adds no_co_wrapper functions, which are automatically
-generated wrappers that run in coroutine context and use a BH to call
-the wrapped function outside of coroutine context. It then uses these
-wrappers to fix the problematic bdrv_open*() calls.
+Instead of manually writing such wrappers, add support for generating
+them to block-coroutine-wrapper.
 
-Kevin Wolf (13):
-  block-coroutine-wrapper: Introduce no_co_wrapper
-  block: Create no_co_wrappers for open functions
-  luks: Fix .bdrv_co_create(_opts) to open images with no_co_wrapper
-  parallels: Fix .bdrv_co_create(_opts) to open images with
-    no_co_wrapper
-  qcow: Fix .bdrv_co_create(_opts) to open images with no_co_wrapper
-  qcow2: Fix open/create to open images with no_co_wrapper
-  qed: Fix .bdrv_co_create(_opts) to open images with no_co_wrapper
-  vdi: Fix .bdrv_co_create(_opts) to open images with no_co_wrapper
-  vhdx: Fix .bdrv_co_create(_opts) to open images with no_co_wrapper
-  vmdk: Fix .bdrv_co_create(_opts) to open images with no_co_wrapper
-  vpc: Fix .bdrv_co_create(_opts) to open images with no_co_wrapper
-  block: Fix bdrv_co_create_opts_simple() to open images with
-    no_co_wrapper
-  block: Assert non-coroutine context for bdrv_open_inherit()
+Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+---
+ include/block/block-common.h       | 14 +++++
+ scripts/block-coroutine-wrapper.py | 83 ++++++++++++++++++++++++++----
+ 2 files changed, 86 insertions(+), 11 deletions(-)
 
- include/block/block-common.h                | 14 ++++
- include/block/block-global-state.h          | 35 ++++++---
- include/sysemu/block-backend-global-state.h | 21 +++++-
- block.c                                     | 17 ++---
- block/crypto.c                              | 10 +--
- block/parallels.c                           | 10 +--
- block/qcow.c                                | 10 +--
- block/qcow2.c                               | 43 +++++------
- block/qed.c                                 | 10 +--
- block/vdi.c                                 | 10 +--
- block/vhdx.c                                | 10 +--
- block/vmdk.c                                | 22 +++---
- block/vpc.c                                 | 10 +--
- scripts/block-coroutine-wrapper.py          | 83 ++++++++++++++++++---
- block/meson.build                           |  1 +
- 15 files changed, 207 insertions(+), 99 deletions(-)
-
+diff --git a/include/block/block-common.h b/include/block/block-common.h
+index 469300fe8d..b5122ef8ab 100644
+--- a/include/block/block-common.h
++++ b/include/block/block-common.h
+@@ -54,6 +54,20 @@
+ #define co_wrapper_bdrv_rdlock         no_coroutine_fn
+ #define co_wrapper_mixed_bdrv_rdlock   no_coroutine_fn coroutine_mixed_fn
+ 
++/*
++ * no_co_wrapper: Function specifier used by block-coroutine-wrapper.py
++ *
++ * Function specifier which does nothing but mark functions to be generated by
++ * scripts/block-coroutine-wrapper.py.
++ *
++ * A no_co_wrapper function declaration creates a coroutine_fn wrapper around
++ * functions that must not be called in coroutine context. It achieves this by
++ * scheduling a BH in the bottom half that runs the respective non-coroutine
++ * function. The coroutine yields after scheduling the BH and is reentered when
++ * the wrapped function returns.
++ */
++#define no_co_wrapper
++
+ #include "block/blockjob.h"
+ 
+ /* block.c */
+diff --git a/scripts/block-coroutine-wrapper.py b/scripts/block-coroutine-wrapper.py
+index e82b648127..60e9b3107c 100644
+--- a/scripts/block-coroutine-wrapper.py
++++ b/scripts/block-coroutine-wrapper.py
+@@ -63,8 +63,8 @@ def __init__(self, param_decl: str) -> None:
+ 
+ 
+ class FuncDecl:
+-    def __init__(self, return_type: str, name: str, args: str,
+-                 variant: str) -> None:
++    def __init__(self, wrapper_type: str, return_type: str, name: str,
++                 args: str, variant: str) -> None:
+         self.return_type = return_type.strip()
+         self.name = name.strip()
+         self.struct_name = snake_to_camel(self.name)
+@@ -72,8 +72,21 @@ def __init__(self, return_type: str, name: str, args: str,
+         self.create_only_co = 'mixed' not in variant
+         self.graph_rdlock = 'bdrv_rdlock' in variant
+ 
+-        subsystem, subname = self.name.split('_', 1)
+-        self.co_name = f'{subsystem}_co_{subname}'
++        self.wrapper_type = wrapper_type
++
++        if wrapper_type == 'co':
++            subsystem, subname = self.name.split('_', 1)
++            self.target_name = f'{subsystem}_co_{subname}'
++        else:
++            assert wrapper_type == 'no_co'
++            subsystem, co_infix, subname = self.name.split('_', 2)
++            if co_infix != 'co':
++                raise ValueError(f"Invalid no_co function name: {self.name}")
++            if not self.create_only_co:
++                raise ValueError(f"no_co function can't be mixed: {self.name}")
++            if self.graph_rdlock:
++                raise ValueError(f"no_co function can't be rdlock: {self.name}")
++            self.target_name = f'{subsystem}_{subname}'
+ 
+         t = self.args[0].type
+         if t == 'BlockDriverState *':
+@@ -105,7 +118,8 @@ def gen_block(self, format: str) -> str:
+ 
+ # Match wrappers declared with a co_wrapper mark
+ func_decl_re = re.compile(r'^(?P<return_type>[a-zA-Z][a-zA-Z0-9_]* [\*]?)'
+-                          r'\s*co_wrapper'
++                          r'(\s*coroutine_fn)?'
++                          r'\s*(?P<wrapper_type>(no_)?co)_wrapper'
+                           r'(?P<variant>(_[a-z][a-z0-9_]*)?)\s*'
+                           r'(?P<wrapper_name>[a-z][a-z0-9_]*)'
+                           r'\((?P<args>[^)]*)\);$', re.MULTILINE)
+@@ -113,7 +127,8 @@ def gen_block(self, format: str) -> str:
+ 
+ def func_decl_iter(text: str) -> Iterator:
+     for m in func_decl_re.finditer(text):
+-        yield FuncDecl(return_type=m.group('return_type'),
++        yield FuncDecl(wrapper_type=m.group('wrapper_type'),
++                       return_type=m.group('return_type'),
+                        name=m.group('wrapper_name'),
+                        args=m.group('args'),
+                        variant=m.group('variant'))
+@@ -133,7 +148,7 @@ def create_mixed_wrapper(func: FuncDecl) -> str:
+     """
+     Checks if we are already in coroutine
+     """
+-    name = func.co_name
++    name = func.target_name
+     struct_name = func.struct_name
+     graph_assume_lock = 'assume_graph_lock();' if func.graph_rdlock else ''
+ 
+@@ -163,7 +178,7 @@ def create_co_wrapper(func: FuncDecl) -> str:
+     """
+     Assumes we are not in coroutine, and creates one
+     """
+-    name = func.co_name
++    name = func.target_name
+     struct_name = func.struct_name
+     return f"""\
+ {func.return_type} {func.name}({ func.gen_list('{decl}') })
+@@ -183,10 +198,11 @@ def create_co_wrapper(func: FuncDecl) -> str:
+ }}"""
+ 
+ 
+-def gen_wrapper(func: FuncDecl) -> str:
++def gen_co_wrapper(func: FuncDecl) -> str:
+     assert not '_co_' in func.name
++    assert func.wrapper_type == 'co'
+ 
+-    name = func.co_name
++    name = func.target_name
+     struct_name = func.struct_name
+ 
+     graph_lock=''
+@@ -225,11 +241,56 @@ def gen_wrapper(func: FuncDecl) -> str:
+ {creation_function(func)}"""
+ 
+ 
++def gen_no_co_wrapper(func: FuncDecl) -> str:
++    assert '_co_' in func.name
++    assert func.wrapper_type == 'no_co'
++
++    name = func.target_name
++    struct_name = func.struct_name
++
++    return f"""\
++/*
++ * Wrappers for {name}
++ */
++
++typedef struct {struct_name} {{
++    Coroutine *co;
++    {func.return_field}
++{ func.gen_block('    {decl};') }
++}} {struct_name};
++
++static void {name}_bh(void *opaque)
++{{
++    {struct_name} *s = opaque;
++
++    {func.get_result}{name}({ func.gen_list('s->{name}') });
++
++    aio_co_wake(s->co);
++}}
++
++{func.return_type} coroutine_fn {func.name}({ func.gen_list('{decl}') })
++{{
++    {struct_name} s = {{
++        .co = qemu_coroutine_self(),
++{ func.gen_block('        .{name} = {name},') }
++    }};
++    assert(qemu_in_coroutine());
++
++    aio_bh_schedule_oneshot(qemu_get_aio_context(), {name}_bh, &s);
++    qemu_coroutine_yield();
++
++    {func.ret}
++}}"""
++
++
+ def gen_wrappers(input_code: str) -> str:
+     res = ''
+     for func in func_decl_iter(input_code):
+         res += '\n\n\n'
+-        res += gen_wrapper(func)
++        if func.wrapper_type == 'co':
++            res += gen_co_wrapper(func)
++        else:
++            res += gen_no_co_wrapper(func)
+ 
+     return res
+ 
 -- 
 2.38.1
 
