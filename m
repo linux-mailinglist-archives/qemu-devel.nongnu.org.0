@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CDE67D795
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 22:19:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2DFC67D78C
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 22:19:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL9dR-000888-MJ; Thu, 26 Jan 2023 16:18:17 -0500
+	id 1pL9dT-00089f-5S; Thu, 26 Jan 2023 16:18:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pL9dB-0007yu-Bj; Thu, 26 Jan 2023 16:18:02 -0500
-Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
+ id 1pL9dC-0007zN-JM; Thu, 26 Jan 2023 16:18:04 -0500
+Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pL9d9-0007kR-GO; Thu, 26 Jan 2023 16:18:01 -0500
-Received: by mail-ej1-x631.google.com with SMTP id ss4so8572874ejb.11;
- Thu, 26 Jan 2023 13:17:58 -0800 (PST)
+ id 1pL9dA-0007ki-T7; Thu, 26 Jan 2023 16:18:02 -0500
+Received: by mail-ej1-x634.google.com with SMTP id me3so8622228ejb.7;
+ Thu, 26 Jan 2023 13:17:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=B+0raqkDXWQWPBkic8BAc4ozUWXA5qkVo1EM1DG1MHQ=;
- b=fbhT2Wf12e3Y8dvlbs0Ac1eGV1bm6TWMeYWfp40bfTgeaDhppILO1G04rFob1naJM8
- K+giGKPygPNbT2J8VZLWgWoxODK4BKaSJS0dGETI0d15V3O3MFeAkutjyi1Qq25duhyB
- 1ouGiQ5cZ6f5nZoPeFR87p35mh8FMfsbw8aIHXYYcih34MafK8A7K0oegZQzORqepGFP
- w+5ZS+MBINy13dJiIl7IpdaUBdJ/p4BBKpGPwyEvRBmFl1CgHmRpw/E+K40+v/sw3xO8
- zSN3d/5fkwEzUYFXYIEZThw7owvnIhchg7u9HpVxDnGzgBf3HSa/C4b3m+0yag4d74+S
- 9f+w==
+ bh=ZsBlYIVLivHH9TZQ9hPd1AFL1bCBF6f+F/1DMZlLLw0=;
+ b=kJpga6Fa3WYMl4Sa4cUx+96O0Ajw0d5HVVHvVleSEmGl7J85jQKFBZiBfdHssV91wt
+ KzOph/4YPN+HQtO4S9TtsvoCHPf5R2aZMk4ympofFCM+OLEg8n1lSJ6fGX3cx01r+13i
+ JGqadbYV4MSKNZjzQaMsn8oaNrzMahMN9j1jwWwjQDFqOxcF+nOF6Cgp1IOeFQFC8VxX
+ 5FjwIofv0BLz2aHDIT1kgvnlYR5skIQI4lC52d1KJT5zt1oGRdbS4RZ8uVdrB82cx3+4
+ vn3f0jEOgMHuftji8Ff5ofnbU5R4VQbnlaf4495gHacG0V6uOtmyCwR3qQxBBWw0z4g+
+ opzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=B+0raqkDXWQWPBkic8BAc4ozUWXA5qkVo1EM1DG1MHQ=;
- b=j3JGlE+fy+T/8/Kq4j+Mo8R+ysRfU45e1rzwBT0wtutq+IkHXfUh31AgEsn+t6na+/
- hHcDq9fD7LihtB56kY60hu21VHX5CxXTNR6TKWjMvNt9XZhX5ZJvG0F5h9Ug7mzO/kjr
- 6qAK4RGcx6ORjC2f3nFq6kPeE1RQXJkiOjD+l2aJx0e8ACIyD47DPFOnsVK3KufX4SHF
- gYjE4egbyK+/Wu774/2vf3lwWMSBIjf48vYLJdKfTanFRb9JsfvNo8SCgRKVihOVfLwe
- 61YDerG1vDGuxb8pDDRZDR7lKnTh7auxsTTR8udpGbEkEnvzQ6uR/IQBjSDUIzLhZ8Bv
- ZmwQ==
-X-Gm-Message-State: AFqh2kq+mACOqvribL/J8N4vkeXs3CyFI+153ykc41gYlE1xiofyFgX4
- z2MbgsNezm1QgDMVE0sFohaAMFdRyeIqeg==
-X-Google-Smtp-Source: AMrXdXsI/peXlhxMg0oZ8ahP++jiimXbNmvIm9IaErhetcapmj4EkrS7wzVjWLFfHkLydmNxG9vO+Q==
-X-Received: by 2002:a17:906:368f:b0:877:593a:58d0 with SMTP id
- a15-20020a170906368f00b00877593a58d0mr33509499ejc.29.1674767877348; 
- Thu, 26 Jan 2023 13:17:57 -0800 (PST)
+ bh=ZsBlYIVLivHH9TZQ9hPd1AFL1bCBF6f+F/1DMZlLLw0=;
+ b=4UjK/m1O8/TveIm2QJgMD2AbtbTi22Ksd4M36Q3I+D6Y54wfqV9TbBTnTeNz+qX8oe
+ 8Oa5dD+CWBRoVnNh2mn4uAmCl7+EZGWi9JyTJvSNj1j0vOY3gihWob2w7h/M6yfyGcSG
+ Vos72DTDsttxfNh+Ne9nieK1UIJgj5PgdvUcO/AvLFyZ4MYlj/npYSMtEcRp2yWvXXoe
+ evcKVBehEYQkwyDcjnmy/zn/z30+JuHpi0kARmksPrPbP/7fYrmF48QbySNY8yjmUNLr
+ KWuh1x46TweT3HTk7Rbg9TI/stOSIio2HXGX9HWwgiT87kVgEvuX5t/cv3OBJQwVtf6p
+ zrSQ==
+X-Gm-Message-State: AFqh2kqQP1+aO7pgvdEKQM1Ac2z+YxBDbJQDxD/+mU11XrT6dUg1/moR
+ /9fINI115KEt/fI4S1xP4ioZpwjpU1w/9w==
+X-Google-Smtp-Source: AMrXdXs03IvcnUkRF2y8A/OBDZBxG0TAAAvjaEWu2oipECPwLqB1Uc42JyrgHZXIAJe/h5x5NDAJuw==
+X-Received: by 2002:a17:907:9d09:b0:7c0:efb4:71fb with SMTP id
+ kt9-20020a1709079d0900b007c0efb471fbmr40543003ejc.28.1674767878579; 
+ Thu, 26 Jan 2023 13:17:58 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- w5-20020a170906384500b00878003adeeesm1117568ejc.23.2023.01.26.13.17.56
+ w5-20020a170906384500b00878003adeeesm1117568ejc.23.2023.01.26.13.17.57
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 13:17:57 -0800 (PST)
+ Thu, 26 Jan 2023 13:17:58 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -63,18 +63,19 @@ Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
  qemu-ppc@nongnu.org, qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 07/10] hw/ide/piix: Require an ISABus only for user-created
- instances
-Date: Thu, 26 Jan 2023 22:17:37 +0100
-Message-Id: <20230126211740.66874-8-shentey@gmail.com>
+ Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>,
+ 20210518215545.1793947-10-philmd@redhat.com
+Subject: [PATCH v2 08/10] hw/ide: Let ide_init_ioport() take a MemoryRegion
+ argument instead of ISADevice
+Date: Thu, 26 Jan 2023 22:17:38 +0100
+Message-Id: <20230126211740.66874-9-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230126211740.66874-1-shentey@gmail.com>
 References: <20230126211740.66874-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::631;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x631.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::634;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x634.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,187 +98,116 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Internal instances now defer interrupt wiring to the caller which
-decouples them from the ISABus. User-created devices still fish out the
-ISABus from the QOM tree and the interrupt wiring remains in PIIX IDE.
-The latter mechanism is considered a workaround and intended to be
-removed once a deprecation period for user-created PIIX IDE devices is
-over.
+Both callers to ide_init_ioport() have access to the I/O memory region
+of the ISA bus, so can pass it directly. This allows ide_init_ioport()
+to directly call portio_list_init().
 
+Note, now the callers become the owner of the PortioList.
+
+Inspired-by: <20210518215545.1793947-10-philmd@redhat.com>
+  'hw/ide: Let ide_init_ioport() take an ISA bus argument instead of device'
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- include/hw/ide/pci.h |  1 +
- hw/ide/piix.c        | 64 ++++++++++++++++++++++++++++++++++----------
- hw/isa/piix.c        |  5 ++++
- 3 files changed, 56 insertions(+), 14 deletions(-)
+ include/hw/ide/internal.h |  3 ++-
+ hw/ide/ioport.c           | 15 ++++++++-------
+ hw/ide/isa.c              |  4 +++-
+ hw/ide/piix.c             |  8 ++++++--
+ 4 files changed, 19 insertions(+), 11 deletions(-)
 
-diff --git a/include/hw/ide/pci.h b/include/hw/ide/pci.h
-index 24c0b7a2dd..ee2c8781b7 100644
---- a/include/hw/ide/pci.h
-+++ b/include/hw/ide/pci.h
-@@ -54,6 +54,7 @@ struct PCIIDEState {
-     MemoryRegion bmdma_bar;
-     MemoryRegion cmd_bar[2];
-     MemoryRegion data_bar[2];
-+    bool user_created;
+diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
+index 42c49414f4..c3e4d192fa 100644
+--- a/include/hw/ide/internal.h
++++ b/include/hw/ide/internal.h
+@@ -628,7 +628,8 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
+                    int chs_trans, Error **errp);
+ void ide_init2(IDEBus *bus, qemu_irq irq);
+ void ide_exit(IDEState *s);
+-void ide_init_ioport(IDEBus *bus, ISADevice *isa, int iobase, int iobase2);
++void ide_init_ioport(IDEBus *bus, MemoryRegion *address_space_io, Object *owner,
++                     int iobase, int iobase2);
+ void ide_register_restart_cb(IDEBus *bus);
+ 
+ void ide_exec_cmd(IDEBus *bus, uint32_t val);
+diff --git a/hw/ide/ioport.c b/hw/ide/ioport.c
+index b613ff3bba..00e9baf0d1 100644
+--- a/hw/ide/ioport.c
++++ b/hw/ide/ioport.c
+@@ -50,15 +50,16 @@ static const MemoryRegionPortio ide_portio2_list[] = {
+     PORTIO_END_OF_LIST(),
  };
  
- static inline IDEState *bmdma_active_if(BMDMAState *bmdma)
+-void ide_init_ioport(IDEBus *bus, ISADevice *dev, int iobase, int iobase2)
++void ide_init_ioport(IDEBus *bus, MemoryRegion *address_space_io, Object *owner,
++                     int iobase, int iobase2)
+ {
+-    /* ??? Assume only ISA and PCI configurations, and that the PCI-ISA
+-       bridge has been setup properly to always register with ISA.  */
+-    isa_register_portio_list(dev, &bus->portio_list,
+-                             iobase, ide_portio_list, bus, "ide");
++    assert(address_space_io);
++
++    portio_list_init(&bus->portio_list, owner, ide_portio_list, bus, "ide",
++                     address_space_io, iobase);
+ 
+     if (iobase2) {
+-        isa_register_portio_list(dev, &bus->portio2_list,
+-                                 iobase2, ide_portio2_list, bus, "ide");
++        portio_list_init(&bus->portio2_list, owner, ide_portio2_list, bus,
++                         "ide", address_space_io, iobase2);
+     }
+ }
+diff --git a/hw/ide/isa.c b/hw/ide/isa.c
+index 8bedbd13f1..cab5d0a07a 100644
+--- a/hw/ide/isa.c
++++ b/hw/ide/isa.c
+@@ -72,9 +72,11 @@ static void isa_ide_realizefn(DeviceState *dev, Error **errp)
+ {
+     ISADevice *isadev = ISA_DEVICE(dev);
+     ISAIDEState *s = ISA_IDE(dev);
++    ISABus *isabus = isa_bus_from_device(isadev);
+ 
+     ide_bus_init(&s->bus, sizeof(s->bus), dev, 0, 2);
+-    ide_init_ioport(&s->bus, isadev, s->iobase, s->iobase2);
++    ide_init_ioport(&s->bus, isabus->address_space_io, OBJECT(dev),
++                    s->iobase, s->iobase2);
+     s->irq = isa_get_irq(isadev, s->isairq);
+     ide_init2(&s->bus, s->irq);
+     vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_isa, s);
 diff --git a/hw/ide/piix.c b/hw/ide/piix.c
-index 5980045db0..f0d95761ac 100644
+index f0d95761ac..236b5b7416 100644
 --- a/hw/ide/piix.c
 +++ b/hw/ide/piix.c
-@@ -108,6 +108,13 @@ static void bmdma_setup_bar(PCIIDEState *d)
-     }
- }
+@@ -29,6 +29,7 @@
  
-+static void piix_ide_set_irq(void *opaque, int n, int level)
-+{
-+    PCIIDEState *d = opaque;
-+
-+    qemu_set_irq(d->isa_irqs[n], level);
-+}
-+
- static void piix_ide_reset(DeviceState *dev)
- {
-     PCIIDEState *d = PCI_IDE(dev);
-@@ -138,11 +145,18 @@ static void pci_piix_init_ports(PCIIDEState *d, ISABus *isa_bus)
+ #include "qemu/osdep.h"
+ #include "hw/pci/pci.h"
++#include "hw/pci/pci_bus.h"
+ #include "migration/vmstate.h"
+ #include "qapi/error.h"
+ #include "qemu/module.h"
+@@ -143,8 +144,11 @@ static void pci_piix_init_ports(PCIIDEState *d, ISABus *isa_bus)
+         {0x1f0, 0x3f6, 14},
+         {0x170, 0x376, 15},
      };
++    PCIBus *pci_bus = pci_get_bus(&d->parent_obj);
      int i;
  
-+    if (isa_bus) {
-+        d->isa_irqs[0] = isa_bus->irqs[port_info[0].isairq];
-+        d->isa_irqs[1] = isa_bus->irqs[port_info[1].isairq];
-+    } else {
-+        qdev_init_gpio_out(DEVICE(d), d->isa_irqs, 2);
-+    }
++    assert(pci_bus);
 +
+     if (isa_bus) {
+         d->isa_irqs[0] = isa_bus->irqs[port_info[0].isairq];
+         d->isa_irqs[1] = isa_bus->irqs[port_info[1].isairq];
+@@ -154,8 +158,8 @@ static void pci_piix_init_ports(PCIIDEState *d, ISABus *isa_bus)
+ 
      for (i = 0; i < 2; i++) {
          ide_bus_init(&d->bus[i], sizeof(d->bus[i]), DEVICE(d), i, 2);
-         ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
-                         port_info[i].iobase2);
--        ide_init2(&d->bus[i], isa_bus->irqs[port_info[i].isairq]);
-+        ide_init2(&d->bus[i], qdev_get_gpio_in(DEVICE(d), i));
+-        ide_init_ioport(&d->bus[i], NULL, port_info[i].iobase,
+-                        port_info[i].iobase2);
++        ide_init_ioport(&d->bus[i], pci_bus->address_space_io, OBJECT(d),
++                        port_info[i].iobase, port_info[i].iobase2);
+         ide_init2(&d->bus[i], qdev_get_gpio_in(DEVICE(d), i));
  
          bmdma_init(&d->bus[i], &d->bmdma[i], d);
-         d->bmdma[i].bus = &d->bus[i];
-@@ -154,8 +168,7 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
- {
-     PCIIDEState *d = PCI_IDE(dev);
-     uint8_t *pci_conf = dev->config;
--    ISABus *isa_bus;
--    bool ambiguous;
-+    ISABus *isa_bus = NULL;
- 
-     pci_conf[PCI_CLASS_PROG] = 0x80; // legacy ATA mode
- 
-@@ -164,22 +177,36 @@ static void pci_piix_ide_realize(PCIDevice *dev, Error **errp)
- 
-     vmstate_register(VMSTATE_IF(dev), 0, &vmstate_ide_pci, d);
- 
--    isa_bus = ISA_BUS(object_resolve_path_type("", TYPE_ISA_BUS, &ambiguous));
--    if (ambiguous) {
--        error_setg(errp,
--                   "More than one ISA bus found while %s supports only one",
--                   object_get_typename(OBJECT(dev)));
--        return;
--    }
--    if (!isa_bus) {
--        error_setg(errp, "No ISA bus found while %s requires one",
--                   object_get_typename(OBJECT(dev)));
--        return;
-+    if (d->user_created) {
-+        bool ambiguous;
-+
-+        isa_bus = ISA_BUS(object_resolve_path_type("", TYPE_ISA_BUS,
-+                                                   &ambiguous));
-+
-+        if (ambiguous) {
-+            error_setg(errp,
-+                       "More than one ISA bus found while %s supports only one",
-+                       object_get_typename(OBJECT(dev)));
-+            return;
-+        }
-+
-+        if (!isa_bus) {
-+            error_setg(errp, "No ISA bus found while %s requires one",
-+                       object_get_typename(OBJECT(dev)));
-+            return;
-+        }
-     }
- 
-     pci_piix_init_ports(d, isa_bus);
- }
- 
-+static void pci_piix_ide_init(Object *obj)
-+{
-+    DeviceState *dev = DEVICE(obj);
-+
-+    qdev_init_gpio_in(dev, piix_ide_set_irq, 2);
-+}
-+
- static void pci_piix_ide_exitfn(PCIDevice *dev)
- {
-     PCIIDEState *d = PCI_IDE(dev);
-@@ -191,6 +218,11 @@ static void pci_piix_ide_exitfn(PCIDevice *dev)
-     }
- }
- 
-+static Property piix_ide_properties[] = {
-+    DEFINE_PROP_BOOL("user-created", PCIIDEState, user_created, true),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- /* NOTE: for the PIIX3, the IRQs and IOports are hardcoded */
- static void piix3_ide_class_init(ObjectClass *klass, void *data)
- {
-@@ -205,11 +237,13 @@ static void piix3_ide_class_init(ObjectClass *klass, void *data)
-     k->class_id = PCI_CLASS_STORAGE_IDE;
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-     dc->hotpluggable = false;
-+    device_class_set_props(dc, piix_ide_properties);
- }
- 
- static const TypeInfo piix3_ide_info = {
-     .name          = TYPE_PIIX3_IDE,
-     .parent        = TYPE_PCI_IDE,
-+    .instance_init = pci_piix_ide_init,
-     .class_init    = piix3_ide_class_init,
- };
- 
-@@ -227,11 +261,13 @@ static void piix4_ide_class_init(ObjectClass *klass, void *data)
-     k->class_id = PCI_CLASS_STORAGE_IDE;
-     set_bit(DEVICE_CATEGORY_STORAGE, dc->categories);
-     dc->hotpluggable = false;
-+    device_class_set_props(dc, piix_ide_properties);
- }
- 
- static const TypeInfo piix4_ide_info = {
-     .name          = TYPE_PIIX4_IDE,
-     .parent        = TYPE_PCI_IDE,
-+    .instance_init = pci_piix_ide_init,
-     .class_init    = piix4_ide_class_init,
- };
- 
-diff --git a/hw/isa/piix.c b/hw/isa/piix.c
-index 54a1246a9d..f9974c2a77 100644
---- a/hw/isa/piix.c
-+++ b/hw/isa/piix.c
-@@ -345,9 +345,14 @@ static void pci_piix_realize(PCIDevice *dev, const char *uhci_type,
- 
-     /* IDE */
-     qdev_prop_set_int32(DEVICE(&d->ide), "addr", dev->devfn + 1);
-+    qdev_prop_set_bit(DEVICE(&d->ide), "user-created", false);
-     if (!qdev_realize(DEVICE(&d->ide), BUS(pci_bus), errp)) {
-         return;
-     }
-+    qdev_connect_gpio_out(DEVICE(&d->ide), 0,
-+                          qdev_get_gpio_in(DEVICE(&d->pic), 14));
-+    qdev_connect_gpio_out(DEVICE(&d->ide), 1,
-+                          qdev_get_gpio_in(DEVICE(&d->pic), 15));
- 
-     /* USB */
-     if (d->has_usb) {
 -- 
 2.39.1
 
