@@ -2,85 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 638D167CD59
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 15:13:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E03BD67CD5B
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 15:15:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL2zW-0004Ea-Mh; Thu, 26 Jan 2023 09:12:38 -0500
+	id 1pL31u-0006AN-3a; Thu, 26 Jan 2023 09:15:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pL2zU-0004E5-C6
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:12:36 -0500
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pL2zS-0005PJ-3v
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:12:36 -0500
-Received: by mail-wm1-x32d.google.com with SMTP id m15so1203336wms.4
- for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 06:12:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=q/uYQIFQgdvoulc6g4XrIYkL0SYovlkjTajmCLFj9ac=;
- b=ZNQY4SgA677xviF0058F07Qt1f+Ui6NSK2nwtJDBORIF+/W3+8AJpybL2V1YaHeXmm
- AjjEn9dN1M4ZNyNIrDveyMmH3pM6mEx/IYksNMxNbf6tQ7aGuZOFXItwx4+d00agrC7U
- qjagwElqpNfydq2C+trzxTPxqn7WlW37ZsoSYYBM4j+g6Pv8luiaOOJrHSPtzSQWbbDj
- 0huyIsPrF1/w1UWuT/4rL+pBHKpuU04wbImW+aUQZ5NRCwi97kkEQEW7d8mhHyXOOFcX
- dNsBCUi0VeLy+l/La4OiiQWn2hhVXdicBYeHwV61G7IUfqMblRTFW+2fEWUnY+wm/vnT
- DFhA==
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1pL31s-0006AC-NP
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:15:04 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1pL31r-0006Er-1C
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 09:15:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674742502;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=sb/v9HMjUz0vqBy+msoVyyjLEpuo1yrc8JMxk0yTsK8=;
+ b=X4I7eSWk8pWVTx0mA2IRdvZ4RUtpPzivjVguUDS6LAPz+oAH6YGwtpaeenDU0147qykQZ3
+ xW6JvdVAP1r0mB+tyjK+r9XUMyeDOrNZjerk8uoBSwEPpMnQDwwz/Ywj8Li4JNQw6ZLVLa
+ vrKO0y++LJy5Q9hc28AAbfQBwytj1vc=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-533-CWTMUhdePN6rTBQiUpg-ew-1; Thu, 26 Jan 2023 09:13:23 -0500
+X-MC-Unique: CWTMUhdePN6rTBQiUpg-ew-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ j10-20020a05640211ca00b0049e385d5830so1493116edw.22
+ for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 06:13:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=q/uYQIFQgdvoulc6g4XrIYkL0SYovlkjTajmCLFj9ac=;
- b=dFbfyfzH8MsLczx/UPpRvpQdN2Bamm42kvLnf8CsC+lEp++BwkLJhkL+TITEaufLmi
- bO0khAIVtu4MR2ei7sHgiuDfxzpNxhxd6hD6nsY2fdN7oufCIWosBd5B7SNenUDrdtTT
- 6fJiD0E/+KNsFfOZINctIskvecsyt7De/vJzST0WsO45TNIF2Ttju1rRo/AmOTPPe2NH
- 2MAHMZ9o50eofePlWfEO6CYXu5MPpRVp50Lqp7dMihrQIjif/i3OQHtob694yJu5+gq3
- TPQ7E+tbswoit77acAvkYH6cuvxlqi5j73zmIZcdDuzMF3M/eX5GJV9Krt05leoqOlxg
- N4Lg==
-X-Gm-Message-State: AFqh2kpwbCEgtm6FmnAX9p5wZx5k5/xFP0pckBH3f/StPM0brlA5fgR7
- +Pm1ZEr6Qavhiu7qF3gzHknWhg==
-X-Google-Smtp-Source: AMrXdXtEm4IiKORqpznfSmue87yvc0c9pPEUUM5DCizmcaYrvjxmj9erbZKr0vFam0v0gujcg9ugRw==
-X-Received: by 2002:a05:600c:4f42:b0:3db:2e62:1d69 with SMTP id
- m2-20020a05600c4f4200b003db2e621d69mr25291878wmq.31.1674742351970; 
- Thu, 26 Jan 2023 06:12:31 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=sb/v9HMjUz0vqBy+msoVyyjLEpuo1yrc8JMxk0yTsK8=;
+ b=kENPQt2T5uyfBHnczdbei4VO3XgjJrWICeRuoKo7cy2hDlwmV4KoVkZWbYwJsmAmzy
+ 2NKY1Po4Xie6+R758AoedmGpB5QLlEzNurVf7eBC5RN6ZAedCPKTwpAOHi+tilm3bfxu
+ U8V/zAhSuJN4kB0x/yt75rrxxD/1NtyVsWuf3I/gpJ5UkxB9BbYH4hmOWELgB2JtOp/B
+ K707Y+ijRvyAioytPjDhywo4A4HFyq4ly81EfRAi4nhW+1mMLpfmaPa0vNKcCqxbLb0W
+ 0+KsdzoXHzw8PsC1zI8sKZkwmGGkirkq44A3jrU8zou3Uu3VHbKlZkVMgvdOrgBYsZQS
+ UQ2g==
+X-Gm-Message-State: AFqh2kqT1QwUH2qyKMdZjA3j7PguHe2wjt/tj3/+mFSo40w8J2PD3Nat
+ tiPhM5+Vx39i+uq8p83FO0UVyQ+Cryj8NAsYs89CO0H2qjpAjY3GKecDDdgaNmEhbvpZNK3lrP7
+ Tf0K+DINRVg2CgmE=
+X-Received: by 2002:a05:6402:43cf:b0:472:f7c1:361 with SMTP id
+ p15-20020a05640243cf00b00472f7c10361mr41155211edc.29.1674742401957; 
+ Thu, 26 Jan 2023 06:13:21 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsHhc3YwxSYXhVNFmWpAkx/k+L/ttUnBj7/monmArNxYlqGIot8jWhRoz0PCQnlZizxiUV41Q==
+X-Received: by 2002:a05:6402:43cf:b0:472:f7c1:361 with SMTP id
+ p15-20020a05640243cf00b00472f7c10361mr41155198edc.29.1674742401781; 
+ Thu, 26 Jan 2023 06:13:21 -0800 (PST)
+Received: from [10.43.2.39] (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- 18-20020a05600c26d200b003da28dfdedcsm1860843wmv.5.2023.01.26.06.12.31
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 06:12:31 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 14A1F1FFB7;
- Thu, 26 Jan 2023 14:12:31 +0000 (GMT)
-References: <20230126114416.2447685-1-marcin.juszkiewicz@linaro.org>
-User-agent: mu4e 1.9.16; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Cc: Radoslaw Biernacki <rad@semihalf.com>, Peter Maydell
- <peter.maydell@linaro.org>, Leif Lindholm <quic_llindhol@quicinc.com>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
- qemu-arm@nongnu.org
-Subject: Re: [PATCH] sbsa-ref: remove cortex-a76 from list of supported cpus
-Date: Thu, 26 Jan 2023 14:12:26 +0000
-In-reply-to: <20230126114416.2447685-1-marcin.juszkiewicz@linaro.org>
-Message-ID: <87lelppepc.fsf@linaro.org>
+ s9-20020aa7c549000000b004a0afea4c9csm793684edr.18.2023.01.26.06.13.20
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Jan 2023 06:13:21 -0800 (PST)
+Message-ID: <0f8ad497-202d-ae55-e468-77bb726a2699@redhat.com>
+Date: Thu, 26 Jan 2023 15:13:19 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 0/3] util/userfaultfd: Support /dev/userfaultfd
+Content-Language: en-US
+To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
+Cc: Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+References: <20230125224016.212529-1-peterx@redhat.com>
+From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
+In-Reply-To: <20230125224016.212529-1-peterx@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mprivozn@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.15, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,17 +103,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 1/25/23 23:40, Peter Xu wrote:
+> The new /dev/userfaultfd handle is superior to the system call with a
+> better permission control and also works for a restricted seccomp
+> environment.
+> 
+> The new device was only introduced in v6.1 so we need a header update.
+> 
+> Please have a look, thanks.
 
-Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org> writes:
+I was wondering whether it would make sense/be possible for mgmt app
+(libvirt) to pass FD for /dev/userfaultfd instead of QEMU opening it
+itself. But looking into the code, libvirt would need to do that when
+spawning QEMU because that's when QEMU itself initializes internal state
+and queries userfaultfd caps.
 
-> Cortex-A76 supports 40bits of address space. sbsa-ref's memory
-> starts above this limit.
->
-> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+Michal
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
