@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3363667C9B9
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 12:22:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE33367C9BC
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 12:22:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL0JI-0002UZ-M7; Thu, 26 Jan 2023 06:20:52 -0500
+	id 1pL0JN-0002YE-GG; Thu, 26 Jan 2023 06:20:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pL0JG-0002TV-5T
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:20:50 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ id 1pL0JL-0002VQ-6E
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:20:55 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pL0JD-0001qm-NT
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:20:49 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id g23so1513006plq.12
- for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 03:20:47 -0800 (PST)
+ id 1pL0JI-0001sr-6g
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:20:54 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id m11so1262330pji.0
+ for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 03:20:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=MhHU2j6E0Hq4RGSpd4bzDHW1H7ORmG/JuEExsctjUgg=;
- b=uxJY8FMUQK0Ko89AxrNJSqDEwwTpYpGtotYXb7wJaQxG7/UQHlL/+lDIDHb6pnVg2W
- 5T88ct87bbxKDTKCsYYLVgYWK/TXBydH/ylBovuHzcTyK3IisCS8SVBV8UoFXUenKoM0
- D7qDGTJfN69bIVMLdNLwJHgiIS7+S1yNom5jxpP6Z9d64Ruk+0g7T4l7pedf5O5zZ4Ow
- T50txz3J++aV1dFr2PT7j5M9W2V3RnRXXb1pypYbeNdf8dFE/bGshU5hwzeucU63bjqG
- xYaU8/Q0Hn+5jSCGow6hLCIe+7IMQrh4ANGdelGrh6+dXc0AcbJ0BfID/iA6s/oUqArg
- 6bfg==
+ bh=Egow/PWapJguxCW68RyjxXyWV9CKv5fwMKEoQUDQIks=;
+ b=QicPJyiS6bUpJFPKo0KI45Ex6p52i1ZPLO2NJOS385B57L96BAad01N0WlHQSlGO8a
+ kLo2d29QbR9OpzbFGQDpbhzAOse9jX+l7p7mwdQMSoFH2Eo6eZKHAeWSLs6GP+rSwFhK
+ ZgCcEJWStJDju78Zn+/TzZNpY/o8T4YNXSs+UYsxAGwsrWL3JYJKOd2ILyAHN2Z5bxmU
+ j2f+4s22QP+On77A+kVqlianTTVr9sFsEoguha6tAGY3590lrS8eGBDrm4Gw3dwLScgn
+ YqusOHg21tJ7q6xWCF8TFWG3PggKVTAReDDhmiDZ7s6ZxZgdsaVaSpYWAKc4Pf8j32Hs
+ ufnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=MhHU2j6E0Hq4RGSpd4bzDHW1H7ORmG/JuEExsctjUgg=;
- b=uATniE1AEfetb79pTe//hKZ0pqoAPZrWZp0ofyU2qexrn5jaQPZb2Ro/yQOOY9hmrK
- A0gG3dYvKD+iz7a+Hg03rwZVv4CCSw1lUYNuse77ms7/TqefP3fkEA0Fk9Ez7M8X5hW8
- LH6WLzIF3ip6ts1wNqgXoLlb7NhqA6r68OsAVH3EAzd5Njrx3vXufoHoLeMnsaGGPurc
- YJUjWYy2+I/sPk1J90utWim8OXQHB7XnpDb/GrOX4ZJHJS3Klpo4SOxz6FC1k9L3dVdI
- FkBSdMA1y/1IPSAoQVP71xeLoijA/Ti5I360Q6moBF2cOYBAxQy4HVL2fksQTAGFSElm
- 1ArA==
-X-Gm-Message-State: AO0yUKX7xWU90JnZdYoEeXfRqGl9x9iiYL5Bf1cerpaXpR/KyxwpIwZJ
- F7XAjdzdEiTJ5/L13/Vix372PA==
-X-Google-Smtp-Source: AK7set9IXrm4FwYlfExky36jgc70xNf4R3HBc+U5Z0v5H9/I0w0OouobOq7QJDi22igtJcv06Aj9Hw==
-X-Received: by 2002:a17:90b:33c6:b0:22c:665:6ee with SMTP id
- lk6-20020a17090b33c600b0022c066506eemr6392571pjb.31.1674732046157; 
- Thu, 26 Jan 2023 03:20:46 -0800 (PST)
+ bh=Egow/PWapJguxCW68RyjxXyWV9CKv5fwMKEoQUDQIks=;
+ b=I/iPdLjZ4K6eqobdKVP85LB4pLP5HW1c+LUdl2kaczYwh00K9CtQnDnjqgxfOd1y8e
+ lkLQJVXqJ+mvIOCh5jHMjyOOzr6E+ELAt9YTU7dc1WrveRZ8vxIL2OUKQznPAyMAtseI
+ RqhULtA2NGm0V6cb975tv9GbdbBmL0IFvMPHE7+o6d6peoDcSmRRGXSsfFJNZVXnYCWf
+ g6kbWMTUS5LFKQiCnhsMPxwyJwf78D9aHTkCFI9H6SFhKFKeNGKq6KlP9lACRZf2WRp6
+ xIPNnpUMZ1Z3UscLKHnqPX3GHHOY7zNGlCPG/HIf5DXZ3JAgxBgOgR/nqsKDuFPURgFE
+ BQzg==
+X-Gm-Message-State: AFqh2kq00UnZ+UYShoKgoQs0Hsfo7Z0qTkDdqWVWMKLgxYsXWr6fmOUX
+ 0f7ep13Eo5hWbEAFm6y+/fN5VA==
+X-Google-Smtp-Source: AMrXdXvUw35VTYOt8+2ppL1FS1LIyUA1LIvgwqAZuBxAiPLvEaWjrrSg0YRwYQE44UCKxgFAYE5jGA==
+X-Received: by 2002:a17:90b:3a84:b0:22b:b792:d666 with SMTP id
+ om4-20020a17090b3a8400b0022bb792d666mr23146323pjb.44.1674732051090; 
+ Thu, 26 Jan 2023 03:20:51 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- z14-20020a17090a468e00b00229d7f2abd4sm849520pjf.54.2023.01.26.03.20.41
+ z14-20020a17090a468e00b00229d7f2abd4sm849520pjf.54.2023.01.26.03.20.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 03:20:45 -0800 (PST)
+ Thu, 26 Jan 2023 03:20:50 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -75,16 +75,16 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v4 10/13] tests/qtest/libqos/igb: Copy e1000e code
-Date: Thu, 26 Jan 2023 20:19:40 +0900
-Message-Id: <20230126111943.38695-11-akihiko.odaki@daynix.com>
+Subject: [PATCH v4 11/13] tests/qtest/libqos/igb: Transform to igb tests
+Date: Thu, 26 Jan 2023 20:19:41 +0900
+Message-Id: <20230126111943.38695-12-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230126111943.38695-1-akihiko.odaki@daynix.com>
 References: <20230126111943.38695-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62b;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1035.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -106,511 +106,480 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Start off igb test implementation by copying e1000e code first as igb
-resembles e1000e.
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- MAINTAINERS              |   2 +
- tests/qtest/igb-test.c   | 242 +++++++++++++++++++++++++++++++++++++++
- tests/qtest/libqos/igb.c | 226 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 470 insertions(+)
- create mode 100644 tests/qtest/igb-test.c
- create mode 100644 tests/qtest/libqos/igb.c
+ tests/qtest/fuzz/generic_fuzz_configs.h |   5 +
+ tests/qtest/igb-test.c                  |  67 ++++++------
+ tests/qtest/libqos/igb.c                | 139 +++++++++---------------
+ tests/qtest/libqos/meson.build          |   1 +
+ tests/qtest/meson.build                 |   1 +
+ 5 files changed, 90 insertions(+), 123 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index f9e9638290..127fd92541 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2225,6 +2225,8 @@ igb
- M: Akihiko Odaki <akihiko.odaki@daynix.com>
- S: Maintained
- F: hw/net/igb*
-+F: tests/qtest/igb-test.c
-+F: tests/qtest/libqos/igb.c
- 
- eepro100
- M: Stefan Weil <sw@weilnetz.de>
+diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
+index a825b78c14..50689da653 100644
+--- a/tests/qtest/fuzz/generic_fuzz_configs.h
++++ b/tests/qtest/fuzz/generic_fuzz_configs.h
+@@ -90,6 +90,11 @@ const generic_fuzz_config predefined_configs[] = {
+         .args = "-M q35 -nodefaults "
+         "-device e1000e,netdev=net0 -netdev user,id=net0",
+         .objects = "e1000e",
++    },{
++        .name = "igb",
++        .args = "-M q35 -nodefaults "
++        "-device igb,netdev=net0 -netdev user,id=net0",
++        .objects = "igb",
+     },{
+         .name = "cirrus-vga",
+         .args = "-machine q35 -nodefaults -device cirrus-vga",
 diff --git a/tests/qtest/igb-test.c b/tests/qtest/igb-test.c
-new file mode 100644
-index 0000000000..98706355e3
---- /dev/null
+index 98706355e3..17d408f02a 100644
+--- a/tests/qtest/igb-test.c
 +++ b/tests/qtest/igb-test.c
-@@ -0,0 +1,242 @@
-+/*
-+ * QTest testcase for e1000e NIC
-+ *
-+ * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
-+ * Developed by Daynix Computing LTD (http://www.daynix.com)
-+ *
-+ * Authors:
-+ * Dmitry Fleytman <dmitry@daynix.com>
-+ * Leonid Bloch <leonid@daynix.com>
-+ * Yan Vugenfirer <yan@daynix.com>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+
-+#include "qemu/osdep.h"
-+#include "libqtest-single.h"
-+#include "libqos/pci-pc.h"
-+#include "net/eth.h"
-+#include "qemu/sockets.h"
-+#include "qemu/iov.h"
-+#include "qemu/module.h"
-+#include "qemu/bitops.h"
-+#include "libqos/libqos-malloc.h"
-+#include "libqos/e1000e.h"
-+#include "hw/net/e1000_regs.h"
-+
-+static const struct eth_header test = {
-+    .h_dest = E1000E_ADDRESS,
-+    .h_source = E1000E_ADDRESS,
-+};
-+
-+static void e1000e_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *alloc)
-+{
-+    struct e1000_tx_desc descr;
-+    char buffer[64];
-+    int ret;
-+    uint32_t recv_len;
-+
-+    /* Prepare test data buffer */
-+    uint64_t data = guest_alloc(alloc, sizeof(buffer));
-+    memwrite(data, &test, sizeof(test));
-+
-+    /* Prepare TX descriptor */
-+    memset(&descr, 0, sizeof(descr));
-+    descr.buffer_addr = cpu_to_le64(data);
-+    descr.lower.data = cpu_to_le32(E1000_TXD_CMD_RS   |
-+                                   E1000_TXD_CMD_EOP  |
-+                                   E1000_TXD_CMD_DEXT |
-+                                   E1000_TXD_DTYP_D   |
-+                                   sizeof(buffer));
-+
-+    /* Put descriptor to the ring */
-+    e1000e_tx_ring_push(d, &descr);
-+
-+    /* Wait for TX WB interrupt */
-+    e1000e_wait_isr(d, E1000E_TX0_MSG_ID);
-+
-+    /* Check DD bit */
-+    g_assert_cmphex(le32_to_cpu(descr.upper.data) & E1000_TXD_STAT_DD, ==,
-+                    E1000_TXD_STAT_DD);
-+
-+    /* Check data sent to the backend */
-+    ret = recv(test_sockets[0], &recv_len, sizeof(recv_len), 0);
-+    g_assert_cmpint(ret, == , sizeof(recv_len));
-+    ret = recv(test_sockets[0], buffer, sizeof(buffer), 0);
-+    g_assert_cmpint(ret, ==, sizeof(buffer));
-+    g_assert_false(memcmp(buffer, &test, sizeof(test)));
-+
-+    /* Free test data buffer */
-+    guest_free(alloc, data);
-+}
-+
-+static void e1000e_receive_verify(QE1000E *d, int *test_sockets, QGuestAllocator *alloc)
-+{
-+    union e1000_rx_desc_extended descr;
-+
-+    struct eth_header test_iov = test;
-+    int len = htonl(sizeof(test));
-+    struct iovec iov[] = {
-+        {
-+            .iov_base = &len,
-+            .iov_len = sizeof(len),
-+        },{
-+            .iov_base = &test_iov,
-+            .iov_len = sizeof(test),
-+        },
-+    };
-+
-+    char buffer[64];
-+    int ret;
-+
-+    /* Send a dummy packet to device's socket*/
-+    ret = iov_send(test_sockets[0], iov, 2, 0, sizeof(len) + sizeof(test));
-+    g_assert_cmpint(ret, == , sizeof(test) + sizeof(len));
-+
-+    /* Prepare test data buffer */
-+    uint64_t data = guest_alloc(alloc, sizeof(buffer));
-+
-+    /* Prepare RX descriptor */
-+    memset(&descr, 0, sizeof(descr));
+@@ -1,10 +1,12 @@
+ /*
+- * QTest testcase for e1000e NIC
++ * QTest testcase for igb NIC
+  *
++ * Copyright (c) 2022-2023 Red Hat, Inc.
+  * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
+  * Developed by Daynix Computing LTD (http://www.daynix.com)
+  *
+  * Authors:
++ * Akihiko Odaki <akihiko.odaki@daynix.com>
+  * Dmitry Fleytman <dmitry@daynix.com>
+  * Leonid Bloch <leonid@daynix.com>
+  * Yan Vugenfirer <yan@daynix.com>
+@@ -34,16 +36,16 @@
+ #include "qemu/bitops.h"
+ #include "libqos/libqos-malloc.h"
+ #include "libqos/e1000e.h"
+-#include "hw/net/e1000_regs.h"
++#include "hw/net/igb_regs.h"
+ 
+ static const struct eth_header test = {
+     .h_dest = E1000E_ADDRESS,
+     .h_source = E1000E_ADDRESS,
+ };
+ 
+-static void e1000e_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *alloc)
++static void igb_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *alloc)
+ {
+-    struct e1000_tx_desc descr;
++    union e1000_adv_tx_desc descr;
+     char buffer[64];
+     int ret;
+     uint32_t recv_len;
+@@ -54,12 +56,11 @@ static void e1000e_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *a
+ 
+     /* Prepare TX descriptor */
+     memset(&descr, 0, sizeof(descr));
+-    descr.buffer_addr = cpu_to_le64(data);
+-    descr.lower.data = cpu_to_le32(E1000_TXD_CMD_RS   |
+-                                   E1000_TXD_CMD_EOP  |
+-                                   E1000_TXD_CMD_DEXT |
+-                                   E1000_TXD_DTYP_D   |
+-                                   sizeof(buffer));
 +    descr.read.buffer_addr = cpu_to_le64(data);
-+
-+    /* Put descriptor to the ring */
-+    e1000e_rx_ring_push(d, &descr);
-+
-+    /* Wait for TX WB interrupt */
-+    e1000e_wait_isr(d, E1000E_RX0_MSG_ID);
-+
-+    /* Check DD bit */
-+    g_assert_cmphex(le32_to_cpu(descr.wb.upper.status_error) &
-+        E1000_RXD_STAT_DD, ==, E1000_RXD_STAT_DD);
-+
-+    /* Check data sent to the backend */
-+    memread(data, buffer, sizeof(buffer));
-+    g_assert_false(memcmp(buffer, &test, sizeof(test)));
-+
-+    /* Free test data buffer */
-+    guest_free(alloc, data);
-+}
-+
-+static void test_e1000e_init(void *obj, void *data, QGuestAllocator * alloc)
-+{
-+    /* init does nothing */
-+}
-+
-+static void test_e1000e_tx(void *obj, void *data, QGuestAllocator * alloc)
-+{
-+    QE1000E_PCI *e1000e = obj;
-+    QE1000E *d = &e1000e->e1000e;
-+    QOSGraphObject *e_object = obj;
-+    QPCIDevice *dev = e_object->get_driver(e_object, "pci-device");
-+
-+    /* FIXME: add spapr support */
-+    if (qpci_check_buggy_msi(dev)) {
-+        return;
-+    }
-+
-+    e1000e_send_verify(d, data, alloc);
-+}
-+
-+static void test_e1000e_rx(void *obj, void *data, QGuestAllocator * alloc)
-+{
-+    QE1000E_PCI *e1000e = obj;
-+    QE1000E *d = &e1000e->e1000e;
-+    QOSGraphObject *e_object = obj;
-+    QPCIDevice *dev = e_object->get_driver(e_object, "pci-device");
-+
-+    /* FIXME: add spapr support */
-+    if (qpci_check_buggy_msi(dev)) {
-+        return;
-+    }
-+
-+    e1000e_receive_verify(d, data, alloc);
-+}
-+
-+static void test_e1000e_multiple_transfers(void *obj, void *data,
-+                                           QGuestAllocator *alloc)
-+{
-+    static const long iterations = 4 * 1024;
-+    long i;
-+
-+    QE1000E_PCI *e1000e = obj;
-+    QE1000E *d = &e1000e->e1000e;
-+    QOSGraphObject *e_object = obj;
-+    QPCIDevice *dev = e_object->get_driver(e_object, "pci-device");
-+
-+    /* FIXME: add spapr support */
-+    if (qpci_check_buggy_msi(dev)) {
-+        return;
-+    }
-+
-+    for (i = 0; i < iterations; i++) {
-+        e1000e_send_verify(d, data, alloc);
-+        e1000e_receive_verify(d, data, alloc);
-+    }
-+
-+}
-+
-+static void test_e1000e_hotplug(void *obj, void *data, QGuestAllocator * alloc)
-+{
-+    QTestState *qts = global_qtest;  /* TODO: get rid of global_qtest here */
-+    QE1000E_PCI *dev = obj;
-+
-+    if (dev->pci_dev.bus->not_hotpluggable) {
-+        g_test_skip("pci bus does not support hotplug");
-+        return;
-+    }
-+
-+    qtest_qmp_device_add(qts, "e1000e", "e1000e_net", "{'addr': '0x06'}");
-+    qpci_unplug_acpi_device_test(qts, "e1000e_net", 0x06);
-+}
-+
-+static void data_test_clear(void *sockets)
-+{
-+    int *test_sockets = sockets;
-+
-+    close(test_sockets[0]);
-+    qos_invalidate_command_line();
-+    close(test_sockets[1]);
-+    g_free(test_sockets);
-+}
-+
-+static void *data_test_init(GString *cmd_line, void *arg)
-+{
-+    int *test_sockets = g_new(int, 2);
-+    int ret = socketpair(PF_UNIX, SOCK_STREAM, 0, test_sockets);
-+    g_assert_cmpint(ret, != , -1);
-+
-+    g_string_append_printf(cmd_line, " -netdev socket,fd=%d,id=hs0 ",
-+                           test_sockets[1]);
-+
-+    g_test_queue_destroy(data_test_clear, test_sockets);
-+    return test_sockets;
-+}
-+
-+static void register_e1000e_test(void)
-+{
-+    QOSGraphTestOptions opts = {
-+        .before = data_test_init,
-+    };
-+
-+    qos_add_test("init", "e1000e", test_e1000e_init, &opts);
-+    qos_add_test("tx", "e1000e", test_e1000e_tx, &opts);
-+    qos_add_test("rx", "e1000e", test_e1000e_rx, &opts);
-+    qos_add_test("multiple_transfers", "e1000e",
-+                      test_e1000e_multiple_transfers, &opts);
-+    qos_add_test("hotplug", "e1000e", test_e1000e_hotplug, &opts);
-+}
-+
-+libqos_init(register_e1000e_test);
++    descr.read.cmd_type_len = cpu_to_le32(E1000_TXD_CMD_RS   |
++                                          E1000_TXD_CMD_EOP  |
++                                          E1000_TXD_DTYP_D   |
++                                          sizeof(buffer));
+ 
+     /* Put descriptor to the ring */
+     e1000e_tx_ring_push(d, &descr);
+@@ -68,7 +69,7 @@ static void e1000e_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *a
+     e1000e_wait_isr(d, E1000E_TX0_MSG_ID);
+ 
+     /* Check DD bit */
+-    g_assert_cmphex(le32_to_cpu(descr.upper.data) & E1000_TXD_STAT_DD, ==,
++    g_assert_cmphex(le32_to_cpu(descr.wb.status) & E1000_TXD_STAT_DD, ==,
+                     E1000_TXD_STAT_DD);
+ 
+     /* Check data sent to the backend */
+@@ -82,9 +83,9 @@ static void e1000e_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *a
+     guest_free(alloc, data);
+ }
+ 
+-static void e1000e_receive_verify(QE1000E *d, int *test_sockets, QGuestAllocator *alloc)
++static void igb_receive_verify(QE1000E *d, int *test_sockets, QGuestAllocator *alloc)
+ {
+-    union e1000_rx_desc_extended descr;
++    union e1000_adv_rx_desc descr;
+ 
+     struct eth_header test_iov = test;
+     int len = htonl(sizeof(test));
+@@ -110,7 +111,7 @@ static void e1000e_receive_verify(QE1000E *d, int *test_sockets, QGuestAllocator
+ 
+     /* Prepare RX descriptor */
+     memset(&descr, 0, sizeof(descr));
+-    descr.read.buffer_addr = cpu_to_le64(data);
++    descr.read.pkt_addr = cpu_to_le64(data);
+ 
+     /* Put descriptor to the ring */
+     e1000e_rx_ring_push(d, &descr);
+@@ -135,7 +136,7 @@ static void test_e1000e_init(void *obj, void *data, QGuestAllocator * alloc)
+     /* init does nothing */
+ }
+ 
+-static void test_e1000e_tx(void *obj, void *data, QGuestAllocator * alloc)
++static void test_igb_tx(void *obj, void *data, QGuestAllocator * alloc)
+ {
+     QE1000E_PCI *e1000e = obj;
+     QE1000E *d = &e1000e->e1000e;
+@@ -147,10 +148,10 @@ static void test_e1000e_tx(void *obj, void *data, QGuestAllocator * alloc)
+         return;
+     }
+ 
+-    e1000e_send_verify(d, data, alloc);
++    igb_send_verify(d, data, alloc);
+ }
+ 
+-static void test_e1000e_rx(void *obj, void *data, QGuestAllocator * alloc)
++static void test_igb_rx(void *obj, void *data, QGuestAllocator * alloc)
+ {
+     QE1000E_PCI *e1000e = obj;
+     QE1000E *d = &e1000e->e1000e;
+@@ -162,11 +163,11 @@ static void test_e1000e_rx(void *obj, void *data, QGuestAllocator * alloc)
+         return;
+     }
+ 
+-    e1000e_receive_verify(d, data, alloc);
++    igb_receive_verify(d, data, alloc);
+ }
+ 
+-static void test_e1000e_multiple_transfers(void *obj, void *data,
+-                                           QGuestAllocator *alloc)
++static void test_igb_multiple_transfers(void *obj, void *data,
++                                        QGuestAllocator *alloc)
+ {
+     static const long iterations = 4 * 1024;
+     long i;
+@@ -182,13 +183,13 @@ static void test_e1000e_multiple_transfers(void *obj, void *data,
+     }
+ 
+     for (i = 0; i < iterations; i++) {
+-        e1000e_send_verify(d, data, alloc);
+-        e1000e_receive_verify(d, data, alloc);
++        igb_send_verify(d, data, alloc);
++        igb_receive_verify(d, data, alloc);
+     }
+ 
+ }
+ 
+-static void test_e1000e_hotplug(void *obj, void *data, QGuestAllocator * alloc)
++static void test_igb_hotplug(void *obj, void *data, QGuestAllocator * alloc)
+ {
+     QTestState *qts = global_qtest;  /* TODO: get rid of global_qtest here */
+     QE1000E_PCI *dev = obj;
+@@ -198,8 +199,8 @@ static void test_e1000e_hotplug(void *obj, void *data, QGuestAllocator * alloc)
+         return;
+     }
+ 
+-    qtest_qmp_device_add(qts, "e1000e", "e1000e_net", "{'addr': '0x06'}");
+-    qpci_unplug_acpi_device_test(qts, "e1000e_net", 0x06);
++    qtest_qmp_device_add(qts, "igb", "igb_net", "{'addr': '0x06'}");
++    qpci_unplug_acpi_device_test(qts, "igb_net", 0x06);
+ }
+ 
+ static void data_test_clear(void *sockets)
+@@ -225,18 +226,18 @@ static void *data_test_init(GString *cmd_line, void *arg)
+     return test_sockets;
+ }
+ 
+-static void register_e1000e_test(void)
++static void register_igb_test(void)
+ {
+     QOSGraphTestOptions opts = {
+         .before = data_test_init,
+     };
+ 
+-    qos_add_test("init", "e1000e", test_e1000e_init, &opts);
+-    qos_add_test("tx", "e1000e", test_e1000e_tx, &opts);
+-    qos_add_test("rx", "e1000e", test_e1000e_rx, &opts);
+-    qos_add_test("multiple_transfers", "e1000e",
+-                      test_e1000e_multiple_transfers, &opts);
+-    qos_add_test("hotplug", "e1000e", test_e1000e_hotplug, &opts);
++    qos_add_test("init", "igb", test_e1000e_init, &opts);
++    qos_add_test("tx", "igb", test_igb_tx, &opts);
++    qos_add_test("rx", "igb", test_igb_rx, &opts);
++    qos_add_test("multiple_transfers", "igb",
++                 test_igb_multiple_transfers, &opts);
++    qos_add_test("hotplug", "igb", test_igb_hotplug, &opts);
+ }
+ 
+-libqos_init(register_e1000e_test);
++libqos_init(register_igb_test);
 diff --git a/tests/qtest/libqos/igb.c b/tests/qtest/libqos/igb.c
-new file mode 100644
-index 0000000000..925654c7fd
---- /dev/null
+index 925654c7fd..12fb531bf0 100644
+--- a/tests/qtest/libqos/igb.c
 +++ b/tests/qtest/libqos/igb.c
-@@ -0,0 +1,226 @@
-+/*
-+ * libqos driver framework
-+ *
-+ * Copyright (c) 2018 Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License version 2.1 as published by the Free Software Foundation.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>
-+ */
+@@ -1,6 +1,7 @@
+ /*
+  * libqos driver framework
+  *
++ * Copyright (c) 2022-2023 Red Hat, Inc.
+  * Copyright (c) 2018 Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>
+  *
+  * This library is free software; you can redistribute it and/or
+@@ -17,7 +18,8 @@
+  */
+ 
+ #include "qemu/osdep.h"
+-#include "hw/net/e1000_regs.h"
++#include "hw/net/igb_regs.h"
++#include "hw/net/mii.h"
+ #include "hw/pci/pci_ids.h"
+ #include "../libqtest.h"
+ #include "pci-pc.h"
+@@ -29,47 +31,12 @@
+ #include "qgraph.h"
+ #include "e1000e.h"
+ 
+-#define E1000E_IVAR_TEST_CFG \
+-    (((E1000E_RX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_RXQ0_SHIFT) | \
+-     ((E1000E_TX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_TXQ0_SHIFT) | \
+-     E1000_IVAR_TX_INT_EVERY_WB)
++#define IGB_IVAR_TEST_CFG \
++    ((E1000E_RX0_MSG_ID | E1000_IVAR_VALID) << (igb_ivar_entry_rx(0) * 8)   | \
++     ((E1000E_TX0_MSG_ID | E1000_IVAR_VALID) << (igb_ivar_entry_tx(0) * 8)))
+ 
+ #define E1000E_RING_LEN (0x1000)
+ 
+-void e1000e_tx_ring_push(QE1000E *d, void *descr)
+-{
+-    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
+-    uint32_t tail = e1000e_macreg_read(d, E1000_TDT);
+-    uint32_t len = e1000e_macreg_read(d, E1000_TDLEN) / E1000_RING_DESC_LEN;
+-
+-    qtest_memwrite(d_pci->pci_dev.bus->qts,
+-                   d->tx_ring + tail * E1000_RING_DESC_LEN,
+-                   descr, E1000_RING_DESC_LEN);
+-    e1000e_macreg_write(d, E1000_TDT, (tail + 1) % len);
+-
+-    /* Read WB data for the packet transmitted */
+-    qtest_memread(d_pci->pci_dev.bus->qts,
+-                  d->tx_ring + tail * E1000_RING_DESC_LEN,
+-                  descr, E1000_RING_DESC_LEN);
+-}
+-
+-void e1000e_rx_ring_push(QE1000E *d, void *descr)
+-{
+-    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
+-    uint32_t tail = e1000e_macreg_read(d, E1000_RDT);
+-    uint32_t len = e1000e_macreg_read(d, E1000_RDLEN) / E1000_RING_DESC_LEN;
+-
+-    qtest_memwrite(d_pci->pci_dev.bus->qts,
+-                   d->rx_ring + tail * E1000_RING_DESC_LEN,
+-                   descr, E1000_RING_DESC_LEN);
+-    e1000e_macreg_write(d, E1000_RDT, (tail + 1) % len);
+-
+-    /* Read WB data for the packet received */
+-    qtest_memread(d_pci->pci_dev.bus->qts,
+-                  d->rx_ring + tail * E1000_RING_DESC_LEN,
+-                  descr, E1000_RING_DESC_LEN);
+-}
+-
+ static void e1000e_foreach_callback(QPCIDevice *dev, int devfn, void *data)
+ {
+     QPCIDevice *res = data;
+@@ -77,21 +44,6 @@ static void e1000e_foreach_callback(QPCIDevice *dev, int devfn, void *data)
+     g_free(dev);
+ }
+ 
+-void e1000e_wait_isr(QE1000E *d, uint16_t msg_id)
+-{
+-    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
+-    guint64 end_time = g_get_monotonic_time() + 5 * G_TIME_SPAN_SECOND;
+-
+-    do {
+-        if (qpci_msix_pending(&d_pci->pci_dev, msg_id)) {
+-            return;
+-        }
+-        qtest_clock_step(d_pci->pci_dev.bus->qts, 10000);
+-    } while (g_get_monotonic_time() < end_time);
+-
+-    g_error("Timeout expired");
+-}
+-
+ static void e1000e_pci_destructor(QOSGraphObject *obj)
+ {
+     QE1000E_PCI *epci = (QE1000E_PCI *) obj;
+@@ -99,8 +51,9 @@ static void e1000e_pci_destructor(QOSGraphObject *obj)
+     qpci_msix_disable(&epci->pci_dev);
+ }
+ 
+-static void e1000e_pci_start_hw(QOSGraphObject *obj)
++static void igb_pci_start_hw(QOSGraphObject *obj)
+ {
++    static const uint8_t address[] = E1000E_ADDRESS;
+     QE1000E_PCI *d = (QE1000E_PCI *) obj;
+     uint32_t val;
+ 
+@@ -111,58 +64,65 @@ static void e1000e_pci_start_hw(QOSGraphObject *obj)
+     val = e1000e_macreg_read(&d->e1000e, E1000_CTRL);
+     e1000e_macreg_write(&d->e1000e, E1000_CTRL, val | E1000_CTRL_RST | E1000_CTRL_SLU);
+ 
++    /* Setup link */
++    e1000e_macreg_write(&d->e1000e, E1000_MDIC,
++                        MII_BMCR_AUTOEN | MII_BMCR_ANRESTART |
++                        (MII_BMCR << E1000_MDIC_REG_SHIFT) |
++                        (1 << E1000_MDIC_PHY_SHIFT) |
++                        E1000_MDIC_OP_WRITE);
 +
-+#include "qemu/osdep.h"
-+#include "hw/net/e1000_regs.h"
-+#include "hw/pci/pci_ids.h"
-+#include "../libqtest.h"
-+#include "pci-pc.h"
-+#include "qemu/sockets.h"
-+#include "qemu/iov.h"
-+#include "qemu/module.h"
-+#include "qemu/bitops.h"
-+#include "libqos-malloc.h"
-+#include "qgraph.h"
-+#include "e1000e.h"
++    qtest_clock_step(d->pci_dev.bus->qts, 900000000);
 +
-+#define E1000E_IVAR_TEST_CFG \
-+    (((E1000E_RX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_RXQ0_SHIFT) | \
-+     ((E1000E_TX0_MSG_ID | E1000_IVAR_INT_ALLOC_VALID) << E1000_IVAR_TXQ0_SHIFT) | \
-+     E1000_IVAR_TX_INT_EVERY_WB)
-+
-+#define E1000E_RING_LEN (0x1000)
-+
-+void e1000e_tx_ring_push(QE1000E *d, void *descr)
-+{
-+    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
-+    uint32_t tail = e1000e_macreg_read(d, E1000_TDT);
-+    uint32_t len = e1000e_macreg_read(d, E1000_TDLEN) / E1000_RING_DESC_LEN;
-+
-+    qtest_memwrite(d_pci->pci_dev.bus->qts,
-+                   d->tx_ring + tail * E1000_RING_DESC_LEN,
-+                   descr, E1000_RING_DESC_LEN);
-+    e1000e_macreg_write(d, E1000_TDT, (tail + 1) % len);
-+
-+    /* Read WB data for the packet transmitted */
-+    qtest_memread(d_pci->pci_dev.bus->qts,
-+                  d->tx_ring + tail * E1000_RING_DESC_LEN,
-+                  descr, E1000_RING_DESC_LEN);
-+}
-+
-+void e1000e_rx_ring_push(QE1000E *d, void *descr)
-+{
-+    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
-+    uint32_t tail = e1000e_macreg_read(d, E1000_RDT);
-+    uint32_t len = e1000e_macreg_read(d, E1000_RDLEN) / E1000_RING_DESC_LEN;
-+
-+    qtest_memwrite(d_pci->pci_dev.bus->qts,
-+                   d->rx_ring + tail * E1000_RING_DESC_LEN,
-+                   descr, E1000_RING_DESC_LEN);
-+    e1000e_macreg_write(d, E1000_RDT, (tail + 1) % len);
-+
-+    /* Read WB data for the packet received */
-+    qtest_memread(d_pci->pci_dev.bus->qts,
-+                  d->rx_ring + tail * E1000_RING_DESC_LEN,
-+                  descr, E1000_RING_DESC_LEN);
-+}
-+
-+static void e1000e_foreach_callback(QPCIDevice *dev, int devfn, void *data)
-+{
-+    QPCIDevice *res = data;
-+    memcpy(res, dev, sizeof(QPCIDevice));
-+    g_free(dev);
-+}
-+
-+void e1000e_wait_isr(QE1000E *d, uint16_t msg_id)
-+{
-+    QE1000E_PCI *d_pci = container_of(d, QE1000E_PCI, e1000e);
-+    guint64 end_time = g_get_monotonic_time() + 5 * G_TIME_SPAN_SECOND;
-+
-+    do {
-+        if (qpci_msix_pending(&d_pci->pci_dev, msg_id)) {
-+            return;
-+        }
-+        qtest_clock_step(d_pci->pci_dev.bus->qts, 10000);
-+    } while (g_get_monotonic_time() < end_time);
-+
-+    g_error("Timeout expired");
-+}
-+
-+static void e1000e_pci_destructor(QOSGraphObject *obj)
-+{
-+    QE1000E_PCI *epci = (QE1000E_PCI *) obj;
-+    qpci_iounmap(&epci->pci_dev, epci->mac_regs);
-+    qpci_msix_disable(&epci->pci_dev);
-+}
-+
-+static void e1000e_pci_start_hw(QOSGraphObject *obj)
-+{
-+    QE1000E_PCI *d = (QE1000E_PCI *) obj;
-+    uint32_t val;
-+
-+    /* Enable the device */
-+    qpci_device_enable(&d->pci_dev);
-+
-+    /* Reset the device */
-+    val = e1000e_macreg_read(&d->e1000e, E1000_CTRL);
-+    e1000e_macreg_write(&d->e1000e, E1000_CTRL, val | E1000_CTRL_RST | E1000_CTRL_SLU);
-+
-+    /* Enable and configure MSI-X */
-+    qpci_msix_enable(&d->pci_dev);
-+    e1000e_macreg_write(&d->e1000e, E1000_IVAR, E1000E_IVAR_TEST_CFG);
-+
-+    /* Check the device status - link and speed */
-+    val = e1000e_macreg_read(&d->e1000e, E1000_STATUS);
-+    g_assert_cmphex(val & (E1000_STATUS_LU | E1000_STATUS_ASDV_1000),
-+        ==, E1000_STATUS_LU | E1000_STATUS_ASDV_1000);
-+
-+    /* Initialize TX/RX logic */
-+    e1000e_macreg_write(&d->e1000e, E1000_RCTL, 0);
-+    e1000e_macreg_write(&d->e1000e, E1000_TCTL, 0);
-+
-+    /* Notify the device that the driver is ready */
-+    val = e1000e_macreg_read(&d->e1000e, E1000_CTRL_EXT);
-+    e1000e_macreg_write(&d->e1000e, E1000_CTRL_EXT,
-+        val | E1000_CTRL_EXT_DRV_LOAD);
-+
-+    e1000e_macreg_write(&d->e1000e, E1000_TDBAL,
-+                           (uint32_t) d->e1000e.tx_ring);
-+    e1000e_macreg_write(&d->e1000e, E1000_TDBAH,
-+                           (uint32_t) (d->e1000e.tx_ring >> 32));
-+    e1000e_macreg_write(&d->e1000e, E1000_TDLEN, E1000E_RING_LEN);
-+    e1000e_macreg_write(&d->e1000e, E1000_TDT, 0);
-+    e1000e_macreg_write(&d->e1000e, E1000_TDH, 0);
-+
-+    /* Enable transmit */
-+    e1000e_macreg_write(&d->e1000e, E1000_TCTL, E1000_TCTL_EN);
-+
-+    e1000e_macreg_write(&d->e1000e, E1000_RDBAL,
-+                           (uint32_t)d->e1000e.rx_ring);
-+    e1000e_macreg_write(&d->e1000e, E1000_RDBAH,
-+                           (uint32_t)(d->e1000e.rx_ring >> 32));
-+    e1000e_macreg_write(&d->e1000e, E1000_RDLEN, E1000E_RING_LEN);
-+    e1000e_macreg_write(&d->e1000e, E1000_RDT, 0);
-+    e1000e_macreg_write(&d->e1000e, E1000_RDH, 0);
-+
-+    /* Enable receive */
-+    e1000e_macreg_write(&d->e1000e, E1000_RFCTL, E1000_RFCTL_EXTEN);
-+    e1000e_macreg_write(&d->e1000e, E1000_RCTL, E1000_RCTL_EN  |
-+                                        E1000_RCTL_UPE |
-+                                        E1000_RCTL_MPE);
-+
-+    /* Enable all interrupts */
-+    e1000e_macreg_write(&d->e1000e, E1000_IMS, 0xFFFFFFFF);
-+
-+}
-+
-+static void *e1000e_pci_get_driver(void *obj, const char *interface)
-+{
-+    QE1000E_PCI *epci = obj;
-+    if (!g_strcmp0(interface, "e1000e-if")) {
-+        return &epci->e1000e;
-+    }
-+
-+    /* implicit contains */
-+    if (!g_strcmp0(interface, "pci-device")) {
-+        return &epci->pci_dev;
-+    }
-+
-+    fprintf(stderr, "%s not present in e1000e\n", interface);
-+    g_assert_not_reached();
-+}
-+
-+static void *e1000e_pci_create(void *pci_bus, QGuestAllocator *alloc,
-+                               void *addr)
-+{
-+    QE1000E_PCI *d = g_new0(QE1000E_PCI, 1);
-+    QPCIBus *bus = pci_bus;
-+    QPCIAddress *address = addr;
-+
-+    qpci_device_foreach(bus, address->vendor_id, address->device_id,
-+                        e1000e_foreach_callback, &d->pci_dev);
-+
-+    /* Map BAR0 (mac registers) */
-+    d->mac_regs = qpci_iomap(&d->pci_dev, 0, NULL);
-+
-+    /* Allocate and setup TX ring */
-+    d->e1000e.tx_ring = guest_alloc(alloc, E1000E_RING_LEN);
-+    g_assert(d->e1000e.tx_ring != 0);
-+
-+    /* Allocate and setup RX ring */
-+    d->e1000e.rx_ring = guest_alloc(alloc, E1000E_RING_LEN);
-+    g_assert(d->e1000e.rx_ring != 0);
-+
-+    d->obj.get_driver = e1000e_pci_get_driver;
-+    d->obj.start_hw = e1000e_pci_start_hw;
-+    d->obj.destructor = e1000e_pci_destructor;
-+
-+    return &d->obj;
-+}
-+
-+static void e1000e_register_nodes(void)
-+{
-+    QPCIAddress addr = {
-+        .vendor_id = PCI_VENDOR_ID_INTEL,
-+        .device_id = E1000_DEV_ID_82574L,
-+    };
-+
-+    /*
-+     * FIXME: every test using this node needs to setup a -netdev socket,id=hs0
-+     * otherwise QEMU is not going to start
-+     */
-+    QOSGraphEdgeOptions opts = {
-+        .extra_device_opts = "netdev=hs0",
-+    };
-+    add_qpci_address(&opts, &addr);
-+
-+    qos_node_create_driver("e1000e", e1000e_pci_create);
-+    qos_node_consumes("e1000e", "pci-bus", &opts);
-+}
-+
-+libqos_init(e1000e_register_nodes);
+     /* Enable and configure MSI-X */
+     qpci_msix_enable(&d->pci_dev);
+-    e1000e_macreg_write(&d->e1000e, E1000_IVAR, E1000E_IVAR_TEST_CFG);
++    e1000e_macreg_write(&d->e1000e, E1000_IVAR0, IGB_IVAR_TEST_CFG);
+ 
+-    /* Check the device status - link and speed */
++    /* Check the device link status */
+     val = e1000e_macreg_read(&d->e1000e, E1000_STATUS);
+-    g_assert_cmphex(val & (E1000_STATUS_LU | E1000_STATUS_ASDV_1000),
+-        ==, E1000_STATUS_LU | E1000_STATUS_ASDV_1000);
++    g_assert_cmphex(val & E1000_STATUS_LU, ==, E1000_STATUS_LU);
+ 
+     /* Initialize TX/RX logic */
+     e1000e_macreg_write(&d->e1000e, E1000_RCTL, 0);
+     e1000e_macreg_write(&d->e1000e, E1000_TCTL, 0);
+ 
+-    /* Notify the device that the driver is ready */
+-    val = e1000e_macreg_read(&d->e1000e, E1000_CTRL_EXT);
+-    e1000e_macreg_write(&d->e1000e, E1000_CTRL_EXT,
+-        val | E1000_CTRL_EXT_DRV_LOAD);
+-
+-    e1000e_macreg_write(&d->e1000e, E1000_TDBAL,
++    e1000e_macreg_write(&d->e1000e, E1000_TDBAL(0),
+                            (uint32_t) d->e1000e.tx_ring);
+-    e1000e_macreg_write(&d->e1000e, E1000_TDBAH,
++    e1000e_macreg_write(&d->e1000e, E1000_TDBAH(0),
+                            (uint32_t) (d->e1000e.tx_ring >> 32));
+-    e1000e_macreg_write(&d->e1000e, E1000_TDLEN, E1000E_RING_LEN);
+-    e1000e_macreg_write(&d->e1000e, E1000_TDT, 0);
+-    e1000e_macreg_write(&d->e1000e, E1000_TDH, 0);
++    e1000e_macreg_write(&d->e1000e, E1000_TDLEN(0), E1000E_RING_LEN);
++    e1000e_macreg_write(&d->e1000e, E1000_TDT(0), 0);
++    e1000e_macreg_write(&d->e1000e, E1000_TDH(0), 0);
+ 
+     /* Enable transmit */
+     e1000e_macreg_write(&d->e1000e, E1000_TCTL, E1000_TCTL_EN);
+ 
+-    e1000e_macreg_write(&d->e1000e, E1000_RDBAL,
++    e1000e_macreg_write(&d->e1000e, E1000_RDBAL(0),
+                            (uint32_t)d->e1000e.rx_ring);
+-    e1000e_macreg_write(&d->e1000e, E1000_RDBAH,
++    e1000e_macreg_write(&d->e1000e, E1000_RDBAH(0),
+                            (uint32_t)(d->e1000e.rx_ring >> 32));
+-    e1000e_macreg_write(&d->e1000e, E1000_RDLEN, E1000E_RING_LEN);
+-    e1000e_macreg_write(&d->e1000e, E1000_RDT, 0);
+-    e1000e_macreg_write(&d->e1000e, E1000_RDH, 0);
++    e1000e_macreg_write(&d->e1000e, E1000_RDLEN(0), E1000E_RING_LEN);
++    e1000e_macreg_write(&d->e1000e, E1000_RDT(0), 0);
++    e1000e_macreg_write(&d->e1000e, E1000_RDH(0), 0);
++    e1000e_macreg_write(&d->e1000e, E1000_RA,
++                        le32_to_cpu(*(uint32_t *)address));
++    e1000e_macreg_write(&d->e1000e, E1000_RA + 4,
++                        E1000_RAH_AV | E1000_RAH_POOL_1 |
++                        le16_to_cpu(*(uint16_t *)(address + 4)));
+ 
+     /* Enable receive */
+     e1000e_macreg_write(&d->e1000e, E1000_RFCTL, E1000_RFCTL_EXTEN);
+-    e1000e_macreg_write(&d->e1000e, E1000_RCTL, E1000_RCTL_EN  |
+-                                        E1000_RCTL_UPE |
+-                                        E1000_RCTL_MPE);
++    e1000e_macreg_write(&d->e1000e, E1000_RCTL, E1000_RCTL_EN);
+ 
+     /* Enable all interrupts */
+-    e1000e_macreg_write(&d->e1000e, E1000_IMS, 0xFFFFFFFF);
++    e1000e_macreg_write(&d->e1000e, E1000_IMS,  0xFFFFFFFF);
++    e1000e_macreg_write(&d->e1000e, E1000_EIMS, 0xFFFFFFFF);
+ 
+ }
+ 
+-static void *e1000e_pci_get_driver(void *obj, const char *interface)
++static void *igb_pci_get_driver(void *obj, const char *interface)
+ {
+     QE1000E_PCI *epci = obj;
+-    if (!g_strcmp0(interface, "e1000e-if")) {
++    if (!g_strcmp0(interface, "igb-if")) {
+         return &epci->e1000e;
+     }
+ 
+@@ -171,12 +131,11 @@ static void *e1000e_pci_get_driver(void *obj, const char *interface)
+         return &epci->pci_dev;
+     }
+ 
+-    fprintf(stderr, "%s not present in e1000e\n", interface);
++    fprintf(stderr, "%s not present in igb\n", interface);
+     g_assert_not_reached();
+ }
+ 
+-static void *e1000e_pci_create(void *pci_bus, QGuestAllocator *alloc,
+-                               void *addr)
++static void *igb_pci_create(void *pci_bus, QGuestAllocator *alloc, void *addr)
+ {
+     QE1000E_PCI *d = g_new0(QE1000E_PCI, 1);
+     QPCIBus *bus = pci_bus;
+@@ -196,18 +155,18 @@ static void *e1000e_pci_create(void *pci_bus, QGuestAllocator *alloc,
+     d->e1000e.rx_ring = guest_alloc(alloc, E1000E_RING_LEN);
+     g_assert(d->e1000e.rx_ring != 0);
+ 
+-    d->obj.get_driver = e1000e_pci_get_driver;
+-    d->obj.start_hw = e1000e_pci_start_hw;
++    d->obj.get_driver = igb_pci_get_driver;
++    d->obj.start_hw = igb_pci_start_hw;
+     d->obj.destructor = e1000e_pci_destructor;
+ 
+     return &d->obj;
+ }
+ 
+-static void e1000e_register_nodes(void)
++static void igb_register_nodes(void)
+ {
+     QPCIAddress addr = {
+         .vendor_id = PCI_VENDOR_ID_INTEL,
+-        .device_id = E1000_DEV_ID_82574L,
++        .device_id = E1000_DEV_ID_82576,
+     };
+ 
+     /*
+@@ -219,8 +178,8 @@ static void e1000e_register_nodes(void)
+     };
+     add_qpci_address(&opts, &addr);
+ 
+-    qos_node_create_driver("e1000e", e1000e_pci_create);
+-    qos_node_consumes("e1000e", "pci-bus", &opts);
++    qos_node_create_driver("igb", igb_pci_create);
++    qos_node_consumes("igb", "pci-bus", &opts);
+ }
+ 
+-libqos_init(e1000e_register_nodes);
++libqos_init(igb_register_nodes);
+diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
+index 32f028872c..cc209a8de5 100644
+--- a/tests/qtest/libqos/meson.build
++++ b/tests/qtest/libqos/meson.build
+@@ -30,6 +30,7 @@ libqos_srcs = files(
+         'i2c.c',
+         'i2c-imx.c',
+         'i2c-omap.c',
++        'igb.c',
+         'sdhci.c',
+         'tpci200.c',
+         'virtio.c',
+diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
+index 1af63f8bd2..611a9f5f4f 100644
+--- a/tests/qtest/meson.build
++++ b/tests/qtest/meson.build
+@@ -256,6 +256,7 @@ qos_test_ss.add(
+   'virtio-serial-test.c',
+   'virtio-iommu-test.c',
+   'vmxnet3-test.c',
++  'igb-test.c',
+ )
+ if config_host.has_key('CONFIG_POSIX')
+   qos_test_ss.add(files('e1000e-test.c'))
 -- 
 2.39.0
 
