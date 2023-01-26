@@ -2,154 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15B5E67D1C2
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 17:36:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C6767D1E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 17:40:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL5D6-0005M5-8A; Thu, 26 Jan 2023 11:34:48 -0500
+	id 1pL5HN-00070T-6x; Thu, 26 Jan 2023 11:39:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1pL5D4-0005K8-B8
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 11:34:46 -0500
-Received: from mga01.intel.com ([192.55.52.88])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ira.weiny@intel.com>)
- id 1pL5D2-0003e8-1i
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 11:34:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674750884; x=1706286884;
- h=date:from:to:cc:subject:message-id:references:
- in-reply-to:mime-version;
- bh=5I+FiGLGwiJUms+Jvew1QbqRgCu2kz1sHQocMgs+vbU=;
- b=F7VDk3U8UGAjsvofxriOtrSREQJG5pijZVvFkJ8GuKDYlkjH95ZaFOpS
- jxcAck4ViW69HfP4fAHEBscq9ZMH86gjPqGfTeMVBkuGMiVS8hNd1j2KE
- ScyPTZS6GgvqJJ1c6fInkSGm/tyoo3RMkrijLGzjHFKy766633SrtlwZw
- 9FAweE/vAC10NVm2dz7dsDpkMWiQrPEZYc71QCBbJPAPZPdikaQKXCmeQ
- G3iPu0C9/aRbnAh/ofRDeHDUKx64YMscg+LsVuzuWV4G3+ClYsY9MZZ4C
- XumTtnfD2EE326cryJKFfQYnfzEIEofF/M1CZ5UQ44oM7g/jMWTLhzt8S w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="354157910"
-X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="354157910"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
- by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 26 Jan 2023 08:34:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10602"; a="786892433"
-X-IronPort-AV: E=Sophos;i="5.97,249,1669104000"; d="scan'208";a="786892433"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
- by orsmga004.jf.intel.com with ESMTP; 26 Jan 2023 08:34:40 -0800
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16; Thu, 26 Jan 2023 08:34:39 -0800
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.16 via Frontend Transport; Thu, 26 Jan 2023 08:34:39 -0800
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.102)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.16; Thu, 26 Jan 2023 08:34:38 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=nSDqerhtW0KF/uMXl8fX0236v7kz/wEQwwGgJM5kbjPQOLC3NtlDbO2+y0HAVHUW43VYwZTK+uxbXsxe9OqPoLHDEUmJY6kTgGNHFdKeEoqP0hPZiQW1ZX2DSz7gVlxTJXjaMrGrShA5Wb3d+mYbSF1bsnPH4WI1EmQ7gA74h4T2juNzoZhY3+assZeWWNdD222H0IfHNRP2O+MP8C6nEAA6N8p90j6e32yLo+krvK8ojxYXaCZFRV3q9qzHf7rvkam7wKLyiAsuZbiQB8ke3wpzs1Fn0n48qwzvY4urLnEcfy8tagZ244QO9FJklFQY8BHRY9IvKYW7ks8eT2HOnQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1GQ323p+kkhWJyte/m9PKTVAY/sb8Al66QBzrNwbwos=;
- b=FgeNYbcGgSb4EbOguSqAiWlMWBTsCKMdOuAQH/GDQxbx7bgrtEqf6e2DrWxbq5+9eoBilJu+uzZI9nKwUIXVle+++pUiFGisBW8+KeG6w+JiJx+uFmz1wv7rhUU9t5rGxg2ZkU/KkrzVo9GWY/CBrkjWTDY7ZjG4LbFd//vPcBcY4ynpcY9Q85OFtiqEQJMRHbTcNKksc7gUnF3V3v2W27J1t7gLdosEzDpNNtj1i/6LosTPxPTSvLsi+N32qM/bzdiEekbYOPTsXCdPX/qyI8XFU6Tbwo+7vI4qBT257Q6oy/3/hrJ15t2Hu0mcKjx0rhwoc/tO8zqdYmw2buXXAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com (2603:10b6:806:25c::17)
- by SA0PR11MB4607.namprd11.prod.outlook.com (2603:10b6:806:9b::19)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6002.33; Thu, 26 Jan
- 2023 16:34:37 +0000
-Received: from SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::6851:3db2:1166:dda6]) by SA1PR11MB6733.namprd11.prod.outlook.com
- ([fe80::6851:3db2:1166:dda6%7]) with mapi id 15.20.6002.027; Thu, 26 Jan 2023
- 16:34:37 +0000
-Date: Thu, 26 Jan 2023 08:34:34 -0800
-From: Ira Weiny <ira.weiny@intel.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>
-CC: Michael Tsirkin <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
- Peter Maydell <peter.maydell@linaro.org>, <qemu-devel@nongnu.org>,
- <linux-cxl@vger.kernel.org>
-Subject: Re: [PATCH 1/2] hw/cxl: Fix event log time stamp fields
-Message-ID: <63d2ab9a96dd3_60173294d1@iweiny-mobl.notmuch>
-References: <20230125-ira-cxl-events-fixups-2023-01-11-v1-0-1931378515f5@intel.com>
- <20230125-ira-cxl-events-fixups-2023-01-11-v1-1-1931378515f5@intel.com>
- <20230126114130.00000b98@huawei.com>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20230126114130.00000b98@huawei.com>
-X-ClientProxiedBy: BY5PR16CA0010.namprd16.prod.outlook.com
- (2603:10b6:a03:1a0::23) To SA1PR11MB6733.namprd11.prod.outlook.com
- (2603:10b6:806:25c::17)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pL5HE-0006zM-JW; Thu, 26 Jan 2023 11:39:06 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
+ id 1pL5HC-00062L-8D; Thu, 26 Jan 2023 11:39:03 -0500
+Received: by mail-ej1-x635.google.com with SMTP id ss4so6539671ejb.11;
+ Thu, 26 Jan 2023 08:39:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=/M+AwHoOb6Q/cbcuqucdNLzy+SDrxKDNkvEggvENf8M=;
+ b=QRUfcYE5S6lFRpdpsXIChdtMUZ4A2bg/horWHc1TCO+EPHqSgKSlLSG2XlvTPVKyCw
+ mO8viffwY72Vx9JDEig9t+AtalqdkKgQsSa+cztfN97kGhOECI4vglu0hRT5MXeUBu6g
+ +b0+xwc4eUvo3ldC7QHQq0+Fv/IT7wqQizaGD4/flppfrmpeU1RzAi6innf7d7dqhkK6
+ oQI7D+++O15C6/BOcQYZqAvwmiT0pCR17Am0bVoyiC78oiQQdVG/DAZ2yNN95bq1C9Mn
+ Wai+EPUh4d8d8FLLg71N/ECLrRiSxmW9H59OA4GkubMn7jyaOBniWwweMu0iwUxkCC9b
+ xv0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=/M+AwHoOb6Q/cbcuqucdNLzy+SDrxKDNkvEggvENf8M=;
+ b=o3rFefrvLsql9CkE9ceSBqUYSebWEsgQOP0dfdch/NGpSCN18+wjIFF7mdrkmIt2sW
+ sgGJshM1LH9VPUlgtv1Uz0c5mFQ//d35RW111ySjp1xvNuEkPpQAiGIgRIjoEHauRnUm
+ mxyKUBbAmIbKLsW0IkcTvfOCPffy2/llor4La9PyLhfXdDurorcqHrTPaNR9/e4rPvaW
+ JncJm0nPIjHr8KauepKv/fTKTrlu+jPv36ypJ5/d14P9MRgV42g1QOjgTfdXEEZHUxNp
+ 30bJuQIHe8tMJzgXBZPnXxXOK4f+hvMOviWz7N+LR+d50kV1CJJQjGvNHBudef1WeZGk
+ ONdQ==
+X-Gm-Message-State: AFqh2kqUfXiyLzmHDp5BgVGh9LBL4b4G7fZ3fFWlu2BZAPphkWhqbvoT
+ tW67tO8rr8J7wsunyFGbEDg=
+X-Google-Smtp-Source: AMrXdXvSLTcBzgozYyovCI9AByUcSwLQ51lcdAI3jw+v1E27RnwUgxBMNPOSrliR7b27G01SdrnLJQ==
+X-Received: by 2002:a17:907:c30c:b0:86e:a013:c269 with SMTP id
+ tl12-20020a170907c30c00b0086ea013c269mr44558289ejc.9.1674751139976; 
+ Thu, 26 Jan 2023 08:38:59 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb2004c1ba1824932b7f6.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:4c1b:a182:4932:b7f6])
+ by smtp.gmail.com with ESMTPSA id
+ bq21-20020a056402215500b0046c7c3755a7sm977500edb.17.2023.01.26.08.38.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Jan 2023 08:38:59 -0800 (PST)
+Date: Thu, 26 Jan 2023 16:38:54 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Daniel Henrique Barboza <danielhb413@gmail.com>, qemu-devel@nongnu.org
+CC: qemu-trivial@nongnu.org, qemu-ppc@nongnu.org,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+Subject: Re: [PATCH 1/4] hw/ppc: Set machine->fdt in e500 machines
+In-Reply-To: <4c36b71c-15c4-1a84-a14d-c675bb7bd313@gmail.com>
+References: <20230125130024.158721-1-shentey@gmail.com>
+ <20230125130024.158721-2-shentey@gmail.com>
+ <4c36b71c-15c4-1a84-a14d-c675bb7bd313@gmail.com>
+Message-ID: <A41F1D92-0A76-4DC7-8881-359632850441@gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1PR11MB6733:EE_|SA0PR11MB4607:EE_
-X-MS-Office365-Filtering-Correlation-Id: 52ebef97-95fc-4373-4a03-08daffbb3701
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: GgI6g7gH6qTVE9eehko8VMO2sUNF5g+YpuUhPrrRgQMm8p1A/AavxWuPP0ax+xQ2StMcIa9eS5aq/DYhoEXTg8mftl2bfIiWmT96wPeijmx5usbBRnMudCoTWO3guUKJMx14ATs35HTcz3fPLH7jiLmMoEIqqr8ilKlJFuk5Hc7A0iDoqkBNQDgFMKut5uh0Z7jnr/qIoW4nIjy4rGw2B4BwfB+befrhemHOsk5iwJGIt5DKioyW3VbgsC+zJ3fVx65urCx/FxRait3kTtZMF1adpD5KkInWInPHg48i5D0JFBHvFVtLTxf0mULp59AY1W+l1jzfPUg69nWReMMI6bnyBVZRMnbCc8sf87+5n5mB+ZPeASSHnjgKy3lKV1viRqJLWMxOPxcAhx/Y+Jm3WKDKIb6WDp18Vv9O7LmSSzjR7sNlTO1NxYUgOpPynmZzkCou+jBLbCJKt28SNZHWNs0kFgbhMMRv026D36Vb4imMBoW6y47PApYwbMho32lIYCNLvMtWQvBpYJBpBHtqPRHCVWfu5xZkD29U88IsTvV/dJQtJwyVHNPRQTnxNgVlEKBdzRo8VAsHgiE/5DrLuYqYzCTi1EIQC0DveAQQT2hxhoj32mCd6IpRdWbFoMxdozcbUWS6JZw8ceGFI3wZFA==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:SA1PR11MB6733.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(136003)(376002)(396003)(346002)(39860400002)(366004)(451199018)(66476007)(8676002)(66556008)(4326008)(8936002)(478600001)(26005)(66946007)(83380400001)(6666004)(6512007)(9686003)(54906003)(186003)(6486002)(82960400001)(44832011)(86362001)(5660300002)(110136005)(316002)(2906002)(41300700001)(38100700002)(6506007);
- DIR:OUT; SFP:1102; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NFAyCCVzC9hioUdA9sFvzCSlyKDorrxDC3qp6jyrhQsexj32vlHDL9I5Agdu?=
- =?us-ascii?Q?20n/phZmaJ//0v1giY9E4PWd5DnbjR+m/ovbmep3A1NlsAlfzWH3yj/hpGc/?=
- =?us-ascii?Q?vfc0ZQDY0XERMPBA/6/jky49inwiyjCY86/4yF80QMUDIuwHxUVyncZQTyCW?=
- =?us-ascii?Q?RcA4zxACMadWMaGk6+DqEj7uRersNTzwOsg0Ar9EsryeKolLx5g4P//wAR25?=
- =?us-ascii?Q?JbKf5bvZbf6XzpCszVu6bAGOiLt5JFedcWO8ZQKcRFBAqu/t6MgvUeAoNBYh?=
- =?us-ascii?Q?EEMLPeyuiTrYlmGzXRm26UNTyMaDKPZE3ljn4kD4wmwzSbRwgfNintqKQEjl?=
- =?us-ascii?Q?I0d2q8/nHglWJPE9eu6rgmykjNDMcuNVEb3wD1LqzufwT8UBDJ6vyOiKDZoX?=
- =?us-ascii?Q?DfOsFX54Jn7h24OXwvNtNuWyjV5J3bGA0Rgmi5Bl81PxwZclBLgXmeGRiS2y?=
- =?us-ascii?Q?k84+/Wf7tFW0piDA7PhCUP1ehchnlMcMAGYzHr8D/lcXq0wB7wHWTCZvonJP?=
- =?us-ascii?Q?fWjQ80mqDwAgjHSihjdLaDjiD/c3v1V5mSLYNGaFj/Msy8olC4UEknKgWtfj?=
- =?us-ascii?Q?1UTtydS4G6BX5vh/dZrBTeE+nw/yRRyZeiNzzITatnUBSj6/pKJrlKz2gtJQ?=
- =?us-ascii?Q?qw85zthZ/ZOoVmEWLAz6TEDA2JiM0fbHwT1yOlsIwCT6OCm0YHmSjb1tsVYF?=
- =?us-ascii?Q?7haDV79EmUZFBGq7LnUGsHgDiF8ddqg/SFJdgTRMjdd1Uq01zvnAuJ5gh+74?=
- =?us-ascii?Q?kLJ+s3f4py70trD3QYVJ/sZTFVDFvMePQ2r9a+4xkOxEa8tqId/zOG993KQi?=
- =?us-ascii?Q?8QboI+OgwjnkI70HlJbTeC86nHs53CVGS8eyCkBxadFdlpsxo93v+hUdJeiE?=
- =?us-ascii?Q?xxhqW5t4qepwA/CeEBz6UI+x5X1+VqdqmNGK26p2pMIt2gD7NhgKEUXy+eyv?=
- =?us-ascii?Q?ytTIN2eiieyy1it1ZCXz+riM9QwDV5b1lpyib/TnvV3HVllu+Aw0h2GswwTP?=
- =?us-ascii?Q?5xMBi0b1rwYvd9/fK92mT9azyrGIP8lFRKj4VeXJ7Ygig8JQq7KU3MdJDi5T?=
- =?us-ascii?Q?ZYBW9tmYlXkXvG9ySDHdYZcTzzCg69GMGg8+9zIbxTIHGZqmMS9nH3gn6RT8?=
- =?us-ascii?Q?w50RLjeHb303WxkRq+AvafkscwwKRR5Ywt25VfmNSC57bZy4o1BEu7RHeJok?=
- =?us-ascii?Q?9+/Q9Yq4xfVrfzSJqYBQBpTngyndM5HWizsS5uTpnICjlY9BD4vgvnEKomTz?=
- =?us-ascii?Q?WjOWwNpYqSB+bp1W75jHzfJgoHkv3l9L3ypI1lN7rjPMoUq4kwFbj0nvu/7O?=
- =?us-ascii?Q?RtULfB1O82S7p4look+iLAUrxyrIRTHf+a731y0psm37+Xb0mz6sqXFHnRwi?=
- =?us-ascii?Q?8krFp5qICPK+TMwDz1b9rrleegZEvl5YyjC/aM533dVxBG6J+Vr/nNVETRNe?=
- =?us-ascii?Q?0QYOReiBuef8ql5VwRgr7jfMOwwNDsl7PVXl+dTztOjYeKIuK+fAJ+ggpb4G?=
- =?us-ascii?Q?uCMwkFkCX1ZCMJ1E6LE8kom1qXtMBrkK+jZUs67sbLC6BWVLh2XIEGrfuGx+?=
- =?us-ascii?Q?DvPxLoUlcPozlU+cBSwfFtCee04FvMu2z7T/dHNL?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 52ebef97-95fc-4373-4a03-08daffbb3701
-X-MS-Exchange-CrossTenant-AuthSource: SA1PR11MB6733.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Jan 2023 16:34:37.4876 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V7kOIP5wpbke0Vgumu2t2P1htKqHAXhgq4pkf8K/pKBT6x3D1Nsyg717RhkSBqgBFInE6g747CZy3He0N4rW7g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4607
-X-OriginatorOrg: intel.com
-Received-SPF: pass client-ip=192.55.52.88; envelope-from=ira.weiny@intel.com;
- helo=mga01.intel.com
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x635.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -165,37 +93,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Jonathan Cameron wrote:
-> On Wed, 25 Jan 2023 21:37:27 -0800
-> Ira Weiny <ira.weiny@intel.com> wrote:
-> 
-> > CXL 3.0 8.2.9.4.2 Set Timestamp and 8.2.9.4.1 Get Timestamp define the
-> > way for software to set and get the time stamp of a device.  Events
-> > should use a time stamp consistent with the Get Timestamp mailbox
-> > command.
-> > 
-> > In addition avoid setting the time stamp twice.
-> > 
-> > Fixes: fb64c5661d5f ("hw/cxl/events: Wire up get/clear event mailbox commands")
-> > Reported-by: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-> > Signed-off-by: Ira Weiny <ira.weiny@intel.com>
-> Hi Ira,
-> 
-> I'm going to split this patch as I am carrying a very similar
-> utility function for an updated version of the poison list code
-> and I'm not sure what order everything will go upstream in.
-> 
-> So I'll split this into:
-> 1) Patch that adds cxl_device_get_timestamp() - adding the
-> use of this in the GET_TIMESTAMP mailbox command.
-> 
-> 2) Changes pushed down into the patch you mention above.
-> 
-> Given all the code is yours, just split up, I'll keep the SOB.
-> Shout if you mind me doing that.
 
-That sounds great.  I'm just sorry I did not get to all this sooner.
 
-Thanks!
-Ira
+Am 26=2E Januar 2023 15:58:18 UTC schrieb Daniel Henrique Barboza <danielh=
+b413@gmail=2Ecom>:
+>
+>
+>On 1/25/23 10:00, Bernhard Beschow wrote:
+>> This enables support for the 'dumpdtb' QMP/HMP command for all
+>> e500 machines=2E
+>>=20
+>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>> ---
+>>   hw/ppc/e500=2Ec | 7 ++++++-
+>>   1 file changed, 6 insertions(+), 1 deletion(-)
+>>=20
+>> diff --git a/hw/ppc/e500=2Ec b/hw/ppc/e500=2Ec
+>> index 9fa1f8e6cf=2E=2E7239993acc 100644
+>> --- a/hw/ppc/e500=2Ec
+>> +++ b/hw/ppc/e500=2Ec
+>> @@ -659,9 +659,14 @@ done:
+>>       if (!dry_run) {
+>>           qemu_fdt_dumpdtb(fdt, fdt_size);
+>>           cpu_physical_memory_write(addr, fdt, fdt_size);
+>> +
+>> +        /* Set machine->fdt for 'dumpdtb' QMP/HMP command */
+>> +        g_free(machine->fdt);
+>> +        machine->fdt =3D fdt;
+>> +    } else {
+>> +        g_free(fdt);
+>>       }
+>>       ret =3D fdt_size;
+>> -    g_free(fdt);
+>>  =20
+>
+>I tried to do this change last year when introducing 'dumpdtb' and Phil h=
+ad some
+>comments in how the FDT was being handled by the e500 board:
+>
+>https://lists=2Egnu=2Eorg/archive/html/qemu-devel/2022-09/msg03256=2Ehtml
+>
+>
+>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>+
+>+    /*
+>+     * Update the machine->fdt pointer to enable support for the
+>+     * 'dumpdtb' QMP/HMP command=2E
+>+     *
+>+     * The FDT is re-created during reset,
+>
+>Why are we doing that? Is it really necessary? This seems to be only requ=
+ired at cold power-on=2E
+
+The e500 boards have user-creatable eTSEC nics which are registered with t=
+he machine via the platform bus mechanism=2E IIUC this mechanism causes the=
+se nics to show up only after reset=2E The nics need to show up in the devi=
+ce tree, so the reset trigger was apparently chosen to create the fdt=2E
+
+N=2EB=2E: The size of the fdt needs to be known during machine_init to che=
+ck whether it fits into guest ram=2E That's what the dry_run parameter is f=
+or=2E
+
+Does that explanation help?
+
+Best regards,
+Bernhard
+
+>
+>+ so free machine->fdt
+>+     * to avoid leaking the old FDT=2E
+>+     */
+>+    g_free(machine->fdt);
+>+    machine->fdt =3D fdt;
+>=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>I ended up not going after Phil's concern=2E I don't think it's required =
+to accept
+>this change, but it would simplify it a bit if the FDT isn't required to =
+be
+>re-generated on boot=2E
+>
+>
+>I'm CCing Phil in case he wants to comment on it as well=2E
+>
+>
+>
+>
+>Daniel
+>
+>
+>>   out:
+>>       g_free(pci_map);
 
