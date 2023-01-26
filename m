@@ -2,32 +2,31 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B125E67C5C1
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 09:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0AD567C5C4
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 09:32:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKxeQ-0004O5-CP; Thu, 26 Jan 2023 03:30:30 -0500
+	id 1pKxeN-0004LP-J9; Thu, 26 Jan 2023 03:30:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1pKsIZ-0007zd-Ga
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 21:47:36 -0500
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1pKsCS-0006c0-Ua
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 21:41:16 -0500
 Received: from mail-b.sr.ht ([173.195.146.151])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1pKsIW-0002VN-OK
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 21:47:35 -0500
+ (Exim 4.90_1) (envelope-from <outgoing@sr.ht>) id 1pKsCR-0007n3-6L
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 21:41:16 -0500
 Authentication-Results: mail-b.sr.ht; dkim=none 
 Received: from git.sr.ht (unknown [173.195.146.142])
- by mail-b.sr.ht (Postfix) with ESMTPSA id C23CD11EEC6;
- Thu, 26 Jan 2023 02:47:31 +0000 (UTC)
+ by mail-b.sr.ht (Postfix) with ESMTPSA id EC57911EE64;
+ Thu, 26 Jan 2023 02:41:13 +0000 (UTC)
 From: ~gurjeet <gurjeet@git.sr.ht>
 Date: Wed, 25 Jan 2023 18:12:05 -0800
-Subject: [PATCH qemu 1/1] Remove a stray "@end table" marker
-Message-ID: <167470125128.13083.10933855577484761075-1@git.sr.ht>
+Subject: [PATCH qemu] Remove a stray "@end table" marker
+Message-ID: <167470087371.13083.3955311124765776131-0@git.sr.ht>
 X-Mailer: git.sr.ht
-In-Reply-To: <167470125128.13083.10933855577484761075-0@git.sr.ht>
 To: qemu-devel@nongnu.org
-Cc: Gurjeet <gurjeet@singh.im>, Paolo Bonzini <pbonzini@redhat.com>,
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>
 Content-Type: text/plain; charset="utf-8"
@@ -39,9 +38,9 @@ X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Thu, 26 Jan 2023 03:30:28 -0500
+X-Mailman-Approved-At: Thu, 26 Jan 2023 03:30:25 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
