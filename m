@@ -2,96 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79DD167C9BE
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 12:22:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6E2F67C9B3
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 12:21:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL0JY-0003CG-3O; Thu, 26 Jan 2023 06:21:08 -0500
+	id 1pL0IT-0001sY-Sk; Thu, 26 Jan 2023 06:20:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pL0JU-000350-NH
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:21:04 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pL0JS-0001vV-JM
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:21:04 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id
- e10-20020a17090a630a00b0022bedd66e6dso4956966pjj.1
- for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 03:21:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=4Md3dQCDBOkVXvdsvYTY4zXpqnVk/384IPPacv4JS6M=;
- b=SSSv+oYr/XTyHHSnO24c7BlRiDZrpwMEttjlzp0Qw00yA90L5OvKR+CNlHBe8mbi9u
- UNVbshMKbQBkWumGWE6EP7ch0dLZAGrSy+vzzr8OdlzM3SJE3IoQ2dZ4fl1IdgJxZ5P6
- jSOOJ0oo5gxtQOP1FsIhGEByqLgq7KqfGbi9GmV6uJVs79w/c/FU+SA1DRB2L+USxQqF
- M/N/Y550WG2q1nq1MihvCahnLMAexzESfM96XLTEWeqH3gygcpDBzU3VPvTCppsPEsGg
- dhnB6tnR5TCa8ENcfb9CJohQJJYUkKV5pIX0HY3SiwBvqyv4XxkKW+IoUJNMKe2A7Vo+
- gKaw==
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pL0IO-0001ro-E7
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:19:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <david@redhat.com>) id 1pL0IM-0001Tr-FP
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 06:19:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674731993;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f+bUcx4JvVlcojMTU4qbgiVnu0os2eVsbXMEmvkomEI=;
+ b=V5u78ZvRRo2B+r3SUzuTcNGZQ7Ktjn0RTYYa/jCQY1m+jB9pOMbYnQb/rXdvEjpiY28ZcC
+ lWiXgVIPHbqOAeLESL3rA5/nmhQ8jLxNvvSDOChvR7k9c2t9RafHo+AGXj9XAsuvz/jPVi
+ IJQWHrQkGxBl9dq6SDsJTACxC/D3hpw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-597-S59k_IHnNSWnJ_CBVE_wvQ-1; Thu, 26 Jan 2023 06:19:51 -0500
+X-MC-Unique: S59k_IHnNSWnJ_CBVE_wvQ-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ u12-20020a05600c210c00b003da1c092b83so351857wml.7
+ for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 03:19:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=4Md3dQCDBOkVXvdsvYTY4zXpqnVk/384IPPacv4JS6M=;
- b=vxLBDzLS1tGwbKXKTkZOoLfLq1UMG77TPMWSTZj/J9agadXlCfZ3o/y2Upd6/BVf7K
- 6Dh0JwMoidzqeaRIL6eZXsipuzCm+FDy710t8N+4Ysqdojpm8/IwxNrwz/OpFRL2iZ76
- 6dA+oGmPu44HJOlf5FQFA7bBpZy0xUSSFFN9qVg23GMI5krodCmqGd3Xa6TG2jt6OMuK
- NHLTODNAH06nRuLlkCfZzo+m3/A0Yp81hjOYw/nT+XvWkIi/DQqgpimRytuF1Qs6G5ES
- rIOVu4dzd9I7SeEh/sZral9dI4t3ZzxSKJKIkc4iKI1LUHcfXe9oxJRKBn1YqgsyAwyC
- Xp7g==
-X-Gm-Message-State: AO0yUKX07j/TOxsUeCoMz2YPUGOZb3T/ehoxIAmznn3nIQAvfuDCUWMg
- C/Y4IBscnw+q1F6C/O0e0soIdw==
-X-Google-Smtp-Source: AK7set+rEXvLHrsHIqsCfEzF524YWgd73H22KNdtbLK7+fD8B89iVo/lnWYnTlAw/EAelUDzrMrtxQ==
-X-Received: by 2002:a17:90a:5205:b0:22b:aeff:ee42 with SMTP id
- v5-20020a17090a520500b0022baeffee42mr1823757pjh.46.1674732061070; 
- Thu, 26 Jan 2023 03:21:01 -0800 (PST)
-Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ h=content-transfer-encoding:in-reply-to:organization:from:references
+ :cc:to:content-language:subject:user-agent:mime-version:date
+ :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=f+bUcx4JvVlcojMTU4qbgiVnu0os2eVsbXMEmvkomEI=;
+ b=5jzIm/+9eRkJmB66VOD4OudjH/9N89t+8goPPGdyYcHlxXgIHjHkHMOO7h7H4/SUN/
+ HQPV74GHAEGTmQnaV4CgZozJoMmyAvdq0UCeFuc0gpiVsvi2vntHhgqn8OGumPAawTFp
+ MyLP74T32jS1bihGT4OnB4gh8OWww+NdTOXQLKmldFhrzP/9vsrYC/bjf/PLzABlPhQd
+ EEGFAa738qlncdlqQbdF593WfZ4pK4mACopZ/BNrsi6IH585Mb09llZDBmnnoN6tbihR
+ rQGuW3iosWtikwhtHldm4pF5aqf9Vihs1kJig82EYKaekVCo3ll4B5evwCzZ3Mfkirqt
+ bBtg==
+X-Gm-Message-State: AO0yUKVNIcc6J/hAh9t7/1dg0weJXcfwTeqlAfWY38Lh5lpgHy/WOPbp
+ a23GUwk4UZxFZXi92A/Xs3P3oGthIDEVdXjtpfnHOakcFemd/lqhBGKHZMouUQv8i4KZ1kVjxB5
+ TirAVYJEvC2tNSuY=
+X-Received: by 2002:adf:f3c3:0:b0:2bf:bc0a:361d with SMTP id
+ g3-20020adff3c3000000b002bfbc0a361dmr4965180wrp.31.1674731990563; 
+ Thu, 26 Jan 2023 03:19:50 -0800 (PST)
+X-Google-Smtp-Source: AK7set9Eov8eXrp05SNHXI1Wp/nsbzzT4q85QyaThdczO5MFS8acQd38uY99SIp3BgcehSJrMybhYQ==
+X-Received: by 2002:adf:f3c3:0:b0:2bf:bc0a:361d with SMTP id
+ g3-20020adff3c3000000b002bfbc0a361dmr4965158wrp.31.1674731990221; 
+ Thu, 26 Jan 2023 03:19:50 -0800 (PST)
+Received: from ?IPV6:2a09:80c0:192:0:5dac:bf3d:c41:c3e7?
+ ([2a09:80c0:192:0:5dac:bf3d:c41:c3e7])
  by smtp.gmail.com with ESMTPSA id
- z14-20020a17090a468e00b00229d7f2abd4sm849520pjf.54.2023.01.26.03.20.56
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 03:21:00 -0800 (PST)
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-To: 
-Cc: Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, devel@daynix.com,
- Yan Vugenfirer <yvugenfi@redhat.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v4 13/13] docs/system/devices/igb: Add igb documentation
-Date: Thu, 26 Jan 2023 20:19:43 +0900
-Message-Id: <20230126111943.38695-14-akihiko.odaki@daynix.com>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230126111943.38695-1-akihiko.odaki@daynix.com>
-References: <20230126111943.38695-1-akihiko.odaki@daynix.com>
+ y2-20020adfc7c2000000b002be07cbefb2sm1425379wrg.18.2023.01.26.03.19.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Jan 2023 03:19:49 -0800 (PST)
+Message-ID: <40475792-defe-ec82-1a0d-e43b518e7f4e@redhat.com>
+Date: Thu, 26 Jan 2023 12:19:48 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102d;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102d.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v5 31/36] target/s390x: Use Int128 for passing float128
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, Ilya Leoshkevich <iii@linux.ibm.com>
+References: <20230126043824.54819-1-richard.henderson@linaro.org>
+ <20230126043824.54819-32-richard.henderson@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Organization: Red Hat
+In-Reply-To: <20230126043824.54819-32-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=david@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,113 +103,19 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
----
- MAINTAINERS                      |  1 +
- docs/system/device-emulation.rst |  1 +
- docs/system/devices/igb.rst      | 71 ++++++++++++++++++++++++++++++++
- 3 files changed, 73 insertions(+)
- create mode 100644 docs/system/devices/igb.rst
+On 26.01.23 05:38, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> v2: Fix SPEC_in1_x1.
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c0831aeb56..e85957e37f 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2224,6 +2224,7 @@ F: tests/qtest/libqos/e1000e.*
- igb
- M: Akihiko Odaki <akihiko.odaki@daynix.com>
- S: Maintained
-+F: docs/system/devices/igb.rst
- F: hw/net/igb*
- F: tests/avocado/igb.py
- F: tests/qtest/igb-test.c
-diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
-index 0506006056..c1b1934e3d 100644
---- a/docs/system/device-emulation.rst
-+++ b/docs/system/device-emulation.rst
-@@ -93,3 +93,4 @@ Emulated Devices
-    devices/virtio-pmem.rst
-    devices/vhost-user-rng.rst
-    devices/canokey.rst
-+   devices/igb.rst
-diff --git a/docs/system/devices/igb.rst b/docs/system/devices/igb.rst
-new file mode 100644
-index 0000000000..70edadd574
---- /dev/null
-+++ b/docs/system/devices/igb.rst
-@@ -0,0 +1,71 @@
-+.. SPDX-License-Identifier: GPL-2.0-or-later
-+.. _igb:
-+
-+igb
-+---
-+
-+igb is a family of Intel's gigabit ethernet controllers. In QEMU, 82576
-+emulation is implemented in particular. Its datasheet is available at [1]_.
-+
-+This implementation is expected to be useful to test SR-IOV networking without
-+requiring physical hardware.
-+
-+Limitations
-+===========
-+
-+This igb implementation was tested with Linux Test Project [2]_ and Windows HLK
-+[3]_ during the initial development. The command used when testing with LTP is:
-+
-+.. code-block:: shell
-+
-+  network.sh -6mta
-+
-+Be aware that this implementation lacks many functionalities available with the
-+actual hardware, and you may experience various failures if you try to use it
-+with a different operating system other than Linux and Windows or if you try
-+functionalities not covered by the tests.
-+
-+Using igb
-+=========
-+
-+Using igb should be nothing different from using another network device. See
-+:ref:`pcsys_005fnetwork` in general.
-+
-+However, you may also need to perform additional steps to activate SR-IOV
-+feature on your guest. For Linux, refer to [4]_.
-+
-+Developing igb
-+==============
-+
-+igb is the successor of e1000e, and e1000e is the successor of e1000 in turn.
-+As these devices are very similar, if you make a change for igb and the same
-+change can be applied to e1000e and e1000, please do so.
-+
-+Please do not forget to run tests before submitting a change. As tests included
-+in QEMU is very minimal, run some application which is likely to be affected by
-+the change to confirm it works in an integrated system.
-+
-+Testing igb
-+===========
-+
-+A qtest of the basic functionality is available. Run the below at the build
-+directory:
-+
-+.. code-block:: shell
-+
-+  meson test qtest-x86_64/qos-test
-+
-+ethtool can test register accesses, interrupts, etc. It is automated as an
-+Avocado test and can be ran with the following command:
-+
-+.. code:: shell
-+
-+  make check-avocado AVOCADO_TESTS=tests/avocado/igb.py
-+
-+References
-+==========
-+
-+.. [1] https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/82576eb-gigabit-ethernet-controller-datasheet.pdf
-+.. [2] https://github.com/linux-test-project/ltp
-+.. [3] https://learn.microsoft.com/en-us/windows-hardware/test/hlk/
-+.. [4] https://docs.kernel.org/PCI/pci-iov-howto.html
+Acked-by: David Hildenbrand <david@redhat.com>
+
 -- 
-2.39.0
+Thanks,
+
+David / dhildenb
 
 
