@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6233367C3E1
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 05:40:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CAC0667C3ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 05:42:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pKu2e-0000HP-PM; Wed, 25 Jan 2023 23:39:17 -0500
+	id 1pKu2p-0000Pe-U5; Wed, 25 Jan 2023 23:39:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pKu2X-0000H3-18
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:39:09 -0500
+ id 1pKu2Y-0000Hq-OS
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:39:11 -0500
 Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pKu2V-0004Rg-Fw
- for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:39:08 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- z1-20020a17090a66c100b00226f05b9595so756996pjl.0
- for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 20:39:03 -0800 (PST)
+ id 1pKu2V-0004TZ-FR
+ for qemu-devel@nongnu.org; Wed, 25 Jan 2023 23:39:10 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id m11so563423pji.0
+ for <qemu-devel@nongnu.org>; Wed, 25 Jan 2023 20:39:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=wHZLFNNm0ZFp31ulDF75QeL44+XwFwYbg39T7b6YDuI=;
- b=DRk6XXyztC0i8zM1NC8JU0QlibApXebR0Xvz2JS2Z62Ch95pvxhxtkxJWUe9ykvzro
- KHhaKHjz5aXe0cmQqJ64+j2o1rbASsS086cYkWAKQJK8OoIeaJkpGDPKCaRaXvYEa42d
- s+3aLvQ3oJyyIAXbeAqDFPD/026GS58Le3W2YjKtr6VLnYr6ZNKF5l9POtlAUg8EZq3d
- v4ug8uFHOj6BsFIeRdATlinQt+X0Sy+kHS+lhA8LYZEappLj+h5a4Mew4ehgg7muiwrr
- 0GqREtGMJN+2SY8BSe9nw/N3/oD2AqCIW02uuyCwsVleB2g4ytOsQXddwVo0slyLKxEi
- aiXA==
+ bh=BaPNUV0c7247g5NnraFY0tZEOzKo666SsANsAFMshsk=;
+ b=XfpXMwT1eKZ8klyN5pMeD6yVXvJfnP515CrIgKG+MOnMx8REEynWgzXSQCagSzOCZY
+ B8yqAZ6B+96U5d5iHSGaVRhSTEHNv/hO+eCh9i8QZOa1rdcQu3f+T5ft759pwh/VfU5w
+ MOBdN/tyJ0PXvJ0G1trx0mkvYFwqqiyDHllCBQ8bllkED8wKdfd6I+qGqb1d7G+Zx8M8
+ G8sOTnc3pEyluB1S1Km2hx9VPJtsK0WZa28SAxwawczzyGoUOf4sHC9ZvHO1Bz8bjUOC
+ XHW9IMgKM0gKhB4CtDU8gQ12jYs/kqrP/JiQTWLKKh5YEIqdwdF2Rh8RwDNqmiMwJReh
+ p77w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=wHZLFNNm0ZFp31ulDF75QeL44+XwFwYbg39T7b6YDuI=;
- b=agjusueq45T2O6wImamFQr1sjzxQ10HtIj+GwonbJHEHa0S6LAgoTZWZMGvk2BB/At
- JX/Q4sb5PusomFf8FVoiCac+jGVJWnP1hXljuyRJtRRJdZ9R5ycqa9yfZ80XfPmerPsG
- oS0fhzCeHlCrCSwHDtqjH1oIGVdaDlKNJiIGsN/GzT5aNMAS7C3txEozBh3IDGY90XkS
- H1yqHPjAL7W+NeVmlUcepU7ROKO8fk2GhCgyjr8N5SUzx/UX35v4Qe2RmA4JSkRhjLmo
- vGL7jAEEYY6oQwwm+YFGjxN+tJgkYITdoHGWmMAh9h3MPIi3MMNwgMNfFxis8n/h8zOc
- /nuQ==
-X-Gm-Message-State: AFqh2krd/slLFFmaRTKpVcxTUL1yvzRJx8w91AT8JfpbFA4tCktY0pvv
- Tbfu4nSafG5Hn3VYwNDGdnMkI+bjQiUc8dezXXQ=
-X-Google-Smtp-Source: AMrXdXu1PuwkYeYlLAi5dB574aQc2FYJZa5N1iaHlwhFoTMor8T1Q05nV8YugeTvURI/buTPuc1VtQ==
-X-Received: by 2002:a17:90b:3143:b0:22b:b6b0:7889 with SMTP id
- ip3-20020a17090b314300b0022bb6b07889mr21150978pjb.15.1674707943423; 
- Wed, 25 Jan 2023 20:39:03 -0800 (PST)
+ bh=BaPNUV0c7247g5NnraFY0tZEOzKo666SsANsAFMshsk=;
+ b=gyKNsOOqd2P5phl+Plk5VrLw+DLU2S9PB5onmBgcBXZTMgkR2rQSYDG+iR4ZNZcvBt
+ DWHXvSt/ID9vQY2ZesbnE1czl3yFVHH+76JtXALhHWkg71cB/MqcprppHN2lNUsYI6ju
+ 5Io6DZ4baitvrwFHNCqb12Urec8oREllbLAL8swJSlKpx84hlrkw7xMzA19GS0F0IDoE
+ s8Nu3tcd8mPg1TcgWc8gr8b+7QGsgsCluPj2MTRn7kW5GhV9Co2I2J4Zq2CnN8KEviGS
+ IKA0II/O5KzfI9HYDBvxmD2wJc1NKA8/ZEE5YnWhItdUW6+P2saSFzw0YkXdxJWYQOJp
+ aA3Q==
+X-Gm-Message-State: AFqh2kpAr4x3/Kxbcum7DlmaDfkmlEmZHePPCFazf2a3Z0vE/Vp8RE3C
+ rzo3Xl+pZhgOXmXQggBnrj+ZqJflwEX9Jp4iEEw=
+X-Google-Smtp-Source: AMrXdXvX0rYU94hRT+4Mk1KGbu4qR10Kta11LEpN7OTfScF41gu4w3/RJsdVgto2Tfq7gqs5yonBhg==
+X-Received: by 2002:a17:90b:3eca:b0:22b:b89b:b9d0 with SMTP id
+ rm10-20020a17090b3eca00b0022bb89bb9d0mr21215869pjb.22.1674707945250; 
+ Wed, 25 Jan 2023 20:39:05 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- s62-20020a17090a69c400b00228e56d375asm233376pjj.33.2023.01.25.20.39.01
+ s62-20020a17090a69c400b00228e56d375asm233376pjj.33.2023.01.25.20.39.03
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 25 Jan 2023 20:39:02 -0800 (PST)
+ Wed, 25 Jan 2023 20:39:04 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, Ilya Leoshkevich <iii@linux.ibm.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v5 23/36] tests/tcg/s390x: Add long-double.c
-Date: Wed, 25 Jan 2023 18:38:11 -1000
-Message-Id: <20230126043824.54819-24-richard.henderson@linaro.org>
+Cc: alex.bennee@linaro.org, David Hildenbrand <david@redhat.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH v5 24/36] target/s390x: Use a single return for
+ helper_divs32/u32
+Date: Wed, 25 Jan 2023 18:38:12 -1000
+Message-Id: <20230126043824.54819-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230126043824.54819-1-richard.henderson@linaro.org>
 References: <20230126043824.54819-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
  envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
@@ -92,57 +91,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Pack the quotient and remainder into a single uint64_t.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tests/tcg/s390x/long-double.c   | 24 ++++++++++++++++++++++++
- tests/tcg/s390x/Makefile.target |  1 +
- 2 files changed, 25 insertions(+)
- create mode 100644 tests/tcg/s390x/long-double.c
+v2: Fix operand ordering; use tcg_extr32_i64.
+Cc: David Hildenbrand <david@redhat.com>
+Cc: Ilya Leoshkevich <iii@linux.ibm.com>
+---
+ target/s390x/helper.h         |  2 +-
+ target/s390x/tcg/int_helper.c | 26 +++++++++++++-------------
+ target/s390x/tcg/translate.c  |  8 ++++----
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/tests/tcg/s390x/long-double.c b/tests/tcg/s390x/long-double.c
-new file mode 100644
-index 0000000000..757a6262fd
---- /dev/null
-+++ b/tests/tcg/s390x/long-double.c
-@@ -0,0 +1,24 @@
-+/*
-+ * Perform some basic arithmetic with long double, as a sanity check.
-+ * With small integral numbers, we can cross-check with integers.
-+ */
-+
-+#include <assert.h>
-+
-+int main()
-+{
-+    int i, j;
-+
-+    for (i = 1; i < 5; i++) {
-+        for (j = 1; j < 5; j++) {
-+            long double la = (long double)i + j;
-+            long double lm = (long double)i * j;
-+            long double ls = (long double)i - j;
-+
-+            assert(la == i + j);
-+            assert(lm == i * j);
-+            assert(ls == i - j);
-+        }
-+    }
-+    return 0;
-+}
-diff --git a/tests/tcg/s390x/Makefile.target b/tests/tcg/s390x/Makefile.target
-index 79250f31dd..1d454270c0 100644
---- a/tests/tcg/s390x/Makefile.target
-+++ b/tests/tcg/s390x/Makefile.target
-@@ -26,6 +26,7 @@ TESTS+=branch-relative-long
- TESTS+=noexec
- TESTS+=div
- TESTS+=clst
-+TESTS+=long-double
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index 93923ca153..bc828d976b 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -10,7 +10,7 @@ DEF_HELPER_FLAGS_4(clc, TCG_CALL_NO_WG, i32, env, i32, i64, i64)
+ DEF_HELPER_3(mvcl, i32, env, i32, i32)
+ DEF_HELPER_3(clcl, i32, env, i32, i32)
+ DEF_HELPER_FLAGS_4(clm, TCG_CALL_NO_WG, i32, env, i32, i32, i64)
+-DEF_HELPER_FLAGS_3(divs32, TCG_CALL_NO_WG, s64, env, s64, s64)
++DEF_HELPER_FLAGS_3(divs32, TCG_CALL_NO_WG, i64, env, s64, s64)
+ DEF_HELPER_FLAGS_3(divu32, TCG_CALL_NO_WG, i64, env, i64, i64)
+ DEF_HELPER_FLAGS_3(divs64, TCG_CALL_NO_WG, s64, env, s64, s64)
+ DEF_HELPER_FLAGS_4(divu64, TCG_CALL_NO_WG, i64, env, i64, i64, i64)
+diff --git a/target/s390x/tcg/int_helper.c b/target/s390x/tcg/int_helper.c
+index 954542388a..7260583cf2 100644
+--- a/target/s390x/tcg/int_helper.c
++++ b/target/s390x/tcg/int_helper.c
+@@ -34,45 +34,45 @@
+ #endif
  
- Z13_TESTS=vistr
- $(Z13_TESTS): CFLAGS+=-march=z13 -O2
+ /* 64/32 -> 32 signed division */
+-int64_t HELPER(divs32)(CPUS390XState *env, int64_t a, int64_t b64)
++uint64_t HELPER(divs32)(CPUS390XState *env, int64_t a, int64_t b64)
+ {
+-    int32_t ret, b = b64;
+-    int64_t q;
++    int32_t b = b64;
++    int64_t q, r;
+ 
+     if (b == 0) {
+         tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
+     }
+ 
+-    ret = q = a / b;
+-    env->retxl = a % b;
++    q = a / b;
++    r = a % b;
+ 
+     /* Catch non-representable quotient.  */
+-    if (ret != q) {
++    if (q != (int32_t)q) {
+         tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
+     }
+ 
+-    return ret;
++    return deposit64(q, 32, 32, r);
+ }
+ 
+ /* 64/32 -> 32 unsigned division */
+ uint64_t HELPER(divu32)(CPUS390XState *env, uint64_t a, uint64_t b64)
+ {
+-    uint32_t ret, b = b64;
+-    uint64_t q;
++    uint32_t b = b64;
++    uint64_t q, r;
+ 
+     if (b == 0) {
+         tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
+     }
+ 
+-    ret = q = a / b;
+-    env->retxl = a % b;
++    q = a / b;
++    r = a % b;
+ 
+     /* Catch non-representable quotient.  */
+-    if (ret != q) {
++    if (q != (uint32_t)q) {
+         tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
+     }
+ 
+-    return ret;
++    return deposit64(q, 32, 32, r);
+ }
+ 
+ /* 64/64 -> 64 signed division */
+diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
+index a339b277e9..169f7ee1b2 100644
+--- a/target/s390x/tcg/translate.c
++++ b/target/s390x/tcg/translate.c
+@@ -2395,15 +2395,15 @@ static DisasJumpType op_diag(DisasContext *s, DisasOps *o)
+ 
+ static DisasJumpType op_divs32(DisasContext *s, DisasOps *o)
+ {
+-    gen_helper_divs32(o->out2, cpu_env, o->in1, o->in2);
+-    return_low128(o->out);
++    gen_helper_divs32(o->out, cpu_env, o->in1, o->in2);
++    tcg_gen_extr32_i64(o->out2, o->out, o->out);
+     return DISAS_NEXT;
+ }
+ 
+ static DisasJumpType op_divu32(DisasContext *s, DisasOps *o)
+ {
+-    gen_helper_divu32(o->out2, cpu_env, o->in1, o->in2);
+-    return_low128(o->out);
++    gen_helper_divu32(o->out, cpu_env, o->in1, o->in2);
++    tcg_gen_extr32_i64(o->out2, o->out, o->out);
+     return DISAS_NEXT;
+ }
+ 
 -- 
 2.34.1
 
