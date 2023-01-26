@@ -2,58 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F37D767D351
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 18:36:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 840E067D385
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 18:51:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL6AL-00006h-17; Thu, 26 Jan 2023 12:36:01 -0500
+	id 1pL6NV-0003WY-3Z; Thu, 26 Jan 2023 12:49:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pL6AH-00005r-Qd
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 12:35:57 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pL6AF-0002RR-BG
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 12:35:57 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P2npB3fV4z67bS0;
- Fri, 27 Jan 2023 01:32:18 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 26 Jan
- 2023 17:35:41 +0000
-Date: Thu, 26 Jan 2023 17:35:39 +0000
-To: Jonathan Cameron via <qemu-devel@nongnu.org>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>, Michael Tsirkin
- <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
- <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- <alison.schofield@intel.com>, Mike Maslenkin <mike.maslenkin@gmail.com>
-Subject: Re: [PATCH v2 7/7] hw/mem/cxl_type3: Add CXL RAS Error Injection
- Support
-Message-ID: <20230126173539.00005cfd@huawei.com>
-In-Reply-To: <20230120142450.16089-8-Jonathan.Cameron@huawei.com>
-References: <20230120142450.16089-1-Jonathan.Cameron@huawei.com>
- <20230120142450.16089-8-Jonathan.Cameron@huawei.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pL6NM-0003Vy-Cm
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 12:49:29 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pL6NK-0008Pn-Ot
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 12:49:28 -0500
+Received: by mail-wm1-x334.google.com with SMTP id k16so1676053wms.2
+ for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 09:49:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:content-language
+ :references:to:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=OK8D8R+tAQUoFtCWzoU1n8SQdUbAKXNoKJvtArjQYWo=;
+ b=fsrSpnrqMY978vETifGGB5jJhFgGa9z1kwcWK6T2nOCu+2w+3q003EfrS2S3nto/9O
+ lxe3tYcU8G4mfiFeNDwyeOtZ6IpN6OGNe5mvX2oCYaolr2h2fKwfDb+bxz95DcEGZcgt
+ baW9SuyDs+IEAs4Fczqco/bSDXCuXJ9zw8fBxPmw1fsMHyYS/OnDg/d4M0REeUbUPJvJ
+ RQv6LwyWhdbAqU2ztQFsLdrlFMGtDLdvlO64WYfr1H45JdhGSnTHa0NWmRYX1GMcLOq5
+ lgctRAthj0M2xFVSiOFnZZWIfgJNNw6o+vkIeVJ+9yWcTvOSRYMwMeFWYUlgDljKCXEG
+ ExkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:content-language
+ :references:to:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=OK8D8R+tAQUoFtCWzoU1n8SQdUbAKXNoKJvtArjQYWo=;
+ b=fgNFgx7U4N72Y1GU+gziuVnd8S6PpL0fF22LFQ6KrUlK2NqSdnglM6FG/k+TS3VqcB
+ OdGXbzTjWf/Iz7FnUXOtCf1QXYgcC3O6O9hjljahfmUQwADWWiYMf9Md4bzTKrYKSX4B
+ P5UeVnnWJr/zKUoXhcYSucaz7136SQwEMMUpVsVdSQDiKmfj2fyDypaffTY7R8Khd/wO
+ flPfPDVae0MSaaij/ra7kWo+BaBbHpbRUM8+soKPyV0kBn9sQuUG1oX2fZC2KGcM/E3h
+ KFzB1M9HFonp5+IQIwuPxSSJPa7XeXklSPObHIhtQrICdA3UBRWCq7DY5Aj6QCCE5nGU
+ A1SA==
+X-Gm-Message-State: AFqh2kqNc04zn7m8X7VE9xz59tV/E+1vItRjIllhuriEoAw1cPjXlrAW
+ cbD1BQrqGY9BgsTDXbABH8M=
+X-Google-Smtp-Source: AMrXdXs5F4OCgvN3uEJ60IUaqKqHzXV14E3jUKorb3s+0tE+r6nmGLv0K7Ivj0ZpjpxRkHHOTPAUPQ==
+X-Received: by 2002:a05:600c:3ac8:b0:3da:270b:ba6b with SMTP id
+ d8-20020a05600c3ac800b003da270bba6bmr37704210wms.41.1674755364280; 
+ Thu, 26 Jan 2023 09:49:24 -0800 (PST)
+Received: from [192.168.16.153] (54-240-197-239.amazon.com. [54.240.197.239])
+ by smtp.gmail.com with ESMTPSA id
+ iz17-20020a05600c555100b003db07420d14sm2065074wmb.39.2023.01.26.09.49.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Jan 2023 09:49:23 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <46ea1f4e-2061-d5f8-2b44-5d24a3a3e7ca@xen.org>
+Date: Thu, 26 Jan 2023 17:49:22 +0000
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [SeaBIOS PATCH] xen: require Xen info structure at 0x1000 to
+ detect Xen
+To: David Woodhouse <dwmw2@infradead.org>, seabios <seabios@seabios.org>,
+ xen-devel <xen-devel@lists.xenproject.org>,
+ qemu-devel <qemu-devel@nongnu.org>
+References: <feef99dd2e1a5dce004d22baf07d716d6ea1344c.camel@infradead.org>
+Content-Language: en-US
+Organization: Xen Project
+In-Reply-To: <feef99dd2e1a5dce004d22baf07d716d6ea1344c.camel@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x334.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.15, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -67,64 +94,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 20 Jan 2023 14:24:50 +0000
-Jonathan Cameron via <qemu-devel@nongnu.org> wrote:
-
-> CXL uses PCI AER Internal errors to signal to the host that an error has
-> occurred. The host can then read more detailed status from the CXL RAS
-> capability.
+On 20/01/2023 11:33, David Woodhouse wrote:
+> From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> For uncorrectable errors: support multiple injection in one operation
-> as this is needed to reliably test multiple header logging support in an
-> OS. The equivalent feature doesn't exist for correctable errors, so only
-> one error need be injected at a time.
+> When running under Xen, hvmloader places a table at 0x1000 with the e820
+> information and BIOS tables. If this isn't present, SeaBIOS will
+> currently panic.
 > 
-> Note:
->  - Header content needs to be manually specified in a fashion that
->    matches the specification for what can be in the header for each
->    error type.
+> We now have support for running Xen guests natively in QEMU/KVM, which
+> boots SeaBIOS directly instead of via hvmloader, and does not provide
+> the same structure.
 > 
-> Injection via QMP:
-> { "execute": "qmp_capabilities" }
-> ...
-> { "execute": "cxl-inject-uncorrectable-errors",
->   "arguments": {
->     "path": "/machine/peripheral/cxl-pmem0",
->     "errors": [
->         {
->             "type": "cache-address-parity",
->             "header": [ 3, 4]
->         },
->         {
->             "type": "cache-data-parity",
->             "header": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
->         },
->         {
->             "type": "internal",
->             "header": [ 1, 2, 4]
->         }
->         ]
->   }}
-> ...
-> { "execute": "cxl-inject-correctable-error",
->     "arguments": {
->         "path": "/machine/peripheral/cxl-pmem0",
->         "type": "physical",
->         "header": [ 3, 4]
+> As it happens, this doesn't matter on first boot. because although we
+> set PlatformRunningOn to PF_QEMU|PF_XEN, reading it back again still
+> gives zero. Presumably because in true Xen, this is all already RAM. But
+> in QEMU with a faithfully-emulated PAM config in the host bridge, it's
+> still in ROM mode at this point so we don't see what we've just written.
+> 
+> On reboot, however, the region *is* set to RAM mode and we do see the
+> updated value of PlatformRunningOn, do manage to remember that we've
+> detected Xen in CPUID, and hit the panic.
+> 
+> It's not trivial to detect QEMU vs. real Xen at the time xen_preinit()
+> runs, because it's so early. We can't even make a XENVER_extraversion
+> hypercall to look for hints, because we haven't set up the hypercall
+> page (and don't have an allocator to give us a page in which to do so).
+> 
+> So just make Xen detection contingent on the info structure being
+> present. If it wasn't, we were going to panic anyway. That leaves us
+> taking the standard QEMU init path for Xen guests in native QEMU,
+> which is just fine.
+> 
+> Untested on actual Xen but ObviouslyCorrect™.
 
-Correctable errors don't have header logging (I misread the spec a long time
-back and somehow didn't notice this was still here) I'll fix this up for v3
-along with cleaning up the messy endian handling that was pointed out off list.
-I don't intent (at this point) to deal with big endian support in general,
-but it would be good not to make the situation worse than it already is
-even if no one is shouting for big endian yet.
+Works for me...
 
-Thanks,
+Tested-by: Paul Durrant <paul@xen.org>
 
-Jonathan
+> 
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> ---
+>   src/fw/xen.c | 45 ++++++++++++++++++++++++++++++++-------------
+>   1 file changed, 32 insertions(+), 13 deletions(-)
+> 
+
+Also...
+
+Reviewed-by: Paul Durrant <paul@xen.org>
+
 
