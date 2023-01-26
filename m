@@ -2,78 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 397DC67D794
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 22:19:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7855067D7B4
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 22:28:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL9dQ-00086u-Ad; Thu, 26 Jan 2023 16:18:16 -0500
+	id 1pL9lx-0008L6-TM; Thu, 26 Jan 2023 16:27:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pL9dE-0007zd-8j; Thu, 26 Jan 2023 16:18:04 -0500
-Received: from mail-ej1-x62a.google.com ([2a00:1450:4864:20::62a])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pL9lw-0008Kg-46
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 16:27:04 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pL9dC-0007jn-K8; Thu, 26 Jan 2023 16:18:03 -0500
-Received: by mail-ej1-x62a.google.com with SMTP id kt14so8686024ejc.3;
- Thu, 26 Jan 2023 13:18:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pL9lu-0003gu-BR
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 16:27:03 -0500
+Received: by mail-wm1-x336.google.com with SMTP id fl24so2127518wmb.1
+ for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 13:27:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6Y9cub/HmI35SV/LefG5zdwf9+3G3TlrTC86o8kKOss=;
- b=GJ2EdVuTDRtYLNG6XRwVVUaG6VASv7C4oRcMf76/MPKICHqHoJLvhYS62CUYlNA/CC
- +tpnaH5FSBzH090vg2MVcsowb7t1qFrWV6iTQBzvvZGC/DBWOYOy9+SpIsAq+ocCeu32
- zYQBloPj8t0WMu+kPvsOep9oxmamb4g3KSGh/LBEDbOYfYg7GXbwPugf18gEypsFYtBl
- 1hBmYrS2fDlmJxfFubVtzK7aHq149w0HpoFuua//mCsRuVREZze9mjQGXG7vCDXIWKTZ
- uV0KwHCuQsBJN+kVGcTMJnvzKlPWPvWEFS5tbniTuLM2mFinl5d0LFfAda9JVknVux2h
- HZ7g==
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:to:from:date:from:to:cc:subject:date:message-id
+ :reply-to; bh=sJ6Mfr0BAuDTuaNEu397fFLI8asfpDDww1agUQinN58=;
+ b=PBHLcd1L1pmOgPNUoXVndhD79Id7lHPIcsGq/ci0SieSVVOXle8XlMr4eyopO71mDz
+ nHLbBox6iQFg2wHaSOQMrB753nYeJXwYztvQJSflH75cDFei6DXtRdHRAcJ+b0iiBl/u
+ gkr7+NQJ55UsouhOUefuPKqEhOEqRVwpW7K1lHCaznQETnRwXQoqrcTRtGq2GmZsZb0a
+ j5zq7KkO3rRWoux1m7AKWORISN1xPFQSYoJClWA60kvF5IjQSxBzd9I3QEhsqlrPfoYK
+ rLDLDwS0M+H/Y/SgqC6hIludoNY50nHxnWQZYPnWaL/ri3KbQIismoylIO2BxzPywBH8
+ wkLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6Y9cub/HmI35SV/LefG5zdwf9+3G3TlrTC86o8kKOss=;
- b=bd+Yg7MJLbZiKVuEeCCcdTgvovL6OLOavczF5s2j6cWEjaxdnhnEqKJFN9V9NiC1tO
- okglvDd/sroqJXesM4z1jFfEdiLZW8LlNtjrieaZhrxIqs2h+HM8PuTbXsfrfNS9PKYL
- 3hmWsB6IDeQNkjt1c5DSNt59yav5OYbhwZW1ytTfZcCFfqUAaB9gbJOezD308TN8oF0u
- GWsYQZx1Q12ZeEAm080CEdsyc243a+mbn7doVQjAAvwrY7upjDJHXu0A17JEu1/uKtlM
- S+IxJfdwNf0p2DzrkkRgNImni0byjlqZ7RzB71hWxBoQFpm6eiXUeQPNPhNybD+SpD/f
- mOzQ==
-X-Gm-Message-State: AO0yUKUsjUNeIS4bHHw9h//OHOJ1uUg0fdI8jG4z1MqcZGEUwOgCgwNU
- 8oSEA2ZnbyxCeIsRip8OpmUyObyJxRlrvg==
-X-Google-Smtp-Source: AK7set/4bzhGGo0RUN4HxwYDBn88GzMuH8YOU17+fbSPRFWO55XLWKzYrKrzU1eqni6NsnBuxaylDA==
-X-Received: by 2002:a17:906:2b98:b0:878:81d6:1e2d with SMTP id
- m24-20020a1709062b9800b0087881d61e2dmr1399874ejg.7.1674767880849; 
- Thu, 26 Jan 2023 13:18:00 -0800 (PST)
-Received: from osoxes.fritz.box
- (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
+ bh=sJ6Mfr0BAuDTuaNEu397fFLI8asfpDDww1agUQinN58=;
+ b=xgrPDjl0I+cgV+LYRw8Zn2HDdJk5i2fXUCO0dzo2kKv+gp26NjR8ge3stqah+Ai51S
+ 0ix4nECM3AjGDvQmupqT6vVXVANZam5oz4DA7plKIoFaX2TrJaPC9C8Npl1jQC6BcsRR
+ +PEeAZM4ToOuh1S3llw4egVlM3bEoCldWMPc1bTorFnKWJ9rrt6iPqPILLnp3NmRRJwO
+ 3fw/4GDp82aaonim8fYzQTKjGkxEpEampp9A5P97pjeHvtcIYqg7CaX90FyuAerhGT8A
+ T4tr3vyI4u9FcOIT8qzl0G4ltO9tdYb3pvrgOSTvfWO7V1917eS5kUgjbLCsGZA88D1Y
+ l8yw==
+X-Gm-Message-State: AFqh2kpdbyrsrRczWrMBh4RGQ4HzO0v0qxRLXKExRVKst7ZQjiIAoCF2
+ LzYHd//yAupH3d/1iBK59FI=
+X-Google-Smtp-Source: AMrXdXvrA85488ToBimagoGsNFqp53vyasOT1zKm8Nt4Y/+khBKYrG5KwXpR/IxHQSWHgzso/d4CXA==
+X-Received: by 2002:a05:600c:1c02:b0:3d2:3b8d:21e5 with SMTP id
+ j2-20020a05600c1c0200b003d23b8d21e5mr37065077wms.14.1674768420495; 
+ Thu, 26 Jan 2023 13:27:00 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf0bb2004c1ba1824932b7f6.dip0.t-ipconnect.de.
+ [2003:fa:af0b:b200:4c1b:a182:4932:b7f6])
  by smtp.gmail.com with ESMTPSA id
- w5-20020a170906384500b00878003adeeesm1117568ejc.23.2023.01.26.13.17.59
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 13:18:00 -0800 (PST)
+ ay6-20020a05600c1e0600b003db00747fdesm5786477wmb.15.2023.01.26.13.26.59
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Jan 2023 13:27:00 -0800 (PST)
+Date: Thu, 26 Jan 2023 21:26:53 +0000
 From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-ppc@nongnu.org, qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 10/10] hw/isa/isa-bus: Resolve isabus global
-Date: Thu, 26 Jan 2023 22:17:40 +0100
-Message-Id: <20230126211740.66874-11-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230126211740.66874-1-shentey@gmail.com>
-References: <20230126211740.66874-1-shentey@gmail.com>
+To: quintela@redhat.com, Juan Quintela <quintela@redhat.com>,
+ kvm-devel <kvm@vger.kernel.org>, qemu-devel@nongnu.org
+Subject: Re: Fortnightly KVM call minutes for 2023-01-24
+In-Reply-To: <87zga8f0c0.fsf@secure.mitica>
+References: <87zga8f0c0.fsf@secure.mitica>
+Message-ID: <09D128C9-6633-4315-B312-827C875C20DB@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::62a;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62a.google.com
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=shentey@gmail.com; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,42 +89,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now that only isa_bus_new() accesses the isabus global it can be removed
-assuming that all call sites take care of not passing the same address
-spaces to different isa_bus_new() invocations.
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/isa/isa-bus.c | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
 
-diff --git a/hw/isa/isa-bus.c b/hw/isa/isa-bus.c
-index 8bae5cc473..b8c89a1e65 100644
---- a/hw/isa/isa-bus.c
-+++ b/hw/isa/isa-bus.c
-@@ -26,8 +26,6 @@
- #include "hw/isa/isa.h"
- #include "hw/acpi/acpi_aml_interface.h"
- 
--static ISABus *isabus;
--
- static char *isabus_get_fw_dev_path(DeviceState *dev);
- 
- static void isa_bus_class_init(ObjectClass *klass, void *data)
-@@ -53,10 +51,8 @@ static const TypeInfo isa_bus_info = {
- ISABus *isa_bus_new(DeviceState *dev, MemoryRegion* address_space,
-                     MemoryRegion *address_space_io, Error **errp)
- {
--    if (isabus) {
--        error_setg(errp, "Can't create a second ISA bus");
--        return NULL;
--    }
-+    ISABus *isabus;
-+
-     if (!dev) {
-         dev = qdev_new("isabus-bridge");
-         sysbus_realize_and_unref(SYS_BUS_DEVICE(dev), &error_fatal);
--- 
-2.39.1
+Am 24=2E Januar 2023 14:56:15 UTC schrieb Juan Quintela <quintela@redhat=
+=2Ecom>:
+>
+>
+>
+>
+>First part stolen from: https://etherpad=2Eopendev=2Eorg/p/qemu-emulation=
+-bof%402023-01-24
+>      thanks Phillippe
+>
+>Single QEMU-system binary and Dynamic Machine Models
+>
+>Meeting link: https://meet=2Ejit=2Esi/kvmcallmeeting
+>Just want to dial in on your phone? Dial-in: +1=2E512=2E647=2E1431 PIN: 1=
+518845548#
+>Click this link to see the dial in phone numbers for this meeting https:/=
+/meet=2Ejit=2Esi/static/dialInInfo=2Ehtml?room=3Dkvmcallmeeting
+>
+>What needs to be done?
+>
+>    TCG
+>
+>    How to use different page sizes
+>
+>    -> convert to page-vary (already used by ARM/MIPS)
+>
+>    ref: https://lore=2Ekernel=2Eorg/qemu-devel/20221228171617=2E059750c3=
+@orange/
+>
+>
+>    HW models / machine
+>
+>
+>    How to create/realize 2 QOM objects which depend on each other?
+>
+>    what (properties) need to be wired? IRQ, reset lines, MR?
+>
+>
+>    Sysbus: Demote it to plain qdev?
+>
+>    con:
+>
+>    sysbus helpful to remove qdev boilerplace/verbose code
+>
+>    sysbus tree does the resets [currently blocking qdev conversion]
+>
+>    pro:
+>
+>    sysbus IRQ API
+>
+>    too abstract, not very helpful, "named gpios" API is clearer
+>
+>    sysbus MMIO API
+>
+>    also kinda abstract, MRs indexed=2E No qdev equivalent
+>
+>    sysbus IO API:
+>
+>    not very used=2E first we need to get rid of ISA bus singleton
 
+I've just submitted v2 of my patch series removing the ISA bus singleton: =
+https://lore=2Ekernel=2Eorg/qemu-devel/20230126211740=2E66874-1-shentey@gma=
+il=2Ecom
+
+Best regards,
+Bernhard
+
+>
+>
+>    Single 32/64 *targets* binary
+>
+>    Which 32-bit hosts are still used? OK to deprecate them?
+>
+>    Some targets need special care i=2Ee=2E KVM 32-bit ARM vCPU on 64-bit=
+ Aarch64 host
+>
+>
+>Previous notes:
+>    https://etherpad=2Eopendev=2Eorg/p/qemu-emulation-bof%402022-12-13
+>    https://etherpad=2Eopendev=2Eorg/p/qemu-emulation-bof%402022-11-29
+>
+>
+>Do we care about this?
+>
+>64 bits guests on 32 bits hosts: OK to deprecate
+>32 bits hosts: still in (some) use
+>
+>Creating and realizing two objects than need to be linked together=2E
+>
+>We can't do it with realize, perhaps we need an intermediate state to
+>do the link, and then realize=2E
+>
+>Can we get Peter or Markus or Paolo for the next call?
+>waiting to get some patches into the list for discussing=2E
+>
+>Problem for Phillipe is that he has to do changes to the API's and
+>want to be sure that they are agreed before he changes all
+>devices/targets, a multi month task=2E
+>
+>For removing sysbus, we need to wait for reset rework from Peter?
+>
+>Expose the memory API to external processes=2E
+>
+>Under what circumstances you should be able to create/destroy a memory
+>region?
+>
+>
+>
+>Later, Juan=2E
+>
+>
 
