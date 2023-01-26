@@ -2,55 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0F9E267CB4F
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 13:53:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 452D767CBFC
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 14:24:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL1kO-0001xD-T8; Thu, 26 Jan 2023 07:52:56 -0500
+	id 1pL2DO-00048d-6t; Thu, 26 Jan 2023 08:22:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pL1kF-0001sT-R7
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 07:52:50 -0500
-Received: from mout.kundenserver.de ([217.72.192.74])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pL1kA-00006x-9h
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 07:52:46 -0500
-Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue107
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1MBE3k-1pWXoD44Le-00CjcE; Thu, 26
- Jan 2023 13:52:36 +0100
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH] m68k: fix 'bkpt' instruction in softmmu mode
-Date: Thu, 26 Jan 2023 13:52:34 +0100
-Message-Id: <20230126125234.3186042-1-laurent@vivier.eu>
-X-Mailer: git-send-email 2.38.1
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pL2DG-00048C-QS
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 08:22:46 -0500
+Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pL2DF-0006fa-5b
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 08:22:46 -0500
+Received: by mail-pg1-x530.google.com with SMTP id 36so993633pgp.10
+ for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 05:22:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=pnmiyECVgDpDk+JGlgRkopzLwGi5GG9lgluTrdebyNw=;
+ b=yG2uNs5AuoJt0mmXRA5Pab43JA6iKr8Q5zPnWG9kRK6b6mWh0y7gMXVGQmSCRhHAkb
+ xG6kOyKaCslPhN1zlnsmBlBEf2wMujT3JSX3R5l4OhPTdDp4+muGIPYaNG57RzwvWIgw
+ 1J4nIK45JYcrCet76KOOjc4SdSoRxfDR543WzR2YfZx/30kxKr4I/xhJrNIKWitM68bB
+ eUEg+9wvCYlTXKyQTrb3n8wlUd47uFTsH+9NtVpeqPC1qidZ9AStBnKwlK/nkZYVlb8r
+ EsqMhpQN230SeU7vpcfIISHtnvxbrgqUmhSwMc7CUIDAgh16ZG7eFVY+4GH4oDsjZ6aF
+ izoQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=pnmiyECVgDpDk+JGlgRkopzLwGi5GG9lgluTrdebyNw=;
+ b=n4TdI6BETt3eJMZHU4VWJgVHoJ9Gv+XuW6ByM+OPwqGY2juWHB0NSUJ0B86Hn97xV1
+ 7/2+2LcZpTKCssLAqX0WnXsOde2bxC6feEVyyBIJkJi4uTdFRvoj795hBTJQ4Y3yaXWE
+ 1PCaS/WKU6HbX7dJ1yMvUIljyQF8vtRoB4Kh/pyg1Kp2yNnv2yp1sUh1YEh/kIBfP2G6
+ rSyixlhFp3DWbXpWOUSZrfP52GQQaAawMfFOu9bQBf1OFMslvmFStXvhsw/0GaBN15Xt
+ mxdXsqeeViKlCuJyNgfFIwS+TGgiNnXd6RlLL/mUBXwvS+qMm42pmH4bS+SfeFT/GxHU
+ J1QA==
+X-Gm-Message-State: AO0yUKUFqVPImRbhUH7X/ucwUkbiiErK8L7vFHPigAMn29L83t5rUbRh
+ SvPncff+W/G/FAN8vN4IuCUGR+yDAp+cliP6D1PbtjFPZKYEyw==
+X-Google-Smtp-Source: AK7set+F+6D144p5/zh2t7omYMfHIadUMk3+wUxJQ9gSDkT4VzUNGdcUPXer4vnCxkd37bgNv0FVofpJc6YdyAfsG5A=
+X-Received: by 2002:a62:144d:0:b0:591:8ac8:7c78 with SMTP id
+ 74-20020a62144d000000b005918ac87c78mr355080pfu.54.1674739363417; Thu, 26 Jan
+ 2023 05:22:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:3+zB/cqYLIznoZjkOG8e0ZZRUnhis5b3nviAwodoiOrHI5p/Lcj
- UbX9OoPJUdNybSrh+YAPUubFqSm6chLcs6N9OO+hdYsFekVNtR/QToFGDiMHs+3/L1R9PB4
- hSnxPa1Y7YJXSIQiot51PCQ5jYEs/tS6e/EzHx05B9XkvMh8hA3H46FPHC0PR5ygyNL0GfB
- gR9Oj0W6u8tXtgYn+sqhQ==
-UI-OutboundReport: notjunk:1;M01:P0:RsEO8Jk6YNY=;zG/V42vG0YkbPJzao7ujFBTgmSR
- rk6NKzhra+ktSqmQ1dpFsuTaQ9SQqaLaAvVNfFca16rGQ1ybLyZmfJUgXZJjw1Ra8TCAvUV9I
- 1NpzmHLYaQ4MMfmLwttbgyF46Nh1a+Uagg9su3Mhiy5JHyLnwDX6id6Q6HYImZnmvYncP+fib
- 77yznylb0vgDxBAgfQnPAM6SCcIutv9tphJOgo6UuBfnq0n3GubGFmIYhnRROQ4YxSJPXZ0xP
- Y1L0HZBZfGUGrlAGbn8cLFueVm/swz4F/ebkJxfT7EoNLuldt3m7KngdUpO6T+URmGOSCD6TT
- NgxPGb/UyXj6jon5li6SDsdI5zca8NWxfnpmFh8zzgAatY4qQqk54rlwGPqxcsLU8mU/lhCAM
- R7fXjThF5e3o7FBrfT7km/ki60NB0GtEvlRQg6pmOhJrBXON9FKKdBIe0Vcb+s0NCuSINqsom
- 87uAn3ysJ1/w6t+IYyBkcPFbaOvyt+8ZlE5i7Kqo5CM6tJZ1XF1cU88Yg5CxZcvxlAgcGiEiU
- mp6fzjS/Zwd9vyWp2NnIXtK5qNolZm55VKUQlocAGo/jH3Ciydi9ydvL4FBAjQkcY40NLlstX
- FyS2xdY+0qGQbNI4B0jL1B04UUOhPXoF6c85S9TuzSkA/dKQY/rtDTnhAyHnEogkBTvzO8Xyj
- ATJssrZGVDWhAxtxgYUdZ9bIPs0LukT9qedsYustcg==
-Received-SPF: none client-ip=217.72.192.74; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 26 Jan 2023 13:22:32 +0000
+Message-ID: <CAFEAcA8v8hrqkFemdT5x_O5_mdps4wpdRCoVAfts+oVJj_qTVw@mail.gmail.com>
+Subject: no more pullreq processing til February
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>, Kevin Wolf <kwolf@redhat.com>,
+ John Snow <jsnow@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x530.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,36 +81,18 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In linux-user mode, 'bkpt' generates an EXP_DEBUG exception to allow
-QEMU gdb server to intercept and manage the operation with an external
-debugger.
+Hi; we've run out of gitlab CI pipeline minutes for this month.
+This leaves us the choice of:
+ (a) don't process any more pullreqs til we get more minutes in Feb
+ (b) merge pullreqs blindly without CI testing
+ (c) buy more minutes
 
-In softmmu mode, the instruction must generate an illegal instruction
-exception as it is on real hardware to be managed by the kernel.
+For the moment I propose to take option (a). My mail filter will
+continue to track pullreqs that get sent to the list, but I won't
+do anything with them.
 
-Buglink: https://gitlab.com/qemu-project/qemu/-/issues/146
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- target/m68k/translate.c | 4 ++++
- 1 file changed, 4 insertions(+)
+If anybody has a better suggestion feel free :-)
 
-diff --git a/target/m68k/translate.c b/target/m68k/translate.c
-index 18418312b14b..31178c3b1d17 100644
---- a/target/m68k/translate.c
-+++ b/target/m68k/translate.c
-@@ -2774,7 +2774,11 @@ DISAS_INSN(swap)
- 
- DISAS_INSN(bkpt)
- {
-+#if defined(CONFIG_SOFTMMU)
-+    gen_exception(s, s->base.pc_next, EXCP_ILLEGAL);
-+#else
-     gen_exception(s, s->base.pc_next, EXCP_DEBUG);
-+#endif
- }
- 
- DISAS_INSN(pea)
--- 
-2.38.1
-
+thanks
+-- PMM
 
