@@ -2,97 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02EDF67D6E0
-	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 21:55:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78C2567D6F6
+	for <lists+qemu-devel@lfdr.de>; Thu, 26 Jan 2023 21:58:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pL9Gg-0000T9-LV; Thu, 26 Jan 2023 15:54:46 -0500
+	id 1pL9Jd-0002PS-GT; Thu, 26 Jan 2023 15:57:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pL9Ge-0000Kj-ES
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 15:54:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pL9JY-0002Mm-Vq; Thu, 26 Jan 2023 15:57:45 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pL9Gc-0008TI-Jj
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 15:54:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674766481;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=a/vQO1Y30pqVF/EZGjKTOYdbH7Ilbfqhg8a4h5VPEDU=;
- b=KdP+7sO123h/dHP8jDEFgcVt8rk9OLac++NcjtEXCB+tYs4jXCosofabbY+HqZkMameCTs
- cO0dCI+2T+POvehmB6g38cJz7mJHRngCGoRkZ0tQRctL3pLmY4unuKil6hwQc0vZTMjuX3
- ZCTPkVlE6fO6jty9Q/eFV4XCkmiG4Q0=
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
- [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-649-7LFyYZk-Ot2uNpB_vBJhDA-1; Thu, 26 Jan 2023 15:54:39 -0500
-X-MC-Unique: 7LFyYZk-Ot2uNpB_vBJhDA-1
-Received: by mail-qt1-f199.google.com with SMTP id
- f14-20020ac86ece000000b003b816f57232so787745qtv.10
- for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 12:54:39 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=a/vQO1Y30pqVF/EZGjKTOYdbH7Ilbfqhg8a4h5VPEDU=;
- b=ZP5KuVUjTrVmqHV3XXDrDC3lSIxegN9i/Cu1AwlXlj7OuarQASWvFHIF/TblSZO1Sd
- gNcp/mlC93TxUQxJk60QHrATAozFa9huYIa+PkJGikgTXpHEcqWiwdXk1Xy0ebk3iOIm
- WlZuAJpwPabAobz3kKylaJqJTGBkEKY+4LyFFo5IjYEaRGdew9/Vq3kz3NW4LVHtEmZz
- FJkfIkRoxuPlsoDIZc+gXBimKhoojnicviZvRMNoCqozO7Wga2l4Oa2nQzdNODeyJi6E
- qDCROJaIbb86hO1HtFOq7xkDSbbm7QGELOJVqj5NIM0ix6iAPyh7AHojRGaKBjigFTAw
- Er2g==
-X-Gm-Message-State: AFqh2kpRDgKzPwEHaTsV12tXS8VUOYjaDY/QpVT44ljgA33Is0ssWMu6
- 0lMioZT6uakT/XPZOguKo9Q5lfQ890jPXekUBhQzHDICql70KQjw0cziM5h4vhbOcWSVGWUB/jd
- gUUBrxZHNfpJgfbo=
-X-Received: by 2002:a05:622a:4005:b0:3ae:63db:7c7b with SMTP id
- cf5-20020a05622a400500b003ae63db7c7bmr53161430qtb.2.1674766479495; 
- Thu, 26 Jan 2023 12:54:39 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtdSQdpoA6Q4+FSeKfLEFGJV0jNkTWatwpNa/mG6n9tGDNvnskNFr88dbW1K0JtdfTu85xIaA==
-X-Received: by 2002:a05:622a:4005:b0:3ae:63db:7c7b with SMTP id
- cf5-20020a05622a400500b003ae63db7c7bmr53161411qtb.2.1674766479211; 
- Thu, 26 Jan 2023 12:54:39 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- 8-20020a05620a078800b0070383f1b6f1sm1589603qka.31.2023.01.26.12.54.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 12:54:38 -0800 (PST)
-Date: Thu, 26 Jan 2023 15:54:35 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Alexander Bulekov <alxndr@bu.edu>
-Cc: qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Mauro Matteo Cascella <mcascell@redhat.com>,
- Jason Wang <jasowang@redhat.com>, David Hildenbrand <david@redhat.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Bandan Das <bsd@redhat.com>,
- "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
- Darren Kenny <darren.kenny@oracle.com>, Bin Meng <bin.meng@windriver.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Eduardo Habkost <eduardo@habkost.net>,
- Jon Maloy <jmaloy@redhat.com>, Siqi Chen <coc.cyqh@gmail.com>
-Subject: Re: [PATCH v5 1/4] memory: prevent dma-reentracy issues
-Message-ID: <Y9Loi8fz+xO2gasd@x1n>
-References: <20230126052558.572634-1-alxndr@bu.edu>
- <20230126052558.572634-2-alxndr@bu.edu>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pL9JP-0000iQ-85; Thu, 26 Jan 2023 15:57:44 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id A22E7746361;
+ Thu, 26 Jan 2023 21:55:05 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 673F07457E7; Thu, 26 Jan 2023 21:55:05 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 64F3F745706;
+ Thu, 26 Jan 2023 21:55:05 +0100 (CET)
+Date: Thu, 26 Jan 2023 21:55:05 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Howard Spoelstra <hsp.cat7@gmail.com>
+cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
+In-Reply-To: <CABLmASFqzt8f_Qk8O_KvYOqSqeffsVVBaaknbUxL86Ch3VR3kA@mail.gmail.com>
+Message-ID: <f13d890c-35a7-53f9-0cb7-7903582043d1@eik.bme.hu>
+References: <cover.1672868854.git.balaton@eik.bme.hu>
+ <4162db13bd1da9c6ddd77f185cef738e44790467.1672868854.git.balaton@eik.bme.hu>
+ <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
+ <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
+ <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
+ <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
+ <ab9e33e5-70fc-0a76-c548-16ec787ea1af@ilande.co.uk>
+ <ed8ee369-c9a8-7853-3b65-7361fefc3c63@eik.bme.hu>
+ <ca5240e6-e00d-6213-22d6-f7b43d8bed18@ilande.co.uk>
+ <CABLmASGc6fybw7mL5JHUCukwoB6KjGaaWHct5mi20A2vXZhtaA@mail.gmail.com>
+ <8e6f46fb-5e1b-8016-c595-85e8e83ace47@eik.bme.hu>
+ <CABLmASEJ_MKr5gP=C7_AXg2UbYmJyDMHtm77AXoyQnsa+f2HHA@mail.gmail.com>
+ <123b1c96-febb-ebc8-2d05-3c7379fbec27@eik.bme.hu>
+ <CABLmASHotQcPDRQxhMdL729wGHNkT0gfYt2GH8U5e190eOTCQQ@mail.gmail.com>
+ <a9dbc41c-29e5-7672-d9ec-4ec43ae3a6c8@eik.bme.hu>
+ <CABLmASFqzt8f_Qk8O_KvYOqSqeffsVVBaaknbUxL86Ch3VR3kA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20230126052558.572634-2-alxndr@bu.edu>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -109,34 +73,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 26, 2023 at 12:25:55AM -0500, Alexander Bulekov wrote:
-> Add a flag to the DeviceState, when a device is engaged in PIO/MMIO/DMA.
-> This flag is set/checked prior to calling a device's MemoryRegion
-> handlers, and set when device code initiates DMA.  The purpose of this
-> flag is to prevent two types of DMA-based reentrancy issues:
-> 
-> 1.) mmio -> dma -> mmio case
-> 2.) bh -> dma write -> mmio case
-> 
-> These issues have led to problems such as stack-exhaustion and
-> use-after-frees.
-> 
-> Summary of the problem from Peter Maydell:
-> https://lore.kernel.org/qemu-devel/CAFEAcA_23vc7hE3iaM-JVA6W38LK4hJoWae5KcknhPRD5fPBZA@mail.gmail.com
-> 
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/62
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/540
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/541
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/556
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/557
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/827
-> 
-> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Signed-off-by: Alexander Bulekov <alxndr@bu.edu>
+On Thu, 26 Jan 2023, Howard Spoelstra wrote:
+> Mac OS X
+> #10.0 bus1 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
+> mouse. No recognition as HID device.
+> #10.0 bus2 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point kbd
+> pcap shows normal interrupt operation and recognition as HID device
+> #10.0 bus1 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point kbd
+> pcap shows normal interrupt operation and recognition as HID device
+> #10.0 bus2 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
+> mouse. pcap shows no recognition as HID device.
+> #10.0 in both cases apple system profiler shows 2 usb buses but no devices.
 
-Acked-by: Peter Xu <peterx@redhat.com>
+These are all the logs I get booting a 10.0 install iso with  mac99,via=pmu
 
--- 
-Peter Xu
+>> =============================================================
+>> OpenBIOS 1.1 [May 25 2022 20:04]
+>> Configuration device id QEMU version 1 machine id 1
+>> CPUs: 1
+>> Memory: 256M
+>> UUID: 00000000-0000-0000-0000-000000000000
+>> CPU type PowerPC,G4
+milliseconds isn't unique.
+>> switching to new context:
+>> call-method slw_update_keymap failed with error ffffffdf
+>> call-method slw_update_keymap failed with error ffffffdf
+usb_ohci_reset pci-ohci
+usb_ohci_stop pci-ohci: USB Suspended
+usb_ohci_set_ctl pci-ohci: new state 0x0
+usb_ohci_stop pci-ohci: USB Suspended
+usb_ohci_port_detach port #0
+usb_ohci_port_attach port #0
+usb_ohci_port_detach port #1
+usb_ohci_port_attach port #1
+dbdma_unassigned_flush: use of unassigned channel 0
+dbdma_unassigned_flush: use of unassigned channel 0
+usb_ohci_mem_write_bad_offset 0x30
+usb_ohci_set_ctl pci-ohci: new state 0x80
+usb_ohci_start pci-ohci: USB Operational
+usb_ohci_hub_power_up powered up all ports
+usb_ohci_hub_power_up powered up all ports
+usb_ohci_set_ctl pci-ohci: new state 0xc0
+usb_ohci_stop pci-ohci: USB Suspended
+usb_ohci_hub_power_up powered up all ports
+usb_ohci_hub_power_up powered up all ports
+usb_ohci_port_reset port #0
 
+It's probably OK until it restarts but the seems to be stopped. Anybody 
+wants to have a look? Maybe start with finding what the states mean.
+
+Regards,
+BALATON Zoltan
 
