@@ -2,72 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA5C767E0D5
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 10:55:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F301067E0FA
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 11:03:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLLQY-0000Q2-9H; Fri, 27 Jan 2023 04:53:46 -0500
+	id 1pLLYW-0001wT-8b; Fri, 27 Jan 2023 05:02:00 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pLLQV-0000Pf-PK
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 04:53:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pLLYT-0001vz-6b
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 05:01:57 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pLLQU-0005cZ-19
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 04:53:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674813220;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=+OX/8wawHa+f8gWpnETFYISSxQzYa/TCM4F9c6dvEfY=;
- b=H/Cz9+KLqOVP9AB5fJVmKfha8YEubKqnuAEGcFftKm/8TCGUgU2H+E3DpMFoCBZPnjDcxE
- C9nJVoqjIPe9LvbRDQpWV4B3fFkVtXbBeCphyUlPlzB9OBIsk/7yNhNnESP59a2bxrfo/i
- 6ZbbYsZKFS032VsGFWgLUMJ7kehIch8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-599-iI4TnvLuOky3IE70HOowfw-1; Fri, 27 Jan 2023 04:53:37 -0500
-X-MC-Unique: iI4TnvLuOky3IE70HOowfw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 92214858F0E;
- Fri, 27 Jan 2023 09:53:36 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.59])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 89258492B01;
- Fri, 27 Jan 2023 09:53:35 +0000 (UTC)
-Date: Fri, 27 Jan 2023 09:53:32 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eldon Stegall <eldon-qemu@eldondev.com>
-Cc: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>
-Subject: Re: no more pullreq processing til February
-Message-ID: <Y9OfHNRi+Wb3EEoO@redhat.com>
-References: <CAFEAcA8v8hrqkFemdT5x_O5_mdps4wpdRCoVAfts+oVJj_qTVw@mail.gmail.com>
- <Y9KFp06pp/qohgV1@invalid> <87h6wdpeig.fsf@linaro.org>
- <Y9KQX2pa6I7n/uvT@redhat.com> <Y9LJbvFf0N3BJBKq@invalid>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pLLYQ-0007c1-No
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 05:01:56 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P3Ch11Jfxz67kTG;
+ Fri, 27 Jan 2023 17:58:25 +0800 (CST)
+Received: from localhost (10.202.227.76) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Fri, 27 Jan
+ 2023 10:01:49 +0000
+Date: Fri, 27 Jan 2023 10:01:49 +0000
+To: Fan Ni <fan.ni@samsung.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Michael Tsirkin
+ <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linuxarm@huawei.com" <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, 
+ Dave Jiang <dave.jiang@intel.com>, "alison.schofield@intel.com"
+ <alison.schofield@intel.com>
+Subject: Re: [PATCH 2/2] hw/pxb-cxl: Support passthrough HDM Decoders unless
+ overridden
+Message-ID: <20230127100149.0000563e@Huawei.com>
+In-Reply-To: <20230126215727.GA203951@bgt-140510-bm03>
+References: <20230125152703.9928-1-Jonathan.Cameron@huawei.com>
+ <20230125152703.9928-3-Jonathan.Cameron@huawei.com>
+ <CGME20230126215736uscas1p2166334bf8185239cf6ac70053dc386c5@uscas1p2.samsung.com>
+ <20230126215727.GA203951@bgt-140510-bm03>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <Y9LJbvFf0N3BJBKq@invalid>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.227.76]
+X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,58 +70,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 26, 2023 at 06:41:50PM +0000, Eldon Stegall wrote:
+On Thu, 26 Jan 2023 21:57:35 +0000
+Fan Ni <fan.ni@samsung.com> wrote:
 
-> As far as baremetal goes, I find authenticated IPXE scripts work well
-> for a number of these scenarios, and permit very dynamic allocation of
-> resources. I have been a fan of the ignition/coreos/fcos strategy for
-> baremetal deployment due to the capability to run the full system in
-> memory, as writing packaging to disk can waste time and flash in my
-> opinion. I strongly agree with the benefits of managing these components
-> in the repo. Dockerfile, ignition config, or cloud-config would probably
-> work.  Dockerfile makes sense to me if existing work in that direction
-> has interest and docker is sufficiently flexible for the tests. That
-> said, it may be easier to generate an appropriate cloud-config if no
-> work is yet done on running tests inside docker.
+> On Wed, Jan 25, 2023 at 03:27:03PM +0000, Jonathan Cameron wrote:
+> 
+> > The CXL r3.0 specification allows for there to be no HDM decoders on CXL
+> > Host Bridges if they have only a single root port. Instead, all accesses
+> > directed to the host bridge (as specified in CXL Fixed Memory Windows)
+> > are assumed to be routed to the single root port.
+> > 
+> > Linux currently assumes this implementation choice. So to simplify testing,
+> > make QEMU emulation also default to no HDM decoders under these particular
+> > circumstances, but provide a hdm_for_passthrough boolean option to have
+> > HDM decoders as previously.
+> > 
+> > Technically this is breaking backwards compatibility, but given the only
+> > known software stack used with the QEMU emulation is the Linux kernel
+> > and this configuration did not work before this change, there are
+> > unlikely to be any complaints that it now works. The option is retained
+> > to allow testing of software that does allow for these HDM decoders to exist,
+> > once someone writes it.
+> > 
+> > Reported-by: Fan Ni <fan.ni@samsung.com>
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-One of the critical factors for QEMU CI is reproducability by
-contributors. This is a critical reason why we want do CI
-inside containers to the greatest extent possible. It lets
-the maintainer eithuer pull down the same container build, or
-rebuild the container image locally. This has given us a much
-better ability to reproduce CI failures than we have before
-we used containers so widely.
+> >      pxb_dev_realize_common(dev, CXL, errp);
+> > -    pxb_dev_reset(DEVICE(dev));
+> > +    pxb_cxl_dev_reset(DEVICE(dev));
+> >  }
+> >  
+> > +static Property pxb_cxl_dev_properties[] = {
+> > +    /* Note: 0 is not a legal PXB bus number. */
+> > +    DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
+> > +    DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNASSIGNED),
+> > +    DEFINE_PROP_BOOL("bypass_iommu", PXBDev, bypass_iommu, false),
+> > +    DEFINE_PROP_BOOL("hdm_for_passthrough", PXBDev, hdm_for_passthrough, false),  
+> when setting hdm_for_passthrough to true at the qemu command line, we
+> will see the segfault issue as before. I think this is expected as it
+> is the logic in cxl_cfmws_find_device. Wondering if there will be
+> following fixes to handle the case when hdm_for_passthrough is true.
 
-> I have looked through the .gitlab-cl.d directory in the repo, and it
-> seems that there is existing work done with containers in the
-> container-template.yml. Do we also incur minutes for our cirrus builds
-> equivalent to the duration of the build on cirrus? Maybe relocation
-> those builds would be the most effective? It seems that a number of
-> builds unrelated to cirrus use containers already, or I am missing
-> something?
+Absolutely, I'd expect a kernel fix for that case, but it's probably not
+high priority for anyone given we don't yet have any hardware that does that
+(as far as I know anyway!)
 
-We have a two phase CI pipeline. In the first phase we build all
-the container images that we need. This uses cache, reusing layers
-from containers in the previous build to reduce time spent. In
-the second phase we run the actual QEMU build jobs inside the
-containers we built in the first phase.
+I wanted to keep the control here to make that easy to test when we do
+have the fix in place.
 
-The cirrus jobs are special. We want gitlab to act as the single
-frontend for all CI jobs. So we use a tool called cirrus-run in
-the gitlab job to spawn a job on Cirrus CI and pull back the
-results. This is only used for FreeBSD/macOS/Windows, which is
-a pretty small part of our set of jobs.
-
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
-
+Jonathan
 
