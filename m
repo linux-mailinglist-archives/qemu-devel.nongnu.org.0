@@ -2,75 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6178267E4A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 13:06:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB5067E4AE
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 13:10:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLNUE-0007XR-Pn; Fri, 27 Jan 2023 07:05:42 -0500
+	id 1pLNXs-0001lm-1H; Fri, 27 Jan 2023 07:09:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pLNTp-0007Fz-Od
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:05:20 -0500
+ (Exim 4.90_1) (envelope-from <smitterl@redhat.com>)
+ id 1pLNXk-0001l6-A7
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:09:25 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pLNTo-0004cL-5x
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:05:17 -0500
+ (Exim 4.90_1) (envelope-from <smitterl@redhat.com>)
+ id 1pLNXi-0005AX-FB
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:09:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674821115;
+ s=mimecast20190719; t=1674821357;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+NHkTA5r3OIEcJQhnqhj4XyOXQN0y1Tqe9QrLqNZ2c8=;
- b=dji4IBKpLMjNS5ZX2RBG6oTj3y5gtoJkGMaLZltA2S7pZS4YccqvssaL8yFCW5Y8cPQna6
- F/s4NYe3i7WFgK4iTlYBJvd/EHrJHTZZCsF6O6+qVLntcUIxAwN4to1e3KGpMm7SY6mFJj
- nTk6qSUb6uRANzjd/j8pM1sEVjIWj0Q=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-70-aicR2qCsO0ypVV-D51APlQ-1; Fri, 27 Jan 2023 07:05:11 -0500
-X-MC-Unique: aicR2qCsO0ypVV-D51APlQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 86A391C0A596;
- Fri, 27 Jan 2023 12:05:10 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 429872166B29;
- Fri, 27 Jan 2023 12:05:10 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 021B521E6A1F; Fri, 27 Jan 2023 13:05:09 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org,  richard.henderson@linaro.org,
- pbonzini@redhat.com,  kwolf@redhat.com,  hreitz@redhat.com,
- imp@bsdimp.com,  kevans@freebsd.org,  berrange@redhat.com,
- groug@kaod.org,  qemu_oss@crudebyte.com,  mst@redhat.com,
- peter.maydell@linaro.org,  alistair@alistair23.me,  jasowang@redhat.com,
- jonathan.cameron@huawei.com,  kbastian@mail.uni-paderborn.de,
- quintela@redhat.com,  dgilbert@redhat.com,  michael.roth@amd.com,
- kkostiuk@redhat.com,  tsimpson@quicinc.com,  palmer@dabbelt.com,
- bin.meng@windriver.com,  qemu-block@nongnu.org,  qemu-arm@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: Re: [PATCH v4 16/19] Fix non-first inclusions of qemu/osdep.h
-References: <20230119065959.3104012-1-armbru@redhat.com>
- <20230119065959.3104012-17-armbru@redhat.com>
- <a25d449f-ceb5-54d8-ad07-9e6517d6e016@linaro.org>
- <873586u4yj.fsf@pond.sub.org>
- <fc965afb-5e58-bad3-429d-d77e866d9f18@linaro.org>
-Date: Fri, 27 Jan 2023 13:05:08 +0100
-In-Reply-To: <fc965afb-5e58-bad3-429d-d77e866d9f18@linaro.org> ("Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu, 19 Jan 2023 12:52:02
- +0100")
-Message-ID: <87v8ks2nez.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ bh=oN4tyfQtB+VIjrVxVFLEiOZrPcbl5758PCnNZ1GxC64=;
+ b=Lj2dp4WAmF4u4Lhd5+xwqgcsOtblyODdv4/XhFPZTD2lnQeE4ZUu2yaF17DSPIXmvLRyUF
+ PVvQkYPKy2EMq1RoMl4srLXkUZRvm5lioiX/VIu8PUtk6ouc7gvjZyhpfA03a9oRxsN0E0
+ JF0aUIj0FSZRZutVTPjIDZRhzcBfnk8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-568-Eb3QRXr2NIqw3GQ538sLFA-1; Fri, 27 Jan 2023 07:09:15 -0500
+X-MC-Unique: Eb3QRXr2NIqw3GQ538sLFA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h9-20020a1ccc09000000b003db1c488826so4557450wmb.3
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 04:09:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=oN4tyfQtB+VIjrVxVFLEiOZrPcbl5758PCnNZ1GxC64=;
+ b=NmBNorSpLvrIRFgOzHHX/4dc3LxB0H7TBSC6pTotc3DYIXXqCSTd+BEleq3c2atTQo
+ ySO/9Mq8hb2kcZA2fL6/c0MpsEtRNM10rHA9CNmEV8jGQMANTrY99/YXD6ytIExmK7if
+ sUmFTeCIQe1GkluCP1yZuNxXuF+MvrFA0PHA89e6loBvcqB2piHqhze+7OoWisWUpmiS
+ Kp1AecaC4kmt/X0FQANuTLlFqk1OwEFJlboqWyCSw3XEeUi3s3yBwEXK4V4hFX72CXAY
+ Em4FVUVaVhC80ydwXhoeimKr9PZDMA2auRL+nGdEOhOJD79nsl9Se670vx7yNDav+c5L
+ FIeA==
+X-Gm-Message-State: AFqh2kpnr6e97UK6ba74lza5/CvhvMbpmMS9Hhcs4kDqTl2vKknVuYSU
+ qZimLwALcJg+mHFADxXvjJoVudVZ9muocGZt6ZRLMmGWkzmlk16HZk87LNBeNecFuwLcciFlAXg
+ kMkiNoouoAgSRkY7u6IHOcZG71o8sdB4=
+X-Received: by 2002:a7b:ce8f:0:b0:3d9:e033:e2ee with SMTP id
+ q15-20020a7bce8f000000b003d9e033e2eemr2200899wmj.117.1674821354764; 
+ Fri, 27 Jan 2023 04:09:14 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvTj9z88Zzv3k4g/NfuH0NJUUgwEuzscGt8rgm5qXRuwsz18kZ2IoboRecZ+PYR1a/RDf0WJGYQOBMCxRnjGSI=
+X-Received: by 2002:a7b:ce8f:0:b0:3d9:e033:e2ee with SMTP id
+ q15-20020a7bce8f000000b003d9e033e2eemr2200892wmj.117.1674821354398; Fri, 27
+ Jan 2023 04:09:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+References: <20230127084604.53175-1-smitterl@redhat.com>
+ <46642f8f-d514-798b-1e4e-bc337a206c38@redhat.com>
+In-Reply-To: <46642f8f-d514-798b-1e4e-bc337a206c38@redhat.com>
+From: Sebastian Mitterle <smitterl@redhat.com>
+Date: Fri, 27 Jan 2023 13:08:38 +0100
+Message-ID: <CAKgrZ6+=kPizSUh=0Bq3PRgbjLGGkeSGbUbgLhsREbqKtMa6uw@mail.gmail.com>
+Subject: Re: [PATCH v2] docs/s390x/pcidevices: document pci devices on s390x
+To: Thomas Huth <thuth@redhat.com>
+Cc: qemu-devel@nongnu.org, cohuck@redhat.com, clegoate@redhat.com, 
+ qemu-trivial@nongnu.org, qemu-s390x@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=smitterl@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -94,59 +93,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
-
-> On 19/1/23 12:41, Markus Armbruster wrote:
->> Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> writes:
->>=20
->>> On 19/1/23 07:59, Markus Armbruster wrote:
->>>> This commit was created with scripts/clean-includes.
->>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> [...]
->>=20
->>> Up to here:
->>>
->>> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->>>
->>>> diff --git a/util/async-teardown.c b/util/async-teardown.c
->>>> index 62bfce1b3c..62cdeb0f20 100644
->>>> --- a/util/async-teardown.c
->>>> +++ b/util/async-teardown.c
->>>> @@ -10,16 +10,12 @@
->>>>     * option) any later version.  See the COPYING file in the top-leve=
-l directory.
->>>>     *
->>>>     */
->>>> -#include <stdlib.h>
->>>> -#include <stdio.h>
->>>> -#include <sys/types.h>
->>>> -#include <dirent.h>
->>>> -#include <sys/prctl.h>
->>>> -#include <signal.h>
->>>> -#include <sched.h>
->>>> -#include <unistd.h>
->>>>     #include "qemu/osdep.h"
->>>> +#include <dirent.h>
->>>> +#include <sys/prctl.h>
->>>> +#include <sched.h>
->>>> +
->>>>    #include "qemu/async-teardown.h"
->>>
->>> This file has more changes.
->> I'm not sure I understand.
->> The patch does two related things:
->> 1. It puts qemu/osdep.h first.  The diff makes it look like we leave it
->>     in place and move other stuff across, but that's the same.
->> 2. It deletes inclusions of headers qemu/osdep.h already includes:
->>      <stdlib.h>
->>      <stdio.h>
->>      <sys/types.h>
->>      <signal.h>
->>      <unistd.h>
+On Fri, Jan 27, 2023 at 10:24 AM Thomas Huth <thuth@redhat.com> wrote:
 >
-> Ah, the other files get this done in the "Drop duplicate #include" patch.
-
-I assume this extends your R-by to the complete patch.  Correct me if
-I'm wrong, please.
+> On 27/01/2023 09.46, Sebastian Mitterle wrote:
+> > Add some documentation about the zpci device and how
+> > to use it with pci devices on s390x.
+>
+> Thanks for tackling this! ... some comments below...
+>
+> > Used source: Cornelia Huck's blog post
+> > https://people.redhat.com/~cohuck/2018/02/19/notes-on-pci-on-s390x.html
+> >
+> > Signed-off-by: Sebastian Mitterle <smitterl@redhat.com>
+> > ---
+> > v2: move section below 'Device support'
+> > ---
+> >   docs/system/s390x/pcidevices.rst | 34 ++++++++++++++++++++++++++++++++
+> >   docs/system/target-s390x.rst     |  1 +
+> >   2 files changed, 35 insertions(+)
+> >   create mode 100644 docs/system/s390x/pcidevices.rst
+> >
+> > diff --git a/docs/system/s390x/pcidevices.rst b/docs/system/s390x/pcidevices.rst
+> > new file mode 100644
+> > index 0000000000..fec905d6e6
+> > --- /dev/null
+> > +++ b/docs/system/s390x/pcidevices.rst
+> > @@ -0,0 +1,34 @@
+> > +PCI devices on s390x
+> > +====================
+> > +
+> > +PCI devices on s390x work differently than on other architectures.
+> > +
+> > +To start with, using a PCI device requires the additional ``zpci`` device. For example,
+>
+> Please wrap lines at 80 columns (if possible)
+>
+> > +in order to pass a PCI device ``0000:00:00.0`` through you'd specify::
+>
+> I'd suggest to be more explicit here:
+>
+> in order to pass a host PCI device ``0000:00:00.0`` through to the guest,
+> you would specify::
+>
+> > + qemu-system-s390x ... \
+> > +                   -device zpci,uid=1,fid=0,target=hostdev0,id=zpci1 \
+> > +                   -device vfio-pci,host=0000:00:00.0,id=hostdev0
+> > +
+> > +Here, the zpci device is joined with the PCI device via the ``target`` property.
+> > +
+> > +Note that we don't set bus, slot or function here for the guest as is common in other
+>
+> "as *it* is common" ?
+>
+I checked linguee.com and it seems to me it's correct to omit the 'it' here.
+> > +PCI implementations. Topology information is not available on s390x. Instead, ``uid``
+> > +and ``fid`` determine how the device is presented to the guest operating system.
+> > +
+> > +In case of Linux, ``uid`` will be used in the ``domain`` part of the PCI identifier, and
+> > +``fid`` identifies the physical slot, i.e.::
+> > +
+> > + qemu-system-s390x ... \
+> > +                   -device zpci,uid=7,fid=8,target=hostdev0,id=zpci1 \
+> > +                   ...
+> > +
+> > +will be presented in the guest as::
+> > +
+> > + # lspci -v
+> > + 0007:00:00.0 ...
+> > + Physical Slot: 00000008
+> > + ...
+> > +
+> > +Finally, note that you might have to enable the ``zpci`` feature in the cpu model in oder to use
+>
+> s/oder/order/
+>
+> (and it's a very long line again, please wrap at 80 columns)
+>
+> > +it.
+>
+> Should we also add some information about virtio devices? (can also be added
+> later, not necessarily in your patch already)
+>
+I don't have experience with virtio pci devices on s390x. Therefore I
+prefer not to add this information this time.
+>   Thomas
+>
 
 
