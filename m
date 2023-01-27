@@ -2,78 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 054CA67E944
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 16:17:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E6F467E951
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 16:19:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLQSQ-0006IJ-Pq; Fri, 27 Jan 2023 10:16:02 -0500
+	id 1pLQSW-0006JP-86; Fri, 27 Jan 2023 10:16:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pLQSO-0006HZ-Mv
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:00 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ id 1pLQSQ-0006IK-5R
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:02 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pLQSM-0007ef-MV
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:00 -0500
-Received: by mail-wm1-x335.google.com with SMTP id m15so3677327wms.4
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 07:15:57 -0800 (PST)
+ id 1pLQSM-0007fB-OL
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:01 -0500
+Received: by mail-wm1-x333.google.com with SMTP id l8so3681172wms.3
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 07:15:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=v/loKsrqNXhKulPQFnHuZ1LK4Lzmu4sWulORUgMyhTs=;
- b=iyhes9sJ/dpEnxEF/MtSp/w9m7mBKCwAwt1eWVs5mFQU2KgrP5/prUZBjoADxLX3nF
- +G7PAxCvGFO+n63J25agYzAh7MqSL+4KqmogsTcsBEoLBef2xwPqW/c6QkzoHqPBxiGA
- +M89wa5OI/q8meeDRWEDDPuI5mAybm3FCg3QLi8iTmj+7ZOv+V5+YGf1ZeVbFHcMSXIh
- +cJx4nO+idV1EmAn5stv6OyrD1MCAyjH4zdD+26xTy+WWqK4qZhxo5PYRuc6Zx8IwlFy
- PBQgxJkuSISJTDdbkGftcZcJvZcQtV8WFvwsdOz2HnOj8WNUb37ywkXFqi8Ze9959f+m
- RBEw==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=m0U+Il4a8T/dt0WAsDkDpCQXyx0Semr+BKbPY7DEyoM=;
+ b=VymtPy1vqq9lWXq1GSLgTqwgTd8ke878s7+J7RHyeCuINeCQxQBJcgs3WXjzx76FIq
+ 1y69/U9CMrqKCr1v2jKDSZYMZV/c3rYNYrsN+JSMm6q8O8uH7f2NzfW1DYtUjVk0zBj/
+ fwtIJi+MhV+NWIjw+8RlS3HrGKctvKheyFOaHHwwHQYQCj908OU7chkFHAbbuUkI+hhS
+ +wW+Lrdqi/NgRMWGJD7FcaL/C+hgE+K3PEFKpoDeOAk9fx7b2e7owxlMjcdBk76f8EEY
+ b7f9t0+AFrH/OBvnN2Mcf4SXi2YTf1PFYTlmVdE4/u9GcV6u8dhcKtKl6CEAwDBfVGuu
+ VVWw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=v/loKsrqNXhKulPQFnHuZ1LK4Lzmu4sWulORUgMyhTs=;
- b=EliTDFnBqRpJaNIXB8T6bzOKAZY4Ok8rFJ/65zJpSa8jzGuGfjo/nDl+rDUpCzk3Ae
- I7WIe0oWe36he7bKPX91y9ZVrmyHrEGdJY6A1t6R/CyGLld5NlfhipZv4KAbz2EtEEQj
- jLiMInrVnQA7iAZaaqz6hJj76qqxTaH+JMWB5quj29A2IsEjQZrf4okDjGOY8KLwkRik
- DkxiKwXkXZkgIkTY4kqGgNZWe463T/xmJGE7DJMPQZ+LUTi8ep04lNCUOLbxYA9So9AX
- oQDCDwzUk+r157LmMYVDvBaOTj1wtx9MHypZDPvSGz5asObrCHyzcxRKLbtkxdfUXJWn
- DwwA==
-X-Gm-Message-State: AFqh2kpm5ttmuwZXhKXzSndH5oW7qR4bltAlgA4eYW8jX2jqo6aT7l8v
- hrAXx1CSbz62CUCUm/Ci1YA5xw==
-X-Google-Smtp-Source: AMrXdXsR6gdrAsjZ8Po2e4mtIRfSx/7/gaAPBRHMQcHjIgNDG1tWAJ+MgAqe7I3SRcOa8tRzcwvwsA==
-X-Received: by 2002:a05:600c:22d2:b0:3d1:f0f1:ceb4 with SMTP id
- 18-20020a05600c22d200b003d1f0f1ceb4mr39395678wmg.19.1674832556337; 
- Fri, 27 Jan 2023 07:15:56 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=m0U+Il4a8T/dt0WAsDkDpCQXyx0Semr+BKbPY7DEyoM=;
+ b=Sir0gGuUC11fScm2WO35I2g4sz8nFko2Jw8MCO5k5m+duwyGcJ78xZgDA1eJ67PcRN
+ u34Ulb0NIyQaykqTBWElTLv4SYQoKoThTjF9dCncZF88uvVtwFpZ3c9N90OqUCZ/y+o5
+ nKMw0I6GEG31rgLsGCDitgEr+tOZhLEHJO/LbQUXq4zWglzOxJ9J/Tgi3qELnppdwKL5
+ N1CPfdVUxr/G2FC2ESEwmNDXwtHTtD8L7RIMsNtN40oH0FqCsw5T4Sl4c/TgGshEm2AC
+ yINoSNObXshzgzMkbwAYalHoDcLj1FDB52+T5skkFiEwMZI9EWNfm6QriXI4Y3op/Zuk
+ ISwg==
+X-Gm-Message-State: AFqh2kpQty/tMgJirQhRDtD4kP17X7gI2kXzZUqifsvQ16RY+p9yfWKg
+ D1ZuLVswTjy9nzJ5czD+TBe1zQ==
+X-Google-Smtp-Source: AMrXdXuueF8x1/095lgRiyv5ga6qoHBW+FOlCa5j8xkrhQp8jza46g8uUqvznRohdxh29dMX7SFAPA==
+X-Received: by 2002:a05:600c:31a3:b0:3da:6a6:739d with SMTP id
+ s35-20020a05600c31a300b003da06a6739dmr40093483wmp.19.1674832557082; 
+ Fri, 27 Jan 2023 07:15:57 -0800 (PST)
 Received: from localhost.localdomain (054592b0.skybroadband.com.
  [5.69.146.176]) by smtp.gmail.com with ESMTPSA id
- l7-20020a05600c47c700b003dc3bbdf518sm1656628wmo.21.2023.01.27.07.15.55
+ l7-20020a05600c47c700b003dc3bbdf518sm1656628wmo.21.2023.01.27.07.15.56
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jan 2023 07:15:55 -0800 (PST)
+ Fri, 27 Jan 2023 07:15:56 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: peter.maydell@linaro.org
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, pbonzini@redhat.com,
  eblake@redhat.com, armbru@redhat.com, berrange@redhat.com,
  eduardo@habkost.net, alex.bennee@linaro.org, richard.henderson@linaro.org,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [RFC PATCH 00/16] arm: Run Arm CCA VMs with KVM
-Date: Fri, 27 Jan 2023 15:07:13 +0000
-Message-Id: <20230127150727.612594-1-jean-philippe@linaro.org>
+Subject: [RFC PATCH 01/16] NOMERGE: Add KVM Arm RME definitions to Linux
+ headers
+Date: Fri, 27 Jan 2023 15:07:14 +0000
+Message-Id: <20230127150727.612594-2-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.39.0
+In-Reply-To: <20230127150727.612594-1-jean-philippe@linaro.org>
+References: <20230127150727.612594-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x333.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -89,111 +93,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The Arm Realm Management Extension (RME), part of the Arm Confidential
-Computing Architecture (CCA), enables running confidential virtual
-machines in a new "Realm" security state. While the host still manages
-the resources of a guest running in a Realm, it cannot access them.
+Copy the KVM definitions for Arm RME from the development branch.
+Don't merge, they will be added from the periodic Linux header sync.
 
-This series adds some support to QEMU for launching a guest in a Realm
-with KVM. The KVM changes for CCA have been posted at [1].
+Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+---
+ linux-headers/asm-arm64/kvm.h | 63 +++++++++++++++++++++++++++++++++++
+ linux-headers/linux/kvm.h     | 21 +++++++++---
+ 2 files changed, 80 insertions(+), 4 deletions(-)
 
-Patches 2-4 introduce a new RmeGuest object that inherits from
-ConfidentialGuestSupport and enable it for the virt machine. Like other
-confidential guest architectures, launching a Realm VM requires two
-command-line parameters:
-
-	-object rme-guest,id=<id>,<parameters>
-	-M confidential-guest-support=<id>
-
-Patches 5-6 modify the KVM vCPU support. With CCA, KVM does not sit atop
-the VM anymore but talks to a new component, the Realm Management
-Monitor (RMM) which deals with the Realm stage-2 page tables and CPU
-state. So KVM cannot access most vCPU registers anymore except for
-passing parameters to RMM when handling VM exits. Likewise, the host
-must not access any memory assigned to the guest (or else it gets a
-granule protection fault). The private memfd work [2] by Chao Peng will
-help with this.
-
-Patches 8-9 deal with loading images into the Realm. Those are measured
-by the RMM and part of the initial measurement, which allows a Realm
-owner to attest that the Realm is running what it expects. Patches 10-14
-pass parameters described in the RMM specification.
-
-
-This initial posting only provides direct kernel boot with DTB, not
-firmware boot. There is ongoing work to extend edk2 to run in a Realm,
-which will require changes to QEMU. A few problems will come up:
-
-* The FwCfg device provides kernel images, initrd, ACPI tables etc. This
-  isn't an option for CCA because the guest does not trust what the host
-  provides at runtime. I suggest to load all those things in Realm
-  memory before boot, and pass their address in the device tree which is
-  always present at the start of RAM. This will require new properties
-  in the device-tree's chosen section.
-
-* The guest firmware probably shouldn't be on an emulated flash device.
-  For one thing, it doesn't need flash because it will store all
-  variable in RAM. The flash device also relies on read-only mappings
-  which are not supported by KVM RME at the moment, and trapping reads
-  would break integrity. I suggest to either replace the flash device
-  (address 0 of the virt machine) by RAM when RmeGuest is enabled, or
-  load the firmware somewhere else in RAM.
-
-
-Please see [1] for additional resource, including instructions for
-building and running the CCA software stack on a model. An example
-command-line:
-
-qemu-system-aarch64
-	-M virt -cpu host -enable-kvm -M gic-version=3 -smp 2 -m 256M -nographic 
-	-M confidential-guest-support=rme0
-	-object rme-guest,id=rme0,measurement-algo=sha512
-	-kernel Image -initrd rootfs.cpio
-	-append 'console=ttyAMA0 earlycon'
-	-overcommit mem-lock=on
-
-A branch with these patches is available at [3].
-
-[1] https://lore.kernel.org/kvm/20230127112248.136810-1-suzuki.poulose@arm.com/
-[2] https://lore.kernel.org/qemu-devel/20221202061347.1070246-1-chao.p.peng@linux.intel.com/
-[3] https://jpbrucker.net/git/qemu cca/rfc-v1
-
-Jean-Philippe Brucker (16):
-  NOMERGE: Add KVM Arm RME definitions to Linux headers
-  target/arm: Add confidential guest support
-  target/arm/kvm-rme: Initialize realm
-  hw/arm/virt: Add support for Arm RME
-  target/arm/kvm: Split kvm_arch_get/put_registers
-  target/arm/kvm-rme: Initialize vCPU
-  target/arm/kvm: Select RME VM type for the scratch VM
-  target/arm/kvm-rme: Populate the realm with boot images
-  hw/arm/boot: Populate realm memory with boot images
-  target/arm/kvm-rme: Add measurement algorithm property
-  target/arm/kvm-rme: Add Realm Personalization Value parameter
-  target/arm/kvm-rme: Add Realm SVE vector length
-  target/arm/kvm-rme: Add breakpoints and watchpoints parameters
-  target/arm/kvm-rme: Add PMU num counters parameters
-  target/arm/kvm: Disable Realm reboot
-  target/arm/kvm-rme: Disable readonly mappings
-
- docs/system/confidential-guest-support.rst |   1 +
- qapi/qom.json                              |  32 +-
- include/sysemu/kvm.h                       |   2 +
- linux-headers/asm-arm64/kvm.h              |  63 +++
- linux-headers/linux/kvm.h                  |  21 +-
- target/arm/cpu.h                           |   3 +
- target/arm/kvm_arm.h                       |  21 +
- accel/kvm/kvm-all.c                        |   8 +-
- hw/arm/boot.c                              |  10 +-
- hw/arm/virt.c                              |  48 +-
- target/arm/helper.c                        |   8 +
- target/arm/kvm-rme.c                       | 505 +++++++++++++++++++++
- target/arm/kvm.c                           |  20 +-
- target/arm/kvm64.c                         |  91 +++-
- target/arm/meson.build                     |   7 +-
- 15 files changed, 822 insertions(+), 18 deletions(-)
- create mode 100644 target/arm/kvm-rme.c
-
+diff --git a/linux-headers/asm-arm64/kvm.h b/linux-headers/asm-arm64/kvm.h
+index 4bf2d7246e..8e04d6f7ff 100644
+--- a/linux-headers/asm-arm64/kvm.h
++++ b/linux-headers/asm-arm64/kvm.h
+@@ -108,6 +108,7 @@ struct kvm_regs {
+ #define KVM_ARM_VCPU_SVE		4 /* enable SVE for this CPU */
+ #define KVM_ARM_VCPU_PTRAUTH_ADDRESS	5 /* VCPU uses address authentication */
+ #define KVM_ARM_VCPU_PTRAUTH_GENERIC	6 /* VCPU uses generic authentication */
++#define KVM_ARM_VCPU_REC		7 /* VCPU REC state as part of Realm */
+ 
+ struct kvm_vcpu_init {
+ 	__u32 target;
+@@ -391,6 +392,68 @@ enum {
+ #define   KVM_DEV_ARM_VGIC_SAVE_PENDING_TABLES	3
+ #define   KVM_DEV_ARM_ITS_CTRL_RESET		4
+ 
++/* KVM_CAP_ARM_RME on VM fd */
++#define KVM_CAP_ARM_RME_CONFIG_REALM		0
++#define KVM_CAP_ARM_RME_CREATE_RD		1
++#define KVM_CAP_ARM_RME_INIT_IPA_REALM		2
++#define KVM_CAP_ARM_RME_POPULATE_REALM		3
++#define KVM_CAP_ARM_RME_ACTIVATE_REALM		4
++
++#define KVM_CAP_ARM_RME_MEASUREMENT_ALGO_SHA256		0
++#define KVM_CAP_ARM_RME_MEASUREMENT_ALGO_SHA512		1
++
++#define KVM_CAP_ARM_RME_RPV_SIZE 64
++
++/* List of configuration items accepted for KVM_CAP_ARM_RME_CONFIG_REALM */
++#define KVM_CAP_ARM_RME_CFG_RPV			0
++#define KVM_CAP_ARM_RME_CFG_HASH_ALGO		1
++#define KVM_CAP_ARM_RME_CFG_SVE			2
++#define KVM_CAP_ARM_RME_CFG_DBG			3
++#define KVM_CAP_ARM_RME_CFG_PMU			4
++
++struct kvm_cap_arm_rme_config_item {
++	__u32 cfg;
++	union {
++		/* cfg == KVM_CAP_ARM_RME_CFG_RPV */
++		struct {
++			__u8	rpv[KVM_CAP_ARM_RME_RPV_SIZE];
++		};
++
++		/* cfg == KVM_CAP_ARM_RME_CFG_HASH_ALGO */
++		struct {
++			__u32	hash_algo;
++		};
++
++		/* cfg == KVM_CAP_ARM_RME_CFG_SVE */
++		struct {
++			__u32	sve_vq;
++		};
++
++		/* cfg == KVM_CAP_ARM_RME_CFG_DBG */
++		struct {
++			__u32	num_brps;
++			__u32	num_wrps;
++		};
++
++		/* cfg == KVM_CAP_ARM_RME_CFG_PMU */
++		struct {
++			__u32	num_pmu_cntrs;
++		};
++		/* Fix the size of the union */
++		__u8	reserved[256];
++	};
++};
++
++struct kvm_cap_arm_rme_populate_realm_args {
++	__u64 populate_ipa_base;
++	__u64 populate_ipa_size;
++};
++
++struct kvm_cap_arm_rme_init_ipa_args {
++	__u64 init_ipa_base;
++	__u64 init_ipa_size;
++};
++
+ /* Device Control API on vcpu fd */
+ #define KVM_ARM_VCPU_PMU_V3_CTRL	0
+ #define   KVM_ARM_VCPU_PMU_V3_IRQ	0
+diff --git a/linux-headers/linux/kvm.h b/linux-headers/linux/kvm.h
+index ebdafa576d..9d5affc98a 100644
+--- a/linux-headers/linux/kvm.h
++++ b/linux-headers/linux/kvm.h
+@@ -901,14 +901,25 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_S390_SIE_PAGE_OFFSET 1
+ 
+ /*
+- * On arm64, machine type can be used to request the physical
+- * address size for the VM. Bits[7-0] are reserved for the guest
+- * PA size shift (i.e, log2(PA_Size)). For backward compatibility,
+- * value 0 implies the default IPA size, 40bits.
++ * On arm64, machine type can be used to request both the machine type and
++ * the physical address size for the VM.
++ *
++ * Bits[11-8] are reserved for the ARM specific machine type.
++ *
++ * Bits[7-0] are reserved for the guest PA size shift (i.e, log2(PA_Size)).
++ * For backward compatibility, value 0 implies the default IPA size, 40bits.
+  */
++#define KVM_VM_TYPE_ARM_SHIFT		8
++#define KVM_VM_TYPE_ARM_MASK		(0xfULL << KVM_VM_TYPE_ARM_SHIFT)
++#define KVM_VM_TYPE_ARM(_type)		\
++	(((_type) << KVM_VM_TYPE_ARM_SHIFT) & KVM_VM_TYPE_ARM_MASK)
++#define KVM_VM_TYPE_ARM_NORMAL		KVM_VM_TYPE_ARM(0)
++#define KVM_VM_TYPE_ARM_REALM		KVM_VM_TYPE_ARM(1)
++
+ #define KVM_VM_TYPE_ARM_IPA_SIZE_MASK	0xffULL
+ #define KVM_VM_TYPE_ARM_IPA_SIZE(x)		\
+ 	((x) & KVM_VM_TYPE_ARM_IPA_SIZE_MASK)
++
+ /*
+  * ioctls for /dev/kvm fds:
+  */
+@@ -1176,6 +1187,8 @@ struct kvm_ppc_resize_hpt {
+ #define KVM_CAP_S390_ZPCI_OP 221
+ #define KVM_CAP_S390_CPU_TOPOLOGY 222
+ 
++#define KVM_CAP_ARM_RME 300 // FIXME: Large number to prevent conflicts
++
+ #ifdef KVM_CAP_IRQ_ROUTING
+ 
+ struct kvm_irq_routing_irqchip {
 -- 
 2.39.0
 
