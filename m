@@ -2,63 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D133067DC4B
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 03:31:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AED7767DD06
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 06:10:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLEUy-0000fT-Ja; Thu, 26 Jan 2023 21:29:52 -0500
+	id 1pLGyg-00040L-2I; Fri, 27 Jan 2023 00:08:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pLEUv-0000ej-Uy; Thu, 26 Jan 2023 21:29:49 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <marmarek@invisiblethingslab.com>)
+ id 1pLGyc-00040C-TL
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 00:08:38 -0500
+Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pLEUt-00011c-64; Thu, 26 Jan 2023 21:29:49 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 7F40A74634B;
- Fri, 27 Jan 2023 03:27:18 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2D94A7457E7; Fri, 27 Jan 2023 03:27:18 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 2A7ED745706;
- Fri, 27 Jan 2023 03:27:18 +0100 (CET)
-Date: Fri, 27 Jan 2023 03:27:18 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
- qemu-ppc@nongnu.org
-Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
-In-Reply-To: <98430ad5-dedf-9ece-211a-1978d86dd0a5@eik.bme.hu>
-Message-ID: <15621125-9fd5-e856-861d-87749fae2f10@eik.bme.hu>
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
- <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
- <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
- <ab9e33e5-70fc-0a76-c548-16ec787ea1af@ilande.co.uk>
- <ed8ee369-c9a8-7853-3b65-7361fefc3c63@eik.bme.hu>
- <ca5240e6-e00d-6213-22d6-f7b43d8bed18@ilande.co.uk>
- <CABLmASGc6fybw7mL5JHUCukwoB6KjGaaWHct5mi20A2vXZhtaA@mail.gmail.com>
- <8e6f46fb-5e1b-8016-c595-85e8e83ace47@eik.bme.hu>
- <CABLmASEJ_MKr5gP=C7_AXg2UbYmJyDMHtm77AXoyQnsa+f2HHA@mail.gmail.com>
- <123b1c96-febb-ebc8-2d05-3c7379fbec27@eik.bme.hu>
- <CABLmASHotQcPDRQxhMdL729wGHNkT0gfYt2GH8U5e190eOTCQQ@mail.gmail.com>
- <a9dbc41c-29e5-7672-d9ec-4ec43ae3a6c8@eik.bme.hu>
- <CABLmASFqzt8f_Qk8O_KvYOqSqeffsVVBaaknbUxL86Ch3VR3kA@mail.gmail.com>
- <f13d890c-35a7-53f9-0cb7-7903582043d1@eik.bme.hu>
- <CABLmASGtRrmqgsySdUd97so8R0qY7gTAu4AUfGU_-7dc_xkauA@mail.gmail.com>
- <98430ad5-dedf-9ece-211a-1978d86dd0a5@eik.bme.hu>
+ (Exim 4.90_1) (envelope-from <marmarek@invisiblethingslab.com>)
+ id 1pLGyb-00078Q-2X
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 00:08:38 -0500
+Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
+ by mailout.nyi.internal (Postfix) with ESMTP id 329725C0241;
+ Fri, 27 Jan 2023 00:08:35 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute2.internal (MEProxy); Fri, 27 Jan 2023 00:08:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ invisiblethingslab.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:from:from:in-reply-to:message-id
+ :mime-version:reply-to:sender:subject:subject:to:to; s=fm3; t=
+ 1674796115; x=1674882515; bh=Qk3I70q4GCQbspH1CXoRlayOxU4vaCkRWWj
+ ciJNXOHs=; b=UoI1Lf6cisrESiDEjHX0jyCFz8HgWlc8IKhQYQ+/WPdSsEM4cC8
+ kF3SHkWuYNWFlYhJUkmy+3+F4NVe0PSvrlQVCBgqSLmujy87wDU11uoz7f9vA+Zq
+ BgPvkkmjniYxbSNyjn0j+YMeG35bdm8fwcIlBYXHVpY6Q+8vhMfRCT+DSS6McSSR
+ rELtCQSyZQCdUztYGurt9LLnEAG/ld3AlofLuQ075wO4s4AWa3toTjjpJdU/Hr1D
+ Mcckf6XKvMj++M70lALneACzsr5r3NMKYMjWkAidLtqgs409oEUklIqP+hb1+6Gx
+ CipEJTvgact2JfSknwRHFWhqvG9lsvQRAGw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:message-id:mime-version:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1674796115; x=1674882515; bh=Qk3I70q4GCQbs
+ pH1CXoRlayOxU4vaCkRWWjciJNXOHs=; b=gj+/hk7a0WHa7zTzV03WZPwCizOzg
+ QDX+gbUlW/S2rITQjs7FtoQ3atYZQsJqHn4fYVMNR6h06A900ADZIWBEjwPDw/y/
+ nLPPcQ3rFiT9py/Osff/Jo4HTsxNpEI/p7LkUqcoj16ImtMA6ollzDuGsAxzrcXY
+ ksJGfW5OF/nWhZuxLxtbQTIkqokRm2KnkilF2p0mx/4J/ZWCB4x8+OSi3Nei+Gwd
+ vVC71HUDEMsJQND6YkhZZZORxzdcL7V3DLHamWc5Jo4djVfKzBzwWlY7w1cFi7ym
+ F4zrc/Sn3hEN11CfoEf5Jfzcr6oE9nch643GqzCLxg/dMa3XzD4wGNFgA==
+X-ME-Sender: <xms:UlzTY1S40NxBomxMWr_EMSJeuH09qck2smw95jB5inDukrCGBUrWZw>
+ <xme:UlzTY-wP4JcwD_mtgMeChz-BTyK9ioLblRcgBASt-hAIC_M1ey0ptMBh1AdVAju-l
+ SPOWQcRWTXUCg>
+X-ME-Received: <xmr:UlzTY60npUVlmQ4NX5BsPnFjF669IKSCBLL2DQ3RjgWdMs9QoY5jIV3AaE6a6zQzZiZmD8rtzmHh2DE72DXMsjUXGdNUudurp7mIzICGHS-hXHFgIekm>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvhedgkeduucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhephffvvefufffkofggtgfgsehtkeertdertdejnecuhfhrohhmpeforghrvghk
+ ucforghrtgiihihkohifshhkihdqifpkrhgvtghkihcuoehmrghrmhgrrhgvkhesihhnvh
+ hishhisghlvghthhhinhhgshhlrggsrdgtohhmqeenucggtffrrghtthgvrhhnpeelkefh
+ udelteelleelteetveeffeetffekteetjeehlefggeekleeghefhtdehvdenucevlhhush
+ htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehmrghrmhgrrhgvkhes
+ ihhnvhhishhisghlvghthhhinhhgshhlrggsrdgtohhm
+X-ME-Proxy: <xmx:U1zTY9C-VuehQ4MCv8wStqp2IO7KnalAuM0ULNuZIMxVDlQ-cADcAw>
+ <xmx:U1zTY-jiYfOixCl5nYUd-PncczRo35ydL7wvz60db9raagXBYo9AGA>
+ <xmx:U1zTYxqpUHFEKDLm3EFCEAauBLDm-O_6CeCpYz_y9uZAMb2xpp59Rw>
+ <xmx:U1zTY_tX1zCEKcHpUlA_xoWzogiirisIhumeCFAPeqiN0A4ksSGN8Q>
+Feedback-ID: i1568416f:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 27 Jan 2023 00:08:33 -0500 (EST)
+From: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Marek=20Marczykowski-G=C3=B3recki?=
+ <marmarek@invisiblethingslab.com>, 
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>,
+ xen-devel@lists.xenproject.org (open list:X86 Xen CPUs)
+Subject: [PATCH] hw/xen/xen_pt: fix uninitialized variable
+Date: Fri, 27 Jan 2023 06:08:14 +0100
+Message-Id: <20230127050815.4155276-1-marmarek@invisiblethingslab.com>
+X-Mailer: git-send-email 2.37.3
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=66.111.4.26;
+ envelope-from=marmarek@invisiblethingslab.com;
+ helo=out2-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,140 +106,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 27 Jan 2023, BALATON Zoltan wrote:
-> On Thu, 26 Jan 2023, Howard Spoelstra wrote:
->> On Thu, Jan 26, 2023 at 9:57 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
->>> On Thu, 26 Jan 2023, Howard Spoelstra wrote:
->>>> Mac OS X
->>>> #10.0 bus1 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
->>>> mouse. No recognition as HID device.
->>>> #10.0 bus2 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point
->>> kbd
->>>> pcap shows normal interrupt operation and recognition as HID device
->>>> #10.0 bus1 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point
->>> kbd
->>>> pcap shows normal interrupt operation and recognition as HID device
->>>> #10.0 bus2 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
->>>> mouse. pcap shows no recognition as HID device.
->>>> #10.0 in both cases apple system profiler shows 2 usb buses but no
->>> devices.
->>> 
->>> These are all the logs I get booting a 10.0 install iso with 
->>> mac99,via=pmu
->>> 
->>>>> =============================================================
->>>>> OpenBIOS 1.1 [May 25 2022 20:04]
->>>>> Configuration device id QEMU version 1 machine id 1
->>>>> CPUs: 1
->>>>> Memory: 256M
->>>>> UUID: 00000000-0000-0000-0000-000000000000
->>>>> CPU type PowerPC,G4
->>> milliseconds isn't unique.
->>>>> switching to new context:
->>>>> call-method slw_update_keymap failed with error ffffffdf
->>>>> call-method slw_update_keymap failed with error ffffffdf
->>> usb_ohci_reset pci-ohci
->>> usb_ohci_stop pci-ohci: USB Suspended
->>> usb_ohci_set_ctl pci-ohci: new state 0x0
->>> usb_ohci_stop pci-ohci: USB Suspended
->>> usb_ohci_port_detach port #0
->>> usb_ohci_port_attach port #0
->>> usb_ohci_port_detach port #1
->>> usb_ohci_port_attach port #1
->>> dbdma_unassigned_flush: use of unassigned channel 0
->>> dbdma_unassigned_flush: use of unassigned channel 0
->>> usb_ohci_mem_write_bad_offset 0x30
->>> usb_ohci_set_ctl pci-ohci: new state 0x80
->>> usb_ohci_start pci-ohci: USB Operational
->>> usb_ohci_hub_power_up powered up all ports
->>> usb_ohci_hub_power_up powered up all ports
->>> usb_ohci_set_ctl pci-ohci: new state 0xc0
->>> usb_ohci_stop pci-ohci: USB Suspended
->>> usb_ohci_hub_power_up powered up all ports
->>> usb_ohci_hub_power_up powered up all ports
->>> usb_ohci_port_reset port #0
->>> 
->>> It's probably OK until it restarts but the seems to be stopped. Anybody
->>> wants to have a look? Maybe start with finding what the states mean.
->>> 
->>> 
->> I get the same with two usb-ohci controllers (so 6 ports) running Mac OS
->> 9.0.4:
->> 
->> usb_ohci_set_ctl pci-ohci: new state 0x80
->> usb_ohci_start pci-ohci: USB Operational
->> usb_ohci_hub_power_up powered up all ports
->> usb_ohci_hub_power_up powered up all ports
->> usb_ohci_hub_power_up powered up all ports
->> usb_ohci_hub_power_up powered up all ports
->> usb_ohci_hub_power_up powered up all ports
->> usb_ohci_hub_power_up powered up all ports
->> usb_ohci_port_reset port #0
->> usb_ohci_port_reset port #0
->> 
->> So both usb mouse and kbd do not work.
->> 
->> the pcap file for the mouse stalls here:
->> 12 0.007048 0.1.0 host USB 64 SET CONFIGURATION Response
->
-> Maybe the driver gets something from the emulated HID device that it cannot 
-> handle and stops during init? Can you reproduce the same with OS X 10.0 and 
-> try to correlate the events you see in pcap and trace with the driver source 
-> or find out how to enable and read the messages in the driver (unless these 
-> are stripped from the binary in Mac OS X but maybe there's something in the 
-> guest logs; ave you checked those?) In QEMU the usb-kbd and mouse are 
-> implemented in hw/usb/dev-hid.c but this file does not have any debuging or 
-> traces. You might try to add some printfs for testing.
->
->> However, when I use the usb probe tool from the USB DDK, to probe the buses
->> I see the host emit a get descriptor
->> 
->> 13 115.761725 host 0.0.0 USB 64 GET DESCRIPTOR Request DEVICE
->> 14 115.761803 0.0.0 host USB 72 GET DESCRIPTOR Response DEVICE
->> 15 115.773719 host 0.0.0 USB 64 SET ADDRESS Request
->> etc. and this time the mouse is recognised as HID device, the host starts
->> polling it and mouse and kbd start to work.
->
-> It could be possible that the driver did not get to this point but once 
-> something else get's past that it recognises the device but I have no idea 
-> how this works and not even sure which OS you had this result with. Is this 
-> still 9.0.4? That's hard to debug because we don't know what its driver is 
-> doing.
->
-> Is there a Darwin, OpenDarwin or whatever was that called during the years 
-> iso that boots on this machine (also on the real one)? That should be fully 
-> open source and probably have the same drivers as Mac OS X so reproducing 
-> with that could give some more info or maybe its driver is more verbose about 
-> errors and has debugging. So you could try to find an early Darwin version 
-> that's about the same time as early OS X versions or look at the IOHIDFamily 
-> and try to find what part of it is running when you see the logs (as this 
-> driver is quite complex it may not be easy).
+xen_pt_config_reg_init() reads only that many bytes as the size of the
+register that is being initialized. It uses
+xen_host_pci_get_{byte,word,long} and casts its last argument to
+expected pointer type. This means for smaller registers higher bits of
+'val' are not initialized. Then, the function fails if any of those
+higher bits are set.
 
-The oldest Darwin CD I could find is 6.2 which boots and works so it's not 
-old enough for us.
+Fix this by initializing 'val' with zero.
 
-The simplest driver is in the oldest 10.0 version so maybe we should try 
-to look at that:
+Signed-off-by: Marek Marczykowski-Górecki <marmarek@invisiblethingslab.com>
+---
+ hw/xen/xen_pt_config_init.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://github.com/apple-oss-distributions/IOHIDFamily/tree/IOHIDFamily-6
+diff --git a/hw/xen/xen_pt_config_init.c b/hw/xen/xen_pt_config_init.c
+index cde898b744..8b9b554352 100644
+--- a/hw/xen/xen_pt_config_init.c
++++ b/hw/xen/xen_pt_config_init.c
+@@ -1924,7 +1924,7 @@ static void xen_pt_config_reg_init(XenPCIPassthroughState *s,
+     if (reg->init) {
+         uint32_t host_mask, size_mask;
+         unsigned int offset;
+-        uint32_t val;
++        uint32_t val = 0;
+ 
+         /* initialize emulate register */
+         rc = reg->init(s, reg_entry->reg,
+-- 
+2.37.3
 
-and the low level part is in the xnu kernel:
-
-https://github.com/apple-oss-distributions/xnu/tree/xnu-123.5/iokit/Families/IOHIDSystem
-
-I don't quite know how it works and where it starts running but a large 
-part of it looks like it handles key mapping. While booting I see an error 
-from OpenBIOS saying:
-
->> call-method slw_update_keymap failed with error ffffffdf
-
-Could this be related to the problem? What is this error about? This 
-PearPC bug has some info on where it may come from:
-
-https://github.com/sebastianbiallas/pearpc/issues/4
-
-but I don't know if any of this is relevant.
-
-Regards,
-BALATON Zoltan
 
