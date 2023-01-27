@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 928AA67E720
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 14:54:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 635AD67E721
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 14:54:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLPAK-0005O7-So; Fri, 27 Jan 2023 08:53:16 -0500
+	id 1pLPAq-0005w0-Ji; Fri, 27 Jan 2023 08:53:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pLPAJ-0005Lx-3J
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:53:15 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ id 1pLPAo-0005v4-PO
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:53:46 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pLPA7-0004gH-H0
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:53:06 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- d4-20020a05600c3ac400b003db1de2aef0so3522066wms.2
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 05:53:00 -0800 (PST)
+ id 1pLPAn-0004m0-62
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:53:46 -0500
+Received: by mail-wr1-x431.google.com with SMTP id h12so5022562wrv.10
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 05:53:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=/mGuIKgVsTE+CvJoGsAzJynfI0o3WXdnbTyYl7ZYs8I=;
- b=Kkp6JGnj12rEluQGo44ejl0Jl9zXmvV3FfcPGMbZDS8gXOtTwvLpvStp9Gd+C94ajQ
- +LPxgVoiRzj37xXqbEPK5WvWw82Av5lqdNNe7mOvUUFNrwo7hMWlEU/fzQp2QpPgcTov
- NAmCaulAqWjajs4CKLlpDNhHKpCqtYaicmWUNNRS/UbnI2AIZYN4nXfF1SXn1CNXkQmH
- NjKtGjnfJEucv2InFwikv5PSBBYn8AtYrC/pzUQEuR67aP5xHudv47cHRh2J/U4azPqy
- nXltzfeAHtj5533YTnvaN0KRmq2+JLPjGoN2i9gMgzPsJ6DphMalQP5CIUPEvRt3B8xA
- kCDg==
+ bh=+XMTZhQF+TZEKGK4m++h6a815EX2DCtr4KtEiGguLNE=;
+ b=EC25NrHyqlJ9o30jG+dylGLvOwDo+b2W7dYSDUE6gW43unO98cBu/FfZMv+gA+ujCg
+ yEhtUoCzwKV0i2TVbvKGQuRfLp76RId5yZb3IvJvXDytlE4/UykZuaJ4Jw8OjsKYJGrz
+ CnzmZ0QI++j21BAwoFe58Uws5zJ0uLWcsPNlyj6p/XCJNJcgsH12STl20V3ZHZTjKXGL
+ chEywogB4iKgbj4jdhtx6uiYZ3lK7o0T4AG4EHnKmN+t4LhIobwNCGu9gNuotLaPkiZC
+ Ki7mEDxhb67mqYu1aVq1mEk4DSJlFmHR//NexXEApKiwrQimqciVQv5tGpNYkxEgSi8L
+ eqKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=/mGuIKgVsTE+CvJoGsAzJynfI0o3WXdnbTyYl7ZYs8I=;
- b=YX6uSqq1BHL68wr4FlgcAXjs83R/3JLpOw7BByvztYjeGh6+iy6wWKsbadolH3EjaJ
- hMz8490rebQwe0WhRy1qNL1+rk3mnJXpNZqU75cwjLuKg90+fEFDXhVocdALbQeG6ZJE
- ISqwB7ahS3Z8VDTcpjfPWpdLY/mRUw1ksJtdGoHIt9XX2eyU1YRKA7InNL9Oc+cHVmL6
- kVIDgpM/+49Rymyk0NfhmVVvisACpw9IuaqMA2Cgpq37lc5eTJUglXO6QUphUQFBFfBm
- QfgJrmRFx/Redb2hwiWZ4/UyvUFH/a96up6fn0pTGqAUPu9BbaypJEL2K389hCiF0OiF
- AIaQ==
-X-Gm-Message-State: AO0yUKWCvs82LhiBk1C15zOGQizHkM6B87P8gBZPgZNrA03K1YcKaEJh
- 1zAdgoS61DuZqTO55lawOqcsMg==
-X-Google-Smtp-Source: AK7set+IxtuOzER19ANrX2MpVSEL9xUq5cLy+LAhAl+yDRjqSfxUWU3e4UFGWJl+Rs7rNfci1+jcrw==
-X-Received: by 2002:a05:600c:35c4:b0:3dc:4313:fc59 with SMTP id
- r4-20020a05600c35c400b003dc4313fc59mr299301wmq.28.1674827579435; 
- Fri, 27 Jan 2023 05:52:59 -0800 (PST)
+ bh=+XMTZhQF+TZEKGK4m++h6a815EX2DCtr4KtEiGguLNE=;
+ b=m2J3xfCsC+zKw0wQfhJHTKL4mBm/sA67ru5+pEFe8XoWCuEfIShJiR4iVD9InmC8kJ
+ kGi7SC5VhC9j5ZKcrcOXEF+Chs3Z0vd+21UglpdKok2a6n0McWkKSXp9Su/sp+1TifDa
+ V3xqhQTKFcO0cbqwauOomCdMxlfuUva6QnJRuWsqBcC/gyQrnbcUAeZ1ASZXBzH6WYa5
+ XKUHeutRKMQzvZ7UqEj/n7JGzfJuWsILBpcm8HMct7zSQvOTJyJs6hwFShEEukiz/rN9
+ klEtzKqRXQOe5bNgTCfprX3aDYCRC/dbjn8XvHZxm17ttHTcb5mBKQIuwwMfl1SOrooS
+ WFaQ==
+X-Gm-Message-State: AO0yUKWpPQ/GW1K4vSFMDx2SGXiNPh6dXm1EAsL8wtPPcxU3uehvp0Bj
+ GwGJ4jt3fpwkrO/tuLC0vqHJpsxOzTsuA5eq
+X-Google-Smtp-Source: AK7set9dbDOu3Qmg61ptaLNbOO1+cxXIGIe7YzViNZKwXf+6jqTzZTXY04q4qOWhj2Q/fzUpCRbr3w==
+X-Received: by 2002:adf:f687:0:b0:2bf:d893:750d with SMTP id
+ v7-20020adff687000000b002bfd893750dmr74763wrp.66.1674827623379; 
+ Fri, 27 Jan 2023 05:53:43 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- j38-20020a05600c1c2600b003daff80f16esm11096573wms.27.2023.01.27.05.52.59
+ l7-20020a5d5607000000b0029a06f11022sm4035017wrv.112.2023.01.27.05.53.42
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jan 2023 05:52:59 -0800 (PST)
+ Fri, 27 Jan 2023 05:53:43 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 8C21E1FFB7;
- Fri, 27 Jan 2023 13:52:58 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id A497F1FFB7;
+ Fri, 27 Jan 2023 13:53:42 +0000 (GMT)
 References: <20230126043824.54819-1-richard.henderson@linaro.org>
- <20230126043824.54819-10-richard.henderson@linaro.org>
+ <20230126043824.54819-11-richard.henderson@linaro.org>
 User-agent: mu4e 1.9.16; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PATCH v5 09/36] tcg/i386: Add TCG_TARGET_CALL_{RET,ARG}_I128
-Date: Fri, 27 Jan 2023 13:52:52 +0000
-In-reply-to: <20230126043824.54819-10-richard.henderson@linaro.org>
-Message-ID: <87r0vgnkxx.fsf@linaro.org>
+Cc: qemu-devel@nongnu.org, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>
+Subject: Re: [PATCH v5 10/36] tcg/tci: Fix big-endian return register ordering
+Date: Fri, 27 Jan 2023 13:53:37 +0000
+In-reply-to: <20230126043824.54819-11-richard.henderson@linaro.org>
+Message-ID: <87mt64nkwp.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,11 +98,12 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> Fill in the parameters for the host ABI for Int128.
-> Adjust tcg_target_call_oarg_reg for _WIN64, and
-> tcg_out_call for i386 sysv.  Allow TCG_TYPE_V128
-> stores without AVX enabled.
+> We expect the backend to require register pairs in
+> host-endian ordering, thus for big-endian the first
+> register of a pair contains the high part.
+> We were forcing R0 to contain the low part for calls.
 >
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
