@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15E1967E950
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 16:19:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6BFD67E940
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 16:17:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLQSW-0006JQ-4Q; Fri, 27 Jan 2023 10:16:08 -0500
+	id 1pLQSe-0006R6-Pu; Fri, 27 Jan 2023 10:16:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pLQSQ-0006If-HC
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:02 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1pLQSR-0006JO-SQ
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:06 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pLQSO-0007gB-Ax
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:01 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- c4-20020a1c3504000000b003d9e2f72093so5633383wma.1
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 07:15:59 -0800 (PST)
+ id 1pLQSP-0007hh-Sj
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:03 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ d4-20020a05600c3ac400b003db1de2aef0so3723356wms.2
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 07:16:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jk2tLu9B17fWWaJQH7+8AxbE3Z51YlONgr1eX8RlPmA=;
- b=YR2pHhtCWTabUWyx4wGPji42cH3bijA219lxLRX76etzS5d+t1Iys0bExlCBzyX/d0
- V/sDAa3LzKBOkJFr8dc0GzozxgFKKDwTp+Jq9MW4YsPD7FJFYIBdl2za2R+yALaNr8w4
- BsQw0LIqM/xrdjyE4VM5D96LMd6ZeDoBhDzgclFGcYMe3NKcNxTwIq5QXI6UogEhcBxN
- gmhXU9Z/BKIKpNnUmmmtBUZxo0lSfTUjLrw0JWZdZbtA5wvreKW2Na4sxsfCwEnwDPgC
- lDUqRiv3XM1SWHOlb53aZMTCDdQb9U6aIJC3MnQodS+03JpcS3BNvSbBavChFX8hgSWn
- bunA==
+ bh=Ig1TzNIoOeWwabviwLp2kbnIks9AjR0QHEy5oTBBhzE=;
+ b=duGreVUwmGMLyACjwtvql9tRnvLaGDyPFQRari0JfPBcB/PTcwqcE6gbMqGyCqHlNY
+ 4vJq2EEALX/NSCSE6xo0EqfC9PN1dHrEBGNk+V0pa4iqVFxPfCzH2c+YOWW+V+8PQuIM
+ PK29YfykPJpEtgyDPFYJArTSExzod+itJosppfW3wxkVuihhEsKDerxGhaQNqb+dBSYu
+ EgF1Cej416O+t+q0jq8vLOoHnX7NYgzoC3Wx9At8CrXmEpQAk8XX92uvEoGxVQromIMK
+ 0jWV5pGg7CdPJnWLTeNcT2QmCfEWECDyIVqmJOaT684dniER07E7JwkDERjbUqjDxUQ9
+ oBqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jk2tLu9B17fWWaJQH7+8AxbE3Z51YlONgr1eX8RlPmA=;
- b=LsAFSUN5Hevh61BeNcPzUsQ8jvJBf1IuSxLSEJFcUhX5GRuGcBqBoM0+mYA5crK5sz
- m49oxi/wltF4f3bCr/bwev5OOUip57Vj4WI204uu8vvANPRBy+sCuQ3Kov5/uiD6dQfu
- GpWjsfSlz0ccimWXB16x5nc2WcJh+3UjD/0vK2OaBxDrqzutoRb8Z6pApAYJiSbRQl6w
- DVnmewm2JmXqLi+EqDPNhrEgG0vpCIfQx7rSd8Z2vgUosiJxjzgl1fxdUtA/Q4XK7R21
- newdjRHQPlYQC+y8eMU24ivkH3iwKgmikF3GTvptYSIJTehiH5j9i9rlf3H8xq561kbC
- NWhw==
-X-Gm-Message-State: AFqh2kpKMz44n0aWkw2v0/SOJXM6tWUL5UxvJ+YQDpYnyEufUFgFNRIl
- SSBYz16ypWyupIh2lB/OYiHmlQ==
-X-Google-Smtp-Source: AMrXdXuASuHeTvXSRwW9m0uVw498DxUoKkpkFbPvwHp6LvuduXtXzDXNCjIlbDCzKAer0RwL85iGeg==
-X-Received: by 2002:a05:600c:a690:b0:3d5:64bf:ccb8 with SMTP id
- ip16-20020a05600ca69000b003d564bfccb8mr38582020wmb.12.1674832558525; 
- Fri, 27 Jan 2023 07:15:58 -0800 (PST)
+ bh=Ig1TzNIoOeWwabviwLp2kbnIks9AjR0QHEy5oTBBhzE=;
+ b=enPcvB7y+zzCxq57xNYqaEiwMGgqolE2S6bHqxZfOnEsSV0kDiBu+tk7hBX5bAbEFj
+ or1O1FVgn2im5X9wU/EkFIwOGevvP38JqTzv3ivvoVFewZcDFR8jsHtVLDdPuE12xeiR
+ 7oCim/QLpkp2mT1y05RCwcr/mpo8fZdH7sO/1xX8ljHwtTHAYe+3wLzk5SVUg/A3iJao
+ G7LFixMGtm7pXQu0q583BITnkhIdLB1KUOydtsCA+q3bRhHzGGWyRz0cQikmmfcZWBjz
+ NBHzRuVflO4iB7QIi+3o/GLUJLkY5f4l4Yxf02BMHTdOz23BocshyX+cpibLP2gDpmcU
+ vTrw==
+X-Gm-Message-State: AFqh2ko+ABhuyNbnwqnblHLUVr/ZcoXxlN/lZovIzgP3zD4mKtm6154V
+ UNRS7KqQWe0RYsiM3GhYcW3zbQ==
+X-Google-Smtp-Source: AMrXdXt8f78UgKcTF9N9KCMRHAtfi7ZSn55Nu7H1ij/q8FwoMTkWwVD+HUjBumnBhVzI82MPKgWDQw==
+X-Received: by 2002:a05:600c:3110:b0:3dc:e66:4cb9 with SMTP id
+ g16-20020a05600c311000b003dc0e664cb9mr16051820wmo.13.1674832559281; 
+ Fri, 27 Jan 2023 07:15:59 -0800 (PST)
 Received: from localhost.localdomain (054592b0.skybroadband.com.
  [5.69.146.176]) by smtp.gmail.com with ESMTPSA id
- l7-20020a05600c47c700b003dc3bbdf518sm1656628wmo.21.2023.01.27.07.15.57
+ l7-20020a05600c47c700b003dc3bbdf518sm1656628wmo.21.2023.01.27.07.15.58
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 27 Jan 2023 07:15:58 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
@@ -61,23 +61,23 @@ Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, pbonzini@redhat.com,
  eblake@redhat.com, armbru@redhat.com, berrange@redhat.com,
  eduardo@habkost.net, alex.bennee@linaro.org, richard.henderson@linaro.org,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [RFC PATCH 03/16] target/arm/kvm-rme: Initialize realm
-Date: Fri, 27 Jan 2023 15:07:16 +0000
-Message-Id: <20230127150727.612594-4-jean-philippe@linaro.org>
+Subject: [RFC PATCH 04/16] hw/arm/virt: Add support for Arm RME
+Date: Fri, 27 Jan 2023 15:07:17 +0000
+Message-Id: <20230127150727.612594-5-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230127150727.612594-1-jean-philippe@linaro.org>
 References: <20230127150727.612594-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,164 +93,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The machine code calls kvm_arm_rme_vm_type() to get the VM flag and
-kvm_arm_rme_init() to issue KVM hypercalls in the required order:
+When confidential-guest-support is enabled for the virt machine, call
+the RME init function, and add the RME flag to the VM type.
 
-* create the realm descriptor early,
-* finalize the REC (vCPU) after the registers are reset,
-* load images into Realm RAM (in another patch),
-* activate the realm at the end, at which point the realm is sealed.
+* The Realm differentiates non-secure from realm memory using the upper
+  GPA bit. Reserve that bit when creating the memory map, to make sure
+  that device MMIO located in high memory can still fit.
+
+* pvtime is disabled for the moment. Since the hypervisor has to write
+  into the shared pvtime page before scheduling a vcpu, it seems
+  incompatible with confidential guests.
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- target/arm/kvm_arm.h |  14 ++++++
- target/arm/kvm-rme.c | 101 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 115 insertions(+)
+ hw/arm/virt.c | 48 ++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 44 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index 99017b635c..00d3df8cac 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -369,6 +369,11 @@ void kvm_arm_pvtime_init(CPUState *cs, uint64_t ipa);
- 
- int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level);
- 
-+int kvm_arm_rme_init(ConfidentialGuestSupport *cgs, Error **errp);
-+int kvm_arm_rme_vm_type(MachineState *ms);
-+
-+bool kvm_arm_rme_enabled(void);
-+
- #else
- 
- /*
-@@ -443,6 +448,15 @@ static inline uint32_t kvm_arm_sve_get_vls(CPUState *cs)
-     g_assert_not_reached();
- }
- 
-+static inline int kvm_arm_rme_init(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    return 0;
-+}
-+
-+static inline int kvm_arm_rme_vm_type(MachineState *ms)
-+{
-+    return 0;
-+}
- #endif
- 
- static inline const char *gic_class_name(void)
-diff --git a/target/arm/kvm-rme.c b/target/arm/kvm-rme.c
-index 22aa3dc712..d7cdca1cbf 100644
---- a/target/arm/kvm-rme.c
-+++ b/target/arm/kvm-rme.c
-@@ -25,6 +25,107 @@ struct RmeGuest {
-     ConfidentialGuestSupport parent_obj;
+diff --git a/hw/arm/virt.c b/hw/arm/virt.c
+index b871350856..df613e634a 100644
+--- a/hw/arm/virt.c
++++ b/hw/arm/virt.c
+@@ -210,6 +210,11 @@ static const char *valid_cpus[] = {
+     ARM_CPU_TYPE_NAME("max"),
  };
  
-+static RmeGuest *cgs_to_rme(ConfidentialGuestSupport *cgs)
++static bool virt_machine_is_confidential(VirtMachineState *vms)
 +{
-+    if (!cgs) {
-+        return NULL;
-+    }
-+    return (RmeGuest *)object_dynamic_cast(OBJECT(cgs), TYPE_RME_GUEST);
++    return MACHINE(vms)->cgs;
 +}
 +
-+bool kvm_arm_rme_enabled(void)
-+{
-+    ConfidentialGuestSupport *cgs = MACHINE(qdev_get_machine())->cgs;
-+
-+    return !!cgs_to_rme(cgs);
-+}
-+
-+static int rme_create_rd(RmeGuest *guest, Error **errp)
-+{
-+    int ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_RME, 0,
-+                                KVM_CAP_ARM_RME_CREATE_RD);
-+
-+    if (ret) {
-+        error_setg_errno(errp, -ret, "RME: failed to create Realm Descriptor");
-+    }
-+    return ret;
-+}
-+
-+static void rme_vm_state_change(void *opaque, bool running, RunState state)
-+{
-+    int ret;
-+    CPUState *cs;
-+
-+    if (state != RUN_STATE_RUNNING) {
-+        return;
-+    }
-+
+ static bool cpu_type_valid(const char *cpu)
+ {
+     int i;
+@@ -247,6 +252,14 @@ static void create_fdt(VirtMachineState *vms)
+         exit(1);
+     }
+ 
 +    /*
-+     * Now that do_cpu_reset() initialized the boot PC and
-+     * kvm_cpu_synchronize_post_reset() registered it, we can finalize the REC.
++     * Since the devicetree is included in the initial measurement, it must
++     * not contain random data.
 +     */
-+    CPU_FOREACH(cs) {
-+        ret = kvm_arm_vcpu_finalize(cs, KVM_ARM_VCPU_REC);
-+        if (ret) {
-+            error_setg_errno(&error_fatal, -ret,
-+                             "RME: failed to finalize vCPU");
-+        }
++    if (virt_machine_is_confidential(vms)) {
++        vms->dtb_randomness = false;
 +    }
 +
-+    ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_RME, 0,
-+                            KVM_CAP_ARM_RME_ACTIVATE_REALM);
-+    if (ret) {
-+        error_setg_errno(&error_fatal, -ret, "RME: failed to activate realm");
+     ms->fdt = fdt;
+ 
+     /* Header */
+@@ -1924,6 +1937,15 @@ static void virt_cpu_post_init(VirtMachineState *vms, MemoryRegion *sysmem)
+     steal_time = object_property_get_bool(OBJECT(first_cpu),
+                                           "kvm-steal-time", NULL);
+ 
++    if (virt_machine_is_confidential(vms)) {
++        /*
++         * The host cannot write into a confidential guest's memory until the
++         * guest shares it. Since the host writes the pvtime region before the
++         * guest gets a chance to set it up, disable pvtime.
++         */
++        steal_time = false;
 +    }
-+}
 +
-+int kvm_arm_rme_init(ConfidentialGuestSupport *cgs, Error **errp)
-+{
-+    int ret;
-+    static Error *rme_mig_blocker;
-+    RmeGuest *guest = cgs_to_rme(cgs);
+     if (kvm_enabled()) {
+         hwaddr pvtime_reg_base = vms->memmap[VIRT_PVTIME].base;
+         hwaddr pvtime_reg_size = vms->memmap[VIRT_PVTIME].size;
+@@ -2053,10 +2075,11 @@ static void machvirt_init(MachineState *machine)
+      * if the guest has EL2 then we will use SMC as the conduit,
+      * and otherwise we will use HVC (for backwards compatibility and
+      * because if we're using KVM then we must use HVC).
++     * Realm guests must also use SMC.
+      */
+     if (vms->secure && firmware_loaded) {
+         vms->psci_conduit = QEMU_PSCI_CONDUIT_DISABLED;
+-    } else if (vms->virt) {
++    } else if (vms->virt || virt_machine_is_confidential(vms)) {
+         vms->psci_conduit = QEMU_PSCI_CONDUIT_SMC;
+     } else {
+         vms->psci_conduit = QEMU_PSCI_CONDUIT_HVC;
+@@ -2102,6 +2125,8 @@ static void machvirt_init(MachineState *machine)
+         exit(1);
+     }
+ 
++    kvm_arm_rme_init(machine->cgs, &error_fatal);
 +
-+    if (!guest) {
-+        /* Either no cgs, or another confidential guest type */
+     create_fdt(vms);
+ 
+     assert(possible_cpus->len == max_cpus);
+@@ -2854,15 +2879,26 @@ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+ static int virt_kvm_type(MachineState *ms, const char *type_str)
+ {
+     VirtMachineState *vms = VIRT_MACHINE(ms);
++    int rme_vm_type = kvm_arm_rme_vm_type(ms);
+     int max_vm_pa_size, requested_pa_size;
++    int rme_reserve_bit = 0;
+     bool fixed_ipa;
+ 
+-    max_vm_pa_size = kvm_arm_get_max_vm_ipa_size(ms, &fixed_ipa);
++    if (rme_vm_type) {
++        /*
++         * With RME, the upper GPA bit differentiates Realm from NS memory.
++         * Reserve the upper bit to guarantee that highmem devices will fit.
++         */
++        rme_reserve_bit = 1;
++    }
++
++    max_vm_pa_size = kvm_arm_get_max_vm_ipa_size(ms, &fixed_ipa) -
++                     rme_reserve_bit;
+ 
+     /* we freeze the memory map to compute the highest gpa */
+     virt_set_memmap(vms, max_vm_pa_size);
+ 
+-    requested_pa_size = 64 - clz64(vms->highest_gpa);
++    requested_pa_size = 64 - clz64(vms->highest_gpa) + rme_reserve_bit;
+ 
+     /*
+      * KVM requires the IPA size to be at least 32 bits.
+@@ -2883,7 +2919,11 @@ static int virt_kvm_type(MachineState *ms, const char *type_str)
+      * the implicit legacy 40b IPA setting, in which case the kvm_type
+      * must be 0.
+      */
+-    return fixed_ipa ? 0 : requested_pa_size;
++    if (fixed_ipa) {
 +        return 0;
 +    }
 +
-+    if (!kvm_enabled()) {
-+        error_setg(errp, "KVM required for RME");
-+        return -ENODEV;
-+    }
-+
-+    if (!kvm_check_extension(kvm_state, KVM_CAP_ARM_RME)) {
-+        error_setg(errp, "KVM does not support RME");
-+        return -ENODEV;
-+    }
-+
-+    ret = rme_create_rd(guest, errp);
-+    if (ret) {
-+        return ret;
-+    }
-+
-+    error_setg(&rme_mig_blocker, "RME: migration is not implemented");
-+    migrate_add_blocker(rme_mig_blocker, &error_fatal);
-+
-+    /*
-+     * The realm activation is done last, when the VM starts, after all images
-+     * have been loaded and all vcpus finalized.
-+     */
-+    qemu_add_vm_change_state_handler(rme_vm_state_change, guest);
-+
-+    cgs->ready = true;
-+    return 0;
-+}
-+
-+int kvm_arm_rme_vm_type(MachineState *ms)
-+{
-+    if (cgs_to_rme(ms->cgs)) {
-+        return KVM_VM_TYPE_ARM_REALM;
-+    }
-+    return 0;
-+}
-+
- static void rme_guest_class_init(ObjectClass *oc, void *data)
- {
++    return requested_pa_size | rme_vm_type;
  }
+ 
+ static void virt_machine_class_init(ObjectClass *oc, void *data)
 -- 
 2.39.0
 
