@@ -2,83 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6226267DB03
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 01:58:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D133067DC4B
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 03:31:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLD3n-0006MV-4C; Thu, 26 Jan 2023 19:57:43 -0500
+	id 1pLEUy-0000fT-Ja; Thu, 26 Jan 2023 21:29:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pLD3k-0006M0-Vi
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 19:57:40 -0500
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pLD3i-00039q-CW
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 19:57:40 -0500
-Received: by mail-wm1-x32e.google.com with SMTP id
- m5-20020a05600c4f4500b003db03b2559eso2373820wmq.5
- for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 16:57:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=M2uaAR0ZQzcaS++5jhDcoVphyL7wuMYeTYyvIt3L2oY=;
- b=NSX9jMc9tN7CGnfUCmXzDSmwbVVMDk78Xexb7DrnieBcqcdJkTjOTyhiaMdTL0f48A
- W16UltqC9aSn1hjryv+6XnsHQPKn08cjyg56Ujk07M+ykjd5MO8HSavcLwXyJnZFyZOT
- iRg52Jsr0bdtEKNhsp4KoN9Xjy0mgWhZQS9Rov8TtbfXgf0dVv6vFi6KfunpQRHiV0jJ
- 6Ni7sSrX83pIW/3RbvCNKAT2larWYJnlFzCi/1T81ivDRUAq1r4bT4cNUbN0uUeIV5rc
- a+nPCpWS7DCnQ8Nxg9BR3gjAFwogrxzmD4dWNo61wBTP0D8UAw0YMqeR2tsTMWnMxer2
- npEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=M2uaAR0ZQzcaS++5jhDcoVphyL7wuMYeTYyvIt3L2oY=;
- b=us69n1DJKdzd4VVHSKV83BaqSIUqKolZVLq6YSZFqKBUZR9JgjF2y+01M1ZSbTfzeS
- Oqjoq5eJ/3iehd7bvZdu3kkvt6OfXPoOWWhI02UXllSoxHnLUIUNjOkLqcs/wweJt6QT
- NHK6cvUDOcK0gM3HSANxrRVTniP/+8GUFb3p682PJ0tyrINAKMlAaxsP0v29Om2BacUZ
- 8cHi0Ox5SjkL+Hlxvo54oqz1vBriU/cPqaNdOB0Szzdi0AyhSqspWyvMv3FsiDYnxzOT
- SuhCq4eo3/a5f8kofsgp9a23bJV+fTdrp5pDEmaiwltU8v2EojDZ64zDSplKfysZOv1x
- 5d7Q==
-X-Gm-Message-State: AFqh2krqyaD7WovDKDEDB4Jz0bLwSkgxvlK+kepRhbAMkDXi5no+6F6E
- 2Vi9TQA2nTTT+uFb17O0vz2u6w==
-X-Google-Smtp-Source: AMrXdXuq20wHyqE7pPngxbPtPeUSkVUOlcNAiclfTodesJXEZ9EiMLste6f5yyF8jZ90ew+j4Gkz1Q==
-X-Received: by 2002:a1c:7504:0:b0:3d3:52bb:3984 with SMTP id
- o4-20020a1c7504000000b003d352bb3984mr34399127wmc.17.1674781056074; 
- Thu, 26 Jan 2023 16:57:36 -0800 (PST)
-Received: from [192.168.0.114] ([196.77.8.13])
- by smtp.gmail.com with ESMTPSA id
- fl22-20020a05600c0b9600b003d1e3b1624dsm6478818wmb.2.2023.01.26.16.57.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 26 Jan 2023 16:57:35 -0800 (PST)
-Message-ID: <dea32c51-a1a1-63a2-776c-c7cf92d01d97@linaro.org>
-Date: Fri, 27 Jan 2023 01:57:34 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pLEUv-0000ej-Uy; Thu, 26 Jan 2023 21:29:49 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pLEUt-00011c-64; Thu, 26 Jan 2023 21:29:49 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 7F40A74634B;
+ Fri, 27 Jan 2023 03:27:18 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 2D94A7457E7; Fri, 27 Jan 2023 03:27:18 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 2A7ED745706;
+ Fri, 27 Jan 2023 03:27:18 +0100 (CET)
+Date: Fri, 27 Jan 2023 03:27:18 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Howard Spoelstra <hsp.cat7@gmail.com>
+cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
+In-Reply-To: <98430ad5-dedf-9ece-211a-1978d86dd0a5@eik.bme.hu>
+Message-ID: <15621125-9fd5-e856-861d-87749fae2f10@eik.bme.hu>
+References: <cover.1672868854.git.balaton@eik.bme.hu>
+ <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
+ <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
+ <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
+ <ab9e33e5-70fc-0a76-c548-16ec787ea1af@ilande.co.uk>
+ <ed8ee369-c9a8-7853-3b65-7361fefc3c63@eik.bme.hu>
+ <ca5240e6-e00d-6213-22d6-f7b43d8bed18@ilande.co.uk>
+ <CABLmASGc6fybw7mL5JHUCukwoB6KjGaaWHct5mi20A2vXZhtaA@mail.gmail.com>
+ <8e6f46fb-5e1b-8016-c595-85e8e83ace47@eik.bme.hu>
+ <CABLmASEJ_MKr5gP=C7_AXg2UbYmJyDMHtm77AXoyQnsa+f2HHA@mail.gmail.com>
+ <123b1c96-febb-ebc8-2d05-3c7379fbec27@eik.bme.hu>
+ <CABLmASHotQcPDRQxhMdL729wGHNkT0gfYt2GH8U5e190eOTCQQ@mail.gmail.com>
+ <a9dbc41c-29e5-7672-d9ec-4ec43ae3a6c8@eik.bme.hu>
+ <CABLmASFqzt8f_Qk8O_KvYOqSqeffsVVBaaknbUxL86Ch3VR3kA@mail.gmail.com>
+ <f13d890c-35a7-53f9-0cb7-7903582043d1@eik.bme.hu>
+ <CABLmASGtRrmqgsySdUd97so8R0qY7gTAu4AUfGU_-7dc_xkauA@mail.gmail.com>
+ <98430ad5-dedf-9ece-211a-1978d86dd0a5@eik.bme.hu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH v5 24/36] target/s390x: Use a single return for
- helper_divs32/u32
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: alex.bennee@linaro.org, David Hildenbrand <david@redhat.com>,
- Ilya Leoshkevich <iii@linux.ibm.com>
-References: <20230126043824.54819-1-richard.henderson@linaro.org>
- <20230126043824.54819-25-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230126043824.54819-25-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32e;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32e.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.15,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,20 +74,140 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 26/1/23 05:38, Richard Henderson wrote:
-> Pack the quotient and remainder into a single uint64_t.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
-> v2: Fix operand ordering; use tcg_extr32_i64.
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   target/s390x/helper.h         |  2 +-
->   target/s390x/tcg/int_helper.c | 26 +++++++++++++-------------
->   target/s390x/tcg/translate.c  |  8 ++++----
->   3 files changed, 18 insertions(+), 18 deletions(-)
+On Fri, 27 Jan 2023, BALATON Zoltan wrote:
+> On Thu, 26 Jan 2023, Howard Spoelstra wrote:
+>> On Thu, Jan 26, 2023 at 9:57 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>>> On Thu, 26 Jan 2023, Howard Spoelstra wrote:
+>>>> Mac OS X
+>>>> #10.0 bus1 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
+>>>> mouse. No recognition as HID device.
+>>>> #10.0 bus2 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point
+>>> kbd
+>>>> pcap shows normal interrupt operation and recognition as HID device
+>>>> #10.0 bus1 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point
+>>> kbd
+>>>> pcap shows normal interrupt operation and recognition as HID device
+>>>> #10.0 bus2 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
+>>>> mouse. pcap shows no recognition as HID device.
+>>>> #10.0 in both cases apple system profiler shows 2 usb buses but no
+>>> devices.
+>>> 
+>>> These are all the logs I get booting a 10.0 install iso with 
+>>> mac99,via=pmu
+>>> 
+>>>>> =============================================================
+>>>>> OpenBIOS 1.1 [May 25 2022 20:04]
+>>>>> Configuration device id QEMU version 1 machine id 1
+>>>>> CPUs: 1
+>>>>> Memory: 256M
+>>>>> UUID: 00000000-0000-0000-0000-000000000000
+>>>>> CPU type PowerPC,G4
+>>> milliseconds isn't unique.
+>>>>> switching to new context:
+>>>>> call-method slw_update_keymap failed with error ffffffdf
+>>>>> call-method slw_update_keymap failed with error ffffffdf
+>>> usb_ohci_reset pci-ohci
+>>> usb_ohci_stop pci-ohci: USB Suspended
+>>> usb_ohci_set_ctl pci-ohci: new state 0x0
+>>> usb_ohci_stop pci-ohci: USB Suspended
+>>> usb_ohci_port_detach port #0
+>>> usb_ohci_port_attach port #0
+>>> usb_ohci_port_detach port #1
+>>> usb_ohci_port_attach port #1
+>>> dbdma_unassigned_flush: use of unassigned channel 0
+>>> dbdma_unassigned_flush: use of unassigned channel 0
+>>> usb_ohci_mem_write_bad_offset 0x30
+>>> usb_ohci_set_ctl pci-ohci: new state 0x80
+>>> usb_ohci_start pci-ohci: USB Operational
+>>> usb_ohci_hub_power_up powered up all ports
+>>> usb_ohci_hub_power_up powered up all ports
+>>> usb_ohci_set_ctl pci-ohci: new state 0xc0
+>>> usb_ohci_stop pci-ohci: USB Suspended
+>>> usb_ohci_hub_power_up powered up all ports
+>>> usb_ohci_hub_power_up powered up all ports
+>>> usb_ohci_port_reset port #0
+>>> 
+>>> It's probably OK until it restarts but the seems to be stopped. Anybody
+>>> wants to have a look? Maybe start with finding what the states mean.
+>>> 
+>>> 
+>> I get the same with two usb-ohci controllers (so 6 ports) running Mac OS
+>> 9.0.4:
+>> 
+>> usb_ohci_set_ctl pci-ohci: new state 0x80
+>> usb_ohci_start pci-ohci: USB Operational
+>> usb_ohci_hub_power_up powered up all ports
+>> usb_ohci_hub_power_up powered up all ports
+>> usb_ohci_hub_power_up powered up all ports
+>> usb_ohci_hub_power_up powered up all ports
+>> usb_ohci_hub_power_up powered up all ports
+>> usb_ohci_hub_power_up powered up all ports
+>> usb_ohci_port_reset port #0
+>> usb_ohci_port_reset port #0
+>> 
+>> So both usb mouse and kbd do not work.
+>> 
+>> the pcap file for the mouse stalls here:
+>> 12 0.007048 0.1.0 host USB 64 SET CONFIGURATION Response
+>
+> Maybe the driver gets something from the emulated HID device that it cannot 
+> handle and stops during init? Can you reproduce the same with OS X 10.0 and 
+> try to correlate the events you see in pcap and trace with the driver source 
+> or find out how to enable and read the messages in the driver (unless these 
+> are stripped from the binary in Mac OS X but maybe there's something in the 
+> guest logs; ave you checked those?) In QEMU the usb-kbd and mouse are 
+> implemented in hw/usb/dev-hid.c but this file does not have any debuging or 
+> traces. You might try to add some printfs for testing.
+>
+>> However, when I use the usb probe tool from the USB DDK, to probe the buses
+>> I see the host emit a get descriptor
+>> 
+>> 13 115.761725 host 0.0.0 USB 64 GET DESCRIPTOR Request DEVICE
+>> 14 115.761803 0.0.0 host USB 72 GET DESCRIPTOR Response DEVICE
+>> 15 115.773719 host 0.0.0 USB 64 SET ADDRESS Request
+>> etc. and this time the mouse is recognised as HID device, the host starts
+>> polling it and mouse and kbd start to work.
+>
+> It could be possible that the driver did not get to this point but once 
+> something else get's past that it recognises the device but I have no idea 
+> how this works and not even sure which OS you had this result with. Is this 
+> still 9.0.4? That's hard to debug because we don't know what its driver is 
+> doing.
+>
+> Is there a Darwin, OpenDarwin or whatever was that called during the years 
+> iso that boots on this machine (also on the real one)? That should be fully 
+> open source and probably have the same drivers as Mac OS X so reproducing 
+> with that could give some more info or maybe its driver is more verbose about 
+> errors and has debugging. So you could try to find an early Darwin version 
+> that's about the same time as early OS X versions or look at the IOHIDFamily 
+> and try to find what part of it is running when you see the logs (as this 
+> driver is quite complex it may not be easy).
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+The oldest Darwin CD I could find is 6.2 which boots and works so it's not 
+old enough for us.
 
+The simplest driver is in the oldest 10.0 version so maybe we should try 
+to look at that:
+
+https://github.com/apple-oss-distributions/IOHIDFamily/tree/IOHIDFamily-6
+
+and the low level part is in the xnu kernel:
+
+https://github.com/apple-oss-distributions/xnu/tree/xnu-123.5/iokit/Families/IOHIDSystem
+
+I don't quite know how it works and where it starts running but a large 
+part of it looks like it handles key mapping. While booting I see an error 
+from OpenBIOS saying:
+
+>> call-method slw_update_keymap failed with error ffffffdf
+
+Could this be related to the problem? What is this error about? This 
+PearPC bug has some info on where it may come from:
+
+https://github.com/sebastianbiallas/pearpc/issues/4
+
+but I don't know if any of this is relevant.
+
+Regards,
+BALATON Zoltan
 
