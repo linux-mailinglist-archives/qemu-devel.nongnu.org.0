@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 075B267ECEB
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 18:59:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C690767ECEC
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 18:59:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLSxA-00015X-1A; Fri, 27 Jan 2023 12:55:56 -0500
+	id 1pLSx5-00010Z-Vl; Fri, 27 Jan 2023 12:55:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pLSww-0000u5-La
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 12:55:43 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ id 1pLSwz-0000vT-Ew
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 12:55:45 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pLSwl-000612-Mi
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 12:55:42 -0500
-Received: by mail-wr1-x429.google.com with SMTP id b7so5691809wrt.3
+ id 1pLSwl-00061F-Qh
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 12:55:44 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id h16so5641050wrz.12
  for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 09:55:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=/WSW/Q6d6knH8GYl/FV3+A6K1hH7FB23VjzRgI84OKw=;
- b=D7hZvGkNqUTj5kfiqMAnTYGx/9G+zF5kVmLt1RijWhS9j0fvy/x9b1ElKRhbvv//NY
- mzwtYkrs/m54xk0LglUCyec0Nkq9OFPHmx/D8xiJlXHs9aEdXElaKj0Mk3nTJNa4YRnH
- pQMEJzFc7nkAy3Y4rVqZarG8RmbsCrddQkkszHsr46rYD4N1MJMfeRN+/v3Au14TKNzG
- o04yhezdq67MxSJcRZveo8++7C6h30KFSv028itt7IeLv5Yu4wmKKz1CsNM0t+lA+gkJ
- SXfVVpQN0xyD0HR+voA8i5e+xG8qAFri3J/DA7dpfVcovke7uzxsqgqFvBqK6FfEZVaO
- PzTQ==
+ :reply-to; bh=ddJMrKAvX/UUqA+sj8hLUh9Yin7p9czJqYyqNZ3MRaE=;
+ b=M3LanTuovAA08yImAy3/0Cvf6r/3iDwZ82Pmts9+Xp38991RNqRfPaS3ZdCKWH0Ufe
+ XkawtlSpEGP8B5dBcH7DSDJJNEEDlT+07Adq3k6J5amKjCvCA9Rx/TjqYAWg76ofJK6Q
+ epLsaT2ljQuHtyXUnUWeU27QTL0RDabgfRagMJlJcjZMs33EsozeRP562Ar3EZhmsox7
+ m6VIsp9+rd/XV5uLeV7aZK4IBT1b9Le/zKKgIIjr/lfc92pnIDVdg7HPMQax6e9EuhIP
+ X/Fivk+PtUTeZQEiMwXXU03GZujFKUhQ3PeSMpu6AKLFsWz5mWQGTQaaj609Ii2LKtMz
+ 44fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=/WSW/Q6d6knH8GYl/FV3+A6K1hH7FB23VjzRgI84OKw=;
- b=eMsLXJuDCz6bQXWVq2/sGJ5rzVNKYEKxZ9ivDYK6aucGluQfy7iNelpk2H4iYj/75I
- hBJ2vEigi8jvQZYy2/YXkkVv0qT/LsdZEbBaDJ/vTFbTHLXS/lJbqy25VfpXpkRcZ6ez
- yGGyG84PGyXwg/igrYpw2PIBeo04TWTNYGJJ3NbXoyznQPG9dGMvtQVbXP4UNTwdRIfk
- jZ7w+OvppUe9BwRHuon70s7Vg0xOgrk/Se/zezry0wlqXvK2+y5U469Kcxg6AvGkjMZ+
- FVs+/8/UnKDU0hiMMe9hsjx42mFh5x8Op77MBi/Bxr1CIp6SvoD8RbFtfCMEAh7TEZvc
- 6uDg==
-X-Gm-Message-State: AO0yUKW5TURDaan34BDLV6ogA+vxgERl5ck55QNGhu/UyTr/LX0pzxcM
- 8Gk42rNWmTMgtg0x5MCxLOv05w==
-X-Google-Smtp-Source: AK7set+8zm7oDIeM3LFSGxop6olYYMKYf6RAazU/A17pezXED1YlskiU+BMRgTFi91i1Onk5OUBviw==
-X-Received: by 2002:adf:a2d4:0:b0:2bf:cfb4:2e1 with SMTP id
- t20-20020adfa2d4000000b002bfcfb402e1mr3732882wra.45.1674842118617; 
- Fri, 27 Jan 2023 09:55:18 -0800 (PST)
+ bh=ddJMrKAvX/UUqA+sj8hLUh9Yin7p9czJqYyqNZ3MRaE=;
+ b=ruT0lLYBm32FZEhH3tC0YLEIbxFEnofp92KD094npIKYKKlQi7KmppFOzsXIrIyiWt
+ UGKxLrfAYg8gRhzKpBCd8U9uaAP6U+FgxsBcUyWdlsLYYhIGl3pciFldEgdq+qF9UMWI
+ rw/dmDtmSk7/vCMWcEochFmpHHE0SE3ZBglRJ9Zm32WLoxLeWvhzSYorsPkI8fQMvOv+
+ fjUIf/4ceWA+pdnMzmNgHo2CP6mx5zGVP80gPHoaS14gxVneqhVSfkxrOEzJdRb4QwRL
+ tzx7erOJ/qRZ50djN8OqewoMvLzhBwwmMnS3wj3tzaIDX14JP5+1F/gglPJqFDSAiCng
+ A7WA==
+X-Gm-Message-State: AO0yUKUZRtz1DTzHTJBs+r6rZYf10BS8E2YK+ml00/sI7/4hg/+tsiR5
+ MA9TBAMat5A61BCPvqv/FRuhxZnHTGrgAJ8n
+X-Google-Smtp-Source: AK7set/p4ocfrsc/IyxJtRTheCCpRYRhpMXIt1zGj3f7ti27qKocfMYFnhLbIP5yaZK9Vge0scNg+g==
+X-Received: by 2002:adf:fc49:0:b0:2bf:b332:1c13 with SMTP id
+ e9-20020adffc49000000b002bfb3321c13mr12764514wrs.62.1674842119689; 
+ Fri, 27 Jan 2023 09:55:19 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- l13-20020adff48d000000b002366e3f1497sm4545089wro.6.2023.01.27.09.55.17
+ l13-20020adff48d000000b002366e3f1497sm4545089wro.6.2023.01.27.09.55.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jan 2023 09:55:18 -0800 (PST)
+ Fri, 27 Jan 2023 09:55:19 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH 08/23] target/arm: Define the FEAT_FGT registers
-Date: Fri, 27 Jan 2023 17:54:52 +0000
-Message-Id: <20230127175507.2895013-9-peter.maydell@linaro.org>
+Subject: [PATCH 09/23] target/arm: Implement FGT trapping infrastructure
+Date: Fri, 27 Jan 2023 17:54:53 +0000
+Message-Id: <20230127175507.2895013-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230127175507.2895013-1-peter.maydell@linaro.org>
 References: <20230127175507.2895013-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UPPERCASE_50_75=0.008 autolearn=no autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,433 +88,301 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Define the system registers which are provided by the
-FEAT_FGT fine-grained trap architectural feature:
- HFGRTR_EL2, HFGWTR_EL2, HDFGRTR_EL2, HDFGWTR_EL2, HFGITR_EL2
+Implement the machinery for fine-grained traps on normal sysregs.
+Any sysreg with a fine-grained trap will set the new field to
+indicate which FGT register bit it should trap on.
 
-All these registers are a set of bit fields, where each bit is set
-for a trap and clear to not trap on a particular system register
-access.  The R and W register pairs are for system registers,
-allowing trapping to be done separately for reads and writes; the I
-register is for system instructions where trapping is on instruction
-execution.
+FGT traps only happen when an AArch64 EL2 enables them for
+an AArch64 EL1. They therefore are only relevant for AArch32
+cpregs when the cpreg can be accessed from EL0. The logic
+in access_check_cp_reg() will check this, so it is safe to
+add a .fgt marking to an ARM_CP_STATE_BOTH ARMCPRegInfo.
 
-The data storage in the CPU state struct is arranged as a set of
-arrays rather than separate fields so that when we're looking up the
-bits for a system register access we can just index into the array
-rather than having to use a switch to select a named struct member.
-The later FEAT_FGT2 will add extra elements to these arrays.
+The DO_BIT and DO_REV_BIT macros define enum constants FGT_##bitname
+which can be used to specify the FGT bit, eg
+   .fgt = FGT_AFSR0_EL1
+(We assume that there is no bit name duplication across the FGT
+registers, for brevity's sake.)
 
-The field definitions for the new registers are in cpregs.h because
-in practice the code that needs them is code that also needs
-the cpregs information; cpu.h is included in a lot more files.
-We're also going to add some FGT-specific definitions to cpregs.h
-in the next commit.
+Subsequent commits will add the .fgt fields to the relevant register
+definitions and define the FGT_nnn values for them.
 
-We do not implement HAFGRTR_EL2, because we don't implement
-FEAT_AMUv1.
+Note that some of the FGT traps are for instructions that we don't
+handle via the cpregs mechanisms (mostly these are instruction traps).
+Those we will have to handle separately.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpregs.h | 285 ++++++++++++++++++++++++++++++++++++++++++++
- target/arm/cpu.h    |  15 +++
- target/arm/helper.c |  40 +++++++
- 3 files changed, 340 insertions(+)
+ target/arm/cpregs.h        | 72 ++++++++++++++++++++++++++++++++++++++
+ target/arm/cpu.h           |  1 +
+ target/arm/internals.h     | 20 +++++++++++
+ target/arm/translate.h     |  2 ++
+ target/arm/helper.c        |  9 +++++
+ target/arm/op_helper.c     | 30 ++++++++++++++++
+ target/arm/translate-a64.c |  3 +-
+ target/arm/translate.c     |  2 ++
+ 8 files changed, 138 insertions(+), 1 deletion(-)
 
 diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
-index 9744179df01..cb3dc567819 100644
+index cb3dc567819..8cc12045af6 100644
 --- a/target/arm/cpregs.h
 +++ b/target/arm/cpregs.h
-@@ -230,6 +230,291 @@ typedef enum CPAccessResult {
-     CP_ACCESS_TRAP_UNCATEGORIZED = (2 << 2),
- } CPAccessResult;
+@@ -515,6 +515,73 @@ FIELD(HDFGWTR_EL2, NBRBCTL, 60, 1)
+ FIELD(HDFGWTR_EL2, NBRBDATA, 61, 1)
+ FIELD(HDFGWTR_EL2, NPMSNEVFR_EL1, 62, 1)
  
-+/* Indexes into fgt_read[] */
-+#define FGTREG_HFGRTR 0
-+#define FGTREG_HDFGRTR 1
-+/* Indexes into fgt_write[] */
-+#define FGTREG_HFGWTR 0
-+#define FGTREG_HDFGWTR 1
-+/* Indexes into fgt_exec[] */
-+#define FGTREG_HFGITR 0
-+
-+FIELD(HFGRTR_EL2, AFSR0_EL1, 0, 1)
-+FIELD(HFGRTR_EL2, AFSR1_EL1, 1, 1)
-+FIELD(HFGRTR_EL2, AIDR_EL1, 2, 1)
-+FIELD(HFGRTR_EL2, AMAIR_EL1, 3, 1)
-+FIELD(HFGRTR_EL2, APDAKEY, 4, 1)
-+FIELD(HFGRTR_EL2, APDBKEY, 5, 1)
-+FIELD(HFGRTR_EL2, APGAKEY, 6, 1)
-+FIELD(HFGRTR_EL2, APIAKEY, 7, 1)
-+FIELD(HFGRTR_EL2, APIBKEY, 8, 1)
-+FIELD(HFGRTR_EL2, CCSIDR_EL1, 9, 1)
-+FIELD(HFGRTR_EL2, CLIDR_EL1, 10, 1)
-+FIELD(HFGRTR_EL2, CONTEXTIDR_EL1, 11, 1)
-+FIELD(HFGRTR_EL2, CPACR_EL1, 12, 1)
-+FIELD(HFGRTR_EL2, CSSELR_EL1, 13, 1)
-+FIELD(HFGRTR_EL2, CTR_EL0, 14, 1)
-+FIELD(HFGRTR_EL2, DCZID_EL0, 15, 1)
-+FIELD(HFGRTR_EL2, ESR_EL1, 16, 1)
-+FIELD(HFGRTR_EL2, FAR_EL1, 17, 1)
-+FIELD(HFGRTR_EL2, ISR_EL1, 18, 1)
-+FIELD(HFGRTR_EL2, LORC_EL1, 19, 1)
-+FIELD(HFGRTR_EL2, LOREA_EL1, 20, 1)
-+FIELD(HFGRTR_EL2, LORID_EL1, 21, 1)
-+FIELD(HFGRTR_EL2, LORN_EL1, 22, 1)
-+FIELD(HFGRTR_EL2, LORSA_EL1, 23, 1)
-+FIELD(HFGRTR_EL2, MAIR_EL1, 24, 1)
-+FIELD(HFGRTR_EL2, MIDR_EL1, 25, 1)
-+FIELD(HFGRTR_EL2, MPIDR_EL1, 26, 1)
-+FIELD(HFGRTR_EL2, PAR_EL1, 27, 1)
-+FIELD(HFGRTR_EL2, REVIDR_EL1, 28, 1)
-+FIELD(HFGRTR_EL2, SCTLR_EL1, 29, 1)
-+FIELD(HFGRTR_EL2, SCXTNUM_EL1, 30, 1)
-+FIELD(HFGRTR_EL2, SCXTNUM_EL0, 31, 1)
-+FIELD(HFGRTR_EL2, TCR_EL1, 32, 1)
-+FIELD(HFGRTR_EL2, TPIDR_EL1, 33, 1)
-+FIELD(HFGRTR_EL2, TPIDRRO_EL0, 34, 1)
-+FIELD(HFGRTR_EL2, TPIDR_EL0, 35, 1)
-+FIELD(HFGRTR_EL2, TTBR0_EL1, 36, 1)
-+FIELD(HFGRTR_EL2, TTBR1_EL1, 37, 1)
-+FIELD(HFGRTR_EL2, VBAR_EL1, 38, 1)
-+FIELD(HFGRTR_EL2, ICC_IGRPENN_EL1, 39, 1)
-+FIELD(HFGRTR_EL2, ERRIDR_EL1, 40, 1)
-+FIELD(HFGRTR_EL2, ERRSELR_EL1, 41, 1)
-+FIELD(HFGRTR_EL2, ERXFR_EL1, 42, 1)
-+FIELD(HFGRTR_EL2, ERXCTLR_EL1, 43, 1)
-+FIELD(HFGRTR_EL2, ERXSTATUS_EL1, 44, 1)
-+FIELD(HFGRTR_EL2, ERXMISCN_EL1, 45, 1)
-+FIELD(HFGRTR_EL2, ERXPFGF_EL1, 46, 1)
-+FIELD(HFGRTR_EL2, ERXPFGCTL_EL1, 47, 1)
-+FIELD(HFGRTR_EL2, ERXPFGCDN_EL1, 48, 1)
-+FIELD(HFGRTR_EL2, ERXADDR_EL1, 49, 1)
-+FIELD(HFGRTR_EL2, NACCDATA_EL1, 50, 1)
-+/* 51-53: RES0 */
-+FIELD(HFGRTR_EL2, NSMPRI_EL1, 54, 1)
-+FIELD(HFGRTR_EL2, NTPIDR2_EL0, 55, 1)
-+/* 56-63: RES0 */
-+
-+/* These match HFGRTR but bits for RO registers are RES0 */
-+FIELD(HFGWTR_EL2, AFSR0_EL1, 0, 1)
-+FIELD(HFGWTR_EL2, AFSR1_EL1, 1, 1)
-+FIELD(HFGWTR_EL2, AMAIR_EL1, 3, 1)
-+FIELD(HFGWTR_EL2, APDAKEY, 4, 1)
-+FIELD(HFGWTR_EL2, APDBKEY, 5, 1)
-+FIELD(HFGWTR_EL2, APGAKEY, 6, 1)
-+FIELD(HFGWTR_EL2, APIAKEY, 7, 1)
-+FIELD(HFGWTR_EL2, APIBKEY, 8, 1)
-+FIELD(HFGWTR_EL2, CONTEXTIDR_EL1, 11, 1)
-+FIELD(HFGWTR_EL2, CPACR_EL1, 12, 1)
-+FIELD(HFGWTR_EL2, CSSELR_EL1, 13, 1)
-+FIELD(HFGWTR_EL2, ESR_EL1, 16, 1)
-+FIELD(HFGWTR_EL2, FAR_EL1, 17, 1)
-+FIELD(HFGWTR_EL2, LORC_EL1, 19, 1)
-+FIELD(HFGWTR_EL2, LOREA_EL1, 20, 1)
-+FIELD(HFGWTR_EL2, LORN_EL1, 22, 1)
-+FIELD(HFGWTR_EL2, LORSA_EL1, 23, 1)
-+FIELD(HFGWTR_EL2, MAIR_EL1, 24, 1)
-+FIELD(HFGWTR_EL2, PAR_EL1, 27, 1)
-+FIELD(HFGWTR_EL2, SCTLR_EL1, 29, 1)
-+FIELD(HFGWTR_EL2, SCXTNUM_EL1, 30, 1)
-+FIELD(HFGWTR_EL2, SCXTNUM_EL0, 31, 1)
-+FIELD(HFGWTR_EL2, TCR_EL1, 32, 1)
-+FIELD(HFGWTR_EL2, TPIDR_EL1, 33, 1)
-+FIELD(HFGWTR_EL2, TPIDRRO_EL0, 34, 1)
-+FIELD(HFGWTR_EL2, TPIDR_EL0, 35, 1)
-+FIELD(HFGWTR_EL2, TTBR0_EL1, 36, 1)
-+FIELD(HFGWTR_EL2, TTBR1_EL1, 37, 1)
-+FIELD(HFGWTR_EL2, VBAR_EL1, 38, 1)
-+FIELD(HFGWTR_EL2, ICC_IGRPENN_EL1, 39, 1)
-+FIELD(HFGWTR_EL2, ERRSELR_EL1, 41, 1)
-+FIELD(HFGWTR_EL2, ERXCTLR_EL1, 43, 1)
-+FIELD(HFGWTR_EL2, ERXSTATUS_EL1, 44, 1)
-+FIELD(HFGWTR_EL2, ERXMISCN_EL1, 45, 1)
-+FIELD(HFGWTR_EL2, ERXPFGCTL_EL1, 47, 1)
-+FIELD(HFGWTR_EL2, ERXPFGCDN_EL1, 48, 1)
-+FIELD(HFGWTR_EL2, ERXADDR_EL1, 49, 1)
-+FIELD(HFGWTR_EL2, NACCDATA_EL1, 50, 1)
-+FIELD(HFGWTR_EL2, NSMPRI_EL1, 54, 1)
-+FIELD(HFGWTR_EL2, NTPIDR2_EL0, 55, 1)
-+
-+FIELD(HFGITR_EL2, ICIALLUIS, 0, 1)
-+FIELD(HFGITR_EL2, ICIALLU, 1, 1)
-+FIELD(HFGITR_EL2, ICIVAU, 2, 1)
-+FIELD(HFGITR_EL2, DCIVAC, 3, 1)
-+FIELD(HFGITR_EL2, DCISW, 4, 1)
-+FIELD(HFGITR_EL2, DCCSW, 5, 1)
-+FIELD(HFGITR_EL2, DCCISW, 6, 1)
-+FIELD(HFGITR_EL2, DCCVAU, 7, 1)
-+FIELD(HFGITR_EL2, DCCVAP, 8, 1)
-+FIELD(HFGITR_EL2, DCCVADP, 9, 1)
-+FIELD(HFGITR_EL2, DCCIVAC, 10, 1)
-+FIELD(HFGITR_EL2, DCZVA, 11, 1)
-+FIELD(HFGITR_EL2, ATS1E1R, 12, 1)
-+FIELD(HFGITR_EL2, ATS1E1W, 13, 1)
-+FIELD(HFGITR_EL2, ATS1E0R, 14, 1)
-+FIELD(HFGITR_EL2, ATS1E0W, 15, 1)
-+FIELD(HFGITR_EL2, ATS1E1RP, 16, 1)
-+FIELD(HFGITR_EL2, ATS1E1WP, 17, 1)
-+FIELD(HFGITR_EL2, TLBIVMALLE1OS, 18, 1)
-+FIELD(HFGITR_EL2, TLBIVAE1OS, 19, 1)
-+FIELD(HFGITR_EL2, TLBIASIDE1OS, 20, 1)
-+FIELD(HFGITR_EL2, TLBIVAAE1OS, 21, 1)
-+FIELD(HFGITR_EL2, TLBIVALE1OS, 22, 1)
-+FIELD(HFGITR_EL2, TLBIVAALE1OS, 23, 1)
-+FIELD(HFGITR_EL2, TLBIRVAE1OS, 24, 1)
-+FIELD(HFGITR_EL2, TLBIRVAAE1OS, 25, 1)
-+FIELD(HFGITR_EL2, TLBIRVALE1OS, 26, 1)
-+FIELD(HFGITR_EL2, TLBIRVAALE1OS, 27, 1)
-+FIELD(HFGITR_EL2, TLBIVMALLE1IS, 28, 1)
-+FIELD(HFGITR_EL2, TLBIVAE1IS, 29, 1)
-+FIELD(HFGITR_EL2, TLBIASIDE1IS, 30, 1)
-+FIELD(HFGITR_EL2, TLBIVAAE1IS, 31, 1)
-+FIELD(HFGITR_EL2, TLBIVALE1IS, 32, 1)
-+FIELD(HFGITR_EL2, TLBIVAALE1IS, 33, 1)
-+FIELD(HFGITR_EL2, TLBIRVAE1IS, 34, 1)
-+FIELD(HFGITR_EL2, TLBIRVAAE1IS, 35, 1)
-+FIELD(HFGITR_EL2, TLBIRVALE1IS, 36, 1)
-+FIELD(HFGITR_EL2, TLBIRVAALE1IS, 37, 1)
-+FIELD(HFGITR_EL2, TLBIRVAE1, 38, 1)
-+FIELD(HFGITR_EL2, TLBIRVAAE1, 39, 1)
-+FIELD(HFGITR_EL2, TLBIRVALE1, 40, 1)
-+FIELD(HFGITR_EL2, TLBIRVAALE1, 41, 1)
-+FIELD(HFGITR_EL2, TLBIVMALLE1, 42, 1)
-+FIELD(HFGITR_EL2, TLBIVAE1, 43, 1)
-+FIELD(HFGITR_EL2, TLBIASIDE1, 44, 1)
-+FIELD(HFGITR_EL2, TLBIVAAE1, 45, 1)
-+FIELD(HFGITR_EL2, TLBIVALE1, 46, 1)
-+FIELD(HFGITR_EL2, TLBIVAALE1, 47, 1)
-+FIELD(HFGITR_EL2, CFPRCTX, 48, 1)
-+FIELD(HFGITR_EL2, DVPRCTX, 49, 1)
-+FIELD(HFGITR_EL2, CPPRCTX, 50, 1)
-+FIELD(HFGITR_EL2, ERET, 51, 1)
-+FIELD(HFGITR_EL2, SVC_EL0, 52, 1)
-+FIELD(HFGITR_EL2, SVC_EL1, 53, 1)
-+FIELD(HFGITR_EL2, DCCVAC, 54, 1)
-+FIELD(HFGITR_EL2, NBRBINJ, 55, 1)
-+FIELD(HFGITR_EL2, NBRBIALL, 56, 1)
-+
-+FIELD(HDFGRTR_EL2, DBGBCRN_EL1, 0, 1)
-+FIELD(HDFGRTR_EL2, DBGBVRN_EL1, 1, 1)
-+FIELD(HDFGRTR_EL2, DBGWCRN_EL1, 2, 1)
-+FIELD(HDFGRTR_EL2, DBGWVRN_EL1, 3, 1)
-+FIELD(HDFGRTR_EL2, MDSCR_EL1, 4, 1)
-+FIELD(HDFGRTR_EL2, DBGCLAIM, 5, 1)
-+FIELD(HDFGRTR_EL2, DBGAUTHSTATUS_EL1, 6, 1)
-+FIELD(HDFGRTR_EL2, DBGPRCR_EL1, 7, 1)
-+/* 8: RES0: OSLAR_EL1 is WO */
-+FIELD(HDFGRTR_EL2, OSLSR_EL1, 9, 1)
-+FIELD(HDFGRTR_EL2, OSECCR_EL1, 10, 1)
-+FIELD(HDFGRTR_EL2, OSDLR_EL1, 11, 1)
-+FIELD(HDFGRTR_EL2, PMEVCNTRN_EL0, 12, 1)
-+FIELD(HDFGRTR_EL2, PMEVTYPERN_EL0, 13, 1)
-+FIELD(HDFGRTR_EL2, PMCCFILTR_EL0, 14, 1)
-+FIELD(HDFGRTR_EL2, PMCCNTR_EL0, 15, 1)
-+FIELD(HDFGRTR_EL2, PMCNTEN, 16, 1)
-+FIELD(HDFGRTR_EL2, PMINTEN, 17, 1)
-+FIELD(HDFGRTR_EL2, PMOVS, 18, 1)
-+FIELD(HDFGRTR_EL2, PMSELR_EL0, 19, 1)
-+/* 20: RES0: PMSWINC_EL0 is WO */
-+/* 21: RES0: PMCR_EL0 is WO */
-+FIELD(HDFGRTR_EL2, PMMIR_EL1, 22, 1)
-+FIELD(HDFGRTR_EL2, PMBLIMITR_EL1, 23, 1)
-+FIELD(HDFGRTR_EL2, PMBPTR_EL1, 24, 1)
-+FIELD(HDFGRTR_EL2, PMBSR_EL1, 25, 1)
-+FIELD(HDFGRTR_EL2, PMSCR_EL1, 26, 1)
-+FIELD(HDFGRTR_EL2, PMSEVFR_EL1, 27, 1)
-+FIELD(HDFGRTR_EL2, PMSFCR_EL1, 28, 1)
-+FIELD(HDFGRTR_EL2, PMSICR_EL1, 29, 1)
-+FIELD(HDFGRTR_EL2, PMSIDR_EL1, 30, 1)
-+FIELD(HDFGRTR_EL2, PMSIRR_EL1, 31, 1)
-+FIELD(HDFGRTR_EL2, PMSLATFR_EL1, 32, 1)
-+FIELD(HDFGRTR_EL2, TRC, 33, 1)
-+FIELD(HDFGRTR_EL2, TRCAUTHSTATUS, 34, 1)
-+FIELD(HDFGRTR_EL2, TRCAUXCTLR, 35, 1)
-+FIELD(HDFGRTR_EL2, TRCCLAIM, 36, 1)
-+FIELD(HDFGRTR_EL2, TRCCNTVRn, 37, 1)
-+/* 38, 39: RES0 */
-+FIELD(HDFGRTR_EL2, TRCID, 40, 1)
-+FIELD(HDFGRTR_EL2, TRCIMSPECN, 41, 1)
-+/* 42: RES0: TRCOSLAR is WO */
-+FIELD(HDFGRTR_EL2, TRCOSLSR, 43, 1)
-+FIELD(HDFGRTR_EL2, TRCPRGCTLR, 44, 1)
-+FIELD(HDFGRTR_EL2, TRCSEQSTR, 45, 1)
-+FIELD(HDFGRTR_EL2, TRCSSCSRN, 46, 1)
-+FIELD(HDFGRTR_EL2, TRCSTATR, 47, 1)
-+FIELD(HDFGRTR_EL2, TRCVICTLR, 48, 1)
-+/* 49: RES0: TRFCR_EL1 is WO */
-+FIELD(HDFGRTR_EL2, TRBBASER_EL1, 50, 1)
-+FIELD(HDFGRTR_EL2, TRBIDR_EL1, 51, 1)
-+FIELD(HDFGRTR_EL2, TRBLIMITR_EL1, 52, 1)
-+FIELD(HDFGRTR_EL2, TRBMAR_EL1, 53, 1)
-+FIELD(HDFGRTR_EL2, TRBPTR_EL1, 54, 1)
-+FIELD(HDFGRTR_EL2, TRBSR_EL1, 55, 1)
-+FIELD(HDFGRTR_EL2, TRBTRG_EL1, 56, 1)
-+FIELD(HDFGRTR_EL2, PMUSERENR_EL0, 57, 1)
-+FIELD(HDFGRTR_EL2, PMCEIDN_EL0, 58, 1)
-+FIELD(HDFGRTR_EL2, NBRBIDR, 59, 1)
-+FIELD(HDFGRTR_EL2, NBRBCTL, 60, 1)
-+FIELD(HDFGRTR_EL2, NBRBDATA, 61, 1)
-+FIELD(HDFGRTR_EL2, NPMSNEVFR_EL1, 62, 1)
-+FIELD(HDFGRTR_EL2, PMBIDR_EL1, 63, 1)
++/* Which fine-grained trap bit register to check, if any */
++FIELD(FGT, TYPE, 10, 3)
++FIELD(FGT, REV, 9, 1) /* Is bit sense reversed? */
++FIELD(FGT, IDX, 6, 3) /* Index within a uint64_t[] array */
++FIELD(FGT, BITPOS, 0, 6) /* Bit position within the uint64_t */
 +
 +/*
-+ * These match HDFGRTR_EL2, but bits for RO registers are RES0.
-+ * A few bits are for WO registers, where the HDFGRTR_EL2 bit is RES0.
++ * Macros to define FGT_##bitname enum constants to use in ARMCPRegInfo::fgt
++ * fields. We assume for brevity's sake that there are no duplicated
++ * bit names across the various FGT registers.
 + */
-+FIELD(HDFGWTR_EL2, DBGBCRN_EL1, 0, 1)
-+FIELD(HDFGWTR_EL2, DBGBVRN_EL1, 1, 1)
-+FIELD(HDFGWTR_EL2, DBGWCRN_EL1, 2, 1)
-+FIELD(HDFGWTR_EL2, DBGWVRN_EL1, 3, 1)
-+FIELD(HDFGWTR_EL2, MDSCR_EL1, 4, 1)
-+FIELD(HDFGWTR_EL2, DBGCLAIM, 5, 1)
-+FIELD(HDFGWTR_EL2, DBGPRCR_EL1, 7, 1)
-+FIELD(HDFGWTR_EL2, OSLAR_EL1, 8, 1)
-+FIELD(HDFGWTR_EL2, OSLSR_EL1, 9, 1)
-+FIELD(HDFGWTR_EL2, OSECCR_EL1, 10, 1)
-+FIELD(HDFGWTR_EL2, OSDLR_EL1, 11, 1)
-+FIELD(HDFGWTR_EL2, PMEVCNTRN_EL0, 12, 1)
-+FIELD(HDFGWTR_EL2, PMEVTYPERN_EL0, 13, 1)
-+FIELD(HDFGWTR_EL2, PMCCFILTR_EL0, 14, 1)
-+FIELD(HDFGWTR_EL2, PMCCNTR_EL0, 15, 1)
-+FIELD(HDFGWTR_EL2, PMCNTEN, 16, 1)
-+FIELD(HDFGWTR_EL2, PMINTEN, 17, 1)
-+FIELD(HDFGWTR_EL2, PMOVS, 18, 1)
-+FIELD(HDFGWTR_EL2, PMSELR_EL0, 19, 1)
-+FIELD(HDFGWTR_EL2, PMSWINC_EL0, 20, 1)
-+FIELD(HDFGWTR_EL2, PMCR_EL0, 21, 1)
-+FIELD(HDFGWTR_EL2, PMBLIMITR_EL1, 23, 1)
-+FIELD(HDFGWTR_EL2, PMBPTR_EL1, 24, 1)
-+FIELD(HDFGWTR_EL2, PMBSR_EL1, 25, 1)
-+FIELD(HDFGWTR_EL2, PMSCR_EL1, 26, 1)
-+FIELD(HDFGWTR_EL2, PMSEVFR_EL1, 27, 1)
-+FIELD(HDFGWTR_EL2, PMSFCR_EL1, 28, 1)
-+FIELD(HDFGWTR_EL2, PMSICR_EL1, 29, 1)
-+FIELD(HDFGWTR_EL2, PMSIRR_EL1, 31, 1)
-+FIELD(HDFGWTR_EL2, PMSLATFR_EL1, 32, 1)
-+FIELD(HDFGWTR_EL2, TRC, 33, 1)
-+FIELD(HDFGWTR_EL2, TRCAUXCTLR, 35, 1)
-+FIELD(HDFGWTR_EL2, TRCCLAIM, 36, 1)
-+FIELD(HDFGWTR_EL2, TRCCNTVRn, 37, 1)
-+FIELD(HDFGWTR_EL2, TRCIMSPECN, 41, 1)
-+FIELD(HDFGWTR_EL2, TRCOSLAR, 42, 1)
-+FIELD(HDFGWTR_EL2, TRCPRGCTLR, 44, 1)
-+FIELD(HDFGWTR_EL2, TRCSEQSTR, 45, 1)
-+FIELD(HDFGWTR_EL2, TRCSSCSRN, 46, 1)
-+FIELD(HDFGWTR_EL2, TRCVICTLR, 48, 1)
-+FIELD(HDFGWTR_EL2, TRFCR_EL1, 49, 1)
-+FIELD(HDFGWTR_EL2, TRBBASER_EL1, 50, 1)
-+FIELD(HDFGWTR_EL2, TRBLIMITR_EL1, 52, 1)
-+FIELD(HDFGWTR_EL2, TRBMAR_EL1, 53, 1)
-+FIELD(HDFGWTR_EL2, TRBPTR_EL1, 54, 1)
-+FIELD(HDFGWTR_EL2, TRBSR_EL1, 55, 1)
-+FIELD(HDFGWTR_EL2, TRBTRG_EL1, 56, 1)
-+FIELD(HDFGWTR_EL2, PMUSERENR_EL0, 57, 1)
-+FIELD(HDFGWTR_EL2, NBRBCTL, 60, 1)
-+FIELD(HDFGWTR_EL2, NBRBDATA, 61, 1)
-+FIELD(HDFGWTR_EL2, NPMSNEVFR_EL1, 62, 1)
++#define DO_BIT(REG, BITNAME)                                    \
++    FGT_##BITNAME = FGT_##REG | R_##REG##_EL2_##BITNAME##_SHIFT
++
++/* Some bits have reversed sense, so 0 means trap and 1 means not */
++#define DO_REV_BIT(REG, BITNAME)                                        \
++    FGT_##BITNAME = FGT_##REG | FGT_REV | R_##REG##_EL2_##BITNAME##_SHIFT
++
++typedef enum FGTBit {
++    /*
++     * These bits tell us which register arrays to use:
++     * if FGT_R is set then reads are checked against fgt_read[];
++     * if FGT_W is set then writes are checked against fgt_write[];
++     * if FGT_EXEC is set then all accesses are checked against fgt_exec[].
++     *
++     * For almost all bits in the R/W register pairs, the bit exists in
++     * both registers for a RW register, in HFGRTR/HDFGRTR for a RO register
++     * with the corresponding HFGWTR/HDFGTWTR bit being RES0, and vice-versa
++     * for a WO register. There are unfortunately a couple of exceptions
++     * (PMCR_EL0, TRFCR_EL1) where the register being trapped is RW but
++     * the FGT system only allows trapping of writes, not reads.
++     *
++     * Note that we arrange these bits so that a 0 FGTBit means "no trap".
++     */
++    FGT_R = 1 << R_FGT_TYPE_SHIFT,
++    FGT_W = 2 << R_FGT_TYPE_SHIFT,
++    FGT_EXEC = 4 << R_FGT_TYPE_SHIFT,
++    FGT_RW = FGT_R | FGT_W,
++    /* Bit to identify whether trap bit is reversed sense */
++    FGT_REV = R_FGT_REV_MASK,
++
++    /*
++     * If a bit exists in HFGRTR/HDFGRTR then either the register being
++     * trapped is RO or the bit also exists in HFGWTR/HDFGWTR, so we either
++     * want to trap for both reads and writes or else it's harmless to mark
++     * it as trap-on-writes.
++     * If a bit exists only in HFGWTR/HDFGWTR then either the register being
++     * trapped is WO, or else it is one of the two oddball special cases
++     * which are RW but have only a write trap. We mark these as only
++     * FGT_W so we get the right behaviour for those special cases.
++     * (If a bit was added in future that provided only a read trap for an
++     * RW register we'd need to do something special to get the FGT_R bit
++     * only. But this seems unlikely to happen.)
++     *
++     * So for the DO_BIT/DO_REV_BIT macros: use FGT_HFGRTR/FGT_HDFGRTR if
++     * the bit exists in that register. Otherwise use FGT_HFGWTR/FGT_HDFGWTR.
++     */
++    FGT_HFGRTR = FGT_RW | (FGTREG_HFGRTR << R_FGT_IDX_SHIFT),
++    FGT_HFGWTR = FGT_W | (FGTREG_HFGWTR << R_FGT_IDX_SHIFT),
++    FGT_HDFGRTR = FGT_RW | (FGTREG_HDFGRTR << R_FGT_IDX_SHIFT),
++    FGT_HDFGWTR = FGT_W | (FGTREG_HDFGWTR << R_FGT_IDX_SHIFT),
++    FGT_HFGITR = FGT_EXEC | (FGTREG_HFGITR << R_FGT_IDX_SHIFT),
++} FGTBit;
++
++#undef DO_BIT
++#undef DO_REV_BIT
 +
  typedef struct ARMCPRegInfo ARMCPRegInfo;
  
  /*
+@@ -569,6 +636,11 @@ struct ARMCPRegInfo {
+     CPAccessRights access;
+     /* Security state: ARM_CP_SECSTATE_* bits/values */
+     CPSecureState secure;
++    /*
++     * Which fine-grained trap register bit to check, if any. This
++     * value encodes both the trap register and bit within it.
++     */
++    FGTBit fgt;
+     /*
+      * The opaque pointer passed to define_arm_cp_regs_with_opaque() when
+      * this register was defined: can be used to hand data through to the
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 8cf70693be4..063024508af 100644
+index 063024508af..5cc81bec9bf 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -529,6 +529,16 @@ typedef struct CPUArchState {
-         uint64_t disr_el1;
-         uint64_t vdisr_el2;
-         uint64_t vsesr_el2;
-+
-+        /*
-+         * Fine-Grained Trap registers. We store these as arrays so the
-+         * access checking code doesn't have to manually select
-+         * HFGRTR_EL2 vs HFDFGRTR_EL2 etc when looking up the bit to test.
-+         * FEAT_FGT2 will add more elements to these arrays.
-+         */
-+        uint64_t fgt_read[2]; /* HFGRTR, HDFGRTR */
-+        uint64_t fgt_write[2]; /* HFGWTR, HDFGWTR */
-+        uint64_t fgt_exec[1]; /* HFGITR */
-     } cp15;
+@@ -3170,6 +3170,7 @@ FIELD(TBFLAG_ANY, FPEXC_EL, 8, 2)
+ /* Memory operations require alignment: SCTLR_ELx.A or CCR.UNALIGN_TRP */
+ FIELD(TBFLAG_ANY, ALIGN_MEM, 10, 1)
+ FIELD(TBFLAG_ANY, PSTATE__IL, 11, 1)
++FIELD(TBFLAG_ANY, FGT_ACTIVE, 12, 1)
  
-     struct {
-@@ -4164,6 +4174,11 @@ static inline bool isar_feature_aa64_tgran64_2(const ARMISARegisters *id)
-     return t >= 2 || (t == 0 && isar_feature_aa64_tgran64(id));
- }
+ /*
+  * Bit usage when in AArch32 state, both A- and M-profile.
+diff --git a/target/arm/internals.h b/target/arm/internals.h
+index d9555309df0..e1e018da463 100644
+--- a/target/arm/internals.h
++++ b/target/arm/internals.h
+@@ -1377,4 +1377,24 @@ static inline uint64_t arm_mdcr_el2_eff(CPUARMState *env)
+     ((1 << (1 - 1)) | (1 << (2 - 1)) |                  \
+      (1 << (4 - 1)) | (1 << (8 - 1)) | (1 << (16 - 1)))
  
-+static inline bool isar_feature_aa64_fgt(const ARMISARegisters *id)
++/*
++ * Return true if it is possible to take a fine-grained-trap to EL2.
++ */
++static inline bool arm_fgt_active(CPUARMState *env, int el)
 +{
-+    return FIELD_EX64(id->id_aa64mmfr0, ID_AA64MMFR0, FGT) != 0;
++    /*
++     * The Arm ARM only requires the "{E2H,TGE} != {1,1}" test for traps
++     * that can affect EL0, but it is harmless to do the test also for
++     * traps on registers that are only accessible at EL1 because if the test
++     * returns true then we can't be executing at EL1 anyway.
++     * FGT traps only happen when EL2 is enabled and EL1 is AArch64;
++     * traps from AArch32 only happen for the EL0 is AArch32 case.
++     */
++    return cpu_isar_feature(aa64_fgt, env_archcpu(env)) &&
++        el < 2 && arm_is_el2_enabled(env) &&
++        arm_el_is_aa64(env, 1) &&
++        (arm_hcr_el2_eff(env) & (HCR_E2H | HCR_TGE)) != (HCR_E2H | HCR_TGE) &&
++        (!arm_feature(env, ARM_FEATURE_EL3) || (env->cp15.scr_el3 & SCR_FGTEN));
 +}
 +
- static inline bool isar_feature_aa64_ccidx(const ARMISARegisters *id)
- {
-     return FIELD_EX64(id->id_aa64mmfr2, ID_AA64MMFR2, CCIDX) != 0;
+ #endif
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index f17f095cbe2..599902016dc 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -130,6 +130,8 @@ typedef struct DisasContext {
+     bool is_nonstreaming;
+     /* True if MVE insns are definitely not predicated by VPR or LTPSIZE */
+     bool mve_no_pred;
++    /* True if fine-grained traps are active */
++    bool fgt_active;
+     /*
+      * >= 0, a copy of PSTATE.BTYPE, which will be 0 without v8.5-BTI.
+      *  < 0, set by the current instruction.
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 66966869218..20527995359 100644
+index 20527995359..2389e41bd07 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -1869,6 +1869,9 @@ static void scr_write(CPUARMState *env, const ARMCPRegInfo *ri, uint64_t value)
-         if (cpu_isar_feature(aa64_hcx, cpu)) {
-             valid_mask |= SCR_HXEN;
-         }
-+        if (cpu_isar_feature(aa64_fgt, cpu)) {
-+            valid_mask |= SCR_FGTEN;
-+        }
-     } else {
-         valid_mask &= ~(SCR_RW | SCR_ST);
-         if (cpu_isar_feature(aa32_ras, cpu)) {
-@@ -7546,6 +7549,39 @@ static const ARMCPRegInfo scxtnum_reginfo[] = {
-       .access = PL3_RW,
-       .fieldoffset = offsetof(CPUARMState, scxtnum_el[3]) },
- };
-+
-+static CPAccessResult access_fgt(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                 bool isread)
-+{
-+    if (arm_current_el(env) == 2 &&
-+        arm_feature(env, ARM_FEATURE_EL3) && !(env->cp15.scr_el3 & SCR_FGTEN)) {
-+        return CP_ACCESS_TRAP_EL3;
-+    }
-+    return CP_ACCESS_OK;
-+}
-+
-+static const ARMCPRegInfo fgt_reginfo[] = {
-+    { .name = "HFGRTR_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 4,
-+      .access = PL2_RW, .accessfn = access_fgt,
-+      .fieldoffset = offsetof(CPUARMState, cp15.fgt_read[FGTREG_HFGRTR]) },
-+    { .name = "HFGWTR_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 5,
-+      .access = PL2_RW, .accessfn = access_fgt,
-+      .fieldoffset = offsetof(CPUARMState, cp15.fgt_write[FGTREG_HFGWTR]) },
-+    { .name = "HDFGRTR_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 3, .crm = 1, .opc2 = 4,
-+      .access = PL2_RW, .accessfn = access_fgt,
-+      .fieldoffset = offsetof(CPUARMState, cp15.fgt_read[FGTREG_HDFGRTR]) },
-+    { .name = "HDFGWTR_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 3, .crm = 1, .opc2 = 5,
-+      .access = PL2_RW, .accessfn = access_fgt,
-+      .fieldoffset = offsetof(CPUARMState, cp15.fgt_write[FGTREG_HDFGWTR]) },
-+    { .name = "HFGITR_EL2", .state = ARM_CP_STATE_AA64,
-+      .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 6,
-+      .access = PL2_RW, .accessfn = access_fgt,
-+      .fieldoffset = offsetof(CPUARMState, cp15.fgt_exec[FGTREG_HFGITR]) },
-+};
- #endif /* TARGET_AARCH64 */
- 
- static CPAccessResult access_predinv(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -8933,6 +8969,10 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-     if (cpu_isar_feature(aa64_scxtnum, cpu)) {
-         define_arm_cp_regs(cpu, scxtnum_reginfo);
+@@ -11689,6 +11689,7 @@ static CPUARMTBFlags rebuild_hflags_common(CPUARMState *env, int fp_el,
+     if (arm_singlestep_active(env)) {
+         DP_TBFLAG_ANY(flags, SS_ACTIVE, 1);
      }
 +
-+    if (cpu_isar_feature(aa64_fgt, cpu)) {
-+        define_arm_cp_regs(cpu, fgt_reginfo);
-+    }
- #endif
+     return flags;
+ }
  
-     if (cpu_isar_feature(any_predinv, cpu)) {
+@@ -11761,6 +11762,10 @@ static CPUARMTBFlags rebuild_hflags_a32(CPUARMState *env, int fp_el,
+         DP_TBFLAG_A32(flags, HSTR_ACTIVE, 1);
+     }
+ 
++    if (arm_fgt_active(env, el)) {
++        DP_TBFLAG_ANY(flags, FGT_ACTIVE, 1);
++    }
++
+     if (env->uncached_cpsr & CPSR_IL) {
+         DP_TBFLAG_ANY(flags, PSTATE__IL, 1);
+     }
+@@ -11895,6 +11900,10 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
+         DP_TBFLAG_ANY(flags, PSTATE__IL, 1);
+     }
+ 
++    if (arm_fgt_active(env, el)) {
++        DP_TBFLAG_ANY(flags, FGT_ACTIVE, 1);
++    }
++
+     if (cpu_isar_feature(aa64_mte, env_archcpu(env))) {
+         /*
+          * Set MTE_ACTIVE if any access may be Checked, and leave clear
+diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
+index 5c17a5bd176..6787834502b 100644
+--- a/target/arm/op_helper.c
++++ b/target/arm/op_helper.c
+@@ -687,6 +687,36 @@ const void *HELPER(access_check_cp_reg)(CPUARMState *env, uint32_t key,
+         }
+     }
+ 
++    /*
++     * Fine-grained traps also are lower priority than undef-to-EL1,
++     * higher priority than trap-to-EL3, and we don't care about priority
++     * order with other EL2 traps because the syndrome value is the same.
++     */
++    if (arm_fgt_active(env, arm_current_el(env))) {
++        uint64_t trapword = 0;
++        unsigned int idx = FIELD_EX32(ri->fgt, FGT, IDX);
++        unsigned int bitpos = FIELD_EX32(ri->fgt, FGT, BITPOS);
++        bool rev = FIELD_EX32(ri->fgt, FGT, REV);
++        bool trapbit;
++
++        if (ri->fgt & FGT_EXEC) {
++            assert(idx < ARRAY_SIZE(env->cp15.fgt_exec));
++            trapword = env->cp15.fgt_exec[idx];
++        } else if (isread && (ri->fgt & FGT_R)) {
++            assert(idx < ARRAY_SIZE(env->cp15.fgt_read));
++            trapword = env->cp15.fgt_read[idx];
++        } else if (!isread && (ri->fgt & FGT_W)) {
++            assert(idx < ARRAY_SIZE(env->cp15.fgt_write));
++            trapword = env->cp15.fgt_write[idx];
++        }
++
++        trapbit = extract64(trapword, bitpos, 1);
++        if (trapbit != rev) {
++            res = CP_ACCESS_TRAP_EL2;
++            goto fail;
++        }
++    }
++
+     if (likely(res == CP_ACCESS_OK)) {
+         return ri;
+     }
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 52b1b8a1f0a..a47dab4f1dd 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -1962,7 +1962,7 @@ static void handle_sys(DisasContext *s, uint32_t insn, bool isread,
+         return;
+     }
+ 
+-    if (ri->accessfn) {
++    if (ri->accessfn || (ri->fgt && s->fgt_active)) {
+         /* Emit code to perform further access permissions checks at
+          * runtime; this may result in an exception.
+          */
+@@ -14741,6 +14741,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
+     dc->fp_excp_el = EX_TBFLAG_ANY(tb_flags, FPEXC_EL);
+     dc->align_mem = EX_TBFLAG_ANY(tb_flags, ALIGN_MEM);
+     dc->pstate_il = EX_TBFLAG_ANY(tb_flags, PSTATE__IL);
++    dc->fgt_active = EX_TBFLAG_ANY(tb_flags, FGT_ACTIVE);
+     dc->sve_excp_el = EX_TBFLAG_A64(tb_flags, SVEEXC_EL);
+     dc->sme_excp_el = EX_TBFLAG_A64(tb_flags, SMEEXC_EL);
+     dc->vl = (EX_TBFLAG_A64(tb_flags, VL) + 1) * 16;
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index ec1f2288ff8..c23ba5fa7d9 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -4812,6 +4812,7 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
+     }
+ 
+     if ((s->hstr_active && s->current_el == 0) || ri->accessfn ||
++        (ri->fgt && s->fgt_active) ||
+         (arm_dc_feature(s, ARM_FEATURE_XSCALE) && cpnum < 14)) {
+         /*
+          * Emit code to perform further access permissions checks at
+@@ -9416,6 +9417,7 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     dc->fp_excp_el = EX_TBFLAG_ANY(tb_flags, FPEXC_EL);
+     dc->align_mem = EX_TBFLAG_ANY(tb_flags, ALIGN_MEM);
+     dc->pstate_il = EX_TBFLAG_ANY(tb_flags, PSTATE__IL);
++    dc->fgt_active = EX_TBFLAG_ANY(tb_flags, FGT_ACTIVE);
+ 
+     if (arm_feature(env, ARM_FEATURE_M)) {
+         dc->vfp_enabled = 1;
 -- 
 2.34.1
 
