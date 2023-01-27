@@ -2,83 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2831E67EF9D
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 21:38:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E08067F009
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 22:00:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLVTP-0001Bw-BI; Fri, 27 Jan 2023 15:37:23 -0500
+	id 1pLVoD-0006Xq-8z; Fri, 27 Jan 2023 15:58:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLVTM-00018r-LK
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 15:37:20 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLVTK-00055j-Tr
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 15:37:20 -0500
-Received: by mail-pl1-x636.google.com with SMTP id 5so6187362plo.3
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 12:37:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=BHuUJUqMqN/xTSu6EyeYUzPZT3vrZ7VptQ4cKrpisEY=;
- b=w+yyDaWwYA8m/76Vx5m3XqfUnpZq/mFzE6SOYhx2CIniWJKbKV0GH+cZWI6I8GdOOM
- ki6tqDysRuMg9pOMu9sm+dn4HTjSt4lKHhSrQZjrwoVrUBt2PZe6cgfIs07xYsAr9s9d
- RJwwFbeYD7Nu1OeobzxZLYFNQAVk+lbaTQ9WztQQk0uWrd3HcsCKzZNBO9FRuLwCFgiF
- RqdWrzgo4+P6V5HzB+TuU7Y/w4RSA+BmJR0QzaxB4i1RKfD5JiPNV+yR44r63Ag0QLPM
- xbPWuogYqlztKaBk7jvSewok94tLj6+KVa7FBvhpXX+Unk34H5Exs5+uBfBKumOp0kzf
- aNNw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=BHuUJUqMqN/xTSu6EyeYUzPZT3vrZ7VptQ4cKrpisEY=;
- b=EQkFnWNAJtcTXN7r26fcOS9V3VwJ2ozCwMuQfDeahJhRncRxNm8iXmUwALRyxG5/9Y
- pqhVW6VvadOCBHakGrV/N9huaxoDRH7HJOI2G6rI8BvRO3a4jDyjOPjmHuu1i5mk9R9H
- T3gmgR/Pym1UVQh5M+Qt45M0BhbVtLk88PLohdCnsxGZy6exvJ2pWiwyq/oqBVW0YKKG
- SCVPwJUi4IzzF0BuhmK6oUcCpUxipXou0F2bj+iEmCzj54Frmzzcj4bXQ1o3B14NDInr
- ozGcB2jZY/B6JEoFPkI5FutGfn4ONxPwWc6C+JwkYUieVCl1S+uUG/U9PGKlNZhZztPv
- oXNw==
-X-Gm-Message-State: AO0yUKXuXRrm2slfm2aFadhMOhglUWQ4gSu9uzsOxTLz2W563mkvsBNx
- LEauksUGGMpLRMOvlzUxNmbv4w==
-X-Google-Smtp-Source: AK7set/9dDDqYDDf9spm37WRWP8CsLsRGc4wYyFUsReKx1FsUMO3KzJZeaPIsPCimLxoMr1GIi4stQ==
-X-Received: by 2002:a17:90b:3b4f:b0:22c:2092:b6d1 with SMTP id
- ot15-20020a17090b3b4f00b0022c2092b6d1mr8321399pjb.24.1674851837422; 
- Fri, 27 Jan 2023 12:37:17 -0800 (PST)
-Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- v11-20020a17090a4ecb00b00229f68ba7fbsm5443747pjl.19.2023.01.27.12.37.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 12:37:16 -0800 (PST)
-Message-ID: <5a713862-5bc5-3d2b-e54f-70cf5b484493@linaro.org>
-Date: Fri, 27 Jan 2023 10:37:12 -1000
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pLVoB-0006Xf-M0
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 15:58:51 -0500
+Received: from mout.gmx.net ([212.227.17.22])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pLVoA-000209-19
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 15:58:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1674853128; bh=QiFPN3bFqmhqeVJFHP25ibgHutJvjyOScIAYMAcynWU=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=CuomJtiSor0GSSWjXVC+ddG1te6ZL7exrnrEPAxgVrbwDmcMsxTfAV4nOhGu8rRNk
+ cAirybD19VmYTgEkNLii0BO/4mIP1G1xQSYVmCOHaKJZda7lQkCToNz37VOC09hxfU
+ Oc5NGockbNN0uaazZ+0X+ir9YM5aJg6+rQP6ZO8T+annwyPykrimNbv7LbsmnjHnZG
+ jeXext3rMwIDPLJq7tWPXiZdihly5jnUxpXj36MvOarzPUDaD9gQOfjpcC46tNLlz1
+ FFjipt68Sy0gKMXG8aLV+ZTCnJLN4PKeCfvGirbBmotyg1SOlRvLgBrTKGf+Sw/2u4
+ oHQWRJZfY6+wg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from p100 ([92.116.191.252]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N2Dx8-1ofKac0yX0-013aT6; Fri, 27
+ Jan 2023 21:58:48 +0100
+Date: Fri, 27 Jan 2023 21:58:46 +0100
+From: Helge Deller <deller@gmx.de>
+To: Helge Deller <deller@gmx.de>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+Subject: [PATCH v2] linux-user: Improve strace output of pread64() and
+ pwrite64()
+Message-ID: <Y9Q7BlDc/VX+1SBL@p100>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 03/16] target/arm/kvm-rme: Initialize realm
-Content-Language: en-US
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, pbonzini@redhat.com,
- eblake@redhat.com, armbru@redhat.com, berrange@redhat.com,
- eduardo@habkost.net, alex.bennee@linaro.org
-References: <20230127150727.612594-1-jean-philippe@linaro.org>
- <20230127150727.612594-4-jean-philippe@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230127150727.612594-4-jean-philippe@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:UcYjgEIJ7OepMuLaTnJqVlB79EfOuMvF5zeXFNmEkBXV0qxuo2p
+ 7cLgtcQCA3gQbwxoBSVLxs5NmRSNGNr4SHTVy/foK33ZAN4AEVKIVrIR/qti+NwMADyIqSB
+ cDOrZ8A5k4nDSa8zxK5mFKDRvNq/g2CrNovI03H5lIRJ24Xh/JUpaKHhaifEOr1xm1I4NO/
+ BN/m6zDBD1C3aLRSFesNA==
+UI-OutboundReport: notjunk:1;M01:P0:DRvVa8bn/2k=;Avjza1/E4RKkhEyGrCXEm9y9rcB
+ y4wLEM3NUUvEUDRtTEyLkAkKfMGTJ0ZgYN1EmgWA/2D4hD3iouDIPJZkJsGXc4D56y459l25A
+ wJ6Tk7dtqd3kEKzg4lj3m2/2JzMCSi7eCUN28s5P+Mu+SqKAVVbttMyAscM0SzlPuX9wUTHOA
+ J4ONSnZH8UphIvQOPj737Bm4kvyeW+pOHRlhg4YZWTMl68P02SZK1FFr8giZQat41nRTehCOG
+ 8Z5199r/1VTfoCJEi8pErpgxdmaAniHrm30F9xWq6106BkdamInybZxtChwIbea9qB4283MWM
+ QxHX1uNZwAsSo7p8sw6tN4J6WjT/SVF6gwcKXE94vWWHRAEI2JlptsFIfF2YJRv+joQDyRPfF
+ /og8EyhUVjSy1zcmTfQ6u3fi657r+g/A39Y6JcgBZnwnfVwxPhu2XrsIqzjGtQ7f5Xu70vf9k
+ R6WvtZFSMzgkHRIerKssFJdb8RjNiajVJKihn/J3gTYa1Z7HxxEqkap6WlQyQNEFS1X7OqPRm
+ UROCogilPc0UCT+vMcWbPAnmyS2Uem0qdbMU55k+0vn3L1wIsZ8QYIwDm/9XhERQxHcAPeaGX
+ 36EvmPhr3c1cPyO+oPji/BGQ5al26jwdmp4OSS3q7JqVa7/s1VrOQt0Hq61pDOJeEw1NOkMPe
+ M6h08w+lbw0qjIslm03AScAE39X/g1GQE+22gRK1H7xhJzFiKBS38bzxk9EphHwyHwCngQHlx
+ xQUn3k65aWmNjSSk8pXHwH3P2b/KD0DZ6pE5ZQhxIYFfkbWkeihYlHpGKBgVoZ1ePQpN6H9h3
+ w4m7PitsDVXnVGth4Dn4Fnv6ML0jpftf08vbzt5QetU20yXSx/UM8FFAk/QwObJeAEjPjQzwy
+ VwZozQW/57RyiGpCamI9weSc3xWg0dSs+0/tF6Qwghr7sWPdbPDLyk40KhX6+mE1NGhupavwe
+ QSJ7s/87dDI+XcbW+tUNAIpXF0U=
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,74 +83,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/27/23 05:07, Jean-Philippe Brucker wrote:
-> +static inline int kvm_arm_rme_init(ConfidentialGuestSupport *cgs, Error **errp)
-> +{
-> +    return 0;
-> +}
-> +
-> +static inline int kvm_arm_rme_vm_type(MachineState *ms)
-> +{
-> +    return 0;
-> +}
+Make the strace look nicer for those two syscalls.
 
-Should the stubs really return 0, or g_assert_not_reached()?
+Signed-off-by: Helge Deller <deller@gmx.de>
+=2D--
+v2: Use regpairs_aligned() and target_offset64(), noticed by Laurent Vivie=
+r
 
-> +static RmeGuest *cgs_to_rme(ConfidentialGuestSupport *cgs)
-> +{
-> +    if (!cgs) {
-> +        return NULL;
-> +    }
-> +    return (RmeGuest *)object_dynamic_cast(OBJECT(cgs), TYPE_RME_GUEST);
-> +}
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 82dc1a1e20..379536f5c9 100644
+=2D-- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -3824,6 +3824,25 @@ print_rlimit64(abi_ulong rlim_addr, int last)
+     }
+ }
 
-Direct usage of object_dynamic_cast is usually not correct.
-
-Normally one would use DECLARE_INSTANCE_CHECKER to define the entire function.  But if you 
-prefer to type-check the input argument as ConfidentialGuestSupport I can see defining 
-your own function.  But in that case I think you probably want to use OBJECT_CHECK, which 
-asserts that the cast succeeds.
-
-But then I see that cgs_to_rme is, in all instances so far, also used as a predicate.
-
-
-> +bool kvm_arm_rme_enabled(void)
-> +{
-> +    ConfidentialGuestSupport *cgs = MACHINE(qdev_get_machine())->cgs;
-> +
-> +    return !!cgs_to_rme(cgs);
-> +}
-
-Ah, hmm.  Well, probably wouldn't want an assert here.
-
-At present I would expect exactly one object class to be present in the 
-qemu-system-aarch64 binary that would pass the machine_check_confidential_guest_support 
-test done by core code.  But we are hoping to move toward a heterogeneous model where e.g. 
-the TYPE_SEV_GUEST object might be discoverable within the same executable.
-
-Therefore, if cgs_to_rme above uses assert, this might use object_dynamic_cast here 
-directly.  It seems like we ought to have a boolean test for this kind of thing, but no.
-
-
-> +int kvm_arm_rme_init(ConfidentialGuestSupport *cgs, Error **errp)
-> +{
-> +    int ret;
-> +    static Error *rme_mig_blocker;
-> +    RmeGuest *guest = cgs_to_rme(cgs);
-> +
-> +    if (!guest) {
-> +        /* Either no cgs, or another confidential guest type */
-> +        return 0;
-> +    }
-> +
-> +    if (!kvm_enabled()) {
-> +        error_setg(errp, "KVM required for RME");
-> +        return -ENODEV;
-> +    }
-
-I think this null check, and the kvm_enabled check, belong in virt.c.
-You'll not get the error with the !CONFIG_KVM version of this function above.
-
-
-r~
++#if defined(TARGET_NR_pread64) || defined(TARGET_NR_pwrite64)
++static void
++print_preadwrite64(CPUArchState *cpu_env, const struct syscallname *name,
++           abi_long arg0, abi_long arg1, abi_long arg2,
++           abi_long arg3, abi_long arg4, abi_long arg5)
++{
++    if (regpairs_aligned(cpu_env, TARGET_NR_pread64)) {
++        arg3 =3D arg4;
++        arg4 =3D arg5;
++    }
++    print_syscall_prologue(name);
++    print_raw_param("%d", arg0, 0);
++    print_pointer(arg1, 0);
++    print_raw_param("%d", arg2, 0);
++    qemu_log("%lld", (long long)target_offset64(arg3, arg4));
++    print_syscall_epilogue(name);
++}
++#endif
++
+ static void
+ print_prlimit64(CPUArchState *cpu_env, const struct syscallname *name,
+            abi_long arg0, abi_long arg1, abi_long arg2,
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 909298099e..4ae60e5e87 100644
+=2D-- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -1061,7 +1061,7 @@
+ { TARGET_NR_prctl, "prctl" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_pread64
+-{ TARGET_NR_pread64, "pread64" , NULL, NULL, NULL },
++{ TARGET_NR_pread64, "pread64" , NULL, print_preadwrite64, NULL },
+ #endif
+ #ifdef TARGET_NR_preadv
+ { TARGET_NR_preadv, "preadv" , NULL, NULL, NULL },
+@@ -1092,7 +1092,7 @@
+ { TARGET_NR_putpmsg, "putpmsg" , NULL, NULL, NULL },
+ #endif
+ #ifdef TARGET_NR_pwrite64
+-{ TARGET_NR_pwrite64, "pwrite64" , NULL, NULL, NULL },
++{ TARGET_NR_pwrite64, "pwrite64" , NULL, print_preadwrite64, NULL },
+ #endif
+ #ifdef TARGET_NR_pwritev
+ { TARGET_NR_pwritev, "pwritev" , NULL, NULL, NULL },
 
