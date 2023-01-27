@@ -2,89 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61C7867F028
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 22:12:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6A6B67F061
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 22:27:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLW0F-00037w-LP; Fri, 27 Jan 2023 16:11:19 -0500
+	id 1pLWEq-00075W-Rj; Fri, 27 Jan 2023 16:26:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pLW07-00037L-Tm
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 16:11:14 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pLWEo-00074o-Pg
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 16:26:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pLW04-0004ht-N4
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 16:11:11 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pLWEm-0000Ap-Vj
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 16:26:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674853866;
+ s=mimecast20190719; t=1674854779;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=o1oyCt/2T7nnlftlqUylDK2OrrVaH4h/FQeDT0+pV/E=;
- b=Lv9pZth1tilOljuPSZyHKkv4Wop4Hs+dEQeQY0F558Jb9p9AD4OC66udSdxQaupFrZGlTS
- d2ZahtdsQaRbXh15w0EHZkISgZSsxwXBUKd2up8/dX5ixKQTQJk30Bgwtbi+/RC988vB3D
- kYeaCf5HTn2iPAcD4zPjclcI3ipCckE=
-Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
- [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-13-8_WXHfAiP4OuHwvncX2ZHQ-1; Fri, 27 Jan 2023 16:11:04 -0500
-X-MC-Unique: 8_WXHfAiP4OuHwvncX2ZHQ-1
-Received: by mail-io1-f70.google.com with SMTP id
- e25-20020a6b6919000000b00711f1c7a595so1332542ioc.23
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 13:11:04 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=o1oyCt/2T7nnlftlqUylDK2OrrVaH4h/FQeDT0+pV/E=;
- b=fDK5wD9rV2sqiKdj0SkJ2Y/uLeWOyHV7aAyzgqXrEsqjQDwoGikJmPs7wuQ2AKl7QW
- AP7CmOR378ve/9+RJsE59KYKPpAL5gBDepb5JRZyAFzDuspxYHmf75uuSkIpLI9ZCmqr
- ufBbcri7hJf4zJh+VyUKBJYESvG341oumqKBZB8MKpg7VokfupvXGBZZ7S79f5SLr3Ue
- 9OSJEbNgwVn8ktMCH8uiX7Qeqmvyw1qSEOAkRsDRJ6yI2bIUJDAOwSCf52kT5DLyPoZd
- 7hxvq+Y80VZ+Hs5+PSdVvHznjBoW5XRnwlTHxsZHp8ByX78eYKk0m/+nDDX/Cv9n0+mn
- 6EYg==
-X-Gm-Message-State: AO0yUKUkEF7xrVepYZIuLHpAroT6TVhgU4Z0YgR7xPCnX+aRF/qrdnQ2
- hOBIrGusqjqibZgL5bBkbjBKndVzdP0wNS7iJ/cwI5RFCZ0kktsvpRVsXx1biTkkdnET94miV+q
- vGs07+vxgSwKeu/s=
-X-Received: by 2002:a05:6e02:2149:b0:310:c923:8d06 with SMTP id
- d9-20020a056e02214900b00310c9238d06mr2596226ilv.19.1674853863984; 
- Fri, 27 Jan 2023 13:11:03 -0800 (PST)
-X-Google-Smtp-Source: AK7set/2FOv9ZH2U5gHHLLckFT0DP+mBEbmrjctIWjUx1qFsPTMmaeXTvTMbh3pKwDvxLtBAOIw4qQ==
-X-Received: by 2002:a05:6e02:2149:b0:310:c923:8d06 with SMTP id
- d9-20020a056e02214900b00310c9238d06mr2596203ilv.19.1674853863707; 
- Fri, 27 Jan 2023 13:11:03 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- j124-20020a026382000000b003a963535db2sm1651147jac.147.2023.01.27.13.11.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jan 2023 13:11:03 -0800 (PST)
-Date: Fri, 27 Jan 2023 14:11:01 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu
- <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, "Paolo Bonzini" <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, "David Hildenbrand" <david@redhat.com>, Philippe
- =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
- <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH 05/18] vfio/common: Add VFIOBitmap and (de)alloc functions
-Message-ID: <20230127141101.7d21f937.alex.williamson@redhat.com>
-In-Reply-To: <20230126184948.10478-6-avihaih@nvidia.com>
-References: <20230126184948.10478-1-avihaih@nvidia.com>
- <20230126184948.10478-6-avihaih@nvidia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+ bh=5joQAFDvnzFVS4QE265Iy6mQ5n6ABt7DgSb2bnviCF8=;
+ b=KxqYvwm6nTKFMzg9pLp3s6LqhzoyPMnhgdhyWgZDKIS6vNX1j3YZGKEE2MuDc5x3ApiApw
+ /uBhyaL8qfmM48y84Oc+fE/mtTnz4cieMtlJTpHhAUVzk6KWOOIRFhY7I2wk45J1Wv1/mg
+ qON7WdoSZCIqggQWYHvyWXQtNDUnHpo=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-352-ucvhHb5LMcS19ARI87Vndw-1; Fri, 27 Jan 2023 16:26:18 -0500
+X-MC-Unique: ucvhHb5LMcS19ARI87Vndw-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D0D5E29AA3B3;
+ Fri, 27 Jan 2023 21:26:17 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.17.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 58ECA492C14;
+ Fri, 27 Jan 2023 21:26:17 +0000 (UTC)
+Date: Fri, 27 Jan 2023 15:26:15 -0600
+From: Eric Blake <eblake@redhat.com>
+To: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: berrange@redhat.com, rjones@redhat.com, kwolf@redhat.com
+Subject: RFC: towards systemd socket activation in q-s-d
+Message-ID: <20230127212233.k6rlqkmubhovjxs4@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: NeoMutt/20220429
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -108,103 +73,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 26 Jan 2023 20:49:35 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
+In https://bugzilla.redhat.com/show_bug.cgi?id=2055229, the question
+was raised on how to make qemu-storage-daemon sufficiently powerful to
+be a full-blown replacement to qemu-nbd.  One of the features still
+lacking is the ability to do systemd socket activation (qemu-nbd does
+this, qemu-storage-daemon needs a way to do it).
 
-> There are already two places where dirty page bitmap allocation and
-> calculations are done in open code. With device dirty page tracking
-> being added in next patches, there are going to be even more places.
-> 
-> To avoid code duplication, introduce VFIOBitmap struct and corresponding
-> alloc and dealloc functions and use them where applicable.
-> 
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> ---
->  hw/vfio/common.c | 89 ++++++++++++++++++++++++++++++++----------------
->  1 file changed, 60 insertions(+), 29 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 8e8ffbc046..e554573eb5 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -319,6 +319,41 @@ const MemoryRegionOps vfio_region_ops = {
->   * Device state interfaces
->   */
->  
-> +typedef struct {
-> +    unsigned long *bitmap;
-> +    hwaddr size;
-> +    hwaddr pages;
-> +} VFIOBitmap;
-> +
-> +static VFIOBitmap *vfio_bitmap_alloc(hwaddr size)
-> +{
-> +    VFIOBitmap *vbmap = g_try_new0(VFIOBitmap, 1);
-> +    if (!vbmap) {
-> +        errno = ENOMEM;
-> +
-> +        return NULL;
-> +    }
-> +
-> +    vbmap->pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
-> +    vbmap->size =  ROUND_UP(vbmap->pages, sizeof(__u64) * BITS_PER_BYTE) /
-> +                                          BITS_PER_BYTE;
-> +    vbmap->bitmap = g_try_malloc0(vbmap->size);
-> +    if (!vbmap->bitmap) {
-> +        g_free(vbmap);
-> +        errno = ENOMEM;
-> +
-> +        return NULL;
-> +    }
-> +
-> +    return vbmap;
-> +}
-> +
-> +static void vfio_bitmap_dealloc(VFIOBitmap *vbmap)
-> +{
-> +    g_free(vbmap->bitmap);
-> +    g_free(vbmap);
-> +}
-> +
->  bool vfio_mig_active(void)
->  {
->      VFIOGroup *group;
-> @@ -421,9 +456,14 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
->  {
->      struct vfio_iommu_type1_dma_unmap *unmap;
->      struct vfio_bitmap *bitmap;
-> -    uint64_t pages = REAL_HOST_PAGE_ALIGN(size) / qemu_real_host_page_size();
-> +    VFIOBitmap *vbmap;
->      int ret;
->  
-> +    vbmap = vfio_bitmap_alloc(size);
-> +    if (!vbmap) {
-> +        return -errno;
-> +    }
-> +
->      unmap = g_malloc0(sizeof(*unmap) + sizeof(*bitmap));
->  
->      unmap->argsz = sizeof(*unmap) + sizeof(*bitmap);
-> @@ -437,35 +477,28 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
->       * qemu_real_host_page_size to mark those dirty. Hence set bitmap_pgsize
->       * to qemu_real_host_page_size.
->       */
-> -
->      bitmap->pgsize = qemu_real_host_page_size();
-> -    bitmap->size = ROUND_UP(pages, sizeof(__u64) * BITS_PER_BYTE) /
-> -                   BITS_PER_BYTE;
-> +    bitmap->size = vbmap->size;
-> +    bitmap->data = (__u64 *)vbmap->bitmap;
->  
-> -    if (bitmap->size > container->max_dirty_bitmap_size) {
-> -        error_report("UNMAP: Size of bitmap too big 0x%"PRIx64,
-> -                     (uint64_t)bitmap->size);
-> +    if (vbmap->size > container->max_dirty_bitmap_size) {
-> +        error_report("UNMAP: Size of bitmap too big 0x%"PRIx64, vbmap->size);
+But that bug further noted that systemd supports LISTEN_FDNAMES to
+supply names to a passed-in fd (right now, qemu-nbd does not use
+names, but merely expects one fd in LISTEN_FDS).  Dan had the idea
+that it would be nice to write a systemd file that passes in a socket
+name for a QMP socket, as in:
 
-Why not pass the container to the alloc function so we can test this
-consistently for each bitmap we allocate?  Thanks,
+ [Socket]
+ ListenStream=/var/run/myapp/qsd.qmp
+ FileDescriptorName=qmp
+ Service=myapp-qsd.service
 
-Alex
+and further notes that QAPI SocketAddressType supports @fd which is a
+name in QMP (a previously-added fd passed through the older 'getfd'
+command, rather than the newer 'add-fd' command), but an integer on
+the command line.  With LISTEN_FDNAMES, we could mix systemd socket
+activation with named fds for any command line usage that already
+supports SocketAddressType (not limited to just q-s-d usage).
+
+I'm at a point where I can take a shot at implementing this, but want
+some feedback on whether it is better to try to shoehorn a generic
+solution into the existing @fd member of the SocketAddressType union,
+or whether it would be better to add yet another union member
+@systemd-fd or some similar name to make it explicit when a command
+line parameter wants to refer to an fd being passed through systemd
+socket activation LISTEN_FDS and friends.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
