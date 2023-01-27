@@ -2,68 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C9E167F203
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 00:07:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EFB8167F210
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 00:09:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLXnp-0001ai-4P; Fri, 27 Jan 2023 18:06:37 -0500
+	id 1pLXpe-0002R2-ED; Fri, 27 Jan 2023 18:08:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pLXnn-0001aE-Gz
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 18:06:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pLXnm-0004oN-14
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 18:06:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674860792;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=0rtGiJ7Gi9Pyv4lvTq6ZXThG3HupQFtqZAXtTM8RDZw=;
- b=gCTQOd1Fi9a4js6MibbHQJ7bplZWj7tKmzgpAOBnBPbkzOdC1jO9RriI2m/4IzwgiIqLyS
- n4ZEpjoJs254cNIXdOGOhBE8caKoa+5TcthipiQdPr9REkpdBZkWqQWMEY6Np5C3qqSJP6
- NGsxAINDwop2MZhsRPWvcbKXMlwZA0Y=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-5-7aJFo6jgOBayGdF84OV1GA-1; Fri, 27 Jan 2023 18:06:28 -0500
-X-MC-Unique: 7aJFo6jgOBayGdF84OV1GA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B0AB0811E6E;
- Fri, 27 Jan 2023 23:06:27 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.17.173])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 338482026D4B;
- Fri, 27 Jan 2023 23:06:27 +0000 (UTC)
-Date: Fri, 27 Jan 2023 17:06:25 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Hanna Reitz <hreitz@redhat.com>, qemu-block@nongnu.org,
- qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>
-Subject: Re: [PATCH v2 03/12] block/vmdk: Change extent info type
-Message-ID: <20230127230625.zo3vw7fkxjv5yvki@redhat.com>
-References: <20220620162704.80987-1-hreitz@redhat.com>
- <20220620162704.80987-4-hreitz@redhat.com>
- <Y8lfsJ5W2UxUPmWm@redhat.com>
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pLXpb-0002Pr-TH
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 18:08:28 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <wlosh@bsdimp.com>) id 1pLXpZ-0005Ge-Kp
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 18:08:27 -0500
+Received: by mail-ed1-x535.google.com with SMTP id x10so6028244edd.10
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 15:08:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=bsdimp-com.20210112.gappssmtp.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=jc1NKWKYVKF9M1D2q94NNuHiJJRJR9yHY2mCKrwc8Yc=;
+ b=plMu0f1FXGNaLE5E3rQPgp+4aqYQdvtepEIBYechDkbywxwvcj745oyYOuBHptxIk5
+ xD1hLewtOeWuk+qYWkzNtXZdu3ZuIUTW0C2l9yYUYxqYGa710Hs2ZuQHJD+JX9Em2H0T
+ IxqSXulh3yf8po90GXxUCVtIwOJvO/dJHr7k6/QIHbLam0mTZYAdd8ousVwprQw8eFfx
+ JJdFX/zAKjEZqLNVWcv2dvD7cIcEwFvkqFO4zV/zwm3dpk13BOKaY/RooGqPXJlFdj35
+ Ft4AuYYKFrgADUIcoeInLUcfZhEQmVkeChfsYcvoOmi85K62+WpdLglPoMnz1gMQ4dz0
+ xexA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jc1NKWKYVKF9M1D2q94NNuHiJJRJR9yHY2mCKrwc8Yc=;
+ b=fSS2Jc8WDEBwM0izclS+B0dwGf89VITe7bAzUMl/A8oljOydkPd3+ITciY/3rtjGj6
+ mXX1i17AaRumNkSJkpmyP8F4gARp15NIZxZSBVxPTz6iXsdlLSrzyiMj2QEJyzr+l6j5
+ n6y5Pipv+m6CdldDWou5l3V4TgW0vsktU+6jkZLkFNzoWVsj97XVtsXTo17ixMlFKFJv
+ EkI6NifKNYvqkPQEnpzzBDiVF67kDUmpT0kAxHrQeJJGiNXUGSi4Rq5HjrB9+x+7RxRV
+ hsI5ZNtVkr+byVRt8KzWOsD8ifPapZ27cq4qm4iAsW9qNjAcdIjUC3BKhAmwg93M1V2P
+ QMIg==
+X-Gm-Message-State: AO0yUKUtkhN+eug4gOU2GcoD34MvXgs/cFAf+J/56m7FQynpbQUQIgUE
+ Dmf4XctgI3QuHCsS9oE5rjdLN5CcBjhaZjasFT1vJw==
+X-Google-Smtp-Source: AK7set+sE8mYLbqHsPWaDOuimuHw9v+jk1in6dcD+oV63dnQu2LxqnnIoijy2febCjXkgUhCIS+O01NqQnCGKAeiteE=
+X-Received: by 2002:aa7:d448:0:b0:4a0:f071:3656 with SMTP id
+ q8-20020aa7d448000000b004a0f0713656mr1788887edr.81.1674860903793; Fri, 27 Jan
+ 2023 15:08:23 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8lfsJ5W2UxUPmWm@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+References: <20230119065959.3104012-1-armbru@redhat.com>
+ <20230119065959.3104012-4-armbru@redhat.com>
+ <20230127224746.2rqorp2ushelp4wj@redhat.com>
+In-Reply-To: <20230127224746.2rqorp2ushelp4wj@redhat.com>
+From: Warner Losh <imp@bsdimp.com>
+Date: Fri, 27 Jan 2023 16:08:12 -0700
+Message-ID: <CANCZdfoj4S06hhbGxHiVqCUQgj08Hyg7HCm5f5sQg0n1k854BA@mail.gmail.com>
+Subject: Re: [PATCH v4 03/19] scripts/clean-includes: Skip symbolic links
+To: Eric Blake <eblake@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
+ richard.henderson@linaro.org, 
+ pbonzini@redhat.com, kwolf@redhat.com, hreitz@redhat.com, kevans@freebsd.org, 
+ berrange@redhat.com, groug@kaod.org, qemu_oss@crudebyte.com, mst@redhat.com, 
+ philmd@linaro.org, peter.maydell@linaro.org, alistair@alistair23.me, 
+ jasowang@redhat.com, jonathan.cameron@huawei.com, 
+ kbastian@mail.uni-paderborn.de, quintela@redhat.com, dgilbert@redhat.com, 
+ michael.roth@amd.com, kkostiuk@redhat.com, tsimpson@quicinc.com, 
+ palmer@dabbelt.com, bin.meng@windriver.com, qemu-block@nongnu.org, 
+ qemu-arm@nongnu.org, qemu-riscv@nongnu.org
+Content-Type: multipart/alternative; boundary="0000000000003829ed05f346f145"
+Received-SPF: none client-ip=2a00:1450:4864:20::535;
+ envelope-from=wlosh@bsdimp.com; helo=mail-ed1-x535.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,50 +91,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 19, 2023 at 04:20:16PM +0100, Kevin Wolf wrote:
-> Am 20.06.2022 um 18:26 hat Hanna Reitz geschrieben:
-> > VMDK's implementation of .bdrv_get_specific_info() returns information
-> > about its extent files, ostensibly in the form of ImageInfo objects.
-> > However, it does not get this information through
-> > bdrv_query_image_info(), but fills only a select few fields with custom
-> > information that does not always match the fields' purposes.
-> > 
-> > For example, @format, which is supposed to be a block driver name, is
-> > filled with the extent type, e.g. SPARSE or FLAT.
-> > 
-> > In ImageInfo, @compressed shows whether the data that can be seen in the
-> > image is stored in compressed form or not.  For example, a compressed
-> > qcow2 image will store compressed data in its data file, but when
-> > accessing the qcow2 node, you will see normal data.  This is not how
-> > VMDK uses the @compressed field for its extent files: Instead, it
-> > signifies whether accessing the extent file will yield compressed data
-> > (which the VMDK driver then (de-)compresses).
-> 
-> Actually, VMDK was the only user of the field in ImageInfo. qcow2
-> doesn't set the field at all because it would have to parse all L2
-> tables in order to set it.
-> 
-> So I suppose @compressed can now be removed from ImageInfo?
+--0000000000003829ed05f346f145
+Content-Type: text/plain; charset="UTF-8"
 
-I think you are okay for VMDK (the new struct has the same field
-names, but better meanings, and the on-the-wire representation for
-someone querying a known-VMDK image doesn't change).  For non-VMDK,
-any code that was querying @compressed will break, but arguably no one
-was doing that since it would have always been false.  If we want to
-be super-conservative, we deprecate the field now and only remove it
-from ImageInfo in a later release, but I'd rather trust Markus on this
-decision.
+On Fri, Jan 27, 2023 at 3:47 PM Eric Blake <eblake@redhat.com> wrote:
 
-On a side note - would it be worth adding a bit to the qcow2 header
-(one of the compatible_feature bits seems best) which we set when
-writing a compressed cluster, so that on newer images, it is an O(1)
-probe of whether the image contains (or at least has contained in the
-past) a compressed cluster?  Or is that going to add needless overhead
-for something we really don't need to know all that often?
+> On Thu, Jan 19, 2023 at 07:59:43AM +0100, Markus Armbruster wrote:
+> > When a symbolic link points to a file that needs cleaning, the script
+> > replaces the link with a cleaned regular file.  Not wanted; skip them.
+> >
+> > We have a few symbolic links under subprojects/libvduse/ and
+> > subprojects/libvhost-user/.
+> >
+> > Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> > ---
+> >  scripts/clean-includes | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/scripts/clean-includes b/scripts/clean-includes
+> > index 8e8420d785..f0466a6262 100755
+> > --- a/scripts/clean-includes
+> > +++ b/scripts/clean-includes
+> > @@ -113,6 +113,10 @@ EOT
+> >
+> >  files=
+> >  for f in "$@"; do
+> > +  if [ -L "$f" ]; then
+>
+> I don't see -L used with test very often, but POSIX requires it, so it
+> is safe for our choice of /bin/sh.
+>
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+FYI: -L is in FreeBSD, NetBSD, OpenBSD, etc. It's been in all these trees
+since the mid 90s. It wasn't in 4.4BSD, but all these projects have
+imported the code from pdksh's test.
 
+So in addition to POSIX, it's been widely implemented, at least in the BSD
+world, for over 20 years.
+
+Warner
+
+--0000000000003829ed05f346f145
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Jan 27, 2023 at 3:47 PM Eric =
+Blake &lt;<a href=3D"mailto:eblake@redhat.com">eblake@redhat.com</a>&gt; wr=
+ote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px=
+ 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Thu, Jan=
+ 19, 2023 at 07:59:43AM +0100, Markus Armbruster wrote:<br>
+&gt; When a symbolic link points to a file that needs cleaning, the script<=
+br>
+&gt; replaces the link with a cleaned regular file.=C2=A0 Not wanted; skip =
+them.<br>
+&gt; <br>
+&gt; We have a few symbolic links under subprojects/libvduse/ and<br>
+&gt; subprojects/libvhost-user/.<br>
+&gt; <br>
+&gt; Signed-off-by: Markus Armbruster &lt;<a href=3D"mailto:armbru@redhat.c=
+om" target=3D"_blank">armbru@redhat.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 scripts/clean-includes | 4 ++++<br>
+&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/scripts/clean-includes b/scripts/clean-includes<br>
+&gt; index 8e8420d785..f0466a6262 100755<br>
+&gt; --- a/scripts/clean-includes<br>
+&gt; +++ b/scripts/clean-includes<br>
+&gt; @@ -113,6 +113,10 @@ EOT<br>
+&gt;=C2=A0 <br>
+&gt;=C2=A0 files=3D<br>
+&gt;=C2=A0 for f in &quot;$@&quot;; do<br>
+&gt; +=C2=A0 if [ -L &quot;$f&quot; ]; then<br>
+<br>
+I don&#39;t see -L used with test very often, but POSIX requires it, so it<=
+br>
+is safe for our choice of /bin/sh.<br></blockquote><div><br></div><div>FYI:=
+ -L is in FreeBSD, NetBSD, OpenBSD, etc. It&#39;s been in all these trees s=
+ince the mid 90s. It wasn&#39;t in 4.4BSD, but all these projects have impo=
+rted the code from pdksh&#39;s test.</div><div><br></div><div>So in additio=
+n to POSIX, it&#39;s been widely implemented, at least in the BSD world, fo=
+r over 20 years.<br></div><div><br></div><div>Warner<br></div></div></div>
+
+--0000000000003829ed05f346f145--
 
