@@ -2,98 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B870D67E531
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 13:30:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4756767E551
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 13:34:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLNr0-0005vc-FG; Fri, 27 Jan 2023 07:29:14 -0500
+	id 1pLNvb-0001WZ-Jz; Fri, 27 Jan 2023 07:33:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1pLNqt-0005sb-Q9; Fri, 27 Jan 2023 07:29:08 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <smitterl@redhat.com>)
+ id 1pLNvY-0001VX-OF
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:33:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fbarrat@linux.ibm.com>)
- id 1pLNqs-0003eN-4o; Fri, 27 Jan 2023 07:29:07 -0500
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30RBpQ7s025599; Fri, 27 Jan 2023 12:28:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : subject :
- date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=uO2uE8hR2jVrPTr7glQw7RKKikrCP3XRWSwBfnCqIOM=;
- b=OmYtS8xOywv3+PCHtQoFEhOnWjuS9bKzntXVM7Y2sKmmgu/CzCfWNa0qKOmCfEpSx0xH
- eml/lEW4+Q1UvRvU70QqRIxmv+W1QXnbfPC2MSgBNgqEuq9ZAD7JYRWzqTAdqxzqtc1y
- j47srlC+rtzs81EwCpBIZyBfDoh2H46R/oFlW5phnHEEDK4xTBZ82Ag2fEAODtGyhk4F
- zD4ivthATb06ow/1WSFbqMNqOhwIX1LmpOLVMW1X83jQQPFQQMYs4ESiIXEBXBCN3xFF
- xfT8lcS0O7qu0dXE2wI2QF5xYXaKaI6TRUSGWpNJI3QZ/SAyQ91PzkqEV0aaGG9h8b3z 0Q== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nce3xrvbw-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Jan 2023 12:28:56 +0000
-Received: from m0098399.ppops.net (m0098399.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30RBqrSC000663;
- Fri, 27 Jan 2023 12:28:56 GMT
-Received: from ppma03ams.nl.ibm.com (62.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.98])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nce3xrvb2-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Jan 2023 12:28:55 +0000
-Received: from pps.filterd (ppma03ams.nl.ibm.com [127.0.0.1])
- by ppma03ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30QLrHSw012106;
- Fri, 27 Jan 2023 12:28:53 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma03ams.nl.ibm.com (PPS) with ESMTPS id 3n87p6qgh1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Fri, 27 Jan 2023 12:28:53 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
- [10.20.54.104])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30RCSpIi21299490
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Fri, 27 Jan 2023 12:28:51 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 4AF8720040;
- Fri, 27 Jan 2023 12:28:51 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id EAB8D20043;
- Fri, 27 Jan 2023 12:28:50 +0000 (GMT)
-Received: from borneo.ibmuc.com (unknown [9.171.86.232])
- by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Fri, 27 Jan 2023 12:28:50 +0000 (GMT)
-From: Frederic Barrat <fbarrat@linux.ibm.com>
-To: clg@kaod.org, danielhb413@gmail.com, qemu-ppc@nongnu.org,
- qemu-devel@nongnu.org
-Subject: [PATCH 4/4] ppc/pnv/pci: Fix PHB xscom registers memory region name
-Date: Fri, 27 Jan 2023 13:28:48 +0100
-Message-Id: <20230127122848.550083-5-fbarrat@linux.ibm.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230127122848.550083-1-fbarrat@linux.ibm.com>
-References: <20230127122848.550083-1-fbarrat@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <smitterl@redhat.com>)
+ id 1pLNvW-0005k8-Bs
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:33:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674822833;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=Y9myxpfbxVVjGpEofJ5DvNKPGpi5PgROaG9mN3iOAI4=;
+ b=Xoj58PiwN9kuRcsXaLyAqoWpIzcnlmMTr/EirJYvmdL4VjYnRgPp4PlXwD50/VzmaHQ/P/
+ A4SzsV19Tyw5dbWUFkecKdPBwSTwJzqTrOkrky8tI7Hl6tZJA7nT9GfJPkjwqV8zWPviFb
+ SKoWh7LrK3+tweqAPWVxIM3c40WOSNE=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-412-9k0wn5ddOfWtNCQC9G9lzw-1; Fri, 27 Jan 2023 07:33:52 -0500
+X-MC-Unique: 9k0wn5ddOfWtNCQC9G9lzw-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B4C20811E9C;
+ Fri, 27 Jan 2023 12:33:51 +0000 (UTC)
+Received: from fedora.. (ovpn-194-166.brq.redhat.com [10.40.194.166])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 421F91121314;
+ Fri, 27 Jan 2023 12:33:50 +0000 (UTC)
+From: Sebastian Mitterle <smitterl@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: thuth@redhat.com, cohuck@redhat.com, clegoate@redhat.com,
+ qemu-trivial@nongnu.org, qemu-s390x@nongnu.org
+Subject: [PATCH v3] docs/s390x/pcidevices: document pci devices on s390x
+Date: Fri, 27 Jan 2023 13:33:49 +0100
+Message-Id: <20230127123349.55294-1-smitterl@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=n
 Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: MyrTzPP-3YxBPe_Bu0uZLM9ZXeBudw2_
-X-Proofpoint-ORIG-GUID: 3qPfNlswTZD0wSmWrY0-Qr-ExRT2RwoP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-27_06,2023-01-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 impostorscore=0
- lowpriorityscore=0 mlxlogscore=855 malwarescore=0 suspectscore=0
- clxscore=1015 bulkscore=0 phishscore=0 priorityscore=1501 adultscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301270113
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=fbarrat@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=smitterl@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,29 +76,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The name is for the region mapping the PHB xscom registers. It was
-apparently a bad cut-and-paste from the per-stack pci xscom area just
-above, so we had two regions with the same name.
+Add some documentation about the zpci device and how
+to use it with pci devices on s390x.
 
-Signed-off-by: Frederic Barrat <fbarrat@linux.ibm.com>
+Used source: Cornelia Huck's blog post
+https://people.redhat.com/~cohuck/2018/02/19/notes-on-pci-on-s390x.html
+
+Signed-off-by: Sebastian Mitterle <smitterl@redhat.com>
+Reviewed-by: Cédric Le Goater <clg@redhat.com>
 ---
- hw/pci-host/pnv_phb4.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+v3: add info zpci is autogenerated, fix typos and source formatting,
+improve style as suggested
+---
+ docs/system/s390x/pcidevices.rst | 41 ++++++++++++++++++++++++++++++++
+ docs/system/target-s390x.rst     |  1 +
+ 2 files changed, 42 insertions(+)
+ create mode 100644 docs/system/s390x/pcidevices.rst
 
-diff --git a/hw/pci-host/pnv_phb4.c b/hw/pci-host/pnv_phb4.c
-index ccbde841fc..542f9e2932 100644
---- a/hw/pci-host/pnv_phb4.c
-+++ b/hw/pci-host/pnv_phb4.c
-@@ -1497,7 +1497,7 @@ static void pnv_phb4_xscom_realize(PnvPHB4 *phb)
-                           PHB4_PEC_PCI_STK_REGS_COUNT);
+diff --git a/docs/system/s390x/pcidevices.rst b/docs/system/s390x/pcidevices.rst
+new file mode 100644
+index 0000000000..628effa2f4
+--- /dev/null
++++ b/docs/system/s390x/pcidevices.rst
+@@ -0,0 +1,41 @@
++PCI devices on s390x
++====================
++
++PCI devices on s390x work differently than on other architectures and need to
++be configured in a slightly different way.
++
++Every PCI device is linked with an additional ``zpci`` device.
++While the ``zpci`` device will be autogenerated if not specified, it is
++recommended to specify it explicitly so that you can pass s390-specific
++PCI configuration.
++
++For example, in order to pass a PCI device ``0000:00:00.0`` through to the
++guest, you would specify::
++
++ qemu-system-s390x ... \
++                   -device zpci,uid=1,fid=0,target=hostdev0,id=zpci1 \
++                   -device vfio-pci,host=0000:00:00.0,id=hostdev0
++
++Here, the zpci device is joined with the PCI device via the ``target`` property.
++
++Note that we don't set bus, slot or function here for the guest as is common in
++other PCI implementations. Topology information is not available on s390x, and
++the guest will not see any of the bus, slot or function information specified
++on the command line.
++
++Instead, ``uid`` and ``fid`` determine how the device is presented to the guest
++operating system.
++
++In case of Linux, ``uid`` will be used in the ``domain`` part of the PCI
++identifier, and ``fid`` identifies the physical slot, i.e.::
++
++ qemu-system-s390x ... \
++                   -device zpci,uid=7,fid=8,target=hostdev0,id=zpci1 \
++                   ...
++
++will be presented in the guest as::
++
++ # lspci -v
++ 0007:00:00.0 ...
++ Physical Slot: 00000008
++ ...
+diff --git a/docs/system/target-s390x.rst b/docs/system/target-s390x.rst
+index c636f64113..f6f11433c7 100644
+--- a/docs/system/target-s390x.rst
++++ b/docs/system/target-s390x.rst
+@@ -26,6 +26,7 @@ or vfio-ap is also available.
+    s390x/css
+    s390x/3270
+    s390x/vfio-ccw
++   s390x/pcidevices
  
-     /* PHB pass-through */
--    snprintf(name, sizeof(name), "xscom-pec-%d.%d-pci-phb-%d",
-+    snprintf(name, sizeof(name), "xscom-pec-%d.%d-phb-%d",
-              pec->chip_id, pec->index, stack_no);
-     pnv_xscom_region_init(&phb->phb_regs_mr, OBJECT(phb),
-                           &pnv_phb4_xscom_ops, phb, name, 0x40);
+ Architectural features
+ ======================
 -- 
-2.39.1
+2.37.3
 
 
