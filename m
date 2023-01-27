@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1783567ED14
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 19:12:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F73767ED35
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 19:14:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLTCQ-0005U7-6S; Fri, 27 Jan 2023 13:11:42 -0500
+	id 1pLTEV-0006nh-DH; Fri, 27 Jan 2023 13:13:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLTCN-0005Tb-Kl
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 13:11:39 -0500
-Received: from mail-pj1-x1034.google.com ([2607:f8b0:4864:20::1034])
+ id 1pLTEQ-0006lh-De
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 13:13:48 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLTCL-0002RT-PT
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 13:11:39 -0500
-Received: by mail-pj1-x1034.google.com with SMTP id j5so5312879pjn.5
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 10:11:37 -0800 (PST)
+ id 1pLTEM-0002ob-Oz
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 13:13:44 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ m7-20020a17090a71c700b0022c0c070f2eso8711701pjs.4
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 10:13:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=I68x1is1QyUH7UsXWZV8kk3i6FVYF2+tqdFci3ItjZs=;
- b=cMvgc41xu9kK3GsLs6k+TN+bj6rLRCyRXeUV3kbHQGXo9VvAHSB+vMAd9grxFXMaAY
- 2TyVxI+DutK9oFzJNOQCCyXg8D/u60n698MDC6z/8+rb3Ktrhpfx7nlhsUyF6k+rmZbi
- smHZfzhHx4FP4z8DgmKYDWogckge2Hp56tkfscab6kOV9pduO6/3rcKyddTzMotT4SxY
- Xgl756TEsOss0KmgLx+DS3aVr+aCUgKjR4UDxG6Ykw00B8KA/SUh9ydy2GcCH6BY6URH
- 2Q5JWkcFLqj8GfMtObBzAY4WrYbyKvGGTZ97BZFbnQUDj8gfQTKrUQ529xcOy5tBv0Ng
- 30rg==
+ bh=5Cgrhjutu/CVyrQcb+HPxgJ+nmDhKxQCbBoLlEfGVHw=;
+ b=cHvfrGJrSf/zOq/KZiWsHSZFEITSwHBfPuBe0U3ua6HF+NNDv6Fv1pC+YKvO8NLegm
+ dxMl5OU/lfvLh3twemcra2pRrn/Ryf5hrmFnv99vz2Dd7gr+hj4UVqt+g8hGVGyDBw4a
+ ofEB1uYN2peCj9dTMVF4/skw0tX9H+skFqH/hIidCWTRftxY1JHTud9cOQjJzU/KZVkQ
+ VmUP1DryiFUGaj/W8saA+rEQ2NcYzHAaj7kbzrQJlqfCpXwuH1gscewZUys+3Px37znL
+ 74uCtYvlTX3wEF0nrYXMX6+4BhWDKRl/D4L4pJsFmVEXXXPrTcHu8myNuJL2FdfU+YMs
+ 970g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I68x1is1QyUH7UsXWZV8kk3i6FVYF2+tqdFci3ItjZs=;
- b=qa8NIMkhNXvCnKAy5XzTU62mvX3SUil4R+goZAqRxlppjqQ6QERspB/bXodLHegaoe
- X5YF1iSMJsD5QAGQ+Cryhrp0f0awnYMIvwzaRBknNWlJOHQ9o6sJdqQKK4BPILhaVMhH
- 5lVATRm2j5jFS9vTqS4l8DEelIUycBDoTJdSdOKc16TDVUGYQybDXrHeP8dla2s0SpAI
- bp5krHYy3SqlOIeHZX6rET10pPI6J5AN965xy5mdR7PSTpFBm4fKmOgXmV8v4X7D8bgg
- q8K6rDeRg3VzjVgxWD0l2zVGRF0MbUlID9HiakUKviG7GUOUxPxKcmLNDQeAMl2ayW6x
- P9Kg==
-X-Gm-Message-State: AO0yUKW/kOp96iF9dWdDEDV474raiULGdfX0eN7baoPcWlWzQdcKw3rw
- 3xtW8fxU+UYJHhjYf5tBH8wLnw==
-X-Google-Smtp-Source: AK7set9nUHZz9quel75ZCDwzf9Hq2JJSybI4FJfnROMIvpXbM6GNHuJ0xcQJa3GvS6lFCdX3mvyONg==
-X-Received: by 2002:a17:903:2093:b0:196:6298:4d67 with SMTP id
- d19-20020a170903209300b0019662984d67mr226276plc.4.1674843095870; 
- Fri, 27 Jan 2023 10:11:35 -0800 (PST)
+ bh=5Cgrhjutu/CVyrQcb+HPxgJ+nmDhKxQCbBoLlEfGVHw=;
+ b=kgPBCk28mf9nUFnlOzOm7WcAEitzJXRvaEubp5yRzo4Vb0DsEDKHI6d+P9LzKOL+NF
+ PPZkSi+07pCHVe2sMrlkUL7RCa+vEe0tM2XYXk8jmidUcQOq+2n/id37cZmVES6nZb1t
+ dFvdbvHOkt8LvT8B6/DLfs15x9K40PMXF2Pr3i74kWTRhNFVeAyYKclfQSHFrRUiG37f
+ zfirDCeNeq4LIQzhquBkg7UsJPOTgm3Ff+0lPAdgZ6zOH04d1wxymL90WuBit46UWYC2
+ nkg+tVFy5l/BvNsPe4XESFiL4rYSX6YnMZ86NP4YYb8LaCNiGhSPFI1lIpKjQ08Hoz+U
+ Pclg==
+X-Gm-Message-State: AFqh2kqSPFwOA+TBX98GdmnC2M5p/BWNhtqmlI21XaSPZ3rsRq5UDMZH
+ Oo8lPBU5xOw0WIMe3Ah5YcBLnA==
+X-Google-Smtp-Source: AMrXdXuzX44sgoKxfKdXc5abwbLdfOtpVAyuEe8Gnz2ArrofNm5chW0Xukf4mzqmPUYwFYZPREbW3g==
+X-Received: by 2002:a17:902:7089:b0:194:6414:12db with SMTP id
+ z9-20020a170902708900b00194641412dbmr38685140plk.56.1674843221286; 
+ Fri, 27 Jan 2023 10:13:41 -0800 (PST)
 Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
  [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- a9-20020a170902ecc900b001949ae8c275sm3166198plh.141.2023.01.27.10.11.34
+ iy15-20020a170903130f00b00186748fe6ccsm3170849plb.214.2023.01.27.10.13.39
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 10:11:35 -0800 (PST)
-Message-ID: <e7b0cf42-2a11-e39a-402a-2a0bf779b1e5@linaro.org>
-Date: Fri, 27 Jan 2023 08:11:30 -1000
+ Fri, 27 Jan 2023 10:13:40 -0800 (PST)
+Message-ID: <8b675670-838d-0ee2-d57f-2531963b6999@linaro.org>
+Date: Fri, 27 Jan 2023 08:13:38 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 1/5] target/tricore: Fix OPC2_32_RCRW_IMASK translation
+Subject: Re: [PATCH 2/5] target/tricore: Fix OPC2_32_RCRW_INSERT translation
+Content-Language: en-US
 To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org
 Cc: anton.kochkov@proton.me
 References: <20230127120328.2520624-1-kbastian@mail.uni-paderborn.de>
- <20230127120328.2520624-2-kbastian@mail.uni-paderborn.de>
-Content-Language: en-US
+ <20230127120328.2520624-3-kbastian@mail.uni-paderborn.de>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230127120328.2520624-2-kbastian@mail.uni-paderborn.de>
+In-Reply-To: <20230127120328.2520624-3-kbastian@mail.uni-paderborn.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1034;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1034.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -101,8 +102,8 @@ On 1/27/23 02:03, Bastian Koppelmann wrote:
 > Signed-off-by: Bastian Koppelmann<kbastian@mail.uni-paderborn.de>
 > Resolves:https://gitlab.com/qemu-project/qemu/-/issues/653
 > ---
->   target/tricore/translate.c | 6 +++---
->   1 file changed, 3 insertions(+), 3 deletions(-)
+>   target/tricore/translate.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
