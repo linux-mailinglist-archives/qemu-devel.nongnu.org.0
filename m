@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A575B67E48C
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 13:04:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DFA467E48F
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 13:05:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLNST-0004Ux-Ap; Fri, 27 Jan 2023 07:03:53 -0500
+	id 1pLNST-0004VS-Go; Fri, 27 Jan 2023 07:03:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pLNSR-0004UX-C3
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:03:51 -0500
-Received: from nylar.uni-paderborn.de ([2001:638:502:c003::18])
+ id 1pLNSQ-0004UG-UZ
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:03:50 -0500
+Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pLNSP-0004IN-0C
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:03:51 -0500
+ id 1pLNSO-0004IW-Vl
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:03:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
  :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=9mOQ4ro/vuOKKz5xAUWJgcb+4zRdjC0qBrrb8zQncZo=; b=LcKIJ0hkfUlaHuKoP6KoR04c58
- wU1gcx8qJNi1YwTTkVBnStnLFpABT/I971O4DTkwuD30CkTgnYj52Ay4FgKW0nd4e4aV2ZG5eJbV/
- cACrgnnBAGz/NkoqQx997ZZJbtB6MPs878+udYeP+kNQxB7Y4vJhMnkTLh2Sr1yUsHvU=;
+ bh=Vpasc81SkmykCFJ3tHwgEPOxqicigxifjCp5XPEAUvo=; b=KfPh6eyIIKfxCOpEerqh2pmWtq
+ COkbXBR5S2weQlZ5+XYRjWimoQsDq09wDw7GUARAVvowbT/6OhyEZ+ieGttOdOUZuEaW0sr7f3HVL
+ vRN+VgAsAwDPWcgf53EKVuiS7Zl/shmjj/wfgyvg5k2ufFYRwej15c1uneFgfIWgU6N0=;
 X-Envelope-From: <kbastian@mail.uni-paderborn.de>
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
 Cc: kbastian@mail.uni-paderborn.de,
 	anton.kochkov@proton.me
-Subject: [PATCH 2/5] target/tricore: Fix OPC2_32_RCRW_INSERT translation
-Date: Fri, 27 Jan 2023 13:03:25 +0100
-Message-Id: <20230127120328.2520624-3-kbastian@mail.uni-paderborn.de>
+Subject: [PATCH 3/5] target/tricore: Fix RRPW_DEXTR
+Date: Fri, 27 Jan 2023 13:03:26 +0100
+Message-Id: <20230127120328.2520624-4-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230127120328.2520624-1-kbastian@mail.uni-paderborn.de>
 References: <20230127120328.2520624-1-kbastian@mail.uni-paderborn.de>
@@ -46,8 +46,8 @@ X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
  AntiVirus-Data: 2023.1.24.5960001
 X-IMT-Spam-Score: 0.0 ()
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
-Received-SPF: pass client-ip=2001:638:502:c003::18;
- envelope-from=kbastian@mail.uni-paderborn.de; helo=nylar.uni-paderborn.de
+Received-SPF: pass client-ip=2001:638:502:c003::15;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=shirlock.uni-paderborn.de
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -69,31 +69,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-we were mixing up the "c" and "d" registers. We used "d" as a
-destination register und "c" as the source. According to the TriCore ISA
-manual 1.6 vol 2 it is the other way round.
+if we used const16 == 0 we would crash qemu with the error:
+
+../tcg/tcg-op.c:196: tcg_gen_shri_i32: Assertion `arg2 >= 0 && arg2 < 32' failed
+
+This is a special case anyways as we can directly return cpu_gpr_d[r1]
+as this is the most significant word an nothing is shifted.
 
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/653
 ---
- target/tricore/translate.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/tricore/translate.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 8de4e56b1f..6149d4f5c0 100644
+index 6149d4f5c0..62128c6aae 100644
 --- a/target/tricore/translate.c
 +++ b/target/tricore/translate.c
-@@ -5805,8 +5805,8 @@ static void decode_rcrw_insert(DisasContext *ctx)
- 
-         tcg_gen_movi_tl(temp, width);
-         tcg_gen_movi_tl(temp2, const4);
--        tcg_gen_andi_tl(temp3, cpu_gpr_d[r4], 0x1f);
--        gen_insert(cpu_gpr_d[r3], cpu_gpr_d[r1], temp2, temp, temp3);
-+        tcg_gen_andi_tl(temp3, cpu_gpr_d[r3], 0x1f);
-+        gen_insert(cpu_gpr_d[r4], cpu_gpr_d[r1], temp2, temp, temp3);
- 
-         tcg_temp_free(temp3);
-         break;
+@@ -8708,6 +8708,8 @@ static void decode_32Bit_opc(DisasContext *ctx)
+         const16 = MASK_OP_RRPW_POS(ctx->opcode);
+         if (r1 == r2) {
+             tcg_gen_rotli_tl(cpu_gpr_d[r3], cpu_gpr_d[r1], const16);
++        } else if (const16 == 0) {
++            tcg_gen_mov_tl(cpu_gpr_d[r3], cpu_gpr_d[r1]);
+         } else {
+             temp = tcg_temp_new();
+             tcg_gen_shli_tl(temp, cpu_gpr_d[r1], const16);
 -- 
 2.39.1
 
