@@ -2,95 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1665F67E8E2
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 16:04:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 054CA67E944
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 16:17:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLQFJ-0002Rh-AF; Fri, 27 Jan 2023 10:02:29 -0500
+	id 1pLQSQ-0006IJ-Pq; Fri, 27 Jan 2023 10:16:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLQEy-0002Q5-VS
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:02:08 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLQEx-0004IX-2h
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:02:08 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674831726;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BCAWQePqlmcUdEfpPWmFWDPQKTGxJINbp8IdMUJzeiY=;
- b=deXJAZsI6OUDqVJywpy32GPOjvnu3KMW/AlVZl0609KVKVsWdwwqt7CMauSyjA637sQ60N
- GBywxRnH1KJUwZJbVVavQ4POIDr+bDqjGyn83nO344TSKgvmOJKcSxL49RbPuzox4gJLaB
- cHk0JLKlwesbw1xDFzu7AMh4illsRL8=
-Received: from mail-lj1-f200.google.com (mail-lj1-f200.google.com
- [209.85.208.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-577-BoBMK3x0P2yiyOufqD0TqQ-1; Fri, 27 Jan 2023 10:02:01 -0500
-X-MC-Unique: BoBMK3x0P2yiyOufqD0TqQ-1
-Received: by mail-lj1-f200.google.com with SMTP id
- u7-20020a2eb807000000b002904ea2bdf9so367271ljo.21
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 07:02:01 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1pLQSO-0006HZ-Mv
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:00 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
+ id 1pLQSM-0007ef-MV
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:00 -0500
+Received: by mail-wm1-x335.google.com with SMTP id m15so3677327wms.4
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 07:15:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=v/loKsrqNXhKulPQFnHuZ1LK4Lzmu4sWulORUgMyhTs=;
+ b=iyhes9sJ/dpEnxEF/MtSp/w9m7mBKCwAwt1eWVs5mFQU2KgrP5/prUZBjoADxLX3nF
+ +G7PAxCvGFO+n63J25agYzAh7MqSL+4KqmogsTcsBEoLBef2xwPqW/c6QkzoHqPBxiGA
+ +M89wa5OI/q8meeDRWEDDPuI5mAybm3FCg3QLi8iTmj+7ZOv+V5+YGf1ZeVbFHcMSXIh
+ +cJx4nO+idV1EmAn5stv6OyrD1MCAyjH4zdD+26xTy+WWqK4qZhxo5PYRuc6Zx8IwlFy
+ PBQgxJkuSISJTDdbkGftcZcJvZcQtV8WFvwsdOz2HnOj8WNUb37ywkXFqi8Ze9959f+m
+ RBEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=BCAWQePqlmcUdEfpPWmFWDPQKTGxJINbp8IdMUJzeiY=;
- b=dSv4xJx8g+SBjhpmk4Pq0MFX//9g9l40ZpWluYi3v157+wfwQjzFytFczNRIF0LqEZ
- ZEKsvd8Ri0PJPv9+dk5e2rHGM7zv1BPu9EjHt16HApZvVy/7bcMT2MKKm0TjjU3oLOh5
- ahBuA7H/jdb7LXgEhdX8ykxfBiwdzlmyt5uXCBkhu51sJOG1RS0TgJrR6BuE2h1++K3R
- Ha+tA77V2Cn2PzKV2CwA4mbsdANmoTxpFziWb+gyiGqjuazxAy9uT2kAb8QcUr0CKAmb
- rph/tUFzuILc4b2XfPNblkjVhXkZfAFv25um1zj5YMqPFsN35Oz/IW1Z3Mo3ptIzbffS
- fkGQ==
-X-Gm-Message-State: AO0yUKWHIA0FZAO9qXqjeox2b74+O2OgIgzwltjNSb1lqd8zyvEqpc6H
- edTaEPTM58yrzlSw6Sc/piXyimwBuiejHEzownepI0qGpymivrg7cPWeY85/hhhr+1omqiN5yMX
- xeqs1NifMoChUJzg=
-X-Received: by 2002:a2e:a4b6:0:b0:28f:8fa4:7c25 with SMTP id
- g22-20020a2ea4b6000000b0028f8fa47c25mr1203857ljm.25.1674831718789; 
- Fri, 27 Jan 2023 07:01:58 -0800 (PST)
-X-Google-Smtp-Source: AK7set+JBei17P+JlKSLUUJ2snxVBR2+znakBl4L/6Mt+b5zgCQP9Nf+lOhDJKMfTt0XG4UjFdntSA==
-X-Received: by 2002:a2e:a4b6:0:b0:28f:8fa4:7c25 with SMTP id
- g22-20020a2ea4b6000000b0028f8fa47c25mr1203715ljm.25.1674831717017; 
- Fri, 27 Jan 2023 07:01:57 -0800 (PST)
-Received: from redhat.com ([2.52.137.69]) by smtp.gmail.com with ESMTPSA id
- cm20-20020a170907939400b00871cb1b8f63sm2370175ejc.26.2023.01.27.07.01.52
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=v/loKsrqNXhKulPQFnHuZ1LK4Lzmu4sWulORUgMyhTs=;
+ b=EliTDFnBqRpJaNIXB8T6bzOKAZY4Ok8rFJ/65zJpSa8jzGuGfjo/nDl+rDUpCzk3Ae
+ I7WIe0oWe36he7bKPX91y9ZVrmyHrEGdJY6A1t6R/CyGLld5NlfhipZv4KAbz2EtEEQj
+ jLiMInrVnQA7iAZaaqz6hJj76qqxTaH+JMWB5quj29A2IsEjQZrf4okDjGOY8KLwkRik
+ DkxiKwXkXZkgIkTY4kqGgNZWe463T/xmJGE7DJMPQZ+LUTi8ep04lNCUOLbxYA9So9AX
+ oQDCDwzUk+r157LmMYVDvBaOTj1wtx9MHypZDPvSGz5asObrCHyzcxRKLbtkxdfUXJWn
+ DwwA==
+X-Gm-Message-State: AFqh2kpm5ttmuwZXhKXzSndH5oW7qR4bltAlgA4eYW8jX2jqo6aT7l8v
+ hrAXx1CSbz62CUCUm/Ci1YA5xw==
+X-Google-Smtp-Source: AMrXdXsR6gdrAsjZ8Po2e4mtIRfSx/7/gaAPBRHMQcHjIgNDG1tWAJ+MgAqe7I3SRcOa8tRzcwvwsA==
+X-Received: by 2002:a05:600c:22d2:b0:3d1:f0f1:ceb4 with SMTP id
+ 18-20020a05600c22d200b003d1f0f1ceb4mr39395678wmg.19.1674832556337; 
+ Fri, 27 Jan 2023 07:15:56 -0800 (PST)
+Received: from localhost.localdomain (054592b0.skybroadband.com.
+ [5.69.146.176]) by smtp.gmail.com with ESMTPSA id
+ l7-20020a05600c47c700b003dc3bbdf518sm1656628wmo.21.2023.01.27.07.15.55
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jan 2023 07:01:56 -0800 (PST)
-Date: Fri, 27 Jan 2023 10:01:50 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Warner Losh <imp@bsdimp.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, richard.henderson@linaro.org,
- pbonzini@redhat.com, kwolf@redhat.com, hreitz@redhat.com,
- kevans@freebsd.org, berrange@redhat.com, groug@kaod.org,
- qemu_oss@crudebyte.com, philmd@linaro.org, alistair@alistair23.me,
- jasowang@redhat.com, jonathan.cameron@huawei.com,
- kbastian@mail.uni-paderborn.de, quintela@redhat.com,
- dgilbert@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
- tsimpson@quicinc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org
-Subject: Re: [PATCH v4 04/19] bsd-user: Clean up includes
-Message-ID: <20230127100052-mutt-send-email-mst@kernel.org>
-References: <20230119065959.3104012-1-armbru@redhat.com>
- <20230119065959.3104012-5-armbru@redhat.com>
- <CANCZdfrU4zVcepMj=B5EVUz-qhCDhMYDs+cYS5yfW1-G01PsbA@mail.gmail.com>
- <CAFEAcA8E98v5X5ekA16c6Fby2HAhOC5G4JYnN9TkrA9G7rVzvA@mail.gmail.com>
+ Fri, 27 Jan 2023 07:15:55 -0800 (PST)
+From: Jean-Philippe Brucker <jean-philippe@linaro.org>
+To: peter.maydell@linaro.org
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, pbonzini@redhat.com,
+ eblake@redhat.com, armbru@redhat.com, berrange@redhat.com,
+ eduardo@habkost.net, alex.bennee@linaro.org, richard.henderson@linaro.org,
+ Jean-Philippe Brucker <jean-philippe@linaro.org>
+Subject: [RFC PATCH 00/16] arm: Run Arm CCA VMs with KVM
+Date: Fri, 27 Jan 2023 15:07:13 +0000
+Message-Id: <20230127150727.612594-1-jean-philippe@linaro.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA8E98v5X5ekA16c6Fby2HAhOC5G4JYnN9TkrA9G7rVzvA@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,37 +89,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 27, 2023 at 02:54:30PM +0000, Peter Maydell wrote:
-> On Thu, 19 Jan 2023 at 14:42, Warner Losh <imp@bsdimp.com> wrote:
-> >
-> > Also, why didn't you move sys/resource.h and other such files
-> > to os-dep.h? I'm struggling to understand the rules around what
-> > is or isn't included where?
-> 
-> The rough rule of thumb is that if some OS needs a compatibility
-> fixup or workaround for a system header (eg not every mmap.h
-> defines MAP_ANONYMOUS; on Windows unistd.h has to come before
-> time.h) then we put that header include and the compat workaround
-> into osdep.h. This avoids "only fails on obscure platform" issues
-> where somebody puts a header include into some specific .c file
-> but not the compat workaround, and it works on the Linux host
-> that most people develop and test on and we only find the
-> problem later.
-> 
-> There's also no doubt some includes there for historical
-> reasons, and some which really are "everybody needs these"
-> convenience ones. But we should probably not add new
-> includes to osdep.h unless they fall into the "working around
-> system header issues" bucket.
-> 
-> thanks
-> -- PMM
+The Arm Realm Management Extension (RME), part of the Arm Confidential
+Computing Architecture (CCA), enables running confidential virtual
+machines in a new "Realm" security state. While the host still manages
+the resources of a guest running in a Realm, it cannot access them.
+
+This series adds some support to QEMU for launching a guest in a Realm
+with KVM. The KVM changes for CCA have been posted at [1].
+
+Patches 2-4 introduce a new RmeGuest object that inherits from
+ConfidentialGuestSupport and enable it for the virt machine. Like other
+confidential guest architectures, launching a Realm VM requires two
+command-line parameters:
+
+	-object rme-guest,id=<id>,<parameters>
+	-M confidential-guest-support=<id>
+
+Patches 5-6 modify the KVM vCPU support. With CCA, KVM does not sit atop
+the VM anymore but talks to a new component, the Realm Management
+Monitor (RMM) which deals with the Realm stage-2 page tables and CPU
+state. So KVM cannot access most vCPU registers anymore except for
+passing parameters to RMM when handling VM exits. Likewise, the host
+must not access any memory assigned to the guest (or else it gets a
+granule protection fault). The private memfd work [2] by Chao Peng will
+help with this.
+
+Patches 8-9 deal with loading images into the Realm. Those are measured
+by the RMM and part of the initial measurement, which allows a Realm
+owner to attest that the Realm is running what it expects. Patches 10-14
+pass parameters described in the RMM specification.
 
 
-BTW maybe we should teach checkpatch about that rule:
-if a header is in osdep do not include it directly.
+This initial posting only provides direct kernel boot with DTB, not
+firmware boot. There is ongoing work to extend edk2 to run in a Realm,
+which will require changes to QEMU. A few problems will come up:
+
+* The FwCfg device provides kernel images, initrd, ACPI tables etc. This
+  isn't an option for CCA because the guest does not trust what the host
+  provides at runtime. I suggest to load all those things in Realm
+  memory before boot, and pass their address in the device tree which is
+  always present at the start of RAM. This will require new properties
+  in the device-tree's chosen section.
+
+* The guest firmware probably shouldn't be on an emulated flash device.
+  For one thing, it doesn't need flash because it will store all
+  variable in RAM. The flash device also relies on read-only mappings
+  which are not supported by KVM RME at the moment, and trapping reads
+  would break integrity. I suggest to either replace the flash device
+  (address 0 of the virt machine) by RAM when RmeGuest is enabled, or
+  load the firmware somewhere else in RAM.
+
+
+Please see [1] for additional resource, including instructions for
+building and running the CCA software stack on a model. An example
+command-line:
+
+qemu-system-aarch64
+	-M virt -cpu host -enable-kvm -M gic-version=3 -smp 2 -m 256M -nographic 
+	-M confidential-guest-support=rme0
+	-object rme-guest,id=rme0,measurement-algo=sha512
+	-kernel Image -initrd rootfs.cpio
+	-append 'console=ttyAMA0 earlycon'
+	-overcommit mem-lock=on
+
+A branch with these patches is available at [3].
+
+[1] https://lore.kernel.org/kvm/20230127112248.136810-1-suzuki.poulose@arm.com/
+[2] https://lore.kernel.org/qemu-devel/20221202061347.1070246-1-chao.p.peng@linux.intel.com/
+[3] https://jpbrucker.net/git/qemu cca/rfc-v1
+
+Jean-Philippe Brucker (16):
+  NOMERGE: Add KVM Arm RME definitions to Linux headers
+  target/arm: Add confidential guest support
+  target/arm/kvm-rme: Initialize realm
+  hw/arm/virt: Add support for Arm RME
+  target/arm/kvm: Split kvm_arch_get/put_registers
+  target/arm/kvm-rme: Initialize vCPU
+  target/arm/kvm: Select RME VM type for the scratch VM
+  target/arm/kvm-rme: Populate the realm with boot images
+  hw/arm/boot: Populate realm memory with boot images
+  target/arm/kvm-rme: Add measurement algorithm property
+  target/arm/kvm-rme: Add Realm Personalization Value parameter
+  target/arm/kvm-rme: Add Realm SVE vector length
+  target/arm/kvm-rme: Add breakpoints and watchpoints parameters
+  target/arm/kvm-rme: Add PMU num counters parameters
+  target/arm/kvm: Disable Realm reboot
+  target/arm/kvm-rme: Disable readonly mappings
+
+ docs/system/confidential-guest-support.rst |   1 +
+ qapi/qom.json                              |  32 +-
+ include/sysemu/kvm.h                       |   2 +
+ linux-headers/asm-arm64/kvm.h              |  63 +++
+ linux-headers/linux/kvm.h                  |  21 +-
+ target/arm/cpu.h                           |   3 +
+ target/arm/kvm_arm.h                       |  21 +
+ accel/kvm/kvm-all.c                        |   8 +-
+ hw/arm/boot.c                              |  10 +-
+ hw/arm/virt.c                              |  48 +-
+ target/arm/helper.c                        |   8 +
+ target/arm/kvm-rme.c                       | 505 +++++++++++++++++++++
+ target/arm/kvm.c                           |  20 +-
+ target/arm/kvm64.c                         |  91 +++-
+ target/arm/meson.build                     |   7 +-
+ 15 files changed, 822 insertions(+), 18 deletions(-)
+ create mode 100644 target/arm/kvm-rme.c
 
 -- 
-MST
+2.39.0
 
 
