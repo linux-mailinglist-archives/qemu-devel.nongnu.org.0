@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E51567DF9E
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 10:01:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3B4467DFA3
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 10:05:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLKaU-0003no-II; Fri, 27 Jan 2023 03:59:58 -0500
+	id 1pLKeN-000504-4s; Fri, 27 Jan 2023 04:03:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pLKaS-0003nf-Ll
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 03:59:56 -0500
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
+ id 1pLKeA-0004vZ-S3
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 04:03:52 -0500
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pLKaR-00075R-1e
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 03:59:56 -0500
-Received: by mail-wr1-x42f.google.com with SMTP id n7so4315622wrx.5
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 00:59:54 -0800 (PST)
+ id 1pLKe8-00083E-Ra
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 04:03:46 -0500
+Received: by mail-wr1-x436.google.com with SMTP id q10so4328125wrm.4
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 01:03:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=zh0iop8Ms8Co0XxjjSWaNwJfrb9UC4WYEwf8QH4PJ/A=;
- b=LLkNHlaeQeCvmgur7g80aWEyqrms0BQu0ImampdL00HPKH26JC/RYrVYfuGMvZC00F
- YRhAKvPSSD0CIX36qnsCs/+WrVA/R3nUTX1tI5qFD1TKzX+W37JtUH2mNIvvUkZ2kwOY
- dbdjIz4NiZuhAR/2LX57O9BCKcXN8W+ntpBwbNXWItz4j6LAnagnqRtpmQz6V9sjcuPe
- P3KYCeb98u4NZW2UYnuWeu9eBVarARfsviz6xK85IqLKS7TU+LiOaSMvzkeHXoOFn5hM
- HblkSjPlQmG+ncDxrRCEb7m4Dh+/bSf/1WGG5F1PES85VB3RKsnJdvTrqKi+uGuuC1cQ
- WwDg==
+ bh=bv7KWQkUZ0Rx2oz8hrTDrTbihQGV9nGJo5Xum9BrDfA=;
+ b=OZwJk3eR2w4OSY/e4BapHd1lyorw3Qu3elS8CfK+3A27xcR6+sHQ7Fmf5b8V3LAHQv
+ F5qlX3ZTHIiQ72fFwkEJHOUudDMJx/4sIP8Gli4QG/VLsqp6v/VLWPUvwJwJy3hvbUMj
+ Zc6c8hqZDyyZQbN4UwAE7CiNMfI4MZmEhPyyKAJgnRbjb33oZXMF6O4M1QYkgpiECYTP
+ q7FvWBynJaf9p/eY1oI8PHGTEhmJFS5xYvZdbNCYJZ7BknB14PPqVQBz9lQL4n78cZzQ
+ 0uXVFk7oEGPGFQl9/voeaPnt9WyphkAmaPMr/lrgY1ddxsV8tAg7briF7UfInwld9FbP
+ krhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:organization:references:cc:to
  :content-language:subject:reply-to:user-agent:mime-version:date
  :message-id:from:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zh0iop8Ms8Co0XxjjSWaNwJfrb9UC4WYEwf8QH4PJ/A=;
- b=Pu2pQPHj44DebpHQW91LP7ZDIdtJCgIvZZYG7ga1o5eh03mO6IcH1PAmkQ3aHY1p3D
- cDVuuDbIq6BlCjUioiLNEo/76QibaWObJT4XIODF7QyvF8Gxx2adtockX5gDNX4usRTK
- sIW937B0aazJSxX5QNMud/XuBeVpkxnXYRnick1FV9gjOLFYlsmg3wduIpO6pgASpuFZ
- fx2+daq3E5m8b+KRAjfEeKev4nsG8Rc5j5u6T1xm9YQoqquU4xFPJ5mGxfVbVfCFL+7M
- pHevZoGtVW44on92BYJIEH8bqFVyTWQ5mMxUzUHbHmaGlCPqL3LXME72XHsLLV/Gy2Oq
- Z+yQ==
-X-Gm-Message-State: AFqh2kp+hMYTtWfOZIht2KDSU5wGsMQPkejuUneTj9uDg8IgYl4hSfvY
- s/6/ivk0cToB2aSwbUZXrzM=
-X-Google-Smtp-Source: AMrXdXskpZ6tuRNhOS7FpKrJD5uf2I07GDxQGBvNxrYkpmK6s5qnFTAqRr2EnsPPZqnnH4IRhcsToQ==
-X-Received: by 2002:a5d:6f03:0:b0:2bb:e896:5a09 with SMTP id
- ay3-20020a5d6f03000000b002bbe8965a09mr37895290wrb.66.1674809993326; 
- Fri, 27 Jan 2023 00:59:53 -0800 (PST)
+ bh=bv7KWQkUZ0Rx2oz8hrTDrTbihQGV9nGJo5Xum9BrDfA=;
+ b=65oLvY4uOZ56xnLo13uCJlwECU2DagOLPIPC8eNpkIG2WYRskYEZoWoLvN0JwkR8Da
+ WOPur5Nuiuu2ZHBW1FzRP7v2IoD3d+ha5vRksny2erso5XCAyrLfweBBw8dDPL48eKZe
+ QK/KSgFRUXKyxsWdhL311bSmJeoumW7aJW8KpHEYtzTeNCae1dYwhE+YxOCGnKr1GtVH
+ CNjUsfdyrsfvyfiS856IKE/0iiCR19mAD7LrE29GXgzyEUb0hrrJowVbr7VCX8QYaXEB
+ NmB+yriAs3WqlPdgXJ4v6GXvCpZpLdOR/KX8M0rjxK2qrIwgE/zOmAX5blRlAFbiUPkO
+ OxOw==
+X-Gm-Message-State: AFqh2koHgUv81zi6PMdCyHaVGnmPXvrL0JuG/zrZWSMdvXWr4qgEHoTt
+ Cux2hGZJt0v7QyAtSC8qigU=
+X-Google-Smtp-Source: AMrXdXtc8oQIV58v+TGJVMZXwavuLIoliPQ6sKMKw6h/AfnzacipjGxp1KZ4LgM/ccaZ05696dgq9w==
+X-Received: by 2002:a5d:6186:0:b0:2bd:dc24:cade with SMTP id
+ j6-20020a5d6186000000b002bddc24cademr28258235wru.16.1674810222919; 
+ Fri, 27 Jan 2023 01:03:42 -0800 (PST)
 Received: from [192.168.14.147] (54-240-197-231.amazon.com. [54.240.197.231])
  by smtp.gmail.com with ESMTPSA id
- t27-20020adfa2db000000b002366553eca7sm3447446wra.83.2023.01.27.00.59.51
+ c7-20020adfe707000000b002bfb0c5527esm3438297wrm.109.2023.01.27.01.03.41
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 00:59:52 -0800 (PST)
+ Fri, 27 Jan 2023 01:03:42 -0800 (PST)
 From: Paul Durrant <xadimgnik@gmail.com>
 X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <f5e25acf-5787-8dc9-8786-04175f6363fd@xen.org>
-Date: Fri, 27 Jan 2023 08:59:51 +0000
+Message-ID: <818cf8c1-6d2a-1542-8bbd-53616290f2ce@xen.org>
+Date: Fri, 27 Jan 2023 09:03:41 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [PATCH v8 26/58] hw/xen: Add xen_evtchn device for event channel
- emulation
+Subject: Re: [PATCH v8 28/58] hw/xen: Implement EVTCHNOP_status
 Content-Language: en-US
 To: David Woodhouse <dwmw2@infradead.org>,
  Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
@@ -78,13 +77,13 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
 References: <20230120131343.1441939-1-dwmw2@infradead.org>
- <20230120131343.1441939-27-dwmw2@infradead.org>
+ <20230120131343.1441939-29-dwmw2@infradead.org>
 Organization: Xen Project
-In-Reply-To: <20230120131343.1441939-27-dwmw2@infradead.org>
+In-Reply-To: <20230120131343.1441939-29-dwmw2@infradead.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x42f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::436;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x436.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -111,21 +110,16 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 On 20/01/2023 13:13, David Woodhouse wrote:
 > From: David Woodhouse <dwmw@amazon.co.uk>
 > 
-> Include basic support for setting HVM_PARAM_CALLBACK_IRQ to the global
-> vector method HVM_PARAM_CALLBACK_TYPE_VECTOR, which is handled in-kernel
-> by raising the vector whenever the vCPU's vcpu_info->evtchn_upcall_pending
-> flag is set.
+> This adds the basic structure for maintaining the port table and reporting
+> the status of ports therein.
 > 
 > Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 > ---
->   hw/i386/kvm/meson.build   |   5 +-
->   hw/i386/kvm/xen_evtchn.c  | 155 ++++++++++++++++++++++++++++++++++++++
->   hw/i386/kvm/xen_evtchn.h  |  18 +++++
->   hw/i386/pc.c              |   2 +
->   target/i386/kvm/xen-emu.c |  15 ++++
->   5 files changed, 194 insertions(+), 1 deletion(-)
->   create mode 100644 hw/i386/kvm/xen_evtchn.c
->   create mode 100644 hw/i386/kvm/xen_evtchn.h
+>   hw/i386/kvm/xen_evtchn.c  | 104 ++++++++++++++++++++++++++++++++++++++
+>   hw/i386/kvm/xen_evtchn.h  |   3 ++
+>   include/sysemu/kvm_xen.h  |   3 ++
+>   target/i386/kvm/xen-emu.c |  20 +++++++-
+>   4 files changed, 128 insertions(+), 2 deletions(-)
 > 
 
 Reviewed-by: Paul Durrant <paul@xen.org>
