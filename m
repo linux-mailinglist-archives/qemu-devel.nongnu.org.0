@@ -2,96 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCA2067F24C
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 00:38:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9768067F267
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 00:50:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLYHj-0003LT-P0; Fri, 27 Jan 2023 18:37:31 -0500
+	id 1pLYTT-00059F-UM; Fri, 27 Jan 2023 18:49:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pLYHf-0003LC-HQ
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 18:37:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pLYHd-0003FB-Ky
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 18:37:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674862644;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=wm1btNP9Qlkq4UOn/UHvZ3pa5JMW10SEl0/wX5AKrL8=;
- b=N6cOOTyiJFLTKsecvGW3Rv0JEVHhB/IaWljHHARJdxbGecduAhfGfqZILoajTimCgfhe3O
- DzjIS0SKw2/vhVl6c0Ii1IBL0l6fUCeAhX5mVxmxbddv+hHsW+SYGgKAIdg2jTh2XUVMGF
- G/NdzhAjrmiRdvNPQTu5shoB8+Z9R+U=
-Received: from mail-il1-f200.google.com (mail-il1-f200.google.com
- [209.85.166.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-495-juw6_qDkPbWSBhA--ptFAw-1; Fri, 27 Jan 2023 18:37:23 -0500
-X-MC-Unique: juw6_qDkPbWSBhA--ptFAw-1
-Received: by mail-il1-f200.google.com with SMTP id
- j7-20020a056e02014700b00310d217f518so1173951ilr.2
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 15:37:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pLYTO-00058l-86
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 18:49:34 -0500
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pLYTG-0006Va-Tc
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 18:49:31 -0500
+Received: by mail-wm1-x332.google.com with SMTP id
+ e19-20020a05600c439300b003db1cac0c1fso6464282wmn.5
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 15:49:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=K+n/SN5EfxXmoH+zSeJ91178FXdJfmCiZn8laQzSIas=;
+ b=ORO0qJqqdvieuRU8HlMvVMEed6HRf1SvAE/NgkFkgJiPScmZxUaFC4sZrPjgOqWCG+
+ spMRDEnnjHy2jf+4C2KWqy/WjqS4/BSiCkIuC2gWPpCFrufMZJ/UWTsZH/aVWvpJVJrA
+ /67WpBRPo4iQqLMcYludVzrHZwbPi1IRSxYyiQ5IMvlfATZ4REaSU8A2FufEtX8tzOSD
+ Ezt728Y+Po5SeSSljui6ib2eY9hhoJMj58Wsp+vuxBFLFMzgwh5oyH8A7VYB5QsFwXPo
+ hpmRnld2IQ4jRfzesdA3mCEcD4KcNzYh0gV/jV4EQcqltSOhmkwqU3/6lw+94wkxtJSs
+ T1iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=wm1btNP9Qlkq4UOn/UHvZ3pa5JMW10SEl0/wX5AKrL8=;
- b=eJ5KGTah8BqfjRfaX+HpQfXGDe1R7nCP8DCHB3hMd1HiHajppad6Ior+EDzBhr68II
- /5XjPzqzkIn3NZuFvtVTpTCntbMGDYEClwbzkm65KQSsx+Kh+u8LqyAv3MdYR6FMJsPw
- SyNyKor39Ko+WBucCpd5OGWCXXGMf26XspGmUoebWiWkbfzwmqKVJWIny8BmeMUNTxmw
- TXyFjPKe6Pq+ST0dS8C0UJS3GyoLkSdPr4WbJF0j49VCGv/E7Onln2A/iU4VB9VVHFMC
- jZH1PtQSMH6QWDkE/V4UdPfLR+IWT7fe/lKn2ygVv/N/XBXSdjE7nmqqQ5jaMzhpOpDZ
- YPxg==
-X-Gm-Message-State: AO0yUKVowB0T1qLmTho1NDINjbvguVkJ3fCT/KwEfcbvkVmsPPMe8cAP
- bIJg01Udmz50OWAmItFoaE2+/bEwAsrheC+FJHoxZdKTh5yI/XypOSLGk2QzvRtQ6tr9EF+Elfw
- YNWPuOqd84pIvNzc=
-X-Received: by 2002:a05:6e02:1b81:b0:310:be09:7aa6 with SMTP id
- h1-20020a056e021b8100b00310be097aa6mr5496341ili.13.1674862642607; 
- Fri, 27 Jan 2023 15:37:22 -0800 (PST)
-X-Google-Smtp-Source: AK7set8L3WeyzSnT6Ml5hRxYQ4MCcHOCU3SZc92QiwtXDlMc8TPIK7D7ZQ6ehb4ADp5G/3P2laROOA==
-X-Received: by 2002:a05:6e02:1b81:b0:310:be09:7aa6 with SMTP id
- h1-20020a056e021b8100b00310be097aa6mr5496321ili.13.1674862642316; 
- Fri, 27 Jan 2023 15:37:22 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- g1-20020a056e02130100b0031097a03904sm1662451ilr.32.2023.01.27.15.37.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jan 2023 15:37:21 -0800 (PST)
-Date: Fri, 27 Jan 2023 16:37:19 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu
- <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, "Paolo Bonzini" <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, "David Hildenbrand" <david@redhat.com>, Philippe
- =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
- <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH 11/18] vfio/common: Add device dirty page bitmap sync
-Message-ID: <20230127163719.43e8729c.alex.williamson@redhat.com>
-In-Reply-To: <20230126184948.10478-12-avihaih@nvidia.com>
-References: <20230126184948.10478-1-avihaih@nvidia.com>
- <20230126184948.10478-12-avihaih@nvidia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=K+n/SN5EfxXmoH+zSeJ91178FXdJfmCiZn8laQzSIas=;
+ b=KNv7FgRHr+RlRE6e4CNs0Fo6ZjQJLyHxFsTF2QHv2LM7ZPdbWokw2pdQA0NaULRz/V
+ AsjCuG7eJRWuYXlduYfiNDWVoSvIyysDJbcCFzmSuZ0o5U7LBGHffW0GavP+HVD7RwIS
+ 2mbq3wbAHCmfPQKt3P1l7DLrYUcNTjB0wxp7tIeFkf5zvwI4d6T3q9Q3KIS8rC231W8E
+ D/rISyBxQtYxBh9i3sXQ0PM6xbKtsJRbVJUwm04JnEJHFEgOEeJbBf4KopwxPPRTQx2b
+ 6IOkcbNwtt8z+E/A8tDT24UFIpmsly5prGFvt1qmU7wrA7FV2yEhyg7H5QUo/+DKE/Fp
+ ASfg==
+X-Gm-Message-State: AFqh2koMW9VFK+7vfOkkTAGOhl+HbiOGwdLfYowOOuQoKamTmzlon1tQ
+ QrWZS/U+MtkhBpoaJEfazzlWdA==
+X-Google-Smtp-Source: AMrXdXs6KRpBSDWr3IYafckL6Tcy669Y48ilxMSpvkfp+fLkkrcsgoy2RRRSTs48llztgJnSnJudnw==
+X-Received: by 2002:a05:600c:a4e:b0:3db:14d0:65be with SMTP id
+ c14-20020a05600c0a4e00b003db14d065bemr36632319wmq.34.1674863364677; 
+ Fri, 27 Jan 2023 15:49:24 -0800 (PST)
+Received: from [192.168.0.114] ([196.77.14.77])
+ by smtp.gmail.com with ESMTPSA id
+ c11-20020adfa30b000000b002bfb5ebf8cfsm5297394wrb.21.2023.01.27.15.49.23
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Jan 2023 15:49:24 -0800 (PST)
+Message-ID: <4f4276f1-78d6-8968-cf2a-e184f45cd9ad@linaro.org>
+Date: Sat, 28 Jan 2023 00:49:22 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v5 16/36] tcg: Add tcg_gen_{non}atomic_cmpxchg_i128
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org
+References: <20230126043824.54819-1-richard.henderson@linaro.org>
+ <20230126043824.54819-17-richard.henderson@linaro.org>
+ <8b021470-b335-4b85-d516-906308ddea69@linaro.org>
+ <dac69504-368b-6e00-5561-d0e723ff11e4@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <dac69504-368b-6e00-5561-d0e723ff11e4@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::332;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -108,62 +94,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 26 Jan 2023 20:49:41 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
+On 27/1/23 07:39, Richard Henderson wrote:
+> On 1/26/23 14:45, Philippe Mathieu-Daudé wrote:
+>>> +        /* Compare i128 */
+>>> +        tcg_gen_xor_i64(t0, TCGV128_LOW(oldv), TCGV128_LOW(cmpv));
+>>> +        tcg_gen_xor_i64(t1, TCGV128_HIGH(oldv), TCGV128_HIGH(cmpv));
+>>> +        tcg_gen_or_i64(t0, t0, t1);
+>>
+>> Can we skip the OR ...
+>>
+>>> +        /* tmpv = equal ? newv : oldv */
+>>> +        tcg_gen_movcond_i64(TCG_COND_EQ, TCGV128_LOW(tmpv), t0, z,
+>>> +                            TCGV128_LOW(newv), TCGV128_LOW(oldv));
+>>> +        tcg_gen_movcond_i64(TCG_COND_EQ, TCGV128_HIGH(tmpv), t0, z,
+>>
+>> ... and test t1 here to partially update LO/HI? (we could remove t1 and
+>> just use t0 as twice 'xor + movcond' but the code is less readable).
+> 
+> No.
+> 
+> We want equality on the entire 128-bit comparison to control the 
+> conditional moves.
 
-> From: Joao Martins <joao.m.martins@oracle.com>
-> 
-> Add device dirty page bitmap sync functionality. This uses the device
-> DMA logging uAPI to sync dirty page bitmap from the device.
-> 
-> Device dirty page bitmap sync is used only if all devices within a
-> container support device dirty page tracking.
-> 
-> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
-> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> ---
->  hw/vfio/common.c | 93 ++++++++++++++++++++++++++++++++++++++++++------
->  1 file changed, 82 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> index 3caa73d6f7..0003f2421d 100644
-> --- a/hw/vfio/common.c
-> +++ b/hw/vfio/common.c
-> @@ -355,6 +355,9 @@ static void vfio_bitmap_dealloc(VFIOBitmap *vbmap)
->      g_free(vbmap);
->  }
->  
-> +static int vfio_get_dirty_bitmap(VFIOContainer *container, uint64_t iova,
-> +                                 uint64_t size, ram_addr_t ram_addr);
-> +
->  bool vfio_mig_active(void)
->  {
->      VFIOGroup *group;
-> @@ -582,10 +585,19 @@ static int vfio_dma_unmap(VFIOContainer *container,
->          .iova = iova,
->          .size = size,
->      };
-> +    int ret;
->  
-> -    if (iotlb && container->dirty_pages_supported &&
-> -        vfio_devices_all_running_and_mig_active(container)) {
-> -        return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
-> +    if (iotlb && vfio_devices_all_running_and_mig_active(container)) {
-> +        if (!vfio_devices_all_device_dirty_tracking(container) &&
-> +            container->dirty_pages_supported) {
-> +            return vfio_dma_unmap_bitmap(container, iova, size, iotlb);
-> +        }
-> +
-> +        ret = vfio_get_dirty_bitmap(container, iova, size,
-> +                                    iotlb->translated_addr);
-> +        if (ret) {
-> +            return ret;
-> +        }
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Isn't the ordering backwards here?  Only after the range is unmapped
-can we know that this container can no longer dirty pages within the
-range.  Thanks,
-
-Alex
 
 
