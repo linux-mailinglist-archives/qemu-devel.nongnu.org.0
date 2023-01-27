@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EE7167E94D
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 16:18:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB18D67E946
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 16:18:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLQSh-0006YR-6N; Fri, 27 Jan 2023 10:16:19 -0500
+	id 1pLQSh-0006ZQ-Ta; Fri, 27 Jan 2023 10:16:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pLQSW-0006LI-7W
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:08 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ id 1pLQSX-0006Lf-0p
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:09 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pLQST-0007j2-Tg
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:07 -0500
-Received: by mail-wm1-x335.google.com with SMTP id q8so3675901wmo.5
+ id 1pLQSU-0007jJ-2o
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:08 -0500
+Received: by mail-wm1-x330.google.com with SMTP id
+ d4-20020a05600c3ac400b003db1de2aef0so3723545wms.2
  for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 07:16:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=iNHpXIOZPTIR743s4/nV/ldq35abX9mbN8ZYO5pEXmY=;
- b=Qx8daHeXglt4t84zNhaUtZ+Pu5Sx6Ro+Sm3/MapxEJq3Vawt9leb1dPkFEwE2X3lHZ
- ahCjUP3+B4UypURa5IuCE4zkccVUFGDu3zpcEJ7VfMKjf1mvi5WkcjPi0I0LkQPTXq3s
- SXF8/VJVvmyUPEVuXT6ovMT1IYrGdurQO7K7aGh/7eqjdODHg8a1iCaSXnIo0VWLhe17
- jhTL2+yNI06IvLdT3RGhDqsPmcfhNogIinOYHOft7ux2DypHo4GYDUUYdtHDSmSAAYJd
- aru6Y6BUVoJ1m4u/Uy9816Ol2HSYRCP8VA+OsLDtxd7TvrXOKMzFfb0FVCNdrOZ8LquW
- htTQ==
+ bh=yN/IgYT7Bxizcp4NnY3jkl6JyQXTtY8B5IgNc586Emg=;
+ b=UAsixQwzgDyNIcVfWpUt1IExJTdgLVxEQM++00szC9M3dgomol8l+EKRsv+VEWGyHA
+ dEF6gWNQt4u25ymCvtvtwnZqgrdj8/5V2htCBUSrGS/rpuG+zprq207t0Lm0hfEQqw0P
+ VMHEKz2jDbS9lK8UT9TAgWuHOeVBONylvkfOfw78vgefYYV8nR6azgjkL0+oSXmI4e2v
+ 9MUBkAKyLY6EFdtsKcCVvGBCJXyEdnBUaBTaWrvqVuADtBu1HuCvgZ9wbHMBzCoF6Qa1
+ ofTakgFOIASDxfaGDDl2rBDE1NOCY0UreQ+XqICGeis5lny8ye6OXdg/eP6IM/okwE7Y
+ ziCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=iNHpXIOZPTIR743s4/nV/ldq35abX9mbN8ZYO5pEXmY=;
- b=Wb2rCSJEUfQokNtSFPawGFRmpQnWpI8x41MeXidcXp4rnlzwDPtIz33Yqp1hfiY2gq
- 4Nz/9dJ7yAqpaP38rz48bmxnkYCQf9qbh+7aeypm5a9qeBGu0FPyPBt8clObml/Xiz5j
- cJfgBpgk3HE4TkwVWAsMwUi+/lg9gFeQNiYuP+XkC5XXBsM6MjDcL8GqJg09tscIPlUq
- Qnza1nXUGt47UwqlOuCJ4MSOQaFY+w9srXpUlnJlwd+KWPxHDuWo8UT0DJS1nNtoaG1h
- fSbCsWIgNxPRJJc5x4eU6pb2LBBN8CnTpW0mCw1SKjwrUThw6SkjPuIXx6EITTjTChhQ
- ITWw==
-X-Gm-Message-State: AFqh2kqUiLF0dJUPdQU466N1joGQTLh5QRFLxOC2R4FKr4jP807aydF3
- xvUSiZ9ED7WAqSwFAc0klJVxgQ==
-X-Google-Smtp-Source: AMrXdXv25K5niC7lUq9pW0hiOwDCbWTGzTk+UKhoOAOIMuy+Tx2ZIx2kNFqhqa8pDHSzkIpFVStcjw==
-X-Received: by 2002:a05:600c:5386:b0:3cf:9844:7b11 with SMTP id
- hg6-20020a05600c538600b003cf98447b11mr41938022wmb.23.1674832562206; 
+ bh=yN/IgYT7Bxizcp4NnY3jkl6JyQXTtY8B5IgNc586Emg=;
+ b=cKIhygl8oqM6uL89zckzM8tAe4zeY2GFNAagOIy611fcC5dp+cVj+B1LVuEa4DZlQ+
+ gVkcamqCp0sm/IlnpPll4oZvi7FxhvzbDtbIrfiXyvUGypuejwaB60K4aWBMZ0Mxp2I9
+ UlzoFA0+GhQUeNaxgAla6oB5v+m3ETWaGfGWjLDU7/WewuN9nGmtnXT1ubDxh2nSVytJ
+ Mt1KYEd4jQ0UdSsPdcWd+QGO0sgo1nQ1gFLDvr5Lb3avboztvIEQn960TcjaYPFrMEL4
+ BQaWDdT4jbcbA7bFGnHeNIFZATXMIvF4L9NVT7fo9Q6wGbYYZGLBhl/d6TtOCB9rarM/
+ F21g==
+X-Gm-Message-State: AFqh2kqREBsylJecxGSHpq3HdG1KahwWt3AwJ9YTrUYWIisVuBBYCXzW
+ psc7zv4EzmVvrJlgTkdVpB599g==
+X-Google-Smtp-Source: AMrXdXsGCl71/OUR43H8df4O6Jk1VGJQyA/zIETEzCmiuAC0gZNrO0vzJT8cEtddK2NOBpci8oXUTQ==
+X-Received: by 2002:a05:600c:1d8e:b0:3d1:ebdf:d586 with SMTP id
+ p14-20020a05600c1d8e00b003d1ebdfd586mr38542105wms.29.1674832562907; 
  Fri, 27 Jan 2023 07:16:02 -0800 (PST)
 Received: from localhost.localdomain (054592b0.skybroadband.com.
  [5.69.146.176]) by smtp.gmail.com with ESMTPSA id
- l7-20020a05600c47c700b003dc3bbdf518sm1656628wmo.21.2023.01.27.07.16.01
+ l7-20020a05600c47c700b003dc3bbdf518sm1656628wmo.21.2023.01.27.07.16.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jan 2023 07:16:01 -0800 (PST)
+ Fri, 27 Jan 2023 07:16:02 -0800 (PST)
 From: Jean-Philippe Brucker <jean-philippe@linaro.org>
 To: peter.maydell@linaro.org
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, pbonzini@redhat.com,
  eblake@redhat.com, armbru@redhat.com, berrange@redhat.com,
  eduardo@habkost.net, alex.bennee@linaro.org, richard.henderson@linaro.org,
  Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [RFC PATCH 08/16] target/arm/kvm-rme: Populate the realm with boot
- images
-Date: Fri, 27 Jan 2023 15:07:21 +0000
-Message-Id: <20230127150727.612594-9-jean-philippe@linaro.org>
+Subject: [RFC PATCH 09/16] hw/arm/boot: Populate realm memory with boot images
+Date: Fri, 27 Jan 2023 15:07:22 +0000
+Message-Id: <20230127150727.612594-10-jean-philippe@linaro.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230127150727.612594-1-jean-philippe@linaro.org>
 References: <20230127150727.612594-1-jean-philippe@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x335.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,164 +93,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Initialize the GPA space and populate it with boot images (kernel,
-initrd, firmware, etc). Populating has to be done at VM start time,
-because the images are loaded during reset by rom_reset()
+When using the Arm RME, register the images to be loaded into Realm
+memory at boot. Two operations are needed for each image:
+(1) INIT_IPA_REALM: mark the load addresses (IPA) as RAM with
+    RMI_RTT_INIT_RIPAS.
+(2) POPULATE_REALM: move the page into the Realm with RMI_DATA_CREATE.
+    Its content contributes to the initial measurement.
+
+The reason we separate (1) from (2) is that we may need to declare more
+RAM than the image size. In particular booting arm64 Linux requires
+reserving additional BSS space after the loaded image.
+
+We could declare the whole guest RAM with INIT_IPA_REALM, though that
+might be wasteful in terms of stage-2 mappings if the guest is not going
+to use all that RAM.
 
 Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
 ---
- target/arm/kvm_arm.h |  6 ++++
- target/arm/kvm-rme.c | 79 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 85 insertions(+)
+ hw/arm/boot.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-index e4dc7fbb8d..cec6500603 100644
---- a/target/arm/kvm_arm.h
-+++ b/target/arm/kvm_arm.h
-@@ -371,6 +371,7 @@ int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level);
+diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+index 15c2bf1867..115d3f5dcc 100644
+--- a/hw/arm/boot.c
++++ b/hw/arm/boot.c
+@@ -25,6 +25,7 @@
+ #include "qemu/config-file.h"
+ #include "qemu/option.h"
+ #include "qemu/units.h"
++#include "kvm_arm.h"
  
- int kvm_arm_rme_init(ConfidentialGuestSupport *cgs, Error **errp);
- int kvm_arm_rme_vm_type(MachineState *ms);
-+void kvm_arm_rme_add_blob(hwaddr start, hwaddr src_size, hwaddr dst_size);
- 
- bool kvm_arm_rme_enabled(void);
- int kvm_arm_rme_vcpu_init(CPUState *cs);
-@@ -458,6 +459,11 @@ static inline int kvm_arm_rme_vm_type(MachineState *ms)
- {
-     return 0;
- }
-+
-+static inline void kvm_arm_rme_add_blob(hwaddr start, hwaddr src_size,
-+                                        hwaddr dst_size)
-+{
-+}
- #endif
- 
- static inline const char *gic_class_name(void)
-diff --git a/target/arm/kvm-rme.c b/target/arm/kvm-rme.c
-index 3833b187f9..c8c019f78a 100644
---- a/target/arm/kvm-rme.c
-+++ b/target/arm/kvm-rme.c
-@@ -9,6 +9,7 @@
- #include "exec/confidential-guest-support.h"
- #include "hw/boards.h"
- #include "hw/core/cpu.h"
-+#include "hw/loader.h"
- #include "kvm_arm.h"
- #include "migration/blocker.h"
- #include "qapi/error.h"
-@@ -19,12 +20,22 @@
- #define TYPE_RME_GUEST "rme-guest"
- OBJECT_DECLARE_SIMPLE_TYPE(RmeGuest, RME_GUEST)
- 
-+#define RME_PAGE_SIZE qemu_real_host_page_size()
-+
- typedef struct RmeGuest RmeGuest;
- 
- struct RmeGuest {
-     ConfidentialGuestSupport parent_obj;
- };
- 
-+struct RmeImage {
-+    hwaddr base;
-+    hwaddr src_size;
-+    hwaddr dst_size;
-+};
-+
-+static GSList *rme_images;
-+
- static RmeGuest *cgs_to_rme(ConfidentialGuestSupport *cgs)
- {
-     if (!cgs) {
-@@ -51,6 +62,38 @@ static int rme_create_rd(RmeGuest *guest, Error **errp)
-     return ret;
- }
- 
-+static void rme_populate_realm(gpointer data, gpointer user_data)
-+{
-+    int ret;
-+    struct RmeImage *image = data;
-+    struct kvm_cap_arm_rme_init_ipa_args init_args = {
-+        .init_ipa_base = image->base,
-+        .init_ipa_size = image->dst_size,
-+    };
-+    struct kvm_cap_arm_rme_populate_realm_args populate_args = {
-+        .populate_ipa_base = image->base,
-+        .populate_ipa_size = image->src_size,
-+    };
-+
-+    ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_RME, 0,
-+                            KVM_CAP_ARM_RME_INIT_IPA_REALM,
-+                            (intptr_t)&init_args);
-+    if (ret) {
-+        error_setg_errno(&error_fatal, -ret,
-+                         "RME: failed to initialize GPA range (0x%"HWADDR_PRIx", 0x%"HWADDR_PRIx")",
-+                         image->base, image->dst_size);
-+    }
-+
-+    ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_RME, 0,
-+                            KVM_CAP_ARM_RME_POPULATE_REALM,
-+                            (intptr_t)&populate_args);
-+    if (ret) {
-+        error_setg_errno(&error_fatal, -ret,
-+                         "RME: failed to populate realm (0x%"HWADDR_PRIx", 0x%"HWADDR_PRIx")",
-+                         image->base, image->src_size);
-+    }
-+}
-+
- static void rme_vm_state_change(void *opaque, bool running, RunState state)
- {
-     int ret;
-@@ -72,6 +115,9 @@ static void rme_vm_state_change(void *opaque, bool running, RunState state)
-         }
+ /* Kernel boot protocol is specified in the kernel docs
+  * Documentation/arm/Booting and Documentation/arm64/booting.txt
+@@ -192,9 +193,11 @@ static void write_bootloader(const char *name, hwaddr addr,
+         code[i] = tswap32(insn);
      }
  
-+    g_slist_foreach(rme_images, rme_populate_realm, NULL);
-+    g_slist_free_full(g_steal_pointer(&rme_images), g_free);
-+
-     ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_RME, 0,
-                             KVM_CAP_ARM_RME_ACTIVATE_REALM);
-     if (ret) {
-@@ -118,6 +164,39 @@ int kvm_arm_rme_init(ConfidentialGuestSupport *cgs, Error **errp)
-     return 0;
- }
+-    assert((len * sizeof(uint32_t)) < BOOTLOADER_MAX_SIZE);
++    len *= sizeof(uint32_t);
++    assert(len < BOOTLOADER_MAX_SIZE);
  
-+/*
-+ * kvm_arm_rme_add_blob - Initialize the Realm IPA range and set up the image.
-+ *
-+ * @src_size is the number of bytes of the source image, to be populated into
-+ *   Realm memory.
-+ * @dst_size is the effective image size, which may be larger than @src_size.
-+ *   For a kernel @dst_size may include zero-initialized regions such as the BSS
-+ *   and initial page directory.
-+ */
-+void kvm_arm_rme_add_blob(hwaddr base, hwaddr src_size, hwaddr dst_size)
-+{
-+    struct RmeImage *image;
-+
-+    if (!kvm_arm_rme_enabled()) {
-+        return;
-+    }
-+
-+    base = QEMU_ALIGN_DOWN(base, RME_PAGE_SIZE);
-+    src_size = QEMU_ALIGN_UP(src_size, RME_PAGE_SIZE);
-+    dst_size = QEMU_ALIGN_UP(dst_size, RME_PAGE_SIZE);
-+
-+    image = g_malloc0(sizeof(*image));
-+    image->base = base;
-+    image->src_size = src_size;
-+    image->dst_size = dst_size;
-+
-+    /*
-+     * The ROM loader will only load the images during reset, so postpone the
-+     * populate call until VM start.
-+     */
-+    rme_images = g_slist_prepend(rme_images, image);
-+}
-+
- int kvm_arm_rme_vcpu_init(CPUState *cs)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
+-    rom_add_blob_fixed_as(name, code, len * sizeof(uint32_t), addr, as);
++    rom_add_blob_fixed_as(name, code, len, addr, as);
++    kvm_arm_rme_add_blob(addr, len, len);
+ 
+     g_free(code);
+ }
+@@ -683,6 +686,7 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
+      * the DTB is copied again upon reset, even if addr points into RAM.
+      */
+     rom_add_blob_fixed_as("dtb", fdt, size, addr, as);
++    kvm_arm_rme_add_blob(addr, size, size);
+     qemu_register_reset_nosnapshotload(qemu_fdt_randomize_seeds,
+                                        rom_ptr_for_as(as, addr, size));
+ 
+@@ -964,6 +968,7 @@ static uint64_t load_aarch64_image(const char *filename, hwaddr mem_base,
+ 
+     *entry = mem_base + kernel_load_offset;
+     rom_add_blob_fixed_as(filename, buffer, size, *entry, as);
++    kvm_arm_rme_add_blob(*entry, size, kernel_size);
+ 
+     g_free(buffer);
+ 
+@@ -1119,6 +1124,7 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+             initrd_size = 0;
+         }
+         info->initrd_size = initrd_size;
++        kvm_arm_rme_add_blob(info->initrd_start, initrd_size, initrd_size);
+ 
+         fixupcontext[FIXUP_BOARDID] = info->board_id;
+         fixupcontext[FIXUP_BOARD_SETUP] = info->board_setup_addr;
 -- 
 2.39.0
 
