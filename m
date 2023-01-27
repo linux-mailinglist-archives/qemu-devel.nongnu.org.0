@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA99267E644
+	by mail.lfdr.de (Postfix) with ESMTPS id CDCD467E645
 	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 14:12:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLOW8-0000pQ-0M; Fri, 27 Jan 2023 08:11:44 -0500
+	id 1pLOWm-0001E6-Up; Fri, 27 Jan 2023 08:12:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pLOW5-0000aQ-5X
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:11:41 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1pLOWl-0001Ds-MJ
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:12:23 -0500
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pLOW3-0002iJ-Ct
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:11:40 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- rm7-20020a17090b3ec700b0022c05558d22so4815487pjb.5
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 05:11:14 -0800 (PST)
+ id 1pLOWi-0002nn-Ly
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:12:23 -0500
+Received: by mail-pf1-x42d.google.com with SMTP id z31so3199356pfw.4
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 05:12:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Zm6ETde0LFBijnf14Acl+ycUJ/Kv5C+CBcIIWj9X09E=;
- b=kAkOQFUi9FfYcvE/o1Abj+iw/UVzVTAoinwwrSdJFaNZfkCEDu8eQEHqVPC5TT62S7
- 46vHgfq4kNa2TfuYYGs5LHFzaEcvidSR/RjVq3rALwYdaNOaf327lJyVCFfAr/H7D/io
- L+ott5M77QlZZk0RgCg8bDhDglhK0BVTKks62Dx9RNRpbHhQ2ZGtqakxAyFDeSSVctlO
- uCbIlbb7YK7Fxj0SppJRUsJ99tV/BylZd028OzwmrUJjxnOGMw0F6eWtpWI1THEivA+n
- lQlPYRR4FYB4r9cbzkpwqSQJGTXlgFTxZcmCser2+seWty191EASvGwVEIvjcYBqjOLN
- soLg==
+ bh=Z/Cc0zw/YIMoO6vxFFwgHi+aTaXxKXL378C+1UIkUFw=;
+ b=S+hFitRyg+AvfpgAg7A4sHd53OVtMuVOeW/RVubGtAUQQzQ9zeL2/o2lRCL6DMOE9h
+ wAE4AERgBVruSrlRc7C/xn7Ckh5kOMd6kobUfFWJErWQjlC0ZuDtX5oK0D2A4fOnWLKn
+ 3bmGAEk/+fCFrooHNRPwrynIbd6odjpB8E1NqS57WLfqLUoc/0wB3VBe6Bp109rPEMqX
+ xqZnruuVr7gpTN+jWC0k1YUn9WEuQrcQ0CHIpiDPbPI6DvuFCF5Hv1zB2ERJHXH5DMBu
+ L6yFKqKKGm9Q6afvtWbMunOWmb60YHdwoyNwbPwkKCYeo1UPMTJ3FRfSA7XmPbJHVfh2
+ Z8qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Zm6ETde0LFBijnf14Acl+ycUJ/Kv5C+CBcIIWj9X09E=;
- b=gjXa8LjQ6D9tEakV99rtWfD3Iqxf5X8M6HaGDJQtwLUg4enGw/N6ZU1sijhUVjsQZ+
- wZUYA359ty9gd3rjWFYKvuYEVYsUHiLWa6GT+gthE7I6f5fQbdVU9t3vxw66cGSCcDcQ
- CRJxOD3w7MMqALpBLOmwFglC9HWgWC57AXL+EyJ+5RWpqw51lBoMC60GqnSCd1QD2eRQ
- JKWt4ZRsGVlJNBTChpAchjGvKpBOK7tXc5tF9u7BQbr+lvwYvuEbfjwSiNPFlBScA+1I
- RdhZfU7dTWWvH7itwpIk8MWVhyMF1R1mcLNM/emFq097AoZ61eYMA7VbCNk/Ss3OY0MN
- 882g==
-X-Gm-Message-State: AFqh2koWFd3CGB24wkrILTRJ6cbyLVzX8JeVGTTxabJrawLtev8+CYyA
- 8NUm7nlqg9bsp0Bj6Sq8JtfxOsnNDHT8B38p3b0zLQ==
-X-Google-Smtp-Source: AMrXdXvf/PGfQtPNF+dkL742p0EawcHiXxites4sMa5Z+q1jBRevDibU3IyoYVjenuwROP4SPCO0V0dEF+u2d/QnlgA=
-X-Received: by 2002:a17:90a:d801:b0:22b:bc67:1dec with SMTP id
- a1-20020a17090ad80100b0022bbc671decmr3837605pjv.67.1674825073641; Fri, 27 Jan
- 2023 05:11:13 -0800 (PST)
+ bh=Z/Cc0zw/YIMoO6vxFFwgHi+aTaXxKXL378C+1UIkUFw=;
+ b=AJKzPwbyP0sbibMb36hMOXqmT6nsw20P3zdiLN4nJ9sUtktNydToQMdsI0epmELuGD
+ rFQJpBi62zg/ZPCWHTHQDHNveHq0IjIe7cAflfv605lo/xEy8VSxcHORWt8MVf9zF1tl
+ PvWpwMWegeVQ80/r2f3PtI7tHOK/piEUupdA0m+VV5KboOhqFH9C36u+jFxQ8Q/6rPoi
+ /J98Ou9kfswBNsVKOU6y2TBijXkocDGsCsHS8u3tTsnOrUp56Ju8Uv16YqlbdqkF4rZ3
+ n8O0rrfZnhYmJmFg5MDV4Mv214aUkLG6dBgCkQmPbsXYB4opsQYQ6Y+F4Kq1f9veOkE2
+ PGbg==
+X-Gm-Message-State: AO0yUKXyUzZydVyNsUMG06mUAmlkNrkyEXueKPiGK37Jeyxmq8XuNfjJ
+ kpa8hpWh/I8QEc/FCBH7D2r/++4qq6m6vY1kFIaOuw==
+X-Google-Smtp-Source: AK7set/FyvqQR6Qbfv/KrzMO3Lf2lij89NlhDTYKkwM0BS93I/vZrzhq/Tzb1HdjO+PmSDq7QhIzdm+BL9cc1kh+oGk=
+X-Received: by 2002:a62:144d:0:b0:591:8ac8:7c78 with SMTP id
+ 74-20020a62144d000000b005918ac87c78mr925377pfu.54.1674825139186; Fri, 27 Jan
+ 2023 05:12:19 -0800 (PST)
 MIME-Version: 1.0
 References: <CAFEAcA8v8hrqkFemdT5x_O5_mdps4wpdRCoVAfts+oVJj_qTVw@mail.gmail.com>
  <CAJSP0QXC3z-UyP5HoVTOmAfyz_vV6cpZJvnTYazWq9=52bndpA@mail.gmail.com>
  <CAFEAcA_CJ3VjHx1GhjBJjCY=+twBZM3UnR_g0sZLJhvVLcY=GQ@mail.gmail.com>
  <Y9PF7C29TNSuvz9o@redhat.com>
-In-Reply-To: <Y9PF7C29TNSuvz9o@redhat.com>
+ <CAFEAcA-_3FSQGNYXZo0yBdeMDkXj45O82O7s3t+Fbi1Lb3RQtQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA-_3FSQGNYXZo0yBdeMDkXj45O82O7s3t+Fbi1Lb3RQtQ@mail.gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 27 Jan 2023 13:11:02 +0000
-Message-ID: <CAFEAcA-_3FSQGNYXZo0yBdeMDkXj45O82O7s3t+Fbi1Lb3RQtQ@mail.gmail.com>
+Date: Fri, 27 Jan 2023 13:12:07 +0000
+Message-ID: <CAFEAcA_3EvPjgThntY6JZeRYV+FkC89b70P9osCMmW+y0PvBNA@mail.gmail.com>
 Subject: Re: no more pullreq processing til February
 To: Kevin Wolf <kwolf@redhat.com>
 Cc: Stefan Hajnoczi <stefanha@gmail.com>,
@@ -66,8 +66,8 @@ Cc: Stefan Hajnoczi <stefanha@gmail.com>,
  Richard Henderson <richard.henderson@linaro.org>, John Snow <jsnow@redhat.com>,
  "Daniel P. Berrange" <berrange@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,35 +90,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 27 Jan 2023 at 12:39, Kevin Wolf <kwolf@redhat.com> wrote:
+On Fri, 27 Jan 2023 at 13:11, Peter Maydell <peter.maydell@linaro.org> wrote:
 >
-> Am 26.01.2023 um 15:28 hat Peter Maydell geschrieben:
-> > On Thu, 26 Jan 2023 at 14:25, Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> > >
-> > > Are you batching pull requests? I used that approach last release
-> > > cycle. CI takes so long to run that I didn't want to run it for every
-> > > pull request. Batching worked well overall.
+> On Fri, 27 Jan 2023 at 12:39, Kevin Wolf <kwolf@redhat.com> wrote:
 > >
-> > No, I just do one test per pullreq. IME the CI is flaky
-> > enough that I don't really want to batch it up, and it
-> > isn't so slow that I build up a backlog of unprocessed
-> > requests.
+> > Am 26.01.2023 um 15:28 hat Peter Maydell geschrieben:
+> > > On Thu, 26 Jan 2023 at 14:25, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> > > >
+> > > > Are you batching pull requests? I used that approach last release
+> > > > cycle. CI takes so long to run that I didn't want to run it for every
+> > > > pull request. Batching worked well overall.
+> > >
+> > > No, I just do one test per pullreq. IME the CI is flaky
+> > > enough that I don't really want to batch it up, and it
+> > > isn't so slow that I build up a backlog of unprocessed
+> > > requests.
+> >
+> > But obviously so slow that we've run out of minutes. It would be good if
+> > this didn't happen every month in the future.
+> >
+> > If it worked well enough for Stefan, I think it would be worth trying to
+> > batch some pull requests going forward. What is the downside of it? If
+> > CI fails and flaky tests seem to be at fault, I assume you just re-run
+> > the job, no matter whether it tests a single pull request or two or
+> > three of them?
 >
-> But obviously so slow that we've run out of minutes. It would be good if
-> this didn't happen every month in the future.
->
-> If it worked well enough for Stefan, I think it would be worth trying to
-> batch some pull requests going forward. What is the downside of it? If
-> CI fails and flaky tests seem to be at fault, I assume you just re-run
-> the job, no matter whether it tests a single pull request or two or
-> three of them?
+> It means that if something fails it's harder to see whether
+> it was pullreq A or pullreq B. It also means there's a higher
+> cost to "abandon processing the merge and try a different one
+> to see if that one goes through and come back to this one later",
+> which is also something I sometimes do in an attempt to figure
+> out whether a problem is the usual flaky CI or not.
 
-It means that if something fails it's harder to see whether
-it was pullreq A or pullreq B. It also means there's a higher
-cost to "abandon processing the merge and try a different one
-to see if that one goes through and come back to this one later",
-which is also something I sometimes do in an attempt to figure
-out whether a problem is the usual flaky CI or not.
+Put another way, I think that an important thing we need to do
+is to look at all the CI failures we get and track down exactly
+why we have a bunch of intermittent failures and squash them.
+A lot of these problems are secondary things that we've ended up
+with because we have a lot of flakiness.
 
 -- PMM
 
