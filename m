@@ -2,78 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDCD467E645
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 14:12:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4695667E670
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 14:19:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLOWm-0001E6-Up; Fri, 27 Jan 2023 08:12:25 -0500
+	id 1pLOcH-0004BL-Um; Fri, 27 Jan 2023 08:18:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pLOWl-0001Ds-MJ
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:12:23 -0500
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pLOWi-0002nn-Ly
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:12:23 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id z31so3199356pfw.4
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 05:12:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Z/Cc0zw/YIMoO6vxFFwgHi+aTaXxKXL378C+1UIkUFw=;
- b=S+hFitRyg+AvfpgAg7A4sHd53OVtMuVOeW/RVubGtAUQQzQ9zeL2/o2lRCL6DMOE9h
- wAE4AERgBVruSrlRc7C/xn7Ckh5kOMd6kobUfFWJErWQjlC0ZuDtX5oK0D2A4fOnWLKn
- 3bmGAEk/+fCFrooHNRPwrynIbd6odjpB8E1NqS57WLfqLUoc/0wB3VBe6Bp109rPEMqX
- xqZnruuVr7gpTN+jWC0k1YUn9WEuQrcQ0CHIpiDPbPI6DvuFCF5Hv1zB2ERJHXH5DMBu
- L6yFKqKKGm9Q6afvtWbMunOWmb60YHdwoyNwbPwkKCYeo1UPMTJ3FRfSA7XmPbJHVfh2
- Z8qQ==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLOc4-0003yS-2F
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:18:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLOc1-0003eX-Hc
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:17:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674825468;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=O5V9YwCDsVUtm2newnzP6i5UOR8lxGGix6zCnANyRYA=;
+ b=EKfWjSLYO0J2CaZB912rg5Q7/evhbse8cpzljuPYevQlC0Ga6Omp8lxKyshahBcQZ0G7Y3
+ GgmovDs3QYLhlx9Ntac6/ZjTOZ/KQqiKsaYlyfJ2ECpBvr+0F/HS2YvYMHKdMFK2PLX28u
+ +y/4FZvdMzB0EsfNTrXwFJ3nMUtjvoY=
+Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
+ [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-175-DlmSvOWuOViHj-HNwcCRyQ-1; Fri, 27 Jan 2023 08:17:44 -0500
+X-MC-Unique: DlmSvOWuOViHj-HNwcCRyQ-1
+Received: by mail-wr1-f70.google.com with SMTP id
+ u10-20020a5d6daa000000b002bfc2f61048so803913wrs.23
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 05:17:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Z/Cc0zw/YIMoO6vxFFwgHi+aTaXxKXL378C+1UIkUFw=;
- b=AJKzPwbyP0sbibMb36hMOXqmT6nsw20P3zdiLN4nJ9sUtktNydToQMdsI0epmELuGD
- rFQJpBi62zg/ZPCWHTHQDHNveHq0IjIe7cAflfv605lo/xEy8VSxcHORWt8MVf9zF1tl
- PvWpwMWegeVQ80/r2f3PtI7tHOK/piEUupdA0m+VV5KboOhqFH9C36u+jFxQ8Q/6rPoi
- /J98Ou9kfswBNsVKOU6y2TBijXkocDGsCsHS8u3tTsnOrUp56Ju8Uv16YqlbdqkF4rZ3
- n8O0rrfZnhYmJmFg5MDV4Mv214aUkLG6dBgCkQmPbsXYB4opsQYQ6Y+F4Kq1f9veOkE2
- PGbg==
-X-Gm-Message-State: AO0yUKXyUzZydVyNsUMG06mUAmlkNrkyEXueKPiGK37Jeyxmq8XuNfjJ
- kpa8hpWh/I8QEc/FCBH7D2r/++4qq6m6vY1kFIaOuw==
-X-Google-Smtp-Source: AK7set/FyvqQR6Qbfv/KrzMO3Lf2lij89NlhDTYKkwM0BS93I/vZrzhq/Tzb1HdjO+PmSDq7QhIzdm+BL9cc1kh+oGk=
-X-Received: by 2002:a62:144d:0:b0:591:8ac8:7c78 with SMTP id
- 74-20020a62144d000000b005918ac87c78mr925377pfu.54.1674825139186; Fri, 27 Jan
- 2023 05:12:19 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=O5V9YwCDsVUtm2newnzP6i5UOR8lxGGix6zCnANyRYA=;
+ b=M7y0wH7TBRVFhmQ1wQgigSFGznwN3mk3ZBmxjTCAcO9Tgds0kYXQJOL9mpPWMcsreo
+ /+XU8MN0kN9NuufHZ5k5BXZWlnlIOwvEsLM7i9FT0zMKc1VLK3QAJCxipgiza2hpRkVL
+ sGUYleUnJr/Yr+P74Fix6g251z+/waLbazX09Tkx2J29LTw8uNMQWFfw9PXd3r6p2LVM
+ AuOV06KdTYkcBY5GfyvhfPE4LyKo65jPblmCm3WBHBC+BDb7cxEygd+f5t+y4hIw93sE
+ FwME4oFF5Z00CwHOzpXbbxqKgTCAkPDiRmGVcfUAAL31JYPzuyE8rGwgX7CiEP5TY0+z
+ Ap0g==
+X-Gm-Message-State: AO0yUKW9JfyjUezDvSiQFu2x7bz9funF+dLT3rmQcTbNfHIVRq+KdpHX
+ 7vlBPCqvZ6vWCbJNV88RyQoEQ+JWsIURiFLzNCJciMkbNlfMeUBmf2MwdJo30+Ve/LtDM+4jKpj
+ Pp8gm9JzxZQ7ctaE=
+X-Received: by 2002:a05:600c:a42:b0:3dc:1050:5553 with SMTP id
+ c2-20020a05600c0a4200b003dc10505553mr13970937wmq.23.1674825463333; 
+ Fri, 27 Jan 2023 05:17:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set+mKwedQIE341Oo+WL5jdgbsH7wYxXAb5p3plGnLca4gUhkWBcz7RGyYglOTRKb338j5HsXww==
+X-Received: by 2002:a05:600c:a42:b0:3dc:1050:5553 with SMTP id
+ c2-20020a05600c0a4200b003dc10505553mr13970918wmq.23.1674825463136; 
+ Fri, 27 Jan 2023 05:17:43 -0800 (PST)
+Received: from redhat.com ([2.52.137.69]) by smtp.gmail.com with ESMTPSA id
+ 18-20020a05600c26d200b003da28dfdedcsm5069231wmv.5.2023.01.27.05.17.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Jan 2023 05:17:42 -0800 (PST)
+Date: Fri, 27 Jan 2023 08:17:39 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: Viktor Prutyanov <viktor@daynix.com>, peterx@redhat.com,
+ qemu-devel@nongnu.org, eric.auger@redhat.com,
+ Yan Vugenfirer <yvugenfi@redhat.com>
+Subject: Re: [PATCH 0/3] Fix UNMAP notifier for intel-iommu
+Message-ID: <20230127081719-mutt-send-email-mst@kernel.org>
+References: <20221129081037.12099-1-jasowang@redhat.com>
+ <CAPv0NP74wPer5uqrWYh8EeFO_YSATNuo5UpADD2QrE34=FwkrQ@mail.gmail.com>
+ <CACGkMEvREZQGT=bbpbGAW4UmPreMJ=SriYp3d5L0_FCECQ6yvg@mail.gmail.com>
 MIME-Version: 1.0
-References: <CAFEAcA8v8hrqkFemdT5x_O5_mdps4wpdRCoVAfts+oVJj_qTVw@mail.gmail.com>
- <CAJSP0QXC3z-UyP5HoVTOmAfyz_vV6cpZJvnTYazWq9=52bndpA@mail.gmail.com>
- <CAFEAcA_CJ3VjHx1GhjBJjCY=+twBZM3UnR_g0sZLJhvVLcY=GQ@mail.gmail.com>
- <Y9PF7C29TNSuvz9o@redhat.com>
- <CAFEAcA-_3FSQGNYXZo0yBdeMDkXj45O82O7s3t+Fbi1Lb3RQtQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA-_3FSQGNYXZo0yBdeMDkXj45O82O7s3t+Fbi1Lb3RQtQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 27 Jan 2023 13:12:07 +0000
-Message-ID: <CAFEAcA_3EvPjgThntY6JZeRYV+FkC89b70P9osCMmW+y0PvBNA@mail.gmail.com>
-Subject: Re: no more pullreq processing til February
-To: Kevin Wolf <kwolf@redhat.com>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,
- QEMU Developers <qemu-devel@nongnu.org>, 
- =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- Richard Henderson <richard.henderson@linaro.org>, John Snow <jsnow@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42d.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACGkMEvREZQGT=bbpbGAW4UmPreMJ=SriYp3d5L0_FCECQ6yvg@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,43 +98,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 27 Jan 2023 at 13:11, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Fri, 27 Jan 2023 at 12:39, Kevin Wolf <kwolf@redhat.com> wrote:
+On Mon, Jan 16, 2023 at 03:06:44PM +0800, Jason Wang wrote:
+> On Mon, Jan 16, 2023 at 7:30 AM Viktor Prutyanov <viktor@daynix.com> wrote:
 > >
-> > Am 26.01.2023 um 15:28 hat Peter Maydell geschrieben:
-> > > On Thu, 26 Jan 2023 at 14:25, Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> > > >
-> > > > Are you batching pull requests? I used that approach last release
-> > > > cycle. CI takes so long to run that I didn't want to run it for every
-> > > > pull request. Batching worked well overall.
+> > On Tue, Nov 29, 2022 at 11:10 AM Jason Wang <jasowang@redhat.com> wrote:
 > > >
-> > > No, I just do one test per pullreq. IME the CI is flaky
-> > > enough that I don't really want to batch it up, and it
-> > > isn't so slow that I build up a backlog of unprocessed
-> > > requests.
+> > > Hi All:
+> > >
+> > > According to ATS, device should work if ATS is disabled. This is not
+> > > correctly implemented in the current intel-iommu since it doesn't
+> > > handle the UNMAP notifier correctly. This breaks the vhost-net +
+> > > vIOMMU without dt.
+> > >
+> > > The root casue is that the when there's a device IOTLB miss (note that
+> > > it's not specific to PCI so it can work without ATS), Qemu doesn't
+> > > build the IOVA tree, so when guest start an IOTLB invalidation, Qemu
+> > > won't trigger the UNMAP notifier.
+> > >
+> > > Fixing by build IOVA tree during IOMMU translsation.
+> > >
+> > > Thanks
+> > >
+> > > Jason Wang (3):
+> > >   intel-iommu: fail MAP notifier without caching mode
+> > >   intel-iommu: fail DEVIOTLB_UNMAP without dt mode
+> > >   intel-iommu: build iova tree during IOMMU translation
+> > >
+> > >  hw/i386/intel_iommu.c | 58 ++++++++++++++++++++++++-------------------
+> > >  1 file changed, 33 insertions(+), 25 deletions(-)
+> > >
+> > > --
+> > > 2.25.1
+> > >
 > >
-> > But obviously so slow that we've run out of minutes. It would be good if
-> > this didn't happen every month in the future.
+> > Hi Jason,
 > >
-> > If it worked well enough for Stefan, I think it would be worth trying to
-> > batch some pull requests going forward. What is the downside of it? If
-> > CI fails and flaky tests seem to be at fault, I assume you just re-run
-> > the job, no matter whether it tests a single pull request or two or
-> > three of them?
->
-> It means that if something fails it's harder to see whether
-> it was pullreq A or pullreq B. It also means there's a higher
-> cost to "abandon processing the merge and try a different one
-> to see if that one goes through and come back to this one later",
-> which is also something I sometimes do in an attempt to figure
-> out whether a problem is the usual flaky CI or not.
+> > I've tried the series with Windows Server 2022 guest with vhost and
+> > intel-iommu (device-iotlb=off) and now networking on this system has
+> > become working.
+> > So, as we discussed, I'm waiting for the series to be accepted in some
+> > form to continue my work about supporting guests who refuse Device-TLB
+> > on systems with device-iotlb=on.
+> >
+> > Tested-by: Viktor Prutyanov <viktor@daynix.com>
+> 
+> Great, Peter has some comments on this series, so I will probably send
+> a new version (probably after the chinese new year).
+> 
+> Thanks
 
-Put another way, I think that an important thing we need to do
-is to look at all the CI failures we get and track down exactly
-why we have a bunch of intermittent failures and squash them.
-A lot of these problems are secondary things that we've ended up
-with because we have a lot of flakiness.
+Were you going to post a new version?
 
--- PMM
+> >
+> > Best regards,
+> > Viktor Prutyanov
+> >
+
 
