@@ -2,68 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE90267F086
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 22:40:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B607767F08D
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 22:42:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLWQn-00030Y-Ql; Fri, 27 Jan 2023 16:38:45 -0500
+	id 1pLWU9-0004bt-DP; Fri, 27 Jan 2023 16:42:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pLWQm-00030I-L2
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 16:38:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pLWU7-0004bh-72
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 16:42:11 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pLWQk-0002qO-Jz
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 16:38:44 -0500
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pLWU5-0003mh-8d
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 16:42:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674855521;
+ s=mimecast20190719; t=1674855728;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Ya3zFGla2F6Utbg1telArH2Elj2nIZTjDf4ias2Q7yw=;
- b=RFffHq9PzZgAq3QSV6cmDLECgaCPR6uCsaXg4SkHq+uuIPpWotDVcC92CO8IosxInDdoko
- LqSfHf1Ac6vouV6/YHsL0r1U1XVmkoDFyMRiqFmAaPKlw4dClx34EuI6lhKH1l/+7oGNr7
- mHIwFUGU5z9FQCu6K/kme6kNpZOocYg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-331-TfwT3yR3MuiFniYt48dwAA-1; Fri, 27 Jan 2023 16:38:38 -0500
-X-MC-Unique: TfwT3yR3MuiFniYt48dwAA-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 040C8101A55E;
- Fri, 27 Jan 2023 21:38:37 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.17.173])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 214397AD4;
- Fri, 27 Jan 2023 21:38:34 +0000 (UTC)
-Date: Fri, 27 Jan 2023 15:38:32 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org,
- pbonzini@redhat.com, kwolf@redhat.com, hreitz@redhat.com,
- imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
- groug@kaod.org, qemu_oss@crudebyte.com, mst@redhat.com,
- philmd@linaro.org, peter.maydell@linaro.org, alistair@alistair23.me,
- jasowang@redhat.com, jonathan.cameron@huawei.com,
- kbastian@mail.uni-paderborn.de, quintela@redhat.com,
- dgilbert@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
- tsimpson@quicinc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org
-Subject: Re: [PATCH v4 02/19] scripts/clean-includes: Don't claim duplicate
- headers found when not
-Message-ID: <20230127213832.qzjhacznhvpochpn@redhat.com>
-References: <20230119065959.3104012-1-armbru@redhat.com>
- <20230119065959.3104012-3-armbru@redhat.com>
+ bh=XeAUzTDV0Mu/uPwy+jRUJZ7YuGMnuc3cG087u6P6nZ0=;
+ b=hjqhpxH/2ql0U5+dYJhvOlLO0Jz0KX+IlZRNaHT+ckSb3U0OP9pgMej4PCl67Y8A02vpBH
+ vqJaWBwwWRNA00w9HY+mET4CkZ+SVPgq1w8PIl2EfdUCzk6hewLyzK49zhaQdDqod1fIY1
+ SPWUHpBBjxgm6N8zBNz/Oi0zaSVunnY=
+Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
+ [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-208-VdEOWBzYMjqw8Cdkou-MGw-1; Fri, 27 Jan 2023 16:42:06 -0500
+X-MC-Unique: VdEOWBzYMjqw8Cdkou-MGw-1
+Received: by mail-il1-f199.google.com with SMTP id
+ z8-20020a056e02088800b0030c247efc7dso3828615ils.15
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 13:42:06 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=XeAUzTDV0Mu/uPwy+jRUJZ7YuGMnuc3cG087u6P6nZ0=;
+ b=V3O5ACIw9gHhToRohEw2n+IwuyzbZlLWoiayOdQyBTKot5gELeBWIel+zFotlBDaxC
+ qSINj5ikY9b4W7uCIK5/sTS1249honI/1Nil5FaDhI5hPphwSxLBvemsfhCm0NPMAvPC
+ hjnJ4OusNhdh5U5rS3wyhxd40+1GhR/qusLphEusVPdLAp+WV7n5xSjv/1X66rbfOmCe
+ Zu8VlDVRrfRecsw1pZFSvy9T/u2+TX1mL51JPhuLWT7rjWIUKoBKBtycH00wkY5mbcqH
+ i6pR+jHkZmjBmtq7ue0SJF/F4GkqJgO/9Y0sKMLqZ8+VFU8NQKV1nvBegZSVVbvSvgQA
+ O7EQ==
+X-Gm-Message-State: AO0yUKVFi63ZkeV0hG85vRVMGjhlwEUe8U7yzH78WPQ1CX4gyoUpspQz
+ HCRifDam0ma/2nd3EoqAmbyoDelyzTM90JA2XS3+5Pgm3Y629X6ZAE4X6dBN/egyz/IttjitdXA
+ k/9j0fp/5e4jo6fk=
+X-Received: by 2002:a05:6e02:12cb:b0:310:b4d6:186e with SMTP id
+ i11-20020a056e0212cb00b00310b4d6186emr135551ilm.3.1674855725997; 
+ Fri, 27 Jan 2023 13:42:05 -0800 (PST)
+X-Google-Smtp-Source: AK7set9hZWnoV7bPx0uJxkqAGreh6Mo0CFkPEPvGwdT3XqqUI6aP4hD0z7ezd+uQmzMOQtYAHKVDEQ==
+X-Received: by 2002:a05:6e02:12cb:b0:310:b4d6:186e with SMTP id
+ i11-20020a056e0212cb00b00310b4d6186emr135526ilm.3.1674855725736; 
+ Fri, 27 Jan 2023 13:42:05 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ j19-20020a056e020ef300b003024b62725dsm1586068ilk.22.2023.01.27.13.42.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Jan 2023 13:42:05 -0800 (PST)
+Date: Fri, 27 Jan 2023 14:42:03 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu
+ <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, "Paolo Bonzini" <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>, Eduardo Habkost
+ <eduardo@habkost.net>, "David Hildenbrand" <david@redhat.com>, Philippe
+ =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Yishai Hadas
+ <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
+ <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
+ <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH 08/18] vfio/common: Record DMA mapped IOVA ranges
+Message-ID: <20230127144203.4ecf8c19.alex.williamson@redhat.com>
+In-Reply-To: <20230126184948.10478-9-avihaih@nvidia.com>
+References: <20230126184948.10478-1-avihaih@nvidia.com>
+ <20230126184948.10478-9-avihaih@nvidia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119065959.3104012-3-armbru@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,48 +108,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 19, 2023 at 07:59:42AM +0100, Markus Armbruster wrote:
-> When running with --check-dup-head, the script always claims it "Found
-> duplicate header file includes."  Fix to do it only when it actually
-> found some.
+On Thu, 26 Jan 2023 20:49:38 +0200
+Avihai Horon <avihaih@nvidia.com> wrote:
+
+> From: Joao Martins <joao.m.martins@oracle.com>
 > 
-> Fixes: d66253e46ae2b9c36a9dd90b2b74c0dfa5804b22
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> According to the device DMA logging uAPI, IOVA ranges to be logged by
+> the device must be provided all at once upon DMA logging start.
+> 
+> As preparation for the following patches which will add device dirty
+> page tracking, keep a record of all DMA mapped IOVA ranges so later they
+> can be used for DMA logging start.
+> 
+> Note that when vIOMMU is enabled DMA mapped IOVA ranges are not tracked.
+> This is due to the dynamic nature of vIOMMU DMA mapping/unmapping.
+> Following patches will address the vIOMMU case specifically.
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
 > ---
->  scripts/clean-includes | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+>  include/hw/vfio/vfio-common.h |  3 ++
+>  hw/vfio/common.c              | 86 +++++++++++++++++++++++++++++++++--
+>  2 files changed, 86 insertions(+), 3 deletions(-)
 > 
-> diff --git a/scripts/clean-includes b/scripts/clean-includes
-> index 86944f27fc..8e8420d785 100755
-> --- a/scripts/clean-includes
-> +++ b/scripts/clean-includes
-> @@ -177,9 +177,8 @@ for f in "$@"; do
->  done
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index 88c2194fb9..d54000d7ae 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -23,6 +23,7 @@
 >  
->  if [ "$DUPHEAD" = "yes" ] && [ -n "$files" ]; then
-> -    egrep "^[[:space:]]*#[[:space:]]*include" $files | tr -d '[:blank:]' \
-> -        | sort | uniq -c | awk '{if ($1 > 1) print $0}'
-> -    if [ $? -eq 0 ]; then
-> +    if egrep "^[[:space:]]*#[[:space:]]*include" $files | tr -d '[:blank:]' \
-> +        | sort | uniq -c | grep -v '^ *1 '; then
+>  #include "exec/memory.h"
+>  #include "qemu/queue.h"
+> +#include "qemu/iova-tree.h"
+>  #include "qemu/notify.h"
+>  #include "ui/console.h"
+>  #include "hw/display/ramfb.h"
+> @@ -94,6 +95,8 @@ typedef struct VFIOContainer {
+>      uint64_t max_dirty_bitmap_size;
+>      unsigned long pgsizes;
+>      unsigned int dma_max_mappings;
+> +    IOVATree *mappings;
+> +    QemuMutex mappings_mutex;
+>      QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
+>      QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
+>      QLIST_HEAD(, VFIOGroup) group_list;
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index e554573eb5..fafc361cea 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -43,6 +43,7 @@
+>  #include "migration/misc.h"
+>  #include "migration/qemu-file.h"
+>  #include "sysemu/tpm.h"
+> +#include "qemu/iova-tree.h"
+>  
+>  VFIOGroupList vfio_group_list =
+>      QLIST_HEAD_INITIALIZER(vfio_group_list);
+> @@ -373,6 +374,11 @@ bool vfio_mig_active(void)
+>      return true;
+>  }
+>  
+> +static bool vfio_have_giommu(VFIOContainer *container)
+> +{
+> +    return !QLIST_EMPTY(&container->giommu_list);
+> +}
+> +
+>  static void vfio_set_migration_error(int err)
+>  {
+>      MigrationState *ms = migrate_get_current();
+> @@ -450,6 +456,51 @@ static bool vfio_devices_all_running_and_mig_active(VFIOContainer *container)
+>      return true;
+>  }
+>  
+> +static int vfio_record_mapping(VFIOContainer *container, hwaddr iova,
+> +                               hwaddr size, bool readonly)
+> +{
+> +    DMAMap map = {
+> +        .iova = iova,
+> +        .size = size - 1, /* IOVATree is inclusive, so subtract 1 from size */
 
-Indeed - the awk script was succeeding even if it printed nothing,
-whereas the grep -v is a bit lighter-weight and has the intended
-semantics of exit status based on output.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
->          echo "Found duplicate header file includes. Please check the above files manually."
->          exit 1
->      fi
-> -- 
-> 2.39.0
-> 
-> 
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+<facepalm>
 
 
