@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F083A67EB72
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 17:48:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F76167EB8A
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 17:49:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLRtM-0002Vf-Oe; Fri, 27 Jan 2023 11:47:56 -0500
+	id 1pLRtE-0002MI-Nk; Fri, 27 Jan 2023 11:47:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pLRtE-0002Mn-4B; Fri, 27 Jan 2023 11:47:48 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ id 1pLRt3-0002Hz-RL; Fri, 27 Jan 2023 11:47:38 -0500
+Received: from mail-ed1-x52c.google.com ([2a00:1450:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pLRtB-0005gP-7q; Fri, 27 Jan 2023 11:47:47 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id m7so5500819wru.8;
- Fri, 27 Jan 2023 08:47:44 -0800 (PST)
+ id 1pLRt1-0005eR-RX; Fri, 27 Jan 2023 11:47:37 -0500
+Received: by mail-ed1-x52c.google.com with SMTP id v10so5240258edi.8;
+ Fri, 27 Jan 2023 08:47:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bwu9CwvqoSJic4qxTpKXLN2ZSVp5972X16Wu4OAdM2A=;
- b=HYavrvzEXAjwzfXGkvtOik1RETm75ljLQhvBRKNWiZAMsT73z6e+kJeDOCGYRRWbJE
- NR85lxJ4q9Ak5byGuLGiZiurv6QWw7W7w3/tNuop914Y3wNHlr2Nwst1aSFedmN+0kDC
- 8lCrFQT+sP01/OS/W2jdHY1EuePnGPeg2G+G2l2ZICWRb4FtFOtEjGveOe+mA2RoBA3T
- Z521cYfMd0bWWxAl0eqhrhACrUVc4wD/TCG9vLoRc3Apvm3S5kwYUUafy4fE3iiQxmoh
- W8MjBs8CiEqr1pfSLjro/Up8l5jj5VgtQ89giRQLDHYC2C3xbi3nhuuwz/KgdxEaoxY3
- f+rA==
+ bh=fYw6G42pi8UOWyOtpdnzKOJ0Zg1+A+c32gMwSKzPG4g=;
+ b=hAnWUr9jcQ0CS+8Zgz7+DppjLIX8+lmCikfzCosa4IE+n/eBLEO4koTZSFSLdvLjYm
+ AJBblYqDHU+3497ZPXtAhJGGbk561eazBoefIuoUgdv03oRgUYh/0JkHAetXmrzdj17U
+ zviVxfIhiKNBNhYiJ6s7jcr4iliEy0ZwBKiHD1BsXPs9LJt57YUJ+MD0RGk7inH0K+7Y
+ TrkZ5RsIQZeKBOrnOaEY9R3iy03cka08gq8W/+7C4+ynOOX9NDZIbWqGRqLOE9druODT
+ ZQzgm7pWJNbNj13ASfj0b9iYSbHt40wdHIMpyGzjn41j0J0K3TU8gJyabLe5ahrtnJNM
+ moYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bwu9CwvqoSJic4qxTpKXLN2ZSVp5972X16Wu4OAdM2A=;
- b=HFTWlfNj53MGnONKPUVuqmbb/wOYh4vf0qsrCbHB4Jk3ZO7eS7kOrGoGMaR8cRJQ2O
- cpBVcwvZ7VfN26kkJGPfxyRM5hvgJcvOsp7neoKXd2W82JKuuvWknsjlEd2HHUaVq+rV
- 3X3HcPu3KsX+ZdgnvR0knf55q/AR0V43UALArcieeroohElR44bDlWEy4FO+Ii4oWz+e
- jqng2/1gtnDI6wLYP+lZFrKL1zxsN4QPag0JDz2PsVoFYgVEuXDVhYUlF2X5cvn0uGPS
- /VR1vo0eOzNioL9cdRd769oac4PbWo0HiUwYE8nYxhTjbcmoqSg2SL2opTs90u3trtIB
- rB/w==
-X-Gm-Message-State: AFqh2krY43pb/VCzjHxwjSzimCxVK6mg8qPHsgG4uKNjubAKeHp7luMn
- a+n6GVLZtD/Kwv6qW4Gu0/fvfmQ7hWldVw==
-X-Google-Smtp-Source: AMrXdXsYPf5V39fxV4giZLUKNF5G6Rg2Ev+YPu89tYbfjcm46Ng41XZaFF1h7BdOEsvxaJ2HlKqzig==
-X-Received: by 2002:a05:6402:49:b0:49e:33ce:144d with SMTP id
- f9-20020a056402004900b0049e33ce144dmr97233015edu.37.1674838052615; 
- Fri, 27 Jan 2023 08:47:32 -0800 (PST)
+ bh=fYw6G42pi8UOWyOtpdnzKOJ0Zg1+A+c32gMwSKzPG4g=;
+ b=pQhlhZAYcBs+y7ffFGl1fGh7dG39FAif4N0nqokvSFRyE9/tNxYOOJhglkTioPa+m+
+ ttb6cvaL9gKzYxuEGlWG3og/xBVEJopDd40IJC7ynckwZQvV0D+f6MPNfRPpigDUBLwU
+ iHRZlxIXGxa5onPDzxzYJhmdK4mhENRp5WDQWME1sOwwr6gTbDRidBacfJTsGV+9HFJU
+ igBipcVFhfcbGD63Xn+zHU+hniG4GJLXPU4RDw/urD0Ky8s6Ti/FUu9M5ql0B4zEQ6zE
+ VkQSUuDGDU9d2qb21Xd8k/PD0kcltAguQqEwtAfSvAIxP5DY4Va/sM0oI262n4W0flqs
+ 8hFQ==
+X-Gm-Message-State: AFqh2kqx/pLv5Zo0Wi4oJpYdG9SqeNlkyEHI++KODHYU27k/1nTHyIPh
+ aE2wW1mJI2SMQL5es117N4Y0f64bDRx6WQ==
+X-Google-Smtp-Source: AMrXdXt4xaHDEGF2xKtORnWWZHR2Foi3ZVyAvbxwAr1RkdQ95odcznrL2UUdSm2Fx30QhqGqFcYCxw==
+X-Received: by 2002:a05:6402:1484:b0:49e:9d82:49d6 with SMTP id
+ e4-20020a056402148400b0049e9d8249d6mr29687857edv.10.1674838053875; 
+ Fri, 27 Jan 2023 08:47:33 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- m15-20020a056402050f00b0049ef70a2894sm2574414edv.38.2023.01.27.08.47.31
+ m15-20020a056402050f00b0049ef70a2894sm2574414edv.38.2023.01.27.08.47.32
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jan 2023 08:47:32 -0800 (PST)
+ Fri, 27 Jan 2023 08:47:33 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
@@ -61,16 +61,16 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 2/7] hw/pci-host/q35: Inline sysbus_add_io()
-Date: Fri, 27 Jan 2023 17:47:13 +0100
-Message-Id: <20230127164718.98156-3-shentey@gmail.com>
+Subject: [PATCH 3/7] hw/i386/ich9: Rename Q35_MASK to ICH9_MASK
+Date: Fri, 27 Jan 2023 17:47:14 +0100
+Message-Id: <20230127164718.98156-4-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230127164718.98156-1-shentey@gmail.com>
 References: <20230127164718.98156-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=shentey@gmail.com; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::52c;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x52c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,33 +93,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Rather than using get_system_io() as the parent memory region, use
-s->mch.address_space_io which is set up as an alias in the q35 machine.
+The Q35_MASK macro is already defined by TYPE_Q35_HOST_DEVICE, so let
+TYPE_ICH9_LPC_DEVICE have its own one to prevent potential name
+collisions.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/pci-host/q35.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ include/hw/i386/ich9.h | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index 26390863d6..fa05844319 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -50,10 +50,12 @@ static void q35_host_realize(DeviceState *dev, Error **errp)
-     Q35PCIHost *s = Q35_HOST_DEVICE(dev);
-     SysBusDevice *sbd = SYS_BUS_DEVICE(dev);
+diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+index 222781e8b9..36e0ccd16a 100644
+--- a/include/hw/i386/ich9.h
++++ b/include/hw/i386/ich9.h
+@@ -75,7 +75,7 @@ struct ICH9LPCState {
+     qemu_irq gsi[GSI_NUM_PINS];
+ };
  
--    sysbus_add_io(sbd, MCH_HOST_BRIDGE_CONFIG_ADDR, &pci->conf_mem);
-+    memory_region_add_subregion(s->mch.address_space_io,
-+                                MCH_HOST_BRIDGE_CONFIG_ADDR, &pci->conf_mem);
-     sysbus_init_ioports(sbd, MCH_HOST_BRIDGE_CONFIG_ADDR, 4);
+-#define Q35_MASK(bit, ms_bit, ls_bit) \
++#define ICH9_MASK(bit, ms_bit, ls_bit) \
+ ((uint##bit##_t)(((1ULL << ((ms_bit) + 1)) - 1) & ~((1ULL << ls_bit) - 1)))
  
--    sysbus_add_io(sbd, MCH_HOST_BRIDGE_CONFIG_DATA, &pci->data_mem);
-+    memory_region_add_subregion(s->mch.address_space_io,
-+                                MCH_HOST_BRIDGE_CONFIG_DATA, &pci->data_mem);
-     sysbus_init_ioports(sbd, MCH_HOST_BRIDGE_CONFIG_DATA, 4);
+ /* ICH9: Chipset Configuration Registers */
+@@ -137,13 +137,13 @@ struct ICH9LPCState {
+ #define ICH9_LPC_NB_PIRQS                       8       /* PCI A-H */
  
-     /* register q35 0xcf8 port as coalesced pio */
+ #define ICH9_LPC_PMBASE                         0x40
+-#define ICH9_LPC_PMBASE_BASE_ADDRESS_MASK       Q35_MASK(32, 15, 7)
++#define ICH9_LPC_PMBASE_BASE_ADDRESS_MASK       ICH9_MASK(32, 15, 7)
+ #define ICH9_LPC_PMBASE_RTE                     0x1
+ #define ICH9_LPC_PMBASE_DEFAULT                 0x1
+ 
+ #define ICH9_LPC_ACPI_CTRL                      0x44
+ #define ICH9_LPC_ACPI_CTRL_ACPI_EN              0x80
+-#define ICH9_LPC_ACPI_CTRL_SCI_IRQ_SEL_MASK     Q35_MASK(8, 2, 0)
++#define ICH9_LPC_ACPI_CTRL_SCI_IRQ_SEL_MASK     ICH9_MASK(8, 2, 0)
+ #define ICH9_LPC_ACPI_CTRL_9                    0x0
+ #define ICH9_LPC_ACPI_CTRL_10                   0x1
+ #define ICH9_LPC_ACPI_CTRL_11                   0x2
+@@ -162,7 +162,7 @@ struct ICH9LPCState {
+ #define ICH9_LPC_PIRQH_ROUT                     0x6b
+ 
+ #define ICH9_LPC_PIRQ_ROUT_IRQEN                0x80
+-#define ICH9_LPC_PIRQ_ROUT_MASK                 Q35_MASK(8, 3, 0)
++#define ICH9_LPC_PIRQ_ROUT_MASK                 ICH9_MASK(8, 3, 0)
+ #define ICH9_LPC_PIRQ_ROUT_DEFAULT              0x80
+ 
+ #define ICH9_LPC_GEN_PMCON_1                    0xa0
+@@ -172,7 +172,7 @@ struct ICH9LPCState {
+ #define ICH9_LPC_GEN_PMCON_LOCK                 0xa6
+ 
+ #define ICH9_LPC_RCBA                           0xf0
+-#define ICH9_LPC_RCBA_BA_MASK                   Q35_MASK(32, 31, 14)
++#define ICH9_LPC_RCBA_BA_MASK                   ICH9_MASK(32, 31, 14)
+ #define ICH9_LPC_RCBA_EN                        0x1
+ #define ICH9_LPC_RCBA_DEFAULT                   0x0
+ 
 -- 
 2.39.1
 
