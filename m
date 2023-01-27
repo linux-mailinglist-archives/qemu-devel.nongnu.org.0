@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 051DF67EF84
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 21:26:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 650A767EF95
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 21:32:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLVI0-0003ln-Bo; Fri, 27 Jan 2023 15:25:36 -0500
+	id 1pLVNd-0005GK-E1; Fri, 27 Jan 2023 15:31:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pLVHy-0003lY-2J
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 15:25:34 -0500
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pLVNb-0005Ev-45
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 15:31:23 -0500
 Received: from mout.gmx.net ([212.227.15.19])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pLVHw-0002Q1-9l
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 15:25:33 -0500
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pLVNZ-0003HW-Eq
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 15:31:22 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1674851129; bh=MMzMG49wz6/qN7eZbG/RPN4H+OVEb5P6KsewhZGllrY=;
- h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
- b=kXk/PFkXr3Kw5T2XGC9jX6gissZzlwq3OTUVvoSuVDJtx1/HCq57KXEAzMd3gfHZs
- Cg+TCCvn5cHdodN91ihAP/yl2qu2rdg+X38+yWIU8Ac8S2eVt6CkeD3r/9jt7XInfx
- xlLI42ZvJFnIr2NlNsITDIM+4gpwLBhAQDxJIkYUAM0h+5jB3yBjqkOeYZ1s/+uSJj
- jkCggv4lxF6r/Et1O6VHr9BqkkSwXRpPuvcoL6BBNMfiK9zzGDjaLqlVVy01SztBE3
- gumA+fO5anOqnnUZiJfHp/3TnQdUm9n8YCYv/GVgE7Y/euZXFhuky0fHfhZJ0S6eLE
- u0WM6A66gtdow==
+ t=1674851479; bh=x2otNyvCA5GroMZC1afIjkerWVmIDVAjcb2xEotPVqI=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=O8cQMEP+Vu2PKwR5uwXhW5dkyFm9qWw0T3v13Eki3334wdg4vKyoAUJ7xEIkQfzbS
+ 8DIjdlsyqhjpQ0Q2zP9Da6heXgPSFDB5eY2MYJntUC6JxQAG1TPGotyQkk51rzbPyt
+ CP6Eypd8i456Fq+iGaRViS/tLfxS/HOKCX6Is0S2BP/28a6+TzJgZUfsatQ6pyv7DI
+ 7leaEoG3eddtSRkfILAG1ZfP3e9aQOoDwiQnxMXJXfttj+RKIS9LYxtg8LUyijtfYC
+ 1KqNrkzMCtBW2so7p2VghpnPOQvwA5kJELqpPezUX6/HiaMq460ktrl6Fo3jPuGgLU
+ ot8li79pfUW5Q==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from p100 ([92.116.191.252]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1N79uI-1oaNIj2E7Y-017UOn; Fri, 27
- Jan 2023 21:25:29 +0100
-Date: Fri, 27 Jan 2023 21:25:27 +0100
-From: Helge Deller <deller@gmx.de>
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: Helge Deller <deller@gmx.de>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Subject: [PATCH v2] linux-user: Fix SO_ERROR return code of getsockopt()
-Message-ID: <Y9QzNzXg0hrzHQeo@p100>
-References: <20221216101033.8352-1-deller@gmx.de>
- <8ec83c02-0e87-90c2-835d-e01a330b1969@vivier.eu>
- <db38ab56-d632-8cb4-9e60-aef83477ca74@gmx.de>
- <059795f6-97f0-b112-1802-fc47668986a5@vivier.eu>
+Received: from [192.168.20.60] ([92.116.191.252]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1Mi2Jn-1oiIsA1UPJ-00e85M; Fri, 27
+ Jan 2023 21:31:19 +0100
+Message-ID: <e4e23de9-fff1-549e-da46-f029892326da@gmx.de>
+Date: Fri, 27 Jan 2023 21:31:18 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <059795f6-97f0-b112-1802-fc47668986a5@vivier.eu>
-X-Provags-ID: V03:K1:BAtpC+bliT0bHgh7KTbxYIwCYcuyvW0Mds9hVHzyul9488+QQlK
- cQ1d2yIaJ8mbq/v9mGjUDDCe0fLqv58r/MzPgsecQoW8QhZcxZSI0HsPqgpUKpkDUHTkUTp
- 36/OTKduutgpkr4e3ARk84n6uZQdVeNwpxljqFblzFrROZY4U4EHzBTY6t/miU5pv2z7n+s
- gaztXLEV3RXhi+il3540w==
-UI-OutboundReport: notjunk:1;M01:P0:CxkVAwRbxzI=;/fSCg73chVwiPoQ2OFb7CqtjiQ2
- WoWdq1MJc0hsHHtEx0nUoWPXhRJ1kCu9qZCLdjvptLJXYgPR/ajbQoQQvcA5XGHeNeCnqvF7E
- A5vBIRXW1Gvhhm8h4D+9+VxF35m2Av/qgxnPsqvSJHQQGelzgjTujLXAQstOoWVls2nLCq0/z
- DLXUJ9AdCzKycR2fOc+DqZz+AFS0T5NTYl/xEwxbPpv65srH4PcU43zQN+3euCH03ZmTgkfkF
- 9IlHuJWYjZaMULHbmJ+A6R393TcoSoOxTEtkyjmC0IC3Vo4ZYdi485NCPnt57o/MdmA9WVUcf
- Rrexjh6Ep/30F/f6q9+AgQLnBppTCVPWF1+mhcOIXM3AsGOQaga9ovKf+7js4CussBcJrqr/W
- c5dKLN7LLDPEsH/I1ZGovTFIKClQNXu2OkNAGV+xFqUuyc5B7eJBjumXMEEU1v+fwqOilF6DD
- 5AAOJtNDCPwZGrxg2nATgTVc/Ar1PlYgIhV523AYEavRCQ7WYSGMqbOiBS/aCxuFvp/Xl6s5g
- tzE9xxcehBPpzZoH/d3eM+lwFwywl+PstbVuz0Jlt7M9GY4FXlcffHccubEGAGXR9rHV5eQq0
- YBjuNzXVX96ZAo2Foc9ZrEbhZdPm51bSW051QD1TQ2u30ujTYgzPcVd3lNM0H8aHYhkg3mCVK
- /ff6JvjJTyYbCmTr5GGkPK3dVGIcT1BsXplXqmGe5WBfIw3C4HqB8qQ1G9UTu0SungyKSPnxf
- xOHiuR13FnrGU+diZbD9kMLG0oO/6bGgo2VluAD6M+/60r7wnoupMo8lmzl8YcwooXI4d28SG
- K+GogCavE6uR9TB3KrEG+CPK1r57omwS3tw9MaFqs3+dDu67Sl847NqX5Kj6MVEmoimFg3iiV
- 0+AlHbhtbDapU+ZVv3d5qd5QBJM2B3Rb2/DQQo0zcczjx5UfcSaT7g7keMmnSjXSSYJjf/B6k
- kRi884gmMmYUkeGklfNaiL9uJH0=
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH] linux-user: Improve strace output of pread64() and
+ pwrite64()
+Content-Language: en-US
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <20230115090415.6936-1-deller@gmx.de>
+ <61da915f-7914-4c6e-edc6-6226250b5dbf@vivier.eu>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <61da915f-7914-4c6e-edc6-6226250b5dbf@vivier.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:8kcf0cn5opm5hON2rIhvPPHA1mqeDq9+yu77yaFsA4Es4WdCknF
+ Ec0DkF5TaNMmTo8A4AuqjL5XvIjATndxQppv0wuDxD29QWfHVP5qDO3fAL8Dqh/MYxMpi9b
+ 8XJ3re2Dr3EOIlkmOCpdUseXxh92wVMi8BVJMich4rr7yKoaeTpCbrvMf99ZEgq1y+1VjH5
+ 6IHQZILbTD9KNP/8s3K+Q==
+UI-OutboundReport: notjunk:1;M01:P0:4AloT66op2I=;s41shOzc/Er6zNb+Mj7Jk2wfZ1H
+ uQAKuHy+LF+WUjcWLVkVTsgWxkyOQXuGH44ChgFGRmtUMEdG3EYAn5vB2Inj21v6+yWY3e4iq
+ BSgLkTsdZ9XlYSpPC+Jge1njiNyBjtTqSUgmA1osAqQWnwJHPy4rV17T05SNrVpq0GLw3iI9x
+ S9tNkhqkdGdxD/GDmglbIaQslAo8fEWr/+aq5W4k8tWr0Fh+pXyFdePGg2FfeUVjylf9hfnco
+ r5XRqKnqyMK1HuHHoLkepkmOMJZhTlDmTHErKx8ePlsznS75t/W7JCxRUtPJ7h+wGAGjjVATM
+ 0ofK6W6S/v6FPq4IY7KXAXO7BsbxWKmjepiV280+7EpVuRdrZBzYlLmRjVFwNuksuT/FoKGaI
+ 94uhk+EOhZpJS1NprA2lslaPRuQzpSEck462oTtD/DHZWu9hPjwCzjhyip6GRS+xECtkkMIvQ
+ qEBSbB5zW5EN0vDI4jcBHiFiH7AirYHn2kzrHJWdBJhNWETIGPkqlyfgYtoClsbnqxaYUeuNr
+ secc5OBtT1Tz9slLWvT6bKnx5NveyKo0RVVVkH4mbhd0TWcEDqmVwSyxrwAtFeyAPoGsHpOXf
+ 1kBJujX+9YWa7JdnYnxybDy9neTftUapvlcL44XsJUMKkFPvqjKYTeionTqMuIhccQtD9HDDI
+ iCkNZWJvqertahnUS55qHfR1+/RwtA4RcSEt0vtxY5+SXfgsb4aXflJbzIc94t9CT3Dj7t6er
+ QdK2QQxHOfjllnPnvKr8k4e1xHdyIEN+Xeo6CEshk8vPWefjfDULDmOCnr+jCN/WdFYwy0C+W
+ 9r0UAwLowoc7kGr8yiqmsnr1ZnR7mxq8vbHBPVUbQ/1D2d1E06BxqgYm1tAm/xx4/FLBj6o23
+ 4xanMLPx5uO5QWezijU8+1Cq6ke5FzaPEfnbVMaDmZwUMRcMmLV1/kACNZvFAPwcOydOyZwid
+ GlfXNseaokTrDIMXOIFqIPTq/ZA=
 Received-SPF: pass client-ip=212.227.15.19; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
-X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -38
+X-Spam_score: -3.9
+X-Spam_bar: ---
+X-Spam_report: (-3.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,34 +87,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add translation for the host error return code of:
-    getsockopt(19, SOL_SOCKET, SO_ERROR, [ECONNREFUSED], [4]) = 0
+On 1/26/23 16:12, Laurent Vivier wrote:
+> Le 15/01/2023 =C3=A0 10:04, Helge Deller a =C3=A9crit=C2=A0:
+>> Make the strace look nicer for those two syscalls.
+>>
+>> Signed-off-by: Helge Deller <deller@gmx.de>
+>> ---
+>> =C2=A0 linux-user/strace.list | 4 ++--
+>> =C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/linux-user/strace.list b/linux-user/strace.list
+>> index 909298099e..41bb6bbfbc 100644
+>> --- a/linux-user/strace.list
+>> +++ b/linux-user/strace.list
+>> @@ -1061,7 +1061,7 @@
+>> =C2=A0 { TARGET_NR_prctl, "prctl" , NULL, NULL, NULL },
+>> =C2=A0 #endif
+>> =C2=A0 #ifdef TARGET_NR_pread64
+>> -{ TARGET_NR_pread64, "pread64" , NULL, NULL, NULL },
+>> +{ TARGET_NR_pread64, "pread64" , "%s(%d,%p,%d,%u,%u)", NULL, NULL },
+>> =C2=A0 #endif
+>> =C2=A0 #ifdef TARGET_NR_preadv
+>> =C2=A0 { TARGET_NR_preadv, "preadv" , NULL, NULL, NULL },
+>> @@ -1092,7 +1092,7 @@
+>> =C2=A0 { TARGET_NR_putpmsg, "putpmsg" , NULL, NULL, NULL },
+>> =C2=A0 #endif
+>> =C2=A0 #ifdef TARGET_NR_pwrite64
+>> -{ TARGET_NR_pwrite64, "pwrite64" , NULL, NULL, NULL },
+>> +{ TARGET_NR_pwrite64, "pwrite64" , "%s(%d,%p,%d,%u,%u)", NULL, NULL },
+>> =C2=A0 #endif
+>> =C2=A0 #ifdef TARGET_NR_pwritev
+>> =C2=A0 { TARGET_NR_pwritev, "pwritev" , NULL, NULL, NULL },
+>> --
+>
+> You need to use regpairs_aligned() and target_offset64() to correctly di=
+splay the offset.
 
-This fixes the testsuite of the cockpit debian package with a
-hppa-linux guest on a x86-64 host.
+Good catch!
+I'll send an fixed patch.
 
-Signed-off-by: Helge Deller <deller@gmx.de>
----
-v2: Fix indenting to make checkscript.sh happy
-
-
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index dac0cfe6c4..06e8612675 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -2809,8 +2809,13 @@ get_timeout:
-         ret = get_errno(getsockopt(sockfd, level, optname, &val, &lv));
-         if (ret < 0)
-             return ret;
--        if (optname == SO_TYPE) {
-+        switch (optname) {
-+        case SO_TYPE:
-             val = host_to_target_sock_type(val);
-+            break;
-+        case SO_ERROR:
-+            val = host_to_target_errno(val);
-+            break;
-         }
-         if (len > lv)
-             len = lv;
+Thanks!
+Helge
 
