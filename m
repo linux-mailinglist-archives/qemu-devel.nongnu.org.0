@@ -2,57 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4756767E551
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 13:34:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1C9367E595
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 13:40:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLNvb-0001WZ-Jz; Fri, 27 Jan 2023 07:33:59 -0500
+	id 1pLO0o-0002uU-B0; Fri, 27 Jan 2023 07:39:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <smitterl@redhat.com>)
- id 1pLNvY-0001VX-OF
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:33:56 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pLO0m-0002uH-83
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:39:20 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <smitterl@redhat.com>)
- id 1pLNvW-0005k8-Bs
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:33:56 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pLO0k-0008KP-99
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:39:19 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674822833;
+ s=mimecast20190719; t=1674823156;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=Y9myxpfbxVVjGpEofJ5DvNKPGpi5PgROaG9mN3iOAI4=;
- b=Xoj58PiwN9kuRcsXaLyAqoWpIzcnlmMTr/EirJYvmdL4VjYnRgPp4PlXwD50/VzmaHQ/P/
- A4SzsV19Tyw5dbWUFkecKdPBwSTwJzqTrOkrky8tI7Hl6tZJA7nT9GfJPkjwqV8zWPviFb
- SKoWh7LrK3+tweqAPWVxIM3c40WOSNE=
+ in-reply-to:in-reply-to:references:references;
+ bh=9FA60KoN+1cSd2WfY65+hdlQb6QW4/5iuW6JTxIH6CI=;
+ b=Z8413bH1DtnOAE7bIabjeoJSFOptMzKrh4fRZpwzYpIV58ucdaTGQXEW8QS+C/+YhQRRQI
+ BFMcOfRUIK8VwC3+X8Qxe98HwDcyM82DX1wVNX5Ta/qtNmTHprJoY7Y8Bjeyk32NQLvMyP
+ ieiiY0VIUi+EfU0prVZ2xO7I92G74qo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-412-9k0wn5ddOfWtNCQC9G9lzw-1; Fri, 27 Jan 2023 07:33:52 -0500
-X-MC-Unique: 9k0wn5ddOfWtNCQC9G9lzw-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-190-fqcoqY2wMA2XvFaWpzvzdA-1; Fri, 27 Jan 2023 07:39:10 -0500
+X-MC-Unique: fqcoqY2wMA2XvFaWpzvzdA-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B4C20811E9C;
- Fri, 27 Jan 2023 12:33:51 +0000 (UTC)
-Received: from fedora.. (ovpn-194-166.brq.redhat.com [10.40.194.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 421F91121314;
- Fri, 27 Jan 2023 12:33:50 +0000 (UTC)
-From: Sebastian Mitterle <smitterl@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: thuth@redhat.com, cohuck@redhat.com, clegoate@redhat.com,
- qemu-trivial@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v3] docs/s390x/pcidevices: document pci devices on s390x
-Date: Fri, 27 Jan 2023 13:33:49 +0100
-Message-Id: <20230127123349.55294-1-smitterl@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 8FF9587A9E4;
+ Fri, 27 Jan 2023 12:39:10 +0000 (UTC)
+Received: from redhat.com (unknown [10.39.195.39])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 7E4272166B26;
+ Fri, 27 Jan 2023 12:39:09 +0000 (UTC)
+Date: Fri, 27 Jan 2023 13:39:08 +0100
+From: Kevin Wolf <kwolf@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ John Snow <jsnow@redhat.com>, "Daniel P. Berrange" <berrange@redhat.com>
+Subject: Re: no more pullreq processing til February
+Message-ID: <Y9PF7C29TNSuvz9o@redhat.com>
+References: <CAFEAcA8v8hrqkFemdT5x_O5_mdps4wpdRCoVAfts+oVJj_qTVw@mail.gmail.com>
+ <CAJSP0QXC3z-UyP5HoVTOmAfyz_vV6cpZJvnTYazWq9=52bndpA@mail.gmail.com>
+ <CAFEAcA_CJ3VjHx1GhjBJjCY=+twBZM3UnR_g0sZLJhvVLcY=GQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=n
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=smitterl@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA_CJ3VjHx1GhjBJjCY=+twBZM3UnR_g0sZLJhvVLcY=GQ@mail.gmail.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -60,7 +65,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -76,83 +81,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add some documentation about the zpci device and how
-to use it with pci devices on s390x.
+Am 26.01.2023 um 15:28 hat Peter Maydell geschrieben:
+> On Thu, 26 Jan 2023 at 14:25, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> >
+> > Are you batching pull requests? I used that approach last release
+> > cycle. CI takes so long to run that I didn't want to run it for every
+> > pull request. Batching worked well overall.
+> 
+> No, I just do one test per pullreq. IME the CI is flaky
+> enough that I don't really want to batch it up, and it
+> isn't so slow that I build up a backlog of unprocessed
+> requests.
 
-Used source: Cornelia Huck's blog post
-https://people.redhat.com/~cohuck/2018/02/19/notes-on-pci-on-s390x.html
+But obviously so slow that we've run out of minutes. It would be good if
+this didn't happen every month in the future.
 
-Signed-off-by: Sebastian Mitterle <smitterl@redhat.com>
-Reviewed-by: Cédric Le Goater <clg@redhat.com>
----
-v3: add info zpci is autogenerated, fix typos and source formatting,
-improve style as suggested
----
- docs/system/s390x/pcidevices.rst | 41 ++++++++++++++++++++++++++++++++
- docs/system/target-s390x.rst     |  1 +
- 2 files changed, 42 insertions(+)
- create mode 100644 docs/system/s390x/pcidevices.rst
+If it worked well enough for Stefan, I think it would be worth trying to
+batch some pull requests going forward. What is the downside of it? If
+CI fails and flaky tests seem to be at fault, I assume you just re-run
+the job, no matter whether it tests a single pull request or two or
+three of them?
 
-diff --git a/docs/system/s390x/pcidevices.rst b/docs/system/s390x/pcidevices.rst
-new file mode 100644
-index 0000000000..628effa2f4
---- /dev/null
-+++ b/docs/system/s390x/pcidevices.rst
-@@ -0,0 +1,41 @@
-+PCI devices on s390x
-+====================
-+
-+PCI devices on s390x work differently than on other architectures and need to
-+be configured in a slightly different way.
-+
-+Every PCI device is linked with an additional ``zpci`` device.
-+While the ``zpci`` device will be autogenerated if not specified, it is
-+recommended to specify it explicitly so that you can pass s390-specific
-+PCI configuration.
-+
-+For example, in order to pass a PCI device ``0000:00:00.0`` through to the
-+guest, you would specify::
-+
-+ qemu-system-s390x ... \
-+                   -device zpci,uid=1,fid=0,target=hostdev0,id=zpci1 \
-+                   -device vfio-pci,host=0000:00:00.0,id=hostdev0
-+
-+Here, the zpci device is joined with the PCI device via the ``target`` property.
-+
-+Note that we don't set bus, slot or function here for the guest as is common in
-+other PCI implementations. Topology information is not available on s390x, and
-+the guest will not see any of the bus, slot or function information specified
-+on the command line.
-+
-+Instead, ``uid`` and ``fid`` determine how the device is presented to the guest
-+operating system.
-+
-+In case of Linux, ``uid`` will be used in the ``domain`` part of the PCI
-+identifier, and ``fid`` identifies the physical slot, i.e.::
-+
-+ qemu-system-s390x ... \
-+                   -device zpci,uid=7,fid=8,target=hostdev0,id=zpci1 \
-+                   ...
-+
-+will be presented in the guest as::
-+
-+ # lspci -v
-+ 0007:00:00.0 ...
-+ Physical Slot: 00000008
-+ ...
-diff --git a/docs/system/target-s390x.rst b/docs/system/target-s390x.rst
-index c636f64113..f6f11433c7 100644
---- a/docs/system/target-s390x.rst
-+++ b/docs/system/target-s390x.rst
-@@ -26,6 +26,7 @@ or vfio-ap is also available.
-    s390x/css
-    s390x/3270
-    s390x/vfio-ccw
-+   s390x/pcidevices
- 
- Architectural features
- ======================
--- 
-2.37.3
+Kevin
 
 
