@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6807B67EB8C
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 17:49:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FBE967EB77
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 17:48:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLRtI-0002Qx-Eg; Fri, 27 Jan 2023 11:47:52 -0500
+	id 1pLRtH-0002NM-37; Fri, 27 Jan 2023 11:47:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pLRt4-0002Jh-R3; Fri, 27 Jan 2023 11:47:38 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ id 1pLRt6-0002Kz-Nq; Fri, 27 Jan 2023 11:47:41 -0500
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pLRt3-0005eC-61; Fri, 27 Jan 2023 11:47:38 -0500
-Received: by mail-ed1-x531.google.com with SMTP id x10so5235838edd.10;
- Fri, 27 Jan 2023 08:47:36 -0800 (PST)
+ id 1pLRt5-0005fL-4B; Fri, 27 Jan 2023 11:47:40 -0500
+Received: by mail-ed1-x534.google.com with SMTP id n6so2608282edo.9;
+ Fri, 27 Jan 2023 08:47:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=XRQJvU+ym4k6vuRjsbWIQuA8Cz7gpqd3a0L4wd5ZgL4=;
- b=S8vA4zsHhXUOtISPi/x8xOTgn53BpJHQ1cN/C93OqJ8zdkA/67ZVdlHag4GMTuY6vO
- iBYZgx2r36NodJhbqyWCU66uAN9qaLFB3bpBlJeUiV97Qd0FlVSNsxnoU/vJcYxFHQI3
- 4SJew7r4cznYwozHod/kKGend1oL5VQjNn9VWnV0yJiM2ZJEz69nfznZjrKK+XxJ/ge8
- cxApXQg7lG1FHvuBG3iwUGk6wcBp79pTzQE/m4AsT5whQLS+xdBW8gfXpfZ1hVTtppmg
- W5CQPAWBQeFsOa2p1NivwddKZ0G4VWpvhMFi4IZTkmliJenjTYHSoxNTF3sbOJBBCG3U
- 1Qcw==
+ bh=qQLYhAFF4ygzxvntMyjp9iGgiLluMw3q8mDqHiv7CTQ=;
+ b=qHyWiHS/Jx28ZO4drM2kjjHrw5y64xVQ7BUV2wzbBKXXkANu65TFeLxBaAARLFNoKQ
+ 3cTzpfRb7bgyFxLS+eASlBeuLEsxk2VX5SR1Qikuxwa5X1DWTC0DXwBukLjrNbUnX5jL
+ 5VkWc6bMp2GSbhtzBYDoeR5MRVzVo9Yw9WpyJVgyODwgIO5v7nB/IQlXheWe2zqVe3vh
+ CbLTeJqgwC8SPSrJ0qOB6DxJjyLiZDY4+mkiR9Mc+x+A79iKxv47DDlyc/1oiaReVk0V
+ lyUCzoe/DTkxAStzNm6AAOxu1MollCaFN+nlIdtiOgHnAZkl+LRHkzW671Um8WCxJFaY
+ nrMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=XRQJvU+ym4k6vuRjsbWIQuA8Cz7gpqd3a0L4wd5ZgL4=;
- b=2ygvOTmyBwyhyvsXBBlo8ZYMefDpPN9zvOq0ABfMz5xc5JqzYO6TQ+RnY4i6okeVoZ
- lDAzEV59iB2y7RUsKp23wzLkmGFW3jevk+qwNDbJEbZPa44pTwIpx0J2nzu+CTQd5fLA
- 4N+c3k2ynxy3ymXKFFfKn4+E6iaRzde1QyWBHo7yudFarhH2I10wGI4ba3Rrm84noUrz
- yPZYwkMpBzRHBmvQxewqk8cwBjE/0RQ16VLW6g/KZIvx2I2PHAxx/VaOoPVknOhioS/p
- JL7KJ1k9qs+0DJOey4zpTxdS903k3U9fd4DNijjGYqTyKpBfZaiUB32ueEd0YXDEYjk1
- ogWw==
-X-Gm-Message-State: AFqh2krQAuiDyA2mmD9EP+79/M4VH8E4M+lPaiwwkZZJpeuB+xmgMQZq
- CHrlL8Tqvn97fi0vrHIZc7d0S2RamTXyXw==
-X-Google-Smtp-Source: AMrXdXuci6C4+kFVxm9TSFNST0oJL285+AIeaRczPfrRy81RZF3Ti51H3Mj72aIPBjLF1wccRVIHQg==
-X-Received: by 2002:a05:6402:28cb:b0:49e:db43:1722 with SMTP id
- ef11-20020a05640228cb00b0049edb431722mr26958367edb.18.1674838056009; 
+ bh=qQLYhAFF4ygzxvntMyjp9iGgiLluMw3q8mDqHiv7CTQ=;
+ b=gQm++H/l7RmdmwC49OZ8yLG3H5XV/vAmRz5EVFm1kc7XislNWg7H5c3dP9P3//9u4b
+ +KUCCbZS8Kd+aHX3IjlYH6wBX9Fte3B8B+DI5iwEBKLdF/uvIsSvIW8spNGEefbYp+QE
+ xvPETEYPZkGwxfz8VnicyT+60THQORlTVU2gvwH6oeB44zQQISMgj4DT2d+jXwiKyW8G
+ X/bH4V80iXhYKNS1JNYObsolnMPa7jV6SFSWBniiy6D9Ce82Hu0Rn7QE177mo7QxcGjE
+ yWl4Pja7DKFlorvJFwfTNNEnmY7qrIlFd4smrmoUZZUByyrbR0bsWNIVUdEmdLZoqDRx
+ PRXg==
+X-Gm-Message-State: AFqh2koZKcVhBWDuBZ4hMwADZYHQIwOuT5iSkFVWAT+yjMt76fqkUZ9S
+ G3cUVkkza+6pC0r21wSWmhbQqZtEM3/IUA==
+X-Google-Smtp-Source: AMrXdXu/V9W2wsKwVOx1xN8Ydfy16lGud8QYvFSnhw0VxfXVZlgUxQfDBknwT9kijeV7epZ5l0E7RA==
+X-Received: by 2002:a05:6402:4496:b0:49e:ca5:244a with SMTP id
+ er22-20020a056402449600b0049e0ca5244amr45909191edb.1.1674838056988; 
  Fri, 27 Jan 2023 08:47:36 -0800 (PST)
 Received: from osoxes.fritz.box
  (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
  [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
  by smtp.gmail.com with ESMTPSA id
- m15-20020a056402050f00b0049ef70a2894sm2574414edv.38.2023.01.27.08.47.34
+ m15-20020a056402050f00b0049ef70a2894sm2574414edv.38.2023.01.27.08.47.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jan 2023 08:47:35 -0800 (PST)
+ Fri, 27 Jan 2023 08:47:36 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
@@ -61,17 +61,17 @@ Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 5/7] hw/i386/pc_{q35,
- piix}: Reuse MachineClass::desc as SMB product name
-Date: Fri, 27 Jan 2023 17:47:16 +0100
-Message-Id: <20230127164718.98156-6-shentey@gmail.com>
+Subject: [PATCH 6/7] hw/i386/pc_{q35,
+ piix}: Minimize usage of get_system_memory()
+Date: Fri, 27 Jan 2023 17:47:17 +0100
+Message-Id: <20230127164718.98156-7-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230127164718.98156-1-shentey@gmail.com>
 References: <20230127164718.98156-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -94,40 +94,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-No need to repeat the descriptions.
-
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
  hw/i386/pc_piix.c | 2 +-
- hw/i386/pc_q35.c  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/i386/pc_q35.c  | 7 ++++---
+ 2 files changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index df64dd8dcc..ee9d9a4175 100644
+index ee9d9a4175..5bde4533cc 100644
 --- a/hw/i386/pc_piix.c
 +++ b/hw/i386/pc_piix.c
-@@ -197,7 +197,7 @@ static void pc_init1(MachineState *machine,
-     if (pcmc->smbios_defaults) {
-         MachineClass *mc = MACHINE_GET_CLASS(machine);
-         /* These values are guest ABI, do not change */
--        smbios_set_defaults("QEMU", "Standard PC (i440FX + PIIX, 1996)",
-+        smbios_set_defaults("QEMU", mc->desc,
-                             mc->name, pcmc->smbios_legacy_mode,
-                             pcmc->smbios_uuid_encoded,
-                             pcms->smbios_entry_point_type);
+@@ -241,7 +241,7 @@ static void pc_init1(MachineState *machine,
+         isa_bus = ISA_BUS(qdev_get_child_bus(DEVICE(piix3), "isa.0"));
+     } else {
+         pci_bus = NULL;
+-        isa_bus = isa_bus_new(NULL, get_system_memory(), system_io,
++        isa_bus = isa_bus_new(NULL, system_memory, system_io,
+                               &error_abort);
+         i8257_dma_init(isa_bus, 0);
+         pcms->hpet_enabled = false;
 diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index dc94ce1081..a97846ab9b 100644
+index a97846ab9b..b97979bebb 100644
 --- a/hw/i386/pc_q35.c
 +++ b/hw/i386/pc_q35.c
-@@ -198,7 +198,7 @@ static void pc_q35_init(MachineState *machine)
+@@ -124,6 +124,7 @@ static void pc_q35_init(MachineState *machine)
+     DeviceState *lpc_dev;
+     BusState *idebus[MAX_SATA_PORTS];
+     ISADevice *rtc_state;
++    MemoryRegion *system_memory = get_system_memory();
+     MemoryRegion *system_io = get_system_io();
+     MemoryRegion *pci_memory;
+     MemoryRegion *rom_memory;
+@@ -191,7 +192,7 @@ static void pc_q35_init(MachineState *machine)
+         rom_memory = pci_memory;
+     } else {
+         pci_memory = NULL;
+-        rom_memory = get_system_memory();
++        rom_memory = system_memory;
+     }
  
-     if (pcmc->smbios_defaults) {
-         /* These values are guest ABI, do not change */
--        smbios_set_defaults("QEMU", "Standard PC (Q35 + ICH9, 2009)",
-+        smbios_set_defaults("QEMU", mc->desc,
-                             mc->name, pcmc->smbios_legacy_mode,
-                             pcmc->smbios_uuid_encoded,
-                             pcms->smbios_entry_point_type);
+     pc_guest_info_init(pcms);
+@@ -214,7 +215,7 @@ static void pc_q35_init(MachineState *machine)
+     }
+ 
+     /* allocate ram and load rom/bios */
+-    pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory,
++    pc_memory_init(pcms, system_memory, rom_memory, &ram_memory,
+                    pci_hole64_size);
+ 
+     object_property_add_child(OBJECT(machine), "q35", OBJECT(phb));
+@@ -223,7 +224,7 @@ static void pc_q35_init(MachineState *machine)
+     object_property_set_link(OBJECT(phb), MCH_HOST_PROP_PCI_MEM,
+                              OBJECT(pci_memory), NULL);
+     object_property_set_link(OBJECT(phb), MCH_HOST_PROP_SYSTEM_MEM,
+-                             OBJECT(get_system_memory()), NULL);
++                             OBJECT(system_memory), NULL);
+     object_property_set_link(OBJECT(phb), MCH_HOST_PROP_IO_MEM,
+                              OBJECT(system_io), NULL);
+     object_property_set_int(OBJECT(phb), PCI_HOST_BELOW_4G_MEM_SIZE,
 -- 
 2.39.1
 
