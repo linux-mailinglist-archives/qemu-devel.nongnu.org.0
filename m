@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 192DD67F161
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 23:48:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 368AB67F17A
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 23:54:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLXVn-0002ma-RY; Fri, 27 Jan 2023 17:48:17 -0500
+	id 1pLXav-0003zC-Dm; Fri, 27 Jan 2023 17:53:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pLXVl-0002m8-OH
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 17:47:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pLXVk-0001f4-9E
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 17:47:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674859675;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=1e0/PGUN4/1YKyQq5ZEih9uomfIieCqX5fsFRyBTOgw=;
- b=YITe2UWRZz0lPayYMxqU6HLh/NzQEKInTV7mFzDi+aAVSg9k2L3JNOAI+UWDmAidrxG4xK
- KmJDjVhhlkAYer0a0m0mMuYv6gVrSTiOVp78MZvPLCMH8WtpHKU+sFrB2YLE6V32R7iTRP
- LnvFHC8nY7JnY+zcSxWRb4YSURuKIM0=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-484-8Chw50bYPpmpxbNeEHK_cw-1; Fri, 27 Jan 2023 17:47:52 -0500
-X-MC-Unique: 8Chw50bYPpmpxbNeEHK_cw-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 620D7887400;
- Fri, 27 Jan 2023 22:47:51 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.17.173])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A40DC492B01;
- Fri, 27 Jan 2023 22:47:48 +0000 (UTC)
-Date: Fri, 27 Jan 2023 16:47:46 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org,
- pbonzini@redhat.com, kwolf@redhat.com, hreitz@redhat.com,
- imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
- groug@kaod.org, qemu_oss@crudebyte.com, mst@redhat.com,
- philmd@linaro.org, peter.maydell@linaro.org, alistair@alistair23.me,
- jasowang@redhat.com, jonathan.cameron@huawei.com,
- kbastian@mail.uni-paderborn.de, quintela@redhat.com,
- dgilbert@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
- tsimpson@quicinc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org
-Subject: Re: [PATCH v4 03/19] scripts/clean-includes: Skip symbolic links
-Message-ID: <20230127224746.2rqorp2ushelp4wj@redhat.com>
-References: <20230119065959.3104012-1-armbru@redhat.com>
- <20230119065959.3104012-4-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pLXas-0003yh-RC
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 17:53:14 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pLXaq-0002MV-KM
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 17:53:14 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ h5-20020a17090a9c0500b0022bb85eb35dso6082987pjp.3
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 14:53:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=cWDQ+EvdrIVmHeJgZi1GXJGCd+8N/juTDQ8k0ptQDdU=;
+ b=tGlT934AHy+KavrWH2RGh77Q+okIaw0pKKVaiaVs7Kg8uZYYvkirfF8k/5VnvIZeKG
+ uBRN/Z52CU9EITG0tH4BJQmP2IXHSgm9dmy2Oxf78MJQHWb9eZfdAYV51rUC/EgXaMFb
+ eu+v9xkN9qRKxVo6KK+Cz5Lb74YStpqpA3sj9/gT42SbgysARgQfJe3dTgeH66NeCrG5
+ oTmBL1O8VQycLMPOv1gM05SlJQ1WLJdHyRasmV2d29GYYNitEN6pjw2BuqJ9bN7Z0QW0
+ gdT0g/SrrqQjWlDHR1qQv9/jsQk072DLodqaaO4QQdc2jdu1VVeBAEqR0J7lghUrjXhE
+ 7mIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cWDQ+EvdrIVmHeJgZi1GXJGCd+8N/juTDQ8k0ptQDdU=;
+ b=OFAv9eaBS2xfdprcJn4jPmPycEIWhxLZyPaOztNhdO+S0CVTJVGuCHrgE6wPIylGwx
+ cmbB7D1xGa9LcN2ObfTib9WFqZWEgcVD4XQUNRGRX1xvi2sDM+sbAQDFZXMpl6FjUMVL
+ J3OaRb0GLHKq36VDtYsOxCkBHDXRc1TDg77NlY4C8KWBt6axpOVqXj3O73zhwEiynz7V
+ Z+B+4V+0UI24kPD1R36DEXcoSnkirRi/QKr6IEUGYWurDTmV3o215nOnXwF9BGbmqMNV
+ LaDY9+qhsNZnvuBcn2WVNi3ogECGbhzrV/QbnHXUoa7nlgqutVdVaO8vmQxzDeZJZ2/Q
+ K/FQ==
+X-Gm-Message-State: AO0yUKWQC52VOXPh9Ry//50Z9iNRClycgJ9rOLk9BPimfD1Go4Hbp4S5
+ S7BzluwmcbuVf/AbfzWcMxs3FQ==
+X-Google-Smtp-Source: AK7set93MTiiNrvEDbgRKj0xfUw8nlEkHeUm81azqmhPr/6YAbGNgNF+Vy92pQcvYRo3FkuVcFjumQ==
+X-Received: by 2002:a17:90a:31c:b0:22c:5f4f:48f with SMTP id
+ 28-20020a17090a031c00b0022c5f4f048fmr1439662pje.13.1674859990792; 
+ Fri, 27 Jan 2023 14:53:10 -0800 (PST)
+Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
+ [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
+ l11-20020a17090a384b00b00226369149cesm5516527pjf.21.2023.01.27.14.53.09
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Jan 2023 14:53:09 -0800 (PST)
+Message-ID: <26fe8c13-2615-b894-d2ea-674b10076870@linaro.org>
+Date: Fri, 27 Jan 2023 12:53:06 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119065959.3104012-4-armbru@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v4] linux-user: Fix /proc/cpuinfo output for hppa
+Content-Language: en-US
+To: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-devel@nongnu.org
+References: <Y6ywbxuxqQ/cGPJW@p100>
+ <b645585a-1093-fb97-60a1-5acc40b17271@vivier.eu> <Y9QvyRSq1I1k5/JW@p100>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <Y9QvyRSq1I1k5/JW@p100>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,36 +94,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 19, 2023 at 07:59:43AM +0100, Markus Armbruster wrote:
-> When a symbolic link points to a file that needs cleaning, the script
-> replaces the link with a cleaned regular file.  Not wanted; skip them.
+On 1/27/23 10:10, Helge Deller wrote:
+> The hppa architectures provides an own output for the emulated
+> /proc/cpuinfo file.
 > 
-> We have a few symbolic links under subprojects/libvduse/ and
-> subprojects/libvhost-user/.
+> Some userspace applications count (even if that's not the recommended
+> way) the number of lines which start with "processor:" and assume that
+> this number then reflects the number of online CPUs. Since those 3
+> architectures don't provide any such line, applications may assume "0"
+> CPUs.  One such issue can be seen in debian bug report:
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1024653
 > 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Avoid such issues by adding a "processor:" line for each of the online
+> CPUs.
+> 
+> Signed-off-by: Helge Deller<deller@gmx.de>
+> Reviewed-by: Philippe Mathieu-Daudé<philmd@linaro.org>
 > ---
->  scripts/clean-includes | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/scripts/clean-includes b/scripts/clean-includes
-> index 8e8420d785..f0466a6262 100755
-> --- a/scripts/clean-includes
-> +++ b/scripts/clean-includes
-> @@ -113,6 +113,10 @@ EOT
->  
->  files=
->  for f in "$@"; do
-> +  if [ -L "$f" ]; then
 
-I don't see -L used with test very often, but POSIX requires it, so it
-is safe for our choice of /bin/sh.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
