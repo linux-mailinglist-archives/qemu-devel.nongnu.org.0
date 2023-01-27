@@ -2,75 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 139E367F188
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 23:56:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 03A8167F18B
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 23:56:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLXdF-0005IB-Te; Fri, 27 Jan 2023 17:55:41 -0500
+	id 1pLXe7-0006l7-Ma; Fri, 27 Jan 2023 17:56:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pLXdA-0005Gm-V2
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 17:55:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pLXd8-0002gv-Dj
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 17:55:36 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674860133;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=WryUFBl66HGK4gCI9EH/8uEtyd4e2kmqtTQTKV9nerQ=;
- b=ZeWHuOdepy3LYI2f9p44Ol4awVKZzbUwvWILwS96kioJCSfp6NhPHzN0Z9N8TLBcQ5oOU6
- k0O/OWk3wZCnIzMn5TiC9P+4iJ+tf5z2vFT+Ty9hJc8zlywulLhGro9Tt9MJChYIH3gvwL
- qTcQXnmdmoVYZ97Z3x7cSEoAAc7rmv0=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-148-1jGQ55FrNy6C5QsacWUdMQ-1; Fri, 27 Jan 2023 17:55:29 -0500
-X-MC-Unique: 1jGQ55FrNy6C5QsacWUdMQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E8EF829AA3B3;
- Fri, 27 Jan 2023 22:55:28 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.17.173])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id AABD4492C14;
- Fri, 27 Jan 2023 22:55:26 +0000 (UTC)
-Date: Fri, 27 Jan 2023 16:55:25 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org,
- pbonzini@redhat.com, kwolf@redhat.com, hreitz@redhat.com,
- imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
- groug@kaod.org, qemu_oss@crudebyte.com, mst@redhat.com,
- philmd@linaro.org, peter.maydell@linaro.org, alistair@alistair23.me,
- jasowang@redhat.com, jonathan.cameron@huawei.com,
- kbastian@mail.uni-paderborn.de, quintela@redhat.com,
- dgilbert@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
- tsimpson@quicinc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org
-Subject: Re: [PATCH v4 14/19] block: Clean up includes
-Message-ID: <20230127225525.t5bexrnx76a4oxdm@redhat.com>
-References: <20230119065959.3104012-1-armbru@redhat.com>
- <20230119065959.3104012-15-armbru@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pLXe6-0006ky-2W
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 17:56:34 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pLXe4-0002qt-JM
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 17:56:33 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ v6-20020a17090ad58600b00229eec90a7fso9286726pju.0
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 14:56:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=CEOenwZxVrXxm7/FYTDEgmA4i9BQEeNIcG8DBCYxXx4=;
+ b=dfMsNGnhBXzZghLDQQk0a4kLj3ZXwMMW0rR52JGjuI7IqsbsSH4oXRJj3r3JEcSZxL
+ 3QjCtFSZKk92PfoXh/UBXIcE6eF4ABmoynnA/mAh12KJ3cDETZJTngr71ZD3HUrQfkQM
+ 5fvnRnj3nf4iijFenVxa/7A5G3QdmzKgQQJEtYFhy/aDWyz0/2VJ0a+OT7yQ3kNP6TQR
+ 9aWjYM+bGx3DHQ7vXs2Oj+sTUBQjv2PadKyW2tSrLB4xneoD3fUwlLg+h9/1J9Clz2zZ
+ 0xcm7cWv2VMxJLR9Dx+IXjWlb5cI3jsK6Zl+LQvuCM2oKtDnbNjSkfRec5uVfV+A2ANK
+ dslg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=CEOenwZxVrXxm7/FYTDEgmA4i9BQEeNIcG8DBCYxXx4=;
+ b=mh2eoobK/SbMT2OmdcqkXu2LsLPB8MNpgBAZMiDIsa7A+Xoixydzl5Qw6C6LERJjmF
+ mJ3Iy1pi/pHDhuONx+SO1FbvXjqR3yXbjoj9ddEuKwdoUh5MfQdqhOfdbaAvFAK8afA1
+ 4sjXLCRbonPsqbXYASjaYCBkSD0nSCSEKUqj0wsK7p5ikiRyZrdF4iAm1VNmAzC6B382
+ wqP2mRXEMeFLpMWzqOeSRvmhu8DHCpmu6dEjBYQP1e9E3VxYTvQ/wb+tgfJJICQddUbd
+ us0CFCMDFimZL1QwyK4Cd8I6SyjMMqrnrelqQR49eWNwB34WyX5KLL4hsN1QO85LYeUw
+ AGRw==
+X-Gm-Message-State: AFqh2kqDhX0OlJ7jr674h4XYR3i+xXJLMrWwT9FVZwH9A3wGB3+aZtSR
+ hwnq6kGuvRhVuzbJbu50OVJxhg==
+X-Google-Smtp-Source: AMrXdXsTCFoY8UQ6Cr53X8xDunCBN7wMcj5zn4008m+2GlA3wZijwxCvZbLTPHAU8yWOf+wiQS36dQ==
+X-Received: by 2002:a17:902:d2cb:b0:194:8292:b1a1 with SMTP id
+ n11-20020a170902d2cb00b001948292b1a1mr54148889plc.66.1674860191093; 
+ Fri, 27 Jan 2023 14:56:31 -0800 (PST)
+Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
+ [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
+ z1-20020a170903018100b001932a9e4f2csm3337750plg.255.2023.01.27.14.56.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 27 Jan 2023 14:56:30 -0800 (PST)
+Message-ID: <dfa8e038-a1ad-6f6c-4920-26b33f080e46@linaro.org>
+Date: Fri, 27 Jan 2023 12:56:27 -1000
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230119065959.3104012-15-armbru@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2] linux-user: Improve strace output of pread64() and
+ pwrite64()
+Content-Language: en-US
+To: Helge Deller <deller@gmx.de>
+Cc: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <Y9Q7BlDc/VX+1SBL@p100>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <Y9Q7BlDc/VX+1SBL@p100>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102d.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,24 +94,14 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 19, 2023 at 07:59:54AM +0100, Markus Armbruster wrote:
-> Clean up includes so that osdep.h is included first and headers
-> which it implies are not included manually.
+On 1/27/23 10:58, Helge Deller wrote:
+> Make the strace look nicer for those two syscalls.
 > 
-> This commit was created with scripts/clean-includes.
-> 
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Signed-off-by: Helge Deller<deller@gmx.de>
 > ---
->  include/block/graph-lock.h      | 1 -
->  include/block/write-threshold.h | 2 --
->  block/qapi.c                    | 1 -
->  3 files changed, 4 deletions(-)
+> v2: Use regpairs_aligned() and target_offset64(), noticed by Laurent Vivier
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
--- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
-
+r~
 
