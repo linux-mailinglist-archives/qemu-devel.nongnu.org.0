@@ -2,82 +2,132 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 976FB67EB75
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 17:48:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D3367EBF0
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 18:04:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLRtJ-0002UI-DG; Fri, 27 Jan 2023 11:47:56 -0500
+	id 1pLS7k-00049u-Kx; Fri, 27 Jan 2023 12:02:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pLRt8-0002LB-AX; Fri, 27 Jan 2023 11:47:42 -0500
-Received: from mail-ed1-x52f.google.com ([2a00:1450:4864:20::52f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pLRt6-0005fw-NL; Fri, 27 Jan 2023 11:47:42 -0500
-Received: by mail-ed1-x52f.google.com with SMTP id v13so5229725eda.11;
- Fri, 27 Jan 2023 08:47:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=112PDGr5auDan/9COjqqcqMviFQFRU5C3+pSLlcp7zA=;
- b=F7G7Jl3C4S+6NW3bxYUGIlTPbrVqNbzSuDMFUBPBdzT8uM7/wBHSkOA7rvD7lgKgW0
- DLKDcQBOOlW7E/M/+d3kIQYgTamIqo6oIep5qkZNKUgRBKCndY/Uo0pI9d4GManTEyr6
- KPqkqFyBENwrnjOJaR09OfrI75/+p1520bvMnsmKox26M6eDOjmBB/OCEP8rJEUJAzMj
- f7kBlc3+/zrs7bC6w8OqOzrald92foB9bc9+tgIC1Rz+8Nf8YrQSJNwoXqKLTCiLufni
- JSxR0WgELhIh/xWHBBSLsm6tQpYD01SF25uNU/Zf9iZP0zV3i58cmicn9hgNhCtln8S1
- 4kAg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=112PDGr5auDan/9COjqqcqMviFQFRU5C3+pSLlcp7zA=;
- b=qXb4eYoD5SXmuMRmlbKymhox+Mplg/ZcmtfBHn2XgLQNXbtb83okrgi7YVNBcautPl
- QsXlS+xfYpYDwjT4zsURFkbZiN7BCCFoFYe6Xa+JeujxG+rX0A3gDgfvyiDwf1Txt0gE
- xs/YYQzBK10nGsB0EbJe69sbpBoiFGPeDXgaGH2JfRG1UtQhCF8208O/vrtLS1SaPcHP
- rVK5rnKEhQ6Fcdq1GODYDjIfFxAV/bPO3f/qyrjHj2/0Ha10c34ATcfgYDCQeXc6oH9V
- zVV9y+0EX6n5HZOLKa8obYk8VI9uefEjjk/2AQsZpU8EiNIDbKWqucH1cGtrXX8DZtlG
- vQbw==
-X-Gm-Message-State: AO0yUKXZZG8q9m7tWaKL8t2q3n/iiXpjDO4xZdFWfVPyTMuZOJ2NLO/s
- IWjssQcL68gkAEdn/w7mWJxvyTR9gbRNJA==
-X-Google-Smtp-Source: AK7set+VvLglDl4w91OVszSnkxMDijq/PB+1708r+fNpuHVwuidcXb4N1JnNNIqJLoFRTNrlj4nc4w==
-X-Received: by 2002:aa7:d855:0:b0:4a0:8f89:337a with SMTP id
- f21-20020aa7d855000000b004a08f89337amr12763837eds.11.1674838058767; 
- Fri, 27 Jan 2023 08:47:38 -0800 (PST)
-Received: from osoxes.fritz.box
- (p200300faaf0bb2009c4947838afc41b6.dip0.t-ipconnect.de.
- [2003:fa:af0b:b200:9c49:4783:8afc:41b6])
- by smtp.gmail.com with ESMTPSA id
- m15-20020a056402050f00b0049ef70a2894sm2574414edv.38.2023.01.27.08.47.37
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jan 2023 08:47:38 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 7/7] hw/i386/pc: Initialize ram_memory variable directly
-Date: Fri, 27 Jan 2023 17:47:18 +0100
-Message-Id: <20230127164718.98156-8-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230127164718.98156-1-shentey@gmail.com>
-References: <20230127164718.98156-1-shentey@gmail.com>
+ (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
+ id 1pLS7h-00041t-L8
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 12:02:45 -0500
+Received: from mailout1.w2.samsung.com ([211.189.100.11])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <fan.ni@samsung.com>)
+ id 1pLS7f-0001Zp-5D
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 12:02:45 -0500
+Received: from uscas1p1.samsung.com (unknown [182.198.245.206])
+ by mailout1.w2.samsung.com (KnoxPortal) with ESMTP id
+ 20230127170237usoutp015da475b7283befbc9a83301c92e90015~_OSiTnbQg1456614566usoutp01l;
+ Fri, 27 Jan 2023 17:02:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w2.samsung.com
+ 20230127170237usoutp015da475b7283befbc9a83301c92e90015~_OSiTnbQg1456614566usoutp01l
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+ s=mail20170921; t=1674838957;
+ bh=xo6NKWcssS3cWVTN3ib4J243PkzFucJeyUEbGHIt8wc=;
+ h=From:To:CC:Subject:Date:In-Reply-To:References:From;
+ b=lX9Js2b824u67rr+wya6L5qJDfOozLiGP8jF6QZZwPxxZSjh9sfCXtg15T3cB3X1S
+ DksMgggnHquFTy5vVEYchCaYHAMHhlwEhjLp/F1syV6cl+z33lxBoFRC9zE5RwIrKn
+ vG2OyoVPbuoLVj5I50TUJT3HfAvYz6EW+bq1dB7U=
+Received: from ussmges2new.samsung.com (u111.gpu85.samsung.co.kr
+ [203.254.195.111]) by uscas1p2.samsung.com (KnoxPortal) with ESMTP id
+ 20230127170237uscas1p2a23f4246445d6eaedb452b9620a7eab7~_OSiGC6Uy2640226402uscas1p2i;
+ Fri, 27 Jan 2023 17:02:37 +0000 (GMT)
+Received: from uscas1p1.samsung.com ( [182.198.245.206]) by
+ ussmges2new.samsung.com (USCPEMTA) with SMTP id 4B.6B.49129.DA304D36; Fri,
+ 27 Jan 2023 12:02:37 -0500 (EST)
+Received: from ussmgxs1new.samsung.com (u89.gpu85.samsung.co.kr
+ [203.254.195.89]) by uscas1p1.samsung.com (KnoxPortal) with ESMTP id
+ 20230127170237uscas1p1fd9a04985d119f0db94c46d7018c1ef1~_OSh0Pqh81326713267uscas1p1O;
+ Fri, 27 Jan 2023 17:02:37 +0000 (GMT)
+X-AuditID: cbfec36f-167fe7000001bfe9-a9-63d403ad3991
+Received: from SSI-EX1.ssi.samsung.com ( [105.128.2.146]) by
+ ussmgxs1new.samsung.com (USCPEXMTA) with SMTP id F4.05.11378.DA304D36; Fri,
+ 27 Jan 2023 12:02:37 -0500 (EST)
+Received: from SSI-EX2.ssi.samsung.com (105.128.2.227) by
+ SSI-EX1.ssi.samsung.com (105.128.2.226) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+ 15.1.2375.24; Fri, 27 Jan 2023 09:02:36 -0800
+Received: from SSI-EX2.ssi.samsung.com ([105.128.2.227]) by
+ SSI-EX2.ssi.samsung.com ([105.128.2.227]) with mapi id 15.01.2375.024; Fri,
+ 27 Jan 2023 09:02:36 -0800
+From: Fan Ni <fan.ni@samsung.com>
+To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Michael Tsirkin
+ <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+ "linuxarm@huawei.com" <linuxarm@huawei.com>, Ira Weiny
+ <ira.weiny@intel.com>, Dave Jiang <dave.jiang@intel.com>,
+ "alison.schofield@intel.com" <alison.schofield@intel.com>
+Subject: Re: [PATCH 2/2] hw/pxb-cxl: Support passthrough HDM Decoders unless
+ overridden
+Thread-Topic: [PATCH 2/2] hw/pxb-cxl: Support passthrough HDM Decoders
+ unless overridden
+Thread-Index: AQHZMNGiiun86hSl3USF52ioTTSPk66xxtgAgADKX4CAAHWLgA==
+Date: Fri, 27 Jan 2023 17:02:36 +0000
+Message-ID: <20230127170210.GA211474@bgt-140510-bm03>
+In-Reply-To: <20230127100149.0000563e@Huawei.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [105.128.2.176]
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <C3AFFFC303202247A691699BE082781D@ssi.samsung.com>
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52f;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-CFilter-Loop: Reflected
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrOKsWRmVeSWpSXmKPExsWy7djXc7prma8kG+zrUba4+/gCm0Xz5MWM
+ FiduNrJZ7H/6nMVi1cJrbBbnZ51isTi88QyTxf9fr1gtjvfuYHHg9Gg58pbVY/Gel0wem1Z1
+ snk8ubaZyeP9vqtsHp83yQWwRXHZpKTmZJalFunbJXBlbLjezFYwRbTi7vovbA2MtwW6GDk5
+ JARMJHo+zmMFsYUEVjJKtP127WLkArJbmSROXVrKClN0dfVHNoiitYwSf+6bQhR9YpSYfqUR
+ qnsZo8TeFkcQm01AUWJf13awBhEBI4kryw6ygzQwC7xgkvh79TFzFyMHh7BApMS5XguImiiJ
+ H+/msEPYThJf228xgtgsAqoSC2YdA5vDK2AqseBWMyNIK6eAocStayogYUYBMYnvp9YwgdjM
+ AuISt57MZ4K4WVBi0ew9zBC2mMS/XQ/ZIGxFifvfX7JD1OtILNj9iQ3CtpM43LQXao62xLKF
+ r5kh1gpKnJz5hAWiV1Li4IobLCCvSAh84JDYPW0f1AIXiXff+qGBJS1x9fpUsBclBJIlVn3k
+ ggjnSMxfsgVqjrXEwj/rmSYwqsxCcvYsJCfNQnLSLCQnzUJy0gJG1lWM4qXFxbnpqcVGeanl
+ esWJucWleel6yfm5mxiBaev0v8P5Oxiv3/qod4iRiYPxEKMEB7OSCO9Wx0vJQrwpiZVVqUX5
+ 8UWlOanFhxilOViUxHkNbU8mCwmkJ5akZqemFqQWwWSZODilGpi466OT+KZ8/PRfS2lye9X/
+ k8XsL+Z9LTxxIuay9GWuPe5xVrzq6yUClDpCFmxNzOE80R/1d0ryabvchXf5Hz9Osm7y9X8V
+ 8zB73dm9RmHbp0ZIHpzydtdpt6768sx9B5QO7PEyMZm0ZMIiq1vO+ukpsfdaU5dNnJiRvWpR
+ PC/XFl2XgJws3YKSo6cKDPW39vh9X7aybOK2xLz66Uo37roeavwgl6P/p8lc+sGH6cVHF6Vs
+ naH9c4PohIau9qe5a3tP793hlpj7TffppyWBVi3O+wRqm6+8nf9owTzFsKkJhqH2T+31T/5l
+ nHXkxP31kyvF/VZrezCylezcddrruoSXE/dU6d665/fmVBx66pOnxFKckWioxVxUnAgAfOZC
+ ZMoDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrBIsWRmVeSWpSXmKPExsWS2cA0SXct85VkgznzeC3uPr7AZtE8eTGj
+ xYmbjWwW+58+Z7FYtfAam8X5WadYLA5vPMNk8f/XK1aL4707WBw4PVqOvGX1WLznJZPHplWd
+ bB5Prm1m8ni/7yqbx+dNcgFsUVw2Kak5mWWpRfp2CVwZG643sxVMEa24u/4LWwPjbYEuRk4O
+ CQETiaurP7KB2EICqxklFn/P7WLkArI/MUp0v93MDuEsY5R4M+sWM0gVm4CixL6u7WAdIgJG
+ EleWHQQrYhZ4wSTxdGoXUIKDQ1ggUuJcrwVETZTEr4bdLBC2k8TX9luMIDaLgKrEglnHwObw
+ CphKLLjVzAixbA6TxOqrU1lB5nAKGErcuqYCUsMoICbx/dQaJhCbWUBc4taT+UwQHwhILNlz
+ nhnCFpV4+fgfK4StKHH/+0t2iHodiQW7P7FB2HYSh5v2Qs3Rlli28DUzxA2CEidnPmGB6JWU
+ OLjiBssERolZSNbNQjJqFpJRs5CMmoVk1AJG1lWM4qXFxbnpFcWGeanlesWJucWleel6yfm5
+ mxiBkX/63+HIHYxHb33UO8TIxMF4iFGCg1lJhHer46VkId6UxMqq1KL8+KLSnNTiQ4zSHCxK
+ 4rxCrhPjhQTSE0tSs1NTC1KLYLJMHJxSDUxuJ1Pk3pT7CvQ6cTq+uyRwMuupZmXzXI1lNlWX
+ 5ry8uefN5WCRq2HtaSl2C/mCDvPovvvn8l7b65m8Rnjpj8f3I3a9nsFyImYai8ybn34f/3pf
+ ObKYpzpP/1qSndLUh6ZCd2UfhrYemL5v2s7Tm8z3KRV4plT+Dpz66eaSxat+GjjeuZiuHn5g
+ wz+hxlhB6baLtX3PW1doz566r8H6nt2mJU8VVn0sV//Jsbp2Q7h49kfJjk3GV4/fc/WL52VS
+ eutssG3FGXHX11+VF/J/ZUmu51zpHW5pHLhfYWtZMOs0fr3Vjmu3evt/SnWVbvvQrGp/dOad
+ cys//eVavjrD557U9NT1Zad0Tr/T+/5avGW7EktxRqKhFnNRcSIACG9S5WsDAAA=
+X-CMS-MailID: 20230127170237uscas1p1fd9a04985d119f0db94c46d7018c1ef1
+CMS-TYPE: 301P
+X-CMS-RootMailID: 20230126215736uscas1p2166334bf8185239cf6ac70053dc386c5
+References: <20230125152703.9928-1-Jonathan.Cameron@huawei.com>
+ <20230125152703.9928-3-Jonathan.Cameron@huawei.com>
+ <CGME20230126215736uscas1p2166334bf8185239cf6ac70053dc386c5@uscas1p2.samsung.com>
+ <20230126215727.GA203951@bgt-140510-bm03>
+ <20230127100149.0000563e@Huawei.com>
+Received-SPF: pass client-ip=211.189.100.11; envelope-from=fan.ni@samsung.com;
+ helo=mailout1.w2.samsung.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,95 +143,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Going through pc_memory_init() seems quite complicated for a simple
-assignment.
+On Fri, Jan 27, 2023 at 10:01:49AM +0000, Jonathan Cameron wrote:
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- include/hw/i386/pc.h | 1 -
- hw/i386/pc.c         | 2 --
- hw/i386/pc_piix.c    | 4 ++--
- hw/i386/pc_q35.c     | 5 ++---
- 4 files changed, 4 insertions(+), 8 deletions(-)
+> On Thu, 26 Jan 2023 21:57:35 +0000
+> Fan Ni <fan.ni@samsung.com> wrote:
+>=20
+> > On Wed, Jan 25, 2023 at 03:27:03PM +0000, Jonathan Cameron wrote:
+> >=20
+> > > The CXL r3.0 specification allows for there to be no HDM decoders on =
+CXL
+> > > Host Bridges if they have only a single root port. Instead, all acces=
+ses
+> > > directed to the host bridge (as specified in CXL Fixed Memory Windows=
+)
+> > > are assumed to be routed to the single root port.
+> > >=20
+> > > Linux currently assumes this implementation choice. So to simplify te=
+sting,
+> > > make QEMU emulation also default to no HDM decoders under these parti=
+cular
+> > > circumstances, but provide a hdm_for_passthrough boolean option to ha=
+ve
+> > > HDM decoders as previously.
+> > >=20
+> > > Technically this is breaking backwards compatibility, but given the o=
+nly
+> > > known software stack used with the QEMU emulation is the Linux kernel
+> > > and this configuration did not work before this change, there are
+> > > unlikely to be any complaints that it now works. The option is retain=
+ed
+> > > to allow testing of software that does allow for these HDM decoders t=
+o exist,
+> > > once someone writes it.
+> > >=20
+> > > Reported-by: Fan Ni <fan.ni@samsung.com>
+> > > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+>=20
+> > >      pxb_dev_realize_common(dev, CXL, errp);
+> > > -    pxb_dev_reset(DEVICE(dev));
+> > > +    pxb_cxl_dev_reset(DEVICE(dev));
+> > >  }
+> > > =20
+> > > +static Property pxb_cxl_dev_properties[] =3D {
+> > > +    /* Note: 0 is not a legal PXB bus number. */
+> > > +    DEFINE_PROP_UINT8("bus_nr", PXBDev, bus_nr, 0),
+> > > +    DEFINE_PROP_UINT16("numa_node", PXBDev, numa_node, NUMA_NODE_UNA=
+SSIGNED),
+> > > +    DEFINE_PROP_BOOL("bypass_iommu", PXBDev, bypass_iommu, false),
+> > > +    DEFINE_PROP_BOOL("hdm_for_passthrough", PXBDev, hdm_for_passthro=
+ugh, false), =20
+> > when setting hdm_for_passthrough to true at the qemu command line, we
+> > will see the segfault issue as before. I think this is expected as it
+> > is the logic in cxl_cfmws_find_device. Wondering if there will be
+> > following fixes to handle the case when hdm_for_passthrough is true.
+>=20
+> Absolutely, I'd expect a kernel fix for that case, but it's probably not
+> high priority for anyone given we don't yet have any hardware that does t=
+hat
+> (as far as I know anyway!)
+>=20
+> I wanted to keep the control here to make that easy to test when we do
+> have the fix in place.
+>=20
+> Jonathan
+Make sense!
 
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index 88a120bc23..5331b9a5c5 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -163,7 +163,6 @@ void xen_load_linux(PCMachineState *pcms);
- void pc_memory_init(PCMachineState *pcms,
-                     MemoryRegion *system_memory,
-                     MemoryRegion *rom_memory,
--                    MemoryRegion **ram_memory,
-                     uint64_t pci_hole64_size);
- uint64_t pc_pci_hole64_start(void);
- DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 6e592bd969..8898cc9961 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -936,7 +936,6 @@ static hwaddr pc_max_used_gpa(PCMachineState *pcms, uint64_t pci_hole64_size)
- void pc_memory_init(PCMachineState *pcms,
-                     MemoryRegion *system_memory,
-                     MemoryRegion *rom_memory,
--                    MemoryRegion **ram_memory,
-                     uint64_t pci_hole64_size)
- {
-     int linux_boot, i;
-@@ -994,7 +993,6 @@ void pc_memory_init(PCMachineState *pcms,
-      * Split single memory region and use aliases to address portions of it,
-      * done for backwards compatibility with older qemus.
-      */
--    *ram_memory = machine->ram;
-     ram_below_4g = g_malloc(sizeof(*ram_below_4g));
-     memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", machine->ram,
-                              0, x86ms->below_4g_mem_size);
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index 5bde4533cc..00ba725656 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -143,6 +143,7 @@ static void pc_init1(MachineState *machine,
-     if (xen_enabled()) {
-         xen_hvm_init_pc(pcms, &ram_memory);
-     } else {
-+        ram_memory = machine->ram;
-         if (!pcms->max_ram_below_4g) {
-             pcms->max_ram_below_4g = 0xe0000000; /* default: 3.5G */
-         }
-@@ -205,8 +206,7 @@ static void pc_init1(MachineState *machine,
- 
-     /* allocate ram and load rom/bios */
-     if (!xen_enabled()) {
--        pc_memory_init(pcms, system_memory,
--                       rom_memory, &ram_memory, hole64_size);
-+        pc_memory_init(pcms, system_memory, rom_memory, hole64_size);
-     } else {
-         pc_system_flash_cleanup_unused(pcms);
-         if (machine->kernel_filename != NULL) {
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index b97979bebb..8559924eb4 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -128,7 +128,7 @@ static void pc_q35_init(MachineState *machine)
-     MemoryRegion *system_io = get_system_io();
-     MemoryRegion *pci_memory;
-     MemoryRegion *rom_memory;
--    MemoryRegion *ram_memory;
-+    MemoryRegion *ram_memory = machine->ram;
-     GSIState *gsi_state;
-     ISABus *isa_bus;
-     int i;
-@@ -215,8 +215,7 @@ static void pc_q35_init(MachineState *machine)
-     }
- 
-     /* allocate ram and load rom/bios */
--    pc_memory_init(pcms, system_memory, rom_memory, &ram_memory,
--                   pci_hole64_size);
-+    pc_memory_init(pcms, system_memory, rom_memory, pci_hole64_size);
- 
-     object_property_add_child(OBJECT(machine), "q35", OBJECT(phb));
-     object_property_set_link(OBJECT(phb), MCH_HOST_PROP_RAM_MEM,
--- 
-2.39.1
-
+Reviwed-by: Fan Ni <fan.ni@samsung.com>
+Tested-by: Fan Ni <fan.ni@samsung.com>
 
