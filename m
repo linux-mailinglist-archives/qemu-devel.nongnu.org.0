@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8000267E60F
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 14:06:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA99267E644
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 14:12:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLOPs-0005FJ-4K; Fri, 27 Jan 2023 08:05:16 -0500
+	id 1pLOW8-0000pQ-0M; Fri, 27 Jan 2023 08:11:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pLOP8-0005AO-WA
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:04:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cohuck@redhat.com>) id 1pLOP7-0008Os-0t
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:04:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674824668;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=s2A6o7lX5N3/womlUFazzxN7n881vio7ycoOkAYbTzM=;
- b=JZ0Wegsp+nYioVggv21RyF69bJUUhNv9Z4ZVaxnFegJ2UGH+ZGQYbegSAVL0Sfr4oTM2jC
- 5zTUzWRrnXuuuUKr6IvDXK8EDEKj2qc4LOvxLi6jZkCTG9vIz3L9LOROHqmUg91n6rRb+r
- zu5EHme/MryK2KJ8vTerV9559tuUDbg=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-617-oAEGiuf6M5y1lBZo45OimQ-1; Fri, 27 Jan 2023 08:04:24 -0500
-X-MC-Unique: oAEGiuf6M5y1lBZo45OimQ-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3170885C069;
- Fri, 27 Jan 2023 13:04:24 +0000 (UTC)
-Received: from localhost (unknown [10.39.193.2])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BDCA0C15BA0;
- Fri, 27 Jan 2023 13:04:23 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Sebastian Mitterle <smitterl@redhat.com>, qemu-devel@nongnu.org
-Cc: thuth@redhat.com, clegoate@redhat.com, qemu-trivial@nongnu.org,
- qemu-s390x@nongnu.org
-Subject: Re: [PATCH v3] docs/s390x/pcidevices: document pci devices on s390x
-In-Reply-To: <20230127123349.55294-1-smitterl@redhat.com>
-Organization: Red Hat GmbH
-References: <20230127123349.55294-1-smitterl@redhat.com>
-User-Agent: Notmuch/0.37 (https://notmuchmail.org)
-Date: Fri, 27 Jan 2023 14:04:21 +0100
-Message-ID: <87edrguo16.fsf@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pLOW5-0000aQ-5X
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:11:41 -0500
+Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pLOW3-0002iJ-Ct
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:11:40 -0500
+Received: by mail-pj1-x102b.google.com with SMTP id
+ rm7-20020a17090b3ec700b0022c05558d22so4815487pjb.5
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 05:11:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Zm6ETde0LFBijnf14Acl+ycUJ/Kv5C+CBcIIWj9X09E=;
+ b=kAkOQFUi9FfYcvE/o1Abj+iw/UVzVTAoinwwrSdJFaNZfkCEDu8eQEHqVPC5TT62S7
+ 46vHgfq4kNa2TfuYYGs5LHFzaEcvidSR/RjVq3rALwYdaNOaf327lJyVCFfAr/H7D/io
+ L+ott5M77QlZZk0RgCg8bDhDglhK0BVTKks62Dx9RNRpbHhQ2ZGtqakxAyFDeSSVctlO
+ uCbIlbb7YK7Fxj0SppJRUsJ99tV/BylZd028OzwmrUJjxnOGMw0F6eWtpWI1THEivA+n
+ lQlPYRR4FYB4r9cbzkpwqSQJGTXlgFTxZcmCser2+seWty191EASvGwVEIvjcYBqjOLN
+ soLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Zm6ETde0LFBijnf14Acl+ycUJ/Kv5C+CBcIIWj9X09E=;
+ b=gjXa8LjQ6D9tEakV99rtWfD3Iqxf5X8M6HaGDJQtwLUg4enGw/N6ZU1sijhUVjsQZ+
+ wZUYA359ty9gd3rjWFYKvuYEVYsUHiLWa6GT+gthE7I6f5fQbdVU9t3vxw66cGSCcDcQ
+ CRJxOD3w7MMqALpBLOmwFglC9HWgWC57AXL+EyJ+5RWpqw51lBoMC60GqnSCd1QD2eRQ
+ JKWt4ZRsGVlJNBTChpAchjGvKpBOK7tXc5tF9u7BQbr+lvwYvuEbfjwSiNPFlBScA+1I
+ RdhZfU7dTWWvH7itwpIk8MWVhyMF1R1mcLNM/emFq097AoZ61eYMA7VbCNk/Ss3OY0MN
+ 882g==
+X-Gm-Message-State: AFqh2koWFd3CGB24wkrILTRJ6cbyLVzX8JeVGTTxabJrawLtev8+CYyA
+ 8NUm7nlqg9bsp0Bj6Sq8JtfxOsnNDHT8B38p3b0zLQ==
+X-Google-Smtp-Source: AMrXdXvf/PGfQtPNF+dkL742p0EawcHiXxites4sMa5Z+q1jBRevDibU3IyoYVjenuwROP4SPCO0V0dEF+u2d/QnlgA=
+X-Received: by 2002:a17:90a:d801:b0:22b:bc67:1dec with SMTP id
+ a1-20020a17090ad80100b0022bbc671decmr3837605pjv.67.1674825073641; Fri, 27 Jan
+ 2023 05:11:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=cohuck@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <CAFEAcA8v8hrqkFemdT5x_O5_mdps4wpdRCoVAfts+oVJj_qTVw@mail.gmail.com>
+ <CAJSP0QXC3z-UyP5HoVTOmAfyz_vV6cpZJvnTYazWq9=52bndpA@mail.gmail.com>
+ <CAFEAcA_CJ3VjHx1GhjBJjCY=+twBZM3UnR_g0sZLJhvVLcY=GQ@mail.gmail.com>
+ <Y9PF7C29TNSuvz9o@redhat.com>
+In-Reply-To: <Y9PF7C29TNSuvz9o@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 27 Jan 2023 13:11:02 +0000
+Message-ID: <CAFEAcA-_3FSQGNYXZo0yBdeMDkXj45O82O7s3t+Fbi1Lb3RQtQ@mail.gmail.com>
+Subject: Re: no more pullreq processing til February
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>,
+ QEMU Developers <qemu-devel@nongnu.org>, 
+ =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ Richard Henderson <richard.henderson@linaro.org>, John Snow <jsnow@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -79,25 +90,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 27 2023, Sebastian Mitterle <smitterl@redhat.com> wrote:
-
-> Add some documentation about the zpci device and how
-> to use it with pci devices on s390x.
+On Fri, 27 Jan 2023 at 12:39, Kevin Wolf <kwolf@redhat.com> wrote:
 >
-> Used source: Cornelia Huck's blog post
-> https://people.redhat.com/~cohuck/2018/02/19/notes-on-pci-on-s390x.html
+> Am 26.01.2023 um 15:28 hat Peter Maydell geschrieben:
+> > On Thu, 26 Jan 2023 at 14:25, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> > >
+> > > Are you batching pull requests? I used that approach last release
+> > > cycle. CI takes so long to run that I didn't want to run it for every
+> > > pull request. Batching worked well overall.
+> >
+> > No, I just do one test per pullreq. IME the CI is flaky
+> > enough that I don't really want to batch it up, and it
+> > isn't so slow that I build up a backlog of unprocessed
+> > requests.
 >
-> Signed-off-by: Sebastian Mitterle <smitterl@redhat.com>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@redhat.com>
-> ---
-> v3: add info zpci is autogenerated, fix typos and source formatting,
-> improve style as suggested
-> ---
->  docs/system/s390x/pcidevices.rst | 41 ++++++++++++++++++++++++++++++++
->  docs/system/target-s390x.rst     |  1 +
->  2 files changed, 42 insertions(+)
->  create mode 100644 docs/system/s390x/pcidevices.rst
+> But obviously so slow that we've run out of minutes. It would be good if
+> this didn't happen every month in the future.
+>
+> If it worked well enough for Stefan, I think it would be worth trying to
+> batch some pull requests going forward. What is the downside of it? If
+> CI fails and flaky tests seem to be at fault, I assume you just re-run
+> the job, no matter whether it tests a single pull request or two or
+> three of them?
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+It means that if something fails it's harder to see whether
+it was pullreq A or pullreq B. It also means there's a higher
+cost to "abandon processing the merge and try a different one
+to see if that one goes through and come back to this one later",
+which is also something I sometimes do in an attempt to figure
+out whether a problem is the usual flaky CI or not.
 
+-- PMM
 
