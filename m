@@ -2,79 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D8667F280
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 00:55:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9433D67F286
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 00:57:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLYYC-0007AO-Ph; Fri, 27 Jan 2023 18:54:32 -0500
+	id 1pLYat-0008Ix-Rc; Fri, 27 Jan 2023 18:57:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLYYB-0007A4-HG
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 18:54:31 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pLYar-0008Hx-Eo
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 18:57:17 -0500
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLYY9-0007MO-BR
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 18:54:31 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id
- nm12-20020a17090b19cc00b0022c2155cc0bso6175852pjb.4
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 15:54:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pLYap-00083J-Nn
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 18:57:17 -0500
+Received: by mail-wm1-x330.google.com with SMTP id m15so4554893wms.4
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 15:57:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=gDjsa6Be6xu6VPIEFCIRNlG+GJ4n4w2muPpDz56soNM=;
- b=cTOYlEsrQKyPkxIgBB0y1QX9BY+8zvG6LXarpVt8WVoah9lLYEMdm8eKiBN+7X15+C
- PO+eLtcz0JlJRSHCKUPyFQ0kEl1wUWhPvmgS4r8o9WJ0xUKIJ6GFxaiSCL/AAgMdKki+
- wGr4GIi74cTPXZ+tFSICvqbQwzqa7LzY7xjoSeOcmdddoHH5GCmAGiPFAoWVOycrTdXV
- Y7aUSYgLlOH7HWtRGuNB+4xkdo+C5bMTRsifBwBMiEQiqu329tUppMRHPxQD4Q6VJuTK
- roRaaURcEX9NVAONl2oBlJ5Z5eVYLPQmQ1v0Owjljf01tpoigls6MYBEIEXQ8l9SjmoS
- ip+Q==
+ bh=83C/sqLpYcRoe72UESTSQaaVCL+73bpf4QRcam6XkOQ=;
+ b=KsUF4JL9cfOoJtRyznvNR/BwaPQD7NpThV9G5oCpMmQ14t+0dU95I0IO8bOWUH4ArQ
+ boN2ct+k+O39oW9PF0tjs6rSRtDGbOIGu4QJvk7Iqmz9kSTblMBSvbSkcpqFGhq1yg6Y
+ 27WMuEjSGgRSPVcgfz6fH5LVZtwFSUQgx2hA7QAqwn8IjnT1cwZDLMoRXg4QIJsuhik0
+ IVP2lq+OKg2UqCxALQqHNNsl+PdfDzh3CcV5s6h+ISZ6NDiZDmuPmoS8xRZuNMhnt567
+ oPMXOIaC6EWp0q5Q7XfHSFyn3xU+pxCVUGtBzMkAQB4zIcJ+i87QcwLl4ijwM94suV5d
+ xiUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=gDjsa6Be6xu6VPIEFCIRNlG+GJ4n4w2muPpDz56soNM=;
- b=irfeKiKxR92DiYQuleem1fTsHR4vrPAcdZEtdBPmZYaCC4Rj8qGWxvgWmaqFOsOWZc
- rvmBkwDRm6XxQcu9qw344dVUrJYwFbGaT5rvkULqQUcy9/wzilLVY4Inh/R149E9MXjr
- nmMWKhbwlHSsiVi5wbcicWKn0sHsfvfVVRCFeNT9/tlYH1NaJHaMvtjrqcdxu7ro9dwc
- UcqzqSy2KKuLt8Dl8ac125GhRipYHQTpOXKLHw9+LYxKMPcB7PYOmX3MClo4+X/5VJfI
- qFp0144bISkY3aGInkxw70MSLzka4VyzT8EYTR1DwjigT+89yWwjQ4x7WvDmlZpN5D6/
- QJ9A==
-X-Gm-Message-State: AFqh2koOm4UHUNDTltnV3PgHiXcTiBqAzryd/zoeeorcrHGhQJJ0eM1E
- uKJanC6MpiK3o9fLzfBmskEZDQ==
-X-Google-Smtp-Source: AMrXdXvZEcgdd0AX46pnDvZtRiMGpDq4PbaNMMHrgzQExHhBJReFmjnbn1JOWFwJOVTZYj/m5ZFiIw==
-X-Received: by 2002:a17:90a:9283:b0:226:30c5:3e61 with SMTP id
- n3-20020a17090a928300b0022630c53e61mr43185043pjo.6.1674863667723; 
- Fri, 27 Jan 2023 15:54:27 -0800 (PST)
-Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- z6-20020a637e06000000b00496317241f9sm1970649pgc.51.2023.01.27.15.54.25
+ bh=83C/sqLpYcRoe72UESTSQaaVCL+73bpf4QRcam6XkOQ=;
+ b=v9faD5rglEUQLjlYtvb0sq61a6PO7esgmWU2ra6asnDm00joUQiH/1BPWo/KOJHNrO
+ Kid0baAUgS9ltY40E20PNtJgu/dUKNmhAGzkYdyqamUhz+77s6GH16ra26P8sA4UtG/3
+ N1LR4hCUF4pt6B8C+vLdr3Da8ylvd7hnOo3a5s1dx01oI25qraEnUCfkBnr3HUd5FEw6
+ zCbQZp0GEnzUx3Ng0FlT2RHL5cIJPFyjnKr4fp6D+0xr9IAGNO58MINZYvYDWjU0ZKiK
+ hPSyBxHakH2CGbgzMkm2msVOHZkXdXWg6g3YprKCGA7ktqeNikUvxE/GAEaebkkKXQ4t
+ Pgdw==
+X-Gm-Message-State: AFqh2kpqYsbZD5ZrePLjbC0mqprcp/q2nfZHbBgZVHXxpsBXI0NHqxFZ
+ f7OkRra6+WMYbub92oP1S5MKQg==
+X-Google-Smtp-Source: AMrXdXtwL+SC1CEsaB+gZBcbt+ILUbPRKm89eURC+M+uo7XJxNmJawyVIaj/H+xHnHamksdM/k6fzg==
+X-Received: by 2002:a05:600c:5025:b0:3db:14dc:8cff with SMTP id
+ n37-20020a05600c502500b003db14dc8cffmr37244799wmr.33.1674863834222; 
+ Fri, 27 Jan 2023 15:57:14 -0800 (PST)
+Received: from [192.168.0.114] ([196.77.14.77])
+ by smtp.gmail.com with ESMTPSA id
+ bi5-20020a05600c3d8500b003db0bb81b6asm5975351wmb.1.2023.01.27.15.57.12
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 15:54:27 -0800 (PST)
-Message-ID: <e43446dd-e6d9-3591-aea8-c77dc83dcd8b@linaro.org>
-Date: Fri, 27 Jan 2023 13:54:23 -1000
+ Fri, 27 Jan 2023 15:57:13 -0800 (PST)
+Message-ID: <cd7b2036-b203-5cd7-4efe-281dfaa0c186@linaro.org>
+Date: Sat, 28 Jan 2023 00:57:12 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 08/16] target/arm/kvm-rme: Populate the realm with
- boot images
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 7/7] hw/i386/pc: Initialize ram_memory variable directly
 Content-Language: en-US
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, pbonzini@redhat.com,
- eblake@redhat.com, armbru@redhat.com, berrange@redhat.com,
- eduardo@habkost.net, alex.bennee@linaro.org
-References: <20230127150727.612594-1-jean-philippe@linaro.org>
- <20230127150727.612594-9-jean-philippe@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230127150727.612594-9-jean-philippe@linaro.org>
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <eduardo@habkost.net>, Paolo Bonzini
+ <pbonzini@redhat.com>, Richard Henderson <richard.henderson@linaro.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
+ "open list:X86 Xen CPUs" <xen-devel@lists.xenproject.org>
+References: <20230127164718.98156-1-shentey@gmail.com>
+ <20230127164718.98156-8-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230127164718.98156-8-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::330;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x330.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -97,138 +95,97 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/27/23 05:07, Jean-Philippe Brucker wrote:
-> Initialize the GPA space and populate it with boot images (kernel,
-> initrd, firmware, etc). Populating has to be done at VM start time,
-> because the images are loaded during reset by rom_reset()
+On 27/1/23 17:47, Bernhard Beschow wrote:
+> Going through pc_memory_init() seems quite complicated for a simple
+> assignment.
 > 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+
 > ---
->   target/arm/kvm_arm.h |  6 ++++
->   target/arm/kvm-rme.c | 79 ++++++++++++++++++++++++++++++++++++++++++++
->   2 files changed, 85 insertions(+)
+>   include/hw/i386/pc.h | 1 -
+>   hw/i386/pc.c         | 2 --
+>   hw/i386/pc_piix.c    | 4 ++--
+>   hw/i386/pc_q35.c     | 5 ++---
+>   4 files changed, 4 insertions(+), 8 deletions(-)
 > 
-> diff --git a/target/arm/kvm_arm.h b/target/arm/kvm_arm.h
-> index e4dc7fbb8d..cec6500603 100644
-> --- a/target/arm/kvm_arm.h
-> +++ b/target/arm/kvm_arm.h
-> @@ -371,6 +371,7 @@ int kvm_arm_set_irq(int cpu, int irqtype, int irq, int level);
->   
->   int kvm_arm_rme_init(ConfidentialGuestSupport *cgs, Error **errp);
->   int kvm_arm_rme_vm_type(MachineState *ms);
-> +void kvm_arm_rme_add_blob(hwaddr start, hwaddr src_size, hwaddr dst_size);
->   
->   bool kvm_arm_rme_enabled(void);
->   int kvm_arm_rme_vcpu_init(CPUState *cs);
-> @@ -458,6 +459,11 @@ static inline int kvm_arm_rme_vm_type(MachineState *ms)
+> diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+> index 88a120bc23..5331b9a5c5 100644
+> --- a/include/hw/i386/pc.h
+> +++ b/include/hw/i386/pc.h
+> @@ -163,7 +163,6 @@ void xen_load_linux(PCMachineState *pcms);
+>   void pc_memory_init(PCMachineState *pcms,
+>                       MemoryRegion *system_memory,
+>                       MemoryRegion *rom_memory,
+> -                    MemoryRegion **ram_memory,
+>                       uint64_t pci_hole64_size);
+>   uint64_t pc_pci_hole64_start(void);
+>   DeviceState *pc_vga_init(ISABus *isa_bus, PCIBus *pci_bus);
+> diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+> index 6e592bd969..8898cc9961 100644
+> --- a/hw/i386/pc.c
+> +++ b/hw/i386/pc.c
+> @@ -936,7 +936,6 @@ static hwaddr pc_max_used_gpa(PCMachineState *pcms, uint64_t pci_hole64_size)
+>   void pc_memory_init(PCMachineState *pcms,
+>                       MemoryRegion *system_memory,
+>                       MemoryRegion *rom_memory,
+> -                    MemoryRegion **ram_memory,
+>                       uint64_t pci_hole64_size)
 >   {
->       return 0;
->   }
-> +
-> +static inline void kvm_arm_rme_add_blob(hwaddr start, hwaddr src_size,
-> +                                        hwaddr dst_size)
-> +{
-> +}
->   #endif
->   
->   static inline const char *gic_class_name(void)
-> diff --git a/target/arm/kvm-rme.c b/target/arm/kvm-rme.c
-> index 3833b187f9..c8c019f78a 100644
-> --- a/target/arm/kvm-rme.c
-> +++ b/target/arm/kvm-rme.c
-> @@ -9,6 +9,7 @@
->   #include "exec/confidential-guest-support.h"
->   #include "hw/boards.h"
->   #include "hw/core/cpu.h"
-> +#include "hw/loader.h"
->   #include "kvm_arm.h"
->   #include "migration/blocker.h"
->   #include "qapi/error.h"
-> @@ -19,12 +20,22 @@
->   #define TYPE_RME_GUEST "rme-guest"
->   OBJECT_DECLARE_SIMPLE_TYPE(RmeGuest, RME_GUEST)
->   
-> +#define RME_PAGE_SIZE qemu_real_host_page_size()
-> +
->   typedef struct RmeGuest RmeGuest;
->   
->   struct RmeGuest {
->       ConfidentialGuestSupport parent_obj;
->   };
->   
-> +struct RmeImage {
-> +    hwaddr base;
-> +    hwaddr src_size;
-> +    hwaddr dst_size;
-> +};
-> +
-> +static GSList *rme_images;
-> +
->   static RmeGuest *cgs_to_rme(ConfidentialGuestSupport *cgs)
->   {
->       if (!cgs) {
-> @@ -51,6 +62,38 @@ static int rme_create_rd(RmeGuest *guest, Error **errp)
->       return ret;
->   }
->   
-> +static void rme_populate_realm(gpointer data, gpointer user_data)
-> +{
-> +    int ret;
-> +    struct RmeImage *image = data;
-> +    struct kvm_cap_arm_rme_init_ipa_args init_args = {
-> +        .init_ipa_base = image->base,
-> +        .init_ipa_size = image->dst_size,
-> +    };
-> +    struct kvm_cap_arm_rme_populate_realm_args populate_args = {
-> +        .populate_ipa_base = image->base,
-> +        .populate_ipa_size = image->src_size,
-> +    };
-> +
-> +    ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_RME, 0,
-> +                            KVM_CAP_ARM_RME_INIT_IPA_REALM,
-> +                            (intptr_t)&init_args);
-> +    if (ret) {
-> +        error_setg_errno(&error_fatal, -ret,
-> +                         "RME: failed to initialize GPA range (0x%"HWADDR_PRIx", 0x%"HWADDR_PRIx")",
-> +                         image->base, image->dst_size);
-> +    }
-
-Using error_fatal with error_setg is discouraged.
-This should be error_report(), exit().
-
-
-> +
-> +    ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_RME, 0,
-> +                            KVM_CAP_ARM_RME_POPULATE_REALM,
-> +                            (intptr_t)&populate_args);
-> +    if (ret) {
-> +        error_setg_errno(&error_fatal, -ret,
-> +                         "RME: failed to populate realm (0x%"HWADDR_PRIx", 0x%"HWADDR_PRIx")",
-> +                         image->base, image->src_size);
-> +    }
-> +}
-> +
->   static void rme_vm_state_change(void *opaque, bool running, RunState state)
->   {
->       int ret;
-> @@ -72,6 +115,9 @@ static void rme_vm_state_change(void *opaque, bool running, RunState state)
+>       int linux_boot, i;
+> @@ -994,7 +993,6 @@ void pc_memory_init(PCMachineState *pcms,
+>        * Split single memory region and use aliases to address portions of it,
+>        * done for backwards compatibility with older qemus.
+>        */
+> -    *ram_memory = machine->ram;
+>       ram_below_4g = g_malloc(sizeof(*ram_below_4g));
+>       memory_region_init_alias(ram_below_4g, NULL, "ram-below-4g", machine->ram,
+>                                0, x86ms->below_4g_mem_size);
+> diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
+> index 5bde4533cc..00ba725656 100644
+> --- a/hw/i386/pc_piix.c
+> +++ b/hw/i386/pc_piix.c
+> @@ -143,6 +143,7 @@ static void pc_init1(MachineState *machine,
+>       if (xen_enabled()) {
+>           xen_hvm_init_pc(pcms, &ram_memory);
+>       } else {
+> +        ram_memory = machine->ram;
+>           if (!pcms->max_ram_below_4g) {
+>               pcms->max_ram_below_4g = 0xe0000000; /* default: 3.5G */
 >           }
+> @@ -205,8 +206,7 @@ static void pc_init1(MachineState *machine,
+>   
+>       /* allocate ram and load rom/bios */
+>       if (!xen_enabled()) {
+> -        pc_memory_init(pcms, system_memory,
+> -                       rom_memory, &ram_memory, hole64_size);
+> +        pc_memory_init(pcms, system_memory, rom_memory, hole64_size);
+>       } else {
+>           pc_system_flash_cleanup_unused(pcms);
+>           if (machine->kernel_filename != NULL) {
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index b97979bebb..8559924eb4 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -128,7 +128,7 @@ static void pc_q35_init(MachineState *machine)
+>       MemoryRegion *system_io = get_system_io();
+>       MemoryRegion *pci_memory;
+>       MemoryRegion *rom_memory;
+> -    MemoryRegion *ram_memory;
+> +    MemoryRegion *ram_memory = machine->ram;
+>       GSIState *gsi_state;
+>       ISABus *isa_bus;
+>       int i;
+> @@ -215,8 +215,7 @@ static void pc_q35_init(MachineState *machine)
 >       }
 >   
-> +    g_slist_foreach(rme_images, rme_populate_realm, NULL);
-> +    g_slist_free_full(g_steal_pointer(&rme_images), g_free);
+>       /* allocate ram and load rom/bios */
+> -    pc_memory_init(pcms, system_memory, rom_memory, &ram_memory,
+> -                   pci_hole64_size);
+> +    pc_memory_init(pcms, system_memory, rom_memory, pci_hole64_size);
+>   
+>       object_property_add_child(OBJECT(machine), "q35", OBJECT(phb));
+>       object_property_set_link(OBJECT(phb), MCH_HOST_PROP_RAM_MEM,
 
-I suppose this technically works because you clear the list, and thus the hook is called 
-only on the first transition to RUNNING.  On all subsequent transitions the list is empty.
-
-I see that i386 sev does this immediately during machine init, alongside the kernel setup. 
-  Since kvm_init has already been called, that seems workable, rather than queuing 
-anything for later.
-
-But I think ideally this would be handled generically in (approximately) 
-kvm_cpu_synchronize_post_init, looping over all blobs.  This would handle any usage of 
-'-device loader,...', instead of the 4 specific things you handle in the next patch.
-
-
-r~
 
