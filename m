@@ -2,40 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F305F67E490
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 13:05:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1319067E48A
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 13:04:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLNST-0004Ut-FA; Fri, 27 Jan 2023 07:03:53 -0500
+	id 1pLNSV-0004WH-AH; Fri, 27 Jan 2023 07:03:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pLNSQ-0004Tx-MF
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:03:50 -0500
-Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15])
+ id 1pLNSR-0004UW-Bb
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:03:51 -0500
+Received: from zuban.uni-paderborn.de ([2001:638:502:c003::17])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pLNSO-0004Hw-39
+ id 1pLNSO-0004IC-KH
  for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:03:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
- :Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Q+44jjuysiRFX5aFRmyhl0wB32A6jlALwVpzrp9WNxo=; b=SDVdEussI+6Q3YvecOhvxjaZsD
- foc7cX3l84CUI2ofRAxGuqe/Z5ACscDrd7aLPTYlYisqnu/W8uZ3STwVxeh86Ai2uBAMDJbbQQBUU
- QwcrXsFk/y2HaC+utSKFrfA+/ur/tIN34I6nTeo65cH/0dp8ziEJK5gL+J+vxl6Jp6AM=;
+ :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=dX5IykZSmSQdWSaRObNjieDh40fxb8ijl2TYd8L6SrY=; b=cv5/3kwHDq1JOJaO86y0RU3LuM
+ U/T2pX/Km4vWnjGfN2l06xg4iHYCWraNZCA+t4dLq4/oiiRqlsDJWNtQTl96tWvarGQfHT8LZ9r/d
+ e/kUyb/VbpK7m2K3mlDuQYc19LfaGI4eHvDOOaGnN5eXRKQ/px3fA61wgZOYTN49/zLk=;
 X-Envelope-From: <kbastian@mail.uni-paderborn.de>
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
 Cc: kbastian@mail.uni-paderborn.de,
 	anton.kochkov@proton.me
-Subject: [PATCH 0/5] TriCore instruction bugfixes
-Date: Fri, 27 Jan 2023 13:03:23 +0100
-Message-Id: <20230127120328.2520624-1-kbastian@mail.uni-paderborn.de>
+Subject: [PATCH 1/5] target/tricore: Fix OPC2_32_RCRW_IMASK translation
+Date: Fri, 27 Jan 2023 13:03:24 +0100
+Message-Id: <20230127120328.2520624-2-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230127120328.2520624-1-kbastian@mail.uni-paderborn.de>
+References: <20230127120328.2520624-1-kbastian@mail.uni-paderborn.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-IMT-Source: Intern
@@ -44,8 +46,8 @@ X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
  AntiVirus-Data: 2023.1.24.5960001
 X-IMT-Spam-Score: 0.0 ()
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
-Received-SPF: pass client-ip=2001:638:502:c003::15;
- envelope-from=kbastian@mail.uni-paderborn.de; helo=shirlock.uni-paderborn.de
+Received-SPF: pass client-ip=2001:638:502:c003::17;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=zuban.uni-paderborn.de
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -67,30 +69,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+we were mixing up the "c" and "d" registers. We used "d" as a
+destination register und "c" as the source. According to the TriCore ISA
+manual 1.6 vol 2 it is the other way round.
 
-while resolving [1], I noticed a few more bugs in DEXTR and LD_BU_PREINC which
-this patch series fixes. 
+Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/653
+---
+ target/tricore/translate.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I also included the solo patch [1] into this series.
-
-Cheers,
-Bastian
-
-[1] https://gitlab.com/qemu-project/qemu/-/issues/653
-[2] https://lore.kernel.org/qemu-devel/20230113123759.677960-1-kbastian@mail.uni-paderborn.de/
-
-
-Bastian Koppelmann (5):
-  target/tricore: Fix OPC2_32_RCRW_IMASK translation
-  target/tricore: Fix OPC2_32_RCRW_INSERT translation
-  target/tricore: Fix RRPW_DEXTR
-  target/tricore: Fix OPC2_32_RRRR_DEXTR
-  target/tricore: Fix OPC2_32_BO_LD_BU_PREINC
-
- target/tricore/translate.c | 29 ++++++++++++++++++++---------
- 1 file changed, 20 insertions(+), 9 deletions(-)
-
+diff --git a/target/tricore/translate.c b/target/tricore/translate.c
+index df9e46c649..8de4e56b1f 100644
+--- a/target/tricore/translate.c
++++ b/target/tricore/translate.c
+@@ -5794,11 +5794,11 @@ static void decode_rcrw_insert(DisasContext *ctx)
+ 
+     switch (op2) {
+     case OPC2_32_RCRW_IMASK:
+-        tcg_gen_andi_tl(temp, cpu_gpr_d[r4], 0x1f);
++        tcg_gen_andi_tl(temp, cpu_gpr_d[r3], 0x1f);
+         tcg_gen_movi_tl(temp2, (1 << width) - 1);
+-        tcg_gen_shl_tl(cpu_gpr_d[r3 + 1], temp2, temp);
++        tcg_gen_shl_tl(cpu_gpr_d[r4 + 1], temp2, temp);
+         tcg_gen_movi_tl(temp2, const4);
+-        tcg_gen_shl_tl(cpu_gpr_d[r3], temp2, temp);
++        tcg_gen_shl_tl(cpu_gpr_d[r4], temp2, temp);
+         break;
+     case OPC2_32_RCRW_INSERT:
+         temp3 = tcg_temp_new();
 -- 
 2.39.1
 
