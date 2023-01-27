@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DFA467E48F
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 13:05:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E0DA67E48D
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 13:04:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLNST-0004VS-Go; Fri, 27 Jan 2023 07:03:53 -0500
+	id 1pLNSV-0004WG-AQ; Fri, 27 Jan 2023 07:03:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pLNSQ-0004UG-UZ
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:03:50 -0500
-Received: from shirlock.uni-paderborn.de ([2001:638:502:c003::15])
+ id 1pLNST-0004Ve-0f
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:03:53 -0500
+Received: from doohan.uni-paderborn.de ([2001:638:502:c003::16])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pLNSO-0004IW-Vl
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:03:50 -0500
+ id 1pLNSR-0004Ig-7P
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 07:03:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
  :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
  Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
  Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
  List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=Vpasc81SkmykCFJ3tHwgEPOxqicigxifjCp5XPEAUvo=; b=KfPh6eyIIKfxCOpEerqh2pmWtq
- COkbXBR5S2weQlZ5+XYRjWimoQsDq09wDw7GUARAVvowbT/6OhyEZ+ieGttOdOUZuEaW0sr7f3HVL
- vRN+VgAsAwDPWcgf53EKVuiS7Zl/shmjj/wfgyvg5k2ufFYRwej15c1uneFgfIWgU6N0=;
+ bh=x3SltFEcTCKd3d7oEwZO8Au6mKpUjiAbYPn3p4WDTOc=; b=NLgPfzyJtgMRAixdMEf0cM+pOD
+ e3vmGFfGMYjwgXgz1gspf84dlZDdmqRW/FF/HX21tbJyvzychtaTZ0Bbw/UQCq7dNWsgrHPANtZPy
+ dnk34MAlTpMv3OsG971Q4gstcdezsZpHvoSWYZq0/Qyqi/FsSDUYAvzvKKv8i8Pg1uig=;
 X-Envelope-From: <kbastian@mail.uni-paderborn.de>
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
 Cc: kbastian@mail.uni-paderborn.de,
 	anton.kochkov@proton.me
-Subject: [PATCH 3/5] target/tricore: Fix RRPW_DEXTR
-Date: Fri, 27 Jan 2023 13:03:26 +0100
-Message-Id: <20230127120328.2520624-4-kbastian@mail.uni-paderborn.de>
+Subject: [PATCH 4/5] target/tricore: Fix OPC2_32_RRRR_DEXTR
+Date: Fri, 27 Jan 2023 13:03:27 +0100
+Message-Id: <20230127120328.2520624-5-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230127120328.2520624-1-kbastian@mail.uni-paderborn.de>
 References: <20230127120328.2520624-1-kbastian@mail.uni-paderborn.de>
@@ -42,12 +42,12 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-IMT-Source: Intern
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2023.1.27.115416, AntiVirus-Engine: 5.96.0,
- AntiVirus-Data: 2023.1.24.5960001
+ Antispam-Data: 2023.1.27.115117, AntiVirus-Engine: 5.97.0,
+ AntiVirus-Data: 2023.1.26.5970001
 X-IMT-Spam-Score: 0.0 ()
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
-Received-SPF: pass client-ip=2001:638:502:c003::15;
- envelope-from=kbastian@mail.uni-paderborn.de; helo=shirlock.uni-paderborn.de
+Received-SPF: pass client-ip=2001:638:502:c003::16;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=doohan.uni-paderborn.de
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -69,31 +69,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-if we used const16 == 0 we would crash qemu with the error:
-
-../tcg/tcg-op.c:196: tcg_gen_shri_i32: Assertion `arg2 >= 0 && arg2 < 32' failed
-
-This is a special case anyways as we can directly return cpu_gpr_d[r1]
-as this is the most significant word an nothing is shifted.
+if cpu_gpr_d[r3] == 0 then we were shifting the lower register to the
+right by 32 which is undefined behaviour. In this case the TriCore would
+do nothing an just return the higher register cpu_reg_d[r1]. We fixed
+that by detecting whether cpu_gpr_d[r3] was zero and cleared the lower
+register.
 
 Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 ---
- target/tricore/translate.c | 2 ++
- 1 file changed, 2 insertions(+)
+ target/tricore/translate.c | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
 
 diff --git a/target/tricore/translate.c b/target/tricore/translate.c
-index 6149d4f5c0..62128c6aae 100644
+index 62128c6aae..b8e0969079 100644
 --- a/target/tricore/translate.c
 +++ b/target/tricore/translate.c
-@@ -8708,6 +8708,8 @@ static void decode_32Bit_opc(DisasContext *ctx)
-         const16 = MASK_OP_RRPW_POS(ctx->opcode);
+@@ -8245,10 +8245,19 @@ static void decode_rrrr_extract_insert(DisasContext *ctx)
          if (r1 == r2) {
-             tcg_gen_rotli_tl(cpu_gpr_d[r3], cpu_gpr_d[r1], const16);
-+        } else if (const16 == 0) {
-+            tcg_gen_mov_tl(cpu_gpr_d[r3], cpu_gpr_d[r1]);
+             tcg_gen_rotl_tl(cpu_gpr_d[r4], cpu_gpr_d[r1], tmp_pos);
          } else {
-             temp = tcg_temp_new();
-             tcg_gen_shli_tl(temp, cpu_gpr_d[r1], const16);
++            TCGv msw = tcg_temp_new();
++            TCGv zero = tcg_const_tl(0);
+             tcg_gen_shl_tl(tmp_width, cpu_gpr_d[r1], tmp_pos);
+-            tcg_gen_subfi_tl(tmp_pos, 32, tmp_pos);
+-            tcg_gen_shr_tl(tmp_pos, cpu_gpr_d[r2], tmp_pos);
+-            tcg_gen_or_tl(cpu_gpr_d[r4], tmp_width, tmp_pos);
++            tcg_gen_subfi_tl(msw, 32, tmp_pos);
++            tcg_gen_shr_tl(msw, cpu_gpr_d[r2], msw);
++            /* if pos == 0, then we do cpu_gpr_d[r2] << 32, which is undefined
++             * behaviour. So check that case here and set the low bits to zero
++             * which effectivly returns cpu_gpr_d[r1]
++             */
++            tcg_gen_movcond_tl(TCG_COND_EQ, msw, tmp_pos, zero, zero, msw);
++            tcg_gen_or_tl(cpu_gpr_d[r4], tmp_width, msw);
++            tcg_temp_free(zero);
++            tcg_temp_free(msw);
+         }
+         break;
+     case OPC2_32_RRRR_EXTR:
 -- 
 2.39.1
 
