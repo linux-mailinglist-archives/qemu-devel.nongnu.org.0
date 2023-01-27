@@ -2,63 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A85067DA31
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 01:07:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 040F167DAC2
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 01:29:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLCGF-00046O-KT; Thu, 26 Jan 2023 19:06:31 -0500
+	id 1pLCaJ-0007PX-Ev; Thu, 26 Jan 2023 19:27:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pLCG9-00043u-UM; Thu, 26 Jan 2023 19:06:26 -0500
-Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pLCG3-00058h-5s; Thu, 26 Jan 2023 19:06:25 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 5AE60746361;
- Fri, 27 Jan 2023 01:03:49 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 1865474634B; Fri, 27 Jan 2023 01:03:49 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 161B97457E7;
- Fri, 27 Jan 2023 01:03:49 +0100 (CET)
-Date: Fri, 27 Jan 2023 01:03:49 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Howard Spoelstra <hsp.cat7@gmail.com>
-cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
- qemu-ppc@nongnu.org
-Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
-In-Reply-To: <CABLmASGtRrmqgsySdUd97so8R0qY7gTAu4AUfGU_-7dc_xkauA@mail.gmail.com>
-Message-ID: <98430ad5-dedf-9ece-211a-1978d86dd0a5@eik.bme.hu>
-References: <cover.1672868854.git.balaton@eik.bme.hu>
- <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
- <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
- <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
- <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
- <ab9e33e5-70fc-0a76-c548-16ec787ea1af@ilande.co.uk>
- <ed8ee369-c9a8-7853-3b65-7361fefc3c63@eik.bme.hu>
- <ca5240e6-e00d-6213-22d6-f7b43d8bed18@ilande.co.uk>
- <CABLmASGc6fybw7mL5JHUCukwoB6KjGaaWHct5mi20A2vXZhtaA@mail.gmail.com>
- <8e6f46fb-5e1b-8016-c595-85e8e83ace47@eik.bme.hu>
- <CABLmASEJ_MKr5gP=C7_AXg2UbYmJyDMHtm77AXoyQnsa+f2HHA@mail.gmail.com>
- <123b1c96-febb-ebc8-2d05-3c7379fbec27@eik.bme.hu>
- <CABLmASHotQcPDRQxhMdL729wGHNkT0gfYt2GH8U5e190eOTCQQ@mail.gmail.com>
- <a9dbc41c-29e5-7672-d9ec-4ec43ae3a6c8@eik.bme.hu>
- <CABLmASFqzt8f_Qk8O_KvYOqSqeffsVVBaaknbUxL86Ch3VR3kA@mail.gmail.com>
- <f13d890c-35a7-53f9-0cb7-7903582043d1@eik.bme.hu>
- <CABLmASGtRrmqgsySdUd97so8R0qY7gTAu4AUfGU_-7dc_xkauA@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pLCaE-0007OH-Nc
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 19:27:10 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pLCaB-0002z0-Ra
+ for qemu-devel@nongnu.org; Thu, 26 Jan 2023 19:27:09 -0500
+Received: by mail-wr1-x431.google.com with SMTP id m7so3552999wru.8
+ for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 16:27:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ufBOX217VhVNp1zRbebYtR3XKFZMHj95f4h59XIZDkE=;
+ b=ImKqUOUkBJknr4RmRDBQmoP6PXEZZCHUZVOXNgNmfrTD2zhA52u8NsG3Uj6fBEZgJ2
+ XBB29eEuSD0vrVBhNjEal2iJJTxYIfj255jtdrPBeQqL/DlFb5uP8QkOycFHpxMkQ8vH
+ bU/v7RlL4OezmHSLDZUdqE10gscxMNVn2VmhGVNAOLUVkzWd6cdivZQceNNXaL3xFeob
+ my7IfyVfKLVw0J2F5PnASoiZXjsYne7VnI+pp0wqRBHXEbZ2C03tBtDhQkQTLZoBe5oP
+ nTLYHGjDsge1oT2KW/ujYuTWTF98BkTzy2vgw5N8Ngk91Y4FbYvm3IVVHEj6osoAvPb2
+ /XIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ufBOX217VhVNp1zRbebYtR3XKFZMHj95f4h59XIZDkE=;
+ b=W7pVWF9U/HJPCRt5DtD3Vo1wCNnGhFrS8zcykT5WEa7TDtMYG0RrHn0jZHSu6Dz8mK
+ tii2e17JR8qoHpInhh7B8lc+CGQSWw2+4BoaXxMaWLc6oVTbNy22rCqWdaj0fWwSMHMI
+ DCMfvnJTCWViLekMROZzDk6EGbGl76ec7xk1KlP0TiBQwzELPYYIWZDWVoLeDyhkgwvR
+ HVlrSyYY8CTTx5PzKYIjFeALO5FeAxhwX2yhg5gmjpXA6mSdNhnCZ8dwtYFu3tb9WVcl
+ +I+LLakZRJPa104xmY1o0uZuSZ7839s9e1lFNeeP2gAwLfZ1x8hQywtBrvu/WtSqjMLz
+ t0Fg==
+X-Gm-Message-State: AFqh2kqhklgIbTDdzBjV+ZuWJJD2zchc9IBTk9O1wAuejyycPvhZqF1O
+ L1ksX8F2OUp2f/0AuM+ZrEiKFA==
+X-Google-Smtp-Source: AMrXdXvGT+D6yjPHz2j47CaCJ+8qgdUdgrkS4H4xEVFxO9Azj9Xy3UUzC/gPFjwYHv9pHc6W4qNq3g==
+X-Received: by 2002:a5d:58e8:0:b0:2be:b07:d411 with SMTP id
+ f8-20020a5d58e8000000b002be0b07d411mr30887595wrd.3.1674779225758; 
+ Thu, 26 Jan 2023 16:27:05 -0800 (PST)
+Received: from [192.168.0.114] ([196.77.8.13])
+ by smtp.gmail.com with ESMTPSA id
+ a5-20020adfeec5000000b002bfae6b17d2sm2560341wrp.55.2023.01.26.16.27.04
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 26 Jan 2023 16:27:05 -0800 (PST)
+Message-ID: <e704c4a9-a2aa-98c4-e484-d4605881e2ad@linaro.org>
+Date: Fri, 27 Jan 2023 01:27:03 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=2001:738:2001:2001::2001;
- envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v2 08/10] hw/ide: Let ide_init_ioport() take a
+ MemoryRegion argument instead of ISADevice
+Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?UTF-8?Q?Herv=c3=a9_Poussineau?= <hpoussin@reactos.org>,
+ Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>, David Hildenbrand <david@redhat.com>,
+ Peter Xu <peterx@redhat.com>, qemu-ppc@nongnu.org, qemu-block@nongnu.org,
+ John Snow <jsnow@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ 20210518215545.1793947-10-philmd@redhat.com
+References: <20230126211740.66874-1-shentey@gmail.com>
+ <20230126211740.66874-9-shentey@gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230126211740.66874-9-shentey@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x431.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
+X-Spam_bar: ---
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.15,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,114 +98,66 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 26 Jan 2023, Howard Spoelstra wrote:
-> On Thu, Jan 26, 2023 at 9:57 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
->> On Thu, 26 Jan 2023, Howard Spoelstra wrote:
->>> Mac OS X
->>> #10.0 bus1 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
->>> mouse. No recognition as HID device.
->>> #10.0 bus2 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point
->> kbd
->>> pcap shows normal interrupt operation and recognition as HID device
->>> #10.0 bus1 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point
->> kbd
->>> pcap shows normal interrupt operation and recognition as HID device
->>> #10.0 bus2 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
->>> mouse. pcap shows no recognition as HID device.
->>> #10.0 in both cases apple system profiler shows 2 usb buses but no
->> devices.
->>
->> These are all the logs I get booting a 10.0 install iso with  mac99,via=pmu
->>
->>>> =============================================================
->>>> OpenBIOS 1.1 [May 25 2022 20:04]
->>>> Configuration device id QEMU version 1 machine id 1
->>>> CPUs: 1
->>>> Memory: 256M
->>>> UUID: 00000000-0000-0000-0000-000000000000
->>>> CPU type PowerPC,G4
->> milliseconds isn't unique.
->>>> switching to new context:
->>>> call-method slw_update_keymap failed with error ffffffdf
->>>> call-method slw_update_keymap failed with error ffffffdf
->> usb_ohci_reset pci-ohci
->> usb_ohci_stop pci-ohci: USB Suspended
->> usb_ohci_set_ctl pci-ohci: new state 0x0
->> usb_ohci_stop pci-ohci: USB Suspended
->> usb_ohci_port_detach port #0
->> usb_ohci_port_attach port #0
->> usb_ohci_port_detach port #1
->> usb_ohci_port_attach port #1
->> dbdma_unassigned_flush: use of unassigned channel 0
->> dbdma_unassigned_flush: use of unassigned channel 0
->> usb_ohci_mem_write_bad_offset 0x30
->> usb_ohci_set_ctl pci-ohci: new state 0x80
->> usb_ohci_start pci-ohci: USB Operational
->> usb_ohci_hub_power_up powered up all ports
->> usb_ohci_hub_power_up powered up all ports
->> usb_ohci_set_ctl pci-ohci: new state 0xc0
->> usb_ohci_stop pci-ohci: USB Suspended
->> usb_ohci_hub_power_up powered up all ports
->> usb_ohci_hub_power_up powered up all ports
->> usb_ohci_port_reset port #0
->>
->> It's probably OK until it restarts but the seems to be stopped. Anybody
->> wants to have a look? Maybe start with finding what the states mean.
->>
->>
-> I get the same with two usb-ohci controllers (so 6 ports) running Mac OS
-> 9.0.4:
->
-> usb_ohci_set_ctl pci-ohci: new state 0x80
-> usb_ohci_start pci-ohci: USB Operational
-> usb_ohci_hub_power_up powered up all ports
-> usb_ohci_hub_power_up powered up all ports
-> usb_ohci_hub_power_up powered up all ports
-> usb_ohci_hub_power_up powered up all ports
-> usb_ohci_hub_power_up powered up all ports
-> usb_ohci_hub_power_up powered up all ports
-> usb_ohci_port_reset port #0
-> usb_ohci_port_reset port #0
->
-> So both usb mouse and kbd do not work.
->
-> the pcap file for the mouse stalls here:
-> 12 0.007048 0.1.0 host USB 64 SET CONFIGURATION Response
+On 26/1/23 22:17, Bernhard Beschow wrote:
+> Both callers to ide_init_ioport() have access to the I/O memory region
+> of the ISA bus, so can pass it directly. This allows ide_init_ioport()
+> to directly call portio_list_init().
+> 
+> Note, now the callers become the owner of the PortioList.
+> 
+> Inspired-by: <20210518215545.1793947-10-philmd@redhat.com>
+>    'hw/ide: Let ide_init_ioport() take an ISA bus argument instead of device'
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
+> ---
+>   include/hw/ide/internal.h |  3 ++-
+>   hw/ide/ioport.c           | 15 ++++++++-------
+>   hw/ide/isa.c              |  4 +++-
+>   hw/ide/piix.c             |  8 ++++++--
+>   4 files changed, 19 insertions(+), 11 deletions(-)
+> 
+> diff --git a/include/hw/ide/internal.h b/include/hw/ide/internal.h
+> index 42c49414f4..c3e4d192fa 100644
+> --- a/include/hw/ide/internal.h
+> +++ b/include/hw/ide/internal.h
+> @@ -628,7 +628,8 @@ int ide_init_drive(IDEState *s, BlockBackend *blk, IDEDriveKind kind,
+>                      int chs_trans, Error **errp);
+>   void ide_init2(IDEBus *bus, qemu_irq irq);
+>   void ide_exit(IDEState *s);
+> -void ide_init_ioport(IDEBus *bus, ISADevice *isa, int iobase, int iobase2);
+> +void ide_init_ioport(IDEBus *bus, MemoryRegion *address_space_io, Object *owner,
+> +                     int iobase, int iobase2);
+>   void ide_register_restart_cb(IDEBus *bus);
+>   
+>   void ide_exec_cmd(IDEBus *bus, uint32_t val);
+> diff --git a/hw/ide/ioport.c b/hw/ide/ioport.c
+> index b613ff3bba..00e9baf0d1 100644
+> --- a/hw/ide/ioport.c
+> +++ b/hw/ide/ioport.c
+> @@ -50,15 +50,16 @@ static const MemoryRegionPortio ide_portio2_list[] = {
+>       PORTIO_END_OF_LIST(),
+>   };
+>   
+> -void ide_init_ioport(IDEBus *bus, ISADevice *dev, int iobase, int iobase2)
+> +void ide_init_ioport(IDEBus *bus, MemoryRegion *address_space_io, Object *owner,
+> +                     int iobase, int iobase2)
+>   {
 
-Maybe the driver gets something from the emulated HID device that it 
-cannot handle and stops during init? Can you reproduce the same with OS X 
-10.0 and try to correlate the events you see in pcap and trace with the 
-driver source or find out how to enable and read the messages in the 
-driver (unless these are stripped from the binary in Mac OS X but maybe 
-there's something in the guest logs; ave you checked those?) In QEMU the 
-usb-kbd and mouse are implemented in hw/usb/dev-hid.c but this file does 
-not have any debuging or traces. You might try to add some printfs for 
-testing.
+Eh I have almost the same change locally :)
 
-> However, when I use the usb probe tool from the USB DDK, to probe the buses
-> I see the host emit a get descriptor
->
-> 13 115.761725 host 0.0.0 USB 64 GET DESCRIPTOR Request DEVICE
-> 14 115.761803 0.0.0 host USB 72 GET DESCRIPTOR Response DEVICE
-> 15 115.773719 host 0.0.0 USB 64 SET ADDRESS Request
-> etc. and this time the mouse is recognised as HID device, the host starts
-> polling it and mouse and kbd start to work.
+$ git diff d2968dc5d0940799~..629b479f0b8f082688
+diff --git a/hw/ide/ioport.c b/hw/ide/ioport.c
+index fcfaa00cb9..f82e00076a 100644
+--- a/hw/ide/ioport.c
++++ b/hw/ide/ioport.c
+@@ -50,20 +50,21 @@ static const MemoryRegionPortio ide_portio2_list[] = {
+      PORTIO_END_OF_LIST(),
+  };
 
-It could be possible that the driver did not get to this point but once 
-something else get's past that it recognises the device but I have no idea 
-how this works and not even sure which OS you had this result with. Is 
-this still 9.0.4? That's hard to debug because we don't know what its 
-driver is doing.
+-int ide_init_ioport(IDEBus *bus, ISADevice *dev, int iobase, int iobase2)
++int ide_init_ioport(IDEBus *bus, Object *owner, ISADevice *dev,
++                    MemoryRegion *isa_io, int iobase, int iobase2)
 
-Is there a Darwin, OpenDarwin or whatever was that called during the years 
-iso that boots on this machine (also on the real one)? That should be 
-fully open source and probably have the same drivers as Mac OS X so 
-reproducing with that could give some more info or maybe its driver is 
-more verbose about errors and has debugging. So you could try to find an 
-early Darwin version that's about the same time as early OS X versions or 
-look at the IOHIDFamily and try to find what part of it is running when 
-you see the logs (as this driver is quite complex it may not be easy).
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-Regards,
-BALATON Zoltan
+
 
