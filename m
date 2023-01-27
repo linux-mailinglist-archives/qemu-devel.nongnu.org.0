@@ -2,85 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EC367F143
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 23:39:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 192DD67F161
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 23:48:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLXNW-00013J-Q3; Fri, 27 Jan 2023 17:39:26 -0500
+	id 1pLXVn-0002ma-RY; Fri, 27 Jan 2023 17:48:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLXNU-00012h-H0
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 17:39:24 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLXNS-0007jk-VG
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 17:39:24 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- nn18-20020a17090b38d200b0022bfb584987so6082979pjb.2
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 14:39:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=oJfjOCBR2weiobZbRi8a9pBWI2ZeDbdPtKO5bPq8dK8=;
- b=qKGEkf3hOEAElN3qU0edKmd5IB1CpRxPvrQAI4Vj4t+KQW5vuWxySeflKrJCWkRhvR
- aluvZTwwlQiUhQxFAVplxbxSqlE5u+HzJOleGdJjwTqxUa6WVdG6qaYM0KNiJxXrPjvK
- Nh2DzKSCpNax3inpJSy/KWHY1zLlIYyQFKdafDrzlx+c3XIIf66Ki9F83ej1t0Cw5aYF
- yF6Pw9dVgYtesnlxAsl5+LgNpJQLIJdK8Mykf7auQ8bAiUtm/olmxdcpKdC5tw3rLxtP
- PlyBOH9H3TLgC3RzptMsub859c0HVuJs2H0ESGiK+w0gUnrCyXIuusaH7p4VTP2viRK3
- KV9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=oJfjOCBR2weiobZbRi8a9pBWI2ZeDbdPtKO5bPq8dK8=;
- b=c8GrSSM5UjfEgLe1PvULWKK6VzW7oGrCvucOVmAX/drLGXMZquWHV40fkkP8gvUwSk
- w/v0irj86SXgZ0EVNZiH9ZzY6m7EvXA8+6Eeg+uUreRdPT7FXavcKaQkCttba0ExerC1
- PmOPrSSwR3WcFQcX2UqplSHx6x7UYN+JWHHfmAt/AWh1vEnohmXgPE5xo21KItNzxaWP
- CWdgTQNpQ/0/bflYAYK9/YEv6YdKhl+ZNj9nDfp1JqWwxiJfLc/pSmPYp12bnkZnN8ZA
- m1d1zdt817rYcOfj5hUpRfUuTdQW3wYV3PqRturfg9+8/oBvabbPXKcZ+J6G/ss9zMbu
- NU7A==
-X-Gm-Message-State: AO0yUKX77mPC2w5gJXT26mBOd0irWjCAm/EKpHSI4OOzBbsRcsfPyNfU
- rpeitUnPfvcilnpf71Lrh87ohg==
-X-Google-Smtp-Source: AK7set9q/T36n9+gHxR+9ej97Fach3pTHYSu+Gik6JNpI4JZvUmWxEobULEjA4nprLLZ40QlL8rSGA==
-X-Received: by 2002:a17:902:e0d1:b0:196:450f:d89e with SMTP id
- e17-20020a170902e0d100b00196450fd89emr4784881pla.18.1674859161519; 
- Fri, 27 Jan 2023 14:39:21 -0800 (PST)
-Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- bf6-20020a170902b90600b00176b84eb29asm3305267plb.301.2023.01.27.14.39.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 14:39:20 -0800 (PST)
-Message-ID: <e772258e-1493-734f-f8c8-0ea5fe4d65c4@linaro.org>
-Date: Fri, 27 Jan 2023 12:39:17 -1000
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pLXVl-0002m8-OH
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 17:47:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pLXVk-0001f4-9E
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 17:47:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674859675;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=1e0/PGUN4/1YKyQq5ZEih9uomfIieCqX5fsFRyBTOgw=;
+ b=YITe2UWRZz0lPayYMxqU6HLh/NzQEKInTV7mFzDi+aAVSg9k2L3JNOAI+UWDmAidrxG4xK
+ KmJDjVhhlkAYer0a0m0mMuYv6gVrSTiOVp78MZvPLCMH8WtpHKU+sFrB2YLE6V32R7iTRP
+ LnvFHC8nY7JnY+zcSxWRb4YSURuKIM0=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-484-8Chw50bYPpmpxbNeEHK_cw-1; Fri, 27 Jan 2023 17:47:52 -0500
+X-MC-Unique: 8Chw50bYPpmpxbNeEHK_cw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 620D7887400;
+ Fri, 27 Jan 2023 22:47:51 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.17.173])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id A40DC492B01;
+ Fri, 27 Jan 2023 22:47:48 +0000 (UTC)
+Date: Fri, 27 Jan 2023 16:47:46 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org,
+ pbonzini@redhat.com, kwolf@redhat.com, hreitz@redhat.com,
+ imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
+ groug@kaod.org, qemu_oss@crudebyte.com, mst@redhat.com,
+ philmd@linaro.org, peter.maydell@linaro.org, alistair@alistair23.me,
+ jasowang@redhat.com, jonathan.cameron@huawei.com,
+ kbastian@mail.uni-paderborn.de, quintela@redhat.com,
+ dgilbert@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
+ tsimpson@quicinc.com, palmer@dabbelt.com, bin.meng@windriver.com,
+ qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org
+Subject: Re: [PATCH v4 03/19] scripts/clean-includes: Skip symbolic links
+Message-ID: <20230127224746.2rqorp2ushelp4wj@redhat.com>
+References: <20230119065959.3104012-1-armbru@redhat.com>
+ <20230119065959.3104012-4-armbru@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 07/16] target/arm/kvm: Select RME VM type for the
- scratch VM
-Content-Language: en-US
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, pbonzini@redhat.com,
- eblake@redhat.com, armbru@redhat.com, berrange@redhat.com,
- eduardo@habkost.net, alex.bennee@linaro.org
-References: <20230127150727.612594-1-jean-philippe@linaro.org>
- <20230127150727.612594-8-jean-philippe@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230127150727.612594-8-jean-philippe@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102f.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230119065959.3104012-4-armbru@redhat.com>
+User-Agent: NeoMutt/20220429
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,44 +86,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/27/23 05:07, Jean-Philippe Brucker wrote:
-> Although the VM type does not affect values probed from the scratch vCPU
-> at the moment, it could later. Ensure we specify the right type when
-> creating the temporary VM.
+On Thu, Jan 19, 2023 at 07:59:43AM +0100, Markus Armbruster wrote:
+> When a symbolic link points to a file that needs cleaning, the script
+> replaces the link with a cleaned regular file.  Not wanted; skip them.
 > 
-> Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
-> ---
-> Does the PA size need changing as well?
-> ---
->   target/arm/kvm.c | 5 ++++-
->   1 file changed, 4 insertions(+), 1 deletion(-)
+> We have a few symbolic links under subprojects/libvduse/ and
+> subprojects/libvhost-user/.
 > 
-> diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-> index fcddead4fe..d8655d9041 100644
-> --- a/target/arm/kvm.c
-> +++ b/target/arm/kvm.c
-> @@ -70,6 +70,7 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
->   {
->       int ret = 0, kvmfd = -1, vmfd = -1, cpufd = -1;
->       int max_vm_pa_size;
-> +    int vm_type;
->   
->       kvmfd = qemu_open_old("/dev/kvm", O_RDWR);
->       if (kvmfd < 0) {
-> @@ -79,8 +80,10 @@ bool kvm_arm_create_scratch_host_vcpu(const uint32_t *cpus_to_try,
->       if (max_vm_pa_size < 0) {
->           max_vm_pa_size = 0;
->       }
-> +
-> +    vm_type = kvm_arm_rme_vm_type(MACHINE(qdev_get_machine()));
->       do {
-> -        vmfd = ioctl(kvmfd, KVM_CREATE_VM, max_vm_pa_size);
-> +        vmfd = ioctl(kvmfd, KVM_CREATE_VM, vm_type | max_vm_pa_size);
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  scripts/clean-includes | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/scripts/clean-includes b/scripts/clean-includes
+> index 8e8420d785..f0466a6262 100755
+> --- a/scripts/clean-includes
+> +++ b/scripts/clean-includes
+> @@ -113,6 +113,10 @@ EOT
+>  
+>  files=
+>  for f in "$@"; do
+> +  if [ -L "$f" ]; then
 
-Given the restrictions on register transfer for RME guests, this seems incorrect.  We 
-won't be able to probe what we wanted at all.
+I don't see -L used with test very often, but POSIX requires it, so it
+is safe for our choice of /bin/sh.
 
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-r~
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
