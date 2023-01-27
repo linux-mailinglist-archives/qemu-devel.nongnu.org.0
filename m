@@ -2,56 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D91E167DF71
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 09:47:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E423F67DF83
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 09:51:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLKNE-0000hO-Oe; Fri, 27 Jan 2023 03:46:16 -0500
+	id 1pLKRw-000203-1e; Fri, 27 Jan 2023 03:51:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <smitterl@redhat.com>)
- id 1pLKNC-0000gz-Ct
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 03:46:14 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pLKRg-0001zB-SO
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 03:50:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <smitterl@redhat.com>)
- id 1pLKNA-0000g4-Ny
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 03:46:14 -0500
+ (Exim 4.90_1) (envelope-from <kraxel@redhat.com>) id 1pLKRf-0001xk-AW
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 03:50:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674809172;
+ s=mimecast20190719; t=1674809450;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=QowdSqtOHVhy09/uvKCJooHqAkCnUDBA/EgzQksY1UI=;
- b=AlLYB8uuJciJ1Bn6VvOtsYLb7MFLjEhB6RVxGl5qDJwE8bELKPIpiA8mZjS/cBoCXgfuBy
- vGXy3KAtm1ks9I3t7W2j/+RZfP8+qFiXNTCpyNClQ1clwvQtbU9liUWgfOZJBSyfKK3MaD
- htM5Zz1FV4xNjkyWMTNrMiBNx+U7qkc=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=zqroJj5qXErcwLmgbOPJPa5TkZbA0QXH1ahDb3Fhaqg=;
+ b=ezlBBWll2YzgpQzrAyCJQrldEzpshc2mA5uNFsmvMu/GRrZqqU5Cq1qW29XcJ1VOFEw3XW
+ 0GPqnoK0CCSgZ7Yrk/iBoQNtxHlGkxwJl6NNf3DpH8pQP4vBRm8jvJIB+DAM1l8TZy6N6Q
+ W7lbAAW8nZ1o4xw4xJ4HZElReyPtuuM=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-_lF5rw43OKKKpnBbr7d_tQ-1; Fri, 27 Jan 2023 03:46:07 -0500
-X-MC-Unique: _lF5rw43OKKKpnBbr7d_tQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-584-AD_PJ5OyMn-2UMK2oTtJMQ-1; Fri, 27 Jan 2023 03:50:49 -0500
+X-MC-Unique: AD_PJ5OyMn-2UMK2oTtJMQ-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C455E802C18;
- Fri, 27 Jan 2023 08:46:06 +0000 (UTC)
-Received: from fedora.. (ovpn-194-166.brq.redhat.com [10.40.194.166])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3C3D32026D4B;
- Fri, 27 Jan 2023 08:46:04 +0000 (UTC)
-From: Sebastian Mitterle <smitterl@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: thuth@redhat.com, cohuck@redhat.com, clegoate@redhat.com,
- qemu-trivial@nongnu.org, qemu-s390x@nongnu.org
-Subject: [PATCH v2] docs/s390x/pcidevices: document pci devices on s390x
-Date: Fri, 27 Jan 2023 09:46:04 +0100
-Message-Id: <20230127084604.53175-1-smitterl@redhat.com>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A3E6E2807D7C;
+ Fri, 27 Jan 2023 08:50:48 +0000 (UTC)
+Received: from sirius.home.kraxel.org (unknown [10.39.192.46])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 6CC0F7AD4;
+ Fri, 27 Jan 2023 08:50:48 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+ id 0499B1800606; Fri, 27 Jan 2023 09:50:47 +0100 (CET)
+Date: Fri, 27 Jan 2023 09:50:46 +0100
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eldon Stegall <eldon-qemu@eldondev.com>,
+ Peter Maydell <peter.maydell@linaro.org>,
+ QEMU Developers <qemu-devel@nongnu.org>,
+ Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>
+Subject: Re: no more pullreq processing til February
+Message-ID: <20230127085046.6p44sto3ijl6xjpx@sirius.home.kraxel.org>
+References: <CAFEAcA8v8hrqkFemdT5x_O5_mdps4wpdRCoVAfts+oVJj_qTVw@mail.gmail.com>
+ <Y9KFp06pp/qohgV1@invalid> <Y9KLr691LwO8WUgI@redhat.com>
+ <Y9KOm61iNRlpq/qU@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=smitterl@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Y9KOm61iNRlpq/qU@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kraxel@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -59,7 +68,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,74 +84,26 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add some documentation about the zpci device and how
-to use it with pci devices on s390x.
+  Hi,
 
-Used source: Cornelia Huck's blog post
-https://people.redhat.com/~cohuck/2018/02/19/notes-on-pci-on-s390x.html
+> Scratch that, it is actually possible to configure private runners
+> to pick up un-tagged jobs
+> 
+> https://docs.gitlab.com/ee/ci/runners/configure_runners.html#runner-is-allowed-to-run-untagged-jobs
+> 
+> i'm not sure what the prioritization  is between shared and private
+> runners when using untagged jobs though. If a share runners will
+> pick up untagged jobs and then error them due to lack of CI credits
+> that might prevent our private runner picking up the untagged jobs.
 
-Signed-off-by: Sebastian Mitterle <smitterl@redhat.com>
----
-v2: move section below 'Device support'
----
- docs/system/s390x/pcidevices.rst | 34 ++++++++++++++++++++++++++++++++
- docs/system/target-s390x.rst     |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 docs/system/s390x/pcidevices.rst
+Both will pick up jobs, the shared runners are usually faster.
 
-diff --git a/docs/system/s390x/pcidevices.rst b/docs/system/s390x/pcidevices.rst
-new file mode 100644
-index 0000000000..fec905d6e6
---- /dev/null
-+++ b/docs/system/s390x/pcidevices.rst
-@@ -0,0 +1,34 @@
-+PCI devices on s390x
-+====================
-+
-+PCI devices on s390x work differently than on other architectures.
-+
-+To start with, using a PCI device requires the additional ``zpci`` device. For example,
-+in order to pass a PCI device ``0000:00:00.0`` through you'd specify::
-+
-+ qemu-system-s390x ... \
-+                   -device zpci,uid=1,fid=0,target=hostdev0,id=zpci1 \
-+                   -device vfio-pci,host=0000:00:00.0,id=hostdev0
-+
-+Here, the zpci device is joined with the PCI device via the ``target`` property.
-+
-+Note that we don't set bus, slot or function here for the guest as is common in other
-+PCI implementations. Topology information is not available on s390x. Instead, ``uid``
-+and ``fid`` determine how the device is presented to the guest operating system.
-+
-+In case of Linux, ``uid`` will be used in the ``domain`` part of the PCI identifier, and
-+``fid`` identifies the physical slot, i.e.::
-+
-+ qemu-system-s390x ... \
-+                   -device zpci,uid=7,fid=8,target=hostdev0,id=zpci1 \
-+                   ...
-+
-+will be presented in the guest as::
-+
-+ # lspci -v
-+ 0007:00:00.0 ...
-+ Physical Slot: 00000008
-+ ...
-+
-+Finally, note that you might have to enable the ``zpci`` feature in the cpu model in oder to use
-+it.
-diff --git a/docs/system/target-s390x.rst b/docs/system/target-s390x.rst
-index c636f64113..f6f11433c7 100644
---- a/docs/system/target-s390x.rst
-+++ b/docs/system/target-s390x.rst
-@@ -26,6 +26,7 @@ or vfio-ap is also available.
-    s390x/css
-    s390x/3270
-    s390x/vfio-ccw
-+   s390x/pcidevices
- 
- Architectural features
- ======================
--- 
-2.37.3
+> We would need the private runner to be configured with the docker
+> engine, so it can handle our container based approach.
+
+Yep, then you can also use the containerized gitlab-runner.
+
+take care,
+  Gerd
 
 
