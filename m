@@ -2,95 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3B4467DFA3
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 10:05:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E1B867E005
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 10:25:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLKeN-000504-4s; Fri, 27 Jan 2023 04:03:59 -0500
+	id 1pLKxz-0001ca-E8; Fri, 27 Jan 2023 04:24:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pLKeA-0004vZ-S3
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 04:03:52 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pLKe8-00083E-Ra
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 04:03:46 -0500
-Received: by mail-wr1-x436.google.com with SMTP id q10so4328125wrm.4
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 01:03:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=bv7KWQkUZ0Rx2oz8hrTDrTbihQGV9nGJo5Xum9BrDfA=;
- b=OZwJk3eR2w4OSY/e4BapHd1lyorw3Qu3elS8CfK+3A27xcR6+sHQ7Fmf5b8V3LAHQv
- F5qlX3ZTHIiQ72fFwkEJHOUudDMJx/4sIP8Gli4QG/VLsqp6v/VLWPUvwJwJy3hvbUMj
- Zc6c8hqZDyyZQbN4UwAE7CiNMfI4MZmEhPyyKAJgnRbjb33oZXMF6O4M1QYkgpiECYTP
- q7FvWBynJaf9p/eY1oI8PHGTEhmJFS5xYvZdbNCYJZ7BknB14PPqVQBz9lQL4n78cZzQ
- 0uXVFk7oEGPGFQl9/voeaPnt9WyphkAmaPMr/lrgY1ddxsV8tAg7briF7UfInwld9FbP
- krhA==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pLKxx-0001cP-7G
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 04:24:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pLKxv-0003oR-DD
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 04:24:12 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674811450;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=IZpBPAmNs37lFbHisocXNi1mrCynDUloBAOaoI6PFLc=;
+ b=ACNT3f+Q0CvIINzAvxDNHUwOObANZ4MS3GTML3wpnYlGlUawSLxH7G7vASXzKt5cOyFOO9
+ A826Yw4JXS6NcReUJ08TLopgSbHm2tVbn+h/lmdXeBBkE7rSLRtsokOdliPoj4qBnZHX9Z
+ iYL782Mhdx68uil1pLw/mGKk9kZu3E0=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-554-x9D-nJgzPL6AU5ywQwmMMA-1; Fri, 27 Jan 2023 04:24:09 -0500
+X-MC-Unique: x9D-nJgzPL6AU5ywQwmMMA-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ px22-20020a056214051600b00537657b0449so2524497qvb.23
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 01:24:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bv7KWQkUZ0Rx2oz8hrTDrTbihQGV9nGJo5Xum9BrDfA=;
- b=65oLvY4uOZ56xnLo13uCJlwECU2DagOLPIPC8eNpkIG2WYRskYEZoWoLvN0JwkR8Da
- WOPur5Nuiuu2ZHBW1FzRP7v2IoD3d+ha5vRksny2erso5XCAyrLfweBBw8dDPL48eKZe
- QK/KSgFRUXKyxsWdhL311bSmJeoumW7aJW8KpHEYtzTeNCae1dYwhE+YxOCGnKr1GtVH
- CNjUsfdyrsfvyfiS856IKE/0iiCR19mAD7LrE29GXgzyEUb0hrrJowVbr7VCX8QYaXEB
- NmB+yriAs3WqlPdgXJ4v6GXvCpZpLdOR/KX8M0rjxK2qrIwgE/zOmAX5blRlAFbiUPkO
- OxOw==
-X-Gm-Message-State: AFqh2koHgUv81zi6PMdCyHaVGnmPXvrL0JuG/zrZWSMdvXWr4qgEHoTt
- Cux2hGZJt0v7QyAtSC8qigU=
-X-Google-Smtp-Source: AMrXdXtc8oQIV58v+TGJVMZXwavuLIoliPQ6sKMKw6h/AfnzacipjGxp1KZ4LgM/ccaZ05696dgq9w==
-X-Received: by 2002:a5d:6186:0:b0:2bd:dc24:cade with SMTP id
- j6-20020a5d6186000000b002bddc24cademr28258235wru.16.1674810222919; 
- Fri, 27 Jan 2023 01:03:42 -0800 (PST)
-Received: from [192.168.14.147] (54-240-197-231.amazon.com. [54.240.197.231])
- by smtp.gmail.com with ESMTPSA id
- c7-20020adfe707000000b002bfb0c5527esm3438297wrm.109.2023.01.27.01.03.41
+ h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
+ :content-language:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=IZpBPAmNs37lFbHisocXNi1mrCynDUloBAOaoI6PFLc=;
+ b=7NuBwU7TAbxqTQiGKU/jvrzTcvDYF0k6H8649maFxtMI0MiRXwYY9UoDdwFVn567jI
+ yyW+vHr4JqxFnqUV4ImFGH4XJqWi3nPfnQLj8kj36pHeSdCEC1acwhF6xX1dDDsuHQnZ
+ +ojBoWFrbGrJLxkFPPQts1E3n1I12yg9bTKXeKJ/NpTwmbL8stNKJdTJ0iv6rz6m+k4U
+ wQPqmlnHK8P922nclgl31Qd0hsRDJ9wdjhsWw7YSTi9+8hmImdN/suTFNiovXxDb6QLI
+ Ylv7CXXo7l6AS2mUdCcNXBZMmKC+ussVrPbqR95nFOfKEVx1u3lt4szHEp2vay/l6DLX
+ qEBQ==
+X-Gm-Message-State: AO0yUKWH0wsZbxIBo8iQ9mfyhIj1kxA2/x6cbVC/sX5z7Nq5AQ39gcVv
+ FAzL3eXOz2zczurpvGNazb5Hq+TXw1k8gbcl0y9SeYNmE5tAp2oT6edhVRiRcGjqSzQWXuoxYNx
+ vH26OoZCmww5RcVc=
+X-Received: by 2002:ad4:44b3:0:b0:537:7ca2:6087 with SMTP id
+ n19-20020ad444b3000000b005377ca26087mr8908635qvt.49.1674811448742; 
+ Fri, 27 Jan 2023 01:24:08 -0800 (PST)
+X-Google-Smtp-Source: AK7set9TPW4lG4Wen8dK58SkhRmIDsfYsy4RCDoOpKwkayWlk5fA125Bjz7pg+kUI0yEfuLPNKAqog==
+X-Received: by 2002:ad4:44b3:0:b0:537:7ca2:6087 with SMTP id
+ n19-20020ad444b3000000b005377ca26087mr8908617qvt.49.1674811448536; 
+ Fri, 27 Jan 2023 01:24:08 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-177-44.web.vodafone.de.
+ [109.43.177.44]) by smtp.gmail.com with ESMTPSA id
+ x64-20020a379543000000b007090f7a4f2asm2087621qkd.82.2023.01.27.01.24.06
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 01:03:42 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <818cf8c1-6d2a-1542-8bbd-53616290f2ce@xen.org>
-Date: Fri, 27 Jan 2023 09:03:41 +0000
+ Fri, 27 Jan 2023 01:24:07 -0800 (PST)
+Message-ID: <46642f8f-d514-798b-1e4e-bc337a206c38@redhat.com>
+Date: Fri, 27 Jan 2023 10:24:05 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v8 28/58] hw/xen: Implement EVTCHNOP_status
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: David Woodhouse <dwmw2@infradead.org>,
- Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-References: <20230120131343.1441939-1-dwmw2@infradead.org>
- <20230120131343.1441939-29-dwmw2@infradead.org>
-Organization: Xen Project
-In-Reply-To: <20230120131343.1441939-29-dwmw2@infradead.org>
+To: Sebastian Mitterle <smitterl@redhat.com>, qemu-devel@nongnu.org
+Cc: cohuck@redhat.com, clegoate@redhat.com, qemu-trivial@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <20230127084604.53175-1-smitterl@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH v2] docs/s390x/pcidevices: document pci devices on s390x
+In-Reply-To: <20230127084604.53175-1-smitterl@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -32
+X-Spam_score: -3.3
 X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.15, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-3.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-1.15, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,25 +97,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 20/01/2023 13:13, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> 
-> This adds the basic structure for maintaining the port table and reporting
-> the status of ports therein.
-> 
-> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
-> ---
->   hw/i386/kvm/xen_evtchn.c  | 104 ++++++++++++++++++++++++++++++++++++++
->   hw/i386/kvm/xen_evtchn.h  |   3 ++
->   include/sysemu/kvm_xen.h  |   3 ++
->   target/i386/kvm/xen-emu.c |  20 +++++++-
->   4 files changed, 128 insertions(+), 2 deletions(-)
-> 
+On 27/01/2023 09.46, Sebastian Mitterle wrote:
+> Add some documentation about the zpci device and how
+> to use it with pci devices on s390x.
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+Thanks for tackling this! ... some comments below...
+
+> Used source: Cornelia Huck's blog post
+> https://people.redhat.com/~cohuck/2018/02/19/notes-on-pci-on-s390x.html
+> 
+> Signed-off-by: Sebastian Mitterle <smitterl@redhat.com>
+> ---
+> v2: move section below 'Device support'
+> ---
+>   docs/system/s390x/pcidevices.rst | 34 ++++++++++++++++++++++++++++++++
+>   docs/system/target-s390x.rst     |  1 +
+>   2 files changed, 35 insertions(+)
+>   create mode 100644 docs/system/s390x/pcidevices.rst
+> 
+> diff --git a/docs/system/s390x/pcidevices.rst b/docs/system/s390x/pcidevices.rst
+> new file mode 100644
+> index 0000000000..fec905d6e6
+> --- /dev/null
+> +++ b/docs/system/s390x/pcidevices.rst
+> @@ -0,0 +1,34 @@
+> +PCI devices on s390x
+> +====================
+> +
+> +PCI devices on s390x work differently than on other architectures.
+> +
+> +To start with, using a PCI device requires the additional ``zpci`` device. For example,
+
+Please wrap lines at 80 columns (if possible)
+
+> +in order to pass a PCI device ``0000:00:00.0`` through you'd specify::
+
+I'd suggest to be more explicit here:
+
+in order to pass a host PCI device ``0000:00:00.0`` through to the guest, 
+you would specify::
+
+> + qemu-system-s390x ... \
+> +                   -device zpci,uid=1,fid=0,target=hostdev0,id=zpci1 \
+> +                   -device vfio-pci,host=0000:00:00.0,id=hostdev0
+> +
+> +Here, the zpci device is joined with the PCI device via the ``target`` property.
+> +
+> +Note that we don't set bus, slot or function here for the guest as is common in other
+
+"as *it* is common" ?
+
+> +PCI implementations. Topology information is not available on s390x. Instead, ``uid``
+> +and ``fid`` determine how the device is presented to the guest operating system.
+> +
+> +In case of Linux, ``uid`` will be used in the ``domain`` part of the PCI identifier, and
+> +``fid`` identifies the physical slot, i.e.::
+> +
+> + qemu-system-s390x ... \
+> +                   -device zpci,uid=7,fid=8,target=hostdev0,id=zpci1 \
+> +                   ...
+> +
+> +will be presented in the guest as::
+> +
+> + # lspci -v
+> + 0007:00:00.0 ...
+> + Physical Slot: 00000008
+> + ...
+> +
+> +Finally, note that you might have to enable the ``zpci`` feature in the cpu model in oder to use
+
+s/oder/order/
+
+(and it's a very long line again, please wrap at 80 columns)
+
+> +it.
+
+Should we also add some information about virtio devices? (can also be added 
+later, not necessarily in your patch already)
+
+  Thomas
 
 
