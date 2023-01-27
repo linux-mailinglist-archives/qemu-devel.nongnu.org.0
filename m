@@ -2,77 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425B667D9F8
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 00:54:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A85067DA31
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 01:07:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLC3A-0000mR-Ls; Thu, 26 Jan 2023 18:53:00 -0500
+	id 1pLCGF-00046O-KT; Thu, 26 Jan 2023 19:06:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kevin@koconnor.net>)
- id 1pLC38-0000kU-0G
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 18:52:58 -0500
-Received: from mail-qt1-x831.google.com ([2607:f8b0:4864:20::831])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kevin@koconnor.net>)
- id 1pLC36-0000r2-9K
- for qemu-devel@nongnu.org; Thu, 26 Jan 2023 18:52:57 -0500
-Received: by mail-qt1-x831.google.com with SMTP id s4so2783769qtx.6
- for <qemu-devel@nongnu.org>; Thu, 26 Jan 2023 15:52:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=koconnor.net; s=google;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date:from:to
- :cc:subject:date:message-id:reply-to;
- bh=UroPNeyGolPSc4AeIUJptAUxE2BU/L0w0GU3C1PJzJc=;
- b=KVRXSZlcq9t+wUG/QENleViQ72Qmw5LwKgEqKoPBm/sOgrjGjIkRYDp2+ZPwyO3B8I
- M0tTrWHY/Ps1cZxrrNYNcy/pQP5RqkiBilyAOW93nlovnDDp6Zf+YBHAfbvNRiSoPmWw
- Z00f58fy/xSV3sSdiuQ5iindJwIPSpUzJ4Fuk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UroPNeyGolPSc4AeIUJptAUxE2BU/L0w0GU3C1PJzJc=;
- b=6hKQHO6OBe6pXrVHqsNHAyE5IzpHR8qDh0FIkFtEGGBUj9+V/RT+8igjtw39Et5mNv
- dqaHyuDqIa264cOa8uEy8ShXbE9NvzYxJ9LeOk5BFco4uJxr8vtoSS+ucAJlT6v5+GCj
- 1paje4uvpSr53MpAKaUUExh8jk/Hnf/zyz8hRdwnrJJAsc18dyUhlDuNCEDLHBJnrAdB
- qLLSE17nkCsKkk85NG3s4XXDwmvsi1PM72PgNhYdaWo6AvSxAHiy+V4u9euRdg/V2mO8
- KNs6RBEPcNPcDRS9ZJTjLWpwta7fbiSOR9Ahgg44m9NmnLiumpmm0bsQnT+xvpYu/nDX
- lJlg==
-X-Gm-Message-State: AFqh2kpfnSoQPJqS0QwQOZYLGPktiZKGXGK/Ptty7Dv5Cv5XDq3zqSDI
- u1iUxitsa9CQDDoIRSyVrlbXwQ==
-X-Google-Smtp-Source: AMrXdXsrfVzASVRgvjjBI+Fccg+qIz2lwVVPSChxGQajRz8mS4PHXRer1c82HYJIpg8zeOQLroq52A==
-X-Received: by 2002:ac8:4a0a:0:b0:3b6:2d6d:3546 with SMTP id
- x10-20020ac84a0a000000b003b62d6d3546mr53029151qtq.64.1674777174879; 
- Thu, 26 Jan 2023 15:52:54 -0800 (PST)
-Received: from localhost ([64.18.11.71]) by smtp.gmail.com with ESMTPSA id
- pj4-20020a05620a1d8400b0070648cf78bdsm1845526qkn.54.2023.01.26.15.52.54
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 26 Jan 2023 15:52:54 -0800 (PST)
-Date: Thu, 26 Jan 2023 18:52:53 -0500
-From: Kevin O'Connor <kevin@koconnor.net>
-To: David Woodhouse <dwmw2@infradead.org>
-Cc: seabios <seabios@seabios.org>, xen-devel <xen-devel@lists.xenproject.org>,
- qemu-devel <qemu-devel@nongnu.org>, paul <paul@xen.org>
-Subject: Re: [SeaBIOS] [SeaBIOS PATCH] xen: require Xen info structure at
- 0x1000 to detect Xen
-Message-ID: <Y9MSVYx4sN1dMRbn@morn>
-References: <feef99dd2e1a5dce004d22baf07d716d6ea1344c.camel@infradead.org>
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pLCG9-00043u-UM; Thu, 26 Jan 2023 19:06:26 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pLCG3-00058h-5s; Thu, 26 Jan 2023 19:06:25 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 5AE60746361;
+ Fri, 27 Jan 2023 01:03:49 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 1865474634B; Fri, 27 Jan 2023 01:03:49 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 161B97457E7;
+ Fri, 27 Jan 2023 01:03:49 +0100 (CET)
+Date: Fri, 27 Jan 2023 01:03:49 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Howard Spoelstra <hsp.cat7@gmail.com>
+cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org, 
+ qemu-ppc@nongnu.org
+Subject: Re: [PATCH v7 6/7] mac_newworld: Deprecate mac99 "via" option
+In-Reply-To: <CABLmASGtRrmqgsySdUd97so8R0qY7gTAu4AUfGU_-7dc_xkauA@mail.gmail.com>
+Message-ID: <98430ad5-dedf-9ece-211a-1978d86dd0a5@eik.bme.hu>
+References: <cover.1672868854.git.balaton@eik.bme.hu>
+ <b821c773-a443-c70b-5d4c-787284028f8a@ilande.co.uk>
+ <389d8398-2b77-a64e-7034-79123da6cb86@eik.bme.hu>
+ <CABLmASHE7iiqHnOZxCfaqvz5zwUipG5vunHG_UK8krXu71HOgw@mail.gmail.com>
+ <bd0e4431-c5ec-2ef5-d847-8c59aa8cc55c@eik.bme.hu>
+ <ab9e33e5-70fc-0a76-c548-16ec787ea1af@ilande.co.uk>
+ <ed8ee369-c9a8-7853-3b65-7361fefc3c63@eik.bme.hu>
+ <ca5240e6-e00d-6213-22d6-f7b43d8bed18@ilande.co.uk>
+ <CABLmASGc6fybw7mL5JHUCukwoB6KjGaaWHct5mi20A2vXZhtaA@mail.gmail.com>
+ <8e6f46fb-5e1b-8016-c595-85e8e83ace47@eik.bme.hu>
+ <CABLmASEJ_MKr5gP=C7_AXg2UbYmJyDMHtm77AXoyQnsa+f2HHA@mail.gmail.com>
+ <123b1c96-febb-ebc8-2d05-3c7379fbec27@eik.bme.hu>
+ <CABLmASHotQcPDRQxhMdL729wGHNkT0gfYt2GH8U5e190eOTCQQ@mail.gmail.com>
+ <a9dbc41c-29e5-7672-d9ec-4ec43ae3a6c8@eik.bme.hu>
+ <CABLmASFqzt8f_Qk8O_KvYOqSqeffsVVBaaknbUxL86Ch3VR3kA@mail.gmail.com>
+ <f13d890c-35a7-53f9-0cb7-7903582043d1@eik.bme.hu>
+ <CABLmASGtRrmqgsySdUd97so8R0qY7gTAu4AUfGU_-7dc_xkauA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <feef99dd2e1a5dce004d22baf07d716d6ea1344c.camel@infradead.org>
-Received-SPF: pass client-ip=2607:f8b0:4864:20::831;
- envelope-from=kevin@koconnor.net; helo=mail-qt1-x831.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,43 +74,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 20, 2023 at 11:33:19AM +0000, David Woodhouse wrote:
-> From: David Woodhouse <dwmw@amazon.co.uk>
-> 
-> When running under Xen, hvmloader places a table at 0x1000 with the e820
-> information and BIOS tables. If this isn't present, SeaBIOS will 
-> currently panic.
-> 
-> We now have support for running Xen guests natively in QEMU/KVM, which
-> boots SeaBIOS directly instead of via hvmloader, and does not provide
-> the same structure.
-> 
-> As it happens, this doesn't matter on first boot. because although we
-> set PlatformRunningOn to PF_QEMU|PF_XEN, reading it back again still
-> gives zero. Presumably because in true Xen, this is all already RAM. But
-> in QEMU with a faithfully-emulated PAM config in the host bridge, it's
-> still in ROM mode at this point so we don't see what we've just written.
-> 
-> On reboot, however, the region *is* set to RAM mode and we do see the
-> updated value of PlatformRunningOn, do manage to remember that we've
-> detected Xen in CPUID, and hit the panic.
-> 
-> It's not trivial to detect QEMU vs. real Xen at the time xen_preinit()
-> runs, because it's so early. We can't even make a XENVER_extraversion
-> hypercall to look for hints, because we haven't set up the hypercall
-> page (and don't have an allocator to give us a page in which to do so).
-> 
-> So just make Xen detection contingent on the info structure being
-> present. If it wasn't, we were going to panic anyway. That leaves us
-> taking the standard QEMU init path for Xen guests in native QEMU,
-> which is just fine.
-> 
-> Untested on actual Xen but ObviouslyCorrect™.
+On Thu, 26 Jan 2023, Howard Spoelstra wrote:
+> On Thu, Jan 26, 2023 at 9:57 PM BALATON Zoltan <balaton@eik.bme.hu> wrote:
+>> On Thu, 26 Jan 2023, Howard Spoelstra wrote:
+>>> Mac OS X
+>>> #10.0 bus1 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
+>>> mouse. No recognition as HID device.
+>>> #10.0 bus2 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point
+>> kbd
+>>> pcap shows normal interrupt operation and recognition as HID device
+>>> #10.0 bus1 kbd: usb_ohci_stop pci-ohci: USB Suspended. Up to that point
+>> kbd
+>>> pcap shows normal interrupt operation and recognition as HID device
+>>> #10.0 bus2 mouse: usb_ohci_stop pci-ohci: USB Suspended. Reverts to adb
+>>> mouse. pcap shows no recognition as HID device.
+>>> #10.0 in both cases apple system profiler shows 2 usb buses but no
+>> devices.
+>>
+>> These are all the logs I get booting a 10.0 install iso with  mac99,via=pmu
+>>
+>>>> =============================================================
+>>>> OpenBIOS 1.1 [May 25 2022 20:04]
+>>>> Configuration device id QEMU version 1 machine id 1
+>>>> CPUs: 1
+>>>> Memory: 256M
+>>>> UUID: 00000000-0000-0000-0000-000000000000
+>>>> CPU type PowerPC,G4
+>> milliseconds isn't unique.
+>>>> switching to new context:
+>>>> call-method slw_update_keymap failed with error ffffffdf
+>>>> call-method slw_update_keymap failed with error ffffffdf
+>> usb_ohci_reset pci-ohci
+>> usb_ohci_stop pci-ohci: USB Suspended
+>> usb_ohci_set_ctl pci-ohci: new state 0x0
+>> usb_ohci_stop pci-ohci: USB Suspended
+>> usb_ohci_port_detach port #0
+>> usb_ohci_port_attach port #0
+>> usb_ohci_port_detach port #1
+>> usb_ohci_port_attach port #1
+>> dbdma_unassigned_flush: use of unassigned channel 0
+>> dbdma_unassigned_flush: use of unassigned channel 0
+>> usb_ohci_mem_write_bad_offset 0x30
+>> usb_ohci_set_ctl pci-ohci: new state 0x80
+>> usb_ohci_start pci-ohci: USB Operational
+>> usb_ohci_hub_power_up powered up all ports
+>> usb_ohci_hub_power_up powered up all ports
+>> usb_ohci_set_ctl pci-ohci: new state 0xc0
+>> usb_ohci_stop pci-ohci: USB Suspended
+>> usb_ohci_hub_power_up powered up all ports
+>> usb_ohci_hub_power_up powered up all ports
+>> usb_ohci_port_reset port #0
+>>
+>> It's probably OK until it restarts but the seems to be stopped. Anybody
+>> wants to have a look? Maybe start with finding what the states mean.
+>>
+>>
+> I get the same with two usb-ohci controllers (so 6 ports) running Mac OS
+> 9.0.4:
+>
+> usb_ohci_set_ctl pci-ohci: new state 0x80
+> usb_ohci_start pci-ohci: USB Operational
+> usb_ohci_hub_power_up powered up all ports
+> usb_ohci_hub_power_up powered up all ports
+> usb_ohci_hub_power_up powered up all ports
+> usb_ohci_hub_power_up powered up all ports
+> usb_ohci_hub_power_up powered up all ports
+> usb_ohci_hub_power_up powered up all ports
+> usb_ohci_port_reset port #0
+> usb_ohci_port_reset port #0
+>
+> So both usb mouse and kbd do not work.
+>
+> the pcap file for the mouse stalls here:
+> 12 0.007048 0.1.0 host USB 64 SET CONFIGURATION Response
 
-Thanks.  I don't have a way to test this, but it looks fine to me.
-I'll give a few more days to see if others have comments, and
-otherwise look to commit.
+Maybe the driver gets something from the emulated HID device that it 
+cannot handle and stops during init? Can you reproduce the same with OS X 
+10.0 and try to correlate the events you see in pcap and trace with the 
+driver source or find out how to enable and read the messages in the 
+driver (unless these are stripped from the binary in Mac OS X but maybe 
+there's something in the guest logs; ave you checked those?) In QEMU the 
+usb-kbd and mouse are implemented in hw/usb/dev-hid.c but this file does 
+not have any debuging or traces. You might try to add some printfs for 
+testing.
 
-Cheers,
--Kevin
+> However, when I use the usb probe tool from the USB DDK, to probe the buses
+> I see the host emit a get descriptor
+>
+> 13 115.761725 host 0.0.0 USB 64 GET DESCRIPTOR Request DEVICE
+> 14 115.761803 0.0.0 host USB 72 GET DESCRIPTOR Response DEVICE
+> 15 115.773719 host 0.0.0 USB 64 SET ADDRESS Request
+> etc. and this time the mouse is recognised as HID device, the host starts
+> polling it and mouse and kbd start to work.
+
+It could be possible that the driver did not get to this point but once 
+something else get's past that it recognises the device but I have no idea 
+how this works and not even sure which OS you had this result with. Is 
+this still 9.0.4? That's hard to debug because we don't know what its 
+driver is doing.
+
+Is there a Darwin, OpenDarwin or whatever was that called during the years 
+iso that boots on this machine (also on the real one)? That should be 
+fully open source and probably have the same drivers as Mac OS X so 
+reproducing with that could give some more info or maybe its driver is 
+more verbose about errors and has debugging. So you could try to find an 
+early Darwin version that's about the same time as early OS X versions or 
+look at the IOHIDFamily and try to find what part of it is running when 
+you see the logs (as this driver is quite complex it may not be easy).
+
+Regards,
+BALATON Zoltan
 
