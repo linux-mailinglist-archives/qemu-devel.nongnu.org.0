@@ -2,82 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 185BC67E943
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 16:17:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F52067E94C
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 16:18:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLQTE-0006ta-Fe; Fri, 27 Jan 2023 10:16:53 -0500
+	id 1pLQUG-0003Zd-BJ; Fri, 27 Jan 2023 10:17:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pLQSb-0006SH-QQ
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:15 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pLQUF-0003Vi-4O
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:17:55 -0500
+Received: from mail-yw1-x1130.google.com ([2607:f8b0:4864:20::1130])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <jean-philippe@linaro.org>)
- id 1pLQSX-0007m8-Nd
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:16:13 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- f12-20020a7bc8cc000000b003daf6b2f9b9so5619787wml.3
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 07:16:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=W2Gttyqqmk9FJzTdv4GV6HEHY8zcoxRPE3NZzmrf+n4=;
- b=VA6NUCDFx8lOL0Z+1x3S3zxS7fGzsnMOU3H/Iuknae4YporvaEybf2o8k99xXmXi6V
- EQqAGs342LLVqxVSoKJni7g9Cow+rAUCSbQ2RnthBF6g1P9p7jvy3pvwmvN4Yu2l2Je/
- Db7oi1IvUo4zgBlalajjgIUblSBXSoxthCrNE/3PSRFm3OmFnrdC3sr0hhCmCJGasT1N
- fCwnOQSvkQKRQqjNvhGLQaCBWEp/xqjlCPoXSulAm7n7bhRyqjGpSKNegbOF7dwvOwGv
- +0wUlT2SjecqMBe/3wC8YbB419IAovE2jsj3tqI1cIxVqc4bQ5b6itSXfiMQQtc4JqiX
- 85Tw==
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pLQUD-0000aT-C0
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 10:17:54 -0500
+Received: by mail-yw1-x1130.google.com with SMTP id
+ 00721157ae682-506609635cbso71148197b3.4
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 07:17:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=qtmOJn2ynTbarZpt4sn09eBK6F0W3nGga9MlPF8BeoM=;
+ b=qMKuwTcsrrEKcPqZq+U1beo0zgEDd5gWpAx4YHRCBj5PaQbBtCA7AOLniz9QPhLuPP
+ IU3SwCLJ+LBYNahQm8PhXyVKm4pEBhC907/ooMVoNgRYWoXKXWszX7urIj4bmxgX6kGW
+ u0R6d/lQxpPfvjg/9+1GtXK5x8aZ1sH8A3a6nyZH9yp0McdnDU36Ro6aFfw0Gux9YF4Z
+ EO2T/Y7/JnbmfkDtE7H7PNhA8NXh2F8ZMPFUXOS5u+F3qfHygfdoAGo1p6qgP21gdFR7
+ ssDzCNggGchuK7SvJKsFjlaVEkNryccZC4MwUmxAD7If7IMvwgisvie2qfwhSD4RDfLz
+ sb7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=W2Gttyqqmk9FJzTdv4GV6HEHY8zcoxRPE3NZzmrf+n4=;
- b=Ss72HoxdEqjni7KS066bCxCktbUBGe4DfjEwW98F3jjVGtkicHEfxjPAEeAO2Eoy3V
- DUh32ru3wwlg/vEI/dsjCzUE+Mz06p2vDcC00gmvvZRYYASJ0rIqo0fz3tyXjBjhHJ9o
- Qedv1J/Ggta+pXoO5Gt1f579DVMCqt+odgcfjCprV6qoCvdQ08vDzuvDyZtkqFSZcEAq
- DnunAOpWWT++Xgydi3fSZgXGT/b/ErN8LJ5xpZx/YAjKIEahwTY9DJ4QWU5FRam9rMPC
- iP6rnEXb642REyp4sUtecTrp+6sj+hyxtecmaq5AQM/tLLAxSyFC1zXOv00SSAbws5Dc
- 2YGg==
-X-Gm-Message-State: AFqh2koORvh1MN5/UW1qNZmpty3aM8LmGlcgdof/E7B8M2UgFfXLq0Or
- dRgCwRiroc98IRFfZ899vjInyg==
-X-Google-Smtp-Source: AMrXdXsum66V9SryNqits/WuEqHeWo9nn9HzIUCwkYhiaMnfsqf9QZYrXWrHdPjjuSf/+nymGP9kJg==
-X-Received: by 2002:a05:600c:2056:b0:3db:ce8:6662 with SMTP id
- p22-20020a05600c205600b003db0ce86662mr38049375wmg.31.1674832568124; 
- Fri, 27 Jan 2023 07:16:08 -0800 (PST)
-Received: from localhost.localdomain (054592b0.skybroadband.com.
- [5.69.146.176]) by smtp.gmail.com with ESMTPSA id
- l7-20020a05600c47c700b003dc3bbdf518sm1656628wmo.21.2023.01.27.07.16.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jan 2023 07:16:07 -0800 (PST)
-From: Jean-Philippe Brucker <jean-philippe@linaro.org>
-To: peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, pbonzini@redhat.com,
- eblake@redhat.com, armbru@redhat.com, berrange@redhat.com,
- eduardo@habkost.net, alex.bennee@linaro.org, richard.henderson@linaro.org,
- Jean-Philippe Brucker <jean-philippe@linaro.org>
-Subject: [RFC PATCH 16/16] target/arm/kvm-rme: Disable readonly mappings
-Date: Fri, 27 Jan 2023 15:07:29 +0000
-Message-Id: <20230127150727.612594-17-jean-philippe@linaro.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230127150727.612594-1-jean-philippe@linaro.org>
-References: <20230127150727.612594-1-jean-philippe@linaro.org>
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qtmOJn2ynTbarZpt4sn09eBK6F0W3nGga9MlPF8BeoM=;
+ b=J2AHE+yibr+xrxbqXIHlPMllYriTiZvo2yNdzzrGR5YR/vmkHgiq9QOrM+QARGtjtF
+ rohSSxhtmxh/U54tlqP2sv4zHCR76QrC5kj36WZlKBqK74in3oZY3Q276LMBbjbYr2Ja
+ tOusESRLQ6seR6K0TG6Cicr7oUK3EwnjnhXAUa1B05ZxzwA66cP3umP6UTtMV8TTj4F7
+ Zof9SI6LUSMhy4XJKqHvquRh9FJq1u9s6aXx7F7aBh0QAn08CsmNoH7a1Q/6AsVbHGFF
+ 2MNEnvPGgKdTOz9HfudmQ0YsbApiV2ktjhmYBAGtkBAYU3t0j8bRWYzGuNPQcYnoS8RM
+ TGJw==
+X-Gm-Message-State: AO0yUKXx1ujH25TO6um5TMYRC5croHPrZzy5Z2zDtdP4/i12oNtrD+KR
+ v9OergwVdByfmtkJYJI6DI5j1SQ3B7nYGCPWy740FItecLg=
+X-Google-Smtp-Source: AK7set9MQ4KitPLSUcDuN/or8feHGShMjiiAvNw02sa3lvN6wuzB2dBVneXGl+e7uNURvBEz+4OpxAlXHKKyHV8vlTE=
+X-Received: by 2002:a81:4882:0:b0:50e:79ff:776e with SMTP id
+ v124-20020a814882000000b0050e79ff776emr105761ywa.206.1674832671947; Fri, 27
+ Jan 2023 07:17:51 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=jean-philippe@linaro.org; helo=mail-wm1-x32b.google.com
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Fri, 27 Jan 2023 10:17:40 -0500
+Message-ID: <CAJSP0QUuuZLC0DJNEfZ7amyd3XnRhRNr1k+1OgLfDeF77X1ZDQ@mail.gmail.com>
+Subject: Call for GSoC and Outreachy project ideas for summer 2023
+To: qemu-devel <qemu-devel@nongnu.org>, kvm <kvm@vger.kernel.org>, 
+ Rust-VMM Mailing List <rust-vmm@lists.opendev.org>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Paolo Bonzini <pbonzini@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>, 
+ =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>, 
+ Thomas Huth <thuth@redhat.com>, John Snow <jsnow@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+ "Florescu, Andreea" <fandree@amazon.com>,
+ Damien <damien.lemoal@opensource.wdc.com>, 
+ Dmitry Fomichev <dmitry.fomichev@wdc.com>, Hanna Reitz <hreitz@redhat.com>, 
+ Alberto Faria <afaria@redhat.com>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>, 
+ =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>, 
+ Bernhard Beschow <shentey@gmail.com>, Sean Christopherson <seanjc@google.com>, 
+ Vitaly Kuznetsov <vkuznets@redhat.com>, gmaglione@redhat.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1130;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1130.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,83 +95,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-KVM does not support creating read-only mappings for realms at the
-moment. Add an arch helper to detect whether read-only mappings are
-supported.
+Dear QEMU, KVM, and rust-vmm communities,
+QEMU will apply for Google Summer of Code 2023
+(https://summerofcode.withgoogle.com/) and has been accepted into
+Outreachy May 2023 (https://www.outreachy.org/). You can now
+submit internship project ideas for QEMU, KVM, and rust-vmm!
 
-Device ROM and flash normally use read-only mappings. Device ROM seems
-limited to legacy use and does not need to be trusted by the guest, so
-trapping reads should be fine. Flash on the other hand, is used for the
-firmware and needs to be both executable and measured. It may be
-necessary to replace flash with RAM in order to run firmwares like edk2
-in realms.
+Please reply to this email by February 6th with your project ideas.
 
-Signed-off-by: Jean-Philippe Brucker <jean-philippe@linaro.org>
----
- include/sysemu/kvm.h | 2 ++
- accel/kvm/kvm-all.c  | 8 +++++++-
- target/arm/kvm-rme.c | 9 +++++++++
- 3 files changed, 18 insertions(+), 1 deletion(-)
+If you have experience contributing to QEMU, KVM, or rust-vmm you can
+be a mentor. Mentors support interns as they work on their project. It's a
+great way to give back and you get to work with people who are just
+starting out in open source.
 
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index e9a97eda8c..8d467c76c6 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -581,5 +581,7 @@ bool kvm_arch_cpu_check_are_resettable(void);
- 
- bool kvm_dirty_ring_enabled(void);
- 
-+bool kvm_arch_readonly_mem_allowed(KVMState *s);
-+
- uint32_t kvm_dirty_ring_size(void);
- #endif
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index f99b0becd8..56cdd2e9e9 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -2267,6 +2267,11 @@ bool kvm_dirty_ring_enabled(void)
-     return kvm_state->kvm_dirty_ring_size ? true : false;
- }
- 
-+bool __attribute__((weak)) kvm_arch_readonly_mem_allowed(KVMState *s)
-+{
-+    return true;
-+}
-+
- static void query_stats_cb(StatsResultList **result, StatsTarget target,
-                            strList *names, strList *targets, Error **errp);
- static void query_stats_schemas_cb(StatsSchemaList **result, Error **errp);
-@@ -2520,7 +2525,8 @@ static int kvm_init(MachineState *ms)
-     }
- 
-     kvm_readonly_mem_allowed =
--        (kvm_check_extension(s, KVM_CAP_READONLY_MEM) > 0);
-+        (kvm_check_extension(s, KVM_CAP_READONLY_MEM) > 0) &&
-+        kvm_arch_readonly_mem_allowed(s);
- 
-     kvm_eventfds_allowed =
-         (kvm_check_extension(s, KVM_CAP_IOEVENTFD) > 0);
-diff --git a/target/arm/kvm-rme.c b/target/arm/kvm-rme.c
-index 1baed79d46..2812a52aeb 100644
---- a/target/arm/kvm-rme.c
-+++ b/target/arm/kvm-rme.c
-@@ -62,6 +62,15 @@ bool kvm_arm_rme_enabled(void)
-     return !!cgs_to_rme(cgs);
- }
- 
-+/*
-+ * KVM does not support creating read-only stage-2 mappings for realms at the
-+ * moment
-+ */
-+bool kvm_arch_readonly_mem_allowed(KVMState *s)
-+{
-+    return !kvm_arm_rme_enabled();
-+}
-+
- static int rme_create_rd(RmeGuest *guest, Error **errp)
- {
-     int ret = kvm_vm_enable_cap(kvm_state, KVM_CAP_ARM_RME, 0,
--- 
-2.39.0
+Good project ideas are suitable for remote work by a competent
+programmer who is not yet familiar with the codebase. In
+addition, they are:
+- Well-defined - the scope is clear
+- Self-contained - there are few dependencies
+- Uncontroversial - they are acceptable to the community
+- Incremental - they produce deliverables along the way
 
+Feel free to post ideas even if you are unable to mentor the project.
+It doesn't hurt to share the idea!
+
+I will review project ideas and keep you up-to-date on QEMU's
+acceptance into GSoC.
+
+Internship program details:
+- Paid, remote work open source internships
+- GSoC projects are 175 or 350 hours, Outreachy projects are 30
+hrs/week for 12 weeks
+- Mentored by volunteers from QEMU, KVM, and rust-vmm
+- Mentors typically spend at least 5 hours per week during the coding period
+
+For more background on QEMU internships, check out this video:
+https://www.youtube.com/watch?v=xNVCX7YMUL8
+
+Please let me know if you have any questions!
+
+Stefan
 
