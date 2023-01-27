@@ -2,83 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B606567EECC
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 20:52:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E985F67EF5A
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 21:12:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLUkS-0005tM-OS; Fri, 27 Jan 2023 14:50:56 -0500
+	id 1pLV3t-0000of-B1; Fri, 27 Jan 2023 15:11:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLUkR-0005t2-1W
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 14:50:55 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLUkP-0002K0-Go
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 14:50:54 -0500
-Received: by mail-pl1-x630.google.com with SMTP id be8so6058106plb.7
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 11:50:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=rLQtvAJmyr/gx5Q7DrUJnzijgRegKpEcegPNG7FtvUg=;
- b=scrqAZ3OQb8s+LndQOv/80aY6edi1KOEF1xakWWk2P7SdsV0d3f4BMgojLzUM4svoy
- 1AJaGZAu1EUEQR68+CFZcXWVgn016uGxc8WACldSOOIAQdp7UHVQZp0MopLmLXpBUxRK
- AAysYvFEWDmEso/WRj2/dhaXoWYNaEhA1tH//7HHY0FqPsP9ZmoJtbmlcMLnBf+nirsz
- oprhjo/Ar+Jlrg6ClXcuIhV4da0PyCIdMhsWDk1w8vpTXw2DmR1Gp/fY2zUEL8Nj7v3K
- kRfac8Xo77ToBu2WwTqH1Bqkb3O4iyajxLb3E5pNI2kPGIf8EVe2w16uTt/WgYTjpp55
- QTcA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=rLQtvAJmyr/gx5Q7DrUJnzijgRegKpEcegPNG7FtvUg=;
- b=uoFLMusmSWrcHHMuM73NRo3dy5z3BaLPYKdpCW7YfFfZ1oTuCaL958dBoNeZ96BoZU
- cCiaZmFoN7Cl9CbIKYjTJ7S60M2HiRdOJP9Yf9UAzp743s77BY11g5hBDSyp5VN3RlpB
- 6mvXAxl0DqpeBjOJcvSEMVqe3QES6jbodrTpFoIYW/PI2YxRwaa6buXHaqkH1eRUqX0Y
- UKCgN0Rnxu4apak2WlEYEzgOojZnYX7wc+lEBmN+1wgILyn5RYk41ony0yGUVMxFXWNl
- YiybJU87XJU68uWbuGRJ1MaS4LQrlIUOvmlMshP7HQ4UOPIRvUH+K2iIzJLFLlm3jcHv
- 7xXg==
-X-Gm-Message-State: AO0yUKU+AAS1qjXhpY7LutqGX9dmiFuwHs7kxpF8CrlVxjfaTZXjPdu1
- 17gZjfTfjys1AGBzRwUfj1X52A==
-X-Google-Smtp-Source: AK7set+moD3dE5fNEqCPFxLjaD/ubMJ/eQd6cnxx5hbcxP37cmZTnJktA5yDLwgYyU+wnzMMyKZ8nw==
-X-Received: by 2002:a17:902:db04:b0:196:5640:b081 with SMTP id
- m4-20020a170902db0400b001965640b081mr4433495plx.7.1674849051682; 
- Fri, 27 Jan 2023 11:50:51 -0800 (PST)
-Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- 12-20020a170902c20c00b001963232f49dsm3220411pll.233.2023.01.27.11.50.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 11:50:51 -0800 (PST)
-Message-ID: <f6f17e0e-ead1-9209-8f8f-070f796cb582@linaro.org>
-Date: Fri, 27 Jan 2023 09:50:47 -1000
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pLV3o-0000o0-F4
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 15:10:59 -0500
+Received: from mout.gmx.net ([212.227.17.22])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pLV3m-0007Lk-Km
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 15:10:56 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1674850251; bh=eJyZY0jJQb/QMBKi4mkPQr4MzAAQhV0XMiC2SlnZFIQ=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject:References:In-Reply-To;
+ b=XVEPkT9TDuAZkdZGgZd4g6u+XtlujmG2vMFiMSHETw8jW53GYEUo5fCxvWotb/6pU
+ 76ixre7P4nBd1bd8QVkPgqnJ3UrfxFIzcdAE/ogNhKHIBslqH+anOtE1kxA+9QrXuE
+ iNlY5GsI8xitK/GXzHRLi51pLNvl+5sEP20lRCWfRRKVkmufagfZtJfwtaiOisclok
+ 0nOYKnCDwqRe8ycELMz65vMda28JMUhybqsA5EZZsvGo59exR+X4cQDyly9mU0IqIR
+ KwqYWEM7yeVBqk6p3AvgFER4HFUiwAg8NMVc+xZTpeNMO3Xsbe0vI2yjdk8UUwq5Fd
+ q07qWtD5Ga5Rw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from p100 ([92.116.191.252]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N7zBb-1oa7573fpD-0153wI; Fri, 27
+ Jan 2023 21:10:50 +0100
+Date: Fri, 27 Jan 2023 21:10:49 +0100
+From: Helge Deller <deller@gmx.de>
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: Helge Deller <deller@gmx.de>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Subject: [PATCH v4] linux-user: Fix /proc/cpuinfo output for hppa
+Message-ID: <Y9QvyRSq1I1k5/JW@p100>
+References: <Y6ywbxuxqQ/cGPJW@p100>
+ <b645585a-1093-fb97-60a1-5acc40b17271@vivier.eu>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 02/16] target/arm: Add confidential guest support
-Content-Language: en-US
-To: Jean-Philippe Brucker <jean-philippe@linaro.org>, peter.maydell@linaro.org
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, pbonzini@redhat.com,
- eblake@redhat.com, armbru@redhat.com, berrange@redhat.com,
- eduardo@habkost.net, alex.bennee@linaro.org
-References: <20230127150727.612594-1-jean-philippe@linaro.org>
- <20230127150727.612594-3-jean-philippe@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230127150727.612594-3-jean-philippe@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=iso-8859-15
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <b645585a-1093-fb97-60a1-5acc40b17271@vivier.eu>
+X-Provags-ID: V03:K1:lIWdW3pkwyiBLI13VYuVIAuzCIjCETGyKWV0dCENcgqYTcZYJqR
+ ghkK7Hx3tOWuzc5lSM63JYzizMy+8puYlupDgOT5wISBXTbaD+f0U/qrIen61UyjZ6tgCjq
+ BpfKqWpTPEjqi6Uw3S+0l9478wfRW4DlZXa/s2Y6gOg56sCxUGfQBeHIV220nty/eW2C2CP
+ 3VlN8iCnLFqjGZJiniakQ==
+UI-OutboundReport: notjunk:1;M01:P0:51SLzfkSo2M=;EwySZTHJKlhak3Ndh2Km1ZIGuCu
+ BPeQ27VJU2lfmHI0dbYA51tY0VrIfW0nwqcCt9AmwIRwwbO0RByxj0ltiR8k+e7mQunTZ646G
+ RcRFUYZ2pJzZi/TqHzykye0qDAHYujeKSaWsow2hf4UAjv5LvgtEstRteuNQWfP6/riA/fhm4
+ 1MCfREu0rvasg4ZJmZKx2jYOcmppXrSinBVIbMNelSJ3HFOY8vTI4P9DZvhkb8eaE1Wf4Gm46
+ 4UDi5+UmZITB3AP00NhTYqFCfuAaWZnv5bZL4qq0DkkFnHQPbdKVP17JypygoOZdCSMAwFChq
+ tcSLy2FbrVjyPsOBatXWZmqaPhL9I6K42kfFDh75OwpnyILYqGZwWWs9Zv9jpBZ8drWJVKhzC
+ 0kaWqZkiIIMi4gK3hHLV8lVlxMFTHpnU2UExs3RWdTLh3PhlmTj80z8rafbSWLl/Avcxmv5Vy
+ 5PVYMp7Hnf86jnqfn/we1Am3TtEl2zR9MLGCwxYFmMQDP3HiUdO5zKQCocRPpt/ISCJkwbL/m
+ mJt9HLLPkiN0YpZSB95QlXD0ixeoUHM9dacrPW7lB8hlA1HmnWJM1FSStVmA0nyqZMLSJeE72
+ POPtzGr66Qwf13SUqPrw2s+Fi46YkJ/F80k/HFoHNVX3XP4BpalA+TKjHsqYh7FO9cJUq7Uyg
+ SfOtcUaHJ7+0Y3zrGnfM/TaF8wg/b7WHT0o4R5plRMWDu1c1fkXQEsps9CshRpHKgjlnTMLA5
+ UMDrkxN4cafM3nw+xSLnG0BGkUGrtiJV8A92oDR711uCfSLgrv90IIqrjxQp+NUQr5BQF5IZw
+ WhZhon8w4UA7tyI2AmRU/5YKmW/5gJBiADrVclY/fGiDHhhBYYudDr9NoTHAy8rCWUP03rzWq
+ U3Mt1m27eCuwoFh8PK8YJFEPZNJONMUDr7Mm0tL90L0zDjYk034WyrV1FvhhU8RZ6+dz73KQ6
+ iPnWrkMA08beR//f3hNKxyrLhmo=
+Received-SPF: pass client-ip=212.227.17.22; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -95,26 +86,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/27/23 05:07, Jean-Philippe Brucker wrote:
-> Add a new RmeGuest object, inheriting from ConfidentialGuestSupport, to
-> support the Arm Realm Management Extension (RME). It is instantiated by
-> passing on the command-line:
-> 
->    -M virt,confidential-guest-support=<id>
->    -object guest-rme,id=<id>[,options...]
-> 
-> This is only the skeleton. Support will be added in following patches.
-> 
-> Signed-off-by: Jean-Philippe Brucker<jean-philippe@linaro.org>
-> ---
->   docs/system/confidential-guest-support.rst |  1 +
->   qapi/qom.json                              |  3 +-
->   target/arm/kvm-rme.c                       | 48 ++++++++++++++++++++++
->   target/arm/meson.build                     |  7 +++-
->   4 files changed, 57 insertions(+), 2 deletions(-)
->   create mode 100644 target/arm/kvm-rme.c
+The hppa architectures provides an own output for the emulated
+/proc/cpuinfo file.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Some userspace applications count (even if that's not the recommended
+way) the number of lines which start with "processor:" and assume that
+this number then reflects the number of online CPUs. Since those 3
+architectures don't provide any such line, applications may assume "0"
+CPUs.  One such issue can be seen in debian bug report:
+https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D1024653
 
-r~
+Avoid such issues by adding a "processor:" line for each of the online
+CPUs.
+
+Signed-off-by: Helge Deller <deller@gmx.de>
+Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@linaro.org>
+=2D--
+v4:
+- Drop sparc changes
+
+v3:
+- add trailing newline at end of /proc/cpuinfo file (needed by procps)
+
+v2:
+- drop m68k part (based on feedback from Laurent Vivier <laurent@vivier.eu=
+>)
+- change commit message
+
+
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index afb24fd0b9..5fa2ae6c8a 100644
+=2D-- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -8318,11 +8318,17 @@ static int open_cpuinfo(CPUArchState *cpu_env, int=
+ fd)
+ #if defined(TARGET_HPPA)
+ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+ {
+-    dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
+-    dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
+-    dprintf(fd, "capabilities\t: os32\n");
+-    dprintf(fd, "model\t\t: 9000/778/B160L\n");
+-    dprintf(fd, "model name\t: Merlin L2 160 QEMU (9000/778/B160L)\n");
++    int i, num_cpus;
++
++    num_cpus =3D sysconf(_SC_NPROCESSORS_ONLN);
++    for (i =3D 0; i < num_cpus; i++) {
++        dprintf(fd, "processor\t: %d\n", i);
++        dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
++        dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
++        dprintf(fd, "capabilities\t: os32\n");
++        dprintf(fd, "model\t\t: 9000/778/B160L - "
++                    "Merlin L2 160 QEMU (9000/778/B160L)\n\n");
++    }
+     return 0;
+ }
+ #endif
 
