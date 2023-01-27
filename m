@@ -2,86 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F295667EDEA
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 19:58:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D825667EF9B
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 21:37:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLTu5-00038b-03; Fri, 27 Jan 2023 13:56:49 -0500
+	id 1pLVSG-0007lA-Fq; Fri, 27 Jan 2023 15:36:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLTtx-00033f-MQ
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 13:56:41 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
+ id 1pLUEg-0000Ru-GK
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 14:18:06 -0500
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLTtw-0006o5-66
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 13:56:41 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- n20-20020a17090aab9400b00229ca6a4636so9555597pjq.0
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 10:56:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=E9tFwH1m+tCL7n9BD0ZcO6e8s3hW24ax2yDkW62q4Oc=;
- b=jZw09QQwcWqHZkbc3jGUILBuv4b2DG1JQjrQJjHr28u9M+WUtvCbOfJPZ6F/B+YJhU
- qrvEhjZ2y5+uGhV53f8myLU4HCcnQ4RAv/l/k0mrrz3A8j9eziv1giJ2jPsKG6L3yhU1
- Z4qIsCsRLGOIbbxr/8FGGleftd+1WahtxOtHX97Yo/lgNG/0elJV/qL5ylkBniRW1R5Y
- n/EKmx3dM0KtPsCjZz9FcOuN4tmbNkCQX1mZSINKFeKZkKJlNhUskGInEBnOOuTfAGC/
- IaJzTaeGXAc+1XOwfmptjBwlvMFLK577VEVwvVxnJEn99fPQc4CYvCTvchUOABnBQ/Du
- 7bkA==
+ (Exim 4.90_1) (envelope-from <debug@rivosinc.com>)
+ id 1pLUEe-0003Qk-Hh
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 14:18:06 -0500
+Received: by mail-pl1-x636.google.com with SMTP id k18so5995690pll.5
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 11:18:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=jKhtk5rxl5pbRoYF48eqgFTbbHBid5hhGXVt7A76ZuQ=;
+ b=wWDF3wH2lRlUNDfL31XNRJubXFLFTBIA6G9pbwph5HDfvrb0v/rjirMzU2fSes36Te
+ 6yWp6D6t/fdNDibC2pWdHEJcI2gaJGx04it7MGZJx3ECpvtWI1E0+Hp9mh4sGNK/5IlD
+ y0OKQvQmtXHx3Nyso4a+CmjrFcLqm5KwICzz11tEI3Dd3Hvyxzhuq0EMYea8tgttIbfq
+ K8Mg1M/HjCCFd7PQGW59thRerWPIiBWZwpTHc8pvlzI+hH4sSDh7LyG4lTKhaQYDJIXr
+ BA6wirLKgX128OaY1Cach4lIiP5cbsrSvRo2+5I5S+FGt75LR8XeHP0aDz3SA5gD9+iA
+ yVMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=E9tFwH1m+tCL7n9BD0ZcO6e8s3hW24ax2yDkW62q4Oc=;
- b=tEpY2Ss+8pOp2BNQGR+Vua9u2/EAnk/oFZJsy/yfCjY7+qQuK7p8xeOyeHvDdxM2Qr
- f5E2L0LcUEku27imzpwm3yVrrZ3jSkAL45GE0zremrjcj73w9muZ6l3ny9x754jF5/MR
- tu/GiB/kg95IxC4AcxmQwQYPbCeQsL4eBMjxlKDSpGIO1MSudL8VpKyrLorsikVjwYmW
- Uger6oIiqSe6Wmt/0JIcLu92zw98lqPgQ2JAtR0we9OvwDSO1epJWYCwuN0WmGaf27lQ
- Uy+UeiEg0XcVLfDohFg4HLOurQtXqWHUxe9yEazzSiERPHRgetqVbHp7pvDpMF4OR8Sb
- wdRg==
-X-Gm-Message-State: AO0yUKVHfqnWgD+Avz92DXkqJufJIN7mqx3j1w989YKDr46Xd5wSwCca
- hh/2ygmMtDT6o/l7Xm97NmT7jA==
-X-Google-Smtp-Source: AK7set+V+Eqeg5LtBN2M8C0L5Ec2XCW6NKlQEawk8fBbgbRx9rlv4tkS/AyptL9QhnyDOMEk5M1bcQ==
-X-Received: by 2002:a17:902:e88d:b0:196:f00:752b with SMTP id
- w13-20020a170902e88d00b001960f00752bmr18271854plg.66.1674845798520; 
- Fri, 27 Jan 2023 10:56:38 -0800 (PST)
-Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- b19-20020a170902ed1300b001944b1285easm3190625pld.198.2023.01.27.10.56.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 10:56:38 -0800 (PST)
-Message-ID: <55c23e75-da85-ad37-7208-82fc021a7115@linaro.org>
-Date: Fri, 27 Jan 2023 08:56:35 -1000
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=jKhtk5rxl5pbRoYF48eqgFTbbHBid5hhGXVt7A76ZuQ=;
+ b=rRZ8YMultsth6/boMkGidzZPS+d0zDt0I15b2CUBROBvPdxM/tTlcjldjduZx0iVK2
+ kU8XepZtXR+0EJbOiFpYKJszBg41JAINqmfs6mydKyFE3eJYxpGWFtTt+gJQb3UdDUIh
+ +b5kDlVD0OdARCBh/SNyn9u1OsNvfLahE3O11S48rwIO3L11JQuoVTsfEfCN/muuTF3k
+ Idj53AjVEEPZSlFv8wJXikjsbX6VaSpJ3cC3tTszA2DwvhUwowJn927n8/n4EKfmdemz
+ RBYKoGCDbsuKYVG1SSBHYlEr3bwCPUJwobD7BTzutOb+WnTqppe4zk46qWFZWXe+1naV
+ peag==
+X-Gm-Message-State: AO0yUKU/B7t9B39068REqvH1TcPQxTAFsdGERtapMESdCrkjBQk6HpaA
+ OOiSSmnDe1U3Ye5KuFJm/nDVOzipLd4fV1ihr3A=
+X-Google-Smtp-Source: AK7set9yNRXsltA8qo988ramLfgHzev+mzmI7+Iwt59hUoigxQ2jx5/VsPXJpKQClKcrXCtFORubmw==
+X-Received: by 2002:a17:90b:3852:b0:22c:5360:684e with SMTP id
+ nl18-20020a17090b385200b0022c5360684emr2519743pjb.29.1674847081785; 
+ Fri, 27 Jan 2023 11:18:01 -0800 (PST)
+Received: from debug.ba.rivosinc.com ([66.220.2.162])
+ by smtp.gmail.com with ESMTPSA id
+ r93-20020a17090a43e600b0022c01ab2899sm3030088pjg.49.2023.01.27.11.18.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Jan 2023 11:18:01 -0800 (PST)
+From: Deepak Gupta <debug@rivosinc.com>
+To: qemu-devel@nongnu.org
+Cc: Deepak Gupta <debug@rivosinc.com>
+Subject: [PATCH: fix for virt instr exception] target/riscv: fix for virtual
+ instr exception
+Date: Fri, 27 Jan 2023 11:17:58 -0800
+Message-Id: <20230127191758.755844-1-debug@rivosinc.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v5 13/36] tcg: Add temp allocation for TCGv_i128
-Content-Language: en-US
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>
-References: <20230126043824.54819-1-richard.henderson@linaro.org>
- <20230126043824.54819-14-richard.henderson@linaro.org>
- <87a623oqeb.fsf@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <87a623oqeb.fsf@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
+ envelope-from=debug@rivosinc.com; helo=mail-pl1-x636.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Fri, 27 Jan 2023 15:36:10 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -96,12 +88,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/27/23 07:08, Alex Bennée wrote:
-> Why do we have all these different allocate functions if TCGTemp's are a
-> shared abstract type anyway?
+commit fb3f3730e4 added mechanism to generate virtual instruction
+exception during instruction decode when virt is enabled.
 
-Type checking.
+However in some situations, illegal instruction exception can be raised
+due to state of CPU. One such situation is implementing branch tracking.
+[1] An indirect branch if doesn't land on a landing pad instruction, then
+cpu must raise an illegal instruction exception.
+Implementation would raise such expcetion due to missing landing pad inst
+and not due to decode. Thus DisasContext must have `virt_inst_excp`
+initialized to false during DisasContxt initialization for TB.
 
+[1] - https://github.com/riscv/riscv-cfi
 
-r~
+Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+---
+ target/riscv/translate.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+index df38db7553..76f61a39d3 100644
+--- a/target/riscv/translate.c
++++ b/target/riscv/translate.c
+@@ -1167,6 +1167,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
+     ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
+     ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
+     ctx->zero = tcg_constant_tl(0);
++    ctx->virt_inst_excp = false;
+ }
+ 
+ static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
+-- 
+2.25.1
+
 
