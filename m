@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46B7C67E71C
-	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 14:53:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 928AA67E720
+	for <lists+qemu-devel@lfdr.de>; Fri, 27 Jan 2023 14:54:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLP8q-0004c9-Ml; Fri, 27 Jan 2023 08:51:44 -0500
+	id 1pLPAK-0005O7-So; Fri, 27 Jan 2023 08:53:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pLP8p-0004by-4w
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:51:43 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ id 1pLPAJ-0005Lx-3J
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:53:15 -0500
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pLP8n-0004Ut-EQ
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:51:42 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id h12so5017235wrv.10
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 05:51:40 -0800 (PST)
+ id 1pLPA7-0004gH-H0
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 08:53:06 -0500
+Received: by mail-wm1-x32b.google.com with SMTP id
+ d4-20020a05600c3ac400b003db1de2aef0so3522066wms.2
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 05:53:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bJLI3EKVzySsj1W2B7b0Hx5IVsnSD8qm2kGpGqIXMI4=;
- b=FoaBhhP4foC1PmFS9tL3stEbtkz8H/fytA/Jmh8V43M9xM8zHyK80fAumOpaBLNUIm
- CrhfLdbkb1LibsfOXTYLLq8dfxvDL/rSwk7bXq3zcheWXhPfzBj5NK8EO9JoNcvS+u1Z
- CLt1W46ze9vqn79yZgl3VDbZgd0LiHqh1PhIBnRzHrg8CYTKvAMOdULT82QtmGPbsFia
- vbNkPZsWFeOtmJva3tbR8g+yd4ks31j6en+pBfpkJW46+j8r7KUckloN6XsOIhYhO1bu
- p9lV3zX4VxNfu9ww2qke+QGQPPHpm323CwbUO7kWUg6SCIE21DxPi6Mymy4YuAuOaxJ9
- cA3w==
+ bh=/mGuIKgVsTE+CvJoGsAzJynfI0o3WXdnbTyYl7ZYs8I=;
+ b=Kkp6JGnj12rEluQGo44ejl0Jl9zXmvV3FfcPGMbZDS8gXOtTwvLpvStp9Gd+C94ajQ
+ +LPxgVoiRzj37xXqbEPK5WvWw82Av5lqdNNe7mOvUUFNrwo7hMWlEU/fzQp2QpPgcTov
+ NAmCaulAqWjajs4CKLlpDNhHKpCqtYaicmWUNNRS/UbnI2AIZYN4nXfF1SXn1CNXkQmH
+ NjKtGjnfJEucv2InFwikv5PSBBYn8AtYrC/pzUQEuR67aP5xHudv47cHRh2J/U4azPqy
+ nXltzfeAHtj5533YTnvaN0KRmq2+JLPjGoN2i9gMgzPsJ6DphMalQP5CIUPEvRt3B8xA
+ kCDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=bJLI3EKVzySsj1W2B7b0Hx5IVsnSD8qm2kGpGqIXMI4=;
- b=rABwRZQvzZF0Ak2cZ4drHosyhPxta14keAoAJZj8Qz1AW2ubsiSsAYqhmbtQkJ1JWd
- 1FWHxXLdxVRET3c6ud5iEOmxEGXgKbYqEIqE/AXX5xF+Kl2zROUiPrTfDg0Q/618CcUa
- YxMfOfKUbV1U+nMsmwANlk2MzsYyl54+SgHpL4LXSW5UsicwAs/fSF3Ichcu1Ak/fxuU
- fk0kRnKd0KFYleEaOhgqAszjVuhyejMpt+3oqFILWzgy6TkiQeKfY9he9HftPgOyjLcp
- ujyolNJHniNgJf3GVFNaVm4CiFGBvGRS3/RDJlQ6+u7kIT5EVnO3yxdj1KaWTQwqayqp
- DP0Q==
-X-Gm-Message-State: AFqh2krMTQrnn6zQtXCd6cgFAYxX7S0pEbePAfcWwWgfJhXUlKAWCFxG
- 5IGoEvBFmQ7hy2PzboSOOcEq6Q==
-X-Google-Smtp-Source: AMrXdXsqdooRwYWnRmeWwVoe0WZZA/ZFCuQmaIeQgsdYXVWdS6HbY/4Rgj32jINdLNci+ZYLQVRmVQ==
-X-Received: by 2002:a5d:6b4d:0:b0:2bb:f88b:43b6 with SMTP id
- x13-20020a5d6b4d000000b002bbf88b43b6mr35293202wrw.3.1674827499890; 
- Fri, 27 Jan 2023 05:51:39 -0800 (PST)
+ bh=/mGuIKgVsTE+CvJoGsAzJynfI0o3WXdnbTyYl7ZYs8I=;
+ b=YX6uSqq1BHL68wr4FlgcAXjs83R/3JLpOw7BByvztYjeGh6+iy6wWKsbadolH3EjaJ
+ hMz8490rebQwe0WhRy1qNL1+rk3mnJXpNZqU75cwjLuKg90+fEFDXhVocdALbQeG6ZJE
+ ISqwB7ahS3Z8VDTcpjfPWpdLY/mRUw1ksJtdGoHIt9XX2eyU1YRKA7InNL9Oc+cHVmL6
+ kVIDgpM/+49Rymyk0NfhmVVvisACpw9IuaqMA2Cgpq37lc5eTJUglXO6QUphUQFBFfBm
+ QfgJrmRFx/Redb2hwiWZ4/UyvUFH/a96up6fn0pTGqAUPu9BbaypJEL2K389hCiF0OiF
+ AIaQ==
+X-Gm-Message-State: AO0yUKWCvs82LhiBk1C15zOGQizHkM6B87P8gBZPgZNrA03K1YcKaEJh
+ 1zAdgoS61DuZqTO55lawOqcsMg==
+X-Google-Smtp-Source: AK7set+IxtuOzER19ANrX2MpVSEL9xUq5cLy+LAhAl+yDRjqSfxUWU3e4UFGWJl+Rs7rNfci1+jcrw==
+X-Received: by 2002:a05:600c:35c4:b0:3dc:4313:fc59 with SMTP id
+ r4-20020a05600c35c400b003dc4313fc59mr299301wmq.28.1674827579435; 
+ Fri, 27 Jan 2023 05:52:59 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- f7-20020a5d64c7000000b002bdfe3aca17sm4488106wri.51.2023.01.27.05.51.39
+ j38-20020a05600c1c2600b003daff80f16esm11096573wms.27.2023.01.27.05.52.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jan 2023 05:51:39 -0800 (PST)
+ Fri, 27 Jan 2023 05:52:59 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id EF3A81FFB7;
- Fri, 27 Jan 2023 13:51:38 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 8C21E1FFB7;
+ Fri, 27 Jan 2023 13:52:58 +0000 (GMT)
 References: <20230126043824.54819-1-richard.henderson@linaro.org>
- <20230126043824.54819-9-richard.henderson@linaro.org>
+ <20230126043824.54819-10-richard.henderson@linaro.org>
 User-agent: mu4e 1.9.16; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>
-Subject: Re: [PATCH v5 08/36] include/qemu/int128: Use Int128 structure for TCI
-Date: Fri, 27 Jan 2023 13:51:34 +0000
-In-reply-to: <20230126043824.54819-9-richard.henderson@linaro.org>
-Message-ID: <87v8ksnl05.fsf@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PATCH v5 09/36] tcg/i386: Add TCG_TARGET_CALL_{RET,ARG}_I128
+Date: Fri, 27 Jan 2023 13:52:52 +0000
+In-reply-to: <20230126043824.54819-10-richard.henderson@linaro.org>
+Message-ID: <87r0vgnkxx.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,15 +98,11 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Richard Henderson <richard.henderson@linaro.org> writes:
 
-> We are about to allow passing Int128 to/from tcg helper functions,
-> but libffi doesn't support __int128_t, so use the structure.
+> Fill in the parameters for the host ABI for Int128.
+> Adjust tcg_target_call_oarg_reg for _WIN64, and
+> tcg_out_call for i386 sysv.  Allow TCG_TYPE_V128
+> stores without AVX enabled.
 >
-> In order for atomic128.h to continue working, we must provide
-> a mechanism to frob between real __int128_t and the structure.
-> Provide a new union, Int128Alias, for this.  We cannot modify
-> Int128 itself, as any changed alignment would also break libffi.
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
