@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD4C667F716
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 11:23:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 395E867F717
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 11:24:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLiLh-0002Qj-NN; Sat, 28 Jan 2023 05:22:17 -0500
+	id 1pLiNK-0003Wp-Er; Sat, 28 Jan 2023 05:23:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiLf-0002QU-0I
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:22:15 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiNI-0003Wa-Cx
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:23:56 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiLc-00034U-Uj
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:22:14 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiNG-0003HP-9c
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:23:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674901331;
+ s=mimecast20190719; t=1674901433;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=aYOUCKVwd/ni/RKtcBJZFKT3igbLn1pvhDgIUs3Og74=;
- b=fV4p0QP1aErZK8fCKcoKc+pUmXlbBCyjqyW7voI5KJtSkHjSoOuzvuMlPnuJ8KbD0dsRsy
- Pvn5OZxhWc157m7kh1IMw4pzMHBZwItROWZEE0WilyxiPmchtOL4JkQUTs6EhqRCGxvCzn
- q6w2KMyAuNxyS9HwaKBAhTVxtYH9RKk=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=caBFM00kRgechCjSMMC4d/+9+yYQlzekIWJJK5gnW6o=;
+ b=QWdHAN/AEGVzW8V/BT0ACZ+/Tupe4mhSE7YAzmHXqsOSmRyM/xbIQFLQSYBjmNpHhIZdTK
+ jrQbPstoZ77KZqf8K4UnBf3yriyGbY44ush/VmS4CMcME3AcKtlTQEBVeh75D2vGgW7vj1
+ 46ysXgauW99cWeV9v+w1JLQMaG5t8W8=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-526-H1SQQbyiOvuN9KOO4KUEtw-1; Sat, 28 Jan 2023 05:22:09 -0500
-X-MC-Unique: H1SQQbyiOvuN9KOO4KUEtw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- r15-20020a05600c35cf00b003d9a14517b2so6146901wmq.2
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 02:22:09 -0800 (PST)
+ us-mta-94-z8CQgvY1PlmIlwktgNPLgg-1; Sat, 28 Jan 2023 05:23:51 -0500
+X-MC-Unique: z8CQgvY1PlmIlwktgNPLgg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ z11-20020a1c4c0b000000b003db062505b9so2175409wmf.4
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 02:23:51 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=aYOUCKVwd/ni/RKtcBJZFKT3igbLn1pvhDgIUs3Og74=;
- b=yJl3YikRBcsv0wATEIrgR+JXaPh/PB0HRIhrwLJlKMTGZiyWm3Sgo9FjX+O1CKsG3n
- u75cAQt895bPU8mGhAy8lCXZjXtPTzSIEJSFl/6THak4hXrG/gX9c2/iLcPecKiyRfJe
- CIbDthG6FL6bxkblBhUqqYFGF9J7dvUUl1d62lScCa/OX3EOZGYdks8XWGNX53HtrVDG
- DxYeyYv/oJOFRI2VEQyeO8vngevK5HviOrpT+tuQShLz3yluG/rG0tr4fICoG63gHT3u
- r3t6USr/O5buFVsjyXPnBV+C2K8L7Hc0zZ2G49Uw3RIPGpxmhfJboeWC7OCaMAcQyV/N
- rmdg==
-X-Gm-Message-State: AFqh2koPavZQ6az+KM2VKW6KPS/lnBUlj7W/AaMTZn0G0a1UmCd2WIOf
- bOslC0x6OHnpY4w7sH/Zy6wS8q+0NKiI+2DjD45TLDblqoCeJOzuOcg2GeHX1lSNmYhRT6C7p7s
- YsRxjKuiqSNIz5Lg=
-X-Received: by 2002:a05:600c:502c:b0:3db:30d:deac with SMTP id
- n44-20020a05600c502c00b003db030ddeacmr43284302wmr.1.1674901328723; 
- Sat, 28 Jan 2023 02:22:08 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtMhpLN8hTwyVspW379Q6TOZf+zr3e7vwDX1a/1sNeNBsAwBWKII+RL05SWvBZumxFYHoNKRw==
-X-Received: by 2002:a05:600c:502c:b0:3db:30d:deac with SMTP id
- n44-20020a05600c502c00b003db030ddeacmr43284287wmr.1.1674901328464; 
- Sat, 28 Jan 2023 02:22:08 -0800 (PST)
+ bh=caBFM00kRgechCjSMMC4d/+9+yYQlzekIWJJK5gnW6o=;
+ b=iUJttfoblR83DjlCNEJnvjSF1MQXi+Fy4UnTVX7s3qR3HYlYv5rTTWt779VvjqQPWS
+ ERSdDtBoc0uD/t2yGmGLd9eKFefclllrUshBJx9Nb0bjPnhYgnm4PWvBwi6MqioJrOD7
+ h1WcnvR7hTpv259NI/QKAUlLttFYL05UDiQyw2ZnLhUB11d304W0svK/tkj1Vd7xhfQ2
+ zxhoRItsAj5Ehxqh8sXOwW1Hx70h0rK9xyONyx2rslFgn5ZpHpAwOAFFXWbEmeS31+7j
+ KqpgYKoIY1guf+iub9wMbh0d/nR0KiwndFB/wRxFlhTw8n9LI87otFaFzd7awUogulm2
+ BQ8Q==
+X-Gm-Message-State: AO0yUKV3w4bYQCb0vLYfuGvZN6ZWrGbb0LKWcxHTA3orydHVCwpBzQOa
+ msAE1E1ma46Wg5yygRAKkY5bMpOYKlqvEB4ECfmLCiFUsXc33fK6t+Gpq1Scu51SsXqa0Li/Ed7
+ BJebDRwItbWx/zzQ=
+X-Received: by 2002:a5d:410f:0:b0:2bf:d940:29b6 with SMTP id
+ l15-20020a5d410f000000b002bfd94029b6mr2288719wrp.54.1674901430541; 
+ Sat, 28 Jan 2023 02:23:50 -0800 (PST)
+X-Google-Smtp-Source: AK7set+e1JlIosck5Q6Pqb72b+my24PwwInGJgClmqD/a9nMuB9tJrufEtvcBowWVY1jQ6LQjYnAcA==
+X-Received: by 2002:a5d:410f:0:b0:2bf:d940:29b6 with SMTP id
+ l15-20020a5d410f000000b002bfd94029b6mr2288704wrp.54.1674901430233; 
+ Sat, 28 Jan 2023 02:23:50 -0800 (PST)
 Received: from redhat.com ([2.52.20.248]) by smtp.gmail.com with ESMTPSA id
- y21-20020a05600c341500b003da28dfdedcsm207012wmp.5.2023.01.28.02.22.07
+ z12-20020a5d4d0c000000b002bbb2d43f65sm6280310wrt.14.2023.01.28.02.23.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Jan 2023 02:22:07 -0800 (PST)
-Date: Sat, 28 Jan 2023 05:22:05 -0500
+ Sat, 28 Jan 2023 02:23:49 -0800 (PST)
+Date: Sat, 28 Jan 2023 05:23:46 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 2/3]  virtio: struct VirtQueue introduce reset
-Message-ID: <20230128050411-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH 1/3] virtio: move struct VirtQueue to include file
+Message-ID: <20230128052212-mutt-send-email-mst@kernel.org>
 References: <20230128071724.33677-1-xuanzhuo@linux.alibaba.com>
- <20230128071724.33677-3-xuanzhuo@linux.alibaba.com>
+ <20230128071724.33677-2-xuanzhuo@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230128071724.33677-3-xuanzhuo@linux.alibaba.com>
+In-Reply-To: <20230128071724.33677-2-xuanzhuo@linux.alibaba.com>
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -95,82 +95,157 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Jan 28, 2023 at 03:17:23PM +0800, Xuan Zhuo wrote:
->  In the current design, we stop the device from operating on the vring
->  during per-queue reset by resetting the structure VirtQueue.
+On Sat, Jan 28, 2023 at 03:17:22PM +0800, Xuan Zhuo wrote:
+> This patch move struct VirtQueue into virtio.h.
 > 
->  But before the reset operation, when recycling some resources, we should
->  stop referencing new vring resources. For example, when recycling
->  virtio-net's asynchronous sending resources, virtio-net should be able
->  to perceive that the current queue is in the per-queue reset state, and
->  stop sending new packets from the tx queue.
+> In order to implement Queue Reset, we have to record the queue reset
+> status of in struct VirtQueue and provide it to device.
 > 
->  Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+
+So add an API please, no need to move the struct.
+This patch will go away then.
+
 > ---
->  hw/virtio/virtio.c         | 8 ++++++++
->  include/hw/virtio/virtio.h | 3 +++
->  2 files changed, 11 insertions(+)
+>  hw/virtio/virtio.c         | 49 -----------------------------------
+>  include/hw/virtio/virtio.h | 52 ++++++++++++++++++++++++++++++++++++--
+>  2 files changed, 50 insertions(+), 51 deletions(-)
 > 
 > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index 03077b2ecf..907d5b8bde 100644
+> index f35178f5fc..03077b2ecf 100644
 > --- a/hw/virtio/virtio.c
 > +++ b/hw/virtio/virtio.c
-> @@ -2030,6 +2030,12 @@ void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
->  {
->      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+> @@ -101,60 +101,11 @@ typedef struct VRingMemoryRegionCaches {
+>      MemoryRegionCache used;
+>  } VRingMemoryRegionCaches;
 >  
-> +    /*
-> +     * Mark this queue is per-queue reset status. The device should release the
-> +     * references of the vring, and not refer more new vring item.
-> +     */
-> +    vdev->vq[queue_index].reset = true;
-> +
->      if (k->queue_reset) {
->          k->queue_reset(vdev, queue_index);
->      }
-> @@ -2053,6 +2059,8 @@ void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
->      }
->      */
+> -typedef struct VRing
+> -{
+> -    unsigned int num;
+> -    unsigned int num_default;
+> -    unsigned int align;
+> -    hwaddr desc;
+> -    hwaddr avail;
+> -    hwaddr used;
+> -    VRingMemoryRegionCaches *caches;
+> -} VRing;
+> -
+>  typedef struct VRingPackedDescEvent {
+>      uint16_t off_wrap;
+>      uint16_t flags;
+>  } VRingPackedDescEvent ;
 >  
-> +    vdev->vq[queue_index].reset = false;
-> +
->      if (k->queue_enable) {
->          k->queue_enable(vdev, queue_index);
->      }
+> -struct VirtQueue
+> -{
+> -    VRing vring;
+> -    VirtQueueElement *used_elems;
+> -
+> -    /* Next head to pop */
+> -    uint16_t last_avail_idx;
+> -    bool last_avail_wrap_counter;
+> -
+> -    /* Last avail_idx read from VQ. */
+> -    uint16_t shadow_avail_idx;
+> -    bool shadow_avail_wrap_counter;
+> -
+> -    uint16_t used_idx;
+> -    bool used_wrap_counter;
+> -
+> -    /* Last used index value we have signalled on */
+> -    uint16_t signalled_used;
+> -
+> -    /* Last used index value we have signalled on */
+> -    bool signalled_used_valid;
+> -
+> -    /* Notification enabled? */
+> -    bool notification;
+> -
+> -    uint16_t queue_index;
+> -
+> -    unsigned int inuse;
+> -
+> -    uint16_t vector;
+> -    VirtIOHandleOutput handle_output;
+> -    VirtIODevice *vdev;
+> -    EventNotifier guest_notifier;
+> -    EventNotifier host_notifier;
+> -    bool host_notifier_enabled;
+> -    QLIST_ENTRY(VirtQueue) node;
+> -};
+> -
+>  const char *virtio_device_names[] = {
+>      [VIRTIO_ID_NET] = "virtio-net",
+>      [VIRTIO_ID_BLOCK] = "virtio-blk",
 > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index 1c0d77c670..b888538d09 100644
+> index 77c6c55929..1c0d77c670 100644
 > --- a/include/hw/virtio/virtio.h
 > +++ b/include/hw/virtio/virtio.h
-> @@ -251,6 +251,9 @@ struct VirtQueue {
->      /* Notification enabled? */
->      bool notification;
+> @@ -214,6 +214,56 @@ struct VirtioDeviceClass {
+>      struct vhost_dev *(*get_vhost)(VirtIODevice *vdev);
+>  };
 >  
-> +    /* Per-Queue Reset status */
-> +    bool reset;
+> +typedef struct VRingMemoryRegionCaches VRingMemoryRegionCaches;
+> +typedef void (*VirtIOHandleOutput)(VirtIODevice *, VirtQueue *);
 > +
->      uint16_t queue_index;
+> +typedef struct VRing {
+> +    unsigned int num;
+> +    unsigned int num_default;
+> +    unsigned int align;
+> +    hwaddr desc;
+> +    hwaddr avail;
+> +    hwaddr used;
+> +    VRingMemoryRegionCaches *caches;
+> +} VRing;
+> +
+> +struct VirtQueue {
+> +    VRing vring;
+> +    VirtQueueElement *used_elems;
+> +
+> +    /* Next head to pop */
+> +    uint16_t last_avail_idx;
+> +    bool last_avail_wrap_counter;
+> +
+> +    /* Last avail_idx read from VQ. */
+> +    uint16_t shadow_avail_idx;
+> +    bool shadow_avail_wrap_counter;
+> +
+> +    uint16_t used_idx;
+> +    bool used_wrap_counter;
+> +
+> +    /* Last used index value we have signalled on */
+> +    uint16_t signalled_used;
+> +
+> +    /* Last used index value we have signalled on */
+> +    bool signalled_used_valid;
+> +
+> +    /* Notification enabled? */
+> +    bool notification;
+> +
+> +    uint16_t queue_index;
+> +
+> +    unsigned int inuse;
+> +
+> +    uint16_t vector;
+> +    VirtIOHandleOutput handle_output;
+> +    VirtIODevice *vdev;
+> +    EventNotifier guest_notifier;
+> +    EventNotifier host_notifier;
+> +    bool host_notifier_enabled;
+> +    QLIST_ENTRY(VirtQueue) node;
+> +};
+> +
+>  void virtio_instance_init_common(Object *proxy_obj, void *data,
+>                                   size_t vdev_size, const char *vdev_name);
 >  
-
-Reset state makes no sense. It seems to imply queue_reset
-in the spec. And for extra fun there's "reset" in the pci
-proxy which means "virtio_queue_reset is in progress" - I have no
-idea what uses it though - it is not guest visible.  First what is it?
-It actually means "queue has been reset and not has not been enabled since".
-So disabled_by_reset maybe?
-
-Second this hack helps make the change minimal
-so it's helpful for stable, but it's ugly in that it
-duplicates the reverse of enabled value - we don't really
-care what disabled it in practice.
-
-With the fixups above I can apply so it's easier to backport, but later
-a patch on top should clean it all up, perhaps by adding
-"enabled" in VirtQueue. We should also get rid of "reset" in the proxy
-unless there's some way it's useful which I don't currently see.
-
-
-
->      unsigned int inuse;
+> @@ -226,8 +276,6 @@ void virtio_error(VirtIODevice *vdev, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
+>  /* Set the child bus name. */
+>  void virtio_device_set_child_bus_name(VirtIODevice *vdev, char *bus_name);
+>  
+> -typedef void (*VirtIOHandleOutput)(VirtIODevice *, VirtQueue *);
+> -
+>  VirtQueue *virtio_add_queue(VirtIODevice *vdev, int queue_size,
+>                              VirtIOHandleOutput handle_output);
+>  
 > -- 
 > 2.32.0.3.g01195cf9f
 
