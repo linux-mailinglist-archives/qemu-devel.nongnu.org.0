@@ -2,78 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80EF367F2C4
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 01:08:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3361067F31C
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 01:24:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLYlL-0004St-FI; Fri, 27 Jan 2023 19:08:07 -0500
+	id 1pLYzY-0007gZ-Vy; Fri, 27 Jan 2023 19:22:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLYlD-0004SF-RR
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 19:08:00 -0500
-Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
+ id 1pLYzX-0007gH-40
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 19:22:47 -0500
+Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLYlB-00023n-Ci
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 19:07:58 -0500
-Received: by mail-pg1-x52f.google.com with SMTP id r18so4217282pgr.12
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 16:07:57 -0800 (PST)
+ id 1pLYzU-00068c-DQ
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 19:22:46 -0500
+Received: by mail-pl1-x62f.google.com with SMTP id d3so6548569plr.10
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 16:22:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=YU7YW85QPyg9XiExQDx6HHoBI9WegkkBjdetxlQe2BA=;
- b=InT5xDytkKCvS19kVb/E04KjdCJjarIrs3tK5VtFzItNWMSeNyV3hvHQ7L5Kb6XIzH
- P1qja1qFIRxXg2pdsHIt62YONgs3mqj7XJfwqMgsXB35Nmh+3K//ICcu6DFFHbACPPEv
- GjIB0MSTFwCfDJL6FErtU3TiN6H41qvq4jdEfGWw4FcNAXLAhRYVXjtGsGtyJM8y2J/6
- 1yfyH9IoU8+dGInHt0D7dJYnA07i2kPRA2YWgB4iAvtg6us5nE72n13Co1lZoRvtGble
- 9equAjl1bMxcht6iO/FAvDUXzMRKS0rYXe/iqDJ0jgBfSd/hXJEQ0vZiIXFKIUDmtpBC
- KCjw==
+ bh=GadLoYihLq2je6MYFrcuqG6j575+3dCNXyYioo3yDv4=;
+ b=LzXYQzQcjpXjqcvSEOU37Agha8Nf96xVUrqeb0JZuBURmEwXJAtxvemoVS8EryFLnO
+ rJZQZZBlvvzCRTe3oUij/oAav3mxA2I0BqVhMxlL2nQ0YPfeJJVPuK6Bg4b6Kc3jOAjY
+ VeXcRPQ1K5Rh0IHvX2rquaCk/1PzVLThF7aQt7QeW1zNe6P45x28KdtbUcNcC9KM0+Yz
+ YuFk9oZTpZGmM+WMmvga10sG+1CoCBVa/W/cQEvabhnLclsK+evg8KJHuECWQqZEeCXo
+ Wk8dRr9crxKRCtqpQBCSy6sLF87fa4T4sCyZPAv7PCchKLvp+yORJ93ocLzv5VoxeHhf
+ PY/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=YU7YW85QPyg9XiExQDx6HHoBI9WegkkBjdetxlQe2BA=;
- b=X4xSAxqNzzB4Cgw6Tsv79/CE85QqeVYso9+OmHUAYpGKy1G21iWTZCNAbyn0QxWKVC
- J/jS2jm5QN96Bpm+K1bkF1t195X+qljd/Lr9433M1iPNkTM9i09xXKKgF29+zkqZUEOk
- T7hUY74mP5IKpI+jYZ3/ZWMH1rt95HKNT4ocasDNE5GUuDWhTxPdAGSEFfGY/baoSmx8
- BJHJ3ewOUQNTcyAIIhEWGMfofyaFCAPDBOlVRzThHwLWQucWD24Y7sp5zU8yS7ztOSDG
- 5bX7DOWS0e3N3iSJS3E0kKS0i2HAhBxhQz3x8mgNnFAyEK+5fwfql43vxSpMn/2QbWlB
- gcYA==
-X-Gm-Message-State: AFqh2krLXyaSQ53D7zlk4grAQLwHPR+TUth8dPojwLjVFGhEY+SrReus
- BrolhhbyILlABN21InVzalNzlA==
-X-Google-Smtp-Source: AMrXdXtwWcvCovpkIIlO4QENFYvBh/hlFQr6arSIh2vaId8oz311bkjp0hv3DpHUeVAcJO5ciNXLkg==
-X-Received: by 2002:a62:3007:0:b0:587:8d47:acdd with SMTP id
- w7-20020a623007000000b005878d47acddmr40545361pfw.34.1674864475973; 
- Fri, 27 Jan 2023 16:07:55 -0800 (PST)
+ bh=GadLoYihLq2je6MYFrcuqG6j575+3dCNXyYioo3yDv4=;
+ b=QpxscDExyeH7ox5TAUcSSEEq9GRlkI5YDzzeP1ovdcA3MjIvoTv8Zcv/URnlO3rppF
+ xQ6+QS46Bdp937NNGmaNCGUvtirwqqh2/ASFbd2xc0TXTcA9WfMTsBfmzH2QFtJfsdKG
+ kmNyNJqtEvrS4T5u/VBjR4Cg5h8jf2PSOLF3BLMRuvhP4V1iN6QkLEWKpIgjOQHOhTgD
+ xHSPjDg2iTTIkQtI7k144xTsUUlmxnCJYW41lTASqje/ZJqDkCrAWmrqikO4SIFupIQ1
+ lbqVmx6iago8x0R5s1l2Cym7tD+gjHISnQvdczdVJwTmhNdJGt8xSdg5ZB9N6tdvy/l0
+ KEZA==
+X-Gm-Message-State: AO0yUKUg3B1ch51MMrkRVqsVq9FSgD8zB2t6ayApK0R5d9Tr7TEn8P+F
+ ZmVTCzGGZfcoUuMelxiTZXD1ag==
+X-Google-Smtp-Source: AK7set/Lk845WbGAFjZ5rF89GfB5FvB7W1sRpidMh9LOczcFsy825tblbmE6E7m86VRHuoGiqkF90w==
+X-Received: by 2002:a17:902:d2c2:b0:196:3596:4a29 with SMTP id
+ n2-20020a170902d2c200b0019635964a29mr12288145plc.21.1674865362703; 
+ Fri, 27 Jan 2023 16:22:42 -0800 (PST)
 Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
  [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- bm6-20020a056a00320600b0058d9623e7f1sm3187454pfb.73.2023.01.27.16.07.53
+ g8-20020a1709026b4800b00188c9c11559sm3445126plt.1.2023.01.27.16.22.40
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 16:07:55 -0800 (PST)
-Message-ID: <d0fc0e05-180b-f345-441f-f4c62c8e1521@linaro.org>
-Date: Fri, 27 Jan 2023 14:07:51 -1000
+ Fri, 27 Jan 2023 16:22:42 -0800 (PST)
+Message-ID: <d9c2116b-79bf-9a25-a407-bba568e23773@linaro.org>
+Date: Fri, 27 Jan 2023 14:22:38 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [RFC PATCH 11/16] target/arm/kvm-rme: Add Realm Personalization
- Value parameter
+Subject: Re: [RFC PATCH 12/16] target/arm/kvm-rme: Add Realm SVE vector length
 Content-Language: en-US
 To: Jean-Philippe Brucker <jean-philippe@linaro.org>, peter.maydell@linaro.org
 Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, pbonzini@redhat.com,
  eblake@redhat.com, armbru@redhat.com, berrange@redhat.com,
  eduardo@habkost.net, alex.bennee@linaro.org
 References: <20230127150727.612594-1-jean-philippe@linaro.org>
- <20230127150727.612594-12-jean-philippe@linaro.org>
+ <20230127150727.612594-13-jean-philippe@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230127150727.612594-12-jean-philippe@linaro.org>
+In-Reply-To: <20230127150727.612594-13-jean-philippe@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -97,54 +96,54 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/27/23 05:07, Jean-Philippe Brucker wrote:
-> +static int rme_parse_rpv(uint8_t *out, const char *in, Error **errp)
-> +{
-> +    int ret;
-> +    size_t in_len = strlen(in);
-> +
-> +    /* Two chars per byte */
-> +    if (in_len > KVM_CAP_ARM_RME_RPV_SIZE * 2) {
-> +        error_setg(errp, "Realm Personalization Value is too large");
-> +        return -E2BIG;
-> +    }
-> +
-> +    /*
-> +     * Parse as big-endian hexadecimal number (most significant byte on the
-> +     * left), store little-endian, zero-padded on the right.
-> +     */
-> +    while (in_len) {
-> +        /*
-> +         * Do the lower nibble first to catch invalid inputs such as '2z', and
-> +         * to handle the last char.
-> +         */
-> +        in_len--;
-> +        ret = sscanf(in + in_len, "%1hhx", out);
-> +        if (ret != 1) {
-> +            error_setg(errp, "Invalid Realm Personalization Value");
-> +            return -EINVAL;
-> +        }
-> +        if (!in_len) {
-> +            break;
-> +        }
-> +        in_len--;
-> +        ret = sscanf(in + in_len, "%2hhx", out++);
-> +        if (ret != 1) {
-> +            error_setg(errp, "Invalid Realm Personalization Value");
-> +            return -EINVAL;
-> +        }
-> +    }
-
-I think this parsing is late, and should be done
-
-> +static void rme_set_rpv(Object *obj, const char *value, Error **errp)
+> +static void rme_get_uint32(Object *obj, Visitor *v, const char *name,
+> +                           void *opaque, Error **errp)
 > +{
 > +    RmeGuest *guest = RME_GUEST(obj);
+> +    uint32_t value;
 > +
-> +    g_free(guest->personalization_value);
-> +    guest->personalization_value = g_strdup(value);
+> +    if (strcmp(name, "sve-vector-length") == 0) {
+> +        value = guest->sve_vl;
+> +    } else {
+> +        g_assert_not_reached();
+> +    }
+> +
+> +    visit_type_uint32(v, name, &value, errp);
+> +}
+> +
+> +static void rme_set_uint32(Object *obj, Visitor *v, const char *name,
+> +                           void *opaque, Error **errp)
+> +{
+> +    RmeGuest *guest = RME_GUEST(obj);
+> +    uint32_t max_value;
+> +    uint32_t value;
+> +    uint32_t *var;
+> +
+> +    if (!visit_type_uint32(v, name, &value, errp)) {
+> +        return;
+> +    }
+> +
+> +    if (strcmp(name, "sve-vector-length") == 0) {
+> +        max_value = ARM_MAX_VQ * 128;
+> +        var = &guest->sve_vl;
+> +        if (value & 0x7f) {
+> +            error_setg(errp, "invalid SVE vector length %"PRIu32, value);
+> +            return;
+> +        }
+> +    } else {
+> +        g_assert_not_reached();
+> +    }
+> +
+> +    if (value >= max_value) {
+> +        error_setg(errp, "invalid %s length %"PRIu32, name, value);
+> +        return;
+> +    }
+> +
+> +    *var = value;
 > +}
 
-here, when the value is set, so that the error is produced at the proper time.
+I don't think you should try to genericize these functions, comparing the name string. 
+Just rename them and let them be specific to SVE.
 
 
 r~
