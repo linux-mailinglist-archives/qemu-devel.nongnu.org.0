@@ -2,96 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B3B667F720
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 11:30:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29CFC67F72A
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 11:39:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLiTD-0006JX-J0; Sat, 28 Jan 2023 05:30:03 -0500
+	id 1pLibF-0000kU-Vp; Sat, 28 Jan 2023 05:38:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiTB-0006Ie-61
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:30:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1pLibC-0000k7-S8
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:38:18 -0500
+Received: from out30-7.freemail.mail.aliyun.com ([115.124.30.7])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiT9-0004IV-9E
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:30:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674901798;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6FB+edsbb44QCZ358g73Bl78hzSRCKhojxU7VjQ1JnU=;
- b=FMqWt89cZxDuVBfJ7McwztOz0XY0U7Hm4ktM3GuIg7/7E6ENwvkq2a44kVVCu5rQetvDmq
- sxsIfRMwyozrCJH+mqbBWW8fvcMPD88YyIq4n50gb3DAr3rdYP8o7Hp/Lvc7VJjinzidkE
- rWnAcIET2WdYJKwVSp85EEQ509W8AsM=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-61-VLelhfXuPAKaNUSdrBg_yg-1; Sat, 28 Jan 2023 05:29:54 -0500
-X-MC-Unique: VLelhfXuPAKaNUSdrBg_yg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- r15-20020a05600c35cf00b003d9a14517b2so6154913wmq.2
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 02:29:54 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6FB+edsbb44QCZ358g73Bl78hzSRCKhojxU7VjQ1JnU=;
- b=oc4rHzIwA/G71OyTZOXtAV0zrGTJ1DnMjrrMOFSAG8+msEhvf1c7j1qyE4Ie0bBtDY
- K1MUKKJRq4tteADDtf8pjeFO2Legh9efTTeMWoS5RoFGA9ibKxovuMnBqH7V1QNBks5M
- /nuKowPxMCr968ofO0a1vr+IZw10fgGR1Bbzx6Q8dmRnWXSwTjAsXgswCUEak7Gxp2EF
- uOBjRCCtpRyinIvP2fX34NIhXoCZoMC+CnalVo0tAS5bohJMwEgzehfTUFqlwdFzeOUR
- pdM20fvZh6nNzmI3DMzUwKQzxq29ZvLoGfiHI4r7DKcoSgnUZ6zTIWPOCv7fW/OLrzl0
- LIKA==
-X-Gm-Message-State: AFqh2kog65H4AcflEPH1vEGtN9JTEanfQTA3llRag2msGu7qWT1j0yet
- XTjNxtvuPkWkI4hoXYyKuJC64KOp/pLGMVGgUM6GgR1envwkzJDGtf5IxRFjFaTWYXXKTVm0icn
- klND8YWAIEblOk9A=
-X-Received: by 2002:a05:600c:4f4a:b0:3db:5f1:53a5 with SMTP id
- m10-20020a05600c4f4a00b003db05f153a5mr44594801wmq.20.1674901793175; 
- Sat, 28 Jan 2023 02:29:53 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuno6zz4nZQndocIplzwwOWQovv2WGK1jCz73RtkVbRaHT41YIqt6ePM429fHAtdaFDUUjG+g==
-X-Received: by 2002:a05:600c:4f4a:b0:3db:5f1:53a5 with SMTP id
- m10-20020a05600c4f4a00b003db05f153a5mr44594772wmq.20.1674901792934; 
- Sat, 28 Jan 2023 02:29:52 -0800 (PST)
-Received: from redhat.com ([2.52.20.248]) by smtp.gmail.com with ESMTPSA id
- i20-20020a05600c071400b003db0ad636d1sm9927098wmn.28.2023.01.28.02.29.49
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Jan 2023 02:29:52 -0800 (PST)
-Date: Sat, 28 Jan 2023 05:29:47 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Warner Losh <imp@bsdimp.com>, Markus Armbruster <armbru@redhat.com>,
- qemu-devel@nongnu.org, richard.henderson@linaro.org,
- pbonzini@redhat.com, kwolf@redhat.com, hreitz@redhat.com,
- kevans@freebsd.org, berrange@redhat.com, groug@kaod.org,
- qemu_oss@crudebyte.com, philmd@linaro.org, alistair@alistair23.me,
- jasowang@redhat.com, jonathan.cameron@huawei.com,
- kbastian@mail.uni-paderborn.de, quintela@redhat.com,
- dgilbert@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
- tsimpson@quicinc.com, palmer@dabbelt.com, bin.meng@windriver.com,
- qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org
-Subject: Re: [PATCH v4 04/19] bsd-user: Clean up includes
-Message-ID: <20230128052729-mutt-send-email-mst@kernel.org>
-References: <20230119065959.3104012-1-armbru@redhat.com>
- <20230119065959.3104012-5-armbru@redhat.com>
- <CANCZdfrU4zVcepMj=B5EVUz-qhCDhMYDs+cYS5yfW1-G01PsbA@mail.gmail.com>
- <CAFEAcA8E98v5X5ekA16c6Fby2HAhOC5G4JYnN9TkrA9G7rVzvA@mail.gmail.com>
- <20230127100052-mutt-send-email-mst@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230127100052-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1pLib9-0006MY-9d
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:38:18 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R931e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
+ MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=3; SR=0;
+ TI=SMTPD_---0VaHUGZj_1674902282; 
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
+ fp:SMTPD_---0VaHUGZj_1674902282) by smtp.aliyun-inc.com;
+ Sat, 28 Jan 2023 18:38:03 +0800
+Message-ID: <1674902272.7078173-1-xuanzhuo@linux.alibaba.com>
+Subject: Re: [PATCH 1/3] virtio: move struct VirtQueue to include file
+Date: Sat, 28 Jan 2023 18:37:52 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ Jason Wang <jasowang@redhat.com>
+References: <20230128071724.33677-1-xuanzhuo@linux.alibaba.com>
+ <20230128071724.33677-2-xuanzhuo@linux.alibaba.com>
+ <20230128052212-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20230128052212-mutt-send-email-mst@kernel.org>
+Received-SPF: pass client-ip=115.124.30.7;
+ envelope-from=xuanzhuo@linux.alibaba.com;
+ helo=out30-7.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,42 +61,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 27, 2023 at 10:01:57AM -0500, Michael S. Tsirkin wrote:
-> On Fri, Jan 27, 2023 at 02:54:30PM +0000, Peter Maydell wrote:
-> > On Thu, 19 Jan 2023 at 14:42, Warner Losh <imp@bsdimp.com> wrote:
-> > >
-> > > Also, why didn't you move sys/resource.h and other such files
-> > > to os-dep.h? I'm struggling to understand the rules around what
-> > > is or isn't included where?
-> > 
-> > The rough rule of thumb is that if some OS needs a compatibility
-> > fixup or workaround for a system header (eg not every mmap.h
-> > defines MAP_ANONYMOUS; on Windows unistd.h has to come before
-> > time.h) then we put that header include and the compat workaround
-> > into osdep.h. This avoids "only fails on obscure platform" issues
-> > where somebody puts a header include into some specific .c file
-> > but not the compat workaround, and it works on the Linux host
-> > that most people develop and test on and we only find the
-> > problem later.
-> > 
-> > There's also no doubt some includes there for historical
-> > reasons, and some which really are "everybody needs these"
-> > convenience ones. But we should probably not add new
-> > includes to osdep.h unless they fall into the "working around
-> > system header issues" bucket.
-> > 
-> > thanks
-> > -- PMM
-> 
-> 
-> BTW maybe we should teach checkpatch about that rule:
-> if a header is in osdep do not include it directly.
+On Sat, 28 Jan 2023 05:23:46 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> On Sat, Jan 28, 2023 at 03:17:22PM +0800, Xuan Zhuo wrote:
+> > This patch move struct VirtQueue into virtio.h.
+> >
+> > In order to implement Queue Reset, we have to record the queue reset
+> > status of in struct VirtQueue and provide it to device.
+> >
+> > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+>
+> So add an API please, no need to move the struct.
+> This patch will go away then.
 
-To be more precise, make checkpatch run clean-includes somehow?
-Or just make CI run clean-includes on the tree and verify result
-is empty?
+OK.
 
-> -- 
-> MST
+Thanks.
 
+
+>
+> > ---
+> >  hw/virtio/virtio.c         | 49 -----------------------------------
+> >  include/hw/virtio/virtio.h | 52 ++++++++++++++++++++++++++++++++++++--
+> >  2 files changed, 50 insertions(+), 51 deletions(-)
+> >
+> > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> > index f35178f5fc..03077b2ecf 100644
+> > --- a/hw/virtio/virtio.c
+> > +++ b/hw/virtio/virtio.c
+> > @@ -101,60 +101,11 @@ typedef struct VRingMemoryRegionCaches {
+> >      MemoryRegionCache used;
+> >  } VRingMemoryRegionCaches;
+> >
+> > -typedef struct VRing
+> > -{
+> > -    unsigned int num;
+> > -    unsigned int num_default;
+> > -    unsigned int align;
+> > -    hwaddr desc;
+> > -    hwaddr avail;
+> > -    hwaddr used;
+> > -    VRingMemoryRegionCaches *caches;
+> > -} VRing;
+> > -
+> >  typedef struct VRingPackedDescEvent {
+> >      uint16_t off_wrap;
+> >      uint16_t flags;
+> >  } VRingPackedDescEvent ;
+> >
+> > -struct VirtQueue
+> > -{
+> > -    VRing vring;
+> > -    VirtQueueElement *used_elems;
+> > -
+> > -    /* Next head to pop */
+> > -    uint16_t last_avail_idx;
+> > -    bool last_avail_wrap_counter;
+> > -
+> > -    /* Last avail_idx read from VQ. */
+> > -    uint16_t shadow_avail_idx;
+> > -    bool shadow_avail_wrap_counter;
+> > -
+> > -    uint16_t used_idx;
+> > -    bool used_wrap_counter;
+> > -
+> > -    /* Last used index value we have signalled on */
+> > -    uint16_t signalled_used;
+> > -
+> > -    /* Last used index value we have signalled on */
+> > -    bool signalled_used_valid;
+> > -
+> > -    /* Notification enabled? */
+> > -    bool notification;
+> > -
+> > -    uint16_t queue_index;
+> > -
+> > -    unsigned int inuse;
+> > -
+> > -    uint16_t vector;
+> > -    VirtIOHandleOutput handle_output;
+> > -    VirtIODevice *vdev;
+> > -    EventNotifier guest_notifier;
+> > -    EventNotifier host_notifier;
+> > -    bool host_notifier_enabled;
+> > -    QLIST_ENTRY(VirtQueue) node;
+> > -};
+> > -
+> >  const char *virtio_device_names[] = {
+> >      [VIRTIO_ID_NET] = "virtio-net",
+> >      [VIRTIO_ID_BLOCK] = "virtio-blk",
+> > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> > index 77c6c55929..1c0d77c670 100644
+> > --- a/include/hw/virtio/virtio.h
+> > +++ b/include/hw/virtio/virtio.h
+> > @@ -214,6 +214,56 @@ struct VirtioDeviceClass {
+> >      struct vhost_dev *(*get_vhost)(VirtIODevice *vdev);
+> >  };
+> >
+> > +typedef struct VRingMemoryRegionCaches VRingMemoryRegionCaches;
+> > +typedef void (*VirtIOHandleOutput)(VirtIODevice *, VirtQueue *);
+> > +
+> > +typedef struct VRing {
+> > +    unsigned int num;
+> > +    unsigned int num_default;
+> > +    unsigned int align;
+> > +    hwaddr desc;
+> > +    hwaddr avail;
+> > +    hwaddr used;
+> > +    VRingMemoryRegionCaches *caches;
+> > +} VRing;
+> > +
+> > +struct VirtQueue {
+> > +    VRing vring;
+> > +    VirtQueueElement *used_elems;
+> > +
+> > +    /* Next head to pop */
+> > +    uint16_t last_avail_idx;
+> > +    bool last_avail_wrap_counter;
+> > +
+> > +    /* Last avail_idx read from VQ. */
+> > +    uint16_t shadow_avail_idx;
+> > +    bool shadow_avail_wrap_counter;
+> > +
+> > +    uint16_t used_idx;
+> > +    bool used_wrap_counter;
+> > +
+> > +    /* Last used index value we have signalled on */
+> > +    uint16_t signalled_used;
+> > +
+> > +    /* Last used index value we have signalled on */
+> > +    bool signalled_used_valid;
+> > +
+> > +    /* Notification enabled? */
+> > +    bool notification;
+> > +
+> > +    uint16_t queue_index;
+> > +
+> > +    unsigned int inuse;
+> > +
+> > +    uint16_t vector;
+> > +    VirtIOHandleOutput handle_output;
+> > +    VirtIODevice *vdev;
+> > +    EventNotifier guest_notifier;
+> > +    EventNotifier host_notifier;
+> > +    bool host_notifier_enabled;
+> > +    QLIST_ENTRY(VirtQueue) node;
+> > +};
+> > +
+> >  void virtio_instance_init_common(Object *proxy_obj, void *data,
+> >                                   size_t vdev_size, const char *vdev_name);
+> >
+> > @@ -226,8 +276,6 @@ void virtio_error(VirtIODevice *vdev, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
+> >  /* Set the child bus name. */
+> >  void virtio_device_set_child_bus_name(VirtIODevice *vdev, char *bus_name);
+> >
+> > -typedef void (*VirtIOHandleOutput)(VirtIODevice *, VirtQueue *);
+> > -
+> >  VirtQueue *virtio_add_queue(VirtIODevice *vdev, int queue_size,
+> >                              VirtIOHandleOutput handle_output);
+> >
+> > --
+> > 2.32.0.3.g01195cf9f
+>
 
