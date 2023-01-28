@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6E2567F610
+	by mail.lfdr.de (Postfix) with ESMTPS id C454D67F611
 	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 09:19:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLgOo-0006fW-Ay; Sat, 28 Jan 2023 03:17:22 -0500
+	id 1pLgMY-0003Fi-Qw; Sat, 28 Jan 2023 03:15:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+5966041548699f31a8b8+7097+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pLgJe-00062g-Fu
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 03:12:03 -0500
+ id 1pLgJW-0005ww-Vy
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 03:11:56 -0500
 Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+5966041548699f31a8b8+7097+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pLgJK-0007oO-2m
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 03:12:02 -0500
+ id 1pLgJK-0007oP-2m
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 03:11:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=Suj5JaXAV6Dna9OGCQmVqvUJtdLKuoQhB2n7KOFggUo=; b=erTEjf8J+vtf1f8rFQdI8G9fqA
- Z0MiKNSoc+3Q2hFATWRk7aduKuJJ4+U50FXI790KJsnsZffgGz8kNvo0SBchcCPAU0edNbAjU+bs7
- Ca0j+QPRTtfPW8W38DTK8v+sn5KLhy/emcVs7a+xKh5qfsUgCwMxiHv4CEIFxFRsVV3sg4R0oVOHm
- EdNLx+YcEbuo8Zndw8KRkEXgX4EQDwECT8iKKWXp8GhkFyuFYaEo+jYNd3nBGxUX0fVctqrfHNW7T
- YLzBCcub3YNL6PrAXP/i0z3JmXZ38tnHJ+N+Q3ugZM7jULH9treonEEzmRylhvPzYwFpKtL0LBWwD
- WmHxObxg==;
+ bh=88ZL2Sv2ZmdiJHLKulaWcOdR0xJF/YmTzSu1r7Yc93c=; b=soGCutuuzt6V2JXB/WjXZmAbuf
+ CzA2Pt0zFgs0PAHVQ05FnQ2+W+Q+vhwUy9Edf/kflxOu3TlpkF+kRwdrHX+eBffVVENrPC7Igwhiv
+ VLE0BXCIcuWlRrne2opIpfS6ZWw3aDH4QuhQEe79oVyeidwaMX5K5wRavOE+REkRky625xYcmm9eU
+ PSpk+f1QVrMzzHf5Qm0HMTwR4QHBv6qnJVS6Xm6O8TU4pPv1gANHra50A4xOcK8Jm0t+QwavHeYkF
+ yABqu676rD0CB/4ft6FEQQ/ZuXpxn/a16Orsem4HQg26T1BNXqfTWUPxoezP2okS9gl0Nw3fSevH9
+ ZPMX2r9A==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pLgIw-008RKN-0E; Sat, 28 Jan 2023 08:11:19 +0000
+ id 1pLgIw-008RKO-2I; Sat, 28 Jan 2023 08:11:19 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pLgIv-006mHo-3D; Sat, 28 Jan 2023 08:11:17 +0000
+ Linux)) id 1pLgIw-006mHs-0B; Sat, 28 Jan 2023 08:11:18 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -49,10 +49,9 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [PATCH v9 02/58] xen: add CONFIG_XEN_BUS and CONFIG_XEN_EMU options
- for Xen emulation
-Date: Sat, 28 Jan 2023 08:10:17 +0000
-Message-Id: <20230128081113.1615111-3-dwmw2@infradead.org>
+Subject: [PATCH v9 03/58] xen: Add XEN_DISABLED mode and make it default
+Date: Sat, 28 Jan 2023 08:10:18 +0000
+Message-Id: <20230128081113.1615111-4-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230128081113.1615111-1-dwmw2@infradead.org>
 References: <20230128081113.1615111-1-dwmw2@infradead.org>
@@ -86,82 +85,59 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-The XEN_EMU option will cover core Xen support in target/, which exists
-only for x86 with KVM today but could theoretically also be implemented
-on Arm/Aarch64 and with TCG or other accelerators (if anyone wants to
-run the gauntlet of struct layout compatibility, errno mapping, and the
-rest of that fui).
+Also set XEN_ATTACH mode in xen_init() to reflect the truth; not that
+anyone ever cared before. It was *only* ever checked in xen_init_pv()
+before.
 
-It will also cover the support for architecture-independent grant table
-and event channel support which will be added in hw/i386/kvm/ (on the
-basis that the non-KVM support is very theoretical and making it not use
-KVM directly seems like gratuitous overengineering at this point).
-
-The XEN_BUS option is for the xenfv platform support, which will now be
-used both by XEN_EMU and by real Xen.
-
-The XEN option remains dependent on the Xen runtime libraries, and covers
-support for real Xen. Some code which currently resides under CONFIG_XEN
-will be moving to CONFIG_XEN_BUS over time as the direct dependencies on
-Xen runtime libraries are eliminated. The Xen PCI platform device will
-also reside under CONFIG_XEN_BUS.
-
+Suggested-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- hw/Kconfig      | 1 +
- hw/i386/Kconfig | 5 +++++
- hw/xen/Kconfig  | 3 +++
- meson.build     | 1 +
- 4 files changed, 10 insertions(+)
- create mode 100644 hw/xen/Kconfig
+ accel/xen/xen-all.c  | 2 ++
+ include/hw/xen/xen.h | 5 +++--
+ softmmu/globals.c    | 2 +-
+ 3 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/hw/Kconfig b/hw/Kconfig
-index 38233bbb0f..ba62ff6417 100644
---- a/hw/Kconfig
-+++ b/hw/Kconfig
-@@ -41,6 +41,7 @@ source tpm/Kconfig
- source usb/Kconfig
- source virtio/Kconfig
- source vfio/Kconfig
-+source xen/Kconfig
- source watchdog/Kconfig
- 
- # arch Kconfig
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index c4fb5b49bd..07b2adc84f 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -136,3 +136,8 @@ config VMPORT
- config VMMOUSE
-     bool
-     depends on VMPORT
+diff --git a/accel/xen/xen-all.c b/accel/xen/xen-all.c
+index 69aa7d018b..2329556595 100644
+--- a/accel/xen/xen-all.c
++++ b/accel/xen/xen-all.c
+@@ -181,6 +181,8 @@ static int xen_init(MachineState *ms)
+      * opt out of system RAM being allocated by generic code
+      */
+     mc->default_ram_id = NULL;
 +
-+config XEN_EMU
-+    bool
-+    default y
-+    depends on KVM && (I386 || X86_64)
-diff --git a/hw/xen/Kconfig b/hw/xen/Kconfig
-new file mode 100644
-index 0000000000..3467efb986
---- /dev/null
-+++ b/hw/xen/Kconfig
-@@ -0,0 +1,3 @@
-+config XEN_BUS
-+    bool
-+    default y if (XEN || XEN_EMU)
-diff --git a/meson.build b/meson.build
-index 6d3b665629..1d8aa323e7 100644
---- a/meson.build
-+++ b/meson.build
-@@ -3832,6 +3832,7 @@ if have_system
-   if xen.found()
-     summary_info += {'xen ctrl version':  xen.version()}
-   endif
-+  summary_info += {'Xen emulation':     config_all.has_key('CONFIG_XEN_EMU')}
- endif
- summary_info += {'TCG support':       config_all.has_key('CONFIG_TCG')}
- if config_all.has_key('CONFIG_TCG')
++    xen_mode = XEN_ATTACH;
+     return 0;
+ }
+ 
+diff --git a/include/hw/xen/xen.h b/include/hw/xen/xen.h
+index 4d412fd4b2..b3873c581b 100644
+--- a/include/hw/xen/xen.h
++++ b/include/hw/xen/xen.h
+@@ -22,8 +22,9 @@
+ 
+ /* xen-machine.c */
+ enum xen_mode {
+-    XEN_EMULATE = 0,  // xen emulation, using xenner (default)
+-    XEN_ATTACH        // attach to xen domain created by libxl
++    XEN_DISABLED = 0, // xen support disabled (default)
++    XEN_ATTACH,       // attach to xen domain created by libxl
++    XEN_EMULATE,
+ };
+ 
+ extern uint32_t xen_domid;
+diff --git a/softmmu/globals.c b/softmmu/globals.c
+index 527edbefdd..0a4405614e 100644
+--- a/softmmu/globals.c
++++ b/softmmu/globals.c
+@@ -63,5 +63,5 @@ QemuUUID qemu_uuid;
+ bool qemu_uuid_set;
+ 
+ uint32_t xen_domid;
+-enum xen_mode xen_mode = XEN_EMULATE;
++enum xen_mode xen_mode = XEN_DISABLED;
+ bool xen_domid_restrict;
 -- 
 2.39.0
 
