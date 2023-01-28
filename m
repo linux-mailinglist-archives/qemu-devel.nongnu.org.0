@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3361067F31C
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 01:24:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF73367F32C
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 01:33:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLYzY-0007gZ-Vy; Fri, 27 Jan 2023 19:22:49 -0500
+	id 1pLZ80-00015p-NU; Fri, 27 Jan 2023 19:31:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLYzX-0007gH-40
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 19:22:47 -0500
-Received: from mail-pl1-x62f.google.com ([2607:f8b0:4864:20::62f])
+ id 1pLZ7v-00014d-Ov
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 19:31:27 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLYzU-00068c-DQ
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 19:22:46 -0500
-Received: by mail-pl1-x62f.google.com with SMTP id d3so6548569plr.10
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 16:22:43 -0800 (PST)
+ id 1pLZ7t-0007j8-Lj
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 19:31:27 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id m11so6195150pji.0
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 16:31:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=GadLoYihLq2je6MYFrcuqG6j575+3dCNXyYioo3yDv4=;
- b=LzXYQzQcjpXjqcvSEOU37Agha8Nf96xVUrqeb0JZuBURmEwXJAtxvemoVS8EryFLnO
- rJZQZZBlvvzCRTe3oUij/oAav3mxA2I0BqVhMxlL2nQ0YPfeJJVPuK6Bg4b6Kc3jOAjY
- VeXcRPQ1K5Rh0IHvX2rquaCk/1PzVLThF7aQt7QeW1zNe6P45x28KdtbUcNcC9KM0+Yz
- YuFk9oZTpZGmM+WMmvga10sG+1CoCBVa/W/cQEvabhnLclsK+evg8KJHuECWQqZEeCXo
- Wk8dRr9crxKRCtqpQBCSy6sLF87fa4T4sCyZPAv7PCchKLvp+yORJ93ocLzv5VoxeHhf
- PY/g==
+ bh=c9TvRgP/WaR8VIU1peabWvB2vUf9So4db7kZY32WBfc=;
+ b=IEl1AYt19438v8bXivEthPYpOZVUPLt1TrDVUjgeZveFIDdI2tZ8lPHkEJn+H5e73R
+ i0NhJaZktaN+kZg/8DvrsUAmXq4oqymNqseMNfdFNnTlgFLIygZh/5OTL/c3859W2erd
+ pcqdy0WSKVgxovtrUAuPOfpnyGdOPrWklX2QPSNrU9YDT6b0nPpsTpTJoJfydYqBI0ko
+ Vk8ozHdVW535sA2m3rsRJh/NLQmSQREVFY/3nbRi4zPa3U20D/1hXnTsP/oNCQT7UnAJ
+ Hoxp0HFBq5TaSU9leX81bCklm9Z5hYSW84h7lTe0DosdfxeUM4099HZEKF49xFMIc00f
+ 1ptg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GadLoYihLq2je6MYFrcuqG6j575+3dCNXyYioo3yDv4=;
- b=QpxscDExyeH7ox5TAUcSSEEq9GRlkI5YDzzeP1ovdcA3MjIvoTv8Zcv/URnlO3rppF
- xQ6+QS46Bdp937NNGmaNCGUvtirwqqh2/ASFbd2xc0TXTcA9WfMTsBfmzH2QFtJfsdKG
- kmNyNJqtEvrS4T5u/VBjR4Cg5h8jf2PSOLF3BLMRuvhP4V1iN6QkLEWKpIgjOQHOhTgD
- xHSPjDg2iTTIkQtI7k144xTsUUlmxnCJYW41lTASqje/ZJqDkCrAWmrqikO4SIFupIQ1
- lbqVmx6iago8x0R5s1l2Cym7tD+gjHISnQvdczdVJwTmhNdJGt8xSdg5ZB9N6tdvy/l0
- KEZA==
-X-Gm-Message-State: AO0yUKUg3B1ch51MMrkRVqsVq9FSgD8zB2t6ayApK0R5d9Tr7TEn8P+F
- ZmVTCzGGZfcoUuMelxiTZXD1ag==
-X-Google-Smtp-Source: AK7set/Lk845WbGAFjZ5rF89GfB5FvB7W1sRpidMh9LOczcFsy825tblbmE6E7m86VRHuoGiqkF90w==
-X-Received: by 2002:a17:902:d2c2:b0:196:3596:4a29 with SMTP id
- n2-20020a170902d2c200b0019635964a29mr12288145plc.21.1674865362703; 
- Fri, 27 Jan 2023 16:22:42 -0800 (PST)
+ bh=c9TvRgP/WaR8VIU1peabWvB2vUf9So4db7kZY32WBfc=;
+ b=0W7ctACR22UEj6/unF7q/fTKqqkNtG5ZZvep0tY0jr9AzhlAcVsl6bKnWT4hrNTeCn
+ 9J5kKn4QzDtptvKkC24tFhhe+n7pE9Wy8N/gQeXLmOu8vf9x5VgzmLVP00tdQ/2lzvSb
+ tYk4XxJ8msBmjKfwt1eWGCw5dcD/gMpDx6z6ojmR63qky6RDo4XLEdDckilbHLps2/JS
+ bIKrlrLNMvWp/l09W2X3Zr52hXd7LgspOO+N1KXomtaswiLzq5xpkZFFcR7o1MNH7NMb
+ aSvwdsj46EcVkpeGEPpwGy1GnHW3EODahXWJ11UUnjwVnPZ6hDsp3tuHhb2DtiYG4bTu
+ Oaxw==
+X-Gm-Message-State: AFqh2kokOuh4xDb+pm+xolWPJ23y4KqY/aan+oxS1mIw20zRbhV13fdh
+ V+nozKVKkhEHD2qR+ERhbzU42w==
+X-Google-Smtp-Source: AMrXdXsiNM15dpRGIk4QId/SPm9kumoxRKvgkSBZbhSmLmWgSylmcrGDkvxoIX/SzZChfNGsshb6ig==
+X-Received: by 2002:a17:90b:3148:b0:22b:ae0b:ac88 with SMTP id
+ ip8-20020a17090b314800b0022bae0bac88mr30939009pjb.47.1674865884062; 
+ Fri, 27 Jan 2023 16:31:24 -0800 (PST)
 Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
  [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- g8-20020a1709026b4800b00188c9c11559sm3445126plt.1.2023.01.27.16.22.40
+ em6-20020a17090b014600b00217090ece49sm3260523pjb.31.2023.01.27.16.31.21
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 16:22:42 -0800 (PST)
-Message-ID: <d9c2116b-79bf-9a25-a407-bba568e23773@linaro.org>
-Date: Fri, 27 Jan 2023 14:22:38 -1000
+ Fri, 27 Jan 2023 16:31:23 -0800 (PST)
+Message-ID: <55b9afd2-f158-3c27-fbb2-a367d10ce536@linaro.org>
+Date: Fri, 27 Jan 2023 14:31:19 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
@@ -71,8 +71,8 @@ From: Richard Henderson <richard.henderson@linaro.org>
 In-Reply-To: <20230127150727.612594-13-jean-philippe@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62f;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -110,40 +110,20 @@ On 1/27/23 05:07, Jean-Philippe Brucker wrote:
 > +
 > +    visit_type_uint32(v, name, &value, errp);
 > +}
-> +
-> +static void rme_set_uint32(Object *obj, Visitor *v, const char *name,
-> +                           void *opaque, Error **errp)
-> +{
-> +    RmeGuest *guest = RME_GUEST(obj);
-> +    uint32_t max_value;
-> +    uint32_t value;
-> +    uint32_t *var;
-> +
-> +    if (!visit_type_uint32(v, name, &value, errp)) {
-> +        return;
-> +    }
-> +
-> +    if (strcmp(name, "sve-vector-length") == 0) {
-> +        max_value = ARM_MAX_VQ * 128;
-> +        var = &guest->sve_vl;
-> +        if (value & 0x7f) {
-> +            error_setg(errp, "invalid SVE vector length %"PRIu32, value);
-> +            return;
-> +        }
-> +    } else {
-> +        g_assert_not_reached();
-> +    }
-> +
-> +    if (value >= max_value) {
-> +        error_setg(errp, "invalid %s length %"PRIu32, name, value);
-> +        return;
-> +    }
-> +
-> +    *var = value;
-> +}
 
-I don't think you should try to genericize these functions, comparing the name string. 
-Just rename them and let them be specific to SVE.
+Something I've used elsewhere just recently (and should probably make generic:
+
+static void rme_get_uint32(...)
+{
+     intptr_t offset = (intptr_t)opaque;
+     uint32_t *ptr = (void *)obj + offset;
+
+     visit_type_uint32(v, name, ptr, errp);
+}
+
+     object_class_property_add(oc, "sve-vector-length", "uint32",
+                               rme_get_uint32, rme_set_sve, NULL,
+                               (void *)(intptr_t)offsetof(RmeGuest, sve_vl));
 
 
 r~
