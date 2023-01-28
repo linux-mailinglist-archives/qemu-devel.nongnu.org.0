@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD08767FBD7
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 00:34:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B82367FBD8
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 00:34:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLugz-0003Sq-Ci; Sat, 28 Jan 2023 18:33:05 -0500
+	id 1pLuhU-0003qD-Le; Sat, 28 Jan 2023 18:33:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pLugw-0003SG-LI; Sat, 28 Jan 2023 18:33:02 -0500
-Received: from mail-oa1-x2d.google.com ([2001:4860:4864:20::2d])
+ id 1pLuhT-0003pu-EQ; Sat, 28 Jan 2023 18:33:35 -0500
+Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pLugv-0003ia-02; Sat, 28 Jan 2023 18:33:02 -0500
-Received: by mail-oa1-x2d.google.com with SMTP id
- 586e51a60fabf-16346330067so11004812fac.3; 
- Sat, 28 Jan 2023 15:32:58 -0800 (PST)
+ id 1pLuhR-0003tu-VT; Sat, 28 Jan 2023 18:33:35 -0500
+Received: by mail-oa1-x36.google.com with SMTP id
+ 586e51a60fabf-15085b8a2f7so10992933fac.2; 
+ Sat, 28 Jan 2023 15:33:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=+FPSBUqUDCbjK5SMFDbixw+ED95ggzOVp/fZudhlzQc=;
- b=ln4svgzDiC857vnHWIUF2390/uiy+vHacCn62ZVacDKgndm+qAzrd6LWSjycrKjUsa
- qv9oV20bCRH/VW7OGs4pxzgRM6k0q0kVg81WPeuS3GJs7TXhfmeUD8Rxx0mGuUbl44vv
- rOCa1O9k1B3FtFMNyv/OxlX2JIyzW9uFG8yAbZ7+Jv+HYvTPGp+N38ebQfxjzcC4UU/9
- OOE4W8AS/oYdgOXpH/7Rgftxp8Kh0jKzLNFG+109ihNCMm+S/qtolSdIxhDJ+ztitCpC
- qTmtnlYxQ3LSfdVeR8+4vKZk1jpHgA9EKcoSlTQPexqpkaHkhgGHR9+d4fEVXzX5cDap
- qulw==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=ZZe4VNlZtLr75fg+qhbbujaZ6qov/K5CAC/7EM1uyfc=;
+ b=BY4Mk1ind3fS+gCI3+prf0cpCLsNbkwyRdFg5E1pPhMpWPrUrRre/sr60UkOkZ6Apk
+ WWqocPzvBFnSr4ln5JzHcz6KIvifpqVDRrhFatXE00wRWsAReYCPcx4S3FA4Ng4Ft4p8
+ yHzozwgyXEKcJiBRHHf8dLpGIsCUGXdQB0k1H5YZBiN0nqmVL9GGWQKHqz8BFAcfwoQs
+ 3dp/wJzfAWpJSlcZfQ/t7eN6BdWXpT3YzsyXYCmv7oYVZYq/n0OUy4odG1SIpoUUgzCz
+ tkd59HxHx9Q7945FPk9UJJK0L0W88dXmDQ86m+o4wsZcB9ss895uJqsFxPtg4rKkZ2cY
+ vBKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+FPSBUqUDCbjK5SMFDbixw+ED95ggzOVp/fZudhlzQc=;
- b=2akneS121wja6xMW5eFWNlm7lBfllya+4PbFQdDezRmS3yWgS2JS2unnPi46hraZVP
- gET0fa2VS0UztfnkOuInoOyt315L+FUzk/6yixJd6elFwQbA1w3TYVC0Iu4ptydeNWBq
- 9oao3uTkgEvBTdoqsn+A1r0/+LCBYvdbKORUNo44XXXM87l8/QaFOzx5nVw4N2rO8HwL
- 3tqFAML++zlUVuQ91ryEZ1yG7C4fUuoxYf+ja5o2Q8sLkfZc4eVlq/8n7fgKpiifnAq9
- e4IOOtiMLn2tPDOaFIWyXZrwk5B3JDUvWoC8Yb40+91v5vNU51Eiu2zodDoCQCsREg7M
- m/bg==
-X-Gm-Message-State: AO0yUKW0HGqNikHyrg3sLbLCCuJ/IESEo/WJ3ueKnircawXjaNPxhRKY
- LBplJfNFldYAnSJiML4XOxsbEBYGWjk=
-X-Google-Smtp-Source: AK7set8r/JtkqHFoDjXg6185PVwaohM9sYQubgpGtqYZY2Rx8ZW/SVtz3LkHwt+fJS94PEJ7qde48A==
-X-Received: by 2002:a05:6870:561f:b0:163:29ec:6776 with SMTP id
- m31-20020a056870561f00b0016329ec6776mr9720275oao.32.1674948778019; 
- Sat, 28 Jan 2023 15:32:58 -0800 (PST)
+ bh=ZZe4VNlZtLr75fg+qhbbujaZ6qov/K5CAC/7EM1uyfc=;
+ b=nWj71oRzlEk1iDF7+vR7RYO9VomFBCGYbHEZDNNQjlIfzdMWrzZ6wRHrPpUqWsFQEE
+ V9M0KIxuSBNIvh5HTWypZFKwWe3tcPmL3hH4I2IYp/YVi/nsoLuh8O5QjSjlR+9OpoB8
+ OyVpThqQInsg6WrbskxPwKHDjtQBLr/vRkHsTL63zbMHxTKJSkb1ZlUwqst4bTd0jAHf
+ 4LHocUm2pBI07RqnlFjIzC9AAK5l/5aelpRwYANxqz5XvxN6j+MHbn5a1spTTA0pknCT
+ KH3HWxG73Qo3YINVgzu3QzD8pDAUMWTN3bSpH4ICLrOD+zr1T45lwMHzujSwNQWSITll
+ GAyw==
+X-Gm-Message-State: AO0yUKVzC3IKQSRHrG6JGMEsoKlmS5T3UWH+Fc/8OLSY+3Be6pYX4zkz
+ uteGLjpErBmoj4EAB8613j0Nkkrl+xE=
+X-Google-Smtp-Source: AK7set/03+wUCwdyloCdqTXqRslHAsh3/mZbDzITJQqq+gqd+HobNkoLh9jK/gFvx5ULBPwGRv6KEA==
+X-Received: by 2002:a05:6870:17a5:b0:144:57b1:c8cf with SMTP id
+ r37-20020a05687017a500b0014457b1c8cfmr1557046oae.47.1674948812062; 
+ Sat, 28 Jan 2023 15:33:32 -0800 (PST)
 Received: from [192.168.68.107] (200-148-13-157.dsl.telesp.net.br.
  [200.148.13.157]) by smtp.gmail.com with ESMTPSA id
- c17-20020a056870479100b0014fd25bd3b5sm3621810oaq.0.2023.01.28.15.32.56
+ j26-20020a4ad2da000000b00517425df590sm1298544oos.14.2023.01.28.15.33.30
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 Jan 2023 15:32:57 -0800 (PST)
-Message-ID: <389a1d6d-d6ee-9788-c402-3915e5aa2c44@gmail.com>
-Date: Sat, 28 Jan 2023 20:32:54 -0300
+ Sat, 28 Jan 2023 15:33:31 -0800 (PST)
+Message-ID: <808dc3a5-eb7f-0331-99c1-d6cdbeb81cf7@gmail.com>
+Date: Sat, 28 Jan 2023 20:33:29 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 0/4] PCI-related cleanup for ppc/powernv
-To: Frederic Barrat <fbarrat@linux.ibm.com>, clg@kaod.org,
- qemu-ppc@nongnu.org, qemu-devel@nongnu.org
-References: <20230127122848.550083-1-fbarrat@linux.ibm.com>
+Subject: Re: [PATCH 0/4] E500 cleanups and enhancements
 Content-Language: en-US
+To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, qemu-ppc@nongnu.org
+References: <20230125130024.158721-1-shentey@gmail.com>
 From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20230127122848.550083-1-fbarrat@linux.ibm.com>
+In-Reply-To: <20230125130024.158721-1-shentey@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::2d;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x2d.google.com
+Received-SPF: pass client-ip=2001:4860:4864:20::36;
+ envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -94,23 +94,28 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 1/27/23 09:28, Frederic Barrat wrote:
-> Pretty simple PCI-related cleanup for powernv
+On 1/25/23 10:00, Bernhard Beschow wrote:
+> This series includes some cleanups I came across when working on the ppce500
+> machine. Furthermore, it enables support for the 'dumpdtb' QMP/HMP command
+> which was missing so far.
 > 
-> Frederic Barrat (4):
->    ppc/pnv/pci: Cleanup PnvPHBPecState structure
->    ppc/pnv/pci: Remove duplicate definition of PNV_PHB5_DEVICE_ID
->    ppc/pnv/pci: Update PHB5 version register
->    ppc/pnv/pci: Fix PHB xscom registers memory region name
+> Bernhard Beschow (4):
+>    hw/ppc: Set machine->fdt in e500 machines
+>    hw/ppc/e500{,plat}: Drop redundant checks for presence of platform bus
+>    hw/ppc/e500.c: Avoid hardcoding parent device in
+>      create_devtree_etsec()
+>    hw/ppc/e500.c: Attach eSDHC unimplemented region to ccsr_addr_space
 
-Queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
+Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+
+And queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
 
 
 Daniel
 
 > 
->   hw/pci-host/pnv_phb4.c         | 2 +-
->   include/hw/pci-host/pnv_phb4.h | 5 +----
->   2 files changed, 2 insertions(+), 5 deletions(-)
+>   hw/ppc/e500.c     | 24 ++++++++++++++++--------
+>   hw/ppc/e500plat.c |  9 +++------
+>   2 files changed, 19 insertions(+), 14 deletions(-)
 > 
 
