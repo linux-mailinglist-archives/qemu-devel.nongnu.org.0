@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9206067FB04
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 21:52:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BAD7B67FAFE
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 21:51:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLs9u-0006Yw-Sa; Sat, 28 Jan 2023 15:50:46 -0500
+	id 1pLs9x-0006Zv-D6; Sat, 28 Jan 2023 15:50:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1pLs9r-0006YV-T6
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 15:50:44 -0500
+ id 1pLs9q-0006YB-6B
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 15:50:43 -0500
 Received: from mail-db8eur05hn2032d.outbound.protection.outlook.com
  ([2a01:111:f400:7e1a::32d]
  helo=EUR05-DB8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1pLs9q-0005Ml-En
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 15:50:43 -0500
+ id 1pLs9o-0005Ml-Qw
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 15:50:41 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=frVwQL9eSlZf/GTkgncMUs/QmhT4ot2RGzmSwCgwaNjQKNcbqKi3kQq2QSuVJW1CqJ41dLRrwyYy/mQDphlnVQK28u5ToFt1UlYFvymIEiqqxTHD43hTednC8vI2FTGI3D4c0dcattTnQOLPSgYZW9QooWTGfuoH+3XQ0WXTtw05ayRxkCacqst1pWhIMqc1yax01CD0DWRKzEnWjKphSpnft9E23yT8XEntS0FsX3dg5D+eyF2N4woGxaO0vNzEStYsGiYyXjj8XqZpkdKVg8igLbp0Johzv5BexC9wDAtAFuueWgBFLjMTGtDzHn4q948cYarxH7ZE3IO6K1AA4A==
+ b=eH7M1gnurI76z6Jf8EEW+kgr7/1qWyWc6OF/q0G9NHKGTeqDudLBUQvYbvXUeJpfrynEA14ltwONep2wUgKJvMbgClPnCDGjpGydRCVgmdCtl3/cBTtgXS7nC7VmDHZjUfaGeFOWDNdMrCYfCxPPlA+ErE9ymltSBLXP3wDv3QCy9i0WMHM4M+TRj1UZIYW5WrQpwtDL3MCEI2aYb6aQGlJ+1KiHAMHibMYVbdw8Z4yHO3MeLNdo5EgMGZjigIxOHWJhwxOoWnY+X18en2VflOc4a84Kl42GqvDWMnMk8Qq4ukqmMiljfCPOaGAU1o7QPl9gEVJighmKMpQShc9NRw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RZkLlBngGOhYergm9/C7JespkP++ArlnL3VvhSPig/E=;
- b=NS6wSvYgvBUs0AmgYB1VowLS0QFSXa+EYhhn0/X7sESKfe0bdHfKxUqdBF+agTiLpS3wseWCWtDKvmY6XwZpo8Cee+8Ufb7H6AcjbL1w3d8Rgwls0Hp8JaD3bT55h0hjOS78reaOq/gz1JjpTxAxi3yI1soLxNMDbNGnpO0El2i5IwGtZRoGD9eE7VOmOg0j/EoWR2EjUvimCYy9rZaOstWaVJ7nx2g+fqPkFreE+2c/6Qap2Msx9zgbfDC3b9aXgVBkqbpRfdb4Kq5W68HIWJKN4PVH7qCI9RCR01npmGU+CROhdJ/QxcE6OV7olX+Cm6ME/oOVUr/c1jENK/8rrQ==
+ bh=aWlyb/2xjYrrjPXGZnRZBO9TdxBIGj+8g6NmikAJhj4=;
+ b=NFA6CiErbru5t+FuTuJXbBLx0DI3z9ayL2YMxgkSdtZ1/kJMJ8sAvj+hsmzoVWS3fOOl7m96tlITxaVvJsJ/nQuvA0Cvhvdz5YXKwwk9Njs+pN2rHaueT2R8B+ng6ONOKsD6dxMwgbF2AjPlZ+l61gHvxAhjeEGCyQ6hJ/rKcjGrSCGTROwOCQAG6BM5m9y3ehFUlYxboW/XghLYOC3rKMyyVOcCRpvxjiz22LF5hQvXk5HB9MQaJTnuei5aDyUHTx4/iprEjO8f1cy6OI8wjAOslBopO/ZODVv+J4PF23eTjX1ySjtV+lAfoK6Tk9ppP3DmH5qAQS3CR6DyeRyJfQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
  s=selector2-estab-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RZkLlBngGOhYergm9/C7JespkP++ArlnL3VvhSPig/E=;
- b=TfOMhF+SGU2LzwPOotZAN9mma5l0BljQaPE4h7lm6OIx6Xc306McvwbgU67YQpT5+/3pvH8EZwDv7dQADsjzwJ3Maga3083pDHgH1pq9RVrPvtY7ErFXlTZ20iN7uHVG7K84/mF2qfkDtQ6vNhvRNt22SQJVEwPwzH4SXdYKzBI=
+ bh=aWlyb/2xjYrrjPXGZnRZBO9TdxBIGj+8g6NmikAJhj4=;
+ b=K2pg8Vi0SjnPDfkR26GIfwBKvSOyJ3RqikTKtoy+NfjoQQGaStt5woHiskeoaoOkQ1bWIianw3GbqoU8Vl82Qnp8PvqbFjKaRoGulXdB/G1OmvKcelTBVv8aFdAcpvL6+UKrzvnV/1S1QvoHz1S4VOD8YW5LhD8IBBtdu5uFkcw=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
@@ -54,67 +54,67 @@ Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
  "Michael S . Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Subject: [PATCH 7/9] igb: implement VF Tx and Rx stats
-Date: Sat, 28 Jan 2023 14:46:31 +0100
-Message-Id: <20230128134633.22730-8-sriram.yagnaraman@est.tech>
+Subject: [PATCH 8/9] igb: respect VT_CTL ignore MAC field
+Date: Sat, 28 Jan 2023 14:46:32 +0100
+Message-Id: <20230128134633.22730-9-sriram.yagnaraman@est.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230128134633.22730-1-sriram.yagnaraman@est.tech>
 References: <20230128134633.22730-1-sriram.yagnaraman@est.tech>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: GVYP280CA0028.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:f9::10) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: GVYP280CA0036.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:f9::13) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:10:1e7::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DBBP189MB1433:EE_|AM7P189MB0661:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f49075f-74b4-450a-92fd-08db017144db
+X-MS-Office365-Filtering-Correlation-Id: 4eb6e3f7-d8c6-4dc7-f53a-08db017144dd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: +DJS3sPY2jDD5kRT/ckYlIuERVqrqcw5tRlWcXgHGaAvwhUhVSxLOMm+QnCR5eJRe/sBvTSzC6OZ3E/Upi5xtRuFE7g6FXPyprZl4kU+fGLg0d3VKgQzu9scRZozkbgyO/CvBVP4al76A/odcyDuvd9EQFGEj4NNwuUFKX/2Eb4aKwtb48x4z1iThdmbvSrA2bjsWishiXIsgbKQe7qggr72jAYlCjeywb+Vpa3QG18831um8K0ZtOygFdq7eg6fBamjsSBV+0SiswgVl7Wlcz21IcapFxJCMTnlIcFd9NECvKga/9+aIQd5V6tV8TJ4JoEj4gmKAwTlQsoSXMkqynIxMNEnLc6qR8F2wjeACI0xZ7icWkY82QD8dkgO/pxb/KOG5Nwx9RJbFysWQez8kLyNorQVWgo3PoQrhWfuhv+O7VWHpw9fwiHqHLvOBVe8//6KNyuDapdAeOP+hA3J54sgzYqEioHmpNZm9I6+Bq8mbgv9ORK0J82n1TX+Z58VK+WtsLkhsZjGxoMuTeonyQ/PtFw8kYzDSj00mNqLk6chATpn/KzytKvMphVgTwUfuQoFMntXiZrJzwE7u4qtgB7TaE1tLqZ4ml1vzvFVzqb4A2oFZyA6O/6EOPwcQ/1GZe6GQvM2t0QMY16C6STK76ZIm5mUuREDCLLzwUGarKf/kIZAFbpnjMWc9NEdDnBqp18mzecRVOnFTMd55v5AnkoOlUrQSOrKy7nUTHmZsZM=
+X-Microsoft-Antispam-Message-Info: 7bYEZr+Cj4XWzU+o2DAfuVBSwTTqON+Xncp+4iIzxPHUY/Ow31r4wIDa2fVdouC3Xf42eeml7hOW3ALkH255a6rW8gyaaP50DMI9MiU3BTWk3l7ykTiE8l/br9Kcc3gseLeUCn6EnW8hwELVIh3+QQskRvQFCFo584bSsFJTFqiPWt5YPCiXlrIbE6O/+FeBlpYaigiuduchoqynNhBV0q4F2t+qkKkqqldOpk9PdpTb3l2NYoFRSYqEDOUIMIWbaBUGCj0Din63Zkoca9egMI1vX2P98vwf8u/JIxp7cp6jpSE8oAVayph/Wjq4YOF9ipCxKlEKkaPtiA+1YjiswyosKVFd6vVLM5b+jCzM5LLdhArwxV9WDsiAkovQMPBGbNM//qgRteDnRgYZyqBwR3KVLi3mMbQWjvEZehtM8+X7Sz2gHd2ZNsWgnljfqrU9ZTTska6BWKX5CDyN8LMPm/UNuVBhAqcvH+pqBpJ67VQtTBebiWGjCPpXPqpc9dp+7yEmN3EOoaLw/8PcwAQ4Mm7wsYFd5zllfnukXnFG3xs4hk91z6VXi3C1Wl5IKdWZEO0DzI9ga8yPWsQLKfji4G0jE2GZU7eYB9RavimPckL2rgJ54S/iRqmpksVrPAXBTA8LD59U9pV7kTXRkMO6EdTOS/cmLfzbMVWbjo0KYGWqEBgQC0qA47MqMDCmJmH7H1Ip08MH7iCcKm6PQDdyxsfaXeLsDdtPpi6PVP/XZ5w=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
  SFS:(13230025)(39830400003)(396003)(346002)(376002)(136003)(34036004)(109986016)(451199018)(8936002)(41300700001)(86362001)(2616005)(83380400001)(810100004)(38100700002)(41320700001)(316002)(8676002)(54906003)(36756003)(4326008)(66556008)(66476007)(70586007)(66946007)(1076003)(6506007)(6666004)(6512007)(26005)(186003)(6486002)(508600001)(44832011)(2906002)(5660300002)(266003)(37730700002);
  DIR:OUT; SFP:1501; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?8QpLW2LAVUCTGVdZHI5iriO7bBKpiAIuL9MqEvXPa9eyaKIeVmN+hUzj3WV7?=
- =?us-ascii?Q?rKE2LQ0ITRXcbJRXvQwM5RwBvvv2+AxQtzskw8LFMxaZcOvaa+GaJlU0CISf?=
- =?us-ascii?Q?NrhvidRWIKvwLyVEcXSrlw82cUZYYsHNvbTB4LIbkuUniNe7kYt94WSs5b5I?=
- =?us-ascii?Q?TrsfJd0ZTPzq+aSOcuzqs38VMv34qNdmWZZL6Zht2M1zCh+Oc9Osbplj/m5Z?=
- =?us-ascii?Q?KPZsNVsp7tqdKP5HpdHsb7VL8yRcw3uvrsHkFf76kK26WZfXtIRRQooKbwfq?=
- =?us-ascii?Q?f5CLblbgTGwyBtiF/T5zUpmQdZka5GYqyiNa7NChMc7iRi/FQyxxgb62vzLh?=
- =?us-ascii?Q?MHL7Rb4D7UkjMfsGUJwzhkoJu9fjjRzqff8cbNSSKRBrlVtn+aguXO8RFf+c?=
- =?us-ascii?Q?7GO7K12tq4ZOKWEdB52Z/xWxrsabQQpu2Rz3nUgYp4b47LTAHWKFMOCr9wB3?=
- =?us-ascii?Q?LSM8SDUppclHEAD0Swq49JrCHb/vKuzls1LJXitn+S2m8/TeP8T2uq8lGtj2?=
- =?us-ascii?Q?//rsahLmsLml6r4pfWIRABr2DPrjJ2CLuLIKiQrnTGfwvioUjwcX5lvCy+aB?=
- =?us-ascii?Q?WRz2tDSwJrqejImN2mn3/y9Olo+awW4NxwJmSmcQYWp1cW0MsoNb89Sn6Gbt?=
- =?us-ascii?Q?kXH5v/QQwzMGKOLXhymCC0X/ZEHhNZ0elnuOMiUWjzB2L552a+jEHE4JswTC?=
- =?us-ascii?Q?OGICkWyHFxt4OxKhWbr/ooT5JSUjq19EzYqxSBm4jpyuIj8532rmshMQwvxP?=
- =?us-ascii?Q?ttSq501VsjGExZrt/RRjRm+XB1IhoAfb42tH/d9Zkniu4SFI2apM1ns01A2W?=
- =?us-ascii?Q?2ht2x2T8GO5Xqg16NHzsC68wRYJ3uVt8DXpvmi8rh0EFw6pGTgp0VLDBW7Zh?=
- =?us-ascii?Q?mAEjpDstqBdfvpW4G2qkJrQPL/BzcdCjBj8zMOR7ddOwxazeAFSlqa68L3M0?=
- =?us-ascii?Q?eaP613FOIFHoj2ZCS8Z+S4s+FSsaRiF7cIcLEGD1igB2N9twVQwGEhhI6lz2?=
- =?us-ascii?Q?T+FSecZyCVKDHzLLN6xoXHu1VtX7BV5cBPDc266gObe5f5Kx4NGcMAu2WcaV?=
- =?us-ascii?Q?50ape6wfLieXkCPNIkPdGoF7HAqEypsyOMhOPznlloWHtyaH3US9dCgZ0jOP?=
- =?us-ascii?Q?Nw1YNC9AxrE00oBIzNnOCSAULBJdbRQwLY8kXOwFpPSTlq7HJgP43SEHOTZA?=
- =?us-ascii?Q?XtXySJ4ZlKcNRHF5mg/WLYGLjQ5vsvsdT4MhTBZCuEyXY5OskjGk61Uiz8MJ?=
- =?us-ascii?Q?iMZExhw8n7eAD03ZvG9L/XP4HTxhDHkBOrDeQ4r4TeXupqqAKoeg/Du+JChP?=
- =?us-ascii?Q?aACWgUMz/Dcy0sRA5roZDWR7nBxigmUCKmW2T/KmGIgVd/ux1HM6h0U11JnK?=
- =?us-ascii?Q?b4eFV9fnFcjSKZGHDB6QpRlEM5P91AAOxkig8VCnt/9wYgztW0/VD6qxc2B+?=
- =?us-ascii?Q?gfbuTEoHYEuI8wbuGRsZYjwX8subIHC8dZcFcXr2tCzm5avpQ0j+CvlLqmsV?=
- =?us-ascii?Q?EXP2P+hvPHULyXhXOa6iVtRRyXf1KaWNQuzxPL7TnNs8BtQ91vv3HFeLgS45?=
- =?us-ascii?Q?nwZeq0PeAyfI/1eNJjdTxBo4TYWs+MBs93G7pRWa86uridoCVR3idD+mEPiA?=
- =?us-ascii?Q?VQ=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?i9j4EsdGI/gV5Oml2fpqwDxBVSVyYPsu1b7pOuKpJODASlbnlLCte7yVlzuw?=
+ =?us-ascii?Q?M1y8hYDbeUxjqPwtdmJE5lgWqCcpBrKp8ba8r2uNOs/f04T31scKIWt5rFmE?=
+ =?us-ascii?Q?mApPnmj0812PPoANTy+4baJiWe9TdcZe5Ycn2BUrvp74VNyrpdF9l57KpAcs?=
+ =?us-ascii?Q?plq1mOMvmK2Jrcku7ROfL2RPss+f2l1Pg2v2QWZjwSqNUOoyDZP5ILviAsFC?=
+ =?us-ascii?Q?x6uh1Wm1E1bEHUuBmZSDWFIO5yPUOu649fuT9aUqbFT3K04u+YiMCD8Igllv?=
+ =?us-ascii?Q?lbue6i91rtdxwPfcSVjPhuROPmXus2P2KE1rBB/eXW2Pu64tzj4qmrFwEImr?=
+ =?us-ascii?Q?tUAVXG7QgRGPbvS2roNIbXQb6wHpKi5ATb3Az9YarC2Upik9/E7+uCzH9/Rx?=
+ =?us-ascii?Q?WJ9eGU+G1yHbseKRPshpE9xxyWaH1mSUx94T5UKtzOeFeOapNvGvWxTSju/b?=
+ =?us-ascii?Q?5EoCkoiJztSuGbOc6w7RzewQkr/TD1oCumPLub1BA4/BO5o7cmFHTBnaDd7Z?=
+ =?us-ascii?Q?+NMlSQPLas7ACNKg6bU9kp0/egEO9/OzH83hdvKR1pPi5NJAtHTyaUY3xMiZ?=
+ =?us-ascii?Q?Cwk30iHZp61HC1grCx6EgbDUwyi9SQol8H1nlRgQtkV4Lm7XxTbpP3KteIZs?=
+ =?us-ascii?Q?Qm10fJ2FDamkynmPF8uscxE6w/AmdvWD7RNDFlBF+o2pc7QPObogt6GdM/Jr?=
+ =?us-ascii?Q?YmT/XXFRW5qfey1XbOP+b6ffTtyyKEXREzUcnNPb5Ly4hiRSWj+NaMV0vjco?=
+ =?us-ascii?Q?U2sq3MLJSyhrGwPLoP33ljqOTVjmzGD7tS4GPOX/+hz0tsS9Reb+wzxP5SdF?=
+ =?us-ascii?Q?V6c7HP5KFVpd6zMTIe6XdXrhIrWtBvaob2Emuy4MpccSredD/7BvHpOdcwWM?=
+ =?us-ascii?Q?dTq8x6tSqA7F0WpLiXAwo4jJXn+UZyYe5Hs9daZJ98hKgfbRkS5HqfdiWDSM?=
+ =?us-ascii?Q?oddifW+5yk1/kHV4UhwmQJx2eY1pW9FEU8sIO7+b/qXHoNEpgrP3IBu4h3Yt?=
+ =?us-ascii?Q?MryE+yi/+WdPXDSec/X73mf2CPdeKIXUs0T3qElZrEjQbf/x8kp/yk28VLsO?=
+ =?us-ascii?Q?ucDno7OgW7IJkfyn30JkUpAASr1y2vsnHymGwKhmqtreHMEn52h+a+AZuElV?=
+ =?us-ascii?Q?uW62yTTrpqiHLzUDvYtGYw14fj3CR6TUxoNJ7yha6BN457FDpmJIjmfm6It1?=
+ =?us-ascii?Q?eSIF//zxL5EArA+yEarhgcxWutSmkTF9rFTV/cWlnFu8UqiijlXSNT4BLQED?=
+ =?us-ascii?Q?N4kYC/9qCtecqg0syyT62wmmpcHfde/lt5OWe0p35q4eK3z3MgfhtxJgplRP?=
+ =?us-ascii?Q?FtRelcPvjJUzpmDMM/KxjEDRCLX4/ia6iGh6tQFXC5uO3sigyvN8jdFnzPCN?=
+ =?us-ascii?Q?dcJ22VUmmEUjYCfvuAeUGCbZd7q69SCwsGpoSIHWl8QKfrhrtfASlmoRlSOE?=
+ =?us-ascii?Q?kSjb8j1T43TVTSEyEPxBuMnV7bqU8NJpWEEeRF4lIJ7y5jG8BtDjOG6712Lq?=
+ =?us-ascii?Q?GJiOORlomAXvXXel/oV7hXDVgrpKSy8dGupghx9Cso7hoNueDFTGghzRevK8?=
+ =?us-ascii?Q?B729/kqm2cXL4OnJ0FcqtL+sPiFDiOGu3ZBZ4H3X3WT39lNHdqx+nkRp9ubp?=
+ =?us-ascii?Q?dg=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f49075f-74b4-450a-92fd-08db017144db
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4eb6e3f7-d8c6-4dc7-f53a-08db017144dd
 X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2023 20:50:20.4991 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2023 20:50:20.3885 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Q1t0Z+zLolHR+7ExzKoCw88z7vDLGcUi4sKE+SGfUIgr0duoJlA+hm6kCLXp2sZL5NATRgOeR98DHqSbGPicpOxIWR+KIw1Hh9+xZmBLcho=
+X-MS-Exchange-CrossTenant-UserPrincipalName: mSS+E7Kv6cvAhKtsDsUoWUVhUXQI7zrYtCfgAdNT6GPR/ViyV31nKkD8l5xaROjRTrGkURSb6zT9kBF+P6cfYpswVVXOCH8jD75kcxjo4jE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7P189MB0661
 Received-SPF: pass client-ip=2a01:111:f400:7e1a::32d;
  envelope-from=sriram.yagnaraman@est.tech;
@@ -140,98 +140,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Please note that loopback counters for VM to VM traffic is not
-implemented yet: VFGOTLBC, VFGPTLBC, VFGORLBC and VFGPRLBC.
+Also trace out a warning if replication mode is disabled, since we only
+support replication mode enabled.
 
 Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 ---
- hw/net/igb_core.c | 31 ++++++++++++++++++++++++++-----
- 1 file changed, 26 insertions(+), 5 deletions(-)
+ hw/net/igb_core.c   | 9 +++++++++
+ hw/net/trace-events | 2 ++
+ 2 files changed, 11 insertions(+)
 
 diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index 43ff387b16..375d9d5e34 100644
+index 375d9d5e34..8e33e15505 100644
 --- a/hw/net/igb_core.c
 +++ b/hw/net/igb_core.c
-@@ -488,7 +488,7 @@ igb_tx_pkt_send(IGBCore *core, struct igb_tx *tx, int queue_index)
- }
+@@ -949,6 +949,10 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+     }
  
- static void
--igb_on_tx_done_update_stats(IGBCore *core, struct NetTxPkt *tx_pkt)
-+igb_on_tx_done_update_stats(IGBCore *core, struct NetTxPkt *tx_pkt, int qn)
- {
-     static const int PTCregs[6] = { PTC64, PTC127, PTC255, PTC511,
-                                     PTC1023, PTC1522 };
-@@ -515,6 +515,14 @@ igb_on_tx_done_update_stats(IGBCore *core, struct NetTxPkt *tx_pkt)
-     core->mac[GPTC] = core->mac[TPT];
-     core->mac[GOTCL] = core->mac[TOTL];
-     core->mac[GOTCH] = core->mac[TOTH];
+     if (core->mac[MRQC] & 1) {
++        if (!(core->mac[VT_CTL] & E1000_VT_CTL_VM_REPL_EN)) {
++            trace_igb_rx_vmdq_replication_mode_disabled();
++        }
 +
-+    if (core->mac[MRQC] & 1) {
-+        uint16_t pool = (qn > IGB_MAX_VF_FUNCTIONS) ?
-+                        (qn - IGB_MAX_VF_FUNCTIONS) : qn;
-+
-+        core->mac[PVFGOTC0 + (pool * 64)] += tot_len;
-+        core->mac[PVFGPTC0 + (pool * 64)]++;
-+    }
- }
- 
- static void
-@@ -577,7 +585,7 @@ igb_process_tx_desc(IGBCore *core,
-                     core->mac[VET] & 0xffff);
-             }
-             if (igb_tx_pkt_send(core, tx, queue_index)) {
--                igb_on_tx_done_update_stats(core, tx->tx_pkt);
-+                igb_on_tx_done_update_stats(core, tx->tx_pkt, queue_index);
+         if (is_broadcast_ether_addr(ehdr->h_dest)) {
+             for (i = 0; i < IGB_MAX_VF_FUNCTIONS; i++) {
+                 if (core->mac[VMOLR0 + i] & E1000_VMOLR_BAM) {
+@@ -995,6 +999,11 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
              }
          }
  
-@@ -1364,7 +1372,8 @@ igb_write_to_rx_buffers(IGBCore *core,
- }
- 
- static void
--igb_update_rx_stats(IGBCore *core, size_t data_size, size_t data_fcs_size)
-+igb_update_rx_stats(IGBCore *core, const E1000E_RingInfo *rxi,
-+                    size_t data_size, size_t data_fcs_size)
- {
-     e1000x_update_rx_total_stats(core->mac, data_size, data_fcs_size);
- 
-@@ -1380,6 +1389,18 @@ igb_update_rx_stats(IGBCore *core, size_t data_size, size_t data_fcs_size)
-     default:
-         break;
-     }
-+
-+    if (core->mac[MRQC] & 1) {
-+        uint16_t qn = rxi->idx;
-+        uint16_t pool = (qn > IGB_MAX_VF_FUNCTIONS) ?
-+                        (qn - IGB_MAX_VF_FUNCTIONS) : qn;
-+
-+        core->mac[PVFGORC0 + (pool * 64)] += data_size + 4;
-+        core->mac[PVFGPRC0 + (pool * 64)]++;
-+        if (net_rx_pkt_get_packet_type(core->rx_pkt) == ETH_PKT_MCAST) {
-+            core->mac[PVFMPRC0 + (pool * 64)]++;
++        /* assume a full pool list if IGMAC is set */
++        if (core->mac[VT_CTL] & E1000_VT_CTL_IGNORE_MAC) {
++            queues = BIT(IGB_MAX_VF_FUNCTIONS) - 1;
 +        }
-+    }
- }
++
+         if (e1000x_vlan_rx_filter_enabled(core->mac)) {
+             uint16_t mask = 0;
  
- static inline bool
-@@ -1481,7 +1502,7 @@ igb_write_packet_to_guest(IGBCore *core, struct NetRxPkt *pkt,
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index e94172e748..9bc7658692 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -288,6 +288,8 @@ igb_rx_desc_buff_write(uint64_t addr, uint16_t offset, const void* source, uint3
  
-     } while (desc_offset < total_size);
+ igb_rx_metadata_rss(uint32_t rss) "RSS data: 0x%X"
  
--    igb_update_rx_stats(core, size, total_size);
-+    igb_update_rx_stats(core, rxi, size, total_size);
- }
- 
- static inline bool
-@@ -1490,7 +1511,7 @@ igb_is_oversized(IGBCore *core, const E1000E_RingInfo *rxi, size_t size)
-     bool vmdq = core->mac[MRQC] & 1;
-     uint16_t qn = rxi->idx;
-     uint16_t pool = (qn > IGB_MAX_VF_FUNCTIONS) ?
--                   (qn - IGB_MAX_VF_FUNCTIONS) : qn;
-+                    (qn - IGB_MAX_VF_FUNCTIONS) : qn;
- 
-     bool lpe = (vmdq ? core->mac[VMOLR0 + pool] & E1000_VMOLR_LPE :
-                 core->mac[RCTL] & E1000_RCTL_LPE);
++igb_rx_vmdq_replication_mode_disabled(void) "WARN: Only replication mode enabled is supported"
++
+ igb_irq_icr_clear_gpie_nsicr(void) "Clearing ICR on read due to GPIE.NSICR enabled"
+ igb_irq_icr_write(uint32_t bits, uint32_t old_icr, uint32_t new_icr) "Clearing ICR bits 0x%x: 0x%x --> 0x%x"
+ igb_irq_set_iam(uint32_t icr) "Update IAM: 0x%x"
 -- 
 2.34.1
 
