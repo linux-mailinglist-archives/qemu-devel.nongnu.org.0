@@ -2,87 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F0267F486
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 05:02:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 198BE67F4D5
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 06:05:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLcPV-0008QU-1w; Fri, 27 Jan 2023 23:01:49 -0500
+	id 1pLdNa-0002U5-7n; Sat, 28 Jan 2023 00:03:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1pLcPT-0008QM-1W
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 23:01:47 -0500
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
- id 1pLcPQ-0004k8-Ie
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 23:01:46 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id n2so4540372pfo.3
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 20:01:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=E2Jymzxgs54Hh8le13ZANPQ+3iCRTKzelWPwkgGZkrw=;
- b=BgF8bWtM1yY/+tTnuFHjgptnAaMuW1l2NJ50ItEnHaQMP0LihXNJSqrnSD46qkcf+O
- C4TzC0khGUJBzno1/eH0gUnPMjyiUqaU0z2sYqFepFo1J818Zf/SLN5uLxmPKr4rxrE9
- hIEWslyXGpQRaalarFWMmcDta4MKsX0Gk5I2OyRDTDc4sgvOAqXTACjVwR3tctowZBnd
- MhweGqTsGT1iL0SL/1iotwdbfQbHBTmf7Mm5ByhuTxDO2kth46eHGltoTJU2NiPDoCM0
- F0AdV5gO8IgF35RLtoS9VkD9l9OPQFGxAo+N24EgTS8b6kJHG5QBZFfV5NMq981fcV7d
- XqpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=E2Jymzxgs54Hh8le13ZANPQ+3iCRTKzelWPwkgGZkrw=;
- b=RHsC6bSpvvF62vV5W1RGGTPTeFePR7RCtkKLpg9zoJE5B617WHKUJmg/QNUpXs2H2h
- SC1ad707P2a04a1wWacPlMAhqiLzlPoSGmL8WmmUhn1VsZVsXF/iD0FUOkqWAOgcpbMc
- 5hvwHlWPuNA3mCKdZ/vhvVOgOxmvXy0LypW6vbb4EKLR5pw7g3eQXCvNzD/Uq0LTU9jk
- 4ILnbE/HgK0QZHVNQSj5Z82Y1RcQl0ihOkpwIdqBLvc+7P0lhrNqM2u0+kXA/D4pgZqD
- 3l1rrhJ0SSelHWLdmOxhgyGj0QsQHP1zE0Gl9J2fGTNZemq2qkktz2HqYkvyUcsDpHxY
- lC4A==
-X-Gm-Message-State: AO0yUKWxJfUcr8oZ6Y/afrN88v9PIEPcbzqxSftigrtRPgoh11GT5kIQ
- IdefusSgF6t1Jgk6dGdfwXY=
-X-Google-Smtp-Source: AK7set+XZNdeBinajMnaZJivyasAyp8dhRcHgzqQoPXQMwB5dxaDgh1nQxmLse0o3fAWJ4SHiyWDAQ==
-X-Received: by 2002:a05:6a00:1404:b0:58b:bce2:7eb7 with SMTP id
- l4-20020a056a00140400b0058bbce27eb7mr206347pfu.10.1674878502480; 
- Fri, 27 Jan 2023 20:01:42 -0800 (PST)
-Received: from [10.213.26.147] ([157.82.194.13])
- by smtp.gmail.com with ESMTPSA id
- 22-20020aa79256000000b0058baf8694e1sm3342801pfp.71.2023.01.27.20.01.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 20:01:41 -0800 (PST)
-Message-ID: <b0c72670-b6f9-0f63-9bb1-1a1bf27ffe8e@gmail.com>
-Date: Sat, 28 Jan 2023 13:01:39 +0900
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pLdNX-0002Ta-IN; Sat, 28 Jan 2023 00:03:51 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peter@pjd.dev>)
+ id 1pLdNV-0006QI-QY; Sat, 28 Jan 2023 00:03:51 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+ by mailout.nyi.internal (Postfix) with ESMTP id 12CEB5C06B1;
+ Sat, 28 Jan 2023 00:03:47 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+ by compute4.internal (MEProxy); Sat, 28 Jan 2023 00:03:47 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
+ :content-transfer-encoding:content-type:date:date:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to; s=fm1; t=1674882227; x=
+ 1674968627; bh=U8MxqB7Mh6dx8dUyfYs7VXbLoKImqkYd8hZs8FVw2UY=; b=I
+ B+IoE/0zkJEooM4PAYyNjDzUV4TIQbhdOlksQt9iBqkoSRanmcUZAXTvfq+JQHda
+ t/QLfZO5hYGpiTCnp56U3Nt4pednCa3pETBKR1JcfAChcpc9/gSjSawwuBbLzuKH
+ Apasx7r4imRq/6rqTRc7OgbhO4Ry6kvfvF8V5f4d9on5j5x/b3c3qk6MHo91gBzQ
+ qUkHL4E6fSHbnKHc7O4lIyN+5Ebfp0BJ3o9S5nhv7Ni/NJMk2G34e50aNV47xubg
+ PLk+v6VDPGPzRrbtjL4Ub7kiJ48lI5iLay/NOaJumFW00hdQM2B287cxo850kzS1
+ Gh7yOymhDcOh5BxhgJUWw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+ messagingengine.com; h=cc:cc:content-transfer-encoding
+ :content-type:date:date:feedback-id:feedback-id:from:from
+ :in-reply-to:in-reply-to:message-id:mime-version:references
+ :reply-to:sender:subject:subject:to:to:x-me-proxy:x-me-proxy
+ :x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1674882227; x=
+ 1674968627; bh=U8MxqB7Mh6dx8dUyfYs7VXbLoKImqkYd8hZs8FVw2UY=; b=a
+ CVqRscYghIybpgXHEBRk/GfRawnNXjSinf4RAY6knWr2svklWsaB9kIFtz9i+Pr+
+ dKV1A3nSq2FG2wc1P03Lv3no/IExnuSa0hbK74u5c+drY3fda80daz38AHryBW1h
+ DTUSVvewhWk+r+jaSvgLbMnttz/FDYUm7AEngMmnWiEmlP2gTM/z7kUKKjvO8R4C
+ Wv9pxzFH7VA+QqiBT604uZ5MQf0q64U73jL3b+xclAzDY58rd/mGgINkrOgQhevo
+ Ujc5PxwM3X4TGBI25+0Zt0uhh7G9ly8XdLbim+qBRLWFPaOLHuqZZDV3/+uESqPf
+ KQVkWwRra5U4qC7VS+/Gg==
+X-ME-Sender: <xms:sqzUYyb-A4XUTgMIcm0b6jUTbf4fx2tLsLY9xjg5agfg8xMHWwJ7Mw>
+ <xme:sqzUY1Z2B8CVDTwdlggDYRyiWXy8JAuqA3Sw2u-UdvKzm4PM_EF5uFlCZo_3EqOz7
+ cAvwchNrYfODJVXy9U>
+X-ME-Received: <xmr:sqzUY8_-JhrUVva1YEy9-0BJuYxCQfGaY6Dy9StQyfphXCWB6822ozT4dPbRPAMND7ZcN0hp6qJFEPsNhUFrvQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedruddvjedgkedtucetufdoteggodetrfdotf
+ fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+ uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+ cujfgurhepfffhvfevuffkfhggtggugfgjsehtkeertddttddunecuhfhrohhmpefrvght
+ vghrucffvghlvghvohhrhigrshcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrg
+ htthgvrhhnpefhgeffvedufeevteegkeetieejhffhudeujedvgedvheffheejveethffh
+ ffefueenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+ hpvghtvghrsehpjhgurdguvghv
+X-ME-Proxy: <xmx:sqzUY0rkP9mHFewaWpBUkKH9mydBffg7fvhlxFuT1L2tbsLIHeH4mw>
+ <xmx:sqzUY9pzysP5uEAaHFDTlcb6xazlUvEfK0jo3YNWgoU7y5l7uUn0Iw>
+ <xmx:sqzUYyTMJ5uRDD0ewDRfUtmud6sfFgEfyOAxjtXG3iix3tyWLJwwMQ>
+ <xmx:s6zUYxc5Xz_lMdEbEujDHeTmrauECmmpPXpftSfQ8Ku7bamxCEHa7Q>
+Feedback-ID: i9e814621:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
+ 28 Jan 2023 00:03:44 -0500 (EST)
+Date: Fri, 27 Jan 2023 21:03:38 -0800
+From: Peter Delevoryas <peter@pjd.dev>
+To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
+Cc: Corey Minyard <minyard@acm.org>, peter.maydell@linaro.org,
+ andrew@aj.id.au, joel@jms.id.au, hskinnemoen@google.com,
+ kfting@nuvoton.com, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
+ philmd@linaro.org
+Subject: Re: [PATCH v4 3/5] hw/nvram/eeprom_at24c: Add init_rom field and
+ at24c_eeprom_init_rom helper
+Message-ID: <Y9SsquT1kNVJLesl@pdel-mbp.dhcp.thefacebook.com>
+References: <20230118024214.14413-1-peter@pjd.dev>
+ <20230118024214.14413-4-peter@pjd.dev>
+ <Y9Gg15hBJ/aQgd3e@minyard.net>
+ <Y9Gn5iLM87MKycMn@pdel-mbp.dhcp.thefacebook.com>
+ <b10fb5c2-5d3c-e4c0-431c-0842f0b00bb8@kaod.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: Display update issue on M1 Macs
-To: BALATON Zoltan <balaton@eik.bme.hu>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Gerd Hoffmann <kraxel@redhat.com>, Joelle van Dyne <j@getutm.app>
-References: <5921db6f-0760-c380-7af2-5710a0cd479d@eik.bme.hu>
- <3bad40aa-7920-0484-ca23-b9d424ad56f6@eik.bme.hu>
- <28025639-840a-1e19-01d5-c817235ca423@gmail.com>
- <08497582-3b11-1311-48d6-1e2db8c93559@eik.bme.hu>
- <7380ee42-8b39-8c5d-ba60-652d411c49b1@gmail.com>
- <5d385b04-ea56-5e30-9bcd-82c0b63f2dd4@eik.bme.hu>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@gmail.com>
-In-Reply-To: <5d385b04-ea56-5e30-9bcd-82c0b63f2dd4@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=akihiko.odaki@gmail.com; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: 1
-X-Spam_score: 0.1
-X-Spam_bar: /
-X-Spam_report: (0.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <b10fb5c2-5d3c-e4c0-431c-0842f0b00bb8@kaod.org>
+Received-SPF: pass client-ip=66.111.4.25; envelope-from=peter@pjd.dev;
+ helo=out1-smtp.messagingengine.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,156 +108,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 2023/01/23 8:28, BALATON Zoltan wrote:
-> On Thu, 19 Jan 2023, Akihiko Odaki wrote:
->> On 2023/01/15 3:11, BALATON Zoltan wrote:
->>> On Sat, 14 Jan 2023, Akihiko Odaki wrote:
->>>> On 2023/01/13 22:43, BALATON Zoltan wrote:
->>>>> On Thu, 5 Jan 2023, BALATON Zoltan wrote:
->>>>>> Hello,
->>>>>>
->>>>>> I got reports from several users trying to run AmigaOS4 on 
->>>>>> sam460ex on Apple silicon Macs that they get missing graphics that 
->>>>>> I can't reproduce on x86_64. With help from the users who get the 
->>>>>> problem we've narrowed it down to the following:
->>>>>>
->>>>>> It looks like that data written to the sm501's ram in 
->>>>>> qemu/hw/display/sm501.c::sm501_2d_operation() is then not seen 
->>>>>> from sm501_update_display() in the same file. The 
->>>>>> sm501_2d_operation() function is called when the guest accesses 
->>>>>> the emulated card so it may run in a different thread than 
->>>>>> sm501_update_display() which is called by the ui backend but I'm 
->>>>>> not sure how QEMU calls these. Is device code running in iothread 
->>>>>> and display update in main thread? The problem is also independent 
->>>>>> of the display backend and was reproduced with both -display cocoa 
->>>>>> and -display sdl.
->>>>>>
->>>>>> We have confirmed it's not the pixman routines that 
->>>>>> sm501_2d_operation() uses as the same issue is seen also with QEMU 
->>>>>> 4.x where pixman wasn't used and with all versions up to 7.2 so 
->>>>>> it's also not some bisectable change in QEMU. It also happens with 
->>>>>> --enable-debug so it doesn't seem to be related to optimisation 
->>>>>> either and I don't get it on x86_64 but even x86_64 QEMU builds 
->>>>>> run on Apple M1 with Rosetta 2 show the problem. It also only 
->>>>>> seems to affect graphics written from sm501_2d_operation() which 
->>>>>> AmigaOS4 uses extensively but other OSes don't and just render 
->>>>>> graphics with the vcpu which work without problem also on the M1 
->>>>>> Macs that show this problem with AmigaOS4. Theoretically this 
->>>>>> could be some missing syncronisation which is something ARM and 
->>>>>> PPC may need while x86 doesn't but I don't know if this is really 
->>>>>> the reason and if so where and how to fix it). Any idea what may 
->>>>>> cause this and what could be a fix to try?
->>>>>
->>>>> Any idea anyone? At least some explanation if the above is 
->>>>> plausible or if there's an option to disable the iothread and run 
->>>>> everyting in a single thread to verify the theory could help. I've 
->>>>> got reports from at least 3 people getting this problem but I can't 
->>>>> do much to fix it without some help.
->>>>>
->>>>>> (Info on how to run it is here:
->>>>>> http://zero.eik.bme.hu/~balaton/qemu/amiga/#amigaos
->>>>>> but AmigaOS4 is not freely distributable so it's a bit hard to 
->>>>>> reproduce. Some Linux X servers that support sm501/sm502 may also 
->>>>>> use the card's 2d engine but I don't know about any live CDs that 
->>>>>> readily run on sam460ex.)
->>>>>>
->>>>>> Thank you,
->>>>>> BALATON Zoltan
->>>>
->>>> Sorry, I missed the email.
->>>>
->>>> Indeed the ui backend should call sm501_update_display() in the main 
->>>> thread, which should be different from the thread calling 
->>>> sm501_2d_operation(). However, if I understand it correctly, both of 
->>>> the functions should be called with iothread lock held so there 
->>>> should be no race condition in theory.
->>>>
->>>> But there is an exception: memory_region_snapshot_and_clear_dirty() 
->>>> releases iothread lock, and that broke raspi3b display device:
->>>> https://lore.kernel.org/qemu-devel/CAFEAcA9odnPo2LPip295Uztri7JfoVnQbkJ=Wn+k8dQneB_ynQ@mail.gmail.com/T/
->>>>
->>>> It is unexpected that gfx_update() callback releases iothread lock 
->>>> so it may break things in peculiar ways.
->>>>
->>>> Peter, is there any change in the situation regarding the race 
->>>> introduced by memory_region_snapshot_and_clear_dirty()?
->>>>
->>>> For now, to workaround the issue, I think you can create another 
->>>> mutex and make the entire sm501_2d_engine_write() and 
->>>> sm501_update_display() critical sections.
->>>
->>> Interesting thread but not sure it's the same problem so this 
->>> workaround may not be enough to fix my issue. Here's a video posted 
->>> by one of the people who reported it showing the problem on M1 Mac:
->>>
->>> https://www.youtube.com/watch?v=FDqoNbp6PQs
->>>
->>> and here's how it looks like on other machines:
->>>
->>> https://www.youtube.com/watch?v=ML7-F4HNFKQ
->>>
->>> There are also videos showing it running on RPi 4 and G5 Mac without 
->>> this issue so it seems to only happen on Apple Silicon M1 Macs. 
->>> What's strange is that graphics elements are not just delayed which I 
->>> think should happen with missing thread synchronisation where the 
->>> update callback would miss some pixels rendered during it's running 
->>> but subsequent update callbacks would eventually draw those, woudn't 
->>> they? Also setting full_update to 1 in sm501_update_display() 
->>> callback to disable dirty tracking does not fix the problem. So it 
->>> looks like as if sm501_2d_operation() running on one CPU core only 
->>> writes data to the local cache of that core which 
->>> sm501_update_display() running on other core can't see, so maybe some 
->>> cache synchronisation is needed in memory_region_set_dirty() or if 
->>> that's already there maybe I should call it for all changes not only 
->>> those in the visible display area? I'm still not sure I understand 
->>> the problem and don't know what could be a fix for it so anything to 
->>> test to identify the issue better might also bring us closer to a 
->>> solution.
->>>
->>> Regards,
->>> BALATON Zoltan
->>
->> If you set full_update to 1, you may also comment out 
->> memory_region_snapshot_and_clear_dirty() and 
->> memory_region_snapshot_get_dirty() to avoid the iothread mutex being 
->> unlocked. The iothread mutex should ensure cache coherency as well.
->>
->> But as you say, it's weird that the rendered result is not just 
->> delayed but missed. That may imply other possibilities (e.g., the 
->> results are overwritten by someone else). If the problem persists 
->> after commenting out memory_region_snapshot_and_clear_dirty() and 
->> memory_region_snapshot_get_dirty(), I think you can assume the 
->> inter-thread coherency between sm501_2d_operation() and 
->> sm501_update_display() is not causing the problem.
+On Fri, Jan 27, 2023 at 08:42:40AM +0100, Cédric Le Goater wrote:
+> > > >   I2CSlave *at24c_eeprom_init(I2CBus *bus, uint8_t address, uint32_t rom_size)
+> > > >   {
+> > > > -    I2CSlave *i2c_dev = i2c_slave_new(TYPE_AT24C_EE, address);
+> > > > -    DeviceState *dev = DEVICE(i2c_dev);
+> > > > +    return at24c_eeprom_init_rom(bus, address, rom_size, NULL, 0);
+> > > > +}
+> > > > +
+> > > > +I2CSlave *at24c_eeprom_init_rom(I2CBus *bus, uint8_t address, uint32_t rom_size,
+> > > > +                                const uint8_t *init_rom, uint32_t init_rom_size)
+> > > > +{
+> > > > +    EEPROMState *s;
+> > > > +
+> > > > +    s = AT24C_EE(qdev_new(TYPE_AT24C_EE));
+> > > > +
+> > > > +    qdev_prop_set_uint8(DEVICE(s), "address", address);
+> > > 
+> > > Why did you switch from using i2c_slave_new()?  Using it is more
+> > > documentation and future-proofing than convenience.
+> > 
+> > Oh, yeah that's my bad. I was probably doing it so that all the qdev_prop_set
+> > calls to the object are in the same place, but I probably should have just kept
+> > i2c_slave_new() and initialized only the at24c-eeprom properties here, instead
+> > of initializing the I2CSlave ones too.
 > 
-> I've asked people who reported and can reproduce it to test this but it 
-> did not change anything so confirmed it's not that race condition but 
-> looks more like some cache inconsistency maybe. Any other ideas?
+> Will you send a v5 ?
+
+Oh! Yeah sure: I thought I had already missed the boat because I thought you
+sent a pull request, but I see that it hasn't been pulled yet.
+
+- Peter
+
 > 
-> Regards,
-> BALATON Zoltan
-
-I can come up with two important differences between x86 and Arm which 
-can affect the execution of QEMU:
-1. Memory model. Arm uses a memory model more relaxed than x86 so it is 
-more sensitive for synchronization failures among threads.
-2. Different instructions. TCG uses JIT so differences in instructions 
-matter.
-
-We should be able to exclude 1) as a potential cause of the problem. 
-iothread mutex should take care of race condition and even cache 
-coherency problem; mutex includes memory barrier functionality.
-
-For difference 2), you may try to use TCI. You can find details of TCI 
-in tcg/tci/README.
-
-The common sense tells, however, the memory model is usually the cause 
-of the problem when you see behavioral differences between x86 and Arm, 
-and TCG should work fine with both of x86 and Arm as they should have 
-been tested well.
-
-Regards,
-Akihiko Odaki
+> Thanks,
+> 
+> C.
 
