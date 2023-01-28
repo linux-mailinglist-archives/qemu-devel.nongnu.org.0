@@ -2,79 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B82367FBD8
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 00:34:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC64767FBDB
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 00:44:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLuhU-0003qD-Le; Sat, 28 Jan 2023 18:33:36 -0500
+	id 1pLuro-000671-7N; Sat, 28 Jan 2023 18:44:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pLuhT-0003pu-EQ; Sat, 28 Jan 2023 18:33:35 -0500
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pLurm-00066h-Cw
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 18:44:14 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pLuhR-0003tu-VT; Sat, 28 Jan 2023 18:33:35 -0500
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-15085b8a2f7so10992933fac.2; 
- Sat, 28 Jan 2023 15:33:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=ZZe4VNlZtLr75fg+qhbbujaZ6qov/K5CAC/7EM1uyfc=;
- b=BY4Mk1ind3fS+gCI3+prf0cpCLsNbkwyRdFg5E1pPhMpWPrUrRre/sr60UkOkZ6Apk
- WWqocPzvBFnSr4ln5JzHcz6KIvifpqVDRrhFatXE00wRWsAReYCPcx4S3FA4Ng4Ft4p8
- yHzozwgyXEKcJiBRHHf8dLpGIsCUGXdQB0k1H5YZBiN0nqmVL9GGWQKHqz8BFAcfwoQs
- 3dp/wJzfAWpJSlcZfQ/t7eN6BdWXpT3YzsyXYCmv7oYVZYq/n0OUy4odG1SIpoUUgzCz
- tkd59HxHx9Q7945FPk9UJJK0L0W88dXmDQ86m+o4wsZcB9ss895uJqsFxPtg4rKkZ2cY
- vBKw==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pLurk-0005lA-3q
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 18:44:14 -0500
+Received: by mail-pl1-x635.google.com with SMTP id be8so8308213plb.7
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 15:44:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id:from
+ :to:cc:subject:date:message-id:reply-to;
+ bh=a2zip9Pq/dbYgsxlZ0SJ+8SRbv75IQZcpblwVdopINg=;
+ b=sj4+uVvylOFE0k/JIcZ3CkDeg7E2h6n3M+24zTJUS8cSjT67sFkts1Uii36dhUgddy
+ Det6/g62sZ9FrNsvzdM8IGg1sUkd1KFfHM7rHcqCZw6oMCFwE/GCvl9ORrttx/hd4mpF
+ UNjaTCmoZ3MSC+WpoN+geCIfk5O25DZ+hkSfgItDvBN4gqzBRn8BNLMWpt0QX5wT2k7y
+ +fEY+A3JxovjBlGiIH55S/xF12cn9C7z+SkoDK0YwypbiDnGaQScyTYvHMpdM85bo2pz
+ Tqcpfmb+4nKznD7usOHx1I0GDfkzmY4Rrzz7CpdanX2Bxg0hpedCVCcs7379EdRoXrkr
+ zZrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:to:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ZZe4VNlZtLr75fg+qhbbujaZ6qov/K5CAC/7EM1uyfc=;
- b=nWj71oRzlEk1iDF7+vR7RYO9VomFBCGYbHEZDNNQjlIfzdMWrzZ6wRHrPpUqWsFQEE
- V9M0KIxuSBNIvh5HTWypZFKwWe3tcPmL3hH4I2IYp/YVi/nsoLuh8O5QjSjlR+9OpoB8
- OyVpThqQInsg6WrbskxPwKHDjtQBLr/vRkHsTL63zbMHxTKJSkb1ZlUwqst4bTd0jAHf
- 4LHocUm2pBI07RqnlFjIzC9AAK5l/5aelpRwYANxqz5XvxN6j+MHbn5a1spTTA0pknCT
- KH3HWxG73Qo3YINVgzu3QzD8pDAUMWTN3bSpH4ICLrOD+zr1T45lwMHzujSwNQWSITll
- GAyw==
-X-Gm-Message-State: AO0yUKVzC3IKQSRHrG6JGMEsoKlmS5T3UWH+Fc/8OLSY+3Be6pYX4zkz
- uteGLjpErBmoj4EAB8613j0Nkkrl+xE=
-X-Google-Smtp-Source: AK7set/03+wUCwdyloCdqTXqRslHAsh3/mZbDzITJQqq+gqd+HobNkoLh9jK/gFvx5ULBPwGRv6KEA==
-X-Received: by 2002:a05:6870:17a5:b0:144:57b1:c8cf with SMTP id
- r37-20020a05687017a500b0014457b1c8cfmr1557046oae.47.1674948812062; 
- Sat, 28 Jan 2023 15:33:32 -0800 (PST)
-Received: from [192.168.68.107] (200-148-13-157.dsl.telesp.net.br.
- [200.148.13.157]) by smtp.gmail.com with ESMTPSA id
- j26-20020a4ad2da000000b00517425df590sm1298544oos.14.2023.01.28.15.33.30
+ bh=a2zip9Pq/dbYgsxlZ0SJ+8SRbv75IQZcpblwVdopINg=;
+ b=r7h8LbRX1UZuO9mcEQkNUb9a/M0jxB28IcVQUnQT1i1ycnQ2UaFExsIU+s+sYmo5oP
+ X2fzsowQD69mNR9gt6mrY6rwtX8DN8t5473Vv1KvX6evVI5NDUDJnJ1rJj/W21KIYNdq
+ esMWLMmkLgk+wLwZ3jotEtmEX9dz4uDeGcb6KU9Xwpfrk6WKLlZvwF9mWsOKp33wfwbJ
+ /r442MX9hKnbPiggFIfeBGQPEvSdGxuVkJ8YydHOf630DCfTKp/ArMjIT8AQxsl/KE5r
+ UemT4M9AqpWdxlblDzHIPygO/S+L20uV4lBk+EqkY21xAu2IwsysWNKO6nPKCoq79BgL
+ tK9g==
+X-Gm-Message-State: AO0yUKUP5hcYMGIc7MxXwDb1itmq70ao0UqkZ02WvDwpjsmanqAqMzOC
+ NukDAgLTUvgyr9wiEPm44LqiWg==
+X-Google-Smtp-Source: AK7set8kg4vsI+1f8TTx4/PIcqAesgxp+dUlAXhlg2UdnRYrUyzIx2S5v6kVq2i85bhMxKUYg+H95Q==
+X-Received: by 2002:a17:902:d2ce:b0:194:ce30:1a94 with SMTP id
+ n14-20020a170902d2ce00b00194ce301a94mr3867617plc.1.1674949448633; 
+ Sat, 28 Jan 2023 15:44:08 -0800 (PST)
+Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
+ [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
+ jk11-20020a170903330b00b00188c04258c9sm5037103plb.52.2023.01.28.15.44.07
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 Jan 2023 15:33:31 -0800 (PST)
-Message-ID: <808dc3a5-eb7f-0331-99c1-d6cdbeb81cf7@gmail.com>
-Date: Sat, 28 Jan 2023 20:33:29 -0300
+ Sat, 28 Jan 2023 15:44:07 -0800 (PST)
+Message-ID: <2153c0f8-ab42-24f7-6d13-16c421bcedba@linaro.org>
+Date: Sat, 28 Jan 2023 13:44:04 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 0/4] E500 cleanups and enhancements
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 15/23] target/arm: Mark up sysregs for HDFGRTR bits 12..63
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org
+References: <20230127175507.2895013-1-peter.maydell@linaro.org>
+ <20230127175507.2895013-16-peter.maydell@linaro.org>
 Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: qemu-trivial@nongnu.org, qemu-ppc@nongnu.org
-References: <20230125130024.158721-1-shentey@gmail.com>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <20230125130024.158721-1-shentey@gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230127175507.2895013-16-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::36;
- envelope-from=danielhb413@gmail.com; helo=mail-oa1-x36.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -31
+X-Spam_score: -3.2
 X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-1.148,
+X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -92,30 +93,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 1/25/23 10:00, Bernhard Beschow wrote:
-> This series includes some cleanups I came across when working on the ppce500
-> machine. Furthermore, it enables support for the 'dumpdtb' QMP/HMP command
-> which was missing so far.
+On 1/27/23 07:54, Peter Maydell wrote:
+> Mark up the sysreg definitions for the registers trapped
+> by HDFGRTR/HDFGWTR bits 12..x.
 > 
-> Bernhard Beschow (4):
->    hw/ppc: Set machine->fdt in e500 machines
->    hw/ppc/e500{,plat}: Drop redundant checks for presence of platform bus
->    hw/ppc/e500.c: Avoid hardcoding parent device in
->      create_devtree_etsec()
->    hw/ppc/e500.c: Attach eSDHC unimplemented region to ccsr_addr_space
-
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
-
-And queued in gitlab.com/danielhb/qemu/tree/ppc-next. Thanks,
-
-
-Daniel
-
+> Bits 12..22 and bit 58 are for PMU registers.
 > 
->   hw/ppc/e500.c     | 24 ++++++++++++++++--------
->   hw/ppc/e500plat.c |  9 +++------
->   2 files changed, 19 insertions(+), 14 deletions(-)
+> The remaining bits in HDFGRTR/HDFGWTR are for traps on
+> registers that are part of features we don't implement:
 > 
+> Bits 23..32 and 63 : FEAT_SPE
+> Bits 33..48 : FEAT_ETE
+> Bits 50..56 : FEAT_TRBE
+> Bits 59..61 : FEAT_BRBE
+> Bit 62 : FEAT_SPEv1p2.
+> 
+> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> ---
+>   target/arm/cpregs.h | 12 ++++++++++++
+>   target/arm/helper.c | 37 +++++++++++++++++++++++++++++++++++++
+>   2 files changed, 49 insertions(+)
+
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+r~
 
