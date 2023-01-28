@@ -2,78 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06F8067F780
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 12:19:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FB1B67F790
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 12:31:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLjEo-0000Up-8D; Sat, 28 Jan 2023 06:19:14 -0500
+	id 1pLjPY-0002Kr-Vo; Sat, 28 Jan 2023 06:30:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLjEm-0000U0-70
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 06:19:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLjPU-0002KY-IF
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 06:30:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLjEk-0004Uk-E5
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 06:19:11 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLjPQ-0006mq-JZ
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 06:30:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674904749;
+ s=mimecast20190719; t=1674905411;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=M+kApOH39KWGgEI4OumPMgAM39KwNFnoreiz5z3Ag5I=;
- b=IGUSn9JtspwInkaIg8pg1mW92Ot5na1OOTUSaQsKaOIMQ7okKp+mBA3wcuS78t6YjhSOc2
- zUu4jV+FqzWE+TPeYHjbLYIpFzX0YszDkvSRYpBCdX4I56KTVKED5icBwjJLkUxkwgJke9
- vRH12nmygELT7dF79WH1Pf/vueTrwL4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=WsekEwdhIoRCTkwBBprRJGsiC3y5DyNpV6bvMuJQkTI=;
+ b=Twwda+uDNFVuFFYuvIBQqk/VNiNmPK+u/dqHJ8Zos044+bscBFuX0MnI/A4TSqGHgDDG0K
+ LgKoAncxagZkKp2+jIhfJbQF0FGfWN8/m+epMJfhvH4wsNhHv83PnU5RlhnlsJpkRDnRxk
+ MYldpXq9SobR9yYtCV6iFehc1JDVb/Y=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-655-OQCGxBifOF2RJIyVaJm44g-1; Sat, 28 Jan 2023 06:19:06 -0500
-X-MC-Unique: OQCGxBifOF2RJIyVaJm44g-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h9-20020a1ccc09000000b003db1c488826so6200729wmb.3
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 03:19:05 -0800 (PST)
+ us-mta-322-6KxybedcPJWg-8xcTboHoQ-1; Sat, 28 Jan 2023 06:30:10 -0500
+X-MC-Unique: 6KxybedcPJWg-8xcTboHoQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ l8-20020a05600c1d0800b003dc25f6bb5dso4266634wms.0
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 03:30:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=M+kApOH39KWGgEI4OumPMgAM39KwNFnoreiz5z3Ag5I=;
- b=m1o1faQe4Jpfp3WoxX3KNojRW9C2LOf1gSUpr4KFo/K3c1UIMhFPaqI7HTpP5SeuHT
- YjqzS7ubry4yuX7EbNjt4LhidsaqpBb8smZeZpX0pf5lGHwZhUKEQfFjQky881lS09m1
- h/+i7gxR9kLJ1HknxMeXBYT1KTfE07m7OqHGBkO4VB9GzY8Fr7MymbmbcsUKSu5E2VrL
- Bp1Vj6wygRpGWQKCD5He9JzevN4OJLKWKdUdvbHT0RcvlokdoVVqODtseFJJ+4O64ySP
- 1zdq2I6vJy7hvpWtTxAnHKGpcb2NJfO0ThW8hTeA+us85+l4chEi6sp/z7sdZYeYTbef
- eRCw==
-X-Gm-Message-State: AFqh2kra18lAFHxmAdOm89wRMN0GVUIAvyEfos6oUXVHKM7RqtHsh/uE
- 4fSFKj3UM3BWcJt3EbvCaIJFLYzxnPtM4rUdb8TNHtzbu6mN0JAXp4BcoOl2vXW9/b7eFecZuMK
- 2PHlJG38Zv6aafRg=
-X-Received: by 2002:a05:600c:c12:b0:3da:28a9:a900 with SMTP id
- fm18-20020a05600c0c1200b003da28a9a900mr40848117wmb.41.1674904744529; 
- Sat, 28 Jan 2023 03:19:04 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsywxNmvfGwBRPLzcmC7vssP0ZsINOaSKGFpCB2hi6pA6vHF9kqvIg//hPQmOWUWromS8N6rA==
-X-Received: by 2002:a05:600c:c12:b0:3da:28a9:a900 with SMTP id
- fm18-20020a05600c0c1200b003da28a9a900mr40848099wmb.41.1674904744226; 
- Sat, 28 Jan 2023 03:19:04 -0800 (PST)
+ bh=WsekEwdhIoRCTkwBBprRJGsiC3y5DyNpV6bvMuJQkTI=;
+ b=DYmmXKVmDmp5GIstG0SA5x5nrhYteCcw4ThQLtTefD23x80Qi8HucvISMMxFTuGZ1S
+ yxl/dhOpktKJ4QDNfqiPcPS5EVA5To4Y/Jgug301smluCV35AhxZGX5ish4bydmJ91+J
+ w8TaGO27qoCfp5nVCQvZlndUptA2tOM6j1u6mzBue7j5hGGLCUsX+XcEi8pPs+zCVtd9
+ ANBbckbW56ZYYn4MlXYLPV9bABNPUzf8Y1sgk/7C2CFpvw2KzJXR2WJfBoRlJDMc5mmb
+ Ea5NtQUTrTTVwZiGxDxd7zJEgkAJ62JcYb8OOod8JqGOe4TpICzYw1A6mPK/b/mAWl3T
+ hgvA==
+X-Gm-Message-State: AFqh2kpM7PD6kGoXNGy6ldkodFKNXcSRK0ISWI13CTPtri7JZGWC+hMQ
+ IwTfg/dfhdCHd7sicddsOvVPlmGRXDpgjILPLHPMIW9SKZlo1nht98ke/W+PRHbepAc3Oy52qR1
+ 0kW4RNu2gKo+dxkg=
+X-Received: by 2002:a05:600c:714:b0:3d9:ed30:79d with SMTP id
+ i20-20020a05600c071400b003d9ed30079dmr43147614wmn.18.1674905408937; 
+ Sat, 28 Jan 2023 03:30:08 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXs6U/oS241pIvK1xl55UiaWF7B2YgMu31y74Hb5gYiQ7Y1rZPk95kjmkmqRTa/QgH0BZDqg6Q==
+X-Received: by 2002:a05:600c:714:b0:3d9:ed30:79d with SMTP id
+ i20-20020a05600c071400b003d9ed30079dmr43147593wmn.18.1674905408674; 
+ Sat, 28 Jan 2023 03:30:08 -0800 (PST)
 Received: from redhat.com ([2.52.20.248]) by smtp.gmail.com with ESMTPSA id
- l21-20020a05600c4f1500b003b47b80cec3sm11600364wmq.42.2023.01.28.03.19.02
+ bi5-20020a05600c3d8500b003db0bb81b6asm7357650wmb.1.2023.01.28.03.30.06
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Jan 2023 03:19:03 -0800 (PST)
-Date: Sat, 28 Jan 2023 06:19:00 -0500
+ Sat, 28 Jan 2023 03:30:08 -0800 (PST)
+Date: Sat, 28 Jan 2023 06:30:04 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 2/3]  virtio: struct VirtQueue introduce reset
-Message-ID: <20230128061558-mutt-send-email-mst@kernel.org>
-References: <20230128071724.33677-1-xuanzhuo@linux.alibaba.com>
- <20230128071724.33677-3-xuanzhuo@linux.alibaba.com>
- <20230128050411-mutt-send-email-mst@kernel.org>
- <1674902469.9566288-2-xuanzhuo@linux.alibaba.com>
+To: zhenwei pi <pizhenwei@bytedance.com>
+Cc: arei.gonglei@huawei.com, berrange@redhat.com, dgilbert@redhat.com,
+ pbonzini@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 00/12] Refactor cryptodev
+Message-ID: <20230128062802-mutt-send-email-mst@kernel.org>
+References: <20230128035633.2548315-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1674902469.9566288-2-xuanzhuo@linux.alibaba.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20230128035633.2548315-1-pizhenwei@bytedance.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -97,124 +95,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Jan 28, 2023 at 06:41:09PM +0800, Xuan Zhuo wrote:
-> On Sat, 28 Jan 2023 05:22:05 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > On Sat, Jan 28, 2023 at 03:17:23PM +0800, Xuan Zhuo wrote:
-> > >  In the current design, we stop the device from operating on the vring
-> > >  during per-queue reset by resetting the structure VirtQueue.
-> > >
-> > >  But before the reset operation, when recycling some resources, we should
-> > >  stop referencing new vring resources. For example, when recycling
-> > >  virtio-net's asynchronous sending resources, virtio-net should be able
-> > >  to perceive that the current queue is in the per-queue reset state, and
-> > >  stop sending new packets from the tx queue.
-> > >
-> > >  Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> > > ---
-> > >  hw/virtio/virtio.c         | 8 ++++++++
-> > >  include/hw/virtio/virtio.h | 3 +++
-> > >  2 files changed, 11 insertions(+)
-> > >
-> > > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> > > index 03077b2ecf..907d5b8bde 100644
-> > > --- a/hw/virtio/virtio.c
-> > > +++ b/hw/virtio/virtio.c
-> > > @@ -2030,6 +2030,12 @@ void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
-> > >  {
-> > >      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-> > >
-> > > +    /*
-> > > +     * Mark this queue is per-queue reset status. The device should release the
-> > > +     * references of the vring, and not refer more new vring item.
-> > > +     */
-> > > +    vdev->vq[queue_index].reset = true;
-> > > +
-> > >      if (k->queue_reset) {
-> > >          k->queue_reset(vdev, queue_index);
-> > >      }
-> > > @@ -2053,6 +2059,8 @@ void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
-> > >      }
-> > >      */
-> > >
-> > > +    vdev->vq[queue_index].reset = false;
-> > > +
-> > >      if (k->queue_enable) {
-> > >          k->queue_enable(vdev, queue_index);
-> > >      }
-> > > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> > > index 1c0d77c670..b888538d09 100644
-> > > --- a/include/hw/virtio/virtio.h
-> > > +++ b/include/hw/virtio/virtio.h
-> > > @@ -251,6 +251,9 @@ struct VirtQueue {
-> > >      /* Notification enabled? */
-> > >      bool notification;
-> > >
-> > > +    /* Per-Queue Reset status */
-> > > +    bool reset;
-> > > +
-> > >      uint16_t queue_index;
-> > >
-> >
-> > Reset state makes no sense. It seems to imply queue_reset
-> > in the spec. And for extra fun there's "reset" in the pci
-> > proxy which means "virtio_queue_reset is in progress" - I have no
-> > idea what uses it though - it is not guest visible.  First what is it?
-> > It actually means "queue has been reset and not has not been enabled since".
-> > So disabled_by_reset maybe?
+On Sat, Jan 28, 2023 at 11:56:21AM +0800, zhenwei pi wrote:
+> v3 -> v4:
+> - a small change in '0005-cryptodev-Introduce-query-cryptodev-QMP-command.patch':
+>   use 'uint32' instead of 'int' to describe CryptodevBackendClient:queue
+
+what was the motivation for this change? we generally just use int
+unless width is important.
+
+> - fix compling warning(gcc)/error(clang-11) on 32 bit platform in
+>   '0007-hmp-add-cryptodev-info-command.patch':
+>   use 'printf("%u", client->queue)' instead of 'printf("%ld", client->queue)'
 > 
+
+Are you aware of PRIu64? And if you are going to print uint32 use PRIu32
+
+> v2 -> v3:
+> - rebase code against the lastest commist: fb7e7990342e59cf67d
+> - document the missing fields in qapi/cryptodev.json
+> - rework statistics part: use 'query-stats' command instead of
+>   'query-cryptodev'(cryptodev: Support query-stats QMP command)
 > 
-> In fact, when reading this, the queue has not been reset,
-> so prepare_for_reset?
-
-Makes it sound like it's some kind of temporary state where
-it is not - it will stay like this until enabled.
-As this makes no practical difference that it is set to
-early, just set it later for consistency.
-
-> >
-> > Second this hack helps make the change minimal
-> > so it's helpful for stable, but it's ugly in that it
-> > duplicates the reverse of enabled value - we don't really
-> > care what disabled it in practice.
-> >
-> > With the fixups above I can apply so it's easier to backport, but later
-> > a patch on top should clean it all up, perhaps by adding
-> > "enabled" in VirtQueue. We should also get rid of "reset" in the proxy
-> > unless there's some way it's useful which I don't currently see.
-> >
+> v1 -> v2:
+> - fix coding style and use 'g_strjoin()' instead of 'char services[128]'
+>    (suggested by Dr. David Alan Gilbert)
+> - wrapper function 'cryptodev_backend_account' to record statistics, and
+>    allocate sym_stat/asym_stat in cryptodev base class. see patch:
+>    'cryptodev: Support statistics'.
+> - add more arguments into struct CryptoDevBackendOpInfo, then
+>    cryptodev_backend_crypto_operation() uses *op_info only.
+> - support cryptodev QoS settings(BPS&OPS), both QEMU command line and QMP
+>    command works fine.
+> - add myself as the maintainer for cryptodev.
 > 
-> I have some confusion, I don't understand what you mean.
+> v1:
+> - introduce cryptodev.json to describe the attributes of crypto device, then
+>    drop duplicated type declare, remove some virtio related dependence.
+> - add statistics: OPS and bandwidth.
+> - add QMP command: query-cryptodev
+> - add HMP info command: cryptodev
+> - misc fix: detect akcipher capability instead of exposing akcipher service
+>    unconditionally.
 > 
-> Why did we remove the "reset" in the proxy?
-
-We did not but we should.
-Why we should remove "reset" in the proxy?
-Because guest can never read it as != 0:
-
-    case VIRTIO_PCI_COMMON_Q_RESET:
-        if (val == 1) {
-            proxy->vqs[vdev->queue_sel].reset = 1;
-
-            virtio_queue_reset(vdev, vdev->queue_sel);
-
-            proxy->vqs[vdev->queue_sel].reset = 0;
-            proxy->vqs[vdev->queue_sel].enabled = 0;
-        }
-        break;
-
-from guest's POV reset is atomic and so does not need
-a variable to track state.
-
-
-> I agree to rename the "reset".
+> Zhenwei Pi (12):
+>   cryptodev: Introduce cryptodev.json
+>   cryptodev: Remove 'name' & 'model' fields
+>   cryptodev: Introduce cryptodev alg type in QAPI
+>   cryptodev: Introduce server type in QAPI
+>   cryptodev: Introduce 'query-cryptodev' QMP command
+>   cryptodev-builtin: Detect akcipher capability
+>   hmp: add cryptodev info command
+>   cryptodev: Use CryptoDevBackendOpInfo for operation
+>   cryptodev: Account statistics
+>   cryptodev: support QoS
+>   cryptodev: Support query-stats QMP command
+>   MAINTAINERS: add myself as the maintainer for cryptodev
 > 
-> Thanks.
+>  MAINTAINERS                     |   2 +
+>  backends/cryptodev-builtin.c    |  42 ++--
+>  backends/cryptodev-lkcf.c       |  19 +-
+>  backends/cryptodev-vhost-user.c |  13 +-
+>  backends/cryptodev-vhost.c      |   4 +-
+>  backends/cryptodev.c            | 419 ++++++++++++++++++++++++++++++--
+>  hmp-commands-info.hx            |  14 ++
+>  hw/virtio/virtio-crypto.c       |  48 +++-
+>  include/monitor/hmp.h           |   1 +
+>  include/sysemu/cryptodev.h      |  95 ++++----
+>  monitor/hmp-cmds.c              |  41 ++++
+>  monitor/qmp-cmds.c              |   2 +
+>  qapi/cryptodev.json             | 143 +++++++++++
+>  qapi/meson.build                |   1 +
+>  qapi/qapi-schema.json           |   1 +
+>  qapi/qom.json                   |   8 +-
+>  qapi/stats.json                 |  10 +-
+>  17 files changed, 743 insertions(+), 120 deletions(-)
+>  create mode 100644 qapi/cryptodev.json
 > 
-> >
-> >
-> > >      unsigned int inuse;
-> > > --
-> > > 2.32.0.3.g01195cf9f
-> >
+> -- 
+> 2.34.1
 
 
