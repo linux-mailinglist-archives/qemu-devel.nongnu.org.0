@@ -2,75 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6186B67FB47
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 23:02:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF01D67FB5F
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 23:34:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLtGu-0007Hc-VH; Sat, 28 Jan 2023 17:02:04 -0500
+	id 1pLtko-0003YP-Lc; Sat, 28 Jan 2023 17:32:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pLtGr-0007Gv-9X
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 17:02:01 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pLtGp-0007Fi-KR
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 17:02:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:Cc:To:MIME-Version:Date:Message-ID:Sender:
- Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender
- :Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=azVP/JV7+8zQcUFxdLYhEw7gZjug8OdSop1SYmvAowg=; b=CVyn/kZXv5CcTc6qiSpxKe6FIZ
- tJz3QP2VPJ4pGJ3aDPgSBPogShP08j8W4+3HxOjIIBJT1RAwkwN4wPHPdDkcqf/DDJRS4x8Ju5Q1z
- TNVBRwsIWpeHniCvFzHmSrb10TwzexuKqojuJ0RJPUUiaQMVGEUr5aozo10M8dS4LJuFFVqlm1kH9
- 4RuIzyOugNkJpxDjXAJhu8YR35/ZTCdG2swJUGWK9Z3g5AWvvOOJDQYlJzhyV2kB1aBR530qNX6im
- R2TpTuC7TH3PgQj+FIcQYMQv9Vf+jtOYbwjzEnPuMhVrDgWH1FjHL+FYSY+EvXfhZBksnY7s0aERA
- WoUZHFOL3kn4SFmYDWbPBXkgjSfAK9ZEcylqQ0LFQgVSd/6/NuBGlgwJlPv4bKcaXQ3fHBSwqxFi4
- 7C/Z2z8KOhlKunEXNA2360jSh48mKPLV8Xw8tO1flXx/dYdxp6rmg0mnoJOIvu8GefXNN1QeyZiVq
- QqANoIsDiPquc9JO+wRRoN+vxa5mwZxS1yZSOZfNmyRFascGFVZf+qTvga8YhbRyEugXFnp/FGqBd
- a8OtXFRhVny9YpQS+1GljPy3hSRsCZNegfyZUvlH5W2Pu7MkISdkfU+tYqN1MjNJBZa65NDdWB7v5
- nXshxfdhfmlaAIpmid49NPB9+dqCpADPV+2g7Q5bY=;
-Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pLtGM-0000ZP-BB; Sat, 28 Jan 2023 22:01:30 +0000
-Message-ID: <d8349646-cc36-4cd7-7100-cb3b2324fbd3@ilande.co.uk>
-Date: Sat, 28 Jan 2023 22:01:55 +0000
+ (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
+ id 1pLtkm-0003XZ-5g; Sat, 28 Jan 2023 17:32:56 -0500
+Received: from mail.csgraf.de ([85.25.223.15] helo=zulu616.server4you.de)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <agraf@csgraf.de>)
+ id 1pLtkk-0003g0-7O; Sat, 28 Jan 2023 17:32:55 -0500
+Received: from [172.18.100.158] (unknown [46.183.103.8])
+ by csgraf.de (Postfix) with ESMTPSA id 632AC60801B9;
+ Sat, 28 Jan 2023 23:32:43 +0100 (CET)
+Message-ID: <2311549f-2db6-d5aa-9055-5c57d786f6dd@csgraf.de>
+Date: Sat, 28 Jan 2023 23:32:19 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] hvf: arm: Add support for GICv3
 Content-Language: en-US
-To: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-References: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
- <a671751a-cbb7-22c2-8840-0476176d2533@t-online.de>
- <f7ce8516-fddd-543b-0f3c-b73a310b79a8@ilande.co.uk>
- <b08302bf-bd66-79c8-abcc-b511c99c7eb5@t-online.de>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <b08302bf-bd66-79c8-abcc-b511c99c7eb5@t-online.de>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
+References: <20221219220808.26392-1-agraf@csgraf.de>
+ <CAFEAcA-bp_r07s7VQDMbWm=f1iV0rfB8XsZUUqpxENnn5fTe+g@mail.gmail.com>
+From: Alexander Graf <agraf@csgraf.de>
+In-Reply-To: <CAFEAcA-bp_r07s7VQDMbWm=f1iV0rfB8XsZUUqpxENnn5fTe+g@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 00/17] audio: improve callback interface for audio
- frontends
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
+ helo=zulu616.server4you.de
+X-Spam_score_int: 3
+X-Spam_score: 0.3
+X-Spam_bar: /
+X-Spam_report: (0.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
+ RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,47 +57,144 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 28/01/2023 09:03, Volker Rümelin wrote:
 
-> Am 22.01.23 um 19:13 schrieb Mark Cave-Ayland:
->> On 15/01/2023 13:45, Volker Rümelin wrote:
+On 06.01.23 17:37, Peter Maydell wrote:
+> On Mon, 19 Dec 2022 at 22:08, Alexander Graf <agraf@csgraf.de> wrote:
+>> We currently only support GICv2 emulation. To also support GICv3, we will
+>> need to pass a few system registers into their respective handler functions.
 >>
->>> Am 15.01.23 um 14:08 schrieb Volker Rümelin:
->>>
->>> Ccing a few more people who might be interested in this patch series.
->>>
->>> @Mark:
->>> After this patch series, the code in your out of tree ASC audio device (and a few 
->>> in tree audio devices) could be simplified. write_audio() and the loops calling 
->>> write_audio() could be removed.
+>> This patch adds support for HVF to call into the TCG callbacks for GICv3
+>> system register handlers. This is safe because the GICv3 TCG code is generic
+>> as long as we limit ourselves to EL0 and EL1 - which are the only modes
+>> supported by HVF.
 >>
->> Hi Volker,
+>> To make sure nobody trips over that, we also annotate callbacks that don't
+>> work in HVF mode, such as EL state change hooks.
 >>
->> I know we have discussed this in a separate thread off-list, but this is fantastic!
+>> With GICv3 support in place, we can run with more than 8 vCPUs.
 >>
->> Just out of interest, if the available bytes wraps the circular buffer will the 
->> audio core call the audio callback twice to maximise the ability of the guest to 
->> generate samples before the next audio timer? Or does that not make much difference 
->> in practice?
-> 
-> Hi Mark,
-> 
-> I guess with circular buffer you refer to the mixing engine buffer. The audio system 
-> calls the callback once on every audio timer event. If the available bytes wrap the 
-> mixing engine ringbuffer, the audio_pcm_sw_resample_out() function uses two writes to 
-> write all available bytes. Compared to the unpatched version, nothing has changed in 
-> this regard. Of course the audio frontend devices are still free to write 'avail' 
-> bytes with multiple calls to AUD_write().
-> 
-> With best regards,
-> Volker
+>> Signed-off-by: Alexander Graf <agraf@csgraf.de>
+>> ---
+>>   hw/intc/arm_gicv3_cpuif.c   |   8 +-
+>>   target/arm/hvf/hvf.c        | 151 ++++++++++++++++++++++++++++++++++++
+>>   target/arm/hvf/trace-events |   2 +
+>>   3 files changed, 160 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
+>> index b17b29288c..b4e387268c 100644
+>> --- a/hw/intc/arm_gicv3_cpuif.c
+>> +++ b/hw/intc/arm_gicv3_cpuif.c
+>> @@ -21,6 +21,7 @@
+>>   #include "hw/irq.h"
+>>   #include "cpu.h"
+>>   #include "target/arm/cpregs.h"
+>> +#include "sysemu/tcg.h"
+>>
+>>   /*
+>>    * Special case return value from hppvi_index(); must be larger than
+>> @@ -2810,6 +2811,8 @@ void gicv3_init_cpuif(GICv3State *s)
+>>            * which case we'd get the wrong value.
+>>            * So instead we define the regs with no ri->opaque info, and
+>>            * get back to the GICv3CPUState from the CPUARMState.
+>> +         *
+>> +         * These CP regs callbacks can be called from either TCG or HVF code.
+>>            */
+>>           define_arm_cp_regs(cpu, gicv3_cpuif_reginfo);
+>>
+>> @@ -2905,6 +2908,9 @@ void gicv3_init_cpuif(GICv3State *s)
+>>                   define_arm_cp_regs(cpu, gicv3_cpuif_ich_apxr23_reginfo);
+>>               }
+>>           }
+>> -        arm_register_el_change_hook(cpu, gicv3_cpuif_el_change_hook, cs);
+>> +        if (tcg_enabled()) {
+>> +            /* We can only trap EL changes with TCG for now */
+> We could expand this a bit:
+>
+>   We can only trap EL changes with TCG. However the GIC interrupt
+>   state only changes on EL changes involving EL2 or EL3, so for
+>   the non-TCG case this is OK, as EL2 and EL3 can't exist.
+>
+> and assert:
+>   assert(!arm_feature(&cpu->env, ARM_FEATURE_EL2));
+>   assert(!arm_feature(&cpu->env, ARM_FEATURE_EL3));
 
-Yes that makes sense, thanks for confirming this. I'm sorry that I'm not familiar 
-enough with the audio side to do a proper review but obviously the A-B still stands 
-and I would certainly be keen to see this merged.
+
+Good idea! Let me add that.
 
 
-ATB,
+>
+>> +static uint32_t hvf_reg2cp_reg(uint32_t reg)
+>> +{
+>> +    return ENCODE_AA64_CP_REG(CP_REG_ARM64_SYSREG_CP,
+>> +                              (reg >> 10) & 0xf,
+>> +                              (reg >> 1) & 0xf,
+>> +                              (reg >> 20) & 0x3,
+>> +                              (reg >> 14) & 0x7,
+>> +                              (reg >> 17) & 0x7);
+> This file has #defines for these shift and mask constants
+> (SYSREG_OP0_SHIFT etc).
 
-Mark.
+
+Ugh, thanks for catching that!
+
+
+>
+>> +}
+>> +
+>> +static bool hvf_sysreg_read_cp(CPUState *cpu, uint32_t reg, uint64_t *val)
+>> +{
+>> +    ARMCPU *arm_cpu = ARM_CPU(cpu);
+>> +    CPUARMState *env = &arm_cpu->env;
+>> +    const ARMCPRegInfo *ri;
+>> +
+>> +    ri = get_arm_cp_reginfo(arm_cpu->cp_regs, hvf_reg2cp_reg(reg));
+>> +    if (ri) {
+>> +        if (ri->accessfn) {
+>> +            if (ri->accessfn(env, ri, true) != CP_ACCESS_OK) {
+>> +                return false;
+>> +            }
+>> +        }
+>> +        if (ri->type & ARM_CP_CONST) {
+>> +            *val = ri->resetvalue;
+>> +        } else if (ri->readfn) {
+>> +            *val = ri->readfn(env, ri);
+>> +        } else {
+>> +            *val = CPREG_FIELD64(env, ri);
+>> +        }
+>> +        trace_hvf_vgic_read(ri->name, *val);
+>> +        return true;
+>> +    }
+> Can we get here for attempts by EL0 to access EL1-only
+> sysregs, or does hvf send the exception to EL1 without
+> trapping out to us? If we can get here for EL0 accesses we
+> need to check against ri->access as well as ri->accessfn.
+
+
+I just validated, GICv3 EL1 registers trap to EL1 inside the guest:
+
+
+$ cat a.S
+.global start
+.global _main
+_main:
+start:
+         mrs x0, ICC_AP0R0_EL1
+         mov x0, #0x1234
+         msr ICC_AP0R0_EL1, x0
+         mov x0, #0
+         ret
+$ gcc -nostdlib a.S
+$ gdb ./a.out
+(gdb) r
+Program received signal SIGILL, Illegal instruction.
+0x00000000004000d4 in start ()
+(gdb) x/i $pc
+=> 0x4000d4 <start>:        mrs     x0, icc_ap0r0_el1
+
+
+So no need to check ri->access :)
+
+
+Alex
+
 
