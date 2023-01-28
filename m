@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74D3667F47B
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 04:58:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9D067F479
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 04:58:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLcLG-0000S3-Dz; Fri, 27 Jan 2023 22:57:26 -0500
+	id 1pLcLI-0000SP-E4; Fri, 27 Jan 2023 22:57:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pLcLE-0000Rq-NC
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 22:57:24 -0500
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ id 1pLcLG-0000SG-UK
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 22:57:26 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pLcLC-0003pP-Q5
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 22:57:24 -0500
-Received: by mail-pl1-x62a.google.com with SMTP id z13so6834507plg.6
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 19:57:22 -0800 (PST)
+ id 1pLcLF-0003pF-Ck
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 22:57:26 -0500
+Received: by mail-pl1-x631.google.com with SMTP id jl3so6823832plb.8
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 19:57:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=895AVhM/R+Esm94BaiVSLbfczrhT5dKN2jxCxe7qWGc=;
- b=Ku/dJa8O9lzzDMPjeMonSCMlQ6zsEwjD7AIfLx0cZYkCCN+EnaDdW21pNUiE+7T75h
- /tr+r5dJtRsWj3miez0Seuxkfkk836IUH85TzPrm1m64WGkLqmaBmPvDaq/S3KrzFuSe
- yRgt8ih42ncn/LcxCudambUUA/7wWdklWEy7AGBkd6+Te/UYFFpv0hxuIv7N8PTH49VE
- //zP7lLpRhjDb0K2H1VfsxmYjY+PplveZ3uBeMPSRFubRWzGRMl/QrphZg523/Vjru/W
- 7jGKBZfbXds3NvOiQpQxEKgTuuQXTmM2ONp13L347nAJOGN4PMXNJrn0amCrGb3m+6Xt
- 08rQ==
+ bh=JBPxArb+accoiQR79WRA7abVrBow9EEKwkZ30aFdDp4=;
+ b=70SrjzOTxntri0Seh1EVuPGUxuRQfnbsTm0LYu7dwUvuCXI1aM6Cy+SJRlywV8tGCb
+ 5lek/BlLceJiMzQsWOxXKKCyYyVS9idLCwcLdQNWbwhirMDf8k5TxOzMUmd/qV1a0IbP
+ oHbRSYi0KFkdFNleXWETkNWfpzhBIvGEQt1Kuejif9Eano03B/LX+JanJRT+OhZy4nrU
+ npjts9gjPUmSM6S+IRwJuDVC8uJy99UYqdYsWjyz9Br68xiRLDKW1Orh+712WtZUw1cM
+ fLpdTutOwWz2d3K+noh19ge9lCMhPpSRCDZAiyOIJlwKwspmxi9OlWN37QHJSi/yPhIB
+ 9fjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=895AVhM/R+Esm94BaiVSLbfczrhT5dKN2jxCxe7qWGc=;
- b=hp/mq7fQOHikWSAa6+4chvbc5QuSfO3WHEPRk32w2mAgaADZxoIT7F6kZ2vA049aJr
- HLsmX6qHp4Y+LLdIvGuKgYAUDMGXXlnWWK7tPddog7vdx21O/KzX+gYWiAiaZMoyt3XZ
- 0Df2DlSBtjPW4Dab3IyEazNAu7KbmUXPMieZDG5HMOrKDyR9U3oOamtJRy1HhGpl07bZ
- o/mcqOzQS5rCbbofZCxu/7YJFe9tUdaJpp5Mbae/3DEyKFFcjCfGiPvsdi4A1ohnVg2l
- vFhsEH2EfEk9fOS1etpffYuIkeJk6tPBL1DgllFTF5NZzmVFHXnRh46tICuVmeotPxW8
- 5VtA==
-X-Gm-Message-State: AO0yUKXLD0XkAUZYSF4PsgwBPXGBR/CYA4DMl2HZTL5U2bJUEnyPviX7
- BOau0GaNTsNNVsfgnMhFY4qFHQ==
-X-Google-Smtp-Source: AK7set8JrvB7NxSL8i8IcVEieHttjueyatd6rn163pmbIu/ujfO9FHqBWa/fXt8FfOuhbH4TKlYPLQ==
-X-Received: by 2002:a17:902:d48c:b0:196:2b0d:fece with SMTP id
- c12-20020a170902d48c00b001962b0dfecemr15504075plg.15.1674878241585; 
- Fri, 27 Jan 2023 19:57:21 -0800 (PST)
+ bh=JBPxArb+accoiQR79WRA7abVrBow9EEKwkZ30aFdDp4=;
+ b=MqbbCSTS459IVFi1iIyRlF1sefgcfAtKlG8t/hC3UK4B3uguhYaq+K8Q4QydhBXN+e
+ 1tJbBFyvpUqqEhdUqBP0zRDgr5mU4/ez4i9vXt4kJODt4OGUBiC/yqP9lzFVdHqlbvaA
+ jC3XwHvnSGot0IRDb01Vcs1mg9kx2Eo8kFv/Gse2lVz4R/ctowkOVe2jNCyz64EKqVv7
+ 6qgMhWox8Be7uQGo+HqTtS137TM9NiV439/Ey5Kk7AkwVeGBBYWnzN6lV+vuK/fqzSHl
+ Pr6XQXIXfhEKAuKgrLKq+BACgV3ozGOBdg3GtG+iYwAgPkTeGOxK3u2UE8MDcxo8Z9Ij
+ 9jrw==
+X-Gm-Message-State: AO0yUKWQYuC/cgm/QtTe40FK0BvCQ3OUrlCip57KrixPUfPBwj3z3xGr
+ JwYrvdcAbRumOGSelTB5571O7A==
+X-Google-Smtp-Source: AK7set/ZgkeFL04TX31rxV7E42iH/F7JJUzeanmGrtGLg6gm2EaZ4FVQaaKplWpu0N6glkdo55ufpQ==
+X-Received: by 2002:a17:903:2288:b0:194:7c28:3fa4 with SMTP id
+ b8-20020a170903228800b001947c283fa4mr814737plh.19.1674878244779; 
+ Fri, 27 Jan 2023 19:57:24 -0800 (PST)
 Received: from always-pc.bytedance.net ([61.213.176.6])
  by smtp.gmail.com with ESMTPSA id
- y4-20020a170902ed4400b00186c3afb49esm3594662plb.209.2023.01.27.19.57.18
+ y4-20020a170902ed4400b00186c3afb49esm3594662plb.209.2023.01.27.19.57.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 27 Jan 2023 19:57:21 -0800 (PST)
+ Fri, 27 Jan 2023 19:57:24 -0800 (PST)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: mst@redhat.com,
 	arei.gonglei@huawei.com,
 	berrange@redhat.com
 Cc: dgilbert@redhat.com, pbonzini@redhat.com, armbru@redhat.com,
  qemu-devel@nongnu.org, zhenwei pi <pizhenwei@bytedance.com>
-Subject: [PATCH v3 11/12] cryptodev: Support query-stats QMP command
-Date: Sat, 28 Jan 2023 11:56:32 +0800
-Message-Id: <20230128035633.2548315-12-pizhenwei@bytedance.com>
+Subject: [PATCH v3 12/12] MAINTAINERS: add myself as the maintainer for
+ cryptodev
+Date: Sat, 28 Jan 2023 11:56:33 +0800
+Message-Id: <20230128035633.2548315-13-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230128035633.2548315-1-pizhenwei@bytedance.com>
 References: <20230128035633.2548315-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x62a.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -93,311 +93,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Now we can use "query-stats" QMP command to query statistics of
-crypto devices. (Originally this was designed to show statistics
-by '{"execute": "query-cryptodev"}'. Daniel Berrangé suggested that
-querying configuration info by "query-cryptodev", and querying
-runtime performance info by "query-stats". This makes sense!)
+I developed the akcipher service, QoS setting, QMP/HMP commands and
+statistics accounting for crypto device. Making myself as the
+maintainer for QEMU's cryptodev.
 
-Example:
-~# virsh qemu-monitor-command vm '{"execute": "query-stats", \
-   "arguments": {"target": "cryptodev"} }' | jq
-{
-  "return": [
-    {
-      "provider": "cryptodev",
-      "stats": [
-        {
-          "name": "asym-verify-bytes",
-          "value": 7680
-        },
-        ...
-        {
-          "name": "asym-decrypt-ops",
-          "value": 32
-        },
-        {
-          "name": "asym-encrypt-ops",
-          "value": 48
-        }
-      ],
-      "qom-path": "/objects/cryptodev0" # support asym only
-    },
-    {
-      "provider": "cryptodev",
-      "stats": [
-        {
-          "name": "asym-verify-bytes",
-          "value": 0
-        },
-        ...
-        {
-          "name": "sym-decrypt-bytes",
-          "value": 5376
-        },
-        ...
-      ],
-      "qom-path": "/objects/cryptodev1" # support asym/sym
-    }
-  ],
-  "id": "libvirt-422"
-}
-
-Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+Cc: Gonglei <arei.gonglei@huawei.com>
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- backends/cryptodev.c | 141 +++++++++++++++++++++++++++++++++++++++++++
- monitor/hmp-cmds.c   |   5 ++
- monitor/qmp-cmds.c   |   2 +
- qapi/stats.json      |  10 ++-
- 4 files changed, 156 insertions(+), 2 deletions(-)
+ MAINTAINERS | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/backends/cryptodev.c b/backends/cryptodev.c
-index c288d5a016..051e13ea5b 100644
---- a/backends/cryptodev.c
-+++ b/backends/cryptodev.c
-@@ -22,9 +22,11 @@
-  */
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 9f6c54b145..e21a6ee470 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2857,6 +2857,7 @@ T: git https://gitlab.com/ehabkost/qemu.git machine-next
  
- #include "qemu/osdep.h"
-+#include "monitor/stats.h"
- #include "sysemu/cryptodev.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-cryptodev.h"
-+#include "qapi/qapi-types-stats.h"
- #include "qapi/visitor.h"
- #include "qemu/config-file.h"
- #include "qemu/error-report.h"
-@@ -32,6 +34,14 @@
- #include "qom/object_interfaces.h"
- #include "hw/virtio/virtio-crypto.h"
- 
-+typedef struct StatsArgs {
-+    union StatsResultsType {
-+        StatsResultList **stats;
-+        StatsSchemaList **schema;
-+    } result;
-+    strList *names;
-+    Error **errp;
-+} StatsArgs;
- 
- static QTAILQ_HEAD(, CryptoDevBackendClient) crypto_clients;
- 
-@@ -435,6 +445,134 @@ static void cryptodev_backend_finalize(Object *obj)
-     }
- }
- 
-+static StatsList *cryptodev_backend_stats_add(const char *name, int64_t *val,
-+                                              StatsList *stats_list)
-+{
-+    Stats *stats = g_new0(Stats, 1);
-+
-+    stats->name = g_strdup(name);
-+    stats->value = g_new0(StatsValue, 1);
-+    stats->value->type = QTYPE_QNUM;
-+    stats->value->u.scalar = *val;
-+
-+    QAPI_LIST_PREPEND(stats_list, stats);
-+    return stats_list;
-+}
-+
-+static int cryptodev_backend_stats_query(Object *obj, void *data)
-+{
-+    StatsArgs *stats_args = data;
-+    StatsResultList **stats_results = stats_args->result.stats;
-+    StatsList *stats_list = NULL;
-+    StatsResult *entry;
-+    CryptoDevBackend *backend;
-+    QCryptodevBackendSymStat *sym_stat;
-+    QCryptodevBackendAsymStat *asym_stat;
-+
-+    if (!object_dynamic_cast(obj, TYPE_CRYPTODEV_BACKEND)) {
-+        return 0;
-+    }
-+
-+    backend = CRYPTODEV_BACKEND(obj);
-+    sym_stat = backend->sym_stat;
-+    if (sym_stat) {
-+        stats_list = cryptodev_backend_stats_add("sym-encrypt-ops",
-+                         &sym_stat->encrypt_ops, stats_list);
-+        stats_list = cryptodev_backend_stats_add("sym-decrypt-ops",
-+                         &sym_stat->decrypt_ops, stats_list);
-+        stats_list = cryptodev_backend_stats_add("sym-encrypt-bytes",
-+                         &sym_stat->encrypt_bytes, stats_list);
-+        stats_list = cryptodev_backend_stats_add("sym-decrypt-bytes",
-+                         &sym_stat->decrypt_bytes, stats_list);
-+    }
-+
-+    asym_stat = backend->asym_stat;
-+    if (asym_stat) {
-+        stats_list = cryptodev_backend_stats_add("asym-encrypt-ops",
-+                         &asym_stat->encrypt_ops, stats_list);
-+        stats_list = cryptodev_backend_stats_add("asym-decrypt-ops",
-+                         &asym_stat->decrypt_ops, stats_list);
-+        stats_list = cryptodev_backend_stats_add("asym-sign-ops",
-+                         &asym_stat->sign_ops, stats_list);
-+        stats_list = cryptodev_backend_stats_add("asym-verify-ops",
-+                         &asym_stat->verify_ops, stats_list);
-+        stats_list = cryptodev_backend_stats_add("asym-encrypt-bytes",
-+                         &asym_stat->encrypt_bytes, stats_list);
-+        stats_list = cryptodev_backend_stats_add("asym-decrypt-bytes",
-+                         &asym_stat->decrypt_bytes, stats_list);
-+        stats_list = cryptodev_backend_stats_add("asym-sign-bytes",
-+                         &asym_stat->sign_bytes, stats_list);
-+        stats_list = cryptodev_backend_stats_add("asym-verify-bytes",
-+                         &asym_stat->verify_bytes, stats_list);
-+    }
-+
-+    entry = g_new0(StatsResult, 1);
-+    entry->provider = STATS_PROVIDER_CRYPTODEV;
-+    entry->qom_path = g_strdup(object_get_canonical_path(obj));
-+    entry->stats = stats_list;
-+    QAPI_LIST_PREPEND(*stats_results, entry);
-+
-+    return 0;
-+}
-+
-+static void cryptodev_backend_stats_cb(StatsResultList **result,
-+                                       StatsTarget target,
-+                                       strList *names, strList *targets,
-+                                       Error **errp)
-+{
-+    switch (target) {
-+    case STATS_TARGET_CRYPTODEV:
-+    {
-+        Object *objs = container_get(object_get_root(), "/objects");
-+        StatsArgs stats_args;
-+        stats_args.result.stats = result;
-+        stats_args.names = names;
-+        stats_args.errp = errp;
-+
-+        object_child_foreach(objs, cryptodev_backend_stats_query, &stats_args);
-+        break;
-+    }
-+    default:
-+        break;
-+    }
-+}
-+
-+static StatsSchemaValueList *cryptodev_backend_schemas_add(const char *name,
-+                                 StatsSchemaValueList *list)
-+{
-+    StatsSchemaValueList *schema_entry = g_new0(StatsSchemaValueList, 1);
-+
-+    schema_entry->value = g_new0(StatsSchemaValue, 1);
-+    schema_entry->value->type = STATS_TYPE_CUMULATIVE;
-+    schema_entry->value->name = g_strdup(name);
-+    schema_entry->next = list;
-+
-+    return schema_entry;
-+}
-+
-+static void cryptodev_backend_schemas_cb(StatsSchemaList **result,
-+                                         Error **errp)
-+{
-+    StatsSchemaValueList *stats_list = NULL;
-+    const char *sym_stats[] = {"sym-encrypt-ops", "sym-decrypt-ops",
-+                               "sym-encrypt-bytes", "sym-decrypt-bytes"};
-+    const char *asym_stats[] = {"asym-encrypt-ops", "asym-decrypt-ops",
-+                                "asym-sign-ops", "asym-verify-ops",
-+                                "asym-encrypt-bytes", "asym-decrypt-bytes",
-+                                "asym-sign-bytes", "asym-verify-bytes"};
-+
-+    for (int i = 0; i < ARRAY_SIZE(sym_stats); i++) {
-+        stats_list = cryptodev_backend_schemas_add(sym_stats[i], stats_list);
-+    }
-+
-+    for (int i = 0; i < ARRAY_SIZE(asym_stats); i++) {
-+        stats_list = cryptodev_backend_schemas_add(asym_stats[i], stats_list);
-+    }
-+
-+    add_stats_schema(result, STATS_PROVIDER_CRYPTODEV, STATS_TARGET_CRYPTODEV,
-+                     stats_list);
-+}
-+
- static void
- cryptodev_backend_class_init(ObjectClass *oc, void *data)
- {
-@@ -456,6 +594,9 @@ cryptodev_backend_class_init(ObjectClass *oc, void *data)
-                               cryptodev_backend_get_ops,
-                               cryptodev_backend_set_ops,
-                               NULL, NULL);
-+
-+    add_stats_callbacks(STATS_PROVIDER_CRYPTODEV, cryptodev_backend_stats_cb,
-+                        cryptodev_backend_schemas_cb);
- }
- 
- static const TypeInfo cryptodev_backend_info = {
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index ed316f75c1..7c4e25c74e 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1883,6 +1883,8 @@ static StatsFilter *stats_filter(StatsTarget target, const char *names,
-         filter->u.vcpu.vcpus = vcpu_list;
-         break;
-     }
-+    case STATS_TARGET_CRYPTODEV:
-+        break;
-     default:
-         break;
-     }
-@@ -1954,6 +1956,9 @@ void hmp_info_stats(Monitor *mon, const QDict *qdict)
-         int cpu_index = monitor_get_cpu_index(mon);
-         filter = stats_filter(target, names, cpu_index, provider);
-         break;
-+    case STATS_TARGET_CRYPTODEV:
-+        filter = stats_filter(target, names, -1, provider);
-+        break;
-     default:
-         abort();
-     }
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index bf22a8c5a6..dd31936f6a 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -385,6 +385,8 @@ static bool invoke_stats_cb(StatsCallbacks *entry,
-             targets = filter->u.vcpu.vcpus;
-         }
-         break;
-+    case STATS_TARGET_CRYPTODEV:
-+        break;
-     default:
-         abort();
-     }
-diff --git a/qapi/stats.json b/qapi/stats.json
-index 57db5b1c74..f9dec18066 100644
---- a/qapi/stats.json
-+++ b/qapi/stats.json
-@@ -50,10 +50,14 @@
- #
- # Enumeration of statistics providers.
- #
-+# @kvm: since 7.1
-+#
-+# @cryptodev: since 8.0
-+#
- # Since: 7.1
- ##
- { 'enum': 'StatsProvider',
--  'data': [ 'kvm' ] }
-+  'data': [ 'kvm', 'cryptodev' ] }
- 
- ##
- # @StatsTarget:
-@@ -65,10 +69,12 @@
- #
- # @vcpu: statistics that apply to a single virtual CPU.
- #
-+# @cryptodev: statistics that apply to a crypto device.
-+#
- # Since: 7.1
- ##
- { 'enum': 'StatsTarget',
--  'data': [ 'vm', 'vcpu' ] }
-+  'data': [ 'vm', 'vcpu', 'cryptodev' ] }
- 
- ##
- # @StatsRequest:
+ Cryptodev Backends
+ M: Gonglei <arei.gonglei@huawei.com>
++M: zhenwei pi <pizhenwei@bytedance.com>
+ S: Maintained
+ F: include/sysemu/cryptodev*.h
+ F: backends/cryptodev*.c
 -- 
 2.34.1
 
