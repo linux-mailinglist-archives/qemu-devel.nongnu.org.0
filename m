@@ -2,84 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAE8967F71F
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 11:29:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B3B667F720
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 11:30:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLiRw-0005G4-Cx; Sat, 28 Jan 2023 05:28:44 -0500
+	id 1pLiTD-0006JX-J0; Sat, 28 Jan 2023 05:30:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiRr-0005F9-6x
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:28:39 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiTB-0006Ie-61
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:30:01 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiRn-0004AK-Vh
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:28:38 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiT9-0004IV-9E
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:30:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674901714;
+ s=mimecast20190719; t=1674901798;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=onqBJLAeKWJ00rmW8PmLFuUlG7BY36S6l8hn+KpBJ40=;
- b=ArVzU5VH3oZcSYXQhkplr/SN86R4bnCkjNvXH6FI9TJVSV5MIrY/7Q1/n/x/helCr8Wd8m
- pm1l7ramWPK6IdqdHESQw5JpjPo3x1qROW4ZFoxaV8spRmkZBYfB7un36R0CkRyhoA1ra6
- gXa1OMBoQJV0LgkXstwTDH4AY8EVo2Y=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6FB+edsbb44QCZ358g73Bl78hzSRCKhojxU7VjQ1JnU=;
+ b=FMqWt89cZxDuVBfJ7McwztOz0XY0U7Hm4ktM3GuIg7/7E6ENwvkq2a44kVVCu5rQetvDmq
+ sxsIfRMwyozrCJH+mqbBWW8fvcMPD88YyIq4n50gb3DAr3rdYP8o7Hp/Lvc7VJjinzidkE
+ rWnAcIET2WdYJKwVSp85EEQ509W8AsM=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-101-phyTuHwdMsqrHrGcPTzOqQ-1; Sat, 28 Jan 2023 05:28:33 -0500
-X-MC-Unique: phyTuHwdMsqrHrGcPTzOqQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h2-20020a1ccc02000000b003db1ded176dso2177116wmb.5
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 02:28:32 -0800 (PST)
+ us-mta-61-VLelhfXuPAKaNUSdrBg_yg-1; Sat, 28 Jan 2023 05:29:54 -0500
+X-MC-Unique: VLelhfXuPAKaNUSdrBg_yg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ r15-20020a05600c35cf00b003d9a14517b2so6154913wmq.2
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 02:29:54 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=onqBJLAeKWJ00rmW8PmLFuUlG7BY36S6l8hn+KpBJ40=;
- b=WUq69ll1pe1beYO135/qEfHPBF2L4Xgk76D+Rl5h28PB5eqczqJ/2cEY7MsJFEZ824
- E8RFSSOlFXqRE0CzeP58jsYm3gvsYIoQDpsvhNWb/LOkvyGPfTPEdWGwKm3CU3MELwIB
- Xbxej8gZGFp2Hxqj9mGvuycknLLHbSOMDvIWFV4PpM9HuVlbHDpRkGSp8oRIBLfflGzM
- pS9GT/roFFj/RO7X4Vj0IwcBYqnj+3e8BHEjYgqX+UsTLC0SIzTJTvHdbdGYLnID/BFY
- wrzVaE6po4CLu0lQaMtqHWmHJElOO0UQXpKYTo3rN/9ElZFJLGIojQIfihEZqHRvWm8R
- 74Lw==
-X-Gm-Message-State: AFqh2kpFqP3ibGVX+VK3MFHp7DxwvkpUAAAbXcd+oOL2EoMduy9G/CLp
- Bi8Ch6wlZnwUWxsi0JxmFZG+Z0EFmIxgqqjdhFJmnNjt8OLJZBqTIyv0fZWT8fY+5v0xgujcxTN
- 6HcGM1wk6yw3H2qU=
-X-Received: by 2002:a05:600c:4fd3:b0:3cf:7197:e68a with SMTP id
- o19-20020a05600c4fd300b003cf7197e68amr40912375wmq.18.1674901711972; 
- Sat, 28 Jan 2023 02:28:31 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt3lUkHn8aJG6qvJP8kZYFw9zdQXqkr1X9X+WoFGy4L56cs6qzCQ1Ax+cxM/ct9NBtuqpx90w==
-X-Received: by 2002:a05:600c:4fd3:b0:3cf:7197:e68a with SMTP id
- o19-20020a05600c4fd300b003cf7197e68amr40912341wmq.18.1674901711722; 
- Sat, 28 Jan 2023 02:28:31 -0800 (PST)
+ bh=6FB+edsbb44QCZ358g73Bl78hzSRCKhojxU7VjQ1JnU=;
+ b=oc4rHzIwA/G71OyTZOXtAV0zrGTJ1DnMjrrMOFSAG8+msEhvf1c7j1qyE4Ie0bBtDY
+ K1MUKKJRq4tteADDtf8pjeFO2Legh9efTTeMWoS5RoFGA9ibKxovuMnBqH7V1QNBks5M
+ /nuKowPxMCr968ofO0a1vr+IZw10fgGR1Bbzx6Q8dmRnWXSwTjAsXgswCUEak7Gxp2EF
+ uOBjRCCtpRyinIvP2fX34NIhXoCZoMC+CnalVo0tAS5bohJMwEgzehfTUFqlwdFzeOUR
+ pdM20fvZh6nNzmI3DMzUwKQzxq29ZvLoGfiHI4r7DKcoSgnUZ6zTIWPOCv7fW/OLrzl0
+ LIKA==
+X-Gm-Message-State: AFqh2kog65H4AcflEPH1vEGtN9JTEanfQTA3llRag2msGu7qWT1j0yet
+ XTjNxtvuPkWkI4hoXYyKuJC64KOp/pLGMVGgUM6GgR1envwkzJDGtf5IxRFjFaTWYXXKTVm0icn
+ klND8YWAIEblOk9A=
+X-Received: by 2002:a05:600c:4f4a:b0:3db:5f1:53a5 with SMTP id
+ m10-20020a05600c4f4a00b003db05f153a5mr44594801wmq.20.1674901793175; 
+ Sat, 28 Jan 2023 02:29:53 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuno6zz4nZQndocIplzwwOWQovv2WGK1jCz73RtkVbRaHT41YIqt6ePM429fHAtdaFDUUjG+g==
+X-Received: by 2002:a05:600c:4f4a:b0:3db:5f1:53a5 with SMTP id
+ m10-20020a05600c4f4a00b003db05f153a5mr44594772wmq.20.1674901792934; 
+ Sat, 28 Jan 2023 02:29:52 -0800 (PST)
 Received: from redhat.com ([2.52.20.248]) by smtp.gmail.com with ESMTPSA id
- z24-20020a1cf418000000b003dc36981727sm4465426wma.14.2023.01.28.02.28.28
+ i20-20020a05600c071400b003db0ad636d1sm9927098wmn.28.2023.01.28.02.29.49
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Jan 2023 02:28:31 -0800 (PST)
-Date: Sat, 28 Jan 2023 05:28:26 -0500
+ Sat, 28 Jan 2023 02:29:52 -0800 (PST)
+Date: Sat, 28 Jan 2023 05:29:47 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org,
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Warner Losh <imp@bsdimp.com>, Markus Armbruster <armbru@redhat.com>,
+ qemu-devel@nongnu.org, richard.henderson@linaro.org,
  pbonzini@redhat.com, kwolf@redhat.com, hreitz@redhat.com,
- imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
- groug@kaod.org, qemu_oss@crudebyte.com, philmd@linaro.org,
- peter.maydell@linaro.org, alistair@alistair23.me,
+ kevans@freebsd.org, berrange@redhat.com, groug@kaod.org,
+ qemu_oss@crudebyte.com, philmd@linaro.org, alistair@alistair23.me,
  jasowang@redhat.com, jonathan.cameron@huawei.com,
  kbastian@mail.uni-paderborn.de, quintela@redhat.com,
  dgilbert@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
  tsimpson@quicinc.com, palmer@dabbelt.com, bin.meng@windriver.com,
  qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org
-Subject: Re: [PATCH v4 01/19] scripts/clean-includes: Fully skip / ignore files
-Message-ID: <20230128052749-mutt-send-email-mst@kernel.org>
+Subject: Re: [PATCH v4 04/19] bsd-user: Clean up includes
+Message-ID: <20230128052729-mutt-send-email-mst@kernel.org>
 References: <20230119065959.3104012-1-armbru@redhat.com>
- <20230119065959.3104012-2-armbru@redhat.com>
+ <20230119065959.3104012-5-armbru@redhat.com>
+ <CANCZdfrU4zVcepMj=B5EVUz-qhCDhMYDs+cYS5yfW1-G01PsbA@mail.gmail.com>
+ <CAFEAcA8E98v5X5ekA16c6Fby2HAhOC5G4JYnN9TkrA9G7rVzvA@mail.gmail.com>
+ <20230127100052-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230119065959.3104012-2-armbru@redhat.com>
+In-Reply-To: <20230127100052-mutt-send-email-mst@kernel.org>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -104,77 +107,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 19, 2023 at 07:59:41AM +0100, Markus Armbruster wrote:
-> When clean-includes claims to skip or ignore a file, only the part
-> that sanitizes use of qemu/osdep.h skips the file.  The part that
-> looks for duplicate #include does not, and neither does committing to
-> Git.
+On Fri, Jan 27, 2023 at 10:01:57AM -0500, Michael S. Tsirkin wrote:
+> On Fri, Jan 27, 2023 at 02:54:30PM +0000, Peter Maydell wrote:
+> > On Thu, 19 Jan 2023 at 14:42, Warner Losh <imp@bsdimp.com> wrote:
+> > >
+> > > Also, why didn't you move sys/resource.h and other such files
+> > > to os-dep.h? I'm struggling to understand the rules around what
+> > > is or isn't included where?
+> > 
+> > The rough rule of thumb is that if some OS needs a compatibility
+> > fixup or workaround for a system header (eg not every mmap.h
+> > defines MAP_ANONYMOUS; on Windows unistd.h has to come before
+> > time.h) then we put that header include and the compat workaround
+> > into osdep.h. This avoids "only fails on obscure platform" issues
+> > where somebody puts a header include into some specific .c file
+> > but not the compat workaround, and it works on the Linux host
+> > that most people develop and test on and we only find the
+> > problem later.
+> > 
+> > There's also no doubt some includes there for historical
+> > reasons, and some which really are "everybody needs these"
+> > convenience ones. But we should probably not add new
+> > includes to osdep.h unless they fall into the "working around
+> > system header issues" bucket.
+> > 
+> > thanks
+> > -- PMM
 > 
-> The latter can get unrelated stuff included in the commit, but only if
-> you run clean-includes in a dirty tree, which is unwise.  Messed up
-> when we added skipping in commit fd3e39a40c "scripts/clean-includes:
-> Enhance to handle header files".
 > 
-> The former can cause bogus reports for --check-dup-head.  Added in
-> commit d66253e46a "scripts/clean-includes: added duplicate #include
-> check", duplicating the prior mistake.
-> 
-> Fix the script to fully skip files.
-> 
-> Fixes: fd3e39a40ca2ee26b09a5de3149af8b056b85233
-> Fixes: d66253e46ae2b9c36a9dd90b2b74c0dfa5804b22
+> BTW maybe we should teach checkpatch about that rule:
+> if a header is in osdep do not include it directly.
 
-Isn't
-Fixes: %h (\"%s\")
+To be more precise, make checkpatch run clean-includes somehow?
+Or just make CI run clean-includes on the tree and verify result
+is empty?
 
-the accepted format for this?
-
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
-> ---
->  scripts/clean-includes | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
-> 
-> diff --git a/scripts/clean-includes b/scripts/clean-includes
-> index d37bd4f692..86944f27fc 100755
-> --- a/scripts/clean-includes
-> +++ b/scripts/clean-includes
-> @@ -111,6 +111,7 @@ cat >"$COCCIFILE" <<EOT
->  )
->  EOT
->  
-> +files=
->  for f in "$@"; do
->    case "$f" in
->      *.c.inc)
-> @@ -144,6 +145,7 @@ for f in "$@"; do
->        continue
->        ;;
->    esac
-> +  files="$files $f"
->  
->    if [ "$MODE" = "c" ]; then
->      # First, use Coccinelle to add qemu/osdep.h before the first existing include
-> @@ -174,8 +176,8 @@ for f in "$@"; do
->  
->  done
->  
-> -if [ "$DUPHEAD" = "yes" ]; then
-> -    egrep "^[[:space:]]*#[[:space:]]*include" "$@" | tr -d '[:blank:]' \
-> +if [ "$DUPHEAD" = "yes" ] && [ -n "$files" ]; then
-> +    egrep "^[[:space:]]*#[[:space:]]*include" $files | tr -d '[:blank:]' \
->          | sort | uniq -c | awk '{if ($1 > 1) print $0}'
->      if [ $? -eq 0 ]; then
->          echo "Found duplicate header file includes. Please check the above files manually."
-> @@ -184,7 +186,7 @@ if [ "$DUPHEAD" = "yes" ]; then
->  fi
->  
->  if [ "$GIT" = "yes" ]; then
-> -    git add -- "$@"
-> +    git add -- $files
->      git commit --signoff -F - <<EOF
->  $GITSUBJ: Clean up includes
->  
 > -- 
-> 2.39.0
+> MST
 
 
