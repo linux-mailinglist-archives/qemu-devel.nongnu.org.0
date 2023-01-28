@@ -2,76 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B8AA67FBDC
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 00:47:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F44F67FBDD
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 00:48:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLuuc-0007CW-2S; Sat, 28 Jan 2023 18:47:10 -0500
+	id 1pLuvS-0007v5-W4; Sat, 28 Jan 2023 18:48:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLuua-0007C6-2E
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 18:47:08 -0500
-Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ id 1pLuvL-0007ss-3Z
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 18:47:58 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLuuX-0006V9-VU
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 18:47:07 -0500
-Received: by mail-pj1-x102c.google.com with SMTP id
- x2-20020a17090a46c200b002295ca9855aso12136096pjg.2
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 15:47:05 -0800 (PST)
+ id 1pLuvJ-0006XM-Hz
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 18:47:54 -0500
+Received: by mail-pl1-x630.google.com with SMTP id d3so8289688plr.10
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 15:47:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=6+Wrk14JSwyKsbd9CXQY19oj5ZRI6MlGhTpLd4fjDzw=;
- b=hAuYyt3ErPo3GeKmw9DFziWJXnruFTBrcbowEw866ILtVNqXN6fUA7ZevqrpvNUvrU
- at6Bwuj3xGQYr2dULUmqWOAZCDmQzWo00d7YLW/em5rfAtsKLcF8QwzSJOWchxRRjKa7
- sE7leryF0g+M4piyH+pymTNfhc7WM1lzb411E44Ltcv3ZcD71SXbG3jHiC2xNxa2++Wf
- jTFHnDwakGLuDJ4iwMFCkpPOTEkBRQ8nqSoQnXXqwBHnhWi5mn7Atw/vcRrj/KBDjK8S
- 00cwQ+Pbao5tldki9ABm7x2XBSMZ5MewKxkUsuXbNuQbnm4enRcgn7IacSQBnTZQoHBW
- 5i6w==
+ bh=m7BvP99R90F6W63gHfpd2xraeWOR/GSeyPOm2gE5bu8=;
+ b=UCVkC/juOY60KNtqAHAFEg8/WC1VdrzoxwpRRYpzBn2yUEIdLy3dViZcpURI9b9Alq
+ UjF/DLWrWWUPvWbYpNhw/Qk18txUYgwR+s5ntstLHmKYZilUOESyBCYn4ViB6kVABqHa
+ JpN0dP3jAxMUErSsA65DMMdsQTEOrSvndns9IIabP8FY0sd5Mar+fvnujrfXrpfQmEQj
+ QJEQkBky94WY7d4Wwz0bYFWecIldqvfFBKQMV7L5FOsfaCvdYJJgpOlKyiM1Jy3FQ57y
+ e1QSLtvlpkVN2j63aYk0UQR6ItRlT6UDbeedYJxXGSoeaci5N2dQlmPcEfZbIUThwqsU
+ ftpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=6+Wrk14JSwyKsbd9CXQY19oj5ZRI6MlGhTpLd4fjDzw=;
- b=fAgMIEs8cUbY1vsaoHihEgM+eqeo6Q3FWosWYPckBeLDmCSJzb8Ak8lof4vKSoQiYb
- KrMGrm1R/FwOElMH9lzwHmYL6Lzu0jKqaWeK8ZoCBEWzwbEwz5chWkEvZNNFIiPQxYHw
- zm1Zwq5EnC3oX2Qo2Obdzd36kTp1XjKtNebasXXPyF/TGP2F+MxE3QVbuH/VEWYSIhPD
- wutKfi9XRmnsA/qlLzY2bam/kiSZ3Y1E1OIzO/B9r4v+2FQ5F4K64dy5KFdWqCqR7VR6
- O+eEs1KPUOrWdM4agrlGhQQx2xn/inZW6iWEsZMEfKcs6FpezISsCotkJU346rI+D6QI
- e44w==
-X-Gm-Message-State: AO0yUKW3dz6YO3al6UpVGq/FiSdL1PcGP+XwEren+rbCCA0eDILzvYn6
- FgknxWUaUKV7hXlDuR3zAVAwpEAk3lP/b07i
-X-Google-Smtp-Source: AK7set9GsaLbPzwLzpHbV5sUTpsEZRppFOduxYxTEJ9XfRdM7b/1vu+ryIqIwmIU2PldfL/BLV83qA==
-X-Received: by 2002:a17:90b:1b03:b0:22b:f214:a919 with SMTP id
- nu3-20020a17090b1b0300b0022bf214a919mr18856794pjb.49.1674949624549; 
- Sat, 28 Jan 2023 15:47:04 -0800 (PST)
+ bh=m7BvP99R90F6W63gHfpd2xraeWOR/GSeyPOm2gE5bu8=;
+ b=HqCyV2aYw+W3Zbub7E5o6W2ngPcq1Ympsz3r+TVPQOO+Rpwxv0Aft87Ncd+bM4n44G
+ cDZR+/KhOx31MF5qHt+R9lKSlzjWdXPFYIttrgqqlY0JTdCKW+R1JnM/TuSKRbEowIAZ
+ +DrwP26Ya9Ig/jz7k4Ej5PMepgFu0uoAJFN45t9ptugX1E4rR6Z2CUkKnoVB2vqCXW/p
+ CAC1xC/sJW8cGaZ0ruF40mRJyHJszYDzG7NfzWF4JhsGolYDy8C2IEwdvWMCInES1IYS
+ mm+jINoZage/jnHvAJmiuzqxqFqlpEX4mSgzorEU2Y8ufkkFv/QANeFZF5QIIxhED4mC
+ fzYA==
+X-Gm-Message-State: AO0yUKUrB6/ncTWjT0vtcz2yeOrAp+Y/lTKpg+u+W72J4iW1FxuqCNKP
+ hkxMd2WPwBBvUQqO8mrNtPZAcA==
+X-Google-Smtp-Source: AK7set/s7ZyPY7IUyFCxCs5zTQiNpIW1ujEfwcD1G9rX7tqQ4DrMkUoLBEBf1lofi3dqWyaBTV3nEg==
+X-Received: by 2002:a17:903:246:b0:196:6da2:37a6 with SMTP id
+ j6-20020a170903024600b001966da237a6mr3223978plh.36.1674949672158; 
+ Sat, 28 Jan 2023 15:47:52 -0800 (PST)
 Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
  [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- lj7-20020a17090b344700b0022bb87344a8sm7221691pjb.55.2023.01.28.15.47.03
+ i130-20020a636d88000000b00477def759cbsm4342409pgc.58.2023.01.28.15.47.50
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 Jan 2023 15:47:03 -0800 (PST)
-Message-ID: <660cb057-2ec7-e4a9-30ca-7ad71fe966e4@linaro.org>
-Date: Sat, 28 Jan 2023 13:47:00 -1000
+ Sat, 28 Jan 2023 15:47:51 -0800 (PST)
+Message-ID: <08541e98-f736-4471-f7aa-1dda468d8022@linaro.org>
+Date: Sat, 28 Jan 2023 13:47:48 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 16/23] target/arm: Mark up sysregs for HFGITR bits 0..11
+Subject: Re: [PATCH 17/23] target/arm: Mark up sysregs for HFGITR bits 12..17
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20230127175507.2895013-1-peter.maydell@linaro.org>
- <20230127175507.2895013-17-peter.maydell@linaro.org>
+ <20230127175507.2895013-18-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230127175507.2895013-17-peter.maydell@linaro.org>
+In-Reply-To: <20230127175507.2895013-18-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::630;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -96,14 +95,14 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/27/23 07:55, Peter Maydell wrote:
 > Mark up the sysreg definitions for the system instructions
-> trapped by HFGITR bits 0..11. These bits cover various
-> cache maintenance operations.
+> trapped by HFGITR bits 12..17. These bits cover AT address
+> translation instructions.
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   target/arm/cpregs.h | 14 ++++++++++++++
->   target/arm/helper.c | 28 ++++++++++++++++++++++++++++
->   2 files changed, 42 insertions(+)
+>   target/arm/cpregs.h | 6 ++++++
+>   target/arm/helper.c | 6 ++++++
+>   2 files changed, 12 insertions(+)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
