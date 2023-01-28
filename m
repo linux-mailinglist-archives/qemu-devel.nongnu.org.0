@@ -2,59 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D27BD67F692
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 10:04:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD4C667F716
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 11:23:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLh7G-0001kA-O0; Sat, 28 Jan 2023 04:03:19 -0500
+	id 1pLiLh-0002Qj-NN; Sat, 28 Jan 2023 05:22:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pLh7C-0001jl-Fv
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 04:03:14 -0500
-Received: from mailout02.t-online.de ([194.25.134.17])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiLf-0002QU-0I
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:22:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pLh79-0007bL-Fj
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 04:03:13 -0500
-Received: from fwd81.dcpf.telekom.de (fwd81.aul.t-online.de [10.223.144.107])
- by mailout02.t-online.de (Postfix) with SMTP id 977711468C;
- Sat, 28 Jan 2023 10:03:06 +0100 (CET)
-Received: from [192.168.211.200] ([79.208.25.151]) by fwd81.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pLh73-1u89eD0; Sat, 28 Jan 2023 10:03:05 +0100
-Message-ID: <b08302bf-bd66-79c8-abcc-b511c99c7eb5@t-online.de>
-Date: Sat, 28 Jan 2023 10:03:05 +0100
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiLc-00034U-Uj
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:22:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674901331;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=aYOUCKVwd/ni/RKtcBJZFKT3igbLn1pvhDgIUs3Og74=;
+ b=fV4p0QP1aErZK8fCKcoKc+pUmXlbBCyjqyW7voI5KJtSkHjSoOuzvuMlPnuJ8KbD0dsRsy
+ Pvn5OZxhWc157m7kh1IMw4pzMHBZwItROWZEE0WilyxiPmchtOL4JkQUTs6EhqRCGxvCzn
+ q6w2KMyAuNxyS9HwaKBAhTVxtYH9RKk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-526-H1SQQbyiOvuN9KOO4KUEtw-1; Sat, 28 Jan 2023 05:22:09 -0500
+X-MC-Unique: H1SQQbyiOvuN9KOO4KUEtw-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ r15-20020a05600c35cf00b003d9a14517b2so6146901wmq.2
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 02:22:09 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=aYOUCKVwd/ni/RKtcBJZFKT3igbLn1pvhDgIUs3Og74=;
+ b=yJl3YikRBcsv0wATEIrgR+JXaPh/PB0HRIhrwLJlKMTGZiyWm3Sgo9FjX+O1CKsG3n
+ u75cAQt895bPU8mGhAy8lCXZjXtPTzSIEJSFl/6THak4hXrG/gX9c2/iLcPecKiyRfJe
+ CIbDthG6FL6bxkblBhUqqYFGF9J7dvUUl1d62lScCa/OX3EOZGYdks8XWGNX53HtrVDG
+ DxYeyYv/oJOFRI2VEQyeO8vngevK5HviOrpT+tuQShLz3yluG/rG0tr4fICoG63gHT3u
+ r3t6USr/O5buFVsjyXPnBV+C2K8L7Hc0zZ2G49Uw3RIPGpxmhfJboeWC7OCaMAcQyV/N
+ rmdg==
+X-Gm-Message-State: AFqh2koPavZQ6az+KM2VKW6KPS/lnBUlj7W/AaMTZn0G0a1UmCd2WIOf
+ bOslC0x6OHnpY4w7sH/Zy6wS8q+0NKiI+2DjD45TLDblqoCeJOzuOcg2GeHX1lSNmYhRT6C7p7s
+ YsRxjKuiqSNIz5Lg=
+X-Received: by 2002:a05:600c:502c:b0:3db:30d:deac with SMTP id
+ n44-20020a05600c502c00b003db030ddeacmr43284302wmr.1.1674901328723; 
+ Sat, 28 Jan 2023 02:22:08 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtMhpLN8hTwyVspW379Q6TOZf+zr3e7vwDX1a/1sNeNBsAwBWKII+RL05SWvBZumxFYHoNKRw==
+X-Received: by 2002:a05:600c:502c:b0:3db:30d:deac with SMTP id
+ n44-20020a05600c502c00b003db030ddeacmr43284287wmr.1.1674901328464; 
+ Sat, 28 Jan 2023 02:22:08 -0800 (PST)
+Received: from redhat.com ([2.52.20.248]) by smtp.gmail.com with ESMTPSA id
+ y21-20020a05600c341500b003da28dfdedcsm207012wmp.5.2023.01.28.02.22.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 28 Jan 2023 02:22:07 -0800 (PST)
+Date: Sat, 28 Jan 2023 05:22:05 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH 2/3]  virtio: struct VirtQueue introduce reset
+Message-ID: <20230128050411-mutt-send-email-mst@kernel.org>
+References: <20230128071724.33677-1-xuanzhuo@linux.alibaba.com>
+ <20230128071724.33677-3-xuanzhuo@linux.alibaba.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-Subject: Re: [PATCH 00/17] audio: improve callback interface for audio
- frontends
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
- Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-References: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
- <a671751a-cbb7-22c2-8840-0476176d2533@t-online.de>
- <f7ce8516-fddd-543b-0f3c-b73a310b79a8@ilande.co.uk>
-Content-Language: en-US
-In-Reply-To: <f7ce8516-fddd-543b-0f3c-b73a310b79a8@ilande.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1674896585-1AFF7D98-D64BC28F/0/0 CLEAN NORMAL
-X-TOI-MSGID: e6e7f056-0013-4499-8f9b-48c5f89fc1e1
-Received-SPF: none client-ip=194.25.134.17; envelope-from=vr_qemu@t-online.de;
- helo=mailout02.t-online.de
-X-Spam_score_int: -36
-X-Spam_score: -3.7
-X-Spam_bar: ---
-X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
- RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230128071724.33677-3-xuanzhuo@linux.alibaba.com>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,317 +95,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 22.01.23 um 19:13 schrieb Mark Cave-Ayland:
-> On 15/01/2023 13:45, Volker Rümelin wrote:
->
->> Am 15.01.23 um 14:08 schrieb Volker Rümelin:
->>
->> Ccing a few more people who might be interested in this patch series.
->>
->> @Mark:
->> After this patch series, the code in your out of tree ASC audio 
->> device (and a few in tree audio devices) could be simplified. 
->> write_audio() and the loops calling write_audio() could be removed.
->
-> Hi Volker,
->
-> I know we have discussed this in a separate thread off-list, but this 
-> is fantastic!
->
-> Just out of interest, if the available bytes wraps the circular buffer 
-> will the audio core call the audio callback twice to maximise the 
-> ability of the guest to generate samples before the next audio timer? 
-> Or does that not make much difference in practice?
+On Sat, Jan 28, 2023 at 03:17:23PM +0800, Xuan Zhuo wrote:
+>  In the current design, we stop the device from operating on the vring
+>  during per-queue reset by resetting the structure VirtQueue.
+> 
+>  But before the reset operation, when recycling some resources, we should
+>  stop referencing new vring resources. For example, when recycling
+>  virtio-net's asynchronous sending resources, virtio-net should be able
+>  to perceive that the current queue is in the per-queue reset state, and
+>  stop sending new packets from the tx queue.
+> 
+>  Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> ---
+>  hw/virtio/virtio.c         | 8 ++++++++
+>  include/hw/virtio/virtio.h | 3 +++
+>  2 files changed, 11 insertions(+)
+> 
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index 03077b2ecf..907d5b8bde 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -2030,6 +2030,12 @@ void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+>  {
+>      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+>  
+> +    /*
+> +     * Mark this queue is per-queue reset status. The device should release the
+> +     * references of the vring, and not refer more new vring item.
+> +     */
+> +    vdev->vq[queue_index].reset = true;
+> +
+>      if (k->queue_reset) {
+>          k->queue_reset(vdev, queue_index);
+>      }
+> @@ -2053,6 +2059,8 @@ void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
+>      }
+>      */
+>  
+> +    vdev->vq[queue_index].reset = false;
+> +
+>      if (k->queue_enable) {
+>          k->queue_enable(vdev, queue_index);
+>      }
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index 1c0d77c670..b888538d09 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -251,6 +251,9 @@ struct VirtQueue {
+>      /* Notification enabled? */
+>      bool notification;
+>  
+> +    /* Per-Queue Reset status */
+> +    bool reset;
+> +
+>      uint16_t queue_index;
+>  
 
-Hi Mark,
+Reset state makes no sense. It seems to imply queue_reset
+in the spec. And for extra fun there's "reset" in the pci
+proxy which means "virtio_queue_reset is in progress" - I have no
+idea what uses it though - it is not guest visible.  First what is it?
+It actually means "queue has been reset and not has not been enabled since".
+So disabled_by_reset maybe?
 
-I guess with circular buffer you refer to the mixing engine buffer. The 
-audio system calls the callback once on every audio timer event. If the 
-available bytes wrap the mixing engine ringbuffer, the 
-audio_pcm_sw_resample_out() function uses two writes to write all 
-available bytes. Compared to the unpatched version, nothing has changed 
-in this regard. Of course the audio frontend devices are still free to 
-write 'avail' bytes with multiple calls to AUD_write().
+Second this hack helps make the change minimal
+so it's helpful for stable, but it's ugly in that it
+duplicates the reverse of enabled value - we don't really
+care what disabled it in practice.
 
-With best regards,
-Volker
+With the fixups above I can apply so it's easier to backport, but later
+a patch on top should clean it all up, perhaps by adding
+"enabled" in VirtQueue. We should also get rid of "reset" in the proxy
+unless there's some way it's useful which I don't currently see.
 
->
-> I'm not too familiar with the audio subsystem, but a quick skim of the 
-> series looks good (and being able to remove the write_audio() loops is 
-> a big plus). So I would certainly give this a thumbs up:
->
-> Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
->
->
-> ATB,
->
-> Mark.
->
->> With best regards,
->> Volker
->>
->>> Based-on: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
->>> ([PATCH 00/11] audio: more improvements)
->>>
->>> The callback interface for emulated audio devices is strange. The 
->>> callback function has an 'avail' parameter that passes the number of 
->>> bytes that can be written or read. Unfortunately, this value 
->>> sometimes is only an imprecise estimate and the callback functions 
->>> must check the actual bytes written or read. For playback devices, 
->>> this means that they either need a ring buffer or have to write the 
->>> unwritten bytes again the next time. For recording devices, things 
->>> are a bit easier. They only need to continue with the actual number 
->>> of bytes read.
->>>
->>> After this patch series, the 'avail' argument for the -audiodev 
->>> out.mixing-engine=on and in.mixing-engine=on cases is exact. Audio 
->>> frontends only need a linear frame buffer and there's a guarantee 
->>> they can write or read 'avail' bytes.
->>>
->>> The -audiodev out.mixing-engine=off case is also mostly accurate. 
->>> Only the D-Bus audio backend is still missing a required function. 
->>> The -audiodev in.mixing-engine=off case always passes a much too 
->>> large 'avail' value. I haven't worked on this yet, because there was 
->>> no reason for it so far.
->>>
->>> The following logs show the improvements. Not only the audio 
->>> frontends can write or read all needed or available bytes. The same 
->>> is true for the audio backends. For playback, the first six lines in 
->>> the logs are expected. Here you can see how quickly the guest fills 
->>> the empty downstream buffers after playback starts.
->>>
->>> QEMU was started with -device ich9-intel-hda,addr=0x1b -device 
->>> hda-duplex,audiodev=audio0 -audiodev 
->>> pa,out.frequency=96000,in.frequency=96000,id=audio0
->>>
->>> playback guest 44100Hz => host 96000Hz
->>>
->>> unpatched version:
->>> hda_audio_output_cb: to write 8188, written 1704
->>> audio_run_out: free 4458, played 926
->>> hda_audio_output_cb: to write 6488, written 2384
->>> audio_run_out: free 3532, played 1297
->>> hda_audio_output_cb: to write 4104, written 2648
->>> audio_run_out: free 2235, played 1441
->>> audio_run_out: free 794, played 793
->>> audio_run_out: free 897, played 896
->>> audio_run_out: free 831, played 829
->>> ...
->>> hda_audio_output_cb: could not write 4 bytes
->>> hda_audio_output_cb: to write 1764, written 1760
->>> audio_run_out: free 960, played 958
->>> ...
->>>
->>> patched version:
->>> hda_audio_output_cb: to write 8192, written 1620
->>> audio_run_out: free 4458, played 880
->>> hda_audio_output_cb: to write 6576, written 2508
->>> audio_run_out: free 3578, played 1365
->>> hda_audio_output_cb: to write 4068, written 2500
->>> audio_run_out: free 2213, played 1360
->>>
->>> record host 96000Hz => guest 44100Hz
->>>
->>> unpatched version:
->>> audio_run_in: avail 4458, acquired 4454
->>> audio_run_in: avail 1574, acquired 1572
->>> audio_run_in: avail 766, acquired 764
->>> audio_run_in: avail 1052, acquired 1051
->>> audio_run_in: avail 761, acquired 760
->>> audio_run_in: avail 1123, acquired 1121
->>> ...
->>> hda_audio_input_cb: could not read 4 bytes
->>> hda_audio_input_cb: to read 1988, read 1984
->>> audio_run_in: avail 1082, acquired 1080
->>> ...
->>>
->>> patched version:
->>> (no output)
->>>
->>> QEMU was started with -device ich9-intel-hda,addr=0x1b -device 
->>> hda-duplex,audiodev=audio0 -audiodev 
->>> pa,out.frequency=32000,in.frequency=32000,id=audio0
->>>
->>> playback guest 44100Hz => host 32000Hz
->>>
->>> unpatched version:
->>> hda_audio_output_cb: to write 8188, written 1620
->>> audio_run_out: free 1486, played 294
->>> hda_audio_output_cb: to write 6568, written 2512
->>> audio_run_out: free 1192, played 455
->>> hda_audio_output_cb: to write 4060, written 2504
->>> audio_run_out: free 737, played 455
->>> audio_run_out: free 282, played 281
->>> audio_run_out: free 357, played 356
->>> audio_run_out: free 314, played 313
->>> ...
->>> hda_audio_output_cb: could not write 4 bytes
->>> hda_audio_output_cb: to write 1416, written 1412
->>> audio_run_out: free 257, played 256
->>> ...
->>>
->>> patched version:
->>> hda_audio_output_cb: to write 8192, written 1656
->>> audio_run_out: free 1486, played 300
->>> hda_audio_output_cb: to write 6536, written 2516
->>> audio_run_out: free 1186, played 457
->>> hda_audio_output_cb: to write 4020, written 2540
->>> audio_run_out: free 729, played 460
->>>
->>> record host 32000Hz => guest 44100Hz
->>>
->>> unpatched version:
->>> audio_run_in: avail 1486, acquired 1485
->>> audio_run_in: avail 272, acquired 271
->>> audio_run_in: avail 366, acquired 365
->>> hda_audio_input_cb: could not read 4 bytes
->>> hda_audio_input_cb: to read 1420, read 1416
->>> audio_run_in: avail 258, acquired 257
->>> audio_run_in: avail 375, acquired 374
->>> hda_audio_input_cb: could not read 4 bytes
->>> hda_audio_input_cb: to read 2056, read 2052
->>> audio_run_in: avail 260, acquired 259
->>> ...
->>>
->>> patched version:
->>> (no output)
->>>
->>> This is the debug code for the logs above.
->>>
->>> ---snip--
->>> --- a/audio/audio.c    2022-12-13 19:14:31.793153558 +0100
->>> +++ b/audio/audio.c    2022-12-11 16:24:48.842649711 +0100
->>> @@ -1228,6 +1228,10 @@ static void audio_run_out (AudioState *s
->>>  #ifdef DEBUG_OUT
->>>          dolog("played=%zu\n", played);
->>>  #endif
->>> +        if (hw_free - played) {
->>> +            fprintf(stderr, "%s: free %zu, played %zu\n",
->>> +                    __func__, hw_free, played);
->>> +        }
->>>
->>>          if (played) {
->>>              hw->ts_helper += played;
->>> @@ -1318,6 +1322,7 @@ static void audio_run_in (AudioState *s)
->>>              if (sw->active) {
->>>                  size_t sw_avail = audio_get_avail(sw);
->>>                  size_t avail;
->>> +                size_t prev_acquired = sw->total_hw_samples_acquired;
->>>
->>>                  avail = st_rate_frames_out(sw->rate, sw_avail);
->>>                  if (avail > 0) {
->>> @@ -1325,6 +1330,11 @@ static void audio_run_in (AudioState *s)
->>> sw->callback.fn(sw->callback.opaque,
->>>                                      avail * sw->info.bytes_per_frame);
->>>                  }
->>> +
->>> +                if (sw_avail + prev_acquired - 
->>> sw->total_hw_samples_acquired) {
->>> +                    fprintf(stderr, "%s: avail %zu, acquired 
->>> %zu\n", __func__,
->>> +                            sw_avail, sw->total_hw_samples_acquired 
->>> - prev_acquired);
->>> +                }
->>>              }
->>>          }
->>>      }
->>> --- a/hw/audio/hda-codec.c    2023-01-04 14:07:31.954304889 +0100
->>> +++ b/hw/audio/hda-codec.c    2023-01-04 13:57:47.687320406 +0100
->>> @@ -265,20 +265,28 @@ static void hda_audio_input_cb(void *opa
->>>      int64_t rpos = st->rpos;
->>>
->>>      int64_t to_transfer = MIN(B_SIZE - (wpos - rpos), avail);
->>> +    unsigned int total_read = 0;
->>>
->>>      while (to_transfer) {
->>>          uint32_t start = (uint32_t) (wpos & B_MASK);
->>>          uint32_t chunk = (uint32_t) MIN(B_SIZE - start, to_transfer);
->>>          uint32_t read = AUD_read(st->voice.in, st->buf + start, 
->>> chunk);
->>>          wpos += read;
->>> +        total_read += read;
->>>          to_transfer -= read;
->>>          st->wpos += read;
->>>          if (chunk != read) {
->>> +            fprintf(stderr, "%s: could not read %u bytes\n", __func__,
->>> +                    chunk - read);
->>>              break;
->>>          }
->>>      }
->>>
->>>      hda_timer_sync_adjust(st, -((wpos - rpos) - (B_SIZE >> 1)));
->>> +    if (avail != total_read) {
->>> +        fprintf(stderr, "%s: to read %d, read %u\n", __func__,
->>> +                avail, total_read);
->>> +    }
->>>  }
->>>
->>>  static void hda_audio_output_timer(void *opaque)
->>> @@ -329,6 +337,7 @@ static void hda_audio_output_cb(void *op
->>>      int64_t rpos = st->rpos;
->>>
->>>      int64_t to_transfer = MIN(wpos - rpos, avail);
->>> +    unsigned int total_written = 0;
->>>
->>>      if (wpos - rpos == B_SIZE) {
->>>          /* drop buffer, reset timer adjust */
->>> @@ -343,15 +352,22 @@ static void hda_audio_output_cb(void *op
->>>          uint32_t start = (uint32_t) (rpos & B_MASK);
->>>          uint32_t chunk = (uint32_t) MIN(B_SIZE - start, to_transfer);
->>>          uint32_t written = AUD_write(st->voice.out, st->buf + 
->>> start, chunk);
->>> +        total_written += written;
->>>          rpos += written;
->>>          to_transfer -= written;
->>>          st->rpos += written;
->>>          if (chunk != written) {
->>> +            fprintf(stderr, "%s: could not write %u bytes\n", 
->>> __func__,
->>> +                    chunk - written);
->>>              break;
->>>          }
->>>      }
->>>
->>>      hda_timer_sync_adjust(st, (wpos - rpos) - (B_SIZE >> 1));
->>> +    if (avail != total_written) {
->>> +        fprintf(stderr, "%s: to write %d, written %u\n", __func__,
->>> +                avail, total_written);
->>> +    }
->>>  }
->>>
->>>  static void hda_audio_compat_input_cb(void *opaque, int avail)
->>> ---snip--
->>>
->>> Volker Rümelin (17):
->>>   audio: change type of mix_buf and conv_buf
->>>   audio: change type and name of the resample buffer
->>>   audio: make the resampling code greedy
->>>   audio: replace the resampling loop in audio_pcm_sw_write()
->>>   audio: remove sw == NULL check
->>>   audio: rename variables in audio_pcm_sw_write()
->>>   audio: don't misuse audio_pcm_sw_write()
->>>   audio: remove unused noop_conv() function
->>>   audio/mixeng: calculate number of input frames
->>>   audio: wire up st_rate_frames_in()
->>>   audio: replace the resampling loop in audio_pcm_sw_read()
->>>   audio: rename variables in audio_pcm_sw_read()
->>>   audio/mixeng: calculate number of output frames
->>>   audio: wire up st_rate_frames_out()
->>>   audio: handle leftover audio frame from upsampling
->>>   audio/audio_template: substitute sw->hw with hw
->>>   audio: remove sw->ratio
->>>
->>>  audio/audio.c          | 366 +++++++++++++++++++++--------------------
->>>  audio/audio_int.h      |  12 +-
->>>  audio/audio_template.h |  41 +++--
->>>  audio/mixeng.c         |  73 ++++++++
->>>  audio/mixeng.h         |   2 +
->>>  audio/rate_template.h  |  21 ++-
->>>  6 files changed, 304 insertions(+), 211 deletions(-)
->>>
->>
->>
->
+
+
+>      unsigned int inuse;
+> -- 
+> 2.32.0.3.g01195cf9f
 
 
