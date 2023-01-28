@@ -2,91 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38E0667F884
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 15:09:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 077FF67F8B7
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 15:36:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLlsi-0002jb-GF; Sat, 28 Jan 2023 09:08:36 -0500
+	id 1pLmI9-0000Y6-0A; Sat, 28 Jan 2023 09:34:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1pLlsg-0002jO-OJ
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 09:08:34 -0500
-Received: from mga09.intel.com ([134.134.136.24])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <chao.p.peng@linux.intel.com>)
- id 1pLlsd-0000o0-L8
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 09:08:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
- d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1674914911; x=1706450911;
- h=date:from:to:cc:subject:message-id:reply-to:references:
- mime-version:in-reply-to;
- bh=jGLKHUiTup0wR3d32S/+noCZxMpThHkENbyPsFWyI2U=;
- b=L2yZVK4bqbSxucZ4DAkMohGSCQrKjJ4AiEnbAjv8ool8aMHlXc0MVLkf
- 3KMHdOO2T+wsH2C2jLD5+k7jqx9UXct0vxfip23iZ28cRc1sesLgai/qo
- wS6BNA40mCqqZJI7dg3f8O09lvODTPORfy+ej+j0TeRR67Vz2TB1mdREF
- pQ/pVXdwvDcxHQojzF3ff9KEdpqb8utRkgYvbaTTY1ksFQIATNa3hNS9v
- K11K0872wUqCN1wz+PoOQIrapvLGKa9IK0EHfwu/6EGqHml+fMBNugtf1
- xYy1niTeiZHyJ2hLyGlrup6FsrcjvAfnssU/FVLm0OoxVfCOsq2RGn8t6 A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="328579163"
-X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; d="scan'208";a="328579163"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
- by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 28 Jan 2023 06:08:27 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10604"; a="663602794"
-X-IronPort-AV: E=Sophos;i="5.97,254,1669104000"; d="scan'208";a="663602794"
-Received: from chaop.bj.intel.com (HELO localhost) ([10.240.192.105])
- by orsmga002.jf.intel.com with ESMTP; 28 Jan 2023 06:08:15 -0800
-Date: Sat, 28 Jan 2023 22:00:30 +0800
-From: Chao Peng <chao.p.peng@linux.intel.com>
-To: Sean Christopherson <seanjc@google.com>
-Cc: kvm@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org,
- linux-fsdevel@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-api@vger.kernel.org, linux-doc@vger.kernel.org,
- qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, Vitaly Kuznetsov <vkuznets@redhat.com>,
- Wanpeng Li <wanpengli@tencent.com>,
- Jim Mattson <jmattson@google.com>, Joerg Roedel <joro@8bytes.org>,
- Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
- Arnd Bergmann <arnd@arndb.de>, Naoya Horiguchi <naoya.horiguchi@nec.com>,
- Miaohe Lin <linmiaohe@huawei.com>, x86@kernel.org,
- "H . Peter Anvin" <hpa@zytor.com>, Hugh Dickins <hughd@google.com>,
- Jeff Layton <jlayton@kernel.org>,
- "J . Bruce Fields" <bfields@fieldses.org>,
- Andrew Morton <akpm@linux-foundation.org>,
- Shuah Khan <shuah@kernel.org>, Mike Rapoport <rppt@kernel.org>,
- Steven Price <steven.price@arm.com>,
- "Maciej S . Szmigiero" <mail@maciej.szmigiero.name>,
- Vlastimil Babka <vbabka@suse.cz>, Vishal Annapurve <vannapurve@google.com>,
- Yu Zhang <yu.c.zhang@linux.intel.com>,
- "Kirill A . Shutemov" <kirill.shutemov@linux.intel.com>,
- luto@kernel.org, jun.nakajima@intel.com, dave.hansen@intel.com,
- ak@linux.intel.com, david@redhat.com, aarcange@redhat.com,
- ddutile@redhat.com, dhildenb@redhat.com,
- Quentin Perret <qperret@google.com>, tabba@google.com,
- Michael Roth <michael.roth@amd.com>, mhocko@suse.com, wei.w.wang@intel.com
-Subject: Re: [PATCH v10 9/9] KVM: Enable and expose KVM_MEM_PRIVATE
-Message-ID: <20230128140030.GB700688@chaop.bj.intel.com>
-References: <20221202061347.1070246-1-chao.p.peng@linux.intel.com>
- <20221202061347.1070246-10-chao.p.peng@linux.intel.com>
- <Y8HwvTik/2avrCOU@google.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pLmI6-0000XL-Lq
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 09:34:50 -0500
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pLmI4-0004xg-U3
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 09:34:50 -0500
+Received: by mail-pl1-x62e.google.com with SMTP id k13so7650926plg.0
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 06:34:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=Y41jnePD/0n08qsGPNOrpCvCVcpHuz+/LFkK0hxmsmk=;
+ b=vpOnhNCx5mM8sCtCVPSd9gYVlgLactWlki4G998+aTNgcZmys+rXXjsdwuqmbNZvoF
+ gQXnjIH3vTtQckcbP4F6WgVV+SIit5ANAnXmK0AnV2zVcNGQjCXdZTSUOVRJzaLxxMa/
+ c//sXPZo1myqcKEH6e4rl43PpcXWEdwB1a5LnBhJrH6WOxTAL1nAywC9ZQFRDzjkJ8gm
+ gY/xbiEapIVE3iCiNxTYAKISPDmQyZn++9f7CRZ+DU6giME8Rm0H/26DVoRwQXZi+ccn
+ Bgn1SXF72DbBdRqjJtjcg6aMTezfEf7Fn6GN+LS3rVzSPI7udq0Py9aWSOVi3yXWx8eD
+ nlBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=Y41jnePD/0n08qsGPNOrpCvCVcpHuz+/LFkK0hxmsmk=;
+ b=Z+HsM+9x4sHB9wrqAMz5Ga6WpS2gQmlXpQ29wRJOnTM+B2wc2oe6Ast7zVJv0BTnpH
+ 0iM3R0A1Y0etgPr5duleayJTudYnor/YTquYgYTqq12D+/DQC6rSUIjYltmZDVttEyt1
+ 4PT7c80SOaEeWgKLIVPViw9e1IwvTskhvlNbIBoyoAdon98DrH5IaJ3t8V8TZtqg9k8g
+ 0DdIsT6TncZRDYQYTWeibxgNxC+tQZ8vCb7x7CBbSADeyyL2m3tq0Z/AB6yPlPvcJUA4
+ V1xGOHn2X6oYL1mCcqYBZxFnrK5JkpmZSXUR9YU3QRvapz6z3l/M3QVGkrwpIxcs8V62
+ muxw==
+X-Gm-Message-State: AO0yUKXTSO9hFnypYZKcJ3vRTq8fOoRzveGrzzi5htEelAotn+3CwZCi
+ Vd608m/50PJ4yUcJ8ppZMMHIqd8a1WR2BN5Z97C10g==
+X-Google-Smtp-Source: AK7set8w2J1y8wOLG0MSQRYlv2AoW9JPay+LTmrNtp4Z4jenGvCs/1x92lZZGQFCrZHv9Am2C2jJTN9kTLSYPZ0IxQ8=
+X-Received: by 2002:a17:902:6b86:b0:196:3b96:6a1a with SMTP id
+ p6-20020a1709026b8600b001963b966a1amr1560959plk.28.1674916486028; Sat, 28 Jan
+ 2023 06:34:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Y8HwvTik/2avrCOU@google.com>
-Received-SPF: none client-ip=134.134.136.24;
- envelope-from=chao.p.peng@linux.intel.com; helo=mga09.intel.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H3=0.001, RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+References: <20230127175507.2895013-1-peter.maydell@linaro.org>
+ <20230127175507.2895013-7-peter.maydell@linaro.org>
+ <351b2481-4e80-57db-f06c-3dbf95db06fe@linaro.org>
+In-Reply-To: <351b2481-4e80-57db-f06c-3dbf95db06fe@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sat, 28 Jan 2023 14:34:34 +0000
+Message-ID: <CAFEAcA9hRd2ZEvJhS5brfsnw5WqvFqVvDhA-aZpb4uzFyF-xDw@mail.gmail.com>
+Subject: Re: [PATCH 06/23] target/arm: Make HSTR_EL2 traps take priority over
+ UNDEF-at-EL1
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62e;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x62e.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,64 +82,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Chao Peng <chao.p.peng@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Jan 14, 2023 at 12:01:01AM +0000, Sean Christopherson wrote:
-> On Fri, Dec 02, 2022, Chao Peng wrote:
-... 
-> Strongly prefer to use similar logic to existing code that detects wraps:
-> 
-> 		mem->restricted_offset + mem->memory_size < mem->restricted_offset
-> 
-> This is also where I'd like to add the "gfn is aligned to offset" check, though
-> my brain is too fried to figure that out right now.
+On Sat, 28 Jan 2023 at 01:47, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 1/27/23 07:54, Peter Maydell wrote:
+> > +void HELPER(hstr_trap_check)(CPUARMState *env, uint32_t mask, uint32_t syndrome)
+> > +{
+> > +    if (env->cp15.hstr_el2 & mask) {
+> > +        raise_exception(env, EXCP_UDEF, syndrome, 2);
+> > +    }
+>
+> This is so simple...
+>
+>
+> > @@ -4760,6 +4761,28 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
+> >           break;
+> >       }
+> >
+> > +    if (s->hstr_active && cpnum == 15 && s->current_el == 1) {
+> > +        /*
+> > +         * At EL1, check for a HSTR_EL2 trap, which must take precedence
+> > +         * over the UNDEF for "no such register" or the UNDEF for "access
+> > +         * permissions forbid this EL1 access". HSTR_EL2 traps from EL0
+> > +         * only happen if the cpreg doesn't UNDEF at EL0, so we do those in
+> > +         * access_check_cp_reg(), after the checks for whether the access
+> > +         * configurably trapped to EL1.
+> > +         */
+> > +        uint32_t maskbit = is64 ? crm : crn;
+> > +
+> > +        if (maskbit != 4 && maskbit != 14) {
+> > +            /* T4 and T14 are RES0 so never cause traps */
+> > +            gen_set_condexec(s);
+> > +            gen_update_pc(s, 0);
+> > +            emitted_update_pc = true;
+> > +            gen_helper_hstr_trap_check(cpu_env,
+> > +                                       tcg_constant_i32(1 << maskbit),
+> > +                                       tcg_constant_i32(syndrome));
+> > +        }
+>
+> How about
+>
+>      if (maskbit...) {
+>          TCGv_i32 t = load_cpu_offset(offsetoflow32(CPUARMState, hstr_el2));
+>          DisasLabel *over = gen_disas_label(s);
+>
+>          tcg_gen_andi_i32(t, t, 1u << maskbit);
+>          tcg_gen_brcondi_i32(TCG_COND_EQ, t, 0, over.label);
+>          tcg_temp_free_i32(t);
+>
+>          gen_exception_insn(s, 0, EXCP_UDEF, syndrome);
+>          set_disas_label(s, over);
+>      }
+>
+> which also eliminates the need for emitted_update_pc.
 
-Used count_trailing_zeros() for this TODO, unsure we have other better
-approach.
+I really dislike use of brcond in generated TCG, because of the
+massive beartrap it sets up where all your temporaries get nuked
+but there's no compile-time checking that you didn't try to keep
+using one after the brcond. So I generally prefer an approach that
+avoids brcond over one that uses it, if it's available.
 
-diff --git a/virt/kvm/kvm_main.c b/virt/kvm/kvm_main.c
-index afc8c26fa652..fd34c5f7cd2f 100644
---- a/virt/kvm/kvm_main.c
-+++ b/virt/kvm/kvm_main.c
-@@ -56,6 +56,7 @@
- #include <asm/processor.h>
- #include <asm/ioctl.h>
- #include <linux/uaccess.h>
-+#include <linux/count_zeros.h>
- 
- #include "coalesced_mmio.h"
- #include "async_pf.h"
-@@ -2087,6 +2088,19 @@ static bool kvm_check_memslot_overlap(struct kvm_memslots *slots, int id,
- 	return false;
- }
- 
-+/*
-+ * Return true when ALIGNMENT(offset) >= ALIGNMENT(gpa).
-+ */
-+static bool kvm_check_rmem_offset_alignment(u64 offset, u64 gpa)
-+{
-+	if (!offset)
-+		return true;
-+	if (!gpa)
-+		return false;
-+
-+	return !!(count_trailing_zeros(offset) >= count_trailing_zeros(gpa));
-+}
-+
- /*
-  * Allocate some memory and give it an address in the guest physical address
-  * space.
-@@ -2128,7 +2142,8 @@ int __kvm_set_memory_region(struct kvm *kvm,
- 	if (mem->flags & KVM_MEM_PRIVATE &&
- 	    (mem->restrictedmem_offset & (PAGE_SIZE - 1) ||
- 	     mem->restrictedmem_offset + mem->memory_size < mem->restrictedmem_offset ||
--	     0 /* TODO: require gfn be aligned with restricted offset */))
-+	     !kvm_check_rmem_offset_alignment(mem->restrictedmem_offset,
-+					      mem->guest_phys_addr)))
- 		return -EINVAL;
- 	if (as_id >= kvm_arch_nr_memslot_as_ids(kvm) || id >= KVM_MEM_SLOTS_NUM)
- 		return -EINVAL;
-
+thanks
+-- PMM
 
