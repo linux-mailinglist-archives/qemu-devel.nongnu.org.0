@@ -2,46 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF01D67FB5F
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 23:34:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E63A367FB65
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 23:46:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLtko-0003YP-Lc; Sat, 28 Jan 2023 17:32:58 -0500
+	id 1pLtwr-0005gA-MX; Sat, 28 Jan 2023 17:45:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <agraf@csgraf.de>)
- id 1pLtkm-0003XZ-5g; Sat, 28 Jan 2023 17:32:56 -0500
+ id 1pLtwY-0005fT-0n; Sat, 28 Jan 2023 17:45:06 -0500
 Received: from mail.csgraf.de ([85.25.223.15] helo=zulu616.server4you.de)
  by eggs.gnu.org with esmtp (Exim 4.90_1)
  (envelope-from <agraf@csgraf.de>)
- id 1pLtkk-0003g0-7O; Sat, 28 Jan 2023 17:32:55 -0500
-Received: from [172.18.100.158] (unknown [46.183.103.8])
- by csgraf.de (Postfix) with ESMTPSA id 632AC60801B9;
- Sat, 28 Jan 2023 23:32:43 +0100 (CET)
-Message-ID: <2311549f-2db6-d5aa-9055-5c57d786f6dd@csgraf.de>
-Date: Sat, 28 Jan 2023 23:32:19 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] hvf: arm: Add support for GICv3
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org
-References: <20221219220808.26392-1-agraf@csgraf.de>
- <CAFEAcA-bp_r07s7VQDMbWm=f1iV0rfB8XsZUUqpxENnn5fTe+g@mail.gmail.com>
+ id 1pLtwV-0005VG-TL; Sat, 28 Jan 2023 17:45:05 -0500
+Received: from localhost.localdomain (unknown [46.183.103.8])
+ by csgraf.de (Postfix) with ESMTPSA id 067FB60801B9;
+ Sat, 28 Jan 2023 23:45:01 +0100 (CET)
 From: Alexander Graf <agraf@csgraf.de>
-In-Reply-To: <CAFEAcA-bp_r07s7VQDMbWm=f1iV0rfB8XsZUUqpxENnn5fTe+g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: qemu-devel@nongnu.org
+Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ osy <osy@turing.llc>
+Subject: [PATCH v2] hvf: arm: Add support for GICv3
+Date: Sat, 28 Jan 2023 23:44:59 +0100
+Message-Id: <20230128224459.70676-1-agraf@csgraf.de>
+X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=85.25.223.15; envelope-from=agraf@csgraf.de;
  helo=zulu616.server4you.de
-X-Spam_score_int: 3
-X-Spam_score: 0.3
-X-Spam_bar: /
-X-Spam_report: (0.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-1.148,
- RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+X-Spam_score_int: 14
+X-Spam_score: 1.4
+X-Spam_bar: +
+X-Spam_report: (1.4 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_SBL_CSS=3.335,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -57,144 +51,273 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+We currently only support GICv2 emulation. To also support GICv3, we will
+need to pass a few system registers into their respective handler functions.
 
-On 06.01.23 17:37, Peter Maydell wrote:
-> On Mon, 19 Dec 2022 at 22:08, Alexander Graf <agraf@csgraf.de> wrote:
->> We currently only support GICv2 emulation. To also support GICv3, we will
->> need to pass a few system registers into their respective handler functions.
->>
->> This patch adds support for HVF to call into the TCG callbacks for GICv3
->> system register handlers. This is safe because the GICv3 TCG code is generic
->> as long as we limit ourselves to EL0 and EL1 - which are the only modes
->> supported by HVF.
->>
->> To make sure nobody trips over that, we also annotate callbacks that don't
->> work in HVF mode, such as EL state change hooks.
->>
->> With GICv3 support in place, we can run with more than 8 vCPUs.
->>
->> Signed-off-by: Alexander Graf <agraf@csgraf.de>
->> ---
->>   hw/intc/arm_gicv3_cpuif.c   |   8 +-
->>   target/arm/hvf/hvf.c        | 151 ++++++++++++++++++++++++++++++++++++
->>   target/arm/hvf/trace-events |   2 +
->>   3 files changed, 160 insertions(+), 1 deletion(-)
->>
->> diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
->> index b17b29288c..b4e387268c 100644
->> --- a/hw/intc/arm_gicv3_cpuif.c
->> +++ b/hw/intc/arm_gicv3_cpuif.c
->> @@ -21,6 +21,7 @@
->>   #include "hw/irq.h"
->>   #include "cpu.h"
->>   #include "target/arm/cpregs.h"
->> +#include "sysemu/tcg.h"
->>
->>   /*
->>    * Special case return value from hppvi_index(); must be larger than
->> @@ -2810,6 +2811,8 @@ void gicv3_init_cpuif(GICv3State *s)
->>            * which case we'd get the wrong value.
->>            * So instead we define the regs with no ri->opaque info, and
->>            * get back to the GICv3CPUState from the CPUARMState.
->> +         *
->> +         * These CP regs callbacks can be called from either TCG or HVF code.
->>            */
->>           define_arm_cp_regs(cpu, gicv3_cpuif_reginfo);
->>
->> @@ -2905,6 +2908,9 @@ void gicv3_init_cpuif(GICv3State *s)
->>                   define_arm_cp_regs(cpu, gicv3_cpuif_ich_apxr23_reginfo);
->>               }
->>           }
->> -        arm_register_el_change_hook(cpu, gicv3_cpuif_el_change_hook, cs);
->> +        if (tcg_enabled()) {
->> +            /* We can only trap EL changes with TCG for now */
-> We could expand this a bit:
->
->   We can only trap EL changes with TCG. However the GIC interrupt
->   state only changes on EL changes involving EL2 or EL3, so for
->   the non-TCG case this is OK, as EL2 and EL3 can't exist.
->
-> and assert:
->   assert(!arm_feature(&cpu->env, ARM_FEATURE_EL2));
->   assert(!arm_feature(&cpu->env, ARM_FEATURE_EL3));
+This patch adds support for HVF to call into the TCG callbacks for GICv3
+system register handlers. This is safe because the GICv3 TCG code is generic
+as long as we limit ourselves to EL0 and EL1 - which are the only modes
+supported by HVF.
 
+To make sure nobody trips over that, we also annotate callbacks that don't
+work in HVF mode, such as EL state change hooks.
 
-Good idea! Let me add that.
+With GICv3 support in place, we can run with more than 8 vCPUs.
 
+Signed-off-by: Alexander Graf <agraf@csgraf.de>
 
->
->> +static uint32_t hvf_reg2cp_reg(uint32_t reg)
->> +{
->> +    return ENCODE_AA64_CP_REG(CP_REG_ARM64_SYSREG_CP,
->> +                              (reg >> 10) & 0xf,
->> +                              (reg >> 1) & 0xf,
->> +                              (reg >> 20) & 0x3,
->> +                              (reg >> 14) & 0x7,
->> +                              (reg >> 17) & 0x7);
-> This file has #defines for these shift and mask constants
-> (SYSREG_OP0_SHIFT etc).
+---
 
+v1 -> v2:
 
-Ugh, thanks for catching that!
+  - assert when guest has EL2/EL3 and uses non-TCG GICv3
+  - use defines for sysreg masks
+---
+ hw/intc/arm_gicv3_cpuif.c   |  15 +++-
+ target/arm/hvf/hvf.c        | 151 ++++++++++++++++++++++++++++++++++++
+ target/arm/hvf/trace-events |   2 +
+ 3 files changed, 167 insertions(+), 1 deletion(-)
 
-
->
->> +}
->> +
->> +static bool hvf_sysreg_read_cp(CPUState *cpu, uint32_t reg, uint64_t *val)
->> +{
->> +    ARMCPU *arm_cpu = ARM_CPU(cpu);
->> +    CPUARMState *env = &arm_cpu->env;
->> +    const ARMCPRegInfo *ri;
->> +
->> +    ri = get_arm_cp_reginfo(arm_cpu->cp_regs, hvf_reg2cp_reg(reg));
->> +    if (ri) {
->> +        if (ri->accessfn) {
->> +            if (ri->accessfn(env, ri, true) != CP_ACCESS_OK) {
->> +                return false;
->> +            }
->> +        }
->> +        if (ri->type & ARM_CP_CONST) {
->> +            *val = ri->resetvalue;
->> +        } else if (ri->readfn) {
->> +            *val = ri->readfn(env, ri);
->> +        } else {
->> +            *val = CPREG_FIELD64(env, ri);
->> +        }
->> +        trace_hvf_vgic_read(ri->name, *val);
->> +        return true;
->> +    }
-> Can we get here for attempts by EL0 to access EL1-only
-> sysregs, or does hvf send the exception to EL1 without
-> trapping out to us? If we can get here for EL0 accesses we
-> need to check against ri->access as well as ri->accessfn.
-
-
-I just validated, GICv3 EL1 registers trap to EL1 inside the guest:
-
-
-$ cat a.S
-.global start
-.global _main
-_main:
-start:
-         mrs x0, ICC_AP0R0_EL1
-         mov x0, #0x1234
-         msr ICC_AP0R0_EL1, x0
-         mov x0, #0
-         ret
-$ gcc -nostdlib a.S
-$ gdb ./a.out
-(gdb) r
-Program received signal SIGILL, Illegal instruction.
-0x00000000004000d4 in start ()
-(gdb) x/i $pc
-=> 0x4000d4 <start>:        mrs     x0, icc_ap0r0_el1
-
-
-So no need to check ri->access :)
-
-
-Alex
+diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
+index b17b29288c..c4ff595742 100644
+--- a/hw/intc/arm_gicv3_cpuif.c
++++ b/hw/intc/arm_gicv3_cpuif.c
+@@ -21,6 +21,7 @@
+ #include "hw/irq.h"
+ #include "cpu.h"
+ #include "target/arm/cpregs.h"
++#include "sysemu/tcg.h"
+ 
+ /*
+  * Special case return value from hppvi_index(); must be larger than
+@@ -2810,6 +2811,8 @@ void gicv3_init_cpuif(GICv3State *s)
+          * which case we'd get the wrong value.
+          * So instead we define the regs with no ri->opaque info, and
+          * get back to the GICv3CPUState from the CPUARMState.
++         *
++         * These CP regs callbacks can be called from either TCG or HVF code.
+          */
+         define_arm_cp_regs(cpu, gicv3_cpuif_reginfo);
+ 
+@@ -2905,6 +2908,16 @@ void gicv3_init_cpuif(GICv3State *s)
+                 define_arm_cp_regs(cpu, gicv3_cpuif_ich_apxr23_reginfo);
+             }
+         }
+-        arm_register_el_change_hook(cpu, gicv3_cpuif_el_change_hook, cs);
++        if (tcg_enabled()) {
++            /*
++             * We can only trap EL changes with TCG. However the GIC interrupt
++             * state only changes on EL changes involving EL2 or EL3, so for
++             * the non-TCG case this is OK, as EL2 and EL3 can't exist.
++             */
++            arm_register_el_change_hook(cpu, gicv3_cpuif_el_change_hook, cs);
++        } else {
++            assert(!arm_feature(&cpu->env, ARM_FEATURE_EL2));
++            assert(!arm_feature(&cpu->env, ARM_FEATURE_EL3));
++        }
+     }
+ }
+diff --git a/target/arm/hvf/hvf.c b/target/arm/hvf/hvf.c
+index 060aa0ccf4..ad65603445 100644
+--- a/target/arm/hvf/hvf.c
++++ b/target/arm/hvf/hvf.c
+@@ -80,6 +80,33 @@
+ #define SYSREG_PMCCNTR_EL0    SYSREG(3, 3, 9, 13, 0)
+ #define SYSREG_PMCCFILTR_EL0  SYSREG(3, 3, 14, 15, 7)
+ 
++#define SYSREG_ICC_AP0R0_EL1     SYSREG(3, 0, 12, 8, 4)
++#define SYSREG_ICC_AP0R1_EL1     SYSREG(3, 0, 12, 8, 5)
++#define SYSREG_ICC_AP0R2_EL1     SYSREG(3, 0, 12, 8, 6)
++#define SYSREG_ICC_AP0R3_EL1     SYSREG(3, 0, 12, 8, 7)
++#define SYSREG_ICC_AP1R0_EL1     SYSREG(3, 0, 12, 9, 0)
++#define SYSREG_ICC_AP1R1_EL1     SYSREG(3, 0, 12, 9, 1)
++#define SYSREG_ICC_AP1R2_EL1     SYSREG(3, 0, 12, 9, 2)
++#define SYSREG_ICC_AP1R3_EL1     SYSREG(3, 0, 12, 9, 3)
++#define SYSREG_ICC_ASGI1R_EL1    SYSREG(3, 0, 12, 11, 6)
++#define SYSREG_ICC_BPR0_EL1      SYSREG(3, 0, 12, 8, 3)
++#define SYSREG_ICC_BPR1_EL1      SYSREG(3, 0, 12, 12, 3)
++#define SYSREG_ICC_CTLR_EL1      SYSREG(3, 0, 12, 12, 4)
++#define SYSREG_ICC_DIR_EL1       SYSREG(3, 0, 12, 11, 1)
++#define SYSREG_ICC_EOIR0_EL1     SYSREG(3, 0, 12, 8, 1)
++#define SYSREG_ICC_EOIR1_EL1     SYSREG(3, 0, 12, 12, 1)
++#define SYSREG_ICC_HPPIR0_EL1    SYSREG(3, 0, 12, 8, 2)
++#define SYSREG_ICC_HPPIR1_EL1    SYSREG(3, 0, 12, 12, 2)
++#define SYSREG_ICC_IAR0_EL1      SYSREG(3, 0, 12, 8, 0)
++#define SYSREG_ICC_IAR1_EL1      SYSREG(3, 0, 12, 12, 0)
++#define SYSREG_ICC_IGRPEN0_EL1   SYSREG(3, 0, 12, 12, 6)
++#define SYSREG_ICC_IGRPEN1_EL1   SYSREG(3, 0, 12, 12, 7)
++#define SYSREG_ICC_PMR_EL1       SYSREG(3, 0, 4, 6, 0)
++#define SYSREG_ICC_RPR_EL1       SYSREG(3, 0, 12, 11, 3)
++#define SYSREG_ICC_SGI0R_EL1     SYSREG(3, 0, 12, 11, 7)
++#define SYSREG_ICC_SGI1R_EL1     SYSREG(3, 0, 12, 11, 5)
++#define SYSREG_ICC_SRE_EL1       SYSREG(3, 0, 12, 12, 5)
++
+ #define WFX_IS_WFE (1 << 0)
+ 
+ #define TMR_CTL_ENABLE  (1 << 0)
+@@ -788,6 +815,43 @@ static bool is_id_sysreg(uint32_t reg)
+            SYSREG_CRM(reg) < 8;
+ }
+ 
++static uint32_t hvf_reg2cp_reg(uint32_t reg)
++{
++    return ENCODE_AA64_CP_REG(CP_REG_ARM64_SYSREG_CP,
++                              (reg >> SYSREG_CRN_SHIFT) & SYSREG_CRN_MASK,
++                              (reg >> SYSREG_CRM_SHIFT) & SYSREG_CRM_MASK,
++                              (reg >> SYSREG_OP0_SHIFT) & SYSREG_OP0_MASK,
++                              (reg >> SYSREG_OP1_SHIFT) & SYSREG_OP1_MASK,
++                              (reg >> SYSREG_OP2_SHIFT) & SYSREG_OP2_MASK);
++}
++
++static bool hvf_sysreg_read_cp(CPUState *cpu, uint32_t reg, uint64_t *val)
++{
++    ARMCPU *arm_cpu = ARM_CPU(cpu);
++    CPUARMState *env = &arm_cpu->env;
++    const ARMCPRegInfo *ri;
++
++    ri = get_arm_cp_reginfo(arm_cpu->cp_regs, hvf_reg2cp_reg(reg));
++    if (ri) {
++        if (ri->accessfn) {
++            if (ri->accessfn(env, ri, true) != CP_ACCESS_OK) {
++                return false;
++            }
++        }
++        if (ri->type & ARM_CP_CONST) {
++            *val = ri->resetvalue;
++        } else if (ri->readfn) {
++            *val = ri->readfn(env, ri);
++        } else {
++            *val = CPREG_FIELD64(env, ri);
++        }
++        trace_hvf_vgic_read(ri->name, *val);
++        return true;
++    }
++
++    return false;
++}
++
+ static int hvf_sysreg_read(CPUState *cpu, uint32_t reg, uint32_t rt)
+ {
+     ARMCPU *arm_cpu = ARM_CPU(cpu);
+@@ -839,6 +903,36 @@ static int hvf_sysreg_read(CPUState *cpu, uint32_t reg, uint32_t rt)
+     case SYSREG_OSDLR_EL1:
+         /* Dummy register */
+         break;
++    case SYSREG_ICC_AP0R0_EL1:
++    case SYSREG_ICC_AP0R1_EL1:
++    case SYSREG_ICC_AP0R2_EL1:
++    case SYSREG_ICC_AP0R3_EL1:
++    case SYSREG_ICC_AP1R0_EL1:
++    case SYSREG_ICC_AP1R1_EL1:
++    case SYSREG_ICC_AP1R2_EL1:
++    case SYSREG_ICC_AP1R3_EL1:
++    case SYSREG_ICC_ASGI1R_EL1:
++    case SYSREG_ICC_BPR0_EL1:
++    case SYSREG_ICC_BPR1_EL1:
++    case SYSREG_ICC_DIR_EL1:
++    case SYSREG_ICC_EOIR0_EL1:
++    case SYSREG_ICC_EOIR1_EL1:
++    case SYSREG_ICC_HPPIR0_EL1:
++    case SYSREG_ICC_HPPIR1_EL1:
++    case SYSREG_ICC_IAR0_EL1:
++    case SYSREG_ICC_IAR1_EL1:
++    case SYSREG_ICC_IGRPEN0_EL1:
++    case SYSREG_ICC_IGRPEN1_EL1:
++    case SYSREG_ICC_PMR_EL1:
++    case SYSREG_ICC_SGI0R_EL1:
++    case SYSREG_ICC_SGI1R_EL1:
++    case SYSREG_ICC_SRE_EL1:
++    case SYSREG_ICC_CTLR_EL1:
++        /* Call the TCG sysreg handler. This is only safe for GICv3 regs. */
++        if (!hvf_sysreg_read_cp(cpu, reg, &val)) {
++            hvf_raise_exception(cpu, EXCP_UDEF, syn_uncategorized());
++        }
++        break;
+     default:
+         if (is_id_sysreg(reg)) {
+             /* ID system registers read as RES0 */
+@@ -944,6 +1038,33 @@ static void pmswinc_write(CPUARMState *env, uint64_t value)
+     }
+ }
+ 
++static bool hvf_sysreg_write_cp(CPUState *cpu, uint32_t reg, uint64_t val)
++{
++    ARMCPU *arm_cpu = ARM_CPU(cpu);
++    CPUARMState *env = &arm_cpu->env;
++    const ARMCPRegInfo *ri;
++
++    ri = get_arm_cp_reginfo(arm_cpu->cp_regs, hvf_reg2cp_reg(reg));
++
++    if (ri) {
++        if (ri->accessfn) {
++            if (ri->accessfn(env, ri, false) != CP_ACCESS_OK) {
++                return false;
++            }
++        }
++        if (ri->writefn) {
++            ri->writefn(env, ri, val);
++        } else {
++            CPREG_FIELD64(env, ri) = val;
++        }
++
++        trace_hvf_vgic_write(ri->name, val);
++        return true;
++    }
++
++    return false;
++}
++
+ static int hvf_sysreg_write(CPUState *cpu, uint32_t reg, uint64_t val)
+ {
+     ARMCPU *arm_cpu = ARM_CPU(cpu);
+@@ -1021,6 +1142,36 @@ static int hvf_sysreg_write(CPUState *cpu, uint32_t reg, uint64_t val)
+     case SYSREG_OSDLR_EL1:
+         /* Dummy register */
+         break;
++    case SYSREG_ICC_AP0R0_EL1:
++    case SYSREG_ICC_AP0R1_EL1:
++    case SYSREG_ICC_AP0R2_EL1:
++    case SYSREG_ICC_AP0R3_EL1:
++    case SYSREG_ICC_AP1R0_EL1:
++    case SYSREG_ICC_AP1R1_EL1:
++    case SYSREG_ICC_AP1R2_EL1:
++    case SYSREG_ICC_AP1R3_EL1:
++    case SYSREG_ICC_ASGI1R_EL1:
++    case SYSREG_ICC_BPR0_EL1:
++    case SYSREG_ICC_BPR1_EL1:
++    case SYSREG_ICC_CTLR_EL1:
++    case SYSREG_ICC_DIR_EL1:
++    case SYSREG_ICC_EOIR0_EL1:
++    case SYSREG_ICC_EOIR1_EL1:
++    case SYSREG_ICC_HPPIR0_EL1:
++    case SYSREG_ICC_HPPIR1_EL1:
++    case SYSREG_ICC_IAR0_EL1:
++    case SYSREG_ICC_IAR1_EL1:
++    case SYSREG_ICC_IGRPEN0_EL1:
++    case SYSREG_ICC_IGRPEN1_EL1:
++    case SYSREG_ICC_PMR_EL1:
++    case SYSREG_ICC_SGI0R_EL1:
++    case SYSREG_ICC_SGI1R_EL1:
++    case SYSREG_ICC_SRE_EL1:
++        /* Call the TCG sysreg handler. This is only safe for GICv3 regs. */
++        if (!hvf_sysreg_write_cp(cpu, reg, val)) {
++            hvf_raise_exception(cpu, EXCP_UDEF, syn_uncategorized());
++        }
++        break;
+     default:
+         cpu_synchronize_state(cpu);
+         trace_hvf_unhandled_sysreg_write(env->pc, reg,
+diff --git a/target/arm/hvf/trace-events b/target/arm/hvf/trace-events
+index 820e8e0297..4fbbe4b45e 100644
+--- a/target/arm/hvf/trace-events
++++ b/target/arm/hvf/trace-events
+@@ -9,3 +9,5 @@ hvf_unknown_hvc(uint64_t x0) "unknown HVC! 0x%016"PRIx64
+ hvf_unknown_smc(uint64_t x0) "unknown SMC! 0x%016"PRIx64
+ hvf_exit(uint64_t syndrome, uint32_t ec, uint64_t pc) "exit: 0x%"PRIx64" [ec=0x%x pc=0x%"PRIx64"]"
+ hvf_psci_call(uint64_t x0, uint64_t x1, uint64_t x2, uint64_t x3, uint32_t cpuid) "PSCI Call x0=0x%016"PRIx64" x1=0x%016"PRIx64" x2=0x%016"PRIx64" x3=0x%016"PRIx64" cpu=0x%x"
++hvf_vgic_write(const char *name, uint64_t val) "vgic write to %s [val=0x%016"PRIx64"]"
++hvf_vgic_read(const char *name, uint64_t val) "vgic read from %s [val=0x%016"PRIx64"]"
+-- 
+2.37.1 (Apple Git-137.1)
 
 
