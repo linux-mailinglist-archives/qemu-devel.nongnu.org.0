@@ -2,76 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 395E867F717
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 11:24:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F374F67F718
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 11:27:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLiNK-0003Wp-Er; Sat, 28 Jan 2023 05:23:58 -0500
+	id 1pLiPm-0004S7-DG; Sat, 28 Jan 2023 05:26:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiNI-0003Wa-Cx
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:23:56 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiPj-0004Rw-6x
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:26:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiNG-0003HP-9c
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:23:55 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiPh-0003o5-DI
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:26:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674901433;
+ s=mimecast20190719; t=1674901584;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=caBFM00kRgechCjSMMC4d/+9+yYQlzekIWJJK5gnW6o=;
- b=QWdHAN/AEGVzW8V/BT0ACZ+/Tupe4mhSE7YAzmHXqsOSmRyM/xbIQFLQSYBjmNpHhIZdTK
- jrQbPstoZ77KZqf8K4UnBf3yriyGbY44ush/VmS4CMcME3AcKtlTQEBVeh75D2vGgW7vj1
- 46ysXgauW99cWeV9v+w1JLQMaG5t8W8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ka1vOq4LfjHSl0KhaSctRc/OaiwlQgu0FHYv27yfiXw=;
+ b=WRKH5d44GEJnXO+7ylDfCqc9bwQE+rtaId0PeHoi+Jklv6L3pTNd3fVnXfRkCJ/bFLMpwx
+ qTJ0bbjhFDyn0H4NQZEffrTnkuZtCH6DTmyO4p55HB9a0oMMiwC6DFuiBWwql9EM99bqkP
+ fj3I1xcuJamlOPFQv0SSk8NxJytt1M8=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-94-z8CQgvY1PlmIlwktgNPLgg-1; Sat, 28 Jan 2023 05:23:51 -0500
-X-MC-Unique: z8CQgvY1PlmIlwktgNPLgg-1
-Received: by mail-wm1-f69.google.com with SMTP id
- z11-20020a1c4c0b000000b003db062505b9so2175409wmf.4
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 02:23:51 -0800 (PST)
+ us-mta-111-TGu8wjWyM4G1QsgVcixHkA-1; Sat, 28 Jan 2023 05:26:17 -0500
+X-MC-Unique: TGu8wjWyM4G1QsgVcixHkA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ l19-20020a05600c1d1300b003dc13fc9e42so4193589wms.3
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 02:26:17 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=caBFM00kRgechCjSMMC4d/+9+yYQlzekIWJJK5gnW6o=;
- b=iUJttfoblR83DjlCNEJnvjSF1MQXi+Fy4UnTVX7s3qR3HYlYv5rTTWt779VvjqQPWS
- ERSdDtBoc0uD/t2yGmGLd9eKFefclllrUshBJx9Nb0bjPnhYgnm4PWvBwi6MqioJrOD7
- h1WcnvR7hTpv259NI/QKAUlLttFYL05UDiQyw2ZnLhUB11d304W0svK/tkj1Vd7xhfQ2
- zxhoRItsAj5Ehxqh8sXOwW1Hx70h0rK9xyONyx2rslFgn5ZpHpAwOAFFXWbEmeS31+7j
- KqpgYKoIY1guf+iub9wMbh0d/nR0KiwndFB/wRxFlhTw8n9LI87otFaFzd7awUogulm2
- BQ8Q==
-X-Gm-Message-State: AO0yUKV3w4bYQCb0vLYfuGvZN6ZWrGbb0LKWcxHTA3orydHVCwpBzQOa
- msAE1E1ma46Wg5yygRAKkY5bMpOYKlqvEB4ECfmLCiFUsXc33fK6t+Gpq1Scu51SsXqa0Li/Ed7
- BJebDRwItbWx/zzQ=
-X-Received: by 2002:a5d:410f:0:b0:2bf:d940:29b6 with SMTP id
- l15-20020a5d410f000000b002bfd94029b6mr2288719wrp.54.1674901430541; 
- Sat, 28 Jan 2023 02:23:50 -0800 (PST)
-X-Google-Smtp-Source: AK7set+e1JlIosck5Q6Pqb72b+my24PwwInGJgClmqD/a9nMuB9tJrufEtvcBowWVY1jQ6LQjYnAcA==
-X-Received: by 2002:a5d:410f:0:b0:2bf:d940:29b6 with SMTP id
- l15-20020a5d410f000000b002bfd94029b6mr2288704wrp.54.1674901430233; 
- Sat, 28 Jan 2023 02:23:50 -0800 (PST)
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ka1vOq4LfjHSl0KhaSctRc/OaiwlQgu0FHYv27yfiXw=;
+ b=uNhfHFhywD963V4eNioi0EBE2sL7azfbohqLqD3Vse/LMgRNt6yLjJm993ICYC9Aau
+ jpqQDvrGHdkd/XMGQ08sqNrdNoQMH3/kcUCc3hrBSN2fe+ruPpi7CZNsPnTt/Bygrnlw
+ g1BLNRfq8RirPKV5eSWF3fzgo+7WJOXtvD/V0RtQAX0rvqP+BpWmEmW4YpA6piX9eC1j
+ UH+ukX28jveqH9iDv00vWyzV4UH+0xBfw3dE9VodaztUkFZLC0f+mLE9ExwQnN0LRYa/
+ pha7/phPZvSUBCQ3UGIH8/jUEkYZTD7vjVfSd/GmFEEpOaTD515zANL0HFGShB/3Yh4n
+ p3tQ==
+X-Gm-Message-State: AO0yUKVfBP9KfwQFtKqluNR2AsOhdO1ub8mzuekU7j9aY9c+anOHkzWe
+ 43TrwTai9hDyUwug7yGbmjLQBAl/uB2oidF5ZgGQS6sqMqR/G7+oWP8YcaYXMTZfu4iN1HLr7t8
+ tdqq+zQsPFq+GXyA=
+X-Received: by 2002:a05:6000:12c6:b0:2bf:df72:fe03 with SMTP id
+ l6-20020a05600012c600b002bfdf72fe03mr1055689wrx.70.1674901576060; 
+ Sat, 28 Jan 2023 02:26:16 -0800 (PST)
+X-Google-Smtp-Source: AK7set8b2ti/gWPbjmkcayt8iuh0AStfnsvYss5Aj6vVblbw1eOBNUY6Si8tbAlR1i3POB10MV/ong==
+X-Received: by 2002:a05:6000:12c6:b0:2bf:df72:fe03 with SMTP id
+ l6-20020a05600012c600b002bfdf72fe03mr1055670wrx.70.1674901575806; 
+ Sat, 28 Jan 2023 02:26:15 -0800 (PST)
 Received: from redhat.com ([2.52.20.248]) by smtp.gmail.com with ESMTPSA id
- z12-20020a5d4d0c000000b002bbb2d43f65sm6280310wrt.14.2023.01.28.02.23.48
+ h12-20020a056000000c00b002bdd96d88b4sm6277361wrx.75.2023.01.28.02.26.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Jan 2023 02:23:49 -0800 (PST)
-Date: Sat, 28 Jan 2023 05:23:46 -0500
+ Sat, 28 Jan 2023 02:26:15 -0800 (PST)
+Date: Sat, 28 Jan 2023 05:26:11 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>
-Subject: Re: [PATCH 1/3] virtio: move struct VirtQueue to include file
-Message-ID: <20230128052212-mutt-send-email-mst@kernel.org>
-References: <20230128071724.33677-1-xuanzhuo@linux.alibaba.com>
- <20230128071724.33677-2-xuanzhuo@linux.alibaba.com>
+To: Chuck Zmudzinski <brchuckz@aol.com>
+Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ "Daniel P. Berrange" <berrange@redhat.com>,
+ Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Subject: Re: [PATCH] pci: add enforce_slot_reserved_mask_manual property
+Message-ID: <20230128052506-mutt-send-email-mst@kernel.org>
+References: <ad5f5cf8bc4bd4a720724ed41e47565a7f27adf5.1673829387.git.brchuckz.ref@aol.com>
+ <ad5f5cf8bc4bd4a720724ed41e47565a7f27adf5.1673829387.git.brchuckz@aol.com>
+ <20230127082240-mutt-send-email-mst@kernel.org>
+ <ddac019e-28bc-9e0b-c6d7-5bd54d0239f3@aol.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20230128071724.33677-2-xuanzhuo@linux.alibaba.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ddac019e-28bc-9e0b-c6d7-5bd54d0239f3@aol.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -95,158 +103,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Jan 28, 2023 at 03:17:22PM +0800, Xuan Zhuo wrote:
-> This patch move struct VirtQueue into virtio.h.
+On Fri, Jan 27, 2023 at 10:39:28PM -0500, Chuck Zmudzinski wrote:
+> On 1/27/2023 8:28 AM, Michael S. Tsirkin wrote:
+> > On Sun, Jan 15, 2023 at 07:49:51PM -0500, Chuck Zmudzinski wrote:
+> > > The current reserved slot check in do_pci_register_device(), added with
+> > > commit 8b8849844fd6
+> >
+> > add ("subject here") please
+> >
+> > > ,is done even if the pci device being added is
+> > > configured manually for a particular slot. The new property, when set
+> > > to false, disables the check when the device is configured to request a
+> > > particular slot. This allows an administrator or management tool to
+> > > override slot_reserved_mask for a pci device by requesting a particular
+> > > slot for the device. The new property is initialized to true which
+> > > preserves the existing behavior of slot_reserved_mask by default.
+> > > 
+> > > Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
+> >
+> > Thanks!
+> > I'm trying to think of the best default for this.
 > 
-> In order to implement Queue Reset, we have to record the queue reset
-> status of in struct VirtQueue and provide it to device.
+> I think it would be better for the default value of
+> enforce_slot_reserved_mask_manual to be false, so that a
+> user-specified slot will by default override slot_reserved_mask.
+> But doing that would change the current behavior of
+> slot_reserved_mask.
 > 
-> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> Currently, this is the only place where slot_reserved_mask is used in all
+> of the Qemu source (code from hw/sparc64/sun4u.c):
+> 
+> ------ snip -------
+>     /* Only in-built Simba APBs can exist on the root bus, slot 0 on busA is
+>        reserved (leaving no slots free after on-board devices) however slots
+>        0-3 are free on busB */
+>     pci_bus->slot_reserved_mask = 0xfffffffc;
+>     pci_busA->slot_reserved_mask = 0xfffffff1;
+>     pci_busB->slot_reserved_mask = 0xfffffff0;
+> ------ snip -------
+> 
+> I think we could safely change the default value of
+> enforce_slot_reserved_mask_manual to false but set
+> it to true for the sparc64 sun4u board here to preserve
+> the current behavior of the only existing board in Qemu
+> that uses slot_reserved_mask.
+> 
+> What do you think?
 
-So add an API please, no need to move the struct.
-This patch will go away then.
+I guess first can you answer whether this is still needed
+with the latest Xen patches?
 
-> ---
->  hw/virtio/virtio.c         | 49 -----------------------------------
->  include/hw/virtio/virtio.h | 52 ++++++++++++++++++++++++++++++++++++--
->  2 files changed, 50 insertions(+), 51 deletions(-)
-> 
-> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> index f35178f5fc..03077b2ecf 100644
-> --- a/hw/virtio/virtio.c
-> +++ b/hw/virtio/virtio.c
-> @@ -101,60 +101,11 @@ typedef struct VRingMemoryRegionCaches {
->      MemoryRegionCache used;
->  } VRingMemoryRegionCaches;
->  
-> -typedef struct VRing
-> -{
-> -    unsigned int num;
-> -    unsigned int num_default;
-> -    unsigned int align;
-> -    hwaddr desc;
-> -    hwaddr avail;
-> -    hwaddr used;
-> -    VRingMemoryRegionCaches *caches;
-> -} VRing;
-> -
->  typedef struct VRingPackedDescEvent {
->      uint16_t off_wrap;
->      uint16_t flags;
->  } VRingPackedDescEvent ;
->  
-> -struct VirtQueue
-> -{
-> -    VRing vring;
-> -    VirtQueueElement *used_elems;
-> -
-> -    /* Next head to pop */
-> -    uint16_t last_avail_idx;
-> -    bool last_avail_wrap_counter;
-> -
-> -    /* Last avail_idx read from VQ. */
-> -    uint16_t shadow_avail_idx;
-> -    bool shadow_avail_wrap_counter;
-> -
-> -    uint16_t used_idx;
-> -    bool used_wrap_counter;
-> -
-> -    /* Last used index value we have signalled on */
-> -    uint16_t signalled_used;
-> -
-> -    /* Last used index value we have signalled on */
-> -    bool signalled_used_valid;
-> -
-> -    /* Notification enabled? */
-> -    bool notification;
-> -
-> -    uint16_t queue_index;
-> -
-> -    unsigned int inuse;
-> -
-> -    uint16_t vector;
-> -    VirtIOHandleOutput handle_output;
-> -    VirtIODevice *vdev;
-> -    EventNotifier guest_notifier;
-> -    EventNotifier host_notifier;
-> -    bool host_notifier_enabled;
-> -    QLIST_ENTRY(VirtQueue) node;
-> -};
-> -
->  const char *virtio_device_names[] = {
->      [VIRTIO_ID_NET] = "virtio-net",
->      [VIRTIO_ID_BLOCK] = "virtio-blk",
-> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> index 77c6c55929..1c0d77c670 100644
-> --- a/include/hw/virtio/virtio.h
-> +++ b/include/hw/virtio/virtio.h
-> @@ -214,6 +214,56 @@ struct VirtioDeviceClass {
->      struct vhost_dev *(*get_vhost)(VirtIODevice *vdev);
->  };
->  
-> +typedef struct VRingMemoryRegionCaches VRingMemoryRegionCaches;
-> +typedef void (*VirtIOHandleOutput)(VirtIODevice *, VirtQueue *);
-> +
-> +typedef struct VRing {
-> +    unsigned int num;
-> +    unsigned int num_default;
-> +    unsigned int align;
-> +    hwaddr desc;
-> +    hwaddr avail;
-> +    hwaddr used;
-> +    VRingMemoryRegionCaches *caches;
-> +} VRing;
-> +
-> +struct VirtQueue {
-> +    VRing vring;
-> +    VirtQueueElement *used_elems;
-> +
-> +    /* Next head to pop */
-> +    uint16_t last_avail_idx;
-> +    bool last_avail_wrap_counter;
-> +
-> +    /* Last avail_idx read from VQ. */
-> +    uint16_t shadow_avail_idx;
-> +    bool shadow_avail_wrap_counter;
-> +
-> +    uint16_t used_idx;
-> +    bool used_wrap_counter;
-> +
-> +    /* Last used index value we have signalled on */
-> +    uint16_t signalled_used;
-> +
-> +    /* Last used index value we have signalled on */
-> +    bool signalled_used_valid;
-> +
-> +    /* Notification enabled? */
-> +    bool notification;
-> +
-> +    uint16_t queue_index;
-> +
-> +    unsigned int inuse;
-> +
-> +    uint16_t vector;
-> +    VirtIOHandleOutput handle_output;
-> +    VirtIODevice *vdev;
-> +    EventNotifier guest_notifier;
-> +    EventNotifier host_notifier;
-> +    bool host_notifier_enabled;
-> +    QLIST_ENTRY(VirtQueue) node;
-> +};
-> +
->  void virtio_instance_init_common(Object *proxy_obj, void *data,
->                                   size_t vdev_size, const char *vdev_name);
->  
-> @@ -226,8 +276,6 @@ void virtio_error(VirtIODevice *vdev, const char *fmt, ...) G_GNUC_PRINTF(2, 3);
->  /* Set the child bus name. */
->  void virtio_device_set_child_bus_name(VirtIODevice *vdev, char *bus_name);
->  
-> -typedef void (*VirtIOHandleOutput)(VirtIODevice *, VirtQueue *);
-> -
->  VirtQueue *virtio_add_queue(VirtIODevice *vdev, int queue_size,
->                              VirtIOHandleOutput handle_output);
->  
-> -- 
-> 2.32.0.3.g01195cf9f
+-- 
+MST
 
 
