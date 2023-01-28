@@ -2,81 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9BC267F40E
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 03:37:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB1867F411
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 03:39:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLb5L-0002tQ-VE; Fri, 27 Jan 2023 21:36:55 -0500
+	id 1pLb70-0004lF-MY; Fri, 27 Jan 2023 21:38:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLb5K-0002t3-5w
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 21:36:54 -0500
-Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLb5I-0006y5-Jv
- for qemu-devel@nongnu.org; Fri, 27 Jan 2023 21:36:53 -0500
-Received: by mail-pf1-x42d.google.com with SMTP id z31so4482968pfw.4
- for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 18:36:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PfhjYHQxkLDkhgFEAq0RDCvvIlvQ17QxBaSnhHldefI=;
- b=tw2PyEapUMzQrrb12aTaQcPKX4SxbD45xkRjnkh6HltEjyQSOLERHXr5XC8FHEqVbs
- 0tL+S6XF8VlHvIeMY0kuC6HnntQH6ahYPQdSMY8IIZoJTPwFBAwsJXZT6MDL2ZOpepNs
- TGjcO+QxOTT854B4Uxgp/jL6C0annPyG1Y5d5EmMHEVJE+X7kGPlAm7Loo0wvD6gTi08
- tl7k4Sub2jyRI4nHhjB/xyAX1TCmXPxkxhx1UDrttyrlWMJpOZAs8e2BYHaecRNAnAH3
- lutym8AmztaJTSM/p7BnUVg0B2wuy+7Un7q4TtchlsYOujOFaNZCdXcEKVdPeQx1iy87
- gZ5Q==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLb6u-0004kQ-Mi
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 21:38:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLb6s-0007Ai-3z
+ for qemu-devel@nongnu.org; Fri, 27 Jan 2023 21:38:31 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674873508;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=K3skPhwWYqq9+Q3dD207lI3pLKfO52pZ5NMeq4QYCiU=;
+ b=SpvjPqi18cO2IoL9cuigtTwjfMj/rpBrXx38PuldsR+C0h8qn3p1DJtKXg6QNt5T9FHpe2
+ 331tPUAjl1atE7bimT2uAFNixgdzfzdr2W3D8HpNBazEkhGD+IZ3GbBIeVrxO1OG6/hi61
+ nUFo92fE4gT5TeBtevWs+wlIYtu+ufw=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-211-X8d837rXPYGkI2atJ2LN5A-1; Fri, 27 Jan 2023 21:38:25 -0500
+X-MC-Unique: X8d837rXPYGkI2atJ2LN5A-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ j24-20020a05600c1c1800b003dc4480f7bdso644831wms.5
+ for <qemu-devel@nongnu.org>; Fri, 27 Jan 2023 18:38:25 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PfhjYHQxkLDkhgFEAq0RDCvvIlvQ17QxBaSnhHldefI=;
- b=bn9Y8MQrPZgMYe15e0w21+aY2NFNS37wgOlEx/+6qCQtLvXy1UQfcf4kOILSqOcdaT
- KnfsROeVn89SYTpg4WKvNuivp1QjtCk5WrS5HcypwE3WwIUPKOmqw3/GpjcSf+SEJ01J
- vbuubdEVvUbzo2WPWof3mK+31NvY5IZPo67H/qrWA9C3A/QkaeV8n0gZ964TN25jYxky
- Q93x/GcB6JdBg7i8LUKVHO9vcH/aqGZ7i8UrUxzLJJn8rWvr1Y6Tb5i3qfIH5Gfs7Mht
- tAUPI4BcapAWj6ZdweXIKsi0qozi3VkbvGsh2nP6GlhyhS0Jx1MsNhNzGf+DTw4r7vf8
- zslQ==
-X-Gm-Message-State: AO0yUKWtZZH51zLIXdMul2Y1woXYgxphWHmQgnuAQfF+PbQQ+oA8e0YT
- EH+nbbqdA/Stj5lYftHp1fpzvA==
-X-Google-Smtp-Source: AK7set/6OGFlEYzSB9odiPMU6PXBoI2IBp5+3V9eydlJsrW2Lhdv6bytv4AUzZMJcV22LgiKEioc8A==
-X-Received: by 2002:aa7:9834:0:b0:58d:9251:b2a6 with SMTP id
- q20-20020aa79834000000b0058d9251b2a6mr691299pfl.1.1674873411268; 
- Fri, 27 Jan 2023 18:36:51 -0800 (PST)
-Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- y4-20020a056a001c8400b005906fdf418esm3274399pfw.59.2023.01.27.18.36.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 27 Jan 2023 18:36:50 -0800 (PST)
-Message-ID: <6b4f7ce3-a815-50c8-9568-054271fd5b2a@linaro.org>
-Date: Fri, 27 Jan 2023 16:36:47 -1000
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=K3skPhwWYqq9+Q3dD207lI3pLKfO52pZ5NMeq4QYCiU=;
+ b=uqIfY09lj29J5SBEBgdBHTMf2qn4l3nmAGl9pYeHEu3cGYEPtWz2gmGNXTCVsUHXvL
+ qxLWXaHXgD8wTm/rDlvzErAdzANbeTg6mGswALwVjjJUotbJBFS0mzFV2KYb/sLRqhrR
+ rRKS+0guX0l0uJkD4XQnqn6oSfAWKSgHKFZuPFodoO1rhnhP+pyB1Mzc7yYOScG8IEtR
+ NoX9T5D4Y86dqtLtjOOhAdxYm1MrcupbE9/hIh7yBWrMcuUxo08Ng1jOLW1xFfrS8a+H
+ 9bEVqh/rt2s2RqKRs8LBFkkWXHvZIC5ghfTSNb+cfaK6/QStnGsolgW9hpfD7jB0uaUN
+ FKpQ==
+X-Gm-Message-State: AO0yUKXTTgDs2mZKJmsqwomnu2eUcPwI4vKZRSegmzXHrWefPhiWX5WG
+ KmGH2A6jtCPcingC/YidSAtFZRA7kZ3plnIiQpLAM/0W1KBSUeO9CDVKSA0xmkkT95dvE+H2RHu
+ KOvOVW2ZbyIsuN6s=
+X-Received: by 2002:adf:b35e:0:b0:2bf:cab7:cc36 with SMTP id
+ k30-20020adfb35e000000b002bfcab7cc36mr6102568wrd.23.1674873504373; 
+ Fri, 27 Jan 2023 18:38:24 -0800 (PST)
+X-Google-Smtp-Source: AK7set/Guu/iMw5Lz8J/77+zWTOLOhGbk1kcf/z87YNYZuGR6ion1t0t0yEwMF863rJcsDgTRoHWBA==
+X-Received: by 2002:adf:b35e:0:b0:2bf:cab7:cc36 with SMTP id
+ k30-20020adfb35e000000b002bfcab7cc36mr6102555wrd.23.1674873504117; 
+ Fri, 27 Jan 2023 18:38:24 -0800 (PST)
+Received: from redhat.com ([2.52.20.248]) by smtp.gmail.com with ESMTPSA id
+ d3-20020adfe2c3000000b002bc7fcf08ddsm5209714wrj.103.2023.01.27.18.38.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 27 Jan 2023 18:38:23 -0800 (PST)
+Date: Fri, 27 Jan 2023 21:38:20 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Cc: qemu-devel@nongnu.org, Ben Widawsky <bwidawsk@kernel.org>,
+ linux-cxl@vger.kernel.org, linuxarm@huawei.com,
+ Ira Weiny <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>,
+ Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Subject: Re: [PATCH v2 5/8] hw/i386/acpi: Drop duplicate _UID entry for CXL
+ root bridge
+Message-ID: <20230127213645-mutt-send-email-mst@kernel.org>
+References: <20230112102644.27830-1-Jonathan.Cameron@huawei.com>
+ <20230112102644.27830-6-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 10/23] target/arm: Mark up sysregs for HFGRTR bits 0..11
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20230127175507.2895013-1-peter.maydell@linaro.org>
- <20230127175507.2895013-11-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230127175507.2895013-11-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x42d.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230112102644.27830-6-Jonathan.Cameron@huawei.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,21 +99,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/27/23 07:54, Peter Maydell wrote:
-> Mark up the sysreg definitions for the registers trapped
-> by HFGRTR/HFGWTR bits 0..11.
+On Thu, Jan 12, 2023 at 10:26:41AM +0000, Jonathan Cameron wrote:
+> Noticed as this prevents iASL disasembling the DSDT table.
 > 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
+> Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+This needed but it looks like you did not bother updating
+expected files for the tests. Did you run make check?
+
 > ---
-> The annotation of the cpreg definitions is split into multiple
-> patches for ease of review, 12 bits or so at a time.
-> ---
->   target/arm/cpregs.h | 14 ++++++++++++++
->   target/arm/helper.c | 17 +++++++++++++++++
->   2 files changed, 31 insertions(+)
+>  hw/i386/acpi-build.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> index 127c4e2d50..a584b62ae2 100644
+> --- a/hw/i386/acpi-build.c
+> +++ b/hw/i386/acpi-build.c
+> @@ -1482,7 +1482,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+>                  aml_append(pkg, aml_eisaid("PNP0A03"));
+>                  aml_append(dev, aml_name_decl("_CID", pkg));
+>                  aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> -                aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
+>                  build_cxl_osc_method(dev);
+>              } else if (pci_bus_is_express(bus)) {
+>                  aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+> -- 
+> 2.37.2
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
-
-r~
 
