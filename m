@@ -2,85 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 684C167F77E
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 12:16:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F8067F780
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 12:19:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLjB0-000810-LJ; Sat, 28 Jan 2023 06:15:18 -0500
+	id 1pLjEo-0000Up-8D; Sat, 28 Jan 2023 06:19:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLjAy-00080o-HE
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 06:15:16 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLjEm-0000U0-70
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 06:19:12 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLjAw-00043B-6e
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 06:15:16 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLjEk-0004Uk-E5
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 06:19:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674904511;
+ s=mimecast20190719; t=1674904749;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=CRTI5dWkcyVWKKNbuRxB8XsdzMimrbukL7Ulo+bRFdY=;
- b=R8aSVHRUThJHttPvbO0dLAw7Tz5K7wEe6Bk4+q13W2v/RDn1P5JwDgy5rlIe/tBj57LLLh
- 8qOD+NveZjqfryGe15W/0r0t+8RykJZ/o+6q0NmzBcbMNKJDXDUXChouqWC2BO3A+88+5a
- J/zoGcuW7HKRygB65mud18F8DuCq+M8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=M+kApOH39KWGgEI4OumPMgAM39KwNFnoreiz5z3Ag5I=;
+ b=IGUSn9JtspwInkaIg8pg1mW92Ot5na1OOTUSaQsKaOIMQ7okKp+mBA3wcuS78t6YjhSOc2
+ zUu4jV+FqzWE+TPeYHjbLYIpFzX0YszDkvSRYpBCdX4I56KTVKED5icBwjJLkUxkwgJke9
+ vRH12nmygELT7dF79WH1Pf/vueTrwL4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-103-Z9SiN8RDMuOaoLYjOH1AmQ-1; Sat, 28 Jan 2023 06:15:09 -0500
-X-MC-Unique: Z9SiN8RDMuOaoLYjOH1AmQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- h9-20020a1ccc09000000b003db1c488826so6197038wmb.3
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 03:15:09 -0800 (PST)
+ us-mta-655-OQCGxBifOF2RJIyVaJm44g-1; Sat, 28 Jan 2023 06:19:06 -0500
+X-MC-Unique: OQCGxBifOF2RJIyVaJm44g-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ h9-20020a1ccc09000000b003db1c488826so6200729wmb.3
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 03:19:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=CRTI5dWkcyVWKKNbuRxB8XsdzMimrbukL7Ulo+bRFdY=;
- b=QPIFrnC1w8BJqoRMKMV1YdZCUgm9A6+g9pILeXJHKTFvaOglhkMgfCH1l27slPmc7S
- 9PWFv5x6MfBcSWbVtHpsVzf2WJeWtVwkYv+H6cPS4F8/RS5x/Z/y9UR44vVOZ+dWr7Gk
- qyS+RinTLEx0d0eGd0q2kG3SQJ5yqZXrwb8iWvKnDZjheRz5kl6FnFUF9J1ZoraK63Gj
- abXjIF/bKhNOzCcc5OWt0yHm6ePR2NIDJTG29s0hr33oF/CTPwLSlSuzOMd1bJIWXORK
- fD4EmU996myXe5+1WXgKb2/XyVJE0fsJ73WLtIcLp+IF9t6Omlqcs7LzVjOtmQo36wHM
- FS2Q==
-X-Gm-Message-State: AO0yUKUEFA/uLaMtnZBvXHOi58aJJ5Y9WMjfrmSosPLZmsVYtYZNiK2V
- TVGMzE+w+ioO2hfpfkv09qTKQwVHTAG3ZL0aIh0h+0qkmoRKztArKH9D4CBg/HkciXVUnV0sbYV
- 5xzSny+uwXVrVE9I=
-X-Received: by 2002:a5d:5229:0:b0:2bf:b54b:6ed9 with SMTP id
- i9-20020a5d5229000000b002bfb54b6ed9mr13500894wra.15.1674904508251; 
- Sat, 28 Jan 2023 03:15:08 -0800 (PST)
-X-Google-Smtp-Source: AK7set8WxXPNGup4b6xIhVsP0YK1zMI5g00dVPEPAkKbo392UgRlf/FYnI9dW+evObZeJgvNKjkikg==
-X-Received: by 2002:a5d:5229:0:b0:2bf:b54b:6ed9 with SMTP id
- i9-20020a5d5229000000b002bfb54b6ed9mr13500874wra.15.1674904507973; 
- Sat, 28 Jan 2023 03:15:07 -0800 (PST)
+ bh=M+kApOH39KWGgEI4OumPMgAM39KwNFnoreiz5z3Ag5I=;
+ b=m1o1faQe4Jpfp3WoxX3KNojRW9C2LOf1gSUpr4KFo/K3c1UIMhFPaqI7HTpP5SeuHT
+ YjqzS7ubry4yuX7EbNjt4LhidsaqpBb8smZeZpX0pf5lGHwZhUKEQfFjQky881lS09m1
+ h/+i7gxR9kLJ1HknxMeXBYT1KTfE07m7OqHGBkO4VB9GzY8Fr7MymbmbcsUKSu5E2VrL
+ Bp1Vj6wygRpGWQKCD5He9JzevN4OJLKWKdUdvbHT0RcvlokdoVVqODtseFJJ+4O64ySP
+ 1zdq2I6vJy7hvpWtTxAnHKGpcb2NJfO0ThW8hTeA+us85+l4chEi6sp/z7sdZYeYTbef
+ eRCw==
+X-Gm-Message-State: AFqh2kra18lAFHxmAdOm89wRMN0GVUIAvyEfos6oUXVHKM7RqtHsh/uE
+ 4fSFKj3UM3BWcJt3EbvCaIJFLYzxnPtM4rUdb8TNHtzbu6mN0JAXp4BcoOl2vXW9/b7eFecZuMK
+ 2PHlJG38Zv6aafRg=
+X-Received: by 2002:a05:600c:c12:b0:3da:28a9:a900 with SMTP id
+ fm18-20020a05600c0c1200b003da28a9a900mr40848117wmb.41.1674904744529; 
+ Sat, 28 Jan 2023 03:19:04 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsywxNmvfGwBRPLzcmC7vssP0ZsINOaSKGFpCB2hi6pA6vHF9kqvIg//hPQmOWUWromS8N6rA==
+X-Received: by 2002:a05:600c:c12:b0:3da:28a9:a900 with SMTP id
+ fm18-20020a05600c0c1200b003da28a9a900mr40848099wmb.41.1674904744226; 
+ Sat, 28 Jan 2023 03:19:04 -0800 (PST)
 Received: from redhat.com ([2.52.20.248]) by smtp.gmail.com with ESMTPSA id
- h1-20020adfe981000000b002bfb02153d1sm7504420wrm.45.2023.01.28.03.15.05
+ l21-20020a05600c4f1500b003b47b80cec3sm11600364wmq.42.2023.01.28.03.19.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Jan 2023 03:15:07 -0800 (PST)
-Date: Sat, 28 Jan 2023 06:15:03 -0500
+ Sat, 28 Jan 2023 03:19:03 -0800 (PST)
+Date: Sat, 28 Jan 2023 06:19:00 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: Eric Biggers <ebiggers@kernel.org>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
- pbonzini@redhat.com, Mathias Krause <minipli@grsecurity.net>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH qemu v3] x86: don't let decompressed kernel image clobber
- setup_data
-Message-ID: <20230128061015-mutt-send-email-mst@kernel.org>
-References: <Y69fUstLKNv/RLd7@zx2c4.com>
- <20221230220725.618763-1-Jason@zx2c4.com>
- <Y72FmQlNwBsp8Ntc@zx2c4.com>
- <20230110125005-mutt-send-email-mst@kernel.org>
- <Y84LSgtrq1Rq3ItD@sol.localdomain>
- <20230123071128-mutt-send-email-mst@kernel.org>
- <CAHmME9qXnA=0tBwXe=S=X_LzdBa0irDbWNSNnTdUHSQYJkfPpQ@mail.gmail.com>
+To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH 2/3]  virtio: struct VirtQueue introduce reset
+Message-ID: <20230128061558-mutt-send-email-mst@kernel.org>
+References: <20230128071724.33677-1-xuanzhuo@linux.alibaba.com>
+ <20230128071724.33677-3-xuanzhuo@linux.alibaba.com>
+ <20230128050411-mutt-send-email-mst@kernel.org>
+ <1674902469.9566288-2-xuanzhuo@linux.alibaba.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAHmME9qXnA=0tBwXe=S=X_LzdBa0irDbWNSNnTdUHSQYJkfPpQ@mail.gmail.com>
+In-Reply-To: <1674902469.9566288-2-xuanzhuo@linux.alibaba.com>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -105,152 +97,124 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 23, 2023 at 06:37:21AM -0600, Jason A. Donenfeld wrote:
-> On Mon, Jan 23, 2023 at 6:12 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+On Sat, Jan 28, 2023 at 06:41:09PM +0800, Xuan Zhuo wrote:
+> On Sat, 28 Jan 2023 05:22:05 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > On Sat, Jan 28, 2023 at 03:17:23PM +0800, Xuan Zhuo wrote:
+> > >  In the current design, we stop the device from operating on the vring
+> > >  during per-queue reset by resetting the structure VirtQueue.
+> > >
+> > >  But before the reset operation, when recycling some resources, we should
+> > >  stop referencing new vring resources. For example, when recycling
+> > >  virtio-net's asynchronous sending resources, virtio-net should be able
+> > >  to perceive that the current queue is in the per-queue reset state, and
+> > >  stop sending new packets from the tx queue.
+> > >
+> > >  Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> > > ---
+> > >  hw/virtio/virtio.c         | 8 ++++++++
+> > >  include/hw/virtio/virtio.h | 3 +++
+> > >  2 files changed, 11 insertions(+)
+> > >
+> > > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> > > index 03077b2ecf..907d5b8bde 100644
+> > > --- a/hw/virtio/virtio.c
+> > > +++ b/hw/virtio/virtio.c
+> > > @@ -2030,6 +2030,12 @@ void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+> > >  {
+> > >      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+> > >
+> > > +    /*
+> > > +     * Mark this queue is per-queue reset status. The device should release the
+> > > +     * references of the vring, and not refer more new vring item.
+> > > +     */
+> > > +    vdev->vq[queue_index].reset = true;
+> > > +
+> > >      if (k->queue_reset) {
+> > >          k->queue_reset(vdev, queue_index);
+> > >      }
+> > > @@ -2053,6 +2059,8 @@ void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
+> > >      }
+> > >      */
+> > >
+> > > +    vdev->vq[queue_index].reset = false;
+> > > +
+> > >      if (k->queue_enable) {
+> > >          k->queue_enable(vdev, queue_index);
+> > >      }
+> > > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> > > index 1c0d77c670..b888538d09 100644
+> > > --- a/include/hw/virtio/virtio.h
+> > > +++ b/include/hw/virtio/virtio.h
+> > > @@ -251,6 +251,9 @@ struct VirtQueue {
+> > >      /* Notification enabled? */
+> > >      bool notification;
+> > >
+> > > +    /* Per-Queue Reset status */
+> > > +    bool reset;
+> > > +
+> > >      uint16_t queue_index;
+> > >
 > >
-> > On Sun, Jan 22, 2023 at 08:21:30PM -0800, Eric Biggers wrote:
-> > > Hi Michael,
-> > >
-> > > On Tue, Jan 10, 2023 at 12:50:42PM -0500, Michael S. Tsirkin wrote:
-> > > > On Tue, Jan 10, 2023 at 04:34:49PM +0100, Jason A. Donenfeld wrote:
-> > > > > Hi Michael,
-> > > > >
-> > > > > Could you queue up this patch and mark it as a fix for 7.2.1? It is a
-> > > > > straight-up bug fix for a 7.2 regression that's now affected several
-> > > > > users.
-> > > >
-> > > > OK. In the future pls cc me if you want me to merge a patch. Thanks!
-> > > >
-> > > > > - It has two Tested-by tags on the thread.
-> > > > > - hpa, the maintainer of the kernel side of this, confirmed on one of
-> > > > >   the various tributary threads that this approach is a correct one.
-> > > > > - It doesn't introduce any new functionality.
-> > > > >
-> > > > > For your convenience, you can grab this out of lore here:
-> > > > >
-> > > > >   https://lore.kernel.org/lkml/20221230220725.618763-1-Jason@zx2c4.com/
-> > > > >
-> > > > > Or if you want to yolo it:
-> > > > >
-> > > > >   curl https://lore.kernel.org/lkml/20221230220725.618763-1-Jason@zx2c4.com/raw | git am -s
-> > > > >
-> > > > > It's now sat silent on the mailing list for a while. So let's please get
-> > > > > this committed and backported so that the bug reports stop coming in.
-> > > > >
-> > >
-> > > This patch still isn't on QEMU's master branch.  What happened to it?
-> > >
-> > > - Eric
-> >
-> > Indeed though I remember picking it up. Tagged again now. Thanks!
+> > Reset state makes no sense. It seems to imply queue_reset
+> > in the spec. And for extra fun there's "reset" in the pci
+> > proxy which means "virtio_queue_reset is in progress" - I have no
+> > idea what uses it though - it is not guest visible.  First what is it?
+> > It actually means "queue has been reset and not has not been enabled since".
+> > So disabled_by_reset maybe?
 > 
-> Thanks. What branch is this in? I didn't see it on:
-> https://gitlab.com/mstredhat/qemu/-/branches/active
-> https://github.com/mstsirkin/qemu/branches
+> 
+> In fact, when reading this, the queue has not been reset,
+> so prepare_for_reset?
 
-I don't use github really. And it was not pushed to gitlab as I was
-figuring out issues with other patches before starting CI as CI minutes
-are limited.  BTW as checkpatch was unhappy I applied a fixup -
-making checkpatch happier and in the process the code change a bit
-smaller.  If you want to do cleanups on top be my guest but pls
-make it pass checkpatch. Thanks!
+Makes it sound like it's some kind of temporary state where
+it is not - it will stay like this until enabled.
+As this makes no practical difference that it is set to
+early, just set it later for consistency.
+
+> >
+> > Second this hack helps make the change minimal
+> > so it's helpful for stable, but it's ugly in that it
+> > duplicates the reverse of enabled value - we don't really
+> > care what disabled it in practice.
+> >
+> > With the fixups above I can apply so it's easier to backport, but later
+> > a patch on top should clean it all up, perhaps by adding
+> > "enabled" in VirtQueue. We should also get rid of "reset" in the proxy
+> > unless there's some way it's useful which I don't currently see.
+> >
+> 
+> I have some confusion, I don't understand what you mean.
+> 
+> Why did we remove the "reset" in the proxy?
+
+We did not but we should.
+Why we should remove "reset" in the proxy?
+Because guest can never read it as != 0:
+
+    case VIRTIO_PCI_COMMON_Q_RESET:
+        if (val == 1) {
+            proxy->vqs[vdev->queue_sel].reset = 1;
+
+            virtio_queue_reset(vdev, vdev->queue_sel);
+
+            proxy->vqs[vdev->queue_sel].reset = 0;
+            proxy->vqs[vdev->queue_sel].enabled = 0;
+        }
+        break;
+
+from guest's POV reset is atomic and so does not need
+a variable to track state.
 
 
-commit a00d99e04c4481fca3ee2d7c40d42993b7b059c2
-Author: Michael S. Tsirkin <mst@redhat.com>
-Date:   Sat Jan 28 06:08:43 2023 -0500
-
-    fixup! x86: don't let decompressed kernel image clobber setup_data
-
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 1b19d28c02..29f30dd6d3 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -378,7 +378,7 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
-     MicrovmMachineState *mms = MICROVM_MACHINE(machine);
-     BusState *bus;
-     BusChild *kid;
--    char *cmdline, *existing_cmdline = fw_cfg_read_bytes_ptr(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA);
-+    char *cmdline, *existing_cmdline;
-     size_t len;
- 
-     /*
-@@ -388,6 +388,7 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
-      * Yes, this is a hack, but one that heavily improves the UX without
-      * introducing any significant issues.
-      */
-+    existing_cmdline = fw_cfg_read_bytes_ptr(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA);
-     cmdline = g_strdup(existing_cmdline);
-     bus = sysbus_get_default();
-     QTAILQ_FOREACH(kid, &bus->children, sibling) {
-@@ -413,10 +414,11 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
-     }
- 
-     len = strlen(cmdline);
--    if (len > VIRTIO_CMDLINE_TOTAL_MAX_LEN + strlen(existing_cmdline))
-+    if (len > VIRTIO_CMDLINE_TOTAL_MAX_LEN + strlen(existing_cmdline)) {
-         fprintf(stderr, "qemu: virtio mmio cmdline too large, skipping\n");
--    else
-+    } else {
-         memcpy(existing_cmdline, cmdline, len + 1);
-+    }
-     g_free(cmdline);
- }
- 
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index b57a993596..eaff4227bd 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -803,7 +803,7 @@ void x86_load_linux(X86MachineState *x86ms,
-     bool linuxboot_dma_enabled = X86_MACHINE_GET_CLASS(x86ms)->fwcfg_dma_enabled;
-     uint16_t protocol;
-     int setup_size, kernel_size, cmdline_size;
--    int dtb_size;
-+    int dtb_size, setup_data_offset;
-     uint32_t initrd_max;
-     uint8_t header[8192], *setup, *kernel;
-     hwaddr real_addr, prot_addr, cmdline_addr, initrd_addr = 0, first_setup_data = 0;
-@@ -818,8 +818,10 @@ void x86_load_linux(X86MachineState *x86ms,
-     SevKernelLoaderContext sev_load_ctx = {};
-     enum { RNG_SEED_LENGTH = 32 };
- 
--    /* Add the NUL terminator, some padding for the microvm cmdline fiddling
--     * hack, and then align to 16 bytes as a paranoia measure */
-+    /*
-+     * Add the NUL terminator, some padding for the microvm cmdline fiddling
-+     * hack, and then align to 16 bytes as a paranoia measure
-+     */
-     cmdline_size = (strlen(machine->kernel_cmdline) + 1 +
-                     VIRTIO_CMDLINE_TOTAL_MAX_LEN + 16) & ~15;
-     /* Make a copy, since we might append arbitrary bytes to it later. */
-@@ -1090,22 +1092,24 @@ void x86_load_linux(X86MachineState *x86ms,
-             exit(1);
-         }
- 
-+        setup_data_offset = cmdline_size;
-         cmdline_size += sizeof(SetupData) + dtb_size;
-         kernel_cmdline = g_realloc(kernel_cmdline, cmdline_size);
--        setup_data = (void *)kernel_cmdline + cmdline_size - (sizeof(SetupData) + dtb_size);
-+        setup_data = (void *)kernel_cmdline + setup_data_offset;
-         setup_data->next = cpu_to_le64(first_setup_data);
--        first_setup_data = cmdline_addr + ((void *)setup_data - (void *)kernel_cmdline);
-+        first_setup_data = cmdline_addr + setup_data_offset;
-         setup_data->type = cpu_to_le32(SETUP_DTB);
-         setup_data->len = cpu_to_le32(dtb_size);
-         load_image_size(dtb_filename, setup_data->data, dtb_size);
-     }
- 
-     if (!legacy_no_rng_seed && protocol >= 0x209) {
-+        setup_data_offset = cmdline_size;
-         cmdline_size += sizeof(SetupData) + RNG_SEED_LENGTH;
-         kernel_cmdline = g_realloc(kernel_cmdline, cmdline_size);
--        setup_data = (void *)kernel_cmdline + cmdline_size - (sizeof(SetupData) + RNG_SEED_LENGTH);
-+        setup_data = (void *)kernel_cmdline + setup_data_offset;
-         setup_data->next = cpu_to_le64(first_setup_data);
--        first_setup_data = cmdline_addr + ((void *)setup_data - (void *)kernel_cmdline);
-+        first_setup_data = cmdline_addr + setup_data_offset;
-         setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
-         setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
-         qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
+> I agree to rename the "reset".
+> 
+> Thanks.
+> 
+> >
+> >
+> > >      unsigned int inuse;
+> > > --
+> > > 2.32.0.3.g01195cf9f
+> >
 
 
