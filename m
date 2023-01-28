@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B523567F7D7
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 13:47:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4987067F7DC
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 13:50:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLkaZ-0000W5-H4; Sat, 28 Jan 2023 07:45:47 -0500
+	id 1pLkf1-0001lX-1m; Sat, 28 Jan 2023 07:50:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pLkaW-0000Vt-St
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 07:45:45 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ id 1pLkev-0001lP-3R
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 07:50:17 -0500
+Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pLkaT-00038P-Df
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 07:45:44 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id o13so7140138pjg.2
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 04:45:38 -0800 (PST)
+ id 1pLket-0003qm-5e
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 07:50:16 -0500
+Received: by mail-pg1-x52c.google.com with SMTP id s67so4839208pgs.3
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 04:50:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=l55L8rftmxgLeTywbCJniPgpT79+8a7L41CxGkQLk6g=;
- b=XPkJPdTotiIsaa5FY+q2pkLyEn+xrz+jX8DUg0ytyMdzCk6x7CN9GFwKzX3i8uFOI3
- 45GV8Tno1+qO9mQfivYzuX7+JUmLsheAkm5P++/eaHPvMgK+d+H2Sg/7kOSuc8NouGa5
- L8+mJrUxYFDAmnL3ikoWIjWzKSonl/zTekAIpb1kc7KzQisWB2zo3pIhKRNQ42hdS2op
- LoIqtyT1bHxOTbTyavK/bfjMu6A58b8jQs73fcIPyU/6amDDGzBaStcFML7Tjdgasq0b
- 4L0Jl7uZRD1wYsCVam/A17jzZGBj8PH1fILMcNdp6Lg+1xp+4dwZPQx5L0JswI+oOv62
- zL+g==
+ bh=X8V6GWVVJ3vKEXd04wyUFu5C/pdLBajEHs0qWyquTjA=;
+ b=tyVQeiGA/GNQq529+QV/4rZacLCrNHsoQ/1fE6OGF/Db2oQdMo7Z0ImNs6FkBsl5CX
+ IKoai0fw3d+iU/PsWBYPw9llYQa3A8TyUG5JxkDbSYB9eo7fsP4dM5C5Sx022hg2v/Ou
+ HU8cQD7wARJYn8PZzAknze3cUnivkMxoeLoVy9PMQms+4llbpTEEgPfSK9ACzvYjd1WR
+ K0upA7fmIvuaWwaE2uRB/EcNZ3MFJfvkBA4ki4xo47KXSQifziHtShfg3UGBvZZmPwc/
+ tlE7npWWuIWXOHRBDn1f78WU3cmks89gfZrWSSriQkxhjdT/p9HDgGJGTlD/G+lTn91W
+ DDrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=l55L8rftmxgLeTywbCJniPgpT79+8a7L41CxGkQLk6g=;
- b=zaC9Towkafwub2ovx/sEvzASSUONGL2/DVwgKPf1KB5d/RSxkiqgGW2IDjHz+9GJM2
- GrAK8GtZR1SYFnA4KJyjPW5xoNsXqmz8dMgSi7LT0p0NU6hATgiRLdto0cThC0Ar0ztH
- Ch2f5RuxnNAjeDizQTZ62iuGp7bvUlmKG/Xc3BTPEy0D/8izYRf90UMX8dFNg+imPTyo
- 52xcKbTic6S31BY8rkTOeYHdGBMq8EU7+HtheUDUomN9YwyCakWzsuxmhzepZcFI+fmc
- zQXoV/4pES6McmkJHpynaFZjlEtZzjP/hkMHOB68My75sybVJ69V7SfVCQvBXcYYweiG
- ToPw==
-X-Gm-Message-State: AO0yUKXf+z3aXAF2znLZNuL/znIVdE/CPjlLeJfle43CjeuF0wI15TFf
- kJHC32vW35XvrPMIFQDwMFpy1A==
-X-Google-Smtp-Source: AK7set8/SPIo5DBsyLPj4D7Kl1u9GPfwbQD5m6PiaCJrgK8KvlpTgnDTYj04Qd/Ih3K/URPcVwQb+Q==
-X-Received: by 2002:a17:902:d2c4:b0:196:3360:b09d with SMTP id
- n4-20020a170902d2c400b001963360b09dmr13702781plc.41.1674909936906; 
- Sat, 28 Jan 2023 04:45:36 -0800 (PST)
+ bh=X8V6GWVVJ3vKEXd04wyUFu5C/pdLBajEHs0qWyquTjA=;
+ b=T8PgmCUO1NBfoviBc+jWXeUHs2gKhvqL6FIiyJrXOv7QtS9+hWIf7HiwR3jxq9Sq8l
+ RfnOMl8zdVSsWKEuxbR2mffMBhaXNL6rETHKwKZuZ5H7Cvnq7YZhnfxcCJBKiRVFU7MJ
+ +6GMsLeKdTVT7uKRWq6ZKZy/VsyaNAIcIYpsooaulL8twLlPjDouEVlrI5n1x/A3Ww7O
+ E0bUWaxTSe2G59P++G9FoJA/YOivORI3bSzMUz5cpog49nhaeohHS5+Fs7sIT9ztOiwD
+ ouDoUcZ36dgEacbuZ53OoKuJ2ZZg5P8rUqNxunVhsa/2JUWeGgoo0S6p3nJ8z//5HO5I
+ 4+qw==
+X-Gm-Message-State: AFqh2krPvIWW+GtsVPoRXmVoSc417AIx251S9TKnUe2yLaFd0jTnvTvy
+ 9Ej/X42r7GTX3ESBIdOsV6RecA==
+X-Google-Smtp-Source: AMrXdXtma/hAbSN4SAKOWQaio7kXnCm3EmoGGEwZFVtyKBhZBttjMzzf/tJwgQMLo/miOZQz67qlGA==
+X-Received: by 2002:aa7:8198:0:b0:586:a3a9:6163 with SMTP id
+ g24-20020aa78198000000b00586a3a96163mr41010911pfi.28.1674910213554; 
+ Sat, 28 Jan 2023 04:50:13 -0800 (PST)
 Received: from [10.4.162.76] ([139.177.225.254])
  by smtp.gmail.com with ESMTPSA id
- t5-20020a170902e84500b00194c6c63693sm4486224plg.80.2023.01.28.04.45.33
+ c64-20020a624e43000000b00586fbbdf6e4sm4283108pfb.34.2023.01.28.04.50.10
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 Jan 2023 04:45:36 -0800 (PST)
-Message-ID: <8b04c5f0-b33d-0f02-a8fd-de13a1b3040d@bytedance.com>
-Date: Sat, 28 Jan 2023 20:45:30 +0800
+ Sat, 28 Jan 2023 04:50:13 -0800 (PST)
+Message-ID: <1d9e8fed-45b7-fed3-e3b4-e752c0362eae@bytedance.com>
+Date: Sat, 28 Jan 2023 20:50:08 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: Re: [PATCH v3 00/12] Refactor cryptodev
+Subject: Re: Re: [PATCH v3 05/12] cryptodev: Introduce 'query-cryptodev' QMP
+ command
+Content-Language: en-US
 To: "Michael S. Tsirkin" <mst@redhat.com>
 Cc: arei.gonglei@huawei.com, berrange@redhat.com, dgilbert@redhat.com,
  pbonzini@redhat.com, armbru@redhat.com, qemu-devel@nongnu.org
 References: <20230128035633.2548315-1-pizhenwei@bytedance.com>
- <20230128062802-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
+ <20230128035633.2548315-6-pizhenwei@bytedance.com>
+ <20230128062647-mutt-send-email-mst@kernel.org>
 From: zhenwei pi <pizhenwei@bytedance.com>
-In-Reply-To: <20230128062802-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20230128062647-mutt-send-email-mst@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pg1-x52c.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -95,94 +97,172 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/28/23 19:30, Michael S. Tsirkin wrote:
-> On Sat, Jan 28, 2023 at 11:56:21AM +0800, zhenwei pi wrote:
->> v3 -> v4:
->> - a small change in '0005-cryptodev-Introduce-query-cryptodev-QMP-command.patch':
->>    use 'uint32' instead of 'int' to describe CryptodevBackendClient:queue
+> On Sat, Jan 28, 2023 at 11:56:26AM +0800, zhenwei pi wrote:
+>> Now we have a QMP command to query crypto devices:
+>> virsh qemu-monitor-command vm '{"execute": "query-cryptodev"}' | jq
+>> {
+>>    "return": [
+>>      {
+>>        "service": [
+>>          "akcipher",
+>>          "mac",
+>>          "hash",
+>>          "cipher"
+>>        ],
+>>        "id": "cryptodev1",
+>>        "client": [
+>>          {
+>>            "queue": 0,
+>>            "type": "builtin"
+>>          }
+>>        ]
+>>      },
+>>      {
+>>        "service": [
+>>          "akcipher"
+>>        ],
+>>        "id": "cryptodev0",
+>>        "client": [
+>>          {
+>>            "queue": 0,
+>>            "type": "lkcf"
+>>          }
+>>        ]
+>>      }
+>>    ],
+>>    "id": "libvirt-417"
+>> }
+>>
+>> Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
+>> ---
+>>   backends/cryptodev.c | 45 ++++++++++++++++++++++++++++++++++++++++++++
+>>   qapi/cryptodev.json  | 44 +++++++++++++++++++++++++++++++++++++++++++
+>>   2 files changed, 89 insertions(+)
+>>
+>> diff --git a/backends/cryptodev.c b/backends/cryptodev.c
+>> index c2a053db0e..d51eeb5ee4 100644
+>> --- a/backends/cryptodev.c
+>> +++ b/backends/cryptodev.c
+>> @@ -24,6 +24,7 @@
+>>   #include "qemu/osdep.h"
+>>   #include "sysemu/cryptodev.h"
+>>   #include "qapi/error.h"
+>> +#include "qapi/qapi-commands-cryptodev.h"
+>>   #include "qapi/visitor.h"
+>>   #include "qemu/config-file.h"
+>>   #include "qemu/error-report.h"
+>> @@ -33,6 +34,50 @@
+>>   
+>>   static QTAILQ_HEAD(, CryptoDevBackendClient) crypto_clients;
+>>   
+>> +static int qmp_query_cryptodev_foreach(Object *obj, void *data)
+>> +{
+>> +    CryptoDevBackend *backend;
+>> +    CryptodevInfoList **infolist = data;
+>> +    uint32_t services, i;
+>> +
+>> +    if (!object_dynamic_cast(obj, TYPE_CRYPTODEV_BACKEND)) {
+>> +        return 0;
+>> +    }
+>> +
+>> +    CryptodevInfo *info = g_new0(CryptodevInfo, 1);
+>> +    info->id = g_strdup(object_get_canonical_path_component(obj));
+>> +
+>> +    backend = CRYPTODEV_BACKEND(obj);
+>> +    services = backend->conf.crypto_services;
+>> +    for (i = 0; i < QCRYPTODEV_BACKEND_SERVICE__MAX; i++) {
+>> +        if (services & (1 << i)) {
+>> +            QAPI_LIST_PREPEND(info->service, i);
+>> +        }
+>> +    }
+>> +
+>> +    for (i = 0; i < backend->conf.peers.queues; i++) {
+>> +        CryptoDevBackendClient *cc = backend->conf.peers.ccs[i];
+>> +        CryptodevBackendClient *client = g_new0(CryptodevBackendClient, 1);
+>> +
+>> +        client->queue = cc->queue_index;
+>> +        client->type = cc->type;
+>> +        QAPI_LIST_PREPEND(info->client, client);
+>> +    }
+>> +
+>> +    QAPI_LIST_PREPEND(*infolist, info);
+>> +
+>> +    return 0;
+>> +}
+>> +
+>> +CryptodevInfoList *qmp_query_cryptodev(Error **errp)
+>> +{
+>> +    CryptodevInfoList *list = NULL;
+>> +    Object *objs = container_get(object_get_root(), "/objects");
+>> +
+>> +    object_child_foreach(objs, qmp_query_cryptodev_foreach, &list);
+>> +
+>> +    return list;
+>> +}
+>>   
+>>   CryptoDevBackendClient *cryptodev_backend_new_client(void)
+>>   {
+>> diff --git a/qapi/cryptodev.json b/qapi/cryptodev.json
+>> index 8732a30524..940078ace0 100644
+>> --- a/qapi/cryptodev.json
+>> +++ b/qapi/cryptodev.json
+>> @@ -43,3 +43,47 @@
+>>   { 'enum': 'QCryptodevBackendType',
+>>     'prefix': 'QCRYPTODEV_BACKEND_TYPE',
+>>     'data': ['builtin', 'vhost-user', 'lkcf']}
+>> +
+>> +##
+>> +# @CryptodevBackendClient:
+>> +#
+>> +# Information about a queue of crypto device.
+>> +#
+>> +# @queue: the queue index of the crypto device
+>> +#
+>> +# @type: the type of the crypto device
+>> +#
+>> +# Since: 8.0
+>> +##
+>> +{ 'struct': 'CryptodevBackendClient',
+>> +  'data': { 'queue': 'uint32',
+>> +            'type': 'QCryptodevBackendType' } }
+>> +
+>> +##
+>> +# @CryptodevInfo:
+>> +#
+>> +# Information about a crypto device.
+>> +#
+>> +# @id: the id of the crypto device
+>> +#
+>> +# @service: supported service types of a crypto device
+>> +#
+>> +# @client: the additional infomation of the crypto device
+>> +#
+>> +# Since: 8.0
+>> +##
+>> +{ 'struct': 'CryptodevInfo',
+>> +  'data': { 'id': 'str',
+>> +            'service': ['QCryptodevBackendServiceType'],
+>> +            'client': ['CryptodevBackendClient'] } }
 > 
-> what was the motivation for this change? we generally just use int
-> unless width is important.
+> So we end up with both CryptodevBackendClient and
+> CryptoDevBackendClient. Please don't do this.
 > 
-Because we use uint32_t to describe the queues of a cryptodev:
-struct CryptoDevBackendPeers {
-     CryptoDevBackendClient *ccs[MAX_CRYPTO_QUEUE_NUM];
-     uint32_t queues;
-};
+>
 
-By the way, I also notice that 'int' and 'uint32_t' in several places, I 
-think I need a followup patch to fix this(use 'uint32_t' only for queue 
-index).
+Sorry, my fault, they should be *QCryptodevBackendClient* and 
+*QCryptodevInfo^.
 
->> - fix compling warning(gcc)/error(clang-11) on 32 bit platform in
->>    '0007-hmp-add-cryptodev-info-command.patch':
->>    use 'printf("%u", client->queue)' instead of 'printf("%ld", client->queue)'
->>
-> 
-> Are you aware of PRIu64? And if you are going to print uint32 use PRIu32
-> 
-OK, I'll fix this in the next version.
-
->> v2 -> v3:
->> - rebase code against the lastest commist: fb7e7990342e59cf67d
->> - document the missing fields in qapi/cryptodev.json
->> - rework statistics part: use 'query-stats' command instead of
->>    'query-cryptodev'(cryptodev: Support query-stats QMP command)
->>
->> v1 -> v2:
->> - fix coding style and use 'g_strjoin()' instead of 'char services[128]'
->>     (suggested by Dr. David Alan Gilbert)
->> - wrapper function 'cryptodev_backend_account' to record statistics, and
->>     allocate sym_stat/asym_stat in cryptodev base class. see patch:
->>     'cryptodev: Support statistics'.
->> - add more arguments into struct CryptoDevBackendOpInfo, then
->>     cryptodev_backend_crypto_operation() uses *op_info only.
->> - support cryptodev QoS settings(BPS&OPS), both QEMU command line and QMP
->>     command works fine.
->> - add myself as the maintainer for cryptodev.
->>
->> v1:
->> - introduce cryptodev.json to describe the attributes of crypto device, then
->>     drop duplicated type declare, remove some virtio related dependence.
->> - add statistics: OPS and bandwidth.
->> - add QMP command: query-cryptodev
->> - add HMP info command: cryptodev
->> - misc fix: detect akcipher capability instead of exposing akcipher service
->>     unconditionally.
->>
->> Zhenwei Pi (12):
->>    cryptodev: Introduce cryptodev.json
->>    cryptodev: Remove 'name' & 'model' fields
->>    cryptodev: Introduce cryptodev alg type in QAPI
->>    cryptodev: Introduce server type in QAPI
->>    cryptodev: Introduce 'query-cryptodev' QMP command
->>    cryptodev-builtin: Detect akcipher capability
->>    hmp: add cryptodev info command
->>    cryptodev: Use CryptoDevBackendOpInfo for operation
->>    cryptodev: Account statistics
->>    cryptodev: support QoS
->>    cryptodev: Support query-stats QMP command
->>    MAINTAINERS: add myself as the maintainer for cryptodev
->>
->>   MAINTAINERS                     |   2 +
->>   backends/cryptodev-builtin.c    |  42 ++--
->>   backends/cryptodev-lkcf.c       |  19 +-
->>   backends/cryptodev-vhost-user.c |  13 +-
->>   backends/cryptodev-vhost.c      |   4 +-
->>   backends/cryptodev.c            | 419 ++++++++++++++++++++++++++++++--
->>   hmp-commands-info.hx            |  14 ++
->>   hw/virtio/virtio-crypto.c       |  48 +++-
->>   include/monitor/hmp.h           |   1 +
->>   include/sysemu/cryptodev.h      |  95 ++++----
->>   monitor/hmp-cmds.c              |  41 ++++
->>   monitor/qmp-cmds.c              |   2 +
->>   qapi/cryptodev.json             | 143 +++++++++++
->>   qapi/meson.build                |   1 +
->>   qapi/qapi-schema.json           |   1 +
->>   qapi/qom.json                   |   8 +-
->>   qapi/stats.json                 |  10 +-
->>   17 files changed, 743 insertions(+), 120 deletions(-)
->>   create mode 100644 qapi/cryptodev.json
->>
+>> +
+>> +##
+>> +# @query-cryptodev:
+>> +#
+>> +# Returns information about current crypto devices.
+>> +#
+>> +# Returns: a list of @CryptodevInfo
+>> +#
+>> +# Since: 8.0
+>> +##
+>> +{ 'command': 'query-cryptodev', 'returns': ['CryptodevInfo']}
 >> -- 
 >> 2.34.1
 > 
