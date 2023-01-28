@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F374F67F718
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 11:27:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAE8967F71F
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 11:29:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLiPm-0004S7-DG; Sat, 28 Jan 2023 05:26:30 -0500
+	id 1pLiRw-0005G4-Cx; Sat, 28 Jan 2023 05:28:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiPj-0004Rw-6x
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:26:27 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiRr-0005F9-6x
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:28:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiPh-0003o5-DI
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:26:26 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pLiRn-0004AK-Vh
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 05:28:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674901584;
+ s=mimecast20190719; t=1674901714;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ka1vOq4LfjHSl0KhaSctRc/OaiwlQgu0FHYv27yfiXw=;
- b=WRKH5d44GEJnXO+7ylDfCqc9bwQE+rtaId0PeHoi+Jklv6L3pTNd3fVnXfRkCJ/bFLMpwx
- qTJ0bbjhFDyn0H4NQZEffrTnkuZtCH6DTmyO4p55HB9a0oMMiwC6DFuiBWwql9EM99bqkP
- fj3I1xcuJamlOPFQv0SSk8NxJytt1M8=
+ bh=onqBJLAeKWJ00rmW8PmLFuUlG7BY36S6l8hn+KpBJ40=;
+ b=ArVzU5VH3oZcSYXQhkplr/SN86R4bnCkjNvXH6FI9TJVSV5MIrY/7Q1/n/x/helCr8Wd8m
+ pm1l7ramWPK6IdqdHESQw5JpjPo3x1qROW4ZFoxaV8spRmkZBYfB7un36R0CkRyhoA1ra6
+ gXa1OMBoQJV0LgkXstwTDH4AY8EVo2Y=
 Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
  [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-111-TGu8wjWyM4G1QsgVcixHkA-1; Sat, 28 Jan 2023 05:26:17 -0500
-X-MC-Unique: TGu8wjWyM4G1QsgVcixHkA-1
+ us-mta-101-phyTuHwdMsqrHrGcPTzOqQ-1; Sat, 28 Jan 2023 05:28:33 -0500
+X-MC-Unique: phyTuHwdMsqrHrGcPTzOqQ-1
 Received: by mail-wm1-f72.google.com with SMTP id
- l19-20020a05600c1d1300b003dc13fc9e42so4193589wms.3
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 02:26:17 -0800 (PST)
+ h2-20020a1ccc02000000b003db1ded176dso2177116wmb.5
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 02:28:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ka1vOq4LfjHSl0KhaSctRc/OaiwlQgu0FHYv27yfiXw=;
- b=uNhfHFhywD963V4eNioi0EBE2sL7azfbohqLqD3Vse/LMgRNt6yLjJm993ICYC9Aau
- jpqQDvrGHdkd/XMGQ08sqNrdNoQMH3/kcUCc3hrBSN2fe+ruPpi7CZNsPnTt/Bygrnlw
- g1BLNRfq8RirPKV5eSWF3fzgo+7WJOXtvD/V0RtQAX0rvqP+BpWmEmW4YpA6piX9eC1j
- UH+ukX28jveqH9iDv00vWyzV4UH+0xBfw3dE9VodaztUkFZLC0f+mLE9ExwQnN0LRYa/
- pha7/phPZvSUBCQ3UGIH8/jUEkYZTD7vjVfSd/GmFEEpOaTD515zANL0HFGShB/3Yh4n
- p3tQ==
-X-Gm-Message-State: AO0yUKVfBP9KfwQFtKqluNR2AsOhdO1ub8mzuekU7j9aY9c+anOHkzWe
- 43TrwTai9hDyUwug7yGbmjLQBAl/uB2oidF5ZgGQS6sqMqR/G7+oWP8YcaYXMTZfu4iN1HLr7t8
- tdqq+zQsPFq+GXyA=
-X-Received: by 2002:a05:6000:12c6:b0:2bf:df72:fe03 with SMTP id
- l6-20020a05600012c600b002bfdf72fe03mr1055689wrx.70.1674901576060; 
- Sat, 28 Jan 2023 02:26:16 -0800 (PST)
-X-Google-Smtp-Source: AK7set8b2ti/gWPbjmkcayt8iuh0AStfnsvYss5Aj6vVblbw1eOBNUY6Si8tbAlR1i3POB10MV/ong==
-X-Received: by 2002:a05:6000:12c6:b0:2bf:df72:fe03 with SMTP id
- l6-20020a05600012c600b002bfdf72fe03mr1055670wrx.70.1674901575806; 
- Sat, 28 Jan 2023 02:26:15 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=onqBJLAeKWJ00rmW8PmLFuUlG7BY36S6l8hn+KpBJ40=;
+ b=WUq69ll1pe1beYO135/qEfHPBF2L4Xgk76D+Rl5h28PB5eqczqJ/2cEY7MsJFEZ824
+ E8RFSSOlFXqRE0CzeP58jsYm3gvsYIoQDpsvhNWb/LOkvyGPfTPEdWGwKm3CU3MELwIB
+ Xbxej8gZGFp2Hxqj9mGvuycknLLHbSOMDvIWFV4PpM9HuVlbHDpRkGSp8oRIBLfflGzM
+ pS9GT/roFFj/RO7X4Vj0IwcBYqnj+3e8BHEjYgqX+UsTLC0SIzTJTvHdbdGYLnID/BFY
+ wrzVaE6po4CLu0lQaMtqHWmHJElOO0UQXpKYTo3rN/9ElZFJLGIojQIfihEZqHRvWm8R
+ 74Lw==
+X-Gm-Message-State: AFqh2kpFqP3ibGVX+VK3MFHp7DxwvkpUAAAbXcd+oOL2EoMduy9G/CLp
+ Bi8Ch6wlZnwUWxsi0JxmFZG+Z0EFmIxgqqjdhFJmnNjt8OLJZBqTIyv0fZWT8fY+5v0xgujcxTN
+ 6HcGM1wk6yw3H2qU=
+X-Received: by 2002:a05:600c:4fd3:b0:3cf:7197:e68a with SMTP id
+ o19-20020a05600c4fd300b003cf7197e68amr40912375wmq.18.1674901711972; 
+ Sat, 28 Jan 2023 02:28:31 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXt3lUkHn8aJG6qvJP8kZYFw9zdQXqkr1X9X+WoFGy4L56cs6qzCQ1Ax+cxM/ct9NBtuqpx90w==
+X-Received: by 2002:a05:600c:4fd3:b0:3cf:7197:e68a with SMTP id
+ o19-20020a05600c4fd300b003cf7197e68amr40912341wmq.18.1674901711722; 
+ Sat, 28 Jan 2023 02:28:31 -0800 (PST)
 Received: from redhat.com ([2.52.20.248]) by smtp.gmail.com with ESMTPSA id
- h12-20020a056000000c00b002bdd96d88b4sm6277361wrx.75.2023.01.28.02.26.13
+ z24-20020a1cf418000000b003dc36981727sm4465426wma.14.2023.01.28.02.28.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Jan 2023 02:26:15 -0800 (PST)
-Date: Sat, 28 Jan 2023 05:26:11 -0500
+ Sat, 28 Jan 2023 02:28:31 -0800 (PST)
+Date: Sat, 28 Jan 2023 05:28:26 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Chuck Zmudzinski <brchuckz@aol.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- "Daniel P. Berrange" <berrange@redhat.com>,
- Markus Armbruster <armbru@redhat.com>, Michael Roth <michael.roth@amd.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH] pci: add enforce_slot_reserved_mask_manual property
-Message-ID: <20230128052506-mutt-send-email-mst@kernel.org>
-References: <ad5f5cf8bc4bd4a720724ed41e47565a7f27adf5.1673829387.git.brchuckz.ref@aol.com>
- <ad5f5cf8bc4bd4a720724ed41e47565a7f27adf5.1673829387.git.brchuckz@aol.com>
- <20230127082240-mutt-send-email-mst@kernel.org>
- <ddac019e-28bc-9e0b-c6d7-5bd54d0239f3@aol.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org, richard.henderson@linaro.org,
+ pbonzini@redhat.com, kwolf@redhat.com, hreitz@redhat.com,
+ imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
+ groug@kaod.org, qemu_oss@crudebyte.com, philmd@linaro.org,
+ peter.maydell@linaro.org, alistair@alistair23.me,
+ jasowang@redhat.com, jonathan.cameron@huawei.com,
+ kbastian@mail.uni-paderborn.de, quintela@redhat.com,
+ dgilbert@redhat.com, michael.roth@amd.com, kkostiuk@redhat.com,
+ tsimpson@quicinc.com, palmer@dabbelt.com, bin.meng@windriver.com,
+ qemu-block@nongnu.org, qemu-arm@nongnu.org, qemu-riscv@nongnu.org
+Subject: Re: [PATCH v4 01/19] scripts/clean-includes: Fully skip / ignore files
+Message-ID: <20230128052749-mutt-send-email-mst@kernel.org>
+References: <20230119065959.3104012-1-armbru@redhat.com>
+ <20230119065959.3104012-2-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ddac019e-28bc-9e0b-c6d7-5bd54d0239f3@aol.com>
+In-Reply-To: <20230119065959.3104012-2-armbru@redhat.com>
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -87,7 +88,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,57 +104,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 27, 2023 at 10:39:28PM -0500, Chuck Zmudzinski wrote:
-> On 1/27/2023 8:28 AM, Michael S. Tsirkin wrote:
-> > On Sun, Jan 15, 2023 at 07:49:51PM -0500, Chuck Zmudzinski wrote:
-> > > The current reserved slot check in do_pci_register_device(), added with
-> > > commit 8b8849844fd6
-> >
-> > add ("subject here") please
-> >
-> > > ,is done even if the pci device being added is
-> > > configured manually for a particular slot. The new property, when set
-> > > to false, disables the check when the device is configured to request a
-> > > particular slot. This allows an administrator or management tool to
-> > > override slot_reserved_mask for a pci device by requesting a particular
-> > > slot for the device. The new property is initialized to true which
-> > > preserves the existing behavior of slot_reserved_mask by default.
-> > > 
-> > > Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
-> >
-> > Thanks!
-> > I'm trying to think of the best default for this.
+On Thu, Jan 19, 2023 at 07:59:41AM +0100, Markus Armbruster wrote:
+> When clean-includes claims to skip or ignore a file, only the part
+> that sanitizes use of qemu/osdep.h skips the file.  The part that
+> looks for duplicate #include does not, and neither does committing to
+> Git.
 > 
-> I think it would be better for the default value of
-> enforce_slot_reserved_mask_manual to be false, so that a
-> user-specified slot will by default override slot_reserved_mask.
-> But doing that would change the current behavior of
-> slot_reserved_mask.
+> The latter can get unrelated stuff included in the commit, but only if
+> you run clean-includes in a dirty tree, which is unwise.  Messed up
+> when we added skipping in commit fd3e39a40c "scripts/clean-includes:
+> Enhance to handle header files".
 > 
-> Currently, this is the only place where slot_reserved_mask is used in all
-> of the Qemu source (code from hw/sparc64/sun4u.c):
+> The former can cause bogus reports for --check-dup-head.  Added in
+> commit d66253e46a "scripts/clean-includes: added duplicate #include
+> check", duplicating the prior mistake.
 > 
-> ------ snip -------
->     /* Only in-built Simba APBs can exist on the root bus, slot 0 on busA is
->        reserved (leaving no slots free after on-board devices) however slots
->        0-3 are free on busB */
->     pci_bus->slot_reserved_mask = 0xfffffffc;
->     pci_busA->slot_reserved_mask = 0xfffffff1;
->     pci_busB->slot_reserved_mask = 0xfffffff0;
-> ------ snip -------
+> Fix the script to fully skip files.
 > 
-> I think we could safely change the default value of
-> enforce_slot_reserved_mask_manual to false but set
-> it to true for the sparc64 sun4u board here to preserve
-> the current behavior of the only existing board in Qemu
-> that uses slot_reserved_mask.
-> 
-> What do you think?
+> Fixes: fd3e39a40ca2ee26b09a5de3149af8b056b85233
+> Fixes: d66253e46ae2b9c36a9dd90b2b74c0dfa5804b22
 
-I guess first can you answer whether this is still needed
-with the latest Xen patches?
+Isn't
+Fixes: %h (\"%s\")
 
--- 
-MST
+the accepted format for this?
+
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> ---
+>  scripts/clean-includes | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/scripts/clean-includes b/scripts/clean-includes
+> index d37bd4f692..86944f27fc 100755
+> --- a/scripts/clean-includes
+> +++ b/scripts/clean-includes
+> @@ -111,6 +111,7 @@ cat >"$COCCIFILE" <<EOT
+>  )
+>  EOT
+>  
+> +files=
+>  for f in "$@"; do
+>    case "$f" in
+>      *.c.inc)
+> @@ -144,6 +145,7 @@ for f in "$@"; do
+>        continue
+>        ;;
+>    esac
+> +  files="$files $f"
+>  
+>    if [ "$MODE" = "c" ]; then
+>      # First, use Coccinelle to add qemu/osdep.h before the first existing include
+> @@ -174,8 +176,8 @@ for f in "$@"; do
+>  
+>  done
+>  
+> -if [ "$DUPHEAD" = "yes" ]; then
+> -    egrep "^[[:space:]]*#[[:space:]]*include" "$@" | tr -d '[:blank:]' \
+> +if [ "$DUPHEAD" = "yes" ] && [ -n "$files" ]; then
+> +    egrep "^[[:space:]]*#[[:space:]]*include" $files | tr -d '[:blank:]' \
+>          | sort | uniq -c | awk '{if ($1 > 1) print $0}'
+>      if [ $? -eq 0 ]; then
+>          echo "Found duplicate header file includes. Please check the above files manually."
+> @@ -184,7 +186,7 @@ if [ "$DUPHEAD" = "yes" ]; then
+>  fi
+>  
+>  if [ "$GIT" = "yes" ]; then
+> -    git add -- "$@"
+> +    git add -- $files
+>      git commit --signoff -F - <<EOF
+>  $GITSUBJ: Clean up includes
+>  
+> -- 
+> 2.39.0
 
 
