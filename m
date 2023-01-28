@@ -2,71 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71E8967F602
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 09:15:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D27BD67F692
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 10:04:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLgMS-0003Fb-JI; Sat, 28 Jan 2023 03:14:58 -0500
+	id 1pLh7G-0001kA-O0; Sat, 28 Jan 2023 04:03:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+5966041548699f31a8b8+7097+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pLgJY-0005wz-1o
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 03:11:57 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pLh7C-0001jl-Fv
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 04:03:14 -0500
+Received: from mailout02.t-online.de ([194.25.134.17])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+5966041548699f31a8b8+7097+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pLgJJ-0007oT-Nx
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 03:11:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=HkP8eEFXpHo8zC/aiWZ/OzgN/wkw/6sdpJVcUvyIjkM=; b=f/wLoTIS8fb5LmH4ZIMYssHTly
- Izftq6l4u+sx4IZPUuOKtqbbAoAnop4Gm/axErIbsgjFNGpXpnpu7g4lIrfzPe4oBOwEOFhNTKruq
- iDDyfadaP1dpTeIi23NzyASXqnF4go8IOFrKgdd4KFIBdzEj0iOLLJLYwviAhJuG6JWL+FMbn5Hde
- 0IUh9n3XYh1pRYxFcG8+n4PUMWHm08rVnNiqV6kkJOTHl9tCLHGkQ9Ugb7w/7Koknpojrp5ApVVNc
- uyq/dp8TvhaAd08v+M/Upi59YhZ+Q/Ne0f5DbYvTESST0wxjTtuahfhVe2A57r5VW1JjDYYbueE0X
- zkM9cPxA==;
-Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pLgIz-008RLB-3M; Sat, 28 Jan 2023 08:11:21 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pLgIz-006mLh-0D; Sat, 28 Jan 2023 08:11:21 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [PATCH v9 58/58] kvm/i386: Add xen-evtchn-max-pirq property
-Date: Sat, 28 Jan 2023 08:11:13 +0000
-Message-Id: <20230128081113.1615111-59-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230128081113.1615111-1-dwmw2@infradead.org>
-References: <20230128081113.1615111-1-dwmw2@infradead.org>
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pLh79-0007bL-Fj
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 04:03:13 -0500
+Received: from fwd81.dcpf.telekom.de (fwd81.aul.t-online.de [10.223.144.107])
+ by mailout02.t-online.de (Postfix) with SMTP id 977711468C;
+ Sat, 28 Jan 2023 10:03:06 +0100 (CET)
+Received: from [192.168.211.200] ([79.208.25.151]) by fwd81.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1pLh73-1u89eD0; Sat, 28 Jan 2023 10:03:05 +0100
+Message-ID: <b08302bf-bd66-79c8-abcc-b511c99c7eb5@t-online.de>
+Date: Sat, 28 Jan 2023 10:03:05 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+Subject: Re: [PATCH 00/17] audio: improve callback interface for audio
+ frontends
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+References: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
+ <a671751a-cbb7-22c2-8840-0476176d2533@t-online.de>
+ <f7ce8516-fddd-543b-0f3c-b73a310b79a8@ilande.co.uk>
+Content-Language: en-US
+In-Reply-To: <f7ce8516-fddd-543b-0f3c-b73a310b79a8@ilande.co.uk>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+5966041548699f31a8b8+7097+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+X-TOI-EXPURGATEID: 150726::1674896585-1AFF7D98-D64BC28F/0/0 CLEAN NORMAL
+X-TOI-MSGID: e6e7f056-0013-4499-8f9b-48c5f89fc1e1
+Received-SPF: none client-ip=194.25.134.17; envelope-from=vr_qemu@t-online.de;
+ helo=mailout02.t-online.de
+X-Spam_score_int: -36
+X-Spam_score: -3.7
+X-Spam_bar: ---
+X-Spam_report: (-3.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H3=0.001,
+ RCVD_IN_MSPIKE_WL=0.001, SPF_HELO_NONE=0.001,
  SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,160 +70,317 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+Am 22.01.23 um 19:13 schrieb Mark Cave-Ayland:
+> On 15/01/2023 13:45, Volker Rümelin wrote:
+>
+>> Am 15.01.23 um 14:08 schrieb Volker Rümelin:
+>>
+>> Ccing a few more people who might be interested in this patch series.
+>>
+>> @Mark:
+>> After this patch series, the code in your out of tree ASC audio 
+>> device (and a few in tree audio devices) could be simplified. 
+>> write_audio() and the loops calling write_audio() could be removed.
+>
+> Hi Volker,
+>
+> I know we have discussed this in a separate thread off-list, but this 
+> is fantastic!
+>
+> Just out of interest, if the available bytes wraps the circular buffer 
+> will the audio core call the audio callback twice to maximise the 
+> ability of the guest to generate samples before the next audio timer? 
+> Or does that not make much difference in practice?
 
-The default number of PIRQs is set to 256 to avoid issues with 32-bit MSI
-devices. Allow it to be increased if the user desires.
+Hi Mark,
 
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
----
- accel/kvm/kvm-all.c       |  1 +
- hw/i386/kvm/xen_evtchn.c  | 21 +++++++++++----------
- include/sysemu/kvm_int.h  |  1 +
- include/sysemu/kvm_xen.h  |  1 +
- target/i386/kvm/kvm.c     | 34 ++++++++++++++++++++++++++++++++++
- target/i386/kvm/xen-emu.c |  6 ++++++
- 6 files changed, 54 insertions(+), 10 deletions(-)
+I guess with circular buffer you refer to the mixing engine buffer. The 
+audio system calls the callback once on every audio timer event. If the 
+available bytes wrap the mixing engine ringbuffer, the 
+audio_pcm_sw_resample_out() function uses two writes to write all 
+available bytes. Compared to the unpatched version, nothing has changed 
+in this regard. Of course the audio frontend devices are still free to 
+write 'avail' bytes with multiple calls to AUD_write().
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 9c0c964296..69be2b6e02 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -3705,6 +3705,7 @@ static void kvm_accel_instance_init(Object *obj)
-     s->notify_window = 0;
-     s->xen_version = 0;
-     s->xen_gnttab_max_frames = 64;
-+    s->xen_evtchn_max_pirq = 256;
- }
- 
- /**
-diff --git a/hw/i386/kvm/xen_evtchn.c b/hw/i386/kvm/xen_evtchn.c
-index 297fb6aab4..17a88823d6 100644
---- a/hw/i386/kvm/xen_evtchn.c
-+++ b/hw/i386/kvm/xen_evtchn.c
-@@ -301,17 +301,18 @@ void xen_evtchn_create(void)
-     }
- 
-     /*
--     * We could parameterise the number of PIRQs available if needed,
--     * but for now limit it to 256. The Xen scheme for encoding PIRQ#
--     * into an MSI message is not compatible with 32-bit MSI, as it
--     * puts the high bits of the PIRQ# into the high bits of the MSI
--     * message address, instead of using the Extended Destination ID
--     * in address bits 4-11 which perhaps would have been a better
--     * choice. So to keep life simple, just stick with 256 as the
--     * default, which conveniently doesn't need to set anything
--     * outside the low 32 bits of the address.
-+     * The Xen scheme for encoding PIRQ# into an MSI message is not
-+     * compatible with 32-bit MSI, as it puts the high bits of the
-+     * PIRQ# into the high bits of the MSI message address, instead of
-+     * using the Extended Destination ID in address bits 4-11 which
-+     * perhaps would have been a better choice.
-+     *
-+     * To keep life simple, kvm_accel_instance_init() initialises the
-+     * default to 256. which conveniently doesn't need to set anything
-+     * outside the low 32 bits of the address. It can be increased by
-+     * setting the xen-evtchn-max-pirq property.
-      */
--    s->nr_pirqs = 256;
-+    s->nr_pirqs = kvm_xen_get_evtchn_max_pirq();
- 
-     s->nr_pirq_inuse_words = DIV_ROUND_UP(s->nr_pirqs, 64);
-     s->pirq_inuse_bitmap = g_new0(uint64_t, s->nr_pirq_inuse_words);
-diff --git a/include/sysemu/kvm_int.h b/include/sysemu/kvm_int.h
-index 39ce4d36f6..a641c974ea 100644
---- a/include/sysemu/kvm_int.h
-+++ b/include/sysemu/kvm_int.h
-@@ -121,6 +121,7 @@ struct KVMState
-     uint32_t xen_version;
-     uint32_t xen_caps;
-     uint16_t xen_gnttab_max_frames;
-+    uint16_t xen_evtchn_max_pirq;
- };
- 
- void kvm_memory_listener_register(KVMState *s, KVMMemoryListener *kml,
-diff --git a/include/sysemu/kvm_xen.h b/include/sysemu/kvm_xen.h
-index 0b63bb81df..400aaa1490 100644
---- a/include/sysemu/kvm_xen.h
-+++ b/include/sysemu/kvm_xen.h
-@@ -26,6 +26,7 @@ void kvm_xen_inject_vcpu_callback_vector(uint32_t vcpu_id, int type);
- void kvm_xen_set_callback_asserted(void);
- int kvm_xen_set_vcpu_virq(uint32_t vcpu_id, uint16_t virq, uint16_t port);
- uint16_t kvm_xen_get_gnttab_max_frames(void);
-+uint16_t kvm_xen_get_evtchn_max_pirq(void);
- 
- #define kvm_xen_has_cap(cap) (!!(kvm_xen_get_caps() &           \
-                                  KVM_XEN_HVM_CONFIG_ ## cap))
-diff --git a/target/i386/kvm/kvm.c b/target/i386/kvm/kvm.c
-index 125eb11daf..59d5ec3e4b 100644
---- a/target/i386/kvm/kvm.c
-+++ b/target/i386/kvm/kvm.c
-@@ -5907,6 +5907,33 @@ static void kvm_arch_set_xen_gnttab_max_frames(Object *obj, Visitor *v,
-     s->xen_gnttab_max_frames = value;
- }
- 
-+static void kvm_arch_get_xen_evtchn_max_pirq(Object *obj, Visitor *v,
-+                                             const char *name, void *opaque,
-+                                             Error **errp)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+    uint16_t value = s->xen_evtchn_max_pirq;
-+
-+    visit_type_uint16(v, name, &value, errp);
-+}
-+
-+static void kvm_arch_set_xen_evtchn_max_pirq(Object *obj, Visitor *v,
-+                                             const char *name, void *opaque,
-+                                             Error **errp)
-+{
-+    KVMState *s = KVM_STATE(obj);
-+    Error *error = NULL;
-+    uint16_t value;
-+
-+    visit_type_uint16(v, name, &value, &error);
-+    if (error) {
-+        error_propagate(errp, error);
-+        return;
-+    }
-+
-+    s->xen_evtchn_max_pirq = value;
-+}
-+
- void kvm_arch_accel_class_init(ObjectClass *oc)
- {
-     object_class_property_add_enum(oc, "notify-vmexit", "NotifyVMexitOption",
-@@ -5939,6 +5966,13 @@ void kvm_arch_accel_class_init(ObjectClass *oc)
-                               NULL, NULL);
-     object_class_property_set_description(oc, "xen-gnttab-max-frames",
-                                           "Maximum number of grant table frames");
-+
-+    object_class_property_add(oc, "xen-evtchn-max-pirq", "uint16",
-+                              kvm_arch_get_xen_evtchn_max_pirq,
-+                              kvm_arch_set_xen_evtchn_max_pirq,
-+                              NULL, NULL);
-+    object_class_property_set_description(oc, "xen-evtchn-max-pirq",
-+                                          "Maximum number of Xen PIRQs");
- }
- 
- void kvm_set_max_apic_id(uint32_t max_apic_id)
-diff --git a/target/i386/kvm/xen-emu.c b/target/i386/kvm/xen-emu.c
-index 061cf367b5..34706ca033 100644
---- a/target/i386/kvm/xen-emu.c
-+++ b/target/i386/kvm/xen-emu.c
-@@ -1736,6 +1736,12 @@ uint16_t kvm_xen_get_gnttab_max_frames(void)
-     return s->xen_gnttab_max_frames;
- }
- 
-+uint16_t kvm_xen_get_evtchn_max_pirq(void)
-+{
-+    KVMState *s = KVM_STATE(current_accel());
-+    return s->xen_evtchn_max_pirq;
-+}
-+
- int kvm_put_xen_state(CPUState *cs)
- {
-     X86CPU *cpu = X86_CPU(cs);
--- 
-2.39.0
+With best regards,
+Volker
+
+>
+> I'm not too familiar with the audio subsystem, but a quick skim of the 
+> series looks good (and being able to remove the write_audio() loops is 
+> a big plus). So I would certainly give this a thumbs up:
+>
+> Acked-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>
+>
+> ATB,
+>
+> Mark.
+>
+>> With best regards,
+>> Volker
+>>
+>>> Based-on: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
+>>> ([PATCH 00/11] audio: more improvements)
+>>>
+>>> The callback interface for emulated audio devices is strange. The 
+>>> callback function has an 'avail' parameter that passes the number of 
+>>> bytes that can be written or read. Unfortunately, this value 
+>>> sometimes is only an imprecise estimate and the callback functions 
+>>> must check the actual bytes written or read. For playback devices, 
+>>> this means that they either need a ring buffer or have to write the 
+>>> unwritten bytes again the next time. For recording devices, things 
+>>> are a bit easier. They only need to continue with the actual number 
+>>> of bytes read.
+>>>
+>>> After this patch series, the 'avail' argument for the -audiodev 
+>>> out.mixing-engine=on and in.mixing-engine=on cases is exact. Audio 
+>>> frontends only need a linear frame buffer and there's a guarantee 
+>>> they can write or read 'avail' bytes.
+>>>
+>>> The -audiodev out.mixing-engine=off case is also mostly accurate. 
+>>> Only the D-Bus audio backend is still missing a required function. 
+>>> The -audiodev in.mixing-engine=off case always passes a much too 
+>>> large 'avail' value. I haven't worked on this yet, because there was 
+>>> no reason for it so far.
+>>>
+>>> The following logs show the improvements. Not only the audio 
+>>> frontends can write or read all needed or available bytes. The same 
+>>> is true for the audio backends. For playback, the first six lines in 
+>>> the logs are expected. Here you can see how quickly the guest fills 
+>>> the empty downstream buffers after playback starts.
+>>>
+>>> QEMU was started with -device ich9-intel-hda,addr=0x1b -device 
+>>> hda-duplex,audiodev=audio0 -audiodev 
+>>> pa,out.frequency=96000,in.frequency=96000,id=audio0
+>>>
+>>> playback guest 44100Hz => host 96000Hz
+>>>
+>>> unpatched version:
+>>> hda_audio_output_cb: to write 8188, written 1704
+>>> audio_run_out: free 4458, played 926
+>>> hda_audio_output_cb: to write 6488, written 2384
+>>> audio_run_out: free 3532, played 1297
+>>> hda_audio_output_cb: to write 4104, written 2648
+>>> audio_run_out: free 2235, played 1441
+>>> audio_run_out: free 794, played 793
+>>> audio_run_out: free 897, played 896
+>>> audio_run_out: free 831, played 829
+>>> ...
+>>> hda_audio_output_cb: could not write 4 bytes
+>>> hda_audio_output_cb: to write 1764, written 1760
+>>> audio_run_out: free 960, played 958
+>>> ...
+>>>
+>>> patched version:
+>>> hda_audio_output_cb: to write 8192, written 1620
+>>> audio_run_out: free 4458, played 880
+>>> hda_audio_output_cb: to write 6576, written 2508
+>>> audio_run_out: free 3578, played 1365
+>>> hda_audio_output_cb: to write 4068, written 2500
+>>> audio_run_out: free 2213, played 1360
+>>>
+>>> record host 96000Hz => guest 44100Hz
+>>>
+>>> unpatched version:
+>>> audio_run_in: avail 4458, acquired 4454
+>>> audio_run_in: avail 1574, acquired 1572
+>>> audio_run_in: avail 766, acquired 764
+>>> audio_run_in: avail 1052, acquired 1051
+>>> audio_run_in: avail 761, acquired 760
+>>> audio_run_in: avail 1123, acquired 1121
+>>> ...
+>>> hda_audio_input_cb: could not read 4 bytes
+>>> hda_audio_input_cb: to read 1988, read 1984
+>>> audio_run_in: avail 1082, acquired 1080
+>>> ...
+>>>
+>>> patched version:
+>>> (no output)
+>>>
+>>> QEMU was started with -device ich9-intel-hda,addr=0x1b -device 
+>>> hda-duplex,audiodev=audio0 -audiodev 
+>>> pa,out.frequency=32000,in.frequency=32000,id=audio0
+>>>
+>>> playback guest 44100Hz => host 32000Hz
+>>>
+>>> unpatched version:
+>>> hda_audio_output_cb: to write 8188, written 1620
+>>> audio_run_out: free 1486, played 294
+>>> hda_audio_output_cb: to write 6568, written 2512
+>>> audio_run_out: free 1192, played 455
+>>> hda_audio_output_cb: to write 4060, written 2504
+>>> audio_run_out: free 737, played 455
+>>> audio_run_out: free 282, played 281
+>>> audio_run_out: free 357, played 356
+>>> audio_run_out: free 314, played 313
+>>> ...
+>>> hda_audio_output_cb: could not write 4 bytes
+>>> hda_audio_output_cb: to write 1416, written 1412
+>>> audio_run_out: free 257, played 256
+>>> ...
+>>>
+>>> patched version:
+>>> hda_audio_output_cb: to write 8192, written 1656
+>>> audio_run_out: free 1486, played 300
+>>> hda_audio_output_cb: to write 6536, written 2516
+>>> audio_run_out: free 1186, played 457
+>>> hda_audio_output_cb: to write 4020, written 2540
+>>> audio_run_out: free 729, played 460
+>>>
+>>> record host 32000Hz => guest 44100Hz
+>>>
+>>> unpatched version:
+>>> audio_run_in: avail 1486, acquired 1485
+>>> audio_run_in: avail 272, acquired 271
+>>> audio_run_in: avail 366, acquired 365
+>>> hda_audio_input_cb: could not read 4 bytes
+>>> hda_audio_input_cb: to read 1420, read 1416
+>>> audio_run_in: avail 258, acquired 257
+>>> audio_run_in: avail 375, acquired 374
+>>> hda_audio_input_cb: could not read 4 bytes
+>>> hda_audio_input_cb: to read 2056, read 2052
+>>> audio_run_in: avail 260, acquired 259
+>>> ...
+>>>
+>>> patched version:
+>>> (no output)
+>>>
+>>> This is the debug code for the logs above.
+>>>
+>>> ---snip--
+>>> --- a/audio/audio.c    2022-12-13 19:14:31.793153558 +0100
+>>> +++ b/audio/audio.c    2022-12-11 16:24:48.842649711 +0100
+>>> @@ -1228,6 +1228,10 @@ static void audio_run_out (AudioState *s
+>>>  #ifdef DEBUG_OUT
+>>>          dolog("played=%zu\n", played);
+>>>  #endif
+>>> +        if (hw_free - played) {
+>>> +            fprintf(stderr, "%s: free %zu, played %zu\n",
+>>> +                    __func__, hw_free, played);
+>>> +        }
+>>>
+>>>          if (played) {
+>>>              hw->ts_helper += played;
+>>> @@ -1318,6 +1322,7 @@ static void audio_run_in (AudioState *s)
+>>>              if (sw->active) {
+>>>                  size_t sw_avail = audio_get_avail(sw);
+>>>                  size_t avail;
+>>> +                size_t prev_acquired = sw->total_hw_samples_acquired;
+>>>
+>>>                  avail = st_rate_frames_out(sw->rate, sw_avail);
+>>>                  if (avail > 0) {
+>>> @@ -1325,6 +1330,11 @@ static void audio_run_in (AudioState *s)
+>>> sw->callback.fn(sw->callback.opaque,
+>>>                                      avail * sw->info.bytes_per_frame);
+>>>                  }
+>>> +
+>>> +                if (sw_avail + prev_acquired - 
+>>> sw->total_hw_samples_acquired) {
+>>> +                    fprintf(stderr, "%s: avail %zu, acquired 
+>>> %zu\n", __func__,
+>>> +                            sw_avail, sw->total_hw_samples_acquired 
+>>> - prev_acquired);
+>>> +                }
+>>>              }
+>>>          }
+>>>      }
+>>> --- a/hw/audio/hda-codec.c    2023-01-04 14:07:31.954304889 +0100
+>>> +++ b/hw/audio/hda-codec.c    2023-01-04 13:57:47.687320406 +0100
+>>> @@ -265,20 +265,28 @@ static void hda_audio_input_cb(void *opa
+>>>      int64_t rpos = st->rpos;
+>>>
+>>>      int64_t to_transfer = MIN(B_SIZE - (wpos - rpos), avail);
+>>> +    unsigned int total_read = 0;
+>>>
+>>>      while (to_transfer) {
+>>>          uint32_t start = (uint32_t) (wpos & B_MASK);
+>>>          uint32_t chunk = (uint32_t) MIN(B_SIZE - start, to_transfer);
+>>>          uint32_t read = AUD_read(st->voice.in, st->buf + start, 
+>>> chunk);
+>>>          wpos += read;
+>>> +        total_read += read;
+>>>          to_transfer -= read;
+>>>          st->wpos += read;
+>>>          if (chunk != read) {
+>>> +            fprintf(stderr, "%s: could not read %u bytes\n", __func__,
+>>> +                    chunk - read);
+>>>              break;
+>>>          }
+>>>      }
+>>>
+>>>      hda_timer_sync_adjust(st, -((wpos - rpos) - (B_SIZE >> 1)));
+>>> +    if (avail != total_read) {
+>>> +        fprintf(stderr, "%s: to read %d, read %u\n", __func__,
+>>> +                avail, total_read);
+>>> +    }
+>>>  }
+>>>
+>>>  static void hda_audio_output_timer(void *opaque)
+>>> @@ -329,6 +337,7 @@ static void hda_audio_output_cb(void *op
+>>>      int64_t rpos = st->rpos;
+>>>
+>>>      int64_t to_transfer = MIN(wpos - rpos, avail);
+>>> +    unsigned int total_written = 0;
+>>>
+>>>      if (wpos - rpos == B_SIZE) {
+>>>          /* drop buffer, reset timer adjust */
+>>> @@ -343,15 +352,22 @@ static void hda_audio_output_cb(void *op
+>>>          uint32_t start = (uint32_t) (rpos & B_MASK);
+>>>          uint32_t chunk = (uint32_t) MIN(B_SIZE - start, to_transfer);
+>>>          uint32_t written = AUD_write(st->voice.out, st->buf + 
+>>> start, chunk);
+>>> +        total_written += written;
+>>>          rpos += written;
+>>>          to_transfer -= written;
+>>>          st->rpos += written;
+>>>          if (chunk != written) {
+>>> +            fprintf(stderr, "%s: could not write %u bytes\n", 
+>>> __func__,
+>>> +                    chunk - written);
+>>>              break;
+>>>          }
+>>>      }
+>>>
+>>>      hda_timer_sync_adjust(st, (wpos - rpos) - (B_SIZE >> 1));
+>>> +    if (avail != total_written) {
+>>> +        fprintf(stderr, "%s: to write %d, written %u\n", __func__,
+>>> +                avail, total_written);
+>>> +    }
+>>>  }
+>>>
+>>>  static void hda_audio_compat_input_cb(void *opaque, int avail)
+>>> ---snip--
+>>>
+>>> Volker Rümelin (17):
+>>>   audio: change type of mix_buf and conv_buf
+>>>   audio: change type and name of the resample buffer
+>>>   audio: make the resampling code greedy
+>>>   audio: replace the resampling loop in audio_pcm_sw_write()
+>>>   audio: remove sw == NULL check
+>>>   audio: rename variables in audio_pcm_sw_write()
+>>>   audio: don't misuse audio_pcm_sw_write()
+>>>   audio: remove unused noop_conv() function
+>>>   audio/mixeng: calculate number of input frames
+>>>   audio: wire up st_rate_frames_in()
+>>>   audio: replace the resampling loop in audio_pcm_sw_read()
+>>>   audio: rename variables in audio_pcm_sw_read()
+>>>   audio/mixeng: calculate number of output frames
+>>>   audio: wire up st_rate_frames_out()
+>>>   audio: handle leftover audio frame from upsampling
+>>>   audio/audio_template: substitute sw->hw with hw
+>>>   audio: remove sw->ratio
+>>>
+>>>  audio/audio.c          | 366 +++++++++++++++++++++--------------------
+>>>  audio/audio_int.h      |  12 +-
+>>>  audio/audio_template.h |  41 +++--
+>>>  audio/mixeng.c         |  73 ++++++++
+>>>  audio/mixeng.h         |   2 +
+>>>  audio/rate_template.h  |  21 ++-
+>>>  6 files changed, 304 insertions(+), 211 deletions(-)
+>>>
+>>
+>>
+>
 
 
