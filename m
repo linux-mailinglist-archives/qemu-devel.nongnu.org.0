@@ -2,99 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69FE567F7F9
-	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 14:22:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30CEC67FB06
+	for <lists+qemu-devel@lfdr.de>; Sat, 28 Jan 2023 21:55:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLl8t-0001gO-Pl; Sat, 28 Jan 2023 08:21:15 -0500
+	id 1pLsEQ-0003om-Vb; Sat, 28 Jan 2023 15:55:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pLl8q-0001gB-GX
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 08:21:12 -0500
-Received: from sonic312-23.consmr.mail.gq1.yahoo.com ([98.137.69.204])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pLl8l-0000Pj-5L
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 08:21:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
- t=1674912061; bh=v3KX3vA5DfTtOLzzanNJVX6ioMD/X5Ike2f4Ruvxijk=;
- h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To;
- b=MFB+IJ/Z5jxutZ3iLPpd2tNEbo2R/aJmMIrl6R+NgpU+TOABe294R7pFKncq4iSwmkbuVLXOCP7yZMAC7VExQD2RhlmC684xY2CfeMGxYToU9D78grfvCc8vF4Yhwk8AZR5vEE8/cybQdxuNbUiq99Sk0MFT0vowG2UReQ+JSfyAlFZZw6NpNxIaUhJ1meiahXl9mCZXy6Haid0c2fMIjrcsi+fN8oO5kBwmDYcGdUert6awrr6l07v5rtoVYV02ihgQOqnBUpSMkOyQWMBaN3zNUl4j/qfrithRVNsltDs6DZQ//w1MAOO+fGu6KlAdvMNRpKBkZYmwwQWFdGam8A==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
- t=1674912061; bh=fBFv2fyDdvm7nynRRQbAP6rM8bF7M1NHsjIo4YiZmja=;
- h=X-Sonic-MF:Date:Subject:To:From:From:Subject;
- b=shOV+FHUh1LlFGzpmNyAqnUj+oXZQvnO2rGGGbqmvYzPOR+HJITDygllJEZa5CJIh+V5QUx8VgaoEKEunUX8/mYg/YBsTEp2yjrenmBKIoUhmn9fFVg7Neb5iMSSu57Tzet7qGje8YoamWmW8TdtmhBNYz0gH5NWd23psYc7LwdjT5NlY27j4LvAK419EM/GYUeDCoLH5urrhjk1RSqrVvtivvKZbTbNlDe5gf4Q90jTMbj1lcJgcd3/a6HeWVvgs9lFmZ9++htq2j6jRFrH+Js7OfIm1zoVlqPp8s3tOxnAyDFjUMurjtw5bF8mSAw6VNcfgDCVNA0cx4it+asbdg==
-X-YMail-OSG: sdT3TtUVM1nb0S5qHMlsGW6SvY5klmGMUWf8cGCuAGQXjzo.uoOjlNIrwj8ppvx
- K6bd_rQifQySNPfyhLSTTGwoZVD.i5SkhMOgtSEQ2YJVjGBVAY29oaZ2DmQJ96k7PwhaZNnW1dpd
- si37MGLXwSvtBh2MxqdwEzMic9l7zRcm4y5RhP3diFFHD6oawYmgGqQ0CZkP39yk6pj53J02viOM
- 4gORUhr_bR_dJHHx7h4kWBDVKT6TD5yTQ52jr7QxU8rdIUuA9R_7DvW.z2EzNN9SeYRTJTXm4WAk
- 5hq4WUJla3t5A_NH3T6KbHM_gxr28.liLZNR0K3PPh5_1PfTqdLJ8NLpg7pJ_TlBhuscTIAkT0oy
- ldZJWTaMC29A3Xu5yUsVo0650A.kSXxoOBlvbXXUTdFVGfA3feRuql4fSaeQvlFH2UYHpRPVsTzi
- EFTJVrZ.MfK3l7u8jwIuJpTBD93vKrmpmJE23I4dfnivrS0jguaeFi0yUFt1.Gl6FvhJ0LB2Lb3I
- SDguIKec3HiY7YQGV1rxoKKZ04neFUUBfck9N92w3Q.vSdn6HFy7KGecIbqPvMcfIieANvyS0B6I
- sVi6m1KPHtO0x2Bdcrjd3hRaVjENy1AsSxi6CriZXt.2hapW3Scmm0KG453Slpe4kM.q3M5mMrmd
- RhpVrfA0Z3JlMTM3TWnm_Z3BUilRpWIQ35MWfhjJf5OlpfuRc0m_cB5l0fcIwOL6eRmf4YZt_X3U
- QVbkOqq_o9Pm2OmQ9f1a.S0A9ngdL5mG.mnJlGHcTxe1qv_8bfY7EuhKdw_VScxDUoNmzeP9CCyg
- AxPyV7phJGtZRjoCEluEaL2Et0xVZWtpfap4eG8eI.qV4gyQv7Yj9guYqi06VUe4APT.MfZYF9Xx
- GLB7MzUEL2bvNXHIjAwBncqojRTq5HTORoqdcUV7bqNT_SYmInhi.APWklNrYinLiEeU0P5s0FLB
- P7MhkZFVeN4WzEGW9DJZ6j5MHh40qYmglKfOKPgQ41xXLLD4KrWgXGu0oKbmsBwPYQSz42LsVQEX
- xxFBZEps5L8wBC7ZzvPIOZe4xtSDLVgLtY9IZYIS8x4dNryfti3MutLBzafMKiyXsERh2NqIxbLo
- 1usWPxZ1B6xn9AcH8XQjNY4Br6mGfuBC1FOfKYiY0erhMN.g1NnSsDK4249ESLcCZYNAPlpdARSa
- wzntsPsR1pDK6_0qKPAqZ68DJSDLaiOQKYCIqaLWWPecAnWR5C3LIKdPoaMYZlM6utAvTOMf1pYU
- 7kGmbFhy8ofbqUzWhXcTTnnA4cuhtBKlfJwF1vsR13UYBVKEPCAHsMrNFoJewYzg5mDFTxfgmqPW
- QyJmD1xaDbrW2bc_YY.25DBjmID3jeSjeV_IAcZRirjnfzEMcgQTifl2nSFNmApNlVuqWXkg3tb0
- DjZL4IkCpe21RtEO3pJmqyZnJjs0Dpr6jVOHVOlX5pV8nBOSOC5kKqJN3gYiRpdoUDq_7PJibnGy
- zCGyXIB98Q6QdxfbFonnhzTAdDZU4b8ABjsltcsJUc7qt.oH6LeSWlBxkPjDNqulh6VwhNfvFxbT
- ftnIfA197CG0uvYlHd2p4IqPNxNxoQuU.SWct9H7hPjCVcKsA_HIClZH9CgbOmsuwNDxE9jJRvuW
- fqQ2Zv94MTO874EW_fOUslpks4wYfuCly9OJ.WwwCBJ1f3sZkhBTaqTrtdYepam8u3LGC21dHfue
- m0VEBqHs0ZSDEN89HIhCXt_GFba6zWQm4PrzlPZZ.ic6WBDhhZ9xbNLIITQyDYcRJrVUFkwybSny
- .vCafFAAQ1ehGnDFpNkaSSQLay4jxwLMBRwTEkzBfvGzFMjmcP2pLYISEE9kXAwWz0SW4jGXun4g
- pDq7h._ChIx3L2SLJXTKGj8n7Hu.U92uBw1wnbsKUgc9a_4TNpIsTv4b1sxXqqWoSrJB5uOTFwOX
- u9wu6ZbTDTSL4u8Y5z3wnnRLbctW4uvgBNTTvSy9e34MK2qbb_egw.xfHjLP73.B6ClfnGeQxX8.
- JIk82vSrhHXrLv.0qXqsQSyIYDzZAyZn4BwHu3RWD5KMQ8pMAvmbVJZlbuMGnccoJartxKXaHoF3
- hZUVbhvit5AA_e1CyAMd5GSLjyQU_vwL_LZijgUL.bzhEaFg6oBo7VQVbQjPui1KYgioQcu9HgOQ
- QiZheGLoDo9blSeyuTznPOF7jkUfFmK7HCBeg21pgf.NiBWqgnL752_mvn0jKPNuVWO9IA8aX8B.
- t5exwOzn3
-X-Sonic-MF: <brchuckz@aim.com>
-Received: from sonic.gate.mail.ne1.yahoo.com by
- sonic312.consmr.mail.gq1.yahoo.com with HTTP; Sat, 28 Jan 2023 13:21:01 +0000
-Received: by hermes--production-bf1-57c96c66f6-p9vmd (Yahoo Inc. Hermes SMTP
- Server) with ESMTPA ID cb26f56b7e350b359bbd0f4358fb1511; 
- Sat, 28 Jan 2023 13:20:57 +0000 (UTC)
-Message-ID: <56643500-7bdd-8204-0529-fa004ab10a44@aol.com>
-Date: Sat, 28 Jan 2023 08:20:55 -0500
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] pci: add enforce_slot_reserved_mask_manual property
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>, "Daniel P. Berrange"
- <berrange@redhat.com>, Markus Armbruster <armbru@redhat.com>,
- Michael Roth <michael.roth@amd.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-References: <ad5f5cf8bc4bd4a720724ed41e47565a7f27adf5.1673829387.git.brchuckz.ref@aol.com>
- <ad5f5cf8bc4bd4a720724ed41e47565a7f27adf5.1673829387.git.brchuckz@aol.com>
- <20230127082240-mutt-send-email-mst@kernel.org>
- <ddac019e-28bc-9e0b-c6d7-5bd54d0239f3@aol.com>
- <20230128052506-mutt-send-email-mst@kernel.org>
-Content-Language: en-US
-From: Chuck Zmudzinski <brchuckz@aol.com>
-In-Reply-To: <20230128052506-mutt-send-email-mst@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pLsEP-0003oP-A5
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 15:55:25 -0500
+Received: from mail-db8eur05hn2211.outbound.protection.outlook.com
+ ([52.100.20.211] helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pLsEN-00062E-Oi
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 15:55:25 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ne/sbjIU6nID3ooUJc8keIh9yDXoNt71Zv537uqfKSxCqhsFbciXRIYt6KwHjrm6DXURJLwA1vFv9DobLFDZTQb56OIbBpSTaW7dymf/0TT1c6KikkGutHPGrKubwJDDapXNkmcIBNxT0vaK+RfLLM3Iq6jkgkyTbsRELFVbtDkrfwxmzV74KqmvprOrJIs9E4dfRtEscroVYES8esD8XCmotW9YfRw0h4yUrFp32BQtOjz/65UPsCT9mF74DzXiueApcR8CKSt/Glkxz71ukE0enGVNLHL5fU6CAn3eQmphEq3+t3iMaWo2jfJ+lV6L6um1IyR0DbI2tp7sCc+sAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EUZfMjtgU6ZQw9MsWLWz1QLw4h/ZiYXkx3n1mIiAzFc=;
+ b=VRAFnWkqf/UBsr/Ufv6vrZ8lXxuGWXMm+AUYTM57fKlfcHJMka2W/6uBSl4Hhl/Zz8tpkp3Xb6wTidsr86Xu6WRKIGvnRovLOXTv2lHvHwaU96qGr7ANd9ifKDzBRLKRJ69t9fZH+8kFGvOEXZg2A4Q8cGnL9VVLI2W+Zacrw3bU5fa1OKLZKPv8BJH8T4yYRPfuo9x+ENtJpBwercJxtPTDidrcFOhs4IG86Kf/sJ38bOE408+9q+AbuMKNe7YRoVkgDRADth3pLT1PCMUbkODINSqhLQRbVjqXYpsHbwlm8vOx0ZXbArWBhHRmICLLGVtpuHDbIc+Ap03A9m99eQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
+ s=selector2-estab-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EUZfMjtgU6ZQw9MsWLWz1QLw4h/ZiYXkx3n1mIiAzFc=;
+ b=fg+OWT7OsX1fawwyaZiP1sAt9S+OstzVCu/jVPZ/ng1RSG7ZCNCWKRcW4zKq1dQegP+fwOC9C/x79bD/ePm4yvE4GisIabPcZ5lxYo8Nak9r4pG+7fBmcHyWFOCH6mlYIYuUamsdQDjGRsE6S9EGmM46rIgFBKqkFtItLqOIXJg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
+ by AM7P189MB0661.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:116::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.30; Sat, 28 Jan
+ 2023 20:50:19 +0000
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::8f70:435b:ab64:9420]) by DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::8f70:435b:ab64:9420%9]) with mapi id 15.20.6043.030; Sat, 28 Jan 2023
+ 20:50:18 +0000
+From: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+To: 
+Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Subject: [PATCH 0/9] igb: add missing feature set from
+Date: Sat, 28 Jan 2023 14:46:24 +0100
+Message-Id: <20230128134633.22730-1-sriram.yagnaraman@est.tech>
+X-Mailer: git-send-email 2.34.1
 Content-Transfer-Encoding: 8bit
-X-Mailer: WebService/1.1.21123
- mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
-Received-SPF: pass client-ip=98.137.69.204; envelope-from=brchuckz@aim.com;
- helo=sonic312-23.consmr.mail.gq1.yahoo.com
-X-Spam_score_int: -26
-X-Spam_score: -2.7
-X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.15,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.249, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain
+X-ClientProxiedBy: GVYP280CA0045.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:f9::14) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:10:1e7::15)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBP189MB1433:EE_|AM7P189MB0661:EE_
+X-MS-Office365-Filtering-Correlation-Id: dfd70539-dffe-438e-3439-08db017143c7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: foi1fBgR1L2CA+FY7nFN7rB1CBRtnfKV7o5vV8O65m5vaauHY67hZgdRlt1pqEvvZKJf2o9gUxf041PAjugb55zpZOeWQdjjmmAA/elG6YB6gqi7ZLSJK2j5LqnxELpM5B7oVpOWdDggEVoy1VE3hZ8nbyfbzjurMmL/0vHAiFEbY4crGC5wEwdDe9xFyxySd7uXKoF++nyrEjQNuMuUmzmbzP3Oj/zH3xD1XEcG7496qSJ7bGy07zFpQbhC53j/fmhw0v8w+o8VVfV/1voyG/x3BQqeRwOO91aqTkKhePXSYW0XZJTAc/69pnw+dG113qy4w93/KeQMo4MFz8f3JRBvxOWK2u6j7oFSeZzS+TJZswSro/zi3zinkRqlc1TRj4lWa8ZzCozOsQCTXThbzqmCXSpJLwkBI/1xU1OpTQb/xkVcFsUU+DCuvhHWdCH06YrcqVnjGzFCEFCHe779Be99dZ+nQyjTTE0ZHLhOvgabPIhMEjjEoPfXMcuJ9ornJVXf5//f18UBDQaRcy4tXw3D/ZGJCfqg1+6S4vy17M5Ndhylx4NvP8PTDuemL/DBm1iiLqZ+twWz2rfLP98ndvg6zpLo7uTLs/GTdIiL/HbhIH5vHDwvJazshquVxFeXFdeRu8pFG3SSV4DOosDUZgb5nVvYk6CICGXV+289j7rdxh1fHg6eWYL1g82BodKGW9CJ66COscZv0qbnnFH0Qyn3L+PDNV7xkGys1NuBJB8O75fXC75byBXdnXOdMVmW
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230025)(39830400003)(396003)(346002)(376002)(136003)(34036004)(109986016)(451199018)(8936002)(41300700001)(86362001)(2616005)(83380400001)(810100004)(38100700002)(41320700001)(316002)(8676002)(54906003)(36756003)(4326008)(66556008)(66476007)(70586007)(66946007)(1076003)(6506007)(6666004)(6512007)(26005)(186003)(6486002)(508600001)(966005)(44832011)(2906002)(4744005)(5660300002)(266003)(37730700002);
+ DIR:OUT; SFP:1501; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tv8t+Fb0dlu4lNfFzoN6ZYpYtZm0R42Va9Djx1+2Ku10gkJjmTtCZQqUdGHv?=
+ =?us-ascii?Q?7Qqo/VFv0s5iHMwbrfGN/CccPFAie1m2fVm836S7kdZrM9gXFmRIQv12xj7h?=
+ =?us-ascii?Q?Z6o1cgRfg1jleohx1v5IYsNLgalhiCqJvkobyLq+I9FbUhQsG5VVq6GW/ioV?=
+ =?us-ascii?Q?fudGNEj2Lr25HZcm2C9yHC3gbh5zxvH5vzhxLHO+ksPFpTZ8mwQpK+DJM6RF?=
+ =?us-ascii?Q?LPT3NcTW3n8V6PkjeJ8dVCebS03rTf2HT1MG6GHRnHIRs6+zzcZLRMaF9dyq?=
+ =?us-ascii?Q?8uzRVoXhCCInYQOrkcefjqFXXEo2RMpLBD9M5K/kELDQqaB64CHMX7tNIumN?=
+ =?us-ascii?Q?uoTbmk0XFq469U5odvwRh3xyrT6T7xicMLhN3XR7ZuV7S4i3VamSeoSwXhRo?=
+ =?us-ascii?Q?ytjzkn+S9L5YMpjgKMZRxiSTGMk3GmIN2GQ2faHF3iswgHJ+Bm+zA9pv26Dd?=
+ =?us-ascii?Q?1xlQ6wftyNp9hK9s45AEnYLX4E9wuywplmuuRb7DcrVJIKgC7hXKe+JlhQGq?=
+ =?us-ascii?Q?1b3qLjwHiOSbqYbw0ulSBTsmkCVuYzKBRXuxvaUHWUIvm0FEOTz6pik2eKbm?=
+ =?us-ascii?Q?qZfaHrebftOAcXxpQlKdjsonicBzQPGRXTOzzw+m7uIGAadMe0wpyZ/gwxSd?=
+ =?us-ascii?Q?fAov3XB89uNHE180oyoR06AWieGrSSE2O3T0y+P7axCEuUfdNT4/xl9owcip?=
+ =?us-ascii?Q?GPz+uG6c11bT12E4ulXE+zLsM4DngvH3bEvH5KJQ9+BSfNmU8UAhtETVTjxH?=
+ =?us-ascii?Q?QS1+CBi2end0piHIA5XkTwULuUPDX6jijChO1IuY8V5zXtiHT47rDL3nlD3R?=
+ =?us-ascii?Q?+X8YwymB9YyWA5LsK7JOhxRzFq0D3hVBxEzJRVYVKS9b4ho8AbcJ8v1l0mZo?=
+ =?us-ascii?Q?5UcDluVWuY/sJ7qkxdM/iZqmEQr/U/etHwt5Cku3uRdAN0fd5Z6BrQbR1gEQ?=
+ =?us-ascii?Q?8vfGIMh3zKL+OyPei0R+Stt354Obg449bmpC+rrTRo9mVF2zf2eaScyVcloV?=
+ =?us-ascii?Q?vV6YPf7x7VDt9DSCG3dxaQLFWEC2Rolqvb36rE8bDAiLAzrJ+g2eZysJpYM+?=
+ =?us-ascii?Q?4C6kZTMqS9IyZpq0LAYChCt+yc3YFp5qBwMBLCZ7zQr21I9JDW7bma292c9s?=
+ =?us-ascii?Q?IZL3o2nALeqfvmYZOOYMrOZzFrM78kPdiiWoC+lqSbFLr3NAST7M4DdizV+K?=
+ =?us-ascii?Q?ceauEMIR6V30HHl2XpOVRE56ntV8jJWfXBxIxC+CIGKpBXMk/bnsveOvb1PO?=
+ =?us-ascii?Q?46lQhBK4ZCVx3bbjTIwdt0t/W0f0CrJdaIT4W45T4XXdRVy054IaU/vAcSE4?=
+ =?us-ascii?Q?zanyJb5ms6HgOyCAoAowXPz0Mbj3BeJYamWmqfk5+DIg6AZGXdrUfawXYosN?=
+ =?us-ascii?Q?QXDrQmWqCobqVCo7esAuOUBpcduuQXfzDmGcKFihhk6etX/LWrI+Ct04rvgF?=
+ =?us-ascii?Q?ByknR6SE43bSayHOKKhiyTVIgGP1sVuRFkn6aj/GasxM4icFEZARTVAFth7R?=
+ =?us-ascii?Q?BhvwDpycjv8tIcawUeGxzXn2G9MWlS8gBfhpBj95T9RtLwSsh6s6xAZ1NfQ6?=
+ =?us-ascii?Q?rahadcQLz2TN209wW5uj4Oy66cU06jhOtxWdSQ42lxSJUOWju5XO6n28gBAu?=
+ =?us-ascii?Q?7Q=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: dfd70539-dffe-438e-3439-08db017143c7
+X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Jan 2023 20:50:18.4847 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: STUoEgPgxVOXP/Bc2DJlGaiJRGO2wdHTRWqHTBMlH4QWktUlW+tSY5kpgbFtmqKuHRq0+NHWDizP4xStobgRHhMBRnzk2A4w/Lwk8OO/g8Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7P189MB0661
+Received-SPF: pass client-ip=52.100.20.211;
+ envelope-from=sriram.yagnaraman@est.tech;
+ helo=EUR05-DB8-obe.outbound.protection.outlook.com
+X-Spam_score_int: -3
+X-Spam_score: -0.4
+X-Spam_bar: /
+X-Spam_report: (-0.4 / 5.0 requ) BAYES_00=-1.9, DATE_IN_PAST_06_12=1.543,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,70 +138,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/28/23 5:26 AM, Michael S. Tsirkin wrote:
-> On Fri, Jan 27, 2023 at 10:39:28PM -0500, Chuck Zmudzinski wrote:
->> On 1/27/2023 8:28 AM, Michael S. Tsirkin wrote:
->> > On Sun, Jan 15, 2023 at 07:49:51PM -0500, Chuck Zmudzinski wrote:
->> > > The current reserved slot check in do_pci_register_device(), added with
->> > > commit 8b8849844fd6
->> >
->> > add ("subject here") please
->> >
->> > > ,is done even if the pci device being added is
->> > > configured manually for a particular slot. The new property, when set
->> > > to false, disables the check when the device is configured to request a
->> > > particular slot. This allows an administrator or management tool to
->> > > override slot_reserved_mask for a pci device by requesting a particular
->> > > slot for the device. The new property is initialized to true which
->> > > preserves the existing behavior of slot_reserved_mask by default.
->> > > 
->> > > Signed-off-by: Chuck Zmudzinski <brchuckz@aol.com>
->> >
->> > Thanks!
->> > I'm trying to think of the best default for this.
->> 
->> I think it would be better for the default value of
->> enforce_slot_reserved_mask_manual to be false, so that a
->> user-specified slot will by default override slot_reserved_mask.
->> But doing that would change the current behavior of
->> slot_reserved_mask.
->> 
->> Currently, this is the only place where slot_reserved_mask is used in all
->> of the Qemu source (code from hw/sparc64/sun4u.c):
->> 
->> ------ snip -------
->>     /* Only in-built Simba APBs can exist on the root bus, slot 0 on busA is
->>        reserved (leaving no slots free after on-board devices) however slots
->>        0-3 are free on busB */
->>     pci_bus->slot_reserved_mask = 0xfffffffc;
->>     pci_busA->slot_reserved_mask = 0xfffffff1;
->>     pci_busB->slot_reserved_mask = 0xfffffff0;
->> ------ snip -------
->> 
->> I think we could safely change the default value of
->> enforce_slot_reserved_mask_manual to false but set
->> it to true for the sparc64 sun4u board here to preserve
->> the current behavior of the only existing board in Qemu
->> that uses slot_reserved_mask.
->> 
->> What do you think?
-> 
-> I guess first can you answer whether this is still needed
-> with the latest Xen patches?
-> 
+Based-on: <20230126111943.38695-1-akihiko.odaki@daynix.com>
+([PATCH v4 00/13] Introduce igb)
 
-It's not really needed except for experimental purposes to allow
-an administrator to test experimental configurations with a device
-other than the igd at slot 2. That might be useful in some cases,
-but it is not really necessary unless someone asks for that capability.
-If libvirt users who ordinarily like to manually specify all the
-settings will be OK with the proposed patch to xen that prevents
-an administrator from being able to override a new setting that
-reserves slot 2 for the igd for type "xenfv" machines configured for
-igd passthrough, then there is no need for this patch. I don't think
-many users need the capability to insert a different device in slot 2 for
-the "xenfv" machine type configured with igd-passthru=on, so I would be
-OK if this patch is not included in qemu.
+Rebased on latest changes from Akihiko, and merged changes from my
+original patchset:
+https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg04670.html
 
-Chuck
+Sriram Yagnaraman (9):
+  MAINTAINERS: Add Sriram Yagnaraman as a igb reviewer
+  igb: handle PF/VF reset properly
+  igb: implement VFRE and VFTE registers
+  igb: check oversized packets for VMDq
+  igb: respect E1000_VMOLR_RSSE
+  igb: add ICR_RXDW
+  igb: implement VF Tx and Rx stats
+  igb: respect VT_CTL ignore MAC field
+  igb: respect VMVIR and VMOLR for VLAN
+
+ MAINTAINERS          |   1 +
+ hw/net/e1000x_regs.h |   5 +
+ hw/net/igb_core.c    | 255 ++++++++++++++++++++++++++++++++-----------
+ hw/net/igb_regs.h    |   3 +-
+ hw/net/trace-events  |   4 +
+ 5 files changed, 205 insertions(+), 63 deletions(-)
+
+-- 
+2.34.1
+
 
