@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF7067FC75
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 03:52:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3027967FC77
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 03:52:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLxnY-0001T7-OE; Sat, 28 Jan 2023 21:52:04 -0500
+	id 1pLxna-0001U1-Bc; Sat, 28 Jan 2023 21:52:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pLxnW-0001Sn-5j
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 21:52:02 -0500
-Received: from out30-6.freemail.mail.aliyun.com ([115.124.30.6])
+ id 1pLxnY-0001TO-C9
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 21:52:04 -0500
+Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pLxnT-0007Bk-7S
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 21:52:01 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R121e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
- MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=3; SR=0;
- TI=SMTPD_---0VaIzrDu_1674960711; 
+ id 1pLxnT-0007Bl-QB
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 21:52:04 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R511e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046049;
+ MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=4; SR=0;
+ TI=SMTPD_---0VaIwus0_1674960712; 
 Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0VaIzrDu_1674960711) by smtp.aliyun-inc.com;
- Sun, 29 Jan 2023 10:51:51 +0800
+ fp:SMTPD_---0VaIwus0_1674960712) by smtp.aliyun-inc.com;
+ Sun, 29 Jan 2023 10:51:52 +0800
 From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 To: qemu-devel@nongnu.org
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
-	Jason Wang <jasowang@redhat.com>
-Subject: [PATCH v1 1/2] virtio: struct VirtQueue introduce reset
-Date: Sun, 29 Jan 2023 10:51:49 +0800
-Message-Id: <20230129025150.119972-2-xuanzhuo@linux.alibaba.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>
+Subject: [PATCH v1 2/2] virtio-net: virtio_net_flush_tx() check for per-queue
+ reset
+Date: Sun, 29 Jan 2023 10:51:50 +0800
+Message-Id: <20230129025150.119972-3-xuanzhuo@linux.alibaba.com>
 X-Mailer: git-send-email 2.32.0.3.g01195cf9f
 In-Reply-To: <20230129025150.119972-1-xuanzhuo@linux.alibaba.com>
 References: <20230129025150.119972-1-xuanzhuo@linux.alibaba.com>
 MIME-Version: 1.0
 X-Git-Hash: d3903c2c1b
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=115.124.30.6;
+Received-SPF: pass client-ip=115.124.30.97;
  envelope-from=xuanzhuo@linux.alibaba.com;
- helo=out30-6.freemail.mail.aliyun.com
+ helo=out30-97.freemail.mail.aliyun.com
 X-Spam_score_int: -98
 X-Spam_score: -9.9
 X-Spam_bar: ---------
 X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
  USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -63,77 +63,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-In the current design, we stop the device from operating on the vring
-during per-queue reset by resetting the structure VirtQueue.
+Check whether it is per-queue reset state in virtio_net_flush_tx().
 
-But before the reset operation, when recycling some resources, we should
-stop referencing new vring resources. For example, when recycling
-virtio-net's asynchronous sending resources, virtio-net should be able
-to perceive that the current queue is in the per-queue reset state, and
-stop sending new packets from the tx queue.
+Before per-queue reset, we need to recover async tx resources. At this
+time, virtio_net_flush_tx() is called, but we should not try to send
+new packets, so virtio_net_flush_tx() should check the current
+per-queue reset state.
 
+Fixes: 7dc6be52 ("virtio-net: support queue reset")
+Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1451
+Reported-by: Alexander Bulekov <alxndr@bu.edu>
 Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
 ---
- hw/virtio/virtio.c         | 15 +++++++++++++++
- include/hw/virtio/virtio.h |  1 +
- 2 files changed, 16 insertions(+)
+ hw/net/virtio-net.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index f35178f5fc..c954f2a2b3 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -142,6 +142,8 @@ struct VirtQueue
-     /* Notification enabled? */
-     bool notification;
- 
-+    bool disabled_by_reset;
-+
-     uint16_t queue_index;
- 
-     unsigned int inuse;
-@@ -2079,6 +2081,12 @@ void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
- {
-     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
- 
-+    /*
-+     * Mark this queue is per-queue reset status. The device should release the
-+     * references of the vring, and not refer more new vring item.
-+     */
-+    vdev->vq[queue_index].disabled_by_reset = true;
-+
-     if (k->queue_reset) {
-         k->queue_reset(vdev, queue_index);
+diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+index 3ae909041a..fba6451a50 100644
+--- a/hw/net/virtio-net.c
++++ b/hw/net/virtio-net.c
+@@ -2627,7 +2627,8 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
+     VirtQueueElement *elem;
+     int32_t num_packets = 0;
+     int queue_index = vq2q(virtio_get_queue_index(q->tx_vq));
+-    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
++    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) ||
++        virtio_queue_reset_state(q->tx_vq)) {
+         return num_packets;
      }
-@@ -2102,11 +2110,18 @@ void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
-     }
-     */
- 
-+    vdev->vq[queue_index].disabled_by_reset = false;
-+
-     if (k->queue_enable) {
-         k->queue_enable(vdev, queue_index);
-     }
- }
- 
-+bool virtio_queue_reset_state(VirtQueue *vq)
-+{
-+    return vq->disabled_by_reset;
-+}
-+
- void virtio_reset(void *opaque)
- {
-     VirtIODevice *vdev = opaque;
-diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-index 77c6c55929..00e91af7c4 100644
---- a/include/hw/virtio/virtio.h
-+++ b/include/hw/virtio/virtio.h
-@@ -319,6 +319,7 @@ int virtio_set_status(VirtIODevice *vdev, uint8_t val);
- void virtio_reset(void *opaque);
- void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index);
- void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index);
-+bool virtio_queue_reset_state(VirtQueue *vq);
- void virtio_update_irq(VirtIODevice *vdev);
- int virtio_set_features(VirtIODevice *vdev, uint64_t val);
  
 -- 
 2.32.0.3.g01195cf9f
