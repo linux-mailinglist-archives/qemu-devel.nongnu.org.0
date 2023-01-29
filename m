@@ -2,98 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 758B5680CB5
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 13:00:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8DE67FEB2
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 12:59:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMSp9-0000DL-6Y; Mon, 30 Jan 2023 06:59:47 -0500
+	id 1pM6Jb-0005jF-IZ; Sun, 29 Jan 2023 06:57:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <oro@oro.sl.cloud9.ibm.com>)
- id 1pMSp1-0000Aq-Hf; Mon, 30 Jan 2023 06:59:40 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pM6JY-0005ia-Hz
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 06:57:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <oro@oro.sl.cloud9.ibm.com>)
- id 1pMSow-0005rI-UY; Mon, 30 Jan 2023 06:59:38 -0500
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30T65iC8004445; Sun, 29 Jan 2023 11:31:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=6J9bggOKF9Me2mK+ukw+kVsHsDNTMDYaLWaXDVU3JBE=;
- b=TleMQsGiRjseZv31EfUO9D5CmcZqw/cdOQ9ztjk/ZzYkt5o4w/JX1w42MMgvd2Y5nApJ
- K7YuA0MtOk+H3Ytf17s4HG4p/fsZFGvMPLB0OPmlGNVg28czlJVap/d568k2P3dczYWB
- mhDWO+TN90lpywZW/ZolqFdU6i/bBk+am6Bey8MsOarpoXE+z5e/+qUEOr7CBoHMNHpB
- mMaqHcvlOpzXw3Uhw0j1Zz5Qiahd0LPO3syIVYYorlMJW4YJ1fN/yO5jXxORtwjliW53
- IsLCWUDL5z+bewg1UC5c/keJ4DDJYTUQi06SHDZpPndKWav7S0+UB2QHW/+io54lczRg 2A== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nddfc0bg1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 29 Jan 2023 11:31:31 +0000
-Received: from m0098410.ppops.net (m0098410.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30TBFSQm002560;
- Sun, 29 Jan 2023 11:31:31 GMT
-Received: from ppma03wdc.us.ibm.com (ba.79.3fa9.ip4.static.sl-reverse.com
- [169.63.121.186])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nddfc0bfr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 29 Jan 2023 11:31:31 +0000
-Received: from pps.filterd (ppma03wdc.us.ibm.com [127.0.0.1])
- by ppma03wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30T91sfK007772;
- Sun, 29 Jan 2023 11:31:30 GMT
-Received: from smtprelay03.dal12v.mail.ibm.com ([9.208.130.98])
- by ppma03wdc.us.ibm.com (PPS) with ESMTPS id 3ncvtedsev-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Sun, 29 Jan 2023 11:31:30 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com
- [10.39.53.229])
- by smtprelay03.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30TBVT6I10093218
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Sun, 29 Jan 2023 11:31:29 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 08CBD58059;
- Sun, 29 Jan 2023 11:31:29 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id B686158058;
- Sun, 29 Jan 2023 11:31:27 +0000 (GMT)
-Received: from oro.sl.cloud9.ibm.com (unknown [9.59.192.176])
- by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
- Sun, 29 Jan 2023 11:31:27 +0000 (GMT)
-From: "ORO@il.ibm.com" <oro@oro.sl.cloud9.ibm.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, oro@il.ibm.com, idryomov@gmail.com
-Subject: [PATCH v6 3/3] block/rbd: Add support for layered encryption
-Date: Sun, 29 Jan 2023 05:31:20 -0600
-Message-Id: <20230129113120.722708-4-oro@oro.sl.cloud9.ibm.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20230129113120.722708-1-oro@oro.sl.cloud9.ibm.com>
-References: <20230129113120.722708-1-oro@oro.sl.cloud9.ibm.com>
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pM6JW-0003N8-7q
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 06:57:40 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674993456;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=614/oj7b7bnBlmu6niD6nts++vDORpoYoJ2pv7EhOSg=;
+ b=C5XWFWM5/bU+YTvg/pCcy1qYq+3bkysSD38jBuzqjw4gVzKsEPuvhoTt7NxFId6LyPGNZZ
+ qUhzl/t80lC5LU80TJI+1XBtcMWdUxkbiTb1Nk3E1sB+eZYkxozBUkvw8dkYYuG7tTUpCF
+ 14RZ+rSuMGjyY8mo5zDVEPajtl9QyDE=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-393-05WnZgfFPduWlk9mBg5wIA-1; Sun, 29 Jan 2023 06:57:35 -0500
+X-MC-Unique: 05WnZgfFPduWlk9mBg5wIA-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ m10-20020a05600c3b0a00b003dafe7451deso5462264wms.4
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 03:57:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=614/oj7b7bnBlmu6niD6nts++vDORpoYoJ2pv7EhOSg=;
+ b=6uMOfZIKXL0MMr3LAROOr/1hdGbhUXBGOcFAZRZ0opbreIYHr13UGj6de9eMibGxf5
+ VuLlnAQIAN/UrO/2BUgYJZTUjDEA6DOVwLZBVZ0qWePDo6jwG9DKbxHbIC0BmXEs/B1M
+ Wqx7XMlB8nIayt/kDTdKat88KjHngiomonu+J/vK3V4iXj7cjkHPx8/SG+3pIne3HjMU
+ YpBJsDgVgyDUxEbWk7cK9+9nDTraAt3YGyvzK1CByQ35U2FjyqeWpyizb/YwwItf414R
+ tESMVb6LsVh73uDg7g2yerf8l4orS4UblQ+y4Uoc3qx/Y19tARdE3+8N189R3GImXUOw
+ mJEQ==
+X-Gm-Message-State: AFqh2kpRYPsJIZYDOC7N46d9RAQcuB2AQe5tzIWJqZtJ/R6w/Xz6oZCk
+ BCgWtOgJzkzxdMWCkhUzNIyDVunLWkDzGThz7mgknByrlzCB2HHLnE9YntpPhQOz4nlLUXi+FCX
+ PT3J0VrYE8yhkCQE=
+X-Received: by 2002:a05:600c:4e05:b0:3d3:5a4a:9103 with SMTP id
+ b5-20020a05600c4e0500b003d35a4a9103mr46161111wmq.31.1674993454110; 
+ Sun, 29 Jan 2023 03:57:34 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuJdc1GnXoVBwtTsRTxeDNpcKqFL0FSHE+dAsa1HR4KDAMknmM8525eSG8qcEsyuP14VQ6W6w==
+X-Received: by 2002:a05:600c:4e05:b0:3d3:5a4a:9103 with SMTP id
+ b5-20020a05600c4e0500b003d35a4a9103mr46161094wmq.31.1674993453798; 
+ Sun, 29 Jan 2023 03:57:33 -0800 (PST)
+Received: from redhat.com ([2.52.20.248]) by smtp.gmail.com with ESMTPSA id
+ hu18-20020a05600ca29200b003dc4b4dea31sm4322282wmb.27.2023.01.29.03.57.32
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 29 Jan 2023 03:57:33 -0800 (PST)
+Date: Sun, 29 Jan 2023 06:57:29 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>
+Subject: Re: [PATCH v1 2/2] virtio-net: virtio_net_flush_tx() check for
+ per-queue reset
+Message-ID: <20230129065705-mutt-send-email-mst@kernel.org>
+References: <20230129025150.119972-1-xuanzhuo@linux.alibaba.com>
+ <20230129025150.119972-3-xuanzhuo@linux.alibaba.com>
+ <20230129021402-mutt-send-email-mst@kernel.org>
+ <1674977308.9335406-2-xuanzhuo@linux.alibaba.com>
+ <20230129025950-mutt-send-email-mst@kernel.org>
+ <1674980588.489446-5-xuanzhuo@linux.alibaba.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: kjYJR7z4-FnsAQOyYZ4_RQPmByFQHNc5
-X-Proofpoint-GUID: vDjLNlAbXEUiedLZstpT_PFYP2WI5Yh7
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-29_09,2023-01-27_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1034 impostorscore=0
- priorityscore=1501 adultscore=0 bulkscore=0 mlxscore=0 lowpriorityscore=0
- suspectscore=0 mlxlogscore=966 phishscore=0 malwarescore=0 spamscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
- definitions=main-2301290112
-Received-SPF: none client-ip=148.163.156.1;
- envelope-from=oro@oro.sl.cloud9.ibm.com; helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1674980588.489446-5-xuanzhuo@linux.alibaba.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,235 +101,101 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Or Ozeri <oro@il.ibm.com>
+On Sun, Jan 29, 2023 at 04:23:08PM +0800, Xuan Zhuo wrote:
+> On Sun, 29 Jan 2023 03:12:12 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > On Sun, Jan 29, 2023 at 03:28:28PM +0800, Xuan Zhuo wrote:
+> > > On Sun, 29 Jan 2023 02:25:43 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > > > On Sun, Jan 29, 2023 at 10:51:50AM +0800, Xuan Zhuo wrote:
+> > > > > Check whether it is per-queue reset state in virtio_net_flush_tx().
+> > > > >
+> > > > > Before per-queue reset, we need to recover async tx resources. At this
+> > > > > time, virtio_net_flush_tx() is called, but we should not try to send
+> > > > > new packets, so virtio_net_flush_tx() should check the current
+> > > > > per-queue reset state.
+> > > >
+> > > >
+> > > > What does "at this time" mean here?
+> > > > Do you in fact mean it's called from flush_or_purge_queued_packets?
+> > >
+> > > Yes
+> > >
+> > > virtio_queue_reset
+> > > 	k->queue_reset
+> > > 		virtio_net_queue_reset
+> > > 			flush_or_purge_queued_packets
+> > > 				qemu_flush_or_purge_queued_packets
+> > > 					.....
+> > > 					(callback) virtio_net_tx_complete
+> > > 						virtio_net_flush_tx <-- here send new packet. We need stop it.
+> > >
+> > >
+> > > Because it is inside the callback, I can't pass information through the stack. I
+> > > originally thought it was a general situation, so I wanted to put it in
+> > > struct VirtQueue.
+> > >
+> > > If it is not very suitable, it may be better to put it in VirtIONetQueue.
+> > >
+> > > Thanks.
+> >
+> > Hmm maybe. Another idea: isn't virtio_net_tx_complete called
+> > with length 0 here? Are there other cases where length is 0?
+> >
+> >
+> > > > What does the call stack look like?
+> > > >
+> > > > If yes introducing a vq state just so virtio_net_flush_tx
+> > > > knows we are in the process of reset would be a bad idea.
+> > > > We want something much more local, ideally on stack even ...
+> > > >
+> > > >
+> > > > >
+> > > > > Fixes: 7dc6be52 ("virtio-net: support queue reset")
+> > > > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1451
+> > > > > Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> > > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> > > > > ---
+> > > > >  hw/net/virtio-net.c | 3 ++-
+> > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > >
+> > > > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > > > > index 3ae909041a..fba6451a50 100644
+> > > > > --- a/hw/net/virtio-net.c
+> > > > > +++ b/hw/net/virtio-net.c
+> > > > > @@ -2627,7 +2627,8 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
+> > > > >      VirtQueueElement *elem;
+> > > > >      int32_t num_packets = 0;
+> > > > >      int queue_index = vq2q(virtio_get_queue_index(q->tx_vq));
+> > > > > -    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
+> > > > > +    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) ||
+> > > > > +        virtio_queue_reset_state(q->tx_vq)) {
+> >
+> > btw this sounds like you are asking it to reset some state.
+> >
+> > > > >          return num_packets;
+> >
+> > and then
+> >
+> >     ret = virtio_net_flush_tx(q);
+> >     if (ret >= n->tx_burst)
+> >
+> >
+> > will reschedule automatically won't it?
+> >
+> > also why check in virtio_net_flush_tx and not virtio_net_tx_complete?
+> 
+> virtio_net_flush_tx may been called by timer.
+> 
+> Thanks.
 
-Starting from ceph Reef, RBD has built-in support for layered encryption,
-where each ancestor image (in a cloned image setting) can be possibly
-encrypted using a unique passphrase.
+timer won't run while flush_or_purge_queued_packets is in progress.
 
-A new function, rbd_encryption_load2, was added to librbd API.
-This new function supports an array of passphrases (via "spec" structs).
-
-This commit extends the qemu rbd driver API to use this new librbd API,
-in order to support this new layered encryption feature.
-
-Signed-off-by: Or Ozeri <oro@il.ibm.com>
----
- block/rbd.c          | 153 ++++++++++++++++++++++++++++++++++++++++++-
- qapi/block-core.json |  11 +++-
- 2 files changed, 162 insertions(+), 2 deletions(-)
-
-diff --git a/block/rbd.c b/block/rbd.c
-index b929378871..3a8060b88b 100644
---- a/block/rbd.c
-+++ b/block/rbd.c
-@@ -71,6 +71,16 @@ static const char rbd_luks2_header_verification[
-     'L', 'U', 'K', 'S', 0xBA, 0xBE, 0, 2
- };
- 
-+static const char rbd_layered_luks_header_verification[
-+        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
-+    'R', 'B', 'D', 'L', 0xBA, 0xBE, 0, 1
-+};
-+
-+static const char rbd_layered_luks2_header_verification[
-+        RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN] = {
-+    'R', 'B', 'D', 'L', 0xBA, 0xBE, 0, 2
-+};
-+
- typedef enum {
-     RBD_AIO_READ,
-     RBD_AIO_WRITE,
-@@ -537,6 +547,128 @@ static int qemu_rbd_encryption_load(rbd_image_t image,
- 
-     return 0;
- }
-+
-+#ifdef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
-+static int qemu_rbd_encryption_load2(rbd_image_t image,
-+                                     RbdEncryptionOptions *encrypt,
-+                                     Error **errp)
-+{
-+    int r = 0;
-+    int encrypt_count = 1;
-+    int i;
-+    RbdEncryptionOptions *curr_encrypt;
-+    rbd_encryption_spec_t *specs;
-+    rbd_encryption_luks1_format_options_t *luks_opts;
-+    rbd_encryption_luks2_format_options_t *luks2_opts;
-+    rbd_encryption_luks_format_options_t *luks_any_opts;
-+
-+    /* count encryption options */
-+    for (curr_encrypt = encrypt->parent; curr_encrypt;
-+         curr_encrypt = curr_encrypt->parent) {
-+        ++encrypt_count;
-+    }
-+
-+    specs = g_new0(rbd_encryption_spec_t, encrypt_count);
-+
-+    curr_encrypt = encrypt;
-+    for (i = 0; i < encrypt_count; ++i) {
-+        switch (curr_encrypt->format) {
-+            case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS: {
-+                specs[i].format = RBD_ENCRYPTION_FORMAT_LUKS1;
-+
-+                luks_opts = g_new0(rbd_encryption_luks1_format_options_t, 1);
-+                specs[i].opts = luks_opts;
-+                specs[i].opts_size = sizeof(*luks_opts);
-+
-+                r = qemu_rbd_convert_luks_options(
-+                        qapi_RbdEncryptionOptionsLUKS_base(
-+                                &curr_encrypt->u.luks),
-+                        (char **)&luks_opts->passphrase,
-+                        &luks_opts->passphrase_size,
-+                        errp);
-+                break;
-+            }
-+            case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2: {
-+                specs[i].format = RBD_ENCRYPTION_FORMAT_LUKS2;
-+
-+                luks2_opts = g_new0(rbd_encryption_luks2_format_options_t, 1);
-+                specs[i].opts = luks2_opts;
-+                specs[i].opts_size = sizeof(*luks2_opts);
-+
-+                r = qemu_rbd_convert_luks_options(
-+                        qapi_RbdEncryptionOptionsLUKS2_base(
-+                                &curr_encrypt->u.luks2),
-+                        (char **)&luks2_opts->passphrase,
-+                        &luks2_opts->passphrase_size,
-+                        errp);
-+                break;
-+            }
-+            case RBD_IMAGE_ENCRYPTION_FORMAT_LUKS_ANY: {
-+                specs[i].format = RBD_ENCRYPTION_FORMAT_LUKS;
-+
-+                luks_any_opts = g_new0(rbd_encryption_luks_format_options_t, 1);
-+                specs[i].opts = luks_any_opts;
-+                specs[i].opts_size = sizeof(*luks_any_opts);
-+
-+                r = qemu_rbd_convert_luks_options(
-+                        qapi_RbdEncryptionOptionsLUKSAny_base(
-+                                &curr_encrypt->u.luks_any),
-+                        (char **)&luks_any_opts->passphrase,
-+                        &luks_any_opts->passphrase_size,
-+                        errp);
-+                break;
-+            }
-+            default: {
-+                r = -ENOTSUP;
-+                error_setg_errno(
-+                        errp, -r, "unknown image encryption format: %u",
-+                        curr_encrypt->format);
-+            }
-+        }
-+
-+        if (r < 0) {
-+            goto exit;
-+        }
-+
-+        curr_encrypt = curr_encrypt->parent;
-+    }
-+
-+    r = rbd_encryption_load2(image, specs, encrypt_count);
-+    if (r < 0) {
-+        error_setg_errno(errp, -r, "layered encryption load fail");
-+        goto exit;
-+    }
-+
-+exit:
-+    for (i = 0; i < encrypt_count; ++i) {
-+        if (!specs[i].opts) {
-+            break;
-+        }
-+
-+        switch (specs[i].format) {
-+            case RBD_ENCRYPTION_FORMAT_LUKS1: {
-+                luks_opts = specs[i].opts;
-+                g_free((void *)luks_opts->passphrase);
-+                break;
-+            }
-+            case RBD_ENCRYPTION_FORMAT_LUKS2: {
-+                luks2_opts = specs[i].opts;
-+                g_free((void *)luks2_opts->passphrase);
-+                break;
-+            }
-+            case RBD_ENCRYPTION_FORMAT_LUKS: {
-+                luks_any_opts = specs[i].opts;
-+                g_free((void *)luks_any_opts->passphrase);
-+                break;
-+            }
-+        }
-+
-+        g_free(specs[i].opts);
-+    }
-+    g_free(specs);
-+    return r;
-+}
-+#endif
- #endif
- 
- /* FIXME Deprecate and remove keypairs or make it available in QMP. */
-@@ -1003,7 +1135,16 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
- 
-     if (opts->encrypt) {
- #ifdef LIBRBD_SUPPORTS_ENCRYPTION
--        r = qemu_rbd_encryption_load(s->image, opts->encrypt, errp);
-+        if (opts->encrypt->parent) {
-+#ifdef LIBRBD_SUPPORTS_ENCRYPTION_LOAD2
-+            r = qemu_rbd_encryption_load2(s->image, opts->encrypt, errp);
-+#else
-+            r = -ENOTSUP;
-+            error_setg(errp, "RBD library does not support layered encryption");
-+#endif
-+        } else {
-+            r = qemu_rbd_encryption_load(s->image, opts->encrypt, errp);
-+        }
-         if (r < 0) {
-             goto failed_post_open;
-         }
-@@ -1294,6 +1435,16 @@ static ImageInfoSpecific *qemu_rbd_get_specific_info(BlockDriverState *bs,
-         spec_info->u.rbd.data->encryption_format =
-                 RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2;
-         spec_info->u.rbd.data->has_encryption_format = true;
-+    } else if (memcmp(buf, rbd_layered_luks_header_verification,
-+               RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN) == 0) {
-+        spec_info->u.rbd.data->encryption_format =
-+                RBD_IMAGE_ENCRYPTION_FORMAT_LUKS;
-+        spec_info->u.rbd.data->has_encryption_format = true;
-+    } else if (memcmp(buf, rbd_layered_luks2_header_verification,
-+               RBD_ENCRYPTION_LUKS_HEADER_VERIFICATION_LEN) == 0) {
-+        spec_info->u.rbd.data->encryption_format =
-+                RBD_IMAGE_ENCRYPTION_FORMAT_LUKS2;
-+        spec_info->u.rbd.data->has_encryption_format = true;
-     } else {
-         spec_info->u.rbd.data->has_encryption_format = false;
-     }
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index e59fb5d453..49df47c3c6 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -3908,10 +3908,19 @@
- ##
- # @RbdEncryptionOptions:
- #
-+# @format: Encryption format.
-+#
-+# @parent: Parent image encryption options (for cloned images).
-+#          Can be left unspecified if this cloned image is encrypted
-+#          using the same format and secret as its parent image (i.e.
-+#          not explicitly formatted) or if its parent image is not
-+#          encrypted. (Since 8.0)
-+#
- # Since: 6.1
- ##
- { 'union': 'RbdEncryptionOptions',
--  'base': { 'format': 'RbdImageEncryptionFormat' },
-+  'base': { 'format': 'RbdImageEncryptionFormat',
-+            '*parent': 'RbdEncryptionOptions' },
-   'discriminator': 'format',
-   'data': { 'luks': 'RbdEncryptionOptionsLUKS',
-             'luks2': 'RbdEncryptionOptionsLUKS2',
--- 
-2.25.1
+> >
+> >
+> > > > >      }
+> > > > >
+> > > > > --
+> > > > > 2.32.0.3.g01195cf9f
+> > > >
+> >
 
 
