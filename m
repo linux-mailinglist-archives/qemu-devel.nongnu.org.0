@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8162680258
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 23:45:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E97E4680256
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 23:45:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMGPh-0007Yu-3x; Sun, 29 Jan 2023 17:44:41 -0500
+	id 1pMGPl-0007Zu-73; Sun, 29 Jan 2023 17:44:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pMGPe-0007Yf-LS
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:44:38 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pMGPj-0007ZV-2d
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:44:43 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pMGPd-0000W8-54
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:44:38 -0500
-Received: by mail-wr1-x435.google.com with SMTP id q10so9518974wrm.4
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 14:44:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pMGPh-0000WO-My
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:44:42 -0500
+Received: by mail-wr1-x433.google.com with SMTP id t18so9536552wro.1
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 14:44:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=braap-org.20210112.gappssmtp.com; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=9kBYRCf+P6cKgTg4U2/s4WC5U5cyb9xv72fpxt5Mrdo=;
- b=aQKUVt84TBj/xCx6f1jvlu+h7Lye5vUpi+jibp1h4Rgx5zh0MXLzRVlUMI60io9cT3
- El9cjNkbWzcBgG6M3hArf05MkmxeIV127iCEl29WywpMI+JonvEPdOdv5lRzRsKCq6DQ
- M0RRtcY1s/SaUpFgH2nSrp8qxwt9/fzN1frmnT6y54+FjsJQIh8GTO1JqjyfAOxzSaZL
- lybH/tHAl6LGSkaC21hZkF6p8ddqYC+LJ2vVmZdmjVvD1UlutKMv1DQ5hYMnBUyZ8wV4
- dJJWsIGfriTBmJoEa8tWpCCelhmbWmVYGNEo5/Vg2hbTHXB4KoOfQlLpmiTVpv141KAo
- 68mQ==
+ bh=4EvQj1WQ7LjlyQ4fT0E6yT+lebXzP91p2fg0cA59wgU=;
+ b=VHHBy1RucaURa6d7sL/9G8NlgU5+6TYL2mM29UdsRgPq+43HsmO/RPbJt5xLvB2tVn
+ w+BbDWBeBXRWijw4PfD7Nzw0bObVuS3iaRxhNE/ZCBNuqcJSzUWWKeE7I7A2YEM5JwpQ
+ HUsTxFUjnRIPvQ+fPACGt3wjyMCgYO1g2q/fZejXD5A5x87N+Vpy+IZ5R+nJznoLC2EF
+ KGN2jDLCTiiWsxuRbswGCV97xlmBBz5ZEx8NzH4ESXLUG+iYvcqEqOTKzqFR7xuwDDu2
+ Z8KxR0YAze/gCXZ2vC+bCQ1iKXdrC82tx3qARotQJ3fNq2lj8O2mi7pVQxpLahcKuzSd
+ iPzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9kBYRCf+P6cKgTg4U2/s4WC5U5cyb9xv72fpxt5Mrdo=;
- b=Amp+8zYqSUPw13bgpF12LWS53AIL3eDRzG2827aLnYUyHKvLIJ8SolNpTW8wOZZ0RE
- ANN8Y86QdaMYVpR0QIDHsp1xbJXLFMG60KIsdCXHpERxxkhNPba/KEBq70xmv9H1u6K7
- NzmaZjp3qYIgmW6bwzwEa3gL+jWDNEsW+c10x8WhjjY1XkD/KoH71cYDWorcQe0Lrx/o
- dcCy0q2cE/u1kk1AG81ZDPIAHvXg4VOvHhTqW0uCfFM4nA1DvaFW1gAGETbaeqM5Jpn5
- W2KUR9WjPidex8DwnxjyVSmSzrslJQ1wCyuE0OlgfTvMwLVILNegAhW/z+Fl2nxij6aV
- ZNiA==
-X-Gm-Message-State: AO0yUKVwELrpOdr2RCFBsj+ZQHGr76xX38JQj66JDya+NeHycOATO0xL
- zlDNoDsgt0nlAS9grmP497HyTA==
-X-Google-Smtp-Source: AK7set9xX2Y1vpm5QW1ykddscHqtYAwxJTbvmtSMkeTDdVktYQ72kCcCYk90r61rRUfgZNYNA7PZgw==
-X-Received: by 2002:adf:c7d0:0:b0:2bf:b113:8ae2 with SMTP id
- y16-20020adfc7d0000000b002bfb1138ae2mr19281257wrg.15.1675032275663; 
- Sun, 29 Jan 2023 14:44:35 -0800 (PST)
+ bh=4EvQj1WQ7LjlyQ4fT0E6yT+lebXzP91p2fg0cA59wgU=;
+ b=8ARTSwoFpXhOUKqQRWw0zRADOF9qbGEBivd/+xmBaxXKQxnEkqi5LZNb6u0gajt8A7
+ bLJjPAjbi1j8ln7HkODF4uBqBNY8UFLyote2gWbmQIaLNDRbNnaMVJpLpcgviSdqFy8v
+ jRNbvaYOUpXueoIypIh6LY/cmYvNITsag5Ro/0o0f0ePytEm1no7C/znmfmBlbrK0Xe0
+ QUzPIS+k1iGlj21lUqG1U9LrUhTqmkCj5lRg4EylZoWlZ25vKQx96v0NaUvqY6eQEt20
+ /7Q5QO02QCSFTtpVVcSdNerVi9n7LeaPimtvoamI5dnr/eM3laoQh1VfQBGIMxIUN5zu
+ T6+w==
+X-Gm-Message-State: AFqh2ko74LzB7aHMQZYG6XNEX4YfZ4BAZIKDYgTg7yHYZqFHKPsQivBl
+ Lpu/BP4/gQI7RQRURI4MD82yDw==
+X-Google-Smtp-Source: AMrXdXsoVdl65Wtw4nO7RXo0wMl6kPVm+cJN9uHbnkgdJVltvtgSBJYcLFUDRqyzgn6dhCpCWkl1cQ==
+X-Received: by 2002:a5d:48c7:0:b0:2bb:ed0c:a0d8 with SMTP id
+ p7-20020a5d48c7000000b002bbed0ca0d8mr40551123wrs.53.1675032280359; 
+ Sun, 29 Jan 2023 14:44:40 -0800 (PST)
 Received: from localhost ([146.70.128.243]) by smtp.gmail.com with ESMTPSA id
- t1-20020adfe441000000b002bfd524255esm7427852wrm.43.2023.01.29.14.44.34
+ v12-20020a5d610c000000b0028965dc7c6bsm10044991wrt.73.2023.01.29.14.44.38
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 14:44:35 -0800 (PST)
-Date: Sun, 29 Jan 2023 17:28:47 -0500
+ Sun, 29 Jan 2023 14:44:39 -0800 (PST)
+Date: Sun, 29 Jan 2023 17:32:05 -0500
 From: Emilio Cota <cota@braap.org>
 To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
 Cc: qemu-devel@nongnu.org,
  Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Subject: Re: [PATCH 1/2] util: import GTree as QTree
-Message-ID: <Y9bzH9EGH/+f/0lu@cota-l14>
+Subject: Re: [PATCH 2/2] tcg: use QTree instead of GTree
+Message-ID: <Y9bz5QMpZAhGP6DR@cota-l14>
 References: <20230111035536.309885-1-cota@braap.org>
- <20230111035536.309885-2-cota@braap.org>
- <Y76mumSsUDY/hVWu@redhat.com>
+ <20230111035536.309885-3-cota@braap.org>
+ <Y76nTaoek2kVtLqJ@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y76mumSsUDY/hVWu@redhat.com>
-Received-SPF: softfail client-ip=2a00:1450:4864:20::435;
- envelope-from=cota@braap.org; helo=mail-wr1-x435.google.com
+In-Reply-To: <Y76nTaoek2kVtLqJ@redhat.com>
+Received-SPF: softfail client-ip=2a00:1450:4864:20::433;
+ envelope-from=cota@braap.org; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
@@ -90,101 +90,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 11, 2023 at 12:08:26 +0000, Daniel P. Berrangé wrote:
-> First, I find the test to be a little unreliable the first few
-> times it is ran. I ran it in a loop 20 times and it got more
-> stable results. Looking at just the QTree lines I get something
-> typically like:
-
-Agreed, this is a problem in the benchmarks as written. I've
-changed them now to run for at least 200ms, which seems to
-stabilise results on my machine. (See the appended patch.)
-
-> One thing to bear in mind is that if setting G_SLICE=always-malloc, we
-> should in theory see the exact same results for GTree and QTree.
-
-Not quite exact same results.
-There are a couple of differences that matter in this context:
-- We're comparing a shared library, compiled most likely with -fPIC,
-  against a static library without fPIC. I've done some tests and
-  indeed using fPIC on qtree makes a difference on the generated code
-  and in the resulting benchmark performance.
-- With G_SLICE=always-malloc we are still going through g_slice
-  to then defer to the system's malloc. Should not matter much
-  except in microbenchmarks like these.
-
-That said, I have not been able to get a 1:1 match of perf results
-between qtree and gtree, even after compiling fPIC on qtree, compiling
-Glib myself, and modifying qtree to use gslice.
-I've also tried tcmalloc and glibc.
-
-One thing I didn't try due to lack of time is to make qtree into
-a shared library and benchmark that -- I think that would finally
-give us identical results.
-
-> So overall if I ignore the unreliable results, my take away is
-> that malloc is pretty much always a win over gslice, sometimes
-> massively so, but at least shouldn't be worse.
+On Wed, Jan 11, 2023 at 12:10:53 +0000, Daniel P. Berrangé wrote:
+> On Tue, Jan 10, 2023 at 10:55:36PM -0500, Emilio Cota wrote:
+> > Performance impact on linux-user:
+> > - ~2% slowdown in spec06
+> > - 1.05% slowdown in Nbench-int
+> > - 4.51% slowdown in Nbench-fp
 > 
-> NB, I'm using Fedora 37 with glibc.  Mileage may vary with different
-> libc impls.
+> What do you get *before* applying this patch, if you just run
+> linux-user with G_SLICE=always-malloc set ?
+> 
+> Also what libc impl were you testing with ? glibc or musl or something
+> else ?
 
-I have to agree, I just wanted to be honest by sharing the numbers
-I had, but in fairness I didn't put enough time in getting
-those numbers for them to be useful, which is tricky when dealing
-with microbenchmarks.
+I've now done a few runs of nbench and the measurements I'm getting
+are within noise. So I'd say no perf difference.
+For SPEC I don't have time right now although I could do more runs
+if you think they're needed.
+
+I'm tempted for v2 to just remove these macrobenchmark numbers, since
+with perf we can see that little time is spent on gtree anyway,
+and at the moment I don't have time to do proper benchmarking.
 
 Thanks,
 		E.
-
----
-diff --git a/tests/bench/qtree-bench.c b/tests/bench/qtree-bench.c
-index 9cfaf8820e..ed42e73293 100644
---- a/tests/bench/qtree-bench.c
-+++ b/tests/bench/qtree-bench.c
-@@ -118,9 +118,9 @@ static inline void remove_all(void *tree, enum impl_type impl)
-     }
- }
- 
--static double run_benchmark(const struct benchmark *bench,
--                            enum impl_type impl,
--                            size_t n_elems)
-+static int64_t run_benchmark(const struct benchmark *bench,
-+                             enum impl_type impl,
-+                             size_t n_elems)
- {
-     void *tree;
-     size_t *keys;
-@@ -212,7 +212,7 @@ static double run_benchmark(const struct benchmark *bench,
-     }
-     g_free(keys);
- 
--    return (double)n_elems / ns * 1e3;
-+    return ns;
- }
- 
- int main(int argc, char *argv[])
-@@ -232,7 +232,20 @@ int main(int argc, char *argv[])
-             const struct tree_implementation *impl = &impls[j];
-             for (int k = 0; k < ARRAY_SIZE(benchmarks); k++) {
-                 const struct benchmark *bench = &benchmarks[k];
--                res[k][j][i] = run_benchmark(bench, impl->type, size);
-+
-+                /* warm-up run */
-+                run_benchmark(bench, impl->type, size);
-+
-+                int64_t total_ns = 0;
-+                int64_t n_runs = 0;
-+                while (total_ns < 2e8 || n_runs < 3) {
-+                    total_ns += run_benchmark(bench, impl->type, size);
-+                    n_runs++;
-+                }
-+                double ns_per_run = (double)total_ns / n_runs;
-+
-+                // Throughput, in Mops/s.
-+                res[k][j][i] = size / ns_per_run * 1e3;
-             }
-         }
-     }
-
 
