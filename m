@@ -2,79 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3286468019D
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 22:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67347680229
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 23:12:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMFJy-0002Q2-JO; Sun, 29 Jan 2023 16:34:42 -0500
+	id 1pMFtD-0001j0-42; Sun, 29 Jan 2023 17:11:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pMFJw-0002Pc-AU
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 16:34:40 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pMFt9-0001ii-Mx
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:11:04 -0500
+Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pMFJu-0001MI-SA
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 16:34:40 -0500
-Received: by mail-ed1-x534.google.com with SMTP id n6so6617335edo.9
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 13:34:38 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pMFt8-00039s-3r
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:11:03 -0500
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-506609635cbso137837817b3.4
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 14:11:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yk47PqZmuOTiniLSu6qFGT/8lOr+9kd9+ln4IWTKIHI=;
- b=jcB2/DN5GQSDU6XT+v+JLKHif5Yk1QSlA8vScXPbaY0v9DZ2n7euV2cqVpLKWjJA5X
- KR/b+RriTUVO+CZDcmhNUnu7tYoDlKFhwklLQ0Suobc7N8isAZ83/T4TAh5RHhq4hNU5
- uFtotzcrke3tqSn7k401T3BvtrWG/qKVBguS+EYEzEqm0KP8jNV/Oq3GI0oT9Z+xF0p4
- BxCYXyAPo6INJKpRFvT5vFIEtPNPALsberGUM9fH+95w7J4PfRcUpTa9cjs7gwHBHrZX
- xGgZsngadYkUSYMQrYDjQsDarssqWrsYPJJCekmwU8IyxUdX1I6Zz4rR9T8n7WC0uZ8E
- eJzg==
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=3i8dxNRHWGRSBxA1HVBMDp2I5+H1/9S7hQmHWc1FHSU=;
+ b=D3GUP8t1oQZ91SdSyQ6V3PWyyo4R+TPL9qrh84F9bqtuNlp8di+7fP2SrFOZKqkdNf
+ TgMyZvdluSKfb+XtWDLzEUeMFfH/VVr7fJAeW1jGjZyN3EiXDKBDcCwHmTrPjqDWsFCq
+ JMuIJQvwS2FY0c5WBahAARXV/bR+bEUKVPYo4du9eo/aw9/o0Sg/RZZA/PPHnH21aSmU
+ FfQGToU2p8LsjWIo0XWDzyEeplb4APfMiGS38mLj1pTwb3nysPMEzCbB2KvJtTisprzR
+ 0b821mEKUFOgT9h6ciO+3uEE/uY2UIWEx48LyFR635aPtiOOftP/NEHeOJ6PZ4Ca1NQw
+ 42HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=yk47PqZmuOTiniLSu6qFGT/8lOr+9kd9+ln4IWTKIHI=;
- b=KsAc6d2XNB2qTogwgVTv9puiAtoRkny/vC+RmxS5CqIkTVTskDrh5dH8riKMSdILED
- N+jGUUxXnJKCyMFNtxiFY19R3zVNq4Xj/ifERMaW7FVCQttUpJuMeInAcSQKFi+d7D15
- kaT6pvmnaU/EoL9SrW/jEDzu61Cg1q7F16C74j2ey8v2AocMwJdFi72edZvDtfc60PZ7
- CUVya8TJztTQoLqkC5U5I1b7f4+8F+aExp054BjdCc7arE9r1srfRy3ys/TUemYMVPCB
- Tkl9CmNOlJPheC+7C9B4wCY7hXisSetN2eCPvIdsPTsmqrq696YPTBwe7iDeO6jYX33i
- Uq/Q==
-X-Gm-Message-State: AFqh2kqIqyOK/AtRMG+nOyDjB0UknIRClBx1kgu+CabnKcYzMPSje3qD
- lGh0GvTwCVLg00AHUGS/sQGkFOYSABc=
-X-Google-Smtp-Source: AMrXdXtf6WvLxlBNkdRG7d9Wzfh7Z3jcCJFTUdKgmA54kWd0OBMts1eK3T6tPQUGtMer5c3K766eXA==
-X-Received: by 2002:aa7:cc81:0:b0:47e:eaae:9a5b with SMTP id
- p1-20020aa7cc81000000b0047eeaae9a5bmr48468343edt.42.1675028077073; 
- Sun, 29 Jan 2023 13:34:37 -0800 (PST)
-Received: from localhost.localdomain ([46.183.103.17])
- by smtp.gmail.com with ESMTPSA id
- d1-20020aa7d681000000b0049be07c9ff5sm5831220edr.4.2023.01.29.13.34.35
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 13:34:36 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhuacai@kernel.org>,
- BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 3/3] hw/isa/vt82c686: Implement ACPI powerdown
-Date: Sun, 29 Jan 2023 22:34:18 +0100
-Message-Id: <20230129213418.87978-4-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230129213418.87978-1-shentey@gmail.com>
-References: <20230129213418.87978-1-shentey@gmail.com>
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=3i8dxNRHWGRSBxA1HVBMDp2I5+H1/9S7hQmHWc1FHSU=;
+ b=nedpS52vhByejM5BBHwLlVd4eePX/3vlaeP/ved8FU3bo9+KmZ7K0FWV0kHo8YIMOS
+ lUIDV6DkkrBWq6ly8rdXvnVjzKQcOuqvv3IhyyUJ+XniE+hisJozzuMIZLvbveWVtaIb
+ UVB6Ruv3nzaOy0vvCpmxluT3yqhJNcmuytyH+Diu3lctDPlF0ExW2D78OsFv80a3egAg
+ DZJl+5qOegqo+agTSCG3FEoZjMbkzKP4mPTknSD142OFCs9wSBThJr0laopBZVxvp81j
+ X94fohPuWEfariovfaCC2LfzrKjrswAn7JrHK/wv5COn9N3dEnK7g+VsadVLYWRnRVzn
+ gwaQ==
+X-Gm-Message-State: AFqh2kp0uBqJtVfj5R3Cn4rPuu0EFF99/U0/QFF7O4BUDEy9AjdgMlDw
+ uczN5MySRJuXT7J7efQwMt9T8L7G5OInj7gGDiQ=
+X-Google-Smtp-Source: AMrXdXuEEw5I3eSOsMbQSHi0+/aKNKd/x268fi0CyyPSd4STOirnc76W3Yax6EuoT1wwYWWJpoXscZVk2/OpmuJvqGY=
+X-Received: by 2002:a0d:e611:0:b0:4ff:b3a2:5962 with SMTP id
+ p17-20020a0de611000000b004ffb3a25962mr4859607ywe.111.1675030260733; Sun, 29
+ Jan 2023 14:11:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x534.google.com
-X-Spam_score_int: 12
-X-Spam_score: 1.2
-X-Spam_bar: +
-X-Spam_report: (1.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
- DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Sun, 29 Jan 2023 17:10:48 -0500
+Message-ID: <CAJSP0QXBKPXj2vf3wuK2QGdX+HZa_Nu3A+RT6hYnXJrUKTY4Fg@mail.gmail.com>
+Subject: virtio-sound Google Summer of Code project?
+To: chouhan.shreyansh2702@gmail.com, Gerd Hoffmann <kraxel@redhat.com>, 
+ Laurent Vivier <Laurent@vivier.eu>
+Cc: qemu-devel <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1132.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,61 +81,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- hw/isa/vt82c686.c | 15 +++++++++++++++
- 1 file changed, 15 insertions(+)
+Hi Shreyansh, Gerd, and Laurent,
+The last virtio-sound RFC was sent in February last year. It was a
+spare time project. Understandably it's hard to complete the whole
+thing on weekends, evenings, etc. So I wanted to suggest relaunching
+the virtio-sound effort as a Google Summer of Code project.
 
-diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index b0765d4ed8..2db54d1649 100644
---- a/hw/isa/vt82c686.c
-+++ b/hw/isa/vt82c686.c
-@@ -33,8 +33,10 @@
- #include "qapi/error.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-+#include "qemu/notify.h"
- #include "qemu/range.h"
- #include "qemu/timer.h"
-+#include "sysemu/runstate.h"
- #include "trace.h"
- 
- #define ACPI_ENABLE 0xf1
-@@ -50,6 +52,8 @@ struct ViaPMState {
-     APMState apm;
-     PMSMBus smb;
- 
-+    Notifier powerdown_notifier;
-+
-     qemu_irq irq;
- };
- 
-@@ -198,6 +202,14 @@ static void via_pm_reset(DeviceState *d)
-     smb_io_space_update(s);
- }
- 
-+static void via_pm_powerdown_req(Notifier *n, void *opaque)
-+{
-+    ViaPMState *s = container_of(n, ViaPMState, powerdown_notifier);
-+
-+    assert(s != NULL);
-+    acpi_pm1_evt_power_down(&s->ar);
-+}
-+
- static void via_pm_realize(PCIDevice *dev, Error **errp)
- {
-     ViaPMState *s = VIA_PM(dev);
-@@ -218,6 +230,9 @@ static void via_pm_realize(PCIDevice *dev, Error **errp)
-     acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
-     acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
-     acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2, false);
-+
-+    s->powerdown_notifier.notify = via_pm_powerdown_req;
-+    qemu_register_powerdown_notifier(&s->powerdown_notifier);
- }
- 
- static void via_pm_init(Object *obj)
--- 
-2.39.1
+Google Summer of Code is a 12-week full-time remote work internship.
+The intern would be co-mentored by some (or all) of us. The project
+goal would be to merge virtio-sound with support for both playback and
+capture. Advanced features for multi-channel audio, etc can be stretch
+goals.
 
+I haven't looked in detail at the patches from February 2022, so I
+don't know the exact state and whether there is enough work remaining
+for a 12-week internship. What do you think?
+
+Stefan
 
