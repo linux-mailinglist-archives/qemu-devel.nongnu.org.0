@@ -2,70 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D62367FC52
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 03:22:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C363967FC6E
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 03:47:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLxJh-0004WM-9c; Sat, 28 Jan 2023 21:21:13 -0500
+	id 1pLxhw-0007yl-5R; Sat, 28 Jan 2023 21:46:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pLxJf-0004W4-P3; Sat, 28 Jan 2023 21:21:11 -0500
-Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pLxJe-00038A-9h; Sat, 28 Jan 2023 21:21:11 -0500
-Received: by mail-ed1-x52d.google.com with SMTP id n6so5331211edo.9;
- Sat, 28 Jan 2023 18:21:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=qwLDTk9CmgoO7XlG9QyaEWRrleW3MOLcZ5s2N37WJPc=;
- b=St+XqyCOoWmjCrzyI1xbLUaYhVjGgFJz6B8b2rlsnlbvAFtn5IpDYvsupKr2qvbNXw
- QfzCjMX6Iw2VXr9uusIrpkrALBda/pjYQtxYEE07hhNH1eH/aTaRXHza4hiYc/Lqhqll
- RDrUS03vEC4tPHA/qThySDBWUq5vONpq6VUugvwXDd04iMfaRbfL5wQvENCIc2OGiQsI
- Nl4IXg+grkUUuaUy1d+mk8Oso9ivHlaczW49jw5nMejoeBzK9SXesMo6YTj0PmgbtbAP
- EPFH80gCHWIByYc/q9GRLL5jn6eGUPBhKbgYEwe9cOHzVJjQTj0wofyvhuLqCgfyX/3b
- faHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=qwLDTk9CmgoO7XlG9QyaEWRrleW3MOLcZ5s2N37WJPc=;
- b=0k5kbdlp13fTr4riyl7c6hoI9IiBzpkVJOPSXjkNSivPjin8w/HZSL3vdBboqwQ7wG
- ElhiDEtceW/N+NUltAiJuF11SQo8Ee7e7tgKGKOkM6DpHbT8ODPpbt5lou54mJDk74oI
- xR5OnwLDMt/uWLv641z8rca3xr/PrDF/Cb2/Dl5YB4Mwq1C39DG+1ABte58wqg/D12l6
- ifuwbe58g3ZAJjj8orMATja+fjY380hcRzNLta2t1IhQJQFf3Tu0wIyFmvdXu1f/x2YT
- kLJaspj/d12yQyheT2yvYqRXH6H6NaXYVfDa7j/A5xpwbzT0jdOjWOhLYiIqaKzOygSi
- yK6A==
-X-Gm-Message-State: AO0yUKWhKlDtIh5dkAVMd6EZt1wJMyyMX4IxURLSszhYnQbBF2uCKsV+
- CTYJC/FU7t8XphSCzFlRzfjOdQuPqFed+hIyCfI=
-X-Google-Smtp-Source: AK7set9o7VEQmtIOUBKFHvBQLqmHFwbed+QD+86s/khPeSGRl23rBzkV8C8NeNy/0+miw4AVmswZu/rTTLtAGEWBEvw=
-X-Received: by 2002:aa7:ca48:0:b0:4a2:3637:568 with SMTP id
- j8-20020aa7ca48000000b004a236370568mr186240edt.83.1674958867404; Sat, 28 Jan
- 2023 18:21:07 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pLxht-0007xw-QO; Sat, 28 Jan 2023 21:46:13 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pLxhq-0006PQ-9I; Sat, 28 Jan 2023 21:46:13 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 3EE2474633D;
+ Sun, 29 Jan 2023 03:43:37 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 0AA8D745706; Sun, 29 Jan 2023 03:43:37 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 09CB97456E3;
+ Sun, 29 Jan 2023 03:43:37 +0100 (CET)
+Date: Sun, 29 Jan 2023 03:43:37 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, 
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Gerd Hoffmann <kraxel@redhat.com>, 
+ Daniel Henrique Barboza <danielhb413@gmail.com>
+Subject: Re: [PATCH 0/3] Misc sm501 clean ups
+In-Reply-To: <78368e67-0ed7-1828-100c-d4d9d15fd27d@linaro.org>
+Message-ID: <46b0b8d7-dce4-18e2-970d-2fd81100bd98@eik.bme.hu>
+References: <cover.1674333199.git.balaton@eik.bme.hu>
+ <78368e67-0ed7-1828-100c-d4d9d15fd27d@linaro.org>
 MIME-Version: 1.0
-References: <20230126135219.1054658-1-dbarboza@ventanamicro.com>
- <20230126135219.1054658-2-dbarboza@ventanamicro.com>
-In-Reply-To: <20230126135219.1054658-2-dbarboza@ventanamicro.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Sun, 29 Jan 2023 10:20:56 +0800
-Message-ID: <CAEUhbmUyG1_6Aea-kt_dWNvqJtFMojuuUwABBOe4oPrecwLdOw@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] hw/riscv/boot.c: calculate fdt size after
- fdt_pack()
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-1826593396-1674960217=:91915"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -82,46 +62,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Daniel,
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-On Thu, Jan 26, 2023 at 9:53 PM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
-> fdt_pack() can change the fdt size, meaning that fdt_totalsize() can
-> contain a now deprecated (bigger) value.
+--3866299591-1826593396-1674960217=:91915
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-The commit message is a bit confusing.
+On Mon, 23 Jan 2023, Philippe Mathieu-Daudé wrote:
+> On 21/1/23 21:35, BALATON Zoltan wrote:
+>> Some small trivial clean ups I've found while looking at this file.
+>> 
+>> BALATON Zoltan (3):
+>>    hw/display/sm501: Remove parenthesis around consant macro definitions
+>>    hw/display/sm501: Remove unneeded casts from void pointer
+>>    hw/display/sm501: Code style fix
+>>
+>>   hw/display/sm501.c | 419 +++++++++++++++++++++++----------------------
+>>   1 file changed, 210 insertions(+), 209 deletions(-)
+>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-The original code in this patch does not call fdt_pack(). So not sure
-where the issue of "deprecated (bigger) value" happens?
-
->
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> ---
->  hw/riscv/boot.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 3172a76220..a563b7482a 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -287,8 +287,13 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
->  {
->      uint64_t temp, fdt_addr;
->      hwaddr dram_end = dram_base + mem_size;
-> -    int ret, fdtsize = fdt_totalsize(fdt);
-> +    int ret = fdt_pack(fdt);
-> +    int fdtsize;
->
-> +    /* Should only fail if we've built a corrupted tree */
-> +    g_assert(ret == 0);
-> +
-> +    fdtsize = fdt_totalsize(fdt);
->      if (fdtsize <= 0) {
->          error_report("invalid device-tree");
->          exit(1);
+Ping? Who will merge this series? Should Daniel take it via PPC or Gerd 
+for display? I only care that it gets in one way or another and not lost 
+between maintainers.
 
 Regards,
-Bin
+BALATON Zoltan
+--3866299591-1826593396-1674960217=:91915--
 
