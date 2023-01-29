@@ -2,76 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB6B667FCEC
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 06:44:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B583E67FCED
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 06:44:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pM0Tm-0005f3-U4; Sun, 29 Jan 2023 00:43:50 -0500
+	id 1pM0U6-0005gh-SG; Sun, 29 Jan 2023 00:44:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pM0Tl-0005ev-Kv
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 00:43:49 -0500
+ id 1pM0U4-0005gP-NG
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 00:44:08 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pM0Tj-0008QS-GK
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 00:43:49 -0500
+ id 1pM0U3-0008RD-6p
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 00:44:08 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1674971026;
+ s=mimecast20190719; t=1674971046;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=50UwZpSMaUReJMHS1Mnp2jomJq/o8hsmk75YdkSKtsg=;
- b=B5Q6BTPF2YXeg7zkTh0UwBJh9fCAFs/60HYl3op1wPBO2tSHy0uomTeIQQh1zeBqGO0Ut+
- 0+tqkpBoBAXvszupN/SEfNKI/5cy53AhuIp/cbMfSAD98R/ekqE3AZ7Je5P/5qlPxSiLaK
- e1I7khoXxbsGMA0RweNS8ECj1buEV6g=
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com
- [209.85.161.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5BQBGM7cdSrZUu9C20fxSrXWMSkHEg8SIM9mtzf8714=;
+ b=Er4HEba33XGSVcS2mf+ZImD/DgYjVovS2iD2y7JY4O0T7befU76BXLx7W3lRuBSWZ7ZXmd
+ UJDhz97vCJ/15MnU4fOfGinh9CFE5FNhiHu9ekMlc8qYT9uxO36AgcgozCYkmtX64/fkIN
+ zpFcTyAOT+vteA5NG0wc85jP7J78gNg=
+Received: from mail-oa1-f72.google.com (mail-oa1-f72.google.com
+ [209.85.160.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-120-ac5ODHG4NgKAzxOOVb8heg-1; Sun, 29 Jan 2023 00:43:35 -0500
-X-MC-Unique: ac5ODHG4NgKAzxOOVb8heg-1
-Received: by mail-oo1-f69.google.com with SMTP id
- u1-20020a4ad0c1000000b005176d37d75bso48071oor.15
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 21:43:34 -0800 (PST)
+ us-mta-552-GHKuCS0APGWCjVmkCvoZOA-1; Sun, 29 Jan 2023 00:44:03 -0500
+X-MC-Unique: GHKuCS0APGWCjVmkCvoZOA-1
+Received: by mail-oa1-f72.google.com with SMTP id
+ 586e51a60fabf-1631c656f97so3051491fac.1
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 21:44:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=50UwZpSMaUReJMHS1Mnp2jomJq/o8hsmk75YdkSKtsg=;
- b=bpn5Z5580qAkbr7bz7DDHF/CC+j4chYDoaLp+MNqJoOZz92f+lCfARKThz+nF8Dnkm
- /fm2loL9N4Sk85PbstQ7dJfPjVupTczx3mauXQ8mSaNDax4WrePFZoFJiMRS+3l4WU1c
- cA1agzLT8rHtzrk7NLinYWR1/HlJpUvnAbnLRsRBQZU3u1j5pxTj42kv+IXJPjWABn+l
- KWJJqRrVrm0E8Qxgjlh/7xXlH8da3iX7Cp9ToV9TBqAnre0uAeMPpIdYw9xTNLmdwKe9
- 8Xsm0z3XM+ASmvIFpdgVhUy2R450pzSik8y/sehj2XcV+AqfeESuidoRqx4d/2FPaVLn
- 5HZw==
-X-Gm-Message-State: AFqh2kqfuyoFmnXqrohr62jB4DfzKxXPSROJVSbKKdvvpbwbEpNDJN6b
- lD8MUtQQOBLv2ON+tkhWYkJz3Mz6OMNhzcc2hBPoAXjHFAmK0gM41T8xcA8QycVAqRR3XRxoljD
- p3uM4NfJHmYp6zm07y/pdc31+y0Hd2vQ=
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5BQBGM7cdSrZUu9C20fxSrXWMSkHEg8SIM9mtzf8714=;
+ b=d/E3UsddTaU26j/429WyOERgOOgUjIsPjjThbkKRls5zDtiZ1qEPWLuLRwDEDViTmd
+ 9rcPM9rhC2T0lu2eHnMozMlVr4N/522xlxdIuYChUZip/zZjOOHloBAu/216V/m3HLSa
+ ppqa9ODrnW1TrWqkfyz0zBnlQsphbZYZY6TSioGR9Y89c5lDA5Ifr+3JbMge8EY+1ZBu
+ W2d7+u313ZxIMIASmtp1BhXqlXJ29h3qfrDZiBp7xR1wv8AHKhcApqHhBogoxaI2gSih
+ vpA/hKPV9bz9Uq1UZB6ykNzNvTyr3F13IUzWJvT6xlb3LKO6/5MnIgQBgC4Dz6DrHj8O
+ ORIQ==
+X-Gm-Message-State: AFqh2koHdhpUC/fS5nN7c/gCQZXWWrr9n6cMV9hCr1YQ4sqgJGOyKaNv
+ C3KeOfQT7EK5RT1hE3514RC02/6LqUR62k/Y4CUeNO076+xLUxneohCWqgUO0ilKg0xd5A/e+zF
+ yDnyLRWG/mjtW/sNBifz/RTS0Dqs6psY=
 X-Received: by 2002:a9d:51cd:0:b0:684:d018:10a6 with SMTP id
- d13-20020a9d51cd000000b00684d01810a6mr2315975oth.5.1674971014400; 
- Sat, 28 Jan 2023 21:43:34 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXt7AVWvZTaVGb0rGBr0lR81j8yZ/Ay/ZZCzigAKYSbQsoqDq+4k/vYiR280IOZi3UPNWC3SJYteMyqiV7L42uY=
+ d13-20020a9d51cd000000b00684d01810a6mr2316051oth.5.1674971043180; 
+ Sat, 28 Jan 2023 21:44:03 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXuYJA2VhONYHdvmmwe6A5nkuB1UsBhCbUPP9Q5d87hBX1RZ7Mf9jweaMO6mkr9usvcY3pvJNsvo4hdBeAGwRSE=
 X-Received: by 2002:a9d:51cd:0:b0:684:d018:10a6 with SMTP id
- d13-20020a9d51cd000000b00684d01810a6mr2315970oth.5.1674971014209; Sat, 28 Jan
- 2023 21:43:34 -0800 (PST)
+ d13-20020a9d51cd000000b00684d01810a6mr2316050oth.5.1674971043012; Sat, 28 Jan
+ 2023 21:44:03 -0800 (PST)
 MIME-Version: 1.0
-References: <20221129081037.12099-1-jasowang@redhat.com>
- <CAPv0NP74wPer5uqrWYh8EeFO_YSATNuo5UpADD2QrE34=FwkrQ@mail.gmail.com>
- <CACGkMEvREZQGT=bbpbGAW4UmPreMJ=SriYp3d5L0_FCECQ6yvg@mail.gmail.com>
- <20230127081719-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20230127081719-mutt-send-email-mst@kernel.org>
+References: <20230117105308.1337120-1-eperezma@redhat.com>
+ <20230123093908-mutt-send-email-mst@kernel.org>
+In-Reply-To: <20230123093908-mutt-send-email-mst@kernel.org>
 From: Jason Wang <jasowang@redhat.com>
-Date: Sun, 29 Jan 2023 13:43:23 +0800
-Message-ID: <CACGkMEvU=pjW3TrzMdyzrNyYD=kLR_r2h9RsMB8-1ckYE=QdWA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] Fix UNMAP notifier for intel-iommu
+Date: Sun, 29 Jan 2023 13:43:52 +0800
+Message-ID: <CACGkMEt36LzsDmw_SZc9JQXm4xnbycxA1NphNfYMunH9Sfk5PA@mail.gmail.com>
+Subject: Re: [PATCH] vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check
 To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Viktor Prutyanov <viktor@daynix.com>, peterx@redhat.com,
+Cc: =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, elic@nvidia.com, 
+ Zhu Lingshan <lingshan.zhu@intel.com>, Si-Wei Liu <si-wei.liu@oracle.com>,
  qemu-devel@nongnu.org, 
- eric.auger@redhat.com, Yan Vugenfirer <yvugenfi@redhat.com>
+ Cindy Lu <lulu@redhat.com>, Gautam Dawar <gdawar@xilinx.com>,
+ leiyang@redhat.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -96,68 +98,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 27, 2023 at 9:17 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+On Mon, Jan 23, 2023 at 10:39 PM Michael S. Tsirkin <mst@redhat.com> wrote:
 >
-> On Mon, Jan 16, 2023 at 03:06:44PM +0800, Jason Wang wrote:
-> > On Mon, Jan 16, 2023 at 7:30 AM Viktor Prutyanov <viktor@daynix.com> wrote:
-> > >
-> > > On Tue, Nov 29, 2022 at 11:10 AM Jason Wang <jasowang@redhat.com> wrote:
-> > > >
-> > > > Hi All:
-> > > >
-> > > > According to ATS, device should work if ATS is disabled. This is not
-> > > > correctly implemented in the current intel-iommu since it doesn't
-> > > > handle the UNMAP notifier correctly. This breaks the vhost-net +
-> > > > vIOMMU without dt.
-> > > >
-> > > > The root casue is that the when there's a device IOTLB miss (note that
-> > > > it's not specific to PCI so it can work without ATS), Qemu doesn't
-> > > > build the IOVA tree, so when guest start an IOTLB invalidation, Qemu
-> > > > won't trigger the UNMAP notifier.
-> > > >
-> > > > Fixing by build IOVA tree during IOMMU translsation.
-> > > >
-> > > > Thanks
-> > > >
-> > > > Jason Wang (3):
-> > > >   intel-iommu: fail MAP notifier without caching mode
-> > > >   intel-iommu: fail DEVIOTLB_UNMAP without dt mode
-> > > >   intel-iommu: build iova tree during IOMMU translation
-> > > >
-> > > >  hw/i386/intel_iommu.c | 58 ++++++++++++++++++++++++-------------------
-> > > >  1 file changed, 33 insertions(+), 25 deletions(-)
-> > > >
-> > > > --
-> > > > 2.25.1
-> > > >
-> > >
-> > > Hi Jason,
-> > >
-> > > I've tried the series with Windows Server 2022 guest with vhost and
-> > > intel-iommu (device-iotlb=off) and now networking on this system has
-> > > become working.
-> > > So, as we discussed, I'm waiting for the series to be accepted in some
-> > > form to continue my work about supporting guests who refuse Device-TLB
-> > > on systems with device-iotlb=on.
-> > >
-> > > Tested-by: Viktor Prutyanov <viktor@daynix.com>
+> On Tue, Jan 17, 2023 at 11:53:08AM +0100, Eugenio P=C3=A9rez wrote:
+> > VHOST_BACKEND_F_IOTLB_ASID is the feature bit, not the bitmask. Since
+> > the device under test also provided VHOST_BACKEND_F_IOTLB_MSG_V2 and
+> > VHOST_BACKEND_F_IOTLB_BATCH, this went unnoticed.
 > >
-> > Great, Peter has some comments on this series, so I will probably send
-> > a new version (probably after the chinese new year).
-> >
-> > Thanks
+> > Fixes: c1a1008685 ("vdpa: always start CVQ in SVQ mode if possible")
+> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> > Acked-by: Jason Wang <jasowang@redhat.com>
 >
-> Were you going to post a new version?
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+>
+> Jason are you merging this?
 
-Yes.
+Queued.
 
 Thanks
 
 >
-> > >
-> > > Best regards,
-> > > Viktor Prutyanov
-> > >
+> > ---
+> > Originally on SUSPEND series, but it is a fix that it is worth to send
+> > and apply individually:
+> > https://lists.nongnu.org/archive/html/qemu-devel/2023-01/msg02574.html
+> >
+> > ---
+> >  net/vhost-vdpa.c | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
+> > index 1a13a34d35..de5ed8ff22 100644
+> > --- a/net/vhost-vdpa.c
+> > +++ b/net/vhost-vdpa.c
+> > @@ -384,7 +384,7 @@ static int vhost_vdpa_net_cvq_start(NetClientState =
+*nc)
+> >              g_strerror(errno), errno);
+> >          return -1;
+> >      }
+> > -    if (!(backend_features & VHOST_BACKEND_F_IOTLB_ASID) ||
+> > +    if (!(backend_features & BIT_ULL(VHOST_BACKEND_F_IOTLB_ASID)) ||
+> >          !vhost_vdpa_net_valid_svq_features(v->dev->features, NULL)) {
+> >          return 0;
+> >      }
+> > --
+> > 2.31.1
 >
 
 
