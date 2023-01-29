@@ -2,73 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E97E4680256
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 23:45:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B797680257
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 23:45:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMGPl-0007Zu-73; Sun, 29 Jan 2023 17:44:45 -0500
+	id 1pMGPp-0007aC-82; Sun, 29 Jan 2023 17:44:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pMGPj-0007ZV-2d
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:44:43 -0500
-Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pMGPo-0007a2-4I
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:44:48 -0500
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pMGPh-0000WO-My
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:44:42 -0500
-Received: by mail-wr1-x433.google.com with SMTP id t18so9536552wro.1
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 14:44:41 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <cota@braap.org>) id 1pMGPm-0000Wc-MM
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:44:47 -0500
+Received: by mail-wr1-x429.google.com with SMTP id bk16so9492607wrb.11
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 14:44:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=braap-org.20210112.gappssmtp.com; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date:from:to
  :cc:subject:date:message-id:reply-to;
- bh=4EvQj1WQ7LjlyQ4fT0E6yT+lebXzP91p2fg0cA59wgU=;
- b=VHHBy1RucaURa6d7sL/9G8NlgU5+6TYL2mM29UdsRgPq+43HsmO/RPbJt5xLvB2tVn
- w+BbDWBeBXRWijw4PfD7Nzw0bObVuS3iaRxhNE/ZCBNuqcJSzUWWKeE7I7A2YEM5JwpQ
- HUsTxFUjnRIPvQ+fPACGt3wjyMCgYO1g2q/fZejXD5A5x87N+Vpy+IZ5R+nJznoLC2EF
- KGN2jDLCTiiWsxuRbswGCV97xlmBBz5ZEx8NzH4ESXLUG+iYvcqEqOTKzqFR7xuwDDu2
- Z8KxR0YAze/gCXZ2vC+bCQ1iKXdrC82tx3qARotQJ3fNq2lj8O2mi7pVQxpLahcKuzSd
- iPzA==
+ bh=Qj/VaPLF+8YROwSnsU4sauN36ka0orclS2WSB4j8LsE=;
+ b=ektuvPQ3Eldfm43lVnxOuAICfRZO93t4uKqdWoZXrXHte286Ld3VYiTbKWoux5czbN
+ 3WV9vAMEHIksvHF2g2RJYZXre43PWIIZL/SslE+YAE3Js6/rEKVl6wEpBQgCB+rhWD8l
+ pbTF6q2y5u7jjDnFC/zWYMMHD8c4TASCJM1E+Nmi2Cm7fS09NZ4Ek7o71gVt6W4OEytp
+ YiCFdhlT6yVrKprYdj+njfOHBaYbJV+5F8bmAibOAPxlnKQKhtLRej2HhKairwrt6gEO
+ YmGLNYqOt/7q0DYJroD2Bhhf2QqkyKP2vLuvwyxqp+p1xqeF4XV1Aq8+vYfySGY58hJU
+ 4PeA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-transfer-encoding:content-disposition
  :mime-version:references:message-id:subject:cc:to:from:date
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=4EvQj1WQ7LjlyQ4fT0E6yT+lebXzP91p2fg0cA59wgU=;
- b=8ARTSwoFpXhOUKqQRWw0zRADOF9qbGEBivd/+xmBaxXKQxnEkqi5LZNb6u0gajt8A7
- bLJjPAjbi1j8ln7HkODF4uBqBNY8UFLyote2gWbmQIaLNDRbNnaMVJpLpcgviSdqFy8v
- jRNbvaYOUpXueoIypIh6LY/cmYvNITsag5Ro/0o0f0ePytEm1no7C/znmfmBlbrK0Xe0
- QUzPIS+k1iGlj21lUqG1U9LrUhTqmkCj5lRg4EylZoWlZ25vKQx96v0NaUvqY6eQEt20
- /7Q5QO02QCSFTtpVVcSdNerVi9n7LeaPimtvoamI5dnr/eM3laoQh1VfQBGIMxIUN5zu
- T6+w==
-X-Gm-Message-State: AFqh2ko74LzB7aHMQZYG6XNEX4YfZ4BAZIKDYgTg7yHYZqFHKPsQivBl
- Lpu/BP4/gQI7RQRURI4MD82yDw==
-X-Google-Smtp-Source: AMrXdXsoVdl65Wtw4nO7RXo0wMl6kPVm+cJN9uHbnkgdJVltvtgSBJYcLFUDRqyzgn6dhCpCWkl1cQ==
-X-Received: by 2002:a5d:48c7:0:b0:2bb:ed0c:a0d8 with SMTP id
- p7-20020a5d48c7000000b002bbed0ca0d8mr40551123wrs.53.1675032280359; 
- Sun, 29 Jan 2023 14:44:40 -0800 (PST)
+ bh=Qj/VaPLF+8YROwSnsU4sauN36ka0orclS2WSB4j8LsE=;
+ b=pRzb6lfxTbHp6rxB4fxgeFYikKaFD3YWdbmabf9fGWVmrrAUd8zeGNxLqAPI8qKDWt
+ q3+uHBEWIWPw0nsrxQCPL5+kHM6sZw1+wH7a4QAK3JBROjImfDfyWFln1cjigIzxpWnZ
+ eQ4lHDP3nLSsXpPVfsLW60iUTacbr8KsPzX5zsBBrNPm69RbWqtWoF5KQJjHjzAXR9e0
+ wQtW80IuK6T8POV1AXi5I8b0rBqpyX3/OvDjUZ+U/jiUBM+h9in5GvT94xOOuNnM1p2+
+ OHYqCve78bKHVHlwl+a++FpAVzIww/QSdm4WI98aSbOuFoMaPt8QWYGl+HgdzeM9u8bJ
+ lfxw==
+X-Gm-Message-State: AO0yUKUuNzFgZH968oSoLK5ETx1COebxF7MsEIxEu0OZICRMgNQuCP9g
+ 9GXCyMctXX7Wza+RbsGFKuNswusfpJbTV1anQe4=
+X-Google-Smtp-Source: AK7set9tfgxg440x7/ZjYn1eXgc4phSA13T0Ut3vRnTAJ3j0c4BFKNMZ0Bv1oe8zOA3z5WKsTMxduQ==
+X-Received: by 2002:a5d:420a:0:b0:2bf:e39d:c8a7 with SMTP id
+ n10-20020a5d420a000000b002bfe39dc8a7mr4411555wrq.44.1675032285335; 
+ Sun, 29 Jan 2023 14:44:45 -0800 (PST)
 Received: from localhost ([146.70.128.243]) by smtp.gmail.com with ESMTPSA id
- v12-20020a5d610c000000b0028965dc7c6bsm10044991wrt.73.2023.01.29.14.44.38
+ d3-20020adffbc3000000b002bdd155ca4dsm10149219wrs.48.2023.01.29.14.44.44
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 14:44:39 -0800 (PST)
-Date: Sun, 29 Jan 2023 17:32:05 -0500
+ Sun, 29 Jan 2023 14:44:44 -0800 (PST)
+Date: Sun, 29 Jan 2023 17:38:08 -0500
 From: Emilio Cota <cota@braap.org>
 To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
 Cc: qemu-devel@nongnu.org,
  Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Subject: Re: [PATCH 2/2] tcg: use QTree instead of GTree
-Message-ID: <Y9bz5QMpZAhGP6DR@cota-l14>
+Message-ID: <Y9b1UHyyPux7FKV5@cota-l14>
 References: <20230111035536.309885-1-cota@braap.org>
  <20230111035536.309885-3-cota@braap.org>
- <Y76nTaoek2kVtLqJ@redhat.com>
+ <Y76s1VNBUYwlpIGo@redhat.com> <Y9FRoUI3I5LfQsjW@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y76nTaoek2kVtLqJ@redhat.com>
-Received-SPF: softfail client-ip=2a00:1450:4864:20::433;
- envelope-from=cota@braap.org; helo=mail-wr1-x433.google.com
+In-Reply-To: <Y9FRoUI3I5LfQsjW@redhat.com>
+Received-SPF: softfail client-ip=2a00:1450:4864:20::429;
+ envelope-from=cota@braap.org; helo=mail-wr1-x429.google.com
 X-Spam_score_int: -11
 X-Spam_score: -1.2
 X-Spam_bar: -
@@ -90,28 +90,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Jan 11, 2023 at 12:10:53 +0000, Daniel P. Berrangé wrote:
-> On Tue, Jan 10, 2023 at 10:55:36PM -0500, Emilio Cota wrote:
-> > Performance impact on linux-user:
-> > - ~2% slowdown in spec06
-> > - 1.05% slowdown in Nbench-int
-> > - 4.51% slowdown in Nbench-fp
+On Wed, Jan 25, 2023 at 15:58:25 +0000, Daniel P. Berrangé wrote:
+> On Wed, Jan 11, 2023 at 12:34:29PM +0000, Daniel P. Berrangé wrote:
+> > On Tue, Jan 10, 2023 at 10:55:36PM -0500, Emilio Cota wrote:
+> > > qemu-user can hang in a multi-threaded fork. One common
+> > > reason is that when creating a TB, between fork and exec
+> > > we manipulate a GTree whose memory allocator (GSlice) is
+> > > not fork-safe.
+> > 
+> > BTW, I just checked latest glib status
+> > 
+> >   https://gitlab.gnome.org/GNOME/glib/-/issues/1079
+> > 
+> > it appears they're pretty close to deciding to delete the
+> > GSlice impl and always use system malloc.
 > 
-> What do you get *before* applying this patch, if you just run
-> linux-user with G_SLICE=always-malloc set ?
+> They have now merged the code to delete the GSlice custom allocator.
 > 
-> Also what libc impl were you testing with ? glibc or musl or something
-> else ?
+> So glib >= 2.76.0 should not exhibit a hang
+> 
+> > So if we do take this patch series it'll hopefully be a time
+> > limited thing to carry. 
+> 
+> So the question is whether the issue is critical enough that we want
+> to carry a workaround for a while, vs telling users to upgrade to
+> newer glib  (once 2.76 actually gets released)
 
-I've now done a few runs of nbench and the measurements I'm getting
-are within noise. So I'd say no perf difference.
-For SPEC I don't have time right now although I could do more runs
-if you think they're needed.
+That is great news!
 
-I'm tempted for v2 to just remove these macrobenchmark numbers, since
-with perf we can see that little time is spent on gtree anyway,
-and at the moment I don't have time to do proper benchmarking.
+Since this is a correctness issue, I think we should ship with qtree
+and use it when configuring with glib <2.76.0. For later glib versions
+we would just use gtree, e.g. via typedef + inline functions.
+
+Once the minimum glib required by the configure script is >= 2.76.0,
+then we'd remove qtree.
+
+If that sounds like a good plan, I can send a v2.
 
 Thanks,
-		E.
+		Emilio
 
