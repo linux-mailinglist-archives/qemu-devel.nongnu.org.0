@@ -2,82 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD53067FBEE
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 01:08:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C62E467FC01
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 01:48:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLvET-0005vv-S7; Sat, 28 Jan 2023 19:07:41 -0500
+	id 1pLvqI-0002Bc-6s; Sat, 28 Jan 2023 19:46:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLvES-0005qq-BA
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 19:07:40 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLvEQ-0000eT-Ev
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 19:07:39 -0500
-Received: by mail-pg1-x530.google.com with SMTP id 7so523216pgh.7
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 16:07:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=k3FdDi8WJySA7s5UETVGBXB8zN9tMg58CyYsTHaFCDw=;
- b=egK85id0wYEIAHROH7WWvfSXjoEXxOJkTCQDG7zTomXpcdvZ5z33immChF9+phS5P+
- gbyNqve21kL4VbMJU6YajX7AHeV48l8krachsR6T01/vYFBgOmrsaHsSJ7gRHRBvbLbV
- ZsO+T3YztHPRJBeiqK+2pB+FCtKua4a6mc3OCGnUkn11v0VPGSjx5WLRw9NoLabo+aTp
- KH3haqHgI0I7SD3f1m3cz6bPvtV2aRd4P2KjprD4IlkdCYpO0nDWBc5fTq9pTpNQi9d6
- mZEIGfr1alwBh1aeizxtYJyxD6+MmJxg3p4XFdIz+y9kdNND156bXOJQwEamEcopzK4N
- KbqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=k3FdDi8WJySA7s5UETVGBXB8zN9tMg58CyYsTHaFCDw=;
- b=z+wRfSV4M7c/EdKy3npgfKUkcDKkSfnORzHE+5rUgcPXpdVZfdnjJaPitOWksv5+En
- H7Imfve6ryyl4HHBE5tFc24zga7SOeh+AEhP+solVx6/9IpQqRz2WAI+GLmOAdJPoZz1
- p8INUqL3IQxlUK5y+HZNteUg6CDYcCjDR7O6l+qunresxX6XzbWasbLl4VQI9s0+fBtj
- dOD5K/1RFabMsFpzQELFTjM0IngO2CredSX3Z3disjSkav45R7fxLRlVGtLMa/GAj3YB
- ynvDEQZspvk3Q7Dd0eRr2YMd/8okGAy5ySDUxBeWXjGIUKYJ68L1MWVrp/8DIinkOXC2
- U1TQ==
-X-Gm-Message-State: AO0yUKVoaOaUeqVqR/X+5/+fLod/lZTo/NOZwGkEqNy1jA/7j8uoMA+1
- H8EW/snWY/yji/PnY9kw6YMwkg==
-X-Google-Smtp-Source: AK7set9BcEN9b+MF/D8LNcS9Rz4UCwUxqS2Z/9GtP/vKulrf8Ffrq+NFCozCvKe6JZorpXM35TOCGQ==
-X-Received: by 2002:a62:7b08:0:b0:590:74f1:8c8a with SMTP id
- w8-20020a627b08000000b0059074f18c8amr12957930pfc.15.1674950856522; 
- Sat, 28 Jan 2023 16:07:36 -0800 (PST)
-Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- t13-20020a056a00138d00b0058d9730ede0sm4779021pfg.210.2023.01.28.16.07.35
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 Jan 2023 16:07:36 -0800 (PST)
-Message-ID: <233cfd61-75ea-b0c4-bf48-8b632d4d85d9@linaro.org>
-Date: Sat, 28 Jan 2023 14:07:33 -1000
+ (Exim 4.90_1) (envelope-from <vapier@gentoo.org>) id 1pLvqF-0002BG-8y
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 19:46:43 -0500
+Received: from dev.gentoo.org ([2001:470:ea4a:1:5054:ff:fec7:86e4]
+ helo=smtp.gentoo.org)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
+ (Exim 4.90_1) (envelope-from <vapier@gentoo.org>) id 1pLvqC-000603-Qt
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 19:46:43 -0500
+Received: by smtp.gentoo.org (Postfix, from userid 559)
+ id 5CAA933BE54; Sun, 29 Jan 2023 00:46:29 +0000 (UTC)
+From: Mike Frysinger <vapier@gentoo.org>
+To: qemu-devel@nongnu.org,
+	Laurent Vivier <laurent@vivier.eu>
+Subject: [PATCH] linux-user: move target_flat.h to target subdirs
+Date: Sat, 28 Jan 2023 19:46:25 -0500
+Message-Id: <20230129004625.11228-1-vapier@gentoo.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 23/23] target/arm: Enable FEAT_FGT on '-cpu max'
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
- qemu-devel@nongnu.org
-References: <20230127175507.2895013-1-peter.maydell@linaro.org>
- <20230127175507.2895013-24-peter.maydell@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230127175507.2895013-24-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -31
-X-Spam_score: -3.2
-X-Spam_bar: ---
-X-Spam_report: (-3.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-1.148,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2001:470:ea4a:1:5054:ff:fec7:86e4;
+ envelope-from=vapier@gentoo.org; helo=smtp.gentoo.org
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,17 +50,76 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/27/23 07:55, Peter Maydell wrote:
-> Update the ID registers for TCG's '-cpu max' to report the
-> presence of FEAT_FGT Fine-Grained Traps support.
-> 
-> Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
-> ---
->   docs/system/arm/emulation.rst | 1 +
->   target/arm/cpu64.c            | 1 +
->   2 files changed, 2 insertions(+)
+This makes target_flat.h behave like every other target_xxx.h header.
+It also makes it actually work -- while the current header says adding
+a header to the target subdir overrides the common one, it doesn't.
+This is for two reasons:
+* meson.build adds -Ilinux-user before -Ilinux-user/$arch
+* the compiler search path for "target_flat.h" looks in the same dir
+  as the source file before searching -I paths.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+This can be seen with the xtensa port -- the subdir settings aren't
+used which breaks stack setup.
 
-r~
+Move it to the generic/ subdir and add include stubs like every
+other target_xxx.h header is handled.
+
+Signed-off-by: Mike Frysinger <vapier@gentoo.org>
+---
+ linux-user/aarch64/target_flat.h       | 1 +
+ linux-user/arm/target_flat.h           | 1 +
+ linux-user/{ => generic}/target_flat.h | 0
+ linux-user/m68k/target_flat.h          | 1 +
+ linux-user/microblaze/target_flat.h    | 1 +
+ linux-user/sh4/target_flat.h           | 1 +
+ 6 files changed, 5 insertions(+)
+ create mode 100644 linux-user/aarch64/target_flat.h
+ create mode 100644 linux-user/arm/target_flat.h
+ rename linux-user/{ => generic}/target_flat.h (100%)
+ create mode 100644 linux-user/m68k/target_flat.h
+ create mode 100644 linux-user/microblaze/target_flat.h
+ create mode 100644 linux-user/sh4/target_flat.h
+
+diff --git a/linux-user/aarch64/target_flat.h b/linux-user/aarch64/target_flat.h
+new file mode 100644
+index 000000000000..bc83224cea12
+--- /dev/null
++++ b/linux-user/aarch64/target_flat.h
+@@ -0,0 +1 @@
++#include "../generic/target_flat.h"
+diff --git a/linux-user/arm/target_flat.h b/linux-user/arm/target_flat.h
+new file mode 100644
+index 000000000000..bc83224cea12
+--- /dev/null
++++ b/linux-user/arm/target_flat.h
+@@ -0,0 +1 @@
++#include "../generic/target_flat.h"
+diff --git a/linux-user/target_flat.h b/linux-user/generic/target_flat.h
+similarity index 100%
+rename from linux-user/target_flat.h
+rename to linux-user/generic/target_flat.h
+diff --git a/linux-user/m68k/target_flat.h b/linux-user/m68k/target_flat.h
+new file mode 100644
+index 000000000000..bc83224cea12
+--- /dev/null
++++ b/linux-user/m68k/target_flat.h
+@@ -0,0 +1 @@
++#include "../generic/target_flat.h"
+diff --git a/linux-user/microblaze/target_flat.h b/linux-user/microblaze/target_flat.h
+new file mode 100644
+index 000000000000..bc83224cea12
+--- /dev/null
++++ b/linux-user/microblaze/target_flat.h
+@@ -0,0 +1 @@
++#include "../generic/target_flat.h"
+diff --git a/linux-user/sh4/target_flat.h b/linux-user/sh4/target_flat.h
+new file mode 100644
+index 000000000000..bc83224cea12
+--- /dev/null
++++ b/linux-user/sh4/target_flat.h
+@@ -0,0 +1 @@
++#include "../generic/target_flat.h"
+-- 
+2.39.0
+
 
