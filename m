@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF16167FD00
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 06:58:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEFD367FD16
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 07:17:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pM0he-00021t-7M; Sun, 29 Jan 2023 00:58:10 -0500
+	id 1pM0z2-0006bR-51; Sun, 29 Jan 2023 01:16:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pM0hb-00021Z-Pk
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 00:58:07 -0500
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
+ id 1pM0z0-0006bE-4i
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 01:16:06 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pM0hZ-0001q3-Pm
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 00:58:07 -0500
-Received: by mail-pg1-x536.google.com with SMTP id 36so5629299pgp.10
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 21:58:05 -0800 (PST)
+ id 1pM0yv-0004hz-3v
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 01:16:05 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id 88so8410549pjo.3
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 22:16:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=R+j/1x7O09B1LHdQjpR2bmbV0dHni2b/BHEpYul4MIs=;
- b=t7xSgHbGczyDMXdc+Gm8I9ntEogPThl4BEEphsEqA6VhgjVPlfUKcTAsRGUf4TwPFE
- 9ApMn1Ipo84nZnD587WhZ5dpRfrMon+5JXNlKdu5UUEQk0uoKnKqg8I6+6kPDmvlanmw
- uibAvjV5fqJrHiDUmINU1PfEXZFwF7vWtsUXQUki1ZuNLJwK+FbiYxPHhhW3HhwZR04l
- c1RXdbhGY+Q3qgeTkHS7M7pdHGA1htSGzxXxs9ZQp61WDbcT6hxe0CME6STjRT3UTvOn
- 9PVEabCuJHtQCE/I81SjLqdHjT7XTL8zQ9xBcHE2CEnBdwSdV5/5jjJOg6EYnly2kh6p
- Fc/g==
+ bh=IwkTKhZhmr2X/flFUBjfexZWg4rmUF71CWk3X1lpFgE=;
+ b=2q/QHnnLJAy+UAzm6050hLGF78zAVLGQVWhDbHpHDC6aqpn62X1vmxXbi86ZBc5tjv
+ OlXr8iZtC3leoiwULAW3t1MAa9oqDFgFJ54EyYqv60ed8ffoxEocnNo3CqUAu53B8NfE
+ NEzuzhsM/slA6O01DCRoZHp72qAZ0HLy+hY8ES/n6AWqW9JP5RDW2L53oXAg1zWd4U32
+ KrcaL6FIzh2o6vrMbhd8KK5hoccb48apQiBLsHKK5UZmxp6jz6VEN1Vxqumqj4LR6hOr
+ qTp117ZzVbXrzDDhltIHgWGQRH5wD8vXOUryrYS2NNxZ6FskFac5T6sy64bCy0fOHsxi
+ 2p5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=R+j/1x7O09B1LHdQjpR2bmbV0dHni2b/BHEpYul4MIs=;
- b=m2RJNddvWtoSieQmD8zE1qDJcfpKszEViLZqQud3Udfq4Kav89ks+4RLrVkuZCK3BI
- mtygN2nGI1vuZG9JMTnRAsZkIogxXt8NzOQgLiJOKuQ9wn2f1OynkAsbCoeFQsdCWKCH
- 62ivZV3ZJ/W4GNi6TnMs6UVoVGU4koTaWjSNHj88SgFHQ5BlH2VnsY1At9v7YWdJsZVC
- pDQvdBUZllxx5TsEI6OjktiASR29KKzzvQP63mc4MBuwqRV7EgA7yMbXlCi/v8s6NyuN
- ExE2qPQJKcnfYc0huBGHtC5/F8C+g2JTvgN2nGuvsc0YM0fmtEbcBkFWCdsXjwoCZBfr
- AEVQ==
-X-Gm-Message-State: AO0yUKVxfBxza6W55uugQzzrZ5+DkkWTm/iGhcQSOSdyHsaCqD+2Wx1x
- CLDLwAN9Y+bjm6LQQYb/ydmTJQ==
-X-Google-Smtp-Source: AK7set/Zr+absz3qASw0pwLpq1/lajWltPEncwIA65gwA9Gc+GAuQr6GQPS9WjtSysxswTB+fWc3Xw==
-X-Received: by 2002:a05:6a00:212e:b0:592:5eab:3402 with SMTP id
- n14-20020a056a00212e00b005925eab3402mr4420760pfj.28.1674971884237; 
- Sat, 28 Jan 2023 21:58:04 -0800 (PST)
+ bh=IwkTKhZhmr2X/flFUBjfexZWg4rmUF71CWk3X1lpFgE=;
+ b=A3HvayXShwV554bRtM9lm/cxj/Jgp5nJyud/sN3QESKrDGcQmlLbIs5rcLbtzngwkq
+ CLGvcYl3wh0Q89V/F57snQftyRI4dtYP450lT9qz1I+6gXUrwnbS7ihP88v88L6mGvJJ
+ kRe61PiVsSZhfn3wgUPF/K5gumODRZFNL9JbFZGO5uN5cF72mBUfV9ZDgUfXWt8DN45a
+ vC5Y/tntVCNdK92eidCW9VKrJVMbobQgSfmA4diXUwdNTL5Wpu/6ajHhtdMhnLMQ8JvF
+ /LR2cJRasakEvd4C8NuZP4TXmg9vzKeH+Kb6Vq8dCq3u5h3GFZGSc5gZJCmJ9/J9Hano
+ IyjQ==
+X-Gm-Message-State: AO0yUKVdTrJTgPC5+75iXJfAwvHBQVKnLXf/0ABQji99prOEHJeq1roO
+ TpI4Ixm9Xtc2OytyE0pWcnBcqg==
+X-Google-Smtp-Source: AK7set9j/wN4y1QhXPqKNmwotzBHSrNZDFjm5KPZDy9lbPHGYc49uU/uzkszFDVu4bQUd3F2QDlUQA==
+X-Received: by 2002:a17:903:41c1:b0:196:7c15:cada with SMTP id
+ u1-20020a17090341c100b001967c15cadamr1124371ple.4.1674972959290; 
+ Sat, 28 Jan 2023 22:15:59 -0800 (PST)
 Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
  ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- x4-20020aa79ac4000000b0059072da44f3sm5104870pfp.130.2023.01.28.21.58.02
+ q5-20020a170902b10500b00192740bb02dsm5423542plr.45.2023.01.28.22.15.57
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 Jan 2023 21:58:03 -0800 (PST)
-Message-ID: <0d67b3aa-fd43-b445-8fdc-68f965c143d1@daynix.com>
-Date: Sun, 29 Jan 2023 14:58:01 +0900
+ Sat, 28 Jan 2023 22:15:58 -0800 (PST)
+Message-ID: <714504e4-fb71-495f-13af-3514b66ef4c1@daynix.com>
+Date: Sun, 29 Jan 2023 15:15:55 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.0
 Subject: Re: [PATCH 2/9] igb: handle PF/VF reset properly
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
  Dmitry Fleytman <dmitry.fleytman@gmail.com>,
@@ -69,13 +71,12 @@ Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 References: <20230128134633.22730-1-sriram.yagnaraman@est.tech>
  <20230128134633.22730-3-sriram.yagnaraman@est.tech>
-Content-Language: en-US
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <20230128134633.22730-3-sriram.yagnaraman@est.tech>
+ <0d67b3aa-fd43-b445-8fdc-68f965c143d1@daynix.com>
+In-Reply-To: <0d67b3aa-fd43-b445-8fdc-68f965c143d1@daynix.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::536;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x536.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -29
 X-Spam_score: -3.0
 X-Spam_bar: ---
@@ -97,106 +98,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/01/28 22:46, Sriram Yagnaraman wrote:
-> Use PFRSTD to reset RSTI bit for VFs, and raise VFLRE interrupt when VF
-> is reset.
+On 2023/01/29 14:58, Akihiko Odaki wrote:
+> On 2023/01/28 22:46, Sriram Yagnaraman wrote:
+>> Use PFRSTD to reset RSTI bit for VFs, and raise VFLRE interrupt when VF
+>> is reset.
+>>
+>> Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+>> ---
+>>   hw/net/e1000x_regs.h |  1 +
+>>   hw/net/igb_core.c    | 33 +++++++++++++++++++++------------
+>>   hw/net/trace-events  |  2 ++
+>>   3 files changed, 24 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/hw/net/e1000x_regs.h b/hw/net/e1000x_regs.h
+>> index fb5b861135..bb3fb36b8d 100644
+>> --- a/hw/net/e1000x_regs.h
+>> +++ b/hw/net/e1000x_regs.h
+>> @@ -548,6 +548,7 @@
+>>   #define E1000_CTRL_EXT_ASDCHK  0x00001000 /* auto speed detection 
+>> check */
+>>   #define E1000_CTRL_EXT_EE_RST  0x00002000 /* EEPROM reset */
+>> +#define E1000_CTRL_EXT_PFRSTD  0x00004000 /* PF reset done indication */
+>>   #define E1000_CTRL_EXT_LINK_EN 0x00010000 /* enable link status from 
+>> external LINK_0 and LINK_1 pins */
+>>   #define E1000_CTRL_EXT_DRV_LOAD 0x10000000 /* Driver loaded bit for 
+>> FW */
+>>   #define E1000_CTRL_EXT_EIAME   0x01000000
+>> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+>> index abeb9c7889..9bd53cc25f 100644
+>> --- a/hw/net/igb_core.c
+>> +++ b/hw/net/igb_core.c
+>> @@ -1902,14 +1902,6 @@ static void igb_set_eims(IGBCore *core, int 
+>> index, uint32_t val)
+>>       igb_update_interrupt_state(core);
+>>   }
+>> -static void igb_vf_reset(IGBCore *core, uint16_t vfn)
+>> -{
+>> -    /* TODO: Reset of the queue enable and the interrupt registers of 
+>> the VF. */
+>> -
+>> -    core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_RSTI;
+>> -    core->mac[V2PMAILBOX0 + vfn] = E1000_V2PMAILBOX_RSTD;
+>> -}
+>> -
+>>   static void mailbox_interrupt_to_vf(IGBCore *core, uint16_t vfn)
+>>   {
+>>       uint32_t ent = core->mac[VTIVAR_MISC + vfn];
+>> @@ -1987,6 +1979,17 @@ static void igb_set_vfmailbox(IGBCore *core, 
+>> int index, uint32_t val)
+>>       }
+>>   }
+>> +static void igb_vf_reset(IGBCore *core, uint16_t vfn)
+>> +{
+>> +    /* disable Rx and Tx for the VF*/
+>> +    core->mac[VFTE] &= ~BIT(vfn);
+>> +    core->mac[VFRE] &= ~BIT(vfn);
+>> +    /* indicate VF reset to PF */
+>> +    core->mac[VFLRE] |= BIT(vfn);
+>> +    /* VFLRE and mailbox use the same interrupt cause */
+>> +    mailbox_interrupt_to_pf(core);
+>> +}
+>> +
 > 
-> Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-> ---
->   hw/net/e1000x_regs.h |  1 +
->   hw/net/igb_core.c    | 33 +++++++++++++++++++++------------
->   hw/net/trace-events  |  2 ++
->   3 files changed, 24 insertions(+), 12 deletions(-)
+> Please do not move the function unless you have a legitimate reason for 
+> that.
+
+I got it. It is necessary to refer mailbox_interrupt_to_pf().
+
+Reviewed-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+
 > 
-> diff --git a/hw/net/e1000x_regs.h b/hw/net/e1000x_regs.h
-> index fb5b861135..bb3fb36b8d 100644
-> --- a/hw/net/e1000x_regs.h
-> +++ b/hw/net/e1000x_regs.h
-> @@ -548,6 +548,7 @@
->   
->   #define E1000_CTRL_EXT_ASDCHK  0x00001000 /* auto speed detection check */
->   #define E1000_CTRL_EXT_EE_RST  0x00002000 /* EEPROM reset */
-> +#define E1000_CTRL_EXT_PFRSTD  0x00004000 /* PF reset done indication */
->   #define E1000_CTRL_EXT_LINK_EN 0x00010000 /* enable link status from external LINK_0 and LINK_1 pins */
->   #define E1000_CTRL_EXT_DRV_LOAD 0x10000000 /* Driver loaded bit for FW */
->   #define E1000_CTRL_EXT_EIAME   0x01000000
-> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-> index abeb9c7889..9bd53cc25f 100644
-> --- a/hw/net/igb_core.c
-> +++ b/hw/net/igb_core.c
-> @@ -1902,14 +1902,6 @@ static void igb_set_eims(IGBCore *core, int index, uint32_t val)
->       igb_update_interrupt_state(core);
->   }
->   
-> -static void igb_vf_reset(IGBCore *core, uint16_t vfn)
-> -{
-> -    /* TODO: Reset of the queue enable and the interrupt registers of the VF. */
-> -
-> -    core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_RSTI;
-> -    core->mac[V2PMAILBOX0 + vfn] = E1000_V2PMAILBOX_RSTD;
-> -}
-> -
->   static void mailbox_interrupt_to_vf(IGBCore *core, uint16_t vfn)
->   {
->       uint32_t ent = core->mac[VTIVAR_MISC + vfn];
-> @@ -1987,6 +1979,17 @@ static void igb_set_vfmailbox(IGBCore *core, int index, uint32_t val)
->       }
->   }
->   
-> +static void igb_vf_reset(IGBCore *core, uint16_t vfn)
-> +{
-> +    /* disable Rx and Tx for the VF*/
-> +    core->mac[VFTE] &= ~BIT(vfn);
-> +    core->mac[VFRE] &= ~BIT(vfn);
-> +    /* indicate VF reset to PF */
-> +    core->mac[VFLRE] |= BIT(vfn);
-> +    /* VFLRE and mailbox use the same interrupt cause */
-> +    mailbox_interrupt_to_pf(core);
-> +}
-> +
-
-Please do not move the function unless you have a legitimate reason for 
-that.
-
->   static void igb_w1c(IGBCore *core, int index, uint32_t val)
->   {
->       core->mac[index] &= ~val;
-> @@ -2241,14 +2244,20 @@ igb_set_status(IGBCore *core, int index, uint32_t val)
->   static void
->   igb_set_ctrlext(IGBCore *core, int index, uint32_t val)
->   {
-> -    trace_e1000e_link_set_ext_params(!!(val & E1000_CTRL_EXT_ASDCHK),
-> -                                     !!(val & E1000_CTRL_EXT_SPD_BYPS));
-> -
-> -    /* TODO: PFRSTD */
-> +    trace_igb_link_set_ext_params(!!(val & E1000_CTRL_EXT_ASDCHK),
-> +                                  !!(val & E1000_CTRL_EXT_SPD_BYPS),
-> +                                  !!(val & E1000_CTRL_EXT_PFRSTD));
->   
->       /* Zero self-clearing bits */
->       val &= ~(E1000_CTRL_EXT_ASDCHK | E1000_CTRL_EXT_EE_RST);
->       core->mac[CTRL_EXT] = val;
-> +
-> +    if (core->mac[CTRL_EXT] & E1000_CTRL_EXT_PFRSTD) {
-> +        for (int vfn = 0; vfn < IGB_MAX_VF_FUNCTIONS; vfn++) {
-> +            core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_RSTI;
-> +            core->mac[V2PMAILBOX0 + vfn] |= E1000_V2PMAILBOX_RSTD;
-> +        }
-> +    }
->   }
->   
->   static void
-> diff --git a/hw/net/trace-events b/hw/net/trace-events
-> index 2f791b9b57..e94172e748 100644
-> --- a/hw/net/trace-events
-> +++ b/hw/net/trace-events
-> @@ -281,6 +281,8 @@ igb_core_mdic_read_unhandled(uint32_t addr) "MDIC READ: PHY[%u] UNHANDLED"
->   igb_core_mdic_write(uint32_t addr, uint32_t data) "MDIC WRITE: PHY[%u] = 0x%x"
->   igb_core_mdic_write_unhandled(uint32_t addr) "MDIC WRITE: PHY[%u] UNHANDLED"
->   
-> +igb_link_set_ext_params(bool asd_check, bool speed_select_bypass, bool pfrstd) "Set extended link params: ASD check: %d, Speed select bypass: %d, PF reset done: %d"
-> +
->   igb_rx_desc_buff_size(uint32_t b) "buffer size: %u"
->   igb_rx_desc_buff_write(uint64_t addr, uint16_t offset, const void* source, uint32_t len) "addr: 0x%"PRIx64", offset: %u, from: %p, length: %u"
->   
+>>   static void igb_w1c(IGBCore *core, int index, uint32_t val)
+>>   {
+>>       core->mac[index] &= ~val;
+>> @@ -2241,14 +2244,20 @@ igb_set_status(IGBCore *core, int index, 
+>> uint32_t val)
+>>   static void
+>>   igb_set_ctrlext(IGBCore *core, int index, uint32_t val)
+>>   {
+>> -    trace_e1000e_link_set_ext_params(!!(val & E1000_CTRL_EXT_ASDCHK),
+>> -                                     !!(val & E1000_CTRL_EXT_SPD_BYPS));
+>> -
+>> -    /* TODO: PFRSTD */
+>> +    trace_igb_link_set_ext_params(!!(val & E1000_CTRL_EXT_ASDCHK),
+>> +                                  !!(val & E1000_CTRL_EXT_SPD_BYPS),
+>> +                                  !!(val & E1000_CTRL_EXT_PFRSTD));
+>>       /* Zero self-clearing bits */
+>>       val &= ~(E1000_CTRL_EXT_ASDCHK | E1000_CTRL_EXT_EE_RST);
+>>       core->mac[CTRL_EXT] = val;
+>> +
+>> +    if (core->mac[CTRL_EXT] & E1000_CTRL_EXT_PFRSTD) {
+>> +        for (int vfn = 0; vfn < IGB_MAX_VF_FUNCTIONS; vfn++) {
+>> +            core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_RSTI;
+>> +            core->mac[V2PMAILBOX0 + vfn] |= E1000_V2PMAILBOX_RSTD;
+>> +        }
+>> +    }
+>>   }
+>>   static void
+>> diff --git a/hw/net/trace-events b/hw/net/trace-events
+>> index 2f791b9b57..e94172e748 100644
+>> --- a/hw/net/trace-events
+>> +++ b/hw/net/trace-events
+>> @@ -281,6 +281,8 @@ igb_core_mdic_read_unhandled(uint32_t addr) "MDIC 
+>> READ: PHY[%u] UNHANDLED"
+>>   igb_core_mdic_write(uint32_t addr, uint32_t data) "MDIC WRITE: 
+>> PHY[%u] = 0x%x"
+>>   igb_core_mdic_write_unhandled(uint32_t addr) "MDIC WRITE: PHY[%u] 
+>> UNHANDLED"
+>> +igb_link_set_ext_params(bool asd_check, bool speed_select_bypass, 
+>> bool pfrstd) "Set extended link params: ASD check: %d, Speed select 
+>> bypass: %d, PF reset done: %d"
+>> +
+>>   igb_rx_desc_buff_size(uint32_t b) "buffer size: %u"
+>>   igb_rx_desc_buff_write(uint64_t addr, uint16_t offset, const void* 
+>> source, uint32_t len) "addr: 0x%"PRIx64", offset: %u, from: %p, 
+>> length: %u"
 
