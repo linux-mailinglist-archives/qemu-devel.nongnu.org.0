@@ -2,39 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C62E467FC01
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 01:48:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D62367FC52
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 03:22:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLvqI-0002Bc-6s; Sat, 28 Jan 2023 19:46:46 -0500
+	id 1pLxJh-0004WM-9c; Sat, 28 Jan 2023 21:21:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vapier@gentoo.org>) id 1pLvqF-0002BG-8y
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 19:46:43 -0500
-Received: from dev.gentoo.org ([2001:470:ea4a:1:5054:ff:fec7:86e4]
- helo=smtp.gentoo.org)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_CHACHA20_POLY1305:256)
- (Exim 4.90_1) (envelope-from <vapier@gentoo.org>) id 1pLvqC-000603-Qt
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 19:46:43 -0500
-Received: by smtp.gentoo.org (Postfix, from userid 559)
- id 5CAA933BE54; Sun, 29 Jan 2023 00:46:29 +0000 (UTC)
-From: Mike Frysinger <vapier@gentoo.org>
-To: qemu-devel@nongnu.org,
-	Laurent Vivier <laurent@vivier.eu>
-Subject: [PATCH] linux-user: move target_flat.h to target subdirs
-Date: Sat, 28 Jan 2023 19:46:25 -0500
-Message-Id: <20230129004625.11228-1-vapier@gentoo.org>
-X-Mailer: git-send-email 2.39.0
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pLxJf-0004W4-P3; Sat, 28 Jan 2023 21:21:11 -0500
+Received: from mail-ed1-x52d.google.com ([2a00:1450:4864:20::52d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pLxJe-00038A-9h; Sat, 28 Jan 2023 21:21:11 -0500
+Received: by mail-ed1-x52d.google.com with SMTP id n6so5331211edo.9;
+ Sat, 28 Jan 2023 18:21:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=qwLDTk9CmgoO7XlG9QyaEWRrleW3MOLcZ5s2N37WJPc=;
+ b=St+XqyCOoWmjCrzyI1xbLUaYhVjGgFJz6B8b2rlsnlbvAFtn5IpDYvsupKr2qvbNXw
+ QfzCjMX6Iw2VXr9uusIrpkrALBda/pjYQtxYEE07hhNH1eH/aTaRXHza4hiYc/Lqhqll
+ RDrUS03vEC4tPHA/qThySDBWUq5vONpq6VUugvwXDd04iMfaRbfL5wQvENCIc2OGiQsI
+ Nl4IXg+grkUUuaUy1d+mk8Oso9ivHlaczW49jw5nMejoeBzK9SXesMo6YTj0PmgbtbAP
+ EPFH80gCHWIByYc/q9GRLL5jn6eGUPBhKbgYEwe9cOHzVJjQTj0wofyvhuLqCgfyX/3b
+ faHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=qwLDTk9CmgoO7XlG9QyaEWRrleW3MOLcZ5s2N37WJPc=;
+ b=0k5kbdlp13fTr4riyl7c6hoI9IiBzpkVJOPSXjkNSivPjin8w/HZSL3vdBboqwQ7wG
+ ElhiDEtceW/N+NUltAiJuF11SQo8Ee7e7tgKGKOkM6DpHbT8ODPpbt5lou54mJDk74oI
+ xR5OnwLDMt/uWLv641z8rca3xr/PrDF/Cb2/Dl5YB4Mwq1C39DG+1ABte58wqg/D12l6
+ ifuwbe58g3ZAJjj8orMATja+fjY380hcRzNLta2t1IhQJQFf3Tu0wIyFmvdXu1f/x2YT
+ kLJaspj/d12yQyheT2yvYqRXH6H6NaXYVfDa7j/A5xpwbzT0jdOjWOhLYiIqaKzOygSi
+ yK6A==
+X-Gm-Message-State: AO0yUKWhKlDtIh5dkAVMd6EZt1wJMyyMX4IxURLSszhYnQbBF2uCKsV+
+ CTYJC/FU7t8XphSCzFlRzfjOdQuPqFed+hIyCfI=
+X-Google-Smtp-Source: AK7set9o7VEQmtIOUBKFHvBQLqmHFwbed+QD+86s/khPeSGRl23rBzkV8C8NeNy/0+miw4AVmswZu/rTTLtAGEWBEvw=
+X-Received: by 2002:aa7:ca48:0:b0:4a2:3637:568 with SMTP id
+ j8-20020aa7ca48000000b004a236370568mr186240edt.83.1674958867404; Sat, 28 Jan
+ 2023 18:21:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2001:470:ea4a:1:5054:ff:fec7:86e4;
- envelope-from=vapier@gentoo.org; helo=smtp.gentoo.org
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+References: <20230126135219.1054658-1-dbarboza@ventanamicro.com>
+ <20230126135219.1054658-2-dbarboza@ventanamicro.com>
+In-Reply-To: <20230126135219.1054658-2-dbarboza@ventanamicro.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Sun, 29 Jan 2023 10:20:56 +0800
+Message-ID: <CAEUhbmUyG1_6Aea-kt_dWNvqJtFMojuuUwABBOe4oPrecwLdOw@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] hw/riscv/boot.c: calculate fdt size after
+ fdt_pack()
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::52d;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x52d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -50,76 +82,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This makes target_flat.h behave like every other target_xxx.h header.
-It also makes it actually work -- while the current header says adding
-a header to the target subdir overrides the common one, it doesn't.
-This is for two reasons:
-* meson.build adds -Ilinux-user before -Ilinux-user/$arch
-* the compiler search path for "target_flat.h" looks in the same dir
-  as the source file before searching -I paths.
+Hi Daniel,
 
-This can be seen with the xtensa port -- the subdir settings aren't
-used which breaks stack setup.
+On Thu, Jan 26, 2023 at 9:53 PM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
+>
+> fdt_pack() can change the fdt size, meaning that fdt_totalsize() can
+> contain a now deprecated (bigger) value.
 
-Move it to the generic/ subdir and add include stubs like every
-other target_xxx.h header is handled.
+The commit message is a bit confusing.
 
-Signed-off-by: Mike Frysinger <vapier@gentoo.org>
----
- linux-user/aarch64/target_flat.h       | 1 +
- linux-user/arm/target_flat.h           | 1 +
- linux-user/{ => generic}/target_flat.h | 0
- linux-user/m68k/target_flat.h          | 1 +
- linux-user/microblaze/target_flat.h    | 1 +
- linux-user/sh4/target_flat.h           | 1 +
- 6 files changed, 5 insertions(+)
- create mode 100644 linux-user/aarch64/target_flat.h
- create mode 100644 linux-user/arm/target_flat.h
- rename linux-user/{ => generic}/target_flat.h (100%)
- create mode 100644 linux-user/m68k/target_flat.h
- create mode 100644 linux-user/microblaze/target_flat.h
- create mode 100644 linux-user/sh4/target_flat.h
+The original code in this patch does not call fdt_pack(). So not sure
+where the issue of "deprecated (bigger) value" happens?
 
-diff --git a/linux-user/aarch64/target_flat.h b/linux-user/aarch64/target_flat.h
-new file mode 100644
-index 000000000000..bc83224cea12
---- /dev/null
-+++ b/linux-user/aarch64/target_flat.h
-@@ -0,0 +1 @@
-+#include "../generic/target_flat.h"
-diff --git a/linux-user/arm/target_flat.h b/linux-user/arm/target_flat.h
-new file mode 100644
-index 000000000000..bc83224cea12
---- /dev/null
-+++ b/linux-user/arm/target_flat.h
-@@ -0,0 +1 @@
-+#include "../generic/target_flat.h"
-diff --git a/linux-user/target_flat.h b/linux-user/generic/target_flat.h
-similarity index 100%
-rename from linux-user/target_flat.h
-rename to linux-user/generic/target_flat.h
-diff --git a/linux-user/m68k/target_flat.h b/linux-user/m68k/target_flat.h
-new file mode 100644
-index 000000000000..bc83224cea12
---- /dev/null
-+++ b/linux-user/m68k/target_flat.h
-@@ -0,0 +1 @@
-+#include "../generic/target_flat.h"
-diff --git a/linux-user/microblaze/target_flat.h b/linux-user/microblaze/target_flat.h
-new file mode 100644
-index 000000000000..bc83224cea12
---- /dev/null
-+++ b/linux-user/microblaze/target_flat.h
-@@ -0,0 +1 @@
-+#include "../generic/target_flat.h"
-diff --git a/linux-user/sh4/target_flat.h b/linux-user/sh4/target_flat.h
-new file mode 100644
-index 000000000000..bc83224cea12
---- /dev/null
-+++ b/linux-user/sh4/target_flat.h
-@@ -0,0 +1 @@
-+#include "../generic/target_flat.h"
--- 
-2.39.0
+>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>  hw/riscv/boot.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 3172a76220..a563b7482a 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -287,8 +287,13 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+>  {
+>      uint64_t temp, fdt_addr;
+>      hwaddr dram_end = dram_base + mem_size;
+> -    int ret, fdtsize = fdt_totalsize(fdt);
+> +    int ret = fdt_pack(fdt);
+> +    int fdtsize;
+>
+> +    /* Should only fail if we've built a corrupted tree */
+> +    g_assert(ret == 0);
+> +
+> +    fdtsize = fdt_totalsize(fdt);
+>      if (fdtsize <= 0) {
+>          error_report("invalid device-tree");
+>          exit(1);
 
+Regards,
+Bin
 
