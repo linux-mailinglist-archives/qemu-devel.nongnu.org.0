@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90B36800C5
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 19:25:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ABC9C6800CD
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 19:26:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMCM6-0004gk-I2; Sun, 29 Jan 2023 13:24:42 -0500
+	id 1pMCM8-0004h0-6l; Sun, 29 Jan 2023 13:24:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMCM3-0004gM-71
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:39 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pMCM4-0004gU-JR
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMCM1-0005vL-Ue
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:38 -0500
+ id 1pMCM2-0005uj-0o
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675016676;
+ s=mimecast20190719; t=1675016675;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=XBu1po2LSvrx6z3arrRh8wMcW+RyUCMFlAEc16sOjJc=;
- b=GMcZCSHHXWbQpUqpYiVzP1B8sBv02YkZKTHlc+UrF6qFEHAg0oQBzS8j+38YcTd7WcMnJz
- +LrljpSMgUYlaiSwZOUomjJ5p5rWJ5wF11twya9NuaPOfe7qvumIpeg7FfHHpKIhmluQHH
- 6z+jdXcuqFgh+FYSQz/g6jP4BkT+Ggs=
+ bh=2JA4AddFibEIhmbNe/D9nz1BnFd4REe5vYTSGeogcBU=;
+ b=UOWR5pIrtJr85vhOvmCcBLCue3Vw7iCe6P6enjar6RnrMArYKHuwNdJ1SQDi8l7ETNWPUd
+ TAsbh467dcsoBs87Ex8fgHC6GaBk8pCCCV0AnF0xFdmWcy0pHjHU9OO4/QbaFUFoJLD8u3
+ D6GBxUpes1IDumdlkM+hF+89Y+fMvNo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-61-wcFh-eyYOG-qZX9BrZSKcw-1; Sun, 29 Jan 2023 13:24:29 -0500
-X-MC-Unique: wcFh-eyYOG-qZX9BrZSKcw-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
+ us-mta-442-b0c0OOy-M26MxM95EFR_iQ-1; Sun, 29 Jan 2023 13:24:34 -0500
+X-MC-Unique: b0c0OOy-M26MxM95EFR_iQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3628B185A78B;
- Sun, 29 Jan 2023 18:24:29 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E7072800B30;
+ Sun, 29 Jan 2023 18:24:33 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4062E40C124A;
- Sun, 29 Jan 2023 18:24:21 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A75282026D4B;
+ Sun, 29 Jan 2023 18:24:32 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
@@ -56,16 +56,16 @@ Cc: Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
  Michael Roth <michael.roth@amd.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 1/9] tests: fix path separator, use g_build_filename()
-Date: Sun, 29 Jan 2023 22:24:06 +0400
-Message-Id: <20230129182414.583349-2-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 2/9] tests: fix test-io-channel-command on win32
+Date: Sun, 29 Jan 2023 22:24:07 +0400
+Message-Id: <20230129182414.583349-3-marcandre.lureau@redhat.com>
 In-Reply-To: <20230129182414.583349-1-marcandre.lureau@redhat.com>
 References: <20230129182414.583349-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -92,26 +92,41 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
+socat "PIPE:"" on Windows are named pipes, not fifo path names.
+
+Fixes: commit 68406d10859 ("tests/unit: cleanups for test-io-channel-command")
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/unit/test-io-channel-command.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tests/unit/test-io-channel-command.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
 diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
-index 19f72eab96..096224962c 100644
+index 096224962c..e76ef2daaa 100644
 --- a/tests/unit/test-io-channel-command.c
 +++ b/tests/unit/test-io-channel-command.c
-@@ -32,7 +32,7 @@ static char *socat = NULL;
+@@ -31,8 +31,12 @@ static char *socat = NULL;
+ 
  static void test_io_channel_command_fifo(bool async)
  {
++#ifdef WIN32
++    const gchar *fifo = TEST_FIFO;
++#else
      g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
--    g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
-+    g_autofree gchar *fifo = g_build_filename(tmpdir, TEST_FIFO, NULL);
+     g_autofree gchar *fifo = g_build_filename(tmpdir, TEST_FIFO, NULL);
++#endif
      g_autofree gchar *srcargs = g_strdup_printf("%s - PIPE:%s,wronly", socat, fifo);
      g_autofree gchar *dstargs = g_strdup_printf("%s PIPE:%s,rdonly -", socat, fifo);
      g_auto(GStrv) srcargv = g_strsplit(srcargs, " ", -1);
+@@ -57,7 +61,9 @@ static void test_io_channel_command_fifo(bool async)
+     object_unref(OBJECT(src));
+     object_unref(OBJECT(dst));
+ 
++#ifndef WIN32
+     g_rmdir(tmpdir);
++#endif
+ }
+ 
+ 
 -- 
 2.39.1
 
