@@ -2,66 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3384F680262
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 23:50:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F676680267
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 23:52:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMGUi-0002hk-0A; Sun, 29 Jan 2023 17:49:52 -0500
+	id 1pMGWa-00045g-3M; Sun, 29 Jan 2023 17:51:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pMGUg-0002h0-2Z
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:49:50 -0500
-Received: from mail-vs1-xe32.google.com ([2607:f8b0:4864:20::e32])
+ id 1pMGWG-00045B-6x; Sun, 29 Jan 2023 17:51:31 -0500
+Received: from mail-vs1-xe35.google.com ([2607:f8b0:4864:20::e35])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pMGUd-0001GF-VI
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 17:49:49 -0500
-Received: by mail-vs1-xe32.google.com with SMTP id p10so6293771vsu.5
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 14:49:47 -0800 (PST)
+ id 1pMGWE-0001g5-8h; Sun, 29 Jan 2023 17:51:27 -0500
+Received: by mail-vs1-xe35.google.com with SMTP id i185so10758609vsc.6;
+ Sun, 29 Jan 2023 14:51:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=jUKM1Kj0HMrqyZEgQLYhUUI6/YobGx1FpXrWKJsitSU=;
- b=cdptWhuWDraARaGaD3F5riHMhQdzvWVxghYhln08n1QWWizE43/gt94fFetk9wiR88
- jkF0bcXC+mnqhrlXZKS62Lte3rFsueSbYindZ/McP/NgMelRqbfss6l+oUtpnct5Tkl7
- HfxY4DusFk3QADJ5ckhepSgQLlSogy1Um6xZFCMqYzdbySszeoPVJCTeNAdVy0veExOI
- 44CZaQntqOmXbGJnFlRNtSTkxe0TKxn0L+dBmEXT585T54+l/6COyMwWPVDbZSBO48h7
- ioqNbsOl/gY+osU1sroQbMgf4kBwjCexWfz3r4ClMwiQ5FCG2sZPEqboCcGFCuChyPa0
- LVmg==
+ bh=NlAGN8yc5gDGgu9f/88EGyDV5hZRAa54oGqx6U59crU=;
+ b=SaJxDbWOMfRIRdnjvrQ+tMSw5qYEtOKJeDmmuCrr4nENAobM/knrM0yYAtwsaw6REV
+ epAh1ARlojqs+jXrUGZgJjOAKvxWMQmRANio3BU+fMTsiSE7aoNYzsHCG3ZV7/rtD65g
+ QHfrokZipEF3gcDONUT30pz0exbgFxar7KeO39VjkSXEHiqpQ4IifblSuB8wAcqfnkSy
+ U8pPN4y7iEirBxu+sO2e4bNrDvuSw/vthR8LwtpJY9P7T5EoWazQ/ijSEOKHJOveK3qc
+ LTlFAhbS+IwCogH0YZAHXv9sNJY1+VrMstu3B+BdvnlTfux0hgTAGXH9fnT0mtDDW3T3
+ /d2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=jUKM1Kj0HMrqyZEgQLYhUUI6/YobGx1FpXrWKJsitSU=;
- b=p8fw1ECd1nlnaOtoq22/NLlcnRo4lOijc0ascoNSNF2mHZFQKDZ0oQCO9Oc2y2vJ0A
- PnaFX6PLvtia10M+uMY+gSZmWdpHS57g2ehCUALsgcmr9mmvvzVeOplybPQy7RSMGZmk
- 4J+7Pr6MEpCsulaisAaKYGdxR7bmua1oNj6kc23cN3wxqtc66YGxe6mWtHG1Zq529eIv
- ueB5XIL0zycfDdlv4L2Pxha98NEAU+JM+1DnDQYAs3IebMSRmd3zyzd002nobt7fWIGK
- deKYzIxwS+w1GP+DnlNTxA0Oy8LfUrWhQkUmH535xuj8VWFGzSvSH17WsDNTkxMk5ch8
- dGAg==
-X-Gm-Message-State: AO0yUKXYzCVUrwex1dHIqH2RVp7sBuwPB8BdEt1vT4lxeT/pqdv+Ou7T
- Tp53JwPeBWC+f+gpUpBxRK7Ra/J7kGjzd9QpIWs=
-X-Google-Smtp-Source: AK7set+JzleIc1Xoq/F1WZDEWKMS43xVHfaSnX0aWPsoEhlm85uS1HSKO1uzCtQCGhMIOcwflUYMuZHjiW6Lg2Ry0Hg=
-X-Received: by 2002:a67:e101:0:b0:3f0:89e1:7c80 with SMTP id
- d1-20020a67e101000000b003f089e17c80mr790849vsl.72.1675032587052; Sun, 29 Jan
- 2023 14:49:47 -0800 (PST)
+ bh=NlAGN8yc5gDGgu9f/88EGyDV5hZRAa54oGqx6U59crU=;
+ b=gskNaPmo9ySgwRzpI2Ck3M3oWjG2k/8O6pAXDv/azzkt7J2J5k2D/KIpebVUOR/No9
+ rdDoU9ZcKRxGOTNm1TPOFhawQweWAYKoN3IOxf9cS2+/I+lC3zcl5TXNVjnkajSrFj2A
+ PSdljgZbebbnYSNkehENISyi5W3RtQWCfl9E7AuaFrtp7o2cvnLNJBsTBhhCzfZFvutz
+ h3Z1gIRN0GSUVy3PRSZsgKeasQyD/xppYIKo/kf6WOjQDM4gPfO06Y4nY85i09CnO4VR
+ rBHIp7FxnHDmDxjhRpDgbiLjIw6w7f+nERzi75FuBEWxrQSeODq0qCU01pkQREfhQJok
+ dzaA==
+X-Gm-Message-State: AO0yUKXj9uRdw72n79OkrGwHoJ4uFpDrQ1LtU/PgoCKJQlL75FHFIU25
+ NbHm+AZh69msby8u4YzwxiJ+9frA4aCl7Xi8+0LKt/MXN3I=
+X-Google-Smtp-Source: AK7set/NJl3cpVbUztJNzm7NhgPzf2OR3eVanxy5a8EKpgAp1FxqpHFMjbNSSnVhtMDpgOPEDRHu3Gde6rmxTZzZzdI=
+X-Received: by 2002:a67:e184:0:b0:3eb:f205:2c08 with SMTP id
+ e4-20020a67e184000000b003ebf2052c08mr1591684vsl.10.1675032683354; Sun, 29 Jan
+ 2023 14:51:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20230127191758.755844-1-debug@rivosinc.com>
- <CAKC1njS_wY2J7d-BDMZA9O0eOnxd0xqCU=ns+DJ8B-W9e5PowA@mail.gmail.com>
-In-Reply-To: <CAKC1njS_wY2J7d-BDMZA9O0eOnxd0xqCU=ns+DJ8B-W9e5PowA@mail.gmail.com>
+References: <20230113171805.470252-1-dbarboza@ventanamicro.com>
+ <20230113171805.470252-4-dbarboza@ventanamicro.com>
+ <CAEUhbmUKEHX5bQ2=7GfgjPY1YVFs-5MqzkbwEy_SgG43WdeAfg@mail.gmail.com>
+ <CAKmqyKOGrdcoVWBzhuUpdDVwHdK6PREsLO1MypMQyggWdcHjJA@mail.gmail.com>
+ <CAEUhbmUhF_vd1yj0O=Kap__yjh9a4eFzWgsPA2k4a4sHZ9TbLA@mail.gmail.com>
+In-Reply-To: <CAEUhbmUhF_vd1yj0O=Kap__yjh9a4eFzWgsPA2k4a4sHZ9TbLA@mail.gmail.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 30 Jan 2023 08:49:21 +1000
-Message-ID: <CAKmqyKM3z6ezNwmsVebewmZiCKQzyNhg4SW60KvSQU9PvC9q2g@mail.gmail.com>
-Subject: Re: [PATCH: fix for virt instr exception] target/riscv: fix for
- virtual instr exception
-To: Deepak Gupta <debug@rivosinc.com>
-Cc: qemu-devel@nongnu.org
+Date: Mon, 30 Jan 2023 08:50:57 +1000
+Message-ID: <CAKmqyKMe+d_nfObvUUKvez0Mf1-YZz5KQfWvRkwUy-f3DJZU1w@mail.gmail.com>
+Subject: Re: [PATCH v7 3/3] hw/riscv: clear kernel_entry higher bits in
+ load_elf_ram_sym()
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: Daniel Henrique Barboza <dbarboza@ventanamicro.com>, qemu-devel@nongnu.org,
+ qemu-riscv@nongnu.org, alistair.francis@wdc.com,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::e32;
- envelope-from=alistair23@gmail.com; helo=mail-vs1-xe32.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::e35;
+ envelope-from=alistair23@gmail.com; helo=mail-vs1-xe35.google.com
 X-Spam_score_int: -17
 X-Spam_score: -1.8
 X-Spam_bar: -
@@ -85,62 +88,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sat, Jan 28, 2023 at 6:37 AM Deepak Gupta <debug@rivosinc.com> wrote:
+On Thu, Jan 26, 2023 at 10:07 PM Bin Meng <bmeng.cn@gmail.com> wrote:
 >
-> Please dis-regard this.
-> I've sent the patch to qemu-riscv@nongnu.org
-
-That's not entirely correct either.
-
-You can run the `./scripts/get_maintainer.pl` script on your patch to
-get the email addresses to send this patch to. qemu-devel is the main
-one, but it's also a good idea to CC the qemu-riscv list as well as
-maintainers.
-
+> Hi Alistair,
 >
-> On Sat, Jan 28, 2023 at 12:48 AM Deepak Gupta <debug@rivosinc.com> wrote:
+> On Mon, Jan 16, 2023 at 12:28 PM Alistair Francis <alistair23@gmail.com> wrote:
 > >
-> > commit fb3f3730e4 added mechanism to generate virtual instruction
-> > exception during instruction decode when virt is enabled.
+> > On Sat, Jan 14, 2023 at 11:41 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > >
+> > > On Sat, Jan 14, 2023 at 1:18 AM Daniel Henrique Barboza
+> > > <dbarboza@ventanamicro.com> wrote:
+> > > >
+> > > > Recent hw/risc/boot.c changes caused a regression in an use case with
+> > > > the Xvisor hypervisor. Running a 32 bit QEMU guest with '-kernel'
+> > > > stopped working. The reason seems to be that Xvisor is using 64 bit to
+> > > > encode the 32 bit addresses from the guest, and load_elf_ram_sym() is
+> > > > sign-extending the result with '1's [1].
+> > >
+> > > I would say it's not a regression of QEMU but something weird happened
+> > > to Alistair's 32-bit Xvisor image.
 > >
-> > However in some situations, illegal instruction exception can be raised
-> > due to state of CPU. One such situation is implementing branch tracking.
-> > [1] An indirect branch if doesn't land on a landing pad instruction, then
-> > cpu must raise an illegal instruction exception.
-> > Implementation would raise such expcetion due to missing landing pad inst
-> > and not due to decode. Thus DisasContext must have `virt_inst_excp`
+> > I don't think it's a Xvisor issue.
+> >
+> > >
+> > > I just built a 32-bit Xvisor image from the latest Xvisor head
+> > > following the instructions provided in its source tree. With the
+> > > mainline QEMU only BIN file boots, but ELF does not. My 32-bit Xvisor
+> > > image has an address of 0x10000000. Apparently this address is not
+> > > correct, and the issue I saw is different from Alistair's. Alistair,
+> > > could you investigate why your 32-bit Xvisor ELF image has an address
+> > > of 0xffffffff80000000 set to kernel_load_base?
+> >
+> > Looking in load_elf() in include/hw/elf_ops.h at this line:
+> >
+> >     if (lowaddr)
+> >         *lowaddr = (uint64_t)(elf_sword)low;
+> >
+> > I can see that `low` is 0x80000000 but lowaddr is set to
+> > 0xffffffff80000000. So the address is being sign extended with 1s.
+> >
+>
+> I don't understand the sign extension here. This seems intentional as
+> the codes does the signed extension then casted to unsigned 64-bit.
+>
+> Do you know why?
 
-Isn't a landing pad instruction just an instruction that needs to be
-decoded? Or are you doing the check as part of the jump instruction?
-
-Overall the change looks ok, but I'm not sure if it's required. Do you
-have an implementation that needs this?
+No idea!
 
 Alistair
 
-> > initialized to false during DisasContxt initialization for TB.
-> >
-> > [1] - https://github.com/riscv/riscv-cfi
-> >
-> > Signed-off-by: Deepak Gupta <debug@rivosinc.com>
-> > ---
-> >  target/riscv/translate.c | 1 +
-> >  1 file changed, 1 insertion(+)
-> >
-> > diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> > index df38db7553..76f61a39d3 100644
-> > --- a/target/riscv/translate.c
-> > +++ b/target/riscv/translate.c
-> > @@ -1167,6 +1167,7 @@ static void riscv_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-> >      ctx->pm_base_enabled = FIELD_EX32(tb_flags, TB_FLAGS, PM_BASE_ENABLED);
-> >      ctx->itrigger = FIELD_EX32(tb_flags, TB_FLAGS, ITRIGGER);
-> >      ctx->zero = tcg_constant_tl(0);
-> > +    ctx->virt_inst_excp = false;
-> >  }
-> >
-> >  static void riscv_tr_tb_start(DisasContextBase *db, CPUState *cpu)
-> > --
-> > 2.25.1
+>
+> > This patch seems to be the correct fix.
 > >
 >
+> Regards,
+> Bin
 
