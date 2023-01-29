@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ABC9C6800CD
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 19:26:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF596800C9
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 19:25:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMCM8-0004h0-6l; Sun, 29 Jan 2023 13:24:44 -0500
+	id 1pMCM8-0004hN-PF; Sun, 29 Jan 2023 13:24:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMCM4-0004gU-JR
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:40 -0500
+ id 1pMCM7-0004h1-IF
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:43 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMCM2-0005uj-0o
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:40 -0500
+ id 1pMCM6-0005zP-4D
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675016675;
+ s=mimecast20190719; t=1675016680;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=2JA4AddFibEIhmbNe/D9nz1BnFd4REe5vYTSGeogcBU=;
- b=UOWR5pIrtJr85vhOvmCcBLCue3Vw7iCe6P6enjar6RnrMArYKHuwNdJ1SQDi8l7ETNWPUd
- TAsbh467dcsoBs87Ex8fgHC6GaBk8pCCCV0AnF0xFdmWcy0pHjHU9OO4/QbaFUFoJLD8u3
- D6GBxUpes1IDumdlkM+hF+89Y+fMvNo=
+ bh=DXvU789TEkYigJlmTGw/dEZBT6c2vgwmAPq1esT9tVA=;
+ b=Gjtiqh2Ji2TNeUucNKjiAq0PVV6QCMtjXIXBGbBiXACpbPotwqSHcYiuAxfzZSDqqAFbkS
+ xZvM8Q3XbmSlHxDwEq2vJ6sevy/B0jGnV3CU1W6utCU6yMxnSxufBKLM53eaacKDoQENhf
+ rd0UyMoaXsyenb/Ay2RspBI8LhOPVRI=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-442-b0c0OOy-M26MxM95EFR_iQ-1; Sun, 29 Jan 2023 13:24:34 -0500
-X-MC-Unique: b0c0OOy-M26MxM95EFR_iQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-10-UKppD53XOQ-Q0AFVz0wBhw-1; Sun, 29 Jan 2023 13:24:38 -0500
+X-MC-Unique: UKppD53XOQ-Q0AFVz0wBhw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E7072800B30;
- Sun, 29 Jan 2023 18:24:33 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 696488533AE;
+ Sun, 29 Jan 2023 18:24:38 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A75282026D4B;
- Sun, 29 Jan 2023 18:24:32 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 7BE11492B01;
+ Sun, 29 Jan 2023 18:24:36 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
@@ -56,15 +56,15 @@ Cc: Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
  Michael Roth <michael.roth@amd.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 2/9] tests: fix test-io-channel-command on win32
-Date: Sun, 29 Jan 2023 22:24:07 +0400
-Message-Id: <20230129182414.583349-3-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 3/9] tests/docker: fix a win32 error due to portability
+Date: Sun, 29 Jan 2023 22:24:08 +0400
+Message-Id: <20230129182414.583349-4-marcandre.lureau@redhat.com>
 In-Reply-To: <20230129182414.583349-1-marcandre.lureau@redhat.com>
 References: <20230129182414.583349-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -92,41 +92,52 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-socat "PIPE:"" on Windows are named pipes, not fifo path names.
+docker.py is run during configure, and produces an error: No module
+named 'pwd'.
 
-Fixes: commit 68406d10859 ("tests/unit: cleanups for test-io-channel-command")
+Use a more portable and recommended alternative to lookup the user
+"login name".
+
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- tests/unit/test-io-channel-command.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ tests/docker/docker.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
-index 096224962c..e76ef2daaa 100644
---- a/tests/unit/test-io-channel-command.c
-+++ b/tests/unit/test-io-channel-command.c
-@@ -31,8 +31,12 @@ static char *socat = NULL;
- 
- static void test_io_channel_command_fifo(bool async)
- {
-+#ifdef WIN32
-+    const gchar *fifo = TEST_FIFO;
-+#else
-     g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
-     g_autofree gchar *fifo = g_build_filename(tmpdir, TEST_FIFO, NULL);
-+#endif
-     g_autofree gchar *srcargs = g_strdup_printf("%s - PIPE:%s,wronly", socat, fifo);
-     g_autofree gchar *dstargs = g_strdup_printf("%s PIPE:%s,rdonly -", socat, fifo);
-     g_auto(GStrv) srcargv = g_strsplit(srcargs, " ", -1);
-@@ -57,7 +61,9 @@ static void test_io_channel_command_fifo(bool async)
-     object_unref(OBJECT(src));
-     object_unref(OBJECT(dst));
- 
-+#ifndef WIN32
-     g_rmdir(tmpdir);
-+#endif
- }
+diff --git a/tests/docker/docker.py b/tests/docker/docker.py
+index 3a1ed7cb18..688ef62989 100755
+--- a/tests/docker/docker.py
++++ b/tests/docker/docker.py
+@@ -23,10 +23,10 @@
+ import tempfile
+ import re
+ import signal
++import getpass
+ from tarfile import TarFile, TarInfo
+ from io import StringIO, BytesIO
+ from shutil import copy, rmtree
+-from pwd import getpwuid
+ from datetime import datetime, timedelta
  
  
+@@ -316,7 +316,7 @@ def build_image(self, tag, docker_dir, dockerfile,
+ 
+         if user:
+             uid = os.getuid()
+-            uname = getpwuid(uid).pw_name
++            uname = getpass.getuser()
+             tmp_df.write("\n")
+             tmp_df.write("RUN id %s 2>/dev/null || useradd -u %d -U %s" %
+                          (uname, uid, uname))
+@@ -570,7 +570,7 @@ def run(self, args, argv):
+ 
+         if args.user:
+             uid = os.getuid()
+-            uname = getpwuid(uid).pw_name
++            uname = getpass.getuser()
+             df.write("\n")
+             df.write("RUN id %s 2>/dev/null || useradd -u %d -U %s" %
+                      (uname, uid, uname))
 -- 
 2.39.1
 
