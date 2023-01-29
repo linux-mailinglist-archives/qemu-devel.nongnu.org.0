@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269486800C8
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 19:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5144D6800C6
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 19:25:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMCMo-00054A-7l; Sun, 29 Jan 2023 13:25:26 -0500
+	id 1pMCMs-0005AW-AR; Sun, 29 Jan 2023 13:25:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMCMd-0004vJ-3e
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:25:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pMCMW-0004pR-5W
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:25:14 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMCMb-0006Dd-FB
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:25:14 -0500
+ id 1pMCMU-0006CZ-8u
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:25:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675016712;
+ s=mimecast20190719; t=1675016705;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=iXnWXWUy2VOUkfKzFoE3RbpkwDAs84VO76GolSsfxeg=;
- b=EGPyw5sZtc6Pr7gK5qm7YYlTw1VHXFP3lIrxyudtXNbLI0/57n7p36+kcoP1awny0fF0IK
- rEX/ORynsTAS02Rlrak1YRIGaju7eCszp2ALCd69P42stM63cMcTYs81dtlTuY0690luy0
- 89okDbyTlL6DgPFpmtSmAIjfxu3hk1U=
+ bh=NYYGbU4+VCQyccn3EjyMVYJtukXx7ENFQ5jJFpqb+ZY=;
+ b=cYo2pjfFEULK23HZly3wYc5/d+pIOpxOsI16tJzr3J+GEhvwGfWVo6AqmhXOBJ9754EPks
+ UlaI2c6ziJQ6dHXESYVhaiSPt3wMj8b3nG6BWhTty+RFKICndZ2PsHq9+MilcVpX5fW+on
+ 2UvVzZXaIKFBAUIKbnms9XRAVnFk7ro=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-513-BmsSiegGOseIRJoMR1PumQ-1; Sun, 29 Jan 2023 13:24:56 -0500
-X-MC-Unique: BmsSiegGOseIRJoMR1PumQ-1
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
- [10.11.54.3])
+ us-mta-584-Rn38cSv8ONmrvR2cDRuZ7A-1; Sun, 29 Jan 2023 13:25:01 -0500
+X-MC-Unique: Rn38cSv8ONmrvR2cDRuZ7A-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 271F43C02B6F;
- Sun, 29 Jan 2023 18:24:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9BF4D3C02B70;
+ Sun, 29 Jan 2023 18:25:00 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id DB9F21121315;
- Sun, 29 Jan 2023 18:24:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8B3C714171BB;
+ Sun, 29 Jan 2023 18:24:59 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
@@ -56,16 +56,16 @@ Cc: Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
  Michael Roth <michael.roth@amd.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 7/9] qmp: teach 'getfd' to import sockets on win32
-Date: Sun, 29 Jan 2023 22:24:12 +0400
-Message-Id: <20230129182414.583349-8-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 8/9] libqtest: make qtest_qmp_add_client work on win32
+Date: Sun, 29 Jan 2023 22:24:13 +0400
+Message-Id: <20230129182414.583349-9-marcandre.lureau@redhat.com>
 In-Reply-To: <20230129182414.583349-1-marcandre.lureau@redhat.com>
 References: <20230129182414.583349-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -92,199 +92,75 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-A process with enough capabilities can duplicate a socket to QEMU.
-Modify 'getfd' to import it and add it to the monitor fd list, so it can
-be later used by other commands.
-
-Note that we actually store the SOCKET in the FD list, appropriate care
-must now be taken to use the correct socket functions (similar approach
-is taken by our io/ code and in glib, this is internal and shouldn't
-affect the QEMU/QMP users)
+Duplicate a socket to QEMU, and add it via 'getfd' on win32.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Acked-by: Thomas Huth <thuth@redhat.com>
 ---
- qapi/misc.json     | 16 ++++++++--
- monitor/hmp-cmds.c |  6 +++-
- monitor/misc.c     | 75 ++++++++++++++++++++++++++++++++++++----------
- 3 files changed, 79 insertions(+), 18 deletions(-)
+ tests/qtest/libqtest.h |  2 --
+ tests/qtest/libqtest.c | 16 ++++++++++++++--
+ 2 files changed, 14 insertions(+), 4 deletions(-)
 
-diff --git a/qapi/misc.json b/qapi/misc.json
-index 27ef5a2b20..cd36d8befb 100644
---- a/qapi/misc.json
-+++ b/qapi/misc.json
-@@ -249,10 +249,18 @@
- ##
- # @getfd:
- #
--# Receive a file descriptor via SCM rights and assign it a name
-+# On UNIX, receive a file descriptor via SCM rights and assign it a name.
-+#
-+# On Windows, (where ancillary socket fd-passing isn't an option yet), add a
-+# socket that was duplicated to QEMU process with WSADuplicateSocketW() via
-+# WSASocket() & WSAPROTOCOL_INFOW structure and assign it a name. A SOCKET is
-+# considered as a kind of "file descriptor" in QMP context, for historical
-+# reasons and simplicity. QEMU takes care to use socket functions appropriately.
- #
- # @fdname: file descriptor name
- #
-+# @wsa-info: a WSAPROTOCOL_INFOW structure (encoded in base64). Since 8.0.
-+#
- # Returns: Nothing on success
- #
- # Since: 0.14
-@@ -270,7 +278,11 @@
- # <- { "return": {} }
- #
- ##
--{ 'command': 'getfd', 'data': {'fdname': 'str'} }
-+{ 'command': 'getfd', 'data': {
-+    'fdname': 'str',
-+    '*wsa-info': {'type': 'str', 'if': 'CONFIG_WIN32'}
-+  }
-+}
+diff --git a/tests/qtest/libqtest.h b/tests/qtest/libqtest.h
+index fcf1c3c3b3..36186cd946 100644
+--- a/tests/qtest/libqtest.h
++++ b/tests/qtest/libqtest.h
+@@ -758,7 +758,6 @@ void qtest_qmp_device_add_qdict(QTestState *qts, const char *drv,
+ void qtest_qmp_device_add(QTestState *qts, const char *driver, const char *id,
+                           const char *fmt, ...) G_GNUC_PRINTF(4, 5);
  
- ##
- # @closefd:
-diff --git a/monitor/hmp-cmds.c b/monitor/hmp-cmds.c
-index 1dba973092..fc9145b8fa 100644
---- a/monitor/hmp-cmds.c
-+++ b/monitor/hmp-cmds.c
-@@ -1232,7 +1232,11 @@ void hmp_getfd(Monitor *mon, const QDict *qdict)
-     const char *fdname = qdict_get_str(qdict, "fdname");
-     Error *err = NULL;
+-#ifndef _WIN32
+ /**
+  * qtest_qmp_add_client:
+  * @qts: QTestState instance to operate on
+@@ -768,7 +767,6 @@ void qtest_qmp_device_add(QTestState *qts, const char *driver, const char *id,
+  * Call QMP ``getfd`` followed by ``add_client`` with the given @fd.
+  */
+ void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd);
+-#endif /* _WIN32 */
  
--    qmp_getfd(fdname, &err);
-+    qmp_getfd(fdname,
-+#ifdef WIN32
-+              NULL,
-+#endif
-+              &err);
-     hmp_handle_error(mon, err);
+ /**
+  * qtest_qmp_device_del_send:
+diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+index 6b2216cb20..7542c169da 100644
+--- a/tests/qtest/libqtest.c
++++ b/tests/qtest/libqtest.c
+@@ -1456,13 +1456,26 @@ void qtest_qmp_device_add(QTestState *qts, const char *driver, const char *id,
+     qobject_unref(args);
  }
  
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 053af4045e..96c4977e5a 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -71,6 +71,7 @@
- #include "qapi/error.h"
- #include "qapi/qmp-event.h"
- #include "qemu/cutils.h"
-+#include "qemu/sockets.h"
- 
- #if defined(TARGET_S390X)
- #include "hw/s390x/storage-keys.h"
-@@ -957,27 +958,29 @@ static void hmp_wavcapture(Monitor *mon, const QDict *qdict)
-     QLIST_INSERT_HEAD (&capture_head, s, entries);
- }
- 
--void qmp_getfd(const char *fdname, Error **errp)
-+static void close_fd(int fd)
+-#ifndef _WIN32
+ void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd)
  {
--    Monitor *cur_mon = monitor_cur();
--    mon_fd_t *monfd;
--    int fd, tmp_fd;
--
--    fd = qemu_chr_fe_get_msgfd(&cur_mon->chr);
--    if (fd == -1) {
--        error_setg(errp, "No file descriptor supplied via SCM_RIGHTS");
--        return;
-+    if (fd_is_socket(fd)) {
-+        closesocket(fd);
-+    } else {
-+        close(fd);
-     }
-+}
-+
-+static void monitor_add_fd(Monitor *mon, int fd, const char *fdname, Error **errp)
-+{
-+    mon_fd_t *monfd;
-+    int tmp_fd;
+     QDict *resp;
  
-     if (qemu_isdigit(fdname[0])) {
--        close(fd);
-+        close_fd(fd);
-         error_setg(errp, QERR_INVALID_PARAMETER_VALUE, "fdname",
-                    "a name not starting with a digit");
-         return;
-     }
- 
--    QEMU_LOCK_GUARD(&cur_mon->mon_lock);
--    QLIST_FOREACH(monfd, &cur_mon->fds, next) {
-+    QEMU_LOCK_GUARD(&mon->mon_lock);
-+    QLIST_FOREACH(monfd, &mon->fds, next) {
-         if (strcmp(monfd->name, fdname) != 0) {
-             continue;
-         }
-@@ -985,7 +988,7 @@ void qmp_getfd(const char *fdname, Error **errp)
-         tmp_fd = monfd->fd;
-         monfd->fd = fd;
-         /* Make sure close() is outside critical section */
--        close(tmp_fd);
-+        close_fd(tmp_fd);
-         return;
-     }
- 
-@@ -993,7 +996,49 @@ void qmp_getfd(const char *fdname, Error **errp)
-     monfd->name = g_strdup(fdname);
-     monfd->fd = fd;
- 
--    QLIST_INSERT_HEAD(&cur_mon->fds, monfd, next);
-+    QLIST_INSERT_HEAD(&mon->fds, monfd, next);
-+}
-+
-+void qmp_getfd(const char *fdname,
 +#ifdef WIN32
-+               const char *wsa_info,
-+#endif
-+               Error **errp)
-+{
-+    Monitor *cur_mon = monitor_cur();
-+    int fd;
++    WSAPROTOCOL_INFOW info;
++    g_autofree char *info64  = NULL;
 +
-+#ifdef WIN32
-+    if (wsa_info) {
-+        g_autofree WSAPROTOCOL_INFOW *info = NULL;
-+        gsize len;
-+        SOCKET sk;
-+
-+        info = (void *)g_base64_decode(wsa_info, &len);
-+        if (len != sizeof(*info)) {
-+            error_setg(errp, "Invalid WSAPROTOCOL_INFOW value");
-+            return;
-+        }
-+
-+        sk = WSASocketW(FROM_PROTOCOL_INFO, FROM_PROTOCOL_INFO,
-+                        FROM_PROTOCOL_INFO, info, 0, 0);
-+        if (sk == INVALID_SOCKET) {
-+            g_autofree gchar *emsg = g_win32_error_message(WSAGetLastError());
-+            error_setg(errp, "Couldn't create socket: %s", emsg);
-+            return;
-+        }
-+
-+        return monitor_add_fd(cur_mon, sk, fdname, errp);
++    assert(fd_is_socket(fd));
++    if (WSADuplicateSocketW(fd, GetProcessId((HANDLE)qts->qemu_pid), &info) == SOCKET_ERROR) {
++        g_autofree char *emsg = g_win32_error_message(WSAGetLastError());
++        g_error("WSADuplicateSocketW failed: %s", emsg);
 +    }
++    info64 = g_base64_encode((guchar *)&info, sizeof(info));
++    resp = qtest_qmp(qts, "{'execute': 'getfd',"
++                     "'arguments': {'fdname': 'fdname', 'wsa-info': %s}}", info64);
++#else
+     resp = qtest_qmp_fds(qts, &fd, 1, "{'execute': 'getfd',"
+                          "'arguments': {'fdname': 'fdname'}}");
 +#endif
-+
-+    fd = qemu_chr_fe_get_msgfd(&cur_mon->chr);
-+    if (fd == -1) {
-+        error_setg(errp, "No file descriptor supplied via SCM_RIGHTS");
-+        return;
-+    }
-+
-+    return monitor_add_fd(cur_mon, fd, fdname, errp);
+     g_assert(resp);
+     g_assert(!qdict_haskey(resp, "event")); /* We don't expect any events */
+     g_assert(!qdict_haskey(resp, "error"));
+@@ -1476,7 +1489,6 @@ void qtest_qmp_add_client(QTestState *qts, const char *protocol, int fd)
+     g_assert(!qdict_haskey(resp, "error"));
+     qobject_unref(resp);
  }
+-#endif
  
- void qmp_closefd(const char *fdname, Error **errp)
-@@ -1014,7 +1059,7 @@ void qmp_closefd(const char *fdname, Error **errp)
-         g_free(monfd);
-         qemu_mutex_unlock(&cur_mon->mon_lock);
-         /* Make sure close() is outside critical section */
--        close(tmp_fd);
-+        close_fd(tmp_fd);
-         return;
-     }
- 
+ /*
+  * Generic hot-unplugging test via the device_del QMP command.
 -- 
 2.39.1
 
