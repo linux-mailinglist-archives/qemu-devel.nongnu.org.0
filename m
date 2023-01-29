@@ -2,76 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E76A667FBE7
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 00:59:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FB9E67FBED
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 01:07:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLv5p-00039q-4S; Sat, 28 Jan 2023 18:58:45 -0500
+	id 1pLvDU-0005EF-7z; Sat, 28 Jan 2023 19:06:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLv5m-000395-Nn
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 18:58:42 -0500
-Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
+ id 1pLvDR-0005Dk-KT
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 19:06:37 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pLv5l-0007oY-8H
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 18:58:42 -0500
-Received: by mail-pf1-x431.google.com with SMTP id z31so5539011pfw.4
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 15:58:40 -0800 (PST)
+ id 1pLvDP-0000bQ-Ts
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 19:06:37 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id b10so8107058pjo.1
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 16:06:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=fUZhQbLaPuWY16f2nW4F/x9o3br7tZ29FQ7xAWsWI8A=;
- b=y4ujSpsCx5eamlaS+MOvZmoVUpjVOdmeBP0I/D3r15xdOm6owkVoUoXQneSWfgfddK
- sgvfO9kBvPv6uyGlPKqu1ef0SAWz/9RMFd2e3UJRGuBL9TPp1YLT8vSs8G+OhLk6TiDs
- RMW8GGjOrm01MYk2dNZieGU25y7GOejWf2hlYjmY93QxaenL8gv9bsYYQGndAcwbkuJN
- XME6318RcY6U6X7H11ErzLYaenNQaeg4dCsLSU8xMDaSlKwQlaFF47vVuseKrEqmlZwa
- J3hyUpuLo3lBP8RfF+vwfYxPenjSuKYIgRyrSRR+qWnmWuXt/mgCps9yar3j+tOmfYPD
- a3Kw==
+ bh=22dmW1rM1iGIgMpX3VyBLcUPIVpOPLoCDG0Drd4wkbg=;
+ b=oFyj+ViY59sAHh0fYfDWzZ7U9e4hmXGyvknBzqgUfFqbw86JoE+eNYExxwHvWaj77p
+ dTTs9XDoCu1qOKJcW9YhGVZdbdbXhdH2mPDIRtGkAPwTaSQhZbAYVqPyYzfHnv6hcaAp
+ b/lczdbkYsY35h72HpZUdV67OXBAxHI+WDQ5YC1zeIYtdATdY40GBV76VGexwp3kwFJR
+ X2ULcX1vcHzzacapBecHjisI8wJBvLHQcYqtKg1Q+aaty0fk08A3IdZGvgz4JFbXBrCg
+ 0IucSseQfRH0rAYdEENfljqYAB2BrkdMEbPEqjyGGP8/r5sZnIGojwi5W6Px5qrjbNub
+ Uvqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=fUZhQbLaPuWY16f2nW4F/x9o3br7tZ29FQ7xAWsWI8A=;
- b=OaL2qss6E40yvZu7aHPhZxOXDBX7X+7/Ggz8hcXqtSLB0oNecxXS2wJcdhUhVbMPe2
- GiX7OI/2FJbGbMOHu/99l87F3HhfufM6R8SD8V8g+YJ6a1c8e2g8/V0wfVhCz6gtfpAo
- yJpl5TlTelCE2ctFStsEzE+grQXLNl5W+QewiG5MuPAPm667SrrvjgmoS4eq/JumnLOm
- 86QZx8avzwKk59gDhykfMwyWtz1DAsKA/wurIKoGdfu5mP6FlExSIkxmlSM5jnbpiy1y
- 6jBX/poeZO1m9QLZzjdAzRuFstNHFxGEo33brQFxePSSLTRGtsd4SF+VzGKzQYIf1qdW
- m80Q==
-X-Gm-Message-State: AO0yUKUQ/SAAJ3qy0cskUmT+N/uvz8AupWbwc5nwdNxtoQoWPV2Lyz4C
- lnCza9PDPb+hNTNnO8/rzFtTiA==
-X-Google-Smtp-Source: AK7set9OrWRU/eRK41HGo74v6T6yWJAqU8K6IRzZzrOunJ/N8E8etXwX90U8hBgpCIOBGmMOXf0hBQ==
-X-Received: by 2002:a62:6445:0:b0:592:557f:9f63 with SMTP id
- y66-20020a626445000000b00592557f9f63mr9473805pfb.11.1674950319452; 
- Sat, 28 Jan 2023 15:58:39 -0800 (PST)
+ bh=22dmW1rM1iGIgMpX3VyBLcUPIVpOPLoCDG0Drd4wkbg=;
+ b=WK6snkmMDc+B7Gfp3aCZHSplzjgT7aO8Lch5Oh6s+T4rA3eh2d7F7rSi6sJ9IOIPLk
+ yEXkVhLGotOPN+ahiMZ6EgyN7Cm7WLw6TbKYp1Ub+1ECw4zEBwGqLT412PCxyfkC7/ci
+ U0TpM26pWyGDIdOvkL8nV2tBVUmV8XHkoemOcXcPO+8qPJtmr5XMtKJf1NSB0rwtaChD
+ mPVGAEMeS0R65/FF/7dAO0WlnJouqQK2+YOLxeM9PQDchfZtF+VR7WogKi91hVYCEd0H
+ pvuCdualdEFbr5fSlCwViKKa/8ibnXRHlpj1vi+sYxo2kfa1Ji0uNxeOpU1wt2UhSP8f
+ xXvg==
+X-Gm-Message-State: AFqh2kqfTGn3GMKGslTLj2TxiVwsUPGgGEd5jN9BR9b7ptvrUM9S9mS3
+ pRV96mYQ9/gJiTd56jRoupv15Q==
+X-Google-Smtp-Source: AMrXdXuCmdlBjbHfOPOjm1b0To/EJPPaz0f+7TXnuJTBl8kTsLtjh9D74D3xAwlA/GwhBFsKJ/wgOg==
+X-Received: by 2002:a05:6a21:6daa:b0:b8:2c67:8f7f with SMTP id
+ wl42-20020a056a216daa00b000b82c678f7fmr60542714pzb.47.1674950794211; 
+ Sat, 28 Jan 2023 16:06:34 -0800 (PST)
 Received: from [192.168.50.174] (rrcs-173-197-98-118.west.biz.rr.com.
  [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- q6-20020aa79826000000b00592543d7363sm4293698pfl.1.2023.01.28.15.58.38
+ 6-20020a630106000000b004784cdc196dsm4358246pgb.24.2023.01.28.16.06.33
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 Jan 2023 15:58:38 -0800 (PST)
-Message-ID: <1f067e72-6313-e0c1-5d27-939dae16169a@linaro.org>
-Date: Sat, 28 Jan 2023 13:58:35 -1000
+ Sat, 28 Jan 2023 16:06:33 -0800 (PST)
+Message-ID: <191c2049-0cda-8517-659d-f1f1473fffc4@linaro.org>
+Date: Sat, 28 Jan 2023 14:06:30 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 21/23] target/arm: Implement the HFGITR_EL2.SVC_EL0 and
- SVC_EL1 traps
+Subject: Re: [PATCH 22/23] target/arm: Implement MDCR_EL2.TDCC and
+ MDCR_EL3.TDCC traps
 Content-Language: en-US
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
  qemu-devel@nongnu.org
 References: <20230127175507.2895013-1-peter.maydell@linaro.org>
- <20230127175507.2895013-22-peter.maydell@linaro.org>
+ <20230127175507.2895013-23-peter.maydell@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230127175507.2895013-22-peter.maydell@linaro.org>
+In-Reply-To: <20230127175507.2895013-23-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
- envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -31
 X-Spam_score: -3.2
 X-Spam_bar: ---
@@ -95,19 +95,20 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 1/27/23 07:55, Peter Maydell wrote:
-> Implement the HFGITR_EL2.SVC_EL0 and SVC_EL1 fine-grained traps.
-> These trap execution of the SVC instruction from AArch32 and AArch64.
-> (As usual, AArch32 can only trap from EL0, as fine grained traps are
-> disabled with an AArch32 EL1.)
+> FEAT_FGT also implements an extra trap bit in the MDCR_EL2 and
+> MDCR_EL3 registers: bit TDCC enables trapping of use of the Debug
+> Comms Channel registers OSDTRRX_EL1, OSDTRTX_EL1, MDCCSR_EL0,
+> MDCCINT_EL0, DBGDTR_EL0, DBGDTRRX_EL0 and DBGDTRTX_EL0 (and their
+> AArch32 equivalents).  This trapping is independent of whether
+> fine-grained traps are enabled or not.
+> 
+> Implement these extra traps.  (We don't implement DBGDTR_EL0,
+> DBGDTRRX_EL0 and DBGDTRTX_EL0.)
 > 
 > Signed-off-by: Peter Maydell<peter.maydell@linaro.org>
 > ---
->   target/arm/cpu.h           |  1 +
->   target/arm/translate.h     |  2 ++
->   target/arm/helper.c        | 20 ++++++++++++++++++++
->   target/arm/translate-a64.c |  9 ++++++++-
->   target/arm/translate.c     | 12 +++++++++---
->   5 files changed, 40 insertions(+), 4 deletion
+>   target/arm/debug_helper.c | 35 +++++++++++++++++++++++++++++++----
+>   1 file changed, 31 insertions(+), 4 deletions(-)
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
