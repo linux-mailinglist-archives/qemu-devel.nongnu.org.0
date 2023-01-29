@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7FF68019E
+	by mail.lfdr.de (Postfix) with ESMTPS id 31EBF68019C
 	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 22:35:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMFJx-0002Pv-0w; Sun, 29 Jan 2023 16:34:41 -0500
+	id 1pMFJw-0002PG-4V; Sun, 29 Jan 2023 16:34:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pMFJu-0002Og-L5
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pMFJu-0002Oh-Lz
  for qemu-devel@nongnu.org; Sun, 29 Jan 2023 16:34:38 -0500
 Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pMFJt-0001Ls-1e
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pMFJt-0001Lu-7e
  for qemu-devel@nongnu.org; Sun, 29 Jan 2023 16:34:38 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id fi26so9246440edb.7
+Received: by mail-ed1-x52a.google.com with SMTP id x7so6027530edr.0
  for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 13:34:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=JadtpMa7DrfVYGf0i2ahJZaP7MUyVL38zp2RXdr9vK0=;
- b=P+1gPNOlpaSzSsVYz5ligiEIkoMxrbb3smmEElmfd9u4FddwHbns66bE2H3bXqYhWl
- dHHmR035QC3XfKi1Cgc9/oRgyg2DcGj+Qs2mySTXoSaczFLnJESkqUIGUuPgedKe63xk
- iMTcd33W8/EFDRIIIFVE4LVYEUcO3b4sf/P/l/V42LRy4C//E2mWfeuj2/7F6oOMOa96
- 6/hDpWR140ONFpzWYbZPiKA8hJnjGjYqQlL30EUe+Fgz9jr+Hcc27pYxyd+sm2cYzrgH
- WsmNDUevkrd7+keGrO749LUl/AIzHWLkc7hxfzpLG5xgpCeaVQUKDTt9tttKL68FqgZf
- 6XoQ==
+ bh=g0s4LRa/makxygYBgDhNmGrmQZc7h77dDyIM/yLM5Qg=;
+ b=bLbGj0DkYKgkMmiKnZnDbcMbIYgHf/1aZid7c9bml2Caz6F3MR9abbzJwI/xEbWnZz
+ yEg2uSRqpldrWC6wIkl0vTuHer7TG3VsEXwQ/DUg0p2xw4zbA9JYAUHEv5WgGfEdOkhK
+ AFDYcQTzAC3bPb8+py3m+cz4166JfgkN4AWqAXsZMabidtBSHvf8mL3fLRNGqh9klcLv
+ f22gBAk9JwQdarVVtZWrDdMjlgkIxt0q28Sk5bXlTGeaE2CK9KYP8R4ho9b4qbCwtO0N
+ s2xGsk82cxUPTIhwAAoyDFZH9ahg3K+Knw44BkWU/ilR9lC3QXTkT8CkBR6JCiJ2TRpo
+ Nqmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=JadtpMa7DrfVYGf0i2ahJZaP7MUyVL38zp2RXdr9vK0=;
- b=KJcUC1sSvXFtRLVUiofX8uxOTYZ/z1Dc0gB6vqhhBNra30pLMpAp0Rhq6FvsTuzvqS
- PiiJiJxQdZrCA3phAOwYYUOMKst1aVeJlPw7oWtQky5L/uWJsNoNHwl5cUJpiMV716XE
- EWwAieuOkMKMB/kMsm4CKUisOZMpy7Fp5HTk/RDehMsXo2RKVRBikah3qND8PH6gpSPQ
- utaOaNxshi6JJHm7MEL1qeiURMMJOubfuWoLQGoCE2eb6h0U24C9LC4yeHWfkShFolpV
- m11mCTd248gD1O5h1vVUxN19PcoswpWNX3NUUyVkfP6NcQxRCHv+ZjIvZwR2T0SETCyE
- RgUQ==
-X-Gm-Message-State: AFqh2kqXjvR+r/Z9WkGSWWJJeHQ+p5xrxE8+dLhzr8StCbz7Aj62McS6
- cUV4KhINWl0B1V2QCKMe1ZO7sVSUC3c=
-X-Google-Smtp-Source: AMrXdXtroKdAEVh48bNrSqJvkcUTbsPnCMI4pkgBbs8b6Zc13poLH0Dms2i9tc4lqv9DTGR2pG/LHw==
-X-Received: by 2002:a05:6402:43c4:b0:49e:8425:6033 with SMTP id
- p4-20020a05640243c400b0049e84256033mr41567703edc.28.1675028074639; 
- Sun, 29 Jan 2023 13:34:34 -0800 (PST)
+ bh=g0s4LRa/makxygYBgDhNmGrmQZc7h77dDyIM/yLM5Qg=;
+ b=EwgcAl2/QJEPkRGjEuo3JWg8smZQbJu4HUSLDI/RBWNj2ELMggbUMS2Fg1H7ULnS/I
+ y1wIBkw6gCev7WmhhGvCYg7I+OKKTCSkez5Uk4sPtLP/7zeLQcmjKwyI89ANk8bsujyE
+ rZpAQO6u+3xG4flcoAGbie2MhpQeOkQqJQkfBSSP98p+VKo/0P70nnfxIS5ckPtzd7/d
+ O17c2ahOtCHW5CIQoOqASmVyFS/CamtsGt/43Olz1C+vPXN4lNtiF/uFoVQeQY7+rRYl
+ 7s89mzQ/WXhKF95JuUhp6wAx4TVTjmws9mJ2M+9bXz2y88uNyOYRIZ4nuvnjTuW4YI1c
+ QWiw==
+X-Gm-Message-State: AFqh2kr7ocZNxAn3D2TsBMoeMGvJJDsheuXO6vpGOocPd6x/jixa2ioo
+ YXjD1tOeOfkFiRjbLeh/ZsXo8tJuSag=
+X-Google-Smtp-Source: AMrXdXuCOsmHoG4D7DUz0e+PP5SOsiqyphrt8PUjgQwGU6/WSO/4os43dRtQzdjaTTdcdNCeoMllOA==
+X-Received: by 2002:a05:6402:1946:b0:48b:c8de:9d20 with SMTP id
+ f6-20020a056402194600b0048bc8de9d20mr53795428edz.32.1675028075809; 
+ Sun, 29 Jan 2023 13:34:35 -0800 (PST)
 Received: from localhost.localdomain ([46.183.103.17])
  by smtp.gmail.com with ESMTPSA id
- d1-20020aa7d681000000b0049be07c9ff5sm5831220edr.4.2023.01.29.13.34.33
+ d1-20020aa7d681000000b0049be07c9ff5sm5831220edr.4.2023.01.29.13.34.34
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 13:34:34 -0800 (PST)
+ Sun, 29 Jan 2023 13:34:35 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhuacai@kernel.org>,
  BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 1/3] hw/isa/vt82c686: Fix SCI routing
-Date: Sun, 29 Jan 2023 22:34:16 +0100
-Message-Id: <20230129213418.87978-2-shentey@gmail.com>
+Subject: [PATCH 2/3] hw/isa/vt82c686: Allow PM controller to switch to ACPI
+ mode
+Date: Sun, 29 Jan 2023 22:34:17 +0100
+Message-Id: <20230129213418.87978-3-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230129213418.87978-1-shentey@gmail.com>
 References: <20230129213418.87978-1-shentey@gmail.com>
@@ -90,110 +91,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-According to the PCI specification, the hardware is not supposed to use
-PCI_INTERRUPT_PIN for interrupt routing. Use the dedicated ACPI
-Interrupt Select register for SCI routing instead.
+Adds missing functionality the real hardware supports.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/vt82c686.c | 42 ++++++++++++++++++++++++++++++------------
- 1 file changed, 30 insertions(+), 12 deletions(-)
+ hw/isa/vt82c686.c | 18 +++++++++++++++++-
+ 1 file changed, 17 insertions(+), 1 deletion(-)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 3f9bd0c04d..2189be6f20 100644
+index 2189be6f20..b0765d4ed8 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -46,6 +46,8 @@ struct ViaPMState {
-     ACPIREGS ar;
-     APMState apm;
-     PMSMBus smb;
+@@ -37,6 +37,9 @@
+ #include "qemu/timer.h"
+ #include "trace.h"
+ 
++#define ACPI_ENABLE 0xf1
++#define ACPI_DISABLE 0xf0
 +
-+    qemu_irq irq;
+ #define TYPE_VIA_PM "via-pm"
+ OBJECT_DECLARE_SIMPLE_TYPE(ViaPMState, VIA_PM)
+ 
+@@ -50,6 +53,19 @@ struct ViaPMState {
+     qemu_irq irq;
  };
  
- static void pm_io_space_update(ViaPMState *s)
-@@ -148,18 +150,7 @@ static void pm_update_sci(ViaPMState *s)
-                    ACPI_BITMASK_POWER_BUTTON_ENABLE |
-                    ACPI_BITMASK_GLOBAL_LOCK_ENABLE |
-                    ACPI_BITMASK_TIMER_ENABLE)) != 0);
--    if (pci_get_byte(s->dev.config + PCI_INTERRUPT_PIN)) {
--        /*
--         * FIXME:
--         * Fix device model that realizes this PM device and remove
--         * this work around.
--         * The device model should wire SCI and setup
--         * PCI_INTERRUPT_PIN properly.
--         * If PIN# = 0(interrupt pin isn't used), don't raise SCI as
--         * work around.
--         */
--        pci_set_irq(&s->dev, sci_level);
--    }
-+    qemu_set_irq(s->irq, sci_level);
-     /* schedule a timer interruption if needed */
-     acpi_pm_tmr_update(&s->ar, (s->ar.pm1.evt.en & ACPI_BITMASK_TIMER_ENABLE) &&
-                        !(pmsts & ACPI_BITMASK_TIMER_STATUS));
-@@ -213,6 +204,13 @@ static void via_pm_realize(PCIDevice *dev, Error **errp)
-     acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2, false);
- }
- 
-+static void via_pm_init(Object *obj)
++static void via_pm_apm_ctrl_changed(uint32_t val, void *arg)
 +{
-+    ViaPMState *s = VIA_PM(obj);
++    ViaPMState *s = arg;
 +
-+    qdev_init_gpio_out(DEVICE(obj), &s->irq, 1);
-+}
-+
- typedef struct via_pm_init_info {
-     uint16_t device_id;
- } ViaPMInitInfo;
-@@ -238,6 +236,7 @@ static void via_pm_class_init(ObjectClass *klass, void *data)
- static const TypeInfo via_pm_info = {
-     .name          = TYPE_VIA_PM,
-     .parent        = TYPE_PCI_DEVICE,
-+    .instance_init = via_pm_init,
-     .instance_size = sizeof(ViaPMState),
-     .abstract      = true,
-     .interfaces = (InterfaceInfo[]) {
-@@ -568,6 +567,21 @@ static const VMStateDescription vmstate_via = {
-     }
- };
- 
-+static void via_isa_set_pm_irq(void *opaque, int n, int level)
-+{
-+    ViaISAState *s = opaque;
-+    uint8_t irq = pci_get_byte(s->pm.dev.config + 0x42) & 0xf;
-+
-+    if (irq == 2) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "IRQ 2 for PM controller is reserved");
++    /* ACPI specs 3.0, 4.7.2.5 */
++    acpi_pm1_cnt_update(&s->ar, val == ACPI_ENABLE, val == ACPI_DISABLE);
++    if (val == ACPI_ENABLE || val == ACPI_DISABLE) {
 +        return;
 +    }
 +
-+    if (irq != 0) {
-+        qemu_set_irq(s->isa_irqs[irq], level);
-+    }
++    qemu_log_mask(LOG_UNIMP, "%s: unimplemented value 0x%x", __func__, val);
 +}
 +
- static void via_isa_init(Object *obj)
+ static void pm_io_space_update(ViaPMState *s)
  {
-     ViaISAState *s = VIA_ISA(obj);
-@@ -578,6 +592,8 @@ static void via_isa_init(Object *obj)
-     object_initialize_child(obj, "uhci2", &s->uhci[1], TYPE_VT82C686B_USB_UHCI);
-     object_initialize_child(obj, "ac97", &s->ac97, TYPE_VIA_AC97);
-     object_initialize_child(obj, "mc97", &s->mc97, TYPE_VIA_MC97);
-+
-+    qdev_init_gpio_in_named(DEVICE(obj), via_isa_set_pm_irq, "sci", 1);
- }
+     uint32_t pmbase = pci_get_long(s->dev.config + 0x48) & 0xff80UL;
+@@ -193,7 +209,7 @@ static void via_pm_realize(PCIDevice *dev, Error **errp)
+     memory_region_add_subregion(pci_address_space_io(dev), 0, &s->smb.io);
+     memory_region_set_enabled(&s->smb.io, false);
  
- static const TypeInfo via_isa_info = {
-@@ -664,6 +680,8 @@ static void via_isa_realize(PCIDevice *d, Error **errp)
-     if (!qdev_realize(DEVICE(&s->pm), BUS(pci_bus), errp)) {
-         return;
-     }
-+    qdev_connect_gpio_out(DEVICE(&s->pm), 0,
-+                          qdev_get_gpio_in_named(DEVICE(d), "sci", 0));
+-    apm_init(dev, &s->apm, NULL, s);
++    apm_init(dev, &s->apm, via_pm_apm_ctrl_changed, s);
  
-     /* Function 5: AC97 Audio */
-     qdev_prop_set_int32(DEVICE(&s->ac97), "addr", d->devfn + 5);
+     memory_region_init_io(&s->io, OBJECT(dev), &pm_io_ops, s, "via-pm", 128);
+     memory_region_add_subregion(pci_address_space_io(dev), 0, &s->io);
 -- 
 2.39.1
 
