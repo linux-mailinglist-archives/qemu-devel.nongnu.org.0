@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9F9A6800C4
+	by mail.lfdr.de (Postfix) with ESMTPS id C90B36800C5
 	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 19:25:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMCLt-0004fn-Bo; Sun, 29 Jan 2023 13:24:29 -0500
+	id 1pMCM6-0004gk-I2; Sun, 29 Jan 2023 13:24:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMCLr-0004fb-Rf
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:27 -0500
+ id 1pMCM3-0004gM-71
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMCLq-0005nh-3B
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:27 -0500
+ id 1pMCM1-0005vL-Ue
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675016664;
+ s=mimecast20190719; t=1675016676;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=uGK5IiAm6NW1EDaRmy6nbHG+tPZx8Buyabo+MAp9WPo=;
- b=UqzYqH73W1DT9xC1nWwl/5Wj9bMCd4wLvUX/NY/3a2F1gltvbnCR2oVRbH6wt/GPJic8No
- 2pctjRNmmq6GD17jDnppp3jU1pseEicMHQmIMInR7TJLYOSCdi3K8Eb062Tr/Z6EL30xvk
- 2RGZFDN5DeMODLjo9bcKvreG2gztNDU=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=XBu1po2LSvrx6z3arrRh8wMcW+RyUCMFlAEc16sOjJc=;
+ b=GMcZCSHHXWbQpUqpYiVzP1B8sBv02YkZKTHlc+UrF6qFEHAg0oQBzS8j+38YcTd7WcMnJz
+ +LrljpSMgUYlaiSwZOUomjJ5p5rWJ5wF11twya9NuaPOfe7qvumIpeg7FfHHpKIhmluQHH
+ 6z+jdXcuqFgh+FYSQz/g6jP4BkT+Ggs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-393-69fbFWRAN0-Avof0iSCwxw-1; Sun, 29 Jan 2023 13:24:19 -0500
-X-MC-Unique: 69fbFWRAN0-Avof0iSCwxw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-61-wcFh-eyYOG-qZX9BrZSKcw-1; Sun, 29 Jan 2023 13:24:29 -0500
+X-MC-Unique: wcFh-eyYOG-qZX9BrZSKcw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EFC1F1C0515E;
- Sun, 29 Jan 2023 18:24:18 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3628B185A78B;
+ Sun, 29 Jan 2023 18:24:29 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 5BEF5422FE;
- Sun, 29 Jan 2023 18:24:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 4062E40C124A;
+ Sun, 29 Jan 2023 18:24:21 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
@@ -55,14 +56,15 @@ Cc: Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
  Michael Roth <michael.roth@amd.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 0/9] Various win32 fixes & teach 'getfd' QMP command to
- import sockets
-Date: Sun, 29 Jan 2023 22:24:05 +0400
-Message-Id: <20230129182414.583349-1-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 1/9] tests: fix path separator, use g_build_filename()
+Date: Sun, 29 Jan 2023 22:24:06 +0400
+Message-Id: <20230129182414.583349-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20230129182414.583349-1-marcandre.lureau@redhat.com>
+References: <20230129182414.583349-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -90,49 +92,26 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+---
+ tests/unit/test-io-channel-command.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The following series first fixes a few tests on win32. The second part focuses
-on 'add_client' support, by limiting its scope to sockets and adding win32
-support. Finally, it enables vnc-display test on win32, to exercise the new code
-paths and demonstrate the usage.
-
-A follow up series will add dbus display support on win32, with tests using this
-socket import method.
-
-v2:
-- replce the propose new command in v1, with 'wsa-info' argument in 'getfd'
-- fix qapi/qmp for commands/events with optional arguments
-- rebase, and tags
-
-Marc-André Lureau (9):
-  tests: fix path separator, use g_build_filename()
-  tests: fix test-io-channel-command on win32
-  tests/docker: fix a win32 error due to portability
-  osdep: implement qemu_socketpair() for win32
-  qmp: 'add_client' actually expects sockets
-  qapi: implement conditional command arguments
-  qmp: teach 'getfd' to import sockets on win32
-  libqtest: make qtest_qmp_add_client work on win32
-  qtest: enable vnc-display test on win32
-
- qapi/misc.json                          |  16 +++-
- include/qemu/sockets.h                  |   2 -
- tests/qtest/libqtest.h                  |   2 -
- monitor/hmp-cmds.c                      |   6 +-
- monitor/misc.c                          |  75 ++++++++++++----
- monitor/qmp-cmds.c                      |  13 ++-
- tests/qtest/libqtest.c                  |  16 +++-
- tests/qtest/vnc-display-test.c          |   5 --
- tests/unit/test-io-channel-command.c    |   8 +-
- util/oslib-win32.c                      | 110 ++++++++++++++++++++++++
- scripts/qapi/commands.py                |   4 +
- scripts/qapi/gen.py                     |  19 ++--
- scripts/qapi/visit.py                   |   2 +
- tests/docker/docker.py                  |   6 +-
- tests/qapi-schema/qapi-schema-test.json |   3 +-
- 15 files changed, 245 insertions(+), 42 deletions(-)
-
+diff --git a/tests/unit/test-io-channel-command.c b/tests/unit/test-io-channel-command.c
+index 19f72eab96..096224962c 100644
+--- a/tests/unit/test-io-channel-command.c
++++ b/tests/unit/test-io-channel-command.c
+@@ -32,7 +32,7 @@ static char *socat = NULL;
+ static void test_io_channel_command_fifo(bool async)
+ {
+     g_autofree gchar *tmpdir = g_dir_make_tmp("qemu-test-io-channel.XXXXXX", NULL);
+-    g_autofree gchar *fifo = g_strdup_printf("%s/%s", tmpdir, TEST_FIFO);
++    g_autofree gchar *fifo = g_build_filename(tmpdir, TEST_FIFO, NULL);
+     g_autofree gchar *srcargs = g_strdup_printf("%s - PIPE:%s,wronly", socat, fifo);
+     g_autofree gchar *dstargs = g_strdup_printf("%s PIPE:%s,rdonly -", socat, fifo);
+     g_auto(GStrv) srcargv = g_strsplit(srcargs, " ", -1);
 -- 
 2.39.1
 
