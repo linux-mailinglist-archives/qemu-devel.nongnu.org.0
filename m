@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AEA36800CB
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 19:26:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A25E96800CC
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 19:26:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMCMI-0004ij-J1; Sun, 29 Jan 2023 13:24:54 -0500
+	id 1pMCMg-0004v5-AY; Sun, 29 Jan 2023 13:25:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMCMG-0004i7-8Y
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pMCMP-0004j4-76
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:25:01 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMCME-0005zp-Qy
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:24:52 -0500
+ id 1pMCML-000603-Oe
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 13:25:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675016690;
+ s=mimecast20190719; t=1675016696;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=apJdQ+o1YhG8ScRQIxIghn17nASfmTDA/hRxwYhs2Rg=;
- b=ZeLK2Eh7lvhNZRu2YMCegXaTbbedLJ8NrniWfCTXXprwDFqYe80cHP858pXhn4DPQaU2sl
- PzoBsJgyBVgZWAtaU9La1NpYYn2ZGWITs5xFHzjnT1+wX1VHsgGCmmiiTJ6+Qh2G3aoUdO
- jRkb0ek7XzyeMZfKcaEerDLOzXIEJRg=
+ bh=NhHXydFI0TtNZY/17kwXRMemx9Mdt7dhyIDBKvB2xRg=;
+ b=P6TD2y4ME1fp2MZEofUndszZolkoj+33WCI9rXjHfddS7MSy3ZAQe0274NYsyHLWrJGihO
+ dkr7Mbg+FvfJOzF0XV/l9ZX54G+uajylFO5R73LpLGi0pU+tDLlToleyKB0Dyz4Ftb5nod
+ YLSjf23XBRVT8fg28dp2oVgtuIB8eCA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-101-thKjvrAyOjuFjajCsx9KlA-1; Sun, 29 Jan 2023 13:24:47 -0500
-X-MC-Unique: thKjvrAyOjuFjajCsx9KlA-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
+ us-mta-544-Hmy-5sD8OB2XiUkjvTzCEg-1; Sun, 29 Jan 2023 13:24:52 -0500
+X-MC-Unique: Hmy-5sD8OB2XiUkjvTzCEg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3C70285A588;
- Sun, 29 Jan 2023 18:24:47 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27DC0101A521;
+ Sun, 29 Jan 2023 18:24:52 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.3])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 31CF8492B06;
- Sun, 29 Jan 2023 18:24:45 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 93FFF1121314;
+ Sun, 29 Jan 2023 18:24:50 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
@@ -56,16 +56,16 @@ Cc: Stefan Weil <sw@weilnetz.de>, Markus Armbruster <armbru@redhat.com>,
  Michael Roth <michael.roth@amd.com>, Laurent Vivier <lvivier@redhat.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH v2 5/9] qmp: 'add_client' actually expects sockets
-Date: Sun, 29 Jan 2023 22:24:10 +0400
-Message-Id: <20230129182414.583349-6-marcandre.lureau@redhat.com>
+Subject: [PATCH v2 6/9] qapi: implement conditional command arguments
+Date: Sun, 29 Jan 2023 22:24:11 +0400
+Message-Id: <20230129182414.583349-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20230129182414.583349-1-marcandre.lureau@redhat.com>
 References: <20230129182414.583349-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -92,71 +92,113 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Whether it is SPICE, VNC, D-Bus, or the socket chardev, they all
-actually expect a socket kind or will fail in different ways at runtime.
+The generated code doesn't quite handle the conditional arguments.
+For example, 'bar' in 'test-if-cmd' is not correctly surrounded by #if
+conditions. See generated code in qmp_marshal_test_if_cmd().
 
-Throw an error early if the given 'add_client' fd is not a socket, and
-close it to avoid leaks.
-
-This allows to replace the close() call with a more correct & portable
-closesocket() version.
-
-(this will allow importing sockets on Windows with a specialized command
-in the following patch, while keeping the remaining monitor associated
-sockets/add_client code & usage untouched)
+Note that if there are multiple optional arguments at the last position,
+there might be compilation issues due to extra comas. I left an assert
+and FIXME for later.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- monitor/qmp-cmds.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ scripts/qapi/commands.py                |  4 ++++
+ scripts/qapi/gen.py                     | 19 ++++++++++++++-----
+ scripts/qapi/visit.py                   |  2 ++
+ tests/qapi-schema/qapi-schema-test.json |  3 ++-
+ 4 files changed, 22 insertions(+), 6 deletions(-)
 
-diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
-index bf22a8c5a6..01cfc23407 100644
---- a/monitor/qmp-cmds.c
-+++ b/monitor/qmp-cmds.c
-@@ -22,6 +22,7 @@
- #include "sysemu/sysemu.h"
- #include "qemu/config-file.h"
- #include "qemu/uuid.h"
-+#include "qemu/sockets.h"
- #include "chardev/char.h"
- #include "sysemu/kvm.h"
- #include "sysemu/runstate.h"
-@@ -190,11 +191,17 @@ void qmp_add_client(const char *protocol, const char *fdname,
-         return;
-     }
+diff --git a/scripts/qapi/commands.py b/scripts/qapi/commands.py
+index 79c5e5c3a9..07997d1586 100644
+--- a/scripts/qapi/commands.py
++++ b/scripts/qapi/commands.py
+@@ -64,9 +64,13 @@ def gen_call(name: str,
+     elif arg_type:
+         assert not arg_type.variants
+         for memb in arg_type.members:
++            if memb.ifcond.is_present():
++                argstr += '\n' + memb.ifcond.gen_if()
+             if memb.need_has():
+                 argstr += 'arg.has_%s, ' % c_name(memb.name)
+             argstr += 'arg.%s, ' % c_name(memb.name)
++            if memb.ifcond.is_present():
++                argstr += '\n' + memb.ifcond.gen_endif()
  
-+    if (!fd_is_socket(fd)) {
-+        error_setg(errp, "add_client expects a socket");
-+        close(fd);
-+        return;
-+    }
-+
-     for (i = 0; i < ARRAY_SIZE(protocol_table); i++) {
-         if (!strcmp(protocol, protocol_table[i].name)) {
-             if (!protocol_table[i].add_client(fd, has_skipauth, skipauth,
-                                               has_tls, tls, errp)) {
--                close(fd);
-+                closesocket(fd);
-             }
-             return;
-         }
-@@ -203,12 +210,12 @@ void qmp_add_client(const char *protocol, const char *fdname,
-     s = qemu_chr_find(protocol);
-     if (!s) {
-         error_setg(errp, "protocol '%s' is invalid", protocol);
--        close(fd);
-+        closesocket(fd);
-         return;
-     }
-     if (qemu_chr_add_client(s, fd) < 0) {
-         error_setg(errp, "failed to add client");
--        close(fd);
-+        closesocket(fd);
-         return;
-     }
- }
+     lhs = ''
+     if ret_type:
+diff --git a/scripts/qapi/gen.py b/scripts/qapi/gen.py
+index b5a8d03e8e..ba57e72c9b 100644
+--- a/scripts/qapi/gen.py
++++ b/scripts/qapi/gen.py
+@@ -111,22 +111,31 @@ def build_params(arg_type: Optional[QAPISchemaObjectType],
+                  boxed: bool,
+                  extra: Optional[str] = None) -> str:
+     ret = ''
+-    sep = ''
+     if boxed:
+         assert arg_type
+         ret += '%s arg' % arg_type.c_param_type()
+-        sep = ', '
++        if extra:
++            ret += ', '
+     elif arg_type:
+         assert not arg_type.variants
++        n = 0
+         for memb in arg_type.members:
+-            ret += sep
+-            sep = ', '
++            n += 1
++            if memb.ifcond.is_present():
++                ret += '\n' + memb.ifcond.gen_if()
+             if memb.need_has():
+                 ret += 'bool has_%s, ' % c_name(memb.name)
+             ret += '%s %s' % (memb.type.c_param_type(),
+                               c_name(memb.name))
++            if extra or n != len(arg_type.members):
++                ret += ', '
++            else:
++                # FIXME: optional last argument may break compilation
++                assert not memb.ifcond.is_present()
++            if memb.ifcond.is_present():
++                ret += '\n' + memb.ifcond.gen_endif()
+     if extra:
+-        ret += sep + extra
++        ret += extra
+     return ret if ret else 'void'
+ 
+ 
+diff --git a/scripts/qapi/visit.py b/scripts/qapi/visit.py
+index 26a584ee4c..c56ea4d724 100644
+--- a/scripts/qapi/visit.py
++++ b/scripts/qapi/visit.py
+@@ -74,11 +74,13 @@ def gen_visit_object_members(name: str,
+     sep = ''
+     for memb in members:
+         if memb.optional and not memb.need_has():
++            ret += memb.ifcond.gen_if()
+             ret += mcgen('''
+     bool has_%(c_name)s = !!obj->%(c_name)s;
+ ''',
+                          c_name=c_name(memb.name))
+             sep = '\n'
++            ret += memb.ifcond.gen_endif()
+     ret += sep
+ 
+     if base:
+diff --git a/tests/qapi-schema/qapi-schema-test.json b/tests/qapi-schema/qapi-schema-test.json
+index ba7302f42b..baa4e69f63 100644
+--- a/tests/qapi-schema/qapi-schema-test.json
++++ b/tests/qapi-schema/qapi-schema-test.json
+@@ -258,7 +258,8 @@
+ 
+ { 'event': 'TEST_IF_EVENT',
+   'data': { 'foo': 'TestIfStruct',
+-            'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR' } },
++            'bar': { 'type': ['TestIfEnum'], 'if': 'TEST_IF_EVT_BAR' },
++            'baz': 'int' },
+   'if': { 'all': ['TEST_IF_EVT', 'TEST_IF_STRUCT'] } }
+ 
+ { 'event': 'TEST_IF_EVENT2', 'data': {},
 -- 
 2.39.1
 
