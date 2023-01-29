@@ -2,50 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1848467FD5B
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 08:26:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B6067FD59
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 08:25:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pM24i-0002p0-80; Sun, 29 Jan 2023 02:26:04 -0500
+	id 1pM23Q-00023A-Kj; Sun, 29 Jan 2023 02:24:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pM24f-0002or-Qj
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 02:26:01 -0500
-Received: from out30-56.freemail.mail.aliyun.com ([115.124.30.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pM24d-0006ru-5V
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 02:26:01 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R531e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045192;
- MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=3; SR=0;
- TI=SMTPD_---0VaJisu1_1674977147; 
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0VaJisu1_1674977147) by smtp.aliyun-inc.com;
- Sun, 29 Jan 2023 15:25:47 +0800
-Message-ID: <1674976516.577517-1-xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH v1 1/2] virtio: struct VirtQueue introduce reset
-Date: Sun, 29 Jan 2023 15:15:16 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Jason Wang <jasowang@redhat.com>
-References: <20230129025150.119972-1-xuanzhuo@linux.alibaba.com>
- <20230129025150.119972-2-xuanzhuo@linux.alibaba.com>
- <20230129020903-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20230129020903-mutt-send-email-mst@kernel.org>
-Received-SPF: pass client-ip=115.124.30.56;
- envelope-from=xuanzhuo@linux.alibaba.com;
- helo=out30-56.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pM23O-00022m-Lk
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 02:24:42 -0500
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pM23M-0006Xd-LN
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 02:24:42 -0500
+Received: by mail-pl1-x634.google.com with SMTP id 5so8742819plo.3
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 23:24:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7yzbq42PV9LMEHgMOjdPNBRBulzQuaCj6+7HLnBPjDk=;
+ b=euPUP8Y1T7RYUHgIocS9gzeoLKP2moP5QWrvD2GS6a+ILqulA0yfbzGMy9pvjarFwa
+ NipSjm2ytuDjC2L6QbFN8qaW0E4CMM3l8X1qCEB8E2oOtgHnBJIHSLAvgne/Drsxafaj
+ aHd4TYgUXiaYgBBe4brRnoDITQ9VY9zLsrmycvpvRu+Zw+UYqOJt5ZjAAV/Sm1if/fM8
+ AZt9VxkumcG+EDrdLM3nZKQXyCIzJaDt3vd5z4/cdQLc+97feWd/wiL4of+Imcu99GCs
+ hq/WeAZ8xzRTeQWYs6jJgHagJ/c8J58M56v1rKCwxLJLbrYteKwmli7anifXzpoDgzAQ
+ MwrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7yzbq42PV9LMEHgMOjdPNBRBulzQuaCj6+7HLnBPjDk=;
+ b=jVLKoXpJ+mX+8WzyOvpxrwVamI4oz5/eI6tk/FUH977UMpjEBSWcmgIagd5fs2PRwS
+ EcT4GnvB6/3QS1BQt7Wu65GGRVTdMsJUyAg64+lG2JltY0NUnp1r1mWB4mLtSL31XSCv
+ MgbIrgz6I7e/HGQ+wtq8DGkO5HuCWm0fQtefw/CC3VW0H1k+f0lea7hVXsDl8XXjD2cL
+ JXSqGQ4m2WYeG4jypHg6wMQYQFwXo80BW6aByVQxDccc7nCzFh9uTiVFifateqXszqZK
+ skTpy63EmWKQLNRI0RpNEjMZqO7AgWZOJEWdbRCMASbf5Rvg6lkSCslHDZ7XAHrPPsyn
+ BvRQ==
+X-Gm-Message-State: AO0yUKVeLoMBXV88tTBmOQbyhQkwV3moAe7dX35VK+x/Er10NoBu5crt
+ W+AQcndlSTfdljj0U3PV717FoQ==
+X-Google-Smtp-Source: AK7set9mWe/zgryaLZuM0U2L54Y7tEdQw2wf5UPZXaOBrP+24WPIh4nOwjJbQ5QT9mJaniQXo8h9xQ==
+X-Received: by 2002:a17:902:d48d:b0:196:4f0d:c31f with SMTP id
+ c13-20020a170902d48d00b001964f0dc31fmr11522912plg.12.1674977079014; 
+ Sat, 28 Jan 2023 23:24:39 -0800 (PST)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ l12-20020a170902d34c00b00194b37940edsm5418899plk.268.2023.01.28.23.24.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sat, 28 Jan 2023 23:24:38 -0800 (PST)
+Message-ID: <e6a03b04-2565-7ae3-ace5-1486369d000b@daynix.com>
+Date: Sun, 29 Jan 2023 16:24:36 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH 5/9] igb: respect E1000_VMOLR_RSSE
+Content-Language: en-US
+To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20230128134633.22730-1-sriram.yagnaraman@est.tech>
+ <20230128134633.22730-6-sriram.yagnaraman@est.tech>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20230128134633.22730-6-sriram.yagnaraman@est.tech>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::634;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x634.google.com
+X-Spam_score_int: -29
+X-Spam_score: -3.0
+X-Spam_bar: ---
+X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -61,118 +97,83 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 29 Jan 2023 02:12:36 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
->
-> subject seems wrong.
+On 2023/01/28 22:46, Sriram Yagnaraman wrote:
+> RSS for VFs is only enabled if VMOLR[n].RSSE is set.
+> 
+> Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+> ---
+>   hw/net/igb_core.c | 18 +++++++++++++-----
+>   1 file changed, 13 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+> index 1eb7ba168f..e4fd4a1a5f 100644
+> --- a/hw/net/igb_core.c
+> +++ b/hw/net/igb_core.c
+> @@ -69,7 +69,7 @@ typedef struct IGBTxPktVmdqCallbackContext {
+>   
+>   static ssize_t
+>   igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
+> -                     bool has_vnet, bool *assigned);
+> +                     bool has_vnet, bool *external_tx);
 
+I admit external_tx is somewhat confusing, but it is more than just 
+telling if it is assigned to Rx queue or not. If external_tx is not 
+NULL, it indicates it is part of Tx packet switching. In that case, a 
+bool value which describes whether the packet should be routed to 
+external LAN must be assigned. The value can be false even if the packet 
+is assigned to Rx queues; it will be always false if it is multicast, 
+for example.
 
-Will fix.
+>   
+>   static inline void
+>   igb_set_interrupt_cause(IGBCore *core, uint32_t val);
+> @@ -942,7 +942,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+>   
+>       if (core->mac[MRQC] & 1) {
+>           if (is_broadcast_ether_addr(ehdr->h_dest)) {
+> -            for (i = 0; i < 8; i++) {
+> +            for (i = 0; i < IGB_MAX_VF_FUNCTIONS; i++) {
 
+I just left it as 8 because VMDq is not specific to VF. Perhaps it is 
+better to have another macro to denote the number of VMDq pools, but it 
+is not done yet.
 
->
-> On Sun, Jan 29, 2023 at 10:51:49AM +0800, Xuan Zhuo wrote:
-> > In the current design, we stop the device from operating on the vring
-> > during per-queue reset by resetting the structure VirtQueue.
-> >
-> > But before the reset operation, when recycling some resources, we should
-> > stop referencing new vring resources. For example, when recycling
-> > virtio-net's asynchronous sending resources, virtio-net should be able
-> > to perceive that the current queue is in the per-queue reset state, and
-> > stop sending new packets from the tx queue.
-> >
-> > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> > ---
-> >  hw/virtio/virtio.c         | 15 +++++++++++++++
-> >  include/hw/virtio/virtio.h |  1 +
-> >  2 files changed, 16 insertions(+)
-> >
-> > diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-> > index f35178f5fc..c954f2a2b3 100644
-> > --- a/hw/virtio/virtio.c
-> > +++ b/hw/virtio/virtio.c
-> > @@ -142,6 +142,8 @@ struct VirtQueue
-> >      /* Notification enabled? */
-> >      bool notification;
-> >
-> > +    bool disabled_by_reset;
-> > +
-> >      uint16_t queue_index;
-> >
-> >      unsigned int inuse;
-> > @@ -2079,6 +2081,12 @@ void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
-> >  {
-> >      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-> >
-> > +    /*
-> > +     * Mark this queue is per-queue reset status. The device should release the
-> > +     * references of the vring, and not refer more new vring item.
->
-> items
-
-
-Will fix.
-
->
-> > +     */
-> > +    vdev->vq[queue_index].disabled_by_reset = true;
-> > +
-> >      if (k->queue_reset) {
-> >          k->queue_reset(vdev, queue_index);
-> >      }
->
-> can we set this after calling queue_reset? For symmetry with enable.
-
-
-In fact,  queue_reset() will check it.
-
-
->
-> > @@ -2102,11 +2110,18 @@ void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
-> >      }
-> >      */
-> >
-> > +    vdev->vq[queue_index].disabled_by_reset = false;
-> > +
-> >      if (k->queue_enable) {
-> >          k->queue_enable(vdev, queue_index);
-> >      }
-> >  }
-> >
-> > +bool virtio_queue_reset_state(VirtQueue *vq)
-> > +{
-> > +    return vq->disabled_by_reset;
-> > +}
-> > +
-> >  void virtio_reset(void *opaque)
-> >  {
-> >      VirtIODevice *vdev = opaque;
-> > diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
-> > index 77c6c55929..00e91af7c4 100644
-> > --- a/include/hw/virtio/virtio.h
-> > +++ b/include/hw/virtio/virtio.h
-> > @@ -319,6 +319,7 @@ int virtio_set_status(VirtIODevice *vdev, uint8_t val);
-> >  void virtio_reset(void *opaque);
-> >  void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index);
-> >  void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index);
-> > +bool virtio_queue_reset_state(VirtQueue *vq);
-> >  void virtio_update_irq(VirtIODevice *vdev);
-> >  int virtio_set_features(VirtIODevice *vdev, uint64_t val);
->
-> OK I guess ... what about migration. This state won't be
-> set correctly will it?
-
-I think it has no effect. After the reset, there is actually no state. We can
-migrate.
-
-The current variable is only used by ->queue_reset().
-
-Thanks.
-
-
->
->
-> >
-> > --
-> > 2.32.0.3.g01195cf9f
->
+>                   if (core->mac[VMOLR0 + i] & E1000_VMOLR_BAM) {
+>                       queues |= BIT(i);
+>                   }
+> @@ -976,7 +976,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+>                   f = ta_shift[(rctl >> E1000_RCTL_MO_SHIFT) & 3];
+>                   f = (((ehdr->h_dest[5] << 8) | ehdr->h_dest[4]) >> f) & 0xfff;
+>                   if (macp[f >> 5] & (1 << (f & 0x1f))) {
+> -                    for (i = 0; i < 8; i++) {
+> +                    for (i = 0; i < IGB_MAX_VF_FUNCTIONS; i++) {
+>                           if (core->mac[VMOLR0 + i] & E1000_VMOLR_ROMPE) {
+>                               queues |= BIT(i);
+>                           }
+> @@ -999,7 +999,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+>                       }
+>                   }
+>               } else {
+> -                for (i = 0; i < 8; i++) {
+> +                for (i = 0; i < IGB_MAX_VF_FUNCTIONS; i++) {
+>                       if (core->mac[VMOLR0 + i] & E1000_VMOLR_AUPE) {
+>                           mask |= BIT(i);
+>                       }
+> @@ -1018,7 +1018,15 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+>           queues &= core->mac[VFRE];
+>           igb_rss_parse_packet(core, core->rx_pkt, external_tx != NULL, rss_info);
+>           if (rss_info->queue & 1) {
+> -            queues <<= 8;
+> +            for (i = 0; i < IGB_MAX_VF_FUNCTIONS; i++) {
+> +                if (!(queues & BIT(i))) {
+> +                    continue;
+> +                }
+> +                if (core->mac[VMOLR0 + i] & E1000_VMOLR_RSSE) {
+> +                    queues |= BIT(i + IGB_MAX_VF_FUNCTIONS);
+> +                    queues &= ~BIT(i);
+> +                }
+> +            }
+>           }
+>       } else {
+>           switch (net_rx_pkt_get_packet_type(core->rx_pkt)) {
 
