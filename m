@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31EBF68019C
+	by mail.lfdr.de (Postfix) with ESMTPS id 3286468019D
 	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 22:35:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMFJw-0002PG-4V; Sun, 29 Jan 2023 16:34:40 -0500
+	id 1pMFJy-0002Q2-JO; Sun, 29 Jan 2023 16:34:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pMFJu-0002Oh-Lz
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 16:34:38 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pMFJw-0002Pc-AU
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 16:34:40 -0500
+Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pMFJt-0001Lu-7e
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 16:34:38 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id x7so6027530edr.0
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 13:34:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pMFJu-0001MI-SA
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 16:34:40 -0500
+Received: by mail-ed1-x534.google.com with SMTP id n6so6617335edo.9
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 13:34:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=g0s4LRa/makxygYBgDhNmGrmQZc7h77dDyIM/yLM5Qg=;
- b=bLbGj0DkYKgkMmiKnZnDbcMbIYgHf/1aZid7c9bml2Caz6F3MR9abbzJwI/xEbWnZz
- yEg2uSRqpldrWC6wIkl0vTuHer7TG3VsEXwQ/DUg0p2xw4zbA9JYAUHEv5WgGfEdOkhK
- AFDYcQTzAC3bPb8+py3m+cz4166JfgkN4AWqAXsZMabidtBSHvf8mL3fLRNGqh9klcLv
- f22gBAk9JwQdarVVtZWrDdMjlgkIxt0q28Sk5bXlTGeaE2CK9KYP8R4ho9b4qbCwtO0N
- s2xGsk82cxUPTIhwAAoyDFZH9ahg3K+Knw44BkWU/ilR9lC3QXTkT8CkBR6JCiJ2TRpo
- Nqmg==
+ bh=yk47PqZmuOTiniLSu6qFGT/8lOr+9kd9+ln4IWTKIHI=;
+ b=jcB2/DN5GQSDU6XT+v+JLKHif5Yk1QSlA8vScXPbaY0v9DZ2n7euV2cqVpLKWjJA5X
+ KR/b+RriTUVO+CZDcmhNUnu7tYoDlKFhwklLQ0Suobc7N8isAZ83/T4TAh5RHhq4hNU5
+ uFtotzcrke3tqSn7k401T3BvtrWG/qKVBguS+EYEzEqm0KP8jNV/Oq3GI0oT9Z+xF0p4
+ BxCYXyAPo6INJKpRFvT5vFIEtPNPALsberGUM9fH+95w7J4PfRcUpTa9cjs7gwHBHrZX
+ xGgZsngadYkUSYMQrYDjQsDarssqWrsYPJJCekmwU8IyxUdX1I6Zz4rR9T8n7WC0uZ8E
+ eJzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=g0s4LRa/makxygYBgDhNmGrmQZc7h77dDyIM/yLM5Qg=;
- b=EwgcAl2/QJEPkRGjEuo3JWg8smZQbJu4HUSLDI/RBWNj2ELMggbUMS2Fg1H7ULnS/I
- y1wIBkw6gCev7WmhhGvCYg7I+OKKTCSkez5Uk4sPtLP/7zeLQcmjKwyI89ANk8bsujyE
- rZpAQO6u+3xG4flcoAGbie2MhpQeOkQqJQkfBSSP98p+VKo/0P70nnfxIS5ckPtzd7/d
- O17c2ahOtCHW5CIQoOqASmVyFS/CamtsGt/43Olz1C+vPXN4lNtiF/uFoVQeQY7+rRYl
- 7s89mzQ/WXhKF95JuUhp6wAx4TVTjmws9mJ2M+9bXz2y88uNyOYRIZ4nuvnjTuW4YI1c
- QWiw==
-X-Gm-Message-State: AFqh2kr7ocZNxAn3D2TsBMoeMGvJJDsheuXO6vpGOocPd6x/jixa2ioo
- YXjD1tOeOfkFiRjbLeh/ZsXo8tJuSag=
-X-Google-Smtp-Source: AMrXdXuCOsmHoG4D7DUz0e+PP5SOsiqyphrt8PUjgQwGU6/WSO/4os43dRtQzdjaTTdcdNCeoMllOA==
-X-Received: by 2002:a05:6402:1946:b0:48b:c8de:9d20 with SMTP id
- f6-20020a056402194600b0048bc8de9d20mr53795428edz.32.1675028075809; 
- Sun, 29 Jan 2023 13:34:35 -0800 (PST)
+ bh=yk47PqZmuOTiniLSu6qFGT/8lOr+9kd9+ln4IWTKIHI=;
+ b=KsAc6d2XNB2qTogwgVTv9puiAtoRkny/vC+RmxS5CqIkTVTskDrh5dH8riKMSdILED
+ N+jGUUxXnJKCyMFNtxiFY19R3zVNq4Xj/ifERMaW7FVCQttUpJuMeInAcSQKFi+d7D15
+ kaT6pvmnaU/EoL9SrW/jEDzu61Cg1q7F16C74j2ey8v2AocMwJdFi72edZvDtfc60PZ7
+ CUVya8TJztTQoLqkC5U5I1b7f4+8F+aExp054BjdCc7arE9r1srfRy3ys/TUemYMVPCB
+ Tkl9CmNOlJPheC+7C9B4wCY7hXisSetN2eCPvIdsPTsmqrq696YPTBwe7iDeO6jYX33i
+ Uq/Q==
+X-Gm-Message-State: AFqh2kqIqyOK/AtRMG+nOyDjB0UknIRClBx1kgu+CabnKcYzMPSje3qD
+ lGh0GvTwCVLg00AHUGS/sQGkFOYSABc=
+X-Google-Smtp-Source: AMrXdXtf6WvLxlBNkdRG7d9Wzfh7Z3jcCJFTUdKgmA54kWd0OBMts1eK3T6tPQUGtMer5c3K766eXA==
+X-Received: by 2002:aa7:cc81:0:b0:47e:eaae:9a5b with SMTP id
+ p1-20020aa7cc81000000b0047eeaae9a5bmr48468343edt.42.1675028077073; 
+ Sun, 29 Jan 2023 13:34:37 -0800 (PST)
 Received: from localhost.localdomain ([46.183.103.17])
  by smtp.gmail.com with ESMTPSA id
- d1-20020aa7d681000000b0049be07c9ff5sm5831220edr.4.2023.01.29.13.34.34
+ d1-20020aa7d681000000b0049be07c9ff5sm5831220edr.4.2023.01.29.13.34.35
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 13:34:35 -0800 (PST)
+ Sun, 29 Jan 2023 13:34:36 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Jiaxun Yang <jiaxun.yang@flygoat.com>, Huacai Chen <chenhuacai@kernel.org>,
  BALATON Zoltan <balaton@eik.bme.hu>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH 2/3] hw/isa/vt82c686: Allow PM controller to switch to ACPI
- mode
-Date: Sun, 29 Jan 2023 22:34:17 +0100
-Message-Id: <20230129213418.87978-3-shentey@gmail.com>
+Subject: [PATCH 3/3] hw/isa/vt82c686: Implement ACPI powerdown
+Date: Sun, 29 Jan 2023 22:34:18 +0100
+Message-Id: <20230129213418.87978-4-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230129213418.87978-1-shentey@gmail.com>
 References: <20230129213418.87978-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::534;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x534.google.com
 X-Spam_score_int: 12
 X-Spam_score: 1.2
 X-Spam_bar: +
@@ -91,56 +90,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Adds missing functionality the real hardware supports.
-
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/vt82c686.c | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ hw/isa/vt82c686.c | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
 diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
-index 2189be6f20..b0765d4ed8 100644
+index b0765d4ed8..2db54d1649 100644
 --- a/hw/isa/vt82c686.c
 +++ b/hw/isa/vt82c686.c
-@@ -37,6 +37,9 @@
+@@ -33,8 +33,10 @@
+ #include "qapi/error.h"
+ #include "qemu/log.h"
+ #include "qemu/module.h"
++#include "qemu/notify.h"
+ #include "qemu/range.h"
  #include "qemu/timer.h"
++#include "sysemu/runstate.h"
  #include "trace.h"
  
-+#define ACPI_ENABLE 0xf1
-+#define ACPI_DISABLE 0xf0
-+
- #define TYPE_VIA_PM "via-pm"
- OBJECT_DECLARE_SIMPLE_TYPE(ViaPMState, VIA_PM)
+ #define ACPI_ENABLE 0xf1
+@@ -50,6 +52,8 @@ struct ViaPMState {
+     APMState apm;
+     PMSMBus smb;
  
-@@ -50,6 +53,19 @@ struct ViaPMState {
++    Notifier powerdown_notifier;
++
      qemu_irq irq;
  };
  
-+static void via_pm_apm_ctrl_changed(uint32_t val, void *arg)
+@@ -198,6 +202,14 @@ static void via_pm_reset(DeviceState *d)
+     smb_io_space_update(s);
+ }
+ 
++static void via_pm_powerdown_req(Notifier *n, void *opaque)
 +{
-+    ViaPMState *s = arg;
++    ViaPMState *s = container_of(n, ViaPMState, powerdown_notifier);
 +
-+    /* ACPI specs 3.0, 4.7.2.5 */
-+    acpi_pm1_cnt_update(&s->ar, val == ACPI_ENABLE, val == ACPI_DISABLE);
-+    if (val == ACPI_ENABLE || val == ACPI_DISABLE) {
-+        return;
-+    }
-+
-+    qemu_log_mask(LOG_UNIMP, "%s: unimplemented value 0x%x", __func__, val);
++    assert(s != NULL);
++    acpi_pm1_evt_power_down(&s->ar);
 +}
 +
- static void pm_io_space_update(ViaPMState *s)
+ static void via_pm_realize(PCIDevice *dev, Error **errp)
  {
-     uint32_t pmbase = pci_get_long(s->dev.config + 0x48) & 0xff80UL;
-@@ -193,7 +209,7 @@ static void via_pm_realize(PCIDevice *dev, Error **errp)
-     memory_region_add_subregion(pci_address_space_io(dev), 0, &s->smb.io);
-     memory_region_set_enabled(&s->smb.io, false);
+     ViaPMState *s = VIA_PM(dev);
+@@ -218,6 +230,9 @@ static void via_pm_realize(PCIDevice *dev, Error **errp)
+     acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
+     acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
+     acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2, false);
++
++    s->powerdown_notifier.notify = via_pm_powerdown_req;
++    qemu_register_powerdown_notifier(&s->powerdown_notifier);
+ }
  
--    apm_init(dev, &s->apm, NULL, s);
-+    apm_init(dev, &s->apm, via_pm_apm_ctrl_changed, s);
- 
-     memory_region_init_io(&s->io, OBJECT(dev), &pm_io_ops, s, "via-pm", 128);
-     memory_region_add_subregion(pci_address_space_io(dev), 0, &s->io);
+ static void via_pm_init(Object *obj)
 -- 
 2.39.1
 
