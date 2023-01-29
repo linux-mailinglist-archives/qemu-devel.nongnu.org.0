@@ -2,54 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 947C767FF98
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 15:40:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDF1E67FF9D
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 15:50:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pM8qL-0005h5-J0; Sun, 29 Jan 2023 09:39:41 -0500
+	id 1pM8zY-00081N-F3; Sun, 29 Jan 2023 09:49:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pM8qI-0005eZ-1n; Sun, 29 Jan 2023 09:39:39 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pM8qG-0005UP-2b; Sun, 29 Jan 2023 09:39:37 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 193A774633D;
- Sun, 29 Jan 2023 15:37:06 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id CBF4974632B; Sun, 29 Jan 2023 15:37:05 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id C9E0F7456E3;
- Sun, 29 Jan 2023 15:37:05 +0100 (CET)
-Date: Sun, 29 Jan 2023 15:37:05 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: Bernhard Beschow <shentey@gmail.com>
-cc: qemu-devel@nongnu.org, Eduardo Habkost <eduardo@habkost.net>, 
- Paolo Bonzini <pbonzini@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org
-Subject: Re: [PATCH 4/7] hw/i386/pc_q35: Resolve redundant q35_host
- variable
-In-Reply-To: <7F5DBDBA-42A7-4EEC-B5CC-6D96B75231FF@gmail.com>
-Message-ID: <6871b9eb-defd-bdcd-9cd7-90e7cacfed4f@eik.bme.hu>
-References: <20230127164718.98156-1-shentey@gmail.com>
- <20230127164718.98156-5-shentey@gmail.com>
- <0f328d9e-787c-bf8f-4f7f-caacca70a250@eik.bme.hu>
- <7F5DBDBA-42A7-4EEC-B5CC-6D96B75231FF@gmail.com>
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pM8z7-0007zC-B6
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 09:48:57 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <shentey@gmail.com>) id 1pM8z4-0007ME-7y
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 09:48:44 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id me3so25295350ejb.7
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 06:48:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=s9SCF6YTdqqFWVTAhQYnmYj2EL4sBzXIF2Z1MsoRpHQ=;
+ b=NupRYdfM5DVit2E9+Otk6Ep2CpU53mTdET6VONp5/T+c7IekN50lDtWy2khjiMGlaB
+ CmC4/vfuqYJTGL+BoybMVHcS1GmBbcCiWSCSd8YwxBhxFXdRNQJaoqRhMpJMIaYnriHr
+ +mCXbLPkzv1BzKMeGBc9kdL2HYrW3gkhG0lwH7LrvlRVgHtW1xEKVivwM7ZDJ23OO5n9
+ uO2nIFiVe/j4xMYfNggXBKDTQhlA7960T4EyHgmpBxQ43EhFjUWMHe49yXCykOBbkwEY
+ UNtH3svILzVO7b51TNHEXDd+YoeAfzA+rk0Ueq9doaY1rQcJb+tkarzen6CinQnJDtbm
+ ig9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:references
+ :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=s9SCF6YTdqqFWVTAhQYnmYj2EL4sBzXIF2Z1MsoRpHQ=;
+ b=NVWBPRc6Yn8QNRSqdo8u+Kkz8jZA96mPZnfNzRXBUGowyPlnydCDoQVr0dIuPm20Bx
+ DwynRJ132rwgrmTcKVgdUcDvVOwEueDhVss2vj9aKmbVwjOguxswqQTeldiUW2aba2UU
+ zcvGLxRFKukTAect3Bfn8v2pow8QKbnriQitfxx9cFqhCnozCjivfVPAGANI2s2GpwBL
+ Hq+Q6qdRbaM6mayr55pPhHbFvI5KuBGc/aPRg8wLA2ryRDvfWH9c0vZnB/sX0lvA0IC8
+ Php1qToeIvDeB9I1/xdEsKb/VRm5SpwIseTaqeBztihKY4sgccIjoxFUyJwfOREOW5pQ
+ SeDA==
+X-Gm-Message-State: AO0yUKXWUP0x4xWHtqdF8Ddu01VeX+1MHMKH63JgvZGoY350wwV5PDdC
+ 65iWBy1Ga6rG7vy5vUdXxuc=
+X-Google-Smtp-Source: AK7set+Zk72xtTKaJZOIlsoy3+k1b62aEPgTKEKf1OK/1QC+HIp2XERGAF1YZXddE00/eMQCS9MylA==
+X-Received: by 2002:a17:907:674c:b0:7c4:fe36:5b80 with SMTP id
+ qm12-20020a170907674c00b007c4fe365b80mr1376804ejc.62.1675003720521; 
+ Sun, 29 Jan 2023 06:48:40 -0800 (PST)
+Received: from ?IPv6:::1?
+ (p200300faaf1ccd00356163aca05dbb0c.dip0.t-ipconnect.de.
+ [2003:fa:af1c:cd00:3561:63ac:a05d:bb0c])
+ by smtp.gmail.com with ESMTPSA id
+ p21-20020a170906605500b007c11e5ac250sm5486707ejj.91.2023.01.29.06.48.39
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Sun, 29 Jan 2023 06:48:40 -0800 (PST)
+Date: Sun, 29 Jan 2023 14:48:32 +0000
+From: Bernhard Beschow <shentey@gmail.com>
+To: Igor Mammedov <imammedo@redhat.com>
+CC: qemu-devel@nongnu.org, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
+ Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Aurelien Jarno <aurelien@aurel32.net>
+Subject: Re: [PATCH 2/7] hw/acpi/ich9: Remove unneeded assignments
+In-Reply-To: <20230124175537.5cb5da48@imammedo.users.ipa.redhat.com>
+References: <20230122170724.21868-1-shentey@gmail.com>
+ <20230122170724.21868-3-shentey@gmail.com>
+ <20230124175537.5cb5da48@imammedo.users.ipa.redhat.com>
+Message-ID: <C30520F0-7039-43CE-B409-68FAEC20071F@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII; format=flowed
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=shentey@gmail.com; helo=mail-ej1-x62b.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,96 +95,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, 29 Jan 2023, Bernhard Beschow wrote:
-> Am 27. Januar 2023 19:22:49 UTC schrieb BALATON Zoltan <balaton@eik.bme.hu>:
->> On Fri, 27 Jan 2023, Bernhard Beschow wrote:
->>> The variable is redundant to "phb" and is never used by its real type.
->>
->> Also replace qdev_get_machine() with reference already passed to init function. (Maybe worth mentioning in commit message even if too small change for a separate patch.)
->
-> Indeed, this can easily be missed. A separate patch allows for clean justification.
 
-I think just adding a sentence to commit message to clarify it is enough 
-no need to split it out but up to you.
 
-Regards,
-BALATON Zoltan
+Am 24=2E Januar 2023 16:55:37 UTC schrieb Igor Mammedov <imammedo@redhat=
+=2Ecom>:
+>On Sun, 22 Jan 2023 18:07:19 +0100
+>Bernhard Beschow <shentey@gmail=2Ecom> wrote:
+>
+>> The first thing ich9_pm_iospace_update() does is to set pm->pm_io_base =
+to
+>> the pm_io_base parameter=2E
+>try to explain why 'pm->pm_io_base =3D 0' was there , what's changed=20
+>and then why it's no longer needed=2E
 
->>> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
->>> ---
->>> hw/i386/pc_q35.c | 22 ++++++++++------------
->>> 1 file changed, 10 insertions(+), 12 deletions(-)
->>>
->>> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
->>> index 83c57c6eb1..dc94ce1081 100644
->>> --- a/hw/i386/pc_q35.c
->>> +++ b/hw/i386/pc_q35.c
->>> @@ -118,7 +118,6 @@ static void pc_q35_init(MachineState *machine)
->>>     PCMachineState *pcms = PC_MACHINE(machine);
->>>     PCMachineClass *pcmc = PC_MACHINE_GET_CLASS(pcms);
->>>     X86MachineState *x86ms = X86_MACHINE(machine);
->>> -    Q35PCIHost *q35_host;
->>>     PCIHostState *phb;
->>
->> The phb variable itself is only used once to get the bus from it and it's mostly cast to Object * so maybe store it in a variable of that type to remove most of the casts and IMO you can also remove PCIHostState *phb and just use:
->>
->> host_bus = PCI_HOST_BRIDGE(phost)->bus;
+Meanwhile I think the whole function is a no-op and can be removed=2E Some=
+ archeology will explain how it came to be=2E
+
 >
-> Maybe one could also fish out the PCI bus using qdev_get_child_bus() like we do in pc_piix for the ISA bus already. Hm...
+>> The pm_io_base parameter's value is the old
+>> one of pm->pm_io_base=2E
+>I can't parse this sentence=2E
 >
-> Best regards,
-> Bernhard
->>
->> Regards,
->> BALATON Zoltan
->>
->>>     PCIBus *host_bus;
->>>     PCIDevice *lpc;
->>> @@ -206,10 +205,10 @@ static void pc_q35_init(MachineState *machine)
->>>     }
->>>
->>>     /* create pci host bus */
->>> -    q35_host = Q35_HOST_DEVICE(qdev_new(TYPE_Q35_HOST_DEVICE));
->>> +    phb = PCI_HOST_BRIDGE(qdev_new(TYPE_Q35_HOST_DEVICE));
->>>
->>>     if (pcmc->pci_enabled) {
->>> -        pci_hole64_size = object_property_get_uint(OBJECT(q35_host),
->>> +        pci_hole64_size = object_property_get_uint(OBJECT(phb),
->>>                                                    PCI_HOST_PROP_PCI_HOLE64_SIZE,
->>>                                                    &error_abort);
->>>     }
->>> @@ -218,22 +217,21 @@ static void pc_q35_init(MachineState *machine)
->>>     pc_memory_init(pcms, get_system_memory(), rom_memory, &ram_memory,
->>>                    pci_hole64_size);
->>>
->>> -    object_property_add_child(qdev_get_machine(), "q35", OBJECT(q35_host));
->>> -    object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_RAM_MEM,
->>> +    object_property_add_child(OBJECT(machine), "q35", OBJECT(phb));
->>> +    object_property_set_link(OBJECT(phb), MCH_HOST_PROP_RAM_MEM,
->>>                              OBJECT(ram_memory), NULL);
->>> -    object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_PCI_MEM,
->>> +    object_property_set_link(OBJECT(phb), MCH_HOST_PROP_PCI_MEM,
->>>                              OBJECT(pci_memory), NULL);
->>> -    object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_SYSTEM_MEM,
->>> +    object_property_set_link(OBJECT(phb), MCH_HOST_PROP_SYSTEM_MEM,
->>>                              OBJECT(get_system_memory()), NULL);
->>> -    object_property_set_link(OBJECT(q35_host), MCH_HOST_PROP_IO_MEM,
->>> +    object_property_set_link(OBJECT(phb), MCH_HOST_PROP_IO_MEM,
->>>                              OBJECT(system_io), NULL);
->>> -    object_property_set_int(OBJECT(q35_host), PCI_HOST_BELOW_4G_MEM_SIZE,
->>> +    object_property_set_int(OBJECT(phb), PCI_HOST_BELOW_4G_MEM_SIZE,
->>>                             x86ms->below_4g_mem_size, NULL);
->>> -    object_property_set_int(OBJECT(q35_host), PCI_HOST_ABOVE_4G_MEM_SIZE,
->>> +    object_property_set_int(OBJECT(phb), PCI_HOST_ABOVE_4G_MEM_SIZE,
->>>                             x86ms->above_4g_mem_size, NULL);
->>>     /* pci */
->>> -    sysbus_realize_and_unref(SYS_BUS_DEVICE(q35_host), &error_fatal);
->>> -    phb = PCI_HOST_BRIDGE(q35_host);
->>> +    sysbus_realize_and_unref(SYS_BUS_DEVICE(phb), &error_fatal);
->>>     host_bus = phb->bus;
->>>     /* create ISA bus */
->>>     lpc = pci_create_simple_multifunction(host_bus, PCI_DEVFN(ICH9_LPC_DEV,
->>>
 >
+>fixes: cacaab8bdd7460
+>
+>>=20
+>> Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
+>> ---
+>>  hw/acpi/ich9=2Ec | 4 +---
+>>  1 file changed, 1 insertion(+), 3 deletions(-)
+>>=20
+>> diff --git a/hw/acpi/ich9=2Ec b/hw/acpi/ich9=2Ec
+>> index 2050af67b9=2E=2E0313e71e74 100644
+>> --- a/hw/acpi/ich9=2Ec
+>> +++ b/hw/acpi/ich9=2Ec
+>> @@ -136,9 +136,7 @@ void ich9_pm_iospace_update(ICH9LPCPMRegs *pm, uint=
+32_t pm_io_base)
+>>  static int ich9_pm_post_load(void *opaque, int version_id)
+>>  {
+>>      ICH9LPCPMRegs *pm =3D opaque;
+>> -    uint32_t pm_io_base =3D pm->pm_io_base;
+>> -    pm->pm_io_base =3D 0;
+>> -    ich9_pm_iospace_update(pm, pm_io_base);
+>> +    ich9_pm_iospace_update(pm, pm->pm_io_base);
+>>      return 0;
+>>  }
+>> =20
 >
 
