@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 025ED67FC88
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 04:00:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5927C67FC7D
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 03:59:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pLxtO-0003jW-Pm; Sat, 28 Jan 2023 21:58:06 -0500
+	id 1pLxtT-0003kE-HA; Sat, 28 Jan 2023 21:58:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pLxtM-0003j8-Od
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 21:58:04 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ id 1pLxtR-0003jz-HJ
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 21:58:09 -0500
+Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <pizhenwei@bytedance.com>)
- id 1pLxtK-00086F-UI
- for qemu-devel@nongnu.org; Sat, 28 Jan 2023 21:58:04 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id o13so8262457pjg.2
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 18:58:02 -0800 (PST)
+ id 1pLxtP-00086Q-LO
+ for qemu-devel@nongnu.org; Sat, 28 Jan 2023 21:58:09 -0500
+Received: by mail-pj1-x102d.google.com with SMTP id
+ z1-20020a17090a66c100b00226f05b9595so8215728pjl.0
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 18:58:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=bytedance-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=QfbjQB/uupsbnVkLnKgXK2FfdvkN34GzFDspqyb2GhQ=;
- b=s4Qqh93NPCYKupNt9PTadZuUajpSKX1c9VN9U+wQEoall3rBVkOnpZZcevcA2aFLgS
- qgzvfpOKbeUKS2rs1/TlarDuh57VJbXgf+FZ0L4MJUYSlg52SANb5tP+lDU2cBXcE1As
- iRPtVQDeGvCx//Bf4Fayn3ScMhlg3xJWHGm1JK1D0awoQ4UZNembBMFS8XfTWzSRGc86
- OrXOOMs+Zn1yYtvJYTLPT5mXk0YsYTOV1+pYodB3LLW4fMrI8oYQvZRNEnNPOlJ00wqR
- MMQBndMx8XrPZxfjJPSK06cFeONJygjy9XNceQLEDFDyIzwSvHiJu5Zh4sg1R+Sj29hL
- lTtA==
+ bh=dMFQWyQMxJuLht08y8UXOs3qr1UwVrlQirzyvap/Nu4=;
+ b=qnMsvoMPG8h3vmvoMGR46TY9vmlmJqAD4GsUi7QmUrBFpzTPDUeA8auy0hQ3Dsa3wc
+ Myc3ormrLbxsblS52JscfbE4XRLd9g8sBuPGAUaPVKu4XkGc/RBcQngfMqAiLOw/Q4DC
+ EH5j/1mezh5oA9pot3yPXdpBsDb16lfTPrEHza3wLG7pLPESrjnHi+y6oVS+5ySR35Tb
+ t9bmpSWoFE/hgge5ucANZfTkNcCFLB6QzQaXLGCgrHOzP/eWrV5amVqMn8/VKi2dEl3S
+ 9QmQk7kPnvjohqImsu7c+NqAV3lAUGfWELk0hvRhme4otWYxipq5bhSb/+ZCKN9ZCaav
+ sVIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=QfbjQB/uupsbnVkLnKgXK2FfdvkN34GzFDspqyb2GhQ=;
- b=ySWRtk4Ipl03+UKz3GKhAdMyyEJyJ2cff3JRccdcsFkoXvw4RJG55ACgTL6s1/fawW
- C+17IuZOk+YesvbL1ekkBukN2oWXzoWJe/Ts+k4sldnui/T0w8+Kd2HqUaOGFTwK5dON
- wz0uujQK2hiurKbzvTwZCNp2xzJCyU8Sznud5htAMo6H8eVAHmS3qyxCbXE8544Dg5Of
- iA7KGd86kIrcSYAHf9TH/ULxoMQRgi1ftGNWAvb1QIEuy4NkPCT+ljKPTXNhgglBdHnL
- 7Ut8GJoIMRfRqHsi7bY130KD9C0breIXdc9oOnFE99IWuPrEzaR5hhOay0o2LaPJp892
- 17lw==
-X-Gm-Message-State: AFqh2kpT5G0s7fO2C3px/E926SDBzCsBJpCphkeacaP5HiUydfd7goKx
- auior47EZwX3iJGlqemzVIEWag==
-X-Google-Smtp-Source: AMrXdXtReVU8K5GoOzp73ElF0EuFMHHRY7itRPwx0tm8/LSKib39It43rRBkeCz/0DM2NNyKpx9UBw==
-X-Received: by 2002:a17:902:dad2:b0:194:6f0e:987 with SMTP id
- q18-20020a170902dad200b001946f0e0987mr63036969plx.61.1674961081654; 
- Sat, 28 Jan 2023 18:58:01 -0800 (PST)
+ bh=dMFQWyQMxJuLht08y8UXOs3qr1UwVrlQirzyvap/Nu4=;
+ b=QwR9+gHvQsxH9+shHt7hzB6804a0riGh/avUg+vWYClCM6kUoGD/tjqmOBmzWDYOXO
+ L2miQ/LJ2iaP8P2qqUw6o8RLFLz20itIrMPIHVMGmYqYFhUqZLdRIRO3ChRA4BByOKsj
+ vIWqoZJOi6VK9JcqeI9fIu5V6Uxdb+QzQpxo+SviHZ4hvzufEA0bK5GrKYJZZhFdPG6E
+ kK6Y/pxIw+20B30u5jLUt4W3O00aLopjoSwLveX2WWrLz/1xvR5sEDg+Mk8G9ShpZFKT
+ 5ZZTr3BBUAocpJp50/mDC3vZ2zCelS/tPBHS0ZO6eDSbUcBXO3IFV9WxvYY0+gM/k9zG
+ cm3w==
+X-Gm-Message-State: AO0yUKUei7vDeqaQXXbER0enA+y5CijsFlk5v5rtRpy+kbJHzO7oFPbk
+ 1x0xHVudCyNJp/LE6nJw7cF+IQ==
+X-Google-Smtp-Source: AK7set+gakgg8SXUeOXwIou136RaRs8lK4UKoPzUyezN9+W7xfTQg5+E+xeRGn8rjSAcV5vkZjbeeA==
+X-Received: by 2002:a17:903:228b:b0:196:7906:b4e with SMTP id
+ b11-20020a170903228b00b0019679060b4emr1225562plh.19.1674961085291; 
+ Sat, 28 Jan 2023 18:58:05 -0800 (PST)
 Received: from always-pc.bytedance.net ([61.213.176.6])
  by smtp.gmail.com with ESMTPSA id
- x4-20020a170902ea8400b00194c90ca320sm5167084plb.204.2023.01.28.18.57.58
+ x4-20020a170902ea8400b00194c90ca320sm5167084plb.204.2023.01.28.18.58.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sat, 28 Jan 2023 18:58:01 -0800 (PST)
+ Sat, 28 Jan 2023 18:58:04 -0800 (PST)
 From: zhenwei pi <pizhenwei@bytedance.com>
 To: arei.gonglei@huawei.com, mst@redhat.com, dgilbert@redhat.com,
  pbonzini@redhat.com, berrange@redhat.com
 Cc: armbru@redhat.com, qemu-devel@nongnu.org,
  zhenwei pi <pizhenwei@bytedance.com>
-Subject: [PATCH v4 02/12] cryptodev: Remove 'name' & 'model' fields
-Date: Sun, 29 Jan 2023 10:57:37 +0800
-Message-Id: <20230129025747.682282-3-pizhenwei@bytedance.com>
+Subject: [PATCH v4 03/12] cryptodev: Introduce cryptodev alg type in QAPI
+Date: Sun, 29 Jan 2023 10:57:38 +0800
+Message-Id: <20230129025747.682282-4-pizhenwei@bytedance.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230129025747.682282-1-pizhenwei@bytedance.com>
 References: <20230129025747.682282-1-pizhenwei@bytedance.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x1032.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
+ envelope-from=pizhenwei@bytedance.com; helo=mail-pj1-x102d.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -92,134 +93,210 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We have already used qapi to generate crypto device types, this allows
-to convert type to a string 'model', so the 'model' field is not
-needed.
+Introduce cryptodev alg type in cryptodev.json, then apply this to
+related codes, and drop 'enum CryptoDevBackendAlgType'.
 
-And the 'name' field is not used by any backend driver, drop it.
+There are two options:
+1, { 'enum': 'QCryptodevBackendAlgType',
+  'prefix': 'CRYPTODEV_BACKEND_ALG',
+  'data': ['sym', 'asym']}
+Then we can keep 'CRYPTODEV_BACKEND_ALG_SYM' and avoid lots of
+changes.
+2, changes in this patch(with prefix 'QCRYPTODEV_BACKEND_ALG').
+
+To avoid breaking the rule of QAPI, use 2 here.
 
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: zhenwei pi <pizhenwei@bytedance.com>
 ---
- backends/cryptodev-builtin.c    |  3 +--
- backends/cryptodev-lkcf.c       |  2 +-
- backends/cryptodev-vhost-user.c |  3 +--
- backends/cryptodev.c            | 11 +----------
- include/sysemu/cryptodev.h      | 12 +++---------
- 5 files changed, 7 insertions(+), 24 deletions(-)
+ backends/cryptodev-builtin.c |  6 +++---
+ backends/cryptodev-lkcf.c    |  4 ++--
+ backends/cryptodev.c         |  6 +++---
+ hw/virtio/virtio-crypto.c    | 14 +++++++-------
+ include/sysemu/cryptodev.h   |  8 +-------
+ qapi/cryptodev.json          | 14 ++++++++++++++
+ 6 files changed, 30 insertions(+), 22 deletions(-)
 
 diff --git a/backends/cryptodev-builtin.c b/backends/cryptodev-builtin.c
-index 8c7c10847d..08895271eb 100644
+index 08895271eb..e70dcd5dad 100644
 --- a/backends/cryptodev-builtin.c
 +++ b/backends/cryptodev-builtin.c
-@@ -72,8 +72,7 @@ static void cryptodev_builtin_init(
-         return;
+@@ -537,7 +537,7 @@ static int cryptodev_builtin_operation(
+     CryptoDevBackendBuiltinSession *sess;
+     CryptoDevBackendSymOpInfo *sym_op_info;
+     CryptoDevBackendAsymOpInfo *asym_op_info;
+-    enum CryptoDevBackendAlgType algtype = op_info->algtype;
++    QCryptodevBackendAlgType algtype = op_info->algtype;
+     int status = -VIRTIO_CRYPTO_ERR;
+     Error *local_error = NULL;
+ 
+@@ -549,11 +549,11 @@ static int cryptodev_builtin_operation(
      }
  
--    cc = cryptodev_backend_new_client(
--              "cryptodev-builtin", NULL);
-+    cc = cryptodev_backend_new_client();
-     cc->info_str = g_strdup_printf("cryptodev-builtin0");
-     cc->queue_index = 0;
-     cc->type = QCRYPTODEV_BACKEND_TYPE_BUILTIN;
+     sess = builtin->sessions[op_info->session_id];
+-    if (algtype == CRYPTODEV_BACKEND_ALG_SYM) {
++    if (algtype == QCRYPTODEV_BACKEND_ALG_SYM) {
+         sym_op_info = op_info->u.sym_op_info;
+         status = cryptodev_builtin_sym_operation(sess, sym_op_info,
+                                                  &local_error);
+-    } else if (algtype == CRYPTODEV_BACKEND_ALG_ASYM) {
++    } else if (algtype == QCRYPTODEV_BACKEND_ALG_ASYM) {
+         asym_op_info = op_info->u.asym_op_info;
+         status = cryptodev_builtin_asym_operation(sess, op_info->op_code,
+                                                   asym_op_info, &local_error);
 diff --git a/backends/cryptodev-lkcf.c b/backends/cryptodev-lkcf.c
-index 91e02c0df9..de3d1867c5 100644
+index de3d1867c5..53a932b58d 100644
 --- a/backends/cryptodev-lkcf.c
 +++ b/backends/cryptodev-lkcf.c
-@@ -223,7 +223,7 @@ static void cryptodev_lkcf_init(CryptoDevBackend *backend, Error **errp)
+@@ -477,7 +477,7 @@ static int cryptodev_lkcf_operation(
+     CryptoDevBackendLKCF *lkcf =
+         CRYPTODEV_BACKEND_LKCF(backend);
+     CryptoDevBackendLKCFSession *sess;
+-    enum CryptoDevBackendAlgType algtype = op_info->algtype;
++    QCryptodevBackendAlgType algtype = op_info->algtype;
+     CryptoDevLKCFTask *task;
+ 
+     if (op_info->session_id >= MAX_SESSIONS ||
+@@ -488,7 +488,7 @@ static int cryptodev_lkcf_operation(
+     }
+ 
+     sess = lkcf->sess[op_info->session_id];
+-    if (algtype != CRYPTODEV_BACKEND_ALG_ASYM) {
++    if (algtype != QCRYPTODEV_BACKEND_ALG_ASYM) {
+         error_report("algtype not supported: %u", algtype);
+         return -VIRTIO_CRYPTO_NOTSUPP;
+     }
+diff --git a/backends/cryptodev.c b/backends/cryptodev.c
+index 81941af816..c2a053db0e 100644
+--- a/backends/cryptodev.c
++++ b/backends/cryptodev.c
+@@ -120,10 +120,10 @@ int cryptodev_backend_crypto_operation(
+ {
+     VirtIOCryptoReq *req = opaque1;
+     CryptoDevBackendOpInfo *op_info = &req->op_info;
+-    enum CryptoDevBackendAlgType algtype = req->flags;
++    QCryptodevBackendAlgType algtype = req->flags;
+ 
+-    if ((algtype != CRYPTODEV_BACKEND_ALG_SYM)
+-        && (algtype != CRYPTODEV_BACKEND_ALG_ASYM)) {
++    if ((algtype != QCRYPTODEV_BACKEND_ALG_SYM)
++        && (algtype != QCRYPTODEV_BACKEND_ALG_ASYM)) {
+         error_report("Unsupported cryptodev alg type: %" PRIu32 "", algtype);
+         return -VIRTIO_CRYPTO_NOTSUPP;
+     }
+diff --git a/hw/virtio/virtio-crypto.c b/hw/virtio/virtio-crypto.c
+index 516425e26a..0d1be0ada9 100644
+--- a/hw/virtio/virtio-crypto.c
++++ b/hw/virtio/virtio-crypto.c
+@@ -462,7 +462,7 @@ static void virtio_crypto_init_request(VirtIOCrypto *vcrypto, VirtQueue *vq,
+     req->in_iov = NULL;
+     req->in_num = 0;
+     req->in_len = 0;
+-    req->flags = CRYPTODEV_BACKEND_ALG__MAX;
++    req->flags = QCRYPTODEV_BACKEND_ALG__MAX;
+     memset(&req->op_info, 0x00, sizeof(req->op_info));
+ }
+ 
+@@ -472,7 +472,7 @@ static void virtio_crypto_free_request(VirtIOCryptoReq *req)
          return;
      }
  
--    cc = cryptodev_backend_new_client("cryptodev-lkcf", NULL);
-+    cc = cryptodev_backend_new_client();
-     cc->info_str = g_strdup_printf("cryptodev-lkcf0");
-     cc->queue_index = 0;
-     cc->type = QCRYPTODEV_BACKEND_TYPE_LKCF;
-diff --git a/backends/cryptodev-vhost-user.c b/backends/cryptodev-vhost-user.c
-index c165a1b1d6..580bd1abb0 100644
---- a/backends/cryptodev-vhost-user.c
-+++ b/backends/cryptodev-vhost-user.c
-@@ -198,8 +198,7 @@ static void cryptodev_vhost_user_init(
-     s->opened = true;
+-    if (req->flags == CRYPTODEV_BACKEND_ALG_SYM) {
++    if (req->flags == QCRYPTODEV_BACKEND_ALG_SYM) {
+         size_t max_len;
+         CryptoDevBackendSymOpInfo *op_info = req->op_info.u.sym_op_info;
  
-     for (i = 0; i < queues; i++) {
--        cc = cryptodev_backend_new_client(
--                  "cryptodev-vhost-user", NULL);
-+        cc = cryptodev_backend_new_client();
-         cc->info_str = g_strdup_printf("cryptodev-vhost-user%zu to %s ",
-                                        i, chr->label);
-         cc->queue_index = i;
-diff --git a/backends/cryptodev.c b/backends/cryptodev.c
-index 54ee8c81f5..81941af816 100644
---- a/backends/cryptodev.c
-+++ b/backends/cryptodev.c
-@@ -34,18 +34,11 @@
- static QTAILQ_HEAD(, CryptoDevBackendClient) crypto_clients;
+@@ -485,7 +485,7 @@ static void virtio_crypto_free_request(VirtIOCryptoReq *req)
+         /* Zeroize and free request data structure */
+         memset(op_info, 0, sizeof(*op_info) + max_len);
+         g_free(op_info);
+-    } else if (req->flags == CRYPTODEV_BACKEND_ALG_ASYM) {
++    } else if (req->flags == QCRYPTODEV_BACKEND_ALG_ASYM) {
+         CryptoDevBackendAsymOpInfo *op_info = req->op_info.u.asym_op_info;
+         if (op_info) {
+             g_free(op_info->src);
+@@ -570,10 +570,10 @@ static void virtio_crypto_req_complete(void *opaque, int ret)
+     VirtIODevice *vdev = VIRTIO_DEVICE(vcrypto);
+     uint8_t status = -ret;
  
- 
--CryptoDevBackendClient *
--cryptodev_backend_new_client(const char *model,
--                                    const char *name)
-+CryptoDevBackendClient *cryptodev_backend_new_client(void)
- {
-     CryptoDevBackendClient *cc;
- 
-     cc = g_new0(CryptoDevBackendClient, 1);
--    cc->model = g_strdup(model);
--    if (name) {
--        cc->name = g_strdup(name);
--    }
--
-     QTAILQ_INSERT_TAIL(&crypto_clients, cc, next);
- 
-     return cc;
-@@ -55,8 +48,6 @@ void cryptodev_backend_free_client(
-                   CryptoDevBackendClient *cc)
- {
-     QTAILQ_REMOVE(&crypto_clients, cc, next);
--    g_free(cc->name);
--    g_free(cc->model);
-     g_free(cc->info_str);
-     g_free(cc);
- }
+-    if (req->flags == CRYPTODEV_BACKEND_ALG_SYM) {
++    if (req->flags == QCRYPTODEV_BACKEND_ALG_SYM) {
+         virtio_crypto_sym_input_data_helper(vdev, req, status,
+                                             req->op_info.u.sym_op_info);
+-    } else if (req->flags == CRYPTODEV_BACKEND_ALG_ASYM) {
++    } else if (req->flags == QCRYPTODEV_BACKEND_ALG_ASYM) {
+         virtio_crypto_akcipher_input_data_helper(vdev, req, status,
+                                              req->op_info.u.asym_op_info);
+     }
+@@ -875,7 +875,7 @@ virtio_crypto_handle_request(VirtIOCryptoReq *request)
+     switch (opcode) {
+     case VIRTIO_CRYPTO_CIPHER_ENCRYPT:
+     case VIRTIO_CRYPTO_CIPHER_DECRYPT:
+-        op_info->algtype = request->flags = CRYPTODEV_BACKEND_ALG_SYM;
++        op_info->algtype = request->flags = QCRYPTODEV_BACKEND_ALG_SYM;
+         ret = virtio_crypto_handle_sym_req(vcrypto,
+                          &req.u.sym_req, op_info,
+                          out_iov, out_num);
+@@ -885,7 +885,7 @@ virtio_crypto_handle_request(VirtIOCryptoReq *request)
+     case VIRTIO_CRYPTO_AKCIPHER_DECRYPT:
+     case VIRTIO_CRYPTO_AKCIPHER_SIGN:
+     case VIRTIO_CRYPTO_AKCIPHER_VERIFY:
+-        op_info->algtype = request->flags = CRYPTODEV_BACKEND_ALG_ASYM;
++        op_info->algtype = request->flags = QCRYPTODEV_BACKEND_ALG_ASYM;
+         ret = virtio_crypto_handle_asym_req(vcrypto,
+                          &req.u.akcipher_req, op_info,
+                          out_iov, out_num);
 diff --git a/include/sysemu/cryptodev.h b/include/sysemu/cryptodev.h
-index 8d2adda974..af152d09db 100644
+index af152d09db..16f01dd48a 100644
 --- a/include/sysemu/cryptodev.h
 +++ b/include/sysemu/cryptodev.h
-@@ -218,8 +218,6 @@ struct CryptoDevBackendClass {
+@@ -49,12 +49,6 @@ typedef struct CryptoDevBackendPeers CryptoDevBackendPeers;
+ typedef struct CryptoDevBackendClient
+                      CryptoDevBackendClient;
  
- struct CryptoDevBackendClient {
-     QCryptodevBackendType type;
--    char *model;
--    char *name;
-     char *info_str;
-     unsigned int queue_index;
-     int vring_enable;
-@@ -264,11 +262,8 @@ struct CryptoDevBackend {
- 
+-enum CryptoDevBackendAlgType {
+-    CRYPTODEV_BACKEND_ALG_SYM,
+-    CRYPTODEV_BACKEND_ALG_ASYM,
+-    CRYPTODEV_BACKEND_ALG__MAX,
+-};
+-
  /**
-  * cryptodev_backend_new_client:
-- * @model: the cryptodev backend model
-- * @name: the cryptodev backend name, can be NULL
+  * CryptoDevBackendSymSessionInfo:
   *
-- * Creates a new cryptodev backend client object
-- * with the @name in the model @model.
-+ * Creates a new cryptodev backend client object.
-  *
-  * The returned object must be released with
-  * cryptodev_backend_free_client() when no
-@@ -276,9 +271,8 @@ struct CryptoDevBackend {
-  *
-  * Returns: a new cryptodev backend client object
-  */
--CryptoDevBackendClient *
--cryptodev_backend_new_client(const char *model,
--                                    const char *name);
-+CryptoDevBackendClient *cryptodev_backend_new_client(void);
+@@ -181,7 +175,7 @@ typedef struct CryptoDevBackendAsymOpInfo {
+ } CryptoDevBackendAsymOpInfo;
+ 
+ typedef struct CryptoDevBackendOpInfo {
+-    enum CryptoDevBackendAlgType algtype;
++    QCryptodevBackendAlgType algtype;
+     uint32_t op_code;
+     uint64_t session_id;
+     union {
+diff --git a/qapi/cryptodev.json b/qapi/cryptodev.json
+index b65edbe183..ebb6852035 100644
+--- a/qapi/cryptodev.json
++++ b/qapi/cryptodev.json
+@@ -4,6 +4,20 @@
+ # This work is licensed under the terms of the GNU GPL, version 2 or later.
+ # See the COPYING file in the top-level directory.
+ 
++##
++# @QCryptodevBackendAlgType:
++#
++# The supported algorithm types of a crypto device.
++#
++# @sym: symmetric encryption
++# @asym: asymmetric Encryption
++#
++# Since: 8.0
++##
++{ 'enum': 'QCryptodevBackendAlgType',
++  'prefix': 'QCRYPTODEV_BACKEND_ALG',
++  'data': ['sym', 'asym']}
 +
- /**
-  * cryptodev_backend_free_client:
-  * @cc: the cryptodev backend client object
+ ##
+ # @QCryptodevBackendType:
+ #
 -- 
 2.34.1
 
