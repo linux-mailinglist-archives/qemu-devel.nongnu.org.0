@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57B3D67FD4D
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 08:08:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5E4367FD55
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 08:13:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pM1mP-0004Yv-T7; Sun, 29 Jan 2023 02:07:09 -0500
+	id 1pM1rr-0005u2-F4; Sun, 29 Jan 2023 02:12:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pM1mM-0004Yi-TP
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 02:07:07 -0500
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pM1mK-00046E-D6
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 02:07:06 -0500
-Received: by mail-pg1-x533.google.com with SMTP id f3so5695109pgc.2
- for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 23:07:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=GZlwRrOKDxaPRP/EtyvY4dFJy6qqcrmT8kLFLCpjulE=;
- b=BHVPacQUc+QIgI2oMFEptTZB1Fat8jUE6f17OxkFifnDp8OvoW13gj6wwOExPoyzAo
- LIwYuFU2k4IvbwVhzR1NWw12kDq6SrLaA8G70Xu1xIPUdq/gnjWgTnRkrcnGm3mwFTCl
- IixOHoMsXNq1x0PZrMSCcEHD+eoKWLQPciFP989ok//5p3RYWErLfL+DGNcjdCCobjnH
- uARxNZmDAFopJJM3ylnNtr0EJBwQ7/MwjorP5boj9gsOAX1HMHg8MziuWxpqS8+ksJb3
- EcRYgYrb+lGcyaIDapCXrR2D6R85B93VWS5yZ/umRIuzr8BjgM/P67SA9HCqrxPJkdYn
- 8N9g==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pM1rp-0005sD-SM
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 02:12:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pM1rn-0004im-MW
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 02:12:45 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1674976362;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=hZpx3yt5XuNI3gqd7ll5fXR7QLWakZQC0BoJVRp2MUU=;
+ b=CubMmjqAQIu0IogHL9f4Z2coP3U1gY0qgFnqI9AayNcJ4TtXlgOCq3et/9uAUstroDbUl7
+ cLAKSKiQOqFczq7S8PGfpwgZovHTvCT1s8cZBh+AOOJpZJB6Qooor6JysBIXIeuLBWFmlQ
+ MnhoiUB8wG8rxw/pRSm2XqfFzQL+V74=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-283-xsPBqYijP-S0VQX7eGCltQ-1; Sun, 29 Jan 2023 02:12:40 -0500
+X-MC-Unique: xsPBqYijP-S0VQX7eGCltQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l19-20020a7bc353000000b003dc554c8263so328425wmj.3
+ for <qemu-devel@nongnu.org>; Sat, 28 Jan 2023 23:12:40 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=GZlwRrOKDxaPRP/EtyvY4dFJy6qqcrmT8kLFLCpjulE=;
- b=3PNCOFNqJ4OkUA/CJ0OonCSzR7YQ67nvMU74WmPT8BQiR+mWKSFFvhKlPhB0T7y2ft
- MdaaHCr0sluVVrdWbbdnEHlBbFTHVk367UV1Ch6xutbBRf+HpYoomHg/QGsP0jqnJg6w
- O1n8GcG3PwfJUoIishJoh6hWn77a/5PDcC1arjUs/qhLV19K0cuNc2p6O61R0Z+Q+Wmj
- zmCm73zSeUJ3l1PWwXYhkLZ8FUVg0Q1zMR1sodbHsYaeRZm1cjhGLiS1HgOTNaEn9M8o
- 1SD3yMN4t/yKUGHKLmsfxxb7TSo+n5/+NJ3HcEaW4YvWTYXLxIsQRoRBMdtp9+Ra/oyX
- 4OCg==
-X-Gm-Message-State: AFqh2kpoK89waa6iIRWruFF6FLP051Xxch/ikCkblQjAQLyAqp63wJMW
- rm/yq4FfHla9JaDjuzGQdcFB9g==
-X-Google-Smtp-Source: AMrXdXsmAjHm0CFD7RWx2rD3Ael1KM+MVm8nIHjc3oY2GmvuVnuquWiiBS5g5wokgOSDLJtOW40IZA==
-X-Received: by 2002:a05:6a00:4519:b0:58d:f047:53b7 with SMTP id
- cw25-20020a056a00451900b0058df04753b7mr38462055pfb.3.1674976022486; 
- Sat, 28 Jan 2023 23:07:02 -0800 (PST)
-Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
- ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- s4-20020a625e04000000b00593b35409b2sm428029pfb.169.2023.01.28.23.07.00
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sat, 28 Jan 2023 23:07:02 -0800 (PST)
-Message-ID: <705a7362-15de-7c6d-1a1c-747c88b9a9ef@daynix.com>
-Date: Sun, 29 Jan 2023 16:06:59 +0900
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=hZpx3yt5XuNI3gqd7ll5fXR7QLWakZQC0BoJVRp2MUU=;
+ b=7QGH39387wJRV1ynO1JZBJPs8L1e9InHDVtwwXuxABO+1ABr+QihE0zoFbMpIf4m9l
+ WPc8Od+fxTLBG8E37+p0ZyIDNKIUKn1OqamEv9xrpt9iV9t2MD8+tV7ZN6keIpQ0Hy9D
+ Tmq3zzqJQ6VLqgIcV2JDUlXDBE+tWyGl9CMPQXsFKmpX95YtIvykaT5ot/FzHLXG/osV
+ KjKjecBp18LZZDckr0qlWe1jEj3tv2qIsXZOCUI/lysL37r57Maq9Z0/AGMtmnUSDzsi
+ +9k8RygB2qNqiQ8ZIkbFIn8EgXe447Kx4OwuoTxUE9vNSJqVqkglrOrNRd1DQjeHX7dZ
+ Qp9g==
+X-Gm-Message-State: AO0yUKUXVTVZLDcoLSGgTqzXp1pbABHey/nM7ANjLxyj/vpu8I6uKU73
+ UzMGil1UGoTdfWZRyleMcb8g/PC0yj1Uljmug3r/S4nRVqM1D23cvFVttiNZaXNsSW5Xx01wgM6
+ FJ6Htybx0FlvA53s=
+X-Received: by 2002:a5d:62d1:0:b0:2bf:d680:e37a with SMTP id
+ o17-20020a5d62d1000000b002bfd680e37amr6021412wrv.67.1674976359820; 
+ Sat, 28 Jan 2023 23:12:39 -0800 (PST)
+X-Google-Smtp-Source: AK7set++16/riczxe5kJcgoh8e6SBYnv1Z5ATfwXf0+wCm8l4GPMkJ0YvGx0jtw5deFV1e/4jTyseQ==
+X-Received: by 2002:a5d:62d1:0:b0:2bf:d680:e37a with SMTP id
+ o17-20020a5d62d1000000b002bfd680e37amr6021402wrv.67.1674976359555; 
+ Sat, 28 Jan 2023 23:12:39 -0800 (PST)
+Received: from redhat.com ([2.52.20.248]) by smtp.gmail.com with ESMTPSA id
+ h12-20020a056000000c00b002bdd96d88b4sm8474809wrx.75.2023.01.28.23.12.38
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sat, 28 Jan 2023 23:12:38 -0800 (PST)
+Date: Sun, 29 Jan 2023 02:12:36 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>
+Subject: Re: [PATCH v1 1/2] virtio: struct VirtQueue introduce reset
+Message-ID: <20230129020903-mutt-send-email-mst@kernel.org>
+References: <20230129025150.119972-1-xuanzhuo@linux.alibaba.com>
+ <20230129025150.119972-2-xuanzhuo@linux.alibaba.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH 4/9] igb: check oversized packets for VMDq
-Content-Language: en-US
-To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20230128134633.22730-1-sriram.yagnaraman@est.tech>
- <20230128134633.22730-5-sriram.yagnaraman@est.tech>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <20230128134633.22730-5-sriram.yagnaraman@est.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::533;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x533.google.com
-X-Spam_score_int: -29
-X-Spam_score: -3.0
-X-Spam_bar: ---
-X-Spam_report: (-3.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-1.148, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230129025150.119972-2-xuanzhuo@linux.alibaba.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,181 +95,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/01/28 22:46, Sriram Yagnaraman wrote:
-> Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-> ---
->   hw/net/igb_core.c | 74 ++++++++++++++++++++++++++++++++++-------------
->   1 file changed, 54 insertions(+), 20 deletions(-)
+
+subject seems wrong.
+
+On Sun, Jan 29, 2023 at 10:51:49AM +0800, Xuan Zhuo wrote:
+> In the current design, we stop the device from operating on the vring
+> during per-queue reset by resetting the structure VirtQueue.
 > 
-> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-> index 6bca5459b9..1eb7ba168f 100644
-> --- a/hw/net/igb_core.c
-> +++ b/hw/net/igb_core.c
-> @@ -1476,6 +1476,30 @@ igb_write_packet_to_guest(IGBCore *core, struct NetRxPkt *pkt,
->       igb_update_rx_stats(core, size, total_size);
->   }
->   
-> +static inline bool
+> But before the reset operation, when recycling some resources, we should
+> stop referencing new vring resources. For example, when recycling
+> virtio-net's asynchronous sending resources, virtio-net should be able
+> to perceive that the current queue is in the per-queue reset state, and
+> stop sending new packets from the tx queue.
+> 
+> Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> ---
+>  hw/virtio/virtio.c         | 15 +++++++++++++++
+>  include/hw/virtio/virtio.h |  1 +
+>  2 files changed, 16 insertions(+)
+> 
+> diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+> index f35178f5fc..c954f2a2b3 100644
+> --- a/hw/virtio/virtio.c
+> +++ b/hw/virtio/virtio.c
+> @@ -142,6 +142,8 @@ struct VirtQueue
+>      /* Notification enabled? */
+>      bool notification;
+>  
+> +    bool disabled_by_reset;
+> +
+>      uint16_t queue_index;
+>  
+>      unsigned int inuse;
+> @@ -2079,6 +2081,12 @@ void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+>  {
+>      VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+>  
+> +    /*
+> +     * Mark this queue is per-queue reset status. The device should release the
+> +     * references of the vring, and not refer more new vring item.
 
-Please remove inline qualifier. inline qualifier has some adverse effects:
-- It suppresses GCC warnings for unused functions. This behavior is 
-useful when you write a function in a header file, but it is not in this 
-case.
-- It confuses the compiler if the function later grows and becomes 
-unsuitable for inlining.
-- It is noise in source code.
+items
 
-In this case, the compiler should be able to decide to inline the 
-function or not by its own.
+> +     */
+> +    vdev->vq[queue_index].disabled_by_reset = true;
+> +
+>      if (k->queue_reset) {
+>          k->queue_reset(vdev, queue_index);
+>      }
 
-> +igb_is_oversized(IGBCore *core, const E1000E_RingInfo *rxi, size_t size)
+can we set this after calling queue_reset? For symmetry with enable.
+
+> @@ -2102,11 +2110,18 @@ void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index)
+>      }
+>      */
+>  
+> +    vdev->vq[queue_index].disabled_by_reset = false;
+> +
+>      if (k->queue_enable) {
+>          k->queue_enable(vdev, queue_index);
+>      }
+>  }
+>  
+> +bool virtio_queue_reset_state(VirtQueue *vq)
 > +{
-> +    bool vmdq = core->mac[MRQC] & 1;
-> +    uint16_t qn = rxi->idx;
-> +    uint16_t pool = (qn > IGB_MAX_VF_FUNCTIONS) ?
-> +                   (qn - IGB_MAX_VF_FUNCTIONS) : qn;
-
-Write as qn % 8; this pattern is already prevalent.
-
-> +
-> +    bool lpe = (vmdq ? core->mac[VMOLR0 + pool] & E1000_VMOLR_LPE :
-> +                core->mac[RCTL] & E1000_RCTL_LPE);
-
-RCTL.LPE should be checked even if VMDq is enabled; In section 7.10.3.4, 
-Size Filtering is defined to check RCTL.LPE, and it is part of packet 
-switching procedure for virtualized environment. Linux also ensures it 
-sets the maximum value to RLPML.RLPML if VMDq is enabled:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=cfbc871c2174f352542053d25659920d6841ed41
-
-> +    bool sbp = core->mac[RCTL] & E1000_RCTL_SBP;
-> +    int maximum_ethernet_vlan_size = 1522;
-> +    int maximum_ethernet_lpe_size =
-> +        (vmdq ? core->mac[VMOLR0 + pool] & E1000_VMOLR_RLPML_MASK :
-> +         core->mac[RLPML] & E1000_VMOLR_RLPML_MASK);
-> +
-> +    if (size > maximum_ethernet_lpe_size ||
-> +        (size > maximum_ethernet_vlan_size && !lpe && !sbp)) {
-> +        return true;
-> +    }
-> +
-> +    return false;
+> +    return vq->disabled_by_reset;
 > +}
 > +
->   static inline void
->   igb_rx_fix_l4_csum(IGBCore *core, struct NetRxPkt *pkt)
->   {
-> @@ -1499,7 +1523,8 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
->       static const int maximum_ethernet_hdr_len = (ETH_HLEN + 4);
->   
->       uint16_t queues = 0;
-> -    uint32_t n = 0;
-> +    uint16_t oversized = 0;
-> +    uint32_t icr_bits = 0;
->       uint8_t min_buf[ETH_ZLEN];
->       struct iovec min_iov;
->       struct eth_header *ehdr;
-> @@ -1509,7 +1534,7 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
->       E1000E_RxRing rxr;
->       E1000E_RSSInfo rss_info;
->       size_t total_size;
-> -    ssize_t retval;
-> +    ssize_t retval = 0;
->       int i;
->   
->       trace_e1000e_rx_receive_iov(iovcnt);
-> @@ -1550,11 +1575,6 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
->           filter_buf = min_buf;
->       }
->   
-> -    /* Discard oversized packets if !LPE and !SBP. */
-> -    if (e1000x_is_oversized(core->mac, size)) {
-> -        return orig_size;
-> -    }
-> -
->       ehdr = PKT_GET_ETH_HDR(filter_buf);
->       net_rx_pkt_set_packet_type(core->rx_pkt, get_eth_packet_type(ehdr));
->   
-> @@ -1571,8 +1591,6 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
->       total_size = net_rx_pkt_get_total_len(core->rx_pkt) +
->           e1000x_fcs_len(core->mac);
->   
-> -    retval = orig_size;
-> -
->       for (i = 0; i < IGB_NUM_QUEUES; i++) {
->           if (!(queues & BIT(i))) {
->               continue;
-> @@ -1580,42 +1598,58 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
->   
->           igb_rx_ring_init(core, &rxr, i);
->           if (!igb_has_rxbufs(core, rxr.i, total_size)) {
-> -            retval = 0;
-> +            icr_bits |= E1000_ICS_RXO;
->           }
->       }
->   
-> -    if (retval) {
-> +    if (!icr_bits) {
-> +        retval = orig_size;
->           igb_rx_fix_l4_csum(core, core->rx_pkt);
->   
->           for (i = 0; i < IGB_NUM_QUEUES; i++) {
-> -            if (!(queues & BIT(i)) ||
-> -                !(core->mac[E1000_RXDCTL(i) >> 2] & E1000_RXDCTL_QUEUE_ENABLE)) {
-> +            if (!(queues & BIT(i))) {
->                   continue;
->               }
->   
->               igb_rx_ring_init(core, &rxr, i);
-> +            if (igb_is_oversized(core, rxr.i, size)) {
-> +                oversized |= BIT(i);
-> +                continue;
-> +            }
+>  void virtio_reset(void *opaque)
+>  {
+>      VirtIODevice *vdev = opaque;
+> diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+> index 77c6c55929..00e91af7c4 100644
+> --- a/include/hw/virtio/virtio.h
+> +++ b/include/hw/virtio/virtio.h
+> @@ -319,6 +319,7 @@ int virtio_set_status(VirtIODevice *vdev, uint8_t val);
+>  void virtio_reset(void *opaque);
+>  void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index);
+>  void virtio_queue_enable(VirtIODevice *vdev, uint32_t queue_index);
+> +bool virtio_queue_reset_state(VirtQueue *vq);
+>  void virtio_update_irq(VirtIODevice *vdev);
+>  int virtio_set_features(VirtIODevice *vdev, uint64_t val);
 
-VMOLR.RLPML is checked during Rx queue assignment, which is implemented 
-in igb_receive_assign(). The oversize check should be moved to the function.
+OK I guess ... what about migration. This state won't be
+set correctly will it?
 
-> +
-> +            if (!(core->mac[RXDCTL0 + (i * 16)] & E1000_RXDCTL_QUEUE_ENABLE)) {
-> +                continue;
-> +            }
-> +
->               trace_e1000e_rx_rss_dispatched_to_queue(rxr.i->idx);
->               igb_write_packet_to_guest(core, core->rx_pkt, &rxr, &rss_info);
->   
->               /* Check if receive descriptor minimum threshold hit */
->               if (igb_rx_descr_threshold_hit(core, rxr.i)) {
-> -                n |= E1000_ICS_RXDMT0;
-> +                icr_bits |= E1000_ICS_RXDMT0;
->               }
->   
->               core->mac[EICR] |= igb_rx_wb_eic(core, rxr.i->idx);
->   
->               /* same as RXDW (rx descriptor written back)*/
-> -            n = E1000_ICR_RXT0;
-> +            icr_bits |= E1000_ICR_RXT0;
->           }
-> +    }
-> +
-> +    /* 8.19.37 increment ROC only if packet is oversized for all queues */
-> +    if (oversized == queues) {
-> +        trace_e1000x_rx_oversized(size);
-> +        e1000x_inc_reg_if_not_full(core->mac, ROC);
-> +    }
->   
-> -        trace_e1000e_rx_written_to_guest(n);
-> +    if (icr_bits & E1000_ICR_RXT0) {
-> +        trace_e1000e_rx_written_to_guest(icr_bits);
->       } else {
-> -        n = E1000_ICS_RXO;
-> -        trace_e1000e_rx_not_written_to_guest(n);
-> +        trace_e1000e_rx_not_written_to_guest(icr_bits);
->       }
->   
-> -    trace_e1000e_rx_interrupt_set(n);
-> -    igb_set_interrupt_cause(core, n);
-> +    trace_e1000e_rx_interrupt_set(icr_bits);
-> +    igb_set_interrupt_cause(core, icr_bits);
->   
->       return retval;
->   }
+
+>  
+> -- 
+> 2.32.0.3.g01195cf9f
+
 
