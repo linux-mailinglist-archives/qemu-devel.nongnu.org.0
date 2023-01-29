@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 01C7C67FE34
-	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 11:31:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84C7567FE2F
+	for <lists+qemu-devel@lfdr.de>; Sun, 29 Jan 2023 11:30:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pM4wQ-0005Ji-0E; Sun, 29 Jan 2023 05:29:42 -0500
+	id 1pM4wS-0005MJ-8L; Sun, 29 Jan 2023 05:29:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pM4vv-0005Hc-Ue; Sun, 29 Jan 2023 05:29:17 -0500
+ id 1pM4vz-0005Hm-L2; Sun, 29 Jan 2023 05:29:17 -0500
 Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <faithilikerun@gmail.com>)
- id 1pM4vu-0007Ag-8Y; Sun, 29 Jan 2023 05:29:11 -0500
-Received: by mail-pl1-x635.google.com with SMTP id be8so8892301plb.7;
- Sun, 29 Jan 2023 02:29:09 -0800 (PST)
+ id 1pM4vx-0007Ag-Uw; Sun, 29 Jan 2023 05:29:15 -0500
+Received: by mail-pl1-x635.google.com with SMTP id be8so8892396plb.7;
+ Sun, 29 Jan 2023 02:29:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=YqDn66EjQd4XlWrdM2GVsx0GNeNoXLpdBxKQzaRYzMY=;
- b=cn4fM91MTDXWKoft/t+y0OnX3dclfSljTqcR2zTqe/ApFN6/lFcna/nBYvZjavIlxI
- +0P5t8EUdeH4HbTPY2xuuuFVdATV//TwjVO1GCoClE2kDWav8i/8oEPgoWTWiiHrY0lY
- wcCbSxqu+PeuYop3j8Su58+d5RfwfyHicns6H1QKaiyKU02I3bsi1NsuBKyVGerx7CIm
- 4il/C9fdgzdk3Fm7cb9F2pKA0Jcmuoptoc7267o6EF9p+pObBw5FyhYcF7bocozUjrjs
- s3yrcKrY2xL3pccIh4Q7wm2iu1qgbqZMgN/G3RA3b3GliyRNF5syU9zrvoTCTYlLCY9o
- PL7g==
+ bh=eQM4NS6srDaBmC6CO8p9fQAiIrm3s/r9yVsLoikHLas=;
+ b=JaTC1wn8yoVqAmkOo29FNVc59slBjHMZ5fDh7bvdZx4ZIK0WRhIjZVdrcGyZBg5f9t
+ 6JoW5Hlo+imSRGL9/FFR7DTqdLq11QdaI8NXMs68zacQ/W37twAtG2SjOWpAqQOp9Bsy
+ KFpzq1Qd/N+6GX5xs8xYLelujyaxQF2pMIfOJ2Q2zopLZ+ZFYGOXQW1EHyFtrrnzqBZI
+ ZmsTEuYI9iK/2+rvOPIOwxiALgfc1FIR5nYlL4K21phh1zw7SHsVzhvP/OUP4IW0zZk8
+ OuoqWrk1zRcagordl5+pNP6yRQ4cDPHDzLleo4eqhMYMEkwHbBhMAp5HCMVwaU/Y893g
+ lEIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=YqDn66EjQd4XlWrdM2GVsx0GNeNoXLpdBxKQzaRYzMY=;
- b=tHTsF1qcjtYEHZwqUVG7tPZUrcwzQLMvdy3//bcjXA6iQUkj1Z6Rs4EZ6gfXn2FT7x
- uINKylmw/vbo0lt8mcb7zPwHBRLOaFC27UO04uodfkO0YASLak5FK8TX+yLQf92Q4svu
- eHle3AFtaeeI011ZIC9cvjUuWO/2Kcjs3mTSv+nEBU4vvfdO8KgWY610/pyFHI1KAS+1
- oo/cvr5bvvieZgXtSL0uesuWj9HaxHnU/lAHS1g7768m52WGRGTGBub+CuRVuN38pity
- 7Vl0P7q3o31NJJabLOeha5TG+s/FHnArA8mJe9AEKpskqtJuX0q+9uQ8uzDau8MVG8Ej
- AO5Q==
-X-Gm-Message-State: AFqh2kpOLOorBo1fOX5DYw0CE2VYcgMiReQ7oIN3ONH7mvF4x8G7i4qB
- Cz7MRVMQ3Oerdq7YC91TzSgQGExBF4kLXgxFiTU=
-X-Google-Smtp-Source: AMrXdXsDz7mwfotFfuAMF1mM4Scdh29BPdGT+nSLTvg2m+Hzk7k7K6r3dDDKKN2QrBhkVfGCfKeTPQ==
-X-Received: by 2002:a05:6a20:4295:b0:b8:9c66:cd64 with SMTP id
- o21-20020a056a20429500b000b89c66cd64mr60701740pzj.14.1674988147442; 
- Sun, 29 Jan 2023 02:29:07 -0800 (PST)
+ bh=eQM4NS6srDaBmC6CO8p9fQAiIrm3s/r9yVsLoikHLas=;
+ b=acA8PgU90febBOPCDA3BtH6cQrRk/xUeCLYxjVDtpWCA+ebOSnwSVitzgqnUBNpfhh
+ OH6OerXn5UKMv7P/Rx9C4+fAhkbOcj5WOKxaR6m9i6gTE5ogP3Axz5IYpkNksi0P3fyB
+ 2VusrLvujGqB2+m8wiaZ31Zq20d9pJxzEZPhmZ/gSYd5hSSjlIVu1hdTR5Jpx3LozKYg
+ 80sFmJVAdY1oahCTyKp/kXquaoKYGsoi4m+/OhGj//FjWFH7zv3/NsYrCmju8liV0WIJ
+ A+hk5eew1891+4+p5v9XSwlm2mFZXSC9zD3tJ36MM59tayJREH2A7t6QtpZjNs85vabl
+ hnXw==
+X-Gm-Message-State: AFqh2kpskWqR9XkmNnxghodG1hxC/8Ofr3BaGnt55pEtBamB0N3xgBkX
+ uff1kT07tWQBs3u7OgDl3rxwErXBGCKHXymYs98=
+X-Google-Smtp-Source: AMrXdXvNKA0oygUAs6FcN+qOmLHJHP2jaxLGoWh/VzJSNelYyjNoJ7luPguSz3hOk7Sv4YVTTHb3UA==
+X-Received: by 2002:a17:902:b092:b0:194:cc66:66f7 with SMTP id
+ p18-20020a170902b09200b00194cc6666f7mr33666860plr.19.1674988152038; 
+ Sun, 29 Jan 2023 02:29:12 -0800 (PST)
 Received: from fedlinux.. ([106.84.129.237]) by smtp.gmail.com with ESMTPSA id
- jl1-20020a170903134100b0019644d4242dsm5439416plb.82.2023.01.29.02.29.03
+ jl1-20020a170903134100b0019644d4242dsm5439416plb.82.2023.01.29.02.29.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 02:29:06 -0800 (PST)
+ Sun, 29 Jan 2023 02:29:11 -0800 (PST)
 From: Sam Li <faithilikerun@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
@@ -62,9 +62,10 @@ Cc: qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
  =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Sam Li <faithilikerun@gmail.com>
-Subject: [PATCH v15 1/8] include: add zoned device structs
-Date: Sun, 29 Jan 2023 18:28:43 +0800
-Message-Id: <20230129102850.84731-2-faithilikerun@gmail.com>
+Subject: [PATCH v15 2/8] file-posix: introduce helper functions for sysfs
+ attributes
+Date: Sun, 29 Jan 2023 18:28:44 +0800
+Message-Id: <20230129102850.84731-3-faithilikerun@gmail.com>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230129102850.84731-1-faithilikerun@gmail.com>
 References: <20230129102850.84731-1-faithilikerun@gmail.com>
@@ -94,68 +95,201 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Use get_sysfs_str_val() to get the string value of device
+zoned model. Then get_sysfs_zoned_model() can convert it to
+BlockZoneModel type of QEMU.
+
+Use get_sysfs_long_val() to get the long value of zoned device
+information.
+
 Signed-off-by: Sam Li <faithilikerun@gmail.com>
+Reviewed-by: Hannes Reinecke <hare@suse.de>
 Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Damien Le Moal <damien.lemoal@opensource.wdc.com>
-Reviewed-by: Hannes Reinecke <hare@suse.de>
+Reviewed-by: Dmitry Fomichev <dmitry.fomichev@wdc.com>
 ---
- include/block/block-common.h | 43 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 43 insertions(+)
+ block/file-posix.c               | 122 ++++++++++++++++++++++---------
+ include/block/block_int-common.h |   3 +
+ 2 files changed, 91 insertions(+), 34 deletions(-)
 
-diff --git a/include/block/block-common.h b/include/block/block-common.h
-index 41686810de..211fbc0847 100644
---- a/include/block/block-common.h
-+++ b/include/block/block-common.h
-@@ -58,6 +58,49 @@ typedef struct BlockDriver BlockDriver;
- typedef struct BdrvChild BdrvChild;
- typedef struct BdrvChildClass BdrvChildClass;
+diff --git a/block/file-posix.c b/block/file-posix.c
+index fa227d9d14..43c59c6d56 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -1202,64 +1202,112 @@ static int hdev_get_max_hw_transfer(int fd, struct stat *st)
+ #endif
+ }
  
-+typedef enum BlockZoneOp {
-+    BLK_ZO_OPEN,
-+    BLK_ZO_CLOSE,
-+    BLK_ZO_FINISH,
-+    BLK_ZO_RESET,
-+} BlockZoneOp;
+-static int hdev_get_max_segments(int fd, struct stat *st)
+-{
++/*
++ * Get a sysfs attribute value as character string.
++ */
++static int get_sysfs_str_val(struct stat *st, const char *attribute,
++                             char **val) {
+ #ifdef CONFIG_LINUX
+-    char buf[32];
+-    const char *end;
+-    char *sysfspath = NULL;
++    g_autofree char *sysfspath = NULL;
+     int ret;
+-    int sysfd = -1;
+-    long max_segments;
++    size_t len;
+ 
+-    if (S_ISCHR(st->st_mode)) {
+-        if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) == 0) {
+-            return ret;
+-        }
++    if (!S_ISBLK(st->st_mode)) {
+         return -ENOTSUP;
+     }
+ 
+-    if (!S_ISBLK(st->st_mode)) {
+-        return -ENOTSUP;
++    sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/%s",
++                                major(st->st_rdev), minor(st->st_rdev),
++                                attribute);
++    ret = g_file_get_contents(sysfspath, val, &len, NULL);
++    if (ret == -1) {
++        return -ENOENT;
+     }
+ 
+-    sysfspath = g_strdup_printf("/sys/dev/block/%u:%u/queue/max_segments",
+-                                major(st->st_rdev), minor(st->st_rdev));
+-    sysfd = open(sysfspath, O_RDONLY);
+-    if (sysfd == -1) {
+-        ret = -errno;
+-        goto out;
++    /* The file is ended with '\n' */
++    char *p;
++    p = *val;
++    if (*(p + len - 1) == '\n') {
++        *(p + len - 1) = '\0';
+     }
+-    ret = RETRY_ON_EINTR(read(sysfd, buf, sizeof(buf) - 1));
++    return ret;
++#else
++    return -ENOTSUP;
++#endif
++}
 +
-+typedef enum BlockZoneModel {
-+    BLK_Z_NONE = 0x0, /* Regular block device */
-+    BLK_Z_HM = 0x1, /* Host-managed zoned block device */
-+    BLK_Z_HA = 0x2, /* Host-aware zoned block device */
-+} BlockZoneModel;
++static int get_sysfs_zoned_model(struct stat *st, BlockZoneModel *zoned)
++{
++    g_autofree char *val = NULL;
++    int ret;
 +
-+typedef enum BlockZoneState {
-+    BLK_ZS_NOT_WP = 0x0,
-+    BLK_ZS_EMPTY = 0x1,
-+    BLK_ZS_IOPEN = 0x2,
-+    BLK_ZS_EOPEN = 0x3,
-+    BLK_ZS_CLOSED = 0x4,
-+    BLK_ZS_RDONLY = 0xD,
-+    BLK_ZS_FULL = 0xE,
-+    BLK_ZS_OFFLINE = 0xF,
-+} BlockZoneState;
++    ret = get_sysfs_str_val(st, "zoned", &val);
+     if (ret < 0) {
+-        ret = -errno;
+-        goto out;
+-    } else if (ret == 0) {
+-        ret = -EIO;
+-        goto out;
++        return ret;
+     }
+-    buf[ret] = 0;
+-    /* The file is ended with '\n', pass 'end' to accept that. */
+-    ret = qemu_strtol(buf, &end, 10, &max_segments);
+-    if (ret == 0 && end && *end == '\n') {
+-        ret = max_segments;
 +
-+typedef enum BlockZoneType {
-+    BLK_ZT_CONV = 0x1, /* Conventional random writes supported */
-+    BLK_ZT_SWR = 0x2, /* Sequential writes required */
-+    BLK_ZT_SWP = 0x3, /* Sequential writes preferred */
-+} BlockZoneType;
++    if (strcmp(val, "host-managed") == 0) {
++        *zoned = BLK_Z_HM;
++    } else if (strcmp(val, "host-aware") == 0) {
++        *zoned = BLK_Z_HA;
++    } else if (strcmp(val, "none") == 0) {
++        *zoned = BLK_Z_NONE;
++    } else {
++        return -ENOTSUP;
++    }
++    return 0;
++}
 +
 +/*
-+ * Zone descriptor data structure.
-+ * Provides information on a zone with all position and size values in bytes.
++ * Get a sysfs attribute value as a long integer.
 + */
-+typedef struct BlockZoneDescriptor {
-+    uint64_t start;
-+    uint64_t length;
-+    uint64_t cap;
-+    uint64_t wp;
-+    BlockZoneType type;
-+    BlockZoneState state;
-+} BlockZoneDescriptor;
++static long get_sysfs_long_val(struct stat *st, const char *attribute)
++{
++#ifdef CONFIG_LINUX
++    g_autofree char *str = NULL;
++    const char *end;
++    long val;
++    int ret;
 +
- typedef struct BlockDriverInfo {
-     /* in bytes, 0 if irrelevant */
-     int cluster_size;
++    ret = get_sysfs_str_val(st, attribute, &str);
++    if (ret < 0) {
++        return ret;
+     }
+ 
+-out:
+-    if (sysfd != -1) {
+-        close(sysfd);
++    /* The file is ended with '\n', pass 'end' to accept that. */
++    ret = qemu_strtol(str, &end, 10, &val);
++    if (ret == 0 && end && *end == '\0') {
++        ret = val;
+     }
+-    g_free(sysfspath);
+     return ret;
+ #else
+     return -ENOTSUP;
+ #endif
+ }
+ 
++static int hdev_get_max_segments(int fd, struct stat *st)
++{
++#ifdef CONFIG_LINUX
++    int ret;
++
++    if (S_ISCHR(st->st_mode)) {
++        if (ioctl(fd, SG_GET_SG_TABLESIZE, &ret) == 0) {
++            return ret;
++        }
++        return -ENOTSUP;
++    }
++    return get_sysfs_long_val(st, "max_segments");
++#else
++    return -ENOTSUP;
++#endif
++}
++
+ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+ {
+     BDRVRawState *s = bs->opaque;
+     struct stat st;
++    int ret;
++    BlockZoneModel zoned;
+ 
+     s->needs_alignment = raw_needs_alignment(bs);
+     raw_probe_alignment(bs, s->fd, errp);
+@@ -1297,6 +1345,12 @@ static void raw_refresh_limits(BlockDriverState *bs, Error **errp)
+             bs->bl.max_hw_iov = ret;
+         }
+     }
++
++    ret = get_sysfs_zoned_model(&st, &zoned);
++    if (ret < 0) {
++        zoned = BLK_Z_NONE;
++    }
++    bs->bl.zoned = zoned;
+ }
+ 
+ static int check_for_dasd(int fd)
+diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
+index 887ace7dbd..57f0612f5e 100644
+--- a/include/block/block_int-common.h
++++ b/include/block/block_int-common.h
+@@ -836,6 +836,9 @@ typedef struct BlockLimits {
+ 
+     /* maximum number of iovec elements */
+     int max_iov;
++
++    /* device zone model */
++    BlockZoneModel zoned;
+ } BlockLimits;
+ 
+ typedef struct BdrvOpBlocker BdrvOpBlocker;
 -- 
 2.38.1
 
