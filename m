@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A41B6681C19
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:02:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7307681C30
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:03:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMbGS-0000Sm-UW; Mon, 30 Jan 2023 16:00:32 -0500
+	id 1pMbGS-0000Si-Mv; Mon, 30 Jan 2023 16:00:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMbGG-000084-SM
+ id 1pMbGH-0000Ag-Sh
  for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:00:21 -0500
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d])
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMbGE-0005Gu-Qq
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:00:20 -0500
-Received: by mail-pg1-x52d.google.com with SMTP id v3so8583698pgh.4
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 13:00:18 -0800 (PST)
+ id 1pMbGG-0005FZ-1H
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:00:21 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id e10so8575304pgc.9
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 13:00:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=To6atv+Obg0cImM5ldna6ZejhtwXEvl+wmUMgROvfPg=;
- b=m15OleTD8IDlPx7rwSwocA1rgG5QmtbGcBCfC5t0LlO21SEYi+rT5PxVZJS5m7tYX5
- 9EJlIdWiKCIxBtzJhZt21iQfbdgifD3H3AClSB9ZjkOaJ8Dtga/TT6IHnks2O8laGz9+
- OQgmY4AC4TByPOSmG3ZbhV/cTTw85eTiORvNVjqxx9PcBi9EkuWNUoB6aSGJw/s324/u
- TgErLmucm8/erwkZrXuCiXngW7bzf+h3uvxv3O85vfKnjDHgtWWLgSoGP2ihL8rtKzE8
- ch9SF0z1+jODgrbrGIW5VpFiDp3/hk6RnWvxooBQML1vIfeNa2LtUwvW89GnDd4A5h5o
- DMKQ==
+ bh=k+RB2lzG1WSTf4vy/OZmWeI3pkurVycFuFuWqjGN6Hk=;
+ b=mipyR8MAE2rwJMt3/pbkOxkTejWJkDZCF2KuY0yhVsc2sLCXIeYLc/m6yhhQDPDfBP
+ 0LDqNB+5JS+WUtJshPdyeO8fTuSuVKTbbdG6XA9Khk4aoqudaUuM53so/vbIB98NBdPW
+ OG2AaVzX1HfLZExXN2gKsAevXY3F7cXoH4L3Ud6mZ4f5C/leWlpPxXORc2+0Y2bIjHeV
+ X8c8wumMNvXjEtk31+FjTdwMsfBwdz6CovC/IQzZLDG8Gal34QkjBDN71HWSuq6rHWIy
+ xC3fnSnVjeFcSfFAZi8fsRkcOV6DgrTGXel4XQI9Q1fl0PYb6sIIxlPAgeMulqaSCsp+
+ ZxVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=To6atv+Obg0cImM5ldna6ZejhtwXEvl+wmUMgROvfPg=;
- b=4YGeuSvLwHAqE+q4EDE4tEQPdp4rcm/gufj7F5fARUQsJW9GGMO2B7hqEySEUMQQKP
- CA0d+53tx0vp8jaIzlfUVSxrvQD5Z00Dev9abIQqfBQJkc3OFYtQOdnJoIl/BdILyodF
- Ojeqv/RKOzo8Kj2XbjR1bhMYsnR3GMZWcDLV7GocE2T6LH12fbfSMoChlePdJfvBGaqt
- GVnYSIV9b18Iusv4Xo9y0NEK96TUGPy7VUokpWsR8nc3a5JobSU6yyq98E80MNqdja9B
- oHIyoh7ItBsR/EQLVxUMZ1rIru/mvYahQh0TPZMeKD1lzR8N69z5ibDG/mhc22vttUam
- QA/Q==
-X-Gm-Message-State: AO0yUKVprooVpk2ZvpShSQq5gDt1V9brozj+mIlWM4HBnQVOTLea3zYK
- GHeCizM7KVHdEBR5QgMLqC8YH9ov3luRjc6n
-X-Google-Smtp-Source: AK7set+37qDIMWCpfv8+E0s41gO/1Ko5J+7OUht+RDJ8FpGaXDNd+eu7PaWzbZsCA9aSFscv4JEr6g==
-X-Received: by 2002:a05:6a00:114a:b0:590:cef2:a632 with SMTP id
- b10-20020a056a00114a00b00590cef2a632mr7869903pfm.30.1675112417660; 
- Mon, 30 Jan 2023 13:00:17 -0800 (PST)
+ bh=k+RB2lzG1WSTf4vy/OZmWeI3pkurVycFuFuWqjGN6Hk=;
+ b=CAg/rHid/W6cl8mgXBwvfE4wYXDz4qhu8wSbLFFJyWC2LyWg/tFiCun5I4qwIpRz8m
+ trVf9vqQ4laIlRRygiwvVQ3xlSsjx892e9LK/l5OsQ5Cpq5KVILyNUWH2Xk1mbyEpJTK
+ mw3PJ8m7D4DyWN9vd9KZhILpdMTyM6OeSDeHNUQ3KPpiFN4gxeVwEGQynxeqPYUeD0/J
+ FA69lwKuDIe4A/apccWTMHRpkbDSfgwf6jGjIM++SUWDGscG7e8nbTcGccaY4n6raBO3
+ f82F5KFTslfXu3E56D2ddEQDyYfxRpUfmEk+yIdLv6dK3OCLT9QuBWFrdE48YRBTtIcy
+ rbtg==
+X-Gm-Message-State: AO0yUKW2hCJAxq7UdlLZ7wQq6Z/Sm8ZCJbJrtsfNlSRT0HpqOig39KqQ
+ uUsR1bkWNS3/U+uKUjLDaZK+t4Z45dv12YO0
+X-Google-Smtp-Source: AK7set9w1Nh1Ykrxz0rgzw0OsrWtz//amQSZaKaH+eycX744PXaLh6CUWe6LJ/AbbgLhhz9woeQ8Sw==
+X-Received: by 2002:a62:84d8:0:b0:592:613d:ef17 with SMTP id
+ k207-20020a6284d8000000b00592613def17mr10479907pfd.30.1675112419240; 
+ Mon, 30 Jan 2023 13:00:19 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- x10-20020aa79a4a000000b00593eb3a5e44sm102933pfj.37.2023.01.30.13.00.16
+ x10-20020aa79a4a000000b00593eb3a5e44sm102933pfj.37.2023.01.30.13.00.17
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 13:00:17 -0800 (PST)
+ Mon, 30 Jan 2023 13:00:18 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	cota@braap.org
-Subject: [PATCH 23/27] target/ppc: Don't use tcg_temp_local_new
-Date: Mon, 30 Jan 2023 10:59:31 -1000
-Message-Id: <20230130205935.1157347-25-richard.henderson@linaro.org>
+Subject: [PATCH 24/27] target/xtensa: Don't use tcg_temp_local_new_*
+Date: Mon, 30 Jan 2023 10:59:32 -1000
+Message-Id: <20230130205935.1157347-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230130205935.1157347-1-richard.henderson@linaro.org>
 References: <20230130205935.1157347-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52d;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52d.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,94 +90,70 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since tcg_temp_new is now identical, use that.
+Since tcg_temp_new_* is now identical, use those.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/translate.c              | 6 +++---
- target/ppc/translate/spe-impl.c.inc | 8 ++++----
- target/ppc/translate/vmx-impl.c.inc | 4 ++--
- 3 files changed, 9 insertions(+), 9 deletions(-)
+ target/xtensa/translate.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index 5fe6aa641e..2956021e89 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -4415,7 +4415,7 @@ static void gen_bcond(DisasContext *ctx, int type)
-     TCGv target;
- 
-     if (type == BCOND_LR || type == BCOND_CTR || type == BCOND_TAR) {
--        target = tcg_temp_local_new();
-+        target = tcg_temp_new();
-         if (type == BCOND_CTR) {
-             tcg_gen_mov_tl(target, cpu_ctr);
-         } else if (type == BCOND_TAR) {
-@@ -5594,8 +5594,8 @@ static inline void gen_405_mulladd_insn(DisasContext *ctx, int opc2, int opc3,
+diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
+index 8d7bf566de..4af0650deb 100644
+--- a/target/xtensa/translate.c
++++ b/target/xtensa/translate.c
+@@ -307,7 +307,7 @@ static void gen_right_shift_sar(DisasContext *dc, TCGv_i32 sa)
+ static void gen_left_shift_sar(DisasContext *dc, TCGv_i32 sa)
  {
-     TCGv t0, t1;
+     if (!dc->sar_m32_allocated) {
+-        dc->sar_m32 = tcg_temp_local_new_i32();
++        dc->sar_m32 = tcg_temp_new_i32();
+         dc->sar_m32_allocated = true;
+     }
+     tcg_gen_andi_i32(dc->sar_m32, sa, 0x1f);
+@@ -1074,10 +1074,10 @@ static void disas_xtensa_insn(CPUXtensaState *env, DisasContext *dc)
+             if (i == 0 || arg_copy[i].resource != resource) {
+                 resource = arg_copy[i].resource;
+                 if (arg_copy[i].arg->num_bits <= 32) {
+-                    temp = tcg_temp_local_new_i32();
++                    temp = tcg_temp_new_i32();
+                     tcg_gen_mov_i32(temp, arg_copy[i].arg->in);
+                 } else if (arg_copy[i].arg->num_bits <= 64) {
+-                    temp = tcg_temp_local_new_i64();
++                    temp = tcg_temp_new_i64();
+                     tcg_gen_mov_i64(temp, arg_copy[i].arg->in);
+                 } else {
+                     g_assert_not_reached();
+@@ -1187,7 +1187,7 @@ static void xtensa_tr_tb_start(DisasContextBase *dcbase, CPUState *cpu)
+     DisasContext *dc = container_of(dcbase, DisasContext, base);
  
--    t0 = tcg_temp_local_new();
--    t1 = tcg_temp_local_new();
-+    t0 = tcg_temp_new();
-+    t1 = tcg_temp_new();
+     if (dc->icount) {
+-        dc->next_icount = tcg_temp_local_new_i32();
++        dc->next_icount = tcg_temp_new_i32();
+     }
+ }
  
-     switch (opc3 & 0x0D) {
-     case 0x05:
-diff --git a/target/ppc/translate/spe-impl.c.inc b/target/ppc/translate/spe-impl.c.inc
-index 2e6e799a25..bd8963db2b 100644
---- a/target/ppc/translate/spe-impl.c.inc
-+++ b/target/ppc/translate/spe-impl.c.inc
-@@ -168,7 +168,7 @@ static inline void gen_op_evsrwu(TCGv_i32 ret, TCGv_i32 arg1, TCGv_i32 arg2)
+@@ -2273,8 +2273,8 @@ static void gen_check_atomctl(DisasContext *dc, TCGv_i32 addr)
+ static void translate_s32c1i(DisasContext *dc, const OpcodeArg arg[],
+                              const uint32_t par[])
  {
-     TCGLabel *l1 = gen_new_label();
-     TCGLabel *l2 = gen_new_label();
--    TCGv_i32 t0 = tcg_temp_local_new_i32();
-+    TCGv_i32 t0 = tcg_temp_new_i32();
+-    TCGv_i32 tmp = tcg_temp_local_new_i32();
+-    TCGv_i32 addr = tcg_temp_local_new_i32();
++    TCGv_i32 tmp = tcg_temp_new_i32();
++    TCGv_i32 addr = tcg_temp_new_i32();
+     MemOp mop;
  
-     /* No error here: 6 bits are used */
-     tcg_gen_andi_i32(t0, arg2, 0x3F);
-@@ -185,7 +185,7 @@ static inline void gen_op_evsrws(TCGv_i32 ret, TCGv_i32 arg1, TCGv_i32 arg2)
+     tcg_gen_mov_i32(tmp, arg[0].in);
+@@ -2303,8 +2303,8 @@ static void translate_s32ex(DisasContext *dc, const OpcodeArg arg[],
+                             const uint32_t par[])
  {
-     TCGLabel *l1 = gen_new_label();
-     TCGLabel *l2 = gen_new_label();
--    TCGv_i32 t0 = tcg_temp_local_new_i32();
-+    TCGv_i32 t0 = tcg_temp_new_i32();
+     TCGv_i32 prev = tcg_temp_new_i32();
+-    TCGv_i32 addr = tcg_temp_local_new_i32();
+-    TCGv_i32 res = tcg_temp_local_new_i32();
++    TCGv_i32 addr = tcg_temp_new_i32();
++    TCGv_i32 res = tcg_temp_new_i32();
+     TCGLabel *label = gen_new_label();
+     MemOp mop;
  
-     /* No error here: 6 bits are used */
-     tcg_gen_andi_i32(t0, arg2, 0x3F);
-@@ -202,7 +202,7 @@ static inline void gen_op_evslw(TCGv_i32 ret, TCGv_i32 arg1, TCGv_i32 arg2)
- {
-     TCGLabel *l1 = gen_new_label();
-     TCGLabel *l2 = gen_new_label();
--    TCGv_i32 t0 = tcg_temp_local_new_i32();
-+    TCGv_i32 t0 = tcg_temp_new_i32();
- 
-     /* No error here: 6 bits are used */
-     tcg_gen_andi_i32(t0, arg2, 0x3F);
-@@ -378,7 +378,7 @@ static inline void gen_evsel(DisasContext *ctx)
-     TCGLabel *l2 = gen_new_label();
-     TCGLabel *l3 = gen_new_label();
-     TCGLabel *l4 = gen_new_label();
--    TCGv_i32 t0 = tcg_temp_local_new_i32();
-+    TCGv_i32 t0 = tcg_temp_new_i32();
- 
-     tcg_gen_andi_i32(t0, cpu_crf[ctx->opcode & 0x07], 1 << 3);
-     tcg_gen_brcondi_i32(TCG_COND_EQ, t0, 0, l1);
-diff --git a/target/ppc/translate/vmx-impl.c.inc b/target/ppc/translate/vmx-impl.c.inc
-index 7741f2eb49..2dd17ab106 100644
---- a/target/ppc/translate/vmx-impl.c.inc
-+++ b/target/ppc/translate/vmx-impl.c.inc
-@@ -1508,8 +1508,8 @@ static bool do_vcmpq(DisasContext *ctx, arg_VX_bf *a, bool sign)
-     REQUIRE_INSNS_FLAGS2(ctx, ISA310);
-     REQUIRE_VECTOR(ctx);
- 
--    vra = tcg_temp_local_new_i64();
--    vrb = tcg_temp_local_new_i64();
-+    vra = tcg_temp_new_i64();
-+    vrb = tcg_temp_new_i64();
-     gt = gen_new_label();
-     lt = gen_new_label();
-     done = gen_new_label();
 -- 
 2.34.1
 
