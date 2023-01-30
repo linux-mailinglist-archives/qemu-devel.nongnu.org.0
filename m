@@ -2,44 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019C168137C
+	by mail.lfdr.de (Postfix) with ESMTPS id 262FE68137D
 	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:38:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMVHX-0006Sh-G2; Mon, 30 Jan 2023 09:37:15 -0500
+	id 1pMVID-0007YS-NT; Mon, 30 Jan 2023 09:37:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pMVHT-0006Lz-J2
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:37:11 -0500
+ id 1pMVHt-0007UJ-V0
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:37:37 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pMVHP-0005Fm-Mu
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:37:10 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P59f01JDDz6H6rC;
- Mon, 30 Jan 2023 22:33:28 +0800 (CST)
+ id 1pMVHs-0005PJ-7g
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:37:37 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.226])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P59jc2sKCz6J9fJ;
+ Mon, 30 Jan 2023 22:36:36 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Mon, 30 Jan 2023 14:37:02 +0000
+ 15.1.2375.34; Mon, 30 Jan 2023 14:37:33 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
  <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
  <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philmd@linaro.org>
-Subject: [PATCH v3 00/10] hw/cxl: CXL emulation cleanups and minor fixes for
- upstream
-Date: Mon, 30 Jan 2023 14:36:55 +0000
-Message-ID: <20230130143705.11758-1-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v3 01/10] hw/mem/cxl_type3: Improve error handling in realize()
+Date: Mon, 30 Jan 2023 14:36:56 +0000
+Message-ID: <20230130143705.11758-2-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
+In-Reply-To: <20230130143705.11758-1-Jonathan.Cameron@huawei.com>
+References: <20230130143705.11758-1-Jonathan.Cameron@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
+X-ClientProxiedBy: lhrpeml100003.china.huawei.com (7.191.160.210) To
  lhrpeml500005.china.huawei.com (7.191.163.240)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=185.176.79.56;
@@ -67,72 +68,51 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-V3: Thanks to Michael Tsirkin
- - Update tests/data/acpi/q35/DSDT.cxl to reflect dropping of the duplicate _UID.
-   Usual dance with marking table to be ignored by test then making change and finally
-   updating the table with the new version and dropping the entry preventing the tests
-   from running.
+msix_init_exclusive_bar() can fail, so if it does cleanup the address space.
+
+Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+---
+ hw/mem/cxl_type3.c | 12 ++++++++++--
+ 1 file changed, 10 insertions(+), 2 deletions(-)
+
+diff --git a/hw/mem/cxl_type3.c b/hw/mem/cxl_type3.c
+index dae4fd89ca..252822bd82 100644
+--- a/hw/mem/cxl_type3.c
++++ b/hw/mem/cxl_type3.c
+@@ -401,7 +401,7 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+     MemoryRegion *mr = &regs->component_registers;
+     uint8_t *pci_conf = pci_dev->config;
+     unsigned short msix_num = 1;
+-    int i;
++    int i, rc;
  
-V2:
-- Various minor issues found by Philippe, see individual patches.
-  Note that the const_le64() patch matches changes in a set of Philippe's that was
-  never applied. Philippe may send an update of that series before this merges.
-  If that occurs, drop "qemu/bswap: Add const_le64()"
-- Picked up tags.
-
-V1 Cover letter.
-
-A small collection of misc fixes and tidying up pulled out from various
-series. I've pulled this to the top of my queue of CXL related work
-as they stand fine on their own and it will reduce the noise in
-the larger patch sets if these go upstream first.
-
-Gregory's patches were posted as part of his work on adding volatile support.
-https://lore.kernel.org/linux-cxl/20221006233702.18532-1-gregory.price@memverge.com/
-https://lore.kernel.org/linux-cxl/20221128150157.97724-2-gregory.price@memverge.com/
-I might propose this for upstream inclusion this cycle, but testing is
-currently limited by lack of suitable kernel support.
-
-Ira's patches were part of his event injection series.
-https://lore.kernel.org/linux-cxl/20221221-ira-cxl-events-2022-11-17-v2-0-2ce2ecc06219@intel.com/
-Intent is to propose for upstream the rest of that series shortly after
-some minor changes from earlier review.
-
-My three patches have not previously been posted.
-
-For the curious, the current state of QEMU CXL emulation that we are working
-through the backlog wrt to final cleanup before proposing for upstreaming can be found at.
-
-https://gitlab.com/jic23/qemu/-/commits/cxl-2023-01-11
-
-
-Gregory Price (2):
-  hw/cxl: set cxl-type3 device type to PCI_CLASS_MEMORY_CXL
-  hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
-
-Ira Weiny (3):
-  qemu/bswap: Add const_le64()
-  qemu/uuid: Add UUID static initializer
-  hw/cxl/mailbox: Use new UUID network order define for cel_uuid
-
-Jonathan Cameron (5):
-  hw/mem/cxl_type3: Improve error handling in realize()
-  hw/pci-bridge/cxl_downstream: Fix type naming mismatch
-  tests/acpi: Allow update of q35/DSDT.cxl
-  hw/i386/acpi: Drop duplicate _UID entry for CXL root bridge
-  tests: acpi: Update q35/DSDT.cxl for removed duplicate UID
-
- hw/cxl/cxl-device-utils.c      |   2 +-
- hw/cxl/cxl-mailbox-utils.c     |  28 +++++++++++++++-------------
- hw/i386/acpi-build.c           |   1 -
- hw/mem/cxl_type3.c             |  15 +++++++++++----
- hw/pci-bridge/cxl_downstream.c |   2 +-
- include/hw/cxl/cxl_device.h    |   2 +-
- include/qemu/bswap.h           |  12 +++++++++++-
- include/qemu/uuid.h            |  12 ++++++++++++
- tests/data/acpi/q35/DSDT.cxl   | Bin 9636 -> 9622 bytes
- 9 files changed, 52 insertions(+), 22 deletions(-)
-
+     if (!cxl_setup_memory(ct3d, errp)) {
+         return;
+@@ -438,7 +438,10 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+                      &ct3d->cxl_dstate.device_registers);
+ 
+     /* MSI(-X) Initailization */
+-    msix_init_exclusive_bar(pci_dev, msix_num, 4, NULL);
++    rc = msix_init_exclusive_bar(pci_dev, msix_num, 4, NULL);
++    if (rc) {
++        goto err_address_space_free;
++    }
+     for (i = 0; i < msix_num; i++) {
+         msix_vector_use(pci_dev, i);
+     }
+@@ -450,6 +453,11 @@ static void ct3_realize(PCIDevice *pci_dev, Error **errp)
+     cxl_cstate->cdat.free_cdat_table = ct3_free_cdat_table;
+     cxl_cstate->cdat.private = ct3d;
+     cxl_doe_cdat_init(cxl_cstate, errp);
++    return;
++
++err_address_space_free:
++    address_space_destroy(&ct3d->hostmem_as);
++    return;
+ }
+ 
+ static void ct3_exit(PCIDevice *pci_dev)
 -- 
 2.37.2
 
