@@ -2,66 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADAF7680A79
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 11:08:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C7BC680A7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 11:08:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMR52-0007Sg-6D; Mon, 30 Jan 2023 05:08:04 -0500
+	id 1pMR5J-0007U8-D6; Mon, 30 Jan 2023 05:08:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pMR4z-0007SX-SU
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 05:08:01 -0500
+ (Exim 4.90_1) (envelope-from <geomatsi@gmail.com>)
+ id 1pMR56-0007T7-Qy; Mon, 30 Jan 2023 05:08:14 -0500
 Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pMR4x-0004RN-S1
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 05:08:01 -0500
-Received: by mail-ej1-x62b.google.com with SMTP id p26so18922278ejx.13
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 02:07:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <geomatsi@gmail.com>)
+ id 1pMR55-0004RN-69; Mon, 30 Jan 2023 05:08:08 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id p26so18923200ejx.13;
+ Mon, 30 Jan 2023 02:08:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=hKgjk454OLqf9QCzJFz/v39Fz1cRGFDrO17O6MwpGj8=;
- b=lcsjci45nLCfvdpFlTs5+as+TqlJWxfy+MTvm0PhQi3YObqXlaq85nIf4+YrPKQfJ7
- iCJCHEbHvfUCaJoHxvFr3n7Nwt1lJEQBSU4eWr2XljcHBxbzVhPEGzobLzFpQL1Qg7lr
- EiM5BkLgsfCuyXCHiameI7ws7NxYCNWTOmAiT106uGl6BMOqU1nc2ml+ahIhd2ypKEe0
- Tc0iF7NMcNhYM6V6drlslNbrDQE2API5osvLm1qEp20Qz+ImoT3cpey9t/tEZU0TQ+bz
- zbQMIad0/BIofAZHhIDr8yGL2HFfjlQL2BRbRLUQ/mPGHdPOzwzl774+UyCENfkGG3Ug
- VJgw==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=6KLMCo5biRiC7s1o2u7KTvaufRUzTlqDNiiarYgvWeM=;
+ b=BzByR55tE0uOEQiY12DWDyfoTa2a4Z/wa9jqZ3qZG7mOjrUQ0odXQUELqpRAFT9+xq
+ zK63uj3qoZ8khVOSOEbx37NsLx2k4xLsg7EvDmnonq1THAX4wpocxVGTrmp2Nu+1DQV0
+ CzGNMDyF+Hhkq1XCuYOT8Ie7zAvPDvUY+H+exrV1iOIFKCq5/TcnXwowFLa3poD9iDVL
+ +m/3iQrRpP4PfWhvgehkXZ0BO0iS+cmhbUa8M8ZPH1uNwQvOrbxMWyFYM5KIfOedwzME
+ u0Y3nF9xSQ2s2CR7vgVUoUSkmxgzGf+MQv2BcycXn2OqtT6oDPG0jF8eIhMc5GB/WHY5
+ kO+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=hKgjk454OLqf9QCzJFz/v39Fz1cRGFDrO17O6MwpGj8=;
- b=vZdhVEfhMKMIAIdJvlH2rknTJiEzsjwP+Paq6MztxCkVkfiPj1CzSs8o3mxwZ3JJHr
- zoK2XrOWLtR7AO4L/Zu5ERLNDe2lGlrP5DBlL4ag5RC49/PxV+ZVZ2KyGfvsT/z4qtWE
- mpSkdvgk+PY4sm0WVDEAT3LCEuZDNaGF9Hp5bAaWEgxxRqy6Zr8c5Fncr3mKic3+wsr2
- FxrlfYMFtsw0ZgipODxKmi6fuw7/ybdtb3mxlvK4ycSEI1I2C0t0qgJYcICRCMDocGzY
- 9I1/ruJLa4Mmz132cp7/ndogEM9YaMuQS3HpJv5RvfIAfs2JxaokCrTaGb0bZs/LoFPe
- lUFQ==
-X-Gm-Message-State: AO0yUKUjypccQ2Eq00K2jeVeNTLLm+lVrT74zzJIm3SOmIK8JhwwnElQ
- LXC01Zjgsht/cKZCdJ/w8FoDi0J2ugfTaANejbo=
-X-Google-Smtp-Source: AK7set87fBLb6uzx8v37AEHQXhnKxQUwrOSkW1rmzbutABKZbQZmCfKDVZu34fSLqT+NXBKs5hTGRoB/K4llR6H1I7I=
-X-Received: by 2002:a17:906:7087:b0:878:4d11:2694 with SMTP id
- b7-20020a170906708700b008784d112694mr3637131ejk.26.1675073277880; Mon, 30 Jan
- 2023 02:07:57 -0800 (PST)
+ bh=6KLMCo5biRiC7s1o2u7KTvaufRUzTlqDNiiarYgvWeM=;
+ b=A358TbXTLbgHK2cVxiNYMFOFPA0gCKAJrNsln43GYrxK1LBxHPpRZ4RehbSCFB/KiN
+ 8nyTqci++tovc2UDNTuIqKzsuclZ9aShfjSEbTWwBF2XXbg+g2YRjKW7+OrwiWS3Jzp4
+ 6gvkIgCi65asVGZrpsWjObayTEybHxkKLsvPmVXQY6SPAjelqAhcYNpXrUJMq+5n6wXQ
+ QI9vr1av/MxRZ9do10IFksT+tNx865kH7MaG8BWSjN4K0Elkgi5l1LFZPqtcC9MqWoNC
+ s/Tw4lVI/rRGuZGd/zfHktCOXOirzhH+Qqumg+OgJYivZ2vfojkqCFgSsulZHe/xXfFn
+ LcRw==
+X-Gm-Message-State: AO0yUKV4Hu4tZpgXJABXbXyFuiCZyDfv48nvINVdL2IlMkQrAfe+gY7y
+ hwTrpNKRTgKf+O6+WBo6Is6VdgQlFF6SQaKZ
+X-Google-Smtp-Source: AK7set9YyjbWy6OW1oJO5WXZnAhO6TIXUaZhiBn+YCL2/c/e+GKMGLNSkW5VsZDNNqHcDlng8S3sTQ==
+X-Received: by 2002:a17:906:d8c4:b0:87f:546d:7cb5 with SMTP id
+ re4-20020a170906d8c400b0087f546d7cb5mr9990632ejb.37.1675073284752; 
+ Mon, 30 Jan 2023 02:08:04 -0800 (PST)
+Received: from localhost.localdomain ([80.211.22.60])
+ by smtp.googlemail.com with ESMTPSA id
+ y11-20020a50eb0b000000b00467481df198sm6562461edp.48.2023.01.30.02.08.01
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Jan 2023 02:08:03 -0800 (PST)
+From: Sergey Matyukevich <geomatsi@gmail.com>
+To: qemu-riscv@nongnu.org,
+	qemu-devel@nongnu.org
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>,
+ Sergey Matyukevich <sergey.matyukevich@syntacore.com>
+Subject: [PATCH] target/riscv: set tval for triggered watchpoints
+Date: Mon, 30 Jan 2023 13:07:57 +0300
+Message-Id: <20230130100757.721372-1-geomatsi@gmail.com>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-References: <1614627941.1033038.1675072872015.ref@mail.yahoo.com>
- <1614627941.1033038.1675072872015@mail.yahoo.com>
-In-Reply-To: <1614627941.1033038.1675072872015@mail.yahoo.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 30 Jan 2023 18:07:46 +0800
-Message-ID: <CAEUhbmWrHrqZdUDwm-OMRQHh8fBsQ3NPdDWdYRDgowmcXu_1gA@mail.gmail.com>
-Subject: Re: unable to use "-net user" argument after building from master
- branch
-To: Neal Elliott <nealelliott@netscape.net>
-Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ej1-x62b.google.com
+ envelope-from=geomatsi@gmail.com; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,20 +88,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 30, 2023 at 6:01 PM Neal Elliott <nealelliott@netscape.net> wrote:
->
-> hello,
->             I'm unable to use the "-net user" argument with the compiled "qemu-system-x86_64" binary. I get an error: "qemu-system-x86_64: -net user: network backend 'user' is not compiled into this binary"
->
-> I don't know what I'm missing when I used the configure script with the following arguments:
->
->  ../configure --enable-linux-user --enable-user --enable-curses --enable-vhost-net --enable-vhost-user --enable-png
->
-> what am I doing wrong? what other arguments do I need to add to allow the "-net user" option to work?
->
+From: Sergey Matyukevich <sergey.matyukevich@syntacore.com>
 
-Please install libslirp dev package for your host distribution.
+According to priviledged spec, if [sm]tval is written with a nonzero
+value when a breakpoint exception occurs, then [sm]tval will contain
+the faulting virtual address. Set tval to hit address when breakpoint
+exception is triggered by hardware watchpoint.
 
-Regards,
-Bin
+Signed-off-by: Sergey Matyukevich <sergey.matyukevich@syntacore.com>
+---
+ target/riscv/cpu_helper.c | 3 +++
+ target/riscv/debug.c      | 1 +
+ 2 files changed, 4 insertions(+)
+
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 9a28816521..d3be8c0511 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -1641,6 +1641,9 @@ void riscv_cpu_do_interrupt(CPUState *cs)
+         case RISCV_EXCP_VIRT_INSTRUCTION_FAULT:
+             tval = env->bins;
+             break;
++        case RISCV_EXCP_BREAKPOINT:
++            tval = env->badaddr;
++            break;
+         default:
+             break;
+         }
+diff --git a/target/riscv/debug.c b/target/riscv/debug.c
+index bf4840a6a3..48ef3c59ea 100644
+--- a/target/riscv/debug.c
++++ b/target/riscv/debug.c
+@@ -761,6 +761,7 @@ void riscv_cpu_debug_excp_handler(CPUState *cs)
+ 
+     if (cs->watchpoint_hit) {
+         if (cs->watchpoint_hit->flags & BP_CPU) {
++            env->badaddr = cs->watchpoint_hit->hitaddr;
+             cs->watchpoint_hit = NULL;
+             do_trigger_action(env, DBG_ACTION_BP);
+         }
+-- 
+2.39.0
+
 
