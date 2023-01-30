@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40FCF681B89
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:31:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FC18681B6C
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:27:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMae3-0005I8-LW; Mon, 30 Jan 2023 15:20:51 -0500
+	id 1pMadf-0004F9-WE; Mon, 30 Jan 2023 15:20:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMadU-0003UJ-Sv
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMadU-0003UK-Sv
  for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:17 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMadS-00077Q-CF
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:15 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMadS-00077W-Cl
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:16 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1675110013;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=Eu0hV6kZQ0nIbCmro5EDIhlPYBwmSBFdi8AyK9fUVtU=;
- b=TJYDf4fx7/BOh8DBubGqoIt4hPtbGLS9u1F3hfbtWix0n5Ub5TfAjWGinIm/JjaC5WR7y5
- xS8U0IhaKagiJ8ysyWPgPigwe8y2wV/tMAso7wJfJAsiAO7l6Ir0ocxSThB0SkV00QK5Fh
- WgGi7x8AcQa7PGM83f+4GU8guwgti3s=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=AohUTWfRo/Xw5AaCz9fE2dRmICs29JcF+Q2hBq98uEc=;
+ b=QfG0cGzK7SUXOiRTXoACXzE3Uxh5oEhgrgsQlx5Q6Nym6BnVYGswF4BXPF7K66qyqok50l
+ DtQ0d6gTDpOsVo6eLtBT3RVw/Ae8knImxuc9XrRetK76J9YyD3aSOOeYB+XZ8Cefm2KO4/
+ 8jAZyMq8O4NRxeV4J4OvkO2DVf/qR18=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-592-QFDVLjzoOUK7c7vPL-VKOg-1; Mon, 30 Jan 2023 15:20:12 -0500
-X-MC-Unique: QFDVLjzoOUK7c7vPL-VKOg-1
-Received: by mail-ed1-f70.google.com with SMTP id
- bq13-20020a056402214d00b004a25d8d7593so834696edb.0
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:20:11 -0800 (PST)
+ us-mta-638-zBVTerWzPJmT-bDvG20TtQ-1; Mon, 30 Jan 2023 15:20:12 -0500
+X-MC-Unique: zBVTerWzPJmT-bDvG20TtQ-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ sa8-20020a170906eda800b0087875c99e6bso7454654ejb.22
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:20:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Eu0hV6kZQ0nIbCmro5EDIhlPYBwmSBFdi8AyK9fUVtU=;
- b=G5h+IezOSpNDA8Hh8QqHCDLL2KRd2WSU1p+GKFTRYEB58kJgjpNcVElAmZ0X7QfOpM
- vCjSjgwWz8LX07Ix0GEfSNEJ5VtPzsGw3zxa45rXqKUQrQ1N1PJyOnr+skUNw76SyCDJ
- d55YUskbDRxmdBg49VZE4MYw4XWP6uzaXYUJI06/7PE5y3afAYT4iWZW4zbdWGZjbDQ/
- 5vBx5GqPHl5MQiHWmFnqR0JD5+iym1W8+JoPAOwJJxjDRWJLyCffd1a8cR8FWKN1sb+D
- NrK7iUDXcrXRP+yZKHMT3FO9znjQwrGFrFrSBYQYYpU97Qx7aKhhAddytMIhM9Iketjp
- 8kwQ==
-X-Gm-Message-State: AFqh2kr8mwSfxyDzrPxnRjpTQe7CRZRF8L/VoO+DBLCHT4i1MLwmvbS3
- lg7sYkoyKL5fvvfHyI7NrygdnBtemXeExQ3iSzHvySN8Mdai8Wcxb/+QteNH6JmLTF6ksX+DDnn
- +oP+C8CFvt4w0bLJXcXSRJrYSeUGwllh38+aR8YOnZrN2k61cbV8R/7E4CNWi
-X-Received: by 2002:a05:6402:43c5:b0:499:b5fc:e56f with SMTP id
- p5-20020a05640243c500b00499b5fce56fmr59559570edc.19.1675110010418; 
+ bh=AohUTWfRo/Xw5AaCz9fE2dRmICs29JcF+Q2hBq98uEc=;
+ b=z7+3jqoB2LLaML7JokrLrigTEKPdsrdh4OkZe5Yh6lMVqFtFDos8WostL9lXO2zhOp
+ WxAPSUCJ1SiWxmWgDiQTVBGJpXr7kijamWr/aCL+hEr4g9AXWLvPUI2trRYLnS4oacND
+ wde0xTcL6ssLa929r32RtcIPZWzkDu8P7mtb8YIwA262iIApuZtmrUOOg1oZSYQT+XID
+ b3Dg1vtL4U2GoN4KWmJ/pjKCsPT3A0D7OxDmaDC2NYlCMPGGoZIwkDZM1UJykobYViL0
+ kbMW1Wc4EYg/uC+7JhMLlGXjT0usFk1aUVWoQcuTXsGYbyYW2rPvqDRwDZwWIrTVox+T
+ Ws7g==
+X-Gm-Message-State: AO0yUKWJYSolloHyOPSNlToAwM5UpezG52y+ah9QUhYrHCaZaiXY1oSk
+ gkWargBdFtuL/M/Ek87ciOtCnqyUwNWoYYNlQPEGiadGbpkVYL+NJ1+BRTXGeEhYSR9drK2ocD7
+ zWAokXi/00q45dTklOoE2kLfsYstmUYrM92HHZpmShToolCkSIwi8LpYujdUd
+X-Received: by 2002:a17:906:26d8:b0:878:47d2:6f3d with SMTP id
+ u24-20020a17090626d800b0087847d26f3dmr19198620ejc.48.1675110010629; 
  Mon, 30 Jan 2023 12:20:10 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvt5kVMdlXceeX5vhX6q7XBKrFk8EEn2d+vasA7afIBo7olJ4Wb/5CHn9K0tNoTPwa+flt/4w==
-X-Received: by 2002:a05:6402:43c5:b0:499:b5fc:e56f with SMTP id
- p5-20020a05640243c500b00499b5fce56fmr59559545edc.19.1675110010146; 
+X-Google-Smtp-Source: AK7set/wfSQasBsFhGBhONWvg6roQHRm2YVXO9mzUT55T4z8yfQyWShrgWPmOWY2AzoJudkZLVPRXw==
+X-Received: by 2002:a17:906:26d8:b0:878:47d2:6f3d with SMTP id
+ u24-20020a17090626d800b0087847d26f3dmr19198608ejc.48.1675110010422; 
  Mon, 30 Jan 2023 12:20:10 -0800 (PST)
 Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
- c10-20020a056402100a00b00483dd234ac6sm7266260edu.96.2023.01.30.12.20.08
+ ja3-20020a170907988300b008818d9e0bfesm4634465ejc.117.2023.01.30.12.20.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 30 Jan 2023 12:20:09 -0800 (PST)
-Date: Mon, 30 Jan 2023 15:20:06 -0500
+Date: Mon, 30 Jan 2023 15:20:07 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-Subject: [PULL 11/56] tests: qtest: print device_add error before failing test
-Message-ID: <20230130201810.11518-12-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL 26/56] tests: acpi: add reboot cycle to bridge test
+Message-ID: <20230130201810.11518-27-mst@redhat.com>
 References: <20230130201810.11518-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -100,28 +99,69 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
+hotplugged bridges should not be described in DSDT,
+while it works on cold boot, some ACPPI PCI code
+are invoked during reboot.
+
+This patch will let us catch unexpected AML if hotplug
+checks are broken.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230112140312.3096331-2-imammedo@redhat.com>
+Message-Id: <20230112140312.3096331-17-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/libqtest.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ tests/qtest/bios-tables-test.c | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-index 6b2216cb20..d658222a19 100644
---- a/tests/qtest/libqtest.c
-+++ b/tests/qtest/libqtest.c
-@@ -1435,6 +1435,10 @@ void qtest_qmp_device_add_qdict(QTestState *qts, const char *drv,
-     resp = qtest_qmp(qts, "{'execute': 'device_add', 'arguments': %p}", args);
-     g_assert(resp);
-     g_assert(!qdict_haskey(resp, "event")); /* We don't expect any events */
-+    if (qdict_haskey(resp, "error")) {
-+        fprintf(stderr, "error: %s\n",
-+            qdict_get_str(qdict_get_qdict(resp, "error"), "desc"));
-+    }
-     g_assert(!qdict_haskey(resp, "error"));
-     qobject_unref(resp);
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index b65e864a9c..a8c17461c8 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -812,7 +812,7 @@ static void test_vm_prepare(const char *params, test_data *data)
+     g_free(args);
+ }
+ 
+-static void process_acpi_tables(test_data *data)
++static void process_acpi_tables_noexit(test_data *data)
+ {
+     test_acpi_load_tables(data);
+ 
+@@ -831,7 +831,11 @@ static void process_acpi_tables(test_data *data)
+         SmbiosEntryPointType ep_type = test_smbios_entry_point(data);
+         test_smbios_structs(data, ep_type);
+     }
++}
+ 
++static void process_acpi_tables(test_data *data)
++{
++    process_acpi_tables_noexit(data);
+     qtest_quit(data->qts);
+ }
+ 
+@@ -883,6 +887,11 @@ static void test_acpi_piix4_tcg_bridge(void)
+     qtest_qmp_send(data.qts, "{'execute':'cont' }");
+     qtest_qmp_eventwait(data.qts, "RESUME");
+ 
++    process_acpi_tables_noexit(&data);
++    free_test_data(&data);
++
++    /* check that reboot/reset doesn't change any ACPI tables  */
++    qtest_qmp_send(data.qts, "{'execute':'system_reset' }");
+     process_acpi_tables(&data);
+     free_test_data(&data);
+ }
+@@ -1005,6 +1014,11 @@ static void test_acpi_q35_multif_bridge(void)
+     qtest_qmp_send(data.qts, "{'execute':'cont' }");
+     qtest_qmp_eventwait(data.qts, "RESUME");
+ 
++    process_acpi_tables_noexit(&data);
++    free_test_data(&data);
++
++    /* check that reboot/reset doesn't change any ACPI tables  */
++    qtest_qmp_send(data.qts, "{'execute':'system_reset' }");
+     process_acpi_tables(&data);
+     free_test_data(&data);
  }
 -- 
 MST
