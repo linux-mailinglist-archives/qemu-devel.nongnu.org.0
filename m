@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD27B681D73
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:54:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0E5C681D75
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:54:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMc6e-0007pe-UZ; Mon, 30 Jan 2023 16:54:28 -0500
+	id 1pMc6i-0007r5-5U; Mon, 30 Jan 2023 16:54:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pMc6b-0007nx-Jm
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:54:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pMc6g-0007qF-8F
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:54:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pMc6Z-0006iA-S7
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:54:25 -0500
+ id 1pMc6e-0006jO-QO
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:54:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675115662;
+ s=mimecast20190719; t=1675115668;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=WQVpeMXP1h73OtaSCkyIrLWvskBz5GqMlPav9joLA0o=;
- b=QUfnabktoQx0e1XxZ2/KY8D9lew5n9+rwEz0oa+HjARTHSAfxVxvt/7h+seZZi8eGKnxJl
- GQXZTvUCXpGMip0JgfTikyZStYd0GLYDwdehcoz9WCGtV3/f4hphfWscxPW5UuoWtIn8Fq
- NSsyX6MrZM/bamweMk2h0MBIVwTz81Q=
+ bh=jspWCkLgEFUCGt5BhuCne7rHezJEGJlqhz9McuYKrI8=;
+ b=YCHKifqrIb/XZfIwIC5GYGozBqJnrXfX/I2q5CGHqgRa2JCc6/dw73Sh0tG3rmE7HkU5nt
+ 0PXRgoINqUWa9Uin7aLAVaOjx1C4Ot3cCvEEMSGFZ3Stut/jRdK+/OdM4qDR/FhSETmra+
+ 1CB1UNB3hSi8PDlZcsLGb0pkgVufjZA=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-156-zBvhta_jNMGjbkhI7PfjNg-1; Mon, 30 Jan 2023 16:54:21 -0500
-X-MC-Unique: zBvhta_jNMGjbkhI7PfjNg-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-377-YCSVUD9hPmuyOGXFtwyFrg-1; Mon, 30 Jan 2023 16:54:23 -0500
+X-MC-Unique: YCSVUD9hPmuyOGXFtwyFrg-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id AE5CB181E3EE;
- Mon, 30 Jan 2023 21:54:20 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5BCF2800DAA;
+ Mon, 30 Jan 2023 21:54:23 +0000 (UTC)
 Received: from localhost (unknown [10.39.195.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 2C865140EBF6;
- Mon, 30 Jan 2023 21:54:19 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B61441121314;
+ Mon, 30 Jan 2023 21:54:22 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: <qemu-block@nongnu.org>, Fam Zheng <fam@euphon.net>,
  Fiona Ebner <f.ebner@proxmox.com>, Stefan Hajnoczi <stefanha@redhat.com>,
  Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
- qemu-stable@nongnu.org
-Subject: [PATCH v2 1/4] block: fix detect-zeroes= with BDRV_REQ_REGISTERED_BUF
-Date: Mon, 30 Jan 2023 16:54:12 -0500
-Message-Id: <20230130215415.919494-2-stefanha@redhat.com>
+ Eric Blake <eblake@redhat.com>
+Subject: [PATCH v2 2/4] qemu-io: use BdrvRequestFlags instead of int
+Date: Mon, 30 Jan 2023 16:54:13 -0500
+Message-Id: <20230130215415.919494-3-stefanha@redhat.com>
 In-Reply-To: <20230130215415.919494-1-stefanha@redhat.com>
 References: <20230130215415.919494-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -64,7 +64,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -80,39 +80,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When a write request is converted into a write zeroes request by the
-detect-zeroes= feature, it is no longer associated with an I/O buffer.
-The BDRV_REQ_REGISTERED_BUF flag doesn't make sense without an I/O
-buffer and must be cleared because bdrv_co_do_pwrite_zeroes() fails with
--EINVAL when it's set.
+The block layer APIs use BdrvRequestFlags while qemu-io code uses int.
+Although the code compiles and runs fine, BdrvRequestFlags is clearer
+because it differentiates between other types of flags like bdrv_open()
+flags.
 
-Fiona Ebner <f.ebner@proxmox.com> bisected and diagnosed this QEMU 7.2
-regression where writes containing zeroes to a blockdev with
-discard=unmap,detect-zeroes=unmap fail.
+This is purely refactoring.
 
-Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1404
-Fixes: e8b6535533be ("block: add BDRV_REQ_REGISTERED_BUF request flag")
-Tested-by: Fiona Ebner <f.ebner@proxmox.com>
-Cc: qemu-stable@nongnu.org
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- block/io.c | 3 +++
- 1 file changed, 3 insertions(+)
+ qemu-io-cmds.c | 15 ++++++++-------
+ 1 file changed, 8 insertions(+), 7 deletions(-)
 
-diff --git a/block/io.c b/block/io.c
-index a09a19f7a7..24a2bc42d3 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -1926,6 +1926,9 @@ static int coroutine_fn bdrv_aligned_pwritev(BdrvChild *child,
-         if (bs->detect_zeroes == BLOCKDEV_DETECT_ZEROES_OPTIONS_UNMAP) {
-             flags |= BDRV_REQ_MAY_UNMAP;
-         }
-+
-+        /* Can't use optimization hint with bufferless zero write */
-+        flags &= ~BDRV_REQ_REGISTERED_BUF;
-     }
+diff --git a/qemu-io-cmds.c b/qemu-io-cmds.c
+index 952dc940f1..c0125d14c0 100644
+--- a/qemu-io-cmds.c
++++ b/qemu-io-cmds.c
+@@ -556,7 +556,7 @@ static int do_pread(BlockBackend *blk, char *buf, int64_t offset,
+ }
  
-     if (ret < 0) {
+ static int do_pwrite(BlockBackend *blk, char *buf, int64_t offset,
+-                     int64_t bytes, int flags, int64_t *total)
++                     int64_t bytes, BdrvRequestFlags flags, int64_t *total)
+ {
+     int ret;
+ 
+@@ -577,7 +577,7 @@ typedef struct {
+     int64_t offset;
+     int64_t bytes;
+     int64_t *total;
+-    int flags;
++    BdrvRequestFlags flags;
+     int ret;
+     bool done;
+ } CoWriteZeroes;
+@@ -598,7 +598,8 @@ static void coroutine_fn co_pwrite_zeroes_entry(void *opaque)
+ }
+ 
+ static int do_co_pwrite_zeroes(BlockBackend *blk, int64_t offset,
+-                               int64_t bytes, int flags, int64_t *total)
++                               int64_t bytes, BdrvRequestFlags flags,
++                               int64_t *total)
+ {
+     Coroutine *co;
+     CoWriteZeroes data = {
+@@ -688,7 +689,7 @@ static int do_aio_readv(BlockBackend *blk, QEMUIOVector *qiov,
+ }
+ 
+ static int do_aio_writev(BlockBackend *blk, QEMUIOVector *qiov,
+-                         int64_t offset, int flags, int *total)
++                         int64_t offset, BdrvRequestFlags flags, int *total)
+ {
+     int async_ret = NOT_DONE;
+ 
+@@ -1065,7 +1066,7 @@ static int write_f(BlockBackend *blk, int argc, char **argv)
+     struct timespec t1, t2;
+     bool Cflag = false, qflag = false, bflag = false;
+     bool Pflag = false, zflag = false, cflag = false, sflag = false;
+-    int flags = 0;
++    BdrvRequestFlags flags = 0;
+     int c, cnt, ret;
+     char *buf = NULL;
+     int64_t offset;
+@@ -1266,7 +1267,7 @@ static int writev_f(BlockBackend *blk, int argc, char **argv)
+ {
+     struct timespec t1, t2;
+     bool Cflag = false, qflag = false;
+-    int flags = 0;
++    BdrvRequestFlags flags = 0;
+     int c, cnt, ret;
+     char *buf;
+     int64_t offset;
+@@ -1581,7 +1582,7 @@ static int aio_write_f(BlockBackend *blk, int argc, char **argv)
+     int nr_iov, c;
+     int pattern = 0xcd;
+     struct aio_ctx *ctx = g_new0(struct aio_ctx, 1);
+-    int flags = 0;
++    BdrvRequestFlags flags = 0;
+ 
+     ctx->blk = blk;
+     while ((c = getopt(argc, argv, "CfiqP:uz")) != -1) {
 -- 
 2.39.1
 
