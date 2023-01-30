@@ -2,60 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 510556807B3
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 09:44:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E00D06807B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 09:46:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMPlw-0001TE-ON; Mon, 30 Jan 2023 03:44:18 -0500
+	id 1pMPns-0002I1-Co; Mon, 30 Jan 2023 03:46:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMPls-0001T1-Q1
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:44:12 -0500
-Received: from mout.kundenserver.de ([212.227.126.187])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMPng-0002HZ-P8
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:46:04 -0500
+Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMPlr-0007HH-76
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:44:12 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMPnd-0007kt-Rr
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:46:03 -0500
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
  (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1N0WsG-1oQ4U842ey-00wUSB; Mon, 30 Jan 2023 09:44:09 +0100
-Message-ID: <b49b0d9e-665f-1a1c-e64b-d5036f68911b@vivier.eu>
-Date: Mon, 30 Jan 2023 09:44:08 +0100
+ 1MNtCi-1p2i7y3fqq-00OGUm; Mon, 30 Jan 2023 09:45:58 +0100
+Message-ID: <160286a4-c02a-8791-7012-31dbcc025fd1@vivier.eu>
+Date: Mon, 30 Jan 2023 09:45:56 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v2] linux-user: Improve strace output of personality() and
- sysinfo()
+Subject: Re: [PATCH v2] linux-user: Fix SO_ERROR return code of getsockopt()
 Content-Language: fr
 To: Helge Deller <deller@gmx.de>
-Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- qemu-devel@nongnu.org
-References: <20221223100107.17303-1-deller@gmx.de>
- <5780556e-ef12-408d-7f8b-9104314cf9f4@linaro.org>
- <69357647-288c-a032-27f9-2912c6483418@gmx.de>
- <5a06e9f8-f7ea-1dbf-d44b-b9d134d3c400@linaro.org>
- <f66e5330-99fe-db9f-13eb-d3501c65cf17@gmx.de>
- <16e8f5c4-45c7-de0f-f53d-2fe4549fff7e@vivier.eu> <Y9QxskymWJjrKQmT@p100>
+Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221216101033.8352-1-deller@gmx.de>
+ <8ec83c02-0e87-90c2-835d-e01a330b1969@vivier.eu>
+ <db38ab56-d632-8cb4-9e60-aef83477ca74@gmx.de>
+ <059795f6-97f0-b112-1802-fc47668986a5@vivier.eu> <Y9QzNzXg0hrzHQeo@p100>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <Y9QxskymWJjrKQmT@p100>
+In-Reply-To: <Y9QzNzXg0hrzHQeo@p100>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:c4VcP0MCYMuBeQ+IKnyzQBqB/SPnwpHZFGXe14Amp69kJ7rNYlj
- GhFQWRDSqCoHyNdIrJb/k5z5Ug53Ei5gaVqu7BueaSMGdPIZbMlIFDxt+PgtvJz9Iu9zQnq
- JwXGKOuhkUMxpJz5hw5VrwjwSd8GmxOGX8oGtyi7PP59I3V+mpUoeHrXtwkoM206l2TckG1
- 7rteTQHFuEIiOboS0RUHg==
-UI-OutboundReport: notjunk:1;M01:P0:dTGxGmC7o/o=;IPjy+IpfC7KEproM0tIHyY3/td2
- DFhaWMEvjOhpUzLIioVcztwo9yNIQLAlMxDhP0KD52LzV5Dl6YD+rAxDEbLC7OwgOHwCZdqOe
- jPSXC8gnMPVKCGBtnG/uM+lqt2gYmnYQWbsQ9o2BUfHmmu0YsD2bZGxO16SeMDqQgxJz9lB6H
- fugpAbDbUGJweTz6q8E+vG2AbiQy1E5ArYDTz6XYhNS50TelJB6Sz7jznYtMyNLnnPzWv8F3o
- M1unbcDruUrMoWOrIiIMMBnjEmh07TcSXZpoFZ7BJYXwF/BZ3WANiaSo/Gpl8w0IB9C7AMLP3
- zgswwwE23r2bO4JOg4A3QTZA3s3z05STiX+cvU4Rg4gsLl7m9dlzxZT41g6qngXD1fUZjoqk5
- QfT1lM2+39NhotQd46iET7eCn2DafvM59zGioDSwjfVbrcG59I4A4KwZIC+wEc5ZsLjgmpPPw
- 6se2ScL3Q/OjL5dE4rZzF33sIc4O2bmmFbDgVFEiSlZ3u5r1oqaa9Ofe3jPlFxi98sx4z7rBa
- tG6wpSiT8xOha6Wl+qY8/2BYFN8PMt/RMHkKQAQznsOd7raWbpjtLSa1Zoi3dyZ4vrVaxcP6z
- TirqmbeFQJspuwIQfH3qHtbPoBKKTxBFbKtdEBc6/ps+CIsC46+I1IOSp9ZY1o0RCSjY22Z79
- rqgLjejNCcyuN7POqEW+Eovyni/SECjwITITNg4Qig==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:C9MWB+V3eq6qHaMCiarUNFWD6YLPku3w31O11byjHdc7zQ6XXGO
+ dYmz4Bib+B1oYlOpnoMx/8XLoUwoJrp7+n2LdMHBs2jaBWL0R9FBo5CAxTRtQ1BNq9dbMJE
+ Oz5VmrXQp/Ea6Sv/fCYB3IYZPBbNk6BIhiYxbutJNoNMv+4aKnGirG+QF/8hoIYakh4MCLy
+ GjyjzhnL17FfRE86UQsXw==
+UI-OutboundReport: notjunk:1;M01:P0:cWw4T9rzJmo=;sWpr29ThdTtwW4I1wWyvvOKSLTc
+ +5VGmAERtgUJYHBnHlXOePblyObjcYE+AribeMhX2Rez7ld6+mKE3OkEyomwPG9ssD1V5lhNx
+ q2QMSUKqOKnEEZqCXlTrd5F8IBNX1EOajPdUFlVRQpAgzoMcWTPJFY0FIACSG9idaTZALlzi8
+ msh7OSjza7CWKYjm/vYZzj91xh3ldOPWHAaNCQt0ReF8SVPLugBIou01JMHHGFxPMEVX5llwc
+ nkJz+No7nfLtghNeRRak8VkYimSW3aY3PV+303HEtfHRV3Te+f40ceTB4uNYoR/l3oItIK5HS
+ wQX/ynXDIGImTniPf1XvNhqU+YWpQWUth0pwoN9GA+KPKiLlzXW3U3qW1RtE4DkdfZ+zS/oBu
+ nG/e/8DkGmEkWQ13uiIsB14goctjTv/qJb/nLX5rMHTOlN7CvgDSqJrPijekqedgLI0Upucxt
+ vXINlpMzCUH0ck9kUZ+7bM9BYr9eKh4qCCPF8W7LuD5RGgzsWagXkMQYuRXTxtYixPvswKemD
+ tducic6yEM6PFgrsDL6FTtEHID1R0Wt1JRZqPgsy9ADZd9leWwL3m40E+y9sl6T2Y2J0dvwHX
+ T0RPmoPEqPI1IN/GBzIX+BZ42B3M3rR+xadNcwo3xc1kHJBvQ4v8MoD8O+7inas2gsYeeUzxp
+ mT3EXuMlQww9LEwvOhphPZfFJUisZbwPe7jk1t0Gnw==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -78,41 +74,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 27/01/2023 à 21:18, Helge Deller a écrit :
-> Make the strace look nicer for those two syscalls.
+Le 27/01/2023 à 21:25, Helge Deller a écrit :
+> Add translation for the host error return code of:
+>      getsockopt(19, SOL_SOCKET, SO_ERROR, [ECONNREFUSED], [4]) = 0
+> 
+> This fixes the testsuite of the cockpit debian package with a
+> hppa-linux guest on a x86-64 host.
 > 
 > Signed-off-by: Helge Deller <deller@gmx.de>
-> 
-> --
-> v2: use TARGET_ABI_FMT_lx instead of %p in personality output
->      as suggested by Philippe Mathieu-Daudé and Laurent Vivier
+> ---
+> v2: Fix indenting to make checkscript.sh happy
 > 
 > 
-> diff --git a/linux-user/strace.list b/linux-user/strace.list
-> index f9254725a1..703c0f1608 100644
-> --- a/linux-user/strace.list
-> +++ b/linux-user/strace.list
-> @@ -1043,7 +1043,8 @@
->   { TARGET_NR_perfctr, "perfctr" , NULL, NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_personality
-> -{ TARGET_NR_personality, "personality" , NULL, NULL, NULL },
-> +{ TARGET_NR_personality, "personality" , "%s(0x"TARGET_ABI_FMT_lx")", NULL,
-> +  print_syscall_ret_addr },
->   #endif
->   #ifdef TARGET_NR_pipe
->   { TARGET_NR_pipe, "pipe" , NULL, NULL, NULL },
-> @@ -1502,7 +1503,7 @@
->   { TARGET_NR_sysfs, "sysfs" , NULL, NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_sysinfo
-> -{ TARGET_NR_sysinfo, "sysinfo" , NULL, NULL, NULL },
-> +{ TARGET_NR_sysinfo, "sysinfo" , "%s(%p)", NULL, NULL },
->   #endif
->   #ifdef TARGET_NR_sys_kexec_load
->   { TARGET_NR_sys_kexec_load, "sys_kexec_load" , NULL, NULL, NULL },
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index dac0cfe6c4..06e8612675 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -2809,8 +2809,13 @@ get_timeout:
+>           ret = get_errno(getsockopt(sockfd, level, optname, &val, &lv));
+>           if (ret < 0)
+>               return ret;
+> -        if (optname == SO_TYPE) {
+> +        switch (optname) {
+> +        case SO_TYPE:
+>               val = host_to_target_sock_type(val);
+> +            break;
+> +        case SO_ERROR:
+> +            val = host_to_target_errno(val);
+> +            break;
+>           }
+>           if (len > lv)
+>               len = lv;
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my linux-user-for-8.0 branch.
+
+Thanks,
+Laurent
 
 
