@@ -2,85 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E433D6803FD
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 04:03:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63811680468
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 04:43:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMKQh-0004kN-VS; Sun, 29 Jan 2023 22:01:59 -0500
+	id 1pML3e-0002VN-DC; Sun, 29 Jan 2023 22:42:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pMKQf-0004hi-3h
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 22:01:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1pML3b-0002VB-VR
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 22:42:11 -0500
+Received: from out199-14.us.a.mail.aliyun.com ([47.90.199.14])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pMKQd-0006pO-8w
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 22:01:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675047714;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5Ok6s27rgbvWGJO9QbfGRzIi79CMmpPjSFwPk7Wy23g=;
- b=LlCiVIYnR95bDVytw82LkAjxUubLDMubLZ1eykK8vZiiQt9spevTt2i3I9WtXDhz6ERkaX
- 4hkjTHnOPtPOFvxA4vqTayOn9jKq2/7UlYUm28n5W1dIxjYTgZXGFPGNjHtv8QnMhtuUrt
- Z0+fr7cPHchS/jc+SYxzd5sbgV7drHQ=
-Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
- [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-270-ylJXchd2McCEZk6rwv2o4g-1; Sun, 29 Jan 2023 22:01:52 -0500
-X-MC-Unique: ylJXchd2McCEZk6rwv2o4g-1
-Received: by mail-ot1-f72.google.com with SMTP id
- y18-20020a9d6352000000b00686b3ef5990so5148804otk.11
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 19:01:52 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5Ok6s27rgbvWGJO9QbfGRzIi79CMmpPjSFwPk7Wy23g=;
- b=f5Gg1R3YZK9pNLuj+zVFbtG+ba2qDqtcT0s3QQeLMDbk58yI2SHipxRcgml+sMcFcY
- KTbpeZru8oKybWQZ85ubWTVan8oufubkZ4df5Od+HFRYHvbyhA3RbN7Ar+nXDoJhPMn8
- 7uBCy/tvoMRx5HHW37dTPslScQn8sIFz6+6XaRTFHhvWrWq0AirFIFY1ffqohARyrYD/
- f7kQv9diogYLbrdKLyys1ysSRZuUIJEWnf4qbrZJjqcVr4Pg6JECzc20lyfuDKcKfkTF
- A65VAKK72v9VUORQsjhGOEP4IN4QptkI9ivjbEx44MKfGoxzaesEAQs7sx7UOlS9yNsk
- aHRw==
-X-Gm-Message-State: AO0yUKXJd+pEAV1XQ5vHju8M/QcljRGsrXyYiwHqfs9KdG2qsaEzDKpg
- 5nw/gFGAIYiG8JP21mFhcvfCl8E45kdEYnfr71hwE19aKTNEmMhnpoyFsDNCPieRr50fsLSUbY9
- JAV1nZ8eYGCb2pkek3TRw742f5rIeqg0=
-X-Received: by 2002:a05:6870:959e:b0:163:9cea:eea7 with SMTP id
- k30-20020a056870959e00b001639ceaeea7mr257606oao.35.1675047712090; 
- Sun, 29 Jan 2023 19:01:52 -0800 (PST)
-X-Google-Smtp-Source: AK7set90nbwtpIeaqu/hcdpsZ4BY3HtlXkbDg0juRD9m1Q2SeIxCrNlJL8P/Py8RCR8JHrMZufa5qS0X5znSA0l+0ZQ=
-X-Received: by 2002:a05:6870:959e:b0:163:9cea:eea7 with SMTP id
- k30-20020a056870959e00b001639ceaeea7mr257599oao.35.1675047711817; Sun, 29 Jan
- 2023 19:01:51 -0800 (PST)
-MIME-Version: 1.0
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1pML3Y-0004xa-DB
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 22:42:11 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R191e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045176;
+ MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=4; SR=0;
+ TI=SMTPD_---0VaMQ9T9_1675050116; 
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
+ fp:SMTPD_---0VaMQ9T9_1675050116) by smtp.aliyun-inc.com;
+ Mon, 30 Jan 2023 11:41:57 +0800
+Message-ID: <1675049912.7650461-1-xuanzhuo@linux.alibaba.com>
+Subject: Re: [PATCH v1 2/2] virtio-net: virtio_net_flush_tx() check for
+ per-queue reset
+Date: Mon, 30 Jan 2023 11:38:32 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>
 References: <20230129025150.119972-1-xuanzhuo@linux.alibaba.com>
  <20230129025150.119972-3-xuanzhuo@linux.alibaba.com>
  <CACGkMEvHyRr_nt6eFzE632yOLLOsrcCv3dN5sD01AaGD_-LZVg@mail.gmail.com>
  <1674978207.8889825-4-xuanzhuo@linux.alibaba.com>
-In-Reply-To: <1674978207.8889825-4-xuanzhuo@linux.alibaba.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Mon, 30 Jan 2023 11:01:40 +0800
-Message-ID: <CACGkMEs0NeOA4H9z2LkgYRZhcdQ4Hx2kgH+hE+JLV8TzsfWohg@mail.gmail.com>
-Subject: Re: [PATCH v1 2/2] virtio-net: virtio_net_flush_tx() check for
- per-queue reset
-To: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, 
- Alexander Bulekov <alxndr@bu.edu>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ <CACGkMEs0NeOA4H9z2LkgYRZhcdQ4Hx2kgH+hE+JLV8TzsfWohg@mail.gmail.com>
+In-Reply-To: <CACGkMEs0NeOA4H9z2LkgYRZhcdQ4Hx2kgH+hE+JLV8TzsfWohg@mail.gmail.com>
+Received-SPF: pass client-ip=47.90.199.14;
+ envelope-from=xuanzhuo@linux.alibaba.com; helo=out199-14.us.a.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,77 +62,135 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Jan 29, 2023 at 3:44 PM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
->
-> On Sun, 29 Jan 2023 14:23:21 +0800, Jason Wang <jasowang@redhat.com> wrote:
-> > On Sun, Jan 29, 2023 at 10:52 AM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
-> > >
-> > > Check whether it is per-queue reset state in virtio_net_flush_tx().
-> > >
-> > > Before per-queue reset, we need to recover async tx resources. At this
-> > > time, virtio_net_flush_tx() is called, but we should not try to send
-> > > new packets, so virtio_net_flush_tx() should check the current
-> > > per-queue reset state.
-> > >
-> > > Fixes: 7dc6be52 ("virtio-net: support queue reset")
-> > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1451
-> > > Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> > > ---
-> > >  hw/net/virtio-net.c | 3 ++-
-> > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > > index 3ae909041a..fba6451a50 100644
-> > > --- a/hw/net/virtio-net.c
-> > > +++ b/hw/net/virtio-net.c
-> > > @@ -2627,7 +2627,8 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
-> > >      VirtQueueElement *elem;
-> > >      int32_t num_packets = 0;
-> > >      int queue_index = vq2q(virtio_get_queue_index(q->tx_vq));
-> > > -    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
-> > > +    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) ||
-> > > +        virtio_queue_reset_state(q->tx_vq)) {
+On Mon, 30 Jan 2023 11:01:40 +0800, Jason Wang <jasowang@redhat.com> wrote:
+> On Sun, Jan 29, 2023 at 3:44 PM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
 > >
-> > We have other places that check DRIVER_OK do we need to check queue
-> > reset as well?
->
-> I checked it again. I still think that the location of other checking DRIVER_OK
-> does not need to check the queue reset.
-
-For example, if we don't disable can_receive() when the queue is
-reset, it means rx may go for virtio_net_receive_rcu(). It means the
-Qemu is still trying to process the traffic from the network backend
-like tap which may waste cpu cycles.
-
-I think the correct way is to return false when the queue is reset in
-can_receive(), then the backend poll will be disabled (e.g TAP). When
-the queue is enabled again, qemu_flush_queued_packets() will wake up
-the backend polling.
-
-Having had time to check other places but it would be better to
-mention why it doesn't need a check in the changelog.
-
-Thanks
-
->
-> Thanks.
->
->
-> >
-> > E.g:
-> > virtio_net_can_receive()
-> > virtio_net_tx_{timer|bh}()
-> >
-> > Thanks
-> >
-> > >          return num_packets;
-> > >      }
+> > On Sun, 29 Jan 2023 14:23:21 +0800, Jason Wang <jasowang@redhat.com> wrote:
+> > > On Sun, Jan 29, 2023 at 10:52 AM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
+> > > >
+> > > > Check whether it is per-queue reset state in virtio_net_flush_tx().
+> > > >
+> > > > Before per-queue reset, we need to recover async tx resources. At this
+> > > > time, virtio_net_flush_tx() is called, but we should not try to send
+> > > > new packets, so virtio_net_flush_tx() should check the current
+> > > > per-queue reset state.
+> > > >
+> > > > Fixes: 7dc6be52 ("virtio-net: support queue reset")
+> > > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1451
+> > > > Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> > > > ---
+> > > >  hw/net/virtio-net.c | 3 ++-
+> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > > > index 3ae909041a..fba6451a50 100644
+> > > > --- a/hw/net/virtio-net.c
+> > > > +++ b/hw/net/virtio-net.c
+> > > > @@ -2627,7 +2627,8 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
+> > > >      VirtQueueElement *elem;
+> > > >      int32_t num_packets = 0;
+> > > >      int queue_index = vq2q(virtio_get_queue_index(q->tx_vq));
+> > > > -    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
+> > > > +    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) ||
+> > > > +        virtio_queue_reset_state(q->tx_vq)) {
 > > >
-> > > --
-> > > 2.32.0.3.g01195cf9f
+> > > We have other places that check DRIVER_OK do we need to check queue
+> > > reset as well?
+> >
+> > I checked it again. I still think that the location of other checking DRIVER_OK
+> > does not need to check the queue reset.
+>
+> For example, if we don't disable can_receive() when the queue is
+> reset, it means rx may go for virtio_net_receive_rcu(). It means the
+> Qemu is still trying to process the traffic from the network backend
+> like tap which may waste cpu cycles.
+>
+> I think the correct way is to return false when the queue is reset in
+> can_receive(), then the backend poll will be disabled (e.g TAP). When
+> the queue is enabled again, qemu_flush_queued_packets() will wake up
+> the backend polling.
+>
+> Having had time to check other places but it would be better to
+> mention why it doesn't need a check in the changelog.
+
+
+static bool virtio_net_can_receive(NetClientState *nc)
+{
+    VirtIONet *n = qemu_get_nic_opaque(nc);
+    VirtIODevice *vdev = VIRTIO_DEVICE(n);
+    VirtIONetQueue *q = virtio_net_get_subqueue(nc);
+
+    if (!vdev->vm_running) {
+        return false;
+    }
+
+    if (nc->queue_index >= n->curr_queue_pairs) {
+        return false;
+    }
+
+    if (!virtio_queue_ready(q->rx_vq) ||
+        !(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
+        return false;
+    }
+
+    return true;
+}
+
+int virtio_queue_ready(VirtQueue *vq)
+{
+    return vq->vring.avail != 0;
+}
+
+
+static void __virtio_queue_reset(VirtIODevice *vdev, uint32_t i)
+{
+    vdev->vq[i].vring.desc = 0;
+    vdev->vq[i].vring.avail = 0;
+    vdev->vq[i].vring.used = 0;
+    vdev->vq[i].last_avail_idx = 0;
+    vdev->vq[i].shadow_avail_idx = 0;
+    vdev->vq[i].used_idx = 0;
+    vdev->vq[i].last_avail_wrap_counter = true;
+    vdev->vq[i].shadow_avail_wrap_counter = true;
+    vdev->vq[i].used_wrap_counter = true;
+    virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
+    vdev->vq[i].signalled_used = 0;
+    vdev->vq[i].signalled_used_valid = false;
+    vdev->vq[i].notification = true;
+    vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
+    vdev->vq[i].inuse = 0;
+    virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
+}
+
+In the implementation of Per-Queue Reset, for RX, we stop RX by setting vdev->vq[i].vring.avail to 0.
+Then callback can_receive will return False.
+
+
+Thanks.
+
+
+>
+> Thanks
+>
+> >
+> > Thanks.
+> >
+> >
+> > >
+> > > E.g:
+> > > virtio_net_can_receive()
+> > > virtio_net_tx_{timer|bh}()
+> > >
+> > > Thanks
+> > >
+> > > >          return num_packets;
+> > > >      }
+> > > >
+> > > > --
+> > > > 2.32.0.3.g01195cf9f
+> > > >
 > > >
 > >
 >
-
 
