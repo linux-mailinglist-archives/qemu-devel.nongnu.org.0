@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DEC99680E95
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 14:13:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC779680EA4
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 14:17:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMTxf-0007fu-AC; Mon, 30 Jan 2023 08:12:39 -0500
+	id 1pMU1j-00028G-KB; Mon, 30 Jan 2023 08:16:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pMTxd-0007eZ-Co
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:12:37 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pMTxa-00046I-Ul
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:12:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675084353;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=l077ML8x2aUA3BfSYxSnF/pmWEsvNiSwJ/mn/qtcnMc=;
- b=OvuyTKh3KyRzid59vaBPaeViSPd2AFlrUmr2I5luZTGkShYnwD1DvCwrl2SFKVYvjpsIif
- AWr6EeKa90rVO3nKWRHlLrd/5X+hkXkxJelamnPevhE9+1PzNjvRWKJT6bZLg83h+LCLcJ
- OlE+jmIJTB0wtMe0vdASLNPvnBFapXM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-532-iyGpN8YgPiKfsf49FspL_w-1; Mon, 30 Jan 2023 08:12:30 -0500
-X-MC-Unique: iyGpN8YgPiKfsf49FspL_w-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9DD93100F90A;
- Mon, 30 Jan 2023 13:12:29 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 629F7492B05;
- Mon, 30 Jan 2023 13:12:29 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 6783421E6A1F; Mon, 30 Jan 2023 14:12:28 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>,  Warner Losh <imp@bsdimp.com>,
- qemu-devel@nongnu.org,  richard.henderson@linaro.org,
- pbonzini@redhat.com,  kwolf@redhat.com,  hreitz@redhat.com,
- kevans@freebsd.org,  berrange@redhat.com,  groug@kaod.org,
- qemu_oss@crudebyte.com,  philmd@linaro.org,  alistair@alistair23.me,
- jasowang@redhat.com,  jonathan.cameron@huawei.com,
- kbastian@mail.uni-paderborn.de,  quintela@redhat.com,
- dgilbert@redhat.com,  michael.roth@amd.com,  kkostiuk@redhat.com,
- tsimpson@quicinc.com,  palmer@dabbelt.com,  bin.meng@windriver.com,
- qemu-block@nongnu.org,  qemu-arm@nongnu.org,  qemu-riscv@nongnu.org
-Subject: Re: [PATCH v4 04/19] bsd-user: Clean up includes
-References: <20230119065959.3104012-1-armbru@redhat.com>
- <20230119065959.3104012-5-armbru@redhat.com>
- <CANCZdfrU4zVcepMj=B5EVUz-qhCDhMYDs+cYS5yfW1-G01PsbA@mail.gmail.com>
- <CAFEAcA8E98v5X5ekA16c6Fby2HAhOC5G4JYnN9TkrA9G7rVzvA@mail.gmail.com>
- <20230127100052-mutt-send-email-mst@kernel.org>
- <20230128052729-mutt-send-email-mst@kernel.org>
-Date: Mon, 30 Jan 2023 14:12:28 +0100
-In-Reply-To: <20230128052729-mutt-send-email-mst@kernel.org> (Michael
- S. Tsirkin's message of "Sat, 28 Jan 2023 05:29:47 -0500")
-Message-ID: <87mt60b1z7.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1pMU1h-00027E-Jl; Mon, 30 Jan 2023 08:16:49 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <idryomov@gmail.com>)
+ id 1pMU1g-0004wF-6g; Mon, 30 Jan 2023 08:16:49 -0500
+Received: by mail-ej1-x635.google.com with SMTP id ud5so31620029ejc.4;
+ Mon, 30 Jan 2023 05:16:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=7RKGnRk8HLputxMSo2Ntk5p3kM923JGFMFqoT3A5riU=;
+ b=mphDgSGTNz0DzrPFe/jKxL7eNOgLYMlLGp2I/PUp859N1RZqTCS/wVN3ImkQLcdW5i
+ dhdrRDqtJqVHqaOZYMwAjINemaRiNKLWp/+3UQGGcvNO97MwATWtGE44sQKEiB1jHnVo
+ E4i4E5fC0UX0YztdHTL3jrkg0j/suV314l9x9t5+Hsz3yUzsp16/DOTPrb2E0kcyX3Y2
+ vpCsP35mgQJ1ix6zV/JCyzex0aSvUzbIXZ9Z97EyBuB+extuMO/80KErG+JPexCEgvcj
+ SaAbiCPBb3zbm5wQmUvCOtsfP4HPppJasKnfy04r/NvYwOuMRW2DizN1Dwy+E5n3SVKb
+ zP/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=7RKGnRk8HLputxMSo2Ntk5p3kM923JGFMFqoT3A5riU=;
+ b=NXPs7jzSEoB5gdSul4He4DpyrO56LxnM6k4Y65xu33SdAe2BPm1cnPKVFP0wG+Mn2z
+ RNeltavfj3yirN3FUpxQq4fdRY2k8W2xw+5TNpaX+UkLuu22efku0IUL3wmsMK9yEDNA
+ /dma9gmbs8u4D3iDWh4VX7kJspV1Z5UtF4rAM8KXx92TGN2MM89BpD0gZSz0XmJo6jPS
+ jW2ls2HXpI9Ifhc3c5pG4Eq63RA28cbruFFs1WAHMLWIi0Lp/SUrg3TcnkFY4QvPh+if
+ Ayj61DAaEayjQfIC1aOO7Ca6u4+FkPO6zlShQQeVkLFCfOO/+HyvluGBctHfKVTeFbbj
+ QtGQ==
+X-Gm-Message-State: AO0yUKVP3sgPY90vQEfckp+XwrCpjjBZn8J0zNIEx2fgY8MJrzplEXAx
+ XksG0SYof6z1EQFc6k8tebgKmST7Z1+728fllP13x7bijNI=
+X-Google-Smtp-Source: AK7set+cQrfo5euo2EbRdk/WIGH9B6dwjHqE+MmRW1+WZ5rTnbBTDff29gWT/OElnLL1XuOoaQh6/2IMI/NzCmfcxtw=
+X-Received: by 2002:a17:906:faca:b0:88a:5d6f:b69e with SMTP id
+ lu10-20020a170906faca00b0088a5d6fb69emr405332ejb.59.1675084606222; Mon, 30
+ Jan 2023 05:16:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230129113120.722708-1-oro@oro.sl.cloud9.ibm.com>
+In-Reply-To: <20230129113120.722708-1-oro@oro.sl.cloud9.ibm.com>
+From: Ilya Dryomov <idryomov@gmail.com>
+Date: Mon, 30 Jan 2023 14:16:33 +0100
+Message-ID: <CAOi1vP_G3zYFRGwKnuRiTsvu+Y1FKjSBJTTt_Mq_JDvFV+rchw@mail.gmail.com>
+Subject: Re: [PATCH v6 0/3] block/rbd: Add support for layered encryption
+To: oro@oro.sl.cloud9.ibm.com
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, oro@il.ibm.com
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=idryomov@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,89 +80,33 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"Michael S. Tsirkin" <mst@redhat.com> writes:
-
-> On Fri, Jan 27, 2023 at 10:01:57AM -0500, Michael S. Tsirkin wrote:
->> On Fri, Jan 27, 2023 at 02:54:30PM +0000, Peter Maydell wrote:
->> > On Thu, 19 Jan 2023 at 14:42, Warner Losh <imp@bsdimp.com> wrote:
->> > >
->> > > Also, why didn't you move sys/resource.h and other such files
->> > > to os-dep.h? I'm struggling to understand the rules around what
->> > > is or isn't included where?
->> > 
->> > The rough rule of thumb is that if some OS needs a compatibility
->> > fixup or workaround for a system header (eg not every mmap.h
->> > defines MAP_ANONYMOUS; on Windows unistd.h has to come before
->> > time.h) then we put that header include and the compat workaround
->> > into osdep.h. This avoids "only fails on obscure platform" issues
->> > where somebody puts a header include into some specific .c file
->> > but not the compat workaround, and it works on the Linux host
->> > that most people develop and test on and we only find the
->> > problem later.
->> > 
->> > There's also no doubt some includes there for historical
->> > reasons, and some which really are "everybody needs these"
->> > convenience ones. But we should probably not add new
->> > includes to osdep.h unless they fall into the "working around
->> > system header issues" bucket.
->> > 
->> > thanks
->> > -- PMM
->> 
->> 
->> BTW maybe we should teach checkpatch about that rule:
->> if a header is in osdep do not include it directly.
+On Sun, Jan 29, 2023 at 12:31 PM ORO@il.ibm.com
+<oro@oro.sl.cloud9.ibm.com> wrote:
 >
-> To be more precise, make checkpatch run clean-includes somehow?
-> Or just make CI run clean-includes on the tree and verify result
-> is empty?
+> v6: nit fixes
+> v5: nit fixes
+> v4: split to multiple commits
+>     add support for more than just luks-any in layered encryption
+>     nit fixes
+> v3: further nit fixes suggested by @idryomov
+> v2: nit fixes suggested by @idryomov
+>
+> Or Ozeri (3):
+>   block/rbd: Remove redundant stack variable passphrase_len
+>   block/rbd: Add luks-any encryption opening option
+>   block/rbd: Add support for layered encryption
+>
+>  block/rbd.c          | 188 ++++++++++++++++++++++++++++++++++++++++---
+>  qapi/block-core.json |  31 ++++++-
+>  2 files changed, 205 insertions(+), 14 deletions(-)
+>
+> --
+> 2.25.1
+>
 
-scripts/clean-includes isn't quite happy even after my series.
-Offenders:
+Reviewed-by: Ilya Dryomov <idryomov@gmail.com>
 
-    ebpf/rss.bpf.skeleton.h
-    subprojects/libvduse/libvduse.h
-    subprojects/libvhost-user/libvhost-user-glib.h
-    subprojects/libvhost-user/libvhost-user.h
-    target/hexagon/idef-parser/idef-parser.h
-    target/hexagon/idef-parser/parser-helpers.h
-    tests/fp/platform.h
-    contrib/plugins/cache.c
-    contrib/plugins/drcov.c
-    contrib/plugins/execlog.c
-    contrib/plugins/hotblocks.c
-    contrib/plugins/hotpages.c
-    contrib/plugins/howvec.c
-    contrib/plugins/hwprofile.c
-    contrib/plugins/lockstep.c
-    linux-user/mips64/cpu_loop.c
-    linux-user/mips64/signal.c
-    linux-user/x86_64/cpu_loop.c
-    linux-user/x86_64/signal.c
-    plugins/core.c
-    plugins/loader.c
-    scripts/xen-detect.c
-    subprojects/libvduse/libvduse.c
-    subprojects/libvhost-user/libvhost-user-glib.c
-    subprojects/libvhost-user/libvhost-user.c
-    subprojects/libvhost-user/link-test.c
-    target/hexagon/gen_dectree_import.c
-    target/hexagon/gen_semantics.c
-    target/hexagon/idef-parser/parser-helpers.c
-    target/s390x/gen-features.c
-    tests/migration/s390x/a-b-bios.c
-    tests/plugin/bb.c
-    tests/plugin/empty.c
-    tests/plugin/insn.c
-    tests/plugin/mem.c
-    tests/plugin/syscall.c
-    tests/uefi-test-tools/UefiTestToolsPkg/BiosTablesTest/BiosTablesTest.c
-    tests/unit/test-rcu-simpleq.c
-    tests/unit/test-rcu-slist.c
-    tests/unit/test-rcu-tailq.c
-    tools/ebpf/rss.bpf.c
+Thanks,
 
-To support automatic checking, we'd have to fix the ones that need need
-fixing, and add the remainder to the script's XDIRREGEX.
-
+                Ilya
 
