@@ -2,81 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07EAF681E01
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 23:25:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A6D6681E2D
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 23:36:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMca5-0000ER-Vt; Mon, 30 Jan 2023 17:24:54 -0500
+	id 1pMckL-00036f-6u; Mon, 30 Jan 2023 17:35:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMcZt-0008V3-VV
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 17:24:45 -0500
-Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMcZs-0004cQ-Cu
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 17:24:41 -0500
-Received: by mail-pg1-x536.google.com with SMTP id q9so8723477pgq.5
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 14:24:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=3Jr8yfdDn/1RoRpGTXIIP69vauCb9D6slfl3UqxlgfI=;
- b=xuSlqJvLD5rbGclZ+UMVGTymkGHUhokF6PDc19xYbqvSljKrnCVGmi9Qx1ohaqSViw
- aEFu3KIi1r8tpcaLAmLRQZh+PyGG3+6Jjx9mCl8CkuYCeKRfQPBYp4PD0nQFBPdQ4W+n
- GkZTSwTGNhBl+uhb6tJve5M1tbnLG+F03ma2vkAm0VY4i2h7R4+Y8G8QbIrMioSvQ9LP
- POWNCIkh6v3nXPNdelpkhQjc+e97mKotnkd9D9v9Mh7pNIArMGt5v2bAl8hYAtXqOkCI
- zOjk4jLMHNduMyPQluTqZbk4kBAprbRSarTJTRUVL4YDRCI9dxZ7wDib4P3uERq1dQ9S
- ccIQ==
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pMckF-00035q-VR
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 17:35:24 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pMckE-0006WR-8i
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 17:35:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675118120;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=MJYxERV/Bb+mwVrSSqkTWbCLiiDFW7qYgLfpxKKfw7E=;
+ b=BiPlhJOytOg3b5xUYdCX6+U37rMaMXih2sXE1NXBl3N1p/YhuDCqa/MT8PW5+wb9k0lWCP
+ iRCQdphR1LugnmikCzYiBHKl7Ln/EJrAWY+NtITiygjjo94fD3ac6HlbWj0foW44/Qv7c/
+ /cjmT/oM3qeVin4JxvfJV33Zc8Q1lcI=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-127-14_bBaj8N7-vvgzgq263Lg-1; Mon, 30 Jan 2023 17:35:19 -0500
+X-MC-Unique: 14_bBaj8N7-vvgzgq263Lg-1
+Received: by mail-qk1-f200.google.com with SMTP id
+ v7-20020a05620a0f0700b006faffce43b2so7871169qkl.9
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 14:35:19 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=3Jr8yfdDn/1RoRpGTXIIP69vauCb9D6slfl3UqxlgfI=;
- b=IeVqTGGnNoDfZK3/P98mrQYYI9Eo5QJ2V0WbPrayx1JR3KOlrI5zrbzAOIPBYoLR75
- PHbPHO8ulAXTsVdAWtDuoKFCwypr6bkkXlhtFwl9rZOsfIeCMvfz7CLvwsP4kiL75fCK
- hOPFybkRF9TlmtA3qUEPI0MMfPLYVXdlhXgH9MA30R9hZSqw+XpcBfAkOFhsAUzVvF12
- XUqlwCJ3DTlJgGIbYrXKLDwMACSv/EozeFqzvheCX4sx83gsqt0+0xX/BOpcz/Bx7uOr
- VtAztiJvnDVQkj+Q+EmScWRwuEN49UfUrDtAzkrLLXyMCOE9VfnyvcS//GOX1i2Hh1Uw
- JUYA==
-X-Gm-Message-State: AO0yUKWQOBFOmTD1U0IG2zOCAInfowBgpt/ZcmJ4tXmqyF9jFQXX0WdC
- 5dPolBfoMZoufsWOxIrdirJJK+wCbKVySY0o
-X-Google-Smtp-Source: AK7set+YW9iz/fz0KesCcIbn5WkUuw/UKpxJC2dgji9lIOAi2uD8KI6RRJpJTt/pcJT9tQsq2Sj7Iw==
-X-Received: by 2002:a05:6a00:338b:b0:593:cdc7:5dd3 with SMTP id
- cm11-20020a056a00338b00b00593cdc75dd3mr4037209pfb.4.1675117473578; 
- Mon, 30 Jan 2023 14:24:33 -0800 (PST)
-Received: from [192.168.50.50] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- c11-20020a62f84b000000b005828071bf7asm3140778pfm.22.2023.01.30.14.24.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jan 2023 14:24:32 -0800 (PST)
-Message-ID: <74c21fcd-529c-f9a7-b607-3ab0011a203e@linaro.org>
-Date: Mon, 30 Jan 2023 12:24:29 -1000
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=MJYxERV/Bb+mwVrSSqkTWbCLiiDFW7qYgLfpxKKfw7E=;
+ b=llRr/nzen90LU06vF+IN3iOReeEtBsRXp1f3FkCiHDbJVU8FB5QP9drCTKTSrvPQHl
+ p479CbQks5FMRUR3Ljp7DCyqxLkU/dLQ7FhpJhRemqORh7mTynmhANkwK/szUsgo0fe6
+ BXNyjiudToyR6RYuVJV42T7Td+bX7J+AUfhmXAN4asf2NA/j7REG1H9wFrAonjFLD3HM
+ Jx2atjJkpKI7269W4sLq3SsPrMlJMT8WFU88CClQ8n3IsCa+V4Y0oqgssQTVN4c3t5yY
+ fzazQhlGF/OkNpyMUi0QIVsnH2SI1LRjvIjPDshErWE7DFXKuGQk+Qd8tiqqs/Kas8EG
+ Sb5w==
+X-Gm-Message-State: AO0yUKUv45QNS78URoH1PtrbA+7UcloLuG9/F0psyY6oHG0fQGuQwEyy
+ K2QAfhh4joyTnxJ+IZr27wVRLE8BSGTQXmAsYjpkGm8HZrvTmp/p6zNHNxaNa3LbtiLH+k4n8N3
+ PruCBa5oPbk28tfk=
+X-Received: by 2002:a05:622a:1143:b0:3b8:5f47:aac2 with SMTP id
+ f3-20020a05622a114300b003b85f47aac2mr3520342qty.1.1675118118840; 
+ Mon, 30 Jan 2023 14:35:18 -0800 (PST)
+X-Google-Smtp-Source: AK7set/5KW5ZNrf5rBdbX1EMTk4PCKX6AVH+QxUW3+VXxSRtmSPm8j9HEoR+bEFdhrJZRLvxLU5Gbg==
+X-Received: by 2002:a05:622a:1143:b0:3b8:5f47:aac2 with SMTP id
+ f3-20020a05622a114300b003b85f47aac2mr3520324qty.1.1675118118571; 
+ Mon, 30 Jan 2023 14:35:18 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ bs18-20020ac86f12000000b003b8558eabd0sm4331266qtb.23.2023.01.30.14.35.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Jan 2023 14:35:17 -0800 (PST)
+Date: Mon, 30 Jan 2023 17:35:16 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ James Houghton <jthoughton@google.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH RFC 14/21] migration: Map hugetlbfs ramblocks twice, and
+ pre-allocate
+Message-ID: <Y9hGJCkD6sYbFSgi@x1n>
+References: <20230117220914.2062125-1-peterx@redhat.com>
+ <20230117220914.2062125-15-peterx@redhat.com>
+ <87edrciohn.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2] linux-user: Show 4th argument of rt_sigprocmask() in
- strace
-Content-Language: en-US
-To: Helge Deller <deller@gmx.de>, Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org
-References: <Y9hCxdvdM1o+/iHC@p100>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <Y9hCxdvdM1o+/iHC@p100>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::536;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x536.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <87edrciohn.fsf@secure.mitica>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -93,15 +100,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/30/23 12:20, Helge Deller wrote:
-> Add output for the missing 4th parameter (size_t sigsetsize).
+On Mon, Jan 30, 2023 at 06:24:20AM +0100, Juan Quintela wrote:
+> Peter Xu <peterx@redhat.com> wrote:
+> > Add a RAMBlock.host_mirror for all the hugetlbfs backed guest memories.
+> > It'll be used to remap the same region twice and it'll be used to service
+> > page faults using UFFDIO_CONTINUE.
+> >
+> > To make sure all accesses to these ranges will generate minor page faults
+> > not missing page faults, we need to pre-allocate the files to make sure
+> > page cache exist start from the beginning.
+> >
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
 > 
-> Signed-off-by: Helge Deller<deller@gmx.de>
-> ---
-> v2: Use %u instead of %d, as suggested by Laurent Vivier
+> Reviewed-by: Juan Quintela <quintela@redhat.com>
 > 
+> but what about this change
+> 
+> > ---
+> >  include/exec/ramblock.h |  7 +++++
+> >  migration/ram.c         | 59 +++++++++++++++++++++++++++++++++++++++++
+> >  2 files changed, 66 insertions(+)
+> >
+> > diff --git a/include/exec/ramblock.h b/include/exec/ramblock.h
+> > index 3f31ce1591..c76683c3c8 100644
+> > --- a/include/exec/ramblock.h
+> > +++ b/include/exec/ramblock.h
+> > @@ -28,6 +28,13 @@ struct RAMBlock {
+> >      struct rcu_head rcu;
+> >      struct MemoryRegion *mr;
+> >      uint8_t *host;
+> > +    /*
+> > +     * This is only used for hugetlbfs ramblocks where doublemap is
+> > +     * enabled.  The pointer is managed by dest host migration code, and
+> > +     * should be NULL when migration is finished.  On src host, it should
+> > +     * always be NULL.
+> > +     */
+> > +    uint8_t *host_mirror;
+> 
+> I would consider here:
+> 
+>     uint8_t *host_doublemap;
+> 
+> as I have not a small name that means
+>     uint8_t *host_map_smaller_size_pages;
+> 
+> That explains why we need it.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Sure, I can rename this one if it helps.
 
-r~
+One thing worth mention is that, it's not mapping things in small page size
+here with host_doublemap but in huge page size only.
+
+It's just that UFFDIO_CONTINUE needs another mapping to resolve the page
+faults. It'll be the guest hugetlb ramblocks that will be mapped in small
+pages during postcopy.
+
+> 
+> 
+> >      uint8_t *colo_cache; /* For colo, VM's ram cache */
+> >      ram_addr_t offset;
+> >      ram_addr_t used_length;
+> > diff --git a/migration/ram.c b/migration/ram.c
+> > index 2ebf414f5f..37d7b3553a 100644
+> > --- a/migration/ram.c
+> > +++ b/migration/ram.c
+> > @@ -3879,6 +3879,57 @@ void colo_release_ram_cache(void)
+> >      ram_state_cleanup(&ram_state);
+> >  }
+> >  
+> > +static int migrate_hugetlb_doublemap_init(void)
+> > +{
+> > +    RAMBlock *rb;
+> > +    void *addr;
+> > +    int ret;
+> 
+> Not initialized variables, remove the last two.
+
+I can do this.
+
+> 
+> > +    if (!migrate_hugetlb_doublemap()) {
+> > +        return 0;
+> > +    }
+> > +
+> 
+> I would move the declaration of the RAMBlock here.
+
+But isn't QEMU in most cases declaring variables at the start of any code
+block, rather than after or in the middle of any code segments?  IIRC some
+compiler should start to fail with it, even though not on the modern ones.
+
+Thanks,
+
+-- 
+Peter Xu
+
 
