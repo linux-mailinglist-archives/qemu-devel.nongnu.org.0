@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB96A680E0E
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 13:52:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D89FD680E14
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 13:53:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMTeE-0006V6-0V; Mon, 30 Jan 2023 07:52:34 -0500
+	id 1pMTfC-0007XO-Lh; Mon, 30 Jan 2023 07:53:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMTe7-0006Qt-Ih
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:52:27 -0500
-Received: from mout.kundenserver.de ([212.227.126.130])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMTez-0007Mm-Pd
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:53:28 -0500
+Received: from mout.kundenserver.de ([212.227.126.134])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMTe5-0008K1-4C
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:52:27 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMTey-0008Tw-26
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:53:21 -0500
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
  (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MDQqk-1pTaf13gZS-00AYtO; Mon, 30 Jan 2023 13:52:18 +0100
-Message-ID: <48b2576b-815e-a942-6001-604ae51b9545@vivier.eu>
-Date: Mon, 30 Jan 2023 13:52:17 +0100
+ 1MgNlH-1oizIs02N5-00hwcG; Mon, 30 Jan 2023 13:53:13 +0100
+Message-ID: <0dd3092b-cc5b-a4fb-08fb-06169e0e6ee0@vivier.eu>
+Date: Mon, 30 Jan 2023 13:53:12 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
@@ -35,22 +35,22 @@ From: Laurent Vivier <laurent@vivier.eu>
 In-Reply-To: <Y5iwTaydU7i66K/i@p100>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:eaQ3qnbVFongLzClrdF6Nd2xrX5FBCBHYw/GCcHkHqBCcfDdnLB
- W7BXaZoV9yabfdRrVtJxsTBPJL69bmCmmqeeWNWvEGTBvyG2zItFVJdjLfmFP4eyj60qdaK
- aPg6/WlRLp2kDUV3W8ZXYldxpcEYyfqW01EcM+HBTTCWG9Zh1D2dkwQS3itJcCHnkY1AxuP
- vX8SICJkWTbQowJh5G5Hw==
-UI-OutboundReport: notjunk:1;M01:P0:S5jvCVjqgN0=;bJnjihWO3cGiywNRi58Yy387PUU
- K/q/ABvlbD1RRWDD7kFT2XTOTlYeCP5nK4fEYWTkrfuSPewxSEbbwYLg1Pse2TvjeO3v2PdXb
- Y2NIcR29OCQLEpx5C6tp/52HmUTrLWSEpGwQtXF0EGEp8rRWL+ABMvhALEQ5veimOWUchjBvU
- g0i/oI5kh6u3fPORT2LLbvUpNnjtmM626TabOwRfL7L4nORIHamEoGaQaHIbfqZFVJoJB1mLk
- GVaxP6S78HUZgF8yfKuvN7ptkK+Rvk3shBdjufQZQluGWjV2Q6fIWvcypR4HtGjajh24eqEoQ
- vnYbNLpR4I1kmnIny1FIMgXDvaTxweUNPqBkhDrfx0qtxvlMqIdWWHOo/0gQ9GnnO3y/+G2xX
- qUJ8OEBopZXpIH0jsUOaRqOqc3XD1BE1j9idu3q29hbZB4vuqzv3+ALulJuMvx6IXh4DMEuip
- dMe7qVsyT6myiAkpH5OA4vymYlCGr0/399OgRfmy/nXlJKiNRBG7tU2Y4C9gAe8x9owyOkLRy
- LXT7iJ3vAXt8eJfiZeBU38qPbN6gOD6KHpWwifvXwnTvFCys7uDGGar8YDSO6FyBgzUBQXn6Z
- CR0KFPCHYd0ytggagiuGw32ite9fQbFG4yWoVl/mk4KfG/v3OlVQXtJFghZj6ZymLgEo3z4EP
- jmWqYHTXx3wj6Mhu6LkRqN46N5Q4ilhizN6vu4mB6g==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:/9pPLQ+iX2NlbVyWwHtxleXUuOiGxXf1lm/YuPADwvUNode3Le/
+ TeY2KqP/suEPZ8ita6fEUIJUyyahs4e8lKTCFt7UN2Q/nzl4LxqFqVmDcrpDjDBcNV6kH9D
+ kZwoVZECR4iSPfyVYr1/bOd8xuQPOfHC5OGIw6KXv3uDWzDcXgyDw0mO75tW2mtyoK3qJzU
+ rmba97NIMGQIT2I4xrZdw==
+UI-OutboundReport: notjunk:1;M01:P0:LhZCO6QjjSg=;sPAddn5ODISog8Z/OHbjsG9sQwk
+ 5CazZmhNhU6pmTbO/a9m92GnZU9DSFQMhQbF7uyf+RSuHONkLyuR26990o48Tb7htKFZIv04u
+ uGy6ISOHMw9xMFP80ALAn+kSLTDYdScwssKTeIdEr+Pa4nWvQmMTNSOVw5PVJppd0xqM+wW4p
+ TwncExXziggzIkLYKt8xYvF08hrDu9HwjTqbnghYZ/Szm//xzVgh2Rjq2wHULsdwOuKLt1nQr
+ sk/Dh/kmJ2waIlb6CWK67RQeGJ0167mMpfnDReiUbxdzF21duoIWilj7PJfhv6EAGBjpWG9lK
+ VBBw3spuC/sSvpbhdi74jOQWWarMaj+cDLdIpSqlaswWRG5smMsehO9fQSey6T3WDcFo6gvlk
+ 9BcGnu2t/6fkhiEcCSJD3JwEWrtsP7qT5TgOCP7OZBoaqWXhPO9cH36uijBuxXOFsK86hmtAu
+ gssnP3CyC5tHFptAf1NakFHpsIh/Y9d7gtwRubEIZitphBrH7Bqbw3D76qVggdoTXVFMJfE29
+ FDF2F808VhZGzS5fkYQHJmHuVYzLxyKrmZg7mZrOA75mCGXsDFHKTaNTZM70DmJhEQRmBJg9/
+ Uxc57EMR/xntaCIEzi4xiSSgcIaXWOfGKBeObCfd0wPT0HQjj97NFRbLT8Udw9TKR5sNEH4QW
+ dFNRza8VjC+9Rkn4EfPzO/JHIm5NhxD6YYZ0JApqLQ==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -176,6 +176,9 @@ Le 13/12/2022 à 18:03, Helge Deller a écrit :
 >       mmap_unlock();
 > 
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Applied to my linux-user-for-8.0 branch.
+
+Thanks,
+Laurent
 
 
