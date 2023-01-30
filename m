@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE5F680B69
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 11:58:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC85B680BA3
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 12:10:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMRrw-0007M4-29; Mon, 30 Jan 2023 05:58:36 -0500
+	id 1pMS21-00017D-N1; Mon, 30 Jan 2023 06:09:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pMRru-0007Lw-Bj
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 05:58:34 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMS1z-00015V-V5
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 06:09:00 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pMRrs-0003z0-Kh
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 05:58:34 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMS1y-0005PV-HR
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 06:08:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675076311;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=X0fSy4AXxG56znXJhzcjixyidSrmOULh4NtOhtTFgDQ=;
- b=SYwe7QNm1IE+LQPvMzdLB3altWHwPbxiNLiun76xhNSwDaDbxm/fjLBEpJkhyu5Y9PI9rk
- iJQwvl1VAI3mJLhUm+4p/Rs+FjdEdWjf7XCjcBb3ObC0YWTUYksGD7R9MQeKUBCXvkXoKL
- SpEElyZh849auiIMk7JUcDUWLgY8SrI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-509-qZQXwlXFNqimktU1zRaXvg-1; Mon, 30 Jan 2023 05:58:26 -0500
-X-MC-Unique: qZQXwlXFNqimktU1zRaXvg-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D8FF9802D2A;
- Mon, 30 Jan 2023 10:58:25 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C7822166B26;
- Mon, 30 Jan 2023 10:58:24 +0000 (UTC)
-Date: Mon, 30 Jan 2023 10:58:22 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 6/6] gitlab-ci.d/buildtest: Disintegrate the
- build-coroutine-sigaltstack job
-Message-ID: <Y9eizgN9UYo5kbgx@redhat.com>
-References: <20230130104446.1286773-1-thuth@redhat.com>
- <20230130104446.1286773-7-thuth@redhat.com>
+ s=mimecast20190719; t=1675076936;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=0FypJyPRbyz9UCuYXBqojDmRcqKdFGU5CmVzaxtZgME=;
+ b=L+GmazqlC5Tya9rUlBgUm1fHYR7kMcMj0fRsEEHlwSVZOYNp4L7+ArXeg9WyKoSMnzzp6O
+ v71K9tRNoPfjSHtiAdYBCiv4JaGejBgBP1GMYaD/Eezn5XvG6QmkNk8UJ2OSFWNmNuNA6w
+ LBwzvZgIiEAytF1XFyUFiWBtoij2+Qo=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-67-7XcdYeafPxCTH-gZUSjmHw-1; Mon, 30 Jan 2023 06:08:55 -0500
+X-MC-Unique: 7XcdYeafPxCTH-gZUSjmHw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ fl5-20020a05600c0b8500b003db12112fdeso7016437wmb.5
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 03:08:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0FypJyPRbyz9UCuYXBqojDmRcqKdFGU5CmVzaxtZgME=;
+ b=A2N6t+XZjERMu3rN2VaKrHeAF1shsQkeIaOLn0ykp50b0sm9kwFdsQ+/aaqf2KWGp6
+ a4zurTlDOE94MluVQ9FSShXF+FMgTm0oXHIVxl+GCgrbOfK5uUGFml9Epv5cpEZNBwTK
+ 5cI2LfR00sTaVZA2k1go/bAKfvZbdJWWJipFMRVXP+Tk2h7tPnr9+SAX9PvaJdxw5eJ2
+ bt7C9vOw7FZHm+cuwylUNxdfSiE/dBeha8VpFgeuhdcJqbBSglEdSg0148LZKuFk5j2w
+ ZsBageFP0KHYXoN5iXLYAN57mLLdzb68TARNlDt7oRFVrpZO6Rgt+4abLe23J+i/5ty9
+ UKvA==
+X-Gm-Message-State: AFqh2krEYWZpFSTlRd3UurTgL4D0juS/U6kQt1vK2zti/rMXEYVvBu3O
+ IPaSvDq+7UTcrs7A1Ic/rMjZ4+7SqCZPWeYTZmYtJ2ob6nqQx+NM8amsOH3wHIwL2GgvQIEG/4b
+ LpwoJkDTtUqiEoK0=
+X-Received: by 2002:a05:600c:3b18:b0:3db:eab:3c5c with SMTP id
+ m24-20020a05600c3b1800b003db0eab3c5cmr46577166wms.32.1675076934412; 
+ Mon, 30 Jan 2023 03:08:54 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvupMtrFRL0aIUod3xqSCL/zYAYggn7lbrHMlD3lIVy0Rlo4anX5lhuNNz54PW41Fsisdlbtw==
+X-Received: by 2002:a05:600c:3b18:b0:3db:eab:3c5c with SMTP id
+ m24-20020a05600c3b1800b003db0eab3c5cmr46577150wms.32.1675076934151; 
+ Mon, 30 Jan 2023 03:08:54 -0800 (PST)
+Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
+ ip6-20020a05600ca68600b003d04e4ed873sm15641754wmb.22.2023.01.30.03.08.52
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Jan 2023 03:08:53 -0800 (PST)
+Date: Mon, 30 Jan 2023 06:08:49 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Maxime Coquelin <maxime.coquelin@redhat.com>
+Cc: qemu-devel@nongnu.org, pbonzini@redhat.com, stephen@networkplumber.org,
+ chenbo.xia@intel.com, thomas@monjalon.net, dmarchan@redhat.com
+Subject: Re: [PATCH 0/3] Vhost-user: replace _SLAVE_ with _BACKEND_
+Message-ID: <20230130060706-mutt-send-email-mst@kernel.org>
+References: <20230130104548.13262-1-maxime.coquelin@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20230130104446.1286773-7-thuth@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+In-Reply-To: <20230130104548.13262-1-maxime.coquelin@redhat.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -82,90 +92,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 30, 2023 at 11:44:46AM +0100, Thomas Huth wrote:
-> We can get rid of the build-coroutine-sigaltstack job by moving
-> the configure flags that should be tested here to other jobs:
-> Move --with-coroutine=sigaltstack to the build-without-defaults job
-> and --enable-trace-backends=ftrace to the cross-s390x-kvm-only job.
+On Mon, Jan 30, 2023 at 11:45:45AM +0100, Maxime Coquelin wrote:
+> This series continues the work done to get rid of harmful
+> language in the Vhost-user specification.
 
-The biggest user of coroutines is the block layer. So we probably
-ought to have coroutines aligned with a job that triggers the
-'make check-block' for iotests.  IIUC,  the without-defaults
-job won't do that. How about, arbitrarily, using either the
-'check-system-debian' or 'check-system-ubuntu' job. Those distros
-are closely related, so getting sigaltstack vs ucontext coverage
-between them is a good win, and they both trigger the block jobs
-IIUC.
+I prefer a positive "switch to a more inclusive terminology".
+To consider if you keep doing this work.
 
-Incidentally sigaltstack is also covered by our Cirrus CI job
-for macOS.
-
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  .gitlab-ci.d/buildtest.yml   | 14 ++------------
->  .gitlab-ci.d/crossbuilds.yml |  2 +-
->  2 files changed, 3 insertions(+), 13 deletions(-)
+> While the spec texts were changed to replace slave with
+> backend, the protocol features and messages names hadn't
+> been changed. 
 > 
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index 91c7467a66..1438797a1c 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -533,19 +533,8 @@ build-tci:
->      - QTEST_QEMU_BINARY="./qemu-system-s390x" ./tests/qtest/pxe-test -m slow
->      - make check-tcg
->  
-> -# Alternate coroutines implementations are only really of interest to KVM users
-> -# However we can't test against KVM on Gitlab-CI so we can only run unit tests
-> -build-coroutine-sigaltstack:
-> -  extends: .native_build_job_template
-> -  needs:
-> -    job: amd64-ubuntu2004-container
-> -  variables:
-> -    IMAGE: ubuntu2004
-> -    CONFIGURE_ARGS: --with-coroutine=sigaltstack --disable-tcg
-> -                    --enable-trace-backends=ftrace
-> -    MAKE_CHECK_ARGS: check-unit
-> -
->  # Check our reduced build configurations
-> +# (and an alternative coroutine implementation)
->  build-without-defaults:
->    extends: .native_build_job_template
->    needs:
-> @@ -559,6 +548,7 @@ build-without-defaults:
->        --disable-pie
->        --disable-qom-cast-debug
->        --disable-strip
-> +      --with-coroutine=sigaltstack
->      TARGETS: avr-softmmu mips64-softmmu s390x-softmmu sh4-softmmu
->        sparc64-softmmu hexagon-linux-user i386-linux-user s390x-linux-user
->      MAKE_CHECK_ARGS: check-unit check-qtest-avr check-qtest-mips64
-> diff --git a/.gitlab-ci.d/crossbuilds.yml b/.gitlab-ci.d/crossbuilds.yml
-> index 8dbbb8f881..027d2088da 100644
-> --- a/.gitlab-ci.d/crossbuilds.yml
-> +++ b/.gitlab-ci.d/crossbuilds.yml
-> @@ -159,7 +159,7 @@ cross-s390x-kvm-only:
->      job: s390x-debian-cross-container
->    variables:
->      IMAGE: debian-s390x-cross
-> -    EXTRA_CONFIGURE_OPTS: --disable-tcg
-> +    EXTRA_CONFIGURE_OPTS: --disable-tcg --enable-trace-backends=ftrace
->  
->  cross-mips64el-kvm-only:
->    extends: .cross_accel_build_job
+> This series renames remaining occurences in the spec and
+> make use of the new names in both libvhost-user and the
+> Vhost-user frontend code.
+> 
+> Maxime Coquelin (3):
+>   docs: vhost-user: replace _SLAVE_ with _BACKEND_
+>   libvhost-user: Adopt new backend naming
+>   vhost-user: Adopt new backend naming
+> 
+>  docs/interop/vhost-user.rst               | 40 +++++++++++------------
+>  hw/virtio/vhost-user.c                    | 30 ++++++++---------
+>  hw/virtio/virtio-qmp.c                    | 12 +++----
+>  subprojects/libvhost-user/libvhost-user.c | 20 ++++++------
+>  subprojects/libvhost-user/libvhost-user.h | 20 ++++++------
+>  5 files changed, 61 insertions(+), 61 deletions(-)
+> 
 > -- 
-> 2.31.1
-> 
-> 
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+> 2.39.1
 
 
