@@ -2,90 +2,203 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FCC56805BB
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 06:51:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F3336805D9
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 07:06:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMN3a-0008JN-4j; Mon, 30 Jan 2023 00:50:18 -0500
+	id 1pMNHl-0003Nh-D4; Mon, 30 Jan 2023 01:04:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMN3W-0008J1-Te
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:50:15 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1pMNHj-0003NM-Ez
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 01:04:55 -0500
+Received: from mga07.intel.com ([134.134.136.100])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMN3U-00076I-VC
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:50:14 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675057812;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=RRrm9oWapLjmfDoAe+7E9OcrgrCIVgGtG4ZCiH+W3mE=;
- b=AeTM9Qs5mLUYrKx51PGc+5em1dO2lzEE7qENcOUX2VP5tEndA4veZs4mjrzMbwXiWawLFD
- 7PMRBMJcSj1moG/rFiRvS9TfchATvtiHXPsbXh6P+Gnnbcth9vHtAy3txTMZM97izUVbdF
- DsKI9xDEiSmOUx6L/X5le4Z7lro0P9M=
-Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
- [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-37-vzWoz8NNNeSWig-iYg5ujA-1; Mon, 30 Jan 2023 00:50:10 -0500
-X-MC-Unique: vzWoz8NNNeSWig-iYg5ujA-1
-Received: by mail-ua1-f72.google.com with SMTP id
- z42-20020ab0492d000000b00423b333ff7dso4261637uac.22
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 21:50:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=RRrm9oWapLjmfDoAe+7E9OcrgrCIVgGtG4ZCiH+W3mE=;
- b=x3GZ7xAU3teB879JLqde1R47F0AmBQo9v9b4ay6qYXkhCXwm88KVixugaWvFt7WFwm
- dGEpKtVDLbaCBw1YGs6d99B9j3LOxs6H4iWUvyi+TqWiDO47hdZ1SkQTS4MfBkQpU2KF
- YqRy0f4B9QeuMr0lQyoP/4UFOFC01u89tBs1PJH3kIzSdiD5ypRIMt4VHvuTIW1Dv9X+
- hXOY7dsCAJ13RX5DDKJlrssALSe0whSqt0SMpslq8Ou+1MbTkORIONoHH+8lHRurLzgw
- E7Leb17cZEVTOkBc6rLrMzqY0D76sYoEWu+Sg4KvvP2VzNuCyQWNsle2Qdof3LqbnmPW
- z9Ag==
-X-Gm-Message-State: AO0yUKU5F3SwW1LnlmSFZMD1Q4USIRkEQ4p8CWvnrey4M/VIPWdn/1BX
- irSDtaV5GvPSeLIh8UFP9f4WdqXwZ/RwxTBcdMCrvLDSNlGoWE2HO9yR29O4pD8aNHjKBCpDZO5
- xgJr4dYE/0fXIldo=
-X-Received: by 2002:a05:6102:8:b0:3eb:4440:ca72 with SMTP id
- j8-20020a056102000800b003eb4440ca72mr7214055vsp.9.1675057810099; 
- Sun, 29 Jan 2023 21:50:10 -0800 (PST)
-X-Google-Smtp-Source: AK7set+E0Jare0w/Q73KGl55zjA9/nQ2BVHt0KYVpAkoJB7e+B0ioL0DHAMcZVycI1/brUT7Lv923g==
-X-Received: by 2002:a05:6102:8:b0:3eb:4440:ca72 with SMTP id
- j8-20020a056102000800b003eb4440ca72mr7214050vsp.9.1675057809791; 
- Sun, 29 Jan 2023 21:50:09 -0800 (PST)
-Received: from redhat.com ([87.249.138.139]) by smtp.gmail.com with ESMTPSA id
- k19-20020a67e3d3000000b003d3d976f799sm766705vsm.4.2023.01.29.21.50.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 21:50:09 -0800 (PST)
-Date: Mon, 30 Jan 2023 00:50:03 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: Xuan Zhuo <xuanzhuo@linux.alibaba.com>, qemu-devel@nongnu.org,
- Alexander Bulekov <alxndr@bu.edu>
-Subject: Re: [PATCH v1 2/2] virtio-net: virtio_net_flush_tx() check for
- per-queue reset
-Message-ID: <20230130004440-mutt-send-email-mst@kernel.org>
-References: <20230129025150.119972-1-xuanzhuo@linux.alibaba.com>
- <20230129025150.119972-3-xuanzhuo@linux.alibaba.com>
- <CACGkMEvHyRr_nt6eFzE632yOLLOsrcCv3dN5sD01AaGD_-LZVg@mail.gmail.com>
- <1674978207.8889825-4-xuanzhuo@linux.alibaba.com>
- <CACGkMEs0NeOA4H9z2LkgYRZhcdQ4Hx2kgH+hE+JLV8TzsfWohg@mail.gmail.com>
- <1675049912.7650461-1-xuanzhuo@linux.alibaba.com>
- <CACGkMEvwfoGbTRPP1MmL-i_mNZB+ct70qJ3eO07vpWyw7-35Cw@mail.gmail.com>
+ (Exim 4.90_1) (envelope-from <wei.w.wang@intel.com>)
+ id 1pMNHg-0001c3-9C
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 01:04:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+ d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+ t=1675058692; x=1706594692;
+ h=from:to:cc:subject:date:message-id:references:
+ in-reply-to:content-transfer-encoding:mime-version;
+ bh=f5fmLvNRtAYCy0OTRAs8fs2gYH+k2mMKjDngDnqkE9o=;
+ b=CRgyXsfSF41BzxhJ2+8/dDxguxjeAxzGTgKWYwSyuyS4ZXdgxOOvcV7l
+ hoeKxgXp7eGQhe886mVP/SnkSXejukv19WXANs4mAZxHPTuqU4gWne6WJ
+ 6SgqZDg0XJrs9mIVK8rKF7DG6mnrO+lXnjS/Nxa6VAd9BVcxpyh7b/j2G
+ 4MnzokhnRkmu80zDeq6k9LhpszC5O/FwFL8RMpQIjkkEPH2o2uGopoNjP
+ Oc0gT7IzgsaZLmbXmqFG/vVoXBHqn0BXNj22ku5dPgwCt59FLuBpcaZDc
+ f0r7nhP54guW2qzpq0ubMTDW3UKPciIsiJj/Vh8pQYCDWX8EKaBALqlbT w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="392032320"
+X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="392032320"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+ by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
+ 29 Jan 2023 22:04:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6500,9779,10605"; a="787898171"
+X-IronPort-AV: E=Sophos;i="5.97,257,1669104000"; d="scan'208";a="787898171"
+Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
+ by orsmga004.jf.intel.com with ESMTP; 29 Jan 2023 22:04:41 -0800
+Received: from orsmsx611.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Sun, 29 Jan 2023 22:04:40 -0800
+Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX611.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16; Sun, 29 Jan 2023 22:04:40 -0800
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.16 via Frontend Transport; Sun, 29 Jan 2023 22:04:40 -0800
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.168)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.16; Sun, 29 Jan 2023 22:04:40 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B8+5kVIGE6NbU3j1o0dFGPHAAAd8eaFxLVWeUlVy3yEo3meaGLkkHggaX6T6QQeKHhmjc7WLl4bFEvS/DlUedYr8pKPyPMlmHVLgibHTnjP4DSWOEDB5mDP2AVNFc1Cmtcq2o2Vxj2ShgGnWy8V3Qr6QUCH9QhQ/1f20dtGRIfqjuZDsoi5OqzUtuSAh4b2LIlB+UI4e6VGtxO7zXDmHvuPmpOBG1Nox4tk9LnKiNsDrKHUoN1k4KAVKU+GyrNVTn/NbLsXX2JEeKmxeeC+OPSaK9/C9W4uPG6N3rUZvnkpamrqvHY8mfWHbsyOAxWw5y8yL+qqdHoTIFQKP7JePbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=f5fmLvNRtAYCy0OTRAs8fs2gYH+k2mMKjDngDnqkE9o=;
+ b=ddxHrafppPXqcymZhdxhqeD8nYmxgoEpCOeglq577U0qkoWif5+J6DPHjxyGfqR0YSXNOg4dyJQNx5xzesxghauOlC0yRqXiIavgqiwT6iERNeKyAVZJfn9qpnSOCeHi8VyWmB4YPg5gH2zFiN+Zqwz3EoxshQgZI3b/tneQ3ylxyJX5O2VKTHF6+OWgY1FTMLoMogfM+iw+0smAjbjLMLXVQVq1nv1Wf1e/zBVuRJDhHZkEL5UA1/JEYc322hJXqOAljzLia2LFUM3cj6g+MuwLAQ+IQx/A4G0XuerhGraapN8AI+7rz46Psf+NLumjBlYAl5Dh9p/0Gl/8eue4xg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from DS0PR11MB6373.namprd11.prod.outlook.com (2603:10b6:8:cb::20) by
+ SJ0PR11MB5664.namprd11.prod.outlook.com (2603:10b6:a03:37f::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Mon, 30 Jan
+ 2023 06:04:33 +0000
+Received: from DS0PR11MB6373.namprd11.prod.outlook.com
+ ([fe80::cf29:418d:2ed1:c1b9]) by DS0PR11MB6373.namprd11.prod.outlook.com
+ ([fe80::cf29:418d:2ed1:c1b9%7]) with mapi id 15.20.6043.033; Mon, 30 Jan 2023
+ 06:04:33 +0000
+From: "Wang, Wei W" <wei.w.wang@intel.com>
+To: Ackerley Tng <ackerleytng@google.com>, Chao Peng
+ <chao.p.peng@linux.intel.com>
+CC: "kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-mm@kvack.org" <linux-mm@kvack.org>, "linux-fsdevel@vger.kernel.org"
+ <linux-fsdevel@vger.kernel.org>, "linux-arch@vger.kernel.org"
+ <linux-arch@vger.kernel.org>, "linux-api@vger.kernel.org"
+ <linux-api@vger.kernel.org>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>, "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, 
+ "pbonzini@redhat.com" <pbonzini@redhat.com>, "corbet@lwn.net"
+ <corbet@lwn.net>, "Christopherson,, Sean" <seanjc@google.com>,
+ "vkuznets@redhat.com" <vkuznets@redhat.com>, "wanpengli@tencent.com"
+ <wanpengli@tencent.com>, "jmattson@google.com" <jmattson@google.com>,
+ "joro@8bytes.org" <joro@8bytes.org>, "tglx@linutronix.de"
+ <tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
+ <bp@alien8.de>, "arnd@arndb.de" <arnd@arndb.de>, "naoya.horiguchi@nec.com"
+ <naoya.horiguchi@nec.com>, "linmiaohe@huawei.com" <linmiaohe@huawei.com>,
+ "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com" <hpa@zytor.com>,
+ "hughd@google.com" <hughd@google.com>, "jlayton@kernel.org"
+ <jlayton@kernel.org>, "bfields@fieldses.org" <bfields@fieldses.org>,
+ "akpm@linux-foundation.org" <akpm@linux-foundation.org>, "shuah@kernel.org"
+ <shuah@kernel.org>, "rppt@kernel.org" <rppt@kernel.org>,
+ "steven.price@arm.com" <steven.price@arm.com>, "mail@maciej.szmigiero.name"
+ <mail@maciej.szmigiero.name>, "vbabka@suse.cz" <vbabka@suse.cz>, "Annapurve,
+ Vishal" <vannapurve@google.com>, "yu.c.zhang@linux.intel.com"
+ <yu.c.zhang@linux.intel.com>, "chao.p.peng@linux.intel.com"
+ <chao.p.peng@linux.intel.com>, "kirill.shutemov@linux.intel.com"
+ <kirill.shutemov@linux.intel.com>, "Lutomirski, Andy" <luto@kernel.org>,
+ "Nakajima, Jun" <jun.nakajima@intel.com>, "Hansen, Dave"
+ <dave.hansen@intel.com>, "ak@linux.intel.com" <ak@linux.intel.com>,
+ "david@redhat.com" <david@redhat.com>, "aarcange@redhat.com"
+ <aarcange@redhat.com>, "ddutile@redhat.com" <ddutile@redhat.com>,
+ "dhildenb@redhat.com" <dhildenb@redhat.com>, "qperret@google.com"
+ <qperret@google.com>, "tabba@google.com" <tabba@google.com>,
+ "michael.roth@amd.com" <michael.roth@amd.com>, "Hocko, Michal"
+ <mhocko@suse.com>
+Subject: RE: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Thread-Topic: [PATCH v10 1/9] mm: Introduce memfd_restricted system call to
+ create restricted user memory
+Thread-Index: AQHZNGtw73vDTEiM9EOftHR/UFkcZq62c6Rw
+Date: Mon, 30 Jan 2023 06:04:33 +0000
+Message-ID: <DS0PR11MB6373D347AFCDD2A860BC9DEEDCD39@DS0PR11MB6373.namprd11.prod.outlook.com>
+References: <20221202061347.1070246-2-chao.p.peng@linux.intel.com> (message
+ from Chao Peng on Fri,  2 Dec 2022 14:13:39 +0800)
+ <diqzzga0fv96.fsf@ackerleytng-cloudtop-sg.c.googlers.com>
+In-Reply-To: <diqzzga0fv96.fsf@ackerleytng-cloudtop-sg.c.googlers.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DS0PR11MB6373:EE_|SJ0PR11MB5664:EE_
+x-ms-office365-filtering-correlation-id: 9d29fe4e-92f8-4cd8-237e-08db0287dbdd
+x-ld-processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: T6KfdEC5uOFZ6l7wVSwDEITVH5ANUKxDq82ufZI6Ux1w8eIKik4KOhLEudCDmAt4e5+lUDa+60fAcn7mOYak8SLluaqanbcQEqua3sqnMGsi9U+fwe4sOGNv5xrs5U5EHMnSFQqesY2lK+eAC/J1jLzrpmgPjRopz+NAoxh/8geZL2v+I7jkHSMRWu39CsH/ccKuPXgmeAciL+csV74VoyXBw232fNa8w+7fESQtW3HmjDA/NQpGt/Ed4X4A2nz/x/t7m/B8Qmvb/tXlTbuMuPhX1Kd1sNY8rAgG6w1xpn2ylSKEL3YNBWgtjE22Dwth4AF0e/tjEAFRrqJEqzcDlwL0cTay25lgy+6JDQ0CX2BXsrnPx1yq8634I1/iF/Y4G/evJGMXLZWzTJTNKa+klLhZhkX7vuFVHUJWF8Dj94JoyRYuK2+5pErZMZBA/wPtPfzsGuEByqaxDH6qUXblvCuPMyX7uPMPqLDILKHsANceRbKqGWFxq4oW6M01ICzrDGvSRXzN1w+wtqL6XWma/ynSH3D1MHf6D6Cc00godr5n4y8hBskMkJIfJy0ZiczYZR2FiUWuE2Ym9gk4q3sTp8br5NJfc12sWmkstYLYw3yUV4QkFY7t5zveVDvgfndxRDEUZzyNtmU0vULdojSSehO4dAClPiFpaRein4oEtMuTp06heAYxrTb2thX2ZlJvrcqNjjYoEIFcGfcIjiEDeg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DS0PR11MB6373.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(366004)(346002)(136003)(396003)(39860400002)(376002)(451199018)(33656002)(86362001)(38070700005)(82960400001)(38100700002)(122000001)(41300700001)(8936002)(5660300002)(52536014)(54906003)(110136005)(316002)(7406005)(66946007)(64756008)(66446008)(76116006)(66556008)(66476007)(4326008)(8676002)(55016003)(2906002)(7416002)(83380400001)(7696005)(478600001)(71200400001)(53546011)(9686003)(6506007)(26005)(186003);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?QmE2WkdyYldoTkRzNG55SC8veGxPaVN2NlcyUmtJcURlTG4yVkJPTkNxdDJ6?=
+ =?utf-8?B?R0RtSnVUNGpoWGpXS3NsUVhzWHJvWDViKzR4cnFwNXZRbWsrUDdtRHMyRGZE?=
+ =?utf-8?B?cTJzcHpKYTJOelVaZ0huU2VSMksxZmJIVmJWRjJGRFo0K0lKOGNnWERIalRZ?=
+ =?utf-8?B?LzZEMDdZdVFwMWZrUUVFSjdQYTJ6L3dkTmtMMFpDY2xNRU5pNERlQUpWOHQz?=
+ =?utf-8?B?UDRHSWk3MWkyTE0wekRNQ25zK0ZCMTE5cHM3ajRZT29Oc1VrNS9hNzJqNUxB?=
+ =?utf-8?B?Wm1xRFQxZURaYkVGbkJIeWE0OVJLNFpoQzY4b09CSVRWMnZsS24veDU1ekx1?=
+ =?utf-8?B?NEw4TFUxZit2TFkybFBGdmhqQVpTK3hNWktBc0FGc05DUXh4RkwzOTFhak9B?=
+ =?utf-8?B?aXV2SXBEWnN5UWpLV0hReTBrYjhoZHl4Y0VWRHZkc3lZdVQyOFJOeDA3cGVM?=
+ =?utf-8?B?a3U3RThUc0RYRFk3c0hvT1pxQ25IMWdaYitHTGQ5MFhNSHpDTG8zREwxQ3hj?=
+ =?utf-8?B?TzQ4WFBycjRvQWUrR1NDYXZQUlRzWnk4WTdQbWd6eWhkVndvOVpEeDRxbThy?=
+ =?utf-8?B?a1FaTFFuVGQrUUg0WEttbXhlQVdkR2NjQXg1dVhleFR1Ynl6TVJ3emQwRFRX?=
+ =?utf-8?B?V0ZYa2lGSkk2Wm1Ha29PbUVCWDNhTFZCM2svd3RycHN6dEtuNkxrbGp5S1NP?=
+ =?utf-8?B?WVhUcExIZjJYSzIyQ2dtNXRLa1NoY3crbUJUNzJnSGExelMxQ05HRXk4dlRz?=
+ =?utf-8?B?TlhBNHVqZGFRd21IKzltN1FmeUVWcGhLT2JXejQ1UVFDOC9DVnpiRExpZnRy?=
+ =?utf-8?B?bmZjcmxXcHBFL1dKYUhGa2JCTUJyaXlOb3pDMHpwenMvWjViYWxYT0d2MUcv?=
+ =?utf-8?B?emxqdURKcCt1dkxtZ1lTb2FzaTV0b29kN3pmOGhxNHh6U1VFS3FWV0h0Y3RG?=
+ =?utf-8?B?NVo0Z1MwQUFGWXpQVkVkbG1zWkNoeFpMcThsWmJaakVxY1FONFlXTVZUYUk5?=
+ =?utf-8?B?RWxmSXp6MTZsYlVFbzlkN0t1c3pmVFZvQ1JqS0pTeWVkVFRITDd1b1dlV0wx?=
+ =?utf-8?B?SXB4cE5VZFBtdWpzUkl6OE5paUJpVXdtMGN3Z0NPSUhYUDQ4aG11dkNKSUs5?=
+ =?utf-8?B?d0g2QlBPVy95Z1ZXRGQwY000dkRWcTloaFBvTEthRVFLR0QvWURxUWF5RFZn?=
+ =?utf-8?B?MENLRzNaMDJVS0FUS3BybDg0UHA1emVJTkVEMXl1SnQ3RlVyL2xnK25IRzZ2?=
+ =?utf-8?B?a3dhcGluZEdvaDFSbFhuRktWb0VnMjJSTFRESlR4elNqTlM0OG0rZ1ppeVNt?=
+ =?utf-8?B?dXBMUFptaTJtVUcwQWcreEx2RENDYlF5cFp4VEdKNVpUekM3R1NhMlY2cDlH?=
+ =?utf-8?B?ZXJhaUIvV2xmQVRjRlJIV0ZxRlV5VUxmdDRNbldqdm1OeERsRkg4VlR4ck9J?=
+ =?utf-8?B?T2F2NHV0ZlY2QzV3bjJGZlBxOG5hRUtxWG92ak5NRFpjay9pdi9uMENrOU43?=
+ =?utf-8?B?eGxsbWRYYjBXVlJhUnBhUG5KT2M5dW9lKzdJNlBhMU1tQ2dhLzROdWlHTGsx?=
+ =?utf-8?B?d0IybENQWnp4Sm9pbGk1VmpINE5RdW4rL0I2b3hFN0VVanZaUGxJMHJ2M3Bn?=
+ =?utf-8?B?clBLMXVyRFpGQk9QTmRhUGlOejRENVlaMVNFcUl1VStnU2gzVzU2NDQwa2lX?=
+ =?utf-8?B?cjZUd3I1Z2pNZVFYWnlBOHBvMGM0QS9aL2FIbXlUUlJOTmlQREVyN2t4MllY?=
+ =?utf-8?B?VFY2SFFobVp1cWJ6V1B1WEprSmY2aGFrK01yQldIbGZLZXNTSE8reEtwc1hW?=
+ =?utf-8?B?UEtpb0VKYlZ0emZNcEZoN00xN3ZGaWZHNEdPanBvNW4yUnpJZ1c2Nm5YVnNa?=
+ =?utf-8?B?UkkyWmlTdCtaQWRHU3l6N0VibjhmZVMwU0ZHb3BpTElkVVhlT2pMTmpxYlZC?=
+ =?utf-8?B?RjJWZ1QwSFRxb2xCUlVhMWMwckJ2L3hQRWF4azE2ZHo2SmhpUFN3citzdHlR?=
+ =?utf-8?B?ZjliVGxKejFISENSd2szd3l4bnFEb2pMVVpxL2trSEpUdjhFODJ4b0VGeFZY?=
+ =?utf-8?B?eVpDM2pUa2NFVHhKVWxiUW51RDZtQ1VkcGNURmtlQ2VHSjZHU2kyM01UMmpO?=
+ =?utf-8?Q?MyevNh7sPAc4rsng+J/gGKDNz?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CACGkMEvwfoGbTRPP1MmL-i_mNZB+ct70qJ3eO07vpWyw7-35Cw@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6373.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9d29fe4e-92f8-4cd8-237e-08db0287dbdd
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jan 2023 06:04:33.5288 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: c28tr2qW5B0SanQn7jk0D3iUhvypzGdDsHflDEhfMOMSxfcSBaCM1rKoAjPnetanMp2vNUSvlrodv9Lzrqrrzg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5664
+X-OriginatorOrg: intel.com
+Received-SPF: pass client-ip=134.134.136.100;
+ envelope-from=wei.w.wang@intel.com; helo=mga07.intel.com
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,154 +215,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 30, 2023 at 11:53:18AM +0800, Jason Wang wrote:
-> On Mon, Jan 30, 2023 at 11:42 AM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
-> >
-> > On Mon, 30 Jan 2023 11:01:40 +0800, Jason Wang <jasowang@redhat.com> wrote:
-> > > On Sun, Jan 29, 2023 at 3:44 PM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
-> > > >
-> > > > On Sun, 29 Jan 2023 14:23:21 +0800, Jason Wang <jasowang@redhat.com> wrote:
-> > > > > On Sun, Jan 29, 2023 at 10:52 AM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
-> > > > > >
-> > > > > > Check whether it is per-queue reset state in virtio_net_flush_tx().
-> > > > > >
-> > > > > > Before per-queue reset, we need to recover async tx resources. At this
-> > > > > > time, virtio_net_flush_tx() is called, but we should not try to send
-> > > > > > new packets, so virtio_net_flush_tx() should check the current
-> > > > > > per-queue reset state.
-> > > > > >
-> > > > > > Fixes: 7dc6be52 ("virtio-net: support queue reset")
-> > > > > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1451
-> > > > > > Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> > > > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> > > > > > ---
-> > > > > >  hw/net/virtio-net.c | 3 ++-
-> > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > > >
-> > > > > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > > > > > index 3ae909041a..fba6451a50 100644
-> > > > > > --- a/hw/net/virtio-net.c
-> > > > > > +++ b/hw/net/virtio-net.c
-> > > > > > @@ -2627,7 +2627,8 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
-> > > > > >      VirtQueueElement *elem;
-> > > > > >      int32_t num_packets = 0;
-> > > > > >      int queue_index = vq2q(virtio_get_queue_index(q->tx_vq));
-> > > > > > -    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
-> > > > > > +    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) ||
-> > > > > > +        virtio_queue_reset_state(q->tx_vq)) {
-> > > > >
-> > > > > We have other places that check DRIVER_OK do we need to check queue
-> > > > > reset as well?
-> > > >
-> > > > I checked it again. I still think that the location of other checking DRIVER_OK
-> > > > does not need to check the queue reset.
-> > >
-> > > For example, if we don't disable can_receive() when the queue is
-> > > reset, it means rx may go for virtio_net_receive_rcu(). It means the
-> > > Qemu is still trying to process the traffic from the network backend
-> > > like tap which may waste cpu cycles.
-> > >
-> > > I think the correct way is to return false when the queue is reset in
-> > > can_receive(), then the backend poll will be disabled (e.g TAP). When
-> > > the queue is enabled again, qemu_flush_queued_packets() will wake up
-> > > the backend polling.
-> > >
-> > > Having had time to check other places but it would be better to
-> > > mention why it doesn't need a check in the changelog.
-> >
-> >
-> > static bool virtio_net_can_receive(NetClientState *nc)
-> > {
-> >     VirtIONet *n = qemu_get_nic_opaque(nc);
-> >     VirtIODevice *vdev = VIRTIO_DEVICE(n);
-> >     VirtIONetQueue *q = virtio_net_get_subqueue(nc);
-> >
-> >     if (!vdev->vm_running) {
-> >         return false;
-> >     }
-> >
-> >     if (nc->queue_index >= n->curr_queue_pairs) {
-> >         return false;
-> >     }
-> >
-> >     if (!virtio_queue_ready(q->rx_vq) ||
-> >         !(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
-> >         return false;
-> >     }
-> >
-> >     return true;
-> > }
-> >
-> > int virtio_queue_ready(VirtQueue *vq)
-> > {
-> >     return vq->vring.avail != 0;
-> > }
-> >
-> >
-> > static void __virtio_queue_reset(VirtIODevice *vdev, uint32_t i)
-> > {
-> >     vdev->vq[i].vring.desc = 0;
-> >     vdev->vq[i].vring.avail = 0;
-> >     vdev->vq[i].vring.used = 0;
-> >     vdev->vq[i].last_avail_idx = 0;
-> >     vdev->vq[i].shadow_avail_idx = 0;
-> >     vdev->vq[i].used_idx = 0;
-> >     vdev->vq[i].last_avail_wrap_counter = true;
-> >     vdev->vq[i].shadow_avail_wrap_counter = true;
-> >     vdev->vq[i].used_wrap_counter = true;
-> >     virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
-> >     vdev->vq[i].signalled_used = 0;
-> >     vdev->vq[i].signalled_used_valid = false;
-> >     vdev->vq[i].notification = true;
-> >     vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
-> >     vdev->vq[i].inuse = 0;
-> >     virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
-> > }
-> >
-> > In the implementation of Per-Queue Reset, for RX, we stop RX by setting vdev->vq[i].vring.avail to 0.
-> 
-> Ok, but this is kind of fragile (especially when vIOMMU is enabled).
-> I'd add an explicit check for reset there.
-
-It's not great in that spec says avail 0 is actually legal.
-But I don't really want to see more and more checks.
-If we are doing cleanups, the right way is probably a new "live" flag
-that transports can set correctly from the combination of
-DRIVER_OK, desc, kick, queue_enable, queue_reset and so on.
-
-> (probably on top).
-> 
-> Thanks
-> 
-> > Then callback can_receive will return False.
-> >
-> >
-> > Thanks.
-> >
-> >
-> > >
-> > > Thanks
-> > >
-> > > >
-> > > > Thanks.
-> > > >
-> > > >
-> > > > >
-> > > > > E.g:
-> > > > > virtio_net_can_receive()
-> > > > > virtio_net_tx_{timer|bh}()
-> > > > >
-> > > > > Thanks
-> > > > >
-> > > > > >          return num_packets;
-> > > > > >      }
-> > > > > >
-> > > > > > --
-> > > > > > 2.32.0.3.g01195cf9f
-> > > > > >
-> > > > >
-> > > >
-> > >
-> >
-
+T24gTW9uZGF5LCBKYW51YXJ5IDMwLCAyMDIzIDE6MjYgUE0sIEFja2VybGV5IFRuZyB3cm90ZToN
+Cj4gDQo+ID4gK3N0YXRpYyBpbnQgcmVzdHJpY3RlZG1lbV9nZXRhdHRyKHN0cnVjdCB1c2VyX25h
+bWVzcGFjZSAqbW50X3VzZXJucywNCj4gPiArCQkJCSBjb25zdCBzdHJ1Y3QgcGF0aCAqcGF0aCwg
+c3RydWN0IGtzdGF0ICpzdGF0LA0KPiA+ICsJCQkJIHUzMiByZXF1ZXN0X21hc2ssIHVuc2lnbmVk
+IGludCBxdWVyeV9mbGFncykNCj4gew0KPiA+ICsJc3RydWN0IGlub2RlICppbm9kZSA9IGRfaW5v
+ZGUocGF0aC0+ZGVudHJ5KTsNCj4gPiArCXN0cnVjdCByZXN0cmljdGVkbWVtX2RhdGEgKmRhdGEg
+PSBpbm9kZS0+aV9tYXBwaW5nLQ0KPiA+cHJpdmF0ZV9kYXRhOw0KPiA+ICsJc3RydWN0IGZpbGUg
+Km1lbWZkID0gZGF0YS0+bWVtZmQ7DQo+ID4gKw0KPiA+ICsJcmV0dXJuIG1lbWZkLT5mX2lub2Rl
+LT5pX29wLT5nZXRhdHRyKG1udF91c2VybnMsIHBhdGgsIHN0YXQsDQo+ID4gKwkJCQkJICAgICBy
+ZXF1ZXN0X21hc2ssIHF1ZXJ5X2ZsYWdzKTsNCj4gDQo+IEluc3RlYWQgb2YgY2FsbGluZyBzaG1l
+bSdzIGdldGF0dHIoKSB3aXRoIHBhdGgsIHdlIHNob3VsZCBiZSB1c2luZyB0aGUgdGhlDQo+IG1l
+bWZkJ3MgcGF0aC4NCj4gDQo+IE90aGVyd2lzZSwgc2htZW0ncyBnZXRhdHRyKCkgd2lsbCB1c2Ug
+cmVzdHJpY3RlZG1lbSdzIGlub2RlIGluc3RlYWQgb2YNCj4gc2htZW0ncyBpbm9kZS4gVGhlIHBy
+aXZhdGUgZmllbGRzIHdpbGwgYmUgb2YgdGhlIHdyb25nIHR5cGUsIGFuZCB0aGUgaG9zdCB3aWxs
+DQo+IGNyYXNoIHdoZW4gc2htZW1faXNfaHVnZSgpIGRvZXMgU0hNRU1fU0IoaW5vZGUtPmlfc2Ip
+LT5odWdlKSwgc2luY2UNCj4gaW5vZGUtPmlfc2ItPnNfZnNfaW5mbyBpcyBOVUxMIGZvciB0aGUg
+cmVzdHJpY3RlZG1lbSdzIHN1cGVyYmxvY2suDQo+IA0KPiBIZXJlJ3MgdGhlIHBhdGNoOg0KPiAN
+Cj4gZGlmZiAtLWdpdCBhL21tL3Jlc3RyaWN0ZWRtZW0uYyBiL21tL3Jlc3RyaWN0ZWRtZW0uYyBp
+bmRleA0KPiAzNzE5MWNkOWVlZDEuLjA2YjcyZDU5M2JkOCAxMDA2NDQNCj4gLS0tIGEvbW0vcmVz
+dHJpY3RlZG1lbS5jDQo+ICsrKyBiL21tL3Jlc3RyaWN0ZWRtZW0uYw0KPiBAQCAtODQsNyArODQs
+NyBAQCBzdGF0aWMgaW50IHJlc3RyaWN0ZWRtZW1fZ2V0YXR0cihzdHJ1Y3QgdXNlcl9uYW1lc3Bh
+Y2UNCj4gKm1udF91c2VybnMsDQo+ICAgCXN0cnVjdCByZXN0cmljdGVkbWVtICpybSA9IGlub2Rl
+LT5pX21hcHBpbmctPnByaXZhdGVfZGF0YTsNCj4gICAJc3RydWN0IGZpbGUgKm1lbWZkID0gcm0t
+Pm1lbWZkOw0KPiANCj4gLQlyZXR1cm4gbWVtZmQtPmZfaW5vZGUtPmlfb3AtPmdldGF0dHIobW50
+X3VzZXJucywgcGF0aCwgc3RhdCwNCj4gKwlyZXR1cm4gbWVtZmQtPmZfaW5vZGUtPmlfb3AtPmdl
+dGF0dHIobW50X3VzZXJucywgJm1lbWZkLQ0KPiA+Zl9wYXRoLCBzdGF0LA0KPiAgIAkJCQkJICAg
+ICByZXF1ZXN0X21hc2ssIHF1ZXJ5X2ZsYWdzKTsNCj4gICB9DQo+IA0KDQpOaWNlIGNhdGNoLiBJ
+IGFsc28gZW5jb3VudGVyZWQgdGhpcyBpc3N1ZSBkdXJpbmcgbXkgd29yay4NClRoZSBmaXggY2Fu
+IGZ1cnRoZXIgYmUgZW5mb3JjZWQgYnkgc2htZW06DQoNCmluZGV4IGMzMDE0ODdiZTVmYi4uZDg1
+MGMwMTkwMzU5IDEwMDY0NA0KLS0tIGEvbW0vc2htZW0uYw0KKysrIGIvbW0vc2htZW0uYw0KQEAg
+LTQ3Miw4ICs0NzIsOSBAQCBib29sIHNobWVtX2lzX2h1Z2Uoc3RydWN0IHZtX2FyZWFfc3RydWN0
+ICp2bWEsIHN0cnVjdCBpbm9kZSAqaW5vZGUsDQogICAgICAgICAgICAgICAgICAgcGdvZmZfdCBp
+bmRleCwgYm9vbCBzaG1lbV9odWdlX2ZvcmNlKQ0KIHsNCiAgICAgICAgbG9mZl90IGlfc2l6ZTsN
+CisgICAgICAgc3RydWN0IHNobWVtX3NiX2luZm8gKnNiaW5mbyA9IFNITUVNX1NCKGlub2RlLT5p
+X3NiKTsNCg0KLSAgICAgICBpZiAoIVNfSVNSRUcoaW5vZGUtPmlfbW9kZSkpDQorICAgICAgIGlm
+ICghc2JpbmZvIHx8ICFTX0lTUkVHKGlub2RlLT5pX21vZGUpKQ0KICAgICAgICAgICAgICAgIHJl
+dHVybiBmYWxzZTsNCiAgICAgICAgaWYgKHZtYSAmJiAoKHZtYS0+dm1fZmxhZ3MgJiBWTV9OT0hV
+R0VQQUdFKSB8fA0KICAgICAgICAgICAgdGVzdF9iaXQoTU1GX0RJU0FCTEVfVEhQLCAmdm1hLT52
+bV9tbS0+ZmxhZ3MpKSkNCkBAIC00ODUsNyArNDg2LDcgQEAgYm9vbCBzaG1lbV9pc19odWdlKHN0
+cnVjdCB2bV9hcmVhX3N0cnVjdCAqdm1hLCBzdHJ1Y3QgaW5vZGUgKmlub2RlLA0KICAgICAgICBp
+ZiAoc2htZW1faHVnZSA9PSBTSE1FTV9IVUdFX0RFTlkpDQogICAgICAgICAgICAgICAgcmV0dXJu
+IGZhbHNlOw0KDQotICAgICAgIHN3aXRjaCAoU0hNRU1fU0IoaW5vZGUtPmlfc2IpLT5odWdlKSB7
+DQorICAgICAgIHN3aXRjaCAoc2JpbmZvLT5odWdlKSB7DQogICAgICAgIGNhc2UgU0hNRU1fSFVH
+RV9BTFdBWVM6DQogICAgICAgICAgICAgICAgcmV0dXJuIHRydWU7DQogICAgICAgIGNhc2UgU0hN
+RU1fSFVHRV9XSVRISU5fU0laRToNCg==
 
