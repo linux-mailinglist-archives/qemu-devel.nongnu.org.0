@@ -2,81 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9028682016
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 00:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D00CF682050
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 01:02:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMdwj-0000EI-RY; Mon, 30 Jan 2023 18:52:21 -0500
+	id 1pMe5Y-0003gS-KP; Mon, 30 Jan 2023 19:01:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pMdwh-0000DQ-3u
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 18:52:19 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pMdwf-0004jU-Cx
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 18:52:18 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- c10-20020a05600c0a4a00b003db0636ff84so9442306wmq.0
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 15:52:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=PFYPT8pxjkiEGn89vVqOPspZJHrSaq/X0S2aH8JYi/E=;
- b=mp865CFSfWmYCRtwtzprU7EhXVLcx5XrfK/6Tr2Qc2KkmQN3wGsIFHGj1nvtLuMgxT
- 0k/o2zMSXaKhpqI5Xv3VopxRYiABtngTOinV6K8R54IY8HqTjloPGJygQyNNkGR2XrSO
- w/Fak+tmGB3UP5Wj52vZCnNoT9HbiVQhIpXflJhX8vS91Rv1ivAw+ZItT89oZLViIkNj
- 6DDTom8Hwpyxm6ELrBwhIbBM9suJvjRYR0u7z2vhbxJAVtRf2TbSpJSfjosiQdcb4O0k
- PbMWPONh18P49k4/i160c1UdtEU2fGkBLhV/TnG0ZxGSsOltzTOEyEmKcE0pGHChOoi/
- jp0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=PFYPT8pxjkiEGn89vVqOPspZJHrSaq/X0S2aH8JYi/E=;
- b=2IXM+p5SubNtWx9HOBQSORnbJ6HaVE3x3G4V1CZrWgS9bUnflk93f0UAvse+96L5Ch
- gu32PV/5wIktrZFMYoWOhrv+Gv0jW8BQP3LmS+MarQhaSoqZO8ao+zjTV1abASyrxLvB
- jxRxnNf3fvdrnT7NuSnn+eBmJ68yKGCnLP8RDzkQqnUthYkCWdSfqte4MZ/WRJrc46tX
- 7qg63gvvJmXXREve8E8IUS2kYooY1ejTltJj7S6KtFAYF6ngiOi/5mPUGGgJwXPhPCHQ
- 5FigEjTd3CuYvegwnAXuFn5v4j3FxlXfT0/XErD8ds1csTt0k6prjEgqUEmMMSFNyHJO
- IOeg==
-X-Gm-Message-State: AFqh2kq/rJ1wR1606roY771dsVWLXTtbDTOSMjXwiqZm1l9/YCfEHUXt
- KcdXvMInqdKfrOFlz1QcmiRm+Q==
-X-Google-Smtp-Source: AMrXdXsAqzk3l0Q/3V911pCN8LMUV+ZIOkP21orz8orWNjULe+UHm8hjwyn0n6vYUoJ1Y+EaZ0o4zQ==
-X-Received: by 2002:a05:600c:310e:b0:3db:fc3:6de4 with SMTP id
- g14-20020a05600c310e00b003db0fc36de4mr48556523wmo.35.1675122735081; 
- Mon, 30 Jan 2023 15:52:15 -0800 (PST)
-Received: from [192.168.1.4] ([41.141.105.34])
- by smtp.gmail.com with ESMTPSA id
- v14-20020a1cf70e000000b003db0b0cc2afsm17980263wmh.30.2023.01.30.15.52.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jan 2023 15:52:14 -0800 (PST)
-Message-ID: <1d1c31e3-3066-1a0d-6ff6-049234b77e5c@linaro.org>
-Date: Tue, 31 Jan 2023 00:52:12 +0100
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pMe5T-0003g6-Lr
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 19:01:24 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pMe5R-0006pj-1W
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 19:01:23 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id CBD50746E58;
+ Tue, 31 Jan 2023 00:58:47 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 75E4A746346; Tue, 31 Jan 2023 00:58:47 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 74425745712;
+ Tue, 31 Jan 2023 00:58:47 +0100 (CET)
+Date: Tue, 31 Jan 2023 00:58:47 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Akihiko Odaki <akihiko.odaki@gmail.com>
+cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org, 
+ Gerd Hoffmann <kraxel@redhat.com>, Joelle van Dyne <j@getutm.app>
+Subject: Re: Display update issue on M1 Macs
+In-Reply-To: <b0c72670-b6f9-0f63-9bb1-1a1bf27ffe8e@gmail.com>
+Message-ID: <b8403b65-7c55-20fb-1ee5-730e4eb9833c@eik.bme.hu>
+References: <5921db6f-0760-c380-7af2-5710a0cd479d@eik.bme.hu>
+ <3bad40aa-7920-0484-ca23-b9d424ad56f6@eik.bme.hu>
+ <28025639-840a-1e19-01d5-c817235ca423@gmail.com>
+ <08497582-3b11-1311-48d6-1e2db8c93559@eik.bme.hu>
+ <7380ee42-8b39-8c5d-ba60-652d411c49b1@gmail.com>
+ <5d385b04-ea56-5e30-9bcd-82c0b63f2dd4@eik.bme.hu>
+ <b0c72670-b6f9-0f63-9bb1-1a1bf27ffe8e@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH 15/27] tcg: Change default temp lifetime to TEMP_TB
-Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, cota@braap.org
-References: <20230130205935.1157347-1-richard.henderson@linaro.org>
- <20230130205935.1157347-17-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230130205935.1157347-17-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x332.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,16 +66,168 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 30/1/23 21:59, Richard Henderson wrote:
-> Guest front-ends now get temps that span the lifetime of
-> the translation block by default, which avoids accidentally
-> using the temp across branches and invalidating the data.
-> 
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   include/tcg/tcg.h | 8 ++++----
->   1 file changed, 4 insertions(+), 4 deletions(-)
+On Sat, 28 Jan 2023, Akihiko Odaki wrote:
+> On 2023/01/23 8:28, BALATON Zoltan wrote:
+>> On Thu, 19 Jan 2023, Akihiko Odaki wrote:
+>>> On 2023/01/15 3:11, BALATON Zoltan wrote:
+>>>> On Sat, 14 Jan 2023, Akihiko Odaki wrote:
+>>>>> On 2023/01/13 22:43, BALATON Zoltan wrote:
+>>>>>> On Thu, 5 Jan 2023, BALATON Zoltan wrote:
+>>>>>>> Hello,
+>>>>>>> 
+>>>>>>> I got reports from several users trying to run AmigaOS4 on sam460ex on 
+>>>>>>> Apple silicon Macs that they get missing graphics that I can't 
+>>>>>>> reproduce on x86_64. With help from the users who get the problem 
+>>>>>>> we've narrowed it down to the following:
+>>>>>>> 
+>>>>>>> It looks like that data written to the sm501's ram in 
+>>>>>>> qemu/hw/display/sm501.c::sm501_2d_operation() is then not seen from 
+>>>>>>> sm501_update_display() in the same file. The sm501_2d_operation() 
+>>>>>>> function is called when the guest accesses the emulated card so it may 
+>>>>>>> run in a different thread than sm501_update_display() which is called 
+>>>>>>> by the ui backend but I'm not sure how QEMU calls these. Is device 
+>>>>>>> code running in iothread and display update in main thread? The 
+>>>>>>> problem is also independent of the display backend and was reproduced 
+>>>>>>> with both -display cocoa and -display sdl.
+>>>>>>> 
+>>>>>>> We have confirmed it's not the pixman routines that 
+>>>>>>> sm501_2d_operation() uses as the same issue is seen also with QEMU 4.x 
+>>>>>>> where pixman wasn't used and with all versions up to 7.2 so it's also 
+>>>>>>> not some bisectable change in QEMU. It also happens with 
+>>>>>>> --enable-debug so it doesn't seem to be related to optimisation either 
+>>>>>>> and I don't get it on x86_64 but even x86_64 QEMU builds run on Apple 
+>>>>>>> M1 with Rosetta 2 show the problem. It also only seems to affect 
+>>>>>>> graphics written from sm501_2d_operation() which AmigaOS4 uses 
+>>>>>>> extensively but other OSes don't and just render graphics with the 
+>>>>>>> vcpu which work without problem also on the M1 Macs that show this 
+>>>>>>> problem with AmigaOS4. Theoretically this could be some missing 
+>>>>>>> syncronisation which is something ARM and PPC may need while x86 
+>>>>>>> doesn't but I don't know if this is really the reason and if so where 
+>>>>>>> and how to fix it). Any idea what may cause this and what could be a 
+>>>>>>> fix to try?
+>>>>>> 
+>>>>>> Any idea anyone? At least some explanation if the above is plausible or 
+>>>>>> if there's an option to disable the iothread and run everyting in a 
+>>>>>> single thread to verify the theory could help. I've got reports from at 
+>>>>>> least 3 people getting this problem but I can't do much to fix it 
+>>>>>> without some help.
+>>>>>> 
+>>>>>>> (Info on how to run it is here:
+>>>>>>> http://zero.eik.bme.hu/~balaton/qemu/amiga/#amigaos
+>>>>>>> but AmigaOS4 is not freely distributable so it's a bit hard to 
+>>>>>>> reproduce. Some Linux X servers that support sm501/sm502 may also use 
+>>>>>>> the card's 2d engine but I don't know about any live CDs that readily 
+>>>>>>> run on sam460ex.)
+>>>>>>> 
+>>>>>>> Thank you,
+>>>>>>> BALATON Zoltan
+>>>>> 
+>>>>> Sorry, I missed the email.
+>>>>> 
+>>>>> Indeed the ui backend should call sm501_update_display() in the main 
+>>>>> thread, which should be different from the thread calling 
+>>>>> sm501_2d_operation(). However, if I understand it correctly, both of the 
+>>>>> functions should be called with iothread lock held so there should be no 
+>>>>> race condition in theory.
+>>>>> 
+>>>>> But there is an exception: memory_region_snapshot_and_clear_dirty() 
+>>>>> releases iothread lock, and that broke raspi3b display device:
+>>>>> https://lore.kernel.org/qemu-devel/CAFEAcA9odnPo2LPip295Uztri7JfoVnQbkJ=Wn+k8dQneB_ynQ@mail.gmail.com/T/
+>>>>> 
+>>>>> It is unexpected that gfx_update() callback releases iothread lock so it 
+>>>>> may break things in peculiar ways.
+>>>>> 
+>>>>> Peter, is there any change in the situation regarding the race 
+>>>>> introduced by memory_region_snapshot_and_clear_dirty()?
+>>>>> 
+>>>>> For now, to workaround the issue, I think you can create another mutex 
+>>>>> and make the entire sm501_2d_engine_write() and sm501_update_display() 
+>>>>> critical sections.
+>>>> 
+>>>> Interesting thread but not sure it's the same problem so this workaround 
+>>>> may not be enough to fix my issue. Here's a video posted by one of the 
+>>>> people who reported it showing the problem on M1 Mac:
+>>>> 
+>>>> https://www.youtube.com/watch?v=FDqoNbp6PQs
+>>>> 
+>>>> and here's how it looks like on other machines:
+>>>> 
+>>>> https://www.youtube.com/watch?v=ML7-F4HNFKQ
+>>>> 
+>>>> There are also videos showing it running on RPi 4 and G5 Mac without this 
+>>>> issue so it seems to only happen on Apple Silicon M1 Macs. What's strange 
+>>>> is that graphics elements are not just delayed which I think should 
+>>>> happen with missing thread synchronisation where the update callback 
+>>>> would miss some pixels rendered during it's running but subsequent update 
+>>>> callbacks would eventually draw those, woudn't they? Also setting 
+>>>> full_update to 1 in sm501_update_display() callback to disable dirty 
+>>>> tracking does not fix the problem. So it looks like as if 
+>>>> sm501_2d_operation() running on one CPU core only writes data to the 
+>>>> local cache of that core which sm501_update_display() running on other 
+>>>> core can't see, so maybe some cache synchronisation is needed in 
+>>>> memory_region_set_dirty() or if that's already there maybe I should call 
+>>>> it for all changes not only those in the visible display area? I'm still 
+>>>> not sure I understand the problem and don't know what could be a fix for 
+>>>> it so anything to test to identify the issue better might also bring us 
+>>>> closer to a solution.
+>>>> 
+>>>> Regards,
+>>>> BALATON Zoltan
+>>> 
+>>> If you set full_update to 1, you may also comment out 
+>>> memory_region_snapshot_and_clear_dirty() and 
+>>> memory_region_snapshot_get_dirty() to avoid the iothread mutex being 
+>>> unlocked. The iothread mutex should ensure cache coherency as well.
+>>> 
+>>> But as you say, it's weird that the rendered result is not just delayed 
+>>> but missed. That may imply other possibilities (e.g., the results are 
+>>> overwritten by someone else). If the problem persists after commenting out 
+>>> memory_region_snapshot_and_clear_dirty() and 
+>>> memory_region_snapshot_get_dirty(), I think you can assume the 
+>>> inter-thread coherency between sm501_2d_operation() and 
+>>> sm501_update_display() is not causing the problem.
+>> 
+>> I've asked people who reported and can reproduce it to test this but it did 
+>> not change anything so confirmed it's not that race condition but looks 
+>> more like some cache inconsistency maybe. Any other ideas?
+>> 
+>> Regards,
+>> BALATON Zoltan
+>
+> I can come up with two important differences between x86 and Arm which can 
+> affect the execution of QEMU:
+> 1. Memory model. Arm uses a memory model more relaxed than x86 so it is more 
+> sensitive for synchronization failures among threads.
+> 2. Different instructions. TCG uses JIT so differences in instructions 
+> matter.
+>
+> We should be able to exclude 1) as a potential cause of the problem. iothread 
+> mutex should take care of race condition and even cache coherency problem; 
+> mutex includes memory barrier functionality.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Where is this barrier in QEMU code? Does this also ensure cache coherency 
+between different cores or only memory sync in one core? From the testing 
+I suspect it's probably not becuase of the weak ordering of ARM but 
+something to do with different threads writing and reading the memory 
+area. Is there a way to disable separate vcpu thread and run everything in 
+a single thread to verify this theory? (We only have one vcpu so it's not 
+an MTTCG issue but something between the vcpu and main thread maybe.)
 
+> For difference 2), you may try to use TCI. You can find details of TCI in 
+> tcg/tci/README.
+
+This was tested and also with TCI got the same results just much slower.
+
+> The common sense tells, however, the memory model is usually the cause of the 
+> problem when you see behavioral differences between x86 and Arm, and TCG 
+> should work fine with both of x86 and Arm as they should have been tested 
+> well.
+
+It's not only between x86 and ARM but also between different ARM CPUs it 
+seems as there are videos of this test case running on Raspberry Pi 4 but 
+all QEMU versions failed on Apple M1 so maybe it's something specific to 
+that CPU.
+
+Regards,
+BALATON Zoltan
 
