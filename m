@@ -2,74 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26FA7681B45
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:20:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC755681B81
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:29:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMadX-0003ZX-Ij; Mon, 30 Jan 2023 15:20:19 -0500
+	id 1pMadf-00049X-DI; Mon, 30 Jan 2023 15:20:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMadA-0002oX-Em
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:19:57 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMadE-0003Ah-RO
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:00 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMad9-0006uG-1B
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:19:56 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMadD-0006uU-3P
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675109994;
+ s=mimecast20190719; t=1675109998;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=yoc4PeYKa4uMfa8YZNqso6vpVCYwL/ByH6Sg8tE0xSo=;
- b=bVDiv1pknjd97q3jCSPyM4C+do809T3GWf17yLcLGu3kJuPYwTyRx/LTTFdktxvAXQFMnq
- 054X4p7zG8Giec84zCXe2XsLjc/acwM5phc3tuDpNYqh+82EVV1W//PzXQBM8yUiSCTW6A
- FCjfO3Yifm5nFrpeulzMOCJYiSmmbTo=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=2FzpFZUOzYqsVB74DHdam1waxerdjBb53bUIdTG9m9w=;
+ b=JtiE0/rwD+tX04HPUZmIxuyMKCWNVVSkq3eh0lH2hP1wRVQ8MvJ33sgPtUzn8XlB9wQl4S
+ /KGslO8Sb3FSVcyVUBtFdOXm5XzicNn9+8bWrmAYMCb68W+rzWTC5v2VDQtgXYmJqdxUs/
+ bdeiU3oClzOlgvNRotbDiNO3qTsIh/k=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-650-idkVzVS6Mlmm7MJ2wUrL8A-1; Mon, 30 Jan 2023 15:19:53 -0500
-X-MC-Unique: idkVzVS6Mlmm7MJ2wUrL8A-1
-Received: by mail-ej1-f71.google.com with SMTP id
- kt9-20020a1709079d0900b00877f4df5aceso8155024ejc.21
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:19:53 -0800 (PST)
+ us-mta-507-EYc_zOWhPcmvOfMHKF8xhw-1; Mon, 30 Jan 2023 15:19:56 -0500
+X-MC-Unique: EYc_zOWhPcmvOfMHKF8xhw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ z6-20020aa7cf86000000b0049f95687b88so8965509edx.4
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:19:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=yoc4PeYKa4uMfa8YZNqso6vpVCYwL/ByH6Sg8tE0xSo=;
- b=YBBqk30HRi0W4ydYH4AHU75o2/TXh7fqC0EJ/EbDK5+Rje2Z3O0lBZ5kvPvIX67i0C
- /5SIwF+vnNb5srw3FiMN9vaJEv2Ckl+mSqXjBEgdB9TiXg2OXsaCZNI7SKyrF87Urgg0
- 2ye31r/Yfs5ln4eFndwV/g7gU6umpseqDwRGwW7z2eq82unKj9Ovc1sUN9M4+5YDJM7g
- uH3KzPugCyDD+JXgRBpcYk35jsPCGiE4bvxxE+1HXwz1xlVByWxj/+/Y9jmwxp29JWOU
- OSud9nOHNj7MRVujHF8NPAjjnag9uqcHZRE2iU//V1IOlO5G4rEJNzhWkdh9Rn013ICa
- lkFg==
-X-Gm-Message-State: AO0yUKVdBV8jl0+XNrqEIS1RrVGZmKlufFtFQuylf4Ydb0K4JQgUeFz8
- sGqZ2wlKn7hzipQyIXblt9kS02JGntHhGIXr24VeT4bpyC5Di2tbx06gw197SFIkw1cEkNju6xs
- ujnqDSkJRUQAl97eTzyIoPCu/hCKXontTVoi6LSznNt8clqRJ1smDvL+VHoYg
-X-Received: by 2002:a17:906:9719:b0:878:79a4:26b6 with SMTP id
- k25-20020a170906971900b0087879a426b6mr16828646ejx.74.1675109991615; 
- Mon, 30 Jan 2023 12:19:51 -0800 (PST)
-X-Google-Smtp-Source: AK7set9E4axD0UDYEN22x41qx7ylBD5SIw2Zg80Wczr0WFT7BL40zz+c4NHY5IcGpmGhrpAFxbDtig==
-X-Received: by 2002:a17:906:9719:b0:878:79a4:26b6 with SMTP id
- k25-20020a170906971900b0087879a426b6mr16828623ejx.74.1675109991392; 
- Mon, 30 Jan 2023 12:19:51 -0800 (PST)
+ bh=2FzpFZUOzYqsVB74DHdam1waxerdjBb53bUIdTG9m9w=;
+ b=a9x3S8AOYE/oVfXIwvnroAkSYSC+N59fucm5fAT7mJfH9HRQeSVyRL+uCbB6MX1V86
+ hoXWUzvNvpDh7C0ExA962CFdQt5KGBswXjzBsgq3LKXraT+76TXwi4u/E7NcPP/wjAIu
+ Qxrmc9J2fO6REKp9oyhzF7qCxUd/WromfBsVt/lx+u9OOm4JrCyRxeYjiSrS4FCZItUg
+ uR2tqaPiwzUc3eJrrdnFZVOPAVHFkl5uwAsOgrGfPeFLGsMnDc96Z8RkWjxQQgcOReu6
+ KtleHPhm6VJOOYAem4N+WCW/ARTfbfnnLeOFMfcywobLmWCYery7Koim1YI22jl6sOQR
+ VWIA==
+X-Gm-Message-State: AFqh2kpyHmOet6bw7vNb9u/Ua0KjQ918p2hZZhaaz06LRJ0Z32CdBLHU
+ SIcfY9klDfcXh8j/1HHgI4gV4LDs/B/B05E0+R8uY+fiXa5/jnw7SJ1oDjxNMRb0LaRZXqYk6gw
+ tfrIvLzPC6fwPIlPLD/9EQojCITTo3Wsd9gsLtDzE74Ls3I9n43TS1ZLDx7oa
+X-Received: by 2002:a17:907:6c16:b0:86f:5636:4712 with SMTP id
+ rl22-20020a1709076c1600b0086f56364712mr61330745ejc.7.1675109995051; 
+ Mon, 30 Jan 2023 12:19:55 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtcb+gMHXuYqkEVaagPeASiXT0mnjYGlzbWGHl29MGvIiwJJKav2MOHKqMFj2yTwJxtWvtwWw==
+X-Received: by 2002:a17:907:6c16:b0:86f:5636:4712 with SMTP id
+ rl22-20020a1709076c1600b0086f56364712mr61330722ejc.7.1675109994734; 
+ Mon, 30 Jan 2023 12:19:54 -0800 (PST)
 Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
- d1-20020aa7d681000000b0049be07c9ff5sm7343218edr.4.2023.01.30.12.19.49
+ p2-20020a1709060e8200b008786675d086sm7226106ejf.29.2023.01.30.12.19.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 12:19:50 -0800 (PST)
-Date: Mon, 30 Jan 2023 15:19:48 -0500
+ Mon, 30 Jan 2023 12:19:54 -0800 (PST)
+Date: Mon, 30 Jan 2023 15:19:51 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Aurelien Jarno <aurelien@aurel32.net>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 20/56] pcihp: piix4: do not call acpi_pcihp_reset() when ACPI
- PCI hotplug is disabled
-Message-ID: <20230130201810.11518-21-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL 21/56] pci: acpihp: assign BSEL only to coldplugged bridges
+Message-ID: <20230130201810.11518-22-mst@redhat.com>
 References: <20230130201810.11518-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -77,7 +73,7 @@ Content-Disposition: inline
 In-Reply-To: <20230130201810.11518-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,53 +99,124 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-piix4_pm_reset() is calling acpi_pcihp_reset() when ACPI PCI hotplug
-is disabled, which leads to assigning BSEL properties to bridges on path
-   acpi_set_bsel()
-       ...
-       if (qbus_is_hotpluggable(BUS(bus))) {
-          // above happens to be true by default (though it's SHPC hotplug handler)
-          // set BSEL
-       }
+ACPI PCI hotplug would broken after bridge hotplug and then migration
+if hotplugged bridge were specified on target at command line.
+Currently it's not possible since, 'hotplugged' property was made
+read-only for some time now.
 
-At the moment the issue is masked by the fact that we use not only BSEL,
-to decide if we should generated hoplug AML but also pcihp_bridge_en knob.
-However the later patches will drop dependency on pcihp_bridge_en,
-and use only BSEL exclusively to decide if hotplug AML for slots should be built,
-which exposes issue.
+The issue would happen due to BSEL being assigned to all bridges
+during 1st 'reset':
+ source seq:
+   1. start 'pc' machine => sets BSEL to 0 on pci.0 (host-bridge)
+   2. hotplug bridge, no bsel is assigned (so far is ok)
+ target seq:
+   1. start 'pc' machine with
+        -S -device pci-bridge,id=hp_br,hotplugged=on
+      BSEL gets assigned to as follows
+        hp_br: 0
+        pci.0: 1
+as result hotplug requests with migrated AML generated on source
+would be misdirected to 'hp_br' instead of intended pci.0
 
-We should not ever call acpi_pcihp_reset() if ACPI PCI hotplug is disabled,
-make it so.
+While it's not issue at the moment, it's based on implicit assumptions
+ * 'hotplugged' property is read-only
+ * 1st reset happens before QEMU drops into monitor mode
+   which lets add hotplugged on source bridges as hotplugged ones
+   (anything added at that stage counts as hotplugged
+    (yet another assumption))
 
-PS:
- * Q35 does the right thing (i.e. it calls acpi_pcihp_reset only when pcihp is enabled)
- * the issue also makes acpi_pcihp_update() logic run on SHPC enabled bridges,
-   which seems to be harmless
+All of it looks too fragile to me, so lets restrict BSEL only
+to cold-plugged bridges explicitly.
 
-Fixes: 3d7e78aa777 ("Introduce a new flag for i440fx to disable PCI hotplug on the root bus")
+Migration wise it shouldn't break anything since assignment order
+stays the same:
+  * user can't specify 'hotplugged=on' on CLI
+  * user can't specify 'hotplugged=off' at monitor stage or later
+on older QEMU versions where 'hotplugged' is RW, hotplug is broken
+after migration anyways and we cannot do anything to fix that.
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230112140312.3096331-11-imammedo@redhat.com>
+Message-Id: <20230112140312.3096331-12-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/piix4.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ hw/acpi/pcihp.c | 35 ++++++++++++++++++++++-------------
+ 1 file changed, 22 insertions(+), 13 deletions(-)
 
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 2ab4930f11..724294b378 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -304,7 +304,9 @@ static void piix4_pm_reset(DeviceState *dev)
-     acpi_update_sci(&s->ar, s->irq);
- 
-     pm_io_space_update(s);
--    acpi_pcihp_reset(&s->acpi_pci_hotplug, !s->use_acpi_root_pci_hotplug);
-+    if (s->use_acpi_hotplug_bridge || s->use_acpi_root_pci_hotplug) {
-+        acpi_pcihp_reset(&s->acpi_pci_hotplug, !s->use_acpi_root_pci_hotplug);
-+    }
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 99a898d9ae..5dc7377411 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -85,31 +85,40 @@ static int acpi_pcihp_get_bsel(PCIBus *bus)
+     }
  }
  
- static void piix4_pm_powerdown_req(Notifier *n, void *opaque)
+-/* Assign BSEL property to all buses.  In the future, this can be changed
+- * to only assign to buses that support hotplug.
+- */
++typedef struct {
++    unsigned bsel_alloc;
++    bool has_bridge_hotplug;
++} BSELInfo;
++
++/* Assign BSEL property only to buses that support hotplug. */
+ static void *acpi_set_bsel(PCIBus *bus, void *opaque)
+ {
+-    unsigned *bsel_alloc = opaque;
++    BSELInfo *info = opaque;
+     unsigned *bus_bsel;
++    DeviceState *br = bus->qbus.parent;
++    bool is_bridge = IS_PCI_BRIDGE(br);
+ 
++    /* hotplugged bridges can't be described in ACPI ignore them */
+     if (qbus_is_hotpluggable(BUS(bus))) {
+-        bus_bsel = g_malloc(sizeof *bus_bsel);
++        if (!is_bridge || (!br->hotplugged && info->has_bridge_hotplug)) {
++            bus_bsel = g_malloc(sizeof *bus_bsel);
+ 
+-        *bus_bsel = (*bsel_alloc)++;
+-        object_property_add_uint32_ptr(OBJECT(bus), ACPI_PCIHP_PROP_BSEL,
+-                                       bus_bsel, OBJ_PROP_FLAG_READ);
++            *bus_bsel = info->bsel_alloc++;
++            object_property_add_uint32_ptr(OBJECT(bus), ACPI_PCIHP_PROP_BSEL,
++                                           bus_bsel, OBJ_PROP_FLAG_READ);
++        }
+     }
+ 
+-    return bsel_alloc;
++    return info;
+ }
+ 
+-static void acpi_set_pci_info(void)
++static void acpi_set_pci_info(bool has_bridge_hotplug)
+ {
+     static bool bsel_is_set;
+     Object *host = acpi_get_i386_pci_host();
+     PCIBus *bus;
+-    unsigned bsel_alloc = ACPI_PCIHP_BSEL_DEFAULT;
++    BSELInfo info = { .bsel_alloc = ACPI_PCIHP_BSEL_DEFAULT,
++                      .has_bridge_hotplug = has_bridge_hotplug };
+ 
+     if (bsel_is_set) {
+         return;
+@@ -123,7 +132,7 @@ static void acpi_set_pci_info(void)
+     bus = PCI_HOST_BRIDGE(host)->bus;
+     if (bus) {
+         /* Scan all PCI buses. Set property to enable acpi based hotplug. */
+-        pci_for_each_bus_depth_first(bus, acpi_set_bsel, NULL, &bsel_alloc);
++        pci_for_each_bus_depth_first(bus, acpi_set_bsel, NULL, &info);
+     }
+ }
+ 
+@@ -287,7 +296,7 @@ void acpi_pcihp_reset(AcpiPciHpState *s, bool acpihp_root_off)
+     if (acpihp_root_off) {
+         acpi_pcihp_disable_root_bus();
+     }
+-    acpi_set_pci_info();
++    acpi_set_pci_info(!s->legacy_piix);
+     acpi_pcihp_update(s);
+ }
+ 
 -- 
 MST
 
