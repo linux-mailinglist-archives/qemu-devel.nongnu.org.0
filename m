@@ -2,138 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3D5680AB4
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 11:23:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73F3B680AC7
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 11:27:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMRIQ-00031q-FK; Mon, 30 Jan 2023 05:21:54 -0500
+	id 1pMRNB-0003rU-Lg; Mon, 30 Jan 2023 05:26:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1pMRIB-00031W-5Z
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 05:21:46 -0500
-Received: from mail-db8eur05on20718.outbound.protection.outlook.com
- ([2a01:111:f400:7e1a::718]
- helo=EUR05-DB8-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1pMRN8-0003qx-7h
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 05:26:46 -0500
+Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1pMRI8-0006gv-PQ
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 05:21:38 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=DUB2LdxM1LM861J+n6TFsTprJ7SrPPzNZIIuoQpujryLevSRcT3H0o07oAe/EQmR2unOKM17ZaMkt5Lw7XHroah67Z4fYOOVCayWqONxgtS2H0zRMHDexARBHrHzUgNQABNZWreagUrmsHvDfNijZkjyxtc7leNCO7sZPCpKx0yRjma4pJ0zmpoua+IUSnfOCXnfYFnE0OyOACRreAEsuKWXYmWF8WTNaFmBZB1igH/aI9NiR/rt0eEn0Y99oRQ2AxhH1bQjmMIpUFYNtvKO9NHrf0sLuikKihd1LLBfsEyWtAM5FxBIXfSV2tWfd3nXpLwa0LSROxZ57yl0zwxUFg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=aP1vybVtzlH4DFgUUPivRGUaiYc5J9TCTawTY1WZiVo=;
- b=ScMrsu5D45WOR+QuOPxmieQmUGcKBy6dEC6A90VaFH9vyOTXcZPlOcm6m+MLNG/fTTTKLOGxBEbmn/V3r1x/frBqZ5b+UXhipl28YpgqpToteCK8wvtHhWsps0YdwTw8Be6STyr09Yy1ZRarRFhYbEQQWv6PRevTA84aSXurp0JIIAg+vMUv+yB+9cubBcZlF4hfxt3HV+tPbINBCEE1gxuFGxWjvsynB7D+Hr8GuPKP1hH9eNIVvxRQo0G1vH6iKI2o4AII20SICUQRGOYvDAkvbBKNiR/ZxgUxtOkOcq0ZIWyGC8tzMJHmS/MbUIAJ6hg+ovf6w4ria3GL8/bgyw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
- s=selector2-estab-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=aP1vybVtzlH4DFgUUPivRGUaiYc5J9TCTawTY1WZiVo=;
- b=DozrVa49eY9L5lYAw5nKqYvxR1xXbyFsiZbBkAf7qc0fEFtouQ5LDkzkBxkkbC9/TEAxk2PssFKvub6ihttNy+zgj5HuLFMk78zpH/nscAaaSjPSyNzjikIvTjSvfQYp4iySyMfMlrjVL7Uc9+yeL9lXvkfcfiUC2ZovM+dcxmA=
-Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
- by PAWP189MB2526.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:35e::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.33; Mon, 30 Jan
- 2023 10:16:28 +0000
-Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
- ([fe80::8f70:435b:ab64:9420]) by DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
- ([fe80::8f70:435b:ab64:9420%9]) with mapi id 15.20.6043.036; Mon, 30 Jan 2023
- 10:16:28 +0000
-From: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-CC: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, Jason Wang
- <jasowang@redhat.com>, Dmitry Fleytman <dmitry.fleytman@gmail.com>, "Michael
- S . Tsirkin" <mst@redhat.com>, Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: RE: [PATCH 3/9] igb: implement VFRE and VFTE registers
-Thread-Topic: [PATCH 3/9] igb: implement VFRE and VFTE registers
-Thread-Index: AQHZM1oh0jnCS+9zIEagP/fXq/+DI661HeEAgAGhZzA=
-Date: Mon, 30 Jan 2023 10:16:27 +0000
-Message-ID: <DBBP189MB14334298124A2E60D1409F5F95D39@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
-References: <20230128134633.22730-1-sriram.yagnaraman@est.tech>
- <20230128134633.22730-4-sriram.yagnaraman@est.tech>
- <5829b55e-2ac3-67dd-3b3e-932abb0b35e1@daynix.com>
-In-Reply-To: <5829b55e-2ac3-67dd-3b3e-932abb0b35e1@daynix.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DBBP189MB1433:EE_|PAWP189MB2526:EE_
-x-ms-office365-filtering-correlation-id: 77cdf968-0886-4a3f-455d-08db02ab0cbc
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: z8k4xEByMPra7B+nFRJuOaCcUxGVMboinYVPUXf78nE4dRwIvNIFfquy8vwQ5uccjl1h5JjWPpkO4H0UykJN0Z4EeIYV24RKURo1OPOUQDEKfzRh/3ePeRYkPvn6nupgPiU8H3FiTUBElYudI9YD+AG5fcsxAflEnM6RRLGvLccFvkNqzrQJsekYSU6VXEIIKNLh3tIGEJtRR4Qgkc7I04Yo1D6K7aEalM4T4c48PSfsI4ZwKbGVxhA3k31lR3Fy03p3LkWx2fOUSZrduftJ3gquOf0uINBTIJ4eFlECENz4fsLGL2Sjg+NfXt9C3vunOqU/jpc/1qLGbTehOCJqhynVhWa1yeK69SWa4ZBiUT+bzQHFHfIiCdyq+hClPLmMxhePbEacugvl9I91n1m1Q1nMFPJ4qb7+mGAXtmyBoAZRrVPIw+QxcqclzJiNDRcnSmk2qzBGq7x622uavsVYLZ56wqiMarr1R8T8LF290MYgK/GIguLEsExxU6TSs+vZgwdVkVFVawEADAbGruofnRjfoQoz02xSkB0uKqCQdagTX/pNVpX5BMAHqcnnidDdWTGnE8zir0M1KEIzMS4nnzykjySi2mMfTGEX8nFQVHH8p/6TnlaInDVpOwBoX0gnkQApMAPDLXrYorfSP5oTw4PgyDEEMFHRx7RU6RvcjwMw/iMqUffPUyN9qIZhL11/1L2s7qelp3Qa/5oAWXr73w==
-x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230025)(346002)(136003)(39830400003)(376002)(396003)(366004)(451199018)(86362001)(478600001)(7696005)(71200400001)(83380400001)(33656002)(38100700002)(122000001)(55016003)(26005)(186003)(53546011)(9686003)(38070700005)(6506007)(8676002)(54906003)(5660300002)(52536014)(8936002)(4326008)(76116006)(41300700001)(316002)(66476007)(66446008)(66556008)(64756008)(6916009)(66946007)(2906002)(44832011);
- DIR:OUT; SFP:1102; 
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?L3VsOFU5WlV6cGJwUTRCSXBtb3dxai9hWU83Q01xZDI0Qi9oSXA4M2lwQ2xW?=
- =?utf-8?B?bjFWUzlReHpLTzk0Mis4ZHVpTW1jckNESVBBNjM4bERWTTZyandHR3IyZUQ4?=
- =?utf-8?B?Yysxd2xvemtkQytwZ1FrTkkxajBuaWhEV0NrS0YvUDVPUWpmQ0FQQnY4M1NC?=
- =?utf-8?B?bWFNSGpGSjNySDVZTGVQdWVYRUkyY1ZsaVI0MlZJWFJiRnUxbXFkdkF0VkVJ?=
- =?utf-8?B?NkN1aGNIUEhydVE1R2w0M2VXd1hCS0JMdlZPRzNXK3RKYklNZ0Z3K0ZMdk8x?=
- =?utf-8?B?c1lDeHN1Z0YwOVVPVXF5NEtiazYwaWorVnNOWldSaEtsNC9uWW9odHdOeGJh?=
- =?utf-8?B?MVJoZ05zaGxoazE2T3dFQlhBT3BTQjhrdXRHeDNDWFBIOXVOWlpVcjB6Y2M1?=
- =?utf-8?B?NDlXbFFBTkpMRDVPcVRDcnJIOGd4VWtjMFpkazJvalhvbmZaTFp0bTY4MHdE?=
- =?utf-8?B?RzNmcE1kbmIrMW53NGoreGpHZTJrd0xmRUVORGt3Y1BsMUV0NHFreG1GcGZX?=
- =?utf-8?B?VFM4RjhhVEF3em5yOVlBTTl0ZllWd1pXRy80aFpJblRvWHJ6SlJNZTByeCtm?=
- =?utf-8?B?TCtuREJlOE1BdURUR1Aza2NqNmt1dmxtVFVCa2l3cEZ6Z3hFMlUvbEhZRkdp?=
- =?utf-8?B?MEFJUHN6T0VKNThWSEZiOWlpaWdKVENvd09pZWFtdFMvL3lsbVNvaFI3WGpt?=
- =?utf-8?B?d2Yxd3h4ZTZSU1NoOFVoYTdmMjNrekZOSk9pdFo0eXRzN3NScWdsRUNzOFkw?=
- =?utf-8?B?MU9XUDhqd1gvZmZkWWR4aGZtbkk3UXU1TnM2VHBIanVGVHJTUGlaWWMrNmU4?=
- =?utf-8?B?WkUwSC9qL2V2MkJTLzFtZ1FGdXNycTEyaWhWdktiV1dybVZOdHBDZU0rWnRy?=
- =?utf-8?B?SWl6MlRCSlZpZk43WjA1WWtERWZHV2VTTTBxNm5ONTJURGxNQm01bnlvL0dG?=
- =?utf-8?B?dkRuak1uS1ROeDVITnAzazcxMDcxYWNwc0FyUmQvU01aU0lYa1lGMW5zSlFN?=
- =?utf-8?B?TGtJT044MzdwS0tpWS8xM0FEZWt1QWlqWG5zanYwc0lZenlhU1VSbHM4Zk4v?=
- =?utf-8?B?SDdNTkJpclB0ZG9lVDYxd2xQZU9lMkpnWmU2V3ZIRGZwOWFycWRXa0Q1M2VM?=
- =?utf-8?B?Q0loSER5NWkraURNRGVkU0RlVUtnbkh6QWp2dTFzM2pFMTdJN1MvZnFnT2FD?=
- =?utf-8?B?NXowN2Zzdm5CNXE5NXlRdXVTc3hDb3lJRlFtdTFCRGFoenNnVWNCdU1WYUhX?=
- =?utf-8?B?MEU3M1pRa2lMdndmRkhxWnYrVjJ0L0tuTGJDaTJ3Q2FIQTVIS1hSZ1JseUkz?=
- =?utf-8?B?T0NnMVBNSEhoQ0M1cGN3OGdhV29ZQVl3YmdDTStiZGZkTTc4bjZQN3ZDNEwx?=
- =?utf-8?B?UFNLRlRaNy9jQjlLdnFTNUgvRFU3MWU1d3d3MDFQSTZTZ0lDNzN6NEVJY0dQ?=
- =?utf-8?B?ZjRmc3pFVDZJN0JGTjVjSVRkYlVHeHRzTERaVnJ2K2lZU1U3VVJVcEpMM25h?=
- =?utf-8?B?R0pyNTUrT3dMRjFCYUIzQ3MvNC9PTEdDVnh5eEFZVnZHaWZGbmpDd1JTQ1Zt?=
- =?utf-8?B?OUs4U0l4RlJaNDZEY09YSzNPMWRNNFQyZVJzUzZYS3dzVjRWOExEYVExMC95?=
- =?utf-8?B?enNqbHdPV2ZOTTBvUTNGTk9leC9UdERuNkJlc2FkdGJqL0t4Uy9EaDhkY2x1?=
- =?utf-8?B?YnRGWTFBWXVWZjNBblpWYjNsL1pzZ2lHREhjUExCcFJ6U2QrSWFOVCtMdlJu?=
- =?utf-8?B?NldLZURSMWhlaWtIM1RKd3ZMLzBKRVFJN1orK2cwZ2NHYkk3eVVaRVB2UVBk?=
- =?utf-8?B?STZEVWhNWTV0aGk1a2kxbkhYRUtUV08rLzExVTVMN2pvbVdZanAvb05yT2dM?=
- =?utf-8?B?c096N21vNUIyY2hMMHpBT1N5dGRUNGNQeW4rblAvUXJkVUFIK051NWFyOHNY?=
- =?utf-8?B?bVlLUFJjUDFCeEx2czJSYkpLeEhZU21hQ1BRZ1N6NU82RFNyVlJQNnZmQ1lW?=
- =?utf-8?B?bWdJUVlrM01JaWFCcm0zMmhUSkFVNDB0VzdFdUJQRUxra0JROThSZkl6eFpp?=
- =?utf-8?B?c20rTm9vYWhrMVF1TUdVR1NmaXJFa0trMmJlaFBSTlNTMUt5OEdYczlieFMr?=
- =?utf-8?Q?HFk23k6UzleIi8BQYkj6t9QOa?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 77cdf968-0886-4a3f-455d-08db02ab0cbc
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Jan 2023 10:16:27.8760 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: nz8G3UGswQLWs4qh/nkOViCmE6IHFOgsKkJHxXRaaRNuBb6EfRMsX5trXJ0Z8c3XX8sP4tuhxloU0u78MNimtjUXZHhyelwlLbx2wxqhv54=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWP189MB2526
-Received-SPF: pass client-ip=2a01:111:f400:7e1a::718;
- envelope-from=sriram.yagnaraman@est.tech;
- helo=EUR05-DB8-obe.outbound.protection.outlook.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
+ id 1pMRN4-0007O7-V3
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 05:26:45 -0500
+X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R741e4; CH=green; DM=||false|;
+ DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046050;
+ MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=4; SR=0;
+ TI=SMTPD_---0VaSWTpK_1675074392; 
+Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
+ fp:SMTPD_---0VaSWTpK_1675074392) by smtp.aliyun-inc.com;
+ Mon, 30 Jan 2023 18:26:32 +0800
+Message-ID: <1675074276.8940918-1-xuanzhuo@linux.alibaba.com>
+Subject: Re: [PATCH v1 2/2] virtio-net: virtio_net_flush_tx() check for
+ per-queue reset
+Date: Mon, 30 Jan 2023 18:24:36 +0800
+From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+References: <20230129025150.119972-1-xuanzhuo@linux.alibaba.com>
+ <20230129025150.119972-3-xuanzhuo@linux.alibaba.com>
+ <20230129021402-mutt-send-email-mst@kernel.org>
+ <1674977308.9335406-2-xuanzhuo@linux.alibaba.com>
+ <20230129025950-mutt-send-email-mst@kernel.org>
+ <1674980588.489446-5-xuanzhuo@linux.alibaba.com>
+ <20230129065705-mutt-send-email-mst@kernel.org>
+ <1674993822.7782302-1-xuanzhuo@linux.alibaba.com>
+ <20230129071154-mutt-send-email-mst@kernel.org>
+ <1675044912.9269125-1-xuanzhuo@linux.alibaba.com>
+ <20230130003158-mutt-send-email-mst@kernel.org>
+ <CACGkMEscnrRBwEajRmXPgyTGdJCwKQypDJrGUtqcHLS8MUinCQ@mail.gmail.com>
+ <1675065225.6382265-1-xuanzhuo@linux.alibaba.com>
+ <CACGkMEta6Y-P1wc95K5YBqpLYta09b_sh7Kfki2+Vj2S18m-eA@mail.gmail.com>
+In-Reply-To: <CACGkMEta6Y-P1wc95K5YBqpLYta09b_sh7Kfki2+Vj2S18m-eA@mail.gmail.com>
+Received-SPF: pass client-ip=115.124.30.112;
+ envelope-from=xuanzhuo@linux.alibaba.com;
+ helo=out30-112.freemail.mail.aliyun.com
+X-Spam_score_int: -98
+X-Spam_score: -9.9
+X-Spam_bar: ---------
+X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ UNPARSEABLE_RELAY=0.001,
+ USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -149,120 +73,237 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogQWtpaGlrbyBPZGFraSA8
-YWtpaGlrby5vZGFraUBkYXluaXguY29tPg0KPiBTZW50OiBTdW5kYXksIDI5IEphbnVhcnkgMjAy
-MyAxMDoxNg0KPiBUbzogU3JpcmFtIFlhZ25hcmFtYW4gPHNyaXJhbS55YWduYXJhbWFuQGVzdC50
-ZWNoPg0KPiBDYzogcWVtdS1kZXZlbEBub25nbnUub3JnOyBKYXNvbiBXYW5nIDxqYXNvd2FuZ0By
-ZWRoYXQuY29tPjsgRG1pdHJ5DQo+IEZsZXl0bWFuIDxkbWl0cnkuZmxleXRtYW5AZ21haWwuY29t
-PjsgTWljaGFlbCBTIC4gVHNpcmtpbg0KPiA8bXN0QHJlZGhhdC5jb20+OyBNYXJjZWwgQXBmZWxi
-YXVtIDxtYXJjZWwuYXBmZWxiYXVtQGdtYWlsLmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCAz
-LzldIGlnYjogaW1wbGVtZW50IFZGUkUgYW5kIFZGVEUgcmVnaXN0ZXJzDQo+IA0KPiBPbiAyMDIz
-LzAxLzI4IDIyOjQ2LCBTcmlyYW0gWWFnbmFyYW1hbiB3cm90ZToNCj4gPiBBbHNvIGFkZCBjaGVj
-a3MgZm9yIFJYRENUTC9UWERDVEwgcXVldWUgZW5hYmxlIGJpdHMNCj4gPg0KPiA+IFNpZ25lZC1v
-ZmYtYnk6IFNyaXJhbSBZYWduYXJhbWFuIDxzcmlyYW0ueWFnbmFyYW1hbkBlc3QudGVjaD4NCj4g
-PiAtLS0NCj4gPiAgIGh3L25ldC9pZ2JfY29yZS5jIHwgNDIgKysrKysrKysrKysrKysrKysrKysr
-KysrKysrKysrKy0tLS0tLS0tLS0tDQo+ID4gICBody9uZXQvaWdiX3JlZ3MuaCB8ICAzICsrLQ0K
-PiA+ICAgMiBmaWxlcyBjaGFuZ2VkLCAzMyBpbnNlcnRpb25zKCspLCAxMiBkZWxldGlvbnMoLSkN
-Cj4gPg0KPiA+IGRpZmYgLS1naXQgYS9ody9uZXQvaWdiX2NvcmUuYyBiL2h3L25ldC9pZ2JfY29y
-ZS5jIGluZGV4DQo+ID4gOWJkNTNjYzI1Zi4uNmJjYTU0NTliOSAxMDA2NDQNCj4gPiAtLS0gYS9o
-dy9uZXQvaWdiX2NvcmUuYw0KPiA+ICsrKyBiL2h3L25ldC9pZ2JfY29yZS5jDQo+ID4gQEAgLTc3
-OCw2ICs3NzgsMTkgQEAgaWdiX3R4ZGVzY193cml0ZWJhY2soSUdCQ29yZSAqY29yZSwgZG1hX2Fk
-ZHJfdA0KPiBiYXNlLA0KPiA+ICAgICAgIHJldHVybiBpZ2JfdHhfd2JfZWljKGNvcmUsIHR4aS0+
-aWR4KTsNCj4gPiAgIH0NCj4gPg0KPiA+ICtzdGF0aWMgaW5saW5lIGJvb2wNCj4gPiAraWdiX3R4
-X2VuYWJsZWQoSUdCQ29yZSAqY29yZSwgY29uc3QgRTEwMDBFX1JpbmdJbmZvICp0eGkpIHsNCj4g
-PiArICAgIGJvb2wgdm1kcSA9IGNvcmUtPm1hY1tNUlFDXSAmIDE7DQo+ID4gKyAgICB1aW50MTZf
-dCBxbiA9IHR4aS0+aWR4Ow0KPiA+ICsgICAgdWludDE2X3QgdmZuID0gKHFuID4gSUdCX01BWF9W
-Rl9GVU5DVElPTlMpID8NCj4gPiArICAgICAgICAgICAgICAgICAgIChxbiAtIElHQl9NQVhfVkZf
-RlVOQ1RJT05TKSA6IHFuOw0KPiA+ICsNCj4gPiArICAgIHJldHVybiAoY29yZS0+bWFjW1RDVExd
-ICYgRTEwMDBfVENUTF9FTikgJiYNCj4gPiArICAgICAgICAodm1kcSA/IChjb3JlLT5tYWNbVkZU
-RV0gJiBCSVQodmZuKSkgOiB0cnVlKSAmJg0KPiANCj4gSW5zdGVhZCwgZG86ICghdm1kcSB8fCBj
-b3JlLT5tYWNbVkZURV0gJiBCSVQodmZuKSkNCj4gDQo+ID4gKyAgICAgICAgKGNvcmUtPm1hY1tU
-WERDVEwwICsgKHFuICogMTYpXSAmIEUxMDAwX1RYRENUTF9RVUVVRV9FTkFCTEUpOw0KPiA+ICt9
-DQo+ID4gKw0KPiA+ICAgc3RhdGljIHZvaWQNCj4gPiAgIGlnYl9zdGFydF94bWl0KElHQkNvcmUg
-KmNvcmUsIGNvbnN0IElHQl9UeFJpbmcgKnR4cikNCj4gPiAgIHsNCj4gPiBAQCAtNzg3LDggKzgw
-MCw3IEBAIGlnYl9zdGFydF94bWl0KElHQkNvcmUgKmNvcmUsIGNvbnN0IElHQl9UeFJpbmcNCj4g
-KnR4cikNCj4gPiAgICAgICBjb25zdCBFMTAwMEVfUmluZ0luZm8gKnR4aSA9IHR4ci0+aTsNCj4g
-PiAgICAgICB1aW50MzJfdCBlaWMgPSAwOw0KPiA+DQo+ID4gLSAgICAvKiBUT0RPOiBjaGVjayBp
-ZiB0aGUgcXVldWUgaXRzZWxmIGlzIGVuYWJsZWQgdG9vLiAqLw0KPiA+IC0gICAgaWYgKCEoY29y
-ZS0+bWFjW1RDVExdICYgRTEwMDBfVENUTF9FTikpIHsNCj4gPiArICAgIGlmICghaWdiX3R4X2Vu
-YWJsZWQoY29yZSwgdHhpKSkgew0KPiA+ICAgICAgICAgICB0cmFjZV9lMTAwMGVfdHhfZGlzYWJs
-ZWQoKTsNCj4gPiAgICAgICAgICAgcmV0dXJuOw0KPiA+ICAgICAgIH0NCj4gPiBAQCAtMTAwMyw2
-ICsxMDE1LDcgQEAgc3RhdGljIHVpbnQxNl90IGlnYl9yZWNlaXZlX2Fzc2lnbihJR0JDb3JlICpj
-b3JlLA0KPiBjb25zdCBzdHJ1Y3QgZXRoX2hlYWRlciAqZWhkciwNCj4gPiAgICAgICAgICAgICAg
-IHF1ZXVlcyA9IEJJVChkZWZfcGwgPj4gRTEwMDBfVlRfQ1RMX0RFRkFVTFRfUE9PTF9TSElGVCk7
-DQo+ID4gICAgICAgICAgIH0NCj4gPg0KPiA+ICsgICAgICAgIHF1ZXVlcyAmPSBjb3JlLT5tYWNb
-VkZSRV07DQo+ID4gICAgICAgICAgIGlnYl9yc3NfcGFyc2VfcGFja2V0KGNvcmUsIGNvcmUtPnJ4
-X3BrdCwgZXh0ZXJuYWxfdHggIT0gTlVMTCwNCj4gcnNzX2luZm8pOw0KPiA+ICAgICAgICAgICBp
-ZiAocnNzX2luZm8tPnF1ZXVlICYgMSkgew0KPiA+ICAgICAgICAgICAgICAgcXVldWVzIDw8PSA4
-Ow0KPiA+IEBAIC0xNDg2LDcgKzE0OTksNyBAQCBpZ2JfcmVjZWl2ZV9pbnRlcm5hbChJR0JDb3Jl
-ICpjb3JlLCBjb25zdCBzdHJ1Y3QNCj4gaW92ZWMgKmlvdiwgaW50IGlvdmNudCwNCj4gPiAgICAg
-ICBzdGF0aWMgY29uc3QgaW50IG1heGltdW1fZXRoZXJuZXRfaGRyX2xlbiA9IChFVEhfSExFTiAr
-IDQpOw0KPiA+DQo+ID4gICAgICAgdWludDE2X3QgcXVldWVzID0gMDsNCj4gPiAtICAgIHVpbnQz
-Ml90IG47DQo+ID4gKyAgICB1aW50MzJfdCBuID0gMDsNCj4gPiAgICAgICB1aW50OF90IG1pbl9i
-dWZbRVRIX1pMRU5dOw0KPiA+ICAgICAgIHN0cnVjdCBpb3ZlYyBtaW5faW92Ow0KPiA+ICAgICAg
-IHN0cnVjdCBldGhfaGVhZGVyICplaGRyOw0KPiA+IEBAIC0xNTY2LDI2ICsxNTc5LDIyIEBAIGln
-Yl9yZWNlaXZlX2ludGVybmFsKElHQkNvcmUgKmNvcmUsIGNvbnN0DQo+IHN0cnVjdCBpb3ZlYyAq
-aW92LCBpbnQgaW92Y250LA0KPiA+ICAgICAgICAgICB9DQo+ID4NCj4gPiAgICAgICAgICAgaWdi
-X3J4X3JpbmdfaW5pdChjb3JlLCAmcnhyLCBpKTsNCj4gPiAtDQo+ID4gLSAgICAgICAgdHJhY2Vf
-ZTEwMDBlX3J4X3Jzc19kaXNwYXRjaGVkX3RvX3F1ZXVlKHJ4ci5pLT5pZHgpOw0KPiA+IC0NCj4g
-PiAgICAgICAgICAgaWYgKCFpZ2JfaGFzX3J4YnVmcyhjb3JlLCByeHIuaSwgdG90YWxfc2l6ZSkp
-IHsNCj4gPiAgICAgICAgICAgICAgIHJldHZhbCA9IDA7DQo+ID4gICAgICAgICAgIH0NCj4gDQo+
-IFRoaXMgc3RvcHMgc2VuZGluZyBwYWNrZXQgd2hlbiBhIGRpc2FibGVkIHF1ZXVlIGhhcyBubyBz
-cGFjZS4NCg0KWWVzLCB0aGF0IGlzIHRydWUsIGJ1dCBJIGhhdmUgcmVmYWN0b3JlZCB0aGlzIHBh
-cnQgYSBiaXQgaW4gcGF0Y2hzZXQgOSB0aGF0IGZpeGVzIHRoaXMuDQoNCj4gDQo+ID4gICAgICAg
-fQ0KPiA+DQo+ID4gICAgICAgaWYgKHJldHZhbCkgew0KPiA+IC0gICAgICAgIG4gPSBFMTAwMF9J
-Q1JfUlhUMDsNCj4gPiAtDQo+ID4gICAgICAgICAgIGlnYl9yeF9maXhfbDRfY3N1bShjb3JlLCBj
-b3JlLT5yeF9wa3QpOw0KPiA+DQo+ID4gICAgICAgICAgIGZvciAoaSA9IDA7IGkgPCBJR0JfTlVN
-X1FVRVVFUzsgaSsrKSB7DQo+ID4gLSAgICAgICAgICAgIGlmICghKHF1ZXVlcyAmIEJJVChpKSkp
-IHsNCj4gPiArICAgICAgICAgICAgaWYgKCEocXVldWVzICYgQklUKGkpKSB8fA0KPiA+ICsgICAg
-ICAgICAgICAgICAgIShjb3JlLT5tYWNbRTEwMDBfUlhEQ1RMKGkpID4+IDJdICYNCj4gPiArIEUx
-MDAwX1JYRENUTF9RVUVVRV9FTkFCTEUpKSB7DQo+ID4gICAgICAgICAgICAgICAgICAgY29udGlu
-dWU7DQo+ID4gICAgICAgICAgICAgICB9DQo+ID4NCj4gPiAgICAgICAgICAgICAgIGlnYl9yeF9y
-aW5nX2luaXQoY29yZSwgJnJ4ciwgaSk7DQo+ID4gLQ0KPiA+ICsgICAgICAgICAgICB0cmFjZV9l
-MTAwMGVfcnhfcnNzX2Rpc3BhdGNoZWRfdG9fcXVldWUocnhyLmktPmlkeCk7DQo+ID4gICAgICAg
-ICAgICAgICBpZ2Jfd3JpdGVfcGFja2V0X3RvX2d1ZXN0KGNvcmUsIGNvcmUtPnJ4X3BrdCwgJnJ4
-ciwNCj4gPiAmcnNzX2luZm8pOw0KPiA+DQo+ID4gICAgICAgICAgICAgICAvKiBDaGVjayBpZiBy
-ZWNlaXZlIGRlc2NyaXB0b3IgbWluaW11bSB0aHJlc2hvbGQgaGl0ICovDQo+ID4gQEAgLTE1OTQs
-NiArMTYwMyw5IEBAIGlnYl9yZWNlaXZlX2ludGVybmFsKElHQkNvcmUgKmNvcmUsIGNvbnN0IHN0
-cnVjdA0KPiBpb3ZlYyAqaW92LCBpbnQgaW92Y250LA0KPiA+ICAgICAgICAgICAgICAgfQ0KPiA+
-DQo+ID4gICAgICAgICAgICAgICBjb3JlLT5tYWNbRUlDUl0gfD0gaWdiX3J4X3diX2VpYyhjb3Jl
-LCByeHIuaS0+aWR4KTsNCj4gPiArDQo+ID4gKyAgICAgICAgICAgIC8qIHNhbWUgYXMgUlhEVyAo
-cnggZGVzY3JpcHRvciB3cml0dGVuIGJhY2spKi8NCj4gPiArICAgICAgICAgICAgbiA9IEUxMDAw
-X0lDUl9SWFQwOw0KPiA+ICAgICAgICAgICB9DQo+ID4NCj4gPiAgICAgICAgICAgdHJhY2VfZTEw
-MDBlX3J4X3dyaXR0ZW5fdG9fZ3Vlc3Qobik7DQo+ID4gQEAgLTE5ODEsOSArMTk5MywxNiBAQCBz
-dGF0aWMgdm9pZCBpZ2Jfc2V0X3ZmbWFpbGJveChJR0JDb3JlICpjb3JlLA0KPiA+IGludCBpbmRl
-eCwgdWludDMyX3QgdmFsKQ0KPiA+DQo+ID4gICBzdGF0aWMgdm9pZCBpZ2JfdmZfcmVzZXQoSUdC
-Q29yZSAqY29yZSwgdWludDE2X3QgdmZuKQ0KPiA+ICAgew0KPiA+ICsgICAgdWludDE2X3QgcW4w
-ID0gdmZuOw0KPiA+ICsgICAgdWludDE2X3QgcW4xID0gdmZuICsgSUdCX01BWF9WRl9GVU5DVElP
-TlM7DQo+ID4gKw0KPiA+ICAgICAgIC8qIGRpc2FibGUgUnggYW5kIFR4IGZvciB0aGUgVkYqLw0K
-PiA+IC0gICAgY29yZS0+bWFjW1ZGVEVdICY9IH5CSVQodmZuKTsNCj4gPiArICAgIGNvcmUtPm1h
-Y1tSWERDVEwwICsgKHFuMCAqIDE2KV0gJj0gfkUxMDAwX1JYRENUTF9RVUVVRV9FTkFCTEU7DQo+
-ID4gKyAgICBjb3JlLT5tYWNbUlhEQ1RMMCArIChxbjEgKiAxNildICY9IH5FMTAwMF9SWERDVExf
-UVVFVUVfRU5BQkxFOw0KPiA+ICsgICAgY29yZS0+bWFjW1RYRENUTDAgKyAocW4wICogMTYpXSAm
-PSB+RTEwMDBfVFhEQ1RMX1FVRVVFX0VOQUJMRTsNCj4gPiArICAgIGNvcmUtPm1hY1tUWERDVEww
-ICsgKHFuMSAqIDE2KV0gJj0gfkUxMDAwX1RYRENUTF9RVUVVRV9FTkFCTEU7DQo+ID4gICAgICAg
-Y29yZS0+bWFjW1ZGUkVdICY9IH5CSVQodmZuKTsNCj4gPiArICAgIGNvcmUtPm1hY1tWRlRFXSAm
-PSB+QklUKHZmbik7DQo+ID4gICAgICAgLyogaW5kaWNhdGUgVkYgcmVzZXQgdG8gUEYgKi8NCj4g
-PiAgICAgICBjb3JlLT5tYWNbVkZMUkVdIHw9IEJJVCh2Zm4pOw0KPiA+ICAgICAgIC8qIFZGTFJF
-IGFuZCBtYWlsYm94IHVzZSB0aGUgc2FtZSBpbnRlcnJ1cHQgY2F1c2UgKi8gQEAgLTM4ODksNg0K
-PiA+ICszOTA4LDcgQEAgaWdiX3BoeV9yZWdfaW5pdFtdID0gew0KPiA+ICAgc3RhdGljIGNvbnN0
-IHVpbnQzMl90IGlnYl9tYWNfcmVnX2luaXRbXSA9IHsNCj4gPiAgICAgICBbTEVEQ1RMXSAgICAg
-ICAgPSAyIHwgKDMgPDwgOCkgfCBCSVQoMTUpIHwgKDYgPDwgMTYpIHwgKDcgPDwgMjQpLA0KPiA+
-ICAgICAgIFtFRU1OR0NUTF0gICAgICA9IEJJVCgzMSksDQo+ID4gKyAgICBbVFhEQ1RMMF0gICAg
-ICAgPSBFMTAwMF9UWERDVExfUVVFVUVfRU5BQkxFLA0KPiA+ICAgICAgIFtSWERDVEwwXSAgICAg
-ICA9IEUxMDAwX1JYRENUTF9RVUVVRV9FTkFCTEUgfCAoMSA8PCAxNiksDQo+ID4gICAgICAgW1JY
-RENUTDFdICAgICAgID0gMSA8PCAxNiwNCj4gPiAgICAgICBbUlhEQ1RMMl0gICAgICAgPSAxIDw8
-IDE2LA0KPiA+IGRpZmYgLS1naXQgYS9ody9uZXQvaWdiX3JlZ3MuaCBiL2h3L25ldC9pZ2JfcmVn
-cy5oIGluZGV4DQo+ID4gZWJmM2U5NTAyMy4uMDg0ZTc1MTM3OCAxMDA2NDQNCj4gPiAtLS0gYS9o
-dy9uZXQvaWdiX3JlZ3MuaA0KPiA+ICsrKyBiL2h3L25ldC9pZ2JfcmVncy5oDQo+ID4gQEAgLTE2
-MCw3ICsxNjAsOCBAQCB1bmlvbiBlMTAwMF9hZHZfcnhfZGVzYyB7DQo+ID4gICAjZGVmaW5lIEUx
-MDAwX01SUUNfUlNTX0ZJRUxEX0lQVjZfVURQICAgICAgIDB4MDA4MDAwMDANCj4gPiAgICNkZWZp
-bmUgRTEwMDBfTVJRQ19SU1NfRklFTERfSVBWNl9VRFBfRVggICAgMHgwMTAwMDAwMA0KPiA+DQo+
-ID4gLS8qIEFkZGl0aW9uYWwgUmVjZWl2ZSBEZXNjcmlwdG9yIENvbnRyb2wgZGVmaW5pdGlvbnMg
-Ki8NCj4gPiArLyogQWRkaXRpb25hbCBSWC9UWCBEZXNjcmlwdG9yIENvbnRyb2wgZGVmaW5pdGlv
-bnMgKi8gI2RlZmluZQ0KPiA+ICtFMTAwMF9UWERDVExfUVVFVUVfRU5BQkxFICAweDAyMDAwMDAw
-IC8qIEVuYWJsZSBzcGVjaWZpYyBUeCBRdWV1ZQ0KPiAqLw0KPiA+ICAgI2RlZmluZSBFMTAwMF9S
-WERDVExfUVVFVUVfRU5BQkxFICAweDAyMDAwMDAwIC8qIEVuYWJsZSBzcGVjaWZpYyBSeA0KPiA+
-IFF1ZXVlICovDQo+ID4NCj4gPiAgIC8qIERpcmVjdCBDYWNoZSBBY2Nlc3MgKERDQSkgZGVmaW5p
-dGlvbnMgKi8NCg==
+On Mon, 30 Jan 2023 16:40:08 +0800, Jason Wang <jasowang@redhat.com> wrote:
+> On Mon, Jan 30, 2023 at 4:03 PM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
+> >
+> > On Mon, 30 Jan 2023 15:49:36 +0800, Jason Wang <jasowang@redhat.com> wrote:
+> > > On Mon, Jan 30, 2023 at 1:32 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > > >
+> > > > On Mon, Jan 30, 2023 at 10:15:12AM +0800, Xuan Zhuo wrote:
+> > > > > On Sun, 29 Jan 2023 07:15:47 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > > > > > On Sun, Jan 29, 2023 at 08:03:42PM +0800, Xuan Zhuo wrote:
+> > > > > > > On Sun, 29 Jan 2023 06:57:29 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > > > > > > > On Sun, Jan 29, 2023 at 04:23:08PM +0800, Xuan Zhuo wrote:
+> > > > > > > > > On Sun, 29 Jan 2023 03:12:12 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > > > > > > > > > On Sun, Jan 29, 2023 at 03:28:28PM +0800, Xuan Zhuo wrote:
+> > > > > > > > > > > On Sun, 29 Jan 2023 02:25:43 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> > > > > > > > > > > > On Sun, Jan 29, 2023 at 10:51:50AM +0800, Xuan Zhuo wrote:
+> > > > > > > > > > > > > Check whether it is per-queue reset state in virtio_net_flush_tx().
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Before per-queue reset, we need to recover async tx resources. At this
+> > > > > > > > > > > > > time, virtio_net_flush_tx() is called, but we should not try to send
+> > > > > > > > > > > > > new packets, so virtio_net_flush_tx() should check the current
+> > > > > > > > > > > > > per-queue reset state.
+> > > > > > > > > > > >
+> > > > > > > > > > > >
+> > > > > > > > > > > > What does "at this time" mean here?
+> > > > > > > > > > > > Do you in fact mean it's called from flush_or_purge_queued_packets?
+> > > > > > > > > > >
+> > > > > > > > > > > Yes
+> > > > > > > > > > >
+> > > > > > > > > > > virtio_queue_reset
+> > > > > > > > > > >   k->queue_reset
+> > > > > > > > > > >           virtio_net_queue_reset
+> > > > > > > > > > >                   flush_or_purge_queued_packets
+> > > > > > > > > > >                           qemu_flush_or_purge_queued_packets
+> > > > > > > > > > >                                   .....
+> > > > > > > > > > >                                   (callback) virtio_net_tx_complete
+> > > > > > > > > > >                                           virtio_net_flush_tx <-- here send new packet. We need stop it.
+> > > > > > > > > > >
+> > > > > > > > > > >
+> > > > > > > > > > > Because it is inside the callback, I can't pass information through the stack. I
+> > > > > > > > > > > originally thought it was a general situation, so I wanted to put it in
+> > > > > > > > > > > struct VirtQueue.
+> > > > > > > > > > >
+> > > > > > > > > > > If it is not very suitable, it may be better to put it in VirtIONetQueue.
+> > > > > > > > > > >
+> > > > > > > > > > > Thanks.
+> > > > > > > > > >
+> > > > > > > > > > Hmm maybe. Another idea: isn't virtio_net_tx_complete called
+> > > > > > > > > > with length 0 here? Are there other cases where length is 0?
+> > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > > > What does the call stack look like?
+> > > > > > > > > > > >
+> > > > > > > > > > > > If yes introducing a vq state just so virtio_net_flush_tx
+> > > > > > > > > > > > knows we are in the process of reset would be a bad idea.
+> > > > > > > > > > > > We want something much more local, ideally on stack even ...
+> > > > > > > > > > > >
+> > > > > > > > > > > >
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > Fixes: 7dc6be52 ("virtio-net: support queue reset")
+> > > > > > > > > > > > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1451
+> > > > > > > > > > > > > Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> > > > > > > > > > > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> > > > > > > > > > > > > ---
+> > > > > > > > > > > > >  hw/net/virtio-net.c | 3 ++-
+> > > > > > > > > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > > > > > > > > > > > > index 3ae909041a..fba6451a50 100644
+> > > > > > > > > > > > > --- a/hw/net/virtio-net.c
+> > > > > > > > > > > > > +++ b/hw/net/virtio-net.c
+> > > > > > > > > > > > > @@ -2627,7 +2627,8 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
+> > > > > > > > > > > > >      VirtQueueElement *elem;
+> > > > > > > > > > > > >      int32_t num_packets = 0;
+> > > > > > > > > > > > >      int queue_index = vq2q(virtio_get_queue_index(q->tx_vq));
+> > > > > > > > > > > > > -    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
+> > > > > > > > > > > > > +    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) ||
+> > > > > > > > > > > > > +        virtio_queue_reset_state(q->tx_vq)) {
+> > > > > > > > > >
+> > > > > > > > > > btw this sounds like you are asking it to reset some state.
+> > > > > > > > > >
+> > > > > > > > > > > > >          return num_packets;
+> > > > > > > > > >
+> > > > > > > > > > and then
+> > > > > > > > > >
+> > > > > > > > > >     ret = virtio_net_flush_tx(q);
+> > > > > > > > > >     if (ret >= n->tx_burst)
+> > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > will reschedule automatically won't it?
+> > > > > > > > > >
+> > > > > > > > > > also why check in virtio_net_flush_tx and not virtio_net_tx_complete?
+> > > > > > > > >
+> > > > > > > > > virtio_net_flush_tx may been called by timer.
+> > >
+> > > We stop timer/bh during device reset, do we need to do the same with vq reset?
+> > >
+> > > > > > > > >
+> > > > > > > > > Thanks.
+> > > > > > > >
+> > > > > > > > timer won't run while flush_or_purge_queued_packets is in progress.
+> > > > > > >
+> > > > > > > Is timer not executed during the VMEXIT process? Otherwise, we still have to
+> > > > > > > consider that after the flush_or_purge_queued_packets, this process before the
+> > > > > > > structure is cleared.
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > > void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
+> > > > > > {
+> > > > > >     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
+> > > > > >
+> > > > > >     if (k->queue_reset) {
+> > > > > >         k->queue_reset(vdev, queue_index);
+> > > > > >     }
+> > > > > >
+> > > > > >     __virtio_queue_reset(vdev, queue_index);
+> > > > > > }
+> > > > > >
+> > > > > >
+> > > > > > No timers do not run between  k->queue_reset and __virtio_queue_reset.
+> > > > > >
+> > > > > >
+> > > > > > > Even if it can be processed in virtio_net_tx_complete, is there any good way?
+> > > > > > > This is a callback, it is not convenient to pass the parameters.
+> > > > > > >
+> > > > > > > Thanks
+> > > > > >
+> > > > > >
+> > > > > > How about checking that length is 0?
+> > > > >
+> > > > >
+> > > > > I think that check length is not a good way. This modifys the semantics of 0.
+> > >
+> > > 0 seems to mean "purge" and
+> > >
+> > > > It is
+> > > > > not friendly to the future maintenance. On the other hand, qemu_net_queue_purge()
+> > > > > will pass 0, and this function is called by many places.
+> > >
+> > > That's exactly what we want actually, when do purge we don't need a flush?
+> >
+> > Yes, but I'm not sure. If we stop flush, there will be any other effects.
+>
+> So we did:
+>
+> virtio_net_queue_reset():
+>     nc = qemu_get_subqueue(n->nic, vq2q(queue_index);
+>     flush_or_purge_queued_packets(nc);
+>         qemu_flush_or_purge_queued_packets(nc->peer, true); // [1]
+>             if (qemu_net_queue_flush(nc->incoming_queue)) {
+>             ....
+>             } else if (purge) {
+>                 qemu_net_queue_purge(nc->incoming_queue, nc->peer);
+>                         packet->send_cb()
+>                             virtio_net_tx_complete()
+>                                 virtio_net_flush_tx()
+>                                     qemu_sendv_packet_async() // [2]
+>             }
+>
+> We try to flush the tap's incoming queue and if we fail we will purge
+> in [1]. But the sent_cb() tries to send more packets which could be
+> queued to the tap incoming queue [2]. This breaks the semantic of
+> qemu_flush_or_purge_queued_packets().
+
+Sounds like good news, and I think so too.
+
+>
+> >
+> > On the other hand, if we use "0" as a judgment condition, do you mean only the
+> > implementation of the purge in the flush_or_purge_queued_packets()?
+>
+> It should be all the users of qemu_net_queue_purge(). The rest users
+> seems all fine:
+>
+> virtio_net_vhost_status(), if we do flush, it may end up with touching
+> vring during vhost is running.
+> filters: all do a flush before.
+>
+> >
+> > >
+> > > > >
+> > > > > How about we add an api in queue.c to replace the sent_cb callback on queue?
+> > > > >
+> > > > > Thanks.
+> > > > > > OK I guess. Jason?
+> > >
+> > > Not sure, anything different from adding a check in
+> > > virtio_net_tx_complete()? (assuming bh and timer is cancelled or
+> > > deleted).
+> >
+> > We replaced the sent_cb with a function without flush.
+>
+> I meant it won't be different from adding a
+>
+> if (virtio_queue_is_rest())
+>
+> somewhere in virtio_net_tx_complete()?
+
+
+Only modify on the stack, without using a variable like disabled_by_reset.
+
+Thanks.
+
+
+>
+> Thanks
+>
+> >
+> > Thanks.
+> >
+> >
+> > >
+> > > Thanks
+> > >
+> > > >
+> > > > >
+> > > > > >
+> > > > > > >
+> > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > > > >      }
+> > > > > > > > > > > > >
+> > > > > > > > > > > > > --
+> > > > > > > > > > > > > 2.32.0.3.g01195cf9f
+> > > > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > >
+> > > > > >
+> > > >
+> > >
+> >
+>
 
