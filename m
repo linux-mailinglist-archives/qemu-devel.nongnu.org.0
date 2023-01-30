@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C583D680BDF
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 12:25:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2366680BE6
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 12:26:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMSIA-0006Tz-MD; Mon, 30 Jan 2023 06:25:44 -0500
+	id 1pMSIH-0006WO-GO; Mon, 30 Jan 2023 06:25:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMSHU-0006R4-N9
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 06:25:00 -0500
+ id 1pMSHd-0006US-RZ
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 06:25:11 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMSHR-000829-9G
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 06:24:58 -0500
+ id 1pMSHW-00083g-C5
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 06:25:04 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675077896;
+ s=mimecast20190719; t=1675077901;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=HSSDqvZiQqTqaxmrSZlQDien7yoxui2BoTT1Wb4Pgjs=;
- b=XG4RxK55D54Q7TYsUIEBmmD/y7vvdewTMoJJiXKRbCKVhvloXOhpWlvkNbbw/852XLk9wi
- w0dKe3k+gp70AUmYILqTiW0wPSweLQdL/T5CMzJh8W873LrWmffvoR+DaBMBG0FZfJTvFp
- v5jnJj1Z9CwLbzx68bptz3B5DXns1/k=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=GVyy6rATcfiYUPM0MkQZkA8NgRAxXFF1471V3qgMy8A=;
+ b=cYB3aITgk2sOE7QM5TfvD/THxvlRMk/zy+9lxoQ+XvaLzwmtD4oJuF9+ui5Wb5wCMBcADO
+ 0ibBBXd7Klf9EVyirIWwPalGWjqd8gJyEjn/yf4XZ3W3mgd9jhTEhm49Hk1MnlP2VZzwun
+ xKNoncGUdlQFlUhbLyBrCmPMATFLHeM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-668-t0whXX4tOqO2i0yZfZ9f5g-1; Mon, 30 Jan 2023 06:24:55 -0500
-X-MC-Unique: t0whXX4tOqO2i0yZfZ9f5g-1
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
- [10.11.54.7])
+ us-mta-664-Rs4C7BZoNfiJef0o6jy8ug-1; Mon, 30 Jan 2023 06:24:59 -0500
+X-MC-Unique: Rs4C7BZoNfiJef0o6jy8ug-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3118B2999B26
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 11:24:55 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B147985C069
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 11:24:59 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 6CA8A140EBF5;
- Mon, 30 Jan 2023 11:24:54 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B0341492B01;
+ Mon, 30 Jan 2023 11:24:58 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH 05/11] meson: ensure dbus-display generated code is built
- before other units
-Date: Mon, 30 Jan 2023 15:24:25 +0400
-Message-Id: <20230130112431.69559-6-marcandre.lureau@redhat.com>
+Subject: [PATCH 06/11] ui: rename cursor_{put->unref}
+Date: Mon, 30 Jan 2023 15:24:26 +0400
+Message-Id: <20230130112431.69559-7-marcandre.lureau@redhat.com>
 In-Reply-To: <20230130112431.69559-1-marcandre.lureau@redhat.com>
 References: <20230130112431.69559-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.133.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -83,41 +82,148 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-It's simply by luck that dbus-display header is built first before the
-other units using it.
-
-With sourceset, I can't find an easier way out than declaring an extra
-dependency for dbus-display1 generate code.
+The naming is more conventional in QEMU.
 
 Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 ---
- ui/meson.build | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ include/ui/console.h    | 2 +-
+ hw/display/qxl-render.c | 4 ++--
+ hw/display/qxl.c        | 2 +-
+ hw/display/vmware_vga.c | 4 ++--
+ ui/cursor.c             | 2 +-
+ ui/dbus-listener.c      | 2 +-
+ ui/spice-display.c      | 4 ++--
+ ui/vnc.c                | 2 +-
+ 8 files changed, 11 insertions(+), 11 deletions(-)
 
-diff --git a/ui/meson.build b/ui/meson.build
-index 612ea2325b..0b2d0d21d1 100644
---- a/ui/meson.build
-+++ b/ui/meson.build
-@@ -83,7 +83,9 @@ if dbus_display
-                                           '--interface-prefix', 'org.qemu.',
-                                           '--c-namespace', 'QemuDBus',
-                                           '--generate-c-code', '@BASENAME@'])
--  dbus_ss.add(when: [gio, pixman, opengl, gbm],
-+  dbus_display1_lib = static_library('dbus-display1', dbus_display1, dependencies: gio)
-+  dbus_display1_dep = declare_dependency(link_with: dbus_display1_lib, include_directories: include_directories('.'))
-+  dbus_ss.add(when: [gio, pixman, opengl, gbm, dbus_display1_dep],
-               if_true: [files(
-                 'dbus-chardev.c',
-                 'dbus-clipboard.c',
-@@ -91,7 +93,7 @@ if dbus_display
-                 'dbus-error.c',
-                 'dbus-listener.c',
-                 'dbus.c',
--              ), dbus_display1])
-+              )])
-   ui_modules += {'dbus' : dbus_ss}
- endif
+diff --git a/include/ui/console.h b/include/ui/console.h
+index 8e6cf782a1..ec28402a4f 100644
+--- a/include/ui/console.h
++++ b/include/ui/console.h
+@@ -153,7 +153,7 @@ typedef struct QEMUCursor {
  
+ QEMUCursor *cursor_alloc(int width, int height);
+ void cursor_get(QEMUCursor *c);
+-void cursor_put(QEMUCursor *c);
++void cursor_unref(QEMUCursor *c);
+ QEMUCursor *cursor_builtin_hidden(void);
+ QEMUCursor *cursor_builtin_left_ptr(void);
+ void cursor_print_ascii_art(QEMUCursor *c, const char *prefix);
+diff --git a/hw/display/qxl-render.c b/hw/display/qxl-render.c
+index fcfd40c3ac..ec99ec887a 100644
+--- a/hw/display/qxl-render.c
++++ b/hw/display/qxl-render.c
+@@ -290,7 +290,7 @@ static QEMUCursor *qxl_cursor(PCIQXLDevice *qxl, QXLCursor *cursor,
+     return c;
+ 
+ fail:
+-    cursor_put(c);
++    cursor_unref(c);
+     return NULL;
+ }
+ 
+@@ -336,7 +336,7 @@ int qxl_render_cursor(PCIQXLDevice *qxl, QXLCommandExt *ext)
+         }
+         qemu_mutex_lock(&qxl->ssd.lock);
+         if (qxl->ssd.cursor) {
+-            cursor_put(qxl->ssd.cursor);
++            cursor_unref(qxl->ssd.cursor);
+         }
+         qxl->ssd.cursor = c;
+         qxl->ssd.mouse_x = cmd->u.set.position.x;
+diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+index ec712d3ca2..80ce1e9a93 100644
+--- a/hw/display/qxl.c
++++ b/hw/display/qxl.c
+@@ -299,7 +299,7 @@ void qxl_spice_reset_cursor(PCIQXLDevice *qxl)
+     qxl->guest_cursor = 0;
+     qemu_mutex_unlock(&qxl->track_lock);
+     if (qxl->ssd.cursor) {
+-        cursor_put(qxl->ssd.cursor);
++        cursor_unref(qxl->ssd.cursor);
+     }
+     qxl->ssd.cursor = cursor_builtin_hidden();
+ }
+diff --git a/hw/display/vmware_vga.c b/hw/display/vmware_vga.c
+index 59ae7f74b8..09591fbd39 100644
+--- a/hw/display/vmware_vga.c
++++ b/hw/display/vmware_vga.c
+@@ -550,12 +550,12 @@ static inline void vmsvga_cursor_define(struct vmsvga_state_s *s,
+     default:
+         fprintf(stderr, "%s: unhandled bpp %d, using fallback cursor\n",
+                 __func__, c->bpp);
+-        cursor_put(qc);
++        cursor_unref(qc);
+         qc = cursor_builtin_left_ptr();
+     }
+ 
+     dpy_cursor_define(s->vga.con, qc);
+-    cursor_put(qc);
++    cursor_unref(qc);
+ }
+ #endif
+ 
+diff --git a/ui/cursor.c b/ui/cursor.c
+index 835f0802f9..31b09bf058 100644
+--- a/ui/cursor.c
++++ b/ui/cursor.c
+@@ -111,7 +111,7 @@ void cursor_get(QEMUCursor *c)
+     c->refcount++;
+ }
+ 
+-void cursor_put(QEMUCursor *c)
++void cursor_unref(QEMUCursor *c)
+ {
+     if (c == NULL)
+         return;
+diff --git a/ui/dbus-listener.c b/ui/dbus-listener.c
+index 620d9450cc..cc1054caff 100644
+--- a/ui/dbus-listener.c
++++ b/ui/dbus-listener.c
+@@ -346,7 +346,7 @@ static void dbus_cursor_define(DisplayChangeListener *dcl,
+         c->data,
+         c->width * c->height * 4,
+         TRUE,
+-        (GDestroyNotify)cursor_put,
++        (GDestroyNotify)cursor_unref,
+         c);
+ 
+     qemu_dbus_display1_listener_call_cursor_define(
+diff --git a/ui/spice-display.c b/ui/spice-display.c
+index 0616a6982f..161868735b 100644
+--- a/ui/spice-display.c
++++ b/ui/spice-display.c
+@@ -463,7 +463,7 @@ void qemu_spice_cursor_refresh_bh(void *opaque)
+         qemu_mutex_unlock(&ssd->lock);
+         dpy_cursor_define(ssd->dcl.con, c);
+         qemu_mutex_lock(&ssd->lock);
+-        cursor_put(c);
++        cursor_unref(c);
+     }
+ 
+     if (ssd->mouse_x != -1 && ssd->mouse_y != -1) {
+@@ -765,7 +765,7 @@ static void display_mouse_define(DisplayChangeListener *dcl,
+ 
+     qemu_mutex_lock(&ssd->lock);
+     cursor_get(c);
+-    cursor_put(ssd->cursor);
++    cursor_unref(ssd->cursor);
+     ssd->cursor = c;
+     ssd->hot_x = c->hot_x;
+     ssd->hot_y = c->hot_y;
+diff --git a/ui/vnc.c b/ui/vnc.c
+index d9eacad759..0bdcc3dfce 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -1029,7 +1029,7 @@ static void vnc_dpy_cursor_define(DisplayChangeListener *dcl,
+     VncDisplay *vd = container_of(dcl, VncDisplay, dcl);
+     VncState *vs;
+ 
+-    cursor_put(vd->cursor);
++    cursor_unref(vd->cursor);
+     g_free(vd->cursor_mask);
+ 
+     vd->cursor = c;
 -- 
 2.39.1
 
