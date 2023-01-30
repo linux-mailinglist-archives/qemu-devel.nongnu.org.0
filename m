@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BF63681C53
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:06:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C25C681C22
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:02:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMbGP-0000Qj-9A; Mon, 30 Jan 2023 16:00:29 -0500
+	id 1pMbGP-0000R1-TN; Mon, 30 Jan 2023 16:00:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMbGL-0000Hd-4j
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:00:25 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+ id 1pMbGN-0000OT-4f
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:00:27 -0500
+Received: from mail-pf1-x431.google.com ([2607:f8b0:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMbGJ-0005FO-7H
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:00:24 -0500
-Received: by mail-pg1-x530.google.com with SMTP id 78so8579302pgb.8
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 13:00:22 -0800 (PST)
+ id 1pMbGK-0005UI-US
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:00:26 -0500
+Received: by mail-pf1-x431.google.com with SMTP id u5so8437156pfm.10
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 13:00:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Gcq1GqPJ1PamHZjvqnlc7yOJ/YfB7s6YLYGHgpLNodU=;
- b=gAmtoQBwEGc9tG5N/HtSXtc5Oy36mp9RN7fw2lT/ZFPmhqgZnBYEWOYQbZ7Xxt/LQ+
- AAxhnIwiRr7cLS0oYIhoqcQPtCOyfSbh2RHvRIcJF7l8JvoK/qsTplNArPzCGxQSgdzN
- Y0tGHSY1A54i6I5WqGFETNh1RvhjmXoF+EE/zhmiaqG7CbgTaKxhAIHFK3Q0EQizoNn+
- jK0LNXsyKOxOWsZsXOSix4MOhas6kF4TlJEtA9RkUzUZfCh9lfarcNL1TfPzdEIQn5Nm
- lCaOrs3sikcQS1fq669NIxi0fo8Xc+jxp1/EYguBZ+EdjX5VpvPSPIWh/v0M+5CatJJL
- UWLQ==
+ bh=4KRif7Wsoc/WAay8HomgguVyT4DuSPlLucVRpmBwnfo=;
+ b=zmokCOA0+ofzHbOQeDkwra3ovsYQfM9XYLmMfjqDA25KzWndGY4DX7jc5Gej4rrN8I
+ tFTqx+dsOvBi6Cffmw8b45FhWjstvQkHgEewAIS0p8TZT+I23OZVNvcz47FOOOh/YnQt
+ QkPi3JVOdDr8Hdt6+rQ3XmMmZ3tE4nLRRgtqcby3SUnK5ZdYVP/niglGJtphY0hUywo/
+ uKlurHSmQVpWSCojbnWHTMGNu8v6q2FUJ2ynViz5qp2B1gJ3YgynAE1/YV1r+h0sEOJE
+ Im98IgYvICnM6pHFuDkl1Kuzqq0SdLhGp96HtdBnghDgkcBPa0wF3oCSMZOtHCpADBKr
+ LWag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Gcq1GqPJ1PamHZjvqnlc7yOJ/YfB7s6YLYGHgpLNodU=;
- b=ovtSvZnqtdMahdS253y2UVJZr6j+5iNgTSSuLTF61TyJB06jJ2+Yfriqh+9scO9rGM
- BuN0kGiFxZE0ta8nY15XGqdzbw7alucPssCFXOMK3S+JKcp2DVT5MKWcT/GwqNgpEY3V
- obAkTRsepyBsc22UvHez8Xsj7ubPFqvbaFzTz7nVlnEQKd2vBfSklPh/lUtvoPXgFXgb
- 1l4xSoMsNSUKlpG4Gy2L0ZuxPymPq3AFfti7xdi7AGYut6tAWccUVlk6QmdpOyVqO4W2
- ybxJ8j6ge4wRKhSsWRD2IKv1gIieX8iZ/WBr2XOKSMmhYJ6CXFPZDUI+iSdS+8LLGHKH
- Kogg==
-X-Gm-Message-State: AO0yUKXxIeiVZ2xtjeQKFktGzT8GqiETQtv6Rmna4KLD/eZqKKUNSEVH
- RhR+QrLyn7JlOJqGXsmDSZo7bfV1mTG4ZLh3
-X-Google-Smtp-Source: AK7set8JlnKaRt086P/kBq8EMMQZXgLQVurE9Ie72B4EevyijVxKPm7hbv5DJkiQDTzyF2KA9TWWwg==
-X-Received: by 2002:a05:6a00:1d96:b0:593:893f:81d7 with SMTP id
- z22-20020a056a001d9600b00593893f81d7mr9152455pfw.16.1675112422231; 
- Mon, 30 Jan 2023 13:00:22 -0800 (PST)
+ bh=4KRif7Wsoc/WAay8HomgguVyT4DuSPlLucVRpmBwnfo=;
+ b=2K7oKafpMZ9LP0rh7dP/cw4CDCWjt0tLjI6FhcTZ/6vCudHxESQiN5EaZrm6y/zqAX
+ z7jELgy7WqrbtR7wuIiKmGvxell/P+Ngf1Y2sjbs2zwF+/jP2nMs9JNZTJAnNAVlb4dy
+ iGsQznl6NluaE9xcMvCRJKhe7E0c8eGFVvYF8jyRSdVoOaHGRV21HkEl/z0jSSPpawm8
+ M9TFujFcFle8Cf3FxA5V+TeHokAWqudBcoENHKRArMclOiAlBhACqahyh4yGcHXjbCgp
+ CWKpw427x50sPKpk64ZUtqlvg0JDzkTybI66DHCL5vgUJGJ2OwNquFEaCbKGgKwfVj8Q
+ jYiQ==
+X-Gm-Message-State: AO0yUKU1fPxOpjHZZnKgNC1wWswbWwLmvBK78WOYnu80lgxFliL5btn8
+ 4EA5cKpdezyX0nGC6TVfUIrs2v7MHLk+sJC9
+X-Google-Smtp-Source: AK7set/oR4bio03uQb9STxXYeyP61LeP47+6z3IGAG6EJUPaCmUmpD9UbzQd3hWh4szywXwBU8MUVg==
+X-Received: by 2002:aa7:90d2:0:b0:593:c67e:e6e7 with SMTP id
+ k18-20020aa790d2000000b00593c67ee6e7mr4269953pfk.24.1675112423918; 
+ Mon, 30 Jan 2023 13:00:23 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- x10-20020aa79a4a000000b00593eb3a5e44sm102933pfj.37.2023.01.30.13.00.21
+ x10-20020aa79a4a000000b00593eb3a5e44sm102933pfj.37.2023.01.30.13.00.22
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 13:00:21 -0800 (PST)
+ Mon, 30 Jan 2023 13:00:23 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	cota@braap.org
-Subject: [PATCH 26/27] tcg: Remove tcg_temp_local_new_*, tcg_const_local_*
-Date: Mon, 30 Jan 2023 10:59:34 -1000
-Message-Id: <20230130205935.1157347-28-richard.henderson@linaro.org>
+Subject: [PATCH 27/27] tcg: Update docs/devel/tcg-ops.rst for temporary changes
+Date: Mon, 30 Jan 2023 10:59:35 -1000
+Message-Id: <20230130205935.1157347-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230130205935.1157347-1-richard.henderson@linaro.org>
 References: <20230130205935.1157347-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FUZZY_BITCOIN=1,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::431;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x431.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,138 +90,175 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-These symbols are now unused.
+Rewrite the sections which talked about 'local temporaries'.
+Remove some assumptions which no longer hold.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/tcg/tcg-op.h |  2 --
- include/tcg/tcg.h    | 28 ----------------------------
- tcg/tcg.c            | 16 ----------------
- 3 files changed, 46 deletions(-)
+ docs/devel/tcg-ops.rst | 103 +++++++++++++++++++++--------------------
+ 1 file changed, 54 insertions(+), 49 deletions(-)
 
-diff --git a/include/tcg/tcg-op.h b/include/tcg/tcg-op.h
-index 66b1461caa..353d430a63 100644
---- a/include/tcg/tcg-op.h
-+++ b/include/tcg/tcg-op.h
-@@ -828,14 +828,12 @@ static inline void tcg_gen_plugin_cb_end(void)
- #if TARGET_LONG_BITS == 32
- #define tcg_temp_new() tcg_temp_new_i32()
- #define tcg_global_mem_new tcg_global_mem_new_i32
--#define tcg_temp_local_new() tcg_temp_local_new_i32()
- #define tcg_temp_free tcg_temp_free_i32
- #define tcg_gen_qemu_ld_tl tcg_gen_qemu_ld_i32
- #define tcg_gen_qemu_st_tl tcg_gen_qemu_st_i32
- #else
- #define tcg_temp_new() tcg_temp_new_i64()
- #define tcg_global_mem_new tcg_global_mem_new_i64
--#define tcg_temp_local_new() tcg_temp_local_new_i64()
- #define tcg_temp_free tcg_temp_free_i64
- #define tcg_gen_qemu_ld_tl tcg_gen_qemu_ld_i64
- #define tcg_gen_qemu_st_tl tcg_gen_qemu_st_i64
-diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
-index a6512ac53e..5432e1dbdc 100644
---- a/include/tcg/tcg.h
-+++ b/include/tcg/tcg.h
-@@ -903,12 +903,6 @@ static inline TCGv_i32 tcg_temp_new_i32(void)
-     return temp_tcgv_i32(t);
- }
+diff --git a/docs/devel/tcg-ops.rst b/docs/devel/tcg-ops.rst
+index 9adc0c9b6c..53b7b6c93b 100644
+--- a/docs/devel/tcg-ops.rst
++++ b/docs/devel/tcg-ops.rst
+@@ -29,21 +29,42 @@ In this document, we use *guest* to specify what architecture we are
+ emulating; *target* always means the TCG target, the machine on which
+ we are running QEMU.
  
--static inline TCGv_i32 tcg_temp_local_new_i32(void)
--{
--    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I32, TEMP_TB);
--    return temp_tcgv_i32(t);
--}
+-A TCG *function* corresponds to a QEMU Translated Block (TB).
++A TCG *basic block* is a single entry, multiple exit region which
++corresponds to a list of instructions terminated by a label, or
++any branch instruction.
+ 
+-A TCG *temporary* is a variable only live in a basic block. Temporaries are allocated explicitly in each function.
++A TCG *extended basic block* is a single entry, multiple exit region
++which corresponds to a list of instructions terminated by a label or
++an unconditional branch.  Specifically, an extended basic block is
++a sequence of basic blocks connected by the fall-through paths of
++zero or more conditional branch instructions.
+ 
+-A TCG *local temporary* is a variable only live in a function. Local temporaries are allocated explicitly in each function.
++There is one TCG *fixed global* (``TEMP_FIXED``) variable, ``cpu_env``
++which is live in all translation blocks, and holds a pointer to ``CPUArchState``.
++This fixed global is held in a host cpu register at all times in all
++translation blocks.
+ 
+-A TCG *global* is a variable which is live in all the functions
+-(equivalent of a C global variable). They are defined before the
+-functions defined. A TCG global can be a memory location (e.g. a QEMU
+-CPU register), a fixed host register (e.g. the QEMU CPU state pointer)
+-or a memory location which is stored in a register outside QEMU TBs
+-(not implemented yet).
++A TCG *global* (``TEMP_GLOBAL``) is a variable which is live in all
++translation blocks, and correspond to memory locations that are within
++``CPUArchState``.  These may be specified as an offset from ``cpu_env``,
++in which case they are called *direct globals*, or may be specified as
++an offset from a direct global, in which case they are called
++*indirect globals*.  Even indirect globals should still reference memory
++within ``CPUArchState``.  All TCG globals are defined during
++``TCGCPUOps.initialize``, before any translation blocks are generated.
+ 
+-A TCG *basic block* corresponds to a list of instructions terminated
+-by a branch instruction.
++A TCG *constant* (``TEMP_CONST``) is a variable which is live throughout
++the entire translation block, and contains a constant value.
++These temporaries are allocated explicitly during translation and are
++hashed so that there is exactly one variable holding a given value.
++
++A TCG *translation block temporary* (``TEMP_TB``) is a variable which is
++live throughout the entire translation block, but dies on any exit.
++These temporaries are allocated explicitly during translation.
++
++A TCG *extended basic block temporary* (``TEMP_EBB``) is a variable which
++is live throughout an extended basic block, but dies on any exit.
++These temporaries are allocated explicitly during translation.
+ 
+ An operation with *undefined behavior* may result in a crash.
+ 
+@@ -57,11 +78,11 @@ Intermediate representation
+ Introduction
+ ------------
+ 
+-TCG instructions operate on variables which are temporaries, local
+-temporaries or globals. TCG instructions and variables are strongly
+-typed. Two types are supported: 32 bit integers and 64 bit
+-integers. Pointers are defined as an alias to 32 bit or 64 bit
+-integers depending on the TCG target word size.
++TCG instructions operate on variables which are temporaries.
++TCG instructions and variables are strongly typed.
++Two types are supported: 32 bit integers and 64 bit integers.
++Pointers are defined as an alias to 32 bit or 64 bit integers
++depending on the TCG target word size.
+ 
+ Each instruction has a fixed number of output variable operands, input
+ variable operands and always constant operands.
+@@ -81,17 +102,19 @@ included in the instruction name. Constants are prefixed with a '$'.
+ Assumptions
+ -----------
+ 
+-Basic blocks
++Basic Blocks
+ ^^^^^^^^^^^^
+ 
+-* Basic blocks end after branches (e.g. brcond_i32 instruction),
+-  goto_tb and exit_tb instructions.
++* Basic blocks end after conditional branches (e.g. brcond_i32),
++  br, goto_tb, exit_tb, goto_ptr, set_label instructions,
++  and calls that are defined to not return (``TCG_CALL_NO_RETURN``).
+ 
+-* Basic blocks start after the end of a previous basic block, or at a
+-  set_label instruction.
++* Basic blocks start after the end of a previous basic block,
++  or at a set_label instruction.
+ 
+-After the end of a basic block, the content of temporaries is
+-destroyed, but local temporaries and globals are preserved.
++* Extended basic blocks are a sequence of basic blocks that are
++  connected by the fall through of conditional branches.  Thus they end
++  at br, goto_tb, exit_tb, goto_ptr, set_label, and noreturn calls.
+ 
+ Floating point types
+ ^^^^^^^^^^^^^^^^^^^^
+@@ -120,18 +143,15 @@ Helpers
+     either directly or via an exception. They will not be saved to their
+     canonical locations before calling the helper.
+ 
+-  - ``TCG_CALL_NO_WRITE_GLOBALS`` means that the helper does not modify any globals.
+-    They will only be saved to their canonical location before calling helpers,
+-    but they won't be reloaded afterwards.
++  - ``TCG_CALL_NO_WRITE_GLOBALS`` means that the helper does not modify
++    any globals, but may read them.  Globals will be saved to their canonical
++    location before calling helpers, but won't be reloaded afterwards.
+ 
+-  - ``TCG_CALL_NO_SIDE_EFFECTS`` means that the call to the function is removed if
+-    the return value is not used.
++  - ``TCG_CALL_NO_SIDE_EFFECTS`` means that the call to the function is
++    removed if the return value is not used.
+ 
+   Note that ``TCG_CALL_NO_READ_GLOBALS`` implies ``TCG_CALL_NO_WRITE_GLOBALS``.
+ 
+-  On some TCG targets (e.g. x86), several calling conventions are
+-  supported.
 -
- static inline TCGv_i64 tcg_global_mem_new_i64(TCGv_ptr reg, intptr_t offset,
-                                               const char *name)
- {
-@@ -929,12 +923,6 @@ static inline TCGv_i64 tcg_temp_new_i64(void)
-     return temp_tcgv_i64(t);
- }
+ Branches
+ ^^^^^^^^
  
--static inline TCGv_i64 tcg_temp_local_new_i64(void)
--{
--    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I64, TEMP_TB);
--    return temp_tcgv_i64(t);
--}
+@@ -908,20 +928,9 @@ Recommended coding rules for best performance
+   often modified, e.g. the integer registers and the condition
+   codes. TCG will be able to use host registers to store them.
+ 
+-- Avoid globals stored in fixed registers. They must be used only to
+-  store the pointer to the CPU state and possibly to store a pointer
+-  to a register window.
 -
- /* Used only by tcg infrastructure: tcg-op.c or plugin-gen.c */
- static inline TCGv_i128 tcg_temp_ebb_new_i128(void)
- {
-@@ -948,12 +936,6 @@ static inline TCGv_i128 tcg_temp_new_i128(void)
-     return temp_tcgv_i128(t);
- }
- 
--static inline TCGv_i128 tcg_temp_local_new_i128(void)
--{
--    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_I128, TEMP_TB);
--    return temp_tcgv_i128(t);
--}
+-- Use temporaries. Use local temporaries only when really needed,
+-  e.g. when you need to use a value after a jump. Local temporaries
+-  introduce a performance hit in the current TCG implementation: their
+-  content is saved to memory at end of each basic block.
 -
- static inline TCGv_ptr tcg_global_mem_new_ptr(TCGv_ptr reg, intptr_t offset,
-                                               const char *name)
- {
-@@ -974,12 +956,6 @@ static inline TCGv_ptr tcg_temp_new_ptr(void)
-     return temp_tcgv_ptr(t);
- }
+-- Free temporaries and local temporaries when they are no longer used
+-  (tcg_temp_free). Since tcg_const_x() also creates a temporary, you
+-  should free it after it is used. Freeing temporaries does not yield
+-  a better generated code, but it reduces the memory usage of TCG and
+-  the speed of the translation.
++- Free temporaries when they are no longer used (``tcg_temp_free``).
++  Since ``tcg_const_x`` also creates a temporary, you should free it
++  after it is used.
  
--static inline TCGv_ptr tcg_temp_local_new_ptr(void)
--{
--    TCGTemp *t = tcg_temp_new_internal(TCG_TYPE_PTR, TEMP_TB);
--    return temp_tcgv_ptr(t);
--}
+ - Don't hesitate to use helpers for complicated or seldom used guest
+   instructions. There is little performance advantage in using TCG to
+@@ -932,10 +941,6 @@ Recommended coding rules for best performance
+   the instruction is mostly doing loads and stores, and in those cases
+   inline TCG may still be faster for longer sequences.
+ 
+-- The hard limit on the number of TCG instructions you can generate
+-  per guest instruction is set by ``MAX_OP_PER_INSTR`` in ``exec-all.h`` --
+-  you cannot exceed this without risking a buffer overrun.
 -
- #if defined(CONFIG_DEBUG_TCG)
- /* If you call tcg_clear_temp_count() at the start of a section of
-  * code which is not supposed to leak any TCG temporaries, then
-@@ -1082,8 +1058,6 @@ void tcg_optimize(TCGContext *s);
- /* Allocate a new temporary and initialize it with a constant. */
- TCGv_i32 tcg_const_i32(int32_t val);
- TCGv_i64 tcg_const_i64(int64_t val);
--TCGv_i32 tcg_const_local_i32(int32_t val);
--TCGv_i64 tcg_const_local_i64(int64_t val);
- TCGv_vec tcg_const_zeros_vec(TCGType);
- TCGv_vec tcg_const_ones_vec(TCGType);
- TCGv_vec tcg_const_zeros_vec_matching(TCGv_vec);
-@@ -1111,11 +1085,9 @@ TCGv_vec tcg_constant_vec_matching(TCGv_vec match, unsigned vece, int64_t val);
- 
- #if UINTPTR_MAX == UINT32_MAX
- # define tcg_const_ptr(x)        ((TCGv_ptr)tcg_const_i32((intptr_t)(x)))
--# define tcg_const_local_ptr(x)  ((TCGv_ptr)tcg_const_local_i32((intptr_t)(x)))
- # define tcg_constant_ptr(x)     ((TCGv_ptr)tcg_constant_i32((intptr_t)(x)))
- #else
- # define tcg_const_ptr(x)        ((TCGv_ptr)tcg_const_i64((intptr_t)(x)))
--# define tcg_const_local_ptr(x)  ((TCGv_ptr)tcg_const_local_i64((intptr_t)(x)))
- # define tcg_constant_ptr(x)     ((TCGv_ptr)tcg_constant_i64((intptr_t)(x)))
- #endif
- 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 1dbba58167..0191ba486c 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -1476,22 +1476,6 @@ TCGv_i64 tcg_const_i64(int64_t val)
-     return t0;
- }
- 
--TCGv_i32 tcg_const_local_i32(int32_t val)
--{
--    TCGv_i32 t0;
--    t0 = tcg_temp_local_new_i32();
--    tcg_gen_movi_i32(t0, val);
--    return t0;
--}
--
--TCGv_i64 tcg_const_local_i64(int64_t val)
--{
--    TCGv_i64 t0;
--    t0 = tcg_temp_local_new_i64();
--    tcg_gen_movi_i64(t0, val);
--    return t0;
--}
--
- #if defined(CONFIG_DEBUG_TCG)
- void tcg_clear_temp_count(void)
- {
+ - Use the 'discard' instruction if you know that TCG won't be able to
+   prove that a given global is "dead" at a given program point. The
+   x86 guest uses it to improve the condition codes optimisation.
 -- 
 2.34.1
 
