@@ -2,80 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8E98680518
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 05:39:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DBF0680521
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 05:44:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMLwK-0000BQ-M4; Sun, 29 Jan 2023 23:38:44 -0500
+	id 1pMM0k-0001EF-Tm; Sun, 29 Jan 2023 23:43:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMLwH-00009A-Vf
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 23:38:41 -0500
+ id 1pMM0j-0001Ds-Bg
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 23:43:17 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMLwG-0004kL-ET
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 23:38:41 -0500
+ id 1pMM0h-0005Zz-8F
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 23:43:17 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675053519;
+ s=mimecast20190719; t=1675053794;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Ju2P0VWS7K6ZLFv7S+N/lsygtCtZWoNPmabZDL58enU=;
- b=HUBRd7D6AMLvmHjxlYI84GzAdFTukcPiUULTE7BheLcyoxQW6cAJuVzmjAqBfL8abOSL59
- dL5xOrzFY+oxCJHOl7zdHrofR/jyZ1q4Cx1ZlVgx9rrkGUSpmlmetwMzzJkY1H/ctMf87s
- PhYzVp013oeHgtLMIUEdUZjyytDjBPY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=VePif6ytaM14VaX7etyKS2ygHwhmrK8RRbPfy7Ue5us=;
+ b=MI463eU979iHr/SF8G36gOziQkPomTocrjG/ipXLh5aRo/D11OncYegWIrPXCsRmrLWOy7
+ /NOKi7Xie+lUqbvC0SDuaYkysYbYsDrBwyvENQWmQTBt78IXYbUeRJPNJiV7NT1F/BV5M9
+ 6lTeqk/kp+o/OC8Z49MXSIv0Mkn0764=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-540-GBU5eafFNEK_y3MCtLk92A-1; Sun, 29 Jan 2023 23:38:37 -0500
-X-MC-Unique: GBU5eafFNEK_y3MCtLk92A-1
-Received: by mail-wm1-f72.google.com with SMTP id
- ay19-20020a05600c1e1300b003dc54daba42so1777501wmb.7
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 20:38:37 -0800 (PST)
+ us-mta-90-9d-ttEsjPgSn9kChu1N_ag-1; Sun, 29 Jan 2023 23:43:12 -0500
+X-MC-Unique: 9d-ttEsjPgSn9kChu1N_ag-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ r15-20020a05600c35cf00b003d9a14517b2so8886684wmq.2
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 20:43:12 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Ju2P0VWS7K6ZLFv7S+N/lsygtCtZWoNPmabZDL58enU=;
- b=lYj06ZTLlKHX8gPO/HfDptU6Wik1idQAiMwsb5jg+wpenQtosv3cRCSvMtZSQRx1d/
- xbKGD89/hBZXCdARI3ghg8oWGMTfXjQtCRwzya4FOSZbLbOk55PS3T7JZlRb6JG2W2iZ
- kuqjrd2Z10/djCbd/1SnapIiqx0/m5W4hfuecbGguXT1zipIyyqWSWGK+9wKO74u5a9L
- U3ESj1uSQxCXP56ix5+blNEJ/x7NQO/4k8VgjF3m1uHsav8doxmtzaWG12C/s2eNUCKX
- 8PV57OJDAnL5y9JXmEYf+lDRAwGCh/3Y+0syMCFGHSZVqz77FrCAfo3AYL/2lK/adkCz
- KPfQ==
-X-Gm-Message-State: AO0yUKWssFH4jf9qKgOfTa/aKVVhSTAnTEeZQ/qR0/f6YQiga/tMyywp
- 2AVGf0OOfhwTuxa6v4EYavmKZc/pALw7wyMZgP37LaP4vXDHaOTxqt0y41u36UzND9I8xvxz1Ne
- ZfnazFczOUWc63gA=
-X-Received: by 2002:a5d:668d:0:b0:2bf:d17c:609b with SMTP id
- l13-20020a5d668d000000b002bfd17c609bmr8745063wru.64.1675053516728; 
- Sun, 29 Jan 2023 20:38:36 -0800 (PST)
-X-Google-Smtp-Source: AK7set/SlGo3vYg77xpdBoDPU5jOr0X7xko2NLIv17/UtgBS1mh5uakMdgt+Rai4rDBFURR3FVSV9Q==
-X-Received: by 2002:a5d:668d:0:b0:2bf:d17c:609b with SMTP id
- l13-20020a5d668d000000b002bfd17c609bmr8745051wru.64.1675053516516; 
- Sun, 29 Jan 2023 20:38:36 -0800 (PST)
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=VePif6ytaM14VaX7etyKS2ygHwhmrK8RRbPfy7Ue5us=;
+ b=nd8euCRPVZSkJZGaZ9wDxl8Mk22hNZmv8VaRKF0TirdyFTNpL7pdNYCUQPqqGdIKj2
+ 6cphxSjTRIwiVmHKMwVIxB59ydHyZYhLnH7vgo2/cXqPZJeWYAM8baEbew8EnuJ10/dE
+ yERoYVBD6R5nO6f4Bqt8ur+U3Zlv8vAIf4hq2xYbxO9MIE8+W21saR7h5qqKsmteCtUR
+ QOkwX6iIBCXdb9jZ4XTElgmj3t5mfqJYwFSHAVD/PwNN6q9iVTJHqZbKVVlQZ+4cfmdl
+ 9as0PPY6MRcZ9d3ufXqg0srn4Seewvv+xH92qSe6XS9hLoONNKVfdoADP1jWr4JYG3LU
+ X/cw==
+X-Gm-Message-State: AO0yUKVnGv0WfqJI2blifOriEn1szK0NcbNgCXOY3Tj3hI37yAlIB7uH
+ Qj3K01xuynyQNik6vtlN9W9znXFhA7BLCSkcTyCo+BTSgJiPgO3KvEnIKcgdyoPXl1BLWi7QWpN
+ CKybvLADIxw2KE/s=
+X-Received: by 2002:a05:600c:3b8f:b0:3dc:4633:9844 with SMTP id
+ n15-20020a05600c3b8f00b003dc46339844mr8918457wms.17.1675053791613; 
+ Sun, 29 Jan 2023 20:43:11 -0800 (PST)
+X-Google-Smtp-Source: AK7set9wuTo+P9pi/hAm3YGxK80Lco6gn3pYYo25z25odahLZcFSb03+rnquF4A6u7o3mff/PJoN2g==
+X-Received: by 2002:a05:600c:3b8f:b0:3dc:4633:9844 with SMTP id
+ n15-20020a05600c3b8f00b003dc46339844mr8918442wms.17.1675053791434; 
+ Sun, 29 Jan 2023 20:43:11 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- u6-20020a5d4346000000b002bc84c55758sm12247508wrr.63.2023.01.29.20.38.35
+ fl22-20020a05600c0b9600b003d1e3b1624dsm15700114wmb.2.2023.01.29.20.43.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 20:38:35 -0800 (PST)
+ Sun, 29 Jan 2023 20:43:10 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
- <lsoaresp@redhat.com>,  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- qemu-stable@nongnu.org,  Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH] migration: Fix migration crash when target psize larger
- than host
-In-Reply-To: <20230120163147.2343050-1-peterx@redhat.com> (Peter Xu's message
- of "Fri, 20 Jan 2023 11:31:47 -0500")
-References: <20230120163147.2343050-1-peterx@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org,  Paolo Bonzini <pbonzini@redhat.com>,  "Dr. David
+ Alan Gilbert" <dgilbert@redhat.com>,  Thomas Huth <thuth@redhat.com>,
+ Fabiano Rosas <farosas@suse.de>,  Laurent Vivier <lvivier@redhat.com>,
+ qemu-arm@nongnu.org,  Richard Henderson <richard.henderson@linaro.org>
+Subject: Re: [PATCH v3 05/11] tests/qtest/migration-test: Inverse #ifdef'ry
+ ladders
+In-Reply-To: <20230120082341.59913-6-philmd@linaro.org> ("Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Fri, 20 Jan 2023 09:23:35
+ +0100")
+References: <20230120082341.59913-1-philmd@linaro.org>
+ <20230120082341.59913-6-philmd@linaro.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 30 Jan 2023 05:38:35 +0100
-Message-ID: <87pmawmyb8.fsf@secure.mitica>
+Date: Mon, 30 Jan 2023 05:43:09 +0100
+Message-ID: <87edrcmy3m.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -101,25 +107,12 @@ Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Xu <peterx@redhat.com> wrote:
-> Commit d9e474ea56 overlooked the case where the target psize is even larger
-> than the host psize.  One example is Alpha has 8K page size and migration
-> will start to crash the source QEMU when running Alpha migration on x86.
+Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org> wrote:
+> This slighly simplify the logic, and eases the following conversion.
 >
-> Fix it by detecting that case and set host start/end just to cover the
-> single page to be migrated.
->
-> This will slightly optimize the common case where host psize equals to
-> guest psize so we don't even need to do the roundups, but that's trivial.
->
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1456
-> Fixes: d9e474ea56 ("migration: Teach PSS about host page")
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-queued
 
 
