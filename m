@@ -2,75 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9801680501
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 05:30:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E98680518
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 05:39:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMLoT-0006Je-CO; Sun, 29 Jan 2023 23:30:37 -0500
+	id 1pMLwK-0000BQ-M4; Sun, 29 Jan 2023 23:38:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pMLoP-0006It-1g; Sun, 29 Jan 2023 23:30:34 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
- id 1pMLoN-0003ln-MK; Sun, 29 Jan 2023 23:30:32 -0500
-Received: by mail-ed1-x534.google.com with SMTP id f7so2510105edw.5;
- Sun, 29 Jan 2023 20:30:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=sKM975hR4vvxtURam1VMgGqxqPbVKVk/vNjQBoFK/6o=;
- b=RdG3h4wsVDxV6ID03MlNm0U7bcqRDE6tOznxpXrrzui32sN9Upg6pzzgPZZXPGrDu4
- 3zvzcSmnfF0O3UMAiK084POQeNENg0BcPCtigz/63WclB5rskinej6zidrD3tDr3qjqy
- MxGbTpeDWkICZ9j47N51p5itcopANs80WtNfOitfY21oCZnSuW/t6MrKy0g8s14akuoe
- XsdI767hqTiwqlQsDJvHyjcrLzXU+YkcCcDfHPdWyFg2hfvP7BL7mtPlgoTC/XPmBKxT
- ySMbOJvYWF1ZNcBPM+WbS7pTvOkkLSQyGLXqfRuiWhNW+JoSR1wUeJfv6fBU7k0I5ZwL
- rqjg==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pMLwH-00009A-Vf
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 23:38:41 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pMLwG-0004kL-ET
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 23:38:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675053519;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=Ju2P0VWS7K6ZLFv7S+N/lsygtCtZWoNPmabZDL58enU=;
+ b=HUBRd7D6AMLvmHjxlYI84GzAdFTukcPiUULTE7BheLcyoxQW6cAJuVzmjAqBfL8abOSL59
+ dL5xOrzFY+oxCJHOl7zdHrofR/jyZ1q4Cx1ZlVgx9rrkGUSpmlmetwMzzJkY1H/ctMf87s
+ PhYzVp013oeHgtLMIUEdUZjyytDjBPY=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-540-GBU5eafFNEK_y3MCtLk92A-1; Sun, 29 Jan 2023 23:38:37 -0500
+X-MC-Unique: GBU5eafFNEK_y3MCtLk92A-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ ay19-20020a05600c1e1300b003dc54daba42so1777501wmb.7
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 20:38:37 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sKM975hR4vvxtURam1VMgGqxqPbVKVk/vNjQBoFK/6o=;
- b=6w5RcI9BARxhjr4yPEDH/+d8+mBvp2dnRRaxnT6ke7YBz7tuCH7c4w+R5lG1VbCAtP
- 1uQy5aYJSeMBUmbH/FO62NxWg2YmamUjysgcCfawU+v2uAJYqIm32+jMWbdWe5l8dUW+
- uTW41DEUahrsjwNQhbUMd1u4bsPUgyhsUQx0aBR1iHEdy0u52ss49WPj3pW0B3bdjYwZ
- FGpNdGn4zB5l6jwtAuE4UTdTS5dem3dj0mdgv/X+ugvVDUcW0SJ09lXI7swPHtbKpLF2
- TdIcy8Koci368tXeuc3Ykxhk+qaEmDsV7VD/C7CuNEi5LE6Rf1TsjSwyp5D3RxbJe2Bv
- X8iQ==
-X-Gm-Message-State: AO0yUKVQodz7wmI0PF601ZLa+1Bzel3/8e3xHI3UoyeOm2Oc597Pn4ra
- pn3AWeNqq2XCUxyRlW42XiFdgigyTQkLAhz+1RU=
-X-Google-Smtp-Source: AK7set+KSc1qeu6BPxfc7nMAQrOCM5RsuQACW+XHc8fF+2S9fh3u5n7hK9E/83V9MToi0q8VqCSwiiIwWf0zn9mo90Q=
-X-Received: by 2002:a05:6402:f24:b0:4a2:28f6:984b with SMTP id
- i36-20020a0564020f2400b004a228f6984bmr1675841eda.29.1675053029719; Sun, 29
- Jan 2023 20:30:29 -0800 (PST)
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Ju2P0VWS7K6ZLFv7S+N/lsygtCtZWoNPmabZDL58enU=;
+ b=lYj06ZTLlKHX8gPO/HfDptU6Wik1idQAiMwsb5jg+wpenQtosv3cRCSvMtZSQRx1d/
+ xbKGD89/hBZXCdARI3ghg8oWGMTfXjQtCRwzya4FOSZbLbOk55PS3T7JZlRb6JG2W2iZ
+ kuqjrd2Z10/djCbd/1SnapIiqx0/m5W4hfuecbGguXT1zipIyyqWSWGK+9wKO74u5a9L
+ U3ESj1uSQxCXP56ix5+blNEJ/x7NQO/4k8VgjF3m1uHsav8doxmtzaWG12C/s2eNUCKX
+ 8PV57OJDAnL5y9JXmEYf+lDRAwGCh/3Y+0syMCFGHSZVqz77FrCAfo3AYL/2lK/adkCz
+ KPfQ==
+X-Gm-Message-State: AO0yUKWssFH4jf9qKgOfTa/aKVVhSTAnTEeZQ/qR0/f6YQiga/tMyywp
+ 2AVGf0OOfhwTuxa6v4EYavmKZc/pALw7wyMZgP37LaP4vXDHaOTxqt0y41u36UzND9I8xvxz1Ne
+ ZfnazFczOUWc63gA=
+X-Received: by 2002:a5d:668d:0:b0:2bf:d17c:609b with SMTP id
+ l13-20020a5d668d000000b002bfd17c609bmr8745063wru.64.1675053516728; 
+ Sun, 29 Jan 2023 20:38:36 -0800 (PST)
+X-Google-Smtp-Source: AK7set/SlGo3vYg77xpdBoDPU5jOr0X7xko2NLIv17/UtgBS1mh5uakMdgt+Rai4rDBFURR3FVSV9Q==
+X-Received: by 2002:a5d:668d:0:b0:2bf:d17c:609b with SMTP id
+ l13-20020a5d668d000000b002bfd17c609bmr8745051wru.64.1675053516516; 
+ Sun, 29 Jan 2023 20:38:36 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ u6-20020a5d4346000000b002bc84c55758sm12247508wrr.63.2023.01.29.20.38.35
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 29 Jan 2023 20:38:35 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
+ <lsoaresp@redhat.com>,  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ qemu-stable@nongnu.org,  Thomas Huth <thuth@redhat.com>
+Subject: Re: [PATCH] migration: Fix migration crash when target psize larger
+ than host
+In-Reply-To: <20230120163147.2343050-1-peterx@redhat.com> (Peter Xu's message
+ of "Fri, 20 Jan 2023 11:31:47 -0500")
+References: <20230120163147.2343050-1-peterx@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Mon, 30 Jan 2023 05:38:35 +0100
+Message-ID: <87pmawmyb8.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20230125162010.1615787-1-alexghiti@rivosinc.com>
- <20230125162010.1615787-6-alexghiti@rivosinc.com>
-In-Reply-To: <20230125162010.1615787-6-alexghiti@rivosinc.com>
-From: Bin Meng <bmeng.cn@gmail.com>
-Date: Mon, 30 Jan 2023 12:30:18 +0800
-Message-ID: <CAEUhbmU06kV90VUigQGuhnO7QEm5y8i+ZeWkQHzV2MzTLyTTWA@mail.gmail.com>
-Subject: Re: [PATCH v8 5/5] riscv: Correctly set the device-tree entry
- 'mmu-type'
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>, 
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x534.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -83,21 +97,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Jan 26, 2023 at 12:25 AM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
+Peter Xu <peterx@redhat.com> wrote:
+> Commit d9e474ea56 overlooked the case where the target psize is even larger
+> than the host psize.  One example is Alpha has 8K page size and migration
+> will start to crash the source QEMU when running Alpha migration on x86.
 >
-> The 'mmu-type' should reflect what the hardware is capable of so use the
-> new satp_mode field in RISCVCPUConfig to do that.
+> Fix it by detecting that case and set host start/end just to cover the
+> single page to be migrated.
 >
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> ---
->  hw/riscv/virt.c | 19 ++++++++++---------
->  1 file changed, 10 insertions(+), 9 deletions(-)
+> This will slightly optimize the common case where host psize equals to
+> guest psize so we don't even need to do the roundups, but that's trivial.
 >
+> Cc: qemu-stable@nongnu.org
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1456
+> Fixes: d9e474ea56 ("migration: Teach PSS about host page")
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+queued
+
 
