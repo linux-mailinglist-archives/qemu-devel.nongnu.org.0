@@ -2,71 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1DD9681597
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 16:52:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB674681599
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 16:53:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMWRy-0002DG-2P; Mon, 30 Jan 2023 10:52:06 -0500
+	id 1pMWSv-0002wj-6d; Mon, 30 Jan 2023 10:53:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pMWRv-00025i-2l
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:52:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pMWSn-0002wK-BT
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:52:57 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pMWRs-0002iS-GF
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:52:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675093918;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=RyxDox3bOgeHZ3XIkezoyoegI3o7dbDIAVvrICG4t6g=;
- b=McFmESZDFtJslmwRt1d3++flPfst8taYwBh3EIbt4N9PDVGuF/PKGZR0iuzXC/Cj5OsumA
- UZtTnVbBFnJEmNH/516xBuUhEhF0TRH4rQ8Exwo3xEyNhRDcmPWfLyGJL0LZATHlHNM5N3
- qRZkwFO0DcePpEluNillptcto+L/Ee4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-5-G_e97LcRPUGl3kit7aiFoQ-1; Mon, 30 Jan 2023 10:51:57 -0500
-X-MC-Unique: G_e97LcRPUGl3kit7aiFoQ-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E7FBC296A629;
- Mon, 30 Jan 2023 15:51:56 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id EC1CD2026D4B;
- Mon, 30 Jan 2023 15:51:54 +0000 (UTC)
-Date: Mon, 30 Jan 2023 15:51:52 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Richard W.M. Jones" <rjones@redhat.com>
-Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
- qemu-block@nongnu.org, kwolf@redhat.com
-Subject: Re: RFC: towards systemd socket activation in q-s-d
-Message-ID: <Y9fnmIDV3gh5e9o7@redhat.com>
-References: <20230127212233.k6rlqkmubhovjxs4@redhat.com>
- <Y9fa+Zm5VLNoDDo0@redhat.com> <20230130154448.GS7636@redhat.com>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pMWSj-0002mz-Ak
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:52:56 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P5CKP2WCtz6H6vx;
+ Mon, 30 Jan 2023 23:49:13 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Mon, 30 Jan 2023 15:52:48 +0000
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
+CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
+ <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
+ <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>, Mike Maslenkin <mike.maslenkin@gmail.com>
+Subject: [PATCH v3 0/8] hw/cxl: RAS error emulation and injection
+Date: Mon, 30 Jan 2023 15:52:43 +0000
+Message-ID: <20230130155251.3430-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230130154448.GS7636@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -80,49 +61,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 30, 2023 at 03:44:48PM +0000, Richard W.M. Jones wrote:
-> On Mon, Jan 30, 2023 at 02:58:01PM +0000, Daniel P. Berrangé wrote:
-> > Obviously at startup QEMU can trivially inherit the FDs from whatever
-> > spawned it. The only task is to identify the FDs that are passed into,
-> > and systemd defined a mechanism for this using LISTEN_FDNAMES. IOW the
-> > socket activation can fully replace 'getfd' for purpose of initial
-> > startup. This will get rid of the annoying difference that SocketAddress
-> > only allows numeric FDs at startup and named FDs at runtime, by making
-> > named FDs the consistent standard. We could thus deprecate the use of
-> > non-named numeric FDs in SocketAddress to improve our sanity.
-> > 
-> > The question is how to define semantics for the LISTEN_FDNAMES while
-> > also still remaining back compat with the existing QEMU utilities
-> > that allow socket activation. Some kind of naming scheme would need
-> > to be decided upon, as well as handling the use of activation without
-> > LISTEN_FDNAMES being set. 
-> 
-> If I understand LISTEN_FDNAMES correctly, it's the names of the
-> protocols to be used (rather clumsily expressed through IANA
-> registered names from /etc/services).  It would be valid to use
-> LISTEN_FDNAMES=http:http for example, for a service that must use HTTP
-> on both sockets.
+v3: New patch fixing related endian issues + endian fixes in the injection
+    code (thanks for feedback off list)
+    Dropped header logging for correctable errors as there is no such
+    logging in the specification.
 
-That's not accurate, it is not related to IANA service names.
+v2: Thanks to Mike Maslenkin for review.
+- Fix wrong parameter type to ct3d_qmp_cor_err_to_cxl()
+- Rework use of CXLError local variable in ct3d_reg_write() to improve
+  code readability.
 
-> In other words it's not just names of file descriptors that you can
-> make up.
+CXL error reporting is complex. This series only covers the protocol
+related errors reported via PCIE AER - Ira Weiny has posted support for
+Event log based injection and I will post an update of Poison list injection
+shortly. My proposal is to upstream this one first, followed by Ira's Event
+Log series, then finally the Poison List handling. That is based on likely
+order of Linux kernel support (the support for this type of error reporting
+went in during the recent merge window, the others are still under review).
+Note we may propose other non error related features in between!
+The current revisions of all the error injection can be found at:
+https://gitlab.com/jic23/qemu/-/tree/cxl-2023-01-11
 
-By default the FD name matches the name of the systemd .socket unit
-file, but it can be set to an arbitrary string using FileDescriptorName=.
-It is upto the application to decide if it wants to require specific
-file naming schemes, or is happy to receive the default system .socket
-based names.
+In order to test the kernel support for RAS error handling, I previously
+provided this series via gitlab, enabling David Jiang's kernel patches
+to be tested.
 
-With regards,
-Daniel
+Now that Linux kernel support is upstream, this series is proposing the
+support for upstream inclusion in QEMU. Note that support for Multiple
+Header Recording has been added to QEMU the meantime and a kernel
+patch to use that feature sent out.
+
+https://lore.kernel.org/linux-cxl/20230113154058.16227-1-Jonathan.Cameron@huawei.com/T/#t
+
+There are two generic PCI AER precursor feature additions.
+1) The PCI_ERR_UCOR_MASK register has not been implemented until now
+   and is necessary for correct emulation.
+2) The routing for AER errors, via existing AER error injection, only
+   covered one of two paths given in the PCIe base specification,
+   unfortunately not the one used by the Linux kernel CXL support.
+
+The use of MSI for the CXL root ports, both makes sense from the point
+of view of how it may well be implemented, and works around the documented
+lack of PCI interrupt routing in i386/q35. I have a hack that lets
+us correctly route those interrupts but don't currently plan to post it.
+
+The actual CXL error injection uses a new QMP interface as documented
+in the final patch description. The existing AER error injection
+internals are reused though it's HMP interface is not.
+
+Injection via QMP:
+{ "execute": "qmp_capabilities" }
+...
+{ "execute": "cxl-inject-uncorrectable-errors",
+  "arguments": {
+    "path": "/machine/peripheral/cxl-pmem0",
+    "errors": [
+        {
+            "type": "cache-address-parity",
+            "header": [ 3, 4]
+        },
+        {
+            "type": "cache-data-parity",
+            "header": [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31]
+        },
+        {
+            "type": "internal",
+            "header": [ 1, 2, 4]
+        }
+        ]
+  }}
+...
+{ "execute": "cxl-inject-correctable-error",
+    "arguments": {
+        "path": "/machine/peripheral/cxl-pmem0",
+        "type": "physical"
+    } }
+
+Based on top of:
+https://lore.kernel.org/qemu-devel/20230130143705.11758-1-Jonathan.Cameron@huawei.com/T/#t
+[PATCH v3 00/10] hw/cxl: CXL emulation cleanups and minor fixes for upstream
+
+Jonathan Cameron (8):
+  hw/pci/aer: Implement PCI_ERR_UNCOR_MASK register
+  hw/pci/aer: Add missing routing for AER errors
+  hw/pci-bridge/cxl_root_port: Wire up AER
+  hw/pci-bridge/cxl_root_port: Wire up MSI
+  hw/mem/cxl-type3: Add AER extended capability
+  hw/cxl: Fix endian issues in CXL RAS capability defaults / masks
+  hw/pci/aer: Make PCIE AER error injection facility available for other
+    emulation to use.
+  hw/mem/cxl_type3: Add CXL RAS Error Injection Support.
+
+ hw/cxl/cxl-component-utils.c   |  20 ++-
+ hw/mem/cxl_type3.c             | 294 +++++++++++++++++++++++++++++++++
+ hw/mem/cxl_type3_stubs.c       |  10 ++
+ hw/mem/meson.build             |   2 +
+ hw/pci-bridge/cxl_root_port.c  |  64 +++++++
+ hw/pci/pci-internal.h          |   1 -
+ hw/pci/pcie_aer.c              |  14 +-
+ include/hw/cxl/cxl_component.h |  26 +++
+ include/hw/cxl/cxl_device.h    |  11 ++
+ include/hw/pci/pcie_aer.h      |   1 +
+ include/hw/pci/pcie_regs.h     |   3 +
+ qapi/cxl.json                  | 110 ++++++++++++
+ qapi/meson.build               |   1 +
+ qapi/qapi-schema.json          |   1 +
+ 14 files changed, 547 insertions(+), 11 deletions(-)
+ create mode 100644 hw/mem/cxl_type3_stubs.c
+ create mode 100644 qapi/cxl.json
+
 -- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+2.37.2
 
 
