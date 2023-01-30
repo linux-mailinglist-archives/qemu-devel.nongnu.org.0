@@ -2,97 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4114681164
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B3717681194
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:14:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMUtw-0001Ep-Ni; Mon, 30 Jan 2023 09:12:52 -0500
+	id 1pMUvc-0002VR-J5; Mon, 30 Jan 2023 09:14:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMUto-0001Cb-TZ
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:12:44 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMUti-0000IE-Oh
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:12:43 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675087957;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=/JfOpjghu1xEkXUaTMrcOhwi5M2JrjC97o13QlidUK8=;
- b=VpMHIcQPYRqWmM16iStx/GYDuNIM3FSJtabW7Ovn/WGWb6x3wSRx7GdP2SZJbtybJ+ZHas
- P0ReHBUkl3JRFv/0VsRBt9JNnAweLyFFWWK3reEBheWrOPJrglTwI9PC2aoGY4OieECSb3
- eqAjdXS5krGsLdZ8XBygSaquGwYlw/I=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-593-Ob_DJLSUOi65rPVlJjPkVA-1; Mon, 30 Jan 2023 09:12:36 -0500
-X-MC-Unique: Ob_DJLSUOi65rPVlJjPkVA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l8-20020a05600c1d0800b003dc25f6bb5dso7647869wms.0
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:12:36 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pMUva-0002Uy-R7
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:14:34 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pMUvZ-0000WY-60
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:14:34 -0500
+Received: by mail-pl1-x635.google.com with SMTP id p24so11721266plw.11
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:14:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=/wauOP2KtXuUV8qpj/Jtnf0jIu6O0L7TvGYxvbmPKwg=;
+ b=MXMEJ5cEJ6MNWEIcH54xUoJ4qNUwa45wOG+gQ4pGYW3//+a6CqXkAVH82OjZoH8uCC
+ hrP6tSdL8j4EbJ1DK65A1E5Ybmgk2qpL9ZQ/pLVsnObq73WmarfZJCjDL1wFA7HGykS7
+ hnGneO/6Q+4dfooJyApgAQQEjYmUqBhjrCU+NryJ4Bbuk+H4vIdyQXwXF5twUjfizTiZ
+ b3B+qLFDB2ZLCWPbiTghVjhDyvVQlFhxHy8GJ+ICPobB2MLEQIHO6j3CguhvhpAU+QBM
+ DUG4KEgO7LQqT1ZHNkbOieL1aWznrfFdKOhIXCszAxTJa1jeFarVGDJIkNokcuWfQy+H
+ kLfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=/JfOpjghu1xEkXUaTMrcOhwi5M2JrjC97o13QlidUK8=;
- b=0jBiJIUjMnXkm9F9LHg8iKOUSJ5sQKkQ0pwN44OgPhs1EO6TEMAkFVihiZ7TUsV7ea
- PD+9GcVHsMyJ2et+Pdn7c/j0tPAaB1/udxLXD9rihzhK5dpTLQ2JIWoFG3mU3nBnpNL1
- L23tE5ZGaCSTidAjA1TZZVSiAkhUGqxfV78LEV+XYaEaE9N7EDPJIWpAMJ/hXnWpnpTb
- LwjyEqEU0Tp2glzxYuZtTOTmrPlP+oLTxsGEb0L957lDYWk4GnQJ3OxxpzxlOo6lVWWd
- NaaZ3uT4+g+EmL5gqSqeOiYgE0Sga6567YodsHc9JsgaQKOgP5RRhG3gq9iBG7YNaVVV
- ZgTQ==
-X-Gm-Message-State: AFqh2koOSa7wHpOm/O/FukI1t/seA7CNRxJGpMEeKOqtIfVhlmAk7lYo
- mS1NsM0oeboxwyqIefdDR5GjZCiCXrg6HJjX56aSqmLNABsZLD991sVzWYbRrnHxM6otunRnI0S
- LV7SXhMgAvqBd3Xw=
-X-Received: by 2002:a05:600c:1c2a:b0:3cf:d0b1:8aa1 with SMTP id
- j42-20020a05600c1c2a00b003cfd0b18aa1mr48027873wms.0.1675087955468; 
- Mon, 30 Jan 2023 06:12:35 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXs9TAXpE01r9HA8uSktOWQsibC9/rxGSG9jlES6a9brbM56rTswWAF4+QxzlicTpQW/dLjj2A==
-X-Received: by 2002:a05:600c:1c2a:b0:3cf:d0b1:8aa1 with SMTP id
- j42-20020a05600c1c2a00b003cfd0b18aa1mr48027839wms.0.1675087955281; 
- Mon, 30 Jan 2023 06:12:35 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- o25-20020a1c7519000000b003daf6e3bc2fsm24805883wmc.1.2023.01.30.06.12.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 06:12:34 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org,  richard.henderson@linaro.org,
- pbonzini@redhat.com,  kwolf@redhat.com,  hreitz@redhat.com,
- imp@bsdimp.com,  kevans@freebsd.org,  berrange@redhat.com,
- groug@kaod.org,  qemu_oss@crudebyte.com,  mst@redhat.com,
- philmd@linaro.org,  peter.maydell@linaro.org,  alistair@alistair23.me,
- jasowang@redhat.com,  jonathan.cameron@huawei.com,
- kbastian@mail.uni-paderborn.de,  dgilbert@redhat.com,
- michael.roth@amd.com,  kkostiuk@redhat.com,  tsimpson@quicinc.com,
- palmer@dabbelt.com,  bin.meng@windriver.com,  qemu-block@nongnu.org,
- qemu-arm@nongnu.org,  qemu-riscv@nongnu.org
-Subject: Re: [PATCH v5 04/20] scripts/clean-includes: Improve --git commit
- message
-In-Reply-To: <20230130132156.1868019-5-armbru@redhat.com> (Markus Armbruster's
- message of "Mon, 30 Jan 2023 14:21:40 +0100")
-References: <20230130132156.1868019-1-armbru@redhat.com>
- <20230130132156.1868019-5-armbru@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 30 Jan 2023 15:12:33 +0100
-Message-ID: <87sffsnmb2.fsf@secure.mitica>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=/wauOP2KtXuUV8qpj/Jtnf0jIu6O0L7TvGYxvbmPKwg=;
+ b=HTdWY6FPabIEuD17/aaoO+ZHrPak/F+s/AMaj35GdODIPD1yv68xV/Sb/1uWSk/7GZ
+ lHslKhdVR4W0sKXmbcNDfVBnc3mjs31gIJN+iMCaaAc00wuzpHUVBLJ22+D1BvvclfyV
+ eho/31qEVZafepjhH44GTRD0jLDuHERAZQm9bgV33BpHnMHDGEvzh6mC1QnpBi3vOJag
+ qMN7jxzVdRGFaZXg7lBPI2UNWY70fVC+sqWlUKPgAUZzjACQNCdnm5OznxmAs3+Ie/O4
+ cTHPBxnDhdKbUTuAPbzhJKmST07yNhbdRoTrY+/RKrql4Fz7OcdQyeL7WI7RDcoLos41
+ jINg==
+X-Gm-Message-State: AO0yUKW9ZjJQDxsS0CJc+GUZRe6mW38PmlarxrhpCRMq6VmQh4xofvKw
+ 7RktttsO0Il4j+qbCo6cHvp8nw==
+X-Google-Smtp-Source: AK7set8ft72xAfWvuIggTxImQ+n6TWmq115d/lT+rW+jTFolTL0YOuRRDbpjdbh2jOx/Z+m7mGpBmw==
+X-Received: by 2002:a17:903:11d1:b0:196:1425:740c with SMTP id
+ q17-20020a17090311d100b001961425740cmr10560746plh.62.1675088071615; 
+ Mon, 30 Jan 2023 06:14:31 -0800 (PST)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ a8-20020a170902b58800b00196047fc25dsm1735064pls.42.2023.01.30.06.14.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Jan 2023 06:14:31 -0800 (PST)
+Message-ID: <fa54086a-758c-4dbf-aa3b-93b223d7835b@daynix.com>
+Date: Mon, 30 Jan 2023 23:14:28 +0900
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v2 2/9] igb: handle PF/VF reset properly
+Content-Language: en-US
+To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20230130132304.2347-1-sriram.yagnaraman@est.tech>
+ <20230130132304.2347-3-sriram.yagnaraman@est.tech>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20230130132304.2347-3-sriram.yagnaraman@est.tech>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::635;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,45 +94,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Markus Armbruster <armbru@redhat.com> wrote:
-> The script drops #include "qemu/osdep.h" from headers.  Mention it in
-> the commit message it uses for --git.
->
-> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+On 2023/01/30 22:22, Sriram Yagnaraman wrote:
+> Use PFRSTD to reset RSTI bit for VFs, and raise VFLRE interrupt when VF
+> is reset.
+> 
+> Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 > ---
->  scripts/clean-includes | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/scripts/clean-includes b/scripts/clean-includes
-> index f0466a6262..f9722c3aec 100755
-> --- a/scripts/clean-includes
-> +++ b/scripts/clean-includes
-> @@ -193,8 +193,8 @@ if [ "$GIT" = "yes" ]; then
->      git commit --signoff -F - <<EOF
->  $GITSUBJ: Clean up includes
->  
-> -Clean up includes so that osdep.h is included first and headers
-> -which it implies are not included manually.
-> +Clean up includes so that qemu/osdep.h is included first in .c, and
-> +not in .h, and headers which it implies are not included manually.
+>   hw/net/e1000x_regs.h |  1 +
+>   hw/net/igb_core.c    | 33 +++++++++++++++++++++------------
+>   hw/net/trace-events  |  2 ++
+>   3 files changed, 24 insertions(+), 12 deletions(-)
+> 
+> diff --git a/hw/net/e1000x_regs.h b/hw/net/e1000x_regs.h
+> index fb5b861135..bb3fb36b8d 100644
+> --- a/hw/net/e1000x_regs.h
+> +++ b/hw/net/e1000x_regs.h
+> @@ -548,6 +548,7 @@
+>   
+>   #define E1000_CTRL_EXT_ASDCHK  0x00001000 /* auto speed detection check */
+>   #define E1000_CTRL_EXT_EE_RST  0x00002000 /* EEPROM reset */
+> +#define E1000_CTRL_EXT_PFRSTD  0x00004000 /* PF reset done indication */
 
-I give a tree.
+Please add this to igb_regs.h as it is specific to igb.
 
-Clean up includes so qemu/osdep.h is never used in .h files.  It makes
-sure that qemu/osdep.h is only used in .c files.  Once there, it assures
-that .h files already included in qemu/osdep.h are not included a second
-time on the .c file.
-
-What do you think?
-And yes, not using "include" the "include files" is .... interesting/confusing/....
-
-
-Anyways, if you preffer old text or net one.
-
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-
+>   #define E1000_CTRL_EXT_LINK_EN 0x00010000 /* enable link status from external LINK_0 and LINK_1 pins */
+>   #define E1000_CTRL_EXT_DRV_LOAD 0x10000000 /* Driver loaded bit for FW */
+>   #define E1000_CTRL_EXT_EIAME   0x01000000
+> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+> index abeb9c7889..9bd53cc25f 100644
+> --- a/hw/net/igb_core.c
+> +++ b/hw/net/igb_core.c
+> @@ -1902,14 +1902,6 @@ static void igb_set_eims(IGBCore *core, int index, uint32_t val)
+>       igb_update_interrupt_state(core);
+>   }
+>   
+> -static void igb_vf_reset(IGBCore *core, uint16_t vfn)
+> -{
+> -    /* TODO: Reset of the queue enable and the interrupt registers of the VF. */
+> -
+> -    core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_RSTI;
+> -    core->mac[V2PMAILBOX0 + vfn] = E1000_V2PMAILBOX_RSTD;
+> -}
+> -
+>   static void mailbox_interrupt_to_vf(IGBCore *core, uint16_t vfn)
+>   {
+>       uint32_t ent = core->mac[VTIVAR_MISC + vfn];
+> @@ -1987,6 +1979,17 @@ static void igb_set_vfmailbox(IGBCore *core, int index, uint32_t val)
+>       }
+>   }
+>   
+> +static void igb_vf_reset(IGBCore *core, uint16_t vfn)
+> +{
+> +    /* disable Rx and Tx for the VF*/
+> +    core->mac[VFTE] &= ~BIT(vfn);
+> +    core->mac[VFRE] &= ~BIT(vfn);
+> +    /* indicate VF reset to PF */
+> +    core->mac[VFLRE] |= BIT(vfn);
+> +    /* VFLRE and mailbox use the same interrupt cause */
+> +    mailbox_interrupt_to_pf(core);
+> +}
+> +
+>   static void igb_w1c(IGBCore *core, int index, uint32_t val)
+>   {
+>       core->mac[index] &= ~val;
+> @@ -2241,14 +2244,20 @@ igb_set_status(IGBCore *core, int index, uint32_t val)
+>   static void
+>   igb_set_ctrlext(IGBCore *core, int index, uint32_t val)
+>   {
+> -    trace_e1000e_link_set_ext_params(!!(val & E1000_CTRL_EXT_ASDCHK),
+> -                                     !!(val & E1000_CTRL_EXT_SPD_BYPS));
+> -
+> -    /* TODO: PFRSTD */
+> +    trace_igb_link_set_ext_params(!!(val & E1000_CTRL_EXT_ASDCHK),
+> +                                  !!(val & E1000_CTRL_EXT_SPD_BYPS),
+> +                                  !!(val & E1000_CTRL_EXT_PFRSTD));
+>   
+>       /* Zero self-clearing bits */
+>       val &= ~(E1000_CTRL_EXT_ASDCHK | E1000_CTRL_EXT_EE_RST);
+>       core->mac[CTRL_EXT] = val;
+> +
+> +    if (core->mac[CTRL_EXT] & E1000_CTRL_EXT_PFRSTD) {
+> +        for (int vfn = 0; vfn < IGB_MAX_VF_FUNCTIONS; vfn++) {
+> +            core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_RSTI;
+> +            core->mac[V2PMAILBOX0 + vfn] |= E1000_V2PMAILBOX_RSTD;
+> +        }
+> +    }
+>   }
+>   
+>   static void
+> diff --git a/hw/net/trace-events b/hw/net/trace-events
+> index 2f791b9b57..e94172e748 100644
+> --- a/hw/net/trace-events
+> +++ b/hw/net/trace-events
+> @@ -281,6 +281,8 @@ igb_core_mdic_read_unhandled(uint32_t addr) "MDIC READ: PHY[%u] UNHANDLED"
+>   igb_core_mdic_write(uint32_t addr, uint32_t data) "MDIC WRITE: PHY[%u] = 0x%x"
+>   igb_core_mdic_write_unhandled(uint32_t addr) "MDIC WRITE: PHY[%u] UNHANDLED"
+>   
+> +igb_link_set_ext_params(bool asd_check, bool speed_select_bypass, bool pfrstd) "Set extended link params: ASD check: %d, Speed select bypass: %d, PF reset done: %d"
+> +
+>   igb_rx_desc_buff_size(uint32_t b) "buffer size: %u"
+>   igb_rx_desc_buff_write(uint64_t addr, uint16_t offset, const void* source, uint32_t len) "addr: 0x%"PRIx64", offset: %u, from: %p, length: %u"
+>   
 
