@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 096AC681B6A
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:27:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 62DB4681B55
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:24:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMadW-0003Wx-Vv; Mon, 30 Jan 2023 15:20:19 -0500
+	id 1pMade-00042E-KU; Mon, 30 Jan 2023 15:20:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMad5-0002it-1l
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:19:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMad7-0002np-9C
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:19:57 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMad3-0006to-MO
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:19:50 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMad5-0006u4-FK
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:19:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675109988;
+ s=mimecast20190719; t=1675109990;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=BH5qRItfw3u2qE2O9ry4MjENhkBipRofcV3nZ6Eu30w=;
- b=c//3VxSeTmyv/S3Q767u0BPDXiabi511sdy2fysRPiwslksP19wyHMUPpfBPM/AcMcSPXJ
- 24lwQk35IoQ8g58CjBXBs2tt5xMzXytp81h8iYE7o+yqSFD+ECOdi8i8NOWtt6prxEZ+ii
- V8Nl2CLQGWbrSFnB+0gUAQkSRpvuOX4=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KKRu7aE4HH84foy8wjGs6K2K20mXYm64Vub2yI3hbsU=;
+ b=PHO/0G0ZiC6351NzPmxitK+O+0VfdxNrF1qgFBcoxpBLSUZu4YC6vNf74jiA3EU84c0WMG
+ vI5pAsEP1/WIcZndb8hfiVPTL/x8AzArFcMOFNeFncMSu4eAy4dgdwcVKOPxIkOyJX97aa
+ m5o6tIg2Sa6HQrbfLo+95TFegFO2olg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-384-EZGKIb33PUOViP2m6ke8zg-1; Mon, 30 Jan 2023 15:19:46 -0500
-X-MC-Unique: EZGKIb33PUOViP2m6ke8zg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- hq7-20020a1709073f0700b0086fe36ed3d0so8055414ejc.3
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:19:46 -0800 (PST)
+ us-mta-35-r86bkvm_MVi3mDvAyufhFw-1; Mon, 30 Jan 2023 15:19:49 -0500
+X-MC-Unique: r86bkvm_MVi3mDvAyufhFw-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ f11-20020a056402354b00b0049e18f0076dso8880011edd.15
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:19:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=BH5qRItfw3u2qE2O9ry4MjENhkBipRofcV3nZ6Eu30w=;
- b=gHjStH/dqwClq8EGzA9i9CV3wTojwK+WEC6Nf0vjH+r/08EUH8ywZAN7Cn0cd9hqyg
- HsAbnCOTwUAbNGW71igyzXlg2omoDtfsMWUD0EG8MAtkL8wkGfozFe/0saD72qwQTGN6
- D4jL5cRRp4Qx8LVHxzDcG5Zzrq1krdbyDEVcB/G1WnJL9hKnWYVz0QdZSyGBpsJh7FgX
- zM1eEeC+cyOHakt+aXwrXEtIGof3hZZQpXl5znWCbPi+xk22X9vcMnqf7sSpwfQJfWD2
- a3vx7kwc2R8PTFmDV5qw/YkmhwR4hOSJdrXl1bEgfM80UGplhxi83po3IZDW3b+vhFT/
- ZKjQ==
-X-Gm-Message-State: AO0yUKXv89V6TemUSon8KRks3VwfKkwlHh4la1hez/tL9x846Ts34HmA
- 1yjwEi6OFmm0qPmEj1STINuwrcaUEno+5U5o2J3N0iFC/yHzY226hvpSshPZBBI90v7IO1p6L0t
- Bf0S+WDvS0UxYayzR2ESGAjxCbTDxv//dUtgM06NXngb3syquLXvH9M6jiX3h
-X-Received: by 2002:a17:907:c26:b0:878:53a5:70a1 with SMTP id
- ga38-20020a1709070c2600b0087853a570a1mr25440717ejc.50.1675109984911; 
- Mon, 30 Jan 2023 12:19:44 -0800 (PST)
-X-Google-Smtp-Source: AK7set8wLSlnuYb0jjK2QGvrOzXa8jDZYvSm4MmUh+U7e5uOIQ8PM6G+zi5WO6PMm+ZxTnh8a69ukA==
-X-Received: by 2002:a17:907:c26:b0:878:53a5:70a1 with SMTP id
- ga38-20020a1709070c2600b0087853a570a1mr25440684ejc.50.1675109984641; 
- Mon, 30 Jan 2023 12:19:44 -0800 (PST)
+ bh=KKRu7aE4HH84foy8wjGs6K2K20mXYm64Vub2yI3hbsU=;
+ b=POn9z2VCMGcVCbPYk6hrZyckeTvQqWrlszPyyM8Qgm3F4Ik0xNI71qyzuxhcT81M95
+ z0e1LF8fYpdOk3TgXkWqyP6O7tHToPOLQS3k55psxxOXuHHk5Wv71kZYDWCDoyrfREL5
+ 7olkAId9IgXUFZPSu981xFv2crfZEC4XVEgIE+PsNU05BgZ/W/f+jtytgLK0bGkQ2daC
+ aqjoHflZdUHstMUpuWJ4KNLznc1ViUdpC1AUnavBLRQDk9tQMUALwQniF/zOgJ9G/x6h
+ bpteSvU/pCGBhd72EMpG87JWVDvR2YFdicmde82IEDnY4nyu625WkMkra6ycfp6+Rgj6
+ 5iJQ==
+X-Gm-Message-State: AFqh2kpuA8I46OE9HakF6XJ4q5epy3IdSMsH6rsriVtSTPciat8bNm3Q
+ vpLHfyn24riu3jtgKP23gdAwurWiVxanqJ9Yxmzqq1ioRtJd3ealaoUAtMweLRGHWZ4aIfN7IWv
+ vOyzDuXfmlfLEGJOGWI5g6gQPq1RvtTSlUPO39bKvwAzUoifUztGRpNALfcNB
+X-Received: by 2002:a17:906:5214:b0:7c0:f2c5:ac3d with SMTP id
+ g20-20020a170906521400b007c0f2c5ac3dmr49108820ejm.15.1675109988037; 
+ Mon, 30 Jan 2023 12:19:48 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsb5p3SBwcb9z7JPXwQSClupppA1knS4A+I7XaVKySb68KOMZxyTKjmnX2qAycWmyem6f9sNQ==
+X-Received: by 2002:a17:906:5214:b0:7c0:f2c5:ac3d with SMTP id
+ g20-20020a170906521400b007c0f2c5ac3dmr49108801ejm.15.1675109987754; 
+ Mon, 30 Jan 2023 12:19:47 -0800 (PST)
 Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
- n2-20020a170906164200b0086a4bb74cf7sm7404127ejd.212.2023.01.30.12.19.42
+ t2-20020a170906948200b0087bdb44bbc0sm5598611ejx.32.2023.01.30.12.19.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 12:19:44 -0800 (PST)
-Date: Mon, 30 Jan 2023 15:19:41 -0500
+ Mon, 30 Jan 2023 12:19:47 -0800 (PST)
+Date: Mon, 30 Jan 2023 15:19:44 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Igor Mammedov <imammedo@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Paolo Bonzini <pbonzini@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>,
  Eduardo Habkost <eduardo@habkost.net>
-Subject: [PULL 18/56] x86: acpi: pcihp: clean up duplicate bridge_in_acpi
- assignment
-Message-ID: <20230130201810.11518-19-mst@redhat.com>
+Subject: [PULL 19/56] pci: acpi hotplug: rename x-native-hotplug to
+ x-do-not-expose-native-hotplug-cap
+Message-ID: <20230130201810.11518-20-mst@redhat.com>
 References: <20230130201810.11518-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -78,7 +78,7 @@ Content-Disposition: inline
 In-Reply-To: <20230130201810.11518-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,26 +104,112 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
+When ACPI PCI hotplug for Q35 was introduced (6.1), it was implemented
+by hiding HPC capability on PCIE slot. That however led to a number of
+regressions and to fix it, it was decided to keep HPC cap exposed
+in ACPI PCI hotplug case and force guest in ACPI PCI hotplug mode
+by other means [1].
+
+That reduced meaning of x-native-hotplug to a compat knob [2] for
+broken 6.1 machine type.
+Rename property to match its current purpose.
+
+1) 211afe5c69 (hw/i386/acpi-build: Deny control on PCIe Native Hot-plug in _OSC)
+2) c318bef762 (hw/acpi/ich9: Add compat prop to keep HPC bit set for 6.1 machine type)
+
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230112140312.3096331-9-imammedo@redhat.com>
+Message-Id: <20230112140312.3096331-10-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-build.c | 1 -
- 1 file changed, 1 deletion(-)
+ include/hw/pci/pcie_port.h         | 3 ++-
+ hw/i386/pc_q35.c                   | 5 +++--
+ hw/pci-bridge/gen_pcie_root_port.c | 7 ++++++-
+ hw/pci/pcie.c                      | 6 +++---
+ hw/pci/pcie_port.c                 | 3 ++-
+ 5 files changed, 16 insertions(+), 8 deletions(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 8c333973f9..8ba34d8fde 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -464,7 +464,6 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+diff --git a/include/hw/pci/pcie_port.h b/include/hw/pci/pcie_port.h
+index fd484afb30..6c40e3733f 100644
+--- a/include/hw/pci/pcie_port.h
++++ b/include/hw/pci/pcie_port.h
+@@ -63,7 +63,8 @@ struct PCIESlot {
+     /* Indicates whether any type of hot-plug is allowed on the slot */
+     bool        hotplug;
  
-         call_dev_aml_func(DEVICE(pdev), dev);
+-    bool        native_hotplug;
++    /* broken ACPI hotplug compat knob to preserve 6.1 ABI intact */
++    bool        hide_native_hotplug_cap;
  
--        bridge_in_acpi =  cold_plugged_bridge && pcihp_bridge_en;
-         if (bridge_in_acpi) {
-             /*
-              * device is coldplugged bridge,
+     QLIST_ENTRY(PCIESlot) next;
+ };
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 83c57c6eb1..66cd718b70 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -257,8 +257,9 @@ static void pc_q35_init(MachineState *machine)
+                                                  NULL);
+ 
+     if (!keep_pci_slot_hpc && acpi_pcihp) {
+-        object_register_sugar_prop(TYPE_PCIE_SLOT, "x-native-hotplug",
+-                                   "false", true);
++        object_register_sugar_prop(TYPE_PCIE_SLOT,
++                                   "x-do-not-expose-native-hotplug-cap",
++                                   "true", true);
+     }
+ 
+     /* irq lines */
+diff --git a/hw/pci-bridge/gen_pcie_root_port.c b/hw/pci-bridge/gen_pcie_root_port.c
+index 20099a8ae3..1ce4e7beba 100644
+--- a/hw/pci-bridge/gen_pcie_root_port.c
++++ b/hw/pci-bridge/gen_pcie_root_port.c
+@@ -87,7 +87,12 @@ static void gen_rp_realize(DeviceState *dev, Error **errp)
+         return;
+     }
+ 
+-    if (grp->res_reserve.io == -1 && s->hotplug && !s->native_hotplug) {
++    /*
++     * reserving IO space led to worse issues in 6.1, when this hunk was
++     * introduced. (see commit: 211afe5c69b59). Keep this broken for 6.1
++     * machine type ABI compatibility only
++     */
++    if (s->hide_native_hotplug_cap && grp->res_reserve.io == -1 && s->hotplug) {
+         grp->res_reserve.io = GEN_PCIE_ROOT_DEFAULT_IO_RANGE;
+     }
+     int rc = pci_bridge_qemu_reserve_cap_init(d, 0,
+diff --git a/hw/pci/pcie.c b/hw/pci/pcie.c
+index 68a62da0b5..924fdabd15 100644
+--- a/hw/pci/pcie.c
++++ b/hw/pci/pcie.c
+@@ -611,11 +611,11 @@ void pcie_cap_slot_init(PCIDevice *dev, PCIESlot *s)
+                                PCI_EXP_SLTCAP_ABP);
+ 
+     /*
+-     * Enable native hot-plug on all hot-plugged bridges unless
+-     * hot-plug is disabled on the slot.
++     * Expose native hot-plug on all bridges if hot-plug is enabled on the slot.
++     * (unless broken 6.1 ABI is enforced for compat reasons)
+      */
+     if (s->hotplug &&
+-        (s->native_hotplug || DEVICE(dev)->hotplugged)) {
++        (!s->hide_native_hotplug_cap || DEVICE(dev)->hotplugged)) {
+         pci_long_test_and_set_mask(dev->config + pos + PCI_EXP_SLTCAP,
+                                    PCI_EXP_SLTCAP_HPS |
+                                    PCI_EXP_SLTCAP_HPC);
+diff --git a/hw/pci/pcie_port.c b/hw/pci/pcie_port.c
+index 687e4e763a..65a397ad23 100644
+--- a/hw/pci/pcie_port.c
++++ b/hw/pci/pcie_port.c
+@@ -173,7 +173,8 @@ static Property pcie_slot_props[] = {
+     DEFINE_PROP_UINT8("chassis", PCIESlot, chassis, 0),
+     DEFINE_PROP_UINT16("slot", PCIESlot, slot, 0),
+     DEFINE_PROP_BOOL("hotplug", PCIESlot, hotplug, true),
+-    DEFINE_PROP_BOOL("x-native-hotplug", PCIESlot, native_hotplug, true),
++    DEFINE_PROP_BOOL("x-do-not-expose-native-hotplug-cap", PCIESlot,
++                     hide_native_hotplug_cap, false),
+     DEFINE_PROP_END_OF_LIST()
+ };
+ 
 -- 
 MST
 
