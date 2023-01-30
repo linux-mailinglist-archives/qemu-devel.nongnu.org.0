@@ -2,85 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E83B681591
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 16:51:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1DD9681597
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 16:52:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMWQm-0001Y2-O3; Mon, 30 Jan 2023 10:50:52 -0500
+	id 1pMWRy-0002DG-2P; Mon, 30 Jan 2023 10:52:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pMWQj-0001Xj-AY
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:50:50 -0500
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pMWQd-0002cn-4K
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:50:47 -0500
-Received: by mail-wm1-x335.google.com with SMTP id
- c4-20020a1c3504000000b003d9e2f72093so10352937wma.1
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 07:50:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=U8ReE+pMOMGHHz5kzozOoP629rGPsmq+iU4zvQVc358=;
- b=kXEIGtYZytzdicJ7Rd3+oP9S+tQytyMkTM9bsPM8qXgpaAzcB0JK5w+AKNiUl3jS5m
- LQp1cTAKMC3zWwh89ytapQb2AwGleT06hjYpbEsxDPcJAHYVpmWQW/sDtIkxc/gIqX3t
- S8tksOL+nIDV8dIOa879vURvVH27psv1dHy6spwysBNwEQCsq0AJ7eAhBMgOOWOcUHOR
- +c1UoVtybg34+b53oSW75PUosCb0qcHOkwhyLByMahN9PNwDGsl58SERtJ/qK7wGjPPb
- tW7VF6ee/srKWZAz/vGD+xJne3I8l5iPtEmaTNjOhcOgcy0GiRhqlLVjOdmbnF7zI5kL
- GKqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=U8ReE+pMOMGHHz5kzozOoP629rGPsmq+iU4zvQVc358=;
- b=n/YCkFGrQD8MqzECTgsQTffvVfNyqRcuSw8Mpv9Ngbnzg1WK0Z1H2nOY3UvuMjVVzE
- WabZaQMerUO3j5nbSHnOBNvpbMUbFAxXOrQ14VqaezxQM9NLKhSRbqte6VPTc96RNMno
- HtOJnQcSRQh9rf192FWlpvKlLoblhA/B1tFUEYDnIkVVlF6vHQm6hOziNrfDjSUv/0e/
- UAs2+V2OfERzcUHtpKa1W1Oy8cxf2bSZ2gPeG1lrAFh2t/ylku35W8SddnS94Qpmqz9U
- 4ez1crKBN5sjdjSNZ5urwQ3Lrux10I2hUXrwcZ44u1w7yfCMHImpRoFZ20BF6GeMLWAy
- mcSQ==
-X-Gm-Message-State: AFqh2kqXZGmqErRNCOmcCZnLmjxWqLJT8ldS5vGKJPM9sRfGrfLwQ/Dt
- MK+E22OHtE/moM4ev/92iiz3ug==
-X-Google-Smtp-Source: AMrXdXvEnCZYhLzf7zmxGD6JfwSuqTa2lIaZf3+8MFSFeDAX9u2QmMUL6XGrO+Y0q7avTSs4e8D4ug==
-X-Received: by 2002:a1c:f317:0:b0:3d0:480b:ac53 with SMTP id
- q23-20020a1cf317000000b003d0480bac53mr52123307wmq.12.1675093839797; 
- Mon, 30 Jan 2023 07:50:39 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- bi5-20020a05600c3d8500b003db0bb81b6asm13743994wmb.1.2023.01.30.07.50.39
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 07:50:39 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AAD041FFB7;
- Mon, 30 Jan 2023 15:50:38 +0000 (GMT)
-References: <20220926142422.22325-1-antonio.caggiano@collabora.com>
- <20220926142422.22325-10-antonio.caggiano@collabora.com>
-User-agent: mu4e 1.9.18; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Antonio Caggiano <antonio.caggiano@collabora.com>
-Cc: gert.wollny@collabora.com, dmitry.osipenko@collabora.com, Gerd Hoffmann
- <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- qemu-devel@nongnu.org
-Subject: Re: [PATCH v3 9/9] virtio-gpu: Get EGL Display callback
-Date: Mon, 30 Jan 2023 15:49:33 +0000
-In-reply-to: <20220926142422.22325-10-antonio.caggiano@collabora.com>
-Message-ID: <87r0vc6my9.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pMWRv-00025i-2l
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:52:03 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pMWRs-0002iS-GF
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:52:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675093918;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=RyxDox3bOgeHZ3XIkezoyoegI3o7dbDIAVvrICG4t6g=;
+ b=McFmESZDFtJslmwRt1d3++flPfst8taYwBh3EIbt4N9PDVGuF/PKGZR0iuzXC/Cj5OsumA
+ UZtTnVbBFnJEmNH/516xBuUhEhF0TRH4rQ8Exwo3xEyNhRDcmPWfLyGJL0LZATHlHNM5N3
+ qRZkwFO0DcePpEluNillptcto+L/Ee4=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-5-G_e97LcRPUGl3kit7aiFoQ-1; Mon, 30 Jan 2023 10:51:57 -0500
+X-MC-Unique: G_e97LcRPUGl3kit7aiFoQ-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E7FBC296A629;
+ Mon, 30 Jan 2023 15:51:56 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.49])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id EC1CD2026D4B;
+ Mon, 30 Jan 2023 15:51:54 +0000 (UTC)
+Date: Mon, 30 Jan 2023 15:51:52 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Richard W.M. Jones" <rjones@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>, qemu-devel@nongnu.org,
+ qemu-block@nongnu.org, kwolf@redhat.com
+Subject: Re: RFC: towards systemd socket activation in q-s-d
+Message-ID: <Y9fnmIDV3gh5e9o7@redhat.com>
+References: <20230127212233.k6rlqkmubhovjxs4@redhat.com>
+ <Y9fa+Zm5VLNoDDo0@redhat.com> <20230130154448.GS7636@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::335;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20230130154448.GS7636@redhat.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,118 +80,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Jan 30, 2023 at 03:44:48PM +0000, Richard W.M. Jones wrote:
+> On Mon, Jan 30, 2023 at 02:58:01PM +0000, Daniel P. Berrangé wrote:
+> > Obviously at startup QEMU can trivially inherit the FDs from whatever
+> > spawned it. The only task is to identify the FDs that are passed into,
+> > and systemd defined a mechanism for this using LISTEN_FDNAMES. IOW the
+> > socket activation can fully replace 'getfd' for purpose of initial
+> > startup. This will get rid of the annoying difference that SocketAddress
+> > only allows numeric FDs at startup and named FDs at runtime, by making
+> > named FDs the consistent standard. We could thus deprecate the use of
+> > non-named numeric FDs in SocketAddress to improve our sanity.
+> > 
+> > The question is how to define semantics for the LISTEN_FDNAMES while
+> > also still remaining back compat with the existing QEMU utilities
+> > that allow socket activation. Some kind of naming scheme would need
+> > to be decided upon, as well as handling the use of activation without
+> > LISTEN_FDNAMES being set. 
+> 
+> If I understand LISTEN_FDNAMES correctly, it's the names of the
+> protocols to be used (rather clumsily expressed through IANA
+> registered names from /etc/services).  It would be valid to use
+> LISTEN_FDNAMES=http:http for example, for a service that must use HTTP
+> on both sockets.
 
-Antonio Caggiano <antonio.caggiano@collabora.com> writes:
+That's not accurate, it is not related to IANA service names.
 
-> Implement get_egl_display callback for virglrenderer.
->
-> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
-> ---
->  hw/display/virtio-gpu-virgl.c | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
->
-> diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
-> index 0f17bdddd0..0fd9ad8a3d 100644
-> --- a/hw/display/virtio-gpu-virgl.c
-> +++ b/hw/display/virtio-gpu-virgl.c
-> @@ -18,6 +18,7 @@
->  #include "hw/virtio/virtio-gpu.h"
->  #include "hw/virtio/virtio-gpu-bswap.h"
->  #include "hw/virtio/virtio-iommu.h"
-> +#include <epoxy/egl.h>
->=20=20
->  #include <virglrenderer.h>
->=20=20
-> @@ -743,12 +744,18 @@ static int virgl_make_context_current(void *opaque,=
- int scanout_idx,
->                                     qctx);
->  }
->=20=20
-> +static void *virgl_get_egl_display(void *opaque)
-> +{
-> +    return eglGetCurrentDisplay();
-> +}
-> +
->  static struct virgl_renderer_callbacks virtio_gpu_3d_cbs =3D {
-> -    .version             =3D 1,
-> +    .version             =3D 4,
->      .write_fence         =3D virgl_write_fence,
->      .create_gl_context   =3D virgl_create_context,
->      .destroy_gl_context  =3D virgl_destroy_context,
->      .make_current        =3D virgl_make_context_current,
-> +    .get_egl_display     =3D virgl_get_egl_display,
+> In other words it's not just names of file descriptors that you can
+> make up.
 
-This fails for me:
+By default the FD name matches the name of the systemd .socket unit
+file, but it can be set to an arbitrary string using FileDescriptorName=.
+It is upto the application to decide if it wants to require specific
+file naming schemes, or is happy to receive the default system .socket
+based names.
 
-  FAILED: libcommon.fa.p/hw_display_virtio-gpu-virgl.c.o=20
-  cc -m64 -mcx16 -Ilibcommon.fa.p -I../../common-user/host/x86_64 -I../../l=
-inux-user/include/host/x86_64 -I../../linux-user/include -Idtc/libfdt -I../=
-../dtc/libfdt -I/usr/include/capstone -I/usr/include/pixman-1 -I/usr/includ=
-e/libpng16 -I/usr/include/spice-server -I/usr/include/spice-1 -I/usr/includ=
-e/p11-kit-1 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/gli=
-b-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/gio-unix-=
-2.0 -I/usr/include/slirp -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/=
-2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-lin=
-ux-gnu/dbus-1.0/include -I/usr/include/cairo -I/usr/include/pango-1.0 -I/us=
-r/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/inc=
-lude/uuid -I/usr/include/freetype2 -I/usr/include/gdk-pixbuf-2.0 -I/usr/inc=
-lude/vte-2.91 -I/usr/include/virgl -I/usr/include/cacard -I/usr/include/nss=
- -I/usr/include/nspr -I/usr/include/PCSC -I/usr/include/libusb-1.0 -fdiagno=
-stics-color=3Dauto -Wall -Winvalid-pch -Werror -std=3Dgnu11 -O2 -g -isystem=
- /home/alex/lsrc/qemu.git/linux-headers -isystem linux-headers -iquote . -i=
-quote /home/alex/lsrc/qemu.git -iquote /home/alex/lsrc/qemu.git/include -iq=
-uote /home/alex/lsrc/qemu.git/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_FORTIF=
-Y_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -fn=
-o-strict-aliasing -fno-common -fwrapv -Wundef -Wwrite-strings -Wmissing-pro=
-totypes -Wstrict-prototypes -Wredundant-decls -Wold-style-declaration -Wold=
--style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self =
--Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansi=
-on-to-defined -Wimplicit-fallthrough=3D2 -Wmissing-format-attribute -Wno-mi=
-ssing-include-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protector-s=
-trong -fPIE -D_REENTRANT -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=3D600 -DNCURSES_=
-WIDECHAR=3D1 -DSTRUCT_IOVEC_DEFINED -MD -MQ libcommon.fa.p/hw_display_virti=
-o-gpu-virgl.c.o -MF libcommon.fa.p/hw_display_virtio-gpu-virgl.c.o.d -o lib=
-common.fa.p/hw_display_virtio-gpu-virgl.c.o -c ../../hw/display/virtio-gpu-=
-virgl.c
-  ../../hw/display/virtio-gpu-virgl.c:758:6: error: =E2=80=98struct virgl_r=
-enderer_callbacks=E2=80=99 has no member named =E2=80=98get_egl_display=E2=
-=80=99
-    758 |     .get_egl_display     =3D virgl_get_egl_display,
-        |      ^~~~~~~~~~~~~~~
-  ../../hw/display/virtio-gpu-virgl.c:758:28: error: initialization of =E2=
-=80=98int (*)(void *)=E2=80=99 from incompatible pointer type =E2=80=98void=
- * (*)(void *)=E2=80=99 [-Werror=3Dincompatible-pointer-types]
-    758 |     .get_egl_display     =3D virgl_get_egl_display,
-        |                            ^~~~~~~~~~~~~~~~~~~~~
-  ../../hw/display/virtio-gpu-virgl.c:758:28: note: (near initialization fo=
-r =E2=80=98virtio_gpu_3d_cbs.get_drm_fd=E2=80=99)
-  ../../hw/display/virtio-gpu-virgl.c: In function =E2=80=98virtio_gpu_virg=
-l_init=E2=80=99:
-  ../../hw/display/virtio-gpu-virgl.c:816:34: error: =E2=80=98VIRGL_RENDERE=
-R_VENUS=E2=80=99 undeclared (first use in this function); did you mean =E2=
-=80=98VIRGL_RENDERER_USE_EGL=E2=80=99?
-    816 |     ret =3D virgl_renderer_init(g, VIRGL_RENDERER_VENUS, &virtio_=
-gpu_3d_cbs);
-        |                                  ^~~~~~~~~~~~~~~~~~~~
-        |                                  VIRGL_RENDERER_USE_EGL
-  ../../hw/display/virtio-gpu-virgl.c:816:34: note: each undeclared identif=
-ier is reported only once for each function it appears in
-  cc1: all warnings being treated as errors
+With regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
-I assume because I'm either missing a library or my distro version is
-too old. Either way this needs to be caught at configure time and
-#ifdef'd.
-
-
->  };
->=20=20
->  static void virtio_gpu_print_stats(void *opaque)
-
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
