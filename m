@@ -2,77 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0ED6681DD4
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 23:12:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52261681DF3
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 23:22:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMcNX-0003Bk-3D; Mon, 30 Jan 2023 17:11:55 -0500
+	id 1pMcWS-0006r7-Nc; Mon, 30 Jan 2023 17:21:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pMcNU-0003BR-7F
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 17:11:52 -0500
-Received: from mout.gmx.net ([212.227.17.20])
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pMcWL-0006qg-0F
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 17:21:01 -0500
+Received: from mout.gmx.net ([212.227.15.15])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pMcNS-0001mc-1g
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 17:11:51 -0500
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pMcWJ-0003yk-6S
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 17:21:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1675116703; bh=ebFHlYwtOt6OrwsAkAgaekWohnL3uD74511HAM4471U=;
- h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
- b=TnZXLbZBKVmOcvb2dmMBTxMZvMb+xKE4VbTCXyvZnz1Ar4deBofXgiG0U0dkgkYxO
- 2ISbl2O6sqj/QR2nvKpfeZFexRZmCUoM+ZGMXiG5r+U9PlsBNb0pntWkmm+1wveKx4
- 1GwHxqz+Cv5pNNzSQJ7yc9/SajfRjrn0d9O3PiXgTYjtc8jjPVoMHDO5Xdf9megGks
- X7HQ1MWbGghim4nQcmZsSvi1lo1AbZGjdEkMRdCMalCl/7CyUp7wcqVuQS9IZvwsmJ
- XLQ+DowTt8my4kf1MI/0tt7DobDtEX6bU/yFKnwwaYRkntcrDgMThRrWLrYsJh2vqe
- KwDMm0GHW76pg==
+ t=1675117254; bh=GBYrAMZlWUvhGzZcZnqGFitlKLJe3k6gxpCo5CWKGzA=;
+ h=X-UI-Sender-Class:Date:From:To:Cc:Subject;
+ b=JUrIRxgCqR5K3ZyZy2hKkz/FZANtxi1TVtn8UnJXh4B2iG9pnt7/fXYLs2Pv3rzA8
+ ZEdjf1YeHS5FkSmTd7usslL0rF7039MmEE+9JtdsTTgUn4LCP7wvAdEFj26ftHVezb
+ SpwIm5COGzSLi7QKn682aq/Vj9+3ywW1BVeMMhw3HkCUu5t++BQPcslQd8OH98L1Ag
+ QFueMnV2DIl9TEkBy0+BS9pXzhPXaAsq++fpuKCzRMXdqbWphaVfhv3As2efeqaBGZ
+ ESzBz794IdYLYM4HXCoBTCbpdRt4e7I0kq0FuuhbvKlu6hoxOyZupHq93xrcnYgLvC
+ USv0Bj2fzu3jA==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.20.60] ([92.116.179.117]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MNKlu-1oyveH0cqg-00OpJz; Mon, 30
- Jan 2023 23:11:43 +0100
-Message-ID: <79a67002-0294-3a87-41ed-82bbb2689bf0@gmx.de>
-Date: Mon, 30 Jan 2023 23:11:42 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v2] linux-user: Improve strace output of pread64() and
- pwrite64()
-Content-Language: en-US
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-devel@nongnu.org
-References: <Y9Q7BlDc/VX+1SBL@p100>
- <521ea804-5afc-fb19-db72-e1ed73300781@vivier.eu>
+Received: from p100 ([92.116.179.117]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MhU5R-1ok07J342V-00egfn; Mon, 30
+ Jan 2023 23:20:54 +0100
+Date: Mon, 30 Jan 2023 23:20:53 +0100
 From: Helge Deller <deller@gmx.de>
-In-Reply-To: <521ea804-5afc-fb19-db72-e1ed73300781@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:a96FNeg1hmQjGmZKxPC8zQes7ZzQHPReFIl8VP1NVVARSMOPp3a
- bSmT4Xl51961xtVEZ9DuYwo7l4iPpymfK330Z5h0YMoOjXEcQCEVfXeViQCyxbQpd1IVPs7
- ktaLv9AHq3I59P8PYV+Njj2Eg53OI+mSA0Ccp2V9NTnFXnxS6Hvx7n4yuE7dsl1n4FRYlnw
- MAh2kmPD2hgEousEQqK9A==
-UI-OutboundReport: notjunk:1;M01:P0:uFJG+l7f9gY=;FG3WCDl3EycP4vXrHRfKnpaSCDI
- /gtUCfLi9hH01lXfVvbF3zy+5SOXx4Y1nrbDIUdG6VTDUnax+6NUBo46iqK7x7ofUE5H05b/a
- Wc+IPBUdJhFsuhYNyrQmVfICZHYpcYgCCb7730wDynThU1qdk4zD0PObGN94oMMP+FbUFDkyv
- DWED3mandbDpzvCXOaw5FMlyd1DgqZBD1mIEp2FNWpCn8mUf/p5DMwjWS2DBPyNX6CIjiGOK+
- SiBYD7wmMvKdgDxyohS7b1fLfDArKnlmqprF9LKiES5pzOYyRMUHsIGXKnd7fswyOd5+xBaw0
- 5jcqCo9UN6oMDGqjsZ4cLkGi1kKJMkwMBZqw3U5Q6IK65bh11bT6qEkEeo1AxcHjH2aC5Co5v
- Tpkcye5qbld6BHUuh9S08L0ZGkaUcfekXC8f/N58NJN7OyFefjBS7Euu99JYmae/PEQWk2YY3
- /quVsjHQfP8p1clGwJph2ul20xCbkjuX9YNMQNrgz9zoSmuPVXo8Hvk2oEH+wkS7ETP9JfmIa
- O8JEd1LNz3+S2NyIszvQAn88jvI3gCyCxqJ5zFB+ExC1XRk3N1dJPXmgH4xgL+vyfRzeHk9tA
- wxQRSGFLnhzut442pkEfVAQtI7BoFndt8uDzyOs3sCGsEcocL1Zu9E0tRfJGOwHqTX/bYW8Up
- myJDh4rksVg7R3JLirah34i8izjzw65Yzf1ciFUgw4lU2NTpDeIP+B9tTqnl9NRhC3mwzANOV
- +u7GIHJIypsGRaTc96+LvF7gGJMklXyGbQzVRr9iroYQ6xYQz7VyiKt7sV5y3EQZ4mylC48rw
- ywrmqk+MCOXfXLUMvOpszS7OVWvSEiTrkD6ZwKuvmWMHcJFoFXeCcbb9gi5SBnJZyDnezed9g
- 6QELXNoZcsxl7lEX3FvztZGWA6Ui0m9fCODrgEFdV4Vf7o6kA5U2xRmsfIswSkq5a1H3mxQ6Z
- oUORSw==
-Received-SPF: pass client-ip=212.227.17.20; envelope-from=deller@gmx.de;
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: Helge Deller <deller@gmx.de>, qemu-devel@nongnu.org
+Subject: [PATCH v2] linux-user: Show 4th argument of rt_sigprocmask() in strace
+Message-ID: <Y9hCxdvdM1o+/iHC@p100>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Provags-ID: V03:K1:GEJ6TW3xlabT3KxRTdV5OluPGoJfW6VrqM/73O5Yl2NLTzAq0da
+ 2dvOLhGs3xwJ83i6f5NRotEodLvgj8aZAw5NzE1JvavCCpnBKYWWeADYTwNraoWue3gKHeZ
+ w2KvQou4NvDGZpC/1z51uySEiPeigIwjx5NLSI2DpVje/wUh9Rm1YfMIXcROuS6bwMEY4Z3
+ PPD74k3RI9Q36mXr7+hVg==
+UI-OutboundReport: notjunk:1;M01:P0:O1LXv8JUVYA=;g6JEoui6gvrCutTZrcDlasRpCa/
+ 7TGoK8EWvTUQIKMBsUX42eyi6Ciz9PH+U3as7Pd5yWocyHHIQneDFozYrqYP68Za0jLT456oH
+ PGZn8W6oO3KSFpYNFm45GTXha/0JIGTbhtMi2f607Te7U7/G95flhEpK3BvGEktcoWt/7BKp2
+ IbzsCPJTjqNTtdhOjxdFWWBZeS3t8SiPACQGpWS+5nYaV+a/BQKuzOEq8AMbaQ+0dz7YexWhO
+ kWS/joYxuZaCPcF9g/+04fjs8AQj3MVXckr9fz5qS468Xnip0jlMkaBjWtfucurcUQqoY3Glv
+ FVvnNRCEsSoZV+UeZq3aKCfF+eXI3Vki5s4h7cbMKiHFUS9pf7Rnf8HzKGdR5kvbo7Mlodq3v
+ 3y8YQEZy41SVCcZNF2PTYK/tu0AQK8u0l8/w6uoknW5GRUhmsNBwz5rRwvJWsmzjvAHfvCjK8
+ CrQlDSp1krPUTSFTc5ThnxAnp36xwGOTSOtmBZLq92Bmc7UdB4q1HhNqSWojNW7bn4U1OUJb4
+ WfR41no833hQXKhNXxR5TvRA4e76vbGXFR3+O1UJgdCRDiTthnRRCyn/BWK4ofhAFBRUMrQf2
+ VhNB5VpAJVe1CElVuRTEtfZn8J7/WpxDeXEipW0U/2BUdjwjNI7rwnUIoTOy0QbtVeNXw39RB
+ 06gadMD46NeB4En1Pwbp99Dd8qiIJmS7NN+lWaSQCD5oGo/iufSNvUlsYvUxMdrK7WRbYbE+Y
+ TcsDP0WeDoEHPwuaSzVTtY4w6EfmvXbXlPBnaMMjR0A+1OcBlnCR0rh0o9zwybLv5Sg0ImpKe
+ hOf7v/Nf2jhguzR3NJPPijJU6EnklybrnYQCq7XeTWHg9SXwvbn0aysVCjW5kg+7kl1IPFUyv
+ ejtzIylaOCtClTwbUZ0Yp1Q3s156ggMX5iZpHWZ4SgS6Ra2jttKnWkigEtTHLw8RnJbfrBMVD
+ mIiNYKfvdd++0RY5pocYsNfp6Pg=
+Received-SPF: pass client-ip=212.227.15.15; envelope-from=deller@gmx.de;
  helo=mout.gmx.net
-X-Spam_score_int: -28
-X-Spam_score: -2.9
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,50 +81,25 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/30/23 10:26, Laurent Vivier wrote:
-> Le 27/01/2023 =C3=A0 21:58, Helge Deller a =C3=A9crit=C2=A0:
->> Make the strace look nicer for those two syscalls.
->>
->> Signed-off-by: Helge Deller <deller@gmx.de>
->> ---
->> v2: Use regpairs_aligned() and target_offset64(), noticed by Laurent Vi=
-vier
->>
->> diff --git a/linux-user/strace.c b/linux-user/strace.c
->> index 82dc1a1e20..379536f5c9 100644
->> --- a/linux-user/strace.c
->> +++ b/linux-user/strace.c
->> @@ -3824,6 +3824,25 @@ print_rlimit64(abi_ulong rlim_addr, int last)
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
->> =C2=A0 }
->>
->> +#if defined(TARGET_NR_pread64) || defined(TARGET_NR_pwrite64)
->> +static void
->> +print_preadwrite64(CPUArchState *cpu_env, const struct syscallname *na=
-me,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 abi_long =
-arg0, abi_long arg1, abi_long arg2,
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 abi_long =
-arg3, abi_long arg4, abi_long arg5)
->> +{
->> +=C2=A0=C2=A0=C2=A0 if (regpairs_aligned(cpu_env, TARGET_NR_pread64)) {
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 arg3 =3D arg4;
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 arg4 =3D arg5;
->> +=C2=A0=C2=A0=C2=A0 }
->> +=C2=A0=C2=A0=C2=A0 print_syscall_prologue(name);
->> +=C2=A0=C2=A0=C2=A0 print_raw_param("%d", arg0, 0);
->> +=C2=A0=C2=A0=C2=A0 print_pointer(arg1, 0);
->> +=C2=A0=C2=A0=C2=A0 print_raw_param("%d", arg2, 0);
->> +=C2=A0=C2=A0=C2=A0 qemu_log("%lld", (long long)target_offset64(arg3, a=
-rg4));
->
-> better to use:
->
-> print_raw_param("%" PRIu64, target_offset64(arg3, arg4), 1);
+Add output for the missing 4th parameter (size_t sigsetsize).
 
-I thought of that as well, but that won't work, as print_raw_param()
-takes an "abi_long" value, which is just a 32-bit value on 32-bit targets.
-See print_rlimit64(), it's used there with qemu_log() as well.
+Signed-off-by: Helge Deller <deller@gmx.de>
+---
+v2: Use %u instead of %d, as suggested by Laurent Vivier
 
-Helge
+
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 3157e4b420..f0f6ada8cb 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -3146,7 +3146,8 @@ print_rt_sigprocmask(CPUArchState *cpu_env, const struct syscallname *name,
+     }
+     qemu_log("%s,", how);
+     print_pointer(arg1, 0);
+-    print_pointer(arg2, 1);
++    print_pointer(arg2, 0);
++    print_raw_param("%u", arg3, 1);
+     print_syscall_epilogue(name);
+ }
+ #endif
 
