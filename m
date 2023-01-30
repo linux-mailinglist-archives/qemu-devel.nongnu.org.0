@@ -2,86 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA161681B6F
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:27:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5AC681B57
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:24:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMad6-0002OL-PU; Mon, 30 Jan 2023 15:19:53 -0500
+	id 1pMadC-0002Oy-Si; Mon, 30 Jan 2023 15:19:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMaci-0002JQ-Rh
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:19:30 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMack-0002K9-Oe
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:19:35 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMacg-0006ru-0b
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:19:28 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMacj-0006s8-E9
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:19:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675109965;
+ s=mimecast20190719; t=1675109968;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=UAwSvHSOl+UoCWd5gVq+4zPfPKuJ/FxuHvkI36xoePk=;
- b=SbJwbpCEDruGPVUKr6NtLaxMOaAeodPkkdyfZ+033a7390LGPxtN3UAbjFzpR2OqIkkPIe
- IB4Ufgj09MIOFhfvmwpbmpEen23niQiO0VEMUBoHyq7T4hUxYUDTIoLd2Ky62zI07yrHzD
- VB2HxlgoOM4zZLTpCVvjP2A86vN5olk=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=JLoKCDlkuDoYykNnQSuCp1f9UhyqQKcBeBFBNwxf4ik=;
+ b=C+rHG1HETKYd1h+rK1HOweyhPFT/BVC+ZKqi6HwP4DCTfBW73lcXwggoAMfWBBe2T1STUo
+ OFk2xcejHAOJP2nm97pM8xIFEnC9tQZOB5H1RVoyG7OForWWeLxh5guAXRjHnEBmn3OcMU
+ XzgKLsQv2qmOeWR2Crfv7eYSj021Ghg=
+Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
+ [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-629-F2dm4A-DNUO53HwvZqb5og-1; Mon, 30 Jan 2023 15:19:23 -0500
-X-MC-Unique: F2dm4A-DNUO53HwvZqb5og-1
-Received: by mail-ed1-f70.google.com with SMTP id
- h18-20020a05640250d200b0049e0e9382c2so9001114edb.13
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:19:23 -0800 (PST)
+ us-mta-673-5uHcXql-NWSOjwVvEj5oWw-1; Mon, 30 Jan 2023 15:19:27 -0500
+X-MC-Unique: 5uHcXql-NWSOjwVvEj5oWw-1
+Received: by mail-ed1-f72.google.com with SMTP id
+ w16-20020a056402129000b004a1f1a2e79dso6793093edv.23
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:19:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UAwSvHSOl+UoCWd5gVq+4zPfPKuJ/FxuHvkI36xoePk=;
- b=QsZ3K3YPI7RgWvKET8VxtZF/3UDnFfoVfGFdLnW7akIybdM5ie9o6XnYYVih8i7Dyb
- hCCfRMo9dEyBGBFvXcgz18QOv3NsakwaN7NR4oFb/9V6b+IsmPZ3hca8bGnrTQ2HXhTK
- tqbrI0xoo5NGk4EjzIORyMsLwPNXEjxVoV7Z+d4KeMOXULOIMhbAJQmMe+YrrApKwp72
- cHAHa/+HZBczqi7ZP2ZxgtFM1JxZZMZu18Tkjz8LiW9f3PFvpcrB+jnQ5kQH8AOqhDL6
- rH3yLMDBsP5P1qFvzIGLenx70o5I+waKkOonnqpayD8w/YBCRb7UQtQuhF0xstsKAZ6p
- d4Zw==
-X-Gm-Message-State: AFqh2kqzcXSPY/jwJVLvXhewNfgSZKlzEzkfh7fjXfu2lZPhgqZv9XMQ
- Ygj0PhjQO1Eclp/2Gaj8RQqOmQku28NffisPpAzLJBHJZl9ticaB51f87P6Nn9KZJprnCk9WYrx
- BsWNxmOi1zWiKNzj+EDU51EahlykdtqyvOCj434RNHn04EWqzagmCUK8ksaDg
-X-Received: by 2002:a17:906:5214:b0:7c0:f2c5:ac3d with SMTP id
- g20-20020a170906521400b007c0f2c5ac3dmr49107471ejm.15.1675109959419; 
- Mon, 30 Jan 2023 12:19:19 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXskkRBilRKYBMjQcosbACYhcoPuF3xD2niNCPF+UXlEu/PjLzhm5CnWDvr33xUrAX8l0vsolQ==
-X-Received: by 2002:a17:906:5214:b0:7c0:f2c5:ac3d with SMTP id
- g20-20020a170906521400b007c0f2c5ac3dmr49107442ejm.15.1675109959149; 
- Mon, 30 Jan 2023 12:19:19 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=JLoKCDlkuDoYykNnQSuCp1f9UhyqQKcBeBFBNwxf4ik=;
+ b=DczElZU94qUE0gu4G9C+UxBXWsHZc44JznzeqoHBocNrNpJYlk1EsrvDVLUlPN+KQv
+ x8Q/9f7yXMxUe46zjvB70s5Uu0W7XyDUmQNi9Kiekn7teeurHkuidYIinz5B8UwxWKsN
+ juh9DH4oS8syjgI5E+Z9mp5MpMDR/jIJbNnPjYYuZovayTBFlI72cvvLcQI46hFUXww4
+ YVzhi2NXj6OnGr8NJDIgp7JVfC5PfVDAKQUkmv7qG7UrG7IzpR79E9P1yBbuhuNuszMr
+ QA00rd3SvH1LGAnM1YRetwTBAaV9qKTsOxkQFH/zdUQBKjmIDaPFIgrlhTFZbrXYd7rg
+ W/Ew==
+X-Gm-Message-State: AO0yUKXiSFObMDhNEbSD7c0BPjgBUR6jLF8fV61+NSjtkDfx919XlzBR
+ mmNTQ6ZiUXA4gg6H7urfX2GKm7tZFSWFukQQ+o3T/5+BQYLWHjAny0RPDcgs7TD6M1z8Mx3meYO
+ nsdO0TnUPyyTSa8yh4Q0J0nag5PKyOJMQeHFDJ+lh/s5j455oWFNlWyJCQvXa
+X-Received: by 2002:a17:906:c2d3:b0:87b:3d29:2982 with SMTP id
+ ch19-20020a170906c2d300b0087b3d292982mr13698445ejb.11.1675109965491; 
+ Mon, 30 Jan 2023 12:19:25 -0800 (PST)
+X-Google-Smtp-Source: AK7set9t6e86aXUmeo9vELatNmVIZHZil98varbuaLwM/jVY880lft9DP8G6hxOUUjBCDkFuPQKwJA==
+X-Received: by 2002:a17:906:c2d3:b0:87b:3d29:2982 with SMTP id
+ ch19-20020a170906c2d300b0087b3d292982mr13698429ejb.11.1675109965187; 
+ Mon, 30 Jan 2023 12:19:25 -0800 (PST)
 Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
- t4-20020a17090605c400b0084d242d07ffsm7348738ejt.8.2023.01.30.12.19.16
+ 11-20020a170906318b00b0088a161c232esm710690ejy.172.2023.01.30.12.19.23
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 12:19:18 -0800 (PST)
-Date: Mon, 30 Jan 2023 15:19:14 -0500
+ Mon, 30 Jan 2023 12:19:24 -0800 (PST)
+Date: Mon, 30 Jan 2023 15:19:22 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- "Jason A. Donenfeld" <Jason@zx2c4.com>, x86@kernel.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "H . Peter Anvin" <hpa@zytor.com>, Borislav Petkov <bp@alien8.de>,
- Eric Biggers <ebiggers@kernel.org>, Eric Biggers <ebiggers@google.com>,
- Mathias Krause <minipli@grsecurity.net>,
- Sergio Lopez <slp@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: [PULL 10/56] x86: don't let decompressed kernel image clobber
- setup_data
-Message-ID: <20230130201810.11518-11-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL 12/56] tests: acpi: cleanup arguments to make them more readable
+Message-ID: <20230130201810.11518-13-mst@redhat.com>
 References: <20230130201810.11518-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20230130201810.11518-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
@@ -109,288 +97,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-The setup_data links are appended to the compressed kernel image. Since
-the kernel image is typically loaded at 0x100000, setup_data lives at
-`0x100000 + compressed_size`, which does not get relocated during the
-kernel's boot process.
+ no functional change
 
-The kernel typically decompresses the image starting at address
-0x1000000 (note: there's one more zero there than the compressed image
-above). This usually is fine for most kernels.
-
-However, if the compressed image is actually quite large, then
-setup_data will live at a `0x100000 + compressed_size` that extends into
-the decompressed zone at 0x1000000. In other words, if compressed_size
-is larger than `0x1000000 - 0x100000`, then the decompression step will
-clobber setup_data, resulting in crashes.
-
-Visually, what happens now is that QEMU appends setup_data to the kernel
-image:
-
-          kernel image            setup_data
-   |--------------------------||----------------|
-0x100000                  0x100000+l1     0x100000+l1+l2
-
-The problem is that this decompresses to 0x1000000 (one more zero). So
-if l1 is > (0x1000000-0x100000), then this winds up looking like:
-
-          kernel image            setup_data
-   |--------------------------||----------------|
-0x100000                  0x100000+l1     0x100000+l1+l2
-
-                                 d e c o m p r e s s e d   k e r n e l
-                     |-------------------------------------------------------------|
-                0x1000000                                                     0x1000000+l3
-
-The decompressed kernel seemingly overwriting the compressed kernel
-image isn't a problem, because that gets relocated to a higher address
-early on in the boot process, at the end of startup_64. setup_data,
-however, stays in the same place, since those links are self referential
-and nothing fixes them up.  So the decompressed kernel clobbers it.
-
-Fix this by appending setup_data to the cmdline blob rather than the
-kernel image blob, which remains at a lower address that won't get
-clobbered.
-
-This could have been done by overwriting the initrd blob instead, but
-that poses big difficulties, such as no longer being able to use memory
-mapped files for initrd, hurting performance, and, more importantly, the
-initrd address calculation is hard coded in qboot, and it always grows
-down rather than up, which means lots of brittle semantics would have to
-be changed around, incurring more complexity. In contrast, using cmdline
-is simple and doesn't interfere with anything.
-
-The microvm machine has a gross hack where it fiddles with fw_cfg data
-after the fact. So this hack is updated to account for this appending,
-by reserving some bytes.
-
-Fixup-by: Michael S. Tsirkin <mst@redhat.com>
-Cc: x86@kernel.org
-Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
-Cc: H. Peter Anvin <hpa@zytor.com>
-Cc: Borislav Petkov <bp@alien8.de>
-Cc: Eric Biggers <ebiggers@kernel.org>
-Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-Message-Id: <20221230220725.618763-1-Jason@zx2c4.com>
-Message-ID: <20230128061015-mutt-send-email-mst@kernel.org>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <20230112140312.3096331-3-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Tested-by: Eric Biggers <ebiggers@google.com>
-Tested-by: Mathias Krause <minipli@grsecurity.net>
 ---
- include/hw/i386/microvm.h |  5 ++--
- include/hw/nvram/fw_cfg.h |  9 +++++++
- hw/i386/microvm.c         | 15 +++++++----
- hw/i386/x86.c             | 52 +++++++++++++++++++++------------------
- hw/nvram/fw_cfg.c         |  9 +++++++
- 5 files changed, 59 insertions(+), 31 deletions(-)
+ tests/qtest/bios-tables-test.c | 17 +++++++----------
+ 1 file changed, 7 insertions(+), 10 deletions(-)
 
-diff --git a/include/hw/i386/microvm.h b/include/hw/i386/microvm.h
-index fad97a891d..e8af61f194 100644
---- a/include/hw/i386/microvm.h
-+++ b/include/hw/i386/microvm.h
-@@ -50,8 +50,9 @@
-  */
- 
- /* Platform virtio definitions */
--#define VIRTIO_MMIO_BASE      0xfeb00000
--#define VIRTIO_CMDLINE_MAXLEN 64
-+#define VIRTIO_MMIO_BASE                0xfeb00000
-+#define VIRTIO_CMDLINE_MAXLEN           64
-+#define VIRTIO_CMDLINE_TOTAL_MAX_LEN    ((VIRTIO_CMDLINE_MAXLEN + 1) * 16)
- 
- #define GED_MMIO_BASE         0xfea00000
- #define GED_MMIO_BASE_MEMHP   (GED_MMIO_BASE + 0x100)
-diff --git a/include/hw/nvram/fw_cfg.h b/include/hw/nvram/fw_cfg.h
-index 2e503904dc..990dcdbb2e 100644
---- a/include/hw/nvram/fw_cfg.h
-+++ b/include/hw/nvram/fw_cfg.h
-@@ -139,6 +139,15 @@ void fw_cfg_add_bytes_callback(FWCfgState *s, uint16_t key,
-                                void *data, size_t len,
-                                bool read_only);
- 
-+/**
-+ * fw_cfg_read_bytes_ptr:
-+ * @s: fw_cfg device being modified
-+ * @key: selector key value for new fw_cfg item
-+ *
-+ * Reads an existing fw_cfg data pointer.
-+ */
-+void *fw_cfg_read_bytes_ptr(FWCfgState *s, uint16_t key);
-+
- /**
-  * fw_cfg_add_string:
-  * @s: fw_cfg device being modified
-diff --git a/hw/i386/microvm.c b/hw/i386/microvm.c
-index 170a331e3f..29f30dd6d3 100644
---- a/hw/i386/microvm.c
-+++ b/hw/i386/microvm.c
-@@ -378,7 +378,8 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
-     MicrovmMachineState *mms = MICROVM_MACHINE(machine);
-     BusState *bus;
-     BusChild *kid;
--    char *cmdline;
-+    char *cmdline, *existing_cmdline;
-+    size_t len;
- 
-     /*
-      * Find MMIO transports with attached devices, and add them to the kernel
-@@ -387,7 +388,8 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
-      * Yes, this is a hack, but one that heavily improves the UX without
-      * introducing any significant issues.
-      */
--    cmdline = g_strdup(machine->kernel_cmdline);
-+    existing_cmdline = fw_cfg_read_bytes_ptr(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA);
-+    cmdline = g_strdup(existing_cmdline);
-     bus = sysbus_get_default();
-     QTAILQ_FOREACH(kid, &bus->children, sibling) {
-         DeviceState *dev = kid->child;
-@@ -411,9 +413,12 @@ static void microvm_fix_kernel_cmdline(MachineState *machine)
-         }
-     }
- 
--    fw_cfg_modify_i32(x86ms->fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(cmdline) + 1);
--    fw_cfg_modify_string(x86ms->fw_cfg, FW_CFG_CMDLINE_DATA, cmdline);
--
-+    len = strlen(cmdline);
-+    if (len > VIRTIO_CMDLINE_TOTAL_MAX_LEN + strlen(existing_cmdline)) {
-+        fprintf(stderr, "qemu: virtio mmio cmdline too large, skipping\n");
-+    } else {
-+        memcpy(existing_cmdline, cmdline, len + 1);
-+    }
-     g_free(cmdline);
+diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
+index 8608408213..08b8aee76b 100644
+--- a/tests/qtest/bios-tables-test.c
++++ b/tests/qtest/bios-tables-test.c
+@@ -951,8 +951,7 @@ static void test_acpi_q35_tcg_bridge(void)
+     data.variant = ".bridge";
+     data.required_struct_types = base_required_struct_types;
+     data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
+-    test_acpi_one("-device pci-bridge,chassis_nr=1",
+-                  &data);
++    test_acpi_one("-device pci-bridge,chassis_nr=1", &data);
+     free_test_data(&data);
  }
  
-diff --git a/hw/i386/x86.c b/hw/i386/x86.c
-index 78cc131926..eaff4227bd 100644
---- a/hw/i386/x86.c
-+++ b/hw/i386/x86.c
-@@ -50,6 +50,7 @@
- #include "hw/intc/i8259.h"
- #include "hw/rtc/mc146818rtc.h"
- #include "target/i386/sev.h"
-+#include "hw/i386/microvm.h"
- 
- #include "hw/acpi/cpu_hotplug.h"
- #include "hw/irq.h"
-@@ -813,12 +814,18 @@ void x86_load_linux(X86MachineState *x86ms,
-     const char *kernel_filename = machine->kernel_filename;
-     const char *initrd_filename = machine->initrd_filename;
-     const char *dtb_filename = machine->dtb;
--    const char *kernel_cmdline = machine->kernel_cmdline;
-+    char *kernel_cmdline;
-     SevKernelLoaderContext sev_load_ctx = {};
-     enum { RNG_SEED_LENGTH = 32 };
- 
--    /* Align to 16 bytes as a paranoia measure */
--    cmdline_size = (strlen(kernel_cmdline) + 16) & ~15;
-+    /*
-+     * Add the NUL terminator, some padding for the microvm cmdline fiddling
-+     * hack, and then align to 16 bytes as a paranoia measure
-+     */
-+    cmdline_size = (strlen(machine->kernel_cmdline) + 1 +
-+                    VIRTIO_CMDLINE_TOTAL_MAX_LEN + 16) & ~15;
-+    /* Make a copy, since we might append arbitrary bytes to it later. */
-+    kernel_cmdline = g_strndup(machine->kernel_cmdline, cmdline_size);
- 
-     /* load the kernel header */
-     f = fopen(kernel_filename, "rb");
-@@ -959,12 +966,6 @@ void x86_load_linux(X86MachineState *x86ms,
-         initrd_max = x86ms->below_4g_mem_size - acpi_data_size - 1;
-     }
- 
--    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_ADDR, cmdline_addr);
--    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, strlen(kernel_cmdline) + 1);
--    fw_cfg_add_string(fw_cfg, FW_CFG_CMDLINE_DATA, kernel_cmdline);
--    sev_load_ctx.cmdline_data = (char *)kernel_cmdline;
--    sev_load_ctx.cmdline_size = strlen(kernel_cmdline) + 1;
--
-     if (protocol >= 0x202) {
-         stl_p(header + 0x228, cmdline_addr);
-     } else {
-@@ -1091,27 +1092,24 @@ void x86_load_linux(X86MachineState *x86ms,
-             exit(1);
-         }
- 
--        setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
--        kernel_size = setup_data_offset + sizeof(SetupData) + dtb_size;
--        kernel = g_realloc(kernel, kernel_size);
--
--
--        setup_data = (SetupData *)(kernel + setup_data_offset);
-+        setup_data_offset = cmdline_size;
-+        cmdline_size += sizeof(SetupData) + dtb_size;
-+        kernel_cmdline = g_realloc(kernel_cmdline, cmdline_size);
-+        setup_data = (void *)kernel_cmdline + setup_data_offset;
-         setup_data->next = cpu_to_le64(first_setup_data);
--        first_setup_data = prot_addr + setup_data_offset;
-+        first_setup_data = cmdline_addr + setup_data_offset;
-         setup_data->type = cpu_to_le32(SETUP_DTB);
-         setup_data->len = cpu_to_le32(dtb_size);
--
-         load_image_size(dtb_filename, setup_data->data, dtb_size);
-     }
- 
--    if (!legacy_no_rng_seed) {
--        setup_data_offset = QEMU_ALIGN_UP(kernel_size, 16);
--        kernel_size = setup_data_offset + sizeof(SetupData) + RNG_SEED_LENGTH;
--        kernel = g_realloc(kernel, kernel_size);
--        setup_data = (SetupData *)(kernel + setup_data_offset);
-+    if (!legacy_no_rng_seed && protocol >= 0x209) {
-+        setup_data_offset = cmdline_size;
-+        cmdline_size += sizeof(SetupData) + RNG_SEED_LENGTH;
-+        kernel_cmdline = g_realloc(kernel_cmdline, cmdline_size);
-+        setup_data = (void *)kernel_cmdline + setup_data_offset;
-         setup_data->next = cpu_to_le64(first_setup_data);
--        first_setup_data = prot_addr + setup_data_offset;
-+        first_setup_data = cmdline_addr + setup_data_offset;
-         setup_data->type = cpu_to_le32(SETUP_RNG_SEED);
-         setup_data->len = cpu_to_le32(RNG_SEED_LENGTH);
-         qemu_guest_getrandom_nofail(setup_data->data, RNG_SEED_LENGTH);
-@@ -1122,6 +1120,12 @@ void x86_load_linux(X86MachineState *x86ms,
-         fw_cfg_add_bytes(fw_cfg, FW_CFG_KERNEL_DATA, kernel, kernel_size);
-     }
- 
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_ADDR, cmdline_addr);
-+    fw_cfg_add_i32(fw_cfg, FW_CFG_CMDLINE_SIZE, cmdline_size);
-+    fw_cfg_add_bytes(fw_cfg, FW_CFG_CMDLINE_DATA, kernel_cmdline, cmdline_size);
-+    sev_load_ctx.cmdline_data = (char *)kernel_cmdline;
-+    sev_load_ctx.cmdline_size = cmdline_size;
-+
-     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_ADDR, prot_addr);
-     fw_cfg_add_i32(fw_cfg, FW_CFG_KERNEL_SIZE, kernel_size);
-     sev_load_ctx.kernel_data = (char *)kernel;
-@@ -1134,7 +1138,7 @@ void x86_load_linux(X86MachineState *x86ms,
-      * kernel on the other side of the fw_cfg interface matches the hash of the
-      * file the user passed in.
-      */
--    if (!sev_enabled()) {
-+    if (!sev_enabled() && first_setup_data) {
-         SetupDataFixup *fixup = g_malloc(sizeof(*fixup));
- 
-         memcpy(setup, header, MIN(sizeof(header), setup_size));
-diff --git a/hw/nvram/fw_cfg.c b/hw/nvram/fw_cfg.c
-index a00881bc64..432754eda4 100644
---- a/hw/nvram/fw_cfg.c
-+++ b/hw/nvram/fw_cfg.c
-@@ -741,6 +741,15 @@ void fw_cfg_add_bytes(FWCfgState *s, uint16_t key, void *data, size_t len)
-     fw_cfg_add_bytes_callback(s, key, NULL, NULL, NULL, data, len, true);
+@@ -962,14 +961,12 @@ static void test_acpi_q35_multif_bridge(void)
+         .machine = MACHINE_Q35,
+         .variant = ".multi-bridge",
+     };
+-    test_acpi_one("-device pcie-root-port,id=pcie-root-port-0,"
+-                  "multifunction=on,"
+-                  "port=0x0,chassis=1,addr=0x2,bus=pcie.0 "
+-                  "-device pcie-root-port,id=pcie-root-port-1,"
+-                  "port=0x1,chassis=2,addr=0x3.0x1,bus=pcie.0 "
+-                  "-device virtio-balloon,id=balloon0,"
+-                  "bus=pcie.0,addr=0x4.0x2",
+-                  &data);
++    test_acpi_one(
++        " -device virtio-balloon,id=balloon0,addr=0x4.0x2"
++        " -device pcie-root-port,id=rp0,multifunction=on,"
++                  "port=0x0,chassis=1,addr=0x2"
++        " -device pcie-root-port,id=rp1,port=0x1,chassis=2,addr=0x3.0x1",
++        &data);
+     free_test_data(&data);
  }
  
-+void *fw_cfg_read_bytes_ptr(FWCfgState *s, uint16_t key)
-+{
-+    int arch = !!(key & FW_CFG_ARCH_LOCAL);
-+
-+    key &= FW_CFG_ENTRY_MASK;
-+    assert(key < fw_cfg_max_entry(s));
-+    return s->entries[arch][key].data;
-+}
-+
- void fw_cfg_add_string(FWCfgState *s, uint16_t key, const char *value)
- {
-     size_t sz = strlen(value) + 1;
 -- 
 MST
 
