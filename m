@@ -2,75 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FB92681B60
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:26:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC5C7681B71
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:27:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMade-00042O-JO; Mon, 30 Jan 2023 15:20:26 -0500
+	id 1pMae1-0004pc-GF; Mon, 30 Jan 2023 15:20:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMadb-0003rP-Hx
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:24 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMade-0004BW-Gv
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMada-0007Bv-01
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:23 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMadc-0007Dw-VG
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:26 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675110021;
+ s=mimecast20190719; t=1675110024;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=KBz6wG5deB9Si5qL+2YtmJbELltQcc5eyzG12gn3s1s=;
- b=FImIFsSsro0sujPCSx0DDl3xleHiTrkdhyIa4IGX98skgEmM3o901PsdTom7lEBMlb0HRI
- 2UplhoSgFhK9JdyJymHLhUll1lC++358rfo02tX/yR7AZQy0Nv8whB0EH3TOkRqAlY/Pho
- E9KR4MWaaUYWEqyDmykzGq74G/tbjwk=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=tFTTc7WXuTD4mtGXod/PqPYVOn2MtwgkQJK+sIVXhuI=;
+ b=FWzFHJ619bqPlfAfKncNk0CaOaNo6cXw1UezbZXoj4zDs0zKxYRFk0kbz4w3QQuEDUwLmi
+ ebQMIo80kEAK4gqVdAbivR190QS0xj3Snw4mb6vUIJ6USoq0wHXp6WrhlYgfcK0K55YK0J
+ ADMeRYmF1WoTrsNjqV7v3iPhtzcAiUg=
+Received: from mail-ed1-f71.google.com (mail-ed1-f71.google.com
+ [209.85.208.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-442--tcn9OYZPxC0GgkFLyf_eQ-1; Mon, 30 Jan 2023 15:20:20 -0500
-X-MC-Unique: -tcn9OYZPxC0GgkFLyf_eQ-1
-Received: by mail-ej1-f69.google.com with SMTP id
- js21-20020a17090797d500b008858509ff2aso3236894ejc.4
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:20:19 -0800 (PST)
+ us-mta-663-6uV5MVaCNRyQl__CMZyqzg-1; Mon, 30 Jan 2023 15:20:23 -0500
+X-MC-Unique: 6uV5MVaCNRyQl__CMZyqzg-1
+Received: by mail-ed1-f71.google.com with SMTP id
+ s3-20020a50ab03000000b0049ec3a108beso8936327edc.7
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:20:22 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=KBz6wG5deB9Si5qL+2YtmJbELltQcc5eyzG12gn3s1s=;
- b=po6qBJXK+3MyJBMa9XIWq2eWAFC/IwNutQsres2gcgziwoHqE0H/iPjxpH7689zia+
- BtdSrUN+4Om++3YmAPrjI81XijzMat5Q5x2dhAO/LNbwLyuaZAfUB+XQdcvNvR8YvE7V
- Pp+Z2heo2gecVIZoIJ2R5RotXiQ78eT8gfvemXNgh1HjkD2U6lZsmV3oDutV6l54nz22
- ocRTz+qldrVVWbCjdCBYee7FowJQFYp1sRerNjXT9kVbjqp60vZsW7wtywlISTB8jSuL
- pdUtuq82Y8cQANOon8XsG6vl1dYut5laO6dgv1TnbqhOInfJ+Ae+mqEJ0aRSn3yNAYmZ
- dqrw==
-X-Gm-Message-State: AO0yUKVqFHDp4GpsS8qQGMi3kMJw3zSKoeWaJNGQiLVhQCJpfsOkvW4J
- WYjbXN48gvDzjAprONjXnZd9tXJSL+83lBUr6O/AwU1xVO0MjuMMbayrffA5Jpw1fJMFXSxyzj7
- ndxGdq4vfDIeKFpnEok+NmXv122ebfm3OqbiSfJN8/diq64eHmKhrjKE3YwuF
-X-Received: by 2002:a17:907:3f1f:b0:878:702c:bd86 with SMTP id
- hq31-20020a1709073f1f00b00878702cbd86mr873250ejc.74.1675110018361; 
- Mon, 30 Jan 2023 12:20:18 -0800 (PST)
-X-Google-Smtp-Source: AK7set8JXnJ6Mz4wWZc3ZcrTcI59fWNnDJzgZmBc9Mw/kY2dnnhny63/YVgsVJmgVFqxk57UMSF6eg==
-X-Received: by 2002:a17:907:3f1f:b0:878:702c:bd86 with SMTP id
- hq31-20020a1709073f1f00b00878702cbd86mr873224ejc.74.1675110018083; 
- Mon, 30 Jan 2023 12:20:18 -0800 (PST)
+ bh=tFTTc7WXuTD4mtGXod/PqPYVOn2MtwgkQJK+sIVXhuI=;
+ b=sQ94aC8SZFz0DTGPkfziSFgqqGCXKM+L3r0xm6EOg2zmDmKtFBbq9ix7BaSOHJjpJx
+ ePHPkwtAWp51VaZMU11h5vtxvWdc5tqaNNZ8diGqyujyjwT49gbvk0FZFVKUPY6SYsFN
+ tsF4aF3H7TEzhvBV3E2SSCPzoEQ1CFQ152BI7uLn+ames3QsepKhORsrozPjeV3W48hb
+ DxXdODanNL8X3Ir0qG/VlyCBXMN4Co2UUH2TM2Oia2a3hl6Pn3TtTaLPvxMFVtSDda6E
+ nmNSRPWER68nQbZUykwuaLf7TdsnStEEQpYtxWv2qyc3znwcrlGfzkaGBXZyCfvI/3FZ
+ h3dw==
+X-Gm-Message-State: AFqh2kp6F/PpBhn2PC6joMLaqJe6ipfEelmZjAwD/ZpgGdOTiAD/e9Kr
+ Deetz6GVZ83F8Rgj/77Si0LMrmsSZZjE1DcAiLSpfY6DERpgxcdlVAifR45bZpgJC6meDSjTSw2
+ d3xcjALCBpd0o6aH3zLi+qgIGLr0Nt3UYQAA5d4UXSgzpRJOw2T+aAoo5s9iG
+X-Received: by 2002:a05:6402:ea8:b0:494:fae3:c0df with SMTP id
+ h40-20020a0564020ea800b00494fae3c0dfmr54524967eda.12.1675110021547; 
+ Mon, 30 Jan 2023 12:20:21 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvB5fU6zYxP2DiZ9oXwqu9WxUwUTuEABNf6FC5HbatuVTHSJqasAZ26Z4LFMo62F+/0igJO4g==
+X-Received: by 2002:a05:6402:ea8:b0:494:fae3:c0df with SMTP id
+ h40-20020a0564020ea800b00494fae3c0dfmr54524952eda.12.1675110021328; 
+ Mon, 30 Jan 2023 12:20:21 -0800 (PST)
 Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
- t12-20020a1709063e4c00b0088a9e083318sm1048449eji.168.2023.01.30.12.20.16
+ ko25-20020a170907987900b0086edf177209sm7441864ejc.78.2023.01.30.12.20.19
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 12:20:17 -0800 (PST)
-Date: Mon, 30 Jan 2023 15:20:15 -0500
+ Mon, 30 Jan 2023 12:20:20 -0800 (PST)
+Date: Mon, 30 Jan 2023 15:20:18 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PULL 28/56] pcihp: drop pcihp_bridge_en dependency when composing
- PCNT method
-Message-ID: <20230130201810.11518-29-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
+Subject: [PULL 29/56] tests: acpi: update expected blobs
+Message-ID: <20230130201810.11518-30-mst@redhat.com>
 References: <20230130201810.11518-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -78,7 +73,7 @@ Content-Disposition: inline
 In-Reply-To: <20230130201810.11518-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,18 +99,7 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
- .. and use only BSEL presence to decide on how PCNT should be composed.
-That simplifies possible combinations to consider, but mainly it makes
-PCIHP AML be governed only by BSEL, which is property of PCIBus
-(aka part of bridge) and as result it opens possibility to convert
-build_append_pci_bus_devices() into AcpiDevAmlIf::build_dev_aml
-callback to make bridges self describing.
-
-PS:
-used approach leaves unused PCNT, when ACPI hotplug is completely
-disabled but that's harmless and followup commits will get rid of
-it later.
-
+expected change:
      Scope (PCI0)
            ...
            Method (PCNT, 0, NotSerialized)
@@ -125,81 +109,28 @@ it later.
      }
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230112140312.3096331-19-imammedo@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Message-Id: <20230112140312.3096331-20-imammedo@redhat.com>
 ---
- hw/i386/acpi-build.c | 53 ++++++++++++++++++++------------------------
- 1 file changed, 24 insertions(+), 29 deletions(-)
+ tests/qtest/bios-tables-test-allowed-diff.h |   1 -
+ tests/data/acpi/pc/DSDT.hpbrroot            | Bin 3064 -> 3071 bytes
+ 2 files changed, 1 deletion(-)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 1c51ab01fc..27f2cc4180 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -494,39 +494,34 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-         aml_append(parent_scope, notify_method);
-     }
- 
--    /* Append PCNT method to notify about events on local and child buses.
--     * Add this method for root bus only when hotplug is enabled since DSDT
--     * expects it.
-+    /*
-+     * Append PCNT method to notify about events on local and child buses.
-      */
--    if (bsel || pcihp_bridge_en) {
--        method = aml_method("PCNT", 0, AML_NOTSERIALIZED);
-+    method = aml_method("PCNT", 0, AML_NOTSERIALIZED);
- 
--        /* If bus supports hotplug select it and notify about local events */
--        if (bsel) {
--            uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
-+    /* If bus supports hotplug select it and notify about local events */
-+    if (bsel) {
-+        uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
- 
--            aml_append(method, aml_store(aml_int(bsel_val), aml_name("BNUM")));
--            aml_append(method, aml_call2("DVNT", aml_name("PCIU"),
--                                         aml_int(1))); /* Device Check */
--            aml_append(method, aml_call2("DVNT", aml_name("PCID"),
--                                         aml_int(3))); /* Eject Request */
--        }
--
--        /* Notify about child bus events in any case */
--        if (pcihp_bridge_en) {
--            QLIST_FOREACH(sec, &bus->child, sibling) {
--                if (pci_bus_is_root(sec) ||
--                    !object_property_find(OBJECT(sec), ACPI_PCIHP_PROP_BSEL)) {
--                    continue;
--                }
--
--                aml_append(method, aml_name("^S%.02X.PCNT",
--                                            sec->parent_dev->devfn));
--            }
--        }
--
--        aml_append(parent_scope, method);
-+        aml_append(method, aml_store(aml_int(bsel_val), aml_name("BNUM")));
-+        aml_append(method, aml_call2("DVNT", aml_name("PCIU"),
-+                                     aml_int(1))); /* Device Check */
-+        aml_append(method, aml_call2("DVNT", aml_name("PCID"),
-+                                     aml_int(3))); /* Eject Request */
-     }
-+
-+    /* Notify about child bus events in any case */
-+    QLIST_FOREACH(sec, &bus->child, sibling) {
-+        if (pci_bus_is_root(sec) ||
-+            !object_property_find(OBJECT(sec), ACPI_PCIHP_PROP_BSEL)) {
-+            continue;
-+        }
-+
-+        aml_append(method, aml_name("^S%.02X.PCNT", sec->parent_dev->devfn));
-+    }
-+
-+    aml_append(parent_scope, method);
-+
-     qobject_unref(bsel);
- }
- 
+diff --git a/tests/qtest/bios-tables-test-allowed-diff.h b/tests/qtest/bios-tables-test-allowed-diff.h
+index dea61d94f1..dfb8523c8b 100644
+--- a/tests/qtest/bios-tables-test-allowed-diff.h
++++ b/tests/qtest/bios-tables-test-allowed-diff.h
+@@ -1,2 +1 @@
+ /* List of comma-separated changed AML files to ignore */
+-"tests/data/acpi/pc/DSDT.hpbrroot",
+diff --git a/tests/data/acpi/pc/DSDT.hpbrroot b/tests/data/acpi/pc/DSDT.hpbrroot
+index 578468f4f00a9373366c92926b512c192dd6675b..42d923ef3fcc17898955ff30a1dda1bfd7da0947 100644
+GIT binary patch
+delta 42
+ycmew%{$HHSCD<k8KQ{vd<H?O&_c%G-6=ULqo#F-jH-F@0XJQv&3vl)eVE_OvXAEEf
+
+delta 34
+qcmew_{zIJ0CD<k82R8!)qwYqodz_pOiZSuQPVoXBn?G{0GXVg?l?qt^
+
 -- 
 MST
 
