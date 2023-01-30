@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86D00681860
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 19:10:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6903A681865
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 19:12:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMYad-0001W0-LS; Mon, 30 Jan 2023 13:09:11 -0500
+	id 1pMYd5-0003RQ-GM; Mon, 30 Jan 2023 13:11:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pMYab-0001VT-8v; Mon, 30 Jan 2023 13:09:09 -0500
+ id 1pMYct-0003N0-LM; Mon, 30 Jan 2023 13:11:32 -0500
 Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
- id 1pMYaZ-00011E-HH; Mon, 30 Jan 2023 13:09:08 -0500
+ id 1pMYcr-0002AE-VH; Mon, 30 Jan 2023 13:11:31 -0500
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
  (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MuV3i-1oWVvo1Dhi-00rc1G; Mon, 30 Jan 2023 19:09:02 +0100
-Message-ID: <2cc505db-517e-4129-9c9a-7a41637b75f2@vivier.eu>
-Date: Mon, 30 Jan 2023 19:09:01 +0100
+ 1MKKER-1p4kcc2HPD-00LqgT; Mon, 30 Jan 2023 19:11:25 +0100
+Message-ID: <664ef653-0026-999c-8c68-587c0442df04@vivier.eu>
+Date: Mon, 30 Jan 2023 19:11:24 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH qemu 0/1] MAC address falls to permanent
+Subject: Re: [PATCH qemu 1/1] vmxnet3: add mac address restore upon reset
 Content-Language: fr
 To: ~vlaomao <vlaomao@gmail.com>
 Cc: qemu-trivial@nongnu.org, QEMU Developers <qemu-devel@nongnu.org>,
  Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>
-References: <167510125533.6740.18222174398575558338-0@git.sr.ht>
+References: <167510125533.6740.18222174398575558338-1@git.sr.ht>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <167510125533.6740.18222174398575558338-0@git.sr.ht>
+In-Reply-To: <167510125533.6740.18222174398575558338-1@git.sr.ht>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Id3xkcQpTvdI40qSXECT+E3qlUmUxDP7Y/s5heI0wsf7WxQy2iL
- JRA9wzLF+zm5KeVeOqllEJjL0WvDp5WDDV2ctbXQtNYm7j8JN3F0uSUv2PIoMUz+7wIwOJi
- eEVo+a2MHdjQJQsQmYq+hmoltdeMBSnYddXSjjYLEhyC7ORa6fw2eFRzP+KI7fYVXGN8qVZ
- Toip/G4cignnTJohNEZ4w==
-UI-OutboundReport: notjunk:1;M01:P0:efwZuxWjHaw=;McfPzjbhdH/DErAhAKe0vbm3nC9
- 8TW01qRjbUT2kIHuSxCP43NfqEGTOr+oTrYu/4z0DWdZnMp3C+Q8iW8oSmxJxAi2b4q5FKpBL
- DAiOCfbs2UzpLs1V/+ejMNuRcyPCB4aU5dz1LP829EbRLdKM5wZKL04k7zNEg2xI1OAtKR3hR
- vTQOb+12bEi9WrGvuGegGlZZyqu8UnZp7XpBafbcaNgd3YYNSOr4T6OEbAuqX7aH4gJmkqlkL
- 76W5PAtjVwPz2brwDKZAVA+w0x7BC8CsCurfXy669go4oasXpf4zoXtwnfsZHdUzFYqo91px8
- s+k0hMx2oF/3kYqvS6NwTEgN51WSewPRc935ltqCJzsyto8y0Ce4tqDMDO8xVJf1Jtk8DAF9G
- oR6sskO8MK1Bcbm22WPerV13/UaehvNsNVDbkX7vWLzRvOvvyaKxPHhkUwkrSbssaIC86YfUB
- LrS8q7+O1AAV75S9xVhm0am0q7nFwAXs8j+XDh0dcjj3hldskle1hzi7fZnw5Q68rLGWwyGJ0
- CRZdyymNA5oLZ7MedDfoZxVPIKrGCCwXQU2GN40JMQ6o1bXqq/vbshnDsnIlccbF1VDLGCT4z
- aNr9NJSfvnNjv/JtxauVHBG0O3Lgpn+v2woObrEYqOcYy6R9O6ugZLaLMTMtMkHLi/qXXvJAJ
- SSrmb0B77CdRkc99Ooc0jFhEUPL57DLNmGPYIIPTrw==
+X-Provags-ID: V03:K1:gW5wbnEdnzyPJiGlKpl8910GHiI1XDAFr3aXh3wdmmRykIzeMbm
+ M5ODyv10BdsOkWaL/iHP0uR2NJ4/fZpET5pUwbL8Z1/bvn/VaYqZ8s8A8uHGSF164rwXJXg
+ YZ+RnFCVSfODBWUtbBuoSSzcdgqklDcrfvkhCuNeaDbni/3mP2P6UM/04Hk2av5nvNvP1Tj
+ qOiEYf7Wkqoe5zxhEVIYQ==
+UI-OutboundReport: notjunk:1;M01:P0:iigvjxWIxdU=;DZOdf9+xFSevBffMnzwXGxtDT89
+ /xYWx7kbuyZ3O7Hd/x1b6/hv3cPKRtLszfVysVHauZs0A4YPj1Xh9SzSkZRtXEBJSzU08vgMK
+ PCE/7+FlHbi4/v3MTQnWjzCy8Phoe2TAu72KbnI8aHZvoRV7hiB0D2Tw/JtzJ93/FwamTAOQK
+ HlbYiZcGDxb+Zj7XcHFCtkj8i1ty6oP3hyxKygnoX7bxFof/Gc/Ey9MiVajFr44g6EcreqJNp
+ oyNyafpaYeVBqP1rbTn7pCH/nLexUgvE8qRZerjSTQfpDEAeGQkNKTM1yb/4ZBio642sPWCBd
+ rbZDB3E6Nwy9D5K41qcQvza2P8fNErV2SFOelo70SnRsqVYZD5mTCUpQNmE+fkNPKuiVBVYzB
+ hUyFS1Th89TgOCbiJDbPq/Oh2Y+vmmWeEtay6P88XpNQX9jyFqoB4Ac5S0RKSpKSI/2FfQLVT
+ D3/1YP9bLHvj9xxsRoluhWDTbc7KfppIDid+v9H+kZ5IaEMEQ45cPzokuV3/0jDM34/286gLZ
+ 9jUrarVhd3BO0ZJmBlrCAEvQh+rNw91IB6EEnVAphTteffsI6UZF8omrMcXK7PlOkksuqZO62
+ uR5C+pi3x8T9ImGcm9G3Dcdi9NGq9/56Z+Sb5NaztO2deHY/t/uAXTH+avsL2B5luz93IPHQe
+ Gme+919gD5owDqo6GbU9T9Jxalat8Agat4yTb03bvw==
 Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -19
@@ -72,65 +72,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-CC: maintainers and qemu-devel
+Le 30/01/2023 à 18:28, ~vlaomao a écrit :
+> From: VlaoMao <vlaomao@gmail.com>
+> 
+> Changing the address with a subsequent reboot makes this address permanent until the vm is turned off
 
-Use ./scripts/get_maintainer.pl to have the list of the maintainers.
+Missing Signed-off-by.
 
-Always send your patches to qemu-devel&nongnu.org
+See https://www.qemu.org/docs/master/devel/submitting-a-patch.html
 
-Thanks,
-Laurent
-
-Le 30/01/2023 à 18:54, ~vlaomao a écrit :
-> A bug was found with the vmxnet3 driver, after changing the MAC address
-> and rebooting, it falls into the category of a permanent address until
-> the VM is turned off. Here is log output:
-> 
-> -bash-4.4# ip a
-> 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN
-> group default qlen 1
->      link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
->      inet 127.0.0.1/8 scope host lo
->         valid_lft forever preferred_lft forever
-> 2: ens3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group
-> default qlen 1000
->      link/ether 52:54:00:12:34:56 brd ff:ff:ff:ff:ff:ff
-> 
-> -bash-4.4# ip link set dev ens3 address 33:33:33:33:33:33
-> -bash-4.4# ip a
-> 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN
-> group default qlen 1
->      link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
->      inet 127.0.0.1/8 scope host lo
->         valid_lft forever preferred_lft forever
-> 2: ens3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group
-> default qlen 1000
->      link/ether 33:33:33:33:33:33 brd ff:ff:ff:ff:ff:ff
-> -bash-4.4# ethtool -P ens3
-> Permanent address: 52:54:00:12:34:56
-> -bash-4.4# reboot
-> 
-> //rebooting
-> 
-> 
-> -bash-4.4# ip a
-> 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN
-> group default qlen 1
->      link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
->      inet 127.0.0.1/8 scope host lo
->         valid_lft forever preferred_lft forever
-> 2: ens3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group
-> default qlen 1000
->      link/ether 33:33:33:33:33:33 brd ff:ff:ff:ff:ff:ff
-> -bash-4.4# ethtool -P ens3
-> Permanent address: 33:33:33:33:33:33
-> -bash-4.4#
-> 
-> VlaoMao (1):
->    vmxnet3: add mac address restore upon reset
-> 
+> ---
 >   hw/net/vmxnet3.c | 2 ++
 >   1 file changed, 2 insertions(+)
 > 
+> diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+> index 04159c822..695ca2f92 100644
+> --- a/hw/net/vmxnet3.c
+> +++ b/hw/net/vmxnet3.c
+> @@ -1206,6 +1206,8 @@ static void vmxnet3_reset(VMXNET3State *s)
+>       s->drv_shmem = 0;
+>       s->tx_sop = true;
+>       s->skip_current_tx_pkt = false;
+> +
+> +    vmxnet3_reset_mac(s);
+>   }
+>   
+>   static void vmxnet3_update_rx_mode(VMXNET3State *s)
 
 
