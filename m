@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 395D268161A
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 17:13:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB96681629
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 17:16:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMWlq-0005mM-1J; Mon, 30 Jan 2023 11:12:38 -0500
+	id 1pMWoc-00081b-9e; Mon, 30 Jan 2023 11:15:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pMWlo-0005kg-6a
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 11:12:36 -0500
-Received: from mail-yw1-x1131.google.com ([2607:f8b0:4864:20::1131])
+ id 1pMWoV-0007zg-Tk
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 11:15:25 -0500
+Received: from mail-yb1-xb2b.google.com ([2607:f8b0:4864:20::b2b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pMWlm-0006e1-TB
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 11:12:35 -0500
-Received: by mail-yw1-x1131.google.com with SMTP id
- 00721157ae682-4fd37a1551cso165705047b3.13
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 08:12:34 -0800 (PST)
+ id 1pMWoU-0007Jf-F6
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 11:15:23 -0500
+Received: by mail-yb1-xb2b.google.com with SMTP id d132so14661734ybb.5
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 08:15:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=wpSrX/s9TOStVHcGx5Jb4bjLgqV7r0jFGh7V2kckMUg=;
- b=fHpBC4MO31XnGFYQGwVWLe3yRHL9XZ4AzoGuKmsGt8r0hy9EoiCJf9Pengt3xOQKD7
- MnbxEkmXxJeohU7zHRtgFPi+LKlRtWHGVdj/ok1EEIkNlC1qRsLTTirxHrYn7QX5UAcF
- MpvtBIs9jQXPf7V+D4oHo97BiSpuHHU60Nt0oGNQHLEZEh1kcglugH0veeCpgcv4WbUJ
- I7NakT9HQPUX98VVlGNJeqJ4xHX5qxo32xLWEgP+JO50qyRaahc82wM/jkJOcAxrwkIG
- sepkIwcBjez898CIabfPya2VPB+8/Tm33VNCNmOlBAd2zXNkhkmsmujY4gNGM5/5z+O5
- 6Rjw==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=DgGyWYpGJAMdj+zAj3Yb0A/JAYeQ6Et53JriFDEeHtM=;
+ b=F2ERzEKU9IrfvQRdWUr+LVNQlmXGJIcZUqCQeolNDCwkFNvqoFSan8gcDGbWEWeVr1
+ LJccnX4QkhwRHlZkiyh/uvEQeGKOn3q0gokABhYN3Mp3Ab0w9g7Unnx6sFV3iBY1OlBd
+ of/Fm8WZWC8ktXapuI8ppRSsc5b5kpdx7I7tQG5rY0EGBN5O/ap7cZZxLmPLEkWJD4gS
+ agS8pEllIPr2fLdFstRx6aPm2fWkJOuhw7e2azl3vF4LcmCTR7oLnwD6OOn/KxvUviSK
+ HGqMwQiOkQCFvYGV7oLIjeGXyV1uVaqhnCDkAVy8bognttZt8BgkfkpJioD5FYL/pgVQ
+ /s4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=wpSrX/s9TOStVHcGx5Jb4bjLgqV7r0jFGh7V2kckMUg=;
- b=WGLcPZAZv3Y5/l/sZUMXNVHKO8hwyx9uvD3X6R/IQLRlyHV5staIhLB0uOgK9kPk+q
- 0XRPjX22zZpEBt4OhsWMaYRlGLHeskkxyEgOMEZYUnhc63uizp4M1zdML38jnVCessyB
- Vf9RcVL0NEfnogQWf1MSs2Rchsihs0BkMozZPd+SIwmkTaRLJEJHRhzuWz62vUv14Sqk
- ldjTNoXMcV3ticlG+D6IYxAelIEgsZ2sKNg+3dhsi2rSt6uX5tLPTPY3e3W3i2KNJyKG
- ikrXCquQHD4qtZbV30/o2JwlP4/dLCrRIhuWSwcaKK2DVg+HaQATfwF3aPPNg5GDz2Af
- MIzQ==
-X-Gm-Message-State: AO0yUKUEb/medbpM88bd+1feSBAvzdiQBliYVgRFT6t5dpyJ4Lf8zo+s
- QuKlhRZXilN7tqPX+xbj8U2Q9wqJ3DOCrO9qwyg=
-X-Google-Smtp-Source: AK7set+9seSY0SCYL9PthfzB7cH3uchMdggURX1oJ9F+yb5jKQAiz/Tbpjg66FcifAttUuNMhBlQo/PtwJ1ZbD69Sec=
-X-Received: by 2002:a81:4882:0:b0:50e:79ff:776e with SMTP id
- v124-20020a814882000000b0050e79ff776emr1437253ywa.206.1675095153733; Mon, 30
- Jan 2023 08:12:33 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=DgGyWYpGJAMdj+zAj3Yb0A/JAYeQ6Et53JriFDEeHtM=;
+ b=kKjqR768ZATkYsDDh3ouMuIlgXjNV869xpATMqAg+kPuSDQ2p7U4l2awDA1H5FKIR+
+ kBEiNqUS9NIWwSwCRPyT8ZmTTsxoyU2KHmJaQv5t2o7XlRy5uqXeSD7IBmez4004pgOk
+ mIvq7tTeKkSu9pEqGjm3wTv2fJORtDdUwpq0IvjhCrqLYosVtnuHv/PANbx/X4b7+vc0
+ fnWAsM5jUeZBK5GbOTaqgJFopoaxVREf5I0LAHp8gSOcLF9eopPbWlFl/GpnGbNfhP6E
+ uzepP6vJKYFraJOFowbXEGnFHTCzYkdmmG4Pla6iaqUNXhzcXDqYZ4+U/H9LLFcV0Rsx
+ yOmQ==
+X-Gm-Message-State: AFqh2krCu0zEz00l0jfg5ujtn5EiNHVFUx6DtR1MWoDeo5KR2HNTCcNX
+ dfGsrkFtW/MFHdYuxowCcO5PQGzcRfT3ZLDmkwo=
+X-Google-Smtp-Source: AMrXdXtaXD9FAECt+jZ8MiZFu10Fp7dCwKMYlntzlIu0N7+o30MktERiIT3TNijULdB5/bQONHeaxhDOu6V3lsCmdNc=
+X-Received: by 2002:a25:344a:0:b0:803:60ae:431c with SMTP id
+ b71-20020a25344a000000b0080360ae431cmr4191532yba.642.1675095321230; Mon, 30
+ Jan 2023 08:15:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20230130140225.77964-1-akihiko.odaki@daynix.com>
-In-Reply-To: <20230130140225.77964-1-akihiko.odaki@daynix.com>
+References: <20230130124728.175610-1-alex.bennee@linaro.org>
+In-Reply-To: <20230130124728.175610-1-alex.bennee@linaro.org>
 From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Mon, 30 Jan 2023 11:12:21 -0500
-Message-ID: <CAJSP0QX02UCc2oZmz_ZQdxd1sdpQxZGmk4LOhjx1P0G3rN8VzQ@mail.gmail.com>
-Subject: Re: [PATCH] vhost-user-fs: Back up vqs before cleaning up vhost_dev
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, virtio-fs@redhat.com,
- qemu-devel@nongnu.org
+Date: Mon, 30 Jan 2023 11:15:09 -0500
+Message-ID: <CAJSP0QVxjBD5oeSFqY49sUHgxwsJAmYvHV+LQY20is9U1LUfuQ@mail.gmail.com>
+Subject: Re: [PATCH v2] backends/vhost-user: remove the ioeventfd check
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, slp@redhat.com, mst@redhat.com, 
+ marcandre.lureau@redhat.com, stefanha@redhat.com, mathieu.poirier@linaro.org, 
+ viresh.kumar@linaro.org, sgarzare@redhat.com, 
+ Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1131;
- envelope-from=stefanha@gmail.com; helo=mail-yw1-x1131.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b2b;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb2b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -86,18 +87,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 30 Jan 2023 at 09:03, Akihiko Odaki <akihiko.odaki@daynix.com> wrote:
+On Mon, 30 Jan 2023 at 07:48, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> vhost_dev_cleanup() clears vhost_dev so back up its vqs member to free
-> the memory pointed by the member.
+> While ioeventfds are needed for good performance with KVM guests it
+> should not be a gating requirement. We can run vhost-user backends using
+> simulated ioeventfds or inband signalling.
 >
-> Fixes: 98fc1ada4c ("virtio: add vhost-user-fs base device")
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> With this change I can run:
+>
+>   $QEMU $OPTS \
+>     -display gtk,gl=3Don \
+>     -device vhost-user-gpu-pci,chardev=3Dvhgpu \
+>     -chardev socket,id=3Dvhgpu,path=3Dvhgpu.sock
+>
+> with:
+>
+>   ./contrib/vhost-user-gpu/vhost-user-gpu \
+>     -s vhgpu.sock \
+>     -v
+>
+> and at least see things start-up - although the display gets rotated by
+> 180 degrees. Once lightdm takes over we never make it to the login
+> prompt and just get a blank screen.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> Cc: Gerd Hoffmann <kraxel@redhat.com>
+> Message-Id: <20221202132231.1048669-1-alex.bennee@linaro.org>
+>
 > ---
->  hw/virtio/vhost-user-fs.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> v2
+>   - reword commit message to make it clear we simulate ioeventfd
+>   - drop check altogether as we can fallback for KVM as well
+> ---
+>  backends/vhost-user.c | 11 -----------
+>  1 file changed, 11 deletions(-)
 
-Merged into my block tree, thank you!
+Nice!
 
-Stefan
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
