@@ -2,81 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715F06810AE
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:05:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 463BC6810B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:06:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMUmj-0005Jg-6a; Mon, 30 Jan 2023 09:05:25 -0500
+	id 1pMUmo-0005R4-8f; Mon, 30 Jan 2023 09:05:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1pMUmg-0005IY-ST
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:05:22 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pMUmk-0005N4-4y
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:05:26 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1pMUmf-00076F-5b
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:05:22 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id q10so11166463wrm.4
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:05:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=4M4xtfnQMpx7jd/celDbU8GRpcb2Xrqa0e2A+umGAi0=;
- b=YuuIZWvRDP9+kd8cc+Mm2pGTX1ivhW8v9z1rZh3jTLYpEeSYbXg9VSovCpcmnoBT1y
- 079m/xiAbxmgqjR7OfQ8Nu/RfBoWPZBXaIw3Lb3muU91qfCArGLsNOtWlEAvVwErR5re
- Uf15v7TU2XDB5TfXU9oD/Oct6rF2v3y1pPbBJp/WgjxHbkyZCGoITIa6nzL3xAv4LwyX
- 5K1G7lAFttONHLiU2dT5r0qsXHpursaUphuPKZIozqt6UPylshn1+RyjjpKYD6k2v9nT
- MrLvXvWV4k7PD7VMdB+ovEXZt4eQY/ZqDZGuK6IeAbm805GXhtjh3nl7Z4wo4KjdhbqG
- 8Msg==
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pMUmi-0007Ai-ID
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:05:25 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ rm7-20020a17090b3ec700b0022c05558d22so11173455pjb.5
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:05:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=gCQ404BNB8/0v6NdgXiAE+NORb7uYju01/OI8nFZjP0=;
+ b=OUXziGdmjtUDY9SFFnfNpMu9ZigjBMEGxEXutdsX/cA46UT1P3rGfHDOsh9RR/q8G6
+ bzKUdi6MuEBW1sKzDBcbU8YYcN0lIwM/bc0KgoWAFW4mtYU0oFgYfCHS9zd+CKivkKTq
+ OE5IuSgg0DQ42HELQFCj5FMYYmSmMeuhvutFmjUKPwN0W38oLLzNd79xQTA36ZpyaSca
+ qN4CQ9ByazVquEUsrepNi9tCeZLLFK+O+RVqjwOZ76KZblo2Arb1jTnvC1PSjrRKbHGr
+ CLIV0/ug2M7qb3/tzTzAtD/hhPEyL37Dm2AgOlXzP+VotEEtt8wELjFbnMD5T2HnfzI3
+ Y2kA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=4M4xtfnQMpx7jd/celDbU8GRpcb2Xrqa0e2A+umGAi0=;
- b=O9Wuo5DOpuBGMc2BDgbzYH5my1HWBiCirEQftzLqdo8OVOml8NpH6xg5op2FCyjJlL
- dZ8UDVO1o5sUI/8TCgk9FXDAzRCKLZbSfsR/AQkLfI2k+RYO6ZRQJBHHE58q737IuX6W
- RwDJe117KmoB+/rMW94IOFB2HK6HjyK8Pc8xVrhA8V32IhuqUklMxHZbvj0nI65Acear
- G13YfojYtVOgtFl+B2wWRGdnPqWHSgO7PHmxDn4vkrA0YSaLdVZrWZaGWfch1LREgkNd
- s48zWW17CSrispTrQo/0HdijMT8xkD0UieJo68JgPETukmhEDzbdQbM9+tbFDrJeZWRB
- dH6A==
-X-Gm-Message-State: AO0yUKXTry9XJYaamqojJRP3DAkrMx1Fj6BUEp95rMjFB2sA1ysAs0gx
- 6weDbJjxpeetCR3dZCh2bQQqIuaNsTOAZF1t7LMIpQ==
-X-Google-Smtp-Source: AK7set89Q8f0tQCO7L8KnaMx/wvZRhD+1hX2+UqTaA/zM5rpfc4hs3mWJFiXRzdMH89qrFWpxwQdAGtysgolmdggWuQ=
-X-Received: by 2002:a5d:6a8b:0:b0:2bf:cd55:c9e with SMTP id
- s11-20020a5d6a8b000000b002bfcd550c9emr355968wru.674.1675087520430; Mon, 30
- Jan 2023 06:05:20 -0800 (PST)
+ bh=gCQ404BNB8/0v6NdgXiAE+NORb7uYju01/OI8nFZjP0=;
+ b=DpdJYw5nZtsXmqCnfa9LOegqRzTnp2J1JeAsIgalhhOlLq/IvQAWSS/VOfxOgfGseS
+ Uqig3GCz544vZ3JKX0qCzsgLZLzHxytetYrMZQXiQ5DTbPQlbZ6UEtXm3kf6HyuOq8Zl
+ 7jOeI9xr3A0lMCNRl2Xwvv9grWvkAFW/OzLdF2rX9UfMAfDD4H5qqQvj3YorCoRWWh0+
+ u0kKFl8mcG60cYIBQH+xRSh+aPFPjwikUpylFTyPdZYyOcIAQAJiKOG54Hmu+uCiKvsL
+ OmZevIx/l8wIVBSRNS6YYv9SiGZiBtmbJyLyEreIatqT4QWZTajW2RuwzocMq0XDTHRo
+ +CUQ==
+X-Gm-Message-State: AO0yUKXOKc4I6sWQPiplB32J+ZKH8lbZysTLQoatEXkldCOzaTAEILL/
+ yFb0BxGTpEkHQTqxwW85pccQQ8IbZbg039cK
+X-Google-Smtp-Source: AK7set8Cffjf4p9jU4EAW4wS2UYLbi3Z50s+Xh1WN3U0VILnYqQKxgBa5eMXG+MUWb/YiItn7+zpCA==
+X-Received: by 2002:a05:6a20:c19a:b0:b8:4cc9:16d9 with SMTP id
+ bg26-20020a056a20c19a00b000b84cc916d9mr17683202pzb.46.1675087523184; 
+ Mon, 30 Jan 2023 06:05:23 -0800 (PST)
+Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ h4-20020a633844000000b0047899d0d62csm2729588pgn.52.2023.01.30.06.05.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Jan 2023 06:05:22 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: qemu-devel@nongnu.org, Mathieu Poirier <mathieu.poirier@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH] vhost-user-rng: Back up vqs before cleaning up vhost_dev
+Date: Mon, 30 Jan 2023 23:05:16 +0900
+Message-Id: <20230130140516.78078-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230124195945.181842-1-christoph.muellner@vrull.eu>
- <20230124195945.181842-3-christoph.muellner@vrull.eu>
- <8a81e02c-5bb7-a82b-be16-e93362169a44@linaro.org>
-In-Reply-To: <8a81e02c-5bb7-a82b-be16-e93362169a44@linaro.org>
-From: =?UTF-8?Q?Christoph_M=C3=BCllner?= <christoph.muellner@vrull.eu>
-Date: Mon, 30 Jan 2023 15:05:08 +0100
-Message-ID: <CAEg0e7hhMuXDqmUFZ87SYwHQ3otM0KgW-A3XYNWymiKTSh3o+g@mail.gmail.com>
-Subject: Re: [PATCH v3 02/14] RISC-V: Adding XTheadSync ISA extension
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org, 
- Alistair Francis <alistair.francis@wdc.com>, Bin Meng <bin.meng@windriver.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko.stuebner@vrull.eu>, 
- Palmer Dabbelt <palmer@dabbelt.com>, Nelson Chu <nelson@rivosinc.com>, 
- Kito Cheng <kito.cheng@sifive.com>, Cooper Qu <cooper.qu@linux.alibaba.com>, 
- Lifang Xia <lifang_xia@linux.alibaba.com>,
- Yunhai Shang <yunhai@linux.alibaba.com>, 
- Zhiwei Liu <zhiwei_liu@linux.alibaba.com>
-Content-Type: multipart/alternative; boundary="0000000000009f9df405f37bb43e"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=christoph.muellner@vrull.eu; helo=mail-wr1-x42e.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,71 +89,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000009f9df405f37bb43e
-Content-Type: text/plain; charset="UTF-8"
+vhost_dev_cleanup() clears vhost_dev so back up its vqs member to free
+the memory pointed by the member.
 
-On Tue, Jan 24, 2023 at 9:21 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
+Fixes: 821d28b88f ("vhost-user-rng: Add vhost-user-rng implementation")
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ hw/virtio/vhost-user-rng.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-> On 1/24/23 09:59, Christoph Muellner wrote:
-> > +static bool trans_th_sfence_vmas(DisasContext *ctx, arg_th_sfence_vmas
-> *a)
-> > +{
-> > +    (void) a;
-> > +    REQUIRE_XTHEADSYNC(ctx);
-> > +
-> > +#ifndef CONFIG_USER_ONLY
-> > +    REQUIRE_PRIV_MS(ctx);
-> > +    decode_save_opc(ctx);
-> > +    gen_helper_tlb_flush_all(cpu_env);
->
-> Why are you using decode_save_opc() when helper_tlb_flush_all() cannot
-> raise an exception?
->
+diff --git a/hw/virtio/vhost-user-rng.c b/hw/virtio/vhost-user-rng.c
+index 201a39e220..efc54cd3fb 100644
+--- a/hw/virtio/vhost-user-rng.c
++++ b/hw/virtio/vhost-user-rng.c
+@@ -229,6 +229,7 @@ static void vu_rng_device_realize(DeviceState *dev, Error **errp)
+     return;
+ 
+ vhost_dev_init_failed:
++    g_free(rng->vhost_dev.vqs);
+     virtio_delete_queue(rng->req_vq);
+ virtio_add_queue_failed:
+     virtio_cleanup(vdev);
+@@ -239,12 +240,12 @@ static void vu_rng_device_unrealize(DeviceState *dev)
+ {
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VHostUserRNG *rng = VHOST_USER_RNG(dev);
++    struct vhost_virtqueue *vhost_vqs = rng->vhost_dev.vqs;
+ 
+     vu_rng_set_status(vdev, 0);
+ 
+     vhost_dev_cleanup(&rng->vhost_dev);
+-    g_free(rng->vhost_dev.vqs);
+-    rng->vhost_dev.vqs = NULL;
++    g_free(vhost_vqs);
+     virtio_delete_queue(rng->req_vq);
+     virtio_cleanup(vdev);
+     vhost_user_cleanup(&rng->vhost_user);
+-- 
+2.39.1
 
-No particular reason.
-Will be dropped.
-
-Thanks,
-Christoph
-
-
->
->
-> r~
->
-
---0000000000009f9df405f37bb43e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 24, 2023 at 9:21 PM Richa=
-rd Henderson &lt;<a href=3D"mailto:richard.henderson@linaro.org">richard.he=
-nderson@linaro.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On 1/24/23 09:59, Christoph Muellner wrote:<br>
-&gt; +static bool trans_th_sfence_vmas(DisasContext *ctx, arg_th_sfence_vma=
-s *a)<br>
-&gt; +{<br>
-&gt; +=C2=A0 =C2=A0 (void) a;<br>
-&gt; +=C2=A0 =C2=A0 REQUIRE_XTHEADSYNC(ctx);<br>
-&gt; +<br>
-&gt; +#ifndef CONFIG_USER_ONLY<br>
-&gt; +=C2=A0 =C2=A0 REQUIRE_PRIV_MS(ctx);<br>
-&gt; +=C2=A0 =C2=A0 decode_save_opc(ctx);<br>
-&gt; +=C2=A0 =C2=A0 gen_helper_tlb_flush_all(cpu_env);<br>
-<br>
-Why are you using decode_save_opc() when helper_tlb_flush_all() cannot rais=
-e an exception?<br></blockquote><div><br></div><div>No particular reason.</=
-div><div>Will be dropped.</div><div><br></div><div>Thanks,</div><div>Christ=
-oph</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
->
-<br>
-<br>
-r~<br>
-</blockquote></div></div>
-
---0000000000009f9df405f37bb43e--
 
