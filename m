@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 163D7680F7D
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 14:54:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A676681081
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:04:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMUZq-0004JX-7t; Mon, 30 Jan 2023 08:52:06 -0500
+	id 1pMUkE-0002Kd-On; Mon, 30 Jan 2023 09:02:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pMUZn-00041k-Cj
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:52:03 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ id 1pMUk3-0002J3-9O
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:02:40 -0500
+Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pMUZl-0004gz-CR
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:52:02 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- e10-20020a17090a630a00b0022bedd66e6dso15496980pjj.1
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 05:52:00 -0800 (PST)
+ id 1pMUk1-0006gp-NR
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:02:39 -0500
+Received: by mail-pj1-x102f.google.com with SMTP id
+ e10-20020a17090a630a00b0022bedd66e6dso15530545pjj.1
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:02:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=Er/zdeuCCTL+uidOeNSpw0biaqVrGoWBY8952jT8ZB0=;
- b=mVpSkkq3iaGe+iU3g2+0BAtX7/F1GhsSBp7jr+FsCsNBHtWTOidQX5xW8q5otyDvXX
- 4xYY4xTEIUa/sjgG3SC0fLrCR6Z7kZbgqdHu56YqJuk8wZxzbLmilYr/NEn+ttoSPD3i
- obUaJqK9NYFER2QkeeasMxelQ2/g0WjIMIiPt3yb3aae4D1GaNaw6o326fED6TXvKBJh
- 6njYqgN6li/6T9iV06toYft2KF2zvVpQiWUqfdEahQ5RRvC2JezVua4RyJgevkVzDLfc
- TKSo2OSztyqY8aaVVvO3bBro6/HVL7Z/mGrLD1fxPa26CvYPolAP1Oa1r0f3pOWrZI+v
- hkwA==
+ bh=U1sxs2b9gsg+jkzUv1onLcvKq812qwoR1X54ZLz9htA=;
+ b=cdkBWimROqxaE1KGR9gK+aLaSfJT2UQMOaG5mV+fs40xECMnrVyNO7S7uVOvtYAbkP
+ NWvRT0JNeT8eMx/ub95Blc7U33BgrwPHJkbpble5Oq+731qkd/df55WIARf8/l/xFCKd
+ aTV/rgGF3zPsZ1JpjfRDXffcCE6qF7sL45IkR8W/hwvkUK+MEWiSnpFyTr2T5AuoXZcv
+ eF3v8+UGCnJTJhRCPJeUc44CjZN/QNbF10WXn8D7yXlVPKUJOpcQTSVUro2MxM2/gqgz
+ GZR8Io9xHEMLEE1F0e6prDtJO6r0/VbaGR6VuDbE6AolyifO+QJLSvcJTkJzuX4oYUQo
+ grXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=Er/zdeuCCTL+uidOeNSpw0biaqVrGoWBY8952jT8ZB0=;
- b=b5mUj6zwmRPgKqp4FddP458IIlC3Sonq4mlNw+eh95Hv+NXvSs6iAuzhWLdGXQfDM7
- HrvlJmVo0EBvcIrQRa975diJ32qP5UvVoyQqD2a3eDj9nfD5FRtec4yVEIH6oH3cf7DQ
- PoYh1ab6SvqSt+bRmof52BD1Uzb1mRyW+ZcLjoxvV23AK8WwbJQ6HKboQrLdEqFWAAYN
- Zg/jjb+sWpgtsjPA8HiFUOONT4sF8zjPDG3fWOplDHBtw5qXKkWck92IMrQZhtChHWYV
- h9QHZ5It1l5H2F1uSQFNyPEPu6ClzA81Wh9ZDKYSqmhrdl9hDabstJEo68YJ2PAMc9SW
- LVnw==
-X-Gm-Message-State: AO0yUKVQU0Kib1XvRnll0flDGUYf2IaB1GZDvgacDSjrG2XYjSYKmfnQ
- oETiOZMSeVRDygj8Lf9iBgSR2oic3RB1X8sP
-X-Google-Smtp-Source: AK7set+ueILlGPsOD6onBLqZjw0An+l/t6dgErkaf5IeGeMPyE3GSoQ80UtEYezyN7QWFvIM+svK0A==
-X-Received: by 2002:a05:6a20:8427:b0:bd:c0c:1e74 with SMTP id
- c39-20020a056a20842700b000bd0c0c1e74mr5247279pzd.5.1675086719726; 
- Mon, 30 Jan 2023 05:51:59 -0800 (PST)
+ bh=U1sxs2b9gsg+jkzUv1onLcvKq812qwoR1X54ZLz9htA=;
+ b=uYTo2bmgZpPOanCzQtEV7s9QT4reHm02uQthZtro14RN6aXNNamn7wGEstzWIB2oHZ
+ uzEmdyB12X9vAaMbIG1Nnxv/2OZWhRYfaal+BBxH2//oQs0zM/U3qZ48sONtnz9r/Dsa
+ MH5vGbk16Dk/1u4dLZ9TCYRQnLNq3VSMa/ebhygyeY+/QxOc938D8yddJucwNWvxczmt
+ v5/V9248fe5pzrpZ6TCc06ps8fy2sJYnWjoHN07jJ7nKBgxTgeeh6O7OQ1Kjc4wTho4U
+ 5jRWdDgPWymwGlfJpaX8xrYKd77EgaJO1vled1PYknrIe15yaA8Afvb32WoOnQlfWSwJ
+ /pQQ==
+X-Gm-Message-State: AO0yUKVqac/NvSvd1bSldPeb3CWUHzo07X0syJDd6thTZ2l1uoqLp/ed
+ EgU5h63xFIjbJ53Y7u5HnOtEJw==
+X-Google-Smtp-Source: AK7set+gZ3VdMCG5jocMk8jvF5dO9bR3I6Z9WZPXidWRNXuoylXSfb+Rl9IynAAnMPQiEjeo9nsGWw==
+X-Received: by 2002:a17:902:f152:b0:196:5f75:66f9 with SMTP id
+ d18-20020a170902f15200b001965f7566f9mr8094575plb.63.1675087355437; 
+ Mon, 30 Jan 2023 06:02:35 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- h26-20020aa796da000000b0058e1e6a81e8sm7448099pfq.38.2023.01.30.05.51.57
+ y4-20020a170902ed4400b00186c3afb49esm7877728plb.209.2023.01.30.06.02.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 05:51:59 -0800 (PST)
+ Mon, 30 Jan 2023 06:02:34 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
-Cc: qemu-devel@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH] softmmu: Use memmove in flatview_write_continue
-Date: Mon, 30 Jan 2023 22:51:52 +0900
-Message-Id: <20230130135152.76882-1-akihiko.odaki@daynix.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, virtio-fs@redhat.com,
+ qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH] vhost-user-fs: Back up vqs before cleaning up vhost_dev
+Date: Mon, 30 Jan 2023 23:02:25 +0900
+Message-Id: <20230130140225.77964-1-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::1032;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1032.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::102f;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102f.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -91,49 +90,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We found a case where the source passed to flatview_write_continue() may
-overlap with the destination when fuzzing igb, a new proposed network
-device with sanitizers.
+vhost_dev_cleanup() clears vhost_dev so back up its vqs member to free
+the memory pointed by the member.
 
-igb uses pci_dma_map() to get Tx packet, and pci_dma_write() to write Rx
-buffer. While pci_dma_write() is usually used to write data from
-memory not mapped to the guest, if igb is configured to perform
-loopback, the data will be sourced from the guest memory. The source and
-destination can overlap and the usage of memcpy() will be invalid in
-such a case.
-
-While we do not really have to deal with such an invalid request for
-igb, detecting the overlap in igb code beforehand requires complex code,
-and only covers this specific case. Instead, just replace memcpy() with
-memmove() to torelate overlaps. Using memmove() will slightly damage the
-performance as it will need to check overlaps before using SIMD
-instructions for copying, but the cost should be negiligble, considering
-the inherent complexity of flatview_write_continue().
-
-The test cases generated by the fuzzer is available at:
-https://patchew.org/QEMU/20230129053316.1071513-1-alxndr@bu.edu/
-
-The fixed test case is:
-fuzz/crash_47dfe62d9f911bf523ff48cd441b61c0013ed805
-
+Fixes: 98fc1ada4c ("virtio: add vhost-user-fs base device")
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- softmmu/physmem.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/virtio/vhost-user-fs.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-index cb998cdf23..3cd27b1c9d 100644
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -2828,7 +2828,7 @@ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
-         } else {
-             /* RAM case */
-             ram_ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
--            memcpy(ram_ptr, buf, l);
-+            memmove(ram_ptr, buf, l);
-             invalidate_and_set_dirty(mr, addr1, l);
-         }
+diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
+index f5049735ac..83fc20e49e 100644
+--- a/hw/virtio/vhost-user-fs.c
++++ b/hw/virtio/vhost-user-fs.c
+@@ -273,6 +273,7 @@ static void vuf_device_unrealize(DeviceState *dev)
+ {
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VHostUserFS *fs = VHOST_USER_FS(dev);
++    struct vhost_virtqueue *vhost_vqs = fs->vhost_dev.vqs;
+     int i;
  
+     /* This will stop vhost backend if appropriate. */
+@@ -288,8 +289,7 @@ static void vuf_device_unrealize(DeviceState *dev)
+     }
+     g_free(fs->req_vqs);
+     virtio_cleanup(vdev);
+-    g_free(fs->vhost_dev.vqs);
+-    fs->vhost_dev.vqs = NULL;
++    g_free(vhost_vqs);
+ }
+ 
+ static struct vhost_dev *vuf_get_vhost(VirtIODevice *vdev)
 -- 
 2.39.1
 
