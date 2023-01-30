@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEFD5681C1A
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:02:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E302681C52
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:06:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMbFu-000817-I1; Mon, 30 Jan 2023 15:59:58 -0500
+	id 1pMbGH-00005c-NU; Mon, 30 Jan 2023 16:00:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMbFp-0007c5-S7
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:59:54 -0500
-Received: from mail-pg1-x530.google.com ([2607:f8b0:4864:20::530])
+ id 1pMbFr-0007pN-L9
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:59:55 -0500
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMbFo-0005FO-AZ
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:59:53 -0500
-Received: by mail-pg1-x530.google.com with SMTP id 78so8578219pgb.8
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:59:51 -0800 (PST)
+ id 1pMbFp-0005FZ-R5
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:59:55 -0500
+Received: by mail-pg1-x52f.google.com with SMTP id e10so8574358pgc.9
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:59:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=bEaUywT9yyO/FtIlPM94mPtt+7ciBwT5ZJGBWHxwoOY=;
- b=UL7c8tIN6e73mk6BhS2v/KLHUpSr1XPTGmL31BVZ1SSIyTYiWpaeKvxBbzsa3xznMJ
- FFMufjsK3mU2Ol6tNzsOkAJHh8oP4PAoVEmn7+ERU2edrzvzPhjvvbsRlrd+ejT5dY/W
- deVlZLXHif50JDD6J5HqxXIP1kVsZP8PmkgzsxRITKYduRb4x/4+pyNSojCmVc0HeEPH
- 4w3me1oT6eaUcOxnRzD2jlnfe+iaDPMMqFTKqcGdXrep36HYigFdhpMh7unOsJzRKh8n
- LIkGBWf+2bDRPBKZ3XyYoO1RDoVveqHY6NrHbdP8SIdmsNSSbRgS+ihVo8BjCE6wMh09
- bK+Q==
+ bh=hsnVbtUsNvcT2lLRbZgtaNtUs4XL0a0c4I5MMD7HBSk=;
+ b=xmEDgCwkvP6j36quHZASghdKDQmArklMRCSo3BHoK5FIF1GnHVYCH/kiG3Qhu1eBst
+ nkfQjFBlQqlYn0tH1hAwM45+ZIBpcoGgGy+lomknNarKyuX5/oWf7u4zUL2lB0AbYUiB
+ XfQEQBhSeBT6qh2PSsHEdIdILhD3026+xRPwD2YL5VdVF96qpxzmKWvy5+GjjMscMVik
+ 5+0b5/+8IxjQxZkAKzuCRmMkj6JG24lX9qgK81jinbQYODfbe+DgGt8Os1DJuR485NEP
+ xi5QGauvhjfIS652NlVUREIXkO79gKozfvjeAnFmEDNKP5PPaVBHyGLi4tFBjWxj3+H6
+ IW5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=bEaUywT9yyO/FtIlPM94mPtt+7ciBwT5ZJGBWHxwoOY=;
- b=0QQe0NnMWYcW8gftL1jY9S+9oyOd7HHchARM9JnW5Nae2mfq4CTnG2pgi6NBLg6Hq2
- Eio8ljHV70b942l7qP94StJsvpRQ5lCtMvBkFU4lND4Ew48f7oN4I6pXD6uEMGYKqBCX
- mIvep/svGdJowfCT1UeTzfO+Cjgd/tlW6g7axX8PSA+J7iEcxexrnNOvUg61KhM922yv
- 9fsHAPLMTUHZBfPSvT31niTIiTFhz3kzbBDK0+ViJjo7nRpqSRofaHUxlLbf36tIMm5p
- fbY/8+O+eGfXXxyl4y8fUgcYDfEOsdvEtvl9XdLopFQatGtYeEtMKuDNB6gxwiKXbeCT
- cwIg==
-X-Gm-Message-State: AO0yUKXd3FaPL7XP02oF7s+5B1rvssBcKyTfYlk1MoHBoS+yTdeojv6Q
- C5XBUBGkx3rsOmQjIwY2cGxXNS0cA9kY30c0
-X-Google-Smtp-Source: AK7set9XAiiYPX2gXKJKMHH69bc3W08+JGkBggfAImmvAKkoElW9TqOqGN6hc4ztEpy4eT+DAuXd4A==
-X-Received: by 2002:a62:14c6:0:b0:593:2289:f01c with SMTP id
- 189-20020a6214c6000000b005932289f01cmr11895320pfu.25.1675112390893; 
- Mon, 30 Jan 2023 12:59:50 -0800 (PST)
+ bh=hsnVbtUsNvcT2lLRbZgtaNtUs4XL0a0c4I5MMD7HBSk=;
+ b=e3bWck5bsjgIWNf9LBiwFoeIu/XcoyhFJRxcs/IqsWy7ftVBtn/vbZ/ytLgG4dwBA3
+ 4kkpt7S2yOsVf6J1jTaepuNopCgUJlxRJojQCketDF3gZPEoXIPguditApKVUBHNv8MN
+ 3FMTdvoeymTy6ENzOqspp1lQqAsUm6txKuVR7EzzpBgiYm97nhk2+BMqEWx+F1IhDNr/
+ CoQKIGwPCjjkTKCg3oiF8lLqn8+vhSco/2f1RCDI+kU5dQ3167Pe49VXfxSrXgtztA4k
+ fNMEe7CDQW8qVqxeeJkwLa3tNTon785B13hacosOpSPb1C/f+Y1mn9/sqIbTLPt2pP7t
+ 6UwA==
+X-Gm-Message-State: AO0yUKXd89CNWm5rjIPEKE4pqKjyNBUCINp6oxjlaF9+fwXI3yO8kTqQ
+ /cGi7jXBmRmhbtM2QUaxz4LcfggeFFgjghQd
+X-Google-Smtp-Source: AK7set8EvLWQ3qZ+cUOmzF3UVjGXmJrZUHDbJD/CzG6l/njACdEq2870Kmy7tcOHdaViVxrJgqIweg==
+X-Received: by 2002:a62:fb1a:0:b0:593:e4b9:dc8b with SMTP id
+ x26-20020a62fb1a000000b00593e4b9dc8bmr1755152pfm.27.1675112392373; 
+ Mon, 30 Jan 2023 12:59:52 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- x10-20020aa79a4a000000b00593eb3a5e44sm102933pfj.37.2023.01.30.12.59.49
+ x10-20020aa79a4a000000b00593eb3a5e44sm102933pfj.37.2023.01.30.12.59.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 12:59:50 -0800 (PST)
+ Mon, 30 Jan 2023 12:59:51 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	cota@braap.org
-Subject: [PATCH 06/27] tcg: Add liveness_pass_0
-Date: Mon, 30 Jan 2023 10:59:14 -1000
-Message-Id: <20230130205935.1157347-8-richard.henderson@linaro.org>
+Subject: [PATCH 07/27] tcg: Remove TEMP_NORMAL
+Date: Mon, 30 Jan 2023 10:59:15 -1000
+Message-Id: <20230130205935.1157347-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230130205935.1157347-1-richard.henderson@linaro.org>
 References: <20230130205935.1157347-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::530;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x530.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::52f;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x52f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,100 +90,121 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Attempt to reduce the lifetime of TEMP_TB.
+TEMP_NORMAL is a subset of TEMP_EBB.  Promote single basic
+block temps to single extended basic block.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 69 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 69 insertions(+)
+ include/tcg/tcg.h |  2 --
+ tcg/tcg.c         | 19 +++----------------
+ 2 files changed, 3 insertions(+), 18 deletions(-)
 
+diff --git a/include/tcg/tcg.h b/include/tcg/tcg.h
+index 8786607510..ace910cf3b 100644
+--- a/include/tcg/tcg.h
++++ b/include/tcg/tcg.h
+@@ -429,8 +429,6 @@ typedef enum TCGTempVal {
+ } TCGTempVal;
+ 
+ typedef enum TCGTempKind {
+-    /* Temp is dead at the end of all basic blocks. */
+-    TEMP_NORMAL,
+     /*
+      * Temp is dead at the end of the extended basic block (EBB),
+      * the single-entry multiple-exit region that falls through
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 3e12053229..fb9ab967ea 100644
+index fb9ab967ea..da02a180b1 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -2855,6 +2855,74 @@ static void la_cross_call(TCGContext *s, int nt)
-     }
- }
+@@ -1258,7 +1258,7 @@ TCGTemp *tcg_global_mem_new_internal(TCGType type, TCGv_ptr base,
+ TCGTemp *tcg_temp_new_internal(TCGType type, bool temp_local)
+ {
+     TCGContext *s = tcg_ctx;
+-    TCGTempKind kind = temp_local ? TEMP_TB : TEMP_NORMAL;
++    TCGTempKind kind = temp_local ? TEMP_TB : TEMP_EBB;
+     TCGTemp *ts;
+     int idx, k;
  
-+/*
-+ * Liveness analysis: Verify the lifetime of TEMP_TB, and reduce
-+ * to TEMP_EBB, if possible.
-+ */
-+static void liveness_pass_0(TCGContext *s)
-+{
-+    void * const multiple_ebb = (void *)(uintptr_t)-1;
-+    int nb_temps = s->nb_temps;
-+    TCGOp *op, *ebb;
-+
-+    for (int i = s->nb_globals; i < nb_temps; ++i) {
-+        s->temps[i].state_ptr = NULL;
-+    }
-+
-+    /*
-+     * Represent each EBB by the op at which it begins.  In the case of
-+     * the first EBB, this is the first op, otherwise it is a label.
-+     * Collect the uses of each TEMP_TB: NULL for unused, EBB for use
-+     * within a single EBB, else MULTIPLE_EBB.
-+     */
-+    ebb = QTAILQ_FIRST(&s->ops);
-+    QTAILQ_FOREACH(op, &s->ops, link) {
-+        const TCGOpDef *def;
-+        int nb_oargs, nb_iargs;
-+
-+        switch (op->opc) {
-+        case INDEX_op_set_label:
-+            ebb = op;
-+            continue;
-+        case INDEX_op_discard:
-+            continue;
-+        case INDEX_op_call:
-+            nb_oargs = TCGOP_CALLO(op);
-+            nb_iargs = TCGOP_CALLI(op);
-+            break;
-+        default:
-+            def = &tcg_op_defs[op->opc];
-+            nb_oargs = def->nb_oargs;
-+            nb_iargs = def->nb_iargs;
-+            break;
-+        }
-+
-+        for (int i = 0; i < nb_oargs + nb_iargs; ++i) {
-+            TCGTemp *ts = arg_temp(op->args[i]);
-+
-+            if (ts->kind != TEMP_TB) {
-+                continue;
-+            }
-+            if (ts->state_ptr == NULL) {
-+                ts->state_ptr = ebb;
-+            } else if (ts->state_ptr != ebb) {
-+                ts->state_ptr = multiple_ebb;
-+            }
-+        }
-+    }
-+
-+    /*
-+     * For TEMP_TB that turned out not to be used beyond one EBB,
-+     * reduce the liveness to TEMP_EBB.
-+     */
-+    for (int i = s->nb_globals; i < nb_temps; ++i) {
-+        TCGTemp *ts = &s->temps[i];
-+        if (ts->kind == TEMP_TB && ts->state_ptr != multiple_ebb) {
-+            ts->kind = TEMP_EBB;
-+        }
-+    }
-+}
-+
- /* Liveness analysis : update the opc_arg_life array to tell if a
-    given input arguments is dead. Instructions updating dead
-    temporaries are removed. */
-@@ -4867,6 +4935,7 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb, target_ulong pc_start)
+@@ -1368,7 +1368,7 @@ void tcg_temp_free_internal(TCGTemp *ts)
+          * silently ignore free.
+          */
+         return;
+-    case TEMP_NORMAL:
++    case TEMP_EBB:
+     case TEMP_TB:
+         break;
+     default:
+@@ -1384,7 +1384,7 @@ void tcg_temp_free_internal(TCGTemp *ts)
  #endif
  
-     reachable_code_pass(s);
-+    liveness_pass_0(s);
-     liveness_pass_1(s);
+     idx = temp_idx(ts);
+-    k = ts->base_type + (ts->kind == TEMP_NORMAL ? 0 : TCG_TYPE_COUNT);
++    k = ts->base_type + (ts->kind == TEMP_EBB ? 0 : TCG_TYPE_COUNT);
+     set_bit(idx, s->free_temps[k].l);
+ }
  
-     if (s->nb_indirects > 0) {
+@@ -1909,7 +1909,6 @@ static void tcg_reg_alloc_start(TCGContext *s)
+             break;
+         case TEMP_GLOBAL:
+             break;
+-        case TEMP_NORMAL:
+         case TEMP_EBB:
+             val = TEMP_VAL_DEAD;
+             /* fall through */
+@@ -1939,9 +1938,6 @@ static char *tcg_get_arg_str_ptr(TCGContext *s, char *buf, int buf_size,
+         snprintf(buf, buf_size, "loc%d", idx - s->nb_globals);
+         break;
+     case TEMP_EBB:
+-        snprintf(buf, buf_size, "ebb%d", idx - s->nb_globals);
+-        break;
+-    case TEMP_NORMAL:
+         snprintf(buf, buf_size, "tmp%d", idx - s->nb_globals);
+         break;
+     case TEMP_CONST:
+@@ -2760,7 +2756,6 @@ static void la_bb_end(TCGContext *s, int ng, int nt)
+         case TEMP_TB:
+             state = TS_DEAD | TS_MEM;
+             break;
+-        case TEMP_NORMAL:
+         case TEMP_EBB:
+         case TEMP_CONST:
+             state = TS_DEAD;
+@@ -2809,9 +2804,6 @@ static void la_bb_sync(TCGContext *s, int ng, int nt)
+                 continue;
+             }
+             break;
+-        case TEMP_NORMAL:
+-            s->temps[i].state = TS_DEAD;
+-            break;
+         case TEMP_EBB:
+         case TEMP_CONST:
+             continue;
+@@ -3565,7 +3557,6 @@ static void temp_free_or_dead(TCGContext *s, TCGTemp *ts, int free_or_dead)
+     case TEMP_TB:
+         new_type = TEMP_VAL_MEM;
+         break;
+-    case TEMP_NORMAL:
+     case TEMP_EBB:
+         new_type = free_or_dead < 0 ? TEMP_VAL_MEM : TEMP_VAL_DEAD;
+         break;
+@@ -3853,7 +3844,6 @@ static void tcg_reg_alloc_bb_end(TCGContext *s, TCGRegSet allocated_regs)
+         case TEMP_TB:
+             temp_save(s, ts, allocated_regs);
+             break;
+-        case TEMP_NORMAL:
+         case TEMP_EBB:
+             /* The liveness analysis already ensures that temps are dead.
+                Keep an tcg_debug_assert for safety. */
+@@ -3890,9 +3880,6 @@ static void tcg_reg_alloc_cbranch(TCGContext *s, TCGRegSet allocated_regs)
+         case TEMP_TB:
+             tcg_debug_assert(ts->val_type != TEMP_VAL_REG || ts->mem_coherent);
+             break;
+-        case TEMP_NORMAL:
+-            tcg_debug_assert(ts->val_type == TEMP_VAL_DEAD);
+-            break;
+         case TEMP_EBB:
+         case TEMP_CONST:
+             break;
 -- 
 2.34.1
 
