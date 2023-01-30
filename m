@@ -2,85 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9125868182F
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 19:04:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86D00681860
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 19:10:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMYUZ-00072R-OA; Mon, 30 Jan 2023 13:02:55 -0500
+	id 1pMYad-0001W0-LS; Mon, 30 Jan 2023 13:09:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pMYUQ-0006zA-Ce
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:02:46 -0500
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pMYUN-0007OS-Nc
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:02:46 -0500
-Received: by mail-oi1-x22b.google.com with SMTP id p185so10764293oif.2
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 10:02:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=XkU+dxTizISrH4C9HBXyrdCMr37p46Jb8WbJwKo35ZQ=;
- b=ZEWaNyVxAFcjMRW4ibDXC3SjsYqcX2RAuKIkEWaVtlDJ/27oVDXWkrlobuGmTkUgX1
- yylCL96n4GeOECaXbsGguUPqMPmkw7aNhYJos0OfdGDYQCYuDIQDAdlfqomd+M99zVgC
- pWiARJi82iBKvATKwW6tQQMsLTPAUtxmMhDkoSoV1kYhz7P6rYaqV+waexMUpOzSQnNC
- 45ZkXQ0egUqQlsdcn6GHrE5yVa6625HR/WZPM8fI7cXLVQadN5ift5WWzqvjO1aPvTII
- MlANHo57KkLMTsqJGZbsg9VJdoEaFFO/Im+4nAmYq1tJOxeNEvSW8+lOO7rUTuczENQV
- vx9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=XkU+dxTizISrH4C9HBXyrdCMr37p46Jb8WbJwKo35ZQ=;
- b=oT7SjCJx5FIsrA9/IPxW9ug07fUQeRvD5YshS3+PlVj2SCGQ/ywdJWo0Rs/OEN6lZp
- aon/aQHWj9McNJSjwTprlEDTw+SNuTVH2+bKWkzlySs4BWXHeIq4eI8qUWIWFNU2D+gg
- XBKah0RlBm2aLkYS1Oa4blPiAkyE3mbUnlgfiqvazbo2bKXvtL89Yr1v9LaIUpeH98bj
- jW5nzxygyVd3s8iGcjgRWo8dTac42nGpdcrpLaFmttjEnIEHCu6gbOLWTAdy3buLVvLE
- rjQsZ+fYdgaLdS4l3dLiCC9imPF1dYWI+p9N3vmYjIgfeG/ds4Ljf1pzyHzSU7S1aUqV
- s4og==
-X-Gm-Message-State: AO0yUKUPJezEO4DgMhc9sGsztu1rYCKC56y215kHwJH+AyyelI0mVaF5
- B44F7X1GFsqlXnekC77c7Gb0qg==
-X-Google-Smtp-Source: AK7set9QtexFpqOnOUyjEGGjkXDgeMu4oy8vqU79kqsV9xv1GmnrQyzpNY9QK6y694hH/Dx9HxAkTw==
-X-Received: by 2002:aca:bec5:0:b0:378:7b4:93f5 with SMTP id
- o188-20020acabec5000000b0037807b493f5mr3388204oif.55.1675101761598; 
- Mon, 30 Jan 2023 10:02:41 -0800 (PST)
-Received: from [192.168.68.107] (200-148-13-157.dsl.telesp.net.br.
- [200.148.13.157]) by smtp.gmail.com with ESMTPSA id
- n4-20020a9d4d04000000b0068bcd200247sm2104611otf.75.2023.01.30.10.02.39
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jan 2023 10:02:41 -0800 (PST)
-Message-ID: <1a58ebfd-1ce8-2d2f-9e20-9d6d7c297185@ventanamicro.com>
-Date: Mon, 30 Jan 2023 15:02:38 -0300
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pMYab-0001VT-8v; Mon, 30 Jan 2023 13:09:09 -0500
+Received: from mout.kundenserver.de ([212.227.126.133])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>)
+ id 1pMYaZ-00011E-HH; Mon, 30 Jan 2023 13:09:08 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1MuV3i-1oWVvo1Dhi-00rc1G; Mon, 30 Jan 2023 19:09:02 +0100
+Message-ID: <2cc505db-517e-4129-9c9a-7a41637b75f2@vivier.eu>
+Date: Mon, 30 Jan 2023 19:09:01 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v4 3/3] hw/riscv: change riscv_compute_fdt_addr() semantics
-Content-Language: en-US
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
-References: <20230126135219.1054658-1-dbarboza@ventanamicro.com>
- <20230126135219.1054658-4-dbarboza@ventanamicro.com>
- <CAEUhbmW7Yh_7UOjeoPKBhSF1P4axp6kggtSEj9BAty1q6Ed4QA@mail.gmail.com>
- <793f7432-4592-98a4-34e9-472c185be297@ventanamicro.com>
-In-Reply-To: <793f7432-4592-98a4-34e9-472c185be297@ventanamicro.com>
+Subject: Re: [PATCH qemu 0/1] MAC address falls to permanent
+Content-Language: fr
+To: ~vlaomao <vlaomao@gmail.com>
+Cc: qemu-trivial@nongnu.org, QEMU Developers <qemu-devel@nongnu.org>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>
+References: <167510125533.6740.18222174398575558338-0@git.sr.ht>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <167510125533.6740.18222174398575558338-0@git.sr.ht>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22b;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22b.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Provags-ID: V03:K1:Id3xkcQpTvdI40qSXECT+E3qlUmUxDP7Y/s5heI0wsf7WxQy2iL
+ JRA9wzLF+zm5KeVeOqllEJjL0WvDp5WDDV2ctbXQtNYm7j8JN3F0uSUv2PIoMUz+7wIwOJi
+ eEVo+a2MHdjQJQsQmYq+hmoltdeMBSnYddXSjjYLEhyC7ORa6fw2eFRzP+KI7fYVXGN8qVZ
+ Toip/G4cignnTJohNEZ4w==
+UI-OutboundReport: notjunk:1;M01:P0:efwZuxWjHaw=;McfPzjbhdH/DErAhAKe0vbm3nC9
+ 8TW01qRjbUT2kIHuSxCP43NfqEGTOr+oTrYu/4z0DWdZnMp3C+Q8iW8oSmxJxAi2b4q5FKpBL
+ DAiOCfbs2UzpLs1V/+ejMNuRcyPCB4aU5dz1LP829EbRLdKM5wZKL04k7zNEg2xI1OAtKR3hR
+ vTQOb+12bEi9WrGvuGegGlZZyqu8UnZp7XpBafbcaNgd3YYNSOr4T6OEbAuqX7aH4gJmkqlkL
+ 76W5PAtjVwPz2brwDKZAVA+w0x7BC8CsCurfXy669go4oasXpf4zoXtwnfsZHdUzFYqo91px8
+ s+k0hMx2oF/3kYqvS6NwTEgN51WSewPRc935ltqCJzsyto8y0Ce4tqDMDO8xVJf1Jtk8DAF9G
+ oR6sskO8MK1Bcbm22WPerV13/UaehvNsNVDbkX7vWLzRvOvvyaKxPHhkUwkrSbssaIC86YfUB
+ LrS8q7+O1AAV75S9xVhm0am0q7nFwAXs8j+XDh0dcjj3hldskle1hzi7fZnw5Q68rLGWwyGJ0
+ CRZdyymNA5oLZ7MedDfoZxVPIKrGCCwXQU2GN40JMQ6o1bXqq/vbshnDsnIlccbF1VDLGCT4z
+ aNr9NJSfvnNjv/JtxauVHBG0O3Lgpn+v2woObrEYqOcYy6R9O6ugZLaLMTMtMkHLi/qXXvJAJ
+ SSrmb0B77CdRkc99Ooc0jFhEUPL57DLNmGPYIIPTrw==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,253 +72,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+CC: maintainers and qemu-devel
 
+Use ./scripts/get_maintainer.pl to have the list of the maintainers.
 
-On 1/30/23 14:16, Daniel Henrique Barboza wrote:
-> 
-> 
-> On 1/29/23 02:45, Bin Meng wrote:
->> On Thu, Jan 26, 2023 at 9:54 PM Daniel Henrique Barboza
->> <dbarboza@ventanamicro.com> wrote:
->>>
->>> As it is now, riscv_compute_fdt_addr() is receiving a dram_base, a
->>> mem_size (which is defaulted to MachineState::ram_size in all boards)
->>> and the FDT pointer. And it makes a very important assumption: the DRAM
->>> interval dram_base + mem_size is contiguous. This is indeed the case for
->>> most boards that uses a FDT.
->>
->> s/uses/use
->>
->>>
->>> The Icicle Kit board works with 2 distinct RAM banks that are separated
->>> by a gap. We have a lower bank with 1GiB size, a gap follows, then at
->>> 64GiB the high memory starts. MachineClass::default_ram_size for this
->>> board is set to 1.5Gb, and machine_init() is enforcing it as minimal RAM
->>> size, meaning that there we'll always have at least 512 MiB in the Hi
->>> RAM area.
->>>
->>> Using riscv_compute_fdt_addr() in this board is weird because not only
->>> the board has sparse RAM, and it's calling it using the base address of
->>> the Lo RAM area, but it's also using a mem_size that we have guarantees
->>> that it will go up to the Hi RAM. All the function assumptions doesn't
->>> work for this board.
->>>
->>> In fact, what makes the function works at all in this case is a
->>> coincidence.  Commit 1a475d39ef54 introduced a 3GB boundary for the FDT,
->>> down from 4Gb, that is enforced if dram_base is lower than 3072 MiB. For
->>> the Icicle Kit board, memmap[MICROCHIP_PFSOC_DRAM_LO].base is 0x80000000
->>> (2 Gb) and it has a 1Gb size, so it will fall in the conditions to put
->>> the FDT under a 3Gb address, which happens to be exactly at the end of
->>> DRAM_LO. If the base address of the Lo area started later than 3Gb this
->>> function would be unusable by the board. Changing any assumptions inside
->>> riscv_compute_fdt_addr() can also break it by accident as well.
->>>
->>> Let's change riscv_compute_fdt_addr() semantics to be appropriate to the
->>> Icicle Kit board and for future boards that might have sparse RAM
->>> topologies to worry about:
->>>
->>> - relieve the condition that the dram_base + mem_size area is contiguous,
->>> since this is already not the case today;
->>>
->>> - receive an extra 'dram_size' size attribute that refers to a contiguous
->>> RAM block that the board wants the FDT to reside on.
->>>
->>> Together with 'mem_size' and 'fdt', which are now now being consumed by a
->>> MachineState pointer, we're able to make clear assumptions based on the
->>> DRAM block and total mem_size available to ensure that the FDT will be put
->>> in a valid RAM address.
->>>
->>
->> Well written commit message. Thanks!
->>
->>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->>> ---
->>>   hw/riscv/boot.c            | 38 ++++++++++++++++++++++++++------------
->>>   hw/riscv/microchip_pfsoc.c |  3 ++-
->>>   hw/riscv/sifive_u.c        |  3 ++-
->>>   hw/riscv/spike.c           |  3 ++-
->>>   hw/riscv/virt.c            |  3 ++-
->>>   include/hw/riscv/boot.h    |  4 ++--
->>>   6 files changed, 36 insertions(+), 18 deletions(-)
->>>
->>> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
->>> index a6f7b8ae8e..8f4991480b 100644
->>> --- a/hw/riscv/boot.c
->>> +++ b/hw/riscv/boot.c
->>> @@ -284,33 +284,47 @@ out:
->>>   }
->>>
->>>   /*
->>> - * The FDT should be put at the farthest point possible to
->>> - * avoid overwriting it with the kernel/initrd.
->>> + * This function makes an assumption that the DRAM interval
->>> + * 'dram_base' + 'dram_size' is contiguous.
->>>    *
->>> - * This function makes an assumption that the DRAM is
->>> - * contiguous. It also cares about 32-bit systems and
->>> - * will limit fdt_addr to be addressable by them even for
->>> - * 64-bit CPUs.
->>> + * Considering that 'dram_end' is the lowest value between
->>> + * the end of the DRAM block and MachineState->ram_size, the
->>> + * FDT location will vary according to 'dram_base':
->>> + *
->>> + * - if 'dram_base' is less that 3072 MiB, the FDT will be
->>> + * put at the lowest value between 3072 MiB and 'dram_end';
->>> + *
->>> + * - if 'dram_base' is higher than 3072 MiB, the FDT will be
->>> + * put at 'dram_end'.
->>>    *
->>>    * The FDT is fdt_packed() during the calculation.
->>>    */
->>> -uint32_t riscv_compute_fdt_addr(hwaddr dram_base, uint64_t mem_size,
->>> -                                void *fdt)
->>> +hwaddr riscv_compute_fdt_addr(hwaddr dram_base, hwaddr dram_size,
->>
->> Using hwaddr to represent a size looks weird. Although technically
->> they are the same ... I would leave this as it is.
-> 
-> I'll leave it as it was back in patch 2 (uint64_t).
-> 
->>
->>> +                              MachineState *ms)
->>>   {
->>> -    uint64_t temp;
->>> -    hwaddr dram_end = dram_base + mem_size;
->>> -    int ret = fdt_pack(fdt);
->>> +    int ret = fdt_pack(ms->fdt);
->>> +    hwaddr dram_end, temp;
->>>       int fdtsize;
->>>
->>>       /* Should only fail if we've built a corrupted tree */
->>>       g_assert(ret == 0);
->>>
->>> -    fdtsize = fdt_totalsize(fdt);
->>> +    fdtsize = fdt_totalsize(ms->fdt);
->>>       if (fdtsize <= 0) {
->>>           error_report("invalid device-tree");
->>>           exit(1);
->>>       }
->>>
->>> +    /*
->>> +     * A dram_size == 0, usually from a MemMapEntry[].size element,
->>> +     * means that the DRAM block goes all the way to ms->ram_size.
->>> +     */
->>> +    if (dram_size == 0x0) {
->>> +        dram_end = dram_base + ms->ram_size;
->>> +    } else {
->>> +        dram_end = dram_base + MIN(ms->ram_size, dram_size);
->>> +    }
->>
->> How about:
->>
->> g_assert(dram_size < ms->ram_size);
-> 
-> I don't believe that dram_size > ms->ram_size should be an error. A board can
-> have a declared MemMapEntry.size that is larger than its current setting of
-> ms->ram_size.
-> 
-> 
->> dram_end = dram_base + (dram_size ? dram_size : ms->ram_size);
-> 
-> I can change the if/else statement up there for a ternary:
-> 
-> dram_end = dram_base + (dram_size ? ms->ram_size : MIN(ms->ram_size, dram_size))
+Always send your patches to qemu-devel&nongnu.org
 
-This is an ooopsie. This ternary is doing the opposite of what it should do :/
+Thanks,
+Laurent
 
-I would do something like this, breaking in two lines to avoid 80+ chars in the
-same line:
-
-     dram_end = dram_base;
-     dram_end += dram_size ? MIN(ms->ram_size, dram_size) : ms->ram_size;
-
-
-Daniel
-
+Le 30/01/2023 à 18:54, ~vlaomao a écrit :
+> A bug was found with the vmxnet3 driver, after changing the MAC address
+> and rebooting, it falls into the category of a permanent address until
+> the VM is turned off. Here is log output:
+> 
+> -bash-4.4# ip a
+> 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN
+> group default qlen 1
+>      link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+>      inet 127.0.0.1/8 scope host lo
+>         valid_lft forever preferred_lft forever
+> 2: ens3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group
+> default qlen 1000
+>      link/ether 52:54:00:12:34:56 brd ff:ff:ff:ff:ff:ff
+> 
+> -bash-4.4# ip link set dev ens3 address 33:33:33:33:33:33
+> -bash-4.4# ip a
+> 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN
+> group default qlen 1
+>      link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+>      inet 127.0.0.1/8 scope host lo
+>         valid_lft forever preferred_lft forever
+> 2: ens3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group
+> default qlen 1000
+>      link/ether 33:33:33:33:33:33 brd ff:ff:ff:ff:ff:ff
+> -bash-4.4# ethtool -P ens3
+> Permanent address: 52:54:00:12:34:56
+> -bash-4.4# reboot
+> 
+> //rebooting
 > 
 > 
-> Thanks,
+> -bash-4.4# ip a
+> 1: lo: <LOOPBACK,UP,LOWER_UP> mtu 65536 qdisc noqueue state UNKNOWN
+> group default qlen 1
+>      link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+>      inet 127.0.0.1/8 scope host lo
+>         valid_lft forever preferred_lft forever
+> 2: ens3: <BROADCAST,MULTICAST> mtu 1500 qdisc noop state DOWN group
+> default qlen 1000
+>      link/ether 33:33:33:33:33:33 brd ff:ff:ff:ff:ff:ff
+> -bash-4.4# ethtool -P ens3
+> Permanent address: 33:33:33:33:33:33
+> -bash-4.4#
 > 
-> Daniel
+> VlaoMao (1):
+>    vmxnet3: add mac address restore upon reset
 > 
->>
->>> +
->>>       /*
->>>        * We should put fdt as far as possible to avoid kernel/initrd overwriting
->>>        * its content. But it should be addressable by 32 bit system as well.
->>> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
->>> index a30203db85..e81bbd12df 100644
->>> --- a/hw/riscv/microchip_pfsoc.c
->>> +++ b/hw/riscv/microchip_pfsoc.c
->>> @@ -634,7 +634,8 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
->>>
->>>           /* Compute the fdt load address in dram */
->>>           fdt_load_addr = riscv_compute_fdt_addr(memmap[MICROCHIP_PFSOC_DRAM_LO].base,
->>> -                                               machine->ram_size, machine->fdt);
->>> +                                               memmap[MICROCHIP_PFSOC_DRAM_LO].size,
->>> +                                               machine);
->>>           riscv_load_fdt(fdt_load_addr, machine->fdt);
->>>
->>>           /* Load the reset vector */
->>> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
->>> index 6bbdbe5fb7..ad3bb35b34 100644
->>> --- a/hw/riscv/sifive_u.c
->>> +++ b/hw/riscv/sifive_u.c
->>> @@ -609,7 +609,8 @@ static void sifive_u_machine_init(MachineState *machine)
->>>       }
->>>
->>>       fdt_load_addr = riscv_compute_fdt_addr(memmap[SIFIVE_U_DEV_DRAM].base,
->>> -                                           machine->ram_size, machine->fdt);
->>> +                                           memmap[SIFIVE_U_DEV_DRAM].size,
->>> +                                           machine);
->>>       riscv_load_fdt(fdt_load_addr, machine->fdt);
->>>
->>>       if (!riscv_is_32bit(&s->soc.u_cpus)) {
->>> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
->>> index ceebe34c5f..b5979eddd6 100644
->>> --- a/hw/riscv/spike.c
->>> +++ b/hw/riscv/spike.c
->>> @@ -317,7 +317,8 @@ static void spike_board_init(MachineState *machine)
->>>       }
->>>
->>>       fdt_load_addr = riscv_compute_fdt_addr(memmap[SPIKE_DRAM].base,
->>> -                                           machine->ram_size, machine->fdt);
->>> +                                           memmap[SPIKE_DRAM].size,
->>> +                                           machine);
->>>       riscv_load_fdt(fdt_load_addr, machine->fdt);
->>>
->>>       /* load the reset vector */
->>> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
->>> index 43fca597f0..f079a30b60 100644
->>> --- a/hw/riscv/virt.c
->>> +++ b/hw/riscv/virt.c
->>> @@ -1293,7 +1293,8 @@ static void virt_machine_done(Notifier *notifier, void *data)
->>>       }
->>>
->>>       fdt_load_addr = riscv_compute_fdt_addr(memmap[VIRT_DRAM].base,
->>> -                                           machine->ram_size, machine->fdt);
->>> +                                           memmap[VIRT_DRAM].size,
->>> +                                           machine);
->>>       riscv_load_fdt(fdt_load_addr, machine->fdt);
->>>
->>>       /* load the reset vector */
->>> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
->>> index 7babd669c7..a6099c2dc6 100644
->>> --- a/include/hw/riscv/boot.h
->>> +++ b/include/hw/riscv/boot.h
->>> @@ -48,8 +48,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
->>>                                  target_ulong firmware_end_addr,
->>>                                  bool load_initrd,
->>>                                  symbol_fn_t sym_cb);
->>> -uint32_t riscv_compute_fdt_addr(hwaddr dram_start, uint64_t dram_size,
->>> -                                void *fdt);
->>> +hwaddr riscv_compute_fdt_addr(hwaddr dram_start, uint64_t dram_size,
->>> +                              MachineState *ms);
->>>   void riscv_load_fdt(hwaddr fdt_addr, void *fdt);
->>>   void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
->>>                                  hwaddr saddr,
->>> -- 
->>
->> Regards,
->> Bin
+>   hw/net/vmxnet3.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+
 
