@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17CB0681C03
+	by mail.lfdr.de (Postfix) with ESMTPS id 3A09C681C04
 	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:01:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMbFt-0007vQ-R0; Mon, 30 Jan 2023 15:59:58 -0500
+	id 1pMbFz-0008EL-JG; Mon, 30 Jan 2023 16:00:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMbFk-0007Uk-Mq
+ id 1pMbFm-0007Vf-9A
  for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:59:52 -0500
 Received: from mail-pg1-x531.google.com ([2607:f8b0:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMbFj-0005D8-6X
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:59:48 -0500
-Received: by mail-pg1-x531.google.com with SMTP id d10so8558876pgm.13
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:59:46 -0800 (PST)
+ id 1pMbFk-0005EY-Mq
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:59:50 -0500
+Received: by mail-pg1-x531.google.com with SMTP id r18so8566498pgr.12
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:59:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sTUZLEFCfr7lT34+spBSQV2zfVIDOr8BydY/0R/vz+U=;
- b=jxbcnqzXENm8yzrOogANceQlBCWzYok3tfiBo56TQvyE6Z2/E9Yjc/hCIS8kxq2c43
- /JZZ2de4ciQEKf4smuInNuAHbUP/b0Zlkjq0DZDtcOtFMSYdiOdcHyBRm6i7S+MvGNrR
- 9epROmX2lHPjnB1YyNVZVniChUwyApYLP7yYjARJExadQuzel+HsQ4KujvYSVz3KyQ9E
- I/2K3vFf3lvPf3WT4hr7MJZUSwlKLgbL8yJ2ZDY8GEzO6vtxKcjByAJJRacQ+VltqCot
- rn1QlJHY+bwFFvklNbgHfFWldpfxUCRam4Ee6VqBSexpJv9xvZZNoQF8lUzPJjedDYG+
- rCiw==
+ bh=k0QQj1V4HE3kyNzJq2NL4R3goe68TydpAVl4hV+umL8=;
+ b=yRAcliXnSwbAEuxzit2uequ++G4dzmh94UIF+X26a8N64+vEebPbQvfKGU41x3blnX
+ Pq0zWaoDCzZ7EvF22ej0Ubl3gXDjQ0VCGV4qomElNslvFvpPro8IYSeJ/HWwFOcN1oNw
+ /AJ1K6ApMtK+EXP4HDszrYjXKaje7za/9sxYz9D0S+6MJJcc/0P/lbS25ObH0/wmGHaU
+ TEd0teXJsHViXMYy0u//0VcE0lbvoxD6zq+mr6nN7F0gUkP037awJlm+lp+Zoi5YJIU8
+ z1yVGytSaycUOi/Pibg7j8FQrDLlUkyDNY044SgCpjr3E36jzGrCiiyW88yhMFIVs7OS
+ PjtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sTUZLEFCfr7lT34+spBSQV2zfVIDOr8BydY/0R/vz+U=;
- b=jPji0Nvzkwt6lejSSkXN7K9euYY/iXbKugI1U+RiSjJovcw1Ypqec9INJSbWc3uW4w
- DQsJcPi3dctJfwlgq3Je3/OG1NYAkRiKUMU+FrHMTjddP+dcxvpMi5/gbXkTyT89AkTd
- 2n9r80/ivvV0PciGOCXGg0lkcnnaO7t66/OPxl4eIoSuK6IT5QiOrtIHtEYEOBM6ydjl
- IvwmBcpM0tbdEK4JToEKPL3sUkzjFO+Xiyc4Au+LOyQS2Q6RZgB+Dv/88HzoObqMEs1p
- m3qrzRmQVSAHZlD0UTSyA6Q0rah8HVDIOpO61qSu/bbpvPtRGraWpDTfwSo9H0EQl/QG
- KHPA==
-X-Gm-Message-State: AO0yUKUgFYx1ryawZh1gio/cMTHNaL90Q1EM8yqmA0QTiwEZjHyFbB4/
- l9wR72OqDxuQWiZthRAqmdTZ9gq+1ViW+bVT
-X-Google-Smtp-Source: AK7set+eAKZP26vNr6Q94Zq8GLPJzcX9bGtZ9mZKQpXvam6s0PCc6rrWB4EEV9DOBrUMAAN7LTgDBQ==
-X-Received: by 2002:a05:6a00:1f0d:b0:593:b470:aeda with SMTP id
- be13-20020a056a001f0d00b00593b470aedamr5261352pfb.29.1675112385638; 
- Mon, 30 Jan 2023 12:59:45 -0800 (PST)
+ bh=k0QQj1V4HE3kyNzJq2NL4R3goe68TydpAVl4hV+umL8=;
+ b=Qi+z/X+5ayPBLYzaEh8rkGtJ4Y+Zi0lPiQBA4rvYgLeyt77BwL3+w6T1YLGYdniR/I
+ ufIHAcrPtO12ZHkfnhk44gSKE5uaVu84GOHJC1urASTfQAqOcopFV2LBmbVzagc/SnEy
+ zFwq4/hUog2crYZv8Vji6x75QUne/zLyvmTzHlNY4Y6kiED63Wmh/ndqW1LrI1dSMj5S
+ gdRVLtQ3mx9b3sFecJO0qIBbDiXs+JDxiesNWuqfVbXwCTkU+MkGm0fvC1xF1t+wJ5TU
+ lYh3+RSDGMHjBpg3id97zoPqR3O8SEJDurVZ1PqYPNrO7I3vMAVXYxMZQAY7TqM17zDV
+ jaqg==
+X-Gm-Message-State: AFqh2kqm1xsPRMpAWgNhVO8Qew8rfcvghgN+taywE0Yo4Cc9hGHdL59c
+ EwNm4QAFU74gF4TbNiaMpFWxHt0BDVHzKnF0
+X-Google-Smtp-Source: AMrXdXtL7itEulAkjBF0m8Lr7R3oXyPsCzvoulhkYmIFzqjG6c/Uf80Yuq+BFbttG6j2Tp3ghnPJdQ==
+X-Received: by 2002:a62:4e8e:0:b0:580:fb8e:3044 with SMTP id
+ c136-20020a624e8e000000b00580fb8e3044mr52621079pfb.22.1675112387233; 
+ Mon, 30 Jan 2023 12:59:47 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- x10-20020aa79a4a000000b00593eb3a5e44sm102933pfj.37.2023.01.30.12.59.44
+ x10-20020aa79a4a000000b00593eb3a5e44sm102933pfj.37.2023.01.30.12.59.45
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 12:59:45 -0800 (PST)
+ Mon, 30 Jan 2023 12:59:46 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: peter.maydell@linaro.org,
 	cota@braap.org
-Subject: [PATCH 03/27] accel/tcg: Use more accurate max_insns for tb_overflow
-Date: Mon, 30 Jan 2023 10:59:11 -1000
-Message-Id: <20230130205935.1157347-5-richard.henderson@linaro.org>
+Subject: [PATCH 04/27] tcg: Remove branch-to-next regardless of reference count
+Date: Mon, 30 Jan 2023 10:59:12 -1000
+Message-Id: <20230130205935.1157347-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230130205935.1157347-1-richard.henderson@linaro.org>
 References: <20230130205935.1157347-1-richard.henderson@linaro.org>
@@ -90,28 +90,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Write back the number of insns that we attempt to translate,
-so that if we longjmp out we have a more accurate limit for
-the next attempt.  This results in fewer restarts when some
-limit is consumed by few instructions.
+Just because the label reference count is more than 1 does
+not mean we cannot remove a branch-to-next.  By doing this
+first, the label reference count may drop to 0, and then
+the label itself gets removed as before.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- accel/tcg/translator.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ tcg/tcg.c | 33 +++++++++++++++++----------------
+ 1 file changed, 17 insertions(+), 16 deletions(-)
 
-diff --git a/accel/tcg/translator.c b/accel/tcg/translator.c
-index 08a816bffe..250647eb49 100644
---- a/accel/tcg/translator.c
-+++ b/accel/tcg/translator.c
-@@ -78,7 +78,7 @@ void translator_loop(CPUState *cpu, TranslationBlock *tb, int *max_insns,
-     plugin_enabled = plugin_gen_tb_start(cpu, db, cflags & CF_MEMI_ONLY);
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index 0bb0bdbe43..fc0de1dccc 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -2636,7 +2636,7 @@ TCGOp *tcg_op_insert_after(TCGContext *s, TCGOp *old_op,
+ /* Reachable analysis : remove unreachable code.  */
+ static void reachable_code_pass(TCGContext *s)
+ {
+-    TCGOp *op, *op_next;
++    TCGOp *op, *op_next, *op_prev;
+     bool dead = false;
  
-     while (true) {
--        db->num_insns++;
-+        *max_insns = ++db->num_insns;
-         ops->insn_start(db, cpu);
-         tcg_debug_assert(db->is_jmp == DISAS_NEXT);  /* no early exit */
+     QTAILQ_FOREACH_SAFE(op, &s->ops, link, op_next) {
+@@ -2646,6 +2646,22 @@ static void reachable_code_pass(TCGContext *s)
+         switch (op->opc) {
+         case INDEX_op_set_label:
+             label = arg_label(op->args[0]);
++
++            /*
++             * Optimization can fold conditional branches to unconditional.
++             * If we find a label which is preceded by an unconditional
++             * branch to next, remove the branch.  We couldn't do this when
++             * processing the branch because any dead code between the branch
++             * and label had not yet been removed.
++             */
++            op_prev = QTAILQ_PREV(op, link);
++            if (op_prev->opc == INDEX_op_br &&
++                label == arg_label(op_prev->args[0])) {
++                tcg_op_remove(s, op_prev);
++                /* Fall through means insns become live again.  */
++                dead = false;
++            }
++
+             if (label->refs == 0) {
+                 /*
+                  * While there is an occasional backward branch, virtually
+@@ -2659,21 +2675,6 @@ static void reachable_code_pass(TCGContext *s)
+                 /* Once we see a label, insns become live again.  */
+                 dead = false;
+                 remove = false;
+-
+-                /*
+-                 * Optimization can fold conditional branches to unconditional.
+-                 * If we find a label with one reference which is preceded by
+-                 * an unconditional branch to it, remove both.  This needed to
+-                 * wait until the dead code in between them was removed.
+-                 */
+-                if (label->refs == 1) {
+-                    TCGOp *op_prev = QTAILQ_PREV(op, link);
+-                    if (op_prev->opc == INDEX_op_br &&
+-                        label == arg_label(op_prev->args[0])) {
+-                        tcg_op_remove(s, op_prev);
+-                        remove = true;
+-                    }
+-                }
+             }
+             break;
  
 -- 
 2.34.1
