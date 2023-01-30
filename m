@@ -2,71 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 607966819B0
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 19:52:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CB1A681AB2
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 20:41:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMZF5-0002lQ-C5; Mon, 30 Jan 2023 13:50:59 -0500
+	id 1pMa0y-0006ux-QP; Mon, 30 Jan 2023 14:40:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pMZEW-0002ca-RO; Mon, 30 Jan 2023 13:50:28 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+ (Exim 4.90_1) (envelope-from <vlaomao@gmail.com>)
+ id 1pMZMi-0005ci-7k; Mon, 30 Jan 2023 13:58:52 -0500
+Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pMZES-0007bs-Hp; Mon, 30 Jan 2023 13:50:23 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id m8so2711156edd.10;
- Mon, 30 Jan 2023 10:50:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <vlaomao@gmail.com>)
+ id 1pMZMg-00013P-9K; Mon, 30 Jan 2023 13:58:51 -0500
+Received: by mail-ed1-x535.google.com with SMTP id q19so2024209edd.2;
+ Mon, 30 Jan 2023 10:58:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=1TCnRtSC/qK36qtxF8mPutKkZQGPygNYFgtr/qGSLHE=;
- b=ZpmRnEvm56e9GtINB3/sAY/gC7GYWG6AJfr/rAoW8sN7qQYTRWjtIJY8o9KNvxtrmJ
- Gj9HCZxXscRjDQ/QYN4deGL0Th5GF+hOAvS070kN/mU+IWO0DEwE2Tqf2IouHxnW0j39
- x1qhmnMXsXyQxp+S+8uiWdZZOPgp+eyKJOg4laWabzMMV5B8p3REYfzIecK5wEsRJrBV
- G9WoEDopP4zqAJv+ZSt8HY+ZQqrOcyqt06xawtsrNxzQkgojppigfAntELsi2y0M2f8Z
- 7FqDs9Gwuvd1CTqVyaeOvG+lrKXofsEf2nY7TMD/H/vpqiK27bfl3tiL0Z6Oxebr3dyW
- HB9w==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=xn1cVFRAggaRZ/aeO1ttvhn5h1BJKrV5IqARzl3JIGM=;
+ b=fk3iIo5VrhwFitKsL+IpLMwat5C9AjW5SHCaP8o+EI9wbGqgf8Kp+++yX7nSGwbCK3
+ +eYBLOKH/xDTfJpUYcQqJXI4rq/awtAW+w+NEluXxzEcuCmIEpKkkzOpfAva87sDNkFL
+ cDic6bJbD/q5b75X9LUB8PBrFk3Oci5WlW5e/dt4jA+LBS5wjO7syiQT6A6+8SXVnJlu
+ wi45nuhnBtnh6olIPRl5pZfIUnxTcqNG0ZR5RqsJV5HsjqJrYg4m0mWlTajgVRA3HxYo
+ rLZJXI049mex/FNE+SaYioCn5744+DMPlo/Sg8zCzkxzUjJKLHVKx5ov+fbWs9dulXXN
+ BLPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=1TCnRtSC/qK36qtxF8mPutKkZQGPygNYFgtr/qGSLHE=;
- b=Yo41EWVsEamsdOzgjh/JBLVf/hekV2ilRNecuDoCcQKLTe5+TAjImuTEoP5oqmxPND
- jjHN4USPFyWI+FyGVv9cMjI9rwA+VSQls7NzfAs0KaZ+DM582wmYm3E8Ifmy6fnTVou4
- d740/7iC+EoCbZ81Z5O/PrksEs8fVSHLBLD9ru/Ulgu9HGMQyspIlAHxUww0wQAJ1KPs
- QGHIfhRZ5wA+swvHx7Tt8KglMtAj1k6BPmTAa/hwIcNxe/PBVuwr8IbwgurUH0b9YZOW
- 4OsewLJ9iKddTPRs5o2cBxgWlWDgawAMGcn5RUXCkNHIpC+M9nvaQre3e43k2uEmx9w+
- zffQ==
-X-Gm-Message-State: AFqh2krHuV4OlDr1CbF+iMUIJkNV//cVY/K+6RKcyfGQvh6Rjbcip34Q
- mt8+j7Y3grKmlXjY/Aa/b7ZMlspCLmQ=
-X-Google-Smtp-Source: AMrXdXs7pMcSkLIxz0FxirIqy4fybycuayZ55j+Na0VYRZ4wzRxCjof9elrcUspb2EDfCKVP97QXug==
-X-Received: by 2002:a05:6402:1044:b0:498:8c60:d7d9 with SMTP id
- e4-20020a056402104400b004988c60d7d9mr51933952edu.12.1675104617645; 
- Mon, 30 Jan 2023 10:50:17 -0800 (PST)
-Received: from localhost.localdomain
- (dynamic-089-012-240-001.89.12.pool.telefonica.de. [89.12.240.1])
- by smtp.gmail.com with ESMTPSA id
- w25-20020aa7d299000000b0048789661fa2sm7135587edq.66.2023.01.30.10.50.16
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 10:50:17 -0800 (PST)
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
- Daniel Henrique Barboza <danielhb413@gmail.com>,
- Greg Kurz <groug@kaod.org>, David Gibson <david@gibson.dropbear.id.au>,
- Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH] target/ppc/translate: Add dummy implementation for dcblc
- instruction
-Date: Mon, 30 Jan 2023 19:49:50 +0100
-Message-Id: <20230130184950.5241-1-shentey@gmail.com>
-X-Mailer: git-send-email 2.39.1
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xn1cVFRAggaRZ/aeO1ttvhn5h1BJKrV5IqARzl3JIGM=;
+ b=tyfykXpEWCSiuJUXA/nllN34y3AEEkMfbk3xMvANa3WA7g1t6I0xVi9K2SjPqVYnd0
+ mnS3ehL2w6+eDioxvI7QQ+AImoF/WiFcLKfvAXRcKtSoLXJ49sqLCX5eFizehgxBYP6+
+ g+3ScMd74p+KMSRAg6/8L8MUcQprFzJdGwF7dbv0as+aE38t7ZzODRF/2qmtCT2sPDgn
+ RmxEOgv9phEmZpr7HkOJ9r7W6qquuxaS1XVT8vA4O4Hz2FK24tU+RJ4NPVzIxHSlJdL2
+ Mh+989/kPLy4DGtTVFpCKMr4OqpxDLpsptaz4Z58TPxZVe+23s5oZ5oG0WU9pxEiOfzb
+ 770A==
+X-Gm-Message-State: AFqh2kq2a6Szd8CNi9bHcw5+Qx7pzALfrbupfN9KGMrr6scj2kqz90bm
+ 2wMFXm8Dqz2o/wHkyBEVzbz9u52Gu57ZOiSrCts=
+X-Google-Smtp-Source: AMrXdXuKQNQhPsIK0NCRU7JIy5nd6emulp2DZEdeGneZFnzsMNc8Bp7QXjdXPYEo/lN3kpILTNN7bbXnz/WydppFLsY=
+X-Received: by 2002:aa7:cc99:0:b0:499:cfee:8d96 with SMTP id
+ p25-20020aa7cc99000000b00499cfee8d96mr9200544edt.21.1675105127903; Mon, 30
+ Jan 2023 10:58:47 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x52a.google.com
+References: <167510125533.6740.18222174398575558338-1@git.sr.ht>
+ <664ef653-0026-999c-8c68-587c0442df04@vivier.eu>
+In-Reply-To: <664ef653-0026-999c-8c68-587c0442df04@vivier.eu>
+From: =?UTF-8?B?0JLQu9Cw0LQg0JzQsNC+?= <vlaomao@gmail.com>
+Date: Mon, 30 Jan 2023 21:58:34 +0300
+Message-ID: <CALUgVpeq8aDQ=ESy8g+=O+RRjAPaho7_usL+mFh6n6RWc_vS0g@mail.gmail.com>
+Subject: Re: [PATCH qemu 1/1] vmxnet3: add mac address restore upon reset
+To: Laurent Vivier <laurent@vivier.eu>
+Cc: qemu-trivial@nongnu.org, QEMU Developers <qemu-devel@nongnu.org>, 
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::535;
+ envelope-from=vlaomao@gmail.com; helo=mail-ed1-x535.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -75,6 +70,7 @@ X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Mon, 30 Jan 2023 14:40:26 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -89,45 +85,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The dcblc instruction is used by u-boot in mpc85xx/start.S. Without it,
-an illegal istruction exception is generated very early in the boot
-process where the processor is not yet able to handle exceptions. See:
+Signed-off-by: Vlao Mao <vlaomao@gmail.com>
 
-https://github.com/u-boot/u-boot/blob/v2023.01/arch/powerpc/cpu/mpc85xx/start.S#L1840
-
-Signed-off-by: Bernhard Beschow <shentey@gmail.com>
----
- target/ppc/translate.c | 9 +++++++++
- 1 file changed, 9 insertions(+)
-
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index edb3daa9b5..8c32e697d9 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -5261,6 +5261,14 @@ static void gen_dcbtls(DisasContext *ctx)
-     tcg_temp_free(t0);
- }
- 
-+/* dcblc */
-+static void gen_dcblc(DisasContext *ctx)
-+{
-+    /*
-+     * interpreted as no-op
-+     */
-+}
-+
- /* dcbz */
- static void gen_dcbz(DisasContext *ctx)
- {
-@@ -6832,6 +6840,7 @@ GEN_HANDLER_E(dcbtep, 0x1F, 0x1F, 0x09, 0x00000001, PPC_NONE, PPC2_BOOKE206),
- GEN_HANDLER(dcbtst, 0x1F, 0x16, 0x07, 0x00000001, PPC_CACHE),
- GEN_HANDLER_E(dcbtstep, 0x1F, 0x1F, 0x07, 0x00000001, PPC_NONE, PPC2_BOOKE206),
- GEN_HANDLER_E(dcbtls, 0x1F, 0x06, 0x05, 0x02000001, PPC_BOOKE, PPC2_BOOKE206),
-+GEN_HANDLER_E(dcblc, 0x1F, 0x06, 0x0c, 0x02000001, PPC_BOOKE, PPC2_BOOKE206),
- GEN_HANDLER(dcbz, 0x1F, 0x16, 0x1F, 0x03C00001, PPC_CACHE_DCBZ),
- GEN_HANDLER_E(dcbzep, 0x1F, 0x1F, 0x1F, 0x03C00001, PPC_NONE, PPC2_BOOKE206),
- GEN_HANDLER(dst, 0x1F, 0x16, 0x0A, 0x01800001, PPC_ALTIVEC),
--- 
-2.39.1
-
+=D0=BF=D0=BD, 30 =D1=8F=D0=BD=D0=B2. 2023 =D0=B3. =D0=B2 21:12, Laurent Viv=
+ier <laurent@vivier.eu>:
+>
+> Le 30/01/2023 =C3=A0 18:28, ~vlaomao a =C3=A9crit :
+> > From: VlaoMao <vlaomao@gmail.com>
+> >
+> > Changing the address with a subsequent reboot makes this address perman=
+ent until the vm is turned off
+>
+> Missing Signed-off-by.
+>
+> See https://www.qemu.org/docs/master/devel/submitting-a-patch.html
+>
+> > ---
+> >   hw/net/vmxnet3.c | 2 ++
+> >   1 file changed, 2 insertions(+)
+> >
+> > diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+> > index 04159c822..695ca2f92 100644
+> > --- a/hw/net/vmxnet3.c
+> > +++ b/hw/net/vmxnet3.c
+> > @@ -1206,6 +1206,8 @@ static void vmxnet3_reset(VMXNET3State *s)
+> >       s->drv_shmem =3D 0;
+> >       s->tx_sop =3D true;
+> >       s->skip_current_tx_pkt =3D false;
+> > +
+> > +    vmxnet3_reset_mac(s);
+> >   }
+> >
+> >   static void vmxnet3_update_rx_mode(VMXNET3State *s)
+>
+>
 
