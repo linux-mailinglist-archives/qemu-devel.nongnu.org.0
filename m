@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2780680E04
+	by mail.lfdr.de (Postfix) with ESMTPS id 149A7680E03
 	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 13:49:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMTaf-0003Ez-Ff; Mon, 30 Jan 2023 07:48:53 -0500
+	id 1pMTav-0003Xg-Rx; Mon, 30 Jan 2023 07:49:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
- id 1pMTac-00038k-5K
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:48:50 -0500
+ id 1pMTaj-0003TD-9K
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:48:57 -0500
 Received: from szxga02-in.huawei.com ([45.249.212.188])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiangjiacheng@huawei.com>)
- id 1pMTaZ-0007U0-DR
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:48:49 -0500
-Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.53])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4P57GR5Tr8zRrJ6;
- Mon, 30 Jan 2023 20:46:23 +0800 (CST)
+ id 1pMTae-0007a6-VS
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:48:56 -0500
+Received: from dggpeml500022.china.huawei.com (unknown [172.30.72.57])
+ by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4P57HD4VFFzJrRw;
+ Mon, 30 Jan 2023 20:47:04 +0800 (CST)
 Received: from [10.174.187.239] (10.174.187.239) by
  dggpeml500022.china.huawei.com (7.185.36.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Mon, 30 Jan 2023 20:48:33 +0800
-Message-ID: <4bd655fa-7e3c-4dfe-4154-d1fe59e5643c@huawei.com>
-Date: Mon, 30 Jan 2023 20:48:22 +0800
+ 15.1.2375.34; Mon, 30 Jan 2023 20:48:38 +0800
+Message-ID: <9b3fc9df-d273-4008-36c2-c779a40132c2@huawei.com>
+Date: Mon, 30 Jan 2023 20:48:38 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.2.1
-Subject: Re: [PATCH 1/3] migration: report migration thread name to libvirt
+Subject: Re: [PATCH 2/3] migration: implement query migration threadinfo by
+ name
 To: <quintela@redhat.com>
 CC: <qemu-devel@nongnu.org>, <berrange@redhat.com>, <dgilbert@redhat.com>,
  <yubihong@huawei.com>, <xiexiangyou@huawei.com>, <zhengchuan@huawei.com>,
  <linyilu@huawei.com>
 References: <20230120084735.825054-1-jiangjiacheng@huawei.com>
- <20230120084735.825054-2-jiangjiacheng@huawei.com>
- <87tu08odr7.fsf@secure.mitica>
-In-Reply-To: <87tu08odr7.fsf@secure.mitica>
+ <20230120084735.825054-3-jiangjiacheng@huawei.com>
+ <87o7qgode5.fsf@secure.mitica>
+In-Reply-To: <87o7qgode5.fsf@secure.mitica>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.174.187.239]
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
  dggpeml500022.china.huawei.com (7.185.36.66)
 X-CFilter-Loop: Reflected
 Received-SPF: pass client-ip=45.249.212.188;
@@ -72,43 +73,101 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 2023/1/30 12:19, Juan Quintela wrote:
+On 2023/1/30 12:27, Juan Quintela wrote:
 > Jiang Jiacheng <jiangjiacheng@huawei.com> wrote:
->> Report migration thread name to libvirt in order to
->> support query migration thread infomation by its name.
+>> Introduce interface query-migrationthreads. The interface is use
+>> with the migration thread name reported by qemu and returns with
+>> migration thread name and its pid.
+>> Introduce threadinfo.c to manage threads with migration.
 >>
 >> Signed-off-by: Jiang Jiacheng <jiangjiacheng@huawei.com>
->> ---
->>  migration/migration.c |  3 +++
->>  migration/multifd.c   |  5 ++++-
->>  qapi/migration.json   | 12 ++++++++++++
->>  3 files changed, 19 insertions(+), 1 deletion(-)
->>
->> diff --git a/migration/migration.c b/migration/migration.c
->> index 52b5d39244..b4ce458bb9 100644
->> --- a/migration/migration.c
->> +++ b/migration/migration.c
->> @@ -3955,6 +3955,9 @@ static void *migration_thread(void *opaque)
->>      MigThrError thr_error;
->>      bool urgent = false;
->>  
->> +    /* report migration thread name to libvirt */
->> +    qapi_event_send_migration_name("live_migration");
->> +
->>      rcu_register_thread();
->>  
->>      object_ref(OBJECT(s));
 > 
-> I am not sure about this.
-> This is not an event, in my point of view.
-> 
-> What is the problem adding it to info migrate or similar?
-> Looks more logical to me.
+> I like this query interface better than the way you expose the thread
+> name in the 1st place.
 
-I want to implement an interface for libvirt to proactively query
-information about migration threads. And this event is used to notify
-libvirt that the thread has been created and to provide the thread name
-for subsequent operations of querying specified thread's information.
+The event in patch1 is used to pass the thread name since libvirt
+doesn't know the name of the migration thread but the interface below
+need its name.
+I think the event can be dropped if we store the thread name in
+libvirt(if the migration thread name is fixed in qemu) or using the
+'query-migrationthreads' you mentioned below.
+
+> 
+> But once that we are here, why don't we just "tweak" abit the interface:
+> 
+>> diff --git a/qapi/migration.json b/qapi/migration.json
+>> index b0cf366ac0..e93c3e560a 100644
+>> --- a/qapi/migration.json
+>> +++ b/qapi/migration.json
+>> @@ -1970,6 +1970,36 @@
+>>  { 'command': 'query-vcpu-dirty-limit',
+>>    'returns': [ 'DirtyLimitInfo' ] }
+>>  
+>> +##
+>> +# @MigrationThreadInfo:
+>> +#
+>> +# Information about migrationthreads
+>> +#
+>> +# @name: the name of migration thread
+>> +#
+>> +# @thread-id: ID of the underlying host thread
+>> +#
+>> +# Since: 7.2
+>> +##
+>> +{ 'struct': 'MigrationThreadInfo',
+>> +  'data': {'name': 'str',
+>> +           'thread-id': 'int'} }
+> 
+> 1st, it is an int enough for all architectures?  I know that for linux
+> and friends it is, but not sure about windows and other weird systems.
+> 
+
+It is only enough for migration pin which I want to implement. But I
+think this struct can be easily expand if we need other information
+about migration thread.
+
+>> +##
+>> +# @query-migrationthreads:
+> 
+> What about renaming this to:
+> 
+> @query-migrationthread (I removed the last 's')
+> 
+> because it returns the info of a single thread.
+> 
+>> +#
+>> +# Returns threadInfo about the thread specified by name
+>> +#
+>> +# data: migration thread name
+>> +#
+>> +# returns: information about the specified thread
+>> +#
+>> +# Since: 7.2
+>> +##
+>> +{ 'command': 'query-migrationthreads',
+>> +  'data': { 'name': 'str' },
+>> +  'returns': 'MigrationThreadInfo' }
+>> +
+>>  ##
+>>  # @snapshot-save:
+>>  #
+> 
+> And leaves the @query-migrationthreads name for something in the spirit of
+> 
+>> +{ 'command': 'query-migrationthreads',
+>> +  'returns': ['str'] }
+> 
+> That returns all the migration threads names.
+> 
+> Or perhaps even
+> 
+>> +{ 'command': 'query-migrationthreads',
+>> +  'returns': ['MigrationThreadInfo'] }
+> 
+> And call it a day?
+
+I think it's the best. If in this way, should we keep the interface to
+query specified thread?
 
 Thanks, Jiang Jiacheng
 
