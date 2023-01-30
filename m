@@ -2,86 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04D51681398
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:43:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A3D1C6813A7
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:44:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMVNG-0008VE-6k; Mon, 30 Jan 2023 09:43:10 -0500
+	id 1pMVO9-00015G-Qd; Mon, 30 Jan 2023 09:44:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pMVN8-0008Qm-Jd
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:43:02 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pMVN6-0006Tj-UY
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:43:02 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id k13so11889683plg.0
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:43:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=5ZG6+R9GPZg140VII+sGCGp308nrYFBQ1rehSUjRTpQ=;
- b=AIUzG2w9APPCQqA5sDp8ziM1jawcR5xn3M2B3aTtPMJc8K3lGozZW65bfmEs2G214J
- zdOl7c4M8/nqACGEZ9bt0GujtZTAOs3Cr1pSL11zUbh26NgjuwuFyeqqTfk/Z6P+rgto
- g63tVsID+TfWrP+8RqgNU4+OrgScKHOqT/VQggztV/HXUT38CMiei+NDrZAF9YgySvan
- SH4WEBv2n9HmXoZvXUv+syHkls37jsNEfVamjrVtOa25VR6d5p6jFEhnggtcyhfldE8p
- NIp3DC7jJ2Ub4UBSlSkjGIonp6ABbTz/1nasFMicrVoykzQmJmmIACbH0oQPBaeA5zrh
- Vocg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=5ZG6+R9GPZg140VII+sGCGp308nrYFBQ1rehSUjRTpQ=;
- b=43NkLyP7ItuNO5va4TFRsvZ4vMQzEcWunn2rtcDFmUUzlNWCpT4FBcAil75IEn7wMr
- 7MvHmJjp0dUHvTkWU0/SNzAkbWfKi6xoIoS4Fljm9zyMqdkZQz+6lC8HZqhvA0BKohi8
- tbDA1GUzJLbb82a4WkdkPEUllk8L4Rg1YessnJUy/v5f8KVFTWY3OYYNrvXALafS8aYs
- EhOxA6efZUdH6hXYEUXLpTfW84zukfFRvK4eDZQrsCKsJmsjLRZ7Ya5SJU4qhxplL1/e
- 8d861SYczyQi0woiSz2LFtoiOY0/uNGqxYb1pVnNSVhlF9UK8VRMDgqJrqUO2C727VQE
- PsJA==
-X-Gm-Message-State: AO0yUKUFDm6jBy24nuC+wTRZF/z6dcvqX39B4Cg8y4/ifdb0w9jSNZww
- eMk4ruiYvtlRRMH7oc0sPZ5EIA==
-X-Google-Smtp-Source: AK7set9sKnBTyunEAs2Ly0B4pSRfMzStEDIqj7lVq8cNQnSLqujuKnk1JsJRZq4cFwrZ/iy88FtO/g==
-X-Received: by 2002:a17:902:f10b:b0:196:7a96:cd82 with SMTP id
- e11-20020a170902f10b00b001967a96cd82mr4211411plb.42.1675089779781; 
- Mon, 30 Jan 2023 06:42:59 -0800 (PST)
-Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
- ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- jl16-20020a170903135000b0019719f752c5sm1299884plb.59.2023.01.30.06.42.57
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jan 2023 06:42:59 -0800 (PST)
-Message-ID: <a217fed2-e868-5050-9370-9ad3e8ba357e@daynix.com>
-Date: Mon, 30 Jan 2023 23:42:56 +0900
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pMVNy-00012l-G8
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:43:56 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pMVNw-0006fG-FR
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:43:54 -0500
+Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30UEGWs3009409; Mon, 30 Jan 2023 14:43:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=lIyIc3I8eDyneoZTW23+aIOKLe7rjhOiN6PtMN/oo1w=;
+ b=QChGbMuYCXqKh8D6sAC/PYpWpVZZAwqXrr51pcNkze4r6/fOpMBjisRnG68DUX0uMkKd
+ nfkaSFaxxEE/bJUuKDNmOZnzkvnS21bt5Yf9lop+qPhY94wT7X4teoivMGJSzPICwTIM
+ T6qyaY5wGSAhdl19ezGeHB9dIWivl6BXByLWddiFAuTGmsXGrFdOTL12QFE1cKVbN/0L
+ DGzRmIVHqQDG1DtBmZSn8ialdyMkPfA7OVSYyNP+hfyG+FP43sPZiWMo5PEV7paXDoNV
+ oyGJArJUL7zUNi2Jd4S0FMXxU4pRLVWLoT//LxHjxpb3zBxV5LFsIstakvGQ2i46W1qX bQ== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nefgy0sjr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Jan 2023 14:43:45 +0000
+Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30UEGXnl009683;
+ Mon, 30 Jan 2023 14:43:45 GMT
+Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.99])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nefgy0sj1-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Jan 2023 14:43:45 +0000
+Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
+ by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30U5slkY026900;
+ Mon, 30 Jan 2023 14:43:43 GMT
+Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
+ by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3ncvs7jc0q-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Jan 2023 14:43:43 +0000
+Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
+ [10.20.54.102])
+ by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 30UEhfit51642664
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Mon, 30 Jan 2023 14:43:41 GMT
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id F06F320043;
+ Mon, 30 Jan 2023 14:43:40 +0000 (GMT)
+Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id CA73B20040;
+ Mon, 30 Jan 2023 14:43:40 +0000 (GMT)
+Received: from [9.155.209.149] (unknown [9.155.209.149])
+ by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Mon, 30 Jan 2023 14:43:40 +0000 (GMT)
+Message-ID: <d0954ad88ac09adafa29ea509afd4e80015de536.camel@linux.ibm.com>
+Subject: Re: [PATCH v4 2/3] accel/tcg: Add debuginfo support
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Thomas Huth <thuth@redhat.com>, Richard Henderson
+ <richard.henderson@linaro.org>, Alex =?ISO-8859-1?Q?Benn=E9e?=
+ <alex.bennee@linaro.org>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org
+Date: Mon, 30 Jan 2023 15:43:40 +0100
+In-Reply-To: <c341f40c-59f6-754b-1323-b3343ee40cad@redhat.com>
+References: <20230112152013.125680-1-iii@linux.ibm.com>
+ <20230112152013.125680-3-iii@linux.ibm.com>
+ <c341f40c-59f6-754b-1323-b3343ee40cad@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH] fuzz: add igb testcases
-Content-Language: en-US
-To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- Laurent Vivier <lvivier@redhat.com>
-References: <20230114041004.36459-1-akihiko.odaki@daynix.com>
- <20230129053316.1071513-1-alxndr@bu.edu>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <20230129053316.1071513-1-alxndr@bu.edu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62b;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62b.google.com
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: DVv9ux-ILOM_B2hEaaumc5xReYGI56N2
+X-Proofpoint-ORIG-GUID: PqfMTk_QNLfN2taaoY4JAjdwFjCj-eqs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-30_13,2023-01-30_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0
+ phishscore=0 adultscore=0 clxscore=1015 malwarescore=0 mlxlogscore=999
+ lowpriorityscore=0 impostorscore=0 priorityscore=1501 mlxscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301300141
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,34 +114,55 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/01/29 14:33, Alexander Bulekov wrote:
-> Signed-off-by: Alexander Bulekov<alxndr@bu.edu>
-> ---
-> 
-> Hi Akihiko,
-> Thank you for adding a fuzzer config for this device. The fuzzer found
-> some crashes. Many of these are probably duplicates - the crash
-> deduplication script has limitations. Also some of these might not
-> specific to igb (e.g. -net user/slirp issues) - I had not good way to
-> filter those out.
+On Mon, 2023-01-30 at 15:33 +0100, Thomas Huth wrote:
+> On 12/01/2023 16.20, Ilya Leoshkevich wrote:
+> > Add libdw-based functions for loading and querying debuginfo. Load
+> > debuginfo from the system and the linux-user loaders.
+> >=20
+> > This is useful for the upcoming perf support, which can then put
+> > human-readable guest symbols instead of raw guest PCs into perfmap
+> > and
+> > jitdump files.
+> >=20
+> > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> > ---
+> ...
+> > diff --git a/meson.build b/meson.build
+> > index 175517eafde..cab8c67d961 100644
+> > --- a/meson.build
+> > +++ b/meson.build
+> > @@ -1648,6 +1648,12 @@ if libbpf.found() and not cc.links('''
+> > =C2=A0=C2=A0=C2=A0 endif
+> > =C2=A0 endif
+> > =C2=A0=20
+> > +# libdw
+> > +libdw =3D dependency('libdw',
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 method: 'pkg-config',
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kwargs: static_kwargs,
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 required: false)
+> > +
+>=20
+> =C2=A0 Hi,
+>=20
+> I recently did a build with "configure --without-default-features"
+> and I=20
+> noticed that this new libdw does not get disabled automatically
+> there, which=20
+> looks kind of weird. Is there a reason that there is no config knob
+> here to=20
+> disable it like we have it with all the other optional libraries that
+> we=20
+> support?
+>=20
+> =C2=A0 Thomas
 
 Hi,
 
-Thanks for testing igb. I have just sent fixes to the list. The below is 
-the link to them:
+this sounds like an omission on my part - I'll have a look at this.
 
-[PATCH v5 0/9] Introduce igb
-https://patchew.org/QEMU/20230130140809.78262-1-akihiko.odaki@daynix.com/
-
-[PATCH] hw/timer/hpet: Fix expiration time overflow
-https://patchew.org/QEMU/20230130135001.76841-1-akihiko.odaki@daynix.com/
-
-[PATCH] softmmu: Use memmove in flatview_write_continue
-https://patchew.org/QEMU/20230130135152.76882-1-akihiko.odaki@daynix.com/
-
-ip: Enforce strict aliasing
-https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests/131
-
-Regards,
-Akihiko Odaki
+Best regards,
+Ilya
 
