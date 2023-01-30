@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DF8F68070D
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 09:10:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA26068071D
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 09:11:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMPEt-0000QP-Tl; Mon, 30 Jan 2023 03:10:08 -0500
+	id 1pMPEx-0000UP-V1; Mon, 30 Jan 2023 03:10:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMPEr-0000Ls-L2
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:10:05 -0500
+ id 1pMPEt-0000Qn-7O
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:10:07 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMPEp-00023M-QJ
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:10:05 -0500
+ id 1pMPEr-0002Bm-Lk
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:10:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675066203;
+ s=mimecast20190719; t=1675066204;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=oG5oYyOevwip1isRyXIRWUB7ODYUNpFylwK7qAz4r3k=;
- b=UAKG5RK7of14aK855GYRdBXWCzyNxbUt8d3apq8UWLRU+TZPHUmpjwXDFy0wh//5cBkzi9
- DckDOlWAZuMozJ2V3KC7rAmbtJJPrQKmYfcex8Oiwx6DNfN7ey6RWO1SlWBlrSl/pRCiOH
- 8X7dn+7qvOvLipkD2qELIW8q7MASXE4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=7c+sD4OotUEqjVJcWorYvAM9vFbO0MI2eVVDySisLxU=;
+ b=Vaff9sx/r/bMZVXlwGVCRdcHjmmQ0CAASI0YsFKvLtwV4XBK4BRRu+g7osRj30A3zewGeW
+ 2l6fBbmHvjppI+0gRqdzsFTZWVw2lAW6Mv6ynQiy4aGBe4ucuBYjG6wdmlPJX7Hsq8egOv
+ ncrfSD+F2BwGiNxOSftjLo4XEJmo+xs=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-36-aropfcdWOO-mOZxjjMagSQ-1; Mon, 30 Jan 2023 03:09:59 -0500
-X-MC-Unique: aropfcdWOO-mOZxjjMagSQ-1
+ us-mta-462-Tdk0YsWcPtqAE93LVo26Ew-1; Mon, 30 Jan 2023 03:10:00 -0500
+X-MC-Unique: Tdk0YsWcPtqAE93LVo26Ew-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id BFA423C025B2;
- Mon, 30 Jan 2023 08:09:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 89B38858F09;
+ Mon, 30 Jan 2023 08:10:00 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0888A40C2064;
- Mon, 30 Jan 2023 08:09:56 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 0F4CD40C2064;
+ Mon, 30 Jan 2023 08:09:58 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Juan Quintela <quintela@redhat.com>,
@@ -49,10 +50,11 @@ Cc: Juan Quintela <quintela@redhat.com>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, Eric Blake <eblake@redhat.com>
-Subject: [PATCH v2 00/11] Multifd zero page support
-Date: Mon, 30 Jan 2023 09:09:45 +0100
-Message-Id: <20230130080956.3047-1-quintela@redhat.com>
-Content-Type: text/plain; charset="utf-8"
+Subject: [PATCH v2 01/11] migration: Update atomic stats out of the mutex
+Date: Mon, 30 Jan 2023 09:09:46 +0100
+Message-Id: <20230130080956.3047-2-quintela@redhat.com>
+In-Reply-To: <20230130080956.3047-1-quintela@redhat.com>
+References: <20230130080956.3047-1-quintela@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
@@ -80,49 +82,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Based on top of my next branch.
-- Rebased on top of latest upstream
-- Redo a lot of the packet accounting
-  still not completely perfect, but much better than what is upstream
+Signed-off-by: Juan Quintela <quintela@redhat.com>
+---
+ migration/multifd.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Still working continuing on that.
-
-Please review.
-
-[v2]
-- rebased on top of latest upstream
-- lots of minor fixes
-- start support for atomic counters
-  * we need to move ram_limit_used/max to migration.c
-  * that means fixing rdma.c
-  * and test-vmstate.
-
-So I am donig that right now.
-
-Juan Quintela (11):
-  migration: Update atomic stats out of the mutex
-  migration: Make multifd_bytes atomic
-  multifd: We already account for this packet on the multifd thread
-  multifd: Count the number of bytes sent correctly
-  migration: Make ram_save_target_page() a pointer
-  multifd: Make flags field thread local
-  multifd: Prepare to send a packet without the mutex held
-  multifd: Add capability to enable/disable zero_page
-  multifd: Support for zero pages transmission
-  multifd: Zero pages transmission
-  So we use multifd to transmit zero pages.
-
- qapi/migration.json    |   8 ++-
- migration/migration.h  |   1 +
- migration/multifd.h    |  36 ++++++++++--
- migration/ram.h        |   1 +
- hw/core/machine.c      |   1 +
- migration/migration.c  |  16 +++++-
- migration/multifd.c    | 123 +++++++++++++++++++++++++++++++----------
- migration/ram.c        |  51 +++++++++++++++--
- migration/trace-events |   8 +--
- 9 files changed, 197 insertions(+), 48 deletions(-)
-
+diff --git a/migration/multifd.c b/migration/multifd.c
+index 000ca4d4ec..20a81cd7f2 100644
+--- a/migration/multifd.c
++++ b/migration/multifd.c
+@@ -432,8 +432,8 @@ static int multifd_send_pages(QEMUFile *f)
+     transferred = ((uint64_t) pages->num) * p->page_size + p->packet_len;
+     qemu_file_acct_rate_limit(f, transferred);
+     ram_counters.multifd_bytes += transferred;
++    qemu_mutex_unlock(&p->mutex);
+     stat64_add(&ram_atomic_counters.transferred, transferred);
+-    qemu_mutex_unlock(&p->mutex);
+     qemu_sem_post(&p->sem);
+ 
+     return 1;
+@@ -624,8 +624,8 @@ int multifd_send_sync_main(QEMUFile *f)
+         p->pending_job++;
+         qemu_file_acct_rate_limit(f, p->packet_len);
+         ram_counters.multifd_bytes += p->packet_len;
++        qemu_mutex_unlock(&p->mutex);
+         stat64_add(&ram_atomic_counters.transferred, p->packet_len);
+-        qemu_mutex_unlock(&p->mutex);
+         qemu_sem_post(&p->sem);
+ 
+         if (flush_zero_copy && p->c && (multifd_zero_copy_flush(p->c) < 0)) {
 -- 
 2.39.1
 
