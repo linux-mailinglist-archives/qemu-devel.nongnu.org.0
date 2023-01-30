@@ -2,53 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF7C0680B2C
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 11:46:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 171E0680B34
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 11:47:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMRfk-0007Lh-55; Mon, 30 Jan 2023 05:46:00 -0500
+	id 1pMRfw-0007Ua-F9; Mon, 30 Jan 2023 05:46:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1pMRfi-0007LS-0H
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 05:45:58 -0500
+ id 1pMRfo-0007Rf-0N
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 05:46:04 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <maxime.coquelin@redhat.com>)
- id 1pMRfg-0001x2-Ku
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 05:45:57 -0500
+ id 1pMRfl-0001yk-W0
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 05:46:03 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675075555;
+ s=mimecast20190719; t=1675075561;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding;
- bh=4Ebqpim+cPEnLTHBwC34zpyC6yZBSb+FScAKsm/nZ3g=;
- b=DFvBvlB5UvIQJb+ki9DfbmXrx3WLg6o8M/2IaxKR2FAzAUJbq8TlmZVl/VG0tT4wUN6di2
- Y10gO9ADcq/i9UqengRigPArTIHHb7lTqLI6lrtMZH8bCVvyy6FwZNQ3GgZQbXN5sKO9vA
- HT5AhTT2vA/9yxXeODQz3rl6pc/Ag0A=
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=M+losDjJ+GA8+y7xnhBazv/m8KzBzPxCJwjhmGiiQoo=;
+ b=PMPiAJN7n3d5eRYVOjo9a9T1oafL5UOpzQf5TeYdxbVBWAtWCIlzxXTmqM3kWDk0N+2d/p
+ XbgRyLhzVvomhNjkWHSC9JQjnYY24G+mg7Icsp7i977tOJ8g9gKbeIN8lRX0cXXvG8OH70
+ BMlaO9H9ZN0iItFrM3nXgPlwhTxPR8I=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-446-cI_nQVNAOkKxXJHQrdp-6g-1; Mon, 30 Jan 2023 05:45:53 -0500
-X-MC-Unique: cI_nQVNAOkKxXJHQrdp-6g-1
+ us-mta-80-4OTSfkTtMiKinlRrucw9PQ-1; Mon, 30 Jan 2023 05:45:56 -0500
+X-MC-Unique: 4OTSfkTtMiKinlRrucw9PQ-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 6BF2E80006E;
- Mon, 30 Jan 2023 10:45:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A615785A5A3;
+ Mon, 30 Jan 2023 10:45:55 +0000 (UTC)
 Received: from max-t490s.redhat.com (unknown [10.39.208.22])
- by smtp.corp.redhat.com (Postfix) with ESMTP id AABD340C2064;
- Mon, 30 Jan 2023 10:45:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id C45C540C2064;
+ Mon, 30 Jan 2023 10:45:53 +0000 (UTC)
 From: Maxime Coquelin <maxime.coquelin@redhat.com>
 To: qemu-devel@nongnu.org, mst@redhat.com, pbonzini@redhat.com,
  stephen@networkplumber.org, chenbo.xia@intel.com, thomas@monjalon.net,
  dmarchan@redhat.com
 Cc: Maxime Coquelin <maxime.coquelin@redhat.com>
-Subject: [PATCH 0/3] Vhost-user: replace _SLAVE_ with _BACKEND_
-Date: Mon, 30 Jan 2023 11:45:45 +0100
-Message-Id: <20230130104548.13262-1-maxime.coquelin@redhat.com>
+Subject: [PATCH 1/3] docs: vhost-user: replace _SLAVE_ with _BACKEND_
+Date: Mon, 30 Jan 2023 11:45:46 +0100
+Message-Id: <20230130104548.13262-2-maxime.coquelin@redhat.com>
+In-Reply-To: <20230130104548.13262-1-maxime.coquelin@redhat.com>
+References: <20230130104548.13262-1-maxime.coquelin@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
@@ -77,29 +80,167 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This series continues the work done to get rid of harmful
-language in the Vhost-user specification.
+Backend's message and protocol features names were still
+using "_SLAVE_" naming. For consistency with the new naming
+convention and to get rid of the remaining harmful
+language, replace it with _BACKEND_.
 
-While the spec texts were changed to replace slave with
-backend, the protocol features and messages names hadn't
-been changed. 
+Signed-off-by: Maxime Coquelin <maxime.coquelin@redhat.com>
+---
+ docs/interop/vhost-user.rst | 40 ++++++++++++++++++-------------------
+ 1 file changed, 20 insertions(+), 20 deletions(-)
 
-This series renames remaining occurences in the spec and
-make use of the new names in both libvhost-user and the
-Vhost-user frontend code.
-
-Maxime Coquelin (3):
-  docs: vhost-user: replace _SLAVE_ with _BACKEND_
-  libvhost-user: Adopt new backend naming
-  vhost-user: Adopt new backend naming
-
- docs/interop/vhost-user.rst               | 40 +++++++++++------------
- hw/virtio/vhost-user.c                    | 30 ++++++++---------
- hw/virtio/virtio-qmp.c                    | 12 +++----
- subprojects/libvhost-user/libvhost-user.c | 20 ++++++------
- subprojects/libvhost-user/libvhost-user.h | 20 ++++++------
- 5 files changed, 61 insertions(+), 61 deletions(-)
-
+diff --git a/docs/interop/vhost-user.rst b/docs/interop/vhost-user.rst
+index 3f18ab424e..8a5924ea75 100644
+--- a/docs/interop/vhost-user.rst
++++ b/docs/interop/vhost-user.rst
+@@ -315,7 +315,7 @@ in the ancillary data:
+ * ``VHOST_USER_SET_VRING_KICK``
+ * ``VHOST_USER_SET_VRING_CALL``
+ * ``VHOST_USER_SET_VRING_ERR``
+-* ``VHOST_USER_SET_SLAVE_REQ_FD``
++* ``VHOST_USER_SET_BACKEND_REQ_FD`` (previous name ``VHOST_USER_SET_SLAVE_REQ_FD``)
+ * ``VHOST_USER_SET_INFLIGHT_FD`` (if ``VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD``)
+ 
+ If *front-end* is unable to send the full message or receives a wrong
+@@ -516,7 +516,7 @@ expected to reply with a zero payload, non-zero otherwise.
+ 
+ The back-end relies on the back-end communication channel (see :ref:`Back-end
+ communication <backend_communication>` section below) to send IOTLB miss
+-and access failure events, by sending ``VHOST_USER_SLAVE_IOTLB_MSG``
++and access failure events, by sending ``VHOST_USER_BACKEND_IOTLB_MSG``
+ requests to the front-end with a ``struct vhost_iotlb_msg`` as
+ payload. For miss events, the iotlb payload has to be filled with the
+ miss message type (1), the I/O virtual address and the permissions
+@@ -540,15 +540,15 @@ Back-end communication
+ ----------------------
+ 
+ An optional communication channel is provided if the back-end declares
+-``VHOST_USER_PROTOCOL_F_SLAVE_REQ`` protocol feature, to allow the
++``VHOST_USER_PROTOCOL_F_BACKEND_REQ`` protocol feature, to allow the
+ back-end to make requests to the front-end.
+ 
+-The fd is provided via ``VHOST_USER_SET_SLAVE_REQ_FD`` ancillary data.
++The fd is provided via ``VHOST_USER_SET_BACKEND_REQ_FD`` ancillary data.
+ 
+-A back-end may then send ``VHOST_USER_SLAVE_*`` messages to the front-end
++A back-end may then send ``VHOST_USER_BACKEND_*`` messages to the front-end
+ using this fd communication channel.
+ 
+-If ``VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD`` protocol feature is
++If ``VHOST_USER_PROTOCOL_F_BACKEND_SEND_FD`` protocol feature is
+ negotiated, back-end can send file descriptors (at most 8 descriptors in
+ each message) to front-end via ancillary data using this fd communication
+ channel.
+@@ -835,7 +835,7 @@ Note that due to the fact that too many messages on the sockets can
+ cause the sending application(s) to block, it is not advised to use
+ this feature unless absolutely necessary. It is also considered an
+ error to negotiate this feature without also negotiating
+-``VHOST_USER_PROTOCOL_F_SLAVE_REQ`` and ``VHOST_USER_PROTOCOL_F_REPLY_ACK``,
++``VHOST_USER_PROTOCOL_F_BACKEND_REQ`` and ``VHOST_USER_PROTOCOL_F_REPLY_ACK``,
+ the former is necessary for getting a message channel from the back-end
+ to the front-end, while the latter needs to be used with the in-band
+ notification messages to block until they are processed, both to avoid
+@@ -855,12 +855,12 @@ Protocol features
+   #define VHOST_USER_PROTOCOL_F_RARP                  2
+   #define VHOST_USER_PROTOCOL_F_REPLY_ACK             3
+   #define VHOST_USER_PROTOCOL_F_MTU                   4
+-  #define VHOST_USER_PROTOCOL_F_SLAVE_REQ             5
++  #define VHOST_USER_PROTOCOL_F_BACKEND_REQ           5
+   #define VHOST_USER_PROTOCOL_F_CROSS_ENDIAN          6
+   #define VHOST_USER_PROTOCOL_F_CRYPTO_SESSION        7
+   #define VHOST_USER_PROTOCOL_F_PAGEFAULT             8
+   #define VHOST_USER_PROTOCOL_F_CONFIG                9
+-  #define VHOST_USER_PROTOCOL_F_SLAVE_SEND_FD        10
++  #define VHOST_USER_PROTOCOL_F_BACKEND_SEND_FD      10
+   #define VHOST_USER_PROTOCOL_F_HOST_NOTIFIER        11
+   #define VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD       12
+   #define VHOST_USER_PROTOCOL_F_RESET_DEVICE         13
+@@ -1059,8 +1059,8 @@ Front-end message types
+   in the ancillary data. This signals that polling will be used
+   instead of waiting for the call. Note that if the protocol features
+   ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS`` and
+-  ``VHOST_USER_PROTOCOL_F_SLAVE_REQ`` have been negotiated this message
+-  isn't necessary as the ``VHOST_USER_SLAVE_VRING_CALL`` message can be
++  ``VHOST_USER_PROTOCOL_F_BACKEND_REQ`` have been negotiated this message
++  isn't necessary as the ``VHOST_USER_BACKEND_VRING_CALL`` message can be
+   used, it may however still be used to set an event file descriptor
+   or to enable polling.
+ 
+@@ -1077,8 +1077,8 @@ Front-end message types
+   invalid FD flag. This flag is set when there is no file descriptor
+   in the ancillary data. Note that if the protocol features
+   ``VHOST_USER_PROTOCOL_F_INBAND_NOTIFICATIONS`` and
+-  ``VHOST_USER_PROTOCOL_F_SLAVE_REQ`` have been negotiated this message
+-  isn't necessary as the ``VHOST_USER_SLAVE_VRING_ERR`` message can be
++  ``VHOST_USER_PROTOCOL_F_BACKEND_REQ`` have been negotiated this message
++  isn't necessary as the ``VHOST_USER_BACKEND_VRING_ERR`` message can be
+   used, it may however still be used to set an event file descriptor
+   (which will be preferred over the message).
+ 
+@@ -1139,7 +1139,7 @@ Front-end message types
+   respond with zero in case the specified MTU is valid, or non-zero
+   otherwise.
+ 
+-``VHOST_USER_SET_SLAVE_REQ_FD``
++``VHOST_USER_SET_BACKEND_REQ_FD`` (previous name ``VHOST_USER_SET_SLAVE_REQ_FD``)
+   :id: 21
+   :equivalent ioctl: N/A
+   :request payload: N/A
+@@ -1150,7 +1150,7 @@ Front-end message types
+ 
+   This request should be sent only when
+   ``VHOST_USER_F_PROTOCOL_FEATURES`` has been negotiated, and protocol
+-  feature bit ``VHOST_USER_PROTOCOL_F_SLAVE_REQ`` bit is present in
++  feature bit ``VHOST_USER_PROTOCOL_F_BACKEND_REQ`` bit is present in
+   ``VHOST_USER_GET_PROTOCOL_FEATURES``.  If
+   ``VHOST_USER_PROTOCOL_F_REPLY_ACK`` is negotiated, the back-end must
+   respond with zero for success, non-zero otherwise.
+@@ -1429,7 +1429,7 @@ Back-end message types
+ For this type of message, the request is sent by the back-end and the reply
+ is sent by the front-end.
+ 
+-``VHOST_USER_SLAVE_IOTLB_MSG``
++``VHOST_USER_BACKEND_IOTLB_MSG`` (previous name ``VHOST_USER_SLAVE_IOTLB_MSG``)
+   :id: 1
+   :equivalent ioctl: N/A (equivalent to ``VHOST_IOTLB_MSG`` message type)
+   :request payload: ``struct vhost_iotlb_msg``
+@@ -1444,7 +1444,7 @@ is sent by the front-end.
+   ``VIRTIO_F_IOMMU_PLATFORM`` feature has been successfully
+   negotiated.
+ 
+-``VHOST_USER_SLAVE_CONFIG_CHANGE_MSG``
++``VHOST_USER_BACKEND_CONFIG_CHANGE_MSG`` (previous name ``VHOST_USER_SLAVE_CONFIG_CHANGE_MSG``)
+   :id: 2
+   :equivalent ioctl: N/A
+   :request payload: N/A
+@@ -1459,7 +1459,7 @@ is sent by the front-end.
+   ``VHOST_USER_NEED_REPLY`` flag, the front-end must respond with zero when
+   operation is successfully completed, or non-zero otherwise.
+ 
+-``VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG``
++``VHOST_USER_BACKEND_VRING_HOST_NOTIFIER_MSG`` (previous name ``VHOST_USER_SLAVE_VRING_HOST_NOTIFIER_MSG``)
+   :id: 3
+   :equivalent ioctl: N/A
+   :request payload: vring area description
+@@ -1482,7 +1482,7 @@ is sent by the front-end.
+   ``VHOST_USER_PROTOCOL_F_HOST_NOTIFIER`` protocol feature has been
+   successfully negotiated.
+ 
+-``VHOST_USER_SLAVE_VRING_CALL``
++``VHOST_USER_BACKEND_VRING_CALL`` (previous name ``VHOST_USER_SLAVE_VRING_CALL``)
+   :id: 4
+   :equivalent ioctl: N/A
+   :request payload: vring state description
+@@ -1496,7 +1496,7 @@ is sent by the front-end.
+ 
+   The state.num field is currently reserved and must be set to 0.
+ 
+-``VHOST_USER_SLAVE_VRING_ERR``
++``VHOST_USER_BACKEND_VRING_ERR`` (previous name ``VHOST_USER_SLAVE_VRING_ERR``)
+   :id: 5
+   :equivalent ioctl: N/A
+   :request payload: vring state description
 -- 
 2.39.1
 
