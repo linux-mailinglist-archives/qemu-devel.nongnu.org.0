@@ -2,59 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25DCB680E93
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 14:12:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FCD8680E94
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 14:13:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMTxG-0007b8-Hc; Mon, 30 Jan 2023 08:12:14 -0500
+	id 1pMTxa-0007dk-Fq; Mon, 30 Jan 2023 08:12:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pMTxE-0007az-1k
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:12:12 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pMTxB-00043q-CD
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:12:11 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P57pk5gz7z6880d;
- Mon, 30 Jan 2023 21:10:54 +0800 (CST)
-Received: from localhost (10.122.247.231) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Mon, 30 Jan
- 2023 13:11:51 +0000
-Date: Mon, 30 Jan 2023 13:11:50 +0000
-To: Gregory Price <gourry.memverge@gmail.com>
-CC: <qemu-devel@nongnu.org>, <linux-cxl@vger.kernel.org>,
- <alison.schofield@intel.com>, <dave@stgolabs.net>,
- <a.manzanares@samsung.com>, <bwidawsk@kernel.org>,
- <gregory.price@memverge.com>, <hchkuo@avery-design.com.tw>,
- <cbrowy@avery-design.com>, <ira.weiny@intel.com>
-Subject: Re: [RFC v4 2/3] tests/qtest/cxl-test: whitespace, line ending cleanup
-Message-ID: <20230130131150.000023a1@huawei.com>
-In-Reply-To: <20230105143807.0000315a@huawei.com>
-References: <20221128150157.97724-1-gregory.price@memverge.com>
- <20221128150157.97724-3-gregory.price@memverge.com>
- <20230105143807.0000315a@huawei.com>
-Organization: Huawei Technologies R&D (UK) Ltd.
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.29; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <fanwj@mail.ustc.edu.cn>)
+ id 1pMTxW-0007dG-JY
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:12:31 -0500
+Received: from email6.ustc.edu.cn ([2001:da8:d800::8] helo=ustc.edu.cn)
+ by eggs.gnu.org with esmtp (Exim 4.90_1)
+ (envelope-from <fanwj@mail.ustc.edu.cn>) id 1pMTxT-00045Z-Et
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:12:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Subject:
+ In-Reply-To:References:Content-Transfer-Encoding:Content-Type:
+ MIME-Version:Message-ID; bh=y7G5Up7Kb2jMpRSm0p/7ufh1kfAgnrxy5zbo
+ nVouxbc=; b=Btx7LYaQyENLPRYVSw8KvCZb/R3NA9vHOUa3LKIDneskKGWKuo2d
+ 8U/KUvp9IsFdbjO9rA76wYgf/wxGnRdAGJgnR3nSTL4/zcfUlznH4u5dpbio9Vaw
+ GhMcU0eKDzuDzqal8js1dRqfX+6/FcrVAsKvG4HHsuBSuAO+LIhmW5s=
+Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Mon, 30 Jan
+ 2023 21:12:12 +0800 (GMT+08:00)
+X-Originating-IP: [120.204.78.217]
+Date: Mon, 30 Jan 2023 21:12:12 +0800 (GMT+08:00)
+X-CM-HeaderCharset: UTF-8
+To: richard.henderson@linaro.org, qemu-devel@nongnu.org
+Subject: Re: Re: Please review a important patch abort fix setting of
+ CPUX86State::gdt::base
+X-Priority: 3
+X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
+ 20210401(c5ff3689) Copyright (c) 2002-2023 www.mailtech.cn ustccn
+In-Reply-To: <CAFEAcA_wL3PBW3aG=3nmQhJ6c6vrvy6=NE3DXn3Q06ct4pV19g@mail.gmail.com>
+References: <4dd3e63d.4889e.185fd6e590e.Coremail.fanwj@mail.ustc.edu.cn>
+ <CAFEAcA_wL3PBW3aG=3nmQhJ6c6vrvy6=NE3DXn3Q06ct4pV19g@mail.gmail.com>
+X-SendMailWithSms: false
+Content-Transfer-Encoding: base64
+Content-Type: text/plain; charset=UTF-8
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.122.247.231]
-X-ClientProxiedBy: lhrpeml100005.china.huawei.com (7.191.160.25) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Message-ID: <bc1f835.49eba.18602ce7f81.Coremail.fanwj@mail.ustc.edu.cn>
+X-Coremail-Locale: zh_CN
+X-CM-TRANSID: LkAmygDX3IAtwtdjqLZTAQ--.1W
+X-CM-SenderInfo: pidq4yo6pdxzwoxv3uoohg3hdfq/1tbiAQ4HEFQhoP3QSgABsr
+X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
+ CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
+ daVFxhVjvjDU=
+Received-SPF: pass client-ip=2001:da8:d800::8;
+ envelope-from=fanwj@mail.ustc.edu.cn; helo=ustc.edu.cn
+X-Spam_score_int: -16
+X-Spam_score: -1.7
+X-Spam_bar: -
+X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
+ DKIM_SIGNED=0.1, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -67,71 +69,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
+Reply-to:  fanwj@mail.ustc.edu.cn
+From: fanwj--- via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 5 Jan 2023 14:38:07 +0000
-Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
-
-> On Mon, 28 Nov 2022 10:01:56 -0500
-> Gregory Price <gourry.memverge@gmail.com> wrote:
-> 
-> > Defines are starting to exceed line length limits, align them for
-> > cleanliness before making modifications.
-> > 
-> > Signed-off-by: Gregory Price <gregory.price@memverge.com>  
-> 
-> Hi Gregory,
-> 
-> I was just reordering my tree and noticed that you've only
-> gone with 2 space indent.  Given 4 spaces is the convention in QEMU
-> for other uses, I've switched my local copy of this over to 4 spaces.
-> 
-> Note there was also a single inconsistent 1 space indent - see below.
-> 
-> Jonathan
-> 
-> > 
-> > ---
-> >  tests/qtest/cxl-test.c | 99 +++++++++++++++++++++++-------------------
-> >  1 file changed, 54 insertions(+), 45 deletions(-)
-> > 
-> > diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
-> > index c54f18e76b..e59ba22387 100644
-> > --- a/tests/qtest/cxl-test.c
-> > +++ b/tests/qtest/cxl-test.c
-> > @@ -8,55 +8,64 @@
-> >  #include "qemu/osdep.h"
-> >  #include "libqtest-single.h"
-> >  
-> > -#define QEMU_PXB_CMD "-machine q35,cxl=on " \
-> > -                     "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
-> > -                     "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=4G "
-> > -
-> > -#define QEMU_2PXB_CMD "-machine q35,cxl=on "                            \
-> > -                      "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
-> > -                      "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 " \
-> > -                      "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "
-> > -
-> > -#define QEMU_VIRT_2PXB_CMD "-machine virt,cxl=on "                      \
-> > -                      "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
-> > -                      "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 "  \
-> > -                      "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "
-> > -
-> > -#define QEMU_RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 "
-> > +#define QEMU_PXB_CMD \
-> > +  "-machine q35,cxl=on " \
-> > +  "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 " \
-> > +  "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=4G "
-> > +
-> > +#define QEMU_2PXB_CMD \
-> > +  "-machine q35,cxl=on " \
-> > +  "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 " \
-> > +  "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 " \
-> > + "- M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "  
-> This one only has one space.
-It also has a space after the - that I somehow missed. Fixed up in the version I'm
-carrying. Will push out a new tree once I've caught up with some other pending items.
+DQoxLiAiVGhlIG1lbWNweSBpcyBkZWZpbml0ZWx5IHdyb25nLCBiZWNhdXNlIHlvdSdyZSBjYXN0
+aW5nIGEgZ3Vlc3QgYWRkcmVzcyBpbnRvIGEgaG9zdCBhZGRyZXNzLCB3aGljaCBpcyBpbmNvcnJl
+Y3QuIFlvdSBoYXZlIHRvIHVzZSBnMmgoKS4iDQpUaGVyZSBpcyBubyBuZWVkIHRvIHVzZSBnMmgo
+KSwgQmVjYXVzZSB0aGVyZSBhcmUgYm90aCBndWVzdCBhZGRyZXNzIHdoZXRoZXIgc291cmNlIG9y
+IGRlc3QgbWVtb3J5LiByZWZlciB0byAibGludXgtdXNlci9pMzg2L2NwdV9sb29wLmMiIHRhcmdl
+dF9jcHVfY29weV9yZWdzIGZ1bmN0aW9uLCBPbmx5IHVzZSBnMmhfdW50YWdnZWQgd2hlbiBjb252
+ZXJ0IGdkdDo6YmFzZSB0byBnZHRfdGFibGUuIEkgZG9uJ3QgdXNlIGFuZCBtb2RpZnkgZ2R0X3Rh
+YmxlLCBPbmx5IGNvcHkgZ2R0OjpiYXNlIGZyb20gc291cmNlIENQVSB0byBkZXN0IENQVS4gVGhl
+eSBhcmUgc2FtZSB0eXBlIHNvIG5vIG5lZWRlZCB0byBjb252ZXJ0IGJ5IGcyaC4NCg0KMi4gIkkn
+bSBhY3R1YWxseSBzdXJwcmlzZWQgdGhhdCB5b3UgbmVlZCB0aGlzIGZvciBUQVJHRVRfWDg2XzY0
+IGF0IGFsbCAuLi4iDQpHRFQgb24gUUVNVSBVc2VyIE1vZGUgaXMgUHNldWRvcmFuZG9tIEdEVO+8
+jEl0IGlzIE5PVCBrZXJuZWwgcHJpdmF0ZSBkYXRhIHN0cnVjdHVyZXMuIEl0IGlzIE5PVCBHbG9i
+YWwgRGVzY3JpcHRvciBUYWJsZS4gSXQgSVMgaW5kZXggdGFibGUgb2YgZnMgYW5kIGdzLiBBbmQg
+SXQgaXMgVGhyZWFkIGxvY2FsIGRhdGEuIFRoZSBNZW1vcnkgd2hpY2ggZ2R0OjpiYXNlIHBvaW50
+IGNhbiBiZSBtb2RpZmllZCBieSBzeXNjYWxsIFNZU19zZXRfdGhyZWFkX2RhdGEuDQoNCmh0dHBz
+Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4
+LmdpdC90cmVlL2FyY2gveDg2L2tlcm5lbC90bHMuYw0KDQpTWVNfZ2V0X3RocmVhZF9hcmVhIGFu
+ZCBTWVNfc2V0X3RocmVhZF9hcmVhIHVzZWQgb24geDMyIHVzdWFsbHksIEJ1dCBUaGV5IGNhbiBi
+ZSBzeXNjYWxsZWQgb24geDY0IHdoZW4gZW11bGF0ZSBXb3c2NCBlbnZpcm9ubWVudC4gDQoNCg0K
+DQoNCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLS0tLS0tDQpGcm9tOglSaWNoYXJkIEhlbmRlcnNvbg0KU3ViamVjdDoJUmU6
+IFtQQVRDSF0gbGludXgtdXNlcjogZml4IGJ1ZyBhYm91dCBpbmNvcnJlY3QgYmFzZSBhZGRyZXNz
+cyBvZiBnZHQgb24gaTM4NiBhbmQgeDg2XzY0DQpEYXRlOglTYXQsIDE0IEphbiAyMDIzIDE5OjMy
+OjU5IC0xMDAwDQpVc2VyLWFnZW50OglNb3ppbGxhLzUuMCAoWDExOyBMaW51eCB4ODZfNjQ7IHJ2
+OjEwMi4wKSBHZWNrby8yMDEwMDEwMSBUaHVuZGVyYmlyZC8xMDIuNC4yDQo+IE9uIDEvMy8yMyAw
+MTozOCwgZmFud2VuamllIHdyb3RlOg0KT24gbGludXggdXNlciBtb2RlLCBDUFVYODZTdGF0ZTo6
+Z2R0OjpiYXNlIGZyb20gRGlmZmVyZW50IENQVVg4NlN0YXRlIE9iamVjdHMgDQpoYXZlIHNhbWUg
+dmFsdWUsIEl0IGlzIGluY29ycmVjdCEgRXZlcnkgQ1BVWDg2U3RhdGU6OmdkdDo6YmFzZSBNdXN0
+IHBvaW50cyB0byANCmluZGVwZW5kZW50IG1lbW9yeSBzcGFjZS4NCg0KUmVzb2x2ZXM6IGh0dHBz
+Oi8vZ2l0bGFiLmNvbS9xZW11LXByb2plY3QvcWVtdS8tL2lzc3Vlcy8xNDA1DQpTaWduZWQtb2Zm
+LWJ5OiBmYW53ZW5qaWUgPGZhbndqQG1haWwudXN0Yy5lZHUuY24+DQotLS0NCiAgbGludXgtdXNl
+ci9pMzg2L2NwdV9sb29wLmMgfCA5ICsrKysrKysrKw0KICBsaW51eC11c2VyL21haW4uYyAgICAg
+ICAgICB8IDcgKysrKysrKw0KICAyIGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKykNCg0K
+ZGlmZiAtLWdpdCBhL2xpbnV4LXVzZXIvaTM4Ni9jcHVfbG9vcC5jIGIvbGludXgtdXNlci9pMzg2
+L2NwdV9sb29wLmMNCmluZGV4IDg2NTQxM2MuLjQ4NTExY2QgMTAwNjQ0DQotLS0gYS9saW51eC11
+c2VyL2kzODYvY3B1X2xvb3AuYw0KKysrIGIvbGludXgtdXNlci9pMzg2L2NwdV9sb29wLmMNCkBA
+IC0zMTQsOCArMzE0LDE3IEBAIHZvaWQgY3B1X2xvb3AoQ1BVWDg2U3RhdGUgKmVudikNCiAgICAg
+IH0NCiAgfQ0KK3N0YXRpYyB2b2lkIHRhcmdldF9jcHVfZnJlZSh2b2lkICpvYmopDQorew0KKyAg
+ICBDUFVBcmNoU3RhdGUqIGVudiA9ICgoQ1BVU3RhdGUqKW9iaiktPmVudl9wdHI7DQorICAgIHRh
+cmdldF9tdW5tYXAoZW52LT5nZHQuYmFzZSwgc2l6ZW9mKHVpbnQ2NF90KSAqIFRBUkdFVF9HRFRf
+RU5UUklFUyk7DQorICAgIGdfZnJlZShvYmopOw0KK30NCisNCiAgdm9pZCB0YXJnZXRfY3B1X2Nv
+cHlfcmVncyhDUFVBcmNoU3RhdGUgKmVudiwgc3RydWN0IHRhcmdldF9wdF9yZWdzICpyZWdzKQ0K
+ICB7DQorICAgIENQVVN0YXRlKiBjcHUgPSBlbnZfY3B1KGVudik7DQorICAgIE9CSkVDVChjcHUp
+LT5mcmVlID0gdGFyZ2V0X2NwdV9mcmVlOw0KICAgICAgZW52LT5jclswXSA9IENSMF9QR19NQVNL
+IHwgQ1IwX1dQX01BU0sgfCBDUjBfUEVfTUFTSzsNCiAgICAgIGVudi0+aGZsYWdzIHw9IEhGX1BF
+X01BU0sgfCBIRl9DUExfTUFTSzsNCiAgICAgIGlmIChlbnYtPmZlYXR1cmVzW0ZFQVRfMV9FRFhd
+ICYgQ1BVSURfU1NFKSB7DQpkaWZmIC0tZ2l0IGEvbGludXgtdXNlci9tYWluLmMgYi9saW51eC11
+c2VyL21haW4uYw0KaW5kZXggYTE3ZmVkMC4uM2FjZDliNCAxMDA2NDQNCi0tLSBhL2xpbnV4LXVz
+ZXIvbWFpbi5jDQorKysgYi9saW51eC11c2VyL21haW4uYw0KQEAgLTIzNCw2ICsyMzQsMTMgQEAg
+Q1BVQXJjaFN0YXRlICpjcHVfY29weShDUFVBcmNoU3RhdGUgKmVudikNCm5ld19jcHUtPnRjZ19j
+ZmxhZ3MgPSBjcHUtPnRjZ19jZmxhZ3M7DQogICAgICBtZW1jcHkobmV3X2VudiwgZW52LCBzaXpl
+b2YoQ1BVQXJjaFN0YXRlKSk7DQorI2lmIGRlZmluZWQoVEFSR0VUX0kzODYpIHx8IGRlZmluZWQo
+VEFSR0VUX1g4Nl82NCkNCisgICAgbmV3X2Vudi0+Z2R0LmJhc2UgPSB0YXJnZXRfbW1hcCgwLCBz
+aXplb2YodWludDY0X3QpICogVEFSR0VUX0dEVF9FTlRSSUVTLA0KKyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgIFBST1RfUkVBRHxQUk9UX1dSSVRFLA0KKyAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIE1BUF9BTk9OWU1PVVN8TUFQX1BSSVZBVEUsIC0xLCAwKTsN
+CisgICAgbWVtY3B5KCh2b2lkKiluZXdfZW52LT5nZHQuYmFzZSwgKHZvaWQqKWVudi0+Z2R0LmJh
+c2UsIHNpemVvZih1aW50NjRfdCkgKiANClRBUkdFVF9HRFRfRU5UUklFUyk7DQorICAgIE9CSkVD
+VChuZXdfY3B1KS0+ZnJlZSA9IE9CSkVDVChjcHUpLT5mcmVlOw0KKyNlbmRpZg0KDQpUaGlzIGlz
+bid0IGEgZmFudGFzdGljIHNvbHV0aW9uLCBiZWNhdXNlIG5laXRoZXIgdGhlIGxkdCBub3IgdGhl
+IGdkdCBzaG91bGQgYmUgbWFwcGVkIGludG8gdGhlIHVzZXIgYWRkcmVzcyBzcGFjZSAtLSB0aGVz
+ZSBhcmUga2VybmVsIHByaXZhdGUgZGF0YSBzdHJ1Y3R1cmVzLiBCdXQgY3B1LmggdXNlcyBhIHRh
+cmdldF91bG9uZywgYW5kIHNlZ19oZWxwZXIuYyBpcyBzZXQgdXAgdG8gbG9hZCBkYXRhIGZyb20g
+dGhlIGd1ZXN0LCBhbmQgaXQgd291bGQgYmUgYSBtZWRpdW0gc2l6ZWQgam9iIHRvIGFkZHJlc3Mg
+dGhhdC4NCg0KVGhlIG1lbWNweSBpcyBkZWZpbml0ZWx5IHdyb25nLCBiZWNhdXNlIHlvdSdyZSBj
+YXN0aW5nIGEgZ3Vlc3QgYWRkcmVzcyBpbnRvIGEgaG9zdCBhZGRyZXNzLCB3aGljaCBpcyBpbmNv
+cnJlY3QuIFlvdSBoYXZlIHRvIHVzZSBnMmgoKS4NCg0KSSdtIGFjdHVhbGx5IHN1cnByaXNlZCB0
+aGF0IHlvdSBuZWVkIHRoaXMgZm9yIFRBUkdFVF9YODZfNjQgYXQgYWxsIC0tIHRoZSB0d28gVExT
+IHNlZ21lbnRzIGRvbid0IHJlYWxseSB1c2UgdGhlIEdEVCBhdCBhbGwsIHNpbmNlIGZzX2Jhc2Ug
+YW5kIGdzX2Jhc2UgbWF5IGJlIHNldCBkaXJlY3RseS4NCg==
 
