@@ -2,61 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FCD8680E94
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 14:13:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEC99680E95
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 14:13:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMTxa-0007dk-Fq; Mon, 30 Jan 2023 08:12:34 -0500
+	id 1pMTxf-0007fu-AC; Mon, 30 Jan 2023 08:12:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <fanwj@mail.ustc.edu.cn>)
- id 1pMTxW-0007dG-JY
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:12:31 -0500
-Received: from email6.ustc.edu.cn ([2001:da8:d800::8] helo=ustc.edu.cn)
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <fanwj@mail.ustc.edu.cn>) id 1pMTxT-00045Z-Et
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:12:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mail.ustc.edu.cn; s=dkim; h=Received:Date:From:To:Subject:
- In-Reply-To:References:Content-Transfer-Encoding:Content-Type:
- MIME-Version:Message-ID; bh=y7G5Up7Kb2jMpRSm0p/7ufh1kfAgnrxy5zbo
- nVouxbc=; b=Btx7LYaQyENLPRYVSw8KvCZb/R3NA9vHOUa3LKIDneskKGWKuo2d
- 8U/KUvp9IsFdbjO9rA76wYgf/wxGnRdAGJgnR3nSTL4/zcfUlznH4u5dpbio9Vaw
- GhMcU0eKDzuDzqal8js1dRqfX+6/FcrVAsKvG4HHsuBSuAO+LIhmW5s=
-Received: by ajax-webmail-newmailweb.ustc.edu.cn (Coremail) ; Mon, 30 Jan
- 2023 21:12:12 +0800 (GMT+08:00)
-X-Originating-IP: [120.204.78.217]
-Date: Mon, 30 Jan 2023 21:12:12 +0800 (GMT+08:00)
-X-CM-HeaderCharset: UTF-8
-To: richard.henderson@linaro.org, qemu-devel@nongnu.org
-Subject: Re: Re: Please review a important patch abort fix setting of
- CPUX86State::gdt::base
-X-Priority: 3
-X-Mailer: Coremail Webmail Server Version XT3.0.8 dev build
- 20210401(c5ff3689) Copyright (c) 2002-2023 www.mailtech.cn ustccn
-In-Reply-To: <CAFEAcA_wL3PBW3aG=3nmQhJ6c6vrvy6=NE3DXn3Q06ct4pV19g@mail.gmail.com>
-References: <4dd3e63d.4889e.185fd6e590e.Coremail.fanwj@mail.ustc.edu.cn>
- <CAFEAcA_wL3PBW3aG=3nmQhJ6c6vrvy6=NE3DXn3Q06ct4pV19g@mail.gmail.com>
-X-SendMailWithSms: false
-Content-Transfer-Encoding: base64
-Content-Type: text/plain; charset=UTF-8
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pMTxd-0007eZ-Co
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:12:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pMTxa-00046I-Ul
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:12:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675084353;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=l077ML8x2aUA3BfSYxSnF/pmWEsvNiSwJ/mn/qtcnMc=;
+ b=OvuyTKh3KyRzid59vaBPaeViSPd2AFlrUmr2I5luZTGkShYnwD1DvCwrl2SFKVYvjpsIif
+ AWr6EeKa90rVO3nKWRHlLrd/5X+hkXkxJelamnPevhE9+1PzNjvRWKJT6bZLg83h+LCLcJ
+ OlE+jmIJTB0wtMe0vdASLNPvnBFapXM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-532-iyGpN8YgPiKfsf49FspL_w-1; Mon, 30 Jan 2023 08:12:30 -0500
+X-MC-Unique: iyGpN8YgPiKfsf49FspL_w-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9DD93100F90A;
+ Mon, 30 Jan 2023 13:12:29 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 629F7492B05;
+ Mon, 30 Jan 2023 13:12:29 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id 6783421E6A1F; Mon, 30 Jan 2023 14:12:28 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,  Warner Losh <imp@bsdimp.com>,
+ qemu-devel@nongnu.org,  richard.henderson@linaro.org,
+ pbonzini@redhat.com,  kwolf@redhat.com,  hreitz@redhat.com,
+ kevans@freebsd.org,  berrange@redhat.com,  groug@kaod.org,
+ qemu_oss@crudebyte.com,  philmd@linaro.org,  alistair@alistair23.me,
+ jasowang@redhat.com,  jonathan.cameron@huawei.com,
+ kbastian@mail.uni-paderborn.de,  quintela@redhat.com,
+ dgilbert@redhat.com,  michael.roth@amd.com,  kkostiuk@redhat.com,
+ tsimpson@quicinc.com,  palmer@dabbelt.com,  bin.meng@windriver.com,
+ qemu-block@nongnu.org,  qemu-arm@nongnu.org,  qemu-riscv@nongnu.org
+Subject: Re: [PATCH v4 04/19] bsd-user: Clean up includes
+References: <20230119065959.3104012-1-armbru@redhat.com>
+ <20230119065959.3104012-5-armbru@redhat.com>
+ <CANCZdfrU4zVcepMj=B5EVUz-qhCDhMYDs+cYS5yfW1-G01PsbA@mail.gmail.com>
+ <CAFEAcA8E98v5X5ekA16c6Fby2HAhOC5G4JYnN9TkrA9G7rVzvA@mail.gmail.com>
+ <20230127100052-mutt-send-email-mst@kernel.org>
+ <20230128052729-mutt-send-email-mst@kernel.org>
+Date: Mon, 30 Jan 2023 14:12:28 +0100
+In-Reply-To: <20230128052729-mutt-send-email-mst@kernel.org> (Michael
+ S. Tsirkin's message of "Sat, 28 Jan 2023 05:29:47 -0500")
+Message-ID: <87mt60b1z7.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
-Message-ID: <bc1f835.49eba.18602ce7f81.Coremail.fanwj@mail.ustc.edu.cn>
-X-Coremail-Locale: zh_CN
-X-CM-TRANSID: LkAmygDX3IAtwtdjqLZTAQ--.1W
-X-CM-SenderInfo: pidq4yo6pdxzwoxv3uoohg3hdfq/1tbiAQ4HEFQhoP3QSgABsr
-X-Coremail-Antispam: 1Ur529EdanIXcx71UUUUU7IcSsGvfJ3iIAIbVAYjsxI4VWxJw
- CS07vEb4IE77IF4wCS07vE1I0E4x80FVAKz4kxMIAIbVAFxVCaYxvI4VCIwcAKzIAtYxBI
- daVFxhVjvjDU=
-Received-SPF: pass client-ip=2001:da8:d800::8;
- envelope-from=fanwj@mail.ustc.edu.cn; helo=ustc.edu.cn
-X-Spam_score_int: -16
-X-Spam_score: -1.7
-X-Spam_bar: -
-X-Spam_report: (-1.7 / 5.0 requ) BAYES_00=-1.9, DKIM_INVALID=0.1,
- DKIM_SIGNED=0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -69,79 +89,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  fanwj@mail.ustc.edu.cn
-From: fanwj--- via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-DQoxLiAiVGhlIG1lbWNweSBpcyBkZWZpbml0ZWx5IHdyb25nLCBiZWNhdXNlIHlvdSdyZSBjYXN0
-aW5nIGEgZ3Vlc3QgYWRkcmVzcyBpbnRvIGEgaG9zdCBhZGRyZXNzLCB3aGljaCBpcyBpbmNvcnJl
-Y3QuIFlvdSBoYXZlIHRvIHVzZSBnMmgoKS4iDQpUaGVyZSBpcyBubyBuZWVkIHRvIHVzZSBnMmgo
-KSwgQmVjYXVzZSB0aGVyZSBhcmUgYm90aCBndWVzdCBhZGRyZXNzIHdoZXRoZXIgc291cmNlIG9y
-IGRlc3QgbWVtb3J5LiByZWZlciB0byAibGludXgtdXNlci9pMzg2L2NwdV9sb29wLmMiIHRhcmdl
-dF9jcHVfY29weV9yZWdzIGZ1bmN0aW9uLCBPbmx5IHVzZSBnMmhfdW50YWdnZWQgd2hlbiBjb252
-ZXJ0IGdkdDo6YmFzZSB0byBnZHRfdGFibGUuIEkgZG9uJ3QgdXNlIGFuZCBtb2RpZnkgZ2R0X3Rh
-YmxlLCBPbmx5IGNvcHkgZ2R0OjpiYXNlIGZyb20gc291cmNlIENQVSB0byBkZXN0IENQVS4gVGhl
-eSBhcmUgc2FtZSB0eXBlIHNvIG5vIG5lZWRlZCB0byBjb252ZXJ0IGJ5IGcyaC4NCg0KMi4gIkkn
-bSBhY3R1YWxseSBzdXJwcmlzZWQgdGhhdCB5b3UgbmVlZCB0aGlzIGZvciBUQVJHRVRfWDg2XzY0
-IGF0IGFsbCAuLi4iDQpHRFQgb24gUUVNVSBVc2VyIE1vZGUgaXMgUHNldWRvcmFuZG9tIEdEVO+8
-jEl0IGlzIE5PVCBrZXJuZWwgcHJpdmF0ZSBkYXRhIHN0cnVjdHVyZXMuIEl0IGlzIE5PVCBHbG9i
-YWwgRGVzY3JpcHRvciBUYWJsZS4gSXQgSVMgaW5kZXggdGFibGUgb2YgZnMgYW5kIGdzLiBBbmQg
-SXQgaXMgVGhyZWFkIGxvY2FsIGRhdGEuIFRoZSBNZW1vcnkgd2hpY2ggZ2R0OjpiYXNlIHBvaW50
-IGNhbiBiZSBtb2RpZmllZCBieSBzeXNjYWxsIFNZU19zZXRfdGhyZWFkX2RhdGEuDQoNCmh0dHBz
-Oi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3RvcnZhbGRzL2xpbnV4
-LmdpdC90cmVlL2FyY2gveDg2L2tlcm5lbC90bHMuYw0KDQpTWVNfZ2V0X3RocmVhZF9hcmVhIGFu
-ZCBTWVNfc2V0X3RocmVhZF9hcmVhIHVzZWQgb24geDMyIHVzdWFsbHksIEJ1dCBUaGV5IGNhbiBi
-ZSBzeXNjYWxsZWQgb24geDY0IHdoZW4gZW11bGF0ZSBXb3c2NCBlbnZpcm9ubWVudC4gDQoNCg0K
-DQoNCg0KLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tDQpGcm9tOglSaWNoYXJkIEhlbmRlcnNvbg0KU3ViamVjdDoJUmU6
-IFtQQVRDSF0gbGludXgtdXNlcjogZml4IGJ1ZyBhYm91dCBpbmNvcnJlY3QgYmFzZSBhZGRyZXNz
-cyBvZiBnZHQgb24gaTM4NiBhbmQgeDg2XzY0DQpEYXRlOglTYXQsIDE0IEphbiAyMDIzIDE5OjMy
-OjU5IC0xMDAwDQpVc2VyLWFnZW50OglNb3ppbGxhLzUuMCAoWDExOyBMaW51eCB4ODZfNjQ7IHJ2
-OjEwMi4wKSBHZWNrby8yMDEwMDEwMSBUaHVuZGVyYmlyZC8xMDIuNC4yDQo+IE9uIDEvMy8yMyAw
-MTozOCwgZmFud2VuamllIHdyb3RlOg0KT24gbGludXggdXNlciBtb2RlLCBDUFVYODZTdGF0ZTo6
-Z2R0OjpiYXNlIGZyb20gRGlmZmVyZW50IENQVVg4NlN0YXRlIE9iamVjdHMgDQpoYXZlIHNhbWUg
-dmFsdWUsIEl0IGlzIGluY29ycmVjdCEgRXZlcnkgQ1BVWDg2U3RhdGU6OmdkdDo6YmFzZSBNdXN0
-IHBvaW50cyB0byANCmluZGVwZW5kZW50IG1lbW9yeSBzcGFjZS4NCg0KUmVzb2x2ZXM6IGh0dHBz
-Oi8vZ2l0bGFiLmNvbS9xZW11LXByb2plY3QvcWVtdS8tL2lzc3Vlcy8xNDA1DQpTaWduZWQtb2Zm
-LWJ5OiBmYW53ZW5qaWUgPGZhbndqQG1haWwudXN0Yy5lZHUuY24+DQotLS0NCiAgbGludXgtdXNl
-ci9pMzg2L2NwdV9sb29wLmMgfCA5ICsrKysrKysrKw0KICBsaW51eC11c2VyL21haW4uYyAgICAg
-ICAgICB8IDcgKysrKysrKw0KICAyIGZpbGVzIGNoYW5nZWQsIDE2IGluc2VydGlvbnMoKykNCg0K
-ZGlmZiAtLWdpdCBhL2xpbnV4LXVzZXIvaTM4Ni9jcHVfbG9vcC5jIGIvbGludXgtdXNlci9pMzg2
-L2NwdV9sb29wLmMNCmluZGV4IDg2NTQxM2MuLjQ4NTExY2QgMTAwNjQ0DQotLS0gYS9saW51eC11
-c2VyL2kzODYvY3B1X2xvb3AuYw0KKysrIGIvbGludXgtdXNlci9pMzg2L2NwdV9sb29wLmMNCkBA
-IC0zMTQsOCArMzE0LDE3IEBAIHZvaWQgY3B1X2xvb3AoQ1BVWDg2U3RhdGUgKmVudikNCiAgICAg
-IH0NCiAgfQ0KK3N0YXRpYyB2b2lkIHRhcmdldF9jcHVfZnJlZSh2b2lkICpvYmopDQorew0KKyAg
-ICBDUFVBcmNoU3RhdGUqIGVudiA9ICgoQ1BVU3RhdGUqKW9iaiktPmVudl9wdHI7DQorICAgIHRh
-cmdldF9tdW5tYXAoZW52LT5nZHQuYmFzZSwgc2l6ZW9mKHVpbnQ2NF90KSAqIFRBUkdFVF9HRFRf
-RU5UUklFUyk7DQorICAgIGdfZnJlZShvYmopOw0KK30NCisNCiAgdm9pZCB0YXJnZXRfY3B1X2Nv
-cHlfcmVncyhDUFVBcmNoU3RhdGUgKmVudiwgc3RydWN0IHRhcmdldF9wdF9yZWdzICpyZWdzKQ0K
-ICB7DQorICAgIENQVVN0YXRlKiBjcHUgPSBlbnZfY3B1KGVudik7DQorICAgIE9CSkVDVChjcHUp
-LT5mcmVlID0gdGFyZ2V0X2NwdV9mcmVlOw0KICAgICAgZW52LT5jclswXSA9IENSMF9QR19NQVNL
-IHwgQ1IwX1dQX01BU0sgfCBDUjBfUEVfTUFTSzsNCiAgICAgIGVudi0+aGZsYWdzIHw9IEhGX1BF
-X01BU0sgfCBIRl9DUExfTUFTSzsNCiAgICAgIGlmIChlbnYtPmZlYXR1cmVzW0ZFQVRfMV9FRFhd
-ICYgQ1BVSURfU1NFKSB7DQpkaWZmIC0tZ2l0IGEvbGludXgtdXNlci9tYWluLmMgYi9saW51eC11
-c2VyL21haW4uYw0KaW5kZXggYTE3ZmVkMC4uM2FjZDliNCAxMDA2NDQNCi0tLSBhL2xpbnV4LXVz
-ZXIvbWFpbi5jDQorKysgYi9saW51eC11c2VyL21haW4uYw0KQEAgLTIzNCw2ICsyMzQsMTMgQEAg
-Q1BVQXJjaFN0YXRlICpjcHVfY29weShDUFVBcmNoU3RhdGUgKmVudikNCm5ld19jcHUtPnRjZ19j
-ZmxhZ3MgPSBjcHUtPnRjZ19jZmxhZ3M7DQogICAgICBtZW1jcHkobmV3X2VudiwgZW52LCBzaXpl
-b2YoQ1BVQXJjaFN0YXRlKSk7DQorI2lmIGRlZmluZWQoVEFSR0VUX0kzODYpIHx8IGRlZmluZWQo
-VEFSR0VUX1g4Nl82NCkNCisgICAgbmV3X2Vudi0+Z2R0LmJhc2UgPSB0YXJnZXRfbW1hcCgwLCBz
-aXplb2YodWludDY0X3QpICogVEFSR0VUX0dEVF9FTlRSSUVTLA0KKyAgICAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgIFBST1RfUkVBRHxQUk9UX1dSSVRFLA0KKyAgICAgICAgICAgICAg
-ICAgICAgICAgICAgICAgICAgICAgIE1BUF9BTk9OWU1PVVN8TUFQX1BSSVZBVEUsIC0xLCAwKTsN
-CisgICAgbWVtY3B5KCh2b2lkKiluZXdfZW52LT5nZHQuYmFzZSwgKHZvaWQqKWVudi0+Z2R0LmJh
-c2UsIHNpemVvZih1aW50NjRfdCkgKiANClRBUkdFVF9HRFRfRU5UUklFUyk7DQorICAgIE9CSkVD
-VChuZXdfY3B1KS0+ZnJlZSA9IE9CSkVDVChjcHUpLT5mcmVlOw0KKyNlbmRpZg0KDQpUaGlzIGlz
-bid0IGEgZmFudGFzdGljIHNvbHV0aW9uLCBiZWNhdXNlIG5laXRoZXIgdGhlIGxkdCBub3IgdGhl
-IGdkdCBzaG91bGQgYmUgbWFwcGVkIGludG8gdGhlIHVzZXIgYWRkcmVzcyBzcGFjZSAtLSB0aGVz
-ZSBhcmUga2VybmVsIHByaXZhdGUgZGF0YSBzdHJ1Y3R1cmVzLiBCdXQgY3B1LmggdXNlcyBhIHRh
-cmdldF91bG9uZywgYW5kIHNlZ19oZWxwZXIuYyBpcyBzZXQgdXAgdG8gbG9hZCBkYXRhIGZyb20g
-dGhlIGd1ZXN0LCBhbmQgaXQgd291bGQgYmUgYSBtZWRpdW0gc2l6ZWQgam9iIHRvIGFkZHJlc3Mg
-dGhhdC4NCg0KVGhlIG1lbWNweSBpcyBkZWZpbml0ZWx5IHdyb25nLCBiZWNhdXNlIHlvdSdyZSBj
-YXN0aW5nIGEgZ3Vlc3QgYWRkcmVzcyBpbnRvIGEgaG9zdCBhZGRyZXNzLCB3aGljaCBpcyBpbmNv
-cnJlY3QuIFlvdSBoYXZlIHRvIHVzZSBnMmgoKS4NCg0KSSdtIGFjdHVhbGx5IHN1cnByaXNlZCB0
-aGF0IHlvdSBuZWVkIHRoaXMgZm9yIFRBUkdFVF9YODZfNjQgYXQgYWxsIC0tIHRoZSB0d28gVExT
-IHNlZ21lbnRzIGRvbid0IHJlYWxseSB1c2UgdGhlIEdEVCBhdCBhbGwsIHNpbmNlIGZzX2Jhc2Ug
-YW5kIGdzX2Jhc2UgbWF5IGJlIHNldCBkaXJlY3RseS4NCg==
+"Michael S. Tsirkin" <mst@redhat.com> writes:
+
+> On Fri, Jan 27, 2023 at 10:01:57AM -0500, Michael S. Tsirkin wrote:
+>> On Fri, Jan 27, 2023 at 02:54:30PM +0000, Peter Maydell wrote:
+>> > On Thu, 19 Jan 2023 at 14:42, Warner Losh <imp@bsdimp.com> wrote:
+>> > >
+>> > > Also, why didn't you move sys/resource.h and other such files
+>> > > to os-dep.h? I'm struggling to understand the rules around what
+>> > > is or isn't included where?
+>> > 
+>> > The rough rule of thumb is that if some OS needs a compatibility
+>> > fixup or workaround for a system header (eg not every mmap.h
+>> > defines MAP_ANONYMOUS; on Windows unistd.h has to come before
+>> > time.h) then we put that header include and the compat workaround
+>> > into osdep.h. This avoids "only fails on obscure platform" issues
+>> > where somebody puts a header include into some specific .c file
+>> > but not the compat workaround, and it works on the Linux host
+>> > that most people develop and test on and we only find the
+>> > problem later.
+>> > 
+>> > There's also no doubt some includes there for historical
+>> > reasons, and some which really are "everybody needs these"
+>> > convenience ones. But we should probably not add new
+>> > includes to osdep.h unless they fall into the "working around
+>> > system header issues" bucket.
+>> > 
+>> > thanks
+>> > -- PMM
+>> 
+>> 
+>> BTW maybe we should teach checkpatch about that rule:
+>> if a header is in osdep do not include it directly.
+>
+> To be more precise, make checkpatch run clean-includes somehow?
+> Or just make CI run clean-includes on the tree and verify result
+> is empty?
+
+scripts/clean-includes isn't quite happy even after my series.
+Offenders:
+
+    ebpf/rss.bpf.skeleton.h
+    subprojects/libvduse/libvduse.h
+    subprojects/libvhost-user/libvhost-user-glib.h
+    subprojects/libvhost-user/libvhost-user.h
+    target/hexagon/idef-parser/idef-parser.h
+    target/hexagon/idef-parser/parser-helpers.h
+    tests/fp/platform.h
+    contrib/plugins/cache.c
+    contrib/plugins/drcov.c
+    contrib/plugins/execlog.c
+    contrib/plugins/hotblocks.c
+    contrib/plugins/hotpages.c
+    contrib/plugins/howvec.c
+    contrib/plugins/hwprofile.c
+    contrib/plugins/lockstep.c
+    linux-user/mips64/cpu_loop.c
+    linux-user/mips64/signal.c
+    linux-user/x86_64/cpu_loop.c
+    linux-user/x86_64/signal.c
+    plugins/core.c
+    plugins/loader.c
+    scripts/xen-detect.c
+    subprojects/libvduse/libvduse.c
+    subprojects/libvhost-user/libvhost-user-glib.c
+    subprojects/libvhost-user/libvhost-user.c
+    subprojects/libvhost-user/link-test.c
+    target/hexagon/gen_dectree_import.c
+    target/hexagon/gen_semantics.c
+    target/hexagon/idef-parser/parser-helpers.c
+    target/s390x/gen-features.c
+    tests/migration/s390x/a-b-bios.c
+    tests/plugin/bb.c
+    tests/plugin/empty.c
+    tests/plugin/insn.c
+    tests/plugin/mem.c
+    tests/plugin/syscall.c
+    tests/uefi-test-tools/UefiTestToolsPkg/BiosTablesTest/BiosTablesTest.c
+    tests/unit/test-rcu-simpleq.c
+    tests/unit/test-rcu-slist.c
+    tests/unit/test-rcu-tailq.c
+    tools/ebpf/rss.bpf.c
+
+To support automatic checking, we'd have to fix the ones that need need
+fixing, and add the remainder to the script's XDIRREGEX.
+
 
