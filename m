@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F5268056C
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 06:10:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 973DD680574
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 06:14:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMMQT-0006H5-VR; Mon, 30 Jan 2023 00:09:53 -0500
+	id 1pMMUM-0007hi-N2; Mon, 30 Jan 2023 00:13:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMMQS-0006GZ-4L
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:09:52 -0500
+ id 1pMMUE-0007fc-JQ
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:13:48 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMMQQ-0000zY-NO
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:09:51 -0500
+ id 1pMMUC-0001pn-Fw
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:13:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675055390;
+ s=mimecast20190719; t=1675055622;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=NAYromcqV/RHWkNEZH2lpJErTclnaLBsQ+rUMq8Q0Jg=;
- b=FgTx2EMaRHst4KdtTkVUoRVDZIf3rIANiIUaVw8aEgJDlrEcTyY3IFBZpV3sKk8bVv67rZ
- No4Az6HHH+4gFMCGIzHFLydc5WPM+sJZ7WpKAS8oLrqVvzI5tRODLwU7OW1nQ0s8sVZIzF
- mRxw+kALAF3fHDyaUwc5Wi+BpAnIAwI=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=gyXjrDWleNg+uMKxyvRN/pj2dpCsyCtle7v9rizvDGg=;
+ b=Tc7Kc5npmcLn8ypAAD/bI5xhrEpFlgFT9dsSDuLAcNxPMMG7rzRhcihoqniAL6j4ga3FDK
+ uYDdDHe+QppQaFWuirTgK7m/42D7uEQoKapmSMcQED0cxi+Of3ikaE1Y6u9IyVK7MQE3BU
+ nArxagpMvkq0BfFmsSymZ/ioaOyhwoU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-171-2WfDx2A1N6itQBS5t_p8fA-1; Mon, 30 Jan 2023 00:09:48 -0500
-X-MC-Unique: 2WfDx2A1N6itQBS5t_p8fA-1
-Received: by mail-wr1-f69.google.com with SMTP id
- t3-20020adff043000000b002bfd38027fcso983340wro.9
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 21:09:47 -0800 (PST)
+ us-mta-611-UCGYi8NIPb2PVl1Ok60E3Q-1; Mon, 30 Jan 2023 00:13:41 -0500
+X-MC-Unique: UCGYi8NIPb2PVl1Ok60E3Q-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l5-20020a1ced05000000b003db300f2e1cso3832328wmh.0
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 21:13:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=NAYromcqV/RHWkNEZH2lpJErTclnaLBsQ+rUMq8Q0Jg=;
- b=WW2LfEDrwxhy0Fo1ysQiSbiSr2p9Wsl8gSKRwR4Nbbpji7Y+lZDuFKWL2aIL7ZeBxY
- CWVIAt2mfdcX2lbGHpwfctdw4GousMzPuEn3J2lf4djn954xq/7gDxnu/WjryW1KnBOf
- gFfUOwXo/hjDzFNjxfYVown44X6h89gI2hU5GuotMnwrVptUy9dpLFEA3yDNacTz7T/B
- Gaa0sXOHd4NVC5YAe1td11mVODxtrwm/Ew1erYKeiaC3mgmbiHtUPplWfn5CjaiIZX0F
- Ah0+/74dV4yTfXla6PVUxShPpaxJOI/oXy0rFW0BZMtWpDY2VsQZUHu6IfrNaA6tDshx
- pogg==
-X-Gm-Message-State: AO0yUKWVtksqEZz7mVEvq5ZSW8BeefcN//pAXtrnx4g8OGtcws3Kadxe
- h6+YL/KLEu4aUNIKVdDV6wK8HFvMrcXkYYDr94oRXYCo3KSFLCbCee74w8rYy2kL/Ax/u/zOVJo
- RnwLgrGUC/5/pkl8=
-X-Received: by 2002:a05:600c:1e0d:b0:3dc:3f1b:6757 with SMTP id
- ay13-20020a05600c1e0d00b003dc3f1b6757mr9651323wmb.15.1675055387090; 
- Sun, 29 Jan 2023 21:09:47 -0800 (PST)
-X-Google-Smtp-Source: AK7set/YtglitL7GWWr3CQxE5j+zlwW16YCKUGJbFMpoxhtApD7peqos0xRpk33q7t8FE/+ZqS/9vQ==
-X-Received: by 2002:a05:600c:1e0d:b0:3dc:3f1b:6757 with SMTP id
- ay13-20020a05600c1e0d00b003dc3f1b6757mr9651314wmb.15.1675055386844; 
- Sun, 29 Jan 2023 21:09:46 -0800 (PST)
+ bh=gyXjrDWleNg+uMKxyvRN/pj2dpCsyCtle7v9rizvDGg=;
+ b=0FN/VooMIEW6Kv35tOrU3faLVgyEQdlZvg+Nx+GQE0ZWzK4OM+44szMZ7glMWrLlmi
+ m4AG4C0Qm/WWFV8kjzrdQi0e9y0OZI+rBouecnK6WvNJC6SNM1rWKz/V/Uhf+dGepQhx
+ jccL1TU+F5sCumql3j4AaFEQhwI7PrCH9toMiSJGR4DS+afWgy6MUblxnCyb+2F0axZO
+ W/QoRPbk4pwhSZkT7UQ5jbZGgpY83Vc2Gsnmhq0Yic60pG8aYzhMbvcIaXq/G9n6m7N0
+ N/DY1tIhXNMPxwriqxHOfkx5w8ODJW6fQSgNhsVOwPeUaMS8siECh1H61C+gSww18llz
+ uR2w==
+X-Gm-Message-State: AO0yUKXaY6Lkdpip0j1CUYulLA7ns/PGqRJOyR0fYv+vn9EJY3JJ3z3P
+ ZuaPbgS45ntxZFpY5z5mPt5zP/V/4y75OeDu/2SDzQpHhQtsBPuGIY5HAZ6SrmN+wYJrYV5SILW
+ QHjCtLcYu54+dlBw=
+X-Received: by 2002:a05:600c:244:b0:3dc:5b79:2dbb with SMTP id
+ 4-20020a05600c024400b003dc5b792dbbmr881965wmj.25.1675055620112; 
+ Sun, 29 Jan 2023 21:13:40 -0800 (PST)
+X-Google-Smtp-Source: AK7set/+4KbWswk1Oja8r6A+3Fq5nN142tttENtQHJxJWjKlTd+cqzddWMSueQg3B99McZ1+XE/4+g==
+X-Received: by 2002:a05:600c:244:b0:3dc:5b79:2dbb with SMTP id
+ 4-20020a05600c024400b003dc5b792dbbmr881955wmj.25.1675055619907; 
+ Sun, 29 Jan 2023 21:13:39 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- f9-20020a05600c4e8900b003d990372dd5sm17078743wmq.20.2023.01.29.21.09.45
+ o25-20020a1c7519000000b003daf6e3bc2fsm23257523wmc.1.2023.01.29.21.13.36
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 21:09:46 -0800 (PST)
+ Sun, 29 Jan 2023 21:13:36 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
  <lsoaresp@redhat.com>,  James Houghton <jthoughton@google.com>,  "Dr .
  David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RFC 10/21] ramblock: Add ramblock_file_map()
-In-Reply-To: <20230117220914.2062125-11-peterx@redhat.com> (Peter Xu's message
- of "Tue, 17 Jan 2023 17:09:03 -0500")
+Subject: Re: [PATCH RFC 11/21] migration: Add hugetlb-doublemap cap
+In-Reply-To: <20230117220914.2062125-12-peterx@redhat.com> (Peter Xu's message
+ of "Tue, 17 Jan 2023 17:09:04 -0500")
 References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-11-peterx@redhat.com>
+ <20230117220914.2062125-12-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 30 Jan 2023 06:09:45 +0100
-Message-ID: <87zga0ip5y.fsf@secure.mitica>
+Date: Mon, 30 Jan 2023 06:13:35 +0100
+Message-ID: <87v8koiozk.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
@@ -102,30 +102,21 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Peter Xu <peterx@redhat.com> wrote:
-> Add a helper to do mmap() for a ramblock based on the cached informations.
->
-> A trivial thing to mention is we need to move ramblock->fd setup to be
-> earlier, before the ramblock_file_map() call, because it'll need to
-> reference the fd being mapped.  However that should not be a problem at
-> all, majorly because the fd won't be freed if successful, and if it failed
-> the fd will be freeed (or to be explicit, close()ed) by the caller.
->
-> Export it - prepare to be used outside this file.
+> Add a new cap to allow mapping hugetlbfs backed RAMs in small page sizes.
 >
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 
+> +bool migrate_hugetlb_doublemap(void)
+> +{
+> +    MigrationState *s = migrate_get_current();
+> +
+> +    return s->enabled_capabilities[MIGRATION_CAPABILITY_HUGETLB_DOUBLEMAP];
+> +}
 
-> +void *ramblock_file_map(RAMBlock *block);
-
-I would have called it:
-
-void *qemu_ram_mmap_file(RAMBlock *block);
-
-To make clear that it is 'like' qemu_ram_mmap(), but for a file.
-
-But that is just a suggestion.  Whoever does the patch, get the right to
-name the functions.
+I think it was not our finest moment when we decided to name the
+functions that query capabilities without a verb, but well, everything
+else uses "this" convention, so ....
 
 
