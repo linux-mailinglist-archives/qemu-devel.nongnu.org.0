@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3426B680EB8
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 14:23:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02C04680EB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 14:23:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMU7k-00067I-VH; Mon, 30 Jan 2023 08:23:05 -0500
+	id 1pMU7B-0004yy-MW; Mon, 30 Jan 2023 08:22:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pMU6y-0004eY-CZ
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:22:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pMU6s-0004Hl-HP
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:22:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pMU6m-0005hn-TQ
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:22:15 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pMU6m-0005iA-Na
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 08:22:10 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1675084921;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=THpMpm+l8y1cW2d6agwzOogXvY3GUaQJHADZw5X5Bfk=;
- b=Ri4xkheuyXsvlLZ+7ec4wr/wcHnnT1rB8V9UBAa/dgY3QcSjD1etDWYFNriHa1afHhEyBH
- qdQZgMcatv/nPzrTbZMvoRRD9MQzyAdGrMA23gWXfdcJV0/jgBQAzprECg6uXlfyzGrTDI
- jfsy9leajHG0hR/71lxnwr6QIZt0w5k=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=/zOw3ANZ93b1EaMNC9IP7T/tBF2PIXPfFkeYR5KfLXI=;
+ b=bR7ULGnCNlNgxdXTNV7Y7gBF5EVwV45e3ytbdQ4zXnMW3198QtfU90yUUGlfLcwo0zGkGW
+ A3lEy7Xcd6obKUieORdB05m4jtXIfqOTDUvX5woE6lmisCj8JJNRBwvgajNKfQZvijk2wU
+ 1Z0wpk0yxdrdZlhAQUZ1NPqNvXYnjUw=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-620-pEESqWQsOaChMZ27xPra1Q-1; Mon, 30 Jan 2023 08:21:58 -0500
-X-MC-Unique: pEESqWQsOaChMZ27xPra1Q-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-267-e1wi64RGPdGAzKQY_URnvA-1; Mon, 30 Jan 2023 08:21:58 -0500
+X-MC-Unique: e1wi64RGPdGAzKQY_URnvA-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75E35802D2A;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7EF733C0E453;
  Mon, 30 Jan 2023 13:21:57 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 4E0FF2166B29;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 58708C15BAE;
  Mon, 30 Jan 2023 13:21:57 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 4703221E6A22; Mon, 30 Jan 2023 14:21:56 +0100 (CET)
+ id 4A0A121E6A23; Mon, 30 Jan 2023 14:21:56 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
@@ -52,17 +52,17 @@ Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
  quintela@redhat.com, dgilbert@redhat.com, michael.roth@amd.com,
  kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com,
  bin.meng@windriver.com, qemu-block@nongnu.org, qemu-arm@nongnu.org,
- qemu-riscv@nongnu.org, Eric Blake <eblake@redhat.com>
-Subject: [PATCH v5 03/20] scripts/clean-includes: Skip symbolic links
-Date: Mon, 30 Jan 2023 14:21:39 +0100
-Message-Id: <20230130132156.1868019-4-armbru@redhat.com>
+ qemu-riscv@nongnu.org
+Subject: [PATCH v5 04/20] scripts/clean-includes: Improve --git commit message
+Date: Mon, 30 Jan 2023 14:21:40 +0100
+Message-Id: <20230130132156.1868019-5-armbru@redhat.com>
 In-Reply-To: <20230130132156.1868019-1-armbru@redhat.com>
 References: <20230130132156.1868019-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -86,34 +86,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When a symbolic link points to a file that needs cleaning, the script
-replaces the link with a cleaned regular file.  Not wanted; skip them.
-
-We have a few symbolic links under subprojects/libvduse/ and
-subprojects/libvhost-user/.
+The script drops #include "qemu/osdep.h" from headers.  Mention it in
+the commit message it uses for --git.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- scripts/clean-includes | 4 ++++
- 1 file changed, 4 insertions(+)
+ scripts/clean-includes | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/clean-includes b/scripts/clean-includes
-index 8e8420d785..f0466a6262 100755
+index f0466a6262..f9722c3aec 100755
 --- a/scripts/clean-includes
 +++ b/scripts/clean-includes
-@@ -113,6 +113,10 @@ EOT
+@@ -193,8 +193,8 @@ if [ "$GIT" = "yes" ]; then
+     git commit --signoff -F - <<EOF
+ $GITSUBJ: Clean up includes
  
- files=
- for f in "$@"; do
-+  if [ -L "$f" ]; then
-+      echo "SKIPPING $f (symbolic link)"
-+      continue
-+  fi
-   case "$f" in
-     *.c.inc)
-       # These aren't standalone C source files
+-Clean up includes so that osdep.h is included first and headers
+-which it implies are not included manually.
++Clean up includes so that qemu/osdep.h is included first in .c, and
++not in .h, and headers which it implies are not included manually.
+ 
+ This commit was created with scripts/clean-includes.
+ 
 -- 
 2.39.0
 
