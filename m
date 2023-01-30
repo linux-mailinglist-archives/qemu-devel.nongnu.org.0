@@ -2,73 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479D8681B95
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:33:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B72A2681B58
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:24:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMafA-0007TM-ED; Mon, 30 Jan 2023 15:22:00 -0500
+	id 1pMagF-0008EB-Tp; Mon, 30 Jan 2023 15:23:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMaeO-0006bH-Ji
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMaeO-0006bN-Jk
  for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:21:13 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMaeE-0007Nq-LJ
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:21:04 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMaeI-0007OC-5z
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:21:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675110061;
+ s=mimecast20190719; t=1675110065;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=ZlLKVcZYsf7y4OaAZIfw8803rOTS7kimKK0JT2HkT6A=;
- b=UdQTsUWDIdLfFNvM6T5d2kyp7CH6Gi0nRUKAcoO+Cl8OrDwwTywA2W0H/GDZdivCKSD94R
- wGhBkaZptyS0a/g4PoYNyoOEKHgYs4gngB+coaXp/iwJMi6t4wocgI1g7Y+EpQBgT01em/
- kh+t+iElkPXtMewwaH1rnExiIE5o3jg=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=eCpquopnJL7ZS2jirS30C89chkKb2FpipvhkFmXO6g0=;
+ b=ccBhwK5q7juoYyxo1XLQi76kl23OejTfXlKQKJ36bEUbyDUbPomIOuVNRLJfHYfKPnQjeM
+ Jy1nWLSKNR31MSAQiUagXJ11nQt0njrKxbCbrOg6D/hpZpSm6bled/9ZTJzDyW2LHu0IpO
+ r9QBIO2Ss9qe/nWrQspxrniecG1xGyw=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-450-RT1JPj4cNKuE1C2HkKfszw-1; Mon, 30 Jan 2023 15:21:00 -0500
-X-MC-Unique: RT1JPj4cNKuE1C2HkKfszw-1
-Received: by mail-ej1-f71.google.com with SMTP id
- kt9-20020a1709079d0900b00877f4df5aceso8156944ejc.21
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:21:00 -0800 (PST)
+ us-mta-576-fyLokezsOl2I3HnsRueRtw-1; Mon, 30 Jan 2023 15:21:04 -0500
+X-MC-Unique: fyLokezsOl2I3HnsRueRtw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ m12-20020a056402430c00b0049e4ac58509so8982094edc.16
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:21:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ZlLKVcZYsf7y4OaAZIfw8803rOTS7kimKK0JT2HkT6A=;
- b=e+rvZuG13eGQq6E88zUxvMxF0WFsVvREuaIFIUc1eWYb/ycHhM9PTjPSFS53vlImGL
- CyGnC4eZchXwvnexKKMPG/7ppWXoVDAq7GtdgWv5Q4tFhTtyznr7VL8GRgyYUci9G6Y1
- Ew87KCk6mSq9fJrxbE/eTK8zf53O9STPWtaRIwnVAkkIefcIfbdOEZVeGHrueYbRxTHm
- oNHtzXa5po8kFdl6BUCSlkkjtjsbaR7pB0NfyXM1yneeVBXXxDendetIPrArmsxoalZu
- pBPsvpLFaBmm3s4efFey+A8z9hdlAVmxodvKmqnxKmnj+rvaWFMpxtuIu6sU0UpK0oR3
- MtOA==
-X-Gm-Message-State: AO0yUKUcc2WqW5C0FGxTQU0Ii7FbQaYDaGvxdwEsMiwq8Tgl3qWncmRT
- /Ia3iiXahxs53nfWM+h68XyzcmQ7PaDpIxKGPwn6/J36NUbbkpLsvU1CJ2KDwMMa6ViR2I4WQ42
- AFFgT8FN9ffag6kmDkf0oOrlNsk8++FY7/E9DLLeoaS210ZH0vGPam2BX1+xf
-X-Received: by 2002:a05:6402:22e2:b0:4a2:44d3:6d84 with SMTP id
- dn2-20020a05640222e200b004a244d36d84mr5688544edb.5.1675110058980; 
- Mon, 30 Jan 2023 12:20:58 -0800 (PST)
-X-Google-Smtp-Source: AK7set8S6XSEHMYm6w5ZRNaLKdGl/vrorpHe+T2ab1OxM/dGvrjEvly8B4VZDuLCriXsO31m45Pujg==
-X-Received: by 2002:a05:6402:22e2:b0:4a2:44d3:6d84 with SMTP id
- dn2-20020a05640222e200b004a244d36d84mr5688524edb.5.1675110058713; 
- Mon, 30 Jan 2023 12:20:58 -0800 (PST)
+ bh=eCpquopnJL7ZS2jirS30C89chkKb2FpipvhkFmXO6g0=;
+ b=cf3syFmlESn84c+GhOhJUSUalqCiwXki8rlllAIh6rg9QBI56/l3dYEfbuuFCTIsZ5
+ STlG4+SfNUDXUr7lBsh5Y6G7gZ7CVVagdZrhk41IHaVPbpPzYggToTcXcCtjNp7T3RL5
+ 5UYzlajtgwAvZcWB+FUFfh/M90m/q5TPtR3E8AwhmK1B5ZiJ11BQaI3shuOnrJSeVGkF
+ 0tE2F69Hz0KGg6JfgmVXS+wnDjmCdlQHQ9NdmHCyJUodw85sz6gE7vvvbYxGli+vcTa/
+ DK4VgotxB8FBeHMqx6Qx3099bf7gbDU2gJjl4hSqpM2/bs1YM/1V1uX5Js8S+Mg8ZGnM
+ 2msg==
+X-Gm-Message-State: AO0yUKU5aV+Pv9PW786Aj32vJpX6aQq4tX+W0gymABmCNsOA/gABDYUa
+ 3m6Der9xJjT9CaV+xzaUP6djPdTbMYpLPBVjuyp5toho/hKkyL6FZogk/y6kN/vultFDjUJEGJQ
+ Sbk0EcIEhELlqTmhJusn35qxZhdl3zujajimtkQf6OzyvolAwHJ1bogNDAAiU
+X-Received: by 2002:a17:906:be9:b0:883:258d:28fe with SMTP id
+ z9-20020a1709060be900b00883258d28femr8386971ejg.12.1675110062337; 
+ Mon, 30 Jan 2023 12:21:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set8MEo3h6i1JEaPJF1ZiJuqr6qF3EcHuaa+AKB0Wctp4N9TcvHDfjUhUeKKd2nm8VIt3ODlHXA==
+X-Received: by 2002:a17:906:be9:b0:883:258d:28fe with SMTP id
+ z9-20020a1709060be900b00883258d28femr8386952ejg.12.1675110062054; 
+ Mon, 30 Jan 2023 12:21:02 -0800 (PST)
 Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
- ed10-20020a056402294a00b004a236384909sm3002773edb.10.2023.01.30.12.20.57
+ gc13-20020a1709072b0d00b008867f1905f2sm3114419ejc.39.2023.01.30.12.21.00
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 12:20:58 -0800 (PST)
-Date: Mon, 30 Jan 2023 15:20:56 -0500
+ Mon, 30 Jan 2023 12:21:01 -0800 (PST)
+Date: Mon, 30 Jan 2023 15:20:58 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 40/56] pci: make sure =?utf-8?Q?pci?=
- =?utf-8?Q?=5Fbus=5Fis=5Fexpress=28=29_won't_error_out_with_=22discards_?=
- =?utf-8?B?4oCYY29uc3TigJk=?= qualifier"
-Message-ID: <20230130201810.11518-41-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>
+Subject: [PULL 41/56] pcihp: isolate rule whether slot should be described in
+ DSDT
+Message-ID: <20230130201810.11518-42-mst@redhat.com>
 References: <20230130201810.11518-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -102,44 +104,128 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-function doesn't need RW aceess to passed in bus pointer,
-make it const.
-
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230112140312.3096331-31-imammedo@redhat.com>
+Message-Id: <20230112140312.3096331-32-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/pci/pci.h | 2 +-
- hw/pci/pci.c         | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/i386/acpi-build.c | 83 +++++++++++++++++++++++---------------------
+ 1 file changed, 43 insertions(+), 40 deletions(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index 85ee458cd2..d5a40cd058 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -270,7 +270,7 @@ typedef void (*pci_bus_dev_fn)(PCIBus *b, PCIDevice *d, void *opaque);
- typedef void (*pci_bus_fn)(PCIBus *b, void *opaque);
- typedef void *(*pci_bus_ret_fn)(PCIBus *b, void *opaque);
- 
--bool pci_bus_is_express(PCIBus *bus);
-+bool pci_bus_is_express(const PCIBus *bus);
- 
- void pci_root_bus_init(PCIBus *bus, size_t bus_size, DeviceState *parent,
-                        const char *name,
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 39a7bb32aa..208c16f450 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -483,7 +483,7 @@ static void pci_bus_uninit(PCIBus *bus)
-     pci_host_bus_unregister(BUS(bus)->parent);
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 49181a55b1..b4c9ff4794 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -383,6 +383,42 @@ static void build_append_pcihp_notify_entry(Aml *method, int slot)
+     aml_append(method, if_ctx);
  }
  
--bool pci_bus_is_express(PCIBus *bus)
-+bool pci_bus_is_express(const PCIBus *bus)
++static bool is_devfn_ignored(const int devfn, const PCIBus *bus,
++                             bool bus_has_hotplug)
++{
++    const PCIDevice *pdev = bus->devices[devfn];
++
++    if (pdev) {
++        if (PCI_FUNC(devfn)) {
++            if (IS_PCI_BRIDGE(pdev)) {
++                /*
++                 * Ignore only hotplugged PCI bridges on !0 functions, but
++                 * allow describing cold plugged bridges on all functions
++                 */
++                if (DEVICE(pdev)->hotplugged) {
++                    return true;
++                }
++            } else if (!get_dev_aml_func(DEVICE(pdev))) {
++                /*
++                 * Ignore all other devices on !0 functions unless they
++                 * have AML description (i.e have get_dev_aml_func() != 0)
++                 */
++                return true;
++            }
++        }
++    } else { /* non populated slots */
++        /*
++         * hotplug is supported only for non-multifunction device
++         * so generate device description only for function 0
++         */
++        if (!bus_has_hotplug || PCI_FUNC(devfn) ||
++            (pci_bus_is_express(bus) && PCI_SLOT(devfn) > 0)) {
++            return true;
++        }
++    }
++    return false;
++}
++
+ void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus)
  {
-     return object_dynamic_cast(OBJECT(bus), TYPE_PCIE_BUS);
- }
+     Aml *dev, *notify_method = NULL, *method;
+@@ -398,59 +434,26 @@ void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus)
+     }
+ 
+     for (devfn = 0; devfn < ARRAY_SIZE(bus->devices); devfn++) {
+-        DeviceClass *dc;
+         PCIDevice *pdev = bus->devices[devfn];
+         int slot = PCI_SLOT(devfn);
+         int func = PCI_FUNC(devfn);
+         /* ACPI spec: 1.0b: Table 6-2 _ADR Object Bus Types, PCI type */
+         int adr = slot << 16 | func;
+-        bool hotpluggbale_slot = false;
+-        bool cold_plugged_bridge = false;
++        bool hotpluggbale_slot = true;
++
++        if (is_devfn_ignored(devfn, bus, !!bsel)) {
++            continue;
++        }
+ 
+         if (pdev) {
+-            dc = DEVICE_GET_CLASS(pdev);
+-
+             /*
+              * Cold plugged bridges aren't themselves hot-pluggable.
+              * Hotplugged bridges *are* hot-pluggable.
+              */
+-            cold_plugged_bridge = IS_PCI_BRIDGE(pdev) &&
++            bool cold_plugged_bridge = IS_PCI_BRIDGE(pdev) &&
+                                   !DEVICE(pdev)->hotplugged;
+-
+-            hotpluggbale_slot = bsel && dc->hotpluggable &&
++            hotpluggbale_slot = bsel && DEVICE_GET_CLASS(pdev)->hotpluggable &&
+                                 !cold_plugged_bridge;
+-
+-            if (func) {
+-                if (IS_PCI_BRIDGE(pdev)) {
+-                    /*
+-                     * Ignore only hotplugged PCI bridges on !0 functions, but
+-                     * allow describing cold plugged bridges on all functions
+-                     */
+-                    if (DEVICE(pdev)->hotplugged) {
+-                        continue;
+-                    }
+-                } else if (!get_dev_aml_func(DEVICE(pdev))) {
+-                    /*
+-                     * Ignore all other devices on !0 functions unless they
+-                     * have AML description (i.e have get_dev_aml_func() != 0)
+-                     */
+-                    continue;
+-                }
+-            }
+-        } else {
+-            /*
+-             * hotplug is supported only for non-multifunction device
+-             * so generate device description only for function 0
+-             */
+-            if (bsel && !func) {
+-                if (pci_bus_is_express(bus) && slot > 0) {
+-                    break;
+-                }
+-                /* mark it as empty hotpluggable slot */
+-                hotpluggbale_slot = true;
+-            } else {
+-                continue;
+-            }
+         }
+ 
+         /* start to compose PCI device descriptor */
 -- 
 MST
 
