@@ -2,75 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB1A681AB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 20:41:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1416819D3
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 20:05:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMa0y-0006ux-QP; Mon, 30 Jan 2023 14:40:28 -0500
+	id 1pMZRb-0006XX-TI; Mon, 30 Jan 2023 14:03:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vlaomao@gmail.com>)
- id 1pMZMi-0005ci-7k; Mon, 30 Jan 2023 13:58:52 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pMZRR-0006Wv-9F
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 14:03:48 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vlaomao@gmail.com>)
- id 1pMZMg-00013P-9K; Mon, 30 Jan 2023 13:58:51 -0500
-Received: by mail-ed1-x535.google.com with SMTP id q19so2024209edd.2;
- Mon, 30 Jan 2023 10:58:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=xn1cVFRAggaRZ/aeO1ttvhn5h1BJKrV5IqARzl3JIGM=;
- b=fk3iIo5VrhwFitKsL+IpLMwat5C9AjW5SHCaP8o+EI9wbGqgf8Kp+++yX7nSGwbCK3
- +eYBLOKH/xDTfJpUYcQqJXI4rq/awtAW+w+NEluXxzEcuCmIEpKkkzOpfAva87sDNkFL
- cDic6bJbD/q5b75X9LUB8PBrFk3Oci5WlW5e/dt4jA+LBS5wjO7syiQT6A6+8SXVnJlu
- wi45nuhnBtnh6olIPRl5pZfIUnxTcqNG0ZR5RqsJV5HsjqJrYg4m0mWlTajgVRA3HxYo
- rLZJXI049mex/FNE+SaYioCn5744+DMPlo/Sg8zCzkxzUjJKLHVKx5ov+fbWs9dulXXN
- BLPA==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pMZRO-00023x-2i
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 14:03:44 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id be8so12663118plb.7
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 11:03:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=cldVkEOBEK4xSOlEgPNBqk4WdPF4KskiZ+LCYJfiZ90=;
+ b=l4z0EtGQ7ZzZwlvo0xezjXPQkWRFexoSxsGjQBwby5Aky9w748j4j1lJPxSnkDUKIw
+ /YjQgy24Cl47HCzeIX4RzDasE+V4UE05H6EdEZ/7PsCYqwqQlXBHt1vQtOvlmp3eTzKN
+ v4CXc1rvQCtmikSc3dMWFe/LcCO1A7D0e8ek1eXrZeKmV/Ge7gEP1cReTF3l5VcBn8jH
+ amtnITbVcOg55FZ1jcUJ8f6fibAImZEUPRysmP1uW9uat++UyQPnCIyc9Rjp8hy9JxYC
+ Tp6qsOwO+AFWWQUSVTJ1iGO4kVNvP8AWNfYTN08g8nIvonlvhsFykiBXZmvJpP06XM49
+ 1ujQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=xn1cVFRAggaRZ/aeO1ttvhn5h1BJKrV5IqARzl3JIGM=;
- b=tyfykXpEWCSiuJUXA/nllN34y3AEEkMfbk3xMvANa3WA7g1t6I0xVi9K2SjPqVYnd0
- mnS3ehL2w6+eDioxvI7QQ+AImoF/WiFcLKfvAXRcKtSoLXJ49sqLCX5eFizehgxBYP6+
- g+3ScMd74p+KMSRAg6/8L8MUcQprFzJdGwF7dbv0as+aE38t7ZzODRF/2qmtCT2sPDgn
- RmxEOgv9phEmZpr7HkOJ9r7W6qquuxaS1XVT8vA4O4Hz2FK24tU+RJ4NPVzIxHSlJdL2
- Mh+989/kPLy4DGtTVFpCKMr4OqpxDLpsptaz4Z58TPxZVe+23s5oZ5oG0WU9pxEiOfzb
- 770A==
-X-Gm-Message-State: AFqh2kq2a6Szd8CNi9bHcw5+Qx7pzALfrbupfN9KGMrr6scj2kqz90bm
- 2wMFXm8Dqz2o/wHkyBEVzbz9u52Gu57ZOiSrCts=
-X-Google-Smtp-Source: AMrXdXuKQNQhPsIK0NCRU7JIy5nd6emulp2DZEdeGneZFnzsMNc8Bp7QXjdXPYEo/lN3kpILTNN7bbXnz/WydppFLsY=
-X-Received: by 2002:aa7:cc99:0:b0:499:cfee:8d96 with SMTP id
- p25-20020aa7cc99000000b00499cfee8d96mr9200544edt.21.1675105127903; Mon, 30
- Jan 2023 10:58:47 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cldVkEOBEK4xSOlEgPNBqk4WdPF4KskiZ+LCYJfiZ90=;
+ b=eLwFKT4iHzL8MAA7oKJZBe5xKOb2wROAql60aWRI+Sxho2FpKOqt/pFUwE21/FXiBM
+ WePqDX0O3URgYAsx45SUho9X7MiBqb7qjMJFB6KPGPrPrSlgoNnWIpSoac6fnx44f/mS
+ xb4/it4IEHVi2B4eDSc7zHXot534MZz7T7drWfVxa3ceRQ0hGJqUZeCm+DJ5DB4ZBumB
+ Qjrtxwo/CG4sXmSSdDmJtTYw+SFXNP9hZ/keMMc4pH+a1w85YJWFkDz7gm+ocaMpnSl5
+ XSlE/kR7xqqPRYpmVPJkR+A1SaG8pUil3h3V3UqLK2AkpG0v4cR8Eo6awzmXvZPKkrjh
+ TUbQ==
+X-Gm-Message-State: AO0yUKVEMi/+Vu3V2JRkx5Tv3BF3Whf47NbQ7iNV1fWHA7TWnkQSOiV1
+ DlRj1PVq9S8Xrf+E5ze74XCi+w==
+X-Google-Smtp-Source: AK7set90TPrhz763+UcQmuO9lTPOBXa74+LycnBOUB1uOePZj08WatUVvxlIkmqZHBJqPCPwW93U4Q==
+X-Received: by 2002:a17:902:c24d:b0:196:3bbb:e9db with SMTP id
+ 13-20020a170902c24d00b001963bbbe9dbmr19269606plg.10.1675105420083; 
+ Mon, 30 Jan 2023 11:03:40 -0800 (PST)
+Received: from [192.168.50.50] (rrcs-173-197-98-118.west.biz.rr.com.
+ [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
+ p24-20020a170903249800b00195e6ea45a8sm8124901plw.305.2023.01.30.11.03.37
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Jan 2023 11:03:39 -0800 (PST)
+Message-ID: <41e5c5bd-9328-c99e-e37b-aadd2b7d308b@linaro.org>
+Date: Mon, 30 Jan 2023 09:03:32 -1000
 MIME-Version: 1.0
-References: <167510125533.6740.18222174398575558338-1@git.sr.ht>
- <664ef653-0026-999c-8c68-587c0442df04@vivier.eu>
-In-Reply-To: <664ef653-0026-999c-8c68-587c0442df04@vivier.eu>
-From: =?UTF-8?B?0JLQu9Cw0LQg0JzQsNC+?= <vlaomao@gmail.com>
-Date: Mon, 30 Jan 2023 21:58:34 +0300
-Message-ID: <CALUgVpeq8aDQ=ESy8g+=O+RRjAPaho7_usL+mFh6n6RWc_vS0g@mail.gmail.com>
-Subject: Re: [PATCH qemu 1/1] vmxnet3: add mac address restore upon reset
-To: Laurent Vivier <laurent@vivier.eu>
-Cc: qemu-trivial@nongnu.org, QEMU Developers <qemu-devel@nongnu.org>, 
- Dmitry Fleytman <dmitry.fleytman@gmail.com>, Jason Wang <jasowang@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=vlaomao@gmail.com; helo=mail-ed1-x535.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v3 08/14] RISC-V: Adding T-Head MemPair extension
+Content-Language: en-US
+To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
+ Christoph Muellner <christoph.muellner@vrull.eu>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
+ Bin Meng <bin.meng@windriver.com>, Philipp Tomsich
+ <philipp.tomsich@vrull.eu>, =?UTF-8?Q?Heiko_St=c3=bcbner?=
+ <heiko.stuebner@vrull.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
+ Nelson Chu <nelson@rivosinc.com>, Kito Cheng <kito.cheng@sifive.com>,
+ Cooper Qu <cooper.qu@linux.alibaba.com>,
+ Lifang Xia <lifang_xia@linux.alibaba.com>,
+ Yunhai Shang <yunhai@linux.alibaba.com>
+References: <20230124195945.181842-1-christoph.muellner@vrull.eu>
+ <20230124195945.181842-9-christoph.muellner@vrull.eu>
+ <48ff4151-25d9-4b4d-d50a-6516000599c7@linaro.org>
+ <8385d954-678e-d78d-c3ae-d74a4a902907@linux.alibaba.com>
+ <7f8383f6-e860-5e3e-e89c-dfdac4e05dc5@linaro.org>
+ <82e49515-512f-9439-ceab-6c5df3bb20e4@linux.alibaba.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <82e49515-512f-9439-ceab-6c5df3bb20e4@linux.alibaba.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62c.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Mon, 30 Jan 2023 14:40:26 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -85,38 +105,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Vlao Mao <vlaomao@gmail.com>
+On 1/29/23 22:41, LIU Zhiwei wrote:
+> 
+> On 2023/1/30 13:43, Richard Henderson wrote:
+>> On 1/29/23 16:03, LIU Zhiwei wrote:
+>>> Thanks. It's a bug. We should load all memory addresses to  local TCG temps first.
+>>>
+>>> Do you think we should probe all the memory addresses for the store pair instructions? 
+>>> If so, can we avoid the use of a helper function?
+>>
+>> Depends on what the hardware does.  Even with a trap in the middle the stores are 
+>> restartable, since no register state changes.
+> 
+> I refer to the specification of LDP and STP on AARCH64. The specification allows
+> 
+> "any access performed before the exception was taken is repeated".
+> 
+> In detailed,
+> 
+> "If, according to these rules, an instruction is executed as a sequence of accesses, exceptions, including interrupts,
+> can be taken during that sequence, regardless of the memory type being accessed. If any of these exceptions are
+> returned from using their preferred return address, the instruction that generated the sequence of accesses is
+> re-executed, and so any access performed before the exception was taken is repeated. See also Taking an interrupt
+> during a multi-access load or store on page D1-4664."
+> 
+> However I see the implementation of LDP and STP on QEMU are in different ways. LDP will 
+> only load the first register when it ensures no trap in the second access.
+> 
+> So I have two questions here.
+> 
+> 1) One for the QEMU implementation about LDP. Can we implement the LDP as two directly 
+> loads to cpu registers instead of local TCG temps?
 
-=D0=BF=D0=BD, 30 =D1=8F=D0=BD=D0=B2. 2023 =D0=B3. =D0=B2 21:12, Laurent Viv=
-ier <laurent@vivier.eu>:
->
-> Le 30/01/2023 =C3=A0 18:28, ~vlaomao a =C3=A9crit :
-> > From: VlaoMao <vlaomao@gmail.com>
-> >
-> > Changing the address with a subsequent reboot makes this address perman=
-ent until the vm is turned off
->
-> Missing Signed-off-by.
->
-> See https://www.qemu.org/docs/master/devel/submitting-a-patch.html
->
-> > ---
-> >   hw/net/vmxnet3.c | 2 ++
-> >   1 file changed, 2 insertions(+)
-> >
-> > diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-> > index 04159c822..695ca2f92 100644
-> > --- a/hw/net/vmxnet3.c
-> > +++ b/hw/net/vmxnet3.c
-> > @@ -1206,6 +1206,8 @@ static void vmxnet3_reset(VMXNET3State *s)
-> >       s->drv_shmem =3D 0;
-> >       s->tx_sop =3D true;
-> >       s->skip_current_tx_pkt =3D false;
-> > +
-> > +    vmxnet3_reset_mac(s);
-> >   }
-> >
-> >   static void vmxnet3_update_rx_mode(VMXNET3State *s)
->
->
+For the Thead specification, where rd1 != rs1 (and you enforce it), then yes, I suppose 
+you could load directly to the cpu registers, because on restart rs1 would be unmodified.
+
+For AArch64, which you quote above, there is no constraint that the destinations do not 
+overlap the address register, so we must implement "LDP r0, r1, [r0]" as a load into temps.
+
+
+> 2) One for the comment. Why register state changes cause non-restartable? Do you mean if 
+> the first register changes, it may influence the calculation of address after the trap?
+
+Yes, that's what I mean about non-restartable -- if any of the input registers are changed 
+before the trap is recognized.
+
+
+>> Yes.  Conciser what happens when the insn is encoded with .long. Does the hardware trap 
+>> an illegal instruction?  Is the behavior simply unspecified?  The manual could be 
+>> improved to specify, akin to the Arm terms: UNDEFINED, CONSTRAINED UNPREDICTABLE, 
+>> IMPLEMENTATION DEFINED, etc.
+>>
+>>
+> Thanks, I will fix the manual.
+
+Excellent, thanks.
+
+
+r~
+
 
