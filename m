@@ -2,75 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AAC2681B5B
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:25:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CFB681B90
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:32:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMafY-0007cJ-TA; Mon, 30 Jan 2023 15:22:24 -0500
+	id 1pMafd-0007xO-AX; Mon, 30 Jan 2023 15:22:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMae7-0005wL-IU
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:55 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMae9-0006Bi-Rp
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:57 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMae5-0007NK-Ud
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:55 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMae8-0007NV-C9
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675110053;
+ s=mimecast20190719; t=1675110055;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=dqJJOFXJ1F6ud73ZvwSEnamljkwz4NnNuhBWrKRijHU=;
- b=Rwl5zPHo7UzZPtT2erIYCCtXp7c1O3upEM2oevdGgi1cpV7nEdLEDquaSL0S/PFuzD424G
- 7H1yCFWibW0MKO4+rRHKg1Nonnl/0aafD/0le/3cOXY9lxdN6xmaoGd7Yct+aElKiQiYGS
- +7Do7e4FJ/r16UpOFIPxofMk94NQ1YU=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=HtBhzdQl9NWj90vUcOz8feZPLufDe737QYeQGNXgpZc=;
+ b=GTLSfTOfNBxeGLS41AJ6lc90ctdCJM3PHe1ftykteQy+kqYfw6XDDhsUdvDgqIPYWB0iEM
+ x6LSmq8P4/n4uPPs/qodybGYvBcBCi23qIpcB5Jrjs7hakRMnCysvAt3Kzmw1t+f7144RC
+ CvPV6BjzHEMGiD7PT/dYhi7qvI+Rxc0=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-198-rvyVdBA7PfyIL4miIXOilQ-1; Mon, 30 Jan 2023 15:20:51 -0500
-X-MC-Unique: rvyVdBA7PfyIL4miIXOilQ-1
-Received: by mail-ed1-f70.google.com with SMTP id
- v8-20020a056402348800b0049e1913bd43so9071421edc.20
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:20:51 -0800 (PST)
+ us-mta-614-pDAlDOUzOxOWp6LPaMlxvg-1; Mon, 30 Jan 2023 15:20:54 -0500
+X-MC-Unique: pDAlDOUzOxOWp6LPaMlxvg-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ bj15-20020a170906b04f00b0088ac85a6fc1so1375557ejb.1
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:20:53 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=dqJJOFXJ1F6ud73ZvwSEnamljkwz4NnNuhBWrKRijHU=;
- b=baZdla7WBAjQBnlwMKg4bnNeTWiaVYZa9k2co3PsLbDL3EhbHYDAIJRuOkBItMGSkN
- hCFMSOJnwCHqYfeFv4uNzsYTfLML1T9HMLwakuC5umTmeU+SpSuHFrFL5ulJtImFqh7m
- nPMACc7vYBZLQ6Q7rKpCXbzeZbEHl0Cqgd2cSTEtSEXf/Hkli7AdbsRDR80SgY/c/IIP
- KG1pCq1Rro850EDOGF2psEOc8LlFbsYuAzJOIUf6TSZE2t6HUmjIWxfaDdovCkGufCAi
- 7lCJBspFFLImsnnvSWzxhm3V3DHR9IYYnaQVfwEOHvIEaYxdFev65Iz5OoJz+8qxlpRW
- kmmA==
-X-Gm-Message-State: AO0yUKXN2OP0MZ0LPYbuqRqa6FPeGo+rsATvTLbyAtRo60wVr1H8ZBqu
- OMCPPgZHgfQTs6m0aJJxoy/HAMGA5fv3hMHVy10YrCtmlCdVytFRD5P5wCuNR+mrb9l8eKOIqmc
- 3LOSIgTJDCu0vbh4jY0u7iHeM5ngGxjay5AsfO+l8uphXw6fwbdZBOlwGMlpz
-X-Received: by 2002:a05:6402:3586:b0:4a2:4a89:2331 with SMTP id
- y6-20020a056402358600b004a24a892331mr5336573edc.29.1675110049765; 
- Mon, 30 Jan 2023 12:20:49 -0800 (PST)
-X-Google-Smtp-Source: AK7set9KkvEyMb+QkSPXiOG5aRmzVxulF9EIePKVZVXQQtS+GrXxYnMegBCrccVtg2yabTsuM8NV7w==
-X-Received: by 2002:a05:6402:3586:b0:4a2:4a89:2331 with SMTP id
- y6-20020a056402358600b004a24a892331mr5336548edc.29.1675110049436; 
- Mon, 30 Jan 2023 12:20:49 -0800 (PST)
+ bh=HtBhzdQl9NWj90vUcOz8feZPLufDe737QYeQGNXgpZc=;
+ b=7AAWcPoB9y1al6DJxTdogJRy+xlOzuALsHLm72FnVJ/q4OXxK7vAgvlIGMSjTOzWeA
+ DY5vJKSpiGfVIXHyeokKJyVHTp8V6BXH3/EOVGAU38FBNzvLZg2HxHwnWhrexwo2Gpbl
+ nSLvoPCk2u/FYyp3igx/9TJD4PHsv5RNDVWsCYm0fck4slHKmzlCllJwp+v3PAKQaEOu
+ EvAqfMvgWgNj/v4HC3vA2ruaOVOXiT61+ISTx+SLjOFzBzjcQdXHqgCSf0mvC40nnQZM
+ d6pmvA+S96Yuv9Te6JDg9DT8X29pkfQuJh92PUGQItLggSijV8PZJ7qPDlIpnXQkUDZb
+ 2/gA==
+X-Gm-Message-State: AO0yUKX5t6i9G0EQPkm86csW120ey6sgd1DNK0V0zcOU8AQ0i2YmBNDx
+ mCHTnDmeHe0f/+QKSFxLTCzCRpmxDmb0Yiiz59FjnfDawGfshm1N9ZgeGLor2RAJnCdR52n0YC7
+ nYLGcODajJrM8SZdWvifcKom0m98iuMH6ErSufQ86GjE8bnRfDtmNi0Pn99rf
+X-Received: by 2002:a05:6402:353:b0:499:bf28:d9c6 with SMTP id
+ r19-20020a056402035300b00499bf28d9c6mr809553edw.5.1675110052471; 
+ Mon, 30 Jan 2023 12:20:52 -0800 (PST)
+X-Google-Smtp-Source: AK7set+5zz2hSNo+hXyHpjY7LIF90Oz4ichJPFszsR+Q8q3hcc756APBgUBW7b/kXVhchr6gK415eQ==
+X-Received: by 2002:a05:6402:353:b0:499:bf28:d9c6 with SMTP id
+ r19-20020a056402035300b00499bf28d9c6mr809533edw.5.1675110052224; 
+ Mon, 30 Jan 2023 12:20:52 -0800 (PST)
 Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
- p15-20020a056402074f00b0046b471596e6sm7372246edy.57.2023.01.30.12.20.47
+ m15-20020a056402050f00b0049ef70a2894sm7357312edv.38.2023.01.30.12.20.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 12:20:48 -0800 (PST)
-Date: Mon, 30 Jan 2023 15:20:46 -0500
+ Mon, 30 Jan 2023 12:20:51 -0800 (PST)
+Date: Mon, 30 Jan 2023 15:20:49 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>
-Subject: [PULL 37/56] x86: pcihp: acpi: prepare slot ignore rule to work with
- self describing bridges
-Message-ID: <20230130201810.11518-38-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 38/56] pci: acpi: wire up AcpiDevAmlIf interface to generic
+ bridge
+Message-ID: <20230130201810.11518-39-mst@redhat.com>
 References: <20230130201810.11518-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -104,54 +101,41 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-Before switching pci bridges to AcpiDevAmlIf interface, ensure that
-ignored slots are handled correctly.
-(existing rule works but only if bridge doesn't have AcpiDevAmlIf interface).
-While at it rewrite related comments to be less confusing (hopefully).
+... so that the concrete impl. won't has to duplicate it
+every time. By default it doesn't do anything unless leaf class
+defines and sets AcpiDevAmlIfClass::build_dev_aml handler.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230112140312.3096331-28-imammedo@redhat.com>
+Message-Id: <20230112140312.3096331-29-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/i386/acpi-build.c | 24 ++++++++++++++++--------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+ hw/pci/pci_bridge.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 6368fcefa3..8045b20713 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -423,14 +423,22 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
-             hotpluggbale_slot = bsel && dc->hotpluggable &&
-                                 !cold_plugged_bridge;
+diff --git a/hw/pci/pci_bridge.c b/hw/pci/pci_bridge.c
+index b2b180edd6..a1a1cc861e 100644
+--- a/hw/pci/pci_bridge.c
++++ b/hw/pci/pci_bridge.c
+@@ -36,6 +36,7 @@
+ #include "qemu/module.h"
+ #include "qemu/range.h"
+ #include "qapi/error.h"
++#include "hw/acpi/acpi_aml_interface.h"
  
--            /*
--             * allow describing coldplugged bridges in ACPI even if they are not
--             * on function 0, as they are not unpluggable, for all other devices
--             * generate description only for function 0 per slot, and for other
--             * functions if device on function provides its own AML
--             */
--            if (func && !bridge_in_acpi && !get_dev_aml_func(DEVICE(pdev))) {
--                continue;
-+            if (func) {
-+                if (IS_PCI_BRIDGE(pdev)) {
-+                    /*
-+                     * Ignore only hotplugged PCI bridges on !0 functions, but
-+                     * allow describing cold plugged bridges on all functions
-+                     */
-+                    if (DEVICE(pdev)->hotplugged) {
-+                        continue;
-+                    }
-+                } else if (!get_dev_aml_func(DEVICE(pdev))) {
-+                    /*
-+                     * Ignore all other devices on !0 functions unless they
-+                     * have AML description (i.e have get_dev_aml_func() != 0)
-+                     */
-+                    continue;
-+                }
-             }
-         } else {
-             /*
+ /* PCI bridge subsystem vendor ID helper functions */
+ #define PCI_SSVID_SIZEOF        8
+@@ -472,6 +473,10 @@ static const TypeInfo pci_bridge_type_info = {
+     .parent = TYPE_PCI_DEVICE,
+     .instance_size = sizeof(PCIBridge),
+     .abstract = true,
++    .interfaces = (InterfaceInfo[]) {
++        { TYPE_ACPI_DEV_AML_IF },
++        { },
++    },
+ };
+ 
+ static void pci_bridge_register_types(void)
 -- 
 MST
 
