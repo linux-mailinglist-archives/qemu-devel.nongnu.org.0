@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A3296804F9
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 05:28:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB1C66804FE
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 05:29:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMLlb-0004L3-PE; Sun, 29 Jan 2023 23:27:39 -0500
+	id 1pMLmv-0004zE-Jh; Sun, 29 Jan 2023 23:29:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMLla-0004Ke-2w
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 23:27:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pMLmq-0004z4-1C
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 23:28:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMLlY-0003Lr-92
- for qemu-devel@nongnu.org; Sun, 29 Jan 2023 23:27:37 -0500
+ id 1pMLmo-0003VV-AK
+ for qemu-devel@nongnu.org; Sun, 29 Jan 2023 23:28:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675052855;
+ s=mimecast20190719; t=1675052933;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=ed176zkhGmQKXBRs1tXFc2fhdsfDI7fCJq5vuhGpNGY=;
- b=XzIIVJAbXy9gS66RI9cgoyI7hHcgHLOcxzLKPgowT8x0rpDV1SNn7qUd/nCoC8f2lKX2Xn
- e5rbBkkCYYXDWsoKctCfsOXrF1WXKkwVGUfTFqFr4qbCKa1CG57Rsff076aJRG1Ud6PUJM
- fJOHmgW19kxTUUhpst1Ip8bTK+rjuwY=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KhjXT6BQHgtsGNWDABLuD2cchnCnE8hoJ8rAvkgQVZo=;
+ b=Utp2TMkji5H/l78Zj+AIl8/JhomqwSKytJ1diV3LJ7IGtm94h6sD1OjYWw2kEyzPq4z/oS
+ R5ta/xrrL5iXje2B8amOs43fdHjm3M3CrHA7CF5wpiRYhmk39bjPLJvqgnn73vCwoUe/Ae
+ GlWpVwz6Zvmb17Xl/Yw6buCGPItYBRw=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-654-psmWg-sKMF-nn5Cj1naSdA-1; Sun, 29 Jan 2023 23:27:33 -0500
-X-MC-Unique: psmWg-sKMF-nn5Cj1naSdA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- l19-20020a7bc353000000b003dc554c8263so1695042wmj.3
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 20:27:32 -0800 (PST)
+ us-mta-263-au9YbPltNcK53OhT5yKhEg-1; Sun, 29 Jan 2023 23:28:52 -0500
+X-MC-Unique: au9YbPltNcK53OhT5yKhEg-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ o42-20020a05600c512a00b003dc5341afbaso1433818wms.7
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 20:28:52 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ed176zkhGmQKXBRs1tXFc2fhdsfDI7fCJq5vuhGpNGY=;
- b=VTRqKw23OFqN/p+bU8DXs19FM+jr+51qFy3qlzwZ+m6C4OYJJ46KT2hSp3Vt1IgCmM
- QFwR2iiOhBUy4+VjFjSpEpZyEEe9EOMMHGhgkbqNPX/S3zkBOnLkIxq8Mo/wRq98LTnQ
- YJCqNrpoxR+yEQx8ceBmDWecSbX/rgm/bVfXatFcDe/llJxos0XSJZpbspwoNm1I/yyS
- jSl4Fw2zoPqKXOrc3wJLY7/vQANgeRfcx8W0nv8iYnQSN9vTrB1Zp8fN3c0ViCEyYBPL
- tqFRo2hOELa5u0h33aIr5udahUOhgh2glx6dQAoah90eENPRs962dymF0fC9imbQeDnk
- OvPQ==
-X-Gm-Message-State: AFqh2krRQG1fwvqKPb0nP5ZR1SH+1HnQf2ZIL2LZ7dz0u5zcgGknsXsa
- 5RcYdB/d2MEGjkMOk3rkgazjPeRpyUmctf9JZ0wlm4cTPoPLVL1pPMD5ZFehbrd5dDpQ2Erycg0
- 0i5hzpJbx/919jog=
-X-Received: by 2002:a05:600c:3d16:b0:3d0:6a57:66a5 with SMTP id
- bh22-20020a05600c3d1600b003d06a5766a5mr47806997wmb.0.1675052851927; 
- Sun, 29 Jan 2023 20:27:31 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXsWwQHuT1zggkg8hYar6465NQHiYRlQlymVXRd6PiMlmwzSxAUkQGj1pAR3IvMTYbM0HMTLZA==
-X-Received: by 2002:a05:600c:3d16:b0:3d0:6a57:66a5 with SMTP id
- bh22-20020a05600c3d1600b003d06a5766a5mr47806989wmb.0.1675052851717; 
- Sun, 29 Jan 2023 20:27:31 -0800 (PST)
+ bh=KhjXT6BQHgtsGNWDABLuD2cchnCnE8hoJ8rAvkgQVZo=;
+ b=UEoiZ3juwsDYzBg2BOfgute/h+uhukwD/M+Jy4GVRQI434jNMb0G80GYSKLrM/RTf8
+ 9O83gizZ6YsxLljZwJi64nwcobSJk7Sa07gsyeawwaZ/53YdWUGpW5vN+tGiGWIQg8xR
+ qqU11r7ygd0P5f+0+/jITsSeQNGlHRZh7nTTmX2ipen7BJPSFhmWLtbQdrpHuXNAtGft
+ nwZju7IFjsddKvpUTx1m6oN0UGQ3KWIlu9w9FSo9Y+uOK7xP0GL6wDK8iZluKtm+ZEm/
+ 7jCSrrcYeBEucHPfWxTSkIijYIPcKT95iK/7f26YPZklv2vbtlIgOGGY7gSd0KUfyQgn
+ YNaA==
+X-Gm-Message-State: AO0yUKXiEix/GT2yr6ODW9M4LiowSJz5hZAHxfezxqKtIqT3sPqxniR/
+ kOMoek5ouF+rdo+jmTGcZahcx9uvSXDRHIuwUyqox4Ij08yykMPqSQOZFa6n6wXzRY5cSlbknNw
+ dRoa4I4peBrg/hjc=
+X-Received: by 2002:a05:6000:5:b0:2bf:ae2f:c6ff with SMTP id
+ h5-20020a056000000500b002bfae2fc6ffmr18016335wrx.31.1675052931212; 
+ Sun, 29 Jan 2023 20:28:51 -0800 (PST)
+X-Google-Smtp-Source: AK7set+8Vjs4OTvIEe1eC6PvzOmpjFGWK+09JnPVg6raQgtwFvbQjdyVLENcNr8y944JrHf+/N2elA==
+X-Received: by 2002:a05:6000:5:b0:2bf:ae2f:c6ff with SMTP id
+ h5-20020a056000000500b002bfae2fc6ffmr18016323wrx.31.1675052930984; 
+ Sun, 29 Jan 2023 20:28:50 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- a19-20020a05600c349300b003cfa622a18asm15533013wmq.3.2023.01.29.20.27.30
+ i6-20020adff306000000b002425be3c9e2sm10686780wro.60.2023.01.29.20.28.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 20:27:31 -0800 (PST)
+ Sun, 29 Jan 2023 20:28:50 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Jiang Jiacheng <jiangjiacheng@huawei.com>
 Cc: <qemu-devel@nongnu.org>,  <berrange@redhat.com>,  <dgilbert@redhat.com>,
  <yubihong@huawei.com>,  <xiexiangyou@huawei.com>,
  <zhengchuan@huawei.com>,  <linyilu@huawei.com>
-Subject: Re: [PATCH 2/3] migration: implement query migration threadinfo by
- name
-In-Reply-To: <20230120084735.825054-3-jiangjiacheng@huawei.com> (Jiang
- Jiacheng's message of "Fri, 20 Jan 2023 16:47:34 +0800")
+Subject: Re: [PATCH 3/3] migration: save/delete migration thread info
+In-Reply-To: <20230120084735.825054-4-jiangjiacheng@huawei.com> (Jiang
+ Jiacheng's message of "Fri, 20 Jan 2023 16:47:35 +0800")
 References: <20230120084735.825054-1-jiangjiacheng@huawei.com>
- <20230120084735.825054-3-jiangjiacheng@huawei.com>
+ <20230120084735.825054-4-jiangjiacheng@huawei.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 30 Jan 2023 05:27:30 +0100
-Message-ID: <87o7qgode5.fsf@secure.mitica>
+Date: Mon, 30 Jan 2023 05:28:49 +0100
+Message-ID: <87k014odby.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,84 +102,88 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Jiang Jiacheng <jiangjiacheng@huawei.com> wrote:
-> Introduce interface query-migrationthreads. The interface is use
-> with the migration thread name reported by qemu and returns with
-> migration thread name and its pid.
-> Introduce threadinfo.c to manage threads with migration.
+> To support query migration thread infomation, save and delete
+> thread information at thread creation and end.
 >
 > Signed-off-by: Jiang Jiacheng <jiangjiacheng@huawei.com>
 
-I like this query interface better than the way you expose the thread
-name in the 1st place.
-
-But once that we are here, why don't we just "tweak" abit the interface:
-
-> diff --git a/qapi/migration.json b/qapi/migration.json
-> index b0cf366ac0..e93c3e560a 100644
-> --- a/qapi/migration.json
-> +++ b/qapi/migration.json
-> @@ -1970,6 +1970,36 @@
->  { 'command': 'query-vcpu-dirty-limit',
->    'returns': [ 'DirtyLimitInfo' ] }
->  
-> +##
-> +# @MigrationThreadInfo:
-> +#
-> +# Information about migrationthreads
-> +#
-> +# @name: the name of migration thread
-> +#
-> +# @thread-id: ID of the underlying host thread
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'struct': 'MigrationThreadInfo',
-> +  'data': {'name': 'str',
-> +           'thread-id': 'int'} }
-
-1st, it is an int enough for all architectures?  I know that for linux
-and friends it is, but not sure about windows and other weird systems.
-
-> +##
-> +# @query-migrationthreads:
-
-What about renaming this to:
-
-@query-migrationthread (I removed the last 's')
-
-because it returns the info of a single thread.
-
-> +#
-> +# Returns threadInfo about the thread specified by name
-> +#
-> +# data: migration thread name
-> +#
-> +# returns: information about the specified thread
-> +#
-> +# Since: 7.2
-> +##
-> +{ 'command': 'query-migrationthreads',
-> +  'data': { 'name': 'str' },
-> +  'returns': 'MigrationThreadInfo' }
-> +
->  ##
->  # @snapshot-save:
->  #
-
-And leaves the @query-migrationthreads name for something in the spirit of
-
-> +{ 'command': 'query-migrationthreads',
-> +  'returns': ['str'] }
-
-That returns all the migration threads names.
-
-Or perhaps even
-
-> +{ 'command': 'query-migrationthreads',
-> +  'returns': ['MigrationThreadInfo'] }
-
-And call it a day?
+Don't disagree with this, but if we create this on the sending side, why
+this is not needed for the multifd_recv_threads?
 
 Later, Juan.
+
+> ---
+>  migration/migration.c | 4 ++++
+>  migration/multifd.c   | 4 ++++
+>  2 files changed, 8 insertions(+)
+>
+> diff --git a/migration/migration.c b/migration/migration.c
+> index b4ce458bb9..957205e693 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -57,6 +57,7 @@
+>  #include "net/announce.h"
+>  #include "qemu/queue.h"
+>  #include "multifd.h"
+> +#include "threadinfo.h"
+>  #include "qemu/yank.h"
+>  #include "sysemu/cpus.h"
+>  #include "yank_functions.h"
+> @@ -3951,10 +3952,12 @@ static void qemu_savevm_wait_unplug(MigrationState *s, int old_state,
+>  static void *migration_thread(void *opaque)
+>  {
+>      MigrationState *s = opaque;
+> +    MigrationThread *thread = NULL;
+>      int64_t setup_start = qemu_clock_get_ms(QEMU_CLOCK_HOST);
+>      MigThrError thr_error;
+>      bool urgent = false;
+>  
+> +    thread = MigrationThreadAdd("live_migration", qemu_get_thread_id());
+>      /* report migration thread name to libvirt */
+>      qapi_event_send_migration_name("live_migration");
+>  
+> @@ -4034,6 +4037,7 @@ static void *migration_thread(void *opaque)
+>      migration_iteration_finish(s);
+>      object_unref(OBJECT(s));
+>      rcu_unregister_thread();
+> +    MigrationThreadDel(thread);
+>      return NULL;
+>  }
+
+
+>  
+> diff --git a/migration/multifd.c b/migration/multifd.c
+> index 6e834c7111..fca06284de 100644
+> --- a/migration/multifd.c
+> +++ b/migration/multifd.c
+> @@ -25,6 +25,7 @@
+>  #include "qemu-file.h"
+>  #include "trace.h"
+>  #include "multifd.h"
+> +#include "threadinfo.h"
+>  #include "qemu/yank.h"
+>  #include "io/channel-socket.h"
+>  #include "yank_functions.h"
+> @@ -646,10 +647,12 @@ int multifd_send_sync_main(QEMUFile *f)
+>  static void *multifd_send_thread(void *opaque)
+>  {
+>      MultiFDSendParams *p = opaque;
+> +    MigrationThread *thread = NULL;
+>      Error *local_err = NULL;
+>      int ret = 0;
+>      bool use_zero_copy_send = migrate_use_zero_copy_send();
+>  
+> +    thread = MigrationThreadAdd(p->name, qemu_get_thread_id());
+>      /* report multifd thread name to libvirt */
+>      qapi_event_send_migration_name(p->name);
+>  
+> @@ -762,6 +765,7 @@ out:
+>      qemu_mutex_unlock(&p->mutex);
+>  
+>      rcu_unregister_thread();
+> +    MigrationThreadDel(thread);
+>      trace_multifd_send_thread_end(p->id, p->num_packets, p->total_normal_pages);
+>  
+>      return NULL;
 
 
