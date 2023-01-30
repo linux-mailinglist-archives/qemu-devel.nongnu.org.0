@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26C58681D5E
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:52:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEF45681D51
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:52:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMc1w-0002GY-GB; Mon, 30 Jan 2023 16:49:36 -0500
+	id 1pMc20-0002YY-Tl; Mon, 30 Jan 2023 16:49:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMc1r-0002Bb-Hc
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:49:31 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ id 1pMc1w-0002IJ-CI
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:49:36 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMc1p-0005d3-P9
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:49:31 -0500
-Received: by mail-pl1-x636.google.com with SMTP id h9so4499720plf.9
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 13:49:29 -0800 (PST)
+ id 1pMc1r-0005hv-VX
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:49:33 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id mi9so3238512pjb.4
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 13:49:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=zggxelJn7xEGVyzBGDuJjR27fAkYzw0xoPZGZDzp+DI=;
- b=H9i60m4yspr8D6e3U3yUmecbobusHsdOl1+nXPWzGaWLvFWRENL2jQ+p3Z+nRzDmbD
- Fhvn/z9lJrgDOFO3nE/8/uQ54fESwuHZi1ML2bKE7daimlmka+HVbzdvo5HABUuOG4EU
- 0avy8JHHBrAhFEIqIhsjvXd2T9nbImgko2736tnIHxt+7ywANw0e6YkaDrzyiVkmSegj
- BJ1xqvvmhnN26crAKP3wlcVSgFkX/9YiN4aOVg2okIHwgeof102YdGzUYVX3KTv4Lsgl
- gGVwWtxZACAk/ODH+hylA/Vwid3oJRicvGAr4Ew4D5Fwuc6HVBaq+lOc3TUrWvRsroEx
- HLIA==
+ bh=SzDpq4p4TZ0OiGc3bd/AjIVDg1qF6XupmGP3awuLITw=;
+ b=ERG/wqTgHoY4vulC6M5Z02/0wALStWhXI+axhaxRYxHZKyav5gt5lc3Wii4Ah1ZWVB
+ T01G4Z7cKaLw+rHTT4EKotsoC3uNf4I6ipb/LBYWzKgC/2M8VH7uS3SQDKzcd4ajvh/l
+ +d+0pYYUWhXH0RtrnFchnQD9yS/IS5auIosDqyesy0PdMdNYcrHTKsnSIUPUb3UixYa6
+ 0ftrKYd0UG0Cd2oF4BSYDN24AgyLKlbXm2kwmypV9BC6NlGrz27kNl1IeuCCgeY9/+un
+ 3cG0q7PlbXu7MgBau8E5ENTvonlroHiS5ZaxcKVoOAM/KUyJ9KxIy9TQJksAyyQh7CvM
+ Xipw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=zggxelJn7xEGVyzBGDuJjR27fAkYzw0xoPZGZDzp+DI=;
- b=jDgxR6qnXX+b33cV2rn8m40YbZqFc1jh7Kx5nkBhz54JlDaRomFUEPKeGvngm/BM14
- 5Dijfp7ROEHF2c+zj7v0P7YNOd7w7NOuIgl2qVcn3M34fZbkBh1EHF2prEp3o6ngALIZ
- lcrG/gIHCF51Qiwl61eMoyEPAzUujb7mJivNRC+cFQEYaRCl71Mn0JSUFKZV8rt+CZWb
- 3LWr4FIqWoo+eqGkyR8hxvRbz1oJHVZ1a3Lhwf7MgevcK3AlFshVVuGI6Lpr1/eZ6c2n
- PgOEs3bqgw/t45F1WJa4quCM6pp98QmrMMISzT+mXaX4ucjAwjDUu+c3KXoL2zSQukgI
- O3mQ==
-X-Gm-Message-State: AO0yUKV7L4ehBxBemfbcCS7ogBaEHh5mFAjoNnVI4RlAimXu5hMw0xLr
- lfBnzjf603gsYX8aiBWT777AeAKhD4ds8+dB
-X-Google-Smtp-Source: AK7set+1qGBIGEH7OzlJYZemqB1YgKEQoQIqZagBxy03haW6/AhxiWhiTnEpL9zUFQp11tQhQwE57g==
-X-Received: by 2002:a17:90a:354:b0:22b:f763:78d6 with SMTP id
- 20-20020a17090a035400b0022bf76378d6mr25098249pjf.38.1675115368983; 
- Mon, 30 Jan 2023 13:49:28 -0800 (PST)
+ bh=SzDpq4p4TZ0OiGc3bd/AjIVDg1qF6XupmGP3awuLITw=;
+ b=xMYlCvx6Ze5I73dNAYk2lgR7/Us4V/3pNdzg3qBy4ZVWnd3o2gbgo0iGhHvNyrPnIH
+ vzytxVsiCrIsyobvEvDEvO2FkJYuePogeJZzKi7pTLWsW2kDWj8uNOL420I0prx21jhl
+ Q6MWDzugAUd6JZhquSt5/jh/4VHMMmKkk3UTQNz3VaSBKr5Hnx5t4JlsxJEAaEDs1h+3
+ 6cIiz5VoCcjqx2BX1fmHBKSCFkv5bUoFotGJ2XuawaocbBuDrgpFbVh/GDfx5W+DAp2z
+ O9FSKcMLBc6wk6uiw9boyns+OGDwU3FQk3rEgrHyBzua6gFEjZHyrpR/Tlcr1vijOnPQ
+ TQOQ==
+X-Gm-Message-State: AO0yUKW+4WYQzoPvSGmxUeENTVfxC9x84Nyy4GRh4rWVOky3uwiszqJ5
+ xT8zV325OiQG6HygpYwW+yZl0vR/GdN/8AgK
+X-Google-Smtp-Source: AK7set++OEyOWuCOb8yJ00ubJ6NEOlc9YD/v/Bu6F2ckuC1TX9RT7n9Vft+02q9nhoXSNhoOmxDwdw==
+X-Received: by 2002:a17:90b:4d83:b0:22c:6de5:60d3 with SMTP id
+ oj3-20020a17090b4d8300b0022c6de560d3mr10320244pjb.4.1675115370528; 
+ Mon, 30 Jan 2023 13:49:30 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- t4-20020a17090ad14400b00219220edf0dsm7451215pjw.48.2023.01.30.13.49.27
+ t4-20020a17090ad14400b00219220edf0dsm7451215pjw.48.2023.01.30.13.49.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 13:49:28 -0800 (PST)
+ Mon, 30 Jan 2023 13:49:30 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: alex.bennee@linaro.org, philmd@linaro.org,
  Ilya Leoshkevich <iii@linux.ibm.com>
-Subject: [PATCH v6 25/36] target/s390x: Use a single return for
- helper_divs64/u64
-Date: Mon, 30 Jan 2023 11:48:33 -1000
-Message-Id: <20230130214844.1158612-26-richard.henderson@linaro.org>
+Subject: [PATCH v6 26/36] target/s390x: Use Int128 for return from CLST
+Date: Mon, 30 Jan 2023 11:48:34 -1000
+Message-Id: <20230130214844.1158612-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230130214844.1158612-1-richard.henderson@linaro.org>
 References: <20230130214844.1158612-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::636;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x636.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,175 +91,88 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Pack the quotient and remainder into a single Int128.
-Use the divu128 primitive to remove the cpu_abort on
-32-bit hosts.
-
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Extended div test case to cover these insns.
----
- target/s390x/helper.h         |  4 ++--
- target/s390x/tcg/int_helper.c | 38 +++++++++--------------------------
- target/s390x/tcg/translate.c  | 14 +++++++++----
- tests/tcg/s390x/div.c         | 35 ++++++++++++++++++++++++++++++++
- 4 files changed, 56 insertions(+), 35 deletions(-)
+ target/s390x/helper.h         |  2 +-
+ target/s390x/tcg/mem_helper.c | 11 ++++-------
+ target/s390x/tcg/translate.c  |  8 ++++++--
+ 3 files changed, 11 insertions(+), 10 deletions(-)
 
 diff --git a/target/s390x/helper.h b/target/s390x/helper.h
-index bc828d976b..593f3c8bee 100644
+index 593f3c8bee..25c2dd0b3c 100644
 --- a/target/s390x/helper.h
 +++ b/target/s390x/helper.h
-@@ -12,8 +12,8 @@ DEF_HELPER_3(clcl, i32, env, i32, i32)
- DEF_HELPER_FLAGS_4(clm, TCG_CALL_NO_WG, i32, env, i32, i32, i64)
- DEF_HELPER_FLAGS_3(divs32, TCG_CALL_NO_WG, i64, env, s64, s64)
- DEF_HELPER_FLAGS_3(divu32, TCG_CALL_NO_WG, i64, env, i64, i64)
--DEF_HELPER_FLAGS_3(divs64, TCG_CALL_NO_WG, s64, env, s64, s64)
--DEF_HELPER_FLAGS_4(divu64, TCG_CALL_NO_WG, i64, env, i64, i64, i64)
-+DEF_HELPER_FLAGS_3(divs64, TCG_CALL_NO_WG, i128, env, s64, s64)
-+DEF_HELPER_FLAGS_4(divu64, TCG_CALL_NO_WG, i128, env, i64, i64, i64)
+@@ -16,7 +16,7 @@ DEF_HELPER_FLAGS_3(divs64, TCG_CALL_NO_WG, i128, env, s64, s64)
+ DEF_HELPER_FLAGS_4(divu64, TCG_CALL_NO_WG, i128, env, i64, i64, i64)
  DEF_HELPER_3(srst, void, env, i32, i32)
  DEF_HELPER_3(srstu, void, env, i32, i32)
- DEF_HELPER_4(clst, i64, env, i64, i64, i64)
-diff --git a/target/s390x/tcg/int_helper.c b/target/s390x/tcg/int_helper.c
-index 7260583cf2..eb8e6dd1b5 100644
---- a/target/s390x/tcg/int_helper.c
-+++ b/target/s390x/tcg/int_helper.c
-@@ -76,46 +76,26 @@ uint64_t HELPER(divu32)(CPUS390XState *env, uint64_t a, uint64_t b64)
+-DEF_HELPER_4(clst, i64, env, i64, i64, i64)
++DEF_HELPER_4(clst, i128, env, i64, i64, i64)
+ DEF_HELPER_FLAGS_4(mvn, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+ DEF_HELPER_FLAGS_4(mvo, TCG_CALL_NO_WG, void, env, i32, i64, i64)
+ DEF_HELPER_FLAGS_4(mvpg, TCG_CALL_NO_WG, i32, env, i64, i32, i32)
+diff --git a/target/s390x/tcg/mem_helper.c b/target/s390x/tcg/mem_helper.c
+index cb82cd1c1d..9be42851d8 100644
+--- a/target/s390x/tcg/mem_helper.c
++++ b/target/s390x/tcg/mem_helper.c
+@@ -886,7 +886,7 @@ void HELPER(srstu)(CPUS390XState *env, uint32_t r1, uint32_t r2)
  }
  
- /* 64/64 -> 64 signed division */
--int64_t HELPER(divs64)(CPUS390XState *env, int64_t a, int64_t b)
-+Int128 HELPER(divs64)(CPUS390XState *env, int64_t a, int64_t b)
+ /* unsigned string compare (c is string terminator) */
+-uint64_t HELPER(clst)(CPUS390XState *env, uint64_t c, uint64_t s1, uint64_t s2)
++Int128 HELPER(clst)(CPUS390XState *env, uint64_t c, uint64_t s1, uint64_t s2)
  {
-     /* Catch divide by zero, and non-representable quotient (MIN / -1).  */
-     if (b == 0 || (b == -1 && a == (1ll << 63))) {
-         tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-     }
--    env->retxl = a % b;
--    return a / b;
-+    return int128_make128(a / b, a % b);
- }
- 
- /* 128 -> 64/64 unsigned division */
--uint64_t HELPER(divu64)(CPUS390XState *env, uint64_t ah, uint64_t al,
--                        uint64_t b)
-+Int128 HELPER(divu64)(CPUS390XState *env, uint64_t ah, uint64_t al, uint64_t b)
- {
--    uint64_t ret;
--    /* Signal divide by zero.  */
--    if (b == 0) {
--        tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
--    }
--    if (ah == 0) {
--        /* 64 -> 64/64 case */
--        env->retxl = al % b;
--        ret = al / b;
--    } else {
--        /* ??? Move i386 idivq helper to host-utils.  */
--#ifdef CONFIG_INT128
--        __uint128_t a = ((__uint128_t)ah << 64) | al;
--        __uint128_t q = a / b;
--        env->retxl = a % b;
--        ret = q;
--        if (ret != q) {
--            tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
-+    if (b != 0) {
-+        uint64_t r = divu128(&al, &ah, b);
-+        if (ah == 0) {
-+            return int128_make128(al, r);
+     uintptr_t ra = GETPC();
+     uint32_t len;
+@@ -904,23 +904,20 @@ uint64_t HELPER(clst)(CPUS390XState *env, uint64_t c, uint64_t s1, uint64_t s2)
+             if (v1 == c) {
+                 /* Equal.  CC=0, and don't advance the registers.  */
+                 env->cc_op = 0;
+-                env->retxl = s2;
+-                return s1;
++                return int128_make128(s2, s1);
+             }
+         } else {
+             /* Unequal.  CC={1,2}, and advance the registers.  Note that
+                the terminator need not be zero, but the string that contains
+                the terminator is by definition "low".  */
+             env->cc_op = (v1 == c ? 1 : v2 == c ? 2 : v1 < v2 ? 1 : 2);
+-            env->retxl = s2 + len;
+-            return s1 + len;
++            return int128_make128(s2 + len, s1 + len);
          }
--#else
--        /* 32-bit hosts would need special wrapper functionality - just abort if
--           we encounter such a case; it's very unlikely anyways. */
--        cpu_abort(env_cpu(env), "128 -> 64/64 division not implemented\n");
--#endif
      }
--    return ret;
-+    /* divide by zero or overflow */
-+    tcg_s390_program_interrupt(env, PGM_FIXPT_DIVIDE, GETPC());
+ 
+     /* CPU-determined bytes equal; advance the registers.  */
+     env->cc_op = 3;
+-    env->retxl = s2 + len;
+-    return s1 + len;
++    return int128_make128(s2 + len, s1 + len);
  }
  
- uint64_t HELPER(cvd)(int32_t reg)
+ /* move page */
 diff --git a/target/s390x/tcg/translate.c b/target/s390x/tcg/translate.c
-index 169f7ee1b2..6953b81de7 100644
+index 6953b81de7..8397fe2bd8 100644
 --- a/target/s390x/tcg/translate.c
 +++ b/target/s390x/tcg/translate.c
-@@ -2409,15 +2409,21 @@ static DisasJumpType op_divu32(DisasContext *s, DisasOps *o)
+@@ -2164,9 +2164,13 @@ static DisasJumpType op_clm(DisasContext *s, DisasOps *o)
  
- static DisasJumpType op_divs64(DisasContext *s, DisasOps *o)
+ static DisasJumpType op_clst(DisasContext *s, DisasOps *o)
  {
--    gen_helper_divs64(o->out2, cpu_env, o->in1, o->in2);
--    return_low128(o->out);
-+    TCGv_i128 t = tcg_temp_new_i128();
+-    gen_helper_clst(o->in1, cpu_env, regs[0], o->in1, o->in2);
++    TCGv_i128 pair = tcg_temp_new_i128();
 +
-+    gen_helper_divs64(t, cpu_env, o->in1, o->in2);
-+    tcg_gen_extr_i128_i64(o->out2, o->out, t);
-+    tcg_temp_free_i128(t);
++    gen_helper_clst(pair, cpu_env, regs[0], o->in1, o->in2);
++    tcg_gen_extr_i128_i64(o->in2, o->in1, pair);
++    tcg_temp_free_i128(pair);
++
+     set_cc_static(s);
+-    return_low128(o->in2);
      return DISAS_NEXT;
  }
  
- static DisasJumpType op_divu64(DisasContext *s, DisasOps *o)
- {
--    gen_helper_divu64(o->out2, cpu_env, o->out, o->out2, o->in2);
--    return_low128(o->out);
-+    TCGv_i128 t = tcg_temp_new_i128();
-+
-+    gen_helper_divu64(t, cpu_env, o->out, o->out2, o->in2);
-+    tcg_gen_extr_i128_i64(o->out2, o->out, t);
-+    tcg_temp_free_i128(t);
-     return DISAS_NEXT;
- }
- 
-diff --git a/tests/tcg/s390x/div.c b/tests/tcg/s390x/div.c
-index 5807295614..6ad9900e08 100644
---- a/tests/tcg/s390x/div.c
-+++ b/tests/tcg/s390x/div.c
-@@ -33,8 +33,43 @@ static void test_dlr(void)
-     assert(r == 1);
- }
- 
-+static void test_dsgr(void)
-+{
-+    register int64_t r0 asm("r0") = -1;
-+    register int64_t r1 asm("r1") = -4241;
-+    int64_t b = 101, q, r;
-+
-+    asm("dsgr %[r0],%[b]"
-+        : [r0] "+r" (r0), [r1] "+r" (r1)
-+        : [b] "r" (b)
-+        : "cc");
-+    q = r1;
-+    r = r0;
-+    assert(q == -41);
-+    assert(r == -100);
-+}
-+
-+static void test_dlgr(void)
-+{
-+    register uint64_t r0 asm("r0") = 0;
-+    register uint64_t r1 asm("r1") = 4243;
-+    uint64_t b = 101, q, r;
-+
-+    asm("dlgr %[r0],%[b]"
-+        : [r0] "+r" (r0), [r1] "+r" (r1)
-+        : [b] "r" (b)
-+        : "cc");
-+    q = r1;
-+    r = r0;
-+    assert(q == 42);
-+    assert(r == 1);
-+}
-+
- int main(void)
- {
-     test_dr();
-     test_dlr();
-+    test_dsgr();
-+    test_dlgr();
-+    return 0;
- }
 -- 
 2.34.1
 
