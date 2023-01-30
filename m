@@ -2,93 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0738468157D
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 16:48:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E83B681591
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 16:51:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMWNq-0007M2-Vt; Mon, 30 Jan 2023 10:47:52 -0500
+	id 1pMWQm-0001Y2-O3; Mon, 30 Jan 2023 10:50:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMWNX-0007KH-7t
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:47:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMWNU-0001qO-4U
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:47:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675093646;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=vp+nFoD9x+nITaawjconKj0TTggVsnNnCrAcdJMUur4=;
- b=iKqI/F8sX+nJZIRXWBSflK2FtXfqi9k8m0K3UtbMds+1xfiospSpZ4dT6FfxqoGr0279cX
- XgncWQ7gsUEuOLkBTAaKe7TidZt4j91eV7VDHigRf0fPoYJaPRh/fi9tEC7a3Jy+MV7dEl
- bELkTKJMcbKnOKY+MtAuCvZf5JobUFc=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-359-nEh8rqkxOvyanRTVU8icOA-1; Mon, 30 Jan 2023 10:47:24 -0500
-X-MC-Unique: nEh8rqkxOvyanRTVU8icOA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- t26-20020aa7d71a000000b004a244cc7ee8so2345082edq.2
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 07:47:23 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pMWQj-0001Xj-AY
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:50:50 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pMWQd-0002cn-4K
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:50:47 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ c4-20020a1c3504000000b003d9e2f72093so10352937wma.1
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 07:50:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=U8ReE+pMOMGHHz5kzozOoP629rGPsmq+iU4zvQVc358=;
+ b=kXEIGtYZytzdicJ7Rd3+oP9S+tQytyMkTM9bsPM8qXgpaAzcB0JK5w+AKNiUl3jS5m
+ LQp1cTAKMC3zWwh89ytapQb2AwGleT06hjYpbEsxDPcJAHYVpmWQW/sDtIkxc/gIqX3t
+ S8tksOL+nIDV8dIOa879vURvVH27psv1dHy6spwysBNwEQCsq0AJ7eAhBMgOOWOcUHOR
+ +c1UoVtybg34+b53oSW75PUosCb0qcHOkwhyLByMahN9PNwDGsl58SERtJ/qK7wGjPPb
+ tW7VF6ee/srKWZAz/vGD+xJne3I8l5iPtEmaTNjOhcOgcy0GiRhqlLVjOdmbnF7zI5kL
+ GKqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=vp+nFoD9x+nITaawjconKj0TTggVsnNnCrAcdJMUur4=;
- b=VFm8NIwUOD0U8nArnDdKUa763wTOEdCSNlZf7ze0Mg3u1B9atmlnik+17PDqWE/Ar/
- Ef9vJ+sp2L3ry5CYbrRXQYuEmx4SWqm+YQn2zxknv6RiOGGpUfSFXn5MNlxzDIFLETuN
- kbNBgJ3yJOWGoz1z7haScoGoAGOHjolkzO0hAWgv9rDpatYDbD3jrekqIry1BJamfaZP
- 1IQHcQ8wou/8AZDhDm/7TgRM537H4nUGzzwl5P1G2UTKWcKwnZEFB6mdUS8NU5mEhki6
- GwnHjP6ZoW4WXcNQrZTJ09EF5MqhTxvP4zz9u4gwUiAGAcwH8Jq0KIeVlAKeLcQwBRDa
- RLFg==
-X-Gm-Message-State: AFqh2kqnB0ziEVUbhfmzEfzM5IhLv5HszlFEAGhNI/rsiSAcoezE8w9K
- Qgp9OYr3oZ7jWiH0Bscwj/CfZciZtuiniuHJlZ6PVovN8H9YJxjDzlEydCdQeUD/1swnia3JMGB
- 1XjYVC+5eVnXFzCU=
-X-Received: by 2002:a17:906:3f94:b0:861:4671:a834 with SMTP id
- b20-20020a1709063f9400b008614671a834mr48566788ejj.71.1675093643037; 
- Mon, 30 Jan 2023 07:47:23 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXuxg4fmQvd7fMqVxj6NzFpMu6+MYiCW4ehfq9Un0fXDgt34rhsgJu7kojOXmwypxVYShczrcw==
-X-Received: by 2002:a17:906:3f94:b0:861:4671:a834 with SMTP id
- b20-20020a1709063f9400b008614671a834mr48566767ejj.71.1675093642798; 
- Mon, 30 Jan 2023 07:47:22 -0800 (PST)
-Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
- dn10-20020a05640222ea00b00482b3d0e1absm6953335edb.87.2023.01.30.07.47.19
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=U8ReE+pMOMGHHz5kzozOoP629rGPsmq+iU4zvQVc358=;
+ b=n/YCkFGrQD8MqzECTgsQTffvVfNyqRcuSw8Mpv9Ngbnzg1WK0Z1H2nOY3UvuMjVVzE
+ WabZaQMerUO3j5nbSHnOBNvpbMUbFAxXOrQ14VqaezxQM9NLKhSRbqte6VPTc96RNMno
+ HtOJnQcSRQh9rf192FWlpvKlLoblhA/B1tFUEYDnIkVVlF6vHQm6hOziNrfDjSUv/0e/
+ UAs2+V2OfERzcUHtpKa1W1Oy8cxf2bSZ2gPeG1lrAFh2t/ylku35W8SddnS94Qpmqz9U
+ 4ez1crKBN5sjdjSNZ5urwQ3Lrux10I2hUXrwcZ44u1w7yfCMHImpRoFZ20BF6GeMLWAy
+ mcSQ==
+X-Gm-Message-State: AFqh2kqXZGmqErRNCOmcCZnLmjxWqLJT8ldS5vGKJPM9sRfGrfLwQ/Dt
+ MK+E22OHtE/moM4ev/92iiz3ug==
+X-Google-Smtp-Source: AMrXdXvEnCZYhLzf7zmxGD6JfwSuqTa2lIaZf3+8MFSFeDAX9u2QmMUL6XGrO+Y0q7avTSs4e8D4ug==
+X-Received: by 2002:a1c:f317:0:b0:3d0:480b:ac53 with SMTP id
+ q23-20020a1cf317000000b003d0480bac53mr52123307wmq.12.1675093839797; 
+ Mon, 30 Jan 2023 07:50:39 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ bi5-20020a05600c3d8500b003db0bb81b6asm13743994wmb.1.2023.01.30.07.50.39
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 07:47:22 -0800 (PST)
-Date: Mon, 30 Jan 2023 10:47:17 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, Yan Vugenfirer <yvugenfi@redhat.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Alexander Bulekov <alxndr@bu.edu>
-Subject: Re: [PATCH v4 20/28] net: Strip virtio-net header when dumping
-Message-ID: <20230130104410-mutt-send-email-mst@kernel.org>
-References: <20230130134715.76604-1-akihiko.odaki@daynix.com>
- <20230130134715.76604-21-akihiko.odaki@daynix.com>
- <20230130101211-mutt-send-email-mst@kernel.org>
- <2b7d65e9-5928-8038-34f2-03fc2ee6a819@daynix.com>
+ Mon, 30 Jan 2023 07:50:39 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AAD041FFB7;
+ Mon, 30 Jan 2023 15:50:38 +0000 (GMT)
+References: <20220926142422.22325-1-antonio.caggiano@collabora.com>
+ <20220926142422.22325-10-antonio.caggiano@collabora.com>
+User-agent: mu4e 1.9.18; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Antonio Caggiano <antonio.caggiano@collabora.com>
+Cc: gert.wollny@collabora.com, dmitry.osipenko@collabora.com, Gerd Hoffmann
+ <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH v3 9/9] virtio-gpu: Get EGL Display callback
+Date: Mon, 30 Jan 2023 15:49:33 +0000
+In-reply-to: <20220926142422.22325-10-antonio.caggiano@collabora.com>
+Message-ID: <87r0vc6my9.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2b7d65e9-5928-8038-34f2-03fc2ee6a819@daynix.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x335.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -104,186 +97,115 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 31, 2023 at 12:36:38AM +0900, Akihiko Odaki wrote:
-> On 2023/01/31 0:12, Michael S. Tsirkin wrote:
-> > On Mon, Jan 30, 2023 at 10:47:07PM +0900, Akihiko Odaki wrote:
-> > > filter-dump specifiees Ethernet as PCAP LinkType, which does not expect
-> > > virtio-net header. Having virtio-net header in such PCAP file breaks
-> > > PCAP unconsumable. Unfortunately currently there is no LinkType for
-> > > virtio-net so for now strip virtio-net header to convert the output to
-> > > Ethernet.
-> > > 
-> > > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> > 
-> > Probably means you need to calculate checksums and split gso too right?
-> 
-> It was not necessary in my case as I used Wireshark and it tolerates wrong
-> checksums and large packets (it even says "Checksum incorrect [maybe caused
-> by 'TCP checksum offload'?]"). It was even more helpful to have raw packets
-> instead of transformed packets for debugging purposes. Perhaps an option to
-> transform packets may be added later if a need arises.
 
-I think we should add LINKTYPE_VIRTIO. Very useful to debug a host of
-checksum/segmentation issues. Want to hack it up?
+Antonio Caggiano <antonio.caggiano@collabora.com> writes:
 
-> > 
-> > > ---
-> > >   include/net/net.h |  6 ++++++
-> > >   net/dump.c        | 11 +++++++----
-> > >   net/net.c         | 18 ++++++++++++++++++
-> > >   net/tap.c         | 16 ++++++++++++++++
-> > >   4 files changed, 47 insertions(+), 4 deletions(-)
-> > > 
-> > > diff --git a/include/net/net.h b/include/net/net.h
-> > > index dc20b31e9f..4b2d72b3fc 100644
-> > > --- a/include/net/net.h
-> > > +++ b/include/net/net.h
-> > > @@ -56,8 +56,10 @@ typedef RxFilterInfo *(QueryRxFilter)(NetClientState *);
-> > >   typedef bool (HasUfo)(NetClientState *);
-> > >   typedef bool (HasVnetHdr)(NetClientState *);
-> > >   typedef bool (HasVnetHdrLen)(NetClientState *, int);
-> > > +typedef bool (GetUsingVnetHdr)(NetClientState *);
-> > >   typedef void (UsingVnetHdr)(NetClientState *, bool);
-> > >   typedef void (SetOffload)(NetClientState *, int, int, int, int, int);
-> > > +typedef int (GetVnetHdrLen)(NetClientState *);
-> > >   typedef void (SetVnetHdrLen)(NetClientState *, int);
-> > >   typedef int (SetVnetLE)(NetClientState *, bool);
-> > >   typedef int (SetVnetBE)(NetClientState *, bool);
-> > > @@ -84,8 +86,10 @@ typedef struct NetClientInfo {
-> > >       HasUfo *has_ufo;
-> > >       HasVnetHdr *has_vnet_hdr;
-> > >       HasVnetHdrLen *has_vnet_hdr_len;
-> > > +    GetUsingVnetHdr *get_using_vnet_hdr;
-> > >       UsingVnetHdr *using_vnet_hdr;
-> > >       SetOffload *set_offload;
-> > > +    GetVnetHdrLen *get_vnet_hdr_len;
-> > >       SetVnetHdrLen *set_vnet_hdr_len;
-> > >       SetVnetLE *set_vnet_le;
-> > >       SetVnetBE *set_vnet_be;
-> > > @@ -183,9 +187,11 @@ void qemu_format_nic_info_str(NetClientState *nc, uint8_t macaddr[6]);
-> > >   bool qemu_has_ufo(NetClientState *nc);
-> > >   bool qemu_has_vnet_hdr(NetClientState *nc);
-> > >   bool qemu_has_vnet_hdr_len(NetClientState *nc, int len);
-> > > +bool qemu_get_using_vnet_hdr(NetClientState *nc);
-> > >   void qemu_using_vnet_hdr(NetClientState *nc, bool enable);
-> > >   void qemu_set_offload(NetClientState *nc, int csum, int tso4, int tso6,
-> > >                         int ecn, int ufo);
-> > > +int qemu_get_vnet_hdr_len(NetClientState *nc);
-> > >   void qemu_set_vnet_hdr_len(NetClientState *nc, int len);
-> > >   int qemu_set_vnet_le(NetClientState *nc, bool is_le);
-> > >   int qemu_set_vnet_be(NetClientState *nc, bool is_be);
-> > > diff --git a/net/dump.c b/net/dump.c
-> > > index 6a63b15359..7d05f16ca7 100644
-> > > --- a/net/dump.c
-> > > +++ b/net/dump.c
-> > > @@ -61,12 +61,13 @@ struct pcap_sf_pkthdr {
-> > >       uint32_t len;
-> > >   };
-> > > -static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt)
-> > > +static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt,
-> > > +                                int offset)
-> > >   {
-> > >       struct pcap_sf_pkthdr hdr;
-> > >       int64_t ts;
-> > >       int caplen;
-> > > -    size_t size = iov_size(iov, cnt);
-> > > +    size_t size = iov_size(iov, cnt) - offset;
-> > >       struct iovec dumpiov[cnt + 1];
-> > >       /* Early return in case of previous error. */
-> > > @@ -84,7 +85,7 @@ static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt)
-> > >       dumpiov[0].iov_base = &hdr;
-> > >       dumpiov[0].iov_len = sizeof(hdr);
-> > > -    cnt = iov_copy(&dumpiov[1], cnt, iov, cnt, 0, caplen);
-> > > +    cnt = iov_copy(&dumpiov[1], cnt, iov, cnt, offset, caplen);
-> > >       if (writev(s->fd, dumpiov, cnt + 1) != sizeof(hdr) + caplen) {
-> > >           error_report("network dump write error - stopping dump");
-> > > @@ -153,8 +154,10 @@ static ssize_t filter_dump_receive_iov(NetFilterState *nf, NetClientState *sndr,
-> > >                                          int iovcnt, NetPacketSent *sent_cb)
-> > >   {
-> > >       NetFilterDumpState *nfds = FILTER_DUMP(nf);
-> > > +    int offset = qemu_get_using_vnet_hdr(nf->netdev) ?
-> > > +                 qemu_get_vnet_hdr_len(nf->netdev) : 0;
-> > > -    dump_receive_iov(&nfds->ds, iov, iovcnt);
-> > > +    dump_receive_iov(&nfds->ds, iov, iovcnt, offset);
-> > >       return 0;
-> > >   }
-> > > diff --git a/net/net.c b/net/net.c
-> > > index 2d01472998..03f17de5fc 100644
-> > > --- a/net/net.c
-> > > +++ b/net/net.c
-> > > @@ -513,6 +513,15 @@ bool qemu_has_vnet_hdr_len(NetClientState *nc, int len)
-> > >       return nc->info->has_vnet_hdr_len(nc, len);
-> > >   }
-> > > +bool qemu_get_using_vnet_hdr(NetClientState *nc)
-> > > +{
-> > > +    if (!nc || !nc->info->get_using_vnet_hdr) {
-> > > +        return false;
-> > > +    }
-> > > +
-> > > +    return nc->info->get_using_vnet_hdr(nc);
-> > > +}
-> > > +
-> > >   void qemu_using_vnet_hdr(NetClientState *nc, bool enable)
-> > >   {
-> > >       if (!nc || !nc->info->using_vnet_hdr) {
-> > > @@ -532,6 +541,15 @@ void qemu_set_offload(NetClientState *nc, int csum, int tso4, int tso6,
-> > >       nc->info->set_offload(nc, csum, tso4, tso6, ecn, ufo);
-> > >   }
-> > > +int qemu_get_vnet_hdr_len(NetClientState *nc)
-> > > +{
-> > > +    if (!nc || !nc->info->get_vnet_hdr_len) {
-> > > +        return 0;
-> > > +    }
-> > > +
-> > > +    return nc->info->get_vnet_hdr_len(nc);
-> > > +}
-> > > +
-> > >   void qemu_set_vnet_hdr_len(NetClientState *nc, int len)
-> > >   {
-> > >       if (!nc || !nc->info->set_vnet_hdr_len) {
-> > > diff --git a/net/tap.c b/net/tap.c
-> > > index 7d7bc1dc5f..1bf085d422 100644
-> > > --- a/net/tap.c
-> > > +++ b/net/tap.c
-> > > @@ -255,6 +255,13 @@ static bool tap_has_vnet_hdr_len(NetClientState *nc, int len)
-> > >       return !!tap_probe_vnet_hdr_len(s->fd, len);
-> > >   }
-> > > +static int tap_get_vnet_hdr_len(NetClientState *nc)
-> > > +{
-> > > +    TAPState *s = DO_UPCAST(TAPState, nc, nc);
-> > > +
-> > > +    return s->host_vnet_hdr_len;
-> > > +}
-> > > +
-> > >   static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
-> > >   {
-> > >       TAPState *s = DO_UPCAST(TAPState, nc, nc);
-> > > @@ -268,6 +275,13 @@ static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
-> > >       s->host_vnet_hdr_len = len;
-> > >   }
-> > > +static bool tap_get_using_vnet_hdr(NetClientState *nc)
-> > > +{
-> > > +    TAPState *s = DO_UPCAST(TAPState, nc, nc);
-> > > +
-> > > +    return s->using_vnet_hdr;
-> > > +}
-> > > +
-> > >   static void tap_using_vnet_hdr(NetClientState *nc, bool using_vnet_hdr)
-> > >   {
-> > >       TAPState *s = DO_UPCAST(TAPState, nc, nc);
-> > > @@ -372,8 +386,10 @@ static NetClientInfo net_tap_info = {
-> > >       .has_ufo = tap_has_ufo,
-> > >       .has_vnet_hdr = tap_has_vnet_hdr,
-> > >       .has_vnet_hdr_len = tap_has_vnet_hdr_len,
-> > > +    .get_using_vnet_hdr = tap_get_using_vnet_hdr,
-> > >       .using_vnet_hdr = tap_using_vnet_hdr,
-> > >       .set_offload = tap_set_offload,
-> > > +    .get_vnet_hdr_len = tap_get_vnet_hdr_len,
-> > >       .set_vnet_hdr_len = tap_set_vnet_hdr_len,
-> > >       .set_vnet_le = tap_set_vnet_le,
-> > >       .set_vnet_be = tap_set_vnet_be,
-> > > -- 
-> > > 2.39.1
-> > 
+> Implement get_egl_display callback for virglrenderer.
+>
+> Signed-off-by: Antonio Caggiano <antonio.caggiano@collabora.com>
+> ---
+>  hw/display/virtio-gpu-virgl.c | 9 ++++++++-
+>  1 file changed, 8 insertions(+), 1 deletion(-)
+>
+> diff --git a/hw/display/virtio-gpu-virgl.c b/hw/display/virtio-gpu-virgl.c
+> index 0f17bdddd0..0fd9ad8a3d 100644
+> --- a/hw/display/virtio-gpu-virgl.c
+> +++ b/hw/display/virtio-gpu-virgl.c
+> @@ -18,6 +18,7 @@
+>  #include "hw/virtio/virtio-gpu.h"
+>  #include "hw/virtio/virtio-gpu-bswap.h"
+>  #include "hw/virtio/virtio-iommu.h"
+> +#include <epoxy/egl.h>
+>=20=20
+>  #include <virglrenderer.h>
+>=20=20
+> @@ -743,12 +744,18 @@ static int virgl_make_context_current(void *opaque,=
+ int scanout_idx,
+>                                     qctx);
+>  }
+>=20=20
+> +static void *virgl_get_egl_display(void *opaque)
+> +{
+> +    return eglGetCurrentDisplay();
+> +}
+> +
+>  static struct virgl_renderer_callbacks virtio_gpu_3d_cbs =3D {
+> -    .version             =3D 1,
+> +    .version             =3D 4,
+>      .write_fence         =3D virgl_write_fence,
+>      .create_gl_context   =3D virgl_create_context,
+>      .destroy_gl_context  =3D virgl_destroy_context,
+>      .make_current        =3D virgl_make_context_current,
+> +    .get_egl_display     =3D virgl_get_egl_display,
 
+This fails for me:
+
+  FAILED: libcommon.fa.p/hw_display_virtio-gpu-virgl.c.o=20
+  cc -m64 -mcx16 -Ilibcommon.fa.p -I../../common-user/host/x86_64 -I../../l=
+inux-user/include/host/x86_64 -I../../linux-user/include -Idtc/libfdt -I../=
+../dtc/libfdt -I/usr/include/capstone -I/usr/include/pixman-1 -I/usr/includ=
+e/libpng16 -I/usr/include/spice-server -I/usr/include/spice-1 -I/usr/includ=
+e/p11-kit-1 -I/usr/include/libmount -I/usr/include/blkid -I/usr/include/gli=
+b-2.0 -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/gio-unix-=
+2.0 -I/usr/include/slirp -I/usr/include/gtk-3.0 -I/usr/include/at-spi2-atk/=
+2.0 -I/usr/include/at-spi-2.0 -I/usr/include/dbus-1.0 -I/usr/lib/x86_64-lin=
+ux-gnu/dbus-1.0/include -I/usr/include/cairo -I/usr/include/pango-1.0 -I/us=
+r/include/fribidi -I/usr/include/harfbuzz -I/usr/include/atk-1.0 -I/usr/inc=
+lude/uuid -I/usr/include/freetype2 -I/usr/include/gdk-pixbuf-2.0 -I/usr/inc=
+lude/vte-2.91 -I/usr/include/virgl -I/usr/include/cacard -I/usr/include/nss=
+ -I/usr/include/nspr -I/usr/include/PCSC -I/usr/include/libusb-1.0 -fdiagno=
+stics-color=3Dauto -Wall -Winvalid-pch -Werror -std=3Dgnu11 -O2 -g -isystem=
+ /home/alex/lsrc/qemu.git/linux-headers -isystem linux-headers -iquote . -i=
+quote /home/alex/lsrc/qemu.git -iquote /home/alex/lsrc/qemu.git/include -iq=
+uote /home/alex/lsrc/qemu.git/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_FORTIF=
+Y_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -fn=
+o-strict-aliasing -fno-common -fwrapv -Wundef -Wwrite-strings -Wmissing-pro=
+totypes -Wstrict-prototypes -Wredundant-decls -Wold-style-declaration -Wold=
+-style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self =
+-Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansi=
+on-to-defined -Wimplicit-fallthrough=3D2 -Wmissing-format-attribute -Wno-mi=
+ssing-include-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protector-s=
+trong -fPIE -D_REENTRANT -D_DEFAULT_SOURCE -D_XOPEN_SOURCE=3D600 -DNCURSES_=
+WIDECHAR=3D1 -DSTRUCT_IOVEC_DEFINED -MD -MQ libcommon.fa.p/hw_display_virti=
+o-gpu-virgl.c.o -MF libcommon.fa.p/hw_display_virtio-gpu-virgl.c.o.d -o lib=
+common.fa.p/hw_display_virtio-gpu-virgl.c.o -c ../../hw/display/virtio-gpu-=
+virgl.c
+  ../../hw/display/virtio-gpu-virgl.c:758:6: error: =E2=80=98struct virgl_r=
+enderer_callbacks=E2=80=99 has no member named =E2=80=98get_egl_display=E2=
+=80=99
+    758 |     .get_egl_display     =3D virgl_get_egl_display,
+        |      ^~~~~~~~~~~~~~~
+  ../../hw/display/virtio-gpu-virgl.c:758:28: error: initialization of =E2=
+=80=98int (*)(void *)=E2=80=99 from incompatible pointer type =E2=80=98void=
+ * (*)(void *)=E2=80=99 [-Werror=3Dincompatible-pointer-types]
+    758 |     .get_egl_display     =3D virgl_get_egl_display,
+        |                            ^~~~~~~~~~~~~~~~~~~~~
+  ../../hw/display/virtio-gpu-virgl.c:758:28: note: (near initialization fo=
+r =E2=80=98virtio_gpu_3d_cbs.get_drm_fd=E2=80=99)
+  ../../hw/display/virtio-gpu-virgl.c: In function =E2=80=98virtio_gpu_virg=
+l_init=E2=80=99:
+  ../../hw/display/virtio-gpu-virgl.c:816:34: error: =E2=80=98VIRGL_RENDERE=
+R_VENUS=E2=80=99 undeclared (first use in this function); did you mean =E2=
+=80=98VIRGL_RENDERER_USE_EGL=E2=80=99?
+    816 |     ret =3D virgl_renderer_init(g, VIRGL_RENDERER_VENUS, &virtio_=
+gpu_3d_cbs);
+        |                                  ^~~~~~~~~~~~~~~~~~~~
+        |                                  VIRGL_RENDERER_USE_EGL
+  ../../hw/display/virtio-gpu-virgl.c:816:34: note: each undeclared identif=
+ier is reported only once for each function it appears in
+  cc1: all warnings being treated as errors
+
+I assume because I'm either missing a library or my distro version is
+too old. Either way this needs to be caught at configure time and
+#ifdef'd.
+
+
+>  };
+>=20=20
+>  static void virtio_gpu_print_stats(void *opaque)
+
+
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
