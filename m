@@ -2,80 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5418680CE6
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 13:06:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA87A680C94
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 12:56:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMSuv-0002h6-89; Mon, 30 Jan 2023 07:05:45 -0500
+	id 1pMSlY-0007fC-0q; Mon, 30 Jan 2023 06:56:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1pMSub-0002bg-5X
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:05:31 -0500
-Received: from smtp-relay-services-0.canonical.com ([185.125.188.250])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <noreply@launchpad.net>)
- id 1pMSuY-0007Jt-0N
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:05:24 -0500
-Received: from scripts-1.lp.internal (scripts.lp.internal [10.131.66.196])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by smtp-relay-services-0.canonical.com (Postfix) with ESMTPSA id DF10A41417
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:05:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=launchpad.net;
- s=20210803; t=1675080312;
- bh=ek6RT3U5lZZx6lu3UQt7PT1j9wFPYnKnVhe7p0sPHGk=;
- h=MIME-Version:Content-Type:Date:From:To:Reply-To:References:
- Message-Id:Subject;
- b=Qq5MjME2y2zYuY5UAVjVi2RBDERs1N2fKB6CMrPp7dakxAUyHJumU6v2+gvkSXL/8
- d1nW3H80Ccqt1+UVMc9J4ds1A4fZuH7PTXCKl1L4C0MdjNvrsdNf2pYLl/a4roLvvu
- iUk+nnNm9r4XD4AgR8JvcI6jvlCIjkiesm5sonYHamxLH6ItxPHZyLc6sNwofT69YN
- XrvrN/0YxNrmh3gyH+hnadXR/UfqiHWlcQKoQuCgOm4mB9ifwUJh47xubTUKRWZJLP
- DOOrAWo20cHLmFKXUQMnSqfNf5Zl87x1uFDTAG3d0EKrEYmcGV+J+PIZ21xTqmr8kr
- p2pKeQmcaZorA==
-Received: from
- juju-4112d9-prod-launchpad-manual-servers-36.openstack.prodstack5.lan
- (localhost [127.0.0.1])
- by scripts-1.lp.internal (Postfix) with ESMTP id CDE0B3F32A
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:05:12 +0000 (UTC)
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1pMSlV-0007ez-08
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 06:56:01 -0500
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <cyruscyliu@gmail.com>)
+ id 1pMSlT-0005OR-8A
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 06:56:00 -0500
+Received: by mail-oi1-x236.google.com with SMTP id j21so868218oie.4
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 03:55:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+ :date:message-id:reply-to;
+ bh=GpbvWoTV379hDDcyqgOVPY+L6jTqa642mAafpw+FMHc=;
+ b=mML2L+B1a/XRttntZBBix8wb1ae5Us5pdZeVc+fx4JH4P5WPAcueTlGRTEHJ+h5XOt
+ aMbgGFwZNm0ZAjYQIdG5dGsfhrDsim2RRlodlD/2pfpG4/bNgn7BmBv5xB44qwH7QvrI
+ HhBZmhC+eox3jAZslUjhsTrn+g/LzkSBPGSl2ItzZTMWTWlMoiHNoWWpEbzBr05lIQT9
+ 9PO95Gtt30zy0tl7fbXuUwlGRaZfsFXvv3/JRJtaK3ANTt9uHWO72CxLigXwUxjYholN
+ wc8M0ktOS1US5TAqbKtOMay6vGPs1mBbqodBADzdYoxr48L2wA0On4YVft88232sX2AX
+ jGqA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=GpbvWoTV379hDDcyqgOVPY+L6jTqa642mAafpw+FMHc=;
+ b=P8I9SOThPiRu0ozHKyPe6A1OLlvL4LLO9zD+3GkqUp1pP6p7owzQMI8v4hBFo8xrqN
+ Zix2kZioyTtVeCFSgKF4IMww3z2WaEBCg+TIdjZjW3spa6jgccY4YKqnXcBIJHbEa9lT
+ yXIBcZEyqfpDNVh+VEG2rXDCOPgNKpSZG/qHvHEtp1/rUZ/0E/o1MXDRuyZk1thmcG84
+ qAqD2BHvPSyXjtj/TY2oj8CkqvoJu3Kn2DTbmJEYqQHug0Nb7QiKuS4CFl5gmFv5G8bj
+ TMH5RWrir4x94JRJGlhQxuKJfRVfXiCVzX2sQr1yNLpIHq2aqo4blPtz3629/N1FqHz7
+ hbpQ==
+X-Gm-Message-State: AO0yUKWRi1e3hCTysIcAv9znK9zLbdNzc1AxUXKt6zYP0b1rmK3UbCGK
+ M09tN2KYJJYKX4BCm7p/8F40AXcbSZ/droiDoFw=
+X-Google-Smtp-Source: AK7set85FGEFvfDTpaXCS41KymDdFNORX9JkRUOSEPKzP63gQ8hVN0bYNG3/Z1z1krrvbM32BY2RawI3nSMAznDPwLY=
+X-Received: by 2002:a05:6808:2096:b0:378:15b:a49e with SMTP id
+ s22-20020a056808209600b00378015ba49emr581481oiw.134.1675079757108; Mon, 30
+ Jan 2023 03:55:57 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 30 Jan 2023 11:55:45 -0000
-From: Qiang Liu <1882123@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
- assignee=None; 
-X-Launchpad-Bug-Tags: arm armhf debian regression
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cyruscyliu joveler pmaydell th-huth
-X-Launchpad-Bug-Reporter: Hajin Jang (joveler)
-X-Launchpad-Bug-Modifier: Qiang Liu (cyruscyliu)
-References: <159129432300.4081.5698403082350753204.malonedeb@soybean.canonical.com>
-Message-Id: <CAAKa2j=a6Se_aUAUnkg822gtEC9UhbQZ2Dq9+NLX8u8NotkpcA@mail.gmail.com>
-Subject: [Bug 1882123] Re: ARM cpu emulation regression on QEMU 4.2.0
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com);
- Revision="20dbca4abd50eb567cd11c349e7e914443a145a1"; Instance="production"
-X-Launchpad-Hash: cd6d98418b938e2ebd528f8fab9fa8cf84b7a56f
-Received-SPF: pass client-ip=185.125.188.250;
- envelope-from=noreply@launchpad.net; helo=smtp-relay-services-0.canonical.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+From: Qiang Liu <cyruscyliu@gmail.com>
+Date: Mon, 30 Jan 2023 19:55:45 +0800
+Message-ID: <CAAKa2j=a6Se_aUAUnkg822gtEC9UhbQZ2Dq9+NLX8u8NotkpcA@mail.gmail.com>
+Subject: Re: [PATCH] hw/usb/core: fix inconsistent ep and pid (UBS_TOKEN_SETUP)
+To: Qiang Liu <cyruscyliu@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Paul Zimmerman <pauldzim@gmail.com>, 
+ "open list:All patches CC here" <qemu-devel@nongnu.org>,
+ Gaoning Pan <pgn@zju.edu.cn>, Yan Zhiqiang <yanz3q@gmail.com>, 
+ Alexander Bulekov <alxndr@bu.edu>, Hajin Jang <1882123@bugs.launchpad.net>, 
+ Bug Syssec <bugs-syssec@rub.de>
+Content-Type: multipart/alternative; boundary="000000000000e49bba05f379e5b2"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::236;
+ envelope-from=cyruscyliu@gmail.com; helo=mail-oi1-x236.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,9 +80,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1882123 <1882123@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
+
+--000000000000e49bba05f379e5b2
+Content-Type: text/plain; charset="UTF-8"
 
 Hi all,
 
@@ -122,11 +120,11 @@ the operation if ehci_get_pid() returns 0.
 
 static int ehci_execute(EHCIPacket *p, const char *action)
 {
-    p->pid =3D ehci_get_pid(&p->qtd); //
+    p->pid = ehci_get_pid(&p->qtd); //
 --------------------------------------------> [1]
-    p->queue->last_pid =3D p->pid;
-    endp =3D get_field(p->queue->qh.epchar, QH_EPCHAR_EP);
-    ep =3D usb_ep_get(p->queue->dev, p->pid/*=3D0*/, endp); //
+    p->queue->last_pid = p->pid;
+    endp = get_field(p->queue->qh.epchar, QH_EPCHAR_EP);
+    ep = usb_ep_get(p->queue->dev, p->pid/*=0*/, endp); //
 -----------------------> [2]
 ```
 
@@ -152,94 +150,47 @@ clock_step 0xa9229
 Best,
 Qiang
 
+--000000000000e49bba05f379e5b2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #119
-   https://gitlab.com/qemu-project/qemu/-/issues/119
+<div dir=3D"ltr"><div>Hi all,</div><div>=C2=A0<br></div><div>I&#39;m sure t=
+his patch will prevent the assertion failure due to the inconsistent ep and=
+ pid (UBS_TOKEN_SETUP) (<a href=3D"https://lists.gnu.org/archive/html/qemu-=
+devel/2021-06/msg07179.html">https://lists.gnu.org/archive/html/qemu-devel/=
+2021-06/msg07179.html</a>).</div><div><br></div><div>For UHCI (<a href=3D"h=
+ttps://gitlab.com/qemu-project/qemu/-/issues/119">https://gitlab.com/qemu-p=
+roject/qemu/-/issues/119</a>) and OHCI (<a href=3D"https://gitlab.com/qemu-=
+project/qemu/-/issues/303">https://gitlab.com/qemu-project/qemu/-/issues/30=
+3</a>), this patch may be right.=C2=A0</div><div><br></div><div>For EHCI, I=
+ found another way to trigger this assertion even with my patch because ehc=
+i_get_pid() returns 0 if qtd-&gt;token.QTD_TOKEN_PID is not valid[0]. In th=
+is case, the patch cannot capture it because pid is zero[2]. This case is s=
+pecific to EHCI as far as I know. It seems we want to drop the operation if=
+ ehci_get_pid() returns 0.</div><div><br></div><div>```static int ehci_get_=
+pid(EHCIqtd *qtd)</div>{<br>=C2=A0 =C2=A0 switch (get_field(qtd-&gt;token, =
+QTD_TOKEN_PID)) {<br>=C2=A0 =C2=A0 case 0:<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 r=
+eturn USB_TOKEN_OUT;<br>=C2=A0 =C2=A0 case 1:<br>=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 return USB_TOKEN_IN;<br>=C2=A0 =C2=A0 case 2:<br>=C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 return USB_TOKEN_SETUP;<br>=C2=A0 =C2=A0 default:<br>=C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 fprintf(stderr, &quot;bad token\n&quot;); // ----------------=
+-----------------------------&gt; [0]<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 return=
+ 0;<br>=C2=A0 =C2=A0 }<br>}<div><br></div><div>static int ehci_execute(EHCI=
+Packet *p, const char *action)<br>{<br>=C2=A0 =C2=A0 p-&gt;pid =3D ehci_get=
+_pid(&amp;p-&gt;qtd); // --------------------------------------------&gt; [=
+1]<br>=C2=A0 =C2=A0 p-&gt;queue-&gt;last_pid =3D p-&gt;pid;<br>=C2=A0 =C2=
+=A0 endp =3D get_field(p-&gt;queue-&gt;qh.epchar, QH_EPCHAR_EP);<br>=C2=A0 =
+=C2=A0 ep =3D usb_ep_get(p-&gt;queue-&gt;dev, p-&gt;pid/*=3D0*/, endp); // =
+-----------------------&gt; [2]<br></div><div>```</div><div><br></div><div>=
+A qtest sequence is like</div><div>```</div><div>writel 0x1011b000 0x101240=
+00<br>writel 0x10124004 0x358cbd80<br>writel 0x10124018 0x9e4bba36<br>write=
+l 0x10124014 0x10139000<br>writel 0xfebd5020 0x1c4a5135<br>writel 0x1013900=
+8 0x3d5c4b84<br>clock_step 0xb17b0<br>writel 0xfebd5064 0x5f919911<br>clock=
+_step 0xa9229<br>writel 0xfebd5064 0x5431e207<br>writel 0xfebd5038 0x1b2034=
+b5<br>writel 0x1b2034a0 0x10100000<br>writel 0x10100000 0x10109000<br>write=
+l 0x10109000 0x1011b000<br>clock_step 0xa9229<br></div><div>```</div><div><=
+br></div><div>Best,</div><div>Qiang</div><div><br></div><div><br></div></di=
+v>
 
-** Bug watch added: gitlab.com/qemu-project/qemu/-/issues #303
-   https://gitlab.com/qemu-project/qemu/-/issues/303
-
---=20
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1882123
-
-Title:
-  ARM cpu emulation regression on QEMU 4.2.0
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  [*] Summary
-
-  Latest QEMU has an ARM CPU emulation regression.
-  Regression is reproducible by building any C# project with .NET Core SDK =
-3.1.300 on Debian 10 armhf guest OS.
-
-  Releases affected: QEMU 4.2.0, 5.0.0
-  Releases not affected: QEMU 4.1.0, QEMU 4.1.1
-
-  [*] Detail
-
-  .NET Core SDK 3.1 fails to run on Debian 10 emulated by qemu-system-
-  arm.
-
-  I occasionally test my C# projects on the virtual armhf/arm64 system
-  emulated by QEMU. MSBuild, a build engine of the .NET Core SDK,
-  crashes on QEMU 4.2.0 or later. The crash only happens when MSBuild
-  tries to do any JIT compiling (dotnet build / dotnet test).
-
-  I attached the MSBuild crash logs. MSBuild always crashes with
-  SEHException, which means it tried to call C binary from .NET binary.
-
-  I think the ARM CPU emulation regression happened between QEMU 4.1.1 ~
-  4.2.0. The issue affects QEMU 4.2.0 and 5.0.0. QEMU 4.1.0, 4.1.1, and
-  real Raspberry Pi 2 are not affected by this issue, and .NET Core SDK
-  works completely fine.
-
-  [*] Environment
-
-  [Host OS]
-  Distribution: Linux Mint 19.3 amd64
-  CPU: AMD Ryzen 5 3600
-  Kernel: Ubuntu 5.3.0-51-generic
-
-  [QEMU Guest OS]
-  Distribution: Debian 10 Buster armhf
-  Kernel: Debian 4.19.0-9-armmp-lpae
-  .NET Core SDK: 3.1.300
-
-  [Raspberry Pi 2]
-  Distribution: Raspberry Pi OS Buster armhf
-  Kernel: 4.19.118-v7+
-
-  [Tested C# Projects]
-  This is a list of C# projects I have tested on QEMU and RPI2.
-  - https://github.com/ied206/Joveler.DynLoader
-  - https://github.com/ied206/Joveler.Compression
-  - https://github.com/ied206/ManagedWimLib
-
-  [QEMU Launch Arguments]
-  qemu-system-arm \
-  =C2=A0=C2=A0=C2=A0=C2=A0-smp 3 -M virt -m 4096 \
-  =C2=A0=C2=A0=C2=A0=C2=A0-kernel vmlinuz-4.19.0-9-armmp-lpae \
-  =C2=A0=C2=A0=C2=A0=C2=A0-initrd initrd.img-4.19.0-9-armmp-lpae \
-  =C2=A0=C2=A0=C2=A0=C2=A0-append "root=3D/dev/vda2" \
-  =C2=A0=C2=A0=C2=A0=C2=A0-drive if=3Dnone,file=3Ddebian_arm.qcow2,format=
-=3Dqcow2,id=3Dhd \
-  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-blk-device,drive=3Dhd \
-  =C2=A0=C2=A0=C2=A0=C2=A0-netdev user,id=3Dmynet,hostfwd=3Dtcp::<PORT>-:22=
- \
-  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-net-device,netdev=3Dmynet \
-  =C2=A0=C2=A0=C2=A0=C2=A0-device virtio-rng-device
-
-  [QEMU Configure Arguments]
-  ./configure --enable-spice --enable-gtk --enable-vnc-jpeg --enable-vnc-pn=
-g --enable-avx2 --enable-libusb --enable-opengl --enable-virglrenderer --en=
-able-kvm --enable-system --enable-modules --audio-drv-list=3Dpa
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1882123/+subscriptions
-
+--000000000000e49bba05f379e5b2--
 
