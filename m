@@ -2,92 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8DC681083
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:04:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3258868109E
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:05:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMUl7-0002lS-DJ; Mon, 30 Jan 2023 09:03:45 -0500
+	id 1pMUm8-0004RJ-3v; Mon, 30 Jan 2023 09:04:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMUl3-0002kF-Nj
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:03:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMUl2-0006oO-3v
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:03:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675087418;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=GFDl8ctoKYbV0a04ymixAPgHfyy16Jaf5DGg/RVheYY=;
- b=EsSgph/Qp3tC8QzXJ6So2Hv0NvI+iy7OgGacMSfE6jLTIn90ynigNMOUOI2wHfdAxh2OVz
- DAXVqnCiAZ9GtAaWDEaMebZeqrHxLHW28TJO1mMpBXzdXHGCe2MDU4Inrj3fha0KmtqGUx
- 0zsBGnk256OMK/odxqC2rp6eJnrahRw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-269-AFBkXteoNgKJ-qM2Qd2Pog-1; Mon, 30 Jan 2023 09:03:37 -0500
-X-MC-Unique: AFBkXteoNgKJ-qM2Qd2Pog-1
-Received: by mail-wr1-f70.google.com with SMTP id
- b15-20020adfc74f000000b002be276d2052so1936972wrh.1
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:03:37 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pMUm6-0004R7-5m
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:04:46 -0500
+Received: from mail-pg1-x52b.google.com ([2607:f8b0:4864:20::52b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pMUm4-0006tg-MP
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:04:45 -0500
+Received: by mail-pg1-x52b.google.com with SMTP id 143so7679275pgg.6
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:04:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=njFo12pYsEFIvREMCTlvpgnTekGhXNsA8n4nmT3z7A4=;
+ b=zyHK4fyvxsHyqs+tSflMy5SXIWFcLHmaVxLgznDhQhAjCQ9xgYXR/ycpfZsFW/QRNZ
+ j1bkw1oE+aJRtm1GHYKmz2vio4Plg4uhmEzfAiydY8uYIc+fQyiZQjj19qEd+MmDZZDz
+ V+F6ajRgMG6p5Kc8GNpN2z4zcHvLRtTFKCmEdqpI4GKEiFpC1Sj8rm2PX48M4phzZna2
+ EHsA17SbeJx4H5DyGS3BAHI5qB+sVt7/boIEF5ZQo1EHWtdH6QYPnMvEtyFB+4/SYAPJ
+ EdwbRDLf79HeZIOlJkiwaK/3PL50xGXZorA0k2m9azA8Mk7rdZcebzxh7tow7zDZeF9X
+ BmbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GFDl8ctoKYbV0a04ymixAPgHfyy16Jaf5DGg/RVheYY=;
- b=mslV8NLHA7VyORKzb0qryqfhc/XVD5wlhJcp9rqOM3R1sztDdM+jZNM0tOVvhNUF3V
- NMU9+dyIHOKJXYd8UWAThbz/E3LolGYLK7WenrX++i2VIRQufX2Y1DCAzTPudiyudSHB
- ysxjeTuQwN3QtaAwqUfgWOqKzRMUH13xL00r97t696/7eiHL8UnG+f1/woIGHDwp7Ck8
- mFqzisPYjK/fZWAq5SbHucZsgr5bJPXB3Eae/CD50wv4aBjUr6T27PAHG7HNzln+skhx
- TNOLtpPnCftXyrNtXRydTXMsdG25RHteuoCjQkeBrsFjBMxEWdJd1R0Vt5dLvSYnSoQj
- v4Ew==
-X-Gm-Message-State: AFqh2kq9J0Xi49lTfhMrl2ZScuMfn+f95DEnkmp4XSMP2X3Ebe2fWwPA
- L/Zubot7TJzkiXQgusEaHRJhBdkC/bM+3Pmq7m/63qIGgv9RuBiB8ZAEM9q37RlkdU2wPfCf2hm
- w0bERlsA1K9SdX7g=
-X-Received: by 2002:a05:600c:5390:b0:3d9:a145:4d1a with SMTP id
- hg16-20020a05600c539000b003d9a1454d1amr46505722wmb.34.1675087416547; 
- Mon, 30 Jan 2023 06:03:36 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtFKY4wKErVPwFCfwK4FLNSp/wvUmeuvqtCRuIbk5kLqNzjinre/Qxz9IoU8Lxhe11MtelbVA==
-X-Received: by 2002:a05:600c:5390:b0:3d9:a145:4d1a with SMTP id
- hg16-20020a05600c539000b003d9a1454d1amr46505673wmb.34.1675087416171; 
- Mon, 30 Jan 2023 06:03:36 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- l16-20020a7bc350000000b003d9aa76dc6asm19125415wmj.0.2023.01.30.06.03.34
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=njFo12pYsEFIvREMCTlvpgnTekGhXNsA8n4nmT3z7A4=;
+ b=ZVu2crQBN+zSj6X7rrACqCvG1XYlvkJEwi6iU52QnCSGmi4U6t3i888lCq/+fCbQTJ
+ BJVB9/qQoLxD+Qj7X/nO9rpAd7FYgfIuB7OLXSUN7zxyWoaZ1tf9uPAZlRUeJtBmhaGe
+ LCn3tq5ngVv3Pxxx2FsZYLRHl9i/z7vldCgUsDSg5wxoFJNOeI9Y6Dyq9PFymTWnYr5V
+ 6FBID1oi7exj8rLx2aePsxDB8FbuGCdJvYscPyyQr0rsdtdZ/EiemZjmj5ctiyF3fMhv
+ S2HDAaVKAtDSQAT/KinxhRt9L8q18+fC84f6AysrSLxMAZf7TdhaAvLDRkreuJlQg3S9
+ 1XXg==
+X-Gm-Message-State: AO0yUKXJa7ulDi+bPTr6oWficidKVXd4WQ5iEEnNymOOw3jvVfvbfqNf
+ QOTai/wyIQOIl0M/IZuFiOVawur6DFIlrCzz
+X-Google-Smtp-Source: AK7set+sUkvhPXu3Fy6CIND7z7eUUhS9+0I0YVQA5R60OtfogzJMRNHDaqtb+TW70WnHsXiPgCYbfQ==
+X-Received: by 2002:a05:6a00:1818:b0:592:6313:20fb with SMTP id
+ y24-20020a056a00181800b00592631320fbmr15149704pfa.30.1675087483179; 
+ Mon, 30 Jan 2023 06:04:43 -0800 (PST)
+Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ z19-20020a056a001d9300b00581f76c1da1sm6448128pfw.191.2023.01.30.06.04.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 06:03:35 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Jiang Jiacheng <jiangjiacheng@huawei.com>
-Cc: <qemu-devel@nongnu.org>,  <berrange@redhat.com>,  <dgilbert@redhat.com>,
- <yubihong@huawei.com>,  <xiexiangyou@huawei.com>,
- <zhengchuan@huawei.com>,  <linyilu@huawei.com>
-Subject: Re: [PATCH 2/3] migration: implement query migration threadinfo by
- name
-In-Reply-To: <9b3fc9df-d273-4008-36c2-c779a40132c2@huawei.com> (Jiang
- Jiacheng's message of "Mon, 30 Jan 2023 20:48:38 +0800")
-References: <20230120084735.825054-1-jiangjiacheng@huawei.com>
- <20230120084735.825054-3-jiangjiacheng@huawei.com>
- <87o7qgode5.fsf@secure.mitica>
- <9b3fc9df-d273-4008-36c2-c779a40132c2@huawei.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 30 Jan 2023 15:03:33 +0100
-Message-ID: <877cx4p1ai.fsf@secure.mitica>
+ Mon, 30 Jan 2023 06:04:42 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH] vhost-user-i2c: Back up vqs before cleaning up vhost_dev
+Date: Mon, 30 Jan 2023 23:04:35 +0900
+Message-Id: <20230130140435.78049-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::52b;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x52b.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,117 +84,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Jiang Jiacheng <jiangjiacheng@huawei.com> wrote:
-> On 2023/1/30 12:27, Juan Quintela wrote:
->> Jiang Jiacheng <jiangjiacheng@huawei.com> wrote:
->>> Introduce interface query-migrationthreads. The interface is use
->>> with the migration thread name reported by qemu and returns with
->>> migration thread name and its pid.
->>> Introduce threadinfo.c to manage threads with migration.
->>>
->>> Signed-off-by: Jiang Jiacheng <jiangjiacheng@huawei.com>
->> 
->> I like this query interface better than the way you expose the thread
->> name in the 1st place.
->
-> The event in patch1 is used to pass the thread name since libvirt
-> doesn't know the name of the migration thread but the interface below
-> need its name.
-> I think the event can be dropped if we store the thread name in
-> libvirt(if the migration thread name is fixed in qemu) or using the
-> 'query-migrationthreads' you mentioned below.
+vhost_dev_cleanup() clears vhost_dev so back up its vqs member to free
+the memory pointed by the member.
 
-I preffer the query migrationthreads, thanks.
->
->> 
->> But once that we are here, why don't we just "tweak" abit the interface:
->> 
->>> diff --git a/qapi/migration.json b/qapi/migration.json
->>> index b0cf366ac0..e93c3e560a 100644
->>> --- a/qapi/migration.json
->>> +++ b/qapi/migration.json
->>> @@ -1970,6 +1970,36 @@
->>>  { 'command': 'query-vcpu-dirty-limit',
->>>    'returns': [ 'DirtyLimitInfo' ] }
->>>  
->>> +##
->>> +# @MigrationThreadInfo:
->>> +#
->>> +# Information about migrationthreads
->>> +#
->>> +# @name: the name of migration thread
->>> +#
->>> +# @thread-id: ID of the underlying host thread
->>> +#
->>> +# Since: 7.2
->>> +##
->>> +{ 'struct': 'MigrationThreadInfo',
->>> +  'data': {'name': 'str',
->>> +           'thread-id': 'int'} }
->> 
->> 1st, it is an int enough for all architectures?  I know that for linux
->> and friends it is, but not sure about windows and other weird systems.
->> 
->
-> It is only enough for migration pin which I want to implement. But I
-> think this struct can be easily expand if we need other information
-> about migration thread.
+Fixes: 7221d3b634 ("hw/virtio: add boilerplate for vhost-user-i2c device")
+Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+---
+ hw/virtio/vhost-user-i2c.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-I mean that pthread_t (what you are passing here) is an int on linux.
-Not sure on other OS's.
-
->>> +##
->>> +# @query-migrationthreads:
->> 
->> What about renaming this to:
->> 
->> @query-migrationthread (I removed the last 's')
->> 
->> because it returns the info of a single thread.
->> 
->>> +#
->>> +# Returns threadInfo about the thread specified by name
->>> +#
->>> +# data: migration thread name
->>> +#
->>> +# returns: information about the specified thread
->>> +#
->>> +# Since: 7.2
->>> +##
->>> +{ 'command': 'query-migrationthreads',
->>> +  'data': { 'name': 'str' },
->>> +  'returns': 'MigrationThreadInfo' }
->>> +
->>>  ##
->>>  # @snapshot-save:
->>>  #
->> 
->> And leaves the @query-migrationthreads name for something in the spirit of
->> 
->>> +{ 'command': 'query-migrationthreads',
->>> +  'returns': ['str'] }
->> 
->> That returns all the migration threads names.
->> 
->> Or perhaps even
->> 
->>> +{ 'command': 'query-migrationthreads',
->>> +  'returns': ['MigrationThreadInfo'] }
->> 
->> And call it a day?
->
-> I think it's the best. If in this way, should we keep the interface to
-> query specified thread?
-
-I wouldn't do it, but it is up to you.
-
-My (little) understanding of what you want to do is that you want all
-the threads, so I see no reason to have a query for a single one.
-
-Later, Juan.
+diff --git a/hw/virtio/vhost-user-i2c.c b/hw/virtio/vhost-user-i2c.c
+index dc5c828ba6..60eaf0d95b 100644
+--- a/hw/virtio/vhost-user-i2c.c
++++ b/hw/virtio/vhost-user-i2c.c
+@@ -143,8 +143,6 @@ static void do_vhost_user_cleanup(VirtIODevice *vdev, VHostUserI2C *i2c)
+     vhost_user_cleanup(&i2c->vhost_user);
+     virtio_delete_queue(i2c->vq);
+     virtio_cleanup(vdev);
+-    g_free(i2c->vhost_dev.vqs);
+-    i2c->vhost_dev.vqs = NULL;
+ }
+ 
+ static int vu_i2c_connect(DeviceState *dev)
+@@ -228,6 +226,7 @@ static void vu_i2c_device_realize(DeviceState *dev, Error **errp)
+     ret = vhost_dev_init(&i2c->vhost_dev, &i2c->vhost_user,
+                          VHOST_BACKEND_TYPE_USER, 0, errp);
+     if (ret < 0) {
++        g_free(i2c->vhost_dev.vqs);
+         do_vhost_user_cleanup(vdev, i2c);
+     }
+ 
+@@ -239,10 +238,12 @@ static void vu_i2c_device_unrealize(DeviceState *dev)
+ {
+     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
+     VHostUserI2C *i2c = VHOST_USER_I2C(dev);
++    struct vhost_virtqueue *vhost_vqs = i2c->vhost_dev.vqs;
+ 
+     /* This will stop vhost backend if appropriate. */
+     vu_i2c_set_status(vdev, 0);
+     vhost_dev_cleanup(&i2c->vhost_dev);
++    g_free(vhost_vqs);
+     do_vhost_user_cleanup(vdev, i2c);
+ }
+ 
+-- 
+2.39.1
 
 
