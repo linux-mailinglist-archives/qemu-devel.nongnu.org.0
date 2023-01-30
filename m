@@ -2,86 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD7A681356
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:32:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34D6668136A
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:34:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMVBr-0002LO-Qm; Mon, 30 Jan 2023 09:31:23 -0500
+	id 1pMVEF-0003g2-UU; Mon, 30 Jan 2023 09:33:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pMVBp-0002L2-ON
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:31:21 -0500
-Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pMVBn-0003z4-ON
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:31:21 -0500
-Received: by mail-pl1-x62b.google.com with SMTP id h9so3192731plf.9
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:31:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=daynix-com.20210112.gappssmtp.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=uGbwgjjAPl62G4OBS+4fEWYk5IfJMw0Y9pBqOkocwaA=;
- b=riWfVYEbixhKtL7jJ1Do+SLHD0LdoC9pHPaOeNGMje+DacYhiYzhVwnx/VUJ33jSk/
- h8eD94zKnbUlI+5Z5/eH6xb3EuEwoeygx3mGiwZh6sILVz93RhbfyGZFGc6Yd2JomDln
- FnPJCJKK+IHEkr3A1JY/uh8usVVHnND0k1H2rUI66RS1f7trflleklhPknbVaMajpkdh
- AR010A6X8nyPQMBFRlVDSv2VHqdu0VhyI8IKgbHezxc9XCZt5HekQx27fGn4BcCvoi+f
- ROTQO7HJH8nB+rBOU3TWcFSZkCCVsLtcui1lhwdTXgh7aQRyHhLOmYfUhPdeXAMQVAju
- nxug==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMVDy-0003af-4V
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:33:34 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMVDw-0004Pt-4l
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:33:33 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675089211;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=f2UWpSg/0w3jyfZ0M6ETKEjw3TSMIRMYHuS3iey7/Fo=;
+ b=ClKj7ksjxGR71wviRosXAneHjqiwRI3SqJvfuOfMI00bShDJ1qGI2Cvrt0Z52hVhB53Waz
+ go44mCK+nGQGXmF7F18ybPuVd9xT2xif9uFBubctX5fcJkX6Q/lz8hPH5w2ACAfjq4WN5a
+ YsGaregyb1ZT108ycAFT11cGtjilLP0=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-21-pGW3VszqO9uxseTjTbqDWQ-1; Mon, 30 Jan 2023 09:33:28 -0500
+X-MC-Unique: pGW3VszqO9uxseTjTbqDWQ-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ bm30-20020a05620a199e00b007090f3c5ec0so7220404qkb.21
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:33:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=uGbwgjjAPl62G4OBS+4fEWYk5IfJMw0Y9pBqOkocwaA=;
- b=se7M04LBC3MC05QuwQeEF+ZX49qmefSfxsf1Oxyc2wKE4vCDmv629iHfSVfL1nZrl/
- VsyPy4rv1WOHlzWvEINF1SExXclCLIK/V2v9z92LrbRcZN5yQPfZyvawh2dQQoei4jCH
- 0lGIhg6N5kvOVq7Gf/iiWOa5dCCRNB3qsLOJDAH8y6D3zA5vjoekh/EjmXexRPvuAD/n
- 8skjMsrE/QESEw8+QS4WOz8EE8w+rh4JhWHGoMpMWnfUcd/vE+nrOO+dkAGsxy9En8UN
- KlMkTi+G6U+a67VGfNBAj0249STUE0Ak2M91aLagQhmjYeUi81BHIKRUytf85j1w1yd/
- 7jLw==
-X-Gm-Message-State: AO0yUKUCXFehZjvVmaQv12LwQMAgoeZEL9v+LDsYgBiHEd2OTa54W3RN
- ej1buoS1cY/bqGyhJtARFpQGig==
-X-Google-Smtp-Source: AK7set8PmhSZqwh6D7nvIT5tqOuA5ZyCy1o1Sji8Ut5Qyt/5yZBCccXpeFuHYEFTM+AylvoaYrMDUA==
-X-Received: by 2002:a17:902:c24d:b0:196:3bbb:e9db with SMTP id
- 13-20020a170902c24d00b001963bbbe9dbmr18286066plg.10.1675089078006; 
- Mon, 30 Jan 2023 06:31:18 -0800 (PST)
-Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
- ([2400:4050:a840:1e00:4457:c267:5e09:481b])
- by smtp.gmail.com with ESMTPSA id
- a1-20020a170902ecc100b001948720f6bdsm7861184plh.98.2023.01.30.06.31.16
+ bh=f2UWpSg/0w3jyfZ0M6ETKEjw3TSMIRMYHuS3iey7/Fo=;
+ b=EzBNoeG/S1zlwI6PYadUxfqaD8KRZxsX/rVvZpdyj2G1VjJ3emboPo4Bj5cqqA8qE/
+ eL2WXTSJoinPMVCGVuh13TFZrD4hbzA+r4AE6ltn1NV87I8siT6VwRi5/+qwSUDrB1Z2
+ 7Kh0EUjBHP8714Tb8Fmp/gyU/fxBYFqht4CQhWtq49hHYmdRlktmtyZFqQHB97B/lczA
+ LtqMYF6BOqOX3TTfa6Ury8NwoaxHZ4kzFJdg8Kq6d/S6H/j/86/R328Q4hG+2IWJr0OH
+ 9mH9VLNJ/0A5z3MonZ1hrV7W6Y07DxLO/NvbiYElQBUVPBY+yVq23WW+VhvHRvAHccpY
+ lnMQ==
+X-Gm-Message-State: AO0yUKXochzkgeWoXs01mUFaPXjpuRT5BX2iH7NgVh+fHmDoWsBx+pC2
+ N9YYl82q29UOwnn8Z8B7QwXsf3vgva1L4t87g3gwYcJyUNsOIvJ2jio9Vljw61pCeGZ2Zbb2F3j
+ 3+nCLXSBrvtMPCYM=
+X-Received: by 2002:a05:622a:10f:b0:3b8:6b6b:28c2 with SMTP id
+ u15-20020a05622a010f00b003b86b6b28c2mr5184300qtw.68.1675089207981; 
+ Mon, 30 Jan 2023 06:33:27 -0800 (PST)
+X-Google-Smtp-Source: AK7set+K2c5NiESxeGHyIh/hvIZWVgMiKyfj22K0zIkQAvr6H+7B5UzeKvraD15cA/7bpb9yr9NEqQ==
+X-Received: by 2002:a05:622a:10f:b0:3b8:6b6b:28c2 with SMTP id
+ u15-20020a05622a010f00b003b86b6b28c2mr5184266qtw.68.1675089207662; 
+ Mon, 30 Jan 2023 06:33:27 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-178-179.web.vodafone.de.
+ [109.43.178.179]) by smtp.gmail.com with ESMTPSA id
+ i2-20020ac87642000000b003b6a17e1996sm8050325qtr.83.2023.01.30.06.33.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jan 2023 06:31:17 -0800 (PST)
-Message-ID: <a3a502f7-397c-d525-ce69-6bfa4501a00b@daynix.com>
-Date: Mon, 30 Jan 2023 23:31:15 +0900
+ Mon, 30 Jan 2023 06:33:22 -0800 (PST)
+Message-ID: <c341f40c-59f6-754b-1323-b3343ee40cad@redhat.com>
+Date: Mon, 30 Jan 2023 15:33:18 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
- Thunderbird/102.7.0
-Subject: Re: [PATCH v2 5/9] igb: check oversized packets for VMDq
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v4 2/3] accel/tcg: Add debuginfo support
 Content-Language: en-US
-To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-References: <20230130132304.2347-1-sriram.yagnaraman@est.tech>
- <20230130132304.2347-6-sriram.yagnaraman@est.tech>
-From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <20230130132304.2347-6-sriram.yagnaraman@est.tech>
+To: Ilya Leoshkevich <iii@linux.ibm.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20230112152013.125680-1-iii@linux.ibm.com>
+ <20230112152013.125680-3-iii@linux.ibm.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230112152013.125680-3-iii@linux.ibm.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62b;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62b.google.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,117 +102,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/01/30 22:23, Sriram Yagnaraman wrote:
-> Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-> ---
->   hw/net/igb_core.c | 48 +++++++++++++++++++++++++++++++++++++++--------
->   1 file changed, 40 insertions(+), 8 deletions(-)
+On 12/01/2023 16.20, Ilya Leoshkevich wrote:
+> Add libdw-based functions for loading and querying debuginfo. Load
+> debuginfo from the system and the linux-user loaders.
 > 
-> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-> index cea7c036f0..89650fcfd4 100644
-> --- a/hw/net/igb_core.c
-> +++ b/hw/net/igb_core.c
-> @@ -910,12 +910,27 @@ igb_rx_l4_cso_enabled(IGBCore *core)
->       return !!(core->mac[RXCSUM] & E1000_RXCSUM_TUOFLD);
->   }
+> This is useful for the upcoming perf support, which can then put
+> human-readable guest symbols instead of raw guest PCs into perfmap and
+> jitdump files.
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+...
+> diff --git a/meson.build b/meson.build
+> index 175517eafde..cab8c67d961 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -1648,6 +1648,12 @@ if libbpf.found() and not cc.links('''
+>     endif
+>   endif
 >   
-> +static bool
-> +igb_rx_is_oversized(IGBCore *core, uint16_t qn, size_t size)
-> +{
-> +    uint16_t pool = qn % IGB_MAX_VM_POOLS;
-> +    bool lpe = !!(core->mac[VMOLR0 + pool] & E1000_VMOLR_LPE);
-> +    int maximum_ethernet_lpe_size =
-> +        core->mac[VMOLR0 + pool] & E1000_VMOLR_RLPML_MASK;
-> +    int maximum_ethernet_vlan_size = 1522;
+> +# libdw
+> +libdw = dependency('libdw',
+> +                   method: 'pkg-config',
+> +                   kwargs: static_kwargs,
+> +                   required: false)
 > +
-> +    return (size > maximum_ethernet_lpe_size ||
-> +        (size > maximum_ethernet_vlan_size && !lpe));
 
-It will return true if !lpe && size > maximum_ethernet_lpe_size 
-(maximum_ethernet_lpe_size can be smaller than 
-maximum_ethernet_vlan_size although it is quite unlikely), but it should 
-ignore maximum_ethernet_lpe_size in such a case.
+  Hi,
 
-Also you don't need the brace around the entire expression.
+I recently did a build with "configure --without-default-features" and I 
+noticed that this new libdw does not get disabled automatically there, which 
+looks kind of weird. Is there a reason that there is no config knob here to 
+disable it like we have it with all the other optional libraries that we 
+support?
 
-> +}
-> +
->   static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
-> -                                   E1000E_RSSInfo *rss_info, bool *external_tx)
-> +                                   size_t size, E1000E_RSSInfo *rss_info,
-> +                                   bool *external_tx)
->   {
->       static const int ta_shift[] = { 4, 3, 2, 0 };
->       uint32_t f, ra[2], *macp, rctl = core->mac[RCTL];
->       uint16_t queues = 0;
-> +    uint16_t oversized = 0;
->       uint16_t vid = lduw_be_p(&PKT_GET_VLAN_HDR(ehdr)->h_tci) & VLAN_VID_MASK;
->       bool accepted = false;
->       int i;
-> @@ -941,7 +956,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
->   
->       if (core->mac[MRQC] & 1) {
->           if (is_broadcast_ether_addr(ehdr->h_dest)) {
-> -            for (i = 0; i < 8; i++) {
-> +            for (i = 0; i < IGB_MAX_VM_POOLS; i++) {
->                   if (core->mac[VMOLR0 + i] & E1000_VMOLR_BAM) {
->                       queues |= BIT(i);
->                   }
-> @@ -975,7 +990,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
->                   f = ta_shift[(rctl >> E1000_RCTL_MO_SHIFT) & 3];
->                   f = (((ehdr->h_dest[5] << 8) | ehdr->h_dest[4]) >> f) & 0xfff;
->                   if (macp[f >> 5] & (1 << (f & 0x1f))) {
-> -                    for (i = 0; i < 8; i++) {
-> +                    for (i = 0; i < IGB_MAX_VM_POOLS; i++) {
->                           if (core->mac[VMOLR0 + i] & E1000_VMOLR_ROMPE) {
->                               queues |= BIT(i);
->                           }
-> @@ -998,7 +1013,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
->                       }
->                   }
->               } else {
-> -                for (i = 0; i < 8; i++) {
-> +                for (i = 0; i < IGB_MAX_VM_POOLS; i++) {
->                       if (core->mac[VMOLR0 + i] & E1000_VMOLR_AUPE) {
->                           mask |= BIT(i);
->                       }
-> @@ -1015,9 +1030,26 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
->           }
->   
->           queues &= core->mac[VFRE];
-> -        igb_rss_parse_packet(core, core->rx_pkt, external_tx != NULL, rss_info);
-> -        if (rss_info->queue & 1) {
-> -            queues <<= 8;
-> +        if (queues) {
-> +            for (i = 0; i < IGB_MAX_VM_POOLS; i++) {
-> +                if ((queues & BIT(i)) && igb_rx_is_oversized(core, i, size)) {
-> +                    oversized |= BIT(i);
-> +                }
-> +            }
-> +            /* 8.19.37 increment ROC if packet is oversized for all queues */
-> +            if (oversized == queues) {
-> +                trace_e1000x_rx_oversized(size);
-> +                e1000x_inc_reg_if_not_full(core->mac, ROC);
-> +            }
-> +            queues &= ~oversized;
-> +        }
-> +
-> +        if (queues) {
-> +            igb_rss_parse_packet(core, core->rx_pkt,
-> +                                 external_tx != NULL, rss_info);
-> +            if (rss_info->queue & 1) {
-> +                queues <<= 8;
-> +            }
->           }
->       } else {
->           switch (net_rx_pkt_get_packet_type(core->rx_pkt)) {
-> @@ -1561,7 +1593,7 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
->                                  e1000x_vlan_enabled(core->mac),
->                                  core->mac[VET] & 0xffff);
->   
-> -    queues = igb_receive_assign(core, ehdr, &rss_info, external_tx);
-> +    queues = igb_receive_assign(core, ehdr, size, &rss_info, external_tx);
->       if (!queues) {
->           trace_e1000e_rx_flt_dropped();
->           return orig_size;
+  Thomas
+
 
