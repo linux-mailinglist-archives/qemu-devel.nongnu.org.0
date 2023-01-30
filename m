@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E905D68190D
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 19:27:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37FE9681907
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 19:26:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMYqT-0001FI-IR; Mon, 30 Jan 2023 13:25:33 -0500
+	id 1pMYqR-0001DL-GF; Mon, 30 Jan 2023 13:25:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pMYqM-00019f-Oo
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:25:26 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ id 1pMYqO-0001B6-3F
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:25:28 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pMYqI-0008NK-2g
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:25:26 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id a3so5288849wrt.6
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 10:25:20 -0800 (PST)
+ id 1pMYqI-0008NL-A8
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:25:27 -0500
+Received: by mail-wr1-x435.google.com with SMTP id t18so12011066wro.1
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 10:25:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=Lt2f6IiUFpXwxZX1E9UJcu2gXVFrqyPjbwO3PpeBNvc=;
- b=Ak2dB8hqZeIV6RlBSzLdna9jzJD6cF4Iika9/hItNpUMOpRZB6Q84/fDrFigmkWe65
- gnUQFM+2oVZ/s0sJjT+WToZAfzFNRCChzo0vDyRHFEioQr3ul02yvuAeBgYkmhgnUzFq
- rn3dQ6Asp0fkJTE/EUdKK0Vwxa+P/QcWeAntkNSXiVGgX4APT1FZHoPMO3kGomyX9Ouz
- A0m2Q5Zi/UIEeZ5pev4LTvi9SlfLqma0bjaNz7n23sHUWuK1gVorbdR/YL5DZQ7LC5JW
- +QGqfhLna0Ri/DV3RoieAeR7coORipRnbkAeHW0TTmB80UbRMrUUPX4tqnOjT86u8Z8k
- s1HA==
+ :reply-to; bh=dwXHqLhKo35zy7gR+OyfjbB1+IphkLeWns/fzBcm5MU=;
+ b=El+QkQeS8W7ibSQtZja1vdZAB5LOAD1ZUhJyaXTyyIWGtkb8PHijLGIZjyKqGpqNxg
+ PGQrR6nLG058D4gkMxTfc4+c666W+fLCZgECo8LEzo7A7cq0AONks1SwMwPQat5/mq4I
+ 6lMl9lHZEGNkhYGFVPspSaDFL0z18SK8stqKDMO7YPdXpBQklMqZYztwUX2jqi5imKvv
+ nZSiL6uRw+HPK5Xo8mS2eaS/evfCzdCTeoonvuETedDxj92MYrkL0k3EukZpnt+M5X8m
+ eIlWG7sozfziuhRRRU7Ca+y4N4CGPyrcUVNaYnUGzZkgFm2NTZeFb6WLnxnVLwKCpTb6
+ wpOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Lt2f6IiUFpXwxZX1E9UJcu2gXVFrqyPjbwO3PpeBNvc=;
- b=sL3p5Ka6Isvn0hfi11lRnPGGhJnnwbIcIAoEaIS6srg0SiA/6dYTvNIgXAKfRd2Swm
- cEdWktiH4GWrnquylvsuLOPR0wVplIgBTwO0AhM6pH0aGcvXktaWgx4mnsH0VRWliqlx
- oCqaO8C1XD6x0muT21C4pkycmds42q7yetNDg5oX8niVXx4xP3Ir56eNp4qxXWdPJ1nI
- R9mBO0b2X+CD+knTAgAxf9cVjJXjKmRfvZBnTVaJWO2v7sN9DQgUNa/QMr8xMMAKF7wA
- fwvXS3Bk3uTrI6NcL+GCnSizeqxwNc4xYNVI8eoeUeNpiyNSPcRA5Dy+22emGM0egwTq
- q5lw==
-X-Gm-Message-State: AFqh2krHRkpOQ3bDxvUf+ImL3l2gEO5VPr5vWRMAYMHPeZFuYqR7BmYI
- fC/XC/NCrtojMptvhKyYooRatw==
-X-Google-Smtp-Source: AMrXdXuPGThBtZ87uJwlYsZyVSMddTjgACC9RdTnZ9hxUiDC0xe2KbrIp8Z/9ukjmjMmWS4Bn3I6uA==
-X-Received: by 2002:a5d:58e8:0:b0:2be:b07:d411 with SMTP id
- f8-20020a5d58e8000000b002be0b07d411mr40212469wrd.3.1675103120543; 
- Mon, 30 Jan 2023 10:25:20 -0800 (PST)
+ bh=dwXHqLhKo35zy7gR+OyfjbB1+IphkLeWns/fzBcm5MU=;
+ b=VRRfPF8coxHKM9O2qa6/YGSePGLD0IJ+iVVKRyYLh6zSLp4Iip+jpL88gRgjpLbRyU
+ /JG+a7BChG90+wmy+pqAGwzjKmsXxK0rbInvJqsXSgQk0OrijmoJJU4tmqcMh9sbdk2+
+ LcXdCvZa3IH1798gAocr+S1b+q2SqkClUwIISZNrvr1VxSvvzXT5qm+EQLhfGYtNQAiJ
+ C9BBYxm/BZx8eblaREZJWhs1k3muqJV6CFCStLrL13Y2yg09bWU+Ae64Ykk59asM/AFb
+ HWpr/PeWSjKSjkjCuhqmt2S3NfJP8mHr7WjXGQhWV4kp1whzbB8KVJ6/XPJYEwjuPYWI
+ ja6Q==
+X-Gm-Message-State: AO0yUKVnS2dEBgfp2dML7ZOgidvKlYwDT28jBezK8P/uAfzxq3HfqRQg
+ WiVOD9m6qbeFsMgR9sL+YEcWL4EPz44U54WX
+X-Google-Smtp-Source: AK7set9tNvBnEkCfIs53YM9Ztnyz9SbOAdBVO3ImlaAWn+83IWouRZktOmkILBySZEZ02XCJ587Bwg==
+X-Received: by 2002:a05:6000:1f91:b0:2bf:d1a1:ff5d with SMTP id
+ bw17-20020a0560001f9100b002bfd1a1ff5dmr10615471wrb.32.1675103121461; 
+ Mon, 30 Jan 2023 10:25:21 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- l16-20020adffe90000000b002b8fe58d6desm12245202wrr.62.2023.01.30.10.25.19
+ l16-20020adffe90000000b002b8fe58d6desm12245202wrr.62.2023.01.30.10.25.20
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 10:25:19 -0800 (PST)
+ Mon, 30 Jan 2023 10:25:20 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 19/23] target/arm: Mark up sysregs for HFGITR bits 48..63
-Date: Mon, 30 Jan 2023 18:24:55 +0000
-Message-Id: <20230130182459.3309057-20-peter.maydell@linaro.org>
+Subject: [PATCH v2 20/23] target/arm: Implement the HFGITR_EL2.ERET trap
+Date: Mon, 30 Jan 2023 18:24:56 +0000
+Message-Id: <20230130182459.3309057-21-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230130182459.3309057-1-peter.maydell@linaro.org>
 References: <20230130182459.3309057-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,96 +88,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Mark up the sysreg definitions for the system instructions
-trapped by HFGITR bits 48..63.
+Implement the HFGITR_EL2.ERET fine-grained trap.  This traps
+execution from AArch64 EL1 of ERET, ERETAA and ERETAB.  The trap is
+reported with a syndrome value of 0x1a.
 
-Some of these bits are for trapping instructions which are
-not in the system instruction encoding (i.e. which are
-not handled by the ARMCPRegInfo mechanism):
- * ERET, ERETAA, ERETAB
- * SVC
-
-We will have to handle those separately and manually.
+The trap must take precedence over a possible pointer-authentication
+trap for ERETAA and ERETAB.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230127175507.2895013-20-peter.maydell@linaro.org
+Message-id: 20230127175507.2895013-21-peter.maydell@linaro.org
 ---
- target/arm/cpregs.h | 4 ++++
- target/arm/helper.c | 9 +++++++++
- 2 files changed, 13 insertions(+)
+ target/arm/cpu.h           |  1 +
+ target/arm/syndrome.h      | 10 ++++++++++
+ target/arm/translate.h     |  2 ++
+ target/arm/helper.c        |  3 +++
+ target/arm/translate-a64.c | 10 ++++++++++
+ 5 files changed, 26 insertions(+)
 
-diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
-index 2e5ac6b4f98..efcf9181b97 100644
---- a/target/arm/cpregs.h
-+++ b/target/arm/cpregs.h
-@@ -696,6 +696,10 @@ typedef enum FGTBit {
-     DO_BIT(HFGITR, TLBIVAAE1),
-     DO_BIT(HFGITR, TLBIVALE1),
-     DO_BIT(HFGITR, TLBIVAALE1),
-+    DO_BIT(HFGITR, CFPRCTX),
-+    DO_BIT(HFGITR, DVPRCTX),
-+    DO_BIT(HFGITR, CPPRCTX),
-+    DO_BIT(HFGITR, DCCVAC),
- } FGTBit;
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 5cc81bec9bf..ec2a7716ce7 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3245,6 +3245,7 @@ FIELD(TBFLAG_A64, PSTATE_ZA, 23, 1)
+ FIELD(TBFLAG_A64, SVL, 24, 4)
+ /* Indicates that SME Streaming mode is active, and SMCR_ELx.FA64 is not. */
+ FIELD(TBFLAG_A64, SME_TRAP_NONSTREAMING, 28, 1)
++FIELD(TBFLAG_A64, FGT_ERET, 29, 1)
  
- #undef DO_BIT
+ /*
+  * Helpers for using the above.
+diff --git a/target/arm/syndrome.h b/target/arm/syndrome.h
+index 73df5e37938..d27d1bc31f0 100644
+--- a/target/arm/syndrome.h
++++ b/target/arm/syndrome.h
+@@ -48,6 +48,7 @@ enum arm_exception_class {
+     EC_AA64_SMC               = 0x17,
+     EC_SYSTEMREGISTERTRAP     = 0x18,
+     EC_SVEACCESSTRAP          = 0x19,
++    EC_ERETTRAP               = 0x1a,
+     EC_SMETRAP                = 0x1d,
+     EC_INSNABORT              = 0x20,
+     EC_INSNABORT_SAME_EL      = 0x21,
+@@ -215,6 +216,15 @@ static inline uint32_t syn_sve_access_trap(void)
+     return EC_SVEACCESSTRAP << ARM_EL_EC_SHIFT;
+ }
+ 
++/*
++ * eret_op is bits [1:0] of the ERET instruction, so:
++ * 0 for ERET, 2 for ERETAA, 3 for ERETAB.
++ */
++static inline uint32_t syn_erettrap(int eret_op)
++{
++    return (EC_ERETTRAP << ARM_EL_EC_SHIFT) | ARM_EL_IL | eret_op;
++}
++
+ static inline uint32_t syn_smetrap(SMEExceptionType etype, bool is_16bit)
+ {
+     return (EC_SMETRAP << ARM_EL_EC_SHIFT)
+diff --git a/target/arm/translate.h b/target/arm/translate.h
+index 599902016dc..62a7706eabd 100644
+--- a/target/arm/translate.h
++++ b/target/arm/translate.h
+@@ -132,6 +132,8 @@ typedef struct DisasContext {
+     bool mve_no_pred;
+     /* True if fine-grained traps are active */
+     bool fgt_active;
++    /* True if fine-grained trap on ERET is enabled */
++    bool fgt_eret;
+     /*
+      * >= 0, a copy of PSTATE.BTYPE, which will be 0 without v8.5-BTI.
+      *  < 0, set by the current instruction.
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 5b9cc087e28..c0403aadae2 100644
+index c0403aadae2..6151c775053 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -5295,6 +5295,7 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
-     { .name = "DC_CVAC", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 10, .opc2 = 1,
-       .access = PL0_W, .type = ARM_CP_NOP,
-+      .fgt = FGT_DCCVAC,
-       .accessfn = aa64_cacheop_poc_access },
-     { .name = "DC_CSW", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 10, .opc2 = 2,
-@@ -7588,10 +7589,12 @@ static const ARMCPRegInfo mte_el0_cacheop_reginfo[] = {
-     { .name = "DC_CGVAC", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 10, .opc2 = 3,
-       .type = ARM_CP_NOP, .access = PL0_W,
-+      .fgt = FGT_DCCVAC,
-       .accessfn = aa64_cacheop_poc_access },
-     { .name = "DC_CGDVAC", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 10, .opc2 = 5,
-       .type = ARM_CP_NOP, .access = PL0_W,
-+      .fgt = FGT_DCCVAC,
-       .accessfn = aa64_cacheop_poc_access },
-     { .name = "DC_CGVAP", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 12, .opc2 = 3,
-@@ -7747,24 +7750,30 @@ static CPAccessResult access_predinv(CPUARMState *env, const ARMCPRegInfo *ri,
- static const ARMCPRegInfo predinv_reginfo[] = {
-     { .name = "CFP_RCTX", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 3, .opc2 = 4,
-+      .fgt = FGT_CFPRCTX,
-       .type = ARM_CP_NOP, .access = PL0_W, .accessfn = access_predinv },
-     { .name = "DVP_RCTX", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 3, .opc2 = 5,
-+      .fgt = FGT_DVPRCTX,
-       .type = ARM_CP_NOP, .access = PL0_W, .accessfn = access_predinv },
-     { .name = "CPP_RCTX", .state = ARM_CP_STATE_AA64,
-       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 3, .opc2 = 7,
-+      .fgt = FGT_CPPRCTX,
-       .type = ARM_CP_NOP, .access = PL0_W, .accessfn = access_predinv },
-     /*
-      * Note the AArch32 opcodes have a different OPC1.
-      */
-     { .name = "CFPRCTX", .state = ARM_CP_STATE_AA32,
-       .cp = 15, .opc1 = 0, .crn = 7, .crm = 3, .opc2 = 4,
-+      .fgt = FGT_CFPRCTX,
-       .type = ARM_CP_NOP, .access = PL0_W, .accessfn = access_predinv },
-     { .name = "DVPRCTX", .state = ARM_CP_STATE_AA32,
-       .cp = 15, .opc1 = 0, .crn = 7, .crm = 3, .opc2 = 5,
-+      .fgt = FGT_DVPRCTX,
-       .type = ARM_CP_NOP, .access = PL0_W, .accessfn = access_predinv },
-     { .name = "CPPRCTX", .state = ARM_CP_STATE_AA32,
-       .cp = 15, .opc1 = 0, .crn = 7, .crm = 3, .opc2 = 7,
-+      .fgt = FGT_CPPRCTX,
-       .type = ARM_CP_NOP, .access = PL0_W, .accessfn = access_predinv },
- };
+@@ -12065,6 +12065,9 @@ static CPUARMTBFlags rebuild_hflags_a64(CPUARMState *env, int el, int fp_el,
  
+     if (arm_fgt_active(env, el)) {
+         DP_TBFLAG_ANY(flags, FGT_ACTIVE, 1);
++        if (FIELD_EX64(env->cp15.fgt_exec[FGTREG_HFGITR], HFGITR_EL2, ERET)) {
++            DP_TBFLAG_A64(flags, FGT_ERET, 1);
++        }
+     }
+ 
+     if (cpu_isar_feature(aa64_mte, env_archcpu(env))) {
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index a47dab4f1dd..11bfa3f717a 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -2385,6 +2385,10 @@ static void disas_uncond_b_reg(DisasContext *s, uint32_t insn)
+             if (op4 != 0) {
+                 goto do_unallocated;
+             }
++            if (s->fgt_eret) {
++                gen_exception_insn_el(s, 0, EXCP_UDEF, syn_erettrap(op3), 2);
++                return;
++            }
+             dst = tcg_temp_new_i64();
+             tcg_gen_ld_i64(dst, cpu_env,
+                            offsetof(CPUARMState, elr_el[s->current_el]));
+@@ -2398,6 +2402,11 @@ static void disas_uncond_b_reg(DisasContext *s, uint32_t insn)
+             if (rn != 0x1f || op4 != 0x1f) {
+                 goto do_unallocated;
+             }
++            /* The FGT trap takes precedence over an auth trap. */
++            if (s->fgt_eret) {
++                gen_exception_insn_el(s, 0, EXCP_UDEF, syn_erettrap(op3), 2);
++                return;
++            }
+             dst = tcg_temp_new_i64();
+             tcg_gen_ld_i64(dst, cpu_env,
+                            offsetof(CPUARMState, elr_el[s->current_el]));
+@@ -14742,6 +14751,7 @@ static void aarch64_tr_init_disas_context(DisasContextBase *dcbase,
+     dc->align_mem = EX_TBFLAG_ANY(tb_flags, ALIGN_MEM);
+     dc->pstate_il = EX_TBFLAG_ANY(tb_flags, PSTATE__IL);
+     dc->fgt_active = EX_TBFLAG_ANY(tb_flags, FGT_ACTIVE);
++    dc->fgt_eret = EX_TBFLAG_A64(tb_flags, FGT_ERET);
+     dc->sve_excp_el = EX_TBFLAG_A64(tb_flags, SVEEXC_EL);
+     dc->sme_excp_el = EX_TBFLAG_A64(tb_flags, SMEEXC_EL);
+     dc->vl = (EX_TBFLAG_A64(tb_flags, VL) + 1) * 16;
 -- 
 2.34.1
 
