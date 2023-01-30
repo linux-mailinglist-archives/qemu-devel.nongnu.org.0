@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F30A6809FF
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 10:54:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 434B36809F1
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 10:53:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMQqF-0002y9-M6; Mon, 30 Jan 2023 04:52:47 -0500
+	id 1pMQqH-0002ym-Nm; Mon, 30 Jan 2023 04:52:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=13943e2a21=bin.meng@windriver.com>)
- id 1pMQqD-0002xk-99
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 04:52:45 -0500
+ id 1pMQqF-0002yG-AI
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 04:52:47 -0500
 Received: from mx0a-0064b401.pphosted.com ([205.220.166.238])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <prvs=13943e2a21=bin.meng@windriver.com>)
- id 1pMQqB-000209-1M
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 04:52:44 -0500
+ id 1pMQqC-00020R-KL
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 04:52:47 -0500
 Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
  by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30U96eHW000968; Mon, 30 Jan 2023 01:52:30 -0800
+ 30U96eHY000968; Mon, 30 Jan 2023 01:52:31 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references :
  content-transfer-encoding : content-type : mime-version; s=PPS06212021;
- bh=BQCA7lysoYViR5t3M8lScVMY2+PANKI1hG53nyjiWU0=;
- b=bGoIuyKzU7W6e+xm4m3xj1Iul3PLeKRd1i2mBP79WYLdOnERqq6op2FrSzcEkBFI+yYo
- JpY2FN4gbWkcSXRV/uOvHvu58VHJuJspY66SP/dHUFi/0VdQLgOaNlIf+wbWiT5AKsbs
- R5v5uKnegazbPM9svEZNcUJ7ElXrcO3knsqgb7Yz/3lGFKxKPOLHhjH+r6ndddHXXAmi
- tj5ZGgaGt798qHuvhYPDk7CrFTidIGncAtpoCUA/u00xFKaOLKvL6CrN/j94xXxC+Fs7
- IYk6i33B7SOpxABCK+X+Bbk5haVCOgTX2uiX4lo8n9PI3EA3VszXFR0vG23JC/2GdY7r jg== 
+ bh=Sm74XzxaRiYXzO1G+YfdbqAZ795gmZJiLP55ipP9+Fw=;
+ b=PidhLCNlokkPOpAVlwcBfjmPwKmL1Yea2Oedqq9Cqy3DcNaCHhZEN7aOPgCojeH7bZf3
+ X4yV3HDVYQMzKx6PSBfjxMc3yeQ3rABs/L9Pxv2FxmDq7JTNqJ9Ozyp6tY5kI+STxdzE
+ AsuCtmpTh08lvS+g2Dt8LvAzWPNJDWdah57rCeo7m2LFgBoMmXH5XAFv38StqQb4AeS1
+ YQHsoI3dBZDdUwyqtJaqAfxLaFZYRyvglPzqdWQshy3dvwTJju9pKKxRhW4n/6W4a0T2
+ L5pN2oi3/30/B8RVOlCdxsLxoSgIdm5eXNmwFxzFmSoQPloVEi5i3qo1noH0hLy0nkmu HA== 
 Received: from nam11-dm6-obe.outbound.protection.outlook.com
  (mail-dm6nam11lp2174.outbound.protection.outlook.com [104.47.57.174])
- by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nd43rhj5k-2
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nd43rhj5k-4
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Jan 2023 01:52:30 -0800
+ Mon, 30 Jan 2023 01:52:31 -0800
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=SPxSnABIxgwRrVNGNrnF3YhYwXnpJxRYPgTfYLJOeouWZ9lnmvcNi2ZiN9lgt9PGxdi+ts3G5slRyVcu328sY1b6ThIvFoAAKoWCKxw9vPglB28vtZTvwBgroyqM/vnikcl4UVNi/EvQZeEQxMErh+enPaQkZIb0Gb5Af8f5oMDhYFpz+Rskc751ou1dijtXKBkV0VGVzhUvV5gWcF92FsWGXT4z1pnu6oDa7CdNPTf/5NKGCgC9wg5ynve+zm4DYlNOH+zz3emnAP89TI7IIIRRnZTxeloJAndBsnF6sbK77uPbER7DeESc8f8zU9ah0c4DynTkhl0rHvYWVJ6Avg==
+ b=OaZTFcrk+Y8YCmCRL3rQsoEEocDffOMIwY5FKoCi3bjAWhC9aeg0mu4N5jGKgOhlTYAoKVHUoJ0+aWsOkWOQPkFV17b8BaCO6xTJwOp6z3W5JmGjre9AY762hjKNkHYpEsbPOp8zBOwf/kShOmpLQ3Lno831dPmu+5LH6GVSTJ0wrfqLZQ97mnmo3d2vg8q8b0OvQO6Zzxv7BlPk4e6O5CoAfIyYcdpB2uxh4ZSa0POvcdM61kAlWG2aKxB+/4ZikpOiZJRg+T8UwHP+7XoHbxBxC1So1/bJUnwJj7lVptygh209/iKb1Ex9+q8w6zbXbpu4jtDaU5cUZJ09xiD/uw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BQCA7lysoYViR5t3M8lScVMY2+PANKI1hG53nyjiWU0=;
- b=HvLRSqu4a7bQIcJ6WlcrhDyzBCxj3gh/RKSVxsc5/M7ICfGKg1mZlAL8iPZhDoE+2aymRmKmnuj8SfQ/8pLtlVpmjvqvkX25s9xW0A+yI/jhaV6KVzvGzqJ9A6WwUyKk2TmTnfLbqtE/9Sis8+CDlRXlKJWB7wygogompxexsGp/TZ/F/80WgZK66ON23+/iMQ5dZpP7ckNFvZ3PKKIknZFF5ZdFpDq5NKdQXtNAypttjzxKF/m5lI5oN9jQ/uJOSGpeUOlpmeW7wEaVALugvHzdJmRzJtj6fylud3mF4U1H0a5/VXmDqCvrf5uDmfCchMxDMxqjjnM/olj/eE2fFw==
+ bh=Sm74XzxaRiYXzO1G+YfdbqAZ795gmZJiLP55ipP9+Fw=;
+ b=hP5vJ5S3HUx9qnzW51Z3K62wjgHuf/TdwbG5iXVodZ197Kq3Jv1nuIea7LeJVNepvGvUZqGK+whbRDxMkNLz4Dq/TNNtwAblZM6JTFiOM1+1gfYUfo4iOFtrseLMqol96CSplrNdXvwziLY3w0sbDTYBX152CfP50yWn4Ac8GWi+DavzeZAB+SxFHskEzOosjrlWH/leoYZ5wY5y28nNCcy6DU9FdfMT/C0mpFziSr6srdin3mPmXWjjrhKAuoSIx2o80SFzG4sRw3XMWLWahHQ601fG1Xdh51XnQNZHdLTs6zl79WjmA7PYna+Dvo07b5axw9T8ZYmGoBrxa1Hf9g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -52,18 +52,19 @@ Received: from DM4PR11MB5358.namprd11.prod.outlook.com (2603:10b6:5:395::7) by
  BL1PR11MB6025.namprd11.prod.outlook.com (2603:10b6:208:390::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Mon, 30 Jan
- 2023 09:52:27 +0000
+ 2023 09:52:30 +0000
 Received: from DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::6c5d:5b92:1599:ce9]) by DM4PR11MB5358.namprd11.prod.outlook.com
  ([fe80::6c5d:5b92:1599:ce9%2]) with mapi id 15.20.6043.036; Mon, 30 Jan 2023
- 09:52:27 +0000
+ 09:52:29 +0000
 From: Bin Meng <bin.meng@windriver.com>
 To: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
  qemu-devel@nongnu.org
 Cc: Guohuai Shi <guohuai.shi@windriver.com>
-Subject: [PATCH v4 04/16] hw/9pfs: Implement Windows specific xxxdir() APIs
-Date: Mon, 30 Jan 2023 17:51:50 +0800
-Message-Id: <20230130095202.2773186-5-bin.meng@windriver.com>
+Subject: [PATCH v4 05/16] hw/9pfs: Update the local fs driver to support
+ Windows
+Date: Mon, 30 Jan 2023 17:51:51 +0800
+Message-Id: <20230130095202.2773186-6-bin.meng@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20230130095202.2773186-1-bin.meng@windriver.com>
 References: <20230130095202.2773186-1-bin.meng@windriver.com>
@@ -75,63 +76,63 @@ X-ClientProxiedBy: BYAPR02CA0061.namprd02.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM4PR11MB5358:EE_|BL1PR11MB6025:EE_
-X-MS-Office365-Filtering-Correlation-Id: affedad9-7421-4fe2-a360-08db02a7b229
+X-MS-Office365-Filtering-Correlation-Id: 9611c38e-ca5f-4972-6836-08db02a7b35f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: VoInPnDgXc+A5mqrKlDgYY/eoymPLgkFuaFe9rsAK9hnxNo1YHVocclLKxLWjU85g7QBxHsK1Lp4gujI4Ja45QFxanl1AimCcOVA4sbsqRe7FC8+wNxROCeBeM+almWlUgGcCMnmynRuPo5sN0Z7ER9/KfI9ae8vTU4mwmgDtEY1anCSTGoZoeV4biht51SD+i+dkFPSh6Y3f6/ealp3hBDiOfyYIo9eFCHcBDbnr5IpXKeKjO9OrkyXwGB9IlFTo4xiuzg1i1dxhAPlfRMfV2mqJwDFGpgK8iRjBot8oG2w4KN43c9YDXJ938ByxlwU6WsnyZRo1Umi0PGODVVtyFlCx+Tz1LmiLrK9X1qhp90cHsdrWZE+r9ahDjFDSB4HtO+h9G9ea+XyWBb2B6UCdyfyZ1M/F3jxD5qACScR4jclG+uEyY1QN0gzuJ3ApFZvk0PftmR1OtUXOOGyEE2ptGjkx+dSfvbDvjfANqOv5H0KuAmSj4+ItgUMBEGB0izMBAwZSC1B2PZ6rae/v5UvlOAKy+eOqF0CWcCX5efTw253mjJ0KajpT5ed0YqjXkFfcyz916bBAtUf9p2UNuTnl82O4tgTaHzOkuFRtOHF4/13j7MwSeoen4ffksHoKFHvg5O1WmqWaGA+mOmefJVTiAcB9woveF/x1gPK18FkN/laZ+oqmLiCxB0QR9ILNO0wxqU9Rf5ZjGXhioiFliPmmA==
+X-Microsoft-Antispam-Message-Info: u9FeBpLZlAOzyN++OWPPp6pkqBLTKY79T+BMe6ejtEhttShv57oCJmObLjR5vraKn+E6TYcED5WMux6bVnK/jP75wviGxw18RRfOS4CmzRy3LV5UdCSl+1jhlwVaA1berRiUII8K1LflSmKxlc/UUAYYPDJkCzQQAzj2fq3jl7bI6GPaT+ka1XUhmyS/He6ZWCvSn402KdHtuWusR2hGycSaa5D1w76tAKqG4hRThsRMJjp3ecAcTFbbWeLxH3MQMDIcgqpfHhF4el+Qyz5OadTVfKUePSu0HvirAdqlygxsCaZ6IB3vxqrGWPGEQudnYsQm5d8YNydl5aOnOVscWCWiGoLXOt757Moj9eWMG1Nub+ZP//s76BtJVSOgBS/MHgV6rVkXye05gPhid/Uqdc9J6P3DOCdqKuqiA+BOPu3A0ok9SoapyeAfwB65515z41jGxgo+Naikz0RAMOTYzCOk2kGJPnwATX+4/StOthRGwSFNiD61j5yBfhslTxoTPgxlPJae7Cxoe8PXXSz/si91Wo5Sm8NpgmOeZ7DxTm1SYJ6Y/o/Oht1aczylmkBDDEte8NdJZgefSZcOG+mvBJLS65506lSdX7otfASKqLCqrn4XPZRojq3DlMK3je3ki4shbrzjcvX9EaaraXSUxfIr67sW1UDjhsCiascyUwN8OoAeQbIUO8OHK4B+iKY/vngFIs8AiJ4dcCJ2iFvNeg==
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DM4PR11MB5358.namprd11.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(4636009)(396003)(136003)(346002)(366004)(376002)(39850400004)(451199018)(2906002)(26005)(6512007)(186003)(478600001)(6666004)(107886003)(6486002)(316002)(110136005)(36756003)(86362001)(38100700002)(38350700002)(41300700001)(8936002)(2616005)(4326008)(66556008)(66476007)(66946007)(8676002)(52116002)(6506007)(1076003)(5660300002)(44832011)(83380400001);
+ SFS:(13230025)(4636009)(396003)(136003)(346002)(366004)(376002)(39850400004)(451199018)(15650500001)(2906002)(26005)(6512007)(186003)(478600001)(6666004)(107886003)(6486002)(316002)(110136005)(36756003)(86362001)(38100700002)(38350700002)(41300700001)(8936002)(2616005)(4326008)(66556008)(66476007)(66946007)(8676002)(52116002)(6506007)(1076003)(5660300002)(44832011)(30864003)(83380400001);
  DIR:OUT; SFP:1101; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PRmrThh7eXvhPUH5DImMSnX8Wi+w3IzKPGjQuz2NMiESNo6FHc13SEAiB2uh?=
- =?us-ascii?Q?NvmibvgI1f0SZ9FMx6Ye4MGKNQOWqjtmret28zUYcX1G5GIuL7NKsFHY3Vdb?=
- =?us-ascii?Q?vW7z7ipnREZ6nKdsXb2FKHa2VuAgJILS4QV1vhABMuZnh78fQAy65Jx8GY91?=
- =?us-ascii?Q?jJeHbiViXe0vT+nG5LJDtkm7CY0j7I7mzK9sd1obTSACwb0tq1KR5pKEC2ig?=
- =?us-ascii?Q?cpa7JjDQXty6VFKeryxfTSVeGV/lV6IYb89aZK7Rwdlo3dPiBBx6z78BXeTA?=
- =?us-ascii?Q?vd1Br4s+j0Qbo+1YKEV5PQgX6MPsRNp6xKYPUu6oq8G2o6Ctj3hN1kCCOLps?=
- =?us-ascii?Q?jRlZX8vmB/dD1sDRK2opqAmX0ZHhX3c82rEiYX3Gp8e3RrNwqY0oKioLMqN6?=
- =?us-ascii?Q?9+FjMveec+afYilPtrzz+nYVs3FO4t+Z5nPnFepfXzMu2B78ixF9w86nWaFV?=
- =?us-ascii?Q?lGu4MFukEykZNpyz5GFFmtukE+8kcGapSF4sgcn6kW2Gs/LAB/renzR3rEVq?=
- =?us-ascii?Q?JZLMRqORoP9GgOSoLxTc1l6ncDcjx9GYxZnJfKx6mHzpfPxsYfNWpr+34urK?=
- =?us-ascii?Q?C6obTUH5adNJWoHt1kbNBVtKdj2sHBac7RIWt44OwsMXvundyTqRao7p1EXx?=
- =?us-ascii?Q?m+BFXaohsAzeupI0eONU9psoMbHFs5j70hZeKbwOx8WcvnPVP9iflOUrnxOv?=
- =?us-ascii?Q?/fwhIJoOMbKgPs1MnjguG6CU01Vuj9BrjgeKAZEt6uY5M28Lyd64QIrSCcjX?=
- =?us-ascii?Q?c26EGVKMBnLKVSavJQE2lQ5njWRhMvuJmaB4Di0na6JiD+Mg0ICOfFcMGqL+?=
- =?us-ascii?Q?3oUbkTXRLAlF8uMrNpaOGyritsc/CP7h5XXVFACQ7LlErpIm+598282rJ9Gc?=
- =?us-ascii?Q?7gEtOGIKR5BHLu3HjcHhWqrrt0pr9uf8hO7Rqnl+oXxnTiMnMh4Ox0Lf8/0D?=
- =?us-ascii?Q?tJw+mgiB0ZxvsXKaNDHdKsvrk2WVLRxI4SnLFWputlSc9fmY1EU82pcQKCyB?=
- =?us-ascii?Q?yeMZRTz+vzNvs6h3+KWSry1zEzMQ8/cPV+Hyuz9zKXJHUuhSk7mt0cgc/24M?=
- =?us-ascii?Q?/KLZstVCLrWEwjXEcFJlyw9P6jyuuZqNH29Q3B99h0FFmjDj3pya2MreE2Dr?=
- =?us-ascii?Q?vWgigrJOcXYKAnWODji3lmTwuOiSr0iHINt0A0T1O1l0C7+QKvkuVDBiXM2a?=
- =?us-ascii?Q?LvH453Ee1oxMHecYUtHpiNQJBWRaKxri7FTsE33drUx+BV7sxaFWlmF4G5Gf?=
- =?us-ascii?Q?z82hLppCLOPQ0XFXhzXhcFU1nqju75qVXp33S6ueoqjZG4699rbTeaDxseUC?=
- =?us-ascii?Q?vMr5I/zel9Xc8tqXxNbn77UYas0FoA3mph9jlJgqEmAfq1GwGqdfvClGNZD1?=
- =?us-ascii?Q?A+wHYj0oWElq1qJHjteFpIj/8P2D3Ly1ekS7c8RIQcFtno6RxxivFQs+BCcG?=
- =?us-ascii?Q?Fe/1EcWpxAe9Sc2HZEd+HCgr3XiWl320zxS7x/LzgLpTfFif8F3KKMoKdVfi?=
- =?us-ascii?Q?fErZZO0bI1np7oJ9JIEEXjmdvf6+Zp5dQqNHzTLPnrFuLEXHbDNn5GJ6ETM5?=
- =?us-ascii?Q?fTI49WkbpgeSsBFyVcYu5vM0GWkY7BrPn8QBQ+KGyVExMKccWKZ02NFP4YYH?=
- =?us-ascii?Q?Qg=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?guDbWtjmQv9Oia1NYH+COtiWQzIyrKBN+4yNTJM9k7G++3FK2tW65job6kQ+?=
+ =?us-ascii?Q?t2YlnXmbv98xBaJsrasI+AY1TJNIMYWExxNk1FK7c0LAWR7A6d1EhjJKnk0q?=
+ =?us-ascii?Q?I2agrmN1BkU76iRn9z2YpxGChqeISdvu9hVMhGH6ywawYXsDI3R7wMx2bDCV?=
+ =?us-ascii?Q?vWE3HN3hFO1lKANjgYQrLjSsKKSVl8d2jEwqrN9/Y0t46EY27L+ykQg23YzS?=
+ =?us-ascii?Q?KGSApEtAzM4Ue4QkFJE4dSVbwWYsV2srkr38QxhLvYQQWBym38iAfC4cSAJv?=
+ =?us-ascii?Q?YU1Uivjg4nJnxCV/iFfi/F77M8sXl6QH4DdY21VO5wOtUmBdFf3AY/psHJuG?=
+ =?us-ascii?Q?BCxCuWc87zpmBPZNdL799Am3w2I0kG/n88tei/O7t2ve5T7Bqa2uYPibKamw?=
+ =?us-ascii?Q?j4wSwq3kqcC1eIghJbTmCXS41dmQjJ/16+7uY2a1P8A3RAwkk/nVipeJubt+?=
+ =?us-ascii?Q?xMLO6fa2O810NeXai1e6+SrmDyulKP4UhZWQxVi1eoPjN7hKEbbCzOEm8u/u?=
+ =?us-ascii?Q?HtJSm9nAlhxLBwwvUiZbH4u9hpSt0/C1jks8InEXTs4he65t2ZNWPjharcEZ?=
+ =?us-ascii?Q?xBZo/Dxm/OtotPwILSwzEbW3n1BfwaSC3JV3GouTqr16uNWmIfcpWAGp0YDX?=
+ =?us-ascii?Q?SAzAuT7YEjP0XuKNyVSswJRdg8/V00+t2yivIQ0XWH6+4UXcmYqxenvwf1ut?=
+ =?us-ascii?Q?mtVpIuWOQ2UfUwTPNqywezJjqThakI3dU1rN/i+ipuBRKKH592+iz7KqJjr6?=
+ =?us-ascii?Q?+f2CRZXmjTu28fsr6tw21oGGQ+9hYBugKYRYklCtgnao3VgcDtffQK7F1ogE?=
+ =?us-ascii?Q?K//Ajr94PIEZX0+krjKg5iwkYJsN3cyvTqn4YEgh19++8uud/+HbY/8EoW1F?=
+ =?us-ascii?Q?YrgYXm10v1KNvMz8Y2Cmz/O+c+cD8OcxAk/EjeXAm/STJg1oHhr5D47i2xRe?=
+ =?us-ascii?Q?XEVrmxrUkRBrWkV/yD5qMOEnoBe6P6/xfjCw+bimb/RuslXzGQTFHIRD6PK+?=
+ =?us-ascii?Q?cFm4DEmyUjOSZ67uCkdt0jzhCXxRofPmeWMIobndI1nRq951jSjiYHU6bHY/?=
+ =?us-ascii?Q?OASDa2O+gzvMHP3skU01AyL/eeKCbEMA8XFRMk6MvC/mPkPpv2Oomr3MUzRC?=
+ =?us-ascii?Q?F1w07XAzw72WV71TcI4nxiL4NAatqqpONyMGQauxx6+Dw4is786GGOLeAdBD?=
+ =?us-ascii?Q?n/JBk3zhjssr6ortzrmswXQNLGJ1pkwWLOVZ3QL581/fFRwzII1nu6TAlWNT?=
+ =?us-ascii?Q?jt/FyRe+7TOegkhej8FLO7b4GrPMqSkdI+/derg8oftj3WBrBgA3LHMAXy+W?=
+ =?us-ascii?Q?XNHIeCId5FHIbWtNfEwhDcZJRGWpefeGYa6WI9j+T10dfCf8kozPd9XuihKo?=
+ =?us-ascii?Q?QN6kn5BP6/GTDMdmhEAmLhYMnRgatd00wWF1jvWF/SaCpxRlT5IZk39D06x3?=
+ =?us-ascii?Q?GH4bQjouZG6AjHjA+u+ne6vVhnJsPIrMWfyGzWFx1O4sandMwfjGBHErDYzm?=
+ =?us-ascii?Q?B8RJbqIAUTFfVsDClK/2pdZ3vOdaeiFmUECZfGnOrm4OKRddSC9SKKiG7XQ7?=
+ =?us-ascii?Q?F/wUgy00rHxFly3Bc+kkKQeSIgWidhNdL60457ly3xcq62eGWE7Y/bkLGQ/G?=
+ =?us-ascii?Q?TA=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: affedad9-7421-4fe2-a360-08db02a7b229
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9611c38e-ca5f-4972-6836-08db02a7b35f
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5358.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 09:52:27.7891 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 09:52:29.8974 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tci8n11+VfalVahG8CJA9yaL6YZhpH9QUWVbvHyYWeNlfcfbCB5Ao6MRHyz1LdwoEVZtoSQssjrZNs5dh8+BXQ==
+X-MS-Exchange-CrossTenant-UserPrincipalName: dQzaZ5DlOS34mrj9otRba2VW00GsFpXLGPyudJT0UPwRGEXXb69MshvQC213A3Mcom+NIeSjHFviek/R9wK2BQ==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB6025
-X-Proofpoint-ORIG-GUID: tYRGw5gleuFVfkAqk2RuM02CigX0_Rkl
-X-Proofpoint-GUID: tYRGw5gleuFVfkAqk2RuM02CigX0_Rkl
+X-Proofpoint-ORIG-GUID: BLBOe1nisKsh4kmnXpgYnjKPaVCo8PtA
+X-Proofpoint-GUID: BLBOe1nisKsh4kmnXpgYnjKPaVCo8PtA
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
  definitions=2023-01-30_09,2023-01-27_01,2022-06-22_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
  adultscore=0 mlxscore=0
  suspectscore=0 clxscore=1015 malwarescore=0 priorityscore=1501
- impostorscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 mlxlogscore=608
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 mlxlogscore=999
  phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
  engine=8.12.0-2212070000 definitions=main-2301300094
 Received-SPF: pass client-ip=205.220.166.238;
@@ -142,8 +143,8 @@ X-Spam_score: -2.8
 X-Spam_bar: --
 X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
+ T_PDS_OTHER_BAD_TLD=0.01 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -161,352 +162,612 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Guohuai Shi <guohuai.shi@windriver.com>
 
-This commit implements Windows specific xxxdir() APIs for safety
-directory access.
+Update the 9p 'local' file system driver to support Windows,
+including open, read, write, close, rename, remove, etc.
+
+All security models are supported. The mapped (mapped-xattr)
+security model is implemented using NTFS Alternate Data Stream
+(ADS) so the 9p export path shall be on an NTFS partition.
+
+Symbolic link and hard link are not supported when security
+model is "passthrough" or "none", because Windows NTFS does
+not fully support them with POSIX compatibility. Symbolic
+link is enabled when security model is "mapped-file" or
+"mapped-xattr".
+
+inode remap is always enabled because Windows file system
+does not provide a compatible inode number.
+
+mknod() is not supported because Windows does not support it.
+chown() and chmod() are not supported when 9pfs is configured
+with security mode to 'none' or 'passthrough' because Windows
+host does not support such type request.
 
 Signed-off-by: Guohuai Shi <guohuai.shi@windriver.com>
 Signed-off-by: Bin Meng <bin.meng@windriver.com>
 ---
 
- hw/9pfs/9p-util.h       |   6 +
- hw/9pfs/9p-util-win32.c | 296 ++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 302 insertions(+)
+ hw/9pfs/9p-local.h |   1 +
+ hw/9pfs/9p-local.c | 253 +++++++++++++++++++++++++++++++++++++++++++--
+ 2 files changed, 246 insertions(+), 8 deletions(-)
 
-diff --git a/hw/9pfs/9p-util.h b/hw/9pfs/9p-util.h
-index 0f159fb4ce..c1c251fbd1 100644
---- a/hw/9pfs/9p-util.h
-+++ b/hw/9pfs/9p-util.h
-@@ -141,6 +141,12 @@ int unlinkat_win32(int dirfd, const char *pathname, int flags);
- int statfs_win32(const char *root_path, struct statfs *stbuf);
- int openat_dir(int dirfd, const char *name);
- int openat_file(int dirfd, const char *name, int flags, mode_t mode);
-+DIR *opendir_win32(const char *full_file_name);
-+int closedir_win32(DIR *pDir);
-+struct dirent *readdir_win32(DIR *pDir);
-+void rewinddir_win32(DIR *pDir);
-+void seekdir_win32(DIR *pDir, long pos);
-+long telldir_win32(DIR *pDir);
+diff --git a/hw/9pfs/9p-local.h b/hw/9pfs/9p-local.h
+index 77e7f57f89..5905923881 100644
+--- a/hw/9pfs/9p-local.h
++++ b/hw/9pfs/9p-local.h
+@@ -17,6 +17,7 @@ typedef struct {
+     int mountfd;
+ #ifdef CONFIG_WIN32
+     char *root_path;
++    DWORD block_size;
+ #endif
+ } LocalData;
+ 
+diff --git a/hw/9pfs/9p-local.c b/hw/9pfs/9p-local.c
+index 4385f18da2..d308a88759 100644
+--- a/hw/9pfs/9p-local.c
++++ b/hw/9pfs/9p-local.c
+@@ -21,11 +21,13 @@
+ #include "9p-xattr.h"
+ #include "9p-util.h"
+ #include "fsdev/qemu-fsdev.h"   /* local_ops */
++#ifndef CONFIG_WIN32
+ #include <arpa/inet.h>
+ #include <pwd.h>
+ #include <grp.h>
+ #include <sys/socket.h>
+ #include <sys/un.h>
++#endif
+ #include "qemu/xattr.h"
+ #include "qapi/error.h"
+ #include "qemu/cutils.h"
+@@ -38,7 +40,9 @@
+ #include <linux/magic.h>
+ #endif
+ #endif
++#ifndef CONFIG_WIN32
+ #include <sys/ioctl.h>
++#endif
+ 
+ #ifndef XFS_SUPER_MAGIC
+ #define XFS_SUPER_MAGIC  0x58465342
+@@ -90,10 +94,12 @@ int local_open_nofollow(FsContext *fs_ctx, const char *path, int flags,
+     return fd;
+ }
+ 
++#ifndef CONFIG_WIN32
+ int local_opendir_nofollow(FsContext *fs_ctx, const char *path)
+ {
+     return local_open_nofollow(fs_ctx, path, O_DIRECTORY | O_RDONLY, 0);
+ }
++#endif
+ 
+ static void renameat_preserve_errno(int odirfd, const char *opath, int ndirfd,
+                                     const char *npath)
+@@ -236,7 +242,7 @@ static int local_set_mapped_file_attrat(int dirfd, const char *name,
+     int ret;
+     char buf[ATTR_MAX];
+     int uid = -1, gid = -1, mode = -1, rdev = -1;
+-    int map_dirfd = -1, map_fd;
++    int map_dirfd = -1;
+     bool is_root = !strcmp(name, ".");
+ 
+     if (is_root) {
+@@ -300,10 +306,12 @@ update_map_file:
+         return -1;
+     }
+ 
+-    map_fd = fileno(fp);
++#ifndef CONFIG_WIN32
++    int map_fd = fileno(fp);
+     assert(map_fd != -1);
+     ret = fchmod(map_fd, 0600);
+     assert(ret == 0);
++#endif
+ 
+     if (credp->fc_uid != -1) {
+         uid = credp->fc_uid;
+@@ -335,6 +343,7 @@ update_map_file:
+     return 0;
+ }
+ 
++#ifndef CONFIG_WIN32
+ static int fchmodat_nofollow(int dirfd, const char *name, mode_t mode)
+ {
+     struct stat stbuf;
+@@ -396,6 +405,7 @@ static int fchmodat_nofollow(int dirfd, const char *name, mode_t mode)
+     close_preserve_errno(fd);
+     return ret;
+ }
++#endif
+ 
+ static int local_set_xattrat(int dirfd, const char *path, FsCred *credp)
+ {
+@@ -436,6 +446,7 @@ static int local_set_xattrat(int dirfd, const char *path, FsCred *credp)
+     return 0;
+ }
+ 
++#ifndef CONFIG_WIN32
+ static int local_set_cred_passthrough(FsContext *fs_ctx, int dirfd,
+                                       const char *name, FsCred *credp)
+ {
+@@ -452,6 +463,7 @@ static int local_set_cred_passthrough(FsContext *fs_ctx, int dirfd,
+ 
+     return fchmodat_nofollow(dirfd, name, credp->fc_mode & 07777);
+ }
++#endif
+ 
+ static ssize_t local_readlink(FsContext *fs_ctx, V9fsPath *fs_path,
+                               char *buf, size_t bufsz)
+@@ -470,6 +482,12 @@ static ssize_t local_readlink(FsContext *fs_ctx, V9fsPath *fs_path,
+         close_preserve_errno(fd);
+     } else if ((fs_ctx->export_flags & V9FS_SM_PASSTHROUGH) ||
+                (fs_ctx->export_flags & V9FS_SM_NONE)) {
++#ifdef CONFIG_WIN32
++        errno = ENOTSUP;
++        error_report_once("readlink is not available on Windows host when"
++                          "security_model is \"none\" or \"passthrough\"");
++        tsize = -1;
++#else
+         char *dirpath = g_path_get_dirname(fs_path->data);
+         char *name = g_path_get_basename(fs_path->data);
+         int dirfd;
+@@ -484,6 +502,7 @@ static ssize_t local_readlink(FsContext *fs_ctx, V9fsPath *fs_path,
+     out:
+         g_free(name);
+         g_free(dirpath);
++#endif
+     }
+     return tsize;
+ }
+@@ -522,9 +541,31 @@ static int local_opendir(FsContext *ctx,
+         return -1;
+     }
+ 
++#ifdef CONFIG_WIN32
++    char *full_file_name;
++
++    HANDLE hDir = (HANDLE)_get_osfhandle(dirfd);
++
++    full_file_name = get_full_path_win32(hDir, NULL);
++
++    close(dirfd);
++
++    if (full_file_name == NULL) {
++        return -1;
++    }
++    stream = qemu_opendir(full_file_name);
++    g_free(full_file_name);
++#else
+     stream = fdopendir(dirfd);
++#endif
++
+     if (!stream) {
++#ifndef CONFIG_WIN32
++        /*
++         * dirfd is closed always in above code, so no need to close it here.
++         */
+         close(dirfd);
++#endif
+         return -1;
+     }
+     fs->dir.stream = stream;
+@@ -567,13 +608,17 @@ again:
  #endif
  
- static inline void close_preserve_errno(int fd)
-diff --git a/hw/9pfs/9p-util-win32.c b/hw/9pfs/9p-util-win32.c
-index a99d579a06..5503199300 100644
---- a/hw/9pfs/9p-util-win32.c
-+++ b/hw/9pfs/9p-util-win32.c
-@@ -37,6 +37,13 @@
-  *    Windows does not support opendir, the directory fd is created by
-  *    CreateFile and convert to fd by _open_osfhandle(). Keep the fd open will
-  *    lock and protect the directory (can not be modified or replaced)
-+ *
-+ * 5. Windows and MinGW does not provide safety directory accessing functions.
-+ *    readdir(), seekdir() and telldir() may get or set wrong value because
-+ *    directory entry data is not protected.
-+ *
-+ *    This file re-write POSIX directory accessing functions and cache all
-+ *    directory entries during opening.
-  */
+     if (ctx->export_flags & V9FS_SM_MAPPED) {
++#ifndef CONFIG_WIN32
+         entry->d_type = DT_UNKNOWN;
++#endif
+     } else if (ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+         if (local_is_mapped_file_metadata(ctx, entry->d_name)) {
+             /* skip the meta data */
+             goto again;
+         }
++#ifndef CONFIG_WIN32
+         entry->d_type = DT_UNKNOWN;
++#endif
+     }
  
- #include "qemu/osdep.h"
-@@ -51,6 +58,27 @@
+     return entry;
+@@ -647,7 +692,14 @@ static int local_chmod(FsContext *fs_ctx, V9fsPath *fs_path, FsCred *credp)
+         ret = local_set_mapped_file_attrat(dirfd, name, credp);
+     } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+                fs_ctx->export_flags & V9FS_SM_NONE) {
++#ifdef CONFIG_WIN32
++        errno = ENOTSUP;
++        error_report_once("chmod is not available on Windows host when"
++                          "security_model is \"none\" or \"passthrough\"");
++        ret = -1;
++#else
+         ret = fchmodat_nofollow(dirfd, name, credp->fc_mode);
++#endif
+     }
+     close_preserve_errno(dirfd);
  
- #define V9FS_MAGIC  0x53465039  /* string "9PFS" */
+@@ -691,6 +743,12 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
+         }
+     } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+                fs_ctx->export_flags & V9FS_SM_NONE) {
++#ifdef CONFIG_WIN32
++        errno = ENOTSUP;
++        error_report_once("mknod is not available on Windows host when"
++                          "security_model is \"none\" or \"passthrough\"");
++        goto out;
++#else
+         err = qemu_mknodat(dirfd, name, credp->fc_mode, credp->fc_rdev);
+         if (err == -1) {
+             goto out;
+@@ -699,6 +757,7 @@ static int local_mknod(FsContext *fs_ctx, V9fsPath *dir_path,
+         if (err == -1) {
+             goto err_end;
+         }
++#endif
+     }
+     goto out;
  
-+/*
-+ * MinGW and Windows does not provide safety way to seek directory while other
-+ * thread is modifying same directory.
-+ *
-+ * The two structures are used to cache all directory entries when opening it.
-+ * Cached entries are always returned for read or seek.
-+ */
-+struct dir_win32_entry {
-+    QSLIST_ENTRY(dir_win32_entry) node;
-+    struct _finddata_t dd_data;
-+};
-+
-+struct dir_win32 {
-+    struct dirent dd_dir;
-+    uint32_t offset;
-+    uint32_t total_entries;
-+    QSLIST_HEAD(, dir_win32_entry) head;
-+    struct dir_win32_entry *current;
-+    char dd_name[1];
-+};
-+
- /*
-  * win32_error_to_posix - convert Win32 error to POSIX error number
-  *
-@@ -977,3 +1005,271 @@ int qemu_mknodat(int dirfd, const char *filename, mode_t mode, dev_t dev)
-     errno = ENOTSUP;
-     return -1;
+@@ -748,10 +807,12 @@ static int local_mkdir(FsContext *fs_ctx, V9fsPath *dir_path,
+         if (err == -1) {
+             goto out;
+         }
++#ifndef CONFIG_WIN32
+         err = local_set_cred_passthrough(fs_ctx, dirfd, name, credp);
+         if (err == -1) {
+             goto err_end;
+         }
++#endif
+     }
+     goto out;
+ 
+@@ -768,7 +829,12 @@ static int local_fstat(FsContext *fs_ctx, int fid_type,
+     int err, fd;
+ 
+     if (fid_type == P9_FID_DIR) {
++#ifdef CONFIG_WIN32
++        errno = ENOTSUP;
++        return -1;  /* Windows do not allow opening a directory by open() */
++#else
+         fd = dirfd(fs->dir.stream);
++#endif
+     } else {
+         fd = fs->fd;
+     }
+@@ -820,10 +886,10 @@ static int local_open2(FsContext *fs_ctx, V9fsPath *dir_path, const char *name,
+         return -1;
+     }
+ 
+-    /*
+-     * Mark all the open to not follow symlinks
+-     */
++#ifndef CONFIG_WIN32
++    /* Mark all the open to not follow symlinks */
+     flags |= O_NOFOLLOW;
++#endif
+ 
+     dirfd = local_opendir_nofollow(fs_ctx, dir_path->data);
+     if (dirfd == -1) {
+@@ -853,10 +919,12 @@ static int local_open2(FsContext *fs_ctx, V9fsPath *dir_path, const char *name,
+         if (fd == -1) {
+             goto out;
+         }
++#ifndef CONFIG_WIN32
+         err = local_set_cred_passthrough(fs_ctx, dirfd, name, credp);
+         if (err == -1) {
+             goto err_end;
+         }
++#endif
+     }
+     err = fd;
+     fs->fd = fd;
+@@ -921,6 +989,21 @@ static int local_symlink(FsContext *fs_ctx, const char *oldpath,
+         }
+     } else if (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH ||
+                fs_ctx->export_flags & V9FS_SM_NONE) {
++#ifdef CONFIG_WIN32
++        /*
++         * Windows symbolic link requires administrator privilage.
++         * And Windows does not provide any interface like readlink().
++         * All symbolic links on Windows are always absolute paths.
++         * It's not 100% compatible with POSIX symbolic link.
++         *
++         * With above reasons, symbolic link with "passthrough" or "none"
++         * mode is disabled on Windows host.
++         */
++        errno = ENOTSUP;
++        error_report_once("symlink is not available on Windows host when"
++                          "security_model is \"none\" or \"passthrough\"");
++        goto out;
++#else
+         err = symlinkat(oldpath, dirfd, name);
+         if (err) {
+             goto out;
+@@ -938,6 +1021,7 @@ static int local_symlink(FsContext *fs_ctx, const char *oldpath,
+                 err = 0;
+             }
+         }
++#endif
+     }
+     goto out;
+ 
+@@ -951,6 +1035,11 @@ out:
+ static int local_link(FsContext *ctx, V9fsPath *oldpath,
+                       V9fsPath *dirpath, const char *name)
+ {
++#ifdef CONFIG_WIN32
++    errno = ENOTSUP;
++    error_report_once("link is not available on Windows host");
++    return -1;
++#else
+     char *odirpath = g_path_get_dirname(oldpath->data);
+     char *oname = g_path_get_basename(oldpath->data);
+     int ret = -1;
+@@ -1020,6 +1109,7 @@ out:
+     g_free(oname);
+     g_free(odirpath);
+     return ret;
++#endif
  }
-+
-+/*
-+ * opendir_win32 - open a directory
-+ *
-+ * This function opens a directory and caches all directory entries.
-+ */
-+DIR *opendir_win32(const char *full_file_name)
-+{
-+    HANDLE hDir = INVALID_HANDLE_VALUE;
-+    DWORD attribute;
-+    intptr_t dd_handle = -1;
-+    struct _finddata_t dd_data;
-+
-+    struct dir_win32 *stream = NULL;
-+    struct dir_win32_entry *dir_entry;
-+    struct dir_win32_entry *prev;
-+    struct dir_win32_entry *next;
-+
-+    int err = 0;
-+    int find_status;
-+    uint32_t index;
-+
-+    /* open directory to prevent it being removed */
-+
-+    hDir = CreateFile(full_file_name, GENERIC_READ,
-+                      FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
-+                      NULL,
-+                      OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
-+
-+    if (hDir == INVALID_HANDLE_VALUE) {
-+        err = win32_error_to_posix(GetLastError());
-+        goto out;
+ 
+ static int local_truncate(FsContext *ctx, V9fsPath *fs_path, off_t size)
+@@ -1050,8 +1140,15 @@ static int local_chown(FsContext *fs_ctx, V9fsPath *fs_path, FsCred *credp)
+     if ((credp->fc_uid == -1 && credp->fc_gid == -1) ||
+         (fs_ctx->export_flags & V9FS_SM_PASSTHROUGH) ||
+         (fs_ctx->export_flags & V9FS_SM_NONE)) {
++#ifdef CONFIG_WIN32
++        errno = ENOTSUP;
++        error_report_once("chown is not available on Windows host when"
++                          "security_model is \"none\" or \"passthrough\"");
++        ret = -1;
++#else
+         ret = fchownat(dirfd, name, credp->fc_uid, credp->fc_gid,
+                        AT_SYMLINK_NOFOLLOW);
++#endif
+     } else if (fs_ctx->export_flags & V9FS_SM_MAPPED) {
+         ret = local_set_xattrat(dirfd, name, credp);
+     } else if (fs_ctx->export_flags & V9FS_SM_MAPPED_FILE) {
+@@ -1163,6 +1260,12 @@ out:
+ static int local_fsync(FsContext *ctx, int fid_type,
+                        V9fsFidOpenState *fs, int datasync)
+ {
++#ifdef CONFIG_WIN32
++    if (fid_type != P9_FID_DIR) {
++        return _commit(fs->fd);
 +    }
++    return 0;
++#else
+     int fd;
+ 
+     if (fid_type == P9_FID_DIR) {
+@@ -1176,11 +1279,14 @@ static int local_fsync(FsContext *ctx, int fid_type,
+     } else {
+         return fsync(fd);
+     }
++#endif
+ }
+ 
+ static int local_statfs(FsContext *s, V9fsPath *fs_path, struct statfs *stbuf)
+ {
+-    int fd, ret;
++    int ret;
++#ifndef CONFIG_WIN32
++    int fd;
+ 
+     fd = local_open_nofollow(s, fs_path->data, O_RDONLY, 0);
+     if (fd == -1) {
+@@ -1188,39 +1294,65 @@ static int local_statfs(FsContext *s, V9fsPath *fs_path, struct statfs *stbuf)
+     }
+     ret = fstatfs(fd, stbuf);
+     close_preserve_errno(fd);
++#else
++    LocalData *data = (LocalData *)s->private;
 +
-+    attribute = GetFileAttributes(full_file_name);
-+
-+    /* symlink is not allow */
-+    if (attribute == INVALID_FILE_ATTRIBUTES
-+        || (attribute & FILE_ATTRIBUTE_REPARSE_POINT) != 0) {
-+        err = EACCES;
-+        goto out;
++    ret = statfs_win32(data->root_path, stbuf);
++    if (ret == 0) {
++        /* use context address as fsid */
++        memcpy(&stbuf->f_fsid, s, sizeof(intptr_t));
 +    }
++#endif
 +
-+    /* check if it is a directory */
-+    if ((attribute & FILE_ATTRIBUTE_DIRECTORY) == 0) {
-+        err = ENOTDIR;
-+        goto out;
-+    }
+     return ret;
+ }
+ 
+ static ssize_t local_lgetxattr(FsContext *ctx, V9fsPath *fs_path,
+                                const char *name, void *value, size_t size)
+ {
++#ifdef CONFIG_WIN32
++    return -1;
++#else
+     char *path = fs_path->data;
+ 
+     return v9fs_get_xattr(ctx, path, name, value, size);
++#endif
+ }
+ 
+ static ssize_t local_llistxattr(FsContext *ctx, V9fsPath *fs_path,
+                                 void *value, size_t size)
+ {
++#ifdef CONFIG_WIN32
++    return -1;
++#else
+     char *path = fs_path->data;
+ 
+     return v9fs_list_xattr(ctx, path, value, size);
++#endif
+ }
+ 
+ static int local_lsetxattr(FsContext *ctx, V9fsPath *fs_path, const char *name,
+                            void *value, size_t size, int flags)
+ {
++#ifdef CONFIG_WIN32
++    return -1;
++#else
+     char *path = fs_path->data;
+ 
+     return v9fs_set_xattr(ctx, path, name, value, size, flags);
++#endif
+ }
+ 
+ static int local_lremovexattr(FsContext *ctx, V9fsPath *fs_path,
+                               const char *name)
+ {
++#ifdef CONFIG_WIN32
++    return -1;
++#else
+     char *path = fs_path->data;
+ 
+     return v9fs_remove_xattr(ctx, path, name);
++#endif
+ }
+ 
+ static int local_name_to_path(FsContext *ctx, V9fsPath *dir_path,
+@@ -1383,6 +1515,7 @@ static int local_unlinkat(FsContext *ctx, V9fsPath *dir,
+     return ret;
+ }
+ 
++#ifndef CONFIG_WIN32
+ #ifdef FS_IOC_GETVERSION
+ static int local_ioc_getversion(FsContext *ctx, V9fsPath *path,
+                                 mode_t st_mode, uint64_t *st_gen)
+@@ -1432,11 +1565,90 @@ static int local_ioc_getversion_init(FsContext *ctx, LocalData *data, Error **er
+ #endif
+     return 0;
+ }
++#endif
+ 
+-static int local_init(FsContext *ctx, Error **errp)
++#ifdef CONFIG_WIN32
++static int init_win32_root_directory(FsContext *ctx, LocalData *data,
++                                        Error **errp)
+ {
+-    LocalData *data = g_malloc(sizeof(*data));
++    HANDLE hRoot;
++    char *root_path;
++    DWORD SectorsPerCluster;
++    DWORD BytesPerSector;
++    DWORD NumberOfFreeClusters;
++    DWORD TotalNumberOfClusters;
++    char disk_root[4] = { 0 };
 +
-+    /*
-+     * findfirst() need suffix format name like "\dir1\dir2\*", allocate more
-+     * buffer to store suffix.
-+     */
-+    stream = g_malloc0(sizeof(struct dir_win32) + strlen(full_file_name) + 3);
-+    QSLIST_INIT(&stream->head);
-+
-+    strcpy(stream->dd_name, full_file_name);
-+    strcat(stream->dd_name, "\\*");
-+
-+    dd_handle = _findfirst(stream->dd_name, &dd_data);
-+
-+    if (dd_handle == -1) {
-+        err = errno;
-+        goto out;
-+    }
-+
-+    index = 0;
-+
-+    /* read all entries to link list */
-+    do {
-+        dir_entry = g_malloc0(sizeof(struct dir_win32_entry));
-+        memcpy(&dir_entry->dd_data, &dd_data, sizeof(dd_data));
-+        if (index == 0) {
-+            QSLIST_INSERT_HEAD(&stream->head, dir_entry, node);
-+        } else {
-+            QSLIST_INSERT_AFTER(prev, dir_entry, node);
-+        }
-+
-+        prev = dir_entry;
-+        find_status = _findnext(dd_handle, &dd_data);
-+
-+        index++;
-+    } while (find_status == 0);
-+
-+    if (errno == ENOENT) {
-+        /* No more matching files could be found, clean errno */
-+        errno = 0;
-+    } else {
-+        err = errno;
-+        goto out;
-+    }
-+
-+    stream->total_entries = index;
-+    stream->current = QSLIST_FIRST(&stream->head);
-+
-+out:
-+    if (err != 0) {
-+        errno = err;
-+        /* free whole list */
-+        if (stream != NULL) {
-+            QSLIST_FOREACH_SAFE(dir_entry, &stream->head, node, next) {
-+                QSLIST_REMOVE(&stream->head, dir_entry, dir_win32_entry, node);
-+                g_free(dir_entry);
-+            }
-+            g_free(stream);
-+            stream = NULL;
-+        }
-+    }
-+
-+    /* after cached all entries, this handle is useless */
-+    if (dd_handle != -1) {
-+        _findclose(dd_handle);
-+    }
-+
-+    if (hDir != INVALID_HANDLE_VALUE) {
-+        CloseHandle(hDir);
-+    }
-+
-+    return (DIR *)stream;
-+}
-+
-+/*
-+ * closedir_win32 - close a directory
-+ *
-+ * This function closes directory and free all cached resources.
-+ */
-+int closedir_win32(DIR *pDir)
-+{
-+    struct dir_win32 *stream = (struct dir_win32 *)pDir;
-+    struct dir_win32_entry *dir_entry;
-+    struct dir_win32_entry *next;
-+
-+    if (stream == NULL) {
-+        errno = EBADF;
++    hRoot = CreateFile(ctx->fs_root, GENERIC_READ,
++                       FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE,
++                       NULL,
++                       OPEN_EXISTING, FILE_FLAG_BACKUP_SEMANTICS, NULL);
++    if (hRoot == INVALID_HANDLE_VALUE) {
++        error_setg_errno(errp, EINVAL, "cannot open %s", ctx->fs_root);
 +        return -1;
 +    }
 +
-+    /* free all resources */
++    if ((ctx->export_flags & V9FS_SM_MAPPED) != 0) {
++        wchar_t fs_name[MAX_PATH + 1] = {0};
++        wchar_t ntfs_name[5] = {'N', 'T', 'F', 'S'};
 +
-+    QSLIST_FOREACH_SAFE(dir_entry, &stream->head, node, next) {
-+        QSLIST_REMOVE(&stream->head, dir_entry, dir_win32_entry, node);
-+        g_free(dir_entry);
++        /* Get file system type name */
++        if (GetVolumeInformationByHandleW(hRoot, NULL, 0, NULL, NULL, NULL,
++                                          fs_name, MAX_PATH + 1) == 0) {
++            error_setg_errno(errp, EINVAL,
++                             "cannot get file system information");
++            CloseHandle(hRoot);
++            return -1;
++        }
++
++        /*
++         * security_model=mapped(-xattr) requires a fileystem on Windows that
++         * supports Alternate Data Stream (ADS). NTFS is one of them, and is
++         * probably most popular on Windows. It is fair enough to assume
++         * Windows users to use NTFS for the mapped security model.
++         */
++        if (wcscmp(fs_name, ntfs_name) != 0) {
++            CloseHandle(hRoot);
++            error_setg_errno(errp, EINVAL, "require NTFS file system");
++            return -1;
++        }
 +    }
 +
-+    g_free(stream);
++    root_path = get_full_path_win32(hRoot, NULL);
++    if (root_path == NULL) {
++        CloseHandle(hRoot);
++        error_setg_errno(errp, EINVAL, "cannot get full root path");
++        return -1;
++    }
++
++    /* copy the first 3 characters for the root directory */
++    memcpy(disk_root, root_path, 3);
+ 
++    if (GetDiskFreeSpace(disk_root, &SectorsPerCluster, &BytesPerSector,
++                         &NumberOfFreeClusters, &TotalNumberOfClusters) == 0) {
++        CloseHandle(hRoot);
++        error_setg_errno(errp, EINVAL, "cannot get file system block size");
++        return -1;
++    }
++
++    /*
++     * hold the root handle will prevent other one to delete or replace the
++     * root directory during runtime.
++     */
++
++    data->mountfd = _open_osfhandle((intptr_t)hRoot, _O_RDONLY);
++    data->root_path = root_path;
++    data->block_size = SectorsPerCluster * BytesPerSector;
 +
 +    return 0;
 +}
 +
-+/*
-+ * readdir_win32 - read a directory
-+ *
-+ * This function reads a directory entry from cached entry list.
-+ */
-+struct dirent *readdir_win32(DIR *pDir)
++#endif
++
++static int local_init(FsContext *ctx, Error **errp)
 +{
-+    struct dir_win32 *stream = (struct dir_win32 *)pDir;
++    LocalData *data = g_malloc0(sizeof(*data));
++#ifndef CONFIG_WIN32
+     data->mountfd = open(ctx->fs_root, O_DIRECTORY | O_RDONLY);
+     if (data->mountfd == -1) {
+         error_setg_errno(errp, errno, "failed to open '%s'", ctx->fs_root);
+@@ -1447,7 +1659,17 @@ static int local_init(FsContext *ctx, Error **errp)
+         close(data->mountfd);
+         goto err;
+     }
++#else
++    if (init_win32_root_directory(ctx, data, errp) != 0) {
++        goto err;
++    }
+ 
++    /*
++     * Always enable inode remap since Windows file system does not
++     * have inode number.
++     */
++    ctx->export_flags |= V9FS_REMAP_INODES;
++#endif
+     if (ctx->export_flags & V9FS_SM_PASSTHROUGH) {
+         ctx->xops = passthrough_xattr_ops;
+     } else if (ctx->export_flags & V9FS_SM_MAPPED) {
+@@ -1467,6 +1689,16 @@ static int local_init(FsContext *ctx, Error **errp)
+     return 0;
+ 
+ err:
++#ifdef CONFIG_WIN32
++    if (data->root_path != NULL) {
++        g_free(data->root_path);
++    }
++#endif
 +
-+    if (stream == NULL) {
-+        errno = EBADF;
-+        return NULL;
++    if (data->mountfd != -1) {
++        close(data->mountfd);
 +    }
 +
-+    if (stream->offset >= stream->total_entries) {
-+        /* reach to the end, return NULL without set errno */
-+        return NULL;
+     g_free(data);
+     return -1;
+ }
+@@ -1479,6 +1711,11 @@ static void local_cleanup(FsContext *ctx)
+         return;
+     }
+ 
++#ifdef CONFIG_WIN32
++    if (data->root_path != NULL) {
++        g_free(data->root_path);
 +    }
-+
-+    memcpy(stream->dd_dir.d_name,
-+           stream->current->dd_data.name,
-+           sizeof(stream->dd_dir.d_name));
-+
-+    /* Windows does not provide inode number */
-+    stream->dd_dir.d_ino = 0;
-+    stream->dd_dir.d_reclen = 0;
-+    stream->dd_dir.d_namlen = strlen(stream->dd_dir.d_name);
-+
-+    stream->offset++;
-+    stream->current = QSLIST_NEXT(stream->current, node);
-+
-+    return &stream->dd_dir;
-+}
-+
-+/*
-+ * rewinddir_win32 - reset directory stream
-+ *
-+ * This function resets the position of the directory stream to the
-+ * beginning of the directory.
-+ */
-+void rewinddir_win32(DIR *pDir)
-+{
-+    struct dir_win32 *stream = (struct dir_win32 *)pDir;
-+
-+    if (stream == NULL) {
-+        errno = EBADF;
-+        return;
-+    }
-+
-+    stream->offset = 0;
-+    stream->current = QSLIST_FIRST(&stream->head);
-+
-+    return;
-+}
-+
-+/*
-+ * seekdir_win32 - set the position of the next readdir() call in the directory
-+ *
-+ * This function sets the position of the next readdir() call in the directory
-+ * from which the next readdir() call will start.
-+ */
-+void seekdir_win32(DIR *pDir, long pos)
-+{
-+    struct dir_win32 *stream = (struct dir_win32 *)pDir;
-+    uint32_t index;
-+
-+    if (stream == NULL) {
-+        errno = EBADF;
-+        return;
-+    }
-+
-+    if (pos < -1) {
-+        errno = EINVAL;
-+        return;
-+    }
-+
-+    if (pos == -1 || pos >= (long)stream->total_entries) {
-+        /* seek to the end */
-+        stream->offset = stream->total_entries;
-+        return;
-+    }
-+
-+    if (pos - (long)stream->offset == 0) {
-+        /* no need to seek */
-+        return;
-+    }
-+
-+    /* seek position from list head */
-+
-+    stream->current = QSLIST_FIRST(&stream->head);
-+
-+    for (index = 0; index < (uint32_t)pos; index++) {
-+        stream->current = QSLIST_NEXT(stream->current, node);
-+    }
-+    stream->offset = index;
-+
-+    return;
-+}
-+
-+/*
-+ * telldir_win32 - return current location in directory
-+ *
-+ * This function returns current location in directory.
-+ */
-+long telldir_win32(DIR *pDir)
-+{
-+    struct dir_win32 *stream = (struct dir_win32 *)pDir;
-+
-+    if (stream == NULL) {
-+        errno = EBADF;
-+        return -1;
-+    }
-+
-+    if (stream->offset > stream->total_entries) {
-+        return -1;
-+    }
-+
-+    return (long)stream->offset;
-+}
++#endif
+     close(data->mountfd);
+     g_free(data);
+ }
 -- 
 2.25.1
 
