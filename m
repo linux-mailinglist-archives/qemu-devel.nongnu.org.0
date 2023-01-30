@@ -2,56 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A9126807A5
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 09:42:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 425B66807AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 09:43:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMPk8-0007wV-N3; Mon, 30 Jan 2023 03:42:24 -0500
+	id 1pMPkb-0000Pj-KU; Mon, 30 Jan 2023 03:42:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMPk6-0007uQ-Ku
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:42:22 -0500
-Received: from mout.kundenserver.de ([212.227.126.130])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMPkV-0000Jd-61
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:42:47 -0500
+Received: from mout.kundenserver.de ([212.227.126.134])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMPk4-000738-VL
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:42:22 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMPkT-00076D-Ef
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:42:46 -0500
 Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
  (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MY5s5-1pAAqN33ld-00YRvC; Mon, 30 Jan 2023 09:42:18 +0100
-Message-ID: <51cf681b-4d13-b0fd-35f2-74ac6c1b4e41@vivier.eu>
-Date: Mon, 30 Jan 2023 09:42:18 +0100
+ 1MSswA-1pEHMr0imU-00ULV3; Mon, 30 Jan 2023 09:42:43 +0100
+Message-ID: <968b1bda-bd12-e26d-93c5-326b8dea4b30@vivier.eu>
+Date: Mon, 30 Jan 2023 09:42:42 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH v2] linux-user: Fix SO_ERROR return code of getsockopt()
+Subject: Re: [PATCH v4] linux-user: Fix /proc/cpuinfo output for hppa
 Content-Language: fr
 To: Helge Deller <deller@gmx.de>
 Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221216101033.8352-1-deller@gmx.de>
- <8ec83c02-0e87-90c2-835d-e01a330b1969@vivier.eu>
- <db38ab56-d632-8cb4-9e60-aef83477ca74@gmx.de>
- <059795f6-97f0-b112-1802-fc47668986a5@vivier.eu> <Y9QzNzXg0hrzHQeo@p100>
+References: <Y6ywbxuxqQ/cGPJW@p100>
+ <b645585a-1093-fb97-60a1-5acc40b17271@vivier.eu> <Y9QvyRSq1I1k5/JW@p100>
 From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <Y9QzNzXg0hrzHQeo@p100>
+In-Reply-To: <Y9QvyRSq1I1k5/JW@p100>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:wlhV59VAURCttAme8uHBrpDzEp1vbE/Ws4gh6j/8djzEfi8TWKO
- Zi4T61CFvQPEQyhkolXrdppPRGGkeUFADeo2/aHMFusdffdPC5Rp/tLllyxxUtonQTunrrX
- Mvs6FWjhOHz41H264E6vfzrHqudb9VZXYZVXUL2TtkrJU8OqCReG3SaIyMmBbD6FRadUCWM
- uaE7QsHUrHSBoPibRS5XA==
-UI-OutboundReport: notjunk:1;M01:P0:Wehu0iEBLhA=;Q7hHcyk0j3OlFYGABz5ji3wTeud
- gTpLbzsZg1v1DPpqDLpKP7VZVxJgcsld7A1OEyqeWMTyOYMhCU+IZ3pQrDM3xr9hKpq40aJes
- mlgqP0owPcl/sniONap4IocslO8V8n8KLx+JaTV8rrLdFfJgCem+XLRYyS/RCWy/6ZUg52f4T
- 6dCuNuVI8mIIvk8CteNa+Q/wxKfm7BAVlwjXlXTXnzsgytNvhAYQvVOirnDO+Ql9eNryGzc0T
- UiP7nN4HaIlag4mNIoTvd/Xd4d4jkQ8MWUebS61rfPuuaW3yQOLExApaeY+xQFcGq8W2yp72B
- vtWG6Ckqj6GOZLPoh/Z2ItRVouMfMm0i3QD6FV+JRQ4qUh0+mmZxOQSBImkR8Dic3nGPzejA4
- LaWNRxXuNRsy0q89DuMxuTVuIurflG4c7fFUOrryWizMfgPvvtLvZNs+EuB+rgXLQoVt7ZijP
- oh4NXzJQ0mx5qE6xCwbZTmNi8SenKOPwvwRIvrOufPmA8MqPqyfRwuZpGke4N6CXh57k7Acse
- COXE7P/W5gMenCrOtA9jG1Tw7x9SvzyZsFqB3rbXhn0PaldUf/qCUSn5VidAABi2hqBjDjyf/
- B05jtHq16oa8/iE/kJ5XApTdGn6vo7Gj033V8JPGGIVzPAnFEZkBL1aMBhS7xn9dWvcXa7np8
- PjfEEXa7fygpwLVsv2ZuRslUnpadeVYRPt1p+65LtQ==
-Received-SPF: none client-ip=212.227.126.130; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:+qQGNfo8Naspfan8i5GGqdDgNqJ4sd5NIy4+DkdfRUDnq9fQQHY
+ pI0tn9r9qh1RtdZKld3XwnKxTTeqTa+b1dk1W3M2530gq4IAWaa8v1DmHS3c/zXV2+f7xQ+
+ eGWEoKl5KIIKzIUceKjbDYkYSwtotu+WP1Itl11n1mvBl22dmxPto92HqPZFd/1orSM2vqG
+ HmE40cp9wWpfgzQJh4KYw==
+UI-OutboundReport: notjunk:1;M01:P0:HCWupuFbDxs=;pr3FuYiCkGbqksoOwEtsy5/NGvU
+ wtCC7xI18sfNPsSa27haF0jup5FVH+sGzhjQ777/4gkUq6CNWElqqp1QPhGyXWhtwaGcnRKci
+ pZrnWXFhfAUGpCoZFziY2+JrRolJOKBhVkT7SUxPqZkxJaYijWPRdRfqLI1JvbOpb0+SBLHZ/
+ JOFwxxRr4iNNeKx7Wfb26Ar53qL7V+QhpP1Uudowt1iWp23roijqAlvbaZ5gs85Em2zUol+Tr
+ Gn3smVhoz7j+6rKKQ7m5x0xktPLvMtbHketJHEETT1aiXzR4vE8JuNDRXVDG+1QrhZgYWyZpK
+ IEZnD0L5ZifSszjLLBdR/HUsGIUPxovgcW495H1YMKY+TjsxQ3S6R+LWKA3D0H6a1HKHvMOzt
+ tpPAuVY7iL++saR3Cp0HR0mtr8klEWv9AXxkLNguZ+o5dPH4kC3ynpjmmF2FqWc4V9SmYGinG
+ Qf6W40BziL1zu7AnbxBkgs0pFhQKnasybSSuOt6fdaO1D9ARLcvamq65IA5VZ1pPiL1UuFdeK
+ BqiQVG8/WlUlzeghosn8ZxjNxL0DZJM5K234Qibf15rqfaBNGLMT83AAwzfkJJeBU/Pt4nMzW
+ UU6Z3RC+u1F0PnMjbM5Yqn2jovk/1QFvfgWJ5XTHBo+QiEwLIeRR5keOVXFxFityPlZjP2Knx
+ amJMytZYUOy+CiK5ZW+okLUcLlmhSRRAmzv9PNRxKQ==
+Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -19
 X-Spam_score: -2.0
@@ -74,38 +72,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 27/01/2023 à 21:25, Helge Deller a écrit :
-> Add translation for the host error return code of:
->      getsockopt(19, SOL_SOCKET, SO_ERROR, [ECONNREFUSED], [4]) = 0
+Le 27/01/2023 à 21:10, Helge Deller a écrit :
+> The hppa architectures provides an own output for the emulated
+> /proc/cpuinfo file.
 > 
-> This fixes the testsuite of the cockpit debian package with a
-> hppa-linux guest on a x86-64 host.
+> Some userspace applications count (even if that's not the recommended
+> way) the number of lines which start with "processor:" and assume that
+> this number then reflects the number of online CPUs. Since those 3
+> architectures don't provide any such line, applications may assume "0"
+> CPUs.  One such issue can be seen in debian bug report:
+> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=1024653
+> 
+> Avoid such issues by adding a "processor:" line for each of the online
+> CPUs.
 > 
 > Signed-off-by: Helge Deller <deller@gmx.de>
+> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 > ---
-> v2: Fix indenting to make checkscript.sh happy
+> v4:
+> - Drop sparc changes
+> 
+> v3:
+> - add trailing newline at end of /proc/cpuinfo file (needed by procps)
+> 
+> v2:
+> - drop m68k part (based on feedback from Laurent Vivier <laurent@vivier.eu>)
+> - change commit message
 > 
 > 
 > diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index dac0cfe6c4..06e8612675 100644
+> index afb24fd0b9..5fa2ae6c8a 100644
 > --- a/linux-user/syscall.c
 > +++ b/linux-user/syscall.c
-> @@ -2809,8 +2809,13 @@ get_timeout:
->           ret = get_errno(getsockopt(sockfd, level, optname, &val, &lv));
->           if (ret < 0)
->               return ret;
-> -        if (optname == SO_TYPE) {
-> +        switch (optname) {
-> +        case SO_TYPE:
->               val = host_to_target_sock_type(val);
-> +            break;
-> +        case SO_ERROR:
-> +            val = host_to_target_errno(val);
-> +            break;
->           }
->           if (len > lv)
->               len = lv;
+> @@ -8318,11 +8318,17 @@ static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+>   #if defined(TARGET_HPPA)
+>   static int open_cpuinfo(CPUArchState *cpu_env, int fd)
+>   {
+> -    dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
+> -    dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
+> -    dprintf(fd, "capabilities\t: os32\n");
+> -    dprintf(fd, "model\t\t: 9000/778/B160L\n");
+> -    dprintf(fd, "model name\t: Merlin L2 160 QEMU (9000/778/B160L)\n");
+> +    int i, num_cpus;
+> +
+> +    num_cpus = sysconf(_SC_NPROCESSORS_ONLN);
+> +    for (i = 0; i < num_cpus; i++) {
+> +        dprintf(fd, "processor\t: %d\n", i);
+> +        dprintf(fd, "cpu family\t: PA-RISC 1.1e\n");
+> +        dprintf(fd, "cpu\t\t: PA7300LC (PCX-L2)\n");
+> +        dprintf(fd, "capabilities\t: os32\n");
+> +        dprintf(fd, "model\t\t: 9000/778/B160L - "
+> +                    "Merlin L2 160 QEMU (9000/778/B160L)\n\n");
+> +    }
+>       return 0;
+>   }
+>   #endif
 > 
 
 Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+
 
