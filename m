@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9962A6815A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 16:56:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6BB56815AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 16:56:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMWVv-0006nf-2Q; Mon, 30 Jan 2023 10:56:11 -0500
+	id 1pMWWE-0007Rv-S0; Mon, 30 Jan 2023 10:56:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pMWVk-0006mM-Px
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:56:00 -0500
+ id 1pMWWA-0007MH-D1
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:56:26 -0500
 Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pMWVf-0003ID-8p
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:56:00 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P5CNx21Dnz6H6kN;
- Mon, 30 Jan 2023 23:52:17 +0800 (CST)
+ id 1pMWW8-0003Kn-T6
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:56:26 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P5CNp0L7vz6J7VH;
+ Mon, 30 Jan 2023 23:52:10 +0800 (CST)
 Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
  lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Mon, 30 Jan 2023 15:55:52 +0000
+ 15.1.2375.34; Mon, 30 Jan 2023 15:56:22 +0000
 To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
 CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
  <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
  <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
  <philmd@linaro.org>, Mike Maslenkin <mike.maslenkin@gmail.com>
-Subject: [PATCH v3 6/8] hw/cxl: Fix endian issues in CXL RAS capability
- defaults / masks
-Date: Mon, 30 Jan 2023 15:52:49 +0000
-Message-ID: <20230130155251.3430-7-Jonathan.Cameron@huawei.com>
+Subject: [PATCH v3 7/8] hw/pci/aer: Make PCIE AER error injection facility
+ available for other emulation to use.
+Date: Mon, 30 Jan 2023 15:52:50 +0000
+Message-ID: <20230130155251.3430-8-Jonathan.Cameron@huawei.com>
 X-Mailer: git-send-email 2.37.2
 In-Reply-To: <20230130155251.3430-1-Jonathan.Cameron@huawei.com>
 References: <20230130155251.3430-1-Jonathan.Cameron@huawei.com>
@@ -69,52 +69,36 @@ From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As these are about to be modified, fix the endian handle for
-this set of registers rather than making it worse.
-
-Note that CXL is currently only supported in QEMU on
-x86 (arm64 patches out of tree) so we aren't going to yet hit
-an problems with big endian. However it is good to avoid making
-things worse for that support in the future.
+This infrastructure will be reused for CXL RAS error injection
+in patches that follow.
 
 Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 ---
- v3: New patch.
+ hw/pci/pci-internal.h     | 1 -
+ include/hw/pci/pcie_aer.h | 1 +
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
- hw/cxl/cxl-component-utils.c | 18 +++++++++---------
- 1 file changed, 9 insertions(+), 9 deletions(-)
-
-diff --git a/hw/cxl/cxl-component-utils.c b/hw/cxl/cxl-component-utils.c
-index 3edd303a33..737b4764b9 100644
---- a/hw/cxl/cxl-component-utils.c
-+++ b/hw/cxl/cxl-component-utils.c
-@@ -141,17 +141,17 @@ static void ras_init_common(uint32_t *reg_state, uint32_t *write_msk)
-      * Error status is RW1C but given bits are not yet set, it can
-      * be handled as RO.
-      */
--    reg_state[R_CXL_RAS_UNC_ERR_STATUS] = 0;
-+    stl_le_p(reg_state + R_CXL_RAS_UNC_ERR_STATUS, 0);
-     /* Bits 12-13 and 17-31 reserved in CXL 2.0 */
--    reg_state[R_CXL_RAS_UNC_ERR_MASK] = 0x1cfff;
--    write_msk[R_CXL_RAS_UNC_ERR_MASK] = 0x1cfff;
--    reg_state[R_CXL_RAS_UNC_ERR_SEVERITY] = 0x1cfff;
--    write_msk[R_CXL_RAS_UNC_ERR_SEVERITY] = 0x1cfff;
--    reg_state[R_CXL_RAS_COR_ERR_STATUS] = 0;
--    reg_state[R_CXL_RAS_COR_ERR_MASK] = 0x7f;
--    write_msk[R_CXL_RAS_COR_ERR_MASK] = 0x7f;
-+    stl_le_p(reg_state + R_CXL_RAS_UNC_ERR_MASK, 0x1cfff);
-+    stl_le_p(write_msk + R_CXL_RAS_UNC_ERR_MASK, 0x1cfff);
-+    stl_le_p(reg_state + R_CXL_RAS_UNC_ERR_SEVERITY, 0x1cfff);
-+    stl_le_p(write_msk + R_CXL_RAS_UNC_ERR_SEVERITY, 0x1cfff);
-+    stl_le_p(reg_state + R_CXL_RAS_COR_ERR_STATUS, 0);
-+    stl_le_p(reg_state + R_CXL_RAS_COR_ERR_MASK, 0x7f);
-+    stl_le_p(write_msk + R_CXL_RAS_COR_ERR_MASK, 0x7f);
-     /* CXL switches and devices must set */
--    reg_state[R_CXL_RAS_ERR_CAP_CTRL] = 0x00;
-+    stl_le_p(reg_state + R_CXL_RAS_ERR_CAP_CTRL, 0x00);
- }
+diff --git a/hw/pci/pci-internal.h b/hw/pci/pci-internal.h
+index 2ea356bdf5..a7d6d8a732 100644
+--- a/hw/pci/pci-internal.h
++++ b/hw/pci/pci-internal.h
+@@ -20,6 +20,5 @@ void pcibus_dev_print(Monitor *mon, DeviceState *dev, int indent);
  
- static void hdm_init_common(uint32_t *reg_state, uint32_t *write_msk,
+ int pcie_aer_parse_error_string(const char *error_name,
+                                 uint32_t *status, bool *correctable);
+-int pcie_aer_inject_error(PCIDevice *dev, const PCIEAERErr *err);
+ 
+ #endif
+diff --git a/include/hw/pci/pcie_aer.h b/include/hw/pci/pcie_aer.h
+index 65e71d98fe..1234fdc4e2 100644
+--- a/include/hw/pci/pcie_aer.h
++++ b/include/hw/pci/pcie_aer.h
+@@ -100,4 +100,5 @@ void pcie_aer_root_write_config(PCIDevice *dev,
+                                 uint32_t addr, uint32_t val, int len,
+                                 uint32_t root_cmd_prev);
+ 
++int pcie_aer_inject_error(PCIDevice *dev, const PCIEAERErr *err);
+ #endif /* QEMU_PCIE_AER_H */
 -- 
 2.37.2
 
