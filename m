@@ -2,67 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 361A0680973
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 10:28:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 00C7068098C
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 10:31:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMQRh-00044K-TX; Mon, 30 Jan 2023 04:27:25 -0500
+	id 1pMQVZ-0005ck-62; Mon, 30 Jan 2023 04:31:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pMQRf-00043v-2k
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 04:27:23 -0500
+ id 1pMQVP-0005cR-4p
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 04:31:15 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pMQRc-00062P-OQ
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 04:27:22 -0500
+ id 1pMQVN-0006r0-HX
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 04:31:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675070839;
+ s=mimecast20190719; t=1675071072;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=Mo8Rj0bbiRTGMHwGl/aBCyaZ2MzYHnyuYY8wVZeQb3M=;
- b=V7YduH+ueLXgfnGQ04Cdar/2ZR+lWtMaJnS4dmnkG6jPHPxcbydF3p5g1UYNQnDtU1doBX
- +DCfMXMvPvdr2uPBzUO+8h7GX65HZm/4+gVktzu9E7EOO4RiqbXv7P3oMTbQZapJEbFBfj
- YkU8GQoE1CwrXUHjekWzBef+Q05XQz4=
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=1LO14ojnfNxvo7aIbu1nDIDpv7RBUa2fqioHDl5Xwsg=;
+ b=hDteKb1F0/eNlH3XUsYAzt7v3kdK3yOYDtTtxqzoInyWrxUNM2VL0owQtYGvkaCeDhM2Ip
+ 86VWfRciKIZTGx1vOjPWCURauJTHet7bYVPSYnCFdByjaWCnBLAqJnuoGDgtZcXKd5m64Y
+ VaHlLUCE3f0xzoYBEmgMGF00w+qaG7M=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-76-0IL9D-bvONmoOiUQR7Npog-1; Mon, 30 Jan 2023 04:27:15 -0500
-X-MC-Unique: 0IL9D-bvONmoOiUQR7Npog-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-94-DYBNvyDeP9qRAsNjTHK6Uw-1; Mon, 30 Jan 2023 04:31:06 -0500
+X-MC-Unique: DYBNvyDeP9qRAsNjTHK6Uw-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F1E7E1C07547;
- Mon, 30 Jan 2023 09:27:14 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2FF53382C967;
+ Mon, 30 Jan 2023 09:31:06 +0000 (UTC)
 Received: from redhat.com (unknown [10.33.36.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id A8CAB175AD;
- Mon, 30 Jan 2023 09:27:13 +0000 (UTC)
-Date: Mon, 30 Jan 2023 09:27:10 +0000
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B625400EAD6;
+ Mon, 30 Jan 2023 09:31:03 +0000 (UTC)
+Date: Mon, 30 Jan 2023 09:31:01 +0000
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Emilio Cota <cota@braap.org>
-Cc: qemu-devel@nongnu.org,
- Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH 2/2] tcg: use QTree instead of GTree
-Message-ID: <Y9eNbnL+TgONAMPM@redhat.com>
-References: <20230111035536.309885-1-cota@braap.org>
- <20230111035536.309885-3-cota@braap.org>
- <Y76s1VNBUYwlpIGo@redhat.com> <Y9FRoUI3I5LfQsjW@redhat.com>
- <Y9b1UHyyPux7FKV5@cota-l14>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>, Eric Biggers <ebiggers@kernel.org>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Peter Maydell <peter.maydell@linaro.org>, philmd@linaro.org,
+ pbonzini@redhat.com, Mathias Krause <minipli@grsecurity.net>,
+ qemu-devel@nongnu.org
+Subject: Re: [PATCH qemu v3] x86: don't let decompressed kernel image clobber
+ setup_data
+Message-ID: <Y9eOVaeOJ6T4/Eq3@redhat.com>
+References: <Y69fUstLKNv/RLd7@zx2c4.com>
+ <20221230220725.618763-1-Jason@zx2c4.com>
+ <Y72FmQlNwBsp8Ntc@zx2c4.com>
+ <20230110125005-mutt-send-email-mst@kernel.org>
+ <Y84LSgtrq1Rq3ItD@sol.localdomain>
+ <20230123071128-mutt-send-email-mst@kernel.org>
+ <CAHmME9qXnA=0tBwXe=S=X_LzdBa0irDbWNSNnTdUHSQYJkfPpQ@mail.gmail.com>
+ <20230128061015-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y9b1UHyyPux7FKV5@cota-l14>
+In-Reply-To: <20230128061015-mutt-send-email-mst@kernel.org>
 User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -88,47 +91,61 @@ Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Sun, Jan 29, 2023 at 05:38:08PM -0500, Emilio Cota wrote:
-> On Wed, Jan 25, 2023 at 15:58:25 +0000, Daniel P. Berrangé wrote:
-> > On Wed, Jan 11, 2023 at 12:34:29PM +0000, Daniel P. Berrangé wrote:
-> > > On Tue, Jan 10, 2023 at 10:55:36PM -0500, Emilio Cota wrote:
-> > > > qemu-user can hang in a multi-threaded fork. One common
-> > > > reason is that when creating a TB, between fork and exec
-> > > > we manipulate a GTree whose memory allocator (GSlice) is
-> > > > not fork-safe.
-> > > 
-> > > BTW, I just checked latest glib status
-> > > 
-> > >   https://gitlab.gnome.org/GNOME/glib/-/issues/1079
-> > > 
-> > > it appears they're pretty close to deciding to delete the
-> > > GSlice impl and always use system malloc.
+On Sat, Jan 28, 2023 at 06:15:03AM -0500, Michael S. Tsirkin wrote:
+> On Mon, Jan 23, 2023 at 06:37:21AM -0600, Jason A. Donenfeld wrote:
+> > On Mon, Jan 23, 2023 at 6:12 AM Michael S. Tsirkin <mst@redhat.com> wrote:
+> > >
+> > > On Sun, Jan 22, 2023 at 08:21:30PM -0800, Eric Biggers wrote:
+> > > > Hi Michael,
+> > > >
+> > > > On Tue, Jan 10, 2023 at 12:50:42PM -0500, Michael S. Tsirkin wrote:
+> > > > > On Tue, Jan 10, 2023 at 04:34:49PM +0100, Jason A. Donenfeld wrote:
+> > > > > > Hi Michael,
+> > > > > >
+> > > > > > Could you queue up this patch and mark it as a fix for 7.2.1? It is a
+> > > > > > straight-up bug fix for a 7.2 regression that's now affected several
+> > > > > > users.
+> > > > >
+> > > > > OK. In the future pls cc me if you want me to merge a patch. Thanks!
+> > > > >
+> > > > > > - It has two Tested-by tags on the thread.
+> > > > > > - hpa, the maintainer of the kernel side of this, confirmed on one of
+> > > > > >   the various tributary threads that this approach is a correct one.
+> > > > > > - It doesn't introduce any new functionality.
+> > > > > >
+> > > > > > For your convenience, you can grab this out of lore here:
+> > > > > >
+> > > > > >   https://lore.kernel.org/lkml/20221230220725.618763-1-Jason@zx2c4.com/
+> > > > > >
+> > > > > > Or if you want to yolo it:
+> > > > > >
+> > > > > >   curl https://lore.kernel.org/lkml/20221230220725.618763-1-Jason@zx2c4.com/raw | git am -s
+> > > > > >
+> > > > > > It's now sat silent on the mailing list for a while. So let's please get
+> > > > > > this committed and backported so that the bug reports stop coming in.
+> > > > > >
+> > > >
+> > > > This patch still isn't on QEMU's master branch.  What happened to it?
+> > > >
+> > > > - Eric
+> > >
+> > > Indeed though I remember picking it up. Tagged again now. Thanks!
 > > 
-> > They have now merged the code to delete the GSlice custom allocator.
-> > 
-> > So glib >= 2.76.0 should not exhibit a hang
-> > 
-> > > So if we do take this patch series it'll hopefully be a time
-> > > limited thing to carry. 
-> > 
-> > So the question is whether the issue is critical enough that we want
-> > to carry a workaround for a while, vs telling users to upgrade to
-> > newer glib  (once 2.76 actually gets released)
+> > Thanks. What branch is this in? I didn't see it on:
+> > https://gitlab.com/mstredhat/qemu/-/branches/active
+> > https://github.com/mstsirkin/qemu/branches
 > 
-> That is great news!
-> 
-> Since this is a correctness issue, I think we should ship with qtree
-> and use it when configuring with glib <2.76.0. For later glib versions
-> we would just use gtree, e.g. via typedef + inline functions.
-> 
-> Once the minimum glib required by the configure script is >= 2.76.0,
-> then we'd remove qtree.
-> 
-> If that sounds like a good plan, I can send a v2.
+> I don't use github really. And it was not pushed to gitlab as I was
+> figuring out issues with other patches before starting CI as CI minutes
+> are limited.
 
-I'm fine with it, but be good to have an opinion here from the TCG
-subsystem maintainers, CC'ing them
-
+QEMU CI config as of a few months ago, pushing to gitlab will *not* start
+CI pipelines. You need to explicitly use opt-in to it when pushing by
+using 'git push -o ci.variable=QEMU_CI=1' to create a pipeline with all
+jobs manual or QEMU_CI=2 to create a pipeline and immediately run all jobs.
+Alternatively use the web UI to start the pipeline, again setting QEMU_CI=1|2
+So don't let CI minutes concerns dissuade from pushing to gitlab merely to
+publish the code.
 
 With regards,
 Daniel
