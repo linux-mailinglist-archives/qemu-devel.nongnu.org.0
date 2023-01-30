@@ -2,90 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C0A68146D
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 16:13:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D63DF6814B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 16:19:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMVqK-0000wK-0g; Mon, 30 Jan 2023 10:13:12 -0500
+	id 1pMVvR-00036A-NI; Mon, 30 Jan 2023 10:18:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMVqH-0000vb-Fg
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:13:09 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMVqF-0004JJ-QA
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:13:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675091586;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=d6MmdXfOYouBoHJbeuzo77bR07RxlX7uOzLqAwrpyI8=;
- b=fEB/maWB9ijAfQZX0AmRexj1hMkt/galnIGxflPB/0RGumCVJcz/aMi6gOP/hUFl3ib5xW
- 1B19lad0LMTcs5d9ATDcS5w8xRVLUBg7yEWBmNYcoSO9GwAmzO9b/VOzxTtrUV+KmpTGGP
- sS5qaOd8GTbJEBeng6JP0hErZAR059o=
-Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
- [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-151-y5RV9GmnPli8CEBcdgpvlg-1; Mon, 30 Jan 2023 10:13:05 -0500
-X-MC-Unique: y5RV9GmnPli8CEBcdgpvlg-1
-Received: by mail-ej1-f69.google.com with SMTP id
- gz8-20020a170907a04800b0087bd94a505fso5178278ejc.16
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 07:13:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pMVv1-00033i-VN; Mon, 30 Jan 2023 10:18:06 -0500
+Received: from mail-yw1-x1132.google.com ([2607:f8b0:4864:20::1132])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pMVv0-0004ug-31; Mon, 30 Jan 2023 10:18:03 -0500
+Received: by mail-yw1-x1132.google.com with SMTP id
+ 00721157ae682-4fd37a1551cso163318477b3.13; 
+ Mon, 30 Jan 2023 07:18:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=kIxotb/J5s6JfDyLxjQ7B4P7EgodUafXL7vop5xhkZI=;
+ b=m3gMpP/wDJveORnF7Q4DqnbIsfFzxtX+ALxiQb/Lt1oRZOCP9yGNVmu6+8BlaeZlKT
+ r/u5B26sUpfNCuJwBrHimUFahMlNeWM1egC5mN17ajXhNXQGNjejjK2gWdSAn5K4MTPj
+ iG1V+V76Ha40k+p1KNlT2GYGIZfAyLVVpGGUHdAKNP8Z4N3wfqA0urdJpYuTBD1BHTlq
+ jHLWs0/RI8MiLBQPw2WKkeI+5oWipCUUUKT20afhAdrQkzGcx9/gW3ca69b6DTT5uZTk
+ RSIKP05j+mPU4Ptm4sl/m0iJPAkzhClSMSsGyAdCWhAV5uKfT9wc55hMtcqaZyVti9w9
+ 0XGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=d6MmdXfOYouBoHJbeuzo77bR07RxlX7uOzLqAwrpyI8=;
- b=1qPLTm+9sxpkrCvan32OZ/23z7m3aCJudUu56oGpMeKTgQg4/eilODrB1jDmdg+6fr
- Fmheq+Z2VNdjac6Jwo7N88MUJiro+wgvLjHiXynEs8ISX4lc/HervLckzZLldIJIVm5y
- o6/vkSb1NpVETd3gMQE7dXxjPb4s4aLAan9v93dLFF7Jt09Wn6btaQtY6bCl2/6+iJvU
- K6BlvgA7f/pjTd4hmsUiWZzQyohBRtmNPdFjcqKun6OKrz26SPpO6folgySIyaZHa9vm
- iHWqhcAahr/3q3pCubIa4vtV+8FoTlo8NJtBdtubI1PxPXaqrTnN+NmjMfDuIoKcnkK7
- 8otQ==
-X-Gm-Message-State: AO0yUKVV/zhaoFBq+UM/YcaivWhEhKNwSN5lRHZhvVahr2Kf/ObS+s3d
- ViiruzfpSmXaPhjR6TMQYLtO5oPs7/5C4QU7kb6HgR2+Wg9nNK9pim0xcGgQLQBqNRdkidGcILm
- haYz14alb2JXLQMU=
-X-Received: by 2002:a17:906:2806:b0:879:2a5:dc3c with SMTP id
- r6-20020a170906280600b0087902a5dc3cmr13149056ejc.40.1675091583615; 
- Mon, 30 Jan 2023 07:13:03 -0800 (PST)
-X-Google-Smtp-Source: AK7set8EyeBImv1siaNFC+m3NU894LqzBTrwwmnw2MCaE4p04weQlTSl813ywmcXQEtjggpjFqyaPg==
-X-Received: by 2002:a17:906:2806:b0:879:2a5:dc3c with SMTP id
- r6-20020a170906280600b0087902a5dc3cmr13149027ejc.40.1675091583314; 
- Mon, 30 Jan 2023 07:13:03 -0800 (PST)
-Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
- ce4-20020a170906b24400b0078d3f96d293sm7008754ejb.30.2023.01.30.07.13.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 07:13:02 -0800 (PST)
-Date: Mon, 30 Jan 2023 10:12:58 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org, Yan Vugenfirer <yvugenfi@redhat.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Alexander Bulekov <alxndr@bu.edu>
-Subject: Re: [PATCH v4 20/28] net: Strip virtio-net header when dumping
-Message-ID: <20230130101211-mutt-send-email-mst@kernel.org>
-References: <20230130134715.76604-1-akihiko.odaki@daynix.com>
- <20230130134715.76604-21-akihiko.odaki@daynix.com>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=kIxotb/J5s6JfDyLxjQ7B4P7EgodUafXL7vop5xhkZI=;
+ b=ypl57ObmhBJDzq69RiPOIQENTzOU0sMqDS+EEsWb7GzlATh0vDyv815hDH5HimBGTE
+ TmYFIRCgfYt3H5p7jPdNwUjYigslhi2RmyxL4IC5RKL7NHeQz5DXRGqMuIXoL/wWTGSn
+ Nsw+ms2e0Ok3QzfA2h7xQ8g2f3LVnjaqUE9N6fs7u8TCt7MbScTVFB158Q1zMQzdTa/o
+ ShAJZ8U5IDpRSwH81rjfQEUi0TPR3sSkNncvBPs37IXPcetukIp4HvNTk7s1BmOmCgMQ
+ CxS8uOfKrwVC4YlwbFYuKTMwTpd0jg8wcUHPD5/o/zZDHWYc2gJLSeDoz1wah1SyPjoW
+ FdmQ==
+X-Gm-Message-State: AO0yUKXJItX+lJXOjjtcNO/5MFAcPKO1Vc05/RU6i/EQj8nLF8Lmj480
+ 8z368SlbiEtSk0E3GHzJev1gjVbJu2tAcVReFNc=
+X-Google-Smtp-Source: AK7set99pBO4VeP+NUrQQA1CXRGgi7HdlcTHV4lJogB5Xz6SUCnkiipPHjDx11cxC2rxkciTEVXs7SPQClGSwqEi+Mc=
+X-Received: by 2002:a81:4882:0:b0:50e:79ff:776e with SMTP id
+ v124-20020a814882000000b0050e79ff776emr1411889ywa.206.1675091880282; Mon, 30
+ Jan 2023 07:18:00 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230130134715.76604-21-akihiko.odaki@daynix.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230129103951.86063-1-faithilikerun@gmail.com>
+ <20230129103951.86063-3-faithilikerun@gmail.com> <Y9e48KYxf2TLHmP4@redhat.com>
+In-Reply-To: <Y9e48KYxf2TLHmP4@redhat.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Mon, 30 Jan 2023 10:17:48 -0500
+Message-ID: <CAJSP0QUOQge9V2jM+ibhNgt-c-sjWw5RjFeO2isfw6Gxo3gEwQ@mail.gmail.com>
+Subject: Re: [RFC v6 2/4] virtio-blk: add zoned storage emulation for zoned
+ devices
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Cc: Sam Li <faithilikerun@gmail.com>, qemu-devel@nongnu.org,
+ dmitry.fomichev@wdc.com, 
+ Raphael Norwitz <raphael.norwitz@nutanix.com>, stefanha@redhat.com, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+ damien.lemoal@opensource.wdc.com, 
+ hare@suse.de, Markus Armbruster <armbru@redhat.com>, qemu-block@nongnu.org, 
+ Eric Blake <eblake@redhat.com>, Hanna Reitz <hreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1132;
+ envelope-from=stefanha@gmail.com; helo=mail-yw1-x1132.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,183 +91,96 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 30, 2023 at 10:47:07PM +0900, Akihiko Odaki wrote:
-> filter-dump specifiees Ethernet as PCAP LinkType, which does not expect
-> virtio-net header. Having virtio-net header in such PCAP file breaks
-> PCAP unconsumable. Unfortunately currently there is no LinkType for
-> virtio-net so for now strip virtio-net header to convert the output to
-> Ethernet.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+On Mon, 30 Jan 2023 at 07:33, Daniel P. Berrang=C3=A9 <berrange@redhat.com>=
+ wrote:
+>
+> On Sun, Jan 29, 2023 at 06:39:49PM +0800, Sam Li wrote:
+> > This patch extends virtio-blk emulation to handle zoned device commands
+> > by calling the new block layer APIs to perform zoned device I/O on
+> > behalf of the guest. It supports Report Zone, four zone oparations (ope=
+n,
+> > close, finish, reset), and Append Zone.
+> >
+> > The VIRTIO_BLK_F_ZONED feature bit will only be set if the host does
+> > support zoned block devices. Regular block devices(conventional zones)
+> > will not be set.
+> >
+> > The guest os can use blktests, fio to test those commands on zoned devi=
+ces.
+> > Furthermore, using zonefs to test zone append write is also supported.
+> >
+> > Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> > ---
+> >  hw/block/virtio-blk-common.c |   2 +
+> >  hw/block/virtio-blk.c        | 394 +++++++++++++++++++++++++++++++++++
+> >  2 files changed, 396 insertions(+)
+> >
+>
+> > @@ -949,6 +1311,30 @@ static void virtio_blk_update_config(VirtIODevice=
+ *vdev, uint8_t *config)
+> >          blkcfg.write_zeroes_may_unmap =3D 1;
+> >          virtio_stl_p(vdev, &blkcfg.max_write_zeroes_seg, 1);
+> >      }
+> > +    if (bs->bl.zoned !=3D BLK_Z_NONE) {
+> > +        switch (bs->bl.zoned) {
+> > +        case BLK_Z_HM:
+> > +            blkcfg.zoned.model =3D VIRTIO_BLK_Z_HM;
+> > +            break;
+> > +        case BLK_Z_HA:
+> > +            blkcfg.zoned.model =3D VIRTIO_BLK_Z_HA;
+> > +            break;
+> > +        default:
+> > +            g_assert_not_reached();
+> > +        }
+> > +
+> > +        virtio_stl_p(vdev, &blkcfg.zoned.zone_sectors,
+> > +                     bs->bl.zone_size / 512);
+> > +        virtio_stl_p(vdev, &blkcfg.zoned.max_active_zones,
+> > +                     bs->bl.max_active_zones);
+> > +        virtio_stl_p(vdev, &blkcfg.zoned.max_open_zones,
+> > +                     bs->bl.max_open_zones);
+> > +        virtio_stl_p(vdev, &blkcfg.zoned.write_granularity, blk_size);
+> > +        virtio_stl_p(vdev, &blkcfg.zoned.max_append_sectors,
+> > +                     bs->bl.max_append_sectors);
+>
+> So these are all ABI sensitive frontend device settings, but they are
+> not exposed as tunables on the virtio-blk device, instead they are
+> implicitly set from the backend.
+>
+> We have done this kind of thing before in QEMU, but several times it
+> has bitten QEMU maintainers/users, as having a backend affect the
+> frontend ABI is not to typical. It wouldn't be immediately obvious
+> when starting QEMU on a target host that the live migration would
+> be breaking ABI if the target host wasn't using a zoned device with
+> exact same settings.
+>
+> This also limits mgmt flexibility across live migration, if the
+> mgmt app wants/needs to change the storage backend. eg maybe they
+> need to evacuate the host for an emergency, but don't have spare
+> hosts with same kind of storage. It might be desirable to migrate
+> and switch to a plain block device or raw/qcow2 file, rather than
+> let the VM die.
+>
+> Can we make these virtio setting be explicitly controlled on the
+> virtio-blk device.  If not specified explicitly they could be
+> auto-populated from the backend for ease of use, but if specified
+> then simply validate the backend is a match. libvirt would then
+> make sure these are always explicitly set on the frontend.
 
-Probably means you need to calculate checksums and split gso too right?
+I think this is a good idea, especially if we streamline the
+file-posix.c driver by merging --blockdev zoned_host_device into
+--blockdev host_device. It won't be obvious from the command-line
+whether this is a zoned or non-zoned device. There should be a
+--device virtio-blk-pci,drive=3Ddrive0,zoned=3Don option that fails when
+drive0 isn't zoned. It should probably be on/off/auto where auto is
+the default and doesn't check anything, on requires a zoned device,
+and off requires a non-zoned device. That will prevent accidental
+migration between zoned/non-zoned devices.
 
-> ---
->  include/net/net.h |  6 ++++++
->  net/dump.c        | 11 +++++++----
->  net/net.c         | 18 ++++++++++++++++++
->  net/tap.c         | 16 ++++++++++++++++
->  4 files changed, 47 insertions(+), 4 deletions(-)
-> 
-> diff --git a/include/net/net.h b/include/net/net.h
-> index dc20b31e9f..4b2d72b3fc 100644
-> --- a/include/net/net.h
-> +++ b/include/net/net.h
-> @@ -56,8 +56,10 @@ typedef RxFilterInfo *(QueryRxFilter)(NetClientState *);
->  typedef bool (HasUfo)(NetClientState *);
->  typedef bool (HasVnetHdr)(NetClientState *);
->  typedef bool (HasVnetHdrLen)(NetClientState *, int);
-> +typedef bool (GetUsingVnetHdr)(NetClientState *);
->  typedef void (UsingVnetHdr)(NetClientState *, bool);
->  typedef void (SetOffload)(NetClientState *, int, int, int, int, int);
-> +typedef int (GetVnetHdrLen)(NetClientState *);
->  typedef void (SetVnetHdrLen)(NetClientState *, int);
->  typedef int (SetVnetLE)(NetClientState *, bool);
->  typedef int (SetVnetBE)(NetClientState *, bool);
-> @@ -84,8 +86,10 @@ typedef struct NetClientInfo {
->      HasUfo *has_ufo;
->      HasVnetHdr *has_vnet_hdr;
->      HasVnetHdrLen *has_vnet_hdr_len;
-> +    GetUsingVnetHdr *get_using_vnet_hdr;
->      UsingVnetHdr *using_vnet_hdr;
->      SetOffload *set_offload;
-> +    GetVnetHdrLen *get_vnet_hdr_len;
->      SetVnetHdrLen *set_vnet_hdr_len;
->      SetVnetLE *set_vnet_le;
->      SetVnetBE *set_vnet_be;
-> @@ -183,9 +187,11 @@ void qemu_format_nic_info_str(NetClientState *nc, uint8_t macaddr[6]);
->  bool qemu_has_ufo(NetClientState *nc);
->  bool qemu_has_vnet_hdr(NetClientState *nc);
->  bool qemu_has_vnet_hdr_len(NetClientState *nc, int len);
-> +bool qemu_get_using_vnet_hdr(NetClientState *nc);
->  void qemu_using_vnet_hdr(NetClientState *nc, bool enable);
->  void qemu_set_offload(NetClientState *nc, int csum, int tso4, int tso6,
->                        int ecn, int ufo);
-> +int qemu_get_vnet_hdr_len(NetClientState *nc);
->  void qemu_set_vnet_hdr_len(NetClientState *nc, int len);
->  int qemu_set_vnet_le(NetClientState *nc, bool is_le);
->  int qemu_set_vnet_be(NetClientState *nc, bool is_be);
-> diff --git a/net/dump.c b/net/dump.c
-> index 6a63b15359..7d05f16ca7 100644
-> --- a/net/dump.c
-> +++ b/net/dump.c
-> @@ -61,12 +61,13 @@ struct pcap_sf_pkthdr {
->      uint32_t len;
->  };
->  
-> -static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt)
-> +static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt,
-> +                                int offset)
->  {
->      struct pcap_sf_pkthdr hdr;
->      int64_t ts;
->      int caplen;
-> -    size_t size = iov_size(iov, cnt);
-> +    size_t size = iov_size(iov, cnt) - offset;
->      struct iovec dumpiov[cnt + 1];
->  
->      /* Early return in case of previous error. */
-> @@ -84,7 +85,7 @@ static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt)
->  
->      dumpiov[0].iov_base = &hdr;
->      dumpiov[0].iov_len = sizeof(hdr);
-> -    cnt = iov_copy(&dumpiov[1], cnt, iov, cnt, 0, caplen);
-> +    cnt = iov_copy(&dumpiov[1], cnt, iov, cnt, offset, caplen);
->  
->      if (writev(s->fd, dumpiov, cnt + 1) != sizeof(hdr) + caplen) {
->          error_report("network dump write error - stopping dump");
-> @@ -153,8 +154,10 @@ static ssize_t filter_dump_receive_iov(NetFilterState *nf, NetClientState *sndr,
->                                         int iovcnt, NetPacketSent *sent_cb)
->  {
->      NetFilterDumpState *nfds = FILTER_DUMP(nf);
-> +    int offset = qemu_get_using_vnet_hdr(nf->netdev) ?
-> +                 qemu_get_vnet_hdr_len(nf->netdev) : 0;
->  
-> -    dump_receive_iov(&nfds->ds, iov, iovcnt);
-> +    dump_receive_iov(&nfds->ds, iov, iovcnt, offset);
->      return 0;
->  }
->  
-> diff --git a/net/net.c b/net/net.c
-> index 2d01472998..03f17de5fc 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -513,6 +513,15 @@ bool qemu_has_vnet_hdr_len(NetClientState *nc, int len)
->      return nc->info->has_vnet_hdr_len(nc, len);
->  }
->  
-> +bool qemu_get_using_vnet_hdr(NetClientState *nc)
-> +{
-> +    if (!nc || !nc->info->get_using_vnet_hdr) {
-> +        return false;
-> +    }
-> +
-> +    return nc->info->get_using_vnet_hdr(nc);
-> +}
-> +
->  void qemu_using_vnet_hdr(NetClientState *nc, bool enable)
->  {
->      if (!nc || !nc->info->using_vnet_hdr) {
-> @@ -532,6 +541,15 @@ void qemu_set_offload(NetClientState *nc, int csum, int tso4, int tso6,
->      nc->info->set_offload(nc, csum, tso4, tso6, ecn, ufo);
->  }
->  
-> +int qemu_get_vnet_hdr_len(NetClientState *nc)
-> +{
-> +    if (!nc || !nc->info->get_vnet_hdr_len) {
-> +        return 0;
-> +    }
-> +
-> +    return nc->info->get_vnet_hdr_len(nc);
-> +}
-> +
->  void qemu_set_vnet_hdr_len(NetClientState *nc, int len)
->  {
->      if (!nc || !nc->info->set_vnet_hdr_len) {
-> diff --git a/net/tap.c b/net/tap.c
-> index 7d7bc1dc5f..1bf085d422 100644
-> --- a/net/tap.c
-> +++ b/net/tap.c
-> @@ -255,6 +255,13 @@ static bool tap_has_vnet_hdr_len(NetClientState *nc, int len)
->      return !!tap_probe_vnet_hdr_len(s->fd, len);
->  }
->  
-> +static int tap_get_vnet_hdr_len(NetClientState *nc)
-> +{
-> +    TAPState *s = DO_UPCAST(TAPState, nc, nc);
-> +
-> +    return s->host_vnet_hdr_len;
-> +}
-> +
->  static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
->  {
->      TAPState *s = DO_UPCAST(TAPState, nc, nc);
-> @@ -268,6 +275,13 @@ static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
->      s->host_vnet_hdr_len = len;
->  }
->  
-> +static bool tap_get_using_vnet_hdr(NetClientState *nc)
-> +{
-> +    TAPState *s = DO_UPCAST(TAPState, nc, nc);
-> +
-> +    return s->using_vnet_hdr;
-> +}
-> +
->  static void tap_using_vnet_hdr(NetClientState *nc, bool using_vnet_hdr)
->  {
->      TAPState *s = DO_UPCAST(TAPState, nc, nc);
-> @@ -372,8 +386,10 @@ static NetClientInfo net_tap_info = {
->      .has_ufo = tap_has_ufo,
->      .has_vnet_hdr = tap_has_vnet_hdr,
->      .has_vnet_hdr_len = tap_has_vnet_hdr_len,
-> +    .get_using_vnet_hdr = tap_get_using_vnet_hdr,
->      .using_vnet_hdr = tap_using_vnet_hdr,
->      .set_offload = tap_set_offload,
-> +    .get_vnet_hdr_len = tap_get_vnet_hdr_len,
->      .set_vnet_hdr_len = tap_set_vnet_hdr_len,
->      .set_vnet_le = tap_set_vnet_le,
->      .set_vnet_be = tap_set_vnet_be,
-> -- 
-> 2.39.1
+I want to point out that virtio-blk doesn't have checks for the disk
+size or other details, so what you're suggesting for zone_sectors, etc
+is stricter than what QEMU does today. Since the virtio-blk parameters
+you're proposing are optional, I think it doesn't hurt though.
 
+Stefan
 
