@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D4616817E5
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 18:44:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF226817F0
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 18:45:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMYCA-0000L5-Q0; Mon, 30 Jan 2023 12:43:54 -0500
+	id 1pMYDk-0001VF-6h; Mon, 30 Jan 2023 12:45:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pMYC5-0000Ho-TB
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 12:43:49 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ id 1pMYDa-0001Um-Br
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 12:45:22 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pMYC4-0002ea-7A
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 12:43:49 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- m5-20020a05600c4f4500b003db03b2559eso8762503wmq.5
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 09:43:47 -0800 (PST)
+ id 1pMYDY-00038t-Ur
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 12:45:22 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id r2so11865143wrv.7
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 09:45:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9UK/14jWg2UoueRtKcZ/az4ZivMTs+rfcV65Ptp6y98=;
- b=Hc3kNsW5VoqdPrvRmNqAiGjUW7Z4oJXjO7qDBNgrEOqncclDmGKvkkcyHj2ra3p+aH
- XD61jvPIrK/oJ/WSKChpZwzprjtFFOmPP9l+37b7VI+QHDdScGKXRvJi/q+ZO9BhDAqg
- bwW/dNV50Dw9H8GqqiPJ7w50ADEjwqvmHvE6nLQUjlgaQRifOEbwImlwsYgK37BJtRTV
- vMQov/2dGiB+y7t7y6bYkbPDBR104nirUibZ3d5EJ/foe/vw/VXZ2bTrMRe1qPp6wCRC
- 0HKXgnM9xJ9B63ShQtU7ysi4tZBtcUwNKuXO8k714rs0oVXeo9Wu9um5lAFSOl88/VvQ
- WVkw==
+ bh=OsCcBigu8ZKC+iawaCKNGmI7perzvFKpJOeTuMRE5T0=;
+ b=ohA1XtJItEHQNQXNSjPGYu/RLSCnJm/V/PzC47ibEjAqFM0unn3t09GI9uB5Hw91VC
+ 0Lt/UeisCAz3+Lb3GWkTadZlQtVT1jXCWl5r6r3+Doi1tLWmKerY+kkjPjVzK/VherqL
+ mLSyMiwWJixb4xJF4UfMHT/b/cArQqCHFH66aI1BG0ygfEKQuQZ7t0aIGF2o/SffEWik
+ cTzXCgc8VpRqznsKpCUMt1G0vuaD/G9tKDh+IdLhOhAEKguBYkDoC9lk/JuWI43bnvXP
+ oLfLnyZo+ArsanD9gk1NvmYj79bBNMs3CQW1M7446nn2VQBLfjp3wE3DAvfv+rPXBCLu
+ eHWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=9UK/14jWg2UoueRtKcZ/az4ZivMTs+rfcV65Ptp6y98=;
- b=EtD2qux96wiY839iqaimeLDdWQaoHRqFWvR61AIIT6D6njQemnJyxYCnQlkXiM08TZ
- sPujCN9yix0x+hdHZgCrBNvpx3XakZq8kS/qCUjeGzlGXdethOLwunry2T+6pmv/lyd7
- aEw6/qLjzc8NXWQWiyyKpi0yRY3mpuq5f7uuDuFl9opneiBY8dbGro4io+RGMIShXVf1
- g8LaGA2klNKBR/fWBd9eDOBrUGdky4/bwexp86t5hgjIa7/2h42yfT0nQXgNJZkjL2Ql
- PpCSCQdKkGS6Sz1USLWW6/uDns5/WpNomuRneM9enC9OVj9gO82x2gyciO3GjGmV05HE
- 4ylA==
-X-Gm-Message-State: AFqh2kr9uiOAZC3eO6uVckmBqTbHygy8XINIC2QIB93lYMjYIZp4prrR
- FZ2GpkAvGr0WDSgWXF6mpOEmBA==
-X-Google-Smtp-Source: AMrXdXue7RnQnyq7TP4Qo8BwZGdyo58q+bufP+OrXnYrOjh4hIoCUfgi6D4BSpdyLGEdd6mehBSTqA==
-X-Received: by 2002:a05:600c:1c1f:b0:3db:2d7e:1204 with SMTP id
- j31-20020a05600c1c1f00b003db2d7e1204mr41113573wms.27.1675100626379; 
- Mon, 30 Jan 2023 09:43:46 -0800 (PST)
+ bh=OsCcBigu8ZKC+iawaCKNGmI7perzvFKpJOeTuMRE5T0=;
+ b=lm0GEfqlVHQ5TURAZz8qcQJyjpD2FvGSYDYt3MM9WZi4gRA8QWyTE3s+55+rWT0KTD
+ cegFqGo5XRTb8F/KO5kkvobANeFtUUOcTEaytMTPEm9cAe6RXOtW+jHLaMfkoxJkjgnP
+ H45pmnQUmX9dpor1hlmStDkvH2hNbbeRG0J0qdm4+rryShggFMs9kRx9AHoksh5hDdxE
+ WVwLV971ZhxCNxRRqk/+PS6j8LO/qPCgq5O9DLWXZzfP8T3mfvYkeWg1/0LuLSYMaAKw
+ FFe1YtN824L/N7DqcK1h9SVyQE5eWkZGA/GehTr9cCfxquyQfsif/WhT8PZprn31w82u
+ 9Vdw==
+X-Gm-Message-State: AO0yUKWan0RDb+F0nOuTa7SDJJE0VPNOBZaT+s7Bo46wjADN08majOOA
+ 5sOv+neQ9Y8SGfMvgUCF/l9cxg==
+X-Google-Smtp-Source: AK7set9HxQDYoJPwcbBqV5K83UIZ/ME4mMx+DftwITEvtWcVE8bdK844Sn+BIYlmDBho7CFZsOvlJA==
+X-Received: by 2002:adf:a504:0:b0:2bf:ae0e:23d8 with SMTP id
+ i4-20020adfa504000000b002bfae0e23d8mr23136984wrb.32.1675100719357; 
+ Mon, 30 Jan 2023 09:45:19 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- az10-20020a05600c600a00b003a3442f1229sm515335wmb.29.2023.01.30.09.43.45
+ k4-20020a5d4284000000b00241fde8fe04sm12510952wrq.7.2023.01.30.09.45.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 09:43:45 -0800 (PST)
+ Mon, 30 Jan 2023 09:45:18 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 4C2A71FFB7;
- Mon, 30 Jan 2023 17:43:45 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 82CB31FFB7;
+ Mon, 30 Jan 2023 17:45:18 +0000 (GMT)
 References: <20230130104446.1286773-1-thuth@redhat.com>
- <20230130104446.1286773-6-thuth@redhat.com>
+ <20230130104446.1286773-5-thuth@redhat.com>
 User-agent: mu4e 1.9.18; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Thomas Huth <thuth@redhat.com>
@@ -67,15 +66,16 @@ Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
  Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Stefan
  Hajnoczi
  <stefanha@redhat.com>, Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH 5/6] gitlab-ci.d/buildtest: Merge the two gprof-gcov jobs
-Date: Mon, 30 Jan 2023 17:42:32 +0000
-In-reply-to: <20230130104446.1286773-6-thuth@redhat.com>
-Message-ID: <87tu076hpq.fsf@linaro.org>
+Subject: Re: [PATCH 4/6] gitlab-ci.d/buildtest: Merge the
+ --without-default-* jobs
+Date: Mon, 30 Jan 2023 17:45:14 +0000
+In-reply-to: <20230130104446.1286773-5-thuth@redhat.com>
+Message-ID: <87pmav6hn5.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -101,55 +101,18 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Thomas Huth <thuth@redhat.com> writes:
 
-> There is only one job depending on the build-gprof-gcov job, so
-> there is no real need for keeping this separate. It likely only
-> has been split since the complete runtime is more than 60 minutes,
-> but that can be better handled with a proper timeout setting instead.
-> By merging the two jobs, we safe some precious CI minutes for starting
-> a new container for the second job each time.
+> Let's safe some CI minutes by merging these two jobs. We can now
+> also drop "--disable-capstone" since the capstone submodule has
+> been removed a while ago. We should rather tes --disable-fdt now
+> to test a compilation without the "dtc" submodule (for this we
+> have to drop i386-softmmu from the target list unfortunately).
+> Additionally, the qtests with s390x and sh4 are not read for
+> "--without-default-devices" yet, so we can only test mips64 and
+> avr here now.
 >
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  .gitlab-ci.d/buildtest.yml | 15 ++-------------
->  1 file changed, 2 insertions(+), 13 deletions(-)
->
-> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-> index 86f9c37a07..91c7467a66 100644
-> --- a/.gitlab-ci.d/buildtest.yml
-> +++ b/.gitlab-ci.d/buildtest.yml
-> @@ -468,26 +468,15 @@ tsan-build:
->      MAKE_CHECK_ARGS: bench V=3D1
->=20=20
->  # gprof/gcov are GCC features
-> -build-gprof-gcov:
-> +gprof-gcov:
->    extends: .native_build_job_template
->    needs:
->      job: amd64-ubuntu2004-container
-> +  timeout: 80m
->    variables:
->      IMAGE: ubuntu2004
->      CONFIGURE_ARGS: --enable-gprof --enable-gcov
->      TARGETS: aarch64-softmmu ppc64-softmmu s390x-softmmu x86_64-softmmu
-> -  artifacts:
-> -    expire_in: 1 days
-> -    paths:
-> -      - build
-> -
-> -check-gprof-gcov:
-> -  extends: .native_test_job_template
-> -  needs:
-> -    - job: build-gprof-gcov
-> -      artifacts: true
-> -  variables:
-> -    IMAGE: ubuntu2004
->      MAKE_CHECK_ARGS: check
->    after_script:
->      - cd build
 
-I'm tempted to deprecate gprof altogether as I find it hard to believe
-anyone uses it when perf tools give you a much clearer indication of
-where the bottlenecks are in "real world" environments.
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
 --=20
 Alex Benn=C3=A9e
