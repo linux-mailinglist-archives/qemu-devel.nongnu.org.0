@@ -2,129 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E09668176C
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 18:17:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04D51681398
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:43:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMXli-0005jX-1r; Mon, 30 Jan 2023 12:16:34 -0500
+	id 1pMVNG-0008VE-6k; Mon, 30 Jan 2023 09:43:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pMXlP-0005gS-VA
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 12:16:16 -0500
-Received: from mail-dm6nam10on2057.outbound.protection.outlook.com
- ([40.107.93.57] helo=NAM10-DM6-obe.outbound.protection.outlook.com)
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pMXlO-00042C-4Y
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 12:16:15 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=eX7ybODJZcGtGUMDL5rcTSGIQemqQ9hiWtWAtQ2G8hHcZdc2MjU3M5BsGpDqRssMfoeACPhLOaOjmfTaSGrvrCku8G9s6xcOrEf7FENMo6UOgaG+03hVJYpWQL59uNihGVRwzoC8Y+q0PwiH6/mYDMxW9T5RYsQx/9Zw1mXOqU9RwKBAQBAmb0UXjCoTUeIvQDwKFSCuDYxqnKe9pea7TQqDgKEHsejIb1XOvrNoe5sziWtg8hxquN4pPQ8AJ8LCAUw92Kuz2PIvCESPPqYDNlEgnDHwYvxHXN8XeK6TbowT4RB6OSz5NC4TnbtzX91iC8j+ZoDmRoFhB2ROiRPFzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=l8y6L9BimaYAJY6ENVE1B/tBoU3juv0Fe6dUMwUOCrc=;
- b=RYah/XVK0aFkHQiUR/QPr6jgqUTGoGdux6uW9OswydQ7m6yHAPU3ca7RZP2Fr7doeUc0r8b1jgHlTMLIV4Kbfd/yKW1lq5W8T+ImI498/0GkaLxNUsldysOdZkK/CnCWHyqp7G3dkhXTkbkb8+nTTSLT9amrTU9gMK7SP2g+alY4gvRPFXTSxB5Z/DEy/JCXQxTKXlebHnBfZoJo3Gd7QqaUUTVWUdh28VZNHvKRz3ceCgJEMsP6heN93/v8guATPYPobuzIOrrz3pn0W8/+TTGXKEGzCpehItyn2qLXQ55WXnzg4t0rQ16g+UbMhXchMCFQjdlXlMzznI6ZZ7FegA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=l8y6L9BimaYAJY6ENVE1B/tBoU3juv0Fe6dUMwUOCrc=;
- b=UXDPh1HZUE91FQdfWSWmFkWE2OLzL/ZuF9/rcSrbo76JfpxwPyL6TVEbo02K/RWHFYJNoWnetdhhXKJm3W10YM8eoSd5hzX5LgHaY3G/UxKKdkZFlied/BR7x1exNBXvvcPxD5Riv9nNb9ddtjTlQrFt9ct1ViE640eb3pKhbQk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by BY5PR17MB3987.namprd17.prod.outlook.com (2603:10b6:a03:23f::10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.30; Mon, 30 Jan
- 2023 17:16:02 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660%4]) with mapi id 15.20.6043.028; Mon, 30 Jan 2023
- 17:16:02 +0000
-Date: Mon, 30 Jan 2023 09:38:52 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: Gregory Price <gourry.memverge@gmail.com>, qemu-devel@nongnu.org,
- linux-cxl@vger.kernel.org, alison.schofield@intel.com,
- dave@stgolabs.net, a.manzanares@samsung.com, bwidawsk@kernel.org,
- hchkuo@avery-design.com.tw, cbrowy@avery-design.com, ira.weiny@intel.com
-Subject: Re: [RFC v4 2/3] tests/qtest/cxl-test: whitespace, line ending cleanup
-Message-ID: <Y9fWfI1ul9J86JWc@memverge.com>
-References: <20221128150157.97724-1-gregory.price@memverge.com>
- <20221128150157.97724-3-gregory.price@memverge.com>
- <20230105143807.0000315a@huawei.com>
- <20230130131150.000023a1@huawei.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230130131150.000023a1@huawei.com>
-X-ClientProxiedBy: SJ0PR03CA0110.namprd03.prod.outlook.com
- (2603:10b6:a03:333::25) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pMVN8-0008Qm-Jd
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:43:02 -0500
+Received: from mail-pl1-x62b.google.com ([2607:f8b0:4864:20::62b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pMVN6-0006Tj-UY
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:43:02 -0500
+Received: by mail-pl1-x62b.google.com with SMTP id k13so11889683plg.0
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:43:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=5ZG6+R9GPZg140VII+sGCGp308nrYFBQ1rehSUjRTpQ=;
+ b=AIUzG2w9APPCQqA5sDp8ziM1jawcR5xn3M2B3aTtPMJc8K3lGozZW65bfmEs2G214J
+ zdOl7c4M8/nqACGEZ9bt0GujtZTAOs3Cr1pSL11zUbh26NgjuwuFyeqqTfk/Z6P+rgto
+ g63tVsID+TfWrP+8RqgNU4+OrgScKHOqT/VQggztV/HXUT38CMiei+NDrZAF9YgySvan
+ SH4WEBv2n9HmXoZvXUv+syHkls37jsNEfVamjrVtOa25VR6d5p6jFEhnggtcyhfldE8p
+ NIp3DC7jJ2Ub4UBSlSkjGIonp6ABbTz/1nasFMicrVoykzQmJmmIACbH0oQPBaeA5zrh
+ Vocg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=5ZG6+R9GPZg140VII+sGCGp308nrYFBQ1rehSUjRTpQ=;
+ b=43NkLyP7ItuNO5va4TFRsvZ4vMQzEcWunn2rtcDFmUUzlNWCpT4FBcAil75IEn7wMr
+ 7MvHmJjp0dUHvTkWU0/SNzAkbWfKi6xoIoS4Fljm9zyMqdkZQz+6lC8HZqhvA0BKohi8
+ tbDA1GUzJLbb82a4WkdkPEUllk8L4Rg1YessnJUy/v5f8KVFTWY3OYYNrvXALafS8aYs
+ EhOxA6efZUdH6hXYEUXLpTfW84zukfFRvK4eDZQrsCKsJmsjLRZ7Ya5SJU4qhxplL1/e
+ 8d861SYczyQi0woiSz2LFtoiOY0/uNGqxYb1pVnNSVhlF9UK8VRMDgqJrqUO2C727VQE
+ PsJA==
+X-Gm-Message-State: AO0yUKUFDm6jBy24nuC+wTRZF/z6dcvqX39B4Cg8y4/ifdb0w9jSNZww
+ eMk4ruiYvtlRRMH7oc0sPZ5EIA==
+X-Google-Smtp-Source: AK7set9sKnBTyunEAs2Ly0B4pSRfMzStEDIqj7lVq8cNQnSLqujuKnk1JsJRZq4cFwrZ/iy88FtO/g==
+X-Received: by 2002:a17:902:f10b:b0:196:7a96:cd82 with SMTP id
+ e11-20020a170902f10b00b001967a96cd82mr4211411plb.42.1675089779781; 
+ Mon, 30 Jan 2023 06:42:59 -0800 (PST)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ jl16-20020a170903135000b0019719f752c5sm1299884plb.59.2023.01.30.06.42.57
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Jan 2023 06:42:59 -0800 (PST)
+Message-ID: <a217fed2-e868-5050-9370-9ad3e8ba357e@daynix.com>
+Date: Mon, 30 Jan 2023 23:42:56 +0900
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|BY5PR17MB3987:EE_
-X-MS-Office365-Filtering-Correlation-Id: 44f2c345-9776-4e7e-767e-08db02e5a9de
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 56tIrPT962/AvGbeoi8SUiG6LdLM38InShNLWXdAFc9jQLpVNfo1Xxe/ak6OdMJvnyrDhQFXJWv3Bw/F6Ke2IkuB/74Y/+KrFdRFrnHjHdKDfTfp3Sp5l9eH74j5p605iynzG9e9xc8uDmOoPw+GhP46p/xEeGiHVaWA3pkW9yrhoj/wNRTzjbQOU+W1v4pG+Qx6VT66SGow+18Mjndoks4PjK76ug7+XzfplyvQvxsFjsJCPDoIrtiRFknNyi/TITo0dm2ucU8ZipqMJYFt2lr1sfwK33N/gaTuT4uBft9aZ2GrKeaJ7W1SmwTF4towLDtEyVifRMY7TaubrRtY9lnluy/+UZHwYCsmFstp9lcZlnpEd4rKM5ZMmGWd93xyEVqQL9YbksM1CAoQhqXEfyDHs9Tbf63KQHdWbNOyOl2eakUh0PvBrdAImQcud8X1Hui7kuL00uaPrVbVNYzPw8MzSaVevgrT6ZMHQG8H7fhgExhVqJiAUMLvFcpH4roMB2fEQKN4NorJzMd9JFEk6hN9/DEPEB5pvfUxq2Id74UILeaxCthJSwGY0nsPjiNSlESfQMEAGPbgpajbVMAjr2hSZq2liXIEzXPTjyVxSrRWrFG2SNPjwCskE6T3yFYG72MacBcVZ3krmPbgmqceSg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(136003)(346002)(366004)(376002)(396003)(39830400003)(451199018)(7416002)(2616005)(316002)(5660300002)(2906002)(41300700001)(8936002)(66556008)(478600001)(6486002)(6666004)(66476007)(66946007)(6916009)(4326008)(6506007)(6512007)(186003)(26005)(8676002)(44832011)(83380400001)(38100700002)(86362001)(36756003);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?tfImD+XrKBKAwKTp0ndBy6h27oS1yKSWgTiCVcJ8EISQldbn9QdZI8pwx8P1?=
- =?us-ascii?Q?DXAbuvesNB+QEHddUPBtWLsqxNSf+RgD8GC4gGJq3DJ0e37xlvVU0WDZmVSZ?=
- =?us-ascii?Q?UXzT7mmkVo9mhRc6786R8XZc0B9BbgxNf5TBjpldsZEBdzP53cFxblBciIxk?=
- =?us-ascii?Q?ma4LbLhBKzXiNDwB5y0MJbPXLmyEXNTXT7GDu8i8XW0up8W0uSaVIsQS9UaT?=
- =?us-ascii?Q?jA2Z4uI4t1Tv1sfPhYluJ48MuPvhUObq4B6kARmOXr7pmdr22PGnczK78afv?=
- =?us-ascii?Q?Im5e+Qm1AgvMxleJ4uHkdiQkcpEBht0a3RgSf9v/4/ErZsLmjiui42dyXpwx?=
- =?us-ascii?Q?UeUL2nBwjSDO2Pl/ZFwjEGBmhzRJ1OUN7bJk5LUFVI91BekkJyVS1k+LwGeB?=
- =?us-ascii?Q?T0BbL+EqNQqOaqyjc6oqu19kVNhMr0oBzj6DhLs1vYdFhCLOiwKrbOWXXJR2?=
- =?us-ascii?Q?wQt5rWNbGiHlQWmFJV3zfpCYdV46hNBBEGLn58GPYrUx2FNcGKSh1wDS3egL?=
- =?us-ascii?Q?zd0+nVFyMniRz6HZCbMnlny1XMNZlVnJPTtwfzi8Gb2awkp88NLVbCvrJxbf?=
- =?us-ascii?Q?sobTzVCe7BncpzxnZAQBcwAPg4aNxDDsa6myaovTRlE3alFib1rCUGknw1F0?=
- =?us-ascii?Q?9I2U4NvB5q0eFPht6vNO7S2Ov+SjKcWwA692bKd4/oOSICkCFGxTWROnP3LX?=
- =?us-ascii?Q?dhOudYRnZKbo/VfqnTjX8V2qPBuweuGOO2zAnN+Fsg4plUOWHYgieNL9qc21?=
- =?us-ascii?Q?LC8JQmLAak7Y6bm90QBnJVR09vcE2260hai0mXHSApWy5/ypHl5dwhFqGVku?=
- =?us-ascii?Q?+4bXyWWZU7plrb+rTL/VYBVdcgkWPqiIKYcbTkCMLKBE8AN5pzyIbYVDvosJ?=
- =?us-ascii?Q?0m3P2tUFXIT6JG6GoJG5ySQVU2zmiqdr7GMN9ClxMVxSwZOQlf7nEAubZzYS?=
- =?us-ascii?Q?qFXTQLPtR9c3kYFRCfvMS7G5FzVDqOFcPdIBo7VgVNvEXOWe3eJF3LvVDZGx?=
- =?us-ascii?Q?Ofq9B8afZGmYwxtenPCTf0FNzF38Wulh34JDhy3AO4oLtFRyyZ73nD1aDUOc?=
- =?us-ascii?Q?e5YzNVU6NrUOk085pIccKxJ8fIW/VbM6vjgZgYMQEFvU+3T83F1lEXedEz1X?=
- =?us-ascii?Q?kM28ZvOGky2G9bx14zh4WbgOI7Tcae4+Mw4hGoP9/Dzm04nQKAZIZrI3AiYc?=
- =?us-ascii?Q?bmMcbez3Nt1D0S9CltuKp8WE9cR/hQOo2RZsRCGmLu3rtRPMeKzFyAXhFtMj?=
- =?us-ascii?Q?8XPdvVFAFsMTcy06bP/agFZ0eiJht0hbEpTMjWdg3Ts1RGl88Pu7+GrzSYrM?=
- =?us-ascii?Q?LbP96YU80yQPnIdMtMOSNL/1BFBPrYS2kVUM8LptVGx1QKt8xB5FZvk3AdvK?=
- =?us-ascii?Q?1yO+St4MBuT2vH631Qcf/l8nPRwRz8xe9LBMm1YLvPzXWgpqt4Bz1JumSved?=
- =?us-ascii?Q?QYvS0vWKzby0UvBC0MB55yTZjH7lNAgQtqX8OF3O4pVVbd+loJCj4hv5AgaT?=
- =?us-ascii?Q?s7DrSBjbjv+nM/XO6y9o3yS7v9266F/ULItnELp9L9LBF+ftmBJh4H6s46rW?=
- =?us-ascii?Q?VLAufP6ThRuzfhuxuilaUqArmwBVjQCNWIKHr1LTxavTkR0fmXYANxp9elR8?=
- =?us-ascii?Q?eQ=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 44f2c345-9776-4e7e-767e-08db02e5a9de
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 17:16:02.5314 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FEvjSazrG0n79n1CJlwVeVLYvHS7iMTqXD2pW7ahrC0vu4IJMbMRJLhSZvnRvZIo1G8FJRElf/418qycTPoPF/rQ+aRZTQt4ksrtrE9xxcU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR17MB3987
-Received-SPF: none client-ip=40.107.93.57;
- envelope-from=gregory.price@memverge.com;
- helo=NAM10-DM6-obe.outbound.protection.outlook.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
- SPF_NONE=0.001 autolearn=no autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH] fuzz: add igb testcases
+Content-Language: en-US
+To: Alexander Bulekov <alxndr@bu.edu>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Bandan Das <bsd@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
+ Darren Kenny <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
+ Laurent Vivier <lvivier@redhat.com>
+References: <20230114041004.36459-1-akihiko.odaki@daynix.com>
+ <20230129053316.1071513-1-alxndr@bu.edu>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20230129053316.1071513-1-alxndr@bu.edu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::62b;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62b.google.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -140,69 +97,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 30, 2023 at 01:11:50PM +0000, Jonathan Cameron wrote:
-> On Thu, 5 Jan 2023 14:38:07 +0000
-> Jonathan Cameron <Jonathan.Cameron@huawei.com> wrote:
+On 2023/01/29 14:33, Alexander Bulekov wrote:
+> Signed-off-by: Alexander Bulekov<alxndr@bu.edu>
+> ---
 > 
-> > On Mon, 28 Nov 2022 10:01:56 -0500
-> > Gregory Price <gourry.memverge@gmail.com> wrote:
-> > 
-> > > Defines are starting to exceed line length limits, align them for
-> > > cleanliness before making modifications.
-> > > 
-> > > Signed-off-by: Gregory Price <gregory.price@memverge.com>  
-> > 
-> > Hi Gregory,
-> > 
-> > I was just reordering my tree and noticed that you've only
-> > gone with 2 space indent.  Given 4 spaces is the convention in QEMU
-> > for other uses, I've switched my local copy of this over to 4 spaces.
-> > 
-> > Note there was also a single inconsistent 1 space indent - see below.
-> > 
-> > Jonathan
-> > 
-> > > 
-> > > ---
-> > >  tests/qtest/cxl-test.c | 99 +++++++++++++++++++++++-------------------
-> > >  1 file changed, 54 insertions(+), 45 deletions(-)
-> > > 
-> > > diff --git a/tests/qtest/cxl-test.c b/tests/qtest/cxl-test.c
-> > > index c54f18e76b..e59ba22387 100644
-> > > --- a/tests/qtest/cxl-test.c
-> > > +++ b/tests/qtest/cxl-test.c
-> > > @@ -8,55 +8,64 @@
-> > >  #include "qemu/osdep.h"
-> > >  #include "libqtest-single.h"
-> > >  
-> > > -#define QEMU_PXB_CMD "-machine q35,cxl=on " \
-> > > -                     "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
-> > > -                     "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=4G "
-> > > -
-> > > -#define QEMU_2PXB_CMD "-machine q35,cxl=on "                            \
-> > > -                      "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
-> > > -                      "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 " \
-> > > -                      "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "
-> > > -
-> > > -#define QEMU_VIRT_2PXB_CMD "-machine virt,cxl=on "                      \
-> > > -                      "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 "  \
-> > > -                      "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 "  \
-> > > -                      "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "
-> > > -
-> > > -#define QEMU_RP "-device cxl-rp,id=rp0,bus=cxl.0,chassis=0,slot=0 "
-> > > +#define QEMU_PXB_CMD \
-> > > +  "-machine q35,cxl=on " \
-> > > +  "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 " \
-> > > +  "-M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.size=4G "
-> > > +
-> > > +#define QEMU_2PXB_CMD \
-> > > +  "-machine q35,cxl=on " \
-> > > +  "-device pxb-cxl,id=cxl.0,bus=pcie.0,bus_nr=52 " \
-> > > +  "-device pxb-cxl,id=cxl.1,bus=pcie.0,bus_nr=53 " \
-> > > + "- M cxl-fmw.0.targets.0=cxl.0,cxl-fmw.0.targets.1=cxl.1,cxl-fmw.0.size=4G "  
-> > This one only has one space.
-> It also has a space after the - that I somehow missed. Fixed up in the version I'm
-> carrying. Will push out a new tree once I've caught up with some other pending items.
+> Hi Akihiko,
+> Thank you for adding a fuzzer config for this device. The fuzzer found
+> some crashes. Many of these are probably duplicates - the crash
+> deduplication script has limitations. Also some of these might not
+> specific to igb (e.g. -net user/slirp issues) - I had not good way to
+> filter those out.
 
-ack
+Hi,
+
+Thanks for testing igb. I have just sent fixes to the list. The below is 
+the link to them:
+
+[PATCH v5 0/9] Introduce igb
+https://patchew.org/QEMU/20230130140809.78262-1-akihiko.odaki@daynix.com/
+
+[PATCH] hw/timer/hpet: Fix expiration time overflow
+https://patchew.org/QEMU/20230130135001.76841-1-akihiko.odaki@daynix.com/
+
+[PATCH] softmmu: Use memmove in flatview_write_continue
+https://patchew.org/QEMU/20230130135152.76882-1-akihiko.odaki@daynix.com/
+
+ip: Enforce strict aliasing
+https://gitlab.freedesktop.org/slirp/libslirp/-/merge_requests/131
+
+Regards,
+Akihiko Odaki
 
