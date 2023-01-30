@@ -2,71 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70230681BED
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:56:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72063681C05
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:01:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMbBc-0005Bv-9h; Mon, 30 Jan 2023 15:55:32 -0500
+	id 1pMbFs-0007l5-2F; Mon, 30 Jan 2023 15:59:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pMbBZ-0005B9-Rb
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:55:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pMbBX-0004YZ-Vy
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:55:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675112126;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=i9ey6zaqZTEFee96Dm6zUthwDaYWO7nRpUjJ9HToa/0=;
- b=YpqksHh1veKs29RDYJXrFFmA/3/2n1HutjujJqfVeNpMRJatv7xs4uSxMUJVTLNjiY+oXw
- tzoZxE87YzsrbjgtWNtuWYLahaBniRvHIDXiJoFrWz9UF5Nvdn2LzCj9THuCdha5Z7PM1v
- qAfC/xIrZQlS0qUazmSrztaN6QH8YaU=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-424-tMd2hKSFODuwkS3Tp-89ew-1; Mon, 30 Jan 2023 15:55:22 -0500
-X-MC-Unique: tMd2hKSFODuwkS3Tp-89ew-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 717EA8030D5;
- Mon, 30 Jan 2023 20:55:22 +0000 (UTC)
-Received: from localhost (unknown [10.39.195.80])
- by smtp.corp.redhat.com (Postfix) with ESMTP id CC5C6492B05;
- Mon, 30 Jan 2023 20:55:21 +0000 (UTC)
-Date: Mon, 30 Jan 2023 15:55:20 -0500
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>,
- Kevin Wolf <kwolf@redhat.com>, Hanna Reitz <hreitz@redhat.com>,
- qemu-block@nongnu.org, Fiona Ebner <f.ebner@proxmox.com>
-Subject: Re: [PATCH 3/4] qemu-io: add -r option to register I/O buffer
-Message-ID: <Y9guuBen+ArAL5uQ@fedora>
-References: <20230126201401.348845-1-stefanha@redhat.com>
- <20230126201401.348845-4-stefanha@redhat.com>
- <20230127232430.zy7x7wq2dvb3g3y2@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pMbFg-0007Q6-Mb
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:59:48 -0500
+Received: from mail-pf1-x435.google.com ([2607:f8b0:4864:20::435])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pMbFc-0005Bc-NM
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:59:42 -0500
+Received: by mail-pf1-x435.google.com with SMTP id 203so7478108pfx.6
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:59:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=kmX60ZBdC6CPmmCcxYxjzRt8wJ05cO/bLL2h6sfGeIA=;
+ b=BNXDUsgLWQkPFJCJ5FK7SS2zFczlrmQVEZvdimcnR8jNFFFl+X71RXWtaG0EVLI09d
+ HHiAUedQ4fjmVSHLDztbdWU7JiyhbBAN1ei6vN6FFH6AnB7JFydHxdeON6N+65+D2Yw5
+ GpOWzJur71pLj8PeNs9AciS6AxE+LZsZ89enho1ndzRBPA1wznnbjcMB4SO1y1EnSt+i
+ y3kzKOM/gzRwMjnVYW9O3lAmfr/GIUtCzclO1XE3w3nMWwYxZInEa9qKDcveQHA192e8
+ 8UYCC0611TI3//+Wzb0wroxbmyO2tpHpsLnUk5T6IXIbH4vzdBWLYx1LhQT7aftXlfgL
+ W2Xw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=kmX60ZBdC6CPmmCcxYxjzRt8wJ05cO/bLL2h6sfGeIA=;
+ b=vpWeUMC71p7+t7VmGoS0iTQCtxJnrQ85LZwn1F4c3L8WmyiOZeC7WS1QV8+0VSwjRW
+ UOg+r3QjArQJttRN55zosYT3twOyf8qr/miuzp1Pz+x42HHww4n6iEsJORVmmwHZwCMj
+ IFVfsW3FVy9efqiijsBwOXupS8NYclKsub+5SoVDeyb2EJWm2ZQ8W9JUdRY1pyVfbmGZ
+ jFOWGmXTWMVCb51uGwsud2RUxxmrgW/twsOyAHBHDW+pUJF29D+LjvZ3848QvmbzlCcZ
+ hJ3GvgtruHKAcXFHLcvxQ89b5kC+lve9fjSjhhayYCDtHW0HfBepTcSlBhn8aDV56R7i
+ 1sOg==
+X-Gm-Message-State: AFqh2krw8KsAQ7UkeY9stSFYCXXtO27DsjjA2jBBgFVRf7j+snnJ9ntk
+ RJce0UF7l54Kh0YfqiDwwy5XB3W58kPuCbrL
+X-Google-Smtp-Source: AMrXdXt858duVEmpPyi9l64Efhx+Um6NAupubzYUIARnx4pdMejXDHHZNys/setmMkhqoUd4MfIOXA==
+X-Received: by 2002:a62:1884:0:b0:58b:c7f8:623c with SMTP id
+ 126-20020a621884000000b0058bc7f8623cmr42948412pfy.27.1675112378841; 
+ Mon, 30 Jan 2023 12:59:38 -0800 (PST)
+Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
+ by smtp.gmail.com with ESMTPSA id
+ x10-20020aa79a4a000000b00593eb3a5e44sm102933pfj.37.2023.01.30.12.59.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Jan 2023 12:59:38 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org,
+	cota@braap.org
+Subject: [PATCH 00/27] tcg: Simplify temporary usage
+Date: Mon, 30 Jan 2023 10:59:07 -1000
+Message-Id: <20230130205935.1157347-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="SzXi//s6nGS8dt0L"
-Content-Disposition: inline
-In-Reply-To: <20230127232430.zy7x7wq2dvb3g3y2@redhat.com>
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::435;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pf1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,114 +87,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Based-on: 20230126043824.54819-1-richard.henderson@linaro.org
+("[PATCH v5 00/36] tcg: Support for Int128 with helpers")
 
---SzXi//s6nGS8dt0L
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The biggest pitfall for new users of TCG is the fact that "normal"
+temporaries die at branches, and we must therefore use a different
+"local" temporary in that case.
 
-On Fri, Jan 27, 2023 at 05:24:30PM -0600, Eric Blake wrote:
-> On Thu, Jan 26, 2023 at 03:14:00PM -0500, Stefan Hajnoczi wrote:
-> > The blk_register_buf() API is an optimization hint that allows some
-> > block drivers to avoid I/O buffer housekeeping or bounce buffers.
-> >=20
-> > Add an -r option to register the I/O buffer so that qemu-io can be used
-> > to test the blk_register_buf() API. The next commit will add a test that
-> > uses the new option.
-> >=20
-> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > ---
-> >  qemu-io-cmds.c | 149 ++++++++++++++++++++++++++++++++++---------------
-> >  1 file changed, 103 insertions(+), 46 deletions(-)
-> >=20
->=20
-> >  static void *qemu_io_alloc_from_file(BlockBackend *blk, size_t len,
-> > -                                     const char *file_name)
-> > +                                     const char *file_name, bool regis=
-ter_buf)
-> >  {
-> >      char *buf, *buf_origin;
-> >      FILE *f =3D fopen(file_name, "r");
-> > @@ -414,6 +423,10 @@ static void *qemu_io_alloc_from_file(BlockBackend =
-*blk, size_t len,
-> >      fclose(f);
-> >      f =3D NULL;
-> > =20
-> > +    if (register_buf) {
-> > +        blk_register_buf(blk, buf_origin, len, &error_abort);
-> > +    }
->=20
-> Why is this conditionally true...
->=20
-> > +
-> >      if (len > pattern_len) {
-> >          len -=3D pattern_len;
-> >          buf +=3D pattern_len;
-> > @@ -431,7 +444,7 @@ static void *qemu_io_alloc_from_file(BlockBackend *=
-blk, size_t len,
-> >      return buf_origin;
-> > =20
-> >  error:
-> > -    qemu_io_free(buf_origin);
-> > +    qemu_io_free(blk, buf_origin, len, false);
->=20
-> ...but cleanup unconditionally false?
+The following patch set changes that, so that the "normal" temporary
+is the one that lives across branches, and there is a special temporary
+that dies at the end of the extended basic block, and this special
+case is reserved for tcg internals.
 
-It looks suspicious but it's correct: goto error only happens before the
-blk_register_buf() call. Therefore we must *not* unregister the buffer
-at this point.
+TEMP_LOCAL is renamed TEMP_TB, which I believe to be more explicit and
+less confusing.  TEMP_NORMAL is removed entirely.
 
-I'll add a comment to make this clear.
+I thought about putting in a proper full-power liveness analysis pass.
+This would have eliminated the differences between all non-global
+temporaries, and would have noticed when TEMP_LOCAL finally dies
+within a translation and avoid any final writeback.
+But I came to the conclusion that it was too expensive in runtime,
+and so retaining some distinction in the types was required.
 
->=20
-> > @@ -719,6 +732,7 @@ static void read_help(void)
-> >  " -p, -- ignored for backwards compatibility\n"
-> >  " -P, -- use a pattern to verify read data\n"
-> >  " -q, -- quiet mode, do not show I/O statistics\n"
-> > +" -r, -- register I/O buffer\n"
-> >  " -s, -- start offset for pattern verification (only with -P)\n"
-> >  " -v, -- dump buffer to standard output\n"
->=20
-> Here we have kept more or less alphabetical...
->=20
-> > @@ -909,6 +932,7 @@ static void readv_help(void)
-> >  " -P, -- use a pattern to verify read data\n"
-> >  " -v, -- dump buffer to standard output\n"
-> >  " -q, -- quiet mode, do not show I/O statistics\n"
-> > +" -r, -- register I/O buffer\n"
->=20
-> ...here we have not.  While it's pre-existing, would it be worth
-> touching up while you're here?
->=20
-> > @@ -1455,6 +1503,7 @@ static void aio_read_help(void)
-> >  " -i, -- treat request as invalid, for exercising stats\n"
-> >  " -v, -- dump buffer to standard output\n"
-> >  " -q, -- quiet mode, do not show I/O statistics\n"
-> > +" -r, -- register I/O buffer\n"
->=20
-> Another pre-existing spot.
->=20
-> Overall makes sense to me.
+In addition, I found that the usage of temps within plugin-gen.c
+(9 per guest memory operation) meant that we *must* have some form
+of temp that can be re-used.  (There is one x86 instruction which
+generates 62 memory operations; 62 * 9 == 558, which is larger than
+our current TCG_MAX_TEMPS.)
 
-Sure, I'll order the help output alphabetically in the next revision.
+However I did add a new liveness pass which, with a single pass over
+the opcode stream, can see that a TEMP_LOCAL is only live within a
+single extended basic block, and thus may be transformed to TEMP_EBB.
 
-Stefan
+With this, and by not recycling TEMP_LOCAL, we can get identical code
+out of the backend even when changing the front end translators are
+adjusted to use TEMP_LOCAL for everything.
 
---SzXi//s6nGS8dt0L
-Content-Type: application/pgp-signature; name="signature.asc"
+Benchmarking one test case, qemu-arm linux-test, the new liveness pass
+comes in at about 1.6% on perf, but I can't see any difference in
+wall clock time before and after the patch set.
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPYLrcACgkQnKSrs4Gr
-c8gjZAf/ZOzyGHBgG7LRpNjgRi2ov5aDFgtkFktfPuTq6ufgSKsWsi2jP32whEu+
-yRax+vQHWt8+OJKkJIJDUEPmJFLV2zwWo4SDSnNXycut/0x4br1ED5CqZdAfXfIU
-ZjoAtNhI09iki07jVHR55FdQfUP3096GVO2OU8AVrkPpjiPRut4RZlMB3oXAGwWX
-lHmfHcS151vN40EddhsVUaCetqlJzX7phyKLxt6a58N2tRVhF+HetOqqW5oVdL0y
-BqFrtnS6o9NLG9zML2vZocNyVVkrPT8wk/Tw/r/VSUShp01bk8NzlmTGuhut/Nhb
-0MJlDBq1br49Nq5jzadcyH2kbXuJcQ==
-=/WnH
------END PGP SIGNATURE-----
+r~
 
---SzXi//s6nGS8dt0L--
+
+Richard Henderson (27):
+  tcg: Adjust TCGContext.temps_in_use check
+  accel/tcg: Pass max_insn to gen_intermediate_code by pointer
+  accel/tcg: Use more accurate max_insns for tb_overflow
+  tcg: Remove branch-to-next regardless of reference count
+  tcg: Rename TEMP_LOCAL to TEMP_TB
+  tcg: Add liveness_pass_0
+  tcg: Remove TEMP_NORMAL
+  tcg: Pass TCGTempKind to tcg_temp_new_internal
+  tcg: Add tcg_temp_ebb_new_{i32,i64,ptr}
+  tcg: Add tcg_gen_movi_ptr
+  tcg: Use tcg_temp_ebb_new_* in tcg/
+  accel/tcg/plugin: Use tcg_temp_ebb_*
+  accel/tcg/plugin: Tidy plugin_gen_disable_mem_helpers
+  tcg: Don't re-use TEMP_TB temporaries
+  tcg: Change default temp lifetime to TEMP_TB
+  target/arm: Drop copies in gen_sve_{ldr,str}
+  target/arm: Don't use tcg_temp_local_new_*
+  target/cris: Don't use tcg_temp_local_new
+  target/hexagon: Don't use tcg_temp_local_new_*
+  target/hppa: Don't use tcg_temp_local_new
+  target/i386: Don't use tcg_temp_local_new
+  target/mips: Don't use tcg_temp_local_new
+  target/ppc: Don't use tcg_temp_local_new
+  target/xtensa: Don't use tcg_temp_local_new_*
+  exec/gen-icount: Don't use tcg_temp_local_new_i32
+  tcg: Remove tcg_temp_local_new_*, tcg_const_local_*
+  tcg: Update docs/devel/tcg-ops.rst for temporary changes
+
+ docs/devel/tcg-ops.rst                      | 103 ++++----
+ target/hexagon/idef-parser/README.rst       |   4 +-
+ include/exec/gen-icount.h                   |   8 +-
+ include/exec/translator.h                   |   4 +-
+ include/tcg/tcg-op.h                        |   7 +-
+ include/tcg/tcg.h                           |  64 ++---
+ target/arm/translate-a64.h                  |   1 -
+ target/hexagon/gen_tcg.h                    |   4 +-
+ accel/tcg/plugin-gen.c                      |  33 +--
+ accel/tcg/translate-all.c                   |   2 +-
+ accel/tcg/translator.c                      |   6 +-
+ target/alpha/translate.c                    |   2 +-
+ target/arm/translate-a64.c                  |   6 -
+ target/arm/translate-sve.c                  |  38 +--
+ target/arm/translate.c                      |   8 +-
+ target/avr/translate.c                      |   2 +-
+ target/cris/translate.c                     |   8 +-
+ target/hexagon/genptr.c                     |  16 +-
+ target/hexagon/idef-parser/parser-helpers.c |   4 +-
+ target/hexagon/translate.c                  |   4 +-
+ target/hppa/translate.c                     |   5 +-
+ target/i386/tcg/translate.c                 |  29 +--
+ target/loongarch/translate.c                |   2 +-
+ target/m68k/translate.c                     |   2 +-
+ target/microblaze/translate.c               |   2 +-
+ target/mips/tcg/translate.c                 |  59 ++---
+ target/nios2/translate.c                    |   2 +-
+ target/openrisc/translate.c                 |   2 +-
+ target/ppc/translate.c                      |   8 +-
+ target/riscv/translate.c                    |   2 +-
+ target/rx/translate.c                       |   2 +-
+ target/s390x/tcg/translate.c                |   2 +-
+ target/sh4/translate.c                      |   2 +-
+ target/sparc/translate.c                    |   2 +-
+ target/tricore/translate.c                  |   2 +-
+ target/xtensa/translate.c                   |  18 +-
+ tcg/optimize.c                              |   2 +-
+ tcg/tcg-op-gvec.c                           | 270 ++++++++++----------
+ tcg/tcg-op.c                                | 258 +++++++++----------
+ tcg/tcg.c                                   | 270 +++++++++++---------
+ target/cris/translate_v10.c.inc             |  10 +-
+ target/mips/tcg/nanomips_translate.c.inc    |   4 +-
+ target/ppc/translate/spe-impl.c.inc         |   8 +-
+ target/ppc/translate/vmx-impl.c.inc         |   4 +-
+ target/hexagon/README                       |   8 +-
+ target/hexagon/gen_tcg_funcs.py             |  18 +-
+ 46 files changed, 640 insertions(+), 677 deletions(-)
+
+-- 
+2.34.1
 
 
