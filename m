@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5786680559
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 06:03:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5871C68055B
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 06:06:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMMKP-0002hG-30; Mon, 30 Jan 2023 00:03:37 -0500
+	id 1pMMMm-0004A6-JV; Mon, 30 Jan 2023 00:06:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMMK3-0002h3-39
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:03:15 -0500
+ id 1pMMMb-00049d-W8
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:05:55 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMMK1-00005I-Lr
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:03:14 -0500
+ id 1pMMMa-0000ki-JL
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:05:53 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675054993;
+ s=mimecast20190719; t=1675055152;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=DrVLU0PM0mBFsi907QA5zX91ZPmjeNnPIHCzSdk5id4=;
- b=FeSgKHgnnPJY87ORFsiUH9sAL4oYBGbaCV74Ixd9ozavaRLUanOYXpODhWEApjKAk0CnFO
- gKCctHeBlHnElbQB53r1eCa22zfDooJIpwdUP911QKUL4Pj13KwVw4IXIfk1zKsVibh5l3
- 9YHvAmnV5ajJaiCakvrkBHeFr8e7vN8=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=FJ50LAETnNihgYFIypsEfUA7xLXn62Qp6rxo1EIoJV8=;
+ b=YRbGoOZnQyIvmhyeSap1EnfnqvEQPX6NzbVKZgP/R4MEW0KiPDRq74h6sbh5IlU7fe2pQi
+ Wc6rweej9O2+BxFjDeZbyGLzF9Z3AALEnyWfO6TOZhtMxJZJVv00LseI8kCW/LOyP4xJ9z
+ kI7UAbwMcN6fa5KX/WDuxrQkRnWRTXo=
+Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
+ [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-411-YgGQFa6sO3a_4CJmiQLf7g-1; Mon, 30 Jan 2023 00:02:41 -0500
-X-MC-Unique: YgGQFa6sO3a_4CJmiQLf7g-1
-Received: by mail-wm1-f71.google.com with SMTP id
- bg24-20020a05600c3c9800b003db0ddddb6fso6629392wmb.0
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 21:02:40 -0800 (PST)
+ us-mta-395--8Dd1US9MouED3LvMQwUCg-1; Mon, 30 Jan 2023 00:05:50 -0500
+X-MC-Unique: -8Dd1US9MouED3LvMQwUCg-1
+Received: by mail-wr1-f72.google.com with SMTP id
+ r6-20020adff106000000b002bfe5fb9649so491116wro.14
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 21:05:50 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=DrVLU0PM0mBFsi907QA5zX91ZPmjeNnPIHCzSdk5id4=;
- b=3ttV+Z8RvLbhnvV4+FUst72SvfVPIimq0ATdsQePSwREKqp1okgAIFQT8yVwjd7Xyf
- /AvgMoMvyOEntHlKBxc0L4gspujlPsToRoxHKx+jjbcTTGTX1SyirbFFrxTXBOiNqyV9
- Y6JuXidID02CcNFu8hMfUNjPqmQ/2L1XHdjY5EaWVlIAASLMaJ2PksMBCITQG/AWnEU7
- efG4J2i40FeDeYBHOrcHVQfgbs+OzDwA5IW0WHR8S183GyVD491fL0nlkp2H5UOS7Tkj
- edTZjAZN8HFp+chaLxWc94keIbgFIyaUWz4b5QqwgtLh+FjC3azsLM+TuaVfygeEVDeQ
- 8XAQ==
-X-Gm-Message-State: AFqh2koFjn0hTiztrZquna0+1qB5lLmY9Ra8auakOf9Q8WgAtjr1sKg+
- E7FOPCOpMjySEWfjeoNMqrXzdXFxKWQeqTXxMeJsRNwpj75ZULqNtE66tWG3GviWQ/pe1BGzo6Q
- zjI7HPzxDNw/mL1g=
-X-Received: by 2002:a05:600c:1c8e:b0:3d9:e5f9:984c with SMTP id
- k14-20020a05600c1c8e00b003d9e5f9984cmr50327022wms.2.1675054960109; 
- Sun, 29 Jan 2023 21:02:40 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtc/YV9/trU8F5XLLHKhVL5bbv3Za17csKPDFrubpoVEVQanMB0cbE7F6fZUPhy4hJ840qRKw==
-X-Received: by 2002:a05:600c:1c8e:b0:3d9:e5f9:984c with SMTP id
- k14-20020a05600c1c8e00b003d9e5f9984cmr50327012wms.2.1675054959939; 
- Sun, 29 Jan 2023 21:02:39 -0800 (PST)
+ bh=FJ50LAETnNihgYFIypsEfUA7xLXn62Qp6rxo1EIoJV8=;
+ b=nsx0Z3oSuICKoXM+KZ3M7IMUTQ7+sHrbXnLReoHr879n6JrgwekIWBfUqh4shUtztF
+ Y+yWk6Kgi4ClwRQmFIR0xJjdx5twNbasX0jIrMVzui1R6CTL6kb67Fkg+EGSnBWjBslH
+ 91+MDwh1i5lcP4mePxwlMa8veAEPGRDelR6peNaDjcNGlzFRazUsFzHKrpnlVNhVpLUS
+ Jr3+f9h/j5Os2A3x/CUXIY+BOuclUI359mGbNkOWfvBkzRygUc/7E6RnArSnLphAlHP7
+ 9+aCp9DwLSS8xmkvoJUTWDie2XWd4X6jgNxkwHDMLKj0XYWwTD/uhVFAcqN81y2CP254
+ WnJw==
+X-Gm-Message-State: AFqh2kpZvJEbAj71p7pDhJn3xbWJJ10ZGrFplgRqf/psuSJ6685yGx61
+ yquO/lap9yNx7P9xe07b02/TaqaLUTsutaE9rdYJGHc21SgqZaHQn4Q24aWIMdBphlSG6P3HpeK
+ /4V3fSrOHsjjOZ14=
+X-Received: by 2002:a05:600c:4f83:b0:3db:eab:a600 with SMTP id
+ n3-20020a05600c4f8300b003db0eaba600mr43769603wmq.7.1675055149276; 
+ Sun, 29 Jan 2023 21:05:49 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXugiS9qe7r6yHmm0CuMJ6JRU2xb0FkZenn48gAqA/p8q191xWQYRo6hKoSb1DfR9VvRYOo6hw==
+X-Received: by 2002:a05:600c:4f83:b0:3db:eab:a600 with SMTP id
+ n3-20020a05600c4f8300b003db0eaba600mr43769591wmq.7.1675055149086; 
+ Sun, 29 Jan 2023 21:05:49 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- l9-20020a05600c4f0900b003db32ccf4bfsm16887323wmq.41.2023.01.29.21.02.39
+ f24-20020a05600c491800b003dc0cb5e3f1sm11067341wmp.46.2023.01.29.21.05.48
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 21:02:39 -0800 (PST)
+ Sun, 29 Jan 2023 21:05:48 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
  <lsoaresp@redhat.com>,  James Houghton <jthoughton@google.com>,  "Dr .
  David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RFC 07/21] ramblock: Cache file offset for file-backed
- ramblocks
-In-Reply-To: <20230117220914.2062125-8-peterx@redhat.com> (Peter Xu's message
- of "Tue, 17 Jan 2023 17:09:00 -0500")
+Subject: Re: [PATCH RFC 08/21] ramblock: Cache the length to do file mmap()
+ on ramblocks
+In-Reply-To: <20230117220914.2062125-9-peterx@redhat.com> (Peter Xu's message
+ of "Tue, 17 Jan 2023 17:09:01 -0500")
 References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-8-peterx@redhat.com>
+ <20230117220914.2062125-9-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 30 Jan 2023 06:02:38 +0100
-Message-ID: <87cz6wk429.fsf@secure.mitica>
+Date: Mon, 30 Jan 2023 06:05:47 +0100
+Message-ID: <878rhkk3x0.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
@@ -103,15 +103,28 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Peter Xu <peterx@redhat.com> wrote:
-> This value was only used for mmap() when we want to map at a specific
-> offset of the file for memory.  To be prepared that we might do another map
-> upon the same range for whatever reason, cache the offset so we know how to
-> map again on the same range.
+> We do proper page size alignment for file backed mmap()s for ramblocks.
+> Even if it's as simple as that, cache the value because it'll be used in
+> multiple places.
+>
+> Since at it, drop size for file_ram_alloc() and just use max_length because
+> that's always true for file-backed ramblocks.
 >
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-A bit weird that we don't use it (yet) anywhere, but that is life.
+
+> @@ -2100,7 +2100,7 @@ RAMBlock *qemu_ram_alloc_from_fd(ram_addr_t size, MemoryRegion *mr,
+>      new_block->used_length = size;
+>      new_block->max_length = size;
+>      new_block->flags = ram_flags;
+> -    new_block->host = file_ram_alloc(new_block, size, fd, readonly,
+> +    new_block->host = file_ram_alloc(new_block, fd, readonly,
+>                                       !file_size, offset, errp);
+>      if (!new_block->host) {
+>          g_free(new_block);
+
+Passing "size" in three places, not bad at all O:-)
 
 
