@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 154AA680BE7
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 12:26:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9AB2680BDB
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 12:25:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMSHI-0006OK-FS; Mon, 30 Jan 2023 06:24:48 -0500
+	id 1pMSHJ-0006Oz-CE; Mon, 30 Jan 2023 06:24:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMSHC-0006O5-18
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 06:24:42 -0500
+ id 1pMSHD-0006OJ-QR
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 06:24:43 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <marcandre.lureau@redhat.com>)
- id 1pMSHA-00080A-E1
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 06:24:41 -0500
+ id 1pMSHC-00080L-Dn
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 06:24:43 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675077879;
+ s=mimecast20190719; t=1675077881;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding;
- bh=wnlC63RLhdLbgVNHyzLYaNraoOwQVPLAJ53LNrXSLAc=;
- b=QtA8fUFYAZPlBQ+Uj+3zGdfJn8oZIK6ozETYvy4d7GbGeJscX22+MkzfBjlh8/1HzTYpYI
- jK2kVX9/caVMp9P1f77qzFAdumSoe6T4EpJnrDMNU6TAhJ8KPF0/VlK5j82fJkmausv26f
- r6Y0CRGE1ssRVXsg9pkHmwkdh5YSHrA=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tw2K9JhMxJEb5gwCYrrPtpeAU7EAE0x2nXmzZQ7oltA=;
+ b=GG80lK+99iY+/MAkkuvyil9nhirOOhhP+MjoCawXRhSShO+3kzpWocPHN13l1TK4tmInWg
+ CxoUcUqYS6kpjq7JlyDmG4m7YfxtJpobMvM1lwJtjqWwZsPPPXp7o596YanoePLa+4iDD1
+ hsKy1i6+ddCpBQEBuhwDzs9h77/Mgoc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-99-n-TPZJWfPjyvDWK8t0k83Q-1; Mon, 30 Jan 2023 06:24:35 -0500
-X-MC-Unique: n-TPZJWfPjyvDWK8t0k83Q-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-121-BVK3Lf4ROtS75wtkUL_uSw-1; Mon, 30 Jan 2023 06:24:39 -0500
+X-MC-Unique: BVK3Lf4ROtS75wtkUL_uSw-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 03A6A3C025D9
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 11:24:35 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1BB8618E0A61
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 11:24:39 +0000 (UTC)
 Received: from localhost (unknown [10.39.208.4])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4374D2026D4B;
- Mon, 30 Jan 2023 11:24:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 542DD492B01;
+ Mon, 30 Jan 2023 11:24:38 +0000 (UTC)
 From: marcandre.lureau@redhat.com
 To: qemu-devel@nongnu.org
 Cc: Gerd Hoffmann <kraxel@redhat.com>,
  =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
-Subject: [PATCH 00/11] ui: dbus & misc fixes
-Date: Mon, 30 Jan 2023 15:24:20 +0400
-Message-Id: <20230130112431.69559-1-marcandre.lureau@redhat.com>
+Subject: [PATCH 01/11] ui/dbus: unregister clipboard on connection close
+Date: Mon, 30 Jan 2023 15:24:21 +0400
+Message-Id: <20230130112431.69559-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20230130112431.69559-1-marcandre.lureau@redhat.com>
+References: <20230130112431.69559-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
 Received-SPF: pass client-ip=170.10.129.124;
  envelope-from=marcandre.lureau@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
@@ -79,45 +82,64 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-Hi,
+Fixes unregistration with p2p connections, since they don't have an
+associated name owner.
 
-Here is a collection of fixes for UI related-stuff. Mostly it's improving/fixing
--display dbus.
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
+---
+ ui/dbus-clipboard.c | 18 +++++++-----------
+ 1 file changed, 7 insertions(+), 11 deletions(-)
 
-Thanks for the reviews!
-
-Marc-André Lureau (11):
-  ui/dbus: unregister clipboard on connection close
-  audio/dbus: there are no sender for p2p mode
-  ui/dbus: set mouse is-absolute during console creation
-  ui/dbus: update the display when switching surface
-  meson: ensure dbus-display generated code is built before other units
-  ui: rename cursor_{put->unref}
-  ui: rename cursor_{get->ref}, return it
-  ui: keep current cursor with QemuConsole
-  ui: set cursor upon listener registration
-  ui: set cursor position upon listener registration
-  ui/sdl: get the GL context from the window
-
- audio/audio_int.h       |  2 +-
- include/ui/console.h    |  5 +++--
- ui/vnc.h                |  1 -
- audio/dbusaudio.c       |  6 ++++--
- hw/display/qxl-render.c |  4 ++--
- hw/display/qxl.c        |  2 +-
- hw/display/vmware_vga.c |  4 ++--
- ui/console.c            | 18 ++++++++++++++++++
- ui/cursor.c             |  5 +++--
- ui/dbus-clipboard.c     | 18 +++++++-----------
- ui/dbus-console.c       | 13 ++++++++++---
- ui/dbus-listener.c      |  7 ++++---
- ui/dbus.c               |  2 +-
- ui/sdl2.c               |  2 +-
- ui/spice-display.c      |  8 ++++----
- ui/vnc.c                |  8 ++------
- ui/meson.build          |  6 ++++--
- 17 files changed, 67 insertions(+), 44 deletions(-)
-
+diff --git a/ui/dbus-clipboard.c b/ui/dbus-clipboard.c
+index 5843d26cd2..d78f9db18f 100644
+--- a/ui/dbus-clipboard.c
++++ b/ui/dbus-clipboard.c
+@@ -203,15 +203,6 @@ dbus_clipboard_unregister_proxy(DBusDisplay *dpy)
+     g_clear_object(&dpy->clipboard_proxy);
+ }
+ 
+-static void
+-dbus_on_clipboard_proxy_name_owner_changed(
+-    DBusDisplay *dpy,
+-    GObject *object,
+-    GParamSpec *pspec)
+-{
+-    dbus_clipboard_unregister_proxy(dpy);
+-}
+-
+ static gboolean
+ dbus_clipboard_register(
+     DBusDisplay *dpy,
+@@ -219,6 +210,7 @@ dbus_clipboard_register(
+ {
+     g_autoptr(GError) err = NULL;
+     const char *name = NULL;
++    GDBusConnection *connection = g_dbus_method_invocation_get_connection(invocation);
+ 
+     if (dpy->clipboard_proxy) {
+         g_dbus_method_invocation_return_error(
+@@ -231,7 +223,7 @@ dbus_clipboard_register(
+ 
+     dpy->clipboard_proxy =
+         qemu_dbus_display1_clipboard_proxy_new_sync(
+-            g_dbus_method_invocation_get_connection(invocation),
++            connection,
+             G_DBUS_PROXY_FLAGS_DO_NOT_AUTO_START,
+             g_dbus_method_invocation_get_sender(invocation),
+             "/org/qemu/Display1/Clipboard",
+@@ -251,7 +243,11 @@ dbus_clipboard_register(
+ 
+     g_object_connect(dpy->clipboard_proxy,
+                      "swapped-signal::notify::g-name-owner",
+-                     dbus_on_clipboard_proxy_name_owner_changed, dpy,
++                     dbus_clipboard_unregister_proxy, dpy,
++                     NULL);
++    g_object_connect(connection,
++                     "swapped-signal::closed",
++                     dbus_clipboard_unregister_proxy, dpy,
+                      NULL);
+     qemu_clipboard_reset_serial();
+ 
 -- 
 2.39.1
 
