@@ -2,63 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3221468079E
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 09:41:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 533CF68079D
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 09:41:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMPjQ-0006Cy-RP; Mon, 30 Jan 2023 03:41:40 -0500
+	id 1pMPjO-00064c-RC; Mon, 30 Jan 2023 03:41:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pMPjO-00066C-5S; Mon, 30 Jan 2023 03:41:38 -0500
-Received: from out30-97.freemail.mail.aliyun.com ([115.124.30.97])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMPjD-0005lv-R6
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:41:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <zhiwei_liu@linux.alibaba.com>)
- id 1pMPjJ-0006v8-7j; Mon, 30 Jan 2023 03:41:37 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R381e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045170;
- MF=zhiwei_liu@linux.alibaba.com; NM=1; PH=DS; RN=14; SR=0;
- TI=SMTPD_---0VaQTWCF_1675068080; 
-Received: from 30.221.97.63(mailfrom:zhiwei_liu@linux.alibaba.com
- fp:SMTPD_---0VaQTWCF_1675068080) by smtp.aliyun-inc.com;
- Mon, 30 Jan 2023 16:41:21 +0800
-Content-Type: multipart/alternative;
- boundary="------------R9GyhGRl0ph5OT0O0r2XcIHp"
-Message-ID: <82e49515-512f-9439-ceab-6c5df3bb20e4@linux.alibaba.com>
-Date: Mon, 30 Jan 2023 16:41:05 +0800
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMPj4-0006ue-1u
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 03:41:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675068076;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=Q/2dH41M5dYn+ulaxDisylLcclPkvOpIAFKPHRwEV7E=;
+ b=Gq7QDM9pfR9s2xvpm1BzrA4lTophOiElUeZwgsPzq+dRiKkVbrFvAirCHq2mNIN0tFd9tx
+ agHLySHe5Xxy5WhO3Ekko5e8CAO2ip9yEJjvzcm4xl0wt6ac9IXDQM19Ph8X0TFPhom3fU
+ pQWgsxEQGFaPUn0qCm3SdBD+KGfuvR8=
+Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
+ [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-459-wz-6LlU4M5eT-49tfI-adA-1; Mon, 30 Jan 2023 03:41:15 -0500
+X-MC-Unique: wz-6LlU4M5eT-49tfI-adA-1
+Received: by mail-qv1-f69.google.com with SMTP id
+ mx2-20020a0562142e0200b0053807f3eb76so5328150qvb.15
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 00:41:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Q/2dH41M5dYn+ulaxDisylLcclPkvOpIAFKPHRwEV7E=;
+ b=IrcuOD7Bxym/9wVeo2khph/p6t1YyuZ7kw194oGQmO72deh41fMUTeTJMkf7BnidbU
+ vtwzrSwsZiHqR7XKsLHNA+VYmgC48FuzX7Hjs7k5/YEqNeotusUD7lgCfcoKTd2UXu+P
+ 5kqb8Sn8+RmkXsjvsdzxbfkhcV2vH1b5gcjbgt0ayQUVZI2/Q4SkANs7RlE3vId1qrWI
+ VNNWkgvahUiFuEPSkcmWKqQkPCvWNoGor0mZqpVSm223SkXWhG7YlTtoRRNlzjJfMwLH
+ u4EKlgm6EbVCVUqFirdYKZZY/kQ/6oq/Ze2838Nvm2QpG8YHWHizcdaK+a2Vh5/nQ0Gl
+ z5vQ==
+X-Gm-Message-State: AO0yUKUHepJZ7e3yb/c9D/zkbNkgR20bE4R7tJY2UrYPA63S8idUdDCg
+ Qi9uZOIKx29nKhthTn2+FqCBzVFTXJ1Baj8CepvL9trHnE4LzKXDSaSiT+3+9xd07ZgxV2Fkvwc
+ VESD4MqcIzKLyk/A=
+X-Received: by 2002:a05:622a:610:b0:3b8:5ad9:3fe8 with SMTP id
+ z16-20020a05622a061000b003b85ad93fe8mr8840115qta.48.1675068074836; 
+ Mon, 30 Jan 2023 00:41:14 -0800 (PST)
+X-Google-Smtp-Source: AK7set9AYSyMVaarCqa0XljXRWBv5dPawRsElnaE0VpFd0yMotrQWR4OFT1+G2VBDiYQu5S58Z25tw==
+X-Received: by 2002:a05:622a:610:b0:3b8:5ad9:3fe8 with SMTP id
+ z16-20020a05622a061000b003b85ad93fe8mr8840103qta.48.1675068074569; 
+ Mon, 30 Jan 2023 00:41:14 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-178-179.web.vodafone.de.
+ [109.43.178.179]) by smtp.gmail.com with ESMTPSA id
+ j20-20020ac85514000000b003b86a6449b8sm1736937qtq.85.2023.01.30.00.41.11
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Jan 2023 00:41:13 -0800 (PST)
+Message-ID: <2e9f39c7-16cc-9f0f-fce6-24b140ea7472@redhat.com>
+Date: Mon, 30 Jan 2023 09:41:09 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH v3 08/14] RISC-V: Adding T-Head MemPair extension
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v9 01/58] include: import Xen public headers to
+ include/standard-headers/
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>,
- Christoph Muellner <christoph.muellner@vrull.eu>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Philipp Tomsich
- <philipp.tomsich@vrull.eu>, =?UTF-8?Q?Heiko_St=c3=bcbner?=
- <heiko.stuebner@vrull.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
- Nelson Chu <nelson@rivosinc.com>, Kito Cheng <kito.cheng@sifive.com>,
- Cooper Qu <cooper.qu@linux.alibaba.com>,
- Lifang Xia <lifang_xia@linux.alibaba.com>,
- Yunhai Shang <yunhai@linux.alibaba.com>
-References: <20230124195945.181842-1-christoph.muellner@vrull.eu>
- <20230124195945.181842-9-christoph.muellner@vrull.eu>
- <48ff4151-25d9-4b4d-d50a-6516000599c7@linaro.org>
- <8385d954-678e-d78d-c3ae-d74a4a902907@linux.alibaba.com>
- <7f8383f6-e860-5e3e-e89c-dfdac4e05dc5@linaro.org>
-From: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-In-Reply-To: <7f8383f6-e860-5e3e-e89c-dfdac4e05dc5@linaro.org>
-Received-SPF: pass client-ip=115.124.30.97;
- envelope-from=zhiwei_liu@linux.alibaba.com;
- helo=out30-97.freemail.mail.aliyun.com
-X-Spam_score_int: -99
-X-Spam_score: -10.0
-X-Spam_bar: ----------
-X-Spam_report: (-10.0 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- HTML_MESSAGE=0.001, NICE_REPLY_A=-0.092, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+To: David Woodhouse <dwmw2@infradead.org>,
+ Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+References: <20230128081113.1615111-1-dwmw2@infradead.org>
+ <20230128081113.1615111-2-dwmw2@infradead.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230128081113.1615111-2-dwmw2@infradead.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.092, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -74,182 +111,61 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This is a multi-part message in MIME format.
---------------R9GyhGRl0ph5OT0O0r2XcIHp
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+On 28/01/2023 09.10, David Woodhouse wrote:
+> From: Joao Martins <joao.m.martins@oracle.com>
+> 
+> There are already some partial headers in include/hw/xen/interface/
+> which will be removed once we migrate users to the new location.
+> 
+> To start with, define __XEN_TOOLS__ in hw/xen/xen.h to ensure that any
+> internal definitions needed by Xen toolstack libraries are present
+> regardless of the order in which the headers are included. A reckoning
+> will come later, once we make the PV backends work in emulation and
+> untangle the headers for Xen-native vs. generic parts.
+> 
+> Signed-off-by: Joao Martins <joao.m.martins@oracle.com>
+> [dwmw2: Update to Xen public headers from 4.16.2 release, add some in io/,
+>          define __XEN_TOOLS__ in hw/xen/xen.h]
+> Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+> Reviewed-by: Paul Durrant <paul@xen.org>
+> ---
+>   include/hw/xen/xen.h                          |   16 +-
+>   include/standard-headers/xen/arch-x86/cpuid.h |  118 ++
+>   .../xen/arch-x86/xen-x86_32.h                 |  194 +++
+>   .../xen/arch-x86/xen-x86_64.h                 |  241 ++++
+>   include/standard-headers/xen/arch-x86/xen.h   |  398 ++++++
+>   include/standard-headers/xen/event_channel.h  |  388 ++++++
+>   include/standard-headers/xen/features.h       |  143 +++
+>   include/standard-headers/xen/grant_table.h    |  686 ++++++++++
+>   include/standard-headers/xen/hvm/hvm_op.h     |  395 ++++++
+>   include/standard-headers/xen/hvm/params.h     |  318 +++++
+>   include/standard-headers/xen/io/blkif.h       |  722 +++++++++++
+>   include/standard-headers/xen/io/console.h     |   56 +
+>   include/standard-headers/xen/io/fbif.h        |  176 +++
+>   include/standard-headers/xen/io/kbdif.h       |  576 +++++++++
+>   include/standard-headers/xen/io/netif.h       | 1102 +++++++++++++++++
+>   include/standard-headers/xen/io/protocols.h   |   42 +
+>   include/standard-headers/xen/io/ring.h        |  495 ++++++++
+>   include/standard-headers/xen/io/usbif.h       |  425 +++++++
+>   include/standard-headers/xen/io/xenbus.h      |   80 ++
+>   include/standard-headers/xen/io/xs_wire.h     |  153 +++
+>   include/standard-headers/xen/memory.h         |  754 +++++++++++
+>   include/standard-headers/xen/physdev.h        |  383 ++++++
+>   include/standard-headers/xen/sched.h          |  202 +++
+>   include/standard-headers/xen/trace.h          |  341 +++++
+>   include/standard-headers/xen/vcpu.h           |  248 ++++
+>   include/standard-headers/xen/version.h        |  113 ++
+>   include/standard-headers/xen/xen-compat.h     |   46 +
+>   include/standard-headers/xen/xen.h            | 1049 ++++++++++++++++
+
+The files in include/standard-headers are created automatically by the 
+scripts/update-linux-headers.sh script, so I was a little bit surprised that 
+you don't provide an update to that script first ... if you copy new headers 
+there manually, that might  cause troubles later for the next person who 
+runs the update-linux-headers.sh script. So I suggest to either adapt the 
+script for your needs, or put the xen headers in a different location.
+
+  Thomas
 
 
-On 2023/1/30 13:43, Richard Henderson wrote:
-> On 1/29/23 16:03, LIU Zhiwei wrote:
->> Thanks. It's a bug. We should load all memory addresses to  local TCG 
->> temps first.
->>
->> Do you think we should probe all the memory addresses for the store 
->> pair instructions? If so, can we avoid the use of a helper function?
->
-> Depends on what the hardware does.  Even with a trap in the middle the 
-> stores are restartable, since no register state changes.
-
-I refer to the specification of LDP and STP on AARCH64. The 
-specification allows
-
-"any access performed before the exception was taken is repeated".
-
-In detailed,
-
-"If, according to these rules, an instruction is executed as a sequence of accesses, exceptions, including interrupts,
-can be taken during that sequence, regardless of the memory type being accessed. If any of these exceptions are
-returned from using their preferred return address, the instruction that generated the sequence of accesses is
-re-executed, and so any access performed before the exception was taken is repeated. See also Taking an interrupt
-during a multi-access load or store on page D1-4664."
-
-However I see the implementation of LDP and STP on QEMU are in different 
-ways. LDP will only load the first register when it ensures no trap in 
-the second access.
-
-So I have two questions here.
-
-1) One for the QEMU implementation about LDP. Can we implement the LDP 
-as two directly loads to cpu registers instead of local TCG temps?
-
-2) One for the comment. Why register state changes cause 
-non-restartable? Do you mean if the first register changes, it may 
-influence the calculation of address after the trap?
-
-"Even with a trap in the middle the stores are restartable, since no register state changes."
-
->
-> But if you'd like no changes verifying both stores, for this case you 
-> can pack the pair into a larger data type: TCGv_i64 for pair of 
-> 32-bit, and TCGv_i128 for pair of 64-bit.
-> Patches for TCGv_i128 [1] are just finishing review; patches to 
-> describe atomicity of the larger operation are also on list [2]. 
-> Anyway, the idea is that you issue one TCG memory operation, the 
-> entire operation is validated, and then the stores happen.
->
->
->> The main reason is that assembler can do this check. Is it necessary 
->> to check this in QEMU?
->
-> Yes.  Conciser what happens when the insn is encoded with .long. Does 
-> the hardware trap an illegal instruction?  Is the behavior simply 
-> unspecified?  The manual could be improved to specify, akin to the Arm 
-> terms: UNDEFINED, CONSTRAINED UNPREDICTABLE, IMPLEMENTATION DEFINED, etc.
->
->
-Thanks, I will fix the manual.
-
-Best Regards,
-Zhiwei
-
-> r~
->
-> [1] 
-> https://patchew.org/QEMU/20230126043824.54819-1-richard.henderson@linaro.org/
-> [2] 
-> https://patchew.org/QEMU/20221118094754.242910-1-richard.henderson@linaro.org/
---------------R9GyhGRl0ph5OT0O0r2XcIHp
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2023/1/30 13:43, Richard Henderson
-      wrote:<br>
-    </div>
-    <blockquote type="cite"
-      cite="mid:7f8383f6-e860-5e3e-e89c-dfdac4e05dc5@linaro.org">On
-      1/29/23 16:03, LIU Zhiwei wrote:
-      <br>
-      <blockquote type="cite">Thanks. It's a bug. We should load all
-        memory addresses to  local TCG temps first.
-        <br>
-        <br>
-        Do you think we should probe all the memory addresses for the
-        store pair instructions? If so, can we avoid the use of a helper
-        function?
-        <br>
-      </blockquote>
-      <br>
-      Depends on what the hardware does.  Even with a trap in the middle
-      the stores are restartable, since no register state changes.
-      <br>
-    </blockquote>
-    <p>I refer to the specification of LDP and STP on AARCH64. The
-      specification allows <br>
-    </p>
-    <pre>"any access performed before the exception was taken is repeated".
-
-</pre>
-    In detailed,<br>
-    <pre>"If, according to these rules, an instruction is executed as a sequence of accesses, exceptions, including interrupts,
-can be taken during that sequence, regardless of the memory type being accessed. If any of these exceptions are
-returned from using their preferred return address, the instruction that generated the sequence of accesses is
-re-executed, and so any access performed before the exception was taken is repeated. See also Taking an interrupt
-during a multi-access load or store on page D1-4664."</pre>
-    <p>However I see the implementation of LDP and STP on QEMU are in
-      different ways. LDP will only load the first register when it
-      ensures no trap in the second access.</p>
-    <p>So I have two questions here.</p>
-    <p>1) One for the QEMU implementation about LDP. Can we implement
-      the LDP as two directly loads to cpu registers instead of local
-      TCG temps?</p>
-    <p></p>
-    <p>2) One for the comment. Why register state changes cause
-      non-restartable? Do you mean if the first register changes, it may
-      influence the calculation of address after the trap?<br>
-    </p>
-    <pre>"Even with a trap in the middle the stores are restartable, since no register state changes."
-
-</pre>
-    <blockquote type="cite"
-      cite="mid:7f8383f6-e860-5e3e-e89c-dfdac4e05dc5@linaro.org"><br>
-      But if you'd like no changes verifying both stores, for this case
-      you can pack the pair into a larger data type: TCGv_i64 for pair
-      of 32-bit, and TCGv_i128 for pair of 64-bit.
-      <br>
-      Patches for TCGv_i128 [1] are just finishing review; patches to
-      describe atomicity of the larger operation are also on list [2].
-      Anyway, the idea is that you issue one TCG memory operation, the
-      entire operation is validated, and then the stores happen.
-      <br>
-      <br>
-      <br>
-      <blockquote type="cite">The main reason is that assembler can do
-        this check. Is it necessary to check this in QEMU?
-        <br>
-      </blockquote>
-      <br>
-      Yes.  Conciser what happens when the insn is encoded with .long. 
-      Does the hardware trap an illegal instruction?  Is the behavior
-      simply unspecified?  The manual could be improved to specify, akin
-      to the Arm terms: UNDEFINED, CONSTRAINED UNPREDICTABLE,
-      IMPLEMENTATION DEFINED, etc.
-      <br>
-      <br>
-      <br>
-    </blockquote>
-    <p>Thanks, I will fix the manual.</p>
-    <p>Best Regards,<br>
-      Zhiwei<br>
-    </p>
-    <blockquote type="cite"
-      cite="mid:7f8383f6-e860-5e3e-e89c-dfdac4e05dc5@linaro.org">r~
-      <br>
-      <br>
-      [1]
-<a class="moz-txt-link-freetext" href="https://patchew.org/QEMU/20230126043824.54819-1-richard.henderson@linaro.org/">https://patchew.org/QEMU/20230126043824.54819-1-richard.henderson@linaro.org/</a><br>
-      [2]
-<a class="moz-txt-link-freetext" href="https://patchew.org/QEMU/20221118094754.242910-1-richard.henderson@linaro.org/">https://patchew.org/QEMU/20221118094754.242910-1-richard.henderson@linaro.org/</a><br>
-    </blockquote>
-  </body>
-</html>
-
---------------R9GyhGRl0ph5OT0O0r2XcIHp--
 
