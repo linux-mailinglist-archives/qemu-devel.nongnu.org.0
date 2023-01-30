@@ -2,128 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 325A36817E4
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 18:43:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40FC368141F
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 16:09:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMYAw-00086v-St; Mon, 30 Jan 2023 12:42:38 -0500
+	id 1pMVl5-0006WY-91; Mon, 30 Jan 2023 10:07:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pMYAt-00084t-8a
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 12:42:35 -0500
-Received: from mail-sn1nam02on20620.outbound.protection.outlook.com
- ([2a01:111:f400:7ea9::620]
- helo=NAM02-SN1-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMVl2-0006WE-VG
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:07:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pMYAr-0002Su-49
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 12:42:34 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=PhooHniz9YmqBWp+5gHtqmWrpcZJVtibZy3qw3yN1fEtxLG4aM+id0AGtWJTyTvQIU9aZYt/FhhF5okbOSuaYFcTNRIlVvVnAgyEbPwywPNV3FllKGEAi4dTebWq9JUEMa3K+so5ZhcjDVQPTkLxg1RWqGbq8JvFaU1FfS/F0nTYjf5jSv6A+fxdiu0o0Ig4luYrD55doieISE66/A5PipMFJ6ANBzQOTyAAD2mvvo4avZde6HbnVX/F3ZiO96Ee6zoOm2IT++W1YI4fINy01Ej/scpwZOLCWM9qoJqPwrUpo1bpJ2WWxHvq2YGF+ENcCPgpr9UO4Zv5CoxOKj9AIA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hZsTjbOABOIOTgwJDafT8iKxSAZtgXuy+if/zmSIUIg=;
- b=Vp368OOsZCJjFw1ZOWlrXxR0FsKZYIsiDibti93ZEldeCbfC6US7D3II1zean53Bcr5xSAhoLfnthUgsU/YbZQF4ZmXeV9dtvwldTdxPGzNz6ZxnvZ2dsEgcujydB0hTf2LpyoOaOL1FrG5vpCq5ynUZvHe5Q34KVzlzuTKGbDaurnUnmUlYtydRhWvTqzeeduM9e5s/Y5CLzQVxJP4xyJwIDDg27thyBOgfX2PS32CmLN/c4e+vV/J95UmslSrGa/Yg4ftQZSDUTs+A59dITVBsR9ujtD02pMpSI6axsAFxtm24nsB9Bmrgb4TX0PgiGr+4nANgA/sHNOr1T9g99g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hZsTjbOABOIOTgwJDafT8iKxSAZtgXuy+if/zmSIUIg=;
- b=ZlXwlSdaXRLSzuxcMsPe1s3CX9FCfCSirw9Bjy6YSAGKh127pSriUJ2kaClrcmo/jb1IlDU1V4rPfadRK2Q79+CBJZOAnOyPYShPhGifXDIu7FOPswE4eMzuJAFxDYvkCuK0QYd0Yh4PRDIVRhA/nsv0Lq11/oZ40qKBrPw4bXw=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by BL3PR17MB6090.namprd17.prod.outlook.com (2603:10b6:208:3b9::9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Mon, 30 Jan
- 2023 17:42:28 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660%4]) with mapi id 15.20.6043.028; Mon, 30 Jan 2023
- 17:42:28 +0000
-Date: Mon, 30 Jan 2023 10:07:29 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: qemu-devel@nongnu.org, Michael Tsirkin <mst@redhat.com>,
- Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
- linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
- Gregory Price <gourry.memverge@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
-Subject: Re: [PATCH v3 00/10] hw/cxl: CXL emulation cleanups and minor fixes
- for upstream
-Message-ID: <Y9fdMfLakqY4/049@memverge.com>
-References: <20230130143705.11758-1-Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230130143705.11758-1-Jonathan.Cameron@huawei.com>
-X-ClientProxiedBy: BY5PR17CA0039.namprd17.prod.outlook.com
- (2603:10b6:a03:167::16) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMVl0-0003M4-FY
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 10:07:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675091258;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=4x1gnZS9k4/GIcMjjBoAA6dHcNj/nwozxh2x6hC/RV0=;
+ b=XY6F8fMaBogg2nbapoQuZZsWBHK+I3L/vqy58D4SE3YRGHdOnJ3fllQgceI060BntMBpFQ
+ kBgyzNDAgbjeQrDgT74jjqHRStitBjcoQuvBDRAUYjxuZANgoW0UJ9I8FgqMKK2pv7oLRY
+ LC4/vsbvkS0G6z/JJP1MfgvzmLDRc+A=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-67-awEjKoYNNrCCFpI7XEsYNg-1; Mon, 30 Jan 2023 10:07:36 -0500
+X-MC-Unique: awEjKoYNNrCCFpI7XEsYNg-1
+Received: by mail-ej1-f71.google.com with SMTP id
+ nc27-20020a1709071c1b00b0086dae705676so7705084ejc.12
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 07:07:36 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-transfer-encoding:content-disposition
+ :mime-version:references:message-id:subject:cc:to:from:date
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=4x1gnZS9k4/GIcMjjBoAA6dHcNj/nwozxh2x6hC/RV0=;
+ b=14BPq6Xp2McOF8UE7TJHCLQVjmEwIN1D4UhmAjVJ1lVlqrEHcKRKPIYmrcznYzo/Xx
+ Ydk+9MzijEvzzHLdb67lVzgvXsB5BhH78UVxMOfZPEJnx0ShoSiifh2Hasx3JkTKOeZ0
+ mCi7EEOps/jJ79lk8jd6e1zeMHgZiT/JhDRdjzBD5XJGGUYRw2tVq5qzxYolW5mzO12w
+ sUoge6r+Ya/MVQWt3L/ZWnoOZCJG5JArD1g/dPAYHuIxXOH4ZBIAxYU1HpNzsH4GYSVU
+ qMfc4AujsStwKJj5bgTtSqSOGT5fdkQ6GQswknBybxjwJAyQJY+L280kVl+JMmxK8CSl
+ hVQw==
+X-Gm-Message-State: AO0yUKXIRZuNM4qb9GpHreTCnfUgqlfV1xjPaa0MmgiSD229qABz5wdB
+ B7RvkcUVLcImJHusmOyCH2D7D193T4nVxrKVGXVWDz5VyfL1phA/fo6XlwwGvheYKr4x5r/GXa7
+ 6evmEsVMYFGna5TY=
+X-Received: by 2002:a17:906:1112:b0:87b:d3f3:dcf3 with SMTP id
+ h18-20020a170906111200b0087bd3f3dcf3mr11895549eja.35.1675091255516; 
+ Mon, 30 Jan 2023 07:07:35 -0800 (PST)
+X-Google-Smtp-Source: AK7set9MOnanr/XvaePivZKP2Y+8zImt6UrgLXpJJcR7LtwoiuK6Kd8oqhymeQJ0V0gcnSzdqb000w==
+X-Received: by 2002:a17:906:1112:b0:87b:d3f3:dcf3 with SMTP id
+ h18-20020a170906111200b0087bd3f3dcf3mr11895533eja.35.1675091255240; 
+ Mon, 30 Jan 2023 07:07:35 -0800 (PST)
+Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
+ jr6-20020a170906a98600b00780b1979adesm7021159ejb.218.2023.01.30.07.07.33
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Jan 2023 07:07:34 -0800 (PST)
+Date: Mon, 30 Jan 2023 10:07:31 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Feng Sun <loyou85@gmail.com>
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org, ani@anisinha.ca
+Subject: Re: [PATCH] acpi: Set maximum size to 64k for "etc/acpi/rsdp" blob
+Message-ID: <20230130100531-mutt-send-email-mst@kernel.org>
+References: <1673954121-23942-1-git-send-email-loyou85@gmail.com>
+ <20230124113029.7a02e5ff@imammedo.users.ipa.redhat.com>
+ <CAAiCvkiFL7PWYSF24YxaOvu_v2fFfaWkuaQgUBr_9AFwsxHOrQ@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|BL3PR17MB6090:EE_
-X-MS-Office365-Filtering-Correlation-Id: a51091f7-76d6-4c79-7690-08db02e95af1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Zlp2ghT1r7CZQIcPxKwIHIJic6HAscTx/7SeSa+IW0tp0+kQ3rK8pgVaWhW/26mY9xBzmUQ0DMVK5nn4l8t74lIefYy/vA4NKsghY3oXZcpwMJf3b2IikekJ8DPgB5lwfyiHfpVcIPokI4+n04RZuei0VG7HIJ4iR0n1veeJ4jvv+Ty/08PWlqj9OWg//hKkizjweV+yQak/Bkzl8Y8JjxQJnyAEc2krgXvnOvEUH8Em4sYLiuqZzJD4A69XAfXazGCK1BN9T79UEMQd+itS4PHlImVofjl4d8MwqtmHIojSO7LNaWrRLYm5z97EpKuOaNUiLFZjQlSjWNj+xE2B82BS22/75+DhcPalmgwmWhBCFfUMcGVW9TUJnMAw80DfoU6tAvUdvUxqIy/UmJFPgqG63iZQhHZ+q+lmRlsQFVEt0XrNxsW+rM7zzmyOuH0ZGSaCukldODKfucUqnfqTvbvPmiKySK35+AVEwHJIEQjDHHS4PtWUi5EXTo3z36tM0ZaRkwQ3ZhWTCmWQ1xqERF1iVEXYPIkf4Uo9EogjEZ8Twv2mhOuH9JGY0m1B+ebgjsFsCP1fIT5fUQ1aSbhtUz5Dr2sRiHLWDTVkTUkg03ZcoVg2AGVCUWczlUWrdY5pYOn2gsyInlWllYq9HkIcC20CefnuIRHmNd9e1KVfVW4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(346002)(376002)(39830400003)(396003)(136003)(366004)(451199018)(4001150100001)(8676002)(66556008)(6916009)(66476007)(4326008)(41300700001)(66946007)(8936002)(83380400001)(478600001)(86362001)(316002)(2906002)(38100700002)(6486002)(6506007)(5660300002)(186003)(6512007)(44832011)(26005)(966005)(54906003)(36756003)(2616005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?wBz6vxieEgYSmXTutbc1va/giyuX5MqhmwkQ4oACcMTFOuhNN2/gOKUu3CvG?=
- =?us-ascii?Q?dsx/MPVXw0aKxezrkeB+Uduqy//BurOCKBmvP6UA5KzsIZeHwWC7wQ2RnTTx?=
- =?us-ascii?Q?vk1ubf7A9W/Y7ECZsaemgDhyRv0xxFZBSUL1RHa9AMbq3cBXogHzNzvvfBmh?=
- =?us-ascii?Q?CicczBLqlBdhQE3MnqFKVD+1qeLUkujdgIGdHdXYxWcA45pM2tCr/WY76Vo6?=
- =?us-ascii?Q?orZD4q2pn5KG4nZ79TaFl1Aclw/0xfyHU0Dkuv8c6fYzVZGD4yxUNQjMGc8i?=
- =?us-ascii?Q?Fg1gBCjNrfQZBMJnlILKGjSD9vfRWLEjoPsny3xz02B8CGgq8UBt6rxPlEQq?=
- =?us-ascii?Q?RhRChORqXs7uZrzG2TarpBZyQxiWO1v6R1Vqb31nU69XdjiLpBLOWpgTQgsI?=
- =?us-ascii?Q?hzsmccgyukfauo/I2AwCg0L/hAvxuMUQu35O3hRMdgIz6jiHkpprXbkmrIeC?=
- =?us-ascii?Q?sySX7hrIbtMMjfVb8w4mvyefBRI2UCSNdDl5jSEF8pMCMDGuyNj/b+0STF35?=
- =?us-ascii?Q?/TiaV2yDxDyqdhZsy5SGuGv3na3K9CThA3yOPbJjV9gYdUHhOVuXad6gtgvt?=
- =?us-ascii?Q?rk6HjXAYP2UPT4ozVdlLBmBP4a8NXunWawS3A0B81rmlMBcMyHVO3vZ+YR4K?=
- =?us-ascii?Q?6tdK/JXX7ayAedYH5NL5ggqanlWFh0TQIKj+qGHaBovseKVeigCFZqZcv7mz?=
- =?us-ascii?Q?/wGzbOINiLzq6Utwotr2kxOauz3n/AMqPBxU4ugL9qs2rpm/GWtpY/XPnEWa?=
- =?us-ascii?Q?wxTKXqUtC3qubHA5+Zw1z6hajSoVldHypUXypw52ELNk0S0p6eK+y/WBPKdZ?=
- =?us-ascii?Q?IhOdOfHaxgsjR1dvTCEKsRpOI5hZRtz5wkiAZUM7tQ9CymhBWqajouBwJrlR?=
- =?us-ascii?Q?o3O/cWfOsBIFA/FmxpCVGt/DwxNiHjPdcgPisHziPGLTRW5beh/88NQOhSmY?=
- =?us-ascii?Q?pUrqo4WX3ZEZ6hvmWSlZ7k8WwFmPOmLXeK1ql4v4D4NMA3Dhng463d0ATIwI?=
- =?us-ascii?Q?5MDQ4ghj4qP1OnUVElfuSTx9o68YekMhy0BIX697fhUK9SMQDpqtpTyfvXhH?=
- =?us-ascii?Q?U7HsCIBS1zaRacDKqirj3iqHrsxVM968w/XDZ8bpyNAHiuKsGIzTXEl52RHd?=
- =?us-ascii?Q?1OXHm7CgU9F3cbvStaDstz0X9QdWYvucjIIEuyaXaYa/jDM7+9TyvlU29zln?=
- =?us-ascii?Q?VAZEoJi31uGlZVQ/qufNEbTgDNzVjY5esDMalWmTIpZMfsynQPk8ZKMZHB4a?=
- =?us-ascii?Q?wyLgTmEHADcKkHaoAllBQT6Eaczq7P1BVSLtUeKszNVqCYY66jHwcRuxPQQg?=
- =?us-ascii?Q?v9S/byr2CA9/YYZk0WasatP/9uVIEUpCWmufNHt4RmJlwJkR935+XT3vmmvl?=
- =?us-ascii?Q?7+1P2Aate/kPbCTyTBQD6oqahGTHRhOApYYp8xdWQuB9rR7WG9RCXpWTBwpn?=
- =?us-ascii?Q?fHlNJO42oAox+KORqru6XX246YmqzOJZyx7onzI/LlSpUbuw3sjzKyQb4coI?=
- =?us-ascii?Q?sLfKJeQcc7JxXmYLk1bb4YYYHV1NpnoXq9qlk4LILB6nTWm+8z7hvHJjvspZ?=
- =?us-ascii?Q?7yxGTmqy5ojx80knIEGc2gxzYWhWfSW1mD32kLQbcu4ABAGygoWcpgolXNbE?=
- =?us-ascii?Q?fQ=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a51091f7-76d6-4c79-7690-08db02e95af1
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 17:42:28.1966 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p+0H53Quljf9RQBXw3zl147K0KxMIuFjQFdZXcxnomGpH+ql2CGJ/ViwzQFAUv5IgYeLZa9XMp29HdyP0l2R0EchWRKlrJaiNk/Hy3cQ2eE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR17MB6090
-Received-SPF: none client-ip=2a01:111:f400:7ea9::620;
- envelope-from=gregory.price@memverge.com;
- helo=NAM02-SN1-obe.outbound.protection.outlook.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAiCvkiFL7PWYSF24YxaOvu_v2fFfaWkuaQgUBr_9AFwsxHOrQ@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -139,80 +98,110 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Mon, Jan 30, 2023 at 10:47:25PM +0800, Feng Sun wrote:
+> Igor Mammedov <imammedo@redhat.com> 于2023年1月24日周二 18:30写道：
+> >
+> > On Tue, 17 Jan 2023 19:15:21 +0800
+> > Sun Feng <loyou85@gmail.com> wrote:
+> >
+> > > Migrate from aarch64 host with PAGE_SIZE 64k to 4k failed with following errors:
+> > >
+> > > qmp_cmd_name: migrate-incoming, arguments: {"uri": "tcp:[::]:49152"}
+> > > {"timestamp": {"seconds": 1673922775, "microseconds": 534702}, "event": "MIGRATION", "data": {"status": "setup"}}
+> > > {"timestamp": {"seconds": 1673922776, "microseconds": 53003}, "event": "MIGRATION", "data": {"status": "active"}}
+> > > 2023-01-17T02:32:56.058827Z qemu-system-aarch64: Length too large: /rom@etc/acpi/rsdp: 0x10000 > 0x1000: Invalid argument
+> >
+> > this should mention/explain why it's happening.
+> >
+> > i.e we now have 4k limit for RSDP, but then source somehow managed to start with 64k
+> > allocated to for RSDP. It looks like limit isn't working as expected to me.
+> 
+> 4k limit should be romsize limit. I can see Rom '/rom@etc/acpi/rsdp'
+> with romsize:4096, datasize:36.
+> RAMBlock's used_length is set with datasize aligned to PAGE_SIZE, so
+> it become 64k when PAGE_SIZE is 64k.
+> ```
+> static
+> RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
+>                                   void (*resized)(const char*,
+>                                                   uint64_t length,
+>                                                   void *host),
+>                                   void *host, uint32_t ram_flags,
+>                                   MemoryRegion *mr, Error **errp)
+> {
+>     RAMBlock *new_block;
+>     Error *local_err = NULL;
+> 
+>     assert((ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC |
+>                           RAM_NORESERVE)) == 0);
+>     assert(!host ^ (ram_flags & RAM_PREALLOC));
+> 
+>     size = HOST_PAGE_ALIGN(size);
+>     max_size = HOST_PAGE_ALIGN(max_size);
+>     new_block = g_malloc0(sizeof(*new_block));
+>     new_block->mr = mr;
+>     new_block->resized = resized;
+>     new_block->used_length = size;
+> ```
+> So when migrate to 4k PAGE_SIZE, it will report the errors.
+> 
+> ramblock information for PAGE_SIZE 64k and 4k.
+> ```
+> # getconf PAGE_SIZE
+> 65536
+> # virsh qemu-monitor-command testvm --hmp 'info ramblock'
+>               Block Name    PSize              Offset
+> Used              Total
+>            mach-virt.ram   64 KiB  0x0000000000000000
+> 0x0000000040000000 0x0000000040000000
+>              virt.flash0   64 KiB  0x0000000040000000
+> 0x0000000004000000 0x0000000004000000
+>              virt.flash1   64 KiB  0x0000000044000000
+> 0x0000000004000000 0x0000000004000000
+>     /rom@etc/acpi/tables   64 KiB  0x0000000048040000
+> 0x0000000000020000 0x0000000000200000
+> 0000:00:01.2:00.0/virtio-net-pci.rom   64 KiB  0x0000000048000000
+> 0x0000000000040000 0x0000000000040000
+>    /rom@etc/table-loader   64 KiB  0x0000000048240000
+> 0x0000000000010000 0x0000000000010000
+>       /rom@etc/acpi/rsdp   64 KiB  0x0000000048280000
+> 0x0000000000010000 0x0000000000010000
+> 
+> # getconf PAGE_SIZE
+> 4096
+> # virsh qemu-monitor-command testvm --hmp 'info ramblock'
+>               Block Name    PSize              Offset
+> Used              Total
+>            mach-virt.ram    4 KiB  0x0000000000000000
+> 0x0000000800000000 0x0000000800000000
+>              virt.flash0    4 KiB  0x0000000800000000
+> 0x0000000004000000 0x0000000004000000
+>              virt.flash1    4 KiB  0x0000000804000000
+> 0x0000000004000000 0x0000000004000000
+>     /rom@etc/acpi/tables    4 KiB  0x0000000808000000
+> 0x0000000000020000 0x0000000000200000
+>    /rom@etc/table-loader    4 KiB  0x0000000808200000
+> 0x0000000000001000 0x0000000000010000
+>       /rom@etc/acpi/rsdp    4 KiB  0x0000000808240000
+> 0x0000000000001000 0x0000000000001000
+> ```
 
-Tested and reviewed this series (except my own patches, obviously).
+Oh interesting. I don't remember why I decided to align in.
+What does the following do (warning: completely untested):
 
-Reviewed-by: Gregory Price <gregory.price@memverge.com>
-Tested-by: Gregory Price <gregory.price@memverge.com>
 
-On Mon, Jan 30, 2023 at 02:36:55PM +0000, Jonathan Cameron wrote:
-> V3: Thanks to Michael Tsirkin
->  - Update tests/data/acpi/q35/DSDT.cxl to reflect dropping of the duplicate _UID.
->    Usual dance with marking table to be ignored by test then making change and finally
->    updating the table with the new version and dropping the entry preventing the tests
->    from running.
->  
-> V2:
-> - Various minor issues found by Philippe, see individual patches.
->   Note that the const_le64() patch matches changes in a set of Philippe's that was
->   never applied. Philippe may send an update of that series before this merges.
->   If that occurs, drop "qemu/bswap: Add const_le64()"
-> - Picked up tags.
-> 
-> V1 Cover letter.
-> 
-> A small collection of misc fixes and tidying up pulled out from various
-> series. I've pulled this to the top of my queue of CXL related work
-> as they stand fine on their own and it will reduce the noise in
-> the larger patch sets if these go upstream first.
-> 
-> Gregory's patches were posted as part of his work on adding volatile support.
-> https://lore.kernel.org/linux-cxl/20221006233702.18532-1-gregory.price@memverge.com/
-> https://lore.kernel.org/linux-cxl/20221128150157.97724-2-gregory.price@memverge.com/
-> I might propose this for upstream inclusion this cycle, but testing is
-> currently limited by lack of suitable kernel support.
-> 
-> Ira's patches were part of his event injection series.
-> https://lore.kernel.org/linux-cxl/20221221-ira-cxl-events-2022-11-17-v2-0-2ce2ecc06219@intel.com/
-> Intent is to propose for upstream the rest of that series shortly after
-> some minor changes from earlier review.
-> 
-> My three patches have not previously been posted.
-> 
-> For the curious, the current state of QEMU CXL emulation that we are working
-> through the backlog wrt to final cleanup before proposing for upstreaming can be found at.
-> 
-> https://gitlab.com/jic23/qemu/-/commits/cxl-2023-01-11
-> 
-> 
-> Gregory Price (2):
->   hw/cxl: set cxl-type3 device type to PCI_CLASS_MEMORY_CXL
->   hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
-> 
-> Ira Weiny (3):
->   qemu/bswap: Add const_le64()
->   qemu/uuid: Add UUID static initializer
->   hw/cxl/mailbox: Use new UUID network order define for cel_uuid
-> 
-> Jonathan Cameron (5):
->   hw/mem/cxl_type3: Improve error handling in realize()
->   hw/pci-bridge/cxl_downstream: Fix type naming mismatch
->   tests/acpi: Allow update of q35/DSDT.cxl
->   hw/i386/acpi: Drop duplicate _UID entry for CXL root bridge
->   tests: acpi: Update q35/DSDT.cxl for removed duplicate UID
-> 
->  hw/cxl/cxl-device-utils.c      |   2 +-
->  hw/cxl/cxl-mailbox-utils.c     |  28 +++++++++++++++-------------
->  hw/i386/acpi-build.c           |   1 -
->  hw/mem/cxl_type3.c             |  15 +++++++++++----
->  hw/pci-bridge/cxl_downstream.c |   2 +-
->  include/hw/cxl/cxl_device.h    |   2 +-
->  include/qemu/bswap.h           |  12 +++++++++++-
->  include/qemu/uuid.h            |  12 ++++++++++++
->  tests/data/acpi/q35/DSDT.cxl   | Bin 9636 -> 9622 bytes
->  9 files changed, 52 insertions(+), 22 deletions(-)
-> 
-> -- 
-> 2.37.2
-> 
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index cb998cdf23..5c732101b9 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -2154,7 +2154,7 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
+                           RAM_NORESERVE)) == 0);
+     assert(!host ^ (ram_flags & RAM_PREALLOC));
+ 
+-    size = HOST_PAGE_ALIGN(size);
++    // size = HOST_PAGE_ALIGN(size);
+     max_size = HOST_PAGE_ALIGN(max_size);
+     new_block = g_malloc0(sizeof(*new_block));
+     new_block->mr = mr;
+
 
