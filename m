@@ -2,84 +2,159 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4B116809D7
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 10:43:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B373E6809F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 10:53:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMQh0-0000xy-GB; Mon, 30 Jan 2023 04:43:14 -0500
+	id 1pMQqC-0002xI-RQ; Mon, 30 Jan 2023 04:52:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pMQgt-0000xf-CD; Mon, 30 Jan 2023 04:43:07 -0500
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <danielhb413@gmail.com>)
- id 1pMQgr-0000HL-AB; Mon, 30 Jan 2023 04:43:07 -0500
-Received: by mail-ot1-x330.google.com with SMTP id
- n25-20020a9d7119000000b0068bd8c1e836so121344otj.3; 
- Mon, 30 Jan 2023 01:43:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=QXC1SFkJhgr3DCijXh88/9Un61X0/OTTqG9jPX9S1Gc=;
- b=YBRRp+J74i3/D+tdFTXiDyKbM+RfVJtfYApMH49jh9Z2eYN0T0KuKl9gV1CE/gY9KU
- jw+3Uth2xM/AeD6iauNJzAKW1WSQJYHLGXLGx/zosLewxvNNjQw66JHaE44knGdfAtdF
- ZFYKM7NYeKpDlrcywz7OyUWLrPe75V5/Ylk095J0tdcIDFI1pAk1CXBhRMwVajW2May2
- sjYdsNCrxYC2GCyzDwldrut6C6ze86AIbPGAvZ9fXrpMjc5rNSevAN700b37KWd5p0Wh
- /zz9mGZTKYqgw4/9ZfMIMGZOgGhUDvF5+Oo2PWsjXEX+KcZq0dN13i7221l9Df2gWy02
- n/tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=QXC1SFkJhgr3DCijXh88/9Un61X0/OTTqG9jPX9S1Gc=;
- b=LcC+7tTrfOXVjP/1t9Pj/Bk/xw6eLoAbyi+qAYH4jAoUXdw0Ce02W+hd1MFv0AcGHj
- PNSGgy/6ojbN5t8JEf6XMB6FMkEekwRviDBRmvEzF2JXO5Itx7zAj7Yll4YAwQPReWEu
- e5kv77H0lO0ZW8uBKUnz3GAFrfVVaJTlz+JCK+3N7mAQDlyYpoxMY49Rz6AdBtCurKo2
- nV5wLe0lQOdVUZozVh0uIiqpRppo33Q3imNAMKzR8XRuhn7wWGvOgGWlB1AcEbPNyJXw
- P8hbJ3ooEA//qzeNbwYBTx1pq///VIkLmMfMEOsl+rpeY2281BX1suEYk/NH2rIecWad
- e4iQ==
-X-Gm-Message-State: AO0yUKXpKVtaWTo667N0k97pC3J15ZOV4ManB6fNJidpLwjShDrFkekj
- C+xb7qoD271ygA3ms0G9nnSynO3/UEc=
-X-Google-Smtp-Source: AK7set9htSN04V/zsBrFeA92Z1bJAcYLorJ5/GH1+8t6nWd1DLMPuYxOnOEeCyHf9wuR9CbHtqdbQg==
-X-Received: by 2002:a9d:6546:0:b0:68b:cc93:28b with SMTP id
- q6-20020a9d6546000000b0068bcc93028bmr1906231otl.29.1675071783564; 
- Mon, 30 Jan 2023 01:43:03 -0800 (PST)
-Received: from [192.168.68.107] (200-148-13-157.dsl.telesp.net.br.
- [200.148.13.157]) by smtp.gmail.com with ESMTPSA id
- dj17-20020a0568303a9100b0068bb7bd2668sm3318112otb.73.2023.01.30.01.43.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jan 2023 01:43:03 -0800 (PST)
-Message-ID: <e4463a9e-f8de-aec1-f2ed-fae977049019@gmail.com>
-Date: Mon, 30 Jan 2023 06:43:00 -0300
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 0/3] Misc sm501 clean ups
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org,
- Peter Maydell <peter.maydell@linaro.org>, Gerd Hoffmann <kraxel@redhat.com>
-References: <cover.1674333199.git.balaton@eik.bme.hu>
- <78368e67-0ed7-1828-100c-d4d9d15fd27d@linaro.org>
- <46b0b8d7-dce4-18e2-970d-2fd81100bd98@eik.bme.hu>
-From: Daniel Henrique Barboza <danielhb413@gmail.com>
-In-Reply-To: <46b0b8d7-dce4-18e2-970d-2fd81100bd98@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ (Exim 4.90_1)
+ (envelope-from <prvs=13943e2a21=bin.meng@windriver.com>)
+ id 1pMQqA-0002wm-E0
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 04:52:42 -0500
+Received: from mx0a-0064b401.pphosted.com ([205.220.166.238])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1)
+ (envelope-from <prvs=13943e2a21=bin.meng@windriver.com>)
+ id 1pMQq7-0001zo-GD
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 04:52:41 -0500
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+ by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30U9hjuB015618; Mon, 30 Jan 2023 01:52:23 -0800
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : content-transfer-encoding :
+ mime-version; s=PPS06212021;
+ bh=ialO6gQ4OVteWAAPWqFQJ6DuDAz48BX9XcNlkAqBLro=;
+ b=JMktPv8uVYg63F03Octd68e7VKWw6dj68IQ2B+4SsN24G9Lxe/jo51a1EgqUm9KpP6zI
+ d/vcXb0T3ZSPB4K5lvG0oV9idqsNzEdOk2Bp3767iiniOOLvSqL2XnsI53/ohNAyOtN9
+ pRSQ0x5ziwp3+l8UQNSyUdjIlfaTc5LtcVnnHBnxSpTPzsbSzw1pI/n1TvewVcL1zlIo
+ epUvSSJ2RiMK3senui/+BSLSnEMgQzAqICDU9bO482wWwwbozxzydJ0MNJdySlAI76Mv
+ /L77KaCxTdAZsyFpAEKKtRA/OSlwefXTRmeftN7/GS/bCMQOdC5iKBwGfb8fEYy4UTpm zQ== 
+Received: from nam04-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04lp2046.outbound.protection.outlook.com [104.47.74.46])
+ by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3nd43rhj5h-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Mon, 30 Jan 2023 01:52:23 -0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fUtIzh9ejn1JtN4d1llO8ZCvIEipExVFCax0MEwlNId0zLQjqXGmLR7T99FML5mMnmWiidxz0fSY0a103fKdCyUncsh9vjMZfObalf/UOISlnOtx3VcYGh6EinM37cBVzupk9lge4c7mqLli75/BbOII+rtcff6dyR8xrGfmXl6e9rIeaBJzlG2ItEgUDbtEsHj6xuT0EXQ8tgAPvPM72xrLacRGg1swc30Smk0KeUjyMSrae4BRkAq/RGuyDu+jUTBd4nkVmsqquY+oFjCbDUpn6JuwNya+u6GXZ1evIo/JFv9gLBvt/NDLl3I5HLQPo/0hF34bRJ/bh/+5yrBPmw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ialO6gQ4OVteWAAPWqFQJ6DuDAz48BX9XcNlkAqBLro=;
+ b=Yc0anqbO7v4ZpjowdHnP0X93B6RAsPurxcj8MuwJm4SbJitLHVMUMa2jhsAj6WfSpNGVoKKkuJ9J+EhlvrOiDnI7fZOx+YJ41aI3VeaF4zLdAM9aS56pUF7IEyqZtJYC44IKs3cX5Byuy6igtbqg9Sk1ZCKCMkFxyOFaN+aFzNlhkRxW2HbHokRANtasHb4C+KVLgegFvjTiOuwO+b8RtF5b56KXARAT4znXVyc+WVnADlQz1eoe5yj7yx/pgeWjORLQkZP8c8zVCMIPbUxLKQlEzxP+jiF9qphiXatohxYzlhQ0DXJDjFa4ofgyzxHjZsH0MTm8+ZNXnm/tg5IkJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM4PR11MB5358.namprd11.prod.outlook.com (2603:10b6:5:395::7) by
+ SJ0PR11MB6573.namprd11.prod.outlook.com (2603:10b6:a03:44d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.36; Mon, 30 Jan
+ 2023 09:52:19 +0000
+Received: from DM4PR11MB5358.namprd11.prod.outlook.com
+ ([fe80::6c5d:5b92:1599:ce9]) by DM4PR11MB5358.namprd11.prod.outlook.com
+ ([fe80::6c5d:5b92:1599:ce9%2]) with mapi id 15.20.6043.036; Mon, 30 Jan 2023
+ 09:52:19 +0000
+From: Bin Meng <bin.meng@windriver.com>
+To: Greg Kurz <groug@kaod.org>, Christian Schoenebeck <qemu_oss@crudebyte.com>,
+ qemu-devel@nongnu.org
+Cc: Guohuai Shi <guohuai.shi@windriver.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Laurent Vivier <lvivier@redhat.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>
+Subject: [PATCH v4 00/16] hw/9pfs: Add 9pfs support for Windows
+Date: Mon, 30 Jan 2023 17:51:46 +0800
+Message-Id: <20230130095202.2773186-1-bin.meng@windriver.com>
+X-Mailer: git-send-email 2.25.1
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::330;
- envelope-from=danielhb413@gmail.com; helo=mail-ot1-x330.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-ClientProxiedBy: BYAPR02CA0061.namprd02.prod.outlook.com
+ (2603:10b6:a03:54::38) To DM4PR11MB5358.namprd11.prod.outlook.com
+ (2603:10b6:5:395::7)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5358:EE_|SJ0PR11MB6573:EE_
+X-MS-Office365-Filtering-Correlation-Id: 90628557-0cbb-47ea-839d-08db02a7ad21
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 3yiOik7vpP4UWhdoDyJeW1rIK9WQioK2yt16Uk7toJ3S6P6nwSoOsxq6etE4hLMOJW4A+d2zdOSU1+iaaVSyK5Cf0cC20GzrZJ3XVjRtQ+v9m0UNar15EV2jMU6EMO95d3GAnfXPCOjOu+5NhB5Cw3UXw3zDZPAnQkEnDBiVOV0yZ7ZjHsBGE0eL5MpliGoTQlkgbf8V6WCAnJqi7igNpcQ1hTCPwVLAARjbdlAX6ohhyURC5z3P7g3vSKtg0YtKwmCUgLC+NBNVc/4gBqG4Q+4v3061CzLaM5xu4stJSevfP6eps3C+3G4+CtSDIHwt7Q0uEWNSGWgxXiJ4AKjR3kEvjN2i2sY2ObaFqQlGt5vdKBZwOr5aLTcT62nt5GCEe6MOZuFiB+gThdU2w5QQwewa4BhFmWtuwFk+hxSQ1vfd81wUuagmI5lC3roo5wCKbugkUPAI8fYu8arAioXLTCVsyp7MZS3GOEvWvphRY+SYVGMFfCPHyoY+W5UdejO7TyooSw5k/MOg3+dySXyp5bELXC0AsYiFl+B2nnj55c/5X/oR+0b6rTMVi1gVemg26frkfBFje4Mv5GjZNilaOhtt+kjo2E1e2meBzlmXxSDh9HyLdYfL/wpzgBiNe0nymDnkfENmGgMST+8e3bbnxXbIwnE7Gckdf6JxPvAx6GjpngznsYYXFR9OzgM6d88hfAIr85zn1N40lx938bpXkQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DM4PR11MB5358.namprd11.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(366004)(396003)(376002)(136003)(39850400004)(346002)(451199018)(86362001)(38100700002)(38350700002)(478600001)(36756003)(2906002)(54906003)(110136005)(6666004)(52116002)(6486002)(41300700001)(26005)(8936002)(5660300002)(44832011)(66946007)(316002)(8676002)(4326008)(83380400001)(66556008)(66476007)(6512007)(186003)(1076003)(6506007)(2616005);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SytoaHJKK2hONUNCVWdqMHVERmZVVzlFQlJoaSsybVl3MzRnNE9HMU9zMnJp?=
+ =?utf-8?B?VUpWQ2UwQ1l2RGtSNFhSNVdRdEFSTGlXQ3hlV0FxbjA1elcvVlYxYXI4eWZY?=
+ =?utf-8?B?TGRlbktPbTBEc3QwOGNmdTEwaHpwQ210U3JDbzJkZ2N2NHk4enhESlgreldP?=
+ =?utf-8?B?a0RQYVN6TmNTMzhvaUV6Q0ovNUZ2aXpEZ0ZLcFRZWDVycFU4MUFIZDU1U1A3?=
+ =?utf-8?B?Umx2OEFybUpBZWdZeUFnb1J0WnZIUUoydHRkcGJ5WVdzLzNvTFhUVEExZVdW?=
+ =?utf-8?B?SU5WU2VWNTRCZllmWGIxVWgwK21aWEdGaGhyc203a1o2ZXNBdXZBRG5jc3RO?=
+ =?utf-8?B?TTRZdHNHeWhCaVVwNHBNNW8zVUJrNVFybkxkUzY3OGpzV1J2V1FyZjRwMUFK?=
+ =?utf-8?B?VlhEejVrMzNPM2M5NEdDUzUwc2VndXdNa01lYWhBbGIyRHZhbGtDZzlnY0xQ?=
+ =?utf-8?B?WG9CS1oxdkkzWjY4Vm1iOFl0UEUwMXAxelhqNDdsL3FNeHZjUVlha2JyK3Rv?=
+ =?utf-8?B?WTVrVU9qQ293NWdkQXY5Tk5rYmpUS2J4bjJzOHo0R0MwSFdQYVZrUTI0SThw?=
+ =?utf-8?B?Z2ZNNEExLzdzcWhtV1JEOUhZUHczc1A4TDZ0WDZzdEdGMVNwamdrci9tYU1u?=
+ =?utf-8?B?MHpjQWpOUkdUMGhpR05QQ0VMMVVvRm5BcFBzZWh3aGwzUnAwcFJLd1NKS2U1?=
+ =?utf-8?B?ZXczbEREWVJ6bHNSNE10YWEycndmOHJxS1VISDNGQUtDUmRJNXpnV1lrSG9h?=
+ =?utf-8?B?eC9FM01jdXhMVmZaaTVacU1mb29GeDZNL0d6Z3g0UmlyYUVia3ZnRlB2d01s?=
+ =?utf-8?B?RlVqUDJYenRweGR0d1dkOURmMktlWmdsbExMQlhPbE5XbVRJKzhxenpNWW5H?=
+ =?utf-8?B?MmExamRSZ1pFMjlSR1QwS0tGWjh4WThUaHVrZDEvcFJCbFd6eWtWamdQL2tM?=
+ =?utf-8?B?NWNaaytjUVJlV3QydStaZ3duWXgxZW9jZ3NYeEJVOHl0K2hSWmdCcHpqOHEx?=
+ =?utf-8?B?TEJHY3V6eUhvdjhjZnluSDNVWkV5Ym9BZkgzK2dvNkhENXp1MEw2U0hhY09U?=
+ =?utf-8?B?T3VEYnkvSTJKVTNWbGxjdFduQTFWVVlSNDFmRGpXeWdmMXZpaE03YzJTOHpj?=
+ =?utf-8?B?RnNHbGxtYTdEdXpsdDRYQ2FzNGxjS1kvbExhVEJySGRLTTVWelpFUXRHZE94?=
+ =?utf-8?B?a2JTTitpY1JVV2hSRFJtWEtKSDNjZ0h2QWx2d0U0TUdnNzljY1JpdmgvclA2?=
+ =?utf-8?B?anBJc3duUENVUUFuMXNQQm1YU292QVlzT295WXUwTHUydDhUalJTYkVrd2po?=
+ =?utf-8?B?aUtReEJkNGQ2K0NBZ1JBZHFTTVQvV0p4WDQxUVVrSExiN1J3T3gwck5JcGxr?=
+ =?utf-8?B?RTIwYU9VTjN3enZZR21PWFlpY1BuUWUwZHBaVDNRZlZmSUdZbm05eGYzM3hQ?=
+ =?utf-8?B?RUdDMjk3US9XYlprbnF4WlMwSDFkVnV1UjFEVitVdjNjTmo2ZFAvZTZTTW16?=
+ =?utf-8?B?RjUvQlBDZ0h6Q2U0Qlk5djZDM3pBRnlWdFp6c2tIM0hNWXBuVGNVK3l0SmNI?=
+ =?utf-8?B?a0l6OVhGSENvRlZwczV5SUdkVVNCYzBnUStERTU0VjZmUWE4Zm51cFlybTFQ?=
+ =?utf-8?B?cmVkYjBHeVYzRVNXNU1NbVppbkVnQWFHTkxTQkkyMUpaQStoaUU1UmF2RXgv?=
+ =?utf-8?B?SzJzNUZ6aExFQTFiNytBZE9wRVhIMHVWcTdVZ0o5Uk9qSkplWDhVUzVXTGRV?=
+ =?utf-8?B?YSsyQzR2VklkL1dsMGsycUdQcVdlRnlIT1VUMzVsTUY2OTl5eWJ2K3Z2OUdG?=
+ =?utf-8?B?THZEclZFMlc3d1paeUxwQjBsVXk0elo3K2xLZG1aS1hOOFkrSTFmVm5FN1lQ?=
+ =?utf-8?B?QStBNFFYcXZaNlZFdmRVbG9hbkd2ai9qeEx5bktGSHJLMC92LzFxUllPTWRm?=
+ =?utf-8?B?L2tHLzcrRnl1Zk1MbzF2L0dDbzdJQ0xKNXBCeUpERytHZVZBKzdIQVBkNlhs?=
+ =?utf-8?B?M0VTZUI2TkFPc0dEa1VQZXBFdGRuRVJvS2dvczZQV2k1VzZJL29UQmxkWS8w?=
+ =?utf-8?B?V2hpUlFZdWtMaTd6ei9vV2V2WXZpRzA5MitiMEhONXNBK0cvcTVZZ3ZGcmpz?=
+ =?utf-8?Q?6u+O8tnLU27z4k7GmS21hVFKy?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 90628557-0cbb-47ea-839d-08db02a7ad21
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5358.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Jan 2023 09:52:19.4112 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G680cOnMuXj3RghpDg8YGqGSfgr1fAltYZk+Hm+/zHvySlW3EVD7y5yUjmb6mGf9A6MhsF5gCKN8SJSmlxt+aQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB6573
+X-Proofpoint-ORIG-GUID: zE2NxeL8I_iPubB0GyzlXsQUIy-u9Qli
+X-Proofpoint-GUID: zE2NxeL8I_iPubB0GyzlXsQUIy-u9Qli
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-30_09,2023-01-27_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 mlxscore=0
+ suspectscore=0 clxscore=1011 malwarescore=0 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 mlxlogscore=536
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2301300094
+Received-SPF: pass client-ip=205.220.166.238;
+ envelope-from=prvs=13943e2a21=bin.meng@windriver.com;
+ helo=mx0a-0064b401.pphosted.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
+X-Spam_bar: --
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001, NICE_REPLY_A=-0.092,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,32 +171,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+At present there is no Windows support for 9p file system.
+This series adds initial Windows support for 9p file system.
 
+'local' file system backend driver is supported on Windows,
+including open, read, write, close, rename, remove, etc.
+All security models are supported. The mapped (mapped-xattr)
+security model is implemented using NTFS Alternate Data Stream
+(ADS) so the 9p export path shall be on an NTFS partition.
 
-On 1/28/23 23:43, BALATON Zoltan wrote:
-> On Mon, 23 Jan 2023, Philippe Mathieu-Daudé wrote:
->> On 21/1/23 21:35, BALATON Zoltan wrote:
->>> Some small trivial clean ups I've found while looking at this file.
->>>
->>> BALATON Zoltan (3):
->>>    hw/display/sm501: Remove parenthesis around consant macro definitions
->>>    hw/display/sm501: Remove unneeded casts from void pointer
->>>    hw/display/sm501: Code style fix
->>>
->>>   hw/display/sm501.c | 419 +++++++++++++++++++++++----------------------
->>>   1 file changed, 210 insertions(+), 209 deletions(-)
->>
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> 
-> Ping? Who will merge this series? Should Daniel take it via PPC or Gerd for display? I only care that it gets in one way or another and not lost between maintainers.
+'synth' driver is adapted for Windows too so that we can now
+run qtests on Windows for 9p related regression testing.
 
-I'm planning a PR at the end of this week. I can take these in.
+Example command line to test:
 
-Thanks,
+  "-fsdev local,path=c:\msys64,security_model=mapped,id=p9 -device virtio-9p-pci,fsdev=p9,mount_tag=p9fs"
 
-Daniel
+Base-commit: 13356edb87506c148b163b8c7eb0695647d00c2a
 
-> 
-> Regards,
-> BALATON Zoltan
+Changes in v4:
+- Fixed 9pfs mounted as read-only issue on Windows host, adding a
+  win32_error_to_posix() to translate Windows native API error to
+  POSIX one.
+- Fixed errors of handling symbolic links
+- Added forward declaration to avoid using 'void *'
+- Implemented Windows specific xxxdir() APIs for safe directory access
+
+Bin Meng (2):
+  hw/9pfs: Update helper qemu_stat_rdev()
+  hw/9pfs: Add a helper qemu_stat_blksize()
+
+Guohuai Shi (14):
+  hw/9pfs: Add missing definitions for Windows
+  hw/9pfs: Implement Windows specific utilities functions for 9pfs
+  hw/9pfs: Replace the direct call to xxxdir() APIs with a wrapper
+  hw/9pfs: Implement Windows specific xxxdir() APIs
+  hw/9pfs: Update the local fs driver to support Windows
+  hw/9pfs: Support getting current directory offset for Windows
+  hw/9pfs: Disable unsupported flags and features for Windows
+  hw/9pfs: Update v9fs_set_fd_limit() for Windows
+  hw/9pfs: Add Linux error number definition
+  hw/9pfs: Translate Windows errno to Linux value
+  fsdev: Disable proxy fs driver on Windows
+  hw/9pfs: Update synth fs driver for Windows
+  tests/qtest: virtio-9p-test: Adapt the case for win32
+  meson.build: Turn on virtfs for Windows
+
+ meson.build                           |   10 +-
+ fsdev/file-op-9p.h                    |   33 +
+ hw/9pfs/9p-linux-errno.h              |  151 +++
+ hw/9pfs/9p-local.h                    |    8 +
+ hw/9pfs/9p-util.h                     |  139 ++-
+ hw/9pfs/9p.h                          |   43 +
+ tests/qtest/libqos/virtio-9p-client.h |    7 +
+ fsdev/qemu-fsdev.c                    |    2 +
+ hw/9pfs/9p-local.c                    |  269 ++++-
+ hw/9pfs/9p-synth.c                    |    5 +-
+ hw/9pfs/9p-util-win32.c               | 1305 +++++++++++++++++++++++++
+ hw/9pfs/9p.c                          |   90 +-
+ hw/9pfs/codir.c                       |    2 +-
+ fsdev/meson.build                     |    1 +
+ hw/9pfs/meson.build                   |    8 +-
+ 15 files changed, 2008 insertions(+), 65 deletions(-)
+ create mode 100644 hw/9pfs/9p-linux-errno.h
+ create mode 100644 hw/9pfs/9p-util-win32.c
+
+-- 
+2.25.1
+
 
