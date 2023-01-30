@@ -2,103 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3D1C6813A7
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:44:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA2C6813BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:49:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMVO9-00015G-Qd; Mon, 30 Jan 2023 09:44:05 -0500
+	id 1pMVSF-0004GP-Vc; Mon, 30 Jan 2023 09:48:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pMVNy-00012l-G8
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:43:56 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pMVNw-0006fG-FR
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:43:54 -0500
-Received: from pps.filterd (m0098421.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 30UEGWs3009409; Mon, 30 Jan 2023 14:43:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=lIyIc3I8eDyneoZTW23+aIOKLe7rjhOiN6PtMN/oo1w=;
- b=QChGbMuYCXqKh8D6sAC/PYpWpVZZAwqXrr51pcNkze4r6/fOpMBjisRnG68DUX0uMkKd
- nfkaSFaxxEE/bJUuKDNmOZnzkvnS21bt5Yf9lop+qPhY94wT7X4teoivMGJSzPICwTIM
- T6qyaY5wGSAhdl19ezGeHB9dIWivl6BXByLWddiFAuTGmsXGrFdOTL12QFE1cKVbN/0L
- DGzRmIVHqQDG1DtBmZSn8ialdyMkPfA7OVSYyNP+hfyG+FP43sPZiWMo5PEV7paXDoNV
- oyGJArJUL7zUNi2Jd4S0FMXxU4pRLVWLoT//LxHjxpb3zBxV5LFsIstakvGQ2i46W1qX bQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nefgy0sjr-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Jan 2023 14:43:45 +0000
-Received: from m0098421.ppops.net (m0098421.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 30UEGXnl009683;
- Mon, 30 Jan 2023 14:43:45 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nefgy0sj1-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Jan 2023 14:43:45 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30U5slkY026900;
- Mon, 30 Jan 2023 14:43:43 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3ncvs7jc0q-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Mon, 30 Jan 2023 14:43:43 +0000
-Received: from smtpav03.fra02v.mail.ibm.com (smtpav03.fra02v.mail.ibm.com
- [10.20.54.102])
- by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 30UEhfit51642664
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Mon, 30 Jan 2023 14:43:41 GMT
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id F06F320043;
- Mon, 30 Jan 2023 14:43:40 +0000 (GMT)
-Received: from smtpav03.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CA73B20040;
- Mon, 30 Jan 2023 14:43:40 +0000 (GMT)
-Received: from [9.155.209.149] (unknown [9.155.209.149])
- by smtpav03.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Mon, 30 Jan 2023 14:43:40 +0000 (GMT)
-Message-ID: <d0954ad88ac09adafa29ea509afd4e80015de536.camel@linux.ibm.com>
-Subject: Re: [PATCH v4 2/3] accel/tcg: Add debuginfo support
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Thomas Huth <thuth@redhat.com>, Richard Henderson
- <richard.henderson@linaro.org>, Alex =?ISO-8859-1?Q?Benn=E9e?=
- <alex.bennee@linaro.org>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org
-Date: Mon, 30 Jan 2023 15:43:40 +0100
-In-Reply-To: <c341f40c-59f6-754b-1323-b3343ee40cad@redhat.com>
-References: <20230112152013.125680-1-iii@linux.ibm.com>
- <20230112152013.125680-3-iii@linux.ibm.com>
- <c341f40c-59f6-754b-1323-b3343ee40cad@redhat.com>
+ (Exim 4.90_1) (envelope-from <loyou85@gmail.com>) id 1pMVS2-0004DS-8I
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:48:17 -0500
+Received: from mail-ej1-x62f.google.com ([2a00:1450:4864:20::62f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <loyou85@gmail.com>) id 1pMVS0-0007Xj-Id
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:48:06 -0500
+Received: by mail-ej1-x62f.google.com with SMTP id dr8so10813061ejc.12
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:48:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=5gT1diSxdZv5ZqmG614MZeTHLAeUoG8roo4fzyBZatw=;
+ b=B9hcjcqTiSWPgMXu2fv8SWUXRSD8uWypngEmkJ0wMYn134VBCQ3qj+qFVhpoTK0NpX
+ BpMkfaaeuB2rLZ5q/1rF6FiXVTdQtmLa/L0hxVoonHYAC2sxJiiUZBrwKie6VZp8ixgJ
+ rSxQarHEP/t/6tFi8hHLMaZ84ReJMvVARhSWyzTVgrl2Xut5bg0vcYuU0Lu/BxFlKHUK
+ Q1ZVcjEfbP707fK1s8yGdu3MoNoyhkFJjn8odBq/AsKyRgZsLkufnqMbEQPVKwvQ04Y9
+ uGD5c4pskKjsD1JNYwxICJrfcIFUZSYasCVEhrvZzqvxmQD7xuvyIehlHJ1kT69QEnD4
+ AHyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5gT1diSxdZv5ZqmG614MZeTHLAeUoG8roo4fzyBZatw=;
+ b=jACwVgf/VZlfwnwmrqAsVRlEsEu8mPFomDLjamX0SqNMMan5jNd1B0buBu7yOAY/Qp
+ x4V+STU4OKFIGh2HT7/SjECZ4hipKDW0xmWJQ+w+jooyOcuD1gnQSi3xaKDO2kn3wdmN
+ Ogdyqlb64F5tNuslCVwIojO6VGkzv600jzrWnC5kJrCci1fy8txwmrmK4RnbVMl/yZbM
+ VX3//NljWaMMdwmWKRdKoxpxOR2ynqJTsrxAO9jtMFtKUyT1c4i2CL6CeXVvCg90Ah7U
+ PXzFwuneI32+ww++yos7LYaFHK/+DMlrKsr91KNN+2XU/tOedNEQDsDMTlde6LXejzbj
+ zFYQ==
+X-Gm-Message-State: AO0yUKVCjw7/CeXWSHTxD1mwk/HxCghQH0vqgYmpabWcPkeZEG4k76zu
+ 6mLjQExxlYbFP/EkIf5JUjH2wMEdyDCBCxtHAEE=
+X-Google-Smtp-Source: AK7set+dN+lrfG5kz0LgeKbZtRUp4grK6ip7j6K5iSQGs4GXk8jHu2A8dwIiD/f3i2zbHTjrS/Ib/WRRSk5e0p81Jp8=
+X-Received: by 2002:a17:906:2f16:b0:87f:e638:cf68 with SMTP id
+ v22-20020a1709062f1600b0087fe638cf68mr2504877eji.281.1675090082251; Mon, 30
+ Jan 2023 06:48:02 -0800 (PST)
+MIME-Version: 1.0
+References: <1673954121-23942-1-git-send-email-loyou85@gmail.com>
+ <20230124113029.7a02e5ff@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230124113029.7a02e5ff@imammedo.users.ipa.redhat.com>
+From: Feng Sun <loyou85@gmail.com>
+Date: Mon, 30 Jan 2023 22:47:25 +0800
+Message-ID: <CAAiCvkiFL7PWYSF24YxaOvu_v2fFfaWkuaQgUBr_9AFwsxHOrQ@mail.gmail.com>
+Subject: Re: [PATCH] acpi: Set maximum size to 64k for "etc/acpi/rsdp" blob
+To: Igor Mammedov <imammedo@redhat.com>
+Cc: qemu-devel@nongnu.org, mst@redhat.com, ani@anisinha.ca
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: DVv9ux-ILOM_B2hEaaumc5xReYGI56N2
-X-Proofpoint-ORIG-GUID: PqfMTk_QNLfN2taaoY4JAjdwFjCj-eqs
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-01-30_13,2023-01-30_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0
- phishscore=0 adultscore=0 clxscore=1015 malwarescore=0 mlxlogscore=999
- lowpriorityscore=0 impostorscore=0 priorityscore=1501 mlxscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2301300141
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
-X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Received-SPF: pass client-ip=2a00:1450:4864:20::62f;
+ envelope-from=loyou85@gmail.com; helo=mail-ej1-x62f.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -114,55 +84,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 2023-01-30 at 15:33 +0100, Thomas Huth wrote:
-> On 12/01/2023 16.20, Ilya Leoshkevich wrote:
-> > Add libdw-based functions for loading and querying debuginfo. Load
-> > debuginfo from the system and the linux-user loaders.
-> >=20
-> > This is useful for the upcoming perf support, which can then put
-> > human-readable guest symbols instead of raw guest PCs into perfmap
-> > and
-> > jitdump files.
-> >=20
-> > Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> > ---
-> ...
-> > diff --git a/meson.build b/meson.build
-> > index 175517eafde..cab8c67d961 100644
-> > --- a/meson.build
-> > +++ b/meson.build
-> > @@ -1648,6 +1648,12 @@ if libbpf.found() and not cc.links('''
-> > =C2=A0=C2=A0=C2=A0 endif
-> > =C2=A0 endif
-> > =C2=A0=20
-> > +# libdw
-> > +libdw =3D dependency('libdw',
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 method: 'pkg-config',
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 kwargs: static_kwargs,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 required: false)
-> > +
->=20
-> =C2=A0 Hi,
->=20
-> I recently did a build with "configure --without-default-features"
-> and I=20
-> noticed that this new libdw does not get disabled automatically
-> there, which=20
-> looks kind of weird. Is there a reason that there is no config knob
-> here to=20
-> disable it like we have it with all the other optional libraries that
-> we=20
-> support?
->=20
-> =C2=A0 Thomas
+Igor Mammedov <imammedo@redhat.com> =E4=BA=8E2023=E5=B9=B41=E6=9C=8824=E6=
+=97=A5=E5=91=A8=E4=BA=8C 18:30=E5=86=99=E9=81=93=EF=BC=9A
+>
+> On Tue, 17 Jan 2023 19:15:21 +0800
+> Sun Feng <loyou85@gmail.com> wrote:
+>
+> > Migrate from aarch64 host with PAGE_SIZE 64k to 4k failed with followin=
+g errors:
+> >
+> > qmp_cmd_name: migrate-incoming, arguments: {"uri": "tcp:[::]:49152"}
+> > {"timestamp": {"seconds": 1673922775, "microseconds": 534702}, "event":=
+ "MIGRATION", "data": {"status": "setup"}}
+> > {"timestamp": {"seconds": 1673922776, "microseconds": 53003}, "event": =
+"MIGRATION", "data": {"status": "active"}}
+> > 2023-01-17T02:32:56.058827Z qemu-system-aarch64: Length too large: /rom=
+@etc/acpi/rsdp: 0x10000 > 0x1000: Invalid argument
+>
+> this should mention/explain why it's happening.
+>
+> i.e we now have 4k limit for RSDP, but then source somehow managed to sta=
+rt with 64k
+> allocated to for RSDP. It looks like limit isn't working as expected to m=
+e.
 
-Hi,
+4k limit should be romsize limit. I can see Rom '/rom@etc/acpi/rsdp'
+with romsize:4096, datasize:36.
+RAMBlock's used_length is set with datasize aligned to PAGE_SIZE, so
+it become 64k when PAGE_SIZE is 64k.
+```
+static
+RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
+                                  void (*resized)(const char*,
+                                                  uint64_t length,
+                                                  void *host),
+                                  void *host, uint32_t ram_flags,
+                                  MemoryRegion *mr, Error **errp)
+{
+    RAMBlock *new_block;
+    Error *local_err =3D NULL;
 
-this sounds like an omission on my part - I'll have a look at this.
+    assert((ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC |
+                          RAM_NORESERVE)) =3D=3D 0);
+    assert(!host ^ (ram_flags & RAM_PREALLOC));
 
-Best regards,
-Ilya
+    size =3D HOST_PAGE_ALIGN(size);
+    max_size =3D HOST_PAGE_ALIGN(max_size);
+    new_block =3D g_malloc0(sizeof(*new_block));
+    new_block->mr =3D mr;
+    new_block->resized =3D resized;
+    new_block->used_length =3D size;
+```
+So when migrate to 4k PAGE_SIZE, it will report the errors.
+
+ramblock information for PAGE_SIZE 64k and 4k.
+```
+# getconf PAGE_SIZE
+65536
+# virsh qemu-monitor-command testvm --hmp 'info ramblock'
+              Block Name    PSize              Offset
+Used              Total
+           mach-virt.ram   64 KiB  0x0000000000000000
+0x0000000040000000 0x0000000040000000
+             virt.flash0   64 KiB  0x0000000040000000
+0x0000000004000000 0x0000000004000000
+             virt.flash1   64 KiB  0x0000000044000000
+0x0000000004000000 0x0000000004000000
+    /rom@etc/acpi/tables   64 KiB  0x0000000048040000
+0x0000000000020000 0x0000000000200000
+0000:00:01.2:00.0/virtio-net-pci.rom   64 KiB  0x0000000048000000
+0x0000000000040000 0x0000000000040000
+   /rom@etc/table-loader   64 KiB  0x0000000048240000
+0x0000000000010000 0x0000000000010000
+      /rom@etc/acpi/rsdp   64 KiB  0x0000000048280000
+0x0000000000010000 0x0000000000010000
+
+# getconf PAGE_SIZE
+4096
+# virsh qemu-monitor-command testvm --hmp 'info ramblock'
+              Block Name    PSize              Offset
+Used              Total
+           mach-virt.ram    4 KiB  0x0000000000000000
+0x0000000800000000 0x0000000800000000
+             virt.flash0    4 KiB  0x0000000800000000
+0x0000000004000000 0x0000000004000000
+             virt.flash1    4 KiB  0x0000000804000000
+0x0000000004000000 0x0000000004000000
+    /rom@etc/acpi/tables    4 KiB  0x0000000808000000
+0x0000000000020000 0x0000000000200000
+   /rom@etc/table-loader    4 KiB  0x0000000808200000
+0x0000000000001000 0x0000000000010000
+      /rom@etc/acpi/rsdp    4 KiB  0x0000000808240000
+0x0000000000001000 0x0000000000001000
+```
+
+--=20
+Best wishes!
 
