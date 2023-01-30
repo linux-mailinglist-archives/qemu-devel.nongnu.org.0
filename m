@@ -2,80 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10DA680DF5
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 13:43:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BF57680DFE
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 13:45:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMTVJ-0000Gt-60; Mon, 30 Jan 2023 07:43:21 -0500
+	id 1pMTXL-0001HV-By; Mon, 30 Jan 2023 07:45:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pMTVF-0000Gi-UF
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:43:19 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMTXG-0001Gc-0S
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:45:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pMTVD-0006VP-OG
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:43:17 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMTXD-0006wT-KU
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:45:21 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675082594;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
+ s=mimecast20190719; t=1675082718;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=p5Zk/RN04Ve1Bvgy6wbE3xYgsxSI4LfhbHntVAcZgKg=;
- b=WFxSEaY1XkIL426m3yGb7pZUvBxOS55sKdswrAt3FyAU5iRZbJvg631fN6qtc6p8XF5A0V
- vh/Wps6OKAmrqqONbCahOiX2JUQxb40UryuXSd9DTn2OUth+ZV/g/wWo/TvNlAbFCRANyf
- 5tPlcmkQIAj0MZ38jc2NaaTy25zDT7M=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-124-VHs9bi8POSemHk-H8WOwsw-1; Mon, 30 Jan 2023 07:43:11 -0500
-X-MC-Unique: VHs9bi8POSemHk-H8WOwsw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id ACA7E802D19;
- Mon, 30 Jan 2023 12:43:10 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.49])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 46D27C16020;
- Mon, 30 Jan 2023 12:43:08 +0000 (UTC)
-Date: Mon, 30 Jan 2023 12:43:05 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- libvir-list@redhat.com, Paolo Bonzini <pbonzini@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Reinoud Zandijk <reinoud@netbsd.org>,
- Ryo ONODERA <ryoon@netbsd.org>, Brad Smith <brad@comstyle.com>,
- Stefan Weil <sw@weilnetz.de>
-Subject: Re: [RFC PATCH] docs/about/deprecated: Deprecate 32-bit host systems
-Message-ID: <Y9e7WeJ5OhkOnba9@redhat.com>
-References: <20230130114428.1297295-1-thuth@redhat.com>
- <CAFEAcA89Onb9Dg4zJXQ0Ys-0kJ2-hz5KYRPXMCE7PWDDxVzDyQ@mail.gmail.com>
- <Y9exrDWT2NUoinu1@redhat.com>
- <f94ce115-b962-b19d-269e-4f593da61c6f@redhat.com>
+ bh=9CVXrBe5a2eNQ25FgDB0FujlzBlyvMktuKhNnFySl0k=;
+ b=XcFXcJDoeCe55rsK34vHOd8uixX224uCAPRKvx7Yx2NXbcczBfQ3y5IvCp2/4l1Zlcgbrr
+ E4wrq9CjYPiRO333GM/dc8AMmjGzohCc8KjukY+BVDVqc+RjZ+HGJ5sLZF+byJpaxAhWg+
+ 3MoJlJCWKZNHuxVxfDCnvNcgU0Aj2tI=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-301-CbX8PLGdMSGWPJ0Hg8xMcQ-1; Mon, 30 Jan 2023 07:45:16 -0500
+X-MC-Unique: CbX8PLGdMSGWPJ0Hg8xMcQ-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ c10-20020a05621401ea00b004c72d0e92bcso6354702qvu.12
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 04:45:16 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=9CVXrBe5a2eNQ25FgDB0FujlzBlyvMktuKhNnFySl0k=;
+ b=fm3thVZLHpChdq7MfOHbERF1Pqr6RWkLDkhbY1nI75mtSO49RhbAXM10BsaTA0Q5tS
+ LFk1jvb51UoEbA7tbMU4FvBH99lwIbILlD1paYexefOU08JEeu/MhP9fqlNVOaFXGbpb
+ wQzXDPh6Jd9ULGC+qzdNuVLult9qdNTwFsKsLnD5mF6cZ/gcJT7ScqY/Za5Pq3LBxnH+
+ U5hJzxvgm5OUDWTumPu6xJ4GCEDQMopEBHcXbgpJ0GJivpOM9HIfoLMNdCAEK7djF8++
+ z3R3QYApKzyDv+w/1mbu9X4i91mmWqdKOT/0YbGYNvDaAPdLJAtnCIqqrqNdI9w9Ztvv
+ bYPw==
+X-Gm-Message-State: AO0yUKUNWNGP95DrZkP8I3AtpwD+oC5jRQkxGUihqtsMA19hrqC6BNiJ
+ kKQBIAi4PcCGOhLc0klJRdKs0GDtxWnvOjCaPInkzAWdSCwwndVxTZ73BH6ypY8xkgUSvc6CwtZ
+ Onmno/cljXGBr0B0=
+X-Received: by 2002:a0c:ec11:0:b0:534:bc47:8ef6 with SMTP id
+ y17-20020a0cec11000000b00534bc478ef6mr9701039qvo.5.1675082716193; 
+ Mon, 30 Jan 2023 04:45:16 -0800 (PST)
+X-Google-Smtp-Source: AK7set+DUjxr6yFgYp1z+A8hXAV4l6piyB8qm3Bv6PiZaeV/lBiDDGtS+6JV/d//sYMvpFB9cKvMrA==
+X-Received: by 2002:a0c:ec11:0:b0:534:bc47:8ef6 with SMTP id
+ y17-20020a0cec11000000b00534bc478ef6mr9701021qvo.5.1675082715961; 
+ Mon, 30 Jan 2023 04:45:15 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-178-179.web.vodafone.de.
+ [109.43.178.179]) by smtp.gmail.com with ESMTPSA id
+ p64-20020a374243000000b006ee8874f5fasm7899658qka.53.2023.01.30.04.45.14
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Jan 2023 04:45:15 -0800 (PST)
+Message-ID: <ec298b45-ad69-4608-f6b3-b9c97bc7bf34@redhat.com>
+Date: Mon, 30 Jan 2023 13:45:13 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH v3] docs/s390x/pcidevices: document pci devices on s390x
+Content-Language: en-US
+To: Sebastian Mitterle <smitterl@redhat.com>, qemu-devel@nongnu.org
+Cc: cohuck@redhat.com, clegoate@redhat.com, qemu-trivial@nongnu.org,
+ qemu-s390x@nongnu.org
+References: <20230127123349.55294-1-smitterl@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230127123349.55294-1-smitterl@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <f94ce115-b962-b19d-269e-4f593da61c6f@redhat.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -88,74 +97,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 30, 2023 at 01:22:22PM +0100, Thomas Huth wrote:
-> On 30/01/2023 13.01, Daniel P. Berrangé wrote:
-> > On Mon, Jan 30, 2023 at 11:47:02AM +0000, Peter Maydell wrote:
-> > > On Mon, 30 Jan 2023 at 11:44, Thomas Huth <thuth@redhat.com> wrote:
-> > > > 
-> > > > Testing 32-bit host OS support takes a lot of precious time during the QEMU
-> > > > contiguous integration tests, and considering that many OS vendors stopped
-> > > > shipping 32-bit variants of their OS distributions and most hardware from
-> > > > the past >10 years is capable of 64-bit
-> > > 
-> > > True for x86, not necessarily true for other architectures.
-> > > Are you proposing to deprecate x86 32-bit, or all 32-bit?
-> > > I'm not entirely sure about whether we're yet at a point where
-> > > I'd want to deprecate-and-drop 32-bit arm host support.
+On 27/01/2023 13.33, Sebastian Mitterle wrote:
+> Add some documentation about the zpci device and how
+> to use it with pci devices on s390x.
 > 
-> Even mobile phones have 64-bit processors nowadays, Rasberry PIs are 64-bit
-> nowadays ... which arm hosts scenarios are still limited to 32-bit ?
+> Used source: Cornelia Huck's blog post
+> https://people.redhat.com/~cohuck/2018/02/19/notes-on-pci-on-s390x.html
 > 
-> Also, as far as I know, 32-bit KVM arm support has been removed from the
-> Linux kernel a while ago already, so it's just about TCG now ... is there
-> really still that much interest in running emulation on a non-beefy 32-bit
-> host?
-> 
-> Anyway, we could add the deprecation notice now to find out if there are
-> still 32-bit users out there who will then start complaining about this.
-> 
-> > Do we have a feeling on which aspects of 32-bit cause us the support
-> > burden ? The boring stuff like compiler errors from mismatched integer
-> > sizes is mostly quick & easy to detect simply through a cross compile.
-> 
-> The burden are the CI minutes of the shared CI runners. We've got quite a
-> bunch of 32-bit jobs in the CI:
-> 
-> - cross-armel-system
-> - cross-armel-user
-> - cross-armhf-system
-> - cross-armhf-user
-> - cross-i386-system
-> - cross-i386-user
-> - cross-i386-tci
-> - cross-mipsel-system
-> - cross-mipsel-user
-> - cross-win32-system
-> 
-> If we could finally drop supporting 32-bit hosts, that would help with our
-> CI minutes problem quite a lot, I think.
+> Signed-off-by: Sebastian Mitterle <smitterl@redhat.com>
+> Reviewed-by: Cédric Le Goater <clg@redhat.com>
+> ---
+> v3: add info zpci is autogenerated, fix typos and source formatting,
+> improve style as suggested
+> ---
+>   docs/system/s390x/pcidevices.rst | 41 ++++++++++++++++++++++++++++++++
+>   docs/system/target-s390x.rst     |  1 +
+>   2 files changed, 42 insertions(+)
+>   create mode 100644 docs/system/s390x/pcidevices.rst
 
-CI is a non-technical constraint, that's more about support level.
+Thanks, looks fine now to me, too!
 
-If we want to save CI minutes, we can declare that some or all of the
-32-bit hosts scenarios are now tier 2, rather than tier 1. So the 32-bit
-host support still exists, but we're not doing gating CI on every
-combination. eg could declare 32-bit for linux-user is tier 1 and fully
-tested but 32-bit machine emul is tier 2 and adhoc tested. Or make it
-more nuanced per arch target
+Queued it to my staging branch:
 
-We only need to deprecate and delete if we have some wins at the code
-level that we can't do with while it exists.
+  https://gitlab.com/thuth/qemu/-/commits/staging
 
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+  Thomas
+
 
 
