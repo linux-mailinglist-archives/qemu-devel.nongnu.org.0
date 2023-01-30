@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E1D681C0F
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:01:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D078681C79
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 22:14:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMbH5-00025i-Q6; Mon, 30 Jan 2023 16:01:13 -0500
+	id 1pMbSw-00048e-RI; Mon, 30 Jan 2023 16:13:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMbGh-0001Sn-OA
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:00:54 -0500
-Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
+ id 1pMbSu-00048W-UE
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:13:25 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMbGf-0005e1-TD
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:00:47 -0500
-Received: by mail-pj1-x1033.google.com with SMTP id mi9so3133450pjb.4
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 13:00:45 -0800 (PST)
+ id 1pMbSt-0007ki-4N
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 16:13:24 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ c10-20020a17090a1d0a00b0022e63a94799so1962886pjd.2
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 13:13:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=o6XK3wgJtTUIBhonrPnk1dQpAlt+sLIs/xAyriNJLT4=;
- b=A4S+1IVQu/cm06W/5WhaQK6XwFsHPPK2m3fE+mSLfKe/tfiKNWO73Z09CdfULNSnqM
- 2priEhM835wjkUenl0r1YpdwVHu4ePY2/eO0Tbwvsw/3cOhDb3UWsQ4g4K0DNEvt7oEU
- SYT532Pix5WuW/fdycK+cUYpUZ9xDucrSb/jWAv5oYiwZVPFotUt3vNFpwPUZf2A8xj1
- 4I6b8Hoqynw8njZkjxe5LOMU2QDk0nHoQCtB5dj8kGMKtA/GieqCJSCfKjPpgIbtqi6J
- B8KL7My4A5ApDAGET7GZh+x7col8EGzIIvqv8RVL9klQtafyD7mpK31nGlsbOYI2+OoJ
- KBPg==
+ bh=pnxOWhs0dsFWFkY9vVSlpp/XEvorggQRqeR1fKz8B3c=;
+ b=SQ5tPc/YEj48bDloDDcbJHedrLn9F9j4viM0WHuWk/YbiEmF9e5bZ7Db9NKJaA3I8+
+ qBH1xJG5Qdy4JbEZ877uVUagHATpIcmv3mtMnrcaL6iE6nSEIhyZ7W0JOyOMzH9HSv1D
+ prmNMsPBcOPB+H6xZVm8qHc/0BvdpmV2VzcM5RFgf5Aw6r9wImDZ9dJZ8ZADPDS9skNS
+ V5oCgggiQfGF4T250mhhWhvjfAEKdrz5xSyKOQqMijz3YQZS1Vy5aNqSO7ijtVx4KyIv
+ /pNt4NphIb4zPI3r8JdI2VfhoOlM1rcFsirWUQHbXFsh1HBpIf6doTyfQSATdf1J8VGs
+ GwZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=o6XK3wgJtTUIBhonrPnk1dQpAlt+sLIs/xAyriNJLT4=;
- b=XIXPYY4XOWGq/fTLtpGRc4n5ag0NoQ5yBd18Vq7nbK4s1uQwPo9LvHZ/oVAwXF/fGx
- lceJWzEX3EtQK43Lt+fbuyL5xDkcEmLY5yLblIl9cagVb/HuCVelXFBo+Ed5QCI7ZYd0
- DGpvawHZDvzKM/MHylun8Bc89+vUfdJD9f+DgEr1h/ueLd+HD7J3hZHOQBcQn6weGEZb
- ployMhE0MdzK9axfQAHG+giu1QttiN4GDL7/H/ZYQZ7sxWEwPryRdA55obv2+/033wnu
- rRyHJA68Mk2vZksc+9iELfbG0dnOaFTIGzhl6iVvNdaGCfook4E0YYhn5/0g0TRmvuRE
- yAkQ==
-X-Gm-Message-State: AO0yUKUkmVIGAGsapElsqLrLfnE4M20xEqBPe8HS+SDaAaXE4Tu9ZuLm
- eJS5OEBYViMHtMBYyr4wOZECEDi5UZqJxRdt
-X-Google-Smtp-Source: AK7set+SK/dBcav9gclCz+iXdd4leNsJuRUBjy9ta8XrRgIxbvQ44gEWImXz3+SEolzFs9BHYqB9jA==
-X-Received: by 2002:a17:902:e752:b0:196:44d4:2453 with SMTP id
- p18-20020a170902e75200b0019644d42453mr18552929plf.7.1675112444263; 
- Mon, 30 Jan 2023 13:00:44 -0800 (PST)
+ bh=pnxOWhs0dsFWFkY9vVSlpp/XEvorggQRqeR1fKz8B3c=;
+ b=fCpUsS6CHlG439zhUlBKYxzszPQwnleM5JOYV0s0VNhc81yh4HzM4oH6h4I6ZgMe5J
+ Q9n0BvBwnlEEYjYF5wyE1OuvpejtU7HrKX2dMBawfwCs13jD8M9K1czUdM4GgEeG8epp
+ vWzpPZoUda0Oc7LqPf/0NsP2wdXdQWeqdWgTLEAllSLToBig9baZsjkIratS34uusMu8
+ AgkTaU4T660auqmiHP8ryqxYF+nsDG1ngj8Uh/p6TvhZO8R1PJld9GGK/K2Q+FPxaAj8
+ LtPR2py94e2mDKTL3cN+PxIHq7Er8Fu1sS27fKFb4ynW++m6SbAZLzzDDMVfDXJbJLw6
+ 8A9w==
+X-Gm-Message-State: AO0yUKWcVVT0+LqO3VOCjbUzMeb749OQlb6w37aI8rcJkE+4PWBfTmTM
+ iydsvzPAc/WLF/LWt+A4+STwEQ==
+X-Google-Smtp-Source: AK7set8uuDXDsgupLJgvFA6i3L28TWWzdOD/3K9wlGXoHnnMfheoVnTJOjQZmRnSexX93Qh/LmudSg==
+X-Received: by 2002:a05:6a20:840b:b0:bc:fb05:3c3f with SMTP id
+ c11-20020a056a20840b00b000bcfb053c3fmr8394892pzd.43.1675113201434; 
+ Mon, 30 Jan 2023 13:13:21 -0800 (PST)
 Received: from [192.168.50.50] (rrcs-173-197-98-118.west.biz.rr.com.
  [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- jg3-20020a17090326c300b0019615a0d083sm2773134plb.210.2023.01.30.13.00.42
+ j6-20020a170902da8600b0019601f98550sm8256753plx.132.2023.01.30.13.13.19
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jan 2023 13:00:43 -0800 (PST)
-Message-ID: <a90b953e-a725-aebf-cc5e-b73e4497539e@linaro.org>
-Date: Mon, 30 Jan 2023 11:00:40 -1000
+ Mon, 30 Jan 2023 13:13:20 -0800 (PST)
+Message-ID: <ba570f7f-8853-7e29-b351-5df0277b7373@linaro.org>
+Date: Mon, 30 Jan 2023 11:13:17 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH] target/arm: Fix physical address resolution for Stage2
+Subject: Re: [PATCH 3/6] tests/qtest/display-vga-test: Add proper checks if a
+ device is available
 Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+References: <20230130104446.1286773-1-thuth@redhat.com>
+ <20230130104446.1286773-4-thuth@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, cota@braap.org, qemu-stable@nongnu.org,
- Sid Manning <sidneym@quicinc.com>
-References: <20230130205935.1157347-1-richard.henderson@linaro.org>
- <20230130205935.1157347-2-richard.henderson@linaro.org>
-In-Reply-To: <20230130205935.1157347-2-richard.henderson@linaro.org>
+In-Reply-To: <20230130104446.1286773-4-thuth@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1033;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1033.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -94,32 +98,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/30/23 10:59, Richard Henderson wrote:
-> Conversion to probe_access_full missed applying the page offset.
-> 
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Sid Manning <sidneym@quicinc.com>
-> Fixes: f3639a64f602 ("target/arm: Use softmmu tlbs for page table walking")
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/arm/ptw.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/target/arm/ptw.c b/target/arm/ptw.c
-> index 57f3615a66..2b125fff44 100644
-> --- a/target/arm/ptw.c
-> +++ b/target/arm/ptw.c
-> @@ -266,7 +266,7 @@ static bool S1_ptw_translate(CPUARMState *env, S1Translate *ptw,
->           if (unlikely(flags & TLB_INVALID_MASK)) {
->               goto fail;
->           }
-> -        ptw->out_phys = full->phys_addr;
-> +        ptw->out_phys = full->phys_addr | (addr & ~TARGET_PAGE_MASK);
->           ptw->out_rw = full->prot & PAGE_WRITE;
->           pte_attrs = full->pte_attrs;
->           pte_secure = full->attrs.secure;
+On 1/30/23 00:44, Thomas Huth wrote:
+>   int main(int argc, char **argv)
+>   {
+> -    const char *arch = qtest_get_arch();
+> +    const char *devices[] = {
+> +        "cirrus-vga",
 
-Bah.  Of course this shouldn't have been resent as part of another patch set.
+static const char * const devices[]
+
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
