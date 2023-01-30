@@ -2,91 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC8246805B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 06:44:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583D86805B7
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 06:45:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMMxR-0005uA-Iu; Mon, 30 Jan 2023 00:43:57 -0500
+	id 1pMMyv-0006do-KD; Mon, 30 Jan 2023 00:45:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMMxP-0005tl-Mx
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:43:55 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMMxN-0005qp-TF
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:43:55 -0500
-Received: by mail-pl1-x635.google.com with SMTP id p24so10433937plw.11
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 21:43:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id:from
- :to:cc:subject:date:message-id:reply-to;
- bh=UX/xnewUGY/tCtBu4Z4GPmEPV9XOCWCsqbIcHA6j5oI=;
- b=iimcB6C4xkwBJ2i5+AFfIq5HYj09JvQb4Yd2WRTXMhL2oLycST6RmPqkh/OaBC3aFp
- CgzECp3Rd+76PqBc1Wsu5zkBtjKG4XfEJEYAEm9HNBJxIq8AYEG8Y6p+jvfMNbNrCbCd
- vqrky268v/YkYVXdz3xwc79zjNQeHj/ylfZNHT5q9I0x9MYJyq6qIj7Kwfk88NHpOiTW
- 7f64nsYRnTKKSo6mIGjKx/xT7AoBXSwhLCgLNBGo5gZmFlhYpPXQVhPBrgYcDxv8Pl9M
- JHwPpsYV1FV3ayZLADC4PSYh8SPzAnt66yYLOuDCfJs5JBJ5/5kIoVPDOJNreqczCIKQ
- digw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pMMyt-0006de-Lt
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:45:27 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pMMyr-0006C6-V9
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:45:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675057525;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=NPI0QUnw5tzdzGuSIaMAPVjZWbM6LcFSZFksrcdoi9g=;
+ b=O4jheb+iaP9N4ZDq4YFF1iuclTOvTYuRjgLKwczjFz9et1xhR/w316GY4llFVFb9d9/Gpn
+ /VdmAe+6ZpAVHwn8Qe/hB5XztQ4mPdjkzWMSdDQMPqzUDAo5zbp3A9XB4avNh+5Q7bI1/G
+ 14kv+LRLNuLQxqcxHlkCUUWOGb1bEPw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-538-KZpvkHdNMTag5eTYbkmung-1; Mon, 30 Jan 2023 00:45:23 -0500
+X-MC-Unique: KZpvkHdNMTag5eTYbkmung-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j20-20020a05600c1c1400b003dc5dd44c0cso289930wms.8
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 21:45:23 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UX/xnewUGY/tCtBu4Z4GPmEPV9XOCWCsqbIcHA6j5oI=;
- b=aH21bWLabAIZQOD0Qe6EYjTYMuNT5RNxPpJPcvDHnRZOIu3AWvvu/o8rVPrSswh0Nk
- N82i4tNkLmVJuiVfP9osrZTwgkD8XacwlsQwTXuJLTPGO8auR83A2aABIAtlULw6OqOc
- 3lis2RfFp8+MZjPs93BkQ4fngMgPR4TGXL/3BYjEvsNLgPen3B8Wrh0LBdFBdfymnel4
- BoTFF0SC+bCpOc6dQ5g9TZyr4xzaxhYfCKoj4A9lNU78Tdirp4uqmuEVyBNn2mM0mZBe
- 2TAqZ4zm2ZkQG9RksoT0BsIUlPDtsyisaQmIONSaanqTMJBJZm0TwCELPoUbvVdpRIOZ
- 1Q9w==
-X-Gm-Message-State: AO0yUKVx5MAfqu559NUxIXALGjKOIS5xD912ty/dwzbGQWfJgImRKo4H
- l5U5B+E1Shx+GRFhrnIuAxBUng==
-X-Google-Smtp-Source: AK7set9rPElhFC5fdm28zakJA6xD54eJNSdwoVIunhECjyiHMoBjV1j+LeuKhVzcZPHPWNWq2HC8cQ==
-X-Received: by 2002:a17:902:ce8a:b0:196:2d55:5b96 with SMTP id
- f10-20020a170902ce8a00b001962d555b96mr21413164plg.24.1675057432136; 
- Sun, 29 Jan 2023 21:43:52 -0800 (PST)
-Received: from [192.168.50.50] ([173.197.98.118])
- by smtp.gmail.com with ESMTPSA id
- w9-20020a170902d3c900b0019337bf957dsm6730888plb.296.2023.01.29.21.43.49
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Sun, 29 Jan 2023 21:43:51 -0800 (PST)
-Message-ID: <7f8383f6-e860-5e3e-e89c-dfdac4e05dc5@linaro.org>
-Date: Sun, 29 Jan 2023 19:43:43 -1000
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NPI0QUnw5tzdzGuSIaMAPVjZWbM6LcFSZFksrcdoi9g=;
+ b=tkNgxdJMu4l6DE3HY/S/YNra+oF4xaWaAvFotca/7OOuHrkN6zwrxWkgd8u2TRUUb2
+ 8RNPirm6wcd17Jpw+V59D+otZjEQA8OcGstcay3Ynh8Smia44tzMQoqCjGYiNeC5ZCe/
+ ma3kqQkxHfC+asxDMlAPEtWAw2VkpeRn8AAuud54yDITMRhYV2ivsEeSdR5ahSJvt+XV
+ 6TgboledOjq3gN1O8/pqX+efuh3XfWNl8Ebeu2HxGWJx2q110BXKtL/EzXkiL7Ymw9sJ
+ dlicfoipvzYlW7JDfUMfGKAMj1pZBcym4Rz91zooefbc7I+iZViEJx7V2oZ+WkKJQ8xO
+ S7rQ==
+X-Gm-Message-State: AFqh2kpE/aG+zk47qlu2mTS46flllar1tKDeYCVjfAaa6YFKTTEd14cJ
+ D8S/Sbr+qLsFqLU9IyuM8C12Brl8xtNtCZJ563meLDG/eA25SDKHJyP0KzZNXhzoHzlcZwLvnRT
+ 86lLk7P8Zt8EXCno=
+X-Received: by 2002:a05:600c:225a:b0:3d3:5c21:dd99 with SMTP id
+ a26-20020a05600c225a00b003d35c21dd99mr47769945wmm.18.1675057522346; 
+ Sun, 29 Jan 2023 21:45:22 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvl4XD/3x/27yRqZcTR+uYsQ2lEVCH7w7gf3WwKz3a7X2z2MkKhYa6EYO6Mjcrfyoh1dB8bNQ==
+X-Received: by 2002:a05:600c:225a:b0:3d3:5c21:dd99 with SMTP id
+ a26-20020a05600c225a00b003d35c21dd99mr47769938wmm.18.1675057522134; 
+ Sun, 29 Jan 2023 21:45:22 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ ay6-20020a05600c1e0600b003db00747fdesm15246784wmb.15.2023.01.29.21.45.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Sun, 29 Jan 2023 21:45:21 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
+ <lsoaresp@redhat.com>,  James Houghton <jthoughton@google.com>,  "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH RFC 15/21] migration: Teach qemu about minor faults and
+ doublemap
+In-Reply-To: <20230117220914.2062125-16-peterx@redhat.com> (Peter Xu's message
+ of "Tue, 17 Jan 2023 17:09:08 -0500")
+References: <20230117220914.2062125-1-peterx@redhat.com>
+ <20230117220914.2062125-16-peterx@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Mon, 30 Jan 2023 06:45:20 +0100
+Message-ID: <87k014pocv.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3 08/14] RISC-V: Adding T-Head MemPair extension
-To: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>,
- Christoph Muellner <christoph.muellner@vrull.eu>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>, Philipp Tomsich
- <philipp.tomsich@vrull.eu>, =?UTF-8?Q?Heiko_St=c3=bcbner?=
- <heiko.stuebner@vrull.eu>, Palmer Dabbelt <palmer@dabbelt.com>,
- Nelson Chu <nelson@rivosinc.com>, Kito Cheng <kito.cheng@sifive.com>,
- Cooper Qu <cooper.qu@linux.alibaba.com>,
- Lifang Xia <lifang_xia@linux.alibaba.com>,
- Yunhai Shang <yunhai@linux.alibaba.com>
-References: <20230124195945.181842-1-christoph.muellner@vrull.eu>
- <20230124195945.181842-9-christoph.muellner@vrull.eu>
- <48ff4151-25d9-4b4d-d50a-6516000599c7@linaro.org>
- <8385d954-678e-d78d-c3ae-d74a4a902907@linux.alibaba.com>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <8385d954-678e-d78d-c3ae-d74a4a902907@linux.alibaba.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.092,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,35 +98,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/29/23 16:03, LIU Zhiwei wrote:
-> Thanks. It's a bug. We should load all memory addresses to  local TCG temps first.
-> 
-> Do you think we should probe all the memory addresses for the store pair instructions? If 
-> so, can we avoid the use of a helper function?
+Peter Xu <peterx@redhat.com> wrote:
+> When a ramblock is backed by hugetlbfs and the user specified using
+> double-map feature, we trap the faults on these regions using minor mode.
+> Teach QEMU about that.
+>
+> Add some sanity check on the fault flags when receiving a uffd message.
+> For minor fault trapped ranges, we should always see the MINOR flag set,
+> while when using generic missing faults we should never see it.
+>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-Depends on what the hardware does.  Even with a trap in the middle the stores are 
-restartable, since no register state changes.
-
-But if you'd like no changes verifying both stores, for this case you can pack the pair 
-into a larger data type: TCGv_i64 for pair of 32-bit, and TCGv_i128 for pair of 64-bit.
-Patches for TCGv_i128 [1] are just finishing review; patches to describe atomicity of the 
-larger operation are also on list [2]. Anyway, the idea is that you issue one TCG memory 
-operation, the entire operation is validated, and then the stores happen.
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
-> The main reason is that assembler can do this check. Is it necessary to check this in QEMU?
 
-Yes.  Conciser what happens when the insn is encoded with .long.  Does the hardware trap 
-an illegal instruction?  Is the behavior simply unspecified?  The manual could be improved 
-to specify, akin to the Arm terms: UNDEFINED, CONSTRAINED UNPREDICTABLE, IMPLEMENTATION 
-DEFINED, etc.
+> -    if (!(reg_struct.ioctls & ((__u64)1 << _UFFDIO_COPY))) {
 
+Does qemu have a macro to do this bitmap handling?
 
-r~
+>  {
+>      MigrationIncomingState *mis = opaque;
+>      struct uffd_msg msg;
+> +    uint64_t address;
+>      int ret;
+>      size_t index;
+>      RAMBlock *rb = NULL;
+> @@ -945,6 +980,7 @@ static void *postcopy_ram_fault_thread(void *opaque)
+>      }
+>  
+>      while (true) {
+> +        bool use_minor_fault, minor_flag;
 
-[1] https://patchew.org/QEMU/20230126043824.54819-1-richard.henderson@linaro.org/
-[2] https://patchew.org/QEMU/20221118094754.242910-1-richard.henderson@linaro.org/
+I think that something on the lines of:
+           bool src_minor_fault, dst_minor_fault;
+
+will make things simpler.  Reviewing, I have to go back to definition
+place to know which is which.
+
+>          ram_addr_t rb_offset;
+>          int poll_result;
+>  
+> @@ -1022,22 +1058,37 @@ static void *postcopy_ram_fault_thread(void *opaque)
+>                  break;
+>              }
+>  
+> -            rb_offset = ROUND_DOWN(rb_offset, migration_ram_pagesize(rb));
+> -            trace_postcopy_ram_fault_thread_request(msg.arg.pagefault.address,
+> -                                                qemu_ram_get_idstr(rb),
+> -                                                rb_offset,
+> -                                                msg.arg.pagefault.feat.ptid);
+> -            mark_postcopy_blocktime_begin(
+> -                    (uintptr_t)(msg.arg.pagefault.address),
+> -                                msg.arg.pagefault.feat.ptid, rb);
+> +            address = ROUND_DOWN(msg.arg.pagefault.address,
+> +                                 migration_ram_pagesize(rb));
+> +            use_minor_fault = postcopy_use_minor_fault(rb);
+> +            minor_flag = !!(msg.arg.pagefault.flags &
+> +                            UFFD_PAGEFAULT_FLAG_MINOR);
+>  
+> +            /*
+> +             * Do sanity check on the message flags to make sure this is
+> +             * the one we expect to receive.  When using minor fault on
+> +             * this ramblock, it should _always_ be set; when not using
+> +             * minor fault, it should _never_ be set.
+> +             */
+> +            if (use_minor_fault ^ minor_flag) {
+> +                error_report("%s: Unexpected page fault flags (0x%"PRIx64") "
+> +                             "for address 0x%"PRIx64" (mode=%s)", __func__,
+> +                             (uint64_t)msg.arg.pagefault.flags,
+> +                             (uint64_t)msg.arg.pagefault.address,
+> +                             use_minor_fault ? "MINOR" : "MISSING");
+> +            }
+> +
+> +            trace_postcopy_ram_fault_thread_request(
+> +                address, qemu_ram_get_idstr(rb), rb_offset,
+> +                msg.arg.pagefault.feat.ptid);
+> +            mark_postcopy_blocktime_begin(
+> +                    (uintptr_t)(address), msg.arg.pagefault.feat.ptid, rb);
+>  retry:
+>              /*
+>               * Send the request to the source - we want to request one
+>               * of our host page sizes (which is >= TPS)
+>               */
+> -            ret = postcopy_request_page(mis, rb, rb_offset,
+> -                                        msg.arg.pagefault.address);
+> +            ret = postcopy_request_page(mis, rb, rb_offset, address);
+
+This is the only change that I find 'problematic'.
+On old code, rb_offset has been ROUND_DOWN, on new code it is not.
+On old code we pass msg.arg.pagefault.address, now we use
+ROUND_DOW(msg.arg.pagefault.address, mighration_ram_pagesize(rb)).
+
+>              if (ret) {
+>                  /* May be network failure, try to wait for recovery */
+>                  postcopy_pause_fault_thread(mis);
+> @@ -1694,3 +1745,13 @@ void *postcopy_preempt_thread(void *opaque)
+>  
+>      return NULL;
+>  }
+> +
+> +/*
+> + * Whether we should use MINOR fault to trap page faults?  It will be used
+> + * when doublemap is enabled on hugetlbfs.  The default value will be
+> + * false, which means we'll keep using the legacy MISSING faults.
+> + */
+> +bool postcopy_use_minor_fault(RAMBlock *rb)
+> +{
+> +    return migrate_hugetlb_doublemap() && qemu_ram_is_hugetlb(rb);
+> +}
+
+Are you planing using this function outside postocpy-ram.c?  Otherwise
+if you move up its definition you can make it static and drop the header
+change.
+
+Later, Juan.
+
 
