@@ -2,85 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50C80681739
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 18:06:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 119E868176D
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 18:17:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMXay-0007Z6-UD; Mon, 30 Jan 2023 12:05:29 -0500
+	id 1pMXli-0005r8-KY; Mon, 30 Jan 2023 12:16:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pMXar-0007KH-Hu; Mon, 30 Jan 2023 12:05:23 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pMXlR-0005i2-La
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 12:16:24 -0500
+Received: from mail-ot1-x32b.google.com ([2607:f8b0:4864:20::32b])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pMXal-0001Hg-4c; Mon, 30 Jan 2023 12:05:18 -0500
-Received: by mail-ej1-x632.google.com with SMTP id gr7so9105253ejb.5;
- Mon, 30 Jan 2023 09:05:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
- :message-id:reply-to;
- bh=5FxZmleG6adEil678uNZDK6EuOvg1oN2fSAmw+ZGz5I=;
- b=EnlUIHDglNyXA18Ingz5JSlPdWbqt0urwLpuyEBSOjEDhoDVElrKSTr6gBg7iRJIPX
- o0vLBo7PwndQtf+ExVM69Qny5MHtnkAtXGuww6vcTSDiX+ZoEXk5xmedWIzULYPOR7iw
- tRzQfxuMliOubfDqxbf+PGhCqj4Eckuwyxa9SoVxHVfKPefFIxvTtjF64HAiRPnQpgkg
- jPzunjUMRmjLIs9p4BKw/Eb6fsuc1+Vs6uK1cKMH9tFvH2rz7VYSQC3LNILugwdO8J1D
- 1o2HjeqouLKq4RlFlSQ355Qcz/vWfK5nxGmzpqmVHv4UmmWXqitkX0CwLarFcJEO09Ar
- B9Cg==
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pMXlO-00042Z-EM
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 12:16:17 -0500
+Received: by mail-ot1-x32b.google.com with SMTP id
+ g21-20020a9d6495000000b0068bb336141dso2848542otl.11
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 09:16:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=Z60Bw3RVBRyw8SQ50rkyv54qMMhpqRTl0erlD+9/yME=;
+ b=TUhG2KJZYK2qoRxAGTsA0ByU3Tbbxmz1S7hrE1iTw/Az0vtCFmdc/J0gXCJw5K490C
+ jxwgq3wq+9FXSCY2CvFmwzu3dHcyih2zMG8gqC7FRpkGMdru7F9di7MYblYqbF8m4OCp
+ 34TP9dKaQ/2SpkbDNVDxVZAMhMjSjexCAxm2VlEeM6W45OtV11YupqfgA0YzACXndF6X
+ //tx88CK4+J+nhgipUWWWaCTimRKPcSBtSsv9nVpVrpakU/RzB0X3yoVWgJEo85Dw2wk
+ Seue7amGt6/BIUNClZQpiig8kJvFepudIyyYFf+PTQXIdWITUFvjxIUM4fxAE/WA2vW5
+ cw2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5FxZmleG6adEil678uNZDK6EuOvg1oN2fSAmw+ZGz5I=;
- b=QOvf8o8IMWVMwpfngJfpKSQ6tMXW+R08uo8WNvnBfS4gReVaAb9GR1du4ZLo4El9WD
- jBnlLYIWXUy3u/uz7SY/0DvCtQxx/Xu7lIH0AJnkqmOru74vXbvz2VN9XTgGHA/s6C2p
- dgoUeBTVINXW9x/Ll8QqENAGr7noopmTz7/rITOIQZb747FHSL2EESw2oXucvjb47Yzy
- bE164NFJDfPhkjASJAQCTnjmSEUXGk9pis7UvkpJGWISA6pYUQr0xikhtt+HnlFLYefZ
- gqSzSVm31EKWK0HGt8IuaFaPV1/ZRNTxWNtiNj8USxr82DDGDt7lnz6oxGbgTKHYJSiU
- HBYQ==
-X-Gm-Message-State: AO0yUKUNtLXgEyOrKU/LhNH7cQoLa6laE+MaH4SNf43l3eqGSiqk3oEy
- UjJCee00ZVZdLuiosHlDLH6NZJdkzRw=
-X-Google-Smtp-Source: AK7set/TpediPWYKApGl+NZStKntYS1TUM4UlTWQ+fM4HxHZbsk3/WfPo5UXKbMb1H0kXryp94xc/g==
-X-Received: by 2002:a17:907:785:b0:88a:bb13:7329 with SMTP id
- xd5-20020a170907078500b0088abb137329mr2642953ejb.53.1675098307192; 
- Mon, 30 Jan 2023 09:05:07 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-089-012-240-001.89.12.pool.telefonica.de.
- [89.12.240.1]) by smtp.gmail.com with ESMTPSA id
- v9-20020a170906380900b00877ec3b9b8bsm7181490ejc.153.2023.01.30.09.05.06
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=Z60Bw3RVBRyw8SQ50rkyv54qMMhpqRTl0erlD+9/yME=;
+ b=yjbPGfZ8zAQ77g8qh57A1t8zCK5/p8x3+U2dmDqMU3VYNZdCeZ7KAHONHDkO1Tsz2/
+ pKBDWwhLJfkBG5G2kNIcfw7mpZgGtSwG7DTZ5NHoa8JhxCvVlkYN054z2YauXxLoSMtd
+ 9yadqh/UdMH0/5muyxkjS74zjQhK0LS6SN52zXOHZAS2M11f1YzjxrQSDiCGI4tnj7JC
+ CCaThWAo+jlkyGCsGJRS0OwVJjas27wu+4GIOdW6Wu5gMew3vbhfHtymuymZ9UGiDEv4
+ /cE6oBh9SyIMteL28x8jvZReMlvh+Yah0aJfmA8Ai+SuVwOn891zAgTy9ZZYOk5jOjI5
+ Ia8A==
+X-Gm-Message-State: AFqh2kqKYgq4XPWXJoIWENy0uGr6gIq85gntJzdvuLExVu8bhDbkHElc
+ 4wFhvQbL02YzCgqBCIjZJzixvw==
+X-Google-Smtp-Source: AMrXdXvBZkAR1ZT78Xi93QulOAHuda26J9KwEYUL3L7bvPuvkO6vKTKvo2VBaVwA8l/cXSnC97YyZg==
+X-Received: by 2002:a9d:7658:0:b0:66c:cb4d:3498 with SMTP id
+ o24-20020a9d7658000000b0066ccb4d3498mr23213333otl.27.1675098971844; 
+ Mon, 30 Jan 2023 09:16:11 -0800 (PST)
+Received: from [192.168.68.107] (200-148-13-157.dsl.telesp.net.br.
+ [200.148.13.157]) by smtp.gmail.com with ESMTPSA id
+ h1-20020a9d5541000000b00684c5211c58sm5586642oti.60.2023.01.30.09.16.09
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jan 2023 09:05:06 -0800 (PST)
-Date: Mon, 30 Jan 2023 17:05:01 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-CC: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?ISO-8859-1?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>,
- Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Aurelien Jarno <aurelien@aurel32.net>,
- =?ISO-8859-1?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>,
- David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
- qemu-ppc@nongnu.org, qemu-block@nongnu.org, John Snow <jsnow@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Subject: Re: [PATCH v2 00/10] Resolve isabus global
-In-Reply-To: <20230126211740.66874-1-shentey@gmail.com>
-References: <20230126211740.66874-1-shentey@gmail.com>
-Message-ID: <9DA3377E-DDF3-4529-BEF7-BB09E2457306@gmail.com>
+ Mon, 30 Jan 2023 09:16:10 -0800 (PST)
+Message-ID: <793f7432-4592-98a4-34e9-472c185be297@ventanamicro.com>
+Date: Mon, 30 Jan 2023 14:16:07 -0300
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v4 3/3] hw/riscv: change riscv_compute_fdt_addr() semantics
+Content-Language: en-US
+To: Bin Meng <bmeng.cn@gmail.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
+References: <20230126135219.1054658-1-dbarboza@ventanamicro.com>
+ <20230126135219.1054658-4-dbarboza@ventanamicro.com>
+ <CAEUhbmW7Yh_7UOjeoPKBhSF1P4axp6kggtSEj9BAty1q6Ed4QA@mail.gmail.com>
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+In-Reply-To: <CAEUhbmW7Yh_7UOjeoPKBhSF1P4axp6kggtSEj9BAty1q6Ed4QA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::32b;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x32b.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,179 +96,238 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-+ Mark whom I've discussed "multiple ISA buses" before
 
-Am 26=2E Januar 2023 21:17:30 UTC schrieb Bernhard Beschow <shentey@gmail=
-=2Ecom>:
->This series resolves the global "isabus" variable and is basically a v2 o=
-f [1]=2E
->
->Note that the majority of the work consists of fixing ISA API calls in PI=
-IX IDE
->
->which implicitly rely on the usage of the isabus global=2E
->
->
->
->Rather than adding an ISABus pointer in PCIIDEState as in [1] this series=
- uses
->
->a qemu_irq array which is roughly the approach outlined in [2]=2E Moreove=
-r, this
->
->series considers backwards compatibility for user-created PIIX IDE
->
->"Frankensten" devices by fishing out TYPE_ISA_BUS from the QOM tree insid=
-e
->
->the PIIX IDE device model=2E This hack can be removed again once a deprec=
-ation
->
->period of user-createable PIIX IDE devices is over=2E This deprecation wa=
-sn't
->
->announced yet but now might be a good time=2E
->
->
->
->This series is structured as follows: The first three patches massage the=
- ISA
->
->code for patch 8=2E Patches 4-8 change the PIIX IDE device models to not =
-use the
->
->isabus global implicitly=2E Finally, the last two patches clan up and rem=
-ove the
->
->isabus singleton=2E
->
->
->
->Based-on: <20230109172347=2E1830-1-shentey@gmail=2Ecom>
->
->          'Consolidate PIIX south bridges'
->
->
->
->v2:
->
->- Big rework sticking closer to [1], giving it more credit and reusing on=
-e patch
->
->- Add io port cleanup
->
->- Rebase onto [4] so changes to PIIX could be done once and centrally
->
->
->
->Testing done:
->
->* `make check`
->
->* `=2E/qemu-system-x86_64 -M x-remote -device piix3-ide` still fails grac=
-efully with
->
->  `qemu-system-x86_64: -device piix3-ide: No ISA bus found while piix3-id=
-e requires one`
->
->* `qemu-system-x86_64 -M pc -m 2G -cdrom manjaro-kde-21=2E3=2E2-220704-li=
-nux515=2Eiso`
->
->* `qemu-system-x86_64 -M q35 -m 2G -device piix4-ide -cdrom \
->
->   manjaro-kde-21=2E3=2E2-220704-linux515=2Eiso`
->
->* `qemu-system-mips64el -M malta -kernel vmlinux-3=2E2=2E0-4-5kc-malta -h=
-da \
->
->  debian_wheezy_mipsel_standard=2Eqcow2 -append "root=3D/dev/sda1 console=
-=3DttyS0"`
->
->
->
->[1] https://patchew=2Eorg/QEMU/20210518215545=2E1793947-1-philmd@redhat=
-=2Ecom/
->
->[2] https://lists=2Enongnu=2Eorg/archive/html/qemu-devel/2020-03/msg01707=
-=2Ehtml
->
->[3] https://people=2Edebian=2Eorg/~aurel32/qemu/mips/
->
->[4] https://patchew=2Eorg/QEMU/20230109172347=2E1830-1-shentey@gmail=2Eco=
-m/
->
->
->
->Bernhard Beschow (9):
->
->  softmmu/ioport: Move portio_list_init() in front of portio_list_add()
->
->  softmmu/ioport: Merge portio_list_add() into portio_list_init()
->
->  softmmu/ioport: Remove unused functions
->
->  hw/ide/piix: Disuse isa_get_irq()
->
->  Revert "hw/ide: Fix crash when plugging a piix3-ide device into the
->
->    x-remote machine"
->
->  hw/ide/pci: Add PCIIDEState::isa_irqs[]
->
->  hw/ide/piix: Require an ISABus only for user-created instances
->
->  hw/ide: Let ide_init_ioport() take a MemoryRegion argument instead of
->
->    ISADevice
->
->  hw/isa/isa-bus: Resolve isabus global
->
->
->
->Philippe Mathieu-Daud=C3=A9 (1):
->
->  hw/isa: Remove use of global isa bus
->
->
->
-> include/exec/ioport=2Eh     |  8 ++---
->
-> include/hw/ide/internal=2Eh |  3 +-
->
-> include/hw/ide/pci=2Eh      |  2 ++
->
-> include/hw/isa/isa=2Eh      | 15 ++++----
->
-> hw/audio/adlib=2Ec          |  4 +--
->
-> hw/display/qxl=2Ec          |  5 ++-
->
-> hw/display/vga=2Ec          |  8 ++---
->
-> hw/dma/i82374=2Ec           |  6 ++--
->
-> hw/ide/ioport=2Ec           | 19 +++++-----
->
-> hw/ide/isa=2Ec              |  4 ++-
->
-> hw/ide/piix=2Ec             | 75 +++++++++++++++++++++++++++++++--------=
 
->
-> hw/isa/isa-bus=2Ec          | 54 +++++++++++++++-------------
->
-> hw/isa/piix=2Ec             |  5 +++
->
-> hw/watchdog/wdt_ib700=2Ec   |  4 +--
->
-> softmmu/ioport=2Ec          | 70 +++++++++++-------------------------
->
-> 15 files changed, 149 insertions(+), 133 deletions(-)
->
->
->
->-- >
->2=2E39=2E1
->
->
->
+On 1/29/23 02:45, Bin Meng wrote:
+> On Thu, Jan 26, 2023 at 9:54 PM Daniel Henrique Barboza
+> <dbarboza@ventanamicro.com> wrote:
+>>
+>> As it is now, riscv_compute_fdt_addr() is receiving a dram_base, a
+>> mem_size (which is defaulted to MachineState::ram_size in all boards)
+>> and the FDT pointer. And it makes a very important assumption: the DRAM
+>> interval dram_base + mem_size is contiguous. This is indeed the case for
+>> most boards that uses a FDT.
+> 
+> s/uses/use
+> 
+>>
+>> The Icicle Kit board works with 2 distinct RAM banks that are separated
+>> by a gap. We have a lower bank with 1GiB size, a gap follows, then at
+>> 64GiB the high memory starts. MachineClass::default_ram_size for this
+>> board is set to 1.5Gb, and machine_init() is enforcing it as minimal RAM
+>> size, meaning that there we'll always have at least 512 MiB in the Hi
+>> RAM area.
+>>
+>> Using riscv_compute_fdt_addr() in this board is weird because not only
+>> the board has sparse RAM, and it's calling it using the base address of
+>> the Lo RAM area, but it's also using a mem_size that we have guarantees
+>> that it will go up to the Hi RAM. All the function assumptions doesn't
+>> work for this board.
+>>
+>> In fact, what makes the function works at all in this case is a
+>> coincidence.  Commit 1a475d39ef54 introduced a 3GB boundary for the FDT,
+>> down from 4Gb, that is enforced if dram_base is lower than 3072 MiB. For
+>> the Icicle Kit board, memmap[MICROCHIP_PFSOC_DRAM_LO].base is 0x80000000
+>> (2 Gb) and it has a 1Gb size, so it will fall in the conditions to put
+>> the FDT under a 3Gb address, which happens to be exactly at the end of
+>> DRAM_LO. If the base address of the Lo area started later than 3Gb this
+>> function would be unusable by the board. Changing any assumptions inside
+>> riscv_compute_fdt_addr() can also break it by accident as well.
+>>
+>> Let's change riscv_compute_fdt_addr() semantics to be appropriate to the
+>> Icicle Kit board and for future boards that might have sparse RAM
+>> topologies to worry about:
+>>
+>> - relieve the condition that the dram_base + mem_size area is contiguous,
+>> since this is already not the case today;
+>>
+>> - receive an extra 'dram_size' size attribute that refers to a contiguous
+>> RAM block that the board wants the FDT to reside on.
+>>
+>> Together with 'mem_size' and 'fdt', which are now now being consumed by a
+>> MachineState pointer, we're able to make clear assumptions based on the
+>> DRAM block and total mem_size available to ensure that the FDT will be put
+>> in a valid RAM address.
+>>
+> 
+> Well written commit message. Thanks!
+> 
+>> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+>> ---
+>>   hw/riscv/boot.c            | 38 ++++++++++++++++++++++++++------------
+>>   hw/riscv/microchip_pfsoc.c |  3 ++-
+>>   hw/riscv/sifive_u.c        |  3 ++-
+>>   hw/riscv/spike.c           |  3 ++-
+>>   hw/riscv/virt.c            |  3 ++-
+>>   include/hw/riscv/boot.h    |  4 ++--
+>>   6 files changed, 36 insertions(+), 18 deletions(-)
+>>
+>> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+>> index a6f7b8ae8e..8f4991480b 100644
+>> --- a/hw/riscv/boot.c
+>> +++ b/hw/riscv/boot.c
+>> @@ -284,33 +284,47 @@ out:
+>>   }
+>>
+>>   /*
+>> - * The FDT should be put at the farthest point possible to
+>> - * avoid overwriting it with the kernel/initrd.
+>> + * This function makes an assumption that the DRAM interval
+>> + * 'dram_base' + 'dram_size' is contiguous.
+>>    *
+>> - * This function makes an assumption that the DRAM is
+>> - * contiguous. It also cares about 32-bit systems and
+>> - * will limit fdt_addr to be addressable by them even for
+>> - * 64-bit CPUs.
+>> + * Considering that 'dram_end' is the lowest value between
+>> + * the end of the DRAM block and MachineState->ram_size, the
+>> + * FDT location will vary according to 'dram_base':
+>> + *
+>> + * - if 'dram_base' is less that 3072 MiB, the FDT will be
+>> + * put at the lowest value between 3072 MiB and 'dram_end';
+>> + *
+>> + * - if 'dram_base' is higher than 3072 MiB, the FDT will be
+>> + * put at 'dram_end'.
+>>    *
+>>    * The FDT is fdt_packed() during the calculation.
+>>    */
+>> -uint32_t riscv_compute_fdt_addr(hwaddr dram_base, uint64_t mem_size,
+>> -                                void *fdt)
+>> +hwaddr riscv_compute_fdt_addr(hwaddr dram_base, hwaddr dram_size,
+> 
+> Using hwaddr to represent a size looks weird. Although technically
+> they are the same ... I would leave this as it is.
+
+I'll leave it as it was back in patch 2 (uint64_t).
+
+> 
+>> +                              MachineState *ms)
+>>   {
+>> -    uint64_t temp;
+>> -    hwaddr dram_end = dram_base + mem_size;
+>> -    int ret = fdt_pack(fdt);
+>> +    int ret = fdt_pack(ms->fdt);
+>> +    hwaddr dram_end, temp;
+>>       int fdtsize;
+>>
+>>       /* Should only fail if we've built a corrupted tree */
+>>       g_assert(ret == 0);
+>>
+>> -    fdtsize = fdt_totalsize(fdt);
+>> +    fdtsize = fdt_totalsize(ms->fdt);
+>>       if (fdtsize <= 0) {
+>>           error_report("invalid device-tree");
+>>           exit(1);
+>>       }
+>>
+>> +    /*
+>> +     * A dram_size == 0, usually from a MemMapEntry[].size element,
+>> +     * means that the DRAM block goes all the way to ms->ram_size.
+>> +     */
+>> +    if (dram_size == 0x0) {
+>> +        dram_end = dram_base + ms->ram_size;
+>> +    } else {
+>> +        dram_end = dram_base + MIN(ms->ram_size, dram_size);
+>> +    }
+> 
+> How about:
+> 
+> g_assert(dram_size < ms->ram_size);
+
+I don't believe that dram_size > ms->ram_size should be an error. A board can
+have a declared MemMapEntry.size that is larger than its current setting of
+ms->ram_size.
+  
+
+> dram_end = dram_base + (dram_size ? dram_size : ms->ram_size);
+
+I can change the if/else statement up there for a ternary:
+
+dram_end = dram_base + (dram_size ? ms->ram_size : MIN(ms->ram_size, dram_size))
+
+
+Thanks,
+
+Daniel
+
+> 
+>> +
+>>       /*
+>>        * We should put fdt as far as possible to avoid kernel/initrd overwriting
+>>        * its content. But it should be addressable by 32 bit system as well.
+>> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+>> index a30203db85..e81bbd12df 100644
+>> --- a/hw/riscv/microchip_pfsoc.c
+>> +++ b/hw/riscv/microchip_pfsoc.c
+>> @@ -634,7 +634,8 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+>>
+>>           /* Compute the fdt load address in dram */
+>>           fdt_load_addr = riscv_compute_fdt_addr(memmap[MICROCHIP_PFSOC_DRAM_LO].base,
+>> -                                               machine->ram_size, machine->fdt);
+>> +                                               memmap[MICROCHIP_PFSOC_DRAM_LO].size,
+>> +                                               machine);
+>>           riscv_load_fdt(fdt_load_addr, machine->fdt);
+>>
+>>           /* Load the reset vector */
+>> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+>> index 6bbdbe5fb7..ad3bb35b34 100644
+>> --- a/hw/riscv/sifive_u.c
+>> +++ b/hw/riscv/sifive_u.c
+>> @@ -609,7 +609,8 @@ static void sifive_u_machine_init(MachineState *machine)
+>>       }
+>>
+>>       fdt_load_addr = riscv_compute_fdt_addr(memmap[SIFIVE_U_DEV_DRAM].base,
+>> -                                           machine->ram_size, machine->fdt);
+>> +                                           memmap[SIFIVE_U_DEV_DRAM].size,
+>> +                                           machine);
+>>       riscv_load_fdt(fdt_load_addr, machine->fdt);
+>>
+>>       if (!riscv_is_32bit(&s->soc.u_cpus)) {
+>> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+>> index ceebe34c5f..b5979eddd6 100644
+>> --- a/hw/riscv/spike.c
+>> +++ b/hw/riscv/spike.c
+>> @@ -317,7 +317,8 @@ static void spike_board_init(MachineState *machine)
+>>       }
+>>
+>>       fdt_load_addr = riscv_compute_fdt_addr(memmap[SPIKE_DRAM].base,
+>> -                                           machine->ram_size, machine->fdt);
+>> +                                           memmap[SPIKE_DRAM].size,
+>> +                                           machine);
+>>       riscv_load_fdt(fdt_load_addr, machine->fdt);
+>>
+>>       /* load the reset vector */
+>> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+>> index 43fca597f0..f079a30b60 100644
+>> --- a/hw/riscv/virt.c
+>> +++ b/hw/riscv/virt.c
+>> @@ -1293,7 +1293,8 @@ static void virt_machine_done(Notifier *notifier, void *data)
+>>       }
+>>
+>>       fdt_load_addr = riscv_compute_fdt_addr(memmap[VIRT_DRAM].base,
+>> -                                           machine->ram_size, machine->fdt);
+>> +                                           memmap[VIRT_DRAM].size,
+>> +                                           machine);
+>>       riscv_load_fdt(fdt_load_addr, machine->fdt);
+>>
+>>       /* load the reset vector */
+>> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+>> index 7babd669c7..a6099c2dc6 100644
+>> --- a/include/hw/riscv/boot.h
+>> +++ b/include/hw/riscv/boot.h
+>> @@ -48,8 +48,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>>                                  target_ulong firmware_end_addr,
+>>                                  bool load_initrd,
+>>                                  symbol_fn_t sym_cb);
+>> -uint32_t riscv_compute_fdt_addr(hwaddr dram_start, uint64_t dram_size,
+>> -                                void *fdt);
+>> +hwaddr riscv_compute_fdt_addr(hwaddr dram_start, uint64_t dram_size,
+>> +                              MachineState *ms);
+>>   void riscv_load_fdt(hwaddr fdt_addr, void *fdt);
+>>   void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
+>>                                  hwaddr saddr,
+>> --
+> 
+> Regards,
+> Bin
 
