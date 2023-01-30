@@ -2,91 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34D6668136A
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:34:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 019C168137C
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:38:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMVEF-0003g2-UU; Mon, 30 Jan 2023 09:33:51 -0500
+	id 1pMVHX-0006Sh-G2; Mon, 30 Jan 2023 09:37:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMVDy-0003af-4V
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:33:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pMVHT-0006Lz-J2
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:37:11 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMVDw-0004Pt-4l
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:33:33 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675089211;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=f2UWpSg/0w3jyfZ0M6ETKEjw3TSMIRMYHuS3iey7/Fo=;
- b=ClKj7ksjxGR71wviRosXAneHjqiwRI3SqJvfuOfMI00bShDJ1qGI2Cvrt0Z52hVhB53Waz
- go44mCK+nGQGXmF7F18ybPuVd9xT2xif9uFBubctX5fcJkX6Q/lz8hPH5w2ACAfjq4WN5a
- YsGaregyb1ZT108ycAFT11cGtjilLP0=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-21-pGW3VszqO9uxseTjTbqDWQ-1; Mon, 30 Jan 2023 09:33:28 -0500
-X-MC-Unique: pGW3VszqO9uxseTjTbqDWQ-1
-Received: by mail-qk1-f199.google.com with SMTP id
- bm30-20020a05620a199e00b007090f3c5ec0so7220404qkb.21
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:33:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=f2UWpSg/0w3jyfZ0M6ETKEjw3TSMIRMYHuS3iey7/Fo=;
- b=EzBNoeG/S1zlwI6PYadUxfqaD8KRZxsX/rVvZpdyj2G1VjJ3emboPo4Bj5cqqA8qE/
- eL2WXTSJoinPMVCGVuh13TFZrD4hbzA+r4AE6ltn1NV87I8siT6VwRi5/+qwSUDrB1Z2
- 7Kh0EUjBHP8714Tb8Fmp/gyU/fxBYFqht4CQhWtq49hHYmdRlktmtyZFqQHB97B/lczA
- LtqMYF6BOqOX3TTfa6Ury8NwoaxHZ4kzFJdg8Kq6d/S6H/j/86/R328Q4hG+2IWJr0OH
- 9mH9VLNJ/0A5z3MonZ1hrV7W6Y07DxLO/NvbiYElQBUVPBY+yVq23WW+VhvHRvAHccpY
- lnMQ==
-X-Gm-Message-State: AO0yUKXochzkgeWoXs01mUFaPXjpuRT5BX2iH7NgVh+fHmDoWsBx+pC2
- N9YYl82q29UOwnn8Z8B7QwXsf3vgva1L4t87g3gwYcJyUNsOIvJ2jio9Vljw61pCeGZ2Zbb2F3j
- 3+nCLXSBrvtMPCYM=
-X-Received: by 2002:a05:622a:10f:b0:3b8:6b6b:28c2 with SMTP id
- u15-20020a05622a010f00b003b86b6b28c2mr5184300qtw.68.1675089207981; 
- Mon, 30 Jan 2023 06:33:27 -0800 (PST)
-X-Google-Smtp-Source: AK7set+K2c5NiESxeGHyIh/hvIZWVgMiKyfj22K0zIkQAvr6H+7B5UzeKvraD15cA/7bpb9yr9NEqQ==
-X-Received: by 2002:a05:622a:10f:b0:3b8:6b6b:28c2 with SMTP id
- u15-20020a05622a010f00b003b86b6b28c2mr5184266qtw.68.1675089207662; 
- Mon, 30 Jan 2023 06:33:27 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-178-179.web.vodafone.de.
- [109.43.178.179]) by smtp.gmail.com with ESMTPSA id
- i2-20020ac87642000000b003b6a17e1996sm8050325qtr.83.2023.01.30.06.33.19
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jan 2023 06:33:22 -0800 (PST)
-Message-ID: <c341f40c-59f6-754b-1323-b3343ee40cad@redhat.com>
-Date: Mon, 30 Jan 2023 15:33:18 +0100
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pMVHP-0005Fm-Mu
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:37:10 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P59f01JDDz6H6rC;
+ Mon, 30 Jan 2023 22:33:28 +0800 (CST)
+Received: from SecurePC-101-06.china.huawei.com (10.122.247.231) by
+ lhrpeml500005.china.huawei.com (7.191.163.240) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2375.34; Mon, 30 Jan 2023 14:37:02 +0000
+To: <qemu-devel@nongnu.org>, Michael Tsirkin <mst@redhat.com>
+CC: Ben Widawsky <bwidawsk@kernel.org>, <linux-cxl@vger.kernel.org>,
+ <linuxarm@huawei.com>, Ira Weiny <ira.weiny@intel.com>, Gregory Price
+ <gourry.memverge@gmail.com>, =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?=
+ <philmd@linaro.org>
+Subject: [PATCH v3 00/10] hw/cxl: CXL emulation cleanups and minor fixes for
+ upstream
+Date: Mon, 30 Jan 2023 14:36:55 +0000
+Message-ID: <20230130143705.11758-1-Jonathan.Cameron@huawei.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v4 2/3] accel/tcg: Add debuginfo support
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20230112152013.125680-1-iii@linux.ibm.com>
- <20230112152013.125680-3-iii@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230112152013.125680-3-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.122.247.231]
+X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,43 +62,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 12/01/2023 16.20, Ilya Leoshkevich wrote:
-> Add libdw-based functions for loading and querying debuginfo. Load
-> debuginfo from the system and the linux-user loaders.
-> 
-> This is useful for the upcoming perf support, which can then put
-> human-readable guest symbols instead of raw guest PCs into perfmap and
-> jitdump files.
-> 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
-...
-> diff --git a/meson.build b/meson.build
-> index 175517eafde..cab8c67d961 100644
-> --- a/meson.build
-> +++ b/meson.build
-> @@ -1648,6 +1648,12 @@ if libbpf.found() and not cc.links('''
->     endif
->   endif
->   
-> +# libdw
-> +libdw = dependency('libdw',
-> +                   method: 'pkg-config',
-> +                   kwargs: static_kwargs,
-> +                   required: false)
-> +
+V3: Thanks to Michael Tsirkin
+ - Update tests/data/acpi/q35/DSDT.cxl to reflect dropping of the duplicate _UID.
+   Usual dance with marking table to be ignored by test then making change and finally
+   updating the table with the new version and dropping the entry preventing the tests
+   from running.
+ 
+V2:
+- Various minor issues found by Philippe, see individual patches.
+  Note that the const_le64() patch matches changes in a set of Philippe's that was
+  never applied. Philippe may send an update of that series before this merges.
+  If that occurs, drop "qemu/bswap: Add const_le64()"
+- Picked up tags.
 
-  Hi,
+V1 Cover letter.
 
-I recently did a build with "configure --without-default-features" and I 
-noticed that this new libdw does not get disabled automatically there, which 
-looks kind of weird. Is there a reason that there is no config knob here to 
-disable it like we have it with all the other optional libraries that we 
-support?
+A small collection of misc fixes and tidying up pulled out from various
+series. I've pulled this to the top of my queue of CXL related work
+as they stand fine on their own and it will reduce the noise in
+the larger patch sets if these go upstream first.
 
-  Thomas
+Gregory's patches were posted as part of his work on adding volatile support.
+https://lore.kernel.org/linux-cxl/20221006233702.18532-1-gregory.price@memverge.com/
+https://lore.kernel.org/linux-cxl/20221128150157.97724-2-gregory.price@memverge.com/
+I might propose this for upstream inclusion this cycle, but testing is
+currently limited by lack of suitable kernel support.
+
+Ira's patches were part of his event injection series.
+https://lore.kernel.org/linux-cxl/20221221-ira-cxl-events-2022-11-17-v2-0-2ce2ecc06219@intel.com/
+Intent is to propose for upstream the rest of that series shortly after
+some minor changes from earlier review.
+
+My three patches have not previously been posted.
+
+For the curious, the current state of QEMU CXL emulation that we are working
+through the backlog wrt to final cleanup before proposing for upstreaming can be found at.
+
+https://gitlab.com/jic23/qemu/-/commits/cxl-2023-01-11
+
+
+Gregory Price (2):
+  hw/cxl: set cxl-type3 device type to PCI_CLASS_MEMORY_CXL
+  hw/cxl: Add CXL_CAPACITY_MULTIPLIER definition
+
+Ira Weiny (3):
+  qemu/bswap: Add const_le64()
+  qemu/uuid: Add UUID static initializer
+  hw/cxl/mailbox: Use new UUID network order define for cel_uuid
+
+Jonathan Cameron (5):
+  hw/mem/cxl_type3: Improve error handling in realize()
+  hw/pci-bridge/cxl_downstream: Fix type naming mismatch
+  tests/acpi: Allow update of q35/DSDT.cxl
+  hw/i386/acpi: Drop duplicate _UID entry for CXL root bridge
+  tests: acpi: Update q35/DSDT.cxl for removed duplicate UID
+
+ hw/cxl/cxl-device-utils.c      |   2 +-
+ hw/cxl/cxl-mailbox-utils.c     |  28 +++++++++++++++-------------
+ hw/i386/acpi-build.c           |   1 -
+ hw/mem/cxl_type3.c             |  15 +++++++++++----
+ hw/pci-bridge/cxl_downstream.c |   2 +-
+ include/hw/cxl/cxl_device.h    |   2 +-
+ include/qemu/bswap.h           |  12 +++++++++++-
+ include/qemu/uuid.h            |  12 ++++++++++++
+ tests/data/acpi/q35/DSDT.cxl   | Bin 9636 -> 9622 bytes
+ 9 files changed, 52 insertions(+), 22 deletions(-)
+
+-- 
+2.37.2
 
 
