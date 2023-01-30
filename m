@@ -2,70 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A570D681922
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 19:29:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A6E68191C
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 19:28:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMYqI-00012F-0c; Mon, 30 Jan 2023 13:25:22 -0500
+	id 1pMYqI-00012b-BV; Mon, 30 Jan 2023 13:25:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pMYq9-0000zb-0t
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:25:13 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ id 1pMYqA-000108-9V
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:25:15 -0500
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pMYq4-0008NL-GD
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:25:12 -0500
-Received: by mail-wr1-x435.google.com with SMTP id t18so12010366wro.1
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 10:25:06 -0800 (PST)
+ id 1pMYq4-0008O3-Um
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:25:13 -0500
+Received: by mail-wr1-x42a.google.com with SMTP id t18so12010432wro.1
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 10:25:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=6nliOuAuRjTcf2JoYdVKu3rNo2RhYZa+jJOmXF9ZJUU=;
- b=kQwbvB71/z0WSJG9nauI5EZOVUcseABqYN/23Efvh70IYR9DqIU4GhSsPzKSLJOEKp
- 9VXaxaqtIqz/5nU21Cc0878kKi13t3QrgVohhEhZUyXU4I7/hl51m16OGZvQNSWec7V4
- nEoMs8eoU/lZXFPeeyGkjsh3K03dBJosNxOs89u3JTiqZIdHl2tvU5nhTC3T/tvzOMvz
- Jv0QmH7HGKKpdC/cOD5QPgE9o1lUmkjqP6hwxPbahYUwOVW2ESjOe9NiVSCYcj6t8shx
- 9pREYPmBhYMOEAUaw9Tg7f2KEvgVngHBpcLtLya2lQQ+xktxc+C4YsKwng17D0UJFCIO
- Mvqw==
+ :reply-to; bh=Jcvd+N8dP8c49YORsITsraMbFg3q5O5eU5IyRhoB5B0=;
+ b=Kjw1omPf+0Hh7OwZLbBENhSQhY0B1Rsvd++4cV9RmnQfpTyVzJ/1CECKCXB7ofGcyy
+ CAk/f7xVBbFQdfs151DqGymz9pJxq+TNRR7zQalWDL3geeT4dqqXz3Zkiu5R+SVlUH8O
+ 5/h8u5vD8ankaLCtJelg3lgJQH8yZy1DKgfOpy4ONNgyd6/szbdA4C0S5SRhdJf0B28T
+ vTSWw3QzG7MIXiB4RbrS3qzZ8ycgdpJPcgkMmNrvcbKIYyGOvdYTL8ses/mveefJTL83
+ kFj0Gsl61NDBpDRxxhRB3C10Ty22mtg6y2WKFJH6RWOg6CHg/nTpDULqkX33VJtfAwoH
+ Y54g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=6nliOuAuRjTcf2JoYdVKu3rNo2RhYZa+jJOmXF9ZJUU=;
- b=HpkCZ0R5E6jcI0SWeMuVR/byLahnYrEKGku5ZAhm+hwEnSxm0y+SGktDKoVxMsSPd2
- 4LYVZtrMUy/gT1jc0REA+N/IXgt52ByUcZoiXtDBDH0/w3kJR4X4JciHKvrMN/b3rPaJ
- 0cjiJQhDOjtgMbrr+ednD0CtZY8/N4yYe6gd28ukNhS6jSO37qHuVZRDVCCwGLo3F44B
- 2xhRQOVcoScNmAAeqWgBweHQE/Jl4OkDzEJWNTRl2sS1hu7jCfpV5Hb/YjXtrc9mYSJM
- fNTDlCeZzkWND/51YJfPCjlQ36Tkne8o+0qENqMoKIYrMpYkkyILXARseLg3XMu269cR
- yDjg==
-X-Gm-Message-State: AO0yUKWY0NFqRV759qshie3ZiLGnEaHph9BrZi3u0c3qs4diBgXlmJHB
- tHSQRAx59+Heo6VJB9oYE3KLV7MYT6DZVniM
-X-Google-Smtp-Source: AK7set+W0A8z4DgvezmvSZAGf9HrJ1y70QwjYouy1sHU5nss5aNz632TeyQGrEghhQ4RLkCiQVp5RA==
-X-Received: by 2002:a05:6000:18a9:b0:2bf:b54f:61f0 with SMTP id
- b9-20020a05600018a900b002bfb54f61f0mr30607927wri.57.1675103104578; 
- Mon, 30 Jan 2023 10:25:04 -0800 (PST)
+ bh=Jcvd+N8dP8c49YORsITsraMbFg3q5O5eU5IyRhoB5B0=;
+ b=CNr2iESA9LA97sZRWggQOqjxpaEY0UUuHwI8VXjW1ddG32oRm64KlP87O1wK3z2nrF
+ hqPglHBCOfHYqLp3VVHAWObaaZmvq3lnajy0pLLoD52m3XBmFMBq4s4mVQ5OirJ1JwAt
+ SYwbGiYbJcr+kgOYiCVn0OJsAFvX2M1CP+rwAbx6LXwrZ+g0hYivQ3lUPoGXfaCg3k0x
+ jAKhU95SB+YqDyZPe+FXqc1fxzLZ9mPiyagFUYDycPfDGJmMofSy4DVYtEKPR6WnlJoP
+ YN556A/tJXgwcmdYzYDcq/Vouobmqh58QOawfJxgc2qZMcbPj2aVOB07uCixoXHtZtn8
+ lBqA==
+X-Gm-Message-State: AO0yUKVj6Pio5FHOe3uydlEGZPsa2kYwDtJy5beyQJX6cj/J4Sip+dLu
+ wqKyQFGE5TluKMolPbB6DSLT6A==
+X-Google-Smtp-Source: AK7set+5fPvL33JJJQcDu6JoaFL01YbvbV/vXkwKQGdI6gjk0aXL6l18fXzOEDfQ8ZFy7SDxcAu0hw==
+X-Received: by 2002:adf:a1ce:0:b0:2bf:cfc2:2eae with SMTP id
+ v14-20020adfa1ce000000b002bfcfc22eaemr11920743wrv.69.1675103105798; 
+ Mon, 30 Jan 2023 10:25:05 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- l16-20020adffe90000000b002b8fe58d6desm12245202wrr.62.2023.01.30.10.25.03
+ l16-20020adffe90000000b002b8fe58d6desm12245202wrr.62.2023.01.30.10.25.04
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Mon, 30 Jan 2023 10:25:04 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 03/23] target/arm: Remove CP_ACCESS_TRAP_UNCATEGORIZED_{EL2, EL3}
-Date: Mon, 30 Jan 2023 18:24:39 +0000
-Message-Id: <20230130182459.3309057-4-peter.maydell@linaro.org>
+Subject: [PATCH v2 04/23] target/arm: Move do_coproc_insn() syndrome
+ calculation earlier
+Date: Mon, 30 Jan 2023 18:24:40 +0000
+Message-Id: <20230130182459.3309057-5-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230130182459.3309057-1-peter.maydell@linaro.org>
 References: <20230130182459.3309057-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::42a;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -88,64 +89,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We added the CPAccessResult values CP_ACCESS_TRAP_UNCATEGORIZED_EL2
-and CP_ACCESS_TRAP_UNCATEGORIZED_EL3 purely in order to use them in
-the ats_access() function, but doing so was incorrect (a bug fixed in
-a previous commit).  There aren't any cases where we want an access
-function to be able to request a trap to EL2 or EL3 with a zero
-syndrome value, so remove these enum values.
+Rearrange the code in do_coproc_insn() so that we calculate the
+syndrome value for a potential trap early; we're about to add a
+second check that wants this value earlier than where it is currently
+determined.
 
-As well as cleaning up dead code, the motivation here is that
-we'd like to implement fine-grained-trap handling in
-helper_access_check_cp_reg(). Although the fine-grained traps
-to EL2 are always lower priority than trap-to-same-EL and
-higher priority than trap-to-EL3, they are in the middle of
-various other kinds of trap-to-EL2. Knowing that a trap-to-EL2
-must always for us have the same syndrome (ie that an access
-function will return CP_ACCESS_TRAP_EL2 and there is no other
-kind of trap-to-EL2 enum value) means we don't have to try
-to choose which of the two syndrome values to report if the
-access would trap to EL2 both for the fine-grained-trap and
-because the access function requires it.
+(Specifically, a trap to EL2 because of HSTR_EL2 should take
+priority over an UNDEF to EL1, even when the UNDEF is because
+the register does not exist at all or because its ri->access
+bits non-configurably fail the access. So the check we put in
+for HSTR_EL2 trapping at EL1 (which needs the syndrome) is
+going to have to be done before the check "is the ARMCPRegInfo
+pointer NULL".)
+
+This commit is just code motion; the change to HSTR_EL2
+handling that will use the 'syndrome' variable is in a
+subsequent commit.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230127175507.2895013-4-peter.maydell@linaro.org
+Message-id: 20230127175507.2895013-5-peter.maydell@linaro.org
 ---
- target/arm/cpregs.h    | 4 ++--
- target/arm/op_helper.c | 2 ++
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ target/arm/translate.c | 83 +++++++++++++++++++++---------------------
+ 1 file changed, 41 insertions(+), 42 deletions(-)
 
-diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
-index 7e78c2c05c6..9744179df01 100644
---- a/target/arm/cpregs.h
-+++ b/target/arm/cpregs.h
-@@ -224,10 +224,10 @@ typedef enum CPAccessResult {
-      * Access fails and results in an exception syndrome 0x0 ("uncategorized").
-      * Note that this is not a catch-all case -- the set of cases which may
-      * result in this failure is specifically defined by the architecture.
-+     * This trap is always to the usual target EL, never directly to a
-+     * specified target EL.
-      */
-     CP_ACCESS_TRAP_UNCATEGORIZED = (2 << 2),
--    CP_ACCESS_TRAP_UNCATEGORIZED_EL2 = CP_ACCESS_TRAP_UNCATEGORIZED | 2,
--    CP_ACCESS_TRAP_UNCATEGORIZED_EL3 = CP_ACCESS_TRAP_UNCATEGORIZED | 3,
- } CPAccessResult;
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index 365e02fb0b8..9252a464a12 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -4718,6 +4718,47 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
+     const ARMCPRegInfo *ri = get_arm_cp_reginfo(s->cp_regs, key);
+     TCGv_ptr tcg_ri = NULL;
+     bool need_exit_tb;
++    uint32_t syndrome;
++
++    /*
++     * Note that since we are an implementation which takes an
++     * exception on a trapped conditional instruction only if the
++     * instruction passes its condition code check, we can take
++     * advantage of the clause in the ARM ARM that allows us to set
++     * the COND field in the instruction to 0xE in all cases.
++     * We could fish the actual condition out of the insn (ARM)
++     * or the condexec bits (Thumb) but it isn't necessary.
++     */
++    switch (cpnum) {
++    case 14:
++        if (is64) {
++            syndrome = syn_cp14_rrt_trap(1, 0xe, opc1, crm, rt, rt2,
++                                         isread, false);
++        } else {
++            syndrome = syn_cp14_rt_trap(1, 0xe, opc1, opc2, crn, crm,
++                                        rt, isread, false);
++        }
++        break;
++    case 15:
++        if (is64) {
++            syndrome = syn_cp15_rrt_trap(1, 0xe, opc1, crm, rt, rt2,
++                                         isread, false);
++        } else {
++            syndrome = syn_cp15_rt_trap(1, 0xe, opc1, opc2, crn, crm,
++                                        rt, isread, false);
++        }
++        break;
++    default:
++        /*
++         * ARMv8 defines that only coprocessors 14 and 15 exist,
++         * so this can only happen if this is an ARMv7 or earlier CPU,
++         * in which case the syndrome information won't actually be
++         * guest visible.
++         */
++        assert(!arm_dc_feature(s, ARM_FEATURE_V8));
++        syndrome = syn_uncategorized();
++        break;
++    }
  
- typedef struct ARMCPRegInfo ARMCPRegInfo;
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 31f89db8997..def5d3515e2 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -673,6 +673,8 @@ const void *HELPER(access_check_cp_reg)(CPUARMState *env, uint32_t key,
-     case CP_ACCESS_TRAP:
-         break;
-     case CP_ACCESS_TRAP_UNCATEGORIZED:
-+        /* Only CP_ACCESS_TRAP traps are direct to a specified EL */
-+        assert((res & CP_ACCESS_EL_MASK) == 0);
-         if (cpu_isar_feature(aa64_ids, cpu) && isread &&
-             arm_cpreg_in_idspace(ri)) {
-             /*
+     if (!ri) {
+         /*
+@@ -4755,48 +4796,6 @@ static void do_coproc_insn(DisasContext *s, int cpnum, int is64,
+          * Note that on XScale all cp0..c13 registers do an access check
+          * call in order to handle c15_cpar.
+          */
+-        uint32_t syndrome;
+-
+-        /*
+-         * Note that since we are an implementation which takes an
+-         * exception on a trapped conditional instruction only if the
+-         * instruction passes its condition code check, we can take
+-         * advantage of the clause in the ARM ARM that allows us to set
+-         * the COND field in the instruction to 0xE in all cases.
+-         * We could fish the actual condition out of the insn (ARM)
+-         * or the condexec bits (Thumb) but it isn't necessary.
+-         */
+-        switch (cpnum) {
+-        case 14:
+-            if (is64) {
+-                syndrome = syn_cp14_rrt_trap(1, 0xe, opc1, crm, rt, rt2,
+-                                             isread, false);
+-            } else {
+-                syndrome = syn_cp14_rt_trap(1, 0xe, opc1, opc2, crn, crm,
+-                                            rt, isread, false);
+-            }
+-            break;
+-        case 15:
+-            if (is64) {
+-                syndrome = syn_cp15_rrt_trap(1, 0xe, opc1, crm, rt, rt2,
+-                                             isread, false);
+-            } else {
+-                syndrome = syn_cp15_rt_trap(1, 0xe, opc1, opc2, crn, crm,
+-                                            rt, isread, false);
+-            }
+-            break;
+-        default:
+-            /*
+-             * ARMv8 defines that only coprocessors 14 and 15 exist,
+-             * so this can only happen if this is an ARMv7 or earlier CPU,
+-             * in which case the syndrome information won't actually be
+-             * guest visible.
+-             */
+-            assert(!arm_dc_feature(s, ARM_FEATURE_V8));
+-            syndrome = syn_uncategorized();
+-            break;
+-        }
+-
+         gen_set_condexec(s);
+         gen_update_pc(s, 0);
+         tcg_ri = tcg_temp_new_ptr();
 -- 
 2.34.1
 
