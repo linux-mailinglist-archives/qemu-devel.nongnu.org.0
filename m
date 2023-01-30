@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A80768191E
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 19:28:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 064FD6818F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 19:26:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMYqK-00015C-Au; Mon, 30 Jan 2023 13:25:24 -0500
+	id 1pMYqN-0001AB-Tw; Mon, 30 Jan 2023 13:25:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pMYqF-00012E-IE
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:25:19 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
+ id 1pMYqF-00012O-KP
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:25:20 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pMYq8-0008CG-Gk
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:25:18 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id o18so2514637wrj.3
+ id 1pMYq9-0008NL-E0
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 13:25:19 -0500
+Received: by mail-wr1-x435.google.com with SMTP id t18so12010691wro.1
  for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 10:25:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=ot3R8lszKLTWDHJu832shWug096nL7dcemqGGdqcIoc=;
- b=UD8E8PTPYv8j69oYQpLCQ9bNUKK/eOJcGKVergZYlDz08N00v6q3zHgA+WQmoIb3zK
- 8lDR7MEsolbCtkq+rLsc8ljDlAWWadfW1nGO0PVUppfK5h43DIGZx2Roaw6JV0Yvyt4S
- wBQhZEyaHhQS1znIla1IP3ehyJI3xnTt0SfTO37UqlvBly/yla4sJEl9yaNZwxujpwLp
- R6+s8vUvcWxFiiLfqtqtCCfeXqrRf10rUZwX0SoNQ7FOYi78LEU5EpSViziwPJVxufc/
- mzzDorXA5oKe+eEmUw1Kddz9bFtyO6WSOPChnXw/1ibUgtvdR6s13KzMjyN7cnJKUX2g
- BQ/Q==
+ :reply-to; bh=24jkTFmaj/fGUGVkla7XQaIA14eLmoW1hHzHZ+N4mAg=;
+ b=KgSVppG6NLO2fftookQXRXxkDS3N9EXhp52fdLgghKR84tDK/nLei+GHSID4iCECEi
+ NWP9uMrtRvwbVmZBu8US7sI/YZjjbnBAXHnIYuxpWGXhIJ/6oXqrk6DfsK8cvLWZO53n
+ AWz6YycEbsA3fMCOkZvFfDh8c4oy3RrSKcAqOvmIF3Wl85Khzvq7fQMn8aXG7F2iSUr3
+ fKxvNR6W4pg29hOWUXRpC6GYH9hDoX4GsNp6jeDA2BX+dcQZV2dDIZBpON5rIP+0Nv2x
+ oYGKGUh6+IJ3WM26cSoFozBsFDUrvDzrS/6QDuvPPEIjDvEbBD007lzfPHQsTprVhP1y
+ QmHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=ot3R8lszKLTWDHJu832shWug096nL7dcemqGGdqcIoc=;
- b=sKifGjH0nun8eGKq5GyW6VTgVhCRc3CssvyOOCSKh2dohNOFHrhOr5pleCaqPwEUd/
- kQ5d03SUxll8qe9OE1CvjIFMfVVIEcFG0J/fSby15bb6zqRIcjBH00Nmy0cWxTBFfbcl
- 6DgZ4FrOXQafEXofewJsXYIamkb6kt0m5VajWwMTxOxWpzOmKojFt1m1wQVyt5iFMkQd
- YrtgYeChu07F/SFZl7OdIOPbkIyZlldt/15BOQCnrb5Yt+ZS58Q7MwrUt7Ln1cDcg7D4
- g5iT9/u1EdNJ33XdWUMO3Hdad6CrzPA9/LGe6ocznZrqYe676Y241tC8rcIeQbQnAWdn
- 77Sg==
-X-Gm-Message-State: AO0yUKUS1wMU8AdubTtzg94ZF+70egbMMOHxJdWYvLhxDvyTNW/YkZNW
- INpD/ZWJSNtDyweQGri3WqdNIRk/x/22k/jo
-X-Google-Smtp-Source: AK7set9jOREykXFrRpetAfFxKZ3p1YfeFUgCUqExzMPvBcQl9KXd5nNy9wMvNn1hzhixakwafKRCgQ==
-X-Received: by 2002:a5d:4cd0:0:b0:2bf:cfb4:817c with SMTP id
- c16-20020a5d4cd0000000b002bfcfb4817cmr12131264wrt.35.1675103111698; 
- Mon, 30 Jan 2023 10:25:11 -0800 (PST)
+ bh=24jkTFmaj/fGUGVkla7XQaIA14eLmoW1hHzHZ+N4mAg=;
+ b=TXg/7cfqaBUGtE30iDQPpxqAelljspB7s3pg3xTrvcFRBItP26oammdcHp7bO1Hx0v
+ jpWNvBVe+5lyqD5xetoH1rjeLubdMOehARVcJ45JK4JMAJ0/+iXawZbmld41tD9atOBQ
+ Sj7zibETpRKXggVHOhWHgPf8/Ee4ZNce0FPsP9X7PranAed8mptbeHPuaLw0coRs427U
+ OTelAKh8DgOCi5UZTJT2hYh4Bvax9JTDEqH1bExBscOC+3rk91YdRuhENzGSjCL98kl3
+ n9/Qdom1WWMPRy3HrBjQcETjPDU3TB0S7ORQqu5LijZupjxSb/oVUASFDio/QtBvCHFG
+ 5BnA==
+X-Gm-Message-State: AO0yUKV87aIjgnkarFrk3BmXLUsNxNSSN1P8143+QgR+0N2gX+A2uSMG
+ mtItAt29zhhQzWyUdONFGVvEZSaIif8ng9lc
+X-Google-Smtp-Source: AK7set8/bma/+DeCV1QEZ+vzXsSYI6FTX4162GHzIOApaRf1ygoyhD+giXVg+UkCUdVajV1ArQmmNg==
+X-Received: by 2002:adf:f88e:0:b0:2bf:b047:d4ab with SMTP id
+ u14-20020adff88e000000b002bfb047d4abmr22462207wrp.13.1675103112616; 
+ Mon, 30 Jan 2023 10:25:12 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- l16-20020adffe90000000b002b8fe58d6desm12245202wrr.62.2023.01.30.10.25.10
+ l16-20020adffe90000000b002b8fe58d6desm12245202wrr.62.2023.01.30.10.25.11
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 10:25:10 -0800 (PST)
+ Mon, 30 Jan 2023 10:25:12 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Subject: [PATCH v2 10/23] target/arm: Mark up sysregs for HFGRTR bits 0..11
-Date: Mon, 30 Jan 2023 18:24:46 +0000
-Message-Id: <20230130182459.3309057-11-peter.maydell@linaro.org>
+Subject: [PATCH v2 11/23] target/arm: Mark up sysregs for HFGRTR bits 12..23
+Date: Mon, 30 Jan 2023 18:24:47 +0000
+Message-Id: <20230130182459.3309057-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230130182459.3309057-1-peter.maydell@linaro.org>
 References: <20230130182459.3309057-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x42c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,151 +89,127 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Mark up the sysreg definitions for the registers trapped
-by HFGRTR/HFGWTR bits 0..11.
+by HFGRTR/HFGWTR bits 12..23.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230127175507.2895013-11-peter.maydell@linaro.org
+Message-id: 20230127175507.2895013-12-peter.maydell@linaro.org
 ---
- target/arm/cpregs.h | 14 ++++++++++++++
- target/arm/helper.c | 17 +++++++++++++++++
- 2 files changed, 31 insertions(+)
+ target/arm/cpregs.h | 12 ++++++++++++
+ target/arm/helper.c | 12 ++++++++++++
+ 2 files changed, 24 insertions(+)
 
 diff --git a/target/arm/cpregs.h b/target/arm/cpregs.h
-index 8cc12045af6..82f2cefff0a 100644
+index 82f2cefff0a..67d87ae8bf5 100644
 --- a/target/arm/cpregs.h
 +++ b/target/arm/cpregs.h
-@@ -577,6 +577,20 @@ typedef enum FGTBit {
-     FGT_HDFGRTR = FGT_RW | (FGTREG_HDFGRTR << R_FGT_IDX_SHIFT),
-     FGT_HDFGWTR = FGT_W | (FGTREG_HDFGWTR << R_FGT_IDX_SHIFT),
-     FGT_HFGITR = FGT_EXEC | (FGTREG_HFGITR << R_FGT_IDX_SHIFT),
-+
-+    /* Trap bits in HFGRTR_EL2 / HFGWTR_EL2, starting from bit 0. */
-+    DO_BIT(HFGRTR, AFSR0_EL1),
-+    DO_BIT(HFGRTR, AFSR1_EL1),
-+    DO_BIT(HFGRTR, AIDR_EL1),
-+    DO_BIT(HFGRTR, AMAIR_EL1),
-+    DO_BIT(HFGRTR, APDAKEY),
-+    DO_BIT(HFGRTR, APDBKEY),
-+    DO_BIT(HFGRTR, APGAKEY),
-+    DO_BIT(HFGRTR, APIAKEY),
-+    DO_BIT(HFGRTR, APIBKEY),
-+    DO_BIT(HFGRTR, CCSIDR_EL1),
-+    DO_BIT(HFGRTR, CLIDR_EL1),
-+    DO_BIT(HFGRTR, CONTEXTIDR_EL1),
+@@ -591,6 +591,18 @@ typedef enum FGTBit {
+     DO_BIT(HFGRTR, CCSIDR_EL1),
+     DO_BIT(HFGRTR, CLIDR_EL1),
+     DO_BIT(HFGRTR, CONTEXTIDR_EL1),
++    DO_BIT(HFGRTR, CPACR_EL1),
++    DO_BIT(HFGRTR, CSSELR_EL1),
++    DO_BIT(HFGRTR, CTR_EL0),
++    DO_BIT(HFGRTR, DCZID_EL0),
++    DO_BIT(HFGRTR, ESR_EL1),
++    DO_BIT(HFGRTR, FAR_EL1),
++    DO_BIT(HFGRTR, ISR_EL1),
++    DO_BIT(HFGRTR, LORC_EL1),
++    DO_BIT(HFGRTR, LOREA_EL1),
++    DO_BIT(HFGRTR, LORID_EL1),
++    DO_BIT(HFGRTR, LORN_EL1),
++    DO_BIT(HFGRTR, LORSA_EL1),
  } FGTBit;
  
  #undef DO_BIT
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 2389e41bd07..30e54455ac7 100644
+index 30e54455ac7..c059935d0e6 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -633,6 +633,7 @@ static const ARMCPRegInfo cp_reginfo[] = {
-     { .name = "CONTEXTIDR_EL1", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .opc1 = 0, .crn = 13, .crm = 0, .opc2 = 1,
-       .access = PL1_RW, .accessfn = access_tvm_trvm,
-+      .fgt = FGT_CONTEXTIDR_EL1,
-       .secure = ARM_CP_SECSTATE_NS,
-       .fieldoffset = offsetof(CPUARMState, cp15.contextidr_el[1]),
-       .resetvalue = 0, .writefn = contextidr_write, .raw_writefn = raw_write, },
-@@ -2163,6 +2164,7 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
-       .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 1, .opc2 = 0,
-       .access = PL1_R,
-       .accessfn = access_tid4,
-+      .fgt = FGT_CCSIDR_EL1,
-       .readfn = ccsidr_read, .type = ARM_CP_NO_RAW },
-     { .name = "CSSELR", .state = ARM_CP_STATE_BOTH,
+@@ -869,6 +869,7 @@ static const ARMCPRegInfo v6_cp_reginfo[] = {
+       .access = PL1_RW, .type = ARM_CP_CONST, .resetvalue = 0, },
+     { .name = "CPACR", .state = ARM_CP_STATE_BOTH, .opc0 = 3,
+       .crn = 1, .crm = 0, .opc1 = 0, .opc2 = 2, .accessfn = cpacr_access,
++      .fgt = FGT_CPACR_EL1,
+       .access = PL1_RW, .fieldoffset = offsetof(CPUARMState, cp15.cpacr_el1),
+       .resetfn = cpacr_reset, .writefn = cpacr_write, .readfn = cpacr_read },
+ };
+@@ -2170,6 +2171,7 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
        .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 2, .opc2 = 0,
-@@ -2179,6 +2181,7 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
-       .opc0 = 3, .opc1 = 1, .crn = 0, .crm = 0, .opc2 = 7,
-       .access = PL1_R, .type = ARM_CP_CONST,
-       .accessfn = access_aa64_tid1,
-+      .fgt = FGT_AIDR_EL1,
-       .resetvalue = 0 },
-     /*
-      * Auxiliary fault status registers: these also are IMPDEF, and we
-@@ -2187,10 +2190,12 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
-     { .name = "AFSR0_EL1", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .opc1 = 0, .crn = 5, .crm = 1, .opc2 = 0,
+       .access = PL1_RW,
+       .accessfn = access_tid4,
++      .fgt = FGT_CSSELR_EL1,
+       .writefn = csselr_write, .resetvalue = 0,
+       .bank_fieldoffsets = { offsetof(CPUARMState, cp15.csselr_s),
+                              offsetof(CPUARMState, cp15.csselr_ns) } },
+@@ -2233,6 +2235,7 @@ static const ARMCPRegInfo v7_cp_reginfo[] = {
+       .resetfn = arm_cp_reset_ignore },
+     { .name = "ISR_EL1", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 0, .crn = 12, .crm = 1, .opc2 = 0,
++      .fgt = FGT_ISR_EL1,
+       .type = ARM_CP_NO_RAW, .access = PL1_R, .readfn = isr_read },
+     /* 32 bit ITLB invalidates */
+     { .name = "ITLBIALL", .cp = 15, .opc1 = 0, .crn = 8, .crm = 5, .opc2 = 0,
+@@ -4135,6 +4138,7 @@ static const ARMCPRegInfo vmsa_pmsa_cp_reginfo[] = {
+     { .name = "FAR_EL1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .crn = 6, .crm = 0, .opc1 = 0, .opc2 = 0,
        .access = PL1_RW, .accessfn = access_tvm_trvm,
-+      .fgt = FGT_AFSR0_EL1,
-       .type = ARM_CP_CONST, .resetvalue = 0 },
-     { .name = "AFSR1_EL1", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .opc1 = 0, .crn = 5, .crm = 1, .opc2 = 1,
++      .fgt = FGT_FAR_EL1,
+       .fieldoffset = offsetof(CPUARMState, cp15.far_el[1]),
+       .resetvalue = 0, },
+ };
+@@ -4143,6 +4147,7 @@ static const ARMCPRegInfo vmsa_cp_reginfo[] = {
+     { .name = "ESR_EL1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .crn = 5, .crm = 2, .opc1 = 0, .opc2 = 0,
        .access = PL1_RW, .accessfn = access_tvm_trvm,
-+      .fgt = FGT_AFSR1_EL1,
++      .fgt = FGT_ESR_EL1,
+       .fieldoffset = offsetof(CPUARMState, cp15.esr_el[1]), .resetvalue = 0, },
+     { .name = "TTBR0_EL1", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 0, .opc2 = 0,
+@@ -5215,6 +5220,7 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
+     { .name = "DCZID_EL0", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 3, .opc2 = 7, .crn = 0, .crm = 0,
+       .access = PL0_R, .type = ARM_CP_NO_RAW,
++      .fgt = FGT_DCZID_EL0,
+       .readfn = aa64_dczid_read },
+     { .name = "DC_ZVA", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 3, .crn = 7, .crm = 4, .opc2 = 1,
+@@ -7005,22 +7011,27 @@ static const ARMCPRegInfo lor_reginfo[] = {
+     { .name = "LORSA_EL1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 0,
+       .access = PL1_RW, .accessfn = access_lor_other,
++      .fgt = FGT_LORSA_EL1,
        .type = ARM_CP_CONST, .resetvalue = 0 },
-     /*
-      * MAIR can just read-as-written because we don't implement caches
-@@ -4392,6 +4397,7 @@ static const ARMCPRegInfo lpae_cp_reginfo[] = {
-     { .name = "AMAIR0", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .crn = 10, .crm = 3, .opc1 = 0, .opc2 = 0,
-       .access = PL1_RW, .accessfn = access_tvm_trvm,
-+      .fgt = FGT_AMAIR_EL1,
+     { .name = "LOREA_EL1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 1,
+       .access = PL1_RW, .accessfn = access_lor_other,
++      .fgt = FGT_LOREA_EL1,
        .type = ARM_CP_CONST, .resetvalue = 0 },
-     /* AMAIR1 is mapped to AMAIR_EL1[63:32] */
-     { .name = "AMAIR1", .cp = 15, .crn = 10, .crm = 3, .opc1 = 0, .opc2 = 1,
-@@ -7041,42 +7047,52 @@ static const ARMCPRegInfo pauth_reginfo[] = {
-     { .name = "APDAKEYLO_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 2, .opc2 = 0,
-       .access = PL1_RW, .accessfn = access_pauth,
-+      .fgt = FGT_APDAKEY,
-       .fieldoffset = offsetof(CPUARMState, keys.apda.lo) },
-     { .name = "APDAKEYHI_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 2, .opc2 = 1,
-       .access = PL1_RW, .accessfn = access_pauth,
-+      .fgt = FGT_APDAKEY,
-       .fieldoffset = offsetof(CPUARMState, keys.apda.hi) },
-     { .name = "APDBKEYLO_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 2, .opc2 = 2,
-       .access = PL1_RW, .accessfn = access_pauth,
-+      .fgt = FGT_APDBKEY,
-       .fieldoffset = offsetof(CPUARMState, keys.apdb.lo) },
-     { .name = "APDBKEYHI_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 2, .opc2 = 3,
-       .access = PL1_RW, .accessfn = access_pauth,
-+      .fgt = FGT_APDBKEY,
-       .fieldoffset = offsetof(CPUARMState, keys.apdb.hi) },
-     { .name = "APGAKEYLO_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 3, .opc2 = 0,
-       .access = PL1_RW, .accessfn = access_pauth,
-+      .fgt = FGT_APGAKEY,
-       .fieldoffset = offsetof(CPUARMState, keys.apga.lo) },
-     { .name = "APGAKEYHI_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 3, .opc2 = 1,
-       .access = PL1_RW, .accessfn = access_pauth,
-+      .fgt = FGT_APGAKEY,
-       .fieldoffset = offsetof(CPUARMState, keys.apga.hi) },
-     { .name = "APIAKEYLO_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 1, .opc2 = 0,
-       .access = PL1_RW, .accessfn = access_pauth,
-+      .fgt = FGT_APIAKEY,
-       .fieldoffset = offsetof(CPUARMState, keys.apia.lo) },
-     { .name = "APIAKEYHI_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 1, .opc2 = 1,
-       .access = PL1_RW, .accessfn = access_pauth,
-+      .fgt = FGT_APIAKEY,
-       .fieldoffset = offsetof(CPUARMState, keys.apia.hi) },
-     { .name = "APIBKEYLO_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 1, .opc2 = 2,
-       .access = PL1_RW, .accessfn = access_pauth,
-+      .fgt = FGT_APIBKEY,
-       .fieldoffset = offsetof(CPUARMState, keys.apib.lo) },
-     { .name = "APIBKEYHI_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 1, .opc2 = 3,
-       .access = PL1_RW, .accessfn = access_pauth,
-+      .fgt = FGT_APIBKEY,
-       .fieldoffset = offsetof(CPUARMState, keys.apib.hi) },
+     { .name = "LORN_EL1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 2,
+       .access = PL1_RW, .accessfn = access_lor_other,
++      .fgt = FGT_LORN_EL1,
+       .type = ARM_CP_CONST, .resetvalue = 0 },
+     { .name = "LORC_EL1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 3,
+       .access = PL1_RW, .accessfn = access_lor_other,
++      .fgt = FGT_LORC_EL1,
+       .type = ARM_CP_CONST, .resetvalue = 0 },
+     { .name = "LORID_EL1", .state = ARM_CP_STATE_AA64,
+       .opc0 = 3, .opc1 = 0, .crn = 10, .crm = 4, .opc2 = 7,
+       .access = PL1_R, .accessfn = access_lor_ns,
++      .fgt = FGT_LORID_EL1,
+       .type = ARM_CP_CONST, .resetvalue = 0 },
  };
  
-@@ -7940,6 +7956,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-             .opc0 = 3, .crn = 0, .crm = 0, .opc1 = 1, .opc2 = 1,
-             .access = PL1_R, .type = ARM_CP_CONST,
-             .accessfn = access_tid4,
-+            .fgt = FGT_CLIDR_EL1,
-             .resetvalue = cpu->clidr
-         };
-         define_one_arm_cp_reg(cpu, &clidr);
+@@ -8619,6 +8630,7 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+             { .name = "CTR_EL0", .state = ARM_CP_STATE_AA64,
+               .opc0 = 3, .opc1 = 3, .opc2 = 1, .crn = 0, .crm = 0,
+               .access = PL0_R, .accessfn = ctr_el0_access,
++              .fgt = FGT_CTR_EL0,
+               .type = ARM_CP_CONST, .resetvalue = cpu->ctr },
+             /* TCMTR and TLBTR exist in v8 but have no 64-bit versions */
+             { .name = "TCMTR",
 -- 
 2.34.1
 
