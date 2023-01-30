@@ -2,89 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BF57680DFE
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 13:45:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D4488680E02
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 13:48:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMTXL-0001HV-By; Mon, 30 Jan 2023 07:45:27 -0500
+	id 1pMTZb-0002D8-Vo; Mon, 30 Jan 2023 07:47:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMTXG-0001Gc-0S
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:45:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMTXD-0006wT-KU
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:45:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675082718;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9CVXrBe5a2eNQ25FgDB0FujlzBlyvMktuKhNnFySl0k=;
- b=XcFXcJDoeCe55rsK34vHOd8uixX224uCAPRKvx7Yx2NXbcczBfQ3y5IvCp2/4l1Zlcgbrr
- E4wrq9CjYPiRO333GM/dc8AMmjGzohCc8KjukY+BVDVqc+RjZ+HGJ5sLZF+byJpaxAhWg+
- 3MoJlJCWKZNHuxVxfDCnvNcgU0Aj2tI=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-301-CbX8PLGdMSGWPJ0Hg8xMcQ-1; Mon, 30 Jan 2023 07:45:16 -0500
-X-MC-Unique: CbX8PLGdMSGWPJ0Hg8xMcQ-1
-Received: by mail-qv1-f72.google.com with SMTP id
- c10-20020a05621401ea00b004c72d0e92bcso6354702qvu.12
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 04:45:16 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pMTZX-0002Cv-Gp
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:47:43 -0500
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pMTZV-00079w-Qu
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 07:47:43 -0500
+Received: by mail-wr1-x42d.google.com with SMTP id m7so10938338wru.8
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 04:47:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=EkzAhXkjPYMqQD6lasia7w4DvtWO7ASRRB4oJPhD+wI=;
+ b=GTLVCXP5QcBqk+2Jknm6JM8ck6uTGe+sC4mirEoAxd1xynfJh6WhKl4lfJU0HZjUVg
+ oi7KjxgaQoLZs9JVf5iJEt07xTYUrOwkTqGzv0elaQYCmPwRqlO2GgxwFQoOidnmNQaX
+ qyDW0VF4vYGXim99ZcEhf8P2yli2tcrSSZVHA7n/7bIp5PhG9y7sdNFvag7rN+6GGt/0
+ HNDKe65mq1mMIOMe+fCJlXSmAPK4EUqWXY4U6q/mBYcn6MaY8+RYITYHRvNrz1ZAD+wz
+ +KfUbZEVXS2a3RH0CuFmdS4rDk8uinrLgAlnaNLWYe+ylXnSxN1iOcT+g87eSCP9gxUu
+ kYDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9CVXrBe5a2eNQ25FgDB0FujlzBlyvMktuKhNnFySl0k=;
- b=fm3thVZLHpChdq7MfOHbERF1Pqr6RWkLDkhbY1nI75mtSO49RhbAXM10BsaTA0Q5tS
- LFk1jvb51UoEbA7tbMU4FvBH99lwIbILlD1paYexefOU08JEeu/MhP9fqlNVOaFXGbpb
- wQzXDPh6Jd9ULGC+qzdNuVLult9qdNTwFsKsLnD5mF6cZ/gcJT7ScqY/Za5Pq3LBxnH+
- U5hJzxvgm5OUDWTumPu6xJ4GCEDQMopEBHcXbgpJ0GJivpOM9HIfoLMNdCAEK7djF8++
- z3R3QYApKzyDv+w/1mbu9X4i91mmWqdKOT/0YbGYNvDaAPdLJAtnCIqqrqNdI9w9Ztvv
- bYPw==
-X-Gm-Message-State: AO0yUKUNWNGP95DrZkP8I3AtpwD+oC5jRQkxGUihqtsMA19hrqC6BNiJ
- kKQBIAi4PcCGOhLc0klJRdKs0GDtxWnvOjCaPInkzAWdSCwwndVxTZ73BH6ypY8xkgUSvc6CwtZ
- Onmno/cljXGBr0B0=
-X-Received: by 2002:a0c:ec11:0:b0:534:bc47:8ef6 with SMTP id
- y17-20020a0cec11000000b00534bc478ef6mr9701039qvo.5.1675082716193; 
- Mon, 30 Jan 2023 04:45:16 -0800 (PST)
-X-Google-Smtp-Source: AK7set+DUjxr6yFgYp1z+A8hXAV4l6piyB8qm3Bv6PiZaeV/lBiDDGtS+6JV/d//sYMvpFB9cKvMrA==
-X-Received: by 2002:a0c:ec11:0:b0:534:bc47:8ef6 with SMTP id
- y17-20020a0cec11000000b00534bc478ef6mr9701021qvo.5.1675082715961; 
- Mon, 30 Jan 2023 04:45:15 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-178-179.web.vodafone.de.
- [109.43.178.179]) by smtp.gmail.com with ESMTPSA id
- p64-20020a374243000000b006ee8874f5fasm7899658qka.53.2023.01.30.04.45.14
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Mon, 30 Jan 2023 04:45:15 -0800 (PST)
-Message-ID: <ec298b45-ad69-4608-f6b3-b9c97bc7bf34@redhat.com>
-Date: Mon, 30 Jan 2023 13:45:13 +0100
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=EkzAhXkjPYMqQD6lasia7w4DvtWO7ASRRB4oJPhD+wI=;
+ b=jkYoJCwIYqWoDDs2lVnlUvI4Kn1DlJDRHiy7tujRHhMb8cOlzAlsPoSc3muuFG4uvK
+ DCgIDeP47pn59kCxgdxkjZw+GAjsNf8F1hye9dr0ZEo3sjCdvscyCZBOFFwS1n5Z60cQ
+ 4pFmsS4TbJT2oFzCfd5tPqJb8OP9jjwdlStFrsckaoJmZWjH2Mf8qW1hk3ItWLEjPIpL
+ q8onIkrq+YrS4UT/s/xDdNSsDuqfPOex2oIvTox1Tzhglb2CL5IEm5JxGr7Sl/QKuUDc
+ D/iJ0pYGGKCHpafpuiZsu+uH9tmKLS4yCsv/KmB85wgEa/lQmYbWJmSqURuZkZsOw9KI
+ ROCA==
+X-Gm-Message-State: AO0yUKULwkvLfmEBebsjMlIn9O8TD82qMKpU0FRwYe54aXM7ablBeKE0
+ ucFG8RQb/O/bkOrdMOC+IZv3QQ==
+X-Google-Smtp-Source: AK7set+Sp2KrsoPOqKPuSOY/PFbWoIgY3XhKyfX++W2ICiEWsJIliBeSyReqDRqWNh9b5K3BbrAhtw==
+X-Received: by 2002:a5d:6401:0:b0:2bf:ccf3:ee50 with SMTP id
+ z1-20020a5d6401000000b002bfccf3ee50mr11332247wru.58.1675082859881; 
+ Mon, 30 Jan 2023 04:47:39 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ n15-20020a5d598f000000b002bdff778d87sm12945937wri.34.2023.01.30.04.47.39
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Mon, 30 Jan 2023 04:47:39 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id DB9861FFB7;
+ Mon, 30 Jan 2023 12:47:38 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: slp@redhat.com, mst@redhat.com, marcandre.lureau@redhat.com,
+ stefanha@redhat.com, mathieu.poirier@linaro.org, viresh.kumar@linaro.org,
+ sgarzare@redhat.com,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2] backends/vhost-user: remove the ioeventfd check
+Date: Mon, 30 Jan 2023 12:47:28 +0000
+Message-Id: <20230130124728.175610-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v3] docs/s390x/pcidevices: document pci devices on s390x
-Content-Language: en-US
-To: Sebastian Mitterle <smitterl@redhat.com>, qemu-devel@nongnu.org
-Cc: cohuck@redhat.com, clegoate@redhat.com, qemu-trivial@nongnu.org,
- qemu-s390x@nongnu.org
-References: <20230127123349.55294-1-smitterl@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230127123349.55294-1-smitterl@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,31 +94,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 27/01/2023 13.33, Sebastian Mitterle wrote:
-> Add some documentation about the zpci device and how
-> to use it with pci devices on s390x.
-> 
-> Used source: Cornelia Huck's blog post
-> https://people.redhat.com/~cohuck/2018/02/19/notes-on-pci-on-s390x.html
-> 
-> Signed-off-by: Sebastian Mitterle <smitterl@redhat.com>
-> Reviewed-by: Cédric Le Goater <clg@redhat.com>
-> ---
-> v3: add info zpci is autogenerated, fix typos and source formatting,
-> improve style as suggested
-> ---
->   docs/system/s390x/pcidevices.rst | 41 ++++++++++++++++++++++++++++++++
->   docs/system/target-s390x.rst     |  1 +
->   2 files changed, 42 insertions(+)
->   create mode 100644 docs/system/s390x/pcidevices.rst
+While ioeventfds are needed for good performance with KVM guests it
+should not be a gating requirement. We can run vhost-user backends using
+simulated ioeventfds or inband signalling.
 
-Thanks, looks fine now to me, too!
+With this change I can run:
 
-Queued it to my staging branch:
+  $QEMU $OPTS \
+    -display gtk,gl=on \
+    -device vhost-user-gpu-pci,chardev=vhgpu \
+    -chardev socket,id=vhgpu,path=vhgpu.sock
 
-  https://gitlab.com/thuth/qemu/-/commits/staging
+with:
 
-  Thomas
+  ./contrib/vhost-user-gpu/vhost-user-gpu \
+    -s vhgpu.sock \
+    -v
 
+and at least see things start-up - although the display gets rotated by
+180 degrees. Once lightdm takes over we never make it to the login
+prompt and just get a blank screen.
+
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Message-Id: <20221202132231.1048669-1-alex.bennee@linaro.org>
+
+---
+v2
+  - reword commit message to make it clear we simulate ioeventfd
+  - drop check altogether as we can fallback for KVM as well
+---
+ backends/vhost-user.c | 11 -----------
+ 1 file changed, 11 deletions(-)
+
+diff --git a/backends/vhost-user.c b/backends/vhost-user.c
+index 7bfcaef976..7aae57f56c 100644
+--- a/backends/vhost-user.c
++++ b/backends/vhost-user.c
+@@ -21,12 +21,6 @@
+ #include "io/channel-command.h"
+ #include "hw/virtio/virtio-bus.h"
+ 
+-static bool
+-ioeventfd_enabled(void)
+-{
+-    return kvm_enabled() && kvm_eventfds_enabled();
+-}
+-
+ int
+ vhost_user_backend_dev_init(VhostUserBackend *b, VirtIODevice *vdev,
+                             unsigned nvqs, Error **errp)
+@@ -35,11 +29,6 @@ vhost_user_backend_dev_init(VhostUserBackend *b, VirtIODevice *vdev,
+ 
+     assert(!b->vdev && vdev);
+ 
+-    if (!ioeventfd_enabled()) {
+-        error_setg(errp, "vhost initialization failed: requires kvm");
+-        return -1;
+-    }
+-
+     if (!vhost_user_init(&b->vhost_user, &b->chr, errp)) {
+         return -1;
+     }
+-- 
+2.34.1
 
 
