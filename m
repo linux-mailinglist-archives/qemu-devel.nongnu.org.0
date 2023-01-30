@@ -2,70 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3994681B67
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:26:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3DC5681B74
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:27:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMae9-0005n8-22; Mon, 30 Jan 2023 15:20:57 -0500
+	id 1pMaeP-0006ah-8y; Mon, 30 Jan 2023 15:21:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMadk-0004pt-Vo
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:38 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMadp-0004tT-7t
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMadj-0007Fl-Fz
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:32 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMadl-0007GA-Gg
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:20:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675110030;
+ s=mimecast20190719; t=1675110032;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=jY+AksjrJX7CqpiCRcQ/PHiwB0AL/642abvCG866J2c=;
- b=eynEm4DfKWCH0kEuLQmW9JfFNBgvYXUHrwbQF2ccFkkuPuJ8q4SB1hz+TVD6bcNs7CzkpK
- i6IUOOr7TIeDVSrBLwmHSyWt60y2eT2qI6z0eLJh+1zlppGWWvXdjd5fOurG3fNpkSJMKp
- GkJQuXmFypKZpDpH3vEqw72lN5MOHn4=
-Received: from mail-ed1-f72.google.com (mail-ed1-f72.google.com
- [209.85.208.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=b9u5N65oc55e8DOwSph1DCZUKxvwxisHdLrYlc9DoLU=;
+ b=CeySPzcxbRukftWOHlv5BpeHZEdzVETBYOBNJeBRhNRlKSsEML/RHBzuzCmuh1FJL7fk5u
+ XEIG2XoOZHIYMrEvj1nydRalTIlTIFSXIrdRGqhcaRFOiWa0jDAjoAzSZZ8ZrYKytRFJuj
+ dAwva3Ip/1HGFnEm4o7Oi2P4CLMoMSs=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-647-sbtXdRDCNRS0MJuMT_L9xA-1; Mon, 30 Jan 2023 15:20:28 -0500
-X-MC-Unique: sbtXdRDCNRS0MJuMT_L9xA-1
-Received: by mail-ed1-f72.google.com with SMTP id
- g14-20020a056402090e00b0046790cd9082so8987543edz.21
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:20:27 -0800 (PST)
+ us-mta-582-vv7QfAcTNxmF_pNZz7t3Uw-1; Mon, 30 Jan 2023 15:20:30 -0500
+X-MC-Unique: vv7QfAcTNxmF_pNZz7t3Uw-1
+Received: by mail-ej1-f72.google.com with SMTP id
+ d14-20020a170906c20e00b00889f989d8deso1897617ejz.15
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:20:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=in-reply-to:content-disposition:mime-version:references:message-id
  :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jY+AksjrJX7CqpiCRcQ/PHiwB0AL/642abvCG866J2c=;
- b=e1SLbpvTVWXBK1ufzVAbNij2BpmUdh/CV95p6FANIX5MtbkI/vTGy5bsFdqXQ/GW/z
- 4j/tcEC0SD8ARXJm3IMqiYVLkxGbvSGWHNZkOpu/2AQH6jvdyuTrE5BnKnF6MJYHDtGV
- 5Vi4nmXLnBqQqazE6PcBlrl/xiUEIHvhwmvvw3YlP2rVuYxFD1w2Vqzr/LoiYDwitllU
- RGkNOOaqo5knXErGrIa5ruBDjReF+igmWnFyyqNlvvpEd3KlIAS/3HXf4P09oFsIVMFp
- 2kyiQWBY8roy7qOeCMTjBvTHU6aYLIsDGkvWu8Ds2kxA9n3ZNwroiT/0xMfHb/H50cHD
- p6Sg==
-X-Gm-Message-State: AO0yUKU44jIIncgrDPIoOZnNxFqtHqrfsrxLtgKYEaTJYzFi0KLTt4Br
- 5KxxZrr1S0R7ngOez4c10h/lSlKce5+mXIZtQceg1/6/ihct5QZCY64+OjM8UreWvaqEpMJY6LG
- LQBFVFfldM8DlSAq+HijXP5KZcW/4n1COKmtx0KeAlz9nx7fRp4ewWChmus8I
-X-Received: by 2002:a17:906:1793:b0:888:a32d:b50 with SMTP id
- t19-20020a170906179300b00888a32d0b50mr5286866eje.40.1675110026552; 
- Mon, 30 Jan 2023 12:20:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set/IWa7sZY41wnuc1WE6PF+nRnuabbGHIsNjP8NN+2P7k/xS/0bNOe57K2oiGa4bDJlobKPedw==
-X-Received: by 2002:a17:906:1793:b0:888:a32d:b50 with SMTP id
- t19-20020a170906179300b00888a32d0b50mr5286844eje.40.1675110026324; 
- Mon, 30 Jan 2023 12:20:26 -0800 (PST)
+ bh=b9u5N65oc55e8DOwSph1DCZUKxvwxisHdLrYlc9DoLU=;
+ b=LgWS7tCwDAuVjDz3Y9YywNMFhdrOGvp+tjJ6tAR0CQs5BWjctMAKZ5ZJm3N1Lj80An
+ Pi1FKb40idwEc05yDfSCr5FZr7Hsqw+2O8e1kfpTmJf5mYiFHlbgwX/fBrORRP3pIYG3
+ jj9qnH7Fnk9aXf43ho8zW33SponWkPq8XrhgLOGHho+L6gRFF2lZAXFhBfAqlIOX4Mcf
+ NRkgYuWjCMBEVkIYYa0zUUyTsQfUS2ZNftixMCR9T2NfM9jyzb0QTlgYUMU2y+wVVeQz
+ XdD1YbVbTuE5VTMK2v4lSh9Die66Q0kk+ERYKR2P3P+m61D9cbzoBTb8X8Y3eHLGKhQ/
+ UM9w==
+X-Gm-Message-State: AO0yUKXnEj2BTyWLrljmid+WA76A7Hf1Rm1SxbvVCPhSN2I8Ur3Z3MSf
+ DMLsJ1hUogjUOIHhGDIibM3huZ38gC8ULKWmAb5pxgxN9sBzAHuU5Ekz5bJ+rPkH+3CJAZHfI28
+ GnFaMbjANFmHLEye4Uh5yFW6p4vlWry14+VQT+KoQmqy+98g824Vrz2xZDPFl
+X-Received: by 2002:a17:907:8e9b:b0:87a:542e:53b4 with SMTP id
+ tx27-20020a1709078e9b00b0087a542e53b4mr16126062ejc.64.1675110028937; 
+ Mon, 30 Jan 2023 12:20:28 -0800 (PST)
+X-Google-Smtp-Source: AK7set/YYz+XskS5BMp0jtrTj9lhKNJioJ9YTx/HR5HkBfCMReTstisDiWEAyehm4279DRw1HTq4TA==
+X-Received: by 2002:a17:907:8e9b:b0:87a:542e:53b4 with SMTP id
+ tx27-20020a1709078e9b00b0087a542e53b4mr16126036ejc.64.1675110028607; 
+ Mon, 30 Jan 2023 12:20:28 -0800 (PST)
 Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
- fy37-20020a1709069f2500b0087fbf72175csm4948624ejc.103.2023.01.30.12.20.24
+ e13-20020a170906248d00b0087a9f699effsm6347998ejb.173.2023.01.30.12.20.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 12:20:25 -0800 (PST)
-Date: Mon, 30 Jan 2023 15:20:23 -0500
+ Mon, 30 Jan 2023 12:20:27 -0800 (PST)
+Date: Mon, 30 Jan 2023 15:20:24 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Peter Maydell <peter.maydell@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>
-Subject: [PULL 24/56] tests: acpi: extend bridge tests with hotplugged bridges
-Message-ID: <20230130201810.11518-25-mst@redhat.com>
+ Igor Mammedov <imammedo@redhat.com>, Ani Sinha <ani@anisinha.ca>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Subject: [PULL 31/56] pcihp: compose PCNT callchain right before its user
+ _GPE._E01
+Message-ID: <20230130201810.11518-32-mst@redhat.com>
 References: <20230130201810.11518-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -73,7 +78,7 @@ Content-Disposition: inline
 In-Reply-To: <20230130201810.11518-1-mst@redhat.com>
 X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
 X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,107 +104,94 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-with previous commit fixing malformed PCNT calls to hotplugged
-bridges, it should be possible add coldplug/hotplug test when
-describing PCI topology in DSDT without breeaking CI.
+it's a stepping stone to making build_append_pci_bus_devices() suitable
+for AcpiDevAmlIfClass:build_dev_aml callback and lets further simplify
+it by separating PCNT generation from slots descriptions.
+
+It also makes PCNT callchain ASL much more readable since callchain
+not longer cluttered by slots descriptors.
+
+Plus, move will let next patch easily drop empty PCNT (pc/q35)
+when there is nothing hotpluggable.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <20230112140312.3096331-15-imammedo@redhat.com>
+Message-Id: <20230112140312.3096331-22-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 48 ++++++++++++++++++++++++++++------
- 1 file changed, 40 insertions(+), 8 deletions(-)
+ hw/i386/acpi-build.c | 32 ++++++++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index cb95f687fe..b65e864a9c 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -805,12 +805,15 @@ static char *test_acpi_create_args(test_data *data, const char *params)
-     return args;
- }
- 
--static void test_acpi_one(const char *params, test_data *data)
-+static void test_vm_prepare(const char *params, test_data *data)
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 27f2cc4180..d434ad9189 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -388,7 +388,6 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
  {
--    char *args;
--
--    args = test_acpi_create_args(data, params);
-+    char *args = test_acpi_create_args(data, params);
-     data->qts = qtest_init(args);
-+    g_free(args);
-+}
-+
-+static void process_acpi_tables(test_data *data)
-+{
-     test_acpi_load_tables(data);
+     Aml *dev, *notify_method = NULL, *method;
+     QObject *bsel;
+-    PCIBus *sec;
+     int devfn;
  
-     if (getenv(ACPI_REBUILD_EXPECTED_AML)) {
-@@ -830,7 +833,12 @@ static void test_acpi_one(const char *params, test_data *data)
+     bsel = object_property_get_qobject(OBJECT(bus), ACPI_PCIHP_PROP_BSEL, NULL);
+@@ -494,12 +493,35 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+         aml_append(parent_scope, notify_method);
      }
  
-     qtest_quit(data->qts);
--    g_free(args);
++    qobject_unref(bsel);
 +}
 +
-+static void test_acpi_one(const char *params, test_data *data)
++static void build_append_notfication_callback(Aml *parent_scope,
++                                              const PCIBus *bus)
 +{
-+    test_vm_prepare(params, data);
-+    process_acpi_tables(data);
++    Aml *method;
++    PCIBus *sec;
++    QObject *bsel;
++
++    QLIST_FOREACH(sec, &bus->child, sibling) {
++        Aml *br_scope = aml_scope("S%.02X", sec->parent_dev->devfn);
++        if (pci_bus_is_root(sec) ||
++            !object_property_find(OBJECT(sec), ACPI_PCIHP_PROP_BSEL)) {
++            continue;
++        }
++        build_append_notfication_callback(br_scope, sec);
++        aml_append(parent_scope, br_scope);
++    }
++
+     /*
+      * Append PCNT method to notify about events on local and child buses.
++     * ps: hostbridge might not have hotplug (bsel) enabled but might have
++     * child bridges that do have bsel.
+      */
+     method = aml_method("PCNT", 0, AML_NOTSERIALIZED);
+ 
+     /* If bus supports hotplug select it and notify about local events */
++    bsel = object_property_get_qobject(OBJECT(bus), ACPI_PCIHP_PROP_BSEL, NULL);
+     if (bsel) {
+         uint64_t bsel_val = qnum_get_uint(qobject_to(QNum, bsel));
+ 
+@@ -521,7 +543,6 @@ static void build_append_pci_bus_devices(Aml *parent_scope, PCIBus *bus,
+     }
+ 
+     aml_append(parent_scope, method);
+-
+     qobject_unref(bsel);
  }
  
- static uint8_t base_required_struct_types[] = {
-@@ -861,8 +869,21 @@ static void test_acpi_piix4_tcg_bridge(void)
-     data.variant = ".bridge";
-     data.required_struct_types = base_required_struct_types;
-     data.required_struct_types_len = ARRAY_SIZE(base_required_struct_types);
--    test_acpi_one("-device pci-bridge,chassis_nr=1 "
--                  "-device pci-bridge,bus=pci.1,addr=1.0,chassis_nr=2 ", &data);
-+    test_vm_prepare("-S"
-+        " -device pci-bridge,chassis_nr=1"
-+        " -device pci-bridge,bus=pci.1,addr=1.0,chassis_nr=2", &data);
-+
-+    /* hotplugged bridges section */
-+    qtest_qmp_device_add(data.qts, "pci-bridge", "hpbr",
-+        "{'bus': 'pci.1', 'addr': '2.0', 'chassis_nr': 3 }");
-+    qtest_qmp_device_add(data.qts, "pci-bridge", "hpbr_multifunc",
-+        "{'bus': 'pci.1', 'addr': '0xf.1', 'chassis_nr': 4 }");
-+    qtest_qmp_device_add(data.qts, "pci-bridge", "hpbrhost",
-+        "{'bus': 'pci.0', 'addr': '4.0', 'chassis_nr': 5 }");
-+    qtest_qmp_send(data.qts, "{'execute':'cont' }");
-+    qtest_qmp_eventwait(data.qts, "RESUME");
-+
-+    process_acpi_tables(&data);
-     free_test_data(&data);
- }
+@@ -1721,6 +1742,13 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+     aml_append(dsdt, sb_scope);
  
-@@ -962,7 +983,7 @@ static void test_acpi_q35_multif_bridge(void)
-         .machine = MACHINE_Q35,
-         .variant = ".multi-bridge",
-     };
--    test_acpi_one(
-+    test_vm_prepare("-S"
-         " -device virtio-balloon,id=balloon0,addr=0x4.0x2"
-         " -device pcie-root-port,id=rp0,multifunction=on,"
-                   "port=0x0,chassis=1,addr=0x2"
-@@ -974,6 +995,17 @@ static void test_acpi_q35_multif_bridge(void)
-         " -device pcie-root-port,id=rphptgt3,port=0x0,chassis=7,addr=2.3",
-         &data);
- 
-+    /* hotplugged bridges section */
-+    qtest_qmp_device_add(data.qts, "pci-bridge", "hpbr1",
-+        "{'bus': 'br1', 'addr': '6.0', 'chassis_nr': 128 }");
-+    qtest_qmp_device_add(data.qts, "pci-bridge", "hpbr2-multiif",
-+        "{ 'bus': 'br1', 'addr': '2.2', 'chassis_nr': 129 }");
-+    qtest_qmp_device_add(data.qts, "pcie-pci-bridge", "hpbr3",
-+        "{'bus': 'rp0', 'addr': '0.0' }");
-+    qtest_qmp_send(data.qts, "{'execute':'cont' }");
-+    qtest_qmp_eventwait(data.qts, "RESUME");
+     if (pm->pcihp_bridge_en || pm->pcihp_root_en) {
++        Object *pci_host = acpi_get_i386_pci_host();
++        PCIBus *bus = PCI_HOST_BRIDGE(pci_host)->bus;
 +
-+    process_acpi_tables(&data);
-     free_test_data(&data);
- }
- 
++        scope = aml_scope("\\_SB.PCI0");
++        build_append_notfication_callback(scope, bus);
++        aml_append(dsdt, scope);
++
+         scope =  aml_scope("_GPE");
+         {
+             method = aml_method("_E01", 0, AML_NOTSERIALIZED);
 -- 
 MST
 
