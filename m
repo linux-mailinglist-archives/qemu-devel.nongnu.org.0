@@ -2,82 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583D86805B7
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 06:45:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FCC56805BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 06:51:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMMyv-0006do-KD; Mon, 30 Jan 2023 00:45:29 -0500
+	id 1pMN3a-0008JN-4j; Mon, 30 Jan 2023 00:50:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMMyt-0006de-Lt
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:45:27 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMN3W-0008J1-Te
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:50:15 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMMyr-0006C6-V9
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:45:27 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMN3U-00076I-VC
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:50:14 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675057525;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=NPI0QUnw5tzdzGuSIaMAPVjZWbM6LcFSZFksrcdoi9g=;
- b=O4jheb+iaP9N4ZDq4YFF1iuclTOvTYuRjgLKwczjFz9et1xhR/w316GY4llFVFb9d9/Gpn
- /VdmAe+6ZpAVHwn8Qe/hB5XztQ4mPdjkzWMSdDQMPqzUDAo5zbp3A9XB4avNh+5Q7bI1/G
- 14kv+LRLNuLQxqcxHlkCUUWOGb1bEPw=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1675057812;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=RRrm9oWapLjmfDoAe+7E9OcrgrCIVgGtG4ZCiH+W3mE=;
+ b=AeTM9Qs5mLUYrKx51PGc+5em1dO2lzEE7qENcOUX2VP5tEndA4veZs4mjrzMbwXiWawLFD
+ 7PMRBMJcSj1moG/rFiRvS9TfchATvtiHXPsbXh6P+Gnnbcth9vHtAy3txTMZM97izUVbdF
+ DsKI9xDEiSmOUx6L/X5le4Z7lro0P9M=
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com
+ [209.85.222.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-538-KZpvkHdNMTag5eTYbkmung-1; Mon, 30 Jan 2023 00:45:23 -0500
-X-MC-Unique: KZpvkHdNMTag5eTYbkmung-1
-Received: by mail-wm1-f72.google.com with SMTP id
- j20-20020a05600c1c1400b003dc5dd44c0cso289930wms.8
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 21:45:23 -0800 (PST)
+ us-mta-37-vzWoz8NNNeSWig-iYg5ujA-1; Mon, 30 Jan 2023 00:50:10 -0500
+X-MC-Unique: vzWoz8NNNeSWig-iYg5ujA-1
+Received: by mail-ua1-f72.google.com with SMTP id
+ z42-20020ab0492d000000b00423b333ff7dso4261637uac.22
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 21:50:10 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NPI0QUnw5tzdzGuSIaMAPVjZWbM6LcFSZFksrcdoi9g=;
- b=tkNgxdJMu4l6DE3HY/S/YNra+oF4xaWaAvFotca/7OOuHrkN6zwrxWkgd8u2TRUUb2
- 8RNPirm6wcd17Jpw+V59D+otZjEQA8OcGstcay3Ynh8Smia44tzMQoqCjGYiNeC5ZCe/
- ma3kqQkxHfC+asxDMlAPEtWAw2VkpeRn8AAuud54yDITMRhYV2ivsEeSdR5ahSJvt+XV
- 6TgboledOjq3gN1O8/pqX+efuh3XfWNl8Ebeu2HxGWJx2q110BXKtL/EzXkiL7Ymw9sJ
- dlicfoipvzYlW7JDfUMfGKAMj1pZBcym4Rz91zooefbc7I+iZViEJx7V2oZ+WkKJQ8xO
- S7rQ==
-X-Gm-Message-State: AFqh2kpE/aG+zk47qlu2mTS46flllar1tKDeYCVjfAaa6YFKTTEd14cJ
- D8S/Sbr+qLsFqLU9IyuM8C12Brl8xtNtCZJ563meLDG/eA25SDKHJyP0KzZNXhzoHzlcZwLvnRT
- 86lLk7P8Zt8EXCno=
-X-Received: by 2002:a05:600c:225a:b0:3d3:5c21:dd99 with SMTP id
- a26-20020a05600c225a00b003d35c21dd99mr47769945wmm.18.1675057522346; 
- Sun, 29 Jan 2023 21:45:22 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXvl4XD/3x/27yRqZcTR+uYsQ2lEVCH7w7gf3WwKz3a7X2z2MkKhYa6EYO6Mjcrfyoh1dB8bNQ==
-X-Received: by 2002:a05:600c:225a:b0:3d3:5c21:dd99 with SMTP id
- a26-20020a05600c225a00b003d35c21dd99mr47769938wmm.18.1675057522134; 
- Sun, 29 Jan 2023 21:45:22 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- ay6-20020a05600c1e0600b003db00747fdesm15246784wmb.15.2023.01.29.21.45.21
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=RRrm9oWapLjmfDoAe+7E9OcrgrCIVgGtG4ZCiH+W3mE=;
+ b=x3GZ7xAU3teB879JLqde1R47F0AmBQo9v9b4ay6qYXkhCXwm88KVixugaWvFt7WFwm
+ dGEpKtVDLbaCBw1YGs6d99B9j3LOxs6H4iWUvyi+TqWiDO47hdZ1SkQTS4MfBkQpU2KF
+ YqRy0f4B9QeuMr0lQyoP/4UFOFC01u89tBs1PJH3kIzSdiD5ypRIMt4VHvuTIW1Dv9X+
+ hXOY7dsCAJ13RX5DDKJlrssALSe0whSqt0SMpslq8Ou+1MbTkORIONoHH+8lHRurLzgw
+ E7Leb17cZEVTOkBc6rLrMzqY0D76sYoEWu+Sg4KvvP2VzNuCyQWNsle2Qdof3LqbnmPW
+ z9Ag==
+X-Gm-Message-State: AO0yUKU5F3SwW1LnlmSFZMD1Q4USIRkEQ4p8CWvnrey4M/VIPWdn/1BX
+ irSDtaV5GvPSeLIh8UFP9f4WdqXwZ/RwxTBcdMCrvLDSNlGoWE2HO9yR29O4pD8aNHjKBCpDZO5
+ xgJr4dYE/0fXIldo=
+X-Received: by 2002:a05:6102:8:b0:3eb:4440:ca72 with SMTP id
+ j8-20020a056102000800b003eb4440ca72mr7214055vsp.9.1675057810099; 
+ Sun, 29 Jan 2023 21:50:10 -0800 (PST)
+X-Google-Smtp-Source: AK7set+E0Jare0w/Q73KGl55zjA9/nQ2BVHt0KYVpAkoJB7e+B0ioL0DHAMcZVycI1/brUT7Lv923g==
+X-Received: by 2002:a05:6102:8:b0:3eb:4440:ca72 with SMTP id
+ j8-20020a056102000800b003eb4440ca72mr7214050vsp.9.1675057809791; 
+ Sun, 29 Jan 2023 21:50:09 -0800 (PST)
+Received: from redhat.com ([87.249.138.139]) by smtp.gmail.com with ESMTPSA id
+ k19-20020a67e3d3000000b003d3d976f799sm766705vsm.4.2023.01.29.21.50.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 21:45:21 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
- <lsoaresp@redhat.com>,  James Houghton <jthoughton@google.com>,  "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RFC 15/21] migration: Teach qemu about minor faults and
- doublemap
-In-Reply-To: <20230117220914.2062125-16-peterx@redhat.com> (Peter Xu's message
- of "Tue, 17 Jan 2023 17:09:08 -0500")
-References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-16-peterx@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 30 Jan 2023 06:45:20 +0100
-Message-ID: <87k014pocv.fsf@secure.mitica>
+ Sun, 29 Jan 2023 21:50:09 -0800 (PST)
+Date: Mon, 30 Jan 2023 00:50:03 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+Cc: Xuan Zhuo <xuanzhuo@linux.alibaba.com>, qemu-devel@nongnu.org,
+ Alexander Bulekov <alxndr@bu.edu>
+Subject: Re: [PATCH v1 2/2] virtio-net: virtio_net_flush_tx() check for
+ per-queue reset
+Message-ID: <20230130004440-mutt-send-email-mst@kernel.org>
+References: <20230129025150.119972-1-xuanzhuo@linux.alibaba.com>
+ <20230129025150.119972-3-xuanzhuo@linux.alibaba.com>
+ <CACGkMEvHyRr_nt6eFzE632yOLLOsrcCv3dN5sD01AaGD_-LZVg@mail.gmail.com>
+ <1674978207.8889825-4-xuanzhuo@linux.alibaba.com>
+ <CACGkMEs0NeOA4H9z2LkgYRZhcdQ4Hx2kgH+hE+JLV8TzsfWohg@mail.gmail.com>
+ <1675049912.7650461-1-xuanzhuo@linux.alibaba.com>
+ <CACGkMEvwfoGbTRPP1MmL-i_mNZB+ct70qJ3eO07vpWyw7-35Cw@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CACGkMEvwfoGbTRPP1MmL-i_mNZB+ct70qJ3eO07vpWyw7-35Cw@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,124 +99,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Xu <peterx@redhat.com> wrote:
-> When a ramblock is backed by hugetlbfs and the user specified using
-> double-map feature, we trap the faults on these regions using minor mode.
-> Teach QEMU about that.
->
-> Add some sanity check on the fault flags when receiving a uffd message.
-> For minor fault trapped ranges, we should always see the MINOR flag set,
-> while when using generic missing faults we should never see it.
->
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+On Mon, Jan 30, 2023 at 11:53:18AM +0800, Jason Wang wrote:
+> On Mon, Jan 30, 2023 at 11:42 AM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
+> >
+> > On Mon, 30 Jan 2023 11:01:40 +0800, Jason Wang <jasowang@redhat.com> wrote:
+> > > On Sun, Jan 29, 2023 at 3:44 PM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
+> > > >
+> > > > On Sun, 29 Jan 2023 14:23:21 +0800, Jason Wang <jasowang@redhat.com> wrote:
+> > > > > On Sun, Jan 29, 2023 at 10:52 AM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
+> > > > > >
+> > > > > > Check whether it is per-queue reset state in virtio_net_flush_tx().
+> > > > > >
+> > > > > > Before per-queue reset, we need to recover async tx resources. At this
+> > > > > > time, virtio_net_flush_tx() is called, but we should not try to send
+> > > > > > new packets, so virtio_net_flush_tx() should check the current
+> > > > > > per-queue reset state.
+> > > > > >
+> > > > > > Fixes: 7dc6be52 ("virtio-net: support queue reset")
+> > > > > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1451
+> > > > > > Reported-by: Alexander Bulekov <alxndr@bu.edu>
+> > > > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+> > > > > > ---
+> > > > > >  hw/net/virtio-net.c | 3 ++-
+> > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > > > >
+> > > > > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
+> > > > > > index 3ae909041a..fba6451a50 100644
+> > > > > > --- a/hw/net/virtio-net.c
+> > > > > > +++ b/hw/net/virtio-net.c
+> > > > > > @@ -2627,7 +2627,8 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
+> > > > > >      VirtQueueElement *elem;
+> > > > > >      int32_t num_packets = 0;
+> > > > > >      int queue_index = vq2q(virtio_get_queue_index(q->tx_vq));
+> > > > > > -    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
+> > > > > > +    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) ||
+> > > > > > +        virtio_queue_reset_state(q->tx_vq)) {
+> > > > >
+> > > > > We have other places that check DRIVER_OK do we need to check queue
+> > > > > reset as well?
+> > > >
+> > > > I checked it again. I still think that the location of other checking DRIVER_OK
+> > > > does not need to check the queue reset.
+> > >
+> > > For example, if we don't disable can_receive() when the queue is
+> > > reset, it means rx may go for virtio_net_receive_rcu(). It means the
+> > > Qemu is still trying to process the traffic from the network backend
+> > > like tap which may waste cpu cycles.
+> > >
+> > > I think the correct way is to return false when the queue is reset in
+> > > can_receive(), then the backend poll will be disabled (e.g TAP). When
+> > > the queue is enabled again, qemu_flush_queued_packets() will wake up
+> > > the backend polling.
+> > >
+> > > Having had time to check other places but it would be better to
+> > > mention why it doesn't need a check in the changelog.
+> >
+> >
+> > static bool virtio_net_can_receive(NetClientState *nc)
+> > {
+> >     VirtIONet *n = qemu_get_nic_opaque(nc);
+> >     VirtIODevice *vdev = VIRTIO_DEVICE(n);
+> >     VirtIONetQueue *q = virtio_net_get_subqueue(nc);
+> >
+> >     if (!vdev->vm_running) {
+> >         return false;
+> >     }
+> >
+> >     if (nc->queue_index >= n->curr_queue_pairs) {
+> >         return false;
+> >     }
+> >
+> >     if (!virtio_queue_ready(q->rx_vq) ||
+> >         !(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
+> >         return false;
+> >     }
+> >
+> >     return true;
+> > }
+> >
+> > int virtio_queue_ready(VirtQueue *vq)
+> > {
+> >     return vq->vring.avail != 0;
+> > }
+> >
+> >
+> > static void __virtio_queue_reset(VirtIODevice *vdev, uint32_t i)
+> > {
+> >     vdev->vq[i].vring.desc = 0;
+> >     vdev->vq[i].vring.avail = 0;
+> >     vdev->vq[i].vring.used = 0;
+> >     vdev->vq[i].last_avail_idx = 0;
+> >     vdev->vq[i].shadow_avail_idx = 0;
+> >     vdev->vq[i].used_idx = 0;
+> >     vdev->vq[i].last_avail_wrap_counter = true;
+> >     vdev->vq[i].shadow_avail_wrap_counter = true;
+> >     vdev->vq[i].used_wrap_counter = true;
+> >     virtio_queue_set_vector(vdev, i, VIRTIO_NO_VECTOR);
+> >     vdev->vq[i].signalled_used = 0;
+> >     vdev->vq[i].signalled_used_valid = false;
+> >     vdev->vq[i].notification = true;
+> >     vdev->vq[i].vring.num = vdev->vq[i].vring.num_default;
+> >     vdev->vq[i].inuse = 0;
+> >     virtio_virtqueue_reset_region_cache(&vdev->vq[i]);
+> > }
+> >
+> > In the implementation of Per-Queue Reset, for RX, we stop RX by setting vdev->vq[i].vring.avail to 0.
+> 
+> Ok, but this is kind of fragile (especially when vIOMMU is enabled).
+> I'd add an explicit check for reset there.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+It's not great in that spec says avail 0 is actually legal.
+But I don't really want to see more and more checks.
+If we are doing cleanups, the right way is probably a new "live" flag
+that transports can set correctly from the combination of
+DRIVER_OK, desc, kick, queue_enable, queue_reset and so on.
 
-
-
-> -    if (!(reg_struct.ioctls & ((__u64)1 << _UFFDIO_COPY))) {
-
-Does qemu have a macro to do this bitmap handling?
-
->  {
->      MigrationIncomingState *mis = opaque;
->      struct uffd_msg msg;
-> +    uint64_t address;
->      int ret;
->      size_t index;
->      RAMBlock *rb = NULL;
-> @@ -945,6 +980,7 @@ static void *postcopy_ram_fault_thread(void *opaque)
->      }
->  
->      while (true) {
-> +        bool use_minor_fault, minor_flag;
-
-I think that something on the lines of:
-           bool src_minor_fault, dst_minor_fault;
-
-will make things simpler.  Reviewing, I have to go back to definition
-place to know which is which.
-
->          ram_addr_t rb_offset;
->          int poll_result;
->  
-> @@ -1022,22 +1058,37 @@ static void *postcopy_ram_fault_thread(void *opaque)
->                  break;
->              }
->  
-> -            rb_offset = ROUND_DOWN(rb_offset, migration_ram_pagesize(rb));
-> -            trace_postcopy_ram_fault_thread_request(msg.arg.pagefault.address,
-> -                                                qemu_ram_get_idstr(rb),
-> -                                                rb_offset,
-> -                                                msg.arg.pagefault.feat.ptid);
-> -            mark_postcopy_blocktime_begin(
-> -                    (uintptr_t)(msg.arg.pagefault.address),
-> -                                msg.arg.pagefault.feat.ptid, rb);
-> +            address = ROUND_DOWN(msg.arg.pagefault.address,
-> +                                 migration_ram_pagesize(rb));
-> +            use_minor_fault = postcopy_use_minor_fault(rb);
-> +            minor_flag = !!(msg.arg.pagefault.flags &
-> +                            UFFD_PAGEFAULT_FLAG_MINOR);
->  
-> +            /*
-> +             * Do sanity check on the message flags to make sure this is
-> +             * the one we expect to receive.  When using minor fault on
-> +             * this ramblock, it should _always_ be set; when not using
-> +             * minor fault, it should _never_ be set.
-> +             */
-> +            if (use_minor_fault ^ minor_flag) {
-> +                error_report("%s: Unexpected page fault flags (0x%"PRIx64") "
-> +                             "for address 0x%"PRIx64" (mode=%s)", __func__,
-> +                             (uint64_t)msg.arg.pagefault.flags,
-> +                             (uint64_t)msg.arg.pagefault.address,
-> +                             use_minor_fault ? "MINOR" : "MISSING");
-> +            }
-> +
-> +            trace_postcopy_ram_fault_thread_request(
-> +                address, qemu_ram_get_idstr(rb), rb_offset,
-> +                msg.arg.pagefault.feat.ptid);
-> +            mark_postcopy_blocktime_begin(
-> +                    (uintptr_t)(address), msg.arg.pagefault.feat.ptid, rb);
->  retry:
->              /*
->               * Send the request to the source - we want to request one
->               * of our host page sizes (which is >= TPS)
->               */
-> -            ret = postcopy_request_page(mis, rb, rb_offset,
-> -                                        msg.arg.pagefault.address);
-> +            ret = postcopy_request_page(mis, rb, rb_offset, address);
-
-This is the only change that I find 'problematic'.
-On old code, rb_offset has been ROUND_DOWN, on new code it is not.
-On old code we pass msg.arg.pagefault.address, now we use
-ROUND_DOW(msg.arg.pagefault.address, mighration_ram_pagesize(rb)).
-
->              if (ret) {
->                  /* May be network failure, try to wait for recovery */
->                  postcopy_pause_fault_thread(mis);
-> @@ -1694,3 +1745,13 @@ void *postcopy_preempt_thread(void *opaque)
->  
->      return NULL;
->  }
-> +
-> +/*
-> + * Whether we should use MINOR fault to trap page faults?  It will be used
-> + * when doublemap is enabled on hugetlbfs.  The default value will be
-> + * false, which means we'll keep using the legacy MISSING faults.
-> + */
-> +bool postcopy_use_minor_fault(RAMBlock *rb)
-> +{
-> +    return migrate_hugetlb_doublemap() && qemu_ram_is_hugetlb(rb);
-> +}
-
-Are you planing using this function outside postocpy-ram.c?  Otherwise
-if you move up its definition you can make it static and drop the header
-change.
-
-Later, Juan.
+> (probably on top).
+> 
+> Thanks
+> 
+> > Then callback can_receive will return False.
+> >
+> >
+> > Thanks.
+> >
+> >
+> > >
+> > > Thanks
+> > >
+> > > >
+> > > > Thanks.
+> > > >
+> > > >
+> > > > >
+> > > > > E.g:
+> > > > > virtio_net_can_receive()
+> > > > > virtio_net_tx_{timer|bh}()
+> > > > >
+> > > > > Thanks
+> > > > >
+> > > > > >          return num_packets;
+> > > > > >      }
+> > > > > >
+> > > > > > --
+> > > > > > 2.32.0.3.g01195cf9f
+> > > > > >
+> > > > >
+> > > >
+> > >
+> >
 
 
