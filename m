@@ -2,107 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41C8B681B10
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:04:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F51681B3E
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:19:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMaN2-0006KX-Le; Mon, 30 Jan 2023 15:03:16 -0500
+	id 1pMacB-0002C4-Ac; Mon, 30 Jan 2023 15:18:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pMaN0-0006JK-EL
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:03:14 -0500
-Received: from esa2.hc2706-39.iphmx.com ([216.71.152.49])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMac8-0002AF-OI
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:18:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alxndr@bu.edu>) id 1pMaMy-00046D-Dc
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:03:14 -0500
-X-IronPort-RemoteIP: 209.85.219.70
-X-IronPort-MID: 255262966
-X-IronPort-Reputation: None
-X-IronPort-Listener: OutgoingMail
-X-IronPort-SenderGroup: RELAY_GSUITE
-X-IronPort-MailFlowPolicy: $RELAYED
-IronPort-Data: A9a23:IKEOGKpIsjgJBKYXoL54ukf5QbxeBmKlZxIvgKrLsJaIsI4StFCzt
- garIBmDP6uMNzCgKYh+bIzloBgGsZDUzIRhT1Fprio8EHkVp5acVYWSI3mrAy7DdceroGCLT
- ik9hnssCOhuExcwcz/0auCJQUFUjP3OHfykTbaeYUidfCc8IA85kxVvhuUltYBhhNm9Emult
- Mj75sbSIzdJ4RYtWo4vw//F+UwHUMja4mtC5QRnPqgT5zcyqlFOZH4hDfDpR5fHatQMdgKKb
- 76r5K20+Grf4yAsBruN+losWhRXKlJ6FVHmZkt+AsBOsDAbzsAB+v9T2M4nVKtio27hc+ada
- Tl6ncfYpQ8BZsUgkQmGOvVSO3gW0aZuodcrLZUj2CA6IoKvn3bEmp1T4E8K0YIw9th2BHtR0
- 9YjFylTQjmojuW62pSXVbw57igjBJGD0II3v3hhyXTAE69jT8+bBarN4tBc0XE7gcUm8fT2P
- ZJIL2oyKk6ZMlsQYj/7C7pn9AusrnD7YztUsnqfuOw673W7IAlZiuWwaoSPK4LULSlTtnagq
- mPJ4Tr5ODoDZISgkRWI90yhv+CayEsXX6pXTtVU7MVCmVCW2ykfBQMbUXO9pv+2jFP4XMhQQ
- 3H44QIrpKk2sVW1F5zzAEX+r3mDsRoRHdFXFoXW9T2w90Yd2C7BbkBsc9KLQIdOWBMeLdDy6
- mK0og==
-IronPort-HdrOrdr: A9a23:gtL1E6E4RiKW+/FLpLqEwMeALOsnbusQ8zAXPiFKOGVom6mj/P
- xG885w6faKskd2ZJhNo7+90dC7LU80lqQU3WByB9qftWDd0QOVxedZnOjfKlbbehEWmNQy6U
- 4ZSdkdNDWhZmIK6foTHWGDYrMd6ejC7qazmO/E0h5WPGZXV50=
-Received: from mail-qv1-f70.google.com ([209.85.219.70])
- by ob1.hc2706-39.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256;
- 30 Jan 2023 15:03:07 -0500
-Received: by mail-qv1-f70.google.com with SMTP id
- q17-20020a056214019100b004b1d3c9f3acso7071833qvr.0
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:03:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bu.edu; s=s1gsbu;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=MVx2Hj/j2ZOAJnusEKyNPvbd51icWpE2vJegjTseZY8=;
- b=XTAsDiK8wxsVvUBUvSfXWq05lYEERYw6RLe1soMmDrp5B3XH6l333ogkYRNwK7BNkl
- jW1UzWS5cwleGE+ZQtjZwCVonfcI0l/Y1iBcU8kIlNb5mJrkNPGUeEM1cuHiI2zhnCnh
- u9+xArnHyAaNJqFMeYwvsYFcrJdSLFWRCFLGPBm4Zvok0enItDn/QFufdf9pGPQJZd/K
- MvTa0aRS/8I0HK0Kw5k0f+ePlvUslifnkrU1elaTAvvbEwUkSRUCl8C+YnX23knQNwcT
- XEAGr8WZgrDFc/ysy7+SG8IWy5EGyHCQEl+o9d4MCKfE2cZhcT7O3bLR5kM+x6ghtI2w
- Ko/Q==
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMac5-0006nz-Sk
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:18:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675109926;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=9C0wspH7JwtV5isIbSGmt7CJcNDtpFw6jzspm0OHuHg=;
+ b=BM3Sp22nsPfykrhRYvdnfgVKtJno5Sx9vwZDkcBbSBeQagEg8qi5ZKIztF9ACOyNanUYCX
+ 1XRe523nJKspaGOpacupHQRfYPLAu25onngVP/XLm0+likFApADM7Ma2TeaaEoz+dtPOom
+ C1nxWOcZXiIm4kRLo/dyXTSuCJR+ewc=
+Received: from mail-ej1-f69.google.com (mail-ej1-f69.google.com
+ [209.85.218.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-592-32lQP717P1WOxJUPxfd9lg-1; Mon, 30 Jan 2023 15:18:45 -0500
+X-MC-Unique: 32lQP717P1WOxJUPxfd9lg-1
+Received: by mail-ej1-f69.google.com with SMTP id
+ gz8-20020a170907a04800b0087bd94a505fso5688268ejc.16
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:18:44 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=MVx2Hj/j2ZOAJnusEKyNPvbd51icWpE2vJegjTseZY8=;
- b=VafTiZTVrN3oZ4wGjvkvwm3v+77sctq57xBKG/POlUkrm05KaapD+rUHf2W65Orzk8
- 4H1WN31+20BVKk9m+9acuLFTNlqaD6vwlL6k/mswVtYLFG4pXvIn8DyjvXJ10TodBaW5
- HHYG+wc68CklV5yIcEdOhFRRcGP6qnFWP5r0/wMhJOId7Luoc0xPX6AOPDihEbF5kpgR
- xzxg7fpU/ZMocFG9juTwSDpgtdxwKg56f3KXHxmsbFVlH+bR1/iVSvxsAl20mu26xY+/
- 9Go9WiKrNxWNxl+0UoLjy+G6BcM/cx+5Ryz+pLO8mUhlgI4dnd9qE0is2v9/oHauocbW
- hNlw==
-X-Gm-Message-State: AO0yUKVINnE7anYwJnwEJ4CtarKJU2VFPQk9imF3tOazUp+tRIANF/aX
- nx52FE4nPzz4qE75vnjdjPFQdO2cN0l3/UoD2gtb2uT6HOrIoR+BjnHNMuMiXhPwVEW7xjR8WfN
- 5TkSAz2I0wjBdATH9jB+EY68gnhL1gw==
-X-Received: by 2002:a05:622a:c:b0:3b6:9418:ad6f with SMTP id
- x12-20020a05622a000c00b003b69418ad6fmr16907297qtw.67.1675108986632; 
- Mon, 30 Jan 2023 12:03:06 -0800 (PST)
-X-Google-Smtp-Source: AK7set+wCeMw/+rsdz1aNNp6uMuLC4hax0UjyH0qqaZ8KdZ5hFUAhATOCNPWS+MUTetXJHAL9ZcJXQ==
-X-Received: by 2002:a05:622a:c:b0:3b6:9418:ad6f with SMTP id
- x12-20020a05622a000c00b003b69418ad6fmr16907263qtw.67.1675108986338; 
- Mon, 30 Jan 2023 12:03:06 -0800 (PST)
-Received: from mozz.bu.edu (mozz.bu.edu. [128.197.127.33])
- by smtp.gmail.com with ESMTPSA id
- i1-20020a37b801000000b00702d1c6e7bbsm8461911qkf.130.2023.01.30.12.03.05
+ h=content-transfer-encoding:content-disposition:mime-version
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=9C0wspH7JwtV5isIbSGmt7CJcNDtpFw6jzspm0OHuHg=;
+ b=cLmlov59cUeS6aUlk+kb+mEf1Hw1J0KQsL6xnvckeIqDNLCPPTvNF/j393zuWIWbXJ
+ A7mI5GoqWOTnXY8P7UO5UB0jYWlxcZivySHgOU74Tje5sV7GHqpakoGD4oCV3+yq0iuR
+ 8RlvfgtzfpM7iXaGoUWIogCQc0fxj+eFec76RVO8MiPUIuriMlD7yEfeb/c+sJKyz6iu
+ 5Ao1lrKPfgnr9CmsB/PjGFA89E+rcuJbfuKl64+TkdRiPr67ARVWY+Nx3fVNcyK0EOZV
+ xvyEdpRXq8H9EmosC+fmG8yhQqLwXWLYv0oxUBDXAEK/vNflBhQY8O/56y47JEC8KOw4
+ 4PDA==
+X-Gm-Message-State: AO0yUKUE54PUJl/ggSWzJa4R2WjnlpVgq53+Z9bRoRfQGjSfuSeQMVUo
+ i07Kx0QiVunOl+i0JIABaLAtb7wCN4OHRgfKW+pYasOcgJWB4BAj3sPMqQTAk7t+UAEW39q0wIN
+ YZ+W7rpuf4l6vZcw+uOFlE51Moto8EiDvPzEl5FrAZ7eBD7PiWrmx58DM+VUN
+X-Received: by 2002:a05:6402:520a:b0:4a2:6573:5c35 with SMTP id
+ s10-20020a056402520a00b004a265735c35mr787725edd.21.1675109923268; 
+ Mon, 30 Jan 2023 12:18:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set+YXDj6KakXDehZxu2NPWJlHIf6ggkGEWQe3jzqOqfXvCdU9j9/EpCDKD+T8YsBno2eSSKSdQ==
+X-Received: by 2002:a05:6402:520a:b0:4a2:6573:5c35 with SMTP id
+ s10-20020a056402520a00b004a265735c35mr787694edd.21.1675109922888; 
+ Mon, 30 Jan 2023 12:18:42 -0800 (PST)
+Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
+ a16-20020aa7d910000000b00463bc1ddc76sm7219214edr.28.2023.01.30.12.18.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 12:03:05 -0800 (PST)
-Date: Mon, 30 Jan 2023 15:03:00 -0500
-From: Alexander Bulekov <alxndr@bu.edu>
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: qemu-devel@nongnu.org,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- David Hildenbrand <david@redhat.com>, Peter Xu <peterx@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>
-Subject: Re: [PATCH] softmmu: Use memmove in flatview_write_continue
-Message-ID: <20230130200300.be736j6ya5srnphb@mozz.bu.edu>
-References: <20230130135152.76882-1-akihiko.odaki@daynix.com>
+ Mon, 30 Jan 2023 12:18:42 -0800 (PST)
+Date: Mon, 30 Jan 2023 15:18:40 -0500
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>
+Subject: [PULL 00/56] virtio,pc,pci: features, cleanups, fixes
+Message-ID: <20230130201810.11518-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230130135152.76882-1-akihiko.odaki@daynix.com>
-X-CES-GSUITE_AUTH: bf3aNvsZpxl8
-Received-SPF: pass client-ip=216.71.152.49; envelope-from=alxndr@bu.edu;
- helo=esa2.hc2706-39.iphmx.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- HK_RANDOM_ENVFROM=0.001, HK_RANDOM_FROM=0.999, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Content-Transfer-Encoding: 8bit
+X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
+X-Mutt-Fcc: =sent
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,61 +95,194 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 230130 2251, Akihiko Odaki wrote:
-> We found a case where the source passed to flatview_write_continue() may
-> overlap with the destination when fuzzing igb, a new proposed network
-> device with sanitizers.
-> 
-> igb uses pci_dma_map() to get Tx packet, and pci_dma_write() to write Rx
-> buffer. While pci_dma_write() is usually used to write data from
-> memory not mapped to the guest, if igb is configured to perform
-> loopback, the data will be sourced from the guest memory. The source and
-> destination can overlap and the usage of memcpy() will be invalid in
-> such a case.
-> 
-> While we do not really have to deal with such an invalid request for
-> igb, detecting the overlap in igb code beforehand requires complex code,
-> and only covers this specific case. Instead, just replace memcpy() with
-> memmove() to torelate overlaps. Using memmove() will slightly damage the
-> performance as it will need to check overlaps before using SIMD
-> instructions for copying, but the cost should be negiligble, considering
-> the inherent complexity of flatview_write_continue().
-> 
-> The test cases generated by the fuzzer is available at:
-> https://patchew.org/QEMU/20230129053316.1071513-1-alxndr@bu.edu/
-> 
-> The fixed test case is:
-> fuzz/crash_47dfe62d9f911bf523ff48cd441b61c0013ed805
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+The following changes since commit 13356edb87506c148b163b8c7eb0695647d00c2a:
 
-Since this is called fairly often, I went down a rabit hole looking at
-memmove vs memcpy perf, but It looks like this should not be much of a
-problem.
+  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2023-01-24 09:45:33 +0000)
 
-Acked-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+are available in the Git repository at:
 
-Thank you
+  https://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> ---
->  softmmu/physmem.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index cb998cdf23..3cd27b1c9d 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -2828,7 +2828,7 @@ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
->          } else {
->              /* RAM case */
->              ram_ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
-> -            memcpy(ram_ptr, buf, l);
-> +            memmove(ram_ptr, buf, l);
->              invalidate_and_set_dirty(mr, addr1, l);
->          }
->  
-> -- 
-> 2.39.1
-> 
+for you to fetch changes up to f5cb612867d3b10b86d6361ba041767e02c1b127:
+
+  docs/pcie.txt: Replace ioh3420 with pcie-root-port (2023-01-28 06:21:30 -0500)
+
+----------------------------------------------------------------
+virtio,pc,pci: features, cleanups, fixes
+
+lots of fixes, cleanups
+
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
+----------------------------------------------------------------
+Akihiko Odaki (1):
+      vhost-user: Correct a reference of TARGET_AARCH64
+
+Bernhard Beschow (4):
+      hw/i386/acpi-build: Remove unused attributes
+      hw/isa/isa-bus: Turn isa_build_aml() into qbus_build_aml()
+      hw/acpi/piix4: No need to #include "hw/southbridge/piix.h"
+      hw/acpi/acpi_dev_interface: Remove unused parameter from AcpiDeviceIfClass::madt_cpu
+
+Dr. David Alan Gilbert (1):
+      virtio-rng-pci: fix migration compat for vectors
+
+Greg Kurz (2):
+      Revert "vhost-user: Monitor slave channel in vhost_user_read()"
+      Revert "vhost-user: Introduce nested event loop in vhost_user_read()"
+
+Igor Mammedov (40):
+      tests: qtest: print device_add error before failing test
+      tests: acpi: cleanup arguments to make them more readable
+      tests: acpi: whitelist DSDT blobs for tests that use pci-bridges
+      tests: acpi: extend pcihp with nested bridges
+      tests: acpi: update expected blobs
+      tests: acpi: cleanup use_uefi argument usage
+      pci_bridge: remove whitespace
+      x86: acpi: pcihp: clean up duplicate bridge_in_acpi assignment
+      pci: acpi hotplug: rename x-native-hotplug to x-do-not-expose-native-hotplug-cap
+      pcihp: piix4: do not call acpi_pcihp_reset() when ACPI PCI hotplug is disabled
+      pci: acpihp: assign BSEL only to coldplugged bridges
+      x86: pcihp: fix invalid AML PCNT calls to hotplugged bridges
+      tests: boot_sector_test: avoid crashing if status is not available yet
+      tests: acpi: extend bridge tests with hotplugged bridges
+      tests: boot_sector_test(): make it multi-shot
+      tests: acpi: add reboot cycle to bridge test
+      tests: acpi: whitelist DSDT before refactoring acpi based PCI hotplug machinery
+      pcihp: drop pcihp_bridge_en dependency when composing PCNT method
+      tests: acpi: update expected blobs
+      tests: acpi: whitelist DSDT before refactoring acpi based PCI hotplug machinery
+      pcihp: compose PCNT callchain right before its user _GPE._E01
+      pcihp: do not put empty PCNT in DSDT
+      tests: acpi: update expected blobs
+      whitelist DSDT before adding endpoint devices to bridge testcases
+      tests: acpi: add endpoint devices to bridges
+      tests: acpi: update expected blobs
+      x86: pcihp: acpi: prepare slot ignore rule to work with self describing bridges
+      pci: acpi: wire up AcpiDevAmlIf interface to generic bridge
+      pcihp: make bridge describe itself using AcpiDevAmlIfClass:build_dev_aml
+      pci: make sure pci_bus_is_express() won't error out with "discards ‘const’ qualifier"
+      pcihp: isolate rule whether slot should be described in DSDT
+      tests: acpi: whitelist DSDT before decoupling PCI hotplug code from basic slots description
+      pcihp: acpi: decouple hotplug and generic slots description
+      tests: acpi: update expected blobs
+      tests: acpi: whitelist DSDT blobs before removing dynamic _DSM on coldplugged bridges
+      pcihp: acpi: ignore coldplugged bridges when composing hotpluggable slots
+      tests: acpi: update expected blobs
+      tests: acpi: whitelist DSDT before moving non-hotpluggble slots description from hotplug path
+      pcihp: generate populated non-hotpluggble slot descriptions on non-hotplug path
+      tests: acpi: update expected blobs
+
+Jason A. Donenfeld (1):
+      x86: don't let decompressed kernel image clobber setup_data
+
+Marcel Apfelbaum (1):
+      docs/pcie.txt: Replace ioh3420 with pcie-root-port
+
+Minghao Yuan (1):
+      vhost-user: Skip unnecessary duplicated VHOST_USER_ADD/REM_MEM_REG requests
+
+Peter Xu (1):
+      intel-iommu: Document iova_tree
+
+Philippe Mathieu-Daudé (2):
+      hw/pci-host: Use register definitions from PCI standard
+      hw: Use TYPE_PCI_BUS definition where appropriate
+
+Thomas Huth (1):
+      tests/qtest/bios-tables-test: Make the test less verbose by default
+
+Vladimir Sementsov-Ogievskiy (1):
+      shpc: disallow unplug when power indicator is blinking
+
+ docs/pcie.txt                                 |  16 +-
+ include/exec/memory.h                         |  26 +++
+ include/hw/acpi/acpi_aml_interface.h          |   3 +
+ include/hw/acpi/acpi_dev_interface.h          |   3 +-
+ include/hw/acpi/pci.h                         |   4 +
+ include/hw/i386/intel_iommu.h                 |  38 +++-
+ include/hw/i386/microvm.h                     |   5 +-
+ include/hw/i386/pc.h                          |   6 +-
+ include/hw/isa/isa.h                          |   1 -
+ include/hw/nvram/fw_cfg.h                     |   9 +
+ include/hw/pci/pci.h                          |   2 +-
+ include/hw/pci/pcie_port.h                    |   3 +-
+ hw/acpi/acpi-x86-stub.c                       |   5 +-
+ hw/acpi/acpi_interface.c                      |  10 +
+ hw/acpi/cpu.c                                 |   3 +-
+ hw/acpi/pci-bridge-stub.c                     |  20 ++
+ hw/acpi/pci-bridge.c                          |  27 +++
+ hw/acpi/pcihp.c                               |  35 +--
+ hw/acpi/piix4.c                               |   5 +-
+ hw/arm/smmu-common.c                          |   3 +-
+ hw/core/machine.c                             |   1 +
+ hw/i2c/smbus_ich9.c                           |   5 +-
+ hw/i386/acpi-build.c                          | 301 +++++++++++++++-----------
+ hw/i386/acpi-common.c                         |   7 +-
+ hw/i386/acpi-microvm.c                        |   3 +-
+ hw/i386/microvm.c                             |  15 +-
+ hw/i386/pc_q35.c                              |   5 +-
+ hw/i386/x86.c                                 |  52 +++--
+ hw/isa/isa-bus.c                              |  10 -
+ hw/isa/lpc_ich9.c                             |   5 +-
+ hw/isa/piix3.c                                |   5 +-
+ hw/nvram/fw_cfg.c                             |   9 +
+ hw/pci-bridge/gen_pcie_root_port.c            |   7 +-
+ hw/pci-bridge/pci_bridge_dev.c                |   1 -
+ hw/pci-host/grackle.c                         |   2 +-
+ hw/pci-host/raven.c                           |   6 +-
+ hw/pci-host/uninorth.c                        |  33 +--
+ hw/pci/pci.c                                  |   2 +-
+ hw/pci/pci_bridge.c                           |  14 ++
+ hw/pci/pcie.c                                 |   6 +-
+ hw/pci/pcie_port.c                            |   3 +-
+ hw/pci/shpc.c                                 |   7 +
+ hw/virtio/vhost-user.c                        | 104 +--------
+ hw/virtio/virtio-iommu.c                      |   3 +-
+ tests/qtest/bios-tables-test.c                | 161 ++++++++++----
+ tests/qtest/boot-sector.c                     |   6 +-
+ tests/qtest/libqtest.c                        |   4 +
+ hw/acpi/Kconfig                               |   4 +
+ hw/acpi/meson.build                           |   4 +-
+ hw/i386/Kconfig                               |   1 +
+ tests/data/acpi/pc/DSDT                       | Bin 6458 -> 6360 bytes
+ tests/data/acpi/pc/DSDT.acpierst              | Bin 6418 -> 6283 bytes
+ tests/data/acpi/pc/DSDT.acpihmat              | Bin 7783 -> 7685 bytes
+ tests/data/acpi/pc/DSDT.bridge                | Bin 9532 -> 12487 bytes
+ tests/data/acpi/pc/DSDT.cphp                  | Bin 6922 -> 6824 bytes
+ tests/data/acpi/pc/DSDT.dimmpxm               | Bin 8112 -> 8014 bytes
+ tests/data/acpi/pc/DSDT.hpbridge              | Bin 6418 -> 6289 bytes
+ tests/data/acpi/pc/DSDT.hpbrroot              | Bin 3064 -> 3081 bytes
+ tests/data/acpi/pc/DSDT.ipmikcs               | Bin 6530 -> 6432 bytes
+ tests/data/acpi/pc/DSDT.memhp                 | Bin 7817 -> 7719 bytes
+ tests/data/acpi/pc/DSDT.nohpet                | Bin 6316 -> 6218 bytes
+ tests/data/acpi/pc/DSDT.numamem               | Bin 6464 -> 6366 bytes
+ tests/data/acpi/pc/DSDT.roothp                | Bin 6656 -> 9745 bytes
+ tests/data/acpi/q35/DSDT                      | Bin 8310 -> 8252 bytes
+ tests/data/acpi/q35/DSDT.acpierst             | Bin 8327 -> 8269 bytes
+ tests/data/acpi/q35/DSDT.acpihmat             | Bin 9635 -> 9577 bytes
+ tests/data/acpi/q35/DSDT.acpihmat-noinitiator | Bin 8589 -> 8531 bytes
+ tests/data/acpi/q35/DSDT.applesmc             | Bin 8356 -> 8298 bytes
+ tests/data/acpi/q35/DSDT.bridge               | Bin 11439 -> 11481 bytes
+ tests/data/acpi/q35/DSDT.core-count2          | Bin 32450 -> 32392 bytes
+ tests/data/acpi/q35/DSDT.cphp                 | Bin 8774 -> 8716 bytes
+ tests/data/acpi/q35/DSDT.cxl                  | Bin 9636 -> 9578 bytes
+ tests/data/acpi/q35/DSDT.dimmpxm              | Bin 9964 -> 9906 bytes
+ tests/data/acpi/q35/DSDT.ipmibt               | Bin 8385 -> 8327 bytes
+ tests/data/acpi/q35/DSDT.ipmismbus            | Bin 8398 -> 8340 bytes
+ tests/data/acpi/q35/DSDT.ivrs                 | Bin 8327 -> 8269 bytes
+ tests/data/acpi/q35/DSDT.memhp                | Bin 9669 -> 9611 bytes
+ tests/data/acpi/q35/DSDT.mmio64               | Bin 9440 -> 9382 bytes
+ tests/data/acpi/q35/DSDT.multi-bridge         | Bin 8630 -> 12337 bytes
+ tests/data/acpi/q35/DSDT.nohpet               | Bin 8168 -> 8110 bytes
+ tests/data/acpi/q35/DSDT.numamem              | Bin 8316 -> 8258 bytes
+ tests/data/acpi/q35/DSDT.pvpanic-isa          | Bin 8411 -> 8353 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm12            | Bin 8916 -> 8858 bytes
+ tests/data/acpi/q35/DSDT.tis.tpm2             | Bin 8942 -> 8884 bytes
+ tests/data/acpi/q35/DSDT.viot                 | Bin 9419 -> 9361 bytes
+ tests/data/acpi/q35/DSDT.xapic                | Bin 35673 -> 35615 bytes
+ 86 files changed, 611 insertions(+), 399 deletions(-)
+ create mode 100644 hw/acpi/pci-bridge-stub.c
+ create mode 100644 hw/acpi/pci-bridge.c
+
 
