@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 973DD680574
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 06:14:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B70680584
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 06:18:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMMUM-0007hi-N2; Mon, 30 Jan 2023 00:13:54 -0500
+	id 1pMMXc-0000BG-MT; Mon, 30 Jan 2023 00:17:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMMUE-0007fc-JQ
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:13:48 -0500
+ id 1pMMXZ-0000Ay-9R
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:17:15 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pMMUC-0001pn-Fw
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:13:45 -0500
+ id 1pMMXX-0002I1-Ln
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 00:17:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675055622;
+ s=mimecast20190719; t=1675055830;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=gyXjrDWleNg+uMKxyvRN/pj2dpCsyCtle7v9rizvDGg=;
- b=Tc7Kc5npmcLn8ypAAD/bI5xhrEpFlgFT9dsSDuLAcNxPMMG7rzRhcihoqniAL6j4ga3FDK
- uYDdDHe+QppQaFWuirTgK7m/42D7uEQoKapmSMcQED0cxi+Of3ikaE1Y6u9IyVK7MQE3BU
- nArxagpMvkq0BfFmsSymZ/ioaOyhwoU=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KvHD6Y3uScvtJYxqSIzK85lO11hGlOoNClITLXCx7V8=;
+ b=ZZ+2jMV/pLgG2yCP+SjZt9DoE0yOVhXXlyj0RBsnGhzsuXZMXuthmM3b8Hzke98Sw8Nqo0
+ wjsR/wFTH/mqMs3uw+j3qNQKmYEikOixm2BNRODAHQtg2qg1yGmAZPOUGxRVOwg/Qsyerf
+ teCg9sTwvJP3s5jdthpej6Ec7qDBxPs=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-611-UCGYi8NIPb2PVl1Ok60E3Q-1; Mon, 30 Jan 2023 00:13:41 -0500
-X-MC-Unique: UCGYi8NIPb2PVl1Ok60E3Q-1
-Received: by mail-wm1-f69.google.com with SMTP id
- l5-20020a1ced05000000b003db300f2e1cso3832328wmh.0
- for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 21:13:41 -0800 (PST)
+ us-mta-457-2LoMcblbOVaRBEmxSFpRIw-1; Mon, 30 Jan 2023 00:17:08 -0500
+X-MC-Unique: 2LoMcblbOVaRBEmxSFpRIw-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m10-20020a05600c3b0a00b003dafe7451deso6618697wms.4
+ for <qemu-devel@nongnu.org>; Sun, 29 Jan 2023 21:17:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gyXjrDWleNg+uMKxyvRN/pj2dpCsyCtle7v9rizvDGg=;
- b=0FN/VooMIEW6Kv35tOrU3faLVgyEQdlZvg+Nx+GQE0ZWzK4OM+44szMZ7glMWrLlmi
- m4AG4C0Qm/WWFV8kjzrdQi0e9y0OZI+rBouecnK6WvNJC6SNM1rWKz/V/Uhf+dGepQhx
- jccL1TU+F5sCumql3j4AaFEQhwI7PrCH9toMiSJGR4DS+afWgy6MUblxnCyb+2F0axZO
- W/QoRPbk4pwhSZkT7UQ5jbZGgpY83Vc2Gsnmhq0Yic60pG8aYzhMbvcIaXq/G9n6m7N0
- N/DY1tIhXNMPxwriqxHOfkx5w8ODJW6fQSgNhsVOwPeUaMS8siECh1H61C+gSww18llz
- uR2w==
-X-Gm-Message-State: AO0yUKXaY6Lkdpip0j1CUYulLA7ns/PGqRJOyR0fYv+vn9EJY3JJ3z3P
- ZuaPbgS45ntxZFpY5z5mPt5zP/V/4y75OeDu/2SDzQpHhQtsBPuGIY5HAZ6SrmN+wYJrYV5SILW
- QHjCtLcYu54+dlBw=
-X-Received: by 2002:a05:600c:244:b0:3dc:5b79:2dbb with SMTP id
- 4-20020a05600c024400b003dc5b792dbbmr881965wmj.25.1675055620112; 
- Sun, 29 Jan 2023 21:13:40 -0800 (PST)
-X-Google-Smtp-Source: AK7set/+4KbWswk1Oja8r6A+3Fq5nN142tttENtQHJxJWjKlTd+cqzddWMSueQg3B99McZ1+XE/4+g==
-X-Received: by 2002:a05:600c:244:b0:3dc:5b79:2dbb with SMTP id
- 4-20020a05600c024400b003dc5b792dbbmr881955wmj.25.1675055619907; 
- Sun, 29 Jan 2023 21:13:39 -0800 (PST)
+ bh=KvHD6Y3uScvtJYxqSIzK85lO11hGlOoNClITLXCx7V8=;
+ b=Kz+YU0cbEzSpY6nP3y5juHLlsRJo/vCCpJLkIxL9Kp8zP1pfMRoLtSaqElFLEiapxW
+ NihALT7i/6R9Wgh2Alm9MJqtqWwK37FHAKkaA/Dmd2yY/dwgTu8h9jZ2y2//HIlRnIKi
+ g/xFKOWGdZ9N5oeBektse0meFpJgOHjjiwiLdW4xPNDnh+v3dQ7GlUk7bR2RLFzfnr87
+ xaZeHyPzPCPGvUyoEwCyme867h81B0D3hw27zVRCdSaJhvLEAOQgvviP5E9DkbXR+P+d
+ ZG/sQAJoT7jg4olE7IRfJH2Zu8JArlxGi1G3nW754uCtKBA3Cb4kqnQQxMfUHaSDyFOF
+ TxrA==
+X-Gm-Message-State: AO0yUKXgYn9agby00GbKQM2ZWU0iqcN6Omug1QCLrtO48sYUt8e4IX2O
+ Tyavt4DQs+UQaeaofEjPxHBJ+MdGwenkS9ocVCz7NrIn9ZicEgUjX5lPmsLc5fWDJ2OQocaRKma
+ 7Sa2V+sws2UhTxHc=
+X-Received: by 2002:a05:6000:114b:b0:2bf:d3dd:6f65 with SMTP id
+ d11-20020a056000114b00b002bfd3dd6f65mr8938270wrx.41.1675055827290; 
+ Sun, 29 Jan 2023 21:17:07 -0800 (PST)
+X-Google-Smtp-Source: AK7set/a3qy2LgCvobPwFoDfBFh4VjGDloXcQLoxzGbim72u/YZMW0sm0wZIRPao2qMtZl5sE+rcVg==
+X-Received: by 2002:a05:6000:114b:b0:2bf:d3dd:6f65 with SMTP id
+ d11-20020a056000114b00b002bfd3dd6f65mr8938254wrx.41.1675055827047; 
+ Sun, 29 Jan 2023 21:17:07 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- o25-20020a1c7519000000b003daf6e3bc2fsm23257523wmc.1.2023.01.29.21.13.36
+ x7-20020a5d6b47000000b002bbed1388a5sm10746597wrw.15.2023.01.29.21.17.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Sun, 29 Jan 2023 21:13:36 -0800 (PST)
+ Sun, 29 Jan 2023 21:17:05 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
  <lsoaresp@redhat.com>,  James Houghton <jthoughton@google.com>,  "Dr .
  David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RFC 11/21] migration: Add hugetlb-doublemap cap
-In-Reply-To: <20230117220914.2062125-12-peterx@redhat.com> (Peter Xu's message
- of "Tue, 17 Jan 2023 17:09:04 -0500")
+Subject: Re: [PATCH RFC 12/21] migration: Introduce page size
+ for-migration-only
+In-Reply-To: <20230117220914.2062125-13-peterx@redhat.com> (Peter Xu's message
+ of "Tue, 17 Jan 2023 17:09:05 -0500")
 References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-12-peterx@redhat.com>
+ <20230117220914.2062125-13-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Mon, 30 Jan 2023 06:13:35 +0100
-Message-ID: <87v8koiozk.fsf@secure.mitica>
+Date: Mon, 30 Jan 2023 06:17:05 +0100
+Message-ID: <87r0vciotq.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
@@ -102,21 +103,55 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Peter Xu <peterx@redhat.com> wrote:
-> Add a new cap to allow mapping hugetlbfs backed RAMs in small page sizes.
+> Migration may not want to recognize memory chunks in page size of the host
+> only, but sometimes we may want to recognize the memory in smaller chunks
+> if e.g. they're doubly mapped as both huge and small.
+>
+> In those cases we'll prefer to assume the memory page size is always mapped
+> small (qemu_real_host_page_size) and we'll do things just like when the
+> pages was only smally mapped.
+>
+> Let's do this to be prepared of postcopy double-mapping for hugetlbfs.
 >
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 
+
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 
-> +bool migrate_hugetlb_doublemap(void)
-> +{
-> +    MigrationState *s = migrate_get_current();
-> +
-> +    return s->enabled_capabilities[MIGRATION_CAPABILITY_HUGETLB_DOUBLEMAP];
-> +}
 
-I think it was not our finest moment when we decided to name the
-functions that query capabilities without a verb, but well, everything
-else uses "this" convention, so ....
+> ---
+>  migration/migration.c    |  6 ++++--
+>  migration/postcopy-ram.c | 16 +++++++++-------
+>  migration/ram.c          | 29 ++++++++++++++++++++++-------
+>  migration/ram.h          |  1 +
+>  4 files changed, 36 insertions(+), 16 deletions(-)
+>
+> diff --git a/migration/migration.c b/migration/migration.c
+> index b174f2af92..f6fe474fc3 100644
+> --- a/migration/migration.c
+> +++ b/migration/migration.c
+> @@ -408,7 +408,7 @@ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
+>  {
+>      uint8_t bufc[12 + 1 + 255]; /* start (8), len (4), rbname up to 256 */
+>      size_t msglen = 12; /* start + len */
+> -    size_t len = qemu_ram_pagesize(rb);
+> +    size_t len = migration_ram_pagesize(rb);
+>      enum mig_rp_message_type msg_type;
+>      const char *rbname;
+>      int rbname_len;
+> @@ -443,8 +443,10 @@ int migrate_send_rp_message_req_pages(MigrationIncomingState *mis,
+>  int migrate_send_rp_req_pages(MigrationIncomingState *mis,
+>                                RAMBlock *rb, ram_addr_t start, uint64_t haddr)
+>  {
+> -    void *aligned = (void *)(uintptr_t)ROUND_DOWN(haddr, qemu_ram_pagesize(rb));
+>      bool received = false;
+> +    void *aligned;
+> +
+> +    aligned = (void *)(uintptr_t)ROUND_DOWN(haddr, migration_ram_pagesize(rb));
+
+I am trying that all new code declares variables at 1st use, and this
+goes in the wrong direction.  As this happens more than once in this
+patch, can we change the macro (or create another macro) that also does
+the cast?
 
 
