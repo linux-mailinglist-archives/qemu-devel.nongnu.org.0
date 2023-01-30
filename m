@@ -2,83 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2283681B94
-	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:32:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 509C3681B8F
+	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 21:32:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMahM-0001su-GG; Mon, 30 Jan 2023 15:24:16 -0500
+	id 1pMamX-0008S1-6g; Mon, 30 Jan 2023 15:29:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMaf9-0007ZU-2P
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:21:59 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pMalc-0008BQ-7S
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:28:46 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMaf2-0007UE-2C
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:21:58 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pMalW-00008f-Dc
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 15:28:36 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675110111;
+ s=mimecast20190719; t=1675110513;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=I4XNQdhv6ZtyeuNVlIseJKebey1JzlwjNMp41O5jDVk=;
- b=GWz3Z2aaP1Hv54C/+r0MrR7YZnf7zRUwIQinDIXgKjVV1/bRy5MCIRfmyItWFO880eU1Zn
- Gj2YHYKvwxaB2/s+agqtGoaMH0aUo3eeIMQNaEX0r7woJkmTGVj3svSp8AGbr9zHaw8d1h
- 6TGzp7SvWYd8Oe6rHPSgMGebAA2HWeM=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=Ep7uXZfXXaDiMFGHP0SJJa3NCnP55xOo5uoV6sosw8o=;
+ b=cEOTWVOMnT0ChLr9ty1KeypW0tyuoLlnh82Aih55XKRAjhftbwmiLl6vE6Gd/JyJbRrnEo
+ CH2Fm9T8TndKONztgXhg7YPCOaxTS3vW5D/nYJhGh14CzPilLhLT4aYWwSOVTCFauyYtBz
+ zMs+Unwv3kgKPamesGBtaevtJ0j3qO8=
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
+ [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-497-29UQ5aIbOxiKsYLHyMunVQ-1; Mon, 30 Jan 2023 15:21:50 -0500
-X-MC-Unique: 29UQ5aIbOxiKsYLHyMunVQ-1
-Received: by mail-ej1-f70.google.com with SMTP id
- d10-20020a170906640a00b008787d18c373so7037903ejm.17
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:21:50 -0800 (PST)
+ us-mta-497-KD_c4ZIKOMaZLBHyjSziyw-1; Mon, 30 Jan 2023 15:28:31 -0500
+X-MC-Unique: KD_c4ZIKOMaZLBHyjSziyw-1
+Received: by mail-qk1-f199.google.com with SMTP id
+ u11-20020a05620a430b00b007052a66d201so7823508qko.23
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 12:28:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I4XNQdhv6ZtyeuNVlIseJKebey1JzlwjNMp41O5jDVk=;
- b=XY8ZNU6qhBSiRBVDYhSMTzg7qaFZ7eyHkXL6yXxXpQV7LHmonxJRxnjea38nA1KFqv
- VwPsE9Zs3UWlj7nFKt5tEKfLPianAQrxQEBbTl/M3rK9yTOVRtPRLytkXFvRuujG9CUK
- U2vGsr7oDnjPiaUcyriX+u0BcESDVehNWzrg4lUUrSPP3z+ERiCoVO9zUU32ZmXlbW1Z
- 7qFPjJyDZCzcSFI+3BwYZyc88Bz4CFPEQZnyBZmPYSGgNMM6qotGEibmdkg6k+8RCQER
- RhJMCk3F7SXrKGlW/tFSD6SIlnarQQC1vgRV3uUr2U+P5rhGiFAd81VgqtQvPhmCntmj
- J9eA==
-X-Gm-Message-State: AO0yUKW7bKln8Pos1uQS9clANcg6snVBSI+SA1+pkKO2nu2AnD4DiUX5
- UgSu7RZTZa+DkAABBYWZNKkng1CsSb1Px0C8sdwWEssdZmTIi+UZRl/TOr/S+P4MdzNfnoOj36A
- CYMHJZ8Hap4wGX2geIKa67ClRZ1ACLjdWAqlaGX5f+kyqUFjjPKbH1iMWp9aG
-X-Received: by 2002:a17:906:9bd8:b0:883:ba98:204d with SMTP id
- de24-20020a1709069bd800b00883ba98204dmr9486979ejc.65.1675110108917; 
- Mon, 30 Jan 2023 12:21:48 -0800 (PST)
-X-Google-Smtp-Source: AK7set8KknPptBk/Adku+r3H8P35498yRd++/yBVUaPkhxXs42uHEHS/LuGONdENi6IJxDlDF1AfVw==
-X-Received: by 2002:a17:906:9bd8:b0:883:ba98:204d with SMTP id
- de24-20020a1709069bd800b00883ba98204dmr9486957ejc.65.1675110108689; 
- Mon, 30 Jan 2023 12:21:48 -0800 (PST)
-Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
- ce4-20020a170906b24400b0078d3f96d293sm7366835ejb.30.2023.01.30.12.21.46
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Ep7uXZfXXaDiMFGHP0SJJa3NCnP55xOo5uoV6sosw8o=;
+ b=fGonyJjTX8/nUUZA2dItOaQeTQxULvfEGzruVfWbXersb7sI/iKsJ04B8BnObspaTZ
+ zhYgnObtsrsQNnOjCBESrfgrVAWqvyy/oS7bI4SyeHNJVl/hetEWyaxu8lqyXKGTOYzv
+ PWlBt8sbdLmll+t7+xb6h3YSNb79qLuNN6bQJ/gpYEpO6MlMJAs+akR9qqshd+AuY0pm
+ k5wR3NwECr5lYtSUQqVRoJWFe/ZmHIwzp78sTIKBxLjteR1spyHTgKEpMxHGqNoCTTB7
+ hKp8x1K/MtGcuExKT8HpqBS9nnRUF7YzCg/Brr+Ber9U49If+Zu/gbWzHglBCGudBv+5
+ 67jg==
+X-Gm-Message-State: AFqh2krpeWmEl1MREcHGFwj6Dt3PUmiTyIEE6u8xBQnlgi9C+iNR1d8l
+ qlsNVMZFEsZsz0x2KzowPKNZJd7MqpwdFa/0TiJKjtG2TjDBOtua64+0au5MUmBbceCai4W8ngo
+ D9hRaJw5irFVVE3s=
+X-Received: by 2002:a05:622a:4897:b0:3ab:5e20:f7d6 with SMTP id
+ fc23-20020a05622a489700b003ab5e20f7d6mr20980456qtb.0.1675110510794; 
+ Mon, 30 Jan 2023 12:28:30 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXvxxXxawssWAricCv0f4+UBjmKzMM52CtYbM/EFu53Cm/w8GUupaoTvvobVmUWqz5kkYDv8eA==
+X-Received: by 2002:a05:622a:4897:b0:3ab:5e20:f7d6 with SMTP id
+ fc23-20020a05622a489700b003ab5e20f7d6mr20980438qtb.0.1675110510534; 
+ Mon, 30 Jan 2023 12:28:30 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ k17-20020a05620a143100b007242a18ee8asm950306qkj.128.2023.01.30.12.28.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 12:21:48 -0800 (PST)
-Date: Mon, 30 Jan 2023 15:21:45 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: Peter Maydell <peter.maydell@linaro.org>,
- Marcel Apfelbaum <marcel@redhat.com>,
- Andrew Jones <drjones@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PULL 56/56] docs/pcie.txt: Replace ioh3420 with pcie-root-port
-Message-ID: <20230130201810.11518-57-mst@redhat.com>
-References: <20230130201810.11518-1-mst@redhat.com>
+ Mon, 30 Jan 2023 12:28:29 -0800 (PST)
+Date: Mon, 30 Jan 2023 15:28:28 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Alexander Bulekov <alxndr@bu.edu>
+Cc: Akihiko Odaki <akihiko.odaki@daynix.com>, qemu-devel@nongnu.org,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ David Hildenbrand <david@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Subject: Re: [PATCH] softmmu: Use memmove in flatview_write_continue
+Message-ID: <Y9gobLLlMrBnJeZi@x1n>
+References: <20230130135152.76882-1-akihiko.odaki@daynix.com>
+ <20230130200300.be736j6ya5srnphb@mozz.bu.edu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20230130201810.11518-1-mst@redhat.com>
-X-Mailer: git-send-email 2.27.0.106.g8ac3dc51b1
-X-Mutt-Fcc: =sent
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
+In-Reply-To: <20230130200300.be736j6ya5srnphb@mozz.bu.edu>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -102,68 +98,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marcel Apfelbaum <marcel@redhat.com>
+On Mon, Jan 30, 2023 at 03:03:00PM -0500, Alexander Bulekov wrote:
+> On 230130 2251, Akihiko Odaki wrote:
+> > We found a case where the source passed to flatview_write_continue() may
+> > overlap with the destination when fuzzing igb, a new proposed network
+> > device with sanitizers.
+> > 
+> > igb uses pci_dma_map() to get Tx packet, and pci_dma_write() to write Rx
+> > buffer. While pci_dma_write() is usually used to write data from
+> > memory not mapped to the guest, if igb is configured to perform
+> > loopback, the data will be sourced from the guest memory. The source and
+> > destination can overlap and the usage of memcpy() will be invalid in
+> > such a case.
+> > 
+> > While we do not really have to deal with such an invalid request for
+> > igb, detecting the overlap in igb code beforehand requires complex code,
+> > and only covers this specific case. Instead, just replace memcpy() with
+> > memmove() to torelate overlaps. Using memmove() will slightly damage the
+> > performance as it will need to check overlaps before using SIMD
+> > instructions for copying, but the cost should be negiligble, considering
+> > the inherent complexity of flatview_write_continue().
+> > 
+> > The test cases generated by the fuzzer is available at:
+> > https://patchew.org/QEMU/20230129053316.1071513-1-alxndr@bu.edu/
+> > 
+> > The fixed test case is:
+> > fuzz/crash_47dfe62d9f911bf523ff48cd441b61c0013ed805
+> > 
+> > Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> 
+> Since this is called fairly often, I went down a rabit hole looking at
+> memmove vs memcpy perf, but It looks like this should not be much of a
+> problem.
 
-Do not mention ioh3420 in the "how to" doc.
-The device still works and can be used by already
-existing setups, but no need to be mentioned.
+Similar here. I quickly had a look at the dump of memmove() and it seems to
+me it's directly invoking the SIMD instructions.  I'm not sure whether it
+means in many cases the SIMD insts are compatible with overlapped buffers
+already, so it can be mostly the same as memcpy() in modern hardwares.
 
-Suggested-by: Andrew Jones <drjones@redhat.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Signed-off-by: Marcel Apfelbaum <marcel@redhat.com>
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-Message-Id: <20230123174205.683979-1-berrange@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- docs/pcie.txt | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+> 
+> Acked-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 
-diff --git a/docs/pcie.txt b/docs/pcie.txt
-index 89e3502075..df49178311 100644
---- a/docs/pcie.txt
-+++ b/docs/pcie.txt
-@@ -48,8 +48,8 @@ Place only the following kinds of devices directly on the Root Complex:
-         strangely when PCI Express devices are integrated
-         with the Root Complex.
- 
--    (2) PCI Express Root Ports (ioh3420), for starting exclusively PCI Express
--        hierarchies.
-+    (2) PCI Express Root Ports (pcie-root-port), for starting exclusively
-+        PCI Express hierarchies.
- 
-     (3) PCI Express to PCI Bridge (pcie-pci-bridge), for starting legacy PCI
-         hierarchies.
-@@ -70,7 +70,7 @@ Place only the following kinds of devices directly on the Root Complex:
-           -device pxb-pcie,id=pcie.1,bus_nr=x[,numa_node=y][,addr=z]
-       PCI Express Root Ports and PCI Express to PCI bridges can be
-       connected to the pcie.1 bus:
--          -device ioh3420,id=root_port1[,bus=pcie.1][,chassis=x][,slot=y][,addr=z]                                     \
-+          -device pcie-root-port,id=root_port1[,bus=pcie.1][,chassis=x][,slot=y][,addr=z] \
-           -device pcie-pci-bridge,id=pcie_pci_bridge1,bus=pcie.1
- 
- 
-@@ -112,14 +112,14 @@ Plug only PCI Express devices into PCI Express Ports.
-                                              ------------
- 
- 2.2.1 Plugging a PCI Express device into a PCI Express Root Port:
--          -device ioh3420,id=root_port1,chassis=x,slot=y[,bus=pcie.0][,addr=z]  \
-+          -device pcie-root-port,id=root_port1,chassis=x,slot=y[,bus=pcie.0][,addr=z]  \
-           -device <dev>,bus=root_port1
- 2.2.2 Using multi-function PCI Express Root Ports:
--      -device ioh3420,id=root_port1,multifunction=on,chassis=x,addr=z.0[,slot=y][,bus=pcie.0] \
--      -device ioh3420,id=root_port2,chassis=x1,addr=z.1[,slot=y1][,bus=pcie.0] \
--      -device ioh3420,id=root_port3,chassis=x2,addr=z.2[,slot=y2][,bus=pcie.0] \
-+      -device pcie-root-port,id=root_port1,multifunction=on,chassis=x,addr=z.0[,slot=y][,bus=pcie.0] \
-+      -device pcie-root-port,id=root_port2,chassis=x1,addr=z.1[,slot=y1][,bus=pcie.0] \
-+      -device pcie-root-port,id=root_port3,chassis=x2,addr=z.2[,slot=y2][,bus=pcie.0] \
- 2.2.3 Plugging a PCI Express device into a Switch:
--      -device ioh3420,id=root_port1,chassis=x,slot=y[,bus=pcie.0][,addr=z]  \
-+      -device pcie-root-port,id=root_port1,chassis=x,slot=y[,bus=pcie.0][,addr=z]  \
-       -device x3130-upstream,id=upstream_port1,bus=root_port1[,addr=x]          \
-       -device xio3130-downstream,id=downstream_port1,bus=upstream_port1,chassis=x1,slot=y1[,addr=z1]] \
-       -device <dev>,bus=downstream_port1
+I received this reply from Alexander Bulekov, but I think this is the
+author's contact?
+
+Thanks,
+
 -- 
-MST
+Peter Xu
 
 
