@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A676681081
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BF11681082
 	for <lists+qemu-devel@lfdr.de>; Mon, 30 Jan 2023 15:04:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMUkE-0002Kd-On; Mon, 30 Jan 2023 09:02:50 -0500
+	id 1pMUl2-0002hx-IC; Mon, 30 Jan 2023 09:03:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pMUk3-0002J3-9O
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:02:40 -0500
-Received: from mail-pj1-x102f.google.com ([2607:f8b0:4864:20::102f])
+ id 1pMUl0-0002bU-DI
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:03:38 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pMUk1-0006gp-NR
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:02:39 -0500
-Received: by mail-pj1-x102f.google.com with SMTP id
- e10-20020a17090a630a00b0022bedd66e6dso15530545pjj.1
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:02:37 -0800 (PST)
+ id 1pMUky-0006nj-Lq
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 09:03:38 -0500
+Received: by mail-pl1-x629.google.com with SMTP id jm10so11675233plb.13
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 06:03:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=U1sxs2b9gsg+jkzUv1onLcvKq812qwoR1X54ZLz9htA=;
- b=cdkBWimROqxaE1KGR9gK+aLaSfJT2UQMOaG5mV+fs40xECMnrVyNO7S7uVOvtYAbkP
- NWvRT0JNeT8eMx/ub95Blc7U33BgrwPHJkbpble5Oq+731qkd/df55WIARf8/l/xFCKd
- aTV/rgGF3zPsZ1JpjfRDXffcCE6qF7sL45IkR8W/hwvkUK+MEWiSnpFyTr2T5AuoXZcv
- eF3v8+UGCnJTJhRCPJeUc44CjZN/QNbF10WXn8D7yXlVPKUJOpcQTSVUro2MxM2/gqgz
- GZR8Io9xHEMLEE1F0e6prDtJO6r0/VbaGR6VuDbE6AolyifO+QJLSvcJTkJzuX4oYUQo
- grXg==
+ bh=nr85VddG1aNAMhiRa7oAEJJDUJSA7CWs8fDfBYv3Yr0=;
+ b=IRe6fO3EUcL9Oou2hzz2BRpufu2jH3nQ+FYy1pkxJR3DaEPcTCdGlq93bEBH4zS7r7
+ VWIntoCnaQ6ywVeT08uLxU0vPgNED//vo43a80U42l8mvekIwceikr7ODP5btHCHooTU
+ K0pyp8CN23PKGCJcIs7JBdAlQeqJJgg8i1Rf7X00Jy9cfWC3oIMVVFov6HfkLbHCCkU6
+ 95J+kMqTXnSVYcgRXIQ+LhkR5wZwczltFkYPSNUMZ9ou8Yd039a6rTHczRiPiTlMt3+Q
+ PLOMNUoPuj2WiR4XkPcJVJU14SjA6Edk6aCFKVDbh+jXRGjrAcNsGEJW/TS1ZWRMGoqm
+ hWRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=U1sxs2b9gsg+jkzUv1onLcvKq812qwoR1X54ZLz9htA=;
- b=uYTo2bmgZpPOanCzQtEV7s9QT4reHm02uQthZtro14RN6aXNNamn7wGEstzWIB2oHZ
- uzEmdyB12X9vAaMbIG1Nnxv/2OZWhRYfaal+BBxH2//oQs0zM/U3qZ48sONtnz9r/Dsa
- MH5vGbk16Dk/1u4dLZ9TCYRQnLNq3VSMa/ebhygyeY+/QxOc938D8yddJucwNWvxczmt
- v5/V9248fe5pzrpZ6TCc06ps8fy2sJYnWjoHN07jJ7nKBgxTgeeh6O7OQ1Kjc4wTho4U
- 5jRWdDgPWymwGlfJpaX8xrYKd77EgaJO1vled1PYknrIe15yaA8Afvb32WoOnQlfWSwJ
- /pQQ==
-X-Gm-Message-State: AO0yUKVqac/NvSvd1bSldPeb3CWUHzo07X0syJDd6thTZ2l1uoqLp/ed
- EgU5h63xFIjbJ53Y7u5HnOtEJw==
-X-Google-Smtp-Source: AK7set+gZ3VdMCG5jocMk8jvF5dO9bR3I6Z9WZPXidWRNXuoylXSfb+Rl9IynAAnMPQiEjeo9nsGWw==
-X-Received: by 2002:a17:902:f152:b0:196:5f75:66f9 with SMTP id
- d18-20020a170902f15200b001965f7566f9mr8094575plb.63.1675087355437; 
- Mon, 30 Jan 2023 06:02:35 -0800 (PST)
+ bh=nr85VddG1aNAMhiRa7oAEJJDUJSA7CWs8fDfBYv3Yr0=;
+ b=Kuf4F5y3HcCUaQQkaTo1kKdGsxMj+AX7QpxNckcn1Dze95DKaQYxM2YfiE1OZW8tH5
+ ikQoz95VTbQ+wqoFSp9nRTAJaJqJJzgYGu4IsHZ1J4p46nA3PZdM/IM43LtN1A7zo1bH
+ R0ep5eM+xz2UtdeWxH54OlCZVdTjFFZF4xC/qTNp6ubCPZ0ssroclbtN3fuNuV9r7rQt
+ v+ia3IgngxTfxJAqhrUafn3kZPOcLbo8Cy0BNfmzfrKMLS4Hwo2fwXbiPsW6Zbjbx8Je
+ BZA0iw5qcnIjJwF8QcP/ZomZxO00eBochZmtwsgtDiBuE3S9qJ8Rc5iXg/EGbIHTWjkc
+ DBTQ==
+X-Gm-Message-State: AO0yUKWe+cubsp8b0qUmxG/uz9OeQCYvi8I0TtcEuEXA4N3yY2p/Y9aS
+ yvGN+1+omjDV7gwsDCvts2hVt1u2M4oPG6RY
+X-Google-Smtp-Source: AK7set9H80uHkZAgYMK8U8C2Pfh40WdAxnmPxO9UMC+ZweoN7gm153yULn/vU453DAI2+RgUXSVwWQ==
+X-Received: by 2002:a17:902:c405:b0:196:8a80:4d91 with SMTP id
+ k5-20020a170902c40500b001968a804d91mr3399518plk.35.1675087414940; 
+ Mon, 30 Jan 2023 06:03:34 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- y4-20020a170902ed4400b00186c3afb49esm7877728plb.209.2023.01.30.06.02.33
+ c6-20020a170903234600b001947ba0ac8fsm4521168plh.236.2023.01.30.06.03.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 06:02:34 -0800 (PST)
+ Mon, 30 Jan 2023 06:03:34 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- "Michael S. Tsirkin" <mst@redhat.com>, virtio-fs@redhat.com,
- qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH] vhost-user-fs: Back up vqs before cleaning up vhost_dev
-Date: Mon, 30 Jan 2023 23:02:25 +0900
-Message-Id: <20230130140225.77964-1-akihiko.odaki@daynix.com>
+Cc: qemu-devel@nongnu.org, Viresh Kumar <viresh.kumar@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH] vhost-user-gpio: Configure vhost_dev when connecting
+Date: Mon, 30 Jan 2023 23:03:20 +0900
+Message-Id: <20230130140320.77999-1-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102f;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102f.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::629;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -90,37 +89,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-vhost_dev_cleanup() clears vhost_dev so back up its vqs member to free
-the memory pointed by the member.
+vhost_dev_cleanup(), called from vu_gpio_disconnect(), clears vhost_dev
+so vhost-user-gpio must set the members of vhost_dev each time
+connecting.
 
-Fixes: 98fc1ada4c ("virtio: add vhost-user-fs base device")
+do_vhost_user_cleanup() should also acquire the pointer to vqs directly
+from VHostUserGPIO instead of referring to vhost_dev as it can be called
+after vhost_dev_cleanup().
+
+Fixes: 27ba7b027f ("hw/virtio: add boilerplate for vhost-user-gpio device")
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/virtio/vhost-user-fs.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/virtio/vhost-user-gpio.c         | 10 ++++++----
+ include/hw/virtio/vhost-user-gpio.h |  2 +-
+ 2 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/hw/virtio/vhost-user-fs.c b/hw/virtio/vhost-user-fs.c
-index f5049735ac..83fc20e49e 100644
---- a/hw/virtio/vhost-user-fs.c
-+++ b/hw/virtio/vhost-user-fs.c
-@@ -273,6 +273,7 @@ static void vuf_device_unrealize(DeviceState *dev)
+diff --git a/hw/virtio/vhost-user-gpio.c b/hw/virtio/vhost-user-gpio.c
+index fe3da32c74..d6927b610a 100644
+--- a/hw/virtio/vhost-user-gpio.c
++++ b/hw/virtio/vhost-user-gpio.c
+@@ -16,6 +16,7 @@
+ #include "trace.h"
+ 
+ #define REALIZE_CONNECTION_RETRIES 3
++#define VHOST_NVQS 2
+ 
+ /* Features required from VirtIO */
+ static const int feature_bits[] = {
+@@ -208,8 +209,7 @@ static void do_vhost_user_cleanup(VirtIODevice *vdev, VHostUserGPIO *gpio)
  {
-     VirtIODevice *vdev = VIRTIO_DEVICE(dev);
-     VHostUserFS *fs = VHOST_USER_FS(dev);
-+    struct vhost_virtqueue *vhost_vqs = fs->vhost_dev.vqs;
-     int i;
- 
-     /* This will stop vhost backend if appropriate. */
-@@ -288,8 +289,7 @@ static void vuf_device_unrealize(DeviceState *dev)
-     }
-     g_free(fs->req_vqs);
+     virtio_delete_queue(gpio->command_vq);
+     virtio_delete_queue(gpio->interrupt_vq);
+-    g_free(gpio->vhost_dev.vqs);
+-    gpio->vhost_dev.vqs = NULL;
++    g_free(gpio->vhost_vqs);
      virtio_cleanup(vdev);
--    g_free(fs->vhost_dev.vqs);
--    fs->vhost_dev.vqs = NULL;
-+    g_free(vhost_vqs);
+     vhost_user_cleanup(&gpio->vhost_user);
  }
+@@ -229,6 +229,9 @@ static int vu_gpio_connect(DeviceState *dev, Error **errp)
+     vhost_dev_set_config_notifier(vhost_dev, &gpio_ops);
+     gpio->vhost_user.supports_config = true;
  
- static struct vhost_dev *vuf_get_vhost(VirtIODevice *vdev)
++    gpio->vhost_dev.nvqs = VHOST_NVQS;
++    gpio->vhost_dev.vqs = gpio->vhost_vqs;
++
+     ret = vhost_dev_init(vhost_dev, &gpio->vhost_user,
+                          VHOST_BACKEND_TYPE_USER, 0, errp);
+     if (ret < 0) {
+@@ -347,10 +350,9 @@ static void vu_gpio_device_realize(DeviceState *dev, Error **errp)
+ 
+     virtio_init(vdev, VIRTIO_ID_GPIO, sizeof(gpio->config));
+ 
+-    gpio->vhost_dev.nvqs = 2;
+     gpio->command_vq = virtio_add_queue(vdev, 256, vu_gpio_handle_output);
+     gpio->interrupt_vq = virtio_add_queue(vdev, 256, vu_gpio_handle_output);
+-    gpio->vhost_dev.vqs = g_new0(struct vhost_virtqueue, gpio->vhost_dev.nvqs);
++    gpio->vhost_vqs = g_new0(struct vhost_virtqueue, VHOST_NVQS);
+ 
+     gpio->connected = false;
+ 
+diff --git a/include/hw/virtio/vhost-user-gpio.h b/include/hw/virtio/vhost-user-gpio.h
+index a9305c5e6c..a9d3f9b049 100644
+--- a/include/hw/virtio/vhost-user-gpio.h
++++ b/include/hw/virtio/vhost-user-gpio.h
+@@ -23,7 +23,7 @@ struct VHostUserGPIO {
+     VirtIODevice parent_obj;
+     CharBackend chardev;
+     struct virtio_gpio_config config;
+-    struct vhost_virtqueue *vhost_vq;
++    struct vhost_virtqueue *vhost_vqs;
+     struct vhost_dev vhost_dev;
+     VhostUserState vhost_user;
+     VirtQueue *command_vq;
 -- 
 2.39.1
 
