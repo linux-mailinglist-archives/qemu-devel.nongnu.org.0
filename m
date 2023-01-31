@@ -2,84 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A0BF683587
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 19:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90D0A683588
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 19:44:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMva9-0005OB-14; Tue, 31 Jan 2023 13:42:13 -0500
+	id 1pMvbR-0006Hf-Lz; Tue, 31 Jan 2023 13:43:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pMva4-0005Nh-Sj
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:42:08 -0500
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
+ id 1pMvbO-0006E7-EY
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:43:30 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pMva3-0007tn-Bg
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:42:08 -0500
-Received: by mail-wr1-x435.google.com with SMTP id m7so15124416wru.8
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 10:42:06 -0800 (PST)
+ id 1pMvbM-00087V-Ld
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:43:30 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ m16-20020a05600c3b1000b003dc4050c94aso8544630wms.4
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 10:43:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=I26ez1P9fzlynHBrFB6XfQb1ct0hzREZ103/zj1Rupc=;
- b=ai4D5Hk5Wh2zIbCjZUZGyrPFdgF1uqtSpJL+Tb9ZxwAAa47COBt92qZhDhoEVxGiAq
- 9g5flQYICMn7pLlagJKBOObq0b6rp9gN6VC1i6pEOhuUrv7a3949tDRm+pYJUnIUY9h2
- MAkuntKgZZ5jLnuQ8wZA+9cfTfwucI6m9jEYTHkiX+luSKa9oydhAG+u2U9oGLZqT3H+
- dlXzpcpq7G0UnfTrU6xHBVOy5QS2VycYhKIk6JOuenbO7rI1PFT3T4GkcIXmnw//isqf
- hUC1wpGlcEtnS+kLhzS5TV0Z0aMd2mr0uVjqDDhZp9CSLsdR0s+5HJoGMlgT2Ygv58qz
- 6lww==
+ bh=ALN+kcbJfrEO0WEdICpZPBIIa0subLrA4EDlbByihrc=;
+ b=KuSc32Ypviy9I8C097yRKeYxbKLu/E81Yya7MXWi8Al6RAPG89IwPG+jSkpbJWeHFg
+ troyhlkPH77cdMCWS3zU/UZWYvf6wxqzf1x4Alcmtz/T3jjBl/gDvgw6XejXuOnkPWyo
+ AwnuISlToXdE7wHx4q8RUG/5clV2a7vusHlPro9oRm6w36rAuqfV/eZTrKI1ieFJuV38
+ GYST4pgZZg55mAQ5V9sNMCGiUQSEUteDYmrDM2qpUmQ6oU/A8oEKByA86RCEhX4hIrlU
+ pqo+iYxgzbxHax3odbBqpLbxjCHqell+XZgFhV/WIlS+hmbuDc8hCh8431+J0Bjx3QvE
+ EOaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=I26ez1P9fzlynHBrFB6XfQb1ct0hzREZ103/zj1Rupc=;
- b=iWITyPYw/6+k+z3z5W/QlYLxjzfG7rCoEioZnCq8AeLdAbWmD1Zo1sUiwd7WktxRXO
- r/QM77dfYez10+fNJpjU31L1+jOPE53HqUKnBievP3b47xA5SY5JgUbHeHwwjMpECvBc
- F/9O3bln2HT3mTVJ8v51+K+cSFmfd92xXhBYxzwKoVcy8M/brwIL73qUqQEcxAzuvHm5
- OUcKIjVPgHNIpT2zo/XoKVVQoWVb+FuZJ2qK6lQ33+45H709+a0iz8nHO7at9AUqaxDc
- sNcCkzHGPxayQ62NQKRLEp9H9Mz4vbisClKDi8Eq+Y4sCL0yyMKc3oIRcgFpPubBF1s4
- 0uJA==
-X-Gm-Message-State: AO0yUKXPdHoJm8qATTZ6ArD4wPtf4LXix/70/pTPnRiOGVhO0dyllCuf
- 8TENrOh8ZcPyNc9Qps3A6UUMVQ==
-X-Google-Smtp-Source: AK7set+/b68BrOESPzTkTci6anuo12DC+jed9KZiZY9ocH3vZgaSW88Kn+O7lUpszGDHzqxwW7a1PQ==
-X-Received: by 2002:adf:dccd:0:b0:2bf:e2bf:c4ea with SMTP id
- x13-20020adfdccd000000b002bfe2bfc4eamr1406wrm.35.1675190525807; 
- Tue, 31 Jan 2023 10:42:05 -0800 (PST)
+ bh=ALN+kcbJfrEO0WEdICpZPBIIa0subLrA4EDlbByihrc=;
+ b=X0oU9txvxtTOuGTWrnfq/ERpWTz2peWSYZJv+heV2y2g0WDOexiQZJMSXFzxusI6c6
+ zEGIS7zGss7VYUMRIR83+Sf8BFUlygY9anmcmrwCml0kefhcOvrmhsFxcD4OcnTA8Weo
+ W+DQ8OVbt+sVjtKSWKBy7LiFLtIfaVlk+qoIbJYJE9Y+qP6kP9ChKEuhFpi7Z7SbIDq2
+ CT7fddba1fT/QJ7bk75UfcFTIBPfYRm+9Pf3ID/BtqwUILV79J6/XH5mnBSZ0Fzp3plS
+ nOYKupWWz+NMlUfpNbcOX+G2FoPVcIpDT8SFIpaadiS3g2wcUTC3sokm1+ZlGS6UC6wf
+ AutQ==
+X-Gm-Message-State: AO0yUKVdzq0GRcsi7vlW5gC3avo0rBaL0jFFmvsM3LgX6hWxiaYTO9vB
+ wMQ2Dx2NlqfQcTg5rKeIIZlP8g==
+X-Google-Smtp-Source: AK7set+cHkUhxqdesbEse+CHfKUQBdkSW2BTcLs3pd/5hVFgUjXPuq9wtFd9zmAZJsKgHvlyAFadig==
+X-Received: by 2002:a05:600c:3541:b0:3d3:43ae:4d10 with SMTP id
+ i1-20020a05600c354100b003d343ae4d10mr425770wmq.11.1675190607079; 
+ Tue, 31 Jan 2023 10:43:27 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- f28-20020a5d58fc000000b002be5401ef5fsm15913949wrd.39.2023.01.31.10.42.05
+ x9-20020a05600c21c900b003dc434b39c7sm3440285wmj.0.2023.01.31.10.43.26
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 10:42:05 -0800 (PST)
+ Tue, 31 Jan 2023 10:43:26 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id F3F051FFB7;
- Tue, 31 Jan 2023 18:42:04 +0000 (GMT)
-References: <20230131182057.2261614-1-iii@linux.ibm.com>
+ by zen.linaroharston (Postfix) with ESMTP id 1FA0B1FFB7;
+ Tue, 31 Jan 2023 18:43:26 +0000 (GMT)
+References: <CAJSP0QXBKPXj2vf3wuK2QGdX+HZa_Nu3A+RT6hYnXJrUKTY4Fg@mail.gmail.com>
+ <CAJSP0QWDMv2yFkORzKt+p45ykiY=AmZCbrS464nZOqEtOz-NqA@mail.gmail.com>
+ <874js661lu.fsf@linaro.org>
+ <CAJSP0QVN1VVHEms=7p9pwJRDDk6vM+Xvk3Wzi04w7e=+0G+F2g@mail.gmail.com>
 User-agent: mu4e 1.9.18; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Ilya Leoshkevich <iii@linux.ibm.com>
-Cc: Richard Henderson <richard.henderson@linaro.org>, David Hildenbrand
- <david@redhat.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
- qemu-s390x@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH] tests/tcg/s390x: Use -nostdlib for softmmu tests
-Date: Tue, 31 Jan 2023 18:41:51 +0000
-In-reply-to: <20230131182057.2261614-1-iii@linux.ibm.com>
-Message-ID: <87lelitukj.fsf@linaro.org>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: chouhan.shreyansh2702@gmail.com, Gerd Hoffmann <kraxel@redhat.com>,
+ Laurent Vivier <Laurent@vivier.eu>, Anton Yakovlev
+ <anton.yakovlev@opensynergy.com>, qemu-devel@nongnu.org, =?utf-8?Q?Marc-A?=
+ =?utf-8?Q?ndr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Subject: Re: virtio-sound Google Summer of Code project?
+Date: Tue, 31 Jan 2023 18:42:50 +0000
+In-reply-to: <CAJSP0QVN1VVHEms=7p9pwJRDDk6vM+Xvk3Wzi04w7e=+0G+F2g@mail.gmail.com>
+Message-ID: <87h6w6tui9.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::435;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -96,40 +101,63 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Ilya Leoshkevich <iii@linux.ibm.com> writes:
+Stefan Hajnoczi <stefanha@gmail.com> writes:
 
-> The code currently uses -nostartfiles, but this does not prevent
-> linking with libc. On Fedora there is no cross-libc, so the linking
-> step fails.
+> On Tue, 31 Jan 2023 at 12:43, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>>
+>> Stefan Hajnoczi <stefanha@gmail.com> writes:
+>>
+>> > On Sun, 29 Jan 2023 at 17:10, Stefan Hajnoczi <stefanha@gmail.com> wro=
+te:
+>> >>
+>> >> Hi Shreyansh, Gerd, and Laurent,
+>> >> The last virtio-sound RFC was sent in February last year. It was a
+>> >> spare time project. Understandably it's hard to complete the whole
+>> >> thing on weekends, evenings, etc. So I wanted to suggest relaunching
+>> >> the virtio-sound effort as a Google Summer of Code project.
+>> >>
+>> >> Google Summer of Code is a 12-week full-time remote work internship.
+>> >> The intern would be co-mentored by some (or all) of us. The project
+>> >> goal would be to merge virtio-sound with support for both playback and
+>> >> capture. Advanced features for multi-channel audio, etc can be stretch
+>> >> goals.
+>> >>
+>> >> I haven't looked in detail at the patches from February 2022, so I
+>> >> don't know the exact state and whether there is enough work remaining
+>> >> for a 12-week internship. What do you think?
+>> >
+>> > Adding Anton.
+>> >
+>> > I have updated the old wiki page for this project idea and added it to
+>> > the 2023 ideas list:
+>> > https://wiki.qemu.org/Internships/ProjectIdeas/VirtioSound
+>> >
+>> > Please let me know if you wish to co-mentor this project!
+>>
+>> I'd be happy to help - although if someone was rust inclined I'd also be
+>> happy to mentor a rust-vmm vhost-user implementation of VirtIO sound.
 >
-> Fix by using the more comprehensive -nostdlib (that's also what
-> probe_target_compiler() checks for as well).
+> Maybe Gerd can tell us about the QEMU audio subsystem features that
+> may be lost if developing a standalone vhost-user device.
 >
-> Fixes: 503e549e441e ("tests/tcg/s390x: Test unaligned accesses to lowcore=
-")
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->  tests/tcg/s390x/Makefile.softmmu-target | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/tests/tcg/s390x/Makefile.softmmu-target b/tests/tcg/s390x/Ma=
-kefile.softmmu-target
-> index a34fa68473e..50c1b88065d 100644
-> --- a/tests/tcg/s390x/Makefile.softmmu-target
-> +++ b/tests/tcg/s390x/Makefile.softmmu-target
-> @@ -3,7 +3,7 @@ VPATH+=3D$(S390X_SRC)
->  QEMU_OPTS=3D-action panic=3Dexit-failure -kernel
->=20=20
->  %: %.S
-> -	$(CC) -march=3Dz13 -m64 -nostartfiles -static -Wl,-Ttext=3D0 \
-> +	$(CC) -march=3Dz13 -m64 -nostdlib -static -Wl,-Ttext=3D0 \
->  		-Wl,--build-id=3Dnone $< -o $@
->=20=20
->  TESTS +=3D unaligned-lowcore
+> Two things come to mind:
+> 1. May not run on all host OSes that QEMU supports if it supports
+> fewer native audio APIs than QEMU.
+> 2. May not support forwarding audio to remote desktop solutions that
+> stream audio over the network. I don't know if/how this works with
+> VNC/RDP/Spice, but a separate vhost-user process will need to do extra
+> work to send the audio over the remote desktop connection.
 
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Hmm good point. Maybe a stretch goal?
 
-I take it this will go via the s390x tree?
+>
+> I have CCed Marc-Andr=C3=A9 for information on streaming audio over remot=
+e desktop.
+>
+> Stefan
+
 
 --=20
 Alex Benn=C3=A9e
