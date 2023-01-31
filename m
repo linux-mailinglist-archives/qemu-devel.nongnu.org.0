@@ -2,130 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4714B68334D
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 18:05:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 757D46832CD
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 17:35:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMu3b-00073b-2w; Tue, 31 Jan 2023 12:04:31 -0500
+	id 1pMtZe-0002zt-Ri; Tue, 31 Jan 2023 11:33:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pMu3J-0006sF-Ks
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 12:04:13 -0500
-Received: from mail-mw2nam10on20622.outbound.protection.outlook.com
- ([2a01:111:f400:7e89::622]
- helo=NAM10-MW2-obe.outbound.protection.outlook.com)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pMtZX-0002yy-Oi
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 11:33:30 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <gregory.price@memverge.com>)
- id 1pMu3H-0004wl-Ut
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 12:04:13 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=EYBYcTYGXb3JTRWAHIbilEqm9NsZQf8Ypju9fMIzClAQCYrQKqTHflMIyjKU863ahJR+fOy0/vvYZlnNkdZq8MVVLPHhmNG4WNgAfiQa5275BGzhOH27NoufyjAZc6nmbbVI263YMgLoNtuB6bUIj79XcN8iaA0RYB3V8OJwkS1R/h106yiVHQUS/sAfc8oGffr+zIIE3DBJrWLnyPcMaafKkP8PVck3ncGlfmz7i2vdnNp8mz2XKJrjJtugK/ruHy5Ae5UFApXCrmmaDQIe7vARZO3AJHYhadVUvb0hp2UthGyNbYjShKHdX3MteX748gIqIewMXTih7lfn7Bmjkw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zGJ0zIF6e3SgC7hV323cZ3YeSXRu1fvM29xzppHE1TA=;
- b=EnGWxzScN5TOcBju9FHn8v+jG30508Kuh2HBu+kElPgJUsvgsgW/IEyNtNZj/epMuoYGVltH3PMYYjKRrdnW5zU7W/72FaO6nVNC1UBQ+xzSWoNzsOeBH9XaXFvStIeA7LA2gCaUwgfsNBsF3ZUHs1+CyMiUBADp+zmHYN2oxvqPTlr1LsPM76fn91WwI0rd40sriWjt8DBCKciu6mup4gFcyocWBefJ0xNtNbmx42EZxaCnxBQCy0TF0Rzd4HXgwVMtWq6An/10WnB4SlW/Sa+Qaz6imLV1bLhWHp8/N343JG9eq99k9TCa9+9rTTPZCOxkG/vh9HfeRy9WHBWAlw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=memverge.com; dmarc=pass action=none header.from=memverge.com;
- dkim=pass header.d=memverge.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=memverge.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zGJ0zIF6e3SgC7hV323cZ3YeSXRu1fvM29xzppHE1TA=;
- b=Pom13VA7oeAWER9DWSK0rDibACUi/QKZncwaOwKFUzcAYaeELSW1IurIScIT8evBCYXvg/HVpExBhO9L7gDrmZ5GB6Wf2VDrrXGb8xT/YZugmFbMRh1CHaqRa/+LtFqKwbdTvCvGdl6h0LIqhemvXJ13PMiyUFfhi5ddPTsBwfA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=memverge.com;
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com (2603:10b6:405:7c::19)
- by SA1PR17MB5190.namprd17.prod.outlook.com (2603:10b6:806:1e1::13)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Tue, 31 Jan
- 2023 17:04:07 +0000
-Received: from BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660]) by BN6PR17MB3121.namprd17.prod.outlook.com
- ([fe80::d253:1eb3:9347:c660%4]) with mapi id 15.20.6043.028; Tue, 31 Jan 2023
- 17:04:07 +0000
-Date: Tue, 31 Jan 2023 11:25:55 -0500
-From: Gregory Price <gregory.price@memverge.com>
-To: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Cc: qemu-devel@nongnu.org, Michael Tsirkin <mst@redhat.com>,
- Ben Widawsky <bwidawsk@kernel.org>, linux-cxl@vger.kernel.org,
- linuxarm@huawei.com, Ira Weiny <ira.weiny@intel.com>,
- Gregory Price <gourry.memverge@gmail.com>,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- Mike Maslenkin <mike.maslenkin@gmail.com>
-Subject: Re: [PATCH 2/2] hw/cxl: Multi-Region CXL Type-3 Devices (Volatile
- and Persistent)
-Message-ID: <Y9lBE3dpmFGBeOxF@memverge.com>
-References: <20230131163847.23025-1-Jonathan.Cameron@huawei.com>
- <20230131163847.23025-3-Jonathan.Cameron@huawei.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230131163847.23025-3-Jonathan.Cameron@huawei.com>
-X-ClientProxiedBy: YT4P288CA0011.CANP288.PROD.OUTLOOK.COM
- (2603:10b6:b01:d4::22) To BN6PR17MB3121.namprd17.prod.outlook.com
- (2603:10b6:405:7c::19)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pMtZV-00073R-Pn
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 11:33:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675182803;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=U+TC5QI5OTrOwXtGIKELgMUbgYxbLGuos47NsCzDRQ4=;
+ b=XOunGpwz9SKKuO+uUTxSPwyoPc3hWXvT8OphvEXblfran+082ZGBsFIDKPVYvzE4+0wgRW
+ c/a0i6A0XPDdUGmW/dKK+ZATkpY36B1l5TDUUX+oSw+rBM3xIl/owHbz/jqmnoEpLw+fhF
+ nwyP5vzrGqXczkkwDxNS57t88dMokuk=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-634-3Ng0IB3AOq6WgKVUgGXBfQ-1; Tue, 31 Jan 2023 11:33:19 -0500
+X-MC-Unique: 3Ng0IB3AOq6WgKVUgGXBfQ-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ o24-20020a5d58d8000000b002bfe173775aso1557180wrf.3
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 08:33:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=U+TC5QI5OTrOwXtGIKELgMUbgYxbLGuos47NsCzDRQ4=;
+ b=fuhjE1+PouAlBODPoxCHsAVqbIOAFJ4IdWMmqPsgxescucgzVgISAiOkzMAovlV+RI
+ JqFC6bOYJ6NcTKuonpxIgLhVeO/LyRPKhp75jMZvKL3zsvynjqHTMMkOAVOg9oRyWPJU
+ q6rqWtifEopySC+i/pEy+j7lnH30tPNtzsRGSmdoPTZYpsLjWmK9/5x+nA3RhUEID7+s
+ pg68XTZ39xht+SkZx/f9VSeyJCyj3kSwoBJUuUYZz3dcyPmusd1yzWMe+yp/xfhyxDlP
+ 4Amcs+OFLmD4+Aiz6AnC3XtzgFahhYRaCjzmIR5pojdUlNvLS7807Txz5rbonaA6uXP8
+ mSIg==
+X-Gm-Message-State: AO0yUKWKPvy9HMIPSFJYg6Ei+9HMF8iUR2oFEXb/uCo9K13HvSnI/QGC
+ NpjQTZyBy9tf8ydjqeNkfBzIkUahSbV74xBOAoPLbb2/gFtIQMj7O7pHznn+tScxLDV3uAACLpU
+ NcVi1kvujcgeiUvg=
+X-Received: by 2002:a5d:5247:0:b0:2bf:e9dc:5557 with SMTP id
+ k7-20020a5d5247000000b002bfe9dc5557mr9273410wrc.26.1675182798221; 
+ Tue, 31 Jan 2023 08:33:18 -0800 (PST)
+X-Google-Smtp-Source: AK7set/AlQ/t6zUAy5vH0rYh1BbPLNduPo5NbZlzreR2LlZKuHikgezccJkSfTeiiJdvARws9D6ffg==
+X-Received: by 2002:a5d:5247:0:b0:2bf:e9dc:5557 with SMTP id
+ k7-20020a5d5247000000b002bfe9dc5557mr9273385wrc.26.1675182797893; 
+ Tue, 31 Jan 2023 08:33:17 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ 3-20020a05600c248300b003db0ad636d1sm9404447wms.28.2023.01.31.08.33.17
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Jan 2023 08:33:17 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Jiang Jiacheng <jiangjiacheng@huawei.com>
+Cc: <qemu-devel@nongnu.org>,  <berrange@redhat.com>,  <dgilbert@redhat.com>,
+ <yubihong@huawei.com>,  <xiexiangyou@huawei.com>,
+ <zhengchuan@huawei.com>,  <linyilu@huawei.com>
+Subject: Re: [PATCH 2/3] migration: implement query migration threadinfo by
+ name
+In-Reply-To: <07cad820-0755-2da9-e4d7-4e00f7b3a8f7@huawei.com> (Jiang
+ Jiacheng's message of "Tue, 31 Jan 2023 21:00:03 +0800")
+References: <20230120084735.825054-1-jiangjiacheng@huawei.com>
+ <20230120084735.825054-3-jiangjiacheng@huawei.com>
+ <87o7qgode5.fsf@secure.mitica>
+ <9b3fc9df-d273-4008-36c2-c779a40132c2@huawei.com>
+ <877cx4p1ai.fsf@secure.mitica>
+ <07cad820-0755-2da9-e4d7-4e00f7b3a8f7@huawei.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Tue, 31 Jan 2023 17:33:16 +0100
+Message-ID: <87edray88j.fsf@secure.mitica>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN6PR17MB3121:EE_|SA1PR17MB5190:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7fb10880-26c3-4d20-ba2b-08db03ad2a31
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: Bg3r3YhfkeLLhhMdkCix4HgRedYZ5fIvhN8JXfruo1nkuxWjfZw+v6u3U9obYb8cM5tajZO1IzMmorFF8y67U4mV3Ep8ZgeFkOgJOjidO/fDtyl0UpCj5SH66290ZkXHQm9/6IfYLNKyU4f9AO+dcjvBycX4YLi5v6QKifNTgHD7DoSqgOsimQ3PnxfAqXfcrucazduoNdQ9jmGJjvoQ12Grhk+LpG5iG7qP553RuMCu3++kUY3dOt23YS0WpdztQHY7etieA+LjEkGrO1qnjYV71/Uy8KJ2KGTL8qGdBVd3DZewVcWmqVjhHhb6If59Q+EehIzvTR0/2OnqsDSInZAbzO2RXelkKJs2XkONs3DfQtdMpA2w7xDpBRxOXprQhKTnC1WYq0zEU5tmGWDx+8Ysx6r8pdmgd+KBc54HSYJfzTvnjpMbojGPbickjMY2Vc1kmZ+DQ4XjwM58cLltkcHzJPwnl7UQkzNJ7GihHli7C8Y8KItVbUPAVh7VDMVGfCmDoLDemEP9Mnnj1Ux/TxvxiTHUBK3MwtLYZVcO1V05ONwq6McyrenozXlcz0sCfE1/eFnwZBHUPgq0GPM0gY1Z130eB/PLzZpkvBUzVTtvPso1vkIHCsYjIpLlwH6peD0D7n9Jj6ArUbYY1Mt5Dg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
- IPV:NLI; SFV:NSPM; H:BN6PR17MB3121.namprd17.prod.outlook.com; PTR:; CAT:NONE;
- SFS:(13230025)(366004)(346002)(396003)(376002)(39840400004)(136003)(451199018)(6666004)(6512007)(41300700001)(2616005)(6486002)(26005)(6506007)(478600001)(186003)(66476007)(54906003)(316002)(6916009)(8676002)(38100700002)(66946007)(4326008)(66556008)(8936002)(2906002)(36756003)(5660300002)(86362001)(44832011)(7416002)(4744005);
- DIR:OUT; SFP:1101; 
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?atrlQZ/H6q+/x/VBG4fNr5aohWwwrFNIUFWomG2HRmRKV050+ASsJ+4j4Ytl?=
- =?us-ascii?Q?4vbpmnNS/B1M+xP1Oit7hLdMLLg3a0jjzAGk93VoL1AxkKtc7DEiDHSmOiX9?=
- =?us-ascii?Q?/rtP3sApZcyI1Vb3iRh7P+u1P1fsDpLY7JtaBwROnlMnJ03EBpX9u5JJalkI?=
- =?us-ascii?Q?5u6kySSPESGuty5PVVqKrSTPNydkQFQEDtE9Bv0MmiQCWqi9cZQ/YCmnhPHZ?=
- =?us-ascii?Q?XUzM7UFV1IIlIXRKc1IsVy/I3oC9F0H1tdfEbrfT2S1uMeSwsSjd7h8wmuS0?=
- =?us-ascii?Q?LayZvui/0FSRx0XZFEq07+VBlQvyhncLAMMQQzpyB0IzFAKNR2ycTGqDJlgs?=
- =?us-ascii?Q?hLc+qqmKqLjRtpoWXjF8cV2qdDPdea7IQZ9JqmnRAqy2I+wR5BePDH7Vprfq?=
- =?us-ascii?Q?xBM3Y6XHyhkN27f7AhkQQ8zRZf+iqznJV9Iv/X/flQQzNls5vq0qa8Q40ZMo?=
- =?us-ascii?Q?Lxti+QWafF+H3Q74FNPUc+an6O06+32VeMzJBnyR5pIfSsPOi2GYPicIF62O?=
- =?us-ascii?Q?GuLzBkPUJGbKcgYzu/Ir8BY/eYLV/arQtBG2HlzF4Xb6qsP9rw+TCerzd61H?=
- =?us-ascii?Q?qqeUp2gOIVmefLfXcK/+zmPgQCvM+Q8BtdXZYtZ8gNIkCZQxk9WMkebj9XYF?=
- =?us-ascii?Q?a7o3UUZAVl5lablcYU7W9ljgwf+1psRVO9+ZJj9QlPq4XFLoQSoQyjjOJu73?=
- =?us-ascii?Q?Y144KwDHS0xVqpBA5DBhjCOuThzh05oSwh6qA5IrBv1TBIwFvxdOEan95Dfy?=
- =?us-ascii?Q?idZKj/OZcaOqRPlQXdY1swJsR0jDsSMnSXNQ0rW7YqwPMQExxOzkQHPTLSzt?=
- =?us-ascii?Q?pXKFVj+FLCfuCvzFibSR4AwDS7w5Hiqg/8WC/tydxjOStUFtUwKWECHjOOxd?=
- =?us-ascii?Q?rlJpWfcefYK2fTvTygVgK6ADamLn320KZac+ayP+gZsa5iAq3LPqhb2qXxMl?=
- =?us-ascii?Q?7ejmR0j4bZK84QEZBq8xLIpQHYP460j4mL7PWiSWzjmuh4vJ2ib8CSSWKiIb?=
- =?us-ascii?Q?XOrcUiZq384agy+UDTy9A4tmUl2NCYiKpHd8uyx2haZlX2DZcBll0sI3kYZ/?=
- =?us-ascii?Q?0DRvpcAHoUOsx7HWnjqI1X0JCy8DeIelPM1+7HS8HMGZR4lczsZjNiMkp0JD?=
- =?us-ascii?Q?o/tWh9iUDmvHWpT2b+DtoMBFaNeICAZv4cKYJJVZIh77mTBqadoMAKvJlR5o?=
- =?us-ascii?Q?iqCHZLbUH+urFXY3eSJilNXbobP5hzZKpVR7bigMRX4rnfMSjQj/LEa3WpW2?=
- =?us-ascii?Q?7xmwAe4mnTxNEu8NmnjCS1e9Z3fe2IGDP5RLIJBkfqFxuClWeMUz+/Kv659/?=
- =?us-ascii?Q?/gsRZCCjw74mZNVA2G+TipPRT+aKJxBR4wpzpEj2t0+1i/ldMd/zwEZohvRK?=
- =?us-ascii?Q?Hqd/afL45X+ShzPWi9lTooDUk29mLN4TLo5vKWunqceqWzDrGzMxL5QbGa3O?=
- =?us-ascii?Q?H/x4oINVHVd6H5GfNGoW9HY86ydUPVMR6thU4d0+msQ0yLGQgAkQ+xUkiAIQ?=
- =?us-ascii?Q?doOS0nidOoX4KAld80gmdy3h2LLw/Vslr5tY3AkUl5gxa4rwTG7UQTxNWoGE?=
- =?us-ascii?Q?xxruPqAaleyDuJAH/4UuviPOU38Fti3XC9m4kOzoAzX/f1m828ig2242qSop?=
- =?us-ascii?Q?lg=3D=3D?=
-X-OriginatorOrg: memverge.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fb10880-26c3-4d20-ba2b-08db03ad2a31
-X-MS-Exchange-CrossTenant-AuthSource: BN6PR17MB3121.namprd17.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2023 17:04:07.6122 (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5c90cb59-37e7-4c81-9c07-00473d5fb682
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SR/j4m9ppmM/xwwtcFRZFGUCc9Q85a+YY5IWttktGwrutgU4sotbnEDXvfIU0DFk8fZoQ3xxPo+1CBUR26wNuB/scDiIwl2PJFVTKRYGjy0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR17MB5190
-Received-SPF: none client-ip=2a01:111:f400:7e89::622;
- envelope-from=gregory.price@memverge.com;
- helo=NAM10-MW2-obe.outbound.protection.outlook.com
-X-Spam_score_int: -10
-X-Spam_score: -1.1
-X-Spam_bar: -
-X-Spam_report: (-1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FORGED_SPF_HELO=1,
- SPF_HELO_PASS=-0.001, SPF_NONE=0.001 autolearn=no autolearn_force=no
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -138,18 +102,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 31, 2023 at 04:38:47PM +0000, Jonathan Cameron wrote:
-> From: Gregory Price <gourry.memverge@gmail.com>
-> 
-> This commit enables each CXL Type-3 device to contain one volatile
-> memory region and one persistent region.
->
-> ... snip ...
-> 
+Jiang Jiacheng <jiangjiacheng@huawei.com> wrote:
+> On 2023/1/30 22:03, Juan Quintela wrote:
+>> Jiang Jiacheng <jiangjiacheng@huawei.com> wrote:
+>>> On 2023/1/30 12:27, Juan Quintela wrote:
 
-I have no objections to the changes made.  I'll test when I finish up a
-few other tasks.
+>>>>
+>>>> 1st, it is an int enough for all architectures?  I know that for linux
+>>>> and friends it is, but not sure about windows and other weird systems.
+>>>>
+>>>
+>>> It is only enough for migration pin which I want to implement. But I
+>>> think this struct can be easily expand if we need other information
+>>> about migration thread.
+>> 
+>> I mean that pthread_t (what you are passing here) is an int on linux.
+>> Not sure on other OS's.
+>> 
+>
+> I'm sorry about my misunderstanding. I use 'int' for thread-id just like
+> cpu or iothread's thread-id, and it is get from 'qemu_get_thread_id'. So
+> I think it is enough.
+
+Ok, fine enough.  Thanks.
+
+Later, Juan.
+
 
