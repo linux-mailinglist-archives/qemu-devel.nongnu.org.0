@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6A98682A21
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:14:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E0873682A2E
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:15:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMndJ-0002pv-D7; Tue, 31 Jan 2023 05:12:57 -0500
+	id 1pMndI-0002ps-Jw; Tue, 31 Jan 2023 05:12:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMndG-0002oq-EC
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:54 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMndE-0002nX-SJ
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:52 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMndE-0002bp-SF
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:54 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMndD-0002bN-AC
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675159972;
+ s=mimecast20190719; t=1675159970;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=wAccDcfEp8aFz4gcql6HBdpGyNfba7jQ2xQ8HDk4p1Y=;
- b=bnaDcM3isGUR/dZTTROW1I4MKE4U2OfiP20x7+5pW0DRVee1ZdJhqZULtwYh+Ba69OEv1d
- czCce8BNxfAcd0SbIHbRxcpCnI1ocjPU6zCdN10U+YSxqRBZ1igAcIWJTFOruZI3UxfD9h
- YMolShsId0BdRTsWmqZdhAGsJ/K/yAQ=
+ bh=HeWFkRxfcxQMc61g1xzfAoV9kGBJf7mMc3cHqdqbuYY=;
+ b=N6sr3Qxwf9Mt1cfNsC81VuJZWGmNvhRWF3NL7msgxTuV2pj3d5/+RtbAo1HZ/y08ovp/uo
+ njBfjrVkVGs0CPpC1zi9EB8ohUiU6CgQMto9YlTlD8wMAvzSBDA7zcWOrljpIvk6mz2jLn
+ RcbzV16TUarDYieaIRFz1Q0Wo+OMuo4=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-527-XLJuuLNlMVCkr-zzrLkJoQ-1; Tue, 31 Jan 2023 05:12:45 -0500
-X-MC-Unique: XLJuuLNlMVCkr-zzrLkJoQ-1
+ us-mta-661-YjZHqIwANKSb6EsO0O6ccw-1; Tue, 31 Jan 2023 05:12:46 -0500
+X-MC-Unique: YjZHqIwANKSb6EsO0O6ccw-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F339F800B23;
- Tue, 31 Jan 2023 10:12:44 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 095F8885622;
+ Tue, 31 Jan 2023 10:12:46 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 3A2A9C15BAD;
- Tue, 31 Jan 2023 10:12:44 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 459A9C15BAE;
+ Tue, 31 Jan 2023 10:12:45 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 25/27] gitlab-ci.d/buildtest: Remove ppc-softmmu from the
- clang-system job
-Date: Tue, 31 Jan 2023 11:12:03 +0100
-Message-Id: <20230131101205.1499867-26-thuth@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 26/27] tests/qtest/display-vga-test: Add proper checks if a
+ device is available
+Date: Tue, 31 Jan 2023 11:12:04 +0100
+Message-Id: <20230131101205.1499867-27-thuth@redhat.com>
 In-Reply-To: <20230131101205.1499867-1-thuth@redhat.com>
 References: <20230131101205.1499867-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
@@ -78,32 +77,114 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are also compile-testing ppc64-softmmu with clang in the "tsan-build"
-job, and ppc64-softmmu covers pretty much the same code as ppc-softmmu,
-so we should not lose much test coverage here by removing ppc-softmmu
-from the "clang-system" job.
+display-vga-test currently tries to guess the usable VGA devices
+according to the target architecture that is used for the test.
+This of course does not work if QEMU has been built with the
+"--without-default-devices" configure switch. To fix this, use the
+qtest_has_device() function for the decision instead. This way
+we can also consolidate most of the test functions into one single
+function (that takes a parameter with the device name now), except
+for the multihead test that tries to instantiate two devices and
+thus is a little bit different.
 
-Message-Id: <20230130104446.1286773-2-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230130104446.1286773-4-thuth@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- .gitlab-ci.d/buildtest.yml | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ tests/qtest/display-vga-test.c | 65 +++++++++++++---------------------
+ 1 file changed, 25 insertions(+), 40 deletions(-)
 
-diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
-index f09a898c3e..406608e5fc 100644
---- a/.gitlab-ci.d/buildtest.yml
-+++ b/.gitlab-ci.d/buildtest.yml
-@@ -316,8 +316,7 @@ clang-system:
-     IMAGE: fedora
-     CONFIGURE_ARGS: --cc=clang --cxx=clang++
-       --extra-cflags=-fsanitize=undefined --extra-cflags=-fno-sanitize-recover=undefined
--    TARGETS: alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
--      ppc-softmmu s390x-softmmu
-+    TARGETS: alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu s390x-softmmu
-     MAKE_CHECK_ARGS: check-qtest check-tcg
+diff --git a/tests/qtest/display-vga-test.c b/tests/qtest/display-vga-test.c
+index ace3bb28e0..75b341a9c6 100644
+--- a/tests/qtest/display-vga-test.c
++++ b/tests/qtest/display-vga-test.c
+@@ -8,61 +8,46 @@
+  */
  
- clang-user:
+ #include "qemu/osdep.h"
+-#include "libqtest-single.h"
+-
+-static void pci_cirrus(void)
+-{
+-    qtest_start("-vga none -device cirrus-vga");
+-    qtest_end();
+-}
+-
+-static void pci_stdvga(void)
+-{
+-    qtest_start("-vga none -device VGA");
+-    qtest_end();
+-}
+-
+-static void pci_secondary(void)
+-{
+-    qtest_start("-vga none -device secondary-vga");
+-    qtest_end();
+-}
++#include "libqtest.h"
+ 
+ static void pci_multihead(void)
+ {
+-    qtest_start("-vga none -device VGA -device secondary-vga");
+-    qtest_end();
+-}
++    QTestState *qts;
+ 
+-static void pci_virtio_gpu(void)
+-{
+-    qtest_start("-vga none -device virtio-gpu-pci");
+-    qtest_end();
++    qts = qtest_init("-vga none -device VGA -device secondary-vga");
++    qtest_quit(qts);
+ }
+ 
+-static void pci_virtio_vga(void)
++static void test_vga(gconstpointer data)
+ {
+-    qtest_start("-vga none -device virtio-vga");
+-    qtest_end();
++    QTestState *qts;
++
++    qts = qtest_initf("-vga none -device %s", (const char *)data);
++    qtest_quit(qts);
+ }
+ 
+ int main(int argc, char **argv)
+ {
+-    const char *arch = qtest_get_arch();
++    static const char *devices[] = {
++        "cirrus-vga",
++        "VGA",
++        "secondary-vga",
++        "virtio-gpu-pci",
++        "virtio-vga"
++    };
+ 
+     g_test_init(&argc, &argv, NULL);
+ 
+-    if (strcmp(arch, "alpha") == 0 || strcmp(arch, "i386") == 0 ||
+-        strcmp(arch, "mips") == 0 || strcmp(arch, "x86_64") == 0) {
+-        qtest_add_func("/display/pci/cirrus", pci_cirrus);
++    for (int i = 0; i < ARRAY_SIZE(devices); i++) {
++        if (qtest_has_device(devices[i])) {
++            char *testpath = g_strdup_printf("/display/pci/%s", devices[i]);
++            qtest_add_data_func(testpath, devices[i], test_vga);
++            g_free(testpath);
++        }
+     }
+-    qtest_add_func("/display/pci/stdvga", pci_stdvga);
+-    qtest_add_func("/display/pci/secondary", pci_secondary);
+-    qtest_add_func("/display/pci/multihead", pci_multihead);
+-    qtest_add_func("/display/pci/virtio-gpu", pci_virtio_gpu);
+-    if (g_str_equal(arch, "i386") || g_str_equal(arch, "x86_64") ||
+-        g_str_equal(arch, "hppa") || g_str_equal(arch, "ppc64")) {
+-        qtest_add_func("/display/pci/virtio-vga", pci_virtio_vga);
++
++    if (qtest_has_device("secondary-vga")) {
++        qtest_add_func("/display/pci/multihead", pci_multihead);
+     }
+ 
+     return g_test_run();
 -- 
 2.31.1
 
