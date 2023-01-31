@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7C5A682277
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 04:02:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A57BE682279
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 04:02:44 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMgt6-0004cr-GT; Mon, 30 Jan 2023 22:00:48 -0500
+	id 1pMguW-0005E0-0S; Mon, 30 Jan 2023 22:02:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pMgt3-0004ci-R8
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 22:00:46 -0500
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c])
+ id 1pMguM-0005Di-Dl
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 22:02:06 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pMgt1-0004VK-V0
- for qemu-devel@nongnu.org; Mon, 30 Jan 2023 22:00:45 -0500
-Received: by mail-pf1-x42c.google.com with SMTP id 144so9264563pfv.11
- for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 19:00:43 -0800 (PST)
+ id 1pMguI-0004f0-Mq
+ for qemu-devel@nongnu.org; Mon, 30 Jan 2023 22:02:05 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id k13so13766475plg.0
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 19:02:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=N+ydyPvtqICIU4Za5Zwxgk41pHy0LdMcJdotGQvWiHA=;
- b=WpL91S7BJKVpMuI0f/VqBsCdLYX7bHakEX4DYUTLaWaB2PlJfv9+053LLaBxDp09Nf
- zJ85v3FnG1QZVEC5e87ZSDUK5EmfrEs3F3XLWmsrzAfI6jlj6Chpf9Tx4mdCY6XHtGHp
- J6HKv5X4XAF+1QXSVrEiV7Gvz18+qwgHTOqvUEKjYOKOGmA5+C6220Oi+0oZkpKaNzHD
- qV+oeoe57HmjRTKGJCzt7O1aQtUfaCOTpY4YObMdSeYPdDRO7pQdBlj6O6z42fgqv4UO
- TnI47mctA6NpEVM0ToIp7gmE+FXfifrsdwv1ijN4Nfyo3IHIsTaFXpUfxzN5ROI2A9Nq
- g6ZA==
+ bh=xmPVWHsYTl+pKuj/umNSaH4m0dh1m1gnSRWlI0Es1wA=;
+ b=ar4OF4xYmfgT4PwF+d1WqgKwWZusO50OsjWbNbm0cx8giG84zvJmtu03Y5gQMjKMXy
+ WsGvJzGi6W9PtYC1ZvrxYRnUB51se3Zd1E7DYnwlVfnOLwS6yblSkMuKpA587u2uHsTM
+ A0FLY8wv2d4btGvc+pxN0aWpf1ZIWX1WBU0MPlSQiC4x2Sp1kt5aM9H4C1NZBrf0EQmE
+ ZF3febIoeqhEcLKR0vm+xyEOf/h6dkxrmkPMF8rSs96M2l0t322f2KPFRBgqLHrz3rK9
+ C8JZEE8Plyx3PkfTtkBaEAOG6oUam2hhD3sVFr5kiG5FevKRhTarFAVTAUPKwbVlI0Hn
+ sGog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:subject:cc
  :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=N+ydyPvtqICIU4Za5Zwxgk41pHy0LdMcJdotGQvWiHA=;
- b=gdMwzvy6xOUI65ycgAgSYcrTWRYbbg5YJ2JaFp4o9fKeoT9fqP4/JVbl7tCBUZwf9G
- 7P62kGll490rbkZ2KhUQAQGEZMSJSkarrx7JgWckGx486C4198pZEcqcvlKVQK9xwSAp
- enMdXwC4opKyLZmctLNLWWPpkQ3XSACM/Dbke2EUYafwr3BvBFNvZfFpKQIbnvAsBAQI
- 1J3ZfHI5S/RXGbNxquuw6JHHlpPuQZIFzaVcGKQWSmVreTcZxfW0wRF7TFw/TfoG68gA
- osc8Rrct+lGEgk8h80qdaQQP+X4vMPwgpdQv1K23gtqKWCZXGO9Pm5yC96DdIM66eA1N
- meog==
-X-Gm-Message-State: AO0yUKW+2VnGKVBql4DXJwrUObiDkKqFjs52DBOjiG5+sLYQZf+s4eDV
- MkEaqW9Z4cC/tkeRQsAb+jNXvjoXLqu58/DD
-X-Google-Smtp-Source: AK7set8bp5jDvJCucthtwmKSt91S5YWPVlwVRDo2ypvEH5WzgcNseXsGXegcSzuLkfszDY1Pdr7C/Q==
-X-Received: by 2002:a05:6a00:2289:b0:592:fc9f:8ae5 with SMTP id
- f9-20020a056a00228900b00592fc9f8ae5mr13669504pfe.23.1675134042300; 
- Mon, 30 Jan 2023 19:00:42 -0800 (PST)
+ bh=xmPVWHsYTl+pKuj/umNSaH4m0dh1m1gnSRWlI0Es1wA=;
+ b=3+VQU3LIVdJ8Cku3UV7sx65R8xuyiwMMdtrEQBx17FzjNEVmRIawq00Y8L9leNEXML
+ 7J/VrNCPfDN/vBN3+q6M8wBBhvkT0SJH0O8QjY1FZwrQnflcny6FvjAqpk7qC+A5dkij
+ A57uPJQiQbMK4B60oIthg+gH3Lo1NYyfbNZr1jkp2JTugRjZ0atB7ll7A9p75IIpQWBh
+ kbDL+cn0Nl2f0QyVSBT4KguFdOKwhJ5mGtcr18Xl0+GFRG2oRvIAs9M53V6Qh+dRZj3S
+ GWVySB+xOoDCNDAw0vpXV4B/MSRs9Iu92zs+aYUlNl8KVc23qUZrL0rTGh78RgRV8cAW
+ 8I3Q==
+X-Gm-Message-State: AO0yUKV4qe8YihixCO4NVdSjq47q5jqxP2Zv0BTqKLRjdjb2+SsBfeOx
+ Q2bS9UfVfi3yykAy5ypTB8/Frw==
+X-Google-Smtp-Source: AK7set/2w7VsCX9hxzZiASObk/IG1bi5eZU9KL4Jc+smkyhweecJs195py/obg0c+5iLT3HlPZoKLA==
+X-Received: by 2002:a17:902:f690:b0:196:6301:9e74 with SMTP id
+ l16-20020a170902f69000b0019663019e74mr14509110plg.20.1675134120946; 
+ Mon, 30 Jan 2023 19:02:00 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- f18-20020a056a00229200b0058bca264253sm8139259pfe.126.2023.01.30.19.00.40
+ b19-20020a170902ed1300b001944b1285easm8478942pld.198.2023.01.30.19.01.59
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 19:00:41 -0800 (PST)
+ Mon, 30 Jan 2023 19:02:00 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- "Michael S . Tsirkin" <mst@redhat.com>, Alexander Bulekov <alxndr@bu.edu>,
- Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v2] hw/timer/hpet: Fix expiration time overflow
-Date: Tue, 31 Jan 2023 12:00:37 +0900
-Message-Id: <20230131030037.18856-1-akihiko.odaki@daynix.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ qemu-devel@nongnu.org, David Hildenbrand <david@redhat.com>,
+ Peter Xu <peterx@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ Alexander Bulekov <alxndr@bu.edu>, Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH v2] softmmu: Use memmove in flatview_write_continue
+Date: Tue, 31 Jan 2023 12:01:55 +0900
+Message-Id: <20230131030155.18932-1-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::42c;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42c.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -88,78 +89,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The expiration time provided for timer_mod() can overflow if a
-ridiculously large value is set to the comparator register. The
-resulting value can represent a past time after rounded, forcing the
-timer to fire immediately. If the timer is configured as periodic, it
-will rearm the timer again, and form an endless loop.
+We found a case where the source passed to flatview_write_continue() may
+overlap with the destination when fuzzing igb, a new proposed network
+device with sanitizers.
 
-Check if the expiration value will overflow, and if it will, stop the
-timer instead of rearming the timer with the overflowed time.
+igb uses pci_dma_map() to get Tx packet, and pci_dma_write() to write Rx
+buffer. While pci_dma_write() is usually used to write data from
+memory not mapped to the guest, if igb is configured to perform
+loopback, the data will be sourced from the guest memory. The source and
+destination can overlap and the usage of memcpy() will be invalid in
+such a case.
 
-This bug was found by Alexander Bulekov when fuzzing igb, a new
-network device emulation:
+While we do not really have to deal with such an invalid request for
+igb, detecting the overlap in igb code beforehand requires complex code,
+and only covers this specific case. Instead, just replace memcpy() with
+memmove() to tolerate overlaps. Using memmove() will slightly damage the
+performance as it will need to check overlaps before using SIMD
+instructions for copying, but the cost should be negligible, considering
+the inherent complexity of flatview_write_continue().
+
+The test cases generated by the fuzzer is available at:
 https://patchew.org/QEMU/20230129053316.1071513-1-alxndr@bu.edu/
 
 The fixed test case is:
-fuzz/crash_2d7036941dcda1ad4380bb8a9174ed0c949bcefd
+fuzz/crash_47dfe62d9f911bf523ff48cd441b61c0013ed805
 
-Fixes: 16b29ae180 ("Add HPET emulation to qemu (Beth Kon)")
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Acked-by: Michael S. Tsirkin <mst@redhat.com>
+Acked-by: Alexander Bulekov <alxndr@bu.edu>
 ---
-V1 -> V2: Renamed arm() to hpet_arm()
+V1 -> V2: Correct spellings in the message
 
- hw/timer/hpet.c | 19 +++++++++++++------
- 1 file changed, 13 insertions(+), 6 deletions(-)
+ softmmu/physmem.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/hw/timer/hpet.c b/hw/timer/hpet.c
-index 9520471be2..5f88ffdef8 100644
---- a/hw/timer/hpet.c
-+++ b/hw/timer/hpet.c
-@@ -352,6 +352,16 @@ static const VMStateDescription vmstate_hpet = {
-     }
- };
+diff --git a/softmmu/physmem.c b/softmmu/physmem.c
+index cb998cdf23..3cd27b1c9d 100644
+--- a/softmmu/physmem.c
++++ b/softmmu/physmem.c
+@@ -2828,7 +2828,7 @@ static MemTxResult flatview_write_continue(FlatView *fv, hwaddr addr,
+         } else {
+             /* RAM case */
+             ram_ptr = qemu_ram_ptr_length(mr->ram_block, addr1, &l, false);
+-            memcpy(ram_ptr, buf, l);
++            memmove(ram_ptr, buf, l);
+             invalidate_and_set_dirty(mr, addr1, l);
+         }
  
-+static void hpet_arm(HPETTimer *t, uint64_t ticks)
-+{
-+    if (ticks < ns_to_ticks(INT64_MAX / 2)) {
-+        timer_mod(t->qemu_timer,
-+                  qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + ticks_to_ns(ticks));
-+    } else {
-+        timer_del(t->qemu_timer);
-+    }
-+}
-+
- /*
-  * timer expiration callback
-  */
-@@ -374,13 +384,11 @@ static void hpet_timer(void *opaque)
-             }
-         }
-         diff = hpet_calculate_diff(t, cur_tick);
--        timer_mod(t->qemu_timer,
--                       qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + (int64_t)ticks_to_ns(diff));
-+        hpet_arm(t, diff);
-     } else if (t->config & HPET_TN_32BIT && !timer_is_periodic(t)) {
-         if (t->wrap_flag) {
-             diff = hpet_calculate_diff(t, cur_tick);
--            timer_mod(t->qemu_timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) +
--                           (int64_t)ticks_to_ns(diff));
-+            hpet_arm(t, diff);
-             t->wrap_flag = 0;
-         }
-     }
-@@ -407,8 +415,7 @@ static void hpet_set_timer(HPETTimer *t)
-             t->wrap_flag = 1;
-         }
-     }
--    timer_mod(t->qemu_timer,
--                   qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL) + (int64_t)ticks_to_ns(diff));
-+    hpet_arm(t, diff);
- }
- 
- static void hpet_del_timer(HPETTimer *t)
 -- 
 2.39.1
 
