@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51FD1682A1D
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:14:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5960E682A13
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:13:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMnd5-0002UB-Ht; Tue, 31 Jan 2023 05:12:43 -0500
+	id 1pMndH-0002op-21; Tue, 31 Jan 2023 05:12:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncl-0002JP-6d
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncr-0002Jv-VD
  for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:30 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncg-0002U4-H3
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:21 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMnck-0002Uj-8G
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675159936;
+ s=mimecast20190719; t=1675159941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=qUDnGomdr8y0mpVuN7Q+vP2FhInbxkaS2dh7N6rDPv4=;
- b=DZVIQo5cIPBmtir5mnF9F1kOEIGpROx4mrOKzfKr57tBTD/+QlDLBhMC711Ndx73W2oxLw
- CeO3/IQ9BbJQaDZvE/ECaNRtlzvR6yQR25eGA4REuXSKZjjNDoY+eZD02+R7x7/GSk3ba0
- bjZUJcpRRv9qEkPAtDoNYD/X7RxjhLw=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=rdK/+AoDaGLQgehzH10GvHzz6+INd1sB5CAkEhxPE54=;
+ b=W/Zcid+t4e7yl4vPZ6iACUHLLBEfp7qXn9oxzIP5VrLIEVgybOVErrVgKkxT+ZItLw7sbv
+ qipjxV3QWFejBPBICEGZOA3EWr1BwGB1EXvkEi0ePjX5xoSLXXRchTmUY/0y5Z9WLOEmwO
+ lYV0dqBw6GztfjfVPMKsAdVGhhIpc7Q=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-638-f9L1w9LkPzu_55Axduw-Dw-1; Tue, 31 Jan 2023 05:12:12 -0500
-X-MC-Unique: f9L1w9LkPzu_55Axduw-Dw-1
+ us-mta-357-K-qOOsi2O1mTnMEm1IsPxg-1; Tue, 31 Jan 2023 05:12:14 -0500
+X-MC-Unique: K-qOOsi2O1mTnMEm1IsPxg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 26EC5801779;
- Tue, 31 Jan 2023 10:12:12 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 62F043C0218D;
+ Tue, 31 Jan 2023 10:12:13 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 12625C15BAD;
- Tue, 31 Jan 2023 10:12:10 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 6A4D2C15BAE;
+ Tue, 31 Jan 2023 10:12:12 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Igor Mammedov <imammedo@redhat.com>,
- =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 03/27] tests/qtest/bios-tables-test: Make the test less verbose
- by default
-Date: Tue, 31 Jan 2023 11:11:41 +0100
-Message-Id: <20230131101205.1499867-4-thuth@redhat.com>
+Cc: Alistair Francis <alistair.francis@wdc.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 04/27] hw/misc/sifive_u_otp: Remove the deprecated OTP config
+ with '-drive if=none'
+Date: Tue, 31 Jan 2023 11:11:42 +0100
+Message-Id: <20230131101205.1499867-5-thuth@redhat.com>
 In-Reply-To: <20230131101205.1499867-1-thuth@redhat.com>
 References: <20230131101205.1499867-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,95 +79,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-We are facing the issues that our test logs in the gitlab CI are
-too big (and thus cut off). The bios-tables-test is one of the few
-qtests that prints many lines of output by default when running with
-V=1, so it contributes to this problem. Almost all other qtests are
-silent with V=1 and only print debug messages with V=2 and higher.
-Thus let's change the bios-tables-test to behave more like the
-other tests and only print the debug messages with V=2 (or higher).
+'-drive if=none' is meant for configuring back-end devices only, so this
+got marked as deprecated in QEMU 6.2. Users should now only use the new
+way with '-drive if=pflash' instead.
 
-Message-Id: <20230118125132.1694469-1-thuth@redhat.com>
+Message-Id: <20230112083921.887828-1-thuth@redhat.com>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qtest/bios-tables-test.c | 17 ++++++++++++-----
- 1 file changed, 12 insertions(+), 5 deletions(-)
+ docs/about/deprecated.rst       | 6 ------
+ docs/about/removed-features.rst | 7 +++++++
+ hw/misc/sifive_u_otp.c          | 7 -------
+ 3 files changed, 7 insertions(+), 13 deletions(-)
 
-diff --git a/tests/qtest/bios-tables-test.c b/tests/qtest/bios-tables-test.c
-index 8608408213..355d0c3d56 100644
---- a/tests/qtest/bios-tables-test.c
-+++ b/tests/qtest/bios-tables-test.c
-@@ -24,7 +24,7 @@
-  * You will also notice that tests/qtest/bios-tables-test-allowed-diff.h lists
-  * a bunch of files. This is your hint that you need to do the below:
-  * 4. Run
-- *      make check V=1
-+ *      make check V=2
-  * this will produce a bunch of warnings about differences
-  * beween actual and expected ACPI tables. If you have IASL installed,
-  * they will also be disassembled so you can look at the disassembled
-@@ -108,6 +108,8 @@ static const char *iasl = CONFIG_IASL;
- static const char *iasl;
- #endif
+diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
+index 9f1bbc495d..3f4d678eb4 100644
+--- a/docs/about/deprecated.rst
++++ b/docs/about/deprecated.rst
+@@ -87,12 +87,6 @@ as short-form boolean values, and passed to plugins as ``arg_name=on``.
+ However, short-form booleans are deprecated and full explicit ``arg_name=on``
+ form is preferred.
  
-+static int verbosity_level;
+-``-drive if=none`` for the sifive_u OTP device (since 6.2)
+-''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
+-
+-Using ``-drive if=none`` to configure the OTP device of the sifive_u
+-RISC-V machine is deprecated. Use ``-drive if=pflash`` instead.
+-
+ ``-no-hpet`` (since 8.0)
+ ''''''''''''''''''''''''
+ 
+diff --git a/docs/about/removed-features.rst b/docs/about/removed-features.rst
+index 6c3aa5097f..a17d0554d6 100644
+--- a/docs/about/removed-features.rst
++++ b/docs/about/removed-features.rst
+@@ -422,6 +422,13 @@ the value is hexadecimal.  That is, '0x20M' should be written either as
+ ``tty`` and ``parport`` used to be aliases for ``serial`` and ``parallel``
+ respectively. The actual backend names should be used instead.
+ 
++``-drive if=none`` for the sifive_u OTP device (removed in 8.0)
++'''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 +
- static bool compare_signature(const AcpiSdtTable *sdt, const char *signature)
- {
-    return !memcmp(sdt->aml, signature, 4);
-@@ -368,7 +370,7 @@ static GArray *load_expected_aml(test_data *data)
-     gsize aml_len;
- 
-     GArray *exp_tables = g_array_new(false, true, sizeof(AcpiSdtTable));
--    if (getenv("V")) {
-+    if (verbosity_level >= 2) {
-         fputc('\n', stderr);
-     }
-     for (i = 0; i < data->tables->len; ++i) {
-@@ -383,7 +385,7 @@ static GArray *load_expected_aml(test_data *data)
- try_again:
-         aml_file = g_strdup_printf("%s/%s/%.4s%s", data_dir, data->machine,
-                                    sdt->aml, ext);
--        if (getenv("V")) {
-+        if (verbosity_level >= 2) {
-             fprintf(stderr, "Looking for expected file '%s'\n", aml_file);
-         }
-         if (g_file_test(aml_file, G_FILE_TEST_EXISTS)) {
-@@ -395,7 +397,7 @@ try_again:
-             goto try_again;
-         }
-         g_assert(exp_sdt.aml_file);
--        if (getenv("V")) {
-+        if (verbosity_level >= 2) {
-             fprintf(stderr, "Using expected file '%s'\n", aml_file);
-         }
-         ret = g_file_get_contents(aml_file, (gchar **)&exp_sdt.aml,
-@@ -503,7 +505,7 @@ static void test_acpi_asl(test_data *data)
-                         exp_sdt->aml, sdt->asl_file, sdt->aml_file,
-                         exp_sdt->asl_file, exp_sdt->aml_file);
-                 fflush(stderr);
--                if (getenv("V")) {
-+                if (verbosity_level >= 1) {
-                     const char *diff_env = getenv("DIFF");
-                     const char *diff_cmd = diff_env ? diff_env : "diff -U 16";
-                     char *diff = g_strdup_printf("%s %s %s", diff_cmd,
-@@ -1974,8 +1976,13 @@ int main(int argc, char *argv[])
-     const char *arch = qtest_get_arch();
-     const bool has_kvm = qtest_has_accel("kvm");
-     const bool has_tcg = qtest_has_accel("tcg");
-+    char *v_env = getenv("V");
-     int ret;
- 
-+    if (v_env) {
-+        verbosity_level = atoi(v_env);
-+    }
++Use ``-drive if=pflash`` to configure the OTP device of the sifive_u
++RISC-V machine instead.
 +
-     g_test_init(&argc, &argv, NULL);
++
+ QEMU Machine Protocol (QMP) commands
+ ------------------------------------
  
-     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
+diff --git a/hw/misc/sifive_u_otp.c b/hw/misc/sifive_u_otp.c
+index 6d7fdb040a..8965f5c22a 100644
+--- a/hw/misc/sifive_u_otp.c
++++ b/hw/misc/sifive_u_otp.c
+@@ -210,13 +210,6 @@ static void sifive_u_otp_realize(DeviceState *dev, Error **errp)
+     sysbus_init_mmio(SYS_BUS_DEVICE(dev), &s->mmio);
+ 
+     dinfo = drive_get(IF_PFLASH, 0, 0);
+-    if (!dinfo) {
+-        dinfo = drive_get(IF_NONE, 0, 0);
+-        if (dinfo) {
+-            warn_report("using \"-drive if=none\" for the OTP is deprecated, "
+-                        "use \"-drive if=pflash\" instead.");
+-        }
+-    }
+     if (dinfo) {
+         int ret;
+         uint64_t perm;
 -- 
 2.31.1
 
