@@ -2,90 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 749726838A2
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 22:29:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 225486838B3
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 22:33:34 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMyBG-00037O-Rl; Tue, 31 Jan 2023 16:28:42 -0500
+	id 1pMyFJ-0004kf-7w; Tue, 31 Jan 2023 16:32:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMyBE-00036r-Ke
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 16:28:40 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMyFG-0004jT-FB
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 16:32:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMyBD-0000ez-51
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 16:28:40 -0500
+ (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMyFE-0002N4-RU
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 16:32:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675200458;
+ s=mimecast20190719; t=1675200768;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+CqjXBFrkKGiIvADnRgkUMQEKICNEjfj1VLjg3fHwqg=;
- b=LMiByVE2oA6U98njw2DMGsA5qbQbhBmw9R4LJG70fuUruNIDAU/n2EWF2qHQ254gD4lMMR
- lKjmYNlR+aVGDwZC6qIY3kjP78sOQdS6I792E2XatiOuhoYaJOiXkl6PUpHwuYAf7HVGGR
- PXAsDaAnEBqhiaMPwaNQUyjlDMrbDWQ=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=6CmhZLbc4JWRLN0ylBEXm/j6iZQjw4ir9FyIBY6Whv8=;
+ b=XpNGV2p2BzLjlqdCdYOA0RDmX6wMGg9lxWhGHWxf8BMMiyTik3xTt5C499UfgJXoyh4pgz
+ ANcZ+kCdG2MhNd3cwOiI3U1KKk4nmbVUqCPy19Jyi2Ejt06jExVwIyDO1pmYV9lmPK+BcI
+ 4m+qZnZxCbrwLvAwEcn9cFVk71N8Y5I=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-620-Lx_oBvCANESYTGDTXqV5jA-1; Tue, 31 Jan 2023 16:27:36 -0500
-X-MC-Unique: Lx_oBvCANESYTGDTXqV5jA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- bd21-20020a05600c1f1500b003dc5cb10dcfso3188549wmb.9
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 13:27:36 -0800 (PST)
+ us-mta-103-TNVufx-BP9WBw3auvcCumw-1; Tue, 31 Jan 2023 16:32:46 -0500
+X-MC-Unique: TNVufx-BP9WBw3auvcCumw-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ ds1-20020a170907724100b008775bfcef62so10462893ejc.9
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 13:32:46 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=+CqjXBFrkKGiIvADnRgkUMQEKICNEjfj1VLjg3fHwqg=;
- b=F/n0llJWky7whha8FOkMIfauE/auRMiOnZS4qIcT9jxBWrmHmZPDdP90KherFf3oSR
- z3wbAQmD95Yhzv6Oi2/gCxxlhTajRBtEyZD3zGaVgZEvCUlURKuosU6mGCY2vWv97QVh
- eUKx6nRf4u2hj+GlzkrnP/VG4oM7u/Ve2R8HJK7SXAILFnH4xXGon4li9m9ADyDcVOPs
- dOIYBI8QtumTPRnP0La/hT1ZV2syJfTRpGaPD2ggB0Tqj3VpxK17U0bauSgj2mf/+sHM
- rLFM/HabIZko36l+xXKVCWXkSqzpw+lgowptl6S4RuM2kR998eWGkTbRvlBTd9CALpJA
- 9ptQ==
-X-Gm-Message-State: AO0yUKXVK7iAbleqnuRAv8yntvTlwMUYvcdk4zhoiVZyyb5hemcb4fnL
- X+1UwT30Xqh30GqW2iODEy6CqUwthe9cWBdO63aOip/D4A6KxgE1epb0TEOxzmRbVbshB9qf6Sa
- EB9HDpRpRO+XccMY=
-X-Received: by 2002:a1c:7205:0:b0:3dc:523c:229a with SMTP id
- n5-20020a1c7205000000b003dc523c229amr11250899wmc.7.1675200455235; 
- Tue, 31 Jan 2023 13:27:35 -0800 (PST)
-X-Google-Smtp-Source: AK7set9UMxT+yubP/b/MsEytxGv2r1d/wtXo8WQXoBVBEKgqplizM3rKjtx64BAhPSYk050ZzN2r2w==
-X-Received: by 2002:a1c:7205:0:b0:3dc:523c:229a with SMTP id
- n5-20020a1c7205000000b003dc523c229amr11250874wmc.7.1675200454909; 
- Tue, 31 Jan 2023 13:27:34 -0800 (PST)
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=6CmhZLbc4JWRLN0ylBEXm/j6iZQjw4ir9FyIBY6Whv8=;
+ b=YMdPE/EV1nXazXxkwALiGV7JCyPUdJjon+xwuGI854yeugki0Yt2wGbElK849b/qlH
+ r1Rjub4xM/Lct7GaT8K9jv++IPmVhC+px/R09UhHyRfjcIxUS2xHK4XKn/TPpOON+Cf2
+ lwlV/K97fzECNPEbj//vow9Rdzhvx6Pc1qOyMl99TFOUUgdrkiByaeZSt5CdmYLVupQe
+ aPmzmFI8k8M9ovv7g7H5v2HqH+LhzcRNwoslG5BNfHcgL9Hl9iC8i2s8XLrhGjar6B9f
+ TGsqMYLcZmkhev3LNRpaCFC9jtUgEMVGJ2XI/wQycqax120+w52Pc9bLubzt6EWr6WJ8
+ P3DQ==
+X-Gm-Message-State: AFqh2koIGho2YvFLBC5Md5s4FzbN/EgkSUWBc5xTnIFYvkd51fVztUX/
+ v0yIBrpcjd6pZE6RNBctrwRIvPf04LlqiSwIYA/t+fBa9RNYGMG23al7yeRQF3zsK6wPl01ySt/
+ K9MBYBm36y1E62YQ=
+X-Received: by 2002:a05:6402:3898:b0:45c:835b:ac64 with SMTP id
+ fd24-20020a056402389800b0045c835bac64mr64062890edb.31.1675200765582; 
+ Tue, 31 Jan 2023 13:32:45 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtkY7wHr214Xmr24i+GbusGT/3B0dhu2mbMYL+z36lt6StnCSY1OHRuKnP7PQul+BbYOATVZw==
+X-Received: by 2002:a05:6402:3898:b0:45c:835b:ac64 with SMTP id
+ fd24-20020a056402389800b0045c835bac64mr64062874edb.31.1675200765315; 
+ Tue, 31 Jan 2023 13:32:45 -0800 (PST)
 Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
- l11-20020a05600c2ccb00b003cf71b1f66csm19904802wmc.0.2023.01.31.13.27.31
+ c10-20020a056402100a00b00483dd234ac6sm8825450edu.96.2023.01.31.13.32.43
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 13:27:34 -0800 (PST)
-Date: Tue, 31 Jan 2023 16:27:29 -0500
+ Tue, 31 Jan 2023 13:32:44 -0800 (PST)
+Date: Tue, 31 Jan 2023 16:32:41 -0500
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
- x86@kernel.org,
- Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>,
- "H . Peter Anvin" <hpa@zytor.com>, Borislav Petkov <bp@alien8.de>,
- Eric Biggers <ebiggers@kernel.org>, Eric Biggers <ebiggers@google.com>,
- Mathias Krause <minipli@grsecurity.net>,
- Sergio Lopez <slp@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Gerd Hoffmann <kraxel@redhat.com>
-Subject: Re: [PULL 10/56] x86: don't let decompressed kernel image clobber
- setup_data
-Message-ID: <20230131162550-mutt-send-email-mst@kernel.org>
-References: <20230130201810.11518-1-mst@redhat.com>
- <20230130201810.11518-11-mst@redhat.com>
- <Y9luXHaZXqYy+Rb4@zx2c4.com>
+To: Eugenio Perez Martin <eperezma@redhat.com>
+Cc: Maxime Coquelin <maxime.coquelin@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>,
+ qemu-level <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+Subject: Re: Emulating device configuration / max_virtqueue_pairs in
+ vhost-vdpa and vhost-user
+Message-ID: <20230131163230-mutt-send-email-mst@kernel.org>
+References: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
+ <CAJaqyWfZX2sgoOq+Poa2tQTc2VTRneaUvzozOdDS+7SoMUdNkg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Y9luXHaZXqYy+Rb4@zx2c4.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+In-Reply-To: <CAJaqyWfZX2sgoOq+Poa2tQTc2VTRneaUvzozOdDS+7SoMUdNkg@mail.gmail.com>
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -109,89 +100,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 31, 2023 at 08:39:08PM +0100, Jason A. Donenfeld wrote:
-> On Mon, Jan 30, 2023 at 03:19:59PM -0500, Michael S. Tsirkin wrote:
-> > From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-> > 
-> > The setup_data links are appended to the compressed kernel image. Since
-> > the kernel image is typically loaded at 0x100000, setup_data lives at
-> > `0x100000 + compressed_size`, which does not get relocated during the
-> > kernel's boot process.
-> > 
-> > The kernel typically decompresses the image starting at address
-> > 0x1000000 (note: there's one more zero there than the compressed image
-> > above). This usually is fine for most kernels.
-> > 
-> > However, if the compressed image is actually quite large, then
-> > setup_data will live at a `0x100000 + compressed_size` that extends into
-> > the decompressed zone at 0x1000000. In other words, if compressed_size
-> > is larger than `0x1000000 - 0x100000`, then the decompression step will
-> > clobber setup_data, resulting in crashes.
-> > 
-> > Visually, what happens now is that QEMU appends setup_data to the kernel
-> > image:
-> > 
-> >           kernel image            setup_data
-> >    |--------------------------||----------------|
-> > 0x100000                  0x100000+l1     0x100000+l1+l2
-> > 
-> > The problem is that this decompresses to 0x1000000 (one more zero). So
-> > if l1 is > (0x1000000-0x100000), then this winds up looking like:
-> > 
-> >           kernel image            setup_data
-> >    |--------------------------||----------------|
-> > 0x100000                  0x100000+l1     0x100000+l1+l2
-> > 
-> >                                  d e c o m p r e s s e d   k e r n e l
-> >                      |-------------------------------------------------------------|
-> >                 0x1000000                                                     0x1000000+l3
-> > 
-> > The decompressed kernel seemingly overwriting the compressed kernel
-> > image isn't a problem, because that gets relocated to a higher address
-> > early on in the boot process, at the end of startup_64. setup_data,
-> > however, stays in the same place, since those links are self referential
-> > and nothing fixes them up.  So the decompressed kernel clobbers it.
-> > 
-> > Fix this by appending setup_data to the cmdline blob rather than the
-> > kernel image blob, which remains at a lower address that won't get
-> > clobbered.
-> > 
-> > This could have been done by overwriting the initrd blob instead, but
-> > that poses big difficulties, such as no longer being able to use memory
-> > mapped files for initrd, hurting performance, and, more importantly, the
-> > initrd address calculation is hard coded in qboot, and it always grows
-> > down rather than up, which means lots of brittle semantics would have to
-> > be changed around, incurring more complexity. In contrast, using cmdline
-> > is simple and doesn't interfere with anything.
-> > 
-> > The microvm machine has a gross hack where it fiddles with fw_cfg data
-> > after the fact. So this hack is updated to account for this appending,
-> > by reserving some bytes.
-> > 
-> > Fixup-by: Michael S. Tsirkin <mst@redhat.com>
-> > Cc: x86@kernel.org
-> > Cc: Philippe Mathieu-Daudé <philmd@linaro.org>
-> > Cc: H. Peter Anvin <hpa@zytor.com>
-> > Cc: Borislav Petkov <bp@alien8.de>
-> > Cc: Eric Biggers <ebiggers@kernel.org>
-> > Signed-off-by: Jason A. Donenfeld <Jason@zx2c4.com>
-> > Message-Id: <20221230220725.618763-1-Jason@zx2c4.com>
-> > Message-ID: <20230128061015-mutt-send-email-mst@kernel.org>
-> > Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> > Tested-by: Eric Biggers <ebiggers@google.com>
-> > Tested-by: Mathias Krause <minipli@grsecurity.net>
+On Tue, Jan 31, 2023 at 08:11:06PM +0100, Eugenio Perez Martin wrote:
+> On Tue, Jan 31, 2023 at 8:10 PM Eugenio Perez Martin
+> <eperezma@redhat.com> wrote:
+> >
+> > Hi,
+> >
+> > The current approach of offering an emulated CVQ to the guest and map
+> > the commands to vhost-user is not scaling well:
+> > * Some devices already offer it, so the transformation is redundant.
+> > * There is no support for commands with variable length (RSS?)
+> >
+> > We can solve both of them by offering it through vhost-user the same
+> > way as vhost-vdpa do. With this approach qemu needs to track the
+> > commands, for similar reasons as vhost-vdpa: qemu needs to track the
+> > device status for live migration. vhost-user should use the same SVQ
+> > code for this, so we avoid duplications.
+> >
+> > One of the challenges here is to know what virtqueue to shadow /
+> > isolate. The vhost-user device may not have the same queues as the
+> > device frontend:
+> > * The first depends on the actual vhost-user device, and qemu fetches
+> > it with VHOST_USER_GET_QUEUE_NUM at the moment.
+> > * The qemu device frontend's is set by netdev queues= cmdline parameter in qemu
+> >
+> > For the device, the CVQ is the last one it offers, but for the guest
+> > it is the last one offered in config space.
+> >
+> > To create a new vhost-user command to decrease that maximum number of
+> > queues may be an option. But we can do it without adding more
+> > commands, remapping the CVQ index at virtqueue setup. I think it
+> > should be doable using (struct vhost_dev).vq_index and maybe a few
+> > adjustments here and there.
+> >
+> > Thoughts?
+> >
+> > Thanks!
 > 
-> This one should wind up in the stable point release too. Dunno what the
-> procedure for that is.
 > 
-> Jason
+> (Starting a separated thread to vhost-vdpa related use case)
+> 
+> This could also work for vhost-vdpa if we ever decide to honor netdev
+> queues argument. It is totally ignored now, as opposed to the rest of
+> backends:
+> * vhost-kernel, whose tap device has the requested number of queues.
+> * vhost-user, that errors with ("you are asking more queues than
+> supported") if the vhost-user parent device has less queues than
+> requested (by vhost-user msg VHOST_USER_GET_QUEUE_NUM).
+> 
+> One of the reasons for this is that device configuration space is
+> totally passthrough, with the values for mtu, rss conditions, etc.
+> This is not ideal, as qemu cannot check src and destination
+> equivalence and they can change under the feets of the guest in the
+> event of a migration. External tools are needed for this, duplicating
+> part of the effort.
+> 
+> Start intercepting config space accesses and offering an emulated one
+> to the guest with this kind of adjustments is beneficial, as it makes
+> vhost-vdpa more similar to the rest of backends, making the surprise
+> on a change way lower.
+> 
+> Thoughts?
+> 
+> Thanks!
 
-If you want that you need to include
-    Cc: qemu-stable@nongnu.org
-    Fixes: <hash> ("subject")
-
-you can still reply to the original mail with this.
+I agree here.
 
 -- 
 MST
