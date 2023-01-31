@@ -2,91 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 754CC68376C
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 21:22:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C261C68377A
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 21:25:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMx7g-00073L-U5; Tue, 31 Jan 2023 15:20:56 -0500
+	id 1pMxBu-0000Dl-4P; Tue, 31 Jan 2023 15:25:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1pMx7T-0006v9-4a
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 15:20:43 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1pMx7Q-0002vl-Vz
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 15:20:42 -0500
-Received: by mail-wr1-x436.google.com with SMTP id bk16so15339073wrb.11
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 12:20:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ztCilUCc1TA2sITRxRLcH39NMH4uHHWLjoD1hpEHldM=;
- b=VPxikWJqZJrtBu1Pos5YXivoQ3Xgu7Re4C9is/oYEsPM/TuZz+8ousjy56t6V25hbL
- fArTHYMIbsBs7q7zBNllWB6BGu0DEf4c8FfEmEF65Rb2stOauC0i77CBLEQL91yejsBr
- +d1EYpN5k0yqFRLicyOiJMkoWMjHpNZrcPGPko3Zh8cSJHT07hn6DvV4h+z7FP7d5obn
- IfjR/hp8uudQMhdePhL9Pv4FbBwdrzz4pX9yDS8uHxIn9l1FhaGcrLSUuiPravT3jtV/
- ADSgz05fIzyr8U5a/3OZvQpHADHcU7jOdR/+xitTfQkbxQ1c+QHslvrh1Qd7KCg4yLT+
- q3DA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ztCilUCc1TA2sITRxRLcH39NMH4uHHWLjoD1hpEHldM=;
- b=hngC19jfwhgdHSr55Od2WdMGOmU4w27xNMJpFI1w3oXw7XOb73WihMpb9RLGQWAwvB
- VVz0DS9aGSvRLA/jmZDrxJp0WE8PjOdFFw0MLWD0h9b32/qpZ9PR+XKKezxkxqUDSz6p
- mjLHfqM0S+AMYIJwW2QGmgzzluyZFLY/Uwz0ghVcK1KjjrWGzG7bOB5oBrOCugwqCM/t
- gZeHVX0gP2VP4EAG3dQF5sOFXe5BTB1fZdTy3rnKG92fYLbyK6hrmwEiScICt4bHj68y
- 74LBV/1l4eYeNiBJbB/+yQ9DC16B2iL3/qS3qZrJ1QfTZjzE9nQQKSTuKcrIJbUwnkK/
- I4IA==
-X-Gm-Message-State: AO0yUKWWRz4wX2H+e/3LU452jN4H5X2h/9KJ5/1JGyDF+8EVvWNDxN0z
- HhoQH3cqeeCbIPGGk0mGczueqQ==
-X-Google-Smtp-Source: AK7set+a6yEvzExo1SdzDHufeAJy4by1vPJVgdgY/Fh+K5S3L2JevVysEz+HD+1iBVRBo+3OdxRGQw==
-X-Received: by 2002:a5d:6501:0:b0:2c2:de2b:e7cd with SMTP id
- x1-20020a5d6501000000b002c2de2be7cdmr290196wru.50.1675196439782; 
- Tue, 31 Jan 2023 12:20:39 -0800 (PST)
-Received: from beast.fritz.box (62-178-148-172.cable.dynamic.surfer.at.
- [62.178.148.172]) by smtp.gmail.com with ESMTPSA id
- v2-20020adfe282000000b002bdec340a1csm15391977wri.110.2023.01.31.12.20.38
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 12:20:38 -0800 (PST)
-From: Christoph Muellner <christoph.muellner@vrull.eu>
-To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Philipp Tomsich <philipp.tomsich@vrull.eu>,
- =?UTF-8?q?Heiko=20St=C3=BCbner?= <heiko.stuebner@vrull.eu>,
- Palmer Dabbelt <palmer@dabbelt.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Kito Cheng <kito.cheng@sifive.com>,
- Cooper Qu <cooper.qu@linux.alibaba.com>,
- Lifang Xia <lifang_xia@linux.alibaba.com>,
- Yunhai Shang <yunhai@linux.alibaba.com>,
- Zhiwei Liu <zhiwei_liu@linux.alibaba.com>
-Cc: =?UTF-8?q?Christoph=20M=C3=BCllner?= <christoph.muellner@vrull.eu>
-Subject: [PATCH v5 14/14] target/riscv: add a MAINTAINERS entry for XThead*
- extension support
-Date: Tue, 31 Jan 2023 21:20:13 +0100
-Message-Id: <20230131202013.2541053-15-christoph.muellner@vrull.eu>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230131202013.2541053-1-christoph.muellner@vrull.eu>
-References: <20230131202013.2541053-1-christoph.muellner@vrull.eu>
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pMxBp-0000DM-Ly
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 15:25:13 -0500
+Received: from mailout11.t-online.de ([194.25.134.85])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
+ id 1pMxBn-0003Xs-Dc
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 15:25:13 -0500
+Received: from fwd79.dcpf.telekom.de (fwd79.aul.t-online.de [10.223.144.105])
+ by mailout11.t-online.de (Postfix) with SMTP id 44F001E55D;
+ Tue, 31 Jan 2023 21:25:06 +0100 (CET)
+Received: from [192.168.211.200] ([79.208.25.151]) by fwd79.t-online.de
+ with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+ esmtp id 1pMxBg-1Mb0rJ0; Tue, 31 Jan 2023 21:25:04 +0100
+Message-ID: <9f7cef1f-e9c8-dabd-cdde-e2a6b41a28c5@t-online.de>
+Date: Tue, 31 Jan 2023 21:25:04 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [PATCH 00/17] audio: improve callback interface for audio
+ frontends
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
+ <CAJ+F1CLWBs6raV8vDAOXtZ8x8HxsYRC_=H8eNttsotG2pE=JYA@mail.gmail.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
+In-Reply-To: <CAJ+F1CLWBs6raV8vDAOXtZ8x8HxsYRC_=H8eNttsotG2pE=JYA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=christoph.muellner@vrull.eu; helo=mail-wr1-x436.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-TOI-EXPURGATEID: 150726::1675196704-BFFFE9DF-659BEF6C/0/0 CLEAN NORMAL
+X-TOI-MSGID: 99619e7b-3376-4a90-aa88-7d0d698705a4
+Received-SPF: none client-ip=194.25.134.85; envelope-from=vr_qemu@t-online.de;
+ helo=mailout11.t-online.de
+X-Spam_score_int: -26
+X-Spam_score: -2.7
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,38 +65,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Christoph Müllner <christoph.muellner@vrull.eu>
+Am 31.01.23 um 15:53 schrieb Marc-André Lureau:
+> Hi
+>
+> On Sun, Jan 15, 2023 at 5:10 PM Volker Rümelin <vr_qemu@t-online.de> wrote:
+>> Based-on: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
+>> ([PATCH 00/11] audio: more improvements)
+>>
+> Something didn't work with patchew
+> (https://patchew.org/QEMU/61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de/).
+> If you could rebase/resend, or share git branch that would be great.
 
-The XThead* extensions are maintained by T-Head and VRULL.
-Adding a point of contact from both companies.
+Hi Marc-André,
 
-Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-Signed-off-by: Christoph Müllner <christoph.muellner@vrull.eu>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+I will resend the patch series rebased onto [PATCH v2 00/11] audio: more 
+improvements. This time I will take care that patchew doesn't try to 
+apply the cover letter as the first patch.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c581c11a64..9dc0a2954e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -295,6 +295,14 @@ F: include/hw/riscv/
- F: linux-user/host/riscv32/
- F: linux-user/host/riscv64/
- 
-+RISC-V XThead* extensions
-+M: Christoph Muellner <christoph.muellner@vrull.eu>
-+M: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
-+L: qemu-riscv@nongnu.org
-+S: Supported
-+F: target/riscv/insn_trans/trans_xthead.c.inc
-+F: target/riscv/xthead*.decode
-+
- RISC-V XVentanaCondOps extension
- M: Philipp Tomsich <philipp.tomsich@vrull.eu>
- L: qemu-riscv@nongnu.org
--- 
-2.39.1
-
+With best regards,
+Volker
 
