@@ -2,62 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F8E4682C93
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 13:29:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C50F682CA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 13:36:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMpkZ-0000y0-NZ; Tue, 31 Jan 2023 07:28:35 -0500
+	id 1pMppV-0003DD-F8; Tue, 31 Jan 2023 07:33:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMpkX-0000wm-63
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 07:28:33 -0500
-Received: from mout.kundenserver.de ([212.227.126.187])
- by eggs.gnu.org with esmtp (Exim 4.90_1)
- (envelope-from <laurent@vivier.eu>) id 1pMpkU-00047I-IR
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 07:28:32 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue011 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1M6lYs-1pHtn81N7O-008Hvd; Tue, 31 Jan 2023 13:28:04 +0100
-Message-ID: <3517fbb1-e6eb-3495-d524-4a37ef46bd4e@vivier.eu>
-Date: Tue, 31 Jan 2023 13:28:03 +0100
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pMppI-0003Cs-JM; Tue, 31 Jan 2023 07:33:37 -0500
+Received: from mail-ed1-x536.google.com ([2a00:1450:4864:20::536])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <bmeng.cn@gmail.com>)
+ id 1pMpp7-0005px-28; Tue, 31 Jan 2023 07:33:28 -0500
+Received: by mail-ed1-x536.google.com with SMTP id f7so7012770edw.5;
+ Tue, 31 Jan 2023 04:32:07 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=343+g5zUBf606CxH8xv2eXqZDYhg3GIX04y6gCLwQdA=;
+ b=i+jM3C2vetHZF3nRtPpSgMU3dIofSKgi1X1SYHLJPOFoOvJtWB/zz4WfIUlM/nxH9E
+ MdCLO+H9ESKp98/1rRo0eOX8I+cC9qr3IXVXrDxf+mKcCrPchNOnh+nzmQ4h2beCDzBB
+ Wc8LJw75hJOukg7HRnpva4VH3iGU2lx3PdyABW3FZt9Mz1st8E5YStdFuCzRylBy6+qa
+ CMtFY61F1rHmNi64J8P+83OO0gLvKn8VLb0H7RsYotnjBstZ4hnXaGactbUjXiJuSChR
+ /068FdPKHLjYVSJlPR0mwUoMhgUqken1YHed4Fwz/EkD8KrjZVk4i3F48IUpJSJD/hIr
+ UANw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=343+g5zUBf606CxH8xv2eXqZDYhg3GIX04y6gCLwQdA=;
+ b=FJLL44bodZJHVJSJgBcrSxZlvvrogIQMC8jU5Bli8LiGcoaOvPw4ch2G7+WmhrNdkM
+ V+SDS/Br/mLHi17y2wHvYfkfszM1Ecc2aZEwxA1z6rrEVVCUgguFlhy+Lk/1pqRr3lvp
+ 8NsLgx03Y7f5O0RPWp1izqzcTd31pb+JJC6cFMoKWP5wksREONQH6ovLiwTsx8oq1uLa
+ oLQlip+FZQ0DKdzn4SP6hiz5hH1KoIXuIWxeMxeZ1g5k7XB+PgSQBC2FqNK6Mr9a5/0D
+ JTOqVyiBcgWzTFsxJDvQLO2DYz16kq8WuQGKTskG1jT7LosgTPK8uvfXPZukelQswumj
+ 61bg==
+X-Gm-Message-State: AFqh2kqbNOGUdCpq47DWgfg7Rg5DdrV+7hRtpW5J8lPT4y0w6WFwsMxU
+ C47DdJEoZ+oT9rMCEyg4y/PY2FT1c5GcaMdtbeI=
+X-Google-Smtp-Source: AMrXdXuHnAEkLM+YabpiqvYOR1begTWcYK6q3x4XD5yK6A8HTpgWiK3j/t2qq/a59S2j4O2BhEdNO3zsQT2UyX+6pxU=
+X-Received: by 2002:a05:6402:20f:b0:49c:a68c:8b6b with SMTP id
+ t15-20020a056402020f00b0049ca68c8b6bmr10420701edv.84.1675168316685; Tue, 31
+ Jan 2023 04:31:56 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: fr
-To: Helge Deller <deller@gmx.de>,
- Richard Henderson <richard.henderson@linaro.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-References: <20221212173416.90590-1-deller@gmx.de>
- <20221212173416.90590-2-deller@gmx.de>
-From: Laurent Vivier <laurent@vivier.eu>
-Subject: Re: [PATCH 2/2] linux-user: Allow sendmsg() without IOV
-In-Reply-To: <20221212173416.90590-2-deller@gmx.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:GBYNgSXs7ThzXq4GRxzv7qcsT2+dI/KsCkdDz+oEM0Q5AHQ6uFR
- ULGOKfhxxynhaF8LeX2MOEcRq9ponMZeV2trBVJSMCfH1SrOpdbxqWfgxTm7RAtdJKjY53i
- bFjoNJ1TjfLs03Ihe73V+QH7aUVuFxiBfjEYU6rzmkFtu69VmEeT4qAzwn2MDyIRlzEi6h9
- 7rDWZgTYGneQTpWL9t+NA==
-UI-OutboundReport: notjunk:1;M01:P0:N1dQPLIkAJ0=;aavewBfwd6CInTXw0esnXz/5sq+
- QDCVLNLvNBv4smRU+5SNXmbJxav+b5NH0FbssrMewC172MpFadKLMtdiU41sEXCJWuo9rQfQE
- UXrhPuhbkKQ5T1FfllAjNKNMd9MXYf6CMSys9DejJc1cyFoYmvB1pIpcii56M4uBzjQdyHubS
- 5z22Q2tDVRQhWyysCX59/H/QO72OEp3gWImCO/S3xZvvUgN+58lhZUvFoELHpmlrcdV+JF51n
- hq409AuQXZhM3/OqLe8xJqWnnDs7k+wUjFGv8Q6Ro3scJ/cXuddKVTCf2xOxTTMdH2cx6n8J6
- ZlAjvzrr54No9XHQHwq/IbmPgu4FPXqiP0C7tXMR/Cqtb9nkkB2mzkthPpt9ct99fI+37SMOV
- XX64+ESUX7AB4f8jWvufbA+zp9KwLji/OZ+VLU2JScAdMg3FIGbaipXR34HmzNNRPCoLfrQwU
- di4WqCh4vajFGi0Ss7LUh7/xfgTLuE4Ytg7VJFezekbr46/Xhf0ma11y5E1+n3W+OOpsRgV4u
- pp8RbEb8j81k0joEyBL3N+nDSaTrWBMZ8VhNP0sVb1X3l344e+McfSZcxDyB3MVQETZhZO8TI
- AJLoFr9xfCD13IZ1srCsiDy5OU12iYkEpvANhe5Y0s2DgNwE8+EvERVmyJAgcsLTPV24XK5ot
- C/EXH4c2y7y11111BFDN8slytWmWISn+fi8HkTlXvQ==
-Received-SPF: none client-ip=212.227.126.187; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20230123035754.75553-1-alistair.francis@opensource.wdc.com>
+ <CAEUhbmUisvp3QFhnz0Ty74=7zn-h4UpdC_b9E3LNr8B7Bp8Y1Q@mail.gmail.com>
+ <CAKmqyKNQ5php2gdJsmL6cmRKkjggHcdoo2Lfw4Z9goQAHtLVQg@mail.gmail.com>
+ <CAEUhbmWozgB_u=dPkK0ExMLG69W660qEOgc+BDVgMGpgntM0JA@mail.gmail.com>
+ <CAKmqyKNYp=NhHAA6M8vDUvjw1TkRSh2u6Sy42GgaSDiahePfag@mail.gmail.com>
+In-Reply-To: <CAKmqyKNYp=NhHAA6M8vDUvjw1TkRSh2u6Sy42GgaSDiahePfag@mail.gmail.com>
+From: Bin Meng <bmeng.cn@gmail.com>
+Date: Tue, 31 Jan 2023 20:31:46 +0800
+Message-ID: <CAEUhbmV2+g3GVoyJQ7ye-+oV3+YC5Vo4biq=yrK7m7q344a_2g@mail.gmail.com>
+Subject: Re: [PATCH] hw/riscv: boot: Don't use CSRs if they are disabled
+To: Alistair Francis <alistair23@gmail.com>
+Cc: Alistair Francis <alistair.francis@opensource.wdc.com>,
+ qemu-devel@nongnu.org, 
+ qemu-riscv@nongnu.org, palmer@dabbelt.com, alistair.francis@wdc.com, 
+ Bin Meng <bin.meng@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::536;
+ envelope-from=bmeng.cn@gmail.com; helo=mail-ed1-x536.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -73,50 +87,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 12/12/2022 à 18:34, Helge Deller a écrit :
-> Applications do call sendmsg() without any IOV, e.g.:
->   sendmsg(4, {msg_name=NULL, msg_namelen=0, msg_iov=NULL, msg_iovlen=0,
->              msg_control=[{cmsg_len=36, cmsg_level=SOL_ALG, cmsg_type=0x2}],
->              msg_controllen=40, msg_flags=0}, MSG_MORE) = 0
->   sendmsg(4, {msg_name=NULL, msg_namelen=0, msg_iov=[{iov_base="The quick brown fox jumps over t"..., iov_len=183}],
->              msg_iovlen=1, msg_control=[{cmsg_len=20, cmsg_level=SOL_ALG, cmsg_type=0x3}],
->              msg_controllen=24, msg_flags=0}, 0) = 183
-> 
-> The function do_sendrecvmsg_locked() is used for sndmsg() and recvmsg()
-> and calls lock_iovec() to lock the IOV into memory. For the first
-> sendmsg() above it returns NULL and thus wrongly skips the call the host
-> sendmsg() syscall, which will break the calling application.
-> 
-> Fix this issue by:
-> - allowing sendmsg() even with empty IOV
-> - skip recvmsg() if IOV is NULL
-> - skip both if the return code of do_sendrecvmsg_locked() != 0, which
->    indicates some failure like EFAULT on the IOV
-> 
-> Tested with the debian "ell" package with hppa guest on x86_64 host.
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
-> ---
->   linux-user/syscall.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index a365903a3a..9e2c0a18fc 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -3330,7 +3330,10 @@ static abi_long do_sendrecvmsg_locked(int fd, struct target_msghdr *msgp,
->                        target_vec, count, send);
->       if (vec == NULL) {
->           ret = -host_to_target_errno(errno);
-> -        goto out2;
-> +        /* allow sending packet without any iov, e.g. with MSG_MORE flag */
+On Mon, Jan 30, 2023 at 7:19 AM Alistair Francis <alistair23@gmail.com> wrote:
+>
+> On Thu, Jan 26, 2023 at 10:03 PM Bin Meng <bmeng.cn@gmail.com> wrote:
+> >
+> > On Tue, Jan 24, 2023 at 9:42 AM Alistair Francis <alistair23@gmail.com> wrote:
+> > >
+> > > On Tue, Jan 24, 2023 at 11:24 AM Bin Meng <bmeng.cn@gmail.com> wrote:
+> > > >
+> > > > On Mon, Jan 23, 2023 at 11:58 AM Alistair Francis
+> > > > <alistair.francis@opensource.wdc.com> wrote:
+> > > > >
+> > > > > From: Alistair Francis <alistair.francis@wdc.com>
+> > > > >
+> > > > > If the CSRs and CSR instructions are disabled because the Zicsr
+> > > > > extension isn't enabled then we want to make sure we don't run any CSR
+> > > > > instructions in the boot ROM.
+> > > > >
+> > > > > This patches removes the CSR instructions from the reset-vec if the
+> > > > > extension isn't enabled. We replace the instruction with a NOP instead.
+> > > > >
+> > > > > Note that we don't do this for the SiFive U machine, as we are modelling
+> > > > > the hardware in that case.
+> > > > >
+> > > > > Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1447
+> > > > > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > > > > ---
+> > > > >  hw/riscv/boot.c | 9 +++++++++
+> > > > >  1 file changed, 9 insertions(+)
+> > > > >
+> > > > > diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> > > > > index 2594276223..cb27798a25 100644
+> > > > > --- a/hw/riscv/boot.c
+> > > > > +++ b/hw/riscv/boot.c
+> > > > > @@ -356,6 +356,15 @@ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts
+> > > > >          reset_vec[4] = 0x0182b283;   /*     ld     t0, 24(t0) */
+> > > > >      }
+> > > > >
+> > > > > +    if (!harts->harts[0].cfg.ext_icsr) {
+> > > > > +        /*
+> > > > > +         * The Zicsr extension has been disabled, so let's ensure we don't
+> > > > > +         * run the CSR instruction. Let's fill the address with a non
+> > > > > +         * compressed nop.
+> > > > > +         */
+> > > > > +        reset_vec[2] = 0x00000013;   /*     addi   x0, x0, 0 */
+> > > > > +    }
+> > > >
+> > > > This is fine for a UP system. I am not sure how SMP can be supported
+> > > > without Zicsr as we need to assign hartid in a0.
+> > >
+> > > Yeah. My thinking was that no one would be using a multicore system
+> > > without Zicsr as it's such a core extension. If they are running
+> > > without Zicsr they have probably hard coded a lot of things anyway and
+> > > don't expect this to work.
+> > >
+> > > In general I think it's pretty rare to even run a RISC-V core without
+> > > Zicsr at all.
+> > >
+> >
+> > As QEMU implements Zicsr anyway, and there is no way to support SMP
+> > without Zicsr, should we disallow user to disable Zicsr in QEMU?
+>
+> I feel like we don't need to do that. Here's my thinking:
+>
+> Zicsr is a RISC-V extension, the RISC-V spec splits it out so that it
+> can be disabled. In theory someone could build a multi-hart CPU
+> without Zicsr in hardware, so QEMU should be able to model it.
 
-why don't you check only for count is 0?
-Somehing like:
+Correct. But if Zicsr is not present, then the standard privileged
+architecture which qemu-system-riscv currently supports, is inherently
+not present, either.
 
-if (vec == NULL && (count || !send)) {
-...
+If a user chooses to disable Zicsr, current QEMU system emulation is
+useless then.
 
-Thanks,
-Laurent
+That's why I believe we shouldn't allow users to disable Zicsr for
+qemu-system-riscv.
+
+> As well as that Zicsr is enabled by default, so a user has to know
+> enough to disable it manually. At which point they probably know what
+> they are doing, especially as no standard software will run without
+> Zicsr. If that's what someone wants to do then we should allow them
+> to, even if it's a bit strange.
+>
+
+For qemu-riscv, disabling Zicsr is feasible as long as the codes does
+not touch any CSR, e.g.: timer, counters, fcsr, etc.
+
+Regards,
+Bin
 
