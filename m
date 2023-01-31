@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CCCC1682A1B
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:14:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6A98682A21
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:14:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMndH-0002pZ-Rj; Tue, 31 Jan 2023 05:12:55 -0500
+	id 1pMndJ-0002pv-D7; Tue, 31 Jan 2023 05:12:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMndC-0002fX-1w
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMndG-0002oq-EC
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:54 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMndA-0002ay-3f
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:49 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMndE-0002bp-SF
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675159967;
+ s=mimecast20190719; t=1675159972;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=u6XBn6zk4wXWx9tzzsU69fx17B8WNM39yhNX+jNBnV4=;
- b=CW+UAEbGIX+7xs27bCQudfPiNIm7009V3CQ9B99aUWgYyyzTcOTsFrdbamxGfozC0sZaAT
- LQXpThiXMuM16476LJKS24AE/t2JxivZztwCO+627CK5Jf7KsF4EtSzgsEwfOy7ajsrGlK
- BbhrezIBea7b6O/M1a4yqtfPPS5VxFI=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=wAccDcfEp8aFz4gcql6HBdpGyNfba7jQ2xQ8HDk4p1Y=;
+ b=bnaDcM3isGUR/dZTTROW1I4MKE4U2OfiP20x7+5pW0DRVee1ZdJhqZULtwYh+Ba69OEv1d
+ czCce8BNxfAcd0SbIHbRxcpCnI1ocjPU6zCdN10U+YSxqRBZ1igAcIWJTFOruZI3UxfD9h
+ YMolShsId0BdRTsWmqZdhAGsJ/K/yAQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-308-XkSUXXoAOGSYmcDh8Ff6Eg-1; Tue, 31 Jan 2023 05:12:44 -0500
-X-MC-Unique: XkSUXXoAOGSYmcDh8Ff6Eg-1
+ us-mta-527-XLJuuLNlMVCkr-zzrLkJoQ-1; Tue, 31 Jan 2023 05:12:45 -0500
+X-MC-Unique: XLJuuLNlMVCkr-zzrLkJoQ-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id EAA243806649;
- Tue, 31 Jan 2023 10:12:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id F339F800B23;
+ Tue, 31 Jan 2023 10:12:44 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 1F7B3C15BAD;
- Tue, 31 Jan 2023 10:12:42 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 3A2A9C15BAD;
+ Tue, 31 Jan 2023 10:12:44 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 24/27] qapi,
- audio: Make introspection reflect build configuration more closely
-Date: Tue, 31 Jan 2023 11:12:02 +0100
-Message-Id: <20230131101205.1499867-25-thuth@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 25/27] gitlab-ci.d/buildtest: Remove ppc-softmmu from the
+ clang-system job
+Date: Tue, 31 Jan 2023 11:12:03 +0100
+Message-Id: <20230131101205.1499867-26-thuth@redhat.com>
 In-Reply-To: <20230131101205.1499867-1-thuth@redhat.com>
 References: <20230131101205.1499867-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,362 +78,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Daniel P. Berrangé <berrange@redhat.com>
+We are also compile-testing ppc64-softmmu with clang in the "tsan-build"
+job, and ppc64-softmmu covers pretty much the same code as ppc-softmmu,
+so we should not lose much test coverage here by removing ppc-softmmu
+from the "clang-system" job.
 
-Currently the -audiodev accepts any audiodev type regardless of what is
-built in to QEMU. An error only occurs later at runtime when a sound
-device tries to use the audio backend.
-
-With this change QEMU will immediately reject -audiodev args that are
-not compiled into the binary. The QMP schema will also be introspectable
-to identify what is compiled in.
-
-This also helps to avoid compiling code that is not required in the
-binary. Note: When building the audiodevs as modules, the patch only
-compiles out code for modules that we don't build at all.
-
-Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
-[thuth: Rebase, take sndio and dbus devices into account]
-Message-Id: <20230123083957.20349-3-thuth@redhat.com>
+Message-Id: <20230130104446.1286773-2-thuth@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- qapi/audio.json        | 44 ++++++++++++++++++++++++++++++------------
- audio/audio_template.h | 20 +++++++++++++++++++
- audio/audio.c          | 20 +++++++++++++++++++
- audio/audio_legacy.c   | 41 ++++++++++++++++++++++++++++++++++++++-
- 4 files changed, 112 insertions(+), 13 deletions(-)
+ .gitlab-ci.d/buildtest.yml | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/qapi/audio.json b/qapi/audio.json
-index c7aafa2763..4e54c00f51 100644
---- a/qapi/audio.json
-+++ b/qapi/audio.json
-@@ -408,8 +408,18 @@
- # Since: 4.0
- ##
- { 'enum': 'AudiodevDriver',
--  'data': [ 'none', 'alsa', 'coreaudio', 'dbus', 'dsound', 'jack', 'oss', 'pa',
--            'sdl', 'sndio', 'spice', 'wav' ] }
-+  'data': [ 'none',
-+            { 'name': 'alsa', 'if': 'CONFIG_AUDIO_ALSA' },
-+            { 'name': 'coreaudio', 'if': 'CONFIG_AUDIO_COREAUDIO' },
-+            { 'name': 'dbus', 'if': 'CONFIG_DBUS_DISPLAY' },
-+            { 'name': 'dsound', 'if': 'CONFIG_AUDIO_DSOUND' },
-+            { 'name': 'jack', 'if': 'CONFIG_AUDIO_JACK' },
-+            { 'name': 'oss', 'if': 'CONFIG_AUDIO_OSS' },
-+            { 'name': 'pa', 'if': 'CONFIG_AUDIO_PA' },
-+            { 'name': 'sdl', 'if': 'CONFIG_AUDIO_SDL' },
-+            { 'name': 'sndio', 'if': 'CONFIG_AUDIO_SNDIO' },
-+            { 'name': 'spice', 'if': 'CONFIG_SPICE' },
-+            'wav' ] }
+diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+index f09a898c3e..406608e5fc 100644
+--- a/.gitlab-ci.d/buildtest.yml
++++ b/.gitlab-ci.d/buildtest.yml
+@@ -316,8 +316,7 @@ clang-system:
+     IMAGE: fedora
+     CONFIGURE_ARGS: --cc=clang --cxx=clang++
+       --extra-cflags=-fsanitize=undefined --extra-cflags=-fno-sanitize-recover=undefined
+-    TARGETS: alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu
+-      ppc-softmmu s390x-softmmu
++    TARGETS: alpha-softmmu arm-softmmu m68k-softmmu mips64-softmmu s390x-softmmu
+     MAKE_CHECK_ARGS: check-qtest check-tcg
  
- ##
- # @Audiodev:
-@@ -432,16 +442,26 @@
-   'discriminator': 'driver',
-   'data': {
-     'none':      'AudiodevGenericOptions',
--    'alsa':      'AudiodevAlsaOptions',
--    'coreaudio': 'AudiodevCoreaudioOptions',
--    'dbus':      'AudiodevGenericOptions',
--    'dsound':    'AudiodevDsoundOptions',
--    'jack':      'AudiodevJackOptions',
--    'oss':       'AudiodevOssOptions',
--    'pa':        'AudiodevPaOptions',
--    'sdl':       'AudiodevSdlOptions',
--    'sndio':     'AudiodevSndioOptions',
--    'spice':     'AudiodevGenericOptions',
-+    'alsa':      { 'type': 'AudiodevAlsaOptions',
-+                   'if': 'CONFIG_AUDIO_ALSA' },
-+    'coreaudio': { 'type': 'AudiodevCoreaudioOptions',
-+                   'if': 'CONFIG_AUDIO_COREAUDIO' },
-+    'dbus':      { 'type': 'AudiodevGenericOptions',
-+                   'if': 'CONFIG_DBUS_DISPLAY' },
-+    'dsound':    { 'type': 'AudiodevDsoundOptions',
-+                   'if': 'CONFIG_AUDIO_DSOUND' },
-+    'jack':      { 'type': 'AudiodevJackOptions',
-+                   'if': 'CONFIG_AUDIO_JACK' },
-+    'oss':       { 'type': 'AudiodevOssOptions',
-+                   'if': 'CONFIG_AUDIO_OSS' },
-+    'pa':        { 'type': 'AudiodevPaOptions',
-+                   'if': 'CONFIG_AUDIO_PA' },
-+    'sdl':       { 'type': 'AudiodevSdlOptions',
-+                   'if': 'CONFIG_AUDIO_SDL' },
-+    'sndio':     { 'type': 'AudiodevSndioOptions',
-+                   'if': 'CONFIG_AUDIO_SNDIO' },
-+    'spice':     { 'type': 'AudiodevGenericOptions',
-+                   'if': 'CONFIG_SPICE' },
-     'wav':       'AudiodevWavOptions' } }
- 
- ##
-diff --git a/audio/audio_template.h b/audio/audio_template.h
-index 720a32e57e..42b4712acb 100644
---- a/audio/audio_template.h
-+++ b/audio/audio_template.h
-@@ -326,27 +326,47 @@ AudiodevPerDirectionOptions *glue(audio_get_pdo_, TYPE)(Audiodev *dev)
-     switch (dev->driver) {
-     case AUDIODEV_DRIVER_NONE:
-         return dev->u.none.TYPE;
-+#ifdef CONFIG_AUDIO_ALSA
-     case AUDIODEV_DRIVER_ALSA:
-         return qapi_AudiodevAlsaPerDirectionOptions_base(dev->u.alsa.TYPE);
-+#endif
-+#ifdef CONFIG_AUDIO_COREAUDIO
-     case AUDIODEV_DRIVER_COREAUDIO:
-         return qapi_AudiodevCoreaudioPerDirectionOptions_base(
-             dev->u.coreaudio.TYPE);
-+#endif
-+#ifdef CONFIG_DBUS_DISPLAY
-     case AUDIODEV_DRIVER_DBUS:
-         return dev->u.dbus.TYPE;
-+#endif
-+#ifdef CONFIG_AUDIO_DSOUND
-     case AUDIODEV_DRIVER_DSOUND:
-         return dev->u.dsound.TYPE;
-+#endif
-+#ifdef CONFIG_AUDIO_JACK
-     case AUDIODEV_DRIVER_JACK:
-         return qapi_AudiodevJackPerDirectionOptions_base(dev->u.jack.TYPE);
-+#endif
-+#ifdef CONFIG_AUDIO_OSS
-     case AUDIODEV_DRIVER_OSS:
-         return qapi_AudiodevOssPerDirectionOptions_base(dev->u.oss.TYPE);
-+#endif
-+#ifdef CONFIG_AUDIO_PA
-     case AUDIODEV_DRIVER_PA:
-         return qapi_AudiodevPaPerDirectionOptions_base(dev->u.pa.TYPE);
-+#endif
-+#ifdef CONFIG_AUDIO_SDL
-     case AUDIODEV_DRIVER_SDL:
-         return qapi_AudiodevSdlPerDirectionOptions_base(dev->u.sdl.TYPE);
-+#endif
-+#ifdef CONFIG_AUDIO_SNDIO
-     case AUDIODEV_DRIVER_SNDIO:
-         return dev->u.sndio.TYPE;
-+#endif
-+#ifdef CONFIG_SPICE
-     case AUDIODEV_DRIVER_SPICE:
-         return dev->u.spice.TYPE;
-+#endif
-     case AUDIODEV_DRIVER_WAV:
-         return dev->u.wav.TYPE;
- 
-diff --git a/audio/audio.c b/audio/audio.c
-index 6f270c07b7..4290309d18 100644
---- a/audio/audio.c
-+++ b/audio/audio.c
-@@ -2048,16 +2048,36 @@ void audio_create_pdos(Audiodev *dev)
-         break
- 
-         CASE(NONE, none, );
-+#ifdef CONFIG_AUDIO_ALSA
-         CASE(ALSA, alsa, Alsa);
-+#endif
-+#ifdef CONFIG_AUDIO_COREAUDIO
-         CASE(COREAUDIO, coreaudio, Coreaudio);
-+#endif
-+#ifdef CONFIG_DBUS_DISPLAY
-         CASE(DBUS, dbus, );
-+#endif
-+#ifdef CONFIG_AUDIO_DSOUND
-         CASE(DSOUND, dsound, );
-+#endif
-+#ifdef CONFIG_AUDIO_JACK
-         CASE(JACK, jack, Jack);
-+#endif
-+#ifdef CONFIG_AUDIO_OSS
-         CASE(OSS, oss, Oss);
-+#endif
-+#ifdef CONFIG_AUDIO_PA
-         CASE(PA, pa, Pa);
-+#endif
-+#ifdef CONFIG_AUDIO_SDL
-         CASE(SDL, sdl, Sdl);
-+#endif
-+#ifdef CONFIG_AUDIO_SNDIO
-         CASE(SNDIO, sndio, );
-+#endif
-+#ifdef CONFIG_SPICE
-         CASE(SPICE, spice, );
-+#endif
-         CASE(WAV, wav, );
- 
-     case AUDIODEV_DRIVER__MAX:
-diff --git a/audio/audio_legacy.c b/audio/audio_legacy.c
-index 18a89ffffb..b848001ff7 100644
---- a/audio/audio_legacy.c
-+++ b/audio/audio_legacy.c
-@@ -90,6 +90,7 @@ static void get_fmt(const char *env, AudioFormat *dst, bool *has_dst)
- }
- 
- 
-+#if defined(CONFIG_AUDIO_ALSA) || defined(CONFIG_AUDIO_DSOUND)
- static void get_millis_to_usecs(const char *env, uint32_t *dst, bool *has_dst)
- {
-     const char *val = getenv(env);
-@@ -98,15 +99,20 @@ static void get_millis_to_usecs(const char *env, uint32_t *dst, bool *has_dst)
-         *has_dst = true;
-     }
- }
-+#endif
- 
-+#if defined(CONFIG_AUDIO_ALSA) || defined(CONFIG_AUDIO_COREAUDIO) || \
-+    defined(CONFIG_AUDIO_PA) || defined(CONFIG_AUDIO_SDL) || \
-+    defined(CONFIG_AUDIO_DSOUND) || defined(CONFIG_AUDIO_OSS)
- static uint32_t frames_to_usecs(uint32_t frames,
-                                 AudiodevPerDirectionOptions *pdo)
- {
-     uint32_t freq = pdo->has_frequency ? pdo->frequency : 44100;
-     return (frames * 1000000 + freq / 2) / freq;
- }
-+#endif
- 
--
-+#ifdef CONFIG_AUDIO_COREAUDIO
- static void get_frames_to_usecs(const char *env, uint32_t *dst, bool *has_dst,
-                                 AudiodevPerDirectionOptions *pdo)
- {
-@@ -116,14 +122,19 @@ static void get_frames_to_usecs(const char *env, uint32_t *dst, bool *has_dst,
-         *has_dst = true;
-     }
- }
-+#endif
- 
-+#if defined(CONFIG_AUDIO_PA) || defined(CONFIG_AUDIO_SDL) || \
-+    defined(CONFIG_AUDIO_DSOUND) || defined(CONFIG_AUDIO_OSS)
- static uint32_t samples_to_usecs(uint32_t samples,
-                                  AudiodevPerDirectionOptions *pdo)
- {
-     uint32_t channels = pdo->has_channels ? pdo->channels : 2;
-     return frames_to_usecs(samples / channels, pdo);
- }
-+#endif
- 
-+#if defined(CONFIG_AUDIO_PA) || defined(CONFIG_AUDIO_SDL)
- static void get_samples_to_usecs(const char *env, uint32_t *dst, bool *has_dst,
-                                  AudiodevPerDirectionOptions *pdo)
- {
-@@ -133,7 +144,9 @@ static void get_samples_to_usecs(const char *env, uint32_t *dst, bool *has_dst,
-         *has_dst = true;
-     }
- }
-+#endif
- 
-+#if defined(CONFIG_AUDIO_DSOUND) || defined(CONFIG_AUDIO_OSS)
- static uint32_t bytes_to_usecs(uint32_t bytes, AudiodevPerDirectionOptions *pdo)
- {
-     AudioFormat fmt = pdo->has_format ? pdo->format : AUDIO_FORMAT_S16;
-@@ -150,8 +163,11 @@ static void get_bytes_to_usecs(const char *env, uint32_t *dst, bool *has_dst,
-         *has_dst = true;
-     }
- }
-+#endif
- 
- /* backend specific functions */
-+
-+#ifdef CONFIG_AUDIO_ALSA
- /* ALSA */
- static void handle_alsa_per_direction(
-     AudiodevAlsaPerDirectionOptions *apdo, const char *prefix)
-@@ -197,7 +213,9 @@ static void handle_alsa(Audiodev *dev)
-     get_millis_to_usecs("QEMU_ALSA_THRESHOLD",
-                         &aopt->threshold, &aopt->has_threshold);
- }
-+#endif
- 
-+#ifdef CONFIG_AUDIO_COREAUDIO
- /* coreaudio */
- static void handle_coreaudio(Audiodev *dev)
- {
-@@ -210,7 +228,9 @@ static void handle_coreaudio(Audiodev *dev)
-             &dev->u.coreaudio.out->buffer_count,
-             &dev->u.coreaudio.out->has_buffer_count);
- }
-+#endif
- 
-+#ifdef CONFIG_AUDIO_DSOUND
- /* dsound */
- static void handle_dsound(Audiodev *dev)
- {
-@@ -225,7 +245,9 @@ static void handle_dsound(Audiodev *dev)
-                        &dev->u.dsound.in->has_buffer_length,
-                        dev->u.dsound.in);
- }
-+#endif
- 
-+#ifdef CONFIG_AUDIO_OSS
- /* OSS */
- static void handle_oss_per_direction(
-     AudiodevOssPerDirectionOptions *opdo, const char *try_poll_env,
-@@ -253,7 +275,9 @@ static void handle_oss(Audiodev *dev)
-     get_bool("QEMU_OSS_EXCLUSIVE", &oopt->exclusive, &oopt->has_exclusive);
-     get_int("QEMU_OSS_POLICY", &oopt->dsp_policy, &oopt->has_dsp_policy);
- }
-+#endif
- 
-+#ifdef CONFIG_AUDIO_PA
- /* pulseaudio */
- static void handle_pa_per_direction(
-     AudiodevPaPerDirectionOptions *ppdo, const char *env)
-@@ -277,7 +301,9 @@ static void handle_pa(Audiodev *dev)
- 
-     get_str("QEMU_PA_SERVER", &dev->u.pa.server);
- }
-+#endif
- 
-+#ifdef CONFIG_AUDIO_SDL
- /* SDL */
- static void handle_sdl(Audiodev *dev)
- {
-@@ -286,6 +312,7 @@ static void handle_sdl(Audiodev *dev)
-         &dev->u.sdl.out->has_buffer_length,
-         qapi_AudiodevSdlPerDirectionOptions_base(dev->u.sdl.out));
- }
-+#endif
- 
- /* wav */
- static void handle_wav(Audiodev *dev)
-@@ -345,29 +372,41 @@ static AudiodevListEntry *legacy_opt(const char *drvname)
-     }
- 
-     switch (e->dev->driver) {
-+#ifdef CONFIG_AUDIO_ALSA
-     case AUDIODEV_DRIVER_ALSA:
-         handle_alsa(e->dev);
-         break;
-+#endif
- 
-+#ifdef CONFIG_AUDIO_COREAUDIO
-     case AUDIODEV_DRIVER_COREAUDIO:
-         handle_coreaudio(e->dev);
-         break;
-+#endif
- 
-+#ifdef CONFIG_AUDIO_DSOUND
-     case AUDIODEV_DRIVER_DSOUND:
-         handle_dsound(e->dev);
-         break;
-+#endif
- 
-+#ifdef CONFIG_AUDIO_OSS
-     case AUDIODEV_DRIVER_OSS:
-         handle_oss(e->dev);
-         break;
-+#endif
- 
-+#ifdef CONFIG_AUDIO_PA
-     case AUDIODEV_DRIVER_PA:
-         handle_pa(e->dev);
-         break;
-+#endif
- 
-+#ifdef CONFIG_AUDIO_SDL
-     case AUDIODEV_DRIVER_SDL:
-         handle_sdl(e->dev);
-         break;
-+#endif
- 
-     case AUDIODEV_DRIVER_WAV:
-         handle_wav(e->dev);
+ clang-user:
 -- 
 2.31.1
 
