@@ -2,76 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E73E68355D
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 19:32:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A0BF683587
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 19:43:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMvPw-0000Go-8j; Tue, 31 Jan 2023 13:31:40 -0500
+	id 1pMva9-0005OB-14; Tue, 31 Jan 2023 13:42:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pMvPt-0000EA-Gl
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:31:37 -0500
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c])
+ id 1pMva4-0005Nh-Sj
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:42:08 -0500
+Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pMvPr-0006Bw-UG
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:31:37 -0500
-Received: by mail-wm1-x32c.google.com with SMTP id q8so11005420wmo.5
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 10:31:35 -0800 (PST)
+ id 1pMva3-0007tn-Bg
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:42:08 -0500
+Received: by mail-wr1-x435.google.com with SMTP id m7so15124416wru.8
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 10:42:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=o2rL/QIqr5obTKcWzZ0gxTGdVbp+Klb+WD9OfTH6tig=;
- b=tUJncaOLibDpbYrUx7E0CVUoGVeKsVySEVNh6jwImiICFXOpYjPggNZAKn6dm3yUdd
- DKsy+faKk2nCEfXni7aE4URhEWSYyKx68qcbc1DZGBSqja+Nmseoi1u2WuGmzj7e2LXw
- wfFhQD7DsIinnRl7H9diDIEr/dVk026RbUjkWsFo1r5RiiJf9c4BaWfRmddmnFXILKVA
- SEx8VyuSx5zEN2l5oFH6DGY7oeRZFVvZcO+QRxN4dcmz1+U1S9oC8wYCDhkR3+EaftO4
- 7BfiXECa5Ka1SKHeMaLvOW0Dy4oyixe4pS3I+JrIdkGfkFfkdYaTABb4RWCvg6bPuazh
- AKwA==
+ bh=I26ez1P9fzlynHBrFB6XfQb1ct0hzREZ103/zj1Rupc=;
+ b=ai4D5Hk5Wh2zIbCjZUZGyrPFdgF1uqtSpJL+Tb9ZxwAAa47COBt92qZhDhoEVxGiAq
+ 9g5flQYICMn7pLlagJKBOObq0b6rp9gN6VC1i6pEOhuUrv7a3949tDRm+pYJUnIUY9h2
+ MAkuntKgZZ5jLnuQ8wZA+9cfTfwucI6m9jEYTHkiX+luSKa9oydhAG+u2U9oGLZqT3H+
+ dlXzpcpq7G0UnfTrU6xHBVOy5QS2VycYhKIk6JOuenbO7rI1PFT3T4GkcIXmnw//isqf
+ hUC1wpGlcEtnS+kLhzS5TV0Z0aMd2mr0uVjqDDhZp9CSLsdR0s+5HJoGMlgT2Ygv58qz
+ 6lww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=o2rL/QIqr5obTKcWzZ0gxTGdVbp+Klb+WD9OfTH6tig=;
- b=Y6ZLmfHaoBs2g8scL+mxHYO0Uwp8Olw5ORujlxJafvxc4smG2genl485F9utO+1Qzh
- ZS/yDME/F1BumXACMm+skmkBdbBmJq3daNZPIiUfiXp1Qx4mQVb/QexYHfY5RuEf0Fqg
- PIs3l9o2S2KlmTbxOdBhQzCFDSEhe5W8ifWyGz2r99cesU9g3NeIZTAkFV6FBiVgDOgo
- VMjfgAkTeeFq0VfYSnFoPJ18DKk2GbyS10QMLJiwgdCOgbfirMn2FTY3xgm5AAfprntb
- h/HKBUkXfkx0xk2en6y1zQaaNBrV3mBNYc7S00Ts0+mM2LD7d0QS9qs5f+0CUbEZL8/G
- sXFw==
-X-Gm-Message-State: AO0yUKW1J0m9nY5RCHqxVmfoCXk/M33juRWVASITQfIRlTVNOqO/7Zme
- MvGQHmPV0J92uUcWrIb4XKfj1Q==
-X-Google-Smtp-Source: AK7set+ZQBqigkolZCYRLnKUYeuWoK/V0whzCMiTm0o9d0S0RGOln3HzAhRIsqKI9Zcslh16LWP9mw==
-X-Received: by 2002:a05:600c:22c1:b0:3dd:e86e:8805 with SMTP id
- 1-20020a05600c22c100b003dde86e8805mr1621264wmg.5.1675189894107; 
- Tue, 31 Jan 2023 10:31:34 -0800 (PST)
+ bh=I26ez1P9fzlynHBrFB6XfQb1ct0hzREZ103/zj1Rupc=;
+ b=iWITyPYw/6+k+z3z5W/QlYLxjzfG7rCoEioZnCq8AeLdAbWmD1Zo1sUiwd7WktxRXO
+ r/QM77dfYez10+fNJpjU31L1+jOPE53HqUKnBievP3b47xA5SY5JgUbHeHwwjMpECvBc
+ F/9O3bln2HT3mTVJ8v51+K+cSFmfd92xXhBYxzwKoVcy8M/brwIL73qUqQEcxAzuvHm5
+ OUcKIjVPgHNIpT2zo/XoKVVQoWVb+FuZJ2qK6lQ33+45H709+a0iz8nHO7at9AUqaxDc
+ sNcCkzHGPxayQ62NQKRLEp9H9Mz4vbisClKDi8Eq+Y4sCL0yyMKc3oIRcgFpPubBF1s4
+ 0uJA==
+X-Gm-Message-State: AO0yUKXPdHoJm8qATTZ6ArD4wPtf4LXix/70/pTPnRiOGVhO0dyllCuf
+ 8TENrOh8ZcPyNc9Qps3A6UUMVQ==
+X-Google-Smtp-Source: AK7set+/b68BrOESPzTkTci6anuo12DC+jed9KZiZY9ocH3vZgaSW88Kn+O7lUpszGDHzqxwW7a1PQ==
+X-Received: by 2002:adf:dccd:0:b0:2bf:e2bf:c4ea with SMTP id
+ x13-20020adfdccd000000b002bfe2bfc4eamr1406wrm.35.1675190525807; 
+ Tue, 31 Jan 2023 10:42:05 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- o18-20020a05600c339200b003dc42d48defsm12550104wmp.6.2023.01.31.10.31.33
+ f28-20020a5d58fc000000b002be5401ef5fsm15913949wrd.39.2023.01.31.10.42.05
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 10:31:33 -0800 (PST)
+ Tue, 31 Jan 2023 10:42:05 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 3DD131FFB7;
- Tue, 31 Jan 2023 18:31:33 +0000 (GMT)
-References: <20230131180239.1582302-1-thuth@redhat.com>
+ by zen.linaroharston (Postfix) with ESMTP id F3F051FFB7;
+ Tue, 31 Jan 2023 18:42:04 +0000 (GMT)
+References: <20230131182057.2261614-1-iii@linux.ibm.com>
 User-agent: mu4e 1.9.18; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-trivial@nongnu.org, anthony.perard@citrix.com, berrange@redhat.com
-Subject: Re: [PATCH] configure: Bump minimum Clang version to 10.0
-Date: Tue, 31 Jan 2023 18:31:22 +0000
-In-reply-to: <20230131180239.1582302-1-thuth@redhat.com>
-Message-ID: <87pmautv23.fsf@linaro.org>
+To: Ilya Leoshkevich <iii@linux.ibm.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>, David Hildenbrand
+ <david@redhat.com>, Christian Borntraeger <borntraeger@linux.ibm.com>,
+ qemu-s390x@nongnu.org, qemu-devel@nongnu.org
+Subject: Re: [PATCH] tests/tcg/s390x: Use -nostdlib for softmmu tests
+Date: Tue, 31 Jan 2023 18:41:51 +0000
+In-reply-to: <20230131182057.2261614-1-iii@linux.ibm.com>
+Message-ID: <87lelitukj.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32c;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32c.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::435;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x435.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -95,40 +96,40 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Thomas Huth <thuth@redhat.com> writes:
+Ilya Leoshkevich <iii@linux.ibm.com> writes:
 
-> Anthony Perard recently reported some problems with Clang v6.0 from
-> Ubuntu Bionic (with regards to the -Wmissing-braces configure test).
-> Since we're not officially supporting that version of Ubuntu anymore,
-> we should better bump our minimum version check in the configure script
-> instead of using our time to fix problems of unsupported compilers.
-> According to repology.org, our supported distros ship these versions
-> of Clang (looking at the highest version only):
+> The code currently uses -nostartfiles, but this does not prevent
+> linking with libc. On Fedora there is no cross-libc, so the linking
+> step fails.
 >
->               Fedora 36: 14.0.5
->       CentOS 8 (RHEL-8): 12.0.1
->               Debian 11: 13.0.1
->      OpenSUSE Leap 15.4: 13.0.1
->        Ubuntu LTS 20.04: 12.0.0
->           FreeBSD Ports: 15.0.7
->           NetBSD pkgsrc: 15.0.7
->                Homebrew: 15.0.7
->             MSYS2 mingw: 15.0.7
->             Haiku ports: 12.0.1
+> Fix by using the more comprehensive -nostdlib (that's also what
+> probe_target_compiler() checks for as well).
 >
-> While it seems like we could update to v12.0.0 from that point of view,
-> the default version on Ubuntu 20.04 is still v10.0, and we use that for
-> our CI tests based via the tests/docker/dockerfiles/ubuntu2004.docker
-> file.
+> Fixes: 503e549e441e ("tests/tcg/s390x: Test unaligned accesses to lowcore=
+")
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>  tests/tcg/s390x/Makefile.softmmu-target | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> Thus let's make v10.0 our minimum version now (which corresponds to
-> Apple Clang version v12.0). The -Wmissing-braces check can then be
-> removed, too, since both our minimum GCC and our minimum Clang version
-> now handle this correctly.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> diff --git a/tests/tcg/s390x/Makefile.softmmu-target b/tests/tcg/s390x/Ma=
+kefile.softmmu-target
+> index a34fa68473e..50c1b88065d 100644
+> --- a/tests/tcg/s390x/Makefile.softmmu-target
+> +++ b/tests/tcg/s390x/Makefile.softmmu-target
+> @@ -3,7 +3,7 @@ VPATH+=3D$(S390X_SRC)
+>  QEMU_OPTS=3D-action panic=3Dexit-failure -kernel
+>=20=20
+>  %: %.S
+> -	$(CC) -march=3Dz13 -m64 -nostartfiles -static -Wl,-Ttext=3D0 \
+> +	$(CC) -march=3Dz13 -m64 -nostdlib -static -Wl,-Ttext=3D0 \
+>  		-Wl,--build-id=3Dnone $< -o $@
+>=20=20
+>  TESTS +=3D unaligned-lowcore
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
+I take it this will go via the s390x tree?
 
 --=20
 Alex Benn=C3=A9e
