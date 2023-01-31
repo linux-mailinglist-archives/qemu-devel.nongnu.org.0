@@ -2,72 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5D9368361A
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 20:10:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B1868362F
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 20:11:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMvzq-0006Ho-2X; Tue, 31 Jan 2023 14:08:46 -0500
+	id 1pMw1w-00074q-3w; Tue, 31 Jan 2023 14:10:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vlaomao@gmail.com>)
- id 1pMvzo-0006Hc-1l; Tue, 31 Jan 2023 14:08:44 -0500
-Received: from mail-ed1-x535.google.com ([2a00:1450:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vlaomao@gmail.com>)
- id 1pMvzm-0005rh-C2; Tue, 31 Jan 2023 14:08:43 -0500
-Received: by mail-ed1-x535.google.com with SMTP id u21so15421933edv.3;
- Tue, 31 Jan 2023 11:08:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Rbx9lZKYybUGDiuqfOstHksGOjQZPphBpzZ3hm5xmLc=;
- b=o8XGPlc4cAHUTZqwkt9f57rCkqBtZOWVomoovt/agau8LWpyfdU1n+uhy4NnWdrgVx
- myfbhsWW3Ksr3aUCo3nkdIW+YwcqA6sw9oa9WuiEZ5WKN5HT451AHNvKeHbp8N1TBgon
- JNJGWpxT1onlPW78eYmzJKrCMIxIvGmZUpTcMKgK8JgLs33+sVjpOkUt5pKITQmvffm+
- y6zlT5KcV4s1Tbtd/7Zx4gmPKP7t1e+wtThkB21z0QRRCFT5APCwBbsgyC0fwB9DGcWE
- Rzi/XapM3AE98fo1Wed/wZ6vNKAb/T9/UanwXZRY3FuWzeEFv+PJxtLHbF7ZM0kqzZ2n
- WyNw==
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pMw1t-00074b-Pp
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 14:10:53 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pMw1s-0006kY-2S
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 14:10:53 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675192250;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type;
+ bh=jXtWM0f+wSjHTkAo/ebgYK7ml4RWuUqJRFWKuIraKDY=;
+ b=KfvXyS8ZhaiX9k3P4jCbQWSfh2M5qVEKKEh2ubmbrjNryqqvAMqpRJMs5JYkp1UN6nWtLx
+ 2jDHRL1GZXiPg0T8wOd14HGLDJZqyfOhEyCp/dJQ5tML4opNF2QNPheHkH/ULJ0MrmBbbt
+ pmNMrwPjdovx1+NBaPAlxTmGJ6qy+tE=
+Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
+ [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-503-L8RxXTBBOMumvxaS6U9b6Q-1; Tue, 31 Jan 2023 14:10:48 -0500
+X-MC-Unique: L8RxXTBBOMumvxaS6U9b6Q-1
+Received: by mail-yb1-f198.google.com with SMTP id
+ w70-20020a25df49000000b00803e799d7b1so17452144ybg.10
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 11:10:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Rbx9lZKYybUGDiuqfOstHksGOjQZPphBpzZ3hm5xmLc=;
- b=Vs4N7cdytwz1G4DDSGN6ZnqgIVojDi7qaexM6jC1Gk2Qn0jlptn7bTnZAmQjA0BFbp
- /Dlbq8wJc0uTjkV+P74Q4RyWQaJCXTDsZMGGlPsKgbqmAL3Nyt8bL31dChWRs+um2kak
- XwskrcVE6B00SNhdFDk96LWGP32U8FrNBgpV5raQqhpkPVX40z1g1P2DlEKSWSULymPK
- Nh8lIGgHMH/9Y0qt78ngPW8ZXzSs0GRtEBGG4uezI3fp57XbUoMfdrk6osiY3nArBaAH
- RTD4LQ9Lqdoq6Ozuiuj01b2amSjZiehjjn20xPUIpeebowKVVUSlKPcwO8EqeVCdGQjq
- 0G6w==
-X-Gm-Message-State: AFqh2kpfFKvj4H+lOeqnaovS4KXRurpYQRGzW0HteRoM42qISWNG3eGO
- MH8nlD8YJkHGRJ0ePrQIpf1fX0/OigSLxlSJexM=
-X-Google-Smtp-Source: AMrXdXu17HSJ/OpDBjSaTQe6MTkpMsv0mhGVRjGYz1WipMGiz8OcACISRX5lzfaMs+K9yBPdhth7CcAORdnloK7B4PQ=
-X-Received: by 2002:aa7:cc99:0:b0:499:cfee:8d96 with SMTP id
- p25-20020aa7cc99000000b00499cfee8d96mr10462452edt.21.1675192119976; Tue, 31
- Jan 2023 11:08:39 -0800 (PST)
+ h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jXtWM0f+wSjHTkAo/ebgYK7ml4RWuUqJRFWKuIraKDY=;
+ b=r8WC0XGVdu9iW3kx3wTAyZupakmO9rJrz3j4puynI9Mu21s9DNrifFvdDFCMhFh+Ny
+ /uKLNASZMman8HejJ0miRW9ptuOv7Bn4in/lMPklRBnewd6wcQ8J9x+GI0zvBZBT5786
+ MLi3Mm3JJQWhCYe7n97bgEZn4HHAml6nDXSKN+qQ8LFcckZ87g+OUj1VovswbBBCI9HN
+ ZOEJzwq9rhEe/S4Hz36kew8yUpBZ+SDU0wygkwmUlGMItOpBfDfKSepBaD3h+e9Nr9qm
+ abxhP7jzKdZPPPkRgisG81wiy3fFSEBvvXoa6z4evA603sEFg4vKzR6pYMgDPomoUmcV
+ zgUA==
+X-Gm-Message-State: AO0yUKXKcSMHlWu8JmG6yun+3XcyzRB7c/ZcjgMGiWC+lOrJMDl32EL7
+ kaZ5EkLHT7gEgkcX+icAimeqa8JkoLUTFu5mz5+YNZXnkMqGZ7sGtMxUOr0DMOimix71Wj642mX
+ 7FpOQXEhkr2lORJ88YMOAMiGwpIe791s=
+X-Received: by 2002:a05:690c:994:b0:51b:64c0:3251 with SMTP id
+ ce20-20020a05690c099400b0051b64c03251mr641933ywb.266.1675192248335; 
+ Tue, 31 Jan 2023 11:10:48 -0800 (PST)
+X-Google-Smtp-Source: AK7set8fZWTK92Y3Ug8jFxKNj+u5M4tgEDSemQXGJi3IR+6UNPaQf9ST92GrRAEVrzD+6kefyVGvxKEtz3dArjbQdMo=
+X-Received: by 2002:a05:690c:994:b0:51b:64c0:3251 with SMTP id
+ ce20-20020a05690c099400b0051b64c03251mr641925ywb.266.1675192248125; Tue, 31
+ Jan 2023 11:10:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20230131182048.15535-1-vlaomao@gmail.com>
- <CAFEAcA-7S75kL=GOiAO_pem=3RkacGL4mKe6dehibrbLc-k2uw@mail.gmail.com>
-In-Reply-To: <CAFEAcA-7S75kL=GOiAO_pem=3RkacGL4mKe6dehibrbLc-k2uw@mail.gmail.com>
-From: =?UTF-8?B?0JLQu9Cw0LQg0JzQsNC+?= <vlaomao@gmail.com>
-Date: Tue, 31 Jan 2023 22:08:25 +0300
-Message-ID: <CALUgVpd_XoW_zi4s9KOhifmUL+-eAJzWWui+zD-8OE-w6iRnxg@mail.gmail.com>
-Subject: Re: [PATCH qemu 0/1] MAC address falls to permanent
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: dmitry@daynix.com, jasowang@redhat.com, qemu-trivial@nongnu.org, 
- qemu-devel@nongnu.org, laurent@vivier.eu
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Tue, 31 Jan 2023 20:10:12 +0100
+Message-ID: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
+Subject: Emulating device configuration / max_virtqueue_pairs in vhost-vdpa
+ and vhost-user
+To: Maxime Coquelin <maxime.coquelin@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, 
+ Michael Tsirkin <mst@redhat.com>, Cindy Lu <lulu@redhat.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, qemu-level <qemu-devel@nongnu.org>, 
+ Laurent Vivier <lvivier@redhat.com>, Juan Quintela <quintela@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::535;
- envelope-from=vlaomao@gmail.com; helo=mail-ed1-x535.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -84,29 +91,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I cannot say for sure, but e1000 does not have this behavior, vmxnet3
-in vmware also does not behave this way.
-In addition, the address gets there only after a reboot, it does not
-get there during normal operation, as you can see from logs i
-attached. It seems to me that this is not quite the expected behavior,
-isn't it?
+Hi,
 
-=D0=B2=D1=82, 31 =D1=8F=D0=BD=D0=B2. 2023 =D0=B3. =D0=B2 21:48, Peter Mayde=
-ll <peter.maydell@linaro.org>:
->
-> On Tue, 31 Jan 2023 at 18:22, Vlao Mao <vlaomao@gmail.com> wrote:
-> >
-> > A bug was found with the vmxnet3 driver, after changing the MAC address
-> > and rebooting, it falls into the category of a permanent address until
-> > the VM is turned off.
->
-> For some network device models (those where the hardware has an
-> EEPROM and we're modelling "guest programmed a new MAC address
-> into the EEPROM") that is the correct behaviour. Is the vmxnet3
-> definitely one of the kind which is not supposed to have a
-> permanent MAC address backing storage ? (It's paravirtual, so
-> this would hopefully be indicated in the specs for it.)
->
-> thanks
-> -- PMM
+The current approach of offering an emulated CVQ to the guest and map
+the commands to vhost-user is not scaling well:
+* Some devices already offer it, so the transformation is redundant.
+* There is no support for commands with variable length (RSS?)
+
+We can solve both of them by offering it through vhost-user the same
+way as vhost-vdpa do. With this approach qemu needs to track the
+commands, for similar reasons as vhost-vdpa: qemu needs to track the
+device status for live migration. vhost-user should use the same SVQ
+code for this, so we avoid duplications.
+
+One of the challenges here is to know what virtqueue to shadow /
+isolate. The vhost-user device may not have the same queues as the
+device frontend:
+* The first depends on the actual vhost-user device, and qemu fetches
+it with VHOST_USER_GET_QUEUE_NUM at the moment.
+* The qemu device frontend's is set by netdev queues= cmdline parameter in qemu
+
+For the device, the CVQ is the last one it offers, but for the guest
+it is the last one offered in config space.
+
+To create a new vhost-user command to decrease that maximum number of
+queues may be an option. But we can do it without adding more
+commands, remapping the CVQ index at virtqueue setup. I think it
+should be doable using (struct vhost_dev).vq_index and maybe a few
+adjustments here and there.
+
+Thoughts?
+
+Thanks!
+
 
