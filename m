@@ -2,39 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFDC2682949
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 10:44:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E260F68295D
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 10:45:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMnAQ-0002CG-3e; Tue, 31 Jan 2023 04:43:06 -0500
+	id 1pMnAS-0002FF-Fr; Tue, 31 Jan 2023 04:43:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1pMnA3-0002Az-Tb
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 04:42:44 -0500
-Received: from mail-he1eur01on0702.outbound.protection.outlook.com
- ([2a01:111:f400:fe1e::702]
- helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ id 1pMnAI-0002CX-2W
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 04:43:03 -0500
+Received: from mail-he1eur04on2115.outbound.protection.outlook.com
+ ([40.107.7.115] helo=EUR04-HE1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
- id 1pMnA2-0001fb-Fl
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 04:42:43 -0500
+ id 1pMnAC-0001hD-UG
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 04:42:56 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=ARYLC0hDT7SsEBFomAcPUxQ0QIKXolVNRZHoMjZPElHgL2rJFv1z0KS9G/zoO65udZDhu442HNoT7PSN963KNaNaTdtQDa5vTDKkCedg7g273KrDYtBRrZH6uCfccKi9oFsizclldmzgPpibqiQvG0ViRPJe+Xf0gG0Okzf6auiUv4mpH1gx6f8V78KxWKgXs5pb+CMhAiBscfWmT9JzsbN0zOr3AZ8nJB0eG5wwL1ywj1RgBk9+FmHogocddaZCKcwd+g1a2EmAWi8ohTgHso/EVVCSWnkWv5esxtbpvJg6I/SB5EdrKcBY4ZmM7h3ugA8V2d6nYRkPy1G7AAU/Yw==
+ b=jWoSC+6gkIOs+IhONUqHhy/hwY56xmnS4tQ2KusX6Oy320KdPM1HmwlxxSSENpqzeC3fSJM3Wf1vm8tEAdqhg19r2ibQYETZvsdyvB2P7+Iwlhm7Hn8ZgWRYLxW4KpzyZksfzF56fI0XMFwPBthuoqH3ZErR0pxTmA7vji9DOXZadKUDo5n4c5HDMvWjt8GaGxrdu5L6qtsSODH/drLEGmkWDCTfuE1IN12aRAbZ0bN3fhSG1jJaMc9ug8l8/4+fKaQa/icxsMacZIPzEsPfWxZId02ig6+Vac/m6lH+EnT56slGClkVqGipyJchc6gOTM9gU47yQ4DlRKprdsRhDg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=j9Abq45938CGnKEaQArxmSlaen8sO/agH+n/BVwCof0=;
- b=J5AEth68lrFVzySV2sBsh1QTbWznMLwFg6rH7hLjP+6ojhOaNwHiGod/jov9sqWSNorWNd8s5iixr3ht25iYXBKVt7wdS3E/UEMdMhyaBoDWjjDbmyxBUSuUL3ssUoYX9T5QJFMaLgg6NGyVhUnq0Mv4ZP/vppmf+R/FwQAt5RU2cDfewKozj+97N6eLRTCJczv9uLAcoTlnN0Olxh36uvBX9bPoLbF5/egGlavde7Uz2a6/wztQ/GvoJcqyZMvIOXYVo5LeMiGkNnRcELRNnicYoX0yj2nte0YfR4Pd1qMAiVpWByh9sUQELx/nRdhJZVKDgwjRd4Mz8XLJnuD1Pw==
+ bh=mT3d5lRRKP4RYLIl4Zw4MdhUJe8lDEy0JwhoB86bm1s=;
+ b=AS5gq58FxkqogV0FWrrDmyD8fPQlvwnNoGFybnFd+2Y+fz4+yo3wGpreVeT8f6DNpC0iPwn2GU76iwC/oUwmvQWgGkB8ce7cHynV5XcdNkA3r7Ghwpqdz0uMVHZGOV0OQtaXLyGNemOMPR6qisRiN9xnzgBkr3OPfCL74F2e7WCn+Xpo+kcKE7J5P2KHttq0Z/JxHpG/BnvONm8GqUcDpq59kZHb31wj49rFoLaYjL5InmLkRW9UnJ4CYe4/O7ZSKiFMfYhnhGbL45en17D8DFF3xR0T1tyZMetl1NoKMKcUHMp5E7DTynMur15mhNAUoISWCOBum29G+5eQ1Kknyg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
  s=selector2-estab-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=j9Abq45938CGnKEaQArxmSlaen8sO/agH+n/BVwCof0=;
- b=Jq+LEmriG6UQpshhz6tmxtg+/DipJlMqIysqJ8Wg+OhyVBMdm+IIeEGnqVbNDzls4E5E3vvVmv7jxVLnu+aB2dBMvScMCg1I4zk7SlXoOdybyFjw1T+bp9s51U2D4XjABy2i2NUB1F4Xg6njBOTbVBjnAZCvATBzAiOi+eqMPbM=
+ bh=mT3d5lRRKP4RYLIl4Zw4MdhUJe8lDEy0JwhoB86bm1s=;
+ b=BGUCJe4NmITcPc4dFyDbSApmER1YKGNE9TZ9LPJs6e4ohdShxT8XajAjeT/bMY3SzUpDGZi1WwJYQoLUwjra+04rCPr+zMgPllpEqo+FYTvYGeAskdQWMx9whzzdvRraWP8Up/X0unpzIwYRL0VMfJSDJA7ujArrroS+Lzgohrs=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
@@ -54,77 +53,77 @@ Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
  "Michael S . Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>
-Subject: [PATCH v3 1/9] MAINTAINERS: Add Sriram Yagnaraman as a igb reviewer
-Date: Tue, 31 Jan 2023 10:42:24 +0100
-Message-Id: <20230131094232.28863-2-sriram.yagnaraman@est.tech>
+Subject: [PATCH v3 2/9] igb: handle PF/VF reset properly
+Date: Tue, 31 Jan 2023 10:42:25 +0100
+Message-Id: <20230131094232.28863-3-sriram.yagnaraman@est.tech>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230131094232.28863-1-sriram.yagnaraman@est.tech>
 References: <20230131094232.28863-1-sriram.yagnaraman@est.tech>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: GV3P280CA0045.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:150:9::18) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: GV3P280CA0051.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:9::35) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:10:1e7::15)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DBBP189MB1433:EE_|VI1P18901MB0733:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4e6a629d-be7d-48c1-20bc-08db036f7c65
+X-MS-Office365-Filtering-Correlation-Id: e235eb0b-26f6-404f-49c4-08db036f7ca3
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 7tmVDCbTs9eqavgSe8TsRkwl7Dr2XrXADZPqigzCKFZi2yXCRMBfxJYtfX+8/65vcPPk30JWcSJmZWOtH7swEeDPBkP/lPVU1VQPywnD8pMuQiiXhpdVeMfNCV01nErlE++7UtdYp+nJXJOkllvlhXmB9fueNHeCvI9kQBqoJk7w4i5fzTmiYmpZULbAfGt62V1qg+nh92OTRwBj9Udl2NbKNBqPcLZRFi7FjHcN72XlSM38tP5+9lcBbutzbFsU/cUe5W4gBUGN6UeaJcvUv6rqNKCK8wUsvp8BV7S9acrpYoCQdNKEQljIkvXox71VVTpxM4+Kn/ZZrAY8O6gHcXBsgBo812SRj1grdcP/3JypI7D0zj/Gku6s1IcsHabepNPhScXaPSPy/NdCUJTky8kRvKrPevE0JZHpD/u1YxvDgYgg4yIswxJ3TxN2Lg6Z8BRerig8UkqJksSiXfdKtlnQqGO5eadc5vdMrDZYbFjZYEUlGYMRUActFHFwqsa8PpHDRXD2j9rnoR4d/0tLu1ckEGjd6LSGDwLu39oAK3Xb5AyGbTSQJ9lG2btJVmigHWXXxGleN+SObpzna9Nka4DVwQB5gVk5EWLjU2AwXvKFDQkCUqvidzNAESNbSkl/31Iq2lqlXtLvOzY7x+7/gxsY09sRUFLsRX6YUyqSNrGLbJXc/O7qjcQGHt2gvBJLo3SQI4JFySZpDsgFbg7GcC1l0FiDdIRX8VgoUKDOd9o=
+X-Microsoft-Antispam-Message-Info: c9rzybYv+Y++nDwZyqEbevMI8aWgpI+tIPuFPudZV69aStaXmQmD3d3mzudwG3nGmXK7fz7b9277Vr9TNN/t2GZUUPGbxe+onPQv7T2Ecgl3cPi5t9uQ++p42s+jo5q79F74IrpU6BnCKK5NM8QgEQ7K6YxKRhPMEb5A41TOUURT/SfR5oXwCJVe6G/K7VFE2RUQXGudl5evVW4NAtQ3LP9WwqjKSRgvjovr3gnl3luC4M/huMcDBv+XCDi9+a//JykIPlxTtQ2o+qjVWGgaru16OD8UOzZLmevBk9M2Dddo5xkhipkRt7whwNRGpCS/mCkf1VMj2ZOkk4DsUXaZ+gEk92enE6ANBY3s6ZfSa4nYdvUbVB0dFMmPqAzj9j9nhTjzk8bAGSNjtey4c2TrPuLMTfgOTxoGCy1bbuQA2Iy+Pq4T8Qe9ER6CjAySAwIIIHevN0fp9o8T/gVbC114TYZZbuKkgPaY78OL1wPQEhcmVvNthe4LizT71pRDGFXMg851VCwh+GorNXwGNIPyljw6m3fACo1d4alY8KPPhWmODQAQXuuPKZqfn7uL1JjOeCl8oydZZzOSpowNYFSTuqswVkvAJi+DCPZLzBGfDbKcWS7yVVw2PTmY0NQD5zejp4IAfWKViILx3HdKuQxSoJTmUJDAEovO8JBV3bgqWrcgq1ZeuUQx6c9Su5NBQ4C8AimiCU53LeBNNVhIQ6kb/I4PzOuWdFC4asFRztW3cck=
 X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
  IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
- SFS:(13230025)(39840400004)(396003)(346002)(376002)(136003)(451199018)(109986016)(316002)(66946007)(70586007)(66556008)(86362001)(38100700002)(54906003)(36756003)(6512007)(26005)(186003)(2616005)(478600001)(6486002)(6506007)(6666004)(1076003)(5660300002)(4744005)(44832011)(8936002)(2906002)(41300700001)(66476007)(4326008)(8676002)(266003)(37730700002);
+ SFS:(13230025)(39840400004)(396003)(346002)(376002)(136003)(451199018)(109986016)(316002)(66946007)(70586007)(66556008)(83380400001)(86362001)(38100700002)(54906003)(36756003)(6512007)(26005)(186003)(2616005)(478600001)(6486002)(6506007)(6666004)(1076003)(5660300002)(44832011)(8936002)(2906002)(41300700001)(66476007)(4326008)(8676002)(266003)(37730700002);
  DIR:OUT; SFP:1102; 
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PqYgRrIC/cne3KGg/DOo5YW3RKixfcDOniA+RaQvcXZITDAjJOdxcJADxpQy?=
- =?us-ascii?Q?EuB5XpWMD0l2jT7WGO5BtxoWk0I1Af9l9/7t8u8OS4VxoHxOSIQU03HbMwZJ?=
- =?us-ascii?Q?GBagnsviJ61G5JaUmOtHIId0n5rDk51Qs107XnHdK1uxccVakJ9g6Q+HFCbx?=
- =?us-ascii?Q?YlFA+m1N/SsxLXnem9eupvjkoS0IWE7l7CvfbKT5k1KR1k3bTJ0gW4RuG/Sw?=
- =?us-ascii?Q?MF9QNTPAWXQEjgVqZbhLLJmuX9gvoL5oaR5nHO+OpjR0ZUYvQI82OCD7jiHe?=
- =?us-ascii?Q?Swl7NJfNyrRmIeHEGbKr8r7RjMN+6Ziq2nIzxlhpL1ndswBP+vfUELSXArj1?=
- =?us-ascii?Q?tiIZRtaMHADrWokHdBZclEDpWXtfHz1/hmr+Lfv/lGNIfSudxPnuSgK3MIXF?=
- =?us-ascii?Q?2Jeo856P6rwF6ZN5+IUPG9e7bFc7gLRyCJbgAZb13m/SNUTsVrtdjDtWUv3c?=
- =?us-ascii?Q?hBCMnGWQ+DVrEVrC5Cf4xjWy5qI/ACwV5KPqO2UExxvtvt9L6No6J84/kk/F?=
- =?us-ascii?Q?5RUKPkAA18nfr84arSOjhShRB2jAZdo9tvLjKsDNWWh4AbktS6Ox2cAXOLFn?=
- =?us-ascii?Q?jyyozPlLikFDEJqvOfz2bFGTx8y7e1pz/pUaSKZNY+h19My/SU998Kuy1473?=
- =?us-ascii?Q?IwSuQYza0sszoBow66JhW8hvDtc/zkL+/EX66Vj4shdLI7RTy+Zd18NrR0OS?=
- =?us-ascii?Q?wTWBqyMYQ8+jkbL1U2QIue9xdLMojOnaMfA3tE5pfUFdRggSJk3t3z3NbyCp?=
- =?us-ascii?Q?M4WkxfR5vxrww+rolBoMI/oxYti6I/49a0hBRdv6WSVTkA34cgtPQQYo0+qd?=
- =?us-ascii?Q?lpocP9MxNUXb8BnCUEBnmX1Mxm7VZFVbnNxdsQxenZb87lsY8tjm8rS6O1uu?=
- =?us-ascii?Q?Hw54mtmpOLZVlBxlAVBiwvi57XV+DPURA1naw9J07bY3sqktlLTPkjaWBEdk?=
- =?us-ascii?Q?dtddJpJC8mFPUBl9KHKUwYJNnwZcwtueAR/jnZUvQI/6fJ4aJ/fCEdRo1MQP?=
- =?us-ascii?Q?vyBf8sFCpLLTFvhbJlP+ewHTp91aGeR96bXzIO0T1fsczJ6D6pzRc2hWQc+K?=
- =?us-ascii?Q?fdvGtOC4Y9mDolP9Iv+jo6w6U6fwXTvL9fofD6WP9iB4FwfQpqH27sobp7e7?=
- =?us-ascii?Q?exhskkYmLaLOpcqQpCf9sn76HG0U1nphgGYv7K31v79VTdrB4U1J3HEpOur6?=
- =?us-ascii?Q?C6xP3g9pJE3UBnYCIjNFSnjoez8UOJh/gA+RtvkISaeo0NE85M+PR77MsY3o?=
- =?us-ascii?Q?F+rlML/YFtjU0rN5kFUCE3lHFzMcKDnmRO75Hi6hxSvWlU5fsyLFdzwS43kS?=
- =?us-ascii?Q?PoTYs4j9wjsM8LBxrugfkkftMseEcX2U/R0RwHBql1vspe9p4ukYeERoRwrt?=
- =?us-ascii?Q?scWapafoY6/0JKMXwvcJ1wfFjwttChcCBBNaACqIxsgOTkQg5n67TQ53Ne3q?=
- =?us-ascii?Q?ID+pIDhsYRH3HMetFHj93+2kEPBJZL+2cEDMszdSW8kuxCvvY/6nDVJ3So07?=
- =?us-ascii?Q?3OSG1GJd3AUts42A2Jesa3aPIQPvJhiVNTI/DGvZVEtDHruf4PHbsns7m9UI?=
- =?us-ascii?Q?Bckpr7lJsnLCHEqWD3JblV147ESSXmnkhNB8AN7OHKupSFS69T5td6TL0Buk?=
- =?us-ascii?Q?Ag=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iVmdJn7lkIKh3Miga7tHKZ665jQcV9+j8wcpwcpXhKtCR+IhC8XXdNY9eWyl?=
+ =?us-ascii?Q?0VrCCPto0k7K7B1UFdfieq0kOv/W/dAtL9GY5wIo0GHsiLi43DWbRqwd5xBk?=
+ =?us-ascii?Q?rNGUOFNXaJFVUeNjF9FsoR03N0XMks2vK4ozdMo9H4awrjABjHU4MZ+v+w5d?=
+ =?us-ascii?Q?yXJUsilhL4WBPFVC3QIUrFUlzSSpRshTfTXY2Ev63HDd2lxvQ7Lt2nMRA6xj?=
+ =?us-ascii?Q?PwWt/owI1QAuKYcJoigB1L2ydKrG/U+VY9kiMFsBMxA1PmS8PIaE0mn8t+WM?=
+ =?us-ascii?Q?b5aZrlbcr4whuLUSau5RBFslSQVIyncK7aZT9fuJaPKV8R00dGUYHyFcl72r?=
+ =?us-ascii?Q?VF7Lsqa//Xpjn7D49gbKll9tbw8MygV2po5YyUMUMVpH1IwD9ug7Buy+9DzY?=
+ =?us-ascii?Q?u0M9HA4R2Z4Di1+KMXkx3a6ptt6WCzxHOBlFbMBAIYmhlTCXHuswvTNpgVfC?=
+ =?us-ascii?Q?g1OXabK3zY+MC5nyEqSEFoNjNc1X2FsjlEqBgomJsNaUZShWfjDULblv5Uny?=
+ =?us-ascii?Q?diefcUY3oaRQu5SHW2CyfEU0+Hx+6CR4/y0NFhKl8sqHklbvuwtsGo+OB31k?=
+ =?us-ascii?Q?O0mns6NGupOsAAaFUYGkjzvcaHqhwg7xrg2t7RX3xmqiibKkk/5a/97nMoHZ?=
+ =?us-ascii?Q?B4EsA+IyyDH7CtiiorO6244TpTeBxXtM/RnsRzfpwIoJOlMcxGAVjlsdUdwl?=
+ =?us-ascii?Q?80sMs50jcBuxRorwqU9UpsQ60ag0VlL/jgWk4mPtIw6PnYhFjj9RLwkeiwGI?=
+ =?us-ascii?Q?/dWdafZQSryizRQ/pv+1T4SDGoYeY2vkdcn/sJS0SmPBgXge8ifiyYa3dZ44?=
+ =?us-ascii?Q?+vKHNW8GD7XfCPTSFsntNmXjibAra5ztgU1oY6hh8ShZVKad3SOnd2zuBj15?=
+ =?us-ascii?Q?FETy2cbkFcQBG6X4kZ2eigYlUZcDOn7Y4aCbYCGOoMyLsnOAkdjrvMG4+ikL?=
+ =?us-ascii?Q?FzcGHeQgOMUuHbUtkijvZ5s9Vj0buCP8kVsYKm/7Z/F27OMY4xAyeRZ0Is34?=
+ =?us-ascii?Q?Pv9jxs2On2GEr/bBots6NGnwIwC3+hebjiiFrvzt6CweLNvnjgH7oYPSwCnO?=
+ =?us-ascii?Q?DdiJm242JFWMCLHeO17QQWz3IGFWRxEoQBZZ3hx+bHJRtsO43Y4bYNcFNf4d?=
+ =?us-ascii?Q?G2TMly4aqlg+Ln1iiCymmExRQ/7MV7lJf+dVZyydpsVFTpsT22ewJLgUp7rz?=
+ =?us-ascii?Q?dhmzX77OM1nb8Leen16z51hlI0yvvKBgQh4/JOYwSvRNKzwRku3nO8vGne2G?=
+ =?us-ascii?Q?AjgQPj3atp07d78lH9mBYi5vBFzfdGe/3xGxMubFraLfHlQ3DceGzTgzdl0Y?=
+ =?us-ascii?Q?eMuxo8UM9zGDpmVPkjoW/CwioGc6tHHU98GiyrkIrNNY0YQBnba0VopXyzSw?=
+ =?us-ascii?Q?QhedoGIH1/um5eG793e9bTlRnc7HjOD317lekF/HyW9w+PnBPw1KPSfDr0jj?=
+ =?us-ascii?Q?m+vTQS6vA5szYuPQtk9Ni5p/nT4o6DZRO7d0shsnUaKQWkPoL8DHpR2KFZwo?=
+ =?us-ascii?Q?J9XhsjOYC6R4haz8WABe5l8SaRwMAaUD9YdwlFF2jwoRmKsv5tsHWL7/WcIu?=
+ =?us-ascii?Q?kPtLUNc0rDDsm/l5lw3bxZrCi/OCrBRERy7KyAR3fs/Hb1jyv71zfwoIYh7y?=
+ =?us-ascii?Q?Eg=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4e6a629d-be7d-48c1-20bc-08db036f7c65
+X-MS-Exchange-CrossTenant-Network-Message-Id: e235eb0b-26f6-404f-49c4-08db036f7ca3
 X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2023 09:42:36.7874 (UTC)
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2023 09:42:37.2261 (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WQjt/8qI7ydRzUqM8r1d8LQUAi8yWiQjd0GicGq2RhE5a9xMvPDRkeBBJdJOtdEnIbb1eXGcZhbW1NqUf5ELRWfgyF1WrqTHjNysEKNPN/8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Yn58x0JpyL/xt3va08+YkYLbTnKHMU11wTRbIEf47NTlOuJv/XPNYhGGZ6emBtvVTiraNkKTJpEgO7RQNNK847sVLxk+DzQneQnFwCOQdCI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1P18901MB0733
-Received-SPF: pass client-ip=2a01:111:f400:fe1e::702;
+Received-SPF: pass client-ip=40.107.7.115;
  envelope-from=sriram.yagnaraman@est.tech;
- helo=EUR01-HE1-obe.outbound.protection.outlook.com
+ helo=EUR04-HE1-obe.outbound.protection.outlook.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -140,25 +139,105 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-I would like to review and be informed on changes to igb device
+Use PFRSTD to reset RSTI bit for VFs, and raise VFLRE interrupt when VF
+is reset.
 
 Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 ---
- MAINTAINERS | 1 +
- 1 file changed, 1 insertion(+)
+ hw/net/igb_core.c   | 33 +++++++++++++++++++++------------
+ hw/net/igb_regs.h   |  3 +++
+ hw/net/trace-events |  2 ++
+ 3 files changed, 26 insertions(+), 12 deletions(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ece23b2b15..7d0e84ce37 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2224,6 +2224,7 @@ F: tests/qtest/libqos/e1000e.*
+diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+index bf1bcac747..9c32ad5e36 100644
+--- a/hw/net/igb_core.c
++++ b/hw/net/igb_core.c
+@@ -1904,14 +1904,6 @@ static void igb_set_eims(IGBCore *core, int index, uint32_t val)
+     igb_update_interrupt_state(core);
+ }
  
- igb
- M: Akihiko Odaki <akihiko.odaki@daynix.com>
-+R: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
- S: Maintained
- F: docs/system/devices/igb.rst
- F: hw/net/igb*
+-static void igb_vf_reset(IGBCore *core, uint16_t vfn)
+-{
+-    /* TODO: Reset of the queue enable and the interrupt registers of the VF. */
+-
+-    core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_RSTI;
+-    core->mac[V2PMAILBOX0 + vfn] = E1000_V2PMAILBOX_RSTD;
+-}
+-
+ static void mailbox_interrupt_to_vf(IGBCore *core, uint16_t vfn)
+ {
+     uint32_t ent = core->mac[VTIVAR_MISC + vfn];
+@@ -1989,6 +1981,17 @@ static void igb_set_vfmailbox(IGBCore *core, int index, uint32_t val)
+     }
+ }
+ 
++static void igb_vf_reset(IGBCore *core, uint16_t vfn)
++{
++    /* disable Rx and Tx for the VF*/
++    core->mac[VFTE] &= ~BIT(vfn);
++    core->mac[VFRE] &= ~BIT(vfn);
++    /* indicate VF reset to PF */
++    core->mac[VFLRE] |= BIT(vfn);
++    /* VFLRE and mailbox use the same interrupt cause */
++    mailbox_interrupt_to_pf(core);
++}
++
+ static void igb_w1c(IGBCore *core, int index, uint32_t val)
+ {
+     core->mac[index] &= ~val;
+@@ -2243,14 +2246,20 @@ igb_set_status(IGBCore *core, int index, uint32_t val)
+ static void
+ igb_set_ctrlext(IGBCore *core, int index, uint32_t val)
+ {
+-    trace_e1000e_link_set_ext_params(!!(val & E1000_CTRL_EXT_ASDCHK),
+-                                     !!(val & E1000_CTRL_EXT_SPD_BYPS));
+-
+-    /* TODO: PFRSTD */
++    trace_igb_link_set_ext_params(!!(val & E1000_CTRL_EXT_ASDCHK),
++                                  !!(val & E1000_CTRL_EXT_SPD_BYPS),
++                                  !!(val & E1000_CTRL_EXT_PFRSTD));
+ 
+     /* Zero self-clearing bits */
+     val &= ~(E1000_CTRL_EXT_ASDCHK | E1000_CTRL_EXT_EE_RST);
+     core->mac[CTRL_EXT] = val;
++
++    if (core->mac[CTRL_EXT] & E1000_CTRL_EXT_PFRSTD) {
++        for (int vfn = 0; vfn < IGB_MAX_VF_FUNCTIONS; vfn++) {
++            core->mac[V2PMAILBOX0 + vfn] &= ~E1000_V2PMAILBOX_RSTI;
++            core->mac[V2PMAILBOX0 + vfn] |= E1000_V2PMAILBOX_RSTD;
++        }
++    }
+ }
+ 
+ static void
+diff --git a/hw/net/igb_regs.h b/hw/net/igb_regs.h
+index ebf3e95023..ddc0f931d6 100644
+--- a/hw/net/igb_regs.h
++++ b/hw/net/igb_regs.h
+@@ -240,6 +240,9 @@ union e1000_adv_rx_desc {
+ 
+ /* from igb/e1000_defines.h */
+ 
++/* Physical Func Reset Done Indication */
++#define E1000_CTRL_EXT_PFRSTD   0x00004000
++
+ #define E1000_IVAR_VALID     0x80
+ #define E1000_GPIE_NSICR     0x00000001
+ #define E1000_GPIE_MSIX_MODE 0x00000010
+diff --git a/hw/net/trace-events b/hw/net/trace-events
+index 2f791b9b57..e94172e748 100644
+--- a/hw/net/trace-events
++++ b/hw/net/trace-events
+@@ -281,6 +281,8 @@ igb_core_mdic_read_unhandled(uint32_t addr) "MDIC READ: PHY[%u] UNHANDLED"
+ igb_core_mdic_write(uint32_t addr, uint32_t data) "MDIC WRITE: PHY[%u] = 0x%x"
+ igb_core_mdic_write_unhandled(uint32_t addr) "MDIC WRITE: PHY[%u] UNHANDLED"
+ 
++igb_link_set_ext_params(bool asd_check, bool speed_select_bypass, bool pfrstd) "Set extended link params: ASD check: %d, Speed select bypass: %d, PF reset done: %d"
++
+ igb_rx_desc_buff_size(uint32_t b) "buffer size: %u"
+ igb_rx_desc_buff_write(uint64_t addr, uint16_t offset, const void* source, uint32_t len) "addr: 0x%"PRIx64", offset: %u, from: %p, length: %u"
+ 
 -- 
 2.34.1
 
