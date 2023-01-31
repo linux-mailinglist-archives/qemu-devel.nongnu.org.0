@@ -2,54 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C261C68377A
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 21:25:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 682B968378F
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 21:30:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMxBu-0000Dl-4P; Tue, 31 Jan 2023 15:25:18 -0500
+	id 1pMxFx-0001nl-1p; Tue, 31 Jan 2023 15:29:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pMxBp-0000DM-Ly
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 15:25:13 -0500
-Received: from mailout11.t-online.de ([194.25.134.85])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vr_qemu@t-online.de>)
- id 1pMxBn-0003Xs-Dc
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 15:25:13 -0500
-Received: from fwd79.dcpf.telekom.de (fwd79.aul.t-online.de [10.223.144.105])
- by mailout11.t-online.de (Postfix) with SMTP id 44F001E55D;
- Tue, 31 Jan 2023 21:25:06 +0100 (CET)
-Received: from [192.168.211.200] ([79.208.25.151]) by fwd79.t-online.de
- with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
- esmtp id 1pMxBg-1Mb0rJ0; Tue, 31 Jan 2023 21:25:04 +0100
-Message-ID: <9f7cef1f-e9c8-dabd-cdde-e2a6b41a28c5@t-online.de>
-Date: Tue, 31 Jan 2023 21:25:04 +0100
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pMxFq-0001n7-2n
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 15:29:23 -0500
+Received: from mail-yb1-xb33.google.com ([2607:f8b0:4864:20::b33])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pMxFl-0004O1-7z
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 15:29:18 -0500
+Received: by mail-yb1-xb33.google.com with SMTP id c124so19638879ybb.13
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 12:29:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=jDtajLbw+EBQ1dYIKmhU0hBBa/JoW2NywJywlGRH+Gk=;
+ b=GuUDffQ81aep/9//dqW2+OuB9kETcTfEh3GJnkCa6ic6HV1KLYclMIldBkoJ2TT/FU
+ 81Fw3KZR9QqI8JtxuYoBNeEhuuY9CtVymP6b4cBvkBMAhFVSZEZh7zo9UynQNdx3FjaG
+ NfsMqlXIjjp42fmrL7SKVBBLNdcxoFGdeCBEmgxW6JTk+MvK/LU87yYQDJHMCT8w8jv5
+ frwrzUZoSmb5EC9UpMrdG5p8x62j/d0K18WyKXMFTSqG/b5tM/mjbzSWMIpgQYF6OX0m
+ Ck35u6ylViJFWFncFyNzaaq+SaHTOUdi3wbjz9GxdlGX4YeSDkQZgfBMbYgtzNtJEMxF
+ qkKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=jDtajLbw+EBQ1dYIKmhU0hBBa/JoW2NywJywlGRH+Gk=;
+ b=nmIuQi/X1q7vSUBfc4eHVZf9okc5BXI2UnGjI71z5wOySK/vrdY81BM1IBWVl6Rkks
+ 88nrJLEsgBuRJjvjNOin16Iae9t7UNr3rMqp06EbJMScqR8qqssMFfbL0DTz8hCqYOwO
+ YSk+EHgOAlKCE1yUcId/rsiHQ21dHuIpZb7U/JOV2DBQK7uQsjydK+0aa+0xjdEd1eMs
+ tzv5n+pX035R+7zWbLtQ3v4OrXNid41FC5puEk9dH8wdy1cwSGj2XCxgWY6hiSCJdiQv
+ J6s7ThsPpiFOAvYo0fQGFC+rXW9wMJRIZWV1l30Y7fStl70pGIloRryDNZUqdVRHs/QD
+ LyBQ==
+X-Gm-Message-State: AO0yUKUEXwrgzd7pdLT45kcLhNvmGwQ6M4FD4/SMW21QfNv9D6Q7l39I
+ Bqr5QN0XfQ/43WliE65rbEthIQCzCeZILR95ks4=
+X-Google-Smtp-Source: AK7set8GrCxDqtIpZQQIv67Ow7C9D7+kDMkbDE294jT0TqIDnoEntAzbUSfZ72jEMi/bgPVoWgxEFT55rL50RF+WlQA=
+X-Received: by 2002:a5b:a8e:0:b0:803:19fa:2c20 with SMTP id
+ h14-20020a5b0a8e000000b0080319fa2c20mr29567ybq.207.1675196955467; Tue, 31 Jan
+ 2023 12:29:15 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 00/17] audio: improve callback interface for audio
- frontends
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de>
- <CAJ+F1CLWBs6raV8vDAOXtZ8x8HxsYRC_=H8eNttsotG2pE=JYA@mail.gmail.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>
-In-Reply-To: <CAJ+F1CLWBs6raV8vDAOXtZ8x8HxsYRC_=H8eNttsotG2pE=JYA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-TOI-EXPURGATEID: 150726::1675196704-BFFFE9DF-659BEF6C/0/0 CLEAN NORMAL
-X-TOI-MSGID: 99619e7b-3376-4a90-aa88-7d0d698705a4
-Received-SPF: none client-ip=194.25.134.85; envelope-from=vr_qemu@t-online.de;
- helo=mailout11.t-online.de
-X-Spam_score_int: -26
-X-Spam_score: -2.7
+References: <CAJSP0QXBKPXj2vf3wuK2QGdX+HZa_Nu3A+RT6hYnXJrUKTY4Fg@mail.gmail.com>
+ <CAJSP0QWDMv2yFkORzKt+p45ykiY=AmZCbrS464nZOqEtOz-NqA@mail.gmail.com>
+ <874js661lu.fsf@linaro.org>
+ <CAJSP0QVN1VVHEms=7p9pwJRDDk6vM+Xvk3Wzi04w7e=+0G+F2g@mail.gmail.com>
+ <CAJ+F1C+gfQRpKqG1Nr6tmcHCLjP2dfM3fq-YjKE5-HzkA832hw@mail.gmail.com>
+In-Reply-To: <CAJ+F1C+gfQRpKqG1Nr6tmcHCLjP2dfM3fq-YjKE5-HzkA832hw@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 31 Jan 2023 15:29:03 -0500
+Message-ID: <CAJSP0QVa9W0v+FAqCZTz4LZYPeic7k6w2k=4Yk9TqAEwts_v7g@mail.gmail.com>
+Subject: Re: virtio-sound Google Summer of Code project?
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ chouhan.shreyansh2702@gmail.com, Gerd Hoffmann <kraxel@redhat.com>, 
+ Laurent Vivier <Laurent@vivier.eu>,
+ Anton Yakovlev <anton.yakovlev@opensynergy.com>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::b33;
+ envelope-from=stefanha@gmail.com; helo=mail-yb1-xb33.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.7 / 5.0 requ) BAYES_00=-1.9, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,23 +91,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 31.01.23 um 15:53 schrieb Marc-André Lureau:
+On Tue, 31 Jan 2023 at 14:48, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
 > Hi
 >
-> On Sun, Jan 15, 2023 at 5:10 PM Volker Rümelin <vr_qemu@t-online.de> wrote:
->> Based-on: <3b1404eb-a7c5-f64c-3e47-1397c54c45bb@t-online.de>
->> ([PATCH 00/11] audio: more improvements)
->>
-> Something didn't work with patchew
-> (https://patchew.org/QEMU/61bd351f-0683-7f58-b746-66c9578a7cdc@t-online.de/).
-> If you could rebase/resend, or share git branch that would be great.
+> On Tue, Jan 31, 2023 at 10:20 PM Stefan Hajnoczi <stefanha@gmail.com> wro=
+te:
+> >
+> > On Tue, 31 Jan 2023 at 12:43, Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+> > >
+> > >
+> > > Stefan Hajnoczi <stefanha@gmail.com> writes:
+> > >
+> > > > On Sun, 29 Jan 2023 at 17:10, Stefan Hajnoczi <stefanha@gmail.com> =
+wrote:
+> > > >>
+> > > >> Hi Shreyansh, Gerd, and Laurent,
+> > > >> The last virtio-sound RFC was sent in February last year. It was a
+> > > >> spare time project. Understandably it's hard to complete the whole
+> > > >> thing on weekends, evenings, etc. So I wanted to suggest relaunchi=
+ng
+> > > >> the virtio-sound effort as a Google Summer of Code project.
+> > > >>
+> > > >> Google Summer of Code is a 12-week full-time remote work internshi=
+p.
+> > > >> The intern would be co-mentored by some (or all) of us. The projec=
+t
+> > > >> goal would be to merge virtio-sound with support for both playback=
+ and
+> > > >> capture. Advanced features for multi-channel audio, etc can be str=
+etch
+> > > >> goals.
+> > > >>
+> > > >> I haven't looked in detail at the patches from February 2022, so I
+> > > >> don't know the exact state and whether there is enough work remain=
+ing
+> > > >> for a 12-week internship. What do you think?
+> > > >
+> > > > Adding Anton.
+> > > >
+> > > > I have updated the old wiki page for this project idea and added it=
+ to
+> > > > the 2023 ideas list:
+> > > > https://wiki.qemu.org/Internships/ProjectIdeas/VirtioSound
+> > > >
+> > > > Please let me know if you wish to co-mentor this project!
+> > >
+> > > I'd be happy to help - although if someone was rust inclined I'd also=
+ be
+> > > happy to mentor a rust-vmm vhost-user implementation of VirtIO sound.
+> >
+> > Maybe Gerd can tell us about the QEMU audio subsystem features that
+> > may be lost if developing a standalone vhost-user device.
+> >
+> > Two things come to mind:
+> > 1. May not run on all host OSes that QEMU supports if it supports
+> > fewer native audio APIs than QEMU.
+>
+> Using GStreamer in Rust is well supported, and should give all the
+> backends that you ever need (alternatively, there might be some Rust
+> audio crates that I am not aware of). In all cases, I would not
+> implement various backends the way QEMU audio/ has grown...
+>
+> > 2. May not support forwarding audio to remote desktop solutions that
+> > stream audio over the network. I don't know if/how this works with
+> > VNC/RDP/Spice, but a separate vhost-user process will need to do extra
+> > work to send the audio over the remote desktop connection.
+>
+> Well, some of the goal with `-display dbus` is to move the remote
+> desktop handling outside of QEMU. I had in mind that the protocol will
+> have to evolve to handle multiprocess, so audio, display, input etc
+> interfaces can be provided by external processes. In fact, it should
+> be possible without protocol change for audio devices with the current
+> interface (https://gitlab.com/qemu-project/qemu/-/blob/master/ui/dbus-dis=
+play1.xml#L483).
+>
+> In short, I wish the project implements the device in Rust, with
+> `gstreamer` and `dbus` as optional features. (that should be
+> introspectable via --print-capabilities stuff)
 
-Hi Marc-André,
+Cool, then let's go with a Rust vhost-user device implementation!
 
-I will resend the patch series rebased onto [PATCH v2 00/11] audio: more 
-improvements. This time I will take care that patchew doesn't try to 
-apply the cover letter as the first patch.
+Can you elaborate on how the "gstreamer" feature would be used by the
+process launching the vhost-user back-end? Do you mean there should be
+a standard command-line syntax for specifying the playback and capture
+devices that maps directly to GStreamer (e.g. like gst-launch-1.0)?
 
-With best regards,
-Volker
+Stefan
 
