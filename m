@@ -2,81 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D5566838D4
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 22:43:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0839683960
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 23:33:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMyNx-0001GK-0b; Tue, 31 Jan 2023 16:41:49 -0500
+	id 1pMzAR-0004yw-Ne; Tue, 31 Jan 2023 17:31:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pMyNv-0001Fr-D2
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 16:41:47 -0500
-Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
- id 1pMyNt-0005LW-Cs
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 16:41:47 -0500
-Received: by mail-lj1-x22a.google.com with SMTP id d8so5015402ljq.9
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 13:41:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=C804c1ylMqvxXdADLhfcM39PiApYCjtliC3aOysB3+U=;
- b=hYwXjkpF+ivOr2KN3R6xFm99sPmXuou+QauIJotJJt1uqjWisRADARwl3eFSc/jf7f
- Bxd8nb78CL5QbmZr1kQbLJEkYlhOfgSK3LxCbJi2VtSviFcM8Pu1+BvbULNzz4awLrqi
- 3DcjEeO02Pg2nhTS+H6XhFvuOPPthIBKqulhyVrJX/IfvhDe2v5M6T2/u5IVM3dcbkXs
- /l//Haw9JDDESHSVvj58HyNeKvfhsfKA5/B5zQByaOFPvjvOyN6DA29cF0YrgQF7hexN
- iFVveqQSyx2EuLSbmg2TjUFoQwM6jio+OqB/LmKHP4gp6UKkjQqeFtWu8a+pBtb8yyLa
- qDFA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=C804c1ylMqvxXdADLhfcM39PiApYCjtliC3aOysB3+U=;
- b=sKyAJUCLcMMfkpT7iHh5yckjql0AGmKFGMCBbyqE0B6AB69Z9FdgUPc4jYuUJEquJ5
- PPFiea3OSOuowF9teghCaUvUGKBTkond4eIOkCMi42XbwkwW0vaLpxk+rceEcz+kgKH+
- 8LtOEJ/e8P39MmLSGpgLcaV+ne2wGVxEKlvrP0RzuazpJ4nuvAnGBfveh7ptkmCELvcw
- xtLmeZb/dlsSqrxerHxnei7l1DPWBFmQlJyuPP0sTDSyLyikACMX5MfUaE9USgXJF+0m
- oZiCN3a7IfaWWUCETbs1OQ3NpLkjACVIIsamBDCviXzu+hDyFGkiPsYbGUM7lp9aRRc6
- fwDw==
-X-Gm-Message-State: AO0yUKVGgZxSJbBlIKAEBJO/Jq85AVVkKdChQS5x42n6nU65iUPBsUfc
- xjmPq/jbV04InbAEB0Mrgb43HYOyVYmB9jk9f2Y=
-X-Google-Smtp-Source: AK7set9ZzTdwv7awzL5o5ZT0gvwQwHcceq6Y4SwKpt9xIiu5/ya28+xG2cojVKbRhDBYFpASNifePhHqhwmdLkD+9Kc=
-X-Received: by 2002:a2e:9247:0:b0:290:4f23:f72a with SMTP id
- v7-20020a2e9247000000b002904f23f72amr1222054ljg.197.1675201303101; Tue, 31
- Jan 2023 13:41:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pMzAP-0004yh-6K
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 17:31:53 -0500
+Received: from rev.ng ([5.9.113.41])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pMzAK-0003HL-PV
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 17:31:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
+ s=dkim; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:
+ To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
+ Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+ In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+ List-Post:List-Owner:List-Archive;
+ bh=OggWJIdjvK8pBdlaQGIVnurdFA8iOTzOyodh7bFGlK0=; b=hZlAebMxBrakwQYAb58M6NcmmS
+ Khr8FIzlthhRkmLNfe90JDIW8buSg32GEs3Y2iPPy5N2r1lxWtMzxYTkA6s/20aiFWEJ4TKOZMAwt
+ ZuYnH+oA6zlYWuX89iNtWL1FKGJRScW7gr6lMpJwD1Us3mw2MGnWuNx+RfY5ELu9wtxk=;
+To: qemu-devel@nongnu.org
+Cc: ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com, mlambert@quicinc.com
+Subject: [PATCH] target/hexagon/idef-parser: Remove unused code paths
+Date: Tue, 31 Jan 2023 23:31:33 +0100
+Message-Id: <20230131223133.8592-1-anjo@rev.ng>
 MIME-Version: 1.0
-References: <CAJSP0QXBKPXj2vf3wuK2QGdX+HZa_Nu3A+RT6hYnXJrUKTY4Fg@mail.gmail.com>
- <CAJSP0QWDMv2yFkORzKt+p45ykiY=AmZCbrS464nZOqEtOz-NqA@mail.gmail.com>
- <874js661lu.fsf@linaro.org>
- <CAJSP0QVN1VVHEms=7p9pwJRDDk6vM+Xvk3Wzi04w7e=+0G+F2g@mail.gmail.com>
- <CAJ+F1C+gfQRpKqG1Nr6tmcHCLjP2dfM3fq-YjKE5-HzkA832hw@mail.gmail.com>
- <CAJSP0QVa9W0v+FAqCZTz4LZYPeic7k6w2k=4Yk9TqAEwts_v7g@mail.gmail.com>
- <CAJ+F1CLEXhAyVtVFo0RzJSAerOo9MEc25=AodAs9oCwgrhX3iA@mail.gmail.com>
-In-Reply-To: <CAJ+F1CLEXhAyVtVFo0RzJSAerOo9MEc25=AodAs9oCwgrhX3iA@mail.gmail.com>
-From: Stefan Hajnoczi <stefanha@gmail.com>
-Date: Tue, 31 Jan 2023 16:41:29 -0500
-Message-ID: <CAJSP0QV_EN697rAHO9Tkh8WWLGfhRGsScFhR_ZBoDCRiX4x=_A@mail.gmail.com>
-Subject: Re: virtio-sound Google Summer of Code project?
-To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
- chouhan.shreyansh2702@gmail.com, Gerd Hoffmann <kraxel@redhat.com>, 
- Laurent Vivier <Laurent@vivier.eu>,
- Anton Yakovlev <anton.yakovlev@opensynergy.com>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
- envelope-from=stefanha@gmail.com; helo=mail-lj1-x22a.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -90,131 +51,238 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Anton Johansson <anjo@rev.ng>
+From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 31 Jan 2023 at 16:19, Marc-Andr=C3=A9 Lureau
-<marcandre.lureau@gmail.com> wrote:
->
-> Hi
->
-> On Wed, Feb 1, 2023 at 12:29 AM Stefan Hajnoczi <stefanha@gmail.com> wrot=
-e:
-> >
-> > On Tue, 31 Jan 2023 at 14:48, Marc-Andr=C3=A9 Lureau
-> > <marcandre.lureau@gmail.com> wrote:
-> > >
-> > > Hi
-> > >
-> > > On Tue, Jan 31, 2023 at 10:20 PM Stefan Hajnoczi <stefanha@gmail.com>=
- wrote:
-> > > >
-> > > > On Tue, 31 Jan 2023 at 12:43, Alex Benn=C3=A9e <alex.bennee@linaro.=
-org> wrote:
-> > > > >
-> > > > >
-> > > > > Stefan Hajnoczi <stefanha@gmail.com> writes:
-> > > > >
-> > > > > > On Sun, 29 Jan 2023 at 17:10, Stefan Hajnoczi <stefanha@gmail.c=
-om> wrote:
-> > > > > >>
-> > > > > >> Hi Shreyansh, Gerd, and Laurent,
-> > > > > >> The last virtio-sound RFC was sent in February last year. It w=
-as a
-> > > > > >> spare time project. Understandably it's hard to complete the w=
-hole
-> > > > > >> thing on weekends, evenings, etc. So I wanted to suggest relau=
-nching
-> > > > > >> the virtio-sound effort as a Google Summer of Code project.
-> > > > > >>
-> > > > > >> Google Summer of Code is a 12-week full-time remote work inter=
-nship.
-> > > > > >> The intern would be co-mentored by some (or all) of us. The pr=
-oject
-> > > > > >> goal would be to merge virtio-sound with support for both play=
-back and
-> > > > > >> capture. Advanced features for multi-channel audio, etc can be=
- stretch
-> > > > > >> goals.
-> > > > > >>
-> > > > > >> I haven't looked in detail at the patches from February 2022, =
-so I
-> > > > > >> don't know the exact state and whether there is enough work re=
-maining
-> > > > > >> for a 12-week internship. What do you think?
-> > > > > >
-> > > > > > Adding Anton.
-> > > > > >
-> > > > > > I have updated the old wiki page for this project idea and adde=
-d it to
-> > > > > > the 2023 ideas list:
-> > > > > > https://wiki.qemu.org/Internships/ProjectIdeas/VirtioSound
-> > > > > >
-> > > > > > Please let me know if you wish to co-mentor this project!
-> > > > >
-> > > > > I'd be happy to help - although if someone was rust inclined I'd =
-also be
-> > > > > happy to mentor a rust-vmm vhost-user implementation of VirtIO so=
-und.
-> > > >
-> > > > Maybe Gerd can tell us about the QEMU audio subsystem features that
-> > > > may be lost if developing a standalone vhost-user device.
-> > > >
-> > > > Two things come to mind:
-> > > > 1. May not run on all host OSes that QEMU supports if it supports
-> > > > fewer native audio APIs than QEMU.
-> > >
-> > > Using GStreamer in Rust is well supported, and should give all the
-> > > backends that you ever need (alternatively, there might be some Rust
-> > > audio crates that I am not aware of). In all cases, I would not
-> > > implement various backends the way QEMU audio/ has grown...
-> > >
-> > > > 2. May not support forwarding audio to remote desktop solutions tha=
-t
-> > > > stream audio over the network. I don't know if/how this works with
-> > > > VNC/RDP/Spice, but a separate vhost-user process will need to do ex=
-tra
-> > > > work to send the audio over the remote desktop connection.
-> > >
-> > > Well, some of the goal with `-display dbus` is to move the remote
-> > > desktop handling outside of QEMU. I had in mind that the protocol wil=
-l
-> > > have to evolve to handle multiprocess, so audio, display, input etc
-> > > interfaces can be provided by external processes. In fact, it should
-> > > be possible without protocol change for audio devices with the curren=
-t
-> > > interface (https://gitlab.com/qemu-project/qemu/-/blob/master/ui/dbus=
--display1.xml#L483).
-> > >
-> > > In short, I wish the project implements the device in Rust, with
-> > > `gstreamer` and `dbus` as optional features. (that should be
-> > > introspectable via --print-capabilities stuff)
-> >
-> > Cool, then let's go with a Rust vhost-user device implementation!
-> >
-> > Can you elaborate on how the "gstreamer" feature would be used by the
-> > process launching the vhost-user back-end? Do you mean there should be
-> > a standard command-line syntax for specifying the playback and capture
-> > devices that maps directly to GStreamer (e.g. like gst-launch-1.0)?
->
-> Roughly what comes in mind is that the backend should always offer a
-> --audio-backend=3D... option, defaulting to something sensible, and
-> always have `none`, I guess.
-> - when the `gstreamer` feature & capability is available, can be set
-> to 'gstreamer'. Additionally, options like --gst-sink=3D'pipeline'
-> --gst-src=3D'pipeline' could be supported too, but it should do
-> something sensible here as well, by using autoaudiosink/autoaudiosrc
-> by default.
-> - when the `dbus` feature & capability is available, can be set to
-> 'dbus' (or qemu-dbus?). It may require some extra option too, to
-> communicate back with qemu, such as `--dbus-addr=3Daddr`, or
-> `--dbus-fd=3DN`.
+Removes code paths used by COF instructions, which are no longer
+processed by idef-parser.
 
-I see. Thanks for explaining.
+Signed-off-by: Anton Johansson <anjo@rev.ng>
+---
+ target/hexagon/idef-parser/idef-parser.h    |  1 -
+ target/hexagon/idef-parser/idef-parser.lex  | 27 +------------
+ target/hexagon/idef-parser/idef-parser.y    | 45 +--------------------
+ target/hexagon/idef-parser/macros.inc       | 10 -----
+ target/hexagon/idef-parser/parser-helpers.c |  3 --
+ 5 files changed, 4 insertions(+), 82 deletions(-)
 
-I have updated the project idea now. Feel free to make edits or add
-yourselves as mentors:
-https://wiki.qemu.org/Internships/ProjectIdeas/VirtioSound
+diff --git a/target/hexagon/idef-parser/idef-parser.h b/target/hexagon/idef-parser/idef-parser.h
+index 5c49d4da3e..354528bbc8 100644
+--- a/target/hexagon/idef-parser/idef-parser.h
++++ b/target/hexagon/idef-parser/idef-parser.h
+@@ -82,7 +82,6 @@ enum ImmUnionTag {
+     VALUE,
+     QEMU_TMP,
+     IMM_PC,
+-    IMM_NPC,
+     IMM_CONSTEXT,
+ };
+ 
+diff --git a/target/hexagon/idef-parser/idef-parser.lex b/target/hexagon/idef-parser/idef-parser.lex
+index ff87a02c3a..2658d9fb2e 100644
+--- a/target/hexagon/idef-parser/idef-parser.lex
++++ b/target/hexagon/idef-parser/idef-parser.lex
+@@ -140,8 +140,6 @@ STRING_LIT               \"(\\.|[^"\\])*\"
+                            yylval->rvalue.is_dotnew = true;
+                            yylval->rvalue.signedness = SIGNED;
+                            return PRED; }
+-"IV1DEAD()"              |
+-"fPAUSE(uiV);"           { return ';'; }
+ "+="                     { return INC; }
+ "-="                     { return DEC; }
+ "++"                     { return PLUSPLUS; }
+@@ -159,9 +157,8 @@ STRING_LIT               \"(\\.|[^"\\])*\"
+ "else"                   { return ELSE; }
+ "for"                    { return FOR; }
+ "fREAD_IREG"             { return ICIRC; }
+-"fPART1"                 { return PART1; }
+ "if"                     { return IF; }
+-"fFRAME_SCRAMBLE"        { return FSCR; }
++"fFRAME_SCRAMBLE"        |
+ "fFRAME_UNSCRAMBLE"      { return FSCR; }
+ "fFRAMECHECK"            { return FCHK; }
+ "Constant_extended"      { return CONSTEXT; }
+@@ -312,11 +309,7 @@ STRING_LIT               \"(\\.|[^"\\])*\"
+ "(unsigned int)"         { yylval->cast.bit_width = 32;
+                            yylval->cast.signedness = UNSIGNED;
+                            return CAST; }
+-"fREAD_PC()"             |
+-"PC"                     { return PC; }
+-"fREAD_NPC()"            |
+-"NPC"                    { return NPC; }
+-"fGET_LPCFG"             |
++"fREAD_PC()"             { return PC; }
+ "USR.LPCFG"              { return LPCFG; }
+ "LOAD_CANCEL(EA)"        { return LOAD_CANCEL; }
+ "STORE_CANCEL(EA)"       |
+@@ -360,14 +353,6 @@ STRING_LIT               \"(\\.|[^"\\])*\"
+                            yylval->rvalue.bit_width = 32;
+                            yylval->rvalue.signedness = UNSIGNED;
+                            return REG; }
+-"fREAD_LC"[01]           { yylval->rvalue.type = REGISTER;
+-                           yylval->rvalue.reg.type = CONTROL;
+-                           yylval->rvalue.reg.id = HEX_REG_LC0
+-                                                 + (yytext[8] - '0') * 2;
+-                           yylval->rvalue.reg.bit_width = 32;
+-                           yylval->rvalue.bit_width = 32;
+-                           yylval->rvalue.signedness = UNSIGNED;
+-                           return REG; }
+ "LC"[01]                 { yylval->rvalue.type = REGISTER;
+                            yylval->rvalue.reg.type = CONTROL;
+                            yylval->rvalue.reg.id = HEX_REG_LC0
+@@ -376,14 +361,6 @@ STRING_LIT               \"(\\.|[^"\\])*\"
+                            yylval->rvalue.bit_width = 32;
+                            yylval->rvalue.signedness = UNSIGNED;
+                            return REG; }
+-"fREAD_SA"[01]           { yylval->rvalue.type = REGISTER;
+-                           yylval->rvalue.reg.type = CONTROL;
+-                           yylval->rvalue.reg.id = HEX_REG_SA0
+-                                                 + (yytext[8] - '0') * 2;
+-                           yylval->rvalue.reg.bit_width = 32;
+-                           yylval->rvalue.bit_width = 32;
+-                           yylval->rvalue.signedness = UNSIGNED;
+-                           return REG; }
+ "SA"[01]                 { yylval->rvalue.type = REGISTER;
+                            yylval->rvalue.reg.type = CONTROL;
+                            yylval->rvalue.reg.id = HEX_REG_SA0
+diff --git a/target/hexagon/idef-parser/idef-parser.y b/target/hexagon/idef-parser/idef-parser.y
+index c14cb39500..ec7ca56906 100644
+--- a/target/hexagon/idef-parser/idef-parser.y
++++ b/target/hexagon/idef-parser/idef-parser.y
+@@ -52,8 +52,8 @@
+ %token IN INAME VAR
+ %token ABS CROUND ROUND CIRCADD COUNTONES INC DEC ANDA ORA XORA PLUSPLUS ASL
+ %token ASR LSR EQ NEQ LTE GTE MIN MAX ANDL FOR ICIRC IF MUN FSCR FCHK SXT
+-%token ZXT CONSTEXT LOCNT BREV SIGN LOAD STORE PC NPC LPCFG
+-%token LOAD_CANCEL CANCEL IDENTITY PART1 ROTL INSBITS SETBITS EXTRANGE
++%token ZXT CONSTEXT LOCNT BREV SIGN LOAD STORE PC LPCFG
++%token LOAD_CANCEL CANCEL IDENTITY ROTL INSBITS SETBITS EXTRANGE
+ %token CAST4_8U FAIL CARRY_FROM_ADD ADDSAT64 LSBNEW
+ %token TYPE_SIZE_T TYPE_INT TYPE_SIGNED TYPE_UNSIGNED TYPE_LONG
+ 
+@@ -339,16 +339,6 @@ assign_statement : lvalue '=' rvalue
+                        OUT(c, &@1, &$1, " = ", &$3, ";\n");
+                        $$ = $1;
+                    }
+-                 | PC '=' rvalue
+-                   {
+-                       @1.last_column = @3.last_column;
+-                       yyassert(c, &@1, !is_inside_ternary(c),
+-                                "Assignment side-effect not modeled!");
+-                       $3 = gen_rvalue_truncate(c, &@1, &$3);
+-                       $3 = rvalue_materialize(c, &@1, &$3);
+-                       OUT(c, &@1, "gen_write_new_pc(", &$3, ");\n");
+-                       gen_rvalue_free(c, &@1, &$3); /* Free temporary value */
+-                   }
+                  | LOAD '(' IMM ',' IMM ',' SIGN ',' var ',' lvalue ')'
+                    {
+                        @1.last_column = @12.last_column;
+@@ -417,7 +407,6 @@ control_statement : frame_check
+                   | cancel_statement
+                   | if_statement
+                   | for_statement
+-                  | fpart1_statement
+                   ;
+ 
+ frame_check : FCHK '(' rvalue ',' rvalue ')' ';'
+@@ -471,17 +460,6 @@ for_statement : FOR '(' IMM '=' IMM ';' IMM '<' IMM ';' IMM PLUSPLUS ')'
+                 }
+               ;
+ 
+-fpart1_statement : PART1
+-                   {
+-                       OUT(c, &@1, "if (insn->part1) {\n");
+-                   }
+-                   '(' statements ')'
+-                   {
+-                       @1.last_column = @3.last_column;
+-                       OUT(c, &@1, "return; }\n");
+-                   }
+-                 ;
+-
+ if_stmt : IF '(' rvalue ')'
+           {
+               @1.last_column = @3.last_column;
+@@ -521,20 +499,6 @@ rvalue : FAIL
+              rvalue.signedness = UNSIGNED;
+              $$ = rvalue;
+          }
+-       | NPC
+-         {
+-             /*
+-              * NPC is only read from CALLs, so we can hardcode it
+-              * at translation time
+-              */
+-             HexValue rvalue;
+-             memset(&rvalue, 0, sizeof(HexValue));
+-             rvalue.type = IMMEDIATE;
+-             rvalue.imm.type = IMM_NPC;
+-             rvalue.bit_width = 32;
+-             rvalue.signedness = UNSIGNED;
+-             $$ = rvalue;
+-         }
+        | CONSTEXT
+          {
+              HexValue rvalue;
+@@ -793,11 +757,6 @@ rvalue : FAIL
+              /* Ones count */
+              $$ = gen_ctpop_op(c, &@1, &$3);
+          }
+-       | LPCFG
+-         {
+-             $$ = gen_tmp_value(c, &@1, "0", 32, UNSIGNED);
+-             OUT(c, &@1, "GET_USR_FIELD(USR_LPCFG, ", &$$, ");\n");
+-         }
+        | EXTRACT '(' rvalue ',' rvalue ')'
+          {
+              @1.last_column = @6.last_column;
+diff --git a/target/hexagon/idef-parser/macros.inc b/target/hexagon/idef-parser/macros.inc
+index 6b697da87a..c2801c97f1 100644
+--- a/target/hexagon/idef-parser/macros.inc
++++ b/target/hexagon/idef-parser/macros.inc
+@@ -97,17 +97,8 @@
+ #define fWRITE_LR(A) (LR = A)
+ #define fWRITE_FP(A) (FP = A)
+ #define fWRITE_SP(A) (SP = A)
+-/*
+- * Note: There is a rule in the parser that matches `PC = ...` and emits
+- * a call to `gen_write_new_pc`. We need to call `gen_write_new_pc` to
+- * get the correct semantics when there are multiple stores in a packet.
+- */
+-#define fBRANCH(LOC, TYPE) (PC = LOC)
+-#define fJUMPR(REGNO, TARGET, TYPE) (PC = TARGET)
+ #define fWRITE_LOOP_REGS0(START, COUNT) SA0 = START; (LC0 = COUNT)
+ #define fWRITE_LOOP_REGS1(START, COUNT) SA1 = START; (LC1 = COUNT)
+-#define fWRITE_LC0(VAL) (LC0 = VAL)
+-#define fWRITE_LC1(VAL) (LC1 = VAL)
+ #define fSET_LPCFG(VAL) (USR.LPCFG = VAL)
+ #define fWRITE_P0(VAL) P0 = VAL;
+ #define fWRITE_P1(VAL) P1 = VAL;
+@@ -121,7 +112,6 @@
+ #define fEA_GPI(IMM) (EA = fREAD_GP() + IMM)
+ #define fPM_I(REG, IMM) (REG = REG + IMM)
+ #define fPM_M(REG, MVAL) (REG = REG + MVAL)
+-#define fWRITE_NPC(VAL) (PC = VAL)
+ 
+ /* Unary operators */
+ #define fROUND(A) (A + 0x8000)
+diff --git a/target/hexagon/idef-parser/parser-helpers.c b/target/hexagon/idef-parser/parser-helpers.c
+index 8110686c51..937fed6a42 100644
+--- a/target/hexagon/idef-parser/parser-helpers.c
++++ b/target/hexagon/idef-parser/parser-helpers.c
+@@ -185,9 +185,6 @@ void imm_print(Context *c, YYLTYPE *locp, HexImm *imm)
+     case IMM_PC:
+         EMIT(c, "ctx->base.pc_next");
+         break;
+-    case IMM_NPC:
+-        EMIT(c, "ctx->npc");
+-        break;
+     case IMM_CONSTEXT:
+         EMIT(c, "insn->extension_valid");
+         break;
+-- 
+2.39.0
 
-Stefan
 
