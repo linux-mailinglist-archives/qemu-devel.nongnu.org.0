@@ -2,95 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15278682FC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 15:52:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81DE2682FE6
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 15:57:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMrFb-0006nb-Nk; Tue, 31 Jan 2023 09:04:43 -0500
+	id 1pMrLG-0007nA-Sz; Tue, 31 Jan 2023 09:10:34 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMrFZ-0006nT-Ap
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 09:04:41 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pMrLE-0007mA-DQ
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 09:10:32 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMrFX-0002qP-8Q
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 09:04:40 -0500
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pMrLC-0005O5-E2
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 09:10:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675173878;
+ s=mimecast20190719; t=1675174229;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Svd+8sWUw8PYlJNHP3F0NKAwX2zot7PgklGR5ShTsz0=;
- b=NNMANM2dUvxwWs+VEs/E4/ONitjMcDCDSwVlyc8kAhGePUCQg3eIw9psUluUpYLL86xeqx
- a4JULUBOMGyj7s/8i7PPKSNdv605wH3EvD3Eq5GV/ndy5gdBfy6NMh8QZoVLA+hDumAX9y
- OZHzJfJVRV38m7ozcbIZS5Xur15zGuI=
-Received: from mail-yw1-f200.google.com (mail-yw1-f200.google.com
- [209.85.128.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-590-OhRHAFhDMiOaHW6k3Z4y6A-1; Tue, 31 Jan 2023 09:04:34 -0500
-X-MC-Unique: OhRHAFhDMiOaHW6k3Z4y6A-1
-Received: by mail-yw1-f200.google.com with SMTP id
- 00721157ae682-5065604854eso168343367b3.16
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 06:04:34 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Svd+8sWUw8PYlJNHP3F0NKAwX2zot7PgklGR5ShTsz0=;
- b=SatZ3jXVa0p/dUHxY7GaOogelU8VieAt4c9ufs0aUI2RyBe6E55kgaK1bN7abGNXL+
- DMpfXGkyxMYPsa1whLloptWgv/HpPG3Xhsv2v++cA52/Gwzz1ZfF2vGEuOmmmqWFGS+O
- NJTR51pCpE2wdnFb/22qgTp3S3l2dxMOdqkQrX8psbmP0VoomOfXsQbOdWqtmXYEzU2T
- VWXGUJmDqTacH4BBw8sUxfCt6hZ76ITkKVSUwzsEVkpJ6+enTGgLeQLs81immK8Jj1uQ
- 8fL44Ezeur5g2qNJPUZO00i9u9IYuABaLxZ4rscnINtCD0hPj7zwqdO3nR9E1EPrw6N6
- SdMg==
-X-Gm-Message-State: AO0yUKW1D/W4n1eTSk61IxDJE+QrJd6hx0j9hP64pKrXwVqloxSc2r/8
- M/uVY0ZIS1tjGlDnlqe4rB3VH5QLkVADp05T39PF9hrkk76LGeaNdejRrZ5yAAEwurYZZqHkJPq
- wMHvY4SJQGLZ2RmM=
-X-Received: by 2002:a25:28c2:0:b0:83a:c1da:f0de with SMTP id
- o185-20020a2528c2000000b0083ac1daf0demr1012090ybo.46.1675173874215; 
- Tue, 31 Jan 2023 06:04:34 -0800 (PST)
-X-Google-Smtp-Source: AK7set9XC1mQUbpN4jCNTmaSOaCkUSADsDfVAISNUFf/qc0+/QaSvmJIlLE2VC+TK6ppdgBMM/bhrA==
-X-Received: by 2002:a25:28c2:0:b0:83a:c1da:f0de with SMTP id
- o185-20020a2528c2000000b0083ac1daf0demr1012064ybo.46.1675173873912; 
- Tue, 31 Jan 2023 06:04:33 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-155.web.vodafone.de.
- [109.43.176.155]) by smtp.gmail.com with ESMTPSA id
- i1-20020a37b801000000b00702d1c6e7bbsm9876458qkf.130.2023.01.31.06.04.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 06:04:33 -0800 (PST)
-Message-ID: <d72390b7-baab-c7d8-f827-cb9b0f11ac6c@redhat.com>
-Date: Tue, 31 Jan 2023 15:04:30 +0100
+ bh=4iqyiozujzDzENFofgCw2Tx0N+bVJhe8WFZZXqWJgOk=;
+ b=jOg/HdtubALcULDK3Whb4ugdpGa/dwOMBaOdfMFWaox/vlLeZDMSOJQADvLGSjOjJkAVWu
+ PtN8nXPk/4EIEY5tTImIdXELLFuUavk48YIQzirjMXKaP370q4O2v2Hn+m5vIzaGr/d0FB
+ tF+7oB6455tSW2BqOoTGmQ2gYBGdNM0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-382-C8R7nQ3mMRG6FP47TFD30Q-1; Tue, 31 Jan 2023 09:10:22 -0500
+X-MC-Unique: C8R7nQ3mMRG6FP47TFD30Q-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9781A3C16E81;
+ Tue, 31 Jan 2023 14:10:21 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.59])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id ADE2B492B05;
+ Tue, 31 Jan 2023 14:10:20 +0000 (UTC)
+Date: Tue, 31 Jan 2023 09:10:18 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, Sam Li <faithilikerun@gmail.com>,
+ qemu-devel@nongnu.org, dmitry.fomichev@wdc.com,
+ Raphael Norwitz <raphael.norwitz@nutanix.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Kevin Wolf <kwolf@redhat.com>, damien.lemoal@opensource.wdc.com,
+ hare@suse.de, Markus Armbruster <armbru@redhat.com>,
+ qemu-block@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Hanna Reitz <hreitz@redhat.com>
+Subject: Re: [RFC v6 2/4] virtio-blk: add zoned storage emulation for zoned
+ devices
+Message-ID: <Y9khSupdxuYFTqhb@fedora>
+References: <20230129103951.86063-1-faithilikerun@gmail.com>
+ <20230129103951.86063-3-faithilikerun@gmail.com>
+ <Y9e48KYxf2TLHmP4@redhat.com>
+ <CAJSP0QUOQge9V2jM+ibhNgt-c-sjWw5RjFeO2isfw6Gxo3gEwQ@mail.gmail.com>
+ <Y9gMuBUOiPBStx+b@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 10/20] hw/isa/lpc_ich9: Eliminate ICH9LPCState::isa_bus
-Content-Language: en-US
-To: Bernhard Beschow <shentey@gmail.com>, qemu-devel@nongnu.org
-Cc: Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>, Ani Sinha
- <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>, Laurent Vivier <lvivier@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, qemu-trivial@nongnu.org
-References: <20230131115326.12454-1-shentey@gmail.com>
- <20230131115326.12454-11-shentey@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230131115326.12454-11-shentey@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="F2yDXFpxF759takx"
+Content-Disposition: inline
+In-Reply-To: <Y9gMuBUOiPBStx+b@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,17 +90,169 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 31/01/2023 12.53, Bernhard Beschow wrote:
-> By using qdev_get_child_bus() we can eliminate ICH9LPCState::isa_bus and
-> spare the ich9_lpc variable in pc_q35, too.
-> 
-> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
-> ---
->   include/hw/i386/ich9.h | 3 ---
->   hw/i386/pc_q35.c       | 4 +---
->   hw/isa/lpc_ich9.c      | 5 +----
->   3 files changed, 2 insertions(+), 10 deletions(-)
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+--F2yDXFpxF759takx
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Jan 30, 2023 at 06:30:16PM +0000, Daniel P. Berrang=E9 wrote:
+> On Mon, Jan 30, 2023 at 10:17:48AM -0500, Stefan Hajnoczi wrote:
+> > On Mon, 30 Jan 2023 at 07:33, Daniel P. Berrang=E9 <berrange@redhat.com=
+> wrote:
+> > >
+> > > On Sun, Jan 29, 2023 at 06:39:49PM +0800, Sam Li wrote:
+> > > > This patch extends virtio-blk emulation to handle zoned device comm=
+ands
+> > > > by calling the new block layer APIs to perform zoned device I/O on
+> > > > behalf of the guest. It supports Report Zone, four zone oparations =
+(open,
+> > > > close, finish, reset), and Append Zone.
+> > > >
+> > > > The VIRTIO_BLK_F_ZONED feature bit will only be set if the host does
+> > > > support zoned block devices. Regular block devices(conventional zon=
+es)
+> > > > will not be set.
+> > > >
+> > > > The guest os can use blktests, fio to test those commands on zoned =
+devices.
+> > > > Furthermore, using zonefs to test zone append write is also support=
+ed.
+> > > >
+> > > > Signed-off-by: Sam Li <faithilikerun@gmail.com>
+> > > > ---
+> > > >  hw/block/virtio-blk-common.c |   2 +
+> > > >  hw/block/virtio-blk.c        | 394 +++++++++++++++++++++++++++++++=
+++++
+> > > >  2 files changed, 396 insertions(+)
+> > > >
+> > >
+> > > > @@ -949,6 +1311,30 @@ static void virtio_blk_update_config(VirtIODe=
+vice *vdev, uint8_t *config)
+> > > >          blkcfg.write_zeroes_may_unmap =3D 1;
+> > > >          virtio_stl_p(vdev, &blkcfg.max_write_zeroes_seg, 1);
+> > > >      }
+> > > > +    if (bs->bl.zoned !=3D BLK_Z_NONE) {
+> > > > +        switch (bs->bl.zoned) {
+> > > > +        case BLK_Z_HM:
+> > > > +            blkcfg.zoned.model =3D VIRTIO_BLK_Z_HM;
+> > > > +            break;
+> > > > +        case BLK_Z_HA:
+> > > > +            blkcfg.zoned.model =3D VIRTIO_BLK_Z_HA;
+> > > > +            break;
+> > > > +        default:
+> > > > +            g_assert_not_reached();
+> > > > +        }
+> > > > +
+> > > > +        virtio_stl_p(vdev, &blkcfg.zoned.zone_sectors,
+> > > > +                     bs->bl.zone_size / 512);
+> > > > +        virtio_stl_p(vdev, &blkcfg.zoned.max_active_zones,
+> > > > +                     bs->bl.max_active_zones);
+> > > > +        virtio_stl_p(vdev, &blkcfg.zoned.max_open_zones,
+> > > > +                     bs->bl.max_open_zones);
+> > > > +        virtio_stl_p(vdev, &blkcfg.zoned.write_granularity, blk_si=
+ze);
+> > > > +        virtio_stl_p(vdev, &blkcfg.zoned.max_append_sectors,
+> > > > +                     bs->bl.max_append_sectors);
+> > >
+> > > So these are all ABI sensitive frontend device settings, but they are
+> > > not exposed as tunables on the virtio-blk device, instead they are
+> > > implicitly set from the backend.
+> > >
+> > > We have done this kind of thing before in QEMU, but several times it
+> > > has bitten QEMU maintainers/users, as having a backend affect the
+> > > frontend ABI is not to typical. It wouldn't be immediately obvious
+> > > when starting QEMU on a target host that the live migration would
+> > > be breaking ABI if the target host wasn't using a zoned device with
+> > > exact same settings.
+> > >
+> > > This also limits mgmt flexibility across live migration, if the
+> > > mgmt app wants/needs to change the storage backend. eg maybe they
+> > > need to evacuate the host for an emergency, but don't have spare
+> > > hosts with same kind of storage. It might be desirable to migrate
+> > > and switch to a plain block device or raw/qcow2 file, rather than
+> > > let the VM die.
+> > >
+> > > Can we make these virtio setting be explicitly controlled on the
+> > > virtio-blk device.  If not specified explicitly they could be
+> > > auto-populated from the backend for ease of use, but if specified
+> > > then simply validate the backend is a match. libvirt would then
+> > > make sure these are always explicitly set on the frontend.
+> >=20
+> > I think this is a good idea, especially if we streamline the
+> > file-posix.c driver by merging --blockdev zoned_host_device into
+> > --blockdev host_device. It won't be obvious from the command-line
+> > whether this is a zoned or non-zoned device. There should be a
+> > --device virtio-blk-pci,drive=3Ddrive0,zoned=3Don option that fails when
+> > drive0 isn't zoned. It should probably be on/off/auto where auto is
+> > the default and doesn't check anything, on requires a zoned device,
+> > and off requires a non-zoned device. That will prevent accidental
+> > migration between zoned/non-zoned devices.
+> >=20
+> > I want to point out that virtio-blk doesn't have checks for the disk
+> > size or other details, so what you're suggesting for zone_sectors, etc
+> > is stricter than what QEMU does today. Since the virtio-blk parameters
+> > you're proposing are optional, I think it doesn't hurt though.
+>=20
+> Yeah, it is slightly different than some of the parameters handling.
+> I guess you could say that with disk capacity, matching size is a
+> fairly obvious constraint/expectation to manage, and also long standing.=
+=20
+>=20
+> With disk capacity, you can add the 'raw' driver on top of any block
+> driver stack, to apply an arbitrary offset+size, to make the storage
+> smaller than it otherwise is on disk. Conceptually than could have
+> been done on the frontend device(s) too, but I guess it made more
+> sense to do it in the block layer to give consistent enforcement
+> of the limits across frontends. It is fuzzy whether such a use of
+> the 'raw' driver is really considered backend config,  as opposed to
+> frontend config but to me it feels likle frontend config.
+>=20
+> You could possibly come up with the concept of a 'zoned' format that
+> can be layered on top of a block driver stack to add zoned I/O constraints
+> for sake of compatibility, where none otherwise exists in the physical
+> storage. Possibly useful if multiple frontends all support zoned storage,
+> to avoid duplicating the constraints across all ?
+
+Maybe:
+
+  DEFINE_BLOCK_ZONED_PROPERTIES(VirtIOBlock, conf.conf),
+
+and then:
+
+  bool blkconf_check_zoned_properties(BlockBackend *blk, BlockZonedConf *co=
+nf, Error **errp);
+
+That macro and helper function can be shared by all emulated storage
+controllers that implement zoned storage.
+
+However, there's one problem: some storage interfaces extend the zoned
+storage model (e.g. NVMe ZNS seems to have functionality that's not
+available elsewhere). It would be necessary to check whether there is a
+common subset of parameters with matching property names (because
+terminology could be different) across emulated storage controllers.
+
+But I think it's likely that this will work. I think the macro and
+helper function approach is nice because it's internal to QEMU and users
+don't need to set up a --blockdev enforce-zoned.
+
+Stefan
+
+--F2yDXFpxF759takx
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPZIUoACgkQnKSrs4Gr
+c8ihCwf9HdR+1fBmXDkkxARcSPN35/t+ZW2H1cnfhGaG73v6VcSqbXMLL1hOkw7K
+KQ6OGodcGuR4Fvm+VjlP2B0C49Te7dtw0Q15XhqT00vq05AVSEQcuKryqqkflwth
+2rQm5QoglHs0Oe90a0p/NwwfPjtK9GR44Hjdc2BgIERq5RCmm0fooaocUe+uMvwZ
+9XstRmbn2J6cJ8NXIePD17mq2hVyhGBx/jIULChOZVwPJyfakEA68pA8llIBLYwV
+3aq7xKn3q9PK65N5tEznXzMWbczbGjYbtgvsOyGdvq2GH44bdlz5rEgZORz2PYU5
+TWeSZeX5cCf6/da/t9CLpSUv6T9MPg==
+=QTkv
+-----END PGP SIGNATURE-----
+
+--F2yDXFpxF759takx--
 
 
