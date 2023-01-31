@@ -2,89 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A4E468313B
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 16:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 293CE683143
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 16:20:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMsPm-0005Ae-J7; Tue, 31 Jan 2023 10:19:19 -0500
+	id 1pMsQP-0007CA-Lz; Tue, 31 Jan 2023 10:19:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMsPX-0004uj-17
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 10:19:05 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMsQG-000779-SK
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 10:19:48 -0500
+Received: from mout.kundenserver.de ([212.227.126.133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMsPV-0005hF-3r
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 10:19:02 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675178339;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=LNac+Dciv/qPDAvzD0R/yysHbMYKjSfKm9tmFoxuAts=;
- b=G5K9xGTTuY6GFlMLN689Olqfn/MBuRP9GT13K4U+fpAdwlqaOyO17Z3rSJ0ynm7IyhIrO5
- TZIiC3aK6kZ+31XU5fV4UVdsMFmsU9dEUNC1werubBUa28cTFt07r5JW6c6EhdoPXj/1gv
- FrzYTaYBzPKBIpoJ8ot1pnCPA8dc0Rk=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-659-HwaXFcLiPPumPKCAqM7SDA-1; Tue, 31 Jan 2023 10:18:57 -0500
-X-MC-Unique: HwaXFcLiPPumPKCAqM7SDA-1
-Received: by mail-yb1-f199.google.com with SMTP id
- t13-20020a056902018d00b0074747131938so16626090ybh.12
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 07:18:57 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=LNac+Dciv/qPDAvzD0R/yysHbMYKjSfKm9tmFoxuAts=;
- b=21ccyFP3igz1ylKghhopVzL21OIUMyo23Tz8mOFYm0OdJd420Lc8nQZmArW8XChJr4
- oT8vlKtdm9VRQGen4bZJMg31favTj4lT2YaT2qD1WtZvDjRCcDI7r+0/133L/6hEHM63
- /ywOhqlHZoDYOfPsRY7Ty/EO57g759bSmcwPCnNPjlIz9uXEjCNJbFrjFV2LZ7LrD+0w
- jIaWcjYQbS9UUaKgq5qKltVbUN/FlTMt3H/WL1IrWq8QKQ+gm3a7eVouMKWbpz8ubonr
- eAxWVxMaUUNh2Pcwna5f9mm7AS3aQ4kt6Hy2xCvwW87C+xdSRTqMx3MvfbWYcrqjJIa0
- hO4g==
-X-Gm-Message-State: AO0yUKV2fHbr1ODLUXCSrXDgI7X4+vDTjF7wc0yhr0kzz2KZkHIdOP+W
- loOqNAvKeV0tWeI3PntOez8GFi2NL8dY5nFCoAq0FzFGjt9wK+mlexM8ky+S7HuHdL1nmUqwmVI
- DiIbgN4rx2DPgiPg=
-X-Received: by 2002:a25:734d:0:b0:80b:5b7c:6870 with SMTP id
- o74-20020a25734d000000b0080b5b7c6870mr21995483ybc.8.1675178336865; 
- Tue, 31 Jan 2023 07:18:56 -0800 (PST)
-X-Google-Smtp-Source: AK7set+h+8s0WiPF+cJOO+iV8HrSUmg6vUMmqlFpU1nxwRO1hJ6MDp+5Jbyb/4Dunffv3Ot4YL74bA==
-X-Received: by 2002:a25:734d:0:b0:80b:5b7c:6870 with SMTP id
- o74-20020a25734d000000b0080b5b7c6870mr21995470ybc.8.1675178336650; 
- Tue, 31 Jan 2023 07:18:56 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-155.web.vodafone.de.
- [109.43.176.155]) by smtp.gmail.com with ESMTPSA id
- h6-20020a375306000000b006fa4ac86bfbsm10055614qkb.55.2023.01.31.07.18.55
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 07:18:56 -0800 (PST)
-Message-ID: <2f17c06f-90a9-9bac-8e9a-a1a2842665d2@redhat.com>
-Date: Tue, 31 Jan 2023 16:18:54 +0100
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMsQF-0005nk-Ba
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 10:19:48 -0500
+Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
+ (mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
+ 1M2w0K-1pLn1o3VqG-003PfG; Tue, 31 Jan 2023 16:19:44 +0100
+Message-ID: <314f9cdc-da08-cc08-4c54-fe4101d4165a@vivier.eu>
+Date: Tue, 31 Jan 2023 16:19:43 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH 4/4] readconfig-test: add test for accelerator
- configuration
-Content-Language: en-US
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20230117080745.43247-1-pbonzini@redhat.com>
- <20230117080745.43247-5-pbonzini@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-In-Reply-To: <20230117080745.43247-5-pbonzini@redhat.com>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 1/2] linux-user: Implement SOL_ALG encryption support
+Content-Language: fr
+To: Helge Deller <deller@gmx.de>,
+ Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20221212173416.90590-1-deller@gmx.de>
+From: Laurent Vivier <laurent@vivier.eu>
+In-Reply-To: <20221212173416.90590-1-deller@gmx.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:BE5n8raPtg84iyKSwelU5ds8svKzpVYLO9JCIKqX9lKiFGwc9GP
+ Y2yU/dLmogKHuSTaaean2aWaXa6mtgejGsvBk9NUMDrDWi0FdELbhvT807pcTKsjNY2vzcz
+ 2n9vl03JuZH2S3rXU6fB4aGmS6zORee6/RAbSC6xR5xNUs3FnpUNcHph1DskUgDoS5fIP7+
+ slA5/oSkRTGxVOlKuZj2g==
+UI-OutboundReport: notjunk:1;M01:P0:S7rzRbhbr58=;ZQjDnJ2S07C6HmPXqwi1jjE8dvR
+ 113Ob4Zg8YoIgyOWRvkXDisiocp8YEhRE+EfQfwFC4ilYiTnb1aa4tf5Do3QOlFY9f/ScgMDi
+ PRqCb+aak73Mfo156d9v3lyFVqLFd86NmMXy9W7V0DIDissbyK7pHLZNZknUG5c/HQUN5VAE8
+ 7J9guR5PEXOA+4fKMl3Lrq9Dg8PpemPkzATTuIs2f7zyRZh9oRd6K0aAxV9qUtlXquEsnV+a0
+ kCUupynMBb/1Hdurjwjj5LNX7fm1hmJt1A2VUDOKp81bY+dCUaA5JYWhvL5U0GiOy7lNpmeYU
+ Bqgz5fQaYAPF2t5mAzjwhqS0uf0dEOX2gKtGZRHB0AnTLfrg1IM/4SazNu4LOIxZAWi8HaUu5
+ 8vxmfr7BOvwDvrwPnCkGjnEZvxqUmHi7ncjWN6RvqmJNEQ0Y92PKVfym0roHDNqPY0Sl5/qPW
+ Bhx8xJUNcHSedfLOWWFfK+7M3iHEgsLopmppL9mDNTHitskyvxEuQPPnfb5afUDXKkWmlQ9oQ
+ 4OBzN/QTWmhRG2wCrHFwmYFshXDGaekDEY+pfDB7mNiFQwNGmIkBdCcTiyxZtmdrj1Ifds1j5
+ rE3SwNoBpLbZwxQSI4ilqMHuibG0ZsJ+UNEVzJoKFskFtVy/9FNkUz3A53Zvvhjk00Virc30a
+ W8j15+gXhkqKCGdpTog4v2TAUMYfKYHPuwImEX61ug==
+Received-SPF: none client-ip=212.227.126.133; envelope-from=laurent@vivier.eu;
+ helo=mout.kundenserver.de
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,30 +71,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 17/01/2023 09.07, Paolo Bonzini wrote:
-> Test that invalid configurations do not cause a SIGSEGV, and cover a
-> valid configuration as well.
+Le 12/12/2022 à 18:34, Helge Deller a écrit :
+> Add suport to handle SOL_ALG packets via sendmsg() and recvmsg().
+> This allows emulated userspace to use encryption functionality.
 > 
-> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> Tested with the debian ell package with hppa guest on x86_64 host.
+> 
+> Signed-off-by: Helge Deller <deller@gmx.de>
 > ---
->   tests/qtest/libqtest.c        | 28 +++++++++++++++++-----
->   tests/qtest/libqtest.h        | 12 ++++++++++
->   tests/qtest/readconfig-test.c | 45 ++++++++++++++++++++++++++++-------
->   3 files changed, 70 insertions(+), 15 deletions(-)
+>   linux-user/syscall.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
 > 
-> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
-> index 64ba98bc5853..53d766fe3fa5 100644
-> --- a/tests/qtest/libqtest.c
-> +++ b/tests/qtest/libqtest.c
-> @@ -402,6 +402,26 @@ static QTestState *G_GNUC_PRINTF(1, 0) qtest_spawn_qemu(const char *fmt, ...)
->       return s;
->   }
->   
-> +QTestState *G_GNUC_PRINTF(1, 0) qtest_init_bare(const char *args)
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 71ae867024..a365903a3a 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -1871,6 +1871,14 @@ static inline abi_long target_to_host_cmsg(struct msghdr *msgh,
+>               __get_user(cred->pid, &target_cred->pid);
+>               __get_user(cred->uid, &target_cred->uid);
+>               __get_user(cred->gid, &target_cred->gid);
+> +        } else if (cmsg->cmsg_level == SOL_ALG) {
+> +            uint32_t *dst = (uint32_t *)data;
+> +
+> +            memcpy(dst, target_data, len);
+> +            /* fix endianess of first 32-bit word */
+> +            if (len >= sizeof(uint32_t)) {
+> +                *dst = tswap32(*dst);
+> +            }
+>           } else {
+>               qemu_log_mask(LOG_UNIMP, "Unsupported ancillary data: %d/%d\n",
+>                             cmsg->cmsg_level, cmsg->cmsg_type);
+> --
+> 2.38.1
+> 
+> 
 
-I think you don't need the G_GNUC_PRINTF here, do you?
+Applied to my linux-user-for-8.0 branch.
 
-  Thomas
-
+Thanks,
+Laurent
 
 
