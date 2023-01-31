@@ -2,92 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA169682A02
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:11:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 946E7682A08
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:13:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMnaL-0000OW-0z; Tue, 31 Jan 2023 05:09:53 -0500
+	id 1pMnd0-0002Hi-TK; Tue, 31 Jan 2023 05:12:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMnaJ-0000No-1y
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:09:51 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncb-0002H7-7I
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMnaH-0001cc-E9
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:09:50 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncZ-0002Rr-Dg
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675159784;
+ s=mimecast20190719; t=1675159930;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=aAPsgFO/VBfBaPPHrW+n0rYoTdEljFYb5qDFkl0cUBY=;
- b=Zjg0osJs83pl54cYTKmkV0P0DuRyZ92ay/iidtfpL7sCou3XrYhbAMaR3huiHFgSXtx0li
- xE8hodABVxRIFco2vP6OfLqeZ0sX3GIW+JNNM3ntYnX4n4NF67NTL1WKvGbRgH9pullRMn
- Uj1myB22S7jN3XQqTQROJJVqf84PkjE=
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
- [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-474-EZgyFZ2jMWqwItYGDTujaA-1; Tue, 31 Jan 2023 05:09:43 -0500
-X-MC-Unique: EZgyFZ2jMWqwItYGDTujaA-1
-Received: by mail-qv1-f72.google.com with SMTP id
- px22-20020a056214051600b00537657b0449so8097552qvb.23
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 02:09:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aAPsgFO/VBfBaPPHrW+n0rYoTdEljFYb5qDFkl0cUBY=;
- b=fBcECIjwoiukqXeo4tKa95DJjmUTHvuKxV98VBQbCl5ZSfidDfQ5kk9mggtFEO+c/N
- tPljFoyX6U3HifbpLxn4JzOsRGzQEQm3e1Jf28BtQQSK6Rq567a4oGKYkYOJyL6j+n9L
- HKlC7ncQVmCBJb2POJ6v58TcrA/P6Q81hKO9jIVwrAgdL9pLZbnFFiE9gHEoG1lual3W
- 6tYn+RJne0Jn8+YKGAtMU18Bd5pgNf+QY3SbsmQA5cR8N7/oKDCS1xvphbjJlUN+75Nx
- l70brRA8MD9uRxK7JhduqBZEEkhj987LUtRRVDjfmF5jWkkDQDcvTfiM06K2D8+DEPCF
- KlSw==
-X-Gm-Message-State: AO0yUKUKZ7iV3AiB0Q8W/tYOm34uWom5pIHENg+c7cbpv9rfiZE7lzjE
- dDYB0uqgmwr0qsI+VM5c9FvIYVKTjGb0HJ+eDSykhnpUWUTaiHzVb0RTdnm7jHzIgfcHHkF7jK2
- NIZrsytpngU6SN48=
-X-Received: by 2002:ad4:4106:0:b0:53a:151:b650 with SMTP id
- i6-20020ad44106000000b0053a0151b650mr17301527qvp.35.1675159782997; 
- Tue, 31 Jan 2023 02:09:42 -0800 (PST)
-X-Google-Smtp-Source: AK7set/ueSIyOwOnrRbm3gidT1v1vIxNYtl5hKwQzTPWBHyIddKeFmtI7sVVmw9fglaJmrV90dYlBA==
-X-Received: by 2002:ad4:4106:0:b0:53a:151:b650 with SMTP id
- i6-20020ad44106000000b0053a0151b650mr17301505qvp.35.1675159782724; 
- Tue, 31 Jan 2023 02:09:42 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-155.web.vodafone.de.
- [109.43.176.155]) by smtp.gmail.com with ESMTPSA id
- e17-20020a05620a015100b0072396cb73cdsm2104833qkn.13.2023.01.31.02.09.40
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 02:09:42 -0800 (PST)
-Message-ID: <f135077b-3cdc-a548-b783-ff16ee5a516b@redhat.com>
-Date: Tue, 31 Jan 2023 11:09:39 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Subject: Re: [PATCH v2 0/2] audio: make audiodev introspectable by management
- apps
-Content-Language: en-US
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=R4iBpMSFj8Ove6ZrFROJUf4VBp3+2Skud8BNyrfi7i8=;
+ b=B750jVjf0BcPOmTd0fSeE4r3MycCmV0Gl0fP3iVlcwkIrDS0TgbJZ9LM1POMbSx7ujYdwk
+ RBiEyQauXoU/2SdoI7VK3n+wUm+4sG5CwUwYb4kN+8CJNPOnqkgr5SZ+PJsQA5pd6wvi8F
+ YMR/adMGNabfkxLYXm8k/W+VlCagcyU=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-643-V_9ysChXNS-IYWAKFX7hWQ-1; Tue, 31 Jan 2023 05:12:08 -0500
+X-MC-Unique: V_9ysChXNS-IYWAKFX7hWQ-1
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.8])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 32B4D3806624;
+ Tue, 31 Jan 2023 10:12:08 +0000 (UTC)
+Received: from thuth.com (unknown [10.39.192.188])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 91763C15BAD;
+ Tue, 31 Jan 2023 10:12:07 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>, Eric Blake <eblake@redhat.com>,
- qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: =?UTF-8?Q?Volker_R=c3=bcmelin?= <vr_qemu@t-online.de>,
- Christian Schoenebeck <qemu_oss@crudebyte.com>
-References: <20230123083957.20349-1-thuth@redhat.com>
-In-Reply-To: <20230123083957.20349-1-thuth@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Subject: [PULL 00/27] qtest and misc patches
+Date: Tue, 31 Jan 2023 11:11:38 +0100
+Message-Id: <20230131101205.1499867-1-thuth@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,28 +73,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 23/01/2023 09.39, Thomas Huth wrote:
-> Here's a respin from Daniel's audiodev introspection patches from
-> 2021. I've rebased them to the current master branch and addressed
-> the review comments from v1.
-> 
-> The Audiodev QAPI type is not introspectable via query-qmp-schema as
-> nothing in QMP uses it. "-audiodev" is not introspectable via
-> query-command-line-options because it avoided legacy QemuOpts.
-> 
-> To fix it, introduce a tiny "query-audiodev" QMP command that uses
-> the "Audiodev" QAPI structure, so that it shows up in the schema.
-> Then mark the various backend types with conditionals so that only
-> the ones that were available at compile time show up in the schema.
-> 
-> Daniel P. Berrangé (2):
->    qapi, audio: add query-audiodev command
->    qapi, audio: Make introspection reflect build configuration more
->      closely
+ Hi Peter!
 
-Since there were no objections and since Gerd seems to be pretty busy with 
-other stuff recently, I'll dare to pick these up for my next pull request.
+The following changes since commit 13356edb87506c148b163b8c7eb0695647d00c2a:
 
-  Thomas
+  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2023-01-24 09:45:33 +0000)
+
+are available in the Git repository at:
+
+  https://gitlab.com/thuth/qemu.git tags/pull-request-2023-01-31
+
+for you to fetch changes up to e030d08c2fc02743dd37e3d2e6e28fdd739590b9:
+
+  gitlab-ci.d/buildtest: Merge the --without-default-* jobs (2023-01-31 09:05:26 +0100)
+
+----------------------------------------------------------------
+* qtest improvements
+* Remove the deprecated OTP config of sifive_u
+* Add libfdt to some of our CI jobs that were still missing it
+* Use __builtin_bswap() everywhere (all compiler versions support it now)
+* Deprecate the HAXM accelerator
+* Document PCI devices handling on s390x
+* Make Audiodev introspectable
+* Improve the runtime of some CI jobs
+
+----------------------------------------------------------------
+Daniel P. Berrangé (2):
+      qapi, audio: add query-audiodev command
+      qapi, audio: Make introspection reflect build configuration more closely
+
+Fabiano Rosas (1):
+      tests/tcg: Do not build/run TCG tests if TCG is disabled
+
+Laurent Vivier (1):
+      tests/qtest: netdev: test stream and dgram backends
+
+Philippe Mathieu-Daudé (10):
+      qemu/bswap: Replace bswapXX() by compiler __builtin_bswap()
+      qemu/bswap: Replace bswapXXs() by compiler __builtin_bswap()
+      qemu/bswap: Remove <byteswap.h> dependency
+      qemu/bswap: Use compiler __builtin_bswap() on Haiku
+      qemu/bswap: Use compiler __builtin_bswap() on FreeBSD
+      qemu/bswap: Use compiler __builtin_bswap() on NetBSD
+      tests/qtest/vnc-display-test: Suppress build warnings on Windows
+      tests/qtest/vnc-display-test: Use the 'none' machine
+      tests/qtest/vnc-display-test: Disable on Darwin
+      tests/qtest/boot-serial-test: Constify tests[] array
+
+Sebastian Mitterle (1):
+      docs/s390x/pcidevices: document pci devices on s390x
+
+Thomas Huth (11):
+      tests/qtest/qom-test: Stop spamming the test log
+      tests/qtest/bios-tables-test: Make the test less verbose by default
+      hw/misc/sifive_u_otp: Remove the deprecated OTP config with '-drive if=none'
+      configs/targets/nios2-softmmu: Add TARGET_NEED_FDT=y to the nios2 config
+      travis.yml: Use the libfdt from the distro instead of the submodule
+      travis.yml: Remove the generic addons section
+      tests/docker/dockerfiles: Add libfdt to the i386 and to the riscv64 container
+      docs/about/deprecated: Mark HAXM in QEMU as deprecated
+      gitlab-ci.d/buildtest: Remove ppc-softmmu from the clang-system job
+      tests/qtest/display-vga-test: Add proper checks if a device is available
+      gitlab-ci.d/buildtest: Merge the --without-default-* jobs
+
+Wenchao Wang (1):
+      MAINTAINERS: Abort HAXM maintenance
+
+ MAINTAINERS                                        |   5 +-
+ docs/about/deprecated.rst                          |  12 +-
+ docs/about/removed-features.rst                    |   7 +
+ docs/system/s390x/pcidevices.rst                   |  41 ++
+ docs/system/target-s390x.rst                       |   1 +
+ configure                                          |   6 +-
+ configs/targets/nios2-softmmu.mak                  |   1 +
+ meson.build                                        |   6 -
+ qapi/audio.json                                    |  57 ++-
+ audio/audio_template.h                             |  20 +
+ include/qemu/bswap.h                               |  83 +---
+ audio/audio.c                                      |  32 ++
+ audio/audio_legacy.c                               |  41 +-
+ hw/misc/sifive_u_otp.c                             |   7 -
+ target/i386/hax/hax-all.c                          |   3 +
+ tests/qtest/bios-tables-test.c                     |  17 +-
+ tests/qtest/boot-serial-test.c                     |   2 +-
+ tests/qtest/display-vga-test.c                     |  65 ++-
+ tests/qtest/netdev-socket.c                        | 448 +++++++++++++++++++++
+ tests/qtest/qom-test.c                             |  12 +-
+ tests/qtest/vnc-display-test.c                     |   9 +-
+ .gitlab-ci.d/buildtest.yml                         |  20 +-
+ .travis.yml                                        |  59 +--
+ .../docker/dockerfiles/debian-riscv64-cross.docker |   1 +
+ tests/docker/dockerfiles/fedora-i386-cross.docker  |   1 +
+ tests/qtest/meson.build                            |   2 +
+ 26 files changed, 743 insertions(+), 215 deletions(-)
+ create mode 100644 docs/system/s390x/pcidevices.rst
+ create mode 100644 tests/qtest/netdev-socket.c
 
 
