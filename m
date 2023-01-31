@@ -2,74 +2,127 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82BD1682892
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 10:19:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E6A868294D
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 10:44:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMmmC-0004ME-33; Tue, 31 Jan 2023 04:18:04 -0500
+	id 1pMnA3-0002Ad-SF; Tue, 31 Jan 2023 04:42:43 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <loyou85@gmail.com>) id 1pMmm9-0004Ly-Dq
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 04:18:01 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <loyou85@gmail.com>) id 1pMmm7-00035d-0P
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 04:18:00 -0500
-Received: by mail-ej1-x629.google.com with SMTP id ud5so39708790ejc.4
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 01:17:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=owk6MxgckIaRdXfjU+qRd6BGDJ+B6oXuLFBXjbbqdC8=;
- b=MBmvN44YJZOi8/OILaPYtYiUnkfy3sHEmPy+Hf1Jd7Mhe0MfkzfllDYNd9mPUz0CS9
- jCt4AAnSnYYYAn7yJp0cAc3QGUNWKZn8tQe6TY/EyNuKSDZ5EdK4wDvkAQ2tH2YaXACg
- BVkeQ6osScGLJO0t0jwJIwwjb63cM8Y08W0EO5M9Vl1l5MQ2BgINT0Jl5s6E5AHZ0eMP
- zh7/rmH2l1/jiYhpwD7KvY5lsg4WFiu2xafpp29a4oKcCljd174c3wIZkOLYNQbEV3nI
- 5WzkPUUX4M2z8HQbPIpc4EuNs3sRQXKD9yc149+xy9shC7jad06Blo5WsmJBEB2Y+uAh
- ajiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=owk6MxgckIaRdXfjU+qRd6BGDJ+B6oXuLFBXjbbqdC8=;
- b=BCQcR5OCv+9qm3LN+EiEZBNDIl/ikNly7R/bh5nI5dkJamWnCudeLs8OVmG0ng8ei1
- lKk0j44eIwPVScE/CW8agphiHeY4TdtfAIHl07h3w2OHZ4PwyW0rvHUk5UbLCSQRPLlL
- /wj1uGpvxx5iMnH6Vd4tLlt3EMkxk8avjJLaffCHY4e+19Yp7VRpZK/8AYfXF4DFN4Do
- hB2GI/tgZH2LmhxllgzPNpisC0TG5wNFjJNZG/izoSYL3AJzl6BHpkF9XTR+K3RA3zc3
- v09ZiQdDkitgWRNjl2UT1KeGnTYSmlYRZpWm3VxLUe+eBcsiPY+GTaUQ886zsUQbfZJN
- zuZQ==
-X-Gm-Message-State: AO0yUKVvn++X8Bp8dXI3FBO9Fo8bXmk4xNpQCdIXqfVKVudHFMIe93hI
- qJiVRClA8pU9dM7vdmrvwz1hZlGN9Vri/wza8nw=
-X-Google-Smtp-Source: AK7set+2mTR0QaduMx7AvP4nDbo5foG5HfgiH/xeO+vGg9+nyAH7N48nWjOWkP5avb6TFx7lsZ2FbkexezW9xVNsOvs=
-X-Received: by 2002:a17:906:dfef:b0:87e:fd9e:5c63 with SMTP id
- lc15-20020a170906dfef00b0087efd9e5c63mr3441369ejc.106.1675156677220; Tue, 31
- Jan 2023 01:17:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pMnA2-0002A5-36
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 04:42:42 -0500
+Received: from mail-he1eur01on0702.outbound.protection.outlook.com
+ ([2a01:111:f400:fe1e::702]
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <sriram.yagnaraman@est.tech>)
+ id 1pMnA0-0001fb-7D
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 04:42:41 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=UoQ59VP3H7JjXrkafjM9Uy5mV8NeeXFPw2Js2s90nx76MsIocKjZ9U21ZzHlADOxevJd7nXazZsPOQYEI+vrhuuBSYcPAV1Bnp887wKmijD3LVW8Jh2l+hJGYBE34ymlwzwB2eNS8P8Qk6nnfxeDNB43kArpzZpWN4ercpE0rM2DNQfOhtRPB3QGq/wdNCuSEozS+BLInHzYbcxxLMsJ4/QsGi5AuEuZAxOiOgBMIoPo8ww/hPYXi142JYU6dBBz3rxkP4xnxAY4M0GvTluaEPu7Ssg3AehYfsCwdHi9SOfFDQzUet4y/i24BylWoSK7Wv63zAi32WQRv9NooighDw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=lLFnHN1oNhzbV3irsRQfF0zzC6/m6XLuxANb9M5WrHY=;
+ b=ChtOTBylyA3IU3qSLlSDQI6uUc8oOBdP+ST/JWquiQf1zfM4a1XH2zvlysheHU+jhmrU06GJuxh+KYsWxqsCTF2+jl8P+Z9wEdF+xOUpGbXAs0p8ndMWvcQUrICeYPu5g3vAAvGGUle4xh+bEZvi+icLDsRSeXJghvwti84Yd6uRtgmLaY59h/xCGmb0eu/3d3fhQbcvJNlsX9VThS0Dk18a891437QdDqnCJBijlYyxdH2KtRXzgSwGdfrqKt10OKwO3/JrS+SOTGhV8wz549iVPDkFFNLmcXAZ+LRKqHZ/WhhGBWEz4GnbLp+DjzpsleMvHhgpsOMfzzlPBzT39w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=estab.onmicrosoft.com; 
+ s=selector2-estab-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=lLFnHN1oNhzbV3irsRQfF0zzC6/m6XLuxANb9M5WrHY=;
+ b=VVbv1AiEdooRDdDG4uSxGEVZWYqb7+KYqOcmyqXo4i8fIFwgRUtOv5XaMgDReJFJPO0MFy31+swUJYJgzO5moLv04ZVDgkPHr2b+DHbs6hXnck1RtauefqK21Uoka5eV94tFZJQoh1XKrmd7JnrVKcHgo5L2AVP24lkmoRON0ew=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:1e7::15)
+ by VI1P18901MB0733.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:127::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Tue, 31 Jan
+ 2023 09:42:36 +0000
+Received: from DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::8f70:435b:ab64:9420]) by DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ ([fe80::8f70:435b:ab64:9420%8]) with mapi id 15.20.6043.038; Tue, 31 Jan 2023
+ 09:42:36 +0000
+From: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+To: 
+Cc: qemu-devel@nongnu.org, Akihiko Odaki <akihiko.odaki@daynix.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Subject: [PATCH v3 0/9] igb: merge changes from
+ <20221229190817.25500-1-sriram.yagnaraman@est.tech>
+Date: Tue, 31 Jan 2023 10:42:23 +0100
+Message-Id: <20230131094232.28863-1-sriram.yagnaraman@est.tech>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: GV3P280CA0040.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:9::14) To DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:10:1e7::15)
 MIME-Version: 1.0
-References: <1673954121-23942-1-git-send-email-loyou85@gmail.com>
- <20230124113029.7a02e5ff@imammedo.users.ipa.redhat.com>
- <CAAiCvkiFL7PWYSF24YxaOvu_v2fFfaWkuaQgUBr_9AFwsxHOrQ@mail.gmail.com>
- <20230130100531-mutt-send-email-mst@kernel.org>
-In-Reply-To: <20230130100531-mutt-send-email-mst@kernel.org>
-From: Feng Sun <loyou85@gmail.com>
-Date: Tue, 31 Jan 2023 17:17:20 +0800
-Message-ID: <CAAiCvkiQS9L99Npzk5Ak0G67Fh3JiCbR50hBHR2Moz5Vz50gBA@mail.gmail.com>
-Subject: Re: [PATCH] acpi: Set maximum size to 64k for "etc/acpi/rsdp" blob
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-devel@nongnu.org, ani@anisinha.ca
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=loyou85@gmail.com; helo=mail-ej1-x629.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DBBP189MB1433:EE_|VI1P18901MB0733:EE_
+X-MS-Office365-Filtering-Correlation-Id: c9296c08-4460-45b2-c489-08db036f7c24
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: mLf3wG4DeVcLLTpntPf+uy5AmUQEmsj9QGN1HldwKKBdZ8wPlWy4k+oCii+9XhmJAb7aZ8U3+8uxZTVlsat3is3qF3GmRyt2VeVwE6jGzcN5aQLUWILNKE/aAeX/HAeA6H6n6P3DOj0vlcvGk2/V21BHKvNAts6Q+AtmPqKl1EEtyLtOhON3it5dM8I8skxiTi9K1WMS+TKHgGD9nu7ozGPMjr3IbJFY5q45xVFoBiHlMQuc74gy/XhJ6M9/H0xa+vsr7+7rK3d0MU6cfUeocL167N3qyLrV/p3rwoEAZz+egZd4rDqlEzdcHKB+CxAPkkdJB9luxm4T2lozZDZiZbYqfvYzqSrI/IPBkZwIGhnXZPTs/bek3fyUK3lwzc8/kuXdRxr5l455UIFONEvDl/cNe2+XEhKFg4pvoIsuJdoKMOdTTxv5wSsebz33x1tuvxP661MOjpkT+rQWOfJH6zbB/Er4I4Gx7+ZapJjZPGyff8EsvrgvlH4AW8xtsAM9oA6QQNP/74GccOSNnv5KIhNyHZo6HHFy/oE3dPO+yFzsH2ZMah4jT3MF+5AF7VhXojAiE5/QVI23KwqIsRqVrtK5DtLVVnn0y8RqiXWathcNsgMO6HUSEUqApi1l8m6QRgoENoNbVaTY0HQ0bAXtadtb/dWWGOWBdXbr49DAqYcFoDy5r22pIesyiTIqmvK8MbwuUfHbS3fMLA16TesEN12+G83u6FVXgQICCVsscSKWugWwOyZTNzEOz7mBzNrS
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:DBBP189MB1433.EURP189.PROD.OUTLOOK.COM; PTR:; CAT:NONE;
+ SFS:(13230025)(39840400004)(396003)(346002)(376002)(136003)(451199018)(109986016)(316002)(66946007)(70586007)(66556008)(83380400001)(86362001)(38100700002)(54906003)(36756003)(6512007)(26005)(186003)(2616005)(478600001)(966005)(6486002)(6506007)(6666004)(1076003)(5660300002)(44832011)(8936002)(2906002)(41300700001)(66476007)(4326008)(8676002)(266003)(37730700002);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?O75yYPn2mP9CvYKjsTj95/um9GzBPTPR22szjA67Uy28Izybf7qF6njgiF0z?=
+ =?us-ascii?Q?IfmPZc+IDd5sQUYRZUSJbXrZvlF0w7VCkPYAhHMgY3mEnnfjAgL6l6M64adr?=
+ =?us-ascii?Q?Eh0DeWIpYGzLmPBkCbozWyRvuIf8/+MtsV1pSjjP2Cpuhygi2QsC1utQ8DZE?=
+ =?us-ascii?Q?U2q8BA1BxZwv/zrQ+bhlujnOGrRaGH5+juzd0dOiFV6H9+Evw7Lh9kpVXBhV?=
+ =?us-ascii?Q?TnkXI+tsBJjWBF5NzoCw9JDAWPCkk8IUkBm3aJ1FyLPhATSTlw0L4L+Ckmx6?=
+ =?us-ascii?Q?f7ZQeBXgJhteaCVi6i10Sbi3R3lXg8vjNGUIIgWmz2HPex1L6abVeiTAO7RB?=
+ =?us-ascii?Q?b6PBSvxQGUZ/GpdG0jPHqumlchDas4VyXYMukNZvqtYvwXLFRSYvDkM5s81C?=
+ =?us-ascii?Q?wvABy9RWaQOZuz5yozqoXihaah3rfr6f/erKpDgS93MjwSjHNIJ3rF5vQllD?=
+ =?us-ascii?Q?Dnzl7GMiAMK22lZDI3+/Kkx7D17WS1PxWhvd/R1/5P1aToTTAFl8uJcRDndA?=
+ =?us-ascii?Q?QMs5re1Qr0sgfy1N3ln2p6I0swVQpYAWcFvXOTkGFhDg4ZaO1bEDAC1bcAQT?=
+ =?us-ascii?Q?IlTQyftiMzx9dKsUOeQs+tK18V2y9NXy734dY7/lctePwvwt4T8uolPW7rx3?=
+ =?us-ascii?Q?uhP28RN2oTIpKyPeYvOxEap6YQHFqIXf9lz+cfuVWez7RsN2lx4ypPCUcueN?=
+ =?us-ascii?Q?EmTsZ+KGYJOqPuIYDeYmj31C3FyNpuzrhg0O/pIdrKtFS6NQB8aPiY6AFvxa?=
+ =?us-ascii?Q?h7j/UwegyI3DyWx79QGmaQpAUMVjxSyU+b/CatLa9ZmPHvmHY7rye4Ugnzwf?=
+ =?us-ascii?Q?isywNhQMjfj43pWwTzXmjx+Al2o5Clp18oUhmJtGm0d9kSBkDYmd/YrMa59S?=
+ =?us-ascii?Q?3jiTgNuckP6mvYlWSl27vSLMn3NhXADPVSiaybv0zAAEkL4QU40+a96RV0qP?=
+ =?us-ascii?Q?66FnSZe6tIQzztz8bxMgLpuYc6XRjISQlMM9HzwW7t+pmmG/w/eQPausqA0E?=
+ =?us-ascii?Q?JqVDMImR7azsKqwHulYMZfnAsDt/i+3aEVXWWyZABQbLfeM0nBPt0Gd789LU?=
+ =?us-ascii?Q?xWKSOMGIFvtRvk8TR/LbOMZ+8z0pLTMMtfKpTwHwqcAK6bo7j/OycsuNlfkj?=
+ =?us-ascii?Q?gpv8OGaxHbGV7G9K44QtG96JAz0ls8IhH5lpcsR1bQK44X+qZq/1yIyPewA8?=
+ =?us-ascii?Q?byTWTEw71uDcJyIy7QEYtfKExuywYb1JSevIGpmTznbfbttiUXiuHJxn6/Qj?=
+ =?us-ascii?Q?fAooKn9iFWFJWwbPhqHsL3eJerw6699L98A4uk7TpLvOWOyFZZb+aRByBxGA?=
+ =?us-ascii?Q?QqX33T3oRUf9qxepclDfoPP470logmhIyr82BABi6uxpAncea+09n+pppSWp?=
+ =?us-ascii?Q?CJJIIHLy74rb4nK6xdi2rJ3uFxyw//QDXk3la3kLrhP5JYgnlBu0aKzWgprw?=
+ =?us-ascii?Q?FCjccCiIuGvVCeu43Zs+rQI8sBQP/jWkaoOPSgeeX/p6OtEHEwrWwkSn1yg6?=
+ =?us-ascii?Q?vhKq/NJJqo/wCjFFE5GqtatvuGUNmcWg/mcOHByZfLLSRRFx5o4bti32nSM8?=
+ =?us-ascii?Q?Rs7z1XlhxJZvLIBuR8OO2pSw8JnjT1Q4kGPOKX1wYgEVdYNd/rGcmSawSvZN?=
+ =?us-ascii?Q?0A=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: c9296c08-4460-45b2-c489-08db036f7c24
+X-MS-Exchange-CrossTenant-AuthSource: DBBP189MB1433.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2023 09:42:36.3969 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bBJqkAA5McsyT0zWDRzRXVGFSHJyXC9WIqaS8apIrSkue8hBfmWJwipXfmGruBJj4XFtooB0wST4J6nnuESDy2CkdGQygLVS68tFBEaULFI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1P18901MB0733
+Received-SPF: pass client-ip=2a01:111:f400:fe1e::702;
+ envelope-from=sriram.yagnaraman@est.tech;
+ helo=EUR01-HE1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,201 +139,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Michael S. Tsirkin <mst@redhat.com> =E4=BA=8E2023=E5=B9=B41=E6=9C=8830=E6=
-=97=A5=E5=91=A8=E4=B8=80 23:07=E5=86=99=E9=81=93=EF=BC=9A
->
-> On Mon, Jan 30, 2023 at 10:47:25PM +0800, Feng Sun wrote:
-> > Igor Mammedov <imammedo@redhat.com> =E4=BA=8E2023=E5=B9=B41=E6=9C=8824=
-=E6=97=A5=E5=91=A8=E4=BA=8C 18:30=E5=86=99=E9=81=93=EF=BC=9A
-> > >
-> > > On Tue, 17 Jan 2023 19:15:21 +0800
-> > > Sun Feng <loyou85@gmail.com> wrote:
-> > >
-> > > > Migrate from aarch64 host with PAGE_SIZE 64k to 4k failed with foll=
-owing errors:
-> > > >
-> > > > qmp_cmd_name: migrate-incoming, arguments: {"uri": "tcp:[::]:49152"=
-}
-> > > > {"timestamp": {"seconds": 1673922775, "microseconds": 534702}, "eve=
-nt": "MIGRATION", "data": {"status": "setup"}}
-> > > > {"timestamp": {"seconds": 1673922776, "microseconds": 53003}, "even=
-t": "MIGRATION", "data": {"status": "active"}}
-> > > > 2023-01-17T02:32:56.058827Z qemu-system-aarch64: Length too large: =
-/rom@etc/acpi/rsdp: 0x10000 > 0x1000: Invalid argument
-> > >
-> > > this should mention/explain why it's happening.
-> > >
-> > > i.e we now have 4k limit for RSDP, but then source somehow managed to=
- start with 64k
-> > > allocated to for RSDP. It looks like limit isn't working as expected =
-to me.
-> >
-> > 4k limit should be romsize limit. I can see Rom '/rom@etc/acpi/rsdp'
-> > with romsize:4096, datasize:36.
-> > RAMBlock's used_length is set with datasize aligned to PAGE_SIZE, so
-> > it become 64k when PAGE_SIZE is 64k.
-> > ```
-> > static
-> > RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, ram_addr_t max_size,
-> >                                   void (*resized)(const char*,
-> >                                                   uint64_t length,
-> >                                                   void *host),
-> >                                   void *host, uint32_t ram_flags,
-> >                                   MemoryRegion *mr, Error **errp)
-> > {
-> >     RAMBlock *new_block;
-> >     Error *local_err =3D NULL;
-> >
-> >     assert((ram_flags & ~(RAM_SHARED | RAM_RESIZEABLE | RAM_PREALLOC |
-> >                           RAM_NORESERVE)) =3D=3D 0);
-> >     assert(!host ^ (ram_flags & RAM_PREALLOC));
-> >
-> >     size =3D HOST_PAGE_ALIGN(size);
-> >     max_size =3D HOST_PAGE_ALIGN(max_size);
-> >     new_block =3D g_malloc0(sizeof(*new_block));
-> >     new_block->mr =3D mr;
-> >     new_block->resized =3D resized;
-> >     new_block->used_length =3D size;
-> > ```
-> > So when migrate to 4k PAGE_SIZE, it will report the errors.
-> >
-> > ramblock information for PAGE_SIZE 64k and 4k.
-> > ```
-> > # getconf PAGE_SIZE
-> > 65536
-> > # virsh qemu-monitor-command testvm --hmp 'info ramblock'
-> >               Block Name    PSize              Offset
-> > Used              Total
-> >            mach-virt.ram   64 KiB  0x0000000000000000
-> > 0x0000000040000000 0x0000000040000000
-> >              virt.flash0   64 KiB  0x0000000040000000
-> > 0x0000000004000000 0x0000000004000000
-> >              virt.flash1   64 KiB  0x0000000044000000
-> > 0x0000000004000000 0x0000000004000000
-> >     /rom@etc/acpi/tables   64 KiB  0x0000000048040000
-> > 0x0000000000020000 0x0000000000200000
-> > 0000:00:01.2:00.0/virtio-net-pci.rom   64 KiB  0x0000000048000000
-> > 0x0000000000040000 0x0000000000040000
-> >    /rom@etc/table-loader   64 KiB  0x0000000048240000
-> > 0x0000000000010000 0x0000000000010000
-> >       /rom@etc/acpi/rsdp   64 KiB  0x0000000048280000
-> > 0x0000000000010000 0x0000000000010000
-> >
-> > # getconf PAGE_SIZE
-> > 4096
-> > # virsh qemu-monitor-command testvm --hmp 'info ramblock'
-> >               Block Name    PSize              Offset
-> > Used              Total
-> >            mach-virt.ram    4 KiB  0x0000000000000000
-> > 0x0000000800000000 0x0000000800000000
-> >              virt.flash0    4 KiB  0x0000000800000000
-> > 0x0000000004000000 0x0000000004000000
-> >              virt.flash1    4 KiB  0x0000000804000000
-> > 0x0000000004000000 0x0000000004000000
-> >     /rom@etc/acpi/tables    4 KiB  0x0000000808000000
-> > 0x0000000000020000 0x0000000000200000
-> >    /rom@etc/table-loader    4 KiB  0x0000000808200000
-> > 0x0000000000001000 0x0000000000010000
-> >       /rom@etc/acpi/rsdp    4 KiB  0x0000000808240000
-> > 0x0000000000001000 0x0000000000001000
-> > ```
->
-> Oh interesting. I don't remember why I decided to align in.
-> What does the following do (warning: completely untested):
->
->
-> diff --git a/softmmu/physmem.c b/softmmu/physmem.c
-> index cb998cdf23..5c732101b9 100644
-> --- a/softmmu/physmem.c
-> +++ b/softmmu/physmem.c
-> @@ -2154,7 +2154,7 @@ RAMBlock *qemu_ram_alloc_internal(ram_addr_t size, =
-ram_addr_t max_size,
->                            RAM_NORESERVE)) =3D=3D 0);
->      assert(!host ^ (ram_flags & RAM_PREALLOC));
->
-> -    size =3D HOST_PAGE_ALIGN(size);
-> +    // size =3D HOST_PAGE_ALIGN(size);
->      max_size =3D HOST_PAGE_ALIGN(max_size);
->      new_block =3D g_malloc0(sizeof(*new_block));
->      new_block->mr =3D mr;
->
+Based-on: <20230130140809.78262-1-akihiko.odaki@daynix.com>
+([PATCH v5 0/9] Introduce igb)
 
-With additional change we can see actually used size with 'info ramblock',
+Rebased on latest changes from Akihiko, and merged changes from my
+original patchset:
+https://lists.gnu.org/archive/html/qemu-devel/2022-12/msg04670.html
 
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -1837,7 +1837,7 @@ int qemu_ram_resize(RAMBlock *block, ram_addr_t
-newsize, Error **errp)
+Changes since v2:
+- Fixed more comments from Akhiko
+- Reordered the patches to make changes easier to understand
 
-     assert(block);
+Changes since v1:
+- Fix review comments from Akihiko
 
--    newsize =3D HOST_PAGE_ALIGN(newsize);
-+    //newsize =3D HOST_PAGE_ALIGN(newsize);
+Sriram Yagnaraman (9):
+  MAINTAINERS: Add Sriram Yagnaraman as a igb reviewer
+  igb: handle PF/VF reset properly
+  igb: add ICR_RXDW
+  igb: implement VFRE and VFTE registers
+  igb: check oversized packets for VMDq
+  igb: respect E1000_VMOLR_RSSE
+  igb: implement VF Tx and Rx stats
+  igb: respect VT_CTL ignore MAC field
+  igb: respect VMVIR and VMOLR for VLAN
 
-     if (block->used_length =3D=3D newsize) {
-         /*
+ MAINTAINERS          |   1 +
+ hw/net/e1000x_regs.h |   4 +
+ hw/net/igb_core.c    | 244 ++++++++++++++++++++++++++++++++-----------
+ hw/net/igb_core.h    |   1 +
+ hw/net/igb_regs.h    |   6 ++
+ hw/net/trace-events  |   4 +
+ 6 files changed, 197 insertions(+), 63 deletions(-)
 
-# virsh qemu-monitor-command testvm --hmp 'info ramblock'
-              Block Name    PSize              Offset
-Used              Total
-           mach-virt.ram   64 KiB  0x0000000000000000
-0x0000000800000000 0x0000000800000000
-             virt.flash0   64 KiB  0x0000000800000000
-0x0000000004000000 0x0000000004000000
-             virt.flash1   64 KiB  0x0000000804000000
-0x0000000004000000 0x0000000004000000
-    /rom@etc/acpi/tables   64 KiB  0x0000000808000000
-0x0000000000020000 0x0000000000200000
-   /rom@etc/table-loader   64 KiB  0x0000000808200000
-0x0000000000000b00 0x0000000000010000
-      /rom@etc/acpi/rsdp   64 KiB  0x0000000808240000
-0x0000000000000024 0x0000000000010000
+-- 
+2.34.1
 
-but migration needs more changes. I fixed the following error during migrat=
-ion:
-
-qemu-system-aarch64: ../softmmu/physmem.c:1059:
-cpu_physical_memory_test_and_clear_dirty: Assertion `start >=3D
-ramblock->offset && start + length <=3D ramblock->offset +
-ramblock->used_length' failed.
-2023-01-31 04:09:40.934+0000: shutting down, reason=3Dcrashed
-
---- a/softmmu/physmem.c
-+++ b/softmmu/physmem.c
-@@ -1055,7 +1055,7 @@ bool
-cpu_physical_memory_test_and_clear_dirty(ram_addr_t start,
-         ramblock =3D qemu_get_ram_block(start);
-         /* Range sanity check on the ramblock */
-
-         assert(start >=3D ramblock->offset &&
--               start + length <=3D ramblock->offset + ramblock->used_lengt=
-h);
-+               start + length <=3D ramblock->offset + ramblock->max_length=
-);
-
-         while (page < end) {
-             unsigned long idx =3D page / DIRTY_MEMORY_BLOCK_SIZE;
-
-but more issues still exist,
-
-source:
-2023-01-31T05:23:28.051615Z qemu-system-aarch64: failed to save
-SaveStateEntry with id(name): 3(ram): -5
-2023-01-31T05:23:28.053256Z qemu-system-aarch64: Unable to write to
-socket: Bad file descriptor
-
-target:
-2023-01-31T05:23:28.049659Z qemu-system-aarch64: Received an
-unexpected compressed page
-2023-01-31T05:23:28.049709Z qemu-system-aarch64: error while loading
-state for instance 0x0 of device 'ram'
-2023-01-31T05:23:28.050095Z qemu-system-aarch64: load of migration
-failed: Invalid argument
-
-In my opinion, it would be a tricky way to set 64k and would not have
-migration compatibility problems.
-Of course, the best and appropriate way is to migrate with actual data size=
-.
-I am not quite familiar with migration codes, if needed, I can help to
-do more migration patch tests.
 
