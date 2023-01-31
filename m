@@ -2,83 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C61FF683632
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 20:12:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B1D6836A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 20:37:31 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMw2r-0007nY-84; Tue, 31 Jan 2023 14:11:53 -0500
+	id 1pMwQB-0005AU-St; Tue, 31 Jan 2023 14:36:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pMw2o-0007n9-FF
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 14:11:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pMw2m-0006yE-Sr
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 14:11:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675192308;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=SS1NQkKkUE/UDHR1ozbcHM/ePSPiBADsm+YMLWHO6SY=;
- b=SuIvSmWHgqAinpsD+xQC5v1xFCm5BF8Sxy4hSUJNi6EbsbAyzk0zrcB98J7aYGb76HgnuI
- 0om5M6nuxrg8/PhYzjIapjBT3riEqvyUr+kZ1GJ3tTwx7IcGEXGO5JGKHF30IkcLjaGKDf
- sgmOqqUluaUKMlmvGY2lNuoYI49/Ni8=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-633-AQL-BQa9OXWg1QnqWfwyeA-1; Tue, 31 Jan 2023 14:11:43 -0500
-X-MC-Unique: AQL-BQa9OXWg1QnqWfwyeA-1
-Received: by mail-yb1-f197.google.com with SMTP id
- h14-20020a258a8e000000b00827819f87e5so5323864ybl.0
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 11:11:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=to:subject:message-id:date:from:in-reply-to:references:mime-version
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=SS1NQkKkUE/UDHR1ozbcHM/ePSPiBADsm+YMLWHO6SY=;
- b=Y4fWcjTxDxvKEdK0cS1wTMPTq7ep7CfbmK0gqyELd+qSugJCFXMD03veioCZd5079o
- QlOnG5D+/VvS/uwWQiEspatcO5JtJjjK0gZB38V/2RS2HX0qcncBTgdTXBae3W780Ug7
- qazsAXNN3AnT9OL0pGMMrVKuk6wKsFQgMb+zg83Qw1T7RAgtObW2mHU9noj+M9cbiboy
- clJ1bVWv/+WGcIh8rVBcr2GMLV6iTUlUKDimTOnU7GyiP0EgQje4hxUn1nyGcK2eyjTx
- pOpL2GboStWne6zJNvxg6A15/qNrKLcvUZErIMFjMYeFMU6MncW0IinP0t56rxy24/+t
- kEWA==
-X-Gm-Message-State: AO0yUKW5VWXxxtUzgf2os7kjRADTtf8+pS3/vHHHtdFmQcYjeyilwI4V
- UQi/KLVxXXIL/ADONIp/w9mq0ytp7p5/B6B1GTp7TLIhv8EYKVlg251cOEriVhsLIzwEMlMeD28
- tQFgD/LorJL7WK+RnkMoYZdEwMpUuLuw=
-X-Received: by 2002:a25:d28b:0:b0:6fb:5983:d192 with SMTP id
- j133-20020a25d28b000000b006fb5983d192mr13165ybg.163.1675192302757; 
- Tue, 31 Jan 2023 11:11:42 -0800 (PST)
-X-Google-Smtp-Source: AK7set8XxWw1404Fwkwnk8zbWMxex66lXFzp3tXMcfGmrB7pCWe9fOVd1+Y4a6LaS9b/GQWL7r9+fCt+sgqjghOoGik=
-X-Received: by 2002:a25:d28b:0:b0:6fb:5983:d192 with SMTP id
- j133-20020a25d28b000000b006fb5983d192mr13157ybg.163.1675192302542; Tue, 31
- Jan 2023 11:11:42 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pMwQ3-00059Q-Ge
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 14:35:52 -0500
+Received: from sonic312-24.consmr.mail.gq1.yahoo.com ([98.137.69.205])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <brchuckz@aim.com>) id 1pMwPz-00035m-6j
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 14:35:50 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aol.com; s=a2048;
+ t=1675193742; bh=TcT1YLmDGMvqANZil3o3s8Huix+Bg0YzehzcamGdlf8=;
+ h=Date:Subject:From:To:Cc:References:In-Reply-To:From:Subject:Reply-To;
+ b=Qi/bBEwZFhU/LxhIdJmnAmZTqAsychYutnrghCnmzIiCUaAwIfedPUTiHaR+cqz33nJrQjMzTv9ecilMKBR6CL9mFHCDmFpvY5kvQUG8JUL1rgAgYunepSyhxIQxuRNz5QCn73NLvAk8/py/U8D5sir9jozSloFGVNBRav6TsSWzbuXKoWq2oIXvmh8fyylXb/Xtzsj++9FrXWdLm4sLJVnwh69bNQlEUv63WlxZqMJV+q3S1vd8zWrV5LlkfgSiQ4pGCfj0eeEH6fmvHCpwyDHTJ6EMHtTNv+ztz/BlNOq0VaR3587LPj+zuKP6m6i/xPBG0pjPSg/mUzlb8n5U3Q==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048;
+ t=1675193742; bh=Vqs+NHE+qz2hmhRgzHF2LDUclXDDCON5zo+WbbQiIPm=;
+ h=X-Sonic-MF:Date:Subject:From:To:From:Subject;
+ b=Alp83Kv0TJdYJg0PSlSLvaSklAbcUR67w+GHazmKWp6rFIr58qqjkDlU/f4lqZhgWrt7+3gagWP4kZyZFayEubtGl20wRp0AkFRdQwrQgEfeu53YIkTreEXHiIFs+xtwan1Yy3dbWzbPJN6EsBi22bOGNlY7GkivZ51GMvBO0P/miQalWOmTB5gBvqdtUl0p/ymrfDlaFF5YQoaMo4fuwtbNV32jpL2OijAQYDraB9Hvv7qMN14jYQTMIJZYfdDAwuczJ2qLCjwT7xXcF1Usy7DlrBoGoLNNCtZpxiqq9TP20fRH7tl1NT86J6e8nee6YK/etntdq73eZLjTQDb3Zw==
+X-YMail-OSG: bhJnv9EVM1n26u3qMRQeyZccSawdEKiv0NT6ya4GEOjSs48Tiq82GezNLFy9GVf
+ qoVqnf0YtKXebF9NLH4iuYsbXUmQNpKanxLJ8GsMOf5vzyOzY9I5kFkyiunkYfHpctk6WE2gXmNQ
+ ALjcKqPxBCSsX9z3btgP2VxgnZqPuVU2_Q3JjSJWPXSfwOb9iIliBOoqtb.QD30oCpv8IN8_7Ubk
+ ZxwkmrOBmiBU1u9EYjtnUBScMmvAfWXNf.uETOV8h5ZjhmJg.t9hiCu.oTj3oF042FF4fntXzgtw
+ HEWAwNfrEx1sfsovBhclkwNWmlKdzJ7ymX2zJN41fFhPLTPuwjwb5oYfpohEurESM2CVBEoPRhc2
+ ZDz5CZb.hc95u0A_VPcCURe3Rw_2Ps6bm3dEsrYby36KU_6WFSDnbgylk73uCrnjfuiZJzmNJuV.
+ y4GEO51MvfiX7skKpvkvXy7SCdOJ09oiQF.w.vvHVbCwpbgBLw_Dovj1_XSooXWWcVaH6lFdQIHh
+ sivBgzXwy9hcmecCD5YnzvD6maoGmSSUHiGXDKqvzMISy0xkWXhfLgenUI0.Dkb2VZbIHBFq_shf
+ _vMi_a0w.Wmn_w89MUIE_BlQ7wLfS2Pg33xMkcs9ycuqSnbaAtTHL1QYRh50_xBr7lUHh6utgNzN
+ YAnS2cgqL3QkO1VUEKc9848ZW3vvfZoggwnki1fMyrYCgLrCW1aCoAwFikSdULXRnUDGAwi7cVFX
+ GlcOmR4.MOQOswyRjCKsAzkEcmMBdz9TJ8hRW.GQxhxkxCPwidI6BMdFPTFBTk1_Bu62XmueDpHH
+ ZsoDlaAWFX5CUABabLTmzW_27jzcBuk9DQ56YhXDXR0yynXBRyUaq3pEXcU5qw3V6jO57WYWdLAb
+ roGAn4QLVX_TGVmc8DpOi6OgUUS6GqrURJHOImmB7ZbNhW6dim7UD4VGhq4rtSTaNpC.GdneRhHN
+ _6QFjQI9PQLXHZOognUIf95CyPK4ZbwfhuvXAQkUj_elk08.whGPiMOxIjIE0xjKJ6Yjrku.WW84
+ PlQO9.Sn1QmHMrBXkUIVmgnvE_eCx8tbDZRETgScrdaqmz9Xyejjxa2QNNoJwi1Ny1h2JMeq_kb8
+ tp.HC0CP4MyqSoQ.q965bvTnxUXn1CUoV9fR2qMz36brRaxIOxxKOCRT0G_Ehg0EDMfzWaYcTJkj
+ qbWPDxZ.4VF1DEZlosjv9Df1MIc3y.mfEk.uAfmNfnSfHm_S1Yoq6vkGUXTzaz171hWWgDlkT7BF
+ 6FZbY_InTrBCIRaWJXb_Ch6u2Xk909TJc3fC88nlTVjYo1FVBTvJ9LXa7cDEsg6hICw22cvuWhTq
+ NpMEePQYHzPh__7IeuPlEXXTh.S5Ax8GlV3.2yrhMeu5wXruho3zjnBlvfnFMarnrkRO6_VwsupV
+ Z_YZhJ.EsznOB24aFZWhT_RISGK.PQmls33Swg0NdOhOLOtO8vE5Hs945GWD_SgZ2excwA7c_YAU
+ b3wbL8dkwsiAWIlr32wc3_rG7YH8ghCl6QGE.Y5f0ViupQ8CSvr3r2pyDGYPyBLT0BJCS7Y_fr7E
+ VksqZUdOhdeN06ioqe0svtbmaIe4yTUgFgAwO.f5mi5NpzWlcF9j4scI19FOqOh4hcAgkDBRg8bD
+ 9S8gsRUyfaL0CQGnj4CqvNJNOL8i559VOsXlnL5rhyyGjiOI7LGFf_tGIJz_Q6TV5ZtQ5RVfF3Gu
+ O9fU6b7402Xm2.E4_t6mR0Hufsi2hMpXHl7jBm2JUik5e403UPe__IGokQYjy.N6L_e3AvkuJRez
+ WwnhPt8BdM7hYr.c3trLp_mygmXZUWmlaEM0K6KEE53Cir2nEmNtVgZjtAFVNt1GpaMB1Cg.Tv.I
+ nkOjvBfOuSJEBH60IZ0.bPJulUZbAAS.pifsi04I_QDOIcXY0n0ff7DztmGdlBlFhuufKHLtsBlW
+ G9N8nos80hjSGI5uCdVwBiEd7cmFGlb7NAosvZE.nEXlGzL9q9FsD2jNX8LaUjDWngpATKSbKVPT
+ XeGnHaMgdgFkT0w.N18S5Ks282EkLGkAFq4iHPUGlphwmKZxxfVqHjOuYZuVyql.6LtnaQ8Oogyf
+ vATUBK.fWhpIkSLXhe8f6jIkzOucOVdQzFG91t.JtmC6R.Zj9eBd8pdBKCEiO3XXz7V95GPGsljl
+ RBBc6o_367jgwZnQCjv1eAq1BAKp3hj_dIKew0DvMDgV3s_avLj2SGhwhHBy3.G_rnwmNk9r_C7k
+ a75fJtXSfBw--
+X-Sonic-MF: <brchuckz@aim.com>
+Received: from sonic.gate.mail.ne1.yahoo.com by
+ sonic312.consmr.mail.gq1.yahoo.com with HTTP; Tue, 31 Jan 2023 19:35:42 +0000
+Received: by hermes--production-bf1-57c96c66f6-thr8d (Yahoo Inc. Hermes SMTP
+ Server) with ESMTPA ID 3630b60c4b8d5aee2b4f4bc210d4b88a; 
+ Tue, 31 Jan 2023 19:35:39 +0000 (UTC)
+Message-ID: <af419213-ba65-c9dc-9191-006d908339eb@aol.com>
+Date: Tue, 31 Jan 2023 14:35:37 -0500
 MIME-Version: 1.0
-References: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
-In-Reply-To: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Tue, 31 Jan 2023 20:11:06 +0100
-Message-ID: <CAJaqyWfZX2sgoOq+Poa2tQTc2VTRneaUvzozOdDS+7SoMUdNkg@mail.gmail.com>
-Subject: Re: Emulating device configuration / max_virtqueue_pairs in
- vhost-vdpa and vhost-user
-To: Maxime Coquelin <maxime.coquelin@redhat.com>,
- Jason Wang <jasowang@redhat.com>, 
- Michael Tsirkin <mst@redhat.com>, Cindy Lu <lulu@redhat.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, qemu-level <qemu-devel@nongnu.org>, 
- Laurent Vivier <lvivier@redhat.com>, Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.1
+Subject: Re: [XEN PATCH v2 0/3] Configure qemu upstream correctly by default
+ for igd-passthru
+From: Chuck Zmudzinski <brchuckz@aol.com>
+To: Anthony PERARD <anthony.perard@citrix.com>
+Cc: xen-devel@lists.xenproject.org, Wei Liu <wl@xen.org>,
+ Juergen Gross <jgross@suse.com>, qemu-devel@nongnu.org
+References: <cover.1673300848.git.brchuckz.ref@aol.com>
+ <cover.1673300848.git.brchuckz@aol.com>
+ <Y9EUarVVWr223API@perard.uk.xensource.com>
+ <de3a3992-8f56-086a-e19e-bac9233d4265@aol.com>
+ <a2a927bd-a764-8676-68c9-4c53cb86af3e@aol.com>
+Content-Language: en-US
+In-Reply-To: <a2a927bd-a764-8676-68c9-4c53cb86af3e@aol.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Mailer: WebService/1.1.21123
+ mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.aol
+Received-SPF: pass client-ip=98.137.69.205; envelope-from=brchuckz@aim.com;
+ helo=sonic312-24.consmr.mail.gq1.yahoo.com
+X-Spam_score_int: -15
+X-Spam_score: -1.6
+X-Spam_bar: -
+X-Spam_report: (-1.6 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
+ FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -94,67 +108,192 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 31, 2023 at 8:10 PM Eugenio Perez Martin
-<eperezma@redhat.com> wrote:
->
-> Hi,
->
-> The current approach of offering an emulated CVQ to the guest and map
-> the commands to vhost-user is not scaling well:
-> * Some devices already offer it, so the transformation is redundant.
-> * There is no support for commands with variable length (RSS?)
->
-> We can solve both of them by offering it through vhost-user the same
-> way as vhost-vdpa do. With this approach qemu needs to track the
-> commands, for similar reasons as vhost-vdpa: qemu needs to track the
-> device status for live migration. vhost-user should use the same SVQ
-> code for this, so we avoid duplications.
->
-> One of the challenges here is to know what virtqueue to shadow /
-> isolate. The vhost-user device may not have the same queues as the
-> device frontend:
-> * The first depends on the actual vhost-user device, and qemu fetches
-> it with VHOST_USER_GET_QUEUE_NUM at the moment.
-> * The qemu device frontend's is set by netdev queues= cmdline parameter in qemu
->
-> For the device, the CVQ is the last one it offers, but for the guest
-> it is the last one offered in config space.
->
-> To create a new vhost-user command to decrease that maximum number of
-> queues may be an option. But we can do it without adding more
-> commands, remapping the CVQ index at virtqueue setup. I think it
-> should be doable using (struct vhost_dev).vq_index and maybe a few
-> adjustments here and there.
->
-> Thoughts?
->
-> Thanks!
+On 1/29/23 7:38 PM, Chuck Zmudzinski wrote:
+> On 1/25/23 6:19 PM, Chuck Zmudzinski wrote:
+>> On 1/25/2023 6:37 AM, Anthony PERARD wrote:
+>>> On Tue, Jan 10, 2023 at 02:32:01AM -0500, Chuck Zmudzinski wrote:
+>>> > I call attention to the commit message of the first patch which points
+>>> > out that using the "pc" machine and adding the xen platform device on
+>>> > the qemu upstream command line is not functionally equivalent to using
+>>> > the "xenfv" machine which automatically adds the xen platform device
+>>> > earlier in the guest creation process. As a result, there is a noticeable
+>>> > reduction in the performance of the guest during startup with the "pc"
+>>> > machne type even if the xen platform device is added via the qemu
+>>> > command line options, although eventually both Linux and Windows guests
+>>> > perform equally well once the guest operating system is fully loaded.
+>>>
+>>> There shouldn't be a difference between "xenfv" machine or using the
+>>> "pc" machine while adding the "xen-platform" device, at least with
+>>> regards to access to disk or network.
+>>>
+>>> The first patch of the series is using the "pc" machine without any
+>>> "xen-platform" device, so we can't compare startup performance based on
+>>> that.
+>>>
+>>> > Specifically, startup time is longer and neither the grub vga drivers
+>>> > nor the windows vga drivers in early startup perform as well when the
+>>> > xen platform device is added via the qemu command line instead of being
+>>> > added immediately after the other emulated i440fx pci devices when the
+>>> > "xenfv" machine type is used.
+>>>
+>>> The "xen-platform" device is mostly an hint to a guest that they can use
+>>> pv-disk and pv-network devices. I don't think it would change anything
+>>> with regards to graphics.
+>>>
+>>> > For example, when using the "pc" machine, which adds the xen platform
+>>> > device using a command line option, the Linux guest could not display
+>>> > the grub boot menu at the native resolution of the monitor, but with the
+>>> > "xenfv" machine, the grub menu is displayed at the full 1920x1080
+>>> > native resolution of the monitor for testing. So improved startup
+>>> > performance is an advantage for the patch for qemu.
+>>>
+>>> I've just found out that when doing IGD passthrough, both machine
+>>> "xenfv" and "pc" are much more different than I though ... :-(
+>>> pc_xen_hvm_init_pci() in QEMU changes the pci-host device, which in
+>>> turns copy some informations from the real host bridge.
+>>> I guess this new host bridge help when the firmware setup the graphic
+>>> for grub.
+> 
+> Yes, it is needed - see below for the very simple patch to Qemu
+> upstream that fixes it for the "pc" machine!
+> 
+>> 
+>> I am surprised it works at all with the "pc" machine, that is, without the
+>> TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE that is used in the "xenfv"
+>> machine. This only seems to affect the legacy grub vga driver and the legacy
+>> Windows vga driver during early boot. Still, I much prefer keeping the "xenfv"
+>> machine for Intel IGD than this workaround of patching libxl to use the "pc"
+>> machine.
+>> 
+>>>
+>>> > I also call attention to the last point of the commit message of the
+>>> > second patch and the comments for reviewers section of the second patch.
+>>> > This approach, as opposed to fixing this in qemu upstream, makes
+>>> > maintaining the code in libxl__build_device_model_args_new more
+>>> > difficult and therefore increases the chances of problems caused by
+>>> > coding errors and typos for users of libxl. So that is another advantage
+>>> > of the patch for qemu.
+>>>
+>>> We would just needs to use a different approach in libxl when generating
+>>> the command line. We could probably avoid duplications.
+> 
+> I was thinking we could also either write a test to verify the correctness
+> of the second patch to ensure it generates the correct Qemu command line
+> or take the time to verify the second patch's accuracy before committing it.
+> 
+>>> I was hopping to
+>>> have patch series for libxl that would change the machine used to start
+>>> using "pc" instead of "xenfv" for all configurations, but based on the
+>>> point above (IGD specific change to "xenfv"), then I guess we can't
+>>> really do anything from libxl to fix IGD passthrough.
+>> 
+>> We could switch to the "pc" machine, but we would need to patch
+>> qemu also so the "pc" machine uses the special device the "xenfv"
+>> machine uses (TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE).
+>> ...
+> 
+> I just tested a very simple patch to Qemu upstream to fix the
+> difference between the upstream Qemu "pc" machine and the upstream
+> Qemu "xenfv" machine:
+> 
+> --- a/hw/i386/pc_piix.c	2023-01-28 13:22:15.714595514 -0500
+> +++ b/hw/i386/pc_piix.c	2023-01-29 18:08:34.668491593 -0500
+> @@ -434,6 +434,8 @@
+>              compat(machine); \
+>          } \
+>          pc_init1(machine, TYPE_I440FX_PCI_HOST_BRIDGE, \
+> +                 xen_igd_gfx_pt_enabled() ? \
+> +                 TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE : \
+>                   TYPE_I440FX_PCI_DEVICE); \
+>      } \
+>      DEFINE_PC_MACHINE(suffix, name, pc_init_##suffix, optionfn)
+> ----- snip -------
+> 
+> With this simple two-line patch to upstream Qemu, we can use the "pc"
+> machine without any regressions such as the startup performance
+> degradation I observed without this small patch to fix the "pc" machine
+> with igd passthru!
+
+Hi Anthony,
+
+Actually, to implement the fix for the "pc" machine and IGD in Qemu
+upstream and not break builds for configurations such as --disable-xen
+the patch to Qemu needs to add four lines instead of two (still trivial!):
 
 
-(Starting a separated thread to vhost-vdpa related use case)
+--- a/hw/i386/pc_piix.c	2023-01-29 18:05:15.714595514 -0500
++++ b/hw/i386/pc_piix.c	2023-01-29 18:08:34.668491593 -0500
+@@ -434,6 +434,8 @@
+             compat(machine); \
+         } \
+         pc_init1(machine, TYPE_I440FX_PCI_HOST_BRIDGE, \
++                 pc_xen_igd_gfx_pt_enabled() ? \
++                 TYPE_IGD_PASSTHROUGH_I440FX_PCI_DEVICE : \
+                  TYPE_I440FX_PCI_DEVICE); \
+     } \
+     DEFINE_PC_MACHINE(suffix, name, pc_init_##suffix, optionfn)
+--- a/include/sysemu/xen.h	2023-01-20 08:17:55.000000000 -0500
++++ b/include/sysemu/xen.h	2023-01-30 00:18:29.276886734 -0500
+@@ -23,6 +23,7 @@
+ extern bool xen_allowed;
+ 
+ #define xen_enabled()           (xen_allowed)
++#define pc_xen_igd_gfx_pt_enabled()    xen_igd_gfx_pt_enabled()
+ 
+ #ifndef CONFIG_USER_ONLY
+ void xen_hvm_modified_memory(ram_addr_t start, ram_addr_t length);
+@@ -33,6 +34,7 @@
+ #else /* !CONFIG_XEN_IS_POSSIBLE */
+ 
+ #define xen_enabled() 0
++#define pc_xen_igd_gfx_pt_enabled() 0
+ #ifndef CONFIG_USER_ONLY
+ static inline void xen_hvm_modified_memory(ram_addr_t start, ram_addr_t length)
+ {
+------- snip -------
 
-This could also work for vhost-vdpa if we ever decide to honor netdev
-queues argument. It is totally ignored now, as opposed to the rest of
-backends:
-* vhost-kernel, whose tap device has the requested number of queues.
-* vhost-user, that errors with ("you are asking more queues than
-supported") if the vhost-user parent device has less queues than
-requested (by vhost-user msg VHOST_USER_GET_QUEUE_NUM).
+Would you support this patch to Qemu if I formally submitted it to
+Qemu as a replacement for the current more complicated patch to Qemu
+that I proposed to reserve slot 2 for the IGD?
 
-One of the reasons for this is that device configuration space is
-totally passthrough, with the values for mtu, rss conditions, etc.
-This is not ideal, as qemu cannot check src and destination
-equivalence and they can change under the feets of the guest in the
-event of a migration. External tools are needed for this, duplicating
-part of the effort.
+Thanks,
 
-Start intercepting config space accesses and offering an emulated one
-to the guest with this kind of adjustments is beneficial, as it makes
-vhost-vdpa more similar to the rest of backends, making the surprise
-on a change way lower.
+Chuck
 
-Thoughts?
-
-Thanks!
+> 
+> The "pc" machine maintainers for upstream Qemu would need to accept
+> this small patch to Qemu upstream. They might prefer this to the
+> other Qemu patch that reserves slot 2 for the Qemu upstream "xenfv"
+> machine when the guest is configured for igd passthru.
+> 
+>>>
+>>> ...
+>>>
+>>> So overall, unfortunately the "pc" machine in QEMU isn't suitable to do
+>>> IGD passthrough as the "xenfv" machine has already some workaround to
+>>> make IGD work and just need some more.
+> 
+> Well, the little patch to upstream shown above fixes the "pc" machine
+> with IGD so maybe this approach of patching libxl to use the "pc" machine
+> will be a viable fix for the IGD.
+> 
+>>>
+>>> I've seen that the patch for QEMU is now reviewed, so I look at having
+>>> it merged soonish.
+>>>
+>>> Thanks,
+>>>
+>> 
+> 
+> I just added the bit of information above to help you decide which
+> approach to use to improve the support for the igd passthru feature
+> with Xen and Qemu upstream. I think the test of the small patch to
+> Qemu to fix the "pc" machine with igd passthru makes this patch to
+> libxl a viable alternative to the other patch to Qemu upstream that
+> reserves slot 2 when using the "xenfv" machine and igd passthru.
+> 
+> Thanks,
+> 
+> Chuck
 
 
