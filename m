@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B7EC682C03
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 12:56:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D10AC682BED
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 12:54:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMpDP-0007ID-6O; Tue, 31 Jan 2023 06:54:19 -0500
+	id 1pMpDk-00080m-MN; Tue, 31 Jan 2023 06:54:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pMpDJ-000711-OO; Tue, 31 Jan 2023 06:54:13 -0500
-Received: from mail-ed1-x534.google.com ([2a00:1450:4864:20::534])
+ id 1pMpDX-0007ao-BN; Tue, 31 Jan 2023 06:54:34 -0500
+Received: from mail-lf1-x133.google.com ([2a00:1450:4864:20::133])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pMpDI-0002Lu-1n; Tue, 31 Jan 2023 06:54:13 -0500
-Received: by mail-ed1-x534.google.com with SMTP id z11so14157367ede.1;
- Tue, 31 Jan 2023 03:54:11 -0800 (PST)
+ id 1pMpDV-0002UD-Em; Tue, 31 Jan 2023 06:54:27 -0500
+Received: by mail-lf1-x133.google.com with SMTP id u12so13276773lfq.0;
+ Tue, 31 Jan 2023 03:54:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=K5q6pEDmjbLQHJco4WLG6HNWuGgK1XtcwTBdRpFvGtI=;
- b=BBup4VtaxJBinKfpx6oe/NejpbXWqtl6M0IBcjcPjSDM87sVNaDyXmL5eAmKYDE++c
- e14Rj5A9gxYYeslYjPEFO71Bns4mz5yVUy9RQAHVITlP61fl/p0aLtRHxOk/zhBV+Uyb
- rwAzpL48qiGoaeQHHqrP18NkqcLvs8xmbzmN1B7Ivem5ZBskxiq0Lc/aKdgVu3UMKFIx
- qmea2mF2fv+sE6DhWcEI01h0J4j0kw9vakSPFHPd7Ie5VOH7NTpu5tiBFrD/EMqG6GG0
- gN8G8jWgzhkhaNHQXZnUM1tervko560j2kThm7ZPsX2tcH6j1hoaW5YZxGAsIfNJS+bC
- hzKw==
+ bh=JpV0VXPFV+veIfQCqfhElqv7o/IlC5FYc5Xa7nt93Zs=;
+ b=V2AWkvLELj5yqeXmX4sAv6Iyrmu7uRvYZ1nTwYFZ00ifFpdgkUsAza+NA+t569OKlj
+ VXTuHaL0Bqoudee1Sqj0iI1LQePQu8vqyhHw5zPBid9kL9E7q3Zrs3X4H5fQdyQqS40S
+ tSOZzH2oIAG4ygqvDF9kfBnz7qqV2evk8Xwu7YNYf90sDbXRrXWZGhB5Y0gsspL6U1zV
+ FPAAZrSAXPT4OVt25l5ZoWo/8V4THUPk3POkxo121siLMAh7G4f26eHy63mxaa2+rbZP
+ z3RzpgZW8PSUN5wwJKBUVSMu9NlDTe0TEA2tX1oWCWhCsiS6OXYJzomqxkD8JaXCTrnL
+ xWew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=K5q6pEDmjbLQHJco4WLG6HNWuGgK1XtcwTBdRpFvGtI=;
- b=A/bcBrtvRTxd3P0OvrUu5NuwX1EcOj+hvO0K6dL9WDHDeEltfqIwgxOAxki6rNr5Lx
- Bhbzni9+6WIntKv3twcO6Lvu8RRnGLhaEoibRdOaQnhfk9Z1lXMjpP7Ah2ohhRNyNNov
- yH0o1bpUXc5vNqTizNvzXgP8ACyx2QBbZeD9CWRdfd/e8SfIQUsR0UfITtrjK6UDo9Fc
- oDr33/lmjnjkgQfbyIVLUC3p1+9Nhhf4M24mZ8CbPNK0If4kwXS8TSrgsHAT4S2fN+IK
- kvM2EWS2jtFzWyuvNF310tdL0C455BG8/5WpAwQZwLdVWZpYBxPddJADBRfttivRUz49
- bnGg==
-X-Gm-Message-State: AO0yUKXmn5aau5+0FEGMx28lt/cAsU3PbZzhAKhy3QUAQ3e1dWlHMK3R
- KUXHVCAQeCq5bd9nzAqqPEhr1UN446k=
-X-Google-Smtp-Source: AK7set9ZgJ2HtzZZGCVzWksZmbaXuhJ11VBNJEViJy4/FcVa50YXx1bt5mbY3w01GOUtsKp4KUWvpA==
-X-Received: by 2002:aa7:d593:0:b0:4a2:34dd:2bb9 with SMTP id
- r19-20020aa7d593000000b004a234dd2bb9mr10826988edq.41.1675166050851; 
- Tue, 31 Jan 2023 03:54:10 -0800 (PST)
+ bh=JpV0VXPFV+veIfQCqfhElqv7o/IlC5FYc5Xa7nt93Zs=;
+ b=DeHcfSjUFPyI9nGWmFP7GbrEub/YbFUKctp0BEciK3o7XQoBTaEV67z0ooiCz2z6Uy
+ Mf3IC1llgxMgf4t8rvijnAilV9d7KUdYNCM/d6KLkZIcInl/qd5U5730BN6EVvU+3dYQ
+ BtN8O94Es5nkf1PB4kjoECy4RLfaGr7jBaAQ4fOxQzYFxOSoSpT4slj6Wx/oBeba3y5d
+ RkNTUxTPqYLl2kUMnz4OzBTEj+u3MM9ji9VIl+2O+Du5hoXsd1CFdykUX9KVsxgHIAIS
+ os+m7sGA9G4Rf3JVZifAy4XxDWPy9jwGNwRUcNYvD2y0S2lCqsevpY4GT5o3uHM0fIep
+ yqxA==
+X-Gm-Message-State: AO0yUKVnOEsI1ACLmVBKtJWfILqSeUNPt//k53S851Hlk7gZmAJswHHf
+ 1YQ2KBUpH7z6pERP7OaB9NXPW6t5z48=
+X-Google-Smtp-Source: AMrXdXt+CAachw/qlayHkhZNQuju3cxnVqcd3SJaX5o6xKiwVoGI0Hm7PnTBgRgR6NsVJpGz2HnEbw==
+X-Received: by 2002:a05:6402:4447:b0:497:c96b:4dea with SMTP id
+ o7-20020a056402444700b00497c96b4deamr122358538edb.5.1675166051869; 
+ Tue, 31 Jan 2023 03:54:11 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-077-013-082-236.77.13.pool.telefonica.de. [77.13.82.236])
  by smtp.gmail.com with ESMTPSA id
- c10-20020a056402100a00b00483dd234ac6sm8178318edu.96.2023.01.31.03.54.09
+ c10-20020a056402100a00b00483dd234ac6sm8178318edu.96.2023.01.31.03.54.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 03:54:10 -0800 (PST)
+ Tue, 31 Jan 2023 03:54:11 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Igor Mammedov <imammedo@redhat.com>,
@@ -64,16 +64,16 @@ Cc: Igor Mammedov <imammedo@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, Laurent Vivier <lvivier@redhat.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, qemu-trivial@nongnu.org,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 19/20] hw/i386/ich9: Clean up includes
-Date: Tue, 31 Jan 2023 12:53:25 +0100
-Message-Id: <20230131115326.12454-20-shentey@gmail.com>
+Subject: [PATCH v2 20/20] hw: Move ich9.h to southbridge/
+Date: Tue, 31 Jan 2023 12:53:26 +0100
+Message-Id: <20230131115326.12454-21-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230131115326.12454-1-shentey@gmail.com>
 References: <20230131115326.12454-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::534;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x534.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::133;
+ envelope-from=shentey@gmail.com; helo=mail-lf1-x133.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,60 +96,171 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+ICH9 is a south bridge which doesn't necessarily depend on x86, so move
+it into the southbridge folder, analoguous to PIIX.
+
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- include/hw/i386/ich9.h | 8 +++++---
- hw/i386/acpi-build.c   | 1 +
- hw/isa/lpc_ich9.c      | 2 +-
- 3 files changed, 7 insertions(+), 4 deletions(-)
+ MAINTAINERS                             | 1 +
+ include/hw/{i386 => southbridge}/ich9.h | 6 +++---
+ hw/acpi/ich9.c                          | 2 +-
+ hw/acpi/ich9_tco.c                      | 2 +-
+ hw/i2c/smbus_ich9.c                     | 2 +-
+ hw/i386/acpi-build.c                    | 2 +-
+ hw/i386/pc_q35.c                        | 2 +-
+ hw/isa/lpc_ich9.c                       | 2 +-
+ hw/pci-bridge/i82801b11.c               | 2 +-
+ tests/qtest/tco-test.c                  | 2 +-
+ 10 files changed, 12 insertions(+), 11 deletions(-)
+ rename include/hw/{i386 => southbridge}/ich9.h (99%)
 
-diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
-index d29090a9b7..3125863049 100644
+diff --git a/MAINTAINERS b/MAINTAINERS
+index f96e86c57b..8753fc066c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1670,6 +1670,7 @@ F: hw/i2c/smbus_ich9.c
+ F: hw/acpi/piix4.c
+ F: hw/acpi/ich9*.c
+ F: include/hw/acpi/ich9*.h
++F: include/hw/southbridge/ich9.h
+ F: include/hw/southbridge/piix.h
+ F: hw/misc/sga.c
+ F: hw/isa/apm.c
+diff --git a/include/hw/i386/ich9.h b/include/hw/southbridge/ich9.h
+similarity index 99%
+rename from include/hw/i386/ich9.h
+rename to include/hw/southbridge/ich9.h
+index 3125863049..7004eecbf9 100644
 --- a/include/hw/i386/ich9.h
-+++ b/include/hw/i386/ich9.h
-@@ -1,11 +1,13 @@
- #ifndef HW_ICH9_H
- #define HW_ICH9_H
++++ b/include/hw/southbridge/ich9.h
+@@ -1,5 +1,5 @@
+-#ifndef HW_ICH9_H
+-#define HW_ICH9_H
++#ifndef HW_SOUTHBRIDGE_ICH9_H
++#define HW_SOUTHBRIDGE_ICH9_H
  
--#include "hw/sysbus.h"
--#include "hw/i386/pc.h"
  #include "hw/isa/apm.h"
--#include "hw/acpi/acpi.h"
  #include "hw/acpi/ich9.h"
-+#include "hw/intc/ioapic.h"
-+#include "hw/pci/pci.h"
-+#include "hw/pci/pci_device.h"
-+#include "exec/memory.h"
-+#include "qemu/notify.h"
- #include "qom/object.h"
+@@ -242,4 +242,4 @@ struct ICH9LPCState {
+ #define ICH9_LPC_SMI_F_CPU_HOTPLUG_BIT          1
+ #define ICH9_LPC_SMI_F_CPU_HOT_UNPLUG_BIT       2
  
- void ich9_generate_smi(void);
+-#endif /* HW_ICH9_H */
++#endif /* HW_SOUTHBRIDGE_ICH9_H */
+diff --git a/hw/acpi/ich9.c b/hw/acpi/ich9.c
+index 54bb3d83b3..d23bfcaa6b 100644
+--- a/hw/acpi/ich9.c
++++ b/hw/acpi/ich9.c
+@@ -36,7 +36,7 @@
+ #include "hw/acpi/acpi.h"
+ #include "hw/acpi/ich9_tco.h"
+ 
+-#include "hw/i386/ich9.h"
++#include "hw/southbridge/ich9.h"
+ #include "hw/mem/pc-dimm.h"
+ #include "hw/mem/nvdimm.h"
+ 
+diff --git a/hw/acpi/ich9_tco.c b/hw/acpi/ich9_tco.c
+index fbf97f81f4..1540f4fd46 100644
+--- a/hw/acpi/ich9_tco.c
++++ b/hw/acpi/ich9_tco.c
+@@ -9,7 +9,7 @@
+ 
+ #include "qemu/osdep.h"
+ #include "sysemu/watchdog.h"
+-#include "hw/i386/ich9.h"
++#include "hw/southbridge/ich9.h"
+ #include "migration/vmstate.h"
+ 
+ #include "hw/acpi/ich9_tco.h"
+diff --git a/hw/i2c/smbus_ich9.c b/hw/i2c/smbus_ich9.c
+index c7fdf32db0..b3eb82bc2e 100644
+--- a/hw/i2c/smbus_ich9.c
++++ b/hw/i2c/smbus_ich9.c
+@@ -27,7 +27,7 @@
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
+ 
+-#include "hw/i386/ich9.h"
++#include "hw/southbridge/ich9.h"
+ #include "qom/object.h"
+ #include "hw/acpi/acpi_aml_interface.h"
+ 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 127c4e2d50..266df7a153 100644
+index 266df7a153..44ed879c8a 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -59,6 +59,7 @@
+@@ -55,10 +55,10 @@
+ #include "hw/hyperv/vmbus-bridge.h"
+ 
+ /* Supported chipsets: */
++#include "hw/southbridge/ich9.h"
+ #include "hw/southbridge/piix.h"
  #include "hw/acpi/pcihp.h"
  #include "hw/i386/fw_cfg.h"
- #include "hw/i386/ich9.h"
-+#include "hw/i386/pc.h"
+-#include "hw/i386/ich9.h"
+ #include "hw/i386/pc.h"
  #include "hw/pci/pci_bus.h"
  #include "hw/pci-host/i440fx.h"
- #include "hw/pci-host/q35.h"
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index cd61d801c7..2c8c43834c 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -40,7 +40,6 @@
+ #include "hw/qdev-properties.h"
+ #include "hw/i386/x86.h"
+ #include "hw/i386/pc.h"
+-#include "hw/i386/ich9.h"
+ #include "hw/i386/amd_iommu.h"
+ #include "hw/i386/intel_iommu.h"
+ #include "hw/display/ramfb.h"
+@@ -48,6 +47,7 @@
+ #include "hw/ide/pci.h"
+ #include "hw/ide/ahci.h"
+ #include "hw/intc/ioapic.h"
++#include "hw/southbridge/ich9.h"
+ #include "hw/usb.h"
+ #include "hw/usb/hcd-uhci.h"
+ #include "qapi/error.h"
 diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index 808c572ae4..f508f6071e 100644
+index f508f6071e..2699dc574a 100644
 --- a/hw/isa/lpc_ich9.c
 +++ b/hw/isa/lpc_ich9.c
-@@ -40,8 +40,8 @@
+@@ -40,7 +40,7 @@
  #include "hw/irq.h"
  #include "hw/isa/apm.h"
  #include "hw/pci/pci.h"
--#include "hw/pci/pci_bridge.h"
- #include "hw/i386/ich9.h"
-+#include "hw/i386/pc.h"
+-#include "hw/i386/ich9.h"
++#include "hw/southbridge/ich9.h"
+ #include "hw/i386/pc.h"
  #include "hw/acpi/acpi.h"
  #include "hw/acpi/ich9.h"
- #include "hw/pci/pci_bus.h"
+diff --git a/hw/pci-bridge/i82801b11.c b/hw/pci-bridge/i82801b11.c
+index f3b4a14611..0e83cd11b2 100644
+--- a/hw/pci-bridge/i82801b11.c
++++ b/hw/pci-bridge/i82801b11.c
+@@ -45,7 +45,7 @@
+ #include "hw/pci/pci_bridge.h"
+ #include "migration/vmstate.h"
+ #include "qemu/module.h"
+-#include "hw/i386/ich9.h"
++#include "hw/southbridge/ich9.h"
+ 
+ /*****************************************************************************/
+ /* ICH9 DMI-to-PCI bridge */
+diff --git a/tests/qtest/tco-test.c b/tests/qtest/tco-test.c
+index d865e95dfc..0547d41173 100644
+--- a/tests/qtest/tco-test.c
++++ b/tests/qtest/tco-test.c
+@@ -14,7 +14,7 @@
+ #include "libqos/pci-pc.h"
+ #include "qapi/qmp/qdict.h"
+ #include "hw/pci/pci_regs.h"
+-#include "hw/i386/ich9.h"
++#include "hw/southbridge/ich9.h"
+ #include "hw/acpi/ich9.h"
+ #include "hw/acpi/ich9_tco.h"
+ 
 -- 
 2.39.1
 
