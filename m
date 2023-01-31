@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08333682BF4
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 12:55:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C74682BFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 12:56:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMpDJ-0006xY-L8; Tue, 31 Jan 2023 06:54:13 -0500
+	id 1pMpDK-00071F-OP; Tue, 31 Jan 2023 06:54:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pMpDH-0006q1-FR; Tue, 31 Jan 2023 06:54:11 -0500
-Received: from mail-ed1-x530.google.com ([2a00:1450:4864:20::530])
+ id 1pMpDH-0006qS-Va; Tue, 31 Jan 2023 06:54:12 -0500
+Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pMpDG-0002QT-1s; Tue, 31 Jan 2023 06:54:11 -0500
-Received: by mail-ed1-x530.google.com with SMTP id be12so2874389edb.4;
- Tue, 31 Jan 2023 03:54:08 -0800 (PST)
+ id 1pMpDG-0002N0-4J; Tue, 31 Jan 2023 06:54:11 -0500
+Received: by mail-ed1-x531.google.com with SMTP id x7so10899384edr.0;
+ Tue, 31 Jan 2023 03:54:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=lnvu4fyAcGdKKQ5z10VgUCBohnACidYbKqIze/VgDBY=;
- b=Pf1PV0Yd/U3xaYDvFOlytVW3dMzllsmsuRhj07aYnEL2BK5pusN9LDPQQewqTaMIWC
- loIbQW4BcEGOBHYX5NXodUJY7C5DjZjCePKXQmTlKzFOQIt3OwG483mP23M6wUq0UcVL
- 58pKSCs8Ux36jUOg79vh9qPyTH6nUu7mpiVpRfI8L1yNpOLqn5TCVXKOsPY+RY1ZG35Z
- 9vC5BHAVHMX4RzX/fJS7gcNXfSlxqh6I9WHjYpsZtHbutEsW5EhqTQu+/UEGQJqgy0eb
- xLtGkIUk9xLOBwEXbe/2v3hTkoCKIx9k2ulgr41Aoj171nHrT5Q0gbcqqGII7YIRsm1v
- yvpg==
+ bh=VrUMT8KXOlwyP+wNgiIX+Cf413CiRY1aEg+ePqpscxE=;
+ b=TvB8Y25Ce/3Ie20AFkSnSditc4a+Yx0wW2YKy+ahdjomO0H6DQ0XtLYbnyQ0J6Dq27
+ t4Xib9hsaDZa8be45zIxy5aSvqQ2wLx/0d5aIN8Xk+/oS8qoY89THm6+1z+RmlnJZhjO
+ OqrbPvvpPO16D9MSUJ97FiCQ42hm1gVTC0JnDayA4ijmKCxWUpfX8idVI6zhqIsXlMBz
+ wy13573IHbQwHIRMtx7KdKl/X++kvoX5Jt2E/eD1fOcNcBI301BIlY+/SFYo1mSNXNWu
+ RjkREXql8hcjHDEdV+nvmxG3DabdHmZlHYAPLd+Z8LCjd08O2ng5qVDPS8mKXx6dzHPB
+ xwaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=lnvu4fyAcGdKKQ5z10VgUCBohnACidYbKqIze/VgDBY=;
- b=mCcBpbnwRTRb6jVqMECOnnx6sgZwx8GACICD49Noneee+o9rbZrR7gkckYSPh6Gq3S
- HkdhGIiTA2yFPJr9zjyYZT4Y9znGdwQo4DBrTBIxbkgWKBJUXAMM9Tm5YH3ezbv1PuTr
- vdnRIyvJ7gRAY16frim4s5RS6jkPQPiiB8bwncyOzD/V/JOksjuY8G9Fulj9gA3QNMpg
- SixXrrALloq/6Giiws3MM9CpomzYnz3FqL+jvV7jk0T2W03jGaa1vwwPuC/3cJMO32ne
- em1OI7+rmZTV67AyxbyH34rQBB+T0OScaSeYKECJl8qNpBgtqKyRTGmapbN1WZ/K7DjH
- BltA==
-X-Gm-Message-State: AO0yUKXphpcgJiHw39DdImFTuiqZYxbNUnR7/zDFJRy0sKh80/x5fPz9
- GJUnXUzel4tgQjYyOWQ0ob17lqf0+VM=
-X-Google-Smtp-Source: AK7set+yXMa8t7tRMZ45QcNmBAHODOr77ylxzIKNBqew0CpRQXP/ZHsuwBmYFsDMvElLN9XUS8TCUQ==
-X-Received: by 2002:aa7:cd48:0:b0:4a2:2e33:35fd with SMTP id
- v8-20020aa7cd48000000b004a22e3335fdmr14224473edw.15.1675166047461; 
- Tue, 31 Jan 2023 03:54:07 -0800 (PST)
+ bh=VrUMT8KXOlwyP+wNgiIX+Cf413CiRY1aEg+ePqpscxE=;
+ b=0BMHgN3IXy7LNlHr/13OgIG+WDP2xOmnkwOrmfz+WgMgUaLJtn+JEtJ640vRBd5CD9
+ iyQ6KDW/5MMoHhXS1nXJs9ksUdF+xfxtQAkwoEJNlS9sP3W7oUC+iPGksa+FiNNNyiHP
+ 9GI3z84LONK+DKCTDW4O8H/viNJO4hqvvJtf0buyhN3svCUr2LnlooKVmE+o2cCXkMfF
+ YPRDO2Vgsbm4bXfUbI1GnHZ0tW9jNocSTce73wqmolv9jFJwkyeGT3L/5oHZMd67Kl7z
+ bglFYPoppXPyOLabljVgslbRrR4eJHhFL0Fl9nQ2BjRQH1yyoQGxYFhuBsHWXYHU5DXj
+ aUHw==
+X-Gm-Message-State: AO0yUKXMmzW3c9Ef/WWa9ZAEoG70qZ8+Wdd4Q6mOrhHHvHDcVzsuNAJo
+ 0Q5iaEXM34/M3dgkFF6KidV82F1RNJM=
+X-Google-Smtp-Source: AK7set+OrWVv/Rc5aaTzF5R/Wv+rPWsHB8Enu8pOnLss/YUMuq5xAxMQo8ygOMlRE3H4fYzZz4wi1Q==
+X-Received: by 2002:a05:6402:f0c:b0:4a2:4ed3:c14b with SMTP id
+ i12-20020a0564020f0c00b004a24ed3c14bmr3587685eda.36.1675166048541; 
+ Tue, 31 Jan 2023 03:54:08 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-077-013-082-236.77.13.pool.telefonica.de. [77.13.82.236])
  by smtp.gmail.com with ESMTPSA id
- c10-20020a056402100a00b00483dd234ac6sm8178318edu.96.2023.01.31.03.54.06
+ c10-20020a056402100a00b00483dd234ac6sm8178318edu.96.2023.01.31.03.54.07
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 03:54:06 -0800 (PST)
+ Tue, 31 Jan 2023 03:54:08 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Igor Mammedov <imammedo@redhat.com>,
@@ -64,17 +64,16 @@ Cc: Igor Mammedov <imammedo@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, Laurent Vivier <lvivier@redhat.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, qemu-trivial@nongnu.org,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 16/20] hw/isa/lpc_ich9: Remove redundant ich9_lpc_reset()
- invocation
-Date: Tue, 31 Jan 2023 12:53:22 +0100
-Message-Id: <20230131115326.12454-17-shentey@gmail.com>
+Subject: [PATCH v2 17/20] hw/i386/ich9: Remove redundant GSI_NUM_PINS
+Date: Tue, 31 Jan 2023 12:53:23 +0100
+Message-Id: <20230131115326.12454-18-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230131115326.12454-1-shentey@gmail.com>
 References: <20230131115326.12454-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::530;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x530.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::531;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x531.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -97,36 +96,109 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ich9_lpc_reset() is the dc->reset callback which is called
-automatically. No need to call it explicitly during k->realize.
+Most code uses IOAPIC_NUM_PINS. The only place where GSI_NUM_PINS defines
+the size of an array is ICH9LPCState::gsi which needs to match
+IOAPIC_NUM_PINS. Remove GSI_NUM_PINS for consistency.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- hw/isa/lpc_ich9.c | 4 ----
- 1 file changed, 4 deletions(-)
+ include/hw/i386/ich9.h | 2 +-
+ include/hw/i386/x86.h  | 1 -
+ hw/i386/pc.c           | 6 +++---
+ hw/i386/pc_q35.c       | 3 ++-
+ hw/isa/lpc_ich9.c      | 2 +-
+ 5 files changed, 7 insertions(+), 7 deletions(-)
 
+diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
+index 433c8942c9..d29090a9b7 100644
+--- a/include/hw/i386/ich9.h
++++ b/include/hw/i386/ich9.h
+@@ -63,7 +63,7 @@ struct ICH9LPCState {
+     MemoryRegion rcrb_mem; /* root complex register block */
+     Notifier machine_ready;
+ 
+-    qemu_irq gsi[GSI_NUM_PINS];
++    qemu_irq gsi[IOAPIC_NUM_PINS];
+ };
+ 
+ #define ICH9_MASK(bit, ms_bit, ls_bit) \
+diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
+index 62fa5774f8..0becd1460e 100644
+--- a/include/hw/i386/x86.h
++++ b/include/hw/i386/x86.h
+@@ -134,7 +134,6 @@ bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
+ 
+ /* Global System Interrupts */
+ 
+-#define GSI_NUM_PINS IOAPIC_NUM_PINS
+ #define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
+ 
+ typedef struct GSIState {
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 8898cc9961..cbca3f5db5 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -28,7 +28,7 @@
+ #include "hw/i386/pc.h"
+ #include "hw/char/serial.h"
+ #include "hw/char/parallel.h"
+-#include "hw/i386/apic.h"
++#include "hw/i386/ioapic.h"
+ #include "hw/i386/topology.h"
+ #include "hw/i386/fw_cfg.h"
+ #include "hw/i386/vmport.h"
+@@ -406,7 +406,7 @@ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled)
+     if (kvm_ioapic_in_kernel()) {
+         kvm_pc_setup_irq_routing(pci_enabled);
+     }
+-    *irqs = qemu_allocate_irqs(gsi_handler, s, GSI_NUM_PINS);
++    *irqs = qemu_allocate_irqs(gsi_handler, s, IOAPIC_NUM_PINS);
+ 
+     return s;
+ }
+@@ -1295,7 +1295,7 @@ void pc_basic_device_init(struct PCMachineState *pcms,
+         sysbus_realize_and_unref(SYS_BUS_DEVICE(hpet), &error_fatal);
+         sysbus_mmio_map(SYS_BUS_DEVICE(hpet), 0, HPET_BASE);
+ 
+-        for (i = 0; i < GSI_NUM_PINS; i++) {
++        for (i = 0; i < IOAPIC_NUM_PINS; i++) {
+             sysbus_connect_irq(SYS_BUS_DEVICE(hpet), i, gsi[i]);
+         }
+         pit_isa_irq = -1;
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 2b34b88dc2..87f1ff94be 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -43,6 +43,7 @@
+ #include "hw/i386/ich9.h"
+ #include "hw/i386/amd_iommu.h"
+ #include "hw/i386/intel_iommu.h"
++#include "hw/i386/ioapic.h"
+ #include "hw/display/ramfb.h"
+ #include "hw/firmware/smbios.h"
+ #include "hw/ide/pci.h"
+@@ -265,7 +266,7 @@ static void pc_q35_init(MachineState *machine)
+     gsi_state = pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
+ 
+     lpc_dev = DEVICE(lpc);
+-    for (i = 0; i < GSI_NUM_PINS; i++) {
++    for (i = 0; i < IOAPIC_NUM_PINS; i++) {
+         qdev_connect_gpio_out_named(lpc_dev, ICH9_GPIO_GSI, i, x86ms->gsi[i]);
+     }
+     isa_bus = ISA_BUS(qdev_get_child_bus(lpc_dev, "isa.0"));
 diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index 7d21857d53..b2842f2743 100644
+index b2842f2743..808c572ae4 100644
 --- a/hw/isa/lpc_ich9.c
 +++ b/hw/isa/lpc_ich9.c
-@@ -57,8 +57,6 @@
- /*****************************************************************************/
- /* ICH9 LPC PCI to ISA bridge */
+@@ -717,7 +717,7 @@ static void ich9_lpc_realize(PCIDevice *d, Error **errp)
+                                         ICH9_RST_CNT_IOPORT, &lpc->rst_cnt_mem,
+                                         1);
  
--static void ich9_lpc_reset(DeviceState *qdev);
--
- /* chipset configuration register
-  * to access chipset configuration registers, pci_[sg]et_{byte, word, long}
-  * are used.
-@@ -439,8 +437,6 @@ static void ich9_lpc_pm_init(ICH9LPCState *lpc)
-                                  sizeof lpc->smi_features_ok,
-                                  true);
-     }
--
--    ich9_lpc_reset(DEVICE(lpc));
- }
+-    qdev_init_gpio_out_named(dev, lpc->gsi, ICH9_GPIO_GSI, GSI_NUM_PINS);
++    qdev_init_gpio_out_named(dev, lpc->gsi, ICH9_GPIO_GSI, IOAPIC_NUM_PINS);
  
- /* APM */
+     isa_bus_irqs(isa_bus, lpc->gsi);
+ 
 -- 
 2.39.1
 
