@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C74682BFA
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 12:56:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2344682C0A
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 12:57:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMpDK-00071F-OP; Tue, 31 Jan 2023 06:54:14 -0500
+	id 1pMpDM-00077m-Br; Tue, 31 Jan 2023 06:54:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pMpDH-0006qS-Va; Tue, 31 Jan 2023 06:54:12 -0500
-Received: from mail-ed1-x531.google.com ([2a00:1450:4864:20::531])
+ id 1pMpDJ-0006yK-5t; Tue, 31 Jan 2023 06:54:13 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pMpDG-0002N0-4J; Tue, 31 Jan 2023 06:54:11 -0500
-Received: by mail-ed1-x531.google.com with SMTP id x7so10899384edr.0;
- Tue, 31 Jan 2023 03:54:09 -0800 (PST)
+ id 1pMpDH-0002Ld-0h; Tue, 31 Jan 2023 06:54:12 -0500
+Received: by mail-ed1-x533.google.com with SMTP id m8so4911424edd.10;
+ Tue, 31 Jan 2023 03:54:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=VrUMT8KXOlwyP+wNgiIX+Cf413CiRY1aEg+ePqpscxE=;
- b=TvB8Y25Ce/3Ie20AFkSnSditc4a+Yx0wW2YKy+ahdjomO0H6DQ0XtLYbnyQ0J6Dq27
- t4Xib9hsaDZa8be45zIxy5aSvqQ2wLx/0d5aIN8Xk+/oS8qoY89THm6+1z+RmlnJZhjO
- OqrbPvvpPO16D9MSUJ97FiCQ42hm1gVTC0JnDayA4ijmKCxWUpfX8idVI6zhqIsXlMBz
- wy13573IHbQwHIRMtx7KdKl/X++kvoX5Jt2E/eD1fOcNcBI301BIlY+/SFYo1mSNXNWu
- RjkREXql8hcjHDEdV+nvmxG3DabdHmZlHYAPLd+Z8LCjd08O2ng5qVDPS8mKXx6dzHPB
- xwaw==
+ bh=BPyNoKLwqrBVFKG2N3ckMQKAySrANIY0G3waLTCmOus=;
+ b=mfRiWDOpyXywEd2MQvhMpzpw1wkYkpbL1GdcHplAaL3VrrWgLgYWi/xRDusUU0WgE2
+ QQSpcZbr5qVQbn0XAZZm6pWiZRP/7eV2wbCMGe4aFvsoK5t31ML3iN1sYDQRjVMAt9Sg
+ j5IuG1dVteybbTTI6fSefoW/IR/l352/dB57V0kIRKVUI+xtwPBIVNDf+/WrOvpiPrHd
+ uat8FrKk/vxJVqv9+e7b6AuIwNBYkFFNV3QYJ7FMruDxu6vuDse5jE6qX+8+QkdRxJsz
+ nPk62Ki3adZcyz7dcLahPPAWVkQ41p6fdp2vEG54CydxLVHZPsR21/XHqueL74Og0ijZ
+ cdew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=VrUMT8KXOlwyP+wNgiIX+Cf413CiRY1aEg+ePqpscxE=;
- b=0BMHgN3IXy7LNlHr/13OgIG+WDP2xOmnkwOrmfz+WgMgUaLJtn+JEtJ640vRBd5CD9
- iyQ6KDW/5MMoHhXS1nXJs9ksUdF+xfxtQAkwoEJNlS9sP3W7oUC+iPGksa+FiNNNyiHP
- 9GI3z84LONK+DKCTDW4O8H/viNJO4hqvvJtf0buyhN3svCUr2LnlooKVmE+o2cCXkMfF
- YPRDO2Vgsbm4bXfUbI1GnHZ0tW9jNocSTce73wqmolv9jFJwkyeGT3L/5oHZMd67Kl7z
- bglFYPoppXPyOLabljVgslbRrR4eJHhFL0Fl9nQ2BjRQH1yyoQGxYFhuBsHWXYHU5DXj
- aUHw==
-X-Gm-Message-State: AO0yUKXMmzW3c9Ef/WWa9ZAEoG70qZ8+Wdd4Q6mOrhHHvHDcVzsuNAJo
- 0Q5iaEXM34/M3dgkFF6KidV82F1RNJM=
-X-Google-Smtp-Source: AK7set+OrWVv/Rc5aaTzF5R/Wv+rPWsHB8Enu8pOnLss/YUMuq5xAxMQo8ygOMlRE3H4fYzZz4wi1Q==
-X-Received: by 2002:a05:6402:f0c:b0:4a2:4ed3:c14b with SMTP id
- i12-20020a0564020f0c00b004a24ed3c14bmr3587685eda.36.1675166048541; 
- Tue, 31 Jan 2023 03:54:08 -0800 (PST)
+ bh=BPyNoKLwqrBVFKG2N3ckMQKAySrANIY0G3waLTCmOus=;
+ b=Jq7juod7UYj3YRdYYrUeiDapbflO2w/IVXhyMkO1xjTnJCHC0ck79ekq61/gI3T3Wo
+ hjt+AjF9663Yd1W/UhbWdkqOmIku0aF3iduVSN9dJNQB08qp/W0zLKHubSTjn7TD8RMD
+ Ddws885HY5DN1tLdkZlrdLuu/iP1nGXoOz++DGiPme8O6kLdsB7amsDCA9rUuxV3EXLu
+ gCcmfy54b4rQFfIyQP5FyFYiVZLsDx6I47X23v05C8E7R5BAhCzIuhHIyr1Nqhx37tcF
+ YWT3C2E1vSYBrHN159GusuR4bwUEbd3ZKRwhIjwUOqb5XswEMFaSo3xtjQFNFRAJsj5F
+ OMCg==
+X-Gm-Message-State: AO0yUKXf1bhEkoHJK/IYN+abg79rc+Mhz2DnkgBX/euX1xf9xGDBWe4k
+ LT1xNDimg5v1QsRJT1cBmoy78KrUf1I=
+X-Google-Smtp-Source: AK7set/GyFALkyBWWPTkOtG98Ye9TJIwXNMBinFgcpzz/LkCEpWZIOev/xr99EjXs9LL2oSwnCstcQ==
+X-Received: by 2002:a05:6402:2696:b0:49e:1c17:904 with SMTP id
+ w22-20020a056402269600b0049e1c170904mr3832816edd.15.1675166049589; 
+ Tue, 31 Jan 2023 03:54:09 -0800 (PST)
 Received: from localhost.localdomain
  (dynamic-077-013-082-236.77.13.pool.telefonica.de. [77.13.82.236])
  by smtp.gmail.com with ESMTPSA id
- c10-20020a056402100a00b00483dd234ac6sm8178318edu.96.2023.01.31.03.54.07
+ c10-20020a056402100a00b00483dd234ac6sm8178318edu.96.2023.01.31.03.54.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 03:54:08 -0800 (PST)
+ Tue, 31 Jan 2023 03:54:09 -0800 (PST)
 From: Bernhard Beschow <shentey@gmail.com>
 To: qemu-devel@nongnu.org
 Cc: Igor Mammedov <imammedo@redhat.com>,
@@ -64,16 +64,16 @@ Cc: Igor Mammedov <imammedo@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, Laurent Vivier <lvivier@redhat.com>,
  Sunil Muthuswamy <sunilmut@microsoft.com>, qemu-trivial@nongnu.org,
  Bernhard Beschow <shentey@gmail.com>
-Subject: [PATCH v2 17/20] hw/i386/ich9: Remove redundant GSI_NUM_PINS
-Date: Tue, 31 Jan 2023 12:53:23 +0100
-Message-Id: <20230131115326.12454-18-shentey@gmail.com>
+Subject: [PATCH v2 18/20] hw: Move ioapic*.h to intc/
+Date: Tue, 31 Jan 2023 12:53:24 +0100
+Message-Id: <20230131115326.12454-19-shentey@gmail.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230131115326.12454-1-shentey@gmail.com>
 References: <20230131115326.12454-1-shentey@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::531;
- envelope-from=shentey@gmail.com; helo=mail-ed1-x531.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=shentey@gmail.com; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,109 +96,215 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Most code uses IOAPIC_NUM_PINS. The only place where GSI_NUM_PINS defines
-the size of an array is ICH9LPCState::gsi which needs to match
-IOAPIC_NUM_PINS. Remove GSI_NUM_PINS for consistency.
+The ioapic sources reside in hw/intc already. Move the headers there as
+well.
 
 Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 ---
- include/hw/i386/ich9.h | 2 +-
- include/hw/i386/x86.h  | 1 -
- hw/i386/pc.c           | 6 +++---
- hw/i386/pc_q35.c       | 3 ++-
- hw/isa/lpc_ich9.c      | 2 +-
- 5 files changed, 7 insertions(+), 7 deletions(-)
+ MAINTAINERS                                 | 1 +
+ include/hw/i386/x86.h                       | 2 +-
+ include/hw/{i386 => intc}/ioapic.h          | 6 +++---
+ include/hw/{i386 => intc}/ioapic_internal.h | 8 ++++----
+ hw/i386/kvm/ioapic.c                        | 3 +--
+ hw/i386/pc.c                                | 2 +-
+ hw/i386/pc_q35.c                            | 2 +-
+ hw/intc/apic.c                              | 2 +-
+ hw/intc/ioapic.c                            | 4 ++--
+ hw/intc/ioapic_common.c                     | 4 ++--
+ target/i386/whpx/whpx-all.c                 | 2 +-
+ 11 files changed, 18 insertions(+), 18 deletions(-)
+ rename include/hw/{i386 => intc}/ioapic.h (93%)
+ rename include/hw/{i386 => intc}/ioapic_internal.h (96%)
 
-diff --git a/include/hw/i386/ich9.h b/include/hw/i386/ich9.h
-index 433c8942c9..d29090a9b7 100644
---- a/include/hw/i386/ich9.h
-+++ b/include/hw/i386/ich9.h
-@@ -63,7 +63,7 @@ struct ICH9LPCState {
-     MemoryRegion rcrb_mem; /* root complex register block */
-     Notifier machine_ready;
- 
--    qemu_irq gsi[GSI_NUM_PINS];
-+    qemu_irq gsi[IOAPIC_NUM_PINS];
- };
- 
- #define ICH9_MASK(bit, ms_bit, ls_bit) \
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c581c11a64..f96e86c57b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1703,6 +1703,7 @@ F: include/hw/char/parallel.h
+ F: include/hw/dma/i8257.h
+ F: include/hw/i2c/pm_smbus.h
+ F: include/hw/input/i8042.h
++F: include/hw/intc/ioapic*
+ F: include/hw/isa/i8259_internal.h
+ F: include/hw/isa/superio.h
+ F: include/hw/timer/hpet.h
 diff --git a/include/hw/i386/x86.h b/include/hw/i386/x86.h
-index 62fa5774f8..0becd1460e 100644
+index 0becd1460e..7eeac10e74 100644
 --- a/include/hw/i386/x86.h
 +++ b/include/hw/i386/x86.h
-@@ -134,7 +134,6 @@ bool x86_machine_is_acpi_enabled(const X86MachineState *x86ms);
+@@ -23,8 +23,8 @@
+ #include "hw/i386/topology.h"
+ #include "hw/boards.h"
+ #include "hw/nmi.h"
++#include "hw/intc/ioapic.h"
+ #include "hw/isa/isa.h"
+-#include "hw/i386/ioapic.h"
+ #include "qom/object.h"
  
- /* Global System Interrupts */
+ struct X86MachineClass {
+diff --git a/include/hw/i386/ioapic.h b/include/hw/intc/ioapic.h
+similarity index 93%
+rename from include/hw/i386/ioapic.h
+rename to include/hw/intc/ioapic.h
+index ef37b8a9fd..aa122e25e3 100644
+--- a/include/hw/i386/ioapic.h
++++ b/include/hw/intc/ioapic.h
+@@ -17,8 +17,8 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
  
--#define GSI_NUM_PINS IOAPIC_NUM_PINS
- #define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
+-#ifndef HW_IOAPIC_H
+-#define HW_IOAPIC_H
++#ifndef HW_INTC_IOAPIC_H
++#define HW_INTC_IOAPIC_H
  
- typedef struct GSIState {
+ #define IOAPIC_NUM_PINS 24
+ #define IO_APIC_DEFAULT_ADDRESS 0xfec00000
+@@ -30,4 +30,4 @@
+ 
+ void ioapic_eoi_broadcast(int vector);
+ 
+-#endif /* HW_IOAPIC_H */
++#endif /* HW_INTC_IOAPIC_H */
+diff --git a/include/hw/i386/ioapic_internal.h b/include/hw/intc/ioapic_internal.h
+similarity index 96%
+rename from include/hw/i386/ioapic_internal.h
+rename to include/hw/intc/ioapic_internal.h
+index e8ff338d7f..37b8565539 100644
+--- a/include/hw/i386/ioapic_internal.h
++++ b/include/hw/intc/ioapic_internal.h
+@@ -19,11 +19,11 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
+  */
+ 
+-#ifndef QEMU_IOAPIC_INTERNAL_H
+-#define QEMU_IOAPIC_INTERNAL_H
++#ifndef HW_INTC_IOAPIC_INTERNAL_H
++#define HW_INTC_IOAPIC_INTERNAL_H
+ 
+ #include "exec/memory.h"
+-#include "hw/i386/ioapic.h"
++#include "hw/intc/ioapic.h"
+ #include "hw/sysbus.h"
+ #include "qemu/notify.h"
+ #include "qom/object.h"
+@@ -115,4 +115,4 @@ void ioapic_reset_common(DeviceState *dev);
+ 
+ void ioapic_stat_update_irq(IOAPICCommonState *s, int irq, int level);
+ 
+-#endif /* QEMU_IOAPIC_INTERNAL_H */
++#endif /* HW_INTC_IOAPIC_INTERNAL_H */
+diff --git a/hw/i386/kvm/ioapic.c b/hw/i386/kvm/ioapic.c
+index 272e26b4a2..cd5ea5d60b 100644
+--- a/hw/i386/kvm/ioapic.c
++++ b/hw/i386/kvm/ioapic.c
+@@ -12,9 +12,8 @@
+ 
+ #include "qemu/osdep.h"
+ #include "monitor/monitor.h"
+-#include "hw/i386/x86.h"
+ #include "hw/qdev-properties.h"
+-#include "hw/i386/ioapic_internal.h"
++#include "hw/intc/ioapic_internal.h"
+ #include "hw/intc/kvm_irqcount.h"
+ #include "sysemu/kvm.h"
+ 
 diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 8898cc9961..cbca3f5db5 100644
+index cbca3f5db5..b6c353346c 100644
 --- a/hw/i386/pc.c
 +++ b/hw/i386/pc.c
-@@ -28,7 +28,7 @@
+@@ -28,7 +28,6 @@
  #include "hw/i386/pc.h"
  #include "hw/char/serial.h"
  #include "hw/char/parallel.h"
--#include "hw/i386/apic.h"
-+#include "hw/i386/ioapic.h"
+-#include "hw/i386/ioapic.h"
  #include "hw/i386/topology.h"
  #include "hw/i386/fw_cfg.h"
  #include "hw/i386/vmport.h"
-@@ -406,7 +406,7 @@ GSIState *pc_gsi_create(qemu_irq **irqs, bool pci_enabled)
-     if (kvm_ioapic_in_kernel()) {
-         kvm_pc_setup_irq_routing(pci_enabled);
-     }
--    *irqs = qemu_allocate_irqs(gsi_handler, s, GSI_NUM_PINS);
-+    *irqs = qemu_allocate_irqs(gsi_handler, s, IOAPIC_NUM_PINS);
- 
-     return s;
- }
-@@ -1295,7 +1295,7 @@ void pc_basic_device_init(struct PCMachineState *pcms,
-         sysbus_realize_and_unref(SYS_BUS_DEVICE(hpet), &error_fatal);
-         sysbus_mmio_map(SYS_BUS_DEVICE(hpet), 0, HPET_BASE);
- 
--        for (i = 0; i < GSI_NUM_PINS; i++) {
-+        for (i = 0; i < IOAPIC_NUM_PINS; i++) {
-             sysbus_connect_irq(SYS_BUS_DEVICE(hpet), i, gsi[i]);
-         }
-         pit_isa_irq = -1;
+@@ -47,6 +46,7 @@
+ #include "multiboot.h"
+ #include "hw/rtc/mc146818rtc.h"
+ #include "hw/intc/i8259.h"
++#include "hw/intc/ioapic.h"
+ #include "hw/timer/i8254.h"
+ #include "hw/input/i8042.h"
+ #include "hw/irq.h"
 diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 2b34b88dc2..87f1ff94be 100644
+index 87f1ff94be..cd61d801c7 100644
 --- a/hw/i386/pc_q35.c
 +++ b/hw/i386/pc_q35.c
-@@ -43,6 +43,7 @@
+@@ -43,11 +43,11 @@
  #include "hw/i386/ich9.h"
  #include "hw/i386/amd_iommu.h"
  #include "hw/i386/intel_iommu.h"
-+#include "hw/i386/ioapic.h"
+-#include "hw/i386/ioapic.h"
  #include "hw/display/ramfb.h"
  #include "hw/firmware/smbios.h"
  #include "hw/ide/pci.h"
-@@ -265,7 +266,7 @@ static void pc_q35_init(MachineState *machine)
-     gsi_state = pc_gsi_create(&x86ms->gsi, pcmc->pci_enabled);
+ #include "hw/ide/ahci.h"
++#include "hw/intc/ioapic.h"
+ #include "hw/usb.h"
+ #include "hw/usb/hcd-uhci.h"
+ #include "qapi/error.h"
+diff --git a/hw/intc/apic.c b/hw/intc/apic.c
+index 2d3e55f4e2..0ff060f721 100644
+--- a/hw/intc/apic.c
++++ b/hw/intc/apic.c
+@@ -20,7 +20,7 @@
+ #include "qemu/thread.h"
+ #include "hw/i386/apic_internal.h"
+ #include "hw/i386/apic.h"
+-#include "hw/i386/ioapic.h"
++#include "hw/intc/ioapic.h"
+ #include "hw/intc/i8259.h"
+ #include "hw/intc/kvm_irqcount.h"
+ #include "hw/pci/msi.h"
+diff --git a/hw/intc/ioapic.c b/hw/intc/ioapic.c
+index 264262959d..6364ecab1b 100644
+--- a/hw/intc/ioapic.c
++++ b/hw/intc/ioapic.c
+@@ -24,10 +24,10 @@
+ #include "qapi/error.h"
+ #include "monitor/monitor.h"
+ #include "hw/i386/apic.h"
+-#include "hw/i386/ioapic.h"
+-#include "hw/i386/ioapic_internal.h"
+ #include "hw/i386/x86.h"
+ #include "hw/intc/i8259.h"
++#include "hw/intc/ioapic.h"
++#include "hw/intc/ioapic_internal.h"
+ #include "hw/pci/msi.h"
+ #include "hw/qdev-properties.h"
+ #include "sysemu/kvm.h"
+diff --git a/hw/intc/ioapic_common.c b/hw/intc/ioapic_common.c
+index aa5f760871..b05f436dac 100644
+--- a/hw/intc/ioapic_common.c
++++ b/hw/intc/ioapic_common.c
+@@ -24,9 +24,9 @@
+ #include "qemu/module.h"
+ #include "migration/vmstate.h"
+ #include "monitor/monitor.h"
+-#include "hw/i386/ioapic.h"
+-#include "hw/i386/ioapic_internal.h"
+ #include "hw/intc/intc.h"
++#include "hw/intc/ioapic.h"
++#include "hw/intc/ioapic_internal.h"
+ #include "hw/sysbus.h"
  
-     lpc_dev = DEVICE(lpc);
--    for (i = 0; i < GSI_NUM_PINS; i++) {
-+    for (i = 0; i < IOAPIC_NUM_PINS; i++) {
-         qdev_connect_gpio_out_named(lpc_dev, ICH9_GPIO_GSI, i, x86ms->gsi[i]);
-     }
-     isa_bus = ISA_BUS(qdev_get_child_bus(lpc_dev, "isa.0"));
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index b2842f2743..808c572ae4 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -717,7 +717,7 @@ static void ich9_lpc_realize(PCIDevice *d, Error **errp)
-                                         ICH9_RST_CNT_IOPORT, &lpc->rst_cnt_mem,
-                                         1);
- 
--    qdev_init_gpio_out_named(dev, lpc->gsi, ICH9_GPIO_GSI, GSI_NUM_PINS);
-+    qdev_init_gpio_out_named(dev, lpc->gsi, ICH9_GPIO_GSI, IOAPIC_NUM_PINS);
- 
-     isa_bus_irqs(isa_bus, lpc->gsi);
- 
+ /* ioapic_no count start from 0 to MAX_IOAPICS,
+diff --git a/target/i386/whpx/whpx-all.c b/target/i386/whpx/whpx-all.c
+index e738d83e81..3d0c0b375f 100644
+--- a/target/i386/whpx/whpx-all.c
++++ b/target/i386/whpx/whpx-all.c
+@@ -19,7 +19,7 @@
+ #include "sysemu/runstate.h"
+ #include "qemu/main-loop.h"
+ #include "hw/boards.h"
+-#include "hw/i386/ioapic.h"
++#include "hw/intc/ioapic.h"
+ #include "hw/i386/apic_internal.h"
+ #include "qemu/error-report.h"
+ #include "qapi/error.h"
 -- 
 2.39.1
 
