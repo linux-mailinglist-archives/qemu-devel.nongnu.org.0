@@ -2,81 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 169F4682FF7
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 15:58:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBB8E68307A
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 16:02:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMs4e-0003v8-UK; Tue, 31 Jan 2023 09:57:29 -0500
+	id 1pMs8B-0005R5-V8; Tue, 31 Jan 2023 10:01:08 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMs4Z-0003lQ-QB
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 09:57:26 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pMs4X-0008Vz-Hr
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 09:57:23 -0500
-Received: by mail-pl1-x635.google.com with SMTP id p24so15303689plw.11
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 06:57:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=jVgQYIugfa5xZdBepONxV7XSk/jH+sUgIJk9gL613Xg=;
- b=toYkiXXNYBJi4jnjRs2dZ1KFLw+ezmqFnlRvS3bRFzZN59wqijO888Mq1mZ1PHRv9A
- 2cD6y0kASYwa68lCIeMisuXe/WJHqfNF/J3miBipaOOQlvX+K2u9gkQ2XYY/buy+Ujq/
- tYUh2Hk7CVVTxv5cnnI6f1uNYFekPpETsf/TPK7FFgNs31EjseqfHe4wpl6v67TTMaHY
- ffgfTvrjoW69QyyvWw1qZBuBuZ/XJTBpXhcOww8pf1V+lF2SYmPGlQKRa4DacRMWjmQ+
- z5LeTQo0z00C19E3O5Bzluy/NtcAVh7sSJJznzLhEjq+YbGXmSp6Wbd2xgYjsqgo2eVF
- RDYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=jVgQYIugfa5xZdBepONxV7XSk/jH+sUgIJk9gL613Xg=;
- b=qiYc54vIJmxb1rpHs7YJZpdXCYALB4drh6ilEzyXooHm98I/s9JzPhUkYspgFJr5RH
- hMr5BqoYVAqsoCoToHhPI5Ms3ASeRZPBWqF7kaqqBgIDlJ2Ce3CUdJigaYCbKtruHBv9
- j2dB8cXeYdg2mouaGOVBCP+KuLRh0xuA3Lz7bOFEzxmZ2ED3LuBb/g1fOWcNIZK1WfCQ
- +xz7tdaZ3HPPjrRbLcjUKJI483a6Kp2XbNXwu7pG1Hp4tgR+wwvTNbV1wX9jWLkQYzgH
- HMFY1D741c1B86nPMb+mjbWI027ol1VqFjW0XXw3bO35ki3o4SY5NnAFA/CL4NBwVri8
- rOfA==
-X-Gm-Message-State: AO0yUKVXUSKdMLqvdEanCrsNmsAlFJVXMAM8nmkm1wPyYafe0r6/ZrX3
- 3YHySPTay6P26GiLes84vFc9DA==
-X-Google-Smtp-Source: AK7set9mzH7Yy4hUWiCM3LqJN3VP9cXlr2Uq4lWpRMNBZpaqGppVJ6PJsC14YDsZlsfcRxQkyye01w==
-X-Received: by 2002:a17:902:ea06:b0:196:7c6d:2aee with SMTP id
- s6-20020a170902ea0600b001967c6d2aeemr10976622plg.11.1675177038995; 
- Tue, 31 Jan 2023 06:57:18 -0800 (PST)
-Received: from [192.168.50.50] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- e3-20020a17090301c300b00177faf558b5sm9884329plh.250.2023.01.31.06.57.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 06:57:18 -0800 (PST)
-Message-ID: <50e20ede-a9ba-e340-8b8b-c88dfb799ff9@linaro.org>
-Date: Tue, 31 Jan 2023 04:57:13 -1000
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pMs7c-0005Ee-Uk
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 10:00:32 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pMs7a-0000lc-9O
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 10:00:32 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id 73E2974634B;
+ Tue, 31 Jan 2023 15:58:01 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 0F0A374632B; Tue, 31 Jan 2023 15:58:01 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 0E1FE746324;
+ Tue, 31 Jan 2023 15:58:01 +0100 (CET)
+Date: Tue, 31 Jan 2023 15:58:01 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Bernhard Beschow <shentey@gmail.com>
+cc: qemu-devel@nongnu.org, Jiaxun Yang <jiaxun.yang@flygoat.com>, 
+ Huacai Chen <chenhuacai@kernel.org>, 
+ =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+Subject: Re: [PATCH 3/3] hw/isa/vt82c686: Implement ACPI powerdown
+In-Reply-To: <20230129213418.87978-4-shentey@gmail.com>
+Message-ID: <c598204b-4ca8-e054-30f1-b02e47b11f56@eik.bme.hu>
+References: <20230129213418.87978-1-shentey@gmail.com>
+ <20230129213418.87978-4-shentey@gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] target/i386: fix ADOX followed by ADCX
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-Cc: qemu-stable@nongnu.org
-References: <20230131085458.28764-1-pbonzini@redhat.com>
-Content-Language: en-US
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230131085458.28764-1-pbonzini@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII; format=flowed
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,41 +62,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/30/23 22:54, Paolo Bonzini wrote:
-> When ADCX is followed by ADOX or vice versa, the second instruction's
-> carry comes from EFLAGS.  This is handled by this bit of gen_ADCOX:
-> 
->          tcg_gen_extract_tl(carry_in, cpu_cc_src,
->              ctz32(cc_op == CC_OP_ADCX ? CC_C : CC_O), 1);
-> 
-> Unfortunately, in this case cc_op has been overwritten by the previous
-> "if" statement to CC_OP_ADCOX.  This works by chance when the first
-> instruction is ADCX; however, if the first instruction is ADOX,
-> ADCX will incorrectly take its carry from OF instead of CF.
-> 
-> Fix by moving the computation of the new cc_op at the end of the function.
-> The included exhaustive test case fails without this patch and passes
-> afterwards.
-> 
-> Because ADCX/ADOX need not be invoked through the VEX prefix, this
-> regression bisects to commit 16fc5726a6e2 ("target/i386: reimplement
-> 0x0f 0x38, add AVX", 2022-10-18).  However, the mistake happened a
-> little earlier, when BMI instructions were rewritten using the new
-> decoder framework.
-> 
-> Resolves:https://gitlab.com/qemu-project/qemu/-/issues/1471
-> Reported-by: Paul Jolly<https://gitlab.com/myitcv>
-> Fixes: 1d0b926150e5 ("target/i386: move scalar 0F 38 and 0F 3A instruction to new decoder", 2022-10-18)
-> Cc:qemu-stable@nongnu.org
-> Signed-off-by: Paolo Bonzini<pbonzini@redhat.com>
+On Sun, 29 Jan 2023, Bernhard Beschow wrote:
+> Signed-off-by: Bernhard Beschow <shentey@gmail.com>
 > ---
->   target/i386/tcg/emit.c.inc       | 20 +++++----
->   tests/tcg/i386/Makefile.target   |  6 ++-
->   tests/tcg/i386/test-i386-adcox.c | 75 ++++++++++++++++++++++++++++++++
->   3 files changed, 91 insertions(+), 10 deletions(-)
->   create mode 100644 tests/tcg/i386/test-i386-adcox.c
+> hw/isa/vt82c686.c | 15 +++++++++++++++
+> 1 file changed, 15 insertions(+)
+>
+> diff --git a/hw/isa/vt82c686.c b/hw/isa/vt82c686.c
+> index b0765d4ed8..2db54d1649 100644
+> --- a/hw/isa/vt82c686.c
+> +++ b/hw/isa/vt82c686.c
+> @@ -33,8 +33,10 @@
+> #include "qapi/error.h"
+> #include "qemu/log.h"
+> #include "qemu/module.h"
+> +#include "qemu/notify.h"
+> #include "qemu/range.h"
+> #include "qemu/timer.h"
+> +#include "sysemu/runstate.h"
+> #include "trace.h"
+>
+> #define ACPI_ENABLE 0xf1
+> @@ -50,6 +52,8 @@ struct ViaPMState {
+>     APMState apm;
+>     PMSMBus smb;
+>
+> +    Notifier powerdown_notifier;
+> +
+>     qemu_irq irq;
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Is there a reason to leave blank lines here? Do they separate any logical 
+blocks? If not please just drop them to allow mire lines to fit in one 
+screen.
 
-r~
+> };
+>
+> @@ -198,6 +202,14 @@ static void via_pm_reset(DeviceState *d)
+>     smb_io_space_update(s);
+> }
+>
+> +static void via_pm_powerdown_req(Notifier *n, void *opaque)
+> +{
+> +    ViaPMState *s = container_of(n, ViaPMState, powerdown_notifier);
+> +
+> +    assert(s != NULL);
+
+Only piix4 seems to assert in this callback, all others assume this will 
+work and indeed you register it from the realize method of the same object 
+with its already type checked state struct so this should not need to 
+check again so I think asserting here is overcautiousness.
+
+As said in the cover all these are just small things I came across, sorry 
+I can't give a better review of this.
+
+Regards,
+BALATON Zoltan
+
+> +    acpi_pm1_evt_power_down(&s->ar);
+> +}
+> +
+> static void via_pm_realize(PCIDevice *dev, Error **errp)
+> {
+>     ViaPMState *s = VIA_PM(dev);
+> @@ -218,6 +230,9 @@ static void via_pm_realize(PCIDevice *dev, Error **errp)
+>     acpi_pm_tmr_init(&s->ar, pm_tmr_timer, &s->io);
+>     acpi_pm1_evt_init(&s->ar, pm_tmr_timer, &s->io);
+>     acpi_pm1_cnt_init(&s->ar, &s->io, false, false, 2, false);
+> +
+> +    s->powerdown_notifier.notify = via_pm_powerdown_req;
+> +    qemu_register_powerdown_notifier(&s->powerdown_notifier);
+> }
+>
+> static void via_pm_init(Object *obj)
+>
 
