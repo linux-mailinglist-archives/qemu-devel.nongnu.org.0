@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7703682A22
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:14:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06528682A15
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:13:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMndC-0002fI-8o; Tue, 31 Jan 2023 05:12:50 -0500
+	id 1pMnd9-0002ZS-2s; Tue, 31 Jan 2023 05:12:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMnd1-0002OF-2J
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMnd1-0002OH-AW
  for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncu-0002XD-C3
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:34 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncv-0002Xm-RU
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675159951;
+ s=mimecast20190719; t=1675159952;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=QXWG1Twrz4mu4WJrwImPMyEu0ZSuq9oHsRUm+G2cs14=;
- b=Sg8SaOUuyhmZ22PcygZi0z1F/DnDpq/cWQ6JOpAMbDwiISz9aQr8gp2VARmO9BXzd4l15e
- 7LzD76o9wxJhgdJa995cu3DAon8I10qiQBXfyg6biQJIwphlgPKGG5s7G1xTIYTkohJOoH
- DW5dObt1Ws1CXROSfCz83MqX0FpKqHM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=XZJ3o6Q7mxL3l62hSaGx0qONXh5O4fQEHXLB+Zgxxg0=;
+ b=Akav1y85rOE+IAcEn5VNqE4diOwRfNVIS6m/1X/O2vFQmz+S3MWylO228z7pO70X2mEf7Q
+ YRdwShAUk1DooSjDOJheCoK52UDipmImuhvtI1wHBD0bJgW0vl4jEEN5oZyYLbMfFdQ3V9
+ Me59XYnDbf54rU/mb7IMPJfQgkuBWPc=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-93-UdlVI3n4M3Ops4ArH5nKPQ-1; Tue, 31 Jan 2023 05:12:28 -0500
-X-MC-Unique: UdlVI3n4M3Ops4ArH5nKPQ-1
+ us-mta-171-uUdOZoq6OiG2aXy52KHU1w-1; Tue, 31 Jan 2023 05:12:29 -0500
+X-MC-Unique: uUdOZoq6OiG2aXy52KHU1w-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D28A0858F09;
- Tue, 31 Jan 2023 10:12:27 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2F1DD1C06ED8;
+ Tue, 31 Jan 2023 10:12:29 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 0FDB5C15BAD;
- Tue, 31 Jan 2023 10:12:26 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 21150C15BAD;
+ Tue, 31 Jan 2023 10:12:27 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>
-Subject: [PULL 16/27] docs/about/deprecated: Mark HAXM in QEMU as deprecated
-Date: Tue, 31 Jan 2023 11:11:54 +0100
-Message-Id: <20230131101205.1499867-17-thuth@redhat.com>
+Cc: Fabiano Rosas <farosas@suse.de>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PULL 17/27] tests/tcg: Do not build/run TCG tests if TCG is disabled
+Date: Tue, 31 Jan 2023 11:11:55 +0100
+Message-Id: <20230131101205.1499867-18-thuth@redhat.com>
 In-Reply-To: <20230131101205.1499867-1-thuth@redhat.com>
 References: <20230131101205.1499867-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -77,50 +79,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The HAXM project has been retired (see https://github.com/intel/haxm#status),
-so we should mark the code in QEMU as deprecated (and finally remove it
-unless somebody else picks the project up again - which is quite unlikely
-since there are now whpx and hvf on these operating systems, too).
+From: Fabiano Rosas <farosas@suse.de>
 
-Message-Id: <20230126121034.1035138-1-thuth@redhat.com>
-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+The tests under tests/tcg depend on the TCG accelerator. Do not build
+them if --disable-tcg was given in the configure line.
+
+Signed-off-by: Fabiano Rosas <farosas@suse.de>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230120184825.31626-7-farosas@suse.de>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- docs/about/deprecated.rst | 6 ++++++
- target/i386/hax/hax-all.c | 3 +++
- 2 files changed, 9 insertions(+)
+ configure | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/docs/about/deprecated.rst b/docs/about/deprecated.rst
-index 3f4d678eb4..da2e6fe63d 100644
---- a/docs/about/deprecated.rst
-+++ b/docs/about/deprecated.rst
-@@ -93,6 +93,12 @@ form is preferred.
- The HPET setting has been turned into a machine property.
- Use ``-machine hpet=off`` instead.
- 
-+``-accel hax`` (since 8.0)
-+''''''''''''''''''''''''''
+diff --git a/configure b/configure
+index 9e407ce2e3..64960c6000 100755
+--- a/configure
++++ b/configure
+@@ -2483,7 +2483,11 @@ for target in $target_list; do
+       tcg_tests_targets="$tcg_tests_targets $target"
+   fi
+ done
+-echo "TCG_TESTS_TARGETS=$tcg_tests_targets" >> config-host.mak)
 +
-+The HAXM project has been retired (see https://github.com/intel/haxm#status).
-+Use "whpx" (on Windows) or "hvf" (on macOS) instead.
-+
++if test "$tcg" = "enabled"; then
++    echo "TCG_TESTS_TARGETS=$tcg_tests_targets" >> config-host.mak
++fi
++)
  
- QEMU Machine Protocol (QMP) commands
- ------------------------------------
-diff --git a/target/i386/hax/hax-all.c b/target/i386/hax/hax-all.c
-index b7fb5385b2..3e5992a63b 100644
---- a/target/i386/hax/hax-all.c
-+++ b/target/i386/hax/hax-all.c
-@@ -357,6 +357,9 @@ static int hax_accel_init(MachineState *ms)
-         fprintf(stdout, "HAX is %s and emulator runs in %s mode.\n",
-                 !ret ? "working" : "not working",
-                 !ret ? "fast virt" : "emulation");
-+        fprintf(stdout,
-+                "NOTE: HAX is deprecated and will be removed in a future release.\n"
-+                "      Use 'whpx' (on Windows) or 'hvf' (on macOS) instead.\n");
-     }
-     return ret;
- }
+ if test "$skip_meson" = no; then
+   cross="config-meson.cross.new"
 -- 
 2.31.1
 
