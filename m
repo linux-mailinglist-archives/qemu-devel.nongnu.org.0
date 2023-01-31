@@ -2,52 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22B86682A12
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:13:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5975F682A36
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:16:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMnd9-0002ZW-Gt; Tue, 31 Jan 2023 05:12:47 -0500
+	id 1pMnd4-0002SE-N9; Tue, 31 Jan 2023 05:12:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncu-0002L7-3N
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:32 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncr-0002Jw-TX
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:30 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncp-0002Uz-RW
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:31 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncl-0002Uh-1F
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675159942;
+ s=mimecast20190719; t=1675159941;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=VtV03tD6xFZ6Eigo9cPkT05NVG3YUWkgJFYc34psqHg=;
- b=Sdk6KkzcaEf2BGQ0CXzIWdJq2gqP1jSwm1eiHGU6FhO9SRz0PcIqpcsCFhhIsLrhkMC3Gz
- y3OwqTonmuxEh0woSrGg8gcdhidu+DRWiGJpaqoWTgXkWk8mFgeILEz2M7V+kpvVud0KTN
- Vc+CZCkOcISQWhy7eC3A2TY9k/HNKkc=
+ bh=KuAWqkQDkV/5QY3BoNc9DCPbN2GzFW3BcyHXm1DDIpU=;
+ b=gdTCn8iiYnCFRPjk7s3Ujg+F4rNCj+/q/ckRTB8LS21Vvy/BeAi6pXTUXxehOQooQ/iAPz
+ /Ei6JRhiJU9bxIbwdasPfGT/xX/Nm8XozfVGC01mQUT7X8qq/7B1s9FXwJbMfGIpfOvOyI
+ XTfB3X7J7dOmmlLV1QRfGDWu+XH9dX8=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-253-GYmNTZz0OpGyYV2nq_Ht-w-1; Tue, 31 Jan 2023 05:12:18 -0500
-X-MC-Unique: GYmNTZz0OpGyYV2nq_Ht-w-1
+ us-mta-613-Glso2rv-P46NgC47bHWefg-1; Tue, 31 Jan 2023 05:12:19 -0500
+X-MC-Unique: Glso2rv-P46NgC47bHWefg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C3AB8185A794;
- Tue, 31 Jan 2023 10:12:17 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02A3918483B3;
+ Tue, 31 Jan 2023 10:12:19 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 09C07C15BAD;
- Tue, 31 Jan 2023 10:12:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 152D0C15BAD;
+ Tue, 31 Jan 2023 10:12:17 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PULL 08/27] tests/docker/dockerfiles: Add libfdt to the i386 and to
- the riscv64 container
-Date: Tue, 31 Jan 2023 11:11:46 +0100
-Message-Id: <20230131101205.1499867-9-thuth@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 09/27] qemu/bswap: Replace bswapXX() by compiler
+ __builtin_bswap()
+Date: Tue, 31 Jan 2023 11:11:47 +0100
+Message-Id: <20230131101205.1499867-10-thuth@redhat.com>
 In-Reply-To: <20230131101205.1499867-1-thuth@redhat.com>
 References: <20230131101205.1499867-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -78,43 +79,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-No need to recompile the dtc submodule here again and again, we can
-use the pre-built binary from the distribution instead.
-(And this will also help in case we finally get rid of the dtc submodule
-in QEMU one day)
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Message-Id: <20230124143824.844040-1-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Use the compiler built-in function to byte swap values,
+as the compiler is clever and will fold constants.
+
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230111163147.71761-2-philmd@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/docker/dockerfiles/debian-riscv64-cross.docker | 1 +
- tests/docker/dockerfiles/fedora-i386-cross.docker    | 1 +
- 2 files changed, 2 insertions(+)
+ include/qemu/bswap.h | 31 ++++++-------------------------
+ 1 file changed, 6 insertions(+), 25 deletions(-)
 
-diff --git a/tests/docker/dockerfiles/debian-riscv64-cross.docker b/tests/docker/dockerfiles/debian-riscv64-cross.docker
-index 9715791e0b..3daf93968a 100644
---- a/tests/docker/dockerfiles/debian-riscv64-cross.docker
-+++ b/tests/docker/dockerfiles/debian-riscv64-cross.docker
-@@ -42,6 +42,7 @@ RUN apt update && \
-     apt install -y --no-install-recommends \
-          gcc-riscv64-linux-gnu \
-          libc6-dev-riscv64-cross \
-+         libfdt-dev:riscv64 \
-          libffi-dev:riscv64 \
-          libglib2.0-dev:riscv64 \
-          libpixman-1-dev:riscv64
-diff --git a/tests/docker/dockerfiles/fedora-i386-cross.docker b/tests/docker/dockerfiles/fedora-i386-cross.docker
-index 7eec648d2d..f58b64dc3e 100644
---- a/tests/docker/dockerfiles/fedora-i386-cross.docker
-+++ b/tests/docker/dockerfiles/fedora-i386-cross.docker
-@@ -9,6 +9,7 @@ ENV PACKAGES \
-     findutils \
-     gcc \
-     git \
-+    libfdt-devel.i686 \
-     libffi-devel.i686 \
-     libselinux-devel.i686 \
-     libtasn1-devel.i686 \
+diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
+index 346d05f2aa..ca2b4c3f15 100644
+--- a/include/qemu/bswap.h
++++ b/include/qemu/bswap.h
+@@ -37,31 +37,12 @@ static inline uint64_t bswap64(uint64_t x)
+ #endif
+ 
+ #ifdef BSWAP_FROM_FALLBACKS
+-static inline uint16_t bswap16(uint16_t x)
+-{
+-    return (((x & 0x00ff) << 8) |
+-            ((x & 0xff00) >> 8));
+-}
+-
+-static inline uint32_t bswap32(uint32_t x)
+-{
+-    return (((x & 0x000000ffU) << 24) |
+-            ((x & 0x0000ff00U) <<  8) |
+-            ((x & 0x00ff0000U) >>  8) |
+-            ((x & 0xff000000U) >> 24));
+-}
+-
+-static inline uint64_t bswap64(uint64_t x)
+-{
+-    return (((x & 0x00000000000000ffULL) << 56) |
+-            ((x & 0x000000000000ff00ULL) << 40) |
+-            ((x & 0x0000000000ff0000ULL) << 24) |
+-            ((x & 0x00000000ff000000ULL) <<  8) |
+-            ((x & 0x000000ff00000000ULL) >>  8) |
+-            ((x & 0x0000ff0000000000ULL) >> 24) |
+-            ((x & 0x00ff000000000000ULL) >> 40) |
+-            ((x & 0xff00000000000000ULL) >> 56));
+-}
++#undef  bswap16
++#define bswap16(_x) __builtin_bswap16(_x)
++#undef  bswap32
++#define bswap32(_x) __builtin_bswap32(_x)
++#undef  bswap64
++#define bswap64(_x) __builtin_bswap64(_x)
+ #endif
+ 
+ #undef BSWAP_FROM_BYTESWAP
 -- 
 2.31.1
 
