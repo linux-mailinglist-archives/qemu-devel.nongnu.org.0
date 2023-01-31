@@ -2,70 +2,135 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFFEE6833A6
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 18:20:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2305168341C
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 18:43:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMuHW-00032t-TG; Tue, 31 Jan 2023 12:18:55 -0500
+	id 1pMudl-0001fN-PR; Tue, 31 Jan 2023 12:41:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pMuHL-00030z-7v
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 12:18:44 -0500
-Received: from mout.gmx.net ([212.227.17.21])
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1pMude-0001f1-BS; Tue, 31 Jan 2023 12:41:46 -0500
+Received: from mail-vi1eur04on0708.outbound.protection.outlook.com
+ ([2a01:111:f400:fe0e::708]
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pMuHI-0008Bn-Ow
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 12:18:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
- t=1675185518; bh=e3x1GXtu8A0UNA/+tMaHIZV539L7jsM32F4GEzWbAlM=;
- h=X-UI-Sender-Class:Date:From:To:Subject;
- b=Foc3cREN0dnbjEvMthDYCIHJoKvRpYW/DukDGHhXkKIkrej1wI0v8qMc+BShV/UBd
- dRwUoAhA/rSgIJ2wOPzaWDOIyhLrnoYXX7mwPoHEFAfffUaKayibjR+zb0Uv/WAZ/X
- oIC2z+Dz0c0b6vurJFwtm/kyklwN5DvzUaLzemfdu1NP1TtQMECaZ8O3chbH579SUw
- Q/eeRC+g1vUgU11GA8S7j/z1TB8WZtq4jQqowI/ZqTBqht71X95oNVCMX3VEEfquJB
- HFFbdaC1ZzPTcPNgC8uogv/aefVp/EtocUQAdn5QfQhLT46w4LD0bhQ7EqHCNzI310
- qwS2rI3Y33NKA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from p100 ([92.116.177.115]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1N4Qwg-1ogf0q1SAI-011VeD; Tue, 31
- Jan 2023 18:18:38 +0100
-Date: Tue, 31 Jan 2023 18:18:36 +0100
-From: Helge Deller <deller@gmx.de>
-To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
-Subject: [PATCH] linux-user: Provide print_raw_param64() for 64-bit values
-Message-ID: <Y9lNbFNyRSUhhrHa@p100>
+ (Exim 4.90_1) (envelope-from <den@virtuozzo.com>)
+ id 1pMudZ-0005FQ-MK; Tue, 31 Jan 2023 12:41:44 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Qno8PSwXK6vr3VQt/HoBZSwFK45gQitaNCpvqP8dhM9pk0hM3tYU9OLkQ/WHbioQaFE0euP9sBPYzndlj2MdrKJ8dz5E64cf32hqhpIuyWBrmiKeokb4687kGu3yybr2/O1EeDkXNf0kF+MKSuyQFzIJ8idQ/xCgm2bDthMQF4B8dyNgNXFkCXsqbBvMLLEnnEAQuZMNbfsCCewXY/6s1hrOcUwi8Y6uZWhNv2Ho4LOA3cRIREDsqrDU+8c5AueOICazJjG2/EAuPyBWUfBtUO1NpOkH0YjL8p1tEvN6I8huRAe3qnAhBhSf9HPWHJXB/plYsRpPCAhdV/TFcqRWPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N7oiaGlrmpTLyoCxJOtKAVQRlFgNtOMIt2uQ18kxdJ4=;
+ b=Ix0xI1n1+PJjmlqsuTK56nnmYPbbnXpKos+XY1wDA9qXsagIna2LrAWhOoVYEeXmSV2azslIGp63J2a5ZOJY3WWzuJCnje8v6pybm3kYM6yt3dmB7JIMPOto2mnzgUfaBAB5dWmGhZawzr17aWdpOkJ0iOyKSmYF9nBF75OkTguoG+TZTszgll1Totm+oPSl6cQ7v8192AMB4pmsukRCZuYlHxE+LStJ6JX/5yEOSc16Mj1INeWt7TUyoyLJgTpDrwlhCS2GgWcdqh+dBCaYu6XxDuXlaDQrMTIFemMfnv2D+hCOmn9432DyNNtL9iY/o7ax1mw/Y/YCHpHIDbRxcg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=virtuozzo.com; dmarc=pass action=none
+ header.from=virtuozzo.com; dkim=pass header.d=virtuozzo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N7oiaGlrmpTLyoCxJOtKAVQRlFgNtOMIt2uQ18kxdJ4=;
+ b=ljX7W187eFZ8LQSkdfAYv93ujOqwQ0tggZ9WZsXhwQABkXnIM3UfUb0ljJcJlU7FihNcYsMleuaowtF+hBk9UGLjctP94DdPyeL3JDW68etAryAUhMZX4HSfts0afdtV3O7nxqd99lGyenurWCd5hN9vVXgt73tEgEzr3sNzMmJ+j96BTb1dcElhuEB7GJ8XbgY+fKaqh5nH6Ofl7t+KIdRCyRgnUkrgFaOQgMkFtuTmj3SaJB1bdsLYFLkDkZi62SfKiuhBkzHxPaVwYKW0GpFHjoIFDM73MAS4A3HyM8vW6Te2uhW1+oyPd2ig5QFD6tyB2h/jd00FZDIpzFismQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=virtuozzo.com;
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com (2603:10a6:102:1db::9)
+ by AM8PR08MB5731.eurprd08.prod.outlook.com (2603:10a6:20b:1c7::19)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Tue, 31 Jan
+ 2023 17:41:29 +0000
+Received: from PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::eb1:689:d0da:8fc0]) by PAXPR08MB6956.eurprd08.prod.outlook.com
+ ([fe80::eb1:689:d0da:8fc0%4]) with mapi id 15.20.6043.036; Tue, 31 Jan 2023
+ 17:41:29 +0000
+Message-ID: <612a1e0a-c992-a112-bd7e-83a24626db14@virtuozzo.com>
+Date: Tue, 31 Jan 2023 18:41:26 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH v2 5/5] parallels: Image repairing in parallels_open()
+Content-Language: en-US
+To: Alexander Ivanov <alexander.ivanov@virtuozzo.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, stefanha@redhat.com, vsementsov@yandex-team.ru,
+ kwolf@redhat.com, hreitz@redhat.com,
+ Mike Maslenkin <mike.maslenkin@gmail.com>
+References: <20230112150149.1452033-1-alexander.ivanov@virtuozzo.com>
+ <20230112150149.1452033-6-alexander.ivanov@virtuozzo.com>
+From: "Denis V. Lunev" <den@virtuozzo.com>
+In-Reply-To: <20230112150149.1452033-6-alexander.ivanov@virtuozzo.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: VI1PR0102CA0019.eurprd01.prod.exchangelabs.com
+ (2603:10a6:802::32) To PAXPR08MB6956.eurprd08.prod.outlook.com
+ (2603:10a6:102:1db::9)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Provags-ID: V03:K1:vFxMAgemN3CrbqSSJc02Xw9TcOk2t2rvnd1zwwRfRTWVWn8qp5I
- UICz3iVeWzmY67T9NYDDxT3n5r2TdJ8gdcEPHztSSLx9PSneMjrmvaHZCVSqLemOiaIJXFZ
- TcF7k8L3qbwZODucYdXEC28OxdZJOFQz7uu5tcB4Ds4kJJ1DrRk1gTWJy/rCBaC0xLWkqi1
- LG16dSm72udGiAjgkeXhA==
-UI-OutboundReport: notjunk:1;M01:P0:VdJ0gky+vzU=;FZB024qGhpzepmLH3m0YAJmkmRQ
- 05HBU0+0JTWdQ3yauPqusqx1IGYixuQoB1/WLkFf45+FW/NOEBjXepGAu943NyouwgljqrQPo
- rjdtYkRHU99Qag0NsIcyWqYh59UBZkPgsOBIXxYOzh6WU3pSPS/srd6D1BbJ29m6NDV3aai22
- bXBpHe6w0h15ENwR+hSPqfH5DsDp1dAATpAkUJSyv4qI/lgJ3a5ic+Nx8wTHPffpwJ7+CELNz
- IdLO2ketjiEB164yW/msirAZTxDflUuOc80dCg+JOMeBBjb8QV5TEtZ4mpvMyXNmqmmJllXZe
- /JySj/B1VtR/fLSYTnS0ySvl28qEVohAHvI9uOMEdRi7/EhsvjC2aKHFp5jA+0CPpBG9Mr0/N
- sPHARIHzC65jb0cnHYnY7VCXbNCAtqB/JKK2XQzsUcUlrGeWTzBCM5qqHZzJEwvwuxG9DL0Of
- EU6+8vSoaIz1N6I8s8LHf9JWtmd1DwKCymry8tyBYzXic7S3DiS+yjJxPGC3iD8ZntpFysxYB
- EpiMpiREf3Q+hMBI4SKBm0pCn1EVy6UMvv5nKoTcbrNwsuR0E2OvDrqLvaZElAJhmY/+52hiV
- PU/lWMvfcNaIZfnjShmkbV9ACApsjgUYyauvl1aLnaEpj0vOkA7/O4xtOIzS1jfm2hVSAN4yG
- z95UymkK1R554c/88VPRAAR95dfp7Uh5y4MXvqsewlyLRcVTLdZKB2yu696NUtv9iBnk50Fod
- kEXneMx0Jli2Sk1BK7bDgxeQXsj8kOk9POG2YVlePTYv35hLPmnKtTQtSh5gqLUpz0XuzZDpg
- 9vrBdnQ+Zx/qq0L3cvHyi4M1Wz9k4r48cadsxFB5F3QHBiLoGdcLHCe9FgotfbN3qPcbd3QMM
- lrg+8oFkN9UrNDRM2ma2El+jf+8l4DkUJBlkLyh6eihbLPXarUX1cBpr4dAJG6NVtx4s1chcZ
- b4luYg==
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
- helo=mout.gmx.net
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR08MB6956:EE_|AM8PR08MB5731:EE_
+X-MS-Office365-Filtering-Correlation-Id: ff3d7681-e152-4310-bcde-08db03b261c9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: cdLglQMT3/rOXkldedCHe5Ih9Ykrs25mK5qbhGgUUqBs/LE3f7BBXh0IQm/vvksB0RJc1lthy20WrCTj4tIeo8jZAex8OEnFNNWywNQ0R/t++ddULDOnOELKkkXH2XHTteWkCqrfhYYuUeqvJoxMZxr2YelSaiHrSsf9jx8qia+mPNqxMJtyDnMxvvHTRYWF2SUK0/Y5fbcMdfKddnxsDPphnvzDKwC7HmjeeEuH9rI3O7GfxEuuoMVrVbKQ2w1IXAmoouGkGdjCvSQPoOBI5Eh2bLY9R1G+w9NfoBqut/OMzK0qnHym/SKBCphjcFjxBJSBU2VFOfDVHvFZqmbBEUSrwCScxuHtDWOJjt/mIM5WcdR1Ty925VE6gk6GVxADBbi9f6r6j/7izyuNPoQ7x7AQ4SG06MuEbtpZktbDrdRLx2USGz5LzTVCg4/QRA3gBqW41WFdqZbEloRb0zCXVpBteX2L8Q2q/OY+tSogPVePMQY2+jlsh3j3NkUHlqQSgQ/+bSfCeeIkivqOUlDv52DxsDIj3YiAUK9N0sBWqTg/05/+d3gHFm4TQJpyHLxgHe0u9tJ/oQfFNt0lLYf7LpYyDO7tMXBuNBrThUxgi0VtWHnGu/YLEvr8mVB00ezxPR51rdcHHWeicqsalwzHkYE+Jhs75SdASnF0U89dvE5Jby6YVnGwVKks9zej4KlmGZJ9QeHzZvTNkfV2h0rdVMmmdwBQ6xwnnrKziFriMts=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:PAXPR08MB6956.eurprd08.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(396003)(366004)(39850400004)(346002)(136003)(376002)(451199018)(83380400001)(6512007)(186003)(2616005)(478600001)(53546011)(6666004)(26005)(6506007)(6486002)(36756003)(31696002)(86362001)(38100700002)(316002)(8676002)(66946007)(4326008)(66556008)(66476007)(41300700001)(8936002)(5660300002)(2906002)(31686004)(43740500002)(45980500001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UVROSE4vdXlzWmVObDlONUlRVWo0b1FJOGlWL252ZEhlVzVGWGJTc3hsSXNK?=
+ =?utf-8?B?ckd3c25uaFpTVDI4bzIyclFFZlFUQXdLSW9Ob3QzOUNoWkI2S3JpL0YvWmpr?=
+ =?utf-8?B?ZjdaNmRZNHBpb0djRTlsVmlXY0RMTFhBVFFoMGVTQ2Z4bnJjS2NqV1lLOVU5?=
+ =?utf-8?B?TURZYWFEQXBuUm5VNGNyS3pJcHhISGEwL0ttcURyUmE4dGt6WTEzZWdTM2hN?=
+ =?utf-8?B?NHJZNDF1LzF5ZlAwQjJ3Wk9sRFdicUFyaUtpUmZkbUxmOWdxZ2szOXF0WkhD?=
+ =?utf-8?B?WkllZkpFL1VDSjJ3cjBaNEtrOGk5WGJyeDd4NHFWOTdWMThXdlh5STAvOTVq?=
+ =?utf-8?B?aWVkVytUUDFnRkRpTmlJdm9nZXh2WnpCNktzR3lBUFpmZ0NrakpyenpZRVJV?=
+ =?utf-8?B?azc4aDRMdlBkSm5UWjljaDJ5WDgwTXBMY2pyemRSS2UrZVdCQVZwcnFFYnh4?=
+ =?utf-8?B?ZEt2WjFoNUJodGpNOHJhUDV1QTRWRm1SdElKS2ZFUjF2MnpCYzlMc0NoTDJ4?=
+ =?utf-8?B?Y2dKQm5LeE14Ui9nUEYxbE45bmpoanJoZzBqM3ZpdXJpQVBxeGxhVFE2Y0N4?=
+ =?utf-8?B?eVlUMm5TbFozbTFWQmkySGkxYklvMkJQQmt1cDFQb05pc1J5d0pySSthZldI?=
+ =?utf-8?B?UXNtZjM5T1dFbUxId1ZwSVRsNE90RHV4SFF3eThiNjZXZlVMazhjeTdvazdl?=
+ =?utf-8?B?MmhvSktkSXZ0bXdWNmM2Wkx6KzF2cDE2dmpPTElBOVJJU2ZldDRYUzBCMnVD?=
+ =?utf-8?B?WFNPSUU4WDlKWWRkemdDWEVPczVXZDE1U2hsYkkybGNYQ1RLbHZqdlVqRFZZ?=
+ =?utf-8?B?MUlIcDRoeFpuSWpCSW9VeUVpaXJrcTh3VnZoOG9pNVQyV29ZN1RnZGVVTXAy?=
+ =?utf-8?B?RnJjT1pSV21KclVPY21qS1V1ZUM1WTU2UXZhZGovWC9qbWIzWUowcjRST3pX?=
+ =?utf-8?B?YlZhNWkwNGFMQzMyaWtNSE5iaWx5Q2J4OFNkUGlDWUNxV1JESEV2TmJMUG1o?=
+ =?utf-8?B?WW10c3krMzJxbVJodVVkajZaL1ZUS3dHNGZ2bzUvSmtmdlljODB1YXJ6ZnRR?=
+ =?utf-8?B?SW9CT2dkSVJsajJuY2kyTHN3MHBaTWZxVXRxRUswMVJsMTA3allkMC9wcTlW?=
+ =?utf-8?B?eU9rWE9DVXdUQUlLS2N6UWNDOTZxRTQxSmZZcUdsSXJobExhNEdVdFZNWmo3?=
+ =?utf-8?B?SGZiMFJhTVlYdjdHczVVa2Foek5rZjEwZG5HVWtXY2ZkNTFCTmNkL1drSzBy?=
+ =?utf-8?B?ZUZLUHdSRm9Hd3hCTU9INkdBT3VDUmhlTGZvazA4OHNIVjM3T0JMeXIrWmZW?=
+ =?utf-8?B?OFhKakZQckg2TEhhTGI3V3Iyb2JteTdxSVV2TEZKVGI5ZnpIajZRbDQxZHVt?=
+ =?utf-8?B?NXlmQ2hZWFNreGU2dmVNSGl0bkV6YWIwMHhYa000RWNjN3U0UzFKWUVYZlFK?=
+ =?utf-8?B?UjZvcVhoOWF5WDRGOGtCVEFRLzlGeXZnQU1Qbm5kQzV3L0puMENER0crTlkx?=
+ =?utf-8?B?YWcxWUlOd1k2ZWhmRUN1Q0NZMFZraXc4Y092WTNvTHRVYkZ1YTBjemNHWmZJ?=
+ =?utf-8?B?MGNIQTVoaWFwWFBpRWJIczZTY0xEM08xRS9jdCtFSkdqQjNiWDVTSTVDdWth?=
+ =?utf-8?B?cFFJbXhtSm5HRCtlWjZNeitDY2N4bjNZbUo2L29zZmlabmFyOUw5ZS9RbUZJ?=
+ =?utf-8?B?eDdlRlFic1EweDhpcXFHQzVOc0NndTU3NThuUDVBZ0tmU2FzYjV1dnd6Ynov?=
+ =?utf-8?B?dEQ2ZGJKWnc3T2RlRVdoVDlVeDZBa1hDWjFKNVYzcXN0L1ZZS3MyMXB3S05B?=
+ =?utf-8?B?a05mRkJZbXNLZExST1lYRW56SkMwOE5FVUFjMHVOek81Sk42K0FjYUc3QTJx?=
+ =?utf-8?B?WXhPeWtSc3ZobDFJenE0YUZnUXhoWm4yY2dvUGJ0ZS9rU21ZUlZDeTlmUVp0?=
+ =?utf-8?B?R2hscEtIcGhRanlvbGVNUzV4SG9HRmw4V3ZuWXNQdytIKzZ1cVRBYnl0TEIr?=
+ =?utf-8?B?REVWNGpSeG4xbTFWQ3hRZExTRlN1b3JQTWVhYU4xR2ViU2pUUUx4M25WM01n?=
+ =?utf-8?B?U1FoRUl0Wk9uaHB1Y3Q3S2Uza2RCYTNrOHliODlHY1pkZnVudkRGVVF6NnNK?=
+ =?utf-8?Q?mJp5InQ9azPF5/2OcHLId8Fxh?=
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff3d7681-e152-4310-bcde-08db03b261c9
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR08MB6956.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2023 17:41:29.5843 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5Q0S+4uiDpJ6wzUDEJsIStpoB1QXvb3c1QnBPaut/o5IjZl+MNXNTFhjdmvcbRQdTxmvZWo8jaojX0dCSjb0Rg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR08MB5731
+Received-SPF: pass client-ip=2a01:111:f400:fe0e::708;
+ envelope-from=den@virtuozzo.com;
+ helo=EUR04-VI1-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,93 +146,132 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add a new function print_raw_param64() to print 64-bit values in the
-same way as print_raw_param(). This prevents that qemu_log() is used to
-work around the problem that print_raw_param() can only print 32-bit
-values when compiled for 32-bit targets.
+On 1/12/23 16:01, Alexander Ivanov wrote:
+> Repair an image at opening if the image is unclean or out-of-image
+> corruption was detected.
+>
+> Signed-off-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+> ---
+>   block/parallels.c | 67 +++++++++++++++++++++++++----------------------
+>   1 file changed, 36 insertions(+), 31 deletions(-)
+>
+> diff --git a/block/parallels.c b/block/parallels.c
+> index 5c9568f197..74f6d00ffb 100644
+> --- a/block/parallels.c
+> +++ b/block/parallels.c
+> @@ -753,7 +753,6 @@ static int coroutine_fn parallels_co_check(BlockDriverState *bs,
+>       return ret;
+>   }
+>   
+> -
+>   static int coroutine_fn parallels_co_create(BlockdevCreateOptions* opts,
+>                                               Error **errp)
+>   {
+> @@ -965,8 +964,8 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>   {
+>       BDRVParallelsState *s = bs->opaque;
+>       ParallelsHeader ph;
+> -    int ret, size, i;
+> -    int64_t file_size;
+> +    int ret, size;
+> +    int64_t file_size, high_off;
+>       QemuOpts *opts = NULL;
+>       Error *local_err = NULL;
+>       char *buf;
+> @@ -1044,34 +1043,6 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>       }
+>       s->bat_bitmap = (uint32_t *)(s->header + 1);
+>   
+> -    for (i = 0; i < s->bat_size; i++) {
+> -        int64_t off = bat2sect(s, i);
+> -        if (off >= file_size) {
+> -            if (flags & BDRV_O_CHECK) {
+> -                continue;
+> -            }
+> -            error_setg(errp, "parallels: Offset %" PRIi64 " in BAT[%d] entry "
+> -                       "is larger than file size (%" PRIi64 ")",
+> -                       off, i, file_size);
+> -            ret = -EINVAL;
+> -            goto fail;
+> -        }
+> -        if (off >= s->data_end) {
+> -            s->data_end = off + s->tracks;
+> -        }
+> -    }
+> -
+> -    if (le32_to_cpu(ph.inuse) == HEADER_INUSE_MAGIC) {
+> -        /* Image was not closed correctly. The check is mandatory */
+> -        s->header_unclean = true;
+> -        if ((flags & BDRV_O_RDWR) && !(flags & BDRV_O_CHECK)) {
+> -            error_setg(errp, "parallels: Image was not closed correctly; "
+> -                       "cannot be opened read/write");
+> -            ret = -EACCES;
+> -            goto fail;
+> -        }
+> -    }
+> -
+>       opts = qemu_opts_create(&parallels_runtime_opts, NULL, 0, errp);
+>       if (!opts) {
+>           goto fail_options;
+> @@ -1133,7 +1104,41 @@ static int parallels_open(BlockDriverState *bs, QDict *options, int flags,
+>           error_free(s->migration_blocker);
+>           goto fail;
+>       }
+> +
+>       qemu_co_mutex_init(&s->lock);
+> +
+> +    if (le32_to_cpu(ph.inuse) == HEADER_INUSE_MAGIC) {
+> +        s->header_unclean = true;
+> +    }
+> +
+> +    high_off = highest_offset(s) >> BDRV_SECTOR_BITS;
+> +    if (high_off >= s->data_end) {
+> +        s->data_end = high_off + s->tracks;
+> +    }
+> +
+> +    /*
+> +     * We don't repair the image here if it is opened for checks and
+> +     * shouldn't change the image if BDRV_O_RDWR or BDRV_O_INACTIVE
+> +     * flag is present.
+> +     */
+> +    if ((flags & (BDRV_O_CHECK | BDRV_O_INACTIVE)) || !(flags & BDRV_O_RDWR)) {
+> +        return 0;
+> +    }
+> +
+> +    /*
+> +     * Repair the image if it's dirty or
+> +     * out-of-image corruption was detected.
+> +     */
+> +    if (s->data_end > file_size || s->header_unclean) {
+> +        BdrvCheckResult res;
+> +        ret = bdrv_check(bs, &res, BDRV_FIX_ERRORS | BDRV_FIX_LEAKS);
+> +        if (ret < 0) {
+> +            error_setg_errno(errp, -ret,
+> +                             "Could not repair corrupted image");
+> +            goto fail;
+This leaks s->migration_blocker. Please see error path above, i.e.
 
-Additionally convert the existing 64-bit users in print_timespec64(),
-print_rlimit64() and print_preadwrite64() over to this new function and
-drop some unneccessary spaces.
+     /* Disable migration until bdrv_activate method is added */
+     error_setg(&s->migration_blocker, "The Parallels format used by 
+node '%s' "
+                "does not support live migration",
+                bdrv_get_device_or_node_name(bs));
+     ret = migrate_add_blocker(s->migration_blocker, errp);
+     if (ret < 0) {
+         error_free(s->migration_blocker); <--------------------
+         goto fail;
+     }
 
-Suggested-by: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Helge Deller <deller@gmx.de>
+Thanks a lot for Mike Maslenkin for the note.
+
+Den
 
 
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 379536f5c9..35d22be027 100644
-=2D-- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -81,6 +81,7 @@ UNUSED static void print_syscall_epilogue(const struct s=
-yscallname *);
- UNUSED static void print_string(abi_long, int);
- UNUSED static void print_buf(abi_long addr, abi_long len, int last);
- UNUSED static void print_raw_param(const char *, abi_long, int);
-+UNUSED static void print_raw_param64(const char *, long long, int last);
- UNUSED static void print_timeval(abi_ulong, int);
- UNUSED static void print_timespec(abi_ulong, int);
- UNUSED static void print_timespec64(abi_ulong, int);
-@@ -1615,6 +1616,19 @@ print_raw_param(const char *fmt, abi_long param, in=
-t last)
-     qemu_log(format, param);
- }
+> +        }
+> +    }
+> +
+>       return 0;
+>   
+>   fail_format:
 
-+/*
-+ * Same as print_raw_param() but prints out raw 64-bit parameter.
-+ */
-+static void
-+print_raw_param64(const char *fmt, long long param, int last)
-+{
-+    char format[64];
-+
-+    (void) snprintf(format, sizeof (format), "%s%s", fmt, get_comma(last)=
-);
-+    qemu_log(format, param);
-+}
-+
-+
- static void
- print_pointer(abi_long p, int last)
- {
-@@ -1691,10 +1705,8 @@ print_timespec64(abi_ulong ts_addr, int last)
-             print_pointer(ts_addr, last);
-             return;
-         }
--        qemu_log("{tv_sec =3D %lld"
--                 ",tv_nsec =3D %lld}%s",
--                 (long long)tswap64(ts->tv_sec), (long long)tswap64(ts->t=
-v_nsec),
--                 get_comma(last));
-+        print_raw_param64("{tv_sec=3D%" PRId64, tswap64(ts->tv_sec), 0);
-+        print_raw_param64("tv_nsec=3D%" PRId64 "}", tswap64(ts->tv_nsec),=
- last);
-         unlock_user(ts, ts_addr, 0);
-     } else {
-         qemu_log("NULL%s", get_comma(last));
-@@ -3814,10 +3826,9 @@ print_rlimit64(abi_ulong rlim_addr, int last)
-             print_pointer(rlim_addr, last);
-             return;
-         }
--        qemu_log("{rlim_cur =3D %lld, rlim_max =3D %lld}%s",
--                 (long long)tswap64(rl->rlim_cur),
--                 (long long)tswap64(rl->rlim_max),
--                 get_comma(last));
-+        print_raw_param64("{rlim_cur=3D%" PRId64, tswap64(rl->rlim_cur), =
-0);
-+        print_raw_param64("rlim_max=3D%" PRId64 "}", tswap64(rl->rlim_max=
-),
-+                            last);
-         unlock_user(rl, rlim_addr, 0);
-     } else {
-         qemu_log("NULL%s", get_comma(last));
-@@ -3838,7 +3849,7 @@ print_preadwrite64(CPUArchState *cpu_env, const stru=
-ct syscallname *name,
-     print_raw_param("%d", arg0, 0);
-     print_pointer(arg1, 0);
-     print_raw_param("%d", arg2, 0);
--    qemu_log("%lld", (long long)target_offset64(arg3, arg4));
-+    print_raw_param64("%" PRId64, target_offset64(arg3, arg4), 1);
-     print_syscall_epilogue(name);
- }
- #endif
 
