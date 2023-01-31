@@ -2,88 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 225486838B3
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 22:33:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5566838D4
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 22:43:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMyFJ-0004kf-7w; Tue, 31 Jan 2023 16:32:53 -0500
+	id 1pMyNx-0001GK-0b; Tue, 31 Jan 2023 16:41:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMyFG-0004jT-FB
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 16:32:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pMyFE-0002N4-RU
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 16:32:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675200768;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=6CmhZLbc4JWRLN0ylBEXm/j6iZQjw4ir9FyIBY6Whv8=;
- b=XpNGV2p2BzLjlqdCdYOA0RDmX6wMGg9lxWhGHWxf8BMMiyTik3xTt5C499UfgJXoyh4pgz
- ANcZ+kCdG2MhNd3cwOiI3U1KKk4nmbVUqCPy19Jyi2Ejt06jExVwIyDO1pmYV9lmPK+BcI
- 4m+qZnZxCbrwLvAwEcn9cFVk71N8Y5I=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-103-TNVufx-BP9WBw3auvcCumw-1; Tue, 31 Jan 2023 16:32:46 -0500
-X-MC-Unique: TNVufx-BP9WBw3auvcCumw-1
-Received: by mail-ej1-f70.google.com with SMTP id
- ds1-20020a170907724100b008775bfcef62so10462893ejc.9
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 13:32:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pMyNv-0001Fr-D2
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 16:41:47 -0500
+Received: from mail-lj1-x22a.google.com ([2a00:1450:4864:20::22a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <stefanha@gmail.com>)
+ id 1pMyNt-0005LW-Cs
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 16:41:47 -0500
+Received: by mail-lj1-x22a.google.com with SMTP id d8so5015402ljq.9
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 13:41:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=C804c1ylMqvxXdADLhfcM39PiApYCjtliC3aOysB3+U=;
+ b=hYwXjkpF+ivOr2KN3R6xFm99sPmXuou+QauIJotJJt1uqjWisRADARwl3eFSc/jf7f
+ Bxd8nb78CL5QbmZr1kQbLJEkYlhOfgSK3LxCbJi2VtSviFcM8Pu1+BvbULNzz4awLrqi
+ 3DcjEeO02Pg2nhTS+H6XhFvuOPPthIBKqulhyVrJX/IfvhDe2v5M6T2/u5IVM3dcbkXs
+ /l//Haw9JDDESHSVvj58HyNeKvfhsfKA5/B5zQByaOFPvjvOyN6DA29cF0YrgQF7hexN
+ iFVveqQSyx2EuLSbmg2TjUFoQwM6jio+OqB/LmKHP4gp6UKkjQqeFtWu8a+pBtb8yyLa
+ qDFA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6CmhZLbc4JWRLN0ylBEXm/j6iZQjw4ir9FyIBY6Whv8=;
- b=YMdPE/EV1nXazXxkwALiGV7JCyPUdJjon+xwuGI854yeugki0Yt2wGbElK849b/qlH
- r1Rjub4xM/Lct7GaT8K9jv++IPmVhC+px/R09UhHyRfjcIxUS2xHK4XKn/TPpOON+Cf2
- lwlV/K97fzECNPEbj//vow9Rdzhvx6Pc1qOyMl99TFOUUgdrkiByaeZSt5CdmYLVupQe
- aPmzmFI8k8M9ovv7g7H5v2HqH+LhzcRNwoslG5BNfHcgL9Hl9iC8i2s8XLrhGjar6B9f
- TGsqMYLcZmkhev3LNRpaCFC9jtUgEMVGJ2XI/wQycqax120+w52Pc9bLubzt6EWr6WJ8
- P3DQ==
-X-Gm-Message-State: AFqh2koIGho2YvFLBC5Md5s4FzbN/EgkSUWBc5xTnIFYvkd51fVztUX/
- v0yIBrpcjd6pZE6RNBctrwRIvPf04LlqiSwIYA/t+fBa9RNYGMG23al7yeRQF3zsK6wPl01ySt/
- K9MBYBm36y1E62YQ=
-X-Received: by 2002:a05:6402:3898:b0:45c:835b:ac64 with SMTP id
- fd24-20020a056402389800b0045c835bac64mr64062890edb.31.1675200765582; 
- Tue, 31 Jan 2023 13:32:45 -0800 (PST)
-X-Google-Smtp-Source: AMrXdXtkY7wHr214Xmr24i+GbusGT/3B0dhu2mbMYL+z36lt6StnCSY1OHRuKnP7PQul+BbYOATVZw==
-X-Received: by 2002:a05:6402:3898:b0:45c:835b:ac64 with SMTP id
- fd24-20020a056402389800b0045c835bac64mr64062874edb.31.1675200765315; 
- Tue, 31 Jan 2023 13:32:45 -0800 (PST)
-Received: from redhat.com ([2.52.144.173]) by smtp.gmail.com with ESMTPSA id
- c10-20020a056402100a00b00483dd234ac6sm8825450edu.96.2023.01.31.13.32.43
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 13:32:44 -0800 (PST)
-Date: Tue, 31 Jan 2023 16:32:41 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Maxime Coquelin <maxime.coquelin@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Cindy Lu <lulu@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>,
- qemu-level <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: Emulating device configuration / max_virtqueue_pairs in
- vhost-vdpa and vhost-user
-Message-ID: <20230131163230-mutt-send-email-mst@kernel.org>
-References: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
- <CAJaqyWfZX2sgoOq+Poa2tQTc2VTRneaUvzozOdDS+7SoMUdNkg@mail.gmail.com>
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=C804c1ylMqvxXdADLhfcM39PiApYCjtliC3aOysB3+U=;
+ b=sKyAJUCLcMMfkpT7iHh5yckjql0AGmKFGMCBbyqE0B6AB69Z9FdgUPc4jYuUJEquJ5
+ PPFiea3OSOuowF9teghCaUvUGKBTkond4eIOkCMi42XbwkwW0vaLpxk+rceEcz+kgKH+
+ 8LtOEJ/e8P39MmLSGpgLcaV+ne2wGVxEKlvrP0RzuazpJ4nuvAnGBfveh7ptkmCELvcw
+ xtLmeZb/dlsSqrxerHxnei7l1DPWBFmQlJyuPP0sTDSyLyikACMX5MfUaE9USgXJF+0m
+ oZiCN3a7IfaWWUCETbs1OQ3NpLkjACVIIsamBDCviXzu+hDyFGkiPsYbGUM7lp9aRRc6
+ fwDw==
+X-Gm-Message-State: AO0yUKVGgZxSJbBlIKAEBJO/Jq85AVVkKdChQS5x42n6nU65iUPBsUfc
+ xjmPq/jbV04InbAEB0Mrgb43HYOyVYmB9jk9f2Y=
+X-Google-Smtp-Source: AK7set9ZzTdwv7awzL5o5ZT0gvwQwHcceq6Y4SwKpt9xIiu5/ya28+xG2cojVKbRhDBYFpASNifePhHqhwmdLkD+9Kc=
+X-Received: by 2002:a2e:9247:0:b0:290:4f23:f72a with SMTP id
+ v7-20020a2e9247000000b002904f23f72amr1222054ljg.197.1675201303101; Tue, 31
+ Jan 2023 13:41:43 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJaqyWfZX2sgoOq+Poa2tQTc2VTRneaUvzozOdDS+7SoMUdNkg@mail.gmail.com>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mst@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <CAJSP0QXBKPXj2vf3wuK2QGdX+HZa_Nu3A+RT6hYnXJrUKTY4Fg@mail.gmail.com>
+ <CAJSP0QWDMv2yFkORzKt+p45ykiY=AmZCbrS464nZOqEtOz-NqA@mail.gmail.com>
+ <874js661lu.fsf@linaro.org>
+ <CAJSP0QVN1VVHEms=7p9pwJRDDk6vM+Xvk3Wzi04w7e=+0G+F2g@mail.gmail.com>
+ <CAJ+F1C+gfQRpKqG1Nr6tmcHCLjP2dfM3fq-YjKE5-HzkA832hw@mail.gmail.com>
+ <CAJSP0QVa9W0v+FAqCZTz4LZYPeic7k6w2k=4Yk9TqAEwts_v7g@mail.gmail.com>
+ <CAJ+F1CLEXhAyVtVFo0RzJSAerOo9MEc25=AodAs9oCwgrhX3iA@mail.gmail.com>
+In-Reply-To: <CAJ+F1CLEXhAyVtVFo0RzJSAerOo9MEc25=AodAs9oCwgrhX3iA@mail.gmail.com>
+From: Stefan Hajnoczi <stefanha@gmail.com>
+Date: Tue, 31 Jan 2023 16:41:29 -0500
+Message-ID: <CAJSP0QV_EN697rAHO9Tkh8WWLGfhRGsScFhR_ZBoDCRiX4x=_A@mail.gmail.com>
+Subject: Re: virtio-sound Google Summer of Code project?
+To: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Cc: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+ chouhan.shreyansh2702@gmail.com, Gerd Hoffmann <kraxel@redhat.com>, 
+ Laurent Vivier <Laurent@vivier.eu>,
+ Anton Yakovlev <anton.yakovlev@opensynergy.com>, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::22a;
+ envelope-from=stefanha@gmail.com; helo=mail-lj1-x22a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,73 +93,128 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 31, 2023 at 08:11:06PM +0100, Eugenio Perez Martin wrote:
-> On Tue, Jan 31, 2023 at 8:10 PM Eugenio Perez Martin
-> <eperezma@redhat.com> wrote:
+On Tue, 31 Jan 2023 at 16:19, Marc-Andr=C3=A9 Lureau
+<marcandre.lureau@gmail.com> wrote:
+>
+> Hi
+>
+> On Wed, Feb 1, 2023 at 12:29 AM Stefan Hajnoczi <stefanha@gmail.com> wrot=
+e:
 > >
-> > Hi,
+> > On Tue, 31 Jan 2023 at 14:48, Marc-Andr=C3=A9 Lureau
+> > <marcandre.lureau@gmail.com> wrote:
+> > >
+> > > Hi
+> > >
+> > > On Tue, Jan 31, 2023 at 10:20 PM Stefan Hajnoczi <stefanha@gmail.com>=
+ wrote:
+> > > >
+> > > > On Tue, 31 Jan 2023 at 12:43, Alex Benn=C3=A9e <alex.bennee@linaro.=
+org> wrote:
+> > > > >
+> > > > >
+> > > > > Stefan Hajnoczi <stefanha@gmail.com> writes:
+> > > > >
+> > > > > > On Sun, 29 Jan 2023 at 17:10, Stefan Hajnoczi <stefanha@gmail.c=
+om> wrote:
+> > > > > >>
+> > > > > >> Hi Shreyansh, Gerd, and Laurent,
+> > > > > >> The last virtio-sound RFC was sent in February last year. It w=
+as a
+> > > > > >> spare time project. Understandably it's hard to complete the w=
+hole
+> > > > > >> thing on weekends, evenings, etc. So I wanted to suggest relau=
+nching
+> > > > > >> the virtio-sound effort as a Google Summer of Code project.
+> > > > > >>
+> > > > > >> Google Summer of Code is a 12-week full-time remote work inter=
+nship.
+> > > > > >> The intern would be co-mentored by some (or all) of us. The pr=
+oject
+> > > > > >> goal would be to merge virtio-sound with support for both play=
+back and
+> > > > > >> capture. Advanced features for multi-channel audio, etc can be=
+ stretch
+> > > > > >> goals.
+> > > > > >>
+> > > > > >> I haven't looked in detail at the patches from February 2022, =
+so I
+> > > > > >> don't know the exact state and whether there is enough work re=
+maining
+> > > > > >> for a 12-week internship. What do you think?
+> > > > > >
+> > > > > > Adding Anton.
+> > > > > >
+> > > > > > I have updated the old wiki page for this project idea and adde=
+d it to
+> > > > > > the 2023 ideas list:
+> > > > > > https://wiki.qemu.org/Internships/ProjectIdeas/VirtioSound
+> > > > > >
+> > > > > > Please let me know if you wish to co-mentor this project!
+> > > > >
+> > > > > I'd be happy to help - although if someone was rust inclined I'd =
+also be
+> > > > > happy to mentor a rust-vmm vhost-user implementation of VirtIO so=
+und.
+> > > >
+> > > > Maybe Gerd can tell us about the QEMU audio subsystem features that
+> > > > may be lost if developing a standalone vhost-user device.
+> > > >
+> > > > Two things come to mind:
+> > > > 1. May not run on all host OSes that QEMU supports if it supports
+> > > > fewer native audio APIs than QEMU.
+> > >
+> > > Using GStreamer in Rust is well supported, and should give all the
+> > > backends that you ever need (alternatively, there might be some Rust
+> > > audio crates that I am not aware of). In all cases, I would not
+> > > implement various backends the way QEMU audio/ has grown...
+> > >
+> > > > 2. May not support forwarding audio to remote desktop solutions tha=
+t
+> > > > stream audio over the network. I don't know if/how this works with
+> > > > VNC/RDP/Spice, but a separate vhost-user process will need to do ex=
+tra
+> > > > work to send the audio over the remote desktop connection.
+> > >
+> > > Well, some of the goal with `-display dbus` is to move the remote
+> > > desktop handling outside of QEMU. I had in mind that the protocol wil=
+l
+> > > have to evolve to handle multiprocess, so audio, display, input etc
+> > > interfaces can be provided by external processes. In fact, it should
+> > > be possible without protocol change for audio devices with the curren=
+t
+> > > interface (https://gitlab.com/qemu-project/qemu/-/blob/master/ui/dbus=
+-display1.xml#L483).
+> > >
+> > > In short, I wish the project implements the device in Rust, with
+> > > `gstreamer` and `dbus` as optional features. (that should be
+> > > introspectable via --print-capabilities stuff)
 > >
-> > The current approach of offering an emulated CVQ to the guest and map
-> > the commands to vhost-user is not scaling well:
-> > * Some devices already offer it, so the transformation is redundant.
-> > * There is no support for commands with variable length (RSS?)
+> > Cool, then let's go with a Rust vhost-user device implementation!
 > >
-> > We can solve both of them by offering it through vhost-user the same
-> > way as vhost-vdpa do. With this approach qemu needs to track the
-> > commands, for similar reasons as vhost-vdpa: qemu needs to track the
-> > device status for live migration. vhost-user should use the same SVQ
-> > code for this, so we avoid duplications.
-> >
-> > One of the challenges here is to know what virtqueue to shadow /
-> > isolate. The vhost-user device may not have the same queues as the
-> > device frontend:
-> > * The first depends on the actual vhost-user device, and qemu fetches
-> > it with VHOST_USER_GET_QUEUE_NUM at the moment.
-> > * The qemu device frontend's is set by netdev queues= cmdline parameter in qemu
-> >
-> > For the device, the CVQ is the last one it offers, but for the guest
-> > it is the last one offered in config space.
-> >
-> > To create a new vhost-user command to decrease that maximum number of
-> > queues may be an option. But we can do it without adding more
-> > commands, remapping the CVQ index at virtqueue setup. I think it
-> > should be doable using (struct vhost_dev).vq_index and maybe a few
-> > adjustments here and there.
-> >
-> > Thoughts?
-> >
-> > Thanks!
-> 
-> 
-> (Starting a separated thread to vhost-vdpa related use case)
-> 
-> This could also work for vhost-vdpa if we ever decide to honor netdev
-> queues argument. It is totally ignored now, as opposed to the rest of
-> backends:
-> * vhost-kernel, whose tap device has the requested number of queues.
-> * vhost-user, that errors with ("you are asking more queues than
-> supported") if the vhost-user parent device has less queues than
-> requested (by vhost-user msg VHOST_USER_GET_QUEUE_NUM).
-> 
-> One of the reasons for this is that device configuration space is
-> totally passthrough, with the values for mtu, rss conditions, etc.
-> This is not ideal, as qemu cannot check src and destination
-> equivalence and they can change under the feets of the guest in the
-> event of a migration. External tools are needed for this, duplicating
-> part of the effort.
-> 
-> Start intercepting config space accesses and offering an emulated one
-> to the guest with this kind of adjustments is beneficial, as it makes
-> vhost-vdpa more similar to the rest of backends, making the surprise
-> on a change way lower.
-> 
-> Thoughts?
-> 
-> Thanks!
+> > Can you elaborate on how the "gstreamer" feature would be used by the
+> > process launching the vhost-user back-end? Do you mean there should be
+> > a standard command-line syntax for specifying the playback and capture
+> > devices that maps directly to GStreamer (e.g. like gst-launch-1.0)?
+>
+> Roughly what comes in mind is that the backend should always offer a
+> --audio-backend=3D... option, defaulting to something sensible, and
+> always have `none`, I guess.
+> - when the `gstreamer` feature & capability is available, can be set
+> to 'gstreamer'. Additionally, options like --gst-sink=3D'pipeline'
+> --gst-src=3D'pipeline' could be supported too, but it should do
+> something sensible here as well, by using autoaudiosink/autoaudiosrc
+> by default.
+> - when the `dbus` feature & capability is available, can be set to
+> 'dbus' (or qemu-dbus?). It may require some extra option too, to
+> communicate back with qemu, such as `--dbus-addr=3Daddr`, or
+> `--dbus-fd=3DN`.
 
-I agree here.
+I see. Thanks for explaining.
 
--- 
-MST
+I have updated the project idea now. Feel free to make edits or add
+yourselves as mentors:
+https://wiki.qemu.org/Internships/ProjectIdeas/VirtioSound
 
+Stefan
 
