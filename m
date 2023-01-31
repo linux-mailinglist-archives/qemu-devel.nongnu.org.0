@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6C6F683520
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 19:24:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A826D68352F
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 19:29:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMvIX-0005Ql-MC; Tue, 31 Jan 2023 13:24:01 -0500
+	id 1pMvNR-0007h3-9F; Tue, 31 Jan 2023 13:29:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vlaomao@gmail.com>)
- id 1pMvIV-0005J6-B7; Tue, 31 Jan 2023 13:23:59 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pMvNN-0007gT-VG
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:29:01 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <vlaomao@gmail.com>)
- id 1pMvIT-00050y-Sj; Tue, 31 Jan 2023 13:23:59 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id
- ha3-20020a17090af3c300b00230222051a6so1618418pjb.2; 
- Tue, 31 Jan 2023 10:23:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=6cIpJ4gpd6TFREbsruT2XVU6Jcq/2UIIj9+nypPblTE=;
- b=bTMPjqcwSEOtSqSRwYBnmEjSTVrLqgufVZ+fP3DwvyAksxrbnfpUxWBWms0MZVCcUI
- 5a+wIVKfj2jNIIuQkJJNsHeDu8aFefMXow0CK6ibaOPiBfmyQ9q+Rkh3e7+YgpD01oWm
- 748han0Bv6yFbM+7XKT5Xxgbnrbeq0X6XF3cKe/MP61l9zwFGjzgqAq3WF98begZILER
- HPWg9wWRj9gl2/N2K6Nwoghz6Phypt2JaN/IqG/lIwJnStUKsKUVJR23O8KiDmQWl5r2
- nsbkbwKeuHRkS4ZyQ13XezF2EBCVzGWys6HjCzrYymA1hrIoZffORIoCenNUGxwCQv1T
- Yk/w==
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pMvNL-0005iy-Rd
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:29:01 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id n13so475374plf.11
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 10:28:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=qcvfqzSNIoyUG9DiU0ob2J3U/+QMched3LDysaXh2Co=;
+ b=ur3eTDMGyDKDaHx1uWh4x2WLFIs7idxk9m+HwyignwFcI1JbWPCU8TyiEr5Wo4Q8fX
+ +3qgotn1H91VyfPGLqE+i+G7V5NKjOyecmknKD1WeZT4bDMVnL5SQ5u4B6HoXcov+klE
+ OKjK8e1rpyAQoEc6i2R5gx+vn5tsdbdNx2nv2Y63Gn31lMX5EWaXBIau3McPeSGT6Wzu
+ wpSpmH5DSpbLaj07gkXAFGXYgsGIIWJFwHqDxOKaxthtcpMO9boeofeU64ujmdaiPqgJ
+ QOQAfyhDFYiwzE52i/HI/0IYfcx/pk1MjvyEngb6rt2Sx8o4y7SndW3Ym16zzh4k+6rM
+ ScFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6cIpJ4gpd6TFREbsruT2XVU6Jcq/2UIIj9+nypPblTE=;
- b=HWiNwDFzCZDlrAdOyvbuN8LU3Y7uQyQsjx3iaszCHBeR9jx0hFzlvrJfbYROzgjJf6
- ov7+6bt055XPIshJEwMQ0qh/VE3DztXXfuZdRFFx3wlVV2fi2GGN1A40JW66In5cbCxx
- Jypbwvw5m8i3WtGdZekWjvx1pJ4NpcfBd8sJLTZCqgfpG7PWY7w6sDVuWJcN8qGO2cGy
- rvZ6Byzdr3ERgg9k83J5oXm70LFt8QNGvYWefo2a2Ig7sSvNS199IWrQlZ6tXt4uUX4T
- V9tGFC3oACTjSB7OF4gvuJckTI2SZoAl9YfM+LlcdMPG+2rsrBrReCMGw6O5cGSmVkqj
- GsZw==
-X-Gm-Message-State: AO0yUKWK5NvZb9nceYlfGt9a9lFmLYlBJ2OEsSz0YkeyfbXmdxPKKHXj
- CviD8RdR5rk4bwLlwyN85yKy86TbNQsAZrB7
-X-Google-Smtp-Source: AK7set/nVxvtlX0eqxGQX9uAHJ7x0Z8qxiuc9VgaZfI5DCm4GpU6pW9pNP/PrrZGwF/uDlnr5oScqQ==
-X-Received: by 2002:a17:90b:38c7:b0:230:efe:69c3 with SMTP id
- nn7-20020a17090b38c700b002300efe69c3mr4208910pjb.25.1675189436063; 
- Tue, 31 Jan 2023 10:23:56 -0800 (PST)
-Received: from localhost.localdomain ([94.181.144.4])
- by smtp.googlemail.com with ESMTPSA id
- h18-20020a17090adb9200b001ef8ab65052sm9134313pjv.11.2023.01.31.10.23.51
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 10:23:55 -0800 (PST)
-From: Vlao Mao <vlaomao@gmail.com>
-To: dmitry@daynix.com
-Cc: jasowang@redhat.com, qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
- laurent@vivier.eu
-Subject: [PATCH qemu 1/1] vmxnet3: add mac address restore upon reset
-Date: Tue, 31 Jan 2023 21:23:37 +0300
-Message-Id: <20230131182337.15645-2-vlaomao@gmail.com>
-X-Mailer: git-send-email 2.35.1
-In-Reply-To: <20230131182337.15645-1-vlaomao@gmail.com>
-References: <20230131182337.15645-1-vlaomao@gmail.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=qcvfqzSNIoyUG9DiU0ob2J3U/+QMched3LDysaXh2Co=;
+ b=5lDb6n+godrnqcHxdiBXcGHfFg+wi/rjwI/oio80cbMWlaAJ3BlHS1HoSnC5393crM
+ 8CLNYBARjKDx7jcKZ3ak+PtyebbcDamX39u5fcs9iep53D3aaO8VXleVIP93OHbeRJ22
+ o5/G4SC6i/eiY5GmnNCb1T+LeqqUw5rqANZTAWLmUjpuwrVqiLIiB6hiYynEd+ez5iql
+ dxYFkZ7kCmhguWYikvpqm9XoenMfLPvhwuiYahKwgjx9ImstRKDpX9NUM3JStdCsGINI
+ IlrdfRWB2AOd31WvJ9SoHTsF1xAgsr/vF2493pQZt1vM+kCM1HE7iufMXsWcsVAS7UtY
+ m+Tg==
+X-Gm-Message-State: AO0yUKVDuHEoWkv5zcS19xAS5bo2A1fFJjucTaTLMR7FZl5gdPYjQr8i
+ 6upcwfsh7MKMKPbyfJdBIHQHPA==
+X-Google-Smtp-Source: AK7set/4oxYiZnmRuheL6PJSpMZXyn5NBGgXloBVpgiN3wbzbWq2E0nX7K9W5WgmBK+5lJfw8iC4GA==
+X-Received: by 2002:a17:902:f1cb:b0:194:46e0:1b61 with SMTP id
+ e11-20020a170902f1cb00b0019446e01b61mr505170plc.63.1675189737887; 
+ Tue, 31 Jan 2023 10:28:57 -0800 (PST)
+Received: from [192.168.50.50] (rrcs-173-197-98-118.west.biz.rr.com.
+ [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
+ bf6-20020a170902b90600b00176b84eb29asm10055788plb.301.2023.01.31.10.28.56
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Jan 2023 10:28:57 -0800 (PST)
+Message-ID: <8a1e26f1-a5f5-2c6a-f732-00f1d150bd55@linaro.org>
+Date: Tue, 31 Jan 2023 08:28:53 -1000
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=vlaomao@gmail.com; helo=mail-pj1-x1029.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH] tests/tcg/s390x: Use -nostdlib for softmmu tests
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, David Hildenbrand <david@redhat.com>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-s390x@nongnu.org, 
+ qemu-devel@nongnu.org
+References: <20230131182057.2261614-1-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230131182057.2261614-1-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -89,27 +93,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Changing the address with a subsequent reboot makes this address permanent until the vm is turned off
+On 1/31/23 08:20, Ilya Leoshkevich wrote:
+> The code currently uses -nostartfiles, but this does not prevent
+> linking with libc. On Fedora there is no cross-libc, so the linking
+> step fails.
+> 
+> Fix by using the more comprehensive -nostdlib (that's also what
+> probe_target_compiler() checks for as well).
+> 
+> Fixes: 503e549e441e ("tests/tcg/s390x: Test unaligned accesses to lowcore")
+> Signed-off-by: Ilya Leoshkevich<iii@linux.ibm.com>
+> ---
+>   tests/tcg/s390x/Makefile.softmmu-target | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 
-Signed-off-by: Vlao Mao <vlaomao@gmail.com>
----
- hw/net/vmxnet3.c | 2 ++
- 1 file changed, 2 insertions(+)
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
-index 04159c8222..695ca2f923 100644
---- a/hw/net/vmxnet3.c
-+++ b/hw/net/vmxnet3.c
-@@ -1206,6 +1206,8 @@ static void vmxnet3_reset(VMXNET3State *s)
-     s->drv_shmem = 0;
-     s->tx_sop = true;
-     s->skip_current_tx_pkt = false;
-+
-+    vmxnet3_reset_mac(s);
- }
- 
- static void vmxnet3_update_rx_mode(VMXNET3State *s)
--- 
-2.35.1
-
+r~
 
