@@ -2,53 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5975F682A36
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:16:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 591B4682A1E
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:14:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMnd4-0002SE-N9; Tue, 31 Jan 2023 05:12:42 -0500
+	id 1pMndB-0002cx-8x; Tue, 31 Jan 2023 05:12:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncr-0002Jw-TX
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:30 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncv-0002MI-Ou
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:35 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncl-0002Uh-1F
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:29 -0500
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMncr-0002Vr-L5
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:12:32 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675159941;
+ s=mimecast20190719; t=1675159944;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KuAWqkQDkV/5QY3BoNc9DCPbN2GzFW3BcyHXm1DDIpU=;
- b=gdTCn8iiYnCFRPjk7s3Ujg+F4rNCj+/q/ckRTB8LS21Vvy/BeAi6pXTUXxehOQooQ/iAPz
- /Ei6JRhiJU9bxIbwdasPfGT/xX/Nm8XozfVGC01mQUT7X8qq/7B1s9FXwJbMfGIpfOvOyI
- XTfB3X7J7dOmmlLV1QRfGDWu+XH9dX8=
+ bh=E1ZNKy9K2t1Y8kp+rRktgLfBGIHFH30iixopWYmR5wg=;
+ b=Xv0Kw0CYujuN3L4fmF6I39FZsp/Q+2veOVw2CvYixklzcK3cQkH+HbhkcYa9TZP1nYSC+f
+ 3E8kvHL5/x/gg39PepB6dqtjAo6PjfsXztK/s2MZM/X7lkSHNSZ9fgkASffxjR3dnfXxDB
+ QTvpsQ71cmZ/AY0YYSc1QxCVKZr6iOw=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-613-Glso2rv-P46NgC47bHWefg-1; Tue, 31 Jan 2023 05:12:19 -0500
-X-MC-Unique: Glso2rv-P46NgC47bHWefg-1
+ us-mta-389-wcMzRUfMMdSlXRwBU8U_Lg-1; Tue, 31 Jan 2023 05:12:20 -0500
+X-MC-Unique: wcMzRUfMMdSlXRwBU8U_Lg-1
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
  [10.11.54.8])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 02A3918483B3;
- Tue, 31 Jan 2023 10:12:19 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 3233118483B4;
+ Tue, 31 Jan 2023 10:12:20 +0000 (UTC)
 Received: from thuth.com (unknown [10.39.192.188])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 152D0C15BAD;
- Tue, 31 Jan 2023 10:12:17 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 45F74C15BAD;
+ Tue, 31 Jan 2023 10:12:19 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
 Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
  Richard Henderson <richard.henderson@linaro.org>
-Subject: [PULL 09/27] qemu/bswap: Replace bswapXX() by compiler
+Subject: [PULL 10/27] qemu/bswap: Replace bswapXXs() by compiler
  __builtin_bswap()
-Date: Tue, 31 Jan 2023 11:11:47 +0100
-Message-Id: <20230131101205.1499867-10-thuth@redhat.com>
+Date: Tue, 31 Jan 2023 11:11:48 +0100
+Message-Id: <20230131101205.1499867-11-thuth@redhat.com>
 In-Reply-To: <20230131101205.1499867-1-thuth@redhat.com>
 References: <20230131101205.1499867-1-thuth@redhat.com>
 MIME-Version: 1.0
@@ -81,60 +81,57 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Use the compiler built-in function to byte swap values,
-as the compiler is clever and will fold constants.
-
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <20230111163147.71761-2-philmd@linaro.org>
+Message-Id: <20230111163147.71761-3-philmd@linaro.org>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- include/qemu/bswap.h | 31 ++++++-------------------------
- 1 file changed, 6 insertions(+), 25 deletions(-)
+ include/qemu/bswap.h | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/include/qemu/bswap.h b/include/qemu/bswap.h
-index 346d05f2aa..ca2b4c3f15 100644
+index ca2b4c3f15..d2dafdc54c 100644
 --- a/include/qemu/bswap.h
 +++ b/include/qemu/bswap.h
-@@ -37,31 +37,12 @@ static inline uint64_t bswap64(uint64_t x)
+@@ -50,29 +50,31 @@ static inline uint64_t bswap64(uint64_t x)
+ 
+ static inline void bswap16s(uint16_t *s)
+ {
+-    *s = bswap16(*s);
++    *s = __builtin_bswap16(*s);
+ }
+ 
+ static inline void bswap32s(uint32_t *s)
+ {
+-    *s = bswap32(*s);
++    *s = __builtin_bswap32(*s);
+ }
+ 
+ static inline void bswap64s(uint64_t *s)
+ {
+-    *s = bswap64(*s);
++    *s = __builtin_bswap64(*s);
+ }
+ 
+ #if HOST_BIG_ENDIAN
+ #define be_bswap(v, size) (v)
+-#define le_bswap(v, size) glue(bswap, size)(v)
++#define le_bswap(v, size) glue(__builtin_bswap, size)(v)
+ #define be_bswaps(v, size)
+-#define le_bswaps(p, size) do { *p = glue(bswap, size)(*p); } while(0)
++#define le_bswaps(p, size) \
++            do { *p = glue(__builtin_bswap, size)(*p); } while (0)
+ #else
+ #define le_bswap(v, size) (v)
+-#define be_bswap(v, size) glue(bswap, size)(v)
++#define be_bswap(v, size) glue(__builtin_bswap, size)(v)
+ #define le_bswaps(v, size)
+-#define be_bswaps(p, size) do { *p = glue(bswap, size)(*p); } while(0)
++#define be_bswaps(p, size) \
++            do { *p = glue(__builtin_bswap, size)(*p); } while (0)
  #endif
  
- #ifdef BSWAP_FROM_FALLBACKS
--static inline uint16_t bswap16(uint16_t x)
--{
--    return (((x & 0x00ff) << 8) |
--            ((x & 0xff00) >> 8));
--}
--
--static inline uint32_t bswap32(uint32_t x)
--{
--    return (((x & 0x000000ffU) << 24) |
--            ((x & 0x0000ff00U) <<  8) |
--            ((x & 0x00ff0000U) >>  8) |
--            ((x & 0xff000000U) >> 24));
--}
--
--static inline uint64_t bswap64(uint64_t x)
--{
--    return (((x & 0x00000000000000ffULL) << 56) |
--            ((x & 0x000000000000ff00ULL) << 40) |
--            ((x & 0x0000000000ff0000ULL) << 24) |
--            ((x & 0x00000000ff000000ULL) <<  8) |
--            ((x & 0x000000ff00000000ULL) >>  8) |
--            ((x & 0x0000ff0000000000ULL) >> 24) |
--            ((x & 0x00ff000000000000ULL) >> 40) |
--            ((x & 0xff00000000000000ULL) >> 56));
--}
-+#undef  bswap16
-+#define bswap16(_x) __builtin_bswap16(_x)
-+#undef  bswap32
-+#define bswap32(_x) __builtin_bswap32(_x)
-+#undef  bswap64
-+#define bswap64(_x) __builtin_bswap64(_x)
- #endif
- 
- #undef BSWAP_FROM_BYTESWAP
+ /**
 -- 
 2.31.1
 
