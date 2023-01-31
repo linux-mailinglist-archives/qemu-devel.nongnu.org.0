@@ -2,98 +2,110 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1AFD683988
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 23:44:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3066839CE
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 23:58:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMzLc-0008UB-9l; Tue, 31 Jan 2023 17:43:28 -0500
+	id 1pMzZ4-000131-Ex; Tue, 31 Jan 2023 17:57:23 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pMzLQ-0008Sz-6f
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 17:43:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
+ id 1pMzZ0-0000xh-DL
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 17:57:18 -0500
+Received: from mail-bn8nam12on2047.outbound.protection.outlook.com
+ ([40.107.237.47] helo=NAM12-BN8-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pMzLN-0007dM-9l
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 17:43:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675204990;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=5bGok7ndJwsimA9ScNQuyS5g522SXbIEElrX+chCc1M=;
- b=Fl+7zpt2Jk8Gecayb+QdclXFru/OZKxkX0TKmMrKs0FdKAuKJ8iwFQSOyGe+a8khNFrqCz
- TKmtzxSeyZZcDUMovPA4M93ROoKkNlF2mQZ8vF5zqy/kcMQ7wfHTX5pFMIVsRAxGBkTmTq
- 9B/3LEBGX/r3BBgeme2uj1csjM4LdLg=
-Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
- [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-301-vP1Q2jQANSGO1DY-KsyIqw-1; Tue, 31 Jan 2023 17:43:05 -0500
-X-MC-Unique: vP1Q2jQANSGO1DY-KsyIqw-1
-Received: by mail-io1-f72.google.com with SMTP id
- r25-20020a6bd919000000b0071cfef31f97so3849197ioc.4
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 14:43:05 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=5bGok7ndJwsimA9ScNQuyS5g522SXbIEElrX+chCc1M=;
- b=QZAytxJZChG3rGb8NP+f/dpJDhVqhwIvwgL7LomVunvBgbHKploxhGEtaWiBfTwQkK
- oX1AoYn2TUpUpLqjZI19ETHclsL9TdQEdUJi/cg0QW9/59YKPVmKggTcULzfWmRbJxKV
- xw6AGgg+rsvAWrnhOkXKMaY2aQAWR3MSzv9rJO8C4q+kjI+DkrlzXJUJTu8xAxMIbLye
- 1ojyukEicmhJ+v8fAEUea9D9F1nPk32B8iBmtaNGNanqns7XwugmiT2Ci+zoZbsLdd9d
- fqF3rBE0tUTShfzfWME6ijvRPhD2Ky2HVLfkVA4uGVdlaKqe+56tVprla2Pw8Loa7NB8
- h8wg==
-X-Gm-Message-State: AO0yUKXF6sPFx6B7C0Xtbpt+E6EFgt1NySuw3QTlskfPgcFWxAgUsrdT
- S3Z79boWkBOpog0uWMLNzaceDoMKPDloe/5EcWL/alAzg8Dfw5n34wXM/uFSym8Uf1Hfs2eiKsI
- 503E6Pco5DYNhN7U=
-X-Received: by 2002:a92:7c02:0:b0:310:d36c:35ef with SMTP id
- x2-20020a927c02000000b00310d36c35efmr146887ilc.7.1675204984126; 
- Tue, 31 Jan 2023 14:43:04 -0800 (PST)
-X-Google-Smtp-Source: AK7set95IYk/qKIweJg2h3leS4l/LIlVnW7dpMnpMu7USLDQ7/aeRUWfxJjJMqPkgRFZZBn1Kvb1rA==
-X-Received: by 2002:a92:7c02:0:b0:310:d36c:35ef with SMTP id
- x2-20020a927c02000000b00310d36c35efmr146862ilc.7.1675204983767; 
- Tue, 31 Jan 2023 14:43:03 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- m16-20020a92c530000000b0031118ebf52esm324832ili.17.2023.01.31.14.43.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 14:43:03 -0800 (PST)
-Date: Tue, 31 Jan 2023 15:43:01 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Avihai Horon <avihaih@nvidia.com>
-Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu
- <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>, Marcel Apfelbaum
- <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, Richard
- Henderson <richard.henderson@linaro.org>, Eduardo Habkost
- <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>, Philippe
- =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Yishai Hadas
- <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
- <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
- <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
-Subject: Re: [PATCH 01/18] vfio/migration: Add VFIO migration pre-copy support
-Message-ID: <20230131154301.4aaa8448.alex.williamson@redhat.com>
-In-Reply-To: <0c6856e7-ab92-7276-256c-6226aa692698@nvidia.com>
-References: <20230126184948.10478-1-avihaih@nvidia.com>
- <20230126184948.10478-2-avihaih@nvidia.com>
- <20230126165232.0e7a2316.alex.williamson@redhat.com>
- <0c6856e7-ab92-7276-256c-6226aa692698@nvidia.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
+ id 1pMzYq-0003x6-6z
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 17:57:18 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=AMG3beTMP7Ttsu8eJFbXqTsxrF1uN7kgDOxGaRBKpGcWkskfWYxUuevaa55gmS6GL/0vaXYdsa7FaOv1zRDvwY3FMfUbrwupnAAJnErfrT0nZLYJanVl4feXZe20gwlFQ+2cs5MmfqXRr9w09v6F6bQ/FK13hRdkwma5Z56pyOFZRPuMUWMjfrjv5wUx6TI4Fbo4oE83VNAjzGm2qP/3wKSlEQv75R0joJ2wkeQ2wKpdCa6nUCDVT/2sJKNEf8ji9LpM+okiBkc+fJlZWpjI8ZlmC8zsce2WJGwZWhgodh91i/Bg0qKMEusKWbgPl+KBtKCeXXhJF7aVelxipCYXbQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HX0/VprMtKGAirOyOoDFvnPvkn84PZOJUgA+v8ssH3c=;
+ b=fo7Qc70usaGMCBEJSGlUAivzrD9Iysdj177hTNPOVV7TUz/o5gPJA6utSFkO71NB567YDnBkML5NV3h6i6GAcndSYXETQ43gJ92eL5GSM/jxVsES4mSjeyAdk0/ZGT6eH2BWSjre1EbtmbKsLb53lKIf9uSjrqmRCUzfLQeK0MsIkKD+mOty0glAIXd0LXARfGLvNGlFRO+9at4tvpEtuCu8F65YCw/kumPAyeFGMmDxAYZVSWENSFPFzWvtA3MPmjVEFxwi3aertQ4EfrkFTbL1Iqb7HxrR/brOXlgVGpbVGd1Sr8kBxdvT3uI8knPnHCjtRnAssBWeIvHHE4Q16Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nongnu.org smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HX0/VprMtKGAirOyOoDFvnPvkn84PZOJUgA+v8ssH3c=;
+ b=ERv/aSuAc7EiynUP8a8gNFwokHUmc8l/3VQEWXoXiu8AY9+64VtaSoxkcLi9kYIGBZ+iFnynZzk4QdEKLGZrjqD46eJS/LAT0ELh53QfG4ZvOzYG3RqIQ4HWHRCKLEoO44v7O3mdbldD6kPzPY7X6/sQH1LTGR+lZF/9xjnMuh4=
+Received: from DM6PR21CA0011.namprd21.prod.outlook.com (2603:10b6:5:174::21)
+ by DS7PR12MB5768.namprd12.prod.outlook.com (2603:10b6:8:77::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Tue, 31 Jan
+ 2023 22:52:03 +0000
+Received: from DM6NAM11FT029.eop-nam11.prod.protection.outlook.com
+ (2603:10b6:5:174:cafe::8c) by DM6PR21CA0011.outlook.office365.com
+ (2603:10b6:5:174::21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6086.4 via Frontend
+ Transport; Tue, 31 Jan 2023 22:52:03 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ DM6NAM11FT029.mail.protection.outlook.com (10.13.173.23) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.6043.21 via Frontend Transport; Tue, 31 Jan 2023 22:52:02 +0000
+Received: from SATLEXMB07.amd.com (10.181.41.45) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 31 Jan
+ 2023 16:52:02 -0600
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB07.amd.com
+ (10.181.41.45) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 31 Jan
+ 2023 14:52:02 -0800
+Received: from xsjfnuv50.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2375.34 via Frontend
+ Transport; Tue, 31 Jan 2023 16:52:01 -0600
+From: Vikram Garhwal <vikram.garhwal@amd.com>
+To: <qemu-devel@nongnu.org>
+CC: <xen-devel@lists.xenproject.org>, <vikram.garhwal@amd.com>,
+ <stefano.stabellini@amd.com>, <alex.bennee@linaro.org>
+Subject: [QEMU][PATCH v5 00/10] Introduce xenpvh machine for arm architecture
+Date: Tue, 31 Jan 2023 14:51:39 -0800
+Message-ID: <20230131225149.14764-1-vikram.garhwal@amd.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124;
- envelope-from=alex.williamson@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6NAM11FT029:EE_|DS7PR12MB5768:EE_
+X-MS-Office365-Filtering-Correlation-Id: baa3ead2-3303-42d1-c1fb-08db03ddc4f6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: BQgl+Hw5J4q2pTObti6zMEXD8AmHejqQfcQwmEnyWCURKctLj/4AvB+voy8ae+qK3gEYUSB7v0pbEvDmsO0KoGaQCGfkzWEQKPILnMCrmuCHr8Bm+W0lL2W9LWJMArNo/OF1GRL2dY84sCKgsUxH6dl2nu7OLMWFdRF5m8+BRI4kerC35Cz+ZCFZon17HodfGO665odtOGceNyJk8q60FAmBFrzdcBiIWiDeFYgqGvWWnc57fYNh+Ka8WuDaVqVyuVx8BqPE25WRiDxlCQU6rZeQUTCthFKqrGK9TPapPo1yg9QbUxOGUPrRnAPdyoakCDEtZ4U7czwbXZX9fpsqgQ1NM1zeRixT7bq/R1IONBySJIa4mlIwkEIUFbbypwhs/GWy0zbOvH3pihxHb+ikIzW62bEK0GMBeiCeouqxpK8fVlfwWI3Pe5Nt2xdZZLSDh3BgmHzeZoLUwHgfD2ZJm6DsKPlgzecJ4zHlhLX+MVPVmJDvwxVwQk8iHjcXp+NnKKJ1ivSmm195P8leIscjsXIXsNb84gZFVgELlkg74Nala0nQRl+FZfuANP6VGKlVzMXQxlWiTB+H1tAn5Z92OZE4BWwshAlBCgV2/PxXycHNPT9GJ+iemwC3xpyYiC/HQHnYBLtrUuwtb49bfqtgKUVCAqmCobpPDhgWpQlmFYjdsXLnLy6mhPZ/O2WMiyi1SZaVc4awdGuerX9iXE9Hcu4TX9u1GEWt1VnKv2ZbHHc=
+X-Forefront-Antispam-Report: CIP:165.204.84.17; CTRY:US; LANG:en; SCL:1; SRV:;
+ IPV:CAL; SFV:NSPM; H:SATLEXMB03.amd.com; PTR:InfoDomainNonexistent; CAT:NONE;
+ SFS:(13230025)(4636009)(376002)(136003)(346002)(39860400002)(396003)(451199018)(40470700004)(36840700001)(46966006)(6666004)(40460700003)(41300700001)(2616005)(336012)(1076003)(478600001)(186003)(26005)(54906003)(316002)(6916009)(8676002)(4326008)(83380400001)(70586007)(70206006)(426003)(36860700001)(8936002)(2906002)(36756003)(82740400003)(47076005)(356005)(5660300002)(86362001)(44832011)(40480700001)(81166007)(82310400005)(36900700001);
+ DIR:OUT; SFP:1101; 
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Jan 2023 22:52:02.9281 (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: baa3ead2-3303-42d1-c1fb-08db03ddc4f6
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d; Ip=[165.204.84.17];
+ Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource: DM6NAM11FT029.eop-nam11.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB5768
+Received-SPF: softfail client-ip=40.107.237.47;
+ envelope-from=vikram.garhwal@amd.com;
+ helo=NAM12-BN8-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -110,206 +122,99 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 31 Jan 2023 14:44:54 +0200
-Avihai Horon <avihaih@nvidia.com> wrote:
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> On 27/01/2023 1:52, Alex Williamson wrote:
-> > External email: Use caution opening links or attachments
-> >
-> >
-> > On Thu, 26 Jan 2023 20:49:31 +0200
-> > Avihai Horon <avihaih@nvidia.com> wrote:
-> >  
-> >> Pre-copy support allows the VFIO device data to be transferred while the
-> >> VM is running. This helps to accommodate VFIO devices that have a large
-> >> amount of data that needs to be transferred, and it can reduce migration
-> >> downtime.
-> >>
-> >> Pre-copy support is optional in VFIO migration protocol v2.
-> >> Implement pre-copy of VFIO migration protocol v2 and use it for devices
-> >> that support it. Full description of it can be found here [1].
-> >>
-> >> [1]
-> >> https://lore.kernel.org/kvm/20221206083438.37807-3-yishaih@nvidia.com/
-> >>
-> >> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
-> >> ---
-> >>   docs/devel/vfio-migration.rst |  29 ++++++---
-> >>   include/hw/vfio/vfio-common.h |   3 +
-> >>   hw/vfio/common.c              |   8 ++-
-> >>   hw/vfio/migration.c           | 112 ++++++++++++++++++++++++++++++++--
-> >>   hw/vfio/trace-events          |   5 +-
-> >>   5 files changed, 140 insertions(+), 17 deletions(-)
-> >>
-> >> diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
-> >> index 1d50c2fe5f..51f5e1a537 100644
-> >> --- a/docs/devel/vfio-migration.rst
-> >> +++ b/docs/devel/vfio-migration.rst
-> >> @@ -7,12 +7,14 @@ the guest is running on source host and restoring this saved state on the
-> >>   destination host. This document details how saving and restoring of VFIO
-> >>   devices is done in QEMU.
-> >>
-> >> -Migration of VFIO devices currently consists of a single stop-and-copy phase.
-> >> -During the stop-and-copy phase the guest is stopped and the entire VFIO device
-> >> -data is transferred to the destination.
-> >> -
-> >> -The pre-copy phase of migration is currently not supported for VFIO devices.
-> >> -Support for VFIO pre-copy will be added later on.
-> >> +Migration of VFIO devices consists of two phases: the optional pre-copy phase,
-> >> +and the stop-and-copy phase. The pre-copy phase is iterative and allows to
-> >> +accommodate VFIO devices that have a large amount of data that needs to be
-> >> +transferred. The iterative pre-copy phase of migration allows for the guest to
-> >> +continue whilst the VFIO device state is transferred to the destination, this
-> >> +helps to reduce the total downtime of the VM. VFIO devices can choose to skip
-> >> +the pre-copy phase of migration by not reporting the VFIO_MIGRATION_PRE_COPY
-> >> +flag in VFIO_DEVICE_FEATURE_MIGRATION ioctl.
-> >>
-> >>   A detailed description of the UAPI for VFIO device migration can be found in
-> >>   the comment for the ``vfio_device_mig_state`` structure in the header file
-> >> @@ -29,6 +31,12 @@ VFIO implements the device hooks for the iterative approach as follows:
-> >>     driver, which indicates the amount of data that the vendor driver has yet to
-> >>     save for the VFIO device.
-> >>
-> >> +* An ``is_active_iterate`` function that indicates ``save_live_iterate`` is
-> >> +  active only if the VFIO device is in pre-copy states.
-> >> +
-> >> +* A ``save_live_iterate`` function that reads the VFIO device's data from the
-> >> +  vendor driver during iterative phase.
-> >> +
-> >>   * A ``save_state`` function to save the device config space if it is present.
-> >>
-> >>   * A ``save_live_complete_precopy`` function that sets the VFIO device in
-> >> @@ -91,8 +99,10 @@ Flow of state changes during Live migration
-> >>   ===========================================
-> >>
-> >>   Below is the flow of state change during live migration.
-> >> -The values in the brackets represent the VM state, the migration state, and
-> >> +The values in the parentheses represent the VM state, the migration state, and
-> >>   the VFIO device state, respectively.
-> >> +The text in the square brackets represents the flow if the VFIO device supports
-> >> +pre-copy.
-> >>
-> >>   Live migration save path
-> >>   ------------------------
-> >> @@ -104,11 +114,12 @@ Live migration save path
-> >>                                     |
-> >>                        migrate_init spawns migration_thread
-> >>                   Migration thread then calls each device's .save_setup()
-> >> -                       (RUNNING, _SETUP, _RUNNING)
-> >> +                  (RUNNING, _SETUP, _RUNNING [_PRE_COPY])
-> >>                                     |
-> >> -                      (RUNNING, _ACTIVE, _RUNNING)
-> >> +                  (RUNNING, _ACTIVE, _RUNNING [_PRE_COPY])
-> >>                If device is active, get pending_bytes by .save_live_pending()
-> >>             If total pending_bytes >= threshold_size, call .save_live_iterate()
-> >> +                  [Data of VFIO device for pre-copy phase is copied]
-> >>           Iterate till total pending bytes converge and are less than threshold
-> >>                                     |
-> >>     On migration completion, vCPU stops and calls .save_live_complete_precopy for
-> >> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> >> index 5f8e7a02fe..88c2194fb9 100644
-> >> --- a/include/hw/vfio/vfio-common.h
-> >> +++ b/include/hw/vfio/vfio-common.h
-> >> @@ -67,7 +67,10 @@ typedef struct VFIOMigration {
-> >>       int data_fd;
-> >>       void *data_buffer;
-> >>       size_t data_buffer_size;
-> >> +    uint64_t mig_flags;
-> >>       uint64_t stop_copy_size;
-> >> +    uint64_t precopy_init_size;
-> >> +    uint64_t precopy_dirty_size;
-> >>   } VFIOMigration;
-> >>
-> >>   typedef struct VFIOAddressSpace {
-> >> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> >> index 9a0dbee6b4..93b18c5e3d 100644
-> >> --- a/hw/vfio/common.c
-> >> +++ b/hw/vfio/common.c
-> >> @@ -357,7 +357,9 @@ static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
-> >>
-> >>               if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF) &&
-> >>                   (migration->device_state == VFIO_DEVICE_STATE_RUNNING ||
-> >> -                 migration->device_state == VFIO_DEVICE_STATE_RUNNING_P2P)) {
-> >> +                 migration->device_state == VFIO_DEVICE_STATE_RUNNING_P2P ||
-> >> +                 migration->device_state == VFIO_DEVICE_STATE_PRE_COPY ||
-> >> +                 migration->device_state == VFIO_DEVICE_STATE_PRE_COPY_P2P)) {  
-> > Should this just turn into a test that we're not in STOP_COPY?  
-> 
-> Then we would need to check we are not in STOP_COPY and not in STOP.
-> The STOP check is for the case where PRE_COPY is not supported, since 
-> RAM will ask for dirty page sync when the device is in STOP state.
-> Without the STOP check, the device will skip the final dirty page sync.
-> 
-> >  
-> >>                   return false;
-> >>               }
-> >>           }
-> >> @@ -387,7 +389,9 @@ static bool vfio_devices_all_running_and_mig_active(VFIOContainer *container)
-> >>               }
-> >>
-> >>               if (migration->device_state == VFIO_DEVICE_STATE_RUNNING ||
-> >> -                migration->device_state == VFIO_DEVICE_STATE_RUNNING_P2P) {
-> >> +                migration->device_state == VFIO_DEVICE_STATE_RUNNING_P2P ||
-> >> +                migration->device_state == VFIO_DEVICE_STATE_PRE_COPY ||
-> >> +                migration->device_state == VFIO_DEVICE_STATE_PRE_COPY_P2P) {
-> >>                   continue;
-> >>               } else {
-> >>                   return false;  
-> > Hmm, this only seems to highlight that between this series and the
-> > previous, we're adding tests for states that we never actually use, ie.
-> > these _P2P states.
-> >
-> > IIRC, the reason we have these _P2P states is so that we can transition
-> > a set of devices, which may have active P2P DMA between them, to STOP,
-> > STOP_COPY, and even RUNNING states safely without lost data given that
-> > we cannot simultaneously transition all devices.  That suggest that
-> > missing from both these series is support for bringing all devices to
-> > these _P2P states before we move any device to one of STOP, STOP_COPY,
-> > or RUNNING states (in the case of RESUMING).
-> >
-> > Also, I recall discussions that we need to enforce configuration
-> > restrictions when not all devices support the _P2P states?  For example
-> > adding a migration blocker when there are multiple vfio devices and at
-> > least one of them does not support _P2P migration states.  Or perhaps
-> > initially, requiring support for _P2P states.
-> >
-> > I think what's implemented here, where we don't make use of the _P2P
-> > states would require adding a migration blocker whenever there are
-> > multiple vfio devices, regardless of the device support for _P2P.  
-> 
-> Yes, I think you are right.
-> 
-> I will add a migration blocker if there are multiple devices as part of 
-> v9 of the basic series.
-> When P2P support is added, I will block migration of multiple devices if 
-> one or more of them doesn't support P2P.
+Hi,
+This series add xenpvh machine for aarch64. Motivation behind creating xenpvh
+machine with IOREQ and TPM was to enable each guest on Xen aarch64 to have it's
+own unique and emulated TPM.
 
-How does this affect our path towards supported migration?  I'm
-thinking about a user experience where QEMU supports migration if
-device A OR device B are attached, but not devices A and B attached to
-the same VM.  We might have a device C where QEMU supports migration
-with B AND C, but not A AND C, nor A AND B AND C.  This would be the
-case if device B and device C both supported P2P states, but device A
-did not. The user has no observability of this feature, so all of this
-looks effectively random to the user.
+This series does following:
+    1. Moved common xen functionalities from hw/i386/xen to hw/xen/ so those can
+       be used for aarch64.
+    2. We added a minimal xenpvh arm machine which creates an IOREQ server and
+       support TPM.
 
-Even in the single device case, we need to make an assumption that a
-device that does not support P2P migration states (or when QEMU doesn't
-make use of P2P states) cannot be a DMA target, or otherwise have its
-MMIO space accessed while in a STOP state.  Can we guarantee that when
-other devices have not yet transitioned to STOP?
+Also, checkpatch.pl fails for 03/12 and 06/12. These fails are due to
+moving old code to new place which was not QEMU code style compatible.
+No new add code was added.
 
-We could disable the direct map MemoryRegions when we move to a STOP
-state, which would give QEMU visibility to those accesses, but besides
-pulling an abort should such an access occur, could we queue them in
-software, add them to the migration stream, and replay them after the
-device moves to the RUNNING state?  We'd need to account for the lack of
-RESUMING_P2P states as well, trapping and queue accesses from devices
-already RUNNING to those still in RESUMING (not _P2P).
+Regards,
+Vikram
 
-This all looks complicated.  Is it better to start with requiring P2P
-state support?  Thanks,
+ChangeLog:
+    v4->v5:
+        Fix missing 3 lines of codes in xen_exit_notifier() due to rebase.
+        Fix 07/10 patch subject.
 
-Alex
+    v3->v4:
+        Removed the out of series 04/12 patch.
+
+    v2->v3:
+        1. Change machine name to xenpvh as per Jurgen's input.
+        2. Add docs/system/xenpvh.rst documentation.
+        3. Removed GUEST_TPM_BASE and added tpm_base_address as property.
+        4. Correct CONFIG_TPM related issues.
+        5. Added xen_register_backend() function call to xen_register_ioreq().
+        6. Added Oleksandr's suggestion i.e. removed extra interface opening and
+           used accel=xen option
+
+    v1 -> v2
+    Merged patch 05 and 06.
+    04/12: xen-hvm-common.c:
+        1. Moved xen_be_init() and xen_be_register_common() from
+            xen_register_ioreq() to xen_register_backend().
+        2. Changed g_malloc to g_new and perror -> error_setg_errno.
+        3. Created a local subroutine function for Xen_IOREQ_register.
+        4. Fixed build issues with inclusion of xenstore.h.
+        5. Fixed minor errors.
+
+Stefano Stabellini (5):
+  hw/i386/xen/xen-hvm: move x86-specific fields out of XenIOState
+  xen-hvm: reorganize xen-hvm and move common function to xen-hvm-common
+  include/hw/xen/xen_common: return error from xen_create_ioreq_server
+  hw/xen/xen-hvm-common: skip ioreq creation on ioreq registration
+    failure
+  meson.build: do not set have_xen_pci_passthrough for aarch64 targets
+
+Vikram Garhwal (5):
+  hw/i386/xen/: move xen-mapcache.c to hw/xen/
+  hw/i386/xen: rearrange xen_hvm_init_pc
+  hw/xen/xen-hvm-common: Use g_new and error_report
+  hw/arm: introduce xenpvh machine
+  meson.build: enable xenpv machine build for ARM
+
+ docs/system/arm/xenpvh.rst       |   34 +
+ docs/system/target-arm.rst       |    1 +
+ hw/arm/meson.build               |    2 +
+ hw/arm/xen_arm.c                 |  182 +++++
+ hw/i386/meson.build              |    1 +
+ hw/i386/xen/meson.build          |    1 -
+ hw/i386/xen/trace-events         |   19 -
+ hw/i386/xen/xen-hvm.c            | 1078 +++---------------------------
+ hw/xen/meson.build               |    7 +
+ hw/xen/trace-events              |   19 +
+ hw/xen/xen-hvm-common.c          |  893 +++++++++++++++++++++++++
+ hw/{i386 => }/xen/xen-mapcache.c |    0
+ include/hw/arm/xen_arch_hvm.h    |    9 +
+ include/hw/i386/xen_arch_hvm.h   |   11 +
+ include/hw/xen/arch_hvm.h        |    5 +
+ include/hw/xen/xen-hvm-common.h  |   98 +++
+ include/hw/xen/xen_common.h      |   13 +-
+ meson.build                      |    4 +-
+ 18 files changed, 1364 insertions(+), 1013 deletions(-)
+ create mode 100644 docs/system/arm/xenpvh.rst
+ create mode 100644 hw/arm/xen_arm.c
+ create mode 100644 hw/xen/xen-hvm-common.c
+ rename hw/{i386 => }/xen/xen-mapcache.c (100%)
+ create mode 100644 include/hw/arm/xen_arch_hvm.h
+ create mode 100644 include/hw/i386/xen_arch_hvm.h
+ create mode 100644 include/hw/xen/arch_hvm.h
+ create mode 100644 include/hw/xen/xen-hvm-common.h
+
+-- 
+2.17.0
 
 
