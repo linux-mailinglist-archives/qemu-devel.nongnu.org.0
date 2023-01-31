@@ -2,87 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C5CD682685
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 09:34:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7390768275F
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 09:51:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMm5O-0007ss-JR; Tue, 31 Jan 2023 03:33:50 -0500
+	id 1pMmKh-0005Qk-99; Tue, 31 Jan 2023 03:49:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pMm5L-0007sL-Kq; Tue, 31 Jan 2023 03:33:47 -0500
-Received: from forwardcorp1c.mail.yandex.net ([178.154.239.200])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pMmKa-0005QQ-ED
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 03:49:32 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vsementsov@yandex-team.ru>)
- id 1pMm5J-0000yR-MT; Tue, 31 Jan 2023 03:33:47 -0500
-Received: from myt6-23a5e62c0090.qloud-c.yandex.net
- (myt6-23a5e62c0090.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:1da3:0:640:23a5:e62c])
- by forwardcorp1c.mail.yandex.net (Yandex) with ESMTP id CACF45E7B0;
- Tue, 31 Jan 2023 11:33:24 +0300 (MSK)
-Received: from [IPV6:2a02:6b8:b081:b42f::1:11] (unknown
- [2a02:6b8:b081:b42f::1:11])
- by myt6-23a5e62c0090.qloud-c.yandex.net (smtpcorp/Yandex) with ESMTPSA id
- MXQcqC0QYiE1-xQNVObYN; Tue, 31 Jan 2023 11:33:23 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
- s=default; 
- t=1675154003; bh=/ZzzXnxJEUhn1s6JzrmNCMDRn/vHMwKPIB2mhIMVEtg=;
- h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
- b=UNWvpsrE/NP5qGkRgDHvkICtiAG4GotoGADlg4qZgB1KUoXTKpQBLxJYZlpHXOZvL
- SfZqo1MfuoDmqNsUmsfE55g/WgnmbQdBsDO5I3oZ8/V2oVCRIP6WDf2XFWgRNwUTN6
- bCXU6jO6JIEVahr3oVJOAqXPXuUQbigONyMI7yFQ=
-Authentication-Results: myt6-23a5e62c0090.qloud-c.yandex.net;
- dkim=pass header.i=@yandex-team.ru
-Message-ID: <f37db85a-b0aa-b34a-7d5a-b1ab650f1683@yandex-team.ru>
-Date: Tue, 31 Jan 2023 11:33:22 +0300
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pMmKY-0004KC-2K
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 03:49:32 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.200])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P5dsf3NFwz6J7dj;
+ Tue, 31 Jan 2023 16:45:10 +0800 (CST)
+Received: from localhost (10.45.154.62) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Tue, 31 Jan
+ 2023 08:49:23 +0000
+Date: Tue, 31 Jan 2023 08:49:22 +0000
+To: "Michael S. Tsirkin" <mst@redhat.com>
+CC: <qemu-devel@nongnu.org>, Ben Widawsky <bwidawsk@kernel.org>,
+ <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
+ <ira.weiny@intel.com>, Gregory Price <gourry.memverge@gmail.com>, Philippe
+ =?ISO-8859-1?Q?Mathieu-Daud=E9?= <philmd@linaro.org>
+Subject: Re: [PATCH v2 5/8] hw/i386/acpi: Drop duplicate _UID entry for CXL
+ root bridge
+Message-ID: <20230131084922.00006e7a@Huawei.com>
+In-Reply-To: <20230127213645-mutt-send-email-mst@kernel.org>
+References: <20230112102644.27830-1-Jonathan.Cameron@huawei.com>
+ <20230112102644.27830-6-Jonathan.Cameron@huawei.com>
+ <20230127213645-mutt-send-email-mst@kernel.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v3] migration: Remove res_compatible parameter
-Content-Language: en-US
-To: Juan Quintela <quintela@redhat.com>, qemu-devel@nongnu.org
-Cc: Jason Wang <jasowang@redhat.com>, qemu-arm@nongnu.org,
- Hanna Reitz <hreitz@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
- Eric Blake <eblake@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
- Fam Zheng <fam@euphon.net>, David Hildenbrand <david@redhat.com>,
- Alex Williamson <alex.williamson@redhat.com>, John Snow <jsnow@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Ilya Leoshkevich <iii@linux.ibm.com>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>,
- Eric Farman <farman@linux.ibm.com>, qemu-s390x@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
- Pavel Dovgalyuk <pavel.dovgaluk@ispras.ru>,
- Laurent Vivier <lvivier@redhat.com>,
- Christian Borntraeger <borntraeger@linux.ibm.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Thomas Huth <thuth@redhat.com>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Viresh Kumar <viresh.kumar@linaro.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Eduardo Habkost <eduardo@habkost.net>,
- Klaus Jensen <its@irrelevant.dk>,
- Raphael Norwitz <raphael.norwitz@nutanix.com>,
- Laurent Vivier <laurent@vivier.eu>, Xiaojuan Yang
- <yangxiaojuan@loongson.cn>, "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Keith Busch <kbusch@kernel.org>, Thomas Huth <huth@tuxfamily.org>,
- Song Gao <gaosong@loongson.cn>,
- Richard Henderson <richard.henderson@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, qemu-trivial@nongnu.org,
- virtio-fs@redhat.com
-References: <20230130080608.2100-1-quintela@redhat.com>
-From: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
-In-Reply-To: <20230130080608.2100-1-quintela@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=178.154.239.200;
- envelope-from=vsementsov@yandex-team.ru; helo=forwardcorp1c.mail.yandex.net
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Originating-IP: [10.45.154.62]
+X-ClientProxiedBy: lhrpeml500005.china.huawei.com (7.191.163.240) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -95,20 +67,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/30/23 11:06, Juan Quintela wrote:
-> It was only used for RAM, and in that case, it means that this amount
-> of data was sent for memory.  Just delete the field in all callers.
+On Fri, 27 Jan 2023 21:38:20 -0500
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Could you describe, why it's safe to change the behavior for RAM?
+> On Thu, Jan 12, 2023 at 10:26:41AM +0000, Jonathan Cameron wrote:
+> > Noticed as this prevents iASL disasembling the DSDT table.
+> > 
+> > Reviewed-by: Ira Weiny <ira.weiny@intel.com>
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>  
+> 
+> This needed but it looks like you did not bother updating
+> expected files for the tests. Did you run make check?
 
-Also, I think it would be a lot better to split the change for RAM (s/res_compatible/res_postcopy) in one patch, and then drop the totally unused res_compatible file in the second patch
+Sorry, that was sloppy of me.
 
+v3 with table update dance for q35/DSDT.cxl sent out.
 
--- 
-Best regards,
-Vladimir
+(I failed to send this email yesterday).
+
+> 
+> > ---
+> >  hw/i386/acpi-build.c | 1 -
+> >  1 file changed, 1 deletion(-)
+> > 
+> > diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+> > index 127c4e2d50..a584b62ae2 100644
+> > --- a/hw/i386/acpi-build.c
+> > +++ b/hw/i386/acpi-build.c
+> > @@ -1482,7 +1482,6 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
+> >                  aml_append(pkg, aml_eisaid("PNP0A03"));
+> >                  aml_append(dev, aml_name_decl("_CID", pkg));
+> >                  aml_append(dev, aml_name_decl("_ADR", aml_int(0)));
+> > -                aml_append(dev, aml_name_decl("_UID", aml_int(bus_num)));
+> >                  build_cxl_osc_method(dev);
+> >              } else if (pci_bus_is_express(bus)) {
+> >                  aml_append(dev, aml_name_decl("_HID", aml_eisaid("PNP0A08")));
+> > -- 
+> > 2.37.2  
+> 
 
 
