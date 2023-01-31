@@ -2,64 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2299868257C
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 08:22:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753F96825A7
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 08:39:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMkwu-0005Lf-Ax; Tue, 31 Jan 2023 02:21:00 -0500
+	id 1pMlDV-0008EW-1Z; Tue, 31 Jan 2023 02:38:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pMkws-0005KW-74
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 02:20:58 -0500
-Received: from out30-112.freemail.mail.aliyun.com ([115.124.30.112])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pMkwo-0003Vi-3m
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 02:20:57 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R621e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018046056;
- MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=4; SR=0;
- TI=SMTPD_---0VaVp1ub_1675149644; 
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0VaVp1ub_1675149644) by smtp.aliyun-inc.com;
- Tue, 31 Jan 2023 15:20:44 +0800
-Message-ID: <1675149422.4129353-1-xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH v1 2/2] virtio-net: virtio_net_flush_tx() check for
- per-queue reset
-Date: Tue, 31 Jan 2023 15:17:02 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20230129025150.119972-1-xuanzhuo@linux.alibaba.com>
- <20230129025150.119972-3-xuanzhuo@linux.alibaba.com>
- <20230129021402-mutt-send-email-mst@kernel.org>
- <1674977308.9335406-2-xuanzhuo@linux.alibaba.com>
- <20230129025950-mutt-send-email-mst@kernel.org>
- <1674980588.489446-5-xuanzhuo@linux.alibaba.com>
- <20230129065705-mutt-send-email-mst@kernel.org>
- <1674993822.7782302-1-xuanzhuo@linux.alibaba.com>
- <20230129071154-mutt-send-email-mst@kernel.org>
- <1675044912.9269125-1-xuanzhuo@linux.alibaba.com>
- <20230130003158-mutt-send-email-mst@kernel.org>
- <CACGkMEscnrRBwEajRmXPgyTGdJCwKQypDJrGUtqcHLS8MUinCQ@mail.gmail.com>
- <1675065225.6382265-1-xuanzhuo@linux.alibaba.com>
- <CACGkMEta6Y-P1wc95K5YBqpLYta09b_sh7Kfki2+Vj2S18m-eA@mail.gmail.com>
- <1675074276.8940918-1-xuanzhuo@linux.alibaba.com>
- <CACGkMEv9T=tVv4f83rnmdTh8FYkpA0Wpz2zTvwsh7vzfOMcWxQ@mail.gmail.com>
-In-Reply-To: <CACGkMEv9T=tVv4f83rnmdTh8FYkpA0Wpz2zTvwsh7vzfOMcWxQ@mail.gmail.com>
-Received-SPF: pass client-ip=115.124.30.112;
- envelope-from=xuanzhuo@linux.alibaba.com;
- helo=out30-112.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001, SPF_PASS=-0.001,
- UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1pMlDT-0008EN-2r
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 02:38:07 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@gmail.com>)
+ id 1pMlDQ-0005yf-Qp
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 02:38:06 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id o13so13456847pjg.2
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 23:38:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xQ+mklTgYr8M0X+3WElQije4sJSsiasXSJ6rxapQOCo=;
+ b=U8NVKrDoKkLcPXTBwtwLRH/pAGzBhZKcVcQtNoVQiUaWWrOOHqYp2tLDEIR9JayNO1
+ 0MuZdt+S09nhcCI/BrK4pD70YUMCObXt1SW8WkSamgQbPvBX7sj8XaskYstQbro5hP/J
+ GgdGqcSDhTuFHR60k2Jh4wrI2fYa8gaiJFy6ERXdAXLyJfNteMJQUqLu6zaQ1MR2E0Zs
+ Kf9gfGfLZNthhaeb+wZbOTcbq4yTsLRC/0eTcywUQrPzmQxY1yY1nTL5Xek0U6i0dpk3
+ V1vGCa8htbsJsbvm/cRm6ImgLSK7LuCS8MPSzWJ5YhT4AF6ayJevO8ODuFOyvP4PRudq
+ BEKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xQ+mklTgYr8M0X+3WElQije4sJSsiasXSJ6rxapQOCo=;
+ b=cb/lGezQS6JBzPNA6S76l/mIeFLSuGjBj9lLF4XDKy5zth4XSQoZlJjcZDcR5Kya1A
+ X3nor6NXR/oIWhuftPe3Cyb4zZHRr3qgdF4xnXfIry1M8SOLvxx+JDOTFgFZrVLxWBHo
+ vN1r31jCMXHJls3ghljhM9f32kmG2oTH9HFuPX/0DWdiL8QTrHi07kidsNzoRCDYHYix
+ AMGSS94ND7WcYopUDgK9jR/L/A4EL2Fb1K41bGrl9HwoOztAt5jABAiTDuJW2SiITOpu
+ DhEbAZgG0tppGqMltzFHUTpmlSWO1/pzCvdm2UKb+n1lIOUbKkw1Pn75MpR0MOyfA86I
+ ZDQA==
+X-Gm-Message-State: AO0yUKUHsJP6erpyoB1Gq4codD5AyhI3BcTw4fwyTq6d2jEOXTAjDL7u
+ 5tjUc13Avxa27WajTpI3rDs=
+X-Google-Smtp-Source: AK7set8pat0/EggdFYHphASZ0BXWUw68BwWDAHZdb3UML+iWO9WsyxEZEXZd2yMBTD39cOKN2n58tw==
+X-Received: by 2002:a17:902:e850:b0:196:5cb8:60e0 with SMTP id
+ t16-20020a170902e85000b001965cb860e0mr14610128plg.20.1675150682348; 
+ Mon, 30 Jan 2023 23:38:02 -0800 (PST)
+Received: from [10.213.26.147] ([157.82.194.13])
+ by smtp.gmail.com with ESMTPSA id
+ k5-20020a170902694500b001967580f60fsm4459138plt.260.2023.01.30.23.38.00
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Jan 2023 23:38:01 -0800 (PST)
+Message-ID: <08551d7d-c17e-7a35-3908-e2b8b3465366@gmail.com>
+Date: Tue, 31 Jan 2023 16:37:59 +0900
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: Display update issue on M1 Macs
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
+ Gerd Hoffmann <kraxel@redhat.com>, Joelle van Dyne <j@getutm.app>
+References: <5921db6f-0760-c380-7af2-5710a0cd479d@eik.bme.hu>
+ <3bad40aa-7920-0484-ca23-b9d424ad56f6@eik.bme.hu>
+ <28025639-840a-1e19-01d5-c817235ca423@gmail.com>
+ <08497582-3b11-1311-48d6-1e2db8c93559@eik.bme.hu>
+ <7380ee42-8b39-8c5d-ba60-652d411c49b1@gmail.com>
+ <5d385b04-ea56-5e30-9bcd-82c0b63f2dd4@eik.bme.hu>
+ <b0c72670-b6f9-0f63-9bb1-1a1bf27ffe8e@gmail.com>
+ <b8403b65-7c55-20fb-1ee5-730e4eb9833c@eik.bme.hu>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@gmail.com>
+In-Reply-To: <b8403b65-7c55-20fb-1ee5-730e4eb9833c@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=akihiko.odaki@gmail.com; helo=mail-pj1-x1032.google.com
+X-Spam_score_int: 11
+X-Spam_score: 1.1
+X-Spam_bar: +
+X-Spam_report: (1.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1, DKIM_VALID=-0.1,
+ DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SBL_CSS=3.335,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -75,258 +100,216 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 31 Jan 2023 11:27:42 +0800, Jason Wang <jasowang@redhat.com> wrote:
-> On Mon, Jan 30, 2023 at 6:26 PM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
-> >
-> > On Mon, 30 Jan 2023 16:40:08 +0800, Jason Wang <jasowang@redhat.com> wrote:
-> > > On Mon, Jan 30, 2023 at 4:03 PM Xuan Zhuo <xuanzhuo@linux.alibaba.com> wrote:
-> > > >
-> > > > On Mon, 30 Jan 2023 15:49:36 +0800, Jason Wang <jasowang@redhat.com> wrote:
-> > > > > On Mon, Jan 30, 2023 at 1:32 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> > > > > >
-> > > > > > On Mon, Jan 30, 2023 at 10:15:12AM +0800, Xuan Zhuo wrote:
-> > > > > > > On Sun, 29 Jan 2023 07:15:47 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > > > > > On Sun, Jan 29, 2023 at 08:03:42PM +0800, Xuan Zhuo wrote:
-> > > > > > > > > On Sun, 29 Jan 2023 06:57:29 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > > > > > > > On Sun, Jan 29, 2023 at 04:23:08PM +0800, Xuan Zhuo wrote:
-> > > > > > > > > > > On Sun, 29 Jan 2023 03:12:12 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > > > > > > > > > On Sun, Jan 29, 2023 at 03:28:28PM +0800, Xuan Zhuo wrote:
-> > > > > > > > > > > > > On Sun, 29 Jan 2023 02:25:43 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > > > > > > > > > > > On Sun, Jan 29, 2023 at 10:51:50AM +0800, Xuan Zhuo wrote:
-> > > > > > > > > > > > > > > Check whether it is per-queue reset state in virtio_net_flush_tx().
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > Before per-queue reset, we need to recover async tx resources. At this
-> > > > > > > > > > > > > > > time, virtio_net_flush_tx() is called, but we should not try to send
-> > > > > > > > > > > > > > > new packets, so virtio_net_flush_tx() should check the current
-> > > > > > > > > > > > > > > per-queue reset state.
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > What does "at this time" mean here?
-> > > > > > > > > > > > > > Do you in fact mean it's called from flush_or_purge_queued_packets?
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Yes
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > virtio_queue_reset
-> > > > > > > > > > > > >   k->queue_reset
-> > > > > > > > > > > > >           virtio_net_queue_reset
-> > > > > > > > > > > > >                   flush_or_purge_queued_packets
-> > > > > > > > > > > > >                           qemu_flush_or_purge_queued_packets
-> > > > > > > > > > > > >                                   .....
-> > > > > > > > > > > > >                                   (callback) virtio_net_tx_complete
-> > > > > > > > > > > > >                                           virtio_net_flush_tx <-- here send new packet. We need stop it.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Because it is inside the callback, I can't pass information through the stack. I
-> > > > > > > > > > > > > originally thought it was a general situation, so I wanted to put it in
-> > > > > > > > > > > > > struct VirtQueue.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > If it is not very suitable, it may be better to put it in VirtIONetQueue.
-> > > > > > > > > > > > >
-> > > > > > > > > > > > > Thanks.
-> > > > > > > > > > > >
-> > > > > > > > > > > > Hmm maybe. Another idea: isn't virtio_net_tx_complete called
-> > > > > > > > > > > > with length 0 here? Are there other cases where length is 0?
-> > > > > > > > > > > >
-> > > > > > > > > > > >
-> > > > > > > > > > > > > > What does the call stack look like?
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > If yes introducing a vq state just so virtio_net_flush_tx
-> > > > > > > > > > > > > > knows we are in the process of reset would be a bad idea.
-> > > > > > > > > > > > > > We want something much more local, ideally on stack even ...
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > >
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > Fixes: 7dc6be52 ("virtio-net: support queue reset")
-> > > > > > > > > > > > > > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1451
-> > > > > > > > > > > > > > > Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> > > > > > > > > > > > > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> > > > > > > > > > > > > > > ---
-> > > > > > > > > > > > > > >  hw/net/virtio-net.c | 3 ++-
-> > > > > > > > > > > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > > > > > > > > > > > > > > index 3ae909041a..fba6451a50 100644
-> > > > > > > > > > > > > > > --- a/hw/net/virtio-net.c
-> > > > > > > > > > > > > > > +++ b/hw/net/virtio-net.c
-> > > > > > > > > > > > > > > @@ -2627,7 +2627,8 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
-> > > > > > > > > > > > > > >      VirtQueueElement *elem;
-> > > > > > > > > > > > > > >      int32_t num_packets = 0;
-> > > > > > > > > > > > > > >      int queue_index = vq2q(virtio_get_queue_index(q->tx_vq));
-> > > > > > > > > > > > > > > -    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
-> > > > > > > > > > > > > > > +    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) ||
-> > > > > > > > > > > > > > > +        virtio_queue_reset_state(q->tx_vq)) {
-> > > > > > > > > > > >
-> > > > > > > > > > > > btw this sounds like you are asking it to reset some state.
-> > > > > > > > > > > >
-> > > > > > > > > > > > > > >          return num_packets;
-> > > > > > > > > > > >
-> > > > > > > > > > > > and then
-> > > > > > > > > > > >
-> > > > > > > > > > > >     ret = virtio_net_flush_tx(q);
-> > > > > > > > > > > >     if (ret >= n->tx_burst)
-> > > > > > > > > > > >
-> > > > > > > > > > > >
-> > > > > > > > > > > > will reschedule automatically won't it?
-> > > > > > > > > > > >
-> > > > > > > > > > > > also why check in virtio_net_flush_tx and not virtio_net_tx_complete?
-> > > > > > > > > > >
-> > > > > > > > > > > virtio_net_flush_tx may been called by timer.
-> > > > >
-> > > > > We stop timer/bh during device reset, do we need to do the same with vq reset?
-> > > > >
-> > > > > > > > > > >
-> > > > > > > > > > > Thanks.
-> > > > > > > > > >
-> > > > > > > > > > timer won't run while flush_or_purge_queued_packets is in progress.
-> > > > > > > > >
-> > > > > > > > > Is timer not executed during the VMEXIT process? Otherwise, we still have to
-> > > > > > > > > consider that after the flush_or_purge_queued_packets, this process before the
-> > > > > > > > > structure is cleared.
-> > > > > > > >
-> > > > > > > >
-> > > > > > > >
-> > > > > > > > void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
-> > > > > > > > {
-> > > > > > > >     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-> > > > > > > >
-> > > > > > > >     if (k->queue_reset) {
-> > > > > > > >         k->queue_reset(vdev, queue_index);
-> > > > > > > >     }
-> > > > > > > >
-> > > > > > > >     __virtio_queue_reset(vdev, queue_index);
-> > > > > > > > }
-> > > > > > > >
-> > > > > > > >
-> > > > > > > > No timers do not run between  k->queue_reset and __virtio_queue_reset.
-> > > > > > > >
-> > > > > > > >
-> > > > > > > > > Even if it can be processed in virtio_net_tx_complete, is there any good way?
-> > > > > > > > > This is a callback, it is not convenient to pass the parameters.
-> > > > > > > > >
-> > > > > > > > > Thanks
-> > > > > > > >
-> > > > > > > >
-> > > > > > > > How about checking that length is 0?
-> > > > > > >
-> > > > > > >
-> > > > > > > I think that check length is not a good way. This modifys the semantics of 0.
-> > > > >
-> > > > > 0 seems to mean "purge" and
-> > > > >
-> > > > > > It is
-> > > > > > > not friendly to the future maintenance. On the other hand, qemu_net_queue_purge()
-> > > > > > > will pass 0, and this function is called by many places.
-> > > > >
-> > > > > That's exactly what we want actually, when do purge we don't need a flush?
-> > > >
-> > > > Yes, but I'm not sure. If we stop flush, there will be any other effects.
-> > >
-> > > So we did:
-> > >
-> > > virtio_net_queue_reset():
-> > >     nc = qemu_get_subqueue(n->nic, vq2q(queue_index);
-> > >     flush_or_purge_queued_packets(nc);
-> > >         qemu_flush_or_purge_queued_packets(nc->peer, true); // [1]
-> > >             if (qemu_net_queue_flush(nc->incoming_queue)) {
-> > >             ....
-> > >             } else if (purge) {
-> > >                 qemu_net_queue_purge(nc->incoming_queue, nc->peer);
-> > >                         packet->send_cb()
-> > >                             virtio_net_tx_complete()
-> > >                                 virtio_net_flush_tx()
-> > >                                     qemu_sendv_packet_async() // [2]
-> > >             }
-> > >
-> > > We try to flush the tap's incoming queue and if we fail we will purge
-> > > in [1]. But the sent_cb() tries to send more packets which could be
-> > > queued to the tap incoming queue [2]. This breaks the semantic of
-> > > qemu_flush_or_purge_queued_packets().
-> >
-> > Sounds like good news, and I think so too.
-> >
-> > >
-> > > >
-> > > > On the other hand, if we use "0" as a judgment condition, do you mean only the
-> > > > implementation of the purge in the flush_or_purge_queued_packets()?
-> > >
-> > > It should be all the users of qemu_net_queue_purge(). The rest users
-> > > seems all fine:
-> > >
-> > > virtio_net_vhost_status(), if we do flush, it may end up with touching
-> > > vring during vhost is running.
-> > > filters: all do a flush before.
-> > >
-> > > >
-> > > > >
-> > > > > > >
-> > > > > > > How about we add an api in queue.c to replace the sent_cb callback on queue?
-> > > > > > >
-> > > > > > > Thanks.
-> > > > > > > > OK I guess. Jason?
-> > > > >
-> > > > > Not sure, anything different from adding a check in
-> > > > > virtio_net_tx_complete()? (assuming bh and timer is cancelled or
-> > > > > deleted).
-> > > >
-> > > > We replaced the sent_cb with a function without flush.
-> > >
-> > > I meant it won't be different from adding a
-> > >
-> > > if (virtio_queue_is_rest())
-> > >
-> > > somewhere in virtio_net_tx_complete()?
-> >
-> >
-> > Only modify on the stack, without using a variable like disabled_by_reset.
->
-> Ok, but per discussion above, it looks to me we can simply check len
-> against zero which seems simpler. (And it may fix other possible bugs)
+On 2023/01/31 8:58, BALATON Zoltan wrote:
+> On Sat, 28 Jan 2023, Akihiko Odaki wrote:
+>> On 2023/01/23 8:28, BALATON Zoltan wrote:
+>>> On Thu, 19 Jan 2023, Akihiko Odaki wrote:
+>>>> On 2023/01/15 3:11, BALATON Zoltan wrote:
+>>>>> On Sat, 14 Jan 2023, Akihiko Odaki wrote:
+>>>>>> On 2023/01/13 22:43, BALATON Zoltan wrote:
+>>>>>>> On Thu, 5 Jan 2023, BALATON Zoltan wrote:
+>>>>>>>> Hello,
+>>>>>>>>
+>>>>>>>> I got reports from several users trying to run AmigaOS4 on 
+>>>>>>>> sam460ex on Apple silicon Macs that they get missing graphics 
+>>>>>>>> that I can't reproduce on x86_64. With help from the users who 
+>>>>>>>> get the problem we've narrowed it down to the following:
+>>>>>>>>
+>>>>>>>> It looks like that data written to the sm501's ram in 
+>>>>>>>> qemu/hw/display/sm501.c::sm501_2d_operation() is then not seen 
+>>>>>>>> from sm501_update_display() in the same file. The 
+>>>>>>>> sm501_2d_operation() function is called when the guest accesses 
+>>>>>>>> the emulated card so it may run in a different thread than 
+>>>>>>>> sm501_update_display() which is called by the ui backend but I'm 
+>>>>>>>> not sure how QEMU calls these. Is device code running in 
+>>>>>>>> iothread and display update in main thread? The problem is also 
+>>>>>>>> independent of the display backend and was reproduced with both 
+>>>>>>>> -display cocoa and -display sdl.
+>>>>>>>>
+>>>>>>>> We have confirmed it's not the pixman routines that 
+>>>>>>>> sm501_2d_operation() uses as the same issue is seen also with 
+>>>>>>>> QEMU 4.x where pixman wasn't used and with all versions up to 
+>>>>>>>> 7.2 so it's also not some bisectable change in QEMU. It also 
+>>>>>>>> happens with --enable-debug so it doesn't seem to be related to 
+>>>>>>>> optimisation either and I don't get it on x86_64 but even x86_64 
+>>>>>>>> QEMU builds run on Apple M1 with Rosetta 2 show the problem. It 
+>>>>>>>> also only seems to affect graphics written from 
+>>>>>>>> sm501_2d_operation() which AmigaOS4 uses extensively but other 
+>>>>>>>> OSes don't and just render graphics with the vcpu which work 
+>>>>>>>> without problem also on the M1 Macs that show this problem with 
+>>>>>>>> AmigaOS4. Theoretically this could be some missing 
+>>>>>>>> syncronisation which is something ARM and PPC may need while x86 
+>>>>>>>> doesn't but I don't know if this is really the reason and if so 
+>>>>>>>> where and how to fix it). Any idea what may cause this and what 
+>>>>>>>> could be a fix to try?
+>>>>>>>
+>>>>>>> Any idea anyone? At least some explanation if the above is 
+>>>>>>> plausible or if there's an option to disable the iothread and run 
+>>>>>>> everyting in a single thread to verify the theory could help. 
+>>>>>>> I've got reports from at least 3 people getting this problem but 
+>>>>>>> I can't do much to fix it without some help.
+>>>>>>>
+>>>>>>>> (Info on how to run it is here:
+>>>>>>>> http://zero.eik.bme.hu/~balaton/qemu/amiga/#amigaos
+>>>>>>>> but AmigaOS4 is not freely distributable so it's a bit hard to 
+>>>>>>>> reproduce. Some Linux X servers that support sm501/sm502 may 
+>>>>>>>> also use the card's 2d engine but I don't know about any live 
+>>>>>>>> CDs that readily run on sam460ex.)
+>>>>>>>>
+>>>>>>>> Thank you,
+>>>>>>>> BALATON Zoltan
+>>>>>>
+>>>>>> Sorry, I missed the email.
+>>>>>>
+>>>>>> Indeed the ui backend should call sm501_update_display() in the 
+>>>>>> main thread, which should be different from the thread calling 
+>>>>>> sm501_2d_operation(). However, if I understand it correctly, both 
+>>>>>> of the functions should be called with iothread lock held so there 
+>>>>>> should be no race condition in theory.
+>>>>>>
+>>>>>> But there is an exception: 
+>>>>>> memory_region_snapshot_and_clear_dirty() releases iothread lock, 
+>>>>>> and that broke raspi3b display device:
+>>>>>> https://lore.kernel.org/qemu-devel/CAFEAcA9odnPo2LPip295Uztri7JfoVnQbkJ=Wn+k8dQneB_ynQ@mail.gmail.com/T/
+>>>>>>
+>>>>>> It is unexpected that gfx_update() callback releases iothread lock 
+>>>>>> so it may break things in peculiar ways.
+>>>>>>
+>>>>>> Peter, is there any change in the situation regarding the race 
+>>>>>> introduced by memory_region_snapshot_and_clear_dirty()?
+>>>>>>
+>>>>>> For now, to workaround the issue, I think you can create another 
+>>>>>> mutex and make the entire sm501_2d_engine_write() and 
+>>>>>> sm501_update_display() critical sections.
+>>>>>
+>>>>> Interesting thread but not sure it's the same problem so this 
+>>>>> workaround may not be enough to fix my issue. Here's a video posted 
+>>>>> by one of the people who reported it showing the problem on M1 Mac:
+>>>>>
+>>>>> https://www.youtube.com/watch?v=FDqoNbp6PQs
+>>>>>
+>>>>> and here's how it looks like on other machines:
+>>>>>
+>>>>> https://www.youtube.com/watch?v=ML7-F4HNFKQ
+>>>>>
+>>>>> There are also videos showing it running on RPi 4 and G5 Mac 
+>>>>> without this issue so it seems to only happen on Apple Silicon M1 
+>>>>> Macs. What's strange is that graphics elements are not just delayed 
+>>>>> which I think should happen with missing thread synchronisation 
+>>>>> where the update callback would miss some pixels rendered during 
+>>>>> it's running but subsequent update callbacks would eventually draw 
+>>>>> those, woudn't they? Also setting full_update to 1 in 
+>>>>> sm501_update_display() callback to disable dirty tracking does not 
+>>>>> fix the problem. So it looks like as if sm501_2d_operation() 
+>>>>> running on one CPU core only writes data to the local cache of that 
+>>>>> core which sm501_update_display() running on other core can't see, 
+>>>>> so maybe some cache synchronisation is needed in 
+>>>>> memory_region_set_dirty() or if that's already there maybe I should 
+>>>>> call it for all changes not only those in the visible display area? 
+>>>>> I'm still not sure I understand the problem and don't know what 
+>>>>> could be a fix for it so anything to test to identify the issue 
+>>>>> better might also bring us closer to a solution.
+>>>>>
+>>>>> Regards,
+>>>>> BALATON Zoltan
+>>>>
+>>>> If you set full_update to 1, you may also comment out 
+>>>> memory_region_snapshot_and_clear_dirty() and 
+>>>> memory_region_snapshot_get_dirty() to avoid the iothread mutex being 
+>>>> unlocked. The iothread mutex should ensure cache coherency as well.
+>>>>
+>>>> But as you say, it's weird that the rendered result is not just 
+>>>> delayed but missed. That may imply other possibilities (e.g., the 
+>>>> results are overwritten by someone else). If the problem persists 
+>>>> after commenting out memory_region_snapshot_and_clear_dirty() and 
+>>>> memory_region_snapshot_get_dirty(), I think you can assume the 
+>>>> inter-thread coherency between sm501_2d_operation() and 
+>>>> sm501_update_display() is not causing the problem.
+>>>
+>>> I've asked people who reported and can reproduce it to test this but 
+>>> it did not change anything so confirmed it's not that race condition 
+>>> but looks more like some cache inconsistency maybe. Any other ideas?
+>>>
+>>> Regards,
+>>> BALATON Zoltan
+>>
+>> I can come up with two important differences between x86 and Arm which 
+>> can affect the execution of QEMU:
+>> 1. Memory model. Arm uses a memory model more relaxed than x86 so it 
+>> is more sensitive for synchronization failures among threads.
+>> 2. Different instructions. TCG uses JIT so differences in instructions 
+>> matter.
+>>
+>> We should be able to exclude 1) as a potential cause of the problem. 
+>> iothread mutex should take care of race condition and even cache 
+>> coherency problem; mutex includes memory barrier functionality.
+> 
+> Where is this barrier in QEMU code? Does this also ensure cache 
+> coherency between different cores or only memory sync in one core? From 
+> the testing I suspect it's probably not becuase of the weak ordering of 
+> ARM but something to do with different threads writing and reading the 
+> memory area. Is there a way to disable separate vcpu thread and run 
+> everything in a single thread to verify this theory? (We only have one 
+> vcpu so it's not an MTTCG issue but something between the vcpu and main 
+> thread maybe.)
 
+QEMU uses pthread_mutex for macOS, and pthread_mutex (or any sane mutex 
+implementation for SMP systems) should also ensure memory 
+synchronization across different cores.
 
-Yes, if '0' means purge and we should not flush new packet for purge, that is a
-good way.
+That said, it is still possible that we miss something that prevents 
+memory synchronization. Ideally the theory should be confirmed by 
+experiments, but it is not easy with Mac.
 
-I will post patch soon.
+The easiest option is to run QEMU/sam460ex on Linux on QEMU/hvf. Running 
+the entire Linux system without -smp option may be too slow so you may 
+use taskset command on Linux to pin QEMU/sam460ex process to a 
+particular vCPU. This is somewhat incomplete as virtualization 
+interferes with caches and hide problems or trigger other bugs. The 
+difference of the operating systems is also concerning.
 
-Thanks.
+Another option is to use taskset command on Asahi Linux. Installing 
+Asahi Linux is easy, but uninstalling it is a bit complicated.
 
+m1n1 hypervisor from Asahi Linux project allows to restrict CPUs to use, 
+and I think it also allows to change the memory model to x86 TSO. Unlike 
+QEMU/hvf on macOS, it is very minimalistic so its interference to e.g.m 
+caches is limited. It is very useful for debugging XNU or Linux, but 
+hard to set up and requires another computer to control it.
 
->
-> Thanks
->
-> >
-> > Thanks.
-> >
-> >
-> > >
-> > > Thanks
-> > >
-> > > >
-> > > > Thanks.
-> > > >
-> > > >
-> > > > >
-> > > > > Thanks
-> > > > >
-> > > > > >
-> > > > > > >
-> > > > > > > >
-> > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > > >
-> > > > > > > > > > > >
-> > > > > > > > > > > > > > >      }
-> > > > > > > > > > > > > > >
-> > > > > > > > > > > > > > > --
-> > > > > > > > > > > > > > > 2.32.0.3.g01195cf9f
-> > > > > > > > > > > > > >
-> > > > > > > > > > > >
-> > > > > > > > > >
-> > > > > > > >
-> > > > > >
-> > > > >
-> > > >
-> > >
-> >
->
+Finally, you can patch XNU kernel, but this is obviously not easy.
+
+> 
+>> For difference 2), you may try to use TCI. You can find details of TCI 
+>> in tcg/tci/README.
+> 
+> This was tested and also with TCI got the same results just much slower.
+> 
+>> The common sense tells, however, the memory model is usually the cause 
+>> of the problem when you see behavioral differences between x86 and 
+>> Arm, and TCG should work fine with both of x86 and Arm as they should 
+>> have been tested well.
+> 
+> It's not only between x86 and ARM but also between different ARM CPUs it 
+> seems as there are videos of this test case running on Raspberry Pi 4 
+> but all QEMU versions failed on Apple M1 so maybe it's something 
+> specific to that CPU.
+
+It is likely that the combination of Apple's microarchitecture and Arm 
+instruction set causes the problem. For example, even though the memory 
+model in x86 is weaker than x86, such difference may not surface 
+depending on the design of load/store unit or the size of load/store 
+buffers.
+
+Fortunately macOS provides Rosetta 2 for x86 emulation on Apple M1, 
+which makes it possible to compare x86 and Arm without concerning the 
+difference of the microarchitecture.
+
+Regards,
+Akihiko Odaki
+
+> 
+> Regards,
+> BALATON Zoltan
+
 
