@@ -2,81 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3AA8A6825F5
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 08:59:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71CB268261C
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 09:04:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMlXI-0005m1-03; Tue, 31 Jan 2023 02:58:36 -0500
+	id 1pMlbk-0006zm-CV; Tue, 31 Jan 2023 03:03:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <geomatsi@gmail.com>)
- id 1pMlX1-0005k1-K9; Tue, 31 Jan 2023 02:58:20 -0500
-Received: from mail-ej1-x632.google.com ([2a00:1450:4864:20::632])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <geomatsi@gmail.com>)
- id 1pMlWz-0002Qe-Dl; Tue, 31 Jan 2023 02:58:19 -0500
-Received: by mail-ej1-x632.google.com with SMTP id p26so27906221ejx.13;
- Mon, 30 Jan 2023 23:58:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
- bh=yE1SDRPNQvKDzunWv7Z/9APPN2vtX0zkGAvX41ENnyo=;
- b=XmJVzBfSyrxQ1zEOyeHXEILpIYGRovM1d3npD+00XQw5z46oElPpfH/Z4Un6vYOuyl
- UAvu6ubGT4YU0xRZLaqa4AgbsnuYjWVgRv8vXK2Z5re+aeVCbFX3csE2IreWzd900sf1
- oZQkcOj5Rh24NWbK5/nwiBWN7oj62iEIH01KCdbM0dpDazi9mKfcHcOQp+L8hec99MiO
- ZREf4Q1M2oyvsKUP216lFLIlGVlNxbqqhP7IObbrKLKghSVBoYMOsxYjMlM4/5sPp8TK
- SBf8Z67yd8Dhaigrz6PXll9AjdhDHp5vvHnL+GCjzXgsJ0pqBamjMf9NWSEnnf99KcRU
- YY2A==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMlbh-0006za-Oc
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 03:03:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMlbg-0003kJ-8J
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 03:03:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675152187;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=3QKf5xGCBD2PaMdwLvrkQa2h3l3GTpYayivkjmZpFmk=;
+ b=QajXbS+AskZdwKYQul4Yeap/YsSenenRbiazxCe97JP57JcGH90OTROfbZxvEawVtFDnav
+ uWDxoVNYE+PvPDYdnlxojtVbg+f1AiRn7SuHEh/PrjXwtRb6mSYjxwFtRVjE5jNH0miXNY
+ FTNjdgG1kvFepaC76bVUnUEB+l+X1Xk=
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com
+ [209.85.160.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-569-5N6AdMiUM1-Upzk_kMKGeg-1; Tue, 31 Jan 2023 03:03:05 -0500
+X-MC-Unique: 5N6AdMiUM1-Upzk_kMKGeg-1
+Received: by mail-qt1-f199.google.com with SMTP id
+ bp43-20020a05622a1bab00b003b63be6827dso6285653qtb.23
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 00:03:05 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=yE1SDRPNQvKDzunWv7Z/9APPN2vtX0zkGAvX41ENnyo=;
- b=1xaUqPyUYsrLVrCmuNon8T9pnbL3sCC6R8PR5XeH/8GqhA4YeLvy0PuAucEgTiCMRQ
- 72pG8TFTDOwKy667RB8CInnOBS2Y/Q1J2qEs+maAMP9PMxGyNMz3GW7NoMVe/FlJubKB
- xJciuTFERcTwwZZgmxEjJkdb+ejVXSPpanRwfC/AItPHTpcUhwzaaf8K4mksYI7AZ8la
- suqiEBf1ydEU731luaKbaaxC1Mq0213fFDflNwRL5qXQE8jN1i8prGskebMIqF1xZRJ8
- DnBvS4ELObaotp+taEwekactUNNFj5eY/fg79DRksTflRH7fpYdVVqR9+h6FDqZQ1kOL
- FLGA==
-X-Gm-Message-State: AO0yUKXU4E/16Ava5hCM2la/9za1D1b90vVi6Bw1//K+9bvWHs2h6nX8
- MA/AYlCgyMmQQx+tXsimFeM=
-X-Google-Smtp-Source: AK7set8FQiKx9PyqqRBGpJSwLkvvSYnDZTMshNoji8lnxnTWkMZgd62rr5xZ9bYCka32e9QjHRGMTg==
-X-Received: by 2002:a17:906:411:b0:88b:23bb:e61f with SMTP id
- d17-20020a170906041100b0088b23bbe61fmr3389222eja.25.1675151894622; 
- Mon, 30 Jan 2023 23:58:14 -0800 (PST)
-Received: from curiosity ([80.211.22.60]) by smtp.gmail.com with ESMTPSA id
- e18-20020a17090681d200b0088519b92080sm4190546ejx.127.2023.01.30.23.58.11
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Mon, 30 Jan 2023 23:58:13 -0800 (PST)
-Date: Tue, 31 Jan 2023 10:58:09 +0300
-From: Sergey Matyukevich <geomatsi@gmail.com>
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: Alistair Francis <alistair23@gmail.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>,
- Bin Meng <bin.meng@windriver.com>,
- Sergey Matyukevich <sergey.matyukevich@syntacore.com>,
- Richard Henderson <richard.henderson@linaro.org>
-Subject: Re: [PATCH] target/riscv: set tval for triggered watchpoints
-Message-ID: <Y9jKEZgzb+yp5cVE@curiosity>
-References: <20230130100757.721372-1-geomatsi@gmail.com>
- <CAKmqyKMiP9N8CX844++qb+dFFn46Peic87P7-5dJrRfLAyM4wA@mail.gmail.com>
- <CAEUhbmXa=P+JCB3+JnzTdkWdqTZFr9NZR58uEzjK=Pz3ohLD4A@mail.gmail.com>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=3QKf5xGCBD2PaMdwLvrkQa2h3l3GTpYayivkjmZpFmk=;
+ b=GVDIzJuTTWEGg5dpxvlWcjTonbrDKPwZkKcU7APc0DH1BSKGrgJVxqpvsLdWwSKQlt
+ mxwytC0HL8euUkoAhhuUp/6/PgDPe6qWmz7a+bxvMeZakNYwvS9ZiMZTs0AVHhwHnyxL
+ HAeruYGhOEsSZx8eOg8FSw3FbAo93fvFw0PL8AghzLYMM9uGthbYg6D3jaefknUjQPE/
+ 3GfsrMIMXz3IQEjcuVu+KZDXWhB+dVRnCXW7a5IcKYTDK8VaHBwxTK8VbvrHaWd6xVJp
+ hqGTJStFp/FY2UhIs9Tok/ZMi+RIQJRZlDV1WH+bi1id8JueAqkwX88VSxNETCYYDouF
+ 0U2Q==
+X-Gm-Message-State: AO0yUKVpbKHJKxfQjwbxWyd9nrEcMFEOzK6g61DCMDuGtlccGA/dhRar
+ onnnWzZjt3ctKjCX7HKH+7QxIKWWPiql8TqOxXVelXmtc/QjI9g8EEFg7+hahnrxrg63xsFICtw
+ w315ni/6ZvvkftVU=
+X-Received: by 2002:ac8:5c88:0:b0:3b8:6868:2ab4 with SMTP id
+ r8-20020ac85c88000000b003b868682ab4mr10263449qta.49.1675152184902; 
+ Tue, 31 Jan 2023 00:03:04 -0800 (PST)
+X-Google-Smtp-Source: AK7set8GAr/BFDOmiv5mGn/qHTbjrKaeiuSNSFUwWtfcmVZF8vnncw424NwEvljkRkC2333PDck6vA==
+X-Received: by 2002:ac8:5c88:0:b0:3b8:6868:2ab4 with SMTP id
+ r8-20020ac85c88000000b003b868682ab4mr10263436qta.49.1675152184711; 
+ Tue, 31 Jan 2023 00:03:04 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-155.web.vodafone.de.
+ [109.43.176.155]) by smtp.gmail.com with ESMTPSA id
+ q187-20020a378ec4000000b006f7ee901674sm5736363qkd.2.2023.01.31.00.03.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Jan 2023 00:03:03 -0800 (PST)
+Message-ID: <a3946352-1106-d94e-a21e-e4c660c834fe@redhat.com>
+Date: Tue, 31 Jan 2023 09:02:59 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEUhbmXa=P+JCB3+JnzTdkWdqTZFr9NZR58uEzjK=Pz3ohLD4A@mail.gmail.com>
-Received-SPF: pass client-ip=2a00:1450:4864:20::632;
- envelope-from=geomatsi@gmail.com; helo=mail-ej1-x632.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 4/6] gitlab-ci.d/buildtest: Merge the --without-default-*
+ jobs
+Content-Language: en-US
+To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230130104446.1286773-1-thuth@redhat.com>
+ <20230130104446.1286773-5-thuth@redhat.com> <87sffsgnhn.fsf@suse.de>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <87sffsgnhn.fsf@suse.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -92,92 +105,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Bin,
-
-> > > According to priviledged spec, if [sm]tval is written with a nonzero
-> > > value when a breakpoint exception occurs, then [sm]tval will contain
-> > > the faulting virtual address. Set tval to hit address when breakpoint
-> > > exception is triggered by hardware watchpoint.
-> > >
-> > > Signed-off-by: Sergey Matyukevich <sergey.matyukevich@syntacore.com>
-> >
-> > Thanks!
-> >
-> > Applied to riscv-to-apply.next
+On 30/01/2023 14.28, Fabiano Rosas wrote:
+> Thomas Huth <thuth@redhat.com> writes:
 > 
-> Oops, too quick, but I have one comment :)
+>> Let's safe some CI minutes by merging these two jobs. We can now
+>> also drop "--disable-capstone" since the capstone submodule has
+>> been removed a while ago. We should rather tes --disable-fdt now
+>> to test a compilation without the "dtc" submodule (for this we
+>> have to drop i386-softmmu from the target list unfortunately).
+>> Additionally, the qtests with s390x and sh4 are not read for
+>> "--without-default-devices" yet,
 > 
-> >
-> > Alistair
-> >
-> > > ---
-> > >  target/riscv/cpu_helper.c | 3 +++
-> > >  target/riscv/debug.c      | 1 +
-> > >  2 files changed, 4 insertions(+)
-> > >
-> > > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> > > index 9a28816521..d3be8c0511 100644
-> > > --- a/target/riscv/cpu_helper.c
-> > > +++ b/target/riscv/cpu_helper.c
-> > > @@ -1641,6 +1641,9 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-> > >          case RISCV_EXCP_VIRT_INSTRUCTION_FAULT:
-> > >              tval = env->bins;
-> > >              break;
-> > > +        case RISCV_EXCP_BREAKPOINT:
-> > > +            tval = env->badaddr;
+> Fyi, I've been working on a series to make the qtests work with the
+> --without-default-devices build for i386 or aarch64.
+
+Great, I'm looking forward to this!
+
+> There are some qtests explicitly adding devices without checking and
+> hardcoded defaults on vl.c and machine init code without a matching
+> KConfig dependency.
+
+Yes, I also noticed this while working on these patches ... many other 
+binaries even don't start since they try to instantiate a default NIC that 
+might not be available ... fixing the whole of QEMU will certainly take some 
+time, but if you get x86 and aarch64 working, that's certainly a good start!
+
+>> so we can only test mips64 and
+>> avr here now.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > 
-> RISCV_EXCP_BREAKPOINT may come from 'ebreak' so we should test if this
-> exception comes from the debug module.
-> 
-> The spec also says about icount trigger that:
-> 
-> "If the trigger fires with action =0 then zero is written to the tval
-> CSR on the breakpoint trap."
-> 
-> So we can't blindly set tval for every breakpoint exception.
-> 
+> Reviewed-by: Fabiano Rosas <farosas@suse.de>
 
-Thanks for catching ! Initial idea was to set badaddr value only when
-it is needed in target/riscv/debug.c. For instance, icount code does
-not set badaddr, so tval will remain zero. On the other hand, breakpoint
-exception may come from ebreak and badaddr may keep non-zero value from
-some previous unrelated exception.
+Thanks!
 
-Explicit check should be more safe, e.g. something like that:
+  Thomas
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index d3be8c0511..f1a0c65ad3 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -1642,7 +1642,10 @@ void riscv_cpu_do_interrupt(CPUState *cs)
-             tval = env->bins;
-             break;
-         case RISCV_EXCP_BREAKPOINT:
--            tval = env->badaddr;
-+            if (cs->watchpoint_hit) {
-+                tval = cs->watchpoint_hit->hitaddr;
-+                cs->watchpoint_hit = NULL;
-+            }
-             break;
-         default:
-             break;
-diff --git a/target/riscv/debug.c b/target/riscv/debug.c
-index 48ef3c59ea..b091293069 100644
---- a/target/riscv/debug.c
-+++ b/target/riscv/debug.c
-@@ -761,8 +761,6 @@ void riscv_cpu_debug_excp_handler(CPUState *cs)
- 
-     if (cs->watchpoint_hit) {
-         if (cs->watchpoint_hit->flags & BP_CPU) {
--            env->badaddr = cs->watchpoint_hit->hitaddr;
--            cs->watchpoint_hit = NULL;
-             do_trigger_action(env, DBG_ACTION_BP);
-         }
-     } else {
-
-
-I will a fixup after testing.
-
-Regards,
-Sergey
 
