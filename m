@@ -2,42 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0839683960
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 23:33:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F1AFD683988
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 23:44:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMzAR-0004yw-Ne; Tue, 31 Jan 2023 17:31:55 -0500
+	id 1pMzLc-0008UB-9l; Tue, 31 Jan 2023 17:43:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pMzAP-0004yh-6K
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 17:31:53 -0500
-Received: from rev.ng ([5.9.113.41])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pMzLQ-0008Sz-6f
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 17:43:18 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <anjo@rev.ng>) id 1pMzAK-0003HL-PV
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 17:31:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rev.ng;
- s=dkim; h=Content-Transfer-Encoding:MIME-Version:Message-Id:Date:Subject:Cc:
- To:From:Sender:Reply-To:Content-Type:Content-ID:Content-Description:
- Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
- In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
- List-Post:List-Owner:List-Archive;
- bh=OggWJIdjvK8pBdlaQGIVnurdFA8iOTzOyodh7bFGlK0=; b=hZlAebMxBrakwQYAb58M6NcmmS
- Khr8FIzlthhRkmLNfe90JDIW8buSg32GEs3Y2iPPy5N2r1lxWtMzxYTkA6s/20aiFWEJ4TKOZMAwt
- ZuYnH+oA6zlYWuX89iNtWL1FKGJRScW7gr6lMpJwD1Us3mw2MGnWuNx+RfY5ELu9wtxk=;
-To: qemu-devel@nongnu.org
-Cc: ale@rev.ng, tsimpson@quicinc.com, bcain@quicinc.com, mlambert@quicinc.com
-Subject: [PATCH] target/hexagon/idef-parser: Remove unused code paths
-Date: Tue, 31 Jan 2023 23:31:33 +0100
-Message-Id: <20230131223133.8592-1-anjo@rev.ng>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pMzLN-0007dM-9l
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 17:43:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675204990;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=5bGok7ndJwsimA9ScNQuyS5g522SXbIEElrX+chCc1M=;
+ b=Fl+7zpt2Jk8Gecayb+QdclXFru/OZKxkX0TKmMrKs0FdKAuKJ8iwFQSOyGe+a8khNFrqCz
+ TKmtzxSeyZZcDUMovPA4M93ROoKkNlF2mQZ8vF5zqy/kcMQ7wfHTX5pFMIVsRAxGBkTmTq
+ 9B/3LEBGX/r3BBgeme2uj1csjM4LdLg=
+Received: from mail-io1-f72.google.com (mail-io1-f72.google.com
+ [209.85.166.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-301-vP1Q2jQANSGO1DY-KsyIqw-1; Tue, 31 Jan 2023 17:43:05 -0500
+X-MC-Unique: vP1Q2jQANSGO1DY-KsyIqw-1
+Received: by mail-io1-f72.google.com with SMTP id
+ r25-20020a6bd919000000b0071cfef31f97so3849197ioc.4
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 14:43:05 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=5bGok7ndJwsimA9ScNQuyS5g522SXbIEElrX+chCc1M=;
+ b=QZAytxJZChG3rGb8NP+f/dpJDhVqhwIvwgL7LomVunvBgbHKploxhGEtaWiBfTwQkK
+ oX1AoYn2TUpUpLqjZI19ETHclsL9TdQEdUJi/cg0QW9/59YKPVmKggTcULzfWmRbJxKV
+ xw6AGgg+rsvAWrnhOkXKMaY2aQAWR3MSzv9rJO8C4q+kjI+DkrlzXJUJTu8xAxMIbLye
+ 1ojyukEicmhJ+v8fAEUea9D9F1nPk32B8iBmtaNGNanqns7XwugmiT2Ci+zoZbsLdd9d
+ fqF3rBE0tUTShfzfWME6ijvRPhD2Ky2HVLfkVA4uGVdlaKqe+56tVprla2Pw8Loa7NB8
+ h8wg==
+X-Gm-Message-State: AO0yUKXF6sPFx6B7C0Xtbpt+E6EFgt1NySuw3QTlskfPgcFWxAgUsrdT
+ S3Z79boWkBOpog0uWMLNzaceDoMKPDloe/5EcWL/alAzg8Dfw5n34wXM/uFSym8Uf1Hfs2eiKsI
+ 503E6Pco5DYNhN7U=
+X-Received: by 2002:a92:7c02:0:b0:310:d36c:35ef with SMTP id
+ x2-20020a927c02000000b00310d36c35efmr146887ilc.7.1675204984126; 
+ Tue, 31 Jan 2023 14:43:04 -0800 (PST)
+X-Google-Smtp-Source: AK7set95IYk/qKIweJg2h3leS4l/LIlVnW7dpMnpMu7USLDQ7/aeRUWfxJjJMqPkgRFZZBn1Kvb1rA==
+X-Received: by 2002:a92:7c02:0:b0:310:d36c:35ef with SMTP id
+ x2-20020a927c02000000b00310d36c35efmr146862ilc.7.1675204983767; 
+ Tue, 31 Jan 2023 14:43:03 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ m16-20020a92c530000000b0031118ebf52esm324832ili.17.2023.01.31.14.43.02
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Jan 2023 14:43:03 -0800 (PST)
+Date: Tue, 31 Jan 2023 15:43:01 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Avihai Horon <avihaih@nvidia.com>
+Cc: qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu
+ <peterx@redhat.com>, Jason Wang <jasowang@redhat.com>, Marcel Apfelbaum
+ <marcel.apfelbaum@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>, Richard
+ Henderson <richard.henderson@linaro.org>, Eduardo Habkost
+ <eduardo@habkost.net>, David Hildenbrand <david@redhat.com>, Philippe
+ =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@linaro.org>, Yishai Hadas
+ <yishaih@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>, Maor Gottlieb
+ <maorg@nvidia.com>, Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta
+ <targupta@nvidia.com>, Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH 01/18] vfio/migration: Add VFIO migration pre-copy support
+Message-ID: <20230131154301.4aaa8448.alex.williamson@redhat.com>
+In-Reply-To: <0c6856e7-ab92-7276-256c-6226aa692698@nvidia.com>
+References: <20230126184948.10478-1-avihaih@nvidia.com>
+ <20230126184948.10478-2-avihaih@nvidia.com>
+ <20230126165232.0e7a2316.alex.williamson@redhat.com>
+ <0c6856e7-ab92-7276-256c-6226aa692698@nvidia.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=5.9.113.41; envelope-from=anjo@rev.ng; helo=rev.ng
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_PASS=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -51,238 +107,209 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Anton Johansson <anjo@rev.ng>
-From:  Anton Johansson via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Removes code paths used by COF instructions, which are no longer
-processed by idef-parser.
+On Tue, 31 Jan 2023 14:44:54 +0200
+Avihai Horon <avihaih@nvidia.com> wrote:
 
-Signed-off-by: Anton Johansson <anjo@rev.ng>
----
- target/hexagon/idef-parser/idef-parser.h    |  1 -
- target/hexagon/idef-parser/idef-parser.lex  | 27 +------------
- target/hexagon/idef-parser/idef-parser.y    | 45 +--------------------
- target/hexagon/idef-parser/macros.inc       | 10 -----
- target/hexagon/idef-parser/parser-helpers.c |  3 --
- 5 files changed, 4 insertions(+), 82 deletions(-)
+> On 27/01/2023 1:52, Alex Williamson wrote:
+> > External email: Use caution opening links or attachments
+> >
+> >
+> > On Thu, 26 Jan 2023 20:49:31 +0200
+> > Avihai Horon <avihaih@nvidia.com> wrote:
+> >  
+> >> Pre-copy support allows the VFIO device data to be transferred while the
+> >> VM is running. This helps to accommodate VFIO devices that have a large
+> >> amount of data that needs to be transferred, and it can reduce migration
+> >> downtime.
+> >>
+> >> Pre-copy support is optional in VFIO migration protocol v2.
+> >> Implement pre-copy of VFIO migration protocol v2 and use it for devices
+> >> that support it. Full description of it can be found here [1].
+> >>
+> >> [1]
+> >> https://lore.kernel.org/kvm/20221206083438.37807-3-yishaih@nvidia.com/
+> >>
+> >> Signed-off-by: Avihai Horon <avihaih@nvidia.com>
+> >> ---
+> >>   docs/devel/vfio-migration.rst |  29 ++++++---
+> >>   include/hw/vfio/vfio-common.h |   3 +
+> >>   hw/vfio/common.c              |   8 ++-
+> >>   hw/vfio/migration.c           | 112 ++++++++++++++++++++++++++++++++--
+> >>   hw/vfio/trace-events          |   5 +-
+> >>   5 files changed, 140 insertions(+), 17 deletions(-)
+> >>
+> >> diff --git a/docs/devel/vfio-migration.rst b/docs/devel/vfio-migration.rst
+> >> index 1d50c2fe5f..51f5e1a537 100644
+> >> --- a/docs/devel/vfio-migration.rst
+> >> +++ b/docs/devel/vfio-migration.rst
+> >> @@ -7,12 +7,14 @@ the guest is running on source host and restoring this saved state on the
+> >>   destination host. This document details how saving and restoring of VFIO
+> >>   devices is done in QEMU.
+> >>
+> >> -Migration of VFIO devices currently consists of a single stop-and-copy phase.
+> >> -During the stop-and-copy phase the guest is stopped and the entire VFIO device
+> >> -data is transferred to the destination.
+> >> -
+> >> -The pre-copy phase of migration is currently not supported for VFIO devices.
+> >> -Support for VFIO pre-copy will be added later on.
+> >> +Migration of VFIO devices consists of two phases: the optional pre-copy phase,
+> >> +and the stop-and-copy phase. The pre-copy phase is iterative and allows to
+> >> +accommodate VFIO devices that have a large amount of data that needs to be
+> >> +transferred. The iterative pre-copy phase of migration allows for the guest to
+> >> +continue whilst the VFIO device state is transferred to the destination, this
+> >> +helps to reduce the total downtime of the VM. VFIO devices can choose to skip
+> >> +the pre-copy phase of migration by not reporting the VFIO_MIGRATION_PRE_COPY
+> >> +flag in VFIO_DEVICE_FEATURE_MIGRATION ioctl.
+> >>
+> >>   A detailed description of the UAPI for VFIO device migration can be found in
+> >>   the comment for the ``vfio_device_mig_state`` structure in the header file
+> >> @@ -29,6 +31,12 @@ VFIO implements the device hooks for the iterative approach as follows:
+> >>     driver, which indicates the amount of data that the vendor driver has yet to
+> >>     save for the VFIO device.
+> >>
+> >> +* An ``is_active_iterate`` function that indicates ``save_live_iterate`` is
+> >> +  active only if the VFIO device is in pre-copy states.
+> >> +
+> >> +* A ``save_live_iterate`` function that reads the VFIO device's data from the
+> >> +  vendor driver during iterative phase.
+> >> +
+> >>   * A ``save_state`` function to save the device config space if it is present.
+> >>
+> >>   * A ``save_live_complete_precopy`` function that sets the VFIO device in
+> >> @@ -91,8 +99,10 @@ Flow of state changes during Live migration
+> >>   ===========================================
+> >>
+> >>   Below is the flow of state change during live migration.
+> >> -The values in the brackets represent the VM state, the migration state, and
+> >> +The values in the parentheses represent the VM state, the migration state, and
+> >>   the VFIO device state, respectively.
+> >> +The text in the square brackets represents the flow if the VFIO device supports
+> >> +pre-copy.
+> >>
+> >>   Live migration save path
+> >>   ------------------------
+> >> @@ -104,11 +114,12 @@ Live migration save path
+> >>                                     |
+> >>                        migrate_init spawns migration_thread
+> >>                   Migration thread then calls each device's .save_setup()
+> >> -                       (RUNNING, _SETUP, _RUNNING)
+> >> +                  (RUNNING, _SETUP, _RUNNING [_PRE_COPY])
+> >>                                     |
+> >> -                      (RUNNING, _ACTIVE, _RUNNING)
+> >> +                  (RUNNING, _ACTIVE, _RUNNING [_PRE_COPY])
+> >>                If device is active, get pending_bytes by .save_live_pending()
+> >>             If total pending_bytes >= threshold_size, call .save_live_iterate()
+> >> +                  [Data of VFIO device for pre-copy phase is copied]
+> >>           Iterate till total pending bytes converge and are less than threshold
+> >>                                     |
+> >>     On migration completion, vCPU stops and calls .save_live_complete_precopy for
+> >> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> >> index 5f8e7a02fe..88c2194fb9 100644
+> >> --- a/include/hw/vfio/vfio-common.h
+> >> +++ b/include/hw/vfio/vfio-common.h
+> >> @@ -67,7 +67,10 @@ typedef struct VFIOMigration {
+> >>       int data_fd;
+> >>       void *data_buffer;
+> >>       size_t data_buffer_size;
+> >> +    uint64_t mig_flags;
+> >>       uint64_t stop_copy_size;
+> >> +    uint64_t precopy_init_size;
+> >> +    uint64_t precopy_dirty_size;
+> >>   } VFIOMigration;
+> >>
+> >>   typedef struct VFIOAddressSpace {
+> >> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> >> index 9a0dbee6b4..93b18c5e3d 100644
+> >> --- a/hw/vfio/common.c
+> >> +++ b/hw/vfio/common.c
+> >> @@ -357,7 +357,9 @@ static bool vfio_devices_all_dirty_tracking(VFIOContainer *container)
+> >>
+> >>               if ((vbasedev->pre_copy_dirty_page_tracking == ON_OFF_AUTO_OFF) &&
+> >>                   (migration->device_state == VFIO_DEVICE_STATE_RUNNING ||
+> >> -                 migration->device_state == VFIO_DEVICE_STATE_RUNNING_P2P)) {
+> >> +                 migration->device_state == VFIO_DEVICE_STATE_RUNNING_P2P ||
+> >> +                 migration->device_state == VFIO_DEVICE_STATE_PRE_COPY ||
+> >> +                 migration->device_state == VFIO_DEVICE_STATE_PRE_COPY_P2P)) {  
+> > Should this just turn into a test that we're not in STOP_COPY?  
+> 
+> Then we would need to check we are not in STOP_COPY and not in STOP.
+> The STOP check is for the case where PRE_COPY is not supported, since 
+> RAM will ask for dirty page sync when the device is in STOP state.
+> Without the STOP check, the device will skip the final dirty page sync.
+> 
+> >  
+> >>                   return false;
+> >>               }
+> >>           }
+> >> @@ -387,7 +389,9 @@ static bool vfio_devices_all_running_and_mig_active(VFIOContainer *container)
+> >>               }
+> >>
+> >>               if (migration->device_state == VFIO_DEVICE_STATE_RUNNING ||
+> >> -                migration->device_state == VFIO_DEVICE_STATE_RUNNING_P2P) {
+> >> +                migration->device_state == VFIO_DEVICE_STATE_RUNNING_P2P ||
+> >> +                migration->device_state == VFIO_DEVICE_STATE_PRE_COPY ||
+> >> +                migration->device_state == VFIO_DEVICE_STATE_PRE_COPY_P2P) {
+> >>                   continue;
+> >>               } else {
+> >>                   return false;  
+> > Hmm, this only seems to highlight that between this series and the
+> > previous, we're adding tests for states that we never actually use, ie.
+> > these _P2P states.
+> >
+> > IIRC, the reason we have these _P2P states is so that we can transition
+> > a set of devices, which may have active P2P DMA between them, to STOP,
+> > STOP_COPY, and even RUNNING states safely without lost data given that
+> > we cannot simultaneously transition all devices.  That suggest that
+> > missing from both these series is support for bringing all devices to
+> > these _P2P states before we move any device to one of STOP, STOP_COPY,
+> > or RUNNING states (in the case of RESUMING).
+> >
+> > Also, I recall discussions that we need to enforce configuration
+> > restrictions when not all devices support the _P2P states?  For example
+> > adding a migration blocker when there are multiple vfio devices and at
+> > least one of them does not support _P2P migration states.  Or perhaps
+> > initially, requiring support for _P2P states.
+> >
+> > I think what's implemented here, where we don't make use of the _P2P
+> > states would require adding a migration blocker whenever there are
+> > multiple vfio devices, regardless of the device support for _P2P.  
+> 
+> Yes, I think you are right.
+> 
+> I will add a migration blocker if there are multiple devices as part of 
+> v9 of the basic series.
+> When P2P support is added, I will block migration of multiple devices if 
+> one or more of them doesn't support P2P.
 
-diff --git a/target/hexagon/idef-parser/idef-parser.h b/target/hexagon/idef-parser/idef-parser.h
-index 5c49d4da3e..354528bbc8 100644
---- a/target/hexagon/idef-parser/idef-parser.h
-+++ b/target/hexagon/idef-parser/idef-parser.h
-@@ -82,7 +82,6 @@ enum ImmUnionTag {
-     VALUE,
-     QEMU_TMP,
-     IMM_PC,
--    IMM_NPC,
-     IMM_CONSTEXT,
- };
- 
-diff --git a/target/hexagon/idef-parser/idef-parser.lex b/target/hexagon/idef-parser/idef-parser.lex
-index ff87a02c3a..2658d9fb2e 100644
---- a/target/hexagon/idef-parser/idef-parser.lex
-+++ b/target/hexagon/idef-parser/idef-parser.lex
-@@ -140,8 +140,6 @@ STRING_LIT               \"(\\.|[^"\\])*\"
-                            yylval->rvalue.is_dotnew = true;
-                            yylval->rvalue.signedness = SIGNED;
-                            return PRED; }
--"IV1DEAD()"              |
--"fPAUSE(uiV);"           { return ';'; }
- "+="                     { return INC; }
- "-="                     { return DEC; }
- "++"                     { return PLUSPLUS; }
-@@ -159,9 +157,8 @@ STRING_LIT               \"(\\.|[^"\\])*\"
- "else"                   { return ELSE; }
- "for"                    { return FOR; }
- "fREAD_IREG"             { return ICIRC; }
--"fPART1"                 { return PART1; }
- "if"                     { return IF; }
--"fFRAME_SCRAMBLE"        { return FSCR; }
-+"fFRAME_SCRAMBLE"        |
- "fFRAME_UNSCRAMBLE"      { return FSCR; }
- "fFRAMECHECK"            { return FCHK; }
- "Constant_extended"      { return CONSTEXT; }
-@@ -312,11 +309,7 @@ STRING_LIT               \"(\\.|[^"\\])*\"
- "(unsigned int)"         { yylval->cast.bit_width = 32;
-                            yylval->cast.signedness = UNSIGNED;
-                            return CAST; }
--"fREAD_PC()"             |
--"PC"                     { return PC; }
--"fREAD_NPC()"            |
--"NPC"                    { return NPC; }
--"fGET_LPCFG"             |
-+"fREAD_PC()"             { return PC; }
- "USR.LPCFG"              { return LPCFG; }
- "LOAD_CANCEL(EA)"        { return LOAD_CANCEL; }
- "STORE_CANCEL(EA)"       |
-@@ -360,14 +353,6 @@ STRING_LIT               \"(\\.|[^"\\])*\"
-                            yylval->rvalue.bit_width = 32;
-                            yylval->rvalue.signedness = UNSIGNED;
-                            return REG; }
--"fREAD_LC"[01]           { yylval->rvalue.type = REGISTER;
--                           yylval->rvalue.reg.type = CONTROL;
--                           yylval->rvalue.reg.id = HEX_REG_LC0
--                                                 + (yytext[8] - '0') * 2;
--                           yylval->rvalue.reg.bit_width = 32;
--                           yylval->rvalue.bit_width = 32;
--                           yylval->rvalue.signedness = UNSIGNED;
--                           return REG; }
- "LC"[01]                 { yylval->rvalue.type = REGISTER;
-                            yylval->rvalue.reg.type = CONTROL;
-                            yylval->rvalue.reg.id = HEX_REG_LC0
-@@ -376,14 +361,6 @@ STRING_LIT               \"(\\.|[^"\\])*\"
-                            yylval->rvalue.bit_width = 32;
-                            yylval->rvalue.signedness = UNSIGNED;
-                            return REG; }
--"fREAD_SA"[01]           { yylval->rvalue.type = REGISTER;
--                           yylval->rvalue.reg.type = CONTROL;
--                           yylval->rvalue.reg.id = HEX_REG_SA0
--                                                 + (yytext[8] - '0') * 2;
--                           yylval->rvalue.reg.bit_width = 32;
--                           yylval->rvalue.bit_width = 32;
--                           yylval->rvalue.signedness = UNSIGNED;
--                           return REG; }
- "SA"[01]                 { yylval->rvalue.type = REGISTER;
-                            yylval->rvalue.reg.type = CONTROL;
-                            yylval->rvalue.reg.id = HEX_REG_SA0
-diff --git a/target/hexagon/idef-parser/idef-parser.y b/target/hexagon/idef-parser/idef-parser.y
-index c14cb39500..ec7ca56906 100644
---- a/target/hexagon/idef-parser/idef-parser.y
-+++ b/target/hexagon/idef-parser/idef-parser.y
-@@ -52,8 +52,8 @@
- %token IN INAME VAR
- %token ABS CROUND ROUND CIRCADD COUNTONES INC DEC ANDA ORA XORA PLUSPLUS ASL
- %token ASR LSR EQ NEQ LTE GTE MIN MAX ANDL FOR ICIRC IF MUN FSCR FCHK SXT
--%token ZXT CONSTEXT LOCNT BREV SIGN LOAD STORE PC NPC LPCFG
--%token LOAD_CANCEL CANCEL IDENTITY PART1 ROTL INSBITS SETBITS EXTRANGE
-+%token ZXT CONSTEXT LOCNT BREV SIGN LOAD STORE PC LPCFG
-+%token LOAD_CANCEL CANCEL IDENTITY ROTL INSBITS SETBITS EXTRANGE
- %token CAST4_8U FAIL CARRY_FROM_ADD ADDSAT64 LSBNEW
- %token TYPE_SIZE_T TYPE_INT TYPE_SIGNED TYPE_UNSIGNED TYPE_LONG
- 
-@@ -339,16 +339,6 @@ assign_statement : lvalue '=' rvalue
-                        OUT(c, &@1, &$1, " = ", &$3, ";\n");
-                        $$ = $1;
-                    }
--                 | PC '=' rvalue
--                   {
--                       @1.last_column = @3.last_column;
--                       yyassert(c, &@1, !is_inside_ternary(c),
--                                "Assignment side-effect not modeled!");
--                       $3 = gen_rvalue_truncate(c, &@1, &$3);
--                       $3 = rvalue_materialize(c, &@1, &$3);
--                       OUT(c, &@1, "gen_write_new_pc(", &$3, ");\n");
--                       gen_rvalue_free(c, &@1, &$3); /* Free temporary value */
--                   }
-                  | LOAD '(' IMM ',' IMM ',' SIGN ',' var ',' lvalue ')'
-                    {
-                        @1.last_column = @12.last_column;
-@@ -417,7 +407,6 @@ control_statement : frame_check
-                   | cancel_statement
-                   | if_statement
-                   | for_statement
--                  | fpart1_statement
-                   ;
- 
- frame_check : FCHK '(' rvalue ',' rvalue ')' ';'
-@@ -471,17 +460,6 @@ for_statement : FOR '(' IMM '=' IMM ';' IMM '<' IMM ';' IMM PLUSPLUS ')'
-                 }
-               ;
- 
--fpart1_statement : PART1
--                   {
--                       OUT(c, &@1, "if (insn->part1) {\n");
--                   }
--                   '(' statements ')'
--                   {
--                       @1.last_column = @3.last_column;
--                       OUT(c, &@1, "return; }\n");
--                   }
--                 ;
--
- if_stmt : IF '(' rvalue ')'
-           {
-               @1.last_column = @3.last_column;
-@@ -521,20 +499,6 @@ rvalue : FAIL
-              rvalue.signedness = UNSIGNED;
-              $$ = rvalue;
-          }
--       | NPC
--         {
--             /*
--              * NPC is only read from CALLs, so we can hardcode it
--              * at translation time
--              */
--             HexValue rvalue;
--             memset(&rvalue, 0, sizeof(HexValue));
--             rvalue.type = IMMEDIATE;
--             rvalue.imm.type = IMM_NPC;
--             rvalue.bit_width = 32;
--             rvalue.signedness = UNSIGNED;
--             $$ = rvalue;
--         }
-        | CONSTEXT
-          {
-              HexValue rvalue;
-@@ -793,11 +757,6 @@ rvalue : FAIL
-              /* Ones count */
-              $$ = gen_ctpop_op(c, &@1, &$3);
-          }
--       | LPCFG
--         {
--             $$ = gen_tmp_value(c, &@1, "0", 32, UNSIGNED);
--             OUT(c, &@1, "GET_USR_FIELD(USR_LPCFG, ", &$$, ");\n");
--         }
-        | EXTRACT '(' rvalue ',' rvalue ')'
-          {
-              @1.last_column = @6.last_column;
-diff --git a/target/hexagon/idef-parser/macros.inc b/target/hexagon/idef-parser/macros.inc
-index 6b697da87a..c2801c97f1 100644
---- a/target/hexagon/idef-parser/macros.inc
-+++ b/target/hexagon/idef-parser/macros.inc
-@@ -97,17 +97,8 @@
- #define fWRITE_LR(A) (LR = A)
- #define fWRITE_FP(A) (FP = A)
- #define fWRITE_SP(A) (SP = A)
--/*
-- * Note: There is a rule in the parser that matches `PC = ...` and emits
-- * a call to `gen_write_new_pc`. We need to call `gen_write_new_pc` to
-- * get the correct semantics when there are multiple stores in a packet.
-- */
--#define fBRANCH(LOC, TYPE) (PC = LOC)
--#define fJUMPR(REGNO, TARGET, TYPE) (PC = TARGET)
- #define fWRITE_LOOP_REGS0(START, COUNT) SA0 = START; (LC0 = COUNT)
- #define fWRITE_LOOP_REGS1(START, COUNT) SA1 = START; (LC1 = COUNT)
--#define fWRITE_LC0(VAL) (LC0 = VAL)
--#define fWRITE_LC1(VAL) (LC1 = VAL)
- #define fSET_LPCFG(VAL) (USR.LPCFG = VAL)
- #define fWRITE_P0(VAL) P0 = VAL;
- #define fWRITE_P1(VAL) P1 = VAL;
-@@ -121,7 +112,6 @@
- #define fEA_GPI(IMM) (EA = fREAD_GP() + IMM)
- #define fPM_I(REG, IMM) (REG = REG + IMM)
- #define fPM_M(REG, MVAL) (REG = REG + MVAL)
--#define fWRITE_NPC(VAL) (PC = VAL)
- 
- /* Unary operators */
- #define fROUND(A) (A + 0x8000)
-diff --git a/target/hexagon/idef-parser/parser-helpers.c b/target/hexagon/idef-parser/parser-helpers.c
-index 8110686c51..937fed6a42 100644
---- a/target/hexagon/idef-parser/parser-helpers.c
-+++ b/target/hexagon/idef-parser/parser-helpers.c
-@@ -185,9 +185,6 @@ void imm_print(Context *c, YYLTYPE *locp, HexImm *imm)
-     case IMM_PC:
-         EMIT(c, "ctx->base.pc_next");
-         break;
--    case IMM_NPC:
--        EMIT(c, "ctx->npc");
--        break;
-     case IMM_CONSTEXT:
-         EMIT(c, "insn->extension_valid");
-         break;
--- 
-2.39.0
+How does this affect our path towards supported migration?  I'm
+thinking about a user experience where QEMU supports migration if
+device A OR device B are attached, but not devices A and B attached to
+the same VM.  We might have a device C where QEMU supports migration
+with B AND C, but not A AND C, nor A AND B AND C.  This would be the
+case if device B and device C both supported P2P states, but device A
+did not. The user has no observability of this feature, so all of this
+looks effectively random to the user.
+
+Even in the single device case, we need to make an assumption that a
+device that does not support P2P migration states (or when QEMU doesn't
+make use of P2P states) cannot be a DMA target, or otherwise have its
+MMIO space accessed while in a STOP state.  Can we guarantee that when
+other devices have not yet transitioned to STOP?
+
+We could disable the direct map MemoryRegions when we move to a STOP
+state, which would give QEMU visibility to those accesses, but besides
+pulling an abort should such an access occur, could we queue them in
+software, add them to the migration stream, and replay them after the
+device moves to the RUNNING state?  We'd need to account for the lack of
+RESUMING_P2P states as well, trapping and queue accesses from devices
+already RUNNING to those still in RESUMING (not _P2P).
+
+This all looks complicated.  Is it better to start with requiring P2P
+state support?  Thanks,
+
+Alex
 
 
