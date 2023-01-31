@@ -2,104 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EA6E682ED8
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 15:08:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5A53682FC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 15:52:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMqlT-0002Ny-7W; Tue, 31 Jan 2023 08:33:35 -0500
+	id 1pMr1d-0004uc-7k; Tue, 31 Jan 2023 08:50:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMqlN-0002Nf-Ox
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 08:33:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pMr1V-0004te-8C
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 08:50:12 -0500
+Received: from mout.gmx.net ([212.227.17.21])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMqjM-0003LJ-Ty
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 08:33:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675171862;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=0rcboJX1LLyLwocjNY3NMOsvRKfcY9kjAvaL20dmuyQ=;
- b=akPrRy3HkC3oTnhvAUAIB+LYdo9eZSshPagke6GBv9sBiNtCnneta8TvG+Sy3kCI5MEpwa
- c4SRD2AuCDoZUty4InF66fBoeHxObhO8AQwsrKiBF7RG7N/mPlZbLTHxr8H2Rer6/FVxMr
- 1cYjZAKJym9YEEeuHiS9PuFnmCfHiE8=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-222-FWFuglaMM0mKyqaaUL_ObA-1; Tue, 31 Jan 2023 08:04:53 -0500
-X-MC-Unique: FWFuglaMM0mKyqaaUL_ObA-1
-Received: by mail-yb1-f198.google.com with SMTP id
- i17-20020a25bc11000000b007b59a5b74aaso15989440ybh.7
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 05:04:53 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=0rcboJX1LLyLwocjNY3NMOsvRKfcY9kjAvaL20dmuyQ=;
- b=n4d2zRSZ5ewFERGRiB3WM/25ppS735CQAAPF+3ykyfdTeN0WCTGRaOHJbv7zxAPj77
- D51bnhxBuNi3KyqiwlkE0Mzc47FHY83J5Gp+JaKXZ7vz0RdFhfQO5LCryM/C3vWVtIQY
- ipuMrdC0BALG5HowacztDtVg42xpMkc1V1v6Guz/2hriSMwz2GSE396fqeTfuKdbSMz3
- fX7qHsGOxCAogpeU1SHIqkO9y3Bb7rQYRHJoK6uJVS/8vUSPijkgByIhXRmaTVZsLM5f
- Qg+gyXxScyPp4FKVrwWiheyqeTTObqx1uL4rosfU5Jf7GmWpEnXNnv5t2Q3HhtUqZNxM
- xhRA==
-X-Gm-Message-State: AO0yUKUxs1NF+I0aEtM/s2HPATas7oD5Aa1QbFY983uGCR29kuJcu07C
- Y714tArA7SVb1T/abzcqAJ0QAtaqfH+0hM/jEeCF9040UbaGrEdiLUx/t8IzvCaFrlSTxf0mmW8
- pygopJfwNjMteVf0=
-X-Received: by 2002:a81:9c4f:0:b0:51d:efdc:ff5f with SMTP id
- n15-20020a819c4f000000b0051defdcff5fmr531160ywa.11.1675170293280; 
- Tue, 31 Jan 2023 05:04:53 -0800 (PST)
-X-Google-Smtp-Source: AK7set85XJK1196FG0htFOQlpJtScobjZiuMZQ0hWsyyzrj0AmkKtQSN6PvP67QBc8gVis12kZjNGA==
-X-Received: by 2002:a81:9c4f:0:b0:51d:efdc:ff5f with SMTP id
- n15-20020a819c4f000000b0051defdcff5fmr530785ywa.11.1675170288123; 
- Tue, 31 Jan 2023 05:04:48 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-176-155.web.vodafone.de.
- [109.43.176.155]) by smtp.gmail.com with ESMTPSA id
- b6-20020a37b206000000b00718e853f83csm8128836qkf.106.2023.01.31.05.04.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 05:04:47 -0800 (PST)
-Message-ID: <56c0e734-ae48-f98d-2d1b-4957f4de243b@redhat.com>
-Date: Tue, 31 Jan 2023 14:04:42 +0100
+ (Exim 4.90_1) (envelope-from <deller@gmx.de>) id 1pMr1Q-0007ZX-P6
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 08:50:08 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.de; s=s31663417;
+ t=1675172998; bh=rIVz75CX0VeoYxfiK6R8jaNgr17ma4QC2CqUPHo9Xno=;
+ h=X-UI-Sender-Class:Date:Subject:To:References:From:In-Reply-To;
+ b=mvX88S4E1me9KeWj0w4PH2nUvWOVx/rN5jbF+8nyaIpLfIY4YCDDRHKu6avXZM5/f
+ WXvvuR0EtirsDXP+gsHLWdAy+Vm3FRaBJ3jLJO2O3VImPgzxFahD6d1GyVxm9G0SaO
+ M64blCjL5cAsapSSJyXhoJufvvLazNb5oS90xZxwBaisQFAouGE+ttyBhTwWWfU+iw
+ 5lotxC//2mcIwIRc+j9BE6Bh0MPlRZCwDt3wb8oCdJl8CoartuF4ggKxpnfWUwilcS
+ cgjpLWCsYORBbwQaOA8ijSXI69vDnP2aqgfm+36aR3YZ7LgG1z/jIZXVw3eIuAMBb4
+ RH1hWq9joI2nA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.20.60] ([92.116.177.115]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M5wPb-1pGVe61oQF-007YnR; Tue, 31
+ Jan 2023 14:08:41 +0100
+Message-ID: <871b2b31-a04a-254a-bced-f07fa821109a@gmx.de>
+Date: Tue, 31 Jan 2023 14:08:38 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH v2] linux-user: Improve strace output of pread64() and
+ pwrite64()
 Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Darren Kenny
- <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, devel@daynix.com,
- Yan Vugenfirer <yvugenfi@redhat.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Gal Hammer <gal.hammer@sap.com>
-References: <20230130140809.78262-1-akihiko.odaki@daynix.com>
- <20230130140809.78262-8-akihiko.odaki@daynix.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v5 7/9] igb: Introduce qtest for igb device
-In-Reply-To: <20230130140809.78262-8-akihiko.odaki@daynix.com>
+To: Laurent Vivier <laurent@vivier.eu>, qemu-devel@nongnu.org
+References: <Y9Q7BlDc/VX+1SBL@p100>
+ <521ea804-5afc-fb19-db72-e1ed73300781@vivier.eu>
+ <79a67002-0294-3a87-41ed-82bbb2689bf0@gmx.de>
+ <e4f75988-4906-bce9-5617-9014d8b45b2b@vivier.eu>
+From: Helge Deller <deller@gmx.de>
+In-Reply-To: <e4f75988-4906-bce9-5617-9014d8b45b2b@vivier.eu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:5H3RxreK5afDFQDhuuOlmXa7UwdsYzwdSJ0snHAr6V70sxUYC9Y
+ Hv1R5cT6hOWlRCpm5xlgp1ZpH96xv/nEcJV3pPErofrHP4mQQ75HnXVgT9hZZMKbx4W/ueP
+ b5GXmaAOPtiATGjSrkiarCFyIQeGCpPAgEWzio+GzEgBot9Spx+KNQ4+jGY/Ba8bZ1W01Pt
+ hy78uymxXlI6veHtv9hqg==
+UI-OutboundReport: notjunk:1;M01:P0:1TD7CsR2MZU=;y9Jbk9u98CU2IhZC+d8UWUtEHbn
+ 9fM5ZLc7kGeHpcl4fUbEdTyfg4QbVYiNssA9k/+KjB/02jznBxsk2IOr8swakYaQ2NBSpGcKs
+ gX2MoKP3WmLiTlPHR+P8j7x82ntCOZBnMYwas/TAZLvg1Nyf+AOM5rz7r4zL+1ElN55O9o1h2
+ E8ZOOL9H7+Cid9qfwe54Xl62SiTVqzn2Lb07F5OXP0Li8dsDce0eqzgvf5ZUmw0y9xTT6c+Sb
+ JzRE3JLVKcMn+vzKmkPYB6/oE08y9fJc4FsaaeXqD2Bx2r+RaFNVBGraIbxW77ve461GNqiog
+ +W7oNDXn14os+ZkRXU6gHw/flZwMaQuQG1B7CL6H693/EfRZFJV/h0HMuEHWIAhXlOzzLJoeD
+ Q6NdFPa8Da69MS3OpaAeIL0rA6JmrrUqUXTJxWOfoH2TdGUo3xywPjdXUaCgX3XZvOQsI/Kb8
+ WA3FvkkXKmstAPAR8mxwUGpdru2+lCQjDHP/il5I3onrT6OxeURv4dIviBNpYIAoup9An8KNN
+ kIUtnrDV15yKhj19bCRfmMmRRbrf9s2KkseJ4SzEk2ru27wTOL+1AxYP1LZbVW+TcmFhm6+qr
+ k3GqY8mZV8GgSA0PQwV5Zoh6aWU0NqOP2RSR/GCIFPzaI4Phyy/0drmVNTOgE9FesDgZWl3wE
+ 5MT2K7OeEJO7nC4rbe9kaLIgReUo7HfOES8x+E73ADw9EnFmi4YZ85Z61OOycv1H1reFl4ZVR
+ 3+AVlo9FS8eJKjofacY+jfqav97zrmsYYd4dHciODqzMyg/c46wJA9in+OOEGGmgfDO8eqdEG
+ 3e/Px7urE1PV3R1hzcpgXPzCB7IX2Ei2Hwe9PHf2gb51+StJRuTFomoADnr83Uj6vOmyGvFm4
+ JC1ICClt8mbVIA8q6Z3pLKkVM7IhStVpzUfDhT7MAJn/0hYqwqgdbZZpfZoR0vcV4NKKaHcpU
+ SlY4PQ==
+Received-SPF: pass client-ip=212.227.17.21; envelope-from=deller@gmx.de;
+ helo=mout.gmx.net
+X-Spam_score_int: -28
+X-Spam_score: -2.9
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+X-Spam_report: (-2.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_LOW=-0.7, RCVD_IN_MSPIKE_H2=-0.001,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -116,25 +89,71 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 30/01/2023 15.08, Akihiko Odaki wrote:
-> This change is derived from qtest for e1000e device.
-> 
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-> ---
->   MAINTAINERS                             |   2 +
->   tests/qtest/fuzz/generic_fuzz_configs.h |   5 +
->   tests/qtest/igb-test.c                  | 243 ++++++++++++++++++++++++
->   tests/qtest/libqos/igb.c                | 185 ++++++++++++++++++
->   tests/qtest/libqos/meson.build          |   1 +
->   tests/qtest/meson.build                 |   1 +
->   6 files changed, 437 insertions(+)
->   create mode 100644 tests/qtest/igb-test.c
->   create mode 100644 tests/qtest/libqos/igb.c
+On 1/31/23 12:04, Laurent Vivier wrote:
+> Le 30/01/2023 =C3=A0 23:11, Helge Deller a =C3=A9crit=C2=A0:
+>> On 1/30/23 10:26, Laurent Vivier wrote:
+>>> Le 27/01/2023 =C3=A0 21:58, Helge Deller a =C3=A9crit=C2=A0:
+>>>> Make the strace look nicer for those two syscalls.
+>>>>
+>>>> Signed-off-by: Helge Deller <deller@gmx.de>
+>>>> ---
+>>>> v2: Use regpairs_aligned() and target_offset64(), noticed by Laurent =
+Vivier
+>>>>
+>>>> diff --git a/linux-user/strace.c b/linux-user/strace.c
+>>>> index 82dc1a1e20..379536f5c9 100644
+>>>> --- a/linux-user/strace.c
+>>>> +++ b/linux-user/strace.c
+>>>> @@ -3824,6 +3824,25 @@ print_rlimit64(abi_ulong rlim_addr, int last)
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
+>>>> =C2=A0 }
+>>>>
+>>>> +#if defined(TARGET_NR_pread64) || defined(TARGET_NR_pwrite64)
+>>>> +static void
+>>>> +print_preadwrite64(CPUArchState *cpu_env, const struct syscallname *=
+name,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 abi_lon=
+g arg0, abi_long arg1, abi_long arg2,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 abi_lon=
+g arg3, abi_long arg4, abi_long arg5)
+>>>> +{
+>>>> +=C2=A0=C2=A0=C2=A0 if (regpairs_aligned(cpu_env, TARGET_NR_pread64))=
+ {
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 arg3 =3D arg4;
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 arg4 =3D arg5;
+>>>> +=C2=A0=C2=A0=C2=A0 }
+>>>> +=C2=A0=C2=A0=C2=A0 print_syscall_prologue(name);
+>>>> +=C2=A0=C2=A0=C2=A0 print_raw_param("%d", arg0, 0);
+>>>> +=C2=A0=C2=A0=C2=A0 print_pointer(arg1, 0);
+>>>> +=C2=A0=C2=A0=C2=A0 print_raw_param("%d", arg2, 0);
+>>>> +=C2=A0=C2=A0=C2=A0 qemu_log("%lld", (long long)target_offset64(arg3,=
+ arg4));
+>>>
+>>> better to use:
+>>>
+>>> print_raw_param("%" PRIu64, target_offset64(arg3, arg4), 1);
+>>
+>> I thought of that as well, but that won't work, as print_raw_param()
+>> takes an "abi_long" value, which is just a 32-bit value on 32-bit targe=
+ts.
+>> See print_rlimit64(), it's used there with qemu_log() as well.
+>
+> Yes, you're right.
+>
+> But even with qemu_log() I would prefer you use "%"PRIu64 rather than %l=
+ld.
+> Or better define a print_raw_param64() (or similar) and update print_fal=
+locate(), print_truncate64() and print_ftruncate64().
 
-The igb test code still looks very, very similar to the e1000e test code ... 
-would it be feasible to extend the e1000e code to support the igb device 
-instead of duplicating the code base here?
+As adding such define is a unrelated change to this patch, I'd propose tha=
+t I send a follow-up
+patch on top of this one which adds print_raw_param64() (or similar) and r=
+eplaces all
+usages of qemu_log() with 64-bit values and use "%"PRIu64 then.
+Ok?
+If yes, should that define include the last 0/1 parameter to print the ","=
+ ?
+I think so, because then it's consistent with print_raw_param().
 
-  Thomas
-
+Helge
 
