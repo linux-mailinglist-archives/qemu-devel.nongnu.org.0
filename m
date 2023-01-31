@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D116B682AE6
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:56:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA2C0682AED
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 11:57:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMoIF-0003Sc-Rk; Tue, 31 Jan 2023 05:55:15 -0500
+	id 1pMoJu-0005Fn-N1; Tue, 31 Jan 2023 05:56:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pMoIA-0003Rh-Nx
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:55:14 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pMoI8-0005ac-Uo
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:55:10 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- bg13-20020a05600c3c8d00b003d9712b29d2so12135902wmb.2
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 02:55:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=H9qZ8aviTuLuENx8ZrfrymKePhhEI35hvUy4tSMiPeA=;
- b=Ap3/P8sUs5otLvm5WA1bhWRXgw/H1fUVJpbgD+NY8L57fEtHm4cwrLViNbICgv1bJu
- Swbqvwx/b3L/FyQqUpuAc3QdDKTkuEJX6JLZ0BTN2F5aggQKM/pnBkQiUDEoo4+XNBnR
- 1wxPamleX5N9yJusdIn64QpDEibnPuO+xm4lTOjQKM4WBL8i/l1Oc/G2AIrAr/HSbO9A
- wDHnkCqzacRFLHe/Iy01x9a92xnCWZ1MKh0iQT8flm9OtPX1+S6/H6GsWONJb8vYqfjk
- uhWZ1kXt/DC0kAt1s1abYda5xlPKbRDQMA5CP5ip700v7u6TOsM9JGa8vLOzLS4/IxTG
- b9Fg==
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMoJs-0005CC-8v
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:56:56 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMoJq-0006PL-R0
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 05:56:55 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675162612;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=97qt8sFV5hnWT2HlnOkMYE07TWJhUx9yHipnXwIwAhQ=;
+ b=Un1EzDftRVOuSwN6VP0baiBMvgbEuZRaEduGX0DkUwn4AgAGj2rstvtbooFAuicscaAYaq
+ MvLZL9iaPEe9aV/ig3+12IE32o0KnSh6ZN5jRhqpTtvFM97b1yCbzm5K/2tujZ19vYHH9Z
+ Am38rVclQb/5H/Vvs2v3Cg6fsz5WADc=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-423-bZe8FFtsOCmbx2VSIf5d9Q-1; Tue, 31 Jan 2023 05:56:48 -0500
+X-MC-Unique: bZe8FFtsOCmbx2VSIf5d9Q-1
+Received: by mail-qv1-f70.google.com with SMTP id
+ ob12-20020a0562142f8c00b004c6c72bf1d0so7991130qvb.9
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 02:56:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=H9qZ8aviTuLuENx8ZrfrymKePhhEI35hvUy4tSMiPeA=;
- b=SCUYHoya7wvlW0+QKky0fsFlgqEuwEBwHc/QfFryo/E/7US7/Ztu+SN7/Fu4pv/VvS
- BNMJqr5zezxL5ZY1ATG9aAIebO9Ey//nowS8vR4SsG2TU5A9+VPXNZFYz1QqgbvNvWfG
- OYn3JifYWlU+Cz5h7tbZ9YqZA0wcsEP/nsEPYpCqUT99AL+eZ4EhQZyVya8GsXtbPPO2
- 6FcUXZtoPcSctwUn8bqm+FrcUm7gdRrWlgmsqPoqKiUrWHxNMFkEQooQl4giG55lqEsN
- /GJjx9nuDhO/RCQsa/3GzmPLB5tvZ2cmNCXUxN2MehkQSMujjpQcZxAFsAjhaBZ8u9Lv
- D3sA==
-X-Gm-Message-State: AO0yUKV5+cCtPaG81jKTmc3lEpuwCDuiuDi9CX7adc1xiNktw6kOrbAQ
- 7Mly9mFSSv83lV74B/k0VwW3qw==
-X-Google-Smtp-Source: AK7set/UzZeCTodxKLecVGkgQzMoieBKoG1V0t0ygkUzRIQpZqUJfD3x5iujnU/o6Qk1JhT6gn/f/w==
-X-Received: by 2002:a05:600c:4f06:b0:3dc:5321:8457 with SMTP id
- l6-20020a05600c4f0600b003dc53218457mr3149651wmq.5.1675162506734; 
- Tue, 31 Jan 2023 02:55:06 -0800 (PST)
-Received: from [192.168.0.115] ([41.141.105.34])
- by smtp.gmail.com with ESMTPSA id
- o3-20020a05600c4fc300b003db1d9553e7sm22277418wmq.32.2023.01.31.02.55.05
+ bh=97qt8sFV5hnWT2HlnOkMYE07TWJhUx9yHipnXwIwAhQ=;
+ b=ZvJXCG7keXDmeTE6vhppaZMU6JmXdKUT5X7InCwZdnfBwRv4NbTnPPiPLABnbX7ETc
+ ctwvg1FYixP+bSXpjqBnNjg+f6et1cRP64sUPYVNIEFe1CmQyEDq3pVEbkIWNfKi/fPB
+ dfZZQy4YrTqngGUexGFwlUpp48krnUZIwz/9EpFwbJuUjv5kKhRqWTS77AtuDceaopek
+ y9DSG9s4BXOJph80de8jFVekGvvp3LeNR3gwd1chK5F86taysSRKhevKHYR8ufNiiYdL
+ sOTiMZ7cD8LfyZOyIhhq5eOoGEcmrVkHyKfL6miRqTy+yxIELWwH2LqQJ5T03ZwBIybI
+ LD1Q==
+X-Gm-Message-State: AFqh2koT7Ws67xhQsrqG84KTgjpWF1DcihJZArltzEaw+jxG0Mhiccty
+ LEosUhPKLRhJrlI5dBksr0lCPz86RRTR/PSFXTKW8WnQzkh/fY0sVeUfC4EqkRdFOUCZ4dMmwqQ
+ DDHwOw1e72ICUNWY=
+X-Received: by 2002:ad4:5d6b:0:b0:536:85cf:a265 with SMTP id
+ fn11-20020ad45d6b000000b0053685cfa265mr73122760qvb.14.1675162608284; 
+ Tue, 31 Jan 2023 02:56:48 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXtevF/otHiahMimlZ+r8+sAMnhXIBzD6ZqNWbqhE3KGNMqTcHYxIKBSvuM+Ow8hnVIbKq2w6w==
+X-Received: by 2002:ad4:5d6b:0:b0:536:85cf:a265 with SMTP id
+ fn11-20020ad45d6b000000b0053685cfa265mr73122746qvb.14.1675162608072; 
+ Tue, 31 Jan 2023 02:56:48 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-155.web.vodafone.de.
+ [109.43.176.155]) by smtp.gmail.com with ESMTPSA id
+ m4-20020ae9e704000000b006fba0a389a4sm9671631qka.88.2023.01.31.02.56.46
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 02:55:06 -0800 (PST)
-Message-ID: <474f93a6-2b16-2fc7-2b1c-516e61109ecd@linaro.org>
-Date: Tue, 31 Jan 2023 11:55:04 +0100
+ Tue, 31 Jan 2023 02:56:47 -0800 (PST)
+Message-ID: <1bcb79bd-6485-f614-a6ec-03fa15609313@redhat.com>
+Date: Tue, 31 Jan 2023 11:56:44 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Subject: Re: [RFC PATCH] build: deprecate --enable-gprof builds and remove
  from CI
 Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
  qemu-devel@nongnu.org
-Cc: Thomas Huth <thuth@redhat.com>,
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
  Beraldo Leal <bleal@redhat.com>,
  "reviewer:Incompatible changes" <libvir-list@redhat.com>,
@@ -72,19 +79,19 @@ Cc: Thomas Huth <thuth@redhat.com>,
  =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
  =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
 References: <20230131094224.861621-1-alex.bennee@linaro.org>
- <069349bb-a09f-bac4-3a99-70699bd4fa54@linaro.org>
-In-Reply-To: <069349bb-a09f-bac4-3a99-70699bd4fa54@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230131094224.861621-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -6
-X-Spam_score: -0.7
-X-Spam_bar: /
-X-Spam_report: (-0.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_SORBS_WEB=1.5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,22 +107,17 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 31/1/23 11:36, Philippe Mathieu-Daudé wrote:
-> On 31/1/23 10:42, Alex Bennée wrote:
->> As gprof relies on instrumentation you rarely get useful data compared
->> to a real optimised build. Lets deprecate the build option and
->> simplify the CI configuration as a result.
->>
->> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
->> Cc: Thomas Huth <thuth@redhat.com>
->> ---
->>   docs/about/deprecated.rst  | 14 ++++++++++++++
->>   meson.build                |  7 ++++++-
->>   .gitlab-ci.d/buildtest.yml | 19 ++++---------------
->>   meson_options.txt          |  3 ++-
->>   4 files changed, 26 insertions(+), 17 deletions(-)
+On 31/01/2023 10.42, Alex Bennée wrote:
+> As gprof relies on instrumentation you rarely get useful data compared
+> to a real optimised build. Lets deprecate the build option and
+> simplify the CI configuration as a result.
 > 
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> Cc: Thomas Huth <thuth@redhat.com>
+> ---
 
-(Tracked as https://gitlab.com/qemu-project/qemu/-/issues/1338)
+Thanks for tackling this!
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+
 
