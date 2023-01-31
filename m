@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B90D6834AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 19:05:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1564C6834B9
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 19:07:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMuz6-0007sl-V3; Tue, 31 Jan 2023 13:03:57 -0500
+	id 1pMuzJ-0000dl-73; Tue, 31 Jan 2023 13:04:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1pMuxj-0007PC-U1
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:02:32 -0500
-Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429])
+ id 1pMuxi-0007NZ-7m
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:02:31 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <christoph.muellner@vrull.eu>)
- id 1pMuxg-0000sD-EC
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:02:31 -0500
-Received: by mail-wr1-x429.google.com with SMTP id t18so15047961wro.1
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 10:02:25 -0800 (PST)
+ id 1pMuxg-0000oo-DX
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 13:02:29 -0500
+Received: by mail-wr1-x433.google.com with SMTP id m14so14557059wrg.13
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 10:02:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=jQHZkgWg3VDTcRLZ31PgScx616PY5Ig0Wc6fguzVEZI=;
- b=EUMgkogVauZmBIrlNYeAQ/Vz2umwYyl0e8lPUl9VJMLqtniMJYtCLol+XrNYzHN32U
- e0zqqwscI1JCOe+kDNeO7jjPRySAE/2rNhFLRMaHRVZozjbZXFBYSyeSyL7WLxwtJP2e
- 3J0ZkKAhGa9nvqp0oqLGAMWmSGFSKs0vX0xgqm27/7KD5Pc3Qyz/c/RTIWaz/oRzp52d
- PtnZKuCAQB2h9LwyzxODoPUikKXE+AhOWOjxGuobx7A2CQlVpYB7ertRMyI0C/c8nIwy
- Lxhe297tyerK+5Urt6J5qqp+k9PCOyOGZScTY5HGrsTb9hbFxQnMxNryAgSuVTY+UYnI
- QKaQ==
+ bh=ztCilUCc1TA2sITRxRLcH39NMH4uHHWLjoD1hpEHldM=;
+ b=HHdr0APGc0R2trybTu+MbqPOEm7cATaxupB+mYYCeERnN8vwG+36cLiLH3vaEUl0yo
+ e+LzVKeXMKneJDO9SOVOOpPQ0LxxQatKGDbA6tEdmhZsq3BqYUzMRDhjMjYeCFyxLFZh
+ qXf7m+pen559YpobL+BWv7Q9IOEo7anA3QNbbNWyI+23uPShoMJgHBC24rPk42W//5rb
+ WeZtfNRZpkeD/TUgwNKat6sHYTx94ZBrUtf+b7m1W62vKmNmDU2ouWiylYKFqK5x6Vv1
+ oimOknTJtXUSHzhaMFhfnpLgFp4q4LUDSXDy3OZ70aovqpEOAqzFG0uEUJxfKeNQije7
+ VUOA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=jQHZkgWg3VDTcRLZ31PgScx616PY5Ig0Wc6fguzVEZI=;
- b=f8tBda6KbCR6ZSy3kRtF0La3Ib/gl8y0eIdjCBxXGa+Y1mlJCMidS2Fbrar3x2PoUv
- Tam+cR4WKbDefiJ3+QEH579WzjUN/yVIfQVWdKwGQ0AXRB14oQS/OJ6pdE3m3/Y+6Sz7
- ynh7+6qHSPmyEClV9xsf8ZnD4h/HQmgXL2Sk3wWezWGwjYMS/Ajl4mtEcSap5ZQxecTm
- jYPSJlsuUJaeKJ3xAnO0hNbIdvrRbx0R+7Qic/GUny4ze4yYUEGA2HRytZUz7OPtOqkQ
- 4TfHk3L8gpFHs/xQdYorMGojqpH2j4oB4JSfIpPUXecP9vv/CTKuTNcal0QUq709voX9
- G2XA==
-X-Gm-Message-State: AFqh2kpJ3zIIKAb2wv9XLLVkcZMdqV0ccaREq5S5dTsC11CkNpxsRehM
- /KaLC3GvtYPnDhS2yqA2u7GyZg==
-X-Google-Smtp-Source: AMrXdXs6ONmVW4BsgYi+B7IhwQD+Bmf1Ag/mxoJYDJRyE1bGj8DSJHJ2axhWORKGQrdKTv0Xeaqiwg==
-X-Received: by 2002:a5d:52d2:0:b0:2be:1f34:507f with SMTP id
- r18-20020a5d52d2000000b002be1f34507fmr45300423wrv.68.1675188144729; 
- Tue, 31 Jan 2023 10:02:24 -0800 (PST)
+ bh=ztCilUCc1TA2sITRxRLcH39NMH4uHHWLjoD1hpEHldM=;
+ b=wTLLh9oysEtAWAoPmRdObz6DCpy0kpdHyMRGvnYBD2hdL5gLmQKb6D9oaOPZjaBXqT
+ 6pN77sFtL09XVn7QaqQ1AaNdrT5AjBkmhhOaHOJLh/vO0TJIKpEgSpp0jMqypIdk3VDX
+ D0sAEv9000zEeRgftShl74DWiHbhfIW5CQM2s9N8Amf3deVOmOtVHN6MQpTqepXc7cEn
+ qeDlweWPCctwmf6Kp2hgLHx5NX1cU8izNx4SdrIDv8YbcX2O9S1ccVB+doaVn8m3+KKc
+ S8AI8v8XlW+/k+Dk+6L3rD+FvZ0ayrcVNgk96/niFyKvRtgRFxzAxcbkPtnq7zltTEz7
+ Sr/w==
+X-Gm-Message-State: AO0yUKUol3Fc6HiMWKqGZ+fwxsa31p9BPz+owBAZB3thnoe9LLiLztez
+ DNkJgOUHz+o6pdxM8Ev6c7hzIg==
+X-Google-Smtp-Source: AK7set90iIiA5ugZDNhIb3OjOGhVl4P+xci7QPo2AnJiySpu5Ar+mRCb62IJEMYsOgdQHJWggeH+cQ==
+X-Received: by 2002:adf:a2d4:0:b0:2bf:cfb4:2e1 with SMTP id
+ t20-20020adfa2d4000000b002bfcfb402e1mr15232951wra.45.1675188146121; 
+ Tue, 31 Jan 2023 10:02:26 -0800 (PST)
 Received: from beast.fritz.box (62-178-148-172.cable.dynamic.surfer.at.
  [62.178.148.172]) by smtp.gmail.com with ESMTPSA id
- c17-20020adffb11000000b002bc8130cca7sm15453146wrr.23.2023.01.31.10.02.23
+ c17-20020adffb11000000b002bc8130cca7sm15453146wrr.23.2023.01.31.10.02.25
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 10:02:24 -0800 (PST)
+ Tue, 31 Jan 2023 10:02:25 -0800 (PST)
 From: Christoph Muellner <christoph.muellner@vrull.eu>
 To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
  Alistair Francis <alistair.francis@wdc.com>,
@@ -68,24 +68,25 @@ To: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
  Yunhai Shang <yunhai@linux.alibaba.com>,
  Zhiwei Liu <zhiwei_liu@linux.alibaba.com>
 Cc: =?UTF-8?q?Christoph=20M=C3=BCllner?= <christoph.muellner@vrull.eu>
-Subject: [PATCH v4 13/14] RISC-V: Adding XTheadFmv ISA extension
-Date: Tue, 31 Jan 2023 19:01:57 +0100
-Message-Id: <20230131180158.2471047-14-christoph.muellner@vrull.eu>
+Subject: [PATCH v4 14/14] target/riscv: add a MAINTAINERS entry for XThead*
+ extension support
+Date: Tue, 31 Jan 2023 19:01:58 +0100
+Message-Id: <20230131180158.2471047-15-christoph.muellner@vrull.eu>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230131180158.2471047-1-christoph.muellner@vrull.eu>
 References: <20230131180158.2471047-1-christoph.muellner@vrull.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::429;
- envelope-from=christoph.muellner@vrull.eu; helo=mail-wr1-x429.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=christoph.muellner@vrull.eu; helo=mail-wr1-x433.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -103,147 +104,35 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Christoph Müllner <christoph.muellner@vrull.eu>
 
-This patch adds support for the XTheadFmv ISA extension.
-The patch uses the T-Head specific decoder and translation.
+The XThead* extensions are maintained by T-Head and VRULL.
+Adding a point of contact from both companies.
 
 Signed-off-by: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Christoph Müllner <christoph.muellner@vrull.eu>
 ---
- target/riscv/cpu.c                         |  2 +
- target/riscv/cpu.h                         |  1 +
- target/riscv/insn_trans/trans_xthead.c.inc | 45 ++++++++++++++++++++++
- target/riscv/translate.c                   |  6 +--
- target/riscv/xthead.decode                 |  4 ++
- 5 files changed, 55 insertions(+), 3 deletions(-)
+ MAINTAINERS | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 8cbc5c9c1b..0dd2f0c753 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -116,6 +116,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
-     ISA_EXT_DATA_ENTRY(xtheadcmo, true, PRIV_VERSION_1_11_0, ext_xtheadcmo),
-     ISA_EXT_DATA_ENTRY(xtheadcondmov, true, PRIV_VERSION_1_11_0, ext_xtheadcondmov),
-     ISA_EXT_DATA_ENTRY(xtheadfmemidx, true, PRIV_VERSION_1_11_0, ext_xtheadfmemidx),
-+    ISA_EXT_DATA_ENTRY(xtheadfmv, true, PRIV_VERSION_1_11_0, ext_xtheadfmv),
-     ISA_EXT_DATA_ENTRY(xtheadmac, true, PRIV_VERSION_1_11_0, ext_xtheadmac),
-     ISA_EXT_DATA_ENTRY(xtheadmemidx, true, PRIV_VERSION_1_11_0, ext_xtheadmemidx),
-     ISA_EXT_DATA_ENTRY(xtheadmempair, true, PRIV_VERSION_1_11_0, ext_xtheadmempair),
-@@ -1134,6 +1135,7 @@ static Property riscv_cpu_extensions[] = {
-     DEFINE_PROP_BOOL("xtheadcmo", RISCVCPU, cfg.ext_xtheadcmo, false),
-     DEFINE_PROP_BOOL("xtheadcondmov", RISCVCPU, cfg.ext_xtheadcondmov, false),
-     DEFINE_PROP_BOOL("xtheadfmemidx", RISCVCPU, cfg.ext_xtheadfmemidx, false),
-+    DEFINE_PROP_BOOL("xtheadfmv", RISCVCPU, cfg.ext_xtheadfmv, false),
-     DEFINE_PROP_BOOL("xtheadmac", RISCVCPU, cfg.ext_xtheadmac, false),
-     DEFINE_PROP_BOOL("xtheadmemidx", RISCVCPU, cfg.ext_xtheadmemidx, false),
-     DEFINE_PROP_BOOL("xtheadmempair", RISCVCPU, cfg.ext_xtheadmempair, false),
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index 60478f4a9c..7128438d8e 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -480,6 +480,7 @@ struct RISCVCPUConfig {
-     bool ext_xtheadcmo;
-     bool ext_xtheadcondmov;
-     bool ext_xtheadfmemidx;
-+    bool ext_xtheadfmv;
-     bool ext_xtheadmac;
-     bool ext_xtheadmemidx;
-     bool ext_xtheadmempair;
-diff --git a/target/riscv/insn_trans/trans_xthead.c.inc b/target/riscv/insn_trans/trans_xthead.c.inc
-index 0e77275457..5f327d1bdf 100644
---- a/target/riscv/insn_trans/trans_xthead.c.inc
-+++ b/target/riscv/insn_trans/trans_xthead.c.inc
-@@ -52,6 +52,12 @@
-     }                                            \
- } while (0)
+diff --git a/MAINTAINERS b/MAINTAINERS
+index c581c11a64..9dc0a2954e 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -295,6 +295,14 @@ F: include/hw/riscv/
+ F: linux-user/host/riscv32/
+ F: linux-user/host/riscv64/
  
-+#define REQUIRE_XTHEADFMV(ctx) do {              \
-+    if (!ctx->cfg_ptr->ext_xtheadfmv) {          \
-+        return false;                            \
-+    }                                            \
-+} while (0)
++RISC-V XThead* extensions
++M: Christoph Muellner <christoph.muellner@vrull.eu>
++M: LIU Zhiwei <zhiwei_liu@linux.alibaba.com>
++L: qemu-riscv@nongnu.org
++S: Supported
++F: target/riscv/insn_trans/trans_xthead.c.inc
++F: target/riscv/xthead*.decode
 +
- #define REQUIRE_XTHEADMAC(ctx) do {              \
-     if (!ctx->cfg_ptr->ext_xtheadmac) {          \
-         return false;                            \
-@@ -449,6 +455,45 @@ static bool trans_th_fsurw(DisasContext *ctx, arg_th_memidx *a)
-     return gen_fstore_idx(ctx, a, MO_TEUL, true);
- }
- 
-+/* XTheadFmv */
-+
-+static bool trans_th_fmv_hw_x(DisasContext *ctx, arg_th_fmv_hw_x *a)
-+{
-+    REQUIRE_XTHEADFMV(ctx);
-+    REQUIRE_32BIT(ctx);
-+    REQUIRE_FPU;
-+    REQUIRE_EXT(ctx, RVD);
-+
-+    TCGv src1 = get_gpr(ctx, a->rs1, EXT_ZERO);
-+    TCGv_i64 t1 = tcg_temp_new_i64();
-+
-+    tcg_gen_extu_tl_i64(t1, src1);
-+    tcg_gen_deposit_i64(cpu_fpr[a->rd], cpu_fpr[a->rd], t1, 32, 32);
-+    tcg_temp_free_i64(t1);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
-+static bool trans_th_fmv_x_hw(DisasContext *ctx, arg_th_fmv_x_hw *a)
-+{
-+    REQUIRE_XTHEADFMV(ctx);
-+    REQUIRE_32BIT(ctx);
-+    REQUIRE_FPU;
-+    REQUIRE_EXT(ctx, RVD);
-+    TCGv dst;
-+    TCGv_i64 t1;
-+
-+    dst = dest_gpr(ctx, a->rd);
-+    t1 = tcg_temp_new_i64();
-+
-+    tcg_gen_extract_i64(t1, cpu_fpr[a->rs1], 32, 32);
-+    tcg_gen_trunc_i64_tl(dst, t1);
-+    gen_set_gpr(ctx, a->rd, dst);
-+    tcg_temp_free_i64(t1);
-+    mark_fs_dirty(ctx);
-+    return true;
-+}
-+
- /* XTheadMac */
- 
- static bool gen_th_mac(DisasContext *ctx, arg_r *a,
-diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-index 216eaf9d12..182649dcb6 100644
---- a/target/riscv/translate.c
-+++ b/target/riscv/translate.c
-@@ -135,9 +135,9 @@ static bool has_xthead_p(DisasContext *ctx  __attribute__((__unused__)))
-     return ctx->cfg_ptr->ext_xtheadba || ctx->cfg_ptr->ext_xtheadbb ||
-            ctx->cfg_ptr->ext_xtheadbs || ctx->cfg_ptr->ext_xtheadcmo ||
-            ctx->cfg_ptr->ext_xtheadcondmov ||
--           ctx->cfg_ptr->ext_xtheadfmemidx || ctx->cfg_ptr->ext_xtheadmac ||
--           ctx->cfg_ptr->ext_xtheadmemidx || ctx->cfg_ptr->ext_xtheadmempair ||
--           ctx->cfg_ptr->ext_xtheadsync;
-+           ctx->cfg_ptr->ext_xtheadfmemidx || ctx->cfg_ptr->ext_xtheadfmv ||
-+           ctx->cfg_ptr->ext_xtheadmac || ctx->cfg_ptr->ext_xtheadmemidx ||
-+           ctx->cfg_ptr->ext_xtheadmempair || ctx->cfg_ptr->ext_xtheadsync;
- }
- 
- #define MATERIALISE_EXT_PREDICATE(ext)  \
-diff --git a/target/riscv/xthead.decode b/target/riscv/xthead.decode
-index 81daf1d694..d1d104bcf2 100644
---- a/target/riscv/xthead.decode
-+++ b/target/riscv/xthead.decode
-@@ -110,6 +110,10 @@ th_fsrw          01000 .. ..... ..... 111 ..... 0001011 @th_memidx
- th_fsurd         01110 .. ..... ..... 111 ..... 0001011 @th_memidx
- th_fsurw         01010 .. ..... ..... 111 ..... 0001011 @th_memidx
- 
-+# XTheadFmv
-+th_fmv_hw_x      1010000  00000 ..... 001 ..... 0001011 @r2
-+th_fmv_x_hw      1100000  00000 ..... 001 ..... 0001011 @r2
-+
- # XTheadMac
- th_mula          00100 00 ..... ..... 001 ..... 0001011 @r
- th_mulah         00101 00 ..... ..... 001 ..... 0001011 @r
+ RISC-V XVentanaCondOps extension
+ M: Philipp Tomsich <philipp.tomsich@vrull.eu>
+ L: qemu-riscv@nongnu.org
 -- 
 2.39.1
 
