@@ -2,59 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8495B6825A8
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 08:39:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C4076825F2
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 08:55:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMlEV-0000LA-FT; Tue, 31 Jan 2023 02:39:11 -0500
+	id 1pMlSu-0004SG-0t; Tue, 31 Jan 2023 02:54:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pMlET-0000Km-9t
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 02:39:09 -0500
-Received: from out30-98.freemail.mail.aliyun.com ([115.124.30.98])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMlSi-0004Rp-0R
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 02:53:52 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xuanzhuo@linux.alibaba.com>)
- id 1pMlEQ-0006B9-GT
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 02:39:08 -0500
-X-Alimail-AntiSpam: AC=PASS; BC=-1|-1; BR=01201311R851e4; CH=green; DM=||false|;
- DS=||; FP=0|-1|-1|-1|0|-1|-1|-1; HT=ay29a033018045168;
- MF=xuanzhuo@linux.alibaba.com; NM=1; PH=DS; RN=4; SR=0;
- TI=SMTPD_---0VaVsS7h_1675150733; 
-Received: from localhost(mailfrom:xuanzhuo@linux.alibaba.com
- fp:SMTPD_---0VaVsS7h_1675150733) by smtp.aliyun-inc.com;
- Tue, 31 Jan 2023 15:38:54 +0800
-Message-ID: <1675150700.8574536-2-xuanzhuo@linux.alibaba.com>
-Subject: Re: [PATCH v1 2/2] virtio-net: virtio_net_flush_tx() check for
- per-queue reset
-Date: Tue, 31 Jan 2023 15:38:20 +0800
-From: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-To: Jason Wang <jasowang@redhat.com>
-Cc: qemu-devel@nongnu.org, Alexander Bulekov <alxndr@bu.edu>,
- "Michael S. Tsirkin" <mst@redhat.com>
-References: <20230129025150.119972-1-xuanzhuo@linux.alibaba.com>
- <20230129025150.119972-3-xuanzhuo@linux.alibaba.com>
- <20230129021402-mutt-send-email-mst@kernel.org>
- <1674977308.9335406-2-xuanzhuo@linux.alibaba.com>
- <20230129025950-mutt-send-email-mst@kernel.org>
- <1674980588.489446-5-xuanzhuo@linux.alibaba.com>
- <20230129065705-mutt-send-email-mst@kernel.org>
- <1674993822.7782302-1-xuanzhuo@linux.alibaba.com>
- <20230129071154-mutt-send-email-mst@kernel.org>
- <1675044912.9269125-1-xuanzhuo@linux.alibaba.com>
- <20230130003158-mutt-send-email-mst@kernel.org>
- <CACGkMEscnrRBwEajRmXPgyTGdJCwKQypDJrGUtqcHLS8MUinCQ@mail.gmail.com>
-In-Reply-To: <CACGkMEscnrRBwEajRmXPgyTGdJCwKQypDJrGUtqcHLS8MUinCQ@mail.gmail.com>
-Received-SPF: pass client-ip=115.124.30.98;
- envelope-from=xuanzhuo@linux.alibaba.com;
- helo=out30-98.freemail.mail.aliyun.com
-X-Spam_score_int: -98
-X-Spam_score: -9.9
-X-Spam_bar: ---------
-X-Spam_report: (-9.9 / 5.0 requ) BAYES_00=-1.9, ENV_AND_HDR_SPF_MATCH=-0.5,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001, UNPARSEABLE_RELAY=0.001,
- USER_IN_DEF_SPF_WL=-7.5 autolearn=ham autolearn_force=no
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMlSg-0001Nt-9q
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 02:53:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675151628;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=cEXGVPuR+1kIiNEBYWErS+zaRqJ4DsRo7by95aOufks=;
+ b=dWIpTW9BBfYvTb3To2ZBw5QCZPr3UwSt7C6tI4cwySH560DjDKQ5pqMK5HpaffG3Knj1qU
+ J3Ws+NSsKYPXbkMEsoWaV427maOvYDQ1bTFUGIGyLMmJanxSR958Wx94uUqVbc/57VRzMS
+ eijRL+KJVZWH401nV2uVyCJy/Zn/n2Q=
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com
+ [209.85.219.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-192-4qQSLXygOrO-Z-xSpmUsow-1; Tue, 31 Jan 2023 02:53:47 -0500
+X-MC-Unique: 4qQSLXygOrO-Z-xSpmUsow-1
+Received: by mail-qv1-f72.google.com with SMTP id
+ lp6-20020a056214590600b0053a07384c95so4574500qvb.4
+ for <qemu-devel@nongnu.org>; Mon, 30 Jan 2023 23:53:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=cEXGVPuR+1kIiNEBYWErS+zaRqJ4DsRo7by95aOufks=;
+ b=lrJFCQ+nWnQEW2z4C1ysfADFTnurEOopbiJ6k4aLargTfASbhKWZS1Vb337NMIIxgs
+ 4r1BAqy9yVYAkBworbhPFtw/OTzRQSKYHDm7BFLgQfSMvL3Z7LTdFlMGkd/wO+4sMDh9
+ O6v25xFcv8L3jqRsd7IaGanBW7aHLtYYtn3WmjmuQjF0aCjBCRmD6SOsGF7lL61S8tWu
+ SbkfAkiEJaHQ7Ez9kX2MsVN+Wl6SCGubCaKdcYPM3qy96B6f/1yP/9As3jhE4CdIIR2L
+ ey3Y7C6roIPNYZMRd/2oBPcDAFiAJUCSqUL1bqLHYp7e+2rshr3u+kjEX7fzRucwz7K8
+ zwbA==
+X-Gm-Message-State: AFqh2kp27Ukp0oZL1X50KQpd+pX2xm/krevb/5khOPPtEfOqdC2ql6oc
+ ShVyrfb5cX6X6TqNv5rA/3uuKMakUuVc8Td7GkjOruX9XsX/t9SKHOgkEDU7E7i262TqhxFqBCW
+ fB7XWKzx9uB156Es=
+X-Received: by 2002:ac8:4cc7:0:b0:3ab:2a7f:83e4 with SMTP id
+ l7-20020ac84cc7000000b003ab2a7f83e4mr67619100qtv.35.1675151627126; 
+ Mon, 30 Jan 2023 23:53:47 -0800 (PST)
+X-Google-Smtp-Source: AMrXdXsH1tOqDduzHdrKnjQGvNCRILkeNy1zeupGW7e9aOHCn/cN3RN8jqWNyTMgz7PVGRJWEtbmQw==
+X-Received: by 2002:ac8:4cc7:0:b0:3ab:2a7f:83e4 with SMTP id
+ l7-20020ac84cc7000000b003ab2a7f83e4mr67619089qtv.35.1675151626843; 
+ Mon, 30 Jan 2023 23:53:46 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-155.web.vodafone.de.
+ [109.43.176.155]) by smtp.gmail.com with ESMTPSA id
+ l25-20020a37f519000000b006bb82221013sm9537212qkk.0.2023.01.30.23.53.44
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Mon, 30 Jan 2023 23:53:45 -0800 (PST)
+Message-ID: <50f8f9a1-7e88-f6b4-5e1e-4a00c428018e@redhat.com>
+Date: Tue, 31 Jan 2023 08:53:43 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 5/6] gitlab-ci.d/buildtest: Merge the two gprof-gcov jobs
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230130104446.1286773-1-thuth@redhat.com>
+ <20230130104446.1286773-6-thuth@redhat.com> <87tu076hpq.fsf@linaro.org>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <87tu076hpq.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -70,179 +103,63 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, 30 Jan 2023 15:49:36 +0800, Jason Wang <jasowang@redhat.com> wrote:
-> On Mon, Jan 30, 2023 at 1:32 PM Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > On Mon, Jan 30, 2023 at 10:15:12AM +0800, Xuan Zhuo wrote:
-> > > On Sun, 29 Jan 2023 07:15:47 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > On Sun, Jan 29, 2023 at 08:03:42PM +0800, Xuan Zhuo wrote:
-> > > > > On Sun, 29 Jan 2023 06:57:29 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > > > On Sun, Jan 29, 2023 at 04:23:08PM +0800, Xuan Zhuo wrote:
-> > > > > > > On Sun, 29 Jan 2023 03:12:12 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > > > > > On Sun, Jan 29, 2023 at 03:28:28PM +0800, Xuan Zhuo wrote:
-> > > > > > > > > On Sun, 29 Jan 2023 02:25:43 -0500, "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> > > > > > > > > > On Sun, Jan 29, 2023 at 10:51:50AM +0800, Xuan Zhuo wrote:
-> > > > > > > > > > > Check whether it is per-queue reset state in virtio_net_flush_tx().
-> > > > > > > > > > >
-> > > > > > > > > > > Before per-queue reset, we need to recover async tx resources. At this
-> > > > > > > > > > > time, virtio_net_flush_tx() is called, but we should not try to send
-> > > > > > > > > > > new packets, so virtio_net_flush_tx() should check the current
-> > > > > > > > > > > per-queue reset state.
-> > > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > What does "at this time" mean here?
-> > > > > > > > > > Do you in fact mean it's called from flush_or_purge_queued_packets?
-> > > > > > > > >
-> > > > > > > > > Yes
-> > > > > > > > >
-> > > > > > > > > virtio_queue_reset
-> > > > > > > > >   k->queue_reset
-> > > > > > > > >           virtio_net_queue_reset
-> > > > > > > > >                   flush_or_purge_queued_packets
-> > > > > > > > >                           qemu_flush_or_purge_queued_packets
-> > > > > > > > >                                   .....
-> > > > > > > > >                                   (callback) virtio_net_tx_complete
-> > > > > > > > >                                           virtio_net_flush_tx <-- here send new packet. We need stop it.
-> > > > > > > > >
-> > > > > > > > >
-> > > > > > > > > Because it is inside the callback, I can't pass information through the stack. I
-> > > > > > > > > originally thought it was a general situation, so I wanted to put it in
-> > > > > > > > > struct VirtQueue.
-> > > > > > > > >
-> > > > > > > > > If it is not very suitable, it may be better to put it in VirtIONetQueue.
-> > > > > > > > >
-> > > > > > > > > Thanks.
-> > > > > > > >
-> > > > > > > > Hmm maybe. Another idea: isn't virtio_net_tx_complete called
-> > > > > > > > with length 0 here? Are there other cases where length is 0?
-> > > > > > > >
-> > > > > > > >
-> > > > > > > > > > What does the call stack look like?
-> > > > > > > > > >
-> > > > > > > > > > If yes introducing a vq state just so virtio_net_flush_tx
-> > > > > > > > > > knows we are in the process of reset would be a bad idea.
-> > > > > > > > > > We want something much more local, ideally on stack even ...
-> > > > > > > > > >
-> > > > > > > > > >
-> > > > > > > > > > >
-> > > > > > > > > > > Fixes: 7dc6be52 ("virtio-net: support queue reset")
-> > > > > > > > > > > Fixes: https://gitlab.com/qemu-project/qemu/-/issues/1451
-> > > > > > > > > > > Reported-by: Alexander Bulekov <alxndr@bu.edu>
-> > > > > > > > > > > Signed-off-by: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
-> > > > > > > > > > > ---
-> > > > > > > > > > >  hw/net/virtio-net.c | 3 ++-
-> > > > > > > > > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > > > > > > > > >
-> > > > > > > > > > > diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
-> > > > > > > > > > > index 3ae909041a..fba6451a50 100644
-> > > > > > > > > > > --- a/hw/net/virtio-net.c
-> > > > > > > > > > > +++ b/hw/net/virtio-net.c
-> > > > > > > > > > > @@ -2627,7 +2627,8 @@ static int32_t virtio_net_flush_tx(VirtIONetQueue *q)
-> > > > > > > > > > >      VirtQueueElement *elem;
-> > > > > > > > > > >      int32_t num_packets = 0;
-> > > > > > > > > > >      int queue_index = vq2q(virtio_get_queue_index(q->tx_vq));
-> > > > > > > > > > > -    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK)) {
-> > > > > > > > > > > +    if (!(vdev->status & VIRTIO_CONFIG_S_DRIVER_OK) ||
-> > > > > > > > > > > +        virtio_queue_reset_state(q->tx_vq)) {
-> > > > > > > >
-> > > > > > > > btw this sounds like you are asking it to reset some state.
-> > > > > > > >
-> > > > > > > > > > >          return num_packets;
-> > > > > > > >
-> > > > > > > > and then
-> > > > > > > >
-> > > > > > > >     ret = virtio_net_flush_tx(q);
-> > > > > > > >     if (ret >= n->tx_burst)
-> > > > > > > >
-> > > > > > > >
-> > > > > > > > will reschedule automatically won't it?
-> > > > > > > >
-> > > > > > > > also why check in virtio_net_flush_tx and not virtio_net_tx_complete?
-> > > > > > >
-> > > > > > > virtio_net_flush_tx may been called by timer.
->
-> We stop timer/bh during device reset, do we need to do the same with vq reset?
+On 30/01/2023 18.42, Alex Bennée wrote:
+> 
+> Thomas Huth <thuth@redhat.com> writes:
+> 
+>> There is only one job depending on the build-gprof-gcov job, so
+>> there is no real need for keeping this separate. It likely only
+>> has been split since the complete runtime is more than 60 minutes,
+>> but that can be better handled with a proper timeout setting instead.
+>> By merging the two jobs, we safe some precious CI minutes for starting
+>> a new container for the second job each time.
+>>
+>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>> ---
+>>   .gitlab-ci.d/buildtest.yml | 15 ++-------------
+>>   1 file changed, 2 insertions(+), 13 deletions(-)
+>>
+>> diff --git a/.gitlab-ci.d/buildtest.yml b/.gitlab-ci.d/buildtest.yml
+>> index 86f9c37a07..91c7467a66 100644
+>> --- a/.gitlab-ci.d/buildtest.yml
+>> +++ b/.gitlab-ci.d/buildtest.yml
+>> @@ -468,26 +468,15 @@ tsan-build:
+>>       MAKE_CHECK_ARGS: bench V=1
+>>   
+>>   # gprof/gcov are GCC features
+>> -build-gprof-gcov:
+>> +gprof-gcov:
+>>     extends: .native_build_job_template
+>>     needs:
+>>       job: amd64-ubuntu2004-container
+>> +  timeout: 80m
+>>     variables:
+>>       IMAGE: ubuntu2004
+>>       CONFIGURE_ARGS: --enable-gprof --enable-gcov
+>>       TARGETS: aarch64-softmmu ppc64-softmmu s390x-softmmu x86_64-softmmu
+>> -  artifacts:
+>> -    expire_in: 1 days
+>> -    paths:
+>> -      - build
+>> -
+>> -check-gprof-gcov:
+>> -  extends: .native_test_job_template
+>> -  needs:
+>> -    - job: build-gprof-gcov
+>> -      artifacts: true
+>> -  variables:
+>> -    IMAGE: ubuntu2004
+>>       MAKE_CHECK_ARGS: check
+>>     after_script:
+>>       - cd build
+> 
+> I'm tempted to deprecate gprof altogether as I find it hard to believe
+> anyone uses it when perf tools give you a much clearer indication of
+> where the bottlenecks are in "real world" environments.
 
+Sounds fine to me, too. I'll drop this patch here from my queue. Could you 
+send a patch for removing the jobs instead?
 
-Should I stop timer/bh?
+  Thomas
 
-Thanks.
-
-
->
-> > > > > > >
-> > > > > > > Thanks.
-> > > > > >
-> > > > > > timer won't run while flush_or_purge_queued_packets is in progress.
-> > > > >
-> > > > > Is timer not executed during the VMEXIT process? Otherwise, we still have to
-> > > > > consider that after the flush_or_purge_queued_packets, this process before the
-> > > > > structure is cleared.
-> > > >
-> > > >
-> > > >
-> > > > void virtio_queue_reset(VirtIODevice *vdev, uint32_t queue_index)
-> > > > {
-> > > >     VirtioDeviceClass *k = VIRTIO_DEVICE_GET_CLASS(vdev);
-> > > >
-> > > >     if (k->queue_reset) {
-> > > >         k->queue_reset(vdev, queue_index);
-> > > >     }
-> > > >
-> > > >     __virtio_queue_reset(vdev, queue_index);
-> > > > }
-> > > >
-> > > >
-> > > > No timers do not run between  k->queue_reset and __virtio_queue_reset.
-> > > >
-> > > >
-> > > > > Even if it can be processed in virtio_net_tx_complete, is there any good way?
-> > > > > This is a callback, it is not convenient to pass the parameters.
-> > > > >
-> > > > > Thanks
-> > > >
-> > > >
-> > > > How about checking that length is 0?
-> > >
-> > >
-> > > I think that check length is not a good way. This modifys the semantics of 0.
->
-> 0 seems to mean "purge" and
->
-> > It is
-> > > not friendly to the future maintenance. On the other hand, qemu_net_queue_purge()
-> > > will pass 0, and this function is called by many places.
->
-> That's exactly what we want actually, when do purge we don't need a flush?
->
-> > >
-> > > How about we add an api in queue.c to replace the sent_cb callback on queue?
-> > >
-> > > Thanks.
-> >
-> > OK I guess. Jason?
->
-> Not sure, anything different from adding a check in
-> virtio_net_tx_complete()? (assuming bh and timer is cancelled or
-> deleted).
->
-> Thanks
->
-> >
-> > >
-> > > >
-> > > > >
-> > > > > >
-> > > > > > > >
-> > > > > > > >
-> > > > > > > > > > >      }
-> > > > > > > > > > >
-> > > > > > > > > > > --
-> > > > > > > > > > > 2.32.0.3.g01195cf9f
-> > > > > > > > > >
-> > > > > > > >
-> > > > > >
-> > > >
-> >
->
 
