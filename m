@@ -2,61 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B75D683131
-	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 16:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A4E468313B
+	for <lists+qemu-devel@lfdr.de>; Tue, 31 Jan 2023 16:19:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pMsOw-00047h-SF; Tue, 31 Jan 2023 10:18:27 -0500
+	id 1pMsPm-0005Ae-J7; Tue, 31 Jan 2023 10:19:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMsOq-0003vC-Cs
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 10:18:20 -0500
-Received: from mout.kundenserver.de ([212.227.126.134])
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMsPX-0004uj-17
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 10:19:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pMsOU-0005W0-VY
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 10:18:15 -0500
-Received: from [192.168.100.1] ([82.142.8.70]) by mrelayeu.kundenserver.de
- (mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
- 1MNss4-1oyjqG45Ye-00OD75; Tue, 31 Jan 2023 16:17:57 +0100
-Message-ID: <fd1a910e-f22a-5f72-e835-608799da38ee@vivier.eu>
-Date: Tue, 31 Jan 2023 16:17:56 +0100
+ (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pMsPV-0005hF-3r
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 10:19:02 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675178339;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=LNac+Dciv/qPDAvzD0R/yysHbMYKjSfKm9tmFoxuAts=;
+ b=G5K9xGTTuY6GFlMLN689Olqfn/MBuRP9GT13K4U+fpAdwlqaOyO17Z3rSJ0ynm7IyhIrO5
+ TZIiC3aK6kZ+31XU5fV4UVdsMFmsU9dEUNC1werubBUa28cTFt07r5JW6c6EhdoPXj/1gv
+ FrzYTaYBzPKBIpoJ8ot1pnCPA8dc0Rk=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-659-HwaXFcLiPPumPKCAqM7SDA-1; Tue, 31 Jan 2023 10:18:57 -0500
+X-MC-Unique: HwaXFcLiPPumPKCAqM7SDA-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ t13-20020a056902018d00b0074747131938so16626090ybh.12
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 07:18:57 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=LNac+Dciv/qPDAvzD0R/yysHbMYKjSfKm9tmFoxuAts=;
+ b=21ccyFP3igz1ylKghhopVzL21OIUMyo23Tz8mOFYm0OdJd420Lc8nQZmArW8XChJr4
+ oT8vlKtdm9VRQGen4bZJMg31favTj4lT2YaT2qD1WtZvDjRCcDI7r+0/133L/6hEHM63
+ /ywOhqlHZoDYOfPsRY7Ty/EO57g759bSmcwPCnNPjlIz9uXEjCNJbFrjFV2LZ7LrD+0w
+ jIaWcjYQbS9UUaKgq5qKltVbUN/FlTMt3H/WL1IrWq8QKQ+gm3a7eVouMKWbpz8ubonr
+ eAxWVxMaUUNh2Pcwna5f9mm7AS3aQ4kt6Hy2xCvwW87C+xdSRTqMx3MvfbWYcrqjJIa0
+ hO4g==
+X-Gm-Message-State: AO0yUKV2fHbr1ODLUXCSrXDgI7X4+vDTjF7wc0yhr0kzz2KZkHIdOP+W
+ loOqNAvKeV0tWeI3PntOez8GFi2NL8dY5nFCoAq0FzFGjt9wK+mlexM8ky+S7HuHdL1nmUqwmVI
+ DiIbgN4rx2DPgiPg=
+X-Received: by 2002:a25:734d:0:b0:80b:5b7c:6870 with SMTP id
+ o74-20020a25734d000000b0080b5b7c6870mr21995483ybc.8.1675178336865; 
+ Tue, 31 Jan 2023 07:18:56 -0800 (PST)
+X-Google-Smtp-Source: AK7set+h+8s0WiPF+cJOO+iV8HrSUmg6vUMmqlFpU1nxwRO1hJ6MDp+5Jbyb/4Dunffv3Ot4YL74bA==
+X-Received: by 2002:a25:734d:0:b0:80b:5b7c:6870 with SMTP id
+ o74-20020a25734d000000b0080b5b7c6870mr21995470ybc.8.1675178336650; 
+ Tue, 31 Jan 2023 07:18:56 -0800 (PST)
+Received: from [192.168.0.2] (ip-109-43-176-155.web.vodafone.de.
+ [109.43.176.155]) by smtp.gmail.com with ESMTPSA id
+ h6-20020a375306000000b006fa4ac86bfbsm10055614qkb.55.2023.01.31.07.18.55
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Jan 2023 07:18:56 -0800 (PST)
+Message-ID: <2f17c06f-90a9-9bac-8e9a-a1a2842665d2@redhat.com>
+Date: Tue, 31 Jan 2023 16:18:54 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH 2/2] linux-user: Allow sendmsg() without IOV
-Content-Language: fr
-To: Helge Deller <deller@gmx.de>,
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20221212173416.90590-1-deller@gmx.de>
- <20221212173416.90590-2-deller@gmx.de>
-From: Laurent Vivier <laurent@vivier.eu>
-In-Reply-To: <20221212173416.90590-2-deller@gmx.de>
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
+Subject: Re: [PATCH 4/4] readconfig-test: add test for accelerator
+ configuration
+Content-Language: en-US
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20230117080745.43247-1-pbonzini@redhat.com>
+ <20230117080745.43247-5-pbonzini@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+In-Reply-To: <20230117080745.43247-5-pbonzini@redhat.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:NdgaCX4F6RiFy3SXUZfBJAceI7mp86oQdshw9rtT/n5Rqc1Ma/o
- heZezoRD7RWmzi+OK/74LlZZw7mKk6LH4mB4aC/o9oKrrVso7BK1SkTUaEYQP0xjK5np1lA
- VwSvF3KWxYVpODDTv7kx7BJp+T8JUetPZKQ8oTrOlLRJFDQ6YuQ4URofbHpdwgGfk8Nx8LO
- qERTwgPOvmSaTjNt26w5A==
-UI-OutboundReport: notjunk:1;M01:P0:OLcOrtAuM+E=;fQfw+ani6xLSCLypLKFyjfJNG68
- vQOBxn11qaraTWF1uU+sSEdCozEC+8fTDyeDdeRfvXsn/hTsdhsTPNHwLsY88Tj9ETZ4XlOrV
- +tREUYXW/3eV3Atmlvwx8Tpj32MLVGua658kETq0aCzFGLnoUT7WIyaqXdvXI50CUfLs/Ux8Y
- l1+iLnahbd31VBAo95WlqlSbLmc3lc1KqqSif1mhpcySExmYVQj5fWGTf5V8nLpvDK194xlyT
- cd5ZbqpB5M7Jk86XhdvFEPycWmClCRseDyjHqsZc2H+uCn9wFL/w/Rr7fTciLikKjzlUzYwnY
- N3K8/IU7Pl7xCcelXGVHH3Q+SjRzVCbDsn1Opbq5kKAP2A6/YrUg+FZu83JTrDANT480zmcYA
- Ek6EkllQ5sf+J3VIQL3nZXiFx0yDCTFVL1RvT4vg/StMwzUD7AV2xttmwH4naW74HJla0pPwk
- T4lrWXBteRXcgi9O5PqMrUSDJvf/wtXlSfISSCsz2lFuT/mFIKC6U46kPT2Aex5iJpFbtzad8
- Dnk/wG6fLNXs+ZVmpB4VHTaxpatcxuvTKXE1wuaHQWhVJOLmrfMDZWUxhGIbJxUD3PhZ0ZBtE
- Ojm5JnhURjIHU67cI90G/qgBOUpMZY27b9oov6N/EljDIf+nt2k3Hd5u9y+UjKFx9uQOgLsBi
- FPtW3ocisDv1RHzioCpkPolxMOdLjHETN5B7y9InOw==
-Received-SPF: none client-ip=212.227.126.134; envelope-from=laurent@vivier.eu;
- helo=mout.kundenserver.de
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=thuth@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -72,35 +100,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Le 12/12/2022 à 18:34, Helge Deller a écrit :
-> Applications do call sendmsg() without any IOV, e.g.:
->   sendmsg(4, {msg_name=NULL, msg_namelen=0, msg_iov=NULL, msg_iovlen=0,
->              msg_control=[{cmsg_len=36, cmsg_level=SOL_ALG, cmsg_type=0x2}],
->              msg_controllen=40, msg_flags=0}, MSG_MORE) = 0
->   sendmsg(4, {msg_name=NULL, msg_namelen=0, msg_iov=[{iov_base="The quick brown fox jumps over t"..., iov_len=183}],
->              msg_iovlen=1, msg_control=[{cmsg_len=20, cmsg_level=SOL_ALG, cmsg_type=0x3}],
->              msg_controllen=24, msg_flags=0}, 0) = 183
+On 17/01/2023 09.07, Paolo Bonzini wrote:
+> Test that invalid configurations do not cause a SIGSEGV, and cover a
+> valid configuration as well.
 > 
-> The function do_sendrecvmsg_locked() is used for sndmsg() and recvmsg()
-> and calls lock_iovec() to lock the IOV into memory. For the first
-> sendmsg() above it returns NULL and thus wrongly skips the call the host
-> sendmsg() syscall, which will break the calling application.
-> 
-> Fix this issue by:
-> - allowing sendmsg() even with empty IOV
-> - skip recvmsg() if IOV is NULL
-> - skip both if the return code of do_sendrecvmsg_locked() != 0, which
->    indicates some failure like EFAULT on the IOV
-> 
-> Tested with the debian "ell" package with hppa guest on x86_64 host.
-> 
-> Signed-off-by: Helge Deller <deller@gmx.de>
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 > ---
->   linux-user/syscall.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
+>   tests/qtest/libqtest.c        | 28 +++++++++++++++++-----
+>   tests/qtest/libqtest.h        | 12 ++++++++++
+>   tests/qtest/readconfig-test.c | 45 ++++++++++++++++++++++++++++-------
+>   3 files changed, 70 insertions(+), 15 deletions(-)
 > 
+> diff --git a/tests/qtest/libqtest.c b/tests/qtest/libqtest.c
+> index 64ba98bc5853..53d766fe3fa5 100644
+> --- a/tests/qtest/libqtest.c
+> +++ b/tests/qtest/libqtest.c
+> @@ -402,6 +402,26 @@ static QTestState *G_GNUC_PRINTF(1, 0) qtest_spawn_qemu(const char *fmt, ...)
+>       return s;
+>   }
+>   
+> +QTestState *G_GNUC_PRINTF(1, 0) qtest_init_bare(const char *args)
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+I think you don't need the G_GNUC_PRINTF here, do you?
+
+  Thomas
 
 
 
