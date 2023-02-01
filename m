@@ -2,73 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 515F36868DD
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:50:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB28A6868BF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:45:42 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNEB2-0001vp-NB; Wed, 01 Feb 2023 09:33:32 -0500
+	id 1pNEF1-00086i-2o; Wed, 01 Feb 2023 09:37:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+8c5eeea0684575598b25+7101+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pNE9k-0001PH-0P
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:32:12 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pNEDA-0005V5-Pz
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:35:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+8c5eeea0684575598b25+7101+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pNE9g-000383-Qy
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:32:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=aglWQC1KM+uL100oS2kMCxCkeUCdIlxB7eFWndBpe8M=; b=DSQge6TTbayPMQGMSmDonpestH
- porZVd2TlkbMpMpM+T+YUuG+YbiC9oWEFS3ZcoQo0116deg7lITU712SYZfgKlQUKniGN0a4EleNb
- KwyXKHHaJvsoShlpSijtC/hNJ7/bgVuQVLeC2S2k/xOaREUbMrBtHPfW0Ujk0uCR1fCsgp+5LZOb/
- FyqESUAulNSwWGJI/CpGxXUHoYIVARSHL2eufd+IDk36e6ioXewkBqGO5WrihBb+G0481v6WyTPXB
- FVmOIsHvKRoJDfg2pU0fnrxCQnntdN423ueE2a8VxhrX70eKLOmUxuger59MZA9zTgeknUT93m68e
- MYmbSgLw==;
-Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pNE9R-00CMbm-Qv; Wed, 01 Feb 2023 14:31:55 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pNE9R-007Jtv-2f; Wed, 01 Feb 2023 14:31:53 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [PATCH v10 59/59] i386/xen: Document Xen HVM emulation
-Date: Wed,  1 Feb 2023 14:31:48 +0000
-Message-Id: <20230201143148.1744093-60-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230201143148.1744093-1-dwmw2@infradead.org>
-References: <20230201143148.1744093-1-dwmw2@infradead.org>
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pNED3-00042Y-Dz
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:35:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675262135;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=G78sh9k2aYU7/sirb3voCyPm+703BKxdk5K8LUpkvFY=;
+ b=RO6diWYDd8b9RqjsUVJXKX2bzRTY7LSx8cxuy+liVtUizWREdJVWqIBP8YMwuclXXLWhNF
+ US05SQatxtLjC08QJW0zUqwXEaFnGt68avQMmLRmvl0a53qwIHLI7RDJWQKqMPUXIa1JZc
+ ZMJNr271rZXoVUhD2b+74WFKTUr63Ik=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-663-KEGG-iovNeqvIuKBoVvGew-1; Wed, 01 Feb 2023 09:35:32 -0500
+X-MC-Unique: KEGG-iovNeqvIuKBoVvGew-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DDE8585CBE1;
+ Wed,  1 Feb 2023 14:35:31 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.62])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id BBC16404CD80;
+ Wed,  1 Feb 2023 14:35:30 +0000 (UTC)
+Date: Wed, 1 Feb 2023 14:35:28 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: James Bottomley <jejb@linux.ibm.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+ DOV MURIK <Dov.Murik1@il.ibm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>
+Subject: Re: [PATCH] x86: fix q35 kernel measurements broken due to rng seeding
+Message-ID: <Y9p4sARXUdUOz/6X@redhat.com>
+References: <da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+8c5eeea0684575598b25+7101+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,113 +76,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: David Woodhouse <dwmw@amazon.co.uk>
+On Wed, Feb 01, 2023 at 08:57:10AM -0500, James Bottomley wrote:
+> The origin commit for rng seeding 67f7e426e5 ("hw/i386: pass RNG seed
+> via setup_data entry") modifies the kernel image file to append a
+> random seed.  Obviously this makes the hash of the kernel file
+> non-deterministic and so breaks both measured and some signed boots.
 
-Signed-off-by: David Woodhouse <dwmw2@amazon.co.uk>
----
- docs/system/i386/xen.rst    | 76 +++++++++++++++++++++++++++++++++++++
- docs/system/target-i386.rst |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 docs/system/i386/xen.rst
+I recall raising that at the time
 
-diff --git a/docs/system/i386/xen.rst b/docs/system/i386/xen.rst
-new file mode 100644
-index 0000000000..a00523b492
---- /dev/null
-+++ b/docs/system/i386/xen.rst
-@@ -0,0 +1,76 @@
-+Xen HVM guest support
-+=====================
-+
-+
-+Description
-+-----------
-+
-+KVM has support for hosting Xen guests, intercepting Xen hypercalls and event
-+channel (Xen PV interrupt) delivery. This allows guests which expect to be
-+run under Xen to be hosted in QEMU under Linux/KVM instead.
-+
-+Setup
-+-----
-+
-+Xen mode is enabled by setting the ``xen-version`` property of the KVM
-+accelerator, for example for Xen 4.10:
-+
-+.. parsed-literal::
-+
-+  |qemu_system| --accel kvm,xen-version=0x4000a
-+
-+Additionally, virtual APIC support can be advertised to the guest through the
-+``xen-vapic`` CPU flag:
-+
-+.. parsed-literal::
-+
-+  |qemu_system| --accel kvm,xen-version=0x4000a --cpu host,+xen_vapic
-+
-+When Xen support is enabled, QEMU changes hypervisor identification (CPUID
-+0x40000000..0x4000000A) to Xen. The KVM identification and features are not
-+advertised to a Xen guest. If Hyper-V is also enabled, the Xen identification
-+moves to leaves 0x40000100..0x4000010A.
-+
-+The Xen platform device is enabled automatically for a Xen guest. This allows
-+a guest to unplug all emulated devices, in order to use Xen PV block and network
-+drivers instead. Note that until the Xen PV device back ends are enabled to work
-+with Xen mode in QEMU, that is unlikely to cause significant joy. Linux guests
-+can be dissuaded from this by adding 'xen_emul_unplug=never' on their command
-+line, and it can also be noted that AHCI disk controllers are exempt from being
-+unplugged, as are passthrough VFIO PCI devices.
-+
-+Properties
-+----------
-+
-+The following properties exist on the KVM accelerator object:
-+
-+``xen-version``
-+  This property contains the Xen version in ``XENVER_version`` form, with the
-+  major version in the top 16 bits and the minor version in the low 16 bits.
-+  Setting this property enables the Xen guest support.
-+
-+``xen-evtchn-max-pirq``
-+  Xen PIRQs represent an emulated physical interrupt, either GSI or MSI, which
-+  can be routed to an event channel instead of to the emulated I/O or local
-+  APIC. By default, QEMU permits only 256 PIRQs because this allows maximum
-+  compatibility with 32-bit MSI where the higher bits of the PIRQ# would need
-+  to be in the upper 64 bits of the MSI message. For guests with large numbers
-+  of PCI devices (and none which are limited to 32-bit addressing) it may be
-+  desirable to increase this value.
-+
-+``xen-gnttab-max-frames``
-+  Xen grant tables are the means by which a Xen guest grants access to its
-+  memory for PV back ends (disk, network, etc.). Since QEMU only supports v1
-+  grant tables which are 8 bytes in size, each page (each frame) of the grant
-+  table can reference 512 pages of guest memory. The default number of frames
-+  is 64, allowing for 32768 pages of guest memory to be accessed by PV backends
-+  through simultaneous grants. For guests with large numbers of PV devices and
-+  high throughput, it may be desirable to increase this value.
-+
-+OS requirements
-+---------------
-+
-+The minimal Xen support in the KVM accelerator requires the host to be running
-+Linux v5.12 or newer. Later versions add optimisations: Linux v5.17 added
-+acceleration of interrupt delivery via the Xen PIRQ mechanism, and Linux v5.19
-+accelerated Xen PV timers and inter-processor interrupts (IPIs).
-diff --git a/docs/system/target-i386.rst b/docs/system/target-i386.rst
-index e64c013077..77c2f3b979 100644
---- a/docs/system/target-i386.rst
-+++ b/docs/system/target-i386.rst
-@@ -27,6 +27,7 @@ Architectural features
- 
-    i386/cpu
-    i386/hyperv
-+   i386/xen
-    i386/kvm-pv
-    i386/sgx
-    i386/amd-memory-encryption
+  https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00710.html
+
+and Jason pointed me to a followup which I tested and believe
+fixed it for SEV:
+
+  https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00601.html
+
+but it doesn't look like that second patch ever merged. We went
+through so many patches I think it probably got obsoleted by
+something else, and no one rechecked SEV again.
+
+> The commit notes it's only for non-EFI (because EFI has a different
+> RNG seeding mechanism) so, since there are no non-EFI q35 systems, this
+> should be disabled for the whole of the q35 machine type to bring back
+> deterministic kernel file hashes.
+
+SeaBIOS is the default firmware for both q35 and i440fx. The
+majority of systems using q35 will be non-EFI today, and that
+is what the random seed was intended to address. I don't think
+we can just disable this for the whole of q35.
+
+When you say it breaks measured / signed boots, I presume you
+are specifically referring to SEV kernel hashes measurements ?
+Or is there a more general problem to solve ?
+
+> Obviously this still leaves the legacy bios case broken for at least
+> measured boot, but I don't think anyone cares about that now.
+> 
+> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
+> ---
+>  hw/i386/pc_q35.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+> index 83c57c6eb1..11e8dd7ca7 100644
+> --- a/hw/i386/pc_q35.c
+> +++ b/hw/i386/pc_q35.c
+> @@ -357,6 +357,7 @@ static void pc_q35_machine_options(MachineClass *m)
+>      pcmc->default_nic_model = "e1000e";
+>      pcmc->pci_root_uid = 0;
+>      pcmc->default_cpu_version = 1;
+> +    pcmc->legacy_no_rng_seed = true;
+>  
+>      m->family = "pc_q35";
+>      m->desc = "Standard PC (Q35 + ICH9, 2009)";
+> @@ -394,9 +395,7 @@ DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
+>  
+>  static void pc_q35_7_1_machine_options(MachineClass *m)
+>  {
+> -    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+>      pc_q35_7_2_machine_options(m);
+> -    pcmc->legacy_no_rng_seed = true;
+>      compat_props_add(m->compat_props, hw_compat_7_1,
+> hw_compat_7_1_len);
+>      compat_props_add(m->compat_props, pc_compat_7_1,
+> pc_compat_7_1_len);
+>  }
+
+This patch changes behaviour of the pc-q35-7.2 machine type. Any
+change will need to be in latest development 8.0 machine type only
+
+With regards,
+Daniel
 -- 
-2.39.0
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
 
