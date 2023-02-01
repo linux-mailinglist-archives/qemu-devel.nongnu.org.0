@@ -2,85 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF9E2686058
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 08:12:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE22D686059
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 08:12:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN72k-00026C-1k; Wed, 01 Feb 2023 01:56:30 -0500
+	id 1pN7Dt-0004Ri-TG; Wed, 01 Feb 2023 02:08:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pN72h-00025y-VG
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 01:56:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pN72g-0004nT-6H
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 01:56:27 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675234585;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=5qiWcu/BEMhfa0F0t98gmnNQTftBKQr44C24Dv1aYZo=;
- b=Z49HPXFbcLQsAR0TTWYCeF7Izg+rdNQ38TbN/9XcpmvRMawXW6gNAUnmvFFyMS5zYKjxv4
- wk1zfnU48g1KxTVFkxl1rF8SfWn+p3JQYdaqZjnjSdIR4fEGolSupBA2GLgD22NM93SjUe
- ZMcT2cOF8C1I0Yz7G00lvoDhcEn1GGU=
-Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
- [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-385-XesX-psmOrWkEsxbPF-2KQ-1; Wed, 01 Feb 2023 01:56:21 -0500
-X-MC-Unique: XesX-psmOrWkEsxbPF-2KQ-1
-Received: by mail-yb1-f199.google.com with SMTP id
- p19-20020a25d813000000b0080b78270db5so18842084ybg.15
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 22:56:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pN7Dr-0004RO-CB
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 02:07:59 -0500
+Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pN7Dn-00079F-UU
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 02:07:59 -0500
+Received: by mail-pj1-x1036.google.com with SMTP id
+ ha3-20020a17090af3c300b00230222051a6so1078275pjb.2
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 23:07:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=HZBbicLtWPVc2CJYEuVzoA72ajzXBNYOf1dOj8mo2B4=;
+ b=KLBykYrn3Ll3bVY7KhJt24aI20s+vViXznbp0ufG/taTHlQ0QL5w/Vdq0vSYqEBFqR
+ FRE6U4yQUr1/DK2+zTL9V4FvEYSs6tAYmodEx3GtM5bm0udvVFbFTpTjz35rtoTsw+HE
+ KlwJCiNXHDJxiJw9c+5aYhsuiMKAsa1LJUB/GVD3NR0pUwqz5XuWIlLNGB0zvku5FJ/O
+ bmYUOtmDOizuBXCNjjSWfvQPA4HjhVEJUfn3vvTX6PVc8JvWlPtIJRwdD3tbvXeoV/88
+ m9abWN+j63Ll/q/PQtPlNzHl03rcQQ7tvCqTT1UIbQo/KL/463PEN/kv1zHR0jlQW1If
+ EWPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=5qiWcu/BEMhfa0F0t98gmnNQTftBKQr44C24Dv1aYZo=;
- b=e4aQA4qIyYnqZOi1Nzkjls97QSmetsbvm9pyKmrZtgZhRSYg4x0Xgv7mMHBp/+N+vm
- fg17XWiMaGn1WYT/2/Tc8fLTD8ycr6cpmexaqDLAqtTfJerfoYe4LkujpBW/FBFSyYXR
- QnNzzQL6wYNcJa3fOJ+zuyXhsS3tYfju12jWXnmNWlt2hy6U2U0JmA4QRmVFv53bxk4F
- iofxogC3USIIqZq81qGvi5VduVNcAdEOmBEedsCsHGb4aF8Fn7cQYXObPJhATNIv3Hsr
- z/YHsNGUXKVcDTol6j7X3s2RuQLqoDm8kFdA3HUsReWXMtNAIZqUag2i7tr2xrwAjLHX
- p7Iw==
-X-Gm-Message-State: AO0yUKUbpZlqHAG3ySM4YS5xmDJRtBmAH0MlMwKC3fNT1+HgVKPgg6dn
- LAPl1Cx+RXgC/oBIvj4YyudtXZenWRSnZ7VLoMr0ARJJiTLbj2y2j9uZJgIw5DaU0+rSbpDyGYx
- vEAmGD7zGKrsAgoOgvbevs5LU10UUG5E=
-X-Received: by 2002:a25:e002:0:b0:80b:6391:c7a9 with SMTP id
- x2-20020a25e002000000b0080b6391c7a9mr229976ybg.381.1675234580742; 
- Tue, 31 Jan 2023 22:56:20 -0800 (PST)
-X-Google-Smtp-Source: AK7set/7ausF2hmyvGbd19BbN6xV9sPpoYRUfAKtnTN7Eb7Kxp7aAMjmmQjCmo6qvjUom9hnJhmDllGIBfYGtdKt+9w=
-X-Received: by 2002:a25:e002:0:b0:80b:6391:c7a9 with SMTP id
- x2-20020a25e002000000b0080b6391c7a9mr229973ybg.381.1675234580493; Tue, 31 Jan
- 2023 22:56:20 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=HZBbicLtWPVc2CJYEuVzoA72ajzXBNYOf1dOj8mo2B4=;
+ b=wM+URK5Yf6xQfsOsAGdfU40OgbiiZzJp7QrA9JjkGtW+PPrtXZk0Gt1WBiOkR5FtrE
+ JSbaY0aGN+xoRAqS0hCOz4Xd98tMW14ltyyPE+diCcd0KDGDzfZQc1j7bFkBIhyJuxo1
+ k24WGakYf1JU+YXIZ2GaudTt68eF0tVWsUCqxxbEXnKnH/ow2vsl8UPss8usQKXt0Y3J
+ TyE+/v7JFtfcCZuDp/tasHRoJ+e4c9lJBbAHauBuSD3Hc603G6FZm1QrYQVP7s7cI935
+ iFiNRFkZSRL5s6UqrY1/zDQ1DLdsFGrgXhdJlKJvXJFdZbAuOgCl58scj7XmDEmqfp3W
+ o3nQ==
+X-Gm-Message-State: AO0yUKUTxaXT51WPKkO1fwPT0Wxidg8vFj7oVpIfLDyxxRjndJVs/HqX
+ ZOldS3qLhT2NUcTd8SqA05uc8w==
+X-Google-Smtp-Source: AK7set9gxlSOxHhCVChPLUYrGWrrT3DURiaHj24PWaH6FmPTOj3Xn3dL5Jl8Gr1edG4euocfi83FKw==
+X-Received: by 2002:a17:902:d044:b0:192:7f35:90ed with SMTP id
+ l4-20020a170902d04400b001927f3590edmr811676pll.11.1675235271108; 
+ Tue, 31 Jan 2023 23:07:51 -0800 (PST)
+Received: from [192.168.50.50] (rrcs-173-197-98-118.west.biz.rr.com.
+ [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
+ a4-20020a170902900400b001963a178dfcsm10910081plp.244.2023.01.31.23.07.49
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Tue, 31 Jan 2023 23:07:50 -0800 (PST)
+Message-ID: <a1b44a66-f95c-b42f-865e-882495285fe9@linaro.org>
+Date: Tue, 31 Jan 2023 21:07:46 -1000
 MIME-Version: 1.0
-References: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
- <CACGkMEs2wkkWmrNUuxfUVEsdGAkgxFxCLqCb5H-cH+dvVf-ijA@mail.gmail.com>
-In-Reply-To: <CACGkMEs2wkkWmrNUuxfUVEsdGAkgxFxCLqCb5H-cH+dvVf-ijA@mail.gmail.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Wed, 1 Feb 2023 07:55:44 +0100
-Message-ID: <CAJaqyWdXfT9tfdFL3V8rTDjP+4rw2au3QXvT5XUfx-JooqcpHg@mail.gmail.com>
-Subject: Re: Emulating device configuration / max_virtqueue_pairs in
- vhost-vdpa and vhost-user
-To: Jason Wang <jasowang@redhat.com>
-Cc: Maxime Coquelin <maxime.coquelin@redhat.com>,
- Michael Tsirkin <mst@redhat.com>, 
- Cindy Lu <lulu@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
- qemu-level <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>, 
- Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PULL 16/22] tcg/aarch64: Reorg goto_tb implementation
+Content-Language: en-US
+To: Zenghui Yu <yuzenghui@huawei.com>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, hev <r@hev.cc>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20230117231051.354444-1-richard.henderson@linaro.org>
+ <20230117231051.354444-17-richard.henderson@linaro.org>
+ <ffac2cd4-b1e1-53a9-8c88-367f80f1e977@huawei.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <ffac2cd4-b1e1-53a9-8c88-367f80f1e977@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1036.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,64 +96,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 1, 2023 at 4:27 AM Jason Wang <jasowang@redhat.com> wrote:
->
-> On Wed, Feb 1, 2023 at 3:10 AM Eugenio Perez Martin <eperezma@redhat.com> wrote:
-> >
-> > Hi,
-> >
-> > The current approach of offering an emulated CVQ to the guest and map
-> > the commands to vhost-user is not scaling well:
-> > * Some devices already offer it, so the transformation is redundant.
-> > * There is no support for commands with variable length (RSS?)
-> >
-> > We can solve both of them by offering it through vhost-user the same
-> > way as vhost-vdpa do. With this approach qemu needs to track the
-> > commands, for similar reasons as vhost-vdpa: qemu needs to track the
-> > device status for live migration. vhost-user should use the same SVQ
-> > code for this, so we avoid duplications.
->
-> Note that it really depends on the model we used. SVQ works well for
-> trap and emulation (without new API to be invented). But if save and
-> load API is invented, SVQ is not a must.
->
+On 1/31/23 15:45, Zenghui Yu wrote:
+> On 2023/1/18 7:10, Richard Henderson wrote:
+>> +void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
+>> +                              uintptr_t jmp_rx, uintptr_t jmp_rw)
+>> +{
+>> +    uintptr_t d_addr = tb->jmp_target_addr[n];
+>> +    ptrdiff_t d_offset = d_addr - jmp_rx;
+>> +    tcg_insn_unit insn;
+>> +
+>> +    /* Either directly branch, or indirect branch load. */
+>> +    if (d_offset == sextract64(d_offset, 0, 28)) {
+>> +        insn = deposit32(I3206_B, 0, 26, d_offset >> 2);
+>> +    } else {
+>> +        uintptr_t i_addr = (uintptr_t)&tb->jmp_target_addr[n];
+>> +        ptrdiff_t i_offset = i_addr - jmp_rx;
+>> +
+>> +        /* Note that we asserted this in range in tcg_out_goto_tb. */
+>> +        insn = deposit32(I3305_LDR | TCG_REG_TMP, 0, 5, i_offset >> 2);
+> 
+> 'offset' should be bits [23:5] of LDR instruction, rather than [4:0].
 
-That's right, but the premise in the proposal is that control vq RSS
-messages are already complex enough to avoid adding more vhost-user
-messages. I cannot imagine expanding the vhost-user or virtio API to
-add the save and restore functions soon :).
+Quite right.  Oops.
 
-> >
-> > One of the challenges here is to know what virtqueue to shadow /
-> > isolate. The vhost-user device may not have the same queues as the
-> > device frontend:
-> > * The first depends on the actual vhost-user device, and qemu fetches
-> > it with VHOST_USER_GET_QUEUE_NUM at the moment.
-> > * The qemu device frontend's is set by netdev queues= cmdline parameter in qemu
-> >
-> > For the device, the CVQ is the last one it offers, but for the guest
-> > it is the last one offered in config space.
-> >
-> > To create a new vhost-user command to decrease that maximum number of
-> > queues may be an option. But we can do it without adding more
-> > commands, remapping the CVQ index at virtqueue setup. I think it
-> > should be doable using (struct vhost_dev).vq_index and maybe a few
-> > adjustments here and there.
->
-> It requires device specific knowledge, it might work for networking
-> devices but not others (or need new codes).
->
 
-Yes, I didn't review all the other kinds of devices for the proposal,
-but I'm assuming:
-* There is no other device that has already implemented CVQ over
-vhost-user (or this problems would have been solved)
-* All vhost-user devices config space are already offered by qemu like
-vhost-user net, and the cvq-alike index is well defined in the
-standard like -net.
-
-So this proposal should fit all those devices, isn't it?
-
-Thanks!
-
+r~
 
