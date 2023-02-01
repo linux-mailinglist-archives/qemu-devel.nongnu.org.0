@@ -2,87 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8867268692A
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 556BA686921
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:56:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNEWg-0003Ab-EC; Wed, 01 Feb 2023 09:55:54 -0500
+	id 1pNEWp-0004gV-Eb; Wed, 01 Feb 2023 09:56:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNEWc-0002u4-FM
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:55:50 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNEWa-0008Gw-Ha
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:55:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675263344;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=7dQlAyInA1O6FSItpnxSkIMbEFSr2lLy5NyHC7MNUVk=;
- b=ec0wNqicJCwBxyiDQAoN86gWRW6gah1o5oXwnhiHPZOunLpNYXhSJRkiE5PJTM+XH3N0Yd
- aWiIaA3ZqBSt/fTBYGLycdSH6de1Q4+M8UhFJ6XlkXA0fZXJbG9L4INR8dljJlqEXBp8WU
- thh9yq+eQE6ZSxIJ8nXPGmquF9WnsY0=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-645-t0xNfwXGNfytl0Wm3q7hAw-1; Wed, 01 Feb 2023 09:55:43 -0500
-X-MC-Unique: t0xNfwXGNfytl0Wm3q7hAw-1
-Received: by mail-wm1-f72.google.com with SMTP id
- bg24-20020a05600c3c9800b003db0ddddb6fso10565921wmb.0
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 06:55:43 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNEWm-0004Oh-5T
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:56:00 -0500
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNEWk-0008Ix-83
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:55:59 -0500
+Received: by mail-wm1-x335.google.com with SMTP id
+ n28-20020a05600c3b9c00b003ddca7a2bcbso1662152wms.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 06:55:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=rdLFpw4/QIYmDqCqtAn5l6il3o3W58c4HfPZfb++GtM=;
+ b=o8+ciJMba6/Q5INGnFCaUsv0LaOBnqQCS/1TkHEgyaGHTzMu3vQFxmZheFdaHT5Lww
+ 7QgHTGjWx/gxUrM1/y6pzj7HZZHmLS07id6gJh3WIMGGqwaCeM/vmhj2DlDGVW9+oT0l
+ ZWSEd0Nb9eeIw4f7m8HT4nI6JWzxIMiEvlrhFO6xJA7n6PMHo0vkz43qXNZa2MNqMMfU
+ yzFAqa9mPjy0eAmfJ0n4KWYUB+xDLbFf42BdmHEzB7GKwdI72jYdFTuFdLXbFgdfTMpq
+ PrXAHse0uSgRgWj24f8yagdXWKuC3XJ5LJUdEUnkKNWt5mT21mkT/xzwqE5efTAeg85O
+ MW4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=7dQlAyInA1O6FSItpnxSkIMbEFSr2lLy5NyHC7MNUVk=;
- b=AvqsMNhErXOlREUzhjVREM41PMrE6xWoVyN19Me9mHwVlh7wldYdk7M0EX2qkxGpip
- V/naydL6copKc35Kg9iRLUc/+sMoHT66z8jFg/SDtiZO2Xo4Y7xjPQron0qehtL5gQaM
- MdoCKtCMScWvx/EK6DFJda9Ii090/cJtqgiP/sIqELWKiBX2l1DhN4GHCvtz23BNK4e3
- Aw7IR4Ev+abuy1aUPe1wAgMJrD+0Thwq/voENi40pTjUObdJUTfO7SK4ULbtSjrIwF3u
- 1/2H1oimYoBWnktxLUOL8/NEjMt/428YTov4MePRobw95Ybs5WyQKPp+Y73vzSA1z/9y
- R6Wg==
-X-Gm-Message-State: AO0yUKVEe556eNYl+p/LVh34z26hXQlIep82Kh5tUFgpJfhgXOE1mUaK
- Z5NVqLL1cCcJMlgo9exMvgLvOBsJWMCKtsqSfBdp/LSP20wsDeXzQpDOQh6NiqcKUMbU5PWHjbV
- EAaYbjeedIytNAfE=
-X-Received: by 2002:a5d:5c09:0:b0:2be:5c4a:de6b with SMTP id
- cc9-20020a5d5c09000000b002be5c4ade6bmr3034184wrb.3.1675263342281; 
- Wed, 01 Feb 2023 06:55:42 -0800 (PST)
-X-Google-Smtp-Source: AK7set/979tJfsb/Mg5ac7SYZjfMk03uh4cFN5atIsRgVxw0qCu08cl0XDzS+joDbG7itWZxNdT7SQ==
-X-Received: by 2002:a5d:5c09:0:b0:2be:5c4a:de6b with SMTP id
- cc9-20020a5d5c09000000b002be5c4ade6bmr3034172wrb.3.1675263342125; 
- Wed, 01 Feb 2023 06:55:42 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- g2-20020a5d4882000000b002bdf3809f59sm17089207wrq.38.2023.02.01.06.55.41
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 06:55:41 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: "manish.mishra" <manish.mishra@nutanix.com>
-Cc: qemu-devel@nongnu.org,  dgilbert@redhat.com,  lsoaresp@redhat.com,
- Peter Xu <peterx@redhat.com>,  "Daniel P . Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH v6 1/2] io: Add support for MSG_PEEK for socket channel
-In-Reply-To: <20221220184418.228834-2-manish.mishra@nutanix.com> (manish
- mishra's message of "Tue, 20 Dec 2022 18:44:17 +0000")
-References: <20221220184418.228834-1-manish.mishra@nutanix.com>
- <20221220184418.228834-2-manish.mishra@nutanix.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 01 Feb 2023 15:55:40 +0100
-Message-ID: <87357p1llf.fsf@secure.mitica>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=rdLFpw4/QIYmDqCqtAn5l6il3o3W58c4HfPZfb++GtM=;
+ b=nZHTDiVmhwPO62u+bOIs4E0ei65PVJhjl+sXc80XtCT0I5/HgIyq+vV4Nh/tjoTTiZ
+ 77Gb6FHJRxOzf5YeSJd2Mz7eK5Ff2yxOiG3YUsOqTc/ufReBzLCfSZxxdL4kT9ET/pBt
+ vCIIeOljyUeCCsozNrNbfHviP1/GXKTEc/xtlC3Acmx8FSypLi/BKc8EbNNZu7fX69Xf
+ EwVJyMKm7KH3JvIAoyMn4Q+cJb2478JjZ76BoaxzICCjSAH4w+ZtTekihhDPylDRaq0A
+ Wm2oBhC+Vs4CV7pU0LwmwSP9ADKhVlMIQudSYG+KvTkH3kH6uTINx0VoM/W+dXSBvxiR
+ aMVQ==
+X-Gm-Message-State: AO0yUKWePrHS4Pf8eSvFicuYdOyCcISsmbF/+vrXrsucoiKzrY8ntVL9
+ 8abm791kc69LA5k8o9uPPikMMQ==
+X-Google-Smtp-Source: AK7set+OS5OdCL6GqmGfGIUWE8L9UEe/Xm4d796MZkuFL9uDQzFRbK/zNStcTrgk+q035I7X3zWwfQ==
+X-Received: by 2002:a05:600c:4f4e:b0:3dc:5baf:df01 with SMTP id
+ m14-20020a05600c4f4e00b003dc5bafdf01mr2391909wmq.5.1675263355968; 
+ Wed, 01 Feb 2023 06:55:55 -0800 (PST)
+Received: from [192.168.43.175] (107.red-88-29-181.dynamicip.rima-tde.net.
+ [88.29.181.107]) by smtp.gmail.com with ESMTPSA id
+ r28-20020adfa15c000000b002bfd137ecddsm15676168wrr.11.2023.02.01.06.55.53
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Feb 2023 06:55:55 -0800 (PST)
+Message-ID: <e0808953-f328-9fa8-fad1-39a98a80fe32@linaro.org>
+Date: Wed, 1 Feb 2023 15:55:49 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v6 29/36] target/s390x: Copy wout_x1 to wout_x1_P
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, Ilya Leoshkevich <iii@linux.ibm.com>
+References: <20230130214844.1158612-1-richard.henderson@linaro.org>
+ <20230130214844.1158612-30-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230130214844.1158612-30-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::335;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x335.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,23 +89,21 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"manish.mishra" <manish.mishra@nutanix.com> wrote:
-> MSG_PEEK peeks at the channel, The data is treated as unread and
-> the next read shall still return this data. This support is
-> currently added only for socket class. Extra parameter 'flags'
-> is added to io_readv calls to pass extra read flags like MSG_PEEK.
->
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
-> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
-> Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+On 30/1/23 22:48, Richard Henderson wrote:
+> Make a copy of wout_x1 before modifying it, as wout_x1_P
+> emphasizing that it operates on the out/out2 pair.  The insns
+> that use x1_P are data movement that will not change to Int128.
+> 
+> Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   target/s390x/tcg/insn-data.h.inc | 12 ++++++------
+>   target/s390x/tcg/translate.c     |  8 ++++++++
+>   2 files changed, 14 insertions(+), 6 deletions(-)
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-queued.
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
 
