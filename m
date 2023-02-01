@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECA2685E0B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 04:40:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7484B685E07
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 04:39:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN3v6-0006Ut-NP; Tue, 31 Jan 2023 22:36:24 -0500
+	id 1pN3v4-0006Ts-Dd; Tue, 31 Jan 2023 22:36:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pN3uy-0006KK-0K
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:36:16 -0500
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
+ id 1pN3v0-0006NN-Nz
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:36:18 -0500
+Received: from mail-pl1-x629.google.com ([2607:f8b0:4864:20::629])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pN3uw-0000QI-5R
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:36:15 -0500
-Received: by mail-pl1-x630.google.com with SMTP id v23so17188049plo.1
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 19:36:13 -0800 (PST)
+ id 1pN3uz-0000Qf-BO
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:36:18 -0500
+Received: by mail-pl1-x629.google.com with SMTP id z1so9641303plg.6
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 19:36:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=FnwZQEUzrMFVzDuTfyE5cJp2RPrgmk3+VIZHYS+vUOs=;
- b=C9tYmN6WO9C0qQ+gymSdVmDEUK6Lzy+eOd/RZFAnWSi8CqN1KXpqkQiW1XLNnUA4q2
- beP5m91j2ESSQzHNSFbcTyGK32b6Cbj5K4mxODmEadUKBVwI1BXPzuIUpNjUd5g//9ID
- 57Q4tPcpQjFsZaCY3Np/8nsqtgyE95TixUwc7vkdV2NAYCLBayGBOfNpTIfyx+bExHHX
- m1ZihDlacTmEPMu6UX5vQpPNLxPIqEj+prJAp34CettjeS1j/DmVCoH+d2nzEnFLbDP7
- 9KwQw7wwSNGnQBPf9MvdO+RKqeEoPS5mjqIZojIeGuvynz/mGmIqr7o6hRnPah98I2pJ
- x13g==
+ bh=LG8tq76sMobR10hriWHj/a6wTqkVZm1W1tagtp7KN+0=;
+ b=CuSi38gqao9Oo/YJDrfWlWIcvDAeFdeH+yl+n2DkcEkTwbXQZbpMtl1/ad/2zy+WqA
+ iCQwUx6H4nhQD+fd2h6XrAnAWk9HkQ1j8RvtU1p5UZdCT9vjjvSTaILqdxlMSjc7OFyL
+ Cr4cTe7/pkijs7/SW8JEVJywVs4dFIssBxm3XYJQUxYBhBfS0DwjcgqP5gd1FDxbBHQo
+ XZXxikZYWrmz+SRlmDQ8VFV9rg2izf5yQyvkaGNKFsx8+Oz1PlgH9QNZ/mLWdmwxmSng
+ WnnFdbHuXO+zXt6vboXoO3VAtNG+QmsJkQR3/NOjFSi8dhxZ2b8zv1XnqHKBGOehxg0r
+ SmAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=FnwZQEUzrMFVzDuTfyE5cJp2RPrgmk3+VIZHYS+vUOs=;
- b=OC8LINQewplzM2jtZT2WMwp1A0CeT+lef6sWGvhafCvyeqs+aaN5b7riSQNaT7rvP8
- AbskmCB/WLmRycPivYaK9lH5CHTUaX4zvWYqu10b//ormsyAOKxX0kBJqkkiayt3ZR0S
- Ck1ZfZWIyXS3EK7bpDn9JkdwIhPT755fp0czp+tGlJEjgq3dgUlbCR7d659/TecZuV/E
- it9KOHZ0rfARzfoDsWIhH4wrQffsqF9NDlX0jVv/WhgyQuY6cvyN1BkMQQvI0tInRlkd
- y2fjZ+/X7UYz7+yZIBPJtjnTqDs/NNg1N+CQTal94z+ITJwAfA0xnieZNVcCPr5tWhY5
- dmPg==
-X-Gm-Message-State: AO0yUKUeWiIb/rgqTZ2khu4y7OC5n2rQ/j25SZ0vN9jP+Qv84y0kkp78
- X+AIS7abMH0NH9tV6MDXitc3gA==
-X-Google-Smtp-Source: AK7set/t+5nN0Bgu1Fek6UKQRlGMHCjM8C8Enw8n0NQwwN++rz+xmwlWHDg+hz5YT1yFcq3z0YRy6Q==
-X-Received: by 2002:a17:902:f392:b0:196:6671:d68c with SMTP id
- f18-20020a170902f39200b001966671d68cmr1120690ple.35.1675222572948; 
- Tue, 31 Jan 2023 19:36:12 -0800 (PST)
+ bh=LG8tq76sMobR10hriWHj/a6wTqkVZm1W1tagtp7KN+0=;
+ b=KT+Bup+vqDC88ZgwzdgzfqAQoCyuB3Q3i1mw7a1u06hq14tK7j10NDIOt5Hn/YpnOq
+ D0ujqnjNeLJUaxpwazcGeWtDifiFt/V6g+WeaS0TyqLVrFoncT73VWBVgwNF4DQof3qS
+ HwILIiRNH3QtNGdJsARYoE4T8ST10tjnlmWYYzF4bQ6IUF6mDQQutcxzlWNtOHt8sC4F
+ vfK+Q658OYlccxG8Rd2JEXP9R3ksyW/G6kp4r1bvxds06QE+W4lDAWBjjb1EYKuBQrOl
+ yilTs3UOECTNOImsiE+jRwSO/dr9pixtgoYiUE94zm90dIlsjFUZbmP6jWYB+x0WMu/M
+ PwYw==
+X-Gm-Message-State: AO0yUKUCwseB8vTqAtljD9WkGKXBhZpEJb7RLvDKkd5Ao4IPnHny3KtL
+ yWS7yf++WCXndCltlwbe+AWGuQ==
+X-Google-Smtp-Source: AK7set8oMMWO0l42d6bLvGJB/0C1+GARS08hZ5c1G2wws1IHv1rm1J9RhStAHaq0YlxGWvfwUTAsvA==
+X-Received: by 2002:a17:902:ca83:b0:194:52ed:7a2b with SMTP id
+ v3-20020a170902ca8300b0019452ed7a2bmr1078593pld.39.1675222576019; 
+ Tue, 31 Jan 2023 19:36:16 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- x15-20020a170902ec8f00b001968b529c98sm4185557plg.128.2023.01.31.19.36.10
+ x15-20020a170902ec8f00b001968b529c98sm4185557plg.128.2023.01.31.19.36.13
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 19:36:12 -0800 (PST)
+ Tue, 31 Jan 2023 19:36:15 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -66,16 +66,16 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Alexander Bulekov <alxndr@bu.edu>, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v5 08/29] e1000e: Use more constant definitions
-Date: Wed,  1 Feb 2023 12:35:18 +0900
-Message-Id: <20230201033539.30049-9-akihiko.odaki@daynix.com>
+Subject: [PATCH v5 09/29] e1000: Use memcpy to intialize registers
+Date: Wed,  1 Feb 2023 12:35:19 +0900
+Message-Id: <20230201033539.30049-10-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230201033539.30049-1-akihiko.odaki@daynix.com>
 References: <20230201033539.30049-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::630;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x630.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::629;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x629.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -97,140 +97,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The definitions of SW Semaphore Register were copied from:
-https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git/tree/drivers/net/ethernet/intel/e1000e/defines.h?h=v6.0.9#n374
+Use memcpy instead of memmove to initialize registers. The initial
+register templates and register table instances will never overlap.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- hw/net/e1000_regs.h  |  7 +++++++
- hw/net/e1000e_core.c | 49 ++++++++++++++++++++++++--------------------
- 2 files changed, 34 insertions(+), 22 deletions(-)
+ hw/net/e1000.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/net/e1000_regs.h b/hw/net/e1000_regs.h
-index 3f6b5d0c52..6a36573802 100644
---- a/hw/net/e1000_regs.h
-+++ b/hw/net/e1000_regs.h
-@@ -525,6 +525,13 @@
- #define M88E1000_PHY_VCO_REG_BIT8  0x100 /* Bits 8 & 11 are adjusted for */
- #define M88E1000_PHY_VCO_REG_BIT11 0x800    /* improved BER performance */
+diff --git a/hw/net/e1000.c b/hw/net/e1000.c
+index d9d048f665..3353a3752c 100644
+--- a/hw/net/e1000.c
++++ b/hw/net/e1000.c
+@@ -390,10 +390,10 @@ static void e1000_reset(void *opaque)
+     d->mit_irq_level = 0;
+     d->mit_ide = 0;
+     memset(d->phy_reg, 0, sizeof d->phy_reg);
+-    memmove(d->phy_reg, phy_reg_init, sizeof phy_reg_init);
++    memcpy(d->phy_reg, phy_reg_init, sizeof phy_reg_init);
+     d->phy_reg[MII_PHYID2] = edc->phy_id2;
+     memset(d->mac_reg, 0, sizeof d->mac_reg);
+-    memmove(d->mac_reg, mac_reg_init, sizeof mac_reg_init);
++    memcpy(d->mac_reg, mac_reg_init, sizeof mac_reg_init);
+     d->rxbuf_min_shift = 1;
+     memset(&d->tx, 0, sizeof d->tx);
  
-+/* SW Semaphore Register */
-+#define E1000_SWSM_SMBI         0x00000001 /* Driver Semaphore bit */
-+#define E1000_SWSM_SWESMBI      0x00000002 /* FW Semaphore bit */
-+#define E1000_SWSM_DRV_LOAD     0x00000008 /* Driver Loaded Bit */
-+
-+#define E1000_SWSM2_LOCK        0x00000002 /* Secondary driver semaphore bit */
-+
- /* Interrupt Cause Read */
- #define E1000_ICR_TXDW          0x00000001 /* Transmit desc written back */
- #define E1000_ICR_TXQE          0x00000002 /* Transmit Queue empty */
-diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index e6fc85ea51..6a4da72bd3 100644
---- a/hw/net/e1000e_core.c
-+++ b/hw/net/e1000e_core.c
-@@ -1022,10 +1022,11 @@ e1000e_receive_filter(E1000ECore *core, const uint8_t *buf, int size)
- 
-     if (e1000x_is_vlan_packet(buf, core->mac[VET]) &&
-         e1000x_vlan_rx_filter_enabled(core->mac)) {
--        uint16_t vid = lduw_be_p(buf + 14);
--        uint32_t vfta = ldl_le_p((uint32_t *)(core->mac + VFTA) +
--                                 ((vid >> 5) & 0x7f));
--        if ((vfta & (1 << (vid & 0x1f))) == 0) {
-+        uint16_t vid = lduw_be_p(&PKT_GET_VLAN_HDR(buf)->h_tci);
-+        uint32_t vfta =
-+            ldl_le_p((uint32_t *)(core->mac + VFTA) +
-+                     ((vid >> E1000_VFTA_ENTRY_SHIFT) & E1000_VFTA_ENTRY_MASK));
-+        if ((vfta & (1 << (vid & E1000_VFTA_ENTRY_BIT_SHIFT_MASK))) == 0) {
-             trace_e1000e_rx_flt_vlan_mismatch(vid);
-             return false;
-         } else {
-@@ -1679,16 +1680,13 @@ e1000e_rx_fix_l4_csum(E1000ECore *core, struct NetRxPkt *pkt)
-     }
- }
- 
--/* Min. octets in an ethernet frame sans FCS */
--#define MIN_BUF_SIZE 60
--
- ssize_t
- e1000e_receive_iov(E1000ECore *core, const struct iovec *iov, int iovcnt)
- {
--    static const int maximum_ethernet_hdr_len = (14 + 4);
-+    static const int maximum_ethernet_hdr_len = (ETH_HLEN + 4);
- 
-     uint32_t n = 0;
--    uint8_t min_buf[MIN_BUF_SIZE];
-+    uint8_t min_buf[ETH_ZLEN];
-     struct iovec min_iov;
-     uint8_t *filter_buf;
-     size_t size, orig_size;
-@@ -2627,7 +2625,7 @@ static uint32_t
- e1000e_mac_swsm_read(E1000ECore *core, int index)
- {
-     uint32_t val = core->mac[SWSM];
--    core->mac[SWSM] = val | 1;
-+    core->mac[SWSM] = val | E1000_SWSM_SMBI;
-     return val;
- }
- 
-@@ -3092,8 +3090,8 @@ static const readops e1000e_macreg_readops[] = {
-     [IP4AT ... IP4AT + 6]  = e1000e_mac_readreg,
-     [RA ... RA + 31]       = e1000e_mac_readreg,
-     [WUPM ... WUPM + 31]   = e1000e_mac_readreg,
--    [MTA ... MTA + 127]    = e1000e_mac_readreg,
--    [VFTA ... VFTA + 127]  = e1000e_mac_readreg,
-+    [MTA ... MTA + E1000_MC_TBL_SIZE - 1] = e1000e_mac_readreg,
-+    [VFTA ... VFTA + E1000_VLAN_FILTER_TBL_SIZE - 1]  = e1000e_mac_readreg,
-     [FFMT ... FFMT + 254]  = e1000e_mac_readreg,
-     [FFVT ... FFVT + 254]  = e1000e_mac_readreg,
-     [MDEF ... MDEF + 7]    = e1000e_mac_readreg,
-@@ -3245,8 +3243,8 @@ static const writeops e1000e_macreg_writeops[] = {
-     [IP4AT ... IP4AT + 6]    = e1000e_mac_writereg,
-     [RA + 2 ... RA + 31]     = e1000e_mac_writereg,
-     [WUPM ... WUPM + 31]     = e1000e_mac_writereg,
--    [MTA ... MTA + 127]      = e1000e_mac_writereg,
--    [VFTA ... VFTA + 127]    = e1000e_mac_writereg,
-+    [MTA ... MTA + E1000_MC_TBL_SIZE - 1] = e1000e_mac_writereg,
-+    [VFTA ... VFTA + E1000_VLAN_FILTER_TBL_SIZE - 1]    = e1000e_mac_writereg,
-     [FFMT ... FFMT + 254]    = e1000e_set_4bit,
-     [FFVT ... FFVT + 254]    = e1000e_mac_writereg,
-     [PBM ... PBM + 10239]    = e1000e_mac_writereg,
-@@ -3276,7 +3274,7 @@ static const uint16_t mac_reg_access[E1000E_MAC_SIZE] = {
-     [TDH_A]   = 0x0cf8, [TDT_A]   = 0x0cf8, [TIDV_A] = 0x0cf8,
-     [TDFH_A]  = 0xed00, [TDFT_A]  = 0xed00,
-     [RA_A ... RA_A + 31]      = 0x14f0,
--    [VFTA_A ... VFTA_A + 127] = 0x1400,
-+    [VFTA_A ... VFTA_A + E1000_VLAN_FILTER_TBL_SIZE - 1] = 0x1400,
-     [RDBAL0_A ... RDLEN0_A] = 0x09bc,
-     [TDBAL_A ... TDLEN_A]   = 0x0cf8,
-     /* Access options */
-@@ -3433,13 +3431,20 @@ e1000e_phy_reg_init[E1000E_PHY_PAGES][E1000E_PHY_PAGE_SIZE] = {
- 
-         [MII_PHYID1]            = 0x141,
-         [MII_PHYID2]            = E1000_PHY_ID2_82574x,
--        [MII_ANAR]              = 0xde1,
--        [MII_ANLPAR]            = 0x7e0,
--        [MII_ANER]              = BIT(2),
--        [MII_ANNP]              = BIT(0) | BIT(13),
--        [MII_CTRL1000]          = BIT(8) | BIT(9) | BIT(10) | BIT(11),
--        [MII_STAT1000]          = 0x3c00,
--        [MII_EXTSTAT]           = BIT(12) | BIT(13),
-+        [MII_ANAR]              = MII_ANAR_CSMACD | MII_ANAR_10 |
-+                                  MII_ANAR_10FD | MII_ANAR_TX |
-+                                  MII_ANAR_TXFD | MII_ANAR_PAUSE |
-+                                  MII_ANAR_PAUSE_ASYM,
-+        [MII_ANLPAR]            = MII_ANLPAR_10 | MII_ANLPAR_10FD |
-+                                  MII_ANLPAR_TX | MII_ANLPAR_TXFD |
-+                                  MII_ANLPAR_T4 | MII_ANLPAR_PAUSE,
-+        [MII_ANER]              = MII_ANER_NP,
-+        [MII_ANNP]              = 1 | MII_ANNP_MP,
-+        [MII_CTRL1000]          = MII_CTRL1000_HALF | MII_CTRL1000_FULL |
-+                                  MII_CTRL1000_PORT | MII_CTRL1000_MASTER,
-+        [MII_STAT1000]          = MII_STAT1000_HALF | MII_STAT1000_FULL |
-+                                  MII_STAT1000_ROK | MII_STAT1000_LOK,
-+        [MII_EXTSTAT]           = MII_EXTSTAT_1000T_HD | MII_EXTSTAT_1000T_FD,
- 
-         [PHY_COPPER_CTRL1]      = BIT(5) | BIT(6) | BIT(8) | BIT(9) |
-                                   BIT(12) | BIT(13),
 -- 
 2.39.1
 
