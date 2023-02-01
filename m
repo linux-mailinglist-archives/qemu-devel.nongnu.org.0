@@ -2,88 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CB46866D5
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 14:27:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 706396866ED
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 14:30:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pND7k-0000mT-H2; Wed, 01 Feb 2023 08:26:04 -0500
+	id 1pNDA8-0003Vm-GV; Wed, 01 Feb 2023 08:28:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1pND6d-0007uH-2f
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:24:57 -0500
-Received: from mail-lf1-x12c.google.com ([2a00:1450:4864:20::12c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1pND5r-0004a6-Kt
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:24:09 -0500
-Received: by mail-lf1-x12c.google.com with SMTP id br9so29267024lfb.4
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 05:24:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=lS2CvRnhHoLVexaa0r8i5N4BCfxWMaqXPJGrSY94m3A=;
- b=XNKBHOPubJrNVb4yQ/Ljd5mhjN9G1DRNPtpNXYsOsdwv6g03EDI7qV5nUd/+m6tX99
- EC49f0bPlw3fmZ6bIU7k5KRU4u+WPM0UBhv1oMWgc+UFw7+81iVmR+EwcKPBVUFfkfvs
- Y19TKGr2jw8kyFY9qNXKch2B/zI4/ipCT0sv0Cc6Hff2YM5jU279nHWesdmhHLoANcK0
- e72+FaolMbi9vxJtLBebRgJySPKkibuLc/jYV72UUMO+BmXN/RdKWr27Vw1ZuGUUJ4kc
- nrpq9iZmbyUxG10HgRer/oofJ5NjcMjieK/A0/yjJB1TV+sF4IVr1mFes5sgVSQ8OgC5
- 37QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lS2CvRnhHoLVexaa0r8i5N4BCfxWMaqXPJGrSY94m3A=;
- b=fRa8j/Sl3L+SnV9zO3M+UY+a/czIE8w5FFwC+R7+AWkFz4ydrNmcyuQJ8Y+Xx/Macs
- +xJykkQmJgY6uTObvifx9kXzlZBVXBV2q+CpfsCnJ5xElochGjTYlZMZgaZ13q4G9I/X
- PEqeL7a+jLndXruTmYqrDeYwEbOxaowKdmZtK++Sdp9zWVn4KsC4u+0LjfnEBsBwZRET
- K1ySBEHZE7fmNZamirbDkkNyQNR+pf4clWNgifyS8ppTTFf7F8FzM7AkXT0NTssEZq0Z
- tfo1Wy4AN3P27te0WfdlUX+RN0oKWSfBv6zxt6rv37SpZJNm3SW1h9ock8AS4UwITyw1
- Lbkg==
-X-Gm-Message-State: AO0yUKXzWzjRBa63lk2Ve/gy4ORSRmHQR3upSMkRpqd9btqogRfKAfMQ
- dMRMh5sXpauVeXdXpers2t+eFcJsFbmipAU1tD8=
-X-Google-Smtp-Source: AK7set+eiPewEGZCeMyjTruBEfJc3rdgvSOieu4IXyJFpGwxwC0nFol9b2IuiaV0vb4DhdoW0n6jHA==
-X-Received: by 2002:ac2:4903:0:b0:4b5:6649:eb6c with SMTP id
- n3-20020ac24903000000b004b56649eb6cmr436652lfi.25.1675257845796; 
- Wed, 01 Feb 2023 05:24:05 -0800 (PST)
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com.
- [209.85.167.45]) by smtp.gmail.com with ESMTPSA id
- y20-20020ac24474000000b004d57d1c6ee7sm1167384lfl.248.2023.02.01.05.24.04
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Feb 2023 05:24:05 -0800 (PST)
-Received: by mail-lf1-f45.google.com with SMTP id x40so29184589lfu.12;
- Wed, 01 Feb 2023 05:24:04 -0800 (PST)
-X-Received: by 2002:a19:6a11:0:b0:4d8:6127:6dcb with SMTP id
- u17-20020a196a11000000b004d861276dcbmr328391lfu.145.1675257844456; Wed, 01
- Feb 2023 05:24:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pND9T-0003L3-MZ
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:27:57 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pND9R-0005hG-Pv
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:27:51 -0500
+Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 311Bvj7j015760; Wed, 1 Feb 2023 13:27:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : to : cc : date : in-reply-to : references : content-type :
+ content-transfer-encoding : mime-version; s=pp1;
+ bh=qArNmRMPlMzGGGEa4b4WRJ4yPv3wZXGfiNjXeLouxAU=;
+ b=BT94v/X+FZ4SMz71tytrwj/FcQHea8ZriVfUzjW/TBB6rtOgwN36TahKUZjhWRGydyXy
+ /4s2GtOy7bEOU64N3KCWyCWy2Rj3txl5bLLCoxz5HqmJA9jYjL2OcgTwwBSEJw4xAI7m
+ D0BkHwkZanjfBPha5ITYPeUsATsDY52mzNjaOI/6wbxg0jDDeKHF3X9CE0sfZW7d/VNo
+ G1PT8C7kvQd1HhX6YuexItOXjuzD7ldV1n+3/FdmrKCTLM8eRII6ZoiMqKrkTA/XJoZZ
+ LTUs9fqIDQPD7lFuynfw1LVIZ++eEk+9uY2Zqq3LCfnbuSEnSzfvhG0RfWjoUJ22NdUV nA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nfqnwj71f-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 13:27:48 +0000
+Received: from m0098416.ppops.net (m0098416.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 311Bw7mm017372;
+ Wed, 1 Feb 2023 13:27:47 GMT
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nfqnwj70s-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 13:27:47 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3119Lops027465;
+ Wed, 1 Feb 2023 13:27:45 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3ncvttvwas-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 13:27:45 +0000
+Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com
+ [10.20.54.104])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 311DRhtq43581786
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 1 Feb 2023 13:27:43 GMT
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 577BC20043;
+ Wed,  1 Feb 2023 13:27:43 +0000 (GMT)
+Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 276E320040;
+ Wed,  1 Feb 2023 13:27:43 +0000 (GMT)
+Received: from [9.155.209.149] (unknown [9.155.209.149])
+ by smtpav05.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed,  1 Feb 2023 13:27:43 +0000 (GMT)
+Message-ID: <51a3cc7cd7f617f0b39569221c96aaf3716ce9f0.camel@linux.ibm.com>
+Subject: Re: [PATCH v6 32/36] target/s390x: Use tcg_gen_atomic_cmpxchg_i128
+ for CDSG
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, philmd@linaro.org, David Hildenbrand
+ <david@redhat.com>
+Date: Wed, 01 Feb 2023 14:27:42 +0100
+In-Reply-To: <20230130214844.1158612-33-richard.henderson@linaro.org>
+References: <20230130214844.1158612-1-richard.henderson@linaro.org>
+ <20230130214844.1158612-33-richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: tH44xQts7gpEAci6KBrkIxxk5-hp4n-E
+X-Proofpoint-ORIG-GUID: 0SUjCPTJZAPAan5iJ9Cx4QC_eZKuVVOJ
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20230131133906.1956228-1-alexghiti@rivosinc.com>
- <20230131133906.1956228-6-alexghiti@rivosinc.com>
-In-Reply-To: <20230131133906.1956228-6-alexghiti@rivosinc.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Wed, 1 Feb 2023 21:23:52 +0800
-X-Gmail-Original-Message-ID: <CANzO1D1s5_7F9D5h=RSy5JgceyLpObWsyPuhtNT58mLsLxrpzA@mail.gmail.com>
-Message-ID: <CANzO1D1s5_7F9D5h=RSy5JgceyLpObWsyPuhtNT58mLsLxrpzA@mail.gmail.com>
-Subject: Re: [PATCH v9 5/5] riscv: Correctly set the device-tree entry
- 'mmu-type'
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>, 
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Bin Meng <bmeng@tinylab.org>
-Content-Type: multipart/alternative; boundary="000000000000b9e36e05f3a35cd9"
-Received-SPF: pass client-ip=2a00:1450:4864:20::12c;
- envelope-from=frank.chang@sifive.com; helo=mail-lf1-x12c.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-01_04,2023-01-31_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 phishscore=0
+ priorityscore=1501 bulkscore=0 mlxlogscore=806 spamscore=0 suspectscore=0
+ adultscore=0 clxscore=1015 lowpriorityscore=0 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302010112
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -99,162 +115,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000b9e36e05f3a35cd9
-Content-Type: text/plain; charset="UTF-8"
-
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
-
-On Tue, Jan 31, 2023 at 10:36 PM Alexandre Ghiti <alexghiti@rivosinc.com>
-wrote:
-
-> The 'mmu-type' should reflect what the hardware is capable of so use the
-> new satp_mode field in RISCVCPUConfig to do that.
->
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Bin Meng <bmeng@tinylab.org>
+On Mon, 2023-01-30 at 11:48 -1000, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  hw/riscv/virt.c | 19 ++++++++++---------
->  1 file changed, 10 insertions(+), 9 deletions(-)
->
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 94ff2a1584..48d034a5f7 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -228,7 +228,8 @@ static void create_fdt_socket_cpus(RISCVVirtState *s,
-> int socket,
->      int cpu;
->      uint32_t cpu_phandle;
->      MachineState *mc = MACHINE(s);
-> -    char *name, *cpu_name, *core_name, *intc_name;
-> +    uint8_t satp_mode_max;
-> +    char *name, *cpu_name, *core_name, *intc_name, *sv_name;
->
->      for (cpu = s->soc[socket].num_harts - 1; cpu >= 0; cpu--) {
->          cpu_phandle = (*phandle)++;
-> @@ -236,14 +237,14 @@ static void create_fdt_socket_cpus(RISCVVirtState
-> *s, int socket,
->          cpu_name = g_strdup_printf("/cpus/cpu@%d",
->              s->soc[socket].hartid_base + cpu);
->          qemu_fdt_add_subnode(mc->fdt, cpu_name);
-> -        if (riscv_feature(&s->soc[socket].harts[cpu].env,
-> -                          RISCV_FEATURE_MMU)) {
-> -            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
-> -                                    (is_32_bit) ? "riscv,sv32" :
-> "riscv,sv48");
-> -        } else {
-> -            qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type",
-> -                                    "riscv,none");
-> -        }
-> +
-> +        satp_mode_max = satp_mode_max_from_map(
-> +                            s->soc[socket].harts[cpu].cfg.satp_mode.map);
-> +        sv_name = g_strdup_printf("riscv,%s",
-> +                                  satp_mode_str(satp_mode_max,
-> is_32_bit));
-> +        qemu_fdt_setprop_string(mc->fdt, cpu_name, "mmu-type", sv_name);
-> +        g_free(sv_name);
-> +
->          name = riscv_isa_string(&s->soc[socket].harts[cpu]);
->          qemu_fdt_setprop_string(mc->fdt, cpu_name, "riscv,isa", name);
->          g_free(name);
-> --
-> 2.37.2
->
->
->
+> Cc: David Hildenbrand <david@redhat.com>
+> Cc: Ilya Leoshkevich <iii@linux.ibm.com>
+> ---
+>  target/s390x/helper.h            |  2 --
+>  target/s390x/tcg/insn-data.h.inc |  2 +-
+>  target/s390x/tcg/mem_helper.c    | 52 ------------------------------
+>  target/s390x/tcg/translate.c     | 55
+> +++++++++++++++++++-------------
+>  4 files changed, 33 insertions(+), 78 deletions(-)
 
---000000000000b9e36e05f3a35cd9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Acked-by: Ilya Leoshkevich <iii@linux.ibm.com>
 
-<div dir=3D"ltr">Reviewed-by: Frank Chang &lt;<a href=3D"mailto:frank.chang=
-@sifive.com">frank.chang@sifive.com</a>&gt;</div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 31, 2023 at 10:36 PM=
- Alexandre Ghiti &lt;<a href=3D"mailto:alexghiti@rivosinc.com">alexghiti@ri=
-vosinc.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">The &#39;mmu-type&#39; should reflect what the hardware is capab=
-le of so use the<br>
-new satp_mode field in RISCVCPUConfig to do that.<br>
-<br>
-Signed-off-by: Alexandre Ghiti &lt;<a href=3D"mailto:alexghiti@rivosinc.com=
-" target=3D"_blank">alexghiti@rivosinc.com</a>&gt;<br>
-Reviewed-by: Andrew Jones &lt;<a href=3D"mailto:ajones@ventanamicro.com" ta=
-rget=3D"_blank">ajones@ventanamicro.com</a>&gt;<br>
-Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.co=
-m" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
-Reviewed-by: Bin Meng &lt;<a href=3D"mailto:bmeng@tinylab.org" target=3D"_b=
-lank">bmeng@tinylab.org</a>&gt;<br>
----<br>
-=C2=A0hw/riscv/virt.c | 19 ++++++++++---------<br>
-=C2=A01 file changed, 10 insertions(+), 9 deletions(-)<br>
-<br>
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c<br>
-index 94ff2a1584..48d034a5f7 100644<br>
---- a/hw/riscv/virt.c<br>
-+++ b/hw/riscv/virt.c<br>
-@@ -228,7 +228,8 @@ static void create_fdt_socket_cpus(RISCVVirtState *s, i=
-nt socket,<br>
-=C2=A0 =C2=A0 =C2=A0int cpu;<br>
-=C2=A0 =C2=A0 =C2=A0uint32_t cpu_phandle;<br>
-=C2=A0 =C2=A0 =C2=A0MachineState *mc =3D MACHINE(s);<br>
--=C2=A0 =C2=A0 char *name, *cpu_name, *core_name, *intc_name;<br>
-+=C2=A0 =C2=A0 uint8_t satp_mode_max;<br>
-+=C2=A0 =C2=A0 char *name, *cpu_name, *core_name, *intc_name, *sv_name;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0for (cpu =3D s-&gt;soc[socket].num_harts - 1; cpu &gt;=
-=3D 0; cpu--) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu_phandle =3D (*phandle)++;<br>
-@@ -236,14 +237,14 @@ static void create_fdt_socket_cpus(RISCVVirtState *s,=
- int socket,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu_name =3D g_strdup_printf(&quot;/cpus/=
-cpu@%d&quot;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0s-&gt;soc[socket].hartid_ba=
-se + cpu);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_fdt_add_subnode(mc-&gt;fdt, cpu_name=
-);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (riscv_feature(&amp;s-&gt;soc[socket].harts=
-[cpu].env,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 RISCV_FEATURE_MMU)) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fdt_setprop_string(mc-&gt;f=
-dt, cpu_name, &quot;mmu-type&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (is_32_bit) ? &quot;ri=
-scv,sv32&quot; : &quot;riscv,sv48&quot;);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 } else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fdt_setprop_string(mc-&gt;f=
-dt, cpu_name, &quot;mmu-type&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;riscv,none&quot;=
-);<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 satp_mode_max =3D satp_mode_max_from_map(<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 s-&gt;soc[socket].harts[cpu].cfg.satp_mode.map);<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 sv_name =3D g_strdup_printf(&quot;riscv,%s&quo=
-t;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 satp_mode_str(satp_mode_max, =
-is_32_bit));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 qemu_fdt_setprop_string(mc-&gt;fdt, cpu_name, =
-&quot;mmu-type&quot;, sv_name);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 g_free(sv_name);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0name =3D riscv_isa_string(&amp;s-&gt;soc[=
-socket].harts[cpu]);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0qemu_fdt_setprop_string(mc-&gt;fdt, cpu_n=
-ame, &quot;riscv,isa&quot;, name);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0g_free(name);<br>
--- <br>
-2.37.2<br>
-<br>
-<br>
-</blockquote></div>
+I wrote a test for this a while ago [1], but apparently it was lost in
+the mail. I will post a rebased version here.
 
---000000000000b9e36e05f3a35cd9--
+[1] https://lists.gnu.org/archive/html/qemu-devel/2022-11/msg04506.html
 
