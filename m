@@ -2,89 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B961D68692B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28818686936
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:58:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNEXQ-0006Yq-0L; Wed, 01 Feb 2023 09:56:40 -0500
+	id 1pNEYV-0007cp-T0; Wed, 01 Feb 2023 09:57:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNEXI-0006Oi-Ki
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:56:36 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pNEY3-0007UI-8I
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:57:25 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
+ helo=mx0a-001b2d01.pphosted.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNEXG-0008NK-Tt
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:56:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675263390;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=QDjh5Wuuibkz1mKc6UxhIpFnijGjRcixbJJ5LSWbKTY=;
- b=USnooXjKkoL6l9SI+cjpnfDDTre7x54B02N0w9ulYdENJMHS7ndllCZPGZ53YP8bO5aqBm
- cq+OBnmhq+7FmWP9rZN0DvG2wHmGxMBib0+WwiajEWk8IMCtgCTYKIRySek09XrNisMgDq
- STiyviGdocfC6uuxLEH8VK5lkDGzlMg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-387-IuOt07JtNQC1OqEsxHNHnA-1; Wed, 01 Feb 2023 09:56:29 -0500
-X-MC-Unique: IuOt07JtNQC1OqEsxHNHnA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- o42-20020a05600c512a00b003dc5341afbaso1104059wms.7
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 06:56:28 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=QDjh5Wuuibkz1mKc6UxhIpFnijGjRcixbJJ5LSWbKTY=;
- b=Jm0FI3KLxLJSfa7hn4EtGL2iXewjfIKu86G7b+i2TIWHKTe2GTVBJVEicFK4Hwen6P
- Du5VdQsCpzWNBV2HvXZTHT6qQ0VMHIX9v599yRPiFpJC0Y24e5v4kXDtySD3Xx10HFi+
- PUF3rs4cC2JnjfSMrksrGCh512yI/37naPtBQnEB3txn/n1xQbWQ2moJEsHRpbSuK5oJ
- 9kPg77ScPPz/f87NtONdddOkJ5dymq8WRfPZD3X+QJFQjlLcsEV+Aqw+fbo6OvSpVp2i
- b/10QIa3RKXMVGBu7l1yZ1hnZt/YQddkcgS4NrUTRrHV3nsNBFfoSW8licgZtn3lNlNY
- XMhA==
-X-Gm-Message-State: AO0yUKV+o/t6ycGj5sCuuOYBZbrYkl7Dm4mUUKqCeqcNpKj7mdycFEz9
- hmNM+6UXE9wg4EDvbDWRE1tiLyxe256SkPfvCy4OFbEXdjsabMYPWxmM7jrCexThVXHK3Ij4yn8
- UxSrK5ck5Vb8xEYQ=
-X-Received: by 2002:adf:ae09:0:b0:2bf:ebd0:2e46 with SMTP id
- x9-20020adfae09000000b002bfebd02e46mr1913955wrc.65.1675263388009; 
- Wed, 01 Feb 2023 06:56:28 -0800 (PST)
-X-Google-Smtp-Source: AK7set88bGcbmbl4KpvQkncrTi/foK0ADY6dzWX0FLFyLxsykmiXs9b7zA5Se8hmrl91rNClF4Damg==
-X-Received: by 2002:adf:ae09:0:b0:2bf:ebd0:2e46 with SMTP id
- x9-20020adfae09000000b002bfebd02e46mr1913939wrc.65.1675263387852; 
- Wed, 01 Feb 2023 06:56:27 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- e4-20020adfef04000000b002bded7da2b8sm17555992wro.102.2023.02.01.06.56.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 06:56:27 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: "manish.mishra" <manish.mishra@nutanix.com>
-Cc: qemu-devel@nongnu.org,  dgilbert@redhat.com,  lsoaresp@redhat.com,
- Peter Xu <peterx@redhat.com>,  "Daniel P . Berrange" <berrange@redhat.com>
-Subject: Re: [PATCH v6 2/2] migration: check magic value for deciding the
- mapping of channels
-In-Reply-To: <20221220184418.228834-3-manish.mishra@nutanix.com> (manish
- mishra's message of "Tue, 20 Dec 2022 18:44:18 +0000")
-References: <20221220184418.228834-1-manish.mishra@nutanix.com>
- <20221220184418.228834-3-manish.mishra@nutanix.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 01 Feb 2023 15:56:26 +0100
-Message-ID: <87y1phzb6t.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pNEXv-00008x-R7
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:57:14 -0500
+Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 311EkKDc030317; Wed, 1 Feb 2023 14:57:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : content-transfer-encoding : mime-version; s=pp1;
+ bh=joqn70LJALFKlcQKl+0SwCI+xwqrJ6DH1HEI2NISHZA=;
+ b=AB4Vxz85iRgt7nLOpooCmHljE5X8QTC3u6dLXqBUgBffBHN1n1qnRzMmS/i5euAqKYxS
+ 5PMLPYEbIs9h7R1HgPHzdVAKIn5gP13uJy0MWpq29T7aFv0jd+87I+oiAcxnIKUQf935
+ IoYNlC5aW0FNKVVhJvVr1k35MozrzwwQTK9Mt3GnHbXH2X7waPHVhGCmbwIcpaP/68sJ
+ hPD5nkOcd+XquSkp6q7OnnwdHSqIv5UB8QzTZZMX+PHjagwft8TZWpsDmmkACDhKXk5G
+ 9nDmr4y9zM09gVUgzBOoOxLxMJjxW4/dJP4PPs46YRxhPFHKaXdypLh9kMpim4l7qgDZ Lw== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nft4mr8r2-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 14:57:09 +0000
+Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 311EnOW4012118;
+ Wed, 1 Feb 2023 14:57:09 GMT
+Received: from ppma02dal.us.ibm.com (a.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.10])
+ by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3nft4mr8qr-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 14:57:09 +0000
+Received: from pps.filterd (ppma02dal.us.ibm.com [127.0.0.1])
+ by ppma02dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 311DMAFh019250;
+ Wed, 1 Feb 2023 14:57:08 GMT
+Received: from smtprelay04.dal12v.mail.ibm.com ([9.208.130.102])
+ by ppma02dal.us.ibm.com (PPS) with ESMTPS id 3ncvuqurrk-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 14:57:08 +0000
+Received: from b03ledav001.gho.boulder.ibm.com ([9.17.130.232])
+ by smtprelay04.dal12v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 311Ev7Qe7799534
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 1 Feb 2023 14:57:07 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 6E4ED6E052;
+ Wed,  1 Feb 2023 14:59:16 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 88DD36E04E;
+ Wed,  1 Feb 2023 14:59:15 +0000 (GMT)
+Received: from lingrow.int.hansenpartnership.com (unknown [9.211.110.248])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  1 Feb 2023 14:59:15 +0000 (GMT)
+Message-ID: <bac451554357676b073d589f7668b517020d9a4e.camel@linux.ibm.com>
+Subject: Re: [PATCH] x86: fix q35 kernel measurements broken due to rng seeding
+From: James Bottomley <jejb@linux.ibm.com>
+To: "Daniel P." =?ISO-8859-1?Q?Berrang=E9?= <berrange@redhat.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, DOV MURIK
+ <Dov.Murik1@il.ibm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Wed, 01 Feb 2023 09:56:35 -0500
+In-Reply-To: <Y9p4sARXUdUOz/6X@redhat.com>
+References: <da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com>
+ <Y9p4sARXUdUOz/6X@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: BDGXfUaG4dmVqf4x2GWlmQcBPSgGP7fB
+X-Proofpoint-ORIG-GUID: zJAhnO9AUL5Kqn_lcajsDHVu_2RzQfZ8
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-01_04,2023-01-31_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxlogscore=999 mlxscore=0
+ suspectscore=0 impostorscore=0 spamscore=0 phishscore=0 lowpriorityscore=0
+ clxscore=1015 priorityscore=1501 adultscore=0 malwarescore=0 bulkscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
+ definitions=main-2302010125
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=jejb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,33 +112,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
+Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-"manish.mishra" <manish.mishra@nutanix.com> wrote:
-> Current logic assumes that channel connections on the destination side are
-> always established in the same order as the source and the first one will
-> always be the main channel followed by the multifid or post-copy
-> preemption channel. This may not be always true, as even if a channel has a
-> connection established on the source side it can be in the pending state on
-> the destination side and a newer connection can be established first.
-> Basically causing out of order mapping of channels on the destination side.
-> Currently, all channels except post-copy preempt send a magic number, this
-> patch uses that magic number to decide the type of channel. This logic is
-> applicable only for precopy(multifd) live migration, as mentioned, the
-> post-copy preempt channel does not send any magic number. Also, tls live
-> migrations already does tls handshake before creating other channels, so
-> this issue is not possible with tls, hence this logic is avoided for tls
-> live migrations. This patch uses read peek to check the magic number of
-> channels so that current data/control stream management remains
-> un-effected.
->
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
-> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
-> Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+On Wed, 2023-02-01 at 14:35 +0000, Daniel P. Berrangé wrote:
+> On Wed, Feb 01, 2023 at 08:57:10AM -0500, James Bottomley wrote:
+> > The origin commit for rng seeding 67f7e426e5 ("hw/i386: pass RNG
+> > seed
+> > via setup_data entry") modifies the kernel image file to append a
+> > random seed.  Obviously this makes the hash of the kernel file
+> > non-deterministic and so breaks both measured and some signed
+> > boots.
+> 
+> I recall raising that at the time
+> 
+>   https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00710.html
+> 
+> and Jason pointed me to a followup which I tested and believe
+> fixed it for SEV:
+> 
+>   https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00601.html
+> 
+> but it doesn't look like that second patch ever merged. We went
+> through so many patches I think it probably got obsoleted by
+> something else, and no one rechecked SEV again.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+The kernel file problem is a pretty huge one.  OVMF lays it down on an
+internal file system and without the second patch, it now contains
+random junk at the end.  Anything that hashes the whole file (which
+includes not only the measured direct boot but also grub signatures and
+probably other bootloader signing mechanisms) will have an issue.
+
+> > The commit notes it's only for non-EFI (because EFI has a different
+> > RNG seeding mechanism) so, since there are no non-EFI q35 systems,
+> > this should be disabled for the whole of the q35 machine type to
+> > bring back deterministic kernel file hashes.
+> 
+> SeaBIOS is the default firmware for both q35 and i440fx. The
+> majority of systems using q35 will be non-EFI today, and that
+> is what the random seed was intended to address. I don't think
+> we can just disable this for the whole of q35.
+> 
+> When you say it breaks measured / signed boots, I presume you
+> are specifically referring to SEV kernel hashes measurements ?
+> Or is there a more general problem to solve ?
+
+No it generally breaks measured/signed boots because it adds random
+junk to the kernel file.  The second patch will fix this if you apply
+it because setup data isn't measured or signed (yet ... however see the
+linux-coco debate about how it should be).
+
+I also note there was a v3 of the patch and considerable discussion
+saying it couldn't work:
+
+https://lore.kernel.org/qemu-devel/20220804230411.17720-1-Jason@zx2c4.com/
+
+Which is likely why it never went in ... although the discussion does
+seem to resolve towards the end.
+
+James
 
 
