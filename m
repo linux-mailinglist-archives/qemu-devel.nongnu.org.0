@@ -2,57 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00F90686A7F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 16:38:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F30768698C
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 16:06:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNFAp-0000BO-Re; Wed, 01 Feb 2023 10:37:23 -0500
+	id 1pNEfC-0007aD-SO; Wed, 01 Feb 2023 10:04:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
- id 1pNE33-0007uJ-FG
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:25:19 -0500
-Received: from forward107j.mail.yandex.net ([2a02:6b8:0:801:2::252])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <ivan.klokov@syntacore.com>)
- id 1pNE30-0001wt-Kc
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:25:17 -0500
-Received: from myt6-265321db07ea.qloud-c.yandex.net
- (myt6-265321db07ea.qloud-c.yandex.net
- [IPv6:2a02:6b8:c12:2626:0:640:2653:21db])
- by forward107j.mail.yandex.net (Yandex) with ESMTP id D157788508F
- for <qemu-devel@nongnu.org>; Wed,  1 Feb 2023 17:24:56 +0300 (MSK)
-Received: by myt6-265321db07ea.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id uOXl19QY1a61-SdDCngKs; Wed, 01 Feb 2023 17:24:56 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syntacore.com; s=mail;
- t=1675261496; bh=p5oMi4vqXXP60lOEjDof1dT2Hisnu77J0feRmJ3mnDI=;
- h=Message-Id:Date:Cc:Subject:To:From;
- b=D6odFsGwZO8GM05idNieJSHZKrR0QNpiMSBdmniqRMputeDc376c3vkeInGbIXVPi
- C2UZ72I9KhyAxKm1FVfDJv7ub0QWc4REHb6rVbOXgzkKajVpxZPHegh4+gWWvTZI3w
- 1sZKRnYZqwKI8txYcs3NYPR9FqdTxJN2O9ljMlBc=
-Authentication-Results: myt6-265321db07ea.qloud-c.yandex.net;
- dkim=pass header.i=@syntacore.com
-From: Ivan Klokov <ivan.klokov@syntacore.com>
-To: qemu-devel@nongnu.org
-Cc: Ivan Klokov <ivan.klokov@syntacore.com>
-Subject: [PATCH] target/riscv: Add RVV registers to log
-Date: Wed,  1 Feb 2023 17:24:54 +0300
-Message-Id: <20230201142454.109260-1-ivan.klokov@syntacore.com>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNEfB-0007Zs-3T
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 10:04:41 -0500
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNEf9-0001vj-Hj
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 10:04:40 -0500
+Received: by mail-wr1-x42b.google.com with SMTP id bk16so17581836wrb.11
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 07:04:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=7QtHxRicUbozv9CXDAKIX/czt/lnXsH0WngePoTHdkc=;
+ b=qmp9Bro6ge/rbM96kZVMi8mYiIFyCKcAb559LqomrjZ7yur2nHNXkX26LW4JJ30yvd
+ Fz5vdvAqt0aq746orLOTomDo6SXfMlF0NqmakI4YwNxa9SOwfLM//sbgB+C0LTAtLrr9
+ 0nhlcLich+GIOPGZbCPZjG6IlbKxIzHB/BxhA4gQ3Acq8Kh/QxVO8R7H8PXmwbrlmFWl
+ SHzOjMk7YXURJ2D157ZN3QUizx1gZwdVnb2UaVhgS4YHsVsuUfCXKL3iwGbvdkwHF1nc
+ D2tae2lCyHuVWpdPSR9eJSYP6bioAEGCr9tDuVA3vbBdFioTYh0rLKM6Q/gL66K8HZn9
+ BuFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=7QtHxRicUbozv9CXDAKIX/czt/lnXsH0WngePoTHdkc=;
+ b=dGXKAMjQ14qRszhShf1JKNS9qCPf/RFVHR/HHvd2zN360OmhVU/UiovqFId2piwSta
+ pGQp6SvsZhiIEu2qIzCAt7bfDWYz5U1YMClI1oPEJs+TtRS2sXVO0MSDsRFpXDpjz/34
+ aYelU0gXpCXA6FCfwJ1WQLzpYWbYYhwYXjl/DUTvmHSr4UopUZdHxRos2eRSH19E/rvj
+ hjv0VFu3f3klOkjqZ/9JmZjEDxXt12UttsL+WzurRjHhYGn/0EqYZPQD9RpmsNREGax5
+ 1K5g3hpXTz4wqRUrwQR5V1rtfKH8IXTPdz0NX4GFzoR18EWUsBbmyV802utsyTzwwdBo
+ s+jg==
+X-Gm-Message-State: AO0yUKXmE2fVNXswRdwS5QflrH1gluNwctmR7xQnkNby/vOvtjCP94nk
+ OZ6b/SywXJi6HqMrngoFCmoNXw==
+X-Google-Smtp-Source: AK7set+9A0oK0dJSHstv6v0xKrO03vyHhm2pJJ3iof4t3BbHoJNmhJOY/KayrkBtTTZZSOn2uw9N1Q==
+X-Received: by 2002:a05:6000:1a45:b0:29a:375d:4c41 with SMTP id
+ t5-20020a0560001a4500b0029a375d4c41mr2757379wry.14.1675263877626; 
+ Wed, 01 Feb 2023 07:04:37 -0800 (PST)
+Received: from [192.168.43.175] (107.red-88-29-181.dynamicip.rima-tde.net.
+ [88.29.181.107]) by smtp.gmail.com with ESMTPSA id
+ n9-20020a5d67c9000000b00294176c2c01sm17465266wrw.86.2023.02.01.07.04.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Feb 2023 07:04:37 -0800 (PST)
+Message-ID: <779b5187-2fb1-3b8e-bf92-8ee7322c5531@linaro.org>
+Date: Wed, 1 Feb 2023 16:04:31 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:801:2::252;
- envelope-from=ivan.klokov@syntacore.com; helo=forward107j.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH v6 19/36] target/arm: Use tcg_gen_atomic_cmpxchg_i128 for
+ CASP
+Content-Language: en-US
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+Cc: alex.bennee@linaro.org, Peter Maydell <peter.maydell@linaro.org>
+References: <20230130214844.1158612-1-richard.henderson@linaro.org>
+ <20230130214844.1158612-20-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230130214844.1158612-20-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42b;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42b.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 01 Feb 2023 10:37:00 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -67,154 +92,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Added QEMU option 'rvv' to add RISC-V RVV registers to log like regular regs.
+On 30/1/23 22:48, Richard Henderson wrote:
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Message-Id: <20221112042555.2622152-3-richard.henderson@linaro.org>
+> ---
+>   target/arm/helper-a64.h    |  2 --
+>   target/arm/helper-a64.c    | 43 ---------------------------
+>   target/arm/translate-a64.c | 61 +++++++++++---------------------------
+>   3 files changed, 18 insertions(+), 88 deletions(-)
 
-Signed-off-by: Ivan Klokov <ivan.klokov@syntacore.com>
----
- accel/tcg/cpu-exec.c  |  5 +++++
- include/hw/core/cpu.h |  2 ++
- include/qemu/log.h    |  3 ++-
- target/riscv/cpu.c    | 49 ++++++++++++++++++++++++++++++++++++++++++-
- util/log.c            |  3 +++
- 5 files changed, 60 insertions(+), 2 deletions(-)
+Is it worth extract this pattern:
 
-diff --git a/accel/tcg/cpu-exec.c b/accel/tcg/cpu-exec.c
-index 04cd1f3092..90e3b79544 100644
---- a/accel/tcg/cpu-exec.c
-+++ b/accel/tcg/cpu-exec.c
-@@ -296,6 +296,11 @@ static void log_cpu_exec(target_ulong pc, CPUState *cpu,
-                 }
- #if defined(TARGET_I386)
-                 flags |= CPU_DUMP_CCOP;
-+#endif
-+#if defined(TARGET_RISCV)
-+                if (qemu_loglevel_mask(CPU_LOG_RISCV_RVV)) {
-+                    flags |= CPU_DUMP_RVV;
-+                }
- #endif
-                 cpu_dump_state(cpu, logfile, flags);
-                 qemu_log_unlock(logfile);
-diff --git a/include/hw/core/cpu.h b/include/hw/core/cpu.h
-index 2417597236..82d90854c5 100644
---- a/include/hw/core/cpu.h
-+++ b/include/hw/core/cpu.h
-@@ -543,11 +543,13 @@ GuestPanicInformation *cpu_get_crash_info(CPUState *cpu);
-  * @CPU_DUMP_CODE:
-  * @CPU_DUMP_FPU: dump FPU register state, not just integer
-  * @CPU_DUMP_CCOP: dump info about TCG QEMU's condition code optimization state
-+ * @CPU_DUMP_RVV: dump RISC-V RVV registers
-  */
- enum CPUDumpFlags {
-     CPU_DUMP_CODE = 0x00010000,
-     CPU_DUMP_FPU  = 0x00020000,
-     CPU_DUMP_CCOP = 0x00040000,
-+    CPU_DUMP_RVV  = 0x00080000,
- };
- 
- /**
-diff --git a/include/qemu/log.h b/include/qemu/log.h
-index c5643d8dd5..fb061d75f8 100644
---- a/include/qemu/log.h
-+++ b/include/qemu/log.h
-@@ -35,7 +35,8 @@ bool qemu_log_separate(void);
- /* LOG_STRACE is used for user-mode strace logging. */
- #define LOG_STRACE         (1 << 19)
- #define LOG_PER_THREAD     (1 << 20)
--
-+/* RISC-V "V" Vector Extension */
-+#define CPU_LOG_RISCV_RVV  (1 << 21)
- /* Lock/unlock output. */
- 
- FILE *qemu_log_trylock(void) G_GNUC_WARN_UNUSED_RESULT;
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-index 14a7027095..319aac5517 100644
---- a/target/riscv/cpu.c
-+++ b/target/riscv/cpu.c
-@@ -154,6 +154,14 @@ const char * const riscv_fpr_regnames[] = {
-   "f30/ft10", "f31/ft11"
- };
- 
-+const char * const riscv_rvv_regnames[] = {
-+  "v0",  "v1",  "v2",  "v3",  "v4",  "v5",  "v6",
-+  "v7",  "v8",  "v9",  "v10", "v11", "v12", "v13",
-+  "v14", "v15", "v16", "v17", "v18", "v19", "v20",
-+  "v21", "v22", "v23", "v24", "v25", "v26", "v27",
-+  "v28", "v29", "v30", "v31"
-+};
-+
- static const char * const riscv_excp_names[] = {
-     "misaligned_fetch",
-     "fault_fetch",
-@@ -375,7 +383,8 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
- {
-     RISCVCPU *cpu = RISCV_CPU(cs);
-     CPURISCVState *env = &cpu->env;
--    int i;
-+    int i, j;
-+    uint8_t *p;
- 
- #if !defined(CONFIG_USER_ONLY)
-     if (riscv_has_ext(env, RVH)) {
-@@ -459,6 +468,44 @@ static void riscv_cpu_dump_state(CPUState *cs, FILE *f, int flags)
-             }
-         }
-     }
-+    if (riscv_has_ext(env, RVV)) {
-+        if (flags & CPU_DUMP_RVV) {
-+
-+            static const int dump_rvv_csrs[] = {
-+                        CSR_VSTART,
-+                        CSR_VXSAT,
-+                        CSR_VXRM,
-+                        CSR_VCSR,
-+                        CSR_VL,
-+                        CSR_VTYPE,
-+                        CSR_VLENB,
-+                    };
-+            for (int i = 0; i < ARRAY_SIZE(dump_rvv_csrs); ++i) {
-+                int csrno = dump_rvv_csrs[i];
-+                target_ulong val = 0;
-+                RISCVException res = riscv_csrrw_debug(env, csrno, &val, 0, 0);
-+
-+                /*
-+                 * Rely on the smode, hmode, etc, predicates within csr.c
-+                 * to do the filtering of the registers that are present.
-+                 */
-+                if (res == RISCV_EXCP_NONE) {
-+                    qemu_fprintf(f, " %-8s " TARGET_FMT_lx "\n",
-+                                 csr_ops[csrno].name, val);
-+                }
-+            }
-+            uint16_t vlenb = env_archcpu(env)->cfg.vlen >> 3;
-+
-+            for (i = 0; i < 32; i++) {
-+                qemu_fprintf(f, " %-8s ", riscv_rvv_regnames[i]);
-+                p = (uint8_t *)env->vreg;
-+                for (j = 0; j < vlenb; j++) {
-+                    qemu_fprintf(f, "%02x", *(p + i * vlenb + j));
-+                }
-+                qemu_fprintf(f, "\n");
-+            }
-+        }
-+    }
- }
- 
- static void riscv_cpu_set_pc(CPUState *cs, vaddr value)
-diff --git a/util/log.c b/util/log.c
-index 7837ff9917..8827109b5c 100644
---- a/util/log.c
-+++ b/util/log.c
-@@ -495,6 +495,9 @@ const QEMULogItem qemu_log_items[] = {
-       "log every user-mode syscall, its input, and its result" },
-     { LOG_PER_THREAD, "tid",
-       "open a separate log file per thread; filename must contain '%d'" },
-+    { CPU_LOG_RISCV_RVV, "rvv",
-+      "RISC-V only: add RISC-V \"V\" Vector Extension registers "
-+            "in the 'cpu' logging" },
-     { 0, NULL, NULL },
- };
- 
--- 
-2.34.1
+> +        if (s->be_data == MO_LE) {
+> +            tcg_gen_concat_i64_i128(val, t1, t2);
 
+> +        } else {
+> +            tcg_gen_concat_i64_i128(val, t2, t1);
+
+> +        }
+as a helper for readability ?
 
