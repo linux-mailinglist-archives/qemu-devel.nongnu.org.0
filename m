@@ -2,88 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9A8686E8E
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 20:01:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B909686FA7
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 21:30:33 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNIKY-0005ok-1X; Wed, 01 Feb 2023 13:59:38 -0500
+	id 1pNJj6-0001l0-HQ; Wed, 01 Feb 2023 15:29:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNIKV-0005oF-FM
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 13:59:35 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1)
+ (envelope-from <SRS0=Q3mX=55=zx2c4.com=Jason@kernel.org>)
+ id 1pNJj4-0001kr-Lk
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 15:29:02 -0500
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNIKT-00041w-KI
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 13:59:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675277972;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=p++SXE9SdpB4P/mA4n/6Ae+DwYZEcaVNlghNpDNeu20=;
- b=XMn6TcYnFRXA29zbiIYObRZ84HMDoXEgGIe8AanNsty7ZPl8e7jDeCXSHq3eZt5IuxoKhI
- KBDx9g6URpAa9DpVeyiwzP5oNt667Azuewg/kixKkJRx/3WVYde6VFETPjetSUWXjCP9bf
- I+iIjdGyC54ey6IdyJsRYuJFemK6M2g=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-259-W5NvAl1LOyW9DwdZtr8y3w-1; Wed, 01 Feb 2023 13:59:30 -0500
-X-MC-Unique: W5NvAl1LOyW9DwdZtr8y3w-1
-Received: by mail-wm1-f69.google.com with SMTP id
- o42-20020a05600c512a00b003dc5341afbaso1424099wms.7
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 10:59:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=p++SXE9SdpB4P/mA4n/6Ae+DwYZEcaVNlghNpDNeu20=;
- b=B7xR7urt9smjN/+PMxp1BrWppCqJ6cpV61oJPqTuaYzjq7zS2OzF6Dvbs1XvS5iRgM
- ULlDAKypHBuwblTF6eVKiEfGVbu6Fzf0LyCMMFiUPGCawFrFtTeu5YuK6FH5pjTUCcAw
- X0wP+kvd4zlhvQ4s300OsxMoVa7dxxjaE9s0Qj31AsYs8abEx93SqNtOggAUUTFi3lcG
- aTou3iAIX1tZKbOr6tDyXuyyzfSg2TXBPjxSedhpfjY42TAagG9zKuUw1p3bbVXQ7gE1
- rZ511HdrosD71HVVa8B4+e1Rc9RqT4d67sBKMgJ48YnS0DQvIVgTSxb+lxXlORfgdDDa
- 36Pw==
-X-Gm-Message-State: AO0yUKWX0cTTvg9FfQWP84jJzGTwLMEw26DqUMChN1v2d7HT6Q7TzMx1
- n/iVsbLA/G8xmFMh2Foaz24DKf4lrfz7+b+IQ5sMPsXjEG47Eei7QmUleis8iKwAACBFgWRbIPU
- ojnlZr5pOcM/gz9o=
-X-Received: by 2002:a5d:610a:0:b0:2bf:bb02:2785 with SMTP id
- v10-20020a5d610a000000b002bfbb022785mr2848768wrt.7.1675277969774; 
- Wed, 01 Feb 2023 10:59:29 -0800 (PST)
-X-Google-Smtp-Source: AK7set+IkdBSlfVcGOkWz53ocXboFJGk9phHSduBo3IqPwuNiRAcilW5wS3NnU5XVAvGHZAsrAF4zw==
-X-Received: by 2002:a5d:610a:0:b0:2bf:bb02:2785 with SMTP id
- v10-20020a5d610a000000b002bfbb022785mr2848758wrt.7.1675277969559; 
- Wed, 01 Feb 2023 10:59:29 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- h4-20020adfaa84000000b002bfbf4c3f9fsm17939155wrc.17.2023.02.01.10.59.27
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 10:59:27 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
- <lsoaresp@redhat.com>,  James Houghton <jthoughton@google.com>,  "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RFC 16/21] migration: Enable doublemap with MADV_SPLIT
-In-Reply-To: <20230117220914.2062125-17-peterx@redhat.com> (Peter Xu's message
- of "Tue, 17 Jan 2023 17:09:09 -0500")
-References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-17-peterx@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 01 Feb 2023 19:59:27 +0100
-Message-ID: <87v8klw6sw.fsf@secure.mitica>
+ (Exim 4.90_1)
+ (envelope-from <SRS0=Q3mX=55=zx2c4.com=Jason@kernel.org>)
+ id 1pNJj2-0003nr-4y
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 15:29:01 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 830C2B8229E
+ for <qemu-devel@nongnu.org>; Wed,  1 Feb 2023 20:28:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2CD1C433D2
+ for <qemu-devel@nongnu.org>; Wed,  1 Feb 2023 20:28:54 +0000 (UTC)
+Authentication-Results: smtp.kernel.org;
+ dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
+ header.b="Nkrw10b1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
+ t=1675283333;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=BeC/U9Shrqj1gv29cWMrRgWq03KLAHEM+n3YlHZRW58=;
+ b=Nkrw10b1UVG5ykyfpxTNCWyTobMaa1zA/XErBgkRD63eHPQnZ76uZ2yLuEXw7JU0hQbY/y
+ wFP9iFVaExrMTrg1Gd30bDMGta6djOgzrwTFoWzOK1xiSqreBwc/zRFMVT7Gy6h2sH7XF2
+ Tf7wcyWNaP0YVt/lqNQaUrd2Q2+eKQQ=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f6469e70
+ (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
+ Wed, 1 Feb 2023 20:28:53 +0000 (UTC)
+Received: by mail-yw1-f176.google.com with SMTP id
+ 00721157ae682-4a263c4ddbaso784167b3.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 12:28:52 -0800 (PST)
+X-Gm-Message-State: AO0yUKV3sIUG/38SjEDyyoi4cLnJMq834r1BSER/hroPXieH5ztyZbuT
+ 2cprwcgnsnvPT6ioWyKMZOmApQuMtYKleDwmo/8=
+X-Google-Smtp-Source: AK7set/0DM3relTL7H4RK8xENIee+gFegdgrFK2jeX5YMCVbr1BL6soa7dIX7/qna59DbJNSt3m+eLuhW20/dYlWBdg=
+X-Received: by 2002:a81:2591:0:b0:50f:7b33:e1d1 with SMTP id
+ l139-20020a812591000000b0050f7b33e1d1mr431597ywl.79.1675283332444; Wed, 01
+ Feb 2023 12:28:52 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+References: <da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com>
+ <CAHmME9ouTTk1ONXm276CwunOpy=MAW1Q79x25kcQv=YJTZ88dQ@mail.gmail.com>
+ <2b8fc552e1dc3a14de404eeaff0819ec8da7de54.camel@linux.ibm.com>
+In-Reply-To: <2b8fc552e1dc3a14de404eeaff0819ec8da7de54.camel@linux.ibm.com>
+From: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Wed, 1 Feb 2023 12:51:48 -0500
+X-Gmail-Original-Message-ID: <CAHmME9ps8w8TbC_6Bk8OQbJytR-_CJrcUWT_uXDV+xjL293NHQ@mail.gmail.com>
+Message-ID: <CAHmME9ps8w8TbC_6Bk8OQbJytR-_CJrcUWT_uXDV+xjL293NHQ@mail.gmail.com>
+Subject: Re: [PATCH] x86: fix q35 kernel measurements broken due to rng seeding
+To: "James E . J . Bottomley" <jejb@linux.ibm.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ DOV MURIK <Dov.Murik1@il.ibm.com>
+Content-Type: multipart/alternative; boundary="000000000000edb8bd05f3a94b77"
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=SRS0=Q3mX=55=zx2c4.com=Jason@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,97 +87,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Xu <peterx@redhat.com> wrote:
-> MADV_SPLIT enables doublemap on hugetlb.  Do that if doublemap=true
-> specified for the migration.
+--000000000000edb8bd05f3a94b77
+Content-Type: text/plain; charset="UTF-8"
+
+It's not a secret, but I have so little internet right now that I can't
+even load a webpage, and I'm on my phone, hence the short HTMLified emails.
+
+In brief, though, it gets rid of all modifications to the kernel image all
+together, so it should fix your issue.
+
+On Wed, Feb 1, 2023, 10:24 James Bottomley <jejb@linux.ibm.com> wrote:
+
+> On Wed, 2023-02-01 at 10:10 -0500, Jason A. Donenfeld wrote:
+> > This is already fixed via the patch that MST just sent in his pull.
+> > So wait a few days for that to be merged and it'll be all set.
+> >
+> > No need for this patch here. Do not merge.
 >
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  migration/postcopy-ram.c | 16 ++++++++++++++++
->  migration/ram.c          | 18 ++++++++++++++++++
->  2 files changed, 34 insertions(+)
-
-Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-
+> If it's not a secret, would it be too much trouble to point to the
+> branch so we can actually test it?  It does seem that the biggest
+> problem this issue shows is that there wasn't wide enough configuration
+> testing done on the prior commits before they were merged.
 >
-> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-> index 86ff73c2c0..dbc7e54e4a 100644
-> --- a/migration/postcopy-ram.c
-> +++ b/migration/postcopy-ram.c
-> @@ -694,6 +694,22 @@ static int ram_block_enable_notify(RAMBlock *rb, void *opaque)
->       */
->      reg_struct.mode = UFFDIO_REGISTER_MODE_MISSING;
->      if (minor_fault) {
-> +        /*
-> +         * MADV_SPLIT implicitly enables doublemap mode for hugetlb.  If
-> +         * that fails (e.g. on old kernels) we need to fail the migration.
-> +         *
-> +         * It's a bit late to fail here as we could have migrated lots of
-> +         * pages in precopy, but early failure will require us to allocate
-> +         * hugetlb pages secretly in QEMU which is not friendly to admins
-> +         * and it may affect the global hugetlb pool.  Considering it is
-> +         * normally always limited, keep the failure late but tolerable.
-> +         */
-> +        if (qemu_madvise(qemu_ram_get_host_addr(rb), rb->postcopy_length,
-> +                         QEMU_MADV_SPLIT)) {
-> +            error_report("%s: madvise(MADV_SPLIT) failed (ret=%d) but "
-> +                         "required for doublemap.", __func__, -errno);
+> James
+>
+>
 
-Here you write errno
+--000000000000edb8bd05f3a94b77
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> +            return -1;
-> +        }
->          reg_struct.mode |= UFFDIO_REGISTER_MODE_MINOR;
->      }
->  
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 37d7b3553a..4d786f4b97 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -3891,6 +3891,19 @@ static int migrate_hugetlb_doublemap_init(void)
->  
->      RAMBLOCK_FOREACH_NOT_IGNORED(rb) {
->          if (qemu_ram_is_hugetlb(rb)) {
-> +            /*
-> +             * MADV_SPLIT implicitly enables doublemap mode for hugetlb on
-> +             * the guest mapped ranges.  If that fails (e.g. on old
-> +             * kernels) we need to fail the migration.  Note, the
-> +             * host_mirror mapping below can be kept as hugely mapped.
-> +             */
-> +            if (qemu_madvise(qemu_ram_get_host_addr(rb), rb->mmap_length,
-> +                             QEMU_MADV_SPLIT)) {
-> +                error_report("%s: madvise(MADV_SPLIT) required for doublemap",
-> +                             __func__);
+<div dir=3D"auto">It&#39;s not a secret, but I have so little internet righ=
+t now that I can&#39;t even load a webpage, and I&#39;m on my phone, hence =
+the short HTMLified emails.<div dir=3D"auto"><br></div><div dir=3D"auto">In=
+ brief, though, it gets rid of all modifications to the kernel image all to=
+gether, so it should fix your issue.</div></div><br><div class=3D"gmail_quo=
+te"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 1, 2023, 10:24 James =
+Bottomley &lt;<a href=3D"mailto:jejb@linux.ibm.com">jejb@linux.ibm.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
+ .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, 2023-02-01 at 10=
+:10 -0500, Jason A. Donenfeld wrote:<br>
+&gt; This is already fixed via the patch that MST just sent in his pull.<br=
+>
+&gt; So wait a few days for that to be merged and it&#39;ll be all set.<br>
+&gt; <br>
+&gt; No need for this patch here. Do not merge.<br>
+<br>
+If it&#39;s not a secret, would it be too much trouble to point to the<br>
+branch so we can actually test it?=C2=A0 It does seem that the biggest<br>
+problem this issue shows is that there wasn&#39;t wide enough configuration=
+<br>
+testing done on the prior commits before they were merged.<br>
+<br>
+James<br>
+<br>
+</blockquote></div>
 
-Here you don't.
-
-So I think you could change it.
-
-I was thinking about creating a function for this, but as comments are
-different I think it is overkill.
-
-> +                return -1;
-> +            }
-> +
->              /*
->               * Firstly, we remap the same ramblock into another range of
->               * virtual address, so that we can write to the pages without
-> @@ -3898,6 +3911,11 @@ static int migrate_hugetlb_doublemap_init(void)
->               */
->              addr = ramblock_file_map(rb);
->              if (addr == MAP_FAILED) {
-> +                /*
-> +                 * No need to undo MADV_SPLIT because this is dest node and
-> +                 * we're going to bail out anyway.  Leave that for mm exit
-> +                 * to clean things up.
-> +                 */
->                  ret = -errno;
->                  error_report("%s: Duplicate mapping for hugetlb ramblock '%s'"
->                               "failed: %s", __func__, qemu_ram_get_idstr(rb),
-
+--000000000000edb8bd05f3a94b77--
 
