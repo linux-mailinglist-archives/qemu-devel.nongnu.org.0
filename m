@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C89D7686C8D
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 18:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B9B78686C8B
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 18:13:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNGep-0006am-JQ; Wed, 01 Feb 2023 12:12:27 -0500
+	id 1pNGer-0006bf-UQ; Wed, 01 Feb 2023 12:12:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNGel-0006a0-9Y
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:12:23 -0500
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241])
+ id 1pNGem-0006aP-BQ
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:12:25 -0500
+Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNGej-0004Ic-J6
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:12:22 -0500
-Received: by mail-oi1-x241.google.com with SMTP id p185so16304664oif.2
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 09:12:20 -0800 (PST)
+ id 1pNGek-0004Iy-Aq
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:12:24 -0500
+Received: by mail-oi1-x22f.google.com with SMTP id dt8so13206114oib.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 09:12:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=tlxJUvpOH7ACdoEORStwCyXU2J/yxPAjUz2kS57Cd7s=;
- b=g+j3YkHVdHVXmFuloeLO5JvW4wLOS11uPXpNLcu755g/M8cR7ydqgBX1dInBSgP73Q
- cFPttIVxEDt+GxYTBiLN0M1CBkAqWfVIvnXyVNkVJm2j13zAISv2dohYSYXOnivaKjLn
- 4QiZ+Urf87miO2Ht3yMNRVw7XV0qJeVsd1NNf/xmfy8lXQLYpC/u/6QwRWmFpCLqnWuI
- UwZtttLjcYNdRQWTKfcwpL8j/0ieTC5AFNXUF5Vn/T3ehsTlj7KV4iCNNytuS9ObN3X3
- L6XiHWT55XcC+qtRKQYjZlPymuATDHAjs8nwaUokNE26vSOOkT7LX+qAnyHmz4L62+1h
- E3GQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=fz356eeLxSTB+G/CsOEbtTXiIQ9xiAjsdTiBBzA1hes=;
+ b=IOOgNhSyEzVwn8El6htRoDacos1PsNk3pOr25gfrDJ/FauYhIaRGq2Gk+unzzPKedL
+ dSAViVyVRJ3urVEeQZC+3FewbIZsyxJcSG5CLmZl1OUoPIMvStjf6Pjb+eeGP+gwtJYz
+ wUpfF5rZZerYXUae70R2HcosAmEBCsrTakAgVrC2kntsgjZhFthFgwv/b5Mt36bSVJfi
+ t+pQQl6L9UChfUlVPeVOR2jiAOlJY+fF3zPzotisZbYO+9swQSToIyA24PSEoa00qifO
+ kRR+QLoTJ4TUJ9MuKZt+3+7LO8W0SydfgtlE8DK0EtkvcahRmp0nGRXarYHg3scuNKYS
+ QbEg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=tlxJUvpOH7ACdoEORStwCyXU2J/yxPAjUz2kS57Cd7s=;
- b=4PtjzAUU35qgkmYM3e9ALTQ9eEOgUz+sA8dIMEdIyEf02OaBR3cZn9BAFTgikeFvXk
- gVftxBSNHLEwZ/gSd5s8wDHy4zC+RtJHco6wYDiQ+JSdR+CZKK4O1a+yEFr6Xg7HZp3d
- FBuWt7pKUltubLt0WCb9N5A2VQVzXL4rrSTultJWuGFcM/DMY9cZ0fqAX2KDWZrqi6nl
- 2CYQXMmGWF3iTtPH5SOtnXf7h7ifHb3u6SLWnH1kwUqkcXkT/I2tBSDN6Zz4SIiMiXm5
- KJTgUFv8v1TGNvSVvQvOPe9rQREshJKSkp9OfNRUU4Su5a24ZenwkQB5EuWcraWNuDdP
- DpTA==
-X-Gm-Message-State: AO0yUKX1J2fjnpJrpeyP0CtDqf3zvzAV8oxErGt2cLhF1TFk0ogMbo65
- Q/RkSyNXdO0oI6ziQ0nlt1sV+aqayEFRVUZWl4M=
-X-Google-Smtp-Source: AK7set9/arM2Bahwr92fXpvWB4xy04hV+7ys3r15UpoZKelLhoTWAr476VF69cEjGUcsYc4HlFd4ew==
-X-Received: by 2002:a05:6808:164b:b0:365:7b1:d1a9 with SMTP id
- az11-20020a056808164b00b0036507b1d1a9mr1525062oib.15.1675271538489; 
- Wed, 01 Feb 2023 09:12:18 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=fz356eeLxSTB+G/CsOEbtTXiIQ9xiAjsdTiBBzA1hes=;
+ b=bcbqXxnRPatNr+bFMz3M7tY+6ZHNhW84JrNz0RSvCRM7FOO3geeLHe2JvhJNXeSI8s
+ i6G9uV7P2/kpBrFA8kjXF9OWyjN35L7l6MCvkEix75duRiHg/bwYLQQH8v5TkXNljaYC
+ 2wgh5UXVTMZO4mBzG7L/EyQgDqDLdGR/+1JRvf0e+jJjqB4lbKHHGLaJ5Pxowi3b9EJS
+ /o6wjLTxOTAahXMxTpE7WaZx5dvDj21OuhQTs5pbhTuvatU8f7ojvzf05rKC5uxvms1R
+ rUL9gPWMG3UPB61Ac1B+zaH2iFJdqhrXeJb2CvvMnq+SAFQbahlBozKpUuhz+366sODv
+ XKSA==
+X-Gm-Message-State: AO0yUKXr8kDhZKMfkY4b0HPrEkO13vhzoqydv6skL7LcOXXQOo28RXc6
+ 0jXcqbvcG15uev14XK1sJZD6QxgxLDXrENL8bqk=
+X-Google-Smtp-Source: AK7set93GmVyCVtHBo9k0o4Ge0qaT6/ae23s2jndQ3MgqqcyXFPRvrQh/qJuBPguJs7FuyGOcgsGNQ==
+X-Received: by 2002:a05:6808:221b:b0:365:367:7c7a with SMTP id
+ bd27-20020a056808221b00b0036503677c7amr2055225oib.11.1675271540883; 
+ Wed, 01 Feb 2023 09:12:20 -0800 (PST)
 Received: from grind.. ([177.102.69.207]) by smtp.gmail.com with ESMTPSA id
- k12-20020a056808068c00b003749e231db7sm7100627oig.30.2023.02.01.09.12.16
+ k12-20020a056808068c00b003749e231db7sm7100627oig.30.2023.02.01.09.12.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 09:12:17 -0800 (PST)
+ Wed, 01 Feb 2023 09:12:20 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng.cn@gmail.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v5 0/3] riscv_load_fdt() semantics change
-Date: Wed,  1 Feb 2023 14:12:09 -0300
-Message-Id: <20230201171212.1219375-1-dbarboza@ventanamicro.com>
+Subject: [PATCH v5 1/3] hw/riscv/boot.c: calculate fdt size after fdt_pack()
+Date: Wed,  1 Feb 2023 14:12:10 -0300
+Message-Id: <20230201171212.1219375-2-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230201171212.1219375-1-dbarboza@ventanamicro.com>
+References: <20230201171212.1219375-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x241.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,36 +90,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+fdt_pack() can change the fdt size, meaning that fdt_totalsize() can
+contain a now deprecated (bigger) value.
 
-This version contains changed proposed by Bin in the v4 review.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+---
+ hw/riscv/boot.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-Patches are based on riscv-to-apply.next.
-
-Changes from v4:
-- patch 1:
-  - remove the fdt_pack() related lines instead of letting patch 2 do it
-- patch 2:
-  - make riscv_compute_fdt_addr() return an uint64_t
-- patch 3:
-  - do not change riscv_compute_fdt_addr() return type to hwaddr
-  - fix comment typo
-  - use a ternary instead of if/else in dram_end
-- v4 link: https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg05828.html
-
-Daniel Henrique Barboza (3):
-  hw/riscv/boot.c: calculate fdt size after fdt_pack()
-  hw/riscv: split fdt address calculation from fdt load
-  hw/riscv: change riscv_compute_fdt_addr() semantics
-
- hw/riscv/boot.c            | 53 +++++++++++++++++++++++++++++++-------
- hw/riscv/microchip_pfsoc.c |  7 +++--
- hw/riscv/sifive_u.c        |  8 +++---
- hw/riscv/spike.c           |  7 ++---
- hw/riscv/virt.c            |  8 +++---
- include/hw/riscv/boot.h    |  4 ++-
- 6 files changed, 65 insertions(+), 22 deletions(-)
-
+diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+index cb27798a25..2d03a9a921 100644
+--- a/hw/riscv/boot.c
++++ b/hw/riscv/boot.c
+@@ -253,8 +253,13 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+ {
+     uint64_t temp, fdt_addr;
+     hwaddr dram_end = dram_base + mem_size;
+-    int ret, fdtsize = fdt_totalsize(fdt);
++    int ret = fdt_pack(fdt);
++    int fdtsize;
+ 
++    /* Should only fail if we've built a corrupted tree */
++    g_assert(ret == 0);
++
++    fdtsize = fdt_totalsize(fdt);
+     if (fdtsize <= 0) {
+         error_report("invalid device-tree");
+         exit(1);
+@@ -269,9 +274,6 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+     temp = (dram_base < 3072 * MiB) ? MIN(dram_end, 3072 * MiB) : dram_end;
+     fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
+ 
+-    ret = fdt_pack(fdt);
+-    /* Should only fail if we've built a corrupted tree */
+-    g_assert(ret == 0);
+     /* copy in the device tree */
+     qemu_fdt_dumpdtb(fdt, fdtsize);
+ 
 -- 
 2.39.1
 
