@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32FA0686061
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 08:13:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7389668604B
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 08:09:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN65k-0004EK-Ex; Wed, 01 Feb 2023 00:55:32 -0500
+	id 1pN66H-0004GG-0c; Wed, 01 Feb 2023 00:56:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pN65e-0004DL-RM; Wed, 01 Feb 2023 00:55:27 -0500
-Received: from mail-lf1-f53.google.com ([209.85.167.53])
+ id 1pN667-0004FU-IX; Wed, 01 Feb 2023 00:55:56 -0500
+Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pN65H-0007po-P9; Wed, 01 Feb 2023 00:55:24 -0500
-Received: by mail-lf1-f53.google.com with SMTP id br9so27679402lfb.4;
- Tue, 31 Jan 2023 21:54:17 -0800 (PST)
+ id 1pN65x-00086b-VW; Wed, 01 Feb 2023 00:55:54 -0500
+Received: by mail-lf1-x129.google.com with SMTP id j17so27704355lfr.3;
+ Tue, 31 Jan 2023 21:55:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Jy/3VJ6ByaKePTJMPfX1Sbdhsb/WD/wHU4m5TmHIZuA=;
- b=g8ZG3G9ww4bsLRBoSuRUHnUi66Wim24bMtekKBBQlOWajzy8Ut541qHdlvQZGjr1Eh
- pbBFokKR2d8s3vlRhLNgsh/TplRclcgnrMTqYttxVxxo2SBdaGPisR0LzXpcxSfm+RXa
- O3bUKJNOiDydrEX4fs0TDFaSRxor4/C70jGrQ=
+ bh=Me0V4ryWo4TJGqTg2ekzlN/c35e1c+tYe+k7RBitiNU=;
+ b=VwJlwMReZngm/cBO0e3oAxZjSYW2yrv7CASKMP3SHKvMG/dj/LwDEau+Zf7bGvEXNr
+ nqGOtjsKA0Mr3ep76nM3ULPWsPiY2hJYHmbaS8RzwQW8v8G78PcY1UCd69rjK7LRirWV
+ R7bStcW03uJuW5I+Q8jB71e0l9zRBxFAUi0KQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Jy/3VJ6ByaKePTJMPfX1Sbdhsb/WD/wHU4m5TmHIZuA=;
- b=jZycGauSNpXVZz8Dfh11/+H/zGv43uRxauaaPTw5Tsq8/RhlrnBcMboxxEZA3HmkiO
- 9BsJrZP0EFILND6JxNXAmvnpTxW/c6myOYxegN7sAYq7Pj6TXp7ht4QlADjElahVOOm1
- gTNNd0yylBDCZ7S11Y4R7ldx+oIVDggnYP1cgyveKvb3ADEJZJy8Qzm32rKdsQzT11mX
- CTNLiMnVD4L+5Ua2VjTBAWJ9+mGVFBUMptWq99Vn9sBtD4Ka471xiXGgvXt4aPGqKXBh
- MnzIAMk6gElW01NMZG/xau3eoIRgBu8gB2a2/mJ2nMyXwA7y/2UArvb83GfAU0I9KLZ7
- O1WA==
-X-Gm-Message-State: AO0yUKXiHGy2jfOdR2mCaFMEsVMKtgImgt8S2kGc9MBygTRITfWF0YSD
- CZkdiGdA13PkmO4QYpn9NUsysyTfnQKihDY+yC6o4C/H
-X-Google-Smtp-Source: AK7set8SWXiXCQOsLyUyDmp+WJzZDGFJkVyPw9WkFNLykRR7qOPDMdqP4JTwWm/+0e13KNkDt/jBny/wtt2C1Ujaj8w=
-X-Received: by 2002:a17:907:204c:b0:885:2313:c8b5 with SMTP id
- pg12-20020a170907204c00b008852313c8b5mr285788ejb.201.1675230416722; Tue, 31
- Jan 2023 21:46:56 -0800 (PST)
+ bh=Me0V4ryWo4TJGqTg2ekzlN/c35e1c+tYe+k7RBitiNU=;
+ b=thyQyEnqIjsyFrjh9aSJLoZhMWmBxPqhgj/sS1dlNaKxtzXB9Td2aGx4ojWIz0/1ZS
+ KyifNy7tcGPgwF1L69647LebhVZ00GW/LCAe0C1MOZfobU4PYXV2v2hMOP9Y7aKGsIar
+ iCPxD+tUIWSzSl1B+cJBs/hM6ukikMg/2kV6fA+258hey3Th3I+52NDFKsNZBJJxxZKt
+ mYL4+wTy4tiXQxARuma+oV+k1R58sn/NQ4Hj9BArfklNjQybVNPsUOfwZ4B1orUCzFM0
+ r9jtpqey9qe5XMyhvjlQSqFDb+rNiqh9GW4n6XRi1e+oV0hgZgjJdG9QK3mUTq/r3iRe
+ 0kYA==
+X-Gm-Message-State: AO0yUKVuj1ofdbJuGiyraXsoVLl8kss7US09XwsH0ZLuUQ8C+QHjae0/
+ QpRNHAZIy+A9MKLxC1+GTVq3v1L0lCzr35bsUcnUNJs1
+X-Google-Smtp-Source: AK7set9YpP3uhysZOA496vVJ2ceuQgyTn/bIn7HpWL+AXnwo1Y0PplsFU+yLMOUmC6Y3r2lLFkmiyBk9AjqoBuFP+Bg=
+X-Received: by 2002:a17:907:2391:b0:87f:5802:fd72 with SMTP id
+ vf17-20020a170907239100b0087f5802fd72mr298381ejb.237.1675230462898; Tue, 31
+ Jan 2023 21:47:42 -0800 (PST)
 MIME-Version: 1.0
 References: <20230119123449.531826-1-clg@kaod.org>
- <20230119123449.531826-5-clg@kaod.org>
-In-Reply-To: <20230119123449.531826-5-clg@kaod.org>
+ <20230119123449.531826-7-clg@kaod.org>
+In-Reply-To: <20230119123449.531826-7-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 1 Feb 2023 05:46:44 +0000
-Message-ID: <CACPK8XccDp8gJW93rVqKOkutBqqBkd+km0ZGGBtsnuUWMVEC_A@mail.gmail.com>
-Subject: Re: [PATCH 04/25] avocado/boot_linux_console.py: Update ast2600 test
+Date: Wed, 1 Feb 2023 05:47:29 +0000
+Message-ID: <CACPK8XejKOcegJZGbWqOOwMnOWsdODOANsPDK9CgkqO5=VrKVQ@mail.gmail.com>
+Subject: Re: [PATCH 06/25] tests/avocado/machine_aspeed.py: update buildroot
+ tests
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=209.85.167.53; envelope-from=joel.stan@gmail.com;
- helo=mail-lf1-f53.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::129;
+ envelope-from=joel.stan@gmail.com; helo=mail-lf1-x129.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
 X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
  FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -83,66 +84,62 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 19 Jan 2023 at 12:35, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Thu, 19 Jan 2023 at 12:37, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> From: Joel Stanley <joel@jms.id.au>
+> Use buildroot 2022.11 based images plus some customization :
 >
-> Update the test_arm_ast2600_debian test to
+>   - Linux version is bumped to 6.0.9 and kernel is built with a custom
+>     config similar to what OpenBMC provides.
+>   - U-Boot is switched to the one provided by OpenBMC for better support.
+>   - defconfigs includes more target tools for dev.
 >
->  - the latest Debian kernel
-
-Would you like a newer version of this patch that uses the latest kernel?
-
->  - use the Rainier machine instead of Tacoma
->
-> Both of which contains support for more hardware and thus exercises more
-> of the hardware Qemu models.
->
-> Signed-off-by: Joel Stanley <joel@jms.id.au>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> Message-Id: <20220607011938.1676459-1-joel@jms.id.au>
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
 > ---
->  tests/avocado/boot_linux_console.py | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
+>  tests/avocado/machine_aspeed.py | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 >
-> diff --git a/tests/avocado/boot_linux_console.py b/tests/avocado/boot_lin=
-ux_console.py
-> index 8c1d981586..f3a1d00be9 100644
-> --- a/tests/avocado/boot_linux_console.py
-> +++ b/tests/avocado/boot_linux_console.py
-> @@ -1098,18 +1098,18 @@ def test_arm_vexpressa9(self):
->      def test_arm_ast2600_debian(self):
+> diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspe=
+ed.py
+> index 1fc385e1c8..773b1ff3a9 100644
+> --- a/tests/avocado/machine_aspeed.py
+> +++ b/tests/avocado/machine_aspeed.py
+> @@ -123,8 +123,8 @@ def test_arm_ast2500_evb_buildroot(self):
 >          """
->          :avocado: tags=3Darch:arm
-> -        :avocado: tags=3Dmachine:tacoma-bmc
-> +        :avocado: tags=3Dmachine:rainier-bmc
->          """
->          deb_url =3D ('http://snapshot.debian.org/archive/debian/'
-> -                   '20210302T203551Z/'
-> +                   '20220606T211338Z/'
->                     'pool/main/l/linux/'
-> -                   'linux-image-5.10.0-3-armmp_5.10.13-1_armhf.deb')
-> -        deb_hash =3D 'db40d32fe39255d05482bea48d72467b67d6225bb2a2a4d6f6=
-18cb8976f1e09e'
-> +                   'linux-image-5.17.0-2-armmp_5.17.6-1%2Bb1_armhf.deb')
-> +        deb_hash =3D '8acb2b4439faedc2f3ed4bdb2847ad4f6e0491f73debaeb7f6=
-60c8abe4dcdc0e'
->          deb_path =3D self.fetch_asset(deb_url, asset_hash=3Ddeb_hash,
->                                      algorithm=3D'sha256')
-> -        kernel_path =3D self.extract_from_deb(deb_path, '/boot/vmlinuz-5=
-.10.0-3-armmp')
-> +        kernel_path =3D self.extract_from_deb(deb_path, '/boot/vmlinuz-5=
-.17.0-2-armmp')
->          dtb_path =3D self.extract_from_deb(deb_path,
-> -                '/usr/lib/linux-image-5.10.0-3-armmp/aspeed-bmc-opp-taco=
-ma.dtb')
-> +                '/usr/lib/linux-image-5.17.0-2-armmp/aspeed-bmc-ibm-rain=
-ier.dtb')
 >
->          self.vm.set_console()
->          self.vm.add_args('-kernel', kernel_path,
+>          image_url =3D ('https://github.com/legoater/qemu-aspeed-boot/raw=
+/master/'
+> -                     'images/ast2500-evb/buildroot-2022.05/flash.img')
+> -        image_hash =3D ('549db6e9d8cdaf4367af21c36385a68bb465779c18b5e37=
+094fc7343decccd3f')
+> +                     'images/ast2500-evb/buildroot-2022.11-2-g15d3648df9=
+/flash.img')
+> +        image_hash =3D ('f96d11db521fe7a2787745e9e391225deeeec3318ee0fc0=
+7c8b799b8833dd474')
+>          image_path =3D self.fetch_asset(image_url, asset_hash=3Dimage_ha=
+sh,
+>                                        algorithm=3D'sha256')
+>
+> @@ -151,8 +151,8 @@ def test_arm_ast2600_evb_buildroot(self):
+>          """
+>
+>          image_url =3D ('https://github.com/legoater/qemu-aspeed-boot/raw=
+/master/'
+> -                     'images/ast2600-evb/buildroot-2022.05/flash.img')
+> -        image_hash =3D ('6cc9e7d128fd4fa1fd01c883af67593cae8072c3239a0b8=
+b6ace857f3538a92d')
+> +                     'images/ast2600-evb/buildroot-2022.11-2-g15d3648df9=
+/flash.img')
+> +        image_hash =3D ('e598d86e5ea79671ca8b59212a326c911bc8bea728dec1a=
+1f5390d717a28bb8b')
+>          image_path =3D self.fetch_asset(image_url, asset_hash=3Dimage_ha=
+sh,
+>                                        algorithm=3D'sha256')
+>
 > --
 > 2.39.0
+>
 >
 
