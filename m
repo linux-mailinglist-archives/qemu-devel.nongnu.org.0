@@ -2,83 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3816F686E6F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 19:55:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DF9A8686E8E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 20:01:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNIGb-000433-1o; Wed, 01 Feb 2023 13:55:33 -0500
+	id 1pNIKY-0005ok-1X; Wed, 01 Feb 2023 13:59:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNIGZ-0003zx-79
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 13:55:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pNIKV-0005oF-FM
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 13:59:35 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNIGX-0003dc-KJ
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 13:55:30 -0500
+ id 1pNIKT-00041w-KI
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 13:59:34 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675277729;
+ s=mimecast20190719; t=1675277972;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=rDyH3sRfqXzBimm65gbBpe6BrVhCDeN4WXcGGWhdGiA=;
- b=evb9M2eg7sJoyVuThQ6lDXPIjFZT9SQ09Yg78j59qbHB3UtGMr+4Mglm7L+3JwonDB6Ue9
- Dtf2jHsTfH9k4Xzw44lGzHZLCp4dXYR+HDqgXbSYN6f2OdmaLi+sE2xneziOrBQ20nWyT+
- /2g5gGG6nUrPIUsNYSrqkfUTuEeGID8=
+ bh=p++SXE9SdpB4P/mA4n/6Ae+DwYZEcaVNlghNpDNeu20=;
+ b=XMn6TcYnFRXA29zbiIYObRZ84HMDoXEgGIe8AanNsty7ZPl8e7jDeCXSHq3eZt5IuxoKhI
+ KBDx9g6URpAa9DpVeyiwzP5oNt667Azuewg/kixKkJRx/3WVYde6VFETPjetSUWXjCP9bf
+ I+iIjdGyC54ey6IdyJsRYuJFemK6M2g=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-46-enefEokWPO-_BsArRarV4Q-1; Wed, 01 Feb 2023 13:55:27 -0500
-X-MC-Unique: enefEokWPO-_BsArRarV4Q-1
+ us-mta-259-W5NvAl1LOyW9DwdZtr8y3w-1; Wed, 01 Feb 2023 13:59:30 -0500
+X-MC-Unique: W5NvAl1LOyW9DwdZtr8y3w-1
 Received: by mail-wm1-f69.google.com with SMTP id
- bg32-20020a05600c3ca000b003dc0df8c77dso1421582wmb.6
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 10:55:27 -0800 (PST)
+ o42-20020a05600c512a00b003dc5341afbaso1424099wms.7
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 10:59:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=rDyH3sRfqXzBimm65gbBpe6BrVhCDeN4WXcGGWhdGiA=;
- b=xs0OIWHwADP3wF1qOqfUJJLNDk26Ix3bpET9SmwFRaF58+8bIJ++Ou9J+MWFtuUlOp
- eL0j/21f4pNGgGCSmbHkdKvreXV7ggQ9gtt4KD8Fur868SMpXZDwm7+hasFDGULwRD/z
- a89TKE3wAyKlEJE5wOVO6PaUKSI7ZPMTbanQj9GxbVlbZGBlR/JwF4irAp7oKw6PpB9S
- 0JJ7DU+WQhqBy8IZUpzZGCOcDx0SWF81sh/CACTidlgxowgqhFZLsYZo8OaaEUEN2LKV
- QfpAZjPx+pa1pKOefAyZyvfHxpjtnDnby/m4qkR+5P2GEBfPmi45EArg4YLWDAPGG9cG
- 7aDw==
-X-Gm-Message-State: AO0yUKWskoTwoiVRp074/ed+dwVrOMYYtWL/eLpy2gwTQuvRwzNC2GON
- uL47I2Ks+PbgvUD8Ul4c80rv0Ko7vLsYA56tOxYu/nDJbf9ddy+isuPClzUmJkzvkT0wPPh6qMo
- OXfIX0Dn5nC+lc/Y=
-X-Received: by 2002:a05:600c:4f41:b0:3dc:53da:329b with SMTP id
- m1-20020a05600c4f4100b003dc53da329bmr3056247wmq.17.1675277726744; 
- Wed, 01 Feb 2023 10:55:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set+9e1HryMjDxZVIjryJjdC3fUCR/q9fFiysoxa7FVBHh4TkucYXY25QCrBJFOjvyqcvGTaB+A==
-X-Received: by 2002:a05:600c:4f41:b0:3dc:53da:329b with SMTP id
- m1-20020a05600c4f4100b003dc53da329bmr3056235wmq.17.1675277726547; 
- Wed, 01 Feb 2023 10:55:26 -0800 (PST)
+ bh=p++SXE9SdpB4P/mA4n/6Ae+DwYZEcaVNlghNpDNeu20=;
+ b=B7xR7urt9smjN/+PMxp1BrWppCqJ6cpV61oJPqTuaYzjq7zS2OzF6Dvbs1XvS5iRgM
+ ULlDAKypHBuwblTF6eVKiEfGVbu6Fzf0LyCMMFiUPGCawFrFtTeu5YuK6FH5pjTUCcAw
+ X0wP+kvd4zlhvQ4s300OsxMoVa7dxxjaE9s0Qj31AsYs8abEx93SqNtOggAUUTFi3lcG
+ aTou3iAIX1tZKbOr6tDyXuyyzfSg2TXBPjxSedhpfjY42TAagG9zKuUw1p3bbVXQ7gE1
+ rZ511HdrosD71HVVa8B4+e1Rc9RqT4d67sBKMgJ48YnS0DQvIVgTSxb+lxXlORfgdDDa
+ 36Pw==
+X-Gm-Message-State: AO0yUKWX0cTTvg9FfQWP84jJzGTwLMEw26DqUMChN1v2d7HT6Q7TzMx1
+ n/iVsbLA/G8xmFMh2Foaz24DKf4lrfz7+b+IQ5sMPsXjEG47Eei7QmUleis8iKwAACBFgWRbIPU
+ ojnlZr5pOcM/gz9o=
+X-Received: by 2002:a5d:610a:0:b0:2bf:bb02:2785 with SMTP id
+ v10-20020a5d610a000000b002bfbb022785mr2848768wrt.7.1675277969774; 
+ Wed, 01 Feb 2023 10:59:29 -0800 (PST)
+X-Google-Smtp-Source: AK7set+IkdBSlfVcGOkWz53ocXboFJGk9phHSduBo3IqPwuNiRAcilW5wS3NnU5XVAvGHZAsrAF4zw==
+X-Received: by 2002:a5d:610a:0:b0:2bf:bb02:2785 with SMTP id
+ v10-20020a5d610a000000b002bfbb022785mr2848758wrt.7.1675277969559; 
+ Wed, 01 Feb 2023 10:59:29 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- u2-20020a7bc042000000b003dd8feea827sm2470933wmc.4.2023.02.01.10.55.24
+ h4-20020adfaa84000000b002bfbf4c3f9fsm17939155wrc.17.2023.02.01.10.59.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 10:55:25 -0800 (PST)
+ Wed, 01 Feb 2023 10:59:27 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
  <lsoaresp@redhat.com>,  James Houghton <jthoughton@google.com>,  "Dr .
  David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RFC 15/21] migration: Teach qemu about minor faults and
- doublemap
-In-Reply-To: <Y9hJshP8p9S0FaZF@x1n> (Peter Xu's message of "Mon, 30 Jan 2023
- 17:50:26 -0500")
+Subject: Re: [PATCH RFC 16/21] migration: Enable doublemap with MADV_SPLIT
+In-Reply-To: <20230117220914.2062125-17-peterx@redhat.com> (Peter Xu's message
+ of "Tue, 17 Jan 2023 17:09:09 -0500")
 References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-16-peterx@redhat.com>
- <87k014pocv.fsf@secure.mitica> <Y9hJshP8p9S0FaZF@x1n>
+ <20230117220914.2062125-17-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 01 Feb 2023 19:55:24 +0100
-Message-ID: <87zg9xw6zn.fsf@secure.mitica>
+Date: Wed, 01 Feb 2023 19:59:27 +0100
+Message-ID: <87v8klw6sw.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -104,121 +102,92 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Peter Xu <peterx@redhat.com> wrote:
-> On Mon, Jan 30, 2023 at 06:45:20AM +0100, Juan Quintela wrote:
->> Peter Xu <peterx@redhat.com> wrote:
->> > When a ramblock is backed by hugetlbfs and the user specified using
->> > double-map feature, we trap the faults on these regions using minor mode.
->> > Teach QEMU about that.
->> >
->> > Add some sanity check on the fault flags when receiving a uffd message.
->> > For minor fault trapped ranges, we should always see the MINOR flag set,
->> > while when using generic missing faults we should never see it.
->> >
->> > Signed-off-by: Peter Xu <peterx@redhat.com>
->> 
->> Reviewed-by: Juan Quintela <quintela@redhat.com>
->> 
->> 
->> 
->> > -    if (!(reg_struct.ioctls & ((__u64)1 << _UFFDIO_COPY))) {
->> 
->> Does qemu have a macro to do this bitmap handling?
+> MADV_SPLIT enables doublemap on hugetlb.  Do that if doublemap=true
+> specified for the migration.
 >
-> Not yet that's suitable.  It's open coded like this in many places of
-> postcopy.  One thing close enough is bitmap_test_and_clear() but too heavy.
->
->> 
->> >  {
->> >      MigrationIncomingState *mis = opaque;
->> >      struct uffd_msg msg;
->> > +    uint64_t address;
->> >      int ret;
->> >      size_t index;
->> >      RAMBlock *rb = NULL;
->> > @@ -945,6 +980,7 @@ static void *postcopy_ram_fault_thread(void *opaque)
->> >      }
->> >  
->> >      while (true) {
->> > +        bool use_minor_fault, minor_flag;
->> 
->> I think that something on the lines of:
->>            bool src_minor_fault, dst_minor_fault;
->> 
->> will make things simpler.  Reviewing, I have to go back to definition
->> place to know which is which.
->
-> These two values represents "what we expect" and "what we got from the
-> message", so the only thing is I'm not sure whether src/dst matches the
-> best here.
->
-> How about "expect_minor_fault" and "has_minor_fault" instead?
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  migration/postcopy-ram.c | 16 ++++++++++++++++
+>  migration/ram.c          | 18 ++++++++++++++++++
+>  2 files changed, 34 insertions(+)
 
-Perfect with me.
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
->> >              /*
->> >               * Send the request to the source - we want to request one
->> >               * of our host page sizes (which is >= TPS)
->> >               */
->> > -            ret = postcopy_request_page(mis, rb, rb_offset,
->> > -                                        msg.arg.pagefault.address);
->> > +            ret = postcopy_request_page(mis, rb, rb_offset, address);
->> 
->> This is the only change that I find 'problematic'.
->> On old code, rb_offset has been ROUND_DOWN, on new code it is not.
->> On old code we pass msg.arg.pagefault.address, now we use
->> ROUND_DOW(msg.arg.pagefault.address, mighration_ram_pagesize(rb)).
->
-> Thanks for spotting such a detail even for a RFC series. :)
->
-> It's actually rounded down to target psize, here since we're in postcopy we
-> should require target psize equals to host psize (or I bet it won't really
-> work at all).  So the relevant rounddown was actually done here:
->
->             rb = qemu_ram_block_from_host(
->                      (void *)(uintptr_t)msg.arg.pagefault.address,
->                      true, &rb_offset);
->
-> In which there's:
->
->     *offset = (host - block->host);
->     if (round_offset) {
->         *offset &= TARGET_PAGE_MASK;
->     }
->
-> So when I rework that chunk of code I directly dropped the ROUND_DOWN()
-> because I find it duplicated.
-
-Ok.
 
 >
->> 
->> >              if (ret) {
->> >                  /* May be network failure, try to wait for recovery */
->> >                  postcopy_pause_fault_thread(mis);
->> > @@ -1694,3 +1745,13 @@ void *postcopy_preempt_thread(void *opaque)
->> >  
->> >      return NULL;
->> >  }
->> > +
->> > +/*
->> > + * Whether we should use MINOR fault to trap page faults?  It will be used
->> > + * when doublemap is enabled on hugetlbfs.  The default value will be
->> > + * false, which means we'll keep using the legacy MISSING faults.
->> > + */
->> > +bool postcopy_use_minor_fault(RAMBlock *rb)
->> > +{
->> > +    return migrate_hugetlb_doublemap() && qemu_ram_is_hugetlb(rb);
->> > +}
->> 
->> Are you planing using this function outside postocpy-ram.c?  Otherwise
->> if you move up its definition you can make it static and drop the header
->> change.
->
-> Yes, it'll be further used in ram.c later in the patch "migration: Rework
-> ram discard logic for hugetlb double-map" right below.
+> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+> index 86ff73c2c0..dbc7e54e4a 100644
+> --- a/migration/postcopy-ram.c
+> +++ b/migration/postcopy-ram.c
+> @@ -694,6 +694,22 @@ static int ram_block_enable_notify(RAMBlock *rb, void *opaque)
+>       */
+>      reg_struct.mode = UFFDIO_REGISTER_MODE_MISSING;
+>      if (minor_fault) {
+> +        /*
+> +         * MADV_SPLIT implicitly enables doublemap mode for hugetlb.  If
+> +         * that fails (e.g. on old kernels) we need to fail the migration.
+> +         *
+> +         * It's a bit late to fail here as we could have migrated lots of
+> +         * pages in precopy, but early failure will require us to allocate
+> +         * hugetlb pages secretly in QEMU which is not friendly to admins
+> +         * and it may affect the global hugetlb pool.  Considering it is
+> +         * normally always limited, keep the failure late but tolerable.
+> +         */
+> +        if (qemu_madvise(qemu_ram_get_host_addr(rb), rb->postcopy_length,
+> +                         QEMU_MADV_SPLIT)) {
+> +            error_report("%s: madvise(MADV_SPLIT) failed (ret=%d) but "
+> +                         "required for doublemap.", __func__, -errno);
 
-Aha.
+Here you write errno
 
-Thanks.
+> +            return -1;
+> +        }
+>          reg_struct.mode |= UFFDIO_REGISTER_MODE_MINOR;
+>      }
+>  
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 37d7b3553a..4d786f4b97 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -3891,6 +3891,19 @@ static int migrate_hugetlb_doublemap_init(void)
+>  
+>      RAMBLOCK_FOREACH_NOT_IGNORED(rb) {
+>          if (qemu_ram_is_hugetlb(rb)) {
+> +            /*
+> +             * MADV_SPLIT implicitly enables doublemap mode for hugetlb on
+> +             * the guest mapped ranges.  If that fails (e.g. on old
+> +             * kernels) we need to fail the migration.  Note, the
+> +             * host_mirror mapping below can be kept as hugely mapped.
+> +             */
+> +            if (qemu_madvise(qemu_ram_get_host_addr(rb), rb->mmap_length,
+> +                             QEMU_MADV_SPLIT)) {
+> +                error_report("%s: madvise(MADV_SPLIT) required for doublemap",
+> +                             __func__);
+
+Here you don't.
+
+So I think you could change it.
+
+I was thinking about creating a function for this, but as comments are
+different I think it is overkill.
+
+> +                return -1;
+> +            }
+> +
+>              /*
+>               * Firstly, we remap the same ramblock into another range of
+>               * virtual address, so that we can write to the pages without
+> @@ -3898,6 +3911,11 @@ static int migrate_hugetlb_doublemap_init(void)
+>               */
+>              addr = ramblock_file_map(rb);
+>              if (addr == MAP_FAILED) {
+> +                /*
+> +                 * No need to undo MADV_SPLIT because this is dest node and
+> +                 * we're going to bail out anyway.  Leave that for mm exit
+> +                 * to clean things up.
+> +                 */
+>                  ret = -errno;
+>                  error_report("%s: Duplicate mapping for hugetlb ramblock '%s'"
+>                               "failed: %s", __func__, qemu_ram_get_idstr(rb),
 
 
