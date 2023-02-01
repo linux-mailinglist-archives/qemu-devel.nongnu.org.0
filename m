@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03CB6685E03
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 04:38:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 608A2685DFF
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 04:38:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN3vb-0007qV-Fj; Tue, 31 Jan 2023 22:36:55 -0500
+	id 1pN3ve-0007sT-82; Tue, 31 Jan 2023 22:36:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pN3va-0007qF-2d
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:36:54 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ id 1pN3vc-0007rH-7i
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:36:56 -0500
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pN3vY-0000YA-9r
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:36:53 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- cl23-20020a17090af69700b0022c745bfdc3so691296pjb.3
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 19:36:51 -0800 (PST)
+ id 1pN3va-0000QI-JX
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:36:56 -0500
+Received: by mail-pl1-x630.google.com with SMTP id v23so17189230plo.1
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 19:36:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=08HI+/g3J/zU/4EQGD9UqV5IbiaomXGENBnHx0g0yIg=;
- b=J2zLQb7TjcbNbMrKB6YBWyduishRC6iDPMhRgrFtJL7DLeiop3fmJ2CXvgUV+LrXxF
- NauBM2EVKPCWs/ScbBvjGqBg17aPDyzLWoZbNWSAUQWitgWtMWcAvpciQeZF3q3Qwt1T
- UzK+suO/5HXKC/CUlur+iuAC1oZPHJIt4w426sTJj5IvmAKTlrweovRbfiS8rcBueWXq
- qmA7dbBQRBPUWpB/YrGyrga0hh/63zKjRQ6Ks0pslRKPXeG6b4wnbVMgTQJSHJ8ELchG
- HXDYa77/Fk4kfeiaifyJTlW0ZHGwB06IM7F9UW6a28VkSEyOMIx60cJj0X94yjAsnn8N
- V2MA==
+ bh=UcFLTjDv45KCpptCdC/ryRw5eMMuSI6G2rmXSFY7zGk=;
+ b=kCXnf+ZQr/7KNfEWn+Picyl3U46D8//d7x4azXwi2QJcJqF9InuVB8kWyiNDYF5fPQ
+ El/v5zo7Hg7YiUqHvneA7s3QqWdYja0sY6Ctwa4ieUzQWV2GTIajWhbZNXHR7BloEiAn
+ ArWNcJhU6dXPr1NkgqYYISjkDN5kXOHRXOUXji+sIWuTjZCF7Z1iUjOK/FuSm7aYlZXc
+ r0vSViZ8bf0ekP6012cg3mWja+UQAbqzZ2hDpqEVndhEZBiz+BtV9VCQ2UmNBV3O4apV
+ kkQyxRRmuMrmIJs0CDwx6tPO+09NdGdg9tpC6ddbhqxtHuEJ71p1aYxpFaCngem+vzA5
+ ej9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=08HI+/g3J/zU/4EQGD9UqV5IbiaomXGENBnHx0g0yIg=;
- b=ZVQGxLN6HdfEq007aIrCskwnP1S8WL+ijIIrE6HKJLmJIVU8f5vLuiirEv//sLb4AI
- j4CL6dsHCZi6kKYr3T34qh65u0cxtaPKq5VCLV6bta5z+UfJg34Z0GMQWFb2orzzJ45N
- 8gl7F9V/ZBlfrR572ThUmcKcUBCdUPcSLTkJ0OnhSrFl62/sKB2hnU7ODcyQylz190AW
- rLiJgX0CgEjDkvFmtAdMqx36j+5T02/R0YL2S89rMlWqDCGkoIDXtHv42tW7+vXWHwwL
- er0DbHb0BuSuAzQWiGFYHTOhvMtF3Q3QD2vjeWoipy9feGBjFVXuYT0Aqw3I5KrHVcHN
- e9eg==
-X-Gm-Message-State: AO0yUKUpS3A5ie22UlpbC9iwi8urpBX5ALsAS08E8s61tpwUuyUy8oDy
- 3lmLMULj7UgixNICY09KBG3kNA==
-X-Google-Smtp-Source: AK7set/ULqgqhfPPlwzbOaj6ClPVHlR0WvWOWJq+VBvMNN1XV68QJtZM/mhk4hGYLlh8Zqmn85WRkg==
-X-Received: by 2002:a17:903:214d:b0:196:8292:e879 with SMTP id
- s13-20020a170903214d00b001968292e879mr1136053ple.1.1675222610848; 
- Tue, 31 Jan 2023 19:36:50 -0800 (PST)
+ bh=UcFLTjDv45KCpptCdC/ryRw5eMMuSI6G2rmXSFY7zGk=;
+ b=hk04aGuzXr0sbq+IwkSe1KBX635CyvcTQy7+sx5UQVZynE/PPThVz/Fv3FRUAnc5vg
+ NJPBbiyfS0E+aOhJRf7993CpstVjbkTr//Q9yrbslBmtPW9bF2UvwYWoI8SdR7Ujys5Y
+ /3pAfxO06M7oXkztf6uZTkbLDd+oqyWwnVHoRF8wx5pJbMI3l3mXQ7s96UYKrbinpkzf
+ hRxOPPMwNsEWLzyaHPkrq16XESfyH2A20Nl0AwYIrDglJPn/0hSca72H/5J67WVJDuxu
+ yAVWBhrawxNbslWDC3l8UfIl9pdapoyUgKVyP91ZsTM4uA+6GS+sjlIXa3VYrh6ilde+
+ N6ng==
+X-Gm-Message-State: AO0yUKVBRetBD8tf+254w2VGsw+vKLK44vtwB2qliF21SvzUrZfHVdsf
+ yw8q1xHkK1+SagsANjdiNX/SJQ==
+X-Google-Smtp-Source: AK7set8/pk5zfTvPq34fINoC6BN9m5Be54dk5c5fXRAoFdrqmN02T3M579dOc6+AXLkB7ptC5TsDsg==
+X-Received: by 2002:a17:902:e191:b0:196:35cf:3b17 with SMTP id
+ y17-20020a170902e19100b0019635cf3b17mr1258220pla.36.1675222613956; 
+ Tue, 31 Jan 2023 19:36:53 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- x15-20020a170902ec8f00b001968b529c98sm4185557plg.128.2023.01.31.19.36.48
+ x15-20020a170902ec8f00b001968b529c98sm4185557plg.128.2023.01.31.19.36.51
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 19:36:50 -0800 (PST)
+ Tue, 31 Jan 2023 19:36:53 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -67,22 +66,23 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Alexander Bulekov <alxndr@bu.edu>, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v5 20/29] net: Strip virtio-net header when dumping
-Date: Wed,  1 Feb 2023 12:35:30 +0900
-Message-Id: <20230201033539.30049-21-akihiko.odaki@daynix.com>
+Subject: [PATCH v5 21/29] hw/net/net_tx_pkt: Automatically determine if
+ virtio-net header is used
+Date: Wed,  1 Feb 2023 12:35:31 +0900
+Message-Id: <20230201033539.30049-22-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230201033539.30049-1-akihiko.odaki@daynix.com>
 References: <20230201033539.30049-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102b;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102b.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::630;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x630.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
 X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=unavailable autolearn_force=no
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,178 +98,134 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-filter-dump specifiees Ethernet as PCAP LinkType, which does not expect
-virtio-net header. Having virtio-net header in such PCAP file breaks
-PCAP unconsumable. Unfortunately currently there is no LinkType for
-virtio-net so for now strip virtio-net header to convert the output to
-Ethernet.
+The new function qemu_get_using_vnet_hdr() allows to automatically
+determine if virtio-net header is used.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- include/net/net.h |  6 ++++++
- net/dump.c        | 11 +++++++----
- net/net.c         | 18 ++++++++++++++++++
- net/tap.c         | 16 ++++++++++++++++
- 4 files changed, 47 insertions(+), 4 deletions(-)
+ hw/net/e1000e_core.c |  3 +--
+ hw/net/net_tx_pkt.c  | 19 ++++++++++---------
+ hw/net/net_tx_pkt.h  |  3 +--
+ hw/net/vmxnet3.c     |  6 ++----
+ 4 files changed, 14 insertions(+), 17 deletions(-)
 
-diff --git a/include/net/net.h b/include/net/net.h
-index dc20b31e9f..4b2d72b3fc 100644
---- a/include/net/net.h
-+++ b/include/net/net.h
-@@ -56,8 +56,10 @@ typedef RxFilterInfo *(QueryRxFilter)(NetClientState *);
- typedef bool (HasUfo)(NetClientState *);
- typedef bool (HasVnetHdr)(NetClientState *);
- typedef bool (HasVnetHdrLen)(NetClientState *, int);
-+typedef bool (GetUsingVnetHdr)(NetClientState *);
- typedef void (UsingVnetHdr)(NetClientState *, bool);
- typedef void (SetOffload)(NetClientState *, int, int, int, int, int);
-+typedef int (GetVnetHdrLen)(NetClientState *);
- typedef void (SetVnetHdrLen)(NetClientState *, int);
- typedef int (SetVnetLE)(NetClientState *, bool);
- typedef int (SetVnetBE)(NetClientState *, bool);
-@@ -84,8 +86,10 @@ typedef struct NetClientInfo {
-     HasUfo *has_ufo;
-     HasVnetHdr *has_vnet_hdr;
-     HasVnetHdrLen *has_vnet_hdr_len;
-+    GetUsingVnetHdr *get_using_vnet_hdr;
-     UsingVnetHdr *using_vnet_hdr;
-     SetOffload *set_offload;
-+    GetVnetHdrLen *get_vnet_hdr_len;
-     SetVnetHdrLen *set_vnet_hdr_len;
-     SetVnetLE *set_vnet_le;
-     SetVnetBE *set_vnet_be;
-@@ -183,9 +187,11 @@ void qemu_format_nic_info_str(NetClientState *nc, uint8_t macaddr[6]);
- bool qemu_has_ufo(NetClientState *nc);
- bool qemu_has_vnet_hdr(NetClientState *nc);
- bool qemu_has_vnet_hdr_len(NetClientState *nc, int len);
-+bool qemu_get_using_vnet_hdr(NetClientState *nc);
- void qemu_using_vnet_hdr(NetClientState *nc, bool enable);
- void qemu_set_offload(NetClientState *nc, int csum, int tso4, int tso6,
-                       int ecn, int ufo);
-+int qemu_get_vnet_hdr_len(NetClientState *nc);
- void qemu_set_vnet_hdr_len(NetClientState *nc, int len);
- int qemu_set_vnet_le(NetClientState *nc, bool is_le);
- int qemu_set_vnet_be(NetClientState *nc, bool is_be);
-diff --git a/net/dump.c b/net/dump.c
-index 6a63b15359..7d05f16ca7 100644
---- a/net/dump.c
-+++ b/net/dump.c
-@@ -61,12 +61,13 @@ struct pcap_sf_pkthdr {
-     uint32_t len;
+diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
+index 38d374fba3..954a007151 100644
+--- a/hw/net/e1000e_core.c
++++ b/hw/net/e1000e_core.c
+@@ -3376,8 +3376,7 @@ e1000e_core_pci_realize(E1000ECore     *core,
+         qemu_add_vm_change_state_handler(e1000e_vm_state_change, core);
+ 
+     for (i = 0; i < E1000E_NUM_QUEUES; i++) {
+-        net_tx_pkt_init(&core->tx[i].tx_pkt, core->owner,
+-                        E1000E_MAX_TX_FRAGS, core->has_vnet);
++        net_tx_pkt_init(&core->tx[i].tx_pkt, core->owner, E1000E_MAX_TX_FRAGS);
+     }
+ 
+     net_rx_pkt_init(&core->rx_pkt, core->has_vnet);
+diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+index 8a23899a4d..cf46c8457f 100644
+--- a/hw/net/net_tx_pkt.c
++++ b/hw/net/net_tx_pkt.c
+@@ -35,7 +35,6 @@ struct NetTxPkt {
+     PCIDevice *pci_dev;
+ 
+     struct virtio_net_hdr virt_hdr;
+-    bool has_virt_hdr;
+ 
+     struct iovec *raw;
+     uint32_t raw_frags;
+@@ -59,7 +58,7 @@ struct NetTxPkt {
  };
  
--static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt)
-+static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt,
-+                                int offset)
+ void net_tx_pkt_init(struct NetTxPkt **pkt, PCIDevice *pci_dev,
+-    uint32_t max_frags, bool has_virt_hdr)
++    uint32_t max_frags)
  {
-     struct pcap_sf_pkthdr hdr;
-     int64_t ts;
-     int caplen;
--    size_t size = iov_size(iov, cnt);
-+    size_t size = iov_size(iov, cnt) - offset;
-     struct iovec dumpiov[cnt + 1];
+     struct NetTxPkt *p = g_malloc0(sizeof *p);
  
-     /* Early return in case of previous error. */
-@@ -84,7 +85,7 @@ static ssize_t dump_receive_iov(DumpState *s, const struct iovec *iov, int cnt)
+@@ -71,10 +70,8 @@ void net_tx_pkt_init(struct NetTxPkt **pkt, PCIDevice *pci_dev,
  
-     dumpiov[0].iov_base = &hdr;
-     dumpiov[0].iov_len = sizeof(hdr);
--    cnt = iov_copy(&dumpiov[1], cnt, iov, cnt, 0, caplen);
-+    cnt = iov_copy(&dumpiov[1], cnt, iov, cnt, offset, caplen);
+     p->max_payload_frags = max_frags;
+     p->max_raw_frags = max_frags;
+-    p->has_virt_hdr = has_virt_hdr;
+     p->vec[NET_TX_PKT_VHDR_FRAG].iov_base = &p->virt_hdr;
+-    p->vec[NET_TX_PKT_VHDR_FRAG].iov_len =
+-        p->has_virt_hdr ? sizeof p->virt_hdr : 0;
++    p->vec[NET_TX_PKT_VHDR_FRAG].iov_len = sizeof p->virt_hdr;
+     p->vec[NET_TX_PKT_L2HDR_FRAG].iov_base = &p->l2_hdr;
+     p->vec[NET_TX_PKT_L3HDR_FRAG].iov_base = &p->l3_hdr;
  
-     if (writev(s->fd, dumpiov, cnt + 1) != sizeof(hdr) + caplen) {
-         error_report("network dump write error - stopping dump");
-@@ -153,8 +154,10 @@ static ssize_t filter_dump_receive_iov(NetFilterState *nf, NetClientState *sndr,
-                                        int iovcnt, NetPacketSent *sent_cb)
+@@ -617,9 +614,11 @@ static bool net_tx_pkt_do_sw_fragmentation(struct NetTxPkt *pkt,
+ 
+ bool net_tx_pkt_send(struct NetTxPkt *pkt, NetClientState *nc)
  {
-     NetFilterDumpState *nfds = FILTER_DUMP(nf);
-+    int offset = qemu_get_using_vnet_hdr(nf->netdev) ?
-+                 qemu_get_vnet_hdr_len(nf->netdev) : 0;
- 
--    dump_receive_iov(&nfds->ds, iov, iovcnt);
-+    dump_receive_iov(&nfds->ds, iov, iovcnt, offset);
-     return 0;
- }
- 
-diff --git a/net/net.c b/net/net.c
-index 2d01472998..03f17de5fc 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -513,6 +513,15 @@ bool qemu_has_vnet_hdr_len(NetClientState *nc, int len)
-     return nc->info->has_vnet_hdr_len(nc, len);
- }
- 
-+bool qemu_get_using_vnet_hdr(NetClientState *nc)
-+{
-+    if (!nc || !nc->info->get_using_vnet_hdr) {
-+        return false;
-+    }
++    bool using_vnet_hdr = qemu_get_using_vnet_hdr(nc->peer);
 +
-+    return nc->info->get_using_vnet_hdr(nc);
-+}
-+
- void qemu_using_vnet_hdr(NetClientState *nc, bool enable)
+     assert(pkt);
+ 
+-    if (!pkt->has_virt_hdr &&
++    if (!using_vnet_hdr &&
+         pkt->virt_hdr.flags & VIRTIO_NET_HDR_F_NEEDS_CSUM) {
+         net_tx_pkt_do_sw_csum(pkt);
+     }
+@@ -636,11 +635,13 @@ bool net_tx_pkt_send(struct NetTxPkt *pkt, NetClientState *nc)
+         }
+     }
+ 
+-    if (pkt->has_virt_hdr ||
++    if (using_vnet_hdr ||
+         pkt->virt_hdr.gso_type == VIRTIO_NET_HDR_GSO_NONE) {
++        int index = using_vnet_hdr ?
++                    NET_TX_PKT_VHDR_FRAG : NET_TX_PKT_L2HDR_FRAG;
+         net_tx_pkt_fix_ip6_payload_len(pkt);
+-        net_tx_pkt_sendv(pkt, nc, pkt->vec,
+-            pkt->payload_frags + NET_TX_PKT_PL_START_FRAG);
++        net_tx_pkt_sendv(pkt, nc, pkt->vec + index,
++            pkt->payload_frags + NET_TX_PKT_PL_START_FRAG - index);
+         return true;
+     }
+ 
+diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
+index 2e38a5fa69..8d3faa42fb 100644
+--- a/hw/net/net_tx_pkt.h
++++ b/hw/net/net_tx_pkt.h
+@@ -32,10 +32,9 @@ struct NetTxPkt;
+  * @pkt:            packet pointer
+  * @pci_dev:        PCI device processing this packet
+  * @max_frags:      max tx ip fragments
+- * @has_virt_hdr:   device uses virtio header.
+  */
+ void net_tx_pkt_init(struct NetTxPkt **pkt, PCIDevice *pci_dev,
+-    uint32_t max_frags, bool has_virt_hdr);
++    uint32_t max_frags);
+ 
+ /**
+  * Clean all tx packet resources.
+diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+index c63bbb59bd..8c3f5d6e14 100644
+--- a/hw/net/vmxnet3.c
++++ b/hw/net/vmxnet3.c
+@@ -1521,8 +1521,7 @@ static void vmxnet3_activate_device(VMXNET3State *s)
+ 
+     /* Preallocate TX packet wrapper */
+     VMW_CFPRN("Max TX fragments is %u", s->max_tx_frags);
+-    net_tx_pkt_init(&s->tx_pkt, PCI_DEVICE(s),
+-                    s->max_tx_frags, s->peer_has_vhdr);
++    net_tx_pkt_init(&s->tx_pkt, PCI_DEVICE(s), s->max_tx_frags);
+     net_rx_pkt_init(&s->rx_pkt, s->peer_has_vhdr);
+ 
+     /* Read rings memory locations for RX queues */
+@@ -2402,8 +2401,7 @@ static int vmxnet3_post_load(void *opaque, int version_id)
  {
-     if (!nc || !nc->info->using_vnet_hdr) {
-@@ -532,6 +541,15 @@ void qemu_set_offload(NetClientState *nc, int csum, int tso4, int tso6,
-     nc->info->set_offload(nc, csum, tso4, tso6, ecn, ufo);
- }
+     VMXNET3State *s = opaque;
  
-+int qemu_get_vnet_hdr_len(NetClientState *nc)
-+{
-+    if (!nc || !nc->info->get_vnet_hdr_len) {
-+        return 0;
-+    }
-+
-+    return nc->info->get_vnet_hdr_len(nc);
-+}
-+
- void qemu_set_vnet_hdr_len(NetClientState *nc, int len)
- {
-     if (!nc || !nc->info->set_vnet_hdr_len) {
-diff --git a/net/tap.c b/net/tap.c
-index 7d7bc1dc5f..1bf085d422 100644
---- a/net/tap.c
-+++ b/net/tap.c
-@@ -255,6 +255,13 @@ static bool tap_has_vnet_hdr_len(NetClientState *nc, int len)
-     return !!tap_probe_vnet_hdr_len(s->fd, len);
- }
+-    net_tx_pkt_init(&s->tx_pkt, PCI_DEVICE(s),
+-                    s->max_tx_frags, s->peer_has_vhdr);
++    net_tx_pkt_init(&s->tx_pkt, PCI_DEVICE(s), s->max_tx_frags);
+     net_rx_pkt_init(&s->rx_pkt, s->peer_has_vhdr);
  
-+static int tap_get_vnet_hdr_len(NetClientState *nc)
-+{
-+    TAPState *s = DO_UPCAST(TAPState, nc, nc);
-+
-+    return s->host_vnet_hdr_len;
-+}
-+
- static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
- {
-     TAPState *s = DO_UPCAST(TAPState, nc, nc);
-@@ -268,6 +275,13 @@ static void tap_set_vnet_hdr_len(NetClientState *nc, int len)
-     s->host_vnet_hdr_len = len;
- }
- 
-+static bool tap_get_using_vnet_hdr(NetClientState *nc)
-+{
-+    TAPState *s = DO_UPCAST(TAPState, nc, nc);
-+
-+    return s->using_vnet_hdr;
-+}
-+
- static void tap_using_vnet_hdr(NetClientState *nc, bool using_vnet_hdr)
- {
-     TAPState *s = DO_UPCAST(TAPState, nc, nc);
-@@ -372,8 +386,10 @@ static NetClientInfo net_tap_info = {
-     .has_ufo = tap_has_ufo,
-     .has_vnet_hdr = tap_has_vnet_hdr,
-     .has_vnet_hdr_len = tap_has_vnet_hdr_len,
-+    .get_using_vnet_hdr = tap_get_using_vnet_hdr,
-     .using_vnet_hdr = tap_using_vnet_hdr,
-     .set_offload = tap_set_offload,
-+    .get_vnet_hdr_len = tap_get_vnet_hdr_len,
-     .set_vnet_hdr_len = tap_set_vnet_hdr_len,
-     .set_vnet_le = tap_set_vnet_le,
-     .set_vnet_be = tap_set_vnet_be,
+     if (s->msix_used) {
 -- 
 2.39.1
 
