@@ -2,70 +2,145 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94DAE685CD0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 02:48:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10295685DB4
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 04:08:30 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN2EL-00048M-UO; Tue, 31 Jan 2023 20:48:10 -0500
+	id 1pN3Sc-0006Bg-Pa; Tue, 31 Jan 2023 22:06:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pN2Dt-000401-Hs
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 20:47:42 -0500
-Received: from dfw.source.kernel.org ([2604:1380:4641:c500::1])
+ (Exim 4.90_1) (envelope-from <sidneym@quicinc.com>)
+ id 1pN3Sb-0006BW-CE
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:06:57 -0500
+Received: from mx0b-0031df01.pphosted.com ([205.220.180.131])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
- id 1pN2Dp-0007Tj-3U
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 20:47:41 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id EA42E609AD;
- Wed,  1 Feb 2023 01:47:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63CC9C433EF;
- Wed,  1 Feb 2023 01:47:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1675216053;
- bh=T6t348sa1zb1HOH4YbhFvrYzWl+VEyEuZWqTiGVDjmk=;
- h=Date:From:To:cc:Subject:In-Reply-To:References:From;
- b=L+a8oMwXYk+2j7sgjXxzw6wH9ungFieDnEDpO1k6wVpoLM7RdzY/BiOEj+tR1uavM
- bDI5TFoaSwK6rU/eJ8z8FXziJyN2wxY4h5Z5b19dsvZ5spuSU6anzFAk2YZGxzsi+H
- gGtZDp4DCCa5y+YBrrUaYYmLeUDids9OppR9fnpK0KqKDV0/LhHm4IoOc7a1COAMym
- Nj3W8KmJyR1f/TW/GAfcxbxM+0twk0B+YW0gxkaaTbCQnPvV72R6TcgMurzycAp9RH
- 64OBnHuIAqW2stB1zFmqXV1kNkoCn08Jl2uVniiLZx3ynbxV0o9IbCFCbcBYXCQfEm
- 2s4YGBLca764w==
-Date: Tue, 31 Jan 2023 17:47:29 -0800 (PST)
-From: Stefano Stabellini <sstabellini@kernel.org>
-X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
-To: Vikram Garhwal <vikram.garhwal@amd.com>
-cc: qemu-devel@nongnu.org, xen-devel@lists.xenproject.org, 
- stefano.stabellini@amd.com, alex.bennee@linaro.org, 
- Stefano Stabellini <sstabellini@kernel.org>, 
- Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, 
- "Michael S. Tsirkin" <mst@redhat.com>, 
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, 
- Paolo Bonzini <pbonzini@redhat.com>, 
- Richard Henderson <richard.henderson@linaro.org>, 
- Eduardo Habkost <eduardo@habkost.net>
-Subject: Re: [QEMU][PATCH v5 04/10] xen-hvm: reorganize xen-hvm and move
- common function to xen-hvm-common
-In-Reply-To: <20230131225149.14764-5-vikram.garhwal@amd.com>
-Message-ID: <alpine.DEB.2.22.394.2301311747220.132504@ubuntu-linux-20-04-desktop>
-References: <20230131225149.14764-1-vikram.garhwal@amd.com>
- <20230131225149.14764-5-vikram.garhwal@amd.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+ (Exim 4.90_1) (envelope-from <sidneym@quicinc.com>)
+ id 1pN3SZ-0003kc-9t
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:06:57 -0500
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+ by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 3110PVbq010028
+ for <qemu-devel@nongnu.org>; Wed, 1 Feb 2023 03:06:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com;
+ h=from : to : cc :
+ subject : date : message-id : content-type : mime-version; s=qcppdkim1;
+ bh=PuGGxJK1sDTw97DXx2ibDT8s4uMyNNvRiklT1HWp7oQ=;
+ b=YFn5YEhFjfHyo5OO+WFa6S9mkzPk/q0aFteY3LlLX49EfK56TZ7Pq8tED+lvFCpCq9ZL
+ IYXuezD1vV234hFoY8u30jXdfzio8B7z5KqMq53lGWK8WdNi68LQ9GSgExZYvVC5tsnu
+ jA+XPdh/nnWgTIFQOmqCZwlWCmOk3pGdT2lnErLjeDWyOfM+sIIjn+UQZWjiL8s427q5
+ w7XvhSUTkfLF64zyCmA0RQlFM7KbUI+XiGFfrVwGd8HVf4UC5DjMZTyu0ho/H1eYsSs4
+ Q4aUYpS7yOKJ8R4Z7g6/tTuZHbZcaxZHXCEDK/dfqS+nUyT7uJRqbwFdKt+e4kXT27vX 5w== 
+Received: from nam04-bn8-obe.outbound.protection.outlook.com
+ (mail-bn8nam04lp2048.outbound.protection.outlook.com [104.47.74.48])
+ by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3nfbyq0gyj-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 03:06:51 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hnR61K7BeZ9LdQCY6nZbnTikPLSTZ487D2e4Byd/qGCjbu84lrNgHewijOEnoHOfADI1xaIHYOwyrvNpbJYJInBmsvj6PquI9xSxMiGzthFzz6cEHoBaz1V1LSmrH7747ceKOvtuT2q/9WvDKyvWo3pwkz+Tb5aj6npMjXTW4C+QkVh+unrUEGGMPYDpBA+kOGPqGNUnFtDXyNjIK37+FJBnHN4OVGl6SJivhLoWKaQuJDofuUvVisq7I0gf0vMIPdtBZkpCSXgTht7KNwhLpRjposH2iZtmsm17PMGePM7Y/2PXaLPrGTgaOpYXNvpzEB+/QR94Koa3Y4/eWgUYSA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=PuGGxJK1sDTw97DXx2ibDT8s4uMyNNvRiklT1HWp7oQ=;
+ b=XDzXYLg7IS9EEhgWXHV5VGBxcvPvjeohOVd126nVqYoPUyuiUsDuvsD+q72/FS7ssClMpbxyiSk8L1J39RGf0kI7crk4iXUdj3xxpyV6a4kjBZH2U+NjQmhd2C8FQKHIpvlmmwylv5e9pQL7+SpWWmGC6XLg4NO3ptsXNDf9S4BpOGVREDBu645tFNSGFKPf4SdzvNfWb1w5TGJL7aksEObQbogaVALDJRc1AaUZa+ABLaQommoPRCUirxay+0jUnHhjbkn8Puy6ypsixANe0RI/LH6zwQBnJumnkwLQDYK3MpKqytm+50J+w/HfifkKLD0OQ9iLFHr+UiTZ1uoCVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=quicinc.com; dmarc=pass action=none header.from=quicinc.com;
+ dkim=pass header.d=quicinc.com; arc=none
+Received: from BYAPR02MB5509.namprd02.prod.outlook.com (2603:10b6:a03:9e::31)
+ by BN0PR02MB8144.namprd02.prod.outlook.com (2603:10b6:408:14a::22)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.23; Wed, 1 Feb
+ 2023 03:06:49 +0000
+Received: from BYAPR02MB5509.namprd02.prod.outlook.com
+ ([fe80::b52a:e0c7:e62c:c0a3]) by BYAPR02MB5509.namprd02.prod.outlook.com
+ ([fe80::b52a:e0c7:e62c:c0a3%4]) with mapi id 15.20.6043.038; Wed, 1 Feb 2023
+ 03:06:49 +0000
+From: Sid Manning <sidneym@quicinc.com>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+CC: Mark Burton <mburton@qti.qualcomm.com>, Brian Cain <bcain@quicinc.com>,
+ Matheus Bernardino <mathbern@qti.qualcomm.com>
+Subject: accel/tcg/translator.c question about translator_access
+Thread-Topic: accel/tcg/translator.c question about translator_access
+Thread-Index: Adk12mr35efZdwCASCS67YKvoZGk0g==
+Date: Wed, 1 Feb 2023 03:06:48 +0000
+Message-ID: <BYAPR02MB55094EC2D6BD8354B3313894BED19@BYAPR02MB5509.namprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BYAPR02MB5509:EE_|BN0PR02MB8144:EE_
+x-ms-office365-filtering-correlation-id: 0fa6e5e6-436d-4a40-c147-08db04015c2b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: 9JHdB2hNMwvzov1KdrVLnMCy9+mQ7BFUfO97fE8r/dxVDrbfLnCs11/fnC9QU3whR8BPn+pg9Q/inbFQdBmSziNvLVirMkeMyy6Q1X1aHTR7yMvL80p2rDK47Hv6RX4Vy8+VkWnbVOPcG1BJGoDHnccpzfPUxmrOBUfoZqeDzASO73uJvB/kOt+s34tcDeQsbMaEIW/FML01sx7UFqDJQiKVNTxgVdFXcWDc7r9oGmuE38t9rMblePaDLJDtaO0J4Zb3ITxDeKbwaqMVRxGLjWb0J48vVlfCqlstwpk4979V4rHPsgJT4SzZcmu8AyhaN9VD2BZBm5g8zP55lHVaz1mOLtREFiejRt+tHNbhvpknAqTQGw/jUoOOmXtpLNPN3TV+zeRPRlQQpb0nrctqOSlkK3yqJigFz0HUhZ+bBTVC+Pzxdo0Aq3ZW5b6RJUh41HTFp8yaFjr+wF8ZJfqFTR5t+ADQTaL6fdHk5QAV7Y21V/YMan0qGldRsRQ/JpyWwRDuc3pWeVqiUP5EqmG2dY1R2qWZQjzMBquH4kdIjPwrJyKWQA+cc5FFJbpF83ZnPPAq5HKXTXoWpM/40u7HvFih95rhHBqKc6mYY8p4aXlxOLM9Gh6xqdy+ZtImlLop+SMre26Hjr/afe6ElvUBUQniK/pKYwsIrsYJ7bTtJLE1W7bt/tl4RVJGadxXpnXePqu53gc4B39rt0Gof4sICg==
+x-forefront-antispam-report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:BYAPR02MB5509.namprd02.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(376002)(396003)(39860400002)(136003)(366004)(346002)(451199018)(478600001)(52536014)(55016003)(33656002)(54906003)(5660300002)(38070700005)(6506007)(2906002)(9686003)(26005)(186003)(4744005)(86362001)(122000001)(316002)(38100700002)(7696005)(76116006)(66946007)(4326008)(66476007)(6916009)(66556008)(64756008)(66446008)(107886003)(83380400001)(71200400001)(8676002)(8936002)(41300700001);
+ DIR:OUT; SFP:1102; 
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?3NiGMhRMG4uKVyX0FzjJTPfH0h0yKx1+bGi3Prb6C9efH4uxBrvoMI/JG223?=
+ =?us-ascii?Q?zFeT98vtTh22uQe8QOJJIF08h2yjCU26S/UXL4VW/jXiRCM9JvMVAsKvjAk+?=
+ =?us-ascii?Q?GkFuKOoQzlzn1YDLrqBA2KEul+jIaglW2Dc89+yShXw9St7CdWqpXCz1DIP1?=
+ =?us-ascii?Q?fXAF4/g1D2yHNNbJab7i2zvOsHtLk9AYvZIUoihKAjTIQQ80U+fkbG6uIjQb?=
+ =?us-ascii?Q?IE/5VrAYmXeFZ/vzh/121DKyZwJJc/GWFP9SbOdMvk1hqSB/okImPc/B+azS?=
+ =?us-ascii?Q?34GRuPaHxnOpjRJB9On4KthaNu1jp8WzwQceC3/Fjp5fQ6rTJa2oFvSj0xmf?=
+ =?us-ascii?Q?A2J0lsW8DsuAl9wkSB76dY7PAa8hMV9vqFxPTSV5/hmmcWqJdAYieTD7TdSL?=
+ =?us-ascii?Q?VBK/y4LBUZk4301EJh2QEN0h/7eQsJ3zRUaA2OOoHrBecxCYJ+2xbw2meeYo?=
+ =?us-ascii?Q?Gmnfaft8M8QCf7ZuM244TdhHop1nKPPmf2QJkfc4LGOa2pDzGGbfW4VJ3FeY?=
+ =?us-ascii?Q?9n5BDREFc74vCGQWtgmy4B13uQfSZc+GLkB9xWQIdk2G0DPJ/EXCGrNTkCVE?=
+ =?us-ascii?Q?acTtfXzH3VpEk1R3Iv2Vk9HaAidZ+dS/BAKj5uxr/187Na9ay2OdjRAfnbrb?=
+ =?us-ascii?Q?CVHL2OOEpCIVMzY5slwuX3XQZkZwRwcZRH8CHVKZPDNjFV1Lll+h1LH9DjtP?=
+ =?us-ascii?Q?4PlyWhy8JDQ966oUZrNP5zYiTzJvyHGUv+udO0Xi8LcWmJu6NVvYr4zGqnRL?=
+ =?us-ascii?Q?1VgEt49TCJCPNPHt2ZyS0+Y1ZfXEEAlx+oKnpVPu0asQf5t0vA67DignVKGV?=
+ =?us-ascii?Q?+eZAQJK2OMhtZ87XDa5OcD0toPvBpdkmJ0Nv393PH9G3vY5MxEH/ZzRpU40Y?=
+ =?us-ascii?Q?lWrkzweaoQ9mtb9c6SflHlGHOS4cPBfAooHHZqJMuiNikHslcJuX7OVma6PV?=
+ =?us-ascii?Q?/j4/WAy/QHsf82mPx7QFDpvUz5DTJwHUF5wzyHCM/ln5jHCmo3FWvAe9MeVA?=
+ =?us-ascii?Q?ClHgaFVl7hSvX+er0exGJKE3P5I9N5acYJvYV8vw9/ANSFfWA7kkci6z5fzA?=
+ =?us-ascii?Q?S3AMsNwNnc+oywjpngwHdhZkIM1OMt/frfP7Tht81F60Os9Y2CClYBtM3o1+?=
+ =?us-ascii?Q?A6i6fpp7C4hdS8sGitJRWk0Oqyrh7v20yv/zKtkevVNy5R777QVIDIuFVxhn?=
+ =?us-ascii?Q?AIhaw1EYp/98TKzDSeoJVDT8kRlrMiRaEyNJvEWr97FGFOl00mSoALN9RjN1?=
+ =?us-ascii?Q?tl3KIft8NjzzvhgHu/vrDOQPwD7n50l5NUALvY2NoxeHIskGsI76jPVAwZ5i?=
+ =?us-ascii?Q?VlMINsPzgZpQJpfkgcG548O1wZPbSy1RX/Z4zs2yR2ipTG2lAB847e4UpJAk?=
+ =?us-ascii?Q?nV3VpOpr/zUCG9sgvEcvM2x4qzB45+urkcaJBJN0zm2k990deILiHfNr2I6e?=
+ =?us-ascii?Q?LgcKSQCPW2v6xppr1wS6/I/cU69yuoLf4NC4/wMr0F8MHAeOKn/dTTwTQ2Ex?=
+ =?us-ascii?Q?L9+0a8gK1CLA5tM4p9jGvn9rHe0oJoQl02kQAYFgBwLnUSNxH8tjhuFpGjA8?=
+ =?us-ascii?Q?XqSt35Arb0+GDlM2p0AioEuHG+loLBQNmriM+QLB?=
+Content-Type: multipart/alternative;
+ boundary="_000_BYAPR02MB55094EC2D6BD8354B3313894BED19BYAPR02MB5509namp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Received-SPF: pass client-ip=2604:1380:4641:c500::1;
- envelope-from=sstabellini@kernel.org; helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: CRppD2vVuylH/g/6sadia5srGLj0vLrwMO6OsxLiNUcVSSi09ccuCNLwmcjzCKBC/MdJ+XLoueuHDV1XOpNYoLeP4OgMQ6WPgoCbwhdOLSBbc2vl2HqCZtWgFZAqr7TkTPFzmOufZ2HQ/LUlMQm8trDqMry0zpZZ0UTLEfJgn9mCbEOvyp0OHStisMzygsL/d5Q3hrGPjQ/+Xwe+cN6EKhOAePhXsSV1ztnVyH4ALXnw3byhPvQXJ5j7g1AuLWC40zZGgoMb+lB2IBkjYhmR95IE7Y2YU8tD9l61JZnGcu+EekmUQBN93HB4/ucDV7xMcMK4+jDshZABstGPlw08xTWmOm1aECKgK+LSOgImoFUt8uU/DijgwmrR3XwtyY8bmCa2jbBX0/lNwRtb1d1EW2/lSEiDJzfkSSmikpkjuSlQCbNB+XFBf8Pzeu9GtBxHWxctGJOpJQHUWpCcQeQnMAUUST69oJBfJkWfo3mbUNufwYc3LE34bTIfb+J05avqxYbF3O4nsN9eUTeraehCxbBl88ACqnbJb3M/JM3OsyFAXkA+4r/sSHpQyRIibRpjl8XH5fk+lRxWT7Ji30uRFWSV0kshuUEBpCmwN17FHKA1xqZyYPpMjXa92G7f0TC6BTmzq9F6jqvVAtrWOHFQB30Z6OH+laHJdQ8i7H86MfUGQZ4I2Q1oLyNGvgBwMMF7ZjQgeLm9RuToyOg+d9riqlL6g89Ulb3idJLDMlBVDFp1/LmywiN2gSApeWz2321GmOccUckMm7Q5UnkjJIVkWw==
+X-OriginatorOrg: quicinc.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BYAPR02MB5509.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0fa6e5e6-436d-4a40-c147-08db04015c2b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Feb 2023 03:06:49.0438 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: sdf+rdxp/Wn7tht75uhPkzSbqOxCG9MqqnCQlJy7XnuySRJecC868Vbd6j+vFoPdbFIVkeRu4pg2gkiicFlxgQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN0PR02MB8144
+X-Proofpoint-ORIG-GUID: aLZNiIkLYP-IGu_bYxPpPBhamKccvuPe
+X-Proofpoint-GUID: aLZNiIkLYP-IGu_bYxPpPBhamKccvuPe
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-31_08,2023-01-31_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ bulkscore=0 mlxscore=0 spamscore=0 suspectscore=0 phishscore=0
+ mlxlogscore=509 impostorscore=0 clxscore=1015 malwarescore=0
+ lowpriorityscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2212070000 definitions=main-2302010024
+Received-SPF: pass client-ip=205.220.180.131; envelope-from=sidneym@quicinc.com;
+ helo=mx0b-0031df01.pphosted.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,2258 +156,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 31 Jan 2023, Vikram Garhwal wrote:
-> From: Stefano Stabellini <stefano.stabellini@amd.com>
-> 
-> This patch does following:
-> 1. creates arch_handle_ioreq() and arch_xen_set_memory(). This is done in
->     preparation for moving most of xen-hvm code to an arch-neutral location,
->     move the x86-specific portion of xen_set_memory to arch_xen_set_memory.
->     Also, move handle_vmport_ioreq to arch_handle_ioreq.
-> 
-> 2. Pure code movement: move common functions to hw/xen/xen-hvm-common.c
->     Extract common functionalities from hw/i386/xen/xen-hvm.c and move them to
->     hw/xen/xen-hvm-common.c. These common functions are useful for creating
->     an IOREQ server.
-> 
->     xen_hvm_init_pc() contains the architecture independent code for creating
->     and mapping a IOREQ server, connecting memory and IO listeners, initializing
->     a xen bus and registering backends. Moved this common xen code to a new
->     function xen_register_ioreq() which can be used by both x86 and ARM machines.
-> 
->     Following functions are moved to hw/xen/xen-hvm-common.c:
->         xen_vcpu_eport(), xen_vcpu_ioreq(), xen_ram_alloc(), xen_set_memory(),
->         xen_region_add(), xen_region_del(), xen_io_add(), xen_io_del(),
->         xen_device_realize(), xen_device_unrealize(),
->         cpu_get_ioreq_from_shared_memory(), cpu_get_ioreq(), do_inp(),
->         do_outp(), rw_phys_req_item(), read_phys_req_item(),
->         write_phys_req_item(), cpu_ioreq_pio(), cpu_ioreq_move(),
->         cpu_ioreq_config(), handle_ioreq(), handle_buffered_iopage(),
->         handle_buffered_io(), cpu_handle_ioreq(), xen_main_loop_prepare(),
->         xen_hvm_change_state_handler(), xen_exit_notifier(),
->         xen_map_ioreq_server(), destroy_hvm_domain() and
->         xen_shutdown_fatal_error()
-> 
-> 3. Removed static type from below functions:
->     1. xen_region_add()
->     2. xen_region_del()
->     3. xen_io_add()
->     4. xen_io_del()
->     5. xen_device_realize()
->     6. xen_device_unrealize()
->     7. xen_hvm_change_state_handler()
->     8. cpu_ioreq_pio()
->     9. xen_exit_notifier()
-> 
-> 4. Replace TARGET_PAGE_SIZE with XC_PAGE_SIZE to match the page side with Xen.
-> 
-> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
-> Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
+--_000_BYAPR02MB55094EC2D6BD8354B3313894BED19BYAPR02MB5509namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
+There is an assert in translator_access that I hit while running on a versi=
+on of QEMU integrated into a Virtual Platform.
 
+Since this function can return null anyway I tried the following experiment=
+:
 
-> ---
->  hw/i386/xen/trace-events        |   14 -
->  hw/i386/xen/xen-hvm.c           | 1019 ++-----------------------------
->  hw/xen/meson.build              |    5 +-
->  hw/xen/trace-events             |   14 +
->  hw/xen/xen-hvm-common.c         |  874 ++++++++++++++++++++++++++
->  include/hw/i386/xen_arch_hvm.h  |   11 +
->  include/hw/xen/arch_hvm.h       |    3 +
->  include/hw/xen/xen-hvm-common.h |   98 +++
->  8 files changed, 1067 insertions(+), 971 deletions(-)
->  create mode 100644 hw/xen/xen-hvm-common.c
->  create mode 100644 include/hw/i386/xen_arch_hvm.h
->  create mode 100644 include/hw/xen/arch_hvm.h
->  create mode 100644 include/hw/xen/xen-hvm-common.h
-> 
-> diff --git a/hw/i386/xen/trace-events b/hw/i386/xen/trace-events
-> index a0c89d91c4..5d0a8d6dcf 100644
-> --- a/hw/i386/xen/trace-events
-> +++ b/hw/i386/xen/trace-events
-> @@ -7,17 +7,3 @@ xen_platform_log(char *s) "xen platform: %s"
->  xen_pv_mmio_read(uint64_t addr) "WARNING: read from Xen PV Device MMIO space (address 0x%"PRIx64")"
->  xen_pv_mmio_write(uint64_t addr) "WARNING: write to Xen PV Device MMIO space (address 0x%"PRIx64")"
->  
-> -# xen-hvm.c
-> -xen_ram_alloc(unsigned long ram_addr, unsigned long size) "requested: 0x%lx, size 0x%lx"
-> -xen_client_set_memory(uint64_t start_addr, unsigned long size, bool log_dirty) "0x%"PRIx64" size 0x%lx, log_dirty %i"
-> -handle_ioreq(void *req, uint32_t type, uint32_t dir, uint32_t df, uint32_t data_is_ptr, uint64_t addr, uint64_t data, uint32_t count, uint32_t size) "I/O=%p type=%d dir=%d df=%d ptr=%d port=0x%"PRIx64" data=0x%"PRIx64" count=%d size=%d"
-> -handle_ioreq_read(void *req, uint32_t type, uint32_t df, uint32_t data_is_ptr, uint64_t addr, uint64_t data, uint32_t count, uint32_t size) "I/O=%p read type=%d df=%d ptr=%d port=0x%"PRIx64" data=0x%"PRIx64" count=%d size=%d"
-> -handle_ioreq_write(void *req, uint32_t type, uint32_t df, uint32_t data_is_ptr, uint64_t addr, uint64_t data, uint32_t count, uint32_t size) "I/O=%p write type=%d df=%d ptr=%d port=0x%"PRIx64" data=0x%"PRIx64" count=%d size=%d"
-> -cpu_ioreq_pio(void *req, uint32_t dir, uint32_t df, uint32_t data_is_ptr, uint64_t addr, uint64_t data, uint32_t count, uint32_t size) "I/O=%p pio dir=%d df=%d ptr=%d port=0x%"PRIx64" data=0x%"PRIx64" count=%d size=%d"
-> -cpu_ioreq_pio_read_reg(void *req, uint64_t data, uint64_t addr, uint32_t size) "I/O=%p pio read reg data=0x%"PRIx64" port=0x%"PRIx64" size=%d"
-> -cpu_ioreq_pio_write_reg(void *req, uint64_t data, uint64_t addr, uint32_t size) "I/O=%p pio write reg data=0x%"PRIx64" port=0x%"PRIx64" size=%d"
-> -cpu_ioreq_move(void *req, uint32_t dir, uint32_t df, uint32_t data_is_ptr, uint64_t addr, uint64_t data, uint32_t count, uint32_t size) "I/O=%p copy dir=%d df=%d ptr=%d port=0x%"PRIx64" data=0x%"PRIx64" count=%d size=%d"
-> -xen_map_resource_ioreq(uint32_t id, void *addr) "id: %u addr: %p"
-> -cpu_ioreq_config_read(void *req, uint32_t sbdf, uint32_t reg, uint32_t size, uint32_t data) "I/O=%p sbdf=0x%x reg=%u size=%u data=0x%x"
-> -cpu_ioreq_config_write(void *req, uint32_t sbdf, uint32_t reg, uint32_t size, uint32_t data) "I/O=%p sbdf=0x%x reg=%u size=%u data=0x%x"
-> -
-> diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
-> index 06c446e7be..4219308caf 100644
-> --- a/hw/i386/xen/xen-hvm.c
-> +++ b/hw/i386/xen/xen-hvm.c
-> @@ -10,43 +10,21 @@
->  
->  #include "qemu/osdep.h"
->  #include "qemu/units.h"
-> +#include "qapi/error.h"
-> +#include "qapi/qapi-commands-migration.h"
-> +#include "trace.h"
->  
-> -#include "cpu.h"
-> -#include "hw/pci/pci.h"
-> -#include "hw/pci/pci_host.h"
->  #include "hw/i386/pc.h"
->  #include "hw/irq.h"
-> -#include "hw/hw.h"
->  #include "hw/i386/apic-msidef.h"
-> -#include "hw/xen/xen_common.h"
-> -#include "hw/xen/xen-legacy-backend.h"
-> -#include "hw/xen/xen-bus.h"
->  #include "hw/xen/xen-x86.h"
-> -#include "qapi/error.h"
-> -#include "qapi/qapi-commands-migration.h"
-> -#include "qemu/error-report.h"
-> -#include "qemu/main-loop.h"
->  #include "qemu/range.h"
-> -#include "sysemu/runstate.h"
-> -#include "sysemu/sysemu.h"
-> -#include "sysemu/xen.h"
-> -#include "sysemu/xen-mapcache.h"
-> -#include "trace.h"
->  
-> -#include <xen/hvm/ioreq.h>
-> +#include "hw/xen/xen-hvm-common.h"
-> +#include "hw/xen/arch_hvm.h"
->  #include <xen/hvm/e820.h>
->  
-> -//#define DEBUG_XEN_HVM
-> -
-> -#ifdef DEBUG_XEN_HVM
-> -#define DPRINTF(fmt, ...) \
-> -    do { fprintf(stderr, "xen: " fmt, ## __VA_ARGS__); } while (0)
-> -#else
-> -#define DPRINTF(fmt, ...) \
-> -    do { } while (0)
-> -#endif
-> -
-> -static MemoryRegion ram_memory, ram_640k, ram_lo, ram_hi;
-> +static MemoryRegion ram_640k, ram_lo, ram_hi;
->  static MemoryRegion *framebuffer;
->  static bool xen_in_migration;
->  
-> @@ -73,27 +51,8 @@ struct shared_vmport_iopage {
->  };
->  typedef struct shared_vmport_iopage shared_vmport_iopage_t;
->  #endif
-> -static shared_vmport_iopage_t *shared_vmport_page;
->  
-> -static inline uint32_t xen_vcpu_eport(shared_iopage_t *shared_page, int i)
-> -{
-> -    return shared_page->vcpu_ioreq[i].vp_eport;
-> -}
-> -static inline ioreq_t *xen_vcpu_ioreq(shared_iopage_t *shared_page, int vcpu)
-> -{
-> -    return &shared_page->vcpu_ioreq[vcpu];
-> -}
-> -
-> -#define BUFFER_IO_MAX_DELAY  100
-> -
-> -typedef struct XenPhysmap {
-> -    hwaddr start_addr;
-> -    ram_addr_t size;
-> -    const char *name;
-> -    hwaddr phys_offset;
-> -
-> -    QLIST_ENTRY(XenPhysmap) list;
-> -} XenPhysmap;
-> +static shared_vmport_iopage_t *shared_vmport_page;
->  
->  static QLIST_HEAD(, XenPhysmap) xen_physmap;
->  static const XenPhysmap *log_for_dirtybit;
-> @@ -102,38 +61,6 @@ static unsigned long *dirty_bitmap;
->  static Notifier suspend;
->  static Notifier wakeup;
->  
-> -typedef struct XenPciDevice {
-> -    PCIDevice *pci_dev;
-> -    uint32_t sbdf;
-> -    QLIST_ENTRY(XenPciDevice) entry;
-> -} XenPciDevice;
-> -
-> -typedef struct XenIOState {
-> -    ioservid_t ioservid;
-> -    shared_iopage_t *shared_page;
-> -    buffered_iopage_t *buffered_io_page;
-> -    xenforeignmemory_resource_handle *fres;
-> -    QEMUTimer *buffered_io_timer;
-> -    CPUState **cpu_by_vcpu_id;
-> -    /* the evtchn port for polling the notification, */
-> -    evtchn_port_t *ioreq_local_port;
-> -    /* evtchn remote and local ports for buffered io */
-> -    evtchn_port_t bufioreq_remote_port;
-> -    evtchn_port_t bufioreq_local_port;
-> -    /* the evtchn fd for polling */
-> -    xenevtchn_handle *xce_handle;
-> -    /* which vcpu we are serving */
-> -    int send_vcpu;
-> -
-> -    struct xs_handle *xenstore;
-> -    MemoryListener memory_listener;
-> -    MemoryListener io_listener;
-> -    QLIST_HEAD(, XenPciDevice) dev_list;
-> -    DeviceListener device_listener;
-> -
-> -    Notifier exit;
-> -} XenIOState;
-> -
->  /* Xen specific function for piix pci */
->  
->  int xen_pci_slot_get_pirq(PCIDevice *pci_dev, int irq_num)
-> @@ -246,42 +173,6 @@ static void xen_ram_init(PCMachineState *pcms,
->      }
->  }
->  
-> -void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t size, MemoryRegion *mr,
-> -                   Error **errp)
-> -{
-> -    unsigned long nr_pfn;
-> -    xen_pfn_t *pfn_list;
-> -    int i;
-> -
-> -    if (runstate_check(RUN_STATE_INMIGRATE)) {
-> -        /* RAM already populated in Xen */
-> -        fprintf(stderr, "%s: do not alloc "RAM_ADDR_FMT
-> -                " bytes of ram at "RAM_ADDR_FMT" when runstate is INMIGRATE\n",
-> -                __func__, size, ram_addr);
-> -        return;
-> -    }
-> -
-> -    if (mr == &ram_memory) {
-> -        return;
-> -    }
-> -
-> -    trace_xen_ram_alloc(ram_addr, size);
-> -
-> -    nr_pfn = size >> TARGET_PAGE_BITS;
-> -    pfn_list = g_malloc(sizeof (*pfn_list) * nr_pfn);
-> -
-> -    for (i = 0; i < nr_pfn; i++) {
-> -        pfn_list[i] = (ram_addr >> TARGET_PAGE_BITS) + i;
-> -    }
-> -
-> -    if (xc_domain_populate_physmap_exact(xen_xc, xen_domid, nr_pfn, 0, 0, pfn_list)) {
-> -        error_setg(errp, "xen: failed to populate ram at " RAM_ADDR_FMT,
-> -                   ram_addr);
-> -    }
-> -
-> -    g_free(pfn_list);
-> -}
-> -
->  static XenPhysmap *get_physmapping(hwaddr start_addr, ram_addr_t size)
->  {
->      XenPhysmap *physmap = NULL;
-> @@ -471,144 +362,6 @@ static int xen_remove_from_physmap(XenIOState *state,
->      return 0;
->  }
->  
-> -static void xen_set_memory(struct MemoryListener *listener,
-> -                           MemoryRegionSection *section,
-> -                           bool add)
-> -{
-> -    XenIOState *state = container_of(listener, XenIOState, memory_listener);
-> -    hwaddr start_addr = section->offset_within_address_space;
-> -    ram_addr_t size = int128_get64(section->size);
-> -    bool log_dirty = memory_region_is_logging(section->mr, DIRTY_MEMORY_VGA);
-> -    hvmmem_type_t mem_type;
-> -
-> -    if (section->mr == &ram_memory) {
-> -        return;
-> -    } else {
-> -        if (add) {
-> -            xen_map_memory_section(xen_domid, state->ioservid,
-> -                                   section);
-> -        } else {
-> -            xen_unmap_memory_section(xen_domid, state->ioservid,
-> -                                     section);
-> -        }
-> -    }
-> -
-> -    if (!memory_region_is_ram(section->mr)) {
-> -        return;
-> -    }
-> -
-> -    if (log_dirty != add) {
-> -        return;
-> -    }
-> -
-> -    trace_xen_client_set_memory(start_addr, size, log_dirty);
-> -
-> -    start_addr &= TARGET_PAGE_MASK;
-> -    size = TARGET_PAGE_ALIGN(size);
-> -
-> -    if (add) {
-> -        if (!memory_region_is_rom(section->mr)) {
-> -            xen_add_to_physmap(state, start_addr, size,
-> -                               section->mr, section->offset_within_region);
-> -        } else {
-> -            mem_type = HVMMEM_ram_ro;
-> -            if (xen_set_mem_type(xen_domid, mem_type,
-> -                                 start_addr >> TARGET_PAGE_BITS,
-> -                                 size >> TARGET_PAGE_BITS)) {
-> -                DPRINTF("xen_set_mem_type error, addr: "HWADDR_FMT_plx"\n",
-> -                        start_addr);
-> -            }
-> -        }
-> -    } else {
-> -        if (xen_remove_from_physmap(state, start_addr, size) < 0) {
-> -            DPRINTF("physmapping does not exist at "HWADDR_FMT_plx"\n", start_addr);
-> -        }
-> -    }
-> -}
-> -
-> -static void xen_region_add(MemoryListener *listener,
-> -                           MemoryRegionSection *section)
-> -{
-> -    memory_region_ref(section->mr);
-> -    xen_set_memory(listener, section, true);
-> -}
-> -
-> -static void xen_region_del(MemoryListener *listener,
-> -                           MemoryRegionSection *section)
-> -{
-> -    xen_set_memory(listener, section, false);
-> -    memory_region_unref(section->mr);
-> -}
-> -
-> -static void xen_io_add(MemoryListener *listener,
-> -                       MemoryRegionSection *section)
-> -{
-> -    XenIOState *state = container_of(listener, XenIOState, io_listener);
-> -    MemoryRegion *mr = section->mr;
-> -
-> -    if (mr->ops == &unassigned_io_ops) {
-> -        return;
-> -    }
-> -
-> -    memory_region_ref(mr);
-> -
-> -    xen_map_io_section(xen_domid, state->ioservid, section);
-> -}
-> -
-> -static void xen_io_del(MemoryListener *listener,
-> -                       MemoryRegionSection *section)
-> -{
-> -    XenIOState *state = container_of(listener, XenIOState, io_listener);
-> -    MemoryRegion *mr = section->mr;
-> -
-> -    if (mr->ops == &unassigned_io_ops) {
-> -        return;
-> -    }
-> -
-> -    xen_unmap_io_section(xen_domid, state->ioservid, section);
-> -
-> -    memory_region_unref(mr);
-> -}
-> -
-> -static void xen_device_realize(DeviceListener *listener,
-> -                               DeviceState *dev)
-> -{
-> -    XenIOState *state = container_of(listener, XenIOState, device_listener);
-> -
-> -    if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-> -        PCIDevice *pci_dev = PCI_DEVICE(dev);
-> -        XenPciDevice *xendev = g_new(XenPciDevice, 1);
-> -
-> -        xendev->pci_dev = pci_dev;
-> -        xendev->sbdf = PCI_BUILD_BDF(pci_dev_bus_num(pci_dev),
-> -                                     pci_dev->devfn);
-> -        QLIST_INSERT_HEAD(&state->dev_list, xendev, entry);
-> -
-> -        xen_map_pcidev(xen_domid, state->ioservid, pci_dev);
-> -    }
-> -}
-> -
-> -static void xen_device_unrealize(DeviceListener *listener,
-> -                                 DeviceState *dev)
-> -{
-> -    XenIOState *state = container_of(listener, XenIOState, device_listener);
-> -
-> -    if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-> -        PCIDevice *pci_dev = PCI_DEVICE(dev);
-> -        XenPciDevice *xendev, *next;
-> -
-> -        xen_unmap_pcidev(xen_domid, state->ioservid, pci_dev);
-> -
-> -        QLIST_FOREACH_SAFE(xendev, &state->dev_list, entry, next) {
-> -            if (xendev->pci_dev == pci_dev) {
-> -                QLIST_REMOVE(xendev, entry);
-> -                g_free(xendev);
-> -                break;
-> -            }
-> -        }
-> -    }
-> -}
-> -
->  static void xen_sync_dirty_bitmap(XenIOState *state,
->                                    hwaddr start_addr,
->                                    ram_addr_t size)
-> @@ -716,277 +469,6 @@ static MemoryListener xen_memory_listener = {
->      .priority = 10,
->  };
->  
-> -static MemoryListener xen_io_listener = {
-> -    .name = "xen-io",
-> -    .region_add = xen_io_add,
-> -    .region_del = xen_io_del,
-> -    .priority = 10,
-> -};
-> -
-> -static DeviceListener xen_device_listener = {
-> -    .realize = xen_device_realize,
-> -    .unrealize = xen_device_unrealize,
-> -};
-> -
-> -/* get the ioreq packets from share mem */
-> -static ioreq_t *cpu_get_ioreq_from_shared_memory(XenIOState *state, int vcpu)
-> -{
-> -    ioreq_t *req = xen_vcpu_ioreq(state->shared_page, vcpu);
-> -
-> -    if (req->state != STATE_IOREQ_READY) {
-> -        DPRINTF("I/O request not ready: "
-> -                "%x, ptr: %x, port: %"PRIx64", "
-> -                "data: %"PRIx64", count: %u, size: %u\n",
-> -                req->state, req->data_is_ptr, req->addr,
-> -                req->data, req->count, req->size);
-> -        return NULL;
-> -    }
-> -
-> -    xen_rmb(); /* see IOREQ_READY /then/ read contents of ioreq */
-> -
-> -    req->state = STATE_IOREQ_INPROCESS;
-> -    return req;
-> -}
-> -
-> -/* use poll to get the port notification */
-> -/* ioreq_vec--out,the */
-> -/* retval--the number of ioreq packet */
-> -static ioreq_t *cpu_get_ioreq(XenIOState *state)
-> -{
-> -    MachineState *ms = MACHINE(qdev_get_machine());
-> -    unsigned int max_cpus = ms->smp.max_cpus;
-> -    int i;
-> -    evtchn_port_t port;
-> -
-> -    port = xenevtchn_pending(state->xce_handle);
-> -    if (port == state->bufioreq_local_port) {
-> -        timer_mod(state->buffered_io_timer,
-> -                BUFFER_IO_MAX_DELAY + qemu_clock_get_ms(QEMU_CLOCK_REALTIME));
-> -        return NULL;
-> -    }
-> -
-> -    if (port != -1) {
-> -        for (i = 0; i < max_cpus; i++) {
-> -            if (state->ioreq_local_port[i] == port) {
-> -                break;
-> -            }
-> -        }
-> -
-> -        if (i == max_cpus) {
-> -            hw_error("Fatal error while trying to get io event!\n");
-> -        }
-> -
-> -        /* unmask the wanted port again */
-> -        xenevtchn_unmask(state->xce_handle, port);
-> -
-> -        /* get the io packet from shared memory */
-> -        state->send_vcpu = i;
-> -        return cpu_get_ioreq_from_shared_memory(state, i);
-> -    }
-> -
-> -    /* read error or read nothing */
-> -    return NULL;
-> -}
-> -
-> -static uint32_t do_inp(uint32_t addr, unsigned long size)
-> -{
-> -    switch (size) {
-> -        case 1:
-> -            return cpu_inb(addr);
-> -        case 2:
-> -            return cpu_inw(addr);
-> -        case 4:
-> -            return cpu_inl(addr);
-> -        default:
-> -            hw_error("inp: bad size: %04x %lx", addr, size);
-> -    }
-> -}
-> -
-> -static void do_outp(uint32_t addr,
-> -        unsigned long size, uint32_t val)
-> -{
-> -    switch (size) {
-> -        case 1:
-> -            return cpu_outb(addr, val);
-> -        case 2:
-> -            return cpu_outw(addr, val);
-> -        case 4:
-> -            return cpu_outl(addr, val);
-> -        default:
-> -            hw_error("outp: bad size: %04x %lx", addr, size);
-> -    }
-> -}
-> -
-> -/*
-> - * Helper functions which read/write an object from/to physical guest
-> - * memory, as part of the implementation of an ioreq.
-> - *
-> - * Equivalent to
-> - *   cpu_physical_memory_rw(addr + (req->df ? -1 : +1) * req->size * i,
-> - *                          val, req->size, 0/1)
-> - * except without the integer overflow problems.
-> - */
-> -static void rw_phys_req_item(hwaddr addr,
-> -                             ioreq_t *req, uint32_t i, void *val, int rw)
-> -{
-> -    /* Do everything unsigned so overflow just results in a truncated result
-> -     * and accesses to undesired parts of guest memory, which is up
-> -     * to the guest */
-> -    hwaddr offset = (hwaddr)req->size * i;
-> -    if (req->df) {
-> -        addr -= offset;
-> -    } else {
-> -        addr += offset;
-> -    }
-> -    cpu_physical_memory_rw(addr, val, req->size, rw);
-> -}
-> -
-> -static inline void read_phys_req_item(hwaddr addr,
-> -                                      ioreq_t *req, uint32_t i, void *val)
-> -{
-> -    rw_phys_req_item(addr, req, i, val, 0);
-> -}
-> -static inline void write_phys_req_item(hwaddr addr,
-> -                                       ioreq_t *req, uint32_t i, void *val)
-> -{
-> -    rw_phys_req_item(addr, req, i, val, 1);
-> -}
-> -
-> -
-> -static void cpu_ioreq_pio(ioreq_t *req)
-> -{
-> -    uint32_t i;
-> -
-> -    trace_cpu_ioreq_pio(req, req->dir, req->df, req->data_is_ptr, req->addr,
-> -                         req->data, req->count, req->size);
-> -
-> -    if (req->size > sizeof(uint32_t)) {
-> -        hw_error("PIO: bad size (%u)", req->size);
-> -    }
-> -
-> -    if (req->dir == IOREQ_READ) {
-> -        if (!req->data_is_ptr) {
-> -            req->data = do_inp(req->addr, req->size);
-> -            trace_cpu_ioreq_pio_read_reg(req, req->data, req->addr,
-> -                                         req->size);
-> -        } else {
-> -            uint32_t tmp;
-> -
-> -            for (i = 0; i < req->count; i++) {
-> -                tmp = do_inp(req->addr, req->size);
-> -                write_phys_req_item(req->data, req, i, &tmp);
-> -            }
-> -        }
-> -    } else if (req->dir == IOREQ_WRITE) {
-> -        if (!req->data_is_ptr) {
-> -            trace_cpu_ioreq_pio_write_reg(req, req->data, req->addr,
-> -                                          req->size);
-> -            do_outp(req->addr, req->size, req->data);
-> -        } else {
-> -            for (i = 0; i < req->count; i++) {
-> -                uint32_t tmp = 0;
-> -
-> -                read_phys_req_item(req->data, req, i, &tmp);
-> -                do_outp(req->addr, req->size, tmp);
-> -            }
-> -        }
-> -    }
-> -}
-> -
-> -static void cpu_ioreq_move(ioreq_t *req)
-> -{
-> -    uint32_t i;
-> -
-> -    trace_cpu_ioreq_move(req, req->dir, req->df, req->data_is_ptr, req->addr,
-> -                         req->data, req->count, req->size);
-> -
-> -    if (req->size > sizeof(req->data)) {
-> -        hw_error("MMIO: bad size (%u)", req->size);
-> -    }
-> -
-> -    if (!req->data_is_ptr) {
-> -        if (req->dir == IOREQ_READ) {
-> -            for (i = 0; i < req->count; i++) {
-> -                read_phys_req_item(req->addr, req, i, &req->data);
-> -            }
-> -        } else if (req->dir == IOREQ_WRITE) {
-> -            for (i = 0; i < req->count; i++) {
-> -                write_phys_req_item(req->addr, req, i, &req->data);
-> -            }
-> -        }
-> -    } else {
-> -        uint64_t tmp;
-> -
-> -        if (req->dir == IOREQ_READ) {
-> -            for (i = 0; i < req->count; i++) {
-> -                read_phys_req_item(req->addr, req, i, &tmp);
-> -                write_phys_req_item(req->data, req, i, &tmp);
-> -            }
-> -        } else if (req->dir == IOREQ_WRITE) {
-> -            for (i = 0; i < req->count; i++) {
-> -                read_phys_req_item(req->data, req, i, &tmp);
-> -                write_phys_req_item(req->addr, req, i, &tmp);
-> -            }
-> -        }
-> -    }
-> -}
-> -
-> -static void cpu_ioreq_config(XenIOState *state, ioreq_t *req)
-> -{
-> -    uint32_t sbdf = req->addr >> 32;
-> -    uint32_t reg = req->addr;
-> -    XenPciDevice *xendev;
-> -
-> -    if (req->size != sizeof(uint8_t) && req->size != sizeof(uint16_t) &&
-> -        req->size != sizeof(uint32_t)) {
-> -        hw_error("PCI config access: bad size (%u)", req->size);
-> -    }
-> -
-> -    if (req->count != 1) {
-> -        hw_error("PCI config access: bad count (%u)", req->count);
-> -    }
-> -
-> -    QLIST_FOREACH(xendev, &state->dev_list, entry) {
-> -        if (xendev->sbdf != sbdf) {
-> -            continue;
-> -        }
-> -
-> -        if (!req->data_is_ptr) {
-> -            if (req->dir == IOREQ_READ) {
-> -                req->data = pci_host_config_read_common(
-> -                    xendev->pci_dev, reg, PCI_CONFIG_SPACE_SIZE,
-> -                    req->size);
-> -                trace_cpu_ioreq_config_read(req, xendev->sbdf, reg,
-> -                                            req->size, req->data);
-> -            } else if (req->dir == IOREQ_WRITE) {
-> -                trace_cpu_ioreq_config_write(req, xendev->sbdf, reg,
-> -                                             req->size, req->data);
-> -                pci_host_config_write_common(
-> -                    xendev->pci_dev, reg, PCI_CONFIG_SPACE_SIZE,
-> -                    req->data, req->size);
-> -            }
-> -        } else {
-> -            uint32_t tmp;
-> -
-> -            if (req->dir == IOREQ_READ) {
-> -                tmp = pci_host_config_read_common(
-> -                    xendev->pci_dev, reg, PCI_CONFIG_SPACE_SIZE,
-> -                    req->size);
-> -                trace_cpu_ioreq_config_read(req, xendev->sbdf, reg,
-> -                                            req->size, tmp);
-> -                write_phys_req_item(req->data, req, 0, &tmp);
-> -            } else if (req->dir == IOREQ_WRITE) {
-> -                read_phys_req_item(req->data, req, 0, &tmp);
-> -                trace_cpu_ioreq_config_write(req, xendev->sbdf, reg,
-> -                                             req->size, tmp);
-> -                pci_host_config_write_common(
-> -                    xendev->pci_dev, reg, PCI_CONFIG_SPACE_SIZE,
-> -                    tmp, req->size);
-> -            }
-> -        }
-> -    }
-> -}
-> -
->  static void regs_to_cpu(vmware_regs_t *vmport_regs, ioreq_t *req)
->  {
->      X86CPU *cpu;
-> @@ -1030,226 +512,6 @@ static void handle_vmport_ioreq(XenIOState *state, ioreq_t *req)
->      current_cpu = NULL;
->  }
->  
-> -static void handle_ioreq(XenIOState *state, ioreq_t *req)
-> -{
-> -    trace_handle_ioreq(req, req->type, req->dir, req->df, req->data_is_ptr,
-> -                       req->addr, req->data, req->count, req->size);
-> -
-> -    if (!req->data_is_ptr && (req->dir == IOREQ_WRITE) &&
-> -            (req->size < sizeof (target_ulong))) {
-> -        req->data &= ((target_ulong) 1 << (8 * req->size)) - 1;
-> -    }
-> -
-> -    if (req->dir == IOREQ_WRITE)
-> -        trace_handle_ioreq_write(req, req->type, req->df, req->data_is_ptr,
-> -                                 req->addr, req->data, req->count, req->size);
-> -
-> -    switch (req->type) {
-> -        case IOREQ_TYPE_PIO:
-> -            cpu_ioreq_pio(req);
-> -            break;
-> -        case IOREQ_TYPE_COPY:
-> -            cpu_ioreq_move(req);
-> -            break;
-> -        case IOREQ_TYPE_VMWARE_PORT:
-> -            handle_vmport_ioreq(state, req);
-> -            break;
-> -        case IOREQ_TYPE_TIMEOFFSET:
-> -            break;
-> -        case IOREQ_TYPE_INVALIDATE:
-> -            xen_invalidate_map_cache();
-> -            break;
-> -        case IOREQ_TYPE_PCI_CONFIG:
-> -            cpu_ioreq_config(state, req);
-> -            break;
-> -        default:
-> -            hw_error("Invalid ioreq type 0x%x\n", req->type);
-> -    }
-> -    if (req->dir == IOREQ_READ) {
-> -        trace_handle_ioreq_read(req, req->type, req->df, req->data_is_ptr,
-> -                                req->addr, req->data, req->count, req->size);
-> -    }
-> -}
-> -
-> -static bool handle_buffered_iopage(XenIOState *state)
-> -{
-> -    buffered_iopage_t *buf_page = state->buffered_io_page;
-> -    buf_ioreq_t *buf_req = NULL;
-> -    bool handled_ioreq = false;
-> -    ioreq_t req;
-> -    int qw;
-> -
-> -    if (!buf_page) {
-> -        return 0;
-> -    }
-> -
-> -    memset(&req, 0x00, sizeof(req));
-> -    req.state = STATE_IOREQ_READY;
-> -    req.count = 1;
-> -    req.dir = IOREQ_WRITE;
-> -
-> -    for (;;) {
-> -        uint32_t rdptr = buf_page->read_pointer, wrptr;
-> -
-> -        xen_rmb();
-> -        wrptr = buf_page->write_pointer;
-> -        xen_rmb();
-> -        if (rdptr != buf_page->read_pointer) {
-> -            continue;
-> -        }
-> -        if (rdptr == wrptr) {
-> -            break;
-> -        }
-> -        buf_req = &buf_page->buf_ioreq[rdptr % IOREQ_BUFFER_SLOT_NUM];
-> -        req.size = 1U << buf_req->size;
-> -        req.addr = buf_req->addr;
-> -        req.data = buf_req->data;
-> -        req.type = buf_req->type;
-> -        xen_rmb();
-> -        qw = (req.size == 8);
-> -        if (qw) {
-> -            if (rdptr + 1 == wrptr) {
-> -                hw_error("Incomplete quad word buffered ioreq");
-> -            }
-> -            buf_req = &buf_page->buf_ioreq[(rdptr + 1) %
-> -                                           IOREQ_BUFFER_SLOT_NUM];
-> -            req.data |= ((uint64_t)buf_req->data) << 32;
-> -            xen_rmb();
-> -        }
-> -
-> -        handle_ioreq(state, &req);
-> -
-> -        /* Only req.data may get updated by handle_ioreq(), albeit even that
-> -         * should not happen as such data would never make it to the guest (we
-> -         * can only usefully see writes here after all).
-> -         */
-> -        assert(req.state == STATE_IOREQ_READY);
-> -        assert(req.count == 1);
-> -        assert(req.dir == IOREQ_WRITE);
-> -        assert(!req.data_is_ptr);
-> -
-> -        qatomic_add(&buf_page->read_pointer, qw + 1);
-> -        handled_ioreq = true;
-> -    }
-> -
-> -    return handled_ioreq;
-> -}
-> -
-> -static void handle_buffered_io(void *opaque)
-> -{
-> -    XenIOState *state = opaque;
-> -
-> -    if (handle_buffered_iopage(state)) {
-> -        timer_mod(state->buffered_io_timer,
-> -                BUFFER_IO_MAX_DELAY + qemu_clock_get_ms(QEMU_CLOCK_REALTIME));
-> -    } else {
-> -        timer_del(state->buffered_io_timer);
-> -        xenevtchn_unmask(state->xce_handle, state->bufioreq_local_port);
-> -    }
-> -}
-> -
-> -static void cpu_handle_ioreq(void *opaque)
-> -{
-> -    XenIOState *state = opaque;
-> -    ioreq_t *req = cpu_get_ioreq(state);
-> -
-> -    handle_buffered_iopage(state);
-> -    if (req) {
-> -        ioreq_t copy = *req;
-> -
-> -        xen_rmb();
-> -        handle_ioreq(state, &copy);
-> -        req->data = copy.data;
-> -
-> -        if (req->state != STATE_IOREQ_INPROCESS) {
-> -            fprintf(stderr, "Badness in I/O request ... not in service?!: "
-> -                    "%x, ptr: %x, port: %"PRIx64", "
-> -                    "data: %"PRIx64", count: %u, size: %u, type: %u\n",
-> -                    req->state, req->data_is_ptr, req->addr,
-> -                    req->data, req->count, req->size, req->type);
-> -            destroy_hvm_domain(false);
-> -            return;
-> -        }
-> -
-> -        xen_wmb(); /* Update ioreq contents /then/ update state. */
-> -
-> -        /*
-> -         * We do this before we send the response so that the tools
-> -         * have the opportunity to pick up on the reset before the
-> -         * guest resumes and does a hlt with interrupts disabled which
-> -         * causes Xen to powerdown the domain.
-> -         */
-> -        if (runstate_is_running()) {
-> -            ShutdownCause request;
-> -
-> -            if (qemu_shutdown_requested_get()) {
-> -                destroy_hvm_domain(false);
-> -            }
-> -            request = qemu_reset_requested_get();
-> -            if (request) {
-> -                qemu_system_reset(request);
-> -                destroy_hvm_domain(true);
-> -            }
-> -        }
-> -
-> -        req->state = STATE_IORESP_READY;
-> -        xenevtchn_notify(state->xce_handle,
-> -                         state->ioreq_local_port[state->send_vcpu]);
-> -    }
-> -}
-> -
-> -static void xen_main_loop_prepare(XenIOState *state)
-> -{
-> -    int evtchn_fd = -1;
-> -
-> -    if (state->xce_handle != NULL) {
-> -        evtchn_fd = xenevtchn_fd(state->xce_handle);
-> -    }
-> -
-> -    state->buffered_io_timer = timer_new_ms(QEMU_CLOCK_REALTIME, handle_buffered_io,
-> -                                                 state);
-> -
-> -    if (evtchn_fd != -1) {
-> -        CPUState *cpu_state;
-> -
-> -        DPRINTF("%s: Init cpu_by_vcpu_id\n", __func__);
-> -        CPU_FOREACH(cpu_state) {
-> -            DPRINTF("%s: cpu_by_vcpu_id[%d]=%p\n",
-> -                    __func__, cpu_state->cpu_index, cpu_state);
-> -            state->cpu_by_vcpu_id[cpu_state->cpu_index] = cpu_state;
-> -        }
-> -        qemu_set_fd_handler(evtchn_fd, cpu_handle_ioreq, NULL, state);
-> -    }
-> -}
-> -
-> -
-> -static void xen_hvm_change_state_handler(void *opaque, bool running,
-> -                                         RunState rstate)
-> -{
-> -    XenIOState *state = opaque;
-> -
-> -    if (running) {
-> -        xen_main_loop_prepare(state);
-> -    }
-> -
-> -    xen_set_ioreq_server_state(xen_domid,
-> -                               state->ioservid,
-> -                               (rstate == RUN_STATE_RUNNING));
-> -}
-> -
-> -static void xen_exit_notifier(Notifier *n, void *data)
-> -{
-> -    XenIOState *state = container_of(n, XenIOState, exit);
-> -
-> -    xen_destroy_ioreq_server(xen_domid, state->ioservid);
-> -    if (state->fres != NULL) {
-> -        xenforeignmemory_unmap_resource(xen_fmem, state->fres);
-> -    }
-> -
-> -    xenevtchn_close(state->xce_handle);
-> -    xs_daemon_close(state->xenstore);
-> -}
-> -
->  #ifdef XEN_COMPAT_PHYSMAP
->  static void xen_read_physmap(XenIOState *state)
->  {
-> @@ -1309,178 +571,17 @@ static void xen_wakeup_notifier(Notifier *notifier, void *data)
->      xc_set_hvm_param(xen_xc, xen_domid, HVM_PARAM_ACPI_S_STATE, 0);
->  }
->  
-> -static int xen_map_ioreq_server(XenIOState *state)
-> -{
-> -    void *addr = NULL;
-> -    xen_pfn_t ioreq_pfn;
-> -    xen_pfn_t bufioreq_pfn;
-> -    evtchn_port_t bufioreq_evtchn;
-> -    int rc;
-> -
-> -    /*
-> -     * Attempt to map using the resource API and fall back to normal
-> -     * foreign mapping if this is not supported.
-> -     */
-> -    QEMU_BUILD_BUG_ON(XENMEM_resource_ioreq_server_frame_bufioreq != 0);
-> -    QEMU_BUILD_BUG_ON(XENMEM_resource_ioreq_server_frame_ioreq(0) != 1);
-> -    state->fres = xenforeignmemory_map_resource(xen_fmem, xen_domid,
-> -                                         XENMEM_resource_ioreq_server,
-> -                                         state->ioservid, 0, 2,
-> -                                         &addr,
-> -                                         PROT_READ | PROT_WRITE, 0);
-> -    if (state->fres != NULL) {
-> -        trace_xen_map_resource_ioreq(state->ioservid, addr);
-> -        state->buffered_io_page = addr;
-> -        state->shared_page = addr + TARGET_PAGE_SIZE;
-> -    } else if (errno != EOPNOTSUPP) {
-> -        error_report("failed to map ioreq server resources: error %d handle=%p",
-> -                     errno, xen_xc);
-> -        return -1;
-> -    }
-> -
-> -    rc = xen_get_ioreq_server_info(xen_domid, state->ioservid,
-> -                                   (state->shared_page == NULL) ?
-> -                                   &ioreq_pfn : NULL,
-> -                                   (state->buffered_io_page == NULL) ?
-> -                                   &bufioreq_pfn : NULL,
-> -                                   &bufioreq_evtchn);
-> -    if (rc < 0) {
-> -        error_report("failed to get ioreq server info: error %d handle=%p",
-> -                     errno, xen_xc);
-> -        return rc;
-> -    }
-> -
-> -    if (state->shared_page == NULL) {
-> -        DPRINTF("shared page at pfn %lx\n", ioreq_pfn);
-> -
-> -        state->shared_page = xenforeignmemory_map(xen_fmem, xen_domid,
-> -                                                  PROT_READ | PROT_WRITE,
-> -                                                  1, &ioreq_pfn, NULL);
-> -        if (state->shared_page == NULL) {
-> -            error_report("map shared IO page returned error %d handle=%p",
-> -                         errno, xen_xc);
-> -        }
-> -    }
-> -
-> -    if (state->buffered_io_page == NULL) {
-> -        DPRINTF("buffered io page at pfn %lx\n", bufioreq_pfn);
-> -
-> -        state->buffered_io_page = xenforeignmemory_map(xen_fmem, xen_domid,
-> -                                                       PROT_READ | PROT_WRITE,
-> -                                                       1, &bufioreq_pfn,
-> -                                                       NULL);
-> -        if (state->buffered_io_page == NULL) {
-> -            error_report("map buffered IO page returned error %d", errno);
-> -            return -1;
-> -        }
-> -    }
-> -
-> -    if (state->shared_page == NULL || state->buffered_io_page == NULL) {
-> -        return -1;
-> -    }
-> -
-> -    DPRINTF("buffered io evtchn is %x\n", bufioreq_evtchn);
-> -
-> -    state->bufioreq_remote_port = bufioreq_evtchn;
-> -
-> -    return 0;
-> -}
-> -
->  void xen_hvm_init_pc(PCMachineState *pcms, MemoryRegion **ram_memory)
->  {
->      MachineState *ms = MACHINE(pcms);
->      unsigned int max_cpus = ms->smp.max_cpus;
-> -    int i, rc;
-> +    int rc;
->      xen_pfn_t ioreq_pfn;
->      XenIOState *state;
->  
->      state = g_new0(XenIOState, 1);
->  
-> -    state->xce_handle = xenevtchn_open(NULL, 0);
-> -    if (state->xce_handle == NULL) {
-> -        perror("xen: event channel open");
-> -        goto err;
-> -    }
-> -
-> -    state->xenstore = xs_daemon_open();
-> -    if (state->xenstore == NULL) {
-> -        perror("xen: xenstore open");
-> -        goto err;
-> -    }
-> -
-> -    xen_create_ioreq_server(xen_domid, &state->ioservid);
-> -
-> -    state->exit.notify = xen_exit_notifier;
-> -    qemu_add_exit_notifier(&state->exit);
-> -
-> -    /*
-> -     * Register wake-up support in QMP query-current-machine API
-> -     */
-> -    qemu_register_wakeup_support();
-> -
-> -    rc = xen_map_ioreq_server(state);
-> -    if (rc < 0) {
-> -        goto err;
-> -    }
-> -
-> -    /* Note: cpus is empty at this point in init */
-> -    state->cpu_by_vcpu_id = g_new0(CPUState *, max_cpus);
-> -
-> -    rc = xen_set_ioreq_server_state(xen_domid, state->ioservid, true);
-> -    if (rc < 0) {
-> -        error_report("failed to enable ioreq server info: error %d handle=%p",
-> -                     errno, xen_xc);
-> -        goto err;
-> -    }
-> -
-> -    state->ioreq_local_port = g_new0(evtchn_port_t, max_cpus);
-> -
-> -    /* FIXME: how about if we overflow the page here? */
-> -    for (i = 0; i < max_cpus; i++) {
-> -        rc = xenevtchn_bind_interdomain(state->xce_handle, xen_domid,
-> -                                        xen_vcpu_eport(state->shared_page, i));
-> -        if (rc == -1) {
-> -            error_report("shared evtchn %d bind error %d", i, errno);
-> -            goto err;
-> -        }
-> -        state->ioreq_local_port[i] = rc;
-> -    }
-> -
-> -    rc = xenevtchn_bind_interdomain(state->xce_handle, xen_domid,
-> -                                    state->bufioreq_remote_port);
-> -    if (rc == -1) {
-> -        error_report("buffered evtchn bind error %d", errno);
-> -        goto err;
-> -    }
-> -    state->bufioreq_local_port = rc;
-> -
-> -    /* Init RAM management */
-> -#ifdef XEN_COMPAT_PHYSMAP
-> -    xen_map_cache_init(xen_phys_offset_to_gaddr, state);
-> -#else
-> -    xen_map_cache_init(NULL, state);
-> -#endif
-> -
-> -    qemu_add_vm_change_state_handler(xen_hvm_change_state_handler, state);
-> -
-> -    state->memory_listener = xen_memory_listener;
-> -    memory_listener_register(&state->memory_listener, &address_space_memory);
-> -
-> -    state->io_listener = xen_io_listener;
-> -    memory_listener_register(&state->io_listener, &address_space_io);
-> -
-> -    state->device_listener = xen_device_listener;
-> -    QLIST_INIT(&state->dev_list);
-> -    device_listener_register(&state->device_listener);
-> -
-> -    xen_bus_init();
-> -
-> -    /* Initialize backend core & drivers */
-> -    if (xen_be_init() != 0) {
-> -        error_report("xen backend core setup failed");
-> -        goto err;
-> -    }
-> -    xen_be_register_common();
-> +    xen_register_ioreq(state, max_cpus, xen_memory_listener);
->  
->      QLIST_INIT(&xen_physmap);
->      xen_read_physmap(state);
-> @@ -1520,59 +621,11 @@ err:
->      exit(1);
->  }
->  
-> -void destroy_hvm_domain(bool reboot)
-> -{
-> -    xc_interface *xc_handle;
-> -    int sts;
-> -    int rc;
-> -
-> -    unsigned int reason = reboot ? SHUTDOWN_reboot : SHUTDOWN_poweroff;
-> -
-> -    if (xen_dmod) {
-> -        rc = xendevicemodel_shutdown(xen_dmod, xen_domid, reason);
-> -        if (!rc) {
-> -            return;
-> -        }
-> -        if (errno != ENOTTY /* old Xen */) {
-> -            perror("xendevicemodel_shutdown failed");
-> -        }
-> -        /* well, try the old thing then */
-> -    }
-> -
-> -    xc_handle = xc_interface_open(0, 0, 0);
-> -    if (xc_handle == NULL) {
-> -        fprintf(stderr, "Cannot acquire xenctrl handle\n");
-> -    } else {
-> -        sts = xc_domain_shutdown(xc_handle, xen_domid, reason);
-> -        if (sts != 0) {
-> -            fprintf(stderr, "xc_domain_shutdown failed to issue %s, "
-> -                    "sts %d, %s\n", reboot ? "reboot" : "poweroff",
-> -                    sts, strerror(errno));
-> -        } else {
-> -            fprintf(stderr, "Issued domain %d %s\n", xen_domid,
-> -                    reboot ? "reboot" : "poweroff");
-> -        }
-> -        xc_interface_close(xc_handle);
-> -    }
-> -}
-> -
->  void xen_register_framebuffer(MemoryRegion *mr)
->  {
->      framebuffer = mr;
->  }
->  
-> -void xen_shutdown_fatal_error(const char *fmt, ...)
-> -{
-> -    va_list ap;
-> -
-> -    va_start(ap, fmt);
-> -    vfprintf(stderr, fmt, ap);
-> -    va_end(ap);
-> -    fprintf(stderr, "Will destroy the domain.\n");
-> -    /* destroy the domain */
-> -    qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_ERROR);
-> -}
-> -
->  void xen_hvm_modified_memory(ram_addr_t start, ram_addr_t length)
->  {
->      if (unlikely(xen_in_migration)) {
-> @@ -1604,3 +657,57 @@ void qmp_xen_set_global_dirty_log(bool enable, Error **errp)
->          memory_global_dirty_log_stop(GLOBAL_DIRTY_MIGRATION);
->      }
->  }
-> +
-> +void arch_xen_set_memory(XenIOState *state, MemoryRegionSection *section,
-> +                                bool add)
-> +{
-> +    hwaddr start_addr = section->offset_within_address_space;
-> +    ram_addr_t size = int128_get64(section->size);
-> +    bool log_dirty = memory_region_is_logging(section->mr, DIRTY_MEMORY_VGA);
-> +    hvmmem_type_t mem_type;
-> +
-> +    if (!memory_region_is_ram(section->mr)) {
-> +        return;
-> +    }
-> +
-> +    if (log_dirty != add) {
-> +        return;
-> +    }
-> +
-> +    trace_xen_client_set_memory(start_addr, size, log_dirty);
-> +
-> +    start_addr &= TARGET_PAGE_MASK;
-> +    size = TARGET_PAGE_ALIGN(size);
-> +
-> +    if (add) {
-> +        if (!memory_region_is_rom(section->mr)) {
-> +            xen_add_to_physmap(state, start_addr, size,
-> +                               section->mr, section->offset_within_region);
-> +        } else {
-> +            mem_type = HVMMEM_ram_ro;
-> +            if (xen_set_mem_type(xen_domid, mem_type,
-> +                                 start_addr >> TARGET_PAGE_BITS,
-> +                                 size >> TARGET_PAGE_BITS)) {
-> +                DPRINTF("xen_set_mem_type error, addr: "HWADDR_FMT_plx"\n",
-> +                        start_addr);
-> +            }
-> +        }
-> +    } else {
-> +        if (xen_remove_from_physmap(state, start_addr, size) < 0) {
-> +            DPRINTF("physmapping does not exist at "HWADDR_FMT_plx"\n", start_addr);
-> +        }
-> +    }
-> +}
-> +
-> +void arch_handle_ioreq(XenIOState *state, ioreq_t *req)
-> +{
-> +    switch (req->type) {
-> +    case IOREQ_TYPE_VMWARE_PORT:
-> +            handle_vmport_ioreq(state, req);
-> +        break;
-> +    default:
-> +        hw_error("Invalid ioreq type 0x%x\n", req->type);
-> +    }
-> +
-> +    return;
-> +}
-> diff --git a/hw/xen/meson.build b/hw/xen/meson.build
-> index 19d0637c46..008e036d63 100644
-> --- a/hw/xen/meson.build
-> +++ b/hw/xen/meson.build
-> @@ -25,4 +25,7 @@ specific_ss.add_all(when: ['CONFIG_XEN', xen], if_true: xen_specific_ss)
->  
->  xen_ss = ss.source_set()
->  
-> -xen_ss.add(when: 'CONFIG_XEN', if_true: files('xen-mapcache.c'))
-> +xen_ss.add(when: 'CONFIG_XEN', if_true: files(
-> +  'xen-mapcache.c',
-> +  'xen-hvm-common.c',
-> +))
-> diff --git a/hw/xen/trace-events b/hw/xen/trace-events
-> index 2c8f238f42..02ca1183da 100644
-> --- a/hw/xen/trace-events
-> +++ b/hw/xen/trace-events
-> @@ -42,6 +42,20 @@ xs_node_vscanf(char *path, char *value) "%s %s"
->  xs_node_watch(char *path) "%s"
->  xs_node_unwatch(char *path) "%s"
->  
-> +# xen-hvm.c
-> +xen_ram_alloc(unsigned long ram_addr, unsigned long size) "requested: 0x%lx, size 0x%lx"
-> +xen_client_set_memory(uint64_t start_addr, unsigned long size, bool log_dirty) "0x%"PRIx64" size 0x%lx, log_dirty %i"
-> +handle_ioreq(void *req, uint32_t type, uint32_t dir, uint32_t df, uint32_t data_is_ptr, uint64_t addr, uint64_t data, uint32_t count, uint32_t size) "I/O=%p type=%d dir=%d df=%d ptr=%d port=0x%"PRIx64" data=0x%"PRIx64" count=%d size=%d"
-> +handle_ioreq_read(void *req, uint32_t type, uint32_t df, uint32_t data_is_ptr, uint64_t addr, uint64_t data, uint32_t count, uint32_t size) "I/O=%p read type=%d df=%d ptr=%d port=0x%"PRIx64" data=0x%"PRIx64" count=%d size=%d"
-> +handle_ioreq_write(void *req, uint32_t type, uint32_t df, uint32_t data_is_ptr, uint64_t addr, uint64_t data, uint32_t count, uint32_t size) "I/O=%p write type=%d df=%d ptr=%d port=0x%"PRIx64" data=0x%"PRIx64" count=%d size=%d"
-> +cpu_ioreq_pio(void *req, uint32_t dir, uint32_t df, uint32_t data_is_ptr, uint64_t addr, uint64_t data, uint32_t count, uint32_t size) "I/O=%p pio dir=%d df=%d ptr=%d port=0x%"PRIx64" data=0x%"PRIx64" count=%d size=%d"
-> +cpu_ioreq_pio_read_reg(void *req, uint64_t data, uint64_t addr, uint32_t size) "I/O=%p pio read reg data=0x%"PRIx64" port=0x%"PRIx64" size=%d"
-> +cpu_ioreq_pio_write_reg(void *req, uint64_t data, uint64_t addr, uint32_t size) "I/O=%p pio write reg data=0x%"PRIx64" port=0x%"PRIx64" size=%d"
-> +cpu_ioreq_move(void *req, uint32_t dir, uint32_t df, uint32_t data_is_ptr, uint64_t addr, uint64_t data, uint32_t count, uint32_t size) "I/O=%p copy dir=%d df=%d ptr=%d port=0x%"PRIx64" data=0x%"PRIx64" count=%d size=%d"
-> +xen_map_resource_ioreq(uint32_t id, void *addr) "id: %u addr: %p"
-> +cpu_ioreq_config_read(void *req, uint32_t sbdf, uint32_t reg, uint32_t size, uint32_t data) "I/O=%p sbdf=0x%x reg=%u size=%u data=0x%x"
-> +cpu_ioreq_config_write(void *req, uint32_t sbdf, uint32_t reg, uint32_t size, uint32_t data) "I/O=%p sbdf=0x%x reg=%u size=%u data=0x%x"
-> +
->  # xen-mapcache.c
->  xen_map_cache(uint64_t phys_addr) "want 0x%"PRIx64
->  xen_remap_bucket(uint64_t index) "index 0x%"PRIx64
-> diff --git a/hw/xen/xen-hvm-common.c b/hw/xen/xen-hvm-common.c
-> new file mode 100644
-> index 0000000000..c2e1e08124
-> --- /dev/null
-> +++ b/hw/xen/xen-hvm-common.c
-> @@ -0,0 +1,874 @@
-> +#include "qemu/osdep.h"
-> +#include "qemu/units.h"
-> +#include "qapi/error.h"
-> +#include "trace.h"
-> +
-> +#include "hw/pci/pci_host.h"
-> +#include "hw/xen/xen-hvm-common.h"
-> +#include "hw/xen/xen-legacy-backend.h"
-> +#include "hw/xen/xen-bus.h"
-> +#include "hw/boards.h"
-> +#include "hw/xen/arch_hvm.h"
-> +
-> +MemoryRegion ram_memory;
-> +
-> +void xen_ram_alloc(ram_addr_t ram_addr, ram_addr_t size, MemoryRegion *mr,
-> +                   Error **errp)
-> +{
-> +    unsigned long nr_pfn;
-> +    xen_pfn_t *pfn_list;
-> +    int i;
-> +
-> +    if (runstate_check(RUN_STATE_INMIGRATE)) {
-> +        /* RAM already populated in Xen */
-> +        fprintf(stderr, "%s: do not alloc "RAM_ADDR_FMT
-> +                " bytes of ram at "RAM_ADDR_FMT" when runstate is INMIGRATE\n",
-> +                __func__, size, ram_addr);
-> +        return;
-> +    }
-> +
-> +    if (mr == &ram_memory) {
-> +        return;
-> +    }
-> +
-> +    trace_xen_ram_alloc(ram_addr, size);
-> +
-> +    nr_pfn = size >> TARGET_PAGE_BITS;
-> +    pfn_list = g_malloc(sizeof (*pfn_list) * nr_pfn);
-> +
-> +    for (i = 0; i < nr_pfn; i++) {
-> +        pfn_list[i] = (ram_addr >> TARGET_PAGE_BITS) + i;
-> +    }
-> +
-> +    if (xc_domain_populate_physmap_exact(xen_xc, xen_domid, nr_pfn, 0, 0, pfn_list)) {
-> +        error_setg(errp, "xen: failed to populate ram at " RAM_ADDR_FMT,
-> +                   ram_addr);
-> +    }
-> +
-> +    g_free(pfn_list);
-> +}
-> +
-> +static void xen_set_memory(struct MemoryListener *listener,
-> +                           MemoryRegionSection *section,
-> +                           bool add)
-> +{
-> +    XenIOState *state = container_of(listener, XenIOState, memory_listener);
-> +
-> +    if (section->mr == &ram_memory) {
-> +        return;
-> +    } else {
-> +        if (add) {
-> +            xen_map_memory_section(xen_domid, state->ioservid,
-> +                                   section);
-> +        } else {
-> +            xen_unmap_memory_section(xen_domid, state->ioservid,
-> +                                     section);
-> +        }
-> +    }
-> +
-> +    arch_xen_set_memory(state, section, add);
-> +}
-> +
-> +void xen_region_add(MemoryListener *listener,
-> +                           MemoryRegionSection *section)
-> +{
-> +    memory_region_ref(section->mr);
-> +    xen_set_memory(listener, section, true);
-> +}
-> +
-> +void xen_region_del(MemoryListener *listener,
-> +                           MemoryRegionSection *section)
-> +{
-> +    xen_set_memory(listener, section, false);
-> +    memory_region_unref(section->mr);
-> +}
-> +
-> +void xen_io_add(MemoryListener *listener,
-> +                       MemoryRegionSection *section)
-> +{
-> +    XenIOState *state = container_of(listener, XenIOState, io_listener);
-> +    MemoryRegion *mr = section->mr;
-> +
-> +    if (mr->ops == &unassigned_io_ops) {
-> +        return;
-> +    }
-> +
-> +    memory_region_ref(mr);
-> +
-> +    xen_map_io_section(xen_domid, state->ioservid, section);
-> +}
-> +
-> +void xen_io_del(MemoryListener *listener,
-> +                       MemoryRegionSection *section)
-> +{
-> +    XenIOState *state = container_of(listener, XenIOState, io_listener);
-> +    MemoryRegion *mr = section->mr;
-> +
-> +    if (mr->ops == &unassigned_io_ops) {
-> +        return;
-> +    }
-> +
-> +    xen_unmap_io_section(xen_domid, state->ioservid, section);
-> +
-> +    memory_region_unref(mr);
-> +}
-> +
-> +void xen_device_realize(DeviceListener *listener,
-> +                               DeviceState *dev)
-> +{
-> +    XenIOState *state = container_of(listener, XenIOState, device_listener);
-> +
-> +    if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-> +        PCIDevice *pci_dev = PCI_DEVICE(dev);
-> +        XenPciDevice *xendev = g_new(XenPciDevice, 1);
-> +
-> +        xendev->pci_dev = pci_dev;
-> +        xendev->sbdf = PCI_BUILD_BDF(pci_dev_bus_num(pci_dev),
-> +                                     pci_dev->devfn);
-> +        QLIST_INSERT_HEAD(&state->dev_list, xendev, entry);
-> +
-> +        xen_map_pcidev(xen_domid, state->ioservid, pci_dev);
-> +    }
-> +}
-> +
-> +void xen_device_unrealize(DeviceListener *listener,
-> +                                 DeviceState *dev)
-> +{
-> +    XenIOState *state = container_of(listener, XenIOState, device_listener);
-> +
-> +    if (object_dynamic_cast(OBJECT(dev), TYPE_PCI_DEVICE)) {
-> +        PCIDevice *pci_dev = PCI_DEVICE(dev);
-> +        XenPciDevice *xendev, *next;
-> +
-> +        xen_unmap_pcidev(xen_domid, state->ioservid, pci_dev);
-> +
-> +        QLIST_FOREACH_SAFE(xendev, &state->dev_list, entry, next) {
-> +            if (xendev->pci_dev == pci_dev) {
-> +                QLIST_REMOVE(xendev, entry);
-> +                g_free(xendev);
-> +                break;
-> +            }
-> +        }
-> +    }
-> +}
-> +
-> +MemoryListener xen_io_listener = {
-> +    .name = "xen-io",
-> +    .region_add = xen_io_add,
-> +    .region_del = xen_io_del,
-> +    .priority = 10,
-> +};
-> +
-> +DeviceListener xen_device_listener = {
-> +    .realize = xen_device_realize,
-> +    .unrealize = xen_device_unrealize,
-> +};
-> +
-> +/* get the ioreq packets from share mem */
-> +static ioreq_t *cpu_get_ioreq_from_shared_memory(XenIOState *state, int vcpu)
-> +{
-> +    ioreq_t *req = xen_vcpu_ioreq(state->shared_page, vcpu);
-> +
-> +    if (req->state != STATE_IOREQ_READY) {
-> +        DPRINTF("I/O request not ready: "
-> +                "%x, ptr: %x, port: %"PRIx64", "
-> +                "data: %"PRIx64", count: %u, size: %u\n",
-> +                req->state, req->data_is_ptr, req->addr,
-> +                req->data, req->count, req->size);
-> +        return NULL;
-> +    }
-> +
-> +    xen_rmb(); /* see IOREQ_READY /then/ read contents of ioreq */
-> +
-> +    req->state = STATE_IOREQ_INPROCESS;
-> +    return req;
-> +}
-> +
-> +/* use poll to get the port notification */
-> +/* ioreq_vec--out,the */
-> +/* retval--the number of ioreq packet */
-> +static ioreq_t *cpu_get_ioreq(XenIOState *state)
-> +{
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-> +    unsigned int max_cpus = ms->smp.max_cpus;
-> +    int i;
-> +    evtchn_port_t port;
-> +
-> +    port = xenevtchn_pending(state->xce_handle);
-> +    if (port == state->bufioreq_local_port) {
-> +        timer_mod(state->buffered_io_timer,
-> +                BUFFER_IO_MAX_DELAY + qemu_clock_get_ms(QEMU_CLOCK_REALTIME));
-> +        return NULL;
-> +    }
-> +
-> +    if (port != -1) {
-> +        for (i = 0; i < max_cpus; i++) {
-> +            if (state->ioreq_local_port[i] == port) {
-> +                break;
-> +            }
-> +        }
-> +
-> +        if (i == max_cpus) {
-> +            hw_error("Fatal error while trying to get io event!\n");
-> +        }
-> +
-> +        /* unmask the wanted port again */
-> +        xenevtchn_unmask(state->xce_handle, port);
-> +
-> +        /* get the io packet from shared memory */
-> +        state->send_vcpu = i;
-> +        return cpu_get_ioreq_from_shared_memory(state, i);
-> +    }
-> +
-> +    /* read error or read nothing */
-> +    return NULL;
-> +}
-> +
-> +static uint32_t do_inp(uint32_t addr, unsigned long size)
-> +{
-> +    switch (size) {
-> +        case 1:
-> +            return cpu_inb(addr);
-> +        case 2:
-> +            return cpu_inw(addr);
-> +        case 4:
-> +            return cpu_inl(addr);
-> +        default:
-> +            hw_error("inp: bad size: %04x %lx", addr, size);
-> +    }
-> +}
-> +
-> +static void do_outp(uint32_t addr,
-> +        unsigned long size, uint32_t val)
-> +{
-> +    switch (size) {
-> +        case 1:
-> +            return cpu_outb(addr, val);
-> +        case 2:
-> +            return cpu_outw(addr, val);
-> +        case 4:
-> +            return cpu_outl(addr, val);
-> +        default:
-> +            hw_error("outp: bad size: %04x %lx", addr, size);
-> +    }
-> +}
-> +
-> +/*
-> + * Helper functions which read/write an object from/to physical guest
-> + * memory, as part of the implementation of an ioreq.
-> + *
-> + * Equivalent to
-> + *   cpu_physical_memory_rw(addr + (req->df ? -1 : +1) * req->size * i,
-> + *                          val, req->size, 0/1)
-> + * except without the integer overflow problems.
-> + */
-> +static void rw_phys_req_item(hwaddr addr,
-> +                             ioreq_t *req, uint32_t i, void *val, int rw)
-> +{
-> +    /* Do everything unsigned so overflow just results in a truncated result
-> +     * and accesses to undesired parts of guest memory, which is up
-> +     * to the guest */
-> +    hwaddr offset = (hwaddr)req->size * i;
-> +    if (req->df) {
-> +        addr -= offset;
-> +    } else {
-> +        addr += offset;
-> +    }
-> +    cpu_physical_memory_rw(addr, val, req->size, rw);
-> +}
-> +
-> +static inline void read_phys_req_item(hwaddr addr,
-> +                                      ioreq_t *req, uint32_t i, void *val)
-> +{
-> +    rw_phys_req_item(addr, req, i, val, 0);
-> +}
-> +static inline void write_phys_req_item(hwaddr addr,
-> +                                       ioreq_t *req, uint32_t i, void *val)
-> +{
-> +    rw_phys_req_item(addr, req, i, val, 1);
-> +}
-> +
-> +
-> +void cpu_ioreq_pio(ioreq_t *req)
-> +{
-> +    uint32_t i;
-> +
-> +    trace_cpu_ioreq_pio(req, req->dir, req->df, req->data_is_ptr, req->addr,
-> +                         req->data, req->count, req->size);
-> +
-> +    if (req->size > sizeof(uint32_t)) {
-> +        hw_error("PIO: bad size (%u)", req->size);
-> +    }
-> +
-> +    if (req->dir == IOREQ_READ) {
-> +        if (!req->data_is_ptr) {
-> +            req->data = do_inp(req->addr, req->size);
-> +            trace_cpu_ioreq_pio_read_reg(req, req->data, req->addr,
-> +                                         req->size);
-> +        } else {
-> +            uint32_t tmp;
-> +
-> +            for (i = 0; i < req->count; i++) {
-> +                tmp = do_inp(req->addr, req->size);
-> +                write_phys_req_item(req->data, req, i, &tmp);
-> +            }
-> +        }
-> +    } else if (req->dir == IOREQ_WRITE) {
-> +        if (!req->data_is_ptr) {
-> +            trace_cpu_ioreq_pio_write_reg(req, req->data, req->addr,
-> +                                          req->size);
-> +            do_outp(req->addr, req->size, req->data);
-> +        } else {
-> +            for (i = 0; i < req->count; i++) {
-> +                uint32_t tmp = 0;
-> +
-> +                read_phys_req_item(req->data, req, i, &tmp);
-> +                do_outp(req->addr, req->size, tmp);
-> +            }
-> +        }
-> +    }
-> +}
-> +
-> +static void cpu_ioreq_move(ioreq_t *req)
-> +{
-> +    uint32_t i;
-> +
-> +    trace_cpu_ioreq_move(req, req->dir, req->df, req->data_is_ptr, req->addr,
-> +                         req->data, req->count, req->size);
-> +
-> +    if (req->size > sizeof(req->data)) {
-> +        hw_error("MMIO: bad size (%u)", req->size);
-> +    }
-> +
-> +    if (!req->data_is_ptr) {
-> +        if (req->dir == IOREQ_READ) {
-> +            for (i = 0; i < req->count; i++) {
-> +                read_phys_req_item(req->addr, req, i, &req->data);
-> +            }
-> +        } else if (req->dir == IOREQ_WRITE) {
-> +            for (i = 0; i < req->count; i++) {
-> +                write_phys_req_item(req->addr, req, i, &req->data);
-> +            }
-> +        }
-> +    } else {
-> +        uint64_t tmp;
-> +
-> +        if (req->dir == IOREQ_READ) {
-> +            for (i = 0; i < req->count; i++) {
-> +                read_phys_req_item(req->addr, req, i, &tmp);
-> +                write_phys_req_item(req->data, req, i, &tmp);
-> +            }
-> +        } else if (req->dir == IOREQ_WRITE) {
-> +            for (i = 0; i < req->count; i++) {
-> +                read_phys_req_item(req->data, req, i, &tmp);
-> +                write_phys_req_item(req->addr, req, i, &tmp);
-> +            }
-> +        }
-> +    }
-> +}
-> +
-> +static void cpu_ioreq_config(XenIOState *state, ioreq_t *req)
-> +{
-> +    uint32_t sbdf = req->addr >> 32;
-> +    uint32_t reg = req->addr;
-> +    XenPciDevice *xendev;
-> +
-> +    if (req->size != sizeof(uint8_t) && req->size != sizeof(uint16_t) &&
-> +        req->size != sizeof(uint32_t)) {
-> +        hw_error("PCI config access: bad size (%u)", req->size);
-> +    }
-> +
-> +    if (req->count != 1) {
-> +        hw_error("PCI config access: bad count (%u)", req->count);
-> +    }
-> +
-> +    QLIST_FOREACH(xendev, &state->dev_list, entry) {
-> +        if (xendev->sbdf != sbdf) {
-> +            continue;
-> +        }
-> +
-> +        if (!req->data_is_ptr) {
-> +            if (req->dir == IOREQ_READ) {
-> +                req->data = pci_host_config_read_common(
-> +                    xendev->pci_dev, reg, PCI_CONFIG_SPACE_SIZE,
-> +                    req->size);
-> +                trace_cpu_ioreq_config_read(req, xendev->sbdf, reg,
-> +                                            req->size, req->data);
-> +            } else if (req->dir == IOREQ_WRITE) {
-> +                trace_cpu_ioreq_config_write(req, xendev->sbdf, reg,
-> +                                             req->size, req->data);
-> +                pci_host_config_write_common(
-> +                    xendev->pci_dev, reg, PCI_CONFIG_SPACE_SIZE,
-> +                    req->data, req->size);
-> +            }
-> +        } else {
-> +            uint32_t tmp;
-> +
-> +            if (req->dir == IOREQ_READ) {
-> +                tmp = pci_host_config_read_common(
-> +                    xendev->pci_dev, reg, PCI_CONFIG_SPACE_SIZE,
-> +                    req->size);
-> +                trace_cpu_ioreq_config_read(req, xendev->sbdf, reg,
-> +                                            req->size, tmp);
-> +                write_phys_req_item(req->data, req, 0, &tmp);
-> +            } else if (req->dir == IOREQ_WRITE) {
-> +                read_phys_req_item(req->data, req, 0, &tmp);
-> +                trace_cpu_ioreq_config_write(req, xendev->sbdf, reg,
-> +                                             req->size, tmp);
-> +                pci_host_config_write_common(
-> +                    xendev->pci_dev, reg, PCI_CONFIG_SPACE_SIZE,
-> +                    tmp, req->size);
-> +            }
-> +        }
-> +    }
-> +}
-> +
-> +static void handle_ioreq(XenIOState *state, ioreq_t *req)
-> +{
-> +    trace_handle_ioreq(req, req->type, req->dir, req->df, req->data_is_ptr,
-> +                       req->addr, req->data, req->count, req->size);
-> +
-> +    if (!req->data_is_ptr && (req->dir == IOREQ_WRITE) &&
-> +            (req->size < sizeof (target_ulong))) {
-> +        req->data &= ((target_ulong) 1 << (8 * req->size)) - 1;
-> +    }
-> +
-> +    if (req->dir == IOREQ_WRITE)
-> +        trace_handle_ioreq_write(req, req->type, req->df, req->data_is_ptr,
-> +                                 req->addr, req->data, req->count, req->size);
-> +
-> +    switch (req->type) {
-> +        case IOREQ_TYPE_PIO:
-> +            cpu_ioreq_pio(req);
-> +            break;
-> +        case IOREQ_TYPE_COPY:
-> +            cpu_ioreq_move(req);
-> +            break;
-> +        case IOREQ_TYPE_TIMEOFFSET:
-> +            break;
-> +        case IOREQ_TYPE_INVALIDATE:
-> +            xen_invalidate_map_cache();
-> +            break;
-> +        case IOREQ_TYPE_PCI_CONFIG:
-> +            cpu_ioreq_config(state, req);
-> +            break;
-> +        default:
-> +            arch_handle_ioreq(state, req);
-> +    }
-> +    if (req->dir == IOREQ_READ) {
-> +        trace_handle_ioreq_read(req, req->type, req->df, req->data_is_ptr,
-> +                                req->addr, req->data, req->count, req->size);
-> +    }
-> +}
-> +
-> +static bool handle_buffered_iopage(XenIOState *state)
-> +{
-> +    buffered_iopage_t *buf_page = state->buffered_io_page;
-> +    buf_ioreq_t *buf_req = NULL;
-> +    bool handled_ioreq = false;
-> +    ioreq_t req;
-> +    int qw;
-> +
-> +    if (!buf_page) {
-> +        return 0;
-> +    }
-> +
-> +    memset(&req, 0x00, sizeof(req));
-> +    req.state = STATE_IOREQ_READY;
-> +    req.count = 1;
-> +    req.dir = IOREQ_WRITE;
-> +
-> +    for (;;) {
-> +        uint32_t rdptr = buf_page->read_pointer, wrptr;
-> +
-> +        xen_rmb();
-> +        wrptr = buf_page->write_pointer;
-> +        xen_rmb();
-> +        if (rdptr != buf_page->read_pointer) {
-> +            continue;
-> +        }
-> +        if (rdptr == wrptr) {
-> +            break;
-> +        }
-> +        buf_req = &buf_page->buf_ioreq[rdptr % IOREQ_BUFFER_SLOT_NUM];
-> +        req.size = 1U << buf_req->size;
-> +        req.addr = buf_req->addr;
-> +        req.data = buf_req->data;
-> +        req.type = buf_req->type;
-> +        xen_rmb();
-> +        qw = (req.size == 8);
-> +        if (qw) {
-> +            if (rdptr + 1 == wrptr) {
-> +                hw_error("Incomplete quad word buffered ioreq");
-> +            }
-> +            buf_req = &buf_page->buf_ioreq[(rdptr + 1) %
-> +                                           IOREQ_BUFFER_SLOT_NUM];
-> +            req.data |= ((uint64_t)buf_req->data) << 32;
-> +            xen_rmb();
-> +        }
-> +
-> +        handle_ioreq(state, &req);
-> +
-> +        /* Only req.data may get updated by handle_ioreq(), albeit even that
-> +         * should not happen as such data would never make it to the guest (we
-> +         * can only usefully see writes here after all).
-> +         */
-> +        assert(req.state == STATE_IOREQ_READY);
-> +        assert(req.count == 1);
-> +        assert(req.dir == IOREQ_WRITE);
-> +        assert(!req.data_is_ptr);
-> +
-> +        qatomic_add(&buf_page->read_pointer, qw + 1);
-> +        handled_ioreq = true;
-> +    }
-> +
-> +    return handled_ioreq;
-> +}
-> +
-> +static void handle_buffered_io(void *opaque)
-> +{
-> +    XenIOState *state = opaque;
-> +
-> +    if (handle_buffered_iopage(state)) {
-> +        timer_mod(state->buffered_io_timer,
-> +                BUFFER_IO_MAX_DELAY + qemu_clock_get_ms(QEMU_CLOCK_REALTIME));
-> +    } else {
-> +        timer_del(state->buffered_io_timer);
-> +        xenevtchn_unmask(state->xce_handle, state->bufioreq_local_port);
-> +    }
-> +}
-> +
-> +static void cpu_handle_ioreq(void *opaque)
-> +{
-> +    XenIOState *state = opaque;
-> +    ioreq_t *req = cpu_get_ioreq(state);
-> +
-> +    handle_buffered_iopage(state);
-> +    if (req) {
-> +        ioreq_t copy = *req;
-> +
-> +        xen_rmb();
-> +        handle_ioreq(state, &copy);
-> +        req->data = copy.data;
-> +
-> +        if (req->state != STATE_IOREQ_INPROCESS) {
-> +            fprintf(stderr, "Badness in I/O request ... not in service?!: "
-> +                    "%x, ptr: %x, port: %"PRIx64", "
-> +                    "data: %"PRIx64", count: %u, size: %u, type: %u\n",
-> +                    req->state, req->data_is_ptr, req->addr,
-> +                    req->data, req->count, req->size, req->type);
-> +            destroy_hvm_domain(false);
-> +            return;
-> +        }
-> +
-> +        xen_wmb(); /* Update ioreq contents /then/ update state. */
-> +
-> +        /*
-> +         * We do this before we send the response so that the tools
-> +         * have the opportunity to pick up on the reset before the
-> +         * guest resumes and does a hlt with interrupts disabled which
-> +         * causes Xen to powerdown the domain.
-> +         */
-> +        if (runstate_is_running()) {
-> +            ShutdownCause request;
-> +
-> +            if (qemu_shutdown_requested_get()) {
-> +                destroy_hvm_domain(false);
-> +            }
-> +            request = qemu_reset_requested_get();
-> +            if (request) {
-> +                qemu_system_reset(request);
-> +                destroy_hvm_domain(true);
-> +            }
-> +        }
-> +
-> +        req->state = STATE_IORESP_READY;
-> +        xenevtchn_notify(state->xce_handle,
-> +                         state->ioreq_local_port[state->send_vcpu]);
-> +    }
-> +}
-> +
-> +static void xen_main_loop_prepare(XenIOState *state)
-> +{
-> +    int evtchn_fd = -1;
-> +
-> +    if (state->xce_handle != NULL) {
-> +        evtchn_fd = xenevtchn_fd(state->xce_handle);
-> +    }
-> +
-> +    state->buffered_io_timer = timer_new_ms(QEMU_CLOCK_REALTIME, handle_buffered_io,
-> +                                                 state);
-> +
-> +    if (evtchn_fd != -1) {
-> +        CPUState *cpu_state;
-> +
-> +        DPRINTF("%s: Init cpu_by_vcpu_id\n", __func__);
-> +        CPU_FOREACH(cpu_state) {
-> +            DPRINTF("%s: cpu_by_vcpu_id[%d]=%p\n",
-> +                    __func__, cpu_state->cpu_index, cpu_state);
-> +            state->cpu_by_vcpu_id[cpu_state->cpu_index] = cpu_state;
-> +        }
-> +        qemu_set_fd_handler(evtchn_fd, cpu_handle_ioreq, NULL, state);
-> +    }
-> +}
-> +
-> +
-> +void xen_hvm_change_state_handler(void *opaque, bool running,
-> +                                         RunState rstate)
-> +{
-> +    XenIOState *state = opaque;
-> +
-> +    if (running) {
-> +        xen_main_loop_prepare(state);
-> +    }
-> +
-> +    xen_set_ioreq_server_state(xen_domid,
-> +                               state->ioservid,
-> +                               (rstate == RUN_STATE_RUNNING));
-> +}
-> +
-> +void xen_exit_notifier(Notifier *n, void *data)
-> +{
-> +    XenIOState *state = container_of(n, XenIOState, exit);
-> +
-> +    xen_destroy_ioreq_server(xen_domid, state->ioservid);
-> +    if (state->fres != NULL) {
-> +        xenforeignmemory_unmap_resource(xen_fmem, state->fres);
-> +    }
-> +
-> +    xenevtchn_close(state->xce_handle);
-> +    xs_daemon_close(state->xenstore);
-> +}
-> +
-> +static int xen_map_ioreq_server(XenIOState *state)
-> +{
-> +    void *addr = NULL;
-> +    xen_pfn_t ioreq_pfn;
-> +    xen_pfn_t bufioreq_pfn;
-> +    evtchn_port_t bufioreq_evtchn;
-> +    int rc;
-> +
-> +    /*
-> +     * Attempt to map using the resource API and fall back to normal
-> +     * foreign mapping if this is not supported.
-> +     */
-> +    QEMU_BUILD_BUG_ON(XENMEM_resource_ioreq_server_frame_bufioreq != 0);
-> +    QEMU_BUILD_BUG_ON(XENMEM_resource_ioreq_server_frame_ioreq(0) != 1);
-> +    state->fres = xenforeignmemory_map_resource(xen_fmem, xen_domid,
-> +                                         XENMEM_resource_ioreq_server,
-> +                                         state->ioservid, 0, 2,
-> +                                         &addr,
-> +                                         PROT_READ | PROT_WRITE, 0);
-> +    if (state->fres != NULL) {
-> +        trace_xen_map_resource_ioreq(state->ioservid, addr);
-> +        state->buffered_io_page = addr;
-> +        state->shared_page = addr + XC_PAGE_SIZE;
-> +    } else if (errno != EOPNOTSUPP) {
-> +        error_report("failed to map ioreq server resources: error %d handle=%p",
-> +                     errno, xen_xc);
-> +        return -1;
-> +    }
-> +
-> +    rc = xen_get_ioreq_server_info(xen_domid, state->ioservid,
-> +                                   (state->shared_page == NULL) ?
-> +                                   &ioreq_pfn : NULL,
-> +                                   (state->buffered_io_page == NULL) ?
-> +                                   &bufioreq_pfn : NULL,
-> +                                   &bufioreq_evtchn);
-> +    if (rc < 0) {
-> +        error_report("failed to get ioreq server info: error %d handle=%p",
-> +                     errno, xen_xc);
-> +        return rc;
-> +    }
-> +
-> +    if (state->shared_page == NULL) {
-> +        DPRINTF("shared page at pfn %lx\n", ioreq_pfn);
-> +
-> +        state->shared_page = xenforeignmemory_map(xen_fmem, xen_domid,
-> +                                                  PROT_READ | PROT_WRITE,
-> +                                                  1, &ioreq_pfn, NULL);
-> +        if (state->shared_page == NULL) {
-> +            error_report("map shared IO page returned error %d handle=%p",
-> +                         errno, xen_xc);
-> +        }
-> +    }
-> +
-> +    if (state->buffered_io_page == NULL) {
-> +        DPRINTF("buffered io page at pfn %lx\n", bufioreq_pfn);
-> +
-> +        state->buffered_io_page = xenforeignmemory_map(xen_fmem, xen_domid,
-> +                                                       PROT_READ | PROT_WRITE,
-> +                                                       1, &bufioreq_pfn,
-> +                                                       NULL);
-> +        if (state->buffered_io_page == NULL) {
-> +            error_report("map buffered IO page returned error %d", errno);
-> +            return -1;
-> +        }
-> +    }
-> +
-> +    if (state->shared_page == NULL || state->buffered_io_page == NULL) {
-> +        return -1;
-> +    }
-> +
-> +    DPRINTF("buffered io evtchn is %x\n", bufioreq_evtchn);
-> +
-> +    state->bufioreq_remote_port = bufioreq_evtchn;
-> +
-> +    return 0;
-> +}
-> +
-> +void destroy_hvm_domain(bool reboot)
-> +{
-> +    xc_interface *xc_handle;
-> +    int sts;
-> +    int rc;
-> +
-> +    unsigned int reason = reboot ? SHUTDOWN_reboot : SHUTDOWN_poweroff;
-> +
-> +    if (xen_dmod) {
-> +        rc = xendevicemodel_shutdown(xen_dmod, xen_domid, reason);
-> +        if (!rc) {
-> +            return;
-> +        }
-> +        if (errno != ENOTTY /* old Xen */) {
-> +            perror("xendevicemodel_shutdown failed");
-> +        }
-> +        /* well, try the old thing then */
-> +    }
-> +
-> +    xc_handle = xc_interface_open(0, 0, 0);
-> +    if (xc_handle == NULL) {
-> +        fprintf(stderr, "Cannot acquire xenctrl handle\n");
-> +    } else {
-> +        sts = xc_domain_shutdown(xc_handle, xen_domid, reason);
-> +        if (sts != 0) {
-> +            fprintf(stderr, "xc_domain_shutdown failed to issue %s, "
-> +                    "sts %d, %s\n", reboot ? "reboot" : "poweroff",
-> +                    sts, strerror(errno));
-> +        } else {
-> +            fprintf(stderr, "Issued domain %d %s\n", xen_domid,
-> +                    reboot ? "reboot" : "poweroff");
-> +        }
-> +        xc_interface_close(xc_handle);
-> +    }
-> +}
-> +
-> +void xen_shutdown_fatal_error(const char *fmt, ...)
-> +{
-> +    va_list ap;
-> +
-> +    va_start(ap, fmt);
-> +    vfprintf(stderr, fmt, ap);
-> +    va_end(ap);
-> +    fprintf(stderr, "Will destroy the domain.\n");
-> +    /* destroy the domain */
-> +    qemu_system_shutdown_request(SHUTDOWN_CAUSE_HOST_ERROR);
-> +}
-> +
-> +static void xen_register_backend(XenIOState *state)
-> +{
-> +    /* Initialize backend core & drivers */
-> +    if (xen_be_init() != 0) {
-> +        error_report("xen backend core setup failed");
-> +        goto err;
-> +    }
-> +    xen_be_register_common();
-> +
-> +    return;
-> +
-> +err:
-> +    error_report("xen hardware virtual machine backend registration failed");
-> +    exit(1);
-> +}
-> +
-> +void xen_register_ioreq(XenIOState *state, unsigned int max_cpus,
-> +                        MemoryListener xen_memory_listener)
-> +{
-> +    int i, rc;
-> +
-> +    state->xce_handle = xenevtchn_open(NULL, 0);
-> +    if (state->xce_handle == NULL) {
-> +        perror("xen: event channel open");
-> +        goto err;
-> +    }
-> +
-> +    state->xenstore = xs_daemon_open();
-> +    if (state->xenstore == NULL) {
-> +        perror("xen: xenstore open");
-> +        goto err;
-> +    }
-> +
-> +    xen_create_ioreq_server(xen_domid, &state->ioservid);
-> +
-> +    state->exit.notify = xen_exit_notifier;
-> +    qemu_add_exit_notifier(&state->exit);
-> +
-> +    /*
-> +     * Register wake-up support in QMP query-current-machine API
-> +     */
-> +    qemu_register_wakeup_support();
-> +
-> +    rc = xen_map_ioreq_server(state);
-> +    if (rc < 0) {
-> +        goto err;
-> +    }
-> +
-> +    /* Note: cpus is empty at this point in init */
-> +    state->cpu_by_vcpu_id = g_malloc0(max_cpus * sizeof(CPUState *));
-> +
-> +    rc = xen_set_ioreq_server_state(xen_domid, state->ioservid, true);
-> +    if (rc < 0) {
-> +        error_report("failed to enable ioreq server info: error %d handle=%p",
-> +                     errno, xen_xc);
-> +        goto err;
-> +    }
-> +
-> +    state->ioreq_local_port = g_malloc0(max_cpus * sizeof (evtchn_port_t));
-> +
-> +    /* FIXME: how about if we overflow the page here? */
-> +    for (i = 0; i < max_cpus; i++) {
-> +        rc = xenevtchn_bind_interdomain(state->xce_handle, xen_domid,
-> +                                        xen_vcpu_eport(state->shared_page, i));
-> +        if (rc == -1) {
-> +            error_report("shared evtchn %d bind error %d", i, errno);
-> +            goto err;
-> +        }
-> +        state->ioreq_local_port[i] = rc;
-> +    }
-> +
-> +    rc = xenevtchn_bind_interdomain(state->xce_handle, xen_domid,
-> +                                    state->bufioreq_remote_port);
-> +    if (rc == -1) {
-> +        error_report("buffered evtchn bind error %d", errno);
-> +        goto err;
-> +    }
-> +    state->bufioreq_local_port = rc;
-> +
-> +    /* Init RAM management */
-> +#ifdef XEN_COMPAT_PHYSMAP
-> +    xen_map_cache_init(xen_phys_offset_to_gaddr, state);
-> +#else
-> +    xen_map_cache_init(NULL, state);
-> +#endif
-> +
-> +    qemu_add_vm_change_state_handler(xen_hvm_change_state_handler, state);
-> +
-> +    state->memory_listener = xen_memory_listener;
-> +    memory_listener_register(&state->memory_listener, &address_space_memory);
-> +
-> +    state->io_listener = xen_io_listener;
-> +    memory_listener_register(&state->io_listener, &address_space_io);
-> +
-> +    state->device_listener = xen_device_listener;
-> +    QLIST_INIT(&state->dev_list);
-> +    device_listener_register(&state->device_listener);
-> +
-> +    xen_bus_init();
-> +
-> +    xen_register_backend(state);
-> +
-> +    return;
-> +err:
-> +    error_report("xen hardware virtual machine initialisation failed");
-> +    exit(1);
-> +}
-> diff --git a/include/hw/i386/xen_arch_hvm.h b/include/hw/i386/xen_arch_hvm.h
-> new file mode 100644
-> index 0000000000..1000f8f543
-> --- /dev/null
-> +++ b/include/hw/i386/xen_arch_hvm.h
-> @@ -0,0 +1,11 @@
-> +#ifndef HW_XEN_ARCH_I386_HVM_H
-> +#define HW_XEN_ARCH_I386_HVM_H
-> +
-> +#include <xen/hvm/ioreq.h>
-> +#include "hw/xen/xen-hvm-common.h"
-> +
-> +void arch_handle_ioreq(XenIOState *state, ioreq_t *req);
-> +void arch_xen_set_memory(XenIOState *state,
-> +                         MemoryRegionSection *section,
-> +                         bool add);
-> +#endif
-> diff --git a/include/hw/xen/arch_hvm.h b/include/hw/xen/arch_hvm.h
-> new file mode 100644
-> index 0000000000..26674648d8
-> --- /dev/null
-> +++ b/include/hw/xen/arch_hvm.h
-> @@ -0,0 +1,3 @@
-> +#if defined(TARGET_I386) || defined(TARGET_X86_64)
-> +#include "hw/i386/xen_arch_hvm.h"
-> +#endif
-> diff --git a/include/hw/xen/xen-hvm-common.h b/include/hw/xen/xen-hvm-common.h
-> new file mode 100644
-> index 0000000000..2979f84ee2
-> --- /dev/null
-> +++ b/include/hw/xen/xen-hvm-common.h
-> @@ -0,0 +1,98 @@
-> +#ifndef HW_XEN_HVM_COMMON_H
-> +#define HW_XEN_HVM_COMMON_H
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/units.h"
-> +
-> +#include "cpu.h"
-> +#include "hw/pci/pci.h"
-> +#include "hw/hw.h"
-> +#include "hw/xen/xen_common.h"
-> +#include "sysemu/runstate.h"
-> +#include "sysemu/sysemu.h"
-> +#include "sysemu/xen.h"
-> +#include "sysemu/xen-mapcache.h"
-> +
-> +#include <xen/hvm/ioreq.h>
-> +
-> +extern MemoryRegion ram_memory;
-> +extern MemoryListener xen_io_listener;
-> +extern DeviceListener xen_device_listener;
-> +
-> +//#define DEBUG_XEN_HVM
-> +
-> +#ifdef DEBUG_XEN_HVM
-> +#define DPRINTF(fmt, ...) \
-> +    do { fprintf(stderr, "xen: " fmt, ## __VA_ARGS__); } while (0)
-> +#else
-> +#define DPRINTF(fmt, ...) \
-> +    do { } while (0)
-> +#endif
-> +
-> +static inline uint32_t xen_vcpu_eport(shared_iopage_t *shared_page, int i)
-> +{
-> +    return shared_page->vcpu_ioreq[i].vp_eport;
-> +}
-> +static inline ioreq_t *xen_vcpu_ioreq(shared_iopage_t *shared_page, int vcpu)
-> +{
-> +    return &shared_page->vcpu_ioreq[vcpu];
-> +}
-> +
-> +#define BUFFER_IO_MAX_DELAY  100
-> +
-> +typedef struct XenPhysmap {
-> +    hwaddr start_addr;
-> +    ram_addr_t size;
-> +    const char *name;
-> +    hwaddr phys_offset;
-> +
-> +    QLIST_ENTRY(XenPhysmap) list;
-> +} XenPhysmap;
-> +
-> +typedef struct XenPciDevice {
-> +    PCIDevice *pci_dev;
-> +    uint32_t sbdf;
-> +    QLIST_ENTRY(XenPciDevice) entry;
-> +} XenPciDevice;
-> +
-> +typedef struct XenIOState {
-> +    ioservid_t ioservid;
-> +    shared_iopage_t *shared_page;
-> +    buffered_iopage_t *buffered_io_page;
-> +    xenforeignmemory_resource_handle *fres;
-> +    QEMUTimer *buffered_io_timer;
-> +    CPUState **cpu_by_vcpu_id;
-> +    /* the evtchn port for polling the notification, */
-> +    evtchn_port_t *ioreq_local_port;
-> +    /* evtchn remote and local ports for buffered io */
-> +    evtchn_port_t bufioreq_remote_port;
-> +    evtchn_port_t bufioreq_local_port;
-> +    /* the evtchn fd for polling */
-> +    xenevtchn_handle *xce_handle;
-> +    /* which vcpu we are serving */
-> +    int send_vcpu;
-> +
-> +    struct xs_handle *xenstore;
-> +    MemoryListener memory_listener;
-> +    MemoryListener io_listener;
-> +    QLIST_HEAD(, XenPciDevice) dev_list;
-> +    DeviceListener device_listener;
-> +
-> +    Notifier exit;
-> +} XenIOState;
-> +
-> +void xen_exit_notifier(Notifier *n, void *data);
-> +
-> +void xen_region_add(MemoryListener *listener, MemoryRegionSection *section);
-> +void xen_region_del(MemoryListener *listener, MemoryRegionSection *section);
-> +void xen_io_add(MemoryListener *listener, MemoryRegionSection *section);
-> +void xen_io_del(MemoryListener *listener, MemoryRegionSection *section);
-> +void xen_device_realize(DeviceListener *listener, DeviceState *dev);
-> +void xen_device_unrealize(DeviceListener *listener, DeviceState *dev);
-> +
-> +void xen_hvm_change_state_handler(void *opaque, bool running, RunState rstate);
-> +void xen_register_ioreq(XenIOState *state, unsigned int max_cpus,
-> +                        MemoryListener xen_memory_listener);
-> +
-> +void cpu_ioreq_pio(ioreq_t *req);
-> +#endif /* HW_XEN_HVM_COMMON_H */
-> -- 
-> 2.17.0
-> 
-> 
+--- a/accel/tcg/translator.c
++++ b/accel/tcg/translator.c
+@@ -172,7 +172,9 @@ static void *translator_access(CPUArchState *env, Disas=
+ContextBase *db,
+             tb_page_addr_t phys_page =3D
+                 get_page_addr_code_hostp(env, base, &db->host_addr[1]);
+             /* We cannot handle MMIO as second page. */
+-            assert(phys_page !=3D -1);
++            if(phys_page =3D=3D -1) {
++                return NULL;
++            }
+             tb_set_page_addr1(tb, phys_page);
+#ifdef CONFIG_USER_ONLY
+             page_protect(end);
+
+which avoided the issue and the test ran to completion.  What is this asser=
+t trying to catch?
+
+--_000_BYAPR02MB55094EC2D6BD8354B3313894BED19BYAPR02MB5509namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
+osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
+xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
+//www.w3.org/TR/REC-html40">
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
+<style><!--
+/* Font Definitions */
+@font-face
+	{font-family:"Cambria Math";
+	panose-1:2 4 5 3 5 4 6 3 2 4;}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;}
+/* Style Definitions */
+p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{margin:0in;
+	font-size:11.0pt;
+	font-family:"Calibri",sans-serif;}
+span.EmailStyle17
+	{mso-style-type:personal-compose;
+	font-family:"Calibri",sans-serif;
+	color:windowtext;}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	font-family:"Calibri",sans-serif;}
+@page WordSection1
+	{size:8.5in 11.0in;
+	margin:1.0in 1.0in 1.0in 1.0in;}
+div.WordSection1
+	{page:WordSection1;}
+--></style><!--[if gte mso 9]><xml>
+<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
+</xml><![endif]--><!--[if gte mso 9]><xml>
+<o:shapelayout v:ext=3D"edit">
+<o:idmap v:ext=3D"edit" data=3D"1" />
+</o:shapelayout></xml><![endif]-->
+</head>
+<body lang=3D"EN-US" link=3D"#0563C1" vlink=3D"#954F72" style=3D"word-wrap:=
+break-word">
+<div class=3D"WordSection1">
+<p class=3D"MsoNormal">There is an assert in translator_access that I hit w=
+hile running on a version of QEMU integrated into a Virtual Platform.<o:p><=
+/o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">Since this function can return null anyway I tried t=
+he following experiment:<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">--- a/accel/tcg/translator.c<o:p></o:p></p>
+<p class=3D"MsoNormal">+++ b/accel/tcg/translator.c<o:p></o:p></p>
+<p class=3D"MsoNormal">@@ -172,7 +172,9 @@ static void *translator_access(C=
+PUArchState *env, DisasContextBase *db,<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;tb_page_addr_t phys_page =3D<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; get_page_addr_code_hostp(env, =
+base, &amp;db-&gt;host_addr[1]);<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; /* We cannot handle MMIO as second page. */<o:p></o:p>=
+</p>
+<p class=3D"MsoNormal">-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; assert(phys_page !=3D -1);<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; if(phys_page =3D=3D -1) {<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return NULL;<o:p></o:p></p>
+<p class=3D"MsoNormal">+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp; }<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; tb_set_page_addr1(tb, phys_page);<o:p></o:p></p>
+<p class=3D"MsoNormal">#ifdef CONFIG_USER_ONLY<o:p></o:p></p>
+<p class=3D"MsoNormal">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp; page_protect(end);<o:p></o:p></p>
+<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class=3D"MsoNormal">which avoided the issue and the test ran to completi=
+on.&nbsp; What is this assert trying to catch?<o:p></o:p></p>
+</div>
+</body>
+</html>
+
+--_000_BYAPR02MB55094EC2D6BD8354B3313894BED19BYAPR02MB5509namp_--
 
