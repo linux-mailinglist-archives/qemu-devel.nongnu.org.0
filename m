@@ -2,86 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D166866D1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 14:27:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4EB56866E6
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 14:30:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pND3r-0006C6-Qj; Wed, 01 Feb 2023 08:22:03 -0500
+	id 1pND89-0001Nn-4t; Wed, 01 Feb 2023 08:26:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1pND3T-00065Q-0W
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:21:47 -0500
-Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1pND3M-00047D-TH
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:21:34 -0500
-Received: by mail-lj1-x233.google.com with SMTP id b13so9429638ljf.8
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 05:21:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rFFADaYv4RMRZci0kU485Cfrcm6FCC0H2psqZLwK+Lg=;
- b=le3s0VPp7peRiMG3z6IRJ4UgIaemTeGjkjAG7wV9sV0zFkHeNvRt8rIdtNkKmeccbB
- PKg+BVq1u+1mfTDP7yTr78TX4dJWu+AO3CuHd63O4gv1mIKIKpNK7Eozr60EOhFsbxhh
- 7IkLI0e5APw10ho8FwOQV4tYhY04V/Z3DVudfl0GJsmNy60fRI/FVKphznheeW2vS8k1
- xCyWR59Ps6a6pSH99AGMpPOAd8sZtwD0xZIphUfvvfEbuT6BXOfgDoDu2MVIuZwq5XJr
- /hSP5yaCe07NRGnlTcdXdLvuk/v0xwARdMLgeQZidwaz+5dySDgh9rIGsbNos0ecvFpd
- 5uJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rFFADaYv4RMRZci0kU485Cfrcm6FCC0H2psqZLwK+Lg=;
- b=TnC8ZrR7vk6p5OueuoC3qFkfn1l9xxG5pkEOFW9J+wbc1u6iQAC0epjn3+ZOUGGoPp
- 4wpIruIRKzRgjNczTpsl+F4s/bRrKinmbFrO+4h0MD5EwYvX9qJNwbmmdiyGCasoS8fA
- 0QN0LpYtVhPCxIvVfAkTlDegHab7nZh5x1gmEVXr/WKDgpINhCpAASWUOah+ryISzcIB
- vFfWncycxAuYSrTJPOK1Oj1n3p+3vRLX/8lwilHhFdmEJLVAhLydZtxHXwAjfYUUtvfM
- nk94qaOZFW1ZfPeUuF3nhixBJKtmVoxZmG0aU3vJSIyJGSdPgw1WSRTavKKKCX8/pC8U
- 0CBg==
-X-Gm-Message-State: AO0yUKXE5NL6cfx5Rh21MdanUcdvYdgmHrSRXeHYbaivjCr3pgukZYFb
- zXkEIRpqOFioFBivPp5/8ck+s/1/J1SX4iZf
-X-Google-Smtp-Source: AK7set9jqZAT4hJR+LPzu1lC/jfrSPMSTvd33O1FDI9LC4NE3PjMoUZSlD6AqkHyAlT6JJWFoRYW9Q==
-X-Received: by 2002:a2e:8045:0:b0:290:5a39:9156 with SMTP id
- p5-20020a2e8045000000b002905a399156mr461307ljg.10.1675257690666; 
- Wed, 01 Feb 2023 05:21:30 -0800 (PST)
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com.
- [209.85.167.52]) by smtp.gmail.com with ESMTPSA id
- s4-20020a05651c200400b0028ea7b5d04asm1050357ljo.129.2023.02.01.05.21.29
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Feb 2023 05:21:29 -0800 (PST)
-Received: by mail-lf1-f52.google.com with SMTP id b3so29267404lfv.2;
- Wed, 01 Feb 2023 05:21:29 -0800 (PST)
-X-Received: by 2002:a05:6512:4010:b0:4d5:76af:f890 with SMTP id
- br16-20020a056512401000b004d576aff890mr401587lfb.228.1675257689284; Wed, 01
- Feb 2023 05:21:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pND7h-0000zI-QB; Wed, 01 Feb 2023 08:26:03 -0500
+Received: from zero.eik.bme.hu ([2001:738:2001:2001::2001])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pND7e-00055j-OT; Wed, 01 Feb 2023 08:26:00 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id B16A674635C;
+ Wed,  1 Feb 2023 14:23:24 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 3A070746324; Wed,  1 Feb 2023 14:23:19 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 38ADE74634B;
+ Wed,  1 Feb 2023 14:23:19 +0100 (CET)
+Date: Wed, 1 Feb 2023 14:23:19 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
+cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>, 
+ qemu-trivial@nongnu.org
+Subject: Re: [PATCH] hw/usb/hcd-ohci: Fix typo
+In-Reply-To: <20230201121515.23016-1-philmd@linaro.org>
+Message-ID: <ba60ff0f-3d4a-4f68-d876-f11c22b31cf7@eik.bme.hu>
+References: <20230201121515.23016-1-philmd@linaro.org>
 MIME-Version: 1.0
-References: <20230131133906.1956228-1-alexghiti@rivosinc.com>
- <20230131133906.1956228-3-alexghiti@rivosinc.com>
-In-Reply-To: <20230131133906.1956228-3-alexghiti@rivosinc.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Wed, 1 Feb 2023 21:21:17 +0800
-X-Gmail-Original-Message-ID: <CANzO1D0WH1T9YuJokFJp8gc9dkDTKUtD+YN+tvp6bZir=NRQPA@mail.gmail.com>
-Message-ID: <CANzO1D0WH1T9YuJokFJp8gc9dkDTKUtD+YN+tvp6bZir=NRQPA@mail.gmail.com>
-Subject: Re: [PATCH v9 2/5] riscv: Change type of valid_vm_1_10_[32|64] to bool
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>, 
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org, Bin Meng <bmeng@tinylab.org>
-Content-Type: multipart/alternative; boundary="0000000000007a24dc05f3a353fa"
-Received-SPF: pass client-ip=2a00:1450:4864:20::233;
- envelope-from=frank.chang@sifive.com; helo=mail-lj1-x233.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/mixed;
+ boundary="3866299591-498155394-1675257799=:46388"
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=2001:738:2001:2001::2001;
+ envelope-from=balaton@eik.bme.hu; helo=zero.eik.bme.hu
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,173 +59,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---0000000000007a24dc05f3a353fa
-Content-Type: text/plain; charset="UTF-8"
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Reviewed-by: Frank Chang <frank.chang@sifive.com>
+--3866299591-498155394-1675257799=:46388
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8BIT
 
-On Tue, Jan 31, 2023 at 10:29 PM Alexandre Ghiti <alexghiti@rivosinc.com>
-wrote:
+On Wed, 1 Feb 2023, Philippe Mathieu-Daudé wrote:
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 
-> This array is actually used as a boolean so swap its current char type
-> to a boolean and at the same time, change the type of validate_vm to
-> bool since it returns valid_vm_1_10_[32|64].
->
-> Suggested-by: Andrew Jones <ajones@ventanamicro.com>
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-> Reviewed-by: Bin Meng <bmeng@tinylab.org>
+I've submitted a series to clean this device up a bit which changed these 
+comments to remove the extre space from the end. Maybe this patch should 
+be rebased on that series so I don't have to rebase ir as this one is a 
+simple search/replace so could come after that series too. Hope Gerd is 
+getting these and can eventually pick these up. I'm starting to get lost 
+between branches and outstanding patches in my tree.
+
+Regards,
+BALATON Zoltan
+
 > ---
->  target/riscv/csr.c | 21 +++++++++++----------
->  1 file changed, 11 insertions(+), 10 deletions(-)
+> hw/usb/hcd-ohci.c | 12 ++++++------
+> 1 file changed, 6 insertions(+), 6 deletions(-)
 >
-> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-> index 0db2c233e5..6b157806a5 100644
-> --- a/target/riscv/csr.c
-> +++ b/target/riscv/csr.c
-> @@ -1117,16 +1117,16 @@ static const target_ulong hip_writable_mask =
-> MIP_VSSIP;
->  static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP |
-> MIP_VSEIP;
->  static const target_ulong vsip_writable_mask = MIP_VSSIP;
+> diff --git a/hw/usb/hcd-ohci.c b/hw/usb/hcd-ohci.c
+> index 9d68036d23..bd8b9d50e5 100644
+> --- a/hw/usb/hcd-ohci.c
+> +++ b/hw/usb/hcd-ohci.c
+> @@ -58,7 +58,7 @@ struct ohci_hcca {
+> #define ED_WBACK_OFFSET offsetof(struct ohci_ed, head)
+> #define ED_WBACK_SIZE   4
 >
-> -static const char valid_vm_1_10_32[16] = {
-> -    [VM_1_10_MBARE] = 1,
-> -    [VM_1_10_SV32] = 1
-> +static const bool valid_vm_1_10_32[16] = {
-> +    [VM_1_10_MBARE] = true,
-> +    [VM_1_10_SV32] = true
->  };
+> -/* Bitfields for the first word of an Endpoint Desciptor.  */
+> +/* Bitfields for the first word of an Endpoint Descriptor.  */
+> #define OHCI_ED_FA_SHIFT  0
+> #define OHCI_ED_FA_MASK   (0x7f<<OHCI_ED_FA_SHIFT)
+> #define OHCI_ED_EN_SHIFT  7
+> @@ -71,11 +71,11 @@ struct ohci_hcca {
+> #define OHCI_ED_MPS_SHIFT 16
+> #define OHCI_ED_MPS_MASK  (0x7ff<<OHCI_ED_MPS_SHIFT)
 >
-> -static const char valid_vm_1_10_64[16] = {
-> -    [VM_1_10_MBARE] = 1,
-> -    [VM_1_10_SV39] = 1,
-> -    [VM_1_10_SV48] = 1,
-> -    [VM_1_10_SV57] = 1
-> +static const bool valid_vm_1_10_64[16] = {
-> +    [VM_1_10_MBARE] = true,
-> +    [VM_1_10_SV39] = true,
-> +    [VM_1_10_SV48] = true,
-> +    [VM_1_10_SV57] = true
->  };
+> -/* Flags in the head field of an Endpoint Desciptor.  */
+> +/* Flags in the head field of an Endpoint Descriptor.  */
+> #define OHCI_ED_H         1
+> #define OHCI_ED_C         2
 >
->  /* Machine Information Registers */
-> @@ -1209,7 +1209,7 @@ static RISCVException read_mstatus(CPURISCVState
-> *env, int csrno,
->      return RISCV_EXCP_NONE;
->  }
+> -/* Bitfields for the first word of a Transfer Desciptor.  */
+> +/* Bitfields for the first word of a Transfer Descriptor.  */
+> #define OHCI_TD_R         (1<<18)
+> #define OHCI_TD_DP_SHIFT  19
+> #define OHCI_TD_DP_MASK   (3<<OHCI_TD_DP_SHIFT)
+> @@ -88,14 +88,14 @@ struct ohci_hcca {
+> #define OHCI_TD_CC_SHIFT  28
+> #define OHCI_TD_CC_MASK   (0xf<<OHCI_TD_CC_SHIFT)
 >
-> -static int validate_vm(CPURISCVState *env, target_ulong vm)
-> +static bool validate_vm(CPURISCVState *env, target_ulong vm)
->  {
->      if (riscv_cpu_mxl(env) == MXL_RV32) {
->          return valid_vm_1_10_32[vm & 0xf];
-> @@ -2648,7 +2648,8 @@ static RISCVException read_satp(CPURISCVState *env,
-> int csrno,
->  static RISCVException write_satp(CPURISCVState *env, int csrno,
->                                   target_ulong val)
->  {
-> -    target_ulong vm, mask;
-> +    target_ulong mask;
-> +    bool vm;
+> -/* Bitfields for the first word of an Isochronous Transfer Desciptor.  */
+> -/* CC & DI - same as in the General Transfer Desciptor */
+> +/* Bitfields for the first word of an Isochronous Transfer Descriptor.  */
+> +/* CC & DI - same as in the General Transfer Descriptor */
+> #define OHCI_TD_SF_SHIFT  0
+> #define OHCI_TD_SF_MASK   (0xffff<<OHCI_TD_SF_SHIFT)
+> #define OHCI_TD_FC_SHIFT  24
+> #define OHCI_TD_FC_MASK   (7<<OHCI_TD_FC_SHIFT)
 >
->      if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
->          return RISCV_EXCP_NONE;
-> --
-> 2.37.2
+> -/* Isochronous Transfer Desciptor - Offset / PacketStatusWord */
+> +/* Isochronous Transfer Descriptor - Offset / PacketStatusWord */
+> #define OHCI_TD_PSW_CC_SHIFT 12
+> #define OHCI_TD_PSW_CC_MASK  (0xf<<OHCI_TD_PSW_CC_SHIFT)
+> #define OHCI_TD_PSW_SIZE_SHIFT 0
 >
->
->
-
---0000000000007a24dc05f3a353fa
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Reviewed-by: Frank Chang &lt;<a href=3D"mailto:frank.chang=
-@sifive.com">frank.chang@sifive.com</a>&gt;</div><br><div class=3D"gmail_qu=
-ote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 31, 2023 at 10:29 PM=
- Alexandre Ghiti &lt;<a href=3D"mailto:alexghiti@rivosinc.com">alexghiti@ri=
-vosinc.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">This array is actually used as a boolean so swap its current cha=
-r type<br>
-to a boolean and at the same time, change the type of validate_vm to<br>
-bool since it returns valid_vm_1_10_[32|64].<br>
-<br>
-Suggested-by: Andrew Jones &lt;<a href=3D"mailto:ajones@ventanamicro.com" t=
-arget=3D"_blank">ajones@ventanamicro.com</a>&gt;<br>
-Signed-off-by: Alexandre Ghiti &lt;<a href=3D"mailto:alexghiti@rivosinc.com=
-" target=3D"_blank">alexghiti@rivosinc.com</a>&gt;<br>
-Reviewed-by: Andrew Jones &lt;<a href=3D"mailto:ajones@ventanamicro.com" ta=
-rget=3D"_blank">ajones@ventanamicro.com</a>&gt;<br>
-Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.co=
-m" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
-Reviewed-by: Bin Meng &lt;<a href=3D"mailto:bmeng@tinylab.org" target=3D"_b=
-lank">bmeng@tinylab.org</a>&gt;<br>
----<br>
-=C2=A0target/riscv/csr.c | 21 +++++++++++----------<br>
-=C2=A01 file changed, 11 insertions(+), 10 deletions(-)<br>
-<br>
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
-index 0db2c233e5..6b157806a5 100644<br>
---- a/target/riscv/csr.c<br>
-+++ b/target/riscv/csr.c<br>
-@@ -1117,16 +1117,16 @@ static const target_ulong hip_writable_mask =3D MIP=
-_VSSIP;<br>
-=C2=A0static const target_ulong hvip_writable_mask =3D MIP_VSSIP | MIP_VSTI=
-P | MIP_VSEIP;<br>
-=C2=A0static const target_ulong vsip_writable_mask =3D MIP_VSSIP;<br>
-<br>
--static const char valid_vm_1_10_32[16] =3D {<br>
--=C2=A0 =C2=A0 [VM_1_10_MBARE] =3D 1,<br>
--=C2=A0 =C2=A0 [VM_1_10_SV32] =3D 1<br>
-+static const bool valid_vm_1_10_32[16] =3D {<br>
-+=C2=A0 =C2=A0 [VM_1_10_MBARE] =3D true,<br>
-+=C2=A0 =C2=A0 [VM_1_10_SV32] =3D true<br>
-=C2=A0};<br>
-<br>
--static const char valid_vm_1_10_64[16] =3D {<br>
--=C2=A0 =C2=A0 [VM_1_10_MBARE] =3D 1,<br>
--=C2=A0 =C2=A0 [VM_1_10_SV39] =3D 1,<br>
--=C2=A0 =C2=A0 [VM_1_10_SV48] =3D 1,<br>
--=C2=A0 =C2=A0 [VM_1_10_SV57] =3D 1<br>
-+static const bool valid_vm_1_10_64[16] =3D {<br>
-+=C2=A0 =C2=A0 [VM_1_10_MBARE] =3D true,<br>
-+=C2=A0 =C2=A0 [VM_1_10_SV39] =3D true,<br>
-+=C2=A0 =C2=A0 [VM_1_10_SV48] =3D true,<br>
-+=C2=A0 =C2=A0 [VM_1_10_SV57] =3D true<br>
-=C2=A0};<br>
-<br>
-=C2=A0/* Machine Information Registers */<br>
-@@ -1209,7 +1209,7 @@ static RISCVException read_mstatus(CPURISCVState *env=
-, int csrno,<br>
-=C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_NONE;<br>
-=C2=A0}<br>
-<br>
--static int validate_vm(CPURISCVState *env, target_ulong vm)<br>
-+static bool validate_vm(CPURISCVState *env, target_ulong vm)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0if (riscv_cpu_mxl(env) =3D=3D MXL_RV32) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return valid_vm_1_10_32[vm &amp; 0xf];<br=
->
-@@ -2648,7 +2648,8 @@ static RISCVException read_satp(CPURISCVState *env, i=
-nt csrno,<br>
-=C2=A0static RISCVException write_satp(CPURISCVState *env, int csrno,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_ulong val)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 target_ulong vm, mask;<br>
-+=C2=A0 =C2=A0 target_ulong mask;<br>
-+=C2=A0 =C2=A0 bool vm;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (!riscv_feature(env, RISCV_FEATURE_MMU)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_NONE;<br>
--- <br>
-2.37.2<br>
-<br>
-<br>
-</blockquote></div>
-
---0000000000007a24dc05f3a353fa--
+--3866299591-498155394-1675257799=:46388--
 
