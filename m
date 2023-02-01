@@ -2,87 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0716686AAA
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 16:50:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33E89686B16
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 17:05:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNFN7-00018Q-2u; Wed, 01 Feb 2023 10:50:05 -0500
+	id 1pNFbD-0005uk-3k; Wed, 01 Feb 2023 11:04:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1pNFMv-000129-LT
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 10:49:58 -0500
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
- id 1pNFMs-0003PS-Mp
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 10:49:53 -0500
-Received: by mail-lf1-x129.google.com with SMTP id bi36so609970lfb.8
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 07:49:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=rgwV7aGyci2+rECTp64GNpp+MHpxj99BPO3HnCP3T1U=;
- b=b661G3yt29KuC6hRNYWfoVP2A49igBK2yWXEcY24Czaoyy98Pmrd5Y1VCaiw1yjHbl
- H6sDv29wTDY6yPUaTIRUYTHSPJAhYDS5omRmB3vHPomoAD+UkoyJdL0wflBCdDwr6ayt
- AMCkTUCI1S5YoMz/AOPDRidvPrVs5dX7U2eVUiI5s4glRtaMzQSjPnpECf1SX2Xc8imK
- R7UR4oESz7XIHvirJNG6zkjNotnxWYh/Zv7PhSixad/pcJB2vkiGAhooCxaZMjTcQXou
- XZSc/EE/QzhqyRvALZ4CDPVaCe3UDINb9GckjCdRubI1RiJGJ7CEcqShmYwIKwOcc40c
- 80pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=rgwV7aGyci2+rECTp64GNpp+MHpxj99BPO3HnCP3T1U=;
- b=NnP1HW7yief/J//dj8OanIaUg9A029Q6IkjoZw8n3c/LLCaDKvRjBD4HVU9ictxjFv
- LALCGgxFY5UWfo7/yJh6P++PDxWfAuL4s44a0kZ4TerPWk4naGJxMbWfDUV6h2lRYWsG
- gTPxHfe09E4m/EMTLvZU6PtQLnc4mj5QKUT9DHkcpzVIwvki1zX4MV05vBj4AmAGmR8o
- cbjdLkv0M3CdIeKR/ROf4g7088ZEj57XRXift++MMluwNehje7LE8nijvNP8jc15GFFf
- 4OPtnrKn+gVpt6fS4wuybqecnaYV4ltdjbdUE082D2l0WnQw0dqO57kq0cu+002fV9o3
- Dadg==
-X-Gm-Message-State: AO0yUKXCXEIFc0HRUFQAfund+1jCHaJNv9fPSNbWFvDihQbB1r6mfNYv
- mZXnp6Jze2kMOJQg6PlEqiQEDA==
-X-Google-Smtp-Source: AK7set/Km0v3YDt6Rp+dJnEOPouDoL8aLV5bDqSRgdeT/MTrA32FYQq1PuHy8ZkMWU5aGkUanadYuA==
-X-Received: by 2002:ac2:5607:0:b0:4cb:430b:c6b with SMTP id
- v7-20020ac25607000000b004cb430b0c6bmr548189lfd.29.1675266588779; 
- Wed, 01 Feb 2023 07:49:48 -0800 (PST)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com.
- [209.85.208.169]) by smtp.gmail.com with ESMTPSA id
- u13-20020a056512094d00b004ca0ea7af24sm1197182lft.174.2023.02.01.07.49.47
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Feb 2023 07:49:48 -0800 (PST)
-Received: by mail-lj1-f169.google.com with SMTP id d8so7474127ljq.9;
- Wed, 01 Feb 2023 07:49:47 -0800 (PST)
-X-Received: by 2002:a05:651c:22c:b0:290:795d:1e07 with SMTP id
- z12-20020a05651c022c00b00290795d1e07mr448271ljn.211.1675266587651; Wed, 01
- Feb 2023 07:49:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNFat-0005pN-EI
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 11:04:21 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNFar-0006cm-8s
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 11:04:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675267456;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=4VJxsg+iYEPzuYBJ7UenIqCCUfd0L5cv01ArZ6hetWA=;
+ b=SCO1vUjqv/Bc8wVsX43A4p/UPrLbZIwElNstSnQb+vvAyFgcWjRp+AkRHCUbxsJYtkcMb8
+ t/0eQsHKGlclaNX9GP8eIjJ1uMaXVzivNfqQRAA/qoa3Gy/Gy1jLDYLwzKz7K1fq+6syut
+ lj2DkIdvpN5bhJKHxuEks2F8QhSjl34=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-195-JW7v5An2Pay4nImgmpAAdg-1; Wed, 01 Feb 2023 11:04:12 -0500
+X-MC-Unique: JW7v5An2Pay4nImgmpAAdg-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1328187A3B8;
+ Wed,  1 Feb 2023 16:04:12 +0000 (UTC)
+Received: from merkur.redhat.com (unknown [10.39.194.77])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 376BD2026D4B;
+ Wed,  1 Feb 2023 16:04:11 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: kwolf@redhat.com,
+	peter.maydell@linaro.org,
+	qemu-devel@nongnu.org
+Subject: [PULL v4 00/38] Block layer patches
+Date: Wed,  1 Feb 2023 17:03:56 +0100
+Message-Id: <20230201160356.239254-1-kwolf@redhat.com>
 MIME-Version: 1.0
-References: <20230131133906.1956228-1-alexghiti@rivosinc.com>
- <20230131133906.1956228-5-alexghiti@rivosinc.com>
-In-Reply-To: <20230131133906.1956228-5-alexghiti@rivosinc.com>
-From: Frank Chang <frank.chang@sifive.com>
-Date: Wed, 1 Feb 2023 23:49:36 +0800
-X-Gmail-Original-Message-ID: <CANzO1D0UEj9d=jnHWUaCxsrZpLHL9C-hKiJPn6CPVUrjyYg-sw@mail.gmail.com>
-Message-ID: <CANzO1D0UEj9d=jnHWUaCxsrZpLHL9C-hKiJPn6CPVUrjyYg-sw@mail.gmail.com>
-Subject: Re: [PATCH v9 4/5] riscv: Introduce satp mode hw capabilities
-To: Alexandre Ghiti <alexghiti@rivosinc.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>, 
- Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
- qemu-devel@nongnu.org
-Content-Type: multipart/alternative; boundary="000000000000dc742f05f3a565b9"
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=frank.chang@sifive.com; helo=mail-lf1-x129.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,667 +75,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000dc742f05f3a565b9
-Content-Type: text/plain; charset="UTF-8"
+The following changes since commit 13356edb87506c148b163b8c7eb0695647d00c2a:
 
-On Tue, Jan 31, 2023 at 10:36 PM Alexandre Ghiti <alexghiti@rivosinc.com>
-wrote:
+  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2023-01-24 09:45:33 +0000)
 
-> Currently, the max satp mode is set with the only constraint that it must
-> be
-> implemented in QEMU, i.e. set in valid_vm_1_10_[32|64].
->
-> But we actually need to add another level of constraint: what the hw is
-> actually capable of, because currently, a linux booting on a sifive-u54
-> boots in sv57 mode which is incompatible with the cpu's sv39 max
-> capability.
->
-> So add a new bitmap to RISCVSATPMap which contains this capability and
-> initialize it in every XXX_cpu_init.
->
-> Finally:
-> - valid_vm_1_10_[32|64] constrains which satp mode the CPU can use
-> - the CPU hw capabilities constrains what the user may select
-> - the user's selection then constrains what's available to the guest
->   OS.
->
-> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> ---
->  target/riscv/cpu.c | 79 +++++++++++++++++++++++++++++++---------------
->  target/riscv/cpu.h |  8 +++--
->  2 files changed, 60 insertions(+), 27 deletions(-)
->
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 3a7a1746aa..6dd76355ec 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -292,26 +292,36 @@ const char *satp_mode_str(uint8_t satp_mode, bool
-> is_32_bit)
->      g_assert_not_reached();
->  }
->
-> -/* Sets the satp mode to the max supported */
-> -static void set_satp_mode_default_map(RISCVCPU *cpu)
-> +static void set_satp_mode_max_supported(RISCVCPU *cpu,
-> +                                        uint8_t satp_mode)
->  {
->      bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
-> +    const bool *valid_vm = rv32 ? valid_vm_1_10_32 : valid_vm_1_10_64;
->
+are available in the Git repository at:
 
-This will break user-mode QEMU.
-valid_vm_1_10_32 and valid_vm_1_10_64 are defined in !CONFIG_USER_ONLY
-section.
-This issue also exists in patch 3.
-You have to move valid_vm_1_10_32 and valid_vm_1_10_64 out from
-!CONFIG_USER_ONLY.
+  https://repo.or.cz/qemu/kevin.git tags/for-upstream
 
-Regards,
-Frank Chang
+for you to fetch changes up to d570177b50c389f379f93183155a27d44856ab46:
 
+  qemu-img: Change info key names for protocol nodes (2023-02-01 16:52:33 +0100)
 
-> -    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
-> -        cpu->cfg.satp_mode.map |=
-> -                        (1 << satp_mode_from_str(rv32 ? "sv32" : "sv57"));
-> -    } else {
-> -        cpu->cfg.satp_mode.map |= (1 << satp_mode_from_str("mbare"));
-> +    for (int i = 0; i <= satp_mode; ++i) {
-> +        if (valid_vm[i]) {
-> +            cpu->cfg.satp_mode.supported |= (1 << i);
-> +        }
->      }
->  }
->
-> +/* Set the satp mode to the max supported */
-> +static void set_satp_mode_default_map(RISCVCPU *cpu)
-> +{
-> +    cpu->cfg.satp_mode.map = cpu->cfg.satp_mode.supported;
-> +}
-> +
->  static void riscv_any_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    RISCVCPU *cpu = RISCV_CPU(obj);
-> +
->  #if defined(TARGET_RISCV32)
->      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
-> +    set_satp_mode_max_supported(cpu, VM_1_10_SV32);
->  #elif defined(TARGET_RISCV64)
->      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
-> +    set_satp_mode_max_supported(cpu, VM_1_10_SV57);
->  #endif
->      set_priv_version(env, PRIV_VERSION_1_12_0);
->      register_cpu_props(obj);
-> @@ -321,18 +331,24 @@ static void riscv_any_cpu_init(Object *obj)
->  static void rv64_base_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    RISCVCPU *cpu = RISCV_CPU(obj);
-> +
->      /* We set this in the realise function */
->      set_misa(env, MXL_RV64, 0);
->      register_cpu_props(obj);
->      /* Set latest version of privileged specification */
->      set_priv_version(env, PRIV_VERSION_1_12_0);
-> +    set_satp_mode_max_supported(cpu, VM_1_10_SV57);
->  }
->
->  static void rv64_sifive_u_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    RISCVCPU *cpu = RISCV_CPU(obj);
-> +
->      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS |
-> RVU);
->      set_priv_version(env, PRIV_VERSION_1_10_0);
-> +    set_satp_mode_max_supported(cpu, VM_1_10_SV39);
->  }
->
->  static void rv64_sifive_e_cpu_init(Object *obj)
-> @@ -343,6 +359,7 @@ static void rv64_sifive_e_cpu_init(Object *obj)
->      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);
->      set_priv_version(env, PRIV_VERSION_1_10_0);
->      cpu->cfg.mmu = false;
-> +    set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
->  }
->
->  static void rv128_base_cpu_init(Object *obj)
-> @@ -354,28 +371,36 @@ static void rv128_base_cpu_init(Object *obj)
->          exit(EXIT_FAILURE);
->      }
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    RISCVCPU *cpu = RISCV_CPU(obj);
->      /* We set this in the realise function */
->      set_misa(env, MXL_RV128, 0);
->      register_cpu_props(obj);
->      /* Set latest version of privileged specification */
->      set_priv_version(env, PRIV_VERSION_1_12_0);
-> +    set_satp_mode_max_supported(cpu, VM_1_10_SV57);
->  }
->  #else
->  static void rv32_base_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    RISCVCPU *cpu = RISCV_CPU(obj);
-> +
->      /* We set this in the realise function */
->      set_misa(env, MXL_RV32, 0);
->      register_cpu_props(obj);
->      /* Set latest version of privileged specification */
->      set_priv_version(env, PRIV_VERSION_1_12_0);
-> +    set_satp_mode_max_supported(cpu, VM_1_10_SV32);
->  }
->
->  static void rv32_sifive_u_cpu_init(Object *obj)
->  {
->      CPURISCVState *env = &RISCV_CPU(obj)->env;
-> +    RISCVCPU *cpu = RISCV_CPU(obj);
-> +
->      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVS |
-> RVU);
->      set_priv_version(env, PRIV_VERSION_1_10_0);
-> +    set_satp_mode_max_supported(cpu, VM_1_10_SV32);
->  }
->
->  static void rv32_sifive_e_cpu_init(Object *obj)
-> @@ -386,6 +411,7 @@ static void rv32_sifive_e_cpu_init(Object *obj)
->      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);
->      set_priv_version(env, PRIV_VERSION_1_10_0);
->      cpu->cfg.mmu = false;
-> +    set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
->  }
->
->  static void rv32_ibex_cpu_init(Object *obj)
-> @@ -396,6 +422,7 @@ static void rv32_ibex_cpu_init(Object *obj)
->      set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);
->      set_priv_version(env, PRIV_VERSION_1_11_0);
->      cpu->cfg.mmu = false;
-> +    set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
->      cpu->cfg.epmp = true;
->  }
->
-> @@ -407,6 +434,7 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
->      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
->      set_priv_version(env, PRIV_VERSION_1_10_0);
->      cpu->cfg.mmu = false;
-> +    set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
->  }
->  #endif
->
-> @@ -698,8 +726,9 @@ static void riscv_cpu_disas_set_info(CPUState *s,
-> disassemble_info *info)
->  static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
->  {
->      bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
-> -    const bool *valid_vm = rv32 ? valid_vm_1_10_32 : valid_vm_1_10_64;
-> -    uint8_t satp_mode_max;
-> +    uint8_t satp_mode_map_max;
-> +    uint8_t satp_mode_supported_max =
-> +
-> satp_mode_max_from_map(cpu->cfg.satp_mode.supported);
->
->      if (cpu->cfg.satp_mode.map == 0) {
->          if (cpu->cfg.satp_mode.init == 0) {
-> @@ -712,9 +741,10 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU
-> *cpu, Error **errp)
->               * valid_vm_1_10_32/64.
->               */
->              for (int i = 1; i < 16; ++i) {
-> -                if ((cpu->cfg.satp_mode.init & (1 << i)) && valid_vm[i]) {
-> +                if ((cpu->cfg.satp_mode.init & (1 << i)) &&
-> +                    (cpu->cfg.satp_mode.supported & (1 << i))) {
->                      for (int j = i - 1; j >= 0; --j) {
-> -                        if (valid_vm[j]) {
-> +                        if (cpu->cfg.satp_mode.supported & (1 << j)) {
->                              cpu->cfg.satp_mode.map |= (1 << j);
->                              break;
->                          }
-> @@ -725,37 +755,36 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU
-> *cpu, Error **errp)
->          }
->      }
->
-> -    /* Make sure the configuration asked is supported by qemu */
-> -    for (int i = 0; i < 16; ++i) {
-> -        if ((cpu->cfg.satp_mode.map & (1 << i)) && !valid_vm[i]) {
-> -            error_setg(errp, "satp_mode %s is not valid",
-> -                       satp_mode_str(i, rv32));
-> -            return;
-> -        }
-> +    satp_mode_map_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
-> +
-> +    /* Make sure the user asked for a supported configuration (HW and
-> qemu) */
-> +    if (satp_mode_map_max > satp_mode_supported_max) {
-> +        error_setg(errp, "satp_mode %s is higher than hw max capability
-> %s",
-> +                   satp_mode_str(satp_mode_map_max, rv32),
-> +                   satp_mode_str(satp_mode_supported_max, rv32));
-> +        return;
->      }
->
->      /*
->       * Make sure the user did not ask for an invalid configuration as per
->       * the specification.
->       */
-> -    satp_mode_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
-> -
->      if (!rv32) {
-> -        for (int i = satp_mode_max - 1; i >= 0; --i) {
-> +        for (int i = satp_mode_map_max - 1; i >= 0; --i) {
->              if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
->                  (cpu->cfg.satp_mode.init & (1 << i)) &&
-> -                valid_vm[i]) {
-> +                (cpu->cfg.satp_mode.supported & (1 << i))) {
->                  error_setg(errp, "cannot disable %s satp mode if %s "
->                             "is enabled", satp_mode_str(i, false),
-> -                           satp_mode_str(satp_mode_max, false));
-> +                           satp_mode_str(satp_mode_map_max, false));
->                  return;
->              }
->          }
->      }
->
->      /* Finally expand the map so that all valid modes are set */
-> -    for (int i = satp_mode_max - 1; i >= 0; --i) {
-> -        if (valid_vm[i]) {
-> +    for (int i = satp_mode_map_max - 1; i >= 0; --i) {
-> +        if (cpu->cfg.satp_mode.supported & (1 << i)) {
->              cpu->cfg.satp_mode.map |= (1 << i);
->          }
->      }
-> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-> index e37177db5c..b591122099 100644
-> --- a/target/riscv/cpu.h
-> +++ b/target/riscv/cpu.h
-> @@ -416,13 +416,17 @@ struct RISCVCPUClass {
->
->  /*
->   * map is a 16-bit bitmap: the most significant set bit in map is the
-> maximum
-> - * satp mode that is supported.
-> + * satp mode that is supported. It may be chosen by the user and must
-> respect
-> + * what qemu implements (valid_1_10_32/64) and what the hw is capable of
-> + * (supported bitmap below).
->   *
->   * init is a 16-bit bitmap used to make sure the user selected a correct
->   * configuration as per the specification.
-> + *
-> + * supported is a 16-bit bitmap used to reflect the hw capabilities.
->   */
->  typedef struct {
-> -    uint16_t map, init;
-> +    uint16_t map, init, supported;
->  } RISCVSATPMap;
->
->  struct RISCVCPUConfig {
-> --
-> 2.37.2
->
->
->
+v4:
+- Fixed the 'qemu-img-close-errors' test case to run only on Linux and
+  only with the file protocol, use qemu-io instead of truncate
 
---000000000000dc742f05f3a565b9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+v3:
+- Make the compiler happier on BSD and CentOS Stream 8
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, Jan 31, 2023 at 10:36 PM Alexandr=
-e Ghiti &lt;<a href=3D"mailto:alexghiti@rivosinc.com">alexghiti@rivosinc.co=
-m</a>&gt; wrote:<br></div><div class=3D"gmail_quote"><blockquote class=3D"g=
-mail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204=
-,204,204);padding-left:1ex">Currently, the max satp mode is set with the on=
-ly constraint that it must be<br>
-implemented in QEMU, i.e. set in valid_vm_1_10_[32|64].<br>
-<br>
-But we actually need to add another level of constraint: what the hw is<br>
-actually capable of, because currently, a linux booting on a sifive-u54<br>
-boots in sv57 mode which is incompatible with the cpu&#39;s sv39 max<br>
-capability.<br>
-<br>
-So add a new bitmap to RISCVSATPMap which contains this capability and<br>
-initialize it in every XXX_cpu_init.<br>
-<br>
-Finally:<br>
-- valid_vm_1_10_[32|64] constrains which satp mode the CPU can use<br>
-- the CPU hw capabilities constrains what the user may select<br>
-- the user&#39;s selection then constrains what&#39;s available to the gues=
-t<br>
-=C2=A0 OS.<br>
-<br>
-Signed-off-by: Alexandre Ghiti &lt;<a href=3D"mailto:alexghiti@rivosinc.com=
-" target=3D"_blank">alexghiti@rivosinc.com</a>&gt;<br>
-Reviewed-by: Andrew Jones &lt;<a href=3D"mailto:ajones@ventanamicro.com" ta=
-rget=3D"_blank">ajones@ventanamicro.com</a>&gt;<br>
----<br>
-=C2=A0target/riscv/cpu.c | 79 +++++++++++++++++++++++++++++++--------------=
--<br>
-=C2=A0target/riscv/cpu.h |=C2=A0 8 +++--<br>
-=C2=A02 files changed, 60 insertions(+), 27 deletions(-)<br>
-<br>
-diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c<br>
-index 3a7a1746aa..6dd76355ec 100644<br>
---- a/target/riscv/cpu.c<br>
-+++ b/target/riscv/cpu.c<br>
-@@ -292,26 +292,36 @@ const char *satp_mode_str(uint8_t satp_mode, bool is_=
-32_bit)<br>
-=C2=A0 =C2=A0 =C2=A0g_assert_not_reached();<br>
-=C2=A0}<br>
-<br>
--/* Sets the satp mode to the max supported */<br>
--static void set_satp_mode_default_map(RISCVCPU *cpu)<br>
-+static void set_satp_mode_max_supported(RISCVCPU *cpu,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 uint8_t =
-satp_mode)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0bool rv32 =3D riscv_cpu_mxl(&amp;cpu-&gt;env) =3D=3D MX=
-L_RV32;<br>
-+=C2=A0 =C2=A0 const bool *valid_vm =3D rv32 ? valid_vm_1_10_32 : valid_vm_=
-1_10_64;<br></blockquote><div><br></div><div>This will break user-mode QEMU=
-.</div><div>valid_vm_1_10_32 and valid_vm_1_10_64 are defined=C2=A0in !CONF=
-IG_USER_ONLY section.<br></div><div>This issue also exists in patch 3.<br><=
-/div><div>You have to move valid_vm_1_10_32 and valid_vm_1_10_64 out from !=
-CONFIG_USER_ONLY.</div><div><br></div><div>Regards,</div><div>Frank Chang</=
-div><div><br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
-x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
--=C2=A0 =C2=A0 if (riscv_feature(&amp;cpu-&gt;env, RISCV_FEATURE_MMU)) {<br=
->
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu-&gt;cfg.satp_mode.map |=3D<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 (1 &lt;&lt; satp_mode_from_str(rv32 ? &quot;sv32&quot; : &quot;s=
-v57&quot;));<br>
--=C2=A0 =C2=A0 } else {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu-&gt;cfg.satp_mode.map |=3D (1 &lt;&lt; sat=
-p_mode_from_str(&quot;mbare&quot;));<br>
-+=C2=A0 =C2=A0 for (int i =3D 0; i &lt;=3D satp_mode; ++i) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (valid_vm[i]) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 cpu-&gt;cfg.satp_mode.supported =
-|=3D (1 &lt;&lt; i);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0}<br>
-<br>
-+/* Set the satp mode to the max supported */<br>
-+static void set_satp_mode_default_map(RISCVCPU *cpu)<br>
-+{<br>
-+=C2=A0 =C2=A0 cpu-&gt;cfg.satp_mode.map =3D cpu-&gt;cfg.satp_mode.supporte=
-d;<br>
-+}<br>
-+<br>
-=C2=A0static void riscv_any_cpu_init(Object *obj)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0CPURISCVState *env =3D &amp;RISCV_CPU(obj)-&gt;env;<br>
-+=C2=A0 =C2=A0 RISCVCPU *cpu =3D RISCV_CPU(obj);<br>
-+<br>
-=C2=A0#if defined(TARGET_RISCV32)<br>
-=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | R=
-VC | RVU);<br>
-+=C2=A0 =C2=A0 set_satp_mode_max_supported(cpu, VM_1_10_SV32);<br>
-=C2=A0#elif defined(TARGET_RISCV64)<br>
-=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | R=
-VC | RVU);<br>
-+=C2=A0 =C2=A0 set_satp_mode_max_supported(cpu, VM_1_10_SV57);<br>
-=C2=A0#endif<br>
-=C2=A0 =C2=A0 =C2=A0set_priv_version(env, PRIV_VERSION_1_12_0);<br>
-=C2=A0 =C2=A0 =C2=A0register_cpu_props(obj);<br>
-@@ -321,18 +331,24 @@ static void riscv_any_cpu_init(Object *obj)<br>
-=C2=A0static void rv64_base_cpu_init(Object *obj)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0CPURISCVState *env =3D &amp;RISCV_CPU(obj)-&gt;env;<br>
-+=C2=A0 =C2=A0 RISCVCPU *cpu =3D RISCV_CPU(obj);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0/* We set this in the realise function */<br>
-=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV64, 0);<br>
-=C2=A0 =C2=A0 =C2=A0register_cpu_props(obj);<br>
-=C2=A0 =C2=A0 =C2=A0/* Set latest version of privileged specification */<br=
->
-=C2=A0 =C2=A0 =C2=A0set_priv_version(env, PRIV_VERSION_1_12_0);<br>
-+=C2=A0 =C2=A0 set_satp_mode_max_supported(cpu, VM_1_10_SV57);<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void rv64_sifive_u_cpu_init(Object *obj)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0CPURISCVState *env =3D &amp;RISCV_CPU(obj)-&gt;env;<br>
-+=C2=A0 =C2=A0 RISCVCPU *cpu =3D RISCV_CPU(obj);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | R=
-VC | RVS | RVU);<br>
-=C2=A0 =C2=A0 =C2=A0set_priv_version(env, PRIV_VERSION_1_10_0);<br>
-+=C2=A0 =C2=A0 set_satp_mode_max_supported(cpu, VM_1_10_SV39);<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void rv64_sifive_e_cpu_init(Object *obj)<br>
-@@ -343,6 +359,7 @@ static void rv64_sifive_e_cpu_init(Object *obj)<br>
-=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);<b=
-r>
-=C2=A0 =C2=A0 =C2=A0set_priv_version(env, PRIV_VERSION_1_10_0);<br>
-=C2=A0 =C2=A0 =C2=A0cpu-&gt;cfg.mmu =3D false;<br>
-+=C2=A0 =C2=A0 set_satp_mode_max_supported(cpu, VM_1_10_MBARE);<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void rv128_base_cpu_init(Object *obj)<br>
-@@ -354,28 +371,36 @@ static void rv128_base_cpu_init(Object *obj)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0exit(EXIT_FAILURE);<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0CPURISCVState *env =3D &amp;RISCV_CPU(obj)-&gt;env;<br>
-+=C2=A0 =C2=A0 RISCVCPU *cpu =3D RISCV_CPU(obj);<br>
-=C2=A0 =C2=A0 =C2=A0/* We set this in the realise function */<br>
-=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV128, 0);<br>
-=C2=A0 =C2=A0 =C2=A0register_cpu_props(obj);<br>
-=C2=A0 =C2=A0 =C2=A0/* Set latest version of privileged specification */<br=
->
-=C2=A0 =C2=A0 =C2=A0set_priv_version(env, PRIV_VERSION_1_12_0);<br>
-+=C2=A0 =C2=A0 set_satp_mode_max_supported(cpu, VM_1_10_SV57);<br>
-=C2=A0}<br>
-=C2=A0#else<br>
-=C2=A0static void rv32_base_cpu_init(Object *obj)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0CPURISCVState *env =3D &amp;RISCV_CPU(obj)-&gt;env;<br>
-+=C2=A0 =C2=A0 RISCVCPU *cpu =3D RISCV_CPU(obj);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0/* We set this in the realise function */<br>
-=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV32, 0);<br>
-=C2=A0 =C2=A0 =C2=A0register_cpu_props(obj);<br>
-=C2=A0 =C2=A0 =C2=A0/* Set latest version of privileged specification */<br=
->
-=C2=A0 =C2=A0 =C2=A0set_priv_version(env, PRIV_VERSION_1_12_0);<br>
-+=C2=A0 =C2=A0 set_satp_mode_max_supported(cpu, VM_1_10_SV32);<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void rv32_sifive_u_cpu_init(Object *obj)<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0CPURISCVState *env =3D &amp;RISCV_CPU(obj)-&gt;env;<br>
-+=C2=A0 =C2=A0 RISCVCPU *cpu =3D RISCV_CPU(obj);<br>
-+<br>
-=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | R=
-VC | RVS | RVU);<br>
-=C2=A0 =C2=A0 =C2=A0set_priv_version(env, PRIV_VERSION_1_10_0);<br>
-+=C2=A0 =C2=A0 set_satp_mode_max_supported(cpu, VM_1_10_SV32);<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void rv32_sifive_e_cpu_init(Object *obj)<br>
-@@ -386,6 +411,7 @@ static void rv32_sifive_e_cpu_init(Object *obj)<br>
-=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);<b=
-r>
-=C2=A0 =C2=A0 =C2=A0set_priv_version(env, PRIV_VERSION_1_10_0);<br>
-=C2=A0 =C2=A0 =C2=A0cpu-&gt;cfg.mmu =3D false;<br>
-+=C2=A0 =C2=A0 set_satp_mode_max_supported(cpu, VM_1_10_MBARE);<br>
-=C2=A0}<br>
-<br>
-=C2=A0static void rv32_ibex_cpu_init(Object *obj)<br>
-@@ -396,6 +422,7 @@ static void rv32_ibex_cpu_init(Object *obj)<br>
-=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);<br>
-=C2=A0 =C2=A0 =C2=A0set_priv_version(env, PRIV_VERSION_1_11_0);<br>
-=C2=A0 =C2=A0 =C2=A0cpu-&gt;cfg.mmu =3D false;<br>
-+=C2=A0 =C2=A0 set_satp_mode_max_supported(cpu, VM_1_10_MBARE);<br>
-=C2=A0 =C2=A0 =C2=A0cpu-&gt;cfg.epmp =3D true;<br>
-=C2=A0}<br>
-<br>
-@@ -407,6 +434,7 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)<br>
-=C2=A0 =C2=A0 =C2=A0set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | R=
-VU);<br>
-=C2=A0 =C2=A0 =C2=A0set_priv_version(env, PRIV_VERSION_1_10_0);<br>
-=C2=A0 =C2=A0 =C2=A0cpu-&gt;cfg.mmu =3D false;<br>
-+=C2=A0 =C2=A0 set_satp_mode_max_supported(cpu, VM_1_10_MBARE);<br>
-=C2=A0}<br>
-=C2=A0#endif<br>
-<br>
-@@ -698,8 +726,9 @@ static void riscv_cpu_disas_set_info(CPUState *s, disas=
-semble_info *info)<br>
-=C2=A0static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)=
-<br>
-=C2=A0{<br>
-=C2=A0 =C2=A0 =C2=A0bool rv32 =3D riscv_cpu_mxl(&amp;cpu-&gt;env) =3D=3D MX=
-L_RV32;<br>
--=C2=A0 =C2=A0 const bool *valid_vm =3D rv32 ? valid_vm_1_10_32 : valid_vm_=
-1_10_64;<br>
--=C2=A0 =C2=A0 uint8_t satp_mode_max;<br>
-+=C2=A0 =C2=A0 uint8_t satp_mode_map_max;<br>
-+=C2=A0 =C2=A0 uint8_t satp_mode_supported_max =3D<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 satp_mode_max_from_map(cpu-&gt;cfg.satp_mode.supported);<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0if (cpu-&gt;cfg.satp_mode.map =3D=3D 0) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (cpu-&gt;cfg.satp_mode.init =3D=3D 0) =
-{<br>
-@@ -712,9 +741,10 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu=
-, Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 * valid_vm_1_10_32/64.<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 */<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for (int i =3D 1; i &lt; 16=
-; ++i) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((cpu-&gt;cfg.s=
-atp_mode.init &amp; (1 &lt;&lt; i)) &amp;&amp; valid_vm[i]) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((cpu-&gt;cfg.s=
-atp_mode.init &amp; (1 &lt;&lt; i)) &amp;&amp;<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (cpu=
--&gt;cfg.satp_mode.supported &amp; (1 &lt;&lt; i))) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0for (int j =3D i - 1; j &gt;=3D 0; --j) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 if (valid_vm[j]) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 if (cpu-&gt;cfg.satp_mode.supported &amp; (1 &lt;&lt; j)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu-&gt;cfg.satp_mode.map |=3D (1 &lt;&lt; j=
-);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0break;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0}<br>
-@@ -725,37 +755,36 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cp=
-u, Error **errp)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
--=C2=A0 =C2=A0 /* Make sure the configuration asked is supported by qemu */=
-<br>
--=C2=A0 =C2=A0 for (int i =3D 0; i &lt; 16; ++i) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if ((cpu-&gt;cfg.satp_mode.map &amp; (1 &lt;&l=
-t; i)) &amp;&amp; !valid_vm[i]) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;satp_mode=
- %s is not valid&quot;,<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0satp_mode_str(i, rv32));<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-+=C2=A0 =C2=A0 satp_mode_map_max =3D satp_mode_max_from_map(cpu-&gt;cfg.sat=
-p_mode.map);<br>
-+<br>
-+=C2=A0 =C2=A0 /* Make sure the user asked for a supported configuration (H=
-W and qemu) */<br>
-+=C2=A0 =C2=A0 if (satp_mode_map_max &gt; satp_mode_supported_max) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 error_setg(errp, &quot;satp_mode %s is higher =
-than hw max capability %s&quot;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0satp_=
-mode_str(satp_mode_map_max, rv32),<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0satp_=
-mode_str(satp_mode_supported_max, rv32));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 return;<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/*<br>
-=C2=A0 =C2=A0 =C2=A0 * Make sure the user did not ask for an invalid config=
-uration as per<br>
-=C2=A0 =C2=A0 =C2=A0 * the specification.<br>
-=C2=A0 =C2=A0 =C2=A0 */<br>
--=C2=A0 =C2=A0 satp_mode_max =3D satp_mode_max_from_map(cpu-&gt;cfg.satp_mo=
-de.map);<br>
--<br>
-=C2=A0 =C2=A0 =C2=A0if (!rv32) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (int i =3D satp_mode_max - 1; i &gt;=3D 0;=
- --i) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 for (int i =3D satp_mode_map_max - 1; i &gt;=
-=3D 0; --i) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if (!(cpu-&gt;cfg.satp_mode=
-.map &amp; (1 &lt;&lt; i)) &amp;&amp;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(cpu-&gt;cfg.=
-satp_mode.init &amp; (1 &lt;&lt; i)) &amp;&amp;<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 valid_vm[i]) {<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 (cpu-&gt;cfg.satp_=
-mode.supported &amp; (1 &lt;&lt; i))) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0error_setg(er=
-rp, &quot;cannot disable %s satp mode if %s &quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 &quot;is enabled&quot;, satp_mode_str(i, false),<b=
-r>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0satp_mode_str(satp_mode_max, false));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0satp_mode_str(satp_mode_map_max, false));<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0/* Finally expand the map so that all valid modes are s=
-et */<br>
--=C2=A0 =C2=A0 for (int i =3D satp_mode_max - 1; i &gt;=3D 0; --i) {<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (valid_vm[i]) {<br>
-+=C2=A0 =C2=A0 for (int i =3D satp_mode_map_max - 1; i &gt;=3D 0; --i) {<br=
->
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (cpu-&gt;cfg.satp_mode.supported &amp; (1 &=
-lt;&lt; i)) {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0cpu-&gt;cfg.satp_mode.map |=
-=3D (1 &lt;&lt; i);<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-=C2=A0 =C2=A0 =C2=A0}<br>
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h<br>
-index e37177db5c..b591122099 100644<br>
---- a/target/riscv/cpu.h<br>
-+++ b/target/riscv/cpu.h<br>
-@@ -416,13 +416,17 @@ struct RISCVCPUClass {<br>
-<br>
-=C2=A0/*<br>
-=C2=A0 * map is a 16-bit bitmap: the most significant set bit in map is the=
- maximum<br>
-- * satp mode that is supported.<br>
-+ * satp mode that is supported. It may be chosen by the user and must resp=
-ect<br>
-+ * what qemu implements (valid_1_10_32/64) and what the hw is capable of<b=
-r>
-+ * (supported bitmap below).<br>
-=C2=A0 *<br>
-=C2=A0 * init is a 16-bit bitmap used to make sure the user selected a corr=
-ect<br>
-=C2=A0 * configuration as per the specification.<br>
-+ *<br>
-+ * supported is a 16-bit bitmap used to reflect the hw capabilities.<br>
-=C2=A0 */<br>
-=C2=A0typedef struct {<br>
--=C2=A0 =C2=A0 uint16_t map, init;<br>
-+=C2=A0 =C2=A0 uint16_t map, init, supported;<br>
-=C2=A0} RISCVSATPMap;<br>
-<br>
-=C2=A0struct RISCVCPUConfig {<br>
--- <br>
-2.37.2<br>
-<br>
-<br>
-</blockquote></div></div>
+v2:
+- Rebased to resolve merge conflicts in coroutine.h
 
---000000000000dc742f05f3a565b9--
+----------------------------------------------------------------
+Block layer patches
+
+- qemu-img info: Show protocol-level information
+- Move more functions to coroutines
+- Make coroutine annotations ready for static analysis
+- qemu-img: Fix exit code for errors closing the image
+- qcow2 bitmaps: Fix theoretical corruption in error path
+- pflash: Only load non-zero parts of backend image to save memory
+- Code cleanup and test case improvements
+
+----------------------------------------------------------------
+Alberto Faria (2):
+      coroutine: annotate coroutine_fn for libclang
+      block: Add no_coroutine_fn and coroutine_mixed_fn marker
+
+Emanuele Giuseppe Esposito (14):
+      block-coroutine-wrapper: support void functions
+      block: Convert bdrv_io_plug() to co_wrapper
+      block: Convert bdrv_io_unplug() to co_wrapper
+      block: Convert bdrv_is_inserted() to co_wrapper
+      block: Rename refresh_total_sectors to bdrv_refresh_total_sectors
+      block: Convert bdrv_refresh_total_sectors() to co_wrapper_mixed
+      block-backend: use bdrv_getlength instead of blk_getlength
+      block: use bdrv_co_refresh_total_sectors when possible
+      block: Convert bdrv_get_allocated_file_size() to co_wrapper
+      block: Convert bdrv_get_info() to co_wrapper_mixed
+      block: Convert bdrv_eject() to co_wrapper
+      block: Convert bdrv_lock_medium() to co_wrapper
+      block: Convert bdrv_debug_event() to co_wrapper_mixed
+      block: Rename bdrv_load/save_vmstate() to bdrv_co_load/save_vmstate()
+
+Hanna Reitz (12):
+      block: Improve empty format-specific info dump
+      block/file: Add file-specific image info
+      block/vmdk: Change extent info type
+      block: Split BlockNodeInfo off of ImageInfo
+      qemu-img: Use BlockNodeInfo
+      block/qapi: Let bdrv_query_image_info() recurse
+      block/qapi: Introduce BlockGraphInfo
+      block/qapi: Add indentation to bdrv_node_info_dump()
+      iotests: Filter child node information
+      iotests/106, 214, 308: Read only one size line
+      qemu-img: Let info print block graph
+      qemu-img: Change info key names for protocol nodes
+
+Kevin Wolf (4):
+      qcow2: Fix theoretical corruption in store_bitmap() error path
+      qemu-img commit: Report errors while closing the image
+      qemu-img bitmap: Report errors while closing the image
+      qemu-iotests: Test qemu-img bitmap/commit exit code on error
+
+Paolo Bonzini (2):
+      qemu-io: do not reinvent the blk_pwrite_zeroes wheel
+      block: remove bdrv_coroutine_enter
+
+Philippe Mathieu-Daudé (1):
+      block/nbd: Add missing <qemu/bswap.h> include
+
+Thomas Huth (2):
+      tests/qemu-iotests/312: Mark "quorum" as required driver
+      tests/qemu-iotests/262: Check for availability of "blkverify" first
+
+Xiang Zheng (1):
+      pflash: Only read non-zero parts of backend image
+
+ qapi/block-core.json                               | 123 +++++++-
+ include/block/block-common.h                       |  11 +-
+ include/block/block-io.h                           |  41 ++-
+ include/block/block_int-common.h                   |  26 +-
+ include/block/block_int-io.h                       |   5 +-
+ include/block/nbd.h                                |   1 +
+ include/block/qapi.h                               |  14 +-
+ include/qemu/osdep.h                               |  44 +++
+ include/sysemu/block-backend-io.h                  |  31 +-
+ block.c                                            |  88 +++---
+ block/blkdebug.c                                   |  11 +-
+ block/blkio.c                                      |  15 +-
+ block/blklogwrites.c                               |   6 +-
+ block/blkreplay.c                                  |   6 +-
+ block/blkverify.c                                  |   6 +-
+ block/block-backend.c                              |  38 +--
+ block/commit.c                                     |   4 +-
+ block/copy-on-read.c                               |  18 +-
+ block/crypto.c                                     |  14 +-
+ block/curl.c                                       |  10 +-
+ block/file-posix.c                                 | 137 +++++----
+ block/file-win32.c                                 |  18 +-
+ block/filter-compress.c                            |  20 +-
+ block/gluster.c                                    |  23 +-
+ block/io.c                                         |  76 ++---
+ block/iscsi.c                                      |  17 +-
+ block/mirror.c                                     |   6 +-
+ block/monitor/block-hmp-cmds.c                     |   2 +-
+ block/nbd.c                                        |   8 +-
+ block/nfs.c                                        |   4 +-
+ block/null.c                                       |  13 +-
+ block/nvme.c                                       |  14 +-
+ block/preallocate.c                                |  16 +-
+ block/qapi.c                                       | 317 ++++++++++++++++-----
+ block/qcow.c                                       |   5 +-
+ block/qcow2-bitmap.c                               |   5 +-
+ block/qcow2-refcount.c                             |   2 +-
+ block/qcow2.c                                      |  17 +-
+ block/qed.c                                        |  11 +-
+ block/quorum.c                                     |   8 +-
+ block/raw-format.c                                 |  25 +-
+ block/rbd.c                                        |   9 +-
+ block/replication.c                                |   6 +-
+ block/ssh.c                                        |   4 +-
+ block/throttle.c                                   |   6 +-
+ block/vdi.c                                        |   7 +-
+ block/vhdx.c                                       |   5 +-
+ block/vmdk.c                                       |  22 +-
+ block/vpc.c                                        |   5 +-
+ blockdev.c                                         |   8 +-
+ hw/block/block.c                                   |  36 ++-
+ hw/scsi/scsi-disk.c                                |   5 +
+ qemu-img.c                                         | 100 +++++--
+ qemu-io-cmds.c                                     |  62 +---
+ tests/unit/test-block-iothread.c                   |   3 +
+ scripts/block-coroutine-wrapper.py                 |  20 +-
+ tests/qemu-iotests/iotests.py                      |  18 +-
+ block/meson.build                                  |   1 +
+ tests/qemu-iotests/065                             |   2 +-
+ tests/qemu-iotests/106                             |   4 +-
+ tests/qemu-iotests/214                             |   6 +-
+ tests/qemu-iotests/262                             |   3 +-
+ tests/qemu-iotests/302.out                         |   5 +
+ tests/qemu-iotests/308                             |   4 +-
+ tests/qemu-iotests/312                             |   1 +
+ tests/qemu-iotests/common.filter                   |  22 +-
+ tests/qemu-iotests/common.rc                       |  22 +-
+ tests/qemu-iotests/tests/qemu-img-close-errors     |  96 +++++++
+ tests/qemu-iotests/tests/qemu-img-close-errors.out |  23 ++
+ 69 files changed, 1209 insertions(+), 552 deletions(-)
+ create mode 100755 tests/qemu-iotests/tests/qemu-img-close-errors
+ create mode 100644 tests/qemu-iotests/tests/qemu-img-close-errors.out
+
 
