@@ -2,79 +2,137 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FAF5686C8C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 18:13:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91739686CF1
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 18:30:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNGey-0006dh-83; Wed, 01 Feb 2023 12:12:36 -0500
+	id 1pNGug-0004oa-00; Wed, 01 Feb 2023 12:28:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNGer-0006cF-Bu
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:12:29 -0500
-Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNGep-0004Jx-CD
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:12:29 -0500
-Received: by mail-oi1-x22c.google.com with SMTP id j21so7355195oie.4
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 09:12:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=dcs1yzLvpBWElN3ZJOkxPk7Gw6e8VUiSzo/dfnRmEKA=;
- b=fMkgTGhiv6MTQ6/qvxrWU7/KnsvNJmkVfwuX98qZ+Al8OO6LOB6bIGC3Q0rMD21gEh
- 7Jx0KIukDvdnJSgfg82mzJgMcM4LrBOPluK93UVctRp4jxSj/MPzhsm41Ht14a+FvqGt
- 6jiMki/4MX06Z1XW2Y3M7a2ark54HJ5KtMP0HDS5B0X/zRZVONGuVfvar4+JvPrLLMGG
- 234o+CX02kGmoFyxMn3E428VaRzdDDaFD3TKMG65u7miH9r26YeY4Z9yVF8UzFBI2Hrk
- +XpJHwIOaQCS5GYM0CgaODpotZQn89rKf5nM/G1P9daTyyqxFJkO00bKbEECQTxbTJqS
- iJvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dcs1yzLvpBWElN3ZJOkxPk7Gw6e8VUiSzo/dfnRmEKA=;
- b=pAgAoio8GXi4abf0F6O43FsdBZZCFQquQYtHgsm8QcyucNMWN08WTZHPXjvpip4Zxr
- IUXEmvRC/cm1EdkIkW4i0ogc8sPEdG8JLA3UCkmPN0G4T+qqXQsHSs6NqNaRQ5y/lINR
- 806ilyfuLqIbOtdii7J2Nc3gpNn4/lJ7g9r6uMt0WzdzQ7LExhKZP3qKJvBQ8v8qCQeX
- V17gQvjA16c77B8srP9bIoiPi7vyZzGUE9TqvYYjPbnjvv6bQjkTy7joqwaJA+eZSZQx
- ca5cPihJ2MJmKiAjMCoqMU6l3SCzK0o15FT17H273fK4LTMhnbxcbwPwhzJR0rh90eaF
- z2jQ==
-X-Gm-Message-State: AO0yUKV5r7Xf0i7nTNd941Wpa4iaDx7FqrOhLkS37ufQFa4VbrmR0Ld4
- 5LBWebh5HMeYVCMxhTjG0eM6yNKG/GdW7qb6hQE=
-X-Google-Smtp-Source: AK7set93CCwBmgxfatdMNvx8m4BbVSeW/byNWmmujOROFgQpIwWTjvcDYN64xjIGoHGRtFMAH2eh4A==
-X-Received: by 2002:a05:6808:1448:b0:378:5a94:8b22 with SMTP id
- x8-20020a056808144800b003785a948b22mr1884816oiv.47.1675271545372; 
- Wed, 01 Feb 2023 09:12:25 -0800 (PST)
-Received: from grind.. ([177.102.69.207]) by smtp.gmail.com with ESMTPSA id
- k12-20020a056808068c00b003749e231db7sm7100627oig.30.2023.02.01.09.12.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 09:12:24 -0800 (PST)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng.cn@gmail.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v5 3/3] hw/riscv: change riscv_compute_fdt_addr() semantics
-Date: Wed,  1 Feb 2023 14:12:12 -0300
-Message-Id: <20230201171212.1219375-4-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230201171212.1219375-1-dbarboza@ventanamicro.com>
-References: <20230201171212.1219375-1-dbarboza@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1pNGue-0004oQ-GK
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:28:48 -0500
+Received: from mail-bn7nam10on2061a.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8a::61a]
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jgg@nvidia.com>) id 1pNGuc-0007jC-50
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:28:48 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=inhG4i/sRVVGEZysLNsRfnNqnuVqW3+nx2/p/BAEvhU0yR+ShTIEt6BrgfXVJDIcGeXCJ0KDD/w5k/1aiXclCsalBXidlXDwivo9X+HuCU8X/qdOW9s2FWDkC8UCVQncE+0MR4gWwBP//pql7EpoRzsRdU27dYgk4HqgnV3H6MrOY1IloOI9mO0AM332zHR97jGZtLJR+ZRxCswDb8jSCPcGL4zipzqVIp3igCq9iwDFs5bmb8ZJ6mxNYIhgM8BTzsp7UvlXOmeNB7rW7kqAGmwfhY+xxxkydGQbDqV328aUweNi4ygAVEgPi0y3Eyh+jsoGcXbusNaNWUePDp6o3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cnBuYE/+re314PioM8XjGwgQDuxDQP5CVJ8BMhwADFQ=;
+ b=KuaK19pelIfm8YSgwbqzuvJVAyjjYiiNSiNpj3ShfWgjVWSbRdOKrl1kC6VKdrW0sJ1baSmpfbmoKiudKUtH7ds8VetL0OiiBCpnrf6AkOy7gOqU6bhB1L3+pjXDgFdTBqDuI6nii4HCZ8OOzyj6xyNxZYkftjcRMgKR5HSYzCFu3JyJtIa8Y3PkED6d8Oo4q3NYf9ms88CbVsnXXFx1iSqsDrLgM28d5JT/Iuapor1LnmZEiw8RfLMWuFr+gvuLLkiradCQhmdPvZxPtg1wdWh/bjY+mbTfWMO1CM5Em60xyCQnpT+y5xAO9IPTV8BGED5+qdCPUbQhB1rYQQXZxw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cnBuYE/+re314PioM8XjGwgQDuxDQP5CVJ8BMhwADFQ=;
+ b=m8Onayu3EGKGE6MEFCK2mcwSiM3YG+08d/+BxXsXuj9DxxNFH0U9I7o8dpLGcXc5nkrqY1ucXGfYiguVQI8oXP6iKo3KfgECvK8A2vZ9pwkT147vGej+CC4yXFeZn4dc93enrqBCP2/GwAYBfwXjVxxAPpUfmJc5eEMnJ4VCvnLTPhWpATHv8T05qdaX9LGwtV0V92kX7sj7IlOPhK1RcdBxBiUEH0X/M7Z8PLGxfYhEzwuWaRvcj74U9RSy0pWDYAZEpQPDqx3EbAzEeAx0DcIx0x0W4cZCigEdb/OGPUIBXUfdr90yXfh6h3T4W9GgejMd3+H+lYXvIDNXFiU5mQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
+ by CH3PR12MB7498.namprd12.prod.outlook.com (2603:10b6:610:143::15)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6043.38; Wed, 1 Feb
+ 2023 17:28:42 +0000
+Received: from LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::3cb3:2fce:5c8f:82ee]) by LV2PR12MB5869.namprd12.prod.outlook.com
+ ([fe80::3cb3:2fce:5c8f:82ee%4]) with mapi id 15.20.6043.038; Wed, 1 Feb 2023
+ 17:28:42 +0000
+Date: Wed, 1 Feb 2023 13:28:40 -0400
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Avihai Horon <avihaih@nvidia.com>, qemu-devel@nongnu.org,
+ "Michael S. Tsirkin" <mst@redhat.com>, Peter Xu <peterx@redhat.com>,
+ Jason Wang <jasowang@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ David Hildenbrand <david@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Yishai Hadas <yishaih@nvidia.com>, Maor Gottlieb <maorg@nvidia.com>,
+ Kirti Wankhede <kwankhede@nvidia.com>, Tarun Gupta <targupta@nvidia.com>,
+ Joao Martins <joao.m.martins@oracle.com>
+Subject: Re: [PATCH 01/18] vfio/migration: Add VFIO migration pre-copy support
+Message-ID: <Y9qhSK9ivzBmhnpZ@nvidia.com>
+References: <20230126184948.10478-1-avihaih@nvidia.com>
+ <20230126184948.10478-2-avihaih@nvidia.com>
+ <20230126165232.0e7a2316.alex.williamson@redhat.com>
+ <0c6856e7-ab92-7276-256c-6226aa692698@nvidia.com>
+ <20230131154301.4aaa8448.alex.williamson@redhat.com>
+ <Y9mkbLczUb2LFb1o@nvidia.com>
+ <20230131211503.3a328e0a.alex.williamson@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230131211503.3a328e0a.alex.williamson@redhat.com>
+X-ClientProxiedBy: BLAPR03CA0025.namprd03.prod.outlook.com
+ (2603:10b6:208:32b::30) To LV2PR12MB5869.namprd12.prod.outlook.com
+ (2603:10b6:408:176::16)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22c;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22c.google.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|CH3PR12MB7498:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7f81d829-5729-40d2-8971-08db0479c375
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: neF5UJ1KONWeP9ih9/XhfaydoCCBs+epv+HJbsJFus02EsqhfD2gesQ+ZGgp/qSoiPsJAVUDVFi67ZWfurP55sIUmFbitWns/Iv+WZ/xaNvIV/dbe+vBFJv2ERBOM/78gFoEZ5azRhGGbsXKMTJh4F8D1HgVLvDzYvYD9IgnafUVivmK+lGQMoDi+3IpikzaCwW6agHVgL7s66HJKUW7Xd8m2DJVvenWxYD2YnbmGnPVA6Ize97yT1LYCQmgbvquChLtMZPlX8zZXXxlfrH3DaPf4YOv4TBtDXYRq6SpE5EKmmbqItB3MklAzehYQw1JfQ47chnHja0PhvxvHxvzbC5kfzKBCIOxCNjv4FW992gxFCG/JEYe65zJdRd3qNoIY0KcVFxoii+7gcFDLApOnNXGaEDkIJJ9IuYAe/Mw6x0UdcjuR+99cL7ZP2gjFUKnUjehbt9ij7IXDD83KkmqhYWZ+6/nfq88KWF76sKUU78EU924dIV4FTUoqt4E6W5yhqGn4WHj/Kf+nMscGaAw8hYPyUZyryPImldx+NN/gFzrxRwAdMEHPhsK05x/vQDlBb5MhV5S02fNzHPsgWXauAYhgX0vaYrAfGgZtSMes/KSsBGucy94/9B3MBDlzfPWtPBlYLXdFC6Sh19Xik6/mw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:LV2PR12MB5869.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(136003)(366004)(39860400002)(396003)(376002)(346002)(451199018)(38100700002)(86362001)(36756003)(6916009)(41300700001)(5660300002)(316002)(8676002)(4326008)(66946007)(54906003)(66476007)(7416002)(8936002)(66556008)(2906002)(2616005)(6486002)(83380400001)(478600001)(186003)(6512007)(26005)(6506007);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?hWa04FZLSqMNJqV7NdO44ViIGEL/+dD0RcEKeYnch4ALrJ+yAhTgR3dYJxvq?=
+ =?us-ascii?Q?nXWObDGWPgFPAugA7PCvhICBiTT8i4coH7ICZ+E3n/GLJEph01lAylHNOytD?=
+ =?us-ascii?Q?LdNphF6KhJ0i9FLVM6cW++q+tXWc1KlXv7SJulQ3ivcxbEbOj17BhFqJi5Ia?=
+ =?us-ascii?Q?bJ7KiVoqrAl7PJ4rDA/Sz4QbNn5JeLMu1cSC9gXdkOgWjwOVlzhN5JNDw4Kg?=
+ =?us-ascii?Q?idamakX0YE5r6OGzTeluokCvjHs+RsFtB7xqFTPZXwZ8NwoOtHa7GGLdC3eP?=
+ =?us-ascii?Q?IXmOzOr55Ts8qQlYE6AgkwKDwijm/mLUlN3nhu4aSHPr7azjHbM066R6Q34z?=
+ =?us-ascii?Q?4ZFkAagNs/jcV2Gdt1UY0/wO18ykD+48a3PB7PekxIZeT3KXsZZJtxuhC0G2?=
+ =?us-ascii?Q?uj0vCmDy6LFA5C6htYW+53L2KPcYp6wLaHGp5X88u9kjjvLdOdt9yvjxf4Z2?=
+ =?us-ascii?Q?xwKgMHb3qlOuyrKgEo6V2W0SmNYine+xrjg24ZE6krCU3LdMsSwcU210zv7t?=
+ =?us-ascii?Q?QDKzTr1FeLtI5V/9VpSU61hVH8HLaAmpb0d4GeJzS5yFCqOkP42DqBEgOxCJ?=
+ =?us-ascii?Q?reDOkbjAlEQIkt3Q2LS89Ij5+soVDGyqQ1IgWVmiJTNrgRHt/Ak3hKyfYUmY?=
+ =?us-ascii?Q?Gz10x4zZqvYwwK4yj26amyv9UUbgZeN95GS5lr5Qph1BrTR362TStoe5/ukj?=
+ =?us-ascii?Q?fKl0PbVRO7U7pdyQ/0+RvOvYXYrj9vSbPJ06cL2SeLIDyZgrF+q0itXoB85k?=
+ =?us-ascii?Q?/wI6T1ew3SGO9pqGNFzSh8sWJyVbpkV5aM5pfkSMP7A/XjoRUifR3MmaKzKS?=
+ =?us-ascii?Q?G4QVbv1IsMmlJs9/yOgGU9g47PGdNKFozGQesmfMAHV0XJJLn2F7JRmbAEGI?=
+ =?us-ascii?Q?hvfTE4coNE853Sis4kBt5yM+qoGBDC1fuMsseVe26qMnRgKjbtd87dbuSfoM?=
+ =?us-ascii?Q?HnlqDPF7pRVlo4rIlyd87BVrlnbFvbDl+ksz7UKIdqBVrbQQHW3Qq3WY/xv8?=
+ =?us-ascii?Q?qSx8NsBPLdKJF73PC8OZixOCi98wGEKV3niOE62MnU8ZNEpRtNGil3Lm7rR4?=
+ =?us-ascii?Q?5QOZuhuyKh5i5d9Rkh3NmljbLjaQxTFzhP9iY6qzwxNG8YxvIu0FrnfsW4Ye?=
+ =?us-ascii?Q?3RQNcxP9PCAt4ktQWYyoN+WB+YwGLXxISfS2yFoN5GtOoqJpIzDyxdAFyaUI?=
+ =?us-ascii?Q?ozkPyM6vf0BdPOXVShEZ6jvxJ7bO+O+hED8kar2uJjMGY+nIxDH/MEQRNBkd?=
+ =?us-ascii?Q?NzNV4aCBuOoXEAyJ+SAkN6CRJiMA7STpqGnRf2x+sGhBl7DAl3/RfV6Acwws?=
+ =?us-ascii?Q?rp5yGNumLvmDRbuAD9IAKthr/lVJ2OS9CVGKew8OMzNBgkjsyKtAUs0NEV7+?=
+ =?us-ascii?Q?uHst3aynKWdS94NCJ5F57HvG7tDWmxd97RQlEHHd0XiZBbW07szl2+UHm4Zs?=
+ =?us-ascii?Q?WMloxTI2Hn2hUtyBmOrC/Co9mSKhGPMaK/yUFl4r7MRFeATlkcGJR9qZOcci?=
+ =?us-ascii?Q?ZLBwxHvO/hUzwCOO4Z8L/dh8b3dPEaa0wKo3WavyBxhybeqLzmnO6/Lsgrv3?=
+ =?us-ascii?Q?EA1trQnyWmSXMC0ZSixEh8qh3g7215hVPSoRwehB?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7f81d829-5729-40d2-8971-08db0479c375
+X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2023 17:28:42.1589 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: aBnTZ0SmFWOuz3Xx5T+HZmeeCS5mhze4BJVmGTKV6wLGWbSmHoQNB/4iy7V+hL1w
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7498
+Received-SPF: softfail client-ip=2a01:111:f400:7e8a::61a;
+ envelope-from=jgg@nvidia.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,191 +148,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-As it is now, riscv_compute_fdt_addr() is receiving a dram_base, a
-mem_size (which is defaulted to MachineState::ram_size in all boards)
-and the FDT pointer. And it makes a very important assumption: the DRAM
-interval dram_base + mem_size is contiguous. This is indeed the case for
-most boards that use a FDT.
+On Tue, Jan 31, 2023 at 09:15:03PM -0700, Alex Williamson wrote:
 
-The Icicle Kit board works with 2 distinct RAM banks that are separated
-by a gap. We have a lower bank with 1GiB size, a gap follows, then at
-64GiB the high memory starts. MachineClass::default_ram_size for this
-board is set to 1.5Gb, and machine_init() is enforcing it as minimal RAM
-size, meaning that there we'll always have at least 512 MiB in the Hi
-RAM area.
+> > IMHO this is generally the way forward to do multi-device as well,
+> > remove the MMIO from all the address maps: VFIO, SW access, all of
+> > them. Nothing can touch MMIO except for the vCPU.
+> 
+> Are you suggesting this relative to migration or in general?  
 
-Using riscv_compute_fdt_addr() in this board is weird because not only
-the board has sparse RAM, and it's calling it using the base address of
-the Lo RAM area, but it's also using a mem_size that we have guarantees
-that it will go up to the Hi RAM. All the function assumptions doesn't
-work for this board.
+I would suggest a general qemu p2p on/off option.
 
-In fact, what makes the function works at all in this case is a
-coincidence. Commit 1a475d39ef54 introduced a 3GB boundary for the FDT,
-down from 4Gb, that is enforced if dram_base is lower than 3072 MiB. For
-the Icicle Kit board, memmap[MICROCHIP_PFSOC_DRAM_LO].base is 0x80000000
-(2 Gb) and it has a 1Gb size, so it will fall in the conditions to put
-the FDT under a 3Gb address, which happens to be exactly at the end of
-DRAM_LO. If the base address of the Lo area started later than 3Gb this
-function would be unusable by the board. Changing any assumptions inside
-riscv_compute_fdt_addr() can also break it by accident as well.
+> P2P is a feature with tangible benefits and real use cases.  Real
+> systems seem to be moving towards making P2P work better, so it
+> would seem short sighted to move to and enforce only configurations
+> w/o P2P in QEMU generally.  
 
-Let's change riscv_compute_fdt_addr() semantics to be appropriate to the
-Icicle Kit board and for future boards that might have sparse RAM
-topologies to worry about:
+qemu needs to support it, but it should be a user option option.
 
-- relieve the condition that the dram_base + mem_size area is contiguous,
-since this is already not the case today;
+Every system I've been involved with for enabling P2P into a VM has
+been a total nightmare. This is not something you just turn on and it
+works great :\ The whole thing was carefully engineered right down to
+the BIOS to be able to work safely.
 
-- receive an extra 'dram_size' size attribute that refers to a contiguous
-RAM block that the board wants the FDT to reside on.
+P2P in baremetal is much easier compared to P2P inside a VM.
 
-Together with 'mem_size' and 'fdt', which are now now being consumed by a
-MachineState pointer, we're able to make clear assumptions based on the
-DRAM block and total mem_size available to ensure that the FDT will be put
-in a valid RAM address.
+> Besides, this would require some sort of deprecation, so are we
+> intending to make users choose between migration and P2P?
 
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
----
- hw/riscv/boot.c            | 35 +++++++++++++++++++++++------------
- hw/riscv/microchip_pfsoc.c |  3 ++-
- hw/riscv/sifive_u.c        |  3 ++-
- hw/riscv/spike.c           |  3 ++-
- hw/riscv/virt.c            |  3 ++-
- include/hw/riscv/boot.h    |  2 +-
- 6 files changed, 32 insertions(+), 17 deletions(-)
+Give qemu an option 'p2p on/p2p off' and default it to on for
+backwards compatability.
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 2e53494b08..c7e0e50bd8 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -250,33 +250,44 @@ void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
- }
- 
- /*
-- * The FDT should be put at the farthest point possible to
-- * avoid overwriting it with the kernel/initrd.
-+ * This function makes an assumption that the DRAM interval
-+ * 'dram_base' + 'dram_size' is contiguous.
-  *
-- * This function makes an assumption that the DRAM is
-- * contiguous. It also cares about 32-bit systems and
-- * will limit fdt_addr to be addressable by them even for
-- * 64-bit CPUs.
-+ * Considering that 'dram_end' is the lowest value between
-+ * the end of the DRAM block and MachineState->ram_size, the
-+ * FDT location will vary according to 'dram_base':
-+ *
-+ * - if 'dram_base' is less that 3072 MiB, the FDT will be
-+ * put at the lowest value between 3072 MiB and 'dram_end';
-+ *
-+ * - if 'dram_base' is higher than 3072 MiB, the FDT will be
-+ * put at 'dram_end'.
-  *
-  * The FDT is fdt_packed() during the calculation.
-  */
--uint64_t riscv_compute_fdt_addr(hwaddr dram_base, uint64_t mem_size,
--                                void *fdt)
-+uint64_t riscv_compute_fdt_addr(hwaddr dram_base, hwaddr dram_size,
-+                                MachineState *ms)
- {
--    uint64_t temp;
--    hwaddr dram_end = dram_base + mem_size;
--    int ret = fdt_pack(fdt);
-+    int ret = fdt_pack(ms->fdt);
-+    hwaddr dram_end, temp;
-     int fdtsize;
- 
-     /* Should only fail if we've built a corrupted tree */
-     g_assert(ret == 0);
- 
--    fdtsize = fdt_totalsize(fdt);
-+    fdtsize = fdt_totalsize(ms->fdt);
-     if (fdtsize <= 0) {
-         error_report("invalid device-tree");
-         exit(1);
-     }
- 
-+    /*
-+     * A dram_size == 0, usually from a MemMapEntry[].size element,
-+     * means that the DRAM block goes all the way to ms->ram_size.
-+     */
-+    dram_end = dram_base;
-+    dram_end += dram_size ? MIN(ms->ram_size, dram_size) : ms->ram_size;
-+
-     /*
-      * We should put fdt as far as possible to avoid kernel/initrd overwriting
-      * its content. But it should be addressable by 32 bit system as well.
-diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-index 17499d4152..2b91e49561 100644
---- a/hw/riscv/microchip_pfsoc.c
-+++ b/hw/riscv/microchip_pfsoc.c
-@@ -642,7 +642,8 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
- 
-         /* Compute the fdt load address in dram */
-         fdt_load_addr = riscv_compute_fdt_addr(memmap[MICROCHIP_PFSOC_DRAM_LO].base,
--                                               machine->ram_size, machine->fdt);
-+                                               memmap[MICROCHIP_PFSOC_DRAM_LO].size,
-+                                               machine);
-         riscv_load_fdt(fdt_load_addr, machine->fdt);
- 
-         /* Load the reset vector */
-diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-index 626d4dc2f3..d3ab7a9cda 100644
---- a/hw/riscv/sifive_u.c
-+++ b/hw/riscv/sifive_u.c
-@@ -617,7 +617,8 @@ static void sifive_u_machine_init(MachineState *machine)
-     }
- 
-     fdt_load_addr = riscv_compute_fdt_addr(memmap[SIFIVE_U_DEV_DRAM].base,
--                                           machine->ram_size, machine->fdt);
-+                                           memmap[SIFIVE_U_DEV_DRAM].size,
-+                                           machine);
-     riscv_load_fdt(fdt_load_addr, machine->fdt);
- 
-     if (!riscv_is_32bit(&s->soc.u_cpus)) {
-diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-index f1114f2c71..cc3f6dac17 100644
---- a/hw/riscv/spike.c
-+++ b/hw/riscv/spike.c
-@@ -325,7 +325,8 @@ static void spike_board_init(MachineState *machine)
-     }
- 
-     fdt_load_addr = riscv_compute_fdt_addr(memmap[SPIKE_DRAM].base,
--                                           machine->ram_size, machine->fdt);
-+                                           memmap[SPIKE_DRAM].size,
-+                                           machine);
-     riscv_load_fdt(fdt_load_addr, machine->fdt);
- 
-     /* load the reset vector */
-diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index 2e0a0cdb17..a061151a6f 100644
---- a/hw/riscv/virt.c
-+++ b/hw/riscv/virt.c
-@@ -1304,7 +1304,8 @@ static void virt_machine_done(Notifier *notifier, void *data)
-     }
- 
-     fdt_load_addr = riscv_compute_fdt_addr(memmap[VIRT_DRAM].base,
--                                           machine->ram_size, machine->fdt);
-+                                           memmap[VIRT_DRAM].size,
-+                                           machine);
-     riscv_load_fdt(fdt_load_addr, machine->fdt);
- 
-     /* load the reset vector */
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index 46de4ec46b..511390f60e 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -48,7 +48,7 @@ target_ulong riscv_load_kernel(MachineState *machine,
-                                symbol_fn_t sym_cb);
- void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry);
- uint64_t riscv_compute_fdt_addr(hwaddr dram_start, uint64_t dram_size,
--                                void *fdt);
-+                                MachineState *ms);
- void riscv_load_fdt(hwaddr fdt_addr, void *fdt);
- void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
-                                hwaddr saddr,
--- 
-2.39.1
+If p2p on and migration devices don't support P2P states then
+migration is disabled. The user made this choice when they bought
+un-capable HW.
 
+Log warnings to make it more discoverable. I think with the cdev
+patches we can make it so libvirt can query the device FD for
+capabilities to be even cleaner.
+
+If user sets 'p2p off' then migration works with all HW.
+
+p2p on/off is a global switch. With p2p off nothing, no HW or SW or
+hybrid device, can touch the MMIO memory.
+
+'p2p off' is a valuable option in its own right because this stuff
+doesn't work reliably and is actively dangerous. Did you know you can
+hard crash the bare metal from a guest on some platforms with P2P
+operations? Yikes. If you don't need to use it turn it off and don't
+take the risk.
+
+Arguably for this reason 'p2p off' should trend toward the default as
+it is much safer.
+
+> Are we obliged to start with that hardware?  I'm just trying to think
+> about whether a single device restriction is sufficient to prevent any
+> possible P2P or whether there might be an easier starting point for
+> more capable hardware.  There's no shortage of hardware that could
+> support migration given sufficient effort.  Thanks,
+
+I think multi-device will likely have some use cases, so I'd like to
+see a path to have support for them. For this series I think it is
+probably fine since it is already 18 patches.
+
+Jason
 
