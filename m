@@ -2,94 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB6B686102
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 08:54:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 730FD68610A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 08:55:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN7wz-0006UV-L7; Wed, 01 Feb 2023 02:54:37 -0500
+	id 1pN7xk-0007Bm-5U; Wed, 01 Feb 2023 02:55:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pN7wx-0006U6-DQ
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 02:54:35 -0500
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
- id 1pN7wu-0000u3-5X
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 02:54:35 -0500
-Received: by mail-wm1-x32b.google.com with SMTP id
- m5-20020a05600c4f4500b003db03b2559eso679080wmq.5
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 23:54:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:from:to:cc:subject:date:message-id:reply-to;
- bh=tF6b+FZ/vwEGQ06h3xdBxOjcTdoCvjB2eFH4X/PWMV4=;
- b=Zbid6yH79dOqTUGKoJSIoLLd2f6TRIAjljirZ81diqB8MS7s7mlxRLkroDfxceGSdl
- bXyXP9+QrRy3Q+k8RZzahbPnaGmVWtJQPPlvliRPAdS+Ygu6ZXBr7OWuTerjNKgWAoo+
- 4JXUGRVPtwVxD71yAQFIrfGDtERb5og505GUm/0fItQ/KzQYqxDgviYHEWG5xJHPTTYK
- MVIQyErxK/kfaYA5EXEY31LbrULJy0XNYjHdk2kaWeFVqBvouHwTxa1czRsBXFu1ExZb
- AKQspaREGPTMp3SKBdso7g9xn9nBkwanoJ+2Xck11QIU+cFzFddXHc09yHjmTTH+TPI+
- EsiA==
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1pN7xW-00076d-8t
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 02:55:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
+ id 1pN7xU-00015W-96
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 02:55:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675238106;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=bejBOTQkLAYJT8CamCKcjPt+iQorefFGDG4dN3S3q9g=;
+ b=gpG9vbISvqGh5XkLqDHvygErdXxAv7I/lYAuBt8ryQqMYzpbV99tyu9LisVCePtvcMn+jb
+ KMkHrTc2R6LQAE2yZFe50s1JL+Y9itmvK/GElA7Kwu6w3pZPQ7BJjyBfud6qBNyiJuRr5X
+ yrPK6lnALfnuV9fTpmM9peA5B+OaBfM=
+Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
+ [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-645-9qgztufXPCqe6ubvvJJEpw-1; Wed, 01 Feb 2023 02:55:03 -0500
+X-MC-Unique: 9qgztufXPCqe6ubvvJJEpw-1
+Received: by mail-ed1-f70.google.com with SMTP id
+ g14-20020a056402090e00b0046790cd9082so12300431edz.21
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 23:55:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:organization:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:from:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=tF6b+FZ/vwEGQ06h3xdBxOjcTdoCvjB2eFH4X/PWMV4=;
- b=IF3Uh+XQj9mgLnBOhfo74fM6y5pnnxWfHFyB35RdW2gm8bmxkOtw3jOkuMp5vDOkHF
- eD4PeDfVBev/urPMQcWUJ5A18hrrgSUroiC4Gb+IeIMkL+iV16vg6Z+aRuyzHTFmxI2y
- O6YBVSZ7YTBQxNQ1wJyO9TAMTlreRiyhd4BmhUPMQRAsUbmPbSAijvcNuuzNQAkbL1u6
- R+IRLwLeRTWjJBJHgZzulrFTyL1h2koNVZWlXdELimKn9R4lSXpaGB6hZnvUYyJ8eh/J
- CIrxiQLE7c2Km9kOy0wUhrRs+mP+vWoo7+F7BOa+y9hAiY46D5sFn+8ENPtTBcORCs4M
- z+Ow==
-X-Gm-Message-State: AO0yUKXcW33KbiJWwEtSD/JdClKruaESmkBRG8UEBrb7ZrS2F+jNoXDk
- cEyaUOxuG926YMrut2Nt2K8=
-X-Google-Smtp-Source: AK7set8UFjNEV3CqydT78jA5XvU/Hwp9p7Lzv1PCa3cZdV7qvdbW/Vp4fBbafqW4ng7hwbxQO7e/5g==
-X-Received: by 2002:a05:600c:b88:b0:3d3:5a4a:9103 with SMTP id
- fl8-20020a05600c0b8800b003d35a4a9103mr1022429wmb.31.1675238070338; 
- Tue, 31 Jan 2023 23:54:30 -0800 (PST)
-Received: from [192.168.9.204] (54-240-197-238.amazon.com. [54.240.197.238])
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=bejBOTQkLAYJT8CamCKcjPt+iQorefFGDG4dN3S3q9g=;
+ b=Y+XGLv0HWKcIPTSsBW8xrXh7RZuxnMAZ+mxit1CqDK4kfIDK+f/h8ie4Xvqkw261V3
+ BeimAxCu/ZugsSn1jpV3GGh8lxA83DG2wAC4oNlhk2tKvqPC+gEOAMZsF1v9/WNaCBcM
+ 6egA7I2L1mxxDQ86KwozxwwC9dWxw5TDj4ojfPy1ZcqAYQISFThVwX3IG2kjwVuzUVe3
+ 9r2r9megdq3/8Iav8jMFYbKSr/hqmhvCDqF1uEkcrVLMPS0/qc/L4HDuWKIemQQrVyv+
+ eODMPVSUX0fdSrwGMfx/s264pFuVwgTBId5NMI3buEBhGHeVW5NVK/fy5jngEaOY6Zts
+ Xdkw==
+X-Gm-Message-State: AO0yUKUwKlZGqop5xptwCoyjBkiEK5Coh40DmZvXMwP4fARjT43vA8Nz
+ RTKNYVqEiZE+F2CoD2CdBxfo893B5vFnlwX7oug7O2gYE/d0z56Rm9IlzgjD5ByWttu+9yTvoGb
+ 4pZu2tENPjn31BWU=
+X-Received: by 2002:a17:907:2ce7:b0:886:7eae:26c4 with SMTP id
+ hz7-20020a1709072ce700b008867eae26c4mr1209673ejc.5.1675238102418; 
+ Tue, 31 Jan 2023 23:55:02 -0800 (PST)
+X-Google-Smtp-Source: AK7set++q/hFRqrlUHzH6/d3PzAxWL9GHtOaEpxReYDpZmuTh7chnLIsDERleDB2XWUf6p8eb4SFSw==
+X-Received: by 2002:a17:907:2ce7:b0:886:7eae:26c4 with SMTP id
+ hz7-20020a1709072ce700b008867eae26c4mr1209667ejc.5.1675238102246; 
+ Tue, 31 Jan 2023 23:55:02 -0800 (PST)
+Received: from [10.43.2.39] (nat-pool-brq-t.redhat.com. [213.175.37.10])
  by smtp.gmail.com with ESMTPSA id
- b9-20020a05600c150900b003daf672a616sm859085wmg.22.2023.01.31.23.54.29
+ g12-20020a170906868c00b00887f0f8294esm4702102ejx.200.2023.01.31.23.55.01
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 23:54:29 -0800 (PST)
-From: Paul Durrant <xadimgnik@gmail.com>
-X-Google-Original-From: Paul Durrant <paul@xen.org>
-Message-ID: <8b43c153-8c7c-1834-11d6-b3d9c73e2893@xen.org>
-Date: Wed, 1 Feb 2023 07:54:25 +0000
+ Tue, 31 Jan 2023 23:55:01 -0800 (PST)
+Message-ID: <25b5b38e-3445-2e2e-cc34-e4feae6c0c09@redhat.com>
+Date: Wed, 1 Feb 2023 08:55:01 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.1
-Subject: Re: [QEMU][PATCH v5 01/10] hw/i386/xen/: move xen-mapcache.c to
- hw/xen/
+Subject: Re: [PATCH 0/3] util/userfaultfd: Support /dev/userfaultfd
 Content-Language: en-US
-To: Vikram Garhwal <vikram.garhwal@amd.com>, qemu-devel@nongnu.org
-Cc: xen-devel@lists.xenproject.org, stefano.stabellini@amd.com,
- alex.bennee@linaro.org, "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Paolo Bonzini <pbonzini@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Eduardo Habkost <eduardo@habkost.net>,
- Stefano Stabellini <sstabellini@kernel.org>,
- Anthony Perard <anthony.perard@citrix.com>
-References: <20230131225149.14764-1-vikram.garhwal@amd.com>
- <20230131225149.14764-2-vikram.garhwal@amd.com>
-Organization: Xen Project
-In-Reply-To: <20230131225149.14764-2-vikram.garhwal@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
+ <berrange@redhat.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
+ Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Juan Quintela <quintela@redhat.com>
+References: <20230125224016.212529-1-peterx@redhat.com>
+ <0f8ad497-202d-ae55-e468-77bb726a2699@redhat.com> <Y9KK72k8dZU7Ccau@work-vm>
+ <Y9KbUaMo8DaH0YKv@x1n> <Y9KjZeu9t37XyZ3q@redhat.com> <Y9K31a04dTChnaOV@x1n>
+ <Y9lwphMDs+Q3aVMr@x1n> <Y9l0328Sp3HJ948a@redhat.com> <Y9mBxpYBv+h8Y0TT@x1n>
+From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
+In-Reply-To: <Y9mBxpYBv+h8Y0TT@x1n>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32b;
- envelope-from=xadimgnik@gmail.com; helo=mail-wm1-x32b.google.com
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=mprivozn@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,28 +104,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 31/01/2023 22:51, Vikram Garhwal wrote:
-> xen-mapcache.c contains common functions which can be used for enabling Xen on
-> aarch64 with IOREQ handling. Moving it out from hw/i386/xen to hw/xen to make it
-> accessible for both aarch64 and x86.
-> 
-> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
-> Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
-> ---
->   hw/i386/meson.build              | 1 +
->   hw/i386/xen/meson.build          | 1 -
->   hw/i386/xen/trace-events         | 5 -----
->   hw/xen/meson.build               | 4 ++++
->   hw/xen/trace-events              | 5 +++++
->   hw/{i386 => }/xen/xen-mapcache.c | 0
->   6 files changed, 10 insertions(+), 6 deletions(-)
->   rename hw/{i386 => }/xen/xen-mapcache.c (100%)
-> 
+On 1/31/23 22:01, Peter Xu wrote:
+> I'll wait 1-2 more days to see whether Michal has anything to comment.
 
-Reviewed-by: Paul Durrant <paul@xen.org>
+Yeah, we can go with your patches and leave FD passing for future work.
+It's orthogonal after all.
+
+In the end we can have (in the order of precedence):
+
+1) new cmd line argument, say:
+
+   qemu-system-x86_64 -userfaultfd fd=5 # where FD 5 is passed by
+libvirt when exec()-ing qemu, just like other FDs, e.g. -chardev
+socket,fd=XXX
+
+2) your patches, where qemu opens /dev/userfaultfd
+
+3) current behavior, userfaultfd syscall
+
+
+Michal
 
 
