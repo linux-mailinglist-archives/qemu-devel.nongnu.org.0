@@ -2,77 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39D1D6864A1
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 11:46:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E79D5686493
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 11:42:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNAHj-00062F-Tt; Wed, 01 Feb 2023 05:24:11 -0500
+	id 1pNAI2-00064N-SD; Wed, 01 Feb 2023 05:24:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pNAHh-00061h-JH
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 05:24:09 -0500
-Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d])
+ id 1pNAI0-00063z-JN
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 05:24:28 -0500
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pNAHf-0001pK-LE
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 05:24:09 -0500
-Received: by mail-wr1-x42d.google.com with SMTP id t18so16839208wro.1
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 02:24:07 -0800 (PST)
+ id 1pNAHz-0001rC-0Y
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 05:24:28 -0500
+Received: by mail-wr1-x431.google.com with SMTP id r2so16802412wrv.7
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 02:24:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=ULpkeHQYGtPXA6Mh5EfnBYgu1mf6Tl1ke1nKOLOm/n0=;
- b=HpQjODsWXf4PYBEGRyF+qsyA3wdp8DQeBkNMcHs+kFyF3ccMK0p9BVuWnocc6xDXTK
- kIeW/yRLrt057+vUFJG5mNfTON7apMvghR0FCkVp56K4lUGNldxgjy7r7Yt/ZG1ce71h
- 9n3hmrs8jqwMqdLq6MMrqYJurYX6icALKxOXcv+RU/jjPmZijpYCAiML1o8E3CCVFb82
- gaN7cUkllNhFdTBVKZRn4SlQR6B/25Zy6/lkayntmTngMmBzDRh2BoRmxdtfysyNbRQa
- M3f92M3bXqNNZ4NktwfReZ8m7WVGTsVWQ3nCNm/A9tcKVJ4HeuaqnnJ7GdcnKkT1CkDh
- uPfw==
+ bh=9K+pgypHpQw0rtcxPQhgsnhStYxWmAzrSs8zu4Rldbo=;
+ b=QKwZw466ChFpgWX6HMs7/TsWfVFF5jT1JHpr2ON2xNQid592ouxObeyAoRgr+wwAc4
+ 5X0utprsXaw/3iAjQOHc5byDkHs6ueN/IH5THJOjtyFoWnz4YSlW1vxNO6eQ3kiXH9Mb
+ r/+cytZRWsHekCFKYu/24L6zuqFBOPGSFP6ONa4X6dAjPkV1cDNopsdfI0H0ho5ZGVNp
+ XQ8U8COHK1YSUo4LlDrqzzLn6ATUxSwZiV1u0oSdlfc+5NaFW2sgxZMNwbAUroKfnxsO
+ VGie2pGPaoiJc1SaySpqM312dkoIfezBxIAdTvNPfVsC8XaWf24zqZYAVRCY+zXt0waX
+ YI+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=ULpkeHQYGtPXA6Mh5EfnBYgu1mf6Tl1ke1nKOLOm/n0=;
- b=xDGWaIq+X5HJfPlcLpYdL9LB3ih3KsJZnRuLg2+xJ/ev3r3CCqriMb52gnm06mTsB5
- pMlE53m2RCfl8wAE/fBCWXqAfaLYabCnmLdvQMexGM0ejLN73X0pmbh8vFO/Wbvkt/f/
- 5hEQ/DJka3Q40dA6YP2HbCTH80eeABAipTKMEn1rwhlLbGK4Tg9/czNaNRlhd87Lqd+i
- Bk96avr5pz6LJgNlObPcx/cjsFM5NOaSEMSTn395LB7Rj40iMWR5Ady923wVOEZah+BA
- 1PwGt6ATStT2mRrGsSDdycYtdQ388nnuMWBxtmYRstdLQGZqglUF55MPyyy7ZwBW9AOo
- 6Mtg==
-X-Gm-Message-State: AO0yUKV1+D+jwY8mUyifSk4wTrr+7iUyT5RSdVVUwl5cXXr4yMIkZXf5
- Qc77JD7z0JTHPPs/vYoc1rzoJw==
-X-Google-Smtp-Source: AK7set9F8DMSVOpQvkoWjkAZLMZWqn3Dyj9Q21LY63JGmosSuYLHX+ubxTfk5v7zdDyx2b7KGKEcRQ==
-X-Received: by 2002:a5d:6850:0:b0:2bf:e443:ea6e with SMTP id
- o16-20020a5d6850000000b002bfe443ea6emr1659287wrw.57.1675247045808; 
- Wed, 01 Feb 2023 02:24:05 -0800 (PST)
+ bh=9K+pgypHpQw0rtcxPQhgsnhStYxWmAzrSs8zu4Rldbo=;
+ b=ZhYo4SmbpMRaMiB3JLAaS/DrJtQewWv5yDznl/NkBzoCSzPD3KJ1T8CFcQC47VC6Vm
+ ozPzLUAIfEBO2gPQFXJvL93ARIDiChk6/BxBj6ACbvirEG/XgQiF1CTLuV5gZ4tDXBtv
+ zbNIU0lVxqc+XADuHwOdYAplikjMIF0Id4KXarGi0GFUprg3cHZW8QaCfiYUL5heK1u5
+ cF8GzWlUK3P2EQ/gQ8KT/lsekaDGoqH4j89lD68YJ3l+zz9IdeVOc6QDQ4L+zQjMWVHZ
+ RwnUqsxzmVcNuEgRrlpnHKx+WDWwN6E4eRVHEUZ/3dC12m3CgMxj40drE18D2NK0Cciy
+ o4iA==
+X-Gm-Message-State: AO0yUKVRvQxtj+ZFIVwTTNNKfIofkI2P4AaYyYYSE9VSzuR98qPv/yGR
+ u2vwBn5w6kgScCaK2RApOb17Zg==
+X-Google-Smtp-Source: AK7set+2bexLyIr4Iwns0h9XlVD75udmtz40530NQrYuv0H9iNO1nJxH7pxyDJSSY+OBNiHgJbtnDw==
+X-Received: by 2002:adf:f502:0:b0:2be:5be8:5ac with SMTP id
+ q2-20020adff502000000b002be5be805acmr5738029wro.40.1675247065305; 
+ Wed, 01 Feb 2023 02:24:25 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- k4-20020a5d4284000000b00241fde8fe04sm16843870wrq.7.2023.02.01.02.24.05
+ o9-20020adfeac9000000b002bfebe2d67esm9516929wrn.9.2023.02.01.02.24.24
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 02:24:05 -0800 (PST)
+ Wed, 01 Feb 2023 02:24:24 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id D06BA1FFB7;
- Wed,  1 Feb 2023 10:24:04 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id 906B91FFB7;
+ Wed,  1 Feb 2023 10:24:24 +0000 (GMT)
 References: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675234580.git.kkamran.bese16seecs@seecs.edu.pk>
+ <3c2ceaf1995dfd98c254cf3e2f6d1a68970bb1e8.1675234580.git.kkamran.bese16seecs@seecs.edu.pk>
 User-agent: mu4e 1.9.18; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
 Cc: qemu-devel@nongnu.org, ysato@users.sourceforge.jp, pbonzini@redhat.com,
  fam@euphon.net, peter.maydell@linaro.org, philmd@linaro.org,
  kwolf@redhat.com, hreitz@redhat.com
-Subject: Re: [PATCH 1/9] Updated the FSF address in file hw/sh4/sh7750_regs.h
-Date: Wed, 01 Feb 2023 10:22:32 +0000
-In-reply-to: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675234580.git.kkamran.bese16seecs@seecs.edu.pk>
-Message-ID: <87mt5xsmyj.fsf@linaro.org>
+Subject: Re: [PATCH 3/9] Updated the FSF address in file hw/scsi/viosrp.h
+Date: Wed, 01 Feb 2023 10:24:15 +0000
+In-reply-to: <3c2ceaf1995dfd98c254cf3e2f6d1a68970bb1e8.1675234580.git.kkamran.bese16seecs@seecs.edu.pk>
+Message-ID: <87ilglsmxz.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::42d;
- envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x42d.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::431;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x431.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -103,37 +104,10 @@ Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk> writes:
 > The Free Software Foundation moved to a new address and this file referre=
 d to their old location.
 > The address should be updated and replaced to a pointer to <https://www.g=
-nu.org/licenses/>
-> This will resolve the issue #379 in the QEMU source repository
-
-For next time I would put this comment in the cover letter. You can also
-add:
-
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/379
-
-to the commit message to auto close the bug once this is merged.
+nu.org/licenses/>=20=20
+> This will resolve the issue #379 in the QEMU source repository.
 
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
->
->  hw/sh4/sh7750_regs.h | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/hw/sh4/sh7750_regs.h b/hw/sh4/sh7750_regs.h
-> index beb571d5e9..94043431e6 100644
-> --- a/hw/sh4/sh7750_regs.h
-> +++ b/hw/sh4/sh7750_regs.h
-> @@ -22,8 +22,7 @@
->   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
->   * General Public License for more details. You should have received
->   * a copy of the GNU General Public License along with RTEMS; see
-> - * file COPYING. If not, write to the Free Software Foundation, 675
-> - * Mass Ave, Cambridge, MA 02139, USA.
-> + * file COPYING. If not, see <https://www.gnu.org/licenses/>.
->   *
->   * As a special exception, including RTEMS header files in a file,
->   * instantiating RTEMS generics or templates, or linking other files
-
 
 --=20
 Alex Benn=C3=A9e
