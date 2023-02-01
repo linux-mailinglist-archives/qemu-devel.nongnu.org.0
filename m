@@ -2,60 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB28A6868BF
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:45:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCFAD686907
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:55:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNEF1-00086i-2o; Wed, 01 Feb 2023 09:37:39 -0500
+	id 1pNEEx-0007o3-KM; Wed, 01 Feb 2023 09:37:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pNEDA-0005V5-Pz
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:35:48 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNEEe-0007g4-AD
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:37:16 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pNED3-00042Y-Dz
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:35:39 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNEEc-0004IF-Hs
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:37:15 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675262135;
+ s=mimecast20190719; t=1675262234;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=G78sh9k2aYU7/sirb3voCyPm+703BKxdk5K8LUpkvFY=;
- b=RO6diWYDd8b9RqjsUVJXKX2bzRTY7LSx8cxuy+liVtUizWREdJVWqIBP8YMwuclXXLWhNF
- US05SQatxtLjC08QJW0zUqwXEaFnGt68avQMmLRmvl0a53qwIHLI7RDJWQKqMPUXIa1JZc
- ZMJNr271rZXoVUhD2b+74WFKTUr63Ik=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-663-KEGG-iovNeqvIuKBoVvGew-1; Wed, 01 Feb 2023 09:35:32 -0500
-X-MC-Unique: KEGG-iovNeqvIuKBoVvGew-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id DDE8585CBE1;
- Wed,  1 Feb 2023 14:35:31 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.62])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id BBC16404CD80;
- Wed,  1 Feb 2023 14:35:30 +0000 (UTC)
-Date: Wed, 1 Feb 2023 14:35:28 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: James Bottomley <jejb@linux.ibm.com>
-Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
- DOV MURIK <Dov.Murik1@il.ibm.com>, "Jason A. Donenfeld" <Jason@zx2c4.com>
-Subject: Re: [PATCH] x86: fix q35 kernel measurements broken due to rng seeding
-Message-ID: <Y9p4sARXUdUOz/6X@redhat.com>
-References: <da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com>
+ bh=Hvw4V3lpgSiQcmhkEsNzgnX+nPUi7uw8GuAW03Cktog=;
+ b=fxwnWIxw0Ksj+564HLtPrx01tell9d1EkRsBgXrIT0/LzvSFdTLXdyq7/Qbq4C0hCluW48
+ eE0KVguoD3HrV+dONB7Yt501cCIG63TUavtUFfaweq/2mlj3g8vA4F5Fnk+VQ7q27sVQhu
+ qHiabzj/GnN5HH8pjmtA0tdBQ95ftJQ=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-479-vuCGZo98OYSsm21c4padww-1; Wed, 01 Feb 2023 09:37:12 -0500
+X-MC-Unique: vuCGZo98OYSsm21c4padww-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ m10-20020a05600c3b0a00b003dafe7451deso10513222wms.4
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 06:37:12 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Hvw4V3lpgSiQcmhkEsNzgnX+nPUi7uw8GuAW03Cktog=;
+ b=qDJ5MTffzOPM5vZmBP669VFd0ad2DRad2FYwgsjT5TwaPTuWZnE87P9HgicGgYTz/J
+ XcRZIntu5uKqaS1uPBaDYYlpcXA5Tf4SqvahL/XWFE+9LExaRr7g3cVWDk6tm/l7KVCi
+ FIOHP3+ZEluietJQ4T66v7NJNoRDnYmOgVhv5S2dN1ekZIMJDeJiv80+o5yGA7EJKlcp
+ /07R1stalU4avlZ1CboMJHk2ArPi0jC/3/N3yngg2bCXWfixR8ZXFfG4FZ/hUx/FGK2/
+ PT4I/NYCwT57IOYZVGocg513RKKhYlULYsX3b2WETJQoZR1QV4Q9ezOYwhof/Zv+novW
+ N5xQ==
+X-Gm-Message-State: AO0yUKXWQn2A1yGTp8ei9pe7J0DOaGcLRedU3NqaZUxTOY92G2DMwuo2
+ PQ3rcPph2wQB6Ongnz7HmBSlicE8cHACCzhJKeocXB1915Y/qzuZWwnAA/K7Bn9OPzsPlCyQFez
+ Xcpq9P+P//AU7OLc=
+X-Received: by 2002:adf:c70b:0:b0:2bf:b5c0:f157 with SMTP id
+ k11-20020adfc70b000000b002bfb5c0f157mr2682253wrg.39.1675262231738; 
+ Wed, 01 Feb 2023 06:37:11 -0800 (PST)
+X-Google-Smtp-Source: AK7set/JYZig3G04UTRvMUOK9dia1b+so8i+gBsY0Wb4zvEcEyDBE3eSLUsLNh064gB1j2tE+epu2A==
+X-Received: by 2002:adf:c70b:0:b0:2bf:b5c0:f157 with SMTP id
+ k11-20020adfc70b000000b002bfb5c0f157mr2682225wrg.39.1675262231497; 
+ Wed, 01 Feb 2023 06:37:11 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ k9-20020a5d6e89000000b002bfe266d710sm12650968wrz.90.2023.02.01.06.37.10
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Feb 2023 06:37:10 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Stefan Hajnoczi
+ <stefanha@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,  Anton
+ Kuchin <antonkuchin@yandex-team.ru>,  qemu-devel <qemu-devel@nongnu.org>,
+ "open list:virtiofs" <virtio-fs@redhat.com>,  Markus Armbruster
+ <armbru@redhat.com>,  Eric Blake <eblake@redhat.com>,
+ yc-core@yandex-team.ru
+Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
+In-Reply-To: <CAJSP0QUANuLkOjkLsB4LqKdi5_sJj+y6zK5vgcNmYZ5BLQ73rQ@mail.gmail.com>
+ (Stefan Hajnoczi's message of "Tue, 24 Jan 2023 07:48:12 -0500")
+References: <20230120085534-mutt-send-email-mst@kernel.org>
+ <703d527f-de92-090c-6ce1-af0dec7de033@yandex-team.ru>
+ <20230122030455-mutt-send-email-mst@kernel.org>
+ <b7de3adc-cba7-09eb-ea93-f4bfb91bea9e@yandex-team.ru>
+ <20230122093903-mutt-send-email-mst@kernel.org>
+ <70c0f00a-7828-3ccf-c2ea-49aeef8693e9@yandex-team.ru>
+ <20230122111618-mutt-send-email-mst@kernel.org>
+ <Y87Ri4r6SiETdCrt@work-vm> <Y87lv8fXrYpxkK/3@fedora>
+ <CAJSP0QV5wfXxhvjjFnLLUCvmSxiHxTPXh4qQJwHhnKdBu3EOQQ@mail.gmail.com>
+ <Y8+p8HFG8NxYlfoo@work-vm>
+ <CAJSP0QUANuLkOjkLsB4LqKdi5_sJj+y6zK5vgcNmYZ5BLQ73rQ@mail.gmail.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 01 Feb 2023 15:37:10 +0100
+Message-ID: <87cz6te9k9.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -76,84 +109,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 01, 2023 at 08:57:10AM -0500, James Bottomley wrote:
-> The origin commit for rng seeding 67f7e426e5 ("hw/i386: pass RNG seed
-> via setup_data entry") modifies the kernel image file to append a
-> random seed.  Obviously this makes the hash of the kernel file
-> non-deterministic and so breaks both measured and some signed boots.
+Stefan Hajnoczi <stefanha@gmail.com> wrote:
+> On Tue, Jan 24, 2023, 04:50 Dr. David Alan Gilbert <dgilbert@redhat.com>
+> wrote:
 
-I recall raising that at the time
+[...]
 
-  https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00710.html
+>> > I checked how bad the situation is. libvhost-user currently enables
+>> > LOG_ALL by default. :(
+>> >
+>> > So I don't think the front-end can use LOG_ALL alone to determine
+>> > whether or not migration is supported by the back-end.
+>> >
+>> > There are several existing back-ends based on libvhost-user that have
+>> > no concept of reconnection or migration but report the LOG_ALL feature
+>> > bit.
+>>
+>> Ouch, yes that's messy.
+>>
+>> Going back to the original question; I don't think a command line flag
+>> will work though, because even for a given VM there's the possibility
+>> of some (local) migrations working but other (remote) migrations not
+>> working; so you don't know at the point you start the VM whether
+>> your migrations are going to work.
+>>
+>
+> The user or management tool should know which types of migration a
+> vhost-user-fs backend supports. That can be passed in as a per-device
+> parameter.
+>
+> Then a migration parameter can be used to distinguish between same host and
+> remote host migration? QEMU already distinguishes between pre-copy and
+> post-copy migration, so this can be thought of as yet another type of
+> migration.
 
-and Jason pointed me to a followup which I tested and believe
-fixed it for SEV:
+I was going to suggest this (my previous answer was after reading only
+the other part of the comments).
 
-  https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00601.html
+What we have here is that this device has "three" states:
+- You can't migrate it to other host (now and the default behaviour)
+- You can migrate some of the backends if you are migrating in the same
+  host (note, we don't know directly that we are migrating inside the
+  same host, so I would agree to add _that_ migration capability, that
+  is related to migration, and it makes sense for migration code and
+  devices to know that is happening)
+- In the future, perhaps, you can migrate "always" some vhost-use-fs,
+  that would be a property on my opinion.
 
-but it doesn't look like that second patch ever merged. We went
-through so many patches I think it probably got obsoleted by
-something else, and no one rechecked SEV again.
-
-> The commit notes it's only for non-EFI (because EFI has a different
-> RNG seeding mechanism) so, since there are no non-EFI q35 systems, this
-> should be disabled for the whole of the q35 machine type to bring back
-> deterministic kernel file hashes.
-
-SeaBIOS is the default firmware for both q35 and i440fx. The
-majority of systems using q35 will be non-EFI today, and that
-is what the random seed was intended to address. I don't think
-we can just disable this for the whole of q35.
-
-When you say it breaks measured / signed boots, I presume you
-are specifically referring to SEV kernel hashes measurements ?
-Or is there a more general problem to solve ?
-
-> Obviously this still leaves the legacy bios case broken for at least
-> measured boot, but I don't think anyone cares about that now.
-> 
-> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
-> ---
->  hw/i386/pc_q35.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 83c57c6eb1..11e8dd7ca7 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -357,6 +357,7 @@ static void pc_q35_machine_options(MachineClass *m)
->      pcmc->default_nic_model = "e1000e";
->      pcmc->pci_root_uid = 0;
->      pcmc->default_cpu_version = 1;
-> +    pcmc->legacy_no_rng_seed = true;
->  
->      m->family = "pc_q35";
->      m->desc = "Standard PC (Q35 + ICH9, 2009)";
-> @@ -394,9 +395,7 @@ DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
->  
->  static void pc_q35_7_1_machine_options(MachineClass *m)
->  {
-> -    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pc_q35_7_2_machine_options(m);
-> -    pcmc->legacy_no_rng_seed = true;
->      compat_props_add(m->compat_props, hw_compat_7_1,
-> hw_compat_7_1_len);
->      compat_props_add(m->compat_props, pc_compat_7_1,
-> pc_compat_7_1_len);
->  }
-
-This patch changes behaviour of the pc-q35-7.2 machine type. Any
-change will need to be in latest development 8.0 machine type only
-
-With regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Later, Juan.
 
 
