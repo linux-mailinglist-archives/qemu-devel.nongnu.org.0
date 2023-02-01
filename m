@@ -2,87 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2753068693B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:58:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66AE4686971
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 16:01:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNEZM-0002Mw-8O; Wed, 01 Feb 2023 09:58:40 -0500
+	id 1pNEbO-0004fi-I7; Wed, 01 Feb 2023 10:00:46 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pNEZF-00021J-Gr
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:58:33 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNEbG-0004cx-TT
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 10:00:39 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pNEZD-0000O7-95
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:58:32 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNEbE-0001Mr-MR
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 10:00:38 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675263510;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=ooInzJcDpo+JjAKy96V4Y8Ee/hrsbc2iMqeddHaVOlA=;
- b=Sp9saEUTxJyTVMnxWw9qbHZS9FdrOqbTvik8WkyGdjyERE9cVk0h5F6KXS17ed99pNf2P5
- lUTINZ8/CMH+vlyyvPAnpgEBWjuN3xGj09bzVQfLd+i88jjqkEodzh7CGwVuRASbCwswWS
- 78E7cjdgiL2L1EQaTNV5XZqfhrSikes=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1675263634;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=2LmGql4t+OMleANUU8l7uD3UhdMAiTyTsOXZ13Cls7Q=;
+ b=IQ7p5jLaf3NKOGN6XNfWvUgHIkoONFzufppwOwITffE5Hd/NKJ/Exnpo3Xb1W7KI+MJnZj
+ Tc9+DdcRcIJrbio9aEEZN7k+qV16yCXEVEkZliMi072b1oM62eUUzHMDtPLczOPK2pfplH
+ YpETzIANxRN8KBS/N8inxuOfcpJtBzI=
+Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
+ [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-310-hUp35lYsPGi6sYmKB6PWbg-1; Wed, 01 Feb 2023 09:58:21 -0500
-X-MC-Unique: hUp35lYsPGi6sYmKB6PWbg-1
-Received: by mail-qt1-f198.google.com with SMTP id
- bs11-20020ac86f0b000000b003b9b4ec27c4so2153720qtb.19
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 06:58:21 -0800 (PST)
+ us-mta-32-69CG6rgUNl6vJdrqRiCk7A-1; Wed, 01 Feb 2023 10:00:32 -0500
+X-MC-Unique: 69CG6rgUNl6vJdrqRiCk7A-1
+Received: by mail-wr1-f69.google.com with SMTP id
+ o24-20020a5d58d8000000b002bfe173775aso1959462wrf.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 07:00:32 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=ooInzJcDpo+JjAKy96V4Y8Ee/hrsbc2iMqeddHaVOlA=;
- b=gvZ9m38b/gi3ggY9rQ0sYdofKNmLrFTLTkktVMzVMJhjWQ/oiqM0S2HJ/4wtsIFpl/
- VYjNFVcefqr6bUaVNEee4EPpclC1J+zRG37iFpjrQAAsqB9Kwj/ZXZFZ3TerJ7M782h8
- WXQTr0KktsSwnT8fpVAugvGfNlVQAiF5VNionn+14fGV+kJE4/vYMxBsUaF5wPmxsmov
- sEAmqRXT52LfAfjALpC7f40wJHHRjEVRKm4NAXVf2FBrUzqWEbxQprR0nspUhpouJxML
- I/2K+4SSiCmTZlllrywRNnnWJz6U7usEMGtxvrdEZZMRyfJxXAL0Wh1qt9B5hYt+cdqG
- DmCg==
-X-Gm-Message-State: AO0yUKV/8p5ijlUUpXUR0hDOZgRy+T5C1OJN+1UY+iRdr6baIeOmOOxU
- 14pcW2tR5m1w2ThfoRRwAnMc3mpdSgepNAzYEp7wfzdEIu2EfbQYVMzrHdocMuUtaPD+VqWonzj
- /sESIp0D3iLJtSU0=
-X-Received: by 2002:ac8:7108:0:b0:3b8:6d5a:3457 with SMTP id
- z8-20020ac87108000000b003b86d5a3457mr4097422qto.6.1675263501114; 
- Wed, 01 Feb 2023 06:58:21 -0800 (PST)
-X-Google-Smtp-Source: AK7set/KbplvqsQBpVko18Bk7VT6Hp8H6Y7Mf/gkBfpYyI7AfOdXPFS7cu85sMBQNqnZnw4XTjt1wA==
-X-Received: by 2002:ac8:7108:0:b0:3b8:6d5a:3457 with SMTP id
- z8-20020ac87108000000b003b86d5a3457mr4097398qto.6.1675263500804; 
- Wed, 01 Feb 2023 06:58:20 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- v16-20020a05622a145000b003b8391b7736sm8671754qtx.25.2023.02.01.06.58.19
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=2LmGql4t+OMleANUU8l7uD3UhdMAiTyTsOXZ13Cls7Q=;
+ b=azRUoMI8LxLadRtEGkCPv4Rsj8J50v3wyAaISD16f76eFVMGQ3gHhQsUMteen4EYNf
+ /ytVOq421e1c2UzNaINGRMrfRFAPqGXHt9BekOXJNFY3KEA8NfWpxwaIex06URK4JUMz
+ SwRRs2ZCXYkfWxSv+p5Qco/OCKX0FOVZMXIxw+QG+VnZtW9bV83zy4s9pYQG4LehGCDC
+ Ky/gUG1gAEOflQl/T0SQ0VyX4ViNsWPwIScUN/2O9I+dR9LxEbcsN700sKY9csHULxIr
+ cSGqXPl72OZsQ0aWzYbPMJM5ycZO81TrtH/jIQmrBrNwfk4XQBoINMB0B4jYg3qqgmCp
+ 6Iug==
+X-Gm-Message-State: AO0yUKW4gDeCpyRXpVTtIY1XMbaoDmDENAPmOfnogpYrj79NNYaZZnbY
+ rXnVVDnKGwcHYDq4vYaYQeEs+wDOpHoL8q04WUgRKFDPW8DYNC4RKn+Ee/RUhNB5BSO5KRDvvvb
+ k0kZKsIlMfcj+5zA=
+X-Received: by 2002:a05:600c:4688:b0:3dc:438a:c381 with SMTP id
+ p8-20020a05600c468800b003dc438ac381mr2528516wmo.28.1675263631717; 
+ Wed, 01 Feb 2023 07:00:31 -0800 (PST)
+X-Google-Smtp-Source: AK7set8iLrVL2eh5glUmUAyu/2FNO0djwoW6Hhl3YBZLDivZcWMnRwTenlpWVy9TivwfXf7iWbAaQQ==
+X-Received: by 2002:a05:600c:4688:b0:3dc:438a:c381 with SMTP id
+ p8-20020a05600c468800b003dc438ac381mr2528497wmo.28.1675263631501; 
+ Wed, 01 Feb 2023 07:00:31 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ t1-20020adfe441000000b002bfd524255esm14717791wrm.43.2023.02.01.07.00.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 06:58:20 -0800 (PST)
-Date: Wed, 1 Feb 2023 09:58:19 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>
-Cc: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
- "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Subject: Re: [PATCH 0/3] util/userfaultfd: Support /dev/userfaultfd
-Message-ID: <Y9p+C852jA2ntNYt@x1n>
-References: <20230125224016.212529-1-peterx@redhat.com>
- <0f8ad497-202d-ae55-e468-77bb726a2699@redhat.com>
- <Y9KK72k8dZU7Ccau@work-vm> <Y9KbUaMo8DaH0YKv@x1n>
- <Y9KjZeu9t37XyZ3q@redhat.com> <Y9K31a04dTChnaOV@x1n>
- <Y9lwphMDs+Q3aVMr@x1n> <Y9l0328Sp3HJ948a@redhat.com>
- <Y9mBxpYBv+h8Y0TT@x1n>
- <25b5b38e-3445-2e2e-cc34-e4feae6c0c09@redhat.com>
+ Wed, 01 Feb 2023 07:00:30 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: qemu-devel@nongnu.org,  dgilbert@redhat.com,  lsoaresp@redhat.com
+Subject: Re: [PATCH v6 0/2] check magic value for deciding the mapping of
+ channels
+In-Reply-To: <f1f1cd0f-a887-57f9-5762-7f7e638941eb@nutanix.com> (manish
+ mishra's message of "Wed, 4 Jan 2023 16:22:10 +0530")
+References: <20221220184418.228834-1-manish.mishra@nutanix.com>
+ <f1f1cd0f-a887-57f9-5762-7f7e638941eb@nutanix.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 01 Feb 2023 16:00:30 +0100
+Message-ID: <87tu05zb01.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <25b5b38e-3445-2e2e-cc34-e4feae6c0c09@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,31 +96,17 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 01, 2023 at 08:55:01AM +0100, Michal Prívozník wrote:
-> On 1/31/23 22:01, Peter Xu wrote:
-> > I'll wait 1-2 more days to see whether Michal has anything to comment.
-> 
-> Yeah, we can go with your patches and leave FD passing for future work.
-> It's orthogonal after all.
-> 
-> In the end we can have (in the order of precedence):
-> 
-> 1) new cmd line argument, say:
-> 
->    qemu-system-x86_64 -userfaultfd fd=5 # where FD 5 is passed by
-> libvirt when exec()-ing qemu, just like other FDs, e.g. -chardev
-> socket,fd=XXX
-> 
-> 2) your patches, where qemu opens /dev/userfaultfd
-> 
-> 3) current behavior, userfaultfd syscall
+"manish.mishra" <manish.mishra@nutanix.com> wrote:
+> Hi Everyone,
+>
+> I was just checking if it was not missed in holidays and was received. :)
 
-Sounds good.  Thanks.
+Queued.
 
--- 
-Peter Xu
+Sorry for the delay.
 
 
