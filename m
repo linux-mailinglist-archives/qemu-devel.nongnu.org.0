@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B99A685E02
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 04:38:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81046685E0E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 04:40:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN3vU-0007Cd-Tg; Tue, 31 Jan 2023 22:36:48 -0500
+	id 1pN3vV-0007KC-PT; Tue, 31 Jan 2023 22:36:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pN3vS-0006zJ-CF
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:36:46 -0500
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d])
+ id 1pN3vU-0007BJ-18
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:36:48 -0500
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pN3vQ-0000VV-Ip
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:36:46 -0500
-Received: by mail-pl1-x62d.google.com with SMTP id b5so9927972plz.5
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 19:36:42 -0800 (PST)
+ id 1pN3vR-0000Qg-Ai
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:36:47 -0500
+Received: by mail-pl1-x636.google.com with SMTP id n13so1679075plf.11
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 19:36:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=Lkd52RBk6GEtzLexVG2esWofdxIUyPYLGO6mQp3hTXA=;
- b=Q2ao6LKiPc03tYuhEAiQXlQpnt3d7cuN7szw254pZhKnR2TUhTs7i3W4p5nITT8C6r
- 4FijBCLzHqDb2DWHyuHp/znQ7CG/bdjvCyxM48YS8vbi6WL0Ez5Vwpa9tEdmLWt21VXm
- 5B7OjpSfS7avB52o8T0SPzIO0Pcldw3/PGBkHA2bEpukBjU18Uu6Ve6S5rFfZ5mV700M
- jjUbyzx5vwI/OZJN0U+GpQwa4P/3fdQtgmpFYPNa9mEB264cDsIEFFL55Dsk/i6yfaUz
- xy/i3GOzXyclVhS1qS++sx9vVPEfT/oduFV3uQyqjHVt23PUmJHzpm+2gUR8isW2XQSa
- aN4w==
+ bh=ANZ2tvlymfXtSy2NHTRVgvdqaQF3589MS4UmOOzy0ME=;
+ b=jI55CIV84ClhDtgHX3v2dxwrmtZoyUNkOcre8T7g4NlgpE06Q6vuE8GMGMwhx0XzcI
+ a8DEXdS4/LUD20H+6/jf3HNWd0ygyilRBEZ1oH91NOXC2pip32H2QtphXwr8ipEUbbZ9
+ gEhMLw6RKW/8ui6QMAqD0hyJGgubFBK1fWuv23HGQ+623Ks6G+EEMoSaBX+X44kV0YV4
+ sfogy+HUSWzrYrWYlEzABeE7WOGw1ZHdCwZ03NJxsalKAY3s47JjdO5/awiCygBluXur
+ IwTcey48vc/dEF292de0tYy8TtqtF3E4hyFHSaCFGldUhbgpLSgnbWdfZNg7hsLqQRyw
+ 9gFw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Lkd52RBk6GEtzLexVG2esWofdxIUyPYLGO6mQp3hTXA=;
- b=dGXqM7ou7vOTES+1jfv2mgyttXyAIPAVsi+LK5sMdsytD5WWulSt1XJQnheQ8b+GBo
- HRDEMw0tiFFknJNFY/PqbvKVLRlEZo1DdlNYZgGDAt3tunirIJbautHdLjtH8D++f3sj
- gUQVajpa9oqgJjcboJYPhV4D3XTpEWFmoyOP7Hgnu40ssByvyNYRWsBUvyehHXSz9fr1
- 6QNZxzq6+n3QjhaqdtI6at9vNss+LgV/OIvTmEuoEHS9VfCVdIFJVoNIb8KSNi1RU1f6
- nOAsBB5yQmYRFLd/dsEYjU4o58G5grnTni4LV5s7L2Iz6ISKYOdM753FrI2UyQcWJjfQ
- hp+A==
-X-Gm-Message-State: AO0yUKWETb/9DkpidorDzU6kHDRGIG/q+hALFNtXBkpj8wRojis7n9QE
- GYF5xDWl/Ag6/KvkYTy67u8gYw==
-X-Google-Smtp-Source: AK7set8lqmyNMOBrk2uTAaYeOrjqcTnfvcNenoFY3GwqfG3VoKAVtiQaC54intx8L8rjTOgjFaQalA==
-X-Received: by 2002:a17:902:f28c:b0:194:afe4:3011 with SMTP id
- k12-20020a170902f28c00b00194afe43011mr1118943plc.52.1675222601561; 
- Tue, 31 Jan 2023 19:36:41 -0800 (PST)
+ bh=ANZ2tvlymfXtSy2NHTRVgvdqaQF3589MS4UmOOzy0ME=;
+ b=YG+fnSFK/nLTEdkj5Mt9LfjKKOSW1aS/uqcZTEFEMBhzGclNZA/Yy8uW6cIkwkcQLg
+ Vvo5IoEc1+qQ52hs5UZhPgGZq4xY0y3MqAKgC9/UD/2+UO/HrV9N+2zi5MR7gr8uzXmi
+ ttoEXUamyeJKO72xgqN4IijBBPpWfFvCMGQus/HA7SWguRfqBY94lAGuX9F4NGfe/bwr
+ 7YqBxhZc3RBW/83jJxoM67wVppPxBVoHgHVAKfpb2Wcp0m2dprfZVsO+5SvsctaqOSek
+ ZllzmjrMSdR9WCFK6hEHz2kQeiXFDuj0VMX249sevjviP5byOjr0Ld2e8vvrf4OnFKfU
+ iTog==
+X-Gm-Message-State: AO0yUKXmJMGtl88PIg0MjJxPu5cjYgFJrLrQMUq7DcaeroRn/PIwz6DH
+ DsAle6QgPJXunrVx/GiDSqa1cg==
+X-Google-Smtp-Source: AK7set/LFxC97SllwUQSL/uzttOqBaXOp2Egv3WKRAPfpInQvcRVHqjuw3eWmh1xLyJuJ8FSTHQEyQ==
+X-Received: by 2002:a17:902:e34a:b0:196:7a96:cd8a with SMTP id
+ p10-20020a170902e34a00b001967a96cd8amr1113289plc.32.1675222604632; 
+ Tue, 31 Jan 2023 19:36:44 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- x15-20020a170902ec8f00b001968b529c98sm4185557plg.128.2023.01.31.19.36.38
+ x15-20020a170902ec8f00b001968b529c98sm4185557plg.128.2023.01.31.19.36.41
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 19:36:41 -0800 (PST)
+ Tue, 31 Jan 2023 19:36:44 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -65,20 +65,17 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Yan Vugenfirer <yvugenfi@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Alexander Bulekov <alxndr@bu.edu>,
- Akihiko Odaki <akihiko.odaki@daynix.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH v5 17/29] e1000e: Remove extra pointer indirection
-Date: Wed,  1 Feb 2023 12:35:27 +0900
-Message-Id: <20230201033539.30049-18-akihiko.odaki@daynix.com>
+ Alexander Bulekov <alxndr@bu.edu>, Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH v5 18/29] net: Check L4 header size
+Date: Wed,  1 Feb 2023 12:35:28 +0900
+Message-Id: <20230201033539.30049-19-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230201033539.30049-1-akihiko.odaki@daynix.com>
 References: <20230201033539.30049-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::62d;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62d.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::636;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x636.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -100,150 +97,156 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-e1000e_write_packet_to_guest() passes the reference of variable ba as a
-pointer to an array, and that pointer indirection is just unnecessary;
-all functions which uses the passed reference performs no pointer
-operation on the pointer and they simply dereference the passed
-pointer. Remove the extra pointer indirection.
+net_tx_pkt_build_vheader() inspects TCP header but had no check for
+the header size, resulting in an undefined behavior. Check the header
+size and drop the packet if the header is too small.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/net/e1000e_core.c | 38 +++++++++++++++++++-------------------
- 1 file changed, 19 insertions(+), 19 deletions(-)
+ hw/net/e1000e_core.c | 19 ++++++++++++++-----
+ hw/net/net_tx_pkt.c  | 13 ++++++++++---
+ hw/net/net_tx_pkt.h  |  3 ++-
+ hw/net/vmxnet3.c     | 14 +++++++-------
+ 4 files changed, 33 insertions(+), 16 deletions(-)
 
 diff --git a/hw/net/e1000e_core.c b/hw/net/e1000e_core.c
-index 736708407c..d143f2ae6f 100644
+index d143f2ae6f..38d374fba3 100644
 --- a/hw/net/e1000e_core.c
 +++ b/hw/net/e1000e_core.c
-@@ -1075,31 +1075,31 @@ e1000e_read_ext_rx_descr(E1000ECore *core, union e1000_rx_desc_extended *desc,
- static inline void
- e1000e_read_ps_rx_descr(E1000ECore *core,
-                         union e1000_rx_desc_packet_split *desc,
--                        hwaddr (*buff_addr)[MAX_PS_BUFFERS])
-+                        hwaddr buff_addr[MAX_PS_BUFFERS])
- {
-     int i;
- 
-     for (i = 0; i < MAX_PS_BUFFERS; i++) {
--        (*buff_addr)[i] = le64_to_cpu(desc->read.buffer_addr[i]);
-+        buff_addr[i] = le64_to_cpu(desc->read.buffer_addr[i]);
-     }
- 
--    trace_e1000e_rx_desc_ps_read((*buff_addr)[0], (*buff_addr)[1],
--                                 (*buff_addr)[2], (*buff_addr)[3]);
-+    trace_e1000e_rx_desc_ps_read(buff_addr[0], buff_addr[1],
-+                                 buff_addr[2], buff_addr[3]);
+@@ -629,23 +629,30 @@ e1000e_rss_parse_packet(E1000ECore *core,
+     info->queue = E1000_RSS_QUEUE(&core->mac[RETA], info->hash);
  }
  
- static inline void
- e1000e_read_rx_descr(E1000ECore *core, union e1000_rx_desc_union *desc,
--                     hwaddr (*buff_addr)[MAX_PS_BUFFERS])
-+                     hwaddr buff_addr[MAX_PS_BUFFERS])
+-static void
++static bool
+ e1000e_setup_tx_offloads(E1000ECore *core, struct e1000e_tx *tx)
  {
-     if (e1000e_rx_use_legacy_descriptor(core)) {
--        e1000e_read_lgcy_rx_descr(core, &desc->legacy, &(*buff_addr)[0]);
--        (*buff_addr)[1] = (*buff_addr)[2] = (*buff_addr)[3] = 0;
-+        e1000e_read_lgcy_rx_descr(core, &desc->legacy, &buff_addr[0]);
-+        buff_addr[1] = buff_addr[2] = buff_addr[3] = 0;
-     } else {
-         if (core->mac[RCTL] & E1000_RCTL_DTYP_PS) {
-             e1000e_read_ps_rx_descr(core, &desc->packet_split, buff_addr);
-         } else {
--            e1000e_read_ext_rx_descr(core, &desc->extended, &(*buff_addr)[0]);
--            (*buff_addr)[1] = (*buff_addr)[2] = (*buff_addr)[3] = 0;
-+            e1000e_read_ext_rx_descr(core, &desc->extended, &buff_addr[0]);
-+            buff_addr[1] = buff_addr[2] = buff_addr[3] = 0;
+     if (tx->props.tse && tx->cptse) {
+-        net_tx_pkt_build_vheader(tx->tx_pkt, true, true, tx->props.mss);
++        if (!net_tx_pkt_build_vheader(tx->tx_pkt, true, true, tx->props.mss)) {
++            return false;
++        }
++
+         net_tx_pkt_update_ip_checksums(tx->tx_pkt);
+         e1000x_inc_reg_if_not_full(core->mac, TSCTC);
+-        return;
++        return true;
+     }
+ 
+     if (tx->sum_needed & E1000_TXD_POPTS_TXSM) {
+-        net_tx_pkt_build_vheader(tx->tx_pkt, false, true, 0);
++        if (!net_tx_pkt_build_vheader(tx->tx_pkt, false, true, 0)) {
++            return false;
++        }
+     }
+ 
+     if (tx->sum_needed & E1000_TXD_POPTS_IXSM) {
+         net_tx_pkt_update_ip_hdr_checksum(tx->tx_pkt);
+     }
++
++    return true;
+ }
+ 
+ static bool
+@@ -654,7 +661,9 @@ e1000e_tx_pkt_send(E1000ECore *core, struct e1000e_tx *tx, int queue_index)
+     int target_queue = MIN(core->max_queue_num, queue_index);
+     NetClientState *queue = qemu_get_subqueue(core->owner_nic, target_queue);
+ 
+-    e1000e_setup_tx_offloads(core, tx);
++    if (!e1000e_setup_tx_offloads(core, tx)) {
++        return false;
++    }
+ 
+     net_tx_pkt_dump(tx->tx_pkt);
+ 
+diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
+index 2533ea2700..8a23899a4d 100644
+--- a/hw/net/net_tx_pkt.c
++++ b/hw/net/net_tx_pkt.c
+@@ -304,10 +304,11 @@ func_exit:
+     return rc;
+ }
+ 
+-void net_tx_pkt_build_vheader(struct NetTxPkt *pkt, bool tso_enable,
++bool net_tx_pkt_build_vheader(struct NetTxPkt *pkt, bool tso_enable,
+     bool csum_enable, uint32_t gso_size)
+ {
+     struct tcp_hdr l4hdr;
++    size_t bytes_read;
+     assert(pkt);
+ 
+     /* csum has to be enabled if tso is. */
+@@ -328,8 +329,12 @@ void net_tx_pkt_build_vheader(struct NetTxPkt *pkt, bool tso_enable,
+ 
+     case VIRTIO_NET_HDR_GSO_TCPV4:
+     case VIRTIO_NET_HDR_GSO_TCPV6:
+-        iov_to_buf(&pkt->vec[NET_TX_PKT_PL_START_FRAG], pkt->payload_frags,
+-                   0, &l4hdr, sizeof(l4hdr));
++        bytes_read = iov_to_buf(&pkt->vec[NET_TX_PKT_PL_START_FRAG],
++                                pkt->payload_frags, 0, &l4hdr, sizeof(l4hdr));
++        if (bytes_read < sizeof(l4hdr)) {
++            return false;
++        }
++
+         pkt->virt_hdr.hdr_len = pkt->hdr_len + l4hdr.th_off * sizeof(uint32_t);
+         pkt->virt_hdr.gso_size = gso_size;
+         break;
+@@ -354,6 +359,8 @@ void net_tx_pkt_build_vheader(struct NetTxPkt *pkt, bool tso_enable,
+             break;
          }
      }
++
++    return true;
  }
-@@ -1420,14 +1420,14 @@ typedef struct e1000e_ba_state_st {
  
- static inline void
- e1000e_write_hdr_to_rx_buffers(E1000ECore *core,
--                               hwaddr (*ba)[MAX_PS_BUFFERS],
-+                               hwaddr ba[MAX_PS_BUFFERS],
-                                e1000e_ba_state *bastate,
-                                const char *data,
-                                dma_addr_t data_len)
+ void net_tx_pkt_setup_vlan_header_ex(struct NetTxPkt *pkt,
+diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
+index 4ec8bbe9bd..2e38a5fa69 100644
+--- a/hw/net/net_tx_pkt.h
++++ b/hw/net/net_tx_pkt.h
+@@ -59,9 +59,10 @@ struct virtio_net_hdr *net_tx_pkt_get_vhdr(struct NetTxPkt *pkt);
+  * @tso_enable:     TSO enabled
+  * @csum_enable:    CSO enabled
+  * @gso_size:       MSS size for TSO
++ * @ret:            operation result
+  *
+  */
+-void net_tx_pkt_build_vheader(struct NetTxPkt *pkt, bool tso_enable,
++bool net_tx_pkt_build_vheader(struct NetTxPkt *pkt, bool tso_enable,
+     bool csum_enable, uint32_t gso_size);
+ 
+ /**
+diff --git a/hw/net/vmxnet3.c b/hw/net/vmxnet3.c
+index d2ab527ef4..c63bbb59bd 100644
+--- a/hw/net/vmxnet3.c
++++ b/hw/net/vmxnet3.c
+@@ -440,19 +440,19 @@ vmxnet3_setup_tx_offloads(VMXNET3State *s)
  {
-     assert(data_len <= core->rxbuf_sizes[0] - bastate->written[0]);
+     switch (s->offload_mode) {
+     case VMXNET3_OM_NONE:
+-        net_tx_pkt_build_vheader(s->tx_pkt, false, false, 0);
+-        break;
++        return net_tx_pkt_build_vheader(s->tx_pkt, false, false, 0);
  
--    pci_dma_write(core->owner, (*ba)[0] + bastate->written[0], data, data_len);
-+    pci_dma_write(core->owner, ba[0] + bastate->written[0], data, data_len);
-     bastate->written[0] += data_len;
+     case VMXNET3_OM_CSUM:
+-        net_tx_pkt_build_vheader(s->tx_pkt, false, true, 0);
+         VMW_PKPRN("L4 CSO requested\n");
+-        break;
++        return net_tx_pkt_build_vheader(s->tx_pkt, false, true, 0);
  
-     bastate->cur_idx = 1;
-@@ -1435,7 +1435,7 @@ e1000e_write_hdr_to_rx_buffers(E1000ECore *core,
+     case VMXNET3_OM_TSO:
+-        net_tx_pkt_build_vheader(s->tx_pkt, true, true,
+-            s->cso_or_gso_size);
+-        net_tx_pkt_update_ip_checksums(s->tx_pkt);
+         VMW_PKPRN("GSO offload requested.");
++        if (!net_tx_pkt_build_vheader(s->tx_pkt, true, true,
++            s->cso_or_gso_size)) {
++            return false;
++        }
++        net_tx_pkt_update_ip_checksums(s->tx_pkt);
+         break;
  
- static void
- e1000e_write_to_rx_buffers(E1000ECore *core,
--                           hwaddr (*ba)[MAX_PS_BUFFERS],
-+                           hwaddr ba[MAX_PS_BUFFERS],
-                            e1000e_ba_state *bastate,
-                            const char *data,
-                            dma_addr_t data_len)
-@@ -1447,13 +1447,13 @@ e1000e_write_to_rx_buffers(E1000ECore *core,
-         uint32_t bytes_to_write = MIN(data_len, cur_buf_bytes_left);
- 
-         trace_e1000e_rx_desc_buff_write(bastate->cur_idx,
--                                        (*ba)[bastate->cur_idx],
-+                                        ba[bastate->cur_idx],
-                                         bastate->written[bastate->cur_idx],
-                                         data,
-                                         bytes_to_write);
- 
-         pci_dma_write(core->owner,
--            (*ba)[bastate->cur_idx] + bastate->written[bastate->cur_idx],
-+            ba[bastate->cur_idx] + bastate->written[bastate->cur_idx],
-             data, bytes_to_write);
- 
-         bastate->written[bastate->cur_idx] += bytes_to_write;
-@@ -1577,7 +1577,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
- 
-         trace_e1000e_rx_descr(rxi->idx, base, core->rx_desc_len);
- 
--        e1000e_read_rx_descr(core, &desc, &ba);
-+        e1000e_read_rx_descr(core, &desc, ba);
- 
-         if (ba[0]) {
-             if (desc_offset < size) {
-@@ -1596,7 +1596,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
-                             iov_copy = MIN(ps_hdr_len - ps_hdr_copied,
-                                            iov->iov_len - iov_ofs);
- 
--                            e1000e_write_hdr_to_rx_buffers(core, &ba, &bastate,
-+                            e1000e_write_hdr_to_rx_buffers(core, ba, &bastate,
-                                                       iov->iov_base, iov_copy);
- 
-                             copy_size -= iov_copy;
-@@ -1613,7 +1613,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
-                     } else {
-                         /* Leave buffer 0 of each descriptor except first */
-                         /* empty as per spec 7.1.5.1                      */
--                        e1000e_write_hdr_to_rx_buffers(core, &ba, &bastate,
-+                        e1000e_write_hdr_to_rx_buffers(core, ba, &bastate,
-                                                        NULL, 0);
-                     }
-                 }
-@@ -1622,7 +1622,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
-                 while (copy_size) {
-                     iov_copy = MIN(copy_size, iov->iov_len - iov_ofs);
- 
--                    e1000e_write_to_rx_buffers(core, &ba, &bastate,
-+                    e1000e_write_to_rx_buffers(core, ba, &bastate,
-                                             iov->iov_base + iov_ofs, iov_copy);
- 
-                     copy_size -= iov_copy;
-@@ -1635,7 +1635,7 @@ e1000e_write_packet_to_guest(E1000ECore *core, struct NetRxPkt *pkt,
- 
-                 if (desc_offset + desc_size >= total_size) {
-                     /* Simulate FCS checksum presence in the last descriptor */
--                    e1000e_write_to_rx_buffers(core, &ba, &bastate,
-+                    e1000e_write_to_rx_buffers(core, ba, &bastate,
-                           (const char *) &fcs_pad, e1000x_fcs_len(core->mac));
-                 }
-             }
+     default:
 -- 
 2.39.1
 
