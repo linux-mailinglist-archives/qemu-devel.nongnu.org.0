@@ -2,96 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730FD68610A
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 08:55:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7E8068610F
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 08:59:00 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN7xk-0007Bm-5U; Wed, 01 Feb 2023 02:55:24 -0500
+	id 1pN80h-0000il-GK; Wed, 01 Feb 2023 02:58:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1pN7xW-00076d-8t
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 02:55:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pN80f-0000iR-Qu
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 02:58:25 -0500
+Received: from 7.mo548.mail-out.ovh.net ([46.105.33.25])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mprivozn@redhat.com>)
- id 1pN7xU-00015W-96
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 02:55:09 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675238106;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=bejBOTQkLAYJT8CamCKcjPt+iQorefFGDG4dN3S3q9g=;
- b=gpG9vbISvqGh5XkLqDHvygErdXxAv7I/lYAuBt8ryQqMYzpbV99tyu9LisVCePtvcMn+jb
- KMkHrTc2R6LQAE2yZFe50s1JL+Y9itmvK/GElA7Kwu6w3pZPQ7BJjyBfud6qBNyiJuRr5X
- yrPK6lnALfnuV9fTpmM9peA5B+OaBfM=
-Received: from mail-ed1-f70.google.com (mail-ed1-f70.google.com
- [209.85.208.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-645-9qgztufXPCqe6ubvvJJEpw-1; Wed, 01 Feb 2023 02:55:03 -0500
-X-MC-Unique: 9qgztufXPCqe6ubvvJJEpw-1
-Received: by mail-ed1-f70.google.com with SMTP id
- g14-20020a056402090e00b0046790cd9082so12300431edz.21
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 23:55:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bejBOTQkLAYJT8CamCKcjPt+iQorefFGDG4dN3S3q9g=;
- b=Y+XGLv0HWKcIPTSsBW8xrXh7RZuxnMAZ+mxit1CqDK4kfIDK+f/h8ie4Xvqkw261V3
- BeimAxCu/ZugsSn1jpV3GGh8lxA83DG2wAC4oNlhk2tKvqPC+gEOAMZsF1v9/WNaCBcM
- 6egA7I2L1mxxDQ86KwozxwwC9dWxw5TDj4ojfPy1ZcqAYQISFThVwX3IG2kjwVuzUVe3
- 9r2r9megdq3/8Iav8jMFYbKSr/hqmhvCDqF1uEkcrVLMPS0/qc/L4HDuWKIemQQrVyv+
- eODMPVSUX0fdSrwGMfx/s264pFuVwgTBId5NMI3buEBhGHeVW5NVK/fy5jngEaOY6Zts
- Xdkw==
-X-Gm-Message-State: AO0yUKUwKlZGqop5xptwCoyjBkiEK5Coh40DmZvXMwP4fARjT43vA8Nz
- RTKNYVqEiZE+F2CoD2CdBxfo893B5vFnlwX7oug7O2gYE/d0z56Rm9IlzgjD5ByWttu+9yTvoGb
- 4pZu2tENPjn31BWU=
-X-Received: by 2002:a17:907:2ce7:b0:886:7eae:26c4 with SMTP id
- hz7-20020a1709072ce700b008867eae26c4mr1209673ejc.5.1675238102418; 
- Tue, 31 Jan 2023 23:55:02 -0800 (PST)
-X-Google-Smtp-Source: AK7set++q/hFRqrlUHzH6/d3PzAxWL9GHtOaEpxReYDpZmuTh7chnLIsDERleDB2XWUf6p8eb4SFSw==
-X-Received: by 2002:a17:907:2ce7:b0:886:7eae:26c4 with SMTP id
- hz7-20020a1709072ce700b008867eae26c4mr1209667ejc.5.1675238102246; 
- Tue, 31 Jan 2023 23:55:02 -0800 (PST)
-Received: from [10.43.2.39] (nat-pool-brq-t.redhat.com. [213.175.37.10])
- by smtp.gmail.com with ESMTPSA id
- g12-20020a170906868c00b00887f0f8294esm4702102ejx.200.2023.01.31.23.55.01
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 23:55:01 -0800 (PST)
-Message-ID: <25b5b38e-3445-2e2e-cc34-e4feae6c0c09@redhat.com>
-Date: Wed, 1 Feb 2023 08:55:01 +0100
+ (Exim 4.90_1) (envelope-from <clg@kaod.org>) id 1pN80d-0001Vn-K8
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 02:58:25 -0500
+Received: from mxplan5.mail.ovh.net (unknown [10.109.143.250])
+ by mo548.mail-out.ovh.net (Postfix) with ESMTPS id 4AC2221772;
+ Wed,  1 Feb 2023 07:58:18 +0000 (UTC)
+Received: from kaod.org (37.59.142.103) by DAG4EX2.mxp5.local (172.16.2.32)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.17; Wed, 1 Feb
+ 2023 08:58:18 +0100
+Authentication-Results: garm.ovh; auth=pass
+ (GARM-103G005cfd219af-e247-4267-b0b1-feda3f112ac5,
+ F0C8195E27B16437EDCB3A2BE992E155E5E23C80) smtp.auth=clg@kaod.org
+X-OVh-ClientIp: 82.64.250.170
+Message-ID: <131c30d3-5ada-8f94-8c1a-84419c39b461@kaod.org>
+Date: Wed, 1 Feb 2023 08:58:15 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.1
-Subject: Re: [PATCH 0/3] util/userfaultfd: Support /dev/userfaultfd
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 08/25] hw/arm/boot: Export write_bootloader for Aspeed
+ machines
 Content-Language: en-US
-To: Peter Xu <peterx@redhat.com>, =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?=
- <berrange@redhat.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org,
- Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-References: <20230125224016.212529-1-peterx@redhat.com>
- <0f8ad497-202d-ae55-e468-77bb726a2699@redhat.com> <Y9KK72k8dZU7Ccau@work-vm>
- <Y9KbUaMo8DaH0YKv@x1n> <Y9KjZeu9t37XyZ3q@redhat.com> <Y9K31a04dTChnaOV@x1n>
- <Y9lwphMDs+Q3aVMr@x1n> <Y9l0328Sp3HJ948a@redhat.com> <Y9mBxpYBv+h8Y0TT@x1n>
-From: =?UTF-8?B?TWljaGFsIFByw612b3puw61r?= <mprivozn@redhat.com>
-In-Reply-To: <Y9mBxpYBv+h8Y0TT@x1n>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=mprivozn@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+To: Joel Stanley <joel@jms.id.au>
+CC: <qemu-arm@nongnu.org>, <qemu-devel@nongnu.org>, Peter Maydell
+ <peter.maydell@linaro.org>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>
+References: <20230119123449.531826-1-clg@kaod.org>
+ <20230119123449.531826-9-clg@kaod.org>
+ <CACPK8XfW6peVF27_YthCubp-9J8aGpKp5x15-2-qpusnV=4Dzg@mail.gmail.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+In-Reply-To: <CACPK8XfW6peVF27_YthCubp-9J8aGpKp5x15-2-qpusnV=4Dzg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [37.59.142.103]
+X-ClientProxiedBy: DAG1EX1.mxp5.local (172.16.2.1) To DAG4EX2.mxp5.local
+ (172.16.2.32)
+X-Ovh-Tracer-GUID: f54f502e-e93a-4a26-afc1-f002bcbddbf7
+X-Ovh-Tracer-Id: 1988902187836410787
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgedvhedrudefhedgudduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefkffggfgfuvfevfhfhjggtgfhisehtkeertddtfeejnecuhfhrohhmpeevrogurhhitgcunfgvucfiohgrthgvrhcuoegtlhhgsehkrghougdrohhrgheqnecuggftrfgrthhtvghrnhepieekheekheehjefgffekffevgeeludffieetjeeugfeftdejkeeggfevffeviefgnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepuddvjedrtddrtddruddpfeejrdehledrudegvddruddtfeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeduvdejrddtrddtrddupdhmrghilhhfrhhomhepoegtlhhgsehkrghougdrohhrgheqpdhnsggprhgtphhtthhopedupdhrtghpthhtohepjhhovghlsehjmhhsrdhiugdrrghupdhqvghmuhdqrghrmhesnhhonhhgnhhurdhorhhgpdhqvghmuhdquggvvhgvlhesnhhonhhgnhhurdhorhhgpdhpvghtvghrrdhmrgihuggvlhhlsehlihhnrghrohdrohhrghdpphhhihhlmhgusehlihhnrghrohdrohhrghdpoffvtefjohhsthepmhhoheegkedpmhhouggvpehsmhhtphhouhht
+Received-SPF: pass client-ip=46.105.33.25; envelope-from=clg@kaod.org;
+ helo=7.mo548.mail-out.ovh.net
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -107,25 +77,196 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/31/23 22:01, Peter Xu wrote:
-> I'll wait 1-2 more days to see whether Michal has anything to comment.
+On 2/1/23 06:45, Joel Stanley wrote:
+> On Thu, 19 Jan 2023 at 12:37, Cédric Le Goater <clg@kaod.org> wrote:
+>>
+>> AST2600 Aspeed machines have an home made boot loader for secondaries.
+>> To improve support, export the internal ARM boot loader and use it
+>> instead.
+> 
+> I didn't quite follow why we're doing this. Is it just a cleanup?
 
-Yeah, we can go with your patches and leave FD passing for future work.
-It's orthogonal after all.
+It comes from this discussion :
 
-In the end we can have (in the order of precedence):
+   https://lore.kernel.org/qemu-devel/20221222215549.86872-1-philmd@linaro.org/
 
-1) new cmd line argument, say:
+I will leave Phil handle it. The patch is on the list now.
 
-   qemu-system-x86_64 -userfaultfd fd=5 # where FD 5 is passed by
-libvirt when exec()-ing qemu, just like other FDs, e.g. -chardev
-socket,fd=XXX
+Thanks,
 
-2) your patches, where qemu opens /dev/userfaultfd
-
-3) current behavior, userfaultfd syscall
+C.
 
 
-Michal
+>>
+>> Signed-off-by: Cédric Le Goater <clg@kaod.org>
+>> ---
+>>   include/hw/arm/boot.h | 24 ++++++++++++++++++++++++
+>>   hw/arm/aspeed.c       | 42 ++++++++++++++++++++++--------------------
+>>   hw/arm/boot.c         | 34 +++++++---------------------------
+>>   3 files changed, 53 insertions(+), 47 deletions(-)
+>>
+>> diff --git a/include/hw/arm/boot.h b/include/hw/arm/boot.h
+>> index f18cc3064f..23edd0d31b 100644
+>> --- a/include/hw/arm/boot.h
+>> +++ b/include/hw/arm/boot.h
+>> @@ -183,4 +183,28 @@ void arm_write_secure_board_setup_dummy_smc(ARMCPU *cpu,
+>>                                               const struct arm_boot_info *info,
+>>                                               hwaddr mvbar_addr);
+>>
+>> +typedef enum {
+>> +    FIXUP_NONE = 0,     /* do nothing */
+>> +    FIXUP_TERMINATOR,   /* end of insns */
+>> +    FIXUP_BOARDID,      /* overwrite with board ID number */
+>> +    FIXUP_BOARD_SETUP,  /* overwrite with board specific setup code address */
+>> +    FIXUP_ARGPTR_LO,    /* overwrite with pointer to kernel args */
+>> +    FIXUP_ARGPTR_HI,    /* overwrite with pointer to kernel args (high half) */
+>> +    FIXUP_ENTRYPOINT_LO, /* overwrite with kernel entry point */
+>> +    FIXUP_ENTRYPOINT_HI, /* overwrite with kernel entry point (high half) */
+>> +    FIXUP_GIC_CPU_IF,   /* overwrite with GIC CPU interface address */
+>> +    FIXUP_BOOTREG,      /* overwrite with boot register address */
+>> +    FIXUP_DSB,          /* overwrite with correct DSB insn for cpu */
+>> +    FIXUP_MAX,
+>> +} FixupType;
+>> +
+>> +typedef struct ARMInsnFixup {
+>> +    uint32_t insn;
+>> +    FixupType fixup;
+>> +} ARMInsnFixup;
+>> +
+>> +void arm_write_bootloader(const char *name, hwaddr addr,
+>> +                          const ARMInsnFixup *insns, uint32_t *fixupcontext,
+>> +                          AddressSpace *as);
+>> +
+>>   #endif /* HW_ARM_BOOT_H */
+>> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+>> index 4919a1fe9e..c373bd2851 100644
+>> --- a/hw/arm/aspeed.c
+>> +++ b/hw/arm/aspeed.c
+>> @@ -198,33 +198,35 @@ struct AspeedMachineState {
+>>   static void aspeed_write_smpboot(ARMCPU *cpu,
+>>                                    const struct arm_boot_info *info)
+>>   {
+>> -    static const uint32_t poll_mailbox_ready[] = {
+>> +    AddressSpace *as = arm_boot_address_space(cpu, info);
+>> +    static const ARMInsnFixup poll_mailbox_ready[] = {
+>>           /*
+>>            * r2 = per-cpu go sign value
+>>            * r1 = AST_SMP_MBOX_FIELD_ENTRY
+>>            * r0 = AST_SMP_MBOX_FIELD_GOSIGN
+>>            */
+>> -        0xee100fb0,  /* mrc     p15, 0, r0, c0, c0, 5 */
+>> -        0xe21000ff,  /* ands    r0, r0, #255          */
+>> -        0xe59f201c,  /* ldr     r2, [pc, #28]         */
+>> -        0xe1822000,  /* orr     r2, r2, r0            */
+>> -
+>> -        0xe59f1018,  /* ldr     r1, [pc, #24]         */
+>> -        0xe59f0018,  /* ldr     r0, [pc, #24]         */
+>> -
+>> -        0xe320f002,  /* wfe                           */
+>> -        0xe5904000,  /* ldr     r4, [r0]              */
+>> -        0xe1520004,  /* cmp     r2, r4                */
+>> -        0x1afffffb,  /* bne     <wfe>                 */
+>> -        0xe591f000,  /* ldr     pc, [r1]              */
+>> -        AST_SMP_MBOX_GOSIGN,
+>> -        AST_SMP_MBOX_FIELD_ENTRY,
+>> -        AST_SMP_MBOX_FIELD_GOSIGN,
+>> +        { 0xee100fb0 },  /* mrc     p15, 0, r0, c0, c0, 5 */
+>> +        { 0xe21000ff },  /* ands    r0, r0, #255          */
+>> +        { 0xe59f201c },  /* ldr     r2, [pc, #28]         */
+>> +        { 0xe1822000 },  /* orr     r2, r2, r0            */
+>> +
+>> +        { 0xe59f1018 },  /* ldr     r1, [pc, #24]         */
+>> +        { 0xe59f0018 },  /* ldr     r0, [pc, #24]         */
+>> +
+>> +        { 0xe320f002 },  /* wfe                           */
+>> +        { 0xe5904000 },  /* ldr     r4, [r0]              */
+>> +        { 0xe1520004 },  /* cmp     r2, r4                */
+>> +        { 0x1afffffb },  /* bne     <wfe>                 */
+>> +        { 0xe591f000 },  /* ldr     pc, [r1]              */
+>> +        { AST_SMP_MBOX_GOSIGN },
+>> +        { AST_SMP_MBOX_FIELD_ENTRY },
+>> +        { AST_SMP_MBOX_FIELD_GOSIGN },
+>> +        { 0, FIXUP_TERMINATOR }
+>>       };
+>> +    uint32_t fixupcontext[FIXUP_MAX] = { 0 };
+>>
+>> -    rom_add_blob_fixed("aspeed.smpboot", poll_mailbox_ready,
+>> -                       sizeof(poll_mailbox_ready),
+>> -                       info->smp_loader_start);
+>> +    arm_write_bootloader("aspeed.smpboot", info->smp_loader_start,
+>> +                         poll_mailbox_ready, fixupcontext, as);
+>>   }
+>>
+>>   static void aspeed_reset_secondary(ARMCPU *cpu,
+>> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+>> index 3d7d11f782..ed6fd7c77f 100644
+>> --- a/hw/arm/boot.c
+>> +++ b/hw/arm/boot.c
+>> @@ -59,26 +59,6 @@ AddressSpace *arm_boot_address_space(ARMCPU *cpu,
+>>       return cpu_get_address_space(cs, asidx);
+>>   }
+>>
+>> -typedef enum {
+>> -    FIXUP_NONE = 0,     /* do nothing */
+>> -    FIXUP_TERMINATOR,   /* end of insns */
+>> -    FIXUP_BOARDID,      /* overwrite with board ID number */
+>> -    FIXUP_BOARD_SETUP,  /* overwrite with board specific setup code address */
+>> -    FIXUP_ARGPTR_LO,    /* overwrite with pointer to kernel args */
+>> -    FIXUP_ARGPTR_HI,    /* overwrite with pointer to kernel args (high half) */
+>> -    FIXUP_ENTRYPOINT_LO, /* overwrite with kernel entry point */
+>> -    FIXUP_ENTRYPOINT_HI, /* overwrite with kernel entry point (high half) */
+>> -    FIXUP_GIC_CPU_IF,   /* overwrite with GIC CPU interface address */
+>> -    FIXUP_BOOTREG,      /* overwrite with boot register address */
+>> -    FIXUP_DSB,          /* overwrite with correct DSB insn for cpu */
+>> -    FIXUP_MAX,
+>> -} FixupType;
+>> -
+>> -typedef struct ARMInsnFixup {
+>> -    uint32_t insn;
+>> -    FixupType fixup;
+>> -} ARMInsnFixup;
+>> -
+>>   static const ARMInsnFixup bootloader_aarch64[] = {
+>>       { 0x580000c0 }, /* ldr x0, arg ; Load the lower 32-bits of DTB */
+>>       { 0xaa1f03e1 }, /* mov x1, xzr */
+>> @@ -149,9 +129,9 @@ static const ARMInsnFixup smpboot[] = {
+>>       { 0, FIXUP_TERMINATOR }
+>>   };
+>>
+>> -static void write_bootloader(const char *name, hwaddr addr,
+>> -                             const ARMInsnFixup *insns, uint32_t *fixupcontext,
+>> -                             AddressSpace *as)
+>> +void arm_write_bootloader(const char *name, hwaddr addr,
+>> +                          const ARMInsnFixup *insns, uint32_t *fixupcontext,
+>> +                          AddressSpace *as)
+>>   {
+>>       /* Fix up the specified bootloader fragment and write it into
+>>        * guest memory using rom_add_blob_fixed(). fixupcontext is
+>> @@ -213,8 +193,8 @@ static void default_write_secondary(ARMCPU *cpu,
+>>           fixupcontext[FIXUP_DSB] = CP15_DSB_INSN;
+>>       }
+>>
+>> -    write_bootloader("smpboot", info->smp_loader_start,
+>> -                     smpboot, fixupcontext, as);
+>> +    arm_write_bootloader("smpboot", info->smp_loader_start,
+>> +                         smpboot, fixupcontext, as);
+>>   }
+>>
+>>   void arm_write_secure_board_setup_dummy_smc(ARMCPU *cpu,
+>> @@ -1173,8 +1153,8 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
+>>           fixupcontext[FIXUP_ENTRYPOINT_LO] = entry;
+>>           fixupcontext[FIXUP_ENTRYPOINT_HI] = entry >> 32;
+>>
+>> -        write_bootloader("bootloader", info->loader_start,
+>> -                         primary_loader, fixupcontext, as);
+>> +        arm_write_bootloader("bootloader", info->loader_start,
+>> +                             primary_loader, fixupcontext, as);
+>>
+>>           if (info->write_board_setup) {
+>>               info->write_board_setup(cpu, info);
+>> --
+>> 2.39.0
+>>
+>>
 
 
