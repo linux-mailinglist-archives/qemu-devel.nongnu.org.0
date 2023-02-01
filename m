@@ -2,82 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 957D4686F45
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 20:50:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3D0686F4E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 20:52:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNJ6i-0007MD-0w; Wed, 01 Feb 2023 14:49:24 -0500
+	id 1pNJ9U-0000OY-DO; Wed, 01 Feb 2023 14:52:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNJ6g-0007Lw-59
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:49:22 -0500
-Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNJ6e-0004HG-KV
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:49:21 -0500
-Received: by mail-pl1-x635.google.com with SMTP id z1so12024743plg.6
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 11:49:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aSmAgTYdJT7Kj20DsbnlLZ58cLNoLiU9Grf5aU0nnOk=;
- b=oRWXQWiMaPpemNesM+R8QaMtNqGQ+wGzwgSd0PFXa0O5euTJYidYOHOkMLP0QBoRfo
- 0jYnBerwG8us2TOqxwrHdpUIPxLzXdB14omA1DkrKVwoAsJ4zewY1iSOsCrcnCpwycf6
- ue5jGyIx1rUQmLBRi0z5Fxc7r3685QCyZkbj+S/vv15OIfjNpFCiHYglhfExVmemz21f
- zzB1vBoSKBXxuhvKX60+YbleyTDbJpxNAYJbeKzaYr08CAtcKCy/4f0BZTX5wzK6KwfK
- o5aE/w9xruweL3igY3+vedoAMLjobIEqparfs/zD6kkQUNXb4njSplS3gd7s5Rjt3hd2
- u1cg==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNJ9R-0000OD-Qq
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:52:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNJ9Q-0004w9-DF
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:52:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675281131;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=xfGQzuIdPkvO/CMfMpkoumo9L+7HWQ2Pygy9GSmGc8Y=;
+ b=Afz09GjXaH6B73EQY2vHr8a5mLOwKeMDre95yL74OD0UBMBju2PvMu6FJi6HOyl0vuDBz1
+ IwxwGlBEVF/6Kugah7BWsGjxoB4zkPUjH446CaE6czifTucz8QsL67wWAJRkrQ/b6I+3T9
+ yMncUW6oSEhTNa+Wjy8YaiL4j01rWBc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-620-F_0pGXbhN4eJdiIxVtUuRA-1; Wed, 01 Feb 2023 14:52:10 -0500
+X-MC-Unique: F_0pGXbhN4eJdiIxVtUuRA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ j24-20020a05600c1c1800b003dc4480f7bdso1628813wms.5
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 11:52:09 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aSmAgTYdJT7Kj20DsbnlLZ58cLNoLiU9Grf5aU0nnOk=;
- b=p3Cj9wLALEC1ltAdVEr+QLRib2YWWH7yNEht4xfAq/6yaiu8ARrUxwPJHQs6UigQqg
- lvGi8B8o1dqCOWlHG21S2yZDaJKgd3ULD0YWp1b2rvK665HnQWNOTmsGGbTEQBCqLyzz
- nOBRorg08XU48u3Mrh5y4l2PW8X7DwCzlKX6F9wcVHG3QBlhhdA7RwaIlIFC0iRSNQ5k
- PBfadfXS7LOm/g9vUk8CzDFdbR1DvmkKY0hgsp2jn4Z9DzRuD9fxaU+Dj3jPldDiRQZI
- ubx8QgqplDgP3OtMRId2UlX6ZXZDwsXB1/LciSLILA/eWXxe0QdRBJfJl7m/2pwgYW2M
- /tXw==
-X-Gm-Message-State: AO0yUKWXXeQ5DVK1aqU5Nyn+D/5KVC03D3oc9UQCfJIq7NRvWbJ15vvA
- bYRijlozOOcJUBEfKxsud/Km7g==
-X-Google-Smtp-Source: AK7set9KFDrdcQbvTHgba4dTf31bTJFULT9/26zjakQpw9deCENJJSicdzyCMq8VfmlQqV+fPx7SWA==
-X-Received: by 2002:a17:902:da8c:b0:196:897b:cded with SMTP id
- j12-20020a170902da8c00b00196897bcdedmr5282323plx.28.1675280958729; 
- Wed, 01 Feb 2023 11:49:18 -0800 (PST)
-Received: from [192.168.50.50] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- d16-20020a170902aa9000b00189b2b8dbedsm12167115plr.228.2023.02.01.11.49.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Feb 2023 11:49:18 -0800 (PST)
-Message-ID: <48a2f056-618b-c5d6-0f1c-18886e5da51f@linaro.org>
-Date: Wed, 1 Feb 2023 09:49:15 -1000
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=xfGQzuIdPkvO/CMfMpkoumo9L+7HWQ2Pygy9GSmGc8Y=;
+ b=XxW920YeCUHExQLahzQfapaTUhymBjea7qapAAWsVtGvZXmjThRZKfIFci42ki7GIc
+ Og2sWQzjgPztMCjnit4vrAu5ixLuQWclGZJKYoB3CYXGQO3YQmCcDUdTgeu0xB/Kf2eE
+ FODUs0sAINxbPQ4f/xt0aT9a/mb9zS3QXXGJYJGSKsSzTcUYA2lPwS6bmmfnqMso8tLI
+ DAKCSn/OfWvEQWhbCZVl0MS55ieUQdXFh2smyuPvCE0O7+sbfU+cAqsb1wwGtJiHzdo4
+ Mt0EqoIRMN85a2ey1lV3XLqaoPJCFP0daq+seGG65miamf1zZmUyummEffS4HNu+xOEY
+ bVDg==
+X-Gm-Message-State: AO0yUKUrkluTjuOCK/IMzZMwL5VPBO8OdCb9Cwqxa7bx6BUxf7FZGNSw
+ ivYypuZo1emUABk74m4tiHStG+GBFX63xFIGP9OU/AavBNw7QTKmcZuHq3y/s0bWPWK/DqxvdDl
+ 29xMORzVDO2z5EwQ=
+X-Received: by 2002:a05:600c:4f93:b0:3dc:59c3:9020 with SMTP id
+ n19-20020a05600c4f9300b003dc59c39020mr3458383wmq.8.1675281128748; 
+ Wed, 01 Feb 2023 11:52:08 -0800 (PST)
+X-Google-Smtp-Source: AK7set9xELnW2xphuhkPA4IyNcp4vN3OMQpmC3tJ6rS/oxqt30js9T+c8F9WHggOrbZhYb6tJIZ78g==
+X-Received: by 2002:a05:600c:4f93:b0:3dc:59c3:9020 with SMTP id
+ n19-20020a05600c4f9300b003dc59c39020mr3458374wmq.8.1675281128545; 
+ Wed, 01 Feb 2023 11:52:08 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ j25-20020a05600c1c1900b003daf6e3bc2fsm4470427wms.1.2023.02.01.11.52.07
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Feb 2023 11:52:08 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
+ <lsoaresp@redhat.com>,  James Houghton <jthoughton@google.com>,  "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH RFC 20/21] migration: Handle page faults using
+ UFFDIO_CONTINUE
+In-Reply-To: <87edr9w5mv.fsf@secure.mitica> (Juan Quintela's message of "Wed, 
+ 01 Feb 2023 20:24:40 +0100")
+References: <20230117220914.2062125-1-peterx@redhat.com>
+ <20230117220914.2062125-21-peterx@redhat.com>
+ <87edr9w5mv.fsf@secure.mitica>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 01 Feb 2023 20:52:07 +0100
+Message-ID: <871qn9w4d4.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 3/4] linux-user/sparc: Handle "ta 5"
-Content-Language: en-US
-To: Ilya Leoshkevich <iii@linux.ibm.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org
-References: <20230201004609.3005029-1-iii@linux.ibm.com>
- <20230201004609.3005029-4-iii@linux.ibm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230201004609.3005029-4-iii@linux.ibm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -91,36 +99,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 1/31/23 14:46, Ilya Leoshkevich wrote:
-> GCC lowers __builtin_trap() to "ta 5", which in turn generates trap
-> 0x105. Follow what kernel's bad_trap() is doing there.
-> 
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
-> ---
->   linux-user/sparc/cpu_loop.c | 3 +++
->   1 file changed, 3 insertions(+)
-> 
-> diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-> index 434c90a55f8..fa36d452a51 100644
-> --- a/linux-user/sparc/cpu_loop.c
-> +++ b/linux-user/sparc/cpu_loop.c
-> @@ -225,6 +225,9 @@ void cpu_loop (CPUSPARCState *env)
->               restore_window(env);
->               break;
->   #ifndef TARGET_ABI32
-> +        case 0x105:
-> +            force_sig_fault(TARGET_SIGILL, ILL_ILLTRP, env->pc);
-> +            break;
->           case 0x16e:
->               flush_windows(env);
->               sparc64_get_context(env);
+Juan Quintela <quintela@redhat.com> wrote:
+> Peter Xu <peterx@redhat.com> wrote:
+>> Teach QEMU to be able to handle page faults using UFFDIO_CONTINUE for
+>> hugetlbfs double mapped ranges.
+>>
+>> To copy the data, we need to use the mirror buffer created per ramblock by
+>> a raw memcpy(), then we can kick the faulted threads using UFFDIO_CONTINUE
+>> by installing the pgtables.
+>>
+>> Move trace_postcopy_place_page(host) upper so that it'll dump something for
+>> either UFFDIO_COPY or UFFDIO_CONTINUE.
+>>
+>> Signed-off-by: Peter Xu <peterx@redhat.com>
+>
+>> ---
+>>  migration/postcopy-ram.c | 55 ++++++++++++++++++++++++++++++++++++++--
+>>  migration/trace-events   |  4 +--
+>>  2 files changed, 55 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
+>> index 8a2259581e..c4bd338e22 100644
+>> --- a/migration/postcopy-ram.c
+>> +++ b/migration/postcopy-ram.c
+>> @@ -1350,6 +1350,43 @@ int postcopy_notify_shared_wake(RAMBlock *rb, uint64_t offset)
+>>      return 0;
+>>  }
+>>  
+>> +/* Returns the mirror_host addr for a specific host address in ramblock */
+>> +static inline void *migration_ram_get_mirror_addr(RAMBlock *rb, void *host)
+>> +{
+>> +    return (void *)((__u64)rb->host_mirror + ((__u64)host - (__u64)rb->host));
+>
+> This is gross :-(
+> I hate this C miss-feature.
+>
+> What about:
+>     return (char *)rb->host_mirror + (char*)host - (char*)rb->host;
 
-Quite a lot of ttable{32,64}.S is missing here.  We should certainly make use of TT_TRAP, 
-instead of hard-coding 0x100 vs 0x80.
+This was a generic suggestion.  But after looking at ramblock.h and
+realizing that rb->host is not void*.
 
+    return (uint8_t *)rb->host_mirror + (uint8_t *)host - rb->host;
 
-r~
+Sorry for looking too late.
+
+BTW, once here, why is the type of host_mirror different than the one
+from host?  I don't know what is more confusing anymore.
+
+Later, Juan.
+
 
