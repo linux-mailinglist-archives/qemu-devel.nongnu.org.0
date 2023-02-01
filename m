@@ -2,82 +2,136 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58FDA686DA8
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 19:09:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB3A686DD8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 19:25:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNHWE-0008FC-4G; Wed, 01 Feb 2023 13:07:38 -0500
+	id 1pNHlH-0006cC-MB; Wed, 01 Feb 2023 13:23:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pNHWA-0008Eh-Ra
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 13:07:34 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pNHW8-000074-SO
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 13:07:34 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id n13so6309294wmr.4
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 10:07:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=UhzA51HxGfSVxF4+bvqWtKT2MaGpjfFwb4+VgcFmUTk=;
- b=uoKHrjNxraPvJH4DdveQBHu2vRUJuYl1JV+bvIm8VNhzeZm+9adpSX5vAXEAjGv4Bh
- 95UeThhMTDz94BXKHw1Djux3ZpNE8vcNyoLxeVIOU9qtB21iKV78pYUQ01c1yL9HerM5
- V9d/vaMhu+gSa5dorRU0+jQ4OP3mHnBO50ige5ZmcVZhbv09NWL9178D0E5tyMfTjUNA
- j942niEJMxuiWayZ4pnAJB+9U5Q+9UMM4C6UgguAP9+5hzK3MCbYe6U25Wninm1A69uT
- q7CwyWnYYZcuRU1fw858y2o06yHxr2WSE0XEuXDDDgI3dlAIQmal74v0f0VrgN4O8ORi
- hWfA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=UhzA51HxGfSVxF4+bvqWtKT2MaGpjfFwb4+VgcFmUTk=;
- b=W/N5pw8NSkt9tWaEDBUkPgdYb5Ys7BYhl10yoGAFyWfonyPGWs/EEIwQdbkfQB3a8f
- 5SJ5NFMc7xZ6RFux4Z7nrcfQa51V3JSq3XPTh2QMmChy5nWYEv6eFd0wyNzF5UbJKr07
- Xo9FHjggBmEQ70ovCSjzqe4qHDQHA7vTGuWmCZ7Wtiq9gh5ZO3X8HnlJDA+B7bAuxAma
- +xdEqfsUkWLKpzr4f/Jg4kr9sN148+09ZF6dflFPX+MbfjlLdu6pfKlL/jgQ8uCRtBQC
- AZ2bypf0iXCB34sr/qpf7UX4hBn7V6CDtAjLc6xWkkYtAtzaGFpX3kKukPvllqWyrPr0
- QP2w==
-X-Gm-Message-State: AO0yUKXyfYRGIiDfyKNBHfe8XpSYh337aXON8UUUDDWf9T0kNyxcVLPI
- oWm3i4HiD6M++JIbtd/7cvPuFQ==
-X-Google-Smtp-Source: AK7set+IHokY9UfaRUTUNX4N/SOghjx9G47hUIbuMk+Mq13P4lSvPQDOOpgbucCbIvlkSDVXDtWmKA==
-X-Received: by 2002:a1c:f307:0:b0:3dc:50be:9206 with SMTP id
- q7-20020a1cf307000000b003dc50be9206mr3218236wmq.4.1675274850551; 
- Wed, 01 Feb 2023 10:07:30 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- t16-20020adfe450000000b002bbdcd15e44sm17462959wrm.37.2023.02.01.10.07.30
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 10:07:30 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id AE6201FFB7;
- Wed,  1 Feb 2023 18:07:29 +0000 (GMT)
-References: <20230126112250.2584701-1-alex.bennee@linaro.org>
- <CAFEAcA_TCHw2b=zOWOX7COLa-iqC1P8Bm1wiACKhmx32cuS8SA@mail.gmail.com>
-User-agent: mu4e 1.9.19; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PULL 00/35] Testing, docs, semihosting and plugin updates
-Date: Wed, 01 Feb 2023 18:06:59 +0000
-In-reply-to: <CAFEAcA_TCHw2b=zOWOX7COLa-iqC1P8Bm1wiACKhmx32cuS8SA@mail.gmail.com>
-Message-ID: <877cx11cpq.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
+ id 1pNHlF-0006bO-Ge; Wed, 01 Feb 2023 13:23:09 -0500
+Received: from mail-bn7nam10on2060.outbound.protection.outlook.com
+ ([40.107.92.60] helo=NAM10-BN7-obe.outbound.protection.outlook.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <vikram.garhwal@amd.com>)
+ id 1pNHlD-0005Bo-At; Wed, 01 Feb 2023 13:23:09 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=JGgrSY68mqhhyfbIfc9q+zjV/5nePDs/2KSqI24GpjzFsqaha4xtqT5ezmiRwgjsH0HSE2kPvc6I4c/B8sKLl5bMT7HUsQL2r1LHp8iRcLoEbh9uvpIGGaC18/nKFlTsoaU4MQm8Vvb/g4i7j7+QNNbrfo9rhblRnP2wMU1SwMIyRuRRUoTefcwLwXTuq6Oh0yPvDR7k3fbH4mzd4vaJqp8bXFAUYAd7GfKwqbjL8mKqPM64iQXYS7ViZUGSpY7efi/RUZM62KUepRRVRDs48NgBA3EnwtULxhBpRgD5JxsCahjMtrR6Dkj6jkr3ADWM7SSL8Y7KG3fMq6QMNXZ6yw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YJHdhOt+uWK46pydYRq/wR/+sKCJiZxU66jmvJ8H9eA=;
+ b=Uto7vb5JLW+1+5urJo4XCwDwASxw/6ZW0J3RtXpK1F3EegMpO2Fo8tYpQVuwYa9UwBR8Oj5xZ9xkdhnCfFhYyhl9x4U0lUiPOTb2LpKZk4xTxEvEu7xIyK7S4fFsDBxM6E4JpTsIKELoxRqy3h+DdhNtzg3wsTQYcxX1NFJvW1xaZQ1U/C8zlDjUq/h9XFlyiKrQK4MmuhJN21VJ5FalVEl0pZvyU1jUR8JXP+YGPJeB/SEYJf7L6lILIpAh0kyAa34zemnxPb6GZZH0ZUPti1/PWbStVN0/gAW6N5Z/8Yrn0GZ9GTdEbk+WJ0LMLaVz3c767wRwJ25NyIMiRNxKVg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1; 
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YJHdhOt+uWK46pydYRq/wR/+sKCJiZxU66jmvJ8H9eA=;
+ b=EmE66mEANAA5VJ4IKcvQeWjEeFl/P6w4TFbkfZS5b8w2FvYOqV+pUrNhURCN1wsExy77R0uh7JkEfmvPfKzVmAZYNQzdh+tMO9PueRmawcGyy/vmzfcu2EotVouuLkG3UOSkdMbYtsBjkgyaDkqfGvvL6Wo6i3z5r5dnrwnIXIE=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4409.namprd12.prod.outlook.com (2603:10b6:303:2d::23)
+ by CH3PR12MB7571.namprd12.prod.outlook.com (2603:10b6:610:147::9)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6064.24; Wed, 1 Feb
+ 2023 18:23:02 +0000
+Received: from MW3PR12MB4409.namprd12.prod.outlook.com
+ ([fe80::f803:f951:a68f:663a]) by MW3PR12MB4409.namprd12.prod.outlook.com
+ ([fe80::f803:f951:a68f:663a%5]) with mapi id 15.20.6043.038; Wed, 1 Feb 2023
+ 18:23:02 +0000
+Message-ID: <3e205146-5113-861d-ef39-c463257b54a1@amd.com>
+Date: Wed, 1 Feb 2023 10:22:59 -0800
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [QEMU][PATCH v5 09/10] hw/arm: introduce xenpvh machine
+Content-Language: en-US
+To: paul@xen.org, qemu-devel@nongnu.org
+Cc: xen-devel@lists.xenproject.org, stefano.stabellini@amd.com,
+ alex.bennee@linaro.org, Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+References: <20230131225149.14764-1-vikram.garhwal@amd.com>
+ <20230131225149.14764-10-vikram.garhwal@amd.com>
+ <179d773b-2634-b52b-8836-8d8f882e1495@xen.org>
+From: Vikram Garhwal <vikram.garhwal@amd.com>
+In-Reply-To: <179d773b-2634-b52b-8836-8d8f882e1495@xen.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BYAPR07CA0066.namprd07.prod.outlook.com
+ (2603:10b6:a03:60::43) To MW3PR12MB4409.namprd12.prod.outlook.com
+ (2603:10b6:303:2d::23)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4409:EE_|CH3PR12MB7571:EE_
+X-MS-Office365-Filtering-Correlation-Id: 760ecaa7-c0d4-46c5-2387-08db04815a73
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: tZHu1iQgamGBPEfZITCcBxKY0f7ZFz3qjWjilkrPh/wH6o3DP7sk3l3wG9/nbmcdTpm/B9Zr4evdhBg8pHj72xEsWUVBCK27SQDj0rxMMi9p+8wOzStDkXUG/jlw0T+gH1eMQVzXaOlowFH2t8NuVS4rGMdmjsuQCBef/3BDXd/c0OlTpW+dhaDbWEjzLYhiSlxdcknpgjO+HycSWAp4sivXaMTjWxQcHv8Tu41iCwDXtY7mlVipjAz4xSAQrxjMn3jScm9poQ5Ui0OAtoPxiFFDIp1p/pQjNKUknr/nK9FxXGb0PrD7fmdKW6vbfZc7yCl5jHepaZTj4RvhOkDEU1IyJq2ed3AhaFYln4XvpXC05rNneIpeYUovlefdwt9GpGytBMrYjAvG8J8vVLEnvHycsyk0HezkpFlB5GlmaQLh5hpPbxuDqopFh9F1eysLUUmyH64lAGdoLOXgfZVtcL6i6noNBml6G3esKa2ncXDnXQhc0ARy+j9OdcQgZzLGtmMD33rsBAs6qz1a4ptYSIYingSQtkRtBGmzsG6jhf75qSCl9dqurRgUfOCvjEBzNiPjdBwJ8J2zZmZ8SvehvOYa4BCuRgGNifw47MjWm/0XFICf2EwMa1AGOrAEYNjYSQzmtUixpNRshSdDtY4FDv2u8lKq9yZAIIntLJ62DYvejpmDWwqObRI4V0/YUjqKYIUyi17lwjUkJZPjv4RO60ppa+c1A3kBTGKl5PjmTAc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:MW3PR12MB4409.namprd12.prod.outlook.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(346002)(376002)(39860400002)(136003)(396003)(366004)(451199018)(316002)(38100700002)(2616005)(186003)(6512007)(26005)(44832011)(36756003)(6506007)(54906003)(53546011)(6666004)(5660300002)(2906002)(478600001)(31696002)(6486002)(86362001)(66946007)(66556008)(66476007)(8676002)(8936002)(41300700001)(31686004)(4326008)(43740500002)(45980500001);
+ DIR:OUT; SFP:1101; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?bldORmx1TWlPaUg2TmZVdjlsWVNJZFVYKzExcE1JdGZJZW9GSVlJZENSUFc1?=
+ =?utf-8?B?Y1JaeHplRFJCbnNscWVBeHRLVEpBdFpUY0RnejFoSDMzV3luakxsMG5KQXl4?=
+ =?utf-8?B?MWpiemo5L1VrMWV6TGxJSno0WFNIcW1mOS9kUUhZaCt2NGJIanQxampJWTUz?=
+ =?utf-8?B?OHg4bGNmcjQwZjJFZFIrbTFRdHFrUWg4NXdiYm9qZ1dUazF1UkhtZGQ3ay8v?=
+ =?utf-8?B?dWFXUFRsQkgrN0pMcmJ0aGpLbU1LQTRXTHMvbzRSTlpBcnNQaEFReXRGTS82?=
+ =?utf-8?B?MGlUaGFTK2cxeWVoaGN2SEl2NWx3NUpiRVowQy9Od01Rb2wvL1hiekpNaUJX?=
+ =?utf-8?B?NUtETHlEWUpvMU1WL3hsVlRhWktra1ZqUGFGRDdERUVGR0ZET09tZDVGM1Fv?=
+ =?utf-8?B?aXdFTm5jTmx2NDdNQXh1MlFnRFV6MVNOdzlQN0t3NGFlVlZTZm1OU3JaQS8x?=
+ =?utf-8?B?a0d2eTh3b1o3eUNybHRwU0ZLWUJNRTRKWlJBNEJKL3hhcWZQVHJPMzErTFVh?=
+ =?utf-8?B?STZkWGhMbHhPYVZGWjZIb1B0UTQzano0b0JMbWZmMTY1MjJKakdMZTljQ3Jp?=
+ =?utf-8?B?N1A5L2NLZzhvZktjN2ZUcHNiYzdnSDZaaUp2SUZEOXhWUW5ST0VZalJFZFJC?=
+ =?utf-8?B?dFVlQ3UrbGw2UDFsSlpweGxkMnljdFdFVTA5R3NVMlZBTXNESU13M2pXam5a?=
+ =?utf-8?B?dVRtNkl0M2dSNFFIWkRUWFZLTi9seHo0QTJHbUo5N0hRakRRamUvbE12SlN3?=
+ =?utf-8?B?N3k1ZEcveGZ4cjUwNENYcGdyMlp2VmFuVzFXVVBPWGtuc3gxMlRYKzFzOXVt?=
+ =?utf-8?B?YXd3N09vR2RXZWZGdTIxdVBsVFpPZU9vOEVtdEc5WDF1YVNqNGVPV3N1eFIv?=
+ =?utf-8?B?Q0RHQ2p6UmtpemtoeGNJY1JVQXhRdGFaaDM0SmQxTmRiV2owVllyY3dySnZC?=
+ =?utf-8?B?NFFvcTNuZ0hSWUxLeURGT29HQkM4bHZBcFY4d0hwWHdIYURzSGdQcThJbksw?=
+ =?utf-8?B?RThwR0V4aXJ2UDhEV3A1NDZZNzVMSjZEOEZUQndEcFExYkJBeERqVHNtU1Nv?=
+ =?utf-8?B?d042Vnd5R1UzOXdaQUJaVUJEMmNnR29HWVBURnBxSWdEU3Vqc2YwaFd2R2ww?=
+ =?utf-8?B?RUUyUUEzYkwzczdQbVllcE5paElEWkE0ZklWaFZpSGxBZHVoWE5Edm5Zbytj?=
+ =?utf-8?B?VFVWQ3hJaEZTNHlqMmloL3NDa2ZiN0dMVmFUOVg5Tlc0Wm1Eb3VqWVcwMVFI?=
+ =?utf-8?B?d0xTYVB0WVZVT3p2YU82NGN5aHA4QjM2Ymd6NlRJNGFhdGxleVUwSzBobksx?=
+ =?utf-8?B?RmRtMld1M0d2MTVxTVp5SVZwbFNmVDlVY2k5SUt2MHk3ODhldk1kSlZjZkN6?=
+ =?utf-8?B?TGwvWXJic29kcHZ2YW1VUjFjZmgzS3ZvcGZqbFVQMEJ3UUVYdkJ2cVo0S2dy?=
+ =?utf-8?B?WnNpZVFtdHlIZFJoRWhNUHlaMWlSaTU4cHdSOVJCV2lqV2xRc3h0VWM0RFJT?=
+ =?utf-8?B?OW1CN2lWbk43WmhodlVzOWtPYjlFYkhsSXgwMHNVclBRU0xRa09pemtSVFlC?=
+ =?utf-8?B?eFQ0REpJNkFiWis4aVMycHEveGpNbE9mUzJRbSthL0pXaEtnNDRsYkR2b05k?=
+ =?utf-8?B?NkhCTTVWUlFUOE11dGFxaGVMU0NaU3I5S2hhOHY0djBERXhLQVFRTTdaYmc1?=
+ =?utf-8?B?MHdKdHJOaElqWWtHbDYyVGloQkZ4elRKZHpjMTA5QWY4d1B2TzVLN3hBSmhI?=
+ =?utf-8?B?SFo1MHpBUEtkZlN4VXlMUlBsLzF4UU05R2Q4amwzSVRLWm8rb3lZQkJIZ3Zj?=
+ =?utf-8?B?V2NSUzh5RWN3NjdxZWd4VmhZSGZRTmlMUmswZi9tQkZ6WXY3THhqb3FSN2Za?=
+ =?utf-8?B?R295U0FDTW1RY29PTGlmZ2NDYmpzR0ZRU0o4YnhHcE10RzFHUTQxZjYrMTBk?=
+ =?utf-8?B?YWJvSFlqdC9NYlVqdk9JQmpNSjg5eit3QVlPMTVoVnBaMExFYmhSdEZwWWJQ?=
+ =?utf-8?B?N09UMXkwRmJ1WFZyaUFrdWtmd1NJbmlKYkJybisyNzE3ZDFnajVxcExjQll4?=
+ =?utf-8?B?bkFsMmJRcmFNeE5KVEg1ZDB5K3k5bEdhTURBSTk4TGVlSHFGVG50eXV1VVFE?=
+ =?utf-8?Q?OGiRDZjShbHz3jMKTJLrux+LJ?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 760ecaa7-c0d4-46c5-2387-08db04815a73
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4409.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Feb 2023 18:23:01.9406 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kPGV15H/KqjO1Oh/cUXl/zOk8gR0HQET2K9SGL8/l1+nbaTzQTrwCua9nW+ftlLN+heG1d4d3swMXYsXRpwzHQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB7571
+Received-SPF: softfail client-ip=40.107.92.60;
+ envelope-from=vikram.garhwal@amd.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,74 +148,35 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi Paul,
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Thanks for reviewing this and other patches in series.
 
-> On Thu, 26 Jan 2023 at 11:22, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->>
->> The following changes since commit 13356edb87506c148b163b8c7eb0695647d00=
-c2a:
->>
->>   Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu
->> into staging (2023-01-24 09:45:33 +0000)
->>
->> are available in the Git repository at:
->>
->>   https://gitlab.com/stsquad/qemu.git tags/pull-jan-omnibus-260123-1
->>
->> for you to fetch changes up to d200653282f50df2a994a0609f88baa6a5889f80:
->>
->>   plugins: Iterate on cb_lists in qemu_plugin_user_exit (2023-01-26 11:1=
-2:01 +0000)
->>
->> ----------------------------------------------------------------
->> Testing, docs, semihosting and plugin updates
->>
->>   - update playbooks for custom runners
->>   - add section timing support to gitlab
->>   - upgrade fedora images to 37
->>   - purge perl from the build system and deps
->>   - disable unstable tests in CI
->>   - improve intro, emulation and semihosting docs
->>   - semihosting bug fix and O_BINARY default
->>   - add memory-sve test
->>   - fix some races in qht
->>   - improve plugin handling of memory helpers
->>   - optimise plugin hooks
->>   - fix some plugin deadlocks
+Please see my reply below.
+
+On 2/1/23 12:30 AM, Paul Durrant wrote:
+> On 31/01/2023 22:51, Vikram Garhwal wrote:
+>> Add a new machine xenpvh which creates a IOREQ server to 
+>> register/connect with
+>> Xen Hypervisor.
 >>
 >
-> Hi; this fails the docs build on macos 12 (probably a difference
-> in behaviour across Sphinx versions):
-> https://gitlab.com/qemu-project/qemu/-/jobs/3697858012
+> Is this really the right way? Is it not possible to do the Xen 
+> initialization (including ioreq server registration) off the back of 
+> the accelerator init (i.e. AccelOpsClass ops_init function), which 
+> seems like the right place to do it now that it's no longer 
+> architecture specific.
 >
-> FAILED: docs/docs.stamp
-> /usr/bin/env CONFDIR=3Detc/qemu /opt/homebrew/bin/sphinx-build -q -W
-> -Dversion=3D7.2.50 -Drelease=3D -Ddepfile=3Ddocs/docs.d
-> -Ddepfile_stamp=3Ddocs/docs.stamp -b html -d
-> /private/var/folders/76/zy5ktkns50v6gt5g8r0sf6sc0000gn/T/cirrus-ci-build/=
-build/docs/manual.p
-> /private/var/folders/76/zy5ktkns50v6gt5g8r0sf6sc0000gn/T/cirrus-ci-build/=
-docs
-> /private/var/folders/76/zy5ktkns50v6gt5g8r0sf6sc0000gn/T/cirrus-ci-build/=
-build/docs/manual
-> Warning, treated as error:
-> /private/var/folders/76/zy5ktkns50v6gt5g8r0sf6sc0000gn/T/cirrus-ci-build/=
-qemu-options.hx:161:duplicate
-> label machine options, other instance in
-> /private/var/folders/76/zy5ktkns50v6gt5g8r0sf6sc0000gn/T/cirrus-ci-build/=
-docs/system/invocation.rst
+There are few other machines using the "accel=xen" option and few of 
+these machines aren't using IOREQ and other Xen related initialization. 
+Example: /xenpv/ machine under /hw/xenpv/xen_machine_pv.c /and few other 
+machines under /hw/i386/pc_piix.c//.
+/So, that's//why we moved the IOREQ and other common initialization 
+parts in hw/xen/xen-hvm-common.c and call them as needed for the 
+particular machine.
+
+@stefano, just checking if you want to add any other suggestion here.
+
+>   Paul
 >
-> I think this is "you can't put labels in qemu-options.hx,
-> because it gets included in two .rst files (invocation.rst
-> and qemu-manpage.rst), and Sphinx complains about the
-> duplicate labels, even though one of the two files is
-> only used in the HTML and one is only used in the manpages".
-
-Oh boo - anyway to work around that because they are helpful links?
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
