@@ -2,87 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0031C68676F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 14:49:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90C1E6867C4
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 14:58:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNDTd-00028z-A8; Wed, 01 Feb 2023 08:48:41 -0500
+	id 1pNDcY-0006Jm-DD; Wed, 01 Feb 2023 08:57:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNDTH-00025K-QI
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:48:31 -0500
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNDTF-0001Sg-5o
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:48:19 -0500
-Received: by mail-ot1-x344.google.com with SMTP id
- k91-20020a9d19e4000000b0068bca1294aaso3284014otk.8
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 05:48:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=kaXPMi4b7GFZewaF0HokNp4H7RHh+Erht6PuTeQGn0I=;
- b=C/tUCTJMgGJFZtdzKj0nItqH6WjZwXNZ9Dko80gxNVKwNBaUs3tLtPvkKXwDMt1dK0
- wqKTkqT62Xp/7s1ULqGCt9rn55r9EzKsjVm08xpPubXVznnmCEqjtGk6IKDtCa1eqCH+
- ELWiPhpepdpplXX4Gga68PGnKI/t3nzeHsQRC92rbN0Oo+1zjg6gQ9U3g65Bu6AzOl6C
- chdZx+S5hbqCQJ4RgoadsBxJI4xqbieZw4VMLC13vwXdiPzQVKTi+A54/Yl5HoaiE1QX
- lHaiwAxELKaeB9xzXCniQHUOmKE/t+D/LZgsBgJb82t+7wW7Sru25s3ei5y8gOXoIKeV
- fNCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=kaXPMi4b7GFZewaF0HokNp4H7RHh+Erht6PuTeQGn0I=;
- b=HJk12ugACpA3zJXIMc2vWNz+3yf5J0WhzXpp6VfluGbk5zXrcUVJdhTHBKBsyua3Kq
- +xxDd3cTtQ5iSumsxLL+qWdpOGYxULSoC/Y3YkHi8VDohwcWg44Be12xydeOTHSKhf/d
- yKHnX0UmGzuo8DZt1HZCu4qNr7uIWDxuOhfRqVcaqE2tPwZNynWf51BXLZST1Bt+u/lV
- 1R0EtVMDYy54Ren/K+PN6AyomcllB5qwJpR6PyDOZyS+vB/9Q62SbpSG9qCgcmvwCVcc
- /j5AgE6ZLvzG1PP4dwKxfaJpVBeznPTsGpBz5zp1JzZyZe491Jx3nDJxesVL62G8VwVi
- isXw==
-X-Gm-Message-State: AO0yUKXAV641ErG7DWgDFVld9zVnwTk5rcH4xZtyTrmonVIFA6uNESat
- 0hHrbKoUiR5EVTeZxSe2QuVByg==
-X-Google-Smtp-Source: AK7set9/u/zwvsOHQWDx1iDs8lIQ1mXF8Zlv8XAh0bAMpH38ltjjZ/8wU8fyLizvp8+IrMFJqNacfA==
-X-Received: by 2002:a9d:71ca:0:b0:68d:48a9:85ec with SMTP id
- z10-20020a9d71ca000000b0068d48a985ecmr321259otj.24.1675259295154; 
- Wed, 01 Feb 2023 05:48:15 -0800 (PST)
-Received: from [192.168.68.107] ([177.102.69.207])
- by smtp.gmail.com with ESMTPSA id
- e9-20020a9d7309000000b0068d4292f4c0sm450836otk.35.2023.02.01.05.48.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Feb 2023 05:48:14 -0800 (PST)
-Message-ID: <a3aab251-a90c-ea06-271d-ce02e3ee589c@ventanamicro.com>
-Date: Wed, 1 Feb 2023 10:48:11 -0300
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pNDcV-0006HH-Kb
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:57:51 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pNDcT-0002yT-Mi
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:57:51 -0500
+Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 311DIjMU014184; Wed, 1 Feb 2023 13:57:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : reply-to : to : cc : date : content-type : mime-version :
+ content-transfer-encoding; s=pp1;
+ bh=eKUDeRCjXW8Qjk+VJNQ5UFlsrXOAiAo4mRg1VLET+O0=;
+ b=LoMpumpe1eSVp4j09J3gIuYDOubVGa2z58tO0u3SWjlgRrWlRVD0aJRX2PnnxyoGknes
+ R9L3w/l4byN74x8h8Optw7cXoMxhKDS45mS+FCpzCYtTLhj3h2ICckztx/7BkRXjpcbS
+ k22AHuRsB6htIy9NM3TkGn0RNrX08XJAlt+8IscG/caKz8Cn0we86dZ/Gp5do4cazX0E
+ UnpogNfDq/YqfFaMzFxfFkeufRQb0Az37Ve418R1clkmfh3c+3m1uFmcSer+WdlmibCm
+ /kc0hIR4nX/KoSBIh2mlL4kwLI2pG6+wUkQUGUIpyKCkzjO33yukrsrJTWCg7IC9Xxuh ig== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nfruvs4bw-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 13:57:46 +0000
+Received: from m0098404.ppops.net (m0098404.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 311DIt0x015596;
+ Wed, 1 Feb 2023 13:57:45 GMT
+Received: from ppma02wdc.us.ibm.com (aa.5b.37a9.ip4.static.sl-reverse.com
+ [169.55.91.170])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nfruvs4bc-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 13:57:45 +0000
+Received: from pps.filterd (ppma02wdc.us.ibm.com [127.0.0.1])
+ by ppma02wdc.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 311DlRZA005050;
+ Wed, 1 Feb 2023 13:57:44 GMT
+Received: from smtprelay02.wdc07v.mail.ibm.com ([9.208.129.120])
+ by ppma02wdc.us.ibm.com (PPS) with ESMTPS id 3ncvv1x0he-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 13:57:44 +0000
+Received: from b03ledav001.gho.boulder.ibm.com ([9.17.130.232])
+ by smtprelay02.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 311Dvg9l5505708
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 1 Feb 2023 13:57:43 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 985766E050;
+ Wed,  1 Feb 2023 13:59:51 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id C37286E04E;
+ Wed,  1 Feb 2023 13:59:50 +0000 (GMT)
+Received: from lingrow.int.hansenpartnership.com (unknown [9.211.110.248])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  1 Feb 2023 13:59:50 +0000 (GMT)
+Message-ID: <da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com>
+Subject: [PATCH] x86: fix q35 kernel measurements broken due to rng seeding
+From: James Bottomley <jejb@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>, DOV MURIK <Dov.Murik1@il.ibm.com>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>
+Date: Wed, 01 Feb 2023 08:57:10 -0500
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v9 1/3] hw/riscv: clear kernel_entry higher bits from
- load_elf_ram_sym()
-Content-Language: en-US
-To: Alistair Francis <alistair23@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Bin Meng <bmeng.cn@gmail.com>
-References: <20230119213707.651533-1-dbarboza@ventanamicro.com>
- <20230119213707.651533-2-dbarboza@ventanamicro.com>
- <CAKmqyKPsZC64SsecFip20NhnwjKHRdw1nj-3=jYPU5Lu+urMTQ@mail.gmail.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <CAKmqyKPsZC64SsecFip20NhnwjKHRdw1nj-3=jYPU5Lu+urMTQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::344;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x344.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: LG_h6-70_Nx5x6hHFbrst0KcH5W4F0Ns
+X-Proofpoint-ORIG-GUID: W7zYISXAO5Cvcd1o-n6LpEWl95V3QLpR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-01_04,2023-01-31_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501
+ malwarescore=0 mlxscore=0 suspectscore=0 spamscore=0 bulkscore=0
+ mlxlogscore=847 lowpriorityscore=0 impostorscore=0 clxscore=1011
+ adultscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302010116
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,263 +107,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+The origin commit for rng seeding 67f7e426e5 ("hw/i386: pass RNG seed
+via setup_data entry") modifies the kernel image file to append a
+random seed.  Obviously this makes the hash of the kernel file
+non-deterministic and so breaks both measured and some signed boots.
+The commit notes it's only for non-EFI (because EFI has a different
+RNG seeding mechanism) so, since there are no non-EFI q35 systems, this
+should be disabled for the whole of the q35 machine type to bring back
+deterministic kernel file hashes.
+
+Obviously this still leaves the legacy bios case broken for at least
+measured boot, but I don't think anyone cares about that now.
+
+Signed-off-by: James Bottomley <jejb@linux.ibm.com>
+---
+ hw/i386/pc_q35.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+
+diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
+index 83c57c6eb1..11e8dd7ca7 100644
+--- a/hw/i386/pc_q35.c
++++ b/hw/i386/pc_q35.c
+@@ -357,6 +357,7 @@ static void pc_q35_machine_options(MachineClass *m)
+     pcmc->default_nic_model = "e1000e";
+     pcmc->pci_root_uid = 0;
+     pcmc->default_cpu_version = 1;
++    pcmc->legacy_no_rng_seed = true;
+ 
+     m->family = "pc_q35";
+     m->desc = "Standard PC (Q35 + ICH9, 2009)";
+@@ -394,9 +395,7 @@ DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
+ 
+ static void pc_q35_7_1_machine_options(MachineClass *m)
+ {
+-    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
+     pc_q35_7_2_machine_options(m);
+-    pcmc->legacy_no_rng_seed = true;
+     compat_props_add(m->compat_props, hw_compat_7_1,
+hw_compat_7_1_len);
+     compat_props_add(m->compat_props, pc_compat_7_1,
+pc_compat_7_1_len);
+ }
+-- 
+2.35.3
 
 
-On 1/31/23 21:16, Alistair Francis wrote:
-> On Fri, Jan 20, 2023 at 7:38 AM Daniel Henrique Barboza
-> <dbarboza@ventanamicro.com> wrote:
->>
->> load_elf_ram_sym() will sign-extend 32 bit addresses. If a 32 bit
->> QEMU guest happens to be running in a hypervisor that are using 64
->> bits to encode its address, kernel_entry can be padded with '1's
->> and create problems [1].
->>
->> Use a translate_fn() callback to be called by load_elf_ram_sym() and
->> return only the 32 bits address if we're running a 32 bit CPU.
->>
->> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02281.html
->>
->> Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> Suggested-by: Bin Meng <bmeng.cn@gmail.com>
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
->> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
->> ---
->>   hw/riscv/boot.c            | 20 +++++++++++++++++++-
->>   hw/riscv/microchip_pfsoc.c |  3 ++-
->>   hw/riscv/opentitan.c       |  3 ++-
->>   hw/riscv/sifive_e.c        |  3 ++-
->>   hw/riscv/sifive_u.c        |  3 ++-
->>   hw/riscv/spike.c           |  3 ++-
->>   hw/riscv/virt.c            |  3 ++-
->>   include/hw/riscv/boot.h    |  1 +
->>   8 files changed, 32 insertions(+), 7 deletions(-)
->>
->> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
->> index 2594276223..46fc7adccf 100644
->> --- a/hw/riscv/boot.c
->> +++ b/hw/riscv/boot.c
->> @@ -173,7 +173,24 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
->>       exit(1);
->>   }
->>
->> +static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
->> +{
->> +    RISCVHartArrayState *harts = opaque;
->> +
->> +    if (riscv_is_32bit(harts)) {
->> +        /*
->> +         * For 32 bit CPUs, kernel_load_base is sign-extended
->> +         * (i.e. it can be padded with '1's) by load_elf().
->> +         * Remove the sign extension by truncating to 32-bit.
->> +         */
->> +        return extract64(addr, 0, 32);
->> +    }
->> +
->> +    return addr;
-> 
-> So.... After all that, this doesn't actually mask pentry from
-> load_elf_ram_sym(), so it doesn't help.
-
-Interesting. And it has to do with how load_elf() is handling it. All these
-load_elf() functions will end up in either load_elf64() or load_elf32(), which
-in turn will call glue(load_elf, SZ) from include/hw/elf_ops.h.
-
-In that function, pentry is calculated right at the start:
-
-
-     if (pentry)
-         *pentry = (uint64_t)(elf_sword)ehdr.e_entry;
-
-
-And then, down below, the translation function is used:
-
-             if (translate_fn) {
-                 addr = translate_fn(translate_opaque, ph->p_paddr);
-                 glue(elf_reloc, SZ)(&ehdr, fd, must_swab,  translate_fn,
-                                     translate_opaque, data, ph, elf_machine);
-             } else {
-                 addr = ph->p_paddr;
-             }
-
-And 'pentry' is only recalculated if we do NOT have a translate_fn:
-
-
-             /* the entry pointer in the ELF header is a virtual
-              * address, if the text segments paddr and vaddr differ
-              * we need to adjust the entry */
-             if (pentry && !translate_fn &&
-                     ph->p_vaddr != ph->p_paddr &&
-                     ehdr.e_entry >= ph->p_vaddr &&
-                     ehdr.e_entry < ph->p_vaddr + ph->p_filesz &&
-                     ph->p_flags & PF_X) {
-                 *pentry = ehdr.e_entry - ph->p_vaddr + ph->p_paddr;
-             }
-
-
-I can't say whether this is an oversight or intended, but in the end it's a given
-that pentry is not being affected by translate_fn() as we thought it would - meaning
-that we're still passing the sign-extension along.
-
-I'll mention this in the commit message for future reference.
-
-
-
-
-> 
->> +}
->> +
->>   target_ulong riscv_load_kernel(MachineState *machine,
->> +                               RISCVHartArrayState *harts,
->>                                  target_ulong kernel_start_addr,
->>                                  symbol_fn_t sym_cb)
->>   {
->> @@ -189,7 +206,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
->>        * the (expected) load address load address. This allows kernels to have
->>        * separate SBI and ELF entry points (used by FreeBSD, for example).
->>        */
->> -    if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
->> +    if (load_elf_ram_sym(kernel_filename, NULL,
->> +                         translate_kernel_address, harts,
->>                            NULL, &kernel_load_base, NULL, NULL, 0,
->>                            EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
-> 
-> I think we just need to add the mask here
-
-
-I saw in other machines that we can retrieve 'kernel_low' using the parameter
-right after kernel_load_base. This worked for me to boot a 32 bit 'virt' machine
-with -kernel:
-
-
--    if (load_elf_ram_sym(kernel_filename, NULL,
--                         translate_kernel_address, harts,
--                         NULL, &kernel_load_base, NULL, NULL, 0,
-+    if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL, NULL,
-+                         &kernel_load_base, &kernel_low, NULL, 0,
-                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
-          kernel_entry = kernel_load_base;
-+
-+        if (riscv_is_32bit(harts)) {
-+            kernel_entry = kernel_low;
-+        }
-
-
-I don't have your failing use case here so it would be up for you to be 'adventurous'
-and see if this would fix the problem you're seeing. If you'd rather get this over
-with we can just mask it out and call it day.
-
-
-Thanks,
-
-Daniel
-
-
-
-> 
-> Alistair
-> 
->>           return kernel_load_base;
->> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
->> index 82ae5e7023..bdefeb3cbb 100644
->> --- a/hw/riscv/microchip_pfsoc.c
->> +++ b/hw/riscv/microchip_pfsoc.c
->> @@ -629,7 +629,8 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
->>           kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc.u_cpus,
->>                                                            firmware_end_addr);
->>
->> -        kernel_entry = riscv_load_kernel(machine, kernel_start_addr, NULL);
->> +        kernel_entry = riscv_load_kernel(machine, &s->soc.u_cpus,
->> +                                         kernel_start_addr, NULL);
->>
->>           if (machine->initrd_filename) {
->>               riscv_load_initrd(machine, kernel_entry);
->> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
->> index 64d5d435b9..2731138c41 100644
->> --- a/hw/riscv/opentitan.c
->> +++ b/hw/riscv/opentitan.c
->> @@ -101,7 +101,8 @@ static void opentitan_board_init(MachineState *machine)
->>       }
->>
->>       if (machine->kernel_filename) {
->> -        riscv_load_kernel(machine, memmap[IBEX_DEV_RAM].base, NULL);
->> +        riscv_load_kernel(machine, &s->soc.cpus,
->> +                          memmap[IBEX_DEV_RAM].base, NULL);
->>       }
->>   }
->>
->> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
->> index 3e3f4b0088..1a7d381514 100644
->> --- a/hw/riscv/sifive_e.c
->> +++ b/hw/riscv/sifive_e.c
->> @@ -114,7 +114,8 @@ static void sifive_e_machine_init(MachineState *machine)
->>                             memmap[SIFIVE_E_DEV_MROM].base, &address_space_memory);
->>
->>       if (machine->kernel_filename) {
->> -        riscv_load_kernel(machine, memmap[SIFIVE_E_DEV_DTIM].base, NULL);
->> +        riscv_load_kernel(machine, &s->soc.cpus,
->> +                          memmap[SIFIVE_E_DEV_DTIM].base, NULL);
->>       }
->>   }
->>
->> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
->> index 2fb6ee231f..83dfe09877 100644
->> --- a/hw/riscv/sifive_u.c
->> +++ b/hw/riscv/sifive_u.c
->> @@ -598,7 +598,8 @@ static void sifive_u_machine_init(MachineState *machine)
->>           kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc.u_cpus,
->>                                                            firmware_end_addr);
->>
->> -        kernel_entry = riscv_load_kernel(machine, kernel_start_addr, NULL);
->> +        kernel_entry = riscv_load_kernel(machine, &s->soc.u_cpus,
->> +                                         kernel_start_addr, NULL);
->>
->>           if (machine->initrd_filename) {
->>               riscv_load_initrd(machine, kernel_entry);
->> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
->> index badc11ec43..2bcc50d90d 100644
->> --- a/hw/riscv/spike.c
->> +++ b/hw/riscv/spike.c
->> @@ -305,7 +305,8 @@ static void spike_board_init(MachineState *machine)
->>           kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
->>                                                            firmware_end_addr);
->>
->> -        kernel_entry = riscv_load_kernel(machine, kernel_start_addr,
->> +        kernel_entry = riscv_load_kernel(machine, &s->soc[0],
->> +                                         kernel_start_addr,
->>                                            htif_symbol_callback);
->>
->>           if (machine->initrd_filename) {
->> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
->> index 4a11b4b010..ac173a6ed6 100644
->> --- a/hw/riscv/virt.c
->> +++ b/hw/riscv/virt.c
->> @@ -1274,7 +1274,8 @@ static void virt_machine_done(Notifier *notifier, void *data)
->>           kernel_start_addr = riscv_calc_kernel_start_addr(&s->soc[0],
->>                                                            firmware_end_addr);
->>
->> -        kernel_entry = riscv_load_kernel(machine, kernel_start_addr, NULL);
->> +        kernel_entry = riscv_load_kernel(machine, &s->soc[0],
->> +                                         kernel_start_addr, NULL);
->>
->>           if (machine->initrd_filename) {
->>               riscv_load_initrd(machine, kernel_entry);
->> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
->> index f94653a09b..105706bf25 100644
->> --- a/include/hw/riscv/boot.h
->> +++ b/include/hw/riscv/boot.h
->> @@ -44,6 +44,7 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
->>                                    hwaddr firmware_load_addr,
->>                                    symbol_fn_t sym_cb);
->>   target_ulong riscv_load_kernel(MachineState *machine,
->> +                               RISCVHartArrayState *harts,
->>                                  target_ulong firmware_end_addr,
->>                                  symbol_fn_t sym_cb);
->>   void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry);
->> --
->> 2.39.0
->>
->>
 
