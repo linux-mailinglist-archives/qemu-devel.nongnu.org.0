@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7805D686331
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C0C0686332
 	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 10:55:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN9ok-0004b2-7p; Wed, 01 Feb 2023 04:54:14 -0500
+	id 1pN9ok-0004b0-8F; Wed, 01 Feb 2023 04:54:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pN9oi-0004a9-8R
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pN9oi-0004aB-4t
  for qemu-devel@nongnu.org; Wed, 01 Feb 2023 04:54:12 -0500
-Received: from mout.kundenserver.de ([212.227.17.10])
+Received: from mout.kundenserver.de ([212.227.17.13])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pN9od-0003Gj-S5
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 04:54:09 -0500
+ (Exim 4.90_1) (envelope-from <laurent@vivier.eu>) id 1pN9oe-0003Gt-2p
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 04:54:10 -0500
 Received: from quad ([82.142.8.70]) by mrelayeu.kundenserver.de (mreue106
- [212.227.15.183]) with ESMTPSA (Nemesis) id 1N3sNa-1ofKcW0kXg-00zo8q; Wed, 01
+ [212.227.15.183]) with ESMTPSA (Nemesis) id 1N9M1q-1oc0hE2P2a-015JvE; Wed, 01
  Feb 2023 10:54:04 +0100
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Cc: Laurent Vivier <laurent@vivier.eu>
-Subject: [PULL 0/1] M68k next patches
-Date: Wed,  1 Feb 2023 10:54:01 +0100
-Message-Id: <20230201095402.1002350-1-laurent@vivier.eu>
+Cc: Laurent Vivier <laurent@vivier.eu>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PULL 1/1] m68k: fix 'bkpt' instruction in softmmu mode
+Date: Wed,  1 Feb 2023 10:54:02 +0100
+Message-Id: <20230201095402.1002350-2-laurent@vivier.eu>
 X-Mailer: git-send-email 2.39.1
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20230201095402.1002350-1-laurent@vivier.eu>
+References: <20230201095402.1002350-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:2iOvjAvtrCb14phKxcg6+lhjU3d2BXyz+xDY5gKZU9ivPBwcSgX
- iFc62XRjNe1rIb5ocy5ZAgQuRe4fQ35O+1EIOJALg5dH2cDFsvrLQSTsW7CwenNkitDyqVc
- 4qCoSOtyNT4S6Xzep04ViY6h9rJqd65XM15WjLvgxnoDgNX9bGpuMVLxsvysjvh4PjmUvHe
- WonMyBTZwb/jGHkvR5VzA==
-UI-OutboundReport: notjunk:1;M01:P0:DTjOj/mu5R8=;CwPItdPVHGW64+4TYbF3Bleim6P
- qIcEdj8jrB1x80CRGVNPRqFOj2FB5VHODz3CDxMI37f8+1ixti6YQMQis/mISLzUwrVRVoDlE
- J2j6sb0gOswjmB8UVJFsJWvpsv7bLSVa1G6grNk14tgD4HZFpc23hMY2aiy8mrZJYBu0D2tiH
- GIWhnzFL3EYh/efeDwUrJzqkDFwe+xBnbb5p/YWuxCmnnvTuHvAaN4RuCs2r55B3yT0v/t45h
- 69Cod8v1onMWnBeqokB86trC91e5tIae1lPXHFhHJjSakpdccmAhF7mY7alXmxRUamAXIPIcg
- WqUP7EHjCE39pEjWwhhmvzVqzzqSLt8M7GQ0Kz8P3HErle9NkW18FaTYenAWJbD2BNO+a3bPa
- EfwPfnoKferPiRol/xmPHBdgwnSIN7u2lf8dFbznNnu7zvmjiZkFs8eu1CpxnqiphyFv6sNbv
- OIbHdJRVdDKFMC0P0X9rDTIOMMxZgNBzb+CjHQ5P7Ad0Vk1gDEz1+ZNSKF8EBPFIXslRhzpFX
- f/pG6jPHLkp52cO8RYJjBkkDCCktxe3anZ6ke/fFCLKmPTJC2GRiJl+FrntlkSF07q1LgPG5H
- gyw8V89uuZSXV06wB5OcQKm1tmU/ofd05RxTCcPVpa7fXtdeAyNSSZE0QWyZKV1A6vREfoKTz
- 02fRfXbX68ziQJOHsuLQRMp15Cu7JTQxz6VrgwD05g==
-Received-SPF: none client-ip=212.227.17.10; envelope-from=laurent@vivier.eu;
+X-Provags-ID: V03:K1:EsEgyQ/ip/1Kjz6inX7yNt6f2OURHY/XMoNa+ct/ki9WZC1zv5j
+ KbGfqryDRXlfJ2CFpNflnrQ57dHNc35kJkOf0vydwhoQ5lcehIS6Y0Sugfp9XHYZgwqj49O
+ 1BU9YggRPa+NV2pJ3qR5Mp77Ijbo2SiQBqiVTZvvGdYQJcnWnujFiWU8fpsObDStG7K3LHe
+ VkRQP05khAGoDvxru8n9g==
+UI-OutboundReport: notjunk:1;M01:P0:D/xjjhEM55Y=;Xb6mRpkVzBIvLrXUDUDzvAl525E
+ OQ++s5levic7V8Z+YJlzZgoInti+Xx5gbCAraNLLDis3TnYnT4EFVc1h5LvKN6G+CD5aV9dj4
+ x5Qzd9AqwAau32tXlb+IdjLmfiwT3fFQL9FWcGE8LlKX3QIKkPkZre7FygKL61GIMaqUBitUF
+ B6hy77DovS4EEwKPQz7Ulhp9jvvgVfTkYokvEXAstH0nwWgd+0+UsItRk6/UNVpKIUKPNwPSL
+ NfmZBUHV6AbEGHgvE4WvWM/QECV1OTUsiXpdVJRY0IUIsdOUU/aP/UuD96q6DKvr6Jru0Ka5I
+ tKGTmxeVIRciDv8uaehRL0y1kSXzxSz+2TGTRYNQaithCkpAMaLMrkEgjPc0s2s7Ej+rVmGTj
+ 5JaDQIrtXjtHcfzM2T1vRLu1/obUKn1W014GTeWRp81XMvnYgO5iBDV0iJH/YTmfz62x2chPh
+ Qe3saOAe6KtCuuWvAjH3lred5XgERKrDs0QwO9HUdng5W7HepXNYSyP1C8R2TqQ0W0cRNXaNA
+ /bsK1H90TCIgzh+uPBvaaBlAbmLd8ji++jCsoO/qh8M61+5tJSscUDo7KMmijBpMAYfxGh2BB
+ uczljwaWs+ddJmXTqEIWb3POsNV55sZSVBbatcfO8Ww+qZoQj6E5zlhTth46YBgUlxoHe4Xt3
+ ihbCtMqTIS+yhbkB/25EAeC1t5PHj/PcaSfsf+aEOA==
+Received-SPF: none client-ip=212.227.17.13; envelope-from=laurent@vivier.eu;
  helo=mout.kundenserver.de
 X-Spam_score_int: -18
 X-Spam_score: -1.9
@@ -67,31 +69,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The following changes since commit 13356edb87506c148b163b8c7eb0695647d00c2a:
+In linux-user mode, 'bkpt' generates an EXP_DEBUG exception to allow
+QEMU gdb server to intercept and manage the operation with an external
+debugger.
 
-  Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2023-01-24 09:45:33 +0000)
+In softmmu mode, the instruction must generate an illegal instruction
+exception as it is on real hardware to be managed by the kernel.
 
-are available in the Git repository at:
-
-  https://github.com/vivier/qemu-m68k.git tags/m68k-next-pull-request
-
-for you to fetch changes up to c1fc91b82545a2b8ab73f81e5b7b6b0fec292ea1:
-
-  m68k: fix 'bkpt' instruction in softmmu mode (2023-02-01 10:18:21 +0100)
-
-----------------------------------------------------------------
-m68k pull request 20230201
-
-fix 'bkpt' instruction in softmmu mode
-
-----------------------------------------------------------------
-
-Laurent Vivier (1):
-  m68k: fix 'bkpt' instruction in softmmu mode
-
+Buglink: https://gitlab.com/qemu-project/qemu/-/issues/1462
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <20230126125234.3186042-1-laurent@vivier.eu>
+Signed-off-by: Laurent Vivier <laurent@vivier.eu>
+---
  target/m68k/translate.c | 4 ++++
  1 file changed, 4 insertions(+)
 
+diff --git a/target/m68k/translate.c b/target/m68k/translate.c
+index 18418312b14b..31178c3b1d17 100644
+--- a/target/m68k/translate.c
++++ b/target/m68k/translate.c
+@@ -2774,7 +2774,11 @@ DISAS_INSN(swap)
+ 
+ DISAS_INSN(bkpt)
+ {
++#if defined(CONFIG_SOFTMMU)
++    gen_exception(s, s->base.pc_next, EXCP_ILLEGAL);
++#else
+     gen_exception(s, s->base.pc_next, EXCP_DEBUG);
++#endif
+ }
+ 
+ DISAS_INSN(pea)
 -- 
 2.39.1
 
