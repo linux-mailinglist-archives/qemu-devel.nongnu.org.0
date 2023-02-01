@@ -2,83 +2,103 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D8EE686FC0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 21:38:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8236686FC1
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 21:39:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNJrU-0003pB-7A; Wed, 01 Feb 2023 15:37:44 -0500
+	id 1pNJtH-0004rd-VL; Wed, 01 Feb 2023 15:39:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNJrS-0003on-AD
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 15:37:42 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNJrQ-0005Fe-O4
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 15:37:42 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id
- e8-20020a17090a9a8800b0022c387f0f93so3462448pjp.3
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 12:37:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=cDzWbs+/epwF7rZFKE/wWrv0mAzxNOpRbMVuscyizeM=;
- b=WgMMcaHxmAmWlLnLlIxmDGTbpa2T7HT1tVbnrphVKoZZ6H4ACJsYVlGm1q9PaoLRrO
- R+ZXXEmJiGeD4xPQm7KvH3VZDAdlgpy6o6lrORdKe5aPF/k4VEsQh8E7IWvomzFTyid1
- ZlkH3NHn6EHEqTuww+9gBCbHX8oNe/DvPKW23ukDauN5vpQkrwQkZbhsE+hjuK1D9pXK
- GUYR9wKgU7qivLR0ZJUqw88untMjDuArufweIzsevzt7Xu+jiCEJUiHACeYoWgp2SPKz
- BQK6FKv3jn+xCA1BHIJsux2q8ItflnhR4vGl0OqTDDmpW815/WsF9Rh5Em1OwLjrYTd+
- xB9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cDzWbs+/epwF7rZFKE/wWrv0mAzxNOpRbMVuscyizeM=;
- b=dNu+fdOLWcGrYDSopSeoPYDilT7XezADT487J3bsO8pLlOQgBkqMOUk9QnuAw1u/me
- hsopW2CCjX3mLtdPN45WJg7WSKpChSgTM9znKivZlAVwWDkFlt8Mel7srPQHW/vswVhL
- vRrvnF1WqpuSSXLC9o2TwKNPGh4W/OC3c42XIdYVY4tyiqAuhjHH7xf0Qc1J3RqEx22b
- dvU1E72dhMJv/v8JaALqlyZAIXEyU3INvui8KsfZfaz8KkZR7tBqsAVsvM7TzPjJXpw+
- 64yo8mCBZm6QHN+KOAvIhSLK9HVsmcItpirVi7fdCE/3AVgK8O+gzzKDfoFF9oMc6zrg
- NsHQ==
-X-Gm-Message-State: AO0yUKXDOln/fK3C+Ntrxo4ahVscnUoF9DZfw+2rVLodM5508uEsTNTi
- OIw3s/XVhwH4eXeVT6359yk/Mg==
-X-Google-Smtp-Source: AK7set/jrGvUgpN9laxBlkgIneSAKCDTUGRSlq0r//MkHnuxup0RcDXv1ASoF//7ClSG0q9cNuMFFA==
-X-Received: by 2002:a17:90a:e7c5:b0:22c:18ce:a91b with SMTP id
- kb5-20020a17090ae7c500b0022c18cea91bmr3322300pjb.33.1675283859177; 
- Wed, 01 Feb 2023 12:37:39 -0800 (PST)
-Received: from [192.168.50.50] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- l71-20020a63884a000000b004e28be19d1csm8616167pgd.32.2023.02.01.12.37.37
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Feb 2023 12:37:38 -0800 (PST)
-Message-ID: <211b40bc-2bbb-63be-191a-42e03e049b98@linaro.org>
-Date: Wed, 1 Feb 2023 10:37:35 -1000
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pNJtF-0004rB-AC
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 15:39:33 -0500
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <jejb@linux.ibm.com>)
+ id 1pNJtD-0005ay-AV
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 15:39:33 -0500
+Received: from pps.filterd (m0187473.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 311KLke4018526; Wed, 1 Feb 2023 20:39:29 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=message-id : subject :
+ from : reply-to : to : cc : date : in-reply-to : references : content-type
+ : mime-version : content-transfer-encoding; s=pp1;
+ bh=4EyMfreqU/NMMQ3vXaERsdxrzhLLh75VJhYrQml7tz0=;
+ b=cOrJQRFJYttV4IC72eoHA6QsvgCBqF74b1gXFgGysCkMNHMK1hZbegegG7DgsCVbK73s
+ Xp3o06bpeQSXS3k3eXc8hIG3pCq//Z05exRRleP7v1FBI3o9Nn+/MRb42d15QlxZaWeo
+ W9A3f9S1n0FkNRVk3qQqqrXkTJkhHHfUfAIaNPvlcARhtj/r0CR2tJCWDe2q3Gva2ptA
+ GgxVbrbGq6YkCKQrN/tibTc1V0cc5/C/3Gkm3DRzDKCLqB1YrrzpnMa2pyMaR8+jnJoT
+ dSTwV1UWpTA/8lxrTso11xPkJWRqwR9c3SWp2fDenbPAHHYxf+g5TD23tKyFWOQXlN8/ uA== 
+Received: from pps.reinject (localhost [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nfy258fj7-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 20:39:29 +0000
+Received: from m0187473.ppops.net (m0187473.ppops.net [127.0.0.1])
+ by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 311KNutp027393;
+ Wed, 1 Feb 2023 20:39:28 GMT
+Received: from ppma03dal.us.ibm.com (b.bd.3ea9.ip4.static.sl-reverse.com
+ [169.62.189.11])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nfy258fhm-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 20:39:28 +0000
+Received: from pps.filterd (ppma03dal.us.ibm.com [127.0.0.1])
+ by ppma03dal.us.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 311J1ZwT025813;
+ Wed, 1 Feb 2023 20:39:27 GMT
+Received: from smtprelay03.wdc07v.mail.ibm.com ([9.208.129.113])
+ by ppma03dal.us.ibm.com (PPS) with ESMTPS id 3ncvtrwkuy-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 20:39:27 +0000
+Received: from b03ledav001.gho.boulder.ibm.com ([9.17.130.232])
+ by smtprelay03.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 311KdQA410093262
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 1 Feb 2023 20:39:26 GMT
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 3A8FF6E050;
+ Wed,  1 Feb 2023 20:41:35 +0000 (GMT)
+Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 71F666E04E;
+ Wed,  1 Feb 2023 20:41:34 +0000 (GMT)
+Received: from lingrow.int.hansenpartnership.com (unknown [9.211.110.248])
+ by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
+ Wed,  1 Feb 2023 20:41:34 +0000 (GMT)
+Message-ID: <a2d5634ab624497d7d98569041e76661062f7eaf.camel@linux.ibm.com>
+Subject: Re: [PATCH] x86: fix q35 kernel measurements broken due to rng seeding
+From: James Bottomley <jejb@linux.ibm.com>
+To: "Jason A. Donenfeld" <Jason@zx2c4.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann
+ <kraxel@redhat.com>, DOV MURIK <Dov.Murik1@il.ibm.com>
+Date: Wed, 01 Feb 2023 15:38:53 -0500
+In-Reply-To: <CAHmME9ps8w8TbC_6Bk8OQbJytR-_CJrcUWT_uXDV+xjL293NHQ@mail.gmail.com>
+References: <da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com>
+ <CAHmME9ouTTk1ONXm276CwunOpy=MAW1Q79x25kcQv=YJTZ88dQ@mail.gmail.com>
+ <2b8fc552e1dc3a14de404eeaff0819ec8da7de54.camel@linux.ibm.com>
+ <CAHmME9ps8w8TbC_6Bk8OQbJytR-_CJrcUWT_uXDV+xjL293NHQ@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.42.4 
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH] accel/tcg: Complete cpu initialization before registration
-Content-Language: en-US
-To: Eric Auger <eauger@redhat.com>
-Cc: iii@linux.ibm.com, qemu-devel@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20221031054105.3552-1-richard.henderson@linaro.org>
- <d91ccc02-a963-946d-169a-fd4da2610861@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <d91ccc02-a963-946d-169a-fd4da2610861@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1035.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-TM-AS-GCONF: 00
+X-Proofpoint-GUID: X6-Znu8qnBiWjaD5a4Cmu7imtcLhd-83
+X-Proofpoint-ORIG-GUID: IYIdAIfJ7H0DUkGtwwuuzyEDVkQPs066
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-02-01_04,2023-01-31_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 suspectscore=0
+ priorityscore=1501 malwarescore=0 phishscore=0 impostorscore=0
+ adultscore=0 mlxlogscore=501 lowpriorityscore=0 clxscore=1015 spamscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302010174
+Received-SPF: pass client-ip=148.163.156.1; envelope-from=jejb@linux.ibm.com;
+ helo=mx0a-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -92,24 +112,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: jejb@linux.ibm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/1/23 04:20, Eric Auger wrote:
-> What I fail to understand is why this code is called with a kvm
-> accelerated qemu (the test runs by default with kvm).
-...
-> #2  0x000002aaab1500f0 in vmsa_ttbr_write
-> (env=0x2aaac393850, ri=0x2aaac3c90e0, value=2154950976315703518) at
-> ../target/arm/helper.c:3784
-> #3  0x000002aaab14e5a8 in write_raw_cp_reg
-> (env=env@entry=0x2aaac393850, ri=ri@entry=0x2aaac3c90e0,
-> v=v@entry=2154950976315703518)
+On Wed, 2023-02-01 at 12:51 -0500, Jason A. Donenfeld wrote:
+> It's not a secret, but I have so little internet right now that I
+> can't even load a webpage, and I'm on my phone, hence the short
+> HTMLified emails.
+> 
+> In brief, though, it gets rid of all modifications to the kernel
+> image all together, so it should fix your issue.
 
-This is indeed very curious -- vmsa_ttbr_write is supposed to be the "cooked" .writefn, 
-not the .raw_writefn.  We're not supposed to arrive here at all.
+We've already tested it and established it doesn't because you simply
+added your rng data to the end of a different integrity protected file
+which now fails the integrity check instead of the kernel.
 
+I checked the kernel source as well; I thought you'd have done the
+usual thing and bumped the boot protocol version to steal space in
+__pad9, but you didn't apparently.  To fix this up after the fact, I
+recommend that we still steal space in _pad9[] but we make it have
+enough space for a setup_data header as well as the 32 random bytes, so
+we've officially reserved the space, but in earlier kernels than this
+change gets to you can still use the setup_data_offset method, except
+that it now uses the empty space in _pad9 via the setup_data mechanism.
+That should find you space and get you out of having to expand any
+integrity protected files.  The SEV direct boot will still work because
+there's a check further down that doesn't copy the modified header back
+over the kernel because it is ignored on efi stub boot anyway.
 
-r~
+James
 
 
