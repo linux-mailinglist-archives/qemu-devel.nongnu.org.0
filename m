@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31DE3685E6C
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 05:28:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8C2C685E6B
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 05:28:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN4iB-0003t7-1z; Tue, 31 Jan 2023 23:27:07 -0500
+	id 1pN4iE-00041X-OG; Tue, 31 Jan 2023 23:27:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pN4i8-0003ob-Qk
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 23:27:04 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
+ id 1pN4iD-0003xb-1Y
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 23:27:09 -0500
+Received: from mail-pg1-x536.google.com ([2607:f8b0:4864:20::536])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pN4i6-0003Sc-2z
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 23:27:04 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- on9-20020a17090b1d0900b002300a96b358so776854pjb.1
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 20:27:01 -0800 (PST)
+ id 1pN4iB-0003TI-7C
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 23:27:08 -0500
+Received: by mail-pg1-x536.google.com with SMTP id 7so11607155pga.1
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 20:27:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=a4Tab5uIHvwxKUGYRspEbKcK+UyMxOEA1Dlwm4ngkjE=;
- b=lwMCevPavx3bg9Ghlq86TqRgRZMwlhRTgOf1v7AeJVjmO7DBHnnYEkoYe8eOPSIKaW
- 0wmpjW4UcMSOZqONOf7UkL3eK0V+6ytw/6Vvm7kf1CvHS3qdmgsCPm9f5PNXK9vb/0Ur
- Erc2JzsZwuHVJuIXNiK/gedZO4kdkm0CkPd4n/ayFB2E45OSl3HEqOwi526hHsRWNkZR
- 6TGnCAT5gBzcnjjxMIwDWc9aW3sbnrWiY8Pm5s/wqrYr4RJPv5yf0ibSrQwxfmY7fzYb
- 3ReG4IZo9KLvmeS/sah7zvMObAC85BPcHp2UC0mOJLKLKYA2qOUSFVaRknCJJkiwhwzR
- tAmw==
+ bh=J12nZV2LwIPD6OjA4xFcFkRQSgZ344LgRcDLfZQGXJ0=;
+ b=w5QMQ9fs72K2H3Wwy9RJLxvN4YtLfqetet+LI2qHOY5d1ks5DFuiwLw9zNV6nLdOk5
+ iE8VzcoEubdz8PiTZdn8p0Rs/c13jGJVZwMP8dgPeUvIVAuMM49kyyligMK8TNgQOueu
+ SYXpufLpH7Msu68mV3tCjxAxFqYilIiCrAm1MG4YffD+kVyH03ekXGZZ6TtGOBYyVRMJ
+ tkjf1qH3Qs4QtGQk6zeE7oLkQE4fmRItlBo+tiAx7CUUdlaa7wOg0bFA2GzWb+at8ack
+ YPIrzYobaJlZebxLZRvkQnK0DKiTybPEBddXAftDGw/2PACVrdilTi9GQ1guWcLYijeg
+ OhtA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=a4Tab5uIHvwxKUGYRspEbKcK+UyMxOEA1Dlwm4ngkjE=;
- b=BcMx874YxR0Jr5l0wuJYtigh4Q3LVa5V20hbm4Pd9f8QmnDSTnNkcsooUGQHKN+dVY
- XdDKnqewgHD0TsNzjBu82Lvj7kdBbeA5ZcD2EEvu56i3FrrK3XvCNqimtvz+AXmoRdpR
- DS2jxoDxMaLU/TZDyjnqVo7KC4nd+sDp0Sjeby7q59YZFmRk/IuS3hSvvWOz7xfkgRm5
- 80SD2sLpC2NFlY7jjnIC+tPkyaGTlNwDFeuN5x+3wJO7Uedmd+Xwt2ThOUUktFMQ6l5r
- B7b/K1pKqgBBSoQc51QZ9vOkl04mfJFcZyTYdJgeep281lwDM7b1tj2leV+SwvIUz/P5
- LbqA==
-X-Gm-Message-State: AO0yUKU+ynm5MiizD1bvWI8/az6T3lWq0kI+iZSZZQBPjaw7EsQneq7Z
- R3cagh5sPQtdKX61fc9KZpOBzw==
-X-Google-Smtp-Source: AK7set/X9QKPgwmngqnEAXCwonCQlPEMsV9lfd9awNYg7NVLkVv2BNjQ6uDb6Et0joAqCGbi/NvjRw==
-X-Received: by 2002:a17:902:d1d5:b0:194:9984:8085 with SMTP id
- g21-20020a170902d1d500b0019499848085mr1049879plb.40.1675225620729; 
- Tue, 31 Jan 2023 20:27:00 -0800 (PST)
+ bh=J12nZV2LwIPD6OjA4xFcFkRQSgZ344LgRcDLfZQGXJ0=;
+ b=YzTI6HN47xdtLcnFUKYvKR7vnVzKC4GFf6hrzGWOsIbu+XRocKP2L5CBg6e9lLqYoH
+ Unz2PbY4wERDz/J/uCmYXYcJCAHqlMJRk3BgaN235ISZEdybvmtORCt29sAHOFkI1vEs
+ jge+8d6wjVeYhjY5orK/qOlS4k1ZH+ShySLF1UqmNW0NxLcT8jrsT+zm8RNUhqbiPB9m
+ wnMiX4CvU+92WIXhX5dHvLfKzxPsKoMyg2TVK5n1nv/0dDPnpgB8KQDR7VgfVDDC8uXE
+ XvE/vtphP5a83E8yCQogI+cUBT5v6GZVAWExf2sziYE94nLuzTtz+neV9TUNuzSc8eC8
+ 70yQ==
+X-Gm-Message-State: AO0yUKWbOB9x/2ghVS9Wp+qBlx20497PecnMM2d+shkJaGtTJcBMtn4p
+ J/7s/MS7tIAtqvKeSjp80o6Plw==
+X-Google-Smtp-Source: AK7set+bRwHYCYCP7G7y9O0ouKTwa6/v/+xe/qPGHMUMnvBPbUt83nQoTAbH4evP3kHQqpgVshEglA==
+X-Received: by 2002:a05:6a00:2409:b0:593:5e76:b0 with SMTP id
+ z9-20020a056a00240900b005935e7600b0mr1164447pfh.2.1675225625903; 
+ Tue, 31 Jan 2023 20:27:05 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- c62-20020a624e41000000b0058bb0fb6295sm9235316pfb.26.2023.01.31.20.26.55
+ c62-20020a624e41000000b0058bb0fb6295sm9235316pfb.26.2023.01.31.20.27.01
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 20:27:00 -0800 (PST)
+ Tue, 31 Jan 2023 20:27:05 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -76,16 +75,16 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Gal Hammer <gal.hammer@sap.com>, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v7 7/9] igb: Introduce qtest for igb device
-Date: Wed,  1 Feb 2023 13:26:13 +0900
-Message-Id: <20230201042615.34706-8-akihiko.odaki@daynix.com>
+Subject: [PATCH v7 8/9] tests/avocado: Add igb test
+Date: Wed,  1 Feb 2023 13:26:14 +0900
+Message-Id: <20230201042615.34706-9-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230201042615.34706-1-akihiko.odaki@daynix.com>
 References: <20230201042615.34706-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102a;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102a.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::536;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pg1-x536.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -107,548 +106,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This change is derived from qtest for e1000e device.
+This automates ethtool tests for igb registers, interrupts, etc.
 
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
-Acked-by: Thomas Huth <thuth@redhat.com>
 ---
- MAINTAINERS                             |   2 +
- hw/net/igb_core.c                       |   8 +-
- tests/qtest/fuzz/generic_fuzz_configs.h |   5 +
- tests/qtest/igb-test.c                  | 243 ++++++++++++++++++++++++
- tests/qtest/libqos/igb.c                | 185 ++++++++++++++++++
- tests/qtest/libqos/meson.build          |   1 +
- tests/qtest/meson.build                 |   1 +
- 7 files changed, 441 insertions(+), 4 deletions(-)
- create mode 100644 tests/qtest/igb-test.c
- create mode 100644 tests/qtest/libqos/igb.c
+ MAINTAINERS                                   |  1 +
+ .../org.centos/stream/8/x86_64/test-avocado   |  1 +
+ tests/avocado/igb.py                          | 38 +++++++++++++++++++
+ 3 files changed, 40 insertions(+)
+ create mode 100644 tests/avocado/igb.py
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index f9e9638290..127fd92541 100644
+index 127fd92541..c0831aeb56 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2225,6 +2225,8 @@ igb
+@@ -2225,6 +2225,7 @@ igb
  M: Akihiko Odaki <akihiko.odaki@daynix.com>
  S: Maintained
  F: hw/net/igb*
-+F: tests/qtest/igb-test.c
-+F: tests/qtest/libqos/igb.c
++F: tests/avocado/igb.py
+ F: tests/qtest/igb-test.c
+ F: tests/qtest/libqos/igb.c
  
- eepro100
- M: Stefan Weil <sw@weilnetz.de>
-diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-index 90eb7b9083..cb3e2d0be3 100644
---- a/hw/net/igb_core.c
-+++ b/hw/net/igb_core.c
-@@ -1559,6 +1559,8 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
-     total_size = net_rx_pkt_get_total_len(core->rx_pkt) +
-         e1000x_fcs_len(core->mac);
- 
-+    igb_rx_fix_l4_csum(core, core->rx_pkt);
-+
-     for (i = 0; i < IGB_NUM_QUEUES; i++) {
-         if (!(queues & BIT(i))) {
-             continue;
-@@ -1572,17 +1574,15 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
-             continue;
-         }
- 
--        n |= E1000_ICR_RXT0;
--
--        igb_rx_fix_l4_csum(core, core->rx_pkt);
-         igb_write_packet_to_guest(core, core->rx_pkt, &rxr, &rss_info);
-+        core->mac[EICR] |= igb_rx_wb_eic(core, rxr.i->idx);
- 
-         /* Check if receive descriptor minimum threshold hit */
-         if (igb_rx_descr_threshold_hit(core, rxr.i)) {
-             n |= E1000_ICS_RXDMT0;
-         }
- 
--        core->mac[EICR] |= igb_rx_wb_eic(core, rxr.i->idx);
-+        n |= E1000_ICR_RXT0;
- 
-         trace_e1000e_rx_written_to_guest(rxr.i->idx);
-     }
-diff --git a/tests/qtest/fuzz/generic_fuzz_configs.h b/tests/qtest/fuzz/generic_fuzz_configs.h
-index a825b78c14..50689da653 100644
---- a/tests/qtest/fuzz/generic_fuzz_configs.h
-+++ b/tests/qtest/fuzz/generic_fuzz_configs.h
-@@ -90,6 +90,11 @@ const generic_fuzz_config predefined_configs[] = {
-         .args = "-M q35 -nodefaults "
-         "-device e1000e,netdev=net0 -netdev user,id=net0",
-         .objects = "e1000e",
-+    },{
-+        .name = "igb",
-+        .args = "-M q35 -nodefaults "
-+        "-device igb,netdev=net0 -netdev user,id=net0",
-+        .objects = "igb",
-     },{
-         .name = "cirrus-vga",
-         .args = "-machine q35 -nodefaults -device cirrus-vga",
-diff --git a/tests/qtest/igb-test.c b/tests/qtest/igb-test.c
+diff --git a/scripts/ci/org.centos/stream/8/x86_64/test-avocado b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
+index 7aeecbcfb8..7e07dbcc89 100755
+--- a/scripts/ci/org.centos/stream/8/x86_64/test-avocado
++++ b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
+@@ -37,6 +37,7 @@ make get-vm-images
+     tests/avocado/cpu_queries.py:QueryCPUModelExpansion.test \
+     tests/avocado/empty_cpu_model.py:EmptyCPUModel.test \
+     tests/avocado/hotplug_cpu.py:HotPlugCPU.test \
++    tests/avocado/igb.py:IGB.test \
+     tests/avocado/info_usernet.py:InfoUsernet.test_hostfwd \
+     tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu \
+     tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu_pt \
+diff --git a/tests/avocado/igb.py b/tests/avocado/igb.py
 new file mode 100644
-index 0000000000..b36ddece75
+index 0000000000..abf5dfa07f
 --- /dev/null
-+++ b/tests/qtest/igb-test.c
-@@ -0,0 +1,243 @@
-+/*
-+ * QTest testcase for igb NIC
-+ *
-+ * Copyright (c) 2022-2023 Red Hat, Inc.
-+ * Copyright (c) 2015 Ravello Systems LTD (http://ravellosystems.com)
-+ * Developed by Daynix Computing LTD (http://www.daynix.com)
-+ *
-+ * Authors:
-+ * Akihiko Odaki <akihiko.odaki@daynix.com>
-+ * Dmitry Fleytman <dmitry@daynix.com>
-+ * Leonid Bloch <leonid@daynix.com>
-+ * Yan Vugenfirer <yan@daynix.com>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License as published by the Free Software Foundation; either
-+ * version 2.1 of the License, or (at your option) any later version.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+
-+#include "qemu/osdep.h"
-+#include "libqtest-single.h"
-+#include "libqos/pci-pc.h"
-+#include "net/eth.h"
-+#include "qemu/sockets.h"
-+#include "qemu/iov.h"
-+#include "qemu/module.h"
-+#include "qemu/bitops.h"
-+#include "libqos/libqos-malloc.h"
-+#include "libqos/e1000e.h"
-+#include "hw/net/igb_regs.h"
-+
-+static const struct eth_header packet = {
-+    .h_dest = E1000E_ADDRESS,
-+    .h_source = E1000E_ADDRESS,
-+};
-+
-+static void igb_send_verify(QE1000E *d, int *test_sockets, QGuestAllocator *alloc)
-+{
-+    union e1000_adv_tx_desc descr;
-+    char buffer[64];
-+    int ret;
-+    uint32_t recv_len;
-+
-+    /* Prepare test data buffer */
-+    uint64_t data = guest_alloc(alloc, sizeof(buffer));
-+    memwrite(data, &packet, sizeof(packet));
-+
-+    /* Prepare TX descriptor */
-+    memset(&descr, 0, sizeof(descr));
-+    descr.read.buffer_addr = cpu_to_le64(data);
-+    descr.read.cmd_type_len = cpu_to_le32(E1000_TXD_CMD_RS   |
-+                                          E1000_TXD_CMD_EOP  |
-+                                          E1000_TXD_DTYP_D   |
-+                                          sizeof(buffer));
-+
-+    /* Put descriptor to the ring */
-+    e1000e_tx_ring_push(d, &descr);
-+
-+    /* Wait for TX WB interrupt */
-+    e1000e_wait_isr(d, E1000E_TX0_MSG_ID);
-+
-+    /* Check DD bit */
-+    g_assert_cmphex(le32_to_cpu(descr.wb.status) & E1000_TXD_STAT_DD, ==,
-+                    E1000_TXD_STAT_DD);
-+
-+    /* Check data sent to the backend */
-+    ret = recv(test_sockets[0], &recv_len, sizeof(recv_len), 0);
-+    g_assert_cmpint(ret, == , sizeof(recv_len));
-+    ret = recv(test_sockets[0], buffer, sizeof(buffer), 0);
-+    g_assert_cmpint(ret, ==, sizeof(buffer));
-+    g_assert_false(memcmp(buffer, &packet, sizeof(packet)));
-+
-+    /* Free test data buffer */
-+    guest_free(alloc, data);
-+}
-+
-+static void igb_receive_verify(QE1000E *d, int *test_sockets, QGuestAllocator *alloc)
-+{
-+    union e1000_adv_rx_desc descr;
-+
-+    struct eth_header test_iov = packet;
-+    int len = htonl(sizeof(packet));
-+    struct iovec iov[] = {
-+        {
-+            .iov_base = &len,
-+            .iov_len = sizeof(len),
-+        },{
-+            .iov_base = &test_iov,
-+            .iov_len = sizeof(packet),
-+        },
-+    };
-+
-+    char buffer[64];
-+    int ret;
-+
-+    /* Send a dummy packet to device's socket*/
-+    ret = iov_send(test_sockets[0], iov, 2, 0, sizeof(len) + sizeof(packet));
-+    g_assert_cmpint(ret, == , sizeof(packet) + sizeof(len));
-+
-+    /* Prepare test data buffer */
-+    uint64_t data = guest_alloc(alloc, sizeof(buffer));
-+
-+    /* Prepare RX descriptor */
-+    memset(&descr, 0, sizeof(descr));
-+    descr.read.pkt_addr = cpu_to_le64(data);
-+
-+    /* Put descriptor to the ring */
-+    e1000e_rx_ring_push(d, &descr);
-+
-+    /* Wait for TX WB interrupt */
-+    e1000e_wait_isr(d, E1000E_RX0_MSG_ID);
-+
-+    /* Check DD bit */
-+    g_assert_cmphex(le32_to_cpu(descr.wb.upper.status_error) &
-+        E1000_RXD_STAT_DD, ==, E1000_RXD_STAT_DD);
-+
-+    /* Check data sent to the backend */
-+    memread(data, buffer, sizeof(buffer));
-+    g_assert_false(memcmp(buffer, &packet, sizeof(packet)));
-+
-+    /* Free test data buffer */
-+    guest_free(alloc, data);
-+}
-+
-+static void test_e1000e_init(void *obj, void *data, QGuestAllocator * alloc)
-+{
-+    /* init does nothing */
-+}
-+
-+static void test_igb_tx(void *obj, void *data, QGuestAllocator * alloc)
-+{
-+    QE1000E_PCI *e1000e = obj;
-+    QE1000E *d = &e1000e->e1000e;
-+    QOSGraphObject *e_object = obj;
-+    QPCIDevice *dev = e_object->get_driver(e_object, "pci-device");
-+
-+    /* FIXME: add spapr support */
-+    if (qpci_check_buggy_msi(dev)) {
-+        return;
-+    }
-+
-+    igb_send_verify(d, data, alloc);
-+}
-+
-+static void test_igb_rx(void *obj, void *data, QGuestAllocator * alloc)
-+{
-+    QE1000E_PCI *e1000e = obj;
-+    QE1000E *d = &e1000e->e1000e;
-+    QOSGraphObject *e_object = obj;
-+    QPCIDevice *dev = e_object->get_driver(e_object, "pci-device");
-+
-+    /* FIXME: add spapr support */
-+    if (qpci_check_buggy_msi(dev)) {
-+        return;
-+    }
-+
-+    igb_receive_verify(d, data, alloc);
-+}
-+
-+static void test_igb_multiple_transfers(void *obj, void *data,
-+                                        QGuestAllocator *alloc)
-+{
-+    static const long iterations = 4 * 1024;
-+    long i;
-+
-+    QE1000E_PCI *e1000e = obj;
-+    QE1000E *d = &e1000e->e1000e;
-+    QOSGraphObject *e_object = obj;
-+    QPCIDevice *dev = e_object->get_driver(e_object, "pci-device");
-+
-+    /* FIXME: add spapr support */
-+    if (qpci_check_buggy_msi(dev)) {
-+        return;
-+    }
-+
-+    for (i = 0; i < iterations; i++) {
-+        igb_send_verify(d, data, alloc);
-+        igb_receive_verify(d, data, alloc);
-+    }
-+
-+}
-+
-+static void test_igb_hotplug(void *obj, void *data, QGuestAllocator * alloc)
-+{
-+    QTestState *qts = global_qtest;  /* TODO: get rid of global_qtest here */
-+    QE1000E_PCI *dev = obj;
-+
-+    if (dev->pci_dev.bus->not_hotpluggable) {
-+        g_test_skip("pci bus does not support hotplug");
-+        return;
-+    }
-+
-+    qtest_qmp_device_add(qts, "igb", "igb_net", "{'addr': '0x06'}");
-+    qpci_unplug_acpi_device_test(qts, "igb_net", 0x06);
-+}
-+
-+static void data_test_clear(void *sockets)
-+{
-+    int *test_sockets = sockets;
-+
-+    close(test_sockets[0]);
-+    qos_invalidate_command_line();
-+    close(test_sockets[1]);
-+    g_free(test_sockets);
-+}
-+
-+static void *data_test_init(GString *cmd_line, void *arg)
-+{
-+    int *test_sockets = g_new(int, 2);
-+    int ret = socketpair(PF_UNIX, SOCK_STREAM, 0, test_sockets);
-+    g_assert_cmpint(ret, != , -1);
-+
-+    g_string_append_printf(cmd_line, " -netdev socket,fd=%d,id=hs0 ",
-+                           test_sockets[1]);
-+
-+    g_test_queue_destroy(data_test_clear, test_sockets);
-+    return test_sockets;
-+}
-+
-+static void register_igb_test(void)
-+{
-+    QOSGraphTestOptions opts = {
-+        .before = data_test_init,
-+    };
-+
-+    qos_add_test("init", "igb", test_e1000e_init, &opts);
-+    qos_add_test("tx", "igb", test_igb_tx, &opts);
-+    qos_add_test("rx", "igb", test_igb_rx, &opts);
-+    qos_add_test("multiple_transfers", "igb",
-+                 test_igb_multiple_transfers, &opts);
-+    qos_add_test("hotplug", "igb", test_igb_hotplug, &opts);
-+}
-+
-+libqos_init(register_igb_test);
-diff --git a/tests/qtest/libqos/igb.c b/tests/qtest/libqos/igb.c
-new file mode 100644
-index 0000000000..12fb531bf0
---- /dev/null
-+++ b/tests/qtest/libqos/igb.c
-@@ -0,0 +1,185 @@
-+/*
-+ * libqos driver framework
-+ *
-+ * Copyright (c) 2022-2023 Red Hat, Inc.
-+ * Copyright (c) 2018 Emanuele Giuseppe Esposito <e.emanuelegiuseppe@gmail.com>
-+ *
-+ * This library is free software; you can redistribute it and/or
-+ * modify it under the terms of the GNU Lesser General Public
-+ * License version 2.1 as published by the Free Software Foundation.
-+ *
-+ * This library is distributed in the hope that it will be useful,
-+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-+ * Lesser General Public License for more details.
-+ *
-+ * You should have received a copy of the GNU Lesser General Public
-+ * License along with this library; if not, see <http://www.gnu.org/licenses/>
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "hw/net/igb_regs.h"
-+#include "hw/net/mii.h"
-+#include "hw/pci/pci_ids.h"
-+#include "../libqtest.h"
-+#include "pci-pc.h"
-+#include "qemu/sockets.h"
-+#include "qemu/iov.h"
-+#include "qemu/module.h"
-+#include "qemu/bitops.h"
-+#include "libqos-malloc.h"
-+#include "qgraph.h"
-+#include "e1000e.h"
-+
-+#define IGB_IVAR_TEST_CFG \
-+    ((E1000E_RX0_MSG_ID | E1000_IVAR_VALID) << (igb_ivar_entry_rx(0) * 8)   | \
-+     ((E1000E_TX0_MSG_ID | E1000_IVAR_VALID) << (igb_ivar_entry_tx(0) * 8)))
-+
-+#define E1000E_RING_LEN (0x1000)
-+
-+static void e1000e_foreach_callback(QPCIDevice *dev, int devfn, void *data)
-+{
-+    QPCIDevice *res = data;
-+    memcpy(res, dev, sizeof(QPCIDevice));
-+    g_free(dev);
-+}
-+
-+static void e1000e_pci_destructor(QOSGraphObject *obj)
-+{
-+    QE1000E_PCI *epci = (QE1000E_PCI *) obj;
-+    qpci_iounmap(&epci->pci_dev, epci->mac_regs);
-+    qpci_msix_disable(&epci->pci_dev);
-+}
-+
-+static void igb_pci_start_hw(QOSGraphObject *obj)
-+{
-+    static const uint8_t address[] = E1000E_ADDRESS;
-+    QE1000E_PCI *d = (QE1000E_PCI *) obj;
-+    uint32_t val;
-+
-+    /* Enable the device */
-+    qpci_device_enable(&d->pci_dev);
-+
-+    /* Reset the device */
-+    val = e1000e_macreg_read(&d->e1000e, E1000_CTRL);
-+    e1000e_macreg_write(&d->e1000e, E1000_CTRL, val | E1000_CTRL_RST | E1000_CTRL_SLU);
-+
-+    /* Setup link */
-+    e1000e_macreg_write(&d->e1000e, E1000_MDIC,
-+                        MII_BMCR_AUTOEN | MII_BMCR_ANRESTART |
-+                        (MII_BMCR << E1000_MDIC_REG_SHIFT) |
-+                        (1 << E1000_MDIC_PHY_SHIFT) |
-+                        E1000_MDIC_OP_WRITE);
-+
-+    qtest_clock_step(d->pci_dev.bus->qts, 900000000);
-+
-+    /* Enable and configure MSI-X */
-+    qpci_msix_enable(&d->pci_dev);
-+    e1000e_macreg_write(&d->e1000e, E1000_IVAR0, IGB_IVAR_TEST_CFG);
-+
-+    /* Check the device link status */
-+    val = e1000e_macreg_read(&d->e1000e, E1000_STATUS);
-+    g_assert_cmphex(val & E1000_STATUS_LU, ==, E1000_STATUS_LU);
-+
-+    /* Initialize TX/RX logic */
-+    e1000e_macreg_write(&d->e1000e, E1000_RCTL, 0);
-+    e1000e_macreg_write(&d->e1000e, E1000_TCTL, 0);
-+
-+    e1000e_macreg_write(&d->e1000e, E1000_TDBAL(0),
-+                           (uint32_t) d->e1000e.tx_ring);
-+    e1000e_macreg_write(&d->e1000e, E1000_TDBAH(0),
-+                           (uint32_t) (d->e1000e.tx_ring >> 32));
-+    e1000e_macreg_write(&d->e1000e, E1000_TDLEN(0), E1000E_RING_LEN);
-+    e1000e_macreg_write(&d->e1000e, E1000_TDT(0), 0);
-+    e1000e_macreg_write(&d->e1000e, E1000_TDH(0), 0);
-+
-+    /* Enable transmit */
-+    e1000e_macreg_write(&d->e1000e, E1000_TCTL, E1000_TCTL_EN);
-+
-+    e1000e_macreg_write(&d->e1000e, E1000_RDBAL(0),
-+                           (uint32_t)d->e1000e.rx_ring);
-+    e1000e_macreg_write(&d->e1000e, E1000_RDBAH(0),
-+                           (uint32_t)(d->e1000e.rx_ring >> 32));
-+    e1000e_macreg_write(&d->e1000e, E1000_RDLEN(0), E1000E_RING_LEN);
-+    e1000e_macreg_write(&d->e1000e, E1000_RDT(0), 0);
-+    e1000e_macreg_write(&d->e1000e, E1000_RDH(0), 0);
-+    e1000e_macreg_write(&d->e1000e, E1000_RA,
-+                        le32_to_cpu(*(uint32_t *)address));
-+    e1000e_macreg_write(&d->e1000e, E1000_RA + 4,
-+                        E1000_RAH_AV | E1000_RAH_POOL_1 |
-+                        le16_to_cpu(*(uint16_t *)(address + 4)));
-+
-+    /* Enable receive */
-+    e1000e_macreg_write(&d->e1000e, E1000_RFCTL, E1000_RFCTL_EXTEN);
-+    e1000e_macreg_write(&d->e1000e, E1000_RCTL, E1000_RCTL_EN);
-+
-+    /* Enable all interrupts */
-+    e1000e_macreg_write(&d->e1000e, E1000_IMS,  0xFFFFFFFF);
-+    e1000e_macreg_write(&d->e1000e, E1000_EIMS, 0xFFFFFFFF);
-+
-+}
-+
-+static void *igb_pci_get_driver(void *obj, const char *interface)
-+{
-+    QE1000E_PCI *epci = obj;
-+    if (!g_strcmp0(interface, "igb-if")) {
-+        return &epci->e1000e;
-+    }
-+
-+    /* implicit contains */
-+    if (!g_strcmp0(interface, "pci-device")) {
-+        return &epci->pci_dev;
-+    }
-+
-+    fprintf(stderr, "%s not present in igb\n", interface);
-+    g_assert_not_reached();
-+}
-+
-+static void *igb_pci_create(void *pci_bus, QGuestAllocator *alloc, void *addr)
-+{
-+    QE1000E_PCI *d = g_new0(QE1000E_PCI, 1);
-+    QPCIBus *bus = pci_bus;
-+    QPCIAddress *address = addr;
-+
-+    qpci_device_foreach(bus, address->vendor_id, address->device_id,
-+                        e1000e_foreach_callback, &d->pci_dev);
-+
-+    /* Map BAR0 (mac registers) */
-+    d->mac_regs = qpci_iomap(&d->pci_dev, 0, NULL);
-+
-+    /* Allocate and setup TX ring */
-+    d->e1000e.tx_ring = guest_alloc(alloc, E1000E_RING_LEN);
-+    g_assert(d->e1000e.tx_ring != 0);
-+
-+    /* Allocate and setup RX ring */
-+    d->e1000e.rx_ring = guest_alloc(alloc, E1000E_RING_LEN);
-+    g_assert(d->e1000e.rx_ring != 0);
-+
-+    d->obj.get_driver = igb_pci_get_driver;
-+    d->obj.start_hw = igb_pci_start_hw;
-+    d->obj.destructor = e1000e_pci_destructor;
-+
-+    return &d->obj;
-+}
-+
-+static void igb_register_nodes(void)
-+{
-+    QPCIAddress addr = {
-+        .vendor_id = PCI_VENDOR_ID_INTEL,
-+        .device_id = E1000_DEV_ID_82576,
-+    };
-+
-+    /*
-+     * FIXME: every test using this node needs to setup a -netdev socket,id=hs0
-+     * otherwise QEMU is not going to start
-+     */
-+    QOSGraphEdgeOptions opts = {
-+        .extra_device_opts = "netdev=hs0",
-+    };
-+    add_qpci_address(&opts, &addr);
-+
-+    qos_node_create_driver("igb", igb_pci_create);
-+    qos_node_consumes("igb", "pci-bus", &opts);
-+}
-+
-+libqos_init(igb_register_nodes);
-diff --git a/tests/qtest/libqos/meson.build b/tests/qtest/libqos/meson.build
-index 32f028872c..cc209a8de5 100644
---- a/tests/qtest/libqos/meson.build
-+++ b/tests/qtest/libqos/meson.build
-@@ -30,6 +30,7 @@ libqos_srcs = files(
-         'i2c.c',
-         'i2c-imx.c',
-         'i2c-omap.c',
-+        'igb.c',
-         'sdhci.c',
-         'tpci200.c',
-         'virtio.c',
-diff --git a/tests/qtest/meson.build b/tests/qtest/meson.build
-index 1af63f8bd2..611a9f5f4f 100644
---- a/tests/qtest/meson.build
-+++ b/tests/qtest/meson.build
-@@ -256,6 +256,7 @@ qos_test_ss.add(
-   'virtio-serial-test.c',
-   'virtio-iommu-test.c',
-   'vmxnet3-test.c',
-+  'igb-test.c',
- )
- if config_host.has_key('CONFIG_POSIX')
-   qos_test_ss.add(files('e1000e-test.c'))
++++ b/tests/avocado/igb.py
+@@ -0,0 +1,38 @@
++# SPDX-License-Identifier: GPL-2.0-or-later
++# ethtool tests for igb registers, interrupts, etc
++
++from avocado_qemu import LinuxTest
++
++class IGB(LinuxTest):
++    """
++    :avocado: tags=accel:kvm
++    :avocado: tags=arch:x86_64
++    :avocado: tags=distro:fedora
++    :avocado: tags=distro_version:31
++    :avocado: tags=machine:q35
++    """
++
++    timeout = 180
++
++    def test(self):
++        self.require_accelerator('kvm')
++        kernel_url = self.distro.pxeboot_url + 'vmlinuz'
++        kernel_hash = '5b6f6876e1b5bda314f93893271da0d5777b1f3c'
++        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        initrd_url = self.distro.pxeboot_url + 'initrd.img'
++        initrd_hash = 'dd0340a1b39bd28f88532babd4581c67649ec5b1'
++        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
++
++        # Ideally we want to test MSI as well, but it is blocked by a bug
++        # fixed with:
++        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=28e96556baca7056d11d9fb3cdd0aba4483e00d8
++        kernel_params = self.distro.default_kernel_params + ' pci=nomsi'
++
++        self.vm.add_args('-kernel', kernel_path,
++                         '-initrd', initrd_path,
++                         '-append', kernel_params,
++                         '-accel', 'kvm',
++                         '-device', 'igb')
++        self.launch_and_wait()
++        self.ssh_command('dnf -y install ethtool')
++        self.ssh_command('ethtool -t eth1 offline')
 -- 
 2.39.1
 
