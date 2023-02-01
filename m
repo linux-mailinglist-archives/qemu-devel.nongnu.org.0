@@ -2,82 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6D93686EAA
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 20:09:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B4E3686EB3
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 20:11:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNITw-0002xz-Dy; Wed, 01 Feb 2023 14:09:20 -0500
+	id 1pNIVF-00043Y-RL; Wed, 01 Feb 2023 14:10:41 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNITt-0002xm-JK
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:09:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pNIVE-00043Q-FL
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:10:40 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNITr-00066h-Sc
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:09:17 -0500
+ id 1pNIVA-0006SR-Mh
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:10:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675278554;
+ s=mimecast20190719; t=1675278635;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=8QpIcP3/AclLsJANHXkKGz0p5eefwkr208B1xz0nqCc=;
- b=YDo/xuSQJVtQGeBFbskDdZrMlG+rWP/vQgGhWWeCTb6gdqcKqyiSsYaBwO0sDpozOnvPUG
- p8y99/gjj22vROpeuVqazG8u4zIIYS7azZ+lhGjuTwkYkTRT30gO2tkKyhtFg464izwE7O
- vMHng9BG6WxSIsOdS1fVnDmA7ODpgHo=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=TnQKVyv5B/qfCuY0xL9Lq5/Qr0ej5vJyXfRxe0XypfM=;
+ b=jKfHaBc7zAJng2sw4cHPXM8Q2mPRrlSeucBJt7LbxPbSPp0IFvyINUcvHAvyiwHuaRecCU
+ edkfErbsIx7DMaOQNL7xBNhe4vEg1OPCeCtuT5HwT25hsy6jrykNr/s1UB2sx33K6R07R2
+ nc3HRKmMocgtUQq9C5f44FK7806MSjI=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-462-aOsl2ZH1PUSdgHk64Ug0vw-1; Wed, 01 Feb 2023 14:09:06 -0500
-X-MC-Unique: aOsl2ZH1PUSdgHk64Ug0vw-1
-Received: by mail-wm1-f71.google.com with SMTP id
- d18-20020a05600c34d200b003df901ab982so246260wmq.4
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 11:09:05 -0800 (PST)
+ us-mta-421-AmCjKcv5NwKP3pAFdvJdzQ-1; Wed, 01 Feb 2023 14:10:34 -0500
+X-MC-Unique: AmCjKcv5NwKP3pAFdvJdzQ-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ h2-20020a1ccc02000000b003db1ded176dso1439598wmb.5
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 11:10:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=8QpIcP3/AclLsJANHXkKGz0p5eefwkr208B1xz0nqCc=;
- b=3e1iNbcJw2Zb6khg3hRv/TG2O9myuMVAh0zZCCT0UeSHbWJpFSji9Rc1S3LKGw8U88
- ScyN/PFRqOI3xSHXKwzPJp5VJpt2hBWzmrtEhio+jHIwWeUBVX8H9G6jGYpCgEkNSlCq
- W0swPtQ5ekv/MECLBDAD0c6QxaflZz63nKMyvWhJR68VonFw1Ccx7PcGNrEnK817BWcG
- aInRv/4VR3ewFiBTv3AyxQ8PpmjS7tqOIJqBcyYoogm5XU8WCveSkQi3N2+l9bhUY8cz
- cb8oAAnCjD1+qfDD10fI20+b3GSpioy9W7U1Vr9DnhTh5NwpkQaUoQvcBEQnZiLwhLSy
- gh6g==
-X-Gm-Message-State: AO0yUKX1rnAg7Y1yqxa3P3Jpi8yvjULMluCma4PzGzl8Uw+3W+JVZtCA
- CrBE7xXksXXmJhI28KlG6KKyUjuzymP5QCTW+sganOY/ChPoOXpb+7y9eoff0CcVpEbLbfJ1FBU
- fH16clsxqcIKa5Gs=
-X-Received: by 2002:adf:ed83:0:b0:2bf:ae4b:8649 with SMTP id
- c3-20020adfed83000000b002bfae4b8649mr7222092wro.29.1675278545000; 
- Wed, 01 Feb 2023 11:09:05 -0800 (PST)
-X-Google-Smtp-Source: AK7set/D8zQoMGZQlvOwSl/wBYMtEP++hUhkJ/45Zy0PhevMzPg5cUWOrgvJ59SYo9RyyL25gEHhPQ==
-X-Received: by 2002:adf:ed83:0:b0:2bf:ae4b:8649 with SMTP id
- c3-20020adfed83000000b002bfae4b8649mr7222082wro.29.1675278544842; 
- Wed, 01 Feb 2023 11:09:04 -0800 (PST)
+ bh=TnQKVyv5B/qfCuY0xL9Lq5/Qr0ej5vJyXfRxe0XypfM=;
+ b=wqreQMZLvbG38/dQlyTk4LArFrhByAdpHOw8VK+Z8E8abQToa9Nc5DqNuRo8Au/1Qw
+ WaHKyiSNpOzdIBQnGZkunv8wlBlj2Q/SpBU7mJMFrzUCN6ekEVCw/qdeQULSqBqUSw7c
+ i2T02YnzrvsZjGilvRJ1rO2lNrhSBQnLPshcIleP0legttFvamc6fFvvWKWsQAtJkOmk
+ yRuAhpAOnVLdSccIcNyqgnF0EELhnE9hPR1Tc41YmEtx4QIC5zNr8bhUooWhck40Dscn
+ O2GYSkZRYHccEiH/ukPsRzOe/HiUU/V37Zv3ql0a7whNATSWfRsLMgIrIRMc1gTbBPKW
+ 1Szw==
+X-Gm-Message-State: AO0yUKVtXXnYKyvcOlUtVzXg+GjVjpI5wkupqsxxYUF8MMKpbLGrshOf
+ dvKbEwP7ZzEjS3ydKAkUauZHFWwlRqqbpV6FHqFrF7al7uAcbccknufJ9L9in6DeWONCXZIcSzK
+ xpcfJVeAmkdIdZQk=
+X-Received: by 2002:a7b:cb07:0:b0:3db:25a0:ca5b with SMTP id
+ u7-20020a7bcb07000000b003db25a0ca5bmr3260087wmj.37.1675278633606; 
+ Wed, 01 Feb 2023 11:10:33 -0800 (PST)
+X-Google-Smtp-Source: AK7set80IQeqWa/iH6VCpukMgcH3CfGDF0SMjqaq5YHgSwux2XNiTVXDsBD5aCfPpjZjOgpbs1Q2NA==
+X-Received: by 2002:a7b:cb07:0:b0:3db:25a0:ca5b with SMTP id
+ u7-20020a7bcb07000000b003db25a0ca5bmr3260072wmj.37.1675278633408; 
+ Wed, 01 Feb 2023 11:10:33 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- b14-20020adff90e000000b002be34f87a34sm18194167wrr.1.2023.02.01.11.09.03
+ fc13-20020a05600c524d00b003db01178b62sm3114336wmb.40.2023.02.01.11.10.31
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 11:09:03 -0800 (PST)
+ Wed, 01 Feb 2023 11:10:31 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Peter Xu <peterx@redhat.com>
 Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
  <lsoaresp@redhat.com>,  James Houghton <jthoughton@google.com>,  "Dr .
  David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RFC 18/21] migration: Allow
- postcopy_register_shared_ufd() to fail
-In-Reply-To: <20230117220914.2062125-19-peterx@redhat.com> (Peter Xu's message
- of "Tue, 17 Jan 2023 17:09:11 -0500")
+Subject: Re: [PATCH RFC 19/21] migration: Add postcopy_mark_received()
+In-Reply-To: <20230117220914.2062125-20-peterx@redhat.com> (Peter Xu's message
+ of "Tue, 17 Jan 2023 17:09:12 -0500")
 References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-19-peterx@redhat.com>
+ <20230117220914.2062125-20-peterx@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 01 Feb 2023 20:09:03 +0100
-Message-ID: <87mt5xw6cw.fsf@secure.mitica>
+Date: Wed, 01 Feb 2023 20:10:31 +0100
+Message-ID: <87ilglw6ag.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,33 +102,14 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Peter Xu <peterx@redhat.com> wrote:
-> Let's fail double-map for vhost-user and any potential users that can have
-> a remote userfaultfd for now.
+> We have a few maintainance work to do after we UFFDIO_[ZERO]COPY a page
+> before, e.g. on requested list of pages or when measuring page latencies.
+>
+> Move those steps into a separate function so that it can be easily reused
+> when we're going to support UFFDIO_CONTINUE.
 >
 > Signed-off-by: Peter Xu <peterx@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
-
-But
-
-> -void postcopy_register_shared_ufd(struct PostCopyFD *pcfd)
-> +int postcopy_register_shared_ufd(struct PostCopyFD *pcfd)
->  {
->      MigrationIncomingState *mis = migration_incoming_get_current();
->  
-> +    if (migrate_hugetlb_doublemap()) {
-> +        return -EINVAL;
-
-I am not sure that -EINVAL is the best answer here.
-There is not a problem with the value.  The problem is that both
-features together don't work.
-
-As an alternative:
-
-ENOSYS 38 Function not implemented
-
-But I am not sure that this is much better :-(
-
-Later, Juan.
 
 
