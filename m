@@ -2,73 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7389668604B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 08:09:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF9E2686058
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 08:12:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN66H-0004GG-0c; Wed, 01 Feb 2023 00:56:05 -0500
+	id 1pN72k-00026C-1k; Wed, 01 Feb 2023 01:56:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pN667-0004FU-IX; Wed, 01 Feb 2023 00:55:56 -0500
-Received: from mail-lf1-x129.google.com ([2a00:1450:4864:20::129])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pN65x-00086b-VW; Wed, 01 Feb 2023 00:55:54 -0500
-Received: by mail-lf1-x129.google.com with SMTP id j17so27704355lfr.3;
- Tue, 31 Jan 2023 21:55:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Me0V4ryWo4TJGqTg2ekzlN/c35e1c+tYe+k7RBitiNU=;
- b=VwJlwMReZngm/cBO0e3oAxZjSYW2yrv7CASKMP3SHKvMG/dj/LwDEau+Zf7bGvEXNr
- nqGOtjsKA0Mr3ep76nM3ULPWsPiY2hJYHmbaS8RzwQW8v8G78PcY1UCd69rjK7LRirWV
- R7bStcW03uJuW5I+Q8jB71e0l9zRBxFAUi0KQ=
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pN72h-00025y-VG
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 01:56:28 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pN72g-0004nT-6H
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 01:56:27 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675234585;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=5qiWcu/BEMhfa0F0t98gmnNQTftBKQr44C24Dv1aYZo=;
+ b=Z49HPXFbcLQsAR0TTWYCeF7Izg+rdNQ38TbN/9XcpmvRMawXW6gNAUnmvFFyMS5zYKjxv4
+ wk1zfnU48g1KxTVFkxl1rF8SfWn+p3JQYdaqZjnjSdIR4fEGolSupBA2GLgD22NM93SjUe
+ ZMcT2cOF8C1I0Yz7G00lvoDhcEn1GGU=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-385-XesX-psmOrWkEsxbPF-2KQ-1; Wed, 01 Feb 2023 01:56:21 -0500
+X-MC-Unique: XesX-psmOrWkEsxbPF-2KQ-1
+Received: by mail-yb1-f199.google.com with SMTP id
+ p19-20020a25d813000000b0080b78270db5so18842084ybg.15
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 22:56:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Me0V4ryWo4TJGqTg2ekzlN/c35e1c+tYe+k7RBitiNU=;
- b=thyQyEnqIjsyFrjh9aSJLoZhMWmBxPqhgj/sS1dlNaKxtzXB9Td2aGx4ojWIz0/1ZS
- KyifNy7tcGPgwF1L69647LebhVZ00GW/LCAe0C1MOZfobU4PYXV2v2hMOP9Y7aKGsIar
- iCPxD+tUIWSzSl1B+cJBs/hM6ukikMg/2kV6fA+258hey3Th3I+52NDFKsNZBJJxxZKt
- mYL4+wTy4tiXQxARuma+oV+k1R58sn/NQ4Hj9BArfklNjQybVNPsUOfwZ4B1orUCzFM0
- r9jtpqey9qe5XMyhvjlQSqFDb+rNiqh9GW4n6XRi1e+oV0hgZgjJdG9QK3mUTq/r3iRe
- 0kYA==
-X-Gm-Message-State: AO0yUKVuj1ofdbJuGiyraXsoVLl8kss7US09XwsH0ZLuUQ8C+QHjae0/
- QpRNHAZIy+A9MKLxC1+GTVq3v1L0lCzr35bsUcnUNJs1
-X-Google-Smtp-Source: AK7set9YpP3uhysZOA496vVJ2ceuQgyTn/bIn7HpWL+AXnwo1Y0PplsFU+yLMOUmC6Y3r2lLFkmiyBk9AjqoBuFP+Bg=
-X-Received: by 2002:a17:907:2391:b0:87f:5802:fd72 with SMTP id
- vf17-20020a170907239100b0087f5802fd72mr298381ejb.237.1675230462898; Tue, 31
- Jan 2023 21:47:42 -0800 (PST)
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=5qiWcu/BEMhfa0F0t98gmnNQTftBKQr44C24Dv1aYZo=;
+ b=e4aQA4qIyYnqZOi1Nzkjls97QSmetsbvm9pyKmrZtgZhRSYg4x0Xgv7mMHBp/+N+vm
+ fg17XWiMaGn1WYT/2/Tc8fLTD8ycr6cpmexaqDLAqtTfJerfoYe4LkujpBW/FBFSyYXR
+ QnNzzQL6wYNcJa3fOJ+zuyXhsS3tYfju12jWXnmNWlt2hy6U2U0JmA4QRmVFv53bxk4F
+ iofxogC3USIIqZq81qGvi5VduVNcAdEOmBEedsCsHGb4aF8Fn7cQYXObPJhATNIv3Hsr
+ z/YHsNGUXKVcDTol6j7X3s2RuQLqoDm8kFdA3HUsReWXMtNAIZqUag2i7tr2xrwAjLHX
+ p7Iw==
+X-Gm-Message-State: AO0yUKUbpZlqHAG3ySM4YS5xmDJRtBmAH0MlMwKC3fNT1+HgVKPgg6dn
+ LAPl1Cx+RXgC/oBIvj4YyudtXZenWRSnZ7VLoMr0ARJJiTLbj2y2j9uZJgIw5DaU0+rSbpDyGYx
+ vEAmGD7zGKrsAgoOgvbevs5LU10UUG5E=
+X-Received: by 2002:a25:e002:0:b0:80b:6391:c7a9 with SMTP id
+ x2-20020a25e002000000b0080b6391c7a9mr229976ybg.381.1675234580742; 
+ Tue, 31 Jan 2023 22:56:20 -0800 (PST)
+X-Google-Smtp-Source: AK7set/7ausF2hmyvGbd19BbN6xV9sPpoYRUfAKtnTN7Eb7Kxp7aAMjmmQjCmo6qvjUom9hnJhmDllGIBfYGtdKt+9w=
+X-Received: by 2002:a25:e002:0:b0:80b:6391:c7a9 with SMTP id
+ x2-20020a25e002000000b0080b6391c7a9mr229973ybg.381.1675234580493; Tue, 31 Jan
+ 2023 22:56:20 -0800 (PST)
 MIME-Version: 1.0
-References: <20230119123449.531826-1-clg@kaod.org>
- <20230119123449.531826-7-clg@kaod.org>
-In-Reply-To: <20230119123449.531826-7-clg@kaod.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 1 Feb 2023 05:47:29 +0000
-Message-ID: <CACPK8XejKOcegJZGbWqOOwMnOWsdODOANsPDK9CgkqO5=VrKVQ@mail.gmail.com>
-Subject: Re: [PATCH 06/25] tests/avocado/machine_aspeed.py: update buildroot
- tests
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
- Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
+References: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
+ <CACGkMEs2wkkWmrNUuxfUVEsdGAkgxFxCLqCb5H-cH+dvVf-ijA@mail.gmail.com>
+In-Reply-To: <CACGkMEs2wkkWmrNUuxfUVEsdGAkgxFxCLqCb5H-cH+dvVf-ijA@mail.gmail.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Wed, 1 Feb 2023 07:55:44 +0100
+Message-ID: <CAJaqyWdXfT9tfdFL3V8rTDjP+4rw2au3QXvT5XUfx-JooqcpHg@mail.gmail.com>
+Subject: Re: Emulating device configuration / max_virtqueue_pairs in
+ vhost-vdpa and vhost-user
+To: Jason Wang <jasowang@redhat.com>
+Cc: Maxime Coquelin <maxime.coquelin@redhat.com>,
+ Michael Tsirkin <mst@redhat.com>, 
+ Cindy Lu <lulu@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
+ qemu-level <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>, 
+ Juan Quintela <quintela@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::129;
- envelope-from=joel.stan@gmail.com; helo=mail-lf1-x129.google.com
-X-Spam_score_int: -14
-X-Spam_score: -1.5
-X-Spam_bar: -
-X-Spam_report: (-1.5 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, FREEMAIL_FORGED_FROMDOMAIN=0.249,
- FREEMAIL_FROM=0.001, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=no autolearn_force=no
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,62 +97,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 19 Jan 2023 at 12:37, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Wed, Feb 1, 2023 at 4:27 AM Jason Wang <jasowang@redhat.com> wrote:
 >
-> Use buildroot 2022.11 based images plus some customization :
+> On Wed, Feb 1, 2023 at 3:10 AM Eugenio Perez Martin <eperezma@redhat.com> wrote:
+> >
+> > Hi,
+> >
+> > The current approach of offering an emulated CVQ to the guest and map
+> > the commands to vhost-user is not scaling well:
+> > * Some devices already offer it, so the transformation is redundant.
+> > * There is no support for commands with variable length (RSS?)
+> >
+> > We can solve both of them by offering it through vhost-user the same
+> > way as vhost-vdpa do. With this approach qemu needs to track the
+> > commands, for similar reasons as vhost-vdpa: qemu needs to track the
+> > device status for live migration. vhost-user should use the same SVQ
+> > code for this, so we avoid duplications.
 >
->   - Linux version is bumped to 6.0.9 and kernel is built with a custom
->     config similar to what OpenBMC provides.
->   - U-Boot is switched to the one provided by OpenBMC for better support.
->   - defconfigs includes more target tools for dev.
+> Note that it really depends on the model we used. SVQ works well for
+> trap and emulation (without new API to be invented). But if save and
+> load API is invented, SVQ is not a must.
 >
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+That's right, but the premise in the proposal is that control vq RSS
+messages are already complex enough to avoid adding more vhost-user
+messages. I cannot imagine expanding the vhost-user or virtio API to
+add the save and restore functions soon :).
 
-> ---
->  tests/avocado/machine_aspeed.py | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> >
+> > One of the challenges here is to know what virtqueue to shadow /
+> > isolate. The vhost-user device may not have the same queues as the
+> > device frontend:
+> > * The first depends on the actual vhost-user device, and qemu fetches
+> > it with VHOST_USER_GET_QUEUE_NUM at the moment.
+> > * The qemu device frontend's is set by netdev queues= cmdline parameter in qemu
+> >
+> > For the device, the CVQ is the last one it offers, but for the guest
+> > it is the last one offered in config space.
+> >
+> > To create a new vhost-user command to decrease that maximum number of
+> > queues may be an option. But we can do it without adding more
+> > commands, remapping the CVQ index at virtqueue setup. I think it
+> > should be doable using (struct vhost_dev).vq_index and maybe a few
+> > adjustments here and there.
 >
-> diff --git a/tests/avocado/machine_aspeed.py b/tests/avocado/machine_aspe=
-ed.py
-> index 1fc385e1c8..773b1ff3a9 100644
-> --- a/tests/avocado/machine_aspeed.py
-> +++ b/tests/avocado/machine_aspeed.py
-> @@ -123,8 +123,8 @@ def test_arm_ast2500_evb_buildroot(self):
->          """
+> It requires device specific knowledge, it might work for networking
+> devices but not others (or need new codes).
 >
->          image_url =3D ('https://github.com/legoater/qemu-aspeed-boot/raw=
-/master/'
-> -                     'images/ast2500-evb/buildroot-2022.05/flash.img')
-> -        image_hash =3D ('549db6e9d8cdaf4367af21c36385a68bb465779c18b5e37=
-094fc7343decccd3f')
-> +                     'images/ast2500-evb/buildroot-2022.11-2-g15d3648df9=
-/flash.img')
-> +        image_hash =3D ('f96d11db521fe7a2787745e9e391225deeeec3318ee0fc0=
-7c8b799b8833dd474')
->          image_path =3D self.fetch_asset(image_url, asset_hash=3Dimage_ha=
-sh,
->                                        algorithm=3D'sha256')
->
-> @@ -151,8 +151,8 @@ def test_arm_ast2600_evb_buildroot(self):
->          """
->
->          image_url =3D ('https://github.com/legoater/qemu-aspeed-boot/raw=
-/master/'
-> -                     'images/ast2600-evb/buildroot-2022.05/flash.img')
-> -        image_hash =3D ('6cc9e7d128fd4fa1fd01c883af67593cae8072c3239a0b8=
-b6ace857f3538a92d')
-> +                     'images/ast2600-evb/buildroot-2022.11-2-g15d3648df9=
-/flash.img')
-> +        image_hash =3D ('e598d86e5ea79671ca8b59212a326c911bc8bea728dec1a=
-1f5390d717a28bb8b')
->          image_path =3D self.fetch_asset(image_url, asset_hash=3Dimage_ha=
-sh,
->                                        algorithm=3D'sha256')
->
-> --
-> 2.39.0
->
->
+
+Yes, I didn't review all the other kinds of devices for the proposal,
+but I'm assuming:
+* There is no other device that has already implemented CVQ over
+vhost-user (or this problems would have been solved)
+* All vhost-user devices config space are already offered by qemu like
+vhost-user net, and the cvq-alike index is well defined in the
+standard like -net.
+
+So this proposal should fit all those devices, isn't it?
+
+Thanks!
+
 
