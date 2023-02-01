@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9989F6868DF
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:50:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A3CA68690A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:55:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNENP-0002uw-B0; Wed, 01 Feb 2023 09:46:21 -0500
+	id 1pNEMX-00025g-4o; Wed, 01 Feb 2023 09:45:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+8c5eeea0684575598b25+7101+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pNELN-0001Wx-Py
+ <BATV+c61c7683afee22e62f8e+7101+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pNELN-0001Wy-QY
  for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:44:19 -0500
-Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
- <BATV+8c5eeea0684575598b25+7101+infradead.org+dwmw2@casper.srs.infradead.org>)
- id 1pNELG-0005aB-4C
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:44:11 -0500
+ <BATV+c61c7683afee22e62f8e+7101+infradead.org+dwmw2@desiato.srs.infradead.org>)
+ id 1pNELI-0005aL-C6
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:44:12 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
- Content-Type:MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:
- To:From:Reply-To:Content-ID:Content-Description;
- bh=2/cJG5IhRTLJ5MYDDxTfadZ//rO1BuiO4gJyXSimNyg=; b=Og4quAatv+qpSrG0bOdl0Ie9l0
- yn3JqbN0+GbW2hjITKLobgwaLOrLnjYKGk8+KxagaDKlbNn1b3CQoma0/cvLKR80HxqK7SX0zPNZK
- SZ1Q1sn49OU4l2iD2+HQLsxQO0JPy0StqLGqfTg9QuUnW+ubOwDbRZbCrGAlfAkSD19f+JNUCKHUH
- A2zn4OsA6VRL/ZqxMRbefTJvxTs6++1z2Dl1LwB38k4D5FFN/n7XV5of+sg+xde/V2rIFkvaqrdfN
- Gv/tI/Kedv80rrFJ7PUMoH8C+Lm6JPf9gm9v9O/JjDEksk8kVcal2/d6a3lKTvWNr+Mv+XrKgYzLW
- JCZfbKcA==;
+ d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
+ MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
+ Reply-To:Content-Type:Content-ID:Content-Description;
+ bh=dTxxDYbJeZHQrirZ1DhMopV3y9Q7U8/7REjz117W7Y0=; b=W15QghBymQZNJPupMe3j2sm+YL
+ O72KV3YnB4ozE9R35r2i4fOq0PZQiZt+E8A/MS5MgPPRF2h9Oh/LeMuvoTzh4XkPprfeYbIlrAnIX
+ Jf6WfqncNtq5pH1x/3z1WtKOZq7lR0P+prSCs/H28bZiJE+1Fbz1iiOnOBpEEmng3tP0OOFHiZbMm
+ FmTAkehQZemtjW23giszkmRwu5dgI0dnMDIPsJLF+2zJJ0+HDTXe+0lQ0EBgPCUin0k2dpYyDoZv0
+ WTDWForpf+kAxvmXtZaX+7n7KKyroAfMH2oFoB0JBH5YmxJHJfi7ytcl0YWwB3/vFjI2PZSFlwH5L
+ TRyfu99g==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
- id 1pNELA-00CNSH-Bs; Wed, 01 Feb 2023 14:44:01 +0000
+ by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+ id 1pNEKb-004oCl-2j; Wed, 01 Feb 2023 14:43:26 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pNELA-007JwB-1C; Wed, 01 Feb 2023 14:44:00 +0000
+ Linux)) id 1pNELA-007JwF-1O; Wed, 01 Feb 2023 14:44:00 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -49,21 +49,19 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [RFC PATCH v1 2/8] hw/xen: Add basic XenStore tree walk and
- write/read/directory support
-Date: Wed,  1 Feb 2023 14:43:52 +0000
-Message-Id: <20230201144358.1744876-3-dwmw2@infradead.org>
+Subject: [RFC PATCH v1 3/8] hw/xen: Implement XenStore watches
+Date: Wed,  1 Feb 2023 14:43:53 +0000
+Message-Id: <20230201144358.1744876-4-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230201144358.1744876-1-dwmw2@infradead.org>
 References: <20230201144358.1744876-1-dwmw2@infradead.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- casper.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1236::1;
- envelope-from=BATV+8c5eeea0684575598b25+7101+infradead.org+dwmw2@casper.srs.infradead.org;
- helo=casper.infradead.org
+ desiato.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
+ envelope-from=BATV+c61c7683afee22e62f8e+7101+infradead.org+dwmw2@desiato.srs.infradead.org;
+ helo=desiato.infradead.org
 X-Spam_score_int: -43
 X-Spam_score: -4.4
 X-Spam_bar: ----
@@ -88,956 +86,588 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Woodhouse <dwmw@amazon.co.uk>
 
-This is a fairly simple implementation of a copy-on-write tree.
+Starts out fairly simple: a hash table of watches based on the path.
 
-The node walk function starts off at the root, with 'inplace == true'.
-If it ever encounters a node with a refcount greater than one (including
-the root node), then that node is shared with other trees, and cannot
-be modified in place, so the inplace flag is cleared and we copy on
-write from there on down.
+Except there can be multiple watches on the same path, so the watch ends
+up being a simple linked list, and the head of that list is in the hash
+table. Which makes removal a bit of a PITA but it's not so bad; we just
+special-case "I had to remove the head of the list and now I have to
+replace it in / remove it from the hash table". And if we don't remove
+the head, it's a simple linked-list operation.
 
-Xenstore write has 'mkdir -p' semantics and will create the intermediate
-nodes if they don't already exist, so in that case we flip the inplace
-flag back to true as as populated the newly-created nodes.
-
-We put a copy of the absolute path into the buffer in the struct walk_op,
-with *two* NUL terminators at the end. As xs_node_walk() goes down the
-tree, it replaces the next '/' separator with a NUL so that it can use
-the 'child name' in place. The next recursion down then puts the '/'
-back and repeats the exercise for the next path element... if it doesn't
-hit that *second* NUL termination which indicates the true end of the
-path.
+We do need to fire watches on *deleted* nodes, so instead of just a simple
+xs_node_unref() on the topmost victim, we need to recurse down and fire
+watches on them all.
 
 Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
 ---
- hw/i386/kvm/xen_xenstore.c  |  41 ++--
- hw/i386/kvm/xenstore_impl.c | 438 ++++++++++++++++++++++++++++++++++--
- hw/i386/kvm/xenstore_impl.h |  22 +-
- tests/unit/meson.build      |   1 +
- tests/unit/test-xs-node.c   | 174 ++++++++++++++
- 5 files changed, 630 insertions(+), 46 deletions(-)
- create mode 100644 tests/unit/test-xs-node.c
+ hw/i386/kvm/xenstore_impl.c | 288 ++++++++++++++++++++++++++++++++++--
+ tests/unit/test-xs-node.c   |  80 ++++++++++
+ 2 files changed, 352 insertions(+), 16 deletions(-)
 
-diff --git a/hw/i386/kvm/xen_xenstore.c b/hw/i386/kvm/xen_xenstore.c
-index eb810c371e..705e937519 100644
---- a/hw/i386/kvm/xen_xenstore.c
-+++ b/hw/i386/kvm/xen_xenstore.c
-@@ -219,8 +219,8 @@ static void reset_rsp(XenXenstoreState *s)
-     s->rsp_offset = 0;
- }
- 
--static void xs_error(XenXenstoreState *s, unsigned int id, unsigned int tx_id,
--                     int errnum)
-+static void xs_error(XenXenstoreState *s, unsigned int id,
-+                     xs_transaction_t tx_id, int errnum)
- {
-     struct xsd_sockmsg *rsp = (struct xsd_sockmsg *)s->rsp_data;
-     const char *errstr = NULL;
-@@ -246,7 +246,7 @@ static void xs_error(XenXenstoreState *s, unsigned int id, unsigned int tx_id,
- }
- 
- static void xs_ok(XenXenstoreState *s, unsigned int type, unsigned int req_id,
--                  unsigned int tx_id)
-+                  xs_transaction_t tx_id)
- {
-     struct xsd_sockmsg *rsp = (struct xsd_sockmsg *)s->rsp_data;
-     const char *okstr = "OK";
-@@ -365,7 +365,7 @@ static void xs_ok(XenXenstoreState *s, unsigned int type, unsigned int req_id,
-  */
- 
- static void xs_read(XenXenstoreState *s, unsigned int req_id,
--                    unsigned int tx_id, uint8_t *req_data, unsigned int len)
-+                    xs_transaction_t tx_id, uint8_t *req_data, unsigned int len)
- {
-     const char *path = (const char *)req_data;
-     struct xsd_sockmsg *rsp = (struct xsd_sockmsg *)s->rsp_data;
-@@ -401,7 +401,7 @@ static void xs_read(XenXenstoreState *s, unsigned int req_id,
- }
- 
- static void xs_write(XenXenstoreState *s, unsigned int req_id,
--                     unsigned int tx_id, uint8_t *req_data,
-+                     xs_transaction_t tx_id, uint8_t *req_data,
-                      unsigned int len)
- {
-     g_autoptr(GByteArray) data = g_byte_array_new();
-@@ -437,7 +437,8 @@ static void xs_write(XenXenstoreState *s, unsigned int req_id,
- }
- 
- static void xs_mkdir(XenXenstoreState *s, unsigned int req_id,
--                     unsigned int tx_id, uint8_t *req_data, unsigned int len)
-+                     xs_transaction_t tx_id, uint8_t *req_data,
-+                     unsigned int len)
- {
-     g_autoptr(GByteArray) data = g_byte_array_new();
-     const char *path;
-@@ -486,7 +487,7 @@ static void xs_append_strings(XenXenstoreState *s, struct xsd_sockmsg *rsp,
- }
- 
- static void xs_directory(XenXenstoreState *s, unsigned int req_id,
--                         unsigned int tx_id, uint8_t *req_data,
-+                         xs_transaction_t tx_id, uint8_t *req_data,
-                          unsigned int len)
- {
-     struct xsd_sockmsg *rsp = (struct xsd_sockmsg *)s->rsp_data;
-@@ -519,7 +520,7 @@ static void xs_directory(XenXenstoreState *s, unsigned int req_id,
- }
- 
- static void xs_transaction_start(XenXenstoreState *s, unsigned int req_id,
--                                 unsigned int tx_id, uint8_t *req_data,
-+                                 xs_transaction_t tx_id, uint8_t *req_data,
-                                  unsigned int len)
- {
-     struct xsd_sockmsg *rsp = (struct xsd_sockmsg *)s->rsp_data;
-@@ -550,7 +551,7 @@ static void xs_transaction_start(XenXenstoreState *s, unsigned int req_id,
- }
- 
- static void xs_transaction_end(XenXenstoreState *s, unsigned int req_id,
--                               unsigned int tx_id, uint8_t *req_data,
-+                               xs_transaction_t tx_id, uint8_t *req_data,
-                                unsigned int len)
- {
-     bool commit;
-@@ -583,8 +584,8 @@ static void xs_transaction_end(XenXenstoreState *s, unsigned int req_id,
-     xs_ok(s, XS_TRANSACTION_END, req_id, tx_id);
- }
- 
--static void xs_rm(XenXenstoreState *s, unsigned int req_id, unsigned int tx_id,
--                  uint8_t *req_data, unsigned int len)
-+static void xs_rm(XenXenstoreState *s, unsigned int req_id,
-+                  xs_transaction_t tx_id, uint8_t *req_data, unsigned int len)
- {
-     const char *path = (const char *)req_data;
-     int err;
-@@ -605,7 +606,7 @@ static void xs_rm(XenXenstoreState *s, unsigned int req_id, unsigned int tx_id,
- }
- 
- static void xs_get_perms(XenXenstoreState *s, unsigned int req_id,
--                         unsigned int tx_id, uint8_t *req_data,
-+                         xs_transaction_t tx_id, uint8_t *req_data,
-                          unsigned int len)
- {
-     const char *path = (const char *)req_data;
-@@ -636,7 +637,7 @@ static void xs_get_perms(XenXenstoreState *s, unsigned int req_id,
- }
- 
- static void xs_set_perms(XenXenstoreState *s, unsigned int req_id,
--                         unsigned int tx_id, uint8_t *req_data,
-+                         xs_transaction_t tx_id, uint8_t *req_data,
-                          unsigned int len)
- {
-     const char *path = (const char *)req_data;
-@@ -685,7 +686,8 @@ static void xs_set_perms(XenXenstoreState *s, unsigned int req_id,
- }
- 
- static void xs_watch(XenXenstoreState *s, unsigned int req_id,
--                     unsigned int tx_id, uint8_t *req_data, unsigned int len)
-+                     xs_transaction_t tx_id, uint8_t *req_data,
-+                     unsigned int len)
- {
-     const char *token, *path = (const char *)req_data;
-     int err;
-@@ -732,7 +734,8 @@ static void xs_watch(XenXenstoreState *s, unsigned int req_id,
- }
- 
- static void xs_unwatch(XenXenstoreState *s, unsigned int req_id,
--                       unsigned int tx_id, uint8_t *req_data, unsigned int len)
-+                       xs_transaction_t tx_id, uint8_t *req_data,
-+                       unsigned int len)
- {
-     const char *token, *path = (const char *)req_data;
-     int err;
-@@ -772,7 +775,7 @@ static void xs_unwatch(XenXenstoreState *s, unsigned int req_id,
- }
- 
- static void xs_reset_watches(XenXenstoreState *s, unsigned int req_id,
--                             unsigned int tx_id, uint8_t *req_data,
-+                             xs_transaction_t tx_id, uint8_t *req_data,
-                              unsigned int len)
- {
-     if (len == 0 || req_data[len - 1] != '\0') {
-@@ -787,21 +790,21 @@ static void xs_reset_watches(XenXenstoreState *s, unsigned int req_id,
- }
- 
- static void xs_priv(XenXenstoreState *s, unsigned int req_id,
--                    unsigned int tx_id, uint8_t *data,
-+                    xs_transaction_t tx_id, uint8_t *data,
-                     unsigned int len)
- {
-     xs_error(s, req_id, tx_id, EACCES);
- }
- 
- static void xs_unimpl(XenXenstoreState *s, unsigned int req_id,
--                      unsigned int tx_id, uint8_t *data,
-+                      xs_transaction_t tx_id, uint8_t *data,
-                       unsigned int len)
- {
-     xs_error(s, req_id, tx_id, ENOSYS);
- }
- 
- typedef void (*xs_impl)(XenXenstoreState *s, unsigned int req_id,
--                        unsigned int tx_id, uint8_t *data,
-+                        xs_transaction_t tx_id, uint8_t *data,
-                         unsigned int len);
- 
- struct xsd_req {
 diff --git a/hw/i386/kvm/xenstore_impl.c b/hw/i386/kvm/xenstore_impl.c
-index d44c403426..c4e47f97ba 100644
+index c4e47f97ba..7b2d2ddc57 100644
 --- a/hw/i386/kvm/xenstore_impl.c
 +++ b/hw/i386/kvm/xenstore_impl.c
-@@ -10,42 +10,422 @@
-  */
+@@ -30,8 +30,18 @@ typedef struct XsNode {
+ #endif
+ } XsNode;
  
- #include "qemu/osdep.h"
-+#include "qom/object.h"
- 
- #include "xen_xenstore.h"
- #include "xenstore_impl.h"
- 
-+#include "hw/xen/interface/io/xs_wire.h"
-+
-+#define TYPE_XS_NODE "xs-node"
-+
-+OBJECT_DECLARE_TYPE(XsNode, XsNodeClass, XS_NODE)
-+
-+typedef struct XsNode {
-+    Object obj;
-+    GByteArray *content;
-+    GHashTable *children;
-+#ifdef XS_NODE_UNIT_TEST
-+    gchar *name; /* debug only */
-+#endif
-+} XsNode;
++typedef struct XsWatch {
++    struct XsWatch *next;
++    xs_impl_watch_fn *cb;
++    void *cb_opaque;
++    char *token;
++    unsigned int dom_id;
++    int rel_prefix;
++} XsWatch;
 +
  struct XenstoreImplState {
-+    XsNode *root;
-+};
-+
-+static void xs_node_init(Object *obj)
+     XsNode *root;
++    GHashTable *watches;
+ };
+ 
+ static void xs_node_init(Object *obj)
+@@ -137,6 +147,7 @@ struct walk_op {
+     int (*op_fn)(XsNode **n, struct walk_op *op);
+     void *op_opaque;
+ 
++    GList *watches;
+     unsigned int dom_id;
+ 
+     /*
+@@ -154,6 +165,35 @@ struct walk_op {
+     bool create_dirs;
+ };
+ 
++static void fire_watches(struct walk_op *op, bool parents)
 +{
-+#ifdef XS_NODE_UNIT_TEST
-+    XsNode *n = XS_NODE(obj);
-+    nr_xs_nodes++;
-+    xs_node_list = g_list_prepend(xs_node_list, n);
-+#endif
-+}
++    GList *l = NULL;
++    XsWatch *w;
 +
-+static void xs_node_finalize(Object *obj)
-+{
-+    XsNode *n = XS_NODE(obj);
-+    if (n->content) {
-+        g_byte_array_unref(n->content);
-+    }
-+    if (n->children) {
-+        g_hash_table_unref(n->children);
-+    }
-+#ifdef XS_NODE_UNIT_TEST
-+    g_free(n->name);
-+    nr_xs_nodes--;
-+    xs_node_list = g_list_remove(xs_node_list, n);
-+#endif
-+}
-+
-+static const TypeInfo xs_node_info = {
-+    .name = TYPE_XS_NODE,
-+    .parent = TYPE_OBJECT,
-+    .instance_size = sizeof(XsNode),
-+    .instance_init = xs_node_init,
-+    .instance_finalize = xs_node_finalize,
-+};
-+
-+static void xs_impl_register_types(void)
-+{
-+    type_register_static(&xs_node_info);
-+}
-+
-+type_init(xs_impl_register_types)
-+
-+static inline XsNode *xs_node_new(void)
-+{
-+    return XS_NODE(object_new(TYPE_XS_NODE));
-+}
-+
-+static inline XsNode *xs_node_ref(XsNode *n)
-+{
-+    return XS_NODE(object_ref(OBJECT(n)));
-+}
-+
-+static inline void xs_node_unref(XsNode *n)
-+{
-+    object_unref(OBJECT(n));
-+}
-+
-+/* For copying from one hash table to another using g_hash_table_foreach() */
-+static void do_insert(gpointer key, gpointer value, gpointer user_data)
-+{
-+    g_hash_table_insert(user_data, g_strdup(key), object_ref(value));
-+}
-+
-+static XsNode *xs_node_copy(XsNode *old)
-+{
-+    XsNode *n = xs_node_new();
-+
-+    if (old->children) {
-+        n->children = g_hash_table_new_full(g_str_hash, g_str_equal, g_free,
-+                                            object_unref);
-+        g_hash_table_foreach(old->children, do_insert, n->children);
-+    }
-+    if (old && old->content) {
-+        n->content = g_byte_array_ref(old->content);
-+    }
-+    return n;
-+}
-+
-+static void xs_node_add_child(XsNode *n, const char *path_elem, XsNode *child)
-+{
-+    assert(!strchr(path_elem, '/'));
-+
-+    if (!child) {
-+        assert(n->children);
-+        g_hash_table_remove(n->children, path_elem);
++    if (!op->mutating) {
 +        return;
 +    }
 +
-+#ifdef XS_NODE_UNIT_TEST
-+    g_free(child->name);
-+    child->name = g_strdup(path_elem);
-+#endif
-+    if (!n->children) {
-+        n->children = g_hash_table_new_full(g_str_hash, g_str_equal, g_free,
-+                                            object_unref);
++    if (parents) {
++        l = op->watches;
 +    }
-+    g_hash_table_insert(n->children, g_strdup(path_elem), child);
++
++    w = g_hash_table_lookup(op->s->watches, op->path);
++    while (w || l) {
++        if (!w) {
++            /* Fire the parent nodes from 'op' if asked to */
++            w = l->data;
++            l = l->next;
++            continue;
++        }
++
++        assert(strlen(op->path) > w->rel_prefix);
++        w->cb(w->cb_opaque, op->path + w->rel_prefix, w->token);
++
++        w = w->next;
++    }
 +}
 +
-+struct walk_op {
-+    struct XenstoreImplState *s;
-+    char path[XENSTORE_ABS_PATH_MAX + 2]; /* Two NUL terminators */
-+    int (*op_fn)(XsNode **n, struct walk_op *op);
-+    void *op_opaque;
-+
-+    unsigned int dom_id;
-+
-+    /*
-+     * This is maintained on the way *down* the walk to indicate
-+     * whether nodes can be modified in place or whether COW is
-+     * required. It starts off being true, as we're always going to
-+     * replace the root node. If we walk into a shared subtree it
-+     * becomes false. If we start *creating* new nodes for a write,
-+     * it becomes true again.
-+     *
-+     * Do not use it on the way back up.
-+     */
-+    bool inplace;
-+    bool mutating;
-+    bool create_dirs;
- };
+ static int xs_node_add_content(XsNode **n, struct walk_op *op)
+ {
+     /* We *are* the node to be written. Either this or a copy. */
+@@ -186,10 +226,51 @@ static int xs_node_get_content(XsNode **n, struct walk_op *op)
+     return 0;
+ }
  
--int xs_impl_read(XenstoreImplState *s, unsigned int dom_id, unsigned int tx_id,
--                 const char *path, GByteArray *data)
-+static int xs_node_add_content(XsNode **n, struct walk_op *op)
++static int node_rm_recurse(gpointer key, gpointer value, gpointer user_data)
 +{
-+    /* We *are* the node to be written. Either this or a copy. */
-+    if (!op->inplace) {
-+        XsNode *old = *n;
-+        *n = xs_node_copy(old);
-+        xs_node_unref(old);
-+    }
-+
-+    if ((*n)->content) {
-+        g_byte_array_unref((*n)->content);
-+    }
-+    (*n)->content = g_byte_array_ref(op->op_opaque);
-+    return 0;
-+}
-+
-+static int xs_node_get_content(XsNode **n, struct walk_op *op)
-+{
-+    GByteArray *data = op->op_opaque;
-+    GByteArray *node_data;
-+
-+    assert(op->inplace);
-+    assert(*n);
-+
-+    node_data = (*n)->content;
-+    if (node_data) {
-+        g_byte_array_append(data, node_data->data, node_data->len);
-+    }
-+
-+    return 0;
-+}
-+
-+static int xs_node_rm(XsNode **n, struct walk_op *op)
-+{
++    struct walk_op *op = user_data;
++    int path_len = strlen(op->path);
++    int key_len = strlen(key);
++    XsNode *n = value;
 +    bool this_inplace = op->inplace;
 +
-+    if (this_inplace) {
-+        xs_node_unref(*n);
-+    }
-+    *n = NULL;
-+    return 0;
-+}
-+
-+/*
-+ * Passed a full reference in *n which it may free if it needs to COW.
-+ *
-+ * When changing the tree, the op->inplace flag indicates whether this
-+ * node may be modified in place (i.e. it and all its parents had a
-+ * refcount of one). If walking down the tree we find a node whose
-+ * refcount is higher, we must clear op->inplace and COW from there
-+ * down. Unless we are creating new nodes as scaffolding for a write
-+ * (which works like 'mkdir -p' does). In which case those newly
-+ * created nodes can (and must) be modified in place again.
-+ */
-+static int xs_node_walk(XsNode **n, struct walk_op *op)
-+{
-+    char *child_name = NULL;
-+    size_t namelen;
-+    XsNode *old = *n, *child = NULL;
-+    bool stole_child = false;
-+    bool this_inplace;
-+    int err;
-+
-+    namelen = strlen(op->path);
-+
-+    /* Is there a child, or do we hit the double-NUL termination? */
-+    if (op->path[namelen + 1]) {
-+        char *slash;
-+        child_name = op->path + namelen + 1;
-+        slash = strchr(child_name, '/');
-+        if (slash) {
-+            *slash = '\0';
-+        }
-+        op->path[namelen] = '/';
++    if (n->obj.ref != 1) {
++        op->inplace = 0;
 +    }
 +
-+    /* If we walk into a subtree which is shared, we must COW */
-+    if (op->mutating && old->obj.ref != 1) {
-+        op->inplace = false;
-+    }
++    assert(key_len + path_len + 2 <= sizeof(op->path));
++    op->path[path_len] = '/';
++    memcpy(op->path + path_len + 1, key, key_len + 1);
 +
-+    if (!child_name) {
-+        /* This is the actual node on which the operation shall be performed */
-+        return op->op_fn(n, op);
++    if (n->children) {
++        g_hash_table_foreach_remove(n->children, node_rm_recurse, op);
 +    }
++    /*
++     * Fire watches on *this* node but not the parents because they are
++     * going to be deleted too, so the watch will fire for them anyway.
++     */
++    fire_watches(op, false);
++    op->path[path_len] = '\0';
 +
-+    /* op->inplace will be further modified during the recursion */
-+    this_inplace = op->inplace;
-+
-+    if (old && old->children) {
-+        child = g_hash_table_lookup(old->children, child_name);
-+        /* This is a *weak* reference to 'child', owned by the hash table */
-+    }
-+
-+    if (child) {
-+        xs_node_ref(child);
-+        /*
-+         * Now we own it too. But if we can modify inplace, that's going to
-+         * foil the check and force it to COW. We want to be the *only* owner
-+         * so that it can be modified in place, so remove it from the hash
-+         * table in that case. We'll add it (or its replacement) back later.
-+         */
-+        if (op->mutating && this_inplace) {
-+            g_hash_table_remove(old->children, child_name);
-+            stole_child = true;
-+        }
-+    } else if (op->create_dirs) {
-+        child = xs_node_new();
-+        /*
-+         * If we're creating a new child, we can clearly modify it (and its
-+         * children) in place from here on down.
-+         */
-+        op->inplace = true;
-+    } else {
-+        op->path[namelen] = '\0';
-+        return ENOENT;
-+    }
 +
 +    /*
-+     * Except for the temporary child-stealing as noted, our node has not
-+     * changed yet. We don't yet know the overall operation will complete.
++     * Actually deleting the child here is just an optimisation; if we
++     * don't then the final unref on the topmost victim will just have
++     * to cascade down again repeating all the g_hash_table_foreach()
++     * calls.
 +     */
-+    err = xs_node_walk(&child, op);
-+    if (err || !op->mutating) {
-+        if (stole_child) {
-+            /* Put it back as it was. */
-+            g_hash_table_replace(old->children, g_strdup(child_name), child);
-+        } else {
-+            xs_node_unref(child);
-+        }
-+        op->path[namelen] = '\0';
-+        return err;
-+    }
-+
-+    /*
-+     * Now we know the operation has completed successfully and we're on
-+     * the way back up. Make the change, substituting 'child' in the
-+     * node at our level.
-+     */
-+    if (!this_inplace) {
-+        *n = xs_node_copy(old);
-+        xs_node_unref(old);
-+    }
-+
-+    xs_node_add_child(*n, child_name, child);
-+
-+    op->path[namelen] = '\0';
-+    return 0;
++    return this_inplace;
 +}
 +
-+static void append_directory_item(gpointer key, gpointer value,
-+                                  gpointer user_data)
-+{
-+    GList **items = user_data;
-+
-+    *items = g_list_insert_sorted(*items, g_strdup(key), g_str_equal);
-+}
-+
-+/* Populates items with char * names which caller must free. */
-+static int xs_node_directory(XsNode **n, struct walk_op *op)
-+{
-+    GList **items = op->op_opaque;
-+
-+    assert(op->inplace);
-+    assert(*n);
-+
+ static int xs_node_rm(XsNode **n, struct walk_op *op)
+ {
+     bool this_inplace = op->inplace;
+ 
++    /* Fire watches for any node in the subtree which gets deleted. */
 +    if ((*n)->children) {
-+        g_hash_table_foreach((*n)->children, append_directory_item, items);
++        g_hash_table_foreach_remove((*n)->children, node_rm_recurse, op);
 +    }
 +
-+    return 0;
-+}
+     if (this_inplace) {
+         xs_node_unref(*n);
+     }
+@@ -215,9 +296,11 @@ static int xs_node_walk(XsNode **n, struct walk_op *op)
+     XsNode *old = *n, *child = NULL;
+     bool stole_child = false;
+     bool this_inplace;
++    XsWatch *watch;
+     int err;
+ 
+     namelen = strlen(op->path);
++    watch = g_hash_table_lookup(op->s->watches, op->path);
+ 
+     /* Is there a child, or do we hit the double-NUL termination? */
+     if (op->path[namelen + 1]) {
+@@ -237,7 +320,11 @@ static int xs_node_walk(XsNode **n, struct walk_op *op)
+ 
+     if (!child_name) {
+         /* This is the actual node on which the operation shall be performed */
+-        return op->op_fn(n, op);
++        err = op->op_fn(n, op);
++        if (!err) {
++            fire_watches(op, true);
++        }
++        return err;
+     }
+ 
+     /* op->inplace will be further modified during the recursion */
+@@ -272,11 +359,24 @@ static int xs_node_walk(XsNode **n, struct walk_op *op)
+         return ENOENT;
+     }
+ 
++    /*
++     * If there's a watch on this node, add it to the list to be fired
++     * (with the correct full pathname for the modified node) at the end.
++     */
++    if (watch) {
++        op->watches = g_list_append(op->watches, watch);
++    }
 +
-+static int init_walk_op(XenstoreImplState *s, struct walk_op *op,
-+                        xs_transaction_t tx_id, unsigned int dom_id,
-+                        const char *path, XsNode ***rootp)
-+{
+     /*
+      * Except for the temporary child-stealing as noted, our node has not
+      * changed yet. We don't yet know the overall operation will complete.
+      */
+     err = xs_node_walk(&child, op);
++
++    if (watch) {
++        op->watches = g_list_remove(op->watches, watch);
++    }
++
+     if (err || !op->mutating) {
+         if (stole_child) {
+             /* Put it back as it was. */
+@@ -299,8 +399,10 @@ static int xs_node_walk(XsNode **n, struct walk_op *op)
+     }
+ 
+     xs_node_add_child(*n, child_name, child);
+-
+     op->path[namelen] = '\0';
++    if (!namelen) {
++        assert(!op->watches);
++    }
+     return 0;
+ }
+ 
+@@ -349,6 +451,7 @@ static int init_walk_op(XenstoreImplState *s, struct walk_op *op,
+      * path element for the lookup.
+      */
+     op->path[strlen(op->path) + 1] = '\0';
++    op->watches = NULL;
+     op->path[0] = '\0';
+     op->inplace = true;
+     op->mutating = false;
+@@ -478,38 +581,191 @@ int xs_impl_set_perms(XenstoreImplState *s, unsigned int dom_id,
+ int xs_impl_watch(XenstoreImplState *s, unsigned int dom_id, const char *path,
+                   const char *token, xs_impl_watch_fn fn, void *opaque)
+ {
+-    /*
+-     * When calling the callback @fn, note that the path should
+-     * precisely match the relative path that the guest provided, even
+-     * if it was a relative path which needed to be prefixed with
+-     * /local/domain/${domid}/
+-     */
+-   return ENOSYS;
++    const char *effective_path;
++    char *fullpath = NULL; /* Allocated copy */
++    XsWatch *w, *l;
++
 +    if (path[0] == '/') {
 +        if (strlen(path) > XENSTORE_ABS_PATH_MAX) {
 +            return E2BIG;
 +        }
-+        snprintf(op->path, sizeof(op->path), "%s", path);
++        effective_path = path;
 +    } else {
 +        if (strlen(path) > XENSTORE_REL_PATH_MAX) {
 +            return E2BIG;
 +        }
-+        snprintf(op->path, sizeof(op->path), "/local/domain/%u/%s", dom_id,
-+                 path);
++        effective_path = fullpath = g_strdup_printf("/local/domain/%u/%s",
++                                                    dom_id, path);
 +    }
-+    /*
-+     * We use *two* NUL terminators at the end of the path, as during the walk
-+     * we will temporarily turn each '/' into a NUL to allow us to use that
-+     * path element for the lookup.
-+     */
-+    op->path[strlen(op->path) + 1] = '\0';
-+    op->path[0] = '\0';
-+    op->inplace = true;
-+    op->mutating = false;
-+    op->create_dirs = false;
-+    op->dom_id = dom_id;
-+    op->s = s;
 +
-+    if (tx_id == XBT_NULL) {
-+        *rootp = &s->root;
++    w = g_new0(XsWatch, 1);
++    w->token = g_strdup(token);
++    w->cb = fn;
++    w->cb_opaque = opaque;
++    w->dom_id = dom_id;
++    w->rel_prefix = strlen(effective_path) - strlen(path);
++
++    l = g_hash_table_lookup(s->watches, effective_path);
++    if (l) {
++        w->next = l->next;
++        l->next = w;
 +    } else {
-+        return ENOENT;
++        if (!fullpath) {
++            fullpath = g_strdup(path);
++        }
++        g_hash_table_insert(s->watches, fullpath, w);
++        fullpath = NULL; /* Don't free; hash owns it */
 +    }
-+
++    g_free(fullpath);
++    fn(opaque, path, token);
 +    return 0;
 +}
 +
-+int xs_impl_read(XenstoreImplState *s, unsigned int dom_id,
-+                 xs_transaction_t tx_id, const char *path, GByteArray *data)
- {
-     /*
-      * The data GByteArray shall exist, and will be freed by caller.
-      * Just g_byte_array_append() to it.
-      */
--    return ENOENT;
-+    struct walk_op op;
-+    XsNode **n;
-+    int ret;
++static XsWatch *free_watch(XsWatch *w)
++{
++    XsWatch *next = w->next;
 +
-+    ret = init_walk_op(s, &op, tx_id, dom_id, path, &n);
-+    if (ret) {
-+        return ret;
-+    }
-+    op.op_fn = xs_node_get_content;
-+    op.op_opaque = data;
-+    return xs_node_walk(n, &op);
- }
- 
- int xs_impl_write(XenstoreImplState *s, unsigned int dom_id,
--                  unsigned int tx_id, const char *path, GByteArray *data)
-+                  xs_transaction_t tx_id, const char *path, GByteArray *data)
- {
-     /*
-      * The data GByteArray shall exist, will be freed by caller. You are
--     * free to use g_byte_array_steal() and keep the data.
-+     * free to use g_byte_array_steal() and keep the data. Or just ref it.
-      */
--    return ENOSYS;
-+    struct walk_op op;
-+    XsNode **n;
-+    int ret;
++    g_free(w->token);
++    g_free(w);
 +
-+    ret = init_walk_op(s, &op, tx_id, dom_id, path, &n);
-+    if (ret) {
-+        return ret;
-+    }
-+    op.op_fn = xs_node_add_content;
-+    op.op_opaque = data;
-+    op.mutating = true;
-+    op.create_dirs = true;
-+    return xs_node_walk(n, &op);
- }
- 
- int xs_impl_directory(XenstoreImplState *s, unsigned int dom_id,
--                      unsigned int tx_id, const char *path, GList **items)
-+                      xs_transaction_t tx_id, const char *path, GList **items)
- {
-     /*
-      * The items are (char *) to be freed by caller. Although it's consumed
-      * immediately so if you want to change it to (const char *) and keep
-      * them, go ahead and change the caller.
-      */
--    return ENOENT;
-+    struct walk_op op;
-+    XsNode **n;
-+    int ret;
-+
-+    ret = init_walk_op(s, &op, tx_id, dom_id, path, &n);
-+    if (ret) {
-+        return ret;
-+    }
-+    op.op_fn = xs_node_directory;
-+    op.op_opaque = items;
-+    return xs_node_walk(n, &op);
- }
- 
- int xs_impl_transaction_start(XenstoreImplState *s, unsigned int dom_id,
-@@ -55,19 +435,29 @@ int xs_impl_transaction_start(XenstoreImplState *s, unsigned int dom_id,
- }
- 
- int xs_impl_transaction_end(XenstoreImplState *s, unsigned int dom_id,
--                            unsigned int tx_id, bool commit)
-+                            xs_transaction_t tx_id, bool commit)
- {
-     return ENOSYS;
- }
- 
--int xs_impl_rm(XenstoreImplState *s, unsigned int dom_id, unsigned int tx_id,
--               const char *path)
-+int xs_impl_rm(XenstoreImplState *s, unsigned int dom_id,
-+               xs_transaction_t tx_id, const char *path)
- {
--    return ENOSYS;
-+    struct walk_op op;
-+    XsNode **n;
-+    int ret;
-+
-+    ret = init_walk_op(s, &op, tx_id, dom_id, path, &n);
-+    if (ret) {
-+        return ret;
-+    }
-+    op.op_fn = xs_node_rm;
-+    op.mutating = true;
-+    return xs_node_walk(n, &op);
- }
- 
- int xs_impl_get_perms(XenstoreImplState *s, unsigned int dom_id,
--                      unsigned int tx_id, const char *path, GList **perms)
-+                      xs_transaction_t tx_id, const char *path, GList **perms)
- {
-     /*
-      * The perms are (char *) in the <perm-as-string> wire format to be
-@@ -77,7 +467,7 @@ int xs_impl_get_perms(XenstoreImplState *s, unsigned int dom_id,
- }
- 
- int xs_impl_set_perms(XenstoreImplState *s, unsigned int dom_id,
--                      unsigned int tx_id, const char *path, GList *perms)
-+                      xs_transaction_t tx_id, const char *path, GList *perms)
- {
-     /*
-      * The perms are (const char *) in the <perm-as-string> wire format.
-@@ -94,23 +484,35 @@ int xs_impl_watch(XenstoreImplState *s, unsigned int dom_id, const char *path,
-      * if it was a relative path which needed to be prefixed with
-      * /local/domain/${domid}/
-      */
--    return ENOSYS;
-+   return ENOSYS;
++    return next;
  }
  
  int xs_impl_unwatch(XenstoreImplState *s, unsigned int dom_id,
                      const char *path, const char *token,
                      xs_impl_watch_fn fn, void *opaque)
  {
--    /* Remove the watch that matches all four criteria */
--    return ENOSYS;
++    const char *effective_path;
++    char *fullpath = NULL; /* Allocated copy */
++    XsWatch *w, **l;
++
++    if (path[0] == '/') {
++        if (strlen(path) > XENSTORE_ABS_PATH_MAX) {
++            return E2BIG;
++        }
++        effective_path = path;
++    } else {
++        if (strlen(path) > XENSTORE_REL_PATH_MAX) {
++            return E2BIG;
++        }
++        effective_path = fullpath = g_strdup_printf("/local/domain/%u/%s",
++                                                    dom_id, path);
++    }
++
++    w = g_hash_table_lookup(s->watches, effective_path);
++    if (!w) {
++        g_free(fullpath);
++        return ENOENT;
++    }
++
+     /*
+-     * When calling the callback @fn, note that the path should
+-     * precisely match the relative path that the guest provided, even
+-     * if it was a relative path which needed to be prefixed with
+-     * /local/domain/${domid}/
++     * The hash table contains the first element of a list of
++     * watches. Removing the first element in the list is a
++     * special case because we have to update the hash table to
++     * point to the next (or remove it if there's nothing left).
+      */
+-   return ENOSYS;
++    if (!g_strcmp0(token, w->token) && fn == w->cb && opaque == w->cb_opaque &&
++        dom_id == w->dom_id) {
++        if (w->next) {
++            /* Insert the previous 'next' into the hash table */
++            if (!fullpath) {
++                fullpath = g_strdup(path);
++            }
++            g_hash_table_insert(s->watches, fullpath, w->next);
++            fullpath = NULL;
++        } else {
++            /* Nothing left; remove from hash table */
++            g_hash_table_remove(s->watches, effective_path);
++            g_free(fullpath);
++        }
++        free_watch(w);
++        return 0;
++    }
++
 +    /*
-+     * When calling the callback @fn, note that the path should
-+     * precisely match the relative path that the guest provided, even
-+     * if it was a relative path which needed to be prefixed with
-+     * /local/domain/${domid}/
++     * We're all done messing with the hash table because the element
++     * it points to has survived the cull. Now it's just a simple
++     * linked list removal operation.
 +     */
-+   return ENOSYS;
++    g_free(fullpath);
++
++    for (l = &w->next; *l; l = &w->next) {
++        w = *l;
++
++        if (!g_strcmp0(token, w->token) && fn == w->cb &&
++            opaque != w->cb_opaque && dom_id == w->dom_id) {
++            *l = free_watch(w);
++            return 0;
++        }
++    }
++
++    return ENOENT;
  }
  
  int xs_impl_reset_watches(XenstoreImplState *s, unsigned int dom_id)
  {
-+    /* Remove the watch that matches all four criteria */
-     return ENOSYS;
+-    /* Remove the watch that matches all four criteria */
+-    return ENOSYS;
++    char **watch_paths;
++    guint nr_watch_paths;
++    guint i;
++
++    watch_paths = (char **)g_hash_table_get_keys_as_array(s->watches,
++                                                          &nr_watch_paths);
++
++    for (i = 0; i < nr_watch_paths; i++) {
++        XsWatch *w1 = g_hash_table_lookup(s->watches, watch_paths[i]);
++        XsWatch *w2, *w, **l;
++
++        /*
++         * w1 is the original list. The hash table has this pointer.
++         * w2 is the head of our newly-filtered list.
++         * w and l are temporary for processing. w is somewhat redundant
++         * with *l but makes my eyes bleed less.
++         */
++
++        w = w2 = w1;
++        l = &w;
++        while (w) {
++            if (w->dom_id == dom_id) {
++                /* If we're freeing the head of the list, bump w2 */
++                if (w2 == w) {
++                    w2 = w->next;
++                }
++                *l = free_watch(w);
++            } else {
++                l = &w->next;
++            }
++            w = *l;
++        }
++        /*
++         * If the head of the list survived the cull, we don't need to
++         * touch the hash table and we're done with this path. Else...
++         */
++        if (w1 != w2) {
++            g_hash_table_steal(s->watches, watch_paths[i]);
++
++            /*
++             * It was already freed. (Don't worry, this whole thing is
++             * single-threaded and nobody saw it in the meantime). And
++             * having *stolen* it, we now own the watch_paths[i] string
++             * so if we don't give it back to the hash table, we need
++             * to free it.
++             */
++            if (w2) {
++                g_hash_table_insert(s->watches, watch_paths[i], w2);
++            } else {
++                g_free(watch_paths[i]);
++            }
++        }
++    }
++    g_free(watch_paths);
++    return 0;
  }
  
  XenstoreImplState *xs_impl_create(void)
  {
--    return g_new0(XenstoreImplState, 1);
-+    XenstoreImplState *s = g_new0(XenstoreImplState, 1);
-+
-+    s->root = xs_node_new();
-+#ifdef XS_NODE_UNIT_TEST
-+    s->root->name = g_strdup("/");
-+#endif
-+    return s;
- }
-diff --git a/hw/i386/kvm/xenstore_impl.h b/hw/i386/kvm/xenstore_impl.h
-index deefc4c412..d0b98a94db 100644
---- a/hw/i386/kvm/xenstore_impl.h
-+++ b/hw/i386/kvm/xenstore_impl.h
-@@ -12,6 +12,10 @@
- #ifndef __QEMU_XENSTORE_IMPL_H__
- #define __QEMU_XENSTORE_IMPL_H__
+     XenstoreImplState *s = g_new0(XenstoreImplState, 1);
  
-+typedef uint32_t xs_transaction_t;
-+
-+#define XBT_NULL 0
-+
- typedef struct XenstoreImplState XenstoreImplState;
- 
- XenstoreImplState *xs_impl_create(void);
-@@ -23,22 +27,22 @@ XenstoreImplState *xs_impl_create(void);
-  * to return (those in xsd_errors).
-  */
- 
--int xs_impl_read(XenstoreImplState *s, unsigned int dom_id, unsigned int tx_id,
--                 const char *path, GByteArray *data);
-+int xs_impl_read(XenstoreImplState *s, unsigned int dom_id,
-+                 xs_transaction_t tx_id, const char *path, GByteArray *data);
- int xs_impl_write(XenstoreImplState *s, unsigned int dom_id,
--                  unsigned int tx_id, const char *path, GByteArray *data);
-+                  xs_transaction_t tx_id, const char *path, GByteArray *data);
- int xs_impl_directory(XenstoreImplState *s, unsigned int dom_id,
--                      unsigned int tx_id, const char *path, GList **items);
-+                      xs_transaction_t tx_id, const char *path, GList **items);
- int xs_impl_transaction_start(XenstoreImplState *s, unsigned int dom_id,
-                               unsigned int *tx_id);
- int xs_impl_transaction_end(XenstoreImplState *s, unsigned int dom_id,
--                            unsigned int tx_id, bool commit);
--int xs_impl_rm(XenstoreImplState *s, unsigned int dom_id, unsigned int tx_id,
--               const char *path);
-+                            xs_transaction_t tx_id, bool commit);
-+int xs_impl_rm(XenstoreImplState *s, unsigned int dom_id,
-+               xs_transaction_t tx_id, const char *path);
- int xs_impl_get_perms(XenstoreImplState *s, unsigned int dom_id,
--                      unsigned int tx_id, const char *path, GList **perms);
-+                      xs_transaction_t tx_id, const char *path, GList **perms);
- int xs_impl_set_perms(XenstoreImplState *s, unsigned int dom_id,
--                      unsigned int tx_id, const char *path, GList *perms);
-+                      xs_transaction_t tx_id, const char *path, GList *perms);
- 
- /* This differs from xs_watch_fn because it has the token */
- typedef void(xs_impl_watch_fn)(void *opaque, const char *path,
-diff --git a/tests/unit/meson.build b/tests/unit/meson.build
-index ffa444f432..ee54b3c3eb 100644
---- a/tests/unit/meson.build
-+++ b/tests/unit/meson.build
-@@ -48,6 +48,7 @@ tests = {
-   'test-qapi-util': [],
-   'test-smp-parse': [qom, meson.project_source_root() / 'hw/core/machine-smp.c'],
-   'test-interval-tree': [],
-+  'test-xs-node': [qom],
- }
- 
- if have_system or have_tools
++    s->watches = g_hash_table_new_full(g_str_hash, g_str_equal, g_free, NULL);
+     s->root = xs_node_new();
+ #ifdef XS_NODE_UNIT_TEST
+     s->root->name = g_strdup("/");
 diff --git a/tests/unit/test-xs-node.c b/tests/unit/test-xs-node.c
-new file mode 100644
-index 0000000000..ab47936a9a
---- /dev/null
+index ab47936a9a..3bea23d106 100644
+--- a/tests/unit/test-xs-node.c
 +++ b/tests/unit/test-xs-node.c
-@@ -0,0 +1,174 @@
-+/*
-+ * QEMU XenStore XsNode testing
-+ *
-+ * Copyright © 2023 Amazon.com, Inc. or its affiliates. All Rights Reserved.
-+
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qapi/error.h"
-+#include "qemu/module.h"
-+
-+static int nr_xs_nodes;
-+static GList *xs_node_list;
-+
-+#define XS_NODE_UNIT_TEST
-+#include "hw/i386/kvm/xenstore_impl.c"
-+
-+#define DOMID_QEMU 0
-+#define DOMID_GUEST 1
-+
-+/* This doesn't happen in qemu but we want to make valgrind happy */
-+static void xs_impl_delete(XenstoreImplState *s)
+@@ -23,6 +23,7 @@ static GList *xs_node_list;
+ /* This doesn't happen in qemu but we want to make valgrind happy */
+ static void xs_impl_delete(XenstoreImplState *s)
+ {
++    g_hash_table_unref(s->watches);
+     xs_node_unref(s->root);
+     g_free(s);
+ 
+@@ -50,6 +51,14 @@ static int write_str(XenstoreImplState *s, unsigned int dom_id,
+     return err;
+ }
+ 
++static void watch_cb(void *_str, const char *path, const char *token)
 +{
-+    xs_node_unref(s->root);
-+    g_free(s);
++    GString *str = _str;
 +
-+    if (xs_node_list) {
-+        GList *l;
-+        for (l = xs_node_list; l; l = l->next) {
-+            XsNode *n = l->data;
-+            printf("Remaining node at %p name %s ref %d\n", n, n->name,
-+                   n->obj.ref);
-+        }
-+    }
-+    g_assert(!nr_xs_nodes);
++    g_string_append(str, path);
++    g_string_append(str, token);
 +}
 +
-+static int write_str(XenstoreImplState *s, unsigned int dom_id,
-+                          unsigned int tx_id, const char *path,
-+                          const char *content)
-+{
-+    GByteArray *d = g_byte_array_new();
-+    int err;
+ static XenstoreImplState *setup(void)
+ {
+    XenstoreImplState *s = xs_impl_create();
+@@ -76,6 +85,8 @@ static XenstoreImplState *setup(void)
+ static void test_xs_node_simple(void)
+ {
+     XenstoreImplState *s = setup();
++    GString *guest_watches = g_string_new(NULL);
++    GString *qemu_watches = g_string_new(NULL);
+     GList *items = NULL;
+     GByteArray *data = g_byte_array_new();
+     XsNode *old_root;
+@@ -83,6 +94,20 @@ static void test_xs_node_simple(void)
+ 
+     g_assert(s);
+ 
++    err = xs_impl_watch(s, DOMID_GUEST, "some", "guestwatch",
++                        watch_cb, guest_watches);
++    g_assert(!err);
++    g_assert(guest_watches->len == strlen("someguestwatch"));
++    g_assert(!strcmp(guest_watches->str, "someguestwatch"));
++    g_string_truncate(guest_watches, 0);
 +
-+    g_byte_array_append(d, (void *)content, strlen(content));
-+    err = xs_impl_write(s, dom_id, tx_id, path, d);
-+    g_byte_array_unref(d);
-+    return err;
-+}
++    err = xs_impl_watch(s, 0, "/local/domain/1/some", "qemuwatch",
++                        watch_cb, qemu_watches);
++    g_assert(!err);
++    g_assert(qemu_watches->len == strlen("/local/domain/1/someqemuwatch"));
++    g_assert(!strcmp(qemu_watches->str, "/local/domain/1/someqemuwatch"));
++    g_string_truncate(qemu_watches, 0);
 +
-+static XenstoreImplState *setup(void)
-+{
-+   XenstoreImplState *s = xs_impl_create();
-+   char *abspath;
-+   int err;
+     /* Read gives ENOENT when it should */
+     err = xs_impl_read(s, DOMID_GUEST, XBT_NULL, "foo", data);
+     g_assert(err == ENOENT);
+@@ -91,6 +116,14 @@ static void test_xs_node_simple(void)
+     err = write_str(s, DOMID_GUEST, XBT_NULL, "some/relative/path",
+                     "something");
+     g_assert(!err);
++    g_assert(!strcmp(guest_watches->str,
++                     "some/relative/pathguestwatch"));
++    g_assert(!strcmp(qemu_watches->str,
++                     "/local/domain/1/some/relative/pathqemuwatch"));
 +
-+   abspath = g_strdup_printf("/local/domain/%u", DOMID_GUEST);
++    g_string_truncate(qemu_watches, 0);
++    g_string_truncate(guest_watches, 0);
++    xs_impl_reset_watches(s, 0);
+ 
+     /* Read gives back what we wrote */
+     err = xs_impl_read(s, DOMID_GUEST, XBT_NULL, "some/relative/path", data);
+@@ -105,6 +138,8 @@ static void test_xs_node_simple(void)
+     g_assert(!err);
+     g_assert(data->len == strlen("something"));
+ 
++    g_assert(!qemu_watches->len);
++    g_assert(!guest_watches->len);
+     /* Keep a copy, to force COW mode */
+     old_root = xs_node_ref(s->root);
+ 
+@@ -113,11 +148,17 @@ static void test_xs_node_simple(void)
+                     "/local/domain/1/some/relative/path2",
+                     "something else");
+     g_assert(!err);
++    g_assert(!qemu_watches->len);
++    g_assert(!strcmp(guest_watches->str, "some/relative/path2guestwatch"));
++    g_string_truncate(guest_watches, 0);
+ 
+     /* Overwrite an existing node */
+     err = write_str(s, DOMID_GUEST, XBT_NULL, "some/relative/path",
+                     "another thing");
+     g_assert(!err);
++    g_assert(!qemu_watches->len);
++    g_assert(!strcmp(guest_watches->str, "some/relative/pathguestwatch"));
++    g_string_truncate(guest_watches, 0);
+ 
+     /* We can list the two files we wrote */
+     err = xs_impl_directory(s, DOMID_GUEST, XBT_NULL, "some/relative", &items);
+@@ -129,10 +170,38 @@ static void test_xs_node_simple(void)
+     g_assert(!items->next->next);
+     g_list_free_full(items, g_free);
+ 
++    err = xs_impl_unwatch(s, DOMID_GUEST, "some", "guestwatch",
++                          watch_cb, guest_watches);
++    g_assert(!err);
 +
-+   err = write_str(s, DOMID_QEMU, XBT_NULL, abspath, "");
-+   g_assert(!err);
-+
-+   g_free(abspath);
-+
-+   abspath = g_strdup_printf("/local/domain/%u/some", DOMID_GUEST);
-+
-+   err = write_str(s, DOMID_QEMU, XBT_NULL, abspath, "");
-+   g_assert(!err);
-+
-+   g_free(abspath);
-+
-+   return s;
-+}
-+
-+static void test_xs_node_simple(void)
-+{
-+    XenstoreImplState *s = setup();
-+    GList *items = NULL;
-+    GByteArray *data = g_byte_array_new();
-+    XsNode *old_root;
-+    int err;
-+
-+    g_assert(s);
-+
-+    /* Read gives ENOENT when it should */
-+    err = xs_impl_read(s, DOMID_GUEST, XBT_NULL, "foo", data);
++    err = xs_impl_unwatch(s, DOMID_GUEST, "some", "guestwatch",
++                          watch_cb, guest_watches);
 +    g_assert(err == ENOENT);
 +
-+    /* Write works */
-+    err = write_str(s, DOMID_GUEST, XBT_NULL, "some/relative/path",
-+                    "something");
++    err = xs_impl_watch(s, DOMID_GUEST, "some/relative/path2", "watchp2",
++                        watch_cb, guest_watches);
 +    g_assert(!err);
++    g_assert(guest_watches->len == strlen("some/relative/path2watchp2"));
++    g_assert(!strcmp(guest_watches->str, "some/relative/path2watchp2"));
++    g_string_truncate(guest_watches, 0);
 +
-+    /* Read gives back what we wrote */
-+    err = xs_impl_read(s, DOMID_GUEST, XBT_NULL, "some/relative/path", data);
++    err = xs_impl_watch(s, DOMID_GUEST, "/local/domain/1/some/relative",
++                        "watchrel", watch_cb, guest_watches);
 +    g_assert(!err);
-+    g_assert(data->len == strlen("something"));
-+    g_assert(!memcmp(data->data, "something", data->len));
++    g_assert(guest_watches->len ==
++             strlen("/local/domain/1/some/relativewatchrel"));
++    g_assert(!strcmp(guest_watches->str,
++                     "/local/domain/1/some/relativewatchrel"));
++    g_string_truncate(guest_watches, 0);
 +
-+    /* Even if we use an abolute path */
-+    g_byte_array_set_size(data, 0);
-+    err = xs_impl_read(s, DOMID_GUEST, XBT_NULL,
-+                       "/local/domain/1/some/relative/path", data);
-+    g_assert(!err);
-+    g_assert(data->len == strlen("something"));
+     /* Write somewhere else which already existed */
+     err = write_str(s, DOMID_GUEST, XBT_NULL, "some/relative", "moredata");
+     g_assert(!err);
+ 
++    g_assert(!strcmp(guest_watches->str,
++                     "/local/domain/1/some/relativewatchrel"));
++    g_string_truncate(guest_watches, 0);
 +
-+    /* Keep a copy, to force COW mode */
-+    old_root = xs_node_ref(s->root);
+     g_byte_array_set_size(data, 0);
+     err = xs_impl_read(s, DOMID_GUEST, XBT_NULL, "some/relative", data);
+     g_assert(!err);
+@@ -142,6 +211,7 @@ static void test_xs_node_simple(void)
+     /* Overwrite existing data */
+     err = write_str(s, DOMID_GUEST, XBT_NULL, "some/relative", "otherdata");
+     g_assert(!err);
++    g_string_truncate(guest_watches, 0);
+ 
+     g_byte_array_set_size(data, 0);
+     err = xs_impl_read(s, DOMID_GUEST, XBT_NULL, "some/relative", data);
+@@ -153,11 +223,21 @@ static void test_xs_node_simple(void)
+     err = xs_impl_rm(s, DOMID_GUEST, XBT_NULL, "some/relative");
+     g_assert(!err);
+ 
++    /* Each watch fires with the least specific relevant path */
++    g_assert(strstr(guest_watches->str,
++                    "some/relative/path2watchp2"));
++    g_assert(strstr(guest_watches->str,
++                    "/local/domain/1/some/relativewatchrel"));
++    g_string_truncate(guest_watches, 0);
 +
-+    /* Write works again */
-+    err = write_str(s, DOMID_GUEST, XBT_NULL,
-+                    "/local/domain/1/some/relative/path2",
-+                    "something else");
-+    g_assert(!err);
-+
-+    /* Overwrite an existing node */
-+    err = write_str(s, DOMID_GUEST, XBT_NULL, "some/relative/path",
-+                    "another thing");
-+    g_assert(!err);
-+
-+    /* We can list the two files we wrote */
-+    err = xs_impl_directory(s, DOMID_GUEST, XBT_NULL, "some/relative", &items);
-+    g_assert(!err);
-+    g_assert(items);
-+    g_assert(!strcmp(items->data, "path"));
-+    g_assert(items->next);
-+    g_assert(!strcmp(items->next->data, "path2"));
-+    g_assert(!items->next->next);
-+    g_list_free_full(items, g_free);
-+
-+    /* Write somewhere else which already existed */
-+    err = write_str(s, DOMID_GUEST, XBT_NULL, "some/relative", "moredata");
-+    g_assert(!err);
-+
-+    g_byte_array_set_size(data, 0);
-+    err = xs_impl_read(s, DOMID_GUEST, XBT_NULL, "some/relative", data);
-+    g_assert(!err);
-+    g_assert(data->len == strlen("moredata"));
-+    g_assert(!memcmp(data->data, "moredata", data->len));
-+
-+    /* Overwrite existing data */
-+    err = write_str(s, DOMID_GUEST, XBT_NULL, "some/relative", "otherdata");
-+    g_assert(!err);
-+
-+    g_byte_array_set_size(data, 0);
-+    err = xs_impl_read(s, DOMID_GUEST, XBT_NULL, "some/relative", data);
-+    g_assert(!err);
-+    g_assert(data->len == strlen("otherdata"));
-+    g_assert(!memcmp(data->data, "otherdata", data->len));
-+
-+    /* Remove the subtree */
-+    err = xs_impl_rm(s, DOMID_GUEST, XBT_NULL, "some/relative");
-+    g_assert(!err);
-+
-+    g_byte_array_set_size(data, 0);
-+    err = xs_impl_read(s, DOMID_GUEST, XBT_NULL, "some/relative", data);
-+    g_assert(err == ENOENT);
-+    g_byte_array_unref(data);
-+
-+    xs_node_unref(old_root);
-+    xs_impl_delete(s);
-+}
-+
-+
-+int main(int argc, char **argv)
-+{
-+    g_test_init(&argc, &argv, NULL);
-+    module_call_init(MODULE_INIT_QOM);
-+
-+    g_test_add_func("/xs_node/simple", test_xs_node_simple);
-+
-+    return g_test_run();
-+}
+     g_byte_array_set_size(data, 0);
+     err = xs_impl_read(s, DOMID_GUEST, XBT_NULL, "some/relative", data);
+     g_assert(err == ENOENT);
+     g_byte_array_unref(data);
+ 
++    xs_impl_reset_watches(s, DOMID_GUEST);
++    g_string_free(qemu_watches, true);
++    g_string_free(guest_watches, true);
+     xs_node_unref(old_root);
+     xs_impl_delete(s);
+ }
 -- 
 2.39.0
 
