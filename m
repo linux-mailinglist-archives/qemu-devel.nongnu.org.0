@@ -2,75 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 025246869AD
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 16:13:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 269A86869AE
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 16:13:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNEmQ-0002Wz-Eo; Wed, 01 Feb 2023 10:12:10 -0500
+	id 1pNEnS-0003FW-Pa; Wed, 01 Feb 2023 10:13:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=Q3mX=55=zx2c4.com=Jason@kernel.org>)
- id 1pNEmH-0002Ti-TE
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 10:12:02 -0500
-Received: from ams.source.kernel.org ([145.40.68.75])
+ id 1pNEnQ-0003Dv-0s
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 10:13:12 -0500
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1)
  (envelope-from <SRS0=Q3mX=55=zx2c4.com=Jason@kernel.org>)
- id 1pNEmD-0003NN-OX
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 10:11:59 -0500
+ id 1pNEnN-0003TS-MR
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 10:13:11 -0500
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
  (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
  (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 5AFE6B821B0
- for <qemu-devel@nongnu.org>; Wed,  1 Feb 2023 15:11:52 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA4F3C433D2
- for <qemu-devel@nongnu.org>; Wed,  1 Feb 2023 15:11:50 +0000 (UTC)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 398EBB821B2
+ for <qemu-devel@nongnu.org>; Wed,  1 Feb 2023 15:13:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF767C4339B
+ for <qemu-devel@nongnu.org>; Wed,  1 Feb 2023 15:13:05 +0000 (UTC)
 Authentication-Results: smtp.kernel.org;
  dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="UWp8O0+L"
+ header.b="GG/BH1bY"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1675264307;
+ t=1675264383;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=hrhqEye/Hb9y5T49/AWDdkcbQWiHJ+ZQpN8KFYTHIfs=;
- b=UWp8O0+L9iz1wrX0PvRzXvTjRlKuAjdgO8KwHoqVIoUwZZcCjIzyOFWjpDOpw0SeLMieI9
- ZWlPCuT1uPbOM9pz4MHMH7qeeEo1m7W5LklnUeHIPiCrbpf6OHf5iV4UhcU02LkSkDQojW
- nrq3zH6RnHvYeI2qZmVzW/wtdYWZdv8=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 73559a84
+ bh=/zIL9BofsCWxEA3Gq9VjogKL84w2PJuMzQgTBREbX5M=;
+ b=GG/BH1bYxodFZXZsf1UAOw1yRSLuHZeoB7qqR0HVdaLX8x3ftVSG5Ib3r1zt01ISfoN+mo
+ vSvZHbwidRr0a8yfV4oKV53aISFR8tp4UZzz2mZpB4mffOd5AKjeCpobdtJawDZTQOJP1c
+ bVNNi0Fzzuca5lptCFcEFSD/Y3ez1JU=
+Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id 14d586f6
  (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Wed, 1 Feb 2023 15:11:47 +0000 (UTC)
-Received: by mail-yb1-f176.google.com with SMTP id d132so22721753ybb.5
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 07:11:47 -0800 (PST)
-X-Gm-Message-State: AO0yUKXSNRChD+uMjHAP7orub0rHrwptJ1nqvmuBLZi8JSkQTXUOYF97
- lTfhwnvn+y7LBZkzdO+imV43bnzzhALz0sr3TPI=
-X-Google-Smtp-Source: AK7set/N+z+PEyhj0rRbbGJoQk4V8XgMENWEmJIdSK0MP3NuUXEP0id8ibd5dGobCBLJZoV76m9EsvMcgDpA8eWRvrM=
-X-Received: by 2002:a25:910:0:b0:83e:bd63:6dd7 with SMTP id
- 16-20020a250910000000b0083ebd636dd7mr322643ybj.24.1675264305979; Wed, 01 Feb
- 2023 07:11:45 -0800 (PST)
+ Wed, 1 Feb 2023 15:13:03 +0000 (UTC)
+Received: by mail-yw1-f174.google.com with SMTP id
+ 00721157ae682-501c3a414acso250032377b3.7
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 07:13:02 -0800 (PST)
+X-Gm-Message-State: AO0yUKWauMU/vVpwZMxyWmmf2WHbHUMoNgvGIs86slm4CORV6kNvkgbU
+ lFyCJ255Awxtic0+P/cTXIUUr8anMaArNeZQPwk=
+X-Google-Smtp-Source: AK7set9uoNy7NAujrM0FZK4V2DdBxxvGJ+THBZaBSpgWAvVMfx2EyqCiN4mxAk+3MUOcS58ruY7G1eOhH04tDgOpHc0=
+X-Received: by 2002:a81:2591:0:b0:50f:7b33:e1d1 with SMTP id
+ l139-20020a812591000000b0050f7b33e1d1mr314048ywl.79.1675264382129; Wed, 01
+ Feb 2023 07:13:02 -0800 (PST)
 MIME-Version: 1.0
 References: <da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com>
-In-Reply-To: <da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com>
+ <Y9p4sARXUdUOz/6X@redhat.com>
+ <bac451554357676b073d589f7668b517020d9a4e.camel@linux.ibm.com>
+In-Reply-To: <bac451554357676b073d589f7668b517020d9a4e.camel@linux.ibm.com>
 From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Wed, 1 Feb 2023 10:10:21 -0500
-X-Gmail-Original-Message-ID: <CAHmME9ouTTk1ONXm276CwunOpy=MAW1Q79x25kcQv=YJTZ88dQ@mail.gmail.com>
-Message-ID: <CAHmME9ouTTk1ONXm276CwunOpy=MAW1Q79x25kcQv=YJTZ88dQ@mail.gmail.com>
+Date: Wed, 1 Feb 2023 10:12:45 -0500
+X-Gmail-Original-Message-ID: <CAHmME9p0n12uw_m1CBzhaGG8irYnZ55i6mJCAN0hKSL1mhG37w@mail.gmail.com>
+Message-ID: <CAHmME9p0n12uw_m1CBzhaGG8irYnZ55i6mJCAN0hKSL1mhG37w@mail.gmail.com>
 Subject: Re: [PATCH] x86: fix q35 kernel measurements broken due to rng seeding
-To: jejb@linux.ibm.com
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+To: "James E . J . Bottomley" <jejb@linux.ibm.com>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>, 
+ QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>, 
  DOV MURIK <Dov.Murik1@il.ibm.com>
-Content-Type: multipart/alternative; boundary="000000000000dce8d305f3a4ddac"
-Received-SPF: pass client-ip=145.40.68.75;
+Content-Type: multipart/alternative; boundary="00000000000066de0305f3a4e26e"
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
  envelope-from=SRS0=Q3mX=55=zx2c4.com=Jason@kernel.org;
  helo=ams.source.kernel.org
-X-Spam_score_int: -66
-X-Spam_score: -6.7
-X-Spam_bar: ------
-X-Spam_report: (-6.7 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_score_int: -39
+X-Spam_score: -4.0
+X-Spam_bar: ----
+X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ HTML_MESSAGE=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,124 +91,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000dce8d305f3a4ddac
+--00000000000066de0305f3a4e26e
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This is already fixed via the patch that MST just sent in his pull. So wait
-a few days for that to be merged and it'll be all set.
+This patch is not needed. It is already fixed in a pending pull. Do not
+merge.
 
-No need for this patch here. Do not merge.
+On Wed, Feb 1, 2023, 09:57 James Bottomley <jejb@linux.ibm.com> wrote:
 
-On Wed, Feb 1, 2023, 08:57 James Bottomley <jejb@linux.ibm.com> wrote:
+> On Wed, 2023-02-01 at 14:35 +0000, Daniel P. Berrang=C3=A9 wrote:
+> > On Wed, Feb 01, 2023 at 08:57:10AM -0500, James Bottomley wrote:
+> > > The origin commit for rng seeding 67f7e426e5 ("hw/i386: pass RNG
+> > > seed
+> > > via setup_data entry") modifies the kernel image file to append a
+> > > random seed.  Obviously this makes the hash of the kernel file
+> > > non-deterministic and so breaks both measured and some signed
+> > > boots.
+> >
+> > I recall raising that at the time
+> >
+> >   https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00710.html
+> >
+> > and Jason pointed me to a followup which I tested and believe
+> > fixed it for SEV:
+> >
+> >   https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg00601.html
+> >
+> > but it doesn't look like that second patch ever merged. We went
+> > through so many patches I think it probably got obsoleted by
+> > something else, and no one rechecked SEV again.
+>
+> The kernel file problem is a pretty huge one.  OVMF lays it down on an
+> internal file system and without the second patch, it now contains
+> random junk at the end.  Anything that hashes the whole file (which
+> includes not only the measured direct boot but also grub signatures and
+> probably other bootloader signing mechanisms) will have an issue.
+>
+> > > The commit notes it's only for non-EFI (because EFI has a different
+> > > RNG seeding mechanism) so, since there are no non-EFI q35 systems,
+> > > this should be disabled for the whole of the q35 machine type to
+> > > bring back deterministic kernel file hashes.
+> >
+> > SeaBIOS is the default firmware for both q35 and i440fx. The
+> > majority of systems using q35 will be non-EFI today, and that
+> > is what the random seed was intended to address. I don't think
+> > we can just disable this for the whole of q35.
+> >
+> > When you say it breaks measured / signed boots, I presume you
+> > are specifically referring to SEV kernel hashes measurements ?
+> > Or is there a more general problem to solve ?
+>
+> No it generally breaks measured/signed boots because it adds random
+> junk to the kernel file.  The second patch will fix this if you apply
+> it because setup data isn't measured or signed (yet ... however see the
+> linux-coco debate about how it should be).
+>
+> I also note there was a v3 of the patch and considerable discussion
+> saying it couldn't work:
+>
+> https://lore.kernel.org/qemu-devel/20220804230411.17720-1-Jason@zx2c4.com=
+/
+>
+> Which is likely why it never went in ... although the discussion does
+> seem to resolve towards the end.
+>
+> James
+>
+>
 
-> The origin commit for rng seeding 67f7e426e5 ("hw/i386: pass RNG seed
-> via setup_data entry") modifies the kernel image file to append a
-> random seed.  Obviously this makes the hash of the kernel file
-> non-deterministic and so breaks both measured and some signed boots.
-> The commit notes it's only for non-EFI (because EFI has a different
-> RNG seeding mechanism) so, since there are no non-EFI q35 systems, this
-> should be disabled for the whole of the q35 machine type to bring back
-> deterministic kernel file hashes.
->
-> Obviously this still leaves the legacy bios case broken for at least
-> measured boot, but I don't think anyone cares about that now.
->
-> Signed-off-by: James Bottomley <jejb@linux.ibm.com>
-> ---
->  hw/i386/pc_q35.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-> index 83c57c6eb1..11e8dd7ca7 100644
-> --- a/hw/i386/pc_q35.c
-> +++ b/hw/i386/pc_q35.c
-> @@ -357,6 +357,7 @@ static void pc_q35_machine_options(MachineClass *m)
->      pcmc->default_nic_model = "e1000e";
->      pcmc->pci_root_uid = 0;
->      pcmc->default_cpu_version = 1;
-> +    pcmc->legacy_no_rng_seed = true;
->
->      m->family = "pc_q35";
->      m->desc = "Standard PC (Q35 + ICH9, 2009)";
-> @@ -394,9 +395,7 @@ DEFINE_Q35_MACHINE(v7_2, "pc-q35-7.2", NULL,
->
->  static void pc_q35_7_1_machine_options(MachineClass *m)
->  {
-> -    PCMachineClass *pcmc = PC_MACHINE_CLASS(m);
->      pc_q35_7_2_machine_options(m);
-> -    pcmc->legacy_no_rng_seed = true;
->      compat_props_add(m->compat_props, hw_compat_7_1,
-> hw_compat_7_1_len);
->      compat_props_add(m->compat_props, pc_compat_7_1,
-> pc_compat_7_1_len);
->  }
-> --
-> 2.35.3
->
->
->
-
---000000000000dce8d305f3a4ddac
+--00000000000066de0305f3a4e26e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"auto">This is already fixed via the patch that MST just sent in=
- his pull. So wait a few days for that to be merged and it&#39;ll be all se=
-t.<div dir=3D"auto"><br></div><div dir=3D"auto">No need for this patch here=
-. Do not merge.</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
-class=3D"gmail_attr">On Wed, Feb 1, 2023, 08:57 James Bottomley &lt;<a href=
+<div dir=3D"auto">This patch is not needed. It is already fixed in a pendin=
+g pull. Do not merge.</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" =
+class=3D"gmail_attr">On Wed, Feb 1, 2023, 09:57 James Bottomley &lt;<a href=
 =3D"mailto:jejb@linux.ibm.com">jejb@linux.ibm.com</a>&gt; wrote:<br></div><=
 blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px=
- #ccc solid;padding-left:1ex">The origin commit for rng seeding 67f7e426e5 =
-(&quot;hw/i386: pass RNG seed<br>
-via setup_data entry&quot;) modifies the kernel image file to append a<br>
-random seed.=C2=A0 Obviously this makes the hash of the kernel file<br>
-non-deterministic and so breaks both measured and some signed boots.<br>
-The commit notes it&#39;s only for non-EFI (because EFI has a different<br>
-RNG seeding mechanism) so, since there are no non-EFI q35 systems, this<br>
-should be disabled for the whole of the q35 machine type to bring back<br>
-deterministic kernel file hashes.<br>
+ #ccc solid;padding-left:1ex">On Wed, 2023-02-01 at 14:35 +0000, Daniel P. =
+Berrang=C3=A9 wrote:<br>
+&gt; On Wed, Feb 01, 2023 at 08:57:10AM -0500, James Bottomley wrote:<br>
+&gt; &gt; The origin commit for rng seeding 67f7e426e5 (&quot;hw/i386: pass=
+ RNG<br>
+&gt; &gt; seed<br>
+&gt; &gt; via setup_data entry&quot;) modifies the kernel image file to app=
+end a<br>
+&gt; &gt; random seed.=C2=A0 Obviously this makes the hash of the kernel fi=
+le<br>
+&gt; &gt; non-deterministic and so breaks both measured and some signed<br>
+&gt; &gt; boots.<br>
+&gt; <br>
+&gt; I recall raising that at the time<br>
+&gt; <br>
+&gt; =C2=A0 <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2022-0=
+8/msg00710.html" rel=3D"noreferrer noreferrer" target=3D"_blank">https://li=
+sts.gnu.org/archive/html/qemu-devel/2022-08/msg00710.html</a><br>
+&gt; <br>
+&gt; and Jason pointed me to a followup which I tested and believe<br>
+&gt; fixed it for SEV:<br>
+&gt; <br>
+&gt; =C2=A0 <a href=3D"https://lists.gnu.org/archive/html/qemu-devel/2022-0=
+8/msg00601.html" rel=3D"noreferrer noreferrer" target=3D"_blank">https://li=
+sts.gnu.org/archive/html/qemu-devel/2022-08/msg00601.html</a><br>
+&gt; <br>
+&gt; but it doesn&#39;t look like that second patch ever merged. We went<br=
+>
+&gt; through so many patches I think it probably got obsoleted by<br>
+&gt; something else, and no one rechecked SEV again.<br>
 <br>
-Obviously this still leaves the legacy bios case broken for at least<br>
-measured boot, but I don&#39;t think anyone cares about that now.<br>
+The kernel file problem is a pretty huge one.=C2=A0 OVMF lays it down on an=
 <br>
-Signed-off-by: James Bottomley &lt;<a href=3D"mailto:jejb@linux.ibm.com" ta=
-rget=3D"_blank" rel=3D"noreferrer">jejb@linux.ibm.com</a>&gt;<br>
----<br>
-=C2=A0hw/i386/pc_q35.c | 3 +--<br>
-=C2=A01 file changed, 1 insertion(+), 2 deletions(-)<br>
+internal file system and without the second patch, it now contains<br>
+random junk at the end.=C2=A0 Anything that hashes the whole file (which<br=
+>
+includes not only the measured direct boot but also grub signatures and<br>
+probably other bootloader signing mechanisms) will have an issue.<br>
 <br>
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c<br>
-index 83c57c6eb1..11e8dd7ca7 100644<br>
---- a/hw/i386/pc_q35.c<br>
-+++ b/hw/i386/pc_q35.c<br>
-@@ -357,6 +357,7 @@ static void pc_q35_machine_options(MachineClass *m)<br>
-=C2=A0 =C2=A0 =C2=A0pcmc-&gt;default_nic_model =3D &quot;e1000e&quot;;<br>
-=C2=A0 =C2=A0 =C2=A0pcmc-&gt;pci_root_uid =3D 0;<br>
-=C2=A0 =C2=A0 =C2=A0pcmc-&gt;default_cpu_version =3D 1;<br>
-+=C2=A0 =C2=A0 pcmc-&gt;legacy_no_rng_seed =3D true;<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0m-&gt;family =3D &quot;pc_q35&quot;;<br>
-=C2=A0 =C2=A0 =C2=A0m-&gt;desc =3D &quot;Standard PC (Q35 + ICH9, 2009)&quo=
-t;;<br>
-@@ -394,9 +395,7 @@ DEFINE_Q35_MACHINE(v7_2, &quot;pc-q35-7.2&quot;, NULL,<=
+&gt; &gt; The commit notes it&#39;s only for non-EFI (because EFI has a dif=
+ferent<br>
+&gt; &gt; RNG seeding mechanism) so, since there are no non-EFI q35 systems=
+,<br>
+&gt; &gt; this should be disabled for the whole of the q35 machine type to<=
 br>
+&gt; &gt; bring back deterministic kernel file hashes.<br>
+&gt; <br>
+&gt; SeaBIOS is the default firmware for both q35 and i440fx. The<br>
+&gt; majority of systems using q35 will be non-EFI today, and that<br>
+&gt; is what the random seed was intended to address. I don&#39;t think<br>
+&gt; we can just disable this for the whole of q35.<br>
+&gt; <br>
+&gt; When you say it breaks measured / signed boots, I presume you<br>
+&gt; are specifically referring to SEV kernel hashes measurements ?<br>
+&gt; Or is there a more general problem to solve ?<br>
 <br>
-=C2=A0static void pc_q35_7_1_machine_options(MachineClass *m)<br>
-=C2=A0{<br>
--=C2=A0 =C2=A0 PCMachineClass *pcmc =3D PC_MACHINE_CLASS(m);<br>
-=C2=A0 =C2=A0 =C2=A0pc_q35_7_2_machine_options(m);<br>
--=C2=A0 =C2=A0 pcmc-&gt;legacy_no_rng_seed =3D true;<br>
-=C2=A0 =C2=A0 =C2=A0compat_props_add(m-&gt;compat_props, hw_compat_7_1,<br>
-hw_compat_7_1_len);<br>
-=C2=A0 =C2=A0 =C2=A0compat_props_add(m-&gt;compat_props, pc_compat_7_1,<br>
-pc_compat_7_1_len);<br>
-=C2=A0}<br>
--- <br>
-2.35.3<br>
+No it generally breaks measured/signed boots because it adds random<br>
+junk to the kernel file.=C2=A0 The second patch will fix this if you apply<=
+br>
+it because setup data isn&#39;t measured or signed (yet ... however see the=
 <br>
+linux-coco debate about how it should be).<br>
+<br>
+I also note there was a v3 of the patch and considerable discussion<br>
+saying it couldn&#39;t work:<br>
+<br>
+<a href=3D"https://lore.kernel.org/qemu-devel/20220804230411.17720-1-Jason@=
+zx2c4.com/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lore.ke=
+rnel.org/qemu-devel/20220804230411.17720-1-Jason@zx2c4.com/</a><br>
+<br>
+Which is likely why it never went in ... although the discussion does<br>
+seem to resolve towards the end.<br>
+<br>
+James<br>
 <br>
 </blockquote></div>
 
---000000000000dce8d305f3a4ddac--
+--00000000000066de0305f3a4e26e--
 
