@@ -2,90 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C19F4686814
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:22:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15453686844
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:28:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNDyq-0005wt-Vz; Wed, 01 Feb 2023 09:20:57 -0500
+	id 1pNE4d-0008G0-HZ; Wed, 01 Feb 2023 09:26:55 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pNDyo-0005wU-Lg
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:20:54 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNE4b-0008Fr-6a
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:26:53 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pNDyl-0000YB-KY
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:20:54 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNE4Z-0002KA-9K
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:26:52 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675261249;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=9i2DdjaJQ/b6TlJ14elnM5Fcf/iqH4d0LWJejo/ABjk=;
- b=RONZ/Vy5dt+Zrs2rIju7+NqsJLDPkvzCInzkRZXq718478e3NGicgLpYlnvkHdXjCDKAGO
- vn78PnlnovrBzxZFax/l6LSkR6aFeCg4orJV7Sq4ugs/bzx90KVdhypNnSO85n7QKn21aP
- hnS0s53JKq55h7oMXd49JFo6PWq8ysE=
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
- [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1675261610;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=vZHnP1i2YXRWdC/LcYOUNyTc6dy1d5CSRyf4bbgfapY=;
+ b=B9J0pwtRGBp+dekF0Rlg74a3XDfDFz4zOag/4xggO6NRRTmz6WymBqzl93MqVcFVGCbrvs
+ cdDKKDkAtC6OnT/peD3fcU3TUaZgE5xlKGG7bepF5CaB5ClJ+cT2tGO6nGPdbzdt3Hsllr
+ RFobQzMALc7U+9UOsbJogsbTYHlTd/Y=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-494-dMKGLHxpOduCOjtG4gA85w-1; Wed, 01 Feb 2023 09:20:46 -0500
-X-MC-Unique: dMKGLHxpOduCOjtG4gA85w-1
-Received: by mail-qv1-f70.google.com with SMTP id
- p15-20020a0cf54f000000b0054fc21ff275so1631616qvm.4
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 06:20:46 -0800 (PST)
+ us-mta-458-YMTvliu0P-OpEOjUu9G6gQ-1; Wed, 01 Feb 2023 09:26:48 -0500
+X-MC-Unique: YMTvliu0P-OpEOjUu9G6gQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ k9-20020a05600c1c8900b003dc5dec2ac6so1168708wms.4
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 06:26:48 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language:subject
- :references:cc:to:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=9i2DdjaJQ/b6TlJ14elnM5Fcf/iqH4d0LWJejo/ABjk=;
- b=izfh5K7rrLEklRwW2slrku9MsTfSCljEDlFfP92yKMne2PMQFNqwbHOnzaPsIuejmt
- PWyKtpdjbPscFJ0kve54iVWtirm7EeK2+fbXGqoin1ga25//Qnu1Er0ysIMH/s0GhSvR
- wFBnEsnOQvsxVwOyEGpTAJ6mW3pLzKBr07NhSxCma6KUYk3V16bRIAbhWRgA9eVWHxNa
- Z3kbVuS+1DIQ8F+kriaqdLqfo2+fK7/HhF0p4PvuTbw/UNSyDScExH2YA7H8tV1pMClT
- 9512u7aqZr13Sl4UNk4CrB40s+bHXQQ1Msm1EnfIeUw8WeSGqEl4ANiT6ZFr/BxdCXr+
- 3fng==
-X-Gm-Message-State: AO0yUKXPMeDhgH9X7kzq9KFTX9SN++l7woUJWvpCyKtuvvXH+wBiXYfZ
- ZUKqDKYhKv/25Gn5+n6ufoT6G2+ZGRMJ8KlIiKjCbR9/Pu8lZDnE7B8YtsMhcEspSZiWd8K/oRo
- JrHkp+n3EsODN/s0=
-X-Received: by 2002:a05:622a:14d4:b0:3b8:340b:1aab with SMTP id
- u20-20020a05622a14d400b003b8340b1aabmr4740583qtx.25.1675261245741; 
- Wed, 01 Feb 2023 06:20:45 -0800 (PST)
-X-Google-Smtp-Source: AK7set8OnzwcEuISyagLy5fZwLTtvHIIqwLDYp4TTfv/Msl/TzyQc/aA29L/J976QQkK4gpX/TBFKQ==
-X-Received: by 2002:a05:622a:14d4:b0:3b8:340b:1aab with SMTP id
- u20-20020a05622a14d400b003b8340b1aabmr4740551qtx.25.1675261245491; 
- Wed, 01 Feb 2023 06:20:45 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- v3-20020ac87283000000b003b62e9c82ebsm11846825qto.48.2023.02.01.06.20.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Feb 2023 06:20:44 -0800 (PST)
-Message-ID: <d91ccc02-a963-946d-169a-fd4da2610861@redhat.com>
-Date: Wed, 1 Feb 2023 15:20:41 +0100
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=vZHnP1i2YXRWdC/LcYOUNyTc6dy1d5CSRyf4bbgfapY=;
+ b=waARrvLcJV5l6gFhe7KV/aaoSYSoQLO6SGjCMTIgd5xRSaoPd8G4Tqi9mvx8rYe34B
+ Mjz0sRhMkEnXdlEL9v2p6S3WhvA4amvmBcIRDS8NNabIujfmxM38Hm3U2MM4N2F9Y1Ub
+ 550p4s7oNfel65y+k7R5KvNZ5b2eCmo0//I9fS8pSGsCgmC786GbSJht8HPhxQL1CBpI
+ DF+P8xduzV9ISLLVRWErG13mAMLKrsebY6b5TDU22Yg7rj0N8FIubKU92usSUTKQXsz8
+ q6AIw5DqTl9KXTJTwUv5to4gJd1RTU/Qu91IdLdUvLcrSovlJfq1Zx06ZoyWb8mYvGzR
+ uNZw==
+X-Gm-Message-State: AO0yUKWANLqO6TuMm4CPPEu/sTlMLVJXDPbOphBJUSfSML/6vZYE2C8p
+ 6HZIqqSH5AQegGS7K+f5rMc7V84IA5sgA+wudLl2//CoQuv6ZlUpw2Pdvh7Et1eVwhfhLsiNeOn
+ OwVxA+s8avDuTjfY=
+X-Received: by 2002:adf:fe07:0:b0:2bf:c4f1:c383 with SMTP id
+ n7-20020adffe07000000b002bfc4f1c383mr2334102wrr.6.1675261607649; 
+ Wed, 01 Feb 2023 06:26:47 -0800 (PST)
+X-Google-Smtp-Source: AK7set+xJavytzK8mCfXRWsxVIaU+UZT/FqFwoEj5wgKd5Nr/1FpBpckerWhevSAo0IR1i03jBv6oA==
+X-Received: by 2002:adf:fe07:0:b0:2bf:c4f1:c383 with SMTP id
+ n7-20020adffe07000000b002bfc4f1c383mr2334077wrr.6.1675261607251; 
+ Wed, 01 Feb 2023 06:26:47 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ m14-20020a5d6a0e000000b002bfd09f2ca6sm15408613wru.3.2023.02.01.06.26.46
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Feb 2023 06:26:46 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Anton Kuchin <antonkuchin@yandex-team.ru>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>,  qemu-devel@nongnu.org,
+ virtio-fs@redhat.com,  Markus Armbruster <armbru@redhat.com>,  Eric Blake
+ <eblake@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,  yc-core@yandex-team.ru,  "Michael
+ S. Tsirkin" <mst@redhat.com>
+Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
+In-Reply-To: <2fb6efb4-9155-99ad-3acd-c274783436ed@yandex-team.ru> (Anton
+ Kuchin's message of "Thu, 19 Jan 2023 18:58:12 +0200")
+References: <20230115170903.3416105-1-antonkuchin@yandex-team.ru>
+ <CAJSP0QVKUKgkBMw1PiN8-L8Ykhq=gfvNTTs4sf1tuzoqHu+GXw@mail.gmail.com>
+ <0d57cc40-693b-b36c-a135-fdac60dd00ec@yandex-team.ru>
+ <CAJSP0QUXB0kgsCSsmi8dpnJFYho2cR_2Liep=pGmp6WzDZ_7pw@mail.gmail.com>
+ <d6bf0b9a-a167-817d-2c17-c2e472961155@yandex-team.ru>
+ <CAJSP0QXXe6KgLN2PJvi-5GqcELhUKJPB2pUARL2ktO9TQYAq=g@mail.gmail.com>
+ <2fb6efb4-9155-99ad-3acd-c274783436ed@yandex-team.ru>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 01 Feb 2023 15:26:45 +0100
+Message-ID: <87h6w5ea1m.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-To: richard.henderson@linaro.org
-Cc: iii@linux.ibm.com, qemu-devel@nongnu.org,
- Cornelia Huck <cohuck@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-References: <20221031054105.3552-1-richard.henderson@linaro.org>
-Subject: Re: [PATCH] accel/tcg: Complete cpu initialization before registration
-Content-Language: en-US
-From: Eric Auger <eauger@redhat.com>
-In-Reply-To: <20221031054105.3552-1-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eauger@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -98,67 +104,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Richard,
+Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
+> On 19/01/2023 18:02, Stefan Hajnoczi wrote:
+>> On Thu, 19 Jan 2023 at 10:29, Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
+>>> On 19/01/2023 16:30, Stefan Hajnoczi wrote:
+>>>> On Thu, 19 Jan 2023 at 07:43, Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
+>>>>> On 18/01/2023 17:52, Stefan Hajnoczi wrote:
+>>>>>> On Sun, 15 Jan 2023 at 12:21, Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
 
-Commit 4e4fa6c12d ("accel/tcg: Complete cpu initialization before
-registration") seems to cause a regression on one kvm unit test:
+Hi
 
-FAIL debug-wp-migration (terminated on SIGSEGV)
+Sorry to come so late into the discussion.
 
-This can be reproduced with upstream kernel, qemu and kvm unit test.
 
-Seems the change in accel/tcg/translate-all.c is the cause of the SIGSEV
-(the removal of the allocation of jc (CPUJumpCache)).
+>>>>>>> +static int vhost_user_fs_pre_save(void *opaque)
+>>>>>>> +{
+>>>>>>> +    MigrationState *s = migrate_get_current();
+>>>>>>> +
+>>>>>>> +    if (!s->enabled_capabilities[MIGRATION_CAPABILITY_VHOST_USER_FS]) {
+>>>>>>> +        error_report("Migration of vhost-user-fs devices requires internal FUSE "
+>>>>>>> +                     "state of backend to be preserved. If orchestrator can "
+>>>>>>> +                     "guarantee this (e.g. dst connects to the same backend "
+>>>>>>> +                     "instance or backend state is migrated) set 'vhost-user-fs' "
+>>>>>>> +                     "migration capability to true to enable migration.");
+>>>>>>> +        return -1;
+>>>>>>> +    }
+>>>>>>> +
+>>>>>>> +    return 0;
+>>>>>>> +}
+>>>>>>> +
+>>>>>>>     static const VMStateDescription vuf_vmstate = {
+>>>>>>>         .name = "vhost-user-fs",
+>>>>>>> -    .unmigratable = 1,
+>>>>>>> +    .minimum_version_id = 0,
+>>>>>>> +    .version_id = 0,
+>>>>>>> +    .fields = (VMStateField[]) {
+>>>>>>> +        VMSTATE_VIRTIO_DEVICE,
+>>>>>>> +        VMSTATE_END_OF_LIST()
+>>>>>>> +    },
+>>>>>>> +   .pre_save = vhost_user_fs_pre_save,
+>>>>>>>     };
 
-If I restore
-    if (unlikely(jc == NULL)) {
-        jc = g_new0(CPUJumpCache, 1);
-        jc = qatomic_xchg(&cpu->tb_jmp_cache, jc);
-        assert(jc == NULL);
-        return;
+I don't object to extend the vmstate this way.
+
+But I object to the migration capability for several reasons:
+- This feature has _nothing_ to do with migration, the problem, what it
+  describes, etc is related to vhost_user_fs.
+- The number of migration capabilities is limited
+  And we add checks to see if they are valid, consistent, etc
+  see qemu/migration/migration.c:migrate_caps_check()
+- As Stefan says, we can have several vhost_user_fs devices, and each
+  one should know if it can migrate or not.
+- We have to options for the orchestator:
+  * it knows that all the vhost_user_fs devices can be migration
+    Then it can add a property to each vhost_user_fs device
+  * it don't know it
+    Then it is a good idea that we are not migrating this VM.
+
+> I think we'd be better without a new marker because migration code
+> has standard generic way of solving such puzzles that I described
+> above. So adding new marker would go against existing practice.
+> But if you could show me where I missed something I'll be grateful
+> and will fix it to avoid potential problems.
+> I'd also be happy to know the opinion of Dr. David Alan Gilbert.
+
+If everybody agrees that any vhost_user_fs device is going to have a
+virtio device, then I agree with you that the marker is not needed at
+this point.
+
+Once told that, I think that you are making your live harder in the
+future when you add the other migratable devices.
+
+I am assuming here that your "underlying device" is:
+
+enum VhostUserFSType {
+    VHOST_USER_NO_MIGRATABLE = 0,
+    // The one we are doing here
+    VHOST_USER_EXTERNAL_MIGRATABLE,
+    // The one you describe for the future
+    VHOST_USER_INTERNAL_MIGRATABLE,
+};
+
+struct VHostUserFS {
+    /*< private >*/
+    VirtIODevice parent;
+    VHostUserFSConf conf;
+    struct vhost_virtqueue *vhost_vqs;
+    struct vhost_dev vhost_dev;
+    VhostUserState vhost_user;
+    VirtQueue **req_vqs;
+    VirtQueue *hiprio_vq;
+    int32_t bootindex;
+    enum migration_type;
+    /*< public >*/
+};
+
+
+static int vhost_user_fs_pre_save(void *opaque)
+{
+    VHostUserFS *s = opaque;
+
+    if (s->migration_type == VHOST_USER_NO_MIGRATABLE)) {
+        error_report("Migration of vhost-user-fs devices requires internal FUSE "
+                     "state of backend to be preserved. If orchestrator can "
+                     "guarantee this (e.g. dst connects to the same backend "
+                     "instance or backend state is migrated) set 'vhost-user-fs' "
+                     "migration capability to true to enable migration.");
+        return -1;
     }
-I don't get the crash anymore.
+    if (s->migration_type == VHOST_USER_EXTERNAL_MIGRATABLE) {
+        return 0;
+    }
+    if (s->migration_type == VHOST_USER_INTERNAL_MIGRATABLE) {
+        error_report("still not implemented");
+        return -1;
+    }
+    assert("we don't reach here");
+}
 
-What I fail to understand is why this code is called with a kvm
-accelerated qemu (the test runs by default with kvm).
+Your initial vmstateDescription
 
+static const VMStateDescription vuf_vmstate = {
+    .name = "vhost-user-fs",
+    .unmigratable = 1,
+    .minimum_version_id = 0,
+    .version_id = 0,
+    .fields = (VMStateField[]) {
+        VMSTATE_INT8(migration_type, struct VHostUserFS),
+        VMSTATE_VIRTIO_DEVICE,
+        VMSTATE_END_OF_LIST()
+    },
+    .pre_save = vhost_user_fs_pre_save,
+};
 
-#0  0x000002aaab41ee94 in tcg_flush_jmp_cache (cpu=cpu@entry=0x2aaac391910)
-at ../accel/tcg/translate-all.c:1581
-#1  0x000002aaab423458 in tlb_flush_by_mmuidx_async_work
-(cpu=0x2aaac391910, data=...)
-at ../accel/tcg/cputlb.c:360
-#2  0x000002aaaae0b1d0 in process_queued_cpu_work
-(cpu=cpu@entry=0x2aaac391910) at ../cpus-common.c:351
-<augere> (cpu=cpu@entry=0x2aaac391910)
+And later you change it to something like:
 
-#0  0x000002aaab423658 in tlb_flush_by_mmuidx (cpu=0x2aaac391910,
-idxmap=4095)
-at ../accel/tcg/cputlb.c:377
-#1  0x000002aaab4236e8 in tlb_flush (cpu=cpu@entry=0x2aaac391910) at
-../accel/tcg/cputlb.c:391
-#2  0x000002aaab1500f0 in vmsa_ttbr_write
-(env=0x2aaac393850, ri=0x2aaac3c90e0, value=2154950976315703518) at
-../target/arm/helper.c:3784
-#3  0x000002aaab14e5a8 in write_raw_cp_reg
-(env=env@entry=0x2aaac393850, ri=ri@entry=0x2aaac3c90e0,
-v=v@entry=2154950976315703518)
-at ../target/arm/helper.c:96
-#4  0x000002aaab153f1c in write_list_to_cpustate
-(cpu=cpu@entry=0x2aaac391910)
-at ../target/arm/helper.c:191
-#5  0x000002aaab20f24c in kvm_arm_reset_vcpu
-(cpu=cpu@entry=0x2aaac391910) at ../target/arm/kvm.c:634
-#6  0x000002aaab147cbc in arm_cpu_reset (dev=0x2aaac391910) at
-../target/arm/cpu.c:522
+static bool vhost_fs_user_internal_state_needed(void *opaque)
+{
+    VHostUserFS *s = opaque;
 
-Thanks
+    return s->migration_type == VMOST_USER_INTERNAL_MIGRATABLE;
+}
 
-Eric
+static const VMStateDescription vmstate_vhost_user_fs_internal_sub = {
+    .name = "vhost-user-fs/internal",
+    .version_id = 1,
+    .minimum_version_id = 1,
+    .needed = &vhost_fs_user_internal_state_needed,
+    .fields = (VMStateField[]) {
+        .... // Whatever
+        VMSTATE_END_OF_LIST()
+    }
+};
 
+static const VMStateDescription vuf_vmstate = {
+    .name = "vhost-user-fs",
+    .minimum_version_id = 0,
+    .version_id = 0,
+    .fields = (VMStateField[]) {
+        VMSTATE_INT8(migration_type, struct VHostUserFS),
+        VMSTATE_VIRTIO_DEVICE,
+        VMSTATE_END_OF_LIST()
+    },
+    .pre_save = vhost_user_fs_pre_save,
+    .subsections = (const VMStateDescription*[]) {
+        &vmstate_vhost_user_fs_internal_sub,
+        NULL
+    }
+};
 
+And you are done.
+
+I will propose to use a property to set migration_type, but I didn't
+want to write the code right now.
+
+I think that this proposal will make Stephan happy, and it is just
+adding and extra uint8_t that is helpul to implement everything.
+
+Later, Juan.
+
+PD.  One of the few things that Pascal got right and C got completely
+     wrong were pascal variant registers vs C union's.  If you have a
+     union, if should be "required" that there is a field in the
+     enclosing struct that specifies what element of the union we have.
+     This is exactly that case.
 
 
