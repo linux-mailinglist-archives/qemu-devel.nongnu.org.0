@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9B78686C8B
+	by mail.lfdr.de (Postfix) with ESMTPS id AFC89686C8A
 	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 18:13:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNGer-0006bf-UQ; Wed, 01 Feb 2023 12:12:29 -0500
+	id 1pNGex-0006d6-LJ; Wed, 01 Feb 2023 12:12:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNGem-0006aP-BQ
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:12:25 -0500
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
+ id 1pNGeo-0006bJ-VO
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:12:27 -0500
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNGek-0004Iy-Aq
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:12:24 -0500
-Received: by mail-oi1-x22f.google.com with SMTP id dt8so13206114oib.0
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 09:12:21 -0800 (PST)
+ id 1pNGem-0004Jb-Qp
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:12:26 -0500
+Received: by mail-oi1-x232.google.com with SMTP id s17so5342048ois.10
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 09:12:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=fz356eeLxSTB+G/CsOEbtTXiIQ9xiAjsdTiBBzA1hes=;
- b=IOOgNhSyEzVwn8El6htRoDacos1PsNk3pOr25gfrDJ/FauYhIaRGq2Gk+unzzPKedL
- dSAViVyVRJ3urVEeQZC+3FewbIZsyxJcSG5CLmZl1OUoPIMvStjf6Pjb+eeGP+gwtJYz
- wUpfF5rZZerYXUae70R2HcosAmEBCsrTakAgVrC2kntsgjZhFthFgwv/b5Mt36bSVJfi
- t+pQQl6L9UChfUlVPeVOR2jiAOlJY+fF3zPzotisZbYO+9swQSToIyA24PSEoa00qifO
- kRR+QLoTJ4TUJ9MuKZt+3+7LO8W0SydfgtlE8DK0EtkvcahRmp0nGRXarYHg3scuNKYS
- QbEg==
+ bh=Upg3n6UXcqzGiqp/8YrNQfPE1Y/A4TRC8HGgGpV9Gu0=;
+ b=i+y8PuxYPo2Xkyqe74+MkYUMvR4/cM4OmjCz1avViblKGQgavDHMGtG88Sy6SRU8YJ
+ 65tG7W/gnFkNgKntHnqqgIavMd8iKMZ/AF6w+KxeOzqnW58BLK43/RzWaDHe6FuCWHyN
+ ZSORx9gPJJC4xNKVNDwHMijXmBGEFWvTFVRVOakrUFABHA5VDqwrdlAaNVMWSreKKrG9
+ OiYzpVOCCBA951/gIGWXwtVVX6JjpvvVI2nHgeh2UyUzNuxoXORGXmrcHjf80XF+e2bQ
+ 8CYhL6AQFsCLtHHnZatumat1TapYs4KB+O9mJ7CEdEGwvqYe1CqMEEbZa8VCClfTYl1g
+ Xm7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=fz356eeLxSTB+G/CsOEbtTXiIQ9xiAjsdTiBBzA1hes=;
- b=bcbqXxnRPatNr+bFMz3M7tY+6ZHNhW84JrNz0RSvCRM7FOO3geeLHe2JvhJNXeSI8s
- i6G9uV7P2/kpBrFA8kjXF9OWyjN35L7l6MCvkEix75duRiHg/bwYLQQH8v5TkXNljaYC
- 2wgh5UXVTMZO4mBzG7L/EyQgDqDLdGR/+1JRvf0e+jJjqB4lbKHHGLaJ5Pxowi3b9EJS
- /o6wjLTxOTAahXMxTpE7WaZx5dvDj21OuhQTs5pbhTuvatU8f7ojvzf05rKC5uxvms1R
- rUL9gPWMG3UPB61Ac1B+zaH2iFJdqhrXeJb2CvvMnq+SAFQbahlBozKpUuhz+366sODv
- XKSA==
-X-Gm-Message-State: AO0yUKXr8kDhZKMfkY4b0HPrEkO13vhzoqydv6skL7LcOXXQOo28RXc6
- 0jXcqbvcG15uev14XK1sJZD6QxgxLDXrENL8bqk=
-X-Google-Smtp-Source: AK7set93GmVyCVtHBo9k0o4Ge0qaT6/ae23s2jndQ3MgqqcyXFPRvrQh/qJuBPguJs7FuyGOcgsGNQ==
-X-Received: by 2002:a05:6808:221b:b0:365:367:7c7a with SMTP id
- bd27-20020a056808221b00b0036503677c7amr2055225oib.11.1675271540883; 
- Wed, 01 Feb 2023 09:12:20 -0800 (PST)
+ bh=Upg3n6UXcqzGiqp/8YrNQfPE1Y/A4TRC8HGgGpV9Gu0=;
+ b=8JhESFP79VhH3qaIzkWVLntFW6v2CKytBzwb1yL4SMdKi+BywMUne+ly0wNETib7ve
+ GuOPnqp/LwMoDc+f9SUsfINvI8kmnGGIaVMiYCO/UteKp5QgR0FzQkclaDswRRQiy8/e
+ k2ariOoyASoZB5iL07xxMSBpVYCUtYzmNoVgQWflBn9lnlVtpC4HtXeTWA6dJyTMrLBR
+ JCDBV9NXxk/20MlZ21drGHpOujq5hzqoy+D1s9w1TQ7+e1MH9ITMamM7hwYtaGZovGG5
+ aXNI2B+1BUzHo3mxBgiJoTaJwOeHGt3rweqXUsXn0HdvXKIRtKpHkH3ObmFwwtFLlWbT
+ OzjA==
+X-Gm-Message-State: AO0yUKUdj7Vi+1DSK6X7FcfJ/k44bYc8PdwmcNtNfqyREz6zo+bLeXKx
+ mRECazXuCLeHcz/qSXyPKIYDW3w+XCzMzv1o0eA=
+X-Google-Smtp-Source: AK7set/xAILLBukjOBVhMhCmgAHgQR+LlQ3Bin78BKbRk6UvKmxXDShgEDA3PA4Se0EIKqPIj0X7MA==
+X-Received: by 2002:a54:4e8f:0:b0:36a:d348:26d8 with SMTP id
+ c15-20020a544e8f000000b0036ad34826d8mr1272472oiy.52.1675271543202; 
+ Wed, 01 Feb 2023 09:12:23 -0800 (PST)
 Received: from grind.. ([177.102.69.207]) by smtp.gmail.com with ESMTPSA id
- k12-20020a056808068c00b003749e231db7sm7100627oig.30.2023.02.01.09.12.18
+ k12-20020a056808068c00b003749e231db7sm7100627oig.30.2023.02.01.09.12.21
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 09:12:20 -0800 (PST)
+ Wed, 01 Feb 2023 09:12:22 -0800 (PST)
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 To: qemu-devel@nongnu.org
 Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng.cn@gmail.com,
  Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Subject: [PATCH v5 1/3] hw/riscv/boot.c: calculate fdt size after fdt_pack()
-Date: Wed,  1 Feb 2023 14:12:10 -0300
-Message-Id: <20230201171212.1219375-2-dbarboza@ventanamicro.com>
+Subject: [PATCH v5 2/3] hw/riscv: split fdt address calculation from fdt load
+Date: Wed,  1 Feb 2023 14:12:11 -0300
+Message-Id: <20230201171212.1219375-3-dbarboza@ventanamicro.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230201171212.1219375-1-dbarboza@ventanamicro.com>
 References: <20230201171212.1219375-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22f.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::232;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x232.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,44 +90,178 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-fdt_pack() can change the fdt size, meaning that fdt_totalsize() can
-contain a now deprecated (bigger) value.
+A common trend in other archs is to calculate the fdt address, which is
+usually straightforward, and then calling a function that loads the
+fdt/dtb by using that address.
+
+riscv_load_fdt() is doing a bit too much in comparison. It's calculating
+the fdt address via an elaborated heuristic to put the FDT at the bottom
+of DRAM, and "bottom of DRAM" will vary across boards and
+configurations, then it's actually loading the fdt, and finally it's
+returning the fdt address used to the caller.
+
+Reduce the existing complexity of riscv_load_fdt() by splitting its code
+into a new function, riscv_compute_fdt_addr(), that will take care of
+all fdt address logic. riscv_load_fdt() can then be a simple function
+that just loads a fdt at the given fdt address.
+
+We're also taken the opportunity to clarify the intentions and
+assumptions made by these functions. riscv_load_fdt() is now receiving a
+hwaddr as fdt_addr because there is no restriction of having to load the
+fdt in higher addresses that doesn't fit in an uint32_t.
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 ---
- hw/riscv/boot.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ hw/riscv/boot.c            | 30 +++++++++++++++++++++++++-----
+ hw/riscv/microchip_pfsoc.c |  6 ++++--
+ hw/riscv/sifive_u.c        |  7 ++++---
+ hw/riscv/spike.c           |  6 +++---
+ hw/riscv/virt.c            |  7 ++++---
+ include/hw/riscv/boot.h    |  4 +++-
+ 6 files changed, 43 insertions(+), 17 deletions(-)
 
 diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index cb27798a25..2d03a9a921 100644
+index 2d03a9a921..2e53494b08 100644
 --- a/hw/riscv/boot.c
 +++ b/hw/riscv/boot.c
-@@ -253,8 +253,13 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+@@ -249,9 +249,21 @@ void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
+     }
+ }
+ 
+-uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
++/*
++ * The FDT should be put at the farthest point possible to
++ * avoid overwriting it with the kernel/initrd.
++ *
++ * This function makes an assumption that the DRAM is
++ * contiguous. It also cares about 32-bit systems and
++ * will limit fdt_addr to be addressable by them even for
++ * 64-bit CPUs.
++ *
++ * The FDT is fdt_packed() during the calculation.
++ */
++uint64_t riscv_compute_fdt_addr(hwaddr dram_base, uint64_t mem_size,
++                                void *fdt)
  {
-     uint64_t temp, fdt_addr;
+-    uint64_t temp, fdt_addr;
++    uint64_t temp;
      hwaddr dram_end = dram_base + mem_size;
--    int ret, fdtsize = fdt_totalsize(fdt);
-+    int ret = fdt_pack(fdt);
-+    int fdtsize;
- 
-+    /* Should only fail if we've built a corrupted tree */
-+    g_assert(ret == 0);
-+
-+    fdtsize = fdt_totalsize(fdt);
-     if (fdtsize <= 0) {
-         error_report("invalid device-tree");
-         exit(1);
-@@ -269,9 +274,6 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+     int ret = fdt_pack(fdt);
+     int fdtsize;
+@@ -272,7 +284,17 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+      * end of dram or 3GB whichever is lesser.
+      */
      temp = (dram_base < 3072 * MiB) ? MIN(dram_end, 3072 * MiB) : dram_end;
-     fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
+-    fdt_addr = QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
++
++    return QEMU_ALIGN_DOWN(temp - fdtsize, 2 * MiB);
++}
++
++/*
++ * 'fdt_addr' is received as hwaddr because boards might put
++ * the FDT beyond 32-bit addressing boundary.
++ */
++void riscv_load_fdt(hwaddr fdt_addr, void *fdt)
++{
++    uint32_t fdtsize = fdt_totalsize(fdt);
  
--    ret = fdt_pack(fdt);
--    /* Should only fail if we've built a corrupted tree */
--    g_assert(ret == 0);
      /* copy in the device tree */
      qemu_fdt_dumpdtb(fdt, fdtsize);
+@@ -281,8 +303,6 @@ uint64_t riscv_load_fdt(hwaddr dram_base, uint64_t mem_size, void *fdt)
+                           &address_space_memory);
+     qemu_register_reset_nosnapshotload(qemu_fdt_randomize_seeds,
+                         rom_ptr_for_as(&address_space_memory, fdt_addr, fdtsize));
+-
+-    return fdt_addr;
+ }
  
+ void riscv_rom_copy_firmware_info(MachineState *machine, hwaddr rom_base,
+diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+index 82ae5e7023..17499d4152 100644
+--- a/hw/riscv/microchip_pfsoc.c
++++ b/hw/riscv/microchip_pfsoc.c
+@@ -641,8 +641,10 @@ static void microchip_icicle_kit_machine_init(MachineState *machine)
+         }
+ 
+         /* Compute the fdt load address in dram */
+-        fdt_load_addr = riscv_load_fdt(memmap[MICROCHIP_PFSOC_DRAM_LO].base,
+-                                       machine->ram_size, machine->fdt);
++        fdt_load_addr = riscv_compute_fdt_addr(memmap[MICROCHIP_PFSOC_DRAM_LO].base,
++                                               machine->ram_size, machine->fdt);
++        riscv_load_fdt(fdt_load_addr, machine->fdt);
++
+         /* Load the reset vector */
+         riscv_setup_rom_reset_vec(machine, &s->soc.u_cpus, firmware_load_addr,
+                                   memmap[MICROCHIP_PFSOC_ENVM_DATA].base,
+diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+index 2fb6ee231f..626d4dc2f3 100644
+--- a/hw/riscv/sifive_u.c
++++ b/hw/riscv/sifive_u.c
+@@ -616,9 +616,10 @@ static void sifive_u_machine_init(MachineState *machine)
+         kernel_entry = 0;
+     }
+ 
+-    /* Compute the fdt load address in dram */
+-    fdt_load_addr = riscv_load_fdt(memmap[SIFIVE_U_DEV_DRAM].base,
+-                                   machine->ram_size, machine->fdt);
++    fdt_load_addr = riscv_compute_fdt_addr(memmap[SIFIVE_U_DEV_DRAM].base,
++                                           machine->ram_size, machine->fdt);
++    riscv_load_fdt(fdt_load_addr, machine->fdt);
++
+     if (!riscv_is_32bit(&s->soc.u_cpus)) {
+         start_addr_hi32 = (uint64_t)start_addr >> 32;
+     }
+diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+index 04d236296b..f1114f2c71 100644
+--- a/hw/riscv/spike.c
++++ b/hw/riscv/spike.c
+@@ -324,9 +324,9 @@ static void spike_board_init(MachineState *machine)
+         kernel_entry = 0;
+     }
+ 
+-    /* Compute the fdt load address in dram */
+-    fdt_load_addr = riscv_load_fdt(memmap[SPIKE_DRAM].base,
+-                                   machine->ram_size, machine->fdt);
++    fdt_load_addr = riscv_compute_fdt_addr(memmap[SPIKE_DRAM].base,
++                                           machine->ram_size, machine->fdt);
++    riscv_load_fdt(fdt_load_addr, machine->fdt);
+ 
+     /* load the reset vector */
+     riscv_setup_rom_reset_vec(machine, &s->soc[0], memmap[SPIKE_DRAM].base,
+diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+index e420254de2..2e0a0cdb17 100644
+--- a/hw/riscv/virt.c
++++ b/hw/riscv/virt.c
+@@ -1303,9 +1303,10 @@ static void virt_machine_done(Notifier *notifier, void *data)
+         start_addr = virt_memmap[VIRT_FLASH].base;
+     }
+ 
+-    /* Compute the fdt load address in dram */
+-    fdt_load_addr = riscv_load_fdt(memmap[VIRT_DRAM].base,
+-                                   machine->ram_size, machine->fdt);
++    fdt_load_addr = riscv_compute_fdt_addr(memmap[VIRT_DRAM].base,
++                                           machine->ram_size, machine->fdt);
++    riscv_load_fdt(fdt_load_addr, machine->fdt);
++
+     /* load the reset vector */
+     riscv_setup_rom_reset_vec(machine, &s->soc[0], start_addr,
+                               virt_memmap[VIRT_MROM].base,
+diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+index f94653a09b..46de4ec46b 100644
+--- a/include/hw/riscv/boot.h
++++ b/include/hw/riscv/boot.h
+@@ -47,7 +47,9 @@ target_ulong riscv_load_kernel(MachineState *machine,
+                                target_ulong firmware_end_addr,
+                                symbol_fn_t sym_cb);
+ void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry);
+-uint64_t riscv_load_fdt(hwaddr dram_start, uint64_t dram_size, void *fdt);
++uint64_t riscv_compute_fdt_addr(hwaddr dram_start, uint64_t dram_size,
++                                void *fdt);
++void riscv_load_fdt(hwaddr fdt_addr, void *fdt);
+ void riscv_setup_rom_reset_vec(MachineState *machine, RISCVHartArrayState *harts,
+                                hwaddr saddr,
+                                hwaddr rom_base, hwaddr rom_size,
 -- 
 2.39.1
 
