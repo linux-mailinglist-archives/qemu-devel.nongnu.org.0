@@ -2,89 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 814F5686F44
+	by mail.lfdr.de (Postfix) with ESMTPS id 957D4686F45
 	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 20:50:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNJ6Z-0007F3-2i; Wed, 01 Feb 2023 14:49:15 -0500
+	id 1pNJ6i-0007MD-0w; Wed, 01 Feb 2023 14:49:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNJ6X-0007Ea-1f
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:49:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNJ6V-0004Gn-JG
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:49:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675280950;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=I0WcPf82h5uiTHhfDvnR3/BKoDZUZHBk/b/Vsp2gq0k=;
- b=JepEov0zc59PIjArtHWbcGmvjtBuojdf7xWsnyQD4twes+ICdR0/T/ukpUmR2uF8X0ouQk
- vo3nZGMPumPzooQyXKLnFg5CHti/oTV/hZMmT1jJve42N9BVxdHOWX3+MNre7UwxQqFwxz
- +vbOqfW6ogqHG4tkfwNlqfNFglgNEt8=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-29-t5yzxH6eN5amhppL2DxIUw-1; Wed, 01 Feb 2023 14:49:09 -0500
-X-MC-Unique: t5yzxH6eN5amhppL2DxIUw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- j24-20020a05600c1c1800b003dc4480f7bdso1624866wms.5
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 11:49:09 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pNJ6g-0007Lw-59
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:49:22 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pNJ6e-0004HG-KV
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:49:21 -0500
+Received: by mail-pl1-x635.google.com with SMTP id z1so12024743plg.6
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 11:49:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=aSmAgTYdJT7Kj20DsbnlLZ58cLNoLiU9Grf5aU0nnOk=;
+ b=oRWXQWiMaPpemNesM+R8QaMtNqGQ+wGzwgSd0PFXa0O5euTJYidYOHOkMLP0QBoRfo
+ 0jYnBerwG8us2TOqxwrHdpUIPxLzXdB14omA1DkrKVwoAsJ4zewY1iSOsCrcnCpwycf6
+ ue5jGyIx1rUQmLBRi0z5Fxc7r3685QCyZkbj+S/vv15OIfjNpFCiHYglhfExVmemz21f
+ zzB1vBoSKBXxuhvKX60+YbleyTDbJpxNAYJbeKzaYr08CAtcKCy/4f0BZTX5wzK6KwfK
+ o5aE/w9xruweL3igY3+vedoAMLjobIEqparfs/zD6kkQUNXb4njSplS3gd7s5Rjt3hd2
+ u1cg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=I0WcPf82h5uiTHhfDvnR3/BKoDZUZHBk/b/Vsp2gq0k=;
- b=Y7piBn++YJQmsI/u6VESZ9Ee12aYRuJAvnm4dR7wcu05au/ZxDFoC6fKn6yrg9MqqF
- C+WMYLILSaie4Km8z8uxqnIFcUoSLqHsvz4WuB5kAIp39H8oKdbgC02K2JFD2QkCaIvF
- IxXy5ZetEcXnewxrKssPIU25eamuvSyDl5t6MgbmNykY15jktMtveZChSi3/iyxSiQAf
- qDO2JzUaqK6dog/C59uSttw0yNqQpHt5yXzLXwmRx03YYO8j2O2N+h0eW5DpW5brv/qx
- jdZoXGoSDtT2qwGkfAAfGxZY2dTz00fDN2juTMWmubKc4EoVyzwGd1p762S4OC4nxXpA
- yf1g==
-X-Gm-Message-State: AO0yUKUs2ZJG9YGIASMiHpbpNrTWGs4jBF8psTiw3w5IsEmVb6fVzIZF
- 2FmIxDEsvbHhVVkiSP9K7Nxxzjs2HNSNMC8ib1hOr8pOVn5DuHFAzQfu2KBIIPf/ROcfqpl2+8x
- XMNfjY2g919jlRY8=
-X-Received: by 2002:a05:600c:1f10:b0:3db:742:cfe9 with SMTP id
- bd16-20020a05600c1f1000b003db0742cfe9mr3344085wmb.34.1675280948355; 
- Wed, 01 Feb 2023 11:49:08 -0800 (PST)
-X-Google-Smtp-Source: AK7set865rOyAfCK1mxw1zEAt6g762+7Tjb5VI7gN5LdKv1rhzf3RYow1W2NGQwaR4kYuXBRnvbwlA==
-X-Received: by 2002:a05:600c:1f10:b0:3db:742:cfe9 with SMTP id
- bd16-20020a05600c1f1000b003db0742cfe9mr3344068wmb.34.1675280948114; 
- Wed, 01 Feb 2023 11:49:08 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- l4-20020a05600c16c400b003dd1b00bd9asm2451039wmn.32.2023.02.01.11.49.07
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 11:49:07 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
- <lsoaresp@redhat.com>,  James Houghton <jthoughton@google.com>,  "Dr .
- David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH RFC 21/21] migration: Collapse huge pages again after
- postcopy finished
-In-Reply-To: <20230117220914.2062125-22-peterx@redhat.com> (Peter Xu's message
- of "Tue, 17 Jan 2023 17:09:14 -0500")
-References: <20230117220914.2062125-1-peterx@redhat.com>
- <20230117220914.2062125-22-peterx@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 01 Feb 2023 20:49:06 +0100
-Message-ID: <87a61xw4i5.fsf@secure.mitica>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=aSmAgTYdJT7Kj20DsbnlLZ58cLNoLiU9Grf5aU0nnOk=;
+ b=p3Cj9wLALEC1ltAdVEr+QLRib2YWWH7yNEht4xfAq/6yaiu8ARrUxwPJHQs6UigQqg
+ lvGi8B8o1dqCOWlHG21S2yZDaJKgd3ULD0YWp1b2rvK665HnQWNOTmsGGbTEQBCqLyzz
+ nOBRorg08XU48u3Mrh5y4l2PW8X7DwCzlKX6F9wcVHG3QBlhhdA7RwaIlIFC0iRSNQ5k
+ PBfadfXS7LOm/g9vUk8CzDFdbR1DvmkKY0hgsp2jn4Z9DzRuD9fxaU+Dj3jPldDiRQZI
+ ubx8QgqplDgP3OtMRId2UlX6ZXZDwsXB1/LciSLILA/eWXxe0QdRBJfJl7m/2pwgYW2M
+ /tXw==
+X-Gm-Message-State: AO0yUKWXXeQ5DVK1aqU5Nyn+D/5KVC03D3oc9UQCfJIq7NRvWbJ15vvA
+ bYRijlozOOcJUBEfKxsud/Km7g==
+X-Google-Smtp-Source: AK7set9KFDrdcQbvTHgba4dTf31bTJFULT9/26zjakQpw9deCENJJSicdzyCMq8VfmlQqV+fPx7SWA==
+X-Received: by 2002:a17:902:da8c:b0:196:897b:cded with SMTP id
+ j12-20020a170902da8c00b00196897bcdedmr5282323plx.28.1675280958729; 
+ Wed, 01 Feb 2023 11:49:18 -0800 (PST)
+Received: from [192.168.50.50] (rrcs-173-197-98-118.west.biz.rr.com.
+ [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
+ d16-20020a170902aa9000b00189b2b8dbedsm12167115plr.228.2023.02.01.11.49.17
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Feb 2023 11:49:18 -0800 (PST)
+Message-ID: <48a2f056-618b-c5d6-0f1c-18886e5da51f@linaro.org>
+Date: Wed, 1 Feb 2023 09:49:15 -1000
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 3/4] linux-user/sparc: Handle "ta 5"
+Content-Language: en-US
+To: Ilya Leoshkevich <iii@linux.ibm.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org
+References: <20230201004609.3005029-1-iii@linux.ibm.com>
+ <20230201004609.3005029-4-iii@linux.ibm.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230201004609.3005029-4-iii@linux.ibm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,57 +91,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Xu <peterx@redhat.com> wrote:
-> When hugetlb-doublemap enabled, the pages will be migrated in small page
-> sizes during postcopy.  When the migration finishes, the pgtable needs to
-> be rebuilt explicitly for these ranges to have huge page being mapped again.
->
-> Signed-off-by: Peter Xu <peterx@redhat.com>
+On 1/31/23 14:46, Ilya Leoshkevich wrote:
+> GCC lowers __builtin_trap() to "ta 5", which in turn generates trap
+> 0x105. Follow what kernel's bad_trap() is doing there.
+> 
+> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
 > ---
->  migration/ram.c        | 31 +++++++++++++++++++++++++++++++
->  migration/trace-events |  1 +
->  2 files changed, 32 insertions(+)
->
-> diff --git a/migration/ram.c b/migration/ram.c
-> index 4da56d925c..178739f8c3 100644
-> --- a/migration/ram.c
-> +++ b/migration/ram.c
-> @@ -3986,6 +3986,31 @@ static int ram_load_setup(QEMUFile *f, void *opaque)
->      return 0;
->  }
->  
-> +#define  MADV_COLLAPSE_CHUNK_SIZE  (1UL << 30) /* 1G */
-> +
-> +static void ramblock_rebuild_huge_mappings(RAMBlock *rb)
-> +{
-> +    unsigned long addr, size;
+>   linux-user/sparc/cpu_loop.c | 3 +++
+>   1 file changed, 3 insertions(+)
+> 
+> diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
+> index 434c90a55f8..fa36d452a51 100644
+> --- a/linux-user/sparc/cpu_loop.c
+> +++ b/linux-user/sparc/cpu_loop.c
+> @@ -225,6 +225,9 @@ void cpu_loop (CPUSPARCState *env)
+>               restore_window(env);
+>               break;
+>   #ifndef TARGET_ABI32
+> +        case 0x105:
+> +            force_sig_fault(TARGET_SIGILL, ILL_ILLTRP, env->pc);
+> +            break;
+>           case 0x16e:
+>               flush_windows(env);
+>               sparc64_get_context(env);
 
-This makes my head explode.
+Quite a lot of ttable{32,64}.S is missing here.  We should certainly make use of TT_TRAP, 
+instead of hard-coding 0x100 vs 0x80.
 
-We have:
 
-unsigned long
-__u64
-uint64_t
-
-Used and mixed all around.
-
-> +    assert(qemu_ram_is_hugetlb(rb));
-> +
-> +    addr = (unsigned long)qemu_ram_get_host_addr(rb);
-
-Don't this cast should be uintptr_t?
-At least on win64 it should fail, no?
-
-> +    size = rb->mmap_length;
-
-this is ram_addr_t.  It is uint64_t except with xen.
-So it should fail on any 32 bit host.
-
-Later, Juan.
-
+r~
 
