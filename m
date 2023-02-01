@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8343B686D29
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 18:35:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58FDA686DA8
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 19:09:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNGzy-00076z-2b; Wed, 01 Feb 2023 12:34:18 -0500
+	id 1pNHWE-0008FC-4G; Wed, 01 Feb 2023 13:07:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkamran.bese16seecs@seecs.edu.pk>)
- id 1pNGzu-00076W-C1
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:34:14 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pNHWA-0008Eh-Ra
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 13:07:34 -0500
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kkamran.bese16seecs@seecs.edu.pk>)
- id 1pNGzp-0000FA-R3
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:34:13 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- d4-20020a05600c3ac400b003db1de2aef0so2061274wms.2
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 09:34:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seecs.edu.pk; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=JD4AcBVYJcrPUfgsrPIAestiL4AKuS761Yb18wysirY=;
- b=UK11cwgxoD7oPlupTYk3HQk0PqBXi1NRleoY4v3HO8OhASapmVwlRwG3SIZP9wrg/1
- t42L5I02DansPzawHR7RH/ZJAEZTaZouSrfF5qu/G9rN3anxrnUWPt7ej8hS7xnTlk6R
- 1VZr7X4IEqUu8c23ieL+zf2aiVxAidKHfDGnA=
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pNHW8-000074-SO
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 13:07:34 -0500
+Received: by mail-wm1-x32f.google.com with SMTP id n13so6309294wmr.4
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 10:07:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=UhzA51HxGfSVxF4+bvqWtKT2MaGpjfFwb4+VgcFmUTk=;
+ b=uoKHrjNxraPvJH4DdveQBHu2vRUJuYl1JV+bvIm8VNhzeZm+9adpSX5vAXEAjGv4Bh
+ 95UeThhMTDz94BXKHw1Djux3ZpNE8vcNyoLxeVIOU9qtB21iKV78pYUQ01c1yL9HerM5
+ V9d/vaMhu+gSa5dorRU0+jQ4OP3mHnBO50ige5ZmcVZhbv09NWL9178D0E5tyMfTjUNA
+ j942niEJMxuiWayZ4pnAJB+9U5Q+9UMM4C6UgguAP9+5hzK3MCbYe6U25Wninm1A69uT
+ q7CwyWnYYZcuRU1fw858y2o06yHxr2WSE0XEuXDDDgI3dlAIQmal74v0f0VrgN4O8ORi
+ hWfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=JD4AcBVYJcrPUfgsrPIAestiL4AKuS761Yb18wysirY=;
- b=n2e1j1e4SvBbfcEpynHqF6zn7dRJSAFN/LBiapCKWrA62/QnmbzWfNjlmWSWpkZxdZ
- ll23+Nvnc+JdADCoDYIhVq43V9rbDgLMjwo+IM8+BWfMt79ITV+ufhR31Q3bXYl2JUx5
- PB/uOc/pwlXxvfqx4ON7Z7kuR2XOZhaGreB5RYjINSrOmUGtvFBs+SR20Qj/Eh7h+GGO
- f9myMIwwmE5m06qKSPmYXNTqUzWooxRclmjpujsyxA2cbNovKSdOQK6qTwOKHnyjwXTV
- kRlZGe4n4UwJDIWRwve+lyhX/jNcBAl2LuhgQmFysLDEXfSVb8H5+DHrm1vfK4z1nR1q
- 0b6g==
-X-Gm-Message-State: AO0yUKXJ8mr8GsRTASpcKhkmuMC5+P9a3Ghzt4QkvHCHxh9Q8adhi21i
- 9F93RnFUzozkdOriq5AYUi5LjPpf/tb5U019nuc=
-X-Google-Smtp-Source: AK7set+09aKr21CuEU0DfF0ZqgXezbbS3WkKWb1BPh6Cz4MQLNm8WRF1CbD4l+zXdaydFP65eE5asQ==
-X-Received: by 2002:a05:600c:3ba5:b0:3df:9858:c02f with SMTP id
- n37-20020a05600c3ba500b003df9858c02fmr38273wms.4.1675272842013; 
- Wed, 01 Feb 2023 09:34:02 -0800 (PST)
-Received: from khadija-ubuntu-vm.localdomain ([124.29.208.67])
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=UhzA51HxGfSVxF4+bvqWtKT2MaGpjfFwb4+VgcFmUTk=;
+ b=W/N5pw8NSkt9tWaEDBUkPgdYb5Ys7BYhl10yoGAFyWfonyPGWs/EEIwQdbkfQB3a8f
+ 5SJ5NFMc7xZ6RFux4Z7nrcfQa51V3JSq3XPTh2QMmChy5nWYEv6eFd0wyNzF5UbJKr07
+ Xo9FHjggBmEQ70ovCSjzqe4qHDQHA7vTGuWmCZ7Wtiq9gh5ZO3X8HnlJDA+B7bAuxAma
+ +xdEqfsUkWLKpzr4f/Jg4kr9sN148+09ZF6dflFPX+MbfjlLdu6pfKlL/jgQ8uCRtBQC
+ AZ2bypf0iXCB34sr/qpf7UX4hBn7V6CDtAjLc6xWkkYtAtzaGFpX3kKukPvllqWyrPr0
+ QP2w==
+X-Gm-Message-State: AO0yUKXyfYRGIiDfyKNBHfe8XpSYh337aXON8UUUDDWf9T0kNyxcVLPI
+ oWm3i4HiD6M++JIbtd/7cvPuFQ==
+X-Google-Smtp-Source: AK7set+IHokY9UfaRUTUNX4N/SOghjx9G47hUIbuMk+Mq13P4lSvPQDOOpgbucCbIvlkSDVXDtWmKA==
+X-Received: by 2002:a1c:f307:0:b0:3dc:50be:9206 with SMTP id
+ q7-20020a1cf307000000b003dc50be9206mr3218236wmq.4.1675274850551; 
+ Wed, 01 Feb 2023 10:07:30 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- p6-20020a5d48c6000000b002bfc0558ecdsm17558760wrs.113.2023.02.01.09.33.59
+ t16-20020adfe450000000b002bbdcd15e44sm17462959wrm.37.2023.02.01.10.07.30
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 09:34:01 -0800 (PST)
-From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
-To: qemu-devel@nongnu.org
-Cc: thuth@redhat.com, ysato@users.sourceforge.jp, alex.bennee@linaro.org,
- pbonzini@redhat.com, fam@euphon.net, peter.maydell@linaro.org,
- philmd@linaro.org, kwolf@redhat.com, hreitz@redhat.com
-Subject: [PATCH 1/9] Updated the FSF address in file hw/sh4/sh7750_regs.h
-Date: Wed,  1 Feb 2023 22:33:54 +0500
-Message-Id: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-X-Mailer: git-send-email 2.34.1
+ Wed, 01 Feb 2023 10:07:30 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id AE6201FFB7;
+ Wed,  1 Feb 2023 18:07:29 +0000 (GMT)
+References: <20230126112250.2584701-1-alex.bennee@linaro.org>
+ <CAFEAcA_TCHw2b=zOWOX7COLa-iqC1P8Bm1wiACKhmx32cuS8SA@mail.gmail.com>
+User-agent: mu4e 1.9.19; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL 00/35] Testing, docs, semihosting and plugin updates
+Date: Wed, 01 Feb 2023 18:06:59 +0000
+In-reply-to: <CAFEAcA_TCHw2b=zOWOX7COLa-iqC1P8Bm1wiACKhmx32cuS8SA@mail.gmail.com>
+Message-ID: <877cx11cpq.fsf@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=kkamran.bese16seecs@seecs.edu.pk; helo=mail-wm1-x332.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -87,312 +94,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The Free Software Foundation moved to a new address and this file referred to their old location.
-The address should be updated and replaced to a pointer to <https://www.gnu.org/licenses/>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/379
 
-Signed-off-by: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
----
- hw/sh4/sh7750_regs.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-diff --git a/hw/sh4/sh7750_regs.h b/hw/sh4/sh7750_regs.h
-index beb571d5e9..94043431e6 100644
---- a/hw/sh4/sh7750_regs.h
-+++ b/hw/sh4/sh7750_regs.h
-@@ -22,8 +22,7 @@
-  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-  * General Public License for more details. You should have received
-  * a copy of the GNU General Public License along with RTEMS; see
-- * file COPYING. If not, write to the Free Software Foundation, 675
-- * Mass Ave, Cambridge, MA 02139, USA.
-+ * file COPYING. If not, see <https://www.gnu.org/licenses/>.
-  *
-  * As a special exception, including RTEMS header files in a file,
-  * instantiating RTEMS generics or templates, or linking other files
--- 
-2.34.1
+> On Thu, 26 Jan 2023 at 11:22, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
+>>
+>> The following changes since commit 13356edb87506c148b163b8c7eb0695647d00=
+c2a:
+>>
+>>   Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu
+>> into staging (2023-01-24 09:45:33 +0000)
+>>
+>> are available in the Git repository at:
+>>
+>>   https://gitlab.com/stsquad/qemu.git tags/pull-jan-omnibus-260123-1
+>>
+>> for you to fetch changes up to d200653282f50df2a994a0609f88baa6a5889f80:
+>>
+>>   plugins: Iterate on cb_lists in qemu_plugin_user_exit (2023-01-26 11:1=
+2:01 +0000)
+>>
+>> ----------------------------------------------------------------
+>> Testing, docs, semihosting and plugin updates
+>>
+>>   - update playbooks for custom runners
+>>   - add section timing support to gitlab
+>>   - upgrade fedora images to 37
+>>   - purge perl from the build system and deps
+>>   - disable unstable tests in CI
+>>   - improve intro, emulation and semihosting docs
+>>   - semihosting bug fix and O_BINARY default
+>>   - add memory-sve test
+>>   - fix some races in qht
+>>   - improve plugin handling of memory helpers
+>>   - optimise plugin hooks
+>>   - fix some plugin deadlocks
+>>
+>
+> Hi; this fails the docs build on macos 12 (probably a difference
+> in behaviour across Sphinx versions):
+> https://gitlab.com/qemu-project/qemu/-/jobs/3697858012
+>
+> FAILED: docs/docs.stamp
+> /usr/bin/env CONFDIR=3Detc/qemu /opt/homebrew/bin/sphinx-build -q -W
+> -Dversion=3D7.2.50 -Drelease=3D -Ddepfile=3Ddocs/docs.d
+> -Ddepfile_stamp=3Ddocs/docs.stamp -b html -d
+> /private/var/folders/76/zy5ktkns50v6gt5g8r0sf6sc0000gn/T/cirrus-ci-build/=
+build/docs/manual.p
+> /private/var/folders/76/zy5ktkns50v6gt5g8r0sf6sc0000gn/T/cirrus-ci-build/=
+docs
+> /private/var/folders/76/zy5ktkns50v6gt5g8r0sf6sc0000gn/T/cirrus-ci-build/=
+build/docs/manual
+> Warning, treated as error:
+> /private/var/folders/76/zy5ktkns50v6gt5g8r0sf6sc0000gn/T/cirrus-ci-build/=
+qemu-options.hx:161:duplicate
+> label machine options, other instance in
+> /private/var/folders/76/zy5ktkns50v6gt5g8r0sf6sc0000gn/T/cirrus-ci-build/=
+docs/system/invocation.rst
+>
+> I think this is "you can't put labels in qemu-options.hx,
+> because it gets included in two .rst files (invocation.rst
+> and qemu-manpage.rst), and Sphinx complains about the
+> duplicate labels, even though one of the two files is
+> only used in the HTML and one is only used in the manpages".
 
+Oh boo - anyway to work around that because they are helpful links?
 
-From 0cbfbd52041b97982d1c8a4dbd94a1b71427bff9 Mon Sep 17 00:00:00 2001
-Message-Id: <0cbfbd52041b97982d1c8a4dbd94a1b71427bff9.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-In-Reply-To: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-References: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
-Date: Wed, 1 Feb 2023 11:39:24 +0500
-Subject: [PATCH 2/9] Updated the FSF address in file contrib/gitdm/filetypes.txt
-
-The Free Software Foundation moved to a new address and this file referred to their old location.
-The address should be updated and replaced to a pointer to <https://www.gnu.org/licenses/>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/379
-
-Signed-off-by: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
----
- contrib/gitdm/filetypes.txt | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/contrib/gitdm/filetypes.txt b/contrib/gitdm/filetypes.txt
-index d2d6f6db8d..4d26650988 100644
---- a/contrib/gitdm/filetypes.txt
-+++ b/contrib/gitdm/filetypes.txt
-@@ -12,8 +12,7 @@
- # GNU Library General Public License for more details.
- #
- # You should have received a copy of the GNU General Public License
--# along with this program; if not, write to the Free Software
--# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-+# along with this program; if not, see <https://www.gnu.org/licenses/>.
- #
- # Authors : Gregorio Robles <grex@gsyc.escet.urjc.es>
- # Authors : Germán Póo-Caamaño <gpoo@gnome.org>
--- 
-2.34.1
-
-
-From 3c2ceaf1995dfd98c254cf3e2f6d1a68970bb1e8 Mon Sep 17 00:00:00 2001
-Message-Id: <3c2ceaf1995dfd98c254cf3e2f6d1a68970bb1e8.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-In-Reply-To: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-References: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
-Date: Wed, 1 Feb 2023 11:40:22 +0500
-Subject: [PATCH 3/9] Updated the FSF address in file hw/scsi/viosrp.h
-
-The Free Software Foundation moved to a new address and this file referred to their old location.
-The address should be updated and replaced to a pointer to <https://www.gnu.org/licenses/>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/379
-
-Signed-off-by: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
----
- hw/scsi/viosrp.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/hw/scsi/viosrp.h b/hw/scsi/viosrp.h
-index e5f9768e8f..8b3ac3af56 100644
---- a/hw/scsi/viosrp.h
-+++ b/hw/scsi/viosrp.h
-@@ -16,8 +16,7 @@
- /* GNU General Public License for more details.                              */
- /*                                                                           */
- /* You should have received a copy of the GNU General Public License         */
--/* along with this program; if not, write to the Free Software               */
--/* Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA */
-+/* along with this program; if not, see <https://www.gnu.org/licenses/>.     */
- /*                                                                           */
- /*                                                                           */
- /* This file contains structures and definitions for IBM RPA (RS/6000        */
--- 
-2.34.1
-
-
-From eeb9c64164a72bcdf77c76d1923ff9d9feeff206 Mon Sep 17 00:00:00 2001
-Message-Id: <eeb9c64164a72bcdf77c76d1923ff9d9feeff206.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-In-Reply-To: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-References: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
-Date: Wed, 1 Feb 2023 11:41:20 +0500
-Subject: [PATCH 4/9] Updated the FSF address in file include/qemu/uri.h
-
-The Free Software Foundation moved to a new address and this file referred to their old location.
-The address should be updated and replaced to a pointer to <https://www.gnu.org/licenses/>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/379
-
-Signed-off-by: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
----
- include/qemu/uri.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/include/qemu/uri.h b/include/qemu/uri.h
-index d201c61260..2c1f6350eb 100644
---- a/include/qemu/uri.h
-+++ b/include/qemu/uri.h
-@@ -41,8 +41,7 @@
-  * Lesser General Public License for more details.
-  *
-  * You should have received a copy of the GNU Lesser General Public
-- * License along with this library; if not, write to the Free Software
-- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
-+ * License along with this library; if not, see <https://www.gnu.org/licenses/>.
-  *
-  * Authors:
-  *    Richard W.M. Jones <rjones@redhat.com>
--- 
-2.34.1
-
-
-From 2027b734e65a94bbe59be038e580d55064edca54 Mon Sep 17 00:00:00 2001
-Message-Id: <2027b734e65a94bbe59be038e580d55064edca54.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-In-Reply-To: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-References: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
-Date: Wed, 1 Feb 2023 11:42:35 +0500
-Subject: [PATCH 5/9] Updated the FSF address in file
- include/hw/arm/raspi_platform.h
-
-The Free Software Foundation moved to a new address and this file referred to their old location.
-The address should be updated and replaced to a pointer to <https://www.gnu.org/licenses/>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/379
-
-Signed-off-by: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
----
- include/hw/arm/raspi_platform.h | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/include/hw/arm/raspi_platform.h b/include/hw/arm/raspi_platform.h
-index e0e6c8ce94..bdeb6012d6 100644
---- a/include/hw/arm/raspi_platform.h
-+++ b/include/hw/arm/raspi_platform.h
-@@ -18,8 +18,7 @@
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-- * along with this program; if not, write to the Free Software
-- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-+ * along with this program; if not, see <https://www.gnu.org/licenses/>.
-  *
-  * Various undocumented addresses and names come from Herman Hermitage's VC4
-  * documentation:
--- 
-2.34.1
-
-
-From c9c0f70c68d9fb37eb8cd397bf89a92a31c84ba0 Mon Sep 17 00:00:00 2001
-Message-Id: <c9c0f70c68d9fb37eb8cd397bf89a92a31c84ba0.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-In-Reply-To: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-References: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
-Date: Wed, 1 Feb 2023 11:43:23 +0500
-Subject: [PATCH 6/9] Updated the FSF address in file tests/unit/rcutorture.c
-
-The Free Software Foundation moved to a new address and this file referred to their old location.
-The address should be updated and replaced to a pointer to <https://www.gnu.org/licenses/>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/379
-
-Signed-off-by: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
----
- tests/unit/rcutorture.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/tests/unit/rcutorture.c b/tests/unit/rcutorture.c
-index 495a4e6f42..fb02d85ac2 100644
---- a/tests/unit/rcutorture.c
-+++ b/tests/unit/rcutorture.c
-@@ -50,8 +50,7 @@
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-- * along with this program; if not, write to the Free Software
-- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-+ * along with this program; if not, see <https://www.gnu.org/licenses/>.
-  *
-  * Copyright (c) 2008 Paul E. McKenney, IBM Corporation.
-  */
--- 
-2.34.1
-
-
-From 58bb1e1b7c97931620cd21de0b71d9893b66fae7 Mon Sep 17 00:00:00 2001
-Message-Id: <58bb1e1b7c97931620cd21de0b71d9893b66fae7.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-In-Reply-To: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-References: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
-Date: Wed, 1 Feb 2023 11:44:17 +0500
-Subject: [PATCH 7/9] Updated the FSF address in file util/uri.c
-
-The Free Software Foundation moved to a new address and this file referred to their old location.
-The address should be updated and replaced to a pointer to <https://www.gnu.org/licenses/>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/379
-
-Signed-off-by: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
----
- util/uri.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/util/uri.c b/util/uri.c
-index ff72c6005f..98164bdb0f 100644
---- a/util/uri.c
-+++ b/util/uri.c
-@@ -43,8 +43,7 @@
-  * Lesser General Public License for more details.
-  *
-  * You should have received a copy of the GNU Lesser General Public
-- * License along with this library; if not, write to the Free Software
-- * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307  USA
-+ * License along with this library; if not, see <https://www.gnu.org/licenses/>.
-  *
-  * Authors:
-  *    Richard W.M. Jones <rjones@redhat.com>
--- 
-2.34.1
-
-
-From 16ac94d6761721ffe5e65dbc9f2b6319c880e369 Mon Sep 17 00:00:00 2001
-Message-Id: <16ac94d6761721ffe5e65dbc9f2b6319c880e369.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-In-Reply-To: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-References: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
-Date: Wed, 1 Feb 2023 11:44:55 +0500
-Subject: [PATCH 8/9] Updated the FSF address in tests/unit/test-rcu-list.c
-
-The Free Software Foundation moved to a new address and this file referred to their old location.
-The address should be updated and replaced to a pointer to <https://www.gnu.org/licenses/>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/379
-
-Signed-off-by: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
----
- tests/unit/test-rcu-list.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/tests/unit/test-rcu-list.c b/tests/unit/test-rcu-list.c
-index 64b81ae058..2011a78ed0 100644
---- a/tests/unit/test-rcu-list.c
-+++ b/tests/unit/test-rcu-list.c
-@@ -14,8 +14,7 @@
-  * GNU General Public License for more details.
-  *
-  * You should have received a copy of the GNU General Public License
-- * along with this program; if not, write to the Free Software
-- * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
-+ * along with this program; if not, see <https://www.gnu.org/licenses/>.
-  *
-  * Copyright (c) 2013 Mike D. Day, IBM Corporation.
-  */
--- 
-2.34.1
-
-
-From 404c2309c845321a21e2896a151840750ec4fe2e Mon Sep 17 00:00:00 2001
-Message-Id: <404c2309c845321a21e2896a151840750ec4fe2e.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-In-Reply-To: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-References: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675270567.git.kkamran.bese16seecs@seecs.edu.pk>
-From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
-Date: Wed, 1 Feb 2023 11:45:36 +0500
-Subject: [PATCH 9/9] Updated the FSF address in tests/qemu-iotests/022
-
-The Free Software Foundation moved to a new address and this file referred to their old location.
-The address should be updated and replaced to a pointer to <https://www.gnu.org/licenses/>
-Resolves: https://gitlab.com/qemu-project/qemu/-/issues/379
-
-Signed-off-by: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
----
- tests/qemu-iotests/022 | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
-
-diff --git a/tests/qemu-iotests/022 b/tests/qemu-iotests/022
-index a116cfe255..52473aefde 100755
---- a/tests/qemu-iotests/022
-+++ b/tests/qemu-iotests/022
-@@ -16,9 +16,7 @@
- # GNU General Public License for more details.
- #
- # You should have received a copy of the GNU General Public License
--# along with this program; if not, write to the Free Software
--# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
--# USA
-+# along with this program; if not, see <https://www.gnu.org/licenses/>.
- #
- 
- # creator
--- 
-2.34.1
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
