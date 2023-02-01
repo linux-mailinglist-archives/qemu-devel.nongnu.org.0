@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 027C2685FD3
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 07:37:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0384686000
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 07:53:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN6K9-0005CC-Fi; Wed, 01 Feb 2023 01:10:25 -0500
+	id 1pN6k3-000777-Oa; Wed, 01 Feb 2023 01:37:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pN6K3-0005BV-Qu; Wed, 01 Feb 2023 01:10:19 -0500
-Received: from mail-ej1-x634.google.com ([2a00:1450:4864:20::634])
+ id 1pN6jw-00076c-1k; Wed, 01 Feb 2023 01:37:04 -0500
+Received: from mail-ej1-x631.google.com ([2a00:1450:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pN6JW-0001CC-J9; Wed, 01 Feb 2023 01:10:19 -0500
-Received: by mail-ej1-x634.google.com with SMTP id ml19so24688184ejb.0;
- Tue, 31 Jan 2023 22:09:44 -0800 (PST)
+ id 1pN6jt-0008S7-P8; Wed, 01 Feb 2023 01:37:03 -0500
+Received: by mail-ej1-x631.google.com with SMTP id hx15so28835013ejc.11;
+ Tue, 31 Jan 2023 22:37:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=OqEowceQC4WiCxcwaqBJjKALz7d+JJbEp/SVWrGI4ic=;
- b=hIwTM+2FtAmkvs+nabc3+5GsFLfuoSySgOO4zeh+XQMhv4PtDT4y35cL7acAPVTylH
- P6THisjSZ7m7kM0P4eTxW1WODLsLpjjCtYBo1RMjcVgxRK9CzMG/n3L4wS2pdOC7SUXH
- cLw7zG2rKAuuIxiHIP9Oc4RdqOL/7kK4JbgYg=
+ bh=r6xttjhg1EkEM5Km8fh/iM+JYDGcTWhp1TGEZkbucWw=;
+ b=UwJys4FRvCEnPI17L1FhrA9TMq/5MufmsSVEjhTNyD79xog5OoHau6asNbhGHq1FVs
+ dhY4BvnocWshJR6DhchuaiHS2HRKUAeBEL4hM+ZlUyxoN5ci95Xqt0QReZWhNndZ0BHs
+ igNyvkDaU4xGuVc1E8GQ+FoIwyt96ss6lIJQ8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=OqEowceQC4WiCxcwaqBJjKALz7d+JJbEp/SVWrGI4ic=;
- b=BKETOJ5EFIxJUWc1Y0qdmwVLjJJlGblee5xHLnxVNy5wsUGGZpHHZmx5Y4s0Dqev12
- 6+orAwIlkvKmz27z54VwA2iOYlP7KlzwymIdsUV4i9RrsGrm8YuHTY7OPQXmmjdcABBc
- tbQv6g2n6nHrYw1zv46O3PLuaM3rSboz3U3gE1eUNzOa0EiHHdKqFmlpe6IllMa30l2F
- x3exfjiO5Xz19U03ZXkiuUyjyRoq9ne+yNG+JrEVztEsZU0DARlVTJMsS3s4PVL6G/br
- nIb7+GeVtwVwnItaplMn0ftY43qOpErJrEQdw9kh1xCrtrHs67XEvOF9a9npbPH+3F2V
- yo1A==
-X-Gm-Message-State: AO0yUKUoELTQBACKUkZm4yhqXM+odrXdNALelp8ORXexRX/uyFbVLbij
- 4nxw1LMoYlGpcBZkQpAziYSWUbtJMxVncNHpTPW70p4ivBE=
-X-Google-Smtp-Source: AK7set+SQsdiBuhBqIynowXd8ymHpCht+lGX/bSE0CVQjghUbjWzjnEG++iwK3rgY0LpTjN5TcOcsqCjXpUDZejvffY=
-X-Received: by 2002:a17:906:1653:b0:88a:7cf5:5d33 with SMTP id
- n19-20020a170906165300b0088a7cf55d33mr342719ejd.100.1675229982823; Tue, 31
- Jan 2023 21:39:42 -0800 (PST)
+ bh=r6xttjhg1EkEM5Km8fh/iM+JYDGcTWhp1TGEZkbucWw=;
+ b=GmMXPkSS1q1eJF2uyP5Djf51dfIIqHXaauaNdQK2fzP40Y8dA367Ze0Db5m5qZoPF+
+ mkKEFy3Em/E7jiUFwpLCH+bLpmfukss63wJTPB2ni0NjD2lSHiWbICW1HqSbq0Wtlute
+ IY5FRSEM0OYwz6Udpbt2m1/xaXm6svtWuSTE9NWo/MuGOqIcC7R9lou4tEQ9XOX7SyaS
+ GX5tHiqcOmaz1DoEyVUdVEOrYrLKeIcVWwBKig5eTi8IhYCQBrnkXus1uiUjYI7I8RzG
+ 5el27sKfF7hdgXF7NUgWkmbBC7wGAkAdcoismTUTFjoYzY2BUV7z9w100cOZWFEinf34
+ p1bA==
+X-Gm-Message-State: AO0yUKX4SXiJcmCO4ncBwwcLpO6800XI3NSAIGZ+1SGEguWHvXc6DRkH
+ 2PXWxLkGeeog80HS7XmISd3bdC8yNKnFHf6cHEoWBULO
+X-Google-Smtp-Source: AK7set9UwdgwP0ASdzMKfS9hBhG+qFd8fnopktqiIwXSguc7f9jji0nQVekP91D3FtApBV1C3V0j0oevmwMiW79/Uhk=
+X-Received: by 2002:a17:907:2391:b0:87f:5802:fd72 with SMTP id
+ vf17-20020a170907239100b0087f5802fd72mr293671ejb.237.1675230049990; Tue, 31
+ Jan 2023 21:40:49 -0800 (PST)
 MIME-Version: 1.0
 References: <20230119123449.531826-1-clg@kaod.org>
- <20230119123449.531826-3-clg@kaod.org>
-In-Reply-To: <20230119123449.531826-3-clg@kaod.org>
+ <20230119123449.531826-6-clg@kaod.org>
+In-Reply-To: <20230119123449.531826-6-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 1 Feb 2023 05:39:30 +0000
-Message-ID: <CACPK8XeSN90WZjpAiBqcQyOgJh+q=HTgFsw98Ywm7voGHY7ypw@mail.gmail.com>
-Subject: Re: [PATCH 02/25] aspeed: Add Supermicro X11 SPI machine type
+Date: Wed, 1 Feb 2023 05:40:37 +0000
+Message-ID: <CACPK8Xd_V-SMDidG7c9Z5578Nq8oc5sakRW10Vm9Wq_+uGLBuQ@mail.gmail.com>
+Subject: Re: [PATCH 05/25] m25p80: Add the is25wp256 SFPD table
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
  Peter Maydell <peter.maydell@linaro.org>,
  =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Guenter Roeck <linux@roeck-us.net>
+ Guenter Roeck <linux@roeck-us.net>, Michael Walle <michael@walle.cc>, 
+ Tudor Ambarus <tudor.ambarus@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::634;
- envelope-from=joel.stan@gmail.com; helo=mail-ej1-x634.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::631;
+ envelope-from=joel.stan@gmail.com; helo=mail-ej1-x631.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -88,116 +89,100 @@ On Thu, 19 Jan 2023 at 12:36, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
 > From: Guenter Roeck <linux@roeck-us.net>
 >
-> supermicrox11-bmc is configured with ast2400-a1 SoC. This does not match
-> the Supermicro documentation for X11 BMCs, and it does not match the
-> devicetree file in the Linux kernel.
-
-I found this sentence confusing; AFAICT X11 doesn't name a specific
-motherboard. It appears to be a marketing term for a bunch of
-different things.
-
-> As it turns out, some Supermicro X11 motherboards use AST2400 SoCs,
-> while others use AST2500.
+> Generated from hardware using the following command and then padding
+> with 0xff to fill out a power-of-2:
+>         xxd -p /sys/bus/spi/devices/spi0.0/spi-nor/sfdp
 >
-> Introduce new machine type supermicrox11-spi-bmc with AST2500 SoC
-
-How about supermicro-x11spi-bmc? It would match the product name:
-
-https://www.supermicro.com/en/products/motherboard/X11SPi-TF
-
-as well as the device tree filename.
-
-> to match the devicetree description in the Linux kernel. Hardware
-> configuration details for this machine type are guesswork and taken
-> from defaults as well as from the Linux kernel devicetree file.
->
-> The new machine type was tested with aspeed-bmc-supermicro-x11spi.dts
-> from the Linux kernel and with Linux versions 6.0.3 and 6.1-rc2.
-> Linux booted successfully from initrd and from both SPI interfaces.
-> Ethernet interfaces were confirmed to be operational.
->
+> Cc: Michael Walle <michael@walle.cc>
+> Cc: Tudor Ambarus <tudor.ambarus@linaro.org>
 > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Link: https://lore.kernel.org/r/20221025165109.1226001-1-linux@roeck-us.n=
-et
-> Message-Id: <20221025165109.1226001-1-linux@roeck-us.net>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> Message-Id: <20221221122213.1458540-1-linux@roeck-us.net>
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
+
+Reviewed-by: Joel Stanley <joel@jms.id.au>
+
+I wonder if we could update the code so the padding is assumed.
+
 > ---
->  hw/arm/aspeed.c | 33 +++++++++++++++++++++++++++++++++
->  1 file changed, 33 insertions(+)
+>  hw/block/m25p80_sfdp.h |  2 ++
+>  hw/block/m25p80.c      |  3 ++-
+>  hw/block/m25p80_sfdp.c | 40 ++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 44 insertions(+), 1 deletion(-)
 >
-> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-> index 55f114ef72..4919a1fe9e 100644
-> --- a/hw/arm/aspeed.c
-> +++ b/hw/arm/aspeed.c
-> @@ -71,6 +71,16 @@ struct AspeedMachineState {
->          SCU_HW_STRAP_VGA_SIZE_SET(VGA_16M_DRAM) |                       =
-\
->          SCU_AST2400_HW_STRAP_BOOT_MODE(AST2400_SPI_BOOT))
+> diff --git a/hw/block/m25p80_sfdp.h b/hw/block/m25p80_sfdp.h
+> index df7adfb5ce..011a880f66 100644
+> --- a/hw/block/m25p80_sfdp.h
+> +++ b/hw/block/m25p80_sfdp.h
+> @@ -26,4 +26,6 @@ uint8_t m25p80_sfdp_w25q512jv(uint32_t addr);
 >
-> +/* TODO: Find the actual hardware value */
-> +#define SUPERMICROX11_SPI_BMC_HW_STRAP1 (                               =
-\
-> +        AST2500_HW_STRAP1_DEFAULTS |                                    =
-\
-> +        SCU_AST2500_HW_STRAP_SPI_AUTOFETCH_ENABLE |                     =
-\
-> +        SCU_AST2500_HW_STRAP_GPIO_STRAP_ENABLE |                        =
-\
-> +        SCU_AST2500_HW_STRAP_UART_DEBUG |                               =
-\
-> +        SCU_AST2500_HW_STRAP_DDR4_ENABLE |                              =
-\
-> +        SCU_HW_STRAP_SPI_WIDTH |                                        =
-\
-> +        SCU_HW_STRAP_SPI_MODE(SCU_HW_STRAP_SPI_M_S_EN))
-> +
->  /* AST2500 evb hardware value: 0xF100C2E6 */
->  #define AST2500_EVB_HW_STRAP1 ((                                        =
-\
->          AST2500_HW_STRAP1_DEFAULTS |                                    =
-\
-> @@ -1141,6 +1151,25 @@ static void aspeed_machine_supermicrox11_bmc_class=
-_init(ObjectClass *oc,
->      mc->default_ram_size =3D 256 * MiB;
->  }
+>  uint8_t m25p80_sfdp_w25q01jvq(uint32_t addr);
 >
-> +static void aspeed_machine_supermicrox11_spi_bmc_class_init(ObjectClass =
-*oc,
-> +                                                            void *data)
-> +{
-> +    MachineClass *mc =3D MACHINE_CLASS(oc);
-> +    AspeedMachineClass *amc =3D ASPEED_MACHINE_CLASS(oc);
+> +uint8_t m25p80_sfdp_is25wp256(uint32_t addr);
 > +
-> +    mc->desc       =3D "Supermicro X11 SPI BMC (ARM1176)";
-> +    amc->soc_name  =3D "ast2500-a1";
-> +    amc->hw_strap1 =3D SUPERMICROX11_SPI_BMC_HW_STRAP1;
-> +    amc->fmc_model =3D "mx25l25635e";
-> +    amc->spi_model =3D "mx25l25635e";
-> +    amc->num_cs    =3D 1;
-> +    amc->macs_mask =3D ASPEED_MAC0_ON | ASPEED_MAC1_ON;
-> +    amc->i2c_init  =3D palmetto_bmc_i2c_init;
-> +    mc->default_ram_size =3D 512 * MiB;
-> +    mc->default_cpus =3D mc->min_cpus =3D mc->max_cpus =3D
-> +        aspeed_soc_num_cpus(amc->soc_name);
-> +}
+>  #endif
+> diff --git a/hw/block/m25p80.c b/hw/block/m25p80.c
+> index 68a757abf3..dc5ffbc4ff 100644
+> --- a/hw/block/m25p80.c
+> +++ b/hw/block/m25p80.c
+> @@ -222,7 +222,8 @@ static const FlashPartInfo known_devices[] =3D {
+>      { INFO("is25wp032",   0x9d7016,      0,  64 << 10,  64, ER_4K) },
+>      { INFO("is25wp064",   0x9d7017,      0,  64 << 10, 128, ER_4K) },
+>      { INFO("is25wp128",   0x9d7018,      0,  64 << 10, 256, ER_4K) },
+> -    { INFO("is25wp256",   0x9d7019,      0,  64 << 10, 512, ER_4K) },
+> +    { INFO("is25wp256",   0x9d7019,      0,  64 << 10, 512, ER_4K),
+> +      .sfdp_read =3D m25p80_sfdp_is25wp256 },
+>
+>      /* Macronix */
+>      { INFO("mx25l2005a",  0xc22012,      0,  64 << 10,   4, ER_4K) },
+> diff --git a/hw/block/m25p80_sfdp.c b/hw/block/m25p80_sfdp.c
+> index 77615fa29e..b33811a4f5 100644
+> --- a/hw/block/m25p80_sfdp.c
+> +++ b/hw/block/m25p80_sfdp.c
+> @@ -330,3 +330,43 @@ static const uint8_t sfdp_w25q01jvq[] =3D {
+>      0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+>  };
+>  define_sfdp_read(w25q01jvq);
 > +
->  static void aspeed_machine_ast2500_evb_class_init(ObjectClass *oc, void =
-*data)
->  {
->      MachineClass *mc =3D MACHINE_CLASS(oc);
-> @@ -1522,6 +1551,10 @@ static const TypeInfo aspeed_machine_types[] =3D {
->          .name          =3D MACHINE_TYPE_NAME("supermicrox11-bmc"),
->          .parent        =3D TYPE_ASPEED_MACHINE,
->          .class_init    =3D aspeed_machine_supermicrox11_bmc_class_init,
-> +    }, {
-> +        .name          =3D MACHINE_TYPE_NAME("supermicrox11-spi-bmc"),
-> +        .parent        =3D TYPE_ASPEED_MACHINE,
-> +        .class_init    =3D aspeed_machine_supermicrox11_spi_bmc_class_in=
-it,
->      }, {
->          .name          =3D MACHINE_TYPE_NAME("ast2500-evb"),
->          .parent        =3D TYPE_ASPEED_MACHINE,
+> +/*
+> + * Integrated Silicon Solution (ISSI)
+> + */
+> +
+> +static const uint8_t sfdp_is25wp256[] =3D {
+> +    0x53, 0x46, 0x44, 0x50, 0x06, 0x01, 0x01, 0xff,
+> +    0x00, 0x06, 0x01, 0x10, 0x30, 0x00, 0x00, 0xff,
+> +    0x9d, 0x05, 0x01, 0x03, 0x80, 0x00, 0x00, 0x02,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xe5, 0x20, 0xf9, 0xff, 0xff, 0xff, 0xff, 0x0f,
+> +    0x44, 0xeb, 0x08, 0x6b, 0x08, 0x3b, 0x80, 0xbb,
+> +    0xfe, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0xff,
+> +    0xff, 0xff, 0x44, 0xeb, 0x0c, 0x20, 0x0f, 0x52,
+> +    0x10, 0xd8, 0x00, 0xff, 0x23, 0x4a, 0xc9, 0x00,
+> +    0x82, 0xd8, 0x11, 0xce, 0xcc, 0xcd, 0x68, 0x46,
+> +    0x7a, 0x75, 0x7a, 0x75, 0xf7, 0xae, 0xd5, 0x5c,
+> +    0x4a, 0x42, 0x2c, 0xff, 0xf0, 0x30, 0xfa, 0xa9,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0x50, 0x19, 0x50, 0x16, 0x9f, 0xf9, 0xc0, 0x64,
+> +    0x8f, 0xef, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +    0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
+> +};
+> +define_sfdp_read(is25wp256);
 > --
 > 2.39.0
 >
