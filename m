@@ -2,78 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B909686FA7
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 21:30:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AD79686E9B
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 20:05:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNJj6-0001l0-HQ; Wed, 01 Feb 2023 15:29:04 -0500
+	id 1pNIOy-0007Wb-7Y; Wed, 01 Feb 2023 14:04:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Q3mX=55=zx2c4.com=Jason@kernel.org>)
- id 1pNJj4-0001kr-Lk
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 15:29:02 -0500
-Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNIOu-0007WH-Ni
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:04:09 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1)
- (envelope-from <SRS0=Q3mX=55=zx2c4.com=Jason@kernel.org>)
- id 1pNJj2-0003nr-4y
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 15:29:01 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by ams.source.kernel.org (Postfix) with ESMTPS id 830C2B8229E
- for <qemu-devel@nongnu.org>; Wed,  1 Feb 2023 20:28:56 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2CD1C433D2
- for <qemu-devel@nongnu.org>; Wed,  1 Feb 2023 20:28:54 +0000 (UTC)
-Authentication-Results: smtp.kernel.org;
- dkim=pass (1024-bit key) header.d=zx2c4.com header.i=@zx2c4.com
- header.b="Nkrw10b1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zx2c4.com; s=20210105; 
- t=1675283333;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=BeC/U9Shrqj1gv29cWMrRgWq03KLAHEM+n3YlHZRW58=;
- b=Nkrw10b1UVG5ykyfpxTNCWyTobMaa1zA/XErBgkRD63eHPQnZ76uZ2yLuEXw7JU0hQbY/y
- wFP9iFVaExrMTrg1Gd30bDMGta6djOgzrwTFoWzOK1xiSqreBwc/zRFMVT7Gy6h2sH7XF2
- Tf7wcyWNaP0YVt/lqNQaUrd2Q2+eKQQ=
-Received: by mail.zx2c4.com (ZX2C4 Mail Server) with ESMTPSA id f6469e70
- (TLSv1.3:TLS_AES_256_GCM_SHA384:256:NO) for <qemu-devel@nongnu.org>;
- Wed, 1 Feb 2023 20:28:53 +0000 (UTC)
-Received: by mail-yw1-f176.google.com with SMTP id
- 00721157ae682-4a263c4ddbaso784167b3.0
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 12:28:52 -0800 (PST)
-X-Gm-Message-State: AO0yUKV3sIUG/38SjEDyyoi4cLnJMq834r1BSER/hroPXieH5ztyZbuT
- 2cprwcgnsnvPT6ioWyKMZOmApQuMtYKleDwmo/8=
-X-Google-Smtp-Source: AK7set/0DM3relTL7H4RK8xENIee+gFegdgrFK2jeX5YMCVbr1BL6soa7dIX7/qna59DbJNSt3m+eLuhW20/dYlWBdg=
-X-Received: by 2002:a81:2591:0:b0:50f:7b33:e1d1 with SMTP id
- l139-20020a812591000000b0050f7b33e1d1mr431597ywl.79.1675283332444; Wed, 01
- Feb 2023 12:28:52 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNIOj-0005H4-Fg
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 14:04:01 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675278225;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ndcsymLJ41iNhb8Y/1uIBhstoeUzpay0P7dBEgw1V6U=;
+ b=RKT0P+5MKKn/Ur8lYYL57Es/Ug0o9d5Wh2FZN7R+2ikWEN68aojWgvp5L3ob7iEMju054q
+ ePIuOxS9YtEmwaXkKF+4bRa3i/UoCIJl14hcQymbzYnXbuULs10WPybWUUGphT5wVuHmb2
+ kIFpEgtQupPjvPAu553Ru6Lq+RjWU3o=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-634-4PTts_zxO_yZGT6nRSCnkw-1; Wed, 01 Feb 2023 14:03:44 -0500
+X-MC-Unique: 4PTts_zxO_yZGT6nRSCnkw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ l5-20020a1ced05000000b003db300f2e1cso1449085wmh.0
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 11:03:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ndcsymLJ41iNhb8Y/1uIBhstoeUzpay0P7dBEgw1V6U=;
+ b=PyWbve+yVkewxPXPFwADcT00Z8nBX7eoHbaUuhJJWNvyWL1A4ExyDtwYn+kBqeVEkH
+ XA98pyTDkaRGBqAbDdYsmp6kf5edWQ+2PeoSZKwl2747kX4n617wRIS95ixsrX6rBng9
+ RbGeHP/NpbEiS1p6ZYNhb3ziUrZLPlvFYDREx8QSXGl5bklfpZPKWxQnTdK0BCG7liAB
+ 8WSr0wEUYr1qt/T7Y4LnQmdfBrl8ttHD8YuCLhQAXKAOVhEmwuOQXbpx35emM7AQKQG5
+ 7uzUb2+X+q5CpuOCqCbk7IwV46Jj3NJ/cXoICq4n2UZqg71gUCEfRXiBRtCiF/UFig8v
+ dOfQ==
+X-Gm-Message-State: AO0yUKXcXqblY1HP7+hIEUF97qIwsbTat+DKZNhzdPfBFzYHAuC/IG39
+ FYgy1/iY2UFvX5AafPtKPPp7GV4B6e2wwUCkRDnX8WXW5M05zoU4fSkcISWa/IAnGUJxiDv3ewa
+ V6hsuoPGYvlqgMUw=
+X-Received: by 2002:a05:600c:190f:b0:3d3:49db:d95 with SMTP id
+ j15-20020a05600c190f00b003d349db0d95mr3240682wmq.37.1675278223292; 
+ Wed, 01 Feb 2023 11:03:43 -0800 (PST)
+X-Google-Smtp-Source: AK7set8wTTRyn6hHzv/Urc0TA42nRM6HIMcNh47NLtevhZ0aXfbfUxdinCCMfu29GEVcWKJDJkXUAA==
+X-Received: by 2002:a05:600c:190f:b0:3d3:49db:d95 with SMTP id
+ j15-20020a05600c190f00b003d349db0d95mr3240662wmq.37.1675278223098; 
+ Wed, 01 Feb 2023 11:03:43 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ h20-20020a05600c351400b003dc22ee5a2bsm2766944wmq.39.2023.02.01.11.03.41
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Feb 2023 11:03:41 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
+ <lsoaresp@redhat.com>,  James Houghton <jthoughton@google.com>,  "Dr .
+ David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH RFC 17/21] migration: Rework ram discard logic for
+ hugetlb double-map
+In-Reply-To: <20230117220914.2062125-18-peterx@redhat.com> (Peter Xu's message
+ of "Tue, 17 Jan 2023 17:09:10 -0500")
+References: <20230117220914.2062125-1-peterx@redhat.com>
+ <20230117220914.2062125-18-peterx@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Wed, 01 Feb 2023 20:03:40 +0100
+Message-ID: <87r0v9w6lv.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com>
- <CAHmME9ouTTk1ONXm276CwunOpy=MAW1Q79x25kcQv=YJTZ88dQ@mail.gmail.com>
- <2b8fc552e1dc3a14de404eeaff0819ec8da7de54.camel@linux.ibm.com>
-In-Reply-To: <2b8fc552e1dc3a14de404eeaff0819ec8da7de54.camel@linux.ibm.com>
-From: "Jason A. Donenfeld" <Jason@zx2c4.com>
-Date: Wed, 1 Feb 2023 12:51:48 -0500
-X-Gmail-Original-Message-ID: <CAHmME9ps8w8TbC_6Bk8OQbJytR-_CJrcUWT_uXDV+xjL293NHQ@mail.gmail.com>
-Message-ID: <CAHmME9ps8w8TbC_6Bk8OQbJytR-_CJrcUWT_uXDV+xjL293NHQ@mail.gmail.com>
-Subject: Re: [PATCH] x86: fix q35 kernel measurements broken due to rng seeding
-To: "James E . J . Bottomley" <jejb@linux.ibm.com>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
- DOV MURIK <Dov.Murik1@il.ibm.com>
-Content-Type: multipart/alternative; boundary="000000000000edb8bd05f3a94b77"
-Received-SPF: pass client-ip=2604:1380:4601:e00::1;
- envelope-from=SRS0=Q3mX=55=zx2c4.com=Jason@kernel.org;
- helo=ams.source.kernel.org
-X-Spam_score_int: -39
-X-Spam_score: -4.0
-X-Spam_bar: ----
-X-Spam_report: (-4.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, HEADER_FROM_DIFFERENT_DOMAINS=0.25,
- HTML_MESSAGE=0.001, RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -87,64 +98,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---000000000000edb8bd05f3a94b77
-Content-Type: text/plain; charset="UTF-8"
-
-It's not a secret, but I have so little internet right now that I can't
-even load a webpage, and I'm on my phone, hence the short HTMLified emails.
-
-In brief, though, it gets rid of all modifications to the kernel image all
-together, so it should fix your issue.
-
-On Wed, Feb 1, 2023, 10:24 James Bottomley <jejb@linux.ibm.com> wrote:
-
-> On Wed, 2023-02-01 at 10:10 -0500, Jason A. Donenfeld wrote:
-> > This is already fixed via the patch that MST just sent in his pull.
-> > So wait a few days for that to be merged and it'll be all set.
-> >
-> > No need for this patch here. Do not merge.
+Peter Xu <peterx@redhat.com> wrote:
+> Hugetlb double map will make the ram discard logic different.
 >
-> If it's not a secret, would it be too much trouble to point to the
-> branch so we can actually test it?  It does seem that the biggest
-> problem this issue shows is that there wasn't wide enough configuration
-> testing done on the prior commits before they were merged.
+> The whole idea will still be the same: we need to a bitmap sync between
+> src/dst before we switch to postcopy.
 >
-> James
+> When discarding a range, we only erase the pgtables that were used to be
+> mapped for the guest leveraging the semantics of MADV_DONTNEED on Linux.
+> This guarantees us that when a guest access triggered we'll receive a MINOR
+> fault message rather than a MISSING fault message.
 >
->
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
---000000000000edb8bd05f3a94b77
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+>                       length >> qemu_target_page_bits());
+>      }
+>  
+> -    return ram_block_discard_range(rb, start, length);
+> +    if (postcopy_use_minor_fault(rb)) {
+> +        /*
+> +         * We need to keep the page cache exist, so as to trigger MINOR
+> +         * faults for every future page accesses on old pages.
+> +         */
+> +        return ram_block_zap_range(rb, start, length);
+> +    } else {
+> +        return ram_block_discard_range(rb, start, length);
+> +    }
 
-<div dir=3D"auto">It&#39;s not a secret, but I have so little internet righ=
-t now that I can&#39;t even load a webpage, and I&#39;m on my phone, hence =
-the short HTMLified emails.<div dir=3D"auto"><br></div><div dir=3D"auto">In=
- brief, though, it gets rid of all modifications to the kernel image all to=
-gether, so it should fix your issue.</div></div><br><div class=3D"gmail_quo=
-te"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Feb 1, 2023, 10:24 James =
-Bottomley &lt;<a href=3D"mailto:jejb@linux.ibm.com">jejb@linux.ibm.com</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0=
- .8ex;border-left:1px #ccc solid;padding-left:1ex">On Wed, 2023-02-01 at 10=
-:10 -0500, Jason A. Donenfeld wrote:<br>
-&gt; This is already fixed via the patch that MST just sent in his pull.<br=
->
-&gt; So wait a few days for that to be merged and it&#39;ll be all set.<br>
-&gt; <br>
-&gt; No need for this patch here. Do not merge.<br>
-<br>
-If it&#39;s not a secret, would it be too much trouble to point to the<br>
-branch so we can actually test it?=C2=A0 It does seem that the biggest<br>
-problem this issue shows is that there wasn&#39;t wide enough configuration=
-<br>
-testing done on the prior commits before they were merged.<br>
-<br>
-James<br>
-<br>
-</blockquote></div>
+This is a question of style, so take it or leave as it as you wish.
 
---000000000000edb8bd05f3a94b77--
+You can change:
+
+if (foo) {
+    return X;
+} else {
+    return Y;
+}
+
+into:
+
+if (foo) {
+    return X;
+}
+return Y;
+
+It is one line less of code, and in my eyes, makes it easier to see that
+one exits in all cases.  But as said, this is a question of taste, and
+that is as personal as it gets.
+
+Later, Juan.
+
 
