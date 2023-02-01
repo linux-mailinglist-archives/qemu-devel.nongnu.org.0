@@ -2,104 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BB8F6866B7
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 14:22:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3D166866D1
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 14:27:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pND3t-0006DO-3V; Wed, 01 Feb 2023 08:22:05 -0500
+	id 1pND3r-0006C6-Qj; Wed, 01 Feb 2023 08:22:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pND3K-00063z-I3; Wed, 01 Feb 2023 08:21:33 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <pmorel@linux.ibm.com>)
- id 1pND3I-00046T-6L; Wed, 01 Feb 2023 08:21:30 -0500
-Received: from pps.filterd (m0127361.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 311DDrb0033158; Wed, 1 Feb 2023 13:21:18 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-transfer-encoding; s=pp1;
- bh=SYHjq1/6eI/ESLEJN/HQ4//q0+l0VZZql8wdWFOy+eU=;
- b=W5xKsDyfS++UEbU+F9yxS1TVjdNo5+Cm5P6GGq1DDh9YtqHVIzv0/ILXMJrRier6x0OR
- mMfsuORvX5j2It86uSzZCG3wiw93qZk4RtBTJwjIIIQqarAZujm+YcA/ayFl98vjOnxl
- Gi1/UOC0K4WvGBK96hzdaIstRXqkpKIfg3xGT1sLsPoz/IC6VDxWmXFYn2aPvWrRDsyT
- WqkxJo1Nxn18FGXreSCBil2BysrFoCqkH7hWFrLoRsg81VbBCPpQpfnlwN1fNnLkyxr5
- JsVYz7F1CCbkSBHsUmK+7BYsZBe/SAzynxyMVucBljnsLamcUSMNCh6bPB6K+KVbn1GQ jg== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nfrscr6ad-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Feb 2023 13:21:18 +0000
-Received: from m0127361.ppops.net (m0127361.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 311DF78l037151;
- Wed, 1 Feb 2023 13:21:17 GMT
-Received: from ppma04ams.nl.ibm.com (63.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.99])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nfrscr69n-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Feb 2023 13:21:17 +0000
-Received: from pps.filterd (ppma04ams.nl.ibm.com [127.0.0.1])
- by ppma04ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30VMi3Zg012460;
- Wed, 1 Feb 2023 13:21:15 GMT
-Received: from smtprelay06.fra02v.mail.ibm.com ([9.218.2.230])
- by ppma04ams.nl.ibm.com (PPS) with ESMTPS id 3ncvs7mw7f-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Feb 2023 13:21:15 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay06.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 311DLCTE23724618
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 1 Feb 2023 13:21:12 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 274F22004D;
- Wed,  1 Feb 2023 13:21:12 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id CC61E20040;
- Wed,  1 Feb 2023 13:21:10 +0000 (GMT)
-Received: from li-c6ac47cc-293c-11b2-a85c-d421c8e4747b.ibm.com.com (unknown
- [9.179.4.198]) by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed,  1 Feb 2023 13:21:10 +0000 (GMT)
-From: Pierre Morel <pmorel@linux.ibm.com>
-To: qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, nsg@linux.ibm.com, frankja@linux.ibm.com,
- berrange@redhat.com, clg@kaod.org
-Subject: [PATCH v15 11/11] docs/s390x/cpu topology: document s390x cpu topology
-Date: Wed,  1 Feb 2023 14:20:51 +0100
-Message-Id: <20230201132051.126868-12-pmorel@linux.ibm.com>
-X-Mailer: git-send-email 2.31.1
-In-Reply-To: <20230201132051.126868-1-pmorel@linux.ibm.com>
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1pND3T-00065Q-0W
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:21:47 -0500
+Received: from mail-lj1-x233.google.com ([2a00:1450:4864:20::233])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <frank.chang@sifive.com>)
+ id 1pND3M-00047D-TH
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:21:34 -0500
+Received: by mail-lj1-x233.google.com with SMTP id b13so9429638ljf.8
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 05:21:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=rFFADaYv4RMRZci0kU485Cfrcm6FCC0H2psqZLwK+Lg=;
+ b=le3s0VPp7peRiMG3z6IRJ4UgIaemTeGjkjAG7wV9sV0zFkHeNvRt8rIdtNkKmeccbB
+ PKg+BVq1u+1mfTDP7yTr78TX4dJWu+AO3CuHd63O4gv1mIKIKpNK7Eozr60EOhFsbxhh
+ 7IkLI0e5APw10ho8FwOQV4tYhY04V/Z3DVudfl0GJsmNy60fRI/FVKphznheeW2vS8k1
+ xCyWR59Ps6a6pSH99AGMpPOAd8sZtwD0xZIphUfvvfEbuT6BXOfgDoDu2MVIuZwq5XJr
+ /hSP5yaCe07NRGnlTcdXdLvuk/v0xwARdMLgeQZidwaz+5dySDgh9rIGsbNos0ecvFpd
+ 5uJQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=rFFADaYv4RMRZci0kU485Cfrcm6FCC0H2psqZLwK+Lg=;
+ b=TnC8ZrR7vk6p5OueuoC3qFkfn1l9xxG5pkEOFW9J+wbc1u6iQAC0epjn3+ZOUGGoPp
+ 4wpIruIRKzRgjNczTpsl+F4s/bRrKinmbFrO+4h0MD5EwYvX9qJNwbmmdiyGCasoS8fA
+ 0QN0LpYtVhPCxIvVfAkTlDegHab7nZh5x1gmEVXr/WKDgpINhCpAASWUOah+ryISzcIB
+ vFfWncycxAuYSrTJPOK1Oj1n3p+3vRLX/8lwilHhFdmEJLVAhLydZtxHXwAjfYUUtvfM
+ nk94qaOZFW1ZfPeUuF3nhixBJKtmVoxZmG0aU3vJSIyJGSdPgw1WSRTavKKKCX8/pC8U
+ 0CBg==
+X-Gm-Message-State: AO0yUKXE5NL6cfx5Rh21MdanUcdvYdgmHrSRXeHYbaivjCr3pgukZYFb
+ zXkEIRpqOFioFBivPp5/8ck+s/1/J1SX4iZf
+X-Google-Smtp-Source: AK7set9jqZAT4hJR+LPzu1lC/jfrSPMSTvd33O1FDI9LC4NE3PjMoUZSlD6AqkHyAlT6JJWFoRYW9Q==
+X-Received: by 2002:a2e:8045:0:b0:290:5a39:9156 with SMTP id
+ p5-20020a2e8045000000b002905a399156mr461307ljg.10.1675257690666; 
+ Wed, 01 Feb 2023 05:21:30 -0800 (PST)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com.
+ [209.85.167.52]) by smtp.gmail.com with ESMTPSA id
+ s4-20020a05651c200400b0028ea7b5d04asm1050357ljo.129.2023.02.01.05.21.29
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Feb 2023 05:21:29 -0800 (PST)
+Received: by mail-lf1-f52.google.com with SMTP id b3so29267404lfv.2;
+ Wed, 01 Feb 2023 05:21:29 -0800 (PST)
+X-Received: by 2002:a05:6512:4010:b0:4d5:76af:f890 with SMTP id
+ br16-20020a056512401000b004d576aff890mr401587lfb.228.1675257689284; Wed, 01
+ Feb 2023 05:21:29 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: fqd9kZOWhFp--yRQwvEqZT_-WCnu5H4k
-X-Proofpoint-GUID: C8p4QX4X4Ryzoml1y-Bijj1IKAldgY0q
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-01_04,2023-01-31_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- lowpriorityscore=0 suspectscore=0 spamscore=0 clxscore=1015 malwarescore=0
- bulkscore=0 mlxlogscore=999 phishscore=0 priorityscore=1501 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302010112
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=pmorel@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+References: <20230131133906.1956228-1-alexghiti@rivosinc.com>
+ <20230131133906.1956228-3-alexghiti@rivosinc.com>
+In-Reply-To: <20230131133906.1956228-3-alexghiti@rivosinc.com>
+From: Frank Chang <frank.chang@sifive.com>
+Date: Wed, 1 Feb 2023 21:21:17 +0800
+X-Gmail-Original-Message-ID: <CANzO1D0WH1T9YuJokFJp8gc9dkDTKUtD+YN+tvp6bZir=NRQPA@mail.gmail.com>
+Message-ID: <CANzO1D0WH1T9YuJokFJp8gc9dkDTKUtD+YN+tvp6bZir=NRQPA@mail.gmail.com>
+Subject: Re: [PATCH v9 2/5] riscv: Change type of valid_vm_1_10_[32|64] to bool
+To: Alexandre Ghiti <alexghiti@rivosinc.com>
+Cc: Palmer Dabbelt <palmer@dabbelt.com>,
+ Alistair Francis <alistair.francis@wdc.com>, 
+ Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>, 
+ Frank Chang <frank.chang@sifive.com>, qemu-riscv@nongnu.org,
+ qemu-devel@nongnu.org, Bin Meng <bmeng@tinylab.org>
+Content-Type: multipart/alternative; boundary="0000000000007a24dc05f3a353fa"
+Received-SPF: pass client-ip=2a00:1450:4864:20::233;
+ envelope-from=frank.chang@sifive.com; helo=mail-lj1-x233.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -115,326 +98,173 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add some basic examples for the definition of cpu topology
-in s390x.
+--0000000000007a24dc05f3a353fa
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
----
- docs/system/s390x/cpu-topology.rst | 294 +++++++++++++++++++++++++++++
- docs/system/target-s390x.rst       |   1 +
- 2 files changed, 295 insertions(+)
- create mode 100644 docs/system/s390x/cpu-topology.rst
+Reviewed-by: Frank Chang <frank.chang@sifive.com>
 
-diff --git a/docs/system/s390x/cpu-topology.rst b/docs/system/s390x/cpu-topology.rst
-new file mode 100644
-index 0000000000..e2190318c0
---- /dev/null
-+++ b/docs/system/s390x/cpu-topology.rst
-@@ -0,0 +1,294 @@
-+CPU topology on s390x
-+=====================
-+
-+Since QEMU 8.0, CPU topology on s390x provides up to 4 levels of
-+topology containers: drawers, books, sockets and cores.
-+
-+The first three containers define a tree hierarchy, the last one
-+provides the placement of the CPUs inside the parent container and
-+3 CPU attributes:
-+
-+- CPU type
-+- polarity entitlement
-+- dedication
-+
-+Note also that since 7.2 threads are no longer supported in the topology
-+and the ``-smp`` command line argument accepts only ``threads=1``.
-+
-+Prerequisites
-+-------------
-+
-+To use CPU topology a Linux QEMU/KVM machine providing the CPU topology facility
-+(STFLE bit 11) is required.
-+
-+However, since this facility has been enabled by default in an early version
-+of QEMU, we use a capability, ``KVM_CAP_S390_CPU_TOPOLOGY``, to notify KVM
-+that QEMU is supporting CPU topology.
-+
-+Enabling CPU topology
-+---------------------
-+
-+Currently, CPU topology is only enabled in the host model by default.
-+
-+Enabling CPU topology in a CPU model is done by setting the CPU flag
-+``ctop`` to ``on`` like in:
-+
-+.. code-block:: bash
-+
-+   -cpu gen16b,ctop=on
-+
-+Having the topology disabled by default allows migration between
-+old and new QEMU without adding new flags.
-+
-+Default topology usage
-+----------------------
-+
-+The CPU topology, can be specified on the QEMU command line
-+with the ``-smp`` or the ``-device`` QEMU command arguments
-+without using any new attributes.
-+In this case, the topology will be calculated by simply adding
-+to the topology the cores based on the core-id starting with
-+core-0 at position 0 of socket-0, book-0, drawer-0 with default
-+modifier attributes: horizontal polarity and no dedication.
-+
-+In the following machine we define 8 sockets with 4 cores each.
-+Note that s390x QEMU machines do not implement multithreading.
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-s390x -m 2G \
-+    -cpu gen16b,ctop=on \
-+    -smp cpus=5,sockets=8,cores=4,maxcpus=32 \
-+    -device host-s390x-cpu,core-id=14 \
-+
-+New CPUs can be plugged using the device_add hmp command like in:
-+
-+.. code-block:: bash
-+
-+  (qemu) device_add gen16b-s390x-cpu,core-id=9
-+
-+The core-id defines the placement of the core in the topology by
-+starting with core 0 in socket 0 up to maxcpus.
-+
-+In the example above:
-+
-+* There are 5 CPUs provided to the guest with the ``-smp`` command line
-+  They will take the core-ids 0,1,2,3,4
-+  As we have 4 cores in a socket, we have 4 CPUs provided
-+  to the guest in socket 0, with core-ids 0,1,2,3.
-+  The last cpu, with core-id 4, will be on socket 1.
-+
-+* the core with ID 14 provided by the ``-device`` command line will
-+  be placed in socket 3, with core-id 14
-+
-+* the core with ID 9 provided by the ``device_add`` qmp command will
-+  be placed in socket 2, with core-id 9
-+
-+Polarity and dedication
-+-----------------------
-+
-+Polarity can be of two types: horizontal or vertical.
-+
-+The horizontal polarization specifies that all guest's vCPUs get
-+almost the same amount of provisioning of real CPU by the host.
-+
-+The vertical polarization specifies that guest's vCPU can get
-+different real CPU provisions:
-+
-+- a vCPU with Vertical high entitlement specifies that this
-+  vCPU gets 100% of the real CPU provisioning.
-+
-+- a vCPU with Vertical medium entitlement specifies that this
-+  vCPU shares the real CPU with other vCPUs.
-+
-+- a vCPU with Vertical low entitlement specifies that this
-+  vCPU only get real CPU provisioning when no other vCPU need it.
-+
-+In the case a vCPU with vertical high entitlement does not use
-+the real CPU, the unused "slack" can be dispatched to other vCPU
-+with medium or low entitlement.
-+
-+A subsystem reset puts all vCPU of the configuration into the
-+horizontal polarization.
-+
-+The admin specifies the dedicated bit when the vCPU is dedicated
-+to a single real CPU.
-+
-+As for the Linux admin, the dedicated bit is an indication on the
-+affinity of a vCPU for a real CPU while the entitlement indicates the
-+sharing or exclusivity of use.
-+
-+Defining the topology on command line
-+-------------------------------------
-+
-+The topology can be defined entirely during the CPU definition,
-+with the exception of CPU 0 which must be defined with the -smp
-+argument.
-+
-+For example, here we set the position of the cores 1,2,3 on
-+drawer 1, book 1, socket 2 and cores 0,9 and 14 on drawer 0,
-+book 0, socket 0 with all horizontal polarity and not dedicated.
-+The core 4, will be set on its default position on socket 1
-+(since we have 4 core per socket) and we define it with dedication and
-+vertical high entitlement.
-+
-+.. code-block:: bash
-+
-+  $ qemu-system-s390x -m 2G \
-+    -cpu gen16b,ctop=on \
-+    -smp cpus=1,sockets=8,cores=4,maxcpus=32 \
-+    \
-+    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=1 \
-+    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=2 \
-+    -device gen16b-s390x-cpu,drawer-id=1,book-id=1,socket-id=2,core-id=3 \
-+    \
-+    -device gen16b-s390x-cpu,drawer-id=0,book-id=0,socket-id=0,core-id=9 \
-+    -device gen16b-s390x-cpu,drawer-id=0,book-id=0,socket-id=0,core-id=14 \
-+    \
-+    -device gen16b-s390x-cpu,core-id=4,dedicated=on,polarity=3 \
-+
-+QAPI interface for topology
-+---------------------------
-+
-+Let's start QEMU with the following command:
-+
-+.. code-block:: bash
-+
-+ sudo /usr/local/bin/qemu-system-s390x \
-+    -enable-kvm \
-+    -cpu z14,ctop=on \
-+    -smp 1,drawers=3,books=3,sockets=2,cores=2,maxcpus=36 \
-+    \
-+    -device z14-s390x-cpu,core-id=19,polarity=3 \
-+    -device z14-s390x-cpu,core-id=11,polarity=1 \
-+    -device z14-s390x-cpu,core-id=112,polarity=3 \
-+   ...
-+
-+and see the result when using of the QAPI interface.
-+
-+addons to query-cpus-fast
-++++++++++++++++++++++++++
-+
-+The command query-cpus-fast allows the admin to query the topology
-+tree and modifiers for all configured vCPU.
-+
-+.. code-block:: QMP
-+
-+ -> { "execute": "query-cpus-fast" }
-+ {
-+  "return": [
-+    {
-+      "dedicated": false,
-+      "thread-id": 3631238,
-+      "props": {
-+        "core-id": 0,
-+        "socket-id": 0,
-+        "drawer-id": 0,
-+        "book-id": 0
-+      },
-+      "cpu-state": "operating",
-+      "qom-path": "/machine/unattached/device[0]",
-+      "polarity": 2,
-+      "cpu-index": 0,
-+      "target": "s390x"
-+    },
-+    {
-+      "dedicated": false,
-+      "thread-id": 3631248,
-+      "props": {
-+        "core-id": 19,
-+        "socket-id": 9,
-+        "drawer-id": 0,
-+        "book-id": 2
-+      },
-+      "cpu-state": "operating",
-+      "qom-path": "/machine/peripheral-anon/device[0]",
-+      "polarity": 3,
-+      "cpu-index": 19,
-+      "target": "s390x"
-+    },
-+    {
-+      "dedicated": false,
-+      "thread-id": 3631249,
-+      "props": {
-+        "core-id": 11,
-+        "socket-id": 5,
-+        "drawer-id": 0,
-+        "book-id": 1
-+      },
-+      "cpu-state": "operating",
-+      "qom-path": "/machine/peripheral-anon/device[1]",
-+      "polarity": 1,
-+      "cpu-index": 11,
-+      "target": "s390x"
-+    },
-+    {
-+      "dedicated": true,
-+      "thread-id": 3631250,
-+      "props": {
-+        "core-id": 112,
-+        "socket-id": 56,
-+        "drawer-id": 3,
-+        "book-id": 14
-+      },
-+      "cpu-state": "operating",
-+      "qom-path": "/machine/peripheral-anon/device[2]",
-+      "polarity": 3,
-+      "cpu-index": 112,
-+      "target": "s390x"
-+    }
-+  ]
-+ }
-+
-+x-set-cpu-topology
-+++++++++++++++++++
-+
-+The command x-set-cpu-topology allows the admin to modify the topology
-+tree or the topology modifiers of a vCPU in the configuration.
-+
-+.. code-block:: QMP
-+
-+ -> { "execute": "x-set-cpu-topology",
-+      "arguments": {
-+         "core": 11,
-+         "socket": 0,
-+         "book": 0,
-+         "drawer": 0,
-+         "polarity": 0,
-+         "dedicated": false
-+      }
-+    }
-+ <- {"return": {}}
-+
-+
-+event CPU_POLARITY_CHANGE
-++++++++++++++++++++++++++
-+
-+When a guest is requesting a modification of the polarity,
-+QEMU sends a CPU_POLARITY_CHANGE event.
-+
-+When requesting the change, the guest only specifies horizontal or
-+vertical polarity.
-+The dedication and fine grain vertical entitlement depends on admin
-+to set according to its response to this event.
-+
-+Note that a vertical polarized dedicated vCPU can only have a high
-+entitlement, this gives 6 possibilities for a vCPU polarity:
-+
-+- Horizontal
-+- Horizontal dedicated
-+- Vertical low
-+- Vertical medium
-+- Vertical high
-+- Vertical high dedicated
-+
-+Example of the event received when the guest issues the CPU instruction
-+Perform Topology Function PTF(0) to request an horizontal polarity:
-+
-+.. code-block:: QMP
-+
-+ <- { "event": "CPU_POLARITY_CHANGE",
-+      "data": { "polarity": 0 },
-+      "timestamp": { "seconds": 1401385907, "microseconds": 422329 } }
-+
-+
-diff --git a/docs/system/target-s390x.rst b/docs/system/target-s390x.rst
-index c636f64113..ff0ffe04f3 100644
---- a/docs/system/target-s390x.rst
-+++ b/docs/system/target-s390x.rst
-@@ -33,3 +33,4 @@ Architectural features
- .. toctree::
-    s390x/bootdevices
-    s390x/protvirt
-+   s390x/cpu-topology
--- 
-2.31.1
+On Tue, Jan 31, 2023 at 10:29 PM Alexandre Ghiti <alexghiti@rivosinc.com>
+wrote:
 
+> This array is actually used as a boolean so swap its current char type
+> to a boolean and at the same time, change the type of validate_vm to
+> bool since it returns valid_vm_1_10_[32|64].
+>
+> Suggested-by: Andrew Jones <ajones@ventanamicro.com>
+> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+> Reviewed-by: Bin Meng <bmeng@tinylab.org>
+> ---
+>  target/riscv/csr.c | 21 +++++++++++----------
+>  1 file changed, 11 insertions(+), 10 deletions(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 0db2c233e5..6b157806a5 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -1117,16 +1117,16 @@ static const target_ulong hip_writable_mask =
+> MIP_VSSIP;
+>  static const target_ulong hvip_writable_mask = MIP_VSSIP | MIP_VSTIP |
+> MIP_VSEIP;
+>  static const target_ulong vsip_writable_mask = MIP_VSSIP;
+>
+> -static const char valid_vm_1_10_32[16] = {
+> -    [VM_1_10_MBARE] = 1,
+> -    [VM_1_10_SV32] = 1
+> +static const bool valid_vm_1_10_32[16] = {
+> +    [VM_1_10_MBARE] = true,
+> +    [VM_1_10_SV32] = true
+>  };
+>
+> -static const char valid_vm_1_10_64[16] = {
+> -    [VM_1_10_MBARE] = 1,
+> -    [VM_1_10_SV39] = 1,
+> -    [VM_1_10_SV48] = 1,
+> -    [VM_1_10_SV57] = 1
+> +static const bool valid_vm_1_10_64[16] = {
+> +    [VM_1_10_MBARE] = true,
+> +    [VM_1_10_SV39] = true,
+> +    [VM_1_10_SV48] = true,
+> +    [VM_1_10_SV57] = true
+>  };
+>
+>  /* Machine Information Registers */
+> @@ -1209,7 +1209,7 @@ static RISCVException read_mstatus(CPURISCVState
+> *env, int csrno,
+>      return RISCV_EXCP_NONE;
+>  }
+>
+> -static int validate_vm(CPURISCVState *env, target_ulong vm)
+> +static bool validate_vm(CPURISCVState *env, target_ulong vm)
+>  {
+>      if (riscv_cpu_mxl(env) == MXL_RV32) {
+>          return valid_vm_1_10_32[vm & 0xf];
+> @@ -2648,7 +2648,8 @@ static RISCVException read_satp(CPURISCVState *env,
+> int csrno,
+>  static RISCVException write_satp(CPURISCVState *env, int csrno,
+>                                   target_ulong val)
+>  {
+> -    target_ulong vm, mask;
+> +    target_ulong mask;
+> +    bool vm;
+>
+>      if (!riscv_feature(env, RISCV_FEATURE_MMU)) {
+>          return RISCV_EXCP_NONE;
+> --
+> 2.37.2
+>
+>
+>
+
+--0000000000007a24dc05f3a353fa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Reviewed-by: Frank Chang &lt;<a href=3D"mailto:frank.chang=
+@sifive.com">frank.chang@sifive.com</a>&gt;</div><br><div class=3D"gmail_qu=
+ote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Jan 31, 2023 at 10:29 PM=
+ Alexandre Ghiti &lt;<a href=3D"mailto:alexghiti@rivosinc.com">alexghiti@ri=
+vosinc.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">This array is actually used as a boolean so swap its current cha=
+r type<br>
+to a boolean and at the same time, change the type of validate_vm to<br>
+bool since it returns valid_vm_1_10_[32|64].<br>
+<br>
+Suggested-by: Andrew Jones &lt;<a href=3D"mailto:ajones@ventanamicro.com" t=
+arget=3D"_blank">ajones@ventanamicro.com</a>&gt;<br>
+Signed-off-by: Alexandre Ghiti &lt;<a href=3D"mailto:alexghiti@rivosinc.com=
+" target=3D"_blank">alexghiti@rivosinc.com</a>&gt;<br>
+Reviewed-by: Andrew Jones &lt;<a href=3D"mailto:ajones@ventanamicro.com" ta=
+rget=3D"_blank">ajones@ventanamicro.com</a>&gt;<br>
+Reviewed-by: Alistair Francis &lt;<a href=3D"mailto:alistair.francis@wdc.co=
+m" target=3D"_blank">alistair.francis@wdc.com</a>&gt;<br>
+Reviewed-by: Bin Meng &lt;<a href=3D"mailto:bmeng@tinylab.org" target=3D"_b=
+lank">bmeng@tinylab.org</a>&gt;<br>
+---<br>
+=C2=A0target/riscv/csr.c | 21 +++++++++++----------<br>
+=C2=A01 file changed, 11 insertions(+), 10 deletions(-)<br>
+<br>
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c<br>
+index 0db2c233e5..6b157806a5 100644<br>
+--- a/target/riscv/csr.c<br>
++++ b/target/riscv/csr.c<br>
+@@ -1117,16 +1117,16 @@ static const target_ulong hip_writable_mask =3D MIP=
+_VSSIP;<br>
+=C2=A0static const target_ulong hvip_writable_mask =3D MIP_VSSIP | MIP_VSTI=
+P | MIP_VSEIP;<br>
+=C2=A0static const target_ulong vsip_writable_mask =3D MIP_VSSIP;<br>
+<br>
+-static const char valid_vm_1_10_32[16] =3D {<br>
+-=C2=A0 =C2=A0 [VM_1_10_MBARE] =3D 1,<br>
+-=C2=A0 =C2=A0 [VM_1_10_SV32] =3D 1<br>
++static const bool valid_vm_1_10_32[16] =3D {<br>
++=C2=A0 =C2=A0 [VM_1_10_MBARE] =3D true,<br>
++=C2=A0 =C2=A0 [VM_1_10_SV32] =3D true<br>
+=C2=A0};<br>
+<br>
+-static const char valid_vm_1_10_64[16] =3D {<br>
+-=C2=A0 =C2=A0 [VM_1_10_MBARE] =3D 1,<br>
+-=C2=A0 =C2=A0 [VM_1_10_SV39] =3D 1,<br>
+-=C2=A0 =C2=A0 [VM_1_10_SV48] =3D 1,<br>
+-=C2=A0 =C2=A0 [VM_1_10_SV57] =3D 1<br>
++static const bool valid_vm_1_10_64[16] =3D {<br>
++=C2=A0 =C2=A0 [VM_1_10_MBARE] =3D true,<br>
++=C2=A0 =C2=A0 [VM_1_10_SV39] =3D true,<br>
++=C2=A0 =C2=A0 [VM_1_10_SV48] =3D true,<br>
++=C2=A0 =C2=A0 [VM_1_10_SV57] =3D true<br>
+=C2=A0};<br>
+<br>
+=C2=A0/* Machine Information Registers */<br>
+@@ -1209,7 +1209,7 @@ static RISCVException read_mstatus(CPURISCVState *env=
+, int csrno,<br>
+=C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_NONE;<br>
+=C2=A0}<br>
+<br>
+-static int validate_vm(CPURISCVState *env, target_ulong vm)<br>
++static bool validate_vm(CPURISCVState *env, target_ulong vm)<br>
+=C2=A0{<br>
+=C2=A0 =C2=A0 =C2=A0if (riscv_cpu_mxl(env) =3D=3D MXL_RV32) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return valid_vm_1_10_32[vm &amp; 0xf];<br=
+>
+@@ -2648,7 +2648,8 @@ static RISCVException read_satp(CPURISCVState *env, i=
+nt csrno,<br>
+=C2=A0static RISCVException write_satp(CPURISCVState *env, int csrno,<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_ulong val)<br>
+=C2=A0{<br>
+-=C2=A0 =C2=A0 target_ulong vm, mask;<br>
++=C2=A0 =C2=A0 target_ulong mask;<br>
++=C2=A0 =C2=A0 bool vm;<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0if (!riscv_feature(env, RISCV_FEATURE_MMU)) {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return RISCV_EXCP_NONE;<br>
+-- <br>
+2.37.2<br>
+<br>
+<br>
+</blockquote></div>
+
+--0000000000007a24dc05f3a353fa--
 
