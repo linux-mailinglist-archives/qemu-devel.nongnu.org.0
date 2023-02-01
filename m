@@ -2,101 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCFAD686907
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:55:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2EE26868E6
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:52:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNEEx-0007o3-KM; Wed, 01 Feb 2023 09:37:35 -0500
+	id 1pNEN3-0002UY-AU; Wed, 01 Feb 2023 09:45:57 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNEEe-0007g4-AD
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:37:16 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from
+ <BATV+8c5eeea0684575598b25+7101+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pNELL-0001Wk-7g
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:44:19 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNEEc-0004IF-Hs
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:37:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675262234;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Hvw4V3lpgSiQcmhkEsNzgnX+nPUi7uw8GuAW03Cktog=;
- b=fxwnWIxw0Ksj+564HLtPrx01tell9d1EkRsBgXrIT0/LzvSFdTLXdyq7/Qbq4C0hCluW48
- eE0KVguoD3HrV+dONB7Yt501cCIG63TUavtUFfaweq/2mlj3g8vA4F5Fnk+VQ7q27sVQhu
- qHiabzj/GnN5HH8pjmtA0tdBQ95ftJQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-479-vuCGZo98OYSsm21c4padww-1; Wed, 01 Feb 2023 09:37:12 -0500
-X-MC-Unique: vuCGZo98OYSsm21c4padww-1
-Received: by mail-wm1-f71.google.com with SMTP id
- m10-20020a05600c3b0a00b003dafe7451deso10513222wms.4
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 06:37:12 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Hvw4V3lpgSiQcmhkEsNzgnX+nPUi7uw8GuAW03Cktog=;
- b=qDJ5MTffzOPM5vZmBP669VFd0ad2DRad2FYwgsjT5TwaPTuWZnE87P9HgicGgYTz/J
- XcRZIntu5uKqaS1uPBaDYYlpcXA5Tf4SqvahL/XWFE+9LExaRr7g3cVWDk6tm/l7KVCi
- FIOHP3+ZEluietJQ4T66v7NJNoRDnYmOgVhv5S2dN1ekZIMJDeJiv80+o5yGA7EJKlcp
- /07R1stalU4avlZ1CboMJHk2ArPi0jC/3/N3yngg2bCXWfixR8ZXFfG4FZ/hUx/FGK2/
- PT4I/NYCwT57IOYZVGocg513RKKhYlULYsX3b2WETJQoZR1QV4Q9ezOYwhof/Zv+novW
- N5xQ==
-X-Gm-Message-State: AO0yUKXWQn2A1yGTp8ei9pe7J0DOaGcLRedU3NqaZUxTOY92G2DMwuo2
- PQ3rcPph2wQB6Ongnz7HmBSlicE8cHACCzhJKeocXB1915Y/qzuZWwnAA/K7Bn9OPzsPlCyQFez
- Xcpq9P+P//AU7OLc=
-X-Received: by 2002:adf:c70b:0:b0:2bf:b5c0:f157 with SMTP id
- k11-20020adfc70b000000b002bfb5c0f157mr2682253wrg.39.1675262231738; 
- Wed, 01 Feb 2023 06:37:11 -0800 (PST)
-X-Google-Smtp-Source: AK7set/JYZig3G04UTRvMUOK9dia1b+so8i+gBsY0Wb4zvEcEyDBE3eSLUsLNh064gB1j2tE+epu2A==
-X-Received: by 2002:adf:c70b:0:b0:2bf:b5c0:f157 with SMTP id
- k11-20020adfc70b000000b002bfb5c0f157mr2682225wrg.39.1675262231497; 
- Wed, 01 Feb 2023 06:37:11 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- k9-20020a5d6e89000000b002bfe266d710sm12650968wrz.90.2023.02.01.06.37.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 06:37:10 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,  Stefan Hajnoczi
- <stefanha@redhat.com>,  "Michael S. Tsirkin" <mst@redhat.com>,  Anton
- Kuchin <antonkuchin@yandex-team.ru>,  qemu-devel <qemu-devel@nongnu.org>,
- "open list:virtiofs" <virtio-fs@redhat.com>,  Markus Armbruster
- <armbru@redhat.com>,  Eric Blake <eblake@redhat.com>,
- yc-core@yandex-team.ru
-Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
-In-Reply-To: <CAJSP0QUANuLkOjkLsB4LqKdi5_sJj+y6zK5vgcNmYZ5BLQ73rQ@mail.gmail.com>
- (Stefan Hajnoczi's message of "Tue, 24 Jan 2023 07:48:12 -0500")
-References: <20230120085534-mutt-send-email-mst@kernel.org>
- <703d527f-de92-090c-6ce1-af0dec7de033@yandex-team.ru>
- <20230122030455-mutt-send-email-mst@kernel.org>
- <b7de3adc-cba7-09eb-ea93-f4bfb91bea9e@yandex-team.ru>
- <20230122093903-mutt-send-email-mst@kernel.org>
- <70c0f00a-7828-3ccf-c2ea-49aeef8693e9@yandex-team.ru>
- <20230122111618-mutt-send-email-mst@kernel.org>
- <Y87Ri4r6SiETdCrt@work-vm> <Y87lv8fXrYpxkK/3@fedora>
- <CAJSP0QV5wfXxhvjjFnLLUCvmSxiHxTPXh4qQJwHhnKdBu3EOQQ@mail.gmail.com>
- <Y8+p8HFG8NxYlfoo@work-vm>
- <CAJSP0QUANuLkOjkLsB4LqKdi5_sJj+y6zK5vgcNmYZ5BLQ73rQ@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Wed, 01 Feb 2023 15:37:10 +0100
-Message-ID: <87cz6te9k9.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from
+ <BATV+8c5eeea0684575598b25+7101+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pNELG-0005aC-4E
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:44:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=Sender:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:Message-Id:Date:Subject:Cc:To:From:Reply-To:
+ Content-ID:Content-Description:In-Reply-To:References;
+ bh=QiXt1OM5kpacyF8tyBXmCNV22BZZhGq7XEUXYnI4zw8=; b=n3gXfhm+9WlJSRXkYtrzdBvJrC
+ RJ/n48eNm+5xHaPRvMYvilCcqDRCAaZBPy4dQmI5IioF5C2vv4YLI7dO566MqVHBHK9IZBzc/3qjI
+ 3XYRJJwmq+MIV/VwQR6oO1PW2pwPir8YBH8uwCCin/zJquY99oL+89MjXzMzDrnKUBW6Wm72Z+yWF
+ nKDWMxtNEj0NIcT/0mxPtd02s+/Uc04EzziLlvdIKURBCA8CX8lhmfKvn41080pudTsDNXy1w5DJJ
+ JxQoNkuhfhBJo+7ncbS3IVOLJGqKHyA9sH6AdCF+Y9vZ7ViBlOaxR3RyYXYjSba6IeGPLb/F0RFGe
+ FNGzyMIA==;
+Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pNELA-00CNSF-7l; Wed, 01 Feb 2023 14:44:00 +0000
+Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
+ Linux)) id 1pNELA-007Jw4-0l; Wed, 01 Feb 2023 14:44:00 +0000
+From: David Woodhouse <dwmw2@infradead.org>
+To: Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
+ Joao Martins <joao.m.martins@oracle.com>,
+ Ankur Arora <ankur.a.arora@oracle.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Juan Quintela <quintela@redhat.com>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+ Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
+Subject: [RFC PATCH v1 0/8] Look Ma! We made a XenStore
+Date: Wed,  1 Feb 2023 14:43:50 +0000
+Message-Id: <20230201144358.1744876-1-dwmw2@infradead.org>
+X-Mailer: git-send-email 2.39.0
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+8c5eeea0684575598b25+7101+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -109,57 +80,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> On Tue, Jan 24, 2023, 04:50 Dr. David Alan Gilbert <dgilbert@redhat.com>
-> wrote:
+Starts fairly simple; a node tree with some basic refcounting and copy
+on write semantics.
 
-[...]
+Add in watches to fire when a given subtree gets modified, then 
+transactions which *would* have been a fairly trivial case of keeping 
+the new one and unreffing the old if it wasn't for the fact that we need 
+to fire watches on anything that changes as we commit the transaction.
 
->> > I checked how bad the situation is. libvhost-user currently enables
->> > LOG_ALL by default. :(
->> >
->> > So I don't think the front-end can use LOG_ALL alone to determine
->> > whether or not migration is supported by the back-end.
->> >
->> > There are several existing back-ends based on libvhost-user that have
->> > no concept of reconnection or migration but report the LOG_ALL feature
->> > bit.
->>
->> Ouch, yes that's messy.
->>
->> Going back to the original question; I don't think a command line flag
->> will work though, because even for a given VM there's the possibility
->> of some (local) migrations working but other (remote) migrations not
->> working; so you don't know at the point you start the VM whether
->> your migrations are going to work.
->>
->
-> The user or management tool should know which types of migration a
-> vhost-user-fs backend supports. That can be passed in as a per-device
-> parameter.
->
-> Then a migration parameter can be used to distinguish between same host and
-> remote host migration? QEMU already distinguishes between pre-copy and
-> post-copy migration, so this can be thought of as yet another type of
-> migration.
+So on commit, we walk the parts of the tree with a refcount of one, 
+since those by definition are the parts which are new and unique to this 
+transaction. And fire watches on the ones which have the appropriate 
+flag to show that *they* were modified, and they weren't just part of
+the CoW bubbling up to the root of the tree.
 
-I was going to suggest this (my previous answer was after reading only
-the other part of the comments).
+Watches on nodes that were *deleted* in a transaction are even more fun
+since they mean we have to *keep* those nodes with a 'deleted_in_tx' flag
+so that we can fire watches on them when we commit. But it all works out
+fairly simply in the end.
 
-What we have here is that this device has "three" states:
-- You can't migrate it to other host (now and the default behaviour)
-- You can migrate some of the backends if you are migrating in the same
-  host (note, we don't know directly that we are migrating inside the
-  same host, so I would agree to add _that_ migration capability, that
-  is related to migration, and it makes sense for migration code and
-  devices to know that is happening)
-- In the future, perhaps, you can migrate "always" some vhost-use-fs,
-  that would be a property on my opinion.
+I'd be particularly interested in thoughts on the way I've handled 
+serialization/deserialization, by generating and consuming a GByteArray
+and using VMSTATE_VARRAY_UINT32_ALLOC(…vmstate_info_uint8…). It seems
+to work.
 
-Later, Juan.
+As we hook up the actual PV back ends to work with this XenStore (which
+is fully functional in the part of the tree I haven't posted yet), there
+will be a bit more work to ensure a seamless handover on resume from
+migration. We *might* end up serializing only the guest nodes under
+/local/domain/${domid} and letting the rest be recreated on the QEMU
+side just as they were created the first time. But there's plenty here
+to heckle even before we tweak those details... 
+
+https://git.infradead.org/users/dwmw2/qemu.git/shortlog/refs/heads/xenfv-kvm-10-xenstore
+
+David Woodhouse (6):
+      hw/xen: Add xenstore wire implementation and implementation stubs
+      hw/xen: Add basic XenStore tree walk and write/read/directory support
+      hw/xen: Implement XenStore watches
+      hw/xen: Implement XenStore transactions
+      hw/xen: Watches on XenStore transactions
+      hw/xen: Implement core serialize/deserialize methods for xenstore_impl
+
+Paul Durrant (2):
+      xenstore perms WIP
+      hw/xen: Create initial XenStore nodes
+
+
+ hw/i386/kvm/meson.build     |    1 +
+ hw/i386/kvm/trace-events    |   14 +
+ hw/i386/kvm/xen_xenstore.c  |  844 ++++++++++++++++++++-
+ hw/i386/kvm/xenstore_impl.c | 1724 +++++++++++++++++++++++++++++++++++++++++++
+ hw/i386/kvm/xenstore_impl.h |   68 ++
+ tests/unit/meson.build      |    1 +
+ tests/unit/test-xs-node.c   |  705 ++++++++++++++++++
+ 7 files changed, 3347 insertions(+), 10 deletions(-)
+
+
 
 
