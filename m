@@ -2,82 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8874E6870B9
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 22:52:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2621468712E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 23:46:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNL0P-0005KX-Nb; Wed, 01 Feb 2023 16:51:01 -0500
+	id 1pNLqh-0006xU-GE; Wed, 01 Feb 2023 17:45:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNL0M-0005KP-HL
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 16:50:58 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNL0K-00035G-Dk
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 16:50:57 -0500
-Received: by mail-pl1-x634.google.com with SMTP id be8so19871391plb.7
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 13:50:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=8e7/2Jp3shGEo1ssN5mbASgSUkBoL6jeehGaAhMEmw0=;
- b=F2WoRmgqZHCrhHuPv34P+ZKGtU3ploqO9TEBG0Ik05lBO4TcVRiVMkx6ICCfGX01nw
- vcmSSHD4uRayrulUIIX3QdsD2E1RT3LEWn91iLW1i08QMrBLeCbXffOAzjahU59ziiuw
- gzlc3GawZyhjPryRFl/CkSsSd5Ma2sqEyvhRQFfMOu7wB1GpMtkTutOozhPDaToJkBP1
- DyQi62XnQBpVSajhcjEcRcRol7vpDOBza7WHdgUrFZA4ZmKY374cJF/AR6HVNfZf43Tp
- R/P3QRMA0nYJZ+7Ljz5foojA4jZ9NtRTVyV2hs/WuL45a50vCqxx/Xgfg8EFQM4RIvwI
- 2W2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8e7/2Jp3shGEo1ssN5mbASgSUkBoL6jeehGaAhMEmw0=;
- b=v+MES7mG2eGb8jFXB/VbBE5Pdu3vThPCP2z1E4i3KjU9ekDwMZXQ4tjj6n1T9LCPnS
- yXWOYLFRDpq2qbOMPmd2M0JSdUBfxmNPCM+m+P2lnUR4Dv6nguEBy/Q2xzX4v0vtq7Hl
- pKAJ5IdMDGBTdjpg51Ia+KhoAylCkt9mz3WG7NHfSIBT+W5jDT3jCOrpDxzaE9zOLS9F
- 63HuW4ultS2s9owVXVnuYKM+kF5E01/DOFjuhX+snxJTH6iOgvzarCcOr+4pDWBXn5x6
- QkJ9WO/QIOKy+5prgnEKdVpxTecNkXAVAwB+zvJ6LKtdjqXsJt54tZhP42tSyTNIFwj6
- qRYg==
-X-Gm-Message-State: AO0yUKUPWottLFcNXS/4V4QL9kQAD7KTER33KpL7i84Ta0Fj1+CLUIkQ
- vxHYmKJZRNOFy6HYhY0TWWkNaA==
-X-Google-Smtp-Source: AK7set9wFPM1hjc256AyaP0oxDRmi5svm2I1QxqUbSfPCMYMDHwX1xFC30CenUhmj/9FMlE53WIzmw==
-X-Received: by 2002:a17:903:4053:b0:196:5035:98c0 with SMTP id
- n19-20020a170903405300b00196503598c0mr3520877pla.23.1675288254736; 
- Wed, 01 Feb 2023 13:50:54 -0800 (PST)
-Received: from [192.168.50.50] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- o9-20020a1709026b0900b00180033438a0sm12137028plk.106.2023.02.01.13.50.53
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Feb 2023 13:50:53 -0800 (PST)
-Message-ID: <ff3f25ee-1c98-242b-905e-0b01d9f0948d@linaro.org>
-Date: Wed, 1 Feb 2023 11:50:50 -1000
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pNLqc-0006x8-55; Wed, 01 Feb 2023 17:44:58 -0500
+Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pNLqa-0000U8-Cl; Wed, 01 Feb 2023 17:44:57 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
+ In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
+ Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+ Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+ List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=YTGSBf85BmIRgx4px/ouZXQ81PYr8iXeQ5xnTf/0M7k=; b=p1fXZC0ucZSQi8NYCvvtKmoG/o
+ ok6DlZhz4WwS9Op4I3z/Dlt0y69/0WhnXLtTLyXDqZU3D0yIAGfI4UdHPndBZe4H86oYHHfcOrCZI
+ 5kaxuYy2ns9HpMYLgubWmMQ959E7UIx9byvVT1IuR6RobGlxfde0AipRUXJBlrkktDliWABuFpwcU
+ eHaOfHgyTPViMZyp5q4hXje8MFI4DVFPFS4x6naD3r3f7TBynZnMXvBRpvYZKPXbzhgdPEBcXrSRB
+ Fl+aF8Y2wfUCJn7X3ZhQjkPa6yZhtTH8+3jJVZg55oHEyMwvwaQc76c2VUCiOQ8cptROgntX8CdiG
+ qSBYLdrePoFIkdJ8lrGOSabGcfuBga1KLr2XyFCRAgKE1bds9Rqt4IU1lkGIfWohM5oYFH/FkFx77
+ Z5FZoNjYPj+CcxhLa7Y9PhaTqxMqVIex3p1npQwDyGbuInPSwHSy/5FN1ZcscyMvEjmi00HTuoUBO
+ Kd9XveQzyqlh/Tw2DDE0xPG/lFQHccEsks4F9MerE0loOSxOP7u7iTH+QKR5ejqdZQh0En7OK/ga+
+ dwf3jVm+TMHQuDCzV/so/05LUPKsQSgiDrFqy4L+Ts2fqD2Cd3blca5hiZW4XykYsJ7mxY6uZNOT3
+ ob7ARHzAownOVSPRhbXsKo5aOrbRdlUI+D5qWoy8M=;
+Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
+ by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+ id 1pNLq0-0005Ta-P0; Wed, 01 Feb 2023 22:44:24 +0000
+Message-ID: <4b311eb7-4dc8-2a44-0c2c-8bc40131f9eb@ilande.co.uk>
+Date: Wed, 1 Feb 2023 22:44:47 +0000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: An issue with x86 tcg and MMIO
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
+ Thunderbird/91.13.0
 Content-Language: en-US
-To: =?UTF-8?Q?J=c3=b8rgen_Hansen?= <Jorgen.Hansen@wdc.com>
-Cc: Ajay Joshi <Ajay.Joshi@wdc.com>, qemu-devel <qemu-devel@nongnu.org>,
- Sid Manning <sidneym@quicinc.com>
-References: <78bc53e3-bad3-a5c3-9e53-7a89054aa37a@wdc.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <78bc53e3-bad3-a5c3-9e53-7a89054aa37a@wdc.com>
+To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org
+References: <cover.1674001241.git.balaton@eik.bme.hu>
+ <bfce0751e82b031f5e6fb3c32cfbce6325434400.1674001242.git.balaton@eik.bme.hu>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <bfce0751e82b031f5e6fb3c32cfbce6325434400.1674001242.git.balaton@eik.bme.hu>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x634.google.com
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+Subject: Re: [PATCH 4/4] hw/misc/macio: Return bool from functions taking errp
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
+Received-SPF: pass client-ip=2001:41c9:1:41f::167;
+ envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,55 +78,160 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/1/23 05:24, Jørgen Hansen wrote:
-> Hello Richard,
+On 18/01/2023 00:32, BALATON Zoltan wrote:
+
+> Use the convention to return bool from functions which take an error
+> pointer which allows for callers to pass through their error pointer
+> without needing a local.
 > 
-> We are using x86 qemu to test some CXL stuff, and in that process we are
-> running into an issue with tcg. In qemu, CXL memory is mapped as an MMIO
-> region, so when using CXL memory as part of the system memory,
-> application code and data can be spread out across a combination of DRAM
-> and CXL memory (we are using the Linux tiered memory numa balancing,
-> that will migrate individual pages between DRAM and CXL memory based on
-> access patterns). When we are running memory intensive applications, we
-> hit the following assert in translator_access:
+> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+> ---
+>   hw/misc/macio/macio.c | 62 +++++++++++++++++--------------------------
+>   1 file changed, 25 insertions(+), 37 deletions(-)
 > 
->                /* We cannot handle MMIO as second page. */
->                assert(tb->page_addr[1] != -1);
-> 
-> introduced in your commit 50627f1b. This is using existing applications
-> and standard Linux. We discussed this with Alistair Francis and he
-> mentioned that it looks like a load across a page boundary is happening,
-> and it so happens that the first page is DRAM and second page MMIO. We
-> tried - as a workaround - to return NULL instead of the assert to
-> trigger the slow path processing, and that allows the system to make
-> forward progress, but we aren't familiar with tcg, and as such aren't
-> sure if that is a correct fix.
-> 
-> So we'd like to get your input on this - and understand whether the
-> above usage isn't supported at all or if there are other possible
-> workarounds.
+> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+> index ae2a9a960d..265c0bbd8d 100644
+> --- a/hw/misc/macio/macio.c
+> +++ b/hw/misc/macio/macio.c
+> @@ -90,13 +90,13 @@ static void macio_bar_setup(MacIOState *s)
+>       macio_escc_legacy_setup(s);
+>   }
+>   
+> -static void macio_common_realize(PCIDevice *d, Error **errp)
+> +static bool macio_common_realize(PCIDevice *d, Error **errp)
+>   {
+>       MacIOState *s = MACIO(d);
+>       SysBusDevice *sbd;
+>   
+>       if (!qdev_realize(DEVICE(&s->dbdma), BUS(&s->macio_bus), errp)) {
+> -        return;
+> +        return false;
+>       }
+>       sbd = SYS_BUS_DEVICE(&s->dbdma);
+>       memory_region_add_subregion(&s->bar, 0x08000,
+> @@ -108,14 +108,16 @@ static void macio_common_realize(PCIDevice *d, Error **errp)
+>       qdev_prop_set_uint32(DEVICE(&s->escc), "chnBtype", escc_serial);
+>       qdev_prop_set_uint32(DEVICE(&s->escc), "chnAtype", escc_serial);
+>       if (!qdev_realize(DEVICE(&s->escc), BUS(&s->macio_bus), errp)) {
+> -        return;
+> +        return false;
+>       }
+>   
+>       macio_bar_setup(s);
+>       pci_register_bar(d, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->bar);
+> +
+> +    return true;
+>   }
+>   
+> -static void macio_realize_ide(MacIOState *s, MACIOIDEState *ide,
+> +static bool macio_realize_ide(MacIOState *s, MACIOIDEState *ide,
+>                                 qemu_irq irq0, qemu_irq irq1, int dmaid,
+>                                 Error **errp)
+>   {
+> @@ -128,7 +130,7 @@ static void macio_realize_ide(MacIOState *s, MACIOIDEState *ide,
+>                                &error_abort);
+>       macio_ide_register_dma(ide);
+>   
+> -    qdev_realize(DEVICE(ide), BUS(&s->macio_bus), errp);
+> +    return qdev_realize(DEVICE(ide), BUS(&s->macio_bus), errp);
+>   }
+>   
+>   static void macio_oldworld_realize(PCIDevice *d, Error **errp)
+> @@ -136,12 +138,9 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
+>       MacIOState *s = MACIO(d);
+>       OldWorldMacIOState *os = OLDWORLD_MACIO(d);
+>       DeviceState *pic_dev = DEVICE(&os->pic);
+> -    Error *err = NULL;
+>       SysBusDevice *sbd;
+>   
+> -    macio_common_realize(d, &err);
+> -    if (err) {
+> -        error_propagate(errp, err);
+> +    if (!macio_common_realize(d, errp)) {
+>           return;
+>       }
+>   
+> @@ -176,21 +175,17 @@ static void macio_oldworld_realize(PCIDevice *d, Error **errp)
+>       pmac_format_nvram_partition(&os->nvram, os->nvram.size);
+>   
+>       /* IDE buses */
+> -    macio_realize_ide(s, &os->ide[0],
+> -                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_IRQ),
+> -                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_DMA_IRQ),
+> -                      0x16, &err);
+> -    if (err) {
+> -        error_propagate(errp, err);
+> +    if (!macio_realize_ide(s, &os->ide[0],
+> +                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_IRQ),
+> +                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_DMA_IRQ),
+> +                           0x16, errp)) {
+>           return;
+>       }
+>   
+> -    macio_realize_ide(s, &os->ide[1],
+> -                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_IRQ),
+> -                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_DMA_IRQ),
+> -                      0x1a, &err);
+> -    if (err) {
+> -        error_propagate(errp, err);
+> +    if (!macio_realize_ide(s, &os->ide[1],
+> +                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_IRQ),
+> +                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_DMA_IRQ),
+> +                           0x1a, errp)) {
+>           return;
+>       }
+>   }
+> @@ -266,13 +261,10 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
+>       MacIOState *s = MACIO(d);
+>       NewWorldMacIOState *ns = NEWWORLD_MACIO(d);
+>       DeviceState *pic_dev = DEVICE(&ns->pic);
+> -    Error *err = NULL;
+>       SysBusDevice *sbd;
+>       MemoryRegion *timer_memory = NULL;
+>   
+> -    macio_common_realize(d, &err);
+> -    if (err) {
+> -        error_propagate(errp, err);
+> +    if (!macio_common_realize(d, errp)) {
+>           return;
+>       }
+>   
+> @@ -288,21 +280,17 @@ static void macio_newworld_realize(PCIDevice *d, Error **errp)
+>       sysbus_connect_irq(sbd, 1, qdev_get_gpio_in(pic_dev, NEWWORLD_ESCCA_IRQ));
+>   
+>       /* IDE buses */
+> -    macio_realize_ide(s, &ns->ide[0],
+> -                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_IRQ),
+> -                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_DMA_IRQ),
+> -                      0x16, &err);
+> -    if (err) {
+> -        error_propagate(errp, err);
+> +    if (!macio_realize_ide(s, &ns->ide[0],
+> +                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_IRQ),
+> +                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_DMA_IRQ),
+> +                           0x16, errp)) {
+>           return;
+>       }
+>   
+> -    macio_realize_ide(s, &ns->ide[1],
+> -                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_IRQ),
+> -                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_DMA_IRQ),
+> -                      0x1a, &err);
+> -    if (err) {
+> -        error_propagate(errp, err);
+> +    if (!macio_realize_ide(s, &ns->ide[1],
+> +                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_IRQ),
+> +                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_DMA_IRQ),
+> +                           0x1a, errp)) {
+>           return;
+>       }
 
-Well, this may answer my question in
+These days you would move macio_common_realize() into TYPE_MACIO, but anyway:
 
-https://lore.kernel.org/qemu-devel/1d6b1894-9c45-2d70-abde-9c10c1b3b93f@linaro.org/
-
-as to how this could occur.
-
-Until relatively recently, TCG would refuse to execute out of MMIO *at all*.  This was 
-relaxed to support Arm m-profile, which needs to execute a few instructions out of MMIO 
-during the boot process, before jumping into flash.
-
-This works by reading one instruction, translating it, executing it, and immediately 
-discarding the translation.  It could be possible to adjust the translator to allow the 
-second half of an instruction to be in MMIO, such that we execute and discard, however...
-
-What is it about CXL that requires modeling with MMIO?  If it is intended to be used 
-interchangeably with RAM by the guest, then you really won't like the performance you will 
-see with TCG executing out of these regions.
-
-Could memory across the CXL link be modeled as a ROM device, similar to flash?  This does 
-not have the same restrictions as MMIO.
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
-r~
+ATB,
+
+Mark.
 
