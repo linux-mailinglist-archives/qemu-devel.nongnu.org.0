@@ -2,75 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7424A686C21
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 17:52:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C89D7686C8D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 18:13:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNGK5-00069W-Kj; Wed, 01 Feb 2023 11:51:01 -0500
+	id 1pNGep-0006am-JQ; Wed, 01 Feb 2023 12:12:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNGK2-00068w-H9
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 11:50:58 -0500
-Received: from mail-pj1-x102d.google.com ([2607:f8b0:4864:20::102d])
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pNGel-0006a0-9Y
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:12:23 -0500
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNGK0-0007h5-Ee
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 11:50:58 -0500
-Received: by mail-pj1-x102d.google.com with SMTP id j5so17860727pjn.5
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 08:50:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=+WfEqgjgwdqTNrtXOKmMGHQkAquEfO0ghoxnpd+L9VM=;
- b=uKr9Q8ZXjMZb44FXiORPlWgHCzYTIgtHyXLDqHI30FVN0UOCM7xHCupPK92dpCIpKW
- xlQtzeMnRBtSdd0p5H9rAxgii0R/UsrLzbCcztR8fQnehEEvdevYxIGI5ZnsRkROHwWk
- m5ur6MN+hz0YYSSbjP/OPrt8KbOgJKpBBggG5MAi73LgJLDCgwC9W8H+gk3nvg2dBpaG
- jbf1+FimMZoFUlPvfU8jA3GvbMal4b4wtyx4FRpdrDsZ6/gdvHHWgHtAg9qt6iIsXMJ1
- c3AN+aUzwPX09B84JQFarwFid7mUkSqODO/iUFoAcfIYFEVOaAkKuV99GoNR64OV33cl
- qE3w==
+ (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
+ id 1pNGej-0004Ic-J6
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 12:12:22 -0500
+Received: by mail-oi1-x241.google.com with SMTP id p185so16304664oif.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 09:12:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=ventanamicro.com; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=tlxJUvpOH7ACdoEORStwCyXU2J/yxPAjUz2kS57Cd7s=;
+ b=g+j3YkHVdHVXmFuloeLO5JvW4wLOS11uPXpNLcu755g/M8cR7ydqgBX1dInBSgP73Q
+ cFPttIVxEDt+GxYTBiLN0M1CBkAqWfVIvnXyVNkVJm2j13zAISv2dohYSYXOnivaKjLn
+ 4QiZ+Urf87miO2Ht3yMNRVw7XV0qJeVsd1NNf/xmfy8lXQLYpC/u/6QwRWmFpCLqnWuI
+ UwZtttLjcYNdRQWTKfcwpL8j/0ieTC5AFNXUF5Vn/T3ehsTlj7KV4iCNNytuS9ObN3X3
+ L6XiHWT55XcC+qtRKQYjZlPymuATDHAjs8nwaUokNE26vSOOkT7LX+qAnyHmz4L62+1h
+ E3GQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=+WfEqgjgwdqTNrtXOKmMGHQkAquEfO0ghoxnpd+L9VM=;
- b=cwhdS88loAQz8ZWZdqhE6GCti7MgTzwfDz/3HW7y8FHN6pPyQ8ZWLNcGJ8jqM4BTrj
- WlFk9AEjxr+Ng+uRMOkgYxvUGH0JhEa2w2TCUWc5tAOrKQCtU8xVcy3e+LUxQVlpCujS
- UFKcB7StqJJSRFHhgEpZtwzgHyW+IHQkhete94bf8S0uKMrnX5eVs5ka11BF8AObgXAn
- PrkINWmvepZYhkpDneH2K/GGTCd25AbiKFkhm2X7u5FnhKs6NJgY3lj1sK+1xNIek3sr
- iB0L0Cone0qny9Sk76G+fW2pYXTCdqa3IBV0WHKTjyWKfYqG9ZyNlrodrEuZIj7kWh1J
- xgwQ==
-X-Gm-Message-State: AO0yUKVHsXlxQPOQp23Y0WUOLPegPD7MmZEeWO49HYCqwXzINANEOAeT
- lflV+flU8X0CHMmbuZQrKlfy68semCnZalkbNO97PA==
-X-Google-Smtp-Source: AK7set9Vm+0ROj1uzDAwo873aRT7ypB5rszyWP+5ysPPsPKphakj0jWbxk8RzaFLzq+bjnv/SyMx9xsJB8hoASQkag8=
-X-Received: by 2002:a17:90a:1f43:b0:22c:baa:c2d5 with SMTP id
- y3-20020a17090a1f4300b0022c0baac2d5mr585923pjy.53.1675270254906; Wed, 01 Feb
- 2023 08:50:54 -0800 (PST)
+ bh=tlxJUvpOH7ACdoEORStwCyXU2J/yxPAjUz2kS57Cd7s=;
+ b=4PtjzAUU35qgkmYM3e9ALTQ9eEOgUz+sA8dIMEdIyEf02OaBR3cZn9BAFTgikeFvXk
+ gVftxBSNHLEwZ/gSd5s8wDHy4zC+RtJHco6wYDiQ+JSdR+CZKK4O1a+yEFr6Xg7HZp3d
+ FBuWt7pKUltubLt0WCb9N5A2VQVzXL4rrSTultJWuGFcM/DMY9cZ0fqAX2KDWZrqi6nl
+ 2CYQXMmGWF3iTtPH5SOtnXf7h7ifHb3u6SLWnH1kwUqkcXkT/I2tBSDN6Zz4SIiMiXm5
+ KJTgUFv8v1TGNvSVvQvOPe9rQREshJKSkp9OfNRUU4Su5a24ZenwkQB5EuWcraWNuDdP
+ DpTA==
+X-Gm-Message-State: AO0yUKX1J2fjnpJrpeyP0CtDqf3zvzAV8oxErGt2cLhF1TFk0ogMbo65
+ Q/RkSyNXdO0oI6ziQ0nlt1sV+aqayEFRVUZWl4M=
+X-Google-Smtp-Source: AK7set9/arM2Bahwr92fXpvWB4xy04hV+7ys3r15UpoZKelLhoTWAr476VF69cEjGUcsYc4HlFd4ew==
+X-Received: by 2002:a05:6808:164b:b0:365:7b1:d1a9 with SMTP id
+ az11-20020a056808164b00b0036507b1d1a9mr1525062oib.15.1675271538489; 
+ Wed, 01 Feb 2023 09:12:18 -0800 (PST)
+Received: from grind.. ([177.102.69.207]) by smtp.gmail.com with ESMTPSA id
+ k12-20020a056808068c00b003749e231db7sm7100627oig.30.2023.02.01.09.12.16
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Wed, 01 Feb 2023 09:12:17 -0800 (PST)
+From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+To: qemu-devel@nongnu.org
+Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com, bmeng.cn@gmail.com,
+ Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Subject: [PATCH v5 0/3] riscv_load_fdt() semantics change
+Date: Wed,  1 Feb 2023 14:12:09 -0300
+Message-Id: <20230201171212.1219375-1-dbarboza@ventanamicro.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com>
- <CAHmME9ouTTk1ONXm276CwunOpy=MAW1Q79x25kcQv=YJTZ88dQ@mail.gmail.com>
- <2b8fc552e1dc3a14de404eeaff0819ec8da7de54.camel@linux.ibm.com>
-In-Reply-To: <2b8fc552e1dc3a14de404eeaff0819ec8da7de54.camel@linux.ibm.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 1 Feb 2023 16:50:43 +0000
-Message-ID: <CAFEAcA8Qem0QWz5R79Djt-n8mPBf4o+Q1dJ41O4oyTU19XZ5Hw@mail.gmail.com>
-Subject: Re: [PATCH] x86: fix q35 kernel measurements broken due to rng seeding
-To: jejb@linux.ibm.com
-Cc: "Jason A. Donenfeld" <Jason@zx2c4.com>,
- QEMU Developers <qemu-devel@nongnu.org>, 
- Gerd Hoffmann <kraxel@redhat.com>, DOV MURIK <Dov.Murik1@il.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102d;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102d.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::241;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x241.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -86,37 +87,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 1 Feb 2023 at 15:25, James Bottomley <jejb@linux.ibm.com> wrote:
->
-> On Wed, 2023-02-01 at 10:10 -0500, Jason A. Donenfeld wrote:
-> > This is already fixed via the patch that MST just sent in his pull.
-> > So wait a few days for that to be merged and it'll be all set.
-> >
-> > No need for this patch here. Do not merge.
->
-> If it's not a secret, would it be too much trouble to point to the
-> branch so we can actually test it?  It does seem that the biggest
-> problem this issue shows is that there wasn't wide enough configuration
-> testing done on the prior commits before they were merged.
+Hi,
 
-In general you shouldn't expect commits to be visible in
-a git branch before they get merged -- the QEMU process
-is not exactly identical to the kernel one.
+This version contains changed proposed by Bin in the v4 review.
 
-For a particular patch on the mailing list, you can get a git branch
-with it applied by looking for the patch in https://patchew.org/QEMU/
-if that's more convenient than just applying it by hand.
+Patches are based on riscv-to-apply.next.
 
-We also don't tend to want patches hanging around for testing
-before they get merged[*] -- we figure that "in upstream git"
-is the place that actually gets tested in practice; almost
-nobody will be working with or testing anything else.
+Changes from v4:
+- patch 1:
+  - remove the fdt_pack() related lines instead of letting patch 2 do it
+- patch 2:
+  - make riscv_compute_fdt_addr() return an uint64_t
+- patch 3:
+  - do not change riscv_compute_fdt_addr() return type to hwaddr
+  - fix comment typo
+  - use a ternary instead of if/else in dram_end
+- v4 link: https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg05828.html
 
-[*] The fix Jason refers to here that's in MST's pullreq
-unfortunately hasn't made it upstream as quickly as I
-would like, due to a combination of things including us
-having to pause CI for a week when we ran out of minutes.
+Daniel Henrique Barboza (3):
+  hw/riscv/boot.c: calculate fdt size after fdt_pack()
+  hw/riscv: split fdt address calculation from fdt load
+  hw/riscv: change riscv_compute_fdt_addr() semantics
 
-thanks
--- PMM
+ hw/riscv/boot.c            | 53 +++++++++++++++++++++++++++++++-------
+ hw/riscv/microchip_pfsoc.c |  7 +++--
+ hw/riscv/sifive_u.c        |  8 +++---
+ hw/riscv/spike.c           |  7 ++---
+ hw/riscv/virt.c            |  8 +++---
+ include/hw/riscv/boot.h    |  4 ++-
+ 6 files changed, 65 insertions(+), 22 deletions(-)
+
+-- 
+2.39.1
+
 
