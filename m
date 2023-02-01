@@ -2,55 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B566685CCB
+	by mail.lfdr.de (Postfix) with ESMTPS id D692C685CCC
 	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 02:47:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN2CH-00039h-Sf; Tue, 31 Jan 2023 20:46:01 -0500
+	id 1pN2D7-0003L8-0K; Tue, 31 Jan 2023 20:46:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1pN2CF-00039Q-Nx
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 20:45:59 -0500
-Received: from szxga02-in.huawei.com ([45.249.212.188])
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1pN2D4-0003Jf-6F; Tue, 31 Jan 2023 20:46:50 -0500
+Received: from ams.source.kernel.org ([145.40.68.75])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <yuzenghui@huawei.com>)
- id 1pN2CC-00072t-N9
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 20:45:59 -0500
-Received: from kwepemm600007.china.huawei.com (unknown [172.30.72.55])
- by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4P64T33j7gzJrSt;
- Wed,  1 Feb 2023 09:43:51 +0800 (CST)
-Received: from [10.174.185.179] (10.174.185.179) by
- kwepemm600007.china.huawei.com (7.193.23.208) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2375.34; Wed, 1 Feb 2023 09:45:26 +0800
-Subject: Re: [PULL 16/22] tcg/aarch64: Reorg goto_tb implementation
-To: Richard Henderson <richard.henderson@linaro.org>
-CC: <qemu-devel@nongnu.org>, <peter.maydell@linaro.org>, hev <r@hev.cc>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20230117231051.354444-1-richard.henderson@linaro.org>
- <20230117231051.354444-17-richard.henderson@linaro.org>
-Message-ID: <ffac2cd4-b1e1-53a9-8c88-367f80f1e977@huawei.com>
-Date: Wed, 1 Feb 2023 09:45:19 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.9.0
+ (Exim 4.90_1) (envelope-from <sstabellini@kernel.org>)
+ id 1pN2Cz-0007Q2-T6; Tue, 31 Jan 2023 20:46:48 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 4C8AEB81FC9;
+ Wed,  1 Feb 2023 01:46:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87DB7C433D2;
+ Wed,  1 Feb 2023 01:46:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1675215995;
+ bh=UbVxoOjw8i3l8goMfd82dxxxjM0aV0oN+XWGPGYvEoc=;
+ h=Date:From:To:cc:Subject:In-Reply-To:References:From;
+ b=G9K7O+9+tJVa6jxgjSwEHqXf6enFDsq26zquy4PYUuGjdt0ju2JYt9ceuBSZqr1OS
+ dc6oztbN2Ldh0wBbWBIlVmBIk3UOYs/z07eqRgOKLdr5oXk18EhqwAlR/3SuHWM5e1
+ nsug5ruo6nTkS3OwqroFBy1qzhUNw8FicC0rIVJRe46dyR8QvCs9MIz5viFienO/UA
+ BR2PDngSQXryWBADGYhGVcDEzsbfAXZhV7jpSZ7zVs6HpclAVoeXnYv77pLk4BmhWF
+ /w5ORkDWCZsxAWuO9QhGATErxCBgTC00sQw0FKSfr6z3RZz8MSrKW+OpSxZFRPgCZZ
+ 8wxKPKWAEEoSA==
+Date: Tue, 31 Jan 2023 17:46:31 -0800 (PST)
+From: Stefano Stabellini <sstabellini@kernel.org>
+X-X-Sender: sstabellini@ubuntu-linux-20-04-desktop
+To: Vikram Garhwal <vikram.garhwal@amd.com>
+cc: qemu-devel@nongnu.org, xen-devel@lists.xenproject.org, 
+ stefano.stabellini@amd.com, alex.bennee@linaro.org, 
+ Peter Maydell <peter.maydell@linaro.org>, 
+ Stefano Stabellini <sstabellini@kernel.org>, 
+ Anthony Perard <anthony.perard@citrix.com>, Paul Durrant <paul@xen.org>, 
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+Subject: Re: [QEMU][PATCH v5 09/10] hw/arm: introduce xenpvh machine
+In-Reply-To: <20230131225149.14764-10-vikram.garhwal@amd.com>
+Message-ID: <alpine.DEB.2.22.394.2301311746230.132504@ubuntu-linux-20-04-desktop>
+References: <20230131225149.14764-1-vikram.garhwal@amd.com>
+ <20230131225149.14764-10-vikram.garhwal@amd.com>
+User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-In-Reply-To: <20230117231051.354444-17-richard.henderson@linaro.org>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.185.179]
-X-ClientProxiedBy: dggems701-chm.china.huawei.com (10.3.19.178) To
- kwepemm600007.china.huawei.com (7.193.23.208)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=45.249.212.188; envelope-from=yuzenghui@huawei.com;
- helo=szxga02-in.huawei.com
-X-Spam_score_int: -42
-X-Spam_score: -4.3
-X-Spam_bar: ----
-X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=US-ASCII
+Received-SPF: pass client-ip=145.40.68.75; envelope-from=sstabellini@kernel.org;
+ helo=ams.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -64,28 +72,327 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Zenghui Yu <yuzenghui@huawei.com>
-From:  Zenghui Yu via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2023/1/18 7:10, Richard Henderson wrote:
-> +void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
-> +                              uintptr_t jmp_rx, uintptr_t jmp_rw)
-> +{
-> +    uintptr_t d_addr = tb->jmp_target_addr[n];
-> +    ptrdiff_t d_offset = d_addr - jmp_rx;
-> +    tcg_insn_unit insn;
-> +
-> +    /* Either directly branch, or indirect branch load. */
-> +    if (d_offset == sextract64(d_offset, 0, 28)) {
-> +        insn = deposit32(I3206_B, 0, 26, d_offset >> 2);
-> +    } else {
-> +        uintptr_t i_addr = (uintptr_t)&tb->jmp_target_addr[n];
-> +        ptrdiff_t i_offset = i_addr - jmp_rx;
-> +
-> +        /* Note that we asserted this in range in tcg_out_goto_tb. */
-> +        insn = deposit32(I3305_LDR | TCG_REG_TMP, 0, 5, i_offset >> 2);
+On Tue, 31 Jan 2023, Vikram Garhwal wrote:
+> Add a new machine xenpvh which creates a IOREQ server to register/connect with
+> Xen Hypervisor.
+> 
+> Optional: When CONFIG_TPM is enabled, it also creates a tpm-tis-device, adds a
+> TPM emulator and connects to swtpm running on host machine via chardev socket
+> and support TPM functionalities for a guest domain.
+> 
+> Extra command line for aarch64 xenpvh QEMU to connect to swtpm:
+>     -chardev socket,id=chrtpm,path=/tmp/myvtpm2/swtpm-sock \
+>     -tpmdev emulator,id=tpm0,chardev=chrtpm \
+>     -machine tpm-base-addr=0x0c000000 \
+> 
+> swtpm implements a TPM software emulator(TPM 1.2 & TPM 2) built on libtpms and
+> provides access to TPM functionality over socket, chardev and CUSE interface.
+> Github repo: https://github.com/stefanberger/swtpm
+> Example for starting swtpm on host machine:
+>     mkdir /tmp/vtpm2
+>     swtpm socket --tpmstate dir=/tmp/vtpm2 \
+>     --ctrl type=unixio,path=/tmp/vtpm2/swtpm-sock &
+> 
+> Signed-off-by: Vikram Garhwal <vikram.garhwal@amd.com>
+> Signed-off-by: Stefano Stabellini <stefano.stabellini@amd.com>
 
-'offset' should be bits [23:5] of LDR instruction, rather than [4:0].
+Reviewed-by: Stefano Stabellini <sstabellini@kernel.org>
+
+
+> ---
+>  docs/system/arm/xenpvh.rst    |  34 +++++++
+>  docs/system/target-arm.rst    |   1 +
+>  hw/arm/meson.build            |   2 +
+>  hw/arm/xen_arm.c              | 182 ++++++++++++++++++++++++++++++++++
+>  include/hw/arm/xen_arch_hvm.h |   9 ++
+>  include/hw/xen/arch_hvm.h     |   2 +
+>  6 files changed, 230 insertions(+)
+>  create mode 100644 docs/system/arm/xenpvh.rst
+>  create mode 100644 hw/arm/xen_arm.c
+>  create mode 100644 include/hw/arm/xen_arch_hvm.h
+> 
+> diff --git a/docs/system/arm/xenpvh.rst b/docs/system/arm/xenpvh.rst
+> new file mode 100644
+> index 0000000000..e1655c7ab8
+> --- /dev/null
+> +++ b/docs/system/arm/xenpvh.rst
+> @@ -0,0 +1,34 @@
+> +XENPVH (``xenpvh``)
+> +=========================================
+> +This machine creates a IOREQ server to register/connect with Xen Hypervisor.
+> +
+> +When TPM is enabled, this machine also creates a tpm-tis-device at a user input
+> +tpm base address, adds a TPM emulator and connects to a swtpm application
+> +running on host machine via chardev socket. This enables xenpvh to support TPM
+> +functionalities for a guest domain.
+> +
+> +More information about TPM use and installing swtpm linux application can be
+> +found at: docs/specs/tpm.rst.
+> +
+> +Example for starting swtpm on host machine:
+> +.. code-block:: console
+> +
+> +    mkdir /tmp/vtpm2
+> +    swtpm socket --tpmstate dir=/tmp/vtpm2 \
+> +    --ctrl type=unixio,path=/tmp/vtpm2/swtpm-sock &
+> +
+> +Sample QEMU xenpvh commands for running and connecting with Xen:
+> +.. code-block:: console
+> +
+> +    qemu-system-aarch64 -xen-domid 1 \
+> +    -chardev socket,id=libxl-cmd,path=qmp-libxl-1,server=on,wait=off \
+> +    -mon chardev=libxl-cmd,mode=control \
+> +    -chardev socket,id=libxenstat-cmd,path=qmp-libxenstat-1,server=on,wait=off \
+> +    -mon chardev=libxenstat-cmd,mode=control \
+> +    -xen-attach -name guest0 -vnc none -display none -nographic \
+> +    -machine xenpvh -m 1301 \
+> +    -chardev socket,id=chrtpm,path=tmp/vtpm2/swtpm-sock \
+> +    -tpmdev emulator,id=tpm0,chardev=chrtpm -machine tpm-base-addr=0x0C000000
+> +
+> +In above QEMU command, last two lines are for connecting xenpvh QEMU to swtpm
+> +via chardev socket.
+> diff --git a/docs/system/target-arm.rst b/docs/system/target-arm.rst
+> index 91ebc26c6d..af8d7c77d6 100644
+> --- a/docs/system/target-arm.rst
+> +++ b/docs/system/target-arm.rst
+> @@ -106,6 +106,7 @@ undocumented; you can get a complete list by running
+>     arm/stm32
+>     arm/virt
+>     arm/xlnx-versal-virt
+> +   arm/xenpvh
+>  
+>  Emulated CPU architecture support
+>  =================================
+> diff --git a/hw/arm/meson.build b/hw/arm/meson.build
+> index b036045603..06bddbfbb8 100644
+> --- a/hw/arm/meson.build
+> +++ b/hw/arm/meson.build
+> @@ -61,6 +61,8 @@ arm_ss.add(when: 'CONFIG_FSL_IMX7', if_true: files('fsl-imx7.c', 'mcimx7d-sabre.
+>  arm_ss.add(when: 'CONFIG_ARM_SMMUV3', if_true: files('smmuv3.c'))
+>  arm_ss.add(when: 'CONFIG_FSL_IMX6UL', if_true: files('fsl-imx6ul.c', 'mcimx6ul-evk.c'))
+>  arm_ss.add(when: 'CONFIG_NRF51_SOC', if_true: files('nrf51_soc.c'))
+> +arm_ss.add(when: 'CONFIG_XEN', if_true: files('xen_arm.c'))
+> +arm_ss.add_all(xen_ss)
+>  
+>  softmmu_ss.add(when: 'CONFIG_ARM_SMMUV3', if_true: files('smmu-common.c'))
+>  softmmu_ss.add(when: 'CONFIG_EXYNOS4', if_true: files('exynos4_boards.c'))
+> diff --git a/hw/arm/xen_arm.c b/hw/arm/xen_arm.c
+> new file mode 100644
+> index 0000000000..eaca65af37
+> --- /dev/null
+> +++ b/hw/arm/xen_arm.c
+> @@ -0,0 +1,182 @@
+> +/*
+> + * QEMU ARM Xen PVH Machine
+> + *
+> + *
+> + * Permission is hereby granted, free of charge, to any person obtaining a copy
+> + * of this software and associated documentation files (the "Software"), to deal
+> + * in the Software without restriction, including without limitation the rights
+> + * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+> + * copies of the Software, and to permit persons to whom the Software is
+> + * furnished to do so, subject to the following conditions:
+> + *
+> + * The above copyright notice and this permission notice shall be included in
+> + * all copies or substantial portions of the Software.
+> + *
+> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+> + * THE SOFTWARE.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/error-report.h"
+> +#include "qapi/qapi-commands-migration.h"
+> +#include "qapi/visitor.h"
+> +#include "hw/boards.h"
+> +#include "hw/sysbus.h"
+> +#include "sysemu/block-backend.h"
+> +#include "sysemu/tpm_backend.h"
+> +#include "sysemu/sysemu.h"
+> +#include "hw/xen/xen-legacy-backend.h"
+> +#include "hw/xen/xen-hvm-common.h"
+> +#include "sysemu/tpm.h"
+> +#include "hw/xen/arch_hvm.h"
+> +
+> +#define TYPE_XEN_ARM  MACHINE_TYPE_NAME("xenpvh")
+> +OBJECT_DECLARE_SIMPLE_TYPE(XenArmState, XEN_ARM)
+> +
+> +static MemoryListener xen_memory_listener = {
+> +    .region_add = xen_region_add,
+> +    .region_del = xen_region_del,
+> +    .log_start = NULL,
+> +    .log_stop = NULL,
+> +    .log_sync = NULL,
+> +    .log_global_start = NULL,
+> +    .log_global_stop = NULL,
+> +    .priority = 10,
+> +};
+> +
+> +struct XenArmState {
+> +    /*< private >*/
+> +    MachineState parent;
+> +
+> +    XenIOState *state;
+> +
+> +    struct {
+> +        uint64_t tpm_base_addr;
+> +    } cfg;
+> +};
+> +
+> +void arch_handle_ioreq(XenIOState *state, ioreq_t *req)
+> +{
+> +    hw_error("Invalid ioreq type 0x%x\n", req->type);
+> +
+> +    return;
+> +}
+> +
+> +void arch_xen_set_memory(XenIOState *state, MemoryRegionSection *section,
+> +                         bool add)
+> +{
+> +}
+> +
+> +void xen_hvm_modified_memory(ram_addr_t start, ram_addr_t length)
+> +{
+> +}
+> +
+> +void qmp_xen_set_global_dirty_log(bool enable, Error **errp)
+> +{
+> +}
+> +
+> +#ifdef CONFIG_TPM
+> +static void xen_enable_tpm(XenArmState *xam)
+> +{
+> +    Error *errp = NULL;
+> +    DeviceState *dev;
+> +    SysBusDevice *busdev;
+> +
+> +    TPMBackend *be = qemu_find_tpm_be("tpm0");
+> +    if (be == NULL) {
+> +        DPRINTF("Couldn't fine the backend for tpm0\n");
+> +        return;
+> +    }
+> +    dev = qdev_new(TYPE_TPM_TIS_SYSBUS);
+> +    object_property_set_link(OBJECT(dev), "tpmdev", OBJECT(be), &errp);
+> +    object_property_set_str(OBJECT(dev), "tpmdev", be->id, &errp);
+> +    busdev = SYS_BUS_DEVICE(dev);
+> +    sysbus_realize_and_unref(busdev, &error_fatal);
+> +    sysbus_mmio_map(busdev, 0, xam->cfg.tpm_base_addr);
+> +
+> +    DPRINTF("Connected tpmdev at address 0x%lx\n", xam->cfg.tpm_base_addr);
+> +}
+> +#endif
+> +
+> +static void xen_arm_init(MachineState *machine)
+> +{
+> +    XenArmState *xam = XEN_ARM(machine);
+> +
+> +    xam->state =  g_new0(XenIOState, 1);
+> +
+> +    xen_register_ioreq(xam->state, machine->smp.cpus, xen_memory_listener);
+> +
+> +#ifdef CONFIG_TPM
+> +    if (xam->cfg.tpm_base_addr) {
+> +        xen_enable_tpm(xam);
+> +    } else {
+> +        DPRINTF("tpm-base-addr is not provided. TPM will not be enabled\n");
+> +    }
+> +#endif
+> +}
+> +
+> +#ifdef CONFIG_TPM
+> +static void xen_arm_get_tpm_base_addr(Object *obj, Visitor *v,
+> +                                      const char *name, void *opaque,
+> +                                      Error **errp)
+> +{
+> +    XenArmState *xam = XEN_ARM(obj);
+> +    uint64_t value = xam->cfg.tpm_base_addr;
+> +
+> +    visit_type_uint64(v, name, &value, errp);
+> +}
+> +
+> +static void xen_arm_set_tpm_base_addr(Object *obj, Visitor *v,
+> +                                      const char *name, void *opaque,
+> +                                      Error **errp)
+> +{
+> +    XenArmState *xam = XEN_ARM(obj);
+> +    uint64_t value;
+> +
+> +    if (!visit_type_uint64(v, name, &value, errp)) {
+> +        return;
+> +    }
+> +
+> +    xam->cfg.tpm_base_addr = value;
+> +}
+> +#endif
+> +
+> +static void xen_arm_machine_class_init(ObjectClass *oc, void *data)
+> +{
+> +
+> +    MachineClass *mc = MACHINE_CLASS(oc);
+> +    mc->desc = "Xen Para-virtualized PC";
+> +    mc->init = xen_arm_init;
+> +    mc->max_cpus = 1;
+> +    mc->default_machine_opts = "accel=xen";
+> +
+> +#ifdef CONFIG_TPM
+> +    object_class_property_add(oc, "tpm-base-addr", "uint64_t",
+> +                              xen_arm_get_tpm_base_addr,
+> +                              xen_arm_set_tpm_base_addr,
+> +                              NULL, NULL);
+> +    object_class_property_set_description(oc, "tpm-base-addr",
+> +                                          "Set Base address for TPM device.");
+> +
+> +    machine_class_allow_dynamic_sysbus_dev(mc, TYPE_TPM_TIS_SYSBUS);
+> +#endif
+> +}
+> +
+> +static const TypeInfo xen_arm_machine_type = {
+> +    .name = TYPE_XEN_ARM,
+> +    .parent = TYPE_MACHINE,
+> +    .class_init = xen_arm_machine_class_init,
+> +    .instance_size = sizeof(XenArmState),
+> +};
+> +
+> +static void xen_arm_machine_register_types(void)
+> +{
+> +    type_register_static(&xen_arm_machine_type);
+> +}
+> +
+> +type_init(xen_arm_machine_register_types)
+> diff --git a/include/hw/arm/xen_arch_hvm.h b/include/hw/arm/xen_arch_hvm.h
+> new file mode 100644
+> index 0000000000..8fd645e723
+> --- /dev/null
+> +++ b/include/hw/arm/xen_arch_hvm.h
+> @@ -0,0 +1,9 @@
+> +#ifndef HW_XEN_ARCH_ARM_HVM_H
+> +#define HW_XEN_ARCH_ARM_HVM_H
+> +
+> +#include <xen/hvm/ioreq.h>
+> +void arch_handle_ioreq(XenIOState *state, ioreq_t *req);
+> +void arch_xen_set_memory(XenIOState *state,
+> +                         MemoryRegionSection *section,
+> +                         bool add);
+> +#endif
+> diff --git a/include/hw/xen/arch_hvm.h b/include/hw/xen/arch_hvm.h
+> index 26674648d8..c7c515220d 100644
+> --- a/include/hw/xen/arch_hvm.h
+> +++ b/include/hw/xen/arch_hvm.h
+> @@ -1,3 +1,5 @@
+>  #if defined(TARGET_I386) || defined(TARGET_X86_64)
+>  #include "hw/i386/xen_arch_hvm.h"
+> +#elif defined(TARGET_ARM) || defined(TARGET_ARM_64)
+> +#include "hw/arm/xen_arch_hvm.h"
+>  #endif
+> -- 
+> 2.17.0
+> 
 
