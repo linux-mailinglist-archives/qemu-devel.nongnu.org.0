@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81E0F687066
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 22:13:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56619687065
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 22:13:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNKPi-0001Qv-Ue; Wed, 01 Feb 2023 16:13:06 -0500
+	id 1pNKPl-0001XX-Vw; Wed, 01 Feb 2023 16:13:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pNKPg-0001Lk-U6
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 16:13:04 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pNKPk-0001WO-Ae
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 16:13:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
- id 1pNKPf-0003eK-6G
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 16:13:04 -0500
+ id 1pNKPi-0003gO-8z
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 16:13:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675285982;
+ s=mimecast20190719; t=1675285985;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ym5PB7wFVphQx6AdIHDJ9zSbsu6D0R9a9T5xuWH3qmU=;
- b=bkHgNzr07/SkAec3L/Cw0OnGfzVd6H81dIDdBXad0AARv2CZsDHNMXAZ3R/ZDWHjNRiHdp
- U8vjCpLphfzS0XRQHTgv0z+fOf+9KDTsbFZfwdhXapmPwjwIuuM6dqTXSnx1a+RqGLrfsD
- 86Z5SNxZVFW/nMO1VINYn6M21S7g7yM=
+ bh=ybriR74drHlRAEAQF8rbl5sN7iUBs3zLUCO6HyZbwMU=;
+ b=VasPufCKncUaK7cwj8yzo5NSZqaPq6Vl9kCzCYN9xxpSUhWKI8hB9VBne1BDFJ4O6YNV7g
+ VpFKZmaFh9cy3e+NHD4Ss4rh0hVzQjpGdCxtEQs7gKwxa8m1wTkkBmeVTHM0b5+fBmeFVj
+ hEyw5IJx49jCgZpkx1Jo3ebAUIGX0C4=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-455-EPFxP8d2O12P_aCi6-HqfQ-1; Wed, 01 Feb 2023 16:12:59 -0500
-X-MC-Unique: EPFxP8d2O12P_aCi6-HqfQ-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
+ us-mta-202-V-LhywrRPz6ukhDLkrgZ9A-1; Wed, 01 Feb 2023 16:13:01 -0500
+X-MC-Unique: V-LhywrRPz6ukhDLkrgZ9A-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9763C1C05AF9;
- Wed,  1 Feb 2023 21:12:58 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2AFA03C02550;
+ Wed,  1 Feb 2023 21:13:01 +0000 (UTC)
 Received: from localhost (unknown [10.39.192.164])
- by smtp.corp.redhat.com (Postfix) with ESMTP id F068A492B00;
- Wed,  1 Feb 2023 21:12:57 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A05C42026D4B;
+ Wed,  1 Feb 2023 21:13:00 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: <qemu-devel@nongnu.org>
 Cc: <qemu-block@nongnu.org>, Kevin Wolf <kwolf@redhat.com>, mjt@tls.msk.ru,
  Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PATCH 4/5] docs: flesh out qcow2 format driver description
-Date: Wed,  1 Feb 2023 16:12:33 -0500
-Message-Id: <20230201211234.301918-5-stefanha@redhat.com>
+Subject: [PATCH 5/5] docs: add throttle filter description
+Date: Wed,  1 Feb 2023 16:12:34 -0500
+Message-Id: <20230201211234.301918-6-stefanha@redhat.com>
 In-Reply-To: <20230201211234.301918-1-stefanha@redhat.com>
 References: <20230201211234.301918-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=stefanha@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -62,7 +62,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,144 +78,129 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Put the create options in alphabetical order, add compression_type and
-extended_l2, and also mention the common runtime options. I did not add
-rarely-used runtime options because I think it's too much information.
-
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- docs/system/qemu-block-drivers.rst.inc | 91 ++++++++++++++++++++------
- 1 file changed, 70 insertions(+), 21 deletions(-)
+ docs/system/qemu-block-drivers.rst.inc | 110 +++++++++++++++++++++++++
+ 1 file changed, 110 insertions(+)
 
 diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
-index ec9ebb2066..af72817763 100644
+index af72817763..ea4be5c210 100644
 --- a/docs/system/qemu-block-drivers.rst.inc
 +++ b/docs/system/qemu-block-drivers.rst.inc
-@@ -59,13 +59,27 @@ options that are supported for it.
- .. option:: qcow2
+@@ -1004,3 +1004,113 @@ some additional tasks, hooking io requests.
+   .. option:: prealloc-size
  
-   QEMU image format, the most versatile format. Use it to have smaller
--  images (useful if your filesystem does not supports holes, for example
--  on Windows), zlib based compression and support of multiple VM
-+  images (useful if your filesystem does not support holes, for example
-+  on Windows), zlib/zstd compression and support of multiple VM
-   snapshots.
- 
--  Supported options:
-+  Supported create options:
- 
-   .. program:: qcow2
-+  .. option:: backing_file
+     How much to preallocate (in bytes), default 128M.
 +
-+    File name of a base image (see ``create`` subcommand)
++.. program:: filter-drivers
++.. option:: throttle
 +
-+  .. option:: backing_fmt
++  The throttle filter driver rate limits I/O requests so that the given IOPS
++  and bandwidth values are not exceeded. Limits are specified using the
++  following syntax::
 +
-+    Image format of the base image
++     --object '{"driver":"throttle-group","id":"tg0","limits":{"iops-total":2048,"bps-total":10485760}}'
 +
-+  .. option:: cluster_size
++  The following throttle group limits are available:
 +
-+    Changes the qcow2 cluster size (must be between 512 and 2M). Smaller cluster
-+    sizes can improve the image file size whereas larger cluster sizes generally
-+    provide better performance.
++  .. program:: throttle-group
++  .. option:: iops-total
 +
-   .. option:: compat
- 
-     Determines the qcow2 version to use. ``compat=0.10`` uses the
-@@ -74,13 +88,9 @@ options that are supported for it.
-     newer understand (this is the default). Amongst others, this includes
-     zero clusters, which allow efficient copy-on-read for sparse images.
- 
--  .. option:: backing_file
-+  .. option:: compression_type
- 
--    File name of a base image (see ``create`` subcommand)
--
--  .. option:: backing_fmt
--
--    Image format of the base image
-+    Selects the compression algorithm (zlib or zstd).
- 
-   .. option:: encryption
- 
-@@ -150,19 +160,11 @@ options that are supported for it.
-     Amount of time, in milliseconds, to use for PBKDF algorithm per key slot.
-     Defaults to ``2000``. Only used when ``encrypt.format=luks``.
- 
--  .. option:: cluster_size
-+  .. option:: extended_l2
- 
--    Changes the qcow2 cluster size (must be between 512 and 2M). Smaller cluster
--    sizes can improve the image file size whereas larger cluster sizes generally
--    provide better performance.
--
--  .. option:: preallocation
--
--    Preallocation mode (allowed values: ``off``, ``metadata``, ``falloc``,
--    ``full``). An image with preallocated metadata is initially larger but can
--    improve performance when the image needs to grow. ``falloc`` and ``full``
--    preallocations are like the same options of ``raw`` format, but sets up
--    metadata also.
-+    Enables the Extended L2 Entries feature that divides each cluster into 32
-+    separately allocated sub-clusters. A larger cluster size can be used, thus
-+    reducing metadata overhead, while still allowing fine-grained allocation.
- 
-   .. option:: lazy_refcounts
- 
-@@ -196,6 +198,53 @@ options that are supported for it.
-     filename`` to check if the NOCOW flag is set or not (Capital 'C' is
-     NOCOW flag).
- 
-+  .. option:: preallocation
++    Limit total I/O operations per second.
 +
-+    Preallocation mode (allowed values: ``off``, ``metadata``, ``falloc``,
-+    ``full``). An image with preallocated metadata is initially larger but can
-+    improve performance when the image needs to grow. ``falloc`` and ``full``
-+    preallocations are like the same options of ``raw`` format, but sets up
-+    metadata also.
++  .. option:: iops-total-max
++
++    I/O operations burst.
++
++  .. option:: iops-total-max-length
++
++    Length of the ``iops-total-max`` burst period, in seconds. It must only be
++    set if ``iops-total-max`` is set as well.
++
++  .. option:: iops-read
++
++    Limit read operations per second.
++
++  .. option:: iops-read-max
++
++     I/O operations read burst.
++
++  .. option:: iops-read-max-length
++
++    Length of the ``iops-read-max`` burst period, in seconds. It must only be
++    set if ``iops-read-max`` is set as well.
++
++  .. option:: iops-write
++
++    Limit write operations per second.
++
++  .. option:: iops-write-max
++
++    I/O operations write burst.
++
++  .. option:: iops-write-max-length
++
++    Length of the ``iops-write-max`` burst period, in seconds. It must only be
++    set if ``iops-write-max`` is set as well.
++
++  .. option:: bps-total
++
++    Limit total bytes per second.
++
++  .. option:: bps-total-max
++
++    Total bytes burst.
++
++  .. option:: bps-total-max-length
++
++    Length of the ``bps-total-max`` burst period, in seconds. It must only be
++    set if ``bps-total-max`` is set as well.
++
++  .. option:: bps-read
++
++    Limit read bytes per second.
++
++  .. option:: bps-read-max
++
++    Total bytes read burst.
++
++  .. option:: bps-read-max-length
++
++    Length of the ``bps-read-max`` burst period, in seconds. It must only be
++    set if ``bps-read-max`` is set as well.
++
++  .. option:: bps-write
++
++    Limit write bytes per second.
++
++  .. option:: bps-write-max
++
++    Total bytes write burst.
++
++  .. option:: bps-write-max-length
++
++    Length of the ``bps-write-max`` burst period, in seconds. It must only be
++    set if ``bps-write-max`` is set as well.
++
++  .. option:: iops-size
++
++    IOPS are counted as a multiple of this value, in bytes. For example, a 16
++    KB read request is counted as 4 IOPS when ``iops-size`` is 4 KB.
++
++  Throttle groups are defined separately from throttle blockdevs so they can be
++  shared by multiple blockdevs.
++
++  Note that the location of the throttle blockdev in the graph is significant.
++  Usually it will be one of the topmost nodes so that guest I/O requests are
++  throttled. When the throttle blockdev is located below a format driver it may
++  see a different I/O pattern due to image format metadata I/O.
 +
 +  Supported runtime options:
 +
-+  .. program:: qcow2
-+  .. option:: cache-clean-interval
++  .. program:: throttle
++  .. option:: throttle-group
 +
-+    Clean unused cache entries after this time (in seconds).
-+
-+  .. option:: cache-size
-+
-+    Maximum combined metadata (L2 tables and refcount blocks) cache size.
-+
-+  .. option:: encrypt.key-secret
-+
-+    ID of secret providing qcow2 AES key or LUKS passphrase.
-+
-+  .. option:: l2-cache-size
-+
-+    Maximum L2 table cache size.
-+
-+  .. option:: l2-cache-entry-size
-+
-+    Size of each entry in the L2 cache.
-+
-+  .. option:: pass-discard-request
-+
-+    Pass guest discard requests to the layer below (on/off).
-+
-+  .. option:: pass-discard-snapshot
-+
-+    Generate discard requests when snapshot related space is freed (on/off).
-+
-+  .. option:: pass-discard-other
-+
-+    Generate discard requests when other clusters are freed (on/off).
-+
-+  .. option:: refcount-cache-size
-+
-+    Maximum refcount block cache size.
-+
- .. program:: image-formats
- .. option:: qed
- 
++    The id of the throttle group object that defines the I/O limits.
 -- 
 2.39.1
 
