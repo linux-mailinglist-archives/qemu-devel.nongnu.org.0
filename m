@@ -2,95 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71128686665
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 14:08:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 128B0686677
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 14:14:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNCqa-0008JD-VB; Wed, 01 Feb 2023 08:08:20 -0500
+	id 1pNCvV-0002Fy-0W; Wed, 01 Feb 2023 08:13:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pNCqL-0008E6-93
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:08:08 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pNCqJ-0000bL-2r
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:08:05 -0500
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 311Cmstf016755; Wed, 1 Feb 2023 13:08:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=UvaEmAhMrpwYD0H3KUBmYmUYxiMeK+wS7Jq7ml2Ew9c=;
- b=By3ZGIH1vewvAZZHlsj9YrUhsYnjoU1UAA2KWoF2DC7KmIAXdwb/ZuGVj6I5IbwKxfC7
- OglKuwfW9a1KzNc+7pXRIjJtTKHVaQMIebcekx60jG/dIYW9ioKpKLI2s1lKfCD40vHm
- U+xvsp+fm1wT88EUUdW/7k26p73OuOFC7EuoV5hVEk6pWPKOJRmc2DwX1y6p09eNlimI
- uyp48l+OHIr7tt+ICrpLUBnmiK56nl3LGOoIvPBaYcMm5QKwzK8q1kJde+oFMdWKtAz+
- yXrIxdF8dGu7CKiVCgorHWknrYC/HaS1Kfvj0hpO+8h3ZYjc82wNQWQ7h6oaZzFfjZPw RQ== 
-Received: from ppma03fra.de.ibm.com (6b.4a.5195.ip4.static.sl-reverse.com
- [149.81.74.107])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nfrdugen0-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Feb 2023 13:08:01 +0000
-Received: from pps.filterd (ppma03fra.de.ibm.com [127.0.0.1])
- by ppma03fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3116j6nt013346;
- Wed, 1 Feb 2023 13:07:59 GMT
-Received: from smtprelay01.fra02v.mail.ibm.com ([9.218.2.227])
- by ppma03fra.de.ibm.com (PPS) with ESMTPS id 3ncvshbg0a-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Wed, 01 Feb 2023 13:07:58 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay01.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 311D7uj629229368
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Wed, 1 Feb 2023 13:07:56 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 634E62004D;
- Wed,  1 Feb 2023 13:07:56 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 3EBCE20040;
- Wed,  1 Feb 2023 13:07:56 +0000 (GMT)
-Received: from [9.155.209.149] (unknown [9.155.209.149])
- by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Wed,  1 Feb 2023 13:07:56 +0000 (GMT)
-Message-ID: <4db3d7ce4d835056e6ecc98f382174b06f80f7b3.camel@linux.ibm.com>
-Subject: Re: [PATCH 1/4] cpus: Make {start,end}_exclusive() recursive
-From: Ilya Leoshkevich <iii@linux.ibm.com>
-To: Richard Henderson <richard.henderson@linaro.org>, Alex
- =?ISO-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org
-Date: Wed, 01 Feb 2023 14:07:56 +0100
-In-Reply-To: <20230201004609.3005029-2-iii@linux.ibm.com>
-References: <20230201004609.3005029-1-iii@linux.ibm.com>
- <20230201004609.3005029-2-iii@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pNCvT-0002Fq-Mk
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:13:23 -0500
+Received: from mail-pl1-x62c.google.com ([2607:f8b0:4864:20::62c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pNCvR-0002QV-9S
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:13:23 -0500
+Received: by mail-pl1-x62c.google.com with SMTP id m2so13395357plg.4
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 05:13:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=OEX1Tvwqk3ZptBp9MT2cQPM4ih2WYxeeJNgC6x+7OrU=;
+ b=dF25vaMlI5Vg88Nj0CGkqLV7MCsZxUuV4u6NxioPaOER3BeAgmDA5zEXXVyVYrQhDg
+ Qzb6khahm11eAKAVQU46+UU0Gh5lztzPX9eceNf3hIktlHCYV2OzhvOb4tFbwLIdszGw
+ ksgDe1JsuGcAd34QQ0I7DhBrQOVT+tXCTJ+hSR9LpdQz4hLsMoprs3ZO/93x76+CySFc
+ 3C06m17TfrlzEIkAGetEPemdiaMZ7y8LbKzPX1wWz8sDC4+6PdSW74uA/b8H0jvHa1jW
+ wWpjgdWd7tAN9qIs0MHgU+BPtYw04Oem7yfgXwAM/j8KWNS5RDPF4aNJ/pEmS04TLbqb
+ +0Gg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=OEX1Tvwqk3ZptBp9MT2cQPM4ih2WYxeeJNgC6x+7OrU=;
+ b=ZA2H2mhqwh+LusZoIrGIPQl3H+/9O2f1uCShnTP0kyErbwRGODQ8lxYKgMnaaKmvcm
+ FsQNfoJUm043W/tOT/f+U6aPGxRmM8DrOg1W1M2iKKg6kpfM7Y7uZ4Wqch1/ZKjPXY5h
+ 2z65vBGqyQxRjzNdHOxyL0DkTmv/z+qISBgTw7TZiSPaEqBGIDUpvb92PVGRS5LaISEm
+ IZa14tZwRmMYoQ3OviZEn0o4RsuTrIbmUaTm+qMCrs2+l2vcU71fFm2rnT8nH7jJ5WIm
+ 1bRoHK9G/nGj9r4BKB1gykjz3u/PUdukZ2zQ9oCyb8hBaR2SaPT9INXhT4C5LXaCPBk2
+ yl+Q==
+X-Gm-Message-State: AO0yUKWOa8H6/26h5rlzP1yo4E2tUMZDBDsiFN7qe/pEcppt83EmB7oo
+ FgpFo/Fxz5M6/I8+63WYEkde7A==
+X-Google-Smtp-Source: AK7set9unZcTCOT4YKD58/KLw8nwPEmhJAVOuxVKhIqqz3t2Sk1V30RO8CdwqjyvmyRZRBLCKNIXIg==
+X-Received: by 2002:a17:903:22c7:b0:198:b5e1:74fd with SMTP id
+ y7-20020a17090322c700b00198b5e174fdmr981905plg.60.1675257198016; 
+ Wed, 01 Feb 2023 05:13:18 -0800 (PST)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ jn16-20020a170903051000b0019611a075fasm1737389plb.58.2023.02.01.05.13.16
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Feb 2023 05:13:17 -0800 (PST)
+Message-ID: <401715c7-b776-1688-2794-2f151cd69fbc@daynix.com>
+Date: Wed, 1 Feb 2023 22:13:15 +0900
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: RjSnf2DkYx2YWWMKkOn0-Sxio_O-zg4j
-X-Proofpoint-ORIG-GUID: RjSnf2DkYx2YWWMKkOn0-Sxio_O-zg4j
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-01_04,2023-01-31_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 clxscore=1015 malwarescore=0 spamscore=0 mlxlogscore=330
- mlxscore=0 adultscore=0 impostorscore=0 priorityscore=1501 phishscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302010112
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
- helo=mx0b-001b2d01.pphosted.com
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v4 4/9] igb: implement VFRE and VFTE registers
+Content-Language: en-US
+To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20230201111722.28748-1-sriram.yagnaraman@est.tech>
+ <20230201111722.28748-5-sriram.yagnaraman@est.tech>
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <20230201111722.28748-5-sriram.yagnaraman@est.tech>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::62c;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62c.google.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
 X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,70 +97,154 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2023-02-01 at 01:46 +0100, Ilya Leoshkevich wrote:
-> Currently dying to one of the core_dump_signal()s deadlocks, because
-> dump_core_and_abort() calls start_exclusive() two times: first via
-> stop_all_tasks(), and then via preexit_cleanup() ->
-> qemu_plugin_user_exit().
->=20
-> There are a number of ways to solve this: resume after dumping core;
-> check cpu_in_exclusive_context() in qemu_plugin_user_exit(); or make
-> {start,end}_exclusive() recursive. Pick the last option, since it's
-> the most straightforward one.
->=20
-> Fixes: da91c1920242 ("linux-user: Clean up when exiting due to a
-> signal")
-> Signed-off-by: Ilya Leoshkevich <iii@linux.ibm.com>
+On 2023/02/01 20:17, Sriram Yagnaraman wrote:
+> Also introduce:
+> - Checks for RXDCTL/TXDCTL queue enable bits
+> - IGB_NUM_VM_POOLS enum (Sec 1.5: Table 1-7)
 
-Hi,
+It may be better to have RXDCTL.ENABLE check in igb_can_receive().
 
-I noticed that fork()ed CPUs start with in_exclusive_context set (in
-this patch it is renamed to exclusive_context_count, but the point
-stands). That was not important before, since only pending_cpus decided
-what happens in start_exclusive()/end_exclusive(). Now that
-exclusive_context_count is also important, we need something like:
-
---- a/linux-user/main.c
-+++ b/linux-user/main.c
-@@ -161,13 +161,15 @@ void fork_end(int child)
-         }
-         qemu_init_cpu_list();
-         gdbserver_fork(thread_cpu);
--        /* qemu_init_cpu_list() takes care of reinitializing the
--         * exclusive state, so we don't need to end_exclusive() here.
--         */
-     } else {
-         cpu_list_unlock();
--        end_exclusive();
-     }
-+    /*
-+     * qemu_init_cpu_list() reinitialized the child exclusive state,
-but we
-+     * also need to keep current_cpu consistent, so call
-end_exclusive() for
-+     * both child and parent.
-+     */
-+    end_exclusive();
- }
-=20
- __thread CPUState *thread_cpu;
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 1f8c10f8ef9..70fad4bed01 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6776,6 +6776,7 @@ static int do_fork(CPUArchState *env, unsigned
-int flags, abi_ulong newsp,
-             cpu_clone_regs_parent(env, flags);
-             fork_end(0);
-         }
-+        g_assert(!cpu_in_exclusive_context(cpu));
-     }
-     return ret;
- }
-
-I can include this in v2, if the overall recursive lock approach is
-considered appropriate.
-
-Best regards,
-Ilya
+> 
+> Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+> ---
+>   hw/net/igb_core.c | 36 ++++++++++++++++++++++++++++--------
+>   hw/net/igb_core.h |  1 +
+>   hw/net/igb_regs.h |  3 +++
+>   3 files changed, 32 insertions(+), 8 deletions(-)
+> 
+> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
+> index 1ddf54f630..c44b30b6d1 100644
+> --- a/hw/net/igb_core.c
+> +++ b/hw/net/igb_core.c
+> @@ -780,6 +780,18 @@ igb_txdesc_writeback(IGBCore *core, dma_addr_t base,
+>       return igb_tx_wb_eic(core, txi->idx);
+>   }
+>   
+> +static inline bool
+> +igb_tx_enabled(IGBCore *core, const E1000E_RingInfo *txi)
+> +{
+> +    bool vmdq = core->mac[MRQC] & 1;
+> +    uint16_t qn = txi->idx;
+> +    uint16_t pool = qn % IGB_NUM_VM_POOLS;
+> +
+> +    return (core->mac[TCTL] & E1000_TCTL_EN) &&
+> +        (!vmdq || core->mac[VFTE] & BIT(pool)) &&
+> +        (core->mac[TXDCTL0 + (qn * 16)] & E1000_TXDCTL_QUEUE_ENABLE);
+> +}
+> +
+>   static void
+>   igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
+>   {
+> @@ -789,8 +801,7 @@ igb_start_xmit(IGBCore *core, const IGB_TxRing *txr)
+>       const E1000E_RingInfo *txi = txr->i;
+>       uint32_t eic = 0;
+>   
+> -    /* TODO: check if the queue itself is enabled too. */
+> -    if (!(core->mac[TCTL] & E1000_TCTL_EN)) {
+> +    if (!igb_tx_enabled(core, txi)) {
+>           trace_e1000e_tx_disabled();
+>           return;
+>       }
+> @@ -932,7 +943,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+>   
+>       if (core->mac[MRQC] & 1) {
+>           if (is_broadcast_ether_addr(ehdr->h_dest)) {
+> -            for (i = 0; i < 8; i++) {
+> +            for (i = 0; i < IGB_NUM_VM_POOLS; i++) {
+>                   if (core->mac[VMOLR0 + i] & E1000_VMOLR_BAM) {
+>                       queues |= BIT(i);
+>                   }
+> @@ -966,7 +977,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+>                   f = ta_shift[(rctl >> E1000_RCTL_MO_SHIFT) & 3];
+>                   f = (((ehdr->h_dest[5] << 8) | ehdr->h_dest[4]) >> f) & 0xfff;
+>                   if (macp[f >> 5] & (1 << (f & 0x1f))) {
+> -                    for (i = 0; i < 8; i++) {
+> +                    for (i = 0; i < IGB_NUM_VM_POOLS; i++) {
+>                           if (core->mac[VMOLR0 + i] & E1000_VMOLR_ROMPE) {
+>                               queues |= BIT(i);
+>                           }
+> @@ -989,7 +1000,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+>                       }
+>                   }
+>               } else {
+> -                for (i = 0; i < 8; i++) {
+> +                for (i = 0; i < IGB_NUM_VM_POOLS; i++) {
+>                       if (core->mac[VMOLR0 + i] & E1000_VMOLR_AUPE) {
+>                           mask |= BIT(i);
+>                       }
+> @@ -1005,6 +1016,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+>               queues = BIT(def_pl >> E1000_VT_CTL_DEFAULT_POOL_SHIFT);
+>           }
+>   
+> +        queues &= core->mac[VFRE];
+>           igb_rss_parse_packet(core, core->rx_pkt, external_tx != NULL, rss_info);
+>           if (rss_info->queue & 1) {
+>               queues <<= 8;
+> @@ -1562,12 +1574,12 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
+>       igb_rx_fix_l4_csum(core, core->rx_pkt);
+>   
+>       for (i = 0; i < IGB_NUM_QUEUES; i++) {
+> -        if (!(queues & BIT(i))) {
+> +        if (!(queues & BIT(i)) ||
+> +            !(core->mac[RXDCTL0 + (i * 16)] & E1000_RXDCTL_QUEUE_ENABLE)) {
+>               continue;
+>           }
+>   
+>           igb_rx_ring_init(core, &rxr, i);
+> -
+>           if (!igb_has_rxbufs(core, rxr.i, total_size)) {
+>               n |= E1000_ICS_RXO;
+>               trace_e1000e_rx_not_written_to_guest(rxr.i->idx);
+> @@ -1966,9 +1978,16 @@ static void igb_set_vfmailbox(IGBCore *core, int index, uint32_t val)
+>   
+>   static void igb_vf_reset(IGBCore *core, uint16_t vfn)
+>   {
+> +    uint16_t qn0 = vfn;
+> +    uint16_t qn1 = vfn + IGB_NUM_VM_POOLS;
+> +
+>       /* disable Rx and Tx for the VF*/
+> -    core->mac[VFTE] &= ~BIT(vfn);
+> +    core->mac[RXDCTL0 + (qn0 * 16)] &= ~E1000_RXDCTL_QUEUE_ENABLE;
+> +    core->mac[RXDCTL0 + (qn1 * 16)] &= ~E1000_RXDCTL_QUEUE_ENABLE;
+> +    core->mac[TXDCTL0 + (qn0 * 16)] &= ~E1000_TXDCTL_QUEUE_ENABLE;
+> +    core->mac[TXDCTL0 + (qn1 * 16)] &= ~E1000_TXDCTL_QUEUE_ENABLE;
+>       core->mac[VFRE] &= ~BIT(vfn);
+> +    core->mac[VFTE] &= ~BIT(vfn);
+>       /* indicate VF reset to PF */
+>       core->mac[VFLRE] |= BIT(vfn);
+>       /* VFLRE and mailbox use the same interrupt cause */
+> @@ -3874,6 +3893,7 @@ igb_phy_reg_init[] = {
+>   static const uint32_t igb_mac_reg_init[] = {
+>       [LEDCTL]        = 2 | (3 << 8) | BIT(15) | (6 << 16) | (7 << 24),
+>       [EEMNGCTL]      = BIT(31),
+> +    [TXDCTL0]       = E1000_TXDCTL_QUEUE_ENABLE,
+>       [RXDCTL0]       = E1000_RXDCTL_QUEUE_ENABLE | (1 << 16),
+>       [RXDCTL1]       = 1 << 16,
+>       [RXDCTL2]       = 1 << 16,
+> diff --git a/hw/net/igb_core.h b/hw/net/igb_core.h
+> index cc3b4d1f2b..9938922598 100644
+> --- a/hw/net/igb_core.h
+> +++ b/hw/net/igb_core.h
+> @@ -47,6 +47,7 @@
+>   #define IGB_MSIX_VEC_NUM        (10)
+>   #define IGBVF_MSIX_VEC_NUM      (3)
+>   #define IGB_NUM_QUEUES          (16)
+> +#define IGB_NUM_VM_POOLS        (8)
+>   
+>   typedef struct IGBCore IGBCore;
+>   
+> diff --git a/hw/net/igb_regs.h b/hw/net/igb_regs.h
+> index ddc0f931d6..4d98079906 100644
+> --- a/hw/net/igb_regs.h
+> +++ b/hw/net/igb_regs.h
+> @@ -160,6 +160,9 @@ union e1000_adv_rx_desc {
+>   #define E1000_MRQC_RSS_FIELD_IPV6_UDP       0x00800000
+>   #define E1000_MRQC_RSS_FIELD_IPV6_UDP_EX    0x01000000
+>   
+> +/* Additional Transmit Descriptor Control definitions */
+> +#define E1000_TXDCTL_QUEUE_ENABLE  0x02000000 /* Enable specific Tx Queue */
+> +
+>   /* Additional Receive Descriptor Control definitions */
+>   #define E1000_RXDCTL_QUEUE_ENABLE  0x02000000 /* Enable specific Rx Queue */
+>   
 
