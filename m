@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244EB686854
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:33:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 700B4686875
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:38:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNEA9-0001d5-Iy; Wed, 01 Feb 2023 09:32:39 -0500
+	id 1pNEB4-0002Lf-Tz; Wed, 01 Feb 2023 09:33:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+c61c7683afee22e62f8e+7101+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pNE9m-0001S0-Gp
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:32:14 -0500
+ id 1pNE9j-0001PG-VL
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:32:12 -0500
 Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from
  <BATV+c61c7683afee22e62f8e+7101+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pNE9g-00036t-SJ
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:32:14 -0500
+ id 1pNE9g-00036d-Re
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:32:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
  MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
  Reply-To:Content-Type:Content-ID:Content-Description;
- bh=T5bLjn5tmFj8p3EJrOeyA6JFzix8MoST6KAj0wmxNV8=; b=TYB+bF/kl6GkimjxyTHSgHitD+
- op7l99c4hoDOoHRgS/AppfiitMSzi8P4GaKFukGnoANpB8YJfDT+rr2E93ZPmShZsmRg1EHcNVIO6
- FrlIEPgFh/WKvQ4+7lBg8Y3RNqo+rFiI4ReJSN7mKx521qRlpvlgQfnWq2EKlHFW+h6aLAufogOBu
- kVmuGTpy/jNuOcJFthQCBGBeNR03xvVni8BYSIao3L5ytMeZ+qFLJdTH/U7Eq03e/MY4s1OPwNhut
- JjhS+2Drie8AxCGEJVBGKPvuOxgR77kh6hkxnQKJrlI3IORRjakmEhIyJVl4PZCeAroyI4eFFSeiy
- SqOhp5dw==;
+ bh=RIDt67H/EKcXn8yhYQkRkNbjhldv6xEBgbGCvDGm+gY=; b=dpLB+/FVVWTfjTn4Jec8HyL6Dy
+ Gkk5JjOhpGb0fP+do2UQQeA0Npe9KTgISEgEXxESFS3oFy7/fI9TPjsAOrDnZ5ei9ZBauxuVZue8U
+ Ss7ogLtFVz4km8oO39gmdPiFxlHSKe7yOrHDvhPNLz3zgVJIABCQO0HIp/aM5ViDGjpmFnH5FVw65
+ bjyYVRiDhBUIKJ9Dw03C94QRJWiZGykI/sKw70cTdBc4CaMbk+4tghMgI0AmY9bK8TPgnh+Jtu+HS
+ jwUZDFU1NF9Iy2a3lK7RrrCWYkmsjYcYZKsvxDcLUA2XdzHVp60R8Bo9pRE+vaKQlEvtoLrytZ4hX
+ EpYju8uA==;
 Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
  by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pNE8q-004nyF-2V; Wed, 01 Feb 2023 14:31:17 +0000
+ id 1pNE8q-004nyG-2d; Wed, 01 Feb 2023 14:31:17 +0000
 Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pNE9P-007Jqo-17; Wed, 01 Feb 2023 14:31:51 +0000
+ Linux)) id 1pNE9P-007Jqs-1H; Wed, 01 Feb 2023 14:31:51 +0000
 From: David Woodhouse <dwmw2@infradead.org>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
@@ -49,9 +49,10 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
  Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [PATCH v10 14/59] xen: Permit --xen-domid argument when accel is KVM
-Date: Wed,  1 Feb 2023 14:31:03 +0000
-Message-Id: <20230201143148.1744093-15-dwmw2@infradead.org>
+Subject: [PATCH v10 15/59] i386/xen: add pc_machine_kvm_type to initialize
+ XEN_EMULATE mode
+Date: Wed,  1 Feb 2023 14:31:04 +0000
+Message-Id: <20230201143148.1744093-16-dwmw2@infradead.org>
 X-Mailer: git-send-email 2.39.0
 In-Reply-To: <20230201143148.1744093-1-dwmw2@infradead.org>
 References: <20230201143148.1744093-1-dwmw2@infradead.org>
@@ -84,27 +85,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Paul Durrant <pdurrant@amazon.com>
+From: David Woodhouse <dwmw@amazon.co.uk>
 
-Signed-off-by: Paul Durrant <pdurrant@amazon.com>
-Signed-off-by: David Wooodhouse <dwmw@amazon.co.uk>
+The xen_overlay device (and later similar devices for event channels and
+grant tables) need to be instantiated. Do this from a kvm_type method on
+the PC machine derivatives, since KVM is only way to support Xen emulation
+for now.
+
+Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
+Reviewed-by: Paul Durrant <paul@xen.org>
 ---
- softmmu/vl.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/i386/pc.c         | 11 +++++++++++
+ include/hw/i386/pc.h |  3 +++
+ 2 files changed, 14 insertions(+)
 
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 9177d95d4e..25d7ee9098 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -3362,7 +3362,7 @@ void qemu_init(int argc, char **argv)
-                 has_defaults = 0;
-                 break;
-             case QEMU_OPTION_xen_domid:
--                if (!(accel_find("xen"))) {
-+                if (!(accel_find("xen")) && !(accel_find("kvm"))) {
-                     error_report("Option not supported for this target");
-                     exit(1);
-                 }
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 6e592bd969..9169305f4f 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -89,6 +89,7 @@
+ #include "hw/virtio/virtio-iommu.h"
+ #include "hw/virtio/virtio-pmem-pci.h"
+ #include "hw/virtio/virtio-mem-pci.h"
++#include "hw/i386/kvm/xen_overlay.h"
+ #include "hw/mem/memory-device.h"
+ #include "sysemu/replay.h"
+ #include "target/i386/cpu.h"
+@@ -1844,6 +1845,16 @@ static void pc_machine_initfn(Object *obj)
+     cxl_machine_init(obj, &pcms->cxl_devices_state);
+ }
+ 
++int pc_machine_kvm_type(MachineState *machine, const char *kvm_type)
++{
++#ifdef CONFIG_XEN_EMU
++    if (xen_mode == XEN_EMULATE) {
++        xen_overlay_create();
++    }
++#endif
++    return 0;
++}
++
+ static void pc_machine_reset(MachineState *machine, ShutdownCause reason)
+ {
+     CPUState *cs;
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 88a120bc23..00c15e78bc 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -293,12 +293,15 @@ extern const size_t pc_compat_1_5_len;
+ extern GlobalProperty pc_compat_1_4[];
+ extern const size_t pc_compat_1_4_len;
+ 
++extern int pc_machine_kvm_type(MachineState *machine, const char *vm_type);
++
+ #define DEFINE_PC_MACHINE(suffix, namestr, initfn, optsfn) \
+     static void pc_machine_##suffix##_class_init(ObjectClass *oc, void *data) \
+     { \
+         MachineClass *mc = MACHINE_CLASS(oc); \
+         optsfn(mc); \
+         mc->init = initfn; \
++        mc->kvm_type = pc_machine_kvm_type; \
+     } \
+     static const TypeInfo pc_machine_type_##suffix = { \
+         .name       = namestr TYPE_MACHINE_SUFFIX, \
 -- 
 2.39.0
 
