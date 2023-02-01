@@ -2,84 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53337683AE8
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 01:04:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC02685C14
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 01:18:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN0aS-0001u1-D6; Tue, 31 Jan 2023 19:02:52 -0500
+	id 1pN0o6-0007Np-Tr; Tue, 31 Jan 2023 19:16:58 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pN0aP-0001ss-VQ; Tue, 31 Jan 2023 19:02:49 -0500
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pN0nz-0007Nd-QF; Tue, 31 Jan 2023 19:16:51 -0500
+Received: from mail-vk1-xa2e.google.com ([2607:f8b0:4864:20::a2e])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <shentey@gmail.com>)
- id 1pN0aO-0002M2-Aj; Tue, 31 Jan 2023 19:02:49 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id dr8so24971136ejc.12;
- Tue, 31 Jan 2023 16:02:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
+ id 1pN0nx-000657-RL; Tue, 31 Jan 2023 19:16:51 -0500
+Received: by mail-vk1-xa2e.google.com with SMTP id l129so8295865vkh.6;
+ Tue, 31 Jan 2023 16:16:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:from:to:cc:subject:date
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=sjOXovAmKjL7g3Che6Eyc3siPVLhgOZzBH9rNAH5fwI=;
- b=CN3Zemqu1IZYEjBOttwDHThe1UwxG6oPnl5J7AvB0q+SFNiBnll/OWnZYh72yg2IXg
- ShO6Ivs0oUTNEq+C+nDLB7UafENNlPamRJmKKnECUzKQEOlSRpSzrt9vQB+ZCsjqlP8J
- ztcC/2Hly8GkWZQqg2YXEXWlnTYs8DXjzJZP2tmoCt401IcSM47UM5uxLu5beU6sa8TB
- JzHQyEEDkXP13oi4uE75mm4piAx7kWgf/nZDegLzYoC+N1MhN2Fe4k1VjkWz1VWg+f1q
- OCW4Y+M6vPDm+to3scljqnhQQidisGHQHgkXMcfwFKDBzeI5+peERVHKArcw8jbOZAdr
- i7cg==
+ bh=8Z4TDDC4gX0eMrkm4ogAYQ6T2bFbzlcOsTe4fPg2l8Y=;
+ b=qLdPqjcTg1TEK09oTMIRxpohFWVDkGrn3bKQwaqpucaETPOmdD6Engzppikz+hBmlY
+ p2tzpMkvXCnLOojrGegvOfI6BBqqnI0UVuhSVF/85fvAPUjtq9+NkU1XLhkezq4WWkW3
+ Rwmck4PSidBaKBDJCn+oldGmlA0jb1n8EVZMTkr3oYzv9osjRneJAA/gEHKtxpaz1eQG
+ b23VX0rRHWUKwtu09cSe2m3wguIEqJWTKRBs+ccoVKo8SYt8WpR8o5nZuFsLFlCjkIkb
+ iBo6npsNKkItGRljoqBPv2Slj9PvorZb53v0h0eCTsI4c+ziomehGgGfaJLTlecFy3E8
+ CsQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:references
- :in-reply-to:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=sjOXovAmKjL7g3Che6Eyc3siPVLhgOZzBH9rNAH5fwI=;
- b=kpkP0rcj+6x7YXLpt6mS5pmaf46XgS4v8FCHB/KCtxOKMO5GEl6FD/Q0Nz42D13aEu
- 4InEeopAitYL9TRztn5Ltn4b2qpQDMbbGFfOdWoEqqunXIj/fEx5gys1iOJuwDhtuxFE
- 8r5OX0lzb2J/03mNVodWFfZpqm2aRdahsnmaIGdMjufze3vstw4xWs+lYaSz8kMz24qw
- TszkIsLeJCpmoUxLQhWy5uK9abenuSVwYe68HsNE9peT0FAs4I2nN4QPLVZYcIs+NZUx
- ehR4FykDYVzx4YbdtjDgZj12Vs3xg89owfxIS+yl0fo3x9a/FltzeNkJvUjDkQH9Z3vk
- sGLw==
-X-Gm-Message-State: AO0yUKV19FgrkjCjnv6W8u3npc52x5jaA61NfhhrDcvr58Q/T0CcDCKD
- +2xty/JjJxqYuM+7yUnQu8vxtXbBb9U=
-X-Google-Smtp-Source: AK7set/u9IIWYmcVavlAPhGufEEdkHir3RgiGe0/fk0J4Nybl7MVKEFAiaQs3R/vCUYGecD70PagqA==
-X-Received: by 2002:a17:906:cc8f:b0:889:d998:1576 with SMTP id
- oq15-20020a170906cc8f00b00889d9981576mr226864ejb.66.1675209765436; 
- Tue, 31 Jan 2023 16:02:45 -0800 (PST)
-Received: from [127.0.0.1] (dynamic-077-013-082-236.77.13.pool.telefonica.de.
- [77.13.82.236]) by smtp.gmail.com with ESMTPSA id
- la7-20020a170906ad8700b00872c0bccab2sm5275055ejb.35.2023.01.31.16.02.43
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 16:02:44 -0800 (PST)
-Date: Wed, 01 Feb 2023 00:02:32 +0000
-From: Bernhard Beschow <shentey@gmail.com>
-To: qemu-devel@nongnu.org
-CC: Igor Mammedov <imammedo@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,
- Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
- Paolo Bonzini <pbonzini@redhat.com>, BALATON Zoltan <balaton@eik.bme.hu>,
- Thomas Huth <thuth@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- Eduardo Habkost <eduardo@habkost.net>, Laurent Vivier <lvivier@redhat.com>,
- Sunil Muthuswamy <sunilmut@microsoft.com>, qemu-trivial@nongnu.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCH_v2_11/20=5D_hw/isa/lpc=5Fich9=3A_Reu?=
- =?US-ASCII?Q?se_memory_and_io_address_space_of_PCI_bus?=
-In-Reply-To: <20230131115326.12454-12-shentey@gmail.com>
-References: <20230131115326.12454-1-shentey@gmail.com>
- <20230131115326.12454-12-shentey@gmail.com>
-Message-ID: <F7A4EAA1-2150-4A4F-BD74-290FC22479CF@gmail.com>
+ bh=8Z4TDDC4gX0eMrkm4ogAYQ6T2bFbzlcOsTe4fPg2l8Y=;
+ b=RDZcHWmFaH2R/NO9EhHGo4GddgRt9TtBq0nK7WbQDwlQO4FUJx2nLRTM1+yXybfthl
+ Udrquo70eLkX8iM6jBI0oCOJaiDBIdO1WM762jngDXSVME1Co+b2m/+WcG251Kze5ruG
+ DY+Ppmykjgkvl8axLDDveS4bN+QmFKAkEAPhPLm0UUjRlKvAU5ANoMlmI3R5SSYHG27Q
+ oi3C+azjiTxg4ZxyV5zKPkaT3jYbKvdCwEQTWo4lSd+CUGTF4rcOmjgZzIJnb/u1Avgr
+ uCG3+Gg/uXd2uwPm44IFuUnfISyYAdxt3YvPoBsiF0W79v81pANLhYOLPU7rX9nCxTwN
+ 4C3w==
+X-Gm-Message-State: AO0yUKX0tKaqMQC+uwZWzS/ULvO3L0QpmyhSn6kBFKL14/w5ZECI9yBp
+ cIiPcVx6KrvQW6mezywJCmbjwKFx14E70q1bCz8=
+X-Google-Smtp-Source: AK7set9qHwVLEyAczHGWfd+G8MYhDzxHxKXEU5RsfR4ro80ClpsNo9Zi0LKP3T7BjJ+aUnzUVhQFj0f2G4hI0/iCxac=
+X-Received: by 2002:a05:6122:7c9:b0:3ea:3dee:4545 with SMTP id
+ l9-20020a05612207c900b003ea3dee4545mr43012vkr.26.1675210608320; Tue, 31 Jan
+ 2023 16:16:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
+References: <20230119213707.651533-1-dbarboza@ventanamicro.com>
+ <20230119213707.651533-2-dbarboza@ventanamicro.com>
+In-Reply-To: <20230119213707.651533-2-dbarboza@ventanamicro.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Wed, 1 Feb 2023 10:16:22 +1000
+Message-ID: <CAKmqyKPsZC64SsecFip20NhnwjKHRdw1nj-3=jYPU5Lu+urMTQ@mail.gmail.com>
+Subject: Re: [PATCH v9 1/3] hw/riscv: clear kernel_entry higher bits from
+ load_elf_ram_sym()
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Bin Meng <bmeng.cn@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=shentey@gmail.com; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+Received-SPF: pass client-ip=2607:f8b0:4864:20::a2e;
+ envelope-from=alistair23@gmail.com; helo=mail-vk1-xa2e.google.com
+X-Spam_score_int: -17
+X-Spam_score: -1.8
+X-Spam_bar: -
+X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -97,59 +87,199 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-Am 31=2E Januar 2023 11:53:17 UTC schrieb Bernhard Beschow <shentey@gmail=
-=2Ecom>:
->In pc_q35=2Ec the PCI host bridge's io and memory space is initialized
->with get_system_memory() and get_system_io() respectively=2E Therefore,
->using pci_address_space() and pci_address_space_io() is equivalent=2E
-
-Self-NACK: pci_address_space() !=3D get_system_memory()=2E
-
-Please ignore this patch=2E This patch can be omitted from the series w/o =
-any syntactic or semantic conflicts=2E I'll omit it in v3=2E
-
->All
->in all this makes the LPC function respect whatever memory spaces the
->PCI bus was set up with=2E
+On Fri, Jan 20, 2023 at 7:38 AM Daniel Henrique Barboza
+<dbarboza@ventanamicro.com> wrote:
 >
->Signed-off-by: Bernhard Beschow <shentey@gmail=2Ecom>
->---
-> hw/isa/lpc_ich9=2Ec | 6 +++---
-> 1 file changed, 3 insertions(+), 3 deletions(-)
+> load_elf_ram_sym() will sign-extend 32 bit addresses. If a 32 bit
+> QEMU guest happens to be running in a hypervisor that are using 64
+> bits to encode its address, kernel_entry can be padded with '1's
+> and create problems [1].
 >
->diff --git a/hw/isa/lpc_ich9=2Ec b/hw/isa/lpc_ich9=2Ec
->index 9ab966ef88=2E=2E1b7e5585b3 100644
->--- a/hw/isa/lpc_ich9=2Ec
->+++ b/hw/isa/lpc_ich9=2Ec
->@@ -506,10 +506,10 @@ static void ich9_lpc_rcba_update(ICH9LPCState *lpc,=
- uint32_t rcba_old)
->     uint32_t rcba =3D pci_get_long(lpc->d=2Econfig + ICH9_LPC_RCBA);
->=20
->     if (rcba_old & ICH9_LPC_RCBA_EN) {
->-        memory_region_del_subregion(get_system_memory(), &lpc->rcrb_mem)=
+> Use a translate_fn() callback to be called by load_elf_ram_sym() and
+> return only the 32 bits address if we're running a 32 bit CPU.
+>
+> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02281.html
+>
+> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Suggested-by: Bin Meng <bmeng.cn@gmail.com>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+> ---
+>  hw/riscv/boot.c            | 20 +++++++++++++++++++-
+>  hw/riscv/microchip_pfsoc.c |  3 ++-
+>  hw/riscv/opentitan.c       |  3 ++-
+>  hw/riscv/sifive_e.c        |  3 ++-
+>  hw/riscv/sifive_u.c        |  3 ++-
+>  hw/riscv/spike.c           |  3 ++-
+>  hw/riscv/virt.c            |  3 ++-
+>  include/hw/riscv/boot.h    |  1 +
+>  8 files changed, 32 insertions(+), 7 deletions(-)
+>
+> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
+> index 2594276223..46fc7adccf 100644
+> --- a/hw/riscv/boot.c
+> +++ b/hw/riscv/boot.c
+> @@ -173,7 +173,24 @@ target_ulong riscv_load_firmware(const char *firmwar=
+e_filename,
+>      exit(1);
+>  }
+>
+> +static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
+> +{
+> +    RISCVHartArrayState *harts =3D opaque;
+> +
+> +    if (riscv_is_32bit(harts)) {
+> +        /*
+> +         * For 32 bit CPUs, kernel_load_base is sign-extended
+> +         * (i.e. it can be padded with '1's) by load_elf().
+> +         * Remove the sign extension by truncating to 32-bit.
+> +         */
+> +        return extract64(addr, 0, 32);
+> +    }
+> +
+> +    return addr;
+
+So.... After all that, this doesn't actually mask pentry from
+load_elf_ram_sym(), so it doesn't help.
+
+> +}
+> +
+>  target_ulong riscv_load_kernel(MachineState *machine,
+> +                               RISCVHartArrayState *harts,
+>                                 target_ulong kernel_start_addr,
+>                                 symbol_fn_t sym_cb)
+>  {
+> @@ -189,7 +206,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
+>       * the (expected) load address load address. This allows kernels to =
+have
+>       * separate SBI and ELF entry points (used by FreeBSD, for example).
+>       */
+> -    if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
+> +    if (load_elf_ram_sym(kernel_filename, NULL,
+> +                         translate_kernel_address, harts,
+>                           NULL, &kernel_load_base, NULL, NULL, 0,
+>                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+
+I think we just need to add the mask here
+
+Alistair
+
+>          return kernel_load_base;
+> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
+> index 82ae5e7023..bdefeb3cbb 100644
+> --- a/hw/riscv/microchip_pfsoc.c
+> +++ b/hw/riscv/microchip_pfsoc.c
+> @@ -629,7 +629,8 @@ static void microchip_icicle_kit_machine_init(Machine=
+State *machine)
+>          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc.u_cpu=
+s,
+>                                                           firmware_end_ad=
+dr);
+>
+> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr, N=
+ULL);
+> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc.u_cpus,
+> +                                         kernel_start_addr, NULL);
+>
+>          if (machine->initrd_filename) {
+>              riscv_load_initrd(machine, kernel_entry);
+> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
+> index 64d5d435b9..2731138c41 100644
+> --- a/hw/riscv/opentitan.c
+> +++ b/hw/riscv/opentitan.c
+> @@ -101,7 +101,8 @@ static void opentitan_board_init(MachineState *machin=
+e)
+>      }
+>
+>      if (machine->kernel_filename) {
+> -        riscv_load_kernel(machine, memmap[IBEX_DEV_RAM].base, NULL);
+> +        riscv_load_kernel(machine, &s->soc.cpus,
+> +                          memmap[IBEX_DEV_RAM].base, NULL);
+>      }
+>  }
+>
+> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
+> index 3e3f4b0088..1a7d381514 100644
+> --- a/hw/riscv/sifive_e.c
+> +++ b/hw/riscv/sifive_e.c
+> @@ -114,7 +114,8 @@ static void sifive_e_machine_init(MachineState *machi=
+ne)
+>                            memmap[SIFIVE_E_DEV_MROM].base, &address_space=
+_memory);
+>
+>      if (machine->kernel_filename) {
+> -        riscv_load_kernel(machine, memmap[SIFIVE_E_DEV_DTIM].base, NULL)=
 ;
->+        memory_region_del_subregion(pci_address_space(&lpc->d), &lpc->rc=
-rb_mem);
->     }
->     if (rcba & ICH9_LPC_RCBA_EN) {
->-        memory_region_add_subregion_overlap(get_system_memory(),
->+        memory_region_add_subregion_overlap(pci_address_space(&lpc->d),
->                                             rcba & ICH9_LPC_RCBA_BA_MASK=
-,
->                                             &lpc->rcrb_mem, 1);
->     }
->@@ -695,7 +695,7 @@ static void ich9_lpc_realize(PCIDevice *d, Error **er=
-rp)
->         return;
->     }
->=20
->-    isa_bus =3D isa_bus_new(DEVICE(d), get_system_memory(), get_system_i=
-o(),
->+    isa_bus =3D isa_bus_new(dev, pci_address_space(d), pci_address_space=
-_io(d),
->                           errp);
->     if (!isa_bus) {
->         return;
+> +        riscv_load_kernel(machine, &s->soc.cpus,
+> +                          memmap[SIFIVE_E_DEV_DTIM].base, NULL);
+>      }
+>  }
+>
+> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
+> index 2fb6ee231f..83dfe09877 100644
+> --- a/hw/riscv/sifive_u.c
+> +++ b/hw/riscv/sifive_u.c
+> @@ -598,7 +598,8 @@ static void sifive_u_machine_init(MachineState *machi=
+ne)
+>          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc.u_cpu=
+s,
+>                                                           firmware_end_ad=
+dr);
+>
+> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr, N=
+ULL);
+> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc.u_cpus,
+> +                                         kernel_start_addr, NULL);
+>
+>          if (machine->initrd_filename) {
+>              riscv_load_initrd(machine, kernel_entry);
+> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
+> index badc11ec43..2bcc50d90d 100644
+> --- a/hw/riscv/spike.c
+> +++ b/hw/riscv/spike.c
+> @@ -305,7 +305,8 @@ static void spike_board_init(MachineState *machine)
+>          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc[0],
+>                                                           firmware_end_ad=
+dr);
+>
+> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr,
+> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc[0],
+> +                                         kernel_start_addr,
+>                                           htif_symbol_callback);
+>
+>          if (machine->initrd_filename) {
+> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
+> index 4a11b4b010..ac173a6ed6 100644
+> --- a/hw/riscv/virt.c
+> +++ b/hw/riscv/virt.c
+> @@ -1274,7 +1274,8 @@ static void virt_machine_done(Notifier *notifier, v=
+oid *data)
+>          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc[0],
+>                                                           firmware_end_ad=
+dr);
+>
+> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr, N=
+ULL);
+> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc[0],
+> +                                         kernel_start_addr, NULL);
+>
+>          if (machine->initrd_filename) {
+>              riscv_load_initrd(machine, kernel_entry);
+> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
+> index f94653a09b..105706bf25 100644
+> --- a/include/hw/riscv/boot.h
+> +++ b/include/hw/riscv/boot.h
+> @@ -44,6 +44,7 @@ target_ulong riscv_load_firmware(const char *firmware_f=
+ilename,
+>                                   hwaddr firmware_load_addr,
+>                                   symbol_fn_t sym_cb);
+>  target_ulong riscv_load_kernel(MachineState *machine,
+> +                               RISCVHartArrayState *harts,
+>                                 target_ulong firmware_end_addr,
+>                                 symbol_fn_t sym_cb);
+>  void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry);
+> --
+> 2.39.0
+>
+>
 
