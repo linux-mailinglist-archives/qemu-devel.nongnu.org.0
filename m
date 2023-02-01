@@ -2,65 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 425616871F9
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 00:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC83687219
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 00:58:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNMaw-0002Y3-5p; Wed, 01 Feb 2023 18:32:50 -0500
+	id 1pNMyj-0000EM-5B; Wed, 01 Feb 2023 18:57:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pNMas-0002Wv-Lt; Wed, 01 Feb 2023 18:32:46 -0500
-Received: from mail.ilande.co.uk ([2001:41c9:1:41f::167])
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pNMyb-0000E1-Kn; Wed, 01 Feb 2023 18:57:17 -0500
+Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pNMaq-0006wU-Gv; Wed, 01 Feb 2023 18:32:46 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=ilande.co.uk; s=20220518; h=Subject:Content-Transfer-Encoding:Content-Type:
- In-Reply-To:From:References:To:MIME-Version:Date:Message-ID:Sender:Reply-To:
- Cc:Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
- Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=C63VuXjb2Db1WmbWi6rtU2AzhaF8DCwIrP6VwyvHHI8=; b=P6wbxQPuUuJSgrHYiHPtF8TOhN
- 7TuouoApQ3+W/5Iba+4gWxApx5eVerXxt1/ErkrHiJ9SMTLMOcFYx3G4J9/mFmsR2HML0E4CwRz8r
- XjXb0miMuEMAkZBKttLA3ZQYFOEMbI1z5fCoRde4sY3aobuth52fWYr+qp/DQ1+AgjIp3aAaFnceo
- LRTgWiiepQJIUikLPrj+UjXaVFnvgQkzE3fFD6mx+F0wo8aRh05rd9My4w3JgjRFkZ4hop9BcqWfE
- nF3lNRifw6fB9mBSWhH6DmasYBJalNfQv+e/uNPUcqLILR0mvw3J6sGSa8sqQSG43cbKj/iG50RtP
- YcqKnB/yBg51hhm4eSD9Iyv5mxviLd7ZKnITpTcxcLEPhJ2gl7khQ7yG2ggIJbC99fCd4wo5Y9bzz
- CrTrhAwr7ljcyrwcsDMa+mWHCoYLYZcfz2h902MAlewUHedFh4aoUg9C2VxuJC6h45w2Lpd+/iY0E
- 0JbF5mapufU/y0xQ2l5Tp33wIgO3GOUPOR7tWKgCicG7R8FWoIr+oSjC1o4TiQscZcQ79sv8vxlhG
- 7uGPMJn9uJKaoMZZlYnxf8MNG4GyLai91cr2B/j0eNILyjBI2OKGfsV6cQ3dA7HoAzM2NVelPqOgB
- KCxldCB2kwH2rCdo5/aAqCUNyxG4Y1ErvZGdM4uZI=;
-Received: from [2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc]
- by mail.ilande.co.uk with esmtpsa (TLS1.3:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.92) (envelope-from <mark.cave-ayland@ilande.co.uk>)
- id 1pNMaN-0005ko-2e; Wed, 01 Feb 2023 23:32:15 +0000
-Message-ID: <a267d69d-ac4c-d123-d4a1-d1c501be61fb@ilande.co.uk>
-Date: Wed, 1 Feb 2023 23:32:41 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
-Content-Language: en-US
-To: BALATON Zoltan <balaton@eik.bme.hu>, qemu-devel@nongnu.org,
- qemu-ppc@nongnu.org
+ (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
+ id 1pNMyZ-0005Wl-5G; Wed, 01 Feb 2023 18:57:17 -0500
+Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
+ by localhost (Postfix) with SMTP id EB07B74635C;
+ Thu,  2 Feb 2023 00:54:43 +0100 (CET)
+Received: by zero.eik.bme.hu (Postfix, from userid 432)
+ id 9B38F74634B; Thu,  2 Feb 2023 00:54:43 +0100 (CET)
+Received: from localhost (localhost [127.0.0.1])
+ by zero.eik.bme.hu (Postfix) with ESMTP id 99BFC74632B;
+ Thu,  2 Feb 2023 00:54:43 +0100 (CET)
+Date: Thu, 2 Feb 2023 00:54:43 +0100 (CET)
+From: BALATON Zoltan <balaton@eik.bme.hu>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+cc: qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Subject: Re: [PATCH 4/4] hw/misc/macio: Return bool from functions taking errp
+In-Reply-To: <4b311eb7-4dc8-2a44-0c2c-8bc40131f9eb@ilande.co.uk>
+Message-ID: <3abbcbb2-78ce-2a72-e95f-182a6dc4786d@eik.bme.hu>
 References: <cover.1674001241.git.balaton@eik.bme.hu>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <cover.1674001241.git.balaton@eik.bme.hu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 2a00:23c4:8baa:d400:877:cbd2:6fe8:34fc
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-Subject: Re: [PATCH 0/4] Misc macio clean ups
-X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
-X-SA-Exim-Scanned: Yes (on mail.ilande.co.uk)
-Received-SPF: pass client-ip=2001:41c9:1:41f::167;
- envelope-from=mark.cave-ayland@ilande.co.uk; helo=mail.ilande.co.uk
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ <bfce0751e82b031f5e6fb3c32cfbce6325434400.1674001242.git.balaton@eik.bme.hu>
+ <4b311eb7-4dc8-2a44-0c2c-8bc40131f9eb@ilande.co.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; format=flowed; charset=US-ASCII
+X-Spam-Probability: 9%
+Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
+ helo=zero.eik.bme.hu
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
  SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -77,27 +59,165 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 18/01/2023 00:32, BALATON Zoltan wrote:
+On Wed, 1 Feb 2023, Mark Cave-Ayland wrote:
+> On 18/01/2023 00:32, BALATON Zoltan wrote:
+>> Use the convention to return bool from functions which take an error
+>> pointer which allows for callers to pass through their error pointer
+>> without needing a local.
+>> 
+>> Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+>> ---
+>>   hw/misc/macio/macio.c | 62 +++++++++++++++++--------------------------
+>>   1 file changed, 25 insertions(+), 37 deletions(-)
+>> 
+>> diff --git a/hw/misc/macio/macio.c b/hw/misc/macio/macio.c
+>> index ae2a9a960d..265c0bbd8d 100644
+>> --- a/hw/misc/macio/macio.c
+>> +++ b/hw/misc/macio/macio.c
+>> @@ -90,13 +90,13 @@ static void macio_bar_setup(MacIOState *s)
+>>       macio_escc_legacy_setup(s);
+>>   }
+>>   -static void macio_common_realize(PCIDevice *d, Error **errp)
+>> +static bool macio_common_realize(PCIDevice *d, Error **errp)
+>>   {
+>>       MacIOState *s = MACIO(d);
+>>       SysBusDevice *sbd;
+>>         if (!qdev_realize(DEVICE(&s->dbdma), BUS(&s->macio_bus), errp)) {
+>> -        return;
+>> +        return false;
+>>       }
+>>       sbd = SYS_BUS_DEVICE(&s->dbdma);
+>>       memory_region_add_subregion(&s->bar, 0x08000,
+>> @@ -108,14 +108,16 @@ static void macio_common_realize(PCIDevice *d, Error 
+>> **errp)
+>>       qdev_prop_set_uint32(DEVICE(&s->escc), "chnBtype", escc_serial);
+>>       qdev_prop_set_uint32(DEVICE(&s->escc), "chnAtype", escc_serial);
+>>       if (!qdev_realize(DEVICE(&s->escc), BUS(&s->macio_bus), errp)) {
+>> -        return;
+>> +        return false;
+>>       }
+>>         macio_bar_setup(s);
+>>       pci_register_bar(d, 0, PCI_BASE_ADDRESS_SPACE_MEMORY, &s->bar);
+>> +
+>> +    return true;
+>>   }
+>>   -static void macio_realize_ide(MacIOState *s, MACIOIDEState *ide,
+>> +static bool macio_realize_ide(MacIOState *s, MACIOIDEState *ide,
+>>                                 qemu_irq irq0, qemu_irq irq1, int dmaid,
+>>                                 Error **errp)
+>>   {
+>> @@ -128,7 +130,7 @@ static void macio_realize_ide(MacIOState *s, 
+>> MACIOIDEState *ide,
+>>                                &error_abort);
+>>       macio_ide_register_dma(ide);
+>>   -    qdev_realize(DEVICE(ide), BUS(&s->macio_bus), errp);
+>> +    return qdev_realize(DEVICE(ide), BUS(&s->macio_bus), errp);
+>>   }
+>>     static void macio_oldworld_realize(PCIDevice *d, Error **errp)
+>> @@ -136,12 +138,9 @@ static void macio_oldworld_realize(PCIDevice *d, Error 
+>> **errp)
+>>       MacIOState *s = MACIO(d);
+>>       OldWorldMacIOState *os = OLDWORLD_MACIO(d);
+>>       DeviceState *pic_dev = DEVICE(&os->pic);
+>> -    Error *err = NULL;
+>>       SysBusDevice *sbd;
+>>   -    macio_common_realize(d, &err);
+>> -    if (err) {
+>> -        error_propagate(errp, err);
+>> +    if (!macio_common_realize(d, errp)) {
+>>           return;
+>>       }
+>>   @@ -176,21 +175,17 @@ static void macio_oldworld_realize(PCIDevice *d, 
+>> Error **errp)
+>>       pmac_format_nvram_partition(&os->nvram, os->nvram.size);
+>>         /* IDE buses */
+>> -    macio_realize_ide(s, &os->ide[0],
+>> -                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_IRQ),
+>> -                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_DMA_IRQ),
+>> -                      0x16, &err);
+>> -    if (err) {
+>> -        error_propagate(errp, err);
+>> +    if (!macio_realize_ide(s, &os->ide[0],
+>> +                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE0_IRQ),
+>> +                           qdev_get_gpio_in(pic_dev, 
+>> OLDWORLD_IDE0_DMA_IRQ),
+>> +                           0x16, errp)) {
+>>           return;
+>>       }
+>>   -    macio_realize_ide(s, &os->ide[1],
+>> -                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_IRQ),
+>> -                      qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_DMA_IRQ),
+>> -                      0x1a, &err);
+>> -    if (err) {
+>> -        error_propagate(errp, err);
+>> +    if (!macio_realize_ide(s, &os->ide[1],
+>> +                           qdev_get_gpio_in(pic_dev, OLDWORLD_IDE1_IRQ),
+>> +                           qdev_get_gpio_in(pic_dev, 
+>> OLDWORLD_IDE1_DMA_IRQ),
+>> +                           0x1a, errp)) {
+>>           return;
+>>       }
+>>   }
+>> @@ -266,13 +261,10 @@ static void macio_newworld_realize(PCIDevice *d, 
+>> Error **errp)
+>>       MacIOState *s = MACIO(d);
+>>       NewWorldMacIOState *ns = NEWWORLD_MACIO(d);
+>>       DeviceState *pic_dev = DEVICE(&ns->pic);
+>> -    Error *err = NULL;
+>>       SysBusDevice *sbd;
+>>       MemoryRegion *timer_memory = NULL;
+>>   -    macio_common_realize(d, &err);
+>> -    if (err) {
+>> -        error_propagate(errp, err);
+>> +    if (!macio_common_realize(d, errp)) {
+>>           return;
+>>       }
+>>   @@ -288,21 +280,17 @@ static void macio_newworld_realize(PCIDevice *d, 
+>> Error **errp)
+>>       sysbus_connect_irq(sbd, 1, qdev_get_gpio_in(pic_dev, 
+>> NEWWORLD_ESCCA_IRQ));
+>>         /* IDE buses */
+>> -    macio_realize_ide(s, &ns->ide[0],
+>> -                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_IRQ),
+>> -                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_DMA_IRQ),
+>> -                      0x16, &err);
+>> -    if (err) {
+>> -        error_propagate(errp, err);
+>> +    if (!macio_realize_ide(s, &ns->ide[0],
+>> +                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE0_IRQ),
+>> +                           qdev_get_gpio_in(pic_dev, 
+>> NEWWORLD_IDE0_DMA_IRQ),
+>> +                           0x16, errp)) {
+>>           return;
+>>       }
+>>   -    macio_realize_ide(s, &ns->ide[1],
+>> -                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_IRQ),
+>> -                      qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_DMA_IRQ),
+>> -                      0x1a, &err);
+>> -    if (err) {
+>> -        error_propagate(errp, err);
+>> +    if (!macio_realize_ide(s, &ns->ide[1],
+>> +                           qdev_get_gpio_in(pic_dev, NEWWORLD_IDE1_IRQ),
+>> +                           qdev_get_gpio_in(pic_dev, 
+>> NEWWORLD_IDE1_DMA_IRQ),
+>> +                           0x1a, errp)) {
+>>           return;
+>>       }
+>
+> These days you would move macio_common_realize() into TYPE_MACIO, but anyway:
 
-> Just some small trivial clean ups that I've found while looking at
-> hw/misc/macio/macio.c
-> 
-> Regards,
-> BALATON Zoltan
-> 
-> BALATON Zoltan (4):
->    hw/misc/macio: Avoid some QOM casts
->    hw/misc/macio: Rename sysbus_dev to sbd for consistency and brevity
->    hw/misc/macio: Remove some single use local variables
->    hw/misc/macio: Return bool from functions taking errp
-> 
->   hw/misc/macio/macio.c | 167 ++++++++++++++++++------------------------
->   1 file changed, 72 insertions(+), 95 deletions(-)
+Maybe in further patches later as I think we'll need more macio changes in 
+the future but for now this is enough to simplify it a bit.
 
-Thanks, I've applied these to my qemu-macppc branch.
+Regards,
+BALATON Zoltan
 
-
-ATB,
-
-Mark.
+> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+>
+>
+> ATB,
+>
+> Mark.
+>
+>
 
