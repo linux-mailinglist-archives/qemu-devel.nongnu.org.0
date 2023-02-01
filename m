@@ -2,86 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF89A685DF0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 04:30:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6009685DF5
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 04:37:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN3oo-0004On-Hk; Tue, 31 Jan 2023 22:29:54 -0500
+	id 1pN3uj-00069e-0Q; Tue, 31 Jan 2023 22:36:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pN3om-0004OK-QR
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:29:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pN3ol-0007ib-31
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:29:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675222190;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=M8WKEMMCA9JB1i1jRgP8c0tSvTU8L3xUDuU8y7+1d5k=;
- b=cWXdp5Aq3aKLUGBdc65qe8+/+CTLRF0IMwvd+aRWO8CfWx+N/WqWsZ0CnB1IZrqqwXRF+r
- Aa9bOeb+rN8RcLSgCJtbIYzDJIf7ZhjWb3Z3Hh72e8GaAZoc+45XEFU5iTcC/SfZTrcw7i
- zGtcbJN4TfHj0Lyap3v1b0p351ra2aY=
-Received: from mail-oa1-f71.google.com (mail-oa1-f71.google.com
- [209.85.160.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-59-Ma1RSo18Ml6_zrtepO7oUw-1; Tue, 31 Jan 2023 22:29:48 -0500
-X-MC-Unique: Ma1RSo18Ml6_zrtepO7oUw-1
-Received: by mail-oa1-f71.google.com with SMTP id
- 586e51a60fabf-15fe7396eb4so6429290fac.12
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 19:29:47 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pN3uZ-00069N-V9
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:35:51 -0500
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pN3uX-0000LA-Ma
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 22:35:51 -0500
+Received: by mail-pl1-x62a.google.com with SMTP id jh15so8129030plb.8
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 19:35:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=U3kai5XKxz+UjO9GWy6BfgzjWYG6rLULv76c8EJpynU=;
+ b=xGyCH77wCGk/BLApjiR3JrwCiUgoIY8G8DiFWbFxw0CPnv8MY5ILQ8hVM/eDCeQCt3
+ agtFN7HHS0FZ0kW14JaV3LxIBTMyHkNEowH6DWquK+C3N8YbjukO0Nu/OBVjHNqekTqc
+ C/olkydB0Ff4H1wAnHbb245vAEwjkP5bL1lrfWmXhbdsUxR7hJ4qvjeQKGMHxFGZ/WSD
+ kpvzQmd49r1Nl5zQSrPJhUyrFF+gM9yKTUKoSGW6beUj4RIAPdKaT5A8vgD3i3DjGYAZ
+ AEcUw3NJE0DtcJ8ynYHsUiz7L3AWxQKNjW4lvO8XBzNmGhB4hSyWpKiFX7yRIauGEjcj
+ vKHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=M8WKEMMCA9JB1i1jRgP8c0tSvTU8L3xUDuU8y7+1d5k=;
- b=pq6KMTcbUrAE2/1aMsBNnlHZazK7UzLyui+hA2yrS5RFIcZ+taomHuAtEVQcwztToQ
- JPF+Vokmx1wd4htqAazZAQNFnvV6naZgRczfQWtvFXE0dJIt7KS6Px4iZzGWtKOKSZmS
- cuuXGdjvlVwdHoBEvx/fMSkzPPU8feNgTriRSV3KksrwporWsRCt7n1Cce2vaoVIIafB
- vOB2Mx0J+b0WNnbXXI88D6K41vtNyzvV/OY9jesGvZr4h/LlYYyCQdFXVb8na1z5ExIQ
- qhnd4iW2E2x3BzB7nL+U7jNqj5voEz4FTSVi9YRfYNyKVoV60B9IpezufBduqoF16eFC
- OaXA==
-X-Gm-Message-State: AO0yUKUKs7iSgZFwLWk0r+TrzIS/yz0shcirrTkceFdIFP2ZPLCVKT6o
- AmwP42zaepl0ciZUDzg1jjRcLbJoMJcqTyFBAPeSc/Uy9rpuTQDaBTEz/o5TBM10IuFFogYlY0R
- bfcwZNPyW/Cx2uW8xmxcRbtiGZG/wh84=
-X-Received: by 2002:aca:a8c5:0:b0:363:a978:6d41 with SMTP id
- r188-20020acaa8c5000000b00363a9786d41mr72047oie.280.1675222186940; 
- Tue, 31 Jan 2023 19:29:46 -0800 (PST)
-X-Google-Smtp-Source: AK7set8tZRY2Up1I8fQwUVDc7lLw3gFxYjvPCQgRwrq+Xksqem1tr50aUDAWXpKMbMy64w0IKO/sjZUVdnVvnpCYy3o=
-X-Received: by 2002:aca:a8c5:0:b0:363:a978:6d41 with SMTP id
- r188-20020acaa8c5000000b00363a9786d41mr72042oie.280.1675222186726; Tue, 31
- Jan 2023 19:29:46 -0800 (PST)
+ bh=U3kai5XKxz+UjO9GWy6BfgzjWYG6rLULv76c8EJpynU=;
+ b=I3DQ961M5n/rFYXep2vRcGflQK5yyoND3ser9OIAH7Bznv0exqAdv804a/Mfg7rjAt
+ L2xl92b0LZja0DcjKdC3lHN0ulZKhneVU12aGHIWoQoB4ga0RSiLmh7sTiCfMTk84Y2p
+ /novYAzJW+fsIMP8RzKFamIV37zLo32iTPWK5ZkQSKv/59yjlhiZno4E3b1GHoyl594d
+ 04v3cg1eksXXRoFLXYgeF0Ws70xIgTKANKU5Rh+OUsNV1SJzv96WfH6Du/3x2qKqRQ+p
+ j640MJJrEakNgSK+us2DP5B0EpB15Hce2CbBfqDN2J6qhwJA5ymPSWQO25ZNq4ykhlOB
+ WJ4A==
+X-Gm-Message-State: AO0yUKW+m4C4DBZEkpfS+HWW3+azyUEnbBXGRPDvpqn4KKmuzmgshdlK
+ 2+6o1i2yVEgtx+sewcAHEXuieg==
+X-Google-Smtp-Source: AK7set+coCjHZbTvQbJpA5iQENMe3vu8ZKIqc+XNyw+8PyLFOYkbSmj9iXVS+wr3vFZzVGZm8+66RQ==
+X-Received: by 2002:a17:902:ca83:b0:194:52ed:7a2b with SMTP id
+ v3-20020a170902ca8300b0019452ed7a2bmr1077702pld.39.1675222547674; 
+ Tue, 31 Jan 2023 19:35:47 -0800 (PST)
+Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ x15-20020a170902ec8f00b001968b529c98sm4185557plg.128.2023.01.31.19.35.44
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Tue, 31 Jan 2023 19:35:47 -0800 (PST)
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+To: 
+Cc: Jason Wang <jasowang@redhat.com>,
+ Dmitry Fleytman <dmitry.fleytman@gmail.com>,
+ Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+ qemu-ppc@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
+ Yan Vugenfirer <yvugenfi@redhat.com>,
+ Yuri Benditovich <yuri.benditovich@daynix.com>,
+ Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
+ Alexander Bulekov <alxndr@bu.edu>, Akihiko Odaki <akihiko.odaki@daynix.com>
+Subject: [PATCH v5 00/29] e1000x cleanups (preliminary for IGB)
+Date: Wed,  1 Feb 2023 12:35:10 +0900
+Message-Id: <20230201033539.30049-1-akihiko.odaki@daynix.com>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
- <CAJaqyWfZX2sgoOq+Poa2tQTc2VTRneaUvzozOdDS+7SoMUdNkg@mail.gmail.com>
-In-Reply-To: <CAJaqyWfZX2sgoOq+Poa2tQTc2VTRneaUvzozOdDS+7SoMUdNkg@mail.gmail.com>
-From: Jason Wang <jasowang@redhat.com>
-Date: Wed, 1 Feb 2023 11:29:35 +0800
-Message-ID: <CACGkMEuwVXTf6FQxShu6QL-BJdQLOYE5Xy-RVEcemmWg1WKAGQ@mail.gmail.com>
-Subject: Re: Emulating device configuration / max_virtqueue_pairs in
- vhost-vdpa and vhost-user
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Maxime Coquelin <maxime.coquelin@redhat.com>,
- Michael Tsirkin <mst@redhat.com>, 
- Cindy Lu <lulu@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
- qemu-level <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>, 
- Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::62a;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x62a.google.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,83 +95,119 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 1, 2023 at 3:11 AM Eugenio Perez Martin <eperezma@redhat.com> wrote:
->
-> On Tue, Jan 31, 2023 at 8:10 PM Eugenio Perez Martin
-> <eperezma@redhat.com> wrote:
-> >
-> > Hi,
-> >
-> > The current approach of offering an emulated CVQ to the guest and map
-> > the commands to vhost-user is not scaling well:
-> > * Some devices already offer it, so the transformation is redundant.
-> > * There is no support for commands with variable length (RSS?)
-> >
-> > We can solve both of them by offering it through vhost-user the same
-> > way as vhost-vdpa do. With this approach qemu needs to track the
-> > commands, for similar reasons as vhost-vdpa: qemu needs to track the
-> > device status for live migration. vhost-user should use the same SVQ
-> > code for this, so we avoid duplications.
-> >
-> > One of the challenges here is to know what virtqueue to shadow /
-> > isolate. The vhost-user device may not have the same queues as the
-> > device frontend:
-> > * The first depends on the actual vhost-user device, and qemu fetches
-> > it with VHOST_USER_GET_QUEUE_NUM at the moment.
-> > * The qemu device frontend's is set by netdev queues= cmdline parameter in qemu
-> >
-> > For the device, the CVQ is the last one it offers, but for the guest
-> > it is the last one offered in config space.
-> >
-> > To create a new vhost-user command to decrease that maximum number of
-> > queues may be an option. But we can do it without adding more
-> > commands, remapping the CVQ index at virtqueue setup. I think it
-> > should be doable using (struct vhost_dev).vq_index and maybe a few
-> > adjustments here and there.
-> >
-> > Thoughts?
-> >
-> > Thanks!
->
->
-> (Starting a separated thread to vhost-vdpa related use case)
->
-> This could also work for vhost-vdpa if we ever decide to honor netdev
-> queues argument. It is totally ignored now, as opposed to the rest of
-> backends:
-> * vhost-kernel, whose tap device has the requested number of queues.
-> * vhost-user, that errors with ("you are asking more queues than
-> supported") if the vhost-user parent device has less queues than
-> requested (by vhost-user msg VHOST_USER_GET_QUEUE_NUM).
->
-> One of the reasons for this is that device configuration space is
-> totally passthrough, with the values for mtu, rss conditions, etc.
-> This is not ideal, as qemu cannot check src and destination
-> equivalence and they can change under the feets of the guest in the
-> event of a migration.
+We are adding a new device named igb, yet another Intel NIC. As the new
+implementation derives from e1000e, overhaul e1000e implementation first.
+e1000 has many commonalities with e1000e so we also apply the corresponding
+changes to the device if possible.
 
-This looks not the responsibility of qemu but the upper layer (to
-provision the same config/features in src/dst).
+This was spun off from:
+https://patchew.org/QEMU/20230112095743.20123-1-akihiko.odaki@daynix.com/
 
-> External tools are needed for this, duplicating
-> part of the effort.
->
-> Start intercepting config space accesses and offering an emulated one
-> to the guest with this kind of adjustments is beneficial, as it makes
-> vhost-vdpa more similar to the rest of backends, making the surprise
-> on a change way lower.
+The changes from the series are as follows:
+- Fixed code alignment in e1000.c. (Philippe Mathieu-Daudé)
+- "e1000: Configure ResettableClass" and e1000e's corresponding patch was based
+  on the old version so they are now updated. (Philippe Mathieu-Daudé)
+- Added "e1000e: Remove extra pointer indirection"
 
-This probably needs more thought, since vDPA already provides a kind
-of emulation in the kernel. My understanding is that it would be
-sufficient to add checks to make sure the config that guests see is
-consistent with what host provisioned?
+The series was composed on patches submitted earlier for e1000e. The below
+are links to Patchew:
+03: https://patchew.org/QEMU/20221103060103.83363-1-akihiko.odaki@daynix.com/
+04: https://patchew.org/QEMU/20221125135254.54760-1-akihiko.odaki@daynix.com/
+05: https://patchew.org/QEMU/20221119054913.103803-1-akihiko.odaki@daynix.com/
+06: https://patchew.org/QEMU/20221119055304.105500-1-akihiko.odaki@daynix.com/
+08 includes: https://patchew.org/QEMU/20221119060156.110010-1-akihiko.odaki@daynix.com/
+10: https://patchew.org/QEMU/20221125140105.55925-1-akihiko.odaki@daynix.com/
+11: https://patchew.org/QEMU/20221125142608.58919-1-akihiko.odaki@daynix.com/
+13: https://patchew.org/QEMU/20221201095351.63392-1-akihiko.odaki@daynix.com/
+14: https://patchew.org/QEMU/20221201100113.64387-1-akihiko.odaki@daynix.com/
+15: https://patchew.org/QEMU/20230107143328.102534-1-akihiko.odaki@daynix.com/
+20: https://patchew.org/QEMU/20230114025339.4874-1-akihiko.odaki@daynix.com/
 
-Thanks
+V4 -> V5:
+- Added "e1000e: Combine rx traces".
 
->
-> Thoughts?
->
-> Thanks!
->
+V3 -> V4:
+- Fixed iov cursor update in "hw/net/net_tx_pkt: Implement TCP segmentation".
+- Fixed UDP checksumming in "hw/net/net_tx_pkt: Implement TCP segmentation".
+- Added "hw/net/net_tx_pkt: Check the payload length".
+- Added "e1000e: Do not assert when MSI-X is disabled later".
+
+V2 -> V3:
+- List tests/qtest/libqos/e1000e.h in MAINTAINERS. (Thomas Huth)
+
+V1 -> V2:
+- Rebased to commit fcb7e040f5c69ca1f0678f991ab5354488a9e192.
+- Added "net: Check L4 header size".
+- Added "e1000x: Alter the signature of e1000x_is_vlan_packet".
+- Added "net: Strip virtio-net header when dumping".
+- Added "hw/net/net_tx_pkt: Automatically determine if virtio-net header is
+  used".
+- Added "hw/net/net_rx_pkt: Remove net_rx_pkt_has_virt_hdr".
+- Added "e1000e: Perform software segmentation for loopback".
+- Added "hw/net/net_tx_pkt: Implement TCP segmentation"
+- Added "MAINTAINERS: Add Akihiko Odaki as a e1000e reviewer".
+- Added "MAINTAINERS: Add e1000e test files".
+
+Akihiko Odaki (29):
+  e1000e: Fix the code style
+  hw/net: Add more MII definitions
+  fsl_etsec: Use hw/net/mii.h
+  e1000: Use hw/net/mii.h
+  e1000: Mask registers when writing
+  e1000e: Mask registers when writing
+  e1000: Use more constant definitions
+  e1000e: Use more constant definitions
+  e1000: Use memcpy to intialize registers
+  e1000e: Use memcpy to intialize registers
+  e1000e: Remove pending interrupt flags
+  e1000e: Improve software reset
+  e1000: Configure ResettableClass
+  e1000e: Configure ResettableClass
+  e1000e: Introduce e1000_rx_desc_union
+  e1000e: Set MII_ANER_NWAY
+  e1000e: Remove extra pointer indirection
+  net: Check L4 header size
+  e1000x: Alter the signature of e1000x_is_vlan_packet
+  net: Strip virtio-net header when dumping
+  hw/net/net_tx_pkt: Automatically determine if virtio-net header is
+    used
+  hw/net/net_rx_pkt: Remove net_rx_pkt_has_virt_hdr
+  e1000e: Perform software segmentation for loopback
+  hw/net/net_tx_pkt: Implement TCP segmentation
+  hw/net/net_tx_pkt: Check the payload length
+  e1000e: Do not assert when MSI-X is disabled later
+  MAINTAINERS: Add Akihiko Odaki as a e1000e reviewer
+  MAINTAINERS: Add e1000e test files
+  e1000e: Combine rx traces
+
+ MAINTAINERS              |   4 +
+ hw/net/e1000.c           | 254 ++++++++---------
+ hw/net/e1000_regs.h      |  61 +---
+ hw/net/e1000e.c          |  88 +++---
+ hw/net/e1000e_core.c     | 594 ++++++++++++++++++++-------------------
+ hw/net/e1000e_core.h     |  68 +++--
+ hw/net/e1000x_common.c   |  12 +-
+ hw/net/e1000x_common.h   |  56 ++--
+ hw/net/fsl_etsec/etsec.c |  11 +-
+ hw/net/fsl_etsec/etsec.h |  17 --
+ hw/net/fsl_etsec/miim.c  |   5 +-
+ hw/net/net_rx_pkt.c      |  12 +-
+ hw/net/net_rx_pkt.h      |  20 +-
+ hw/net/net_tx_pkt.c      | 332 ++++++++++++++++------
+ hw/net/net_tx_pkt.h      |  27 +-
+ hw/net/trace-events      |  10 +-
+ hw/net/virtio-net.c      |   2 +-
+ hw/net/vmxnet3.c         |  32 +--
+ include/hw/net/mii.h     |  14 +-
+ include/net/eth.h        |   5 -
+ include/net/net.h        |   6 +
+ net/dump.c               |  11 +-
+ net/eth.c                |  27 --
+ net/net.c                |  18 ++
+ net/tap.c                |  16 ++
+ 25 files changed, 921 insertions(+), 781 deletions(-)
+
+-- 
+2.39.1
 
 
