@@ -2,58 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE0DA6868DB
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:50:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99A5068691E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:56:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNEO8-0004bf-LI; Wed, 01 Feb 2023 09:47:05 -0500
+	id 1pNEQd-0002Mo-Ju; Wed, 01 Feb 2023 09:49:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pNEMg-0002VE-Eo
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:45:35 -0500
-Received: from frasgout.his.huawei.com ([185.176.79.56])
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pNEQQ-0002E5-KT
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:49:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
- id 1pNEMQ-0005ry-Et
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:45:21 -0500
-Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
- by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P6PnQ38BMz6J9NZ;
- Wed,  1 Feb 2023 22:44:10 +0800 (CST)
-Received: from localhost (10.45.150.75) by lhrpeml500005.china.huawei.com
- (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 1 Feb
- 2023 14:45:13 +0000
-Date: Wed, 1 Feb 2023 14:45:12 +0000
-To: Markus Armbruster <armbru@redhat.com>
-CC: Jonathan Cameron via <qemu-devel@nongnu.org>, Michael Tsirkin
- <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
- <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
- <ira.weiny@intel.com>, Alison Schofield <alison.schofield@intel.com>
-Subject: Re: [RFC PATCH v2 1/3] hw/cxl: QMP based poison injection support
-Message-ID: <20230201144512.00007b64@Huawei.com>
-In-Reply-To: <87k011y44x.fsf@pond.sub.org>
-References: <20230201100350.23263-1-Jonathan.Cameron@huawei.com>
- <20230201100350.23263-2-Jonathan.Cameron@huawei.com>
- <87k011y44x.fsf@pond.sub.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
+ (Exim 4.90_1) (envelope-from <stefanha@redhat.com>)
+ id 1pNEQO-0006Xq-P2
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:49:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675262964;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=L2zLxt5zzmAx2cHyZQ9p2Hea0O4Tfb9178jl9dITINI=;
+ b=U9+dGBxS9mEwYW53LDfxXfUU3c3YOs1HQcW4Kf0l5GCkz8JJ1837VqKsLu4ucxWVEtduKu
+ kifJvKiYkfWfySjme112Pvr/eewJHPCpQcf6/FDGiuzt/jqPufnX0im0HVIZ0M2G9OFy9m
+ 3qpXqsk6ma2RlwgszbLYfRyZz5L7dyQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-399-xniySytGNwWwb1neQIeh9g-1; Wed, 01 Feb 2023 09:49:18 -0500
+X-MC-Unique: xniySytGNwWwb1neQIeh9g-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 88A79101A52E;
+ Wed,  1 Feb 2023 14:49:16 +0000 (UTC)
+Received: from localhost (unknown [10.39.195.52])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id B7DFE404BEC0;
+ Wed,  1 Feb 2023 14:49:15 +0000 (UTC)
+Date: Wed, 1 Feb 2023 09:49:14 -0500
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Fam Zheng <fam@euphon.net>, Fiona Ebner <f.ebner@proxmox.com>,
+ Hanna Reitz <hreitz@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Subject: Re: [PATCH v2 3/4] qemu-io: add -r option to register I/O buffer
+Message-ID: <Y9p76tGiIdL/99gJ@fedora>
+References: <20230130215415.919494-1-stefanha@redhat.com>
+ <20230130215415.919494-4-stefanha@redhat.com>
+ <20230131212324.4btboq2utna6hx3w@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.45.150.75]
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- lhrpeml500005.china.huawei.com (7.191.163.240)
-X-CFilter-Loop: Reflected
-Received-SPF: pass client-ip=185.176.79.56;
- envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="MZAmogXrzGk5NpVh"
+Content-Disposition: inline
+In-Reply-To: <20230131212324.4btboq2utna6hx3w@redhat.com>
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=stefanha@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -66,113 +79,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 01 Feb 2023 13:14:06 +0100
-Markus Armbruster <armbru@redhat.com> wrote:
 
-> Jonathan Cameron via <qemu-devel@nongnu.org> writes:
-> 
-> > Inject poison using qmp command cxl-inject-poison to add an entry to the
-> > poison list.
-> >
-> > For now, the poison is not returned CXL.mem reads, but only via the
-> > mailbox command Get Poison List.
-> >
-> > See CXL rev 3.0, sec 8.2.9.8.4.1 Get Poison list (Opcode 4300h)
-> >
-> > Kernel patches to use this interface here:
-> > https://lore.kernel.org/linux-cxl/cover.1665606782.git.alison.schofield@intel.com/
-> >
-> > To inject poison using qmp (telnet to the qmp port)
-> > { "execute": "qmp_capabilities" }
-> >
-> > { "execute": "cxl-inject-poison",
-> >     "arguments": {
-> >          "path": "/machine/peripheral/cxl-pmem0",
-> >          "start": 2048,
-> >          "length": 256
-> >     }
-> > }
-> >
-> > Adjusted to select a device on your machine.
-> >
-> > Note that the poison list supported is kept short enough to avoid the
-> > complexity of state machine that is needed to handle the MORE flag.
-> >
-> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>  
-> 
-> [...]
-> 
-> > diff --git a/qapi/cxl.json b/qapi/cxl.json
-> > index 3c18556ee8..5b995db255 100644
-> > --- a/qapi/cxl.json
-> > +++ b/qapi/cxl.json  
-> 
-> There is no qapi/cxl.json in current master.  So this must be based on
-> some other patch(es).  Please point to it in the cover letter.  I like
-> to point both in human-readable and machine-readable form, e.g. like
-> this:
-> 
->     Based on my "[PATCH 00/22] qapi: Remove simple unions from the schema
->     language".
-> 
->     Based-on: Message-Id: <20210913123932.3306639-1-armbru@redhat.com>
+--MZAmogXrzGk5NpVh
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Good point. I missed it in this series beyond a general reference to 'lots'.
-Based on "[PATCH 0/2] hw/mem: CXL Type-3 Volatile Memory Support"
-(which isn't mine)
-Based-on: Message-ID: <20230131163847.23025-1-Jonathan.Cameron@huawei.com>
+On Tue, Jan 31, 2023 at 03:23:24PM -0600, Eric Blake wrote:
+> On Mon, Jan 30, 2023 at 04:54:14PM -0500, Stefan Hajnoczi wrote:
+> > The blk_register_buf() API is an optimization hint that allows some
+> > block drivers to avoid I/O buffer housekeeping or bounce buffers.
+> >=20
+> > Add an -r option to register the I/O buffer so that qemu-io can be used
+> > to test the blk_register_buf() API. The next commit will add a test that
+> > uses the new option.
+> >=20
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > ---
+> >  qemu-io-cmds.c | 167 +++++++++++++++++++++++++++++++++----------------
+> >  1 file changed, 114 insertions(+), 53 deletions(-)
+>=20
+> Reviewed-by: Eric Blake <eblake@redhat.com>
+>=20
+> > @@ -1277,7 +1322,7 @@ static int writev_f(BlockBackend *blk, int argc, =
+char **argv)
+> >      int pattern =3D 0xcd;
+> >      QEMUIOVector qiov;
+> > =20
+> > -    while ((c =3D getopt(argc, argv, "CfqP:")) !=3D -1) {
+> > +    while ((c =3D getopt(argc, argv, "CfqrP:")) !=3D -1) {
+>=20
+> This one is still odd - it is neither case-sensitive nor
+> case-insensitive in order, because of P: coming after qr.
+>=20
+> > @@ -1476,7 +1529,7 @@ static int aio_read_f(BlockBackend *blk, int argc=
+, char **argv)
+> >      struct aio_ctx *ctx =3D g_new0(struct aio_ctx, 1);
+> > =20
+> >      ctx->blk =3D blk;
+> > -    while ((c =3D getopt(argc, argv, "CP:iqv")) !=3D -1) {
+> > +    while ((c =3D getopt(argc, argv, "CP:iqrv")) !=3D -1) {
+>=20
+> This one could at least argue that all capitals are before any
+> lower-case, although case-insensitive would put i before P:.
+>=20
+> > @@ -1582,22 +1641,24 @@ static int aio_write_f(BlockBackend *blk, int a=
+rgc, char **argv)
+> >      int nr_iov, c;
+> >      int pattern =3D 0xcd;
+> >      struct aio_ctx *ctx =3D g_new0(struct aio_ctx, 1);
+> > -    BdrvRequestFlags flags =3D 0;
+> > =20
+> >      ctx->blk =3D blk;
+> > -    while ((c =3D getopt(argc, argv, "CfiqP:uz")) !=3D -1) {
+> > +    while ((c =3D getopt(argc, argv, "CfiqrP:uz")) !=3D -1) {
+>=20
+> Another odd spot where P: would fit better before qr.
+>=20
+> Those are still minor, so I don't care if you further touch them
+> up. My R-b applies either way.
 
-(and all the things that series does say it's based on)
-What matters here is mostly in final patch of.
-b) https://lore.kernel.org/linux-cxl/20230130155251.3430-1-Jonathan.Cameron@huawei.com/
-   [PATCH v3 0/8] hw/cxl: RAS error emulation and injection
-If you have time to look at that it would be appreciated as it's more
-complex QMP usage than in here.
+Ah, I only paid attention to the user-visible help strings. I'll fix up
+the getopt strings.
 
-Sorry about that - I'll also start using your suggested format.
+Stefan
 
-> 
-> > @@ -5,6 +5,17 @@
-> >  # = CXL devices
-> >  ##
-> >  
-> > +##
-> > +# @cxl-inject-poison:
-> > +#
-> > +# @path: CXL type 3 device canonical QOM path
-> > +#
-> > +# @start: Start address
-> > +# @length: Length of poison to inject  
-> 
-> Either separate all the arguments with blank lines, or none.
-> 
-> > +##
-> > +{ 'command': 'cxl-inject-poison',
-> > +  'data': { 'path': 'str', 'start': 'uint64', 'length': 'uint64' }}
-> > +
-> >  ##
-> >  # @CxlUncorErrorType:
-> >  #  
-> 
-> Both commit message and doc comment are rather terse.
-> 
-> The commit message should make the case for the feature: why do we want
-> it?  This typically involves explaining the problem(s) it solves.
-> 
-> The doc comment ideally explains intended use.
+--MZAmogXrzGk5NpVh
+Content-Type: application/pgp-signature; name="signature.asc"
 
-OK. I'll expand on this. It'll be a bit of fuzzy text that
-boils down to we emulate so we can test the OS does the right thing
-when it gets poison related events. I can add some generic fluff on
-why a real device might implement this in the first place though
-I'm not sure that will even matter to anyone reading these docs.
+-----BEGIN PGP SIGNATURE-----
 
-> 
-> 
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAmPae+oACgkQnKSrs4Gr
+c8jXGAf/XgMDlYmWQJhIwbXbwNhpVDWx8uWap6TZ6VlJfbVR8MRU5y4QheDba2hi
+8fpFaCcZMa7SThRhTFovIa7PkboCKX/Eq/tP0REseM08b6jGzEeKr04aEbRIspvF
+umo+5M9QVkwvaNS6volzx4NcatBf9H7FXZ/vAXJIrOXWebyyfDmXwo5kSp6IPrLS
+pxejyp1TjU0bE4frHwTv8lwZIjfmX4tIBsRiuC4HgqwpWczdRviRMOM5yCpbMC56
+PwvjT67VNu3ZdAnRzrLGVJ/QB98AEv/JNGz3hhyThebSZ5HSwMkQytnj5OA0fkKu
+6fF8mRg2sjF/EEELMHFx5Tsv6W0zIg==
+=Hc7J
+-----END PGP SIGNATURE-----
+
+--MZAmogXrzGk5NpVh--
 
 
