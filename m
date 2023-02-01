@@ -2,76 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CE846867EC
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:04:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D8D16867E2
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:03:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNDga-0002lx-J4; Wed, 01 Feb 2023 09:02:04 -0500
+	id 1pNDgc-0002mG-Ri; Wed, 01 Feb 2023 09:02:06 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kkamran.bese16seecs@seecs.edu.pk>)
- id 1pN7j8-0007GT-Pk
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 02:40:18 -0500
-Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332])
+ id 1pNAQU-0001Nn-N0
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 05:33:15 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <kkamran.bese16seecs@seecs.edu.pk>)
- id 1pN7j7-00068M-89
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 02:40:18 -0500
-Received: by mail-wm1-x332.google.com with SMTP id
- c10-20020a05600c0a4a00b003db0636ff84so680058wmq.0
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 23:40:16 -0800 (PST)
+ id 1pNAQO-0003QQ-Sl
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 05:33:14 -0500
+Received: by mail-ej1-x635.google.com with SMTP id qw12so34105074ejc.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 02:33:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seecs.edu.pk; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=ejjgBv7wOS62eWZdOWI7sjR/8URCCY97sfO0xCb8JyQ=;
- b=Gcud9FkT78dTTnQliY93AGChXZJt7gt2RnVPd5YqYxYCSuK3wsTrTp0fSC+o/rpwAK
- vvEa44lInaCr5NOYFAF98uNRyFi4sIf/P2byexTAasu0amL2UFmFofX+mstaXLSN3iw0
- OgK5ItW1KoxWvaGVhMl5QEtnePC+LITK9YBdc=
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=CQXdZcIJOyhdfKhmnAt46HBybn9Du9OvhbnHstPO2KA=;
+ b=HVRkf7Q3BPLDxsj9vhacCUp1uv2Ae4t7whjW8WjHTHQq4j46rvUIzIBX18r/jFZwpk
+ uKqJP3AR8BYFP6aNbN4vsx5TNqLJNkXW4jllJjMwBFk0J7ddbwuFLLzbRquAJK8f89fz
+ CYMZILIcH9iG7b26//XpD/223dt2yAwBaSgx0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=ejjgBv7wOS62eWZdOWI7sjR/8URCCY97sfO0xCb8JyQ=;
- b=V52QaeWgvY7AKXoj464jA/sfLylvTrQ4y9zLV5U1MV5cUGbyrKt0foFsA97HFlhU7x
- 2B47gIAn0YTSEFqft/oHDhzpA/tJ4twCwnTInpW+Nvb68efz9vq+0C4DFy3csKQpKLtQ
- jiLH5HAAFLqeWG1N/Eq0el+6lsEqGIeKjF6s1Gffvx8K/yfvvRw6uHrDVojX28AUxwFs
- 6EI/TDU3Wj2FXGQBuTXRU21Ez1UUNw1WXPOInQ8rSJZIi0xk446h5eSirH4WtmxT+Z4a
- iItcFPmVfcOxUUMt2GT+Ikb5CclVLP45s/E46sVKOT9r3kdJd0acQR2kjq/k8zj74eOZ
- SQMQ==
-X-Gm-Message-State: AO0yUKVd++YpanQr/BdZJ+MaoviEn+yZjo2W44mI5FkuLqhwT4k/A91J
- dC/cm6ZShTV0jMfyaGgJRGJEHwVL7OjuMEPiTFU=
-X-Google-Smtp-Source: AK7set/UAuoHPJTWMumpkLnztiGaZtLXP3C629eEuky0o0/M+gkUSRAwl3S8qzIdTLbOUN1+JOAKTA==
-X-Received: by 2002:a05:600c:358a:b0:3da:fcb7:39e5 with SMTP id
- p10-20020a05600c358a00b003dafcb739e5mr1086144wmq.23.1675237215462; 
- Tue, 31 Jan 2023 23:40:15 -0800 (PST)
-Received: from khadija-ubuntu-vm.localdomain ([124.29.208.67])
- by smtp.gmail.com with ESMTPSA id
- s28-20020a05600c319c00b003dc47d458cdsm851428wmp.15.2023.01.31.23.40.13
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 23:40:15 -0800 (PST)
-From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
-To: qemu-devel@nongnu.org
-Cc: ysato@users.sourceforge.jp, alex.bennee@linaro.org, pbonzini@redhat.com,
- fam@euphon.net, peter.maydell@linaro.org, philmd@linaro.org,
- kwolf@redhat.com, hreitz@redhat.com
-Subject: [PATCH 9/9] Updated the FSF address in tests/qemu-iotests/022
-Date: Wed,  1 Feb 2023 12:39:50 +0500
-Message-Id: <404c2309c845321a21e2896a151840750ec4fe2e.1675234580.git.kkamran.bese16seecs@seecs.edu.pk>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675234580.git.kkamran.bese16seecs@seecs.edu.pk>
-References: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675234580.git.kkamran.bese16seecs@seecs.edu.pk>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=CQXdZcIJOyhdfKhmnAt46HBybn9Du9OvhbnHstPO2KA=;
+ b=b88paRvIyo4i6P35ryWEJ+JT+coCk1tk2sCiGb6i50rN65p2PEd7RYsvCsUv6HOvuq
+ myf5pVo/8/x2i8xGoTCUo8XKWmWlu77wGZvUZJGZUSIhOEpCfsYkiSLwaKEoLrlNLrrH
+ Xy3OwvzAqjxQOwZFILJ2LyqKYoR6QVXLXJcF5094waB2sa7h/5V7iiW6e1Od/VyhNV45
+ IrGA95np0pZFNmJrItiD0k4bcUtuOWqKFfICCdd3fbktRWRw3RI318JvVD+7LDLXNjW3
+ QlvdNV68JW65xx8PzMtGc3JgwdvLRV40bGjzViEsJt1VInm4ZLE2MPBXsfBiahFW3am6
+ ihYQ==
+X-Gm-Message-State: AO0yUKVxizXBK0TCq1H+qQY0+RIpwSZdHHG8NtM+650I4ZYQnKERB15y
+ BLqHoHJjWc2KlgCQf8UG7oabT00jvPyeReOZdjO6Dg==
+X-Google-Smtp-Source: AK7set9qD92IWOkMYIe8F4WRmQCTM+OmW04VjGbYv8Bz5+1JzMYQITXhGrwnXvl80BLGkkF4KCFXN9QKk5+iTkvYzwM=
+X-Received: by 2002:a17:906:3954:b0:878:5360:4087 with SMTP id
+ g20-20020a170906395400b0087853604087mr488260eje.34.1675247582993; Wed, 01 Feb
+ 2023 02:33:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::332;
- envelope-from=kkamran.bese16seecs@seecs.edu.pk; helo=mail-wm1-x332.google.com
+References: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675234580.git.kkamran.bese16seecs@seecs.edu.pk>
+ <87mt5xsmyj.fsf@linaro.org>
+In-Reply-To: <87mt5xsmyj.fsf@linaro.org>
+From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
+Date: Wed, 1 Feb 2023 15:32:50 +0500
+Message-ID: <CAMcjF3CcTkNrprhs7dswPF2OEG7x8PEfhjuM5zNznymX3J4qqQ@mail.gmail.com>
+Subject: Re: [PATCH 1/9] Updated the FSF address in file hw/sh4/sh7750_regs.h
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, ysato@users.sourceforge.jp, pbonzini@redhat.com, 
+ fam@euphon.net, peter.maydell@linaro.org, philmd@linaro.org, kwolf@redhat.com, 
+ hreitz@redhat.com
+Content-Type: multipart/alternative; boundary="00000000000018729a05f3a0f989"
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=kkamran.bese16seecs@seecs.edu.pk; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -90,31 +83,130 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Signed-off-by: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
----
-The Free Software Foundation moved to a new address and this file referred to their old location.
-The address should be updated and replaced to a pointer to <https://www.gnu.org/licenses/>  
-This will resolve the issue #379 in the QEMU source repository.
+--00000000000018729a05f3a0f989
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
- tests/qemu-iotests/022 | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+Thank you for the feedback. I will keep the points in mind next time.
 
-diff --git a/tests/qemu-iotests/022 b/tests/qemu-iotests/022
-index a116cfe255..52473aefde 100755
---- a/tests/qemu-iotests/022
-+++ b/tests/qemu-iotests/022
-@@ -16,9 +16,7 @@
- # GNU General Public License for more details.
- #
- # You should have received a copy of the GNU General Public License
--# along with this program; if not, write to the Free Software
--# Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307
--# USA
-+# along with this program; if not, see <https://www.gnu.org/licenses/>.
- #
- 
- # creator
--- 
-2.34.1
+On Wed, 1 Feb 2023, 3:24 pm Alex Benn=C3=A9e, <alex.bennee@linaro.org> wrot=
+e:
 
+>
+> Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk> writes:
+>
+> > Signed-off-by: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
+> > ---
+> > The Free Software Foundation moved to a new address and this file
+> referred to their old location.
+> > The address should be updated and replaced to a pointer to <
+> https://www.gnu.org/licenses/>
+> > This will resolve the issue #379 in the QEMU source repository
+>
+> For next time I would put this comment in the cover letter. You can also
+> add:
+>
+> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/379
+>
+> to the commit message to auto close the bug once this is merged.
+>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+> >
+> >  hw/sh4/sh7750_regs.h | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/hw/sh4/sh7750_regs.h b/hw/sh4/sh7750_regs.h
+> > index beb571d5e9..94043431e6 100644
+> > --- a/hw/sh4/sh7750_regs.h
+> > +++ b/hw/sh4/sh7750_regs.h
+> > @@ -22,8 +22,7 @@
+> >   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+> >   * General Public License for more details. You should have received
+> >   * a copy of the GNU General Public License along with RTEMS; see
+> > - * file COPYING. If not, write to the Free Software Foundation, 675
+> > - * Mass Ave, Cambridge, MA 02139, USA.
+> > + * file COPYING. If not, see <https://www.gnu.org/licenses/>.
+> >   *
+> >   * As a special exception, including RTEMS header files in a file,
+> >   * instantiating RTEMS generics or templates, or linking other files
+>
+>
+> --
+> Alex Benn=C3=A9e
+> Virtualisation Tech Lead @ Linaro
+>
+
+--00000000000018729a05f3a0f989
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Thank you for the feedback. I will keep the points in min=
+d next time.=C2=A0</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
+ss=3D"gmail_attr">On Wed, 1 Feb 2023, 3:24 pm Alex Benn=C3=A9e, &lt;<a href=
+=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; wrote:<br=
+></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
+left:1px #ccc solid;padding-left:1ex"><br>
+Khadija Kamran &lt;<a href=3D"mailto:kkamran.bese16seecs@seecs.edu.pk" targ=
+et=3D"_blank" rel=3D"noreferrer">kkamran.bese16seecs@seecs.edu.pk</a>&gt; w=
+rites:<br>
+<br>
+&gt; Signed-off-by: Khadija Kamran &lt;<a href=3D"mailto:kkamran.bese16seec=
+s@seecs.edu.pk" target=3D"_blank" rel=3D"noreferrer">kkamran.bese16seecs@se=
+ecs.edu.pk</a>&gt;<br>
+&gt; ---<br>
+&gt; The Free Software Foundation moved to a new address and this file refe=
+rred to their old location.<br>
+&gt; The address should be updated and replaced to a pointer to &lt;<a href=
+=3D"https://www.gnu.org/licenses/" rel=3D"noreferrer noreferrer" target=3D"=
+_blank">https://www.gnu.org/licenses/</a>&gt;<br>
+&gt; This will resolve the issue #379 in the QEMU source repository<br>
+<br>
+For next time I would put this comment in the cover letter. You can also<br=
+>
+add:<br>
+<br>
+Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/379" rel=
+=3D"noreferrer noreferrer" target=3D"_blank">https://gitlab.com/qemu-projec=
+t/qemu/-/issues/379</a><br>
+<br>
+to the commit message to auto close the bug once this is merged.<br>
+<br>
+Reviewed-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org"=
+ target=3D"_blank" rel=3D"noreferrer">alex.bennee@linaro.org</a>&gt;<br>
+<br>
+&gt;<br>
+&gt;=C2=A0 hw/sh4/sh7750_regs.h | 3 +--<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 2 deletions(-)<br>
+&gt;<br>
+&gt; diff --git a/hw/sh4/sh7750_regs.h b/hw/sh4/sh7750_regs.h<br>
+&gt; index beb571d5e9..94043431e6 100644<br>
+&gt; --- a/hw/sh4/sh7750_regs.h<br>
+&gt; +++ b/hw/sh4/sh7750_regs.h<br>
+&gt; @@ -22,8 +22,7 @@<br>
+&gt;=C2=A0 =C2=A0* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See=
+ the GNU<br>
+&gt;=C2=A0 =C2=A0* General Public License for more details. You should have=
+ received<br>
+&gt;=C2=A0 =C2=A0* a copy of the GNU General Public License along with RTEM=
+S; see<br>
+&gt; - * file COPYING. If not, write to the Free Software Foundation, 675<b=
+r>
+&gt; - * Mass Ave, Cambridge, MA 02139, USA.<br>
+&gt; + * file COPYING. If not, see &lt;<a href=3D"https://www.gnu.org/licen=
+ses/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://www.gnu.org/l=
+icenses/</a>&gt;.<br>
+&gt;=C2=A0 =C2=A0*<br>
+&gt;=C2=A0 =C2=A0* As a special exception, including RTEMS header files in =
+a file,<br>
+&gt;=C2=A0 =C2=A0* instantiating RTEMS generics or templates, or linking ot=
+her files<br>
+<br>
+<br>
+-- <br>
+Alex Benn=C3=A9e<br>
+Virtualisation Tech Lead @ Linaro<br>
+</blockquote></div>
+
+--00000000000018729a05f3a0f989--
 
