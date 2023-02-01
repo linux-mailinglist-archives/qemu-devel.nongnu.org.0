@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 27C9F685FF0
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 07:50:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBA6A686068
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 08:16:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN653-0004AY-RW; Wed, 01 Feb 2023 00:54:49 -0500
+	id 1pN66z-0004JF-7M; Wed, 01 Feb 2023 00:56:49 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pN651-00049r-30; Wed, 01 Feb 2023 00:54:47 -0500
-Received: from mail-ed1-x52a.google.com ([2a00:1450:4864:20::52a])
+ id 1pN66v-0004J1-QO; Wed, 01 Feb 2023 00:56:45 -0500
+Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <joel.stan@gmail.com>)
- id 1pN64o-0007qI-Jd; Wed, 01 Feb 2023 00:54:46 -0500
-Received: by mail-ed1-x52a.google.com with SMTP id v13so16511670eda.11;
- Tue, 31 Jan 2023 21:54:33 -0800 (PST)
+ id 1pN66C-00088B-2P; Wed, 01 Feb 2023 00:56:45 -0500
+Received: by mail-ej1-x635.google.com with SMTP id lu11so10844621ejb.3;
+ Tue, 31 Jan 2023 21:55:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:from:to:cc:subject:date
  :message-id:reply-to;
- bh=AG1HH/UivaEadvI9D68DkhxNojmpaYCePKTEI22r0ZA=;
- b=bpwwZjNM+5S2803KSYiHhbcqQxOxkQeo2sJQPuhc1xiw5L184wE7QURM7KMZTzP+FX
- KJMy5AGBdrlLhsvgg0Z3L9/vLDcFtG3iOFUQpSMzrtjemDHXs4FLuzESddyRhT8k/S+5
- 499pYqQnm9J51NvzNUsdaipoDjQ15tkpK63Qk=
+ bh=UujxSMSkeUct+x0XI8pjGKtsodqgMGX8cm6l5uT7t1w=;
+ b=ZNdzgdpAjHmKqmhFa2E1hPbF1jZoqLp6FC15jFU2V93t2Fx5cP97Ft/dmjCawDI+0O
+ jLeH+XWZaYcDDidoTP9K624//FabErXBxHVB+nj5lGDgvctnAyI7REOf9ErZd+3II9lY
+ KIPNL+0i0onq+4rOikLnm6NGx2lLABUt0MCKI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:cc:to:subject:message-id:date:from
  :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=AG1HH/UivaEadvI9D68DkhxNojmpaYCePKTEI22r0ZA=;
- b=yZxYBWYdgPoLBGvWKsADmomZEO/n1iEhnC2DjvKhWaTNzyxNAYbpqOLo7tFQ/0K8ev
- F5PzOqYz3uyvul+H9ohVsMvtomaxA4OukBRpGy19fap24k5SkU06RGNYhZD3s3SsF/Yi
- 00QYF+JR1iStX+Uy2RpvEjwyPyyfowYnv2RMhoTOk3EOB/9Qd77m6/x3+C5vtBNtHhDj
- VLUcGcbI4x5QvEg76efoc+nMDiwHMLrtsHr9g/tITMk0Ip98OBkjsc6Hs9cKXHjKJBMB
- 0nodlf/qK8NcgbqtvOWownHzp0DltAeh6DEOIvUFTBepeiwrEA+Cl5dJ32gZgI9u+NMu
- /Gvg==
-X-Gm-Message-State: AO0yUKXF4FHIKO+VwsHns9L0UVeyc6T83OnqMbQBUD7gHh8TtxY/HzbQ
- KWVQP1rIsmDfxHs7ru3W1MT9Dy8QeboUNiDavj8=
-X-Google-Smtp-Source: AK7set9bWxhFsguGgCZK9tF12MIX2qMgM2vnq+H9eHeiBIIma9WI7R6CMd2PIv2b37WTPk+7yNkQsxP7SZJoZ8UqupQ=
-X-Received: by 2002:aa7:d886:0:b0:4a2:3637:568 with SMTP id
- u6-20020aa7d886000000b004a236370568mr185442edq.83.1675230870214; Tue, 31 Jan
- 2023 21:54:30 -0800 (PST)
+ bh=UujxSMSkeUct+x0XI8pjGKtsodqgMGX8cm6l5uT7t1w=;
+ b=sM5hMWRR4kU7KQpHXaJZeB5Xs8PZOU6y5mRgpdkKokd9w7zBVXUBQUNzghEm5Arera
+ yVRLtw8YfLXZxBcZCKtg4CWhGABkcGRVjoYfs4iJvceSuzXRd7krkC60w24/CdJO1aid
+ 0xCBkNhhrX4fPWHpCZw/tUVrKtd1iy6TRkmKsBli1gM/cDJL8WXDWKZKywN/12zfvYsZ
+ lms6EImL34PXix3P9Fvf+tV2MsAu4CmtkM7vKWRmixEuGpWfNPt8IxOfSfZ/nDozHLwQ
+ gLkrtziZixwtBcaKF8Aj+W9KsxLH+izflH3rQnUU9TUbCIop2UONCehSzluNlWcIP5+f
+ kt+g==
+X-Gm-Message-State: AO0yUKV8QP3ODLe7Fxtyfe7AaaCKy4mxgWbhgF2Hikrx+srEUNm2jVA0
+ JPkodo6ygPfMtvQgHkO+HpvOHzvT1cei+ZuSDlrWJH6K
+X-Google-Smtp-Source: AK7set/hMRehJpPuLv+I+oLy+oeN8AF5uDWWYDMW0hHKMVvOAR2N7ac5d7p1RYE+1NY/+qLBVPVb0PEw2SEVFD4APAU=
+X-Received: by 2002:a17:906:2012:b0:879:d5f6:9104 with SMTP id
+ 18-20020a170906201200b00879d5f69104mr267422ejo.118.1675230345104; Tue, 31 Jan
+ 2023 21:45:45 -0800 (PST)
 MIME-Version: 1.0
 References: <20230119123449.531826-1-clg@kaod.org>
- <20230119123449.531826-21-clg@kaod.org>
-In-Reply-To: <20230119123449.531826-21-clg@kaod.org>
+ <20230119123449.531826-9-clg@kaod.org>
+In-Reply-To: <20230119123449.531826-9-clg@kaod.org>
 From: Joel Stanley <joel@jms.id.au>
-Date: Wed, 1 Feb 2023 05:54:17 +0000
-Message-ID: <CACPK8XeW8+x8rya6-sWmu9t9=sJSFnzMH1kH69GLx5UyJnijLQ@mail.gmail.com>
-Subject: Re: [PATCH 20/25] hw/arm/aspeed_ast10x0: Add various unimplemented
- peripherals
+Date: Wed, 1 Feb 2023 05:45:32 +0000
+Message-ID: <CACPK8XfW6peVF27_YthCubp-9J8aGpKp5x15-2-qpusnV=4Dzg@mail.gmail.com>
+Subject: Re: [PATCH 08/25] hw/arm/boot: Export write_bootloader for Aspeed
+ machines
 To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
 Cc: qemu-arm@nongnu.org, qemu-devel@nongnu.org, 
  Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Peter Delevoryas <peter@pjd.dev>
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::52a;
- envelope-from=joel.stan@gmail.com; helo=mail-ed1-x52a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::635;
+ envelope-from=joel.stan@gmail.com; helo=mail-ej1-x635.google.com
 X-Spam_score_int: -14
 X-Spam_score: -1.5
 X-Spam_bar: -
@@ -85,160 +84,193 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 19 Jan 2023 at 12:36, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
+On Thu, 19 Jan 2023 at 12:37, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
 >
-> From: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> AST2600 Aspeed machines have an home made boot loader for secondaries.
+> To improve support, export the internal ARM boot loader and use it
+> instead.
+
+I didn't quite follow why we're doing this. Is it just a cleanup?
+
 >
-> Based on booting Zephyr demo from [1] running QEMU with
-> '-d unimp' and checking missing devices in [2].
->
-> [1] https://github.com/AspeedTech-BMC/zephyr/releases/tag/v00.01.07
-> [2] https://github.com/AspeedTech-BMC/zephyr/blob/v00.01.08/dts/arm/aspee=
-d/ast10x0.dtsi
->
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Reviewed-by: Peter Delevoryas <peter@pjd.dev>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 > Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-
-Reviewed-by: Joel Stanley <joel@jms.id.au>
-
 > ---
->  include/hw/arm/aspeed_soc.h | 11 +++++++++++
->  hw/arm/aspeed_ast10x0.c     | 35 +++++++++++++++++++++++++++++++++++
->  2 files changed, 46 insertions(+)
+>  include/hw/arm/boot.h | 24 ++++++++++++++++++++++++
+>  hw/arm/aspeed.c       | 42 ++++++++++++++++++++++--------------------
+>  hw/arm/boot.c         | 34 +++++++---------------------------
+>  3 files changed, 53 insertions(+), 47 deletions(-)
 >
-> diff --git a/include/hw/arm/aspeed_soc.h b/include/hw/arm/aspeed_soc.h
-> index 8389200b2d..9a5e3c0bac 100644
-> --- a/include/hw/arm/aspeed_soc.h
-> +++ b/include/hw/arm/aspeed_soc.h
-> @@ -44,6 +44,7 @@
->  #define ASPEED_CPUS_NUM  2
->  #define ASPEED_MACS_NUM  4
->  #define ASPEED_UARTS_NUM 13
-> +#define ASPEED_JTAG_NUM  2
+> diff --git a/include/hw/arm/boot.h b/include/hw/arm/boot.h
+> index f18cc3064f..23edd0d31b 100644
+> --- a/include/hw/arm/boot.h
+> +++ b/include/hw/arm/boot.h
+> @@ -183,4 +183,28 @@ void arm_write_secure_board_setup_dummy_smc(ARMCPU *=
+cpu,
+>                                              const struct arm_boot_info *=
+info,
+>                                              hwaddr mvbar_addr);
 >
->  struct AspeedSoCState {
->      /*< private >*/
-> @@ -87,6 +88,11 @@ struct AspeedSoCState {
->      UnimplementedDeviceState video;
->      UnimplementedDeviceState emmc_boot_controller;
->      UnimplementedDeviceState dpmcu;
-> +    UnimplementedDeviceState pwm;
-> +    UnimplementedDeviceState espi;
-> +    UnimplementedDeviceState udc;
-> +    UnimplementedDeviceState sgpiom;
-> +    UnimplementedDeviceState jtag[ASPEED_JTAG_NUM];
->  };
+> +typedef enum {
+> +    FIXUP_NONE =3D 0,     /* do nothing */
+> +    FIXUP_TERMINATOR,   /* end of insns */
+> +    FIXUP_BOARDID,      /* overwrite with board ID number */
+> +    FIXUP_BOARD_SETUP,  /* overwrite with board specific setup code addr=
+ess */
+> +    FIXUP_ARGPTR_LO,    /* overwrite with pointer to kernel args */
+> +    FIXUP_ARGPTR_HI,    /* overwrite with pointer to kernel args (high h=
+alf) */
+> +    FIXUP_ENTRYPOINT_LO, /* overwrite with kernel entry point */
+> +    FIXUP_ENTRYPOINT_HI, /* overwrite with kernel entry point (high half=
+) */
+> +    FIXUP_GIC_CPU_IF,   /* overwrite with GIC CPU interface address */
+> +    FIXUP_BOOTREG,      /* overwrite with boot register address */
+> +    FIXUP_DSB,          /* overwrite with correct DSB insn for cpu */
+> +    FIXUP_MAX,
+> +} FixupType;
+> +
+> +typedef struct ARMInsnFixup {
+> +    uint32_t insn;
+> +    FixupType fixup;
+> +} ARMInsnFixup;
+> +
+> +void arm_write_bootloader(const char *name, hwaddr addr,
+> +                          const ARMInsnFixup *insns, uint32_t *fixupcont=
+ext,
+> +                          AddressSpace *as);
+> +
+>  #endif /* HW_ARM_BOOT_H */
+> diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+> index 4919a1fe9e..c373bd2851 100644
+> --- a/hw/arm/aspeed.c
+> +++ b/hw/arm/aspeed.c
+> @@ -198,33 +198,35 @@ struct AspeedMachineState {
+>  static void aspeed_write_smpboot(ARMCPU *cpu,
+>                                   const struct arm_boot_info *info)
+>  {
+> -    static const uint32_t poll_mailbox_ready[] =3D {
+> +    AddressSpace *as =3D arm_boot_address_space(cpu, info);
+> +    static const ARMInsnFixup poll_mailbox_ready[] =3D {
+>          /*
+>           * r2 =3D per-cpu go sign value
+>           * r1 =3D AST_SMP_MBOX_FIELD_ENTRY
+>           * r0 =3D AST_SMP_MBOX_FIELD_GOSIGN
+>           */
+> -        0xee100fb0,  /* mrc     p15, 0, r0, c0, c0, 5 */
+> -        0xe21000ff,  /* ands    r0, r0, #255          */
+> -        0xe59f201c,  /* ldr     r2, [pc, #28]         */
+> -        0xe1822000,  /* orr     r2, r2, r0            */
+> -
+> -        0xe59f1018,  /* ldr     r1, [pc, #24]         */
+> -        0xe59f0018,  /* ldr     r0, [pc, #24]         */
+> -
+> -        0xe320f002,  /* wfe                           */
+> -        0xe5904000,  /* ldr     r4, [r0]              */
+> -        0xe1520004,  /* cmp     r2, r4                */
+> -        0x1afffffb,  /* bne     <wfe>                 */
+> -        0xe591f000,  /* ldr     pc, [r1]              */
+> -        AST_SMP_MBOX_GOSIGN,
+> -        AST_SMP_MBOX_FIELD_ENTRY,
+> -        AST_SMP_MBOX_FIELD_GOSIGN,
+> +        { 0xee100fb0 },  /* mrc     p15, 0, r0, c0, c0, 5 */
+> +        { 0xe21000ff },  /* ands    r0, r0, #255          */
+> +        { 0xe59f201c },  /* ldr     r2, [pc, #28]         */
+> +        { 0xe1822000 },  /* orr     r2, r2, r0            */
+> +
+> +        { 0xe59f1018 },  /* ldr     r1, [pc, #24]         */
+> +        { 0xe59f0018 },  /* ldr     r0, [pc, #24]         */
+> +
+> +        { 0xe320f002 },  /* wfe                           */
+> +        { 0xe5904000 },  /* ldr     r4, [r0]              */
+> +        { 0xe1520004 },  /* cmp     r2, r4                */
+> +        { 0x1afffffb },  /* bne     <wfe>                 */
+> +        { 0xe591f000 },  /* ldr     pc, [r1]              */
+> +        { AST_SMP_MBOX_GOSIGN },
+> +        { AST_SMP_MBOX_FIELD_ENTRY },
+> +        { AST_SMP_MBOX_FIELD_GOSIGN },
+> +        { 0, FIXUP_TERMINATOR }
+>      };
+> +    uint32_t fixupcontext[FIXUP_MAX] =3D { 0 };
 >
->  #define TYPE_ASPEED_SOC "aspeed-soc"
-> @@ -174,6 +180,11 @@ enum {
->      ASPEED_DEV_DPMCU,
->      ASPEED_DEV_DP,
->      ASPEED_DEV_I3C,
-> +    ASPEED_DEV_ESPI,
-> +    ASPEED_DEV_UDC,
-> +    ASPEED_DEV_SGPIOM,
-> +    ASPEED_DEV_JTAG0,
-> +    ASPEED_DEV_JTAG1,
->  };
->
->  qemu_irq aspeed_soc_get_irq(AspeedSoCState *s, int dev);
-> diff --git a/hw/arm/aspeed_ast10x0.c b/hw/arm/aspeed_ast10x0.c
-> index b483735dc2..b970a5ea58 100644
-> --- a/hw/arm/aspeed_ast10x0.c
-> +++ b/hw/arm/aspeed_ast10x0.c
-> @@ -27,10 +27,15 @@ static const hwaddr aspeed_soc_ast1030_memmap[] =3D {
->      [ASPEED_DEV_FMC]       =3D 0x7E620000,
->      [ASPEED_DEV_SPI1]      =3D 0x7E630000,
->      [ASPEED_DEV_SPI2]      =3D 0x7E640000,
-> +    [ASPEED_DEV_UDC]       =3D 0x7E6A2000,
->      [ASPEED_DEV_SCU]       =3D 0x7E6E2000,
-> +    [ASPEED_DEV_JTAG0]     =3D 0x7E6E4000,
-> +    [ASPEED_DEV_JTAG1]     =3D 0x7E6E4100,
->      [ASPEED_DEV_ADC]       =3D 0x7E6E9000,
-> +    [ASPEED_DEV_ESPI]      =3D 0x7E6EE000,
->      [ASPEED_DEV_SBC]       =3D 0x7E6F2000,
->      [ASPEED_DEV_GPIO]      =3D 0x7E780000,
-> +    [ASPEED_DEV_SGPIOM]    =3D 0x7E780500,
->      [ASPEED_DEV_TIMER1]    =3D 0x7E782000,
->      [ASPEED_DEV_UART1]     =3D 0x7E783000,
->      [ASPEED_DEV_UART2]     =3D 0x7E78D000,
-> @@ -78,12 +83,17 @@ static const int aspeed_soc_ast1030_irqmap[] =3D {
->      [ASPEED_DEV_LPC]       =3D 35,
->      [ASPEED_DEV_PECI]      =3D 38,
->      [ASPEED_DEV_FMC]       =3D 39,
-> +    [ASPEED_DEV_ESPI]      =3D 42,
->      [ASPEED_DEV_PWM]       =3D 44,
->      [ASPEED_DEV_ADC]       =3D 46,
->      [ASPEED_DEV_SPI1]      =3D 65,
->      [ASPEED_DEV_SPI2]      =3D 66,
->      [ASPEED_DEV_I2C]       =3D 110, /* 110 ~ 123 */
->      [ASPEED_DEV_KCS]       =3D 138, /* 138 -> 142 */
-> +    [ASPEED_DEV_UDC]       =3D 9,
-> +    [ASPEED_DEV_SGPIOM]    =3D 51,
-> +    [ASPEED_DEV_JTAG0]     =3D 27,
-> +    [ASPEED_DEV_JTAG1]     =3D 53,
-
-nit: The array is kind of sorted by irq number, these could probably go abo=
-ve?
-
->  };
->
->  static qemu_irq aspeed_soc_ast1030_get_irq(AspeedSoCState *s, int dev)
-> @@ -154,6 +164,15 @@ static void aspeed_soc_ast1030_init(Object *obj)
->      object_initialize_child(obj, "iomem", &s->iomem, TYPE_UNIMPLEMENTED_=
-DEVICE);
->      object_initialize_child(obj, "sbc-unimplemented", &s->sbc_unimplemen=
-ted,
->                              TYPE_UNIMPLEMENTED_DEVICE);
-> +    object_initialize_child(obj, "pwm", &s->pwm, TYPE_UNIMPLEMENTED_DEVI=
-CE);
-> +    object_initialize_child(obj, "espi", &s->espi, TYPE_UNIMPLEMENTED_DE=
-VICE);
-> +    object_initialize_child(obj, "udc", &s->udc, TYPE_UNIMPLEMENTED_DEVI=
-CE);
-> +    object_initialize_child(obj, "sgpiom", &s->sgpiom,
-> +                            TYPE_UNIMPLEMENTED_DEVICE);
-> +    object_initialize_child(obj, "jtag[0]", &s->jtag[0],
-> +                            TYPE_UNIMPLEMENTED_DEVICE);
-> +    object_initialize_child(obj, "jtag[1]", &s->jtag[1],
-> +                            TYPE_UNIMPLEMENTED_DEVICE);
+> -    rom_add_blob_fixed("aspeed.smpboot", poll_mailbox_ready,
+> -                       sizeof(poll_mailbox_ready),
+> -                       info->smp_loader_start);
+> +    arm_write_bootloader("aspeed.smpboot", info->smp_loader_start,
+> +                         poll_mailbox_ready, fixupcontext, as);
 >  }
 >
->  static void aspeed_soc_ast1030_realize(DeviceState *dev_soc, Error **err=
-p)
-> @@ -336,6 +355,22 @@ static void aspeed_soc_ast1030_realize(DeviceState *=
-dev_soc, Error **errp)
->                      sc->memmap[ASPEED_DEV_GPIO]);
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->gpio), 0,
->                         aspeed_soc_get_irq(s, ASPEED_DEV_GPIO));
-> +
-> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->pwm), "aspeed.pw=
-m",
-> +                                  sc->memmap[ASPEED_DEV_PWM], 0x100);
-> +
-> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->espi), "aspeed.e=
-spi",
-> +                                  sc->memmap[ASPEED_DEV_ESPI], 0x800);
-> +
-> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->udc), "aspeed.ud=
-c",
-> +                                  sc->memmap[ASPEED_DEV_UDC], 0x1000);
-> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->sgpiom), "aspeed=
-.sgpiom",
-> +                                  sc->memmap[ASPEED_DEV_SGPIOM], 0x100);
-> +
-> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->jtag[0]), "aspee=
-d.jtag",
-> +                                  sc->memmap[ASPEED_DEV_JTAG0], 0x20);
-> +    aspeed_mmio_map_unimplemented(s, SYS_BUS_DEVICE(&s->jtag[1]), "aspee=
-d.jtag",
-> +                                  sc->memmap[ASPEED_DEV_JTAG1], 0x20);
+>  static void aspeed_reset_secondary(ARMCPU *cpu,
+> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
+> index 3d7d11f782..ed6fd7c77f 100644
+> --- a/hw/arm/boot.c
+> +++ b/hw/arm/boot.c
+> @@ -59,26 +59,6 @@ AddressSpace *arm_boot_address_space(ARMCPU *cpu,
+>      return cpu_get_address_space(cs, asidx);
 >  }
 >
->  static void aspeed_soc_ast1030_class_init(ObjectClass *klass, void *data=
-)
+> -typedef enum {
+> -    FIXUP_NONE =3D 0,     /* do nothing */
+> -    FIXUP_TERMINATOR,   /* end of insns */
+> -    FIXUP_BOARDID,      /* overwrite with board ID number */
+> -    FIXUP_BOARD_SETUP,  /* overwrite with board specific setup code addr=
+ess */
+> -    FIXUP_ARGPTR_LO,    /* overwrite with pointer to kernel args */
+> -    FIXUP_ARGPTR_HI,    /* overwrite with pointer to kernel args (high h=
+alf) */
+> -    FIXUP_ENTRYPOINT_LO, /* overwrite with kernel entry point */
+> -    FIXUP_ENTRYPOINT_HI, /* overwrite with kernel entry point (high half=
+) */
+> -    FIXUP_GIC_CPU_IF,   /* overwrite with GIC CPU interface address */
+> -    FIXUP_BOOTREG,      /* overwrite with boot register address */
+> -    FIXUP_DSB,          /* overwrite with correct DSB insn for cpu */
+> -    FIXUP_MAX,
+> -} FixupType;
+> -
+> -typedef struct ARMInsnFixup {
+> -    uint32_t insn;
+> -    FixupType fixup;
+> -} ARMInsnFixup;
+> -
+>  static const ARMInsnFixup bootloader_aarch64[] =3D {
+>      { 0x580000c0 }, /* ldr x0, arg ; Load the lower 32-bits of DTB */
+>      { 0xaa1f03e1 }, /* mov x1, xzr */
+> @@ -149,9 +129,9 @@ static const ARMInsnFixup smpboot[] =3D {
+>      { 0, FIXUP_TERMINATOR }
+>  };
+>
+> -static void write_bootloader(const char *name, hwaddr addr,
+> -                             const ARMInsnFixup *insns, uint32_t *fixupc=
+ontext,
+> -                             AddressSpace *as)
+> +void arm_write_bootloader(const char *name, hwaddr addr,
+> +                          const ARMInsnFixup *insns, uint32_t *fixupcont=
+ext,
+> +                          AddressSpace *as)
+>  {
+>      /* Fix up the specified bootloader fragment and write it into
+>       * guest memory using rom_add_blob_fixed(). fixupcontext is
+> @@ -213,8 +193,8 @@ static void default_write_secondary(ARMCPU *cpu,
+>          fixupcontext[FIXUP_DSB] =3D CP15_DSB_INSN;
+>      }
+>
+> -    write_bootloader("smpboot", info->smp_loader_start,
+> -                     smpboot, fixupcontext, as);
+> +    arm_write_bootloader("smpboot", info->smp_loader_start,
+> +                         smpboot, fixupcontext, as);
+>  }
+>
+>  void arm_write_secure_board_setup_dummy_smc(ARMCPU *cpu,
+> @@ -1173,8 +1153,8 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cp=
+u,
+>          fixupcontext[FIXUP_ENTRYPOINT_LO] =3D entry;
+>          fixupcontext[FIXUP_ENTRYPOINT_HI] =3D entry >> 32;
+>
+> -        write_bootloader("bootloader", info->loader_start,
+> -                         primary_loader, fixupcontext, as);
+> +        arm_write_bootloader("bootloader", info->loader_start,
+> +                             primary_loader, fixupcontext, as);
+>
+>          if (info->write_board_setup) {
+>              info->write_board_setup(cpu, info);
 > --
 > 2.39.0
 >
