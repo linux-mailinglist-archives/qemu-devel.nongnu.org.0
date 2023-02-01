@@ -2,76 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AC02685C14
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 01:18:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41DBF685C64
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 01:47:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN0o6-0007Np-Tr; Tue, 31 Jan 2023 19:16:58 -0500
+	id 1pN1Ge-0006Lq-0h; Tue, 31 Jan 2023 19:46:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pN0nz-0007Nd-QF; Tue, 31 Jan 2023 19:16:51 -0500
-Received: from mail-vk1-xa2e.google.com ([2607:f8b0:4864:20::a2e])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alistair23@gmail.com>)
- id 1pN0nx-000657-RL; Tue, 31 Jan 2023 19:16:51 -0500
-Received: by mail-vk1-xa2e.google.com with SMTP id l129so8295865vkh.6;
- Tue, 31 Jan 2023 16:16:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=8Z4TDDC4gX0eMrkm4ogAYQ6T2bFbzlcOsTe4fPg2l8Y=;
- b=qLdPqjcTg1TEK09oTMIRxpohFWVDkGrn3bKQwaqpucaETPOmdD6Engzppikz+hBmlY
- p2tzpMkvXCnLOojrGegvOfI6BBqqnI0UVuhSVF/85fvAPUjtq9+NkU1XLhkezq4WWkW3
- Rwmck4PSidBaKBDJCn+oldGmlA0jb1n8EVZMTkr3oYzv9osjRneJAA/gEHKtxpaz1eQG
- b23VX0rRHWUKwtu09cSe2m3wguIEqJWTKRBs+ccoVKo8SYt8WpR8o5nZuFsLFlCjkIkb
- iBo6npsNKkItGRljoqBPv2Slj9PvorZb53v0h0eCTsI4c+ziomehGgGfaJLTlecFy3E8
- CsQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=8Z4TDDC4gX0eMrkm4ogAYQ6T2bFbzlcOsTe4fPg2l8Y=;
- b=RDZcHWmFaH2R/NO9EhHGo4GddgRt9TtBq0nK7WbQDwlQO4FUJx2nLRTM1+yXybfthl
- Udrquo70eLkX8iM6jBI0oCOJaiDBIdO1WM762jngDXSVME1Co+b2m/+WcG251Kze5ruG
- DY+Ppmykjgkvl8axLDDveS4bN+QmFKAkEAPhPLm0UUjRlKvAU5ANoMlmI3R5SSYHG27Q
- oi3C+azjiTxg4ZxyV5zKPkaT3jYbKvdCwEQTWo4lSd+CUGTF4rcOmjgZzIJnb/u1Avgr
- uCG3+Gg/uXd2uwPm44IFuUnfISyYAdxt3YvPoBsiF0W79v81pANLhYOLPU7rX9nCxTwN
- 4C3w==
-X-Gm-Message-State: AO0yUKX0tKaqMQC+uwZWzS/ULvO3L0QpmyhSn6kBFKL14/w5ZECI9yBp
- cIiPcVx6KrvQW6mezywJCmbjwKFx14E70q1bCz8=
-X-Google-Smtp-Source: AK7set9qHwVLEyAczHGWfd+G8MYhDzxHxKXEU5RsfR4ro80ClpsNo9Zi0LKP3T7BjJ+aUnzUVhQFj0f2G4hI0/iCxac=
-X-Received: by 2002:a05:6122:7c9:b0:3ea:3dee:4545 with SMTP id
- l9-20020a05612207c900b003ea3dee4545mr43012vkr.26.1675210608320; Tue, 31 Jan
- 2023 16:16:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pN1Ga-0006LY-Ns
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 19:46:24 -0500
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <iii@linux.ibm.com>) id 1pN1GY-0004JM-Jk
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 19:46:24 -0500
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+ by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
+ 30VN1Y0D003164; Wed, 1 Feb 2023 00:46:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
+ h=from : to : cc : subject
+ : date : message-id : content-transfer-encoding : mime-version; s=pp1;
+ bh=m8x6RBt+VGiy2M3hBCmSIiRHlF6WOoobBP95OZCPhE4=;
+ b=JWkCEjlmmAEWXQCXTQe41ZEkbyvu2Cvk+hdgjHfx4KG4eR5iXPKjn1vRgOwmRMx8otXR
+ 4Mlj3gnfVOL28AXpuUwYxVhjTC11Orn28XagCACYjpeLQrNCutTcKqIleLqsYsvZ/BQo
+ 4rzl+HQwWHczfkvlr5ge4MrRcePy9r5yQNn+a+XV8/qNPgJv5wd+VoLLqD1txllOM85V
+ o4sGNQKoe9grAnefKScex8s9sH6N5Iuc0fEGtviBRAwHIsOYsBT4ZbpA5royr/ow5xc8
+ xb8ErcvbTl581nkQVRVaCYWFq8ikWoLrXN4+v4GRRFy3LxN0orBxKHsBq4hD+0hA2K9X lA== 
+Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
+ [169.51.49.102])
+ by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3nf83d9668-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 00:46:19 +0000
+Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
+ by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 30VE7dsH014675;
+ Wed, 1 Feb 2023 00:46:17 GMT
+Received: from smtprelay05.fra02v.mail.ibm.com ([9.218.2.225])
+ by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3ncvttv43g-1
+ (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+ Wed, 01 Feb 2023 00:46:17 +0000
+Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
+ [10.20.54.106])
+ by smtprelay05.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+ 3110kEaX45547860
+ (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+ Wed, 1 Feb 2023 00:46:14 GMT
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 126DE2004D;
+ Wed,  1 Feb 2023 00:46:14 +0000 (GMT)
+Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
+ by IMSVA (Postfix) with ESMTP id 9820F20040;
+ Wed,  1 Feb 2023 00:46:13 +0000 (GMT)
+Received: from heavy.ibmuc.com (unknown [9.171.18.228])
+ by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
+ Wed,  1 Feb 2023 00:46:13 +0000 (GMT)
+From: Ilya Leoshkevich <iii@linux.ibm.com>
+To: Richard Henderson <richard.henderson@linaro.org>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Christian Borntraeger <borntraeger@linux.ibm.com>, qemu-devel@nongnu.org, 
+ Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: [PATCH 0/4] Fix deadlock when dying because of a signal
+Date: Wed,  1 Feb 2023 01:46:05 +0100
+Message-Id: <20230201004609.3005029-1-iii@linux.ibm.com>
+X-Mailer: git-send-email 2.39.1
+X-TM-AS-GCONF: 00
+X-Proofpoint-ORIG-GUID: y3kImJ9WeQJ0Hlfk2FIZtaOtQgBmY0Vu
+X-Proofpoint-GUID: y3kImJ9WeQJ0Hlfk2FIZtaOtQgBmY0Vu
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-UnRewURL: 0 URL was un-rewritten
 MIME-Version: 1.0
-References: <20230119213707.651533-1-dbarboza@ventanamicro.com>
- <20230119213707.651533-2-dbarboza@ventanamicro.com>
-In-Reply-To: <20230119213707.651533-2-dbarboza@ventanamicro.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Wed, 1 Feb 2023 10:16:22 +1000
-Message-ID: <CAKmqyKPsZC64SsecFip20NhnwjKHRdw1nj-3=jYPU5Lu+urMTQ@mail.gmail.com>
-Subject: Re: [PATCH v9 1/3] hw/riscv: clear kernel_entry higher bits from
- load_elf_ram_sym()
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com, 
- =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
- Bin Meng <bmeng.cn@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::a2e;
- envelope-from=alistair23@gmail.com; helo=mail-vk1-xa2e.google.com
-X-Spam_score_int: -17
-X-Spam_score: -1.8
-X-Spam_bar: -
-X-Spam_report: (-1.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- FREEMAIL_ENVFROM_END_DIGIT=0.25, FREEMAIL_FROM=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
+ definitions=2023-01-31_08,2023-01-31_01,2022-06-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ mlxscore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 spamscore=0 mlxlogscore=991
+ suspectscore=0 malwarescore=0 priorityscore=1501 adultscore=0 phishscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2212070000 definitions=main-2302010003
+Received-SPF: pass client-ip=148.163.158.5; envelope-from=iii@linux.ibm.com;
+ helo=mx0b-001b2d01.pphosted.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
+X-Spam_bar: --
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,199 +102,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, Jan 20, 2023 at 7:38 AM Daniel Henrique Barboza
-<dbarboza@ventanamicro.com> wrote:
->
-> load_elf_ram_sym() will sign-extend 32 bit addresses. If a 32 bit
-> QEMU guest happens to be running in a hypervisor that are using 64
-> bits to encode its address, kernel_entry can be padded with '1's
-> and create problems [1].
->
-> Use a translate_fn() callback to be called by load_elf_ram_sym() and
-> return only the 32 bits address if we're running a 32 bit CPU.
->
-> [1] https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg02281.html
->
-> Suggested-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Suggested-by: Bin Meng <bmeng.cn@gmail.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
-> Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-> ---
->  hw/riscv/boot.c            | 20 +++++++++++++++++++-
->  hw/riscv/microchip_pfsoc.c |  3 ++-
->  hw/riscv/opentitan.c       |  3 ++-
->  hw/riscv/sifive_e.c        |  3 ++-
->  hw/riscv/sifive_u.c        |  3 ++-
->  hw/riscv/spike.c           |  3 ++-
->  hw/riscv/virt.c            |  3 ++-
->  include/hw/riscv/boot.h    |  1 +
->  8 files changed, 32 insertions(+), 7 deletions(-)
->
-> diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-> index 2594276223..46fc7adccf 100644
-> --- a/hw/riscv/boot.c
-> +++ b/hw/riscv/boot.c
-> @@ -173,7 +173,24 @@ target_ulong riscv_load_firmware(const char *firmwar=
-e_filename,
->      exit(1);
->  }
->
-> +static uint64_t translate_kernel_address(void *opaque, uint64_t addr)
-> +{
-> +    RISCVHartArrayState *harts =3D opaque;
-> +
-> +    if (riscv_is_32bit(harts)) {
-> +        /*
-> +         * For 32 bit CPUs, kernel_load_base is sign-extended
-> +         * (i.e. it can be padded with '1's) by load_elf().
-> +         * Remove the sign extension by truncating to 32-bit.
-> +         */
-> +        return extract64(addr, 0, 32);
-> +    }
-> +
-> +    return addr;
+Hi,
 
-So.... After all that, this doesn't actually mask pentry from
-load_elf_ram_sym(), so it doesn't help.
+wasmtime testsuite found a deadlock in qemu_plugin_user_exit().
+I tracked it down to one of my earlier patches, which introduced
+cleanup in dump_core_and_abort().
 
-> +}
-> +
->  target_ulong riscv_load_kernel(MachineState *machine,
-> +                               RISCVHartArrayState *harts,
->                                 target_ulong kernel_start_addr,
->                                 symbol_fn_t sym_cb)
->  {
-> @@ -189,7 +206,8 @@ target_ulong riscv_load_kernel(MachineState *machine,
->       * the (expected) load address load address. This allows kernels to =
-have
->       * separate SBI and ELF entry points (used by FreeBSD, for example).
->       */
-> -    if (load_elf_ram_sym(kernel_filename, NULL, NULL, NULL,
-> +    if (load_elf_ram_sym(kernel_filename, NULL,
-> +                         translate_kernel_address, harts,
->                           NULL, &kernel_load_base, NULL, NULL, 0,
->                           EM_RISCV, 1, 0, NULL, true, sym_cb) > 0) {
+Patch 1 fixes the issue, patches 2 and 3 fix __builtin_trap()
+handling in microblaze and sparc - which is needed for patch 4,
+that adds a test.
 
-I think we just need to add the mask here
+Just before sending this, I noticed that a solution has already been
+proposed in [1], but apparently it wasn't accepted.
 
-Alistair
+Best regards,
+Ilya
 
->          return kernel_load_base;
-> diff --git a/hw/riscv/microchip_pfsoc.c b/hw/riscv/microchip_pfsoc.c
-> index 82ae5e7023..bdefeb3cbb 100644
-> --- a/hw/riscv/microchip_pfsoc.c
-> +++ b/hw/riscv/microchip_pfsoc.c
-> @@ -629,7 +629,8 @@ static void microchip_icicle_kit_machine_init(Machine=
-State *machine)
->          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc.u_cpu=
-s,
->                                                           firmware_end_ad=
-dr);
->
-> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr, N=
-ULL);
-> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc.u_cpus,
-> +                                         kernel_start_addr, NULL);
->
->          if (machine->initrd_filename) {
->              riscv_load_initrd(machine, kernel_entry);
-> diff --git a/hw/riscv/opentitan.c b/hw/riscv/opentitan.c
-> index 64d5d435b9..2731138c41 100644
-> --- a/hw/riscv/opentitan.c
-> +++ b/hw/riscv/opentitan.c
-> @@ -101,7 +101,8 @@ static void opentitan_board_init(MachineState *machin=
-e)
->      }
->
->      if (machine->kernel_filename) {
-> -        riscv_load_kernel(machine, memmap[IBEX_DEV_RAM].base, NULL);
-> +        riscv_load_kernel(machine, &s->soc.cpus,
-> +                          memmap[IBEX_DEV_RAM].base, NULL);
->      }
->  }
->
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index 3e3f4b0088..1a7d381514 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -114,7 +114,8 @@ static void sifive_e_machine_init(MachineState *machi=
-ne)
->                            memmap[SIFIVE_E_DEV_MROM].base, &address_space=
-_memory);
->
->      if (machine->kernel_filename) {
-> -        riscv_load_kernel(machine, memmap[SIFIVE_E_DEV_DTIM].base, NULL)=
-;
-> +        riscv_load_kernel(machine, &s->soc.cpus,
-> +                          memmap[SIFIVE_E_DEV_DTIM].base, NULL);
->      }
->  }
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 2fb6ee231f..83dfe09877 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -598,7 +598,8 @@ static void sifive_u_machine_init(MachineState *machi=
-ne)
->          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc.u_cpu=
-s,
->                                                           firmware_end_ad=
-dr);
->
-> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr, N=
-ULL);
-> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc.u_cpus,
-> +                                         kernel_start_addr, NULL);
->
->          if (machine->initrd_filename) {
->              riscv_load_initrd(machine, kernel_entry);
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index badc11ec43..2bcc50d90d 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -305,7 +305,8 @@ static void spike_board_init(MachineState *machine)
->          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc[0],
->                                                           firmware_end_ad=
-dr);
->
-> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr,
-> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc[0],
-> +                                         kernel_start_addr,
->                                           htif_symbol_callback);
->
->          if (machine->initrd_filename) {
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index 4a11b4b010..ac173a6ed6 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -1274,7 +1274,8 @@ static void virt_machine_done(Notifier *notifier, v=
-oid *data)
->          kernel_start_addr =3D riscv_calc_kernel_start_addr(&s->soc[0],
->                                                           firmware_end_ad=
-dr);
->
-> -        kernel_entry =3D riscv_load_kernel(machine, kernel_start_addr, N=
-ULL);
-> +        kernel_entry =3D riscv_load_kernel(machine, &s->soc[0],
-> +                                         kernel_start_addr, NULL);
->
->          if (machine->initrd_filename) {
->              riscv_load_initrd(machine, kernel_entry);
-> diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-> index f94653a09b..105706bf25 100644
-> --- a/include/hw/riscv/boot.h
-> +++ b/include/hw/riscv/boot.h
-> @@ -44,6 +44,7 @@ target_ulong riscv_load_firmware(const char *firmware_f=
-ilename,
->                                   hwaddr firmware_load_addr,
->                                   symbol_fn_t sym_cb);
->  target_ulong riscv_load_kernel(MachineState *machine,
-> +                               RISCVHartArrayState *harts,
->                                 target_ulong firmware_end_addr,
->                                 symbol_fn_t sym_cb);
->  void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry);
-> --
-> 2.39.0
->
->
+[1] https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg03506.html
+
+Ilya Leoshkevich (4):
+  cpus: Make {start,end}_exclusive() recursive
+  linux-user/microblaze: Handle privileged exception
+  linux-user/sparc: Handle "ta 5"
+  tests/tcg/linux-test: Add linux-fork-trap test
+
+ cpus-common.c                               | 12 +++++-
+ include/hw/core/cpu.h                       |  4 +-
+ linux-user/microblaze/cpu_loop.c            | 10 ++++-
+ linux-user/sparc/cpu_loop.c                 |  3 ++
+ tests/tcg/multiarch/linux/linux-fork-trap.c | 48 +++++++++++++++++++++
+ 5 files changed, 71 insertions(+), 6 deletions(-)
+ create mode 100644 tests/tcg/multiarch/linux/linux-fork-trap.c
+
+-- 
+2.39.1
+
 
