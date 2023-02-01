@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9EEA686710
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 14:38:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49222686758
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 14:46:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNDII-0003KH-DL; Wed, 01 Feb 2023 08:36:58 -0500
+	id 1pNDPw-00085q-J3; Wed, 01 Feb 2023 08:44:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pNDIE-0003Ht-3k; Wed, 01 Feb 2023 08:36:56 -0500
-Received: from smtp-out2.suse.de ([195.135.220.29])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <farosas@suse.de>)
- id 1pNDIC-00079D-Ep; Wed, 01 Feb 2023 08:36:53 -0500
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
- (No client certificate requested)
- by smtp-out2.suse.de (Postfix) with ESMTPS id 2F08920E7D;
- Wed,  1 Feb 2023 13:36:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
- t=1675258609; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNDPt-00084Y-RB
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:44:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNDPq-00005w-8U
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:44:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675259081;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=XSO4Gv3ntmXhlFgssH7XKdcUtcdjqFvz0Y4JY+Eb8io=;
- b=gpFgJotY6wVJMPMULeUn5+UqhI4hesWaI+/+rPlHVKdpulZxoUT9A0dH1btORO45Ygjx/s
- K+mip4KPu2OLXYbPQnoosOfa0JTSnHOB4cUAvWFXDngtGvVqxx3gDnDLmDJfligkDioYmC
- wv6u/fScEn4pCLF3V+QQYiQKU4/+2Wg=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
- s=susede2_ed25519; t=1675258609;
- h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
- mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=XSO4Gv3ntmXhlFgssH7XKdcUtcdjqFvz0Y4JY+Eb8io=;
- b=DMQcF0TOvlpbSFi0UeMPCaE+0wajEQibfmPdp4zdus7NXmFSarWfKf0tzIPZL4viJPl8Vz
- kYpHrZ1YYc33X0CA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
- (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
- key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+ bh=ABvlaW6lln5EfQe9k5Yte/64Rpa+4X/dMQ8OHLReg3A=;
+ b=AIvs+CHgv+GmEzIpc67DlyMQLL8XzMKFbEZTDFN9BYBR96Odka26mYjoVz980SLge2IYpC
+ tE/R5qtarMG2dwNvqrKT9haPq9MVeGPH8XbVVJXQqFd1lDUI8xMSzZd3QNlw0hUgUNl5l2
+ Bhac3Z94yQdK8l5oMYmEqVSQTOoPCDU=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-583-tSKhyyHVNzWaWPFgxe36sA-1; Wed, 01 Feb 2023 08:44:36 -0500
+X-MC-Unique: tSKhyyHVNzWaWPFgxe36sA-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id A38FB13A10;
- Wed,  1 Feb 2023 13:36:48 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
- by imap2.suse-dmz.suse.de with ESMTPSA id hRZWGfBq2mMMXAAAMHmgww
- (envelope-from <farosas@suse.de>); Wed, 01 Feb 2023 13:36:48 +0000
-From: Fabiano Rosas <farosas@suse.de>
-To: qemu-devel@nongnu.org
-Cc: qemu-arm@nongnu.org, Peter Maydell <peter.maydell@linaro.org>, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Richard Henderson
- <richard.henderson@linaro.org>, Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>,
- Paolo Bonzini <pbonzini@redhat.com>, Claudio Fontana <cfontana@suse.de>,
- Eduardo Habkost <ehabkost@redhat.com>, Alexander Graf <agraf@csgraf.de>,
- Cornelia Huck <cohuck@redhat.com>
-Subject: Re: [RFC PATCH v5 0/9] target/arm: Allow CONFIG_TCG=n builds
-In-Reply-To: <20230120184825.31626-1-farosas@suse.de>
-References: <20230120184825.31626-1-farosas@suse.de>
-Date: Wed, 01 Feb 2023 10:36:45 -0300
-Message-ID: <87edr9y0b6.fsf@suse.de>
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75E6018E0923;
+ Wed,  1 Feb 2023 13:44:35 +0000 (UTC)
+Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D58B6422AE;
+ Wed,  1 Feb 2023 13:44:34 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+ id BFF2421E6A1F; Wed,  1 Feb 2023 14:44:33 +0100 (CET)
+From: Markus Armbruster <armbru@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: qemu-devel@nongnu.org,  richard.henderson@linaro.org,
+ pbonzini@redhat.com,  kwolf@redhat.com,  hreitz@redhat.com,
+ imp@bsdimp.com,  kevans@freebsd.org,  berrange@redhat.com,
+ groug@kaod.org,  qemu_oss@crudebyte.com,  mst@redhat.com,
+ philmd@linaro.org,  peter.maydell@linaro.org,  alistair@alistair23.me,
+ jasowang@redhat.com,  jonathan.cameron@huawei.com,
+ kbastian@mail.uni-paderborn.de,  dgilbert@redhat.com,
+ michael.roth@amd.com,  kkostiuk@redhat.com,  tsimpson@quicinc.com,
+ palmer@dabbelt.com,  bin.meng@windriver.com,  qemu-block@nongnu.org,
+ qemu-arm@nongnu.org,  qemu-riscv@nongnu.org
+Subject: Re: [PATCH v5 04/20] scripts/clean-includes: Improve --git commit
+ message
+References: <20230130132156.1868019-1-armbru@redhat.com>
+ <20230130132156.1868019-5-armbru@redhat.com>
+ <87sffsnmb2.fsf@secure.mitica> <875ycly2h5.fsf@pond.sub.org>
+ <87bkmdfrys.fsf@secure.mitica>
+Date: Wed, 01 Feb 2023 14:44:33 +0100
+In-Reply-To: <87bkmdfrys.fsf@secure.mitica> (Juan Quintela's message of "Wed, 
+ 01 Feb 2023 14:14:19 +0100")
+Message-ID: <87cz6twldq.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=195.135.220.29; envelope-from=farosas@suse.de;
- helo=smtp-out2.suse.de
-X-Spam_score_int: -43
-X-Spam_score: -4.4
-X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,86 +91,69 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Fabiano Rosas <farosas@suse.de> writes:
+Juan Quintela <quintela@redhat.com> writes:
 
-> This series makes the necessary changes to allow the use of
-> --disable-tcg for arm.
+> Markus Armbruster <armbru@redhat.com> wrote:
+>> Juan Quintela <quintela@redhat.com> writes:
+>>
+>>> Markus Armbruster <armbru@redhat.com> wrote:
+>>>> The script drops #include "qemu/osdep.h" from headers.  Mention it in
+>>>> the commit message it uses for --git.
+>>>>
+>>>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+>>>> ---
+>>>>  scripts/clean-includes | 4 ++--
+>>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>>
+>>>> diff --git a/scripts/clean-includes b/scripts/clean-includes
+>>>> index f0466a6262..f9722c3aec 100755
+>>>> --- a/scripts/clean-includes
+>>>> +++ b/scripts/clean-includes
+>>>> @@ -193,8 +193,8 @@ if [ "$GIT" = "yes" ]; then
+>>>>      git commit --signoff -F - <<EOF
+>>>>  $GITSUBJ: Clean up includes
+>>>>  
+>>>> -Clean up includes so that osdep.h is included first and headers
+>>>> -which it implies are not included manually.
+>>>> +Clean up includes so that qemu/osdep.h is included first in .c, and
+>>>> +not in .h, and headers which it implies are not included manually.
+>>>
+>>> I give a tree.
+>>>
+>>> Clean up includes so qemu/osdep.h is never used in .h files.  It makes
+>>> sure that qemu/osdep.h is only used in .c files.  Once there, it assures
+>>> that .h files already included in qemu/osdep.h are not included a second
+>>> time on the .c file.
+>>>
+>>> What do you think?
+>>
+>> Neglects to mention qemu/osdep.h goes first in .c.
 >
-> Based on "target/arm: CONFIG_TCG=n part 1":
-> https://lore.kernel.org/r/20230118193518.26433-1-farosas@suse.de
+> /me tries again
 >
-> Since v4:
+> What about:
 >
-> - Used "max" as the default CPU for KVM-only builds. This allows me to
->   drop all the clunky qtest changes and it keeps disabling TCG
->   separate from changing cpu defaults.
->
->   I'm neutral towards removing the defaults for arm. We can do that in a
->   separate series. It would be nice to make the TCG default equal to the
->   non-TCG one. Otherwise we're bound to get reports that "this command
->   line used to work" if users switch from: 'CONFIG_TCG=n -accel kvm' to
->   'CONFIG_TCG=y -accel kvm' (the latter would try to use the cortex-a15
->   as default).
->
-> - Move the ifdef around valid_cpus into the patches that move the
->   respective cpus. Patches 1 & 2.
->
-> v4:
-> https://lore.kernel.org/r/20230119135424.5417-1-farosas@suse.de
->
-> v3:
-> https://lore.kernel.org/r/20230113140419.4013-1-farosas@suse.de
->
-> v2:
-> https://lore.kernel.org/r/20230109224232.11661-1-farosas@suse.de
->
-> v1:
-> https://lore.kernel.org/r/20230104215835.24692-1-farosas@suse.de
->
-> Claudio Fontana (1):
->   target/arm: move cpu_tcg to tcg/cpu32.c
->
-> Fabiano Rosas (8):
->   target/arm: Move 64-bit TCG CPUs into tcg/
->   target/arm: Use "max" as default cpu for the virt machine with KVM
->   tests/qtest: arm-cpu-features: Match tests to required accelerators
->   tests/qtest: Restrict tpm-tis-devices-{swtpm}-test to CONFIG_TCG
->   tests/tcg: Do not build/run TCG tests if TCG is disabled
->   target/avocado: Pass parameters to migration test on aarch64
->   arm/Kconfig: Always select SEMIHOSTING when TCG is present
->   arm/Kconfig: Do not build TCG-only boards on a KVM-only build
->
->  configs/devices/aarch64-softmmu/default.mak |   4 -
->  configs/devices/arm-softmmu/default.mak     |  39 --
->  configure                                   |   6 +-
->  hw/arm/Kconfig                              |  43 +-
->  hw/arm/virt.c                               |  10 +-
->  target/arm/Kconfig                          |   7 +
->  target/arm/cpu64.c                          | 632 +------------------
->  target/arm/internals.h                      |   4 +
->  target/arm/meson.build                      |   1 -
->  target/arm/{cpu_tcg.c => tcg/cpu32.c}       |  13 +-
->  target/arm/tcg/cpu64.c                      | 654 ++++++++++++++++++++
->  target/arm/tcg/meson.build                  |   2 +
->  tests/avocado/migration.py                  |  10 +
->  tests/qtest/arm-cpu-features.c              |  34 +-
->  tests/qtest/meson.build                     |   4 +-
->  15 files changed, 772 insertions(+), 691 deletions(-)
->  rename target/arm/{cpu_tcg.c => tcg/cpu32.c} (99%)
->  create mode 100644 target/arm/tcg/cpu64.c
+> The file qemu/osdep.h should only be included in .c files.  And it has
+> to be the first included file.
 
-Hi,
+Suggest "has to be included first."
 
-Peter, Richard,
+> This script does several things:
+> - Remove qemu/osdep.h from .h files.
 
-I assume this series is good to go for the time being?
+Correct.  Could say "inclusion of qemu/osdep.h"
 
-I have rebased the first part of the patches + this series + Philippe's
-CI patch, all available here:
+> - If qemu/osdep.h is included in a .c file it is moved to the first
+>   included position if it is anywhere else.
 
-https://github.com/farosas/qemu/commits/arm-disable-tcg-max
+Not quite.  The script ensures all the .c include it, and include it
+first.
 
-Let me know if it would help to resend it all as one piece.
+> - Remove from .c files all include files that are already present in
+>   qemu/osdep.h.
 
-Thanks
+They're removed from .h, too.
+
+Sure you want to continue wordsmithing?  ;)
+
 
