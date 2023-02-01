@@ -2,73 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A986868F4
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:53:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE0DA6868DB
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:50:13 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNENX-0003Pc-Bp; Wed, 01 Feb 2023 09:46:27 -0500
+	id 1pNEO8-0004bf-LI; Wed, 01 Feb 2023 09:47:05 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+c61c7683afee22e62f8e+7101+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pNELN-0001X3-Qx
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:44:19 -0500
-Received: from desiato.infradead.org ([2001:8b0:10b:1:d65d:64ff:fe57:4e05])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pNEMg-0002VE-Eo
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:45:35 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from
- <BATV+c61c7683afee22e62f8e+7101+infradead.org+dwmw2@desiato.srs.infradead.org>)
- id 1pNELK-0005aK-Pu
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:44:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
- d=infradead.org; s=desiato.20200630; h=Sender:Content-Transfer-Encoding:
- MIME-Version:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:
- Reply-To:Content-Type:Content-ID:Content-Description;
- bh=RDWZnTq72/w1Wip/tzQYGtWJLAbQAkFJqMIsupCr4tA=; b=HNp9nNrE21Ty5kJlUSf/Kh8wqH
- HqUYDuYh4XpyBhPSQb1IOzaexNhQ7urlSKutrT279VoxZWMiHJOmnOAoCFrfCWfzUikjcQbI3/Oly
- UMh+2V2IXtV0znUA5cBebFDdEyTMiE3XqFLTBkFOgZa1kK6MaJc9RQ+zvUuBI/BclPazQIHZStojI
- Ap3CPt+xIo2bBZU1ktw1zJhGqj9aQ8Ts8FjbS5lb+TGlXUDi3+i4GpdZNObvdjfLAiwCwV8JqZp9t
- pIb3dVe1CQJBn78Iz7MCmL3SjohBt3ctwia74aYUGTJ+g6IT1HqwruOW9fJq2nO1sCld7stLaKBo8
- Nuh8kvDQ==;
-Received: from i7.infradead.org ([2001:8b0:10b:1:21e:67ff:fecb:7a92])
- by desiato.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
- id 1pNEKc-004oCo-0O; Wed, 01 Feb 2023 14:43:26 +0000
-Received: from dwoodhou by i7.infradead.org with local (Exim 4.96 #2 (Red Hat
- Linux)) id 1pNELA-007JwZ-2I; Wed, 01 Feb 2023 14:44:00 +0000
-From: David Woodhouse <dwmw2@infradead.org>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Paul Durrant <paul@xen.org>,
- Joao Martins <joao.m.martins@oracle.com>,
- Ankur Arora <ankur.a.arora@oracle.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Juan Quintela <quintela@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Claudio Fontana <cfontana@suse.de>, Julien Grall <julien@xen.org>,
- "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>, armbru@redhat.com
-Subject: [RFC PATCH v1 8/8] hw/xen: Create initial XenStore nodes
-Date: Wed,  1 Feb 2023 14:43:58 +0000
-Message-Id: <20230201144358.1744876-9-dwmw2@infradead.org>
-X-Mailer: git-send-email 2.39.0
-In-Reply-To: <20230201144358.1744876-1-dwmw2@infradead.org>
-References: <20230201144358.1744876-1-dwmw2@infradead.org>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pNEMQ-0005ry-Et
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 09:45:21 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.207])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P6PnQ38BMz6J9NZ;
+ Wed,  1 Feb 2023 22:44:10 +0800 (CST)
+Received: from localhost (10.45.150.75) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Wed, 1 Feb
+ 2023 14:45:13 +0000
+Date: Wed, 1 Feb 2023 14:45:12 +0000
+To: Markus Armbruster <armbru@redhat.com>
+CC: Jonathan Cameron via <qemu-devel@nongnu.org>, Michael Tsirkin
+ <mst@redhat.com>, Ben Widawsky <bwidawsk@kernel.org>,
+ <linux-cxl@vger.kernel.org>, <linuxarm@huawei.com>, Ira Weiny
+ <ira.weiny@intel.com>, Alison Schofield <alison.schofield@intel.com>
+Subject: Re: [RFC PATCH v2 1/3] hw/cxl: QMP based poison injection support
+Message-ID: <20230201144512.00007b64@Huawei.com>
+In-Reply-To: <87k011y44x.fsf@pond.sub.org>
+References: <20230201100350.23263-1-Jonathan.Cameron@huawei.com>
+ <20230201100350.23263-2-Jonathan.Cameron@huawei.com>
+ <87k011y44x.fsf@pond.sub.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
- desiato.infradead.org. See http://www.infradead.org/rpr.html
-Received-SPF: none client-ip=2001:8b0:10b:1:d65d:64ff:fe57:4e05;
- envelope-from=BATV+c61c7683afee22e62f8e+7101+infradead.org+dwmw2@desiato.srs.infradead.org;
- helo=desiato.infradead.org
-X-Spam_score_int: -43
-X-Spam_score: -4.4
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.45.150.75]
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
 X-Spam_bar: ----
-X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
- SPF_NONE=0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -81,109 +66,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Paul Durrant <pdurrant@amazon.com>
+On Wed, 01 Feb 2023 13:14:06 +0100
+Markus Armbruster <armbru@redhat.com> wrote:
 
-Signed-off-by: Paul Durrant <pdurrant@amazon.com>
-Signed-off-by: David Woodhouse <dwmw@amazon.co.uk>
----
- hw/i386/kvm/xen_xenstore.c | 70 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 70 insertions(+)
+> Jonathan Cameron via <qemu-devel@nongnu.org> writes:
+> 
+> > Inject poison using qmp command cxl-inject-poison to add an entry to the
+> > poison list.
+> >
+> > For now, the poison is not returned CXL.mem reads, but only via the
+> > mailbox command Get Poison List.
+> >
+> > See CXL rev 3.0, sec 8.2.9.8.4.1 Get Poison list (Opcode 4300h)
+> >
+> > Kernel patches to use this interface here:
+> > https://lore.kernel.org/linux-cxl/cover.1665606782.git.alison.schofield@intel.com/
+> >
+> > To inject poison using qmp (telnet to the qmp port)
+> > { "execute": "qmp_capabilities" }
+> >
+> > { "execute": "cxl-inject-poison",
+> >     "arguments": {
+> >          "path": "/machine/peripheral/cxl-pmem0",
+> >          "start": 2048,
+> >          "length": 256
+> >     }
+> > }
+> >
+> > Adjusted to select a device on your machine.
+> >
+> > Note that the poison list supported is kept short enough to avoid the
+> > complexity of state machine that is needed to handle the MORE flag.
+> >
+> > Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>  
+> 
+> [...]
+> 
+> > diff --git a/qapi/cxl.json b/qapi/cxl.json
+> > index 3c18556ee8..5b995db255 100644
+> > --- a/qapi/cxl.json
+> > +++ b/qapi/cxl.json  
+> 
+> There is no qapi/cxl.json in current master.  So this must be based on
+> some other patch(es).  Please point to it in the cover letter.  I like
+> to point both in human-readable and machine-readable form, e.g. like
+> this:
+> 
+>     Based on my "[PATCH 00/22] qapi: Remove simple unions from the schema
+>     language".
+> 
+>     Based-on: Message-Id: <20210913123932.3306639-1-armbru@redhat.com>
 
-diff --git a/hw/i386/kvm/xen_xenstore.c b/hw/i386/kvm/xen_xenstore.c
-index 23d6d9b5a8..d72ac7093f 100644
---- a/hw/i386/kvm/xen_xenstore.c
-+++ b/hw/i386/kvm/xen_xenstore.c
-@@ -76,9 +76,39 @@ struct XenXenstoreState *xen_xenstore_singleton;
- static void xen_xenstore_event(void *opaque);
- static void fire_watch_cb(void *opaque, const char *path, const char *token);
- 
-+static void G_GNUC_PRINTF (4, 5) relpath_printf(XenXenstoreState *s,
-+                                                GList *perms,
-+                                                const char *relpath,
-+                                                const char *fmt, ...)
-+{
-+    gchar *abspath;
-+    gchar *value;
-+    va_list args;
-+    GByteArray *data;
-+    int err;
-+
-+    abspath = g_strdup_printf("/local/domain/%u/%s", xen_domid, relpath);
-+    va_start(args, fmt);
-+    value = g_strdup_vprintf(fmt, args);
-+    va_end(args);
-+
-+    data = g_byte_array_new_take((void *)value, strlen(value));
-+
-+    err = xs_impl_write(s->impl, DOMID_QEMU, XBT_NULL, abspath, data);
-+    assert(!err);
-+
-+    g_byte_array_unref(data);
-+
-+    err = xs_impl_set_perms(s->impl, DOMID_QEMU, XBT_NULL, abspath, perms);
-+    assert(!err);
-+
-+    g_free(abspath);
-+}
-+
- static void xen_xenstore_realize(DeviceState *dev, Error **errp)
- {
-     XenXenstoreState *s = XEN_XENSTORE(dev);
-+    GList *perms;
- 
-     if (xen_mode != XEN_EMULATE) {
-         error_setg(errp, "Xen xenstore support is for Xen emulation");
-@@ -102,6 +132,46 @@ static void xen_xenstore_realize(DeviceState *dev, Error **errp)
-                        xen_xenstore_event, NULL, NULL, NULL, s);
- 
-     s->impl = xs_impl_create(xen_domid);
-+
-+    /* Populate the default nodes */
-+
-+    /* Nodes owned by 'dom0' but readable by the guest */
-+    perms = g_list_append(NULL, xs_perm_as_string(XS_PERM_NONE, DOMID_QEMU));
-+    perms = g_list_append(perms, xs_perm_as_string(XS_PERM_READ, xen_domid));
-+
-+    relpath_printf(s, perms, "", "%s", "");
-+
-+    relpath_printf(s, perms, "domid", "%u", xen_domid);
-+
-+    relpath_printf(s, perms, "control/platform-feature-xs_reset_watches", "%u", 1);
-+    relpath_printf(s, perms, "control/platform-feature-multiprocessor-suspend", "%u", 1);
-+
-+    relpath_printf(s, perms, "platform/acpi", "%u", 1);
-+    relpath_printf(s, perms, "platform/acpi_s3", "%u", 1);
-+    relpath_printf(s, perms, "platform/acpi_s4", "%u", 1);
-+    relpath_printf(s, perms, "platform/acpi_laptop_slate", "%u", 0);
-+
-+    g_list_free_full(perms, g_free);
-+
-+    /* Nodes owned by the guest */
-+    perms = g_list_append(NULL, xs_perm_as_string(XS_PERM_NONE, xen_domid));
-+
-+    relpath_printf(s, perms, "attr", "%s", "");
-+
-+    relpath_printf(s, perms, "control/shutdown", "%s", "");
-+    relpath_printf(s, perms, "control/feature-poweroff", "%u", 1);
-+    relpath_printf(s, perms, "control/feature-reboot", "%u", 1);
-+    relpath_printf(s, perms, "control/feature-suspend", "%u", 1);
-+    relpath_printf(s, perms, "control/feature-s3", "%u", 1);
-+    relpath_printf(s, perms, "control/feature-s4", "%u", 1);
-+
-+    relpath_printf(s, perms, "data", "%s", "");
-+    relpath_printf(s, perms, "device", "%s", "");
-+    relpath_printf(s, perms, "drivers", "%s", "");
-+    relpath_printf(s, perms, "error", "%s", "");
-+    relpath_printf(s, perms, "feature", "%s", "");
-+
-+    g_list_free_full(perms, g_free);
- }
- 
- static bool xen_xenstore_is_needed(void *opaque)
--- 
-2.39.0
+Good point. I missed it in this series beyond a general reference to 'lots'.
+Based on "[PATCH 0/2] hw/mem: CXL Type-3 Volatile Memory Support"
+(which isn't mine)
+Based-on: Message-ID: <20230131163847.23025-1-Jonathan.Cameron@huawei.com>
+
+(and all the things that series does say it's based on)
+What matters here is mostly in final patch of.
+b) https://lore.kernel.org/linux-cxl/20230130155251.3430-1-Jonathan.Cameron@huawei.com/
+   [PATCH v3 0/8] hw/cxl: RAS error emulation and injection
+If you have time to look at that it would be appreciated as it's more
+complex QMP usage than in here.
+
+Sorry about that - I'll also start using your suggested format.
+
+> 
+> > @@ -5,6 +5,17 @@
+> >  # = CXL devices
+> >  ##
+> >  
+> > +##
+> > +# @cxl-inject-poison:
+> > +#
+> > +# @path: CXL type 3 device canonical QOM path
+> > +#
+> > +# @start: Start address
+> > +# @length: Length of poison to inject  
+> 
+> Either separate all the arguments with blank lines, or none.
+> 
+> > +##
+> > +{ 'command': 'cxl-inject-poison',
+> > +  'data': { 'path': 'str', 'start': 'uint64', 'length': 'uint64' }}
+> > +
+> >  ##
+> >  # @CxlUncorErrorType:
+> >  #  
+> 
+> Both commit message and doc comment are rather terse.
+> 
+> The commit message should make the case for the feature: why do we want
+> it?  This typically involves explaining the problem(s) it solves.
+> 
+> The doc comment ideally explains intended use.
+
+OK. I'll expand on this. It'll be a bit of fuzzy text that
+boils down to we emulate so we can test the OS does the right thing
+when it gets poison related events. I can add some generic fluff on
+why a real device might implement this in the first place though
+I'm not sure that will even matter to anyone reading these docs.
+
+> 
+> 
 
 
