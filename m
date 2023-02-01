@@ -2,73 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D8D16867E2
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 15:03:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B3FB686659
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 14:04:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNDgc-0002mG-Ri; Wed, 01 Feb 2023 09:02:06 -0500
+	id 1pNCm3-00053p-5M; Wed, 01 Feb 2023 08:03:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kkamran.bese16seecs@seecs.edu.pk>)
- id 1pNAQU-0001Nn-N0
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 05:33:15 -0500
-Received: from mail-ej1-x635.google.com ([2a00:1450:4864:20::635])
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pNClx-00053U-S8
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:03:33 -0500
+Received: from mail-pj1-x1031.google.com ([2607:f8b0:4864:20::1031])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <kkamran.bese16seecs@seecs.edu.pk>)
- id 1pNAQO-0003QQ-Sl
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 05:33:14 -0500
-Received: by mail-ej1-x635.google.com with SMTP id qw12so34105074ejc.2
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 02:33:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seecs.edu.pk; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=CQXdZcIJOyhdfKhmnAt46HBybn9Du9OvhbnHstPO2KA=;
- b=HVRkf7Q3BPLDxsj9vhacCUp1uv2Ae4t7whjW8WjHTHQq4j46rvUIzIBX18r/jFZwpk
- uKqJP3AR8BYFP6aNbN4vsx5TNqLJNkXW4jllJjMwBFk0J7ddbwuFLLzbRquAJK8f89fz
- CYMZILIcH9iG7b26//XpD/223dt2yAwBaSgx0=
+ (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
+ id 1pNClu-0007rU-22
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 08:03:33 -0500
+Received: by mail-pj1-x1031.google.com with SMTP id o13so17258126pjg.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 05:03:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=daynix-com.20210112.gappssmtp.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=AhDNkVZ/cnO8v7ZnzX0yH6O3gm/y3d4Eaym2ZVED9ro=;
+ b=2GNk26ojIDr0xjcJAkpAHc2cs+WOEl+TrF2Fmzz583rBu7+dJhwGSII6KYsqTzkJ/z
+ WpFKGlq6K6w82y49GktJ6JcWommepJMX6a3onArB9u9K9IdeRxhqZCdHG1YuOnmnhW3z
+ vSI8LxQoGXihztgYB5/y/dFMY57gg3FBK0EzbVRIM1Ia3KD+wXTY7C7pcCTw9bjcvX6f
+ rfT0JhF7lCT4Rw7+xPoUPcV/oYuDopmIffub2d6An3G07CyyJzR+dtY71o2WXj8fOzwj
+ axRQOBohbCrXeP7W0FNqAECXkptPBQaOwh/ZQOsusDzUYBT8qetWly6JjfzDBdD+9pNZ
+ cfzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=CQXdZcIJOyhdfKhmnAt46HBybn9Du9OvhbnHstPO2KA=;
- b=b88paRvIyo4i6P35ryWEJ+JT+coCk1tk2sCiGb6i50rN65p2PEd7RYsvCsUv6HOvuq
- myf5pVo/8/x2i8xGoTCUo8XKWmWlu77wGZvUZJGZUSIhOEpCfsYkiSLwaKEoLrlNLrrH
- Xy3OwvzAqjxQOwZFILJ2LyqKYoR6QVXLXJcF5094waB2sa7h/5V7iiW6e1Od/VyhNV45
- IrGA95np0pZFNmJrItiD0k4bcUtuOWqKFfICCdd3fbktRWRw3RI318JvVD+7LDLXNjW3
- QlvdNV68JW65xx8PzMtGc3JgwdvLRV40bGjzViEsJt1VInm4ZLE2MPBXsfBiahFW3am6
- ihYQ==
-X-Gm-Message-State: AO0yUKVxizXBK0TCq1H+qQY0+RIpwSZdHHG8NtM+650I4ZYQnKERB15y
- BLqHoHJjWc2KlgCQf8UG7oabT00jvPyeReOZdjO6Dg==
-X-Google-Smtp-Source: AK7set9qD92IWOkMYIe8F4WRmQCTM+OmW04VjGbYv8Bz5+1JzMYQITXhGrwnXvl80BLGkkF4KCFXN9QKk5+iTkvYzwM=
-X-Received: by 2002:a17:906:3954:b0:878:5360:4087 with SMTP id
- g20-20020a170906395400b0087853604087mr488260eje.34.1675247582993; Wed, 01 Feb
- 2023 02:33:02 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=AhDNkVZ/cnO8v7ZnzX0yH6O3gm/y3d4Eaym2ZVED9ro=;
+ b=wnzkJ4P9oz6dzOg8QnUnOvhP3jwLnSqb6TaqGRC/imP90ldVUIIkGI2jG/SFRImO1r
+ yhtRJus7uaqjBmWRVEQRAxt1fdmZvKltKyQDRlujQ3qYK6qxY0bbGiQid8YyNhpI7kZw
+ ExIb0MxYl7JqD5tlrfMZ2WANPifms+ZqIq1JMPtNvcGPNFXGtCvDHncuKUBW8SMkGdZ6
+ Cm4sZH9ioXyBacY0wM4s8VA/FEFcagDRRHzHUwpJYDnNT73IpavhfGoRbG4+lOT8z/JA
+ IW8OpSqAQKccyLlLhz1+/ttHVUJKwYXczlhQFnE29SomiutGK2tUW1c2KzMxLqiwQzE9
+ /cIg==
+X-Gm-Message-State: AO0yUKW0cL4RPhHaY2WtCdLojWmIcpzkWoJRWHX3QysKoJpyXs0jtbRW
+ VIpAwn1Z+BavYfJFOeXCNzB7zg==
+X-Google-Smtp-Source: AK7set/F5q1zDg6qrcasZFZ+zNpQnnk/FHuL6bmJEtF7hpa6B02geOrSONrwpRd+qp3ttmlAd6x8iA==
+X-Received: by 2002:a17:90b:d8b:b0:226:cdcf:da83 with SMTP id
+ bg11-20020a17090b0d8b00b00226cdcfda83mr2033408pjb.46.1675256608132; 
+ Wed, 01 Feb 2023 05:03:28 -0800 (PST)
+Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
+ ([2400:4050:a840:1e00:4457:c267:5e09:481b])
+ by smtp.gmail.com with ESMTPSA id
+ f15-20020a17090a664f00b00230397c3c43sm1036530pjm.38.2023.02.01.05.03.25
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Wed, 01 Feb 2023 05:03:27 -0800 (PST)
+Message-ID: <4fb5d35f-e859-3887-d075-1c843007beac@daynix.com>
+Date: Wed, 1 Feb 2023 22:03:24 +0900
 MIME-Version: 1.0
-References: <bd7883e4dbedd5119c52a37f00a23a5dcef52610.1675234580.git.kkamran.bese16seecs@seecs.edu.pk>
- <87mt5xsmyj.fsf@linaro.org>
-In-Reply-To: <87mt5xsmyj.fsf@linaro.org>
-From: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
-Date: Wed, 1 Feb 2023 15:32:50 +0500
-Message-ID: <CAMcjF3CcTkNrprhs7dswPF2OEG7x8PEfhjuM5zNznymX3J4qqQ@mail.gmail.com>
-Subject: Re: [PATCH 1/9] Updated the FSF address in file hw/sh4/sh7750_regs.h
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Cc: qemu-devel@nongnu.org, ysato@users.sourceforge.jp, pbonzini@redhat.com, 
- fam@euphon.net, peter.maydell@linaro.org, philmd@linaro.org, kwolf@redhat.com, 
- hreitz@redhat.com
-Content-Type: multipart/alternative; boundary="00000000000018729a05f3a0f989"
-Received-SPF: pass client-ip=2a00:1450:4864:20::635;
- envelope-from=kkamran.bese16seecs@seecs.edu.pk; helo=mail-ej1-x635.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
+ Thunderbird/102.7.0
+Subject: Re: [PATCH v3 8/9] igb: respect VT_CTL ignore MAC field
+To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Jason Wang <jasowang@redhat.com>, Dmitry Fleytman
+ <dmitry.fleytman@gmail.com>, "Michael S . Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+References: <20230131094232.28863-1-sriram.yagnaraman@est.tech>
+ <20230131094232.28863-9-sriram.yagnaraman@est.tech>
+ <6ee9c527-2993-83b4-02c2-6e604d0c3679@daynix.com>
+ <DBBP189MB14332AC6E6880C0A15E0CB9795D19@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
+Content-Language: en-US
+From: Akihiko Odaki <akihiko.odaki@daynix.com>
+In-Reply-To: <DBBP189MB14332AC6E6880C0A15E0CB9795D19@DBBP189MB1433.EURP189.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: none client-ip=2607:f8b0:4864:20::1031;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1031.google.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, HTML_MESSAGE=0.001,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001,
+ SPF_HELO_NONE=0.001, SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
-X-Mailman-Approved-At: Wed, 01 Feb 2023 09:02:00 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -83,130 +99,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
---00000000000018729a05f3a0f989
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On 2023/02/01 19:29, Sriram Yagnaraman wrote:
+> 
+> 
+>> -----Original Message-----
+>> From: Akihiko Odaki <akihiko.odaki@daynix.com>
+>> Sent: Wednesday, 1 February 2023 05:58
+>> To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+>> Cc: qemu-devel@nongnu.org; Jason Wang <jasowang@redhat.com>; Dmitry
+>> Fleytman <dmitry.fleytman@gmail.com>; Michael S . Tsirkin
+>> <mst@redhat.com>; Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+>> Subject: Re: [PATCH v3 8/9] igb: respect VT_CTL ignore MAC field
+>>
+>> On 2023/01/31 18:42, Sriram Yagnaraman wrote:
+>>> Also trace out a warning if replication mode is disabled, since we
+>>> only support replication mode enabled.
+>>>
+>>> Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
+>>> ---
+>>>    hw/net/igb_core.c   | 9 +++++++++
+>>>    hw/net/trace-events | 2 ++
+>>>    2 files changed, 11 insertions(+)
+>>>
+>>> diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c index
+>>> c5f9c14f47..8115be2d76 100644
+>>> --- a/hw/net/igb_core.c
+>>> +++ b/hw/net/igb_core.c
+>>> @@ -964,6 +964,10 @@ static uint16_t igb_receive_assign(IGBCore *core,
+>> const struct eth_header *ehdr,
+>>>        }
+>>>
+>>>        if (core->mac[MRQC] & 1) {
+>>> +        if (!(core->mac[VT_CTL] & E1000_VT_CTL_VM_REPL_EN)) {
+>>> +            trace_igb_rx_vmdq_replication_mode_disabled();
+>>> +        }
+>>> +
+>>>            if (is_broadcast_ether_addr(ehdr->h_dest)) {
+>>>                for (i = 0; i < IGB_NUM_VM_POOLS; i++) {
+>>>                    if (core->mac[VMOLR0 + i] & E1000_VMOLR_BAM) { @@
+>>> -1010,6 +1014,11 @@ static uint16_t igb_receive_assign(IGBCore *core,
+>> const struct eth_header *ehdr,
+>>>                }
+>>>            }
+>>>
+>>> +        /* assume a full pool list if IGMAC is set */
+>>> +        if (core->mac[VT_CTL] & E1000_VT_CTL_IGNORE_MAC) {
+>>> +            queues = BIT(IGB_MAX_VF_FUNCTIONS) - 1;
+>>> +        }
+>>> +
+>>
+>> This overwrites "queues", but "external_tx" is not overwritten.
+> 
+> Description in section 7.10.3.6 is a bit confusing, I interpreted that packet is not sent to network if it matches an exact filter regardless of VT_CTL.IGMAC setting.
+> I think that VT_CTL.IGMAC setting is only for MAC filtering and pool selection, and not to determine if a packet must go to external LAN or not.
 
-Thank you for the feedback. I will keep the points in mind next time.
+It says nothing about VT_CTL.IGMAC so we need to make the best guess.
 
-On Wed, 1 Feb 2023, 3:24 pm Alex Benn=C3=A9e, <alex.bennee@linaro.org> wrot=
-e:
+The rule saying "a unicast packet that matches an exact filter is not 
+sent to the LAN" aligns with the common expectation of driver authors 
+that a packet directed to a VF won't be sent to someone else.
 
->
-> Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk> writes:
->
-> > Signed-off-by: Khadija Kamran <kkamran.bese16seecs@seecs.edu.pk>
-> > ---
-> > The Free Software Foundation moved to a new address and this file
-> referred to their old location.
-> > The address should be updated and replaced to a pointer to <
-> https://www.gnu.org/licenses/>
-> > This will resolve the issue #379 in the QEMU source repository
->
-> For next time I would put this comment in the cover letter. You can also
-> add:
->
-> Resolves: https://gitlab.com/qemu-project/qemu/-/issues/379
->
-> to the commit message to auto close the bug once this is merged.
->
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> >
-> >  hw/sh4/sh7750_regs.h | 3 +--
-> >  1 file changed, 1 insertion(+), 2 deletions(-)
-> >
-> > diff --git a/hw/sh4/sh7750_regs.h b/hw/sh4/sh7750_regs.h
-> > index beb571d5e9..94043431e6 100644
-> > --- a/hw/sh4/sh7750_regs.h
-> > +++ b/hw/sh4/sh7750_regs.h
-> > @@ -22,8 +22,7 @@
-> >   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-> >   * General Public License for more details. You should have received
-> >   * a copy of the GNU General Public License along with RTEMS; see
-> > - * file COPYING. If not, write to the Free Software Foundation, 675
-> > - * Mass Ave, Cambridge, MA 02139, USA.
-> > + * file COPYING. If not, see <https://www.gnu.org/licenses/>.
-> >   *
-> >   * As a special exception, including RTEMS header files in a file,
-> >   * instantiating RTEMS generics or templates, or linking other files
->
->
-> --
-> Alex Benn=C3=A9e
-> Virtualisation Tech Lead @ Linaro
->
+However, when VT_CTL.IGMAC is set, the exact filter does not tell if the 
+destination of the packet is a VF. In such a case, that rule does not do 
+anything good, but can do some harm; if you have used igb for normal MAC 
+routing and later switched to VLAN routing with VT_CTL.IGMAC, the exact 
+filter may be left as is, the exact filter can prevent irrelevant 
+packets from being routed to the external LAN.
 
---00000000000018729a05f3a0f989
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Thank you for the feedback. I will keep the points in min=
-d next time.=C2=A0</div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cla=
-ss=3D"gmail_attr">On Wed, 1 Feb 2023, 3:24 pm Alex Benn=C3=A9e, &lt;<a href=
-=3D"mailto:alex.bennee@linaro.org">alex.bennee@linaro.org</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-=
-left:1px #ccc solid;padding-left:1ex"><br>
-Khadija Kamran &lt;<a href=3D"mailto:kkamran.bese16seecs@seecs.edu.pk" targ=
-et=3D"_blank" rel=3D"noreferrer">kkamran.bese16seecs@seecs.edu.pk</a>&gt; w=
-rites:<br>
-<br>
-&gt; Signed-off-by: Khadija Kamran &lt;<a href=3D"mailto:kkamran.bese16seec=
-s@seecs.edu.pk" target=3D"_blank" rel=3D"noreferrer">kkamran.bese16seecs@se=
-ecs.edu.pk</a>&gt;<br>
-&gt; ---<br>
-&gt; The Free Software Foundation moved to a new address and this file refe=
-rred to their old location.<br>
-&gt; The address should be updated and replaced to a pointer to &lt;<a href=
-=3D"https://www.gnu.org/licenses/" rel=3D"noreferrer noreferrer" target=3D"=
-_blank">https://www.gnu.org/licenses/</a>&gt;<br>
-&gt; This will resolve the issue #379 in the QEMU source repository<br>
-<br>
-For next time I would put this comment in the cover letter. You can also<br=
->
-add:<br>
-<br>
-Resolves: <a href=3D"https://gitlab.com/qemu-project/qemu/-/issues/379" rel=
-=3D"noreferrer noreferrer" target=3D"_blank">https://gitlab.com/qemu-projec=
-t/qemu/-/issues/379</a><br>
-<br>
-to the commit message to auto close the bug once this is merged.<br>
-<br>
-Reviewed-by: Alex Benn=C3=A9e &lt;<a href=3D"mailto:alex.bennee@linaro.org"=
- target=3D"_blank" rel=3D"noreferrer">alex.bennee@linaro.org</a>&gt;<br>
-<br>
-&gt;<br>
-&gt;=C2=A0 hw/sh4/sh7750_regs.h | 3 +--<br>
-&gt;=C2=A0 1 file changed, 1 insertion(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/hw/sh4/sh7750_regs.h b/hw/sh4/sh7750_regs.h<br>
-&gt; index beb571d5e9..94043431e6 100644<br>
-&gt; --- a/hw/sh4/sh7750_regs.h<br>
-&gt; +++ b/hw/sh4/sh7750_regs.h<br>
-&gt; @@ -22,8 +22,7 @@<br>
-&gt;=C2=A0 =C2=A0* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See=
- the GNU<br>
-&gt;=C2=A0 =C2=A0* General Public License for more details. You should have=
- received<br>
-&gt;=C2=A0 =C2=A0* a copy of the GNU General Public License along with RTEM=
-S; see<br>
-&gt; - * file COPYING. If not, write to the Free Software Foundation, 675<b=
-r>
-&gt; - * Mass Ave, Cambridge, MA 02139, USA.<br>
-&gt; + * file COPYING. If not, see &lt;<a href=3D"https://www.gnu.org/licen=
-ses/" rel=3D"noreferrer noreferrer" target=3D"_blank">https://www.gnu.org/l=
-icenses/</a>&gt;.<br>
-&gt;=C2=A0 =C2=A0*<br>
-&gt;=C2=A0 =C2=A0* As a special exception, including RTEMS header files in =
-a file,<br>
-&gt;=C2=A0 =C2=A0* instantiating RTEMS generics or templates, or linking ot=
-her files<br>
-<br>
-<br>
--- <br>
-Alex Benn=C3=A9e<br>
-Virtualisation Tech Lead @ Linaro<br>
-</blockquote></div>
-
---00000000000018729a05f3a0f989--
+> 
+>>
+>>>            if (e1000x_vlan_rx_filter_enabled(core->mac)) {
+>>>                uint16_t mask = 0;
+>>>
+>>> diff --git a/hw/net/trace-events b/hw/net/trace-events index
+>>> e94172e748..9bc7658692 100644
+>>> --- a/hw/net/trace-events
+>>> +++ b/hw/net/trace-events
+>>> @@ -288,6 +288,8 @@ igb_rx_desc_buff_write(uint64_t addr, uint16_t
+>>> offset, const void* source, uint3
+>>>
+>>>    igb_rx_metadata_rss(uint32_t rss) "RSS data: 0x%X"
+>>>
+>>> +igb_rx_vmdq_replication_mode_disabled(void) "WARN: Only replication
+>> mode enabled is supported"
+>>> +
+>>>    igb_irq_icr_clear_gpie_nsicr(void) "Clearing ICR on read due to GPIE.NSICR
+>> enabled"
+>>>    igb_irq_icr_write(uint32_t bits, uint32_t old_icr, uint32_t new_icr)
+>> "Clearing ICR bits 0x%x: 0x%x --> 0x%x"
+>>>    igb_irq_set_iam(uint32_t icr) "Update IAM: 0x%x"
 
