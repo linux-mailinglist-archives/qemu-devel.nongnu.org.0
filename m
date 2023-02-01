@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA757685E88
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 05:36:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E1E685E97
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 05:40:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN4qc-0004GA-U4; Tue, 31 Jan 2023 23:35:52 -0500
+	id 1pN4uO-0005i7-Jk; Tue, 31 Jan 2023 23:39:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pN4qU-0004Fr-Gr
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 23:35:43 -0500
-Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636])
+ id 1pN4uM-0005gu-LJ
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 23:39:42 -0500
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pN4qR-0004ta-W7
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 23:35:42 -0500
-Received: by mail-pl1-x636.google.com with SMTP id e6so9049281plg.12
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 20:35:39 -0800 (PST)
+ id 1pN4uK-0005Rd-Uc
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 23:39:42 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id w20so2812585pfn.4
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 20:39:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=1mUGeqpJm5BwwltqSG/IYGs/sIHP4S5A7cpT57m/0CA=;
- b=f8I4C9JX1O401OXX8jpJbRj+l6rIkBNfRiqCC5fzrJLAWlEx4Bm9MyntIODqKvsk9J
- p7dGJmmgr2KHDnwEhiC/IgFMb/b5OMD776lpC8gfOstgJmrR6gmaRdb2ZqF4gaKrpYuX
- tKBMZIe3vH7hgW7BOfCBfN2hhYnC69/g8sojHnVwMhrZcHs/li3pq6ciNTdY+8IhPZQE
- JjAvV30QGU5JiXpAu5xiBkOUn0ZsQRNC5ycVBfiAgKzaumUnDB504pbsCX5mGhaQEhNT
- k7v7QzFKdGM3LgOFPSillMOoqyKvGpXnrsAKoJGjxF2qhDqqWhHEWVs1f3mN1Dhx40LB
- LC6w==
+ bh=4CJwgYOL5W+0D1YbwQR0vvBdaTquarR6BcOTJzj5Xbs=;
+ b=5dw+Nx+mtzYHn7RMKxSLvxiK6YZ6GMYQpxDseISdNeXh+WEn84kHmSVXgU/PMmjb+H
+ s/higaUELlcVk8INhHQX2FGJABQCjL1lRWWkRVRu7Ky72tjEd5F32lm/nIiYZoHNlH6c
+ 8SAwQiB0WV0Gd81ArUFo7FfjWxckXL4Y+efAiEdqJ/wcvwkuhnN3tuHq1dKs17eQKdIY
+ XleSq0bsoAXxE2YC0hvaiCHRTIhjvn47Hw5cR3pIXfKvTd7TqMOGkgdHCBAFz5zsxsTX
+ CH2fhAOxzw98FYG0Pgf33HgFunOfENgLGsjGHiYOZ3aHaN3WG4Y90H+gMIaxHR+6gkgw
+ 12Wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=1mUGeqpJm5BwwltqSG/IYGs/sIHP4S5A7cpT57m/0CA=;
- b=OHFw1PASmUSKVosPBSd6GUOehGZPBmiNQ+ettU1juUeQLDBxEvCLYKZrgPyKW7eCWw
- T9PoPCH7DBjdeHbYrZI5u8ePq/CAnxLVwE3N+m/lV6P/Y+d/ncaf5/FR7ZJ29/tT7Ii2
- PU99wOkKuvAHbPCWJQi69pH0o8ff7B1+1aNZXuXQYM/7VeBB8BOxcma0LRJRVbnSB8D1
- mbXZ3wsV3/idb0w3ibb5x6lCN9+3Vwbao9elO/gdySUAP369E8S0vy78kFNucx+X/VmW
- 81YrW+DNue8pB79lMZ83dCnclJlu5mA5orx5Xmpfn1Jguj+7H/JTcrHxzGEGLTZVKr+P
- yoZw==
-X-Gm-Message-State: AO0yUKWJUa8tKjUcZD8sNxuzu+rlKl1qLQhokpVTNchMZTiZ+m2dal3D
- HtOJRkct8P3tyTXJvHDaDJsgew==
-X-Google-Smtp-Source: AK7set+jIn9EsfTmlxlzq8i3tE6EMq5IKhMuzv6BT/Yu3AIVKRpuvkvgHfYVsgrRfTx3X5CEqiSmmA==
-X-Received: by 2002:a17:903:1247:b0:195:e92e:c4d3 with SMTP id
- u7-20020a170903124700b00195e92ec4d3mr1454214plh.46.1675226138438; 
- Tue, 31 Jan 2023 20:35:38 -0800 (PST)
+ bh=4CJwgYOL5W+0D1YbwQR0vvBdaTquarR6BcOTJzj5Xbs=;
+ b=zccBAz7bwFnspBta1+JttLpkQB4duCr9QJMhEuT++xZPDvgmAc5K8E+0GrEfpvv9Ah
+ IC4+WzRCKYgXNq7F2nuwp9x6Qp0WBX/MWJ4AX6pj9uu+KFKuvJeHCdqCvd8ul3Wkx2Jv
+ k+yRrfQ/5CKVYYM8mbO+ljdDSk8RmF9CRZL4JjYsowPSGxOIf5HN2Nz/iF6rteagwXWj
+ 2A4MMrIQJa5s07V6zDkMReXl9wucULMrA0QmdEWnozSiOrp3isJH3ipK0dGEYYX7gTf3
+ jHVDuUWnECEMYOL15ttExEZs+Zhrc358VboWEWdF9VpXODhPr1vYDYgR3xUJ5vboD/Ks
+ TF4g==
+X-Gm-Message-State: AO0yUKXAOSOJLTqzUSOHyuV1YbvAaEG+3wAJ7KmtLulkGSfGZxQs+psp
+ VtBoM2dbgVHqm86odDQs1MGqiGtNXrAEAKkw
+X-Google-Smtp-Source: AK7set/hetA4ibEUzoS3sCDbd2q0Or/MaxtL1H+jMRaZ6DbRkwOSMx0ats06uLEItQaIjqVrzp/kTA==
+X-Received: by 2002:a05:6a00:1792:b0:593:befd:848c with SMTP id
+ s18-20020a056a00179200b00593befd848cmr1237281pfg.16.1675226379276; 
+ Tue, 31 Jan 2023 20:39:39 -0800 (PST)
 Received: from ?IPV6:2400:4050:a840:1e00:4457:c267:5e09:481b?
  ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- jj18-20020a170903049200b0019300c89011sm10666141plb.63.2023.01.31.20.35.36
+ s8-20020a056a00178800b0058e12372079sm4017966pfg.29.2023.01.31.20.39.37
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Tue, 31 Jan 2023 20:35:38 -0800 (PST)
-Message-ID: <36573e49-7d87-cb7c-4c95-e09167b5e951@daynix.com>
-Date: Wed, 1 Feb 2023 13:35:34 +0900
+ Tue, 31 Jan 2023 20:39:38 -0800 (PST)
+Message-ID: <43ad50b5-8c82-ad63-4878-086647ed2055@daynix.com>
+Date: Wed, 1 Feb 2023 13:39:36 +0900
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux aarch64; rv:102.0) Gecko/20100101
  Thunderbird/102.7.0
-Subject: Re: [PATCH v3 3/9] igb: add ICR_RXDW
+Subject: Re: [PATCH v3 5/9] igb: check oversized packets for VMDq
 Content-Language: en-US
 To: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
@@ -69,13 +69,13 @@ Cc: qemu-devel@nongnu.org, Jason Wang <jasowang@redhat.com>,
  "Michael S . Tsirkin" <mst@redhat.com>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 References: <20230131094232.28863-1-sriram.yagnaraman@est.tech>
- <20230131094232.28863-4-sriram.yagnaraman@est.tech>
+ <20230131094232.28863-6-sriram.yagnaraman@est.tech>
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
-In-Reply-To: <20230131094232.28863-4-sriram.yagnaraman@est.tech>
+In-Reply-To: <20230131094232.28863-6-sriram.yagnaraman@est.tech>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::636;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pl1-x636.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -19
 X-Spam_score: -2.0
 X-Spam_bar: --
@@ -98,145 +98,112 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 On 2023/01/31 18:42, Sriram Yagnaraman wrote:
-> IGB uses RXDW ICR bit to indicate that rx descriptor has been written
-> back. This is the same as RXT0 bit in older HW.
-> 
 > Signed-off-by: Sriram Yagnaraman <sriram.yagnaraman@est.tech>
 > ---
->   hw/net/e1000x_regs.h |  4 ++++
->   hw/net/igb_core.c    | 46 +++++++++++++++++---------------------------
->   2 files changed, 22 insertions(+), 28 deletions(-)
+>   hw/net/igb_core.c | 48 +++++++++++++++++++++++++++++++++++++++--------
+>   1 file changed, 40 insertions(+), 8 deletions(-)
 > 
-> diff --git a/hw/net/e1000x_regs.h b/hw/net/e1000x_regs.h
-> index fb5b861135..f509db73a7 100644
-> --- a/hw/net/e1000x_regs.h
-> +++ b/hw/net/e1000x_regs.h
-> @@ -335,6 +335,7 @@
->   #define E1000_ICR_RXDMT0        0x00000010 /* rx desc min. threshold (0) */
->   #define E1000_ICR_RXO           0x00000040 /* rx overrun */
->   #define E1000_ICR_RXT0          0x00000080 /* rx timer intr (ring 0) */
-> +#define E1000_ICR_RXDW          0x00000080 /* rx desc written back */
->   #define E1000_ICR_MDAC          0x00000200 /* MDIO access complete */
->   #define E1000_ICR_RXCFG         0x00000400 /* RX /c/ ordered set */
->   #define E1000_ICR_GPI_EN0       0x00000800 /* GP Int 0 */
-> @@ -378,6 +379,7 @@
->   #define E1000_ICS_RXDMT0    E1000_ICR_RXDMT0    /* rx desc min. threshold */
->   #define E1000_ICS_RXO       E1000_ICR_RXO       /* rx overrun */
->   #define E1000_ICS_RXT0      E1000_ICR_RXT0      /* rx timer intr */
-> +#define E1000_ICS_RXDW      E1000_ICR_RXDW      /* rx desc written back */
->   #define E1000_ICS_MDAC      E1000_ICR_MDAC      /* MDIO access complete */
->   #define E1000_ICS_RXCFG     E1000_ICR_RXCFG     /* RX /c/ ordered set */
->   #define E1000_ICS_GPI_EN0   E1000_ICR_GPI_EN0   /* GP Int 0 */
-> @@ -407,6 +409,7 @@
->   #define E1000_IMS_RXDMT0    E1000_ICR_RXDMT0    /* rx desc min. threshold */
->   #define E1000_IMS_RXO       E1000_ICR_RXO       /* rx overrun */
->   #define E1000_IMS_RXT0      E1000_ICR_RXT0      /* rx timer intr */
-> +#define E1000_IMS_RXDW      E1000_ICR_RXDW      /* rx desc written back */
->   #define E1000_IMS_MDAC      E1000_ICR_MDAC      /* MDIO access complete */
->   #define E1000_IMS_RXCFG     E1000_ICR_RXCFG     /* RX /c/ ordered set */
->   #define E1000_IMS_GPI_EN0   E1000_ICR_GPI_EN0   /* GP Int 0 */
-> @@ -441,6 +444,7 @@
->   #define E1000_IMC_RXDMT0    E1000_ICR_RXDMT0    /* rx desc min. threshold */
->   #define E1000_IMC_RXO       E1000_ICR_RXO       /* rx overrun */
->   #define E1000_IMC_RXT0      E1000_ICR_RXT0      /* rx timer intr */
-> +#define E1000_IMC_RXDW      E1000_ICR_RXDW      /* rx desc written back */
->   #define E1000_IMC_MDAC      E1000_ICR_MDAC      /* MDIO access complete */
->   #define E1000_IMC_RXCFG     E1000_ICR_RXCFG     /* RX /c/ ordered set */
->   #define E1000_IMC_GPI_EN0   E1000_ICR_GPI_EN0   /* GP Int 0 */
 > diff --git a/hw/net/igb_core.c b/hw/net/igb_core.c
-> index 9c32ad5e36..e78bc3611a 100644
+> index 4a1b98bf0e..2f6f30341f 100644
 > --- a/hw/net/igb_core.c
 > +++ b/hw/net/igb_core.c
-> @@ -1488,7 +1488,7 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
->       static const int maximum_ethernet_hdr_len = (ETH_HLEN + 4);
->   
->       uint16_t queues = 0;
-> -    uint32_t n;
-> +    uint32_t icr_bits = 0;
->       uint8_t min_buf[ETH_ZLEN];
->       struct iovec min_iov;
->       struct eth_header *ehdr;
-> @@ -1561,6 +1561,7 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
->           e1000x_fcs_len(core->mac);
->   
->       retval = orig_size;
-> +    igb_rx_fix_l4_csum(core, core->rx_pkt);
->   
->       for (i = 0; i < IGB_NUM_QUEUES; i++) {
->           if (!(queues & BIT(i))) {
-> @@ -1569,43 +1570,32 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
->   
->           igb_rx_ring_init(core, &rxr, i);
->   
-> -        trace_e1000e_rx_rss_dispatched_to_queue(rxr.i->idx);
-> -
->           if (!igb_has_rxbufs(core, rxr.i, total_size)) {
-> -            retval = 0;
-> +            icr_bits |= E1000_ICS_RXO;
-> +            continue;
->           }
-> -    }
->   
-> -    if (retval) {
-> -        n = E1000_ICR_RXT0;
-> -
-> -        igb_rx_fix_l4_csum(core, core->rx_pkt);
-> -
-> -        for (i = 0; i < IGB_NUM_QUEUES; i++) {
-> -            if (!(queues & BIT(i))) {
-> -                continue;
-> -            }
-> -
-> -            igb_rx_ring_init(core, &rxr, i);
-> +        trace_e1000e_rx_rss_dispatched_to_queue(rxr.i->idx);
-> +        igb_write_packet_to_guest(core, core->rx_pkt, &rxr, &rss_info);
->   
-> -            igb_write_packet_to_guest(core, core->rx_pkt, &rxr, &rss_info);
-> +        /* Check if receive descriptor minimum threshold hit */
-> +        if (igb_rx_descr_threshold_hit(core, rxr.i)) {
-> +            icr_bits |= E1000_ICS_RXDMT0;
-> +        }
->   
-> -            /* Check if receive descriptor minimum threshold hit */
-> -            if (igb_rx_descr_threshold_hit(core, rxr.i)) {
-> -                n |= E1000_ICS_RXDMT0;
-> -            }
-> +        core->mac[EICR] |= igb_rx_wb_eic(core, rxr.i->idx);
->   
-> -            core->mac[EICR] |= igb_rx_wb_eic(core, rxr.i->idx);
-> -        }
-> +        icr_bits |= E1000_ICR_RXDW;
-> +    }
->   
-> -        trace_e1000e_rx_written_to_guest(n);
-> +    if (icr_bits & E1000_ICR_RXDW) {
-> +        trace_e1000e_rx_written_to_guest(icr_bits);
->       } else {
-> -        n = E1000_ICS_RXO;
-> -        trace_e1000e_rx_not_written_to_guest(n);
-> +        trace_e1000e_rx_not_written_to_guest(icr_bits);
->       }
->   
-> -    trace_e1000e_rx_interrupt_set(n);
-> -    igb_set_interrupt_cause(core, n);
-> +    trace_e1000e_rx_interrupt_set(icr_bits);
-> +    igb_set_interrupt_cause(core, icr_bits);
->   
->       return retval;
+> @@ -912,12 +912,27 @@ igb_rx_l4_cso_enabled(IGBCore *core)
+>       return !!(core->mac[RXCSUM] & E1000_RXCSUM_TUOFLD);
 >   }
+>   
+> +static bool
+> +igb_rx_is_oversized(IGBCore *core, uint16_t qn, size_t size)
+> +{
+> +    uint16_t pool = qn % IGB_NUM_VM_POOLS;
+> +    bool lpe = !!(core->mac[VMOLR0 + pool] & E1000_VMOLR_LPE);
+> +    int maximum_ethernet_lpe_size =
+> +        core->mac[VMOLR0 + pool] & E1000_VMOLR_RLPML_MASK;
+> +    int maximum_ethernet_vlan_size = 1522;
+> +
+> +    return lpe ? size > maximum_ethernet_lpe_size :
+> +        size > maximum_ethernet_vlan_size;
 
-The change for igb_receive_internal() actually fixes a bug; even if a 
-pool doesn't have enough space to write back a packet, it shouldn't 
-prevent other pools from receiving the packet.
+Instead do:
+size > (lpe ? maximum_ethernet_lpe_size : maximum_ethernet_vlan_size)
 
-I have fixed in v7 (well, I intended to do that in v6 but I made some 
-mistakes) of "introduce igb" series, but there are some differences:
-- "n" is not renamed to "icr_bits". Yes, "n" is a bad name, but if it's 
-to be fixed, it should be done for e1000e too at the same time.
-- "retval" variable is removed.
-- tracepoints were updated so that we can see to which queue the Rx 
-packet is written back.
-
-E1000_ICR_RXDW is still not added to "introduce igb" series so please 
-rebase this and submit again.
+> +}
+> +
+>   static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+> -                                   E1000E_RSSInfo *rss_info, bool *external_tx)
+> +                                   size_t size, E1000E_RSSInfo *rss_info,
+> +                                   bool *external_tx)
+>   {
+>       static const int ta_shift[] = { 4, 3, 2, 0 };
+>       uint32_t f, ra[2], *macp, rctl = core->mac[RCTL];
+>       uint16_t queues = 0;
+> +    uint16_t oversized = 0;
+>       uint16_t vid = lduw_be_p(&PKT_GET_VLAN_HDR(ehdr)->h_tci) & VLAN_VID_MASK;
+>       bool accepted = false;
+>       int i;
+> @@ -943,7 +958,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+>   
+>       if (core->mac[MRQC] & 1) {
+>           if (is_broadcast_ether_addr(ehdr->h_dest)) {
+> -            for (i = 0; i < 8; i++) {
+> +            for (i = 0; i < IGB_NUM_VM_POOLS; i++) {
+>                   if (core->mac[VMOLR0 + i] & E1000_VMOLR_BAM) {
+>                       queues |= BIT(i);
+>                   }
+> @@ -977,7 +992,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+>                   f = ta_shift[(rctl >> E1000_RCTL_MO_SHIFT) & 3];
+>                   f = (((ehdr->h_dest[5] << 8) | ehdr->h_dest[4]) >> f) & 0xfff;
+>                   if (macp[f >> 5] & (1 << (f & 0x1f))) {
+> -                    for (i = 0; i < 8; i++) {
+> +                    for (i = 0; i < IGB_NUM_VM_POOLS; i++) {
+>                           if (core->mac[VMOLR0 + i] & E1000_VMOLR_ROMPE) {
+>                               queues |= BIT(i);
+>                           }
+> @@ -1000,7 +1015,7 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+>                       }
+>                   }
+>               } else {
+> -                for (i = 0; i < 8; i++) {
+> +                for (i = 0; i < IGB_NUM_VM_POOLS; i++) {
+>                       if (core->mac[VMOLR0 + i] & E1000_VMOLR_AUPE) {
+>                           mask |= BIT(i);
+>                       }
+> @@ -1017,9 +1032,26 @@ static uint16_t igb_receive_assign(IGBCore *core, const struct eth_header *ehdr,
+>           }
+>   
+>           queues &= core->mac[VFRE];
+> -        igb_rss_parse_packet(core, core->rx_pkt, external_tx != NULL, rss_info);
+> -        if (rss_info->queue & 1) {
+> -            queues <<= 8;
+> +        if (queues) {
+> +            for (i = 0; i < IGB_NUM_VM_POOLS; i++) {
+> +                if ((queues & BIT(i)) && igb_rx_is_oversized(core, i, size)) {
+> +                    oversized |= BIT(i);
+> +                }
+> +            }
+> +            /* 8.19.37 increment ROC if packet is oversized for all queues */
+> +            if (oversized == queues) {
+> +                trace_e1000x_rx_oversized(size);
+> +                e1000x_inc_reg_if_not_full(core->mac, ROC);
+> +            }
+> +            queues &= ~oversized;
+> +        }
+> +
+> +        if (queues) {
+> +            igb_rss_parse_packet(core, core->rx_pkt,
+> +                                 external_tx != NULL, rss_info);
+> +            if (rss_info->queue & 1) {
+> +                queues <<= 8;
+> +            }
+>           }
+>       } else {
+>           switch (net_rx_pkt_get_packet_type(core->rx_pkt)) {
+> @@ -1563,7 +1595,7 @@ igb_receive_internal(IGBCore *core, const struct iovec *iov, int iovcnt,
+>                                  e1000x_vlan_enabled(core->mac),
+>                                  core->mac[VET] & 0xffff);
+>   
+> -    queues = igb_receive_assign(core, ehdr, &rss_info, external_tx);
+> +    queues = igb_receive_assign(core, ehdr, size, &rss_info, external_tx);
+>       if (!queues) {
+>           trace_e1000e_rx_flt_dropped();
+>           return orig_size;
 
