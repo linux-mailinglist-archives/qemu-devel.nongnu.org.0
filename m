@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0DE5685E3A
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 05:15:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58B6A685E3E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 Feb 2023 05:16:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pN4Vl-0001Rg-4P; Tue, 31 Jan 2023 23:14:17 -0500
+	id 1pN4Vo-0001Uh-PZ; Tue, 31 Jan 2023 23:14:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pN4Vi-0001NG-V9
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 23:14:14 -0500
-Received: from mail-pj1-x102e.google.com ([2607:f8b0:4864:20::102e])
+ id 1pN4Vn-0001U4-C2
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 23:14:19 -0500
+Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <akihiko.odaki@daynix.com>)
- id 1pN4Vh-0001ET-5Y
- for qemu-devel@nongnu.org; Tue, 31 Jan 2023 23:14:14 -0500
-Received: by mail-pj1-x102e.google.com with SMTP id
- e10-20020a17090a630a00b0022bedd66e6dso816450pjj.1
- for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 20:14:12 -0800 (PST)
+ id 1pN4Vl-0001Cl-K4
+ for qemu-devel@nongnu.org; Tue, 31 Jan 2023 23:14:19 -0500
+Received: by mail-pj1-x1029.google.com with SMTP id
+ rm7-20020a17090b3ec700b0022c05558d22so741194pjb.5
+ for <qemu-devel@nongnu.org>; Tue, 31 Jan 2023 20:14:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=daynix-com.20210112.gappssmtp.com; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=J12nZV2LwIPD6OjA4xFcFkRQSgZ344LgRcDLfZQGXJ0=;
- b=BgWPx1ItZIkTI3Fce57VB+Ejs1CyJcloYxGiIUgSnhmy3yfNpUhqDbI5P9Y5C1Tk1s
- Ur0ittWo7LrSnRhsXq2xRu+VnXXtaMgsdIDefqh38/tRNFgg1oF4X5b9SwJXPvZ3BhqQ
- AlkHYS6UxgysOje2eZMy50V1EcAYA/r2j9bnuDKQZvmWWJKPqsM9kTN0iw4sNW5bQZSn
- IpSqCy+U3F++7+9qjGkuxj53iBQmMf1av54XF8+ES8RKQeEOIUddCTs5shZ0NmU9wIuS
- GVLGkqVrttjDL5u6gGKWU1Te0cgI6Aa+Zi5SXUABcvOWlLdXbRK0cwTKnWrB3i6PMvhh
- P3Iw==
+ bh=y2qTfeWrJluLuVNB72grEFW1qk7ta0SqRfMD7BVVAZw=;
+ b=Df6l0WlbZV90KL+OeYtTSegT7XifS3IzQRbVLsinNfYyLndKb7WSAetO90AxE1rPJX
+ SPaRNk6hloJUxHw3R74uGN56sXHDRDR94rVfvponQUHY5MlSvrOoyfq0C+g/0Rn4Cf3k
+ LCOVQyjnYyVmkeRLiMbMqfU1716lan5yrUROq7EDv2DZQ7PhKtWse0vcQrwxkPwW2Lgg
+ o+O7HdH+ylEOFcHMEwtsdj73l+Dftl2kvkTYYngNMC3pJGF+S71MVkYdqVb1wt3zfM7x
+ RBzKh6weQuWDwsjjWilxxQA6vz3FIjTiV2u2rw9ehKLeXOGoy6PTopzRxPIAZN2dTdfA
+ 7nJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=J12nZV2LwIPD6OjA4xFcFkRQSgZ344LgRcDLfZQGXJ0=;
- b=bJciYOz06aGQUiJtg2Mt3FLlclFwQ5+rjHZcBygRLkBXQUE7aAFFBoGqnL/k+6WvHt
- o/t8DsbdajacyGngiKChBgqupTIGAXXnsIRh6R+YJpNCmjKiIoSWi6qRpQjs9JMoEjpy
- oxarvKDyT+QD7zWHikZgeaFimXFagDFzUHhI9E7oN3LwZVs01vWHIV9d6gsQa+COINjP
- 5ed0OrLpdgDuGBT/7TEZt3xvDEfi9J99i3mqmaUVCH0Ueu8+qxxeQDghgzXYYS5ljXP4
- qOn9aF9Wgooc+pmNCGDlIX/RY4La2mVKquxUTnOs8NKC2deLBT96gXCdx/KXWNJiVTrF
- xNow==
-X-Gm-Message-State: AO0yUKVq2+GZeN17Qa2usIg70W20ba02rjorvuhgC0DPWpUNgZdJz0lb
- OoA8x3KRWyzRHgraBACddv/MSg==
-X-Google-Smtp-Source: AK7set8jI/xCkk0RAK+12F7nv/fhtfbft7kwZi+LX90z2+FtmaWtxjdX/zsAjgTnpF+zEadM7W6HYA==
-X-Received: by 2002:a17:90b:224a:b0:230:1b12:489 with SMTP id
- hk10-20020a17090b224a00b002301b120489mr632884pjb.36.1675224851981; 
- Tue, 31 Jan 2023 20:14:11 -0800 (PST)
+ bh=y2qTfeWrJluLuVNB72grEFW1qk7ta0SqRfMD7BVVAZw=;
+ b=GppojR1WG4C6avwq2zMqwT+B7+hO55GnUSo0umJ8Z2ICzKjJMUilRmIf+Lg3BaMQkZ
+ 5kikGkwb6Wp8nJ8RAyHOfJYJq9wqvbeH025oO/Y0o1bTQINaRY5df/mp1TIOSYGsHBUw
+ wCe8b1I+GXkYg+8jLDmAs/9Nn9cf6Zzn7MXxaxIT3qf62ghKyKUP6UofWw4i3ft6Yg+7
+ roPxetY19V7J612lN6nJaAKsbpExF5FdgABZz1S2wX7iRgfPL3L3v71VvT80UraSt0iA
+ aE1No0XTWACWMat/DUcDMg/rcTLk88OQLW6Lrn5HP+pPleK+SzpnfgJdhUN5WW765FQr
+ umKg==
+X-Gm-Message-State: AO0yUKWCl/J4LVhj59OG+r52yqBAIPZEDym98ILbPoZT1D5VT7pBP61u
+ ZlUL66jfMq4ENvuKiTb9uq7fMQ==
+X-Google-Smtp-Source: AK7set8mWYJRY17JsWNyHozzufN5DbnnTHWX3FDsR2T2e4Xp5lLtGDPixUNjedB7YxdslCpbu8YHeQ==
+X-Received: by 2002:a17:90a:1902:b0:22b:e71b:1fde with SMTP id
+ 2-20020a17090a190200b0022be71b1fdemr739861pjg.15.1675224856938; 
+ Tue, 31 Jan 2023 20:14:16 -0800 (PST)
 Received: from alarm.flets-east.jp ([2400:4050:a840:1e00:4457:c267:5e09:481b])
  by smtp.gmail.com with ESMTPSA id
- q8-20020a17090a7a8800b0022c01052e92sm231350pjf.56.2023.01.31.20.14.07
+ q8-20020a17090a7a8800b0022c01052e92sm231350pjf.56.2023.01.31.20.14.12
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Tue, 31 Jan 2023 20:14:11 -0800 (PST)
+ Tue, 31 Jan 2023 20:14:16 -0800 (PST)
 From: Akihiko Odaki <akihiko.odaki@daynix.com>
 To: 
 Cc: Jason Wang <jasowang@redhat.com>,
@@ -76,16 +76,16 @@ Cc: Jason Wang <jasowang@redhat.com>,
  Yuri Benditovich <yuri.benditovich@daynix.com>,
  Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
  Gal Hammer <gal.hammer@sap.com>, Akihiko Odaki <akihiko.odaki@daynix.com>
-Subject: [PATCH v6 8/9] tests/avocado: Add igb test
-Date: Wed,  1 Feb 2023 13:13:19 +0900
-Message-Id: <20230201041320.32096-9-akihiko.odaki@daynix.com>
+Subject: [PATCH v6 9/9] docs/system/devices/igb: Add igb documentation
+Date: Wed,  1 Feb 2023 13:13:20 +0900
+Message-Id: <20230201041320.32096-10-akihiko.odaki@daynix.com>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230201041320.32096-1-akihiko.odaki@daynix.com>
 References: <20230201041320.32096-1-akihiko.odaki@daynix.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: none client-ip=2607:f8b0:4864:20::102e;
- envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x102e.google.com
+Received-SPF: none client-ip=2607:f8b0:4864:20::1029;
+ envelope-from=akihiko.odaki@daynix.com; helo=mail-pj1-x1029.google.com
 X-Spam_score_int: -18
 X-Spam_score: -1.9
 X-Spam_bar: -
@@ -107,84 +107,112 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This automates ethtool tests for igb registers, interrupts, etc.
-
 Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
 ---
- MAINTAINERS                                   |  1 +
- .../org.centos/stream/8/x86_64/test-avocado   |  1 +
- tests/avocado/igb.py                          | 38 +++++++++++++++++++
- 3 files changed, 40 insertions(+)
- create mode 100644 tests/avocado/igb.py
+ MAINTAINERS                      |  1 +
+ docs/system/device-emulation.rst |  1 +
+ docs/system/devices/igb.rst      | 71 ++++++++++++++++++++++++++++++++
+ 3 files changed, 73 insertions(+)
+ create mode 100644 docs/system/devices/igb.rst
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 127fd92541..c0831aeb56 100644
+index c0831aeb56..e85957e37f 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -2225,6 +2225,7 @@ igb
+@@ -2224,6 +2224,7 @@ F: tests/qtest/libqos/e1000e.*
+ igb
  M: Akihiko Odaki <akihiko.odaki@daynix.com>
  S: Maintained
++F: docs/system/devices/igb.rst
  F: hw/net/igb*
-+F: tests/avocado/igb.py
+ F: tests/avocado/igb.py
  F: tests/qtest/igb-test.c
- F: tests/qtest/libqos/igb.c
- 
-diff --git a/scripts/ci/org.centos/stream/8/x86_64/test-avocado b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
-index 7aeecbcfb8..7e07dbcc89 100755
---- a/scripts/ci/org.centos/stream/8/x86_64/test-avocado
-+++ b/scripts/ci/org.centos/stream/8/x86_64/test-avocado
-@@ -37,6 +37,7 @@ make get-vm-images
-     tests/avocado/cpu_queries.py:QueryCPUModelExpansion.test \
-     tests/avocado/empty_cpu_model.py:EmptyCPUModel.test \
-     tests/avocado/hotplug_cpu.py:HotPlugCPU.test \
-+    tests/avocado/igb.py:IGB.test \
-     tests/avocado/info_usernet.py:InfoUsernet.test_hostfwd \
-     tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu \
-     tests/avocado/intel_iommu.py:IntelIOMMU.test_intel_iommu_pt \
-diff --git a/tests/avocado/igb.py b/tests/avocado/igb.py
+diff --git a/docs/system/device-emulation.rst b/docs/system/device-emulation.rst
+index 0506006056..c1b1934e3d 100644
+--- a/docs/system/device-emulation.rst
++++ b/docs/system/device-emulation.rst
+@@ -93,3 +93,4 @@ Emulated Devices
+    devices/virtio-pmem.rst
+    devices/vhost-user-rng.rst
+    devices/canokey.rst
++   devices/igb.rst
+diff --git a/docs/system/devices/igb.rst b/docs/system/devices/igb.rst
 new file mode 100644
-index 0000000000..abf5dfa07f
+index 0000000000..70edadd574
 --- /dev/null
-+++ b/tests/avocado/igb.py
-@@ -0,0 +1,38 @@
-+# SPDX-License-Identifier: GPL-2.0-or-later
-+# ethtool tests for igb registers, interrupts, etc
++++ b/docs/system/devices/igb.rst
+@@ -0,0 +1,71 @@
++.. SPDX-License-Identifier: GPL-2.0-or-later
++.. _igb:
 +
-+from avocado_qemu import LinuxTest
++igb
++---
 +
-+class IGB(LinuxTest):
-+    """
-+    :avocado: tags=accel:kvm
-+    :avocado: tags=arch:x86_64
-+    :avocado: tags=distro:fedora
-+    :avocado: tags=distro_version:31
-+    :avocado: tags=machine:q35
-+    """
++igb is a family of Intel's gigabit ethernet controllers. In QEMU, 82576
++emulation is implemented in particular. Its datasheet is available at [1]_.
 +
-+    timeout = 180
++This implementation is expected to be useful to test SR-IOV networking without
++requiring physical hardware.
 +
-+    def test(self):
-+        self.require_accelerator('kvm')
-+        kernel_url = self.distro.pxeboot_url + 'vmlinuz'
-+        kernel_hash = '5b6f6876e1b5bda314f93893271da0d5777b1f3c'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
-+        initrd_url = self.distro.pxeboot_url + 'initrd.img'
-+        initrd_hash = 'dd0340a1b39bd28f88532babd4581c67649ec5b1'
-+        initrd_path = self.fetch_asset(initrd_url, asset_hash=initrd_hash)
++Limitations
++===========
 +
-+        # Ideally we want to test MSI as well, but it is blocked by a bug
-+        # fixed with:
-+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=28e96556baca7056d11d9fb3cdd0aba4483e00d8
-+        kernel_params = self.distro.default_kernel_params + ' pci=nomsi'
++This igb implementation was tested with Linux Test Project [2]_ and Windows HLK
++[3]_ during the initial development. The command used when testing with LTP is:
 +
-+        self.vm.add_args('-kernel', kernel_path,
-+                         '-initrd', initrd_path,
-+                         '-append', kernel_params,
-+                         '-accel', 'kvm',
-+                         '-device', 'igb')
-+        self.launch_and_wait()
-+        self.ssh_command('dnf -y install ethtool')
-+        self.ssh_command('ethtool -t eth1 offline')
++.. code-block:: shell
++
++  network.sh -6mta
++
++Be aware that this implementation lacks many functionalities available with the
++actual hardware, and you may experience various failures if you try to use it
++with a different operating system other than Linux and Windows or if you try
++functionalities not covered by the tests.
++
++Using igb
++=========
++
++Using igb should be nothing different from using another network device. See
++:ref:`pcsys_005fnetwork` in general.
++
++However, you may also need to perform additional steps to activate SR-IOV
++feature on your guest. For Linux, refer to [4]_.
++
++Developing igb
++==============
++
++igb is the successor of e1000e, and e1000e is the successor of e1000 in turn.
++As these devices are very similar, if you make a change for igb and the same
++change can be applied to e1000e and e1000, please do so.
++
++Please do not forget to run tests before submitting a change. As tests included
++in QEMU is very minimal, run some application which is likely to be affected by
++the change to confirm it works in an integrated system.
++
++Testing igb
++===========
++
++A qtest of the basic functionality is available. Run the below at the build
++directory:
++
++.. code-block:: shell
++
++  meson test qtest-x86_64/qos-test
++
++ethtool can test register accesses, interrupts, etc. It is automated as an
++Avocado test and can be ran with the following command:
++
++.. code:: shell
++
++  make check-avocado AVOCADO_TESTS=tests/avocado/igb.py
++
++References
++==========
++
++.. [1] https://www.intel.com/content/dam/www/public/us/en/documents/datasheets/82576eb-gigabit-ethernet-controller-datasheet.pdf
++.. [2] https://github.com/linux-test-project/ltp
++.. [3] https://learn.microsoft.com/en-us/windows-hardware/test/hlk/
++.. [4] https://docs.kernel.org/PCI/pci-iov-howto.html
 -- 
 2.39.1
 
