@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53352687EFC
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:42:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACECE687EE7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:40:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNZnj-0005Vi-Ih; Thu, 02 Feb 2023 08:38:55 -0500
+	id 1pNZoJ-0006RS-9u; Thu, 02 Feb 2023 08:39:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnf-0005Po-S8
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:38:52 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnr-0005dx-3G
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:39:03 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnZ-00086k-Sc
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:38:51 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnb-00089I-Rb
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:39:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675345121;
+ s=mimecast20190719; t=1675345122;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=Im9D9GPlDv84qP18kBJzWOAOUi3vigMNUhZJote7pRk=;
- b=YHiPH8RQwCR5ZjbSb4bTbzhv7n57yIjeW+V15bypxZYtrT3XN1XDumuN0YPE+ddBEn6oNy
- 9VpRWGDKWCR4QOxaNnngg/myPnyDYGJOpPKxfS0NlU3R5/YJ1cz1SZppWwOyTONNEp4gt8
- l03Kx3ocNSJkr5YT7Zybw/wvz1oLtu8=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=KGzGg0p8isHX9McZYkV6LVe0QVsHvHzU5W95vnnY9Ao=;
+ b=b4GpokH1dpdLQ9IwqQ+YCmbosyLbmKSyWap5VfmdXohgW42MtpsT78IKcY2D8zISmbzICm
+ 8HBCcWobiOAsjgbQu4dZBhMvl+w/vr1s0a99ChwhJf+s7uP9ZfkZRctgoSJTuPB/kWgyoe
+ IlY0PujNF6dK6WOibjAPRW/hpVDGXxE=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-335-7P1Y8GuYOdGadeHAaQgZYw-1; Thu, 02 Feb 2023 08:38:38 -0500
-X-MC-Unique: 7P1Y8GuYOdGadeHAaQgZYw-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-377-8O3l02QLPeSq929Cx4Syhw-1; Thu, 02 Feb 2023 08:38:37 -0500
+X-MC-Unique: 8O3l02QLPeSq929Cx4Syhw-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4F53C82401F;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 802DB1C05EC0;
  Thu,  2 Feb 2023 13:38:34 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CF0AC15BA0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 3465518EC4;
  Thu,  2 Feb 2023 13:38:34 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C03F121E6A26; Thu,  2 Feb 2023 14:38:30 +0100 (CET)
+ id C337221E6A28; Thu,  2 Feb 2023 14:38:30 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
@@ -53,15 +53,15 @@ Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
  kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com,
  bin.meng@windriver.com, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH v6 07/20] hw/cxl: Clean up includes
-Date: Thu,  2 Feb 2023 14:38:17 +0100
-Message-Id: <20230202133830.2152150-8-armbru@redhat.com>
+Subject: [PATCH v6 08/20] hw/input: Clean up includes
+Date: Thu,  2 Feb 2023 14:38:18 +0100
+Message-Id: <20230202133830.2152150-9-armbru@redhat.com>
 In-Reply-To: <20230202133830.2152150-1-armbru@redhat.com>
 References: <20230202133830.2152150-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -70,7 +70,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -100,49 +100,34 @@ related cleanups:
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/cxl/cxl_component.h | 2 --
- include/hw/cxl/cxl_host.h      | 1 -
- include/hw/cxl/cxl_pci.h       | 1 -
- 3 files changed, 4 deletions(-)
+ include/hw/input/pl050.h | 1 -
+ hw/input/tsc210x.c       | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
-index 5dca21e95b..692d7a5507 100644
---- a/include/hw/cxl/cxl_component.h
-+++ b/include/hw/cxl/cxl_component.h
-@@ -15,9 +15,7 @@
- #define CXL2_COMPONENT_CM_REGION_SIZE 0x1000
- #define CXL2_COMPONENT_BLOCK_SIZE 0x10000
- 
--#include "qemu/compiler.h"
- #include "qemu/range.h"
--#include "qemu/typedefs.h"
- #include "hw/cxl/cxl_cdat.h"
- #include "hw/register.h"
- #include "qapi/error.h"
-diff --git a/include/hw/cxl/cxl_host.h b/include/hw/cxl/cxl_host.h
-index a1b662ce40..c9bc9c7c50 100644
---- a/include/hw/cxl/cxl_host.h
-+++ b/include/hw/cxl/cxl_host.h
-@@ -7,7 +7,6 @@
-  * COPYING file in the top-level directory.
-  */
+diff --git a/include/hw/input/pl050.h b/include/hw/input/pl050.h
+index 89ec4fafc9..4cb8985f31 100644
+--- a/include/hw/input/pl050.h
++++ b/include/hw/input/pl050.h
+@@ -10,7 +10,6 @@
+ #ifndef HW_PL050_H
+ #define HW_PL050_H
  
 -#include "qemu/osdep.h"
- #include "hw/cxl/cxl.h"
- #include "hw/boards.h"
+ #include "hw/sysbus.h"
+ #include "migration/vmstate.h"
+ #include "hw/input/ps2.h"
+diff --git a/hw/input/tsc210x.c b/hw/input/tsc210x.c
+index fdd5ff87d9..7eae5989f7 100644
+--- a/hw/input/tsc210x.c
++++ b/hw/input/tsc210x.c
+@@ -20,7 +20,6 @@
+  */
  
-diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
-index 01e15ed5b4..407be95b9e 100644
---- a/include/hw/cxl/cxl_pci.h
-+++ b/include/hw/cxl/cxl_pci.h
-@@ -10,7 +10,6 @@
- #ifndef CXL_PCI_H
- #define CXL_PCI_H
- 
--#include "qemu/compiler.h"
- 
- #define CXL_VENDOR_ID 0x1e98
- 
+ #include "qemu/osdep.h"
+-#include "qemu/log.h"
+ #include "hw/hw.h"
+ #include "audio/audio.h"
+ #include "qemu/timer.h"
 -- 
 2.39.0
 
