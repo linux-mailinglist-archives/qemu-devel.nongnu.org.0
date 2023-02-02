@@ -2,80 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83DAA6876CB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 08:54:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4916876FA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 09:06:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNUOx-0001R6-Rx; Thu, 02 Feb 2023 02:52:59 -0500
+	id 1pNUb7-0007pC-Nk; Thu, 02 Feb 2023 03:05:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNUOv-0001Pf-CE
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 02:52:57 -0500
-Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNUOt-0007kp-G2
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 02:52:57 -0500
-Received: by mail-pj1-x102a.google.com with SMTP id
- n20-20020a17090aab9400b00229ca6a4636so4825091pjq.0
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 23:52:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=Delo5QkO4scLfu5O9b3W0awpyju/d+yuaDzAKXoKIMs=;
- b=iKGl5wJ/dIncLWwAc/S3f+2ihx03YRd0VYm7uftAAm36ifhzzJK9NMUNEf53opnk2/
- 9aXSrXMx2BJ5ekEIM6YO7NOMCZok7N33HjmPCgIDWYv1lV+NWLn0RUc40Bk+bS+MG2Dz
- YX1v2RTjaRDkHmqylv/vk/WoSWPtXm6VTGnH0NVg5BtV2UY4WpZ7313/2f3rT7/l3BLn
- XnY2Xv0eyJxELZ6KOzuhSmfsAJTQGX/qXoAq1+fkuT17SAH9sv70ARXDjvrA0WJSLLSb
- 27bko17cIF7WhpHfF0WJido9rok3KAB0fYDX69mNOe6W9ObqMwXeJnouR8vNd7y7i6Ak
- 6BRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=Delo5QkO4scLfu5O9b3W0awpyju/d+yuaDzAKXoKIMs=;
- b=3cMb6J7WO60jXcwUD/r2uOBELgP56fVrtZ7lppHVUcDsBVVd5rLXzwP+i7LszK6PdG
- F3jiMmelOmAxOPnX/2/MA0nlFNRfKfcPXnOvl9i70xTG4v/P4O5K5MR6t3el7MSi/Egj
- AtQQD0ufWjiZwYVM8ro4oJ5/ffKaZokZykji1QOVWpsylts+6GVwpJRW0o98GISgZMqC
- a7y78jxrNphv8TaqH5cLvDLOlwVson+4URkU3d3YU9pe1VKB6h/9V5Z+RhVie0TPF9Dr
- ADRtnC52tTSnic3WGFeD/n+SreeVbeR/ornGIXnIUeGD1UiOHxtPjjaHsy/X9KZM6a6B
- LErQ==
-X-Gm-Message-State: AO0yUKVIS2op4gROGofl+Jrmjk5pZfssAJDsnx1Znj+M9iQwLqB5KOmJ
- dr/hR3E06lpWjad8eXfzerDSDfJA2ngx0WZK
-X-Google-Smtp-Source: AK7set9bVp4nsOttI5gvbfGLxRDrMdBVP4LKyDcEnbR0R2/sFS3hMpNxO3aB96WwIxx9U+l2NOf9zQ==
-X-Received: by 2002:a05:6a20:9f9b:b0:b8:ca86:d1e8 with SMTP id
- mm27-20020a056a209f9b00b000b8ca86d1e8mr998805pzb.14.1675324373974; 
- Wed, 01 Feb 2023 23:52:53 -0800 (PST)
-Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
- by smtp.gmail.com with ESMTPSA id
- b4-20020a17090a7ac400b0022c35afad5bsm2496763pjl.16.2023.02.01.23.52.52
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 23:52:53 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: anders.roxell@linaro.org,
-	qemu-arm@nongnu.org
-Subject: [PATCH 4/4] target/arm: Cache ARMVAParameters
-Date: Wed,  1 Feb 2023 21:52:42 -1000
-Message-Id: <20230202075242.260793-5-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20230202075242.260793-1-richard.henderson@linaro.org>
-References: <20230202075242.260793-1-richard.henderson@linaro.org>
+ (Exim 4.90_1) (envelope-from
+ <BATV+067b40b933c07ef79d88+7102+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pNUb4-0007p1-8i
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 03:05:31 -0500
+Received: from casper.infradead.org ([2001:8b0:10b:1236::1])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from
+ <BATV+067b40b933c07ef79d88+7102+infradead.org+dwmw2@casper.srs.infradead.org>)
+ id 1pNUb1-0004ba-2j
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 03:05:29 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=infradead.org; s=casper.20170209; h=MIME-Version:Content-Type:References:
+ In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+ Content-Transfer-Encoding:Content-ID:Content-Description;
+ bh=3O1h4pbUCfZjJxageF80vcxvuNGjkEh9LQSJTXdH+gk=; b=Z3qvABEdpMlUo41TiYy1gHZEDm
+ S0BRxwgdijxvfOYNOJ91gdlj5zlB2Y6+1GsL8B5qMcP2IxJWw6886qj6Mgkh7l1SwUvY2cqk3cUtx
+ xiXzcH0qc0wTt/nrl836BfXfxLPt2kuu9978iftB8W57OX5Ya6xUuGWZM+i14+QMHUigwUgCP6Yp2
+ 9qTiCTQ2G8/0sYOHY4ofpjloSFYAQ8dJZpQa9iEI/GSCIMfJ9mtzpnMG/Yki8azoxLqJquOD4uJAV
+ 6e+ShS6j8JuMEg9JsKCWr2pCmeojsbCtsEjsVFgyLdvADE6TKK13NBON6qBiai/P5K9i6TIaZVF5j
+ ESsVfdqA==;
+Received: from [2001:8b0:10b:5::bb3] (helo=u3832b3a9db3152.infradead.org)
+ by casper.infradead.org with esmtpsa (Exim 4.94.2 #2 (Red Hat Linux))
+ id 1pNUab-00DCu7-R7; Thu, 02 Feb 2023 08:05:02 +0000
+Message-ID: <fd3259a2765d4b33ccf7baea320ac798bab63159.camel@infradead.org>
+Subject: Re: [SeaBIOS] [SeaBIOS PATCH] xen: require Xen info structure at
+ 0x1000 to detect Xen
+From: David Woodhouse <dwmw2@infradead.org>
+To: Kevin O'Connor <kevin@koconnor.net>, Gerd Hoffmann <kraxel@redhat.com>
+Cc: seabios <seabios@seabios.org>, xen-devel
+ <xen-devel@lists.xenproject.org>,  qemu-devel <qemu-devel@nongnu.org>, paul
+ <paul@xen.org>
+Date: Thu, 02 Feb 2023 08:05:01 +0000
+In-Reply-To: <Y9scWQ/ASMCrY/uM@morn>
+References: <feef99dd2e1a5dce004d22baf07d716d6ea1344c.camel@infradead.org>
+ <Y9scWQ/ASMCrY/uM@morn>
+Content-Type: multipart/signed; micalg="sha-256";
+ protocol="application/pkcs7-signature"; 
+ boundary="=-sroW6G48O+5dXLLiahn3"
+User-Agent: Evolution 3.44.4-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-SRS-Rewrite: SMTP reverse-path rewritten from <dwmw2@infradead.org> by
+ casper.infradead.org. See http://www.infradead.org/rpr.html
+Received-SPF: none client-ip=2001:8b0:10b:1236::1;
+ envelope-from=BATV+067b40b933c07ef79d88+7102+infradead.org+dwmw2@casper.srs.infradead.org;
+ helo=casper.infradead.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -91,236 +77,183 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Cache the processed ARMVAParameters, as the building is
-quite expensive, particularly when PAUTH is enabled.
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/arm/cpu.h    |  11 +++++
- target/arm/helper.c | 102 ++++++++++++++++++++++++++++++++++++--------
- 2 files changed, 96 insertions(+), 17 deletions(-)
+--=-sroW6G48O+5dXLLiahn3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index e961afe88a..4ab8a0629b 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -243,6 +243,7 @@ typedef uint32_t ARMVAParameters;
-     FIELD(ARMVAP, DS, 21, 1)
-     FIELD(ARMVAP, HA, 22, 1)
-     FIELD(ARMVAP, HD, 23, 1)
-+    FIELD(ARMVAP, INIT, 31, 1)
- 
- typedef struct ARMMMUFaultInfo ARMMMUFaultInfo;
- 
-@@ -741,6 +742,16 @@ typedef struct CPUArchState {
-     /* Optional fault info across tlb lookup. */
-     ARMMMUFaultInfo *tlb_fi;
- 
-+    /* Cached VA Parameters. */
-+    struct {
-+        ARMVAParameters e0[2];
-+        ARMVAParameters e1[2];
-+        ARMVAParameters e2[2];
-+        ARMVAParameters e3;
-+        ARMVAParameters stage2;
-+        ARMVAParameters stage2_s;
-+    } vap_cache;
-+
-     /* Fields up to this point are cleared by a CPU reset */
-     struct {} end_reset_fields;
- 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 531a4bebb3..d573a8c420 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -4063,6 +4063,9 @@ static void vmsa_tcr_el1_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     tlb_flush_by_mmuidx(cs, (ARMMMUIdxBit_E10_1 |
-                              ARMMMUIdxBit_E10_1_PAN |
-                              ARMMMUIdxBit_E10_0));
-+    memset(&env->vap_cache.e0, 0, sizeof(env->vap_cache.e0));
-+    memset(&env->vap_cache.e1, 0, sizeof(env->vap_cache.e1));
-+
-     raw_write(env, ri, value);
- }
- 
-@@ -4078,6 +4081,25 @@ static void vmsa_tcr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
-     tlb_flush_by_mmuidx(cs, (ARMMMUIdxBit_E20_2 |
-                              ARMMMUIdxBit_E20_2_PAN |
-                              ARMMMUIdxBit_E20_0));
-+    memset(&env->vap_cache.e0, 0, sizeof(env->vap_cache.e0));
-+    memset(&env->vap_cache.e2, 0, sizeof(env->vap_cache.e2));
-+
-+    raw_write(env, ri, value);
-+}
-+
-+static void vmsa_vtcr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                uint64_t value)
-+{
-+    /* Bits of VSTCR_EL2 are shared with VTCR_EL2: flush both. */
-+    env->vap_cache.stage2 = 0;
-+    env->vap_cache.stage2_s = 0;
-+    raw_write(env, ri, value);
-+}
-+
-+static void vmsa_tcr_el3_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                uint64_t value)
-+{
-+    env->vap_cache.e3 = 0;
-     raw_write(env, ri, value);
- }
- 
-@@ -5552,6 +5574,7 @@ static const ARMCPRegInfo v8_cp_reginfo[] = {
- static void do_hcr_write(CPUARMState *env, uint64_t value, uint64_t valid_mask)
- {
-     ARMCPU *cpu = env_archcpu(env);
-+    uint64_t changed;
- 
-     if (arm_feature(env, ARM_FEATURE_V8)) {
-         valid_mask |= MAKE_64BIT_MASK(0, 34);  /* ARMv8.0 */
-@@ -5605,6 +5628,8 @@ static void do_hcr_write(CPUARMState *env, uint64_t value, uint64_t valid_mask)
- 
-     /* Clear RES0 bits.  */
-     value &= valid_mask;
-+    changed = env->cp15.hcr_el2 ^ value;
-+    env->cp15.hcr_el2 = value;
- 
-     /*
-      * These bits change the MMU setup:
-@@ -5614,11 +5639,14 @@ static void do_hcr_write(CPUARMState *env, uint64_t value, uint64_t valid_mask)
-      * HCR_DCT enables tagging on (disabled) stage1 translation
-      * HCR_FWB changes the interpretation of stage2 descriptor bits
-      */
--    if ((env->cp15.hcr_el2 ^ value) &
--        (HCR_VM | HCR_PTW | HCR_DC | HCR_DCT | HCR_FWB)) {
-+    if (changed & (HCR_VM | HCR_PTW | HCR_DC | HCR_DCT | HCR_FWB)) {
-         tlb_flush(CPU(cpu));
-     }
--    env->cp15.hcr_el2 = value;
-+    /* E2H and TGE control {E20_2, E20_0} vs {E2, E10_0} regimes. */
-+    if (changed & (HCR_E2H | HCR_TGE)) {
-+        memset(&env->vap_cache.e0, 0, sizeof(env->vap_cache.e0));
-+        memset(&env->vap_cache.e2, 0, sizeof(env->vap_cache.e2));
-+    }
- 
-     /*
-      * Updates to VI and VF require us to update the status of
-@@ -5915,13 +5943,12 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
-       .fieldoffset = offsetof(CPUARMState, cp15.tcr_el[2]) },
-     { .name = "VTCR", .state = ARM_CP_STATE_AA32,
-       .cp = 15, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 2,
--      .type = ARM_CP_ALIAS,
-+      .type = ARM_CP_ALIAS, .writefn = vmsa_vtcr_el2_write,
-       .access = PL2_RW, .accessfn = access_el3_aa32ns,
-       .fieldoffset = offsetoflow32(CPUARMState, cp15.vtcr_el2) },
-     { .name = "VTCR_EL2", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 4, .crn = 2, .crm = 1, .opc2 = 2,
--      .access = PL2_RW,
--      /* no .writefn needed as this can't cause an ASID change */
-+      .access = PL2_RW, .writefn = vmsa_vtcr_el2_write,
-       .fieldoffset = offsetof(CPUARMState, cp15.vtcr_el2) },
-     { .name = "VTTBR", .state = ARM_CP_STATE_AA32,
-       .cp = 15, .opc1 = 6, .crm = 2,
-@@ -6154,8 +6181,7 @@ static const ARMCPRegInfo el3_cp_reginfo[] = {
-       .fieldoffset = offsetof(CPUARMState, cp15.ttbr0_el[3]) },
-     { .name = "TCR_EL3", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 6, .crn = 2, .crm = 0, .opc2 = 2,
--      .access = PL3_RW,
--      /* no .writefn needed as this can't cause an ASID change */
-+      .access = PL3_RW, .writefn = vmsa_tcr_el3_write,
-       .resetvalue = 0,
-       .fieldoffset = offsetof(CPUARMState, cp15.tcr_el[3]) },
-     { .name = "ELR_EL3", .state = ARM_CP_STATE_AA64,
-@@ -11039,19 +11065,47 @@ static ARMGranuleSize sanitize_gran_size(ARMCPU *cpu, ARMGranuleSize gran,
-     return Gran64K;
- }
- 
--ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
--                                   ARMMMUIdx mmu_idx)
-+static ARMVAParameters *vap_cache(CPUARMState *env, ARMMMUIdx idx, bool sel)
-+{
-+    switch (idx) {
-+    case ARMMMUIdx_Stage2:
-+        return &env->vap_cache.stage2;
-+    case ARMMMUIdx_Stage2_S:
-+        return &env->vap_cache.stage2_s;
-+    case ARMMMUIdx_E3:
-+        return &env->vap_cache.e3;
-+    case ARMMMUIdx_E2:
-+        return &env->vap_cache.e2[0];
-+    case ARMMMUIdx_E20_2_PAN:
-+    case ARMMMUIdx_E20_2:
-+        return &env->vap_cache.e2[sel];
-+    case ARMMMUIdx_E10_1_PAN:
-+    case ARMMMUIdx_E10_1:
-+    case ARMMMUIdx_Stage1_E1:
-+    case ARMMMUIdx_Stage1_E1_PAN:
-+        return &env->vap_cache.e1[sel];
-+    case ARMMMUIdx_E20_0:
-+    case ARMMMUIdx_E10_0:
-+    case ARMMMUIdx_Stage1_E0:
-+        return &env->vap_cache.e0[sel];
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
-+static ARMVAParameters __attribute__((noinline))
-+aa64_va_parameters_build(CPUARMState *env, ARMMMUIdx mmu_idx, bool select)
- {
-     uint64_t tcr = regime_tcr(env, mmu_idx);
-     bool epd, hpd, tsz_oob, ds, ha, hd;
--    int select, tsz, tbii, tbid, max_tsz, min_tsz, ps, sh;
-+    int tsz, tbii, tbid, max_tsz, min_tsz, ps, sh;
-     ARMGranuleSize gran;
-     ARMCPU *cpu = env_archcpu(env);
-     bool stage2 = regime_is_stage2(mmu_idx);
-     ARMVAParameters r;
- 
-     if (!regime_has_2_ranges(mmu_idx)) {
--        select = 0;
-+        select = false;
-         tsz = extract32(tcr, 0, 6);
-         gran = tg0_to_gran_size(extract32(tcr, 14, 2));
-         if (stage2) {
-@@ -11069,11 +11123,6 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-     } else {
-         bool e0pd;
- 
--        /*
--         * Bit 55 is always between the two regions, and is canonical for
--         * determining if address tagging is enabled.
--         */
--        select = extract64(va, 55, 1);
-         if (!select) {
-             tsz = extract32(tcr, 0, 6);
-             gran = tg0_to_gran_size(extract32(tcr, 14, 2));
-@@ -11166,6 +11215,25 @@ ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-     r = FIELD_DP32(r, ARMVAP, DS, ds);
-     r = FIELD_DP32(r, ARMVAP, HA, ha);
-     r = FIELD_DP32(r, ARMVAP, HD, ha && hd);
-+    r = FIELD_DP32(r, ARMVAP, INIT, 1);
-+    return r;
-+}
-+
-+ARMVAParameters aa64_va_parameters(CPUARMState *env, uint64_t va,
-+                                   ARMMMUIdx mmu_idx)
-+{
-+    /*
-+     * Bit 55 is always between the two regions, and is canonical for
-+     * determining if address tagging is enabled.
-+     * Will be zapped if !regime_has_2_ranges.
-+     */
-+    bool select = extract64(va, 55, 1);
-+    ARMVAParameters *c = vap_cache(env, mmu_idx, select);
-+    ARMVAParameters r = *c;
-+
-+    if (unlikely(!FIELD_EX32(r, ARMVAP, INIT))) {
-+        *c = r = aa64_va_parameters_build(env, mmu_idx, select);
-+    }
-     return r;
- }
- 
--- 
-2.34.1
+On Wed, 2023-02-01 at 21:13 -0500, Kevin O'Connor wrote:
+> On Fri, Jan 20, 2023 at 11:33:19AM +0000, David Woodhouse wrote:
+> > From: David Woodhouse <dwmw@amazon.co.uk>
+> >=20
+> > When running under Xen, hvmloader places a table at 0x1000 with the e82=
+0
+> > information and BIOS tables. If this isn't present, SeaBIOS will=20
+> > currently panic.
+> >=20
+> > We now have support for running Xen guests natively in QEMU/KVM, which
+> > boots SeaBIOS directly instead of via hvmloader, and does not provide
+> > the same structure.
+> >=20
+> > As it happens, this doesn't matter on first boot. because although we
+> > set PlatformRunningOn to PF_QEMU|PF_XEN, reading it back again still
+> > gives zero. Presumably because in true Xen, this is all already RAM. Bu=
+t
+> > in QEMU with a faithfully-emulated PAM config in the host bridge, it's
+> > still in ROM mode at this point so we don't see what we've just written=
+.
+> >=20
+> > On reboot, however, the region *is* set to RAM mode and we do see the
+> > updated value of PlatformRunningOn, do manage to remember that we've
+> > detected Xen in CPUID, and hit the panic.
+> >=20
+> > It's not trivial to detect QEMU vs. real Xen at the time xen_preinit()
+> > runs, because it's so early. We can't even make a XENVER_extraversion
+> > hypercall to look for hints, because we haven't set up the hypercall
+> > page (and don't have an allocator to give us a page in which to do so).
+> >=20
+> > So just make Xen detection contingent on the info structure being
+> > present. If it wasn't, we were going to panic anyway. That leaves us
+> > taking the standard QEMU init path for Xen guests in native QEMU,
+> > which is just fine.
+>=20
+> Thanks.=C2=A0 I committed this change.
+>=20
+> -Kevin
 
+Thanks, Kevin.
+
+I'd like to get the rest of the Xen platform support in to qemu 8.0 if
+possible. Which is currently scheduled for March.
+
+Is there likely to be a SeaBIOS release before then which Gerd would
+pull into qemu anyway, or should I submit a submodule update to a
+snapshot of today's tree? That would just pull in this commit, and the
+one other fix that's in the SeaBIOS tree since 1.16.1?
+
+
+ $ git shortlog rel-1.16.1..
+David Woodhouse (1):
+      xen: require Xen info structure at 0x1000 to detect Xen
+
+Qi Zhou (1):
+      usb: fix wrong init of keyboard/mouse's if first interface is not boo=
+t protocol
+
+
+
+
+--=-sroW6G48O+5dXLLiahn3
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCEkQw
+ggYQMIID+KADAgECAhBNlCwQ1DvglAnFgS06KwZPMA0GCSqGSIb3DQEBDAUAMIGIMQswCQYDVQQG
+EwJVUzETMBEGA1UECBMKTmV3IEplcnNleTEUMBIGA1UEBxMLSmVyc2V5IENpdHkxHjAcBgNVBAoT
+FVRoZSBVU0VSVFJVU1QgTmV0d29yazEuMCwGA1UEAxMlVVNFUlRydXN0IFJTQSBDZXJ0aWZpY2F0
+aW9uIEF1dGhvcml0eTAeFw0xODExMDIwMDAwMDBaFw0zMDEyMzEyMzU5NTlaMIGWMQswCQYDVQQG
+EwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYD
+VQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50
+aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKC
+AQEAyjztlApB/975Rrno1jvm2pK/KxBOqhq8gr2+JhwpKirSzZxQgT9tlC7zl6hn1fXjSo5MqXUf
+ItMltrMaXqcESJuK8dtK56NCSrq4iDKaKq9NxOXFmqXX2zN8HHGjQ2b2Xv0v1L5Nk1MQPKA19xeW
+QcpGEGFUUd0kN+oHox+L9aV1rjfNiCj3bJk6kJaOPabPi2503nn/ITX5e8WfPnGw4VuZ79Khj1YB
+rf24k5Ee1sLTHsLtpiK9OjG4iQRBdq6Z/TlVx/hGAez5h36bBJMxqdHLpdwIUkTqT8se3ed0PewD
+ch/8kHPo5fZl5u1B0ecpq/sDN/5sCG52Ds+QU5O5EwIDAQABo4IBZDCCAWAwHwYDVR0jBBgwFoAU
+U3m/WqorSs9UgOHYm8Cd8rIDZsswHQYDVR0OBBYEFAnA8vwL2pTbX/4r36iZQs/J4K0AMA4GA1Ud
+DwEB/wQEAwIBhjASBgNVHRMBAf8ECDAGAQH/AgEAMB0GA1UdJQQWMBQGCCsGAQUFBwMCBggrBgEF
+BQcDBDARBgNVHSAECjAIMAYGBFUdIAAwUAYDVR0fBEkwRzBFoEOgQYY/aHR0cDovL2NybC51c2Vy
+dHJ1c3QuY29tL1VTRVJUcnVzdFJTQUNlcnRpZmljYXRpb25BdXRob3JpdHkuY3JsMHYGCCsGAQUF
+BwEBBGowaDA/BggrBgEFBQcwAoYzaHR0cDovL2NydC51c2VydHJ1c3QuY29tL1VTRVJUcnVzdFJT
+QUFkZFRydXN0Q0EuY3J0MCUGCCsGAQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0G
+CSqGSIb3DQEBDAUAA4ICAQBBRHUAqznCFfXejpVtMnFojADdF9d6HBA4kMjjsb0XMZHztuOCtKF+
+xswhh2GqkW5JQrM8zVlU+A2VP72Ky2nlRA1GwmIPgou74TZ/XTarHG8zdMSgaDrkVYzz1g3nIVO9
+IHk96VwsacIvBF8JfqIs+8aWH2PfSUrNxP6Ys7U0sZYx4rXD6+cqFq/ZW5BUfClN/rhk2ddQXyn7
+kkmka2RQb9d90nmNHdgKrwfQ49mQ2hWQNDkJJIXwKjYA6VUR/fZUFeCUisdDe/0ABLTI+jheXUV1
+eoYV7lNwNBKpeHdNuO6Aacb533JlfeUHxvBz9OfYWUiXu09sMAviM11Q0DuMZ5760CdO2VnpsXP4
+KxaYIhvqPqUMWqRdWyn7crItNkZeroXaecG03i3mM7dkiPaCkgocBg0EBYsbZDZ8bsG3a08LwEsL
+1Ygz3SBsyECa0waq4hOf/Z85F2w2ZpXfP+w8q4ifwO90SGZZV+HR/Jh6rEaVPDRF/CEGVqR1hiuQ
+OZ1YL5ezMTX0ZSLwrymUE0pwi/KDaiYB15uswgeIAcA6JzPFf9pLkAFFWs1QNyN++niFhsM47qod
+x/PL+5jR87myx5uYdBEQkkDc+lKB1Wct6ucXqm2EmsaQ0M95QjTmy+rDWjkDYdw3Ms6mSWE3Bn7i
+5ZgtwCLXgAIe5W8mybM2JzCCBhQwggT8oAMCAQICEQDGvhmWZ0DEAx0oURL6O6l+MA0GCSqGSIb3
+DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYD
+VQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28g
+UlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIyMDEwNzAw
+MDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJARYTZHdtdzJAaW5mcmFkZWFkLm9y
+ZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3GpC2bomUqk+91wLYBzDMcCj5C9m6
+oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZHh7htyAkWYVoFsFPrwHounto8xTsy
+SSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT9YgcBqKCo65pTFmOnR/VVbjJk4K2
+xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNjP+qDrh0db7PAjO1D4d5ftfrsf+kd
+RR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy2U+eITZ5LLE5s45mX2oPFknWqxBo
+bQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3BgBEmfsYWlBXO8rVXfvPgLs32VdV
+NZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/7auNVRmPB3v5SWEsH8xi4Bez2V9U
+KxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmdlFYhAflWKQ03Ufiu8t3iBE3VJbc2
+5oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9aelIl6vtbhMA+l0nfrsORMa4kobqQ5
+C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMBAAGjggHMMIIByDAfBgNVHSMEGDAW
+gBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeDMcimo0oz8o1R1Nver3ZVpSkwDgYD
+VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMC
+MEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUHAgEWF2h0dHBzOi8vc2VjdGln
+by5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGln
+b1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEB
+BH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50
+QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0cDovL29j
+c3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5mcmFkZWFkLm9yZzANBgkqhkiG9w0B
+AQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQvQ/fzPXmtR9t54rpmI2TfyvcKgOXp
+qa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvIlSPrzIB4Z2wyIGQpaPLlYflrrVFK
+v9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9ChWFfgSXvrWDZspnU3Gjw/rMHrGnql
+Htlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0whpBtXdyDjzBtQTaZJ7zTT/vlehc/
+tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9IzCCBhQwggT8oAMCAQICEQDGvhmW
+Z0DEAx0oURL6O6l+MA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3Jl
+YXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0
+ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJl
+IEVtYWlsIENBMB4XDTIyMDEwNzAwMDAwMFoXDTI1MDEwNjIzNTk1OVowJDEiMCAGCSqGSIb3DQEJ
+ARYTZHdtdzJAaW5mcmFkZWFkLm9yZzCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBALQ3
+GpC2bomUqk+91wLYBzDMcCj5C9m6oZaHwvmIdXftOgTbCJXADo6G9T7BBAebw2JV38EINgKpy/ZH
+h7htyAkWYVoFsFPrwHounto8xTsySSePMiPlmIdQ10BcVSXMUJ3Juu16GlWOnAMJY2oYfEzmE7uT
+9YgcBqKCo65pTFmOnR/VVbjJk4K2xE34GC2nAdUQkPFuyaFisicc6HRMOYXPuF0DuwITEKnjxgNj
+P+qDrh0db7PAjO1D4d5ftfrsf+kdRR4gKVGSk8Tz2WwvtLAroJM4nXjNPIBJNT4w/FWWc/5qPHJy
+2U+eITZ5LLE5s45mX2oPFknWqxBobQZ8a9dsZ3dSPZBvE9ZrmtFLrVrN4eo1jsXgAp1+p7bkfqd3
+BgBEmfsYWlBXO8rVXfvPgLs32VdVNZxb/CDWPqBsiYv0Hv3HPsz07j5b+/cVoWqyHDKzkaVbxfq/
+7auNVRmPB3v5SWEsH8xi4Bez2V9UKxfYCnqsjp8RaC2/khxKt0A552Eaxnz/4ly/2C7wkwTQnBmd
+lFYhAflWKQ03Ufiu8t3iBE3VJbc25oMrglj7TRZrmKq3CkbFnX0fyulB+kHimrt6PIWn7kgyl9ae
+lIl6vtbhMA+l0nfrsORMa4kobqQ5C5rveVgmcIad67EDa+UqEKy/GltUwlSh6xy+TrK1tzDvAgMB
+AAGjggHMMIIByDAfBgNVHSMEGDAWgBQJwPL8C9qU21/+K9+omULPyeCtADAdBgNVHQ4EFgQUzMeD
+Mcimo0oz8o1R1Nver3ZVpSkwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYw
+FAYIKwYBBQUHAwQGCCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYB
+BQUHAgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0dHA6Ly9j
+cmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0aW9uYW5kU2VjdXJlRW1h
+aWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEFBQcwAoZJaHR0cDovL2NydC5zZWN0aWdv
+LmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAj
+BggrBgEFBQcwAYYXaHR0cDovL29jc3Auc2VjdGlnby5jb20wHgYDVR0RBBcwFYETZHdtdzJAaW5m
+cmFkZWFkLm9yZzANBgkqhkiG9w0BAQsFAAOCAQEAyW6MUir5dm495teKqAQjDJwuFCi35h4xgnQv
+Q/fzPXmtR9t54rpmI2TfyvcKgOXpqa7BGXNFfh1JsqexVkIqZP9uWB2J+uVMD+XZEs/KYNNX2PvI
+lSPrzIB4Z2wyIGQpaPLlYflrrVFKv9CjT2zdqvy2maK7HKOQRt3BiJbVG5lRiwbbygldcALEV9Ch
+WFfgSXvrWDZspnU3Gjw/rMHrGnqlHtlyebp3pf3fSS9kzQ1FVtVIDrL6eqhTwJxe+pXSMMqFiN0w
+hpBtXdyDjzBtQTaZJ7zTT/vlehc/tDuqZwGHm/YJy883Ll+GP3NvOkgaRGWEuYWJJ6hFCkXYjyR9
+IzGCBMcwggTDAgEBMIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVz
+dGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMT
+NVNlY3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEA
+xr4ZlmdAxAMdKFES+jupfjANBglghkgBZQMEAgEFAKCCAeswGAYJKoZIhvcNAQkDMQsGCSqGSIb3
+DQEHATAcBgkqhkiG9w0BCQUxDxcNMjMwMjAyMDgwNTAxWjAvBgkqhkiG9w0BCQQxIgQgXb8x9FP2
+dLdzxyp5RSIdrPlq7/qDMQk4hDF89xX3h/Uwgb0GCSsGAQQBgjcQBDGBrzCBrDCBljELMAkGA1UE
+BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYG
+A1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVu
+dGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQQIRAMa+GZZnQMQDHShREvo7qX4wgb8GCyqGSIb3
+DQEJEAILMYGvoIGsMIGWMQswCQYDVQQGEwJHQjEbMBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVy
+MRAwDgYDVQQHEwdTYWxmb3JkMRgwFgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNl
+Y3RpZ28gUlNBIENsaWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBAhEAxr4Z
+lmdAxAMdKFES+jupfjANBgkqhkiG9w0BAQEFAASCAgCqRncvkU1L7LeqmTzvESKUO40Gr2DHKjEi
+RGTQ5dohjRGVUKHnKQDSmL3cYbJXRsAKnvy4hfzFzlgriC5zU2LoI84Rq0Bt1nskIL9lRaD9pvUN
+JNINB9tykaxomB8NhZfvFDVy1MlT7uLRgs34yic/yFhKr4N9wyCUuR2x8PRYUNIzUSYATdAkrwc4
+aPqCKzcpXPcIAk326ifhzC+g+vcdrVPLmdMuQX2p4Gd864zTq8QiLl6cbt2yxHSwRonc17YSbONG
+M4u6tQWkCId2sVDhDz3fGmX3AWbpc8PN+qmaP08+sa9rty/M+4O2JX1cKlM/mF6U2vG1oQu4VCRX
+9GteBwOD1SUYdz+nO51kisxUgXnOslOZ1QaCV9QiWAkBs47wwypEqPpEJG+YKB921l60J3+pWxZL
+IIXTmZTCcMxlMxVWxMxn3iAKlhwFNpBI2/i3Lu169dmy0lvGXq+HSsHfUPMSlQWLug2vKWG9TArf
+/9KBXH7UJrSsZ+blvwxmBB+4ZBGQ645LKL/COQsxRc6NbmAlmjYZ4f/pR55S23u9qmdbWI2ktQ7B
+Iquj1KS/sLRqBhb7NmDkr19UlfJ3IC+E0w3UIrR9JFTRj50QWdn4T2M/4Q5ZOVqKHmpf8DYLX635
+QlGdo7Z1oqKnqj9WO9MTHMps8MuLCA4vGDZisZPJDAAAAAAAAA==
+
+
+--=-sroW6G48O+5dXLLiahn3--
 
