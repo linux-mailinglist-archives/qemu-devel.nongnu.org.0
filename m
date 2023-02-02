@@ -2,76 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05154687F4E
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:54:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3D3B687F59
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:55:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNa1p-0001bR-Tv; Thu, 02 Feb 2023 08:53:29 -0500
+	id 1pNa3s-0005KM-D8; Thu, 02 Feb 2023 08:55:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1pNa1n-0001ax-HR
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:53:27 -0500
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1pNa1j-0007Zy-QL
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:53:27 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id me3so6119225ejb.7
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 05:53:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=lRWOiKEIx4sC6D3oxMDk9TP0VHck4I+tZSIoPNsqoc4=;
- b=NXhMzdRnBSL2EezBJLEpN7LdPv7I/+EoDoGr57TQ/ZuilhC5Ep6QwlE+FbcCutydGU
- iLT4LYMybhvXZjOAqPqkdYeDcSu7eBiEx6S4B4MSCT77PkCOcAwkvThxNSvysOZoCTZl
- jSFfkJzbv/dqptJbNlQS4idGX6O2e+Gzo43rNjSypmA7LFn4kIpkR8TzxiImCDLtxwVb
- dsDcQPrk4DZzVM0HedjvwswuOLGfGvERrfafOVU+9deUyMl9bZXZHayWjMCoBi885R5h
- Sq09wpnUSJI3sUlJhhj3SZ/DAnfWiMj5GDDSV3HOZLKJ+F19v2WfA2tASyIEaHzlZT1Y
- MUkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=lRWOiKEIx4sC6D3oxMDk9TP0VHck4I+tZSIoPNsqoc4=;
- b=QIaDo5FyCThlc41uXUeEmPPcJIipWgMP15tokkgLrIznKfNL0hmQ3Y2wdIW38x3JyV
- E95sBM3BATAd3RV/O80o0YdAUuxIVaMy49dnDgf/j0cCPQkxiJll8vYamv8KWLdyw4de
- ETl7YA4G273meEsBRCsIM7rRAL9fz2bZ/9JOH53woIhbkeBcvMnsPxesWCQkRSzp9miI
- /czrNrhGwmYS+jmYsORt9fVgZM9rc1FTR3jih4FPxeCHoNS6071MsyR+XCGlMbL7TKXA
- DQjID7iZnomq+9HWB9ay7tmHOOqMMu/7Ku7gWhFYHewTXdw1KpfM5pUsyC6VeuLjcdXi
- ONVg==
-X-Gm-Message-State: AO0yUKUDW3dhR4BkMjWzJSIWVZxh4zlq5T2a/w/n3ruj53bCn6moSMWU
- N3LNs4ahDjGKLgQZ9agHbrlbfc1V/ukq6pvwGTlCoA==
-X-Google-Smtp-Source: AK7set8uz666imyz15CSL1dfiXf6mAd72KCbAeRSvX0JNkMuHCIkdA4hqYwubFpB5PbsJ49RwZWnOxlG7nUfJLU3kTw=
-X-Received: by 2002:a17:906:71d3:b0:84d:28da:f3a with SMTP id
- i19-20020a17090671d300b0084d28da0f3amr1773701ejk.76.1675346001173; Thu, 02
- Feb 2023 05:53:21 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pNa3g-0005Jy-0m
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:55:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pNa3e-00080t-0f
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:55:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675346120;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=DHz5MC4W6AgDJhDEotXYs84dyMa5XuRGofwwYVx1OFM=;
+ b=JDCxnz6XMRdRyp+52IdRTbOzzRI+5woI41LK2ioG3A2xH7BYatTfKn5Kr3vV9QTojfoIj3
+ syxuhHDghpZ3LYBGImHCzwRUPpLAzDgrYC63t2Z2nwERaxctV2FF7cg3vAWofm3PaOdU8b
+ 3Dk1tMHTpk+xh+2bdZUja+m2EqUhSj8=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-290-2HMAPb9lMHqJN-l62MsllA-1; Thu, 02 Feb 2023 08:55:19 -0500
+X-MC-Unique: 2HMAPb9lMHqJN-l62MsllA-1
+Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.10])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C29371C05AFB;
+ Thu,  2 Feb 2023 13:55:18 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 94FD7492C3E;
+ Thu,  2 Feb 2023 13:55:17 +0000 (UTC)
+Date: Thu, 2 Feb 2023 13:55:15 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: "manish.mishra" <manish.mishra@nutanix.com>, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, lsoaresp@redhat.com, Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v6 1/2] io: Add support for MSG_PEEK for socket channel
+Message-ID: <Y9vAw4QxR7i1GnzH@redhat.com>
+References: <20221220184418.228834-1-manish.mishra@nutanix.com>
+ <20221220184418.228834-2-manish.mishra@nutanix.com>
+ <877cx0mf4b.fsf@secure.mitica> <Y9utB91u5JFeHBiN@redhat.com>
+ <87sffokz73.fsf@secure.mitica> <Y9u26aMxlryK5c3o@redhat.com>
+ <87k010kwzq.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
- <20230202124230.295997-3-lawrence.hunter@codethink.co.uk>
-In-Reply-To: <20230202124230.295997-3-lawrence.hunter@codethink.co.uk>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Thu, 2 Feb 2023 14:53:10 +0100
-Message-ID: <CAAeLtUC4DZTKOK3k7FWG3Y7hm5pJmyE3AjXoUHJ-VQvAtg=FMQ@mail.gmail.com>
-Subject: Re: [PATCH 02/39] target/riscv: Add vclmul.vv decoding, translation
- and execution support
-To: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
-Cc: qemu-devel@nongnu.org, dickon.hood@codethink.co.uk, 
- nazar.kazakov@codethink.co.uk, kiran.ostrolenk@codethink.co.uk, 
- frank.chang@sifive.com, palmer@dabbelt.com, alistair.francis@wdc.com, 
- bin.meng@windriver.com, pbonzini@redhat.com, kvm@vger.kernel.org, 
- Max Chou <max.chou@sifive.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-ej1-x62d.google.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87k010kwzq.fsf@secure.mitica>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,553 +83,116 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2 Feb 2023 at 13:42, Lawrence Hunter
-<lawrence.hunter@codethink.co.uk> wrote:
->
+On Thu, Feb 02, 2023 at 02:39:05PM +0100, Juan Quintela wrote:
+> Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> > On Thu, Feb 02, 2023 at 01:51:28PM +0100, Juan Quintela wrote:
+> >> Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> >> > On Thu, Feb 02, 2023 at 01:22:12PM +0100, Juan Quintela wrote:
+> >> >> "manish.mishra" <manish.mishra@nutanix.com> wrote:
+> >> >> > MSG_PEEK peeks at the channel, The data is treated as unread and
+> >> >> > the next read shall still return this data. This support is
+> >> >> > currently added only for socket class. Extra parameter 'flags'
+> >> >> > is added to io_readv calls to pass extra read flags like MSG_PEEK.
+> >> >> >
+> >> >> > Reviewed-by: Peter Xu <peterx@redhat.com>
+> >> >> > Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+> >> >> > Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+> >> >> > Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+> >> >>=20
+> >> >>=20
+> >> >> This change breaks RDMA migration.
+> >> >>=20
+> >> >> FAILED: libcommon.fa.p/migration_rdma.c.o
+> >> >> cc -m64 -mcx16 -Ilibcommon.fa.p -I/usr/include/pixman-1 -I/usr/incl=
+ude/libpng16 -I/usr/include/spice-server -I/usr/include/spice-1 -I/usr/incl=
+ude/cacard -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/inc=
+lude/sysprof-4 -I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include/PCSC=
+ -I/usr/include/p11-kit-1 -I/usr/include/libusb-1.0 -I/usr/include/SDL2 -I/=
+usr/include/libmount -I/usr/include/blkid -I/usr/include/gio-unix-2.0 -I/us=
+r/include/slirp -fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -std=
+=3Dgnu11 -O2 -g -isystem /mnt/code/qemu/full/linux-headers -isystem linux-h=
+eaders -iquote . -iquote /mnt/code/qemu/full -iquote /mnt/code/qemu/full/in=
+clude -iquote /mnt/code/qemu/full/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_FO=
+RTIFY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE=
+ -fno-strict-aliasing -fno-common -fwrapv -Wundef -Wwrite-strings -Wmissing=
+-prototypes -Wstrict-prototypes -Wredundant-decls -Wold-style-declaration -=
+Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-s=
+elf -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexp=
+ansion-to-defined -Wimplicit-fallthrough=3D2 -Wmissing-format-attribute -Wn=
+o-missing-include-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protect=
+or-strong -fPIE -D_REENTRANT -Wno-undef -DSTRUCT_IOVEC_DEFINED -MD -MQ libc=
+ommon.fa.p/migration_rdma.c.o -MF libcommon.fa.p/migration_rdma.c.o.d -o li=
+bcommon.fa.p/migration_rdma.c.o -c ../../../../mnt/code/qemu/full/migration=
+/rdma.c
+> >> >> ../../../../mnt/code/qemu/full/migration/rdma.c: In function =E2=80=
+=98qio_channel_rdma_class_init=E2=80=99:
+> >> >> ../../../../mnt/code/qemu/full/migration/rdma.c:4020:25: error: ass=
+ignment to =E2=80=98ssize_t (*)(QIOChannel *, const struct iovec *, size_t,=
+  int **, size_t *, int,  Error **)=E2=80=99 {aka =E2=80=98long int (*)(QIO=
+Channel *, const struct iovec *, long unsigned int,  int **, long unsigned =
+int *, int,  Error **)=E2=80=99} from incompatible pointer type =E2=80=98ss=
+ize_t (*)(QIOChannel *, const struct iovec *, size_t,  int **, size_t *, Er=
+ror **)=E2=80=99 {aka =E2=80=98long int (*)(QIOChannel *, const struct iove=
+c *, long unsigned int,  int **, long unsigned int *, Error **)=E2=80=99} [=
+-Werror=3Dincompatible-pointer-types]
+> >> >>  4020 |     ioc_klass->io_readv =3D qio_channel_rdma_readv;
+> >> >>       |                         ^
+> >> >> cc1: all warnings being treated as errors
+> >> >>=20
+> >> >> And I don't really know how to fix it, because the problem is that =
+rdma
+> >> >> don't use qio_channel_readv_full() at all.
+> >> >
+> >> > Likely qio_channel_rdma_readv just adds the 'int flags' param added.
+> >> > It doesn't need to actually do anything with the flags as they are
+> >> > checked before
+> >>=20
+> >> I can do that.  That would fix the compilation issue.
+> >>=20
+> >> But will rdma work?  Because it fakes a qio channel, so what is going =
+to
+> >> implement the MSG_PEEK functionality for it?  It don't end calling
+> >> recv() at all.
+> >
+> > It is no problem - the qio_channel_readv method changes in this patch
+> > add:
+> >
+> > +    if ((flags & QIO_CHANNEL_READ_FLAG_MSG_PEEK) &&
+> > +        !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_READ_MSG_PEE=
+K)) {
+> > +        error_setg_errno(errp, EINVAL,
+> > +                         "Channel does not support peek read");
+> > +        return -1;
+> > +    }
+> >
+> >
+> > so it is impossible for qio_channel_rdma_readv to be invoked with
+> > flags having MSG_PEEK set, thus RDMA can ignore the whole concept.
+>=20
+> And as we require MSG_PEEK to do migration, we have lost RDMA migration
+> in the process.
+>=20
+> The following patch on the series use this functionality to read the
+> beggining of the streams in the channels.
 
-Given that this is a non-trivial change, the commit message seems a bit brief?
+It guards that usage of MSG_PEEK with
 
-> Co-authored-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
-> Co-authored-by: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
-> Co-authored-by: Max Chou <max.chou@sifive.com>
-> Signed-off-by: Max Chou <max.chou@sifive.com>
-> Signed-off-by: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
-> Signed-off-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
-> Signed-off-by: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
-> ---
->  target/riscv/helper.h                      |   3 +
->  target/riscv/insn32.decode                 |   3 +
->  target/riscv/insn_trans/trans_rvzvkb.c.inc |  41 +++++++
->  target/riscv/meson.build                   |   4 +-
->  target/riscv/translate.c                   |   1 +
->  target/riscv/vcrypto_helper.c              |  23 ++++
->  target/riscv/vector_helper.c               | 120 +--------------------
->  target/riscv/vector_internals.c            |  39 +++++++
->  target/riscv/vector_internals.h            | 116 ++++++++++++++++++++
->  9 files changed, 230 insertions(+), 120 deletions(-)
->  create mode 100644 target/riscv/insn_trans/trans_rvzvkb.c.inc
->  create mode 100644 target/riscv/vcrypto_helper.c
->  create mode 100644 target/riscv/vector_internals.c
->  create mode 100644 target/riscv/vector_internals.h
->
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index 227c7122ef..e9127c9ccb 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -1136,3 +1136,6 @@ DEF_HELPER_FLAGS_1(aes64im, TCG_CALL_NO_RWG_SE, tl, tl)
->
->  DEF_HELPER_FLAGS_3(sm4ed, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
->  DEF_HELPER_FLAGS_3(sm4ks, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
-> +
-> +/* Vector crypto functions */
-> +DEF_HELPER_6(vclmul_vv, void, ptr, ptr, ptr, ptr, env, i32)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index b7e7613ea2..5ddee69d60 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -890,3 +890,6 @@ sm3p1       00 01000 01001 ..... 001 ..... 0010011 @r2
->  # *** RV32 Zksed Standard Extension ***
->  sm4ed       .. 11000 ..... ..... 000 ..... 0110011 @k_aes
->  sm4ks       .. 11010 ..... ..... 000 ..... 0110011 @k_aes
-> +
-> +# *** RV64 Zvkb vector crypto extension ***
-> +vclmul_vv       001100 . ..... ..... 010 ..... 1010111 @r_vm
-> diff --git a/target/riscv/insn_trans/trans_rvzvkb.c.inc b/target/riscv/insn_trans/trans_rvzvkb.c.inc
-> new file mode 100644
-> index 0000000000..fb1995f737
-> --- /dev/null
-> +++ b/target/riscv/insn_trans/trans_rvzvkb.c.inc
-> @@ -0,0 +1,41 @@
-> +#define GEN_VV_MASKED_TRANS(NAME, CHECK)                               \
-> +static bool trans_##NAME(DisasContext *s, arg_rmrr * a)                \
-> +{                                                                      \
-> +    if (CHECK(s, a)) {                                                 \
-> +        uint32_t data = 0;                                             \
-> +        TCGLabel *over = gen_new_label();                              \
-> +        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);              \
-> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);     \
-> +                                                                       \
-> +        data = FIELD_DP32(data, VDATA, VM, a->vm);                     \
-> +        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);                 \
-> +        data = FIELD_DP32(data, VDATA, VTA, s->vta);                   \
-> +        data = FIELD_DP32(data, VDATA, VTA_ALL_1S, s->cfg_vta_all_1s); \
-> +        data = FIELD_DP32(data, VDATA, VMA, s->vma);                   \
-> +                                                                       \
-> +        tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),         \
-> +                           vreg_ofs(s, a->rs1),                        \
-> +                           vreg_ofs(s, a->rs2), cpu_env,               \
-> +                           s->cfg_ptr->vlen / 8,                       \
-> +                           s->cfg_ptr->vlen / 8, data,                 \
-> +                           gen_helper_##NAME);                         \
-> +                                                                       \
-> +        mark_vs_dirty(s);                                              \
-> +        gen_set_label(over);                                           \
-> +        return true;                                                   \
-> +    }                                                                  \
-> +    return false;                                                      \
-> +}
-
-This largely duplicates GEN_OPIVV_TRANS(NAME, CHECK).
-Please refactor and share the common part into an 'opivv_trans' that
-can be reused.
-
-I would expect the common part to have the following signature:
-   static bool opivv_trans(DisasContext *s, arg_rmrr *a,
-gen_helper_gvec_4_ptr *fn)
-
-> +
-> +static bool zvkb_vv_check(DisasContext *s, arg_rmrr *a)
-> +{
-> +    return opivv_check(s, a) &&
-> +           s->cfg_ptr->ext_zvkb == true;
-> +}
-> +
-> +static bool vclmul_vv_check(DisasContext *s, arg_rmrr *a)
-> +{
-> +    return zvkb_vv_check(s, a) && s->sew == MO_64;
-> +}
-> +
-> +GEN_VV_MASKED_TRANS(vclmul_vv, vclmul_vv_check)
-> diff --git a/target/riscv/meson.build b/target/riscv/meson.build
-> index ba25164d74..5313b01e5f 100644
-> --- a/target/riscv/meson.build
-> +++ b/target/riscv/meson.build
-> @@ -15,10 +15,12 @@ riscv_ss.add(files(
->    'gdbstub.c',
->    'op_helper.c',
->    'vector_helper.c',
-> +  'vector_internals.c',
->    'bitmanip_helper.c',
->    'translate.c',
->    'm128_helper.c',
-> -  'crypto_helper.c'
-> +  'crypto_helper.c',
-> +  'vcrypto_helper.c'
->  ))
->  riscv_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
->
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index df38db7553..71684c10f3 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -1063,6 +1063,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
->  #include "insn_trans/trans_rvzawrs.c.inc"
->  #include "insn_trans/trans_rvzfh.c.inc"
->  #include "insn_trans/trans_rvk.c.inc"
-> +#include "insn_trans/trans_rvzvkb.c.inc"
->  #include "insn_trans/trans_privileged.c.inc"
->  #include "insn_trans/trans_svinval.c.inc"
->  #include "insn_trans/trans_xventanacondops.c.inc"
-> diff --git a/target/riscv/vcrypto_helper.c b/target/riscv/vcrypto_helper.c
-> new file mode 100644
-> index 0000000000..8a11e56754
-> --- /dev/null
-> +++ b/target/riscv/vcrypto_helper.c
-> @@ -0,0 +1,23 @@
-> +#include "qemu/osdep.h"
-> +#include "qemu/host-utils.h"
-> +#include "qemu/bitops.h"
-> +#include "cpu.h"
-> +#include "exec/memop.h"
-> +#include "exec/exec-all.h"
-> +#include "exec/helper-proto.h"
-> +#include "tcg/tcg-gvec-desc.h"
-> +#include "internals.h"
-> +#include "vector_internals.h"
-> +
-> +static void do_vclmul_vv(void *vd, void *vs1, void *vs2, int i)
-> +{
-> +    uint64_t result = 0;
-> +    for (int j = 63; j >= 0; j--) {
-> +        if ((((uint64_t *)vs1)[i] >> j) & 1) {
-
-Why reverse the order we evaluate the bits here?
-The spec has:
-
-foreach (i from 0 to (width - 1)) {
-      if y[i] == 1 then result = result ^ (x << i);
-}
-
-> +            result ^= (((uint64_t *)vs2)[i] << j);
-> +        }
-> +    }
-> +    ((uint64_t *)vd)[i] = result;
-> +}
-> +
-> +GEN_VEXT_VV(vclmul_vv, 8)
-
-This should go through the RVVCALL macro (may need refactoring into a
-different header file) from vector_helper.c.
-You could then easily (and without the gratuitous casting and repeated
-array-accesses) express this as:
-
-/* vclmul.vv */
-static uint64_t clmul64(uint64_t x, uint64_t y)
-{
-    target_ulong result = 0;
-    const unsigned int elem_width = 64;
-
-    for (unsigned int i = 0; i < elem_width; ++i)
-        if ((y >> i) & 1)
-            result ^= (x << i);
-
-    return result;
-}
-
-RVVCALL(OPIVV2, vclmul_vv_d, OP_UUU_D, H8, H8, H8, clmul64)
-GEN_VEXT_VV(vclmul_vv_d, 8)
-
-> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> index 00de879787..def1b21414 100644
-> --- a/target/riscv/vector_helper.c
-> +++ b/target/riscv/vector_helper.c
-> @@ -26,6 +26,7 @@
->  #include "fpu/softfloat.h"
->  #include "tcg/tcg-gvec-desc.h"
->  #include "internals.h"
-> +#include "vector_internals.h"
->  #include <math.h>
->
->  target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
-> @@ -95,48 +96,6 @@ target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
->  #define H8(x)   (x)
->  #endif
->
-> -static inline uint32_t vext_nf(uint32_t desc)
-> -{
-> -    return FIELD_EX32(simd_data(desc), VDATA, NF);
-> -}
-> -
-> -static inline uint32_t vext_vm(uint32_t desc)
-> -{
-> -    return FIELD_EX32(simd_data(desc), VDATA, VM);
-> -}
-> -
-> -/*
-> - * Encode LMUL to lmul as following:
-> - *     LMUL    vlmul    lmul
-> - *      1       000       0
-> - *      2       001       1
-> - *      4       010       2
-> - *      8       011       3
-> - *      -       100       -
-> - *     1/8      101      -3
-> - *     1/4      110      -2
-> - *     1/2      111      -1
-> - */
-> -static inline int32_t vext_lmul(uint32_t desc)
-> -{
-> -    return sextract32(FIELD_EX32(simd_data(desc), VDATA, LMUL), 0, 3);
-> -}
-> -
-> -static inline uint32_t vext_vta(uint32_t desc)
-> -{
-> -    return FIELD_EX32(simd_data(desc), VDATA, VTA);
-> -}
-> -
-> -static inline uint32_t vext_vma(uint32_t desc)
-> -{
-> -    return FIELD_EX32(simd_data(desc), VDATA, VMA);
-> -}
-> -
-> -static inline uint32_t vext_vta_all_1s(uint32_t desc)
-> -{
-> -    return FIELD_EX32(simd_data(desc), VDATA, VTA_ALL_1S);
-> -}
-> -
-
-Please refactor in a standalone patch in the series.
-
->  /*
->   * Get the maximum number of elements can be operated.
->   *
-> @@ -155,21 +114,6 @@ static inline uint32_t vext_max_elems(uint32_t desc, uint32_t log2_esz)
->      return scale < 0 ? vlenb >> -scale : vlenb << scale;
->  }
->
-> -/*
-> - * Get number of total elements, including prestart, body and tail elements.
-> - * Note that when LMUL < 1, the tail includes the elements past VLMAX that
-> - * are held in the same vector register.
-> - */
-> -static inline uint32_t vext_get_total_elems(CPURISCVState *env, uint32_t desc,
-> -                                            uint32_t esz)
-> -{
-> -    uint32_t vlenb = simd_maxsz(desc);
-> -    uint32_t sew = 1 << FIELD_EX64(env->vtype, VTYPE, VSEW);
-> -    int8_t emul = ctzl(esz) - ctzl(sew) + vext_lmul(desc) < 0 ? 0 :
-> -                  ctzl(esz) - ctzl(sew) + vext_lmul(desc);
-> -    return (vlenb << emul) / esz;
-> -}
-> -
->  static inline target_ulong adjust_addr(CPURISCVState *env, target_ulong addr)
->  {
->      return (addr & env->cur_pmmask) | env->cur_pmbase;
-> @@ -202,20 +146,6 @@ static void probe_pages(CPURISCVState *env, target_ulong addr,
->      }
->  }
->
-> -/* set agnostic elements to 1s */
-> -static void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
-> -                              uint32_t tot)
-> -{
-> -    if (is_agnostic == 0) {
-> -        /* policy undisturbed */
-> -        return;
-> -    }
-> -    if (tot - cnt == 0) {
-> -        return;
-> -    }
-> -    memset(base + cnt, -1, tot - cnt);
-> -}
-> -
->  static inline void vext_set_elem_mask(void *v0, int index,
->                                        uint8_t value)
->  {
-> @@ -225,18 +155,6 @@ static inline void vext_set_elem_mask(void *v0, int index,
->      ((uint64_t *)v0)[idx] = deposit64(old, pos, 1, value);
->  }
->
-> -/*
-> - * Earlier designs (pre-0.9) had a varying number of bits
-> - * per mask value (MLEN). In the 0.9 design, MLEN=1.
-> - * (Section 4.5)
-> - */
-> -static inline int vext_elem_mask(void *v0, int index)
-> -{
-> -    int idx = index / 64;
-> -    int pos = index  % 64;
-> -    return (((uint64_t *)v0)[idx] >> pos) & 1;
-> -}
-> -
->  /* elements operations for load and store */
->  typedef void vext_ldst_elem_fn(CPURISCVState *env, target_ulong addr,
->                                 uint32_t idx, void *vd, uintptr_t retaddr);
-> @@ -800,8 +718,6 @@ GEN_VEXT_ST_WHOLE(vs8r_v, int8_t, ste_b)
->  #define NOP_UUU_H uint16_t, uint16_t, uint32_t, uint16_t, uint32_t
->  #define NOP_UUU_W uint32_t, uint32_t, uint64_t, uint32_t, uint64_t
->
-> -/* operation of two vector elements */
-> -typedef void opivv2_fn(void *vd, void *vs1, void *vs2, int i);
->
->  #define OPIVV2(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)    \
->  static void do_##NAME(void *vd, void *vs1, void *vs2, int i)    \
-> @@ -822,40 +738,6 @@ RVVCALL(OPIVV2, vsub_vv_h, OP_SSS_H, H2, H2, H2, DO_SUB)
->  RVVCALL(OPIVV2, vsub_vv_w, OP_SSS_W, H4, H4, H4, DO_SUB)
->  RVVCALL(OPIVV2, vsub_vv_d, OP_SSS_D, H8, H8, H8, DO_SUB)
->
-> -static void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
-> -                       CPURISCVState *env, uint32_t desc,
-> -                       opivv2_fn *fn, uint32_t esz)
-> -{
-> -    uint32_t vm = vext_vm(desc);
-> -    uint32_t vl = env->vl;
-> -    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
-> -    uint32_t vta = vext_vta(desc);
-> -    uint32_t vma = vext_vma(desc);
-> -    uint32_t i;
-> -
-> -    for (i = env->vstart; i < vl; i++) {
-> -        if (!vm && !vext_elem_mask(v0, i)) {
-> -            /* set masked-off elements to 1s */
-> -            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);
-> -            continue;
-> -        }
-> -        fn(vd, vs1, vs2, i);
-> -    }
-> -    env->vstart = 0;
-> -    /* set tail elements to 1s */
-> -    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);
-> -}
-> -
-> -/* generate the helpers for OPIVV */
-> -#define GEN_VEXT_VV(NAME, ESZ)                            \
-> -void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
-> -                  void *vs2, CPURISCVState *env,          \
-> -                  uint32_t desc)                          \
-> -{                                                         \
-> -    do_vext_vv(vd, v0, vs1, vs2, env, desc,               \
-> -               do_##NAME, ESZ);                           \
-> -}
-> -
->  GEN_VEXT_VV(vadd_vv_b, 1)
->  GEN_VEXT_VV(vadd_vv_h, 2)
->  GEN_VEXT_VV(vadd_vv_w, 4)
-> diff --git a/target/riscv/vector_internals.c b/target/riscv/vector_internals.c
-> new file mode 100644
-> index 0000000000..a264797882
-> --- /dev/null
-> +++ b/target/riscv/vector_internals.c
-> @@ -0,0 +1,39 @@
-> +#include "vector_internals.h"
-> +
-> +/* set agnostic elements to 1s */
-> +void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
-> +                       uint32_t tot)
-> +{
-> +    if (is_agnostic == 0) {
-> +        /* policy undisturbed */
-> +        return;
-> +    }
-> +    if (tot - cnt == 0) {
-> +        return ;
-> +    }
-> +    memset(base + cnt, -1, tot - cnt);
-> +}
-> +
-> +void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
-> +                CPURISCVState *env, uint32_t desc,
-> +                opivv2_fn *fn, uint32_t esz)
-> +{
-> +    uint32_t vm = vext_vm(desc);
-> +    uint32_t vl = env->vl;
-> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
-> +    uint32_t vta = vext_vta(desc);
-> +    uint32_t vma = vext_vma(desc);
-> +    uint32_t i;
-> +
-> +    for (i = env->vstart; i < vl; i++) {
-> +        if (!vm && !vext_elem_mask(v0, i)) {
-> +            /* set masked-off elements to 1s */
-> +            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);
-> +            continue;
-> +        }
-> +        fn(vd, vs1, vs2, i);
-> +    }
-> +    env->vstart = 0;
-> +    /* set tail elements to 1s */
-> +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);
-> +}
-> diff --git a/target/riscv/vector_internals.h b/target/riscv/vector_internals.h
-> new file mode 100644
-> index 0000000000..f61803acc0
-> --- /dev/null
-> +++ b/target/riscv/vector_internals.h
-> @@ -0,0 +1,116 @@
-> +/*
-> + * RISC-V Vector Extension Internals
-> + *
-> + * This program is free software; you can redistribute it and/or modify it
-> + * under the terms and conditions of the GNU General Public License,
-> + * version 2 or later, as published by the Free Software Foundation.
-> + *
-> + * This program is distributed in the hope it will be useful, but WITHOUT
-> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-> + * more details.
-> + *
-> + * You should have received a copy of the GNU General Public License along with
-> + * this program.  If not, see <http://www.gnu.org/licenses/>.
-> + */
-> +
-> +#ifndef TARGET_RISCV_VECTOR_INTERNAL_H
-> +#define TARGET_RISCV_VECTOR_INTERNAL_H
-> +
-> +#include "qemu/osdep.h"
-> +#include "qemu/bitops.h"
-> +#include "cpu.h"
-> +#include "tcg/tcg-gvec-desc.h"
-> +#include "internals.h"
-> +
-> +static inline uint32_t vext_nf(uint32_t desc)
-> +{
-> +    return FIELD_EX32(simd_data(desc), VDATA, NF);
-> +}
-> +
-> +/*
-> + * Encode LMUL to lmul as following:
-> + *     LMUL    vlmul    lmul
-> + *      1       000       0
-> + *      2       001       1
-> + *      4       010       2
-> + *      8       011       3
-> + *      -       100       -
-> + *     1/8      101      -3
-> + *     1/4      110      -2
-> + *     1/2      111      -1
-> + */
-> +static inline int32_t vext_lmul(uint32_t desc)
-> +{
-> +    return sextract32(FIELD_EX32(simd_data(desc), VDATA, LMUL), 0, 3);
-> +}
-> +
-> +static inline uint32_t vext_vm(uint32_t desc)
-> +{
-> +    return FIELD_EX32(simd_data(desc), VDATA, VM);
-> +}
-> +
-> +static inline uint32_t vext_vma(uint32_t desc)
-> +{
-> +    return FIELD_EX32(simd_data(desc), VDATA, VMA);
-> +}
-> +
-> +static inline uint32_t vext_vta(uint32_t desc)
-> +{
-> +    return FIELD_EX32(simd_data(desc), VDATA, VTA);
-> +}
-> +
-> +static inline uint32_t vext_vta_all_1s(uint32_t desc)
-> +{
-> +    return FIELD_EX32(simd_data(desc), VDATA, VTA_ALL_1S);
-> +}
-> +
-> +/*
-> + * Earlier designs (pre-0.9) had a varying number of bits
-> + * per mask value (MLEN). In the 0.9 design, MLEN=1.
-> + * (Section 4.5)
-> + */
-> +static inline int vext_elem_mask(void *v0, int index)
-> +{
-> +    int idx = index / 64;
-> +    int pos = index  % 64;
-> +    return (((uint64_t *)v0)[idx] >> pos) & 1;
-> +}
-> +
-> +/*
-> + * Get number of total elements, including prestart, body and tail elements.
-> + * Note that when LMUL < 1, the tail includes the elements past VLMAX that
-> + * are held in the same vector register.
-> + */
-> +static inline uint32_t vext_get_total_elems(CPURISCVState *env, uint32_t desc,
-> +                                            uint32_t esz)
-> +{
-> +    uint32_t vlenb = simd_maxsz(desc);
-> +    uint32_t sew = 1 << FIELD_EX64(env->vtype, VTYPE, VSEW);
-> +    int8_t emul = ctzl(esz) - ctzl(sew) + vext_lmul(desc) < 0 ? 0 :
-> +                  ctzl(esz) - ctzl(sew) + vext_lmul(desc);
-> +    return (vlenb << emul) / esz;
-> +}
-> +
-> +/* set agnostic elements to 1s */
-> +void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
-> +                       uint32_t tot);
-> +
-> +/* operation of two vector elements */
-> +typedef void opivv2_fn(void *vd, void *vs1, void *vs2, int i);
-> +
-> +void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
-> +                CPURISCVState *env, uint32_t desc,
-> +                opivv2_fn *fn, uint32_t esz);
-> +
-> +/* generate the helpers for OPIVV */
-> +#define GEN_VEXT_VV(NAME, ESZ)                            \
-> +void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
-> +                  void *vs2, CPURISCVState *env,          \
-> +                  uint32_t desc)                          \
-> +{                                                         \
-> +    do_vext_vv(vd, v0, vs1, vs2, env, desc,               \
-> +               do_##NAME, ESZ);                           \
-> +}
-> +
-> +#endif /* TARGET_RISCV_VECTOR_INTERNAL_H */
-
-Again: please split the refactoring off into a separate patch.
+   if (... && qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_READ_MSG_PEE=
+K)) {
 
 
-> --
-> 2.39.1
->
+With regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
+
 
