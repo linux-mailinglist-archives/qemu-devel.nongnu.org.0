@@ -2,78 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79927687ACA
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:48:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89DBE687AD3
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:51:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNX7v-0003SV-8l; Thu, 02 Feb 2023 05:47:35 -0500
+	id 1pNXB5-0004Sw-Fp; Thu, 02 Feb 2023 05:50:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNX7t-0003Oe-7y
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:47:33 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pNXAw-0004Qv-LV
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:50:44 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNX7r-00018m-JG
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:47:32 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- d4-20020a05600c3ac400b003db1de2aef0so1034717wms.2
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 02:47:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pNXAu-0002H7-Ul
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:50:42 -0500
+Received: by mail-pl1-x633.google.com with SMTP id d3so1400154plr.10
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 02:50:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=96JTL4ELoG6kng7ICt+rcqu62Cj0G32jechBwlNDVvc=;
- b=tSmhyx4HRWiiwEr7VZv1zI/k4TZK8kAORNCi27if6GEfZcW2S4p/cxFZsxKT6sH4Kx
- LlA/IEGQ/vSTdfrlnZiRNVv/t09ZWyPVKnHd99yVvwcloGpMyGsXZWudXeWWs4rw3aV8
- tlqmSGNc4sJIgYM22oujX4i12tlxJIz5zg40fXi7cZswdl3VoVPGDbxoY0l6pPZzd9uH
- IdCNpH89ByZGTxkJuO2y7D7VCv+FTs8p9mZNL3yxiDD/fpjvzKUZmQj2liS4WE5IvdRg
- TMOpmvw2cNxv4FjUQS9eWpyrFBYw6Z2P9iqtbaHPMRjhSBkVCWxyWmU5LnUiHydO5ALh
- qmxA==
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=Yq14p1amIN3qLub/EYJ+u5PcaC1yqRXJddFHQSWc3As=;
+ b=G54q7Vdhs8/qQM4F0vb8JvXxCtCzAPhlAgAk0bBD8M41gSm6wz5VmJG5YH6Z8C3lA1
+ gB/ihEY2wmYHukxieNzYDlSSZ/IsZp5k9WWqbojSsKXDJKz0V46iyAJG+Or4+d0eYqrx
+ wE6exZPkP9NKpABSxvc4yFM7eyDtt2evvDOS8dzMfF9C8yQeiI/HJ1mu6Pn3ELRrWx2X
+ wzIauBYGWbVeiY1BWBnXJCzRIxBXxF45ytq+s3M9QhGGTmcqZmObbPiUVbyHxcN+r46J
+ 4ozp/U8RMRLqv1Y6K1OBNwjmumz4XTvFaQPFqiLBztRDFdS8kyk9rEHL55ggOK7lMVWt
+ Q3pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:cc:references:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=96JTL4ELoG6kng7ICt+rcqu62Cj0G32jechBwlNDVvc=;
- b=SfBfa7ppIoNGsc8DSGscmY4zRQgPSDtzcAsyTY3zbbWy5sbafFQsgvIqFxm/Z2uugv
- FS2HRU2LKSOVW48qxOuNsOyuLFxltwCR2LejkVEWZpiA/ggqcC5dFN4+RtYxKXJcldeD
- R6AS/n2LRfZOijuK1Wdb3tyC+Epq8kI5Nt1+NoY467jCDvx1XD+1gBB5Szb1gORGkOGz
- 8rEnwleOQL94T/p2rPNjqp4LWs5KAkfJcLw1yr2knvkvbKvMH58Rk7UimFYBH3iAa+D0
- NWpLRuZ4rrSo9cU8h7VzZDhtWtoqnIxWqfhyi9tZzjRU1TXAmP1yE8g78IJ+PDtgWuYm
- x49w==
-X-Gm-Message-State: AO0yUKXXMiGhNgRnUGhmWyXK9U1GdfrdEMsSS0Ms3BeEX1y85d9K1ho0
- VTT5eNIdB07f5TqutKgZF3cfSg==
-X-Google-Smtp-Source: AK7set9Z5y66F3sDt5jVOdN4pfcLOgtNHuAD3nqoAwUFOCbzu2cjff11R4gxwHpWIRHq1cY32z9Xsw==
-X-Received: by 2002:a05:600c:1f09:b0:3dc:24fc:ef6f with SMTP id
- bd9-20020a05600c1f0900b003dc24fcef6fmr5539655wmb.40.1675334849458; 
- Thu, 02 Feb 2023 02:47:29 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- m4-20020a05600c4f4400b003dc36981727sm5021503wmq.14.2023.02.02.02.47.28
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Feb 2023 02:47:29 -0800 (PST)
-Message-ID: <7592c27c-0c98-d52c-fecc-ac2b261ecbb3@linaro.org>
-Date: Thu, 2 Feb 2023 11:47:28 +0100
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=Yq14p1amIN3qLub/EYJ+u5PcaC1yqRXJddFHQSWc3As=;
+ b=QrEin7WvXcsZkswejdpxSAbUcitVIAO4BgmRMMZvnElyM3r/vGtcD1V7Ch++0+q92Y
+ 9e8VRpBB0yEBDBDI4gMZo+GPYIFr0bg9ejDTNiurpKUcIZpmq1lvnsouyQNEBqmfkopC
+ A1JR+95afFgjh2NZDbRu2VrogOoX3GCq9kOROC3XrZ0H2U5BU/Y5nMqWMnNW157DtJvU
+ fPtHfTEQWalo97a6CIvjVFiZ8pw4wp668TqdtgkA0lV8ClHSJfD098BQt/dolJkn7wJ3
+ HsPADQN2Nyk9nZb2U6ZBYTWp53oag2SDS0WlSQRiYwzz5MzNAeGp8/68joTg0o/WSyEF
+ xrcQ==
+X-Gm-Message-State: AO0yUKUeI15DjTxjKjrXwObpdVwwhwS+CVwyvVa/0O5ZWVqriXzTis61
+ EKlWm4yqzKgu7LN3/+vn7MSMRCOE/KJ9l8AFpgeXBg==
+X-Google-Smtp-Source: AK7set+WwA0n39nqqj06fqPcMLK6wDYEppmmcIc+J+dLXDSEoU5kElgSDU3+k9ToFDsEHKx1hv5QcxNga4EzXUJTimE=
+X-Received: by 2002:a17:90a:5a42:b0:22c:19cb:9489 with SMTP id
+ m2-20020a17090a5a4200b0022c19cb9489mr408524pji.137.1675335039344; Thu, 02 Feb
+ 2023 02:50:39 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PULL 08/34] hw/arm/virt: Let the virtio-iommu bypass MSIs
-Content-Language: en-US
-To: Eric Auger <eric.auger@redhat.com>
-References: <20200703165405.17672-1-peter.maydell@linaro.org>
- <20200703165405.17672-9-peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20200703165405.17672-9-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20230126112250.2584701-1-alex.bennee@linaro.org>
+ <CAFEAcA_TCHw2b=zOWOX7COLa-iqC1P8Bm1wiACKhmx32cuS8SA@mail.gmail.com>
+ <877cx11cpq.fsf@linaro.org>
+In-Reply-To: <877cx11cpq.fsf@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 2 Feb 2023 10:50:27 +0000
+Message-ID: <CAFEAcA_beYVNurYS3CE9x=H5mn1F3jwCiZo-CmEPsN7syB0Sjw@mail.gmail.com>
+Subject: Re: [PULL 00/35] Testing, docs, semihosting and plugin updates
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x633.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -91,77 +86,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Eric,
+On Wed, 1 Feb 2023 at 18:07, Alex Benn=C3=A9e <alex.bennee@linaro.org> wrot=
+e:
+> Peter Maydell <peter.maydell@linaro.org> writes:
+> > I think this is "you can't put labels in qemu-options.hx,
+> > because it gets included in two .rst files (invocation.rst
+> > and qemu-manpage.rst), and Sphinx complains about the
+> > duplicate labels, even though one of the two files is
+> > only used in the HTML and one is only used in the manpages".
+>
+> Oh boo - anyway to work around that because they are helpful links?
 
-On 3/7/20 17:53, Peter Maydell wrote:
-> From: Eric Auger <eric.auger@redhat.com>
-> 
-> At the moment the virtio-iommu translates MSI transactions.
-> This behavior is inherited from ARM SMMU. The virt machine
-> code knows where the guest MSI doorbells are so we can easily
-> declare those regions as VIRTIO_IOMMU_RESV_MEM_T_MSI. With that
-> setting the guest will not map MSIs through the IOMMU and those
-> transactions will be simply bypassed.
-> 
-> Depending on which MSI controller is in use (ITS or GICV2M),
-> we declare either:
-> - the ITS interrupt translation space (ITS_base + 0x10000),
->    containing the GITS_TRANSLATOR or
-> - The GICV2M single frame, containing the MSI_SETSP_NS register.
-> 
-> Signed-off-by: Eric Auger <eric.auger@redhat.com>
-> Message-id: 20200629070404.10969-6-eric.auger@redhat.com
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   include/hw/arm/virt.h |  7 +++++++
->   hw/arm/virt.c         | 30 ++++++++++++++++++++++++++++++
->   2 files changed, 37 insertions(+)
+Nothing easy. The problem is that Sphinx looks at every .rst
+file in the source directory, regardless of whether it's
+reachable from the document you specify as the root of the
+manual or not. So both lots of .rst files get processed
+for both the HTML manual set and the manpages, even though
+they don't need to be[*]. This is a long-standing design
+deficiency in Sphinx. The only thing I could think of was
+splitting the manpages and html docs entirely into separate
+subdirectories, and having meson symlink the files which are
+actually shared between them. But that seems like quite a lot
+of extra machinery.
 
+[*] This shows up for instance in the HTML docs getting a
+not-linked-to-from-anywhere HTML version of the qemu(1) manpage:
+https://www.qemu.org/docs/master/system/qemu-manpage.html
 
->   static void create_gic(VirtMachineState *vms)
-> @@ -2198,8 +2200,36 @@ out:
->   static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
->                                               DeviceState *dev, Error **errp)
->   {
-> +    VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
-> +
->       if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
->           virt_memory_pre_plug(hotplug_dev, dev, errp);
-> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
-> +        hwaddr db_start = 0, db_end = 0;
-> +        char *resv_prop_str;
-> +
-> +        switch (vms->msi_controller) {
-> +        case VIRT_MSI_CTRL_NONE:
-> +            return;
-> +        case VIRT_MSI_CTRL_ITS:
-> +            /* GITS_TRANSLATER page */
-> +            db_start = base_memmap[VIRT_GIC_ITS].base + 0x10000;
-> +            db_end = base_memmap[VIRT_GIC_ITS].base +
-> +                     base_memmap[VIRT_GIC_ITS].size - 1;
-> +            break;
-> +        case VIRT_MSI_CTRL_GICV2M:
-> +            /* MSI_SETSPI_NS page */
-> +            db_start = base_memmap[VIRT_GIC_V2M].base;
-> +            db_end = db_start + base_memmap[VIRT_GIC_V2M].size - 1;
-> +            break;
-> +        }
-> +        resv_prop_str = g_strdup_printf("0x%"PRIx64":0x%"PRIx64":%u",
-> +                                        db_start, db_end,
-> +                                        VIRTIO_IOMMU_RESV_MEM_T_MSI);
-> +
-> +        qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
-
-Where is "len-reserved-regions" declared?
-
-Since qdev_prop_set_uint32() uses &error_abort, isn't this call
-aborting the process? I am confused how this code path is exercised,
-what am I missing?
-
-> +        qdev_prop_set_string(dev, "reserved-regions[0]", resv_prop_str);
-> +        g_free(resv_prop_str);
->       }
->   }
->   
+-- PMM
 
