@@ -2,93 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2C1687C30
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 12:28:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 260B4687C3D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 12:30:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNXkx-0004ur-1w; Thu, 02 Feb 2023 06:27:55 -0500
+	id 1pNXnG-0005ya-NF; Thu, 02 Feb 2023 06:30:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pNXku-0004na-Ha
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:27:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pNXks-0001cm-JT
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:27:52 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675337269;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=6CZgQijwA0qajw7SIhRmzs8wqkKw+lVIs41RnyZdfAU=;
- b=FZSMxpq48F2MC5gNh37oY4eZyVyy78KEH0b9ePQPGcDr/qia6v71YUOffTMY0DJU+7+uH0
- j93fOOdSw8k3/aYiMc0W9w2rLYCyrLjR/jbwUiKhzuWvmYJfrFZKHyUfnkMMqnNjf779x4
- O+/9uGmoZIhqy53h+jGFjTr1ijlImFY=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-152-OWh2tKjmN1qiAI8P7e75fQ-1; Thu, 02 Feb 2023 06:27:46 -0500
-X-MC-Unique: OWh2tKjmN1qiAI8P7e75fQ-1
-Received: by mail-yw1-f197.google.com with SMTP id
- 00721157ae682-4c8e781bc0aso16956277b3.22
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 03:27:46 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNXnD-0005yM-2T
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:30:15 -0500
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNXnB-000222-0s
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:30:14 -0500
+Received: by mail-wr1-x433.google.com with SMTP id y1so1416128wru.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 03:30:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=jSnaNAQSaQT82gLXfXMCm71pRM/VWWdSKqhIs7qQvYY=;
+ b=U2ydGeNThhHFRK5FaixgOSRu6u814zOnVgzHKx7U/Ex56LDASftHIDvRi7lJ1y6IPK
+ klaq63oYw6Wcn1qzGl60aPLtXLOyzRIoFm3Gshp616njdJqB9W5ARAhsqeJKKbUs8mi2
+ jEtR0X7M7HD8dEKEWWCOgOmZi6XJKyu22uK93fqV2SUG1cxAO4km2dRZnUTdoZjzdF4h
+ 53kTHT/0fVISGKvHYBJ/VPacd5veb/unXD2QcBZJMRd7/qwCeKQjut702fFRH0kQfD4X
+ l7q+iMJUniEA7Qp2Wn3BwFvhuPqJ8VgmkZJs0JJJ23bn14wQmPv9TSQx1ikvAku+0kCQ
+ DQQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=6CZgQijwA0qajw7SIhRmzs8wqkKw+lVIs41RnyZdfAU=;
- b=HS9nML0isfRhY3Dx3lAhymZKNfASl2Ce/8sJnTEuT6vSIFohGD4CHgdlToJZs163pM
- 5FovY1OONOMJBTrQFcly9EdOUWZC7Jfc5oVhZlWfxqvOQnwXlWM9/Eyi/Godwl90Ozfz
- uv8XzbEhGk0jOBNN83oCTp/eRZbz2BHMteki84R5c4nkf6/Qi7tB/16dNzO7jWXSwrF2
- QWpbxSfdHOkqPYKOqOhnv2zdLnBb8/hF+VWNbGy0dUgJwu9Urs/FjrltYZO/kbMAlhXt
- u7CTMMs4X2LGsCd+RGAfBOVluVZdgnCXg4HPwW+EBk7CF76AD60zgIyR+lpfyXkhhvw9
- D9cQ==
-X-Gm-Message-State: AO0yUKXHX8tAwNzx9u0y+ES8F9TQTZu4LxL+iSTlweC2sjIvW/GmS6DR
- v4Q+tJUAGS+nwDu6RruBvpSqfqm1Y2TXimolYbTTGcx7k4V9ib06Ue6QFurUIrx4VvzHauJDVWd
- YFjCZGo57nb+hLbVDptK0PJgCJQA1G1o=
-X-Received: by 2002:a25:e002:0:b0:80b:6391:c7a9 with SMTP id
- x2-20020a25e002000000b0080b6391c7a9mr833249ybg.381.1675337265662; 
- Thu, 02 Feb 2023 03:27:45 -0800 (PST)
-X-Google-Smtp-Source: AK7set/qHJmUyEwWrUg/5A7uG8t1OBpWX0P2kVFv5jtEMCLKnahMT37e2pwBmWNYYi+AXeBd6U/1lhrCL3MRg0hlkTg=
-X-Received: by 2002:a25:e002:0:b0:80b:6391:c7a9 with SMTP id
- x2-20020a25e002000000b0080b6391c7a9mr833235ybg.381.1675337265456; Thu, 02 Feb
- 2023 03:27:45 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=jSnaNAQSaQT82gLXfXMCm71pRM/VWWdSKqhIs7qQvYY=;
+ b=ZN75ZcichxytK6wdtGr7LV5XYfZki+gA7Q5gYkcEugjq0XjOWaPxWCnRYoT9nrC9ji
+ elP9k4Icb/tj0wT49ghXIlWBrlyMIh9YAUXy07OjwzGjfIU91y1VaN842EqFxUHJkjxt
+ r8uV5mmz0wooB/WeH5CjitSqOXvbNCFnQWnWnWPCN2muymbuCU6s7hFegEC8kr0LDx3O
+ uzRUxrs1kbKpXRNK+uOeQoPEwqi/dmuFv82Eo9DEHMRLKglqZz2mtfxVBa2O7Kj6NRIN
+ ynbVGgsKsLzA00Rq3U7EDYLHFRzOV1ydgaLSxb3TmMd1g0M+AahoscL0AArYahq+6Ify
+ A5+A==
+X-Gm-Message-State: AO0yUKXydBoT9Sq1sno6rh8GqtuBdqr21YJvFIuvEQ7K+EGYVz1r1+oc
+ PDiK5BowxlgKBoLBTLh8L0gxig==
+X-Google-Smtp-Source: AK7set9H6fErNwRCQ9xUPU0pDugAkT/rj+aVY4mRx0wxh/eJCgXrLWtD9SE69FZYuq/T7/cUgjlhwg==
+X-Received: by 2002:a05:6000:2c6:b0:2c2:6541:7afc with SMTP id
+ o6-20020a05600002c600b002c265417afcmr6861245wry.64.1675337411303; 
+ Thu, 02 Feb 2023 03:30:11 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ r25-20020adfa159000000b00297dcfdc90fsm20148854wrr.24.2023.02.02.03.30.10
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Feb 2023 03:30:10 -0800 (PST)
+Message-ID: <b5830cd2-9856-00a8-2ab5-8e9920ac1521@linaro.org>
+Date: Thu, 2 Feb 2023 12:30:09 +0100
 MIME-Version: 1.0
-References: <20230112172434.760850-1-eperezma@redhat.com>
- <17ca79ae-7cda-3d1e-4935-d783ecbe992e@oracle.com>
-In-Reply-To: <17ca79ae-7cda-3d1e-4935-d783ecbe992e@oracle.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 2 Feb 2023 12:27:09 +0100
-Message-ID: <CAJaqyWetxZ1kn--LJ9VZBy0fNgaSnFYjiNDQbU7h4Br0uKR44A@mail.gmail.com>
-Subject: Re: [RFC v2 00/13] Dinamycally switch to vhost shadow virtqueues at
- vdpa net migration
-To: Si-Wei Liu <si-wei.liu@oracle.com>
-Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
- alvaro.karsz@solid-run.com, Shannon Nelson <snelson@pensando.io>, 
- Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Gautam Dawar <gdawar@xilinx.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 0/6] Shorten the runtime of some gitlab-CI shared runner
+ jobs
+Content-Language: en-US
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: Stefan Hajnoczi <stefanha@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+References: <20230130104446.1286773-1-thuth@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230130104446.1286773-1-thuth@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::433;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x433.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -105,134 +93,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 2, 2023 at 2:00 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
->
->
->
-> On 1/12/2023 9:24 AM, Eugenio P=C3=A9rez wrote:
-> > It's possible to migrate vdpa net devices if they are shadowed from the
-> >
-> > start.  But to always shadow the dataplane is effectively break its hos=
-t
-> >
-> > passthrough, so its not convenient in vDPA scenarios.
-> >
-> >
-> >
-> > This series enables dynamically switching to shadow mode only at
-> >
-> > migration time.  This allow full data virtqueues passthrough all the
-> >
-> > time qemu is not migrating.
-> >
-> >
-> >
-> > Successfully tested with vdpa_sim_net (but it needs some patches, I
-> >
-> > will send them soon) and qemu emulated device with vp_vdpa with
-> >
-> > some restrictions:
-> >
-> > * No CVQ.
-> >
-> > * VIRTIO_RING_F_STATE patches.
-> What are these patches (I'm not sure I follow VIRTIO_RING_F_STATE, is it
-> a new feature that other vdpa driver would need for live migration)?
->
+On 30/1/23 11:44, Thomas Huth wrote:
+> We're currently facing the problem that the gitlab-CI jobs for the
+> shared runners take too much of the limited CI minutes on gitlab.com.
+> Here are now some patches that optimize some of the jobs a little bit
+> to take less runtime. We slightly lose some test coverage by some of
+> these changes (e.g. by dropping ppc-softmmu from a Clang-based test
+> and only continue testing ppc64-softmmu with Clang in another job),
+> but that should still be much better than running out of CI minutes
+> after 3/4 of a month.
 
-Not really,
+FWIW the last time I wanted to add some tests Alex suggested me to
+run a before/after gcov report and justify the new path tested.
 
-Since vp_vdpa wraps a virtio-net-pci driver to give it vdpa
-capabilities it needs a virtio in-band method to set and fetch the
-virtqueue state. Jason sent a proposal some time ago [1], and I
-implemented it in qemu's virtio emulated device.
-
-I can send them as a RFC but I didn't worry about making it pretty,
-nor I think they should be merged at the moment. vdpa parent drivers
-should follow vdpa_sim changes.
-
-Thanks!
-
-[1] https://lists.oasis-open.org/archives/virtio-comment/202103/msg00036.ht=
-ml
-
-> -Siwei
->
-> >
-> > * Expose _F_SUSPEND, but ignore it and suspend on ring state fetch like
-> >
-> >    DPDK.
-> >
-> >
-> >
-> > Comments are welcome, especially in the patcheswith RFC in the message.
-> >
-> >
-> >
-> > v2:
-> >
-> > - Use a migration listener instead of a memory listener to know when
-> >
-> >    the migration starts.
-> >
-> > - Add stuff not picked with ASID patches, like enable rings after
-> >
-> >    driver_ok
-> >
-> > - Add rewinding on the migration src, not in dst
-> >
-> > - v1 at https://lists.gnu.org/archive/html/qemu-devel/2022-08/msg01664.=
-html
-> >
-> >
-> >
-> > Eugenio P=C3=A9rez (13):
-> >
-> >    vdpa: fix VHOST_BACKEND_F_IOTLB_ASID flag check
-> >
-> >    vdpa net: move iova tree creation from init to start
-> >
-> >    vdpa: copy cvq shadow_data from data vqs, not from x-svq
-> >
-> >    vdpa: rewind at get_base, not set_base
-> >
-> >    vdpa net: add migration blocker if cannot migrate cvq
-> >
-> >    vhost: delay set_vring_ready after DRIVER_OK
-> >
-> >    vdpa: delay set_vring_ready after DRIVER_OK
-> >
-> >    vdpa: Negotiate _F_SUSPEND feature
-> >
-> >    vdpa: add feature_log parameter to vhost_vdpa
-> >
-> >    vdpa net: allow VHOST_F_LOG_ALL
-> >
-> >    vdpa: add vdpa net migration state notifier
-> >
-> >    vdpa: preemptive kick at enable
-> >
-> >    vdpa: Conditionally expose _F_LOG in vhost_net devices
-> >
-> >
-> >
-> >   include/hw/virtio/vhost-backend.h |   4 +
-> >
-> >   include/hw/virtio/vhost-vdpa.h    |   1 +
-> >
-> >   hw/net/vhost_net.c                |  25 ++-
-> >
-> >   hw/virtio/vhost-vdpa.c            |  64 +++++---
-> >
-> >   hw/virtio/vhost.c                 |   3 +
-> >
-> >   net/vhost-vdpa.c                  | 247 +++++++++++++++++++++++++----=
--
-> >
-> >   6 files changed, 278 insertions(+), 66 deletions(-)
-> >
-> >
-> >
->
+Maybe we should enforce something similar, either cover new paths
+or fix a bug.
 
 
