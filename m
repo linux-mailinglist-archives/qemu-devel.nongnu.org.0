@@ -2,90 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12B766886BE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 19:39:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 546FA688709
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 19:48:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNeTs-0003yf-Ic; Thu, 02 Feb 2023 13:38:44 -0500
+	id 1pNecW-0006as-SN; Thu, 02 Feb 2023 13:47:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pNeTd-0003xf-9N
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 13:38:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <conor@kernel.org>)
+ id 1pNebu-0006X1-9a; Thu, 02 Feb 2023 13:47:08 -0500
+Received: from ams.source.kernel.org ([2604:1380:4601:e00::1])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pNeTb-0001Et-Dm
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 13:38:29 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675363106;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=dDYiiVYgkbsGlbmyuscHKtFxvaEnLHwhMP8LOM6d4fQ=;
- b=cccnMMIaGkvU93r/S4xlgWnhHjHbbUVHKT6OmLch8T/IO7GFu4DBJx9SI+bE+29miu1rYK
- Ip5X1fAiKsNBZAYrhZIjNOziyiHsIZnzJMH/ckWLDaJMlog9aL3+mzXJ7+Yo4vgE+AbzgE
- XnKwlK6ayDnuY8/zegpqAG54dzjwjPo=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-166-R7bToqvyO1qCQJDTEBIYzQ-1; Thu, 02 Feb 2023 13:38:24 -0500
-X-MC-Unique: R7bToqvyO1qCQJDTEBIYzQ-1
-Received: by mail-yw1-f197.google.com with SMTP id
- 00721157ae682-5028c723d28so28447917b3.15
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 10:38:24 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=dDYiiVYgkbsGlbmyuscHKtFxvaEnLHwhMP8LOM6d4fQ=;
- b=UnAHQ04h1I+vKlVL8F5zXXDjBdyZuV3UeH7I85hCXxmC+XdqAGQGQPa3GWLsebgNUr
- CI9n6J1YyAFzubgoKTjKERs3YAcO2Rrkv3Y2OAFxN7NbxciD+e7y4S85AW9xfP5EnBKB
- i3eiryH4sg0+z+l+XvWmS84XzjCREiyheqTYOH+jYzp3SN0mYm7QtV1O4Gk9Wfm4BMSV
- JOJMm26cvGaBhMbc2LXFHkArQ1QEdzISEz284gIrfB33SzTbTJNQZHhAYp6hpqKy/PgE
- OjGQW06iWzxfsB9YTvw6COVjR7nlYiTJ9AFsqsKTWKt1U1cePokSqDTgpbgL0ROEhOZE
- cXBA==
-X-Gm-Message-State: AO0yUKVBIB+oAFhy3SkfiMP5sQBqxGeTjTDuNgrWaqR/yx1AoSHaC+eK
- oN3B72dhMQ3L6Jt5rkkHBAmnRC1aWAYgzgVzSfv0rcLQleHF4x4zTrvXyYhBJ8sg/HUqrjR56mH
- eHDlwoeAQLkqxeAE7sRvRe1UG7/gW4Bw=
-X-Received: by 2002:a0d:ebd2:0:b0:499:f27a:2924 with SMTP id
- u201-20020a0debd2000000b00499f27a2924mr1003878ywe.411.1675363104348; 
- Thu, 02 Feb 2023 10:38:24 -0800 (PST)
-X-Google-Smtp-Source: AK7set9UdiCUgoDKnK52EMsPq2HxmMX2igBzc4fSPVfxEiWHRBTzrxrJlUEycqiTo0YgpRhXadiDfp5DsTaY1mlxsDM=
-X-Received: by 2002:a0d:ebd2:0:b0:499:f27a:2924 with SMTP id
- u201-20020a0debd2000000b00499f27a2924mr1003877ywe.411.1675363104135; Thu, 02
- Feb 2023 10:38:24 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <conor@kernel.org>)
+ id 1pNebs-0006nw-1y; Thu, 02 Feb 2023 13:47:01 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by ams.source.kernel.org (Postfix) with ESMTPS id 8EE52B82794;
+ Thu,  2 Feb 2023 18:46:57 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 393CFC433D2;
+ Thu,  2 Feb 2023 18:46:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1675363616;
+ bh=OdHPj/mJNWK/lsXth0+2pascgCwBM86k/dDgCelQW3c=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=StJhCB9x+EaYNVeXthtOefhU7KaWO++WYLI4mfH6kPLeitCEL07GSz7AF7t8SV0Rt
+ dAISoNVvZIr0xGyCa5eNZuU9hWbuC+TSVKs4ox9sdmdaJ2RSISLaRuytKrTi8xVHHi
+ Z/1Ff1GT91NkLCGYMOxPkNBOSPZYstrZAHj8Q/y/T9QAbbwdBAnlCKTf2A34NHTBWm
+ K4S21Y3Vh3dtc5wcjzL+xvqWVqvS2b/JaeV3dt9YTxosMz07qO4yqiXrnyu7wy64NL
+ PC4/t+nQo1bCCgeculEE8fJ6s4H0Ql9HMKMEVPaw4AlEJI2ICb/Ea51kPxgS13wVGL
+ kBSv/JaJteRmw==
+Date: Thu, 2 Feb 2023 18:46:52 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
+Subject: Re: [PATCH v10 0/3] hw/riscv: handle kernel_entry high bits with
+ 32bit CPUs
+Message-ID: <Y9wFHMir5HXPa1Zu@spud>
+References: <20230202135810.1657792-1-dbarboza@ventanamicro.com>
+ <Y9vyEp8ghrbqssJO@spud>
+ <0568610c-e227-b088-c375-5ee769c7cfc6@ventanamicro.com>
 MIME-Version: 1.0
-References: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
- <6684066f-452d-a8b3-58b2-b0db2a3c2015@redhat.com>
- <20230201061709-mutt-send-email-mst@kernel.org>
- <CAJaqyWcmxwKSVLY7sDTmYwLdzhVV78XDa5M4FAvmHq4X2Kin8Q@mail.gmail.com>
- <7c076123-42e2-a041-2b5d-95d1afd82143@redhat.com>
-In-Reply-To: <7c076123-42e2-a041-2b5d-95d1afd82143@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 2 Feb 2023 19:37:47 +0100
-Message-ID: <CAJaqyWd-UtwQCbm=C-3CUS8kFyyY58YdbD+PwfKiGU+==k-DKA@mail.gmail.com>
-Subject: Re: Emulating device configuration / max_virtqueue_pairs in
- vhost-vdpa and vhost-user
-To: Jason Wang <jasowang@redhat.com>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>,
- Maxime Coquelin <maxime.coquelin@redhat.com>, 
- Cindy Lu <lulu@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, 
- qemu-level <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>, 
- Juan Quintela <quintela@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="R9dupd3ybQesRoy+"
+Content-Disposition: inline
+In-Reply-To: <0568610c-e227-b088-c375-5ee769c7cfc6@ventanamicro.com>
+Received-SPF: pass client-ip=2604:1380:4601:e00::1;
+ envelope-from=conor@kernel.org; helo=ams.source.kernel.org
+X-Spam_score_int: -43
+X-Spam_score: -4.4
+X-Spam_bar: ----
+X-Spam_report: (-4.4 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ RCVD_IN_DNSWL_MED=-2.3, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,110 +72,75 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 2, 2023 at 4:45 AM Jason Wang <jasowang@redhat.com> wrote:
->
->
-> =E5=9C=A8 2023/2/1 19:48, Eugenio Perez Martin =E5=86=99=E9=81=93:
-> > On Wed, Feb 1, 2023 at 12:20 PM Michael S. Tsirkin <mst@redhat.com> wro=
-te:
-> >> On Wed, Feb 01, 2023 at 12:14:18PM +0100, Maxime Coquelin wrote:
-> >>> Thanks Eugenio for working on this.
-> >>>
-> >>> On 1/31/23 20:10, Eugenio Perez Martin wrote:
-> >>>> Hi,
-> >>>>
-> >>>> The current approach of offering an emulated CVQ to the guest and ma=
-p
-> >>>> the commands to vhost-user is not scaling well:
-> >>>> * Some devices already offer it, so the transformation is redundant.
-> >>>> * There is no support for commands with variable length (RSS?)
-> >>>>
-> >>>> We can solve both of them by offering it through vhost-user the same
-> >>>> way as vhost-vdpa do. With this approach qemu needs to track the
-> >>>> commands, for similar reasons as vhost-vdpa: qemu needs to track the
-> >>>> device status for live migration. vhost-user should use the same SVQ
-> >>>> code for this, so we avoid duplications.
-> >>>>
-> >>>> One of the challenges here is to know what virtqueue to shadow /
-> >>>> isolate. The vhost-user device may not have the same queues as the
-> >>>> device frontend:
-> >>>> * The first depends on the actual vhost-user device, and qemu fetche=
-s
-> >>>> it with VHOST_USER_GET_QUEUE_NUM at the moment.
-> >>>> * The qemu device frontend's is set by netdev queues=3D cmdline para=
-meter in qemu
-> >>>>
-> >>>> For the device, the CVQ is the last one it offers, but for the guest
-> >>>> it is the last one offered in config space.
-> >>>>
-> >>>> To create a new vhost-user command to decrease that maximum number o=
-f
-> >>>> queues may be an option. But we can do it without adding more
-> >>>> commands, remapping the CVQ index at virtqueue setup. I think it
-> >>>> should be doable using (struct vhost_dev).vq_index and maybe a few
-> >>>> adjustments here and there.
-> >>>>
-> >>>> Thoughts?
-> >>> I am fine with both proposals.
-> >>> I think index remapping will require a bit more rework in the DPDK
-> >>> Vhost-user library, but nothing insurmountable.
-> >>>
-> >>> I am currently working on a PoC adding support for VDUSE in the DPDK
-> >>> Vhost library, and recently added control queue support. We can reuse=
- it
-> >>> if we want to prototype your proposal.
-> >>>
-> >>> Maxime
-> >>>
-> >>>> Thanks!
-> >>>>
-> >>
-> >> technically backend knows how many vqs are there, last one is cvq...
-> >> not sure we need full blown remapping ...
-> >>
-> > The number of queues may not be the same between cmdline and the device=
-.
-> >
-> > If vhost-user device cmdline wants more queues than offered by the
-> > device qemu will print an error. But the reverse (to offer the same
-> > number of queues or less than the device have) is valid at this
-> > moment.
-> >
-> > If we add cvq with this scheme, cvq index will not be the same between
-> > the guest and the device.
-> >
-> > vhost-vdpa totally ignores the queues parameter, so we're losing the
-> > opportunity to offer a consistent config space in the event of a
-> > migration. I suggest we should act the same way as I'm proposing here
-> > with vhost-user, so:
-> > * QEMU can block the migration in the case the destination cannot
-> > offer the same number of queues.
-> > * The guest will not see a change of the config space under its feets.
->
->
-> As we discussed in the past, it would be easier to fail the device
-> initialization in this case.
->
 
-But qemu does not know the source config space, so it cannot check if
-it is equal. I think qemu cmdline combined with the migration protocol
-is the security measure about this. It already checks for features,
-the plan is to extend that check for config space.
+--R9dupd3ybQesRoy+
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Thanks!
+On Thu, Feb 02, 2023 at 03:37:17PM -0300, Daniel Henrique Barboza wrote:
+> On 2/2/23 14:25, Conor Dooley wrote:
+> > On Thu, Feb 02, 2023 at 10:58:07AM -0300, Daniel Henrique Barboza wrote:
+> > > This new version removed the translate_fn() from patch 1 because it
+> > > wasn't removing the sign-extension for pentry as we thought it would.
+> > > A more detailed explanation is given in the commit msg of patch 1.
+> > >=20
+> > > We're now retrieving the 'lowaddr' value from load_elf_ram_sym() and
+> > > using it when we're running a 32-bit CPU. This worked with 32 bit
+> > > 'virt' machine booting with the -kernel option.
+> > >=20
+> > > If this approach doesn't work for the Xvisor use case, IMO  we should
+> > > just filter kernel_load_addr bits directly as we were doing a handful=
+ of
+> > > versions ago.
+> > >=20
+> > > Patches are based on current riscv-to-apply.next.
+> > >=20
+> > > Changes from v9:
+> > > - patch 1:
+> > >    - removed the translate_fn() callback
+> > >    - return 'kernel_low' when running a 32-bit CPU
+> > > - v9 link: https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg0=
+4509.html
+> >=20
+> > I think my T-b got lost last time around, but I gave this version a
+> > whirl too & things are working for me as they were before on Icicle.
+>=20
+> That was my bad. I forgot to add the test-by after doing the changes for
+> the next version.
 
-> Thanks
->
->
-> >
-> > Now there are other fields in the config space for sure (mtu, rss
-> > size, etc), but I think the most complex case is the number of queues
-> > because cvq.
-> >
-> > Is that clearer?
-> >
-> > Thanks!
-> >
->
+Oh, I'm sorry. I saw a new version of the series a few days ago and
+noticed the missing tags, and then saw this one today, touching MPFS,
+and conflated the two.
 
+> But I don't think this is the series you're talking about. The tested-by =
+tag
+> you gave was on these patches:
+>=20
+> "[PATCH v5 0/3] riscv_load_fdt() semantics change"
+>=20
+> I believe you can add a Tested-by there. And feel free to give it a go - =
+the
+> patches are on riscv-to-apply.next already.
+
+Tested-by stands here though, I replied to the same message-id that I
+shazamed and tried ;)
+And I did so on top of the HEAD of riscv-to-apply.next, so I am happy
+with the version that got applied too.
+
+Sorry!
+
+
+--R9dupd3ybQesRoy+
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY9wFHAAKCRB4tDGHoIJi
+0iKhAQDFf4/QJyKFe40iqzCH3IzmCBjY5M3sTh7+vMwyNnKwOgD9E6r58adNKni8
+dR/lTredskXMaSpJba2YkywEKT6YKgM=
+=vLrT
+-----END PGP SIGNATURE-----
+
+--R9dupd3ybQesRoy+--
 
