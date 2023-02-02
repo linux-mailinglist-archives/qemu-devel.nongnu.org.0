@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CEAF687958
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 10:45:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC48687967
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 10:47:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNW8a-0007Kc-UK; Thu, 02 Feb 2023 04:44:12 -0500
+	id 1pNW8c-0007Op-GX; Thu, 02 Feb 2023 04:44:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pNW8X-0007FR-Uq
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:44:09 -0500
+ id 1pNW8Y-0007Ft-7i
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:44:10 -0500
 Received: from mga02.intel.com ([134.134.136.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pNW8W-0006Pg-BB
+ id 1pNW8W-0006ND-Gc
  for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:44:09 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1675331048; x=1706867048;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=uLL+NWRhAQrmrOXrW9mrGp0p9bgRS48bvW90TKnZBAM=;
- b=jOrb500suwK4IYaPCIItGB+irpwlFpMvOCw2B3q6gVJsmJuiVa57LPw2
- waNCufiUmJfjXAA+kNu2zhT46WeGLEMM8JtlAa3dgoomX9f9uk1Flg/+i
- ZEwMdt/66GZiNCd3iSWi+VNmRJ4gEPF1uzA4Yvuqw1Wra3y9UQOASo9zI
- lsca4Gvpqyq+Sev4bVzKYDeRaD5QVFLf4V9Hg+fKm+Wh+P78krfq/+RGo
- 27Y9bZwEY6OMZDGSld0FCEcHWoORIhwkfBUMs8M5g52uNto7lUt9st/1z
- cK1UnoKxjlnu/CiWTw7gB72CJc/iNoPSOwFIxLVU9gabugbBemNDaMypf w==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="316402169"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="316402169"
+ bh=h2l32Mxk3IIptSYvwOMjSG7Mq4ltZJOLf/uBlKfJWe8=;
+ b=ekTLezDOi1ylxPQ0Cogp/U5t+W6fftRy2AUjupN68nKZ1aYeQt7d2khh
+ dLxx7FgehJ4Kq89B8i4r9Va2JsAjx9sqIVTvAk0eZrHwUQaaTbJY72WKe
+ SaxAqPkfhjucAI5gVbQRr86E2wv+jT+Dmb4gurVZU9dVSX5OLHxBaM5JW
+ nLlzZvhuBMf47XItIHQAcOM+4S8DEUJpyNW8L79OtLD6yyXV0B/W+GnHs
+ cXmil9HBZ7K33NWxsJ4f2ntKvNw1JB6ZWDFFxjqKrQOP//9LVVaOsqzLo
+ dz3bXyGYT3oPCvFTjMWSm8S1SR722Br/97t3hy3fhZ4h8qzRo22I9DAAD Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="316402185"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="316402185"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2023 01:42:43 -0800
+ 02 Feb 2023 01:42:46 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="807909500"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="807909500"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="807909505"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="807909505"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2023 01:42:41 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2023 01:42:43 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -50,10 +50,10 @@ To: Eduardo Habkost <eduardo@habkost.net>,
  Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Zhao Liu <zhao1.liu@intel.com>
-Subject: [PATCH 17/18] i386: Use CPUCacheInfo.share_level to encode
- CPUID[0x8000001D].EAX[bits 25:14]
-Date: Thu,  2 Feb 2023 17:49:28 +0800
-Message-Id: <20230202094929.343799-18-zhao1.liu@linux.intel.com>
+Subject: [PATCH 18/18] i386: Add new property to control L2 cache topo in
+ CPUID.04H
+Date: Thu,  2 Feb 2023 17:49:29 +0800
+Message-Id: <20230202094929.343799-19-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230202094929.343799-1-zhao1.liu@linux.intel.com>
 References: <20230202094929.343799-1-zhao1.liu@linux.intel.com>
@@ -85,44 +85,105 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhao Liu <zhao1.liu@intel.com>
 
-CPUID[0x8000001D].EAX[bits 25:14] is used to represent the cache
-topology for amd CPUs.
+The property x-l2-cache-topo will be used to change the L2 cache
+topology in CPUID.04H.
 
-After cache models have topology information, we can use
-CPUCacheInfo.share_level to decide which topology level to be encoded
-into CPUID[0x8000001D].EAX[bits 25:14].
+Now it allows user to set the L2 cache is shared in core level or
+cluster level.
+
+If user passes "-cpu x-l2-cache-topo=[core|cluster]" then older L2 cache
+topology will be overrided by the new topology setting.
+
+Here we expose to user "cluster" instead of "module", to be consistent
+with "cluster-id" naming.
+
+Since CPUID.04H is used by intel CPUs, this property is available on
+intel CPUs as for now.
+
+When necessary, it can be extended to CPUID.8000001DH for amd CPUs.
 
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- target/i386/cpu.c | 10 +---------
- 1 file changed, 1 insertion(+), 9 deletions(-)
+ target/i386/cpu.c | 33 ++++++++++++++++++++++++++++++++-
+ target/i386/cpu.h |  2 ++
+ 2 files changed, 34 insertions(+), 1 deletion(-)
 
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index d691c02e3c06..5816dc99b1d4 100644
+index 5816dc99b1d4..cf84c720a431 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -355,20 +355,12 @@ static void encode_cache_cpuid8000001d(CPUCacheInfo *cache,
-                                        uint32_t *eax, uint32_t *ebx,
-                                        uint32_t *ecx, uint32_t *edx)
- {
--    uint32_t sharing_apic_ids;
-     assert(cache->size == cache->line_size * cache->associativity *
-                           cache->partitions * cache->sets);
+@@ -240,12 +240,15 @@ static uint32_t max_processor_ids_for_cache(CPUCacheInfo *cache,
+     case CORE:
+         num_ids = 1 << apicid_core_offset(topo_info);
+         break;
++    case MODULE:
++        num_ids = 1 << apicid_module_offset(topo_info);
++        break;
+     case DIE:
+         num_ids = 1 << apicid_die_offset(topo_info);
+         break;
+     default:
+         /*
+-         * Currently there is no use case for SMT, MODULE and PACKAGE, so use
++         * Currently there is no use case for SMT and PACKAGE, so use
+          * assert directly to facilitate debugging.
+          */
+         g_assert_not_reached();
+@@ -6633,6 +6636,33 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+         env->cache_info_amd.l3_cache = &legacy_l3_cache;
+     }
  
-     *eax = CACHE_TYPE(cache->type) | CACHE_LEVEL(cache->level) |
-                (cache->self_init ? CACHE_SELF_INIT_LEVEL : 0);
--
--    /* L3 is shared among multiple cores */
--    if (cache->level == 3) {
--        sharing_apic_ids = 1 << apicid_die_offset(topo_info);
--    } else {
--        sharing_apic_ids = 1 << apicid_core_offset(topo_info);
--    }
--    *eax |= (sharing_apic_ids - 1) << 14;
-+    *eax |= max_processor_ids_for_cache(cache, topo_info) << 14;
++    if (cpu->l2_cache_topo_level) {
++        /*
++         * FIXME: Currently only supports changing CPUID[4] (for intel), and
++         * will support changing CPUID[0x8000001D] when necessary.
++         */
++        if (!IS_INTEL_CPU(env)) {
++            error_setg(errp, "only intel cpus supports x-l2-cache-topo");
++            return;
++        }
++
++        if (!strcmp(cpu->l2_cache_topo_level, "core")) {
++            env->cache_info_cpuid4.l2_cache->share_level = CORE;
++        } else if (!strcmp(cpu->l2_cache_topo_level, "cluster")) {
++            /*
++             * We expose to users "cluster" instead of "module", to be
++             * consistent with "cluster-id" naming.
++             */
++            env->cache_info_cpuid4.l2_cache->share_level = MODULE;
++        } else {
++            error_setg(errp,
++                       "x-l2-cache-topo doesn't support '%s', "
++                       "and it only supports 'core' or 'cluster'",
++                       cpu->l2_cache_topo_level);
++            return;
++        }
++    }
++
+ #ifndef CONFIG_USER_ONLY
+     MachineState *ms = MACHINE(qdev_get_machine());
+     qemu_register_reset(x86_cpu_machine_reset_cb, cpu);
+@@ -7135,6 +7165,7 @@ static Property x86_cpu_properties[] = {
+                      false),
+     DEFINE_PROP_BOOL("x-intel-pt-auto-level", X86CPU, intel_pt_auto_level,
+                      true),
++    DEFINE_PROP_STRING("x-l2-cache-topo", X86CPU, l2_cache_topo_level),
+     DEFINE_PROP_END_OF_LIST()
+ };
  
-     assert(cache->line_size > 0);
-     assert(cache->partitions > 0);
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 5a955431f759..aa7e96c586c7 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1987,6 +1987,8 @@ struct ArchCPU {
+     int32_t thread_id;
+ 
+     int32_t hv_max_vps;
++
++    char *l2_cache_topo_level;
+ };
+ 
+ 
 -- 
 2.34.1
 
