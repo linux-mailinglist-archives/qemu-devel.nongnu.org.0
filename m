@@ -2,90 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C95C6884E4
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 17:56:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A687E6884F0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 17:58:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNcsp-0006Pc-BW; Thu, 02 Feb 2023 11:56:23 -0500
+	id 1pNcuH-00076O-8s; Thu, 02 Feb 2023 11:57:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pNcsn-0006PT-Gf
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:56:21 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNcuE-000764-RC
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:57:50 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pNcsl-00009j-Uk
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:56:21 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNcuD-0000I5-E1
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:57:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675356979;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=gtFOX+jVrcDWYp+4xqLrJcKRrPSUOiBa/PAuy1MzBbQ=;
- b=VueNFus9LYKF1cUeaWQtT0R06LCQZNU4r+EZdkKa/DZGgKC3x8G1B8Pksw0At9VJTMpl37
- 17DwODWefuZVgTdTkH9fbDQ35rtg//YtVoNzeZCQqi9REEsJFMlP3CT0w+P3s7GN3qoPx6
- 3ZGDl5d8wsbjYKRO8mp7xKbnkk++WGc=
-Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
- [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1675357068;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=hlR/PJQ4c/9V2JqYMm2ztJuyu2tt3l+KQ8/+ADXpGnA=;
+ b=S+/yJWJj6TQfDPaVXLp0J0Rf+pt4ffkYlrOC1wwev43yWUtD5ngGAWGUwys+ZbbZ/e5bG5
+ 7pA8RDy9L3THiRlXjraK3y1GEnCE7ry+DTgugkgADT+1bbPfre9JMs+VoWqq6T7qQ0tSPz
+ J5NBRMyHpxR7Yahk50HoQ5HvkFbwz5w=
+Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
+ [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-395-2fJo33_sN6-mWhH-PfkneA-1; Thu, 02 Feb 2023 11:56:16 -0500
-X-MC-Unique: 2fJo33_sN6-mWhH-PfkneA-1
-Received: by mail-yb1-f197.google.com with SMTP id
- u186-20020a2560c3000000b007c8e2cf3668so2227673ybb.14
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 08:56:15 -0800 (PST)
+ us-mta-620-TDsNxXzUOmW-T4lAw_FoYQ-1; Thu, 02 Feb 2023 11:57:47 -0500
+X-MC-Unique: TDsNxXzUOmW-T4lAw_FoYQ-1
+Received: by mail-wm1-f71.google.com with SMTP id
+ o8-20020a05600c510800b003dfdf09ffc2so899935wms.5
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 08:57:47 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=gtFOX+jVrcDWYp+4xqLrJcKRrPSUOiBa/PAuy1MzBbQ=;
- b=mrL5nnByYdKP1fN/qXsCobkVuIxZHKz/ByFPn5FbOMc/mhplZGxhKsb+S55XD07YAH
- 7ExQK48gKTyYhdob/+FMjlawZ0iU8Oe9ZWBgyHT+Zk4VshGA5zPAlvIn3uBHGAeQq3da
- xqHqhFt8knxWM4bvSLes+gPeO3MCEl3GMTS9fuX+bKnkekvCw70bgtGgypD8EHLAHQxC
- OxERWuQkzyfgXEFaT/7NBo/8AJUqcHEPgiTMHLN5v1wqpb2He4xyRoBHhDT4YdmtQ7Qt
- QyUneoOWaZX8h9hPx9ouqMUD4vI50n82g7fqFpSnk0vfSc55qN4JcwhoEy3EdxMS++FV
- 5rvA==
-X-Gm-Message-State: AO0yUKWOmQV/Gi8UXv3iWAslgK3OXm/moU4S0nqwRkkcXekQXBNygEfb
- MLfP59qTWagY8Ep8WS0YfGq2vp3LwdJv2g1Zst7GUvXDkHXYjyCaaVIRZqkwpvmUvpouHH8uwSP
- PA59OqE0CQ97XWXLn/CGBi6SxP6i/lV0=
-X-Received: by 2002:a25:2d1c:0:b0:801:525c:6726 with SMTP id
- t28-20020a252d1c000000b00801525c6726mr880127ybt.152.1675356975371; 
- Thu, 02 Feb 2023 08:56:15 -0800 (PST)
-X-Google-Smtp-Source: AK7set/tjM+TPnsenD6TDcrPyh/KFHgZHPSh/j1A7xDAPG8nrVInw2sSG4u2QAx9E/qa6Xwq31VihbqV4nRUMSO5XlA=
-X-Received: by 2002:a25:2d1c:0:b0:801:525c:6726 with SMTP id
- t28-20020a252d1c000000b00801525c6726mr880119ybt.152.1675356975155; Thu, 02
- Feb 2023 08:56:15 -0800 (PST)
+ bh=hlR/PJQ4c/9V2JqYMm2ztJuyu2tt3l+KQ8/+ADXpGnA=;
+ b=5rSbs1lwHWE2dCVpfiAYWj7+g/0QcULrA4vYy+hPh9h0e5OqQxB+sRm5f0HBj67wbT
+ 9vEyFrsjaKhjJlt13plVHFd7cgyj11ccqk7fVjreawFOPzhQjFSpZPcVCRmJ/aZ1aU4L
+ b/ljS+jgxJwpziWc4ey88rW3QM1UVTWTS1qxuW9tFIFv37rQg//ey0QLyv/BJ9ZxZgk5
+ QupqTeiCqblk44PPCzHe+J1Z2yg5uFg02cbLzUD2sJtC9KKACrYPX2jC2bylxqSwyyQw
+ QKCPV+VeFPb3jGS09JAuUELQ4tE9L1AqyVWldZtsfEswHdFaYv4IOIXIuALIhtUqQvZn
+ ehTw==
+X-Gm-Message-State: AO0yUKURRoc8H4Z6agQ/ju6itfrVnWK9QsDC9DdQUGAEa43UVe6craae
+ I7B86dbh60/ebWIL9Aqhq9EUCOu8FkD9/4FDBqe6/s7o2MpUvzRiXIj6A3bD0h1ns7S6ZuE+2qK
+ K8GNjWMFzpekqAg4=
+X-Received: by 2002:a05:600c:1e0b:b0:3da:1e35:dfec with SMTP id
+ ay11-20020a05600c1e0b00b003da1e35dfecmr6803001wmb.4.1675357066008; 
+ Thu, 02 Feb 2023 08:57:46 -0800 (PST)
+X-Google-Smtp-Source: AK7set+Ywo9XMfmrnsI2Njk9rdOpvdEubwJxdWM0qqRtOPrCa0uA5lqLoMWhfzSgtPe/C20D1q8mQg==
+X-Received: by 2002:a05:600c:1e0b:b0:3da:1e35:dfec with SMTP id
+ ay11-20020a05600c1e0b00b003da1e35dfecmr6802994wmb.4.1675357065865; 
+ Thu, 02 Feb 2023 08:57:45 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ j14-20020a05600c130e00b003df241f52e8sm193124wmf.42.2023.02.02.08.57.45
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Feb 2023 08:57:45 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
+Cc: qemu-devel@nongnu.org,  qemu-ppc@nongnu.org,  "Dr . David Alan Gilbert"
+ <dgilbert@redhat.com>,  Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Fabiano Rosas <farosas@linux.ibm.com>,  mopsfelder@gmail.com
+Subject: Re: [PATCH 2/2] tests/migration: add support for ppc64le for
+ guestperf.py
+In-Reply-To: <20220809002451.91541-3-muriloo@linux.ibm.com> (Murilo Opsfelder
+ Araujo's message of "Mon, 8 Aug 2022 21:24:51 -0300")
+References: <20220809002451.91541-1-muriloo@linux.ibm.com>
+ <20220809002451.91541-3-muriloo@linux.ibm.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 02 Feb 2023 17:57:44 +0100
+Message-ID: <87mt5wt37b.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20230112172434.760850-1-eperezma@redhat.com>
- <20230112172434.760850-13-eperezma@redhat.com>
- <CACGkMEt8cMM1UxVzxb0eHeaWSpR0ApvGzaF901vrM4m-uGMiPA@mail.gmail.com>
- <7438853f-8d5e-33fb-1e53-b4a0036f0b7d@intel.com>
- <CACGkMEtwcjExouCbnMrQ3TcAkXJH4mv63ud-ROEUu6mH+53C6Q@mail.gmail.com>
- <CAJaqyWfijv2doQ8OAiiWdYvrWtmLPwJcnFtO+aUuoTa0jSL73A@mail.gmail.com>
- <bd62f070-4c0c-0cc6-dabf-ceb251ffc444@redhat.com>
-In-Reply-To: <bd62f070-4c0c-0cc6-dabf-ceb251ffc444@redhat.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 2 Feb 2023 17:55:38 +0100
-Message-ID: <CAJaqyWewuakFWr59hGrEsQhC=xX5qqVbAnvsNmrjdOG50ChB9w@mail.gmail.com>
-Subject: Re: [RFC v2 12/13] vdpa: preemptive kick at enable
-To: Jason Wang <jasowang@redhat.com>
-Cc: "Zhu, Lingshan" <lingshan.zhu@intel.com>, qemu-devel@nongnu.org,
- si-wei.liu@oracle.com, Liuxiangdong <liuxiangdong5@huawei.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
- alvaro.karsz@solid-run.com, Shannon Nelson <snelson@pensando.io>, 
- Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Gautam Dawar <gdawar@xilinx.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
- Parav Pandit <parav@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -106,116 +98,16 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Mon, Jan 16, 2023 at 8:02 AM Jason Wang <jasowang@redhat.com> wrote:
+Murilo Opsfelder Araujo <muriloo@linux.ibm.com> wrote:
+> Add support for ppc64le for guestperf.py. On ppc, console is usually
+> hvc0 and serial device for pseries machine is spapr-vty.
 >
->
-> =E5=9C=A8 2023/1/13 17:06, Eugenio Perez Martin =E5=86=99=E9=81=93:
-> > On Fri, Jan 13, 2023 at 4:39 AM Jason Wang <jasowang@redhat.com> wrote:
-> >> On Fri, Jan 13, 2023 at 11:25 AM Zhu, Lingshan <lingshan.zhu@intel.com=
-> wrote:
-> >>>
-> >>>
-> >>> On 1/13/2023 10:31 AM, Jason Wang wrote:
-> >>>> On Fri, Jan 13, 2023 at 1:27 AM Eugenio P=C3=A9rez <eperezma@redhat.=
-com> wrote:
-> >>>>> Spuriously kick the destination device's queue so it knows in case =
-there
-> >>>>> are new descriptors.
-> >>>>>
-> >>>>> RFC: This is somehow a gray area. The guest may have placed descrip=
-tors
-> >>>>> in a virtqueue but not kicked it, so it might be surprised if the d=
-evice
-> >>>>> starts processing it.
-> >>>> So I think this is kind of the work of the vDPA parent. For the pare=
-nt
-> >>>> that needs this trick, we should do it in the parent driver.
-> >>> Agree, it looks easier implementing this in parent driver,
-> >>> I can implement it in ifcvf set_vq_ready right now
-> >> Great, but please check whether or not it is really needed.
-> >>
-> >> Some device implementation could check the available descriptions
-> >> after DRIVER_OK without waiting for a kick.
-> >>
-> > So IIUC we can entirely drop this from the series (and I hope we can).
-> > But then, what with the devices that does *not* check for them?
->
->
-> It needs mediation in the vDPA parent driver.
->
->
-> >
-> > If we drop it it seems to me we must mandate devices to check for
-> > descriptors at queue_enable. The queue could stall if not, isn't it?
->
->
-> I'm not sure, did you see real issue with this? (Note that we don't do
-> this for vhost-user-(vDPA))
->
+> Signed-off-by: Murilo Opsfelder Araujo <muriloo@linux.ibm.com>
 
-Still unchecked, sorry. But not needing it for vhost-user-vDPA is a
-very good signal indeed, thanks for pointing that.
-
-> Btw, the code can result of kick before DRIVER_OK, which seems racy.
->
-
-Good catch :). I'll fix it in the next revision if we see we need it.
-I really hope to be able to drop it though.
-
-Thanks!
-
-> Thanks
->
->
-> >
-> > Thanks!
-> >
-> >> Thanks
-> >>
-> >>> Thanks
-> >>> Zhu Lingshan
-> >>>> Thanks
-> >>>>
-> >>>>> However, that information is not in the migration stream and it sho=
-uld
-> >>>>> be an edge case anyhow, being resilient to parallel notifications f=
-rom
-> >>>>> the guest.
-> >>>>>
-> >>>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> >>>>> ---
-> >>>>>    hw/virtio/vhost-vdpa.c | 5 +++++
-> >>>>>    1 file changed, 5 insertions(+)
-> >>>>>
-> >>>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
-> >>>>> index 40b7e8706a..dff94355dd 100644
-> >>>>> --- a/hw/virtio/vhost-vdpa.c
-> >>>>> +++ b/hw/virtio/vhost-vdpa.c
-> >>>>> @@ -732,11 +732,16 @@ static int vhost_vdpa_set_vring_ready(struct =
-vhost_dev *dev, int ready)
-> >>>>>        }
-> >>>>>        trace_vhost_vdpa_set_vring_ready(dev);
-> >>>>>        for (i =3D 0; i < dev->nvqs; ++i) {
-> >>>>> +        VirtQueue *vq;
-> >>>>>            struct vhost_vring_state state =3D {
-> >>>>>                .index =3D dev->vq_index + i,
-> >>>>>                .num =3D 1,
-> >>>>>            };
-> >>>>>            vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state=
-);
-> >>>>> +
-> >>>>> +        /* Preemptive kick */
-> >>>>> +        vq =3D virtio_get_queue(dev->vdev, dev->vq_index + i);
-> >>>>> +        event_notifier_set(virtio_queue_get_host_notifier(vq));
-> >>>>>        }
-> >>>>>        return 0;
-> >>>>>    }
-> >>>>> --
-> >>>>> 2.31.1
-> >>>>>
->
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
