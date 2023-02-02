@@ -2,71 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E856687285
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 01:52:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CDC8687293
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 01:54:07 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNNpm-0005yS-0k; Wed, 01 Feb 2023 19:52:14 -0500
+	id 1pNNpn-0005zA-IM; Wed, 01 Feb 2023 19:52:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNNpj-0005y8-Id
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 19:52:12 -0500
-Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
+ id 1pNNpl-0005yH-0r
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 19:52:13 -0500
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNNph-0000OR-T4
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 19:52:11 -0500
-Received: by mail-pj1-x1030.google.com with SMTP id
- e10-20020a17090a630a00b0022bedd66e6dso4060115pjj.1
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 16:52:09 -0800 (PST)
+ id 1pNNpj-0000OW-Dq
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 19:52:12 -0500
+Received: by mail-pl1-x633.google.com with SMTP id d3so270874plr.10
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 16:52:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=D5hLI71ahPZ9W/StCPwUD9GIvdTuh2ILhzbSH+kVcx4=;
- b=GRVjBi5CPNPObopIcIuxiP55XiYY0xm76ZXIJkhrtYvhBWgN8yWnTAll5YioKXOX6F
- /zer5DcsTvTDQyN8q7KwQHrLxY2sOsXGefTNyZYghyvWTdzehFKL/Q9MsqEpSd3UJrrn
- rCCF+A/AVnNSWKIjTaryLhZCcs4fQP+C3zlJrkMe74DFv6J6MUCjWo0zLxaDcA9SqKV4
- OomPnkKtOQd+a4pN8zixfnY3iQPKkM/rqAiSfRd+BtoqBuk6s0XgxyXgyRF82aSpff8y
- OIKXjG8d4GlyKIx3ATJBV/jP2fkdM5feAYhEUD73R2uECFrWTtPKzv1V9NJgwGH1S+ip
- mmRQ==
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=0NlXg86UHyXHALJd4CNrXKqdR3YhnMuvIdL7EfthOjo=;
+ b=EWXTppJcRBEzev53O9g0l9etB9YMbLO90jmFC1wOnQqMkq0TgXVsPun8yhL2UUAuzo
+ hWQYGxTtNSHpQ1iF4HrKNaIh22ie1ug4E+lEWt3mlv6eq1xWNKGlfZMqcWG/znC1ws1v
+ ULTtODWbHfGq9YJEIFwIaquk9HV5sGLae4ceQaeam5paDnYjq+1zrkzow1UnhofBNQr6
+ JoEMZj9c+sJA801DRktJXk8ERjA75Wuv8NZ0xRIlIFep2HnDTma6uiPKAIwLcHq9WNbr
+ U8aobKq+M32DTVyRKAQNPPlIQCWPzoIbBCxF0JRFlFwIlVYzupv2Ku5YzjdNsSvu3An7
+ Ph1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=D5hLI71ahPZ9W/StCPwUD9GIvdTuh2ILhzbSH+kVcx4=;
- b=BvM4wOXYGmpzluPLsQITfIBfL59XC8L2jrsv6LEUqZSPqpFDpA/0uQZz8vMfZ65xJw
- eI7xlbQJAdLfmVyfUAUXzFp96YtEeCltw0vOy/X3VpctRnLIfwpSw+SrgHDSmKdvuNun
- rXersMeXt7CGg1VEyaOi6k2pYlvxM6c9yeI8l2K7N/cn+0siEdnSYFYRjNNQmN0nR5o3
- ms2Eto6F4BGXZMNaXFX7SY9nxjd4ouv9hf/ptJ1a8XKOUBn7u8vrTKfT3wdz4UZ+JTw7
- HlitsptDQa9ZaBQaD/kN8dZc5cGtB9KryjFjYNK9V6hSbyfjQNYhPG9IR0SMbzf3v+0g
- gUng==
-X-Gm-Message-State: AO0yUKUr6w0Rk6fK380SVmVK3gNGr3U7jnkZLVVNR2lFAjHu05rbx42w
- dGbJwd4XrN8o1lqKbtbGhYuJZu92cT7VPzcm
-X-Google-Smtp-Source: AK7set+6jSJZLS6ytO5hIWfDNziTzbxY/qxVBDAjVVMLT5jmM/9Aj0EqwKl2bK9QwoAlIBK+E319Fw==
-X-Received: by 2002:a17:903:487:b0:196:1e18:7df7 with SMTP id
- jj7-20020a170903048700b001961e187df7mr539042plb.40.1675299128260; 
- Wed, 01 Feb 2023 16:52:08 -0800 (PST)
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=0NlXg86UHyXHALJd4CNrXKqdR3YhnMuvIdL7EfthOjo=;
+ b=kpTGK4dDLFP1CkdiRPaTggP/WXQevJC4miN18ERsdWPiaCkrNg/isozSEsuNWUWeFq
+ GQhq/rsovDhYO1bcjuhZV7RWD6T/ToMV0QBn7C4ItIHoHjL6rAvSW64zmaThESb4/Xx5
+ e5+DaPJrhD1IRCPx2uVvuLLGMhkyKLbJ3IBdyXaYq3N4YBg/K722dWccTKs3s5P6OfFf
+ R6PmaBHBTQSUdlApCKL2E9y4gs7dS84F4NOwBC7vYfF096lwEtdbmWqc1BZu4+tDK8KC
+ zEB3OftIh7xw6BGVnufshC2TxOlwVU9jeLwEggs0DIpPmdBl1D6604/jIaSpLgZxR4Vx
+ kP3Q==
+X-Gm-Message-State: AO0yUKXqpDuOK8lMM6BONo3KS/7X1iWyG7lWzLhkrQw1QrntRlfcNmya
+ HZ193KC7hdsMe+ciyHwK3ERg+aQOGlu3BkWp
+X-Google-Smtp-Source: AK7set9zMtm98wKQEsNiLzCpN2SEmB9WkPhSCjYuxuV9a2WGnv8eEEMufdD7HvfCb2e2eV5+iK3E+w==
+X-Received: by 2002:a17:903:234f:b0:194:4b98:42c8 with SMTP id
+ c15-20020a170903234f00b001944b9842c8mr5512643plh.28.1675299130093; 
+ Wed, 01 Feb 2023 16:52:10 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- z3-20020a1709028f8300b00192cf87ed25sm12391334plo.35.2023.02.01.16.52.06
+ z3-20020a1709028f8300b00192cf87ed25sm12391334plo.35.2023.02.01.16.52.08
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 16:52:07 -0800 (PST)
+ Wed, 01 Feb 2023 16:52:09 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: mark.cave-ayland@ilande.co.uk,
 	laurent@vivier.eu,
 	iii@linux.ibm.com
-Subject: [PATCH 00/14] linux-user/sparc: Handle missing traps 
-Date: Wed,  1 Feb 2023 14:51:50 -1000
-Message-Id: <20230202005204.2055899-1-richard.henderson@linaro.org>
+Subject: [PATCH 01/14] linux-user/sparc: Raise SIGILL for all unhandled
+ software traps
+Date: Wed,  1 Feb 2023 14:51:51 -1000
+Message-Id: <20230202005204.2055899-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20230202005204.2055899-1-richard.henderson@linaro.org>
+References: <20230202005204.2055899-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -89,33 +92,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Lots of missing trap code for cpu_loop().
+The linux kernel's trap tables vector all unassigned trap
+numbers to BAD_TRAP, which then raises SIGILL.
 
-r~
+Reported-by: Ilya Leoshkevich <iii@linux.ibm.com>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ linux-user/sparc/cpu_loop.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-Richard Henderson (14):
-  linux-user/sparc: Raise SIGILL for all unhandled software traps
-  linux-user/sparc: Tidy syscall trap
-  linux-user/sparc: Use TT_TRAP for flush windows
-  linux-user/sparc: Tidy window spill/fill traps
-  linux-user/sparc: Fix sparc64_{get,set}_context traps
-  linux-user/sparc: Handle software breakpoint trap
-  linux-user/sparc: Handle division by zero traps
-  linux-user/sparc: Handle getcc, setcc, getpsr traps
-  linux-user/sparc: Handle priviledged opcode trap
-  linux-user/sparc: Handle privilidged action trap
-  linux-user/sparc: Handle coprocessor disabled trap
-  linux-user/sparc: Handle unimplemented flush trap
-  linux-user/sparc: Handle floating-point exceptions
-  linux-user/sparc: Handle tag overflow traps
-
- linux-user/sparc/target_signal.h |   2 +-
- linux-user/syscall_defs.h        |   5 +
- target/sparc/cpu.h               |   3 +-
- linux-user/sparc/cpu_loop.c      | 170 +++++++++++++++++++++++++------
- linux-user/sparc/signal.c        |  36 +++----
- 5 files changed, 167 insertions(+), 49 deletions(-)
-
+diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
+index 434c90a55f..c120c42278 100644
+--- a/linux-user/sparc/cpu_loop.c
++++ b/linux-user/sparc/cpu_loop.c
+@@ -248,6 +248,14 @@ void cpu_loop (CPUSPARCState *env)
+             cpu_exec_step_atomic(cs);
+             break;
+         default:
++            /*
++             * Most software trap numbers vector to BAD_TRAP.
++             * Handle anything not explicitly matched above.
++             */
++            if (trapnr >= TT_TRAP && trapnr <= TT_TRAP + 0x7f) {
++                force_sig_fault(TARGET_SIGILL, ILL_ILLTRP, env->pc);
++                break;
++            }
+             fprintf(stderr, "Unhandled trap: 0x%x\n", trapnr);
+             cpu_dump_state(cs, stderr, 0);
+             exit(EXIT_FAILURE);
 -- 
 2.34.1
 
