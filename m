@@ -2,59 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EBB26887A3
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 20:41:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 430BB6887C7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 20:50:39 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNfRC-0001t5-CB; Thu, 02 Feb 2023 14:40:02 -0500
+	id 1pNfaL-0004jZ-7q; Thu, 02 Feb 2023 14:49:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pNfR8-0001s3-M3
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 14:39:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pNfaI-0004jA-7V
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 14:49:26 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pNfR6-0003GU-RQ
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 14:39:58 -0500
+ (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pNfaG-0006Ud-SP
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 14:49:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675366795;
+ s=mimecast20190719; t=1675367364;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  in-reply-to:in-reply-to:references:references;
- bh=JPdyPXbmiSiuoMvW4klGMAOVeNjUicXr1yQf035dijM=;
- b=VQ9ZSz0JM/RNnHpKy1Uxwuw24voM9cJW6To+dWUwkezKHPARbjftdlImWw2OwiGkyf2hco
- +gOYosYptPm1p16K7WKByI9ZiV36LWtCJ2IqMb1dKh7hK4NOTc1cJqC31WL5ChWvFcoD1j
- vI/BkiwQDFZcc2h5R63A9kU6WGYp+VM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-9MEtht4VMumzcgW-fzMhww-1; Thu, 02 Feb 2023 14:39:54 -0500
-X-MC-Unique: 9MEtht4VMumzcgW-fzMhww-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com
- [10.11.54.10])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id A31F880352D;
- Thu,  2 Feb 2023 19:39:53 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.100])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 8E8E1492B00;
- Thu,  2 Feb 2023 19:39:52 +0000 (UTC)
-Date: Thu, 2 Feb 2023 13:39:44 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
-Cc: vsementsov@yandex-team.ru, hreitz@redhat.com, jsnow@redhat.com,
- qemu-block@nongnu.org, qemu-devel@nongnu.org
-Subject: Re: [PATCH] hbitmap: fix hbitmap_status() return value for first
- dirty bit case
-Message-ID: <20230202193944.63qcqpvklyoslode@redhat.com>
-References: <20230202181523.423131-1-andrey.zhadchenko@virtuozzo.com>
+ bh=zgdViYoyhVpR+CIR3k/A5rTt41Plvt2rI/1bUHh1wXQ=;
+ b=HnwAeXif6ENJ5WBfsUx2ylkrAb2PtQIGufW654w5dZmAqORbqyKTV254+2pXzGBROmMxg6
+ CgLxjn+OyL7ryvmLvHsxO1CUGy1ImRQtpRNTp81Lc2nRh8UXo9+DVUiWbdJAokGVJCBuY/
+ D8o5tKFcorndfqgB6BcNIQo7lAyFWQI=
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
+ [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-272-HNKQmZezNtO0G_m7FL1pJA-1; Thu, 02 Feb 2023 14:49:22 -0500
+X-MC-Unique: HNKQmZezNtO0G_m7FL1pJA-1
+Received: by mail-qt1-f198.google.com with SMTP id
+ bp43-20020a05622a1bab00b003b63be6827dso1493560qtb.23
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 11:49:22 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=in-reply-to:content-disposition:mime-version:references:message-id
+ :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=zgdViYoyhVpR+CIR3k/A5rTt41Plvt2rI/1bUHh1wXQ=;
+ b=f/nU1sLGm/hP6Ledtsj5cVECOO5HA/++ZoerufiKTDok/1OX8i14rQ+oZF2Iz1gN8Q
+ ZvJxquQVerk5WdM9yEjDxEMTLOc/wwbH8n7MhqEvkCLovK3ihph1VQ6XBynkmd3JDYZv
+ fACsXR11ZAUpKw/4COwbAZJtQhAY6DNT8vigiarfjGClE+U0b4yvD62H8ONRa9N0qEQy
+ r5xMrtpNxBFA3LJPYORel4kq6E+PDjowrIW2oNXd/ekQQrLvwEn39g4+m4lJR3SQvD2B
+ YFTTbOA7IhmKFy2jMhJQ63r8w7WqBI+TItVlsjlO6ffyVVkKPmKwdRUGDMZTp+J6mdWL
+ IxFQ==
+X-Gm-Message-State: AO0yUKUiBj8vEV/boWfglaE3HZ4OwdQ62t3Yy4ywxZ9MEODAG8rNGgnM
+ csctzb/YxKw5qNrQvXu5f+idgs/2i1HxtXe8sPmwciQNsiWDmp6WLbHnOVoyuBiuNZ5h651c6J7
+ NrD1MbOfHCjXrMJM=
+X-Received: by 2002:a05:622a:1e10:b0:3b8:68df:fc72 with SMTP id
+ br16-20020a05622a1e1000b003b868dffc72mr11824043qtb.2.1675367362557; 
+ Thu, 02 Feb 2023 11:49:22 -0800 (PST)
+X-Google-Smtp-Source: AK7set8EcqdWeZ+GMbuFMeAYZ8nmbT1YBD/SV8NHtaDEdZfe68Jvd/cYuocSPUZfXjwLgqaMFn7gUA==
+X-Received: by 2002:a05:622a:1e10:b0:3b8:68df:fc72 with SMTP id
+ br16-20020a05622a1e1000b003b868dffc72mr11824022qtb.2.1675367362312; 
+ Thu, 02 Feb 2023 11:49:22 -0800 (PST)
+Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
+ [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
+ y4-20020a37af04000000b0072ddf70791fsm301712qke.122.2023.02.02.11.49.21
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Feb 2023 11:49:21 -0800 (PST)
+Date: Thu, 2 Feb 2023 14:49:20 -0500
+From: Peter Xu <peterx@redhat.com>
+To: Juan Quintela <quintela@redhat.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
+ Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>,
+ Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
+ Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 1/3] linux-headers: Update to v6.1
+Message-ID: <Y9wTwCAwWRmHdc/a@x1n>
+References: <20230201211055.649442-1-peterx@redhat.com>
+ <20230201211055.649442-2-peterx@redhat.com>
+ <878rhgtk29.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20230202181523.423131-1-andrey.zhadchenko@virtuozzo.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.10
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+In-Reply-To: <878rhgtk29.fsf@secure.mitica>
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -78,30 +102,23 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 02, 2023 at 09:15:23PM +0300, Andrey Zhadchenko via wrote:
-> The last return statement should return true, as we already evaluated that
-> start == next_dirty
+On Thu, Feb 02, 2023 at 11:53:34AM +0100, Juan Quintela wrote:
+> Peter Xu <peterx@redhat.com> wrote:
+> > Signed-off-by: Peter Xu <peterx@redhat.com>
 > 
-> Also, fix hbitmap_status() description in header
+> How does this change gets into the tree?
 > 
-> Cc: qemu-stable@nongnu.org
-> Fixes: a6426475a75 ("block/dirty-bitmap: introduce bdrv_dirty_bitmap_status()")
-> Signed-off-by: Andrey Zhadchenko <andrey.zhadchenko@virtuozzo.com>
-> ---
->  include/qemu/hbitmap.h | 2 +-
->  util/hbitmap.c         | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
+> I know that it is "automagically" generated, but who decides when that
+> goes into the tree?
+> 
+> As we need that for the following patch?
 
-Eww, nasty bug; looks like copy-before-write is the only curernt
-client of this interface.
+Copy PeterM.  Peter, could you share how we used to do linux header
+updates?
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-
-Is there any way to enhance an iotest to add coverage for this code?
+Thanks,
 
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+Peter Xu
 
 
