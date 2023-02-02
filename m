@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8968687959
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 10:45:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65FB687956
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 10:45:14 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNW8C-0006iy-UH; Thu, 02 Feb 2023 04:43:49 -0500
+	id 1pNW8G-0006j9-I7; Thu, 02 Feb 2023 04:43:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pNW8A-0006di-0d
+ id 1pNW8A-0006gV-Mp
  for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:43:46 -0500
 Received: from mga02.intel.com ([134.134.136.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pNW88-0006Pg-0t
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:43:45 -0500
+ id 1pNW88-0006Of-Tk
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:43:46 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
  t=1675331024; x=1706867024;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=UOLbqKmz3mKLwNGtsqF3Ql4TMAsj6E4kdhIN7yv8NuI=;
- b=O8lrkOvApPg7uOGUPw10+/Zyl/PK4IyEnKCwQ/TKWj+W+LvgLjFqQvwP
- yU5ojBYm5z7qYppo8m9TXSgH8Ysr3SEFM8quawvihZXgmNzAhEobQbAHv
- BbNwr4CH/4OxpKNLxWs5E0NhIgEPOLWityVRDg7lQTUoIX68LB68ODPXV
- r6A5zfKfNsKF4cweUTbUN56n04R7h5iny6PTJkmbO0wRrVu04vHQWjImL
- uqbzwy3v7Boxxtts1i968UXAcz5neJKdHqf9M0esCXUg9LI7c724bPixW
- lXvvRKSacRozMWrWUH1SVHd6LIl4ZAHX8OwkW6pYTug56YMzV9Vhhvxix Q==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="316402088"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="316402088"
+ bh=LgRAACpjHVh/wf1L8ixrV6orEmqM8YnGOdot9oBTw/0=;
+ b=m8AQc6Sx6DaNDJT146Mw31oMYVt2ufrOiE1SMgn41CbMFKLjjyy2uG1P
+ rZdgLVl7ouFV9ah6tfHofjeOP0K/z1955I6Z4mUiuXK4E8dtNgk11W0kQ
+ ODm6W6Usij7fkP7Fz1nU1G8YrwnqFDmRBQy90A8AmmAOSxJ55f65QxfWl
+ hLvjP07reSZ3MAo6hucgQ26TsMolb3E72ziK9UMTRbqARl+ESQ7wpG1zm
+ QZWjj7Y6bkxphQsKI/Q+NQWKveawK2W4e5RUjkuRBN5V7GFjc+zSOeLHv
+ f0hE+4DDvvSJtkpl3w+O8TuBuppD7aVD/aCGVDo+/k6TtVSq6jBbZ3ukD w==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="316402109"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="316402109"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2023 01:42:30 -0800
+ 02 Feb 2023 01:42:33 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="807909470"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="807909470"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="807909474"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="807909474"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2023 01:42:28 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2023 01:42:30 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -50,9 +50,9 @@ To: Eduardo Habkost <eduardo@habkost.net>,
  Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
  Zhao Liu <zhao1.liu@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>
-Subject: [PATCH 12/18] tests: Add test case of APIC ID for module level parsing
-Date: Thu,  2 Feb 2023 17:49:23 +0800
-Message-Id: <20230202094929.343799-13-zhao1.liu@linux.intel.com>
+Subject: [PATCH 13/18] hw/i386/pc: Support smp.clusters for x86 PC machine
+Date: Thu,  2 Feb 2023 17:49:24 +0800
+Message-Id: <20230202094929.343799-14-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230202094929.343799-1-zhao1.liu@linux.intel.com>
 References: <20230202094929.343799-1-zhao1.liu@linux.intel.com>
@@ -84,63 +84,57 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Zhuocheng Ding <zhuocheng.ding@intel.com>
 
-After i386 supports module level, it's time to add the test for module
-level's parsing.
+As module-level topology support is added to X86CPU, now we can enable
+the support for the cluster parameter on PC machines. With this support,
+we can define a 5-level x86 CPU topology with "-smp":
+
+-smp cpus=*,maxcpus=*,sockets=*,dies=*,clusters=*,cores=*,threads=*.
+
+Additionally, add the 5-level topology example in description of "-smp".
 
 Signed-off-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
-Co-developed-by: Zhao Liu <zhao1.liu@intel.com>
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- tests/unit/test-x86-apicid.c | 19 +++++++++++++++----
- 1 file changed, 15 insertions(+), 4 deletions(-)
+ hw/i386/pc.c    |  1 +
+ qemu-options.hx | 10 +++++-----
+ 2 files changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/tests/unit/test-x86-apicid.c b/tests/unit/test-x86-apicid.c
-index f21b8a5d95c2..55b731ccae55 100644
---- a/tests/unit/test-x86-apicid.c
-+++ b/tests/unit/test-x86-apicid.c
-@@ -37,6 +37,7 @@ static void test_topo_bits(void)
-     topo_info = (X86CPUTopoInfo) {1, 1, 1, 1};
-     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 0);
-     g_assert_cmpuint(apicid_core_width(&topo_info), ==, 0);
-+    g_assert_cmpuint(apicid_module_width(&topo_info), ==, 0);
-     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 0);
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 6e592bd969aa..c329df56ebd2 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -1929,6 +1929,7 @@ static void pc_machine_class_init(ObjectClass *oc, void *data)
+     mc->default_cpu_type = TARGET_DEFAULT_CPU_TYPE;
+     mc->nvdimm_supported = true;
+     mc->smp_props.dies_supported = true;
++    mc->smp_props.clusters_supported = true;
+     mc->default_ram_id = "pc.ram";
  
-     topo_info = (X86CPUTopoInfo) {1, 1, 1, 1};
-@@ -74,13 +75,22 @@ static void test_topo_bits(void)
-     topo_info = (X86CPUTopoInfo) {1, 1, 33, 2};
-     g_assert_cmpuint(apicid_core_width(&topo_info), ==, 6);
+     object_class_property_add(oc, PC_MACHINE_MAX_RAM_BELOW_4G, "size",
+diff --git a/qemu-options.hx b/qemu-options.hx
+index d59d19704bc5..3700e1aa97ea 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -312,14 +312,14 @@ SRST
+         -smp 8,sockets=2,cores=2,threads=2,maxcpus=8
  
--    topo_info = (X86CPUTopoInfo) {1, 1, 30, 2};
-+    topo_info = (X86CPUTopoInfo) {1, 6, 30, 2};
-+    g_assert_cmpuint(apicid_module_width(&topo_info), ==, 3);
-+    topo_info = (X86CPUTopoInfo) {1, 7, 30, 2};
-+    g_assert_cmpuint(apicid_module_width(&topo_info), ==, 3);
-+    topo_info = (X86CPUTopoInfo) {1, 8, 30, 2};
-+    g_assert_cmpuint(apicid_module_width(&topo_info), ==, 3);
-+    topo_info = (X86CPUTopoInfo) {1, 9, 30, 2};
-+    g_assert_cmpuint(apicid_module_width(&topo_info), ==, 4);
-+
-+    topo_info = (X86CPUTopoInfo) {1, 6, 30, 2};
-     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 0);
--    topo_info = (X86CPUTopoInfo) {2, 1, 30, 2};
-+    topo_info = (X86CPUTopoInfo) {2, 6, 30, 2};
-     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 1);
--    topo_info = (X86CPUTopoInfo) {3, 1, 30, 2};
-+    topo_info = (X86CPUTopoInfo) {3, 6, 30, 2};
-     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 2);
--    topo_info = (X86CPUTopoInfo) {4, 1, 30, 2};
-+    topo_info = (X86CPUTopoInfo) {4, 6, 30, 2};
-     g_assert_cmpuint(apicid_die_width(&topo_info), ==, 2);
+     The following sub-option defines a CPU topology hierarchy (2 sockets
+-    totally on the machine, 2 dies per socket, 2 cores per die, 2 threads
+-    per core) for PC machines which support sockets/dies/cores/threads.
+-    Some members of the option can be omitted but their values will be
+-    automatically computed:
++    totally on the machine, 2 dies per socket, 2 clusters per die, 2 cores per
++    cluster, 2 threads per core) for PC machines which support sockets/dies
++    /clusters/cores/threads. Some members of the option can be omitted but
++    their values will be automatically computed:
  
-     /* build a weird topology and see if IDs are calculated correctly
-@@ -91,6 +101,7 @@ static void test_topo_bits(void)
-     topo_info = (X86CPUTopoInfo) {1, 1, 6, 3};
-     g_assert_cmpuint(apicid_smt_width(&topo_info), ==, 2);
-     g_assert_cmpuint(apicid_core_offset(&topo_info), ==, 2);
-+    g_assert_cmpuint(apicid_module_offset(&topo_info), ==, 5);
-     g_assert_cmpuint(apicid_die_offset(&topo_info), ==, 5);
-     g_assert_cmpuint(apicid_pkg_offset(&topo_info), ==, 5);
+     ::
  
+-        -smp 16,sockets=2,dies=2,cores=2,threads=2,maxcpus=16
++        -smp 32,sockets=2,dies=2,clusters=2,cores=2,threads=2,maxcpus=32
+ 
+     The following sub-option defines a CPU topology hierarchy (2 sockets
+     totally on the machine, 2 clusters per socket, 2 cores per cluster,
 -- 
 2.34.1
 
