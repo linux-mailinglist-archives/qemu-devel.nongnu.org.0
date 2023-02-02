@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD16687B79
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 12:06:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A84A687B7B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 12:06:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNXOx-0006nO-Nb; Thu, 02 Feb 2023 06:05:11 -0500
+	id 1pNXPq-0007Ue-Nj; Thu, 02 Feb 2023 06:06:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNXOf-0006mq-LK
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:04:53 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pNXPP-000718-Sl
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:05:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNXOd-00006S-Ui
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:04:53 -0500
+ (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
+ id 1pNXPN-0000M2-Tk
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:05:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675335891;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=S+iqFPec3XVFizk0lwqoQJ//O2NvxWDb+nnrRpDpS+U=;
- b=OOheHRGq1+d2Aim283sJNx2JxGuraWd7SMrHuy3Id6pi8/B6330bDSeNzayoa2gkh2OSyc
- D/T7/zmeKmGMSOWtb8gevgOA7JOMP4T4fWUyCeM0ZQeblGo9gru6Y9yZUqVyCICHp+zN2p
- WNjrWIRXWXx+3P/EN5PqVIGJ01gEqbg=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1675335936;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=WSJLlntzHAf5l/EwtE5jrU3k01QMxDZ8rbwqcVUkPfM=;
+ b=LE8A48cgJkd3bhLwlopemBb4tYEuPvSIko4g/R00astR9DDU9pZG1+eZp6SLBfU5yMAjpA
+ Elqkmuxs5/ygChuqzcwW6RAkEHLRlu4JCICKEoTRoRcFVKdQHdLV0CklYdqHPQTDScKCcf
+ e54X0WFzRx5rZXk466pi9wXrvJ/QGN8=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-454-1Y5KI6S7PFSSSO_Xk2UEcw-1; Thu, 02 Feb 2023 06:04:50 -0500
-X-MC-Unique: 1Y5KI6S7PFSSSO_Xk2UEcw-1
-Received: by mail-wm1-f69.google.com with SMTP id
- k9-20020a05600c1c8900b003dc5dec2ac6so2641232wms.4
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 03:04:49 -0800 (PST)
+ us-mta-137-sATlGQB0NeaSa99K1Q17fA-1; Thu, 02 Feb 2023 06:05:35 -0500
+X-MC-Unique: sATlGQB0NeaSa99K1Q17fA-1
+Received: by mail-ej1-f70.google.com with SMTP id
+ 21-20020a170906225500b0088b953a6df6so1306601ejr.20
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 03:05:35 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=S+iqFPec3XVFizk0lwqoQJ//O2NvxWDb+nnrRpDpS+U=;
- b=BgR7/BbY5eBCaRKEh43PBGBSRZkbIgnwaU/FE7BxXMgOE7j2FqKFD/RoxpQBcXUlQT
- wRXtFwjZLhKTHZS/IE9a4UTpm8Fwne7OdWjnhnmm6QK8XwRyRp5cVonnKHF0riRb6RuT
- FH1tMIKitwoQZhU+nWsyTkv5KloTxrKRPzmuTG8iauM730aF2meALFFbszJbkW3DmdtR
- sCPZovwdQlZtaBCnIRObZXCpDYQN2qDImaCoIHqxhAOsMZxBCc+3+wmOv8EgyNJVeP+t
- FeYyqb8WelVBYy1QItk5uVEtivxUND9PTrZ/JUTGSr6mrBim7sOA6mbEwzUBaiQcxg1Z
- 8vLA==
-X-Gm-Message-State: AO0yUKVTqE7FtpqW8ttXg+bTIFfpZtHgmjVucob04KLLvyMMpG1i/bDX
- EWiZaffPyUgv1kn09jwNrrhT3dlAlbctwlxCl72F2xe1TT3QhL1C1OrDlGn37tY8GJde1Q2+R1h
- Kt/c0atnqZKMK9mY=
-X-Received: by 2002:a5d:44d1:0:b0:2bf:bc0a:361d with SMTP id
- z17-20020a5d44d1000000b002bfbc0a361dmr4760825wrr.31.1675335888952; 
- Thu, 02 Feb 2023 03:04:48 -0800 (PST)
-X-Google-Smtp-Source: AK7set8OOWLBBBZglOCUFW0OVrz5+9lA5X79cBh7ctcckW4oJ3JDThedx0tL/M4jx8AEa7sFQxqH+Q==
-X-Received: by 2002:a5d:44d1:0:b0:2bf:bc0a:361d with SMTP id
- z17-20020a5d44d1000000b002bfbc0a361dmr4760803wrr.31.1675335888684; 
- Thu, 02 Feb 2023 03:04:48 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- ay22-20020a5d6f16000000b002c3bec91679sm1744641wrb.110.2023.02.02.03.04.47
+ bh=WSJLlntzHAf5l/EwtE5jrU3k01QMxDZ8rbwqcVUkPfM=;
+ b=QwwjKd+oN9yksDkDXL2XLH76nWZT4Psi4R920spvx9n3t+HdIw7xX2CEOQ+6Vw+FoT
+ LJ4TlYYO6ajEf4SyDPp0Z5NFf+w19JymU9eV1YKU0R+LlZif+ERQyGb8aFF6afJT0j6/
+ OodZQdsMNd41NNa2wHCrvlRo7fapoTI3cFwejnb1/jnvZIsb8bg+MBCh07Y5ljyR6oZq
+ VxnJeyYlen3boFCsElek24pQy2hIm7uK/Ky4W867+XXHtZK+78PN7780WOCmZHE+soxY
+ uDFnjoHN6nxKk7LDPRxoacw+viK+H/t4UHtTNF815iAAldBJ4yozAMe7rwI2hpne63zL
+ uB/w==
+X-Gm-Message-State: AO0yUKUQH1eo1ZAG6EtLuyaHbk4aFh1AZ8xU82q/eyhkzDAZfB7iDbfJ
+ bTSo7NjlPSC6eo86nGPYgEUi2yYEgFly8Qw+0GB7n9DbY6FyMottbClmWdt+NjPlBD3HnEwrWS6
+ 2sB51+uIoaK0nsRg=
+X-Received: by 2002:aa7:cf13:0:b0:4a2:44d3:6d84 with SMTP id
+ a19-20020aa7cf13000000b004a244d36d84mr5834830edy.5.1675335934680; 
+ Thu, 02 Feb 2023 03:05:34 -0800 (PST)
+X-Google-Smtp-Source: AK7set+n5yQ0e0I73jeoJza4oaosjEacFmVOYLzbkQLdpfB0vHl6H3SSwBybBCFTJOXXLsqNd4mRXA==
+X-Received: by 2002:aa7:cf13:0:b0:4a2:44d3:6d84 with SMTP id
+ a19-20020aa7cf13000000b004a244d36d84mr5834821edy.5.1675335934489; 
+ Thu, 02 Feb 2023 03:05:34 -0800 (PST)
+Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
+ [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
+ l3-20020aa7c3c3000000b004a22ed9030csm7562513edr.56.2023.02.02.03.05.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Feb 2023 03:04:48 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org,  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Peter Xu <peterx@redhat.com>,  "Michael S . Tsirkin" <mst@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-Subject: Re: [PATCH v5 0/8] virtio-mem: Handle preallocation with migration
-In-Reply-To: <01a7ad2a-5fbc-a3ad-f3a9-82bf5b44096e@redhat.com> (David
- Hildenbrand's message of "Mon, 23 Jan 2023 15:27:49 +0100")
-References: <20230117112249.244096-1-david@redhat.com>
- <01a7ad2a-5fbc-a3ad-f3a9-82bf5b44096e@redhat.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 02 Feb 2023 12:04:47 +0100
-Message-ID: <87ilgks4z4.fsf@secure.mitica>
+ Thu, 02 Feb 2023 03:05:33 -0800 (PST)
+Date: Thu, 2 Feb 2023 12:05:33 +0100
+From: Igor Mammedov <imammedo@redhat.com>
+To: Lei Wang <lei4.wang@intel.com>
+Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
+ berrange@redhat.com, xiaoyao.li@intel.com, yang.zhong@linux.intel.com
+Subject: Re: [PATCH v3 0/6] Support for new CPU model SapphireRapids
+Message-ID: <20230202120533.37972585@imammedo.users.ipa.redhat.com>
+In-Reply-To: <20230106083826.5384-1-lei4.wang@intel.com>
+References: <20230106083826.5384-1-lei4.wang@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -97,41 +97,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-David Hildenbrand <david@redhat.com> wrote:
-> On 17.01.23 12:22, David Hildenbrand wrote:
->> While playing with migration of virtio-mem with an ordinary file backing,
->> I realized that migration and prealloc doesn't currently work as expected
->> for virtio-mem. Further, Jing Qi reported that setup issues (insufficient
->> huge pages on the destination) result in QEMU getting killed with SIGBUS
->> instead of failing gracefully.
->> In contrast to ordinary memory backend preallocation, virtio-mem
->> preallocates memory before plugging blocks to the guest. Consequently,
->> when migrating we are not actually preallocating on the destination but
->> "only" migrate pages. Fix that be migrating the bitmap early, before any
->> RAM content, and use that information to preallocate memory early, before
->> migrating any RAM.
->> Postcopy needs some extra care, and I realized that
->> prealloc+postcopy is
->> shaky in general. Let's at least try to mimic what ordinary
->> prealloc+postcopy does: temporarily allocate the memory, discard it, and
->> cross fingers that we'll still have sufficient memory when postcopy
->> actually tries placing pages.
->> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
->> Cc: Juan Quintela <quintela@redhat.com>
->> Cc: Peter Xu <peterx@redhat.com>
->> Cc: Michael S. Tsirkin <mst@redhat.com>
->> Cc: Michal Privoznik <mprivozn@redhat.com>
->
-> @Juan, David: I can similarly take this via my tree as well.
+On Fri,  6 Jan 2023 00:38:20 -0800
+Lei Wang <lei4.wang@intel.com> wrote:
 
-Reviewing it.
+> This series aims to add a new CPU model SapphireRapids, and tries to
+> address the problem stated in
+> https://lore.kernel.org/all/20220812055751.14553-1-lei4.wang@intel.com/T/#mcf67dbd1ad37c65d7988c36a2b267be9afd2fb30,
+> so that named CPU model can define its own AMX values, and QEMU won't
+> pass the wrong AMX values to KVM in future platforms if they have
+> different values supported.
+> 
+> The original patch is
+> https://lore.kernel.org/all/20220812055751.14553-1-lei4.wang@intel.com/T/#u.
 
-I can get it through migration tree, thanks.
+MultiBitFeatureInfo looks like an interesting
+idea but among fixing whatever issues this has atm,
+you'd probably need to introduce a new  qdev_bitfield property
+infrastructure so that such features could be treated like any
+other qdev properties.
+Also when MultiBitFeatureInfo is added, one should convert all
+other usecases where it's applicable (not only for new code)
+so that we would end up with consolidated approach instead of
+zoo mess.
 
-Later, Juan.
+I'm not sure all MultiBitFeatureInfo complexity is necessary
+just for adding a new CPU model, I'd rather use ad hoc approach
+that we were using before for non boolean features.
+
+And then try to develop MultiBitFeatureInfo & co as a separate
+series to demonstrate how much it will improve current
+cpu models definitions.
+
+PS:
+ 'make check-acceptance' are broken with this
+
+> ---
+> 
+> Changelog:
+> 
+> v3:
+>  - Rebase on the latest QEMU (d1852caab131ea898134fdcea8c14bc2ee75fbe9).
+>  - v2: https://lore.kernel.org/qemu-devel/20221102085256.81139-1-lei4.wang@intel.com/
+> 
+> v2:
+>  - Fix when passing all zeros of AMX-related CPUID, QEMU will warn
+>    unsupported.
+>  - Remove unnecessary function definition and make code cleaner.
+>  - Fix some typos.
+>  - v1: https://lore.kernel.org/qemu-devel/20221027020036.373140-1-lei4.wang@intel.com/T/#t
+> 
+> 
+> Lei Wang (6):
+>   i386: Introduce FeatureWordInfo for AMX CPUID leaf 0x1D and 0x1E
+>   i386: Remove unused parameter "uint32_t bit" in
+>     feature_word_description()
+>   i386: Introduce new struct "MultiBitFeatureInfo" for multi-bit
+>     features
+>   i386: Mask and report unavailable multi-bit feature values
+>   i386: Initialize AMX CPUID leaves with corresponding env->features[]
+>     leaves
+>   i386: Add new CPU model SapphireRapids
+> 
+>  target/i386/cpu-internal.h |  11 ++
+>  target/i386/cpu.c          | 311 +++++++++++++++++++++++++++++++++++--
+>  target/i386/cpu.h          |  16 ++
+>  3 files changed, 322 insertions(+), 16 deletions(-)
+> 
+> 
+> base-commit: d1852caab131ea898134fdcea8c14bc2ee75fbe9
 
 
