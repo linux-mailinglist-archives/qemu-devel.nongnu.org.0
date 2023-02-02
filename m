@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5579A6875D7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 07:23:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8053D6875D2
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 07:23:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNSyv-0005pa-N6; Thu, 02 Feb 2023 01:22:01 -0500
+	id 1pNSyl-0005lo-NY; Thu, 02 Feb 2023 01:21:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pNSyt-0005p5-9y
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 01:21:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pNSyj-0005lW-Rz
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 01:21:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pNSyq-0006f1-S7
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 01:21:59 -0500
+ id 1pNSyi-0006ds-7o
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 01:21:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675318916;
+ s=mimecast20190719; t=1675318907;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ICmt8V8QIc6OjvA65okAqY3Jb+ehyL5vIYaD9OOJaM8=;
- b=SS3mUhRiI8PTa+TfIBHtEYvelkiwgcpYf8ecpRmA4Fq6BkxMn8qlymvoDKVVB2X8LtD3Ds
- DNSPE0fe8g0nHMq5NI0VFaaA9ay47s4cZLFKeaFBAlEGyi8DUFsu1s8qCALrRLGI+fsJrG
- z3MID0WVoxK1+zBHMwUc4eAQhhDkf/0=
+ bh=XoR1EqS98VfAlVzMxZNoy/1pmw2KIRavs+YTl38ELCA=;
+ b=PHDu+Ig+5rHrjLRhaKZifXF5itUD8Dv+iih1THDC4QKM02pvgqdpZHs2LZInOs1z3+bOYx
+ MVdc7L+7MX2rkvM0dl2wwTEP1DkOqmcCQ/ueJ/EOZldkaZ7CEyzbBCNLzXeSSwSuSscS/L
+ imxPbJVM9NX+1hLWofwc8z/VqzPb5zk=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-459-anO1sHyTPsGBmMcyiqg2-w-1; Thu, 02 Feb 2023 01:21:44 -0500
-X-MC-Unique: anO1sHyTPsGBmMcyiqg2-w-1
+ us-mta-576-eG9WCxdQMlms_fUeqOi0Hw-1; Thu, 02 Feb 2023 01:21:46 -0500
+X-MC-Unique: eG9WCxdQMlms_fUeqOi0Hw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 165143C02B79;
- Thu,  2 Feb 2023 06:21:43 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id CE47838012CB;
+ Thu,  2 Feb 2023 06:21:45 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-14-0.pek2.redhat.com [10.72.14.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 860D6404BEC0;
- Thu,  2 Feb 2023 06:21:36 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A9310404BEC0;
+ Thu,  2 Feb 2023 06:21:43 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: Thomas Huth <thuth@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+Cc: Qiang Liu <cyruscyliu@gmail.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  Jason Wang <jasowang@redhat.com>
-Subject: [PULL 03/11] net: Replace "Supported NIC models" with "Available NIC
- models"
-Date: Thu,  2 Feb 2023 14:21:18 +0800
-Message-Id: <20230202062126.67550-4-jasowang@redhat.com>
+Subject: [PULL 04/11] hw/net/lan9118: log [read|write]b when mode_16bit is
+ enabled rather than abort
+Date: Thu,  2 Feb 2023 14:21:19 +0800
+Message-Id: <20230202062126.67550-5-jasowang@redhat.com>
 In-Reply-To: <20230202062126.67550-1-jasowang@redhat.com>
 References: <20230202062126.67550-1-jasowang@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -81,33 +82,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Thomas Huth <thuth@redhat.com>
+From: Qiang Liu <cyruscyliu@gmail.com>
 
-Just because a NIC model is compiled into the QEMU binary does not
-necessary mean that it can be used with each and every machine.
-So let's rather talk about "available" models instead of "supported"
-models, just to avoid confusion.
+This patch replaces hw_error to guest error log for [read|write]b
+accesses when mode_16bit is enabled. This avoids aborting qemu.
 
-Reviewed-by: Claudio Fontana <cfontana@suse.de>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Fixes: 1248f8d4cbc3 ("hw/lan9118: Add basic 16-bit mode support.")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1433
+Reported-by: Qiang Liu <cyruscyliu@gmail.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
+Suggested-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/net.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/net/lan9118.c | 17 ++++++++---------
+ 1 file changed, 8 insertions(+), 9 deletions(-)
 
-diff --git a/net/net.c b/net/net.c
-index 888986a..baa2548 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -941,7 +941,7 @@ int qemu_show_nic_models(const char *arg, const char *const *models)
+diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
+index f1cba55..e5c4af1 100644
+--- a/hw/net/lan9118.c
++++ b/hw/net/lan9118.c
+@@ -15,7 +15,6 @@
+ #include "migration/vmstate.h"
+ #include "net/net.h"
+ #include "net/eth.h"
+-#include "hw/hw.h"
+ #include "hw/irq.h"
+ #include "hw/net/lan9118.h"
+ #include "hw/ptimer.h"
+@@ -32,12 +31,8 @@
+ #ifdef DEBUG_LAN9118
+ #define DPRINTF(fmt, ...) \
+ do { printf("lan9118: " fmt , ## __VA_ARGS__); } while (0)
+-#define BADF(fmt, ...) \
+-do { hw_error("lan9118: error: " fmt , ## __VA_ARGS__);} while (0)
+ #else
+ #define DPRINTF(fmt, ...) do {} while(0)
+-#define BADF(fmt, ...) \
+-do { fprintf(stderr, "lan9118: error: " fmt , ## __VA_ARGS__);} while (0)
+ #endif
+ 
+ /* The tx and rx fifo ports are a range of aliased 32-bit registers */
+@@ -848,7 +843,8 @@ static uint32_t do_phy_read(lan9118_state *s, int reg)
+     case 30: /* Interrupt mask */
+         return s->phy_int_mask;
+     default:
+-        BADF("PHY read reg %d\n", reg);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "do_phy_read: PHY read reg %d\n", reg);
          return 0;
      }
- 
--    printf("Supported NIC models:\n");
-+    printf("Available NIC models:\n");
-     for (i = 0 ; models[i]; i++) {
-         printf("%s\n", models[i]);
+ }
+@@ -876,7 +872,8 @@ static void do_phy_write(lan9118_state *s, int reg, uint32_t val)
+         phy_update_irq(s);
+         break;
+     default:
+-        BADF("PHY write reg %d = 0x%04x\n", reg, val);
++        qemu_log_mask(LOG_GUEST_ERROR,
++                      "do_phy_write: PHY write reg %d = 0x%04x\n", reg, val);
      }
+ }
+ 
+@@ -1209,7 +1206,8 @@ static void lan9118_16bit_mode_write(void *opaque, hwaddr offset,
+         return;
+     }
+ 
+-    hw_error("lan9118_write: Bad size 0x%x\n", size);
++    qemu_log_mask(LOG_GUEST_ERROR,
++                  "lan9118_16bit_mode_write: Bad size 0x%x\n", size);
+ }
+ 
+ static uint64_t lan9118_readl(void *opaque, hwaddr offset,
+@@ -1324,7 +1322,8 @@ static uint64_t lan9118_16bit_mode_read(void *opaque, hwaddr offset,
+         return lan9118_readl(opaque, offset, size);
+     }
+ 
+-    hw_error("lan9118_read: Bad size 0x%x\n", size);
++    qemu_log_mask(LOG_GUEST_ERROR,
++                  "lan9118_16bit_mode_read: Bad size 0x%x\n", size);
+     return 0;
+ }
+ 
 -- 
 2.7.4
 
