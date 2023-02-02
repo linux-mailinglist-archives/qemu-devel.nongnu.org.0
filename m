@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85E268757F
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 06:48:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE75168757B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 06:47:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNSPJ-00089R-G7; Thu, 02 Feb 2023 00:45:13 -0500
+	id 1pNSPJ-00089Y-Ha; Thu, 02 Feb 2023 00:45:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1pNSPF-00088f-TQ
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:09 -0500
-Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
+ id 1pNSPE-00088D-So
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:08 -0500
+Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1pNSPD-00079j-G3
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:09 -0500
-Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
+ id 1pNSPC-00079b-Op
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:08 -0500
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3124ifgC027422; Thu, 2 Feb 2023 05:45:05 GMT
+ 3124jb3p014485; Thu, 2 Feb 2023 05:45:05 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2022-7-12;
- bh=2MyLpRHFvnjahjePJwG1QRaYxN8Mw3IsbhhrOXXY0aA=;
- b=f8W3snUW2oOCFWPutG+bxgDtr/E8M8pJdILkmemD66Nv3JxKL3eUShM19In2x1tuR5pN
- ABBYfMwM40oI5ttv1KCwBmn/d5U60Ssuex4xJ4Gy28OU4tA2SvjvUGsRerrJjWVXT2jp
- x2zrQ6TNC0DrsZGX1apme0x8FGBWHuaGdw85Z1pTVW1s1ElwThDds6Fi4coEm/7hFx24
- gGrI7Ar6fdm4xfQmgYVRYuPCn3GqHYfSqtB2RWyBjoJh7OU7ofPy59u90aZqA4c67uey
- Ok+gzsyb6k2NXwRyDJJKmiPIS7wgC1ELd8Ftn0aAKSqcSiGkjsnGNRl8X1cpPfpfX3rI jw== 
+ bh=s1MDzqiEhZvEGj20HMCmrvGS6OT/WBSFA+G7cai9Qos=;
+ b=aqjdW39hgU9Ou70SSC3FG1I6UUwX68KP5Cj7j7feOujFtk1VmobM7kTTJDPSa+RWMfuo
+ gIFR2CFhAlQiM/HNO1FKg6gdPXxlk4VPiLAu8S/xw0RlSnANdlJnfyuGJCObZELoUPVr
+ u+jMYRSYRA0YYkszZgbiEDj+MOKffklujoEJo6f4PTuWJdknFAb/XN+MumuTIemyP2e8
+ rMHqI6EzGkrz+TGv71Vra7Uw04Y/V7UrHuqrScapC0RRUkCVVRYaVZAfCATTma90eNh/
+ /jrZD2r3L1vn9zRACdA8TavKTaap0GCoM/IlIsjkMmw19J2bA3lvHvcI+j8incxmzj90 bw== 
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nfpywj0vy-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nfq4hj0cf-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
  Thu, 02 Feb 2023 05:45:05 +0000
 Received: from pps.filterd
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 31254Ppf013015; Thu, 2 Feb 2023 05:45:03 GMT
+ with ESMTP id 31254Ppg013015; Thu, 2 Feb 2023 05:45:04 GMT
 Received: from bruckner.us.oracle.com (dhcp-10-65-133-23.vpn.oracle.com
  [10.65.133.23])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3nct5f5gb1-11
+ 3nct5f5gb1-12
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 02 Feb 2023 05:45:03 +0000
+ Thu, 02 Feb 2023 05:45:04 +0000
 From: John Johnson <john.g.johnson@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: alex.williamson@redhat.com, clg@redhat.com, philmd@linaro.org
-Subject: [PATCH v2 10/23] vfio-user: get device info
-Date: Wed,  1 Feb 2023 21:55:46 -0800
-Message-Id: <8bc3133469b42eecc3a8af8200b5ce9692e6f3e9.1675228037.git.john.g.johnson@oracle.com>
+Subject: [PATCH v2 11/23] vfio-user: get region info
+Date: Wed,  1 Feb 2023 21:55:47 -0800
+Message-Id: <f8cb1656f09ac50ab5ba68ca40be700fc2d66e59.1675228037.git.john.g.johnson@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1675228037.git.john.g.johnson@oracle.com>
 References: <cover.1675228037.git.john.g.johnson@oracle.com>
@@ -65,10 +65,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
  adultscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
  definitions=main-2302020053
-X-Proofpoint-GUID: RaVbJov5FYWjNFvk822WJVxOF5orHqSc
-X-Proofpoint-ORIG-GUID: RaVbJov5FYWjNFvk822WJVxOF5orHqSc
-Received-SPF: pass client-ip=205.220.165.32;
- envelope-from=john.g.johnson@oracle.com; helo=mx0a-00069f02.pphosted.com
+X-Proofpoint-GUID: 1U52E3Atx7ugWV9PD93DWAwCTheSoEOx
+X-Proofpoint-ORIG-GUID: 1U52E3Atx7ugWV9PD93DWAwCTheSoEOx
+Received-SPF: pass client-ip=205.220.177.32;
+ envelope-from=john.g.johnson@oracle.com; helo=mx0b-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -91,228 +91,345 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Add per-region FD to support mmap() of remote device regions
+
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/vfio/user-protocol.h       | 12 ++++++++++
- hw/vfio/user.h                |  1 +
- include/hw/vfio/vfio-common.h |  3 +++
- hw/vfio/common.c              | 23 +++++++++++-------
- hw/vfio/user-pci.c            |  6 +++++
- hw/vfio/user.c                | 55 +++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/user-protocol.h       | 14 +++++++++
+ hw/vfio/user.h                |  2 ++
+ include/hw/vfio/vfio-common.h |  5 +++-
+ hw/vfio/ap.c                  |  1 +
+ hw/vfio/ccw.c                 |  1 +
+ hw/vfio/common.c              | 31 ++++++++++++++++++--
+ hw/vfio/pci.c                 |  1 +
+ hw/vfio/platform.c            |  1 +
+ hw/vfio/user-pci.c            |  2 ++
+ hw/vfio/user.c                | 68 +++++++++++++++++++++++++++++++++++++++++++
  hw/vfio/trace-events          |  1 +
- 7 files changed, 93 insertions(+), 8 deletions(-)
+ 11 files changed, 123 insertions(+), 4 deletions(-)
 
 diff --git a/hw/vfio/user-protocol.h b/hw/vfio/user-protocol.h
-index 5de5b20..5f9ef17 100644
+index 5f9ef17..6f70a48 100644
 --- a/hw/vfio/user-protocol.h
 +++ b/hw/vfio/user-protocol.h
-@@ -113,4 +113,16 @@ typedef struct {
-  */
- #define VFIO_USER_DEF_MAX_BITMAP (256 * 1024 * 1024)
+@@ -125,4 +125,18 @@ typedef struct {
+     uint32_t num_irqs;
+ } VFIOUserDeviceInfo;
  
 +/*
-+ * VFIO_USER_DEVICE_GET_INFO
-+ * imported from struct vfio_device_info
++ * VFIO_USER_DEVICE_GET_REGION_INFO
++ * imported from struct vfio_region_info
 + */
 +typedef struct {
 +    VFIOUserHdr hdr;
 +    uint32_t argsz;
 +    uint32_t flags;
-+    uint32_t num_regions;
-+    uint32_t num_irqs;
-+} VFIOUserDeviceInfo;
++    uint32_t index;
++    uint32_t cap_offset;
++    uint64_t size;
++    uint64_t offset;
++} VFIOUserRegionInfo;
 +
  #endif /* VFIO_USER_PROTOCOL_H */
 diff --git a/hw/vfio/user.h b/hw/vfio/user.h
-index 038e5e3..d148661 100644
+index d148661..e6485dc 100644
 --- a/hw/vfio/user.h
 +++ b/hw/vfio/user.h
-@@ -90,6 +90,7 @@ void vfio_user_disconnect(VFIOUserProxy *proxy);
- void vfio_user_set_handler(VFIODevice *vbasedev,
-                            void (*handler)(void *opaque, VFIOUserMsg *msg),
-                            void *reqarg);
-+int vfio_user_get_device(VFIODevice *vbasedev, Error **errp);
+@@ -93,4 +93,6 @@ void vfio_user_set_handler(VFIODevice *vbasedev,
+ int vfio_user_get_device(VFIODevice *vbasedev, Error **errp);
  int vfio_user_validate_version(VFIOUserProxy *proxy, Error **errp);
  
++extern VFIODeviceIO vfio_dev_io_sock;
++
  #endif /* VFIO_USER_H */
 diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index e1ee0ac..0962e37 100644
+index 0962e37..9fb4c80 100644
 --- a/include/hw/vfio/vfio-common.h
 +++ b/include/hw/vfio/vfio-common.h
-@@ -254,6 +254,9 @@ void vfio_put_group(VFIOGroup *group);
- int vfio_get_device(VFIOGroup *group, const char *name,
-                     VFIODevice *vbasedev, Error **errp);
+@@ -56,6 +56,7 @@ typedef struct VFIORegion {
+     uint32_t nr_mmaps;
+     VFIOMmap *mmaps;
+     uint8_t nr; /* cache the region number for debug */
++    int fd; /* fd to mmap() region */
+ } VFIORegion;
  
-+void vfio_init_device(VFIODevice *vbasedev, VFIOGroup *group,
-+                      struct vfio_device_info *info);
-+
- extern const MemoryRegionOps vfio_region_ops;
- typedef QLIST_HEAD(VFIOGroupList, VFIOGroup) VFIOGroupList;
- extern VFIOGroupList vfio_group_list;
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 45b950a..792e247 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -2369,6 +2369,20 @@ void vfio_get_all_regions(VFIODevice *vbasedev)
-     }
- }
- 
-+void vfio_init_device(VFIODevice *vbasedev, VFIOGroup *group,
-+                      struct vfio_device_info *info)
-+{
-+    vbasedev->group = group;
-+    QLIST_INSERT_HEAD(&group->device_list, vbasedev, next);
-+
-+    vbasedev->num_irqs = info->num_irqs;
-+    vbasedev->num_regions = info->num_regions;
-+    vbasedev->flags = info->flags;
-+    vbasedev->reset_works = !!(info->flags & VFIO_DEVICE_FLAGS_RESET);
-+
-+    vfio_get_all_regions(vbasedev);
-+}
-+
- int vfio_get_device(VFIOGroup *group, const char *name,
-                     VFIODevice *vbasedev, Error **errp)
- {
-@@ -2414,18 +2428,11 @@ int vfio_get_device(VFIOGroup *group, const char *name,
-     }
- 
-     vbasedev->fd = fd;
--    vbasedev->group = group;
--    QLIST_INSERT_HEAD(&group->device_list, vbasedev, next);
--
--    vbasedev->num_irqs = dev_info.num_irqs;
--    vbasedev->num_regions = dev_info.num_regions;
--    vbasedev->flags = dev_info.flags;
-+    vfio_init_device(vbasedev, group, &dev_info);
- 
-     trace_vfio_get_device(name, dev_info.flags, dev_info.num_regions,
-                           dev_info.num_irqs);
- 
--    vfio_get_all_regions(vbasedev);
--    vbasedev->reset_works = !!(dev_info.flags & VFIO_DEVICE_FLAGS_RESET);
-     return 0;
- }
- 
-diff --git a/hw/vfio/user-pci.c b/hw/vfio/user-pci.c
-index 0fe2593..e5a9450 100644
---- a/hw/vfio/user-pci.c
-+++ b/hw/vfio/user-pci.c
-@@ -77,6 +77,7 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
-     VFIODevice *vbasedev = &vdev->vbasedev;
-     SocketAddress addr;
+ typedef struct VFIOMigration {
+@@ -140,6 +141,7 @@ typedef struct VFIODevice {
+     bool no_mmap;
+     bool ram_block_discard_allowed;
+     bool enable_migration;
++    bool use_regfds;
+     VFIODeviceOps *ops;
+     VFIODeviceIO *io;
+     unsigned int num_irqs;
+@@ -150,6 +152,7 @@ typedef struct VFIODevice {
+     OnOffAuto pre_copy_dirty_page_tracking;
      VFIOUserProxy *proxy;
-+    int ret;
-     Error *err = NULL;
+     struct vfio_region_info **regions;
++    int *regfds;
+ } VFIODevice;
+ 
+ struct VFIODeviceOps {
+@@ -171,7 +174,7 @@ struct VFIODeviceOps {
+  */
+ struct VFIODeviceIO {
+     int (*get_region_info)(VFIODevice *vdev,
+-                           struct vfio_region_info *info);
++                           struct vfio_region_info *info, int *fd);
+     int (*get_irq_info)(VFIODevice *vdev, struct vfio_irq_info *irq);
+     int (*set_irqs)(VFIODevice *vdev, struct vfio_irq_set *irqs);
+     int (*region_read)(VFIODevice *vdev, uint8_t nr, off_t off, uint32_t size,
+diff --git a/hw/vfio/ap.c b/hw/vfio/ap.c
+index c6638d5..06d745f 100644
+--- a/hw/vfio/ap.c
++++ b/hw/vfio/ap.c
+@@ -103,6 +103,7 @@ static void vfio_ap_realize(DeviceState *dev, Error **errp)
+     vapdev->vdev.name = g_strdup_printf("%s", mdevid);
+     vapdev->vdev.dev = dev;
+     vapdev->vdev.io = &vfio_dev_io_ioctl;
++    vapdev->vdev.use_regfds = false;
  
      /*
-@@ -116,6 +117,11 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
-     vbasedev->type = VFIO_DEVICE_TYPE_PCI;
-     vbasedev->dev = DEVICE(vdev);
+      * vfio-ap devices operate in a way compatible with discarding of
+diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+index e4d840d..00605bd 100644
+--- a/hw/vfio/ccw.c
++++ b/hw/vfio/ccw.c
+@@ -615,6 +615,7 @@ static void vfio_ccw_get_device(VFIOGroup *group, VFIOCCWDevice *vcdev,
+     vcdev->vdev.name = name;
+     vcdev->vdev.dev = &vcdev->cdev.parent_obj.parent_obj;
+     vcdev->vdev.io = &vfio_dev_io_ioctl;
++    vcdev->vdev.use_regfds = false;
  
-+    ret = vfio_user_get_device(vbasedev, errp);
-+    if (ret) {
-+        goto error;
-+    }
-+
      return;
  
- error:
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 792e247..d26b325 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -1584,6 +1584,11 @@ int vfio_region_setup(Object *obj, VFIODevice *vbasedev, VFIORegion *region,
+     region->size = info->size;
+     region->fd_offset = info->offset;
+     region->nr = index;
++    if (vbasedev->regfds != NULL) {
++        region->fd = vbasedev->regfds[index];
++    } else {
++        region->fd = vbasedev->fd;
++    }
+ 
+     if (region->size) {
+         region->mem = g_new0(MemoryRegion, 1);
+@@ -1635,7 +1640,7 @@ int vfio_region_mmap(VFIORegion *region)
+ 
+     for (i = 0; i < region->nr_mmaps; i++) {
+         region->mmaps[i].mmap = mmap(NULL, region->mmaps[i].size, prot,
+-                                     MAP_SHARED, region->vbasedev->fd,
++                                     MAP_SHARED, region->fd,
+                                      region->fd_offset +
+                                      region->mmaps[i].offset);
+         if (region->mmaps[i].mmap == MAP_FAILED) {
+@@ -2442,10 +2447,17 @@ void vfio_put_base_device(VFIODevice *vbasedev)
+         int i;
+ 
+         for (i = 0; i < vbasedev->num_regions; i++) {
++            if (vbasedev->regfds != NULL && vbasedev->regfds[i] != -1) {
++                close(vbasedev->regfds[i]);
++            }
+             g_free(vbasedev->regions[i]);
+         }
+         g_free(vbasedev->regions);
+         vbasedev->regions = NULL;
++        if (vbasedev->regfds != NULL) {
++            g_free(vbasedev->regfds);
++            vbasedev->regfds = NULL;
++        }
+     }
+ 
+     if (!vbasedev->group) {
+@@ -2461,12 +2473,16 @@ int vfio_get_region_info(VFIODevice *vbasedev, int index,
+                          struct vfio_region_info **info)
+ {
+     size_t argsz = sizeof(struct vfio_region_info);
++    int fd = -1;
+     int ret;
+ 
+     /* create region cache */
+     if (vbasedev->regions == NULL) {
+         vbasedev->regions = g_new0(struct vfio_region_info *,
+                                    vbasedev->num_regions);
++        if (vbasedev->use_regfds) {
++            vbasedev->regfds = g_new0(int, vbasedev->num_regions);
++        }
+     }
+     /* check cache */
+     if (vbasedev->regions[index] != NULL) {
+@@ -2480,7 +2496,7 @@ int vfio_get_region_info(VFIODevice *vbasedev, int index,
+ retry:
+     (*info)->argsz = argsz;
+ 
+-    ret = vbasedev->io->get_region_info(vbasedev, *info);
++    ret = vbasedev->io->get_region_info(vbasedev, *info, &fd);
+     if (ret != 0) {
+         g_free(*info);
+         *info = NULL;
+@@ -2490,12 +2506,19 @@ retry:
+     if ((*info)->argsz > argsz) {
+         argsz = (*info)->argsz;
+         *info = g_realloc(*info, argsz);
++        if (fd != -1) {
++            close(fd);
++            fd = -1;
++        }
+ 
+         goto retry;
+     }
+ 
+     /* fill cache */
+     vbasedev->regions[index] = *info;
++    if (vbasedev->regfds != NULL) {
++        vbasedev->regfds[index] = fd;
++    }
+ 
+     return 0;
+ }
+@@ -2646,10 +2669,12 @@ int vfio_eeh_as_op(AddressSpace *as, uint32_t op)
+  */
+ 
+ static int vfio_io_get_region_info(VFIODevice *vbasedev,
+-                                   struct vfio_region_info *info)
++                                   struct vfio_region_info *info,
++                                   int *fd)
+ {
+     int ret;
+ 
++    *fd = -1;
+     ret = ioctl(vbasedev->fd, VFIO_DEVICE_GET_REGION_INFO, info);
+ 
+     return ret < 0 ? -errno : ret;
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index a8bc0ea..935d247 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -2908,6 +2908,7 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
+     vbasedev->type = VFIO_DEVICE_TYPE_PCI;
+     vbasedev->dev = DEVICE(vdev);
+     vbasedev->io = &vfio_dev_io_ioctl;
++    vbasedev->use_regfds = false;
+ 
+     tmp = g_strdup_printf("%s/iommu_group", vbasedev->sysfsdev);
+     len = readlink(tmp, group_path, sizeof(group_path));
+diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
+index 222405e..8ddfcca 100644
+--- a/hw/vfio/platform.c
++++ b/hw/vfio/platform.c
+@@ -622,6 +622,7 @@ static void vfio_platform_realize(DeviceState *dev, Error **errp)
+     vbasedev->dev = dev;
+     vbasedev->ops = &vfio_platform_ops;
+     vbasedev->io = &vfio_dev_io_ioctl;
++    vbasedev->use_regfds = false;
+ 
+     qemu_mutex_init(&vdev->intp_mutex);
+ 
+diff --git a/hw/vfio/user-pci.c b/hw/vfio/user-pci.c
+index e5a9450..09c6c98 100644
+--- a/hw/vfio/user-pci.c
++++ b/hw/vfio/user-pci.c
+@@ -116,6 +116,8 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+     vbasedev->ops = &vfio_user_pci_ops;
+     vbasedev->type = VFIO_DEVICE_TYPE_PCI;
+     vbasedev->dev = DEVICE(vdev);
++    vbasedev->io = &vfio_dev_io_sock;
++    vbasedev->use_regfds = true;
+ 
+     ret = vfio_user_get_device(vbasedev, errp);
+     if (ret) {
 diff --git a/hw/vfio/user.c b/hw/vfio/user.c
-index 2d60f99..d0ec14c 100644
+index d0ec14c..a05ba80 100644
 --- a/hw/vfio/user.c
 +++ b/hw/vfio/user.c
-@@ -32,6 +32,14 @@
- #include "user.h"
- #include "trace.h"
- 
-+
-+/*
-+ * These are to defend against a malign server trying
-+ * to force us to run out of memory.
-+ */
-+#define VFIO_USER_MAX_REGIONS   100
-+#define VFIO_USER_MAX_IRQS      50
-+
- static int wait_time = 5000;   /* wait up to 5 sec for busy servers */
- static IOThread *vfio_user_iothread;
- 
-@@ -55,6 +63,9 @@ static void vfio_user_send_wait(VFIOUserProxy *proxy, VFIOUserHdr *hdr,
- static void vfio_user_request_msg(VFIOUserHdr *hdr, uint16_t cmd,
-                                   uint32_t size, uint32_t flags);
- 
-+static int vfio_user_get_info(VFIOUserProxy *proxy,
-+                              struct vfio_device_info *info);
-+
- static inline void vfio_user_set_error(VFIOUserHdr *hdr, uint32_t err)
- {
-     hdr->flags |= VFIO_USER_ERROR;
-@@ -807,6 +818,30 @@ void vfio_user_disconnect(VFIOUserProxy *proxy)
-     g_free(proxy);
+@@ -1143,3 +1143,71 @@ static int vfio_user_get_info(VFIOUserProxy *proxy,
+     memcpy(info, &msg.argsz, argsz);
+     return 0;
  }
- 
-+int vfio_user_get_device(VFIODevice *vbasedev, Error **errp)
++
++static int vfio_user_get_region_info(VFIOUserProxy *proxy,
++                                     struct vfio_region_info *info,
++                                     VFIOUserFDs *fds)
 +{
-+    struct vfio_device_info info = { .argsz = sizeof(info) };
-+    int ret;
++    g_autofree VFIOUserRegionInfo *msgp = NULL;
++    uint32_t size;
 +
-+    ret = vfio_user_get_info(vbasedev->proxy, &info);
-+    if (ret) {
-+        error_setg_errno(errp, -ret, "get info failure");
-+        return ret;
++    /* data returned can be larger than vfio_region_info */
++    if (info->argsz < sizeof(*info)) {
++        error_printf("vfio_user_get_region_info argsz too small\n");
++        return -E2BIG;
 +    }
-+
-+    /* defend against a malicious server */
-+    if (info.num_regions > VFIO_USER_MAX_REGIONS ||
-+        info.num_irqs > VFIO_USER_MAX_IRQS) {
-+        error_printf("vfio_user_get_info: invalid reply\n");
++    if (fds != NULL && fds->send_fds != 0) {
++        error_printf("vfio_user_get_region_info can't send FDs\n");
 +        return -EINVAL;
 +    }
 +
-+    vbasedev->fd = -1;
-+    vfio_init_device(vbasedev, NULL, &info);
++    size = info->argsz + sizeof(VFIOUserHdr);
++    msgp = g_malloc0(size);
 +
-+    return 0;
-+}
++    vfio_user_request_msg(&msgp->hdr, VFIO_USER_DEVICE_GET_REGION_INFO,
++                          sizeof(*msgp), 0);
++    msgp->argsz = info->argsz;
++    msgp->index = info->index;
 +
- static void vfio_user_request_msg(VFIOUserHdr *hdr, uint16_t cmd,
-                                   uint32_t size, uint32_t flags)
- {
-@@ -1088,3 +1123,23 @@ int vfio_user_validate_version(VFIOUserProxy *proxy, Error **errp)
-     trace_vfio_user_version(msgp->major, msgp->minor, msgp->capabilities);
-     return 0;
- }
-+
-+static int vfio_user_get_info(VFIOUserProxy *proxy,
-+                              struct vfio_device_info *info)
-+{
-+    VFIOUserDeviceInfo msg;
-+    uint32_t argsz = sizeof(msg) - sizeof(msg.hdr);
-+
-+    memset(&msg, 0, sizeof(msg));
-+    vfio_user_request_msg(&msg.hdr, VFIO_USER_DEVICE_GET_INFO, sizeof(msg), 0);
-+    msg.argsz = argsz;
-+
-+    vfio_user_send_wait(proxy, &msg.hdr, NULL, 0, false);
-+    if (msg.hdr.flags & VFIO_USER_ERROR) {
-+        return -msg.hdr.error_reply;
++    vfio_user_send_wait(proxy, &msgp->hdr, fds, size, false);
++    if (msgp->hdr.flags & VFIO_USER_ERROR) {
++        return -msgp->hdr.error_reply;
 +    }
-+    trace_vfio_user_get_info(msg.num_regions, msg.num_irqs);
++    trace_vfio_user_get_region_info(msgp->index, msgp->flags, msgp->size);
 +
-+    memcpy(info, &msg.argsz, argsz);
++    memcpy(info, &msgp->argsz, info->argsz);
 +    return 0;
 +}
++
++
++/*
++ * Socket-based io_ops
++ */
++
++static int vfio_user_io_get_region_info(VFIODevice *vbasedev,
++                                        struct vfio_region_info *info,
++                                        int *fd)
++{
++    int ret;
++    VFIOUserFDs fds = { 0, 1, fd};
++
++    ret = vfio_user_get_region_info(vbasedev->proxy, info, &fds);
++    if (ret) {
++        return ret;
++    }
++
++    if (info->index > vbasedev->num_regions) {
++        return -EINVAL;
++    }
++    /* cap_offset in valid area */
++    if ((info->flags & VFIO_REGION_INFO_FLAG_CAPS) &&
++        (info->cap_offset < sizeof(*info) || info->cap_offset > info->argsz)) {
++        return -EINVAL;
++    }
++
++    return 0;
++}
++
++VFIODeviceIO vfio_dev_io_sock = {
++    .get_region_info = vfio_user_io_get_region_info,
++};
 diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
-index e3640bc..ff903c0 100644
+index ff903c0..939113a 100644
 --- a/hw/vfio/trace-events
 +++ b/hw/vfio/trace-events
-@@ -173,3 +173,4 @@ vfio_user_recv_read(uint16_t id, int read) " id 0x%x read 0x%x"
- vfio_user_recv_request(uint16_t cmd) " command 0x%x"
+@@ -174,3 +174,4 @@ vfio_user_recv_request(uint16_t cmd) " command 0x%x"
  vfio_user_send_write(uint16_t id, int wrote) " id 0x%x wrote 0x%x"
  vfio_user_version(uint16_t major, uint16_t minor, const char *caps) " major %d minor %d caps: %s"
-+vfio_user_get_info(uint32_t nregions, uint32_t nirqs) " #regions %d #irqs %d"
+ vfio_user_get_info(uint32_t nregions, uint32_t nirqs) " #regions %d #irqs %d"
++vfio_user_get_region_info(uint32_t index, uint32_t flags, uint64_t size) " index %d flags 0x%x size 0x%"PRIx64
 -- 
 1.9.4
 
