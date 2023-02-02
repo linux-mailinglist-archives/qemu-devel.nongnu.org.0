@@ -2,81 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB0F687CFB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 13:13:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5499C687CDD
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 13:07:11 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNYMV-0006Q6-HM; Thu, 02 Feb 2023 07:06:45 -0500
+	id 1pNYMf-0006tE-0s; Thu, 02 Feb 2023 07:06:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNYLC-0005rg-MJ
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:05:23 -0500
-Received: from mail-oa1-x36.google.com ([2001:4860:4864:20::36])
+ id 1pNYLS-0005uH-Bj
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:05:48 -0500
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNYL9-0006Pf-M1
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:05:22 -0500
-Received: by mail-oa1-x36.google.com with SMTP id
- 586e51a60fabf-15ff0a1f735so2144139fac.5
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 04:05:17 -0800 (PST)
+ id 1pNYLP-0006jw-4w
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:05:37 -0500
+Received: by mail-ot1-x331.google.com with SMTP id
+ 14-20020a9d010e000000b0068bdddfa263so402111otu.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 04:05:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=D13s/WOk//jNtlm4GKZzufU8d045yx7/ryth/6v1bqE=;
- b=F1dFDg07zU5/xZuXhgoz9aDfdlRNol/gv8Igr6bzVxk5ECYQchvFu3WUItc+uhXNKA
- MtEML5vnK0cLZKPj5zIWyFKTQtcxaHMsafAg/iffx2WiSnvq7N3St9Yee+WpfWU9o7kF
- vy0UYy1lL3rjw4cyleZi+Sj281FcMEEhgG27c/OZjnPmD7EgneekF216N3NaGapDNghq
- azqvU0kSwAK/E0i/TTMjEXXR1HcTdmSjcsqesbtCwtXpPHC86Od+wNHmPKArtziNs2z9
- U6fJjpKB/lgIyf1CgeS0tub9/JcTzZW+MfpTUpAdLCR8LEeCD0IGZ0rDdo5HkdfTtcg3
- VyZw==
+ bh=qjwgNSv7qB0ZYqU1kQjb6mrC/HbvbtVtPu3pyV0E3+E=;
+ b=m91WHQsB/rDWFmJEqRm20Q38oMLTCjtbS4tiQqyEQaLQ2XpKVkdgdjFJSN0OlcZu+4
+ JAVEMnBOTqRyfwibLACPgtcNADsRJd5HFbkZji/uA7Jen2+crGwt9Dm+b9TFSJh9H6VG
+ 6DnVHXCg35ILwDL3NLPfeKPJdrJAL3qh3pBzDeGKVdc3ksjdf2Ec9QdB3bp+9ilAT46L
+ DXC8+ZfB6OIMhBFMFe8YsJwR5LfGKBiYA6FFmC79Tpcp+kz/+KuXG6PXsHNwvaCGKynI
+ vc4Z3sraJOzpYYbOKvIfECGy5prvhlKd0r7FiMJDnhvG/7Wvq9dYSwfyLywJrl70YcbW
+ 5Osg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:content-language
- :references:cc:to:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=D13s/WOk//jNtlm4GKZzufU8d045yx7/ryth/6v1bqE=;
- b=ugZgiXMuhpv94c1/sXXX3D5bOs/lUT0oM2cQGePPVVuyydOOrGQDysMcUJmDf6b4zG
- VNzQGHviKv+ynQ0olwULDb9wVD73qYvb1HoAj0xpM1YoSG0edd+ZUzlFuunvFeYaW0lU
- SnAfX+TePZP7K6tBuZKtPr0w+CkLtxZSXuaXGgIluKgJ6IoSk8z5CQ04/9yTfH4PK5/P
- SiJJ3HUuAIAQyNvUIT8v7gLwl1dZB/M45BVMHP2+C543qFMkew2z1nyqZotP54qK5o5z
- +v8tMzKPJ6KFOP7EfSguxQb1QuyRzXb5hnQ2hMRsF7JvnjMFDxszF42ksbNhY80w5Kun
- St4g==
-X-Gm-Message-State: AO0yUKX0aqxqwwAKNmJio6ZjWma4qnGBViFqZ1IsThnyxuA8FddUUjRj
- 4tDfm0XmIr88JdYb1mDpyJkfzA==
-X-Google-Smtp-Source: AK7set8OJxwqM1pJFCNADemef8cr92pt11zvVs89nbTHUDzC+TyrQGNPm3j7sZxodQNE1JIY6Uo1Rg==
-X-Received: by 2002:a05:6870:b008:b0:169:cbcc:25be with SMTP id
- y8-20020a056870b00800b00169cbcc25bemr810849oae.12.1675339516494; 
- Thu, 02 Feb 2023 04:05:16 -0800 (PST)
+ bh=qjwgNSv7qB0ZYqU1kQjb6mrC/HbvbtVtPu3pyV0E3+E=;
+ b=4ax+EXCl+LH3ycHFZcwuYJzyOaLHJ2iDoUiuZjnLycMxNrV6jsvL6fvBQ6qIunWCf1
+ JXF/P5meacvHDoOZWbBwGTmfGQXHcgS3AEI74LNB7+jgay+obkHSQsnt9tzNScx6CgkW
+ vpWFjXxAwo2iK1KDCsJCd4U9ll0GT7B/24j/oJ/DJloPn7jSyGZPv+GETOUpvUR+7Ryh
+ 03FAVVtOxORzvDKmcJQ+HOIVSlHOlajcZnrzzfn/UrSYjLEYA4kKXpoLjANHLprsPVtg
+ 0uru9pJViyAiG2wp4hSsaWijhWLT3SH1NxlGI38GQ4k5+aF2HW55OlPPOr4cRsvhp9ts
+ qEOA==
+X-Gm-Message-State: AO0yUKWgvlVEWzbskMTnrXZ2MGfNaczcDRQUG36ULi3i5Pn4yLaR6Rvl
+ tVboPVXIMzF/RnAkERJy3Yupvg==
+X-Google-Smtp-Source: AK7set9Ih3XEFg+q9b/7J83KlWcsDdNlSi0ftZoP8dZs2m772kaLQ3sJSm+Tvxbqn0jQh50Rmq6A7w==
+X-Received: by 2002:a05:6830:14cc:b0:68b:d583:dd with SMTP id
+ t12-20020a05683014cc00b0068bd58300ddmr3373708otq.30.1675339533801; 
+ Thu, 02 Feb 2023 04:05:33 -0800 (PST)
 Received: from [192.168.68.107] ([177.102.69.207])
  by smtp.gmail.com with ESMTPSA id
- nr9-20020a056870dc4900b00140d421445bsm8835330oab.11.2023.02.02.04.05.14
+ s10-20020a9d58ca000000b006865223e532sm2951359oth.51.2023.02.02.04.05.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Feb 2023 04:05:15 -0800 (PST)
-Message-ID: <468b929f-3d2a-9f7d-4795-a27f3dea95e5@ventanamicro.com>
-Date: Thu, 2 Feb 2023 09:05:12 -0300
+ Thu, 02 Feb 2023 04:05:33 -0800 (PST)
+Message-ID: <43db0a17-b347-7eac-89b1-522ec07059ea@ventanamicro.com>
+Date: Thu, 2 Feb 2023 09:05:29 -0300
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 1/2] tests/avocado: Invert parameter vs. tag precedence
- during setUp
+Subject: Re: [PATCH 2/2] tests/avocado: Allow passing command line parameters
+ via Makefile
+Content-Language: en-US
 To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
 Cc: Cleber Rosa <crosa@redhat.com>,
  Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
- <philmd@linaro.org>
+ Beraldo Leal <bleal@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Thomas Huth <thuth@redhat.com>
 References: <20230120221500.4194-1-farosas@suse.de>
- <20230120221500.4194-2-farosas@suse.de>
-Content-Language: en-US
+ <20230120221500.4194-3-farosas@suse.de>
 From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230120221500.4194-2-farosas@suse.de>
+In-Reply-To: <20230120221500.4194-3-farosas@suse.de>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2001:4860:4864:20::36;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oa1-x36.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
+ envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x331.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -101,89 +102,49 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
 
-On 1/20/23 19:14, Fabiano Rosas wrote:
-> We currently never pass parameters to the avocado process via
-> Makefile. To start doing so we need to invert the precedence between
-> command line parameters and tags, otherwise a command line parameter
-> would override values for all the tests, which is unlikely to be a
-> common use-case.
+On 1/20/23 19:15, Fabiano Rosas wrote:
+> Add support for the 'avocado run' "-p" option, which allows us to pass
+> parameters in the form key=value to be applied to all tests selected
+> for a given run. This is useful to force generic tests to use a
+> specific machine, cpu or qemu-binary where otherwise the defaults
+> would be used.
 > 
-> A more likely use-case is to force certain values for the tests that
-> have no tags. For instance, if a test has no 'arch' tags and therefore
-> can run for all targets, one could possibly force it to run on a
-> certain target with an arch=foo parameter.
+> E.g.:
+>   $ make check-avocado AVOCADO_PARAMS="machine=virt arch=riscv64"
 > 
-> This applies to the variables set during setUp(): arch, machine, cpu,
-> distro_name, distro_version. Parameters used directly in tests or read
-> via self.params.get are left unchanged.
+>   <runs all tests replacing machine and arch in those that do not have
+>    these parameters already set via tags>
 > 
 > Signed-off-by: Fabiano Rosas <farosas@suse.de>
 > ---
 
 Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
 
->   tests/avocado/avocado_qemu/__init__.py | 32 +++++++++++++++-----------
->   1 file changed, 19 insertions(+), 13 deletions(-)
+>   tests/Makefile.include | 6 +++++-
+>   1 file changed, 5 insertions(+), 1 deletion(-)
 > 
-> diff --git a/tests/avocado/avocado_qemu/__init__.py b/tests/avocado/avocado_qemu/__init__.py
-> index 910f3ba1ea..a181cac383 100644
-> --- a/tests/avocado/avocado_qemu/__init__.py
-> +++ b/tests/avocado/avocado_qemu/__init__.py
-> @@ -240,12 +240,23 @@ def _get_unique_tag_val(self, tag_name):
->               return vals.pop()
->           return None
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 9422ddaece..f92e730aa0 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -107,6 +107,10 @@ else
+>   	AVOCADO_CMDLINE_TAGS=$(addprefix -t , $(AVOCADO_TAGS))
+>   endif
 >   
-> +    def _get_prop(self, name):
-> +        """
-> +        Infer test properties based on tags. If no tag is present,
-> +        look for a command line parameter of the same name.
-> +        """
-> +        val = self._get_unique_tag_val(name)
-> +        if not val:
-> +            # If there's no tag, look for a command line
-> +            # parameter. This allows the user to override any defaults
-> +            # the caller of this function would choose if we were to
-> +            # return None.
-> +            val = self.params.get(name)
-> +        return val
+> +ifdef AVOCADO_PARAMS
+> +	AVOCADO_CMDLINE_PARAMS=$(addprefix -p , $(AVOCADO_PARAMS))
+> +endif
 > +
->       def setUp(self, bin_prefix):
-> -        self.arch = self.params.get('arch',
-> -                                    default=self._get_unique_tag_val('arch'))
-> -
-> -        self.cpu = self.params.get('cpu',
-> -                                   default=self._get_unique_tag_val('cpu'))
-> +        self.arch = self._get_prop('arch')
-> +        self.cpu = self._get_prop('cpu')
->   
->           default_qemu_bin = pick_default_qemu_bin(bin_prefix, arch=self.arch)
->           self.qemu_bin = self.params.get('qemu_bin',
-> @@ -274,8 +285,7 @@ def setUp(self):
->   
->           super().setUp('qemu-system-')
->   
-> -        self.machine = self.params.get('machine',
-> -                                       default=self._get_unique_tag_val('machine'))
-> +        self.machine = self._get_prop('machine')
->   
->       def require_accelerator(self, accelerator):
->           """
-> @@ -529,15 +539,11 @@ class LinuxTest(LinuxSSHMixIn, QemuSystemTest):
->       memory = '1024'
->   
->       def _set_distro(self):
-> -        distro_name = self.params.get(
-> -            'distro',
-> -            default=self._get_unique_tag_val('distro'))
-> +        distro_name = self._get_prop('distro')
->           if not distro_name:
->               distro_name = 'fedora'
->   
-> -        distro_version = self.params.get(
-> -            'distro_version',
-> -            default=self._get_unique_tag_val('distro_version'))
-> +        distro_version = self._get_prop('distro_version')
->           if not distro_version:
->               distro_version = '31'
+>   quiet-venv-pip = $(quiet-@)$(call quiet-command-run, \
+>       $(TESTS_PYTHON) -m pip -q --disable-pip-version-check $1, \
+>       "VENVPIP","$1")
+> @@ -144,7 +148,7 @@ check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
+>               --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
+>               $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
+>   			--filter-by-tags-include-empty-key) \
+> -            $(AVOCADO_CMDLINE_TAGS) \
+> +            $(AVOCADO_CMDLINE_TAGS) $(AVOCADO_CMDLINE_PARAMS) \
+>               $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), \
+>               "AVOCADO", "tests/avocado")
 >   
 
