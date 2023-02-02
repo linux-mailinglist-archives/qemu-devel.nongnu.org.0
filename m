@@ -2,54 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 921246875D0
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 07:23:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5579A6875D7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 07:23:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNSyf-0005kq-0W; Thu, 02 Feb 2023 01:21:45 -0500
+	id 1pNSyv-0005pa-N6; Thu, 02 Feb 2023 01:22:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pNSyc-0005jh-GD
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 01:21:42 -0500
+ id 1pNSyt-0005p5-9y
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 01:21:59 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pNSya-0006dO-W7
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 01:21:42 -0500
+ id 1pNSyq-0006f1-S7
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 01:21:59 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675318899;
+ s=mimecast20190719; t=1675318916;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=44+Q+1WsrAdzEQnwhO6pt4RZpDnxjNtVyovH3zpiJbk=;
- b=I6tBBAlWXuxOQe/cE4aduH6r3p8Y8BV2yvWT1wzgko/tx9J/vFraYbU03tiw3JrbK9nYMn
- eR2xbhBp5fRkhMUG7GG9hkUF1BOoYg4S1XmJ7MvybaF2ut4fatPPoCY40rlggDj2+X3FPE
- RzXpXORj1ExpYn5e9RF9nkYoNkZAXq4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=ICmt8V8QIc6OjvA65okAqY3Jb+ehyL5vIYaD9OOJaM8=;
+ b=SS3mUhRiI8PTa+TfIBHtEYvelkiwgcpYf8ecpRmA4Fq6BkxMn8qlymvoDKVVB2X8LtD3Ds
+ DNSPE0fe8g0nHMq5NI0VFaaA9ay47s4cZLFKeaFBAlEGyi8DUFsu1s8qCALrRLGI+fsJrG
+ z3MID0WVoxK1+zBHMwUc4eAQhhDkf/0=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-449-hXSlEkktPwC1Ej5pPaslww-1; Thu, 02 Feb 2023 01:21:36 -0500
-X-MC-Unique: hXSlEkktPwC1Ej5pPaslww-1
+ us-mta-459-anO1sHyTPsGBmMcyiqg2-w-1; Thu, 02 Feb 2023 01:21:44 -0500
+X-MC-Unique: anO1sHyTPsGBmMcyiqg2-w-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E6FDE101A52E;
- Thu,  2 Feb 2023 06:21:35 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 165143C02B79;
+ Thu,  2 Feb 2023 06:21:43 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-14-0.pek2.redhat.com [10.72.14.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 161ED404BEC0;
- Thu,  2 Feb 2023 06:21:33 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 860D6404BEC0;
+ Thu,  2 Feb 2023 06:21:36 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: Thomas Huth <thuth@redhat.com>,
-	Jason Wang <jasowang@redhat.com>
-Subject: [PULL 02/11] net: Restore printing of the help text with "-nic help"
-Date: Thu,  2 Feb 2023 14:21:17 +0800
-Message-Id: <20230202062126.67550-3-jasowang@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Claudio Fontana <cfontana@suse.de>,
+ Jason Wang <jasowang@redhat.com>
+Subject: [PULL 03/11] net: Replace "Supported NIC models" with "Available NIC
+ models"
+Date: Thu,  2 Feb 2023 14:21:18 +0800
+Message-Id: <20230202062126.67550-4-jasowang@redhat.com>
 In-Reply-To: <20230202062126.67550-1-jasowang@redhat.com>
 References: <20230202062126.67550-1-jasowang@redhat.com>
 MIME-Version: 1.0
@@ -82,44 +83,31 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Thomas Huth <thuth@redhat.com>
 
-Running QEMU with "-nic help" used to work in QEMU 5.2 and earlier versions
-(it showed the available netdev backends), but this feature got broken during
-some refactoring in version 6.0. Let's restore the old behavior, and while
-we're at it, let's also print the available NIC models here now since this
-option can be used to configure both, netdev backend and model in one go.
+Just because a NIC model is compiled into the QEMU binary does not
+necessary mean that it can be used with each and every machine.
+So let's rather talk about "available" models instead of "supported"
+models, just to avoid confusion.
 
-Fixes: ad6f932fe8 ("net: do not exit on "netdev_add help" monitor command")
+Reviewed-by: Claudio Fontana <cfontana@suse.de>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/net.c | 14 ++++++++++++--
- 1 file changed, 12 insertions(+), 2 deletions(-)
+ net/net.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/net/net.c b/net/net.c
-index 8f083cf..888986a 100644
+index 888986a..baa2548 100644
 --- a/net/net.c
 +++ b/net/net.c
-@@ -1568,8 +1568,18 @@ static int net_param_nic(void *dummy, QemuOpts *opts, Error **errp)
-     const char *type;
- 
-     type = qemu_opt_get(opts, "type");
--    if (type && g_str_equal(type, "none")) {
--        return 0;    /* Nothing to do, default_net is cleared in vl.c */
-+    if (type) {
-+        if (g_str_equal(type, "none")) {
-+            return 0;    /* Nothing to do, default_net is cleared in vl.c */
-+        }
-+        if (is_help_option(type)) {
-+            GPtrArray *nic_models = qemu_get_nic_models(TYPE_DEVICE);
-+            show_netdevs();
-+            printf("\n");
-+            qemu_show_nic_models(type, (const char **)nic_models->pdata);
-+            g_ptr_array_free(nic_models, true);
-+            exit(0);
-+        }
+@@ -941,7 +941,7 @@ int qemu_show_nic_models(const char *arg, const char *const *models)
+         return 0;
      }
  
-     idx = nic_get_free_idx();
+-    printf("Supported NIC models:\n");
++    printf("Available NIC models:\n");
+     for (i = 0 ; models[i]; i++) {
+         printf("%s\n", models[i]);
+     }
 -- 
 2.7.4
 
