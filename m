@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6AA1E687E84
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:22:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93C3F687E85
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:22:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNZXH-0006Q4-Au; Thu, 02 Feb 2023 08:21:55 -0500
+	id 1pNZXL-0006Q7-35; Thu, 02 Feb 2023 08:21:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1pNZXE-0006PI-Sa
+ id 1pNZXF-0006Pa-UH
  for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:21:53 -0500
 Received: from out2-smtp.messagingengine.com ([66.111.4.26])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jiaxun.yang@flygoat.com>)
- id 1pNZXD-0001Iw-0p
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:21:52 -0500
-Received: from compute2.internal (compute2.nyi.internal [10.202.2.46])
- by mailout.nyi.internal (Postfix) with ESMTP id B571B5C0058;
- Thu,  2 Feb 2023 08:21:47 -0500 (EST)
+ id 1pNZXD-0001Ke-E2
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:21:53 -0500
+Received: from compute3.internal (compute3.nyi.internal [10.202.2.43])
+ by mailout.nyi.internal (Postfix) with ESMTP id 12FAD5C0070;
+ Thu,  2 Feb 2023 08:21:49 -0500 (EST)
 Received: from mailfrontend1 ([10.202.2.162])
- by compute2.internal (MEProxy); Thu, 02 Feb 2023 08:21:47 -0500
+ by compute3.internal (MEProxy); Thu, 02 Feb 2023 08:21:49 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=flygoat.com; h=
  cc:cc:content-transfer-encoding:date:date:from:from:in-reply-to
- :message-id:mime-version:reply-to:sender:subject:subject:to:to;
- s=fm1; t=1675344107; x=1675430507; bh=sDstMVXYg0A6r2cwbLNdvO8iu
- FM+JDIspm5s7BfduPQ=; b=rzV303Ojqjne0YcZGdJFKJZs5BnVYkcUrf2busoM5
- Vvxw1WD0LU3XsVFIF5nOUbH/Wulf43c/38W+n0F762teMiV3L6i2catBrIJgectd
- BZtsHTeuVvidcJotxqi3sSpZedl1uYLaXsgEi+7Y3nuGX/ej7CFlPQn5ssZUuRX1
- jjNsdwT4uHtkSKVgyVJFRk7tkEw90WTLz/UOn01x4glK3GQ6sZOK6GSp6b4ezvH/
- iewwlM/HeQkZBUeRf8OCYB63rouw9gHtefAjel5r6c6Qb2xKw94Km8x3luMDY4QJ
- eRYp9nuRSpDHA5WEGwQDt6KGs73OKsTEi5AN0LqLVkJHQ==
+ :in-reply-to:message-id:mime-version:references:reply-to:sender
+ :subject:subject:to:to; s=fm1; t=1675344109; x=1675430509; bh=e0
+ OQT4uz4ABVJKxxqXI7A6P/UBymcjnm1X3NoOPiCDI=; b=K+fY6d1T/WgI07c59L
+ zIFm/FcQXm9isY80Tr6VUFW673PPZMocvlvtTf4S/W/rEdsGABHy6OihzSJL8O5o
+ fC18fUWvdFzt4xoEGWeci310/UblC190/3HmCo+nqvk4R65uhGvd8P5xZPt2r7IH
+ T2XS+NnBr+XIv27+CIYxwmU33zAlYxlTOZ2BMHRXj9iYEtBBhW35DsvZfc+DJ98l
+ tgM2L+gnDO2igpKUomSxsiC9mEcXBK4TSJPfnbFqihFWimN2WwOq3fQhnLfCaz9O
+ KpejMYqXolBERGfQDHyYKb5NW3MqoQtvIT9t2by2cBJQLacG3nh0jijbtS70bZRg
+ 9d+w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
  messagingengine.com; h=cc:cc:content-transfer-encoding:date:date
- :feedback-id:feedback-id:from:from:in-reply-to:message-id
- :mime-version:reply-to:sender:subject:subject:to:to:x-me-proxy
- :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
- 1675344107; x=1675430507; bh=sDstMVXYg0A6r2cwbLNdvO8iuFM+JDIspm5
- s7BfduPQ=; b=ZEOLx/ECQCkyf2WJXMYuRvyXatfC/jDba9i5AaTWv3j43VRdQ7P
- x2ItbuhBu0on29ZEo5Jk57Rrk2QmdmhHaAvwwz1sCTwAwxXdAmqhN8YQ/Wz2ryJ0
- bTKMLEmbM33pn3lfVMSCFWZwV456nJ/kf1cll6knXJAAShgV+lctlgzu0GSyTalN
- PyRyRIRd8iO8rn5UBITwuAVu8JVhjZBgh9GgO7faQvgV6i04dgo+99jNLSTt8pTk
- 5SEz2foNJvRUMUp52pEtkopCZ0iLP6QPWVVWN0LwaYX/mqiFQWEraebOXQKWv/nh
- dH2EVSbocjfKqs8k7YcuuU5532VzlncqFjw==
-X-ME-Sender: <xms:67jbY1slgefMKrg_KIR9VqYM4i0PmDsoNBzdVqbAp6Z2loa6TBFEXQ>
- <xme:67jbY-fFZjssxAdD5I1EGovFsVYYTpeFZVbwnppWBv2qki_ONwpebkYL2-nriwM__
- v_HNdX_orbw4fJWkes>
-X-ME-Received: <xmr:67jbY4wl5FrAvT8ldmTJIh4nvQAPw5PNsZzejyJocLUePm0kAYodCYxQ76RU>
+ :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+ :message-id:mime-version:references:reply-to:sender:subject
+ :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+ :x-sasl-enc; s=fm3; t=1675344109; x=1675430509; bh=e0OQT4uz4ABVJ
+ KxxqXI7A6P/UBymcjnm1X3NoOPiCDI=; b=ZRvVLm3kRZXOOlVPqbZQsLGkvN6+P
+ 0Wso5h9rwgYp7V9vZCHY54KFfyB8GmV/aWBpI66xLgCwjTR3S50iN7WQtQ2W9m94
+ WCeIK8bL3lj89/A44j+dwqMKc0UVUaES8DkA5ZDO90gkA1PIK+7acj2H0ZAMHzj6
+ 5kFtCXnaQI9Um/DbD5/nGkTBIPLKMiW4QSHx91bkhojixm+AX6zeGq7XqPgk74Sw
+ vHxZj7RSKj9ciuhVI0q4lXhroyuCjFOPqx3nJidTYeM7ylRAK43PByZ300qIVhJP
+ 0XnFfOb78kTukoqcWw26FPa+GFwbVOTNpcN1rCwLvJieTbycW4oIljqQw==
+X-ME-Sender: <xms:7LjbY0tOL9FfjjlUoCq5LCKbLM_ga1rNsp44na4wn4O7uZmqqhIWjA>
+ <xme:7LjbYxfUlRBzDD0ZOvkkigdv0r0RiQzHY3WSn8_6W_r4YJVHELq_o8YAprBnv5s14
+ GOTwWlnqka1fP-pU5Q>
+X-ME-Received: <xmr:7LjbY_xP7Bp-HQmILF4etdhSRKPfz-mo_uVvnu7EDYRWrjWZeFe88EsxFj_d>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvhedrudefkedggeelucetufdoteggodetrfdotf
  fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
- uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffoggfgsedtkeertd
- ertddtnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrdihrghnghes
- fhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhephfetuddtudevieeljeejte
- ffheeujeduhefgffejudfhueelleduffefgfffveeknecuvehluhhsthgvrhfuihiivgep
- tdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhihgoh
- grthdrtghomh
-X-ME-Proxy: <xmx:67jbY8Mw0_bwxwl6QtfTP9ejKSR2da3-kOUn9quFDTtdeufrAeB_LQ>
- <xmx:67jbY1-5wh-9c1zH3PnGg6rXQ0IFNGrFVrGYrYDo8Gh4I3x6ZOQhRQ>
- <xmx:67jbY8Xj7j4Kj4tSiy9iXXQ0BooD2z0Zrv3Zc4ucLyCi-xFGxS5qMQ>
- <xmx:67jbY3LzwZEehkJ_teL-JUmrrnr6asuaE0jCJrgsE5rEZVTR4f61HA>
+ uceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevufffkffojghfggfgsedtke
+ ertdertddtnecuhfhrohhmpeflihgrgihunhcujggrnhhguceojhhirgiguhhnrdihrghn
+ ghesfhhlhihgohgrthdrtghomheqnecuggftrfgrthhtvghrnhepfeeludefheegvdeuvd
+ dvgeekgfdvtdettdelieeihfegtedugeekhfdvhfejfedtnecuvehluhhsthgvrhfuihii
+ vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepjhhirgiguhhnrdihrghnghesfhhlhi
+ hgohgrthdrtghomh
+X-ME-Proxy: <xmx:7LjbY3PirU-RWGdBBKRk28t6orabqvTOSOCMkS_rTXXuSt8QyeTGDA>
+ <xmx:7LjbY0-BxN4jHKgav24mFPOO36r56gyQ9EhbdYOGPn8dje4NqAhGmA>
+ <xmx:7LjbY_Wkkp1oEILEdhqq4tDC5w3BBD9Z9cs1SfR8NOznWEa_vg820Q>
+ <xmx:7bjbY2LJ2kF0Y0RKfCCTlp-DG75GYpy3SZsEqhoSmWJKGgOIETNoyA>
 Feedback-ID: ifd894703:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 2 Feb 2023 08:21:46 -0500 (EST)
+ 2 Feb 2023 08:21:47 -0500 (EST)
 From: Jiaxun Yang <jiaxun.yang@flygoat.com>
 To: qemu-devel@nongnu.org
 Cc: philmd@linaro.org, balaton@eik.bme.hu,
  Jiaxun Yang <jiaxun.yang@flygoat.com>
-Subject: [PATCH 0/3] MIPS Virt machine
-Date: Thu,  2 Feb 2023 13:21:35 +0000
-Message-Id: <20230202132138.30945-1-jiaxun.yang@flygoat.com>
+Subject: [PATCH 1/3] docs/system: Remove "mips" board from target-mips.rst
+Date: Thu,  2 Feb 2023 13:21:36 +0000
+Message-Id: <20230202132138.30945-2-jiaxun.yang@flygoat.com>
 X-Mailer: git-send-email 2.37.1 (Apple Git-137.1)
+In-Reply-To: <20230202132138.30945-1-jiaxun.yang@flygoat.com>
+References: <20230202132138.30945-1-jiaxun.yang@flygoat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=66.111.4.26; envelope-from=jiaxun.yang@flygoat.com;
@@ -98,48 +101,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi there,
+This board had been deprecated long ago.
 
-This patchset is to add a new machine type for MIPS architecture, which
-is purely a VirtIO machine.
+Signed-off-by: Jiaxun Yang <jiaxun.yang@flygoat.com>
+---
+ docs/system/target-mips.rst | 14 --------------
+ 1 file changed, 14 deletions(-)
 
-It is design to utilize existing VirtIO infrastures but also comptitable
-with MIPS's existing internal simulation tools.
-
-It should be able to cooperate with any MIPS core and boot Generic MIPS
-kernel.
-
-For testing purpose I've built little endian kernel[1] to work with this
-machine with R4X00, loongson2f, octeon, mips32r2, mips64r2 and mips64r6. 
-
-TODO:
-- Documentation
-- Test against big endian kernel
-- nanoMIPS options
-
-Thanks
-
-Jiaxun Yang (3):
-  docs/system: Remove "mips" board from target-mips.rst
-  hw/misc: Add MIPS Trickbox device
-  hw/mips: Add MIPS virt board
-
- MAINTAINERS                             |    7 +
- configs/devices/mips-softmmu/common.mak |    1 +
- docs/system/target-mips.rst             |   26 +-
- hw/mips/Kconfig                         |   18 +
- hw/mips/meson.build                     |    1 +
- hw/mips/virt.c                          | 1015 +++++++++++++++++++++++
- hw/misc/Kconfig                         |    3 +
- hw/misc/meson.build                     |    1 +
- hw/misc/mips_trickbox.c                 |   97 +++
- hw/misc/trace-events                    |    4 +
- include/hw/misc/mips_trickbox.h         |   41 +
- 11 files changed, 1206 insertions(+), 8 deletions(-)
- create mode 100644 hw/mips/virt.c
- create mode 100644 hw/misc/mips_trickbox.c
- create mode 100644 include/hw/misc/mips_trickbox.h
-
+diff --git a/docs/system/target-mips.rst b/docs/system/target-mips.rst
+index 138441bdec..83239fb9df 100644
+--- a/docs/system/target-mips.rst
++++ b/docs/system/target-mips.rst
+@@ -8,8 +8,6 @@ endian options, ``qemu-system-mips``, ``qemu-system-mipsel``
+ ``qemu-system-mips64`` and ``qemu-system-mips64el``. Five different
+ machine types are emulated:
+ 
+--  A generic ISA PC-like machine \"mips\"
+-
+ -  The MIPS Malta prototype board \"malta\"
+ 
+ -  An ACER Pica \"pica61\". This machine needs the 64-bit emulator.
+@@ -19,18 +17,6 @@ machine types are emulated:
+ -  A MIPS Magnum R4000 machine \"magnum\". This machine needs the
+    64-bit emulator.
+ 
+-The generic emulation is supported by Debian 'Etch' and is able to
+-install Debian into a virtual disk image. The following devices are
+-emulated:
+-
+--  A range of MIPS CPUs, default is the 24Kf
+-
+--  PC style serial port
+-
+--  PC style IDE disk
+-
+--  NE2000 network card
+-
+ The Malta emulation supports the following devices:
+ 
+ -  Core board with MIPS 24Kf CPU and Galileo system controller
 -- 
 2.37.1 (Apple Git-137.1)
 
