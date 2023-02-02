@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321096883B6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 17:08:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B02526883D6
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 17:12:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNc8B-00004z-UZ; Thu, 02 Feb 2023 11:08:11 -0500
+	id 1pNc8D-000089-Qt; Thu, 02 Feb 2023 11:08:14 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNc84-0008UA-K3
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:08:05 -0500
+ id 1pNc87-0008WQ-AW
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:08:08 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNc82-0005Cd-7A
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:08:04 -0500
+ id 1pNc85-0005D6-BK
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:08:06 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675354081;
+ s=mimecast20190719; t=1675354084;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=OLAGoLmZqcKzTwxr0WR3o6KYIS2/7nUjb5oI0hxKkYs=;
- b=MroxaQKxjgFcYvPdUKgyCe+4IOGfa1WxmOCGm2zEC812fUpjg6Yj7EnV5Kf8InvZaSko7N
- 2hukI/NKTSho32BQJsXcQkPZ6/X2xgGsybtR6ypq1Nzn4ZLyXX7fkXrwRc+9yN04s0aoEv
- uxM04fVBzD18cp/TMxQXOXK9dl61Y8g=
+ bh=Lw58clu7Y1bzBf2f7fvddUJNRU5/Wbva2ZRRL1vM7CM=;
+ b=DR9Bf9SWprXeeFHpOYlAVkAOGMi0fdHZwlG14A7OsAVrA+SiCNQ73615XiahxRefFjGXL8
+ nMgkxuCWeknNwCg3lclz1SBRA2JTqhSjEHHX7dqZvrdwvfGnjHHn3SQ/NPAYsHAXUCGuRE
+ akWCAelzK1ivGxnsdJqCg8xaBR/molk=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-543-iZMMFGEKODmlR5hY1Q-kuQ-1; Thu, 02 Feb 2023 11:07:52 -0500
-X-MC-Unique: iZMMFGEKODmlR5hY1Q-kuQ-1
+ us-mta-421-ZP579hpsNQWGFVc9znId1Q-1; Thu, 02 Feb 2023 11:07:59 -0500
+X-MC-Unique: ZP579hpsNQWGFVc9znId1Q-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 5A446857A99;
- Thu,  2 Feb 2023 16:07:51 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 46F47801779;
+ Thu,  2 Feb 2023 16:07:56 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B040451E5;
- Thu,  2 Feb 2023 16:07:46 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id A5DBA51E5;
+ Thu,  2 Feb 2023 16:07:51 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -64,10 +64,10 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-s390x@nongnu.org, Peter Xu <peterx@redhat.com>
-Subject: [PULL 13/26] migration/savevm: Prepare vmdesc json writer in
- qemu_savevm_state_setup()
-Date: Thu,  2 Feb 2023 17:06:27 +0100
-Message-Id: <20230202160640.2300-14-quintela@redhat.com>
+Subject: [PULL 14/26] migration/savevm: Allow immutable device state to be
+ migrated early (i.e., before RAM)
+Date: Thu,  2 Feb 2023 17:06:28 +0100
+Message-Id: <20230202160640.2300-15-quintela@redhat.com>
 In-Reply-To: <20230202160640.2300-1-quintela@redhat.com>
 References: <20230202160640.2300-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -99,114 +99,100 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Hildenbrand <david@redhat.com>
 
-... and store it in the migration state. This is a preparation for
-storing selected vmds's already in qemu_savevm_state_setup().
+For virtio-mem, we want to have the plugged/unplugged state of memory
+blocks available before migrating any actual RAM content, and perform
+sanity checks before touching anything on the destination. This
+information is immutable on the migration source while migration is active,
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+We want to use this information for proper preallocation support with
+migration: currently, we don't preallocate memory on the migration target,
+and especially with hugetlb, we can easily run out of hugetlb pages during
+RAM migration and will crash (SIGBUS) instead of catching this gracefully
+via preallocation.
+
+Migrating device state via a VMSD before we start iterating is currently
+impossible: the only approach that would be possible is avoiding a VMSD
+and migrating state manually during save_setup(), to be restored during
+load_state().
+
+Let's allow for migrating device state via a VMSD early, during the
+setup phase in qemu_savevm_state_setup(). To keep it simple, we
+indicate applicable VMSD's using an "early_setup" flag.
+
+Note that only very selected devices (i.e., ones seriously messing with
+RAM setup) are supposed to make use of such early state migration.
+
+While at it, also use a bool for the "unmigratable" member.
+
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Reviewed-by: Juan Quintela <quintela@redhat.com>S
 Signed-off-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/migration.h |  4 ++++
- migration/migration.c |  2 ++
- migration/savevm.c    | 18 ++++++++++++------
- 3 files changed, 18 insertions(+), 6 deletions(-)
+ include/migration/vmstate.h | 16 +++++++++++++++-
+ migration/savevm.c          | 14 ++++++++++++++
+ 2 files changed, 29 insertions(+), 1 deletion(-)
 
-diff --git a/migration/migration.h b/migration/migration.h
-index ae4ffd3454..66511ce532 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -17,6 +17,7 @@
- #include "exec/cpu-common.h"
- #include "hw/qdev-core.h"
- #include "qapi/qapi-types-migration.h"
-+#include "qapi/qmp/json-writer.h"
- #include "qemu/thread.h"
- #include "qemu/coroutine_int.h"
- #include "io/channel.h"
-@@ -366,6 +367,9 @@ struct MigrationState {
-      * This save hostname when out-going migration starts
-      */
-     char *hostname;
-+
-+    /* QEMU_VM_VMDESCRIPTION content filled for all non-iterable devices. */
-+    JSONWriter *vmdesc;
- };
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index ad24aa1934..64680d824e 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -178,7 +178,21 @@ struct VMStateField {
  
- void migrate_set_state(int *state, int old_state, int new_state);
-diff --git a/migration/migration.c b/migration/migration.c
-index cb9aee76c0..3344c95d26 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -1903,6 +1903,8 @@ static void migrate_fd_cleanup(MigrationState *s)
- 
-     g_free(s->hostname);
-     s->hostname = NULL;
-+    json_writer_free(s->vmdesc);
-+    s->vmdesc = NULL;
- 
-     qemu_savevm_state_cleanup();
- 
+ struct VMStateDescription {
+     const char *name;
+-    int unmigratable;
++    bool unmigratable;
++    /*
++     * This VMSD describes something that should be sent during setup phase
++     * of migration. It plays similar role as save_setup() for explicitly
++     * registered vmstate entries, so it can be seen as a way to describe
++     * save_setup() in VMSD structures.
++     *
++     * Note that for now, a SaveStateEntry cannot have a VMSD and
++     * operations (e.g., save_setup()) set at the same time. Consequently,
++     * save_setup() and a VMSD with early_setup set to true are mutually
++     * exclusive. For this reason, also early_setup VMSDs are migrated in a
++     * QEMU_VM_SECTION_FULL section, while save_setup() data is migrated in
++     * a QEMU_VM_SECTION_START section.
++     */
++    bool early_setup;
+     int version_id;
+     int minimum_version_id;
+     MigrationPriority priority;
 diff --git a/migration/savevm.c b/migration/savevm.c
-index 3e3631652e..28f88b5521 100644
+index 28f88b5521..6d985ad4af 100644
 --- a/migration/savevm.c
 +++ b/migration/savevm.c
-@@ -42,7 +42,6 @@
- #include "postcopy-ram.h"
- #include "qapi/error.h"
- #include "qapi/qapi-commands-migration.h"
--#include "qapi/qmp/json-writer.h"
- #include "qapi/clone-visitor.h"
- #include "qapi/qapi-builtin-visit.h"
- #include "qapi/qmp/qerror.h"
-@@ -1190,10 +1189,16 @@ bool qemu_savevm_state_guest_unplug_pending(void)
+@@ -1201,6 +1201,15 @@ void qemu_savevm_state_setup(QEMUFile *f)
  
- void qemu_savevm_state_setup(QEMUFile *f)
- {
-+    MigrationState *ms = migrate_get_current();
-     SaveStateEntry *se;
-     Error *local_err = NULL;
-     int ret;
- 
-+    ms->vmdesc = json_writer_new(false);
-+    json_writer_start_object(ms->vmdesc, NULL);
-+    json_writer_int64(ms->vmdesc, "page_size", qemu_target_page_size());
-+    json_writer_start_array(ms->vmdesc, "devices");
-+
      trace_savevm_state_setup();
      QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++        if (se->vmsd && se->vmsd->early_setup) {
++            ret = vmstate_save(f, se, ms->vmdesc);
++            if (ret) {
++                qemu_file_set_error(f, ret);
++                break;
++            }
++            continue;
++        }
++
          if (!se->ops || !se->ops->save_setup) {
-@@ -1391,15 +1396,12 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-                                                     bool in_postcopy,
-                                                     bool inactivate_disks)
- {
--    g_autoptr(JSONWriter) vmdesc = NULL;
-+    MigrationState *ms = migrate_get_current();
-+    JSONWriter *vmdesc = ms->vmdesc;
-     int vmdesc_len;
-     SaveStateEntry *se;
+             continue;
+         }
+@@ -1403,6 +1412,11 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
      int ret;
  
--    vmdesc = json_writer_new(false);
--    json_writer_start_object(vmdesc, NULL);
--    json_writer_int64(vmdesc, "page_size", qemu_target_page_size());
--    json_writer_start_array(vmdesc, "devices");
      QTAILQ_FOREACH(se, &savevm_state.handlers, entry) {
++        if (se->vmsd && se->vmsd->early_setup) {
++            /* Already saved during qemu_savevm_state_setup(). */
++            continue;
++        }
++
          ret = vmstate_save(f, se, vmdesc);
          if (ret) {
-@@ -1434,6 +1436,10 @@ int qemu_savevm_state_complete_precopy_non_iterable(QEMUFile *f,
-         qemu_put_buffer(f, (uint8_t *)json_writer_get(vmdesc), vmdesc_len);
-     }
- 
-+    /* Free it now to detect any inconsistencies. */
-+    json_writer_free(vmdesc);
-+    ms->vmdesc = NULL;
-+
-     return 0;
- }
- 
+             qemu_file_set_error(f, ret);
 -- 
 2.39.1
 
