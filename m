@@ -2,50 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 206506879FD
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:20:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A79E687A20
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:25:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNWgg-0003Na-10; Thu, 02 Feb 2023 05:19:26 -0500
+	id 1pNWlp-00060d-S0; Thu, 02 Feb 2023 05:24:45 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pNWgX-0003Hw-9B; Thu, 02 Feb 2023 05:19:18 -0500
-Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNWln-0005y1-K7
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:24:43 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pNWgU-00052J-Rj; Thu, 02 Feb 2023 05:19:16 -0500
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id CDB3343ACE;
- Thu,  2 Feb 2023 11:19:04 +0100 (CET)
-Message-ID: <c3982fa3-be00-9cb2-7d71-5f784ac80864@proxmox.com>
-Date: Thu, 2 Feb 2023 11:19:03 +0100
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNWll-0006FY-Oq
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:24:43 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675333480;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=PLfYhgtGYXbTtraPHgFrlzL1PFJL1OCV+gO6YFhSSMQ=;
+ b=WvnwAphAOux3asv98VYMkiRpds3IoJsXTuRxXhNPQH9bL6L7rVLL3Tc3hYrrqWIeGKlnJa
+ j9cy2tK5jqr6espFu2sP1iwLSfWlz3iopJm1+sGq/gGgN6UPiprN2frNJJoEnxV7fTYkBl
+ ylhWZSLVB4wO3KhiMzc9Vderiz3sSoc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-303-UawYPzNMNnWXuV5W4tWsbg-1; Thu, 02 Feb 2023 05:24:39 -0500
+X-MC-Unique: UawYPzNMNnWXuV5W4tWsbg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ x10-20020a05600c21ca00b003dc5584b516so2584426wmj.7
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 02:24:39 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=PLfYhgtGYXbTtraPHgFrlzL1PFJL1OCV+gO6YFhSSMQ=;
+ b=IlRrqpNA3gjH0xHxdOzpU/BVh3e/XB5nOmFg1qRd+jpzh8Ij8t5jENq2YQQvG5pyon
+ XeNeepwXIdM36DLvhI7aQuolDI7AjqRTA0h14oh6dChKVKX6jax+Mp6B0Rqxy7q5KfQE
+ upvD7KbSkes1YdDqPdFXnhIKdrsqdYaxcipt4TgIyjrMv6VwbgXlaUZQ1PbMb/U8L3vC
+ 9hLroJjj/w3QOwDkfsjnIcrsbt7YPnqyNFFLXZ1Q7d5JvRdNeCVhbGi7K1wI37Jp5j+v
+ Z4pRDyHalG3QN8GSyEx4cv5yoZLurN/kp3SnyHC2we6gODkpnD9FCU5NPOC2yDf6Z4yc
+ jQPA==
+X-Gm-Message-State: AO0yUKVV7UIP4cnps8lBQH4vH2YK0wx3OfJJiqs0zYx57Dtj24oboL7x
+ uubIQB/vXsLb+hkltoH9v4KOOjs9QtnnF0XZM0JKcl9kcSIYX+39+y+ylI7BK+J7rrexsVkhlgd
+ f5dxJ7njUheFLj7o=
+X-Received: by 2002:a05:600c:5491:b0:3dc:16d3:8c95 with SMTP id
+ iv17-20020a05600c549100b003dc16d38c95mr5544685wmb.30.1675333478216; 
+ Thu, 02 Feb 2023 02:24:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set8QQT8kGtM8abH390ZT7SXjPGRm+5S91zr5PUwJQMca2nWkbdQRM7ZihYqtE11RZjwvhxwTbw==
+X-Received: by 2002:a05:600c:5491:b0:3dc:16d3:8c95 with SMTP id
+ iv17-20020a05600c549100b003dc16d38c95mr5544655wmb.30.1675333477959; 
+ Thu, 02 Feb 2023 02:24:37 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ az24-20020a05600c601800b003dc4baaedd3sm4562012wmb.37.2023.02.02.02.24.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Feb 2023 02:24:37 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+Cc: qemu-devel@nongnu.org,  Eric Blake <eblake@redhat.com>,  John Snow
+ <jsnow@redhat.com>,  Richard Henderson <richard.henderson@linaro.org>,
+ Fam Zheng <fam@euphon.net>,  Christian Borntraeger
+ <borntraeger@linux.ibm.com>,  Thomas Huth <thuth@redhat.com>,  Alex
+ Williamson <alex.williamson@redhat.com>,  "Dr. David Alan Gilbert"
+ <dgilbert@redhat.com>,  Stefan Hajnoczi <stefanha@redhat.com>,
+ qemu-s390x@nongnu.org,  Halil Pasic <pasic@linux.ibm.com>,  Eric Farman
+ <farman@linux.ibm.com>,  qemu-block@nongnu.org,  David Hildenbrand
+ <david@redhat.com>,  Ilya Leoshkevich <iii@linux.ibm.com>
+Subject: Re: [PULL 5/5] migration: simplify migration_iteration_run()
+In-Reply-To: <38da6faf-1d7f-66fc-b305-738a6e8dfaf1@yandex-team.ru> (Vladimir
+ Sementsov-Ogievskiy's message of "Tue, 31 Jan 2023 14:44:14 +0300")
+References: <20230130080307.1792-1-quintela@redhat.com>
+ <20230130080307.1792-6-quintela@redhat.com>
+ <38da6faf-1d7f-66fc-b305-738a6e8dfaf1@yandex-team.ru>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 02 Feb 2023 11:24:36 +0100
+Message-ID: <87mt5wtlej.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH] block/mirror: add 'write-blocking-after-ready' copy mode
-Content-Language: en-US
-To: "Denis V. Lunev" <den@virtuozzo.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
- qemu-devel@nongnu.org
-Cc: t.lamprecht@proxmox.com, jsnow@redhat.com, kwolf@redhat.com,
- hreitz@redhat.com, eblake@redhat.com, armbru@redhat.com,
- qemu-block@nongnu.org, Alexander Ivanov <alexander.ivanov@virtuozzo.com>
-References: <20221207132719.131227-1-f.ebner@proxmox.com>
- <c120932d-a1a7-5904-3f17-10a7c9ac69af@yandex-team.ru>
- <926be172-1d8a-e896-c051-3c37d048771b@virtuozzo.com>
-From: Fiona Ebner <f.ebner@proxmox.com>
-In-Reply-To: <926be172-1d8a-e896-c051-3c37d048771b@virtuozzo.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -58,129 +104,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 31.01.23 um 19:18 schrieb Denis V. Lunev:
-> On 1/31/23 18:44, Vladimir Sementsov-Ogievskiy wrote:
->> + Den
->>
->> Den, I remember we thought about that, and probably had a solution?
->>
->> Another possible approach to get benefits from both modes is to switch
->> to blocking mode after first loop of copying. [*]
->>
->> Hmm. Thinking about proposed solution it seems, that [*] is better.
->> The main reason of "write-blocking" mode is to force convergence of
->> the mirror job. But you lose this thing if you postpone switching to
->> the moment when mirror becomes READY: we may never reach it.
->>
->>
->>
->> Or, may be we can selectively skip or block guest writes, to keep some
->> specified level of convergence?
->>
->> Or, we can start in "background" mode, track the speed of convergence
->> (like dirty-delta per minute), and switch to blocking if speed becomes
->> less than some threshold.
->>
-> 
-> That is absolutely correct. It would be very kind to start with
-> asynchronous mirror and switch to the synchronous one after
-> specific amount of loops. This should be somehow measured.
-> 
-> Originally we have thought about switching after the one loop
-> (when basic background sending is done), but may be 2 iterations
-> (initial + first one) would be better.
-> 
-> Talking about this specific approach and our past experience
-> I should note that reaching completion point in the
-> asynchronous mode was a real pain and slow down for the guest.
-> We have intentionally switched at that time to the sync mode
-> for that purpose. Thus this patch is a "worst half-way" for
-> us.
-
-While the asynchronous mode can take longer of course, the slowdown of
-the guest is bigger with the synchronous mode, or what am I missing?
-
-We have been using asynchronous mode for years (starting migration after
-all drive-mirror jobs are READY) and AFAIK our users did not complain
-about them not reaching READY or heavy slowdowns in the guest. We had
-two reports about an assertion failure recently when drive-mirror still
-got work left at the time the blockdrives are inactivated by migration.
-
-> Frankly speaking I would say that this switch could be considered
-> NOT QEMU job and we should just send a notification (event) for the
-> completion of the each iteration and management software should
-> take a decision to switch from async mode to the sync one.
-
-Unfortunately, our management software is a bit limited in that regard
-currently and making listening for events available in the necessary
-place would take a bit of work. Having the switch command would nearly
-be enough for us (we'd just switch after READY). But we'd also need that
-when the switch happens after READY, that all remaining asynchronous
-operations are finished by the command. Otherwise, the original issue
-with inactivating block drives while mirror still has work remains. Do
-those semantics for the switch sound acceptable?
-
-> Under such a condition we should have a command to perform mode
-> switch. This seems more QEMU/QAPI way :)
-> 
-
-I feel like a switch at an arbitrary time might be hard to do correctly,
-i.e. to not miss some (implicit) assertion.
-
-But I can try and go for this approach if it's more likely to be
-accepted upstream. So a 'drive-mirror-change' command which takes the
-'job-id' and a 'copy-mode' argument? And only allow the switch from
-'background' to 'active' (initially)?
-
-Or a more generic 'block-job-change'? But that would need a way to take
-'JobType'-specific arguments. Is that doable?
-
-(...)
-
->>> @@ -1035,10 +1036,31 @@ static int coroutine_fn mirror_run(Job *job,
->>> Error **errp)
->>>           if (s->in_flight == 0 && cnt == 0) {
->>>               trace_mirror_before_flush(s);
->>>               if (!job_is_ready(&s->common.job)) {
->>> +                if (s->copy_mode ==
->>> + MIRROR_COPY_MODE_WRITE_BLOCKING_AFTER_READY) {
->>> +                    /*
->>> +                     * Pause guest I/O to check if we can switch to
->>> active mode.
->>> +                     * To set actively_synced to true below, it is
->>> necessary to
->>> +                     * have seen and synced all guest I/O.
->>> +                     */
->>> +                    s->in_drain = true;
->>> +                    bdrv_drained_begin(bs);
->>> +                    if (bdrv_get_dirty_count(s->dirty_bitmap) > 0) {
->>> +                        bdrv_drained_end(bs);
->>> +                        s->in_drain = false;
->>> +                        continue;
->>> +                    }
->>> +                    s->in_active_mode = true;
->>> + bdrv_disable_dirty_bitmap(s->dirty_bitmap);
->>> +                    bdrv_drained_end(bs);
->>> +                    s->in_drain = false;
->>> +                }
->>
->> I doubt, do we really need the drained section?
-> 
-> Frankly speaking I do not like this. I'd better would not
-> rely on the enable/disable of the whole bitmap but encode
-> mode into MirrorOp and mark blocks dirty only for those
-> operations for which in_active_mode was set at the
-> operation start.
+Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru> wrote:
+> On 30.01.23 11:03, Juan Quintela wrote:
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+>> ---
+>>   migration/migration.c | 24 ++++++++++++------------
+>>   1 file changed, 12 insertions(+), 12 deletions(-)
+>> diff --git a/migration/migration.c b/migration/migration.c
+>> index 594a42f085..644c61e91d 100644
+>> --- a/migration/migration.c
+>> +++ b/migration/migration.c
+>> @@ -3764,23 +3764,23 @@ static MigIterateState migration_iteration_run(MigrationState *s)
+>>                                       pend_pre, pend_compat, pend_post);
+>>       }
+>>   -    if (pending_size && pending_size >= s->threshold_size) {
+>> -        /* Still a significant amount to transfer */
+>> -        if (!in_postcopy && pend_pre <= s->threshold_size &&
+>> -            qatomic_read(&s->start_postcopy)) {
+>> -            if (postcopy_start(s)) {
+>> -                error_report("%s: postcopy failed to start", __func__);
+>> -            }
+>> -            return MIG_ITERATE_SKIP;
+>> -        }
+>> -        /* Just another iteration step */
+>> -        qemu_savevm_state_iterate(s->to_dst_file, in_postcopy);
+>> -    } else {
+>> +    if (pending_size < s->threshold_size) {
 >
+> to keep the logic, formally it should be "if (!pending_size || pending_size < s->threshold_size)"...
 
-Do you mean "for which in_active_mode was *not* set at the operation
-start"? Also, the dirty bitmap gets set by things like the
-bdrv_co_pwritev() call in bdrv_mirror_top_do_write(), so how would we
-prevent setting it? The dirty bitmap does get reset in
-do_sync_target_write(), so maybe that already takes care of it, but I
-didn't check in detail.
+
+
+> Actually, could s->threshold_size be 0 here? Or, worth an assertion assert(s->threshold_size) ?
+
+It is weird, but it could:
+
+    bandwidth = (double)transferred / time_spent;
+    s->threshold_size = bandwidth * s->parameters.downtime_limit;
+
+That is the (real) only place when we set it, and if the network was
+completely down, bandwidth could be zero.
+
+But I think that it is better to explain in the other way.  What does
+the current code do:
+
+    if (too much dirty memory to converge)
+        do another iteration
+    else
+        do final iteration
+
+What the new code do is
+
+    if (low enough memory to converge)
+        do final iteration.
+
+    do another iteration.
+
+So, how we decide if we converge?
+if pending_size < s->threshold_size
+
+we "could" change it to pending_size <= s->threshold_size for the zero case
+
+
+But I think that we would be shooting ourselves in the foot, because we
+are having network trouble (only reason that s->theshold_size could be
+zero) and we still have all the devices state to migrate.
+
+And once that we enter that state, there is no way back, guest is
+stopped in source and we are not able to send anything else.
+
+So I think it is better this way.
+
+What do you think?
+
+Later, Juan.
 
 
