@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B91BB6883CD
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 17:10:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0384F6883E5
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 17:15:45 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNc93-0003eu-St; Thu, 02 Feb 2023 11:09:05 -0500
+	id 1pNc9Q-00055N-4y; Thu, 02 Feb 2023 11:09:28 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNc91-0003SB-Aa
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:09:03 -0500
+ id 1pNc93-0003os-VC
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:09:06 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNc8z-0005SW-Ct
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:09:02 -0500
+ id 1pNc91-0005TV-O9
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:09:05 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675354140;
+ s=mimecast20190719; t=1675354142;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ZKWrS9/I8tLNhFvOvL6wTWGGmGHs1Q+gINxHteToEV0=;
- b=PDVl47Nwb20Nsklkhzc66Tubscl1SefVlJ6eeD156+bLTWU4ywdCR+Kr36uGHgmO2K6yTS
- mpDCFyJpvqSN9sShNavplPCmAkIWpYy1xxyT+KHXfdrA5B8zZ1z0g6JxyAgftUH8r/D3i/
- x4b04aQLUUUDYMhZtS3Jo45B4nYd8Ww=
+ bh=hudZzsRpagzcLI/XtX7LAUqMBRpe4HeJEe9q7k4gr1A=;
+ b=hNGarNspERGbjQp2DV4uECCdB9k6ciVfSKHU+WsJRPusW0nlB9LrSRlR6ioGcEHn4n7lFw
+ IPS9fEuuibQBAI75bzdHpR3sX6qiL4CIMrFCaKK47MHAphrPUK2BzVAql9e47c2gjfrdsB
+ +Uo1/qqwKuU0nnsq7AaTC29BZppS1Ag=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-621-weX_QThIPMmXtp2ihToHOA-1; Thu, 02 Feb 2023 11:08:56 -0500
-X-MC-Unique: weX_QThIPMmXtp2ihToHOA-1
+ us-mta-613-4ABnJdk8MG22UPpswOJbXA-1; Thu, 02 Feb 2023 11:08:56 -0500
+X-MC-Unique: 4ABnJdk8MG22UPpswOJbXA-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 1589C281DE76;
- Thu,  2 Feb 2023 16:08:45 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B249738288A1;
+ Thu,  2 Feb 2023 16:08:51 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id B4C4118EC7;
- Thu,  2 Feb 2023 16:08:38 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8AC9151FF;
+ Thu,  2 Feb 2023 16:08:45 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -63,10 +63,12 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>,
- qemu-s390x@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-Subject: [PULL 23/26] migration: Perform vmsd structure check during tests
-Date: Thu,  2 Feb 2023 17:06:37 +0100
-Message-Id: <20230202160640.2300-24-quintela@redhat.com>
+ qemu-s390x@nongnu.org, Zhenzhong Duan <zhenzhong.duan@intel.com>,
+ Peter Xu <peterx@redhat.com>
+Subject: [PULL 24/26] migration/dirtyrate: Show sample pages only in
+ page-sampling mode
+Date: Thu,  2 Feb 2023 17:06:38 +0100
+Message-Id: <20230202160640.2300-25-quintela@redhat.com>
 In-Reply-To: <20230202160640.2300-1-quintela@redhat.com>
 References: <20230202160640.2300-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -96,86 +98,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Zhenzhong Duan <zhenzhong.duan@intel.com>
 
-Perform a check on vmsd structures during test runs in the hope
-of catching any missing terminators and other simple screwups.
+The value of "Sample Pages" is confusing in mode other than page-sampling.
+See below:
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+(qemu) calc_dirty_rate -b 10 520
+(qemu) info dirty_rate
+Status: measuring
+Start Time: 11646834 (ms)
+Sample Pages: 520 (per GB)
+Period: 10 (sec)
+Mode: dirty-bitmap
+Dirty rate: (not ready)
+
+(qemu) info dirty_rate
+Status: measured
+Start Time: 11646834 (ms)
+Sample Pages: 0 (per GB)
+Period: 10 (sec)
+Mode: dirty-bitmap
+Dirty rate: 2 (MB/s)
+
+While it's totally useless in dirty-ring and dirty-bitmap mode, fix to
+show it only in page-sampling mode.
+
+Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/savevm.c | 42 ++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 42 insertions(+)
+ migration/dirtyrate.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 5c3e5b1bb5..e9cf4999ad 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -66,6 +66,7 @@
- #include "net/announce.h"
- #include "qemu/yank.h"
- #include "yank_functions.h"
-+#include "sysemu/qtest.h"
- 
- const unsigned int postcopy_ram_discard_version;
- 
-@@ -804,6 +805,42 @@ void unregister_savevm(VMStateIf *obj, const char *idstr, void *opaque)
+diff --git a/migration/dirtyrate.c b/migration/dirtyrate.c
+index 4bfb97fc68..575d48c397 100644
+--- a/migration/dirtyrate.c
++++ b/migration/dirtyrate.c
+@@ -714,8 +714,8 @@ void qmp_calc_dirty_rate(int64_t calc_time,
+         mode =  DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING;
      }
- }
  
-+/*
-+ * Perform some basic checks on vmsd's at registration
-+ * time.
-+ */
-+static void vmstate_check(const VMStateDescription *vmsd)
-+{
-+    const VMStateField *field = vmsd->fields;
-+    const VMStateDescription **subsection = vmsd->subsections;
-+
-+    if (field) {
-+        while (field->name) {
-+            if (field->flags & (VMS_STRUCT | VMS_VSTRUCT)) {
-+                /* Recurse to sub structures */
-+                vmstate_check(field->vmsd);
-+            }
-+            /* Carry on */
-+            field++;
-+        }
-+        /* Check for the end of field list canary */
-+        if (field->flags != VMS_END) {
-+            error_report("VMSTATE not ending with VMS_END: %s", vmsd->name);
-+            g_assert_not_reached();
-+        }
-+    }
-+
-+    while (subsection && *subsection) {
-+        /*
-+         * The name of a subsection should start with the name of the
-+         * current object.
-+         */
-+        assert(!strncmp(vmsd->name, (*subsection)->name, strlen(vmsd->name)));
-+        vmstate_check(*subsection);
-+        subsection++;
-+    }
-+}
-+
- int vmstate_register_with_alias_id(VMStateIf *obj, uint32_t instance_id,
-                                    const VMStateDescription *vmsd,
-                                    void *opaque, int alias_id,
-@@ -849,6 +886,11 @@ int vmstate_register_with_alias_id(VMStateIf *obj, uint32_t instance_id,
-     } else {
-         se->instance_id = instance_id;
+-    if (has_sample_pages && mode == DIRTY_RATE_MEASURE_MODE_DIRTY_RING) {
+-        error_setg(errp, "either sample-pages or dirty-ring can be specified.");
++    if (has_sample_pages && mode != DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING) {
++        error_setg(errp, "sample-pages is used only in page-sampling mode");
+         return;
      }
-+
-+    /* Perform a recursive sanity check during the test runs */
-+    if (qtest_enabled()) {
-+        vmstate_check(vmsd);
+ 
+@@ -785,8 +785,10 @@ void hmp_info_dirty_rate(Monitor *mon, const QDict *qdict)
+                    DirtyRateStatus_str(info->status));
+     monitor_printf(mon, "Start Time: %"PRIi64" (ms)\n",
+                    info->start_time);
+-    monitor_printf(mon, "Sample Pages: %"PRIu64" (per GB)\n",
+-                   info->sample_pages);
++    if (info->mode == DIRTY_RATE_MEASURE_MODE_PAGE_SAMPLING) {
++        monitor_printf(mon, "Sample Pages: %"PRIu64" (per GB)\n",
++                       info->sample_pages);
 +    }
-     assert(!se->compat || se->instance_id == 0);
-     savevm_state_handler_insert(se);
-     return 0;
+     monitor_printf(mon, "Period: %"PRIi64" (sec)\n",
+                    info->calc_time);
+     monitor_printf(mon, "Mode: %s\n",
 -- 
 2.39.1
 
