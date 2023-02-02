@@ -2,82 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9213687F4B
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:54:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05154687F4E
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:54:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNa1l-0001aS-Oa; Thu, 02 Feb 2023 08:53:25 -0500
+	id 1pNa1p-0001bR-Tv; Thu, 02 Feb 2023 08:53:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNa1e-0001Ww-2p
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:53:18 -0500
-Received: from mail-oi1-x22f.google.com ([2607:f8b0:4864:20::22f])
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1pNa1n-0001ax-HR
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:53:27 -0500
+Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNa1Z-0007Y5-Te
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:53:17 -0500
-Received: by mail-oi1-x22f.google.com with SMTP id p185so1475163oif.2
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 05:53:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:from:to:cc:subject:date
- :message-id:reply-to;
- bh=hdzoMAEBJTe3nsL3itLXWDGswEM52iM44T0PgtSJ3ls=;
- b=TH9cuEoDGyyx6tYwNozH5kaJ3J4PqmadwN1YmweYS4BDEh6z/aCRiG4XAjs0MbMlA3
- +7gXiy9Y0D6FMHSVb8HsnDMfwRLRghf/npdlwUgQMDetp6xli54AuCaiguUbwZXsH9mi
- Eir9Yw6o9B421xGjXvKzqFkb6UG3Um8JeTeMbheC6riOuUE5WLvFiW8Ezc5Fq89oTy80
- Cj52LAV815D4RTAZpB7esfMaOk9Ie09EJM2SUvAFKM0o1QHQaRvkZlV4uhxIv16VGFIl
- hvQPf1+YPRA+laKynYpbLp4f+3YTVPH2FVrrsoq6NL9NcTlO7nzujYI9ms/W6VF1oFqJ
- k7Sg==
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1pNa1j-0007Zy-QL
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:53:27 -0500
+Received: by mail-ej1-x62d.google.com with SMTP id me3so6119225ejb.7
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 05:53:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=lRWOiKEIx4sC6D3oxMDk9TP0VHck4I+tZSIoPNsqoc4=;
+ b=NXhMzdRnBSL2EezBJLEpN7LdPv7I/+EoDoGr57TQ/ZuilhC5Ep6QwlE+FbcCutydGU
+ iLT4LYMybhvXZjOAqPqkdYeDcSu7eBiEx6S4B4MSCT77PkCOcAwkvThxNSvysOZoCTZl
+ jSFfkJzbv/dqptJbNlQS4idGX6O2e+Gzo43rNjSypmA7LFn4kIpkR8TzxiImCDLtxwVb
+ dsDcQPrk4DZzVM0HedjvwswuOLGfGvERrfafOVU+9deUyMl9bZXZHayWjMCoBi885R5h
+ Sq09wpnUSJI3sUlJhhj3SZ/DAnfWiMj5GDDSV3HOZLKJ+F19v2WfA2tASyIEaHzlZT1Y
+ MUkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=hdzoMAEBJTe3nsL3itLXWDGswEM52iM44T0PgtSJ3ls=;
- b=EbUpMXABUoOICJ9v7q/Fa5IiNyscFCVkucIqTJkmY39FaJKIuS/TMxehnLsXfZe4jm
- fr/mj7RZoSLs0WnTbS5dIwlAoKEpV2+FRR/Rwl9DtemXVK3NdI+OellAV1nMKRMFlvOs
- hX7GgUqkoj5KVn6inQ1/zbdqb21O/9KCgjmR474G2UH0GbZv8cfykH6gAWVkhW5GYryr
- Fj7+4Qi6Gfj5YsehYfbvbfTGkrzOYN/iiQcE9bDnIecMIUSvNdTvlgbMOubh84x3XTum
- Ks8syGAD83QLm14qr8gDZDW46AnW+LWM0mrI3aPeeJulXdse/Ixo10czf3Za4JV4Fae0
- YzKg==
-X-Gm-Message-State: AO0yUKUjbXbnz11ZhJaa/WSzQircn+PGxTB56a94Z9asVS9ZPyQ9EQVJ
- 4h2vncoViZco9UNquTC6eQOVDPhyUfDwCewuZ1w=
-X-Google-Smtp-Source: AK7set9LAANoyKMcqAlVOVUZ+8N3vTSYn1WcfEZTZr4Q2FWai8lbwqNpT0XFtJGcdBuEHNMlR0mgOw==
-X-Received: by 2002:a05:6808:a:b0:35c:46c8:2638 with SMTP id
- u10-20020a056808000a00b0035c46c82638mr2871633oic.12.1675345992446; 
- Thu, 02 Feb 2023 05:53:12 -0800 (PST)
-Received: from grind.. ([177.102.69.207]) by smtp.gmail.com with ESMTPSA id
- 45-20020a9d0330000000b00684e55f4541sm6547416otv.70.2023.02.02.05.53.10
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Feb 2023 05:53:12 -0800 (PST)
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-To: qemu-devel@nongnu.org
-Cc: qemu-riscv@nongnu.org, alistair.francis@wdc.com,
- Daniel Henrique Barboza <dbarboza@ventanamicro.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Bin Meng <bmeng@tinylab.org>
-Subject: [PATCH v10 3/3] hw/riscv/boot.c: make riscv_load_initrd() static
-Date: Thu,  2 Feb 2023 10:52:57 -0300
-Message-Id: <20230202135257.1657482-4-dbarboza@ventanamicro.com>
-X-Mailer: git-send-email 2.39.1
-In-Reply-To: <20230202135257.1657482-1-dbarboza@ventanamicro.com>
-References: <20230202135257.1657482-1-dbarboza@ventanamicro.com>
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=lRWOiKEIx4sC6D3oxMDk9TP0VHck4I+tZSIoPNsqoc4=;
+ b=QIaDo5FyCThlc41uXUeEmPPcJIipWgMP15tokkgLrIznKfNL0hmQ3Y2wdIW38x3JyV
+ E95sBM3BATAd3RV/O80o0YdAUuxIVaMy49dnDgf/j0cCPQkxiJll8vYamv8KWLdyw4de
+ ETl7YA4G273meEsBRCsIM7rRAL9fz2bZ/9JOH53woIhbkeBcvMnsPxesWCQkRSzp9miI
+ /czrNrhGwmYS+jmYsORt9fVgZM9rc1FTR3jih4FPxeCHoNS6071MsyR+XCGlMbL7TKXA
+ DQjID7iZnomq+9HWB9ay7tmHOOqMMu/7Ku7gWhFYHewTXdw1KpfM5pUsyC6VeuLjcdXi
+ ONVg==
+X-Gm-Message-State: AO0yUKUDW3dhR4BkMjWzJSIWVZxh4zlq5T2a/w/n3ruj53bCn6moSMWU
+ N3LNs4ahDjGKLgQZ9agHbrlbfc1V/ukq6pvwGTlCoA==
+X-Google-Smtp-Source: AK7set8uz666imyz15CSL1dfiXf6mAd72KCbAeRSvX0JNkMuHCIkdA4hqYwubFpB5PbsJ49RwZWnOxlG7nUfJLU3kTw=
+X-Received: by 2002:a17:906:71d3:b0:84d:28da:f3a with SMTP id
+ i19-20020a17090671d300b0084d28da0f3amr1773701ejk.76.1675346001173; Thu, 02
+ Feb 2023 05:53:21 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::22f;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x22f.google.com
+References: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
+ <20230202124230.295997-3-lawrence.hunter@codethink.co.uk>
+In-Reply-To: <20230202124230.295997-3-lawrence.hunter@codethink.co.uk>
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Date: Thu, 2 Feb 2023 14:53:10 +0100
+Message-ID: <CAAeLtUC4DZTKOK3k7FWG3Y7hm5pJmyE3AjXoUHJ-VQvAtg=FMQ@mail.gmail.com>
+Subject: Re: [PATCH 02/39] target/riscv: Add vclmul.vv decoding, translation
+ and execution support
+To: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+Cc: qemu-devel@nongnu.org, dickon.hood@codethink.co.uk, 
+ nazar.kazakov@codethink.co.uk, kiran.ostrolenk@codethink.co.uk, 
+ frank.chang@sifive.com, palmer@dabbelt.com, alistair.francis@wdc.com, 
+ bin.meng@windriver.com, pbonzini@redhat.com, kvm@vger.kernel.org, 
+ Max Chou <max.chou@sifive.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-ej1-x62d.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -93,129 +88,550 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The only remaining caller is riscv_load_kernel_and_initrd() which
-belongs to the same file.
+On Thu, 2 Feb 2023 at 13:42, Lawrence Hunter
+<lawrence.hunter@codethink.co.uk> wrote:
+>
 
-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Bin Meng <bmeng@tinylab.org>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
----
- hw/riscv/boot.c         | 80 ++++++++++++++++++++---------------------
- include/hw/riscv/boot.h |  1 -
- 2 files changed, 40 insertions(+), 41 deletions(-)
+Given that this is a non-trivial change, the commit message seems a bit brief?
 
-diff --git a/hw/riscv/boot.c b/hw/riscv/boot.c
-index 1e32ce1e10..72885e4a6f 100644
---- a/hw/riscv/boot.c
-+++ b/hw/riscv/boot.c
-@@ -173,6 +173,46 @@ target_ulong riscv_load_firmware(const char *firmware_filename,
-     exit(1);
- }
- 
-+static void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
-+{
-+    const char *filename = machine->initrd_filename;
-+    uint64_t mem_size = machine->ram_size;
-+    void *fdt = machine->fdt;
-+    hwaddr start, end;
-+    ssize_t size;
-+
-+    g_assert(filename != NULL);
-+
-+    /*
-+     * We want to put the initrd far enough into RAM that when the
-+     * kernel is uncompressed it will not clobber the initrd. However
-+     * on boards without much RAM we must ensure that we still leave
-+     * enough room for a decent sized initrd, and on boards with large
-+     * amounts of RAM we must avoid the initrd being so far up in RAM
-+     * that it is outside lowmem and inaccessible to the kernel.
-+     * So for boards with less  than 256MB of RAM we put the initrd
-+     * halfway into RAM, and for boards with 256MB of RAM or more we put
-+     * the initrd at 128MB.
-+     */
-+    start = kernel_entry + MIN(mem_size / 2, 128 * MiB);
-+
-+    size = load_ramdisk(filename, start, mem_size - start);
-+    if (size == -1) {
-+        size = load_image_targphys(filename, start, mem_size - start);
-+        if (size == -1) {
-+            error_report("could not load ramdisk '%s'", filename);
-+            exit(1);
-+        }
-+    }
-+
-+    /* Some RISC-V machines (e.g. opentitan) don't have a fdt. */
-+    if (fdt) {
-+        end = start + size;
-+        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-start", start);
-+        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end", end);
-+    }
-+}
-+
- target_ulong riscv_load_kernel(MachineState *machine,
-                                RISCVHartArrayState *harts,
-                                target_ulong kernel_start_addr,
-@@ -231,46 +271,6 @@ out:
-     return kernel_entry;
- }
- 
--void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry)
--{
--    const char *filename = machine->initrd_filename;
--    uint64_t mem_size = machine->ram_size;
--    void *fdt = machine->fdt;
--    hwaddr start, end;
--    ssize_t size;
--
--    g_assert(filename != NULL);
--
--    /*
--     * We want to put the initrd far enough into RAM that when the
--     * kernel is uncompressed it will not clobber the initrd. However
--     * on boards without much RAM we must ensure that we still leave
--     * enough room for a decent sized initrd, and on boards with large
--     * amounts of RAM we must avoid the initrd being so far up in RAM
--     * that it is outside lowmem and inaccessible to the kernel.
--     * So for boards with less  than 256MB of RAM we put the initrd
--     * halfway into RAM, and for boards with 256MB of RAM or more we put
--     * the initrd at 128MB.
--     */
--    start = kernel_entry + MIN(mem_size / 2, 128 * MiB);
--
--    size = load_ramdisk(filename, start, mem_size - start);
--    if (size == -1) {
--        size = load_image_targphys(filename, start, mem_size - start);
--        if (size == -1) {
--            error_report("could not load ramdisk '%s'", filename);
--            exit(1);
--        }
--    }
--
--    /* Some RISC-V machines (e.g. opentitan) don't have a fdt. */
--    if (fdt) {
--        end = start + size;
--        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-start", start);
--        qemu_fdt_setprop_cell(fdt, "/chosen", "linux,initrd-end", end);
--    }
--}
--
- /*
-  * This function makes an assumption that the DRAM interval
-  * 'dram_base' + 'dram_size' is contiguous.
-diff --git a/include/hw/riscv/boot.h b/include/hw/riscv/boot.h
-index ea1de8b020..a2e4ae9cb0 100644
---- a/include/hw/riscv/boot.h
-+++ b/include/hw/riscv/boot.h
-@@ -48,7 +48,6 @@ target_ulong riscv_load_kernel(MachineState *machine,
-                                target_ulong firmware_end_addr,
-                                bool load_initrd,
-                                symbol_fn_t sym_cb);
--void riscv_load_initrd(MachineState *machine, uint64_t kernel_entry);
- uint64_t riscv_compute_fdt_addr(hwaddr dram_start, uint64_t dram_size,
-                                 MachineState *ms);
- void riscv_load_fdt(hwaddr fdt_addr, void *fdt);
--- 
-2.39.1
+> Co-authored-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
+> Co-authored-by: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
+> Co-authored-by: Max Chou <max.chou@sifive.com>
+> Signed-off-by: Max Chou <max.chou@sifive.com>
+> Signed-off-by: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
+> Signed-off-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
+> Signed-off-by: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+> ---
+>  target/riscv/helper.h                      |   3 +
+>  target/riscv/insn32.decode                 |   3 +
+>  target/riscv/insn_trans/trans_rvzvkb.c.inc |  41 +++++++
+>  target/riscv/meson.build                   |   4 +-
+>  target/riscv/translate.c                   |   1 +
+>  target/riscv/vcrypto_helper.c              |  23 ++++
+>  target/riscv/vector_helper.c               | 120 +--------------------
+>  target/riscv/vector_internals.c            |  39 +++++++
+>  target/riscv/vector_internals.h            | 116 ++++++++++++++++++++
+>  9 files changed, 230 insertions(+), 120 deletions(-)
+>  create mode 100644 target/riscv/insn_trans/trans_rvzvkb.c.inc
+>  create mode 100644 target/riscv/vcrypto_helper.c
+>  create mode 100644 target/riscv/vector_internals.c
+>  create mode 100644 target/riscv/vector_internals.h
+>
+> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
+> index 227c7122ef..e9127c9ccb 100644
+> --- a/target/riscv/helper.h
+> +++ b/target/riscv/helper.h
+> @@ -1136,3 +1136,6 @@ DEF_HELPER_FLAGS_1(aes64im, TCG_CALL_NO_RWG_SE, tl, tl)
+>
+>  DEF_HELPER_FLAGS_3(sm4ed, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
+>  DEF_HELPER_FLAGS_3(sm4ks, TCG_CALL_NO_RWG_SE, tl, tl, tl, tl)
+> +
+> +/* Vector crypto functions */
+> +DEF_HELPER_6(vclmul_vv, void, ptr, ptr, ptr, ptr, env, i32)
+> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
+> index b7e7613ea2..5ddee69d60 100644
+> --- a/target/riscv/insn32.decode
+> +++ b/target/riscv/insn32.decode
+> @@ -890,3 +890,6 @@ sm3p1       00 01000 01001 ..... 001 ..... 0010011 @r2
+>  # *** RV32 Zksed Standard Extension ***
+>  sm4ed       .. 11000 ..... ..... 000 ..... 0110011 @k_aes
+>  sm4ks       .. 11010 ..... ..... 000 ..... 0110011 @k_aes
+> +
+> +# *** RV64 Zvkb vector crypto extension ***
+> +vclmul_vv       001100 . ..... ..... 010 ..... 1010111 @r_vm
+> diff --git a/target/riscv/insn_trans/trans_rvzvkb.c.inc b/target/riscv/insn_trans/trans_rvzvkb.c.inc
+> new file mode 100644
+> index 0000000000..fb1995f737
+> --- /dev/null
+> +++ b/target/riscv/insn_trans/trans_rvzvkb.c.inc
+> @@ -0,0 +1,41 @@
+> +#define GEN_VV_MASKED_TRANS(NAME, CHECK)                               \
+> +static bool trans_##NAME(DisasContext *s, arg_rmrr * a)                \
+> +{                                                                      \
+> +    if (CHECK(s, a)) {                                                 \
+> +        uint32_t data = 0;                                             \
+> +        TCGLabel *over = gen_new_label();                              \
+> +        tcg_gen_brcondi_tl(TCG_COND_EQ, cpu_vl, 0, over);              \
+> +        tcg_gen_brcond_tl(TCG_COND_GEU, cpu_vstart, cpu_vl, over);     \
+> +                                                                       \
+> +        data = FIELD_DP32(data, VDATA, VM, a->vm);                     \
+> +        data = FIELD_DP32(data, VDATA, LMUL, s->lmul);                 \
+> +        data = FIELD_DP32(data, VDATA, VTA, s->vta);                   \
+> +        data = FIELD_DP32(data, VDATA, VTA_ALL_1S, s->cfg_vta_all_1s); \
+> +        data = FIELD_DP32(data, VDATA, VMA, s->vma);                   \
+> +                                                                       \
+> +        tcg_gen_gvec_4_ptr(vreg_ofs(s, a->rd), vreg_ofs(s, 0),         \
+> +                           vreg_ofs(s, a->rs1),                        \
+> +                           vreg_ofs(s, a->rs2), cpu_env,               \
+> +                           s->cfg_ptr->vlen / 8,                       \
+> +                           s->cfg_ptr->vlen / 8, data,                 \
+> +                           gen_helper_##NAME);                         \
+> +                                                                       \
+> +        mark_vs_dirty(s);                                              \
+> +        gen_set_label(over);                                           \
+> +        return true;                                                   \
+> +    }                                                                  \
+> +    return false;                                                      \
+> +}
 
+This largely duplicates GEN_OPIVV_TRANS(NAME, CHECK).
+Please refactor and share the common part into an 'opivv_trans' that
+can be reused.
+
+I would expect the common part to have the following signature:
+   static bool opivv_trans(DisasContext *s, arg_rmrr *a,
+gen_helper_gvec_4_ptr *fn)
+
+> +
+> +static bool zvkb_vv_check(DisasContext *s, arg_rmrr *a)
+> +{
+> +    return opivv_check(s, a) &&
+> +           s->cfg_ptr->ext_zvkb == true;
+> +}
+> +
+> +static bool vclmul_vv_check(DisasContext *s, arg_rmrr *a)
+> +{
+> +    return zvkb_vv_check(s, a) && s->sew == MO_64;
+> +}
+> +
+> +GEN_VV_MASKED_TRANS(vclmul_vv, vclmul_vv_check)
+> diff --git a/target/riscv/meson.build b/target/riscv/meson.build
+> index ba25164d74..5313b01e5f 100644
+> --- a/target/riscv/meson.build
+> +++ b/target/riscv/meson.build
+> @@ -15,10 +15,12 @@ riscv_ss.add(files(
+>    'gdbstub.c',
+>    'op_helper.c',
+>    'vector_helper.c',
+> +  'vector_internals.c',
+>    'bitmanip_helper.c',
+>    'translate.c',
+>    'm128_helper.c',
+> -  'crypto_helper.c'
+> +  'crypto_helper.c',
+> +  'vcrypto_helper.c'
+>  ))
+>  riscv_ss.add(when: 'CONFIG_KVM', if_true: files('kvm.c'), if_false: files('kvm-stub.c'))
+>
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index df38db7553..71684c10f3 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -1063,6 +1063,7 @@ static uint32_t opcode_at(DisasContextBase *dcbase, target_ulong pc)
+>  #include "insn_trans/trans_rvzawrs.c.inc"
+>  #include "insn_trans/trans_rvzfh.c.inc"
+>  #include "insn_trans/trans_rvk.c.inc"
+> +#include "insn_trans/trans_rvzvkb.c.inc"
+>  #include "insn_trans/trans_privileged.c.inc"
+>  #include "insn_trans/trans_svinval.c.inc"
+>  #include "insn_trans/trans_xventanacondops.c.inc"
+> diff --git a/target/riscv/vcrypto_helper.c b/target/riscv/vcrypto_helper.c
+> new file mode 100644
+> index 0000000000..8a11e56754
+> --- /dev/null
+> +++ b/target/riscv/vcrypto_helper.c
+> @@ -0,0 +1,23 @@
+> +#include "qemu/osdep.h"
+> +#include "qemu/host-utils.h"
+> +#include "qemu/bitops.h"
+> +#include "cpu.h"
+> +#include "exec/memop.h"
+> +#include "exec/exec-all.h"
+> +#include "exec/helper-proto.h"
+> +#include "tcg/tcg-gvec-desc.h"
+> +#include "internals.h"
+> +#include "vector_internals.h"
+> +
+> +static void do_vclmul_vv(void *vd, void *vs1, void *vs2, int i)
+> +{
+> +    uint64_t result = 0;
+> +    for (int j = 63; j >= 0; j--) {
+> +        if ((((uint64_t *)vs1)[i] >> j) & 1) {
+
+Why reverse the order we evaluate the bits here?
+The spec has:
+
+foreach (i from 0 to (width - 1)) {
+      if y[i] == 1 then result = result ^ (x << i);
+}
+
+> +            result ^= (((uint64_t *)vs2)[i] << j);
+> +        }
+> +    }
+> +    ((uint64_t *)vd)[i] = result;
+> +}
+> +
+> +GEN_VEXT_VV(vclmul_vv, 8)
+
+This should go through the RVVCALL macro (may need refactoring into a
+different header file) from vector_helper.c.
+You could then easily (and without the gratuitous casting and repeated
+array-accesses) express this as:
+
+/* vclmul.vv */
+static uint64_t clmul64(uint64_t x, uint64_t y)
+{
+    target_ulong result = 0;
+    const unsigned int elem_width = 64;
+
+    for (unsigned int i = 0; i < elem_width; ++i)
+        if ((y >> i) & 1)
+            result ^= (x << i);
+
+    return result;
+}
+
+RVVCALL(OPIVV2, vclmul_vv_d, OP_UUU_D, H8, H8, H8, clmul64)
+GEN_VEXT_VV(vclmul_vv_d, 8)
+
+> diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
+> index 00de879787..def1b21414 100644
+> --- a/target/riscv/vector_helper.c
+> +++ b/target/riscv/vector_helper.c
+> @@ -26,6 +26,7 @@
+>  #include "fpu/softfloat.h"
+>  #include "tcg/tcg-gvec-desc.h"
+>  #include "internals.h"
+> +#include "vector_internals.h"
+>  #include <math.h>
+>
+>  target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
+> @@ -95,48 +96,6 @@ target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
+>  #define H8(x)   (x)
+>  #endif
+>
+> -static inline uint32_t vext_nf(uint32_t desc)
+> -{
+> -    return FIELD_EX32(simd_data(desc), VDATA, NF);
+> -}
+> -
+> -static inline uint32_t vext_vm(uint32_t desc)
+> -{
+> -    return FIELD_EX32(simd_data(desc), VDATA, VM);
+> -}
+> -
+> -/*
+> - * Encode LMUL to lmul as following:
+> - *     LMUL    vlmul    lmul
+> - *      1       000       0
+> - *      2       001       1
+> - *      4       010       2
+> - *      8       011       3
+> - *      -       100       -
+> - *     1/8      101      -3
+> - *     1/4      110      -2
+> - *     1/2      111      -1
+> - */
+> -static inline int32_t vext_lmul(uint32_t desc)
+> -{
+> -    return sextract32(FIELD_EX32(simd_data(desc), VDATA, LMUL), 0, 3);
+> -}
+> -
+> -static inline uint32_t vext_vta(uint32_t desc)
+> -{
+> -    return FIELD_EX32(simd_data(desc), VDATA, VTA);
+> -}
+> -
+> -static inline uint32_t vext_vma(uint32_t desc)
+> -{
+> -    return FIELD_EX32(simd_data(desc), VDATA, VMA);
+> -}
+> -
+> -static inline uint32_t vext_vta_all_1s(uint32_t desc)
+> -{
+> -    return FIELD_EX32(simd_data(desc), VDATA, VTA_ALL_1S);
+> -}
+> -
+
+Please refactor in a standalone patch in the series.
+
+>  /*
+>   * Get the maximum number of elements can be operated.
+>   *
+> @@ -155,21 +114,6 @@ static inline uint32_t vext_max_elems(uint32_t desc, uint32_t log2_esz)
+>      return scale < 0 ? vlenb >> -scale : vlenb << scale;
+>  }
+>
+> -/*
+> - * Get number of total elements, including prestart, body and tail elements.
+> - * Note that when LMUL < 1, the tail includes the elements past VLMAX that
+> - * are held in the same vector register.
+> - */
+> -static inline uint32_t vext_get_total_elems(CPURISCVState *env, uint32_t desc,
+> -                                            uint32_t esz)
+> -{
+> -    uint32_t vlenb = simd_maxsz(desc);
+> -    uint32_t sew = 1 << FIELD_EX64(env->vtype, VTYPE, VSEW);
+> -    int8_t emul = ctzl(esz) - ctzl(sew) + vext_lmul(desc) < 0 ? 0 :
+> -                  ctzl(esz) - ctzl(sew) + vext_lmul(desc);
+> -    return (vlenb << emul) / esz;
+> -}
+> -
+>  static inline target_ulong adjust_addr(CPURISCVState *env, target_ulong addr)
+>  {
+>      return (addr & env->cur_pmmask) | env->cur_pmbase;
+> @@ -202,20 +146,6 @@ static void probe_pages(CPURISCVState *env, target_ulong addr,
+>      }
+>  }
+>
+> -/* set agnostic elements to 1s */
+> -static void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
+> -                              uint32_t tot)
+> -{
+> -    if (is_agnostic == 0) {
+> -        /* policy undisturbed */
+> -        return;
+> -    }
+> -    if (tot - cnt == 0) {
+> -        return;
+> -    }
+> -    memset(base + cnt, -1, tot - cnt);
+> -}
+> -
+>  static inline void vext_set_elem_mask(void *v0, int index,
+>                                        uint8_t value)
+>  {
+> @@ -225,18 +155,6 @@ static inline void vext_set_elem_mask(void *v0, int index,
+>      ((uint64_t *)v0)[idx] = deposit64(old, pos, 1, value);
+>  }
+>
+> -/*
+> - * Earlier designs (pre-0.9) had a varying number of bits
+> - * per mask value (MLEN). In the 0.9 design, MLEN=1.
+> - * (Section 4.5)
+> - */
+> -static inline int vext_elem_mask(void *v0, int index)
+> -{
+> -    int idx = index / 64;
+> -    int pos = index  % 64;
+> -    return (((uint64_t *)v0)[idx] >> pos) & 1;
+> -}
+> -
+>  /* elements operations for load and store */
+>  typedef void vext_ldst_elem_fn(CPURISCVState *env, target_ulong addr,
+>                                 uint32_t idx, void *vd, uintptr_t retaddr);
+> @@ -800,8 +718,6 @@ GEN_VEXT_ST_WHOLE(vs8r_v, int8_t, ste_b)
+>  #define NOP_UUU_H uint16_t, uint16_t, uint32_t, uint16_t, uint32_t
+>  #define NOP_UUU_W uint32_t, uint32_t, uint64_t, uint32_t, uint64_t
+>
+> -/* operation of two vector elements */
+> -typedef void opivv2_fn(void *vd, void *vs1, void *vs2, int i);
+>
+>  #define OPIVV2(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)    \
+>  static void do_##NAME(void *vd, void *vs1, void *vs2, int i)    \
+> @@ -822,40 +738,6 @@ RVVCALL(OPIVV2, vsub_vv_h, OP_SSS_H, H2, H2, H2, DO_SUB)
+>  RVVCALL(OPIVV2, vsub_vv_w, OP_SSS_W, H4, H4, H4, DO_SUB)
+>  RVVCALL(OPIVV2, vsub_vv_d, OP_SSS_D, H8, H8, H8, DO_SUB)
+>
+> -static void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
+> -                       CPURISCVState *env, uint32_t desc,
+> -                       opivv2_fn *fn, uint32_t esz)
+> -{
+> -    uint32_t vm = vext_vm(desc);
+> -    uint32_t vl = env->vl;
+> -    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> -    uint32_t vta = vext_vta(desc);
+> -    uint32_t vma = vext_vma(desc);
+> -    uint32_t i;
+> -
+> -    for (i = env->vstart; i < vl; i++) {
+> -        if (!vm && !vext_elem_mask(v0, i)) {
+> -            /* set masked-off elements to 1s */
+> -            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);
+> -            continue;
+> -        }
+> -        fn(vd, vs1, vs2, i);
+> -    }
+> -    env->vstart = 0;
+> -    /* set tail elements to 1s */
+> -    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);
+> -}
+> -
+> -/* generate the helpers for OPIVV */
+> -#define GEN_VEXT_VV(NAME, ESZ)                            \
+> -void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
+> -                  void *vs2, CPURISCVState *env,          \
+> -                  uint32_t desc)                          \
+> -{                                                         \
+> -    do_vext_vv(vd, v0, vs1, vs2, env, desc,               \
+> -               do_##NAME, ESZ);                           \
+> -}
+> -
+>  GEN_VEXT_VV(vadd_vv_b, 1)
+>  GEN_VEXT_VV(vadd_vv_h, 2)
+>  GEN_VEXT_VV(vadd_vv_w, 4)
+> diff --git a/target/riscv/vector_internals.c b/target/riscv/vector_internals.c
+> new file mode 100644
+> index 0000000000..a264797882
+> --- /dev/null
+> +++ b/target/riscv/vector_internals.c
+> @@ -0,0 +1,39 @@
+> +#include "vector_internals.h"
+> +
+> +/* set agnostic elements to 1s */
+> +void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
+> +                       uint32_t tot)
+> +{
+> +    if (is_agnostic == 0) {
+> +        /* policy undisturbed */
+> +        return;
+> +    }
+> +    if (tot - cnt == 0) {
+> +        return ;
+> +    }
+> +    memset(base + cnt, -1, tot - cnt);
+> +}
+> +
+> +void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
+> +                CPURISCVState *env, uint32_t desc,
+> +                opivv2_fn *fn, uint32_t esz)
+> +{
+> +    uint32_t vm = vext_vm(desc);
+> +    uint32_t vl = env->vl;
+> +    uint32_t total_elems = vext_get_total_elems(env, desc, esz);
+> +    uint32_t vta = vext_vta(desc);
+> +    uint32_t vma = vext_vma(desc);
+> +    uint32_t i;
+> +
+> +    for (i = env->vstart; i < vl; i++) {
+> +        if (!vm && !vext_elem_mask(v0, i)) {
+> +            /* set masked-off elements to 1s */
+> +            vext_set_elems_1s(vd, vma, i * esz, (i + 1) * esz);
+> +            continue;
+> +        }
+> +        fn(vd, vs1, vs2, i);
+> +    }
+> +    env->vstart = 0;
+> +    /* set tail elements to 1s */
+> +    vext_set_elems_1s(vd, vta, vl * esz, total_elems * esz);
+> +}
+> diff --git a/target/riscv/vector_internals.h b/target/riscv/vector_internals.h
+> new file mode 100644
+> index 0000000000..f61803acc0
+> --- /dev/null
+> +++ b/target/riscv/vector_internals.h
+> @@ -0,0 +1,116 @@
+> +/*
+> + * RISC-V Vector Extension Internals
+> + *
+> + * This program is free software; you can redistribute it and/or modify it
+> + * under the terms and conditions of the GNU General Public License,
+> + * version 2 or later, as published by the Free Software Foundation.
+> + *
+> + * This program is distributed in the hope it will be useful, but WITHOUT
+> + * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+> + * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+> + * more details.
+> + *
+> + * You should have received a copy of the GNU General Public License along with
+> + * this program.  If not, see <http://www.gnu.org/licenses/>.
+> + */
+> +
+> +#ifndef TARGET_RISCV_VECTOR_INTERNAL_H
+> +#define TARGET_RISCV_VECTOR_INTERNAL_H
+> +
+> +#include "qemu/osdep.h"
+> +#include "qemu/bitops.h"
+> +#include "cpu.h"
+> +#include "tcg/tcg-gvec-desc.h"
+> +#include "internals.h"
+> +
+> +static inline uint32_t vext_nf(uint32_t desc)
+> +{
+> +    return FIELD_EX32(simd_data(desc), VDATA, NF);
+> +}
+> +
+> +/*
+> + * Encode LMUL to lmul as following:
+> + *     LMUL    vlmul    lmul
+> + *      1       000       0
+> + *      2       001       1
+> + *      4       010       2
+> + *      8       011       3
+> + *      -       100       -
+> + *     1/8      101      -3
+> + *     1/4      110      -2
+> + *     1/2      111      -1
+> + */
+> +static inline int32_t vext_lmul(uint32_t desc)
+> +{
+> +    return sextract32(FIELD_EX32(simd_data(desc), VDATA, LMUL), 0, 3);
+> +}
+> +
+> +static inline uint32_t vext_vm(uint32_t desc)
+> +{
+> +    return FIELD_EX32(simd_data(desc), VDATA, VM);
+> +}
+> +
+> +static inline uint32_t vext_vma(uint32_t desc)
+> +{
+> +    return FIELD_EX32(simd_data(desc), VDATA, VMA);
+> +}
+> +
+> +static inline uint32_t vext_vta(uint32_t desc)
+> +{
+> +    return FIELD_EX32(simd_data(desc), VDATA, VTA);
+> +}
+> +
+> +static inline uint32_t vext_vta_all_1s(uint32_t desc)
+> +{
+> +    return FIELD_EX32(simd_data(desc), VDATA, VTA_ALL_1S);
+> +}
+> +
+> +/*
+> + * Earlier designs (pre-0.9) had a varying number of bits
+> + * per mask value (MLEN). In the 0.9 design, MLEN=1.
+> + * (Section 4.5)
+> + */
+> +static inline int vext_elem_mask(void *v0, int index)
+> +{
+> +    int idx = index / 64;
+> +    int pos = index  % 64;
+> +    return (((uint64_t *)v0)[idx] >> pos) & 1;
+> +}
+> +
+> +/*
+> + * Get number of total elements, including prestart, body and tail elements.
+> + * Note that when LMUL < 1, the tail includes the elements past VLMAX that
+> + * are held in the same vector register.
+> + */
+> +static inline uint32_t vext_get_total_elems(CPURISCVState *env, uint32_t desc,
+> +                                            uint32_t esz)
+> +{
+> +    uint32_t vlenb = simd_maxsz(desc);
+> +    uint32_t sew = 1 << FIELD_EX64(env->vtype, VTYPE, VSEW);
+> +    int8_t emul = ctzl(esz) - ctzl(sew) + vext_lmul(desc) < 0 ? 0 :
+> +                  ctzl(esz) - ctzl(sew) + vext_lmul(desc);
+> +    return (vlenb << emul) / esz;
+> +}
+> +
+> +/* set agnostic elements to 1s */
+> +void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
+> +                       uint32_t tot);
+> +
+> +/* operation of two vector elements */
+> +typedef void opivv2_fn(void *vd, void *vs1, void *vs2, int i);
+> +
+> +void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
+> +                CPURISCVState *env, uint32_t desc,
+> +                opivv2_fn *fn, uint32_t esz);
+> +
+> +/* generate the helpers for OPIVV */
+> +#define GEN_VEXT_VV(NAME, ESZ)                            \
+> +void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
+> +                  void *vs2, CPURISCVState *env,          \
+> +                  uint32_t desc)                          \
+> +{                                                         \
+> +    do_vext_vv(vd, v0, vs1, vs2, env, desc,               \
+> +               do_##NAME, ESZ);                           \
+> +}
+> +
+> +#endif /* TARGET_RISCV_VECTOR_INTERNAL_H */
+
+Again: please split the refactoring off into a separate patch.
+
+
+> --
+> 2.39.1
+>
 
