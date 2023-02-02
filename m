@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A319E687969
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 10:47:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B4D68795C
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 10:45:17 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNW7z-0006Wp-KC; Thu, 02 Feb 2023 04:43:35 -0500
+	id 1pNW80-0006Wu-8y; Thu, 02 Feb 2023 04:43:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pNW7x-0006Vj-45
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:43:33 -0500
+ id 1pNW7y-0006WD-14
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:43:34 -0500
 Received: from mga02.intel.com ([134.134.136.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pNW7v-0006Pg-A1
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:43:32 -0500
+ id 1pNW7v-0006Of-W5
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:43:33 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675331011; x=1706867011;
+ t=1675331012; x=1706867012;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=xtknp8xKM3EUafI+IMYCkYLlc/7I5Ma96WMYzPwnDyU=;
- b=asaouKW5bptK8H77GA7e8GLksntzHr4HxF52yvnZJRO5+JlWoKCCwb6m
- 1CrRFEpRzepeqENeFx0Z32FBLcN+pVUPhDPyryp+UsOMsTni763dfTb+L
- RkFt8vNZGq0oh6ue/9h8e4TDYXGke12Tbh25yNmSqhbiBlez5mYPIYp40
- 6V87fqsLCsGC3Dpb54bDmfGcKGe6RIMm3T83AxM+iF4eLpdLmFdkXqkFl
- pj6N2ugkC3zNdxRllJphN222NeMzg6mLUqrUm8ZzWMDW4gROf+oafQ2AF
- B9T0aPas6QjEaUUvJF3bwR6/7lmeA3QPt0pPUOV6AYjTCx0FXJxl39O4w A==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="316402027"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="316402027"
+ bh=G8q2/m/wa4oJLtonC6t0auIGMsEQYicks7r+eWN7KzE=;
+ b=JDamSPZVAJIkgPUcfoyN4BseZjlC6yldRO5LwYl+zmR0xowD33zufSuG
+ 91gdayNCuwghUWBUc22emb4SrVZjZzcm7fdLou+EyZkC6BSiLLnGzwzOb
+ ZGSzpURZ6dRijsimm5xnmAYXFKwmPHfwi0KsKyXKYd9Rba3sUvFBBXrF4
+ pz6Qssufa4MDtalVjL1IPvdBkRiJO8quEQJYpRgc8ce70lDSrBEgQ6HNe
+ nfumqetIZdBppjNxjnw+D5YbOs65sNpPRqWWg8CbA1hwpNXjrtnw3/Lyu
+ kM7U5SZwfZPSOQDLCyecP7I6MIkYXuA8pDNz1KGv39hD4n9V4FOuHZzcf Q==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="316402044"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="316402044"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2023 01:42:22 -0800
+ 02 Feb 2023 01:42:25 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="807909451"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="807909451"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="807909458"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="807909458"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2023 01:42:19 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2023 01:42:22 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -49,15 +49,15 @@ To: Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
- Zhao Liu <zhao1.liu@intel.com>
-Subject: [PATCH 09/18] i386: Fix comment style in topology.h
-Date: Thu,  2 Feb 2023 17:49:20 +0800
-Message-Id: <20230202094929.343799-10-zhao1.liu@linux.intel.com>
+ Zhao Liu <zhao1.liu@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>
+Subject: [PATCH 10/18] i386: Update APIC ID parsing rule to support module
+ level
+Date: Thu,  2 Feb 2023 17:49:21 +0800
+Message-Id: <20230202094929.343799-11-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230202094929.343799-1-zhao1.liu@linux.intel.com>
 References: <20230202094929.343799-1-zhao1.liu@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: none client-ip=134.134.136.20;
  envelope-from=zhao1.liu@linux.intel.com; helo=mga02.intel.com
@@ -83,126 +83,139 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Zhao Liu <zhao1.liu@intel.com>
+From: Zhuocheng Ding <zhuocheng.ding@intel.com>
 
-For function comments in this file, keep the comment style consistent
-with other places.
+Add the module level parsing support for APIC ID.
 
+With this support, now the conversion between X86CPUTopoIDs,
+X86CPUTopoInfo and APIC ID is completed.
+
+Signed-off-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
+Co-developed-by: Zhao Liu <zhao1.liu@intel.com>
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- include/hw/i386/topology.h | 33 +++++++++++++++++----------------
- 1 file changed, 17 insertions(+), 16 deletions(-)
+ hw/i386/x86.c              | 19 ++++++++-----------
+ include/hw/i386/topology.h | 36 ++++++++++++++++++------------------
+ 2 files changed, 26 insertions(+), 29 deletions(-)
 
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index b66719230d57..68fce87d18ac 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -310,11 +310,11 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
+ 
+     /*
+      * If APIC ID is not set,
+-     * set it based on socket/die/core/thread properties.
++     * set it based on socket/die/cluster/core/thread properties.
+      */
+     if (cpu->apic_id == UNASSIGNED_APIC_ID) {
+-        int max_socket = (ms->smp.max_cpus - 1) /
+-                                smp_threads / smp_cores / ms->smp.dies;
++        int max_socket = (ms->smp.max_cpus - 1) / smp_threads / smp_cores /
++                                ms->smp.clusters / ms->smp.dies;
+ 
+         /*
+          * die-id was optional in QEMU 4.0 and older, so keep it optional
+@@ -378,15 +378,12 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
+ 
+         x86_topo_ids_from_apicid(cpu->apic_id, &topo_info, &topo_ids);
+ 
+-        /*
+-         * TODO: Before APIC ID supports module level parsing, there's no need
+-         * to expose module_id info.
+-         */
+         error_setg(errp,
+-            "Invalid CPU [socket: %u, die: %u, core: %u, thread: %u] with"
+-            " APIC ID %" PRIu32 ", valid index range 0:%d",
+-            topo_ids.pkg_id, topo_ids.die_id, topo_ids.core_id, topo_ids.smt_id,
+-            cpu->apic_id, ms->possible_cpus->len - 1);
++            "Invalid CPU [socket: %u, die: %u, module: %u, core: %u, thread: %u]"
++            " with APIC ID %" PRIu32 ", valid index range 0:%d",
++            topo_ids.pkg_id, topo_ids.die_id, topo_ids.module_id,
++            topo_ids.core_id, topo_ids.smt_id, cpu->apic_id,
++            ms->possible_cpus->len - 1);
+         return;
+     }
+ 
 diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
-index b0174c18b7bd..5de905dc00d3 100644
+index 5de905dc00d3..3cec97b377f2 100644
 --- a/include/hw/i386/topology.h
 +++ b/include/hw/i386/topology.h
-@@ -24,7 +24,8 @@
- #ifndef HW_I386_TOPOLOGY_H
- #define HW_I386_TOPOLOGY_H
- 
--/* This file implements the APIC-ID-based CPU topology enumeration logic,
-+/*
-+ * This file implements the APIC-ID-based CPU topology enumeration logic,
-  * documented at the following document:
-  *   Intel® 64 Architecture Processor Topology Enumeration
-  *   http://software.intel.com/en-us/articles/intel-64-architecture-processor-topology-enumeration/
-@@ -41,7 +42,8 @@
- 
- #include "qemu/bitops.h"
- 
--/* APIC IDs can be 32-bit, but beware: APIC IDs > 255 require x2APIC support
-+/*
-+ * APIC IDs can be 32-bit, but beware: APIC IDs > 255 require x2APIC support
-  */
- typedef uint32_t apic_id_t;
- 
-@@ -60,8 +62,7 @@ typedef struct X86CPUTopoInfo {
-     unsigned threads_per_core;
- } X86CPUTopoInfo;
- 
--/* Return the bit width needed for 'count' IDs
-- */
-+/* Return the bit width needed for 'count' IDs */
- static unsigned apicid_bitwidth_for_count(unsigned count)
- {
-     g_assert(count >= 1);
-@@ -69,15 +70,13 @@ static unsigned apicid_bitwidth_for_count(unsigned count)
-     return count ? 32 - clz32(count) : 0;
- }
- 
--/* Bit width of the SMT_ID (thread ID) field on the APIC ID
-- */
-+/* Bit width of the SMT_ID (thread ID) field on the APIC ID */
- static inline unsigned apicid_smt_width(X86CPUTopoInfo *topo_info)
- {
-     return apicid_bitwidth_for_count(topo_info->threads_per_core);
- }
- 
--/* Bit width of the Core_ID field
-- */
-+/* Bit width of the Core_ID field */
+@@ -79,12 +79,13 @@ static inline unsigned apicid_smt_width(X86CPUTopoInfo *topo_info)
+ /* Bit width of the Core_ID field */
  static inline unsigned apicid_core_width(X86CPUTopoInfo *topo_info)
  {
-     /*
-@@ -94,8 +93,7 @@ static inline unsigned apicid_die_width(X86CPUTopoInfo *topo_info)
-     return apicid_bitwidth_for_count(topo_info->dies_per_pkg);
+-    /*
+-     * TODO: Will separate module info from core_width when update
+-     * APIC ID with module level.
+-     */
+-    return apicid_bitwidth_for_count(topo_info->cores_per_module *
+-                                     topo_info->modules_per_die);
++    return apicid_bitwidth_for_count(topo_info->cores_per_module);
++}
++
++/* Bit width of the Module_ID (cluster ID) field */
++static inline unsigned apicid_module_width(X86CPUTopoInfo *topo_info)
++{
++    return apicid_bitwidth_for_count(topo_info->modules_per_die);
  }
  
--/* Bit offset of the Core_ID field
-- */
-+/* Bit offset of the Core_ID field */
- static inline unsigned apicid_core_offset(X86CPUTopoInfo *topo_info)
- {
+ /* Bit width of the Die_ID field */
+@@ -99,10 +100,16 @@ static inline unsigned apicid_core_offset(X86CPUTopoInfo *topo_info)
      return apicid_smt_width(topo_info);
-@@ -107,14 +105,14 @@ static inline unsigned apicid_die_offset(X86CPUTopoInfo *topo_info)
-     return apicid_core_offset(topo_info) + apicid_core_width(topo_info);
  }
  
--/* Bit offset of the Pkg_ID (socket ID) field
-- */
-+/* Bit offset of the Pkg_ID (socket ID) field */
- static inline unsigned apicid_pkg_offset(X86CPUTopoInfo *topo_info)
++/* Bit offset of the Module_ID (cluster ID) field */
++static inline unsigned apicid_module_offset(X86CPUTopoInfo *topo_info)
++{
++    return apicid_core_offset(topo_info) + apicid_core_width(topo_info);
++}
++
+ /* Bit offset of the Die_ID field */
+ static inline unsigned apicid_die_offset(X86CPUTopoInfo *topo_info)
  {
-     return apicid_die_offset(topo_info) + apicid_die_width(topo_info);
+-    return apicid_core_offset(topo_info) + apicid_core_width(topo_info);
++    return apicid_module_offset(topo_info) + apicid_module_width(topo_info);
  }
  
--/* Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
-+/*
-+ * Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
-  *
-  * The caller must make sure core_id < nr_cores and smt_id < nr_threads.
-  */
-@@ -127,7 +125,8 @@ static inline apic_id_t x86_apicid_from_topo_ids(X86CPUTopoInfo *topo_info,
+ /* Bit offset of the Pkg_ID (socket ID) field */
+@@ -121,6 +128,7 @@ static inline apic_id_t x86_apicid_from_topo_ids(X86CPUTopoInfo *topo_info,
+ {
+     return (topo_ids->pkg_id  << apicid_pkg_offset(topo_info)) |
+            (topo_ids->die_id  << apicid_die_offset(topo_info)) |
++           (topo_ids->module_id << apicid_module_offset(topo_info)) |
+            (topo_ids->core_id << apicid_core_offset(topo_info)) |
             topo_ids->smt_id;
  }
+@@ -138,11 +146,6 @@ static inline void x86_topo_ids_from_idx(X86CPUTopoInfo *topo_info,
+     unsigned nr_cores = topo_info->cores_per_module;
+     unsigned nr_threads = topo_info->threads_per_core;
  
--/* Calculate thread/core/package IDs for a specific topology,
-+/*
-+ * Calculate thread/core/package IDs for a specific topology,
-  * based on (contiguous) CPU index
-  */
- static inline void x86_topo_ids_from_idx(X86CPUTopoInfo *topo_info,
-@@ -154,7 +153,8 @@ static inline void x86_topo_ids_from_idx(X86CPUTopoInfo *topo_info,
-     topo_ids->smt_id = cpu_index % nr_threads;
- }
- 
--/* Calculate thread/core/package IDs for a specific topology,
-+/*
-+ * Calculate thread/core/package IDs for a specific topology,
-  * based on APIC ID
-  */
- static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
-@@ -178,7 +178,8 @@ static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
-     topo_ids->pkg_id = apicid >> apicid_pkg_offset(topo_info);
- }
- 
--/* Make APIC ID for the CPU 'cpu_index'
-+/*
-+ * Make APIC ID for the CPU 'cpu_index'
-  *
-  * 'cpu_index' is a sequential, contiguous ID for the CPU.
-  */
+-    /*
+-     * Currently smp for i386 doesn't support "clusters", modules_per_die is
+-     * only 1. Therefore, the module_id generated from the module topology will
+-     * not conflict with the module_id generated according to the apicid.
+-     */
+     topo_ids->pkg_id = cpu_index / (nr_dies * nr_modules *
+                        nr_cores * nr_threads);
+     topo_ids->die_id = cpu_index / (nr_modules * nr_cores *
+@@ -166,12 +169,9 @@ static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
+     topo_ids->core_id =
+             (apicid >> apicid_core_offset(topo_info)) &
+             ~(0xFFFFFFFFUL << apicid_core_width(topo_info));
+-    /*
+-     * TODO: This is the temporary initialization for topo_ids.module_id to
+-     * avoid "maybe-uninitialized" compilation errors. Will remove when APIC
+-     * ID supports module level parsing.
+-     */
+-    topo_ids->module_id = 0;
++    topo_ids->module_id =
++            (apicid >> apicid_module_offset(topo_info)) &
++            ~(0xFFFFFFFFUL << apicid_module_width(topo_info));
+     topo_ids->die_id =
+             (apicid >> apicid_die_offset(topo_info)) &
+             ~(0xFFFFFFFFUL << apicid_die_width(topo_info));
 -- 
 2.34.1
 
