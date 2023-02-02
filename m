@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 232496874B4
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 05:54:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 905876874AF
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 05:53:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNRaX-0004Qt-OZ; Wed, 01 Feb 2023 23:52:45 -0500
+	id 1pNRaW-0004Pu-UP; Wed, 01 Feb 2023 23:52:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pNRaO-0004OH-Dp
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 23:52:37 -0500
-Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ id 1pNRaQ-0004Om-Fy
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 23:52:39 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pNRaM-0001CL-19
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 23:52:35 -0500
-Received: by mail-pj1-x1035.google.com with SMTP id m11so861498pji.0
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 20:52:33 -0800 (PST)
+ id 1pNRaO-0001Cj-Tx
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 23:52:38 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id j5so803087pjn.5
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 20:52:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=vkbdYSdTPAunD7cPLxq7KYAERY/Wq71c7F7Rn6sHgkM=;
- b=fg6kq5z/gbMFstiS9vd+MpqA6TXfLy3ZCY0SKqkT8T6sBVxXeyJWIPCk5v3uUC6qwA
- d0MISL7T+NtzNEA0Jd5Xin3UyB33To7OPXHCuBYc21jAiEcQVBNbD8aRwDzMnnlpaAOe
- 2l/YPq8TZF7DO+dsNrJGeXq226EfHVxbQlA9cEecmHZNE87k4I6nVVavgRRy/ClaWlHu
- 42lgfz5FOSylu/WMsufb7V64ntVkbSOvvOFhSsT5uIUSONB5EIOyMmgLXUvuR37nfLEW
- Aqj1e1FKepzne/CRbMHU/UTq/vGkfXDYeNhX7feBT6cNUNOZnQyv6V8wX1CXgeNuCNC2
- xkUw==
+ bh=psDfltxj5Ers806tup7ZzDpU09NdsTTfAuvz4bp4HA0=;
+ b=G65PAHTUhps7Obo7ZgapY3i2ciMQks8KFdklGRdbzZ3Pl4PvHhmDHmaskbkA9UIELG
+ BccRsOGDvJ93S2uwVQFlVltKDoYlE/1F370HrSNKAvmwxYWMbowY7nV4VDqYAX3CCf7M
+ YZ3Pc5V1buAjHILpGHptfDCTscMWQRGNdTsWj7LIPp49rtnTRhkbnFmBTEwsKHKxp+H2
+ WNK4qiU/xJzbaAvEx8x/GVuuWJ8CuaZT2teBt9S62RXu/0kMH2TjMig2nHsvaeicR6aO
+ MnaU0MJHXu5UMxhhYB/DtHxLjPX2HSddBV4NGs9PLnwlCX1RVG2RwU2J0Vgvr8htTHgt
+ Behg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=vkbdYSdTPAunD7cPLxq7KYAERY/Wq71c7F7Rn6sHgkM=;
- b=hcqg8pa8Zz1NTOEFzXsRA7TjkkEYOxzUEhitU+LjGqqLQPYrgJz2qLSX0Cix0ZvHzj
- zg03YI3YOBWISdqPwk6frFLX5M4TIT1KzM7XZhQ2KCO+FNDhjHFcXVmAhqwzBhkwqshq
- 3owi7GF4o7UYBRAzNkUv7O0syJwrrwTapNRjfTPekULr8FkA1gpXyznLobx15jvM0w5Z
- WBZE7L3bkRG3QkoqNb47KxMxwQwGNO1IQf3KrX86UuvmR+5IScljXK+4w8rjjdfMfVH3
- TdO6roTiVpaQNit8b2hGn28Ke0ylRiYcBCTZPOX38CaEqu4qbDEJ9KCATXWJyndQQ1VI
- sDkg==
-X-Gm-Message-State: AO0yUKXl5SoQKAF4sdq+bbob5ZLQKs2SOM+rvGgRMu0rDPadFuelz/HF
- qiRTkF2cbqHs1QZ47DSpMvpvDw==
-X-Google-Smtp-Source: AK7set8/vfPsKeFuytlbV/xCbo1GyWt9cj1LAVaYxFz9rA1U9zKvyjd1+zOzOr3a4kZ51Cqg/JKtRQ==
-X-Received: by 2002:a17:902:e742:b0:196:7103:259f with SMTP id
- p2-20020a170902e74200b001967103259fmr6567627plf.7.1675313552705; 
- Wed, 01 Feb 2023 20:52:32 -0800 (PST)
+ bh=psDfltxj5Ers806tup7ZzDpU09NdsTTfAuvz4bp4HA0=;
+ b=1gWpRjcFMaAlKp8zAQA5VaWOU0lWiNzU86cmmPbxWFx5JGb3hVpYBIg9VRMNbRUsIZ
+ 7gO07S38hAKRqcriWAgWsTKgDrrq3czeN64YzV1GsqE0ZV/g4Y6VBnv/JMBii0MjRHJY
+ HziqTiuIi6zWqIRn6GMcoY6pLOCXVFfR6N/ydXuplZQ7LQj/m056SGuGkYHyFz0hi5Hr
+ Fe5dinv83ACPFajPzLwMVSCDURPdLS0jsewVixtV+75tOsYoeUmJ4IHJS4Lsm0M3l34a
+ g90VsAs/XQA8OPPSpo1qqiJ9EYbqYBe1RHF2Mdd73Frwujb2dchy26C3+8BuVPI9nMVH
+ Rebw==
+X-Gm-Message-State: AO0yUKWVfXevsJz1Vb61IjRsaj9kxxkMTesTSjmt7t6bbjeBIa+1F8J+
+ Ii7ItphxEL2J5EanzDpjBVx3Vw==
+X-Google-Smtp-Source: AK7set9m9Ndjq4NbB3ZRj5wAEgJBf5bhVWMxI8WP8xizj78WufxHBcGDp3zOGzvVZVaPa+vX6ZghGQ==
+X-Received: by 2002:a17:902:f28d:b0:194:d5ec:9be6 with SMTP id
+ k13-20020a170902f28d00b00194d5ec9be6mr4626134plc.23.1675313555604; 
+ Wed, 01 Feb 2023 20:52:35 -0800 (PST)
 Received: from localhost.localdomain ([49.206.14.226])
  by smtp.gmail.com with ESMTPSA id
- w10-20020a170902d70a00b001965540395fsm11222265ply.105.2023.02.01.20.52.30
+ w10-20020a170902d70a00b001965540395fsm11222265ply.105.2023.02.01.20.52.33
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 20:52:32 -0800 (PST)
+ Wed, 01 Feb 2023 20:52:35 -0800 (PST)
 From: Sunil V L <sunilvl@ventanamicro.com>
 To: Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
@@ -64,16 +64,16 @@ Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
  Anup Patel <apatel@ventanamicro.com>,
  Atish Kumar Patra <atishp@rivosinc.com>,
  Sunil V L <sunilvl@ventanamicro.com>
-Subject: [PATCH 01/10] hw/riscv/virt: Add OEM_ID and OEM_TABLE_ID fields
-Date: Thu,  2 Feb 2023 10:22:14 +0530
-Message-Id: <20230202045223.2594627-2-sunilvl@ventanamicro.com>
+Subject: [PATCH 02/10] hw/riscv/virt: Add a switch to enable/disable ACPI
+Date: Thu,  2 Feb 2023 10:22:15 +0530
+Message-Id: <20230202045223.2594627-3-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
 References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x1035.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x102c.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,50 +96,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ACPI needs OEM_ID and OEM_TABLE_ID for the machine. Add these fields
-in the RISCVVirtState structure and initialize with default values.
+ACPI is optional. So, add a switch to toggle.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 ---
- hw/riscv/virt.c         | 4 ++++
- include/hw/riscv/virt.h | 2 ++
- 2 files changed, 6 insertions(+)
+ hw/riscv/virt.c         | 38 ++++++++++++++++++++++++++++++++++++++
+ include/hw/riscv/virt.h |  2 ++
+ 2 files changed, 40 insertions(+)
 
 diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-index a061151a6f..7ad9fda20c 100644
+index 7ad9fda20c..84962962ff 100644
 --- a/hw/riscv/virt.c
 +++ b/hw/riscv/virt.c
-@@ -49,6 +49,7 @@
- #include "hw/pci/pci.h"
+@@ -50,6 +50,7 @@
  #include "hw/pci-host/gpex.h"
  #include "hw/display/ramfb.h"
-+#include "hw/acpi/aml-build.h"
+ #include "hw/acpi/aml-build.h"
++#include "qapi/qapi-visit-common.h"
  
  /*
   * The virt machine physical address space used by some of the devices
-@@ -1512,6 +1513,9 @@ static void virt_machine_init(MachineState *machine)
-     }
-     virt_flash_map(s, system_memory);
+@@ -1525,6 +1526,10 @@ static void virt_machine_init(MachineState *machine)
  
-+    s->oem_id = g_strndup(ACPI_BUILD_APPNAME6, 6);
-+    s->oem_table_id = g_strndup(ACPI_BUILD_APPNAME8, 8);
+ static void virt_machine_instance_init(Object *obj)
+ {
++    MachineState *ms = MACHINE(obj);
++    RISCVVirtState *s = RISCV_VIRT_MACHINE(ms);
 +
-     /* create device tree */
-     create_fdt(s, memmap);
++    s->acpi = ON_OFF_AUTO_OFF;
+ }
  
+ static char *virt_get_aia_guests(Object *obj, Error **errp)
+@@ -1601,6 +1606,34 @@ static void virt_set_aclint(Object *obj, bool value, Error **errp)
+     s->have_aclint = value;
+ }
+ 
++bool virt_is_acpi_enabled(RISCVVirtState *s)
++{
++    if (s->acpi == ON_OFF_AUTO_OFF) {
++        return false;
++    }
++    return true;
++}
++
++static void virt_get_acpi(Object *obj, Visitor *v, const char *name,
++                          void *opaque, Error **errp)
++{
++    MachineState *ms = MACHINE(obj);
++    RISCVVirtState *s = RISCV_VIRT_MACHINE(ms);
++
++    OnOffAuto acpi = s->acpi;
++
++    visit_type_OnOffAuto(v, name, &acpi, errp);
++}
++
++static void virt_set_acpi(Object *obj, Visitor *v, const char *name,
++                          void *opaque, Error **errp)
++{
++    MachineState *ms = MACHINE(obj);
++    RISCVVirtState *s = RISCV_VIRT_MACHINE(ms);
++
++    visit_type_OnOffAuto(v, name, &s->acpi, errp);
++}
++
+ static HotplugHandler *virt_machine_get_hotplug_handler(MachineState *machine,
+                                                         DeviceState *dev)
+ {
+@@ -1672,6 +1705,11 @@ static void virt_machine_class_init(ObjectClass *oc, void *data)
+     sprintf(str, "Set number of guest MMIO pages for AIA IMSIC. Valid value "
+                  "should be between 0 and %d.", VIRT_IRQCHIP_MAX_GUESTS);
+     object_class_property_set_description(oc, "aia-guests", str);
++    object_class_property_add(oc, "acpi", "OnOffAuto",
++                              virt_get_acpi, virt_set_acpi,
++                              NULL, NULL);
++    object_class_property_set_description(oc, "acpi",
++                                          "Enable ACPI");
+ }
+ 
+ static const TypeInfo virt_machine_typeinfo = {
 diff --git a/include/hw/riscv/virt.h b/include/hw/riscv/virt.h
-index b3d26135c0..6c7885bf89 100644
+index 6c7885bf89..62efebaa32 100644
 --- a/include/hw/riscv/virt.h
 +++ b/include/hw/riscv/virt.h
-@@ -56,6 +56,8 @@ struct RISCVVirtState {
-     bool have_aclint;
-     RISCVVirtAIAType aia_type;
+@@ -58,6 +58,7 @@ struct RISCVVirtState {
      int aia_guests;
-+    char *oem_id;
-+    char *oem_table_id;
+     char *oem_id;
+     char *oem_table_id;
++    OnOffAuto acpi;
  };
  
  enum {
+@@ -123,4 +124,5 @@ enum {
+ #define FDT_APLIC_INT_MAP_WIDTH (FDT_PCI_ADDR_CELLS + FDT_PCI_INT_CELLS + \
+                                  1 + FDT_APLIC_INT_CELLS)
+ 
++bool virt_is_acpi_enabled(RISCVVirtState *s);
+ #endif
 -- 
 2.38.0
 
