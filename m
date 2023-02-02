@@ -2,66 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 566FB6885CB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 18:58:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4556885CD
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 18:59:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNdqz-0006Pt-GF; Thu, 02 Feb 2023 12:58:33 -0500
+	id 1pNdrg-00079A-Qh; Thu, 02 Feb 2023 12:59:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNdqx-0006Pb-V7
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 12:58:31 -0500
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pNdrd-00078h-0U
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 12:59:13 -0500
+Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNdqw-0002PI-HF
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 12:58:31 -0500
-Received: by mail-pl1-x634.google.com with SMTP id e6so2627680plg.12
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 09:58:30 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pNdrb-0002f0-AM
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 12:59:12 -0500
+Received: by mail-wr1-x432.google.com with SMTP id q10so2466313wrm.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 09:59:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=WDUufeD4urBHxMtx/WT/mhl2y4uXGjnOKa0DWhCPUIw=;
- b=yWM9/Ii1UvhP2Ai16+cQgGMKKNTjAfiO3MGtu0Lg5HYNIC2pr+a6hpfFxqo8ONcbDb
- dp+0o5lBwh/JQ6Lur1o74aPmPqPBclfL+ejeCMci6GC3XSnEMH5zMn92jq85xQDHvuZ/
- Lw+o6PnoQ3jcUHe0Jrg/5G7o7rcoK4z1O+NWkSNgAusaKav1MqXMmQHMt5KVlA1Yqo23
- 79MV9UJbjh+M6Im/LvlhHsiXLs3j2xVGc7bP4AMuZ0Yo+B9jYfbOgEXc0ORXOeZHnuAZ
- 3tV1z5BLWADstbEa/RI8UpsT52jDL2uZy03WzMyyS73urgZ8KoegU3PBKQvIHwrvaAQd
- uCzg==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=/kl7Wnb95W7ecCWXdcf3Ol9VrmG2bFqzs6d5O5+PjTo=;
+ b=dUxYrItTKW9ho4q86/JBEbgUNcnBltA9SXwURt+1UlR31VAxxv0Xk8d463hiD2Mj3G
+ uiV1HH6Oriy7Dpl2dQboF3il9fMtC/QddUVYyw5Aw4VIeCrTZCk+jmX+0SMdb3gkfkx0
+ vRfbnoQ3SxBt618O5gWJd4l6OjB7YB7plERujdySMDO7HK1U6yVb0gXwVEyZy6r7LY24
+ b+WwNeuPMGywkfcgwXIb+8nZ3Dr2xy5sKslnrK1/V5kMHcXgU+WS6Q/Y0Ri2jFmaDb7p
+ XhbYV4bYR8KiQZSuUDrXYBYV/TpVuq97yBihk2MNZutc44UmYXrMjhx0/RhanSOfefP7
+ ZrfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=WDUufeD4urBHxMtx/WT/mhl2y4uXGjnOKa0DWhCPUIw=;
- b=k2ZYY4IVlASD2HJJWm8qG9XJjLihiosOsOjnDL77GOHQlA8UaxFdyWVp5i5GG28kEK
- VJ3XiDcGD6cemYyuxda4Leji/qXv8EAK5s4hzdRJ+k6J6qffAlCnnBydcrspLd4j1KBA
- cCWKQ67CYU24Rc3V5iohICmsjJYMMpkXMYLtSineKpDeTSlOomtnfAJQhxNGtJyZzmVX
- ndQR1GMOQdJdlssWjnyKdWU/8+dmUEB9EnP12cVanJsK3KCxVUD5phRaUTcXHzkL1HfQ
- a3LkqWKtaGFg/n2KTMgz3QSUasZB92EBbtzoQXtfEVuAnbomUhFsgMNFGodqnphRPpB2
- 5zYg==
-X-Gm-Message-State: AO0yUKVDhvjPfeslX4sv8mcAwUOuuwFjmcK41wdiXpptiBzjeAJaVsft
- M/eMaydxbpHzH7QQSIHWxkCi6l36RTspFLAikeEMBw==
-X-Google-Smtp-Source: AK7set+v/yTKiXCg6kSni8yZ8DBLivu8tJ21ah/wnNTes1s3smVi9S5we1sYX4AhyKBFbgk5p2wbrrKJHoVZuck0eHo=
-X-Received: by 2002:a17:90a:5a42:b0:22c:19cb:9489 with SMTP id
- m2-20020a17090a5a4200b0022c19cb9489mr670657pji.137.1675360709161; Thu, 02 Feb
- 2023 09:58:29 -0800 (PST)
+ bh=/kl7Wnb95W7ecCWXdcf3Ol9VrmG2bFqzs6d5O5+PjTo=;
+ b=xL/CJUTlIEWoU1TPkAhcrKlqVm50aNT3HBCLjslTJ9jTuTMCOEawiYyY05espfpCaw
+ JNpDjOT0R0hEnjgBxG72aaXGpry6KuFZvwUESPIlzAjZr6q0Urpip4YI6Bl1q+v8pI19
+ vcXsCsxoWHSyUkqAxMmAuOOpcUbfKzbhABbxF/kS7ne+mngSqNcL6H5RLVSpFSrYUSsR
+ sFZUePAWu/ICC7WeydlqpozzYVr12MQovMjY3XdalnNfCEsh1ldUCQml19oQSVaOraHR
+ ABR4QVpdHRlAGYXzhv2o2WR5ZluPwjNdK15wX78yppObY6Ti5H5kx5yx923OeaWBOmqc
+ VKoQ==
+X-Gm-Message-State: AO0yUKXUYie0VL2Jgt1caPK7Y2YNZO3Weu2zSBFwBuy48thdLSO3N1/g
+ GEZ0oyFh9d8+YseJJd8ZFJG9Ag==
+X-Google-Smtp-Source: AK7set+5sPQ4jZSBT/nQg/uvkA1QsBoHQpT0GM1OP7JS6vDTZSSkq2S74Ku0OBOlzSmY4asBjak44w==
+X-Received: by 2002:adf:f452:0:b0:2bf:f214:fdca with SMTP id
+ f18-20020adff452000000b002bff214fdcamr6292484wrp.27.1675360749888; 
+ Thu, 02 Feb 2023 09:59:09 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ j1-20020adfe501000000b0029e1aa67fd2sm65183wrm.115.2023.02.02.09.59.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Feb 2023 09:59:09 -0800 (PST)
+Received: from zen.lan (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id E4C6C1FFB7;
+ Thu,  2 Feb 2023 17:59:08 +0000 (GMT)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+Subject: [RFC PATCH] gitlab: call ninja directly and reduce build noise
+Date: Thu,  2 Feb 2023 17:59:03 +0000
+Message-Id: <20230202175903.2119702-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230126114416.2447685-1-marcin.juszkiewicz@linaro.org>
-In-Reply-To: <20230126114416.2447685-1-marcin.juszkiewicz@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 2 Feb 2023 17:58:17 +0000
-Message-ID: <CAFEAcA9fwuSNBX0oY_Gr5jXAQQwufzkaY1zkySkTtB8Gyh30SA@mail.gmail.com>
-Subject: Re: [PATCH] sbsa-ref: remove cortex-a76 from list of supported cpus
-To: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Cc: Radoslaw Biernacki <rad@semihalf.com>,
- Leif Lindholm <quic_llindhol@quicinc.com>, qemu-arm@nongnu.org, 
- Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::634;
- envelope-from=peter.maydell@linaro.org; helo=mail-pl1-x634.google.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::432;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wr1-x432.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -84,21 +94,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 26 Jan 2023 at 11:44, Marcin Juszkiewicz
-<marcin.juszkiewicz@linaro.org> wrote:
->
-> Cortex-A76 supports 40bits of address space. sbsa-ref's memory
-> starts above this limit.
->
-> Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-> ---
->  hw/arm/sbsa-ref.c | 1 -
->  1 file changed, 1 deletion(-)
->
+A significant portion of our CI logs are just enumerating each
+successfully built object file. The current widespread versions of
+ninja don't have a quiet option so we use NINJA_STATUS to add a fixed
+string to the ninja output which we then filter with fgrep. If there
+are any errors in the output we get them from the compiler.
 
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ .gitlab-ci.d/buildtest-template.yml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildtest-template.yml
+index 73ecfabb8d..3c4b237e4f 100644
+--- a/.gitlab-ci.d/buildtest-template.yml
++++ b/.gitlab-ci.d/buildtest-template.yml
+@@ -21,7 +21,7 @@
+       then
+         ../meson/meson.py configure . -Dbackend_max_links="$LD_JOBS" ;
+       fi || exit 1;
+-    - make -j"$JOBS"
++    - env NINJA_STATUS="[ninja][%f/%t] " ninja | fgrep -v "[ninja]"
+     - if test -n "$MAKE_CHECK_ARGS";
+       then
+         make -j"$JOBS" $MAKE_CHECK_ARGS ;
+-- 
+2.39.1
 
-Applied to target-arm.next, thanks.
-
--- PMM
 
