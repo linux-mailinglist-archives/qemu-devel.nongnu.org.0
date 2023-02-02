@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E717687971
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 10:47:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BDDB687947
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 10:44:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNW7u-0006Uu-Gu; Thu, 02 Feb 2023 04:43:30 -0500
+	id 1pNW7w-0006VC-6S; Thu, 02 Feb 2023 04:43:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pNW7s-0006UG-64
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:43:28 -0500
+ id 1pNW7t-0006Uf-Fp
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:43:29 -0500
 Received: from mga02.intel.com ([134.134.136.20])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <zhao1.liu@linux.intel.com>)
- id 1pNW7q-0006Of-CY
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:43:27 -0500
+ id 1pNW7r-0006ND-NK
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:43:29 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
- t=1675331006; x=1706867006;
+ t=1675331007; x=1706867007;
  h=from:to:cc:subject:date:message-id:in-reply-to:
  references:mime-version:content-transfer-encoding;
- bh=f72Lhnb1qreMuYyQjvZLmXZyFqFdzu6WmuXvtAAc5tw=;
- b=nwfJBZoBP5xQz1bnCYMOqvKGIqlF3JPDijn0YoP5nbLwlnWJLr5eFTnP
- Io/Bh1LUwUmITD+Cn7cIr3PBV38wrJSvbEimCQ+89Br3/b2IRvro7nRQv
- RcOJ/QVh/IpfnHlNvwmiPNYJarzcmQitPKVT8XotAr2FgPL85eYOq338H
- YE1DcKFcBiVS2Cr3qtg4pV46xRnN33gRGuc51mR532ueCTM1pV/qkZQO8
- ozVAQodGt3IE1IEy4AxHyRwFZFCxejoCByPEQTxuSZkpdvbrYh894iSj+
- y/MgrGWNssMM4J9LvOjYbzG6w1xs0hBRrwIk4I7P5dJkHhD72aFkb/LN0 g==;
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="316401961"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="316401961"
+ bh=DCitsdkqVqn+K7XTRwzMXR+GwDLS8VcH7odqeMqM8ig=;
+ b=ggyx+NF5x/qepMc3Xf+SWTeaK4SE0C5R4IfFmLbSG5ff8+IBPZATZLkL
+ aJaVXGJ6wHm/NMB9/Kj8rJjpBK7EmcHwU50lV9uncOSyKedw8XSPDm6gh
+ lfTFmPohVujjDCKFN6grH+aNAmpo0n5TgkKB+uJ3MXub0mj3BASp1ki4H
+ mevvc/uJYiRhTo+tfnC/SmJZDtSoQD3W6Nq/9z9EJ9oSsQikiw5kqn6HP
+ KVJ6NKutoMPIi6mOw3mMBn9gSmiKoL2ECulzf2f8ypZCzNT1n0sreqL9i
+ ZOW1voI4LwzTTLHwHRVMk1eosWN/t6mTudnFbGgkdrzq4mYSSdvwU7W96 g==;
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="316401981"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="316401981"
 Received: from fmsmga001.fm.intel.com ([10.253.24.23])
  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384;
- 02 Feb 2023 01:42:10 -0800
+ 02 Feb 2023 01:42:13 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="807909405"
-X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="807909405"
+X-IronPort-AV: E=McAfee;i="6500,9779,10608"; a="807909422"
+X-IronPort-AV: E=Sophos;i="5.97,267,1669104000"; d="scan'208";a="807909422"
 Received: from liuzhao-optiplex-7080.sh.intel.com ([10.239.160.112])
- by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2023 01:42:08 -0800
+ by fmsmga001.fm.intel.com with ESMTP; 02 Feb 2023 01:42:11 -0800
 From: Zhao Liu <zhao1.liu@linux.intel.com>
 To: Eduardo Habkost <eduardo@habkost.net>,
  Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
@@ -49,11 +49,10 @@ To: Eduardo Habkost <eduardo@habkost.net>,
  Richard Henderson <richard.henderson@linaro.org>,
  Paolo Bonzini <pbonzini@redhat.com>
 Cc: qemu-devel@nongnu.org, Zhenyu Wang <zhenyu.z.wang@intel.com>,
- Zhao Liu <zhao1.liu@intel.com>, Robert Hoo <robert.hu@linux.intel.com>
-Subject: [PATCH 05/18] i386/cpu: Consolidate the use of topo_info in
- cpu_x86_cpuid()
-Date: Thu,  2 Feb 2023 17:49:16 +0800
-Message-Id: <20230202094929.343799-6-zhao1.liu@linux.intel.com>
+ Zhao Liu <zhao1.liu@intel.com>, Zhuocheng Ding <zhuocheng.ding@intel.com>
+Subject: [PATCH 06/18] i386: Introduce module-level cpu topology to CPUX86State
+Date: Thu,  2 Feb 2023 17:49:17 +0800
+Message-Id: <20230202094929.343799-7-zhao1.liu@linux.intel.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230202094929.343799-1-zhao1.liu@linux.intel.com>
 References: <20230202094929.343799-1-zhao1.liu@linux.intel.com>
@@ -83,131 +82,102 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Zhao Liu <zhao1.liu@intel.com>
+From: Zhuocheng Ding <zhuocheng.ding@intel.com>
 
-In cpu_x86_cpuid(), there are many variables in representing the cpu
-topology, e.g., topo_info, cs->nr_cores/cs->nr_threads.
+smp command has the "clusters" parameter but x86 hasn't supported that
+level. Though "clusters" was introduced to help define L2 cache topology
+[1], using cluster to define x86's L2 cache topology will cause the
+compatibility problem:
 
-Since the names of cs->nr_cores/cs->nr_threads does not accurately
-represent its meaning, the use of cs->nr_cores/cs->nr_threads is prone
-to confusion and mistakes.
+Currently, x86 defaults that the L2 cache is shared in one core, which
+actually implies a default setting "cores per L2 cache is 1" and
+therefore implicitly defaults to having as many L2 caches as cores.
 
-And the structure X86CPUTopoInfo names its memebers clearly, thus the
-variable "topo_info" should be preferred.
+For example (i386 PC machine):
+-smp 16,sockets=2,dies=2,cores=2,threads=2,maxcpus=16 (*)
 
-Suggested-by: Robert Hoo <robert.hu@linux.intel.com>
+Considering the topology of the L2 cache, this (*) implicitly means "1
+core per L2 cache" and "2 L2 caches per die".
+
+If we use cluster to configure L2 cache topology with the new default
+setting "clusters per L2 cache is 1", the above semantics will change
+to "2 cores per cluster" and "1 cluster per L2 cache", that is, "2
+cores per L2 cache".
+
+So the same command (*) will cause changes in the L2 cache topology,
+further affecting the performance of the virtual machine.
+
+Therefore, x86 should only treat cluster as a cpu topology level and
+avoid using it to change L2 cache by default for compatibility.
+
+"cluster" in smp is the CPU topology level which is between "core" and
+die.
+
+For x86, the "cluster" in smp is corresponding to the module level [2],
+which is above the core level. So use the "module" other than "cluster"
+in i386 code.
+
+And please note that x86 already has a cpu topology level also named
+"cluster" [2], this level is at the upper level of the package. Here,
+the cluster in x86 cpu topology is completely different from the
+"clusters" as the smp parameter. After the module level is introduced,
+the cluster as the smp parameter will actually refer to the module level
+of x86.
+
+[1]: 0d87178 (hw/core/machine: Introduce CPU cluster topology support)
+[2]: SDM, vol.3, ch.9, 9.9.1 Hierarchical Mapping of Shared Resources.
+
+Signed-off-by: Zhuocheng Ding <zhuocheng.ding@intel.com>
+Co-developed-by: Zhao Liu <zhao1.liu@intel.com>
 Signed-off-by: Zhao Liu <zhao1.liu@intel.com>
 ---
- target/i386/cpu.c | 30 ++++++++++++++++++------------
- 1 file changed, 18 insertions(+), 12 deletions(-)
+ hw/i386/x86.c     | 1 +
+ target/i386/cpu.c | 1 +
+ target/i386/cpu.h | 6 ++++++
+ 3 files changed, 8 insertions(+)
 
+diff --git a/hw/i386/x86.c b/hw/i386/x86.c
+index 78cc131926c8..66902d1c0923 100644
+--- a/hw/i386/x86.c
++++ b/hw/i386/x86.c
+@@ -305,6 +305,7 @@ void x86_cpu_pre_plug(HotplugHandler *hotplug_dev,
+     init_topo_info(&topo_info, x86ms);
+ 
+     env->nr_dies = ms->smp.dies;
++    env->nr_modules = ms->smp.clusters;
+ 
+     /*
+      * If APIC ID is not set,
 diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 7833505092d8..4cda84eb96f1 100644
+index 4cda84eb96f1..61ec9a7499b8 100644
 --- a/target/i386/cpu.c
 +++ b/target/i386/cpu.c
-@@ -5215,11 +5215,15 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-     uint32_t limit;
-     uint32_t signature[3];
-     X86CPUTopoInfo topo_info;
-+    uint32_t cpus_per_pkg;
+@@ -6781,6 +6781,7 @@ static void x86_cpu_initfn(Object *obj)
+     CPUX86State *env = &cpu->env;
  
-     topo_info.dies_per_pkg = env->nr_dies;
-     topo_info.cores_per_die = cs->nr_cores / env->nr_dies;
-     topo_info.threads_per_core = cs->nr_threads;
+     env->nr_dies = 1;
++    env->nr_modules = 1;
+     cpu_set_cpustate_pointers(cpu);
  
-+    cpus_per_pkg = topo_info.dies_per_pkg * topo_info.cores_per_die *
-+                   topo_info.threads_per_core;
-+
-     /* Calculate & apply limits for different index ranges */
-     if (index >= 0xC0000000) {
-         limit = env->cpuid_xlevel2;
-@@ -5255,8 +5259,8 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-             *ecx |= CPUID_EXT_OSXSAVE;
-         }
-         *edx = env->features[FEAT_1_EDX];
--        if (cs->nr_cores * cs->nr_threads > 1) {
--            *ebx |= (cs->nr_cores * cs->nr_threads) << 16;
-+        if (cpus_per_pkg > 1) {
-+            *ebx |= cpus_per_pkg << 16;
-             *edx |= CPUID_HT;
-         }
-         if (!cpu->enable_pmu) {
-@@ -5293,10 +5297,12 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-              */
-             if (*eax & 31) {
-                 int host_vcpus_per_cache = 1 + ((*eax & 0x3FFC000) >> 14);
--                int vcpus_per_socket = cs->nr_cores * cs->nr_threads;
--                if (cs->nr_cores > 1) {
-+                int vcpus_per_socket = cpus_per_pkg;
-+                int cores_per_socket = topo_info.cores_per_die *
-+                                       topo_info.dies_per_pkg;
-+                if (cores_per_socket > 1) {
-                     *eax &= ~0xFC000000;
--                    *eax |= (pow2ceil(cs->nr_cores) - 1) << 26;
-+                    *eax |= (pow2ceil(cores_per_socket) - 1) << 26;
-                 }
-                 if (host_vcpus_per_cache > vcpus_per_socket) {
-                     *eax &= ~0x3FFC000;
-@@ -5436,12 +5442,12 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-         switch (count) {
-         case 0:
-             *eax = apicid_core_offset(&topo_info);
--            *ebx = cs->nr_threads;
-+            *ebx = topo_info.threads_per_core;
-             *ecx |= CPUID_TOPOLOGY_LEVEL_SMT;
-             break;
-         case 1:
-             *eax = apicid_pkg_offset(&topo_info);
--            *ebx = cs->nr_cores * cs->nr_threads;
-+            *ebx = cpus_per_pkg;
-             *ecx |= CPUID_TOPOLOGY_LEVEL_CORE;
-             break;
-         default:
-@@ -5472,7 +5478,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-         switch (count) {
-         case 0:
-             *eax = apicid_core_offset(&topo_info);
--            *ebx = cs->nr_threads;
-+            *ebx = topo_info.threads_per_core;
-             *ecx |= CPUID_TOPOLOGY_LEVEL_SMT;
-             break;
-         case 1:
-@@ -5482,7 +5488,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-             break;
-         case 2:
-             *eax = apicid_pkg_offset(&topo_info);
--            *ebx = cs->nr_cores * cs->nr_threads;
-+            *ebx = cpus_per_pkg;
-             *ecx |= CPUID_TOPOLOGY_LEVEL_DIE;
-             break;
-         default:
-@@ -5707,7 +5713,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-          * discards multiple thread information if it is set.
-          * So don't set it here for Intel to make Linux guests happy.
-          */
--        if (cs->nr_cores * cs->nr_threads > 1) {
-+        if (cpus_per_pkg > 1) {
-             if (env->cpuid_vendor1 != CPUID_VENDOR_INTEL_1 ||
-                 env->cpuid_vendor2 != CPUID_VENDOR_INTEL_2 ||
-                 env->cpuid_vendor3 != CPUID_VENDOR_INTEL_3) {
-@@ -5769,7 +5775,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-              *eax |= (cpu_x86_virtual_addr_width(env) << 8);
-         }
-         *ebx = env->features[FEAT_8000_0008_EBX];
--        if (cs->nr_cores * cs->nr_threads > 1) {
-+        if (cpus_per_pkg > 1) {
-             /*
-              * Bits 15:12 is "The number of bits in the initial
-              * Core::X86::Apic::ApicId[ApicId] value that indicate
-@@ -5777,7 +5783,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
-              * Bits 7:0 is "The number of threads in the package is NC+1"
-              */
-             *ecx = (apicid_pkg_offset(&topo_info) << 12) |
--                   ((cs->nr_cores * cs->nr_threads) - 1);
-+                   (cpus_per_pkg - 1);
-         } else {
-             *ecx = 0;
-         }
+     object_property_add(obj, "feature-words", "X86CPUFeatureWordInfo",
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index d4bc19577a21..f3afea765982 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1810,7 +1810,13 @@ typedef struct CPUArchState {
+ 
+     TPRAccess tpr_access_type;
+ 
++    /* Number of dies per package. */
+     unsigned nr_dies;
++    /*
++     * Number of modules per die. Module level in x86 cpu topology is
++     * corresponding to smp.clusters.
++     */
++    unsigned nr_modules;
+ } CPUX86State;
+ 
+ struct kvm_msrs;
 -- 
 2.34.1
 
