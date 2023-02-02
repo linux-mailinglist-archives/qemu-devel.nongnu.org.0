@@ -2,25 +2,25 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF58F68807C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 15:50:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29224688087
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 15:51:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNarr-0006aN-KI; Thu, 02 Feb 2023 09:47:15 -0500
+	id 1pNarw-00072N-N6; Thu, 02 Feb 2023 09:47:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
- id 1pNZ2J-0002lp-35
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:49:55 -0500
+ id 1pNZ2s-0002us-Ou
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:50:30 -0500
 Received: from imap5.colo.codethink.co.uk ([78.40.148.171])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
- id 1pNZ2H-0003NT-Lq
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:49:54 -0500
+ id 1pNZ2r-0003f8-2T
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:50:30 -0500
 Received: from [167.98.27.226] (helo=lawrence-thinkpad.office.codethink.co.uk)
  by imap5.colo.codethink.co.uk with esmtpsa (Exim 4.94.2 #2 (Debian))
- id 1pNYvM-004Q6t-U4; Thu, 02 Feb 2023 12:42:45 +0000
+ id 1pNYvN-004Q6t-Df; Thu, 02 Feb 2023 12:42:46 +0000
 From: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
 To: qemu-devel@nongnu.org
 Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
@@ -28,9 +28,9 @@ Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
  pbonzini@redhat.com, philipp.tomsich@vrull.eu, kvm@vger.kernel.org,
  Max Chou <max.chou@sifive.com>
-Subject: [PATCH 36/39] crypto: Add SM4 constant parameter CK.
-Date: Thu,  2 Feb 2023 12:42:27 +0000
-Message-Id: <20230202124230.295997-37-lawrence.hunter@codethink.co.uk>
+Subject: [PATCH 37/39] target/riscv: Add zvksed cfg property
+Date: Thu,  2 Feb 2023 12:42:28 +0000
+Message-Id: <20230202124230.295997-38-lawrence.hunter@codethink.co.uk>
 X-Mailer: git-send-email 2.39.1
 In-Reply-To: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
 References: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
@@ -64,39 +64,43 @@ From: Max Chou <max.chou@sifive.com>
 Signed-off-by: Max Chou <max.chou@sifive.com>
 Reviewed-by: Frank Chang <frank.chang@sifive.com>
 ---
- crypto/sm4.c         | 10 ++++++++++
- include/crypto/sm4.h |  1 +
- 2 files changed, 11 insertions(+)
+ target/riscv/cpu.c | 3 ++-
+ target/riscv/cpu.h | 1 +
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/crypto/sm4.c b/crypto/sm4.c
-index 9f0cd452c7..2987306cf7 100644
---- a/crypto/sm4.c
-+++ b/crypto/sm4.c
-@@ -47,3 +47,13 @@ uint8_t const sm4_sbox[] = {
-     0x79, 0xee, 0x5f, 0x3e, 0xd7, 0xcb, 0x39, 0x48,
- };
- 
-+uint32_t const sm4_ck[] = {
-+    0x00070e15, 0x1c232a31, 0x383f464d, 0x545b6269,
-+    0x70777e85, 0x8c939aa1, 0xa8afb6bd, 0xc4cbd2d9,
-+    0xe0e7eef5, 0xfc030a11, 0x181f262d, 0x343b4249,
-+    0x50575e65, 0x6c737a81, 0x888f969d, 0xa4abb2b9,
-+    0xc0c7ced5, 0xdce3eaf1, 0xf8ff060d, 0x141b2229,
-+    0x30373e45, 0x4c535a61, 0x686f767d, 0x848b9299,
-+    0xa0a7aeb5, 0xbcc3cad1, 0xd8dfe6ed, 0xf4fb0209,
-+    0x10171e25, 0x2c333a41, 0x484f565d, 0x646b7279
-+};
-diff --git a/include/crypto/sm4.h b/include/crypto/sm4.h
-index 33478562a4..d0df6e473c 100644
---- a/include/crypto/sm4.h
-+++ b/include/crypto/sm4.h
-@@ -9,5 +9,6 @@
- )
- 
- extern const uint8_t sm4_sbox[256];
-+extern const uint32_t sm4_ck[32];
- 
- #endif
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index 48701e118f..0fa7049c3b 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -105,6 +105,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
+     ISA_EXT_DATA_ENTRY(zvknha, true, PRIV_VERSION_1_12_0, ext_zvknha),
+     ISA_EXT_DATA_ENTRY(zvknhb, true, PRIV_VERSION_1_12_0, ext_zvknhb),
+     ISA_EXT_DATA_ENTRY(zvkns, true, PRIV_VERSION_1_12_0, ext_zvkns),
++    ISA_EXT_DATA_ENTRY(zvksed, true, PRIV_VERSION_1_12_0, ext_zvksed),
+     ISA_EXT_DATA_ENTRY(zvksh, true, PRIV_VERSION_1_12_0, ext_zvksh),
+     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
+     ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
+@@ -803,7 +804,7 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+          * in qemu
+          */
+         if ((cpu->cfg.ext_zvkb || cpu->cfg.ext_zvkns || cpu->cfg.ext_zvknha ||
+-             cpu->cfg.ext_zvksh || cpu->cfg.ext_zvkg) &&
++             cpu->cfg.ext_zvksh || cpu->cfg.ext_zvkg || cpu->cfg.ext_zvksed) &&
+             !(cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f || cpu->cfg.ext_v)) {
+             error_setg(
+                 errp, "Vector crypto extensions require V or Zve* extensions");
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index b3b1174d74..89e9fd61da 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -466,6 +466,7 @@ struct RISCVCPUConfig {
+     bool ext_zvknha;
+     bool ext_zvknhb;
+     bool ext_zvkns;
++    bool ext_zvksed;
+     bool ext_zvksh;
+     bool ext_zmmul;
+     bool ext_smaia;
 -- 
 2.39.1
 
