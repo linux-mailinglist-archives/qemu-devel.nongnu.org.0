@@ -2,39 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D8F6879FE
+	by mail.lfdr.de (Postfix) with ESMTPS id 206506879FD
 	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:20:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNWgg-0003LV-1e; Thu, 02 Feb 2023 05:19:26 -0500
+	id 1pNWgg-0003Na-10; Thu, 02 Feb 2023 05:19:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pNWgX-0003Hv-CH; Thu, 02 Feb 2023 05:19:18 -0500
+ id 1pNWgX-0003Hw-9B; Thu, 02 Feb 2023 05:19:18 -0500
 Received: from proxmox-new.maurer-it.com ([94.136.29.106])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pNWgU-00052H-OU; Thu, 02 Feb 2023 05:19:16 -0500
+ id 1pNWgU-00052J-Rj; Thu, 02 Feb 2023 05:19:16 -0500
 Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id B85FA419B1;
- Thu,  2 Feb 2023 11:19:00 +0100 (CET)
-Message-ID: <afc7767f-481d-acd3-fd65-5c827c790e3a@proxmox.com>
-Date: Thu, 2 Feb 2023 11:18:52 +0100
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id CDB3343ACE;
+ Thu,  2 Feb 2023 11:19:04 +0100 (CET)
+Message-ID: <c3982fa3-be00-9cb2-7d71-5f784ac80864@proxmox.com>
+Date: Thu, 2 Feb 2023 11:19:03 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
 Subject: Re: [PATCH] block/mirror: add 'write-blocking-after-ready' copy mode
-To: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+Content-Language: en-US
+To: "Denis V. Lunev" <den@virtuozzo.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
  qemu-devel@nongnu.org
 Cc: t.lamprecht@proxmox.com, jsnow@redhat.com, kwolf@redhat.com,
  hreitz@redhat.com, eblake@redhat.com, armbru@redhat.com,
- qemu-block@nongnu.org, "Denis V. Lunev" <den@openvz.org>
+ qemu-block@nongnu.org, Alexander Ivanov <alexander.ivanov@virtuozzo.com>
 References: <20221207132719.131227-1-f.ebner@proxmox.com>
  <c120932d-a1a7-5904-3f17-10a7c9ac69af@yandex-team.ru>
-Content-Language: en-US
+ <926be172-1d8a-e896-c051-3c37d048771b@virtuozzo.com>
 From: Fiona Ebner <f.ebner@proxmox.com>
-In-Reply-To: <c120932d-a1a7-5904-3f17-10a7c9ac69af@yandex-team.ru>
+In-Reply-To: <926be172-1d8a-e896-c051-3c37d048771b@virtuozzo.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
@@ -59,116 +61,126 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Am 31.01.23 um 18:44 schrieb Vladimir Sementsov-Ogievskiy:
->> @@ -1035,10 +1036,31 @@ static int coroutine_fn mirror_run(Job *job,
->> Error **errp)
->>           if (s->in_flight == 0 && cnt == 0) {
->>               trace_mirror_before_flush(s);
->>               if (!job_is_ready(&s->common.job)) {
->> +                if (s->copy_mode ==
->> +                    MIRROR_COPY_MODE_WRITE_BLOCKING_AFTER_READY) {
->> +                    /*
->> +                     * Pause guest I/O to check if we can switch to
->> active mode.
->> +                     * To set actively_synced to true below, it is
->> necessary to
->> +                     * have seen and synced all guest I/O.
->> +                     */
->> +                    s->in_drain = true;
->> +                    bdrv_drained_begin(bs);
->> +                    if (bdrv_get_dirty_count(s->dirty_bitmap) > 0) {
->> +                        bdrv_drained_end(bs);
->> +                        s->in_drain = false;
->> +                        continue;
->> +                    }
->> +                    s->in_active_mode = true;
->> +                    bdrv_disable_dirty_bitmap(s->dirty_bitmap);
->> +                    bdrv_drained_end(bs);
->> +                    s->in_drain = false;
->> +                }
+Am 31.01.23 um 19:18 schrieb Denis V. Lunev:
+> On 1/31/23 18:44, Vladimir Sementsov-Ogievskiy wrote:
+>> + Den
+>>
+>> Den, I remember we thought about that, and probably had a solution?
+>>
+>> Another possible approach to get benefits from both modes is to switch
+>> to blocking mode after first loop of copying. [*]
+>>
+>> Hmm. Thinking about proposed solution it seems, that [*] is better.
+>> The main reason of "write-blocking" mode is to force convergence of
+>> the mirror job. But you lose this thing if you postpone switching to
+>> the moment when mirror becomes READY: we may never reach it.
+>>
+>>
+>>
+>> Or, may be we can selectively skip or block guest writes, to keep some
+>> specified level of convergence?
+>>
+>> Or, we can start in "background" mode, track the speed of convergence
+>> (like dirty-delta per minute), and switch to blocking if speed becomes
+>> less than some threshold.
+>>
 > 
-> I doubt, do we really need the drained section?
+> That is absolutely correct. It would be very kind to start with
+> asynchronous mirror and switch to the synchronous one after
+> specific amount of loops. This should be somehow measured.
 > 
-> Why can't we simply set s->in_active_mode here and don't care?
+> Originally we have thought about switching after the one loop
+> (when basic background sending is done), but may be 2 iterations
+> (initial + first one) would be better.
 > 
-> I think bdrv_get_dirty_count(s->dirty_bitmap) can't become > 0 here, as
-> cnt is zero, we are in context of bs and we don't have yield point. (ok,
-> we have one in drained_begin(), but what I think we can simply drop
-> drained section here).
+> Talking about this specific approach and our past experience
+> I should note that reaching completion point in the
+> asynchronous mode was a real pain and slow down for the guest.
+> We have intentionally switched at that time to the sync mode
+> for that purpose. Thus this patch is a "worst half-way" for
+> us.
+
+While the asynchronous mode can take longer of course, the slowdown of
+the guest is bigger with the synchronous mode, or what am I missing?
+
+We have been using asynchronous mode for years (starting migration after
+all drive-mirror jobs are READY) and AFAIK our users did not complain
+about them not reaching READY or heavy slowdowns in the guest. We had
+two reports about an assertion failure recently when drive-mirror still
+got work left at the time the blockdrives are inactivated by migration.
+
+> Frankly speaking I would say that this switch could be considered
+> NOT QEMU job and we should just send a notification (event) for the
+> completion of the each iteration and management software should
+> take a decision to switch from async mode to the sync one.
+
+Unfortunately, our management software is a bit limited in that regard
+currently and making listening for events available in the necessary
+place would take a bit of work. Having the switch command would nearly
+be enough for us (we'd just switch after READY). But we'd also need that
+when the switch happens after READY, that all remaining asynchronous
+operations are finished by the command. Otherwise, the original issue
+with inactivating block drives while mirror still has work remains. Do
+those semantics for the switch sound acceptable?
+
+> Under such a condition we should have a command to perform mode
+> switch. This seems more QEMU/QAPI way :)
 > 
 
-Thank you for the explanation! I wasn't sure if it's really needed and
-wanted to take it safe (should've mentioned that in the original mail).
+I feel like a switch at an arbitrary time might be hard to do correctly,
+i.e. to not miss some (implicit) assertion.
 
->> +
->>                   if (mirror_flush(s) < 0) {
->>                       /* Go check s->ret.  */
->>                       continue;
->>                   }
->> +
->>                   /* We're out of the streaming phase.  From now on,
->> if the job
->>                    * is cancelled we will actually complete all
->> pending I/O and
->>                    * report completion.  This way, block-job-cancel
->> will leave
->> @@ -1443,7 +1465,7 @@ static int coroutine_fn
->> bdrv_mirror_top_do_write(BlockDriverState *bs,
->>       if (s->job) {
->>           copy_to_target = s->job->ret >= 0 &&
->>                            !job_is_cancelled(&s->job->common.job) &&
->> -                         s->job->copy_mode ==
->> MIRROR_COPY_MODE_WRITE_BLOCKING;
->> +                         s->job->in_active_mode;
->>       }
->>         if (copy_to_target) {
->> @@ -1494,7 +1516,7 @@ static int coroutine_fn
->> bdrv_mirror_top_pwritev(BlockDriverState *bs,
->>       if (s->job) {
->>           copy_to_target = s->job->ret >= 0 &&
->>                            !job_is_cancelled(&s->job->common.job) &&
->> -                         s->job->copy_mode ==
->> MIRROR_COPY_MODE_WRITE_BLOCKING;
->> +                         s->job->in_active_mode;
->>       }
->>         if (copy_to_target) {
->> @@ -1792,7 +1814,10 @@ static BlockJob *mirror_start_job(
->>           goto fail;
->>       }
->>       if (s->copy_mode == MIRROR_COPY_MODE_WRITE_BLOCKING) {
->> +        s->in_active_mode = true;
->>           bdrv_disable_dirty_bitmap(s->dirty_bitmap);
->> +    } else {
->> +        s->in_active_mode = false;
->>       }
->>         ret = block_job_add_bdrv(&s->common, "source", bs, 0,
->> diff --git a/qapi/block-core.json b/qapi/block-core.json
->> index 95ac4fa634..2a983ed78d 100644
->> --- a/qapi/block-core.json
->> +++ b/qapi/block-core.json
->> @@ -1200,10 +1200,13 @@
->>   #                  addition, data is copied in background just like in
->>   #                  @background mode.
->>   #
->> +# @write-blocking-after-ready: starts out in @background mode and
->> switches to
->> +#                              @write-blocking when transitioning to
->> ready.
-> 
-> You should add also (Since: 8.0) label
-> 
+But I can try and go for this approach if it's more likely to be
+accepted upstream. So a 'drive-mirror-change' command which takes the
+'job-id' and a 'copy-mode' argument? And only allow the switch from
+'background' to 'active' (initially)?
 
-I'll try to remember it next time.
+Or a more generic 'block-job-change'? But that would need a way to take
+'JobType'-specific arguments. Is that doable?
 
->> +#
->>   # Since: 3.0
->>   ##
->>   { 'enum': 'MirrorCopyMode',
->> -  'data': ['background', 'write-blocking'] }
->> +  'data': ['background', 'write-blocking',
->> 'write-blocking-after-ready'] }
->>     ##
->>   # @BlockJobInfo:
+(...)
+
+>>> @@ -1035,10 +1036,31 @@ static int coroutine_fn mirror_run(Job *job,
+>>> Error **errp)
+>>>           if (s->in_flight == 0 && cnt == 0) {
+>>>               trace_mirror_before_flush(s);
+>>>               if (!job_is_ready(&s->common.job)) {
+>>> +                if (s->copy_mode ==
+>>> + MIRROR_COPY_MODE_WRITE_BLOCKING_AFTER_READY) {
+>>> +                    /*
+>>> +                     * Pause guest I/O to check if we can switch to
+>>> active mode.
+>>> +                     * To set actively_synced to true below, it is
+>>> necessary to
+>>> +                     * have seen and synced all guest I/O.
+>>> +                     */
+>>> +                    s->in_drain = true;
+>>> +                    bdrv_drained_begin(bs);
+>>> +                    if (bdrv_get_dirty_count(s->dirty_bitmap) > 0) {
+>>> +                        bdrv_drained_end(bs);
+>>> +                        s->in_drain = false;
+>>> +                        continue;
+>>> +                    }
+>>> +                    s->in_active_mode = true;
+>>> + bdrv_disable_dirty_bitmap(s->dirty_bitmap);
+>>> +                    bdrv_drained_end(bs);
+>>> +                    s->in_drain = false;
+>>> +                }
+>>
+>> I doubt, do we really need the drained section?
 > 
+> Frankly speaking I do not like this. I'd better would not
+> rely on the enable/disable of the whole bitmap but encode
+> mode into MirrorOp and mark blocks dirty only for those
+> operations for which in_active_mode was set at the
+> operation start.
+>
+
+Do you mean "for which in_active_mode was *not* set at the operation
+start"? Also, the dirty bitmap gets set by things like the
+bdrv_co_pwritev() call in bdrv_mirror_top_do_write(), so how would we
+prevent setting it? The dirty bitmap does get reset in
+do_sync_target_write(), so maybe that already takes care of it, but I
+didn't check in detail.
 
 
