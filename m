@@ -2,90 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69858687411
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 04:43:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F482687417
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 04:45:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNQTx-0008IG-UG; Wed, 01 Feb 2023 22:41:53 -0500
+	id 1pNQX7-0000os-LI; Wed, 01 Feb 2023 22:45:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pNQTw-0008I3-C6
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 22:41:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pNQX5-0000of-Rk
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 22:45:07 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pNQTu-0003Hm-Eu
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 22:41:52 -0500
+ id 1pNQX4-0003fC-6A
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 22:45:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675309305;
+ s=mimecast20190719; t=1675309505;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=DczX1R3zViEuOvg4E7LNnVBVgiYDk9Eop0nr/BxNEcY=;
- b=YfQWnB01axyRLSt3US3sOrfOZL0fAl5S6TlC767yuedottkPsd5LkBxGRxyx92erW+Zpxq
- 6cPY+BI1M5DBxLHFFu8Bx5YU5jr5D+Z4i8DjbIlImxPbfkV7Cm4Garw6VirSNCqwoEIc/b
- 82sBh0q+6gvQMUc8O/3AVD7yg2OHrfk=
-Received: from mail-pj1-f70.google.com (mail-pj1-f70.google.com
- [209.85.216.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=W73E5YahOwf53m6DEodYTWRnYKW3EpNRIwcnY79PmPQ=;
+ b=TRVTPP4oe0Svbz5oIB9Ea16yfxOAQxIDsOvLhMJFNx9OujQxgZLZdl5ub6HsUOuWme7EcZ
+ 2YUy4Y4+pFMVjmfe2dE26+RiyRTj76GlzvKSnWwFfsnbMRtfLtNc4NY7UUVo5j17wcC/RM
+ eUpCpMgNqdVstkGXNZ4HRpLxvGD3Rrc=
+Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com
+ [209.85.210.197]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-3-els6OyXfM66A7Me6d0qZEQ-1; Wed, 01 Feb 2023 22:41:39 -0500
-X-MC-Unique: els6OyXfM66A7Me6d0qZEQ-1
-Received: by mail-pj1-f70.google.com with SMTP id
- s16-20020a17090aba1000b002303782fcd8so1877915pjr.9
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 19:41:39 -0800 (PST)
+ us-mta-474-Q0yWHboKMX2NzGTEmaUJdA-1; Wed, 01 Feb 2023 22:45:04 -0500
+X-MC-Unique: Q0yWHboKMX2NzGTEmaUJdA-1
+Received: by mail-pf1-f197.google.com with SMTP id
+ x9-20020aa79409000000b00593a1f7c3d8so293895pfo.14
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 19:45:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=DczX1R3zViEuOvg4E7LNnVBVgiYDk9Eop0nr/BxNEcY=;
- b=lqGiIOzOUTXP1VHpTJMR0yQqm7LOBSXWudzhr6fM6TBC9sOueg8fWuFW2oHHhCpkgT
- Y0iY8tr1aoYdt3wHR1s15nT/l1dfUItq3nTD8pNRw8J+yq8PabOTFbKJYn8mshaifBvG
- 5SG/OUldMOSdOtSnMc4dpsbh4pJlU62eWIZxCsp/qETFkAZRIyUfUaXuKiW9OS6ipdQv
- n+U34OptGCOQpewpWwamgslYC4dGvtIryj7jVHGT+3tq+Vz79RRagKI51vYzA87lcCBs
- m4nyarOOFGzR131XhKkoyHJUooCcdUbu0TzMuM7e56+/Du9o+gpGOdLP2qrZ0q4vuthG
- 6I+Q==
-X-Gm-Message-State: AO0yUKUpx8bnaql4258w5RjRIa+TvR6vSaQ91kwjQSXsLkXeoDbkI53k
- BG2OUcQT4MekixEffbFcOOhWA8SM273u9nQ54B+xXBv/Nrx1eR1LsPPnrRkX7DRr1T2nQGdo8Fu
- Wp7bFUJJX7ueDquI=
-X-Received: by 2002:a05:6a00:1502:b0:592:528e:72a1 with SMTP id
- q2-20020a056a00150200b00592528e72a1mr5787754pfu.27.1675309298344; 
- Wed, 01 Feb 2023 19:41:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set8gpOTAQINnDv8E1LFc9dqWQZ0bB4J+vtC81lEx2wZognsseL8NYLA+5gcUDEz4GGKJ5tV8ZA==
-X-Received: by 2002:a05:6a00:1502:b0:592:528e:72a1 with SMTP id
- q2-20020a056a00150200b00592528e72a1mr5787741pfu.27.1675309298021; 
- Wed, 01 Feb 2023 19:41:38 -0800 (PST)
+ bh=W73E5YahOwf53m6DEodYTWRnYKW3EpNRIwcnY79PmPQ=;
+ b=jPsIHdTHj+9ocVUuZKeUioOxL8dll3K8QhbO2/HYv9twnG9eEvI0ria0UI1Y4tb38m
+ Aa2kH0BFeZpCcsV007JOUm4VpjWC2Duv950doEqE9YtSUfN4KXTfJif65XQKieoP/sih
+ WN/GGQYunx6IE0ax/PCfjgJXQJ6OxCj8RWVO5IzPgr4JhyH6e/XWJ1+3AWs97gQUGpwI
+ or1M68tTud94DLgh+kNBFTH95MPN4JhhELSl+9jMZpMk/r1twuBrmt8LPtWvCGcs18WX
+ Jwyw2KVXp8/NzNSmYvZYV7MPBFu8t74MAjiyv0mMZrH68YzuES5v8PAFIn7VIROAYyWk
+ KkyA==
+X-Gm-Message-State: AO0yUKUIZ3lfCkHi6ZPpMgvqNS/WaycHVJQzb+B/blEg58vKtCOmQgsU
+ fZmeIwr7DkVIBaKoDzCkiLSaMBCg9rFWlITKMi3vHq9lwMSQ86Ti3zkfgGO1Ro3Zl3P+5tI9CRX
+ r7MKF/gyiocdyz7U=
+X-Received: by 2002:a17:902:dac8:b0:196:59a0:bffe with SMTP id
+ q8-20020a170902dac800b0019659a0bffemr6924177plx.17.1675309503011; 
+ Wed, 01 Feb 2023 19:45:03 -0800 (PST)
+X-Google-Smtp-Source: AK7set9S0Zgo1VUUNO4c0RSuygwfTkQ6nF1zvDEvehZVgcaasU1bpCVankAX0gV6Pk6hUgGgCyfYMg==
+X-Received: by 2002:a17:902:dac8:b0:196:59a0:bffe with SMTP id
+ q8-20020a170902dac800b0019659a0bffemr6924153plx.17.1675309502701; 
+ Wed, 01 Feb 2023 19:45:02 -0800 (PST)
 Received: from [10.72.14.0] ([209.132.188.80])
  by smtp.gmail.com with ESMTPSA id
- c197-20020a621cce000000b00593a612515dsm8385998pfc.167.2023.02.01.19.41.34
+ d2-20020a170903230200b001931c37da2dsm12551435plh.20.2023.02.01.19.44.59
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Wed, 01 Feb 2023 19:41:37 -0800 (PST)
-Message-ID: <10256cb5-1e76-188c-189d-f8c917571550@redhat.com>
-Date: Thu, 2 Feb 2023 11:41:24 +0800
+ Wed, 01 Feb 2023 19:45:02 -0800 (PST)
+Message-ID: <7c076123-42e2-a041-2b5d-95d1afd82143@redhat.com>
+Date: Thu, 2 Feb 2023 11:44:57 +0800
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
  Gecko/20100101 Thunderbird/102.6.1
 Subject: Re: Emulating device configuration / max_virtqueue_pairs in
  vhost-vdpa and vhost-user
 Content-Language: en-US
-To: Eugenio Perez Martin <eperezma@redhat.com>
-Cc: Maxime Coquelin <maxime.coquelin@redhat.com>,
- Michael Tsirkin <mst@redhat.com>, Cindy Lu <lulu@redhat.com>,
+To: Eugenio Perez Martin <eperezma@redhat.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Maxime Coquelin <maxime.coquelin@redhat.com>, Cindy Lu <lulu@redhat.com>, 
  Stefano Garzarella <sgarzare@redhat.com>, qemu-level
  <qemu-devel@nongnu.org>, Laurent Vivier <lvivier@redhat.com>,
  Juan Quintela <quintela@redhat.com>
 References: <CAJaqyWcU5i=caPbbALnV-GcnWH1bu-KVRj54XauDpUZaEfn4Wg@mail.gmail.com>
- <CAJaqyWfZX2sgoOq+Poa2tQTc2VTRneaUvzozOdDS+7SoMUdNkg@mail.gmail.com>
- <CACGkMEuwVXTf6FQxShu6QL-BJdQLOYE5Xy-RVEcemmWg1WKAGQ@mail.gmail.com>
- <CAJaqyWdxL+9gvjawpFTMg_ut8WpcZErdipAMMCSXYdOTcYK61w@mail.gmail.com>
+ <6684066f-452d-a8b3-58b2-b0db2a3c2015@redhat.com>
+ <20230201061709-mutt-send-email-mst@kernel.org>
+ <CAJaqyWcmxwKSVLY7sDTmYwLdzhVV78XDa5M4FAvmHq4X2Kin8Q@mail.gmail.com>
 From: Jason Wang <jasowang@redhat.com>
-In-Reply-To: <CAJaqyWdxL+9gvjawpFTMg_ut8WpcZErdipAMMCSXYdOTcYK61w@mail.gmail.com>
+In-Reply-To: <CAJaqyWcmxwKSVLY7sDTmYwLdzhVV78XDa5M4FAvmHq4X2Kin8Q@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -110,11 +110,12 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-在 2023/2/1 15:49, Eugenio Perez Martin 写道:
-> On Wed, Feb 1, 2023 at 4:29 AM Jason Wang <jasowang@redhat.com> wrote:
->> On Wed, Feb 1, 2023 at 3:11 AM Eugenio Perez Martin <eperezma@redhat.com> wrote:
->>> On Tue, Jan 31, 2023 at 8:10 PM Eugenio Perez Martin
->>> <eperezma@redhat.com> wrote:
+在 2023/2/1 19:48, Eugenio Perez Martin 写道:
+> On Wed, Feb 1, 2023 at 12:20 PM Michael S. Tsirkin <mst@redhat.com> wrote:
+>> On Wed, Feb 01, 2023 at 12:14:18PM +0100, Maxime Coquelin wrote:
+>>> Thanks Eugenio for working on this.
+>>>
+>>> On 1/31/23 20:10, Eugenio Perez Martin wrote:
 >>>> Hi,
 >>>>
 >>>> The current approach of offering an emulated CVQ to the guest and map
@@ -145,119 +146,53 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 >>>> adjustments here and there.
 >>>>
 >>>> Thoughts?
->>>>
+>>> I am fine with both proposals.
+>>> I think index remapping will require a bit more rework in the DPDK
+>>> Vhost-user library, but nothing insurmountable.
+>>>
+>>> I am currently working on a PoC adding support for VDUSE in the DPDK
+>>> Vhost library, and recently added control queue support. We can reuse it
+>>> if we want to prototype your proposal.
+>>>
+>>> Maxime
+>>>
 >>>> Thanks!
->>>
->>> (Starting a separated thread to vhost-vdpa related use case)
->>>
->>> This could also work for vhost-vdpa if we ever decide to honor netdev
->>> queues argument. It is totally ignored now, as opposed to the rest of
->>> backends:
->>> * vhost-kernel, whose tap device has the requested number of queues.
->>> * vhost-user, that errors with ("you are asking more queues than
->>> supported") if the vhost-user parent device has less queues than
->>> requested (by vhost-user msg VHOST_USER_GET_QUEUE_NUM).
->>>
->>> One of the reasons for this is that device configuration space is
->>> totally passthrough, with the values for mtu, rss conditions, etc.
->>> This is not ideal, as qemu cannot check src and destination
->>> equivalence and they can change under the feets of the guest in the
->>> event of a migration.
->> This looks not the responsibility of qemu but the upper layer (to
->> provision the same config/features in src/dst).
-> I think both share it. Or, at least, that it is inconsistent that QEMU
-> is in charge of checking / providing consistency for virtio features,
-> but not virtio-net config space.
->
-> If we follow that to the extreme, we could simply delete the feature
-> checks, right?
-
-
-Just to make sure we are at the same page.
-
-If you mean deleting the feature checks in Qemu, then I think we can't 
-do that.
-
-What I meant is.
-
-Consider vDPA is provisioned (either netlink or other way) with featureX 
-and configY. It would be sufficient to validate if the emulated device 
-features and configs matches exactly what vDPA device had.
-
-Technically, it should be possible to doing any mediation in the middle 
-but it may cause a lot of troubles in the management and others, consider:
-
-featureX is not provisioned but emulated by Qemu, then it's almost 
-impossible for the management to check the migration compatibility. If 
-feature X can be easily emulated, it should be done in the layer of vDPA 
-parent not Qemu, then it could be recognized by the management.
-
-
->
->>> External tools are needed for this, duplicating
->>> part of the effort.
->>>
->>> Start intercepting config space accesses and offering an emulated one
->>> to the guest with this kind of adjustments is beneficial, as it makes
->>> vhost-vdpa more similar to the rest of backends, making the surprise
->>> on a change way lower.
->> This probably needs more thought, since vDPA already provides a kind
->> of emulation in the kernel. My understanding is that it would be
->> sufficient to add checks to make sure the config that guests see is
->> consistent with what host provisioned?
+>>>>
 >>
-> With host provisioned you mean with "vdpa" tool or with qemu?
-
-
-Make sure the features and config of emulated device provided by Qemu 
-matches the vDPA device provisioned via netlink or other mgmt API.
-
-
-> Also, we
-> need a way to communicate the guest values to it If those checks are
-> added in the kernel.
+>> technically backend knows how many vqs are there, last one is cvq...
+>> not sure we need full blown remapping ...
+>>
+> The number of queues may not be the same between cmdline and the device.
 >
-> The reasoning here is the same as above: QEMU already filters features
-> with its own emulated layer, so the operator can specify a feature
-> that will never appear to the guest.
-
-
-This needs to be done at the time of vDPA device provisioning. Otherwise 
-we will end up with a lot of corner cases. E.g if 8 queue pairs is 
-provisioned, do we allow starting a guest with 4 queue pairs?
-
-
->   It has other uses (abstract
-> between transport for example), but feature filtering is definitely a
-> thing there.
+> If vhost-user device cmdline wants more queues than offered by the
+> device qemu will print an error. But the reverse (to offer the same
+> number of queues or less than the device have) is valid at this
+> moment.
 >
-> A feature set to off in a VM (or that does not exist in that
-> particular qemu version) will never appear as on even in the case of
-> migration to modern qemu versions.
+> If we add cvq with this scheme, cvq index will not be the same between
+> the guest and the device.
 >
-> We don't have the equivalent protection for device config space. QEMU
-> could assure a consistent MTU, number of queues, etc for the guest in
-> virtio_net_get_config (and equivalent for other kinds of devices).
-> QEMU already has some transformations there. It shouldn't take a lot
-> of code.
->
-> Having said that:
-> * I'm ok with starting just with checks there instead of
-> transformations like the queues remap proposed here.
+> vhost-vdpa totally ignores the queues parameter, so we're losing the
+> opportunity to offer a consistent config space in the event of a
+> migration. I suggest we should act the same way as I'm proposing here
+> with vhost-user, so:
+> * QEMU can block the migration in the case the destination cannot
+> offer the same number of queues.
+> * The guest will not see a change of the config space under its feets.
 
 
-I think we need to keep thing easier. Technically, we could do any kind 
-of the mediation/emulation via Qemu, but we need only implement the one 
-that is really needed.
-
-Queue remapping might complicate a lot stuffs like notification area 
-mapping etc.
+As we discussed in the past, it would be easier to fail the device 
+initialization in this case.
 
 Thanks
 
 
-> * If we choose not to implement it, I'm not proposing to actually
-> delete the features checks, as I see them useful :).
+>
+> Now there are other fields in the config space for sure (mtu, rss
+> size, etc), but I think the most complex case is the number of queues
+> because cvq.
+>
+> Is that clearer?
 >
 > Thanks!
 >
