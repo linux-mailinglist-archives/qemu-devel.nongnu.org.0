@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C15E6874BA
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 05:54:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5116874B9
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 05:54:38 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNRam-0004aJ-CL; Wed, 01 Feb 2023 23:53:00 -0500
+	id 1pNRap-0004jJ-Ul; Wed, 01 Feb 2023 23:53:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pNRae-0004TL-Qh
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 23:52:53 -0500
-Received: from mail-pj1-x1036.google.com ([2607:f8b0:4864:20::1036])
+ id 1pNRah-0004Vz-2F
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 23:52:55 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <sunilvl@ventanamicro.com>)
- id 1pNRac-0001CM-OH
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 23:52:52 -0500
-Received: by mail-pj1-x1036.google.com with SMTP id pj3so834985pjb.1
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 20:52:50 -0800 (PST)
+ id 1pNRaf-0001Em-Lc
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 23:52:54 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ ha3-20020a17090af3c300b00230222051a6so711855pjb.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 20:52:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=ventanamicro.com; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=+y+HqzRrl7TJ/ysQrK68jIu5s7bSfbhBZtrr7+F62XE=;
- b=pqxyJ0Nry8FFf22TFbBWY9LpWZvLgCQY7otUTwMQiuhBHGA/magZ/wuoYbs8oWxe1V
- BSOMSiHbyCeVfFMATI624d6goQCpaqekvPZwBOUCZCzmnopZ1yQSRfinY8Khi66UaREI
- WcowntmIgK9LUlPTLZaWL3Jr1FCcCaYw0KZkwl+XyrvtRK3sxSLQaxZd6txFSFhmUJSU
- 2HPM0oxvUaeIpxqB4pU8LPfy3kRvtuYH4zobmR4PsO+HbrcPejp1kAV6xPkpWRJWn4dW
- lwMGkrsOJrsoXjFYnk6vEbEm7u0ma/4XNeyc+PYPjjJ7px0vf8J8Oq4GzdmXhQRI8Re0
- 73pg==
+ bh=nqWGZjBcQvINY4Peoi2bS5ONYkVu6Qdy2fHeFgiLlfU=;
+ b=HVzfsICWONk06qyzuo4jLrKFXAt3Q0EpTOhN2X7MLJNsga0bJG7omtxG8xJc4vmdqD
+ In9ECBv3OmpjS5hqozzL7pc1A8Bv0+ThIT42B+um0YcxbzCj3PXzw84vd7Cr4XGAvuY0
+ RE3+umoQ8n/v2+gj2wXR6Bgmj6wluTstesg1jHc93RxhU1al4whjLlXrphrBFd7v2dRG
+ vEniQap9gi0+fHsN0n1VjP+EA8LELaocoEl5sdSzkkA+/0IpL5k297qcq2ZACUc/5u38
+ 8XMavs6amei8OMSA5gODNpMNx/F0L1+EWINOTx8xPD5dS56Vait/Hkz6rYHl9Wu1OLgJ
+ IEoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=+y+HqzRrl7TJ/ysQrK68jIu5s7bSfbhBZtrr7+F62XE=;
- b=8AyCPh2DlJ2+iVoLVHZtsuo83hmC+9IqrMqSTJB+P5a1jFVN4LRZ43uHRia4MbX+er
- 69CwrQR4dUKN9dbIHyOxTpmuVBzS7AhMcK1k5re5x+Y4l2C/ROflIV7jRLeaADoGUKdz
- N3bGeEatjF7fvwZ/wMuxdH2mHZrYAY18aHLwwG0n/75t0AY5lJNBC4smKBbHmUZeKrRG
- IpR9PvwaP6n92uq96dYUf5wNGde2tDHrIS+W/SXqr0LmEcTxbkTQVjUnMvBdXbNYWsDw
- Ibpmrak9kirpzOTbWHb6dwLS8n5gF/CCxeK/QwI4XlLh3AO9iLbQURGItWM7n5L2nj5C
- nsag==
-X-Gm-Message-State: AO0yUKWLnCz1NimkABmVlqGK3X2Ao+e/usD3+WZr48eQmmIPUj2qUp8v
- wvIbBnzTAse7cEI4YXxCzho05Q==
-X-Google-Smtp-Source: AK7set8EUJ8Ig84w77zRqm+zQfMalfcNsQ/DczaJTFR73EIIaKldiMTzhC2yGPAjtgIIMwP+3sBPdA==
-X-Received: by 2002:a17:902:c702:b0:196:64bf:ed86 with SMTP id
- p2-20020a170902c70200b0019664bfed86mr4456435plp.62.1675313570139; 
- Wed, 01 Feb 2023 20:52:50 -0800 (PST)
+ bh=nqWGZjBcQvINY4Peoi2bS5ONYkVu6Qdy2fHeFgiLlfU=;
+ b=7da6dS4FIwnC3cNwdaFJqlo9COPqRduz7ZiEI5oToWGjRoaLzZA36kgaCfqOcHGX1O
+ pfJMDiOlU8d7KdT8MW/m67GQDDY1Q2SyfO29pjy8eTPkShH7Edy6HCdc6wPK7sbDW+nU
+ YC2JJjvlqGAW6qYCXAv9jFChoV+/ch3tLyfOKDLB9nHDFKlV8L7jQzp+VM2yQLplYOfi
+ s3YsgTaqbytpdKZVU5I18E/LdgxCC46/YqC9UVrQ8Uu3pd6YOuWit8P3eDC6kfuBi0mq
+ fgyrzgNwH9TH1SkiiMM0/+Cery+5G5bAv0gy/QXK1/yQfymIJXr/zdHpi+/CNQXJmEtg
+ vkgg==
+X-Gm-Message-State: AO0yUKXnLNsomcUR4xNpUhaqyW3eou95B5b0fI/Omy6zSouL6g7mqWQ4
+ o8Ucy5ZSCnZCrnPv46edOHUh3g==
+X-Google-Smtp-Source: AK7set8slXyFaxXdVD/8wTD0he7lwiJjPTlPuDORy5poORwsoURlFJvUFRkoJGhK53MFHWJLS1rJJw==
+X-Received: by 2002:a17:903:ca:b0:196:4e75:c933 with SMTP id
+ x10-20020a17090300ca00b001964e75c933mr4284197plc.13.1675313573014; 
+ Wed, 01 Feb 2023 20:52:53 -0800 (PST)
 Received: from localhost.localdomain ([49.206.14.226])
  by smtp.gmail.com with ESMTPSA id
- w10-20020a170902d70a00b001965540395fsm11222265ply.105.2023.02.01.20.52.47
+ w10-20020a170902d70a00b001965540395fsm11222265ply.105.2023.02.01.20.52.50
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 20:52:49 -0800 (PST)
+ Wed, 01 Feb 2023 20:52:52 -0800 (PST)
 From: Sunil V L <sunilvl@ventanamicro.com>
 To: Palmer Dabbelt <palmer@dabbelt.com>,
  Alistair Francis <alistair.francis@wdc.com>,
@@ -64,16 +65,16 @@ Cc: qemu-riscv@nongnu.org, qemu-devel@nongnu.org,
  Anup Patel <apatel@ventanamicro.com>,
  Atish Kumar Patra <atishp@rivosinc.com>,
  Sunil V L <sunilvl@ventanamicro.com>
-Subject: [PATCH 07/10] hw/riscv: meson.build: Build virt-acpi-build.c
-Date: Thu,  2 Feb 2023 10:22:20 +0530
-Message-Id: <20230202045223.2594627-8-sunilvl@ventanamicro.com>
+Subject: [PATCH 08/10] hw/riscv/Kconfig: virt: Enable ACPI config options
+Date: Thu,  2 Feb 2023 10:22:21 +0530
+Message-Id: <20230202045223.2594627-9-sunilvl@ventanamicro.com>
 X-Mailer: git-send-email 2.38.0
 In-Reply-To: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
 References: <20230202045223.2594627-1-sunilvl@ventanamicro.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1036;
- envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x1036.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=sunilvl@ventanamicro.com; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,25 +97,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-ACPI functions are defined in new file virt-acpi-build.c. Enable
-it to be built as part of virt machine if CONFIG_ACPI is set.
+Enable ACPI related config options to build ACPI subsystem
+for virt machine.
 
 Signed-off-by: Sunil V L <sunilvl@ventanamicro.com>
 ---
- hw/riscv/meson.build | 1 +
- 1 file changed, 1 insertion(+)
+ hw/riscv/Kconfig | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/hw/riscv/meson.build b/hw/riscv/meson.build
-index ab6cae57ea..2f7ee81be3 100644
---- a/hw/riscv/meson.build
-+++ b/hw/riscv/meson.build
-@@ -9,5 +9,6 @@ riscv_ss.add(when: 'CONFIG_SIFIVE_E', if_true: files('sifive_e.c'))
- riscv_ss.add(when: 'CONFIG_SIFIVE_U', if_true: files('sifive_u.c'))
- riscv_ss.add(when: 'CONFIG_SPIKE', if_true: files('spike.c'))
- riscv_ss.add(when: 'CONFIG_MICROCHIP_PFSOC', if_true: files('microchip_pfsoc.c'))
-+riscv_ss.add(when: 'CONFIG_ACPI', if_true: files('virt-acpi-build.c'))
+diff --git a/hw/riscv/Kconfig b/hw/riscv/Kconfig
+index 4550b3b938..92b1a9eb64 100644
+--- a/hw/riscv/Kconfig
++++ b/hw/riscv/Kconfig
+@@ -44,6 +44,9 @@ config RISCV_VIRT
+     select VIRTIO_MMIO
+     select FW_CFG_DMA
+     select PLATFORM_BUS
++    select ACPI
++    select ACPI_HW_REDUCED
++    select ACPI_PCI
  
- hw_arch += {'riscv': riscv_ss}
+ config SHAKTI_C
+     bool
 -- 
 2.38.0
 
