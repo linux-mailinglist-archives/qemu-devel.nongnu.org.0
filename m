@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2FD9687580
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 06:49:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE37E687589
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 06:50:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNSPC-00087f-Uz; Thu, 02 Feb 2023 00:45:06 -0500
+	id 1pNSPH-00088P-Qh; Thu, 02 Feb 2023 00:45:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1pNSPB-00087O-N1
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:05 -0500
+ id 1pNSPD-00087m-Dq
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:07 -0500
 Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1pNSP9-0006yM-K2
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:05 -0500
-Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+ id 1pNSPA-00074o-HJ
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:07 -0500
+Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3124i0QR023941; Thu, 2 Feb 2023 05:45:01 GMT
+ 3124iRSA031897; Thu, 2 Feb 2023 05:45:02 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references : mime-version : content-type : content-transfer-encoding;
- s=corp-2022-7-12; bh=TNWwnIlZeZSXe1fgH8hwnwdIngJ5K1drlS8NEG5K90E=;
- b=tVcE2iNrkyLOEfXGZQvmDM72pm1km8T1i6wW0yClqBxuP+2FhdMNSYegVfiblVX+gJSz
- pgVQnK3HFY3UQODM+87bjVUB65AgLjknVVcgr4D+h6TI2LWeNrvNQCQ4MyzKnko+Bgf+
- d9tceNlltVF9QxdsHH0bSVf8KKXgzbbpeXabZ2HcU7q7yIT7pRkoDNo7+0UYfI+VhzUU
- Vb7PGvcbw0oq/mtMnYvBPC/S/5Y9OxoxoFt2s7oVC5XBeTIrYuN/diXRRhBbzcraEbh0
- ZJtinbf5ZPSZWR36/izZlZxpt+N3cRVErakmGQNHd1PBtkS/kJKgAfgmVVN36WrW1njt bw== 
+ s=corp-2022-7-12; bh=T+s/XK1I7Wf5AbjZ24Go7XrPXyU1szXtfterYlAvPQk=;
+ b=LbHg/9e9oYOmkSAN+atemnVvRKLmHT1n2ii+Zaw8xrPYrjOyVbboO85fKxc3jIsxhSiT
+ 8Nw85cKwQCOVUfaLVBb8mPj9F0c0GveNlq09N60Xcbjvf59m2AE3t4Te37mGcVZLNcAN
+ IMxXj5baWCEcCvi3PFPi8YBPuBX3x/MhR3G8R2x3wgUEc5yNff7cWlgWBluomLftKMUh
+ Bxi94lfJqAZFz1kWSavZ1onVEf0FyJuMsx9+IXrq1JPMazkCQzXW0ZiWu8lZbBLJ6FgN
+ za/yhmHrkOGvxkmXCQvKFiMlJaqDYVVasZCeocIOs9TVjCoAVTk9AB4mtMKwUza0fxGb Bw== 
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nfkd1tfd0-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nfk64ag4f-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 02 Feb 2023 05:45:01 +0000
+ Thu, 02 Feb 2023 05:45:02 +0000
 Received: from pps.filterd
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 31254PpZ013015; Thu, 2 Feb 2023 05:44:59 GMT
+ with ESMTP id 31254Ppa013015; Thu, 2 Feb 2023 05:45:00 GMT
 Received: from bruckner.us.oracle.com (dhcp-10-65-133-23.vpn.oracle.com
  [10.65.133.23])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3nct5f5gb1-7
+ 3nct5f5gb1-8
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 02 Feb 2023 05:44:59 +0000
+ Thu, 02 Feb 2023 05:45:00 +0000
 From: John Johnson <john.g.johnson@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: alex.williamson@redhat.com, clg@redhat.com, philmd@linaro.org
-Subject: [PATCH v2 06/23] vfio-user: Define type vfio_user_pci_dev_info
-Date: Wed,  1 Feb 2023 21:55:42 -0800
-Message-Id: <08e29735fca137ca972234727aebd73638fedb41.1675228037.git.john.g.johnson@oracle.com>
+Subject: [PATCH v2 07/23] vfio-user: connect vfio proxy to remote server
+Date: Wed,  1 Feb 2023 21:55:43 -0800
+Message-Id: <c355d0f9364f142d1ca31d86ce0c4d2df53b3d4f.1675228037.git.john.g.johnson@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1675228037.git.john.g.johnson@oracle.com>
 References: <cover.1675228037.git.john.g.johnson@oracle.com>
@@ -68,8 +68,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
  adultscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
  definitions=main-2302020053
-X-Proofpoint-GUID: N9CHbK7IYNVPyUeffmZ2VI-VP5gXBYLR
-X-Proofpoint-ORIG-GUID: N9CHbK7IYNVPyUeffmZ2VI-VP5gXBYLR
+X-Proofpoint-ORIG-GUID: XYmmKeiNNCbolJFnoU8-HMDDtiEXQJq2
+X-Proofpoint-GUID: XYmmKeiNNCbolJFnoU8-HMDDtiEXQJq2
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=john.g.johnson@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -94,105 +94,187 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-New class for vfio-user with its class and instance
-constructors and destructors, and its pci ops.
+add user.c & user.h files for vfio-user code
+add proxy struct to handle comms with remote server
 
-Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/vfio/pci.h       |   7 +++
- hw/vfio/pci.c       |  12 +++---
- hw/vfio/user-pci.c  | 121 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- MAINTAINERS         |   3 ++
- hw/vfio/Kconfig     |  10 +++++
- hw/vfio/meson.build |   1 +
- 6 files changed, 148 insertions(+), 6 deletions(-)
- create mode 100644 hw/vfio/user-pci.c
+ hw/vfio/user.h                |  78 +++++++++++++++++++
+ include/hw/vfio/vfio-common.h |   2 +
+ hw/vfio/user-pci.c            |  19 +++++
+ hw/vfio/user.c                | 170 ++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/meson.build           |   1 +
+ 5 files changed, 270 insertions(+)
+ create mode 100644 hw/vfio/user.h
+ create mode 100644 hw/vfio/user.c
 
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 7fb656c..50a1d07 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -208,6 +208,13 @@ uint32_t vfio_pci_read_config(PCIDevice *pdev, uint32_t addr, int len);
- void vfio_pci_write_config(PCIDevice *pdev,
-                            uint32_t addr, uint32_t val, int len);
- 
-+void vfio_intx_eoi(VFIODevice *vbasedev);
-+Object *vfio_pci_get_object(VFIODevice *vbasedev);
-+void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f);
-+int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f);
-+void vfio_put_device(VFIOPCIDevice *vdev);
-+void vfio_instance_init(Object *obj);
-+
- uint64_t vfio_vga_read(void *opaque, hwaddr addr, unsigned size);
- void vfio_vga_write(void *opaque, hwaddr addr, uint64_t data, unsigned size);
- 
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index c3c2e76..a8bc0ea 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -107,7 +107,7 @@ static void vfio_intx_interrupt(void *opaque)
-     }
- }
- 
--static void vfio_intx_eoi(VFIODevice *vbasedev)
-+void vfio_intx_eoi(VFIODevice *vbasedev)
- {
-     VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
- 
-@@ -2492,7 +2492,7 @@ static void vfio_pci_compute_needs_reset(VFIODevice *vbasedev)
-     }
- }
- 
--static Object *vfio_pci_get_object(VFIODevice *vbasedev)
-+Object *vfio_pci_get_object(VFIODevice *vbasedev)
- {
-     VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
- 
-@@ -2517,14 +2517,14 @@ const VMStateDescription vmstate_vfio_pci_config = {
-     }
- };
- 
--static void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
-+void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f)
- {
-     VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
- 
-     vmstate_save_state(f, &vmstate_vfio_pci_config, vdev, NULL);
- }
- 
--static int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
-+int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f)
- {
-     VFIOPCIDevice *vdev = container_of(vbasedev, VFIOPCIDevice, vbasedev);
-     PCIDevice *pdev = &vdev->pdev;
-@@ -2719,7 +2719,7 @@ static void vfio_populate_device(VFIOPCIDevice *vdev, Error **errp)
-     }
- }
- 
--static void vfio_put_device(VFIOPCIDevice *vdev)
-+void vfio_put_device(VFIOPCIDevice *vdev)
- {
-     g_free(vdev->vbasedev.name);
-     g_free(vdev->msix);
-@@ -3271,7 +3271,7 @@ post_reset:
-     vfio_pci_post_reset(vdev);
- }
- 
--static void vfio_instance_init(Object *obj)
-+void vfio_instance_init(Object *obj)
- {
-     PCIDevice *pci_dev = PCI_DEVICE(obj);
-     VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
-diff --git a/hw/vfio/user-pci.c b/hw/vfio/user-pci.c
+diff --git a/hw/vfio/user.h b/hw/vfio/user.h
 new file mode 100644
-index 0000000..fc47a3e
+index 0000000..ac7d15d
 --- /dev/null
-+++ b/hw/vfio/user-pci.c
-@@ -0,0 +1,121 @@
++++ b/hw/vfio/user.h
+@@ -0,0 +1,78 @@
++#ifndef VFIO_USER_H
++#define VFIO_USER_H
++
 +/*
-+ * vfio PCI device over a UNIX socket.
++ * vfio protocol over a UNIX socket.
++ *
++ * Copyright © 2018, 2021 Oracle and/or its affiliates.
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2.  See
++ * the COPYING file in the top-level directory.
++ *
++ */
++
++typedef struct {
++    int send_fds;
++    int recv_fds;
++    int *fds;
++} VFIOUserFDs;
++
++enum msg_type {
++    VFIO_MSG_NONE,
++    VFIO_MSG_ASYNC,
++    VFIO_MSG_WAIT,
++    VFIO_MSG_NOWAIT,
++    VFIO_MSG_REQ,
++};
++
++typedef struct VFIOUserMsg {
++    QTAILQ_ENTRY(VFIOUserMsg) next;
++    VFIOUserFDs *fds;
++    uint32_t rsize;
++    uint32_t id;
++    QemuCond cv;
++    bool complete;
++    enum msg_type type;
++} VFIOUserMsg;
++
++
++enum proxy_state {
++    VFIO_PROXY_CONNECTED = 1,
++    VFIO_PROXY_ERROR = 2,
++    VFIO_PROXY_CLOSING = 3,
++    VFIO_PROXY_CLOSED = 4,
++};
++
++typedef QTAILQ_HEAD(VFIOUserMsgQ, VFIOUserMsg) VFIOUserMsgQ;
++
++typedef struct VFIOUserProxy {
++    QLIST_ENTRY(VFIOUserProxy) next;
++    char *sockname;
++    struct QIOChannel *ioc;
++    void (*request)(void *opaque, VFIOUserMsg *msg);
++    void *req_arg;
++    int flags;
++    QemuCond close_cv;
++    AioContext *ctx;
++    QEMUBH *req_bh;
++
++    /*
++     * above only changed when BQL is held
++     * below are protected by per-proxy lock
++     */
++    QemuMutex lock;
++    VFIOUserMsgQ free;
++    VFIOUserMsgQ pending;
++    VFIOUserMsgQ incoming;
++    VFIOUserMsgQ outgoing;
++    VFIOUserMsg *last_nowait;
++    enum proxy_state state;
++} VFIOUserProxy;
++
++/* VFIOProxy flags */
++#define VFIO_PROXY_CLIENT        0x1
++
++VFIOUserProxy *vfio_user_connect_dev(SocketAddress *addr, Error **errp);
++void vfio_user_disconnect(VFIOUserProxy *proxy);
++
++#endif /* VFIO_USER_H */
+diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+index c2ff9ea..e1ee0ac 100644
+--- a/include/hw/vfio/vfio-common.h
++++ b/include/hw/vfio/vfio-common.h
+@@ -76,6 +76,7 @@ typedef struct VFIOAddressSpace {
+ 
+ struct VFIOGroup;
+ typedef struct VFIOContainerIO VFIOContainerIO;
++typedef struct VFIOUserProxy VFIOUserProxy;
+ 
+ typedef struct VFIOContainer {
+     VFIOAddressSpace *space;
+@@ -147,6 +148,7 @@ typedef struct VFIODevice {
+     VFIOMigration *migration;
+     Error *migration_blocker;
+     OnOffAuto pre_copy_dirty_page_tracking;
++    VFIOUserProxy *proxy;
+     struct vfio_region_info **regions;
+ } VFIODevice;
+ 
+diff --git a/hw/vfio/user-pci.c b/hw/vfio/user-pci.c
+index fc47a3e..a3fc36d 100644
+--- a/hw/vfio/user-pci.c
++++ b/hw/vfio/user-pci.c
+@@ -32,6 +32,7 @@
+ #include "qapi/error.h"
+ #include "migration/blocker.h"
+ #include "migration/qemu-file.h"
++#include "hw/vfio/user.h"
+ 
+ #define TYPE_VFIO_USER_PCI "vfio-user-pci"
+ OBJECT_DECLARE_SIMPLE_TYPE(VFIOUserPCIDevice, VFIO_USER_PCI)
+@@ -63,6 +64,9 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+     VFIOUserPCIDevice *udev = VFIO_USER_PCI(pdev);
+     VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
+     VFIODevice *vbasedev = &vdev->vbasedev;
++    SocketAddress addr;
++    VFIOUserProxy *proxy;
++    Error *err = NULL;
+ 
+     /*
+      * TODO: make option parser understand SocketAddress
+@@ -75,6 +79,16 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+         return;
+     }
+ 
++    memset(&addr, 0, sizeof(addr));
++    addr.type = SOCKET_ADDRESS_TYPE_UNIX;
++    addr.u.q_unix.path = udev->sock_name;
++    proxy = vfio_user_connect_dev(&addr, &err);
++    if (!proxy) {
++        error_propagate(errp, err);
++        return;
++    }
++    vbasedev->proxy = proxy;
++
+     vbasedev->name = g_strdup_printf("VFIO user <%s>", udev->sock_name);
+     vbasedev->ops = &vfio_user_pci_ops;
+     vbasedev->type = VFIO_DEVICE_TYPE_PCI;
+@@ -85,8 +99,13 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+ static void vfio_user_instance_finalize(Object *obj)
+ {
+     VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
++    VFIODevice *vbasedev = &vdev->vbasedev;
+ 
+     vfio_put_device(vdev);
++
++    if (vbasedev->proxy != NULL) {
++        vfio_user_disconnect(vbasedev->proxy);
++    }
+ }
+ 
+ static Property vfio_user_pci_dev_properties[] = {
+diff --git a/hw/vfio/user.c b/hw/vfio/user.c
+new file mode 100644
+index 0000000..3d4b0cc
+--- /dev/null
++++ b/hw/vfio/user.c
+@@ -0,0 +1,170 @@
++/*
++ * vfio protocol over a UNIX socket.
 + *
 + * Copyright © 2018, 2021 Oracle and/or its affiliates.
 + *
@@ -205,169 +287,174 @@ index 0000000..fc47a3e
 +#include <linux/vfio.h>
 +#include <sys/ioctl.h>
 +
-+#include "hw/hw.h"
-+#include "hw/pci/msi.h"
-+#include "hw/pci/msix.h"
-+#include "hw/pci/pci_bridge.h"
-+#include "hw/qdev-properties.h"
-+#include "hw/qdev-properties-system.h"
-+#include "migration/vmstate.h"
-+#include "qapi/qmp/qdict.h"
 +#include "qemu/error-report.h"
-+#include "qemu/main-loop.h"
-+#include "qemu/module.h"
-+#include "qemu/range.h"
-+#include "qemu/units.h"
-+#include "sysemu/kvm.h"
-+#include "sysemu/runstate.h"
-+#include "pci.h"
-+#include "trace.h"
 +#include "qapi/error.h"
-+#include "migration/blocker.h"
-+#include "migration/qemu-file.h"
++#include "qemu/main-loop.h"
++#include "hw/hw.h"
++#include "hw/vfio/vfio-common.h"
++#include "hw/vfio/vfio.h"
++#include "qemu/sockets.h"
++#include "io/channel.h"
++#include "io/channel-socket.h"
++#include "io/channel-util.h"
++#include "sysemu/iothread.h"
++#include "user.h"
 +
-+#define TYPE_VFIO_USER_PCI "vfio-user-pci"
-+OBJECT_DECLARE_SIMPLE_TYPE(VFIOUserPCIDevice, VFIO_USER_PCI)
++static IOThread *vfio_user_iothread;
 +
-+struct VFIOUserPCIDevice {
-+    VFIOPCIDevice device;
-+    char *sock_name;
-+};
++static void vfio_user_shutdown(VFIOUserProxy *proxy);
++
 +
 +/*
-+ * Emulated devices don't use host hot reset
++ * Functions called by main, CPU, or iothread threads
 + */
-+static void vfio_user_compute_needs_reset(VFIODevice *vbasedev)
++
++static void vfio_user_shutdown(VFIOUserProxy *proxy)
 +{
-+    vbasedev->needs_reset = false;
++    qio_channel_shutdown(proxy->ioc, QIO_CHANNEL_SHUTDOWN_READ, NULL);
++    qio_channel_set_aio_fd_handler(proxy->ioc, proxy->ctx, NULL, NULL, NULL);
 +}
 +
-+static VFIODeviceOps vfio_user_pci_ops = {
-+    .vfio_compute_needs_reset = vfio_user_compute_needs_reset,
-+    .vfio_eoi = vfio_intx_eoi,
-+    .vfio_get_object = vfio_pci_get_object,
-+    .vfio_save_config = vfio_pci_save_config,
-+    .vfio_load_config = vfio_pci_load_config,
-+};
++/*
++ * Functions only called by iothread
++ */
 +
-+static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
++static void vfio_user_cb(void *opaque)
 +{
-+    ERRP_GUARD();
-+    VFIOUserPCIDevice *udev = VFIO_USER_PCI(pdev);
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-+    VFIODevice *vbasedev = &vdev->vbasedev;
++    VFIOUserProxy *proxy = opaque;
 +
-+    /*
-+     * TODO: make option parser understand SocketAddress
-+     * and use that instead of having scalar options
-+     * for each socket type.
-+     */
-+    if (!udev->sock_name) {
-+        error_setg(errp, "No socket specified");
-+        error_append_hint(errp, "Use -device vfio-user-pci,socket=<name>\n");
-+        return;
++    QEMU_LOCK_GUARD(&proxy->lock);
++
++    proxy->state = VFIO_PROXY_CLOSED;
++    qemu_cond_signal(&proxy->close_cv);
++}
++
++
++/*
++ * Functions called by main or CPU threads
++ */
++
++static QLIST_HEAD(, VFIOUserProxy) vfio_user_sockets =
++    QLIST_HEAD_INITIALIZER(vfio_user_sockets);
++
++VFIOUserProxy *vfio_user_connect_dev(SocketAddress *addr, Error **errp)
++{
++    VFIOUserProxy *proxy;
++    QIOChannelSocket *sioc;
++    QIOChannel *ioc;
++    char *sockname;
++
++    if (addr->type != SOCKET_ADDRESS_TYPE_UNIX) {
++        error_setg(errp, "vfio_user_connect - bad address family");
++        return NULL;
++    }
++    sockname = addr->u.q_unix.path;
++
++    sioc = qio_channel_socket_new();
++    ioc = QIO_CHANNEL(sioc);
++    if (qio_channel_socket_connect_sync(sioc, addr, errp)) {
++        object_unref(OBJECT(ioc));
++        return NULL;
++    }
++    qio_channel_set_blocking(ioc, false, NULL);
++
++    proxy = g_malloc0(sizeof(VFIOUserProxy));
++    proxy->sockname = g_strdup_printf("unix:%s", sockname);
++    proxy->ioc = ioc;
++    proxy->flags = VFIO_PROXY_CLIENT;
++    proxy->state = VFIO_PROXY_CONNECTED;
++
++    qemu_mutex_init(&proxy->lock);
++    qemu_cond_init(&proxy->close_cv);
++
++    if (vfio_user_iothread == NULL) {
++        vfio_user_iothread = iothread_create("VFIO user", errp);
 +    }
 +
-+    vbasedev->name = g_strdup_printf("VFIO user <%s>", udev->sock_name);
-+    vbasedev->ops = &vfio_user_pci_ops;
-+    vbasedev->type = VFIO_DEVICE_TYPE_PCI;
-+    vbasedev->dev = DEVICE(vdev);
++    proxy->ctx = iothread_get_aio_context(vfio_user_iothread);
 +
++    QTAILQ_INIT(&proxy->outgoing);
++    QTAILQ_INIT(&proxy->incoming);
++    QTAILQ_INIT(&proxy->free);
++    QTAILQ_INIT(&proxy->pending);
++    QLIST_INSERT_HEAD(&vfio_user_sockets, proxy, next);
++
++    return proxy;
 +}
 +
-+static void vfio_user_instance_finalize(Object *obj)
++void vfio_user_disconnect(VFIOUserProxy *proxy)
 +{
-+    VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
++    VFIOUserMsg *r1, *r2;
 +
-+    vfio_put_device(vdev);
++    qemu_mutex_lock(&proxy->lock);
++
++    /* our side is quitting */
++    if (proxy->state == VFIO_PROXY_CONNECTED) {
++        vfio_user_shutdown(proxy);
++        if (!QTAILQ_EMPTY(&proxy->pending)) {
++            error_printf("vfio_user_disconnect: outstanding requests\n");
++        }
++    }
++    object_unref(OBJECT(proxy->ioc));
++    proxy->ioc = NULL;
++
++    proxy->state = VFIO_PROXY_CLOSING;
++    QTAILQ_FOREACH_SAFE(r1, &proxy->outgoing, next, r2) {
++        qemu_cond_destroy(&r1->cv);
++        QTAILQ_REMOVE(&proxy->pending, r1, next);
++        g_free(r1);
++    }
++    QTAILQ_FOREACH_SAFE(r1, &proxy->incoming, next, r2) {
++        qemu_cond_destroy(&r1->cv);
++        QTAILQ_REMOVE(&proxy->incoming, r1, next);
++        g_free(r1);
++    }
++    QTAILQ_FOREACH_SAFE(r1, &proxy->pending, next, r2) {
++        qemu_cond_destroy(&r1->cv);
++        QTAILQ_REMOVE(&proxy->pending, r1, next);
++        g_free(r1);
++    }
++    QTAILQ_FOREACH_SAFE(r1, &proxy->free, next, r2) {
++        qemu_cond_destroy(&r1->cv);
++        QTAILQ_REMOVE(&proxy->free, r1, next);
++        g_free(r1);
++    }
++
++    /*
++     * Make sure the iothread isn't blocking anywhere
++     * with a ref to this proxy by waiting for a BH
++     * handler to run after the proxy fd handlers were
++     * deleted above.
++     */
++    aio_bh_schedule_oneshot(proxy->ctx, vfio_user_cb, proxy);
++    qemu_cond_wait(&proxy->close_cv, &proxy->lock);
++
++    /* we now hold the only ref to proxy */
++    qemu_mutex_unlock(&proxy->lock);
++    qemu_cond_destroy(&proxy->close_cv);
++    qemu_mutex_destroy(&proxy->lock);
++
++    QLIST_REMOVE(proxy, next);
++    if (QLIST_EMPTY(&vfio_user_sockets)) {
++        iothread_destroy(vfio_user_iothread);
++        vfio_user_iothread = NULL;
++    }
++
++    g_free(proxy->sockname);
++    g_free(proxy);
 +}
-+
-+static Property vfio_user_pci_dev_properties[] = {
-+    DEFINE_PROP_STRING("socket", VFIOUserPCIDevice, sock_name),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
-+static void vfio_user_pci_dev_class_init(ObjectClass *klass, void *data)
-+{
-+    DeviceClass *dc = DEVICE_CLASS(klass);
-+    PCIDeviceClass *pdc = PCI_DEVICE_CLASS(klass);
-+
-+    device_class_set_props(dc, vfio_user_pci_dev_properties);
-+    dc->desc = "VFIO over socket PCI device assignment";
-+    pdc->realize = vfio_user_pci_realize;
-+}
-+
-+static const TypeInfo vfio_user_pci_dev_info = {
-+    .name = TYPE_VFIO_USER_PCI,
-+    .parent = TYPE_VFIO_PCI_BASE,
-+    .instance_size = sizeof(VFIOUserPCIDevice),
-+    .class_init = vfio_user_pci_dev_class_init,
-+    .instance_init = vfio_instance_init,
-+    .instance_finalize = vfio_user_instance_finalize,
-+};
-+
-+static void register_vfio_user_dev_type(void)
-+{
-+    type_register_static(&vfio_user_pci_dev_info);
-+}
-+
-+type_init(register_vfio_user_dev_type)
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 999340d..28fce0e 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1987,8 +1987,11 @@ L: qemu-s390x@nongnu.org
- vfio-user
- M: John G Johnson <john.g.johnson@oracle.com>
- M: Thanos Makatos <thanos.makatos@nutanix.com>
-+M: Elena Ufimtseva <elena.ufimtseva@oracle.com>
-+M: Jagannathan Raman <jag.raman@oracle.com>
- S: Supported
- F: docs/devel/vfio-user.rst
-+F: hw/vfio/user*
- 
- vhost
- M: Michael S. Tsirkin <mst@redhat.com>
-diff --git a/hw/vfio/Kconfig b/hw/vfio/Kconfig
-index 7cdba05..301894e 100644
---- a/hw/vfio/Kconfig
-+++ b/hw/vfio/Kconfig
-@@ -2,6 +2,10 @@ config VFIO
-     bool
-     depends on LINUX
- 
-+config VFIO_USER
-+    bool
-+    depends on VFIO
-+
- config VFIO_PCI
-     bool
-     default y
-@@ -9,6 +13,12 @@ config VFIO_PCI
-     select EDID
-     depends on LINUX && PCI
- 
-+config VFIO_USER_PCI
-+    bool
-+    default y
-+    select VFIO_USER
-+    depends on VFIO_PCI
-+
- config VFIO_CCW
-     bool
-     default y
 diff --git a/hw/vfio/meson.build b/hw/vfio/meson.build
-index da9af29..731c3c6 100644
+index 731c3c6..f24a47d 100644
 --- a/hw/vfio/meson.build
 +++ b/hw/vfio/meson.build
 @@ -9,6 +9,7 @@ vfio_ss.add(when: 'CONFIG_VFIO_PCI', if_true: files(
    'pci-quirks.c',
    'pci.c',
  ))
-+vfio_ss.add(when: 'CONFIG_VFIO_USER_PCI', if_true: files('user-pci.c'))
++vfio_ss.add(when: 'CONFIG_VFIO_USER', if_true: files('user.c'))
+ vfio_ss.add(when: 'CONFIG_VFIO_USER_PCI', if_true: files('user-pci.c'))
  vfio_ss.add(when: 'CONFIG_VFIO_CCW', if_true: files('ccw.c'))
  vfio_ss.add(when: 'CONFIG_VFIO_PLATFORM', if_true: files('platform.c'))
- vfio_ss.add(when: 'CONFIG_VFIO_XGMAC', if_true: files('calxeda-xgmac.c'))
 -- 
 1.9.4
 
