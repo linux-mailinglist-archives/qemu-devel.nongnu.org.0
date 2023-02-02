@@ -2,95 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9EB2687A88
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:45:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79927687ACA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:48:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNX4t-00028l-5j; Thu, 02 Feb 2023 05:44:27 -0500
+	id 1pNX7v-0003SV-8l; Thu, 02 Feb 2023 05:47:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pNX4r-00028V-4o
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:44:25 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <thuth@redhat.com>) id 1pNX4p-0006xi-D5
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:44:24 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675334662;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=zk689njywsUoTOAdolT0FFFPb72OxAcJiOLt6/D1p1Y=;
- b=VtjgfRa+dmBZtqaeHFEBkn3W/JMwl1JBzykiPvlcN9ERe+2iSpAfDgpvYXQ7aNBad5oeda
- OYUOFVfIE/0I0hqAwsX5joqZITFQ1co9e2Q3ED/r5qLStlW9+0shIIoQ4Okhpo0otOUgX9
- 2HICbmDVoL8LjJOwypoSB0dc8oTz0yk=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-614-nNLXoFqEMH6s3o1e8beciQ-1; Thu, 02 Feb 2023 05:44:13 -0500
-X-MC-Unique: nNLXoFqEMH6s3o1e8beciQ-1
-Received: by mail-qk1-f197.google.com with SMTP id
- s7-20020ae9f707000000b007294677a6e8so1057759qkg.17
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 02:44:13 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNX7t-0003Oe-7y
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:47:33 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNX7r-00018m-JG
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:47:32 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ d4-20020a05600c3ac400b003db1de2aef0so1034717wms.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 02:47:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=96JTL4ELoG6kng7ICt+rcqu62Cj0G32jechBwlNDVvc=;
+ b=tSmhyx4HRWiiwEr7VZv1zI/k4TZK8kAORNCi27if6GEfZcW2S4p/cxFZsxKT6sH4Kx
+ LlA/IEGQ/vSTdfrlnZiRNVv/t09ZWyPVKnHd99yVvwcloGpMyGsXZWudXeWWs4rw3aV8
+ tlqmSGNc4sJIgYM22oujX4i12tlxJIz5zg40fXi7cZswdl3VoVPGDbxoY0l6pPZzd9uH
+ IdCNpH89ByZGTxkJuO2y7D7VCv+FTs8p9mZNL3yxiDD/fpjvzKUZmQj2liS4WE5IvdRg
+ TMOpmvw2cNxv4FjUQS9eWpyrFBYw6Z2P9iqtbaHPMRjhSBkVCWxyWmU5LnUiHydO5ALh
+ qmxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:subject:from:references:cc:to
- :content-language:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:in-reply-to:from:cc:references:to
+ :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=zk689njywsUoTOAdolT0FFFPb72OxAcJiOLt6/D1p1Y=;
- b=lCOdz4Eg5TvCK47dU98IeYTmT1lnd2sO+UHTX+69wuHudDY27ZCy+ZUCasrRGg0vMd
- kgkEzZRlovjwxg2bI/LeR7TSNp9tX5iUWed9mE+FwmrcVBpIvrgJdw7mPMAsXSGP3CsM
- oixfSHSQqRWXiiZvO86cDu4ou6gQNWEJoWhtZ/qbkO8Y2hqOfqHNOJ1RgyzEiU52lXnA
- 0n6Z5Nfw8T4zY/bq+Zun25bsCsY9yPWX/1ElwRnD79iiHLiAoShet+Ca9sofRpz4U82T
- DTq2VrGErS28q4tX6zjRZ3+1f7tnhbpVLiQ7bQxdiRDqgs4DXzOlTAG1hRLTBuQqf/eZ
- W85Q==
-X-Gm-Message-State: AO0yUKV0hJdsn9W4cTfPUNVpd7vRTe01b1GliWGu1A2jbORs4DabivDc
- yRAZU7GsCHvd3wuxD2/6L3Xyv5h6HUwfF/mU8BK38DHaP0WEz6m6WVEqXQmnIckqyGf/NvzBSx5
- 2S5bOOJCN6mTQthg=
-X-Received: by 2002:ac8:5dce:0:b0:3b8:6043:daf8 with SMTP id
- e14-20020ac85dce000000b003b86043daf8mr10801141qtx.47.1675334653106; 
- Thu, 02 Feb 2023 02:44:13 -0800 (PST)
-X-Google-Smtp-Source: AK7set8xkxlLPup3tabY+V7Eq+5TTe5ay44NvoGI6jckJeZL6u8e/vKinxcibffe2Q4BFy26U/9Rrg==
-X-Received: by 2002:ac8:5dce:0:b0:3b8:6043:daf8 with SMTP id
- e14-20020ac85dce000000b003b86043daf8mr10801121qtx.47.1675334652853; 
- Thu, 02 Feb 2023 02:44:12 -0800 (PST)
-Received: from [192.168.0.2] (ip-109-43-177-146.web.vodafone.de.
- [109.43.177.146]) by smtp.gmail.com with ESMTPSA id
- 137-20020a37088f000000b0071aacb2c76asm10849689qki.132.2023.02.02.02.44.08
+ bh=96JTL4ELoG6kng7ICt+rcqu62Cj0G32jechBwlNDVvc=;
+ b=SfBfa7ppIoNGsc8DSGscmY4zRQgPSDtzcAsyTY3zbbWy5sbafFQsgvIqFxm/Z2uugv
+ FS2HRU2LKSOVW48qxOuNsOyuLFxltwCR2LejkVEWZpiA/ggqcC5dFN4+RtYxKXJcldeD
+ R6AS/n2LRfZOijuK1Wdb3tyC+Epq8kI5Nt1+NoY467jCDvx1XD+1gBB5Szb1gORGkOGz
+ 8rEnwleOQL94T/p2rPNjqp4LWs5KAkfJcLw1yr2knvkvbKvMH58Rk7UimFYBH3iAa+D0
+ NWpLRuZ4rrSo9cU8h7VzZDhtWtoqnIxWqfhyi9tZzjRU1TXAmP1yE8g78IJ+PDtgWuYm
+ x49w==
+X-Gm-Message-State: AO0yUKXXMiGhNgRnUGhmWyXK9U1GdfrdEMsSS0Ms3BeEX1y85d9K1ho0
+ VTT5eNIdB07f5TqutKgZF3cfSg==
+X-Google-Smtp-Source: AK7set9Z5y66F3sDt5jVOdN4pfcLOgtNHuAD3nqoAwUFOCbzu2cjff11R4gxwHpWIRHq1cY32z9Xsw==
+X-Received: by 2002:a05:600c:1f09:b0:3dc:24fc:ef6f with SMTP id
+ bd9-20020a05600c1f0900b003dc24fcef6fmr5539655wmb.40.1675334849458; 
+ Thu, 02 Feb 2023 02:47:29 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ m4-20020a05600c4f4400b003dc36981727sm5021503wmq.14.2023.02.02.02.47.28
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Feb 2023 02:44:12 -0800 (PST)
-Message-ID: <8f5980bd-bbc3-ba78-cf1e-60afb26fb887@redhat.com>
-Date: Thu, 2 Feb 2023 11:44:07 +0100
+ Thu, 02 Feb 2023 02:47:29 -0800 (PST)
+Message-ID: <7592c27c-0c98-d52c-fecc-ac2b261ecbb3@linaro.org>
+Date: Thu, 2 Feb 2023 11:47:28 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:91.0) Gecko/20100101
- Thunderbird/91.13.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PULL 08/34] hw/arm/virt: Let the virtio-iommu bypass MSIs
 Content-Language: en-US
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, cohuck@redhat.com,
- mst@redhat.com, pbonzini@redhat.com, kvm@vger.kernel.org,
- ehabkost@redhat.com, marcel.apfelbaum@gmail.com, eblake@redhat.com,
- armbru@redhat.com, seiden@linux.ibm.com, nrb@linux.ibm.com,
- nsg@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-2-pmorel@linux.ibm.com>
-From: Thomas Huth <thuth@redhat.com>
-Subject: Re: [PATCH v15 01/11] s390x/cpu topology: adding s390 specificities
- to CPU topology
-In-Reply-To: <20230201132051.126868-2-pmorel@linux.ibm.com>
+To: Eric Auger <eric.auger@redhat.com>
+References: <20200703165405.17672-1-peter.maydell@linaro.org>
+ <20200703165405.17672-9-peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20200703165405.17672-9-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=thuth@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -106,24 +91,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 01/02/2023 14.20, Pierre Morel wrote:
-> S390 adds two new SMP levels, drawers and books to the CPU
-> topology.
-> The S390 CPU have specific toplogy features like dedication
+Hi Eric,
 
-Nit: s/toplogy/topology/
-
-> and polarity to give to the guest indications on the host
-> vCPUs scheduling and help the guest take the best decisions
-> on the scheduling of threads on the vCPUs.
+On 3/7/20 17:53, Peter Maydell wrote:
+> From: Eric Auger <eric.auger@redhat.com>
 > 
-> Let us provide the SMP properties with books and drawers levels
-> and S390 CPU with dedication and polarity,
+> At the moment the virtio-iommu translates MSI transactions.
+> This behavior is inherited from ARM SMMU. The virt machine
+> code knows where the guest MSI doorbells are so we can easily
+> declare those regions as VIRTIO_IOMMU_RESV_MEM_T_MSI. With that
+> setting the guest will not map MSIs through the IOMMU and those
+> transactions will be simply bypassed.
 > 
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
+> Depending on which MSI controller is in use (ITS or GICV2M),
+> we declare either:
+> - the ITS interrupt translation space (ITS_base + 0x10000),
+>    containing the GITS_TRANSLATOR or
+> - The GICV2M single frame, containing the MSI_SETSP_NS register.
+> 
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Message-id: 20200629070404.10969-6-eric.auger@redhat.com
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 > ---
+>   include/hw/arm/virt.h |  7 +++++++
+>   hw/arm/virt.c         | 30 ++++++++++++++++++++++++++++++
+>   2 files changed, 37 insertions(+)
 
-Apart from the nit:
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 
+>   static void create_gic(VirtMachineState *vms)
+> @@ -2198,8 +2200,36 @@ out:
+>   static void virt_machine_device_pre_plug_cb(HotplugHandler *hotplug_dev,
+>                                               DeviceState *dev, Error **errp)
+>   {
+> +    VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
+> +
+>       if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
+>           virt_memory_pre_plug(hotplug_dev, dev, errp);
+> +    } else if (object_dynamic_cast(OBJECT(dev), TYPE_VIRTIO_IOMMU_PCI)) {
+> +        hwaddr db_start = 0, db_end = 0;
+> +        char *resv_prop_str;
+> +
+> +        switch (vms->msi_controller) {
+> +        case VIRT_MSI_CTRL_NONE:
+> +            return;
+> +        case VIRT_MSI_CTRL_ITS:
+> +            /* GITS_TRANSLATER page */
+> +            db_start = base_memmap[VIRT_GIC_ITS].base + 0x10000;
+> +            db_end = base_memmap[VIRT_GIC_ITS].base +
+> +                     base_memmap[VIRT_GIC_ITS].size - 1;
+> +            break;
+> +        case VIRT_MSI_CTRL_GICV2M:
+> +            /* MSI_SETSPI_NS page */
+> +            db_start = base_memmap[VIRT_GIC_V2M].base;
+> +            db_end = db_start + base_memmap[VIRT_GIC_V2M].size - 1;
+> +            break;
+> +        }
+> +        resv_prop_str = g_strdup_printf("0x%"PRIx64":0x%"PRIx64":%u",
+> +                                        db_start, db_end,
+> +                                        VIRTIO_IOMMU_RESV_MEM_T_MSI);
+> +
+> +        qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
+
+Where is "len-reserved-regions" declared?
+
+Since qdev_prop_set_uint32() uses &error_abort, isn't this call
+aborting the process? I am confused how this code path is exercised,
+what am I missing?
+
+> +        qdev_prop_set_string(dev, "reserved-regions[0]", resv_prop_str);
+> +        g_free(resv_prop_str);
+>       }
+>   }
+>   
 
