@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A84A687B7B
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 12:06:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12039687B86
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 12:08:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNXPq-0007Ue-Nj; Thu, 02 Feb 2023 06:06:07 -0500
+	id 1pNXRW-0000t2-SR; Thu, 02 Feb 2023 06:07:51 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pNXPP-000718-Sl
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:05:43 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNXQq-0000nq-87
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:07:18 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <imammedo@redhat.com>)
- id 1pNXPN-0000M2-Tk
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:05:39 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNXQo-0000hw-Fh
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:07:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675335936;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=WSJLlntzHAf5l/EwtE5jrU3k01QMxDZ8rbwqcVUkPfM=;
- b=LE8A48cgJkd3bhLwlopemBb4tYEuPvSIko4g/R00astR9DDU9pZG1+eZp6SLBfU5yMAjpA
- Elqkmuxs5/ygChuqzcwW6RAkEHLRlu4JCICKEoTRoRcFVKdQHdLV0CklYdqHPQTDScKCcf
- e54X0WFzRx5rZXk466pi9wXrvJ/QGN8=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1675336025;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=0hlAwLolgYXBxOgW/0V2gyZWptyHDHr9uh45aanugzU=;
+ b=JWJBzWXaACzlet8W/USEBdPHyUx9OTZ7XZ3ZJcSPC1WW1rMwlR4Wh23MEUkdmQB3D8TUSK
+ gilGRYBDcdKbzMZW5q0shaVAmc7o5fQiHKPqZRF38X5/VjRYL1fj2zPa78IpzVKd04rcms
+ IpvNEFthPuzn+KPPU9U2J8Wx7fMWUFg=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-137-sATlGQB0NeaSa99K1Q17fA-1; Thu, 02 Feb 2023 06:05:35 -0500
-X-MC-Unique: sATlGQB0NeaSa99K1Q17fA-1
-Received: by mail-ej1-f70.google.com with SMTP id
- 21-20020a170906225500b0088b953a6df6so1306601ejr.20
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 03:05:35 -0800 (PST)
+ us-mta-475-PA0rLSDQMtKYMP6t4av-CQ-1; Thu, 02 Feb 2023 06:07:04 -0500
+X-MC-Unique: PA0rLSDQMtKYMP6t4av-CQ-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ e38-20020a05600c4ba600b003dc434dabbdso2640836wmp.6
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 03:07:04 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WSJLlntzHAf5l/EwtE5jrU3k01QMxDZ8rbwqcVUkPfM=;
- b=QwwjKd+oN9yksDkDXL2XLH76nWZT4Psi4R920spvx9n3t+HdIw7xX2CEOQ+6Vw+FoT
- LJ4TlYYO6ajEf4SyDPp0Z5NFf+w19JymU9eV1YKU0R+LlZif+ERQyGb8aFF6afJT0j6/
- OodZQdsMNd41NNa2wHCrvlRo7fapoTI3cFwejnb1/jnvZIsb8bg+MBCh07Y5ljyR6oZq
- VxnJeyYlen3boFCsElek24pQy2hIm7uK/Ky4W867+XXHtZK+78PN7780WOCmZHE+soxY
- uDFnjoHN6nxKk7LDPRxoacw+viK+H/t4UHtTNF815iAAldBJ4yozAMe7rwI2hpne63zL
- uB/w==
-X-Gm-Message-State: AO0yUKUQH1eo1ZAG6EtLuyaHbk4aFh1AZ8xU82q/eyhkzDAZfB7iDbfJ
- bTSo7NjlPSC6eo86nGPYgEUi2yYEgFly8Qw+0GB7n9DbY6FyMottbClmWdt+NjPlBD3HnEwrWS6
- 2sB51+uIoaK0nsRg=
-X-Received: by 2002:aa7:cf13:0:b0:4a2:44d3:6d84 with SMTP id
- a19-20020aa7cf13000000b004a244d36d84mr5834830edy.5.1675335934680; 
- Thu, 02 Feb 2023 03:05:34 -0800 (PST)
-X-Google-Smtp-Source: AK7set+n5yQ0e0I73jeoJza4oaosjEacFmVOYLzbkQLdpfB0vHl6H3SSwBybBCFTJOXXLsqNd4mRXA==
-X-Received: by 2002:aa7:cf13:0:b0:4a2:44d3:6d84 with SMTP id
- a19-20020aa7cf13000000b004a244d36d84mr5834821edy.5.1675335934489; 
- Thu, 02 Feb 2023 03:05:34 -0800 (PST)
-Received: from imammedo.users.ipa.redhat.com (nat-pool-brq-t.redhat.com.
- [213.175.37.10]) by smtp.gmail.com with ESMTPSA id
- l3-20020aa7c3c3000000b004a22ed9030csm7562513edr.56.2023.02.02.03.05.33
+ bh=0hlAwLolgYXBxOgW/0V2gyZWptyHDHr9uh45aanugzU=;
+ b=nqmxxmsGydV/Azm8dt3IkVqyH0xjhN36Oxj7kJyMitA8vaUdwjQJ4MLVlfFXKQ3Q9i
+ u6n5K7XQSK5FVNTaqkEpfXrMaysTbobLTz+1A9zj8BM8b8FQrTPSqNLZZnDA2dG/yFkG
+ N5UqoAXS4NQf6+0ZGnKsrSg+fJP/e2+OfI5CRSgDxKkCpSK9ARlAKXa5pYe8C2lGCNNS
+ NZZ1hGj/3fi0dUKXA2/6gBKu6EcHlEorPSlahSCJq6Uc6lCnJezlqSC2lZJ5c/PnKu2p
+ SVDPYDnbC7QfRqz99Wh2oOmLBjV70NazHCYn4Y7DrjHiZ9k9hBssjimJ4BvRaWe6hSG7
+ xZTg==
+X-Gm-Message-State: AO0yUKWFxUccYfNr5+o2zegT6zA5EyHqchLPEGKylOYEU1mT+77X6Fel
+ 1BCGRlbFE6/oMUi/xOlngHjTdtofxYyNoxHPjhMpjObn/+eh42pcrAKkqCqnYWAeSkmxb5vCU19
+ vvFxRCjh1kFaQKZM=
+X-Received: by 2002:a05:600c:1c81:b0:3dc:5987:fe9 with SMTP id
+ k1-20020a05600c1c8100b003dc59870fe9mr5390447wms.2.1675336023140; 
+ Thu, 02 Feb 2023 03:07:03 -0800 (PST)
+X-Google-Smtp-Source: AK7set8TNK/3qzY4QWMAWBGIgBT5ZD1xNVmY5Ng92nzIU3bqltKHbYUMf4VOTBcSmJS9XaDbgfvv9A==
+X-Received: by 2002:a05:600c:1c81:b0:3dc:5987:fe9 with SMTP id
+ k1-20020a05600c1c8100b003dc59870fe9mr5390425wms.2.1675336022915; 
+ Thu, 02 Feb 2023 03:07:02 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ f20-20020a05600c43d400b003daf681d05dsm4247515wmn.26.2023.02.02.03.07.02
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Feb 2023 03:05:33 -0800 (PST)
-Date: Thu, 2 Feb 2023 12:05:33 +0100
-From: Igor Mammedov <imammedo@redhat.com>
-To: Lei Wang <lei4.wang@intel.com>
-Cc: pbonzini@redhat.com, qemu-devel@nongnu.org, dgilbert@redhat.com,
- berrange@redhat.com, xiaoyao.li@intel.com, yang.zhong@linux.intel.com
-Subject: Re: [PATCH v3 0/6] Support for new CPU model SapphireRapids
-Message-ID: <20230202120533.37972585@imammedo.users.ipa.redhat.com>
-In-Reply-To: <20230106083826.5384-1-lei4.wang@intel.com>
-References: <20230106083826.5384-1-lei4.wang@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.36; x86_64-redhat-linux-gnu)
+ Thu, 02 Feb 2023 03:07:02 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Chuang Xu <xuchuangxclwt@bytedance.com>
+Cc: qemu-devel@nongnu.org,  dgilbert@redhat.com,  pbonzini@redhat.com,
+ peterx@redhat.com,  david@redhat.com,  philmd@linaro.org,
+ zhouyibo@bytedance.com
+Subject: Re: [RFC v5 0/3] migration: reduce time of loading non-iterable
+ vmstate
+In-Reply-To: <20230117115511.3215273-1-xuchuangxclwt@bytedance.com> (Chuang
+ Xu's message of "Tue, 17 Jan 2023 19:55:08 +0800")
+References: <20230117115511.3215273-1-xuchuangxclwt@bytedance.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 02 Feb 2023 12:07:01 +0100
+Message-ID: <87a61ws4ve.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=imammedo@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -97,76 +97,143 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri,  6 Jan 2023 00:38:20 -0800
-Lei Wang <lei4.wang@intel.com> wrote:
+Chuang Xu <xuchuangxclwt@bytedance.com> wrote:
+> In this version:
+>
+> - rename rcu_read_locked() to rcu_read_is_locked().
+> - adjust the sanity check in address_space_to_flatview().
+> - improve some comments.
+>
+> The duration of loading non-iterable vmstate accounts for a significant
+> portion of downtime (starting with the timestamp of source qemu stop and
+> ending with the timestamp of target qemu start). Most of the time is spent
+> committing memory region changes repeatedly.
+>
+> This patch packs all the changes to memory region during the period of	
+> loading non-iterable vmstate in a single memory transaction. With the
+> increase of devices, this patch will greatly improve the performance.
+>
+> Here are the test1 results:
+> test info:
+> - Host
+>   - Intel(R) Xeon(R) Platinum 8260 CPU
+>   - NVIDIA Mellanox ConnectX-5
+> - VM
+>   - 32 CPUs 128GB RAM VM
+>   - 8 16-queue vhost-net device
+>   - 16 4-queue vhost-user-blk device.
+>
+> 	time of loading non-iterable vmstate     downtime
+> before		about 150 ms			  740+ ms
+> after		about 30 ms			  630+ ms
+>
+> (This result is different from that of v1. It may be that someone has 
+> changed something on my host.., but it does not affect the display of 
+> the optimization effect.)
+>
+>
+> In test2, we keep the number of the device the same as test1, reduce the 
+> number of queues per device:
+>
+> Here are the test2 results:
+> test info:
+> - Host
+>   - Intel(R) Xeon(R) Platinum 8260 CPU
+>   - NVIDIA Mellanox ConnectX-5
+> - VM
+>   - 32 CPUs 128GB RAM VM
+>   - 8 1-queue vhost-net device
+>   - 16 1-queue vhost-user-blk device.
+>
+> 	time of loading non-iterable vmstate     downtime
+> before		about 90 ms			 about 250 ms
+>
+> after		about 25 ms			 about 160 ms
+>
+>
+>
+> In test3, we keep the number of queues per device the same as test1, reduce 
+> the number of devices:
+>
+> Here are the test3 results:
+> test info:
+> - Host
+>   - Intel(R) Xeon(R) Platinum 8260 CPU
+>   - NVIDIA Mellanox ConnectX-5
+> - VM
+>   - 32 CPUs 128GB RAM VM
+>   - 1 16-queue vhost-net device
+>   - 1 4-queue vhost-user-blk device.
+>
+> 	time of loading non-iterable vmstate     downtime
+> before		about 20 ms			 about 70 ms
+> after		about 11 ms			 about 60 ms
+>
+>
+> As we can see from the test results above, both the number of queues and 
+> the number of devices have a great impact on the time of loading non-iterable 
+> vmstate. The growth of the number of devices and queues will lead to more 
+> mr commits, and the time consumption caused by the flatview reconstruction 
+> will also increase.
+>
+> Please review, Chuang.
 
-> This series aims to add a new CPU model SapphireRapids, and tries to
-> address the problem stated in
-> https://lore.kernel.org/all/20220812055751.14553-1-lei4.wang@intel.com/T/#mcf67dbd1ad37c65d7988c36a2b267be9afd2fb30,
-> so that named CPU model can define its own AMX values, and QEMU won't
-> pass the wrong AMX values to KVM in future platforms if they have
-> different values supported.
-> 
-> The original patch is
-> https://lore.kernel.org/all/20220812055751.14553-1-lei4.wang@intel.com/T/#u.
+Hi
 
-MultiBitFeatureInfo looks like an interesting
-idea but among fixing whatever issues this has atm,
-you'd probably need to introduce a new  qdev_bitfield property
-infrastructure so that such features could be treated like any
-other qdev properties.
-Also when MultiBitFeatureInfo is added, one should convert all
-other usecases where it's applicable (not only for new code)
-so that we would end up with consolidated approach instead of
-zoo mess.
+As on the review, I aggree with the patches, but I am waiting for Paolo
+to review the rcu change (that I think that it is trivial, but I am not
+the rcu maintainer).
 
-I'm not sure all MultiBitFeatureInfo complexity is necessary
-just for adding a new CPU model, I'd rather use ad hoc approach
-that we were using before for non boolean features.
+If it happens that you need to send another version, I think that you
+can change the RFC for PATCH.
 
-And then try to develop MultiBitFeatureInfo & co as a separate
-series to demonstrate how much it will improve current
-cpu models definitions.
+Again, very good job.
 
-PS:
- 'make check-acceptance' are broken with this
+Later, Juan.
 
-> ---
-> 
-> Changelog:
-> 
-> v3:
->  - Rebase on the latest QEMU (d1852caab131ea898134fdcea8c14bc2ee75fbe9).
->  - v2: https://lore.kernel.org/qemu-devel/20221102085256.81139-1-lei4.wang@intel.com/
-> 
-> v2:
->  - Fix when passing all zeros of AMX-related CPUID, QEMU will warn
->    unsupported.
->  - Remove unnecessary function definition and make code cleaner.
->  - Fix some typos.
->  - v1: https://lore.kernel.org/qemu-devel/20221027020036.373140-1-lei4.wang@intel.com/T/#t
-> 
-> 
-> Lei Wang (6):
->   i386: Introduce FeatureWordInfo for AMX CPUID leaf 0x1D and 0x1E
->   i386: Remove unused parameter "uint32_t bit" in
->     feature_word_description()
->   i386: Introduce new struct "MultiBitFeatureInfo" for multi-bit
->     features
->   i386: Mask and report unavailable multi-bit feature values
->   i386: Initialize AMX CPUID leaves with corresponding env->features[]
->     leaves
->   i386: Add new CPU model SapphireRapids
-> 
->  target/i386/cpu-internal.h |  11 ++
->  target/i386/cpu.c          | 311 +++++++++++++++++++++++++++++++++++--
->  target/i386/cpu.h          |  16 ++
->  3 files changed, 322 insertions(+), 16 deletions(-)
-> 
-> 
-> base-commit: d1852caab131ea898134fdcea8c14bc2ee75fbe9
+
+> [v4]
+>
+> - attach more information in the cover letter.
+> - remove changes on virtio_load.
+> - add rcu_read_locked() to detect holding of rcu lock.
+>
+> [v3]
+>
+> - move virtio_load_check_delay() from virtio_memory_listener_commit() to 
+>   virtio_vmstate_change().
+> - add delay_check flag to VirtIODevice to make sure virtio_load_check_delay() 
+>   will be called when delay_check is true.
+>
+> [v2]
+>
+> - rebase to latest upstream.
+> - add sanity check to address_space_to_flatview().
+> - postpone the init of the vring cache until migration's loading completes. 
+>
+> [v1]
+>
+> The duration of loading non-iterable vmstate accounts for a significant
+> portion of downtime (starting with the timestamp of source qemu stop and
+> ending with the timestamp of target qemu start). Most of the time is spent
+> committing memory region changes repeatedly.
+>
+> This patch packs all the changes to memory region during the period of
+> loading non-iterable vmstate in a single memory transaction. With the
+> increase of devices, this patch will greatly improve the performance.
+>
+> Here are the test results:
+> test vm info:
+> - 32 CPUs 128GB RAM
+> - 8 16-queue vhost-net device
+> - 16 4-queue vhost-user-blk device.
+>
+> 	time of loading non-iterable vmstate
+> before		about 210 ms
+> after		about 40 ms
 
 
