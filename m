@@ -2,78 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2CD687BC6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 12:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E45F687C05
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 12:16:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNXV6-0004Yb-Jv; Thu, 02 Feb 2023 06:11:32 -0500
+	id 1pNXZ8-000677-4X; Thu, 02 Feb 2023 06:15:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pNXV0-0004RR-4r
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:11:28 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNXZ4-00066g-5o
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:15:38 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mst@redhat.com>) id 1pNXUu-00022A-OK
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:11:24 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNXYz-0003Dr-OS
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:15:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675336279;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=jgXOPo4A9Htaj/+foy0ZD+KO6C8dRYaIw4VwkQT2EWA=;
- b=VXRtATTSomCpbArAUbvRWvfDWjAJ03MbHss5xXZScDEaXy4Ouzfo7ea4Rd21UF6APXnekn
- s+m8Swefkd4MA4Oi/NfpwkZwyizdk+QhzyI3E3/zfa6SLE+N6Yt1ZaeXySLHxoYV9UqPMV
- hYeMSUaE5s1PBDh2O1tyKHzXIqHH6KU=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ s=mimecast20190719; t=1675336532;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=ReTuxHOjDXJuiUcGntF4s5tQdyDsPdHzkyx9T7YQgQI=;
+ b=HuJOUKQ4t6/yvAyq7dyKdkQNRgRlac1+6mWHQnKhsvcFHx1RRUFC42I93gAngd1hYfl3iD
+ Cm9iZbTsx3D7ahVksj7AwZmONuGFzIIKm0FPdxFQPEvi8H6b8NJ7aVi7GlNEBHTGtvxOmj
+ gXyuqf6i0xRBXHlGr7nOF4vGMpH9PtU=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-478-FwUkpZqcP3KiN_6OKMhuAA-1; Thu, 02 Feb 2023 06:11:17 -0500
-X-MC-Unique: FwUkpZqcP3KiN_6OKMhuAA-1
-Received: by mail-wm1-f70.google.com with SMTP id
- o31-20020a05600c511f00b003dc53da325dso2641454wms.8
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 03:11:17 -0800 (PST)
+ us-mta-451-jIQJZJiROju2I2b-EI7xqw-1; Thu, 02 Feb 2023 06:15:31 -0500
+X-MC-Unique: jIQJZJiROju2I2b-EI7xqw-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ ay19-20020a05600c1e1300b003dc54daba42so825250wmb.7
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 03:15:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=jgXOPo4A9Htaj/+foy0ZD+KO6C8dRYaIw4VwkQT2EWA=;
- b=fOzEc+s3+dxKNuO2XMoJJJb1tyubu1F2FqTNpg9t+UopzPs4mb630raZmcWLVXb+/m
- AgZstv8qSNahnIQxTWhAySYeE6X6/dSascaPZKmVybZk6TLu2FDNwvxtEQmM5QXmzhaq
- jJamJeBBj8qaWl3D/5d7pm9Lt/SQbFcWPNm7xvznM0jXgnDOcDUgD6YL/CnXGAJXU6nO
- 0yXFvhxrekNmeyQB6RkBzRJ14RjRraRZnAOt13CmIdQdjNHOzDZqR1XYoucSd8cglOvJ
- J4gkpRGHpJaGb4ioMEnNc199LVrOVs+tSz1zmDrFHjv4tf3vfqZ8vRHcc6XM4EgTk3wp
- hQfg==
-X-Gm-Message-State: AO0yUKUIX7d7hjcKKJVu3MPxF86EzB0oAi29tdQqcYBC8LvFoYUz5Ugt
- ChETH9QfuXu4KueM/SGBswJVJ6qV4HX2jsEf1VxcpTYpQE7OKcbf7Wsr0DFyiX6IiIPh8mgY/vR
- yzv4G4HCGqQD0uXg=
-X-Received: by 2002:a05:600c:600c:b0:3db:1afd:ac36 with SMTP id
- az12-20020a05600c600c00b003db1afdac36mr5909929wmb.32.1675336276682; 
- Thu, 02 Feb 2023 03:11:16 -0800 (PST)
-X-Google-Smtp-Source: AK7set+pKVCF/PNM3eaK1SxkiNKutvOd4oL9LaqSLHrRLyGnx651t8oDLGI4h4NU+9barDa2sVSYZw==
-X-Received: by 2002:a05:600c:600c:b0:3db:1afd:ac36 with SMTP id
- az12-20020a05600c600c00b003db1afdac36mr5909910wmb.32.1675336276471; 
- Thu, 02 Feb 2023 03:11:16 -0800 (PST)
-Received: from redhat.com ([2a02:14f:1fc:826d:55d8:70a4:3d30:fc2f])
- by smtp.gmail.com with ESMTPSA id
- r9-20020a05600c158900b003dc4ecfc4d7sm4181629wmf.29.2023.02.02.03.11.13
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=ReTuxHOjDXJuiUcGntF4s5tQdyDsPdHzkyx9T7YQgQI=;
+ b=8IDLEQ0TUPkDB9tEcYwjP4XDZ/tvpvsWBp8HEF3RAot80vuErBFQy6gQ00WO+CkNo4
+ en6stEKfG3yjlNWsP6F+zUT/eT4V53KS0ko5/zJAv6nKiYM9LU4tzqjXUSeU4qQN/KFu
+ 01flgPpWKjV7WG3kPFDdG2mEMyh5LMXrTgXiR8lY+QbT2BnLWtKkJ9YYNbykdrzoOxHd
+ UM/fnD823P0eLLZRdJP0UojHEyuEsSES2V1lXItb/0Y5k6u3i3b5dombR0almEnl0ubi
+ oe491OraufKABl68cdqjLEzTCiMF9lj8HKZjWg1TOJYptamHHcvky46KtziQfJszs1g6
+ A8Kg==
+X-Gm-Message-State: AO0yUKWalmXcGKcd6VVJOOZL4ePKiZXyOcnmcy3e4VsybTrqhnVM2C8a
+ NcI84rs+UfjH1Ae3DouxB/+JjFOeDgB2myjQOCYFwqMFkPvOGC/FW7mi55PorHJNjh3/UZze5An
+ znytd33VxWmFc4FA=
+X-Received: by 2002:a05:6000:3c6:b0:2bf:e46d:387d with SMTP id
+ b6-20020a05600003c600b002bfe46d387dmr5862936wrg.53.1675336530473; 
+ Thu, 02 Feb 2023 03:15:30 -0800 (PST)
+X-Google-Smtp-Source: AK7set+9mBYvL4A/TU23pI5RPyRkxP9EePBHQYpfRLTK3TCAg6yRbbrNxMpZTIHnZev+iFc82PO0WQ==
+X-Received: by 2002:a05:6000:3c6:b0:2bf:e46d:387d with SMTP id
+ b6-20020a05600003c600b002bfe46d387dmr5862912wrg.53.1675336530230; 
+ Thu, 02 Feb 2023 03:15:30 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ l15-20020a5d6d8f000000b002bfb37497a8sm20435626wrs.31.2023.02.02.03.15.29
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Feb 2023 03:11:15 -0800 (PST)
-Date: Thu, 2 Feb 2023 06:11:11 -0500
-From: "Michael S. Tsirkin" <mst@redhat.com>
+ Thu, 02 Feb 2023 03:15:29 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
 To: David Hildenbrand <david@redhat.com>
-Cc: qemu-devel@nongnu.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>, Peter Xu <peterx@redhat.com>,
- Michal Privoznik <mprivozn@redhat.com>
-Subject: Re: [PATCH v5 0/8] virtio-mem: Handle preallocation with migration
-Message-ID: <20230202061102-mutt-send-email-mst@kernel.org>
-References: <20230117112249.244096-1-david@redhat.com>
+Cc: qemu-devel@nongnu.org,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Peter Xu <peterx@redhat.com>,  Andrey Gruzdev
+ <andrey.gruzdev@virtuozzo.com>,  qemu-stable@nongnu.org
+Subject: Re: [PATCH v1 1/5] migration/ram: Fix populate_read_range()
+In-Reply-To: <20230105124528.93813-2-david@redhat.com> (David Hildenbrand's
+ message of "Thu, 5 Jan 2023 13:45:24 +0100")
+References: <20230105124528.93813-1-david@redhat.com>
+ <20230105124528.93813-2-david@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 02 Feb 2023 12:15:28 +0100
+Message-ID: <87wn50qpwv.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230117112249.244096-1-david@redhat.com>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=mst@redhat.com;
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -94,98 +97,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, Jan 17, 2023 at 12:22:41PM +0100, David Hildenbrand wrote:
-> While playing with migration of virtio-mem with an ordinary file backing,
-> I realized that migration and prealloc doesn't currently work as expected
-> for virtio-mem. Further, Jing Qi reported that setup issues (insufficient
-> huge pages on the destination) result in QEMU getting killed with SIGBUS
-> instead of failing gracefully.
-> 
-> In contrast to ordinary memory backend preallocation, virtio-mem
-> preallocates memory before plugging blocks to the guest. Consequently,
-> when migrating we are not actually preallocating on the destination but
-> "only" migrate pages. Fix that be migrating the bitmap early, before any
-> RAM content, and use that information to preallocate memory early, before
-> migrating any RAM.
-> 
-> Postcopy needs some extra care, and I realized that prealloc+postcopy is
-> shaky in general. Let's at least try to mimic what ordinary
-> prealloc+postcopy does: temporarily allocate the memory, discard it, and
-> cross fingers that we'll still have sufficient memory when postcopy
-> actually tries placing pages.
-> 
-> Cc: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Cc: Juan Quintela <quintela@redhat.com>
-> Cc: Peter Xu <peterx@redhat.com>
-> Cc: Michael S. Tsirkin <mst@redhat.com>
-> Cc: Michal Privoznik <mprivozn@redhat.com>
+David Hildenbrand <david@redhat.com> wrote:
+> Unfortunately, commit f7b9dcfbcf44 broke populate_read_range(): the loop
+> end condition is very wrong, resulting in that function not populating the
+> full range. Lets' fix that.
+>
+> Fixes: f7b9dcfbcf44 ("migration/ram: Factor out populating pages readable in ram_block_populate_pages()")
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: David Hildenbrand <david@redhat.com>
 
-
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-
-> v4 -> v5:
-> - "migration/savevm: Move more savevm handling into vmstate_save()"
-> -- Extended patch description regarding tracing
-> - "migration/savevm: Prepare vmdesc json writer in
->    qemu_savevm_state_setup()"
-> -- Move freeing to migrate_fd_cleanup()
-> - "migration/savevm: Allow immutable device state to be migrated early (i.e.,
->     before RAM)"
-> -- "immutable" -> "early_setup"
-> -- Extend comment
-> - Added some RBs (thanks!)
-> 
-> v3 -> v4:
-> - First 3 patches:
-> -- Minimze code changes and simplify
-> -- Save immutable device state during qemu_savevm_state_setup()
-> -- Don't use vmsd priorities, use a new flag
-> -- Split it logically up
-> - "migration/ram: Factor out check for advised postcopy"
-> -- Don't factor out postcopy_is_running()
-> - "virtio-mem: Migrate immutable properties early"
-> -- Adjust to changed vmsd interface
-> - "virtio-mem: Proper support for preallocation with migration"
-> -- Drop sanity check in virtio_mem_post_load_early()
-> 
-> v2 -> v3:
-> - New approach/rewrite, drop RB and TB of last patch
-> 
-> v1 -> v2:
-> - Added RBs and Tested-bys
-> - "virtio-mem: Fail if a memory backend with "prealloc=on" is specified"
-> -- Fail instead of warn
-> -- Adjust subject/description
-> 
-> 
-> David Hildenbrand (8):
->   migration/savevm: Move more savevm handling into vmstate_save()
->   migration/savevm: Prepare vmdesc json writer in
->     qemu_savevm_state_setup()
->   migration/savevm: Allow immutable device state to be migrated early
->     (i.e., before RAM)
->   migration/vmstate: Introduce VMSTATE_WITH_TMP_TEST() and
->     VMSTATE_BITMAP_TEST()
->   migration/ram: Factor out check for advised postcopy
->   virtio-mem: Fail if a memory backend with "prealloc=on" is specified
->   virtio-mem: Migrate immutable properties early
->   virtio-mem: Proper support for preallocation with migration
-> 
->  hw/core/machine.c              |   4 +-
->  hw/virtio/virtio-mem.c         | 144 ++++++++++++++++++++++++++++++++-
->  include/hw/virtio/virtio-mem.h |   8 ++
->  include/migration/misc.h       |   4 +-
->  include/migration/vmstate.h    |  28 ++++++-
->  migration/migration.c          |   9 +++
->  migration/migration.h          |   4 +
->  migration/ram.c                |   8 +-
->  migration/savevm.c             | 105 +++++++++++++-----------
->  9 files changed, 255 insertions(+), 59 deletions(-)
-> 
-> -- 
-> 2.39.0
+Reviewed-by: Juan Quintela <quintela@redhat.com>
 
 
