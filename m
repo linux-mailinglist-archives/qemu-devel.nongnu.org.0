@@ -2,93 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7B8A688241
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 16:29:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB32E68831C
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 16:53:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNbWJ-0000Yl-V6; Thu, 02 Feb 2023 10:29:03 -0500
+	id 1pNbsl-0007Vh-Hh; Thu, 02 Feb 2023 10:52:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pNbWG-0000Xg-2Q
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 10:29:00 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pNbsW-0007Sr-54; Thu, 02 Feb 2023 10:52:00 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
- id 1pNbWC-000626-EE
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 10:28:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675351732;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=GC5rbXuc9//14O0H48a/dMQ9WZqoUsGq8vOfj+BlrgQ=;
- b=IvzEqJKOW2GlLpj5sUwgc1/OdK+Tc8Krx8w26d1xIKpXldhrH25CSCWC4mfBCV3j7nlv1t
- mBX5Cvoif6wXmnHurU0fOuOk/ikXrfUNlESA2JCy4RcMhYBTET7tEziu0oJBdqzQ5QaQxK
- c41QAjfdXVK0sbu4NEuBqsUgFDa5NjQ=
-Received: from mail-yb1-f198.google.com (mail-yb1-f198.google.com
- [209.85.219.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-527-xl4hcwuSOvG8BIwT4R0n5A-1; Thu, 02 Feb 2023 10:28:51 -0500
-X-MC-Unique: xl4hcwuSOvG8BIwT4R0n5A-1
-Received: by mail-yb1-f198.google.com with SMTP id
- o131-20020a25d789000000b00859dddecf8eso1856906ybg.17
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 07:28:51 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=GC5rbXuc9//14O0H48a/dMQ9WZqoUsGq8vOfj+BlrgQ=;
- b=ZZyNwl1ZeuXKqfbRhG/R2FJGCaPKUhkjxI0zzLD7K8Itx+yOWLtBLRiLgjL/3HDtqO
- F4x44kdrGj2FFOE4ClluDLl5Pe1/BD79Zdm3HB+3S2KuUs5hp61G9vLGHeXqY3yFyOf4
- VddlmuuHn9CjOZQxZyRhqjDy2piStIMjtSiZKr3AXLb/beIF9csoS8IdbVxEqLT5+0VZ
- XitSLoq0Q632PLSmbKXTDR2qz680AhRmRZjUKOPQ0gOvEUwidYdNz114KhhJiG5www08
- CKX3sZneccpzhrCAPTAcdDEKlYzUszWACtqZdKr03Fjw/R5f4hmqZkNlXbTGQMHUkmSO
- P3NA==
-X-Gm-Message-State: AO0yUKUlUpY9aG/+0tQNJJSOB7rjilGSXQ5aubrMt8Ju2nUXyPQbgEnt
- jUo4QUJpMWhLgLSTrrEEOJZ/yRAxxXGRzeNYQL1/W4cdv3oIrr0C524X1XUojHDTHr0SIkHeb3i
- UvFaOB6+AT2N5bpSCYe2KllxWnJqKbIw=
-X-Received: by 2002:a81:ae0d:0:b0:4e0:8133:2a5a with SMTP id
- m13-20020a81ae0d000000b004e081332a5amr786986ywh.187.1675351730596; 
- Thu, 02 Feb 2023 07:28:50 -0800 (PST)
-X-Google-Smtp-Source: AK7set/LAYoRGyGbVcnLdXZt4lz7F2XrbNKF4z4PxsMmwcZNCAYr9mVhsqU2R6Vd3IWjzmR7SM/2BM/k8rZuyOsG2xc=
-X-Received: by 2002:a81:ae0d:0:b0:4e0:8133:2a5a with SMTP id
- m13-20020a81ae0d000000b004e081332a5amr786968ywh.187.1675351730303; Thu, 02
- Feb 2023 07:28:50 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pNbsT-0007fQ-Va; Thu, 02 Feb 2023 10:51:59 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.206])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P73Cp1HRwz6J9gG;
+ Thu,  2 Feb 2023 23:50:46 +0800 (CST)
+Received: from localhost (10.81.211.68) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 2 Feb
+ 2023 15:51:51 +0000
+Date: Thu, 2 Feb 2023 15:51:49 +0000
+To: Markus Armbruster <armbru@redhat.com>
+CC: <qemu-devel@nongnu.org>, <richard.henderson@linaro.org>,
+ <pbonzini@redhat.com>, <kwolf@redhat.com>, <hreitz@redhat.com>,
+ <imp@bsdimp.com>, <kevans@freebsd.org>, <berrange@redhat.com>,
+ <groug@kaod.org>, <qemu_oss@crudebyte.com>, <mst@redhat.com>,
+ <philmd@linaro.org>, <peter.maydell@linaro.org>, <alistair@alistair23.me>,
+ <jasowang@redhat.com>, <kbastian@mail.uni-paderborn.de>,
+ <quintela@redhat.com>, <dgilbert@redhat.com>, <michael.roth@amd.com>,
+ <kkostiuk@redhat.com>, <tsimpson@quicinc.com>, <palmer@dabbelt.com>,
+ <bin.meng@windriver.com>, <qemu-block@nongnu.org>, <qemu-arm@nongnu.org>,
+ <qemu-riscv@nongnu.org>
+Subject: Re: [PATCH v6 07/20] hw/cxl: Clean up includes
+Message-ID: <20230202155149.00002c8a@Huawei.com>
+In-Reply-To: <20230202133830.2152150-8-armbru@redhat.com>
+References: <20230202133830.2152150-1-armbru@redhat.com>
+ <20230202133830.2152150-8-armbru@redhat.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-References: <20230112172434.760850-1-eperezma@redhat.com>
- <20230112172434.760850-12-eperezma@redhat.com>
- <d434e204-6847-f34f-258a-9ae1cf6328ce@oracle.com>
-In-Reply-To: <d434e204-6847-f34f-258a-9ae1cf6328ce@oracle.com>
-From: Eugenio Perez Martin <eperezma@redhat.com>
-Date: Thu, 2 Feb 2023 16:28:13 +0100
-Message-ID: <CAJaqyWf5mNxjeAskVjLTFu08LpPxiHffhrtknKB75aUAEayEcQ@mail.gmail.com>
-Subject: Re: [RFC v2 11/13] vdpa: add vdpa net migration state notifier
-To: Si-Wei Liu <si-wei.liu@oracle.com>
-Cc: qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>, 
- Zhu Lingshan <lingshan.zhu@intel.com>,
- "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
- alvaro.karsz@solid-run.com, Shannon Nelson <snelson@pensando.io>, 
- Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
- Gautam Dawar <gdawar@xilinx.com>, 
- Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
- Cindy Lu <lulu@redhat.com>, 
- Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>, 
- "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
- Stefan Hajnoczi <stefanha@redhat.com>, Parav Pandit <parav@mellanox.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eperezma@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.81.211.68]
+X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -102,244 +69,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 2, 2023 at 2:53 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
->
->
->
-> On 1/12/2023 9:24 AM, Eugenio P=C3=A9rez wrote:
-> > This allows net to restart the device backend to configure SVQ on it.
-> >
-> > Ideally, these changes should not be net specific. However, the vdpa ne=
-t
-> > backend is the one with enough knowledge to configure everything becaus=
-e
-> > of some reasons:
-> > * Queues might need to be shadowed or not depending on its kind (contro=
-l
-> >    vs data).
-> > * Queues need to share the same map translations (iova tree).
-> >
-> > Because of that it is cleaner to restart the whole net backend and
-> > configure again as expected, similar to how vhost-kernel moves between
-> > userspace and passthrough.
-> >
-> > If more kinds of devices need dynamic switching to SVQ we can create a
-> > callback struct like VhostOps and move most of the code there.
-> > VhostOps cannot be reused since all vdpa backend share them, and to
-> > personalize just for networking would be too heavy.
-> >
-> > Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
-> > ---
-> >   net/vhost-vdpa.c | 84 +++++++++++++++++++++++++++++++++++++++++++++++=
-+
-> >   1 file changed, 84 insertions(+)
-> >
-> > diff --git a/net/vhost-vdpa.c b/net/vhost-vdpa.c
-> > index 5d7ad6e4d7..f38532b1df 100644
-> > --- a/net/vhost-vdpa.c
-> > +++ b/net/vhost-vdpa.c
-> > @@ -26,6 +26,8 @@
-> >   #include <err.h>
-> >   #include "standard-headers/linux/virtio_net.h"
-> >   #include "monitor/monitor.h"
-> > +#include "migration/migration.h"
-> > +#include "migration/misc.h"
-> >   #include "migration/blocker.h"
-> >   #include "hw/virtio/vhost.h"
-> >
-> > @@ -33,6 +35,7 @@
-> >   typedef struct VhostVDPAState {
-> >       NetClientState nc;
-> >       struct vhost_vdpa vhost_vdpa;
-> > +    Notifier migration_state;
-> >       Error *migration_blocker;
-> >       VHostNetState *vhost_net;
-> >
-> > @@ -243,10 +246,86 @@ static VhostVDPAState *vhost_vdpa_net_first_nc_vd=
-pa(VhostVDPAState *s)
-> >       return DO_UPCAST(VhostVDPAState, nc, nc0);
-> >   }
-> >
-> > +static void vhost_vdpa_net_log_global_enable(VhostVDPAState *s, bool e=
-nable)
-> > +{
-> > +    struct vhost_vdpa *v =3D &s->vhost_vdpa;
-> > +    VirtIONet *n;
-> > +    VirtIODevice *vdev;
-> > +    int data_queue_pairs, cvq, r;
-> > +    NetClientState *peer;
-> > +
-> > +    /* We are only called on the first data vqs and only if x-svq is n=
-ot set */
-> > +    if (s->vhost_vdpa.shadow_vqs_enabled =3D=3D enable) {
-> > +        return;
-> > +    }
-> > +
-> > +    vdev =3D v->dev->vdev;
-> > +    n =3D VIRTIO_NET(vdev);
-> > +    if (!n->vhost_started) {
-> > +        return;
-> > +    }
-> > +
-> > +    if (enable) {
-> > +        ioctl(v->device_fd, VHOST_VDPA_SUSPEND);
-> > +    }
-> > +    data_queue_pairs =3D n->multiqueue ? n->max_queue_pairs : 1;
-> > +    cvq =3D virtio_vdev_has_feature(vdev, VIRTIO_NET_F_CTRL_VQ) ?
-> > +                                  n->max_ncs - n->max_queue_pairs : 0;
-> > +    vhost_net_stop(vdev, n->nic->ncs, data_queue_pairs, cvq);
-> > +
-> > +    peer =3D s->nc.peer;
-> > +    for (int i =3D 0; i < data_queue_pairs + cvq; i++) {
-> > +        VhostVDPAState *vdpa_state;
-> > +        NetClientState *nc;
-> > +
-> > +        if (i < data_queue_pairs) {
-> > +            nc =3D qemu_get_peer(peer, i);
-> > +        } else {
-> > +            nc =3D qemu_get_peer(peer, n->max_queue_pairs);
-> > +        }
-> > +
-> > +        vdpa_state =3D DO_UPCAST(VhostVDPAState, nc, nc);
-> > +        vdpa_state->vhost_vdpa.shadow_data =3D enable;
-> > +
-> > +        if (i < data_queue_pairs) {
-> > +            /* Do not override CVQ shadow_vqs_enabled */
-> > +            vdpa_state->vhost_vdpa.shadow_vqs_enabled =3D enable;
-> > +        }
-> > +    }
-> > +
-> > +    r =3D vhost_net_start(vdev, n->nic->ncs, data_queue_pairs, cvq);
-> As the first revision, this method (vhost_net_stop followed by
-> vhost_net_start) should be fine for software vhost-vdpa backend for e.g.
-> vp_vdpa and vdpa_sim_net. However, I would like to get your attention
-> that this method implies substantial blackout time for mode switching on
-> real hardware - get a full cycle of device reset of getting memory
-> mappings torn down, unpin & repin same set of pages, and set up new
-> mapping would take very significant amount of time, especially for a
-> large VM. Maybe we can do:
->
+On Thu,  2 Feb 2023 14:38:17 +0100
+Markus Armbruster <armbru@redhat.com> wrote:
 
-Right, I think this is something that deserves optimization in the future.
+> This commit was created with scripts/clean-includes.
+> 
+> All .c should include qemu/osdep.h first.  The script performs three
+> related cleanups:
+> 
+> * Ensure .c files include qemu/osdep.h first.
+> * Including it in a .h is redundant, since the .c  already includes
+>   it.  Drop such inclusions.
+> * Likewise, including headers qemu/osdep.h includes is redundant.
+>   Drop these, too.
+> 
+> Signed-off-by: Markus Armbruster <armbru@redhat.com>
+> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 
-Note that we must replace the mappings anyway, with all passthrough
-queues stopped. This is because SVQ vrings are not in the guest space.
-The pin can be skipped though, I think that's a low hand fruit here.
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
-If any, we can track guest's IOVA and add SVQ vrings in a hole. If
-guest's IOVA layout changes, we can translate it then to a new
-location. That way we only need one map operation in the worst case.
-I'm omitting the lookup time here, but I still should be worth it.
-
-But as you mention I think it is not worth complicating this series
-and we can think about it on top. We can start building it on top of
-your suggestions for sure.
-
-> 1) replace reset with the RESUME feature that was just added to the
-> vhost-vdpa ioctls in kernel
-
-We cannot change vring addresses just with a SUSPEND / RESUME.
-
-We could do it with the VIRTIO_F_RING_RESET feature though. Would it
-be advantageous to the device?
-
-> 2) add new vdpa ioctls to allow iova range rebound to new virtual
-> address for QEMU's shadow vq or back to device's vq
-
-Actually, if the device supports ASID we can allocate ASID 1 to that
-purpose. At this moment only CVQ vrings and control buffers are there
-when the device is passthrough.
-
-But this doesn't solve the problem if we need to send all SVQ
-translation to the device on-chip IOMMU, doesn't it? We must clear all
-of it and send the new one to the device anyway.
-
-> 3) use a light-weighted sequence of suspend+rebind+resume to switch mode
-> on the fly instead of getting through the whole reset+restart cycle
->
-
-I think this is the same as 1, isn't it?
-
-> I suspect the same idea could even be used to address high live
-> migration downtime seen on hardware vdpa device. What do you think?
->
-
-I think this is a great start for sure! Some questions:
-a) Is the time on reprogramming on-chip IOMMU comparable to program
-regular IOMMU? If it is the case it should be easier to find vdpa
-devices with support for _F_RESET soon.
-b) Not to merge on master, but it is possible to add an artificial
-delay on vdpa_sim that simulates the properties of the delay of IOMMU?
-In that line, have you observed if it is linear with the size of the
-memory, with the number of maps, other factors..?
-
-Thanks!
-
-> Thanks,
-> -Siwei
->
-> > +    if (unlikely(r < 0)) {
-> > +        error_report("unable to start vhost net: %s(%d)", g_strerror(-=
-r), -r);
-> > +    }
-> > +}
-> > +
-> > +static void vdpa_net_migration_state_notifier(Notifier *notifier, void=
- *data)
-> > +{
-> > +    MigrationState *migration =3D data;
-> > +    VhostVDPAState *s =3D container_of(notifier, VhostVDPAState,
-> > +                                     migration_state);
-> > +
-> > +    switch (migration->state) {
-> > +    case MIGRATION_STATUS_SETUP:
-> > +        vhost_vdpa_net_log_global_enable(s, true);
-> > +        return;
-> > +
-> > +    case MIGRATION_STATUS_CANCELLING:
-> > +    case MIGRATION_STATUS_CANCELLED:
-> > +    case MIGRATION_STATUS_FAILED:
-> > +        vhost_vdpa_net_log_global_enable(s, false);
-> > +        return;
-> > +    };
-> > +}
-> > +
-> >   static void vhost_vdpa_net_data_start_first(VhostVDPAState *s)
-> >   {
-> >       struct vhost_vdpa *v =3D &s->vhost_vdpa;
-> >
-> > +    if (v->feature_log) {
-> > +        add_migration_state_change_notifier(&s->migration_state);
-> > +    }
-> > +
-> >       if (v->shadow_vqs_enabled) {
-> >           v->iova_tree =3D vhost_iova_tree_new(v->iova_range.first,
-> >                                              v->iova_range.last);
-> > @@ -280,6 +359,10 @@ static void vhost_vdpa_net_client_stop(NetClientSt=
-ate *nc)
-> >
-> >       assert(nc->info->type =3D=3D NET_CLIENT_DRIVER_VHOST_VDPA);
-> >
-> > +    if (s->vhost_vdpa.index =3D=3D 0 && s->vhost_vdpa.feature_log) {
-> > +        remove_migration_state_change_notifier(&s->migration_state);
-> > +    }
-> > +
-> >       dev =3D s->vhost_vdpa.dev;
-> >       if (dev->vq_index + dev->nvqs =3D=3D dev->vq_index_end) {
-> >           g_clear_pointer(&s->vhost_vdpa.iova_tree, vhost_iova_tree_del=
-ete);
-> > @@ -767,6 +850,7 @@ static NetClientState *net_vhost_vdpa_init(NetClien=
-tState *peer,
-> >       s->vhost_vdpa.device_fd =3D vdpa_device_fd;
-> >       s->vhost_vdpa.index =3D queue_pair_index;
-> >       s->always_svq =3D svq;
-> > +    s->migration_state.notify =3D vdpa_net_migration_state_notifier;
-> >       s->vhost_vdpa.shadow_vqs_enabled =3D svq;
-> >       s->vhost_vdpa.iova_range =3D iova_range;
-> >       s->vhost_vdpa.shadow_data =3D svq;
->
+> ---
+>  include/hw/cxl/cxl_component.h | 2 --
+>  include/hw/cxl/cxl_host.h      | 1 -
+>  include/hw/cxl/cxl_pci.h       | 1 -
+>  3 files changed, 4 deletions(-)
+> 
+> diff --git a/include/hw/cxl/cxl_component.h b/include/hw/cxl/cxl_component.h
+> index 5dca21e95b..692d7a5507 100644
+> --- a/include/hw/cxl/cxl_component.h
+> +++ b/include/hw/cxl/cxl_component.h
+> @@ -15,9 +15,7 @@
+>  #define CXL2_COMPONENT_CM_REGION_SIZE 0x1000
+>  #define CXL2_COMPONENT_BLOCK_SIZE 0x10000
+>  
+> -#include "qemu/compiler.h"
+>  #include "qemu/range.h"
+> -#include "qemu/typedefs.h"
+>  #include "hw/cxl/cxl_cdat.h"
+>  #include "hw/register.h"
+>  #include "qapi/error.h"
+> diff --git a/include/hw/cxl/cxl_host.h b/include/hw/cxl/cxl_host.h
+> index a1b662ce40..c9bc9c7c50 100644
+> --- a/include/hw/cxl/cxl_host.h
+> +++ b/include/hw/cxl/cxl_host.h
+> @@ -7,7 +7,6 @@
+>   * COPYING file in the top-level directory.
+>   */
+>  
+> -#include "qemu/osdep.h"
+>  #include "hw/cxl/cxl.h"
+>  #include "hw/boards.h"
+>  
+> diff --git a/include/hw/cxl/cxl_pci.h b/include/hw/cxl/cxl_pci.h
+> index 01e15ed5b4..407be95b9e 100644
+> --- a/include/hw/cxl/cxl_pci.h
+> +++ b/include/hw/cxl/cxl_pci.h
+> @@ -10,7 +10,6 @@
+>  #ifndef CXL_PCI_H
+>  #define CXL_PCI_H
+>  
+> -#include "qemu/compiler.h"
+>  
+>  #define CXL_VENDOR_ID 0x1e98
+>  
 
 
