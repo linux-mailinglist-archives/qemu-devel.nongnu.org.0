@@ -2,91 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 430BB6887C7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 20:50:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EA716887E4
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 20:58:09 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNfaL-0004jZ-7q; Thu, 02 Feb 2023 14:49:29 -0500
+	id 1pNfhb-0007Q5-GE; Thu, 02 Feb 2023 14:56:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pNfaI-0004jA-7V
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 14:49:26 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pNfhX-0007Pq-4V
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 14:56:55 -0500
+Received: from isrv.corpit.ru ([86.62.121.231])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pNfaG-0006Ud-SP
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 14:49:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675367364;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=zgdViYoyhVpR+CIR3k/A5rTt41Plvt2rI/1bUHh1wXQ=;
- b=HnwAeXif6ENJ5WBfsUx2ylkrAb2PtQIGufW654w5dZmAqORbqyKTV254+2pXzGBROmMxg6
- CgLxjn+OyL7ryvmLvHsxO1CUGy1ImRQtpRNTp81Lc2nRh8UXo9+DVUiWbdJAokGVJCBuY/
- D8o5tKFcorndfqgB6BcNIQo7lAyFWQI=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-272-HNKQmZezNtO0G_m7FL1pJA-1; Thu, 02 Feb 2023 14:49:22 -0500
-X-MC-Unique: HNKQmZezNtO0G_m7FL1pJA-1
-Received: by mail-qt1-f198.google.com with SMTP id
- bp43-20020a05622a1bab00b003b63be6827dso1493560qtb.23
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 11:49:22 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-disposition:mime-version:references:message-id
- :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
- :message-id:reply-to;
- bh=zgdViYoyhVpR+CIR3k/A5rTt41Plvt2rI/1bUHh1wXQ=;
- b=f/nU1sLGm/hP6Ledtsj5cVECOO5HA/++ZoerufiKTDok/1OX8i14rQ+oZF2Iz1gN8Q
- ZvJxquQVerk5WdM9yEjDxEMTLOc/wwbH8n7MhqEvkCLovK3ihph1VQ6XBynkmd3JDYZv
- fACsXR11ZAUpKw/4COwbAZJtQhAY6DNT8vigiarfjGClE+U0b4yvD62H8ONRa9N0qEQy
- r5xMrtpNxBFA3LJPYORel4kq6E+PDjowrIW2oNXd/ekQQrLvwEn39g4+m4lJR3SQvD2B
- YFTTbOA7IhmKFy2jMhJQ63r8w7WqBI+TItVlsjlO6ffyVVkKPmKwdRUGDMZTp+J6mdWL
- IxFQ==
-X-Gm-Message-State: AO0yUKUiBj8vEV/boWfglaE3HZ4OwdQ62t3Yy4ywxZ9MEODAG8rNGgnM
- csctzb/YxKw5qNrQvXu5f+idgs/2i1HxtXe8sPmwciQNsiWDmp6WLbHnOVoyuBiuNZ5h651c6J7
- NrD1MbOfHCjXrMJM=
-X-Received: by 2002:a05:622a:1e10:b0:3b8:68df:fc72 with SMTP id
- br16-20020a05622a1e1000b003b868dffc72mr11824043qtb.2.1675367362557; 
- Thu, 02 Feb 2023 11:49:22 -0800 (PST)
-X-Google-Smtp-Source: AK7set8EcqdWeZ+GMbuFMeAYZ8nmbT1YBD/SV8NHtaDEdZfe68Jvd/cYuocSPUZfXjwLgqaMFn7gUA==
-X-Received: by 2002:a05:622a:1e10:b0:3b8:68df:fc72 with SMTP id
- br16-20020a05622a1e1000b003b868dffc72mr11824022qtb.2.1675367362312; 
- Thu, 02 Feb 2023 11:49:22 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- y4-20020a37af04000000b0072ddf70791fsm301712qke.122.2023.02.02.11.49.21
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Feb 2023 11:49:21 -0800 (PST)
-Date: Thu, 2 Feb 2023 14:49:20 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Juan Quintela <quintela@redhat.com>,
- Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 1/3] linux-headers: Update to v6.1
-Message-ID: <Y9wTwCAwWRmHdc/a@x1n>
-References: <20230201211055.649442-1-peterx@redhat.com>
- <20230201211055.649442-2-peterx@redhat.com>
- <878rhgtk29.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <mjt@tls.msk.ru>) id 1pNfhV-0000xy-8I
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 14:56:54 -0500
+Received: from tsrv.corpit.ru (tsrv.tls.msk.ru [192.168.177.2])
+ by isrv.corpit.ru (Postfix) with ESMTP id AC2764004C;
+ Thu,  2 Feb 2023 22:56:42 +0300 (MSK)
+Received: from [192.168.177.130] (mjt.wg.tls.msk.ru [192.168.177.130])
+ by tsrv.corpit.ru (Postfix) with ESMTP id 32ACCC8;
+ Thu,  2 Feb 2023 22:56:41 +0300 (MSK)
+Message-ID: <24044405-2916-7a7d-a9dc-366609e92dbc@msgid.tls.msk.ru>
+Date: Thu, 2 Feb 2023 22:56:40 +0300
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <878rhgtk29.fsf@secure.mitica>
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: Candidate patches for Debian's 7.2 release (and backports)
+Content-Language: en-US
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+ Michael Roth <michael.roth@amd.com>,
+ Remi Duraffort <remi.duraffort@linaro.org>,
+ Anders Roxell <anders.roxell@linaro.org>
+References: <87edr8kqqq.fsf@linaro.org>
+From: Michael Tokarev <mjt@tls.msk.ru>
+In-Reply-To: <87edr8kqqq.fsf@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: none client-ip=86.62.121.231; envelope-from=mjt@tls.msk.ru;
+ helo=isrv.corpit.ru
+X-Spam_score_int: -69
+X-Spam_score: -7.0
+X-Spam_bar: -------
+X-Spam_report: (-7.0 / 5.0 requ) BAYES_00=-1.9, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+ SPF_NONE=0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -102,23 +62,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 02, 2023 at 11:53:34AM +0100, Juan Quintela wrote:
-> Peter Xu <peterx@redhat.com> wrote:
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
+02.02.2023 18:10, Alex Bennée wrote:
 > 
-> How does this change gets into the tree?
+> Hi Michael,
 > 
-> I know that it is "automagically" generated, but who decides when that
-> goes into the tree?
-> 
-> As we need that for the following patch?
+> As I mentioned on IRC the LKFT team use Debian's backported version of
+> QEMU to test a wide range of kernel configurations in the cloud.
+> Unfortunately 7.2 shipped out with a few regressions which has halted
+> some of the testing when they upgraded from 7.1 to 7.2. Fortunately I
+> think most of these regressions have fixes in master.
 
-Copy PeterM.  Peter, could you share how we used to do linux header
-updates?
+Thank you for the reminder Alex!
+
+I grabbed all patches in master which are tagged for stable (had to
+tweak two nvme patches) and another which was pending in pm215 pullreq
+(target-arm-Fix-physical-address-resolution-for-Stage2), and uploaded
+7.2-2 to debian unstable. bpo11 version is ready too, I'll upload it
+once 7.2-2 is built on unstable, hopefully there's no further regressions
+in the changes I picked.
+
+https://salsa.debian.org/qemu-team/qemu/-/blob/debian/1%257.2+dfsg-2/debian/changelog
 
 Thanks,
 
--- 
-Peter Xu
-
+/mjt
 
