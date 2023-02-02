@@ -2,107 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED676884B6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 17:44:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 454B96884DD
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 17:55:12 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNcfe-0004xB-EO; Thu, 02 Feb 2023 11:42:46 -0500
+	id 1pNcqS-0002Tx-Jc; Thu, 02 Feb 2023 11:53:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pNcfb-0004wk-Sa; Thu, 02 Feb 2023 11:42:44 -0500
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]
- helo=mx0a-001b2d01.pphosted.com)
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pNcqN-0002Tn-Qo
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:53:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pNcfZ-0003Vy-7S; Thu, 02 Feb 2023 11:42:43 -0500
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 312Gg6QG029608; Thu, 2 Feb 2023 16:42:32 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=ClMm1h/+sSPJhNszDIMbPvEm4HyjMtEoOluvPI99aWY=;
- b=p8xxJD4GetrTMdkjf4lhBy6Hv5e9MDbm9YvIR5WwmHZdUspZyUqxx/JASG4yzo7Hqlqd
- G4v8BJCy4T9ERbw68xiqEPfyO7Qig3MqpQTkIU/m4O/D+7o26U8TuUi8TI4m/sTM5sYk
- 4nkByF3vkcfWiaLFNxPDb20ftDXnMvNTTyVSKwpw4SWWIlU13to1ZtKC5aWqeuZwFFLm
- zZS5PNPX81fwVlDqupGalNUSLYg4EQr9ybld41cmcvJlJBzJL137cIZgZPf1ZDVIGnP5
- aRLcNgsFiYYOw05ZQ3MY6RrmfrwbSJvf2ImCC9dSY5liafAUQbUl2XCBXu1U0gdypY// CQ== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ngdvmvvad-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Feb 2023 16:42:31 +0000
-Received: from m0098420.ppops.net (m0098420.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 312GgVio032621;
- Thu, 2 Feb 2023 16:42:31 GMT
-Received: from ppma01fra.de.ibm.com (46.49.7a9f.ip4.static.sl-reverse.com
- [159.122.73.70])
- by mx0b-001b2d01.pphosted.com (PPS) with ESMTPS id 3ngdvmvv8v-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Feb 2023 16:42:31 +0000
-Received: from pps.filterd (ppma01fra.de.ibm.com [127.0.0.1])
- by ppma01fra.de.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 3123Amp6028153;
- Thu, 2 Feb 2023 16:42:29 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma01fra.de.ibm.com (PPS) with ESMTPS id 3ncvuqvkws-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Feb 2023 16:42:29 +0000
-Received: from smtpav07.fra02v.mail.ibm.com (smtpav07.fra02v.mail.ibm.com
- [10.20.54.106])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 312GgPO330802200
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 2 Feb 2023 16:42:25 GMT
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 352CA20040;
- Thu,  2 Feb 2023 16:42:25 +0000 (GMT)
-Received: from smtpav07.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id C0DEB20043;
- Thu,  2 Feb 2023 16:42:24 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.142.89]) by smtpav07.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  2 Feb 2023 16:42:24 +0000 (GMT)
-Message-ID: <6345131acfb04e353ca2eba620bf27609bfeb535.camel@linux.ibm.com>
-Subject: Re: [PATCH v15 02/11] s390x/cpu topology: add topology entries on
- CPU hotplug
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Thu, 02 Feb 2023 17:42:24 +0100
-In-Reply-To: <20230201132051.126868-3-pmorel@linux.ibm.com>
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-3-pmorel@linux.ibm.com>
+ (Exim 4.90_1) (envelope-from <eperezma@redhat.com>)
+ id 1pNcqL-0006Dk-UH
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:53:51 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675356828;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=+kv0EXzAfsxcs0UOZRpJHGK9MVAbCLBpJSVzVpldUxk=;
+ b=c7UcKD40YleegHsFr5zMuiNKswAfbk+KeXBePc6GIPUlx4BVWzXc2qsTa2Rot7UwD/hyIh
+ gr1myjwIuCObwclIRxCu0BGfgyU6+007EXmbOF71V3vnLapAZw2NEJK6VAIhb/cB0X0Fm8
+ Lp76RqfxcXyTqFz7C6bA7ZlbS+yzoNU=
+Received: from mail-yb1-f197.google.com (mail-yb1-f197.google.com
+ [209.85.219.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-50-nWvL6XBLOSSM-D5Mw0jUHg-1; Thu, 02 Feb 2023 11:53:47 -0500
+X-MC-Unique: nWvL6XBLOSSM-D5Mw0jUHg-1
+Received: by mail-yb1-f197.google.com with SMTP id
+ b18-20020a253412000000b0085747dc8317so2202263yba.15
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 08:53:47 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=+kv0EXzAfsxcs0UOZRpJHGK9MVAbCLBpJSVzVpldUxk=;
+ b=VrNOCcezw/2NmVnDNxuckldidLHbIcDkJJCFcv4ftKVrJK1ppmtYV7z33YPO+Vn84e
+ bKhKSFX7MGdotI2d+RviCg2oRsqs7o6j/e/lVKE2I3PqquSbh6OxIsImCm9n/af+EoNT
+ VMSw6ya1OWV4KRG1JC0A2JVnEWzwlowLr1izBPmdfDILf6u670q3NJnUJRubrkvjQL+W
+ oivVPi7ByJoqgffYiPuKlJNgCllbtFITxgjSb9XINdwST1WEj2qx5nCoURNVKniG1j01
+ 0VFifvnv2qrFdVKYeZ/DfMYvGcUpejsMFb1/vBJigrboed9w9tOssMKumPBHexxhxp21
+ RmcA==
+X-Gm-Message-State: AO0yUKU8gXpmS01Rm6QtTNisR9xcoPE9lJXGp8yyJTpWvHxh+u547wtN
+ tSTHWZv2DtIo4GTcjL6Ml8LBQoNWqgrOe09++umndDigExIogm5rSDmV+zFdaRrCQSpGno+72NU
+ yhnpudgkqQYvpnTeMJsI/WJvInRfmKh8=
+X-Received: by 2002:a25:a0c2:0:b0:80b:bb5c:778b with SMTP id
+ i2-20020a25a0c2000000b0080bbb5c778bmr826916ybm.382.1675356826459; 
+ Thu, 02 Feb 2023 08:53:46 -0800 (PST)
+X-Google-Smtp-Source: AK7set+tdrEM7Spq1eIm2c/CsrY1roE9Bfa+hy/0Tlr4bp74UF6+KWNsARb/St2aUyBmvNSTJFvUom+nDqtnixUKlBk=
+X-Received: by 2002:a25:a0c2:0:b0:80b:bb5c:778b with SMTP id
+ i2-20020a25a0c2000000b0080bbb5c778bmr826895ybm.382.1675356826138; Thu, 02 Feb
+ 2023 08:53:46 -0800 (PST)
+MIME-Version: 1.0
+References: <20230112172434.760850-1-eperezma@redhat.com>
+ <20230112172434.760850-13-eperezma@redhat.com>
+ <CACGkMEt8cMM1UxVzxb0eHeaWSpR0ApvGzaF901vrM4m-uGMiPA@mail.gmail.com>
+ <7438853f-8d5e-33fb-1e53-b4a0036f0b7d@intel.com>
+ <CACGkMEtwcjExouCbnMrQ3TcAkXJH4mv63ud-ROEUu6mH+53C6Q@mail.gmail.com>
+ <CAJaqyWfijv2doQ8OAiiWdYvrWtmLPwJcnFtO+aUuoTa0jSL73A@mail.gmail.com>
+ <a7367dec-2f96-c748-8f62-7bd03c3de263@oracle.com>
+In-Reply-To: <a7367dec-2f96-c748-8f62-7bd03c3de263@oracle.com>
+From: Eugenio Perez Martin <eperezma@redhat.com>
+Date: Thu, 2 Feb 2023 17:53:10 +0100
+Message-ID: <CAJaqyWe3d0i85DS2+yS9nZ6dZkcXyOEmYng-vKVk=6G3Ty-mfg@mail.gmail.com>
+Subject: Re: [RFC v2 12/13] vdpa: preemptive kick at enable
+To: Si-Wei Liu <si-wei.liu@oracle.com>
+Cc: Jason Wang <jasowang@redhat.com>, "Zhu, Lingshan" <lingshan.zhu@intel.com>,
+ qemu-devel@nongnu.org, Liuxiangdong <liuxiangdong5@huawei.com>,
+ "Gonglei (Arei)" <arei.gonglei@huawei.com>, 
+ alvaro.karsz@solid-run.com, Shannon Nelson <snelson@pensando.io>, 
+ Laurent Vivier <lvivier@redhat.com>, Harpreet Singh Anand <hanand@xilinx.com>,
+ Gautam Dawar <gdawar@xilinx.com>, 
+ Stefano Garzarella <sgarzare@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+ Cindy Lu <lulu@redhat.com>, 
+ Eli Cohen <eli@mellanox.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+ "Michael S. Tsirkin" <mst@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Parav Pandit <parav@mellanox.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
-MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: Jc0TnAmFt6pvH6Cj13-ZlkF0RlrcGJHf
-X-Proofpoint-GUID: _T3ArDBbIxfJ0LiQ9X-DZ1jRMbs8U2kI
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-02_10,2023-02-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0
- suspectscore=0 spamscore=0 impostorscore=0 priorityscore=1501
- clxscore=1015 bulkscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999
- phishscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302020148
-Received-SPF: pass client-ip=148.163.158.5; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=eperezma@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,317 +109,149 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
-> The topology information are attributes of the CPU and are
-> specified during the CPU device creation.
->=20
-> On hot plug we:
-> - calculate the default values for the topology for drawers,
->   books and sockets in the case they are not specified.
-> - verify the CPU attributes
-> - check that we have still room on the desired socket
->=20
-> The possibility to insert a CPU in a mask is dependent on the
-> number of cores allowed in a socket, a book or a drawer, the
-> checking is done during the hot plug of the CPU to have an
-> immediate answer.
->=20
-> If the complete topology is not specified, the core is added
-> in the physical topology based on its core ID and it gets
-> defaults values for the modifier attributes.
->=20
-> This way, starting QEMU without specifying the topology can
-> still get some advantage of the CPU topology.
->=20
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  include/hw/s390x/cpu-topology.h |  24 +++
->  hw/s390x/cpu-topology.c         | 256 ++++++++++++++++++++++++++++++++
->  hw/s390x/s390-virtio-ccw.c      |  23 ++-
->  hw/s390x/meson.build            |   1 +
->  4 files changed, 302 insertions(+), 2 deletions(-)
->  create mode 100644 hw/s390x/cpu-topology.c
->=20
-[...]
->=20
-> diff --git a/hw/s390x/cpu-topology.c b/hw/s390x/cpu-topology.c
-> new file mode 100644
-> index 0000000000..12df4eca6c
-> --- /dev/null
-> +++ b/hw/s390x/cpu-topology.c
-> @@ -0,0 +1,256 @@
-> +/*
-> + * CPU Topology
-> + *
-> + * Copyright IBM Corp. 2022
-> + * Author(s): Pierre Morel <pmorel@linux.ibm.com>
-> +
-> + * This work is licensed under the terms of the GNU GPL, version 2 or (a=
-t
-> + * your option) any later version. See the COPYING file in the top-level
-> + * directory.
-> + */
-> +
-> +#include "qemu/osdep.h"
-> +#include "qapi/error.h"
-> +#include "qemu/error-report.h"
-> +#include "hw/qdev-properties.h"
-> +#include "hw/boards.h"
-> +#include "qemu/typedefs.h"
-> +#include "target/s390x/cpu.h"
-> +#include "hw/s390x/s390-virtio-ccw.h"
-> +#include "hw/s390x/cpu-topology.h"
-> +
-> +/*
-> + * s390_topology is used to keep the topology information.
-> + * .list: queue the topology entries inside which
-> + *        we keep the information on the CPU topology.
+On Thu, Feb 2, 2023 at 1:57 AM Si-Wei Liu <si-wei.liu@oracle.com> wrote:
+>
+>
+>
+> On 1/13/2023 1:06 AM, Eugenio Perez Martin wrote:
+> > On Fri, Jan 13, 2023 at 4:39 AM Jason Wang <jasowang@redhat.com> wrote:
+> >> On Fri, Jan 13, 2023 at 11:25 AM Zhu, Lingshan <lingshan.zhu@intel.com=
+> wrote:
+> >>>
+> >>>
+> >>> On 1/13/2023 10:31 AM, Jason Wang wrote:
+> >>>> On Fri, Jan 13, 2023 at 1:27 AM Eugenio P=C3=A9rez <eperezma@redhat.=
+com> wrote:
+> >>>>> Spuriously kick the destination device's queue so it knows in case =
+there
+> >>>>> are new descriptors.
+> >>>>>
+> >>>>> RFC: This is somehow a gray area. The guest may have placed descrip=
+tors
+> >>>>> in a virtqueue but not kicked it, so it might be surprised if the d=
+evice
+> >>>>> starts processing it.
+> >>>> So I think this is kind of the work of the vDPA parent. For the pare=
+nt
+> >>>> that needs this trick, we should do it in the parent driver.
+> >>> Agree, it looks easier implementing this in parent driver,
+> >>> I can implement it in ifcvf set_vq_ready right now
+> >> Great, but please check whether or not it is really needed.
+> >>
+> >> Some device implementation could check the available descriptions
+> >> after DRIVER_OK without waiting for a kick.
+> >>
+> > So IIUC we can entirely drop this from the series (and I hope we can).
+> > But then, what with the devices that does *not* check for them?
+> I wonder how the kick can be missed from the first place. Supposedly the
+> moment when vhost_dev_stop() calls .suspend() into vdpa driver, the
+> vcpus already stopped running (vm_running =3D false) and all pending kick=
+s
+> are delivered through vhost-vdpa's host notifiers or mapped doorbell
+> already then device won't get new ones.
 
-.list doesn't exist yet.
+I'm thinking now in cases like the net rx queue.
 
-> + * .socket: tracks information on the count of cores per socket.
-> + * .smp: keeps track of the machine topology.
-> + *
-> + */
-> +S390Topology s390_topology =3D {
-> +    /* will be initialized after the cpu model is realized */
-> +    .cores_per_socket =3D NULL,
-> +    .smp =3D NULL,
-> +};
->=20
-[...]
-> +
-> +/**
-> + * s390_topology_cpu_default:
-> + * @cpu: pointer to a S390CPU
-> + * @errp: Error pointer
-> + *
-> + * Setup the default topology for unset attributes.
+When the guest starts it fills it and kicks the device. Let's say
+avail_idx is 255.
 
-My suggestion:
-Setup the default topology if no attributes are already set.
-Passing a CPU with some, but not all, attributes set is considered an error=
-.
+Following the qemu emulated virtio net,
+hw/virtio/virtio.c:virtqueue_split_pop will stash shadow_avail_idx =3D
+255, and it will not check it again until it is out of rx descriptors.
 
-> + *
-> + * The function accept only all all default values or all set values
-> + * for the geometry topology.
+Now the NIC fills N < 255 receive buffers, and VMM migrates. Will the
+destination device check rx avail idx even if it has not received any
+kick? (here could be at startup or when it needs to receive a packet).
+- If the answer is yes, and it will be a bug not to check it, then we
+can drop this patch. We're covered even if there is a possibility of
+losing a kick in the source.
+- If the answer is that it is not mandatory, we need to solve it
+somehow. To me, the best way is to spuriously kick as we don't need
+changes in the device, all we need is here. A new feature flag
+_F_CHECK_AVAIL_ON_STARTUP or equivalent would work the same, but I
+think it complicates everything more.
 
-acceptS, all all
-If you take my suggestion, you can just drop this sentence.
+For tx the device should suspend "immediately", so it may receive a
+kick, fetch avail_idx with M pending descriptors, transmit P < M and
+then receive the suspend. If we don't want to wait indefinitely, the
+device should stop processing so there are still pending requests in
+the queue for the destination to send. So the case now is the same as
+rx, even if the source device actually receives the kick.
 
-> + *
-> + * The function calculates the (drawer_id, book_id, socket_id)
-> + * topology by filling the cores starting from the first socket
-> + * (0, 0, 0) up to the last (smp->drawers, smp->books, smp->sockets).
-> + *
-> + * CPU type, polarity and dedication have defaults values set in the
-> + * s390x_cpu_properties.
-> + */
-> +static void s390_topology_cpu_default(S390CPU *cpu, Error **errp)
-> +{
-> +    CpuTopology *smp =3D s390_topology.smp;
-> +    CPUS390XState *env =3D &cpu->env;
-> +
-> +    /* All geometry topology attributes must be set or all unset */
-> +    if ((env->socket_id < 0 || env->book_id < 0 || env->drawer_id < 0) &=
-&
-> +        (env->socket_id >=3D 0 || env->book_id >=3D 0 || env->drawer_id =
->=3D 0)) {
-> +        error_setg(errp,
-> +                   "Please define all or none of the topology geometry a=
-ttributes");
-> +        return;
-> +    }
-> +
-> +    /* Check if one of the geometry topology is unset */
-> +    if (env->socket_id < 0) {
-> +        /* Calculate default geometry topology attributes */
-> +        env->socket_id =3D (env->core_id / smp->cores) % smp->sockets;
-> +        env->book_id =3D (env->core_id / (smp->sockets * smp->cores)) %
-> +                       smp->books;
-> +        env->drawer_id =3D (env->core_id /
-> +                          (smp->books * smp->sockets * smp->cores)) %
-> +                         smp->drawers;
-> +    }
-> +}
->=20
-[...]
-> +
-> +/**
-> + * s390_set_core_in_socket:
-> + * @cpu: the new S390CPU to insert in the topology structure
-> + * @drawer_id: new drawer_id
-> + * @book_id: new book_id
-> + * @socket_id: new socket_id
-> + * @creation: if is true the CPU is a new CPU and there is no old socket
-> + *            to handle.
-> + *            if is false, this is a moving the CPU and old socket count
-> + *            must be decremented.
-> + * @errp: the error pointer
-> + *
-> + */
-> +static void s390_set_core_in_socket(S390CPU *cpu, int drawer_id, int boo=
-k_id,
+Having said that, I didn't check if any code drains the vhost host
+notifier. Or, as mentioned in the meeting, check that HW cannot
+reorder kick and suspend call.
 
-Maybe name it s390_(topology_)?add_core_to_socket instead.
+> If the device intends to
+> purposely ignore (note: this could be a device bug) pending kicks during
+> .suspend(), then consequently it should check available descriptors
+> after reaching driver_ok to process outstanding descriptors, making up
+> for the missing kick. If the vdpa driver doesn't support .suspend(),
+> then it should flush the work before .reset() - vhost-scsi does it this
+> way.  Or otherwise I think it's the norm (right thing to do) device
+> should process pending kicks before guest memory is to be unmapped at
+> the late game of vhost_dev_stop(). Is there any case kicks may be missing=
+?
+>
 
-> +                                    int socket_id, bool creation, Error =
-**errp)
-> +{
-> +    int old_socket =3D s390_socket_nb(cpu);
-> +    int new_socket;
-> +
-> +    if (creation) {
-> +        new_socket =3D old_socket;
-> +    } else {
+So process pending kicks means to drain all tx and rx descriptors?
+That would be a solution, but then we don't need virtqueue_state at
+all as we might simply recover it from guest's vring avail_idx.
 
-You need parentheses here.
+Thanks!
 
-> +        new_socket =3D drawer_id * s390_topology.smp->books +
-                       (
-> +                     book_id * s390_topology.smp->sockets +
-                               )
-> +                     socket_id;
-> +    }
-> +
-> +    /* Check for space on new socket */
-> +    if ((new_socket !=3D old_socket) &&
-> +        (s390_topology.cores_per_socket[new_socket] >=3D
-> +         s390_topology.smp->cores)) {
-> +        error_setg(errp, "No more space on this socket");
-> +        return;
-> +    }
-> +
-> +    /* Update the count of cores in sockets */
-> +    s390_topology.cores_per_socket[new_socket] +=3D 1;
-> +    if (!creation) {
-> +        s390_topology.cores_per_socket[old_socket] -=3D 1;
-> +    }
-> +}
->=20
-[...]
-
-> +/**
-> + * s390_topology_set_cpu:
-> + * @ms: MachineState used to initialize the topology structure on
-> + *      first call.
-> + * @cpu: the new S390CPU to insert in the topology structure
-> + * @errp: the error pointer
-> + *
-> + * Called from CPU Hotplug to check and setup the CPU attributes
-> + * before to insert the CPU in the topology.
-> + */
-> +void s390_topology_set_cpu(MachineState *ms, S390CPU *cpu, Error **errp)
-
-The name is rather non informative.
-s390_topology_setup_cpu ?
-
-> +{
-> +    ERRP_GUARD();
-> +
-> +    /*
-> +     * We do not want to initialize the topology if the cpu model
-> +     * does not support topology consequently, we have to wait for
-                                   ^
-Still think there should be a comma here.
-
-> +     * the first CPU to be realized, which realizes the CPU model
-> +     * to initialize the topology structures.
-> +     *
-> +     * s390_topology_set_cpu() is called from the cpu hotplug.
-> +     */
-> +    if (!s390_topology.cores_per_socket) {
-> +        s390_topology_init(ms);
-> +    }
-> +
-> +    s390_topology_check(cpu, errp);
-> +    if (*errp) {
-> +        return;
-> +    }
-> +
-> +    /* Set the CPU inside the socket */
-> +    s390_set_core_in_socket(cpu, 0, 0, 0, true, errp);
-> +    if (*errp) {
-> +        return;
-> +    }
-> +
-> +    /* topology tree is reflected in props */
-> +    s390_update_cpu_props(ms, cpu);
-> +}
-> diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-> index f3cc845d3b..9bc51a83f4 100644
-> --- a/hw/s390x/s390-virtio-ccw.c
-> +++ b/hw/s390x/s390-virtio-ccw.c
-> @@ -44,6 +44,7 @@
->  #include "hw/s390x/pv.h"
->  #include "migration/blocker.h"
->  #include "qapi/visitor.h"
-> +#include "hw/s390x/cpu-topology.h"
-> =20
->  static Error *pv_mig_blocker;
-> =20
-> @@ -310,10 +311,18 @@ static void s390_cpu_plug(HotplugHandler *hotplug_d=
-ev,
->  {
->      MachineState *ms =3D MACHINE(hotplug_dev);
->      S390CPU *cpu =3D S390_CPU(dev);
-> +    ERRP_GUARD();
-> =20
->      g_assert(!ms->possible_cpus->cpus[cpu->env.core_id].cpu);
->      ms->possible_cpus->cpus[cpu->env.core_id].cpu =3D OBJECT(dev);
-> =20
-> +    if (s390_has_topology()) {
-> +        s390_topology_set_cpu(ms, cpu, errp);
-> +        if (*errp) {
-> +            return;
-> +        }
-> +    }
-> +
->      if (dev->hotplugged) {
->          raise_irq_cpu_hotplug();
->      }
-> @@ -551,11 +560,21 @@ static const CPUArchIdList *s390_possible_cpu_arch_=
-ids(MachineState *ms)
->                                    sizeof(CPUArchId) * max_cpus);
->      ms->possible_cpus->len =3D max_cpus;
->      for (i =3D 0; i < ms->possible_cpus->len; i++) {
-> +        CpuInstanceProperties *props =3D &ms->possible_cpus->cpus[i].pro=
-ps;
-> +
->          ms->possible_cpus->cpus[i].type =3D ms->cpu_type;
->          ms->possible_cpus->cpus[i].vcpus_count =3D 1;
->          ms->possible_cpus->cpus[i].arch_id =3D i;
-> -        ms->possible_cpus->cpus[i].props.has_core_id =3D true;
-> -        ms->possible_cpus->cpus[i].props.core_id =3D i;
-> +
-> +        props->has_core_id =3D true;
-> +        props->core_id =3D i;
-> +        props->has_socket_id =3D true;
-> +        props->socket_id =3D i / ms->smp.cores;
-> +        props->has_book_id =3D true;
-> +        props->book_id =3D i / (ms->smp.cores * ms->smp.sockets);
-> +        props->has_drawer_id =3D true;
-> +        props->drawer_id =3D i /
-> +                           (ms->smp.cores * ms->smp.sockets * ms->smp.bo=
-oks);
-
-You need to calculate the modulus like in s390_topology_cpu_default, right?
-
->      }
-> =20
->      return ms->possible_cpus;
-> diff --git a/hw/s390x/meson.build b/hw/s390x/meson.build
-> index f291016fee..58dfbdff4f 100644
-> --- a/hw/s390x/meson.build
-> +++ b/hw/s390x/meson.build
-> @@ -24,6 +24,7 @@ s390x_ss.add(when: 'CONFIG_KVM', if_true: files(
->    's390-stattrib-kvm.c',
->    'pv.c',
->    's390-pci-kvm.c',
-> +  'cpu-topology.c',
->  ))
->  s390x_ss.add(when: 'CONFIG_TCG', if_true: files(
->    'tod-tcg.c',
+> -Siwei
+>
+>
+> >
+> > If we drop it it seems to me we must mandate devices to check for
+> > descriptors at queue_enable. The queue could stall if not, isn't it?
+> >
+> > Thanks!
+> >
+> >> Thanks
+> >>
+> >>> Thanks
+> >>> Zhu Lingshan
+> >>>> Thanks
+> >>>>
+> >>>>> However, that information is not in the migration stream and it sho=
+uld
+> >>>>> be an edge case anyhow, being resilient to parallel notifications f=
+rom
+> >>>>> the guest.
+> >>>>>
+> >>>>> Signed-off-by: Eugenio P=C3=A9rez <eperezma@redhat.com>
+> >>>>> ---
+> >>>>>    hw/virtio/vhost-vdpa.c | 5 +++++
+> >>>>>    1 file changed, 5 insertions(+)
+> >>>>>
+> >>>>> diff --git a/hw/virtio/vhost-vdpa.c b/hw/virtio/vhost-vdpa.c
+> >>>>> index 40b7e8706a..dff94355dd 100644
+> >>>>> --- a/hw/virtio/vhost-vdpa.c
+> >>>>> +++ b/hw/virtio/vhost-vdpa.c
+> >>>>> @@ -732,11 +732,16 @@ static int vhost_vdpa_set_vring_ready(struct =
+vhost_dev *dev, int ready)
+> >>>>>        }
+> >>>>>        trace_vhost_vdpa_set_vring_ready(dev);
+> >>>>>        for (i =3D 0; i < dev->nvqs; ++i) {
+> >>>>> +        VirtQueue *vq;
+> >>>>>            struct vhost_vring_state state =3D {
+> >>>>>                .index =3D dev->vq_index + i,
+> >>>>>                .num =3D 1,
+> >>>>>            };
+> >>>>>            vhost_vdpa_call(dev, VHOST_VDPA_SET_VRING_ENABLE, &state=
+);
+> >>>>> +
+> >>>>> +        /* Preemptive kick */
+> >>>>> +        vq =3D virtio_get_queue(dev->vdev, dev->vq_index + i);
+> >>>>> +        event_notifier_set(virtio_queue_get_host_notifier(vq));
+> >>>>>        }
+> >>>>>        return 0;
+> >>>>>    }
+> >>>>> --
+> >>>>> 2.31.1
+> >>>>>
+>
 
 
