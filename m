@@ -2,97 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0544D687E48
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:06:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B815687E5C
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:14:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNZIE-0000cu-9t; Thu, 02 Feb 2023 08:06:22 -0500
+	id 1pNZP3-0003Ui-1r; Thu, 02 Feb 2023 08:13:25 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pNZI9-0000cI-1P
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:06:20 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pNZP1-0003Tp-GN
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:13:23 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pNZI6-0003bd-LF
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:06:16 -0500
+ (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
+ id 1pNZOz-0006fc-HP
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:13:23 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675343173;
+ s=mimecast20190719; t=1675343600;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=sMWywMnSzT3MdiDz3Seeibq+XuOIiSzHnNuegYJDB4c=;
- b=h35pvAHBTnnCSKkVQvaf5lAxdUXHjkJiFbMJ+H3iEgPCUF4jUIXEgtRs7OIROgtKRfYDxT
- nJpAD/SkmZQfIzzE0WoI+gL+7B140fOffyEQYL0mVBEk6KvmGQ92y1P/QfG/Wim6KjFznu
- zVo+vQvRedyMA6x2cRNsiKFe2lPzXsk=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-110-WPbqrjKQOTu21fYNmGD6rQ-1; Thu, 02 Feb 2023 08:06:11 -0500
-X-MC-Unique: WPbqrjKQOTu21fYNmGD6rQ-1
-Received: by mail-qk1-f197.google.com with SMTP id
- s7-20020a05620a0bc700b006e08208eb31so1280496qki.3
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 05:06:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=sMWywMnSzT3MdiDz3Seeibq+XuOIiSzHnNuegYJDB4c=;
- b=xh2qsqOPC1moacua+OHGbi6Bn1QTVJdSvY1+hSFWIA3bwIyPwFleuSF5Tpypm597lU
- KI0djQs22HUe/XGTDie5z3itotQRfqO3tY2cH65y/mh9oyLabtZTbpNva2oi54EBoSS/
- 4Zh+ZZN444etTMLZ9O8A8Tq2+Ct5q6BffrQZuPWsGlKo6KBdu6VJaHqw1inMLa6zw9vd
- wtiSgVgyGERuxd/bd2PAFpDVDPSzW6Fej2DtQfii70CZAnNM5rPl9FixfF6hgl81ELVm
- kq2KjkWzZYxENFqLpL4RCIirIsT8sx0tuexzX5cttaFcmKKIIjGKWEmDFKeU80dLOt9f
- 8FOQ==
-X-Gm-Message-State: AO0yUKVzJ3R8wdqwE/rrodLkESZp5tSlY33oU+Lt3XizjBtppwV2S4cM
- bK4DrbufoPCDLtqivZZmoK4BOuD0WR4cyE2J6tL1DzO+LE1GuC6LPbER8N/B0p6W2kyL3zx/+tT
- heRdGkqh/5T6YlHQ=
-X-Received: by 2002:ad4:5dea:0:b0:53c:f76f:2e3c with SMTP id
- jn10-20020ad45dea000000b0053cf76f2e3cmr12466684qvb.46.1675343170950; 
- Thu, 02 Feb 2023 05:06:10 -0800 (PST)
-X-Google-Smtp-Source: AK7set9tKaFwpHyw03/61T6vqP7Xh68ZRapJHv1kS38AUEtm0Ix9CEAh/RKM2UU/NbdYItrIO8vJBQ==
-X-Received: by 2002:ad4:5dea:0:b0:53c:f76f:2e3c with SMTP id
- jn10-20020ad45dea000000b0053cf76f2e3cmr12466633qvb.46.1675343170554; 
- Thu, 02 Feb 2023 05:06:10 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- dt4-20020a05620a478400b006fb112f512csm7897269qkb.74.2023.02.02.05.06.08
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Feb 2023 05:06:09 -0800 (PST)
-Message-ID: <355ed37b-9f21-942a-4eda-4ad4d7d0f73e@redhat.com>
-Date: Thu, 2 Feb 2023 14:06:06 +0100
+ bh=W49rvG6GXUZkUjY4JUa+R6NbUOzS6+IBciFgqgG2bmo=;
+ b=axAZA3O/vp+oeE3EtO+l3vhRLEyuevXm2uKSBg6e8sKvw+Hjq4istODTUrfXzglQB/11XX
+ V21Tcjo29/lN4KVk+gKtQfXyTuAv9v5Sd7/BiIvq5y1EqigiBCFMLhhU+rAuFZvtdF4p+V
+ k/vD+yHpidqJ1lAOXI5JXAV+wVIOQcc=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-404-rJdTY07RNoamSAR7SRu0mA-1; Thu, 02 Feb 2023 08:13:17 -0500
+X-MC-Unique: rJdTY07RNoamSAR7SRu0mA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E30EC183B3C0;
+ Thu,  2 Feb 2023 13:13:16 +0000 (UTC)
+Received: from redhat.com (unknown [10.33.36.41])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CABA8404CD80;
+ Thu,  2 Feb 2023 13:13:15 +0000 (UTC)
+Date: Thu, 2 Feb 2023 13:13:13 +0000
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Juan Quintela <quintela@redhat.com>
+Cc: "manish.mishra" <manish.mishra@nutanix.com>, qemu-devel@nongnu.org,
+ dgilbert@redhat.com, lsoaresp@redhat.com, Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v6 1/2] io: Add support for MSG_PEEK for socket channel
+Message-ID: <Y9u26aMxlryK5c3o@redhat.com>
+References: <20221220184418.228834-1-manish.mishra@nutanix.com>
+ <20221220184418.228834-2-manish.mishra@nutanix.com>
+ <877cx0mf4b.fsf@secure.mitica> <Y9utB91u5JFeHBiN@redhat.com>
+ <87sffokz73.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [PULL 08/34] hw/arm/virt: Let the virtio-iommu bypass MSIs
-Content-Language: en-US
-To: Peter Maydell <peter.maydell@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-Cc: qemu-devel@nongnu.org
-References: <20200703165405.17672-1-peter.maydell@linaro.org>
- <20200703165405.17672-9-peter.maydell@linaro.org>
- <7592c27c-0c98-d52c-fecc-ac2b261ecbb3@linaro.org>
- <CAFEAcA8AXsXa7adhhmvMrh+kBoQx=tJ9PzizAnrgb=Db_vupGw@mail.gmail.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <CAFEAcA8AXsXa7adhhmvMrh+kBoQx=tJ9PzizAnrgb=Db_vupGw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <87sffokz73.fsf@secure.mitica>
+User-Agent: Mutt/2.2.9 (2022-11-12)
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=berrange@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -105,26 +82,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-On 2/2/23 11:58, Peter Maydell wrote:
-> On Thu, 2 Feb 2023 at 10:47, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
->> Where is "len-reserved-regions" declared?
->   DEFINE_PROP_ARRAY("reserved-regions", ...)
->
-> does this. For an array property "foo" the machinery creates an integer
-> property "foo-len", which must be set first. Setting that
-> then creates properties "foo[0]", "foo[1]", ... which can be set.
+On Thu, Feb 02, 2023 at 01:51:28PM +0100, Juan Quintela wrote:
+> Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> > On Thu, Feb 02, 2023 at 01:22:12PM +0100, Juan Quintela wrote:
+> >> "manish.mishra" <manish.mishra@nutanix.com> wrote:
+> >> > MSG_PEEK peeks at the channel, The data is treated as unread and
+> >> > the next read shall still return this data. This support is
+> >> > currently added only for socket class. Extra parameter 'flags'
+> >> > is added to io_readv calls to pass extra read flags like MSG_PEEK.
+> >> >
+> >> > Reviewed-by: Peter Xu <peterx@redhat.com>
+> >> > Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+> >> > Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+> >> > Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+> >>=20
+> >>=20
+> >> This change breaks RDMA migration.
+> >>=20
+> >> FAILED: libcommon.fa.p/migration_rdma.c.o
+> >> cc -m64 -mcx16 -Ilibcommon.fa.p -I/usr/include/pixman-1 -I/usr/include=
+/libpng16 -I/usr/include/spice-server -I/usr/include/spice-1 -I/usr/include=
+/cacard -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/includ=
+e/sysprof-4 -I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include/PCSC -I=
+/usr/include/p11-kit-1 -I/usr/include/libusb-1.0 -I/usr/include/SDL2 -I/usr=
+/include/libmount -I/usr/include/blkid -I/usr/include/gio-unix-2.0 -I/usr/i=
+nclude/slirp -fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -std=3D=
+gnu11 -O2 -g -isystem /mnt/code/qemu/full/linux-headers -isystem linux-head=
+ers -iquote . -iquote /mnt/code/qemu/full -iquote /mnt/code/qemu/full/inclu=
+de -iquote /mnt/code/qemu/full/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_FORTI=
+FY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -f=
+no-strict-aliasing -fno-common -fwrapv -Wundef -Wwrite-strings -Wmissing-pr=
+ototypes -Wstrict-prototypes -Wredundant-decls -Wold-style-declaration -Wol=
+d-style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self=
+ -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpans=
+ion-to-defined -Wimplicit-fallthrough=3D2 -Wmissing-format-attribute -Wno-m=
+issing-include-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protector-=
+strong -fPIE -D_REENTRANT -Wno-undef -DSTRUCT_IOVEC_DEFINED -MD -MQ libcomm=
+on.fa.p/migration_rdma.c.o -MF libcommon.fa.p/migration_rdma.c.o.d -o libco=
+mmon.fa.p/migration_rdma.c.o -c ../../../../mnt/code/qemu/full/migration/rd=
+ma.c
+> >> ../../../../mnt/code/qemu/full/migration/rdma.c: In function =E2=80=98=
+qio_channel_rdma_class_init=E2=80=99:
+> >> ../../../../mnt/code/qemu/full/migration/rdma.c:4020:25: error: assign=
+ment to =E2=80=98ssize_t (*)(QIOChannel *, const struct iovec *, size_t,  i=
+nt **, size_t *, int,  Error **)=E2=80=99 {aka =E2=80=98long int (*)(QIOCha=
+nnel *, const struct iovec *, long unsigned int,  int **, long unsigned int=
+ *, int,  Error **)=E2=80=99} from incompatible pointer type =E2=80=98ssize=
+_t (*)(QIOChannel *, const struct iovec *, size_t,  int **, size_t *, Error=
+ **)=E2=80=99 {aka =E2=80=98long int (*)(QIOChannel *, const struct iovec *=
+, long unsigned int,  int **, long unsigned int *, Error **)=E2=80=99} [-We=
+rror=3Dincompatible-pointer-types]
+> >>  4020 |     ioc_klass->io_readv =3D qio_channel_rdma_readv;
+> >>       |                         ^
+> >> cc1: all warnings being treated as errors
+> >>=20
+> >> And I don't really know how to fix it, because the problem is that rdma
+> >> don't use qio_channel_readv_full() at all.
+> >
+> > Likely qio_channel_rdma_readv just adds the 'int flags' param added.
+> > It doesn't need to actually do anything with the flags as they are
+> > checked before
+>=20
+> I can do that.  That would fix the compilation issue.
+>=20
+> But will rdma work?  Because it fakes a qio channel, so what is going to
+> implement the MSG_PEEK functionality for it?  It don't end calling
+> recv() at all.
 
-Yes. Thank you Peter!
+It is no problem - the qio_channel_readv method changes in this patch
+add:
 
-Eric
->
-> thanks
-> -- PMM
->
++    if ((flags & QIO_CHANNEL_READ_FLAG_MSG_PEEK) &&
++        !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_READ_MSG_PEEK)) {
++        error_setg_errno(errp, EINVAL,
++                         "Channel does not support peek read");
++        return -1;
++    }
+
+
+so it is impossible for qio_channel_rdma_readv to be invoked with
+flags having MSG_PEEK set, thus RDMA can ignore the whole concept.
+
+With regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
+ :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com=
+ :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
+ :|
 
 
