@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3179687587
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 06:50:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1418668758F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 06:51:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNSPN-0008C4-E9; Thu, 02 Feb 2023 00:45:17 -0500
+	id 1pNSPO-0008Cz-MP; Thu, 02 Feb 2023 00:45:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1pNSPK-0008Ap-8e
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:14 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+ id 1pNSPM-0008C2-PP
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:16 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1pNSPH-0007B8-CN
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:14 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ id 1pNSPK-0007Br-6q
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:16 -0500
+Received: from pps.filterd (m0246627.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3124i9gD029368; Thu, 2 Feb 2023 05:45:10 GMT
+ 3124j1mt027569; Thu, 2 Feb 2023 05:45:12 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2022-7-12;
- bh=dTNQOHB5u1Wtnb2fLXKHkYn8UQhrsFrLkJjyTzIWJH0=;
- b=pxrorDuMLPKDWyfNhcufqpIgJfuhYP+uVrobb7FceL+04HluRE+ZO6WtFj0IyvESN03z
- cCjnap+wKCIEsHppErsPzmwTdmjfid84x9gb0MYPgP3OtEXy/gNczvII2hq4eRy9KX71
- 6Yc/dB8AfS/B/U2T1Cf7phrxhr6bDqwGMWmXXkFjmXu3gtGEeOJJF7wWj6FRVIYwhIEG
- LExdNQrvz9ogj7NNuEotk4KOVv32OUfDTKnyusTxSq3UeapDM13npkyZPoYdssje1MR6
- LNtzcgSSTVO1VX8Jfgz5sZE5TsbXjjCukP3NW88fZH2NPTntqX/KEi0qmBvlP4uijd2J sw== 
+ bh=w/VSt1VAcFvKnFOtKGDI3kvOUkpyniXOkU7ZId3DcC0=;
+ b=baXnC1v8bW0HCwd+EeyeDmcrm7RmxDFQpVp0icHUqU/k/m6xB68CqusfSUw99jq7FIY7
+ MeP+/C0T4vLDltSOAxvpWFzacKx7ibDSAG3zEe97S0EMg5pbrv/p/yNdKuB3YzgM5ZQ3
+ 0y/0ScRzq6OyDMhWBIBp4cOcCZKZgG9o2aoIuKLBQNqhQi/LH2crOLFerr7pSXljCmp6
+ fFDYsdD/XCMb3ZFIE/zGeze4m9mcYzI9u7VMcMuUU8VXV59XSekyyI2AUcIrmV0K7LFU
+ 3OxoLQO4z658LFcL1nQwR5TkT4EXaTH2nbVt5IQGFA1DhlnJFUOBf7ry0XNmN3JH2G+b vQ== 
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nfmbg2bhg-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nfpywj0w3-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 02 Feb 2023 05:45:10 +0000
+ Thu, 02 Feb 2023 05:45:11 +0000
 Received: from pps.filterd
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 31254Ppn013015; Thu, 2 Feb 2023 05:45:09 GMT
+ with ESMTP id 31254Ppp013015; Thu, 2 Feb 2023 05:45:10 GMT
 Received: from bruckner.us.oracle.com (dhcp-10-65-133-23.vpn.oracle.com
  [10.65.133.23])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3nct5f5gb1-17
+ 3nct5f5gb1-18
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 02 Feb 2023 05:45:09 +0000
+ Thu, 02 Feb 2023 05:45:10 +0000
 From: John Johnson <john.g.johnson@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: alex.williamson@redhat.com, clg@redhat.com, philmd@linaro.org
-Subject: [PATCH v2 16/23] vfio-user: proxy container connect/disconnect
-Date: Wed,  1 Feb 2023 21:55:52 -0800
-Message-Id: <e1e14729756134109ab344a35aadfb863ddd1fef.1675228037.git.john.g.johnson@oracle.com>
+Subject: [PATCH v2 17/23] vfio-user: dma map/unmap operations
+Date: Wed,  1 Feb 2023 21:55:53 -0800
+Message-Id: <1ec25a5832299083fee3c90bd89561f5c1d42ba9.1675228037.git.john.g.johnson@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1675228037.git.john.g.johnson@oracle.com>
 References: <cover.1675228037.git.john.g.johnson@oracle.com>
@@ -65,10 +65,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
  adultscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
  definitions=main-2302020053
-X-Proofpoint-ORIG-GUID: EEKYjn_LcwCryIR3Q5UC6wMbOkSivPAs
-X-Proofpoint-GUID: EEKYjn_LcwCryIR3Q5UC6wMbOkSivPAs
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=john.g.johnson@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-GUID: WwtUmMwLk0QceoY-8RdtDSPnuJrVFFwv
+X-Proofpoint-ORIG-GUID: WwtUmMwLk0QceoY-8RdtDSPnuJrVFFwv
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=john.g.johnson@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -91,505 +91,546 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Add ability to do async operations during memory transactions
+
+Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/vfio/user.h                |   6 +-
- include/hw/vfio/vfio-common.h |  10 +++
- hw/vfio/common.c              | 100 ++++++++++++++++-----------
- hw/vfio/user-pci.c            |  12 +++-
- hw/vfio/user.c                | 152 +++++++++++++++++++++++++++++++++++++++++-
- 5 files changed, 237 insertions(+), 43 deletions(-)
+ hw/vfio/user-protocol.h       |  32 ++++++
+ include/hw/vfio/vfio-common.h |   4 +-
+ hw/vfio/common.c              |  64 +++++++++---
+ hw/vfio/user.c                | 224 ++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/trace-events          |   2 +
+ 5 files changed, 311 insertions(+), 15 deletions(-)
 
-diff --git a/hw/vfio/user.h b/hw/vfio/user.h
-index 3012a86..b89e5ca 100644
---- a/hw/vfio/user.h
-+++ b/hw/vfio/user.h
-@@ -91,9 +91,13 @@ void vfio_user_disconnect(VFIOUserProxy *proxy);
- void vfio_user_set_handler(VFIODevice *vbasedev,
-                            void (*handler)(void *opaque, VFIOUserMsg *msg),
-                            void *reqarg);
--int vfio_user_get_device(VFIODevice *vbasedev, Error **errp);
-+int vfio_user_get_device(VFIOGroup *group, VFIODevice *vbasedev, Error **errp);
-+VFIOGroup *vfio_user_get_group(VFIOUserProxy *proxy, AddressSpace *as,
-+                               Error **errp);
-+void vfio_user_put_group(VFIOGroup *group);
- int vfio_user_validate_version(VFIOUserProxy *proxy, Error **errp);
+diff --git a/hw/vfio/user-protocol.h b/hw/vfio/user-protocol.h
+index 48dd475..109076d 100644
+--- a/hw/vfio/user-protocol.h
++++ b/hw/vfio/user-protocol.h
+@@ -114,6 +114,31 @@ typedef struct {
+ #define VFIO_USER_DEF_MAX_BITMAP (256 * 1024 * 1024)
  
- extern VFIODeviceIO vfio_dev_io_sock;
-+extern VFIOContainerIO vfio_cont_io_sock;
+ /*
++ * VFIO_USER_DMA_MAP
++ * imported from struct vfio_iommu_type1_dma_map
++ */
++typedef struct {
++    VFIOUserHdr hdr;
++    uint32_t argsz;
++    uint32_t flags;
++    uint64_t offset;    /* FD offset */
++    uint64_t iova;
++    uint64_t size;
++} VFIOUserDMAMap;
++
++/*
++ * VFIO_USER_DMA_UNMAP
++ * imported from struct vfio_iommu_type1_dma_unmap
++ */
++typedef struct {
++    VFIOUserHdr hdr;
++    uint32_t argsz;
++    uint32_t flags;
++    uint64_t iova;
++    uint64_t size;
++} VFIOUserDMAUnmap;
++
++/*
+  * VFIO_USER_DEVICE_GET_INFO
+  * imported from struct vfio_device_info
+  */
+@@ -176,4 +201,11 @@ typedef struct {
+     char data[];
+ } VFIOUserRegionRW;
  
- #endif /* VFIO_USER_H */
++/*imported from struct vfio_bitmap */
++typedef struct {
++    uint64_t pgsize;
++    uint64_t size;
++    char data[];
++} VFIOUserBitmap;
++
+ #endif /* VFIO_USER_PROTOCOL_H */
 diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index 2c58d7d..b0c4453 100644
+index b0c4453..ee6ad8f 100644
 --- a/include/hw/vfio/vfio-common.h
 +++ b/include/hw/vfio/vfio-common.h
-@@ -94,6 +94,7 @@ typedef struct VFIOContainer {
+@@ -90,6 +90,7 @@ typedef struct VFIOContainer {
+     VFIOContainerIO *io;
+     bool initialized;
+     bool dirty_pages_supported;
++    bool async_ops;
+     uint64_t dirty_pgsizes;
      uint64_t max_dirty_bitmap_size;
      unsigned long pgsizes;
-     unsigned int dma_max_mappings;
-+    VFIOUserProxy *proxy;
-     QLIST_HEAD(, VFIOGuestIOMMU) giommu_list;
-     QLIST_HEAD(, VFIOHostDMAWindow) hostwin_list;
-     QLIST_HEAD(, VFIOGroup) group_list;
-@@ -236,6 +237,7 @@ typedef struct VFIODisplay {
-     } dmabuf;
- } VFIODisplay;
- 
-+int vfio_ram_block_discard_disable(VFIOContainer *container, bool state);
- void vfio_put_base_device(VFIODevice *vbasedev);
- void vfio_disable_irqindex(VFIODevice *vbasedev, int index);
- void vfio_unmask_single_irqindex(VFIODevice *vbasedev, int index);
-@@ -244,6 +246,9 @@ void vfio_unmask_single_irq(VFIODevice *vbasedev, int index, int irq);
- void vfio_mask_single_irq(VFIODevice *vbasedev, int index, int irq);
- int vfio_set_irq_signaling(VFIODevice *vbasedev, int index, int subindex,
-                            int action, int fd, Error **errp);
-+void vfio_host_win_add(VFIOContainer *container, hwaddr min_iova,
-+                       hwaddr max_iova, uint64_t iova_pgsizes);
-+void vfio_listener_release(VFIOContainer *container);
- void vfio_region_write(void *opaque, hwaddr addr,
-                            uint64_t data, unsigned size);
- uint64_t vfio_region_read(void *opaque,
-@@ -256,11 +261,16 @@ void vfio_region_unmap(VFIORegion *region);
- void vfio_region_exit(VFIORegion *region);
- void vfio_region_finalize(VFIORegion *region);
- void vfio_reset_handler(void *opaque);
-+VFIOAddressSpace *vfio_get_address_space(AddressSpace *as);
-+void vfio_put_address_space(VFIOAddressSpace *space);
- VFIOGroup *vfio_get_group(int groupid, AddressSpace *as, Error **errp);
- void vfio_put_group(VFIOGroup *group);
- int vfio_get_device(VFIOGroup *group, const char *name,
-                     VFIODevice *vbasedev, Error **errp);
- 
-+VFIOContainer *vfio_new_container(VFIOAddressSpace *space);
-+void vfio_link_container(VFIOContainer *container, VFIOGroup *group);
-+void vfio_unmap_container(VFIOContainer *container);
- void vfio_init_device(VFIODevice *vbasedev, VFIOGroup *group,
-                       struct vfio_device_info *info);
- 
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index 0c1cb21..6f99907 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -164,7 +164,7 @@ static const char *index_to_str(VFIODevice *vbasedev, int index)
-     }
- }
- 
--static int vfio_ram_block_discard_disable(VFIOContainer *container, bool state)
-+int vfio_ram_block_discard_disable(VFIOContainer *container, bool state)
- {
-     switch (container->iommu_type) {
-     case VFIO_TYPE1v2_IOMMU:
-@@ -532,7 +532,7 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
-     return ret;
- }
- 
--static void vfio_host_win_add(VFIOContainer *container,
-+void vfio_host_win_add(VFIOContainer *container,
-                               hwaddr min_iova, hwaddr max_iova,
-                               uint64_t iova_pgsizes)
- {
-@@ -1495,7 +1495,7 @@ static const MemoryListener vfio_memory_listener = {
-     .log_sync = vfio_listener_log_sync,
+@@ -187,7 +188,7 @@ struct VFIODeviceIO {
  };
  
--static void vfio_listener_release(VFIOContainer *container)
-+void vfio_listener_release(VFIOContainer *container)
- {
-     memory_listener_unregister(&container->listener);
-     if (container->iommu_type == VFIO_SPAPR_TCE_v2_IOMMU) {
-@@ -1873,7 +1873,7 @@ static void vfio_kvm_device_del_group(VFIOGroup *group)
- #endif
+ struct VFIOContainerIO {
+-    int (*dma_map)(VFIOContainer *container,
++    int (*dma_map)(VFIOContainer *container, MemoryRegion *mr,
+                    struct vfio_iommu_type1_dma_map *map);
+     int (*dma_unmap)(VFIOContainer *container,
+                      struct vfio_iommu_type1_dma_unmap *unmap,
+@@ -195,6 +196,7 @@ struct VFIOContainerIO {
+     int (*dirty_bitmap)(VFIOContainer *container,
+                         struct vfio_iommu_type1_dirty_bitmap *bitmap,
+                         struct vfio_iommu_type1_dirty_bitmap_get *range);
++    void (*wait_commit)(VFIOContainer *container);
+ };
+ 
+ extern VFIODeviceIO vfio_dev_io_ioctl;
+diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+index 6f99907..f04fd20 100644
+--- a/hw/vfio/common.c
++++ b/hw/vfio/common.c
+@@ -508,7 +508,7 @@ static int vfio_dma_unmap(VFIOContainer *container,
+     return container->io->dma_unmap(container, &unmap, NULL);
  }
  
--static VFIOAddressSpace *vfio_get_address_space(AddressSpace *as)
-+VFIOAddressSpace *vfio_get_address_space(AddressSpace *as)
+-static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
++static int vfio_dma_map(VFIOContainer *container, MemoryRegion *mr, hwaddr iova,
+                         ram_addr_t size, void *vaddr, bool readonly)
  {
-     VFIOAddressSpace *space;
- 
-@@ -1893,7 +1893,7 @@ static VFIOAddressSpace *vfio_get_address_space(AddressSpace *as)
-     return space;
- }
- 
--static void vfio_put_address_space(VFIOAddressSpace *space)
-+void vfio_put_address_space(VFIOAddressSpace *space)
- {
-     if (QLIST_EMPTY(&space->containers)) {
-         QLIST_REMOVE(space, list);
-@@ -2024,6 +2024,34 @@ static void vfio_get_iommu_info_migration(VFIOContainer *container,
-     }
- }
- 
-+VFIOContainer *vfio_new_container(VFIOAddressSpace *space)
-+{
-+    VFIOContainer *container;
-+
-+    container = g_malloc0(sizeof(*container));
-+    container->space = space;
-+    container->error = NULL;
-+    QLIST_INIT(&container->giommu_list);
-+    QLIST_INIT(&container->hostwin_list);
-+    QLIST_INIT(&container->vrdl_list);
-+    QLIST_INIT(&container->group_list);
-+
-+    return container;
-+}
-+
-+void vfio_link_container(VFIOContainer *container, VFIOGroup *group)
-+{
-+    VFIOAddressSpace *space = container->space;
-+
-+    QLIST_INSERT_HEAD(&space->containers, container, next);
-+
-+    group->container = container;
-+    QLIST_INSERT_HEAD(&container->group_list, group, container_next);
-+
-+    container->listener = vfio_memory_listener;
-+    memory_listener_register(&container->listener, space->as);
-+}
-+
- static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-                                   Error **errp)
- {
-@@ -2099,16 +2127,11 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
-         goto close_fd_exit;
+     struct vfio_iommu_type1_dma_map map = {
+@@ -524,8 +524,7 @@ static int vfio_dma_map(VFIOContainer *container, hwaddr iova,
+         map.flags |= VFIO_DMA_MAP_FLAG_WRITE;
      }
  
--    container = g_malloc0(sizeof(*container));
--    container->space = space;
-+    container = vfio_new_container(space);
-     container->fd = fd;
--    container->error = NULL;
-     container->dirty_pages_supported = false;
-     container->dma_max_mappings = 0;
-     container->io = &vfio_cont_io_ioctl;
--    QLIST_INIT(&container->giommu_list);
--    QLIST_INIT(&container->hostwin_list);
--    QLIST_INIT(&container->vrdl_list);
- 
-     ret = vfio_init_container(container, group->fd, errp);
-     if (ret) {
-@@ -2223,15 +2246,7 @@ static int vfio_connect_container(VFIOGroup *group, AddressSpace *as,
- 
-     vfio_kvm_device_add_group(group);
- 
--    QLIST_INIT(&container->group_list);
--    QLIST_INSERT_HEAD(&space->containers, container, next);
+-    ret = container->io->dma_map(container, &map);
 -
--    group->container = container;
--    QLIST_INSERT_HEAD(&container->group_list, group, container_next);
--
--    container->listener = vfio_memory_listener;
--
--    memory_listener_register(&container->listener, container->space->as);
-+    vfio_link_container(container, group);
++    ret = container->io->dma_map(container, mr, &map);
+     if (ret < 0) {
+         error_report("VFIO_MAP_DMA failed: %s", strerror(-ret));
+     }
+@@ -587,7 +586,8 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
  
-     if (container->error) {
-         ret = -1;
-@@ -2264,9 +2279,31 @@ put_space_exit:
-     return ret;
- }
- 
-+void vfio_unmap_container(VFIOContainer *container)
-+{
-+    VFIOGuestIOMMU *giommu, *tmp;
-+    VFIOHostDMAWindow *hostwin, *next;
-+
-+    QLIST_REMOVE(container, next);
-+
-+    QLIST_FOREACH_SAFE(giommu, &container->giommu_list, giommu_next, tmp) {
-+        memory_region_unregister_iommu_notifier(
-+            MEMORY_REGION(giommu->iommu_mr), &giommu->n);
-+        QLIST_REMOVE(giommu, giommu_next);
-+        g_free(giommu);
-+    }
-+
-+    QLIST_FOREACH_SAFE(hostwin, &container->hostwin_list, hostwin_next,
-+                       next) {
-+        QLIST_REMOVE(hostwin, hostwin_next);
-+        g_free(hostwin);
-+    }
-+}
-+
- static void vfio_disconnect_container(VFIOGroup *group)
+ /* Called with rcu_read_lock held.  */
+ static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+-                               ram_addr_t *ram_addr, bool *read_only)
++                               ram_addr_t *ram_addr, bool *read_only,
++                               MemoryRegion **mrp)
  {
-     VFIOContainer *container = group->container;
-+    VFIOAddressSpace *space = container->space;
- 
-     QLIST_REMOVE(group, container_next);
-     group->container = NULL;
-@@ -2286,24 +2323,7 @@ static void vfio_disconnect_container(VFIOGroup *group)
+     MemoryRegion *mr;
+     hwaddr xlat;
+@@ -668,6 +668,10 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+         *read_only = !writable || mr->readonly;
      }
  
-     if (QLIST_EMPTY(&container->group_list)) {
--        VFIOAddressSpace *space = container->space;
--        VFIOGuestIOMMU *giommu, *tmp;
--        VFIOHostDMAWindow *hostwin, *next;
--
--        QLIST_REMOVE(container, next);
--
--        QLIST_FOREACH_SAFE(giommu, &container->giommu_list, giommu_next, tmp) {
--            memory_region_unregister_iommu_notifier(
--                    MEMORY_REGION(giommu->iommu_mr), &giommu->n);
--            QLIST_REMOVE(giommu, giommu_next);
--            g_free(giommu);
--        }
--
--        QLIST_FOREACH_SAFE(hostwin, &container->hostwin_list, hostwin_next,
--                           next) {
--            QLIST_REMOVE(hostwin, hostwin_next);
--            g_free(hostwin);
--        }
-+        vfio_unmap_container(container);
- 
-         trace_vfio_disconnect_container(container->fd);
-         close(container->fd);
-@@ -2503,7 +2523,9 @@ void vfio_put_base_device(VFIODevice *vbasedev)
-     QLIST_REMOVE(vbasedev, next);
-     vbasedev->group = NULL;
-     trace_vfio_put_base_device(vbasedev->fd);
--    close(vbasedev->fd);
-+    if (vbasedev->fd != -1) {
-+        close(vbasedev->fd);
++    if (mrp != NULL) {
++        *mrp = mr;
 +    }
++
+     return true;
  }
  
- int vfio_get_region_info(VFIODevice *vbasedev, int index,
-diff --git a/hw/vfio/user-pci.c b/hw/vfio/user-pci.c
-index bc1d01a..a0aa320 100644
---- a/hw/vfio/user-pci.c
-+++ b/hw/vfio/user-pci.c
-@@ -134,6 +134,7 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
-     VFIODevice *vbasedev = &vdev->vbasedev;
-     SocketAddress addr;
-     VFIOUserProxy *proxy;
-+    VFIOGroup *group = NULL;
+@@ -675,6 +679,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+ {
+     VFIOGuestIOMMU *giommu = container_of(n, VFIOGuestIOMMU, n);
+     VFIOContainer *container = giommu->container;
++    MemoryRegion *mr;
+     hwaddr iova = iotlb->iova + giommu->iommu_offset;
+     void *vaddr;
      int ret;
-     Error *err = NULL;
+@@ -693,7 +698,7 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+     if ((iotlb->perm & IOMMU_RW) != IOMMU_NONE) {
+         bool read_only;
  
-@@ -180,8 +181,15 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
-     vbasedev->use_regfds = true;
-     vbasedev->can_mask_irq = true;
+-        if (!vfio_get_xlat_addr(iotlb, &vaddr, NULL, &read_only)) {
++        if (!vfio_get_xlat_addr(iotlb, &vaddr, NULL, &read_only, &mr)) {
+             goto out;
+         }
+         /*
+@@ -703,14 +708,14 @@ static void vfio_iommu_map_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+          * of vaddr will always be there, even if the memory object is
+          * destroyed and its backing memory munmap-ed.
+          */
+-        ret = vfio_dma_map(container, iova,
++        ret = vfio_dma_map(container, mr, iova,
+                            iotlb->addr_mask + 1, vaddr,
+                            read_only);
+         if (ret) {
+             error_report("vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+-                         "0x%"HWADDR_PRIx", %p) = %d (%m)",
++                         "0x%"HWADDR_PRIx", %p)",
+                          container, iova,
+-                         iotlb->addr_mask + 1, vaddr, ret);
++                         iotlb->addr_mask + 1, vaddr);
+         }
+     } else {
+         ret = vfio_dma_unmap(container, iova, iotlb->addr_mask + 1, iotlb);
+@@ -765,7 +770,7 @@ static int vfio_ram_discard_notify_populate(RamDiscardListener *rdl,
+                section->offset_within_address_space;
+         vaddr = memory_region_get_ram_ptr(section->mr) + start;
  
--    ret = vfio_user_get_device(vbasedev, errp);
-+    group = vfio_user_get_group(proxy, pci_device_iommu_address_space(pdev),
-+                                errp);
-+    if (!group) {
-+        goto error;
-+    }
+-        ret = vfio_dma_map(vrdl->container, iova, next - start,
++        ret = vfio_dma_map(vrdl->container, section->mr, iova, next - start,
+                            vaddr, section->readonly);
+         if (ret) {
+             /* Rollback */
+@@ -889,6 +894,29 @@ static bool vfio_known_safe_misalignment(MemoryRegionSection *section)
+     return true;
+ }
+ 
++static void vfio_listener_begin(MemoryListener *listener)
++{
++    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
 +
-+    ret = vfio_user_get_device(group, vbasedev, errp);
-     if (ret) {
-+        vfio_user_put_group(group);
-         goto error;
-     }
- 
-@@ -241,6 +249,7 @@ static void vfio_user_instance_finalize(Object *obj)
++    /*
++     * When DMA space is the physical address space,
++     * the region add/del listeners will fire during
++     * memory update transactions.  These depend on BQL
++     * being held, so do any resulting map/demap ops async
++     * while keeping BQL.
++     */
++    container->async_ops = true;
++}
++
++static void vfio_listener_commit(MemoryListener *listener)
++{
++    VFIOContainer *container = container_of(listener, VFIOContainer, listener);
++
++    /* wait here for any async requests sent during the transaction */
++    container->io->wait_commit(container);
++    container->async_ops = false;
++}
++
+ static void vfio_listener_region_add(MemoryListener *listener,
+                                      MemoryRegionSection *section)
  {
-     VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
-     VFIODevice *vbasedev = &vdev->vbasedev;
-+    VFIOGroup *group = vbasedev->group;
- 
-     vfio_bars_finalize(vdev);
-     g_free(vdev->emulated_config_bits);
-@@ -251,6 +260,7 @@ static void vfio_user_instance_finalize(Object *obj)
+@@ -1096,12 +1124,12 @@ static void vfio_listener_region_add(MemoryListener *listener,
+         }
      }
  
-     vfio_put_device(vdev);
-+    vfio_user_put_group(group);
+-    ret = vfio_dma_map(container, iova, int128_get64(llsize),
++    ret = vfio_dma_map(container, section->mr, iova, int128_get64(llsize),
+                        vaddr, section->readonly);
+     if (ret) {
+         error_setg(&err, "vfio_dma_map(%p, 0x%"HWADDR_PRIx", "
+-                   "0x%"HWADDR_PRIx", %p) = %d (%m)",
+-                   container, iova, int128_get64(llsize), vaddr, ret);
++                   "0x%"HWADDR_PRIx", %p)",
++                   container, iova, int128_get64(llsize), vaddr);
+         if (memory_region_is_ram_device(section->mr)) {
+             /* Allow unexpected mappings not to be fatal for RAM devices */
+             error_report_err(err);
+@@ -1370,7 +1398,7 @@ static void vfio_iommu_map_dirty_notify(IOMMUNotifier *n, IOMMUTLBEntry *iotlb)
+     }
  
-     if (vbasedev->proxy != NULL) {
-         vfio_user_disconnect(vbasedev->proxy);
+     rcu_read_lock();
+-    if (vfio_get_xlat_addr(iotlb, NULL, &translated_addr, NULL)) {
++    if (vfio_get_xlat_addr(iotlb, NULL, &translated_addr, NULL, NULL)) {
+         int ret;
+ 
+         ret = vfio_get_dirty_bitmap(container, iova, iotlb->addr_mask + 1,
+@@ -1488,6 +1516,8 @@ static void vfio_listener_log_sync(MemoryListener *listener,
+ 
+ static const MemoryListener vfio_memory_listener = {
+     .name = "vfio",
++    .begin = vfio_listener_begin,
++    .commit = vfio_listener_commit,
+     .region_add = vfio_listener_region_add,
+     .region_del = vfio_listener_region_del,
+     .log_global_start = vfio_listener_log_global_start,
+@@ -2788,7 +2818,7 @@ VFIODeviceIO vfio_dev_io_ioctl = {
+     .region_write = vfio_io_region_write,
+ };
+ 
+-static int vfio_io_dma_map(VFIOContainer *container,
++static int vfio_io_dma_map(VFIOContainer *container, MemoryRegion *mr,
+                            struct vfio_iommu_type1_dma_map *map)
+ {
+ 
+@@ -2848,8 +2878,14 @@ static int vfio_io_dirty_bitmap(VFIOContainer *container,
+     return ret < 0 ? -errno : ret;
+ }
+ 
++static void vfio_io_wait_commit(VFIOContainer *container)
++{
++    /* ioctl()s are synchronous */
++}
++
+ static VFIOContainerIO vfio_cont_io_ioctl = {
+     .dma_map = vfio_io_dma_map,
+     .dma_unmap = vfio_io_dma_unmap,
+     .dirty_bitmap = vfio_io_dirty_bitmap,
++    .wait_commit = vfio_io_wait_commit,
+ };
 diff --git a/hw/vfio/user.c b/hw/vfio/user.c
-index d66dc1b..aebf44c 100644
+index aebf44c..6dee775 100644
 --- a/hw/vfio/user.c
 +++ b/hw/vfio/user.c
-@@ -18,10 +18,14 @@
- #include "hw/hw.h"
- #include "hw/vfio/vfio-common.h"
- #include "hw/vfio/vfio.h"
-+#include "exec/address-spaces.h"
-+#include "exec/memory.h"
-+#include "exec/ram_addr.h"
- #include "qemu/sockets.h"
- #include "io/channel.h"
- #include "io/channel-socket.h"
- #include "io/channel-util.h"
-+#include "sysemu/reset.h"
- #include "sysemu/iothread.h"
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qjson.h"
-@@ -847,7 +851,102 @@ void vfio_user_disconnect(VFIOUserProxy *proxy)
-     g_free(proxy);
+@@ -64,8 +64,11 @@ static void vfio_user_request(void *opaque);
+ static int vfio_user_send_queued(VFIOUserProxy *proxy, VFIOUserMsg *msg);
+ static void vfio_user_send_async(VFIOUserProxy *proxy, VFIOUserHdr *hdr,
+                                  VFIOUserFDs *fds);
++static void vfio_user_send_nowait(VFIOUserProxy *proxy, VFIOUserHdr *hdr,
++                                  VFIOUserFDs *fds, int rsize);
+ static void vfio_user_send_wait(VFIOUserProxy *proxy, VFIOUserHdr *hdr,
+                                 VFIOUserFDs *fds, int rsize, bool nobql);
++static void vfio_user_wait_reqs(VFIOUserProxy *proxy);
+ static void vfio_user_request_msg(VFIOUserHdr *hdr, uint16_t cmd,
+                                   uint32_t size, uint32_t flags);
+ 
+@@ -664,6 +667,36 @@ static void vfio_user_send_async(VFIOUserProxy *proxy, VFIOUserHdr *hdr,
+     }
  }
  
--int vfio_user_get_device(VFIODevice *vbasedev, Error **errp)
-+static int vfio_connect_proxy(VFIOUserProxy *proxy, VFIOGroup *group,
-+                              AddressSpace *as, Error **errp)
++/*
++ * nowait send - vfio_wait_reqs() can wait for it later
++ */
++static void vfio_user_send_nowait(VFIOUserProxy *proxy, VFIOUserHdr *hdr,
++                                  VFIOUserFDs *fds, int rsize)
 +{
-+    VFIOAddressSpace *space;
-+    VFIOContainer *container;
++    VFIOUserMsg *msg;
 +    int ret;
 +
-+    /*
-+     * try to mirror vfio_connect_container()
-+     * as much as possible
-+     */
-+
-+    space = vfio_get_address_space(as);
-+
-+    container = vfio_new_container(space);
-+    container->fd = -1;
-+    container->io = &vfio_cont_io_sock;
-+    container->proxy = proxy;
-+
-+    /*
-+     * The proxy uses a SW IOMMU in lieu of the HW one
-+     * used in the ioctl() version.  Mascarade as TYPE1
-+     * for maximum compatibility
-+     */
-+    container->iommu_type = VFIO_TYPE1_IOMMU;
-+
-+    /*
-+     * VFIO user allows the device server to map guest
-+     * memory so it has the same issue with discards as
-+     * a local IOMMU has.
-+     */
-+    ret = vfio_ram_block_discard_disable(container, true);
-+    if (ret) {
-+        error_setg_errno(errp, -ret, "Cannot set discarding of RAM broken");
-+        goto free_container_exit;
++    if (hdr->flags & VFIO_USER_NO_REPLY) {
++        error_printf("vfio_user_send_nowait on async message\n");
++        return;
 +    }
 +
-+    vfio_host_win_add(container, 0, (hwaddr)-1, proxy->dma_pgsizes);
-+    container->pgsizes = proxy->dma_pgsizes;
-+    container->dma_max_mappings = proxy->max_dma;
++    QEMU_LOCK_GUARD(&proxy->lock);
 +
-+    /* setup bitmask now, but migration support won't be ready until v2 */
-+    container->dirty_pages_supported = true;
-+    container->max_dirty_bitmap_size = proxy->max_bitmap;
-+    container->dirty_pgsizes = proxy->migr_pgsize;
++    msg = vfio_user_getmsg(proxy, hdr, fds);
++    msg->id = hdr->id;
++    msg->rsize = rsize ? rsize : hdr->size;
++    msg->type = VFIO_MSG_NOWAIT;
 +
-+    vfio_link_container(container, group);
-+
-+    if (container->error) {
-+        ret = -1;
-+        error_propagate_prepend(errp, container->error,
-+            "memory listener initialization failed: ");
-+        goto listener_release_exit;
++    ret = vfio_user_send_queued(proxy, msg);
++    if (ret < 0) {
++        vfio_user_recycle(proxy, msg);
++        return;
 +    }
 +
-+    container->initialized = true;
++    proxy->last_nowait = msg;
++}
 +
-+    return 0;
+ static void vfio_user_send_wait(VFIOUserProxy *proxy, VFIOUserHdr *hdr,
+                                 VFIOUserFDs *fds, int rsize, bool nobql)
+ {
+@@ -717,6 +750,60 @@ static void vfio_user_send_wait(VFIOUserProxy *proxy, VFIOUserHdr *hdr,
+     }
+ }
+ 
++static void vfio_user_wait_reqs(VFIOUserProxy *proxy)
++{
++    VFIOUserMsg *msg;
++    bool iolock = false;
 +
-+listener_release_exit:
-+    QLIST_REMOVE(group, container_next);
-+    QLIST_REMOVE(container, next);
-+    vfio_listener_release(container);
-+    vfio_ram_block_discard_disable(container, false);
++    /*
++     * Any DMA map/unmap requests sent in the middle
++     * of a memory region transaction were sent nowait.
++     * Wait for them here.
++     */
++    qemu_mutex_lock(&proxy->lock);
++    if (proxy->last_nowait != NULL) {
++        iolock = qemu_mutex_iothread_locked();
++        if (iolock) {
++            qemu_mutex_unlock_iothread();
++        }
 +
-+free_container_exit:
-+    g_free(container);
++        /*
++         * Change type to WAIT to wait for reply
++         */
++        msg = proxy->last_nowait;
++        msg->type = VFIO_MSG_WAIT;
++        proxy->last_nowait = NULL;
++        while (!msg->complete) {
++            if (!qemu_cond_timedwait(&msg->cv, &proxy->lock, wait_time)) {
++                VFIOUserMsgQ *list;
 +
-+    vfio_put_address_space(space);
++                list = msg->pending ? &proxy->pending : &proxy->outgoing;
++                QTAILQ_REMOVE(list, msg, next);
++                error_printf("vfio_wait_reqs - timed out\n");
++                break;
++            }
++        }
++
++        if (msg->hdr->flags & VFIO_USER_ERROR) {
++            error_printf("vfio_user_wait_reqs - error reply on async ");
++            error_printf("request: command %x error %s\n", msg->hdr->command,
++                         strerror(msg->hdr->error_reply));
++        }
++
++        /*
++         * Change type back to NOWAIT to free
++         */
++        msg->type = VFIO_MSG_NOWAIT;
++        vfio_user_recycle(proxy, msg);
++    }
++
++    /* lock order is BQL->proxy - don't hold proxy when getting BQL */
++    qemu_mutex_unlock(&proxy->lock);
++    if (iolock) {
++        qemu_mutex_lock_iothread();
++    }
++}
++
+ static QLIST_HEAD(, VFIOUserProxy) vfio_user_sockets =
+     QLIST_HEAD_INITIALIZER(vfio_user_sockets);
+ 
+@@ -1298,6 +1385,107 @@ int vfio_user_validate_version(VFIOUserProxy *proxy, Error **errp)
+     return 0;
+ }
+ 
++static int vfio_user_dma_map(VFIOUserProxy *proxy,
++                             struct vfio_iommu_type1_dma_map *map,
++                             int fd, bool will_commit)
++{
++    VFIOUserFDs *fds = NULL;
++    VFIOUserDMAMap *msgp = g_malloc0(sizeof(*msgp));
++    int ret;
++
++    vfio_user_request_msg(&msgp->hdr, VFIO_USER_DMA_MAP, sizeof(*msgp), 0);
++    msgp->argsz = map->argsz;
++    msgp->flags = map->flags;
++    msgp->offset = map->vaddr;
++    msgp->iova = map->iova;
++    msgp->size = map->size;
++    trace_vfio_user_dma_map(msgp->iova, msgp->size, msgp->offset, msgp->flags,
++                        will_commit);
++
++    /*
++     * The will_commit case sends without blocking or dropping BQL.
++     * They're later waited for in vfio_send_wait_reqs.
++     */
++    if (will_commit) {
++        /* can't use auto variable since we don't block */
++        if (fd != -1) {
++            fds = vfio_user_getfds(1);
++            fds->send_fds = 1;
++            fds->fds[0] = fd;
++        }
++        vfio_user_send_nowait(proxy, &msgp->hdr, fds, 0);
++        ret = 0;
++    } else {
++        VFIOUserFDs local_fds = { 1, 0, &fd };
++
++        fds = fd != -1 ? &local_fds : NULL;
++        vfio_user_send_wait(proxy, &msgp->hdr, fds, 0, will_commit);
++        ret = (msgp->hdr.flags & VFIO_USER_ERROR) ? -msgp->hdr.error_reply : 0;
++        g_free(msgp);
++    }
 +
 +    return ret;
 +}
 +
-+static void vfio_disconnect_proxy(VFIOGroup *group)
++static int vfio_user_dma_unmap(VFIOUserProxy *proxy,
++                               struct vfio_iommu_type1_dma_unmap *unmap,
++                               struct vfio_bitmap *bitmap, bool will_commit)
 +{
-+    VFIOContainer *container = group->container;
-+    VFIOAddressSpace *space = container->space;
++    struct {
++        VFIOUserDMAUnmap msg;
++        VFIOUserBitmap bitmap;
++    } *msgp = NULL;
++    int msize, rsize;
++    bool blocking = !will_commit;
++
++    if (bitmap == NULL &&
++        (unmap->flags & VFIO_DMA_UNMAP_FLAG_GET_DIRTY_BITMAP)) {
++        error_printf("vfio_user_dma_unmap mismatched flags and bitmap\n");
++        return -EINVAL;
++    }
 +
 +    /*
-+     * try to mirror vfio_disconnect_container()
-+     * as much as possible, knowing each device
-+     * is in one group and one container
++     * If a dirty bitmap is returned, allocate extra space for it
++     * and block for reply even in the will_commit case.
++     * Otherwise, can send the unmap request without waiting.
 +     */
++    if (bitmap != NULL) {
++        blocking = true;
++        msize = sizeof(*msgp);
++        rsize = msize + bitmap->size;
++        msgp = g_malloc0(rsize);
++        msgp->bitmap.pgsize = bitmap->pgsize;
++        msgp->bitmap.size = bitmap->size;
++    } else {
++        msize = rsize = sizeof(VFIOUserDMAUnmap);
++        msgp = g_malloc0(rsize);
++    }
 +
-+    QLIST_REMOVE(group, container_next);
-+    group->container = NULL;
++    vfio_user_request_msg(&msgp->msg.hdr, VFIO_USER_DMA_UNMAP, msize, 0);
++    msgp->msg.argsz = rsize - sizeof(VFIOUserHdr);
++    msgp->msg.argsz = unmap->argsz;
++    msgp->msg.flags = unmap->flags;
++    msgp->msg.iova = unmap->iova;
++    msgp->msg.size = unmap->size;
++    trace_vfio_user_dma_unmap(msgp->msg.iova, msgp->msg.size, msgp->msg.flags,
++                         bitmap != NULL, will_commit);
 +
-+    memory_listener_unregister(&container->listener);
++    if (blocking) {
++        vfio_user_send_wait(proxy, &msgp->msg.hdr, NULL, rsize, will_commit);
++        if (msgp->msg.hdr.flags & VFIO_USER_ERROR) {
++            return -msgp->msg.hdr.error_reply;
++        }
++        if (bitmap != NULL) {
++            memcpy(bitmap->data, &msgp->bitmap.data, bitmap->size);
++        }
++        g_free(msgp);
++    } else {
++        vfio_user_send_nowait(proxy, &msgp->msg.hdr, NULL, rsize);
++    }
 +
-+    vfio_unmap_container(container);
-+
-+    g_free(container);
-+    vfio_put_address_space(space);
++    return 0;
 +}
 +
-+int vfio_user_get_device(VFIOGroup *group, VFIODevice *vbasedev, Error **errp)
+ static int vfio_user_get_info(VFIOUserProxy *proxy,
+                               struct vfio_device_info *info)
  {
-     struct vfio_device_info info = { .argsz = sizeof(info) };
-     int ret;
-@@ -866,11 +965,57 @@ int vfio_user_get_device(VFIODevice *vbasedev, Error **errp)
-     }
- 
-     vbasedev->fd = -1;
--    vfio_init_device(vbasedev, NULL, &info);
-+    vfio_init_device(vbasedev, group, &info);
- 
-     return 0;
- }
- 
-+VFIOGroup *vfio_user_get_group(VFIOUserProxy *proxy, AddressSpace *as,
-+                               Error **errp)
-+{
-+    VFIOGroup *group;
-+
-+    /*
-+     * Mirror vfio_get_group(), except that each
-+     * device gets its own group and container,
-+     * unrelated to any host IOMMU groupings
-+     */
-+    group = g_malloc0(sizeof(*group));
-+    group->fd = -1;
-+    group->groupid = -1;
-+    QLIST_INIT(&group->device_list);
-+
-+    if (vfio_connect_proxy(proxy, group, as, errp)) {
-+        error_prepend(errp, "failed to connect proxy");
-+        g_free(group);
-+        group = NULL;
-+    }
-+
-+    if (QLIST_EMPTY(&vfio_group_list)) {
-+        qemu_register_reset(vfio_reset_handler, NULL);
-+    }
-+
-+    QLIST_INSERT_HEAD(&vfio_group_list, group, next);
-+
-+    return group;
-+}
-+
-+void vfio_user_put_group(VFIOGroup *group)
-+{
-+    if (!group || !QLIST_EMPTY(&group->device_list)) {
-+        return;
-+    }
-+
-+    vfio_ram_block_discard_disable(group->container, false);
-+    vfio_disconnect_proxy(group);
-+    QLIST_REMOVE(group, next);
-+    g_free(group);
-+
-+    if (QLIST_EMPTY(&vfio_group_list)) {
-+        qemu_unregister_reset(vfio_reset_handler, NULL);
-+    }
-+}
-+
- static void vfio_user_request_msg(VFIOUserHdr *hdr, uint16_t cmd,
-                                   uint32_t size, uint32_t flags)
- {
-@@ -1463,3 +1608,6 @@ VFIODeviceIO vfio_dev_io_sock = {
-     .region_read = vfio_user_io_region_read,
+@@ -1609,5 +1797,41 @@ VFIODeviceIO vfio_dev_io_sock = {
      .region_write = vfio_user_io_region_write,
  };
+ 
++static int vfio_user_io_dma_map(VFIOContainer *container, MemoryRegion *mr,
++                                struct vfio_iommu_type1_dma_map *map)
++{
++    int fd = memory_region_get_fd(mr);
 +
-+VFIOContainerIO vfio_cont_io_sock = {
-+};
++    /*
++     * map->vaddr enters as a QEMU process address
++     * make it either a file offset for mapped areas or 0
++     */
++    if (fd != -1) {
++        void *addr = (void *)(uintptr_t)map->vaddr;
++
++        map->vaddr = qemu_ram_block_host_offset(mr->ram_block, addr);
++    } else {
++        map->vaddr = 0;
++    }
++
++    return vfio_user_dma_map(container->proxy, map, fd, container->async_ops);
++}
++
++static int vfio_user_io_dma_unmap(VFIOContainer *container,
++                                  struct vfio_iommu_type1_dma_unmap *unmap,
++                                  struct vfio_bitmap *bitmap)
++{
++    return vfio_user_dma_unmap(container->proxy, unmap, bitmap,
++                               container->async_ops);
++}
++
++static void vfio_user_io_wait_commit(VFIOContainer *container)
++{
++    vfio_user_wait_reqs(container->proxy);
++}
++
+ VFIOContainerIO vfio_cont_io_sock = {
++    .dma_map = vfio_user_io_dma_map,
++    .dma_unmap = vfio_user_io_dma_unmap,
++    .wait_commit = vfio_user_io_wait_commit,
+ };
+diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+index 01563cb..a4e02ff 100644
+--- a/hw/vfio/trace-events
++++ b/hw/vfio/trace-events
+@@ -178,3 +178,5 @@ vfio_user_get_region_info(uint32_t index, uint32_t flags, uint64_t size) " index
+ vfio_user_region_rw(uint32_t region, uint64_t off, uint32_t count) " region %d offset 0x%"PRIx64" count %d"
+ vfio_user_get_irq_info(uint32_t index, uint32_t flags, uint32_t count) " index %d flags 0x%x count %d"
+ vfio_user_set_irqs(uint32_t index, uint32_t start, uint32_t count, uint32_t flags) " index %d start %d count %d flags 0x%x"
++vfio_user_dma_map(uint64_t iova, uint64_t size, uint64_t off, uint32_t flags, bool will_commit) " iova 0x%"PRIx64" size 0x%"PRIx64" off 0x%"PRIx64" flags 0x%x will_commit %d"
++vfio_user_dma_unmap(uint64_t iova, uint64_t size, uint32_t flags, bool dirty, bool will_commit) " iova 0x%"PRIx64" size 0x%"PRIx64" flags 0x%x dirty %d will_commit %d"
 -- 
 1.9.4
 
