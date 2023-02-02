@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB1F5687579
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 06:46:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 862BE687582
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 06:49:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNSPP-0008D9-11; Thu, 02 Feb 2023 00:45:19 -0500
+	id 1pNSPk-0008Gz-LB; Thu, 02 Feb 2023 00:45:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1pNSPM-0008C9-WE
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:17 -0500
+ id 1pNSPX-0008Gm-O6
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:27 -0500
 Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1pNSPL-0007CB-6e
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:16 -0500
-Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+ id 1pNSPW-0007CK-2Q
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:27 -0500
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3124i1H4021554; Thu, 2 Feb 2023 05:45:13 GMT
+ 3124hvch023776; Thu, 2 Feb 2023 05:45:14 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2022-7-12;
- bh=FSwq4E8XT0q1Pw7iQv4siD+cV8OFk9AaZWjCbzQfvAA=;
- b=zR6tafSGWtH3jO74y7RFK19Irbifs5Bg5qfS5IknpyPXW6WF/pCSw9F7yM+U1PZNElaO
- 4wG2pQ8xckZsFGgpgQrQtjXJZHhEIgii0Ud7d1CAqUUPBRG3TiIYikxv++rReTX9KemW
- DvhsWXAOfMcX4ybKP4e2ANCEj4Ma1qdDSZ7pdiC0+KlGtpCD4nzF2a3334G9EA7OHYOO
- ykYDzXYcp4yrARwaUW1fvZPyL95sCBOB1tE7KiBJ4BVa2c6ZplY9uyEbyt+VQHcyNxY+
- GadgdHnvWLMOcHdcr7jTjLvdNGv/5FclN1675Sphcj/Cj/379dZpVkkN4wKgqHVZZm2A vA== 
+ bh=FXkLIaylQSY+fsgEo66NE8CdytHAaTrGU2IVfBvGFTA=;
+ b=p/5N4NlXXNSFXXfGdycL1XRgO5tg7rv7wQGUrT+MEVHouS+0tLyUI6bOZLVwFTFQUK4g
+ Hu4MjfTvT7sQrg5lW6ZQlk2MvVs2hj42pLYYHySEgHzjsLjafisKhvsDLKHGLoBStQWZ
+ 9VJoU/G/zuHhJDPWU9UDMfkVzUFuK7UfV2yRADhCi58a/hG+u0QcZzfW2521uegHdw1G
+ TLHXBym81bijHbCwbs7YO1+I2y0Ibbn28XaL3pBFGeKhxWU0UD3VE2v4MMNO35XCMO6B
+ 4OUxRmV0h4eXSySNSPdVtxwSw3utZ/ChoVLaCLbwEMSU2a+RzOUs47Js0HxF6rPnV9RW 7A== 
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nfq28syxv-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nfkd1tfda-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 02 Feb 2023 05:45:12 +0000
+ Thu, 02 Feb 2023 05:45:13 +0000
 Received: from pps.filterd
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 31254Ppr013015; Thu, 2 Feb 2023 05:45:11 GMT
+ with ESMTP id 31254Ppt013015; Thu, 2 Feb 2023 05:45:12 GMT
 Received: from bruckner.us.oracle.com (dhcp-10-65-133-23.vpn.oracle.com
  [10.65.133.23])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3nct5f5gb1-19
+ 3nct5f5gb1-20
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 02 Feb 2023 05:45:11 +0000
+ Thu, 02 Feb 2023 05:45:12 +0000
 From: John Johnson <john.g.johnson@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: alex.williamson@redhat.com, clg@redhat.com, philmd@linaro.org
-Subject: [PATCH v2 18/23] vfio-user: add dma_unmap_all
-Date: Wed,  1 Feb 2023 21:55:54 -0800
-Message-Id: <20fc8b4bb94583ef41d289db3831a9d07a0eae02.1675228037.git.john.g.johnson@oracle.com>
+Subject: [PATCH v2 19/23] vfio-user: no-mmap DMA support
+Date: Wed,  1 Feb 2023 21:55:55 -0800
+Message-Id: <fd72fb2ae20724145f72ca6f2308f712603738e1.1675228037.git.john.g.johnson@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1675228037.git.john.g.johnson@oracle.com>
 References: <cover.1675228037.git.john.g.johnson@oracle.com>
@@ -65,8 +65,8 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
  adultscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
  definitions=main-2302020053
-X-Proofpoint-GUID: wM1LE-PLgSFEfoAQ_mxyREa04wCFcu2T
-X-Proofpoint-ORIG-GUID: wM1LE-PLgSFEfoAQ_mxyREa04wCFcu2T
+X-Proofpoint-GUID: yPNTGllkWCm0OS6uZ5gxUgN__ANGEEBJ
+X-Proofpoint-ORIG-GUID: yPNTGllkWCm0OS6uZ5gxUgN__ANGEEBJ
 Received-SPF: pass client-ip=205.220.165.32;
  envelope-from=john.g.johnson@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
@@ -91,147 +91,73 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Force remote process to use DMA r/w messages instead
+of directly mapping guest memory.
+
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- include/hw/vfio/vfio-common.h |  1 +
- hw/vfio/common.c              | 45 ++++++++++++++++++++++++++++++++++---------
- hw/vfio/user.c                | 24 +++++++++++++++++++++++
- 3 files changed, 61 insertions(+), 9 deletions(-)
+ hw/vfio/user.h     | 1 +
+ hw/vfio/user-pci.c | 5 +++++
+ hw/vfio/user.c     | 2 +-
+ 3 files changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-index ee6ad8f..abef9b4 100644
---- a/include/hw/vfio/vfio-common.h
-+++ b/include/hw/vfio/vfio-common.h
-@@ -193,6 +193,7 @@ struct VFIOContainerIO {
-     int (*dma_unmap)(VFIOContainer *container,
-                      struct vfio_iommu_type1_dma_unmap *unmap,
-                      struct vfio_bitmap *bitmap);
-+    int (*dma_unmap_all)(VFIOContainer *container, uint32_t flags);
-     int (*dirty_bitmap)(VFIOContainer *container,
-                         struct vfio_iommu_type1_dirty_bitmap *bitmap,
-                         struct vfio_iommu_type1_dirty_bitmap_get *range);
-diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-index f04fd20..8b55fbb 100644
---- a/hw/vfio/common.c
-+++ b/hw/vfio/common.c
-@@ -508,6 +508,14 @@ static int vfio_dma_unmap(VFIOContainer *container,
-     return container->io->dma_unmap(container, &unmap, NULL);
- }
+diff --git a/hw/vfio/user.h b/hw/vfio/user.h
+index b89e5ca..fe0115b 100644
+--- a/hw/vfio/user.h
++++ b/hw/vfio/user.h
+@@ -83,6 +83,7 @@ typedef struct VFIOUserProxy {
  
-+/*
-+ * DMA - Mapping and unmapping for the "type1" IOMMU interface used on x86
-+ */
-+static int vfio_dma_unmap_all(VFIOContainer *container)
-+{
-+    return container->io->dma_unmap_all(container, VFIO_DMA_UNMAP_FLAG_ALL);
-+}
-+
- static int vfio_dma_map(VFIOContainer *container, MemoryRegion *mr, hwaddr iova,
-                         ram_addr_t size, void *vaddr, bool readonly)
- {
-@@ -1256,17 +1264,10 @@ static void vfio_listener_region_del(MemoryListener *listener,
+ /* VFIOProxy flags */
+ #define VFIO_PROXY_CLIENT        0x1
++#define VFIO_PROXY_NO_MMAP       0x2
+ #define VFIO_PROXY_FORCE_QUEUED  0x4
+ #define VFIO_PROXY_NO_POST       0x8
  
-     if (try_unmap) {
-         if (int128_eq(llsize, int128_2_64())) {
--            /* The unmap ioctl doesn't accept a full 64-bit span. */
--            llsize = int128_rshift(llsize, 1);
-+            ret = vfio_dma_unmap_all(container);
-+        } else {
-             ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
--            if (ret) {
--                error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
--                             "0x%"HWADDR_PRIx") = %d (%m)",
--                             container, iova, int128_get64(llsize), ret);
--            }
--            iova += int128_get64(llsize);
-         }
--        ret = vfio_dma_unmap(container, iova, int128_get64(llsize), NULL);
-         if (ret) {
-             error_report("vfio_dma_unmap(%p, 0x%"HWADDR_PRIx", "
-                          "0x%"HWADDR_PRIx") = %d (%m)",
-@@ -2867,6 +2868,31 @@ static int vfio_io_dma_unmap(VFIOContainer *container,
-     return 0;
- }
- 
-+static int vfio_io_dma_unmap_all(VFIOContainer *container, uint32_t flags)
-+{
-+    struct vfio_iommu_type1_dma_unmap unmap = {
-+        .argsz = sizeof(unmap),
-+        .flags = 0,
-+        .size = 0x8000000000000000,
-+    };
-+    int ret;
-+
-+    /* The unmap ioctl doesn't accept a full 64-bit span. */
-+    unmap.iova = 0;
-+    ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap);
-+    if (ret) {
-+        return -errno;
-+    }
-+
-+    unmap.iova += unmap.size;
-+    ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, &unmap);
-+    if (ret) {
-+        return -errno;
-+    }
-+
-+    return 0;
-+}
-+
- static int vfio_io_dirty_bitmap(VFIOContainer *container,
-                                 struct vfio_iommu_type1_dirty_bitmap *bitmap,
-                                 struct vfio_iommu_type1_dirty_bitmap_get *range)
-@@ -2886,6 +2912,7 @@ static void vfio_io_wait_commit(VFIOContainer *container)
- static VFIOContainerIO vfio_cont_io_ioctl = {
-     .dma_map = vfio_io_dma_map,
-     .dma_unmap = vfio_io_dma_unmap,
-+    .dma_unmap_all = vfio_io_dma_unmap_all,
-     .dirty_bitmap = vfio_io_dirty_bitmap,
-     .wait_commit = vfio_io_wait_commit,
+diff --git a/hw/vfio/user-pci.c b/hw/vfio/user-pci.c
+index a0aa320..bf84d7c 100644
+--- a/hw/vfio/user-pci.c
++++ b/hw/vfio/user-pci.c
+@@ -40,6 +40,7 @@ OBJECT_DECLARE_SIMPLE_TYPE(VFIOUserPCIDevice, VFIO_USER_PCI)
+ struct VFIOUserPCIDevice {
+     VFIOPCIDevice device;
+     char *sock_name;
++    bool no_direct_dma; /* disable shared mem for DMA */
+     bool send_queued;   /* all sends are queued */
+     bool no_post;       /* all regions write are sync */
  };
+@@ -160,6 +161,9 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
+     vbasedev->proxy = proxy;
+     vfio_user_set_handler(vbasedev, vfio_user_pci_process_req, vdev);
+ 
++    if (udev->no_direct_dma) {
++        proxy->flags |= VFIO_PROXY_NO_MMAP;
++    }
+     if (udev->send_queued) {
+         proxy->flags |= VFIO_PROXY_FORCE_QUEUED;
+     }
+@@ -269,6 +273,7 @@ static void vfio_user_instance_finalize(Object *obj)
+ 
+ static Property vfio_user_pci_dev_properties[] = {
+     DEFINE_PROP_STRING("socket", VFIOUserPCIDevice, sock_name),
++    DEFINE_PROP_BOOL("no-direct-dma", VFIOUserPCIDevice, no_direct_dma, false),
+     DEFINE_PROP_BOOL("x-send-queued", VFIOUserPCIDevice, send_queued, false),
+     DEFINE_PROP_BOOL("x-no-posted-writes", VFIOUserPCIDevice, no_post, false),
+     DEFINE_PROP_END_OF_LIST(),
 diff --git a/hw/vfio/user.c b/hw/vfio/user.c
-index 6dee775..fe6e476 100644
+index fe6e476..0a7b354 100644
 --- a/hw/vfio/user.c
 +++ b/hw/vfio/user.c
-@@ -1825,6 +1825,28 @@ static int vfio_user_io_dma_unmap(VFIOContainer *container,
-                                container->async_ops);
- }
+@@ -1806,7 +1806,7 @@ static int vfio_user_io_dma_map(VFIOContainer *container, MemoryRegion *mr,
+      * map->vaddr enters as a QEMU process address
+      * make it either a file offset for mapped areas or 0
+      */
+-    if (fd != -1) {
++    if (fd != -1 && (container->proxy->flags & VFIO_PROXY_NO_MMAP) == 0) {
+         void *addr = (void *)(uintptr_t)map->vaddr;
  
-+static int vfio_user_io_dma_unmap_all(VFIOContainer *container, uint32_t flags)
-+{
-+    struct vfio_iommu_type1_dma_unmap unmap = {
-+        .argsz = sizeof(unmap),
-+        .flags = flags | VFIO_DMA_UNMAP_FLAG_ALL,
-+        .iova = 0,
-+        .size = 0,
-+    };
-+
-+    return vfio_user_dma_unmap(container->proxy, &unmap, NULL,
-+                               container->async_ops);
-+}
-+
-+static int vfio_user_io_dirty_bitmap(VFIOContainer *container,
-+                        struct vfio_iommu_type1_dirty_bitmap *bitmap,
-+                        struct vfio_iommu_type1_dirty_bitmap_get *range)
-+{
-+
-+    /* vfio-user doesn't support migration */
-+    return -EINVAL;
-+}
-+
- static void vfio_user_io_wait_commit(VFIOContainer *container)
- {
-     vfio_user_wait_reqs(container->proxy);
-@@ -1833,5 +1855,7 @@ static void vfio_user_io_wait_commit(VFIOContainer *container)
- VFIOContainerIO vfio_cont_io_sock = {
-     .dma_map = vfio_user_io_dma_map,
-     .dma_unmap = vfio_user_io_dma_unmap,
-+    .dma_unmap_all = vfio_user_io_dma_unmap_all,
-+    .dirty_bitmap = vfio_user_io_dirty_bitmap,
-     .wait_commit = vfio_user_io_wait_commit,
- };
+         map->vaddr = qemu_ram_block_host_offset(mr->ram_block, addr);
 -- 
 1.9.4
 
