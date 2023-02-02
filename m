@@ -2,88 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12039687B86
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 12:08:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98999687B87
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 12:08:20 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNXRW-0000t2-SR; Thu, 02 Feb 2023 06:07:51 -0500
+	id 1pNXRi-000176-0O; Thu, 02 Feb 2023 06:08:03 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNXQq-0000nq-87
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:07:18 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNXQo-0000hw-Fh
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:07:07 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675336025;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=0hlAwLolgYXBxOgW/0V2gyZWptyHDHr9uh45aanugzU=;
- b=JWJBzWXaACzlet8W/USEBdPHyUx9OTZ7XZ3ZJcSPC1WW1rMwlR4Wh23MEUkdmQB3D8TUSK
- gilGRYBDcdKbzMZW5q0shaVAmc7o5fQiHKPqZRF38X5/VjRYL1fj2zPa78IpzVKd04rcms
- IpvNEFthPuzn+KPPU9U2J8Wx7fMWUFg=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-475-PA0rLSDQMtKYMP6t4av-CQ-1; Thu, 02 Feb 2023 06:07:04 -0500
-X-MC-Unique: PA0rLSDQMtKYMP6t4av-CQ-1
-Received: by mail-wm1-f72.google.com with SMTP id
- e38-20020a05600c4ba600b003dc434dabbdso2640836wmp.6
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 03:07:04 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNXRN-00011L-M1
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:07:50 -0500
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNXRK-0000ko-HA
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:07:40 -0500
+Received: by mail-wr1-x42e.google.com with SMTP id m7so1334809wru.8
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 03:07:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=+kVSl5nz96A/UMtvxO+myMdqmEfCiAhVn3Wk1HkDvio=;
+ b=evuX7XVYJtBka+o7lNV5dNcZ39NV/+8gc0aIKuvvcP1sx/05BxjvrSsSSh9z6Q+Ex9
+ tld9QT0UWBTW1oUcD6NzRTUvfBDcX27VS3DAjcvhFHUL4qGSdKo2QLrJWVTo5eFyodjW
+ nPihEg4SLEU7T+hdcx/D/l+o/YKDosLJ4JW3vekL/+WlEppYWW9Hot7VWsK8zFbqbc5Y
+ WO1uvra1PnNX3k66ilwnQHOHsyhfGqvMpmKQGiYUH+G4FmlOe6N95lB1R6y0vAqPoBdO
+ TLZ0MLWyaBIJqYh1rrMlOvJYPzopdEsIadi9yGUwy8i3mvKsFkPR3cMtJWWv0Egto3iV
+ P7wg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=0hlAwLolgYXBxOgW/0V2gyZWptyHDHr9uh45aanugzU=;
- b=nqmxxmsGydV/Azm8dt3IkVqyH0xjhN36Oxj7kJyMitA8vaUdwjQJ4MLVlfFXKQ3Q9i
- u6n5K7XQSK5FVNTaqkEpfXrMaysTbobLTz+1A9zj8BM8b8FQrTPSqNLZZnDA2dG/yFkG
- N5UqoAXS4NQf6+0ZGnKsrSg+fJP/e2+OfI5CRSgDxKkCpSK9ARlAKXa5pYe8C2lGCNNS
- NZZ1hGj/3fi0dUKXA2/6gBKu6EcHlEorPSlahSCJq6Uc6lCnJezlqSC2lZJ5c/PnKu2p
- SVDPYDnbC7QfRqz99Wh2oOmLBjV70NazHCYn4Y7DrjHiZ9k9hBssjimJ4BvRaWe6hSG7
- xZTg==
-X-Gm-Message-State: AO0yUKWFxUccYfNr5+o2zegT6zA5EyHqchLPEGKylOYEU1mT+77X6Fel
- 1BCGRlbFE6/oMUi/xOlngHjTdtofxYyNoxHPjhMpjObn/+eh42pcrAKkqCqnYWAeSkmxb5vCU19
- vvFxRCjh1kFaQKZM=
-X-Received: by 2002:a05:600c:1c81:b0:3dc:5987:fe9 with SMTP id
- k1-20020a05600c1c8100b003dc59870fe9mr5390447wms.2.1675336023140; 
- Thu, 02 Feb 2023 03:07:03 -0800 (PST)
-X-Google-Smtp-Source: AK7set8TNK/3qzY4QWMAWBGIgBT5ZD1xNVmY5Ng92nzIU3bqltKHbYUMf4VOTBcSmJS9XaDbgfvv9A==
-X-Received: by 2002:a05:600c:1c81:b0:3dc:5987:fe9 with SMTP id
- k1-20020a05600c1c8100b003dc59870fe9mr5390425wms.2.1675336022915; 
- Thu, 02 Feb 2023 03:07:02 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- f20-20020a05600c43d400b003daf681d05dsm4247515wmn.26.2023.02.02.03.07.02
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Feb 2023 03:07:02 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Chuang Xu <xuchuangxclwt@bytedance.com>
-Cc: qemu-devel@nongnu.org,  dgilbert@redhat.com,  pbonzini@redhat.com,
- peterx@redhat.com,  david@redhat.com,  philmd@linaro.org,
- zhouyibo@bytedance.com
-Subject: Re: [RFC v5 0/3] migration: reduce time of loading non-iterable
- vmstate
-In-Reply-To: <20230117115511.3215273-1-xuchuangxclwt@bytedance.com> (Chuang
- Xu's message of "Tue, 17 Jan 2023 19:55:08 +0800")
-References: <20230117115511.3215273-1-xuchuangxclwt@bytedance.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 02 Feb 2023 12:07:01 +0100
-Message-ID: <87a61ws4ve.fsf@secure.mitica>
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=+kVSl5nz96A/UMtvxO+myMdqmEfCiAhVn3Wk1HkDvio=;
+ b=CaFj7hHGsEC8P3SiWv4VjR6TIt8czWqSOQSctj3wiAX27GP/goZ7H/joK0kkqO1y3s
+ CIu0DkcKKhU901PDzK8PbxH/MQNZs28YkOJ8YMO1LVIGo4G9bxZ8BFRU95hREc8s9qtJ
+ LPfkRLax0ZGsV9oUzBz4vc5Jiw/9zrdQsJyvX0GOUc4ZBp8KNdA6W8SRWYnAeHl1sjTn
+ 15yMgLKuZAMVyzp7F/5zMvHl0mZc5dTCcGFtZANrKKzJjPN4H2fx6/oI8hvKb9Hq0jup
+ 0AEgmGTCDBMiEhKbH8E4fl4Ipaw0A12K06NcWW+mqnN0ko3e2OvLfQ9pOVZUOEi5ybZy
+ CjVw==
+X-Gm-Message-State: AO0yUKVqVPeopaLHqQkqHBZRfvWGioQm33T3ePuApoANOgtTvZl9K3gb
+ jXExJGTjfCER2a4zjLWNAikFAg==
+X-Google-Smtp-Source: AK7set9hFRZhMDW87tJOKHldlQ/cZZLiAyDxUZTQva22IZfo9jBBSH9KGwtD2tJa5LyGEzKihE03kQ==
+X-Received: by 2002:a05:6000:188f:b0:2bf:bd69:234b with SMTP id
+ a15-20020a056000188f00b002bfbd69234bmr6676771wri.32.1675336054502; 
+ Thu, 02 Feb 2023 03:07:34 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ r28-20020adfa15c000000b002bfd137ecddsm17821933wrr.11.2023.02.02.03.07.33
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Feb 2023 03:07:34 -0800 (PST)
+Message-ID: <546c2c37-df67-d880-a68c-4faad651ed90@linaro.org>
+Date: Thu, 2 Feb 2023 12:07:33 +0100
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PULL 08/34] hw/arm/virt: Let the virtio-iommu bypass MSIs
+Content-Language: en-US
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: Eric Auger <eric.auger@redhat.com>, qemu-devel@nongnu.org
+References: <20200703165405.17672-1-peter.maydell@linaro.org>
+ <20200703165405.17672-9-peter.maydell@linaro.org>
+ <7592c27c-0c98-d52c-fecc-ac2b261ecbb3@linaro.org>
+ <CAFEAcA8AXsXa7adhhmvMrh+kBoQx=tJ9PzizAnrgb=Db_vupGw@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <CAFEAcA8AXsXa7adhhmvMrh+kBoQx=tJ9PzizAnrgb=Db_vupGw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -97,143 +89,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Chuang Xu <xuchuangxclwt@bytedance.com> wrote:
-> In this version:
->
-> - rename rcu_read_locked() to rcu_read_is_locked().
-> - adjust the sanity check in address_space_to_flatview().
-> - improve some comments.
->
-> The duration of loading non-iterable vmstate accounts for a significant
-> portion of downtime (starting with the timestamp of source qemu stop and
-> ending with the timestamp of target qemu start). Most of the time is spent
-> committing memory region changes repeatedly.
->
-> This patch packs all the changes to memory region during the period of	
-> loading non-iterable vmstate in a single memory transaction. With the
-> increase of devices, this patch will greatly improve the performance.
->
-> Here are the test1 results:
-> test info:
-> - Host
->   - Intel(R) Xeon(R) Platinum 8260 CPU
->   - NVIDIA Mellanox ConnectX-5
-> - VM
->   - 32 CPUs 128GB RAM VM
->   - 8 16-queue vhost-net device
->   - 16 4-queue vhost-user-blk device.
->
-> 	time of loading non-iterable vmstate     downtime
-> before		about 150 ms			  740+ ms
-> after		about 30 ms			  630+ ms
->
-> (This result is different from that of v1. It may be that someone has 
-> changed something on my host.., but it does not affect the display of 
-> the optimization effect.)
->
->
-> In test2, we keep the number of the device the same as test1, reduce the 
-> number of queues per device:
->
-> Here are the test2 results:
-> test info:
-> - Host
->   - Intel(R) Xeon(R) Platinum 8260 CPU
->   - NVIDIA Mellanox ConnectX-5
-> - VM
->   - 32 CPUs 128GB RAM VM
->   - 8 1-queue vhost-net device
->   - 16 1-queue vhost-user-blk device.
->
-> 	time of loading non-iterable vmstate     downtime
-> before		about 90 ms			 about 250 ms
->
-> after		about 25 ms			 about 160 ms
->
->
->
-> In test3, we keep the number of queues per device the same as test1, reduce 
-> the number of devices:
->
-> Here are the test3 results:
-> test info:
-> - Host
->   - Intel(R) Xeon(R) Platinum 8260 CPU
->   - NVIDIA Mellanox ConnectX-5
-> - VM
->   - 32 CPUs 128GB RAM VM
->   - 1 16-queue vhost-net device
->   - 1 4-queue vhost-user-blk device.
->
-> 	time of loading non-iterable vmstate     downtime
-> before		about 20 ms			 about 70 ms
-> after		about 11 ms			 about 60 ms
->
->
-> As we can see from the test results above, both the number of queues and 
-> the number of devices have a great impact on the time of loading non-iterable 
-> vmstate. The growth of the number of devices and queues will lead to more 
-> mr commits, and the time consumption caused by the flatview reconstruction 
-> will also increase.
->
-> Please review, Chuang.
+On 2/2/23 11:58, Peter Maydell wrote:
+> On Thu, 2 Feb 2023 at 10:47, Philippe Mathieu-Daudé <philmd@linaro.org> wrote:
+>> Where is "len-reserved-regions" declared?
+> 
+>    DEFINE_PROP_ARRAY("reserved-regions", ...)
+> 
+> does this. For an array property "foo" the machinery creates an integer
+> property "foo-len", which must be set first. Setting that
+> then creates properties "foo[0]", "foo[1]", ... which can be set.
 
-Hi
+Oh indeed now I see the array prefix:
 
-As on the review, I aggree with the patches, but I am waiting for Paolo
-to review the rcu change (that I think that it is trivial, but I am not
-the rcu maintainer).
+   #define PROP_ARRAY_LEN_PREFIX "len-"
 
-If it happens that you need to send another version, I think that you
-can change the RFC for PATCH.
+Not obvious to realize while grepping.
 
-Again, very good job.
-
-Later, Juan.
-
-
-> [v4]
->
-> - attach more information in the cover letter.
-> - remove changes on virtio_load.
-> - add rcu_read_locked() to detect holding of rcu lock.
->
-> [v3]
->
-> - move virtio_load_check_delay() from virtio_memory_listener_commit() to 
->   virtio_vmstate_change().
-> - add delay_check flag to VirtIODevice to make sure virtio_load_check_delay() 
->   will be called when delay_check is true.
->
-> [v2]
->
-> - rebase to latest upstream.
-> - add sanity check to address_space_to_flatview().
-> - postpone the init of the vring cache until migration's loading completes. 
->
-> [v1]
->
-> The duration of loading non-iterable vmstate accounts for a significant
-> portion of downtime (starting with the timestamp of source qemu stop and
-> ending with the timestamp of target qemu start). Most of the time is spent
-> committing memory region changes repeatedly.
->
-> This patch packs all the changes to memory region during the period of
-> loading non-iterable vmstate in a single memory transaction. With the
-> increase of devices, this patch will greatly improve the performance.
->
-> Here are the test results:
-> test vm info:
-> - 32 CPUs 128GB RAM
-> - 8 16-queue vhost-net device
-> - 16 4-queue vhost-user-blk device.
->
-> 	time of loading non-iterable vmstate
-> before		about 210 ms
-> after		about 40 ms
+Thanks for the quick answer!
 
 
