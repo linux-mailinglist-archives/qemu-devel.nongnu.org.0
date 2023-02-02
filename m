@@ -2,83 +2,84 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56D5468850A
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 18:04:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5715768852C
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 18:14:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNcyu-0002O6-67; Thu, 02 Feb 2023 12:02:40 -0500
+	id 1pNd9L-0007HC-44; Thu, 02 Feb 2023 12:13:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNcyr-0002LI-RC
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 12:02:37 -0500
-Received: from mail-pl1-x632.google.com ([2607:f8b0:4864:20::632])
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pNd9G-00078U-TI
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 12:13:24 -0500
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNcyp-0003ud-Jt
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 12:02:37 -0500
-Received: by mail-pl1-x632.google.com with SMTP id m2so2481954plg.4
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 09:02:34 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
+ id 1pNd9E-0006lj-Fe
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 12:13:22 -0500
+Received: by mail-wm1-x333.google.com with SMTP id
+ c4-20020a1c3504000000b003d9e2f72093so4234694wma.1
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 09:13:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=25OMBhvzobX9Htf6nIvHkxSG+HgBD1Jh2RP3Tr+fZ4o=;
- b=YncBkj0gS+3gbyhm5/4AVS33n9ot8c9hNuRXQ/EBsgK54CnYPFHr/GAdPlcCMdqM7I
- uzyJFAD3CxXsVPehA5TNpyuo6PZVkuzFxXzosPitBMZmMNbhpPINTXlaxfPrtDx2bY/R
- BcwVwXwPJpAukMAZlED6owzYiw8ccV8Xf7fHAMBhooR2eHwRhpwP/3x0gWxR6Pdkj822
- iiIKnCeiAzoH5dicRKusP/B9Hi0xhFfUMPp0NjTNSgLjVJfN9TwhcwP7wB04wM9wKOC/
- zLbSyGSweg9ckKgNkPYS5t9NwXFUGyUnDAC6eFv+b0LS2lOK44Qwi3r/XHXh1e8dFq/9
- JPIg==
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=bOAUJjmKeQNLjKQRMTa5Ijc1PR1bnBeSgRlcQe8k7Xo=;
+ b=jC50paXWykdLBrzd7wqstwvQTiwFAPo6Z3k/tf/VzwBN40CnVIiyChe5ynBkk/CZYu
+ cWgZ44J+ZHBdU6C0tZa+DLIMbb18Vu6IFsFm8uLq85VNirDPM3bnBA3dvqKAegwXBWwb
+ cM1Th9BPzm15upaBHvUzyk3cmEU6pfK1pLEJEq3wa9Zfce7QMbkwwIBiLKpLZH7lcKZi
+ OUoTFbSVjmPVgxPLw1Vdim/C6e7RfRC7Ux2ENThyVSwlcgy/zI8xrzG5suMrzl0nl0ya
+ 0yV37aVZdiCDFx/2icKAlODaGQa5VSuhT12hF8BWALpAUZmOJd8tbzGX8us4FlnWGq8Z
+ AUEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=25OMBhvzobX9Htf6nIvHkxSG+HgBD1Jh2RP3Tr+fZ4o=;
- b=MPdqPOLZbrhLvKyhBRJYpgbSwW3iQV3P5Sz9u7n//OLKCgqjqc2tDbqXgYkdY07Elw
- iBAo2iDr9HUfmiAKSWiiTVW8Imv1ihQlea8gvVjzq/Dukish1HChTt+tDhCng3NgZTsj
- clwXKz8WEQgB7CGiO70ZZUum71LW0UJ/ioWcowkpvVyDVZzES9agqplXdht4LJk608Ud
- u/2WEqZgCWoqy8y5PETjjGLFRrSM/dcGW/p+BLxKoVkTvpQMXMc/JM23tsUNEpeJFwdx
- QZUd2sBTyF9WRI06R6NM/M4xUuOb0c0h1ApL0Sl7smigrAtPLN1E4zWZgFOOciVV995t
- oL0g==
-X-Gm-Message-State: AO0yUKWVycU14Zvpdd8H4GQfz8SGyNNxJu4EbBBJ9yJjzd9kUYkwF3UD
- iFMIpZwjKcYyuqu5RSHRA3+67g==
-X-Google-Smtp-Source: AK7set/Ar8BgH5wCFNPhuwHL1+zq75+MnYHSpfu5sU+1sq8PoFfaJkgo0oJz0YJ7vLrjBV6hDUWDtg==
-X-Received: by 2002:a17:902:c611:b0:196:35cf:3b08 with SMTP id
- r17-20020a170902c61100b0019635cf3b08mr6060969plr.36.1675357353725; 
- Thu, 02 Feb 2023 09:02:33 -0800 (PST)
-Received: from [192.168.50.194] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- g13-20020a170902d5cd00b00186b7443082sm1053090plh.195.2023.02.02.09.02.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Feb 2023 09:02:33 -0800 (PST)
-Message-ID: <7da5cc9a-bf7d-a045-f253-bed4d7f2bf12@linaro.org>
-Date: Thu, 2 Feb 2023 07:02:29 -1000
+ h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
+ :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
+ :cc:subject:date:message-id:reply-to;
+ bh=bOAUJjmKeQNLjKQRMTa5Ijc1PR1bnBeSgRlcQe8k7Xo=;
+ b=Eee/df5m9eB/UsyuLpKKOWsFdQM37Dn+1CSnXQy8o/EqDI+pRciZcl03aSCy2RZQPc
+ jwVWYtqVvV9MyiKfYxTorlWSIFFCkGbWANbeDZ4oFEIb5kICwCQUkJImm/oCatOiPGlE
+ dmHUWU7tl88hSQ896QbzWdAS+lzQvRr4QI85axSHrj9EvGM4GUhnCd6UXmshg3VEak01
+ KJ5KDB6miO4uCbsTf33yK94oWvfWiMbgOYxO792rbLCgK6X8kcHUV4d9nEWXcznv0Ms/
+ rLVorKV7BSPewudTceS7owEt/ytWL6c5se4iJ2WsD30XA9PGzhlo9ljdVvYMnaOGs6lb
+ xWAA==
+X-Gm-Message-State: AO0yUKWffnM01/0kr9a7HqbgFDpbNiImOhDaperPGQ9ByUsC/98QiwrV
+ bwbkSTvgsV5dnb/gZ8uJtiKviw==
+X-Google-Smtp-Source: AK7set9RKMdJCy6v1BDs40kewFfJU3MGTb1Q/wqpIJjRo83+mV/hPyrffGuVkmNAXGOjuqlNU5qQ5g==
+X-Received: by 2002:a05:600c:3d06:b0:3df:dc0d:f0b3 with SMTP id
+ bh6-20020a05600c3d0600b003dfdc0df0b3mr2711200wmb.9.1675357998640; 
+ Thu, 02 Feb 2023 09:13:18 -0800 (PST)
+Received: from zen.linaroharston ([185.81.254.11])
+ by smtp.gmail.com with ESMTPSA id
+ w10-20020a5d608a000000b002bfd8ad20a0sm16306wrt.44.2023.02.02.09.13.18
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Feb 2023 09:13:18 -0800 (PST)
+Received: from zen (localhost [127.0.0.1])
+ by zen.linaroharston (Postfix) with ESMTP id 92DED1FFB7;
+ Thu,  2 Feb 2023 17:13:17 +0000 (GMT)
+References: <20230126112250.2584701-1-alex.bennee@linaro.org>
+ <CAFEAcA_TCHw2b=zOWOX7COLa-iqC1P8Bm1wiACKhmx32cuS8SA@mail.gmail.com>
+ <877cx11cpq.fsf@linaro.org>
+ <CAFEAcA_beYVNurYS3CE9x=H5mn1F3jwCiZo-CmEPsN7syB0Sjw@mail.gmail.com>
+User-agent: mu4e 1.9.19; emacs 29.0.60
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+Cc: qemu-devel@nongnu.org
+Subject: Re: [PULL 00/35] Testing, docs, semihosting and plugin updates
+Date: Thu, 02 Feb 2023 17:12:43 +0000
+In-reply-to: <CAFEAcA_beYVNurYS3CE9x=H5mn1F3jwCiZo-CmEPsN7syB0Sjw@mail.gmail.com>
+Message-ID: <87a61wkn2q.fsf@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH 35/39] crypto: Move SM4_SBOXWORD from target/riscv
-Content-Language: en-US
-To: Lawrence Hunter <lawrence.hunter@codethink.co.uk>, qemu-devel@nongnu.org
-Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
- kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, pbonzini@redhat.com,
- philipp.tomsich@vrull.eu, kvm@vger.kernel.org, Max Chou <max.chou@sifive.com>
-References: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
- <20230202124230.295997-36-lawrence.hunter@codethink.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <20230202124230.295997-36-lawrence.hunter@codethink.co.uk>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::632;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x632.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::333;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -96,38 +97,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/2/23 02:42, Lawrence Hunter wrote:
-> From: Max Chou <max.chou@sifive.com>
-> 
->      - Share SM4_SBOXWORD between target/riscv and target/arm.
-> 
-> Signed-off-by: Max Chou <max.chou@sifive.com>
-> Reviewed-by: Frank Chang <frank.chang@sifive.com>
-> ---
->   include/crypto/sm4.h       |  7 +++++++
->   target/arm/crypto_helper.c | 10 ++--------
->   2 files changed, 9 insertions(+), 8 deletions(-)
-> 
-> diff --git a/include/crypto/sm4.h b/include/crypto/sm4.h
-> index 9bd3ebc62e..33478562a4 100644
-> --- a/include/crypto/sm4.h
-> +++ b/include/crypto/sm4.h
-> @@ -1,6 +1,13 @@
->   #ifndef QEMU_SM4_H
->   #define QEMU_SM4_H
->   
-> +#define SM4_SBOXWORD(WORD) ( \
-> +    sm4_sbox[((WORD) >> 24) & 0xff] << 24 | \
-> +    sm4_sbox[((WORD) >> 16) & 0xff] << 16 | \
-> +    sm4_sbox[((WORD) >>  8) & 0xff] <<  8 | \
-> +    sm4_sbox[((WORD) >>  0) & 0xff] <<  0   \
-> +)
-> +
->   extern const uint8_t sm4_sbox[256];
 
-I think this would be better as an inline function, so that the types are clear.
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> On Wed, 1 Feb 2023 at 18:07, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>> > I think this is "you can't put labels in qemu-options.hx,
+>> > because it gets included in two .rst files (invocation.rst
+>> > and qemu-manpage.rst), and Sphinx complains about the
+>> > duplicate labels, even though one of the two files is
+>> > only used in the HTML and one is only used in the manpages".
+>>
+>> Oh boo - anyway to work around that because they are helpful links?
+>
+> Nothing easy. The problem is that Sphinx looks at every .rst
+> file in the source directory, regardless of whether it's
+> reachable from the document you specify as the root of the
+> manual or not. So both lots of .rst files get processed
+> for both the HTML manual set and the manpages, even though
+> they don't need to be[*]. This is a long-standing design
+> deficiency in Sphinx. The only thing I could think of was
+> splitting the manpages and html docs entirely into separate
+> subdirectories, and having meson symlink the files which are
+> actually shared between them. But that seems like quite a lot
+> of extra machinery.
+
+OK I've scrubbed the back links and sent v2 (which also reduces the
+buildtime of cross-win64-system which kept tripping).
+
+>
+> [*] This shows up for instance in the HTML docs getting a
+> not-linked-to-from-anywhere HTML version of the qemu(1) manpage:
+> https://www.qemu.org/docs/master/system/qemu-manpage.html
+>
+> -- PMM
 
 
-r~
-
+--=20
+Alex Benn=C3=A9e
+Virtualisation Tech Lead @ Linaro
 
