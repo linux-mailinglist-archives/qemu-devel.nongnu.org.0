@@ -2,42 +2,90 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DB40687CF6
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 13:11:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 79186687D40
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 13:23:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNYPD-00015B-RY; Thu, 02 Feb 2023 07:09:31 -0500
+	id 1pNYbm-0000Zw-KB; Thu, 02 Feb 2023 07:22:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pNYOQ-0000Hb-Dp; Thu, 02 Feb 2023 07:08:49 -0500
-Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNYbc-0000Z1-7O
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:22:23 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
- id 1pNYOO-0007IF-AJ; Thu, 02 Feb 2023 07:08:42 -0500
-Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
- by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 40F33416A1;
- Thu,  2 Feb 2023 13:08:32 +0100 (CET)
-Message-ID: <ad7e1294-f19f-5bea-e891-f6adbe323cd5@proxmox.com>
-Date: Thu, 2 Feb 2023 13:08:31 +0100
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNYba-00065v-Eg
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:22:19 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675340536;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=wuptMoOERKi/o207WNrjdEoaX7u7evT6Y0Y4ZRF/X9g=;
+ b=QbG5zErRaLLQ5wRrnSHJfUZrx0/1wzW0ALqIzu64axrUFWxSXsIkCLmg94ciD9sDk1H/Jo
+ MPoqsIxnxz2nsWIFCSrc3kj3MaebIHsdg1MkaZmiXwy6Uc1G/1QbXX1/PWvFmfFewMkSX2
+ DT7nZzXbc3E9Um02pv5jHFojc+O63Sk=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-392-atU6YBjuOfyepq5HRDERrg-1; Thu, 02 Feb 2023 07:22:15 -0500
+X-MC-Unique: atU6YBjuOfyepq5HRDERrg-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ o2-20020a05600c510200b003dc51c95c6aso2006891wms.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 04:22:15 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=wuptMoOERKi/o207WNrjdEoaX7u7evT6Y0Y4ZRF/X9g=;
+ b=xoqon9EDOxzSMs6BS49A3Gk7oIyFPjolXkNKDwBSSxEQmREZBLeSO22D5cH3oVWcAQ
+ mgc1/vL39HXgm+JS3MNvwodQwkXUyuqPpmWs/d7aP9X5og+X3gxz5mrVtd9VOCBw5jTU
+ i/ezFn1cXhzNPLXS+WSevBQVhJ6/Mfrsa8pS5+meN9C5YpwgiNDMn2VU//FneAKCCGCg
+ 1x0/N9M/ijXF+k6JRcSDGl+5a1s5FL4Q08xI+5OvnJrQePElRik6Xi3o61hhTLrTxD0p
+ 9lx4aDifL4LX5ZLicC80d9Ld7EY0OvsKfFSZtK8oI6ZY/PuxNrlprgXrAQWV8gINt1Fo
+ 5tVg==
+X-Gm-Message-State: AO0yUKWrFs2octc//Rbt5M5YmuUEDvVN4YHG/rAOz7Uy3xF4xtcfQ6Bv
+ 2PbenUwzrNuTbqVwPJ+snuyq4Dn8r0+PaCBQh5Na92eHY9lCJw5+zNT0kT18Ykp5ecCz1NHmpET
+ R/iTiMZB0x3cN00k=
+X-Received: by 2002:a5d:660f:0:b0:2bf:ad43:8f08 with SMTP id
+ n15-20020a5d660f000000b002bfad438f08mr5358830wru.14.1675340534110; 
+ Thu, 02 Feb 2023 04:22:14 -0800 (PST)
+X-Google-Smtp-Source: AK7set9MILB6KAgCzxyJogxu7nbctOyWq0uPM12P4Gu2SI3UaY1m0RsFuKVgsV/f3cz3oOhIgHBXUg==
+X-Received: by 2002:a5d:660f:0:b0:2bf:ad43:8f08 with SMTP id
+ n15-20020a5d660f000000b002bfad438f08mr5358817wru.14.1675340533900; 
+ Thu, 02 Feb 2023 04:22:13 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ f12-20020adfdb4c000000b002bfb1de74absm19738924wrj.114.2023.02.02.04.22.12
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Feb 2023 04:22:13 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: "manish.mishra" <manish.mishra@nutanix.com>
+Cc: qemu-devel@nongnu.org,  dgilbert@redhat.com,  lsoaresp@redhat.com,
+ Peter Xu <peterx@redhat.com>,  "Daniel P . Berrange" <berrange@redhat.com>
+Subject: Re: [PATCH v6 1/2] io: Add support for MSG_PEEK for socket channel
+In-Reply-To: <20221220184418.228834-2-manish.mishra@nutanix.com> (manish
+ mishra's message of "Tue, 20 Dec 2022 18:44:17 +0000")
+References: <20221220184418.228834-1-manish.mishra@nutanix.com>
+ <20221220184418.228834-2-manish.mishra@nutanix.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 02 Feb 2023 13:22:12 +0100
+Message-ID: <877cx0mf4b.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Content-Language: en-US
-From: Fiona Ebner <f.ebner@proxmox.com>
-Subject: Lost partition tables on ide-hd + ahci drive
-To: QEMU Developers <qemu-devel@nongnu.org>
-Cc: "open list:Network Block Dev..." <qemu-block@nongnu.org>,
- Thomas Lamprecht <t.lamprecht@proxmox.com>, jsnow@redhat.com
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
- helo=proxmox-new.maurer-it.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
-X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -51,47 +99,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
-over the years we've got 1-2 dozen reports[0] about suddenly
-missing/corrupted MBR/partition tables. The issue seems to be very rare
-and there was no success in trying to reproduce it yet. I'm asking here
-in the hope that somebody has seen something similar.
+"manish.mishra" <manish.mishra@nutanix.com> wrote:
+> MSG_PEEK peeks at the channel, The data is treated as unread and
+> the next read shall still return this data. This support is
+> currently added only for socket class. Extra parameter 'flags'
+> is added to io_readv calls to pass extra read flags like MSG_PEEK.
+>
+> Reviewed-by: Peter Xu <peterx@redhat.com>
+> Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+> Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+> Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
 
-The only commonality seems to be the use of an ide-hd drive with ahci bus.
 
-It does seem to happen with both Linux and Windows guests (one of the
-reports even mentions FreeBSD) and backing storages for the VMs include
-ZFS, RBD, LVM-Thin as well as file-based storages.
+This change breaks RDMA migration.
 
-Relevant part of an example configuration:
+FAILED: libcommon.fa.p/migration_rdma.c.o
+cc -m64 -mcx16 -Ilibcommon.fa.p -I/usr/include/pixman-1 -I/usr/include/libp=
+ng16 -I/usr/include/spice-server -I/usr/include/spice-1 -I/usr/include/caca=
+rd -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/sys=
+prof-4 -I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include/PCSC -I/usr/=
+include/p11-kit-1 -I/usr/include/libusb-1.0 -I/usr/include/SDL2 -I/usr/incl=
+ude/libmount -I/usr/include/blkid -I/usr/include/gio-unix-2.0 -I/usr/includ=
+e/slirp -fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -std=3Dgnu11=
+ -O2 -g -isystem /mnt/code/qemu/full/linux-headers -isystem linux-headers -=
+iquote . -iquote /mnt/code/qemu/full -iquote /mnt/code/qemu/full/include -i=
+quote /mnt/code/qemu/full/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_FORTIFY_SO=
+URCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -fno-st=
+rict-aliasing -fno-common -fwrapv -Wundef -Wwrite-strings -Wmissing-prototy=
+pes -Wstrict-prototypes -Wredundant-decls -Wold-style-declaration -Wold-sty=
+le-definition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -Wig=
+nored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion-t=
+o-defined -Wimplicit-fallthrough=3D2 -Wmissing-format-attribute -Wno-missin=
+g-include-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protector-stron=
+g -fPIE -D_REENTRANT -Wno-undef -DSTRUCT_IOVEC_DEFINED -MD -MQ libcommon.fa=
+.p/migration_rdma.c.o -MF libcommon.fa.p/migration_rdma.c.o.d -o libcommon.=
+fa.p/migration_rdma.c.o -c ../../../../mnt/code/qemu/full/migration/rdma.c
+../../../../mnt/code/qemu/full/migration/rdma.c: In function =E2=80=98qio_c=
+hannel_rdma_class_init=E2=80=99:
+../../../../mnt/code/qemu/full/migration/rdma.c:4020:25: error: assignment =
+to =E2=80=98ssize_t (*)(QIOChannel *, const struct iovec *, size_t,  int **=
+, size_t *, int,  Error **)=E2=80=99 {aka =E2=80=98long int (*)(QIOChannel =
+*, const struct iovec *, long unsigned int,  int **, long unsigned int *, i=
+nt,  Error **)=E2=80=99} from incompatible pointer type =E2=80=98ssize_t (*=
+)(QIOChannel *, const struct iovec *, size_t,  int **, size_t *, Error **)=
+=E2=80=99 {aka =E2=80=98long int (*)(QIOChannel *, const struct iovec *, lo=
+ng unsigned int,  int **, long unsigned int *, Error **)=E2=80=99} [-Werror=
+=3Dincompatible-pointer-types]
+ 4020 |     ioc_klass->io_readv =3D qio_channel_rdma_readv;
+      |                         ^
+cc1: all warnings being treated as errors
 
->   -device 'ahci,id=ahci0,multifunction=on,bus=pci.0,addr=0x7' \
->   -drive 'file=/dev/zvol/myzpool/vm-168-disk-0,if=none,id=drive-sata0,format=raw,cache=none,aio=io_uring,detect-zeroes=on' \
->   -device 'ide-hd,bus=ahci0.0,drive=drive-sata0,id=sata0' \
+And I don't really know how to fix it, because the problem is that rdma
+don't use qio_channel_readv_full() at all.
 
-The first reports are from before io_uring was used and there are also
-reports with writeback cache mode and discard=on,detect-zeroes=unmap.
+Sorry, I have to drop the series until a fix is found.
 
-Some reports say that the issue occurred under high IO load.
-
-Many reports suspect backups causing the issue. Our backup mechanism
-uses backup_job_create() for each drive and runs the jobs sequentially.
-It uses a custom block driver as the backup target which just forwards
-the writes to the actual target which can be a file or our backup server.
-(If you really want to see the details, apply the patches in [1] and see
-pve-backup.c and block/backup-dump.c).
-
-Of course, the backup job will read sector 0 of the source disk, but I
-really can't see where a stray write would happen, why the issue would
-trigger so rarely or why seemingly only ide-hd+ahci would be affected.
-
-So again, just asking if somebody has seen something similar or has a
-hunch of what the cause might be.
-
-[0]: https://bugzilla.proxmox.com/show_bug.cgi?id=2874
-[1]: https://git.proxmox.com/?p=pve-qemu.git;a=tree;f=debian/patches;hb=HEAD
+Later, Juan.
 
 
