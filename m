@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4F0D9687CE7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 13:09:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C7A0687CE0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 13:07:25 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNYLu-0005ss-Cv; Thu, 02 Feb 2023 07:06:06 -0500
+	id 1pNYMI-00065b-UR; Thu, 02 Feb 2023 07:06:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pNYL4-0005pQ-0g
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:05:21 -0500
-Received: from doohan.uni-paderborn.de ([2001:638:502:c003::16])
+ id 1pNYL3-0005pP-VC
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:05:20 -0500
+Received: from zuban.uni-paderborn.de ([2001:638:502:c003::17])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
- id 1pNYL0-0006Kc-4p
+ id 1pNYL0-0006Ke-4m
  for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:05:13 -0500
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
  d=mail.uni-paderborn.de; s=20170601; h=Content-Transfer-Encoding:MIME-Version
- :Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
- Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
- :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
- List-Subscribe:List-Post:List-Owner:List-Archive;
- bh=w/4+6AcdXkqfzhjret0FUKEnAHTU1o55A3bXoLdNKrE=; b=rvhXTdCE+b93NI9dQBZuvxtZaH
- 2T85JRUKQXEnCyd3bG9mLDTy/wsGwC/rgvyHRawtsDHS/5rkUahzxkvPRMM7qJ62DIQvYLIFhQKUx
- DB4rhphVlhjMU7rbj0rYuUS8Yvq1Wg3Sj2d0TsFabwcqBLdrgoD7/PRH+xFAWC8P1Nkw=;
+ :References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:
+ Content-Type:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=oPhiMNJX8k5ho2dag3q3fNPQaweFi8iI+Tz/KQAvYJQ=; b=MkYR0XUQSGedwF2/ViyS9bLSdI
+ basZhDpbgodZ+rT+F/Y1D2BHwycmuPUEND2djVWuMfKgyCUyCRQeSf7Cfz9lL5HQR/wswxWNOj0VY
+ Gkfevg5wc30Xl3b8zg8C1wq0K1UMM36dcaELTyngUgvbFgVJMfGFjFQqJ2eEv5D3HZso=;
 X-Envelope-From: <kbastian@mail.uni-paderborn.de>
 From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 To: qemu-devel@nongnu.org
 Cc: kbastian@mail.uni-paderborn.de, anton.kochkov@proton.me,
  richard.henderson@linaro.org
-Subject: [PATCH v2 00/10] TriCore instruction bugfixes
-Date: Thu,  2 Feb 2023 13:04:22 +0100
-Message-Id: <20230202120432.1268-1-kbastian@mail.uni-paderborn.de>
+Subject: [PATCH v2 01/10] target/tricore: Fix OPC2_32_RCRW_IMASK translation
+Date: Thu,  2 Feb 2023 13:04:23 +0100
+Message-Id: <20230202120432.1268-2-kbastian@mail.uni-paderborn.de>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230202120432.1268-1-kbastian@mail.uni-paderborn.de>
+References: <20230202120432.1268-1-kbastian@mail.uni-paderborn.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-IMT-Source: Intern
 X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
- Antispam-Data: 2023.2.2.115717, AntiVirus-Engine: 5.96.0,
+ Antispam-Data: 2023.2.2.115116, AntiVirus-Engine: 5.96.0,
  AntiVirus-Data: 2023.1.24.5960001
 X-IMT-Spam-Score: 0.0 ()
 X-IMT-Authenticated-Sender: uid=kbastian,ou=People,o=upb,c=de
-Received-SPF: pass client-ip=2001:638:502:c003::16;
- envelope-from=kbastian@mail.uni-paderborn.de; helo=doohan.uni-paderborn.de
+Received-SPF: pass client-ip=2001:638:502:c003::17;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=zuban.uni-paderborn.de
 X-Spam_score_int: -42
 X-Spam_score: -4.3
 X-Spam_bar: ----
@@ -67,47 +69,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi,
+we were mixing up the "c" and "d" registers. We used "d" as a
+destination register und "c" as the source. According to the TriCore ISA
+manual 1.6 vol 2 it is the other way round.
 
-while resolving [1], I noticed a few more bugs in DEXTR and LD_BU_PREINC which
-this patch series fixes.
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/653
+---
+ target/tricore/translate.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-I also included the solo patch [2] into this series.
-
-For v2 I added testcases in tests/tcg/tricore that exercise the errors
-that these patches fix.
-
-Cheers,
-Bastian
-
-[1] https://gitlab.com/qemu-project/qemu/-/issues/653
-[2] https://lore.kernel.org/qemu-devel/20230113123759.677960-1-kbastian@mail.uni-paderborn.de/
-
-Bastian Koppelmann (10):
-  target/tricore: Fix OPC2_32_RCRW_IMASK translation
-  tests/tcg/tricore: Add test for OPC2_32_RCRW_IMASK
-  target/tricore: Fix OPC2_32_RCRW_INSERT translation
-  tests/tcg/tricore: Add test for OPC2_32_RCRW_INSERT
-  target/tricore: Fix RRPW_DEXTR
-  tests/tcg/tricore: Add tests for RRPW_DEXTR
-  target/tricore: Fix OPC2_32_RRRR_DEXTR
-  tests/tcg/tricore: Add OPC2_32_RRRR_DEXTR tests
-  target/tricore: Fix OPC2_32_BO_LD_BU_PREINC
-  tests/tcg/tricore: Add LD.BU tests
-
- target/tricore/translate.c                | 39 ++++++------
- tests/tcg/tricore/Makefile.softmmu-target |  4 ++
- tests/tcg/tricore/macros.h                | 63 +++++++++++++++++--
- tests/tcg/tricore/test_dextr.S            | 75 +++++++++++++++++++++++
- tests/tcg/tricore/test_imask.S            | 10 +++
- tests/tcg/tricore/test_insert.S           |  9 +++
- tests/tcg/tricore/test_ld_bu.S            | 15 +++++
- 7 files changed, 193 insertions(+), 22 deletions(-)
- create mode 100644 tests/tcg/tricore/test_dextr.S
- create mode 100644 tests/tcg/tricore/test_imask.S
- create mode 100644 tests/tcg/tricore/test_insert.S
- create mode 100644 tests/tcg/tricore/test_ld_bu.S
-
+diff --git a/target/tricore/translate.c b/target/tricore/translate.c
+index df9e46c649..8de4e56b1f 100644
+--- a/target/tricore/translate.c
++++ b/target/tricore/translate.c
+@@ -5794,11 +5794,11 @@ static void decode_rcrw_insert(DisasContext *ctx)
+ 
+     switch (op2) {
+     case OPC2_32_RCRW_IMASK:
+-        tcg_gen_andi_tl(temp, cpu_gpr_d[r4], 0x1f);
++        tcg_gen_andi_tl(temp, cpu_gpr_d[r3], 0x1f);
+         tcg_gen_movi_tl(temp2, (1 << width) - 1);
+-        tcg_gen_shl_tl(cpu_gpr_d[r3 + 1], temp2, temp);
++        tcg_gen_shl_tl(cpu_gpr_d[r4 + 1], temp2, temp);
+         tcg_gen_movi_tl(temp2, const4);
+-        tcg_gen_shl_tl(cpu_gpr_d[r3], temp2, temp);
++        tcg_gen_shl_tl(cpu_gpr_d[r4], temp2, temp);
+         break;
+     case OPC2_32_RCRW_INSERT:
+         temp3 = tcg_temp_new();
 -- 
 2.39.1
 
