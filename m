@@ -2,76 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99B0F688026
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 15:31:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76106688027
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 15:32:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNacU-0006wU-4B; Thu, 02 Feb 2023 09:31:22 -0500
+	id 1pNadL-0007c1-1W; Thu, 02 Feb 2023 09:32:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1pNacR-0006uz-Ds
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 09:31:19 -0500
-Received: from mail-ej1-x62d.google.com ([2a00:1450:4864:20::62d])
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pNadD-0007V5-NT; Thu, 02 Feb 2023 09:32:09 -0500
+Received: from mail-wr1-x434.google.com ([2a00:1450:4864:20::434])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1pNacM-0006ef-AC
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 09:31:19 -0500
-Received: by mail-ej1-x62d.google.com with SMTP id k4so6540060eje.1
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 06:31:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=mOYw0Av35BMUzh2hzkJWlgpYAOCt2oHeMXkMdNbxYVQ=;
- b=YLg8WMRNp7WtxwnLFm8wid1nN9TkjKohYo7/ur7uImGEQ9RYM7bq/xqujWl55c96ig
- HCPIRePNtndo0f+u6yxTMa1e2bh02WZYI1k11n3XrpBav5gt0JX+bNH3M14c2npZjeld
- FmDZ44chmzn8yU66DNNCOKvZ3kMGSXLUe52oMrIWmRq1dV5AMR4WIrJy/AdX66lYaQfk
- z0lVEekHmtBX7NTsLiNQWvJ9/UOLv3wzPvsZEC2/TRAY0x9cjdD6R22fHKSKmcQUOIeq
- eCuJ12/SDzg/vh/3o5vaAzuUEzO48CxylJg8YBscniyXmzWqmMLSEPsxlwFBpTEDVDZO
- SPZA==
+ (Exim 4.90_1) (envelope-from <xadimgnik@gmail.com>)
+ id 1pNadB-0006lO-R8; Thu, 02 Feb 2023 09:32:07 -0500
+Received: by mail-wr1-x434.google.com with SMTP id q5so1931633wrv.0;
+ Thu, 02 Feb 2023 06:32:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20210112;
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=I6dyQOgZukQ54QDK6aIe7WXm73Yx6J7f4p/XUgBjaiQ=;
+ b=gYEzfD17n8nHeGoo5M7J1IahG2YNPvjdBolDnNH1dKlwLIQXMWw5VU0hROBTqSsbWm
+ Npz0Q/sEvU9Pvv6n+f33YCfowllVjSHQofRAnH4e6OvqHfY4aYJ3iY1L6yRYpwNPNbmY
+ VI6gWJfW8NBJaQYAgGel+y5tvn51iZ3Ky+OAt/opWL3Gmkwx0qezwoZKvXvva4g1nXQh
+ IimNUx1q+fZliP6fbn4t2d+dyycwzO3lQKu0VqbQMomqkgPAL+BVeDucNBeEk42SdHEd
+ ztaaXz6nwQvW7Q2rJfuhQDam4dWfsPjwyqs3RdNhBr+gZZXgE7a20uII9ldSfZgOEMm8
+ 8gQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=mOYw0Av35BMUzh2hzkJWlgpYAOCt2oHeMXkMdNbxYVQ=;
- b=MceXhPlJ2+A7j2+Up1Qqh+uNaUjkycJtVE4FtjBfjq5lJciGlN6lBgkL/6ZxWv5Vit
- 0KCge5IhTjJB95gVt1aZPx2cMdL8YnDGx2pBgwirY7GMs8HDVQp/8aKk70gURxWnY+Ws
- zbzzGIMetOJZYUAnLcPpADegwjVgzzbRmf0igNgP8kXE+7mYr6XJBK1DNhla2TenYoiL
- +NneyhkotGVklJGFMVHbmKlwTvaE2fxI/ZN4gb7bC4sb2hnBzoOYsOWOVDmIQ0KcSQbD
- 8jRhXw/l7iRCuGSXKx+rHJ7s5hvnNEswHbdvHl9h6xeI75AdNU9DqNGI4J2mK1MOfT46
- 3jkA==
-X-Gm-Message-State: AO0yUKVOBCuMyZB6kT7PQ8Ywhrmu7ca1qlFlZxsHgmyGluD1lAbGuQdZ
- w1Cgs5W06tH6y2Nbr8wwyMy/xaJTGM9E/Vf2nZbS0g==
-X-Google-Smtp-Source: AK7set/SekZJXZTng4TrQ4XkBvKfKvskGpVM4s4AJw0QkB8y5f4s1MBJxoXlfFxmXx77eYXrk68nBZBSrxLkEOLFoAg=
-X-Received: by 2002:a17:906:85c7:b0:878:581b:63ee with SMTP id
- i7-20020a17090685c700b00878581b63eemr1713866ejy.244.1675348268146; Thu, 02
- Feb 2023 06:31:08 -0800 (PST)
+ h=content-transfer-encoding:in-reply-to:organization:references:cc:to
+ :content-language:subject:reply-to:user-agent:mime-version:date
+ :message-id:from:x-gm-message-state:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=I6dyQOgZukQ54QDK6aIe7WXm73Yx6J7f4p/XUgBjaiQ=;
+ b=qgNe2O+LPzenGpzMkwLJ8ECaXpnK4NL0nqz7rP3IeWA4kDwSrmPgUBuVCYn39Cro3Y
+ 0M3+pobQ9/D4uD9NnrOXlm3Qx34Rv4gdso+4I8avV65OmKW+mYSPOezrVvUh7f1xDVD0
+ CpzFddFwMTh9vjMiGL7ra7MaKkvOF6px0WlbxKHWT0n+1MdB9e3GGBN9ZXiSRGB3OOIw
+ Zyhf2n2k3OdwJKAzjCzYnMJMYXQ/P3mIDmct66dJyZnwsU9D1SF5l/5sweZSHSJ9FYKG
+ 12w+kbzwfZBqspignxfIGbpape4ou7wQfns99d4HnXdH0jIRidfXXrTgXt/hk3XLNsRT
+ pV7A==
+X-Gm-Message-State: AO0yUKVp+0+9L6wIDSrfnsQRLFtHFVKe0ZW2xBelmUGpIMWU2dd6nzZb
+ 9JohOgyZ1QuDfUUtbG4IQJ4=
+X-Google-Smtp-Source: AK7set/Ded8UbNBqMS274a0klw1pXZiUb0FG0DCX0n76UwKL6fmeBdzYOvVoqjnvG9oAyaz0U8rRew==
+X-Received: by 2002:a5d:464a:0:b0:2bf:b1f0:7bab with SMTP id
+ j10-20020a5d464a000000b002bfb1f07babmr5097051wrs.47.1675348322958; 
+ Thu, 02 Feb 2023 06:32:02 -0800 (PST)
+Received: from [10.95.156.231] (54-240-197-230.amazon.com. [54.240.197.230])
+ by smtp.gmail.com with ESMTPSA id
+ e28-20020a5d595c000000b002bfd8ad20a0sm16175013wri.44.2023.02.02.06.32.01
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Feb 2023 06:32:02 -0800 (PST)
+From: Paul Durrant <xadimgnik@gmail.com>
+X-Google-Original-From: Paul Durrant <paul@xen.org>
+Message-ID: <5b7c223a-2c96-4bd2-7150-79a56281dd57@xen.org>
+Date: Thu, 2 Feb 2023 14:31:57 +0000
 MIME-Version: 1.0
-References: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
- <20230202124230.295997-7-lawrence.hunter@codethink.co.uk>
- <CAAeLtUA188Tdq4rROAWNqNkMSOXVT0BWQX669L6fyt5oM5knZg@mail.gmail.com>
-In-Reply-To: <CAAeLtUA188Tdq4rROAWNqNkMSOXVT0BWQX669L6fyt5oM5knZg@mail.gmail.com>
-From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Thu, 2 Feb 2023 15:30:57 +0100
-Message-ID: <CAAeLtUDcpyWkKgAo2Lk0ZoHcdyEeVARYkh05Ps27wbOzDF0sHA@mail.gmail.com>
-Subject: Re: [PATCH 06/39] target/riscv: Add vrol.[vv, vx] and vror.[vv, vx,
- vi] decoding, translation and execution support
-To: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
-Cc: qemu-devel@nongnu.org, dickon.hood@codethink.co.uk, 
- nazar.kazakov@codethink.co.uk, kiran.ostrolenk@codethink.co.uk, 
- frank.chang@sifive.com, palmer@dabbelt.com, alistair.francis@wdc.com, 
- bin.meng@windriver.com, pbonzini@redhat.com, kvm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::62d;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-ej1-x62d.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.1
+Subject: Re: [QEMU][PATCH v5 09/10] hw/arm: introduce xenpvh machine
+Content-Language: en-US
+To: Vikram Garhwal <vikram.garhwal@amd.com>, qemu-devel@nongnu.org
+Cc: xen-devel@lists.xenproject.org, stefano.stabellini@amd.com,
+ alex.bennee@linaro.org, Peter Maydell <peter.maydell@linaro.org>,
+ Stefano Stabellini <sstabellini@kernel.org>,
+ Anthony Perard <anthony.perard@citrix.com>,
+ "open list:ARM TCG CPUs" <qemu-arm@nongnu.org>
+References: <20230131225149.14764-1-vikram.garhwal@amd.com>
+ <20230131225149.14764-10-vikram.garhwal@amd.com>
+ <179d773b-2634-b52b-8836-8d8f882e1495@xen.org>
+ <3e205146-5113-861d-ef39-c463257b54a1@amd.com>
+Organization: Xen Project
+In-Reply-To: <3e205146-5113-861d-ef39-c463257b54a1@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::434;
+ envelope-from=xadimgnik@gmail.com; helo=mail-wr1-x434.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, FREEMAIL_FROM=0.001,
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -85,395 +97,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: paul@xen.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, 2 Feb 2023 at 15:13, Philipp Tomsich <philipp.tomsich@vrull.eu> wrote:
->
-> On Thu, 2 Feb 2023 at 13:42, Lawrence Hunter
-> <lawrence.hunter@codethink.co.uk> wrote:
-> >
-> > From: Dickon Hood <dickon.hood@codethink.co.uk>
-> >
-> > Add an initial implementation of the vrol.* and vror.* instructions,
-> > with mappings between the RISC-V instructions and their internal TCG
-> > accelerated implmentations.
-> >
-> > There are some missing ror helpers, so I've bodged it by converting them
-> > to rols.
-> >
-> > Co-authored-by: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
-> > Signed-off-by: Kiran Ostrolenk <kiran.ostrolenk@codethink.co.uk>
-> > Signed-off-by: Dickon Hood <dickon.hood@codethink.co.uk>
-> > ---
-> >  target/riscv/helper.h                      | 20 ++++++++
-> >  target/riscv/insn32.decode                 |  6 +++
-> >  target/riscv/insn_trans/trans_rvzvkb.c.inc | 20 ++++++++
-> >  target/riscv/vcrypto_helper.c              | 58 ++++++++++++++++++++++
-> >  target/riscv/vector_helper.c               | 45 -----------------
-> >  target/riscv/vector_internals.h            | 52 +++++++++++++++++++
-> >  6 files changed, 156 insertions(+), 45 deletions(-)
-> >
-> > diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> > index 32f1179e29..e5b6b3360f 100644
-> > --- a/target/riscv/helper.h
-> > +++ b/target/riscv/helper.h
-> > @@ -1142,3 +1142,23 @@ DEF_HELPER_6(vclmul_vv, void, ptr, ptr, ptr, ptr, env, i32)
-> >  DEF_HELPER_6(vclmul_vx, void, ptr, ptr, tl, ptr, env, i32)
-> >  DEF_HELPER_6(vclmulh_vv, void, ptr, ptr, ptr, ptr, env, i32)
-> >  DEF_HELPER_6(vclmulh_vx, void, ptr, ptr, tl, ptr, env, i32)
-> > +
-> > +DEF_HELPER_6(vror_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> > +DEF_HELPER_6(vror_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> > +DEF_HELPER_6(vror_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> > +DEF_HELPER_6(vror_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-> > +
-> > +DEF_HELPER_6(vror_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> > +DEF_HELPER_6(vror_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> > +DEF_HELPER_6(vror_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> > +DEF_HELPER_6(vror_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-> > +
-> > +DEF_HELPER_6(vrol_vv_b, void, ptr, ptr, ptr, ptr, env, i32)
-> > +DEF_HELPER_6(vrol_vv_h, void, ptr, ptr, ptr, ptr, env, i32)
-> > +DEF_HELPER_6(vrol_vv_w, void, ptr, ptr, ptr, ptr, env, i32)
-> > +DEF_HELPER_6(vrol_vv_d, void, ptr, ptr, ptr, ptr, env, i32)
-> > +
-> > +DEF_HELPER_6(vrol_vx_b, void, ptr, ptr, tl, ptr, env, i32)
-> > +DEF_HELPER_6(vrol_vx_h, void, ptr, ptr, tl, ptr, env, i32)
-> > +DEF_HELPER_6(vrol_vx_w, void, ptr, ptr, tl, ptr, env, i32)
-> > +DEF_HELPER_6(vrol_vx_d, void, ptr, ptr, tl, ptr, env, i32)
-> > diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> > index b4d88dd1cb..725f907ad1 100644
-> > --- a/target/riscv/insn32.decode
-> > +++ b/target/riscv/insn32.decode
-> > @@ -896,3 +896,9 @@ vclmul_vv       001100 . ..... ..... 010 ..... 1010111 @r_vm
-> >  vclmul_vx       001100 . ..... ..... 110 ..... 1010111 @r_vm
-> >  vclmulh_vv      001101 . ..... ..... 010 ..... 1010111 @r_vm
-> >  vclmulh_vx      001101 . ..... ..... 110 ..... 1010111 @r_vm
-> > +vrol_vv         010101 . ..... ..... 000 ..... 1010111 @r_vm
-> > +vrol_vx         010101 . ..... ..... 100 ..... 1010111 @r_vm
-> > +vror_vv         010100 . ..... ..... 000 ..... 1010111 @r_vm
-> > +vror_vx         010100 . ..... ..... 100 ..... 1010111 @r_vm
-> > +vror_vi         010100 . ..... ..... 011 ..... 1010111 @r_vm
-> > +vror_vi2        010101 . ..... ..... 011 ..... 1010111 @r_vm
->
-> We have only a single vror_vi instruction... and it has a 6bit immediate.
-> There's no need to deviate from the spec. Just write it as follows:
-> %imm_z6   26:1 15:5
-> @r2_zimm6  ..... . vm:1 ..... ..... ... ..... .......  &rmrr %rs2
-> rs1=%imm_z6 %rd
-> vror_vi         01010. . ..... ..... 011 ..... 1010111 @r2_zimm6
->
-> > diff --git a/target/riscv/insn_trans/trans_rvzvkb.c.inc b/target/riscv/insn_trans/trans_rvzvkb.c.inc
-> > index 533141e559..d2a7a92d42 100644
-> > --- a/target/riscv/insn_trans/trans_rvzvkb.c.inc
-> > +++ b/target/riscv/insn_trans/trans_rvzvkb.c.inc
-> > @@ -95,3 +95,23 @@ static bool vclmul_vx_check(DisasContext *s, arg_rmrr *a)
-> >
-> >  GEN_VX_MASKED_TRANS(vclmul_vx, vclmul_vx_check)
-> >  GEN_VX_MASKED_TRANS(vclmulh_vx, vclmul_vx_check)
-> > +
-> > +GEN_OPIVV_TRANS(vror_vv, zvkb_vv_check)
-> > +GEN_OPIVX_TRANS(vror_vx, zvkb_vx_check)
-> > +GEN_OPIVV_TRANS(vrol_vv, zvkb_vv_check)
-> > +GEN_OPIVX_TRANS(vrol_vx, zvkb_vx_check)
-> > +
-> > +GEN_OPIVI_TRANS(vror_vi, IMM_TRUNC_SEW, vror_vx, zvkb_vx_check)
->
-> Please introduce a IMM_ZIMM6 that integrates with the extract_imm as follows:
->     case IMM_ZIMM6:
->         return extract64(imm, 0, 6);
->
-> > +
-> > +/*
-> > + * Immediates are 5b long, and we need six for the rotate-immediate.  The
-> > + * decision has been taken to remove the vrol.vi instruction -- you can
-> > + * emulate it with a ror, after all -- and use the bottom bit of the funct6
-> > + * part of the opcode to encode the extra bit.  I've chosen to implement it
-> > + * like this because it's easy and reasonably clean.
-> > + */
-> > +static bool trans_vror_vi2(DisasContext *s, arg_rmrr *a)
-> > +{
-> > +    a->rs1 += 32;
-> > +    return trans_vror_vi(s, a);
-> > +}
->
-> As discussed above, please handle this in a single trans_vror_vi:
->    GEN_OPIVI_GVEC_TRANS_CHECK(vror_vi, IMM_ZIMM6, vror_vx, rotri, zvkb_check_vi)
+On 01/02/2023 18:22, Vikram Garhwal wrote:
+> Hi Paul,
+> 
+> Thanks for reviewing this and other patches in series.
+> 
+> Please see my reply below.
+> 
+> On 2/1/23 12:30 AM, Paul Durrant wrote:
+>> On 31/01/2023 22:51, Vikram Garhwal wrote:
+>>> Add a new machine xenpvh which creates a IOREQ server to 
+>>> register/connect with
+>>> Xen Hypervisor.
+>>>
+>>
+>> Is this really the right way? Is it not possible to do the Xen 
+>> initialization (including ioreq server registration) off the back of 
+>> the accelerator init (i.e. AccelOpsClass ops_init function), which 
+>> seems like the right place to do it now that it's no longer 
+>> architecture specific.
+>>
+> There are few other machines using the "accel=xen" option and few of 
+> these machines aren't using IOREQ and other Xen related initialization. 
+> Example: /xenpv/ machine under /hw/xenpv/xen_machine_pv.c /and few other 
+> machines under /hw/i386/pc_piix.c//.
 
-On the second pass over these patches, here's how we can use gvec
-support for both vror and vrol:
+Ok. TBH the concept of 'accel=xen' is probably somewhat broken then. 
+(QEMU isn't even running the VM in question, so how can it be 
+accelerated?). Maybe abstract machine types really are the right way then.
 
-/* Synthesize a rotate-right from a negate(shift-amount) + rotate-left */
-static void tcg_gen_gvec_rotrs(unsigned vece, uint32_t dofs, uint32_t aofs,
-                       TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz)
-{
-    TCGv_i32 tmp = tcg_temp_new_i32();
-    tcg_gen_neg_i32(tmp, shift);
-    tcg_gen_gvec_rotls(vece, dofs, aofs, tmp, oprsz, maxsz);
-    tcg_temp_free_i32(tmp);
-}
+   Paul
 
-/* vrol.v[vx] */
-GEN_OPIVV_GVEC_TRANS_CHECK(vrol_vv, rotlv, zvkb_check_vv)
-GEN_OPIVX_GVEC_SHIFT_TRANS_CHECK(vrol_vx, rotls, zvkb_check_vx)
+> /So, that's//why we moved the IOREQ and other common initialization 
+> parts in hw/xen/xen-hvm-common.c and call them as needed for the 
+> particular machine.
+> 
+> @stefano, just checking if you want to add any other suggestion here.
+> 
+>>   Paul
+>>
 
-/* vror.v[vxi] */
-GEN_OPIVV_GVEC_TRANS_CHECK(vror_vv, rotrv, zvkb_check_vv)
-GEN_OPIVX_GVEC_SHIFT_TRANS_CHECK(vror_vx, rotrs, zvkb_check_vx)
-GEN_OPIVI_GVEC_TRANS_CHECK(vror_vi, IMM_ZIMM6, vror_vx, rotri, zvkb_check_vi)
-
-
-> > diff --git a/target/riscv/vcrypto_helper.c b/target/riscv/vcrypto_helper.c
-> > index 46e2e510c5..7ec75c5589 100644
-> > --- a/target/riscv/vcrypto_helper.c
-> > +++ b/target/riscv/vcrypto_helper.c
-> > @@ -57,3 +57,61 @@ GEN_VEXT_VV(vclmul_vv, 8)
-> >  GEN_VEXT_VX(vclmul_vx, 8)
-> >  GEN_VEXT_VV(vclmulh_vv, 8)
-> >  GEN_VEXT_VX(vclmulh_vx, 8)
-> > +
-> > +/*
-> > + *  Looks a mess, but produces reasonable (aarch32) code on clang:
-> > + * https://godbolt.org/z/jchjsTda8
-> > + */
-> > +#define DO_ROR(x, n)                       \
-> > +    ((x >> (n & ((sizeof(x) << 3) - 1))) | \
-> > +     (x << ((sizeof(x) << 3) - (n & ((sizeof(x) << 3) - 1)))))
-> > +#define DO_ROL(x, n)                       \
-> > +    ((x << (n & ((sizeof(x) << 3) - 1))) | \
-> > +     (x >> ((sizeof(x) << 3) - (n & ((sizeof(x) << 3) - 1)))))
-> > +
-> > +RVVCALL(OPIVV2, vror_vv_b, OP_UUU_B, H1, H1, H1, DO_ROR)
-> > +RVVCALL(OPIVV2, vror_vv_h, OP_UUU_H, H2, H2, H2, DO_ROR)
-> > +RVVCALL(OPIVV2, vror_vv_w, OP_UUU_W, H4, H4, H4, DO_ROR)
-> > +RVVCALL(OPIVV2, vror_vv_d, OP_UUU_D, H8, H8, H8, DO_ROR)
->
-> Indeed, this is a mess: we already have ror8/16/32/64 available.
-> Why not the following?
->
-> /* vror.vv */
-> GEN_VEXT_SHIFT_VV(vror_vv_b, uint8_t,  uint8_t,  H1, H1, ror8,  0x7)
-> GEN_VEXT_SHIFT_VV(vror_vv_h, uint16_t, uint16_t, H2, H2, ror16, 0xf)
-> GEN_VEXT_SHIFT_VV(vror_vv_w, uint32_t, uint32_t, H4, H4, ror32, 0x1f)
-> GEN_VEXT_SHIFT_VV(vror_vv_d, uint64_t, uint64_t, H8, H8, ror64, 0x3f)
->
-> > +GEN_VEXT_VV(vror_vv_b, 1)
-> > +GEN_VEXT_VV(vror_vv_h, 2)
-> > +GEN_VEXT_VV(vror_vv_w, 4)
-> > +GEN_VEXT_VV(vror_vv_d, 8)
-> > +
-> > +/*
-> > + * There's a missing tcg_gen_gvec_rotrs() helper function.
-> > + */
-> > +#define GEN_VEXT_VX_RTOL(NAME, ESZ)                                      \
-> > +void HELPER(NAME)(void *vd, void *v0, target_ulong s1, void *vs2,        \
-> > +                  CPURISCVState *env, uint32_t desc)                     \
-> > +{                                                                        \
-> > +    do_vext_vx(vd, v0, (ESZ << 3) - s1, vs2, env, desc, do_##NAME, ESZ); \
-> > +}
-> > +
-> > +/* DO_ROL because GEN_VEXT_VX_RTOL() converts from R to L */
-> > +RVVCALL(OPIVX2, vror_vx_b, OP_UUU_B, H1, H1, DO_ROL)
-> > +RVVCALL(OPIVX2, vror_vx_h, OP_UUU_H, H2, H2, DO_ROL)
-> > +RVVCALL(OPIVX2, vror_vx_w, OP_UUU_W, H4, H4, DO_ROL)
-> > +RVVCALL(OPIVX2, vror_vx_d, OP_UUU_D, H8, H8, DO_ROL)
->
-> Same applies as above:
-> /* vror.vx */
-> GEN_VEXT_SHIFT_VX(vror_vx_b, uint8_t,  uint8_t,  H1, H1, ror8,  0x7)
-> GEN_VEXT_SHIFT_VX(vror_vx_h, uint16_t, uint16_t, H2, H2, ror16, 0xf)
-> GEN_VEXT_SHIFT_VX(vror_vx_w, uint32_t, uint32_t, H4, H4, ror32, 0x1f)
-> GEN_VEXT_SHIFT_VX(vror_vx_d, uint64_t, uint64_t, H8, H8, ror64, 0x3f)
->
-> > +GEN_VEXT_VX_RTOL(vror_vx_b, 1)
-> > +GEN_VEXT_VX_RTOL(vror_vx_h, 2)
-> > +GEN_VEXT_VX_RTOL(vror_vx_w, 4)
-> > +GEN_VEXT_VX_RTOL(vror_vx_d, 8)
-> > +
-> > +RVVCALL(OPIVV2, vrol_vv_b, OP_UUU_B, H1, H1, H1, DO_ROL)
-> > +RVVCALL(OPIVV2, vrol_vv_h, OP_UUU_H, H2, H2, H2, DO_ROL)
-> > +RVVCALL(OPIVV2, vrol_vv_w, OP_UUU_W, H4, H4, H4, DO_ROL)
-> > +RVVCALL(OPIVV2, vrol_vv_d, OP_UUU_D, H8, H8, H8, DO_ROL)
-> > +GEN_VEXT_VV(vrol_vv_b, 1)
-> > +GEN_VEXT_VV(vrol_vv_h, 2)
-> > +GEN_VEXT_VV(vrol_vv_w, 4)
-> > +GEN_VEXT_VV(vrol_vv_d, 8)
-> > +
-> > +RVVCALL(OPIVX2, vrol_vx_b, OP_UUU_B, H1, H1, DO_ROL)
-> > +RVVCALL(OPIVX2, vrol_vx_h, OP_UUU_H, H2, H2, DO_ROL)
-> > +RVVCALL(OPIVX2, vrol_vx_w, OP_UUU_W, H4, H4, DO_ROL)
-> > +RVVCALL(OPIVX2, vrol_vx_d, OP_UUU_D, H8, H8, DO_ROL)
-> > +GEN_VEXT_VX(vrol_vx_b, 1)
-> > +GEN_VEXT_VX(vrol_vx_h, 2)
-> > +GEN_VEXT_VX(vrol_vx_w, 4)
-> > +GEN_VEXT_VX(vrol_vx_d, 8)
-> > diff --git a/target/riscv/vector_helper.c b/target/riscv/vector_helper.c
-> > index ab470092f6..ff7b03cbe3 100644
-> > --- a/target/riscv/vector_helper.c
-> > +++ b/target/riscv/vector_helper.c
-> > @@ -76,26 +76,6 @@ target_ulong HELPER(vsetvl)(CPURISCVState *env, target_ulong s1,
-> >      return vl;
-> >  }
-> >
-> > -/*
-> > - * Note that vector data is stored in host-endian 64-bit chunks,
-> > - * so addressing units smaller than that needs a host-endian fixup.
-> > - */
-> > -#if HOST_BIG_ENDIAN
-> > -#define H1(x)   ((x) ^ 7)
-> > -#define H1_2(x) ((x) ^ 6)
-> > -#define H1_4(x) ((x) ^ 4)
-> > -#define H2(x)   ((x) ^ 3)
-> > -#define H4(x)   ((x) ^ 1)
-> > -#define H8(x)   ((x))
-> > -#else
-> > -#define H1(x)   (x)
-> > -#define H1_2(x) (x)
-> > -#define H1_4(x) (x)
-> > -#define H2(x)   (x)
-> > -#define H4(x)   (x)
-> > -#define H8(x)   (x)
-> > -#endif
-> > -
-> >  /*
-> >   * Get the maximum number of elements can be operated.
-> >   *
-> > @@ -683,18 +663,11 @@ GEN_VEXT_ST_WHOLE(vs8r_v, int8_t, ste_b)
-> >   *** Vector Integer Arithmetic Instructions
-> >   */
-> >
-> > -/* expand macro args before macro */
-> > -#define RVVCALL(macro, ...)  macro(__VA_ARGS__)
-> > -
-> >  /* (TD, T1, T2, TX1, TX2) */
-> >  #define OP_SSS_B int8_t, int8_t, int8_t, int8_t, int8_t
-> >  #define OP_SSS_H int16_t, int16_t, int16_t, int16_t, int16_t
-> >  #define OP_SSS_W int32_t, int32_t, int32_t, int32_t, int32_t
-> >  #define OP_SSS_D int64_t, int64_t, int64_t, int64_t, int64_t
-> > -#define OP_UUU_B uint8_t, uint8_t, uint8_t, uint8_t, uint8_t
-> > -#define OP_UUU_H uint16_t, uint16_t, uint16_t, uint16_t, uint16_t
-> > -#define OP_UUU_W uint32_t, uint32_t, uint32_t, uint32_t, uint32_t
-> > -#define OP_UUU_D uint64_t, uint64_t, uint64_t, uint64_t, uint64_t
-> >  #define OP_SUS_B int8_t, uint8_t, int8_t, uint8_t, int8_t
-> >  #define OP_SUS_H int16_t, uint16_t, int16_t, uint16_t, int16_t
-> >  #define OP_SUS_W int32_t, uint32_t, int32_t, uint32_t, int32_t
-> > @@ -718,14 +691,6 @@ GEN_VEXT_ST_WHOLE(vs8r_v, int8_t, ste_b)
-> >  #define NOP_UUU_H uint16_t, uint16_t, uint32_t, uint16_t, uint32_t
-> >  #define NOP_UUU_W uint32_t, uint32_t, uint64_t, uint32_t, uint64_t
-> >
-> > -
-> > -#define OPIVV2(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)    \
-> > -static void do_##NAME(void *vd, void *vs1, void *vs2, int i)    \
-> > -{                                                               \
-> > -    TX1 s1 = *((T1 *)vs1 + HS1(i));                             \
-> > -    TX2 s2 = *((T2 *)vs2 + HS2(i));                             \
-> > -    *((TD *)vd + HD(i)) = OP(s2, s1);                           \
-> > -}
-> >  #define DO_SUB(N, M) (N - M)
-> >  #define DO_RSUB(N, M) (M - N)
-> >
-> > @@ -747,16 +712,6 @@ GEN_VEXT_VV(vsub_vv_h, 2)
-> >  GEN_VEXT_VV(vsub_vv_w, 4)
-> >  GEN_VEXT_VV(vsub_vv_d, 8)
-> >
-> > -/*
-> > - * (T1)s1 gives the real operator type.
-> > - * (TX1)(T1)s1 expands the operator type of widen or narrow operations.
-> > - */
-> > -#define OPIVX2(NAME, TD, T1, T2, TX1, TX2, HD, HS2, OP)             \
-> > -static void do_##NAME(void *vd, target_long s1, void *vs2, int i)   \
-> > -{                                                                   \
-> > -    TX2 s2 = *((T2 *)vs2 + HS2(i));                                 \
-> > -    *((TD *)vd + HD(i)) = OP(s2, (TX1)(T1)s1);                      \
-> > -}
-> >
-> >  RVVCALL(OPIVX2, vadd_vx_b, OP_SSS_B, H1, H1, DO_ADD)
-> >  RVVCALL(OPIVX2, vadd_vx_h, OP_SSS_H, H2, H2, DO_ADD)
-> > diff --git a/target/riscv/vector_internals.h b/target/riscv/vector_internals.h
-> > index 49529d2379..a0fbac7bf3 100644
-> > --- a/target/riscv/vector_internals.h
-> > +++ b/target/riscv/vector_internals.h
-> > @@ -28,6 +28,26 @@ static inline uint32_t vext_nf(uint32_t desc)
-> >      return FIELD_EX32(simd_data(desc), VDATA, NF);
-> >  }
-> >
-> > +/*
-> > + * Note that vector data is stored in host-endian 64-bit chunks,
-> > + * so addressing units smaller than that needs a host-endian fixup.
-> > + */
-> > +#if HOST_BIG_ENDIAN
-> > +#define H1(x)   ((x) ^ 7)
-> > +#define H1_2(x) ((x) ^ 6)
-> > +#define H1_4(x) ((x) ^ 4)
-> > +#define H2(x)   ((x) ^ 3)
-> > +#define H4(x)   ((x) ^ 1)
-> > +#define H8(x)   ((x))
-> > +#else
-> > +#define H1(x)   (x)
-> > +#define H1_2(x) (x)
-> > +#define H1_4(x) (x)
-> > +#define H2(x)   (x)
-> > +#define H4(x)   (x)
-> > +#define H8(x)   (x)
-> > +#endif
-> > +
-> >  /*
-> >   * Encode LMUL to lmul as following:
-> >   *     LMUL    vlmul    lmul
-> > @@ -96,9 +116,30 @@ static inline uint32_t vext_get_total_elems(CPURISCVState *env, uint32_t desc,
-> >  void vext_set_elems_1s(void *base, uint32_t is_agnostic, uint32_t cnt,
-> >                         uint32_t tot);
-> >
-> > +/*
-> > + *** Vector Integer Arithmetic Instructions
-> > + */
-> > +
-> > +/* expand macro args before macro */
-> > +#define RVVCALL(macro, ...)  macro(__VA_ARGS__)
-> > +
-> > +/* (TD, T1, T2, TX1, TX2) */
-> > +#define OP_UUU_B uint8_t, uint8_t, uint8_t, uint8_t, uint8_t
-> > +#define OP_UUU_H uint16_t, uint16_t, uint16_t, uint16_t, uint16_t
-> > +#define OP_UUU_W uint32_t, uint32_t, uint32_t, uint32_t, uint32_t
-> > +#define OP_UUU_D uint64_t, uint64_t, uint64_t, uint64_t, uint64_t
-> > +
-> >  /* operation of two vector elements */
-> >  typedef void opivv2_fn(void *vd, void *vs1, void *vs2, int i);
-> >
-> > +#define OPIVV2(NAME, TD, T1, T2, TX1, TX2, HD, HS1, HS2, OP)    \
-> > +static void do_##NAME(void *vd, void *vs1, void *vs2, int i)    \
-> > +{                                                               \
-> > +    TX1 s1 = *((T1 *)vs1 + HS1(i));                             \
-> > +    TX2 s2 = *((T2 *)vs2 + HS2(i));                             \
-> > +    *((TD *)vd + HD(i)) = OP(s2, s1);                           \
-> > +}
-> > +
-> >  void do_vext_vv(void *vd, void *v0, void *vs1, void *vs2,
-> >                  CPURISCVState *env, uint32_t desc,
-> >                  opivv2_fn *fn, uint32_t esz);
-> > @@ -115,6 +156,17 @@ void HELPER(NAME)(void *vd, void *v0, void *vs1,          \
-> >
-> >  typedef void opivx2_fn(void *vd, target_long s1, void *vs2, int i);
-> >
-> > +/*
-> > + * (T1)s1 gives the real operator type.
-> > + * (TX1)(T1)s1 expands the operator type of widen or narrow operations.
-> > + */
-> > +#define OPIVX2(NAME, TD, T1, T2, TX1, TX2, HD, HS2, OP)             \
-> > +static void do_##NAME(void *vd, target_long s1, void *vs2, int i)   \
-> > +{                                                                   \
-> > +    TX2 s2 = *((T2 *)vs2 + HS2(i));                                 \
-> > +    *((TD *)vd + HD(i)) = OP(s2, (TX1)(T1)s1);                      \
-> > +}
-> > +
-> >  void do_vext_vx(void *vd, void *v0, target_long s1, void *vs2,
-> >                  CPURISCVState *env, uint32_t desc,
-> >                  opivx2_fn fn, uint32_t esz);
->
-> Again: refactoring needs to go into a separate patch.
->
-> > --
-> > 2.39.1
-> >
 
