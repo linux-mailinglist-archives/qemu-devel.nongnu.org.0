@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 238A968728D
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 01:53:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2133687290
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 01:53:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNNq3-0006Cb-Sb; Wed, 01 Feb 2023 19:52:31 -0500
+	id 1pNNqA-0006O7-9E; Wed, 01 Feb 2023 19:52:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNNq2-0006Bx-BQ
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 19:52:30 -0500
+ id 1pNNq7-0006Ig-En
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 19:52:35 -0500
 Received: from mail-pj1-x1033.google.com ([2607:f8b0:4864:20::1033])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNNq0-0000RF-Nm
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 19:52:30 -0500
+ id 1pNNq2-0000RV-CN
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 19:52:35 -0500
 Received: by mail-pj1-x1033.google.com with SMTP id
- on9-20020a17090b1d0900b002300a96b358so322140pjb.1
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 16:52:28 -0800 (PST)
+ c10-20020a17090a1d0a00b0022e63a94799so4056274pjd.2
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 16:52:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=EFLcl0DGfL7ktN784kj4RpjY2aQN3i68UXxSw9t0+sU=;
- b=LTHPaJToAbmJ9qdCP0Z43xztt4mj7zGNbTB1iCGdIq1O6me0v0VATYBvHuwHhSa2S5
- vpPhr/4K1t2vwmC1Pp4BtoFtyLzsppxSoLTicAETvLdodIzXllZxRS8/+zw9B31ykV8Y
- zdSCAvnDDK662tj/Fi7QJoIXWCMtWeHHLief98Gz1JuVtrgb/HMB21ruwibRixsh0Iz/
- ERtO06aAGZFL4KcbGLZSrHo8728++a+/gPOZIve5iveHEUuivtne+IFm7y5S8qKqtOJH
- y/STMkAHOpO9kOG0T5s6vXuw4CqNVZhPkBswDVMWpYW27k9zOYG1xObFkmOAdI+P5u4r
- QnlA==
+ bh=RdzwGHvCCpIE8PYLpMnsIE7Dp6ielJFRJs6AnQClDEk=;
+ b=RR3MtTnBkWvPMgTo8VIzSjsbqJRy/ANHq5ju2gmCxPxDrTy81/Wh9G1ku3hJdNZl7Q
+ OMKFVO5N7OpIyHrGnLV5ABfcFYBWCTTlVxYrJSVxVrugfyNBpoLjmyjFYZU3HOlil3Rt
+ Jz1A7lViCZNjJXQ06EBSRRwlnAdfxew1dW4uQFcEWiowVSfeddCYUUNfawDTeQtmk41y
+ 1vQ2zsH1WWGFXSEspjwDwqpMQ8AswFKpw0miUYvOaHZcE4nk26T5PrJaUHBvZN2jJ/wg
+ 1KPO3+o217SVd/8U7DTcG+Su3ECRIdsgKGNuiC/PkAppvzcdQoaPJ54KvbHVgckiYM+C
+ 4GHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=EFLcl0DGfL7ktN784kj4RpjY2aQN3i68UXxSw9t0+sU=;
- b=c5MDi5WuiamBp9U/T+tdIq5lmWJvMlvrX6/yDBDemT/i5zA9CrmjcqF6RZWpdVT+Mo
- 9q6pwkMQBMC78an2oYPIFSe0hrBWPLfFG6ebctPnJwslfn/X04Q1zLTBQXjW1EI5FjQu
- OWtkLtrVtravYh5yfZXrCIOX8zYZQJKqmjCwbwovzy+0O/OjajntH7JQKZevwyueGffo
- G0f3qrC4yVggSMnz1wBmpuF3YBt5K/N0Ym4586+tRM+7jLYnADPbIhXLNzy1ESTtwXPP
- K/R1zKADYJwTX++qApM+DzdAWOU2Hj/BpR4hd8HKWs1fY6hAF5w76JRcioiB7SUvlryB
- ri6Q==
-X-Gm-Message-State: AO0yUKV8khNhKACtjjZySUbrf3lGNiG4TTHemJxlKFSedFSkCKzWwUY2
- PyRglETWaAWLA+hAahYi2zOcZP+ll0buywsS
-X-Google-Smtp-Source: AK7set+Mxfwun5e+JPr9x6do4wvyluVkInmlvRx2Tq0sInCb+bTyFAKEOODGTbFCYOe5GLyIrx0Yew==
-X-Received: by 2002:a17:902:c7d2:b0:196:7669:2585 with SMTP id
- r18-20020a170902c7d200b0019676692585mr3031232pla.57.1675299147519; 
- Wed, 01 Feb 2023 16:52:27 -0800 (PST)
+ bh=RdzwGHvCCpIE8PYLpMnsIE7Dp6ielJFRJs6AnQClDEk=;
+ b=l616l+Zt6JhP3dzM/ccphTbMK20B8Zmd1E4WPa4xoyG88NZQ2Ao4A3Qz037z2VD9uI
+ nV/6PGwAe506ISqb106BYdAlF6iKKNk2Wf9vq75T2Kbam4wfFzDmcCF6VdK3CxKc//9+
+ LXGMYwr5DXXdUWcvAEHWHARMrSWvLYdk/v/xAPyHcaMRi/K4XG5zRUn3r/NjPjMPdrOa
+ ssUoUYJSOxLWDWK5KeGG4byAoE+Qbs/WqXbmhxjFzdNpoziWGrOH9rNKOxIOXb/4NJW2
+ QeWhqB6bdB0PFbY8hn70KOINdzClayAMouoVAu5Km7qmK0yEapDW8Rc/ue75JMDPte8i
+ 4O7A==
+X-Gm-Message-State: AO0yUKUWBSSwvCsLodC3ur3OpovuF5c/FTeQQRYMNxwJ4Uveu14+4z6+
+ UHWnH/38KKToIG0oHRfF6MnCEwQEaUyKX0Fn
+X-Google-Smtp-Source: AK7set/Ker1Op2mWzUGfxNDTosZA1WsXzVN/XSThIZFvZR4AKbNmHgZLuPaFms4/C7r6rcA6jpg5bA==
+X-Received: by 2002:a17:903:1111:b0:196:6ec4:52db with SMTP id
+ n17-20020a170903111100b001966ec452dbmr5623283plh.51.1675299149049; 
+ Wed, 01 Feb 2023 16:52:29 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- z3-20020a1709028f8300b00192cf87ed25sm12391334plo.35.2023.02.01.16.52.26
+ z3-20020a1709028f8300b00192cf87ed25sm12391334plo.35.2023.02.01.16.52.27
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 16:52:27 -0800 (PST)
+ Wed, 01 Feb 2023 16:52:28 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: mark.cave-ayland@ilande.co.uk,
 	laurent@vivier.eu,
 	iii@linux.ibm.com
-Subject: [PATCH 11/14] linux-user/sparc: Handle coprocessor disabled trap
-Date: Wed,  1 Feb 2023 14:52:01 -1000
-Message-Id: <20230202005204.2055899-12-richard.henderson@linaro.org>
+Subject: [PATCH 12/14] linux-user/sparc: Handle unimplemented flush trap
+Date: Wed,  1 Feb 2023 14:52:02 -1000
+Message-Id: <20230202005204.2055899-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230202005204.2055899-1-richard.henderson@linaro.org>
 References: <20230202005204.2055899-1-richard.henderson@linaro.org>
@@ -92,26 +92,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Since qemu does not implement a sparc coprocessor, all such
-instructions raise this trap.  Because of that, we never raise
-the coprocessor exception trap, which would be vector 0x28.
+For sparc64, TT_UNIMP_FLUSH == TT_ILL_INSN, so this is
+already handled.  For sparc32, the kernel uses SKIP_TRAP.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/sparc/cpu_loop.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ linux-user/sparc/cpu_loop.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
 diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index 42e92ef859..8985d10ba1 100644
+index 8985d10ba1..7ba543983a 100644
 --- a/linux-user/sparc/cpu_loop.c
 +++ b/linux-user/sparc/cpu_loop.c
-@@ -315,6 +315,10 @@ void cpu_loop (CPUSPARCState *env)
-             /* Note do_privact defers to do_privop. */
-             force_sig_fault(TARGET_SIGILL, TARGET_ILL_PRVOPC, env->pc);
+@@ -319,6 +319,9 @@ void cpu_loop (CPUSPARCState *env)
+         case TT_NCP_INSN:
+             force_sig_fault(TARGET_SIGILL, TARGET_ILL_COPROC, env->pc);
              break;
-+#else
-+        case TT_NCP_INSN:
-+            force_sig_fault(TARGET_SIGILL, TARGET_ILL_COPROC, env->pc);
++        case TT_UNIMP_FLUSH:
++            next_instruction(env);
 +            break;
  #endif
          case EXCP_ATOMIC:
