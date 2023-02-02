@@ -2,56 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8BBF687588
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 06:50:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C011868758B
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 06:51:06 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNSPK-00089k-6B; Thu, 02 Feb 2023 00:45:14 -0500
+	id 1pNSPO-0008Co-20; Thu, 02 Feb 2023 00:45:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1pNSPG-000893-Sj
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:11 -0500
-Received: from mx0b-00069f02.pphosted.com ([205.220.177.32])
+ id 1pNSPJ-00089r-Le
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:13 -0500
+Received: from mx0a-00069f02.pphosted.com ([205.220.165.32])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <john.g.johnson@oracle.com>)
- id 1pNSPE-0007A6-It
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:10 -0500
-Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+ id 1pNSPH-0007B5-CC
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 00:45:13 -0500
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
  by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 3124iTMW029513; Thu, 2 Feb 2023 05:45:07 GMT
+ 3124i57a021989; Thu, 2 Feb 2023 05:45:09 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
  h=from : to : cc :
  subject : date : message-id : in-reply-to : references : in-reply-to :
  references; s=corp-2022-7-12;
- bh=DcxAm8RLWeiMlaB1WxT4I+RpGMqP/Kazg75iqPuevVw=;
- b=wtWPIYhBpQ5+fkk6f3SL2dRsec/paa+Gs/3mDoSIxg7jQnBllaPVvfJv2l7vaHD32r9g
- CCyt1YT3CPGXP7LdYXS/4efuHNPDetZv4yHaIjGgYr8nsTDtj0vmZv+vHoW9aBwl2Cup
- Sr4SFPhpcUr7fh31HN8a2aHKOf0FsInDfiDP57+pV063hJW6w6YSwJBvIEMY/b2fE9kc
- Zut9nUCtPbkcBUaXjv964OZQ/DCm2jfcn60tmsPQwWRK6m8LE30mBUI4rZZq8uP3fvpe
- F63I15iE9k4TaY0QV3fRPmx08wayTCJmYQlkPBsmMD9BN1tDQ/p7o4y5fsJCmD/r9GTN hw== 
+ bh=SZE2kaqN9AVOXqO0DYni1p3anezM9kYRlZcC2YbWA4Y=;
+ b=SbHllP9pUaIFgIUkShIgROINBIc/nGOxXN6mehg0n2Rl4Ub/Y4VxpfRha8yJt8psGBzt
+ FQEBsBZxcs1mvMDeS0dNBBjWdsE1H0PdEbyIQQQW/6CvJzwwS2hQsdF2/DlH3REkOvSf
+ SKnjibe+ht8CWA7+Sixue8L4I4M2TwhX+TsBIzNOoRpAgs6xjsGwspig7o/0LqHI9eo1
+ ydMrcd5VAa9z2O7dOxziCcXLSsr3oliGmK7oKalzb6uqW1ygDETqOaBazA8srRqdN73x
+ LtB2DtPYjlYlGJ4Q1a0BUcCACDjsq8Fi5I9IzkyEco6V4mjV036TrBLaccnv9hAmvXFn uw== 
 Received: from iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com
  (iadpaimrmta01.appoci.oracle.com [130.35.100.223])
- by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nfmbg2bhf-1
+ by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3nfq28syxr-1
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 02 Feb 2023 05:45:07 +0000
+ Thu, 02 Feb 2023 05:45:09 +0000
 Received: from pps.filterd
  (iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (8.17.1.5/8.17.1.5)
- with ESMTP id 31254Ppk013015; Thu, 2 Feb 2023 05:45:06 GMT
+ with ESMTP id 31254Ppl013015; Thu, 2 Feb 2023 05:45:07 GMT
 Received: from bruckner.us.oracle.com (dhcp-10-65-133-23.vpn.oracle.com
  [10.65.133.23])
  by iadpaimrmta01.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id
- 3nct5f5gb1-14
+ 3nct5f5gb1-15
  (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
- Thu, 02 Feb 2023 05:45:06 +0000
+ Thu, 02 Feb 2023 05:45:07 +0000
 From: John Johnson <john.g.johnson@oracle.com>
 To: qemu-devel@nongnu.org
 Cc: alex.williamson@redhat.com, clg@redhat.com, philmd@linaro.org
-Subject: [PATCH v2 13/23] vfio-user: pci_user_realize PCI setup
-Date: Wed,  1 Feb 2023 21:55:49 -0800
-Message-Id: <863fc4e015e11ddf38e0c9272499a56498e6b65f.1675228037.git.john.g.johnson@oracle.com>
+Subject: [PATCH v2 14/23] vfio-user: get and set IRQs
+Date: Wed,  1 Feb 2023 21:55:50 -0800
+Message-Id: <3cfa054d8622df1d5f2847fe29d298dad70cf571.1675228037.git.john.g.johnson@oracle.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <cover.1675228037.git.john.g.johnson@oracle.com>
 References: <cover.1675228037.git.john.g.johnson@oracle.com>
@@ -65,10 +65,10 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0
  adultscore=0 bulkscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2212070000
  definitions=main-2302020053
-X-Proofpoint-ORIG-GUID: 6HVlZ6C-a2htPLmH9CQJWV9gx7uySB-L
-X-Proofpoint-GUID: 6HVlZ6C-a2htPLmH9CQJWV9gx7uySB-L
-Received-SPF: pass client-ip=205.220.177.32;
- envelope-from=john.g.johnson@oracle.com; helo=mx0b-00069f02.pphosted.com
+X-Proofpoint-GUID: VlLuRZmcJm57WIidx9R1yrNd3HuUeNqY
+X-Proofpoint-ORIG-GUID: VlLuRZmcJm57WIidx9R1yrNd3HuUeNqY
+Received-SPF: pass client-ip=205.220.165.32;
+ envelope-from=john.g.johnson@oracle.com; helo=mx0a-00069f02.pphosted.com
 X-Spam_score_int: -27
 X-Spam_score: -2.8
 X-Spam_bar: --
@@ -91,443 +91,241 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-PCI BARs read from remote device
-PCI config reads/writes sent to remote server
-
 Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
 Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
 ---
- hw/vfio/pci.h      |   9 ++
- hw/vfio/pci.c      | 257 ++++++++++++++++++++++++++++++-----------------------
- hw/vfio/user-pci.c |  47 ++++++++++
- 3 files changed, 203 insertions(+), 110 deletions(-)
+ hw/vfio/user-protocol.h |  25 +++++++++
+ hw/vfio/pci.c           |   3 +-
+ hw/vfio/user.c          | 140 ++++++++++++++++++++++++++++++++++++++++++++++++
+ hw/vfio/trace-events    |   2 +
+ 4 files changed, 169 insertions(+), 1 deletion(-)
 
-diff --git a/hw/vfio/pci.h b/hw/vfio/pci.h
-index 50a1d07..4f70664 100644
---- a/hw/vfio/pci.h
-+++ b/hw/vfio/pci.h
-@@ -212,7 +212,16 @@ void vfio_intx_eoi(VFIODevice *vbasedev);
- Object *vfio_pci_get_object(VFIODevice *vbasedev);
- void vfio_pci_save_config(VFIODevice *vbasedev, QEMUFile *f);
- int vfio_pci_load_config(VFIODevice *vbasedev, QEMUFile *f);
-+void vfio_populate_device(VFIOPCIDevice *vdev, Error **errp);
-+void vfio_teardown_msi(VFIOPCIDevice *vdev);
-+void vfio_bars_exit(VFIOPCIDevice *vdev);
-+void vfio_bars_finalize(VFIOPCIDevice *vdev);
-+int vfio_add_capabilities(VFIOPCIDevice *vdev, Error **errp);
- void vfio_put_device(VFIOPCIDevice *vdev);
-+void vfio_register_err_notifier(VFIOPCIDevice *vdev);
-+void vfio_register_req_notifier(VFIOPCIDevice *vdev);
-+void vfio_pci_config_setup(VFIOPCIDevice *vdev, Error **errp);
-+int vfio_interrupt_setup(VFIOPCIDevice *vdev, Error **errp);
- void vfio_instance_init(Object *obj);
+diff --git a/hw/vfio/user-protocol.h b/hw/vfio/user-protocol.h
+index 6987435..48dd475 100644
+--- a/hw/vfio/user-protocol.h
++++ b/hw/vfio/user-protocol.h
+@@ -140,6 +140,31 @@ typedef struct {
+ } VFIOUserRegionInfo;
  
- uint64_t vfio_vga_read(void *opaque, hwaddr addr, unsigned size);
+ /*
++ * VFIO_USER_DEVICE_GET_IRQ_INFO
++ * imported from struct vfio_irq_info
++ */
++typedef struct {
++    VFIOUserHdr hdr;
++    uint32_t argsz;
++    uint32_t flags;
++    uint32_t index;
++    uint32_t count;
++} VFIOUserIRQInfo;
++
++/*
++ * VFIO_USER_DEVICE_SET_IRQS
++ * imported from struct vfio_irq_set
++ */
++typedef struct {
++    VFIOUserHdr hdr;
++    uint32_t argsz;
++    uint32_t flags;
++    uint32_t index;
++    uint32_t start;
++    uint32_t count;
++} VFIOUserIRQSet;
++
++/*
+  * VFIO_USER_REGION_READ
+  * VFIO_USER_REGION_WRITE
+  */
 diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index be714b7..b8b5c34 100644
+index b8b5c34..42e7c82 100644
 --- a/hw/vfio/pci.c
 +++ b/hw/vfio/pci.c
-@@ -1651,7 +1651,7 @@ static int vfio_msix_setup(VFIOPCIDevice *vdev, int pos, Error **errp)
+@@ -711,7 +711,8 @@ retry:
+     ret = vfio_enable_vectors(vdev, false);
+     if (ret) {
+         if (ret < 0) {
+-            error_report("vfio: Error: Failed to setup MSI fds: %m");
++            error_report("vfio: Error: Failed to setup MSI fds: %s",
++                         strerror(-ret));
+         } else {
+             error_report("vfio: Error: Failed to enable %d "
+                          "MSI vectors, retry with %d", vdev->nr_vectors, ret);
+diff --git a/hw/vfio/user.c b/hw/vfio/user.c
+index 389c807..d66dc1b 100644
+--- a/hw/vfio/user.c
++++ b/hw/vfio/user.c
+@@ -1208,6 +1208,122 @@ static int vfio_user_get_region_info(VFIOUserProxy *proxy,
      return 0;
  }
  
--static void vfio_teardown_msi(VFIOPCIDevice *vdev)
-+void vfio_teardown_msi(VFIOPCIDevice *vdev)
- {
-     msi_uninit(&vdev->pdev);
- 
-@@ -1751,7 +1751,7 @@ static void vfio_bars_register(VFIOPCIDevice *vdev)
-     }
- }
- 
--static void vfio_bars_exit(VFIOPCIDevice *vdev)
-+void vfio_bars_exit(VFIOPCIDevice *vdev)
- {
-     int i;
- 
-@@ -1771,7 +1771,7 @@ static void vfio_bars_exit(VFIOPCIDevice *vdev)
-     }
- }
- 
--static void vfio_bars_finalize(VFIOPCIDevice *vdev)
-+void vfio_bars_finalize(VFIOPCIDevice *vdev)
- {
-     int i;
- 
-@@ -2185,7 +2185,7 @@ static void vfio_add_ext_cap(VFIOPCIDevice *vdev)
-     return;
- }
- 
--static int vfio_add_capabilities(VFIOPCIDevice *vdev, Error **errp)
-+int vfio_add_capabilities(VFIOPCIDevice *vdev, Error **errp)
- {
-     PCIDevice *pdev = &vdev->pdev;
-     int ret;
-@@ -2641,7 +2641,7 @@ int vfio_populate_vga(VFIOPCIDevice *vdev, Error **errp)
-     return 0;
- }
- 
--static void vfio_populate_device(VFIOPCIDevice *vdev, Error **errp)
-+void vfio_populate_device(VFIOPCIDevice *vdev, Error **errp)
- {
-     VFIODevice *vbasedev = &vdev->vbasedev;
-     struct vfio_region_info *reg_info;
-@@ -2758,7 +2758,7 @@ static void vfio_err_notifier_handler(void *opaque)
-  * and continue after disabling error recovery support for the
-  * device.
-  */
--static void vfio_register_err_notifier(VFIOPCIDevice *vdev)
-+void vfio_register_err_notifier(VFIOPCIDevice *vdev)
- {
-     Error *err = NULL;
-     int32_t fd;
-@@ -2817,7 +2817,7 @@ static void vfio_req_notifier_handler(void *opaque)
-     }
- }
- 
--static void vfio_register_req_notifier(VFIOPCIDevice *vdev)
-+void vfio_register_req_notifier(VFIOPCIDevice *vdev)
- {
-     struct vfio_irq_info irq_info = { .argsz = sizeof(irq_info),
-                                       .index = VFIO_PCI_REQ_IRQ_INDEX };
-@@ -2872,6 +2872,133 @@ static void vfio_unregister_req_notifier(VFIOPCIDevice *vdev)
-     vdev->req_enabled = false;
- }
- 
-+void vfio_pci_config_setup(VFIOPCIDevice *vdev, Error **errp)
++static int vfio_user_get_irq_info(VFIOUserProxy *proxy,
++                                  struct vfio_irq_info *info)
 +{
-+    PCIDevice *pdev = &vdev->pdev;
-+    VFIODevice *vbasedev = &vdev->vbasedev;
-+    Error *err = NULL;
++    VFIOUserIRQInfo msg;
 +
-+    /* vfio emulates a lot for us, but some bits need extra love */
-+    vdev->emulated_config_bits = g_malloc0(vdev->config_size);
++    memset(&msg, 0, sizeof(msg));
++    vfio_user_request_msg(&msg.hdr, VFIO_USER_DEVICE_GET_IRQ_INFO,
++                          sizeof(msg), 0);
++    msg.argsz = info->argsz;
++    msg.index = info->index;
 +
-+    /* QEMU can choose to expose the ROM or not */
-+    memset(vdev->emulated_config_bits + PCI_ROM_ADDRESS, 0xff, 4);
-+    /* QEMU can also add or extend BARs */
-+    memset(vdev->emulated_config_bits + PCI_BASE_ADDRESS_0, 0xff, 6 * 4);
-+
-+    /*
-+     * The PCI spec reserves vendor ID 0xffff as an invalid value.  The
-+     * device ID is managed by the vendor and need only be a 16-bit value.
-+     * Allow any 16-bit value for subsystem so they can be hidden or changed.
-+     */
-+    if (vdev->vendor_id != PCI_ANY_ID) {
-+        if (vdev->vendor_id >= 0xffff) {
-+            error_setg(errp, "invalid PCI vendor ID provided");
-+            return;
-+        }
-+        vfio_add_emulated_word(vdev, PCI_VENDOR_ID, vdev->vendor_id, ~0);
-+        trace_vfio_pci_emulated_vendor_id(vdev->vbasedev.name, vdev->vendor_id);
-+    } else {
-+        vdev->vendor_id = pci_get_word(pdev->config + PCI_VENDOR_ID);
++    vfio_user_send_wait(proxy, &msg.hdr, NULL, 0, false);
++    if (msg.hdr.flags & VFIO_USER_ERROR) {
++        return -msg.hdr.error_reply;
 +    }
++    trace_vfio_user_get_irq_info(msg.index, msg.flags, msg.count);
 +
-+    if (vdev->device_id != PCI_ANY_ID) {
-+        if (vdev->device_id > 0xffff) {
-+            error_setg(errp, "invalid PCI device ID provided");
-+            return;
-+        }
-+        vfio_add_emulated_word(vdev, PCI_DEVICE_ID, vdev->device_id, ~0);
-+        trace_vfio_pci_emulated_device_id(vbasedev->name, vdev->device_id);
-+    } else {
-+        vdev->device_id = pci_get_word(pdev->config + PCI_DEVICE_ID);
-+    }
-+
-+    if (vdev->sub_vendor_id != PCI_ANY_ID) {
-+        if (vdev->sub_vendor_id > 0xffff) {
-+            error_setg(errp, "invalid PCI subsystem vendor ID provided");
-+            return;
-+        }
-+        vfio_add_emulated_word(vdev, PCI_SUBSYSTEM_VENDOR_ID,
-+                               vdev->sub_vendor_id, ~0);
-+        trace_vfio_pci_emulated_sub_vendor_id(vbasedev->name,
-+                                              vdev->sub_vendor_id);
-+    }
-+
-+    if (vdev->sub_device_id != PCI_ANY_ID) {
-+        if (vdev->sub_device_id > 0xffff) {
-+            error_setg(errp, "invalid PCI subsystem device ID provided");
-+            return;
-+        }
-+        vfio_add_emulated_word(vdev, PCI_SUBSYSTEM_ID, vdev->sub_device_id, ~0);
-+        trace_vfio_pci_emulated_sub_device_id(vbasedev->name,
-+                                              vdev->sub_device_id);
-+    }
-+
-+    /* QEMU can change multi-function devices to single function, or reverse */
-+    vdev->emulated_config_bits[PCI_HEADER_TYPE] =
-+                                              PCI_HEADER_TYPE_MULTI_FUNCTION;
-+
-+    /* Restore or clear multifunction, this is always controlled by QEMU */
-+    if (vdev->pdev.cap_present & QEMU_PCI_CAP_MULTIFUNCTION) {
-+        vdev->pdev.config[PCI_HEADER_TYPE] |= PCI_HEADER_TYPE_MULTI_FUNCTION;
-+    } else {
-+        vdev->pdev.config[PCI_HEADER_TYPE] &= ~PCI_HEADER_TYPE_MULTI_FUNCTION;
-+    }
-+
-+    /*
-+     * Clear host resource mapping info.  If we choose not to register a
-+     * BAR, such as might be the case with the option ROM, we can get
-+     * confusing, unwritable, residual addresses from the host here.
-+     */
-+    memset(&vdev->pdev.config[PCI_BASE_ADDRESS_0], 0, 24);
-+    memset(&vdev->pdev.config[PCI_ROM_ADDRESS], 0, 4);
-+
-+    vfio_pci_size_rom(vdev);
-+
-+    vfio_bars_prepare(vdev);
-+
-+    vfio_msix_early_setup(vdev, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        return;
-+    }
-+
-+    vfio_bars_register(vdev);
++    memcpy(info, &msg.argsz, sizeof(*info));
++    return 0;
 +}
 +
-+int vfio_interrupt_setup(VFIOPCIDevice *vdev, Error **errp)
++static int irq_howmany(int *fdp, uint32_t cur, uint32_t max)
 +{
-+    PCIDevice *pdev = &vdev->pdev;
++    int n = 0;
++
++    if (fdp[cur] != -1) {
++        do {
++            n++;
++        } while (n < max && fdp[cur + n] != -1);
++    } else {
++        do {
++            n++;
++        } while (n < max && fdp[cur + n] == -1);
++    }
++
++    return n;
++}
++
++static int vfio_user_set_irqs(VFIOUserProxy *proxy, struct vfio_irq_set *irq)
++{
++    g_autofree VFIOUserIRQSet *msgp = NULL;
++    uint32_t size, nfds, send_fds, sent_fds, max;
++
++    if (irq->argsz < sizeof(*irq)) {
++        error_printf("vfio_user_set_irqs argsz too small\n");
++        return -EINVAL;
++    }
++
++    /*
++     * Handle simple case
++     */
++    if ((irq->flags & VFIO_IRQ_SET_DATA_EVENTFD) == 0) {
++        size = sizeof(VFIOUserHdr) + irq->argsz;
++        msgp = g_malloc0(size);
++
++        vfio_user_request_msg(&msgp->hdr, VFIO_USER_DEVICE_SET_IRQS, size, 0);
++        msgp->argsz = irq->argsz;
++        msgp->flags = irq->flags;
++        msgp->index = irq->index;
++        msgp->start = irq->start;
++        msgp->count = irq->count;
++        trace_vfio_user_set_irqs(msgp->index, msgp->start, msgp->count,
++                                 msgp->flags);
++
++        vfio_user_send_wait(proxy, &msgp->hdr, NULL, 0, false);
++        if (msgp->hdr.flags & VFIO_USER_ERROR) {
++            return -msgp->hdr.error_reply;
++        }
++
++        return 0;
++    }
++
++    /*
++     * Calculate the number of FDs to send
++     * and adjust argsz
++     */
++    nfds = (irq->argsz - sizeof(*irq)) / sizeof(int);
++    irq->argsz = sizeof(*irq);
++    msgp = g_malloc0(sizeof(*msgp));
++    /*
++     * Send in chunks if over max_send_fds
++     */
++    for (sent_fds = 0; nfds > sent_fds; sent_fds += send_fds) {
++        VFIOUserFDs *arg_fds, loop_fds;
++
++        /* must send all valid FDs or all invalid FDs in single msg */
++        max = nfds - sent_fds;
++        if (max > proxy->max_send_fds) {
++            max = proxy->max_send_fds;
++        }
++        send_fds = irq_howmany((int *)irq->data, sent_fds, max);
++
++        vfio_user_request_msg(&msgp->hdr, VFIO_USER_DEVICE_SET_IRQS,
++                              sizeof(*msgp), 0);
++        msgp->argsz = irq->argsz;
++        msgp->flags = irq->flags;
++        msgp->index = irq->index;
++        msgp->start = irq->start + sent_fds;
++        msgp->count = send_fds;
++        trace_vfio_user_set_irqs(msgp->index, msgp->start, msgp->count,
++                                 msgp->flags);
++
++        loop_fds.send_fds = send_fds;
++        loop_fds.recv_fds = 0;
++        loop_fds.fds = (int *)irq->data + sent_fds;
++        arg_fds = loop_fds.fds[0] != -1 ? &loop_fds : NULL;
++
++        vfio_user_send_wait(proxy, &msgp->hdr, arg_fds, 0, false);
++        if (msgp->hdr.flags & VFIO_USER_ERROR) {
++            return -msgp->hdr.error_reply;
++        }
++    }
++
++    return 0;
++}
++
+ static int vfio_user_region_read(VFIOUserProxy *proxy, uint8_t index,
+                                  off_t offset, uint32_t count, void *data)
+ {
+@@ -1304,6 +1420,28 @@ static int vfio_user_io_get_region_info(VFIODevice *vbasedev,
+     return 0;
+ }
+ 
++static int vfio_user_io_get_irq_info(VFIODevice *vbasedev,
++                                     struct vfio_irq_info *irq)
++{
 +    int ret;
 +
-+    /* QEMU emulates all of MSI & MSIX */
-+    if (pdev->cap_present & QEMU_PCI_CAP_MSIX) {
-+        memset(vdev->emulated_config_bits + pdev->msix_cap, 0xff,
-+               MSIX_CAP_LENGTH);
++    ret = vfio_user_get_irq_info(vbasedev->proxy, irq);
++    if (ret) {
++        return ret;
 +    }
 +
-+    if (pdev->cap_present & QEMU_PCI_CAP_MSI) {
-+        memset(vdev->emulated_config_bits + pdev->msi_cap, 0xff,
-+               vdev->msi_cap_size);
-+    }
-+
-+    if (vfio_pci_read_config(&vdev->pdev, PCI_INTERRUPT_PIN, 1)) {
-+        vdev->intx.mmap_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
-+                                                  vfio_intx_mmap_enable, vdev);
-+        pci_device_set_intx_routing_notifier(&vdev->pdev,
-+                                             vfio_intx_routing_notifier);
-+        vdev->irqchip_change_notifier.notify = vfio_irqchip_change;
-+        kvm_irqchip_add_change_notifier(&vdev->irqchip_change_notifier);
-+        ret = vfio_intx_enable(vdev, errp);
-+        if (ret) {
-+            pci_device_set_intx_routing_notifier(&vdev->pdev, NULL);
-+            kvm_irqchip_remove_change_notifier(&vdev->irqchip_change_notifier);
-+            return ret;
-+        }
++    if (irq->index > vbasedev->num_irqs) {
++        return -EINVAL;
 +    }
 +    return 0;
 +}
 +
- static void vfio_realize(PCIDevice *pdev, Error **errp)
++static int vfio_user_io_set_irqs(VFIODevice *vbasedev,
++                                 struct vfio_irq_set *irqs)
++{
++    return vfio_user_set_irqs(vbasedev->proxy, irqs);
++}
++
+ static int vfio_user_io_region_read(VFIODevice *vbasedev, uint8_t index,
+                                     off_t off, uint32_t size, void *data)
  {
-     VFIOPCIDevice *vdev = VFIO_PCI_BASE(pdev);
-@@ -2989,92 +3116,16 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-         goto error;
-     }
+@@ -1320,6 +1458,8 @@ static int vfio_user_io_region_write(VFIODevice *vbasedev, uint8_t index,
  
--    /* vfio emulates a lot for us, but some bits need extra love */
--    vdev->emulated_config_bits = g_malloc0(vdev->config_size);
--
--    /* QEMU can choose to expose the ROM or not */
--    memset(vdev->emulated_config_bits + PCI_ROM_ADDRESS, 0xff, 4);
--    /* QEMU can also add or extend BARs */
--    memset(vdev->emulated_config_bits + PCI_BASE_ADDRESS_0, 0xff, 6 * 4);
--
--    /*
--     * The PCI spec reserves vendor ID 0xffff as an invalid value.  The
--     * device ID is managed by the vendor and need only be a 16-bit value.
--     * Allow any 16-bit value for subsystem so they can be hidden or changed.
--     */
--    if (vdev->vendor_id != PCI_ANY_ID) {
--        if (vdev->vendor_id >= 0xffff) {
--            error_setg(errp, "invalid PCI vendor ID provided");
--            goto error;
--        }
--        vfio_add_emulated_word(vdev, PCI_VENDOR_ID, vdev->vendor_id, ~0);
--        trace_vfio_pci_emulated_vendor_id(vbasedev->name, vdev->vendor_id);
--    } else {
--        vdev->vendor_id = pci_get_word(pdev->config + PCI_VENDOR_ID);
--    }
--
--    if (vdev->device_id != PCI_ANY_ID) {
--        if (vdev->device_id > 0xffff) {
--            error_setg(errp, "invalid PCI device ID provided");
--            goto error;
--        }
--        vfio_add_emulated_word(vdev, PCI_DEVICE_ID, vdev->device_id, ~0);
--        trace_vfio_pci_emulated_device_id(vbasedev->name, vdev->device_id);
--    } else {
--        vdev->device_id = pci_get_word(pdev->config + PCI_DEVICE_ID);
--    }
--
--    if (vdev->sub_vendor_id != PCI_ANY_ID) {
--        if (vdev->sub_vendor_id > 0xffff) {
--            error_setg(errp, "invalid PCI subsystem vendor ID provided");
--            goto error;
--        }
--        vfio_add_emulated_word(vdev, PCI_SUBSYSTEM_VENDOR_ID,
--                               vdev->sub_vendor_id, ~0);
--        trace_vfio_pci_emulated_sub_vendor_id(vbasedev->name,
--                                              vdev->sub_vendor_id);
--    }
--
--    if (vdev->sub_device_id != PCI_ANY_ID) {
--        if (vdev->sub_device_id > 0xffff) {
--            error_setg(errp, "invalid PCI subsystem device ID provided");
--            goto error;
--        }
--        vfio_add_emulated_word(vdev, PCI_SUBSYSTEM_ID, vdev->sub_device_id, ~0);
--        trace_vfio_pci_emulated_sub_device_id(vbasedev->name,
--                                              vdev->sub_device_id);
--    }
--
--    /* QEMU can change multi-function devices to single function, or reverse */
--    vdev->emulated_config_bits[PCI_HEADER_TYPE] =
--                                              PCI_HEADER_TYPE_MULTI_FUNCTION;
--
--    /* Restore or clear multifunction, this is always controlled by QEMU */
--    if (vdev->pdev.cap_present & QEMU_PCI_CAP_MULTIFUNCTION) {
--        vdev->pdev.config[PCI_HEADER_TYPE] |= PCI_HEADER_TYPE_MULTI_FUNCTION;
--    } else {
--        vdev->pdev.config[PCI_HEADER_TYPE] &= ~PCI_HEADER_TYPE_MULTI_FUNCTION;
--    }
--
--    /*
--     * Clear host resource mapping info.  If we choose not to register a
--     * BAR, such as might be the case with the option ROM, we can get
--     * confusing, unwritable, residual addresses from the host here.
--     */
--    memset(&vdev->pdev.config[PCI_BASE_ADDRESS_0], 0, 24);
--    memset(&vdev->pdev.config[PCI_ROM_ADDRESS], 0, 4);
--
--    vfio_pci_size_rom(vdev);
--
--    vfio_bars_prepare(vdev);
--
--    vfio_msix_early_setup(vdev, &err);
-+    vfio_pci_config_setup(vdev, &err);
-     if (err) {
--        error_propagate(errp, err);
-         goto error;
-     }
- 
--    vfio_bars_register(vdev);
-+    /*
-+     * vfio_pci_config_setup will have registered the device's BARs
-+     * and setup any MSIX BARs, so errors after it succeeds must
-+     * use out_teardown
-+     */
- 
-     ret = vfio_add_capabilities(vdev, errp);
-     if (ret) {
-@@ -3115,29 +3166,15 @@ static void vfio_realize(PCIDevice *pdev, Error **errp)
-         }
-     }
- 
--    /* QEMU emulates all of MSI & MSIX */
--    if (pdev->cap_present & QEMU_PCI_CAP_MSIX) {
--        memset(vdev->emulated_config_bits + pdev->msix_cap, 0xff,
--               MSIX_CAP_LENGTH);
--    }
--
--    if (pdev->cap_present & QEMU_PCI_CAP_MSI) {
--        memset(vdev->emulated_config_bits + pdev->msi_cap, 0xff,
--               vdev->msi_cap_size);
-+    ret = vfio_interrupt_setup(vdev, errp);
-+    if (ret) {
-+        goto out_teardown;
-     }
- 
--    if (vfio_pci_read_config(&vdev->pdev, PCI_INTERRUPT_PIN, 1)) {
--        vdev->intx.mmap_timer = timer_new_ms(QEMU_CLOCK_VIRTUAL,
--                                                  vfio_intx_mmap_enable, vdev);
--        pci_device_set_intx_routing_notifier(&vdev->pdev,
--                                             vfio_intx_routing_notifier);
--        vdev->irqchip_change_notifier.notify = vfio_irqchip_change;
--        kvm_irqchip_add_change_notifier(&vdev->irqchip_change_notifier);
--        ret = vfio_intx_enable(vdev, errp);
--        if (ret) {
--            goto out_deregister;
--        }
--    }
-+    /*
-+     * vfio_interrupt_setup will have setup INTx's KVM routing
-+     * so errors after it succeeds must use out_deregister
-+     */
- 
-     if (vdev->display != ON_OFF_AUTO_OFF) {
-         ret = vfio_display_probe(vdev, errp);
-diff --git a/hw/vfio/user-pci.c b/hw/vfio/user-pci.c
-index 900ab5f..55ffe7f 100644
---- a/hw/vfio/user-pci.c
-+++ b/hw/vfio/user-pci.c
-@@ -128,8 +128,51 @@ static void vfio_user_pci_realize(PCIDevice *pdev, Error **errp)
-         goto error;
-     }
- 
-+    vfio_populate_device(vdev, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        goto error;
-+    }
-+
-+    /* Get a copy of config space */
-+    ret = vbasedev->io->region_read(vbasedev, VFIO_PCI_CONFIG_REGION_INDEX, 0,
-+                               MIN(pci_config_size(pdev), vdev->config_size),
-+                               pdev->config);
-+    if (ret < (int)MIN(pci_config_size(&vdev->pdev), vdev->config_size)) {
-+        error_setg_errno(errp, -ret, "failed to read device config space");
-+        goto error;
-+    }
-+
-+    vfio_pci_config_setup(vdev, &err);
-+    if (err) {
-+        error_propagate(errp, err);
-+        goto error;
-+    }
-+
-+    /*
-+     * vfio_pci_config_setup will have registered the device's BARs
-+     * and setup any MSIX BARs, so errors after it succeeds must
-+     * use out_teardown
-+     */
-+
-+    ret = vfio_add_capabilities(vdev, errp);
-+    if (ret) {
-+        goto out_teardown;
-+    }
-+
-+    ret = vfio_interrupt_setup(vdev, errp);
-+    if (ret) {
-+        goto out_teardown;
-+    }
-+
-+    vfio_register_err_notifier(vdev);
-+    vfio_register_req_notifier(vdev);
-+
-     return;
- 
-+out_teardown:
-+    vfio_teardown_msi(vdev);
-+    vfio_bars_exit(vdev);
- error:
-     error_prepend(errp, VFIO_MSG_PREFIX, vdev->vbasedev.name);
- }
-@@ -139,6 +182,10 @@ static void vfio_user_instance_finalize(Object *obj)
-     VFIOPCIDevice *vdev = VFIO_PCI_BASE(obj);
-     VFIODevice *vbasedev = &vdev->vbasedev;
- 
-+    vfio_bars_finalize(vdev);
-+    g_free(vdev->emulated_config_bits);
-+    g_free(vdev->rom);
-+
-     vfio_put_device(vdev);
- 
-     if (vbasedev->proxy != NULL) {
+ VFIODeviceIO vfio_dev_io_sock = {
+     .get_region_info = vfio_user_io_get_region_info,
++    .get_irq_info = vfio_user_io_get_irq_info,
++    .set_irqs = vfio_user_io_set_irqs,
+     .region_read = vfio_user_io_region_read,
+     .region_write = vfio_user_io_region_write,
+ };
+diff --git a/hw/vfio/trace-events b/hw/vfio/trace-events
+index 1f3688f..01563cb 100644
+--- a/hw/vfio/trace-events
++++ b/hw/vfio/trace-events
+@@ -176,3 +176,5 @@ vfio_user_version(uint16_t major, uint16_t minor, const char *caps) " major %d m
+ vfio_user_get_info(uint32_t nregions, uint32_t nirqs) " #regions %d #irqs %d"
+ vfio_user_get_region_info(uint32_t index, uint32_t flags, uint64_t size) " index %d flags 0x%x size 0x%"PRIx64
+ vfio_user_region_rw(uint32_t region, uint64_t off, uint32_t count) " region %d offset 0x%"PRIx64" count %d"
++vfio_user_get_irq_info(uint32_t index, uint32_t flags, uint32_t count) " index %d flags 0x%x count %d"
++vfio_user_set_irqs(uint32_t index, uint32_t start, uint32_t count, uint32_t flags) " index %d start %d count %d flags 0x%x"
 -- 
 1.9.4
 
