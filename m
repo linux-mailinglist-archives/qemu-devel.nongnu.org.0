@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACECE687EE7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:40:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB7B687EF7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:41:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNZoJ-0006RS-9u; Thu, 02 Feb 2023 08:39:33 -0500
+	id 1pNZnf-0005NC-N1; Thu, 02 Feb 2023 08:38:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnr-0005dx-3G
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:39:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnc-0005IC-DC
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:38:48 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnb-00089I-Rb
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:39:02 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnY-00085Z-Pu
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:38:47 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675345122;
+ s=mimecast20190719; t=1675345121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=KGzGg0p8isHX9McZYkV6LVe0QVsHvHzU5W95vnnY9Ao=;
- b=b4GpokH1dpdLQ9IwqQ+YCmbosyLbmKSyWap5VfmdXohgW42MtpsT78IKcY2D8zISmbzICm
- 8HBCcWobiOAsjgbQu4dZBhMvl+w/vr1s0a99ChwhJf+s7uP9ZfkZRctgoSJTuPB/kWgyoe
- IlY0PujNF6dK6WOibjAPRW/hpVDGXxE=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=j1uA7Q/+jqbjDgP4YzxQuXH1Nay8XWzrHtGDuJpCIiA=;
+ b=IUxORZJ8YWRzyriguVgSO116iUEZK5OcSlwJ/gMgmnmsttxgeELvMNoUh5Ns9LtDS6zT5T
+ pTTxBp/otNSEKpzpXIRVu6POjJVCuHe2NXCGHO6xSOwT36bahP7YWIjHATZsOLldOA7i/0
+ Jk1glFprhxyKt4XdxsWLTHlX+4DXO+s=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-377-8O3l02QLPeSq929Cx4Syhw-1; Thu, 02 Feb 2023 08:38:37 -0500
-X-MC-Unique: 8O3l02QLPeSq929Cx4Syhw-1
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
- [10.11.54.5])
+ us-mta-68-5H_TzUx5NVSh4ZYnM90UeA-1; Thu, 02 Feb 2023 08:38:38 -0500
+X-MC-Unique: 5H_TzUx5NVSh4ZYnM90UeA-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.3])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 802DB1C05EC0;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 863C6855712;
  Thu,  2 Feb 2023 13:38:34 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 3465518EC4;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 43F101121331;
  Thu,  2 Feb 2023 13:38:34 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C337221E6A28; Thu,  2 Feb 2023 14:38:30 +0100 (CET)
+ id C60FE21E6900; Thu,  2 Feb 2023 14:38:30 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
@@ -53,16 +53,16 @@ Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
  kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com,
  bin.meng@windriver.com, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH v6 08/20] hw/input: Clean up includes
-Date: Thu,  2 Feb 2023 14:38:18 +0100
-Message-Id: <20230202133830.2152150-9-armbru@redhat.com>
+Subject: [PATCH v6 09/20] hw/tricore: Clean up includes
+Date: Thu,  2 Feb 2023 14:38:19 +0100
+Message-Id: <20230202133830.2152150-10-armbru@redhat.com>
 In-Reply-To: <20230202133830.2152150-1-armbru@redhat.com>
 References: <20230202133830.2152150-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.3
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -98,36 +98,24 @@ related cleanups:
   Drop these, too.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/input/pl050.h | 1 -
- hw/input/tsc210x.c       | 1 -
- 2 files changed, 2 deletions(-)
+ include/hw/tricore/triboard.h | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/include/hw/input/pl050.h b/include/hw/input/pl050.h
-index 89ec4fafc9..4cb8985f31 100644
---- a/include/hw/input/pl050.h
-+++ b/include/hw/input/pl050.h
-@@ -10,7 +10,6 @@
- #ifndef HW_PL050_H
- #define HW_PL050_H
- 
--#include "qemu/osdep.h"
- #include "hw/sysbus.h"
- #include "migration/vmstate.h"
- #include "hw/input/ps2.h"
-diff --git a/hw/input/tsc210x.c b/hw/input/tsc210x.c
-index fdd5ff87d9..7eae5989f7 100644
---- a/hw/input/tsc210x.c
-+++ b/hw/input/tsc210x.c
-@@ -20,7 +20,6 @@
+diff --git a/include/hw/tricore/triboard.h b/include/hw/tricore/triboard.h
+index 094c8bd563..4fdd2d7d97 100644
+--- a/include/hw/tricore/triboard.h
++++ b/include/hw/tricore/triboard.h
+@@ -18,7 +18,6 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
   */
  
- #include "qemu/osdep.h"
--#include "qemu/log.h"
- #include "hw/hw.h"
- #include "audio/audio.h"
- #include "qemu/timer.h"
+-#include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "hw/boards.h"
+ #include "sysemu/sysemu.h"
 -- 
 2.39.0
 
