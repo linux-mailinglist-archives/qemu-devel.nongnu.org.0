@@ -2,34 +2,34 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD49F68724C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 01:28:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA194687249
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 01:27:58 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNNR3-0005Tn-SX; Wed, 01 Feb 2023 19:26:41 -0500
+	id 1pNNR4-0005UB-I7; Wed, 01 Feb 2023 19:26:42 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pNNR1-0005Sd-2Y; Wed, 01 Feb 2023 19:26:39 -0500
+ id 1pNNR2-0005T8-7Q; Wed, 01 Feb 2023 19:26:40 -0500
 Received: from zero.eik.bme.hu ([152.66.115.2])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pNNQx-0000PN-8x; Wed, 01 Feb 2023 19:26:38 -0500
+ id 1pNNQx-0000PQ-94; Wed, 01 Feb 2023 19:26:39 -0500
 Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id 5208D74635C;
- Thu,  2 Feb 2023 01:24:05 +0100 (CET)
+ by localhost (Postfix) with SMTP id 55201746377;
+ Thu,  2 Feb 2023 01:24:06 +0100 (CET)
 Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 2121B74634B; Thu,  2 Feb 2023 01:24:05 +0100 (CET)
-Message-Id: <4b1605a9e484cc95f6e141f297487a070fd418ac.1675297286.git.balaton@eik.bme.hu>
+ id 3248C74634B; Thu,  2 Feb 2023 01:24:06 +0100 (CET)
+Message-Id: <1aadee8f0ca0f56cf1b7c45c3944676a07d91de9.1675297286.git.balaton@eik.bme.hu>
 In-Reply-To: <cover.1675297286.git.balaton@eik.bme.hu>
 References: <cover.1675297286.git.balaton@eik.bme.hu>
 From: BALATON Zoltan <balaton@eik.bme.hu>
-Subject: [PATCH v2 1/2] mac_nvram: Add block backend to persist NVRAM contents
+Subject: [PATCH v2 2/2] mac_oldworld: Allow specifying nvram backing store
 To: qemu-devel@nongnu.org,
     qemu-ppc@nongnu.org
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Thu,  2 Feb 2023 01:24:05 +0100 (CET)
+Date: Thu,  2 Feb 2023 01:24:06 +0100 (CET)
 X-Spam-Probability: 8%
 Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
  helo=zero.eik.bme.hu
@@ -54,92 +54,42 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Add a way to set a backing store for the mac_nvram similar to what
-spapr_nvram or mac_via PRAM already does to allow to save its contents
-between runs.
+Add a way to set a backing store for the mac_nvram. Use -drive
+file=nvram.img,format=raw,if=mtd to specify backing file where
+nvram.img must be MACIO_NVRAM_SIZE which is 8192 bytes.
 
 Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/nvram/mac_nvram.c         | 28 ++++++++++++++++++++++++++++
- include/hw/nvram/mac_nvram.h |  1 +
- 2 files changed, 29 insertions(+)
+ hw/ppc/mac_oldworld.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-diff --git a/hw/nvram/mac_nvram.c b/hw/nvram/mac_nvram.c
-index 3d9ddda217..810e84f07e 100644
---- a/hw/nvram/mac_nvram.c
-+++ b/hw/nvram/mac_nvram.c
-@@ -24,9 +24,12 @@
-  */
+diff --git a/hw/ppc/mac_oldworld.c b/hw/ppc/mac_oldworld.c
+index 558c639202..55190add55 100644
+--- a/hw/ppc/mac_oldworld.c
++++ b/hw/ppc/mac_oldworld.c
+@@ -102,7 +102,7 @@ static void ppc_heathrow_init(MachineState *machine)
+     DeviceState *dev, *pic_dev, *grackle_dev;
+     BusState *adb_bus;
+     uint16_t ppc_boot_device;
+-    DriveInfo *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
++    DriveInfo *dinfo, *hd[MAX_IDE_BUS * MAX_IDE_DEVS];
+     void *fw_cfg;
+     uint64_t tbfreq = kvm_enabled() ? kvmppc_get_tbfreq() : TBFREQ;
  
- #include "qemu/osdep.h"
-+#include "qapi/error.h"
- #include "hw/nvram/chrp_nvram.h"
- #include "hw/nvram/mac_nvram.h"
- #include "hw/qdev-properties.h"
-+#include "hw/qdev-properties-system.h"
-+#include "sysemu/block-backend.h"
- #include "migration/vmstate.h"
- #include "qemu/cutils.h"
- #include "qemu/module.h"
-@@ -44,6 +47,9 @@ static void macio_nvram_writeb(void *opaque, hwaddr addr,
-     addr = (addr >> s->it_shift) & (s->size - 1);
-     trace_macio_nvram_write(addr, value);
-     s->data[addr] = value;
-+    if (s->blk) {
-+        blk_pwrite(s->blk, addr, 1, &s->data[addr], 0);
-+    }
- }
+@@ -245,6 +245,12 @@ static void ppc_heathrow_init(MachineState *machine)
+     qdev_prop_set_chr(dev, "chrA", serial_hd(0));
+     qdev_prop_set_chr(dev, "chrB", serial_hd(1));
  
- static uint64_t macio_nvram_readb(void *opaque, hwaddr addr,
-@@ -91,6 +97,27 @@ static void macio_nvram_realizefn(DeviceState *dev, Error **errp)
- 
-     s->data = g_malloc0(s->size);
- 
-+    if (s->blk) {
-+        int64_t len = blk_getlength(s->blk);
-+        if (len < 0) {
-+            error_setg_errno(errp, -len,
-+                             "could not get length of nvram backing image");
-+            return;
-+        } else if (len != s->size) {
-+            error_setg_errno(errp, -len,
-+                             "invalid size nvram backing image");
-+            return;
-+        }
-+        if (blk_set_perm(s->blk, BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE,
-+                         BLK_PERM_ALL, errp) < 0) {
-+            return;
-+        }
-+        if (blk_pread(s->blk, 0, s->size, s->data, 0) < 0) {
-+            error_setg(errp, "can't read-nvram contents");
-+            return;
-+        }
++    dinfo = drive_get(IF_MTD, 0, 0);
++    if (dinfo) {
++        dev = DEVICE(object_resolve_path_component(macio, "nvram"));
++        qdev_prop_set_drive(dev, "drive", blk_by_legacy_dinfo(dinfo));
 +    }
 +
-     memory_region_init_io(&s->mem, OBJECT(s), &macio_nvram_ops, s,
-                           "macio-nvram", s->size << s->it_shift);
-     sysbus_init_mmio(d, &s->mem);
-@@ -106,6 +133,7 @@ static void macio_nvram_unrealizefn(DeviceState *dev)
- static Property macio_nvram_properties[] = {
-     DEFINE_PROP_UINT32("size", MacIONVRAMState, size, 0),
-     DEFINE_PROP_UINT32("it_shift", MacIONVRAMState, it_shift, 0),
-+    DEFINE_PROP_DRIVE("drive", MacIONVRAMState, blk),
-     DEFINE_PROP_END_OF_LIST()
- };
+     pci_realize_and_unref(PCI_DEVICE(macio), pci_bus, &error_fatal);
  
-diff --git a/include/hw/nvram/mac_nvram.h b/include/hw/nvram/mac_nvram.h
-index b780aca470..0c4dfaeff6 100644
---- a/include/hw/nvram/mac_nvram.h
-+++ b/include/hw/nvram/mac_nvram.h
-@@ -44,6 +44,7 @@ struct MacIONVRAMState {
- 
-     MemoryRegion mem;
-     uint8_t *data;
-+    BlockBackend *blk;
- };
- 
- void pmac_format_nvram_partition(MacIONVRAMState *nvr, int len);
+     pic_dev = DEVICE(object_resolve_path_component(macio, "pic"));
 -- 
 2.30.6
 
