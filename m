@@ -2,74 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 199E7687AE7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:54:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id ECF36687AE9
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:55:41 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNXEL-0007Ue-Tp; Thu, 02 Feb 2023 05:54:13 -0500
+	id 1pNXFJ-0000pG-68; Thu, 02 Feb 2023 05:55:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNXE8-0007Hm-Rs
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:54:01 -0500
-Received: from mail-pg1-x52c.google.com ([2607:f8b0:4864:20::52c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNXE5-0003Qx-L9
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:54:00 -0500
-Received: by mail-pg1-x52c.google.com with SMTP id 7so1024441pgh.7
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 02:53:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=Dm94UnULUznJtMZuDqV437DSjoSGB0HDOxQjdO7Vx3Y=;
- b=Vd4jXMWn1T/h38GbUGkvd5ygjPAnpK4t2co0iaZ6nf3utv70nxYLqTX+XSaL0PTyTG
- T4Bl2pX7kWZG5z1I+2Ulm/GPuQIz33VxtBojFno9zovWAPMvsknSMgPrJtpLovAM7uWz
- KcrDWb/X388ksMsbSdemZS7Pv6JpU0/7EwGyXFKvuNZonQxDguTW09A8hi3vP1x+K0mm
- 9pSyuxBN3HnRPgB5eB/B0cm+Dd4WLPt40O75DJ5woNH7nLoFGYAZJHvLbxL1MIuiQhOj
- 1dPe0Lkql0StPXBNSG2WAJLhgpClldTKCCxiMm455XKmZog0PFkkO5WGL8/s4ja5E5VJ
- zPaw==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNXFB-0000oK-Ef
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:55:06 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNXF9-0003eo-W6
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:55:05 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675335303;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:in-reply-to:in-reply-to:  references:references;
+ bh=NLSAVDoZylH9Kgdm2kdmt4N6jPXJUGvaGdKnV+wEGHI=;
+ b=ENyfs6nP2ddE4bTQfrpfAtW24wxh+PPlEgY2tflvXdZ3VwNNtpXFJ2USIH9zb9rwzgY6w4
+ c+rWsr5R2Xd3cG7Lww8nRY1n5BeGvO3HD2MmzvWkpHdZmxmZ6dafQRTX2AkfJ+H78bpMqe
+ GwIryiQ6a00hnTdduHvb8mHzDeiXDO4=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-631-oVQks8U8OAewValOWF1FTA-1; Thu, 02 Feb 2023 05:54:57 -0500
+X-MC-Unique: oVQks8U8OAewValOWF1FTA-1
+Received: by mail-wm1-f72.google.com with SMTP id
+ m3-20020a05600c3b0300b003dfdc6021bcso623785wms.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 02:54:56 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=Dm94UnULUznJtMZuDqV437DSjoSGB0HDOxQjdO7Vx3Y=;
- b=PL4gk7aLYzMie/I5bHDTkw9uZQscGzNXPZRNFAMLpWGT1x8ZdPIxEQ8SA/kj/urCGv
- LY27OPxbTatTpqMC9g+0u2gq/YO7Hc/XBf0hDPh3sIeEQZ2Wt4Fyg2CD4E/677Zq6HHP
- F4Fccjk/EZYxCvK7ZNrt4LWKMhXZwZLcHkjJgkzJJOl0QnPIjnCPc35H7Wnke5kQ+j1R
- ucv9MhOq/lAh0LT2BSouXPQYADM5o9hl3aafvkEu+TicwliRB4lhGvSCYeisVt5pZZ/p
- WoxxlCTQdbSW0W338kjT2bOcj61uYHcXnqHFZ3OyLC5bzgpRf/cv3Kvs64Zk0f2Q2mH7
- f7Xg==
-X-Gm-Message-State: AO0yUKUe7hw4PYxLsAkFXLG15fJDaAODPT2OmGUWe/Dw2VfTbFagMB2V
- JsVzcClGVld5VvUX/rSHvwqn/3BwOM3ryKXFuq/Oh0D5/7QoZQ==
-X-Google-Smtp-Source: AK7set8dr03WzwuMuPwXpzy4xRPYTN5vEa63PKbnGPpwfw+w+nBZ2i+OJ6ELFhyD9Eph4/I1lFmHALB9M+pUX6Sf9xM=
-X-Received: by 2002:a05:6a00:1490:b0:593:dc7d:a31d with SMTP id
- v16-20020a056a00149000b00593dc7da31dmr1372867pfu.23.1675335234609; Thu, 02
- Feb 2023 02:53:54 -0800 (PST)
+ h=mime-version:message-id:date:reply-to:user-agent:references
+ :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=NLSAVDoZylH9Kgdm2kdmt4N6jPXJUGvaGdKnV+wEGHI=;
+ b=V99UkE/DsJlnrg4rn1ZKBdmxZJ9lbqswfeZ9Acyqmu3B9oNvpnieHkYHr/zUSRSNNN
+ TatEAKsuAMwFi31jlQcuZMpJOLXa7ZrD140nbYxp4/4VrrthwMxElp4cI/rTsYEkzbYS
+ 7ZH+xM4PI2XY/IN2Klkk1WB5+QtS5ivMCwZTZffZqP9JMrtrJjpH+PwxiT0BlMEQindB
+ aQOAjT0LIjrh0OeoTJFBo2PD4cLgfQczHN0XGhUJnO+G0kZJiIguXVvh1ZAYoUiSZnlw
+ MDn7loOkNOYYJ1YSdOx7JnNEqVOIprBZaEOiGBMqmnYn6byueQfBgiikdU4y1XVEhipq
+ FOoA==
+X-Gm-Message-State: AO0yUKUBPtS/aj+ryuxvrdS9yhfgpX1bdFyXacPFbFQnoHCjOJA63Zhc
+ BXszdLdnE5PrfJ6akolCIbPp7uaKRLH63u34PHKO9C3I8t/lxeB+AUpeeF5fTbhcKKRSJ+78fH3
+ QX08F3fxoYDfWoco=
+X-Received: by 2002:a05:600c:1e8d:b0:3df:deb5:6ff5 with SMTP id
+ be13-20020a05600c1e8d00b003dfdeb56ff5mr1061616wmb.24.1675335296020; 
+ Thu, 02 Feb 2023 02:54:56 -0800 (PST)
+X-Google-Smtp-Source: AK7set8DaXM9gSYh/45BWzUlNpkLzkh2cUwMTm10tdgAFg15v78gsYhSUbWuQYjC0ffljA596j4fOQ==
+X-Received: by 2002:a05:600c:1e8d:b0:3df:deb5:6ff5 with SMTP id
+ be13-20020a05600c1e8d00b003dfdeb56ff5mr1061603wmb.24.1675335295873; 
+ Thu, 02 Feb 2023 02:54:55 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ a18-20020a5d5092000000b002bdd8f12effsm19369533wrt.30.2023.02.02.02.54.55
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Feb 2023 02:54:55 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org,  richard.henderson@linaro.org,
+ pbonzini@redhat.com,  kwolf@redhat.com,  hreitz@redhat.com,
+ imp@bsdimp.com,  kevans@freebsd.org,  berrange@redhat.com,
+ groug@kaod.org,  qemu_oss@crudebyte.com,  mst@redhat.com,
+ philmd@linaro.org,  peter.maydell@linaro.org,  alistair@alistair23.me,
+ jasowang@redhat.com,  jonathan.cameron@huawei.com,
+ kbastian@mail.uni-paderborn.de,  dgilbert@redhat.com,
+ michael.roth@amd.com,  kkostiuk@redhat.com,  tsimpson@quicinc.com,
+ palmer@dabbelt.com,  bin.meng@windriver.com,  qemu-block@nongnu.org,
+ qemu-arm@nongnu.org,  qemu-riscv@nongnu.org
+Subject: Re: [PATCH v5 04/20] scripts/clean-includes: Improve --git commit
+ message
+In-Reply-To: <87k010phku.fsf@pond.sub.org> (Markus Armbruster's message of
+ "Thu, 02 Feb 2023 10:00:49 +0100")
+References: <20230130132156.1868019-1-armbru@redhat.com>
+ <20230130132156.1868019-5-armbru@redhat.com>
+ <87sffsnmb2.fsf@secure.mitica> <875ycly2h5.fsf@pond.sub.org>
+ <87bkmdfrys.fsf@secure.mitica> <87cz6twldq.fsf@pond.sub.org>
+ <877cx11lny.fsf@secure.mitica> <87k010phku.fsf@pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 02 Feb 2023 11:54:54 +0100
+Message-ID: <87zg9ws5fl.fsf@secure.mitica>
 MIME-Version: 1.0
-References: <20221031054105.3552-1-richard.henderson@linaro.org>
- <d91ccc02-a963-946d-169a-fd4da2610861@redhat.com>
- <211b40bc-2bbb-63be-191a-42e03e049b98@linaro.org>
-In-Reply-To: <211b40bc-2bbb-63be-191a-42e03e049b98@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 2 Feb 2023 10:53:43 +0000
-Message-ID: <CAFEAcA8cbfqy-eBY=gjj6ttxJ-RbzBn_XhyjjVfj303=R+uV5Q@mail.gmail.com>
-Subject: Re: [PATCH] accel/tcg: Complete cpu initialization before registration
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: Eric Auger <eauger@redhat.com>, iii@linux.ibm.com, qemu-devel@nongnu.org, 
- Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::52c;
- envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x52c.google.com
+Content-Type: text/plain
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -82,31 +108,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, 1 Feb 2023 at 20:37, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 2/1/23 04:20, Eric Auger wrote:
-> > What I fail to understand is why this code is called with a kvm
-> > accelerated qemu (the test runs by default with kvm).
-> ...
-> > #2  0x000002aaab1500f0 in vmsa_ttbr_write
-> > (env=0x2aaac393850, ri=0x2aaac3c90e0, value=2154950976315703518) at
-> > ../target/arm/helper.c:3784
-> > #3  0x000002aaab14e5a8 in write_raw_cp_reg
-> > (env=env@entry=0x2aaac393850, ri=ri@entry=0x2aaac3c90e0,
-> > v=v@entry=2154950976315703518)
->
-> This is indeed very curious -- vmsa_ttbr_write is supposed to be the "cooked" .writefn,
-> not the .raw_writefn.  We're not supposed to arrive here at all.
+Markus Armbruster <armbru@redhat.com> wrote:
 
-If you only provide a cooked .writefn and no .raw_writefn,
-the default is to assume that the cooked function will also
-work as the raw one. None of the ARMCPRegInfo structs that
-use vmsa_ttbr_write specify a raw_writefn...
+> It's less terse.  Fine with me.  The mix of passive and active voice
+> feels a bit awkward, though.  Another try:
+>
+>   All .c should include qemu/osdep.h first.  This script performs three
+>   related cleanups:
+>
+>   * Ensure .c files include qemu/osdep.h first.
+>   * Including it in a .h is redundant, since the .c  already includes
+>     it.  Drop such inclusions.
+>   * Likewise, including headers qemu/osdep.h includes is redundant.
+>     Drop these, too.
 
-thanks
--- PMM
+Perfect, thanks.
+
+Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+or whatever you want it O:-)
+
 
