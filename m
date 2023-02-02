@@ -2,100 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ECF36687AE9
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:55:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD5A3687AEE
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:56:43 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNXFJ-0000pG-68; Thu, 02 Feb 2023 05:55:13 -0500
+	id 1pNXGY-0001lh-Qg; Thu, 02 Feb 2023 05:56:30 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNXFB-0000oK-Ef
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:55:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNXF9-0003eo-W6
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:55:05 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675335303;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=NLSAVDoZylH9Kgdm2kdmt4N6jPXJUGvaGdKnV+wEGHI=;
- b=ENyfs6nP2ddE4bTQfrpfAtW24wxh+PPlEgY2tflvXdZ3VwNNtpXFJ2USIH9zb9rwzgY6w4
- c+rWsr5R2Xd3cG7Lww8nRY1n5BeGvO3HD2MmzvWkpHdZmxmZ6dafQRTX2AkfJ+H78bpMqe
- GwIryiQ6a00hnTdduHvb8mHzDeiXDO4=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-631-oVQks8U8OAewValOWF1FTA-1; Thu, 02 Feb 2023 05:54:57 -0500
-X-MC-Unique: oVQks8U8OAewValOWF1FTA-1
-Received: by mail-wm1-f72.google.com with SMTP id
- m3-20020a05600c3b0300b003dfdc6021bcso623785wms.3
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 02:54:56 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pNXGV-0001im-IJ
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:56:29 -0500
+Received: from mail-pl1-x635.google.com ([2607:f8b0:4864:20::635])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pNXGT-0003vI-5c
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:56:27 -0500
+Received: by mail-pl1-x635.google.com with SMTP id h9so1416092plf.9
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 02:56:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=xrrDtTmklWjVDnhzsigsXKk8oLuTmJBtl6hOOJZiJc4=;
+ b=O7TnFYgtoGyXnTSYN1fDtj0uF59pCHbjbzz96UdRy81tDHTJNxUjHr7xTxXgxapQaj
+ /7NnDBIraK6bleAT0ddlWmussfiwgQ0Rag3FonCfprWCLhG7g3B72IkTK0W5phZw3nv2
+ R+BBDmz+YFTiy5SaTjyfLGht4XxAJDNJu7qjtoycrvM/dFY5edf6/WAGlfakOVq31kGR
+ WtUwNbuDvz6Uh8oWP9f0Dau6UYYsi1mw5eLS8raCwPoegKpmgjbvLr6Day4iBLyBUqhz
+ V0MkS0rV97J8toPM7iOHr2QHBmo1zMiZp2q9uYcOEk/JsZ5bRpdVHTaAvl5WKea/zvbn
+ oG5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=NLSAVDoZylH9Kgdm2kdmt4N6jPXJUGvaGdKnV+wEGHI=;
- b=V99UkE/DsJlnrg4rn1ZKBdmxZJ9lbqswfeZ9Acyqmu3B9oNvpnieHkYHr/zUSRSNNN
- TatEAKsuAMwFi31jlQcuZMpJOLXa7ZrD140nbYxp4/4VrrthwMxElp4cI/rTsYEkzbYS
- 7ZH+xM4PI2XY/IN2Klkk1WB5+QtS5ivMCwZTZffZqP9JMrtrJjpH+PwxiT0BlMEQindB
- aQOAjT0LIjrh0OeoTJFBo2PD4cLgfQczHN0XGhUJnO+G0kZJiIguXVvh1ZAYoUiSZnlw
- MDn7loOkNOYYJ1YSdOx7JnNEqVOIprBZaEOiGBMqmnYn6byueQfBgiikdU4y1XVEhipq
- FOoA==
-X-Gm-Message-State: AO0yUKUBPtS/aj+ryuxvrdS9yhfgpX1bdFyXacPFbFQnoHCjOJA63Zhc
- BXszdLdnE5PrfJ6akolCIbPp7uaKRLH63u34PHKO9C3I8t/lxeB+AUpeeF5fTbhcKKRSJ+78fH3
- QX08F3fxoYDfWoco=
-X-Received: by 2002:a05:600c:1e8d:b0:3df:deb5:6ff5 with SMTP id
- be13-20020a05600c1e8d00b003dfdeb56ff5mr1061616wmb.24.1675335296020; 
- Thu, 02 Feb 2023 02:54:56 -0800 (PST)
-X-Google-Smtp-Source: AK7set8DaXM9gSYh/45BWzUlNpkLzkh2cUwMTm10tdgAFg15v78gsYhSUbWuQYjC0ffljA596j4fOQ==
-X-Received: by 2002:a05:600c:1e8d:b0:3df:deb5:6ff5 with SMTP id
- be13-20020a05600c1e8d00b003dfdeb56ff5mr1061603wmb.24.1675335295873; 
- Thu, 02 Feb 2023 02:54:55 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- a18-20020a5d5092000000b002bdd8f12effsm19369533wrt.30.2023.02.02.02.54.55
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Feb 2023 02:54:55 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org,  richard.henderson@linaro.org,
- pbonzini@redhat.com,  kwolf@redhat.com,  hreitz@redhat.com,
- imp@bsdimp.com,  kevans@freebsd.org,  berrange@redhat.com,
- groug@kaod.org,  qemu_oss@crudebyte.com,  mst@redhat.com,
- philmd@linaro.org,  peter.maydell@linaro.org,  alistair@alistair23.me,
- jasowang@redhat.com,  jonathan.cameron@huawei.com,
- kbastian@mail.uni-paderborn.de,  dgilbert@redhat.com,
- michael.roth@amd.com,  kkostiuk@redhat.com,  tsimpson@quicinc.com,
- palmer@dabbelt.com,  bin.meng@windriver.com,  qemu-block@nongnu.org,
- qemu-arm@nongnu.org,  qemu-riscv@nongnu.org
-Subject: Re: [PATCH v5 04/20] scripts/clean-includes: Improve --git commit
- message
-In-Reply-To: <87k010phku.fsf@pond.sub.org> (Markus Armbruster's message of
- "Thu, 02 Feb 2023 10:00:49 +0100")
-References: <20230130132156.1868019-1-armbru@redhat.com>
- <20230130132156.1868019-5-armbru@redhat.com>
- <87sffsnmb2.fsf@secure.mitica> <875ycly2h5.fsf@pond.sub.org>
- <87bkmdfrys.fsf@secure.mitica> <87cz6twldq.fsf@pond.sub.org>
- <877cx11lny.fsf@secure.mitica> <87k010phku.fsf@pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 02 Feb 2023 11:54:54 +0100
-Message-ID: <87zg9ws5fl.fsf@secure.mitica>
+ h=content-transfer-encoding:in-reply-to:from:content-language
+ :references:cc:to:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=xrrDtTmklWjVDnhzsigsXKk8oLuTmJBtl6hOOJZiJc4=;
+ b=HLS3AVK4ZaY/w3QvaGYaGC/zY1xdtNbWZmEmbffL5j6LuQzWbAGGoPVQPBqevesvt2
+ tohKOTVxJszcv3xFFDXnNTTaZe/jTcNpWEVu7Xq1DNMfaWHVkTNo7dmAoP/uw3jPf2PP
+ B51jCrtT4E00uLC99sGaNWcmVl41psv8CJ+NxnOZEGAUS+k7wiDyUFGPPNypz/nB0vKa
+ OqGlt3QJ6XNGGLP0j9EVcbXPmx2K/W458brekzI7pHhlmZBHxLLO47xCkUTa2A+Yl7/y
+ pow3c5Y/zLrM9SkvH8mIrLGrVlR0SjW3HZoLxw0Z8mxZtuOTEmx26fJ4l12NU/X6WFdI
+ AKSQ==
+X-Gm-Message-State: AO0yUKWY3U+3xKeXcvYuUkznc/Mht1K4cpjUxVFebUR8skQwhziqoB2U
+ 42eqvRXsUN+z3Q/ddgmQNUFWkA==
+X-Google-Smtp-Source: AK7set/WjQqIg9rB+ovFhfjiH2dIIPN2DVS/mDdgThktrULWyuXfpM14DlO6MqhioFYttSVz/LCVVA==
+X-Received: by 2002:a17:903:120b:b0:196:89bc:7100 with SMTP id
+ l11-20020a170903120b00b0019689bc7100mr7521782plh.16.1675335383296; 
+ Thu, 02 Feb 2023 02:56:23 -0800 (PST)
+Received: from [192.168.50.194] (rrcs-173-197-98-118.west.biz.rr.com.
+ [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
+ g8-20020a1709026b4800b0017fe9b038fdsm13383998plt.14.2023.02.02.02.56.21
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Feb 2023 02:56:22 -0800 (PST)
+Message-ID: <2e85fdea-9ffc-9a20-1c61-45ddd17a7fd6@linaro.org>
+Date: Thu, 2 Feb 2023 00:56:18 -1000
 MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: An issue with x86 tcg and MMIO
+To: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+Cc: =?UTF-8?Q?J=c3=b8rgen_Hansen?= <Jorgen.Hansen@wdc.com>,
+ Ajay Joshi <Ajay.Joshi@wdc.com>, qemu-devel <qemu-devel@nongnu.org>,
+ Sid Manning <sidneym@quicinc.com>
+References: <78bc53e3-bad3-a5c3-9e53-7a89054aa37a@wdc.com>
+ <ff3f25ee-1c98-242b-905e-0b01d9f0948d@linaro.org>
+ <20230202093911.000053cb@Huawei.com>
+Content-Language: en-US
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20230202093911.000053cb@Huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::635;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x635.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -108,28 +93,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Markus Armbruster <armbru@redhat.com> wrote:
+On 2/1/23 23:39, Jonathan Cameron wrote:
+> Not sure - if we can do the handling above then sure we could make that change.
+> I can see there is a path to register the callbacks but I'd kind of assumed
+> ROM meant read only...
 
-> It's less terse.  Fine with me.  The mix of passive and active voice
-> feels a bit awkward, though.  Another try:
->
->   All .c should include qemu/osdep.h first.  This script performs three
->   related cleanups:
->
->   * Ensure .c files include qemu/osdep.h first.
->   * Including it in a .h is redundant, since the .c  already includes
->     it.  Drop such inclusions.
->   * Likewise, including headers qemu/osdep.h includes is redundant.
->     Drop these, too.
+I think "romd" means "read mostly".
 
-Perfect, thanks.
+In the case of flash, I believe that a write changes modes (block erase something 
+something) and the region changes state into MMIO.  But normal state is read mode where 
+read+execute go through unchallenged.
 
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+It has been a long time since I studied how all that works, so I may well have forgotten 
+something.
 
-or whatever you want it O:-)
 
+r~
 
