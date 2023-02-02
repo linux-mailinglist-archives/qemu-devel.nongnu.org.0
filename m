@@ -2,58 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B90A688559
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 18:27:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A5B8688591
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 18:37:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNdLQ-0003er-7l; Thu, 02 Feb 2023 12:25:56 -0500
+	id 1pNdV6-0006BM-MF; Thu, 02 Feb 2023 12:35:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <conor@kernel.org>)
- id 1pNdLI-0003bT-Gu; Thu, 02 Feb 2023 12:25:48 -0500
-Received: from dfw.source.kernel.org ([139.178.84.217])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <conor@kernel.org>)
- id 1pNdLG-0004ra-Ch; Thu, 02 Feb 2023 12:25:47 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
- (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
- (No client certificate requested)
- by dfw.source.kernel.org (Postfix) with ESMTPS id 6630561A02;
- Thu,  2 Feb 2023 17:25:42 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCCF6C433EF;
- Thu,  2 Feb 2023 17:25:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
- s=k20201202; t=1675358741;
- bh=X5DP7u3+sximFj2iHjts/49g7CXyDYTvEh9oALT1iSY=;
- h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
- b=ebXltQMmsqiw16u7UhfMXpLpJuhbsLkWmh39ZKp2icld3lS6ZmpsBVgm5UeNBQ0r0
- PM7f7hxJfTTuTUDIZt6iZzElMsa2Xw1Xl6ZJP2DLWzpsXpduewyZs6E72QY1/nkJ1R
- SsMFxKUYFJ1lOSUkqgLNe2MTXGNxuVqJDJB/UyDSyrCzKOcLORK3NFEfoZDxuC7RN+
- G5m/sSHTn+2BLGlqJeOBeLsW+ziTVeubJo/BGPoZPBS0k6TsTD+JLAnR7kNBSeULIJ
- nmVsaGAYp5/izVWVvqLuiamrbu0063Fa5YTEZ4+m3Laq7JXo94HQfHx4W0SoGf4dlh
- TKHSXDfp72Qmg==
-Date: Thu, 2 Feb 2023 17:25:38 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
-Subject: Re: [PATCH v10 0/3] hw/riscv: handle kernel_entry high bits with
- 32bit CPUs
-Message-ID: <Y9vyEp8ghrbqssJO@spud>
-References: <20230202135810.1657792-1-dbarboza@ventanamicro.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pNdV3-00069z-36
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 12:35:53 -0500
+Received: from mail-pj1-x102c.google.com ([2607:f8b0:4864:20::102c])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pNdV1-0000fV-DV
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 12:35:52 -0500
+Received: by mail-pj1-x102c.google.com with SMTP id
+ f16-20020a17090a9b1000b0023058bbd7b2so1911703pjp.0
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 09:35:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=z93XaQC9nhfkablGxm5prOumg5C52MtsNJtAVgf+/Xk=;
+ b=siM7OcVxjUrp9VA9s6E/+waa5mTsORBQobtwYc3RoLp8uL5Uf3lkjX79K5voCbtz+y
+ PbIPrt9b/ljjRw1AVx5NZMFbtlne2N0Jc0uDb/rC9etuO8MckxfloDKlPhBO/iQS83dR
+ lVpR3X3TXXzwEk6qdFgcZA8SzcA7S4IGjeIQrYkFYvydDdzaWJ5TMsqrjgwmQePMol9r
+ 6O0ERV4zoZVNJ7nnVtPTAINndnt1PklTIdm+/+AYTvUX68LO5sYfEX47JGf52qsLiSLV
+ /9v0tIfPj+O+AuOv9vLmJMHrPtVsRTCWnWHIgIp149tvJqNZ4C0JtHNlEaL/jCnt6WrB
+ Ql6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=z93XaQC9nhfkablGxm5prOumg5C52MtsNJtAVgf+/Xk=;
+ b=AJ2FssrGYmcfsol/Lc/gAj5tQBBXtDhHhRVaRXc09ptUeJQma9GqQmCk9ZuuwDG1Bm
+ nPh57seWcLUul90jEXPcpGFOhwqtCbyMelZqoATqk5nU7HIkivHkB2k3p9KJ2yi2nsDz
+ RNHBy6tXuk+oJz3pCBnJa7Vd+sL9q4bxjsWXHTj2PHfQ8S8EEfYY6RPyR/O2EQVSjmnP
+ LuZzgH/Qqi+7ooDjBILrR74P5q9MNCh3eXo7ZxBOLvkla0V5tyagnk4/USNuySVl/A8N
+ n+sa3fQimk5Ixudc+J/W3ZVdpd0V+1s421w9CRUX0zSzfoHJbyIcXUOCRmSxqW5WGDYz
+ ebMA==
+X-Gm-Message-State: AO0yUKWT4zn8XyWwNTodAUT0+XVb4hnHPBvs2nat16yXW4dWwUw4Iftj
+ 6ZApV3ouClMp6d3L3oARyNsGpA==
+X-Google-Smtp-Source: AK7set8hqU5dyRazxJ180X7fxijCMJdWEZ2QWU0K21vL//Jsk+HdgCdiDJf7MzK9005de1HmiBT/5g==
+X-Received: by 2002:a17:90b:390a:b0:22e:5ffa:2a34 with SMTP id
+ ob10-20020a17090b390a00b0022e5ffa2a34mr7581580pjb.36.1675359349787; 
+ Thu, 02 Feb 2023 09:35:49 -0800 (PST)
+Received: from [192.168.50.194] (rrcs-173-197-98-118.west.biz.rr.com.
+ [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
+ j5-20020a17090a694500b0022c2e29cadbsm3419163pjm.45.2023.02.02.09.35.47
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Thu, 02 Feb 2023 09:35:49 -0800 (PST)
+Message-ID: <16a6fadf-ca13-d3aa-7e4b-f950db982a21@linaro.org>
+Date: Thu, 2 Feb 2023 07:35:45 -1000
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature"; boundary="3zvu0ipAdxYHGifO"
-Content-Disposition: inline
-In-Reply-To: <20230202135810.1657792-1-dbarboza@ventanamicro.com>
-Received-SPF: pass client-ip=139.178.84.217; envelope-from=conor@kernel.org;
- helo=dfw.source.kernel.org
-X-Spam_score_int: -70
-X-Spam_score: -7.1
-X-Spam_bar: -------
-X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: [PATCH 06/39] target/riscv: Add vrol.[vv, vx] and vror.[vv, vx,
+ vi] decoding, translation and execution support
+Content-Language: en-US
+To: Philipp Tomsich <philipp.tomsich@vrull.eu>,
+ Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+Cc: qemu-devel@nongnu.org, dickon.hood@codethink.co.uk,
+ nazar.kazakov@codethink.co.uk, kiran.ostrolenk@codethink.co.uk,
+ frank.chang@sifive.com, palmer@dabbelt.com, alistair.francis@wdc.com,
+ bin.meng@windriver.com, pbonzini@redhat.com, kvm@vger.kernel.org
+References: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
+ <20230202124230.295997-7-lawrence.hunter@codethink.co.uk>
+ <CAAeLtUA188Tdq4rROAWNqNkMSOXVT0BWQX669L6fyt5oM5knZg@mail.gmail.com>
+ <CAAeLtUDcpyWkKgAo2Lk0ZoHcdyEeVARYkh05Ps27wbOzDF0sHA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <CAAeLtUDcpyWkKgAo2Lk0ZoHcdyEeVARYkh05Ps27wbOzDF0sHA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102c;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102c.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
+X-Spam_bar: --
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -70,75 +101,21 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On 2/2/23 04:30, Philipp Tomsich wrote:
+> On the second pass over these patches, here's how we can use gvec
+> support for both vror and vrol:
+> 
+> /* Synthesize a rotate-right from a negate(shift-amount) + rotate-left */
+> static void tcg_gen_gvec_rotrs(unsigned vece, uint32_t dofs, uint32_t aofs,
+>                         TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz)
+> {
+>      TCGv_i32 tmp = tcg_temp_new_i32();
+>      tcg_gen_neg_i32(tmp, shift);
+>      tcg_gen_gvec_rotls(vece, dofs, aofs, tmp, oprsz, maxsz);
 
---3zvu0ipAdxYHGifO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+We can add rotls generically.
+I hadn't done this so far because there were no users.
 
-On Thu, Feb 02, 2023 at 10:58:07AM -0300, Daniel Henrique Barboza wrote:
-> Hi,
->=20
-> This new version removed the translate_fn() from patch 1 because it
-> wasn't removing the sign-extension for pentry as we thought it would.
-> A more detailed explanation is given in the commit msg of patch 1.
->=20
-> We're now retrieving the 'lowaddr' value from load_elf_ram_sym() and
-> using it when we're running a 32-bit CPU. This worked with 32 bit
-> 'virt' machine booting with the -kernel option.
->=20
-> If this approach doesn't work for the Xvisor use case, IMO  we should
-> just filter kernel_load_addr bits directly as we were doing a handful of
-> versions ago.
->=20
-> Patches are based on current riscv-to-apply.next.=20
->=20
-> Changes from v9:
-> - patch 1:
->   - removed the translate_fn() callback
->   - return 'kernel_low' when running a 32-bit CPU
-> - v9 link: https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg04509=
-=2Ehtml
 
-I think my T-b got lost last time around, but I gave this version a
-whirl too & things are working for me as they were before on Icicle.
-For the series:
-Tested-by: Conor Dooley <conor.dooley@microchip.com>
-
-Thanks,
-Conor.
-
->=20
-> Daniel Henrique Barboza (3):
->   hw/riscv: handle 32 bit CPUs kernel_addr in riscv_load_kernel()
->   hw/riscv/boot.c: consolidate all kernel init in riscv_load_kernel()
->   hw/riscv/boot.c: make riscv_load_initrd() static
->=20
->  hw/riscv/boot.c            | 96 +++++++++++++++++++++++---------------
->  hw/riscv/microchip_pfsoc.c | 12 +----
->  hw/riscv/opentitan.c       |  4 +-
->  hw/riscv/sifive_e.c        |  4 +-
->  hw/riscv/sifive_u.c        | 12 +----
->  hw/riscv/spike.c           | 14 ++----
->  hw/riscv/virt.c            | 12 +----
->  include/hw/riscv/boot.h    |  3 +-
->  8 files changed, 76 insertions(+), 81 deletions(-)
->=20
-> --=20
-> 2.39.1
->=20
->=20
-
---3zvu0ipAdxYHGifO
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY9vyDgAKCRB4tDGHoIJi
-0nonAP4m3U9ASVSJsW8dWMKhJ5SH+QqyiBQI+fcrZBNwQ3CzRwEAm/f5wca1FSkC
-oShRfY022F6soY9oun+Q6yLEmmu5Iw0=
-=yao7
------END PGP SIGNATURE-----
-
---3zvu0ipAdxYHGifO--
+r~
 
