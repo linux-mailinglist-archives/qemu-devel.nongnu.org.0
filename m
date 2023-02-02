@@ -2,77 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 499A5687E39
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:03:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47BA0688089
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 15:51:55 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNZE1-0006HQ-Cp; Thu, 02 Feb 2023 08:02:01 -0500
+	id 1pNaqv-0005PD-GY; Thu, 02 Feb 2023 09:46:17 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1pNZDF-000602-AR
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:01:18 -0500
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alexghiti@rivosinc.com>)
- id 1pNZD8-0000Rk-4B
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:01:11 -0500
-Received: by mail-wr1-x42c.google.com with SMTP id y1so1648187wru.2
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 05:01:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=rivosinc-com.20210112.gappssmtp.com; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=IjXuu4uhkJlpiS407OakS4tU/O61gU0/VzYlvcJmX6Y=;
- b=RALcBq2VZJ7TrJJ+wb2hm+4Nw8ePsnuZB5BdK58phqHMV/9jQubdI5eSlMZkujNI1o
- H5pdKFXgKylgE3jPYbMRbA5w0m2DX7O1PC3qfXYFutSvomMNCBD3SvHBAdCGSflBFo/k
- 4IPJlE80jhZciq+8LfSr0QNKqngle9k5od/xXelxjcawLwdY81o9EbuAIkbw1fY6xKi9
- ac9mnkPVGGofVwVZ1fLyCcs6rEXMWWFr+Um/s5OvRwRpRhCmxGYPQg7fuGmFjKWiRx4q
- EK0dUDvAnk+6CT65Q4qwFDwrm66p0IgDp6YYNT7gpZzG2N9FFkoHXbarsDqFPluR5Xtr
- zP0Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=IjXuu4uhkJlpiS407OakS4tU/O61gU0/VzYlvcJmX6Y=;
- b=YbqkSZ/C5J7PP8Sm2BljtllB34+LAGkWW9l1uxdfwtyTe2q/Tog13n5GZyO2EE8YuB
- Q/DRUgshb7QIRWz/EPLBXMZSlcZ4NCiUaln6211TYJABANP6Weq3+Rdr9P6xrnkTvgfS
- EKV6SnsXUpLa7ZoNCNW7KefC1i4IFm8+3aQuQfD7UvAcrFRnB/FCTavS+RVKBO8cMaDS
- ECNTW8tq56PfioCap8GangsfjriooB9zh/43JcrFaNG2cirz7zFvH4wbHvWQlLf5HD+w
- ASr/5q0KPvBLOjsNsmd5UtB3MXk4AzpY3DQa2NpjgKIGPKasaJwHmnvwGpFuwzVHSXcV
- GoiA==
-X-Gm-Message-State: AO0yUKUte/WgBxb/5mDeUfzPSLflAIAlvpi0RxqIYWWYN4bhBdHnooTG
- 8uS4t4h3oY+gG6Uvg8Xru+YFMFKVKiXgkvwaE9g6Mg==
-X-Google-Smtp-Source: AK7set/52WIPfqWwZAcWi8uQzSLkPK/yPS3m5TmV9hTjk0QUYDcS7i60JULJFTsO7zS0pRr+zpEWyFwsRft5b1toNkk=
-X-Received: by 2002:a5d:5587:0:b0:2c2:de2b:e7d1 with SMTP id
- i7-20020a5d5587000000b002c2de2be7d1mr205661wrv.55.1675342863889; Thu, 02 Feb
- 2023 05:01:03 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
+ id 1pNYvV-000791-IO
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:42:53 -0500
+Received: from imap5.colo.codethink.co.uk ([78.40.148.171])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
+ id 1pNYvT-0000em-MS
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:42:53 -0500
+Received: from [167.98.27.226] (helo=lawrence-thinkpad.office.codethink.co.uk)
+ by imap5.colo.codethink.co.uk with esmtpsa (Exim 4.94.2 #2 (Debian))
+ id 1pNYvD-004Q6t-8c; Thu, 02 Feb 2023 12:42:36 +0000
+From: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+To: qemu-devel@nongnu.org
+Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
+ kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com,
+ palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
+ pbonzini@redhat.com, philipp.tomsich@vrull.eu, kvm@vger.kernel.org,
+ Lawrence Hunter <lawrence.hunter@codethink.co.uk>
+Subject: [PATCH 00/39] Add RISC-V vector cryptography extensions
+Date: Thu,  2 Feb 2023 12:41:51 +0000
+Message-Id: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
+X-Mailer: git-send-email 2.39.1
 MIME-Version: 1.0
-References: <20230131133906.1956228-1-alexghiti@rivosinc.com>
- <20230131133906.1956228-5-alexghiti@rivosinc.com>
- <CANzO1D0UEj9d=jnHWUaCxsrZpLHL9C-hKiJPn6CPVUrjyYg-sw@mail.gmail.com>
-In-Reply-To: <CANzO1D0UEj9d=jnHWUaCxsrZpLHL9C-hKiJPn6CPVUrjyYg-sw@mail.gmail.com>
-From: Alexandre Ghiti <alexghiti@rivosinc.com>
-Date: Thu, 2 Feb 2023 14:00:52 +0100
-Message-ID: <CAHVXubgsrMEdAR6uCDCsWm5ApGiNRzb=aJJg0nOCgqEYU_sZGA@mail.gmail.com>
-Subject: Re: [PATCH v9 4/5] riscv: Introduce satp mode hw capabilities
-To: Frank Chang <frank.chang@sifive.com>
-Cc: Palmer Dabbelt <palmer@dabbelt.com>,
- Alistair Francis <alistair.francis@wdc.com>, 
- Bin Meng <bin.meng@windriver.com>, Andrew Jones <ajones@ventanamicro.com>,
- qemu-riscv@nongnu.org, qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::42c;
- envelope-from=alexghiti@rivosinc.com; helo=mail-wr1-x42c.google.com
-X-Spam_score_int: -18
-X-Spam_score: -1.9
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=78.40.148.171;
+ envelope-from=lawrence.hunter@codethink.co.uk; helo=imap5.colo.codethink.co.uk
+X-Spam_score_int: -13
+X-Spam_score: -1.4
 X-Spam_bar: -
-X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001, URI_NOVOWEL=0.5 autolearn=ham autolearn_force=no
 X-Spam_action: no action
+X-Mailman-Approved-At: Thu, 02 Feb 2023 09:46:13 -0500
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
 Precedence: list
@@ -87,299 +57,125 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Frank,
+This patch series introduces an implementation for the six instruction sets
+of the draft RISC-V vector cryptography extensions specification.
 
-On Wed, Feb 1, 2023 at 4:49 PM Frank Chang <frank.chang@sifive.com> wrote:
->
-> On Tue, Jan 31, 2023 at 10:36 PM Alexandre Ghiti <alexghiti@rivosinc.com> wrote:
->>
->> Currently, the max satp mode is set with the only constraint that it must be
->> implemented in QEMU, i.e. set in valid_vm_1_10_[32|64].
->>
->> But we actually need to add another level of constraint: what the hw is
->> actually capable of, because currently, a linux booting on a sifive-u54
->> boots in sv57 mode which is incompatible with the cpu's sv39 max
->> capability.
->>
->> So add a new bitmap to RISCVSATPMap which contains this capability and
->> initialize it in every XXX_cpu_init.
->>
->> Finally:
->> - valid_vm_1_10_[32|64] constrains which satp mode the CPU can use
->> - the CPU hw capabilities constrains what the user may select
->> - the user's selection then constrains what's available to the guest
->>   OS.
->>
->> Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
->> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
->> ---
->>  target/riscv/cpu.c | 79 +++++++++++++++++++++++++++++++---------------
->>  target/riscv/cpu.h |  8 +++--
->>  2 files changed, 60 insertions(+), 27 deletions(-)
->>
->> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
->> index 3a7a1746aa..6dd76355ec 100644
->> --- a/target/riscv/cpu.c
->> +++ b/target/riscv/cpu.c
->> @@ -292,26 +292,36 @@ const char *satp_mode_str(uint8_t satp_mode, bool is_32_bit)
->>      g_assert_not_reached();
->>  }
->>
->> -/* Sets the satp mode to the max supported */
->> -static void set_satp_mode_default_map(RISCVCPU *cpu)
->> +static void set_satp_mode_max_supported(RISCVCPU *cpu,
->> +                                        uint8_t satp_mode)
->>  {
->>      bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
->> +    const bool *valid_vm = rv32 ? valid_vm_1_10_32 : valid_vm_1_10_64;
->
->
-> This will break user-mode QEMU.
-> valid_vm_1_10_32 and valid_vm_1_10_64 are defined in !CONFIG_USER_ONLY section.
-> This issue also exists in patch 3.
-> You have to move valid_vm_1_10_32 and valid_vm_1_10_64 out from !CONFIG_USER_ONLY.
+This patch set implements the instruction sets as per the 20221202
+version of the specification (1). We plan to update to the latest spec
+once stabilised.
 
-Indeed, good catch, thanks! Rather than moving valid_vm_1_10_[32|64],
-I'm going to try to surround all the satp handling inside #ifdef
-CONFIG_USER_ONLY. But if it's too cumbersome, I'll do as you suggest.
+Work performed by Dickon, Lawrence, Nazar, Kiran, and William from Codethink
+sponsored by SiFive, as well as Max Chou and Frank Chang from SiFive.
 
-Thanks again,
+For convenience we have created a git repo with our patches on top of a
+recent master. https://github.com/CodethinkLabs/qemu-ct
 
-Alex
+1. https://github.com/riscv/riscv-crypto/releases
 
->
-> Regards,
-> Frank Chang
->
->>
->> -    if (riscv_feature(&cpu->env, RISCV_FEATURE_MMU)) {
->> -        cpu->cfg.satp_mode.map |=
->> -                        (1 << satp_mode_from_str(rv32 ? "sv32" : "sv57"));
->> -    } else {
->> -        cpu->cfg.satp_mode.map |= (1 << satp_mode_from_str("mbare"));
->> +    for (int i = 0; i <= satp_mode; ++i) {
->> +        if (valid_vm[i]) {
->> +            cpu->cfg.satp_mode.supported |= (1 << i);
->> +        }
->>      }
->>  }
->>
->> +/* Set the satp mode to the max supported */
->> +static void set_satp_mode_default_map(RISCVCPU *cpu)
->> +{
->> +    cpu->cfg.satp_mode.map = cpu->cfg.satp_mode.supported;
->> +}
->> +
->>  static void riscv_any_cpu_init(Object *obj)
->>  {
->>      CPURISCVState *env = &RISCV_CPU(obj)->env;
->> +    RISCVCPU *cpu = RISCV_CPU(obj);
->> +
->>  #if defined(TARGET_RISCV32)
->>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
->> +    set_satp_mode_max_supported(cpu, VM_1_10_SV32);
->>  #elif defined(TARGET_RISCV64)
->>      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVU);
->> +    set_satp_mode_max_supported(cpu, VM_1_10_SV57);
->>  #endif
->>      set_priv_version(env, PRIV_VERSION_1_12_0);
->>      register_cpu_props(obj);
->> @@ -321,18 +331,24 @@ static void riscv_any_cpu_init(Object *obj)
->>  static void rv64_base_cpu_init(Object *obj)
->>  {
->>      CPURISCVState *env = &RISCV_CPU(obj)->env;
->> +    RISCVCPU *cpu = RISCV_CPU(obj);
->> +
->>      /* We set this in the realise function */
->>      set_misa(env, MXL_RV64, 0);
->>      register_cpu_props(obj);
->>      /* Set latest version of privileged specification */
->>      set_priv_version(env, PRIV_VERSION_1_12_0);
->> +    set_satp_mode_max_supported(cpu, VM_1_10_SV57);
->>  }
->>
->>  static void rv64_sifive_u_cpu_init(Object *obj)
->>  {
->>      CPURISCVState *env = &RISCV_CPU(obj)->env;
->> +    RISCVCPU *cpu = RISCV_CPU(obj);
->> +
->>      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
->>      set_priv_version(env, PRIV_VERSION_1_10_0);
->> +    set_satp_mode_max_supported(cpu, VM_1_10_SV39);
->>  }
->>
->>  static void rv64_sifive_e_cpu_init(Object *obj)
->> @@ -343,6 +359,7 @@ static void rv64_sifive_e_cpu_init(Object *obj)
->>      set_misa(env, MXL_RV64, RVI | RVM | RVA | RVC | RVU);
->>      set_priv_version(env, PRIV_VERSION_1_10_0);
->>      cpu->cfg.mmu = false;
->> +    set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
->>  }
->>
->>  static void rv128_base_cpu_init(Object *obj)
->> @@ -354,28 +371,36 @@ static void rv128_base_cpu_init(Object *obj)
->>          exit(EXIT_FAILURE);
->>      }
->>      CPURISCVState *env = &RISCV_CPU(obj)->env;
->> +    RISCVCPU *cpu = RISCV_CPU(obj);
->>      /* We set this in the realise function */
->>      set_misa(env, MXL_RV128, 0);
->>      register_cpu_props(obj);
->>      /* Set latest version of privileged specification */
->>      set_priv_version(env, PRIV_VERSION_1_12_0);
->> +    set_satp_mode_max_supported(cpu, VM_1_10_SV57);
->>  }
->>  #else
->>  static void rv32_base_cpu_init(Object *obj)
->>  {
->>      CPURISCVState *env = &RISCV_CPU(obj)->env;
->> +    RISCVCPU *cpu = RISCV_CPU(obj);
->> +
->>      /* We set this in the realise function */
->>      set_misa(env, MXL_RV32, 0);
->>      register_cpu_props(obj);
->>      /* Set latest version of privileged specification */
->>      set_priv_version(env, PRIV_VERSION_1_12_0);
->> +    set_satp_mode_max_supported(cpu, VM_1_10_SV32);
->>  }
->>
->>  static void rv32_sifive_u_cpu_init(Object *obj)
->>  {
->>      CPURISCVState *env = &RISCV_CPU(obj)->env;
->> +    RISCVCPU *cpu = RISCV_CPU(obj);
->> +
->>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVD | RVC | RVS | RVU);
->>      set_priv_version(env, PRIV_VERSION_1_10_0);
->> +    set_satp_mode_max_supported(cpu, VM_1_10_SV32);
->>  }
->>
->>  static void rv32_sifive_e_cpu_init(Object *obj)
->> @@ -386,6 +411,7 @@ static void rv32_sifive_e_cpu_init(Object *obj)
->>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVC | RVU);
->>      set_priv_version(env, PRIV_VERSION_1_10_0);
->>      cpu->cfg.mmu = false;
->> +    set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
->>  }
->>
->>  static void rv32_ibex_cpu_init(Object *obj)
->> @@ -396,6 +422,7 @@ static void rv32_ibex_cpu_init(Object *obj)
->>      set_misa(env, MXL_RV32, RVI | RVM | RVC | RVU);
->>      set_priv_version(env, PRIV_VERSION_1_11_0);
->>      cpu->cfg.mmu = false;
->> +    set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
->>      cpu->cfg.epmp = true;
->>  }
->>
->> @@ -407,6 +434,7 @@ static void rv32_imafcu_nommu_cpu_init(Object *obj)
->>      set_misa(env, MXL_RV32, RVI | RVM | RVA | RVF | RVC | RVU);
->>      set_priv_version(env, PRIV_VERSION_1_10_0);
->>      cpu->cfg.mmu = false;
->> +    set_satp_mode_max_supported(cpu, VM_1_10_MBARE);
->>  }
->>  #endif
->>
->> @@ -698,8 +726,9 @@ static void riscv_cpu_disas_set_info(CPUState *s, disassemble_info *info)
->>  static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
->>  {
->>      bool rv32 = riscv_cpu_mxl(&cpu->env) == MXL_RV32;
->> -    const bool *valid_vm = rv32 ? valid_vm_1_10_32 : valid_vm_1_10_64;
->> -    uint8_t satp_mode_max;
->> +    uint8_t satp_mode_map_max;
->> +    uint8_t satp_mode_supported_max =
->> +                        satp_mode_max_from_map(cpu->cfg.satp_mode.supported);
->>
->>      if (cpu->cfg.satp_mode.map == 0) {
->>          if (cpu->cfg.satp_mode.init == 0) {
->> @@ -712,9 +741,10 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
->>               * valid_vm_1_10_32/64.
->>               */
->>              for (int i = 1; i < 16; ++i) {
->> -                if ((cpu->cfg.satp_mode.init & (1 << i)) && valid_vm[i]) {
->> +                if ((cpu->cfg.satp_mode.init & (1 << i)) &&
->> +                    (cpu->cfg.satp_mode.supported & (1 << i))) {
->>                      for (int j = i - 1; j >= 0; --j) {
->> -                        if (valid_vm[j]) {
->> +                        if (cpu->cfg.satp_mode.supported & (1 << j)) {
->>                              cpu->cfg.satp_mode.map |= (1 << j);
->>                              break;
->>                          }
->> @@ -725,37 +755,36 @@ static void riscv_cpu_satp_mode_finalize(RISCVCPU *cpu, Error **errp)
->>          }
->>      }
->>
->> -    /* Make sure the configuration asked is supported by qemu */
->> -    for (int i = 0; i < 16; ++i) {
->> -        if ((cpu->cfg.satp_mode.map & (1 << i)) && !valid_vm[i]) {
->> -            error_setg(errp, "satp_mode %s is not valid",
->> -                       satp_mode_str(i, rv32));
->> -            return;
->> -        }
->> +    satp_mode_map_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
->> +
->> +    /* Make sure the user asked for a supported configuration (HW and qemu) */
->> +    if (satp_mode_map_max > satp_mode_supported_max) {
->> +        error_setg(errp, "satp_mode %s is higher than hw max capability %s",
->> +                   satp_mode_str(satp_mode_map_max, rv32),
->> +                   satp_mode_str(satp_mode_supported_max, rv32));
->> +        return;
->>      }
->>
->>      /*
->>       * Make sure the user did not ask for an invalid configuration as per
->>       * the specification.
->>       */
->> -    satp_mode_max = satp_mode_max_from_map(cpu->cfg.satp_mode.map);
->> -
->>      if (!rv32) {
->> -        for (int i = satp_mode_max - 1; i >= 0; --i) {
->> +        for (int i = satp_mode_map_max - 1; i >= 0; --i) {
->>              if (!(cpu->cfg.satp_mode.map & (1 << i)) &&
->>                  (cpu->cfg.satp_mode.init & (1 << i)) &&
->> -                valid_vm[i]) {
->> +                (cpu->cfg.satp_mode.supported & (1 << i))) {
->>                  error_setg(errp, "cannot disable %s satp mode if %s "
->>                             "is enabled", satp_mode_str(i, false),
->> -                           satp_mode_str(satp_mode_max, false));
->> +                           satp_mode_str(satp_mode_map_max, false));
->>                  return;
->>              }
->>          }
->>      }
->>
->>      /* Finally expand the map so that all valid modes are set */
->> -    for (int i = satp_mode_max - 1; i >= 0; --i) {
->> -        if (valid_vm[i]) {
->> +    for (int i = satp_mode_map_max - 1; i >= 0; --i) {
->> +        if (cpu->cfg.satp_mode.supported & (1 << i)) {
->>              cpu->cfg.satp_mode.map |= (1 << i);
->>          }
->>      }
->> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
->> index e37177db5c..b591122099 100644
->> --- a/target/riscv/cpu.h
->> +++ b/target/riscv/cpu.h
->> @@ -416,13 +416,17 @@ struct RISCVCPUClass {
->>
->>  /*
->>   * map is a 16-bit bitmap: the most significant set bit in map is the maximum
->> - * satp mode that is supported.
->> + * satp mode that is supported. It may be chosen by the user and must respect
->> + * what qemu implements (valid_1_10_32/64) and what the hw is capable of
->> + * (supported bitmap below).
->>   *
->>   * init is a 16-bit bitmap used to make sure the user selected a correct
->>   * configuration as per the specification.
->> + *
->> + * supported is a 16-bit bitmap used to reflect the hw capabilities.
->>   */
->>  typedef struct {
->> -    uint16_t map, init;
->> +    uint16_t map, init, supported;
->>  } RISCVSATPMap;
->>
->>  struct RISCVCPUConfig {
->> --
->> 2.37.2
->>
->>
+Dickon Hood (1):
+  target/riscv: Add vrol.[vv,vx] and vror.[vv,vx,vi] decoding,
+    translation and execution support
+
+Kiran Ostrolenk (4):
+  target/riscv: Add vsha2ms.vv decoding, translation and execution
+    support
+  target/riscv: add zvksh cpu property
+  target/riscv: Add vsm3c.vi decoding, translation and execution support
+  target/riscv: expose zvksh cpu property
+
+Lawrence Hunter (16):
+  target/riscv: Add vclmul.vv decoding, translation and execution
+    support
+  target/riscv: Add vclmul.vx decoding, translation and execution
+    support
+  target/riscv: Add vclmulh.vv decoding, translation and execution
+    support
+  target/riscv: Add vclmulh.vx decoding, translation and execution
+    support
+  target/riscv: Add vaesef.vv decoding, translation and execution
+    support
+  target/riscv: Add vaesef.vs decoding, translation and execution
+    support
+  target/riscv: Add vaesdf.vv decoding, translation and execution
+    support
+  target/riscv: Add vaesdf.vs decoding, translation and execution
+    support
+  target/riscv: Add vaesdm.vv decoding, translation and execution
+    support
+  target/riscv: Add vaesdm.vs decoding, translation and execution
+    support
+  target/riscv: Add vaesz.vs decoding, translation and execution support
+  target/riscv: Add vsha2c[hl].vv decoding, translation and execution
+    support
+  target/riscv: Add vsm3me.vv decoding, translation and execution
+    support
+  target/riscv: add zvkg cpu property
+  target/riscv: Add vghmac.vv decoding, translation and execution
+    support
+  target/riscv: expose zvkg cpu property
+
+Max Chou (5):
+  crypto: Move SM4_SBOXWORD from target/riscv
+  crypto: Add SM4 constant parameter CK.
+  target/riscv: Add zvksed cfg property
+  target/riscv: Add Zvksed support
+  target/riscv: Expose Zvksed property
+
+Nazar Kazakov (10):
+  target/riscv: add zvkb cpu property
+  target/riscv: Add vrev8.v decoding, translation and execution support
+  target/riscv: Add vandn.[vv,vx,vi] decoding, translation and execution
+    support
+  target/riscv: expose zvkb cpu property
+  target/riscv: add zvkns cpu property
+  target/riscv: Add vaeskf1.vi decoding, translation and execution
+    support
+  target/riscv: Add vaeskf2.vi decoding, translation and execution
+    support
+  target/riscv: expose zvkns cpu property
+  target/riscv: add zvknh cpu properties
+  target/riscv: expose zvknh cpu properties
+
+William Salmon (3):
+  target/riscv: Add vbrev8.v decoding, translation and execution support
+  target/riscv: Add vaesem.vv decoding, translation and execution
+    support
+  target/riscv: Add vaesem.vs decoding, translation and execution
+    support
+
+ crypto/sm4.c                                 |   10 +
+ include/crypto/sm4.h                         |    8 +
+ include/qemu/bitops.h                        |   32 +
+ target/arm/crypto_helper.c                   |   10 +-
+ target/riscv/cpu.c                           |   33 +
+ target/riscv/cpu.h                           |    7 +
+ target/riscv/crypto_helper.c                 |    1 +
+ target/riscv/helper.h                        |   69 ++
+ target/riscv/insn32.decode                   |   48 +
+ target/riscv/insn_trans/trans_rvzvkb.c.inc   |  162 +++
+ target/riscv/insn_trans/trans_rvzvkg.c.inc   |    9 +
+ target/riscv/insn_trans/trans_rvzvknh.c.inc  |   47 +
+ target/riscv/insn_trans/trans_rvzvkns.c.inc  |  119 ++
+ target/riscv/insn_trans/trans_rvzvksed.c.inc |   35 +
+ target/riscv/insn_trans/trans_rvzvksh.c.inc  |   20 +
+ target/riscv/meson.build                     |    4 +-
+ target/riscv/translate.c                     |    6 +
+ target/riscv/vcrypto_helper.c                | 1013 ++++++++++++++++++
+ target/riscv/vector_helper.c                 |  242 +----
+ target/riscv/vector_internals.c              |   63 ++
+ target/riscv/vector_internals.h              |  226 ++++
+ 21 files changed, 1914 insertions(+), 250 deletions(-)
+ create mode 100644 target/riscv/insn_trans/trans_rvzvkb.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvkg.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvknh.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvkns.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvksed.c.inc
+ create mode 100644 target/riscv/insn_trans/trans_rvzvksh.c.inc
+ create mode 100644 target/riscv/vcrypto_helper.c
+ create mode 100644 target/riscv/vector_internals.c
+ create mode 100644 target/riscv/vector_internals.h
+
+-- 
+2.39.1
+
 
