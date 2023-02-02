@@ -2,91 +2,122 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93C4668885C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 21:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C65C6888CE
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 22:13:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNgOY-0002CI-Ej; Thu, 02 Feb 2023 15:41:22 -0500
+	id 1pNgs5-0008Gn-Ux; Thu, 02 Feb 2023 16:11:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pNgOR-00029J-ME
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 15:41:17 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1pNgs2-0008EL-VS; Thu, 02 Feb 2023 16:11:50 -0500
+Received: from mail-bn7nam10on2070e.outbound.protection.outlook.com
+ ([2a01:111:f400:7e8a::70e]
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com)
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peterx@redhat.com>) id 1pNgOP-00057f-RP
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 15:41:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675370472;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=A4gaRVl/oNfCE7tR1em2hTusouheblB3fnB0T0WOuVg=;
- b=b5/LT+Mjs/Vb8LKwiB1X82J1lxT+W+B8uw1GXeQi3UZK0MAAI0DB3KBWtWDq+SF3OwhEsT
- nOqmvAFh6SVZW5jKNIk04l4qDw0cxCQF6LGvORFEogMy1hnYn7XZI9Ai4aSMxE5pLidzX0
- 2qEe2t/Jffz3JPTvRgm7XMo+HwfaAnY=
-Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com
- [209.85.160.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-593-SpF5jNZjP3eVXXyLiv-GJw-1; Thu, 02 Feb 2023 15:41:11 -0500
-X-MC-Unique: SpF5jNZjP3eVXXyLiv-GJw-1
-Received: by mail-qt1-f198.google.com with SMTP id
- bz17-20020a05622a1e9100b003b9c1013018so1564163qtb.18
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 12:41:10 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=in-reply-to:content-transfer-encoding:content-disposition
- :mime-version:references:message-id:subject:cc:to:from:date
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=A4gaRVl/oNfCE7tR1em2hTusouheblB3fnB0T0WOuVg=;
- b=6tZJPLZdFQ6hVCsKs0xDoZjaluI9Gu8xQrn5H5ICgnahLQ03kPmalM3VCUyi9UepJ2
- oKdAO2VEiIvkSvC64ewmAesqz2RlrKPA1oUekSE2Lg+eX61Gngtn84A5dFdNhIf/BNOE
- gDgr32nsi6+wdmQY/CEobL9R8yh8Yf/mzUiPvIDxFJGA5ElZMeLpgFR/CS9n8fnN1WgI
- Or7M6Uf1RwqjBNgAex1VLmwQ3xMrIYwWizOz6BnO91hOoxlREBR8CEv3pL520CtRZ/jc
- /5LA9ltpHSfSIQnwRRuTRCZINGHEafhyYxmaWSAAb114I4rKSCKKwU2wgUdEvXO1WKbN
- hajw==
-X-Gm-Message-State: AO0yUKWn00N84kVlq/P3CV+4Ko0Gt4ApeUBir7j3oPcOnPP3QhU5C7IJ
- PZmKUPM/MrT/AhDFdPg09gGYE4F1fnZ4PzEMN1cUJF4FYX351UczhsRB5dzCUFXccAKn1qwZluh
- 8dTNHf3Nlt24WHZM=
-X-Received: by 2002:a0c:ef05:0:b0:537:6e4c:ac60 with SMTP id
- t5-20020a0cef05000000b005376e4cac60mr11973390qvr.2.1675370470411; 
- Thu, 02 Feb 2023 12:41:10 -0800 (PST)
-X-Google-Smtp-Source: AK7set9DE7MQthQ9zkKdFZfWmWZvni3JNVCQCgYD3z5Ui1HkfWXTnlGM4wpLh6cr7Rebn/xWzFjSNg==
-X-Received: by 2002:a0c:ef05:0:b0:537:6e4c:ac60 with SMTP id
- t5-20020a0cef05000000b005376e4cac60mr11973363qvr.2.1675370470142; 
- Thu, 02 Feb 2023 12:41:10 -0800 (PST)
-Received: from x1n (bras-base-aurron9127w-grc-56-70-30-145-63.dsl.bell.ca.
- [70.30.145.63]) by smtp.gmail.com with ESMTPSA id
- g12-20020a05620a278c00b0070531c5d655sm408481qkp.90.2023.02.02.12.41.08
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Feb 2023 12:41:09 -0800 (PST)
-Date: Thu, 2 Feb 2023 15:41:08 -0500
-From: Peter Xu <peterx@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: qemu-devel@nongnu.org, Leonardo Bras Soares Passos <lsoaresp@redhat.com>,
- Michal =?utf-8?B?UHLDrXZvem7DrWs=?= <mprivozn@redhat.com>,
- Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>,
- Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 3/3] util/userfaultfd: Support /dev/userfaultfd
-Message-ID: <Y9wf5AI4xmHhNCTM@x1n>
-References: <20230201211055.649442-1-peterx@redhat.com>
- <20230201211055.649442-4-peterx@redhat.com>
- <87cz6stk4a.fsf@secure.mitica>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+ (Exim 4.90_1) (envelope-from <aaron@os.amperecomputing.com>)
+ id 1pNgs1-00088y-8X; Thu, 02 Feb 2023 16:11:50 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jwvgQ8/xjo4PSOi2JE2N1/xEgMozk6XNSmGefR78Ny7+UGRFfur1PCWze2eGZauLPZj4za5B0h1rbkbOwDwQ4Jlqu/hldtPUdm0x1vQZTXmWh4bCjrb5fGF/dR+8KWMi7lWFyRK3UqRc6b6V5QTaWgQ2Nv564BCs5J9UIAS1T7DTuj76g5yxfmyWA6vLHAJdVy0QvshLfqO0AMG8t4YOXpwXy54EnX7RUcGDgF4kcnV3YyrEuWMtHSef9EhkTgJzrE+6ATrfr28Rs6bR9tFiGbIk5ls9h+6o7UDQ+Q7pf4sY/sF0NWyoGcgMaa6bBweDfmKcoKWgXSGRAo/nvfKBEw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com; 
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TdnUeiDw8d1UPxlgIx/ae7U6H4RyP/KDY59ynJtnUEQ=;
+ b=YNU338U1sE0zHf3LhkTFeEcIchcOH5WTxo4zNuFdWN7tfuJj/bDgNvHKGu0gAbFP7gDDUqeRX5OuHvF8jkJtuanRoHcsb2fWpkKbkwvcsVBH2qR9bS+4BDgNsPMTIHzXqLlhQWf4ediVajH5X2dhtszXwciY6lFvmhFJEjYMRcLDP+RlFIKJqZ462/02SFA1vQ9KQlbZ5doHbUKM6zCYxf1ayT2m5W7rKAQakOphNVt3mE27Q8LYCOlWWROY/iKt7x0YVOFMjoZkaBhW8Gkb/GQ3ONX6XJBiPmV8Fb7xSoPJlbLgM2XOJMOs088auDY7oy3uci/e2o9DO3I/RJxyzg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=os.amperecomputing.com; dmarc=pass action=none
+ header.from=os.amperecomputing.com; dkim=pass
+ header.d=os.amperecomputing.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=os.amperecomputing.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TdnUeiDw8d1UPxlgIx/ae7U6H4RyP/KDY59ynJtnUEQ=;
+ b=tTZHyfqxkHW7S16NzTxsCLz6bspGgyndRCwVu9SwJs8sDydUDCL8ie0+c8vgxu35qp89RRrQhvU28eZGsxKlno9py6OAqQ9LPlGJAqKA78d69VwElTg+v+fERP5mLe+EuzD979nly/unWTs6AFZDw3OPqUgcnnfC1UcAVux4yGM=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=os.amperecomputing.com;
+Received: from CH0PR01MB7124.prod.exchangelabs.com (2603:10b6:610:f3::20) by
+ BL0PR01MB4801.prod.exchangelabs.com (2603:10b6:208:7c::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.6043.38; Thu, 2 Feb 2023 21:11:43 +0000
+Received: from CH0PR01MB7124.prod.exchangelabs.com
+ ([fe80::c6ce:a93c:6bfa:2ec8]) by CH0PR01MB7124.prod.exchangelabs.com
+ ([fe80::c6ce:a93c:6bfa:2ec8%5]) with mapi id 15.20.6064.027; Thu, 2 Feb 2023
+ 21:11:43 +0000
+From: Aaron Lindsay <aaron@os.amperecomputing.com>
+To: qemu-devel@nongnu.org, qemu-arm@nongnu.org,
+ Richard Henderson <richard.henderson@linaro.org>,
+ Vincent Dehors <vincent.dehors@smile.fr>,
+ =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Aaron Lindsay <aaron@os.amperecomputing.com>
+Subject: [PATCH 0/7] Implement Most ARMv8.3 Pointer Authentication Features
+Date: Thu,  2 Feb 2023 16:11:22 -0500
+Message-Id: <20230202211129.984060-1-aaron@os.amperecomputing.com>
+X-Mailer: git-send-email 2.39.1
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <87cz6stk4a.fsf@secure.mitica>
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=peterx@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Content-Type: text/plain
+X-ClientProxiedBy: CH2PR20CA0027.namprd20.prod.outlook.com
+ (2603:10b6:610:58::37) To CH0PR01MB7124.prod.exchangelabs.com
+ (2603:10b6:610:f3::20)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH0PR01MB7124:EE_|BL0PR01MB4801:EE_
+X-MS-Office365-Filtering-Correlation-Id: fc85a09b-0d43-479b-c773-08db0562157e
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: iICTxqKDfK63eaXvc8S1MDGRFP6xZ9LoXwUwLyekOKsuYZ9wuuXFiFIYdZBxkJ5XpVI9grsDj60KwVq+6aVieWUOaYRqE3qRuORZ4OaUMsfOJoMaG8q5c9lxTmQ1v7gsmUzoXXUk4HqF3vnWqJfXFRudjm0YF+7EPPifH36Zhw7tg68NfaMzMcTKqzRDX351uzEnoLn+jwENbmDpW0qefE6/caj9YULSTUzeev7+g96G5knQB9hi9obNwdTkJ+ZCdjBquXt25DwX6NBWpuX8v2PgqtMeSNJ7BsYNPKdCMVT+B+easdGn69toTKy4/FX4HmCl9TQJeGrvJXTI87OmFiEccZc57GdY4pfjygFs0/S3jZUKduYD9ykD8+sdyYxC/6VyWwF7EjiQOwiXD7Yf+MT89u/EAjGNgSZyxqamUZnBz7RouD623K9IG3LYUnEEo5cMW4NLhUlJ7xlH5Izo+MiWEWyJwcfq7omnSREruA9ofOtGL8IOBEQZvqMHLu9HLy3IZfZd+C7IJmRwpZ3lsppFDrjApkSBxBkAG2+ku99kVzVOOAPKcsP0RE72WS9Pdo5V9wK21W9Ph0O3chrCJokq7XT4Y8xcmcoQC4ovEfv1ByyhCqUNAJvNSmutgVLEZf39j9Al+nsOq4NgEu+SrYfrmw4gavL2hkMi4zPOIWLX3tqhARad9jiwLDOA2+iwJJmal+Us9TivJWOmn9DvUw==
+X-Forefront-Antispam-Report: CIP:255.255.255.255; CTRY:; LANG:en; SCL:1; SRV:;
+ IPV:NLI; SFV:NSPM; H:CH0PR01MB7124.prod.exchangelabs.com; PTR:; CAT:NONE;
+ SFS:(13230025)(4636009)(346002)(366004)(39850400004)(396003)(136003)(376002)(451199018)(186003)(4326008)(6512007)(26005)(1076003)(107886003)(6506007)(41300700001)(4744005)(8936002)(5660300002)(110136005)(6666004)(316002)(52116002)(66899018)(66946007)(86362001)(38100700002)(83380400001)(38350700002)(2616005)(2906002)(8676002)(66556008)(66476007)(6486002)(478600001);
+ DIR:OUT; SFP:1102; 
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LuBWqHlEK1D713XJnoq68wxViNO4Accj1vYq7OhFefv2FSN5+JofYASSzmDq?=
+ =?us-ascii?Q?9DaVrZKLbPug6LPd7P63ZI2SF0b228jyhPMAutjOoGtc99Eds+Vr7+ibzj5A?=
+ =?us-ascii?Q?ZlOf815YuKxyFORNS/Xs2BlSOGTnsyuMRBkLMYKpdj0veyOzumHYhoW09feE?=
+ =?us-ascii?Q?RfISJOZaa/7P0I65R2FVFNmoW86BGk+OtJ8pyP9rHZwGdPGMS7iWWD/qyk6U?=
+ =?us-ascii?Q?51e1TWpIwF6KRBX3vjHiku0I+Lp7Wqk8IPMa3N3TkuQghQ5aBI9yXfWnV/M1?=
+ =?us-ascii?Q?6DKDqWByTGgvR22nwu/yS/GMpARWtQmAWXXZ/PQpu49Dw0mlcx+pQhGSiTWM?=
+ =?us-ascii?Q?GEz4oscfI/BqjqzfKsCTOlM7mxrASvL2siWNydvJiwr/DdT/hEhegJe0/XXU?=
+ =?us-ascii?Q?98/VasDKLBYvYKQywhpMUGVyq31USayo7ELugfd4H9Z6Kuk0FF0QldcNQTIE?=
+ =?us-ascii?Q?LbGLmWvVpkEpWlcddjdjKK1m2CHhC+m00ICxplsbt8+CX5ZDMXGqUxwFspyj?=
+ =?us-ascii?Q?x5FE+ytNptTKmkOL4JGE/2c3RMEh7HW2f9V0APRcXAXKnxucoyMn3mI9PNqS?=
+ =?us-ascii?Q?jDDlFkOxBH4gZLRpZ0WRkdqyh7/iK+XaewG5dxXGBxyLOwc5SQIEHzaAhYA6?=
+ =?us-ascii?Q?PXk1MxLQs6En5ZIkb1DkqfiB+MV7hS1ffc9s1XlBYn1AvK9aAlgJJTdDbiHE?=
+ =?us-ascii?Q?dmrt1xIpAZc7BAQeGqaC63iue/sV1GTz4F642m3kxtXUTYxGHeNgey9VpGco?=
+ =?us-ascii?Q?RAkAVEB3JIb/uwUfHztbJzVbGPSf552GLKiAyjTgwzKX9Ud0eGIQqn4HiEUG?=
+ =?us-ascii?Q?N23mwsmN/zb6GF5/6j4oscZ9mug+iLZKSso+qNnH7TO11Hk8zYxXGkjWGZwC?=
+ =?us-ascii?Q?qbi6v6JIMgiME3A4RH08IMlDX7+v9bG5UUXRteEfUUAg+3w9a9q9m058TpC6?=
+ =?us-ascii?Q?G4YCGvC5UB1H88iHeh8qVNbBYCwquO/ZANB84Wi2wDdf3nnmFl5HcjVrGXiP?=
+ =?us-ascii?Q?u1v8KAxgxt7XB69QEHqDCmsJ5n8QORfMy5SKdgaVdtByig66c3tf7VN81Z5Z?=
+ =?us-ascii?Q?ddeGVC9XS8jYq/WOkW/1hAglDm4ekzUZLu/W1FLLndH8o6WOHFjcD7o9n1Kw?=
+ =?us-ascii?Q?Bl9P58zKuMWICMwpjHhDNkB/uUbNzpbmmGBTjw+TUiPyENA0+Zvdng46hTsg?=
+ =?us-ascii?Q?zdrzjGgVjXf8MHZk2M4TXxMgK88XJC1phT3ASbsfsQSIj5EpBOkokaOet9Wi?=
+ =?us-ascii?Q?kTZB3NeNryf5pbR+VLlqxQxpclsEidfZAN7ykuqDDchvQzGsLO65XFNnK2UF?=
+ =?us-ascii?Q?pc45G5DzdAI2FEN7wMusgXebSI11QNH031Y3mUa1lxGOFpRRtEv+Z/Oi9+E7?=
+ =?us-ascii?Q?tcz9Eekw3tQ+2apUz0xT1NN0BVxAsuLwS5JxKAf2fAUSivCp3HuLsHyiT1qU?=
+ =?us-ascii?Q?kf9puF9jOlExCs70fW0vxVIwtCBvdvZVAZl0GZqhCTN/sZ/3Ko21wRsQcTA+?=
+ =?us-ascii?Q?x2KG2NJ0ZH7rkFahKAFc1lzbqHNEhcSCGwkydEg0W6jG/SDYNEAESg+jkNM4?=
+ =?us-ascii?Q?GcbKe7uWh4lB0pGlyTNfduZadG7zZ4fU5kin4oMjQd5nfi549oIEJYl6C+It?=
+ =?us-ascii?Q?IvW2SG3FVSRhOhydDaJ8U+0=3D?=
+X-OriginatorOrg: os.amperecomputing.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fc85a09b-0d43-479b-c773-08db0562157e
+X-MS-Exchange-CrossTenant-AuthSource: CH0PR01MB7124.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Feb 2023 21:11:43.0964 (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3bc2b170-fd94-476d-b0ce-4229bdc904a7
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Amgehy2slyysUHnlIEZgy6IJ6a6EWvRBQVWg6Qh+zJHELh1+A6Siw/SmxOdRRiNK2NgWyT5KCPXMtS9vFK6pYx+EQs57PYtiU4L4MrCfmIUkHRMy6vfG8UeO854DvWaO
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR01MB4801
+Received-SPF: pass client-ip=2a01:111:f400:7e8a::70e;
+ envelope-from=aaron@os.amperecomputing.com;
+ helo=NAM10-BN7-obe.outbound.protection.outlook.com
+X-Spam_score_int: -19
+X-Spam_score: -2.0
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, SPF_HELO_PASS=-0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -103,145 +134,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 02, 2023 at 11:52:21AM +0100, Juan Quintela wrote:
-> Peter Xu <peterx@redhat.com> wrote:
-> > Teach QEMU to use /dev/userfaultfd when it existed and fallback to the
-> > system call if either it's not there or doesn't have enough permission.
-> >
-> > Firstly, as long as the app has permission to access /dev/userfaultfd, it
-> > always have the ability to trap kernel faults which QEMU mostly wants.
-> > Meanwhile, in some context (e.g. containers) the userfaultfd syscall can be
-> > forbidden, so it can be the major way to use postcopy in a restricted
-> > environment with strict seccomp setup.
-> >
-> > Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> 
-> 
-> Hi
+Hello,
 
-Hi, Juan,
+I've taken a first pass at implementing many of the ARMv8.3 Pointer
+Authentication features and welcome your review.
 
-> 
-> Can we change this code to not use the global variable.
-> 
-> > ---
-> >  util/trace-events  |  1 +
-> >  util/userfaultfd.c | 37 +++++++++++++++++++++++++++++++++++++
-> >  2 files changed, 38 insertions(+)
-> >
-> > diff --git a/util/trace-events b/util/trace-events
-> > index c8f53d7d9f..16f78d8fe5 100644
-> > --- a/util/trace-events
-> > +++ b/util/trace-events
-> > @@ -93,6 +93,7 @@ qemu_vfio_region_info(const char *desc, uint64_t region_ofs, uint64_t region_siz
-> >  qemu_vfio_pci_map_bar(int index, uint64_t region_ofs, uint64_t region_size, int ofs, void *host) "map region bar#%d addr 0x%"PRIx64" size 0x%"PRIx64" ofs 0x%x host %p"
-> >  
-> >  #userfaultfd.c
-> > +uffd_detect_open_mode(int mode) "%d"
-> >  uffd_query_features_nosys(int err) "errno: %i"
-> >  uffd_query_features_api_failed(int err) "errno: %i"
-> >  uffd_create_fd_nosys(int err) "errno: %i"
-> > diff --git a/util/userfaultfd.c b/util/userfaultfd.c
-> > index 9845a2ec81..7dceab51d6 100644
-> > --- a/util/userfaultfd.c
-> > +++ b/util/userfaultfd.c
-> > @@ -18,10 +18,47 @@
-> >  #include <poll.h>
-> >  #include <sys/syscall.h>
-> >  #include <sys/ioctl.h>
-> > +#include <fcntl.h>
-> > +
-> > +typedef enum {
-> > +    UFFD_UNINITIALIZED = 0,
-> > +    UFFD_USE_DEV_PATH,
-> > +    UFFD_USE_SYSCALL,
-> > +} uffd_open_mode;
-> > +
-> > +static int uffd_dev;
-> > +
-> > +static uffd_open_mode uffd_detect_open_mode(void)
-> > +{
-> > +    static uffd_open_mode open_mode;
-> > +
-> > +    if (open_mode == UFFD_UNINITIALIZED) {
-> > +        /*
-> > +         * Make /dev/userfaultfd the default approach because it has better
-> > +         * permission controls, meanwhile allows kernel faults without any
-> > +         * privilege requirement (e.g. SYS_CAP_PTRACE).
-> > +         */
-> > +        uffd_dev = open("/dev/userfaultfd", O_RDWR | O_CLOEXEC);
-> > +        if (uffd_dev >= 0) {
-> > +            open_mode = UFFD_USE_DEV_PATH;
-> > +        } else {
-> > +            /* Fallback to the system call */
-> > +            open_mode = UFFD_USE_SYSCALL;
-> > +        }
-> > +        trace_uffd_detect_open_mode(open_mode);
-> > +    }
-> > +
-> > +    return open_mode;
-> > +}
-> >  
-> >  int uffd_open(int flags)
-> >  {
-> >  #if defined(__linux__) && defined(__NR_userfaultfd)
-> > +    if (uffd_detect_open_mode() == UFFD_USE_DEV_PATH) {
-> > +        assert(uffd_dev >= 0);
-> > +        return ioctl(uffd_dev, USERFAULTFD_IOC_NEW, flags);
-> > +    }
-> > +
-> >      return syscall(__NR_userfaultfd, flags);
-> >  #else
-> >      return -EINVAL;
-> 
-> static int open_userfaultd(void)
-> {
->     /*
->      * Make /dev/userfaultfd the default approach because it has better
->      * permission controls, meanwhile allows kernel faults without any
->      * privilege requirement (e.g. SYS_CAP_PTRACE).
->      */
->      int uffd = open("/dev/userfaultfd", O_RDWR | O_CLOEXEC);
->      if (uffd >= 0) {
->             return uffd;
->      }
->      return -1;
-> }
-> 
-> int uffd_open(int flags)
-> {
-> #if defined(__linux__) && defined(__NR_userfaultfd)
->     static int uffd = -2;
->     if (uffd == -2) {
->         uffd = open_userfaultd();
->     }
->     if (uffd >= 0) {
->         return ioctl(uffd, USERFAULTFD_IOC_NEW, flags);
->     }
->     return syscall(__NR_userfaultfd, flags);
-> #else
->      return -EINVAL;
-> 
-> 27 lines vs 42
-> 
-> No need for enum type
-> No need for global variable
-> 
-> What do you think?
+Thanks!
 
-Yes, as I used to reply to Phil I think it can be simplified.  I did this
-major for (1) better readability, and (2) being crystal clear on which way
-we used to open /dev/userfaultfd, then guarantee we're keeping using it. so
-at least I prefer keeping things like trace_uffd_detect_open_mode().
+-Aaron
 
-I also plan to add another mode when fd-mode is there even if it'll reuse
-the same USERFAULTFD_IOC_NEW; they can be useful information when a failure
-happens.
+Aaron Lindsay (7):
+  target/arm: v8.3 PAC ID_AA64ISAR[12] feature-detection
+  target/arm: Implement v8.3 QARMA3 PAC cipher
+  target/arm: Implement v8.3 EnhancedPAC
+  target/arm: Implement v8.3 Pauth2
+  targer/arm: Inform helpers whether a PAC instruction is 'combined'
+  target/arm: Implement v8.3 FPAC and FPACCOMBINE
+  target/arm: Add CPU properties for most v8.3 PAC features
 
-Though if you insist, I can switch to the simple version too.
+ target/arm/cpu.h           |  62 ++++++++++++-
+ target/arm/cpu64.c         |  81 ++++++++++++++---
+ target/arm/helper-a64.h    |   4 +
+ target/arm/helper.c        |   4 +-
+ target/arm/pauth_helper.c  | 182 ++++++++++++++++++++++++++++++-------
+ target/arm/syndrome.h      |   6 ++
+ target/arm/translate-a64.c |  20 ++--
+ 7 files changed, 296 insertions(+), 63 deletions(-)
 
 -- 
-Peter Xu
+2.25.1
 
 
