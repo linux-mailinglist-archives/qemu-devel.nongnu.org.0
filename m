@@ -2,85 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5715768852C
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 18:14:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B90A688559
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 18:27:26 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNd9L-0007HC-44; Thu, 02 Feb 2023 12:13:27 -0500
+	id 1pNdLQ-0003er-7l; Thu, 02 Feb 2023 12:25:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pNd9G-00078U-TI
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 12:13:24 -0500
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pNd9E-0006lj-Fe
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 12:13:22 -0500
-Received: by mail-wm1-x333.google.com with SMTP id
- c4-20020a1c3504000000b003d9e2f72093so4234694wma.1
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 09:13:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=bOAUJjmKeQNLjKQRMTa5Ijc1PR1bnBeSgRlcQe8k7Xo=;
- b=jC50paXWykdLBrzd7wqstwvQTiwFAPo6Z3k/tf/VzwBN40CnVIiyChe5ynBkk/CZYu
- cWgZ44J+ZHBdU6C0tZa+DLIMbb18Vu6IFsFm8uLq85VNirDPM3bnBA3dvqKAegwXBWwb
- cM1Th9BPzm15upaBHvUzyk3cmEU6pfK1pLEJEq3wa9Zfce7QMbkwwIBiLKpLZH7lcKZi
- OUoTFbSVjmPVgxPLw1Vdim/C6e7RfRC7Ux2ENThyVSwlcgy/zI8xrzG5suMrzl0nl0ya
- 0yV37aVZdiCDFx/2icKAlODaGQa5VSuhT12hF8BWALpAUZmOJd8tbzGX8us4FlnWGq8Z
- AUEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=bOAUJjmKeQNLjKQRMTa5Ijc1PR1bnBeSgRlcQe8k7Xo=;
- b=Eee/df5m9eB/UsyuLpKKOWsFdQM37Dn+1CSnXQy8o/EqDI+pRciZcl03aSCy2RZQPc
- jwVWYtqVvV9MyiKfYxTorlWSIFFCkGbWANbeDZ4oFEIb5kICwCQUkJImm/oCatOiPGlE
- dmHUWU7tl88hSQ896QbzWdAS+lzQvRr4QI85axSHrj9EvGM4GUhnCd6UXmshg3VEak01
- KJ5KDB6miO4uCbsTf33yK94oWvfWiMbgOYxO792rbLCgK6X8kcHUV4d9nEWXcznv0Ms/
- rLVorKV7BSPewudTceS7owEt/ytWL6c5se4iJ2WsD30XA9PGzhlo9ljdVvYMnaOGs6lb
- xWAA==
-X-Gm-Message-State: AO0yUKWffnM01/0kr9a7HqbgFDpbNiImOhDaperPGQ9ByUsC/98QiwrV
- bwbkSTvgsV5dnb/gZ8uJtiKviw==
-X-Google-Smtp-Source: AK7set9RKMdJCy6v1BDs40kewFfJU3MGTb1Q/wqpIJjRo83+mV/hPyrffGuVkmNAXGOjuqlNU5qQ5g==
-X-Received: by 2002:a05:600c:3d06:b0:3df:dc0d:f0b3 with SMTP id
- bh6-20020a05600c3d0600b003dfdc0df0b3mr2711200wmb.9.1675357998640; 
- Thu, 02 Feb 2023 09:13:18 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
- by smtp.gmail.com with ESMTPSA id
- w10-20020a5d608a000000b002bfd8ad20a0sm16306wrt.44.2023.02.02.09.13.18
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Feb 2023 09:13:18 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 92DED1FFB7;
- Thu,  2 Feb 2023 17:13:17 +0000 (GMT)
-References: <20230126112250.2584701-1-alex.bennee@linaro.org>
- <CAFEAcA_TCHw2b=zOWOX7COLa-iqC1P8Bm1wiACKhmx32cuS8SA@mail.gmail.com>
- <877cx11cpq.fsf@linaro.org>
- <CAFEAcA_beYVNurYS3CE9x=H5mn1F3jwCiZo-CmEPsN7syB0Sjw@mail.gmail.com>
-User-agent: mu4e 1.9.19; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: qemu-devel@nongnu.org
-Subject: Re: [PULL 00/35] Testing, docs, semihosting and plugin updates
-Date: Thu, 02 Feb 2023 17:12:43 +0000
-In-reply-to: <CAFEAcA_beYVNurYS3CE9x=H5mn1F3jwCiZo-CmEPsN7syB0Sjw@mail.gmail.com>
-Message-ID: <87a61wkn2q.fsf@linaro.org>
+ (Exim 4.90_1) (envelope-from <conor@kernel.org>)
+ id 1pNdLI-0003bT-Gu; Thu, 02 Feb 2023 12:25:48 -0500
+Received: from dfw.source.kernel.org ([139.178.84.217])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <conor@kernel.org>)
+ id 1pNdLG-0004ra-Ch; Thu, 02 Feb 2023 12:25:47 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+ (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+ (No client certificate requested)
+ by dfw.source.kernel.org (Postfix) with ESMTPS id 6630561A02;
+ Thu,  2 Feb 2023 17:25:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CCCF6C433EF;
+ Thu,  2 Feb 2023 17:25:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+ s=k20201202; t=1675358741;
+ bh=X5DP7u3+sximFj2iHjts/49g7CXyDYTvEh9oALT1iSY=;
+ h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+ b=ebXltQMmsqiw16u7UhfMXpLpJuhbsLkWmh39ZKp2icld3lS6ZmpsBVgm5UeNBQ0r0
+ PM7f7hxJfTTuTUDIZt6iZzElMsa2Xw1Xl6ZJP2DLWzpsXpduewyZs6E72QY1/nkJ1R
+ SsMFxKUYFJ1lOSUkqgLNe2MTXGNxuVqJDJB/UyDSyrCzKOcLORK3NFEfoZDxuC7RN+
+ G5m/sSHTn+2BLGlqJeOBeLsW+ziTVeubJo/BGPoZPBS0k6TsTD+JLAnR7kNBSeULIJ
+ nmVsaGAYp5/izVWVvqLuiamrbu0063Fa5YTEZ4+m3Laq7JXo94HQfHx4W0SoGf4dlh
+ TKHSXDfp72Qmg==
+Date: Thu, 2 Feb 2023 17:25:38 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
+Subject: Re: [PATCH v10 0/3] hw/riscv: handle kernel_entry high bits with
+ 32bit CPUs
+Message-ID: <Y9vyEp8ghrbqssJO@spud>
+References: <20230202135810.1657792-1-dbarboza@ventanamicro.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::333;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x333.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature"; boundary="3zvu0ipAdxYHGifO"
+Content-Disposition: inline
+In-Reply-To: <20230202135810.1657792-1-dbarboza@ventanamicro.com>
+Received-SPF: pass client-ip=139.178.84.217; envelope-from=conor@kernel.org;
+ helo=dfw.source.kernel.org
+X-Spam_score_int: -70
+X-Spam_score: -7.1
+X-Spam_bar: -------
+X-Spam_report: (-7.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_HI=-5, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -98,43 +71,74 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+--3zvu0ipAdxYHGifO
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> On Wed, 1 Feb 2023 at 18:07, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
->> Peter Maydell <peter.maydell@linaro.org> writes:
->> > I think this is "you can't put labels in qemu-options.hx,
->> > because it gets included in two .rst files (invocation.rst
->> > and qemu-manpage.rst), and Sphinx complains about the
->> > duplicate labels, even though one of the two files is
->> > only used in the HTML and one is only used in the manpages".
->>
->> Oh boo - anyway to work around that because they are helpful links?
->
-> Nothing easy. The problem is that Sphinx looks at every .rst
-> file in the source directory, regardless of whether it's
-> reachable from the document you specify as the root of the
-> manual or not. So both lots of .rst files get processed
-> for both the HTML manual set and the manpages, even though
-> they don't need to be[*]. This is a long-standing design
-> deficiency in Sphinx. The only thing I could think of was
-> splitting the manpages and html docs entirely into separate
-> subdirectories, and having meson symlink the files which are
-> actually shared between them. But that seems like quite a lot
-> of extra machinery.
+On Thu, Feb 02, 2023 at 10:58:07AM -0300, Daniel Henrique Barboza wrote:
+> Hi,
+>=20
+> This new version removed the translate_fn() from patch 1 because it
+> wasn't removing the sign-extension for pentry as we thought it would.
+> A more detailed explanation is given in the commit msg of patch 1.
+>=20
+> We're now retrieving the 'lowaddr' value from load_elf_ram_sym() and
+> using it when we're running a 32-bit CPU. This worked with 32 bit
+> 'virt' machine booting with the -kernel option.
+>=20
+> If this approach doesn't work for the Xvisor use case, IMO  we should
+> just filter kernel_load_addr bits directly as we were doing a handful of
+> versions ago.
+>=20
+> Patches are based on current riscv-to-apply.next.=20
+>=20
+> Changes from v9:
+> - patch 1:
+>   - removed the translate_fn() callback
+>   - return 'kernel_low' when running a 32-bit CPU
+> - v9 link: https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg04509=
+=2Ehtml
 
-OK I've scrubbed the back links and sent v2 (which also reduces the
-buildtime of cross-win64-system which kept tripping).
+I think my T-b got lost last time around, but I gave this version a
+whirl too & things are working for me as they were before on Icicle.
+For the series:
+Tested-by: Conor Dooley <conor.dooley@microchip.com>
 
->
-> [*] This shows up for instance in the HTML docs getting a
-> not-linked-to-from-anywhere HTML version of the qemu(1) manpage:
-> https://www.qemu.org/docs/master/system/qemu-manpage.html
->
-> -- PMM
+Thanks,
+Conor.
 
+>=20
+> Daniel Henrique Barboza (3):
+>   hw/riscv: handle 32 bit CPUs kernel_addr in riscv_load_kernel()
+>   hw/riscv/boot.c: consolidate all kernel init in riscv_load_kernel()
+>   hw/riscv/boot.c: make riscv_load_initrd() static
+>=20
+>  hw/riscv/boot.c            | 96 +++++++++++++++++++++++---------------
+>  hw/riscv/microchip_pfsoc.c | 12 +----
+>  hw/riscv/opentitan.c       |  4 +-
+>  hw/riscv/sifive_e.c        |  4 +-
+>  hw/riscv/sifive_u.c        | 12 +----
+>  hw/riscv/spike.c           | 14 ++----
+>  hw/riscv/virt.c            | 12 +----
+>  include/hw/riscv/boot.h    |  3 +-
+>  8 files changed, 76 insertions(+), 81 deletions(-)
+>=20
+> --=20
+> 2.39.1
+>=20
+>=20
 
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
+--3zvu0ipAdxYHGifO
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCY9vyDgAKCRB4tDGHoIJi
+0nonAP4m3U9ASVSJsW8dWMKhJ5SH+QqyiBQI+fcrZBNwQ3CzRwEAm/f5wca1FSkC
+oShRfY022F6soY9oun+Q6yLEmmu5Iw0=
+=yao7
+-----END PGP SIGNATURE-----
+
+--3zvu0ipAdxYHGifO--
 
