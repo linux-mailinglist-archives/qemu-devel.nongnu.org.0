@@ -2,82 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B69E687CA1
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 12:47:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4756B687CA8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 12:49:18 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNY3B-0004bv-Jl; Thu, 02 Feb 2023 06:46:45 -0500
+	id 1pNY4u-0005yd-II; Thu, 02 Feb 2023 06:48:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNY39-0004a6-Jb
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:46:43 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pNY4n-0005xO-RF
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:48:25 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNY37-0008K3-Nm
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:46:43 -0500
+ id 1pNY4m-00036L-6M
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 06:48:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675338400;
+ s=mimecast20190719; t=1675338503;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=WwKUhTGrGILSgcKwKKDy+4F67EL0K19+Vi0vEgubBlQ=;
- b=QMG6hVqWlhvkMu2nKviSoWFyklfGIeKEaHZdU8n42Jks0N/j2bhyJWwi7t8q9h1UEN6uoX
- Eedyt0gSRUGnZRuW5xh4i2ssJJQ3HxBQqzp+OJgVU5Y0j4L3UXvDNUnOtTLsEYwCPb+xSz
- 6diiHpylGItb935Z3Aou7VDlZycCH7Q=
+ bh=V6qrMs4VE0Q4hPbHSu73AJON+bFtZq2CvMLE880dcIE=;
+ b=Pri6M3T2/26GvY2PolDapuNbGEW/1fLEk92bNog86Vmi6pLHvVAvH3BItjdghTzYFQiakK
+ 0GKsUScWYeD75LBkbzl5bHojqr2jV7NCOQL3/DAkbfxlpg8JFqWfDIBhjfH3Lgzaf4ClYo
+ RLJRDLciFVbT1fyNfX7AJcQtRpxemzo=
 Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
  [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-569-rns9HRmYN1er32Fe2xrtIA-1; Thu, 02 Feb 2023 06:46:39 -0500
-X-MC-Unique: rns9HRmYN1er32Fe2xrtIA-1
+ us-mta-670-X0CyXgJWOkWXTIMlQUJeCg-1; Thu, 02 Feb 2023 06:48:21 -0500
+X-MC-Unique: X0CyXgJWOkWXTIMlQUJeCg-1
 Received: by mail-wm1-f69.google.com with SMTP id
- o8-20020a05600c510800b003dfdf09ffc2so465517wms.5
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 03:46:39 -0800 (PST)
+ o5-20020a05600c4fc500b003db0b3230efso2687112wmq.9
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 03:48:21 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=WwKUhTGrGILSgcKwKKDy+4F67EL0K19+Vi0vEgubBlQ=;
- b=n45aTqgUm2VHsEtU3r5ZI17/NjxF/q+gTFxq/gM709ZLK01/040m/4RayjttZgFf3b
- vlMi5pQSVuFLtAl4ihiTfJO9VElvEM9U5Z46tXqvXI4m5zyrGLk8kjNYCKpVYS5vdDiG
- tOj1d5DpvX4E7bASWAiEW86MvvlKsy6zB6FZqozhQG8Y6HtUAnJGQ5C7S+H3W+DhZnL2
- wZ2hWnNsI+MopK4b3wWBr4TCNnW8hIlpXQrn5nv8hQM2eX6AXVeZjbww7j2Qcw/1VMiG
- HhYMrxTN1FDCGBX1+b2sX16T1GkkghbEcikFK+7EBgdFKfu+cgoieo0hUMB6zYLmbjCc
- K8hw==
-X-Gm-Message-State: AO0yUKVu0jqwxITYMo1jRWyW4+J3zlxpPVyWhtof5P8bj1f2JupPbAQ8
- Y237JuKvz1nO/Zb+d116jI+Z0dxv/ZvbcTpBFBpDzWdBCTpPKeb0e8H8KzNFYDkrwvB/FjHOr+4
- A2abcXPa9/8J9LgQ=
-X-Received: by 2002:a1c:7c19:0:b0:3df:d817:df98 with SMTP id
- x25-20020a1c7c19000000b003dfd817df98mr2080854wmc.10.1675338398215; 
- Thu, 02 Feb 2023 03:46:38 -0800 (PST)
-X-Google-Smtp-Source: AK7set8Ef2HfNbkvTmmjdtcjWJKhClvkijzho5NhxjeANesWhS90wsvKpXslVIVmCI0OOmu8qUQkAQ==
-X-Received: by 2002:a1c:7c19:0:b0:3df:d817:df98 with SMTP id
- x25-20020a1c7c19000000b003dfd817df98mr2080838wmc.10.1675338397997; 
- Thu, 02 Feb 2023 03:46:37 -0800 (PST)
+ bh=V6qrMs4VE0Q4hPbHSu73AJON+bFtZq2CvMLE880dcIE=;
+ b=HsgO+om506Nk1YSvMb9R73NiKmTIyRwsCJsWanIicQbN49fyGjcnQTDrn+5C3IxYBn
+ +oxDg5/dKHkCySEhP/hzena/e6S0hd5yK14194k9OMkOT4haR1flLyA0BzRSeV2uHm1g
+ JfoeomklPC7PnKkABAI76FgfW+IMJMeJsPSeIsmC/Imwnyr1wytUT/17MS80dnFiV7Hu
+ alSdD66DguyhMAf3ef8h+YC8l+BiDWlJ7zLuViWPIMTfDOxYus1ZcFU1ZyQRGd4c03yb
+ J0RR+DC+VBTrf77pXpA6g/6MixuPPcfD/lVp5PUKCZUBs1oglYi6IbKoVe9ADd+0UduW
+ 4Gqg==
+X-Gm-Message-State: AO0yUKU+ryVKBWq95DchHue/dTTY2RZysjo43SCboOcSWWE4qVWR0eX6
+ msc0el/TiFpWK1Av3z7aqVBhxm7cPuC6qERUi9ddxIJfOIgO9KVmh1H4T0IjjbrSSrw2BqgbS6q
+ s6a40Yz7oiK2q1lU=
+X-Received: by 2002:a05:600c:1d99:b0:3dc:d5c:76d9 with SMTP id
+ p25-20020a05600c1d9900b003dc0d5c76d9mr5739147wms.0.1675338499865; 
+ Thu, 02 Feb 2023 03:48:19 -0800 (PST)
+X-Google-Smtp-Source: AK7set/hWB7itLB0nj3HigEHALI2P+vKavsFZ0C+WbkAWV8YkohRSrtDMerZSag1zWCO9Y5RxG+93A==
+X-Received: by 2002:a05:600c:1d99:b0:3dc:d5c:76d9 with SMTP id
+ p25-20020a05600c1d9900b003dc0d5c76d9mr5739138wms.0.1675338499705; 
+ Thu, 02 Feb 2023 03:48:19 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- g2-20020a5d4882000000b002bdf3809f59sm19213234wrq.38.2023.02.02.03.46.36
+ y10-20020a05600c364a00b003daf7721bb3sm4392249wmq.12.2023.02.02.03.48.18
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Feb 2023 03:46:37 -0800 (PST)
+ Thu, 02 Feb 2023 03:48:18 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: David Hildenbrand <david@redhat.com>
 Cc: qemu-devel@nongnu.org,  "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
  Peter Xu <peterx@redhat.com>,  "Michael S . Tsirkin" <mst@redhat.com>,
  Michal Privoznik <mprivozn@redhat.com>
-Subject: Re: [PATCH v5 1/8] migration/savevm: Move more savevm handling into
- vmstate_save()
-In-Reply-To: <20230117112249.244096-2-david@redhat.com> (David Hildenbrand's
- message of "Tue, 17 Jan 2023 12:22:42 +0100")
+Subject: Re: [PATCH v5 2/8] migration/savevm: Prepare vmdesc json writer in
+ qemu_savevm_state_setup()
+In-Reply-To: <20230117112249.244096-3-david@redhat.com> (David Hildenbrand's
+ message of "Tue, 17 Jan 2023 12:22:43 +0100")
 References: <20230117112249.244096-1-david@redhat.com>
- <20230117112249.244096-2-david@redhat.com>
+ <20230117112249.244096-3-david@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 02 Feb 2023 12:46:36 +0100
-Message-ID: <87a61wp9wj.fsf@secure.mitica>
+Date: Thu, 02 Feb 2023 12:48:18 +0100
+Message-ID: <875yckp9tp.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -103,17 +103,10 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 David Hildenbrand <david@redhat.com> wrote:
-> Let's move more code into vmstate_save(), reducing code duplication and
-> preparing for reuse of vmstate_save() in qemu_savevm_state_setup(). We
-> have to move vmstate_save() to make the compiler happy.
+> ... and store it in the migration state. This is a preparation for
+> storing selected vmds's already in qemu_savevm_state_setup().
 >
-> We'll now also trace from qemu_save_device_state(), triggering the same
-> tracepoints as previously called from
-> qemu_savevm_state_complete_precopy_non_iterable() only. Note that
-> qemu_save_device_state() ignores iterable device state, such as RAM,
-> and consequently doesn't trigger some other trace points (e.g.,
-> trace_savevm_state_setup()).
->
+> Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 > Signed-off-by: David Hildenbrand <david@redhat.com>
 
 Reviewed-by: Juan Quintela <quintela@redhat.com>
