@@ -2,88 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5499C687CDD
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 13:07:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DB40687CF6
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 13:11:56 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNYMf-0006tE-0s; Thu, 02 Feb 2023 07:06:53 -0500
+	id 1pNYPD-00015B-RY; Thu, 02 Feb 2023 07:09:31 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNYLS-0005uH-Bj
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:05:48 -0500
-Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNYLP-0006jw-4w
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:05:37 -0500
-Received: by mail-ot1-x331.google.com with SMTP id
- 14-20020a9d010e000000b0068bdddfa263so402111otu.2
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 04:05:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=qjwgNSv7qB0ZYqU1kQjb6mrC/HbvbtVtPu3pyV0E3+E=;
- b=m91WHQsB/rDWFmJEqRm20Q38oMLTCjtbS4tiQqyEQaLQ2XpKVkdgdjFJSN0OlcZu+4
- JAVEMnBOTqRyfwibLACPgtcNADsRJd5HFbkZji/uA7Jen2+crGwt9Dm+b9TFSJh9H6VG
- 6DnVHXCg35ILwDL3NLPfeKPJdrJAL3qh3pBzDeGKVdc3ksjdf2Ec9QdB3bp+9ilAT46L
- DXC8+ZfB6OIMhBFMFe8YsJwR5LfGKBiYA6FFmC79Tpcp+kz/+KuXG6PXsHNwvaCGKynI
- vc4Z3sraJOzpYYbOKvIfECGy5prvhlKd0r7FiMJDnhvG/7Wvq9dYSwfyLywJrl70YcbW
- 5Osg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=qjwgNSv7qB0ZYqU1kQjb6mrC/HbvbtVtPu3pyV0E3+E=;
- b=4ax+EXCl+LH3ycHFZcwuYJzyOaLHJ2iDoUiuZjnLycMxNrV6jsvL6fvBQ6qIunWCf1
- JXF/P5meacvHDoOZWbBwGTmfGQXHcgS3AEI74LNB7+jgay+obkHSQsnt9tzNScx6CgkW
- vpWFjXxAwo2iK1KDCsJCd4U9ll0GT7B/24j/oJ/DJloPn7jSyGZPv+GETOUpvUR+7Ryh
- 03FAVVtOxORzvDKmcJQ+HOIVSlHOlajcZnrzzfn/UrSYjLEYA4kKXpoLjANHLprsPVtg
- 0uru9pJViyAiG2wp4hSsaWijhWLT3SH1NxlGI38GQ4k5+aF2HW55OlPPOr4cRsvhp9ts
- qEOA==
-X-Gm-Message-State: AO0yUKWgvlVEWzbskMTnrXZ2MGfNaczcDRQUG36ULi3i5Pn4yLaR6Rvl
- tVboPVXIMzF/RnAkERJy3Yupvg==
-X-Google-Smtp-Source: AK7set9Ih3XEFg+q9b/7J83KlWcsDdNlSi0ftZoP8dZs2m772kaLQ3sJSm+Tvxbqn0jQh50Rmq6A7w==
-X-Received: by 2002:a05:6830:14cc:b0:68b:d583:dd with SMTP id
- t12-20020a05683014cc00b0068bd58300ddmr3373708otq.30.1675339533801; 
- Thu, 02 Feb 2023 04:05:33 -0800 (PST)
-Received: from [192.168.68.107] ([177.102.69.207])
- by smtp.gmail.com with ESMTPSA id
- s10-20020a9d58ca000000b006865223e532sm2951359oth.51.2023.02.02.04.05.31
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Feb 2023 04:05:33 -0800 (PST)
-Message-ID: <43db0a17-b347-7eac-89b1-522ec07059ea@ventanamicro.com>
-Date: Thu, 2 Feb 2023 09:05:29 -0300
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pNYOQ-0000Hb-Dp; Thu, 02 Feb 2023 07:08:49 -0500
+Received: from proxmox-new.maurer-it.com ([94.136.29.106])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <f.ebner@proxmox.com>)
+ id 1pNYOO-0007IF-AJ; Thu, 02 Feb 2023 07:08:42 -0500
+Received: from proxmox-new.maurer-it.com (localhost.localdomain [127.0.0.1])
+ by proxmox-new.maurer-it.com (Proxmox) with ESMTP id 40F33416A1;
+ Thu,  2 Feb 2023 13:08:32 +0100 (CET)
+Message-ID: <ad7e1294-f19f-5bea-e891-f6adbe323cd5@proxmox.com>
+Date: Thu, 2 Feb 2023 13:08:31 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.6.0
-Subject: Re: [PATCH 2/2] tests/avocado: Allow passing command line parameters
- via Makefile
 Content-Language: en-US
-To: Fabiano Rosas <farosas@suse.de>, qemu-devel@nongnu.org
-Cc: Cleber Rosa <crosa@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- Thomas Huth <thuth@redhat.com>
-References: <20230120221500.4194-1-farosas@suse.de>
- <20230120221500.4194-3-farosas@suse.de>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <20230120221500.4194-3-farosas@suse.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Fiona Ebner <f.ebner@proxmox.com>
+Subject: Lost partition tables on ide-hd + ahci drive
+To: QEMU Developers <qemu-devel@nongnu.org>
+Cc: "open list:Network Block Dev..." <qemu-block@nongnu.org>,
+ Thomas Lamprecht <t.lamprecht@proxmox.com>, jsnow@redhat.com
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::331;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x331.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+Received-SPF: pass client-ip=94.136.29.106; envelope-from=f.ebner@proxmox.com;
+ helo=proxmox-new.maurer-it.com
+X-Spam_score_int: -18
+X-Spam_score: -1.9
+X-Spam_bar: -
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -100,51 +54,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+Hi,
+over the years we've got 1-2 dozen reports[0] about suddenly
+missing/corrupted MBR/partition tables. The issue seems to be very rare
+and there was no success in trying to reproduce it yet. I'm asking here
+in the hope that somebody has seen something similar.
 
+The only commonality seems to be the use of an ide-hd drive with ahci bus.
 
-On 1/20/23 19:15, Fabiano Rosas wrote:
-> Add support for the 'avocado run' "-p" option, which allows us to pass
-> parameters in the form key=value to be applied to all tests selected
-> for a given run. This is useful to force generic tests to use a
-> specific machine, cpu or qemu-binary where otherwise the defaults
-> would be used.
-> 
-> E.g.:
->   $ make check-avocado AVOCADO_PARAMS="machine=virt arch=riscv64"
-> 
->   <runs all tests replacing machine and arch in those that do not have
->    these parameters already set via tags>
-> 
-> Signed-off-by: Fabiano Rosas <farosas@suse.de>
-> ---
+It does seem to happen with both Linux and Windows guests (one of the
+reports even mentions FreeBSD) and backing storages for the VMs include
+ZFS, RBD, LVM-Thin as well as file-based storages.
 
-Reviewed-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+Relevant part of an example configuration:
 
->   tests/Makefile.include | 6 +++++-
->   1 file changed, 5 insertions(+), 1 deletion(-)
-> 
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index 9422ddaece..f92e730aa0 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -107,6 +107,10 @@ else
->   	AVOCADO_CMDLINE_TAGS=$(addprefix -t , $(AVOCADO_TAGS))
->   endif
->   
-> +ifdef AVOCADO_PARAMS
-> +	AVOCADO_CMDLINE_PARAMS=$(addprefix -p , $(AVOCADO_PARAMS))
-> +endif
-> +
->   quiet-venv-pip = $(quiet-@)$(call quiet-command-run, \
->       $(TESTS_PYTHON) -m pip -q --disable-pip-version-check $1, \
->       "VENVPIP","$1")
-> @@ -144,7 +148,7 @@ check-avocado: check-venv $(TESTS_RESULTS_DIR) get-vm-images
->               --show=$(AVOCADO_SHOW) run --job-results-dir=$(TESTS_RESULTS_DIR) \
->               $(if $(AVOCADO_TAGS),, --filter-by-tags-include-empty \
->   			--filter-by-tags-include-empty-key) \
-> -            $(AVOCADO_CMDLINE_TAGS) \
-> +            $(AVOCADO_CMDLINE_TAGS) $(AVOCADO_CMDLINE_PARAMS) \
->               $(if $(GITLAB_CI),,--failfast) $(AVOCADO_TESTS), \
->               "AVOCADO", "tests/avocado")
->   
+>   -device 'ahci,id=ahci0,multifunction=on,bus=pci.0,addr=0x7' \
+>   -drive 'file=/dev/zvol/myzpool/vm-168-disk-0,if=none,id=drive-sata0,format=raw,cache=none,aio=io_uring,detect-zeroes=on' \
+>   -device 'ide-hd,bus=ahci0.0,drive=drive-sata0,id=sata0' \
+
+The first reports are from before io_uring was used and there are also
+reports with writeback cache mode and discard=on,detect-zeroes=unmap.
+
+Some reports say that the issue occurred under high IO load.
+
+Many reports suspect backups causing the issue. Our backup mechanism
+uses backup_job_create() for each drive and runs the jobs sequentially.
+It uses a custom block driver as the backup target which just forwards
+the writes to the actual target which can be a file or our backup server.
+(If you really want to see the details, apply the patches in [1] and see
+pve-backup.c and block/backup-dump.c).
+
+Of course, the backup job will read sector 0 of the source disk, but I
+really can't see where a stray write would happen, why the issue would
+trigger so rarely or why seemingly only ide-hd+ahci would be affected.
+
+So again, just asking if somebody has seen something similar or has a
+hunch of what the cause might be.
+
+[0]: https://bugzilla.proxmox.com/show_bug.cgi?id=2874
+[1]: https://git.proxmox.com/?p=pve-qemu.git;a=tree;f=debian/patches;hb=HEAD
+
 
