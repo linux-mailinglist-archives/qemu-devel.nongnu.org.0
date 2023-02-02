@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4D5D687FDE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 15:23:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE919687FEC
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 15:24:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNaUP-0001U7-Kj; Thu, 02 Feb 2023 09:23:01 -0500
+	id 1pNaVF-0002mK-RE; Thu, 02 Feb 2023 09:23:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1pNaUI-0001T1-B8
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 09:22:54 -0500
-Received: from mail-ej1-x629.google.com ([2a00:1450:4864:20::629])
+ id 1pNaVD-0002lh-Q9
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 09:23:51 -0500
+Received: from mail-ej1-x630.google.com ([2a00:1450:4864:20::630])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
- id 1pNaUG-0002N6-HU
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 09:22:54 -0500
-Received: by mail-ej1-x629.google.com with SMTP id ud5so6416476ejc.4
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 06:22:52 -0800 (PST)
+ id 1pNaVB-0002Si-UL
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 09:23:51 -0500
+Received: by mail-ej1-x630.google.com with SMTP id k4so6476139eje.1
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 06:23:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=GMHBIIDL+Gs5g5qmJb2qZUmw9eyGCtQHrGm48e3o9xY=;
- b=JW/RVPmTKJyBS1XqlsRBPfFRVgpOX6p6bhKp+6xb+BzxAfUngxj2qjuYmrZvoJjQuI
- MeGbR5kPc/I6YwRI1e6QSLpua91pwRrY0VyI7HkidR+0f/e9YbuOb9KKpMKKzVuExxEY
- 7B6ovizcoJtQBUqMBtRITot78H6iNPFM51um9nKYXMYkZXVzQtHYmyZoKKiX6tf7O/fg
- iBmDnkr83mSEbRCbr9uC4CUwX5T6ZE2YwokXMbLTsE3i/jJZuyL6QLvWmAY+Oy6Q7aCu
- 5P7GeFz4umk/uuwlJyTYGDAIjy6Qgbbgm1V78cWeztKHWTd/7EcterMv0RhIxhPGn5XD
- naDw==
+ bh=95bby94AAssQhd1vnsOSOZ0gdUvKeiRIAMcf3sYDskU=;
+ b=KTIKsqb/sccIYhJ4mdiTX7dXmI8ExTM9r0EGIVH5VkDv0T6h6tQzLymZfxO1sdNwLg
+ tK/y2pZFaC1zmqtfnd9Bu2sQcNZ0zBht28vQ8xqYRdN+S6TtbDQPTK1NOJvePyxXiFrl
+ zgsrdhTlGqatys8Ya/B5o+m1kzfoO8o8MmZUYeq1IgcwNDCh02Q+o16mySppqJjGxtJu
+ frvE17NvareH9RXOweGt5aYNuH8tkzJsnclgtSLGT8zmJV3bS6NvytsRkK5EJheAV6jp
+ wTGXqKsrIplo95KWB75wq29Kmur5XndAYUDTioZoC9VPf19zGUEKbc2n8RLc2fekC8kg
+ 3qOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=cc:to:subject:message-id:date:from:in-reply-to:references
  :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=GMHBIIDL+Gs5g5qmJb2qZUmw9eyGCtQHrGm48e3o9xY=;
- b=ut1fz7rZoflI5xUgxa0Eo96B4bv5UAl4Wv+lrGENXj5uAFSKWbdt01R51o5GP1qene
- H70zo+7C3GAvJ9F7QLCigJvj57X3eZLUJNueFQFdPp+Msz/RkvEx5Xe82f3a1J9jONFc
- 4PYf13DzjITOPWMt/CgorAYYI+x1r15Yd+wAsL3nbItQm40EKE959sQjCfrGTY4+s/XM
- Lz6tMRpgzbDWZOCr+bb44PM4wy4g+4m25J+GqNUs2muZNjmFxvn3717iEi2qYXVsxYJ/
- r63B3B4djpW19awusG+ToS0FXCSFaGys+mskXp0tQfDweae5QMTo3UXQBIMHeajObGXA
- 8lAw==
-X-Gm-Message-State: AO0yUKWE7Ztf81Fw9F4rOWGFxpL4EM7T0YrlxUj33k5fZ3kmcIM685yu
- TB7u9Zfl1HPPyNssQMUsgEtefpVnbZLKh694vwfrLQ==
-X-Google-Smtp-Source: AK7set8XWWJz0QoVSo7kS5uMirIKtCFwdi0jfNCM84qu503GS/hC1UGfXcKeilaEm5xDqqBq7Dn+6HwqRC8emOKlBj0=
-X-Received: by 2002:a17:906:2bdb:b0:878:6f08:39ec with SMTP id
- n27-20020a1709062bdb00b008786f0839ecmr2028727ejg.233.1675347770951; Thu, 02
- Feb 2023 06:22:50 -0800 (PST)
+ bh=95bby94AAssQhd1vnsOSOZ0gdUvKeiRIAMcf3sYDskU=;
+ b=EilgtkTR8RwucCDh3dXwvUVHmfDnMf/G5tlfXCYHRtK2hq02cQqEbS0WJEsnm1tUGj
+ 8umUCtxMnMUsIgl/UZn8++GzfrEk/0vmY9d8jyk1v7DTRl6k8+LygFYA8T5Pu/a3WYVs
+ jup3fF6118xmLBHaWpqu/ZYkMI9rzayw4d/DGBqRnJ//fXRdYHPafAUbcJXQN165ntRo
+ /weq2ZH6jgdMHT+oaXzCrufP11DD9Ek5ukVCxUhfKaafaJr4yXzY0ZYUXwgd96BkAxzk
+ e6pAhhFqzKX3nzi2+aO5q0f/mUnNpG+Rt16Z5g/n8RMNZTcrTGa90JHwvLtEsuTeUbd2
+ NECg==
+X-Gm-Message-State: AO0yUKUf3KbmWcwAOzAnOUIne4D3F6BYVYKXr/YM2EdP4S4mRrGKgnMC
+ KTRUn4USzkDwfNBrwXee7K+E+2BdtZf1TnvVqww16w==
+X-Google-Smtp-Source: AK7set9zmsyEs8oLKZd8/A5vYqXgeS+QNlSzxBTdvsg2bhw3K+qlqYFHlCB9eejYCUiQaFrRvY9yE6LTJb+OBpuEk4s=
+X-Received: by 2002:a17:906:b001:b0:878:4cc7:ed23 with SMTP id
+ v1-20020a170906b00100b008784cc7ed23mr2089501ejy.14.1675347828096; Thu, 02 Feb
+ 2023 06:23:48 -0800 (PST)
 MIME-Version: 1.0
 References: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
- <20230202124230.295997-9-lawrence.hunter@codethink.co.uk>
-In-Reply-To: <20230202124230.295997-9-lawrence.hunter@codethink.co.uk>
+ <20230202124230.295997-11-lawrence.hunter@codethink.co.uk>
+In-Reply-To: <20230202124230.295997-11-lawrence.hunter@codethink.co.uk>
 From: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Date: Thu, 2 Feb 2023 15:22:39 +0100
-Message-ID: <CAAeLtUCZ2ECiVJnS=sxQd69Kq-2UxRELQB+pQAjXxNLSWPiLxQ@mail.gmail.com>
-Subject: Re: [PATCH 08/39] target/riscv: Add vrev8.v decoding, translation and
- execution support
+Date: Thu, 2 Feb 2023 15:23:37 +0100
+Message-ID: <CAAeLtUC3OrdKY8FptTq5Wc32EeHwZjAdrVqaM948fwPaSCMjEA@mail.gmail.com>
+Subject: Re: [PATCH 10/39] target/riscv: expose zvkb cpu property
 To: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
 Cc: qemu-devel@nongnu.org, dickon.hood@codethink.co.uk, 
  nazar.kazakov@codethink.co.uk, kiran.ostrolenk@codethink.co.uk, 
  frank.chang@sifive.com, palmer@dabbelt.com, alistair.francis@wdc.com, 
  bin.meng@windriver.com, pbonzini@redhat.com, kvm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2a00:1450:4864:20::629;
- envelope-from=philipp.tomsich@vrull.eu; helo=mail-ej1-x629.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::630;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-ej1-x630.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,67 +92,28 @@ On Thu, 2 Feb 2023 at 13:42, Lawrence Hunter
 > From: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
 >
 > Signed-off-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
+
+You might want to squash this onto the patch that first introduces the property.
+
+Reviewed-by: Philipp Tomsich <philipp.tomsich@vrull.eu>
+
 > ---
->  target/riscv/helper.h                      |  4 ++++
->  target/riscv/insn32.decode                 |  1 +
->  target/riscv/insn_trans/trans_rvzvkb.c.inc |  1 +
->  target/riscv/vcrypto_helper.c              | 10 ++++++++++
->  4 files changed, 16 insertions(+)
+>  target/riscv/cpu.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/target/riscv/helper.h b/target/riscv/helper.h
-> index c94627d8a4..c980d52828 100644
-> --- a/target/riscv/helper.h
-> +++ b/target/riscv/helper.h
-> @@ -1163,6 +1163,10 @@ DEF_HELPER_6(vrol_vx_h, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vrol_vx_w, void, ptr, ptr, tl, ptr, env, i32)
->  DEF_HELPER_6(vrol_vx_d, void, ptr, ptr, tl, ptr, env, i32)
+> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+> index bd34119c75..35790befc0 100644
+> --- a/target/riscv/cpu.c
+> +++ b/target/riscv/cpu.c
+> @@ -1082,6 +1082,8 @@ static Property riscv_cpu_extensions[] = {
 >
-> +DEF_HELPER_5(vrev8_v_b, void, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_5(vrev8_v_h, void, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_5(vrev8_v_w, void, ptr, ptr, ptr, env, i32)
-> +DEF_HELPER_5(vrev8_v_d, void, ptr, ptr, ptr, env, i32)
->  DEF_HELPER_5(vbrev8_v_b, void, ptr, ptr, ptr, env, i32)
->  DEF_HELPER_5(vbrev8_v_h, void, ptr, ptr, ptr, env, i32)
->  DEF_HELPER_5(vbrev8_v_w, void, ptr, ptr, ptr, env, i32)
-> diff --git a/target/riscv/insn32.decode b/target/riscv/insn32.decode
-> index 782632a165..342199abc0 100644
-> --- a/target/riscv/insn32.decode
-> +++ b/target/riscv/insn32.decode
-> @@ -903,3 +903,4 @@ vror_vx         010100 . ..... ..... 100 ..... 1010111 @r_vm
->  vror_vi         010100 . ..... ..... 011 ..... 1010111 @r_vm
->  vror_vi2        010101 . ..... ..... 011 ..... 1010111 @r_vm
->  vbrev8_v        010010 . ..... 01000 010 ..... 1010111 @r2_vm
-> +vrev8_v         010010 . ..... 01001 010 ..... 1010111 @r2_vm
-> diff --git a/target/riscv/insn_trans/trans_rvzvkb.c.inc b/target/riscv/insn_trans/trans_rvzvkb.c.inc
-> index 591980459a..18b362db92 100644
-> --- a/target/riscv/insn_trans/trans_rvzvkb.c.inc
-> +++ b/target/riscv/insn_trans/trans_rvzvkb.c.inc
-> @@ -154,3 +154,4 @@ static bool vxrev8_check(DisasContext *s, arg_rmr *a)
->  }
+>      DEFINE_PROP_BOOL("zmmul", RISCVCPU, cfg.ext_zmmul, false),
 >
->  GEN_OPIV_TRANS(vbrev8_v, vxrev8_check)
-> +GEN_OPIV_TRANS(vrev8_v, vxrev8_check)
-> diff --git a/target/riscv/vcrypto_helper.c b/target/riscv/vcrypto_helper.c
-> index 303a656141..b09fe5fa2a 100644
-> --- a/target/riscv/vcrypto_helper.c
-> +++ b/target/riscv/vcrypto_helper.c
-> @@ -125,3 +125,13 @@ GEN_VEXT_V(vbrev8_v_b, 1)
->  GEN_VEXT_V(vbrev8_v_h, 2)
->  GEN_VEXT_V(vbrev8_v_w, 4)
->  GEN_VEXT_V(vbrev8_v_d, 8)
+> +    DEFINE_PROP_BOOL("zvkb", RISCVCPU, cfg.ext_zvkb, false),
 > +
-> +#define DO_VREV8_B(a) (a)
-> +RVVCALL(OPIVV1, vrev8_v_b, OP_UU_B, H1, H1, DO_VREV8_B)
-
-Let's call it what it is: "DO_COPY" or "DO_IDENTITY" ...
-
-> +RVVCALL(OPIVV1, vrev8_v_h, OP_UU_H, H2, H2, bswap16)
-> +RVVCALL(OPIVV1, vrev8_v_w, OP_UU_W, H4, H4, bswap32)
-> +RVVCALL(OPIVV1, vrev8_v_d, OP_UU_D, H8, H8, bswap64)
-> +GEN_VEXT_V(vrev8_v_b, 1)
-> +GEN_VEXT_V(vrev8_v_h, 2)
-> +GEN_VEXT_V(vrev8_v_w, 4)
-> +GEN_VEXT_V(vrev8_v_d, 8)
+>      /* Vendor-specific custom extensions */
+>      DEFINE_PROP_BOOL("xventanacondops", RISCVCPU, cfg.ext_XVentanaCondOps, false),
+>
 > --
 > 2.39.1
 >
