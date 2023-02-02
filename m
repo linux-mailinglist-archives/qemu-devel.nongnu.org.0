@@ -2,84 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4D05688A99
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 00:16:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8EC9688AD1
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 00:31:57 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNin9-0005Dy-1M; Thu, 02 Feb 2023 18:14:55 -0500
+	id 1pNj2M-0000jf-6n; Thu, 02 Feb 2023 18:30:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNin7-0005Dg-96
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 18:14:53 -0500
-Received: from mail-pj1-x1029.google.com ([2607:f8b0:4864:20::1029])
+ id 1pNj2I-0000jL-93
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 18:30:34 -0500
+Received: from mail-pj1-x102a.google.com ([2607:f8b0:4864:20::102a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNin5-0004Z7-QT
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 18:14:53 -0500
-Received: by mail-pj1-x1029.google.com with SMTP id bx22so432355pjb.3
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 15:14:50 -0800 (PST)
+ id 1pNj2G-0000p3-NY
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 18:30:34 -0500
+Received: by mail-pj1-x102a.google.com with SMTP id
+ e10-20020a17090a630a00b0022bedd66e6dso7187089pjj.1
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 15:30:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=UlyNtlsB3bfCYWQrrJ1ahrkRa01+uMJWOU2Vv4bur3M=;
- b=bVwJ4pHN4XLoTFOSg5WKTRuqT88p00HeMkkM6To5SxeI2T2yf5pVgtJqLkaECXz/Sd
- 2W75R84iMYti7jxEdLjBI6OxNxYbH2g6W53IR5RiRSpKEn26/W5C3017a3vjkOKK643a
- BewL+sfct74b4nMkY6T+ZykSambpB8lKZrYxTWM8oECnDTVLF7ZKF6/Jmr+zufqkfU18
- x4y06o3ls/uvduelyf4QdKpcc9DS2ek8zkCeJaMnwoUbHvYlyAjd1DsDgNehTygiFGf1
- hCj6DhCXt0+0QI1bfq7a1IJGaicqJA4nDyTibATH1XKMMXUM1qmYrA4aB5F15rKswfN+
- wt5w==
+ bh=ZUQ9gh60Lu4bebqaat17mGsKDdGn/Zj/wbiXCisdK8U=;
+ b=izEg0P8sF1SjFRi9wCwT7SxYSerAdbu4SZhpcWefKMv50YPS84oYtIlJKx3KMdgQWv
+ l4UYwZL4hP+cjK9d14WOcFfzVF4SE6ovPwFM6PIvnNLsBJoyXitrWNdpDhPvT1pBYQst
+ LdHzybZjkwIbnLHwyVRLB0YLCRKOu+1vHdCqSpcawBUl6mf+Oagq9R0iZNCwxCSPtWOW
+ jmuUNcF5RT0CSeT3gLD7k/5LuTlpHabtCFfVWNSv/OcLraF710MNGY0twyg20w48cc19
+ +T3GI31MD2bxh1KiHsgiQdNJKxXaelJ1mQGge1MfT+E3mIVXzqunQiF9/brIRFwzilmu
+ 5gNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=UlyNtlsB3bfCYWQrrJ1ahrkRa01+uMJWOU2Vv4bur3M=;
- b=OahwM/iR/vZgj+XZJACfE9AHTogr4AtzH6cfYce3KA8IdcgmYOc0bwJbWhtZsMD3ns
- WxFp5fBcKWrd7bBUVHa9dvG48uXrYZlsdZhWJd/KnIdqtWD/Zf/AR/kRO6B0bG/WGl89
- CS1ZCXDQSTPkD3pqV11BUQs51QB4EOzFFmyxfFp4rCgkWEUB33lH162hpPfDKnRQXXrb
- VOJxD8ijhlai2cUSyXVanTIq983VVOqpuZhPaJ70M2HTDTQz9OP+N4P9fKPPgteyzjcr
- q7soeGEGjhm9yqDpz4PqVAV5wEhxOtQ5uGLwwis4Wm87B3JcCJkSr8NV0v9AFqJXea/b
- 1AUg==
-X-Gm-Message-State: AO0yUKXiF99pbKU5c76rgmZS7yt1Og8vk8XwS9RWV37zDOoR0ytXPaJv
- jqeCIiOPzVoxefyTbs3ooNPVDw==
-X-Google-Smtp-Source: AK7set8uFzbs2/4vCc6W8TaI9Nze1+7/OInAB5fW+Of2XGDoHs/hf3buVtLEXcf4mZc5VHusQLJIng==
-X-Received: by 2002:a17:902:c70a:b0:194:586a:77ba with SMTP id
- p10-20020a170902c70a00b00194586a77bamr6764333plp.52.1675379689484; 
- Thu, 02 Feb 2023 15:14:49 -0800 (PST)
+ bh=ZUQ9gh60Lu4bebqaat17mGsKDdGn/Zj/wbiXCisdK8U=;
+ b=ou92zApvP961sDd/j5GwUX89QaZyLF8qYMNrAp4KMtPGT4dpq4Pf6UOb+dKs3cDCOp
+ cqgt6KGOOlBapoB4RNLf5N/QxUSZpwpI5oHQWVdQUCstIB0eTqydFb00iF8ba3zDCxo2
+ Wlj2GTFN07s5Eh9qAchmruva0p0zCah8ayd+kHlFnFH7u3uFSlI1NcKO0vCjNPauqW70
+ nup1frIy637fsytIUpoDjReczdQdLSc2B848mjv6CCgp5VhyKpPhaYQ7Cx55OTwbSdsu
+ kZ2GROiexOlwO4dmsaxlpTMGhkVHAMrxk/mMrVxk0oskgsl4Zaho+I2rRkd9bdRhapg6
+ QdSQ==
+X-Gm-Message-State: AO0yUKW1GtMyp1PBUPWdkMG7TchRfn928i7lUzi0aN8IhMRwNZFS/p8j
+ M7KpmVE8MdDnBW+BdlVpU3dpsQ==
+X-Google-Smtp-Source: AK7set+Qh8cmxDT7LBJkhtos0TZgvuwYtQtzI2ZhPBv/5z4RUZgpuIHkKbzOBmNBJaFoZXykjeKLvA==
+X-Received: by 2002:a17:902:cac9:b0:194:4503:947 with SMTP id
+ y9-20020a170902cac900b0019445030947mr6559876pld.37.1675380631090; 
+ Thu, 02 Feb 2023 15:30:31 -0800 (PST)
 Received: from [192.168.50.194] (rrcs-173-197-98-118.west.biz.rr.com.
  [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- x23-20020a1709027c1700b001946a3f4d9csm214758pll.38.2023.02.02.15.14.47
+ k9-20020a170902ce0900b001978e84753asm222249plg.65.2023.02.02.15.30.29
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Feb 2023 15:14:48 -0800 (PST)
-Message-ID: <31fc0aab-404d-919c-8ff8-cee75bb29ea2@linaro.org>
-Date: Thu, 2 Feb 2023 13:14:44 -1000
+ Thu, 02 Feb 2023 15:30:30 -0800 (PST)
+Message-ID: <478e4940-ba22-6b70-119a-b7416680db97@linaro.org>
+Date: Thu, 2 Feb 2023 13:30:26 -1000
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
  Thunderbird/102.4.2
-Subject: Re: [PATCH 06/39] target/riscv: Add vrol.[vv, vx] and vror.[vv, vx,
- vi] decoding, translation and execution support
+Subject: Re: [RFC PATCH] gitlab: call ninja directly and reduce build noise
 Content-Language: en-US
-To: Philipp Tomsich <philipp.tomsich@vrull.eu>
-Cc: Lawrence Hunter <lawrence.hunter@codethink.co.uk>, qemu-devel@nongnu.org, 
- dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
- kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com, palmer@dabbelt.com,
- alistair.francis@wdc.com, bin.meng@windriver.com, pbonzini@redhat.com,
- kvm@vger.kernel.org
-References: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
- <20230202124230.295997-7-lawrence.hunter@codethink.co.uk>
- <CAAeLtUA188Tdq4rROAWNqNkMSOXVT0BWQX669L6fyt5oM5knZg@mail.gmail.com>
- <CAAeLtUDcpyWkKgAo2Lk0ZoHcdyEeVARYkh05Ps27wbOzDF0sHA@mail.gmail.com>
- <16a6fadf-ca13-d3aa-7e4b-f950db982a21@linaro.org>
- <CAAeLtUCTBASoGMMgzp_LxOiFkJq0wJFQUC4kDzCWA47iLR_N5Q@mail.gmail.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+Cc: qemu-devel@nongnu.org, =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?=
+ <philmd@linaro.org>, Thomas Huth <thuth@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ Beraldo Leal <bleal@redhat.com>
+References: <20230202175903.2119702-1-alex.bennee@linaro.org>
+ <875ycjlwo8.fsf@linaro.org>
 From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <CAAeLtUCTBASoGMMgzp_LxOiFkJq0wJFQUC4kDzCWA47iLR_N5Q@mail.gmail.com>
+In-Reply-To: <875ycjlwo8.fsf@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1029;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1029.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::102a;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102a.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -102,16 +97,20 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/2/23 08:07, Philipp Tomsich wrote:
->>>       tcg_gen_gvec_rotls(vece, dofs, aofs, tmp, oprsz, maxsz);
->>
->> We can add rotls generically.
->> I hadn't done this so far because there were no users.
+On 2/2/23 08:59, Alex Bennée wrote:
+>> +    - env NINJA_STATUS="[ninja][%f/%t] " ninja | fgrep -v "[ninja]"
+>>       - if test -n "$MAKE_CHECK_ARGS";
+>>         then
+>>           make -j"$JOBS" $MAKE_CHECK_ARGS ;
 > 
-> I read this such that your preference is to have a generic gvec rotrs?
-> If this is correct, I can drop a patch to that effect…
+> 
+> This is too much for gitlab as it trips up on no output at all. What we
+> really need is something that filters ninja output, counts the lines and
+> outputs a dot every 10? 20? lines to keep gitlab happy.
+> 
+> Shonky shell script? Very clever sed?
 
-Yes, please.
+NINJA_STATUS='ninja %f: ' ninja | grep 'ninja.*[02468]0:'
 
 
 r~
