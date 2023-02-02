@@ -2,79 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29514687AE1
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:52:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41815687AE0
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:52:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNXCZ-0005SL-EX; Thu, 02 Feb 2023 05:52:23 -0500
+	id 1pNXCn-0005WR-QE; Thu, 02 Feb 2023 05:52:37 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNXCX-0005S0-Gx
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:52:21 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNXCV-0002t4-NS
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:52:21 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id bg26so1078911wmb.0
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 02:52:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=I0MdncSDh0IwYNDefPb6O401HrgFsHjCyY3qSaJ1NFA=;
- b=fNaello4oCx/ZxIKBzfJ1w900VW8hpC8EI5t/pCxVp2IIyqgGxK/DQsxA01/zQGW4X
- vRb4m0s4AdOdTY/juv5YH0E+EFIqY5nhIoCJwTU+I/ie23Tx8KrUqh/lymNx3rxrBZPS
- yI3LDgL9aDOOeG2BnFBrgt99V5pkNSlaLUWea6JjGSsPD/i+9nAT0y1Z4JAD61Ciacpk
- cGNlthDsrWvMWoVeZXwNw0JFPS1sJqxEYKsbVEQlGuGb18F+Uha46kvYcxCHnKaZih0l
- 09ga4VkjGgXhLmVR5RjOpMW15q7SXoXE3p1ZHUNRLiqmcfuO7r2S6pdH6rVCrgadmmVo
- ULGQ==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNXCf-0005Tt-04
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:52:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNXCd-00035l-0c
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:52:28 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675335146;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=qVfyrwwAUX4OZfMPxT4ryhG/9BPzqZcqJYMbwybzl7s=;
+ b=dHpsxUfhMFOADHRRMmO/IQ3+Pee1N6NYVaLqffiIXXMC2XxGbC1xM+5hWxf8lNLHJZRhmB
+ t8EVGIf+6DROwvGH26Z/fZs5xnxXh9YveuYbguXy5H09qUZnGcbhi+0OmkIOsTz/cc/ahe
+ eWjOafSYr13qbnf9N4bXJ4lK1wGkrM0=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-668-S1_pdVCcOx6O8YPuhMDPRg-1; Thu, 02 Feb 2023 05:52:24 -0500
+X-MC-Unique: S1_pdVCcOx6O8YPuhMDPRg-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ k17-20020a05600c1c9100b003dd41ad974bso758139wms.3
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 02:52:24 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:references:cc:to:from
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=I0MdncSDh0IwYNDefPb6O401HrgFsHjCyY3qSaJ1NFA=;
- b=PjYMcUtKJ2lxX4jj+4vbVtRPoyOMusLEyuQUyEgEc42IWInJEgL4hGWh8tuZ5nrrKp
- 4FPgKtj7D3BjkYqVV6bQlAIkZrpq71itaQTqFpjXw8s7lN29OZwzw7KwA+Rl2dk4reT4
- w6/UEuykSC5KX7YbtXni3tGs5+Pkwke5PGgwApXIT4UuQ8nzUy3amoDx1lI460n0W2bV
- MsEvxHvKnJeD+7Kxxvak2k5YPppswhNI61Yx3kH92NAPuwvYY8YAWQ2QOSgs/BBMr2nG
- +am/RwsvHgPvwFsmBphVfqvwCZQEO91V08FbrOiiJRRmHSepFt+hNOOjBgiVe3rNID4m
- MhGg==
-X-Gm-Message-State: AO0yUKVsVhAAYc87iZxHGhYa8w+a7gajvR0hKO8kry3ERY2wuBC59Krg
- 0YMPq78SerOOW6tn8XSmdPxkTCLwRlyW4nJc
-X-Google-Smtp-Source: AK7set8oneR+rm4kmTraxyzqU0PvZogUWRMrwSg8vgsd7kXofK0rQWnoAv/vIeTfXw6UN7s8dDCwuw==
-X-Received: by 2002:a05:600c:3489:b0:3d2:2d2a:d581 with SMTP id
- a9-20020a05600c348900b003d22d2ad581mr5525713wmq.30.1675335138157; 
- Thu, 02 Feb 2023 02:52:18 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- j33-20020a05600c1c2100b003db0ad636d1sm5414398wms.28.2023.02.02.02.52.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Feb 2023 02:52:17 -0800 (PST)
-Message-ID: <74cbaf9c-34f1-3aaa-0759-51982d057473@linaro.org>
-Date: Thu, 2 Feb 2023 11:52:16 +0100
+ bh=qVfyrwwAUX4OZfMPxT4ryhG/9BPzqZcqJYMbwybzl7s=;
+ b=52bEoUkr7/FL7tMGraPQlWkcuA2U+EFdtI65X81rQdqB78Y9yM033pFnRYDeaXgLXX
+ YHqzX1O32EgSb1oEmGbsPAfa/cave7v0tGOUBbj1k+4i/pIP+VAJYoGW8uE+/VwDhYdU
+ YSo2TryG/K1jIAaub0avze1EcpTdSyjLfl2coxNYBbzN+blaBqnp76XlkKuCrG1NCI5u
+ gyKNgYnE89zc10AkddvcZLZOb15kc49h83GiPamydPe9dW5aTFdQ237hFB+qVRv5LUuG
+ KiQbLnG+0v418T8gaZ3zfEqre0jFhCU87liLmAu6KiMstv7TYVer+M7xqEmOm6unECFU
+ pEWw==
+X-Gm-Message-State: AO0yUKUeKzqW1X9koXymC0+r/Vy96GooqWhQFtnztQnlhosIO+Y4jb9m
+ +Cj+wpJ7GTAXE/zTIqO739U+nsVxDHBCduVgdad0P9xfDoSuGMSVYccmzPrhBIz0Y+RnUY54Kb4
+ gzDvRQ4ywlfaSnGQ=
+X-Received: by 2002:a05:600c:3795:b0:3c6:e61e:ae71 with SMTP id
+ o21-20020a05600c379500b003c6e61eae71mr5756592wmr.1.1675335143664; 
+ Thu, 02 Feb 2023 02:52:23 -0800 (PST)
+X-Google-Smtp-Source: AK7set+T7/tytnK6QYPUx7vK2qfwNb6wCMD4sYxQ0pev7+b1jPpqfx2/Vo5a6blGdNwQw32gqC8NIQ==
+X-Received: by 2002:a05:600c:3795:b0:3c6:e61e:ae71 with SMTP id
+ o21-20020a05600c379500b003c6e61eae71mr5756572wmr.1.1675335143423; 
+ Thu, 02 Feb 2023 02:52:23 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ m17-20020a7bce11000000b003dc492e4430sm4475844wmc.28.2023.02.02.02.52.22
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Feb 2023 02:52:22 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
+ <lsoaresp@redhat.com>,  Michal =?utf-8?B?UHLDrXZvem7DrWs=?=
+ <mprivozn@redhat.com>,  Daniel P
+ . =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Philippe =?utf-8?Q?Ma?=
+ =?utf-8?Q?thieu-Daud=C3=A9?=
+ <philmd@linaro.org>,  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 3/3] util/userfaultfd: Support /dev/userfaultfd
+In-Reply-To: <20230201211055.649442-4-peterx@redhat.com> (Peter Xu's message
+ of "Wed, 1 Feb 2023 16:10:55 -0500")
+References: <20230201211055.649442-1-peterx@redhat.com>
+ <20230201211055.649442-4-peterx@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 02 Feb 2023 11:52:21 +0100
+Message-ID: <87cz6stk4a.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PULL 08/34] hw/arm/virt: Let the virtio-iommu bypass MSIs
-Content-Language: en-US
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-To: Eric Auger <eric.auger@redhat.com>
-Cc: qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
-References: <20200703165405.17672-1-peter.maydell@linaro.org>
- <20200703165405.17672-9-peter.maydell@linaro.org>
- <7592c27c-0c98-d52c-fecc-ac2b261ecbb3@linaro.org>
-In-Reply-To: <7592c27c-0c98-d52c-fecc-ac2b261ecbb3@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32f.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -88,96 +103,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/2/23 11:47, Philippe Mathieu-Daudé wrote:
-> Hi Eric,
-> 
-> On 3/7/20 17:53, Peter Maydell wrote:
->> From: Eric Auger <eric.auger@redhat.com>
->>
->> At the moment the virtio-iommu translates MSI transactions.
->> This behavior is inherited from ARM SMMU. The virt machine
->> code knows where the guest MSI doorbells are so we can easily
->> declare those regions as VIRTIO_IOMMU_RESV_MEM_T_MSI. With that
->> setting the guest will not map MSIs through the IOMMU and those
->> transactions will be simply bypassed.
->>
->> Depending on which MSI controller is in use (ITS or GICV2M),
->> we declare either:
->> - the ITS interrupt translation space (ITS_base + 0x10000),
->>    containing the GITS_TRANSLATOR or
->> - The GICV2M single frame, containing the MSI_SETSP_NS register.
->>
->> Signed-off-by: Eric Auger <eric.auger@redhat.com>
->> Message-id: 20200629070404.10969-6-eric.auger@redhat.com
->> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
->> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
->> ---
->>   include/hw/arm/virt.h |  7 +++++++
->>   hw/arm/virt.c         | 30 ++++++++++++++++++++++++++++++
->>   2 files changed, 37 insertions(+)
-> 
-> 
->>   static void create_gic(VirtMachineState *vms)
->> @@ -2198,8 +2200,36 @@ out:
->>   static void virt_machine_device_pre_plug_cb(HotplugHandler 
->> *hotplug_dev,
->>                                               DeviceState *dev, Error 
->> **errp)
->>   {
->> +    VirtMachineState *vms = VIRT_MACHINE(hotplug_dev);
->> +
->>       if (object_dynamic_cast(OBJECT(dev), TYPE_PC_DIMM)) {
->>           virt_memory_pre_plug(hotplug_dev, dev, errp);
->> +    } else if (object_dynamic_cast(OBJECT(dev), 
->> TYPE_VIRTIO_IOMMU_PCI)) {
->> +        hwaddr db_start = 0, db_end = 0;
->> +        char *resv_prop_str;
->> +
->> +        switch (vms->msi_controller) {
->> +        case VIRT_MSI_CTRL_NONE:
->> +            return;
->> +        case VIRT_MSI_CTRL_ITS:
->> +            /* GITS_TRANSLATER page */
->> +            db_start = base_memmap[VIRT_GIC_ITS].base + 0x10000;
->> +            db_end = base_memmap[VIRT_GIC_ITS].base +
->> +                     base_memmap[VIRT_GIC_ITS].size - 1;
->> +            break;
->> +        case VIRT_MSI_CTRL_GICV2M:
->> +            /* MSI_SETSPI_NS page */
->> +            db_start = base_memmap[VIRT_GIC_V2M].base;
->> +            db_end = db_start + base_memmap[VIRT_GIC_V2M].size - 1;
->> +            break;
->> +        }
->> +        resv_prop_str = g_strdup_printf("0x%"PRIx64":0x%"PRIx64":%u",
->> +                                        db_start, db_end,
->> +                                        VIRTIO_IOMMU_RESV_MEM_T_MSI);
->> +
->> +        qdev_prop_set_uint32(dev, "len-reserved-regions", 1);
-> 
-> Where is "len-reserved-regions" declared?
-> 
-> Since qdev_prop_set_uint32() uses &error_abort, isn't this call
-> aborting the process? I am confused how this code path is exercised,
-> what am I missing?
+Peter Xu <peterx@redhat.com> wrote:
+> Teach QEMU to use /dev/userfaultfd when it existed and fallback to the
+> system call if either it's not there or doesn't have enough permission.
+>
+> Firstly, as long as the app has permission to access /dev/userfaultfd, it
+> always have the ability to trap kernel faults which QEMU mostly wants.
+> Meanwhile, in some context (e.g. containers) the userfaultfd syscall can =
+be
+> forbidden, so it can be the major way to use postcopy in a restricted
+> environment with strict seccomp setup.
+>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+> Signed-off-by: Peter Xu <peterx@redhat.com>
 
-The call path is:
 
-   qdev_prop_set_uint32 ->
-     object_property_set_int ->
-       object_property_set_qobject ->
-         object_property_set ->
-           object_property_find_err
+Hi
 
-So QEMU should abort displaying:
+Can we change this code to not use the global variable.
 
-"Property 'virtio-iommu-pci.len-reserved-regions' not found".
+> ---
+>  util/trace-events  |  1 +
+>  util/userfaultfd.c | 37 +++++++++++++++++++++++++++++++++++++
+>  2 files changed, 38 insertions(+)
+>
+> diff --git a/util/trace-events b/util/trace-events
+> index c8f53d7d9f..16f78d8fe5 100644
+> --- a/util/trace-events
+> +++ b/util/trace-events
+> @@ -93,6 +93,7 @@ qemu_vfio_region_info(const char *desc, uint64_t region=
+_ofs, uint64_t region_siz
+>  qemu_vfio_pci_map_bar(int index, uint64_t region_ofs, uint64_t region_si=
+ze, int ofs, void *host) "map region bar#%d addr 0x%"PRIx64" size 0x%"PRIx6=
+4" ofs 0x%x host %p"
+>=20=20
+>  #userfaultfd.c
+> +uffd_detect_open_mode(int mode) "%d"
+>  uffd_query_features_nosys(int err) "errno: %i"
+>  uffd_query_features_api_failed(int err) "errno: %i"
+>  uffd_create_fd_nosys(int err) "errno: %i"
+> diff --git a/util/userfaultfd.c b/util/userfaultfd.c
+> index 9845a2ec81..7dceab51d6 100644
+> --- a/util/userfaultfd.c
+> +++ b/util/userfaultfd.c
+> @@ -18,10 +18,47 @@
+>  #include <poll.h>
+>  #include <sys/syscall.h>
+>  #include <sys/ioctl.h>
+> +#include <fcntl.h>
+> +
+> +typedef enum {
+> +    UFFD_UNINITIALIZED =3D 0,
+> +    UFFD_USE_DEV_PATH,
+> +    UFFD_USE_SYSCALL,
+> +} uffd_open_mode;
+> +
+> +static int uffd_dev;
+> +
+> +static uffd_open_mode uffd_detect_open_mode(void)
+> +{
+> +    static uffd_open_mode open_mode;
+> +
+> +    if (open_mode =3D=3D UFFD_UNINITIALIZED) {
+> +        /*
+> +         * Make /dev/userfaultfd the default approach because it has bet=
+ter
+> +         * permission controls, meanwhile allows kernel faults without a=
+ny
+> +         * privilege requirement (e.g. SYS_CAP_PTRACE).
+> +         */
+> +        uffd_dev =3D open("/dev/userfaultfd", O_RDWR | O_CLOEXEC);
+> +        if (uffd_dev >=3D 0) {
+> +            open_mode =3D UFFD_USE_DEV_PATH;
+> +        } else {
+> +            /* Fallback to the system call */
+> +            open_mode =3D UFFD_USE_SYSCALL;
+> +        }
+> +        trace_uffd_detect_open_mode(open_mode);
+> +    }
+> +
+> +    return open_mode;
+> +}
+>=20=20
+>  int uffd_open(int flags)
+>  {
+>  #if defined(__linux__) && defined(__NR_userfaultfd)
+> +    if (uffd_detect_open_mode() =3D=3D UFFD_USE_DEV_PATH) {
+> +        assert(uffd_dev >=3D 0);
+> +        return ioctl(uffd_dev, USERFAULTFD_IOC_NEW, flags);
+> +    }
+> +
+>      return syscall(__NR_userfaultfd, flags);
+>  #else
+>      return -EINVAL;
 
->> +        qdev_prop_set_string(dev, "reserved-regions[0]", resv_prop_str);
->> +        g_free(resv_prop_str);
->>       }
->>   }
+static int open_userfaultd(void)
+{
+    /*
+     * Make /dev/userfaultfd the default approach because it has better
+     * permission controls, meanwhile allows kernel faults without any
+     * privilege requirement (e.g. SYS_CAP_PTRACE).
+     */
+     int uffd =3D open("/dev/userfaultfd", O_RDWR | O_CLOEXEC);
+     if (uffd >=3D 0) {
+            return uffd;
+     }
+     return -1;
+}
+
+int uffd_open(int flags)
+{
+#if defined(__linux__) && defined(__NR_userfaultfd)
+    static int uffd =3D -2;
+    if (uffd =3D=3D -2) {
+        uffd =3D open_userfaultd();
+    }
+    if (uffd >=3D 0) {
+        return ioctl(uffd, USERFAULTFD_IOC_NEW, flags);
+    }
+    return syscall(__NR_userfaultfd, flags);
+#else
+     return -EINVAL;
+
+27 lines vs 42
+
+No need for enum type
+No need for global variable
+
+What do you think?
+
+Later, Juan.
 
 
