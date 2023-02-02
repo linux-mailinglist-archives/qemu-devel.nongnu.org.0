@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47BA0688089
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 15:51:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39186688084
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 15:51:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNaqv-0005PD-GY; Thu, 02 Feb 2023 09:46:17 -0500
+	id 1pNaqu-0005OB-Ba; Thu, 02 Feb 2023 09:46:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
- id 1pNYvV-000791-IO
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:42:53 -0500
+ id 1pNYvQ-00074o-Tp
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:42:49 -0500
 Received: from imap5.colo.codethink.co.uk ([78.40.148.171])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <lawrence.hunter@codethink.co.uk>)
- id 1pNYvT-0000em-MS
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:42:53 -0500
+ id 1pNYvM-0000el-Bi
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:42:47 -0500
 Received: from [167.98.27.226] (helo=lawrence-thinkpad.office.codethink.co.uk)
  by imap5.colo.codethink.co.uk with esmtpsa (Exim 4.94.2 #2 (Debian))
- id 1pNYvD-004Q6t-8c; Thu, 02 Feb 2023 12:42:36 +0000
+ id 1pNYvD-004Q6t-GN; Thu, 02 Feb 2023 12:42:36 +0000
 From: Lawrence Hunter <lawrence.hunter@codethink.co.uk>
 To: qemu-devel@nongnu.org
 Cc: dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk,
  kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com,
  palmer@dabbelt.com, alistair.francis@wdc.com, bin.meng@windriver.com,
- pbonzini@redhat.com, philipp.tomsich@vrull.eu, kvm@vger.kernel.org,
- Lawrence Hunter <lawrence.hunter@codethink.co.uk>
-Subject: [PATCH 00/39] Add RISC-V vector cryptography extensions
-Date: Thu,  2 Feb 2023 12:41:51 +0000
-Message-Id: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
+ pbonzini@redhat.com, philipp.tomsich@vrull.eu, kvm@vger.kernel.org
+Subject: [PATCH 01/39] target/riscv: add zvkb cpu property
+Date: Thu,  2 Feb 2023 12:41:52 +0000
+Message-Id: <20230202124230.295997-2-lawrence.hunter@codethink.co.uk>
 X-Mailer: git-send-email 2.39.1
+In-Reply-To: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
+References: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Received-SPF: pass client-ip=78.40.148.171;
  envelope-from=lawrence.hunter@codethink.co.uk; helo=imap5.colo.codethink.co.uk
-X-Spam_score_int: -13
-X-Spam_score: -1.4
+X-Spam_score_int: -18
+X-Spam_score: -1.9
 X-Spam_bar: -
-X-Spam_report: (-1.4 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
- SPF_PASS=-0.001, URI_NOVOWEL=0.5 autolearn=ham autolearn_force=no
+X-Spam_report: (-1.9 / 5.0 requ) BAYES_00=-1.9, SPF_HELO_PASS=-0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-Mailman-Approved-At: Thu, 02 Feb 2023 09:46:13 -0500
 X-BeenThere: qemu-devel@nongnu.org
@@ -57,124 +58,56 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This patch series introduces an implementation for the six instruction sets
-of the draft RISC-V vector cryptography extensions specification.
+From: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
 
-This patch set implements the instruction sets as per the 20221202
-version of the specification (1). We plan to update to the latest spec
-once stabilised.
+Signed-off-by: Nazar Kazakov <nazar.kazakov@codethink.co.uk>
+---
+ target/riscv/cpu.c | 12 ++++++++++++
+ target/riscv/cpu.h |  1 +
+ 2 files changed, 13 insertions(+)
 
-Work performed by Dickon, Lawrence, Nazar, Kiran, and William from Codethink
-sponsored by SiFive, as well as Max Chou and Frank Chang from SiFive.
-
-For convenience we have created a git repo with our patches on top of a
-recent master. https://github.com/CodethinkLabs/qemu-ct
-
-1. https://github.com/riscv/riscv-crypto/releases
-
-Dickon Hood (1):
-  target/riscv: Add vrol.[vv,vx] and vror.[vv,vx,vi] decoding,
-    translation and execution support
-
-Kiran Ostrolenk (4):
-  target/riscv: Add vsha2ms.vv decoding, translation and execution
-    support
-  target/riscv: add zvksh cpu property
-  target/riscv: Add vsm3c.vi decoding, translation and execution support
-  target/riscv: expose zvksh cpu property
-
-Lawrence Hunter (16):
-  target/riscv: Add vclmul.vv decoding, translation and execution
-    support
-  target/riscv: Add vclmul.vx decoding, translation and execution
-    support
-  target/riscv: Add vclmulh.vv decoding, translation and execution
-    support
-  target/riscv: Add vclmulh.vx decoding, translation and execution
-    support
-  target/riscv: Add vaesef.vv decoding, translation and execution
-    support
-  target/riscv: Add vaesef.vs decoding, translation and execution
-    support
-  target/riscv: Add vaesdf.vv decoding, translation and execution
-    support
-  target/riscv: Add vaesdf.vs decoding, translation and execution
-    support
-  target/riscv: Add vaesdm.vv decoding, translation and execution
-    support
-  target/riscv: Add vaesdm.vs decoding, translation and execution
-    support
-  target/riscv: Add vaesz.vs decoding, translation and execution support
-  target/riscv: Add vsha2c[hl].vv decoding, translation and execution
-    support
-  target/riscv: Add vsm3me.vv decoding, translation and execution
-    support
-  target/riscv: add zvkg cpu property
-  target/riscv: Add vghmac.vv decoding, translation and execution
-    support
-  target/riscv: expose zvkg cpu property
-
-Max Chou (5):
-  crypto: Move SM4_SBOXWORD from target/riscv
-  crypto: Add SM4 constant parameter CK.
-  target/riscv: Add zvksed cfg property
-  target/riscv: Add Zvksed support
-  target/riscv: Expose Zvksed property
-
-Nazar Kazakov (10):
-  target/riscv: add zvkb cpu property
-  target/riscv: Add vrev8.v decoding, translation and execution support
-  target/riscv: Add vandn.[vv,vx,vi] decoding, translation and execution
-    support
-  target/riscv: expose zvkb cpu property
-  target/riscv: add zvkns cpu property
-  target/riscv: Add vaeskf1.vi decoding, translation and execution
-    support
-  target/riscv: Add vaeskf2.vi decoding, translation and execution
-    support
-  target/riscv: expose zvkns cpu property
-  target/riscv: add zvknh cpu properties
-  target/riscv: expose zvknh cpu properties
-
-William Salmon (3):
-  target/riscv: Add vbrev8.v decoding, translation and execution support
-  target/riscv: Add vaesem.vv decoding, translation and execution
-    support
-  target/riscv: Add vaesem.vs decoding, translation and execution
-    support
-
- crypto/sm4.c                                 |   10 +
- include/crypto/sm4.h                         |    8 +
- include/qemu/bitops.h                        |   32 +
- target/arm/crypto_helper.c                   |   10 +-
- target/riscv/cpu.c                           |   33 +
- target/riscv/cpu.h                           |    7 +
- target/riscv/crypto_helper.c                 |    1 +
- target/riscv/helper.h                        |   69 ++
- target/riscv/insn32.decode                   |   48 +
- target/riscv/insn_trans/trans_rvzvkb.c.inc   |  162 +++
- target/riscv/insn_trans/trans_rvzvkg.c.inc   |    9 +
- target/riscv/insn_trans/trans_rvzvknh.c.inc  |   47 +
- target/riscv/insn_trans/trans_rvzvkns.c.inc  |  119 ++
- target/riscv/insn_trans/trans_rvzvksed.c.inc |   35 +
- target/riscv/insn_trans/trans_rvzvksh.c.inc  |   20 +
- target/riscv/meson.build                     |    4 +-
- target/riscv/translate.c                     |    6 +
- target/riscv/vcrypto_helper.c                | 1013 ++++++++++++++++++
- target/riscv/vector_helper.c                 |  242 +----
- target/riscv/vector_internals.c              |   63 ++
- target/riscv/vector_internals.h              |  226 ++++
- 21 files changed, 1914 insertions(+), 250 deletions(-)
- create mode 100644 target/riscv/insn_trans/trans_rvzvkb.c.inc
- create mode 100644 target/riscv/insn_trans/trans_rvzvkg.c.inc
- create mode 100644 target/riscv/insn_trans/trans_rvzvknh.c.inc
- create mode 100644 target/riscv/insn_trans/trans_rvzvkns.c.inc
- create mode 100644 target/riscv/insn_trans/trans_rvzvksed.c.inc
- create mode 100644 target/riscv/insn_trans/trans_rvzvksh.c.inc
- create mode 100644 target/riscv/vcrypto_helper.c
- create mode 100644 target/riscv/vector_internals.c
- create mode 100644 target/riscv/vector_internals.h
-
+diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
+index cc75ca7667..bd34119c75 100644
+--- a/target/riscv/cpu.c
++++ b/target/riscv/cpu.c
+@@ -100,6 +100,7 @@ static const struct isa_ext_data isa_edata_arr[] = {
+     ISA_EXT_DATA_ENTRY(zkt, true, PRIV_VERSION_1_12_0, ext_zkt),
+     ISA_EXT_DATA_ENTRY(zve32f, true, PRIV_VERSION_1_12_0, ext_zve32f),
+     ISA_EXT_DATA_ENTRY(zve64f, true, PRIV_VERSION_1_12_0, ext_zve64f),
++    ISA_EXT_DATA_ENTRY(zvkb, true, PRIV_VERSION_1_12_0, ext_zvkb),
+     ISA_EXT_DATA_ENTRY(zhinx, true, PRIV_VERSION_1_12_0, ext_zhinx),
+     ISA_EXT_DATA_ENTRY(zhinxmin, true, PRIV_VERSION_1_12_0, ext_zhinxmin),
+     ISA_EXT_DATA_ENTRY(smaia, true, PRIV_VERSION_1_12_0, ext_smaia),
+@@ -792,6 +793,17 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+             return;
+         }
+ 
++        /*
++         * In principle zve*{x,d} would also suffice here, were they supported
++         * in qemu
++         */
++        if (cpu->cfg.ext_zvkb &&
++            !(cpu->cfg.ext_zve32f || cpu->cfg.ext_zve64f || cpu->cfg.ext_v)) {
++            error_setg(
++                errp, "Vector crypto extensions require V or Zve* extensions");
++            return;
++        }
++
+         /* Set the ISA extensions, checks should have happened above */
+         if (cpu->cfg.ext_zdinx || cpu->cfg.ext_zhinx ||
+             cpu->cfg.ext_zhinxmin) {
+diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+index f5609b62a2..d4824ad0bb 100644
+--- a/target/riscv/cpu.h
++++ b/target/riscv/cpu.h
+@@ -461,6 +461,7 @@ struct RISCVCPUConfig {
+     bool ext_zhinxmin;
+     bool ext_zve32f;
+     bool ext_zve64f;
++    bool ext_zvkb;
+     bool ext_zmmul;
+     bool ext_smaia;
+     bool ext_ssaia;
 -- 
 2.39.1
 
