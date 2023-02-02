@@ -2,78 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83CA2688821
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 21:15:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F508688824
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 21:15:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNfy0-0004rC-Ni; Thu, 02 Feb 2023 15:13:56 -0500
+	id 1pNfzN-0005d3-6C; Thu, 02 Feb 2023 15:15:21 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNfxt-0004qh-VA
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 15:13:52 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pNfzE-0005cU-8e
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 15:15:12 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNfxr-0001mn-N7
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 15:13:49 -0500
+ id 1pNfzC-0002Db-GI
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 15:15:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675368824;
+ s=mimecast20190719; t=1675368909;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=Uhqjr+A0tH5IiJW1LG5h8ug7qhF3FtXUqx8hhdtz5e0=;
- b=OD3NEDNrFeaVGPmigPfvp65+sGm6Kjol8aLscpLR0iFXNcQgM2f7jf1jlLqbrZDAF/8+on
- 15limy3+7Tb5kkjuwuI1FvMhMbSPcXlWatmnM7dxhAwTOieOcVEW+7iQYm6ouLUVollhlB
- vd3hdGX4mVLnasCJelypjZwXv8bwVTQ=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=YFLvbVdxu2NC6q00IziTNmwnOxllQKDkU4HfcQ+d/O8=;
+ b=fxYWUo6R2X0TXeRZl2Uvy158sbTRvNd+o0O29z0Z0YMIgkt0DetDUSpDmzocbkSiEOISHl
+ BVLyrCUl1J2ISTEvRg0kJoYzADP5JOVkt4OR6bISH3bsaWgCBoxWPMohfYVybzRzka9Zv+
+ zGY2R/11p3REF+cmZZKTucCS9lAZ5EE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-626-sfot4qllMe2_tbeE6EIeWQ-1; Thu, 02 Feb 2023 15:13:41 -0500
-X-MC-Unique: sfot4qllMe2_tbeE6EIeWQ-1
-Received: by mail-wm1-f71.google.com with SMTP id
- k9-20020a05600c1c8900b003dc5dec2ac6so3455551wms.4
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 12:13:40 -0800 (PST)
+ us-mta-577-h6e7PZ3UMUqtPtQkRsF59w-1; Thu, 02 Feb 2023 15:14:54 -0500
+X-MC-Unique: h6e7PZ3UMUqtPtQkRsF59w-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ o8-20020a05600c510800b003dfdf09ffc2so1187890wms.5
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 12:14:49 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=mime-version:message-id:date:reply-to:user-agent:references
  :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=Uhqjr+A0tH5IiJW1LG5h8ug7qhF3FtXUqx8hhdtz5e0=;
- b=nPLM7i3mXDOq4X+myFSHZEO2VRAXCpXUk0F2CaklH1TZFcZpbVMAvmDKGCf11WS0/K
- zOiOp12rUcCba2D6rPIYwxMnnqkvVddiP1FU74HKWrlizPwKZLzafeHIgbeFMCMgwVJ8
- h32QDuVLYQY3ML1my8T7G7S8/7sRYxRLwBbzF+kj08qVNcSBjzLsb/4QB/TtaqIHltJg
- yzdThgG9vmwnm7oM3wC94nOZIZfAThNffuIfA/5me6EFjsaAKO3u5EjlUkuyhZyIsEXd
- aZY8YjARIjjFhDNRtegz1iVnOzSY53x+Jg+9c4o650bbyTYUM5t+4FcJ4h6QDexPFmbF
- 7nsw==
-X-Gm-Message-State: AO0yUKWR8Pxd1K/kkT22CTfSZCGvXzhg3sQuibTx5bsitKCAKH3+JdxK
- V51IhXYKo27Ej5C9RzwOur51Fkwk4ilffMZeQ1BZdwWNRCYb5R/QpbAYFY0h6MVryGlqoBEDv+/
- sBUhO38H8maNx36A=
-X-Received: by 2002:a05:6000:1ce:b0:2bf:bf32:70c with SMTP id
- t14-20020a05600001ce00b002bfbf32070cmr5986058wrx.47.1675368819656; 
- Thu, 02 Feb 2023 12:13:39 -0800 (PST)
-X-Google-Smtp-Source: AK7set/frYrj5hUTwS6RaLnoQwBPjoehGX+Fh6hPleb7UmprUbxKwy+XnyP7EFP52G0NEDuG2EeWPg==
-X-Received: by 2002:a05:6000:1ce:b0:2bf:bf32:70c with SMTP id
- t14-20020a05600001ce00b002bfbf32070cmr5986046wrx.47.1675368819430; 
- Thu, 02 Feb 2023 12:13:39 -0800 (PST)
+ bh=YFLvbVdxu2NC6q00IziTNmwnOxllQKDkU4HfcQ+d/O8=;
+ b=G9skRk1qowBHGJ3nrBAlPxb2wUuM9QbCS+DgfID5dhyuDzm3EI1bE6bzHdlG/1F0Ns
+ Xu6d0T40f3vK6TD+qzT7W+Jd0hs0nozMks5pR+1noaqouTm6ZLUR6rBsUfcgDKg5/lA6
+ 9RSGdV+/JSz7uAJbcuexw4slYo5bMsfPuCV3b9nBG4BDBhDe5Qz7610nCSOIOqAKtYhY
+ o4tDbXvdtkytlfeLKbKLQunvJ+ZuV3AA84Nm1CLHy71BUuY+GBaoPLqVmVWt7DbVNnzh
+ zuitl2aRx1lomf+8eEuEu3PdSh7+CTLQUqgXsvoatmoO7c6VN1M2p1jGOSNEXUSZax4Y
+ ijmw==
+X-Gm-Message-State: AO0yUKUKA6YQZc8bu0C6SdDW7ybQ1UhOspoG9Z/Mr3cA6BeuIYsl/Xjl
+ IwmXHHMFkeJwHZNPW3VsbHWFQglH5Rmy8bd/D2CpAI1GFwM6UEwF+Ghe4rOFaeuSRgK3NAZi55H
+ ogHLgZ26sOOHBtek=
+X-Received: by 2002:a5d:6d46:0:b0:2bf:bac7:30d4 with SMTP id
+ k6-20020a5d6d46000000b002bfbac730d4mr6752602wri.53.1675368888206; 
+ Thu, 02 Feb 2023 12:14:48 -0800 (PST)
+X-Google-Smtp-Source: AK7set+UItgcb7EyB8E2F21Q9/YTXnHjkcmYgPvwtAm46LQJQHe30BsHAkdknN7d9nU+BAmCyi0ryw==
+X-Received: by 2002:a5d:6d46:0:b0:2bf:bac7:30d4 with SMTP id
+ k6-20020a5d6d46000000b002bfbac730d4mr6752589wri.53.1675368887961; 
+ Thu, 02 Feb 2023 12:14:47 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- k10-20020a5d6e8a000000b002bdda9856b5sm322389wrz.50.2023.02.02.12.13.34
+ z15-20020a5d654f000000b002ba2646fd30sm325153wrv.36.2023.02.02.12.14.46
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Feb 2023 12:13:38 -0800 (PST)
+ Thu, 02 Feb 2023 12:14:47 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
 To: Zhenzhong Duan <zhenzhong.duan@intel.com>
 Cc: qemu-devel@nongnu.org,  dgilbert@redhat.com
-Subject: Re: [PATCH 1/2] multifd: Fix a race on reading MultiFDPages_t.block
-In-Reply-To: <20221017075351.2974642-1-zhenzhong.duan@intel.com> (Zhenzhong
- Duan's message of "Mon, 17 Oct 2022 15:53:50 +0800")
+Subject: Re: [PATCH 2/2] multifd: Fix flush of zero copy page send request
+In-Reply-To: <20221017075351.2974642-2-zhenzhong.duan@intel.com> (Zhenzhong
+ Duan's message of "Mon, 17 Oct 2022 15:53:51 +0800")
 References: <20221017075351.2974642-1-zhenzhong.duan@intel.com>
+ <20221017075351.2974642-2-zhenzhong.duan@intel.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 02 Feb 2023 21:13:33 +0100
-Message-ID: <871qn7u8pe.fsf@secure.mitica>
+Date: Thu, 02 Feb 2023 21:14:46 +0100
+Message-ID: <87wn4zsu2x.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -99,13 +100,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 Zhenzhong Duan <zhenzhong.duan@intel.com> wrote:
-> In multifd_queue_page() MultiFDPages_t.block is checked twice.
-> Between the two checks, MultiFDPages_t.block may be reset to NULL
-> by multifd thread. This lead to the 2nd check always true then a
-> redundant page submitted to multifd thread again.
+> Make IO channel flush call after the inflight request has been drained
+> in multifd thread, or else we may missed to flush the inflight request.
 >
 > Signed-off-by: Zhenzhong Duan <zhenzhong.duan@intel.com>
 
+Good catch!!!!!
+
 Reviewed-by: Juan Quintela <quintela@redhat.com>
+
+queued the whole series.
 
 
