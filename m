@@ -2,67 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C69F1687EEF
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:40:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DECAB687EFA
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:41:46 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNZnh-0005Qd-5C; Thu, 02 Feb 2023 08:38:54 -0500
+	id 1pNZoi-0007N3-8S; Thu, 02 Feb 2023 08:39:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnd-0005L4-If
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:38:49 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNZo0-0005qD-KZ
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:39:15 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnY-000876-TY
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:38:49 -0500
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNZny-0008Lo-Cd
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:39:11 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675345121;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ s=mimecast20190719; t=1675345149;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cSuD7wwfEIoR/KVA5CwwxW/I+dK80Y2fYpG2Yd3+XNQ=;
- b=QTt306rRBb5q4Q+asYrOAx8sSu7DupFfYSgRPDKxHcYN4iuvtBLh9dOCZvPapDH2qoRrlS
- UiVfKppBP38wm0dkTbEV6rj9FB33YpMG9QVFBGp7nWCm0iQI8gXsBDxrMAVG5rNta9gHhC
- NZP332R1LNGn4UVfvgsLHymmPJQOZ3w=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-426-K9nEEOZMMKCindKqqTzm4A-1; Thu, 02 Feb 2023 08:38:38 -0500
-X-MC-Unique: K9nEEOZMMKCindKqqTzm4A-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id B92A6811E6E;
- Thu,  2 Feb 2023 13:38:35 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 707F32166B33;
- Thu,  2 Feb 2023 13:38:35 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id ECBF821E6921; Thu,  2 Feb 2023 14:38:30 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
- hreitz@redhat.com, imp@bsdimp.com, kevans@freebsd.org, berrange@redhat.com,
- groug@kaod.org, qemu_oss@crudebyte.com, mst@redhat.com, philmd@linaro.org,
- peter.maydell@linaro.org, alistair@alistair23.me, jasowang@redhat.com,
- jonathan.cameron@huawei.com, kbastian@mail.uni-paderborn.de,
- quintela@redhat.com, dgilbert@redhat.com, michael.roth@amd.com,
- kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com,
- bin.meng@windriver.com, qemu-block@nongnu.org, qemu-arm@nongnu.org,
- qemu-riscv@nongnu.org
-Subject: [PATCH v6 20/20] Drop duplicate #include
-Date: Thu,  2 Feb 2023 14:38:30 +0100
-Message-Id: <20230202133830.2152150-21-armbru@redhat.com>
-In-Reply-To: <20230202133830.2152150-1-armbru@redhat.com>
-References: <20230202133830.2152150-1-armbru@redhat.com>
+ bh=TSH+Rqp5TyVFS91RYc1BnaOzcWWbZDPaEAOyVtvBkxM=;
+ b=FdmbH2XW2DP1LQK7lAPdUikdw3Cffj5EF3AjmWeU8FSbCVIirpjssKwqYXejE0TiqiawPi
+ ZihVTow4fNRg+kgIChqWU55yezNBB4O5uXtunwhTy7FAUFPSSoZMQp4h7QJtFLfLkQQbh+
+ /bwwbKZ0pMgmeD2ojMNj0n0+RhRs/iA=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-198-tTxTuqCzPTKZ91k1WVC9aw-1; Thu, 02 Feb 2023 08:39:08 -0500
+X-MC-Unique: tTxTuqCzPTKZ91k1WVC9aw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ d18-20020a05600c34d200b003df901ab982so1018767wmq.4
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 05:39:07 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=TSH+Rqp5TyVFS91RYc1BnaOzcWWbZDPaEAOyVtvBkxM=;
+ b=H2hBXaTTRL2ACBPz6Ii2NFMiOagl2gFtgcc1tzhe2D9dbUfJeOpVbzpWWrKpmsUsjH
+ nN4A3CSHZdqaMaTcBPFTq5PEPrnS+kEjfLdJvU0GsauSNj1XMQywvsfFv+1Zxq4K05Lh
+ bv2g/AcAxvIzfMQLL25wzy683EaEeFnXJpOf9r6h4++KtJfqvjk8arlvsg5C1H2w4iLN
+ QpfnCrocw6fGEj+YacTnKHLUe3u3ENf+aN9MmwON9C8gyfSH3bxK2rvN286MkvFEzkaL
+ YksR/O0EbXQXomv8n8409G3RMVJ2kIMhhDGRqa3zyoEYgsk/sOZvPVh+VlRk52m6YXUE
+ M2NQ==
+X-Gm-Message-State: AO0yUKWDDJRvfGA6/iomUDEd+7wFcry18+dncsQkUkpb0WINUvTsAfqg
+ 8gx+PfBY83hFmkYwx+ocuFyWHwhL7Yjptm3giGcINWp7oc9t4JrSxfBj2Zx/NcayoSnOdTAmLnN
+ PazvksCYJpVNGWaM=
+X-Received: by 2002:a05:600c:3b89:b0:3dc:19d1:3c13 with SMTP id
+ n9-20020a05600c3b8900b003dc19d13c13mr5794999wms.12.1675345146945; 
+ Thu, 02 Feb 2023 05:39:06 -0800 (PST)
+X-Google-Smtp-Source: AK7set+tu9xuitDBLs3s4M/wS7xM5DDqeIAUm4V83UxdJwwHN/GmKLN51wGkt9LTWFUgq0X7Mna1ng==
+X-Received: by 2002:a05:600c:3b89:b0:3dc:19d1:3c13 with SMTP id
+ n9-20020a05600c3b8900b003dc19d13c13mr5794979wms.12.1675345146754; 
+ Thu, 02 Feb 2023 05:39:06 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ m4-20020a05600c4f4400b003dc36981727sm5592032wmq.14.2023.02.02.05.39.05
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Thu, 02 Feb 2023 05:39:06 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+Cc: "manish.mishra" <manish.mishra@nutanix.com>,  qemu-devel@nongnu.org,
+ dgilbert@redhat.com,  lsoaresp@redhat.com,  Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH v6 1/2] io: Add support for MSG_PEEK for socket channel
+In-Reply-To: <Y9u26aMxlryK5c3o@redhat.com> ("Daniel P. =?utf-8?Q?Berrang?=
+ =?utf-8?Q?=C3=A9=22's?= message of
+ "Thu, 2 Feb 2023 13:13:13 +0000")
+References: <20221220184418.228834-1-manish.mishra@nutanix.com>
+ <20221220184418.228834-2-manish.mishra@nutanix.com>
+ <877cx0mf4b.fsf@secure.mitica> <Y9utB91u5JFeHBiN@redhat.com>
+ <87sffokz73.fsf@secure.mitica> <Y9u26aMxlryK5c3o@redhat.com>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Thu, 02 Feb 2023 14:39:05 +0100
+Message-ID: <87k010kwzq.fsf@secure.mitica>
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -83,462 +102,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Tracked down with the help of scripts/clean-includes.
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+> On Thu, Feb 02, 2023 at 01:51:28PM +0100, Juan Quintela wrote:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> wrote:
+>> > On Thu, Feb 02, 2023 at 01:22:12PM +0100, Juan Quintela wrote:
+>> >> "manish.mishra" <manish.mishra@nutanix.com> wrote:
+>> >> > MSG_PEEK peeks at the channel, The data is treated as unread and
+>> >> > the next read shall still return this data. This support is
+>> >> > currently added only for socket class. Extra parameter 'flags'
+>> >> > is added to io_readv calls to pass extra read flags like MSG_PEEK.
+>> >> >
+>> >> > Reviewed-by: Peter Xu <peterx@redhat.com>
+>> >> > Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
+>> >> > Suggested-by: Daniel P. Berrange <berrange@redhat.com>
+>> >> > Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
+>> >>=20
+>> >>=20
+>> >> This change breaks RDMA migration.
+>> >>=20
+>> >> FAILED: libcommon.fa.p/migration_rdma.c.o
+>> >> cc -m64 -mcx16 -Ilibcommon.fa.p -I/usr/include/pixman-1 -I/usr/includ=
+e/libpng16 -I/usr/include/spice-server -I/usr/include/spice-1 -I/usr/includ=
+e/cacard -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/inclu=
+de/sysprof-4 -I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include/PCSC -=
+I/usr/include/p11-kit-1 -I/usr/include/libusb-1.0 -I/usr/include/SDL2 -I/us=
+r/include/libmount -I/usr/include/blkid -I/usr/include/gio-unix-2.0 -I/usr/=
+include/slirp -fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -std=
+=3Dgnu11 -O2 -g -isystem /mnt/code/qemu/full/linux-headers -isystem linux-h=
+eaders -iquote . -iquote /mnt/code/qemu/full -iquote /mnt/code/qemu/full/in=
+clude -iquote /mnt/code/qemu/full/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_FO=
+RTIFY_SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE=
+ -fno-strict-aliasing -fno-common -fwrapv -Wundef -Wwrite-strings -Wmissing=
+-prototypes -Wstrict-prototypes -Wredundant-decls -Wold-style-declaration -=
+Wold-style-definition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-s=
+elf -Wignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexp=
+ansion-to-defined -Wimplicit-fallthrough=3D2 -Wmissing-format-attribute -Wn=
+o-missing-include-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protect=
+or-strong -fPIE -D_REENTRANT -Wno-undef -DSTRUCT_IOVEC_DEFINED -MD -MQ libc=
+ommon.fa.p/migration_rdma.c.o -MF libcommon.fa.p/migration_rdma.c.o.d -o li=
+bcommon.fa.p/migration_rdma.c.o -c ../../../../mnt/code/qemu/full/migration=
+/rdma.c
+>> >> ../../../../mnt/code/qemu/full/migration/rdma.c: In function =E2=80=
+=98qio_channel_rdma_class_init=E2=80=99:
+>> >> ../../../../mnt/code/qemu/full/migration/rdma.c:4020:25: error: assig=
+nment to =E2=80=98ssize_t (*)(QIOChannel *, const struct iovec *, size_t,  =
+int **, size_t *, int,  Error **)=E2=80=99 {aka =E2=80=98long int (*)(QIOCh=
+annel *, const struct iovec *, long unsigned int,  int **, long unsigned in=
+t *, int,  Error **)=E2=80=99} from incompatible pointer type =E2=80=98ssiz=
+e_t (*)(QIOChannel *, const struct iovec *, size_t,  int **, size_t *, Erro=
+r **)=E2=80=99 {aka =E2=80=98long int (*)(QIOChannel *, const struct iovec =
+*, long unsigned int,  int **, long unsigned int *, Error **)=E2=80=99} [-W=
+error=3Dincompatible-pointer-types]
+>> >>  4020 |     ioc_klass->io_readv =3D qio_channel_rdma_readv;
+>> >>       |                         ^
+>> >> cc1: all warnings being treated as errors
+>> >>=20
+>> >> And I don't really know how to fix it, because the problem is that rd=
+ma
+>> >> don't use qio_channel_readv_full() at all.
+>> >
+>> > Likely qio_channel_rdma_readv just adds the 'int flags' param added.
+>> > It doesn't need to actually do anything with the flags as they are
+>> > checked before
+>>=20
+>> I can do that.  That would fix the compilation issue.
+>>=20
+>> But will rdma work?  Because it fakes a qio channel, so what is going to
+>> implement the MSG_PEEK functionality for it?  It don't end calling
+>> recv() at all.
+>
+> It is no problem - the qio_channel_readv method changes in this patch
+> add:
+>
+> +    if ((flags & QIO_CHANNEL_READ_FLAG_MSG_PEEK) &&
+> +        !qio_channel_has_feature(ioc, QIO_CHANNEL_FEATURE_READ_MSG_PEEK)=
+) {
+> +        error_setg_errno(errp, EINVAL,
+> +                         "Channel does not support peek read");
+> +        return -1;
+> +    }
+>
+>
+> so it is impossible for qio_channel_rdma_readv to be invoked with
+> flags having MSG_PEEK set, thus RDMA can ignore the whole concept.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Acked-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
----
- include/hw/arm/fsl-imx6ul.h   | 1 -
- include/hw/arm/fsl-imx7.h     | 1 -
- backends/tpm/tpm_emulator.c   | 1 -
- hw/acpi/piix4.c               | 1 -
- hw/alpha/dp264.c              | 1 -
- hw/arm/virt.c                 | 1 -
- hw/arm/xlnx-versal.c          | 1 -
- hw/block/pflash_cfi01.c       | 1 -
- hw/core/machine.c             | 1 -
- hw/hppa/machine.c             | 1 -
- hw/i386/acpi-build.c          | 1 -
- hw/loongarch/acpi-build.c     | 1 -
- hw/misc/macio/cuda.c          | 1 -
- hw/misc/macio/pmu.c           | 1 -
- hw/net/xilinx_axienet.c       | 1 -
- hw/ppc/ppc405_uc.c            | 2 --
- hw/ppc/ppc440_bamboo.c        | 1 -
- hw/ppc/spapr_drc.c            | 1 -
- hw/rdma/vmw/pvrdma_dev_ring.c | 1 -
- hw/remote/machine.c           | 1 -
- hw/remote/remote-obj.c        | 1 -
- hw/rtc/mc146818rtc.c          | 1 -
- hw/s390x/virtio-ccw-serial.c  | 1 -
- migration/postcopy-ram.c      | 2 --
- softmmu/dirtylimit.c          | 1 -
- softmmu/runstate.c            | 1 -
- softmmu/vl.c                  | 1 -
- target/loongarch/translate.c  | 1 -
- target/mips/tcg/translate.c   | 1 -
- target/nios2/translate.c      | 2 --
- tests/unit/test-cutils.c      | 1 -
- ui/gtk.c                      | 1 -
- util/oslib-posix.c            | 4 ----
- 33 files changed, 39 deletions(-)
+And as we require MSG_PEEK to do migration, we have lost RDMA migration
+in the process.
 
-diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
-index 7812e516a5..1952cb984d 100644
---- a/include/hw/arm/fsl-imx6ul.h
-+++ b/include/hw/arm/fsl-imx6ul.h
-@@ -30,7 +30,6 @@
- #include "hw/timer/imx_gpt.h"
- #include "hw/timer/imx_epit.h"
- #include "hw/i2c/imx_i2c.h"
--#include "hw/gpio/imx_gpio.h"
- #include "hw/sd/sdhci.h"
- #include "hw/ssi/imx_spi.h"
- #include "hw/net/imx_fec.h"
-diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
-index 4e5e071864..355bd8ea83 100644
---- a/include/hw/arm/fsl-imx7.h
-+++ b/include/hw/arm/fsl-imx7.h
-@@ -32,7 +32,6 @@
- #include "hw/timer/imx_gpt.h"
- #include "hw/timer/imx_epit.h"
- #include "hw/i2c/imx_i2c.h"
--#include "hw/gpio/imx_gpio.h"
- #include "hw/sd/sdhci.h"
- #include "hw/ssi/imx_spi.h"
- #include "hw/net/imx_fec.h"
-diff --git a/backends/tpm/tpm_emulator.c b/backends/tpm/tpm_emulator.c
-index 67e7b212e3..d18144b92e 100644
---- a/backends/tpm/tpm_emulator.c
-+++ b/backends/tpm/tpm_emulator.c
-@@ -35,7 +35,6 @@
- #include "sysemu/runstate.h"
- #include "sysemu/tpm_backend.h"
- #include "sysemu/tpm_util.h"
--#include "sysemu/runstate.h"
- #include "tpm_int.h"
- #include "tpm_ioctl.h"
- #include "migration/blocker.h"
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 0a81f1ad93..df39f91294 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -35,7 +35,6 @@
- #include "sysemu/xen.h"
- #include "qapi/error.h"
- #include "qemu/range.h"
--#include "hw/acpi/pcihp.h"
- #include "hw/acpi/cpu_hotplug.h"
- #include "hw/acpi/cpu.h"
- #include "hw/hotplug.h"
-diff --git a/hw/alpha/dp264.c b/hw/alpha/dp264.c
-index c502c8c62a..4161f559a7 100644
---- a/hw/alpha/dp264.c
-+++ b/hw/alpha/dp264.c
-@@ -18,7 +18,6 @@
- #include "net/net.h"
- #include "qemu/cutils.h"
- #include "qemu/datadir.h"
--#include "net/net.h"
- 
- static uint64_t cpu_alpha_superpage_to_phys(void *opaque, uint64_t addr)
- {
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index ea2413a0ba..d3849d7233 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -33,7 +33,6 @@
- #include "qemu/units.h"
- #include "qemu/option.h"
- #include "monitor/qdev.h"
--#include "qapi/error.h"
- #include "hw/sysbus.h"
- #include "hw/arm/boot.h"
- #include "hw/arm/primecell.h"
-diff --git a/hw/arm/xlnx-versal.c b/hw/arm/xlnx-versal.c
-index 57276e1506..69b1b99e93 100644
---- a/hw/arm/xlnx-versal.c
-+++ b/hw/arm/xlnx-versal.c
-@@ -22,7 +22,6 @@
- #include "hw/misc/unimp.h"
- #include "hw/arm/xlnx-versal.h"
- #include "qemu/log.h"
--#include "hw/sysbus.h"
- 
- #define XLNX_VERSAL_ACPU_TYPE ARM_CPU_TYPE_NAME("cortex-a72")
- #define XLNX_VERSAL_RCPU_TYPE ARM_CPU_TYPE_NAME("cortex-r5f")
-diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 36d68c70f6..3c066e3405 100644
---- a/hw/block/pflash_cfi01.c
-+++ b/hw/block/pflash_cfi01.c
-@@ -45,7 +45,6 @@
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "qemu/bitops.h"
--#include "qemu/error-report.h"
- #include "qemu/host-utils.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 616f3a207c..67cf9f9dcd 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -39,7 +39,6 @@
- #include "exec/confidential-guest-support.h"
- #include "hw/virtio/virtio.h"
- #include "hw/virtio/virtio-pci.h"
--#include "qom/object_interfaces.h"
- 
- GlobalProperty hw_compat_7_2[] = {};
- const size_t hw_compat_7_2_len = G_N_ELEMENTS(hw_compat_7_2);
-diff --git a/hw/hppa/machine.c b/hw/hppa/machine.c
-index de1cc7ab71..7ac68c943f 100644
---- a/hw/hppa/machine.c
-+++ b/hw/hppa/machine.c
-@@ -28,7 +28,6 @@
- #include "qapi/error.h"
- #include "net/net.h"
- #include "qemu/log.h"
--#include "net/net.h"
- 
- #define MIN_SEABIOS_HPPA_VERSION 6 /* require at least this fw version */
- 
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 127c4e2d50..14f6f75454 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -76,7 +76,6 @@
- 
- #include "hw/acpi/hmat.h"
- #include "hw/acpi/viot.h"
--#include "hw/acpi/cxl.h"
- 
- #include CONFIG_DEVICES
- 
-diff --git a/hw/loongarch/acpi-build.c b/hw/loongarch/acpi-build.c
-index c2b237736d..f551296a0e 100644
---- a/hw/loongarch/acpi-build.c
-+++ b/hw/loongarch/acpi-build.c
-@@ -22,7 +22,6 @@
- /* Supported chipsets: */
- #include "hw/pci-host/ls7a.h"
- #include "hw/loongarch/virt.h"
--#include "hw/acpi/aml-build.h"
- 
- #include "hw/acpi/utils.h"
- #include "hw/acpi/pci.h"
-diff --git a/hw/misc/macio/cuda.c b/hw/misc/macio/cuda.c
-index 853e88bfed..29a8e5ed19 100644
---- a/hw/misc/macio/cuda.c
-+++ b/hw/misc/macio/cuda.c
-@@ -30,7 +30,6 @@
- #include "hw/input/adb.h"
- #include "hw/misc/mos6522.h"
- #include "hw/misc/macio/cuda.h"
--#include "qapi/error.h"
- #include "qemu/timer.h"
- #include "sysemu/runstate.h"
- #include "sysemu/rtc.h"
-diff --git a/hw/misc/macio/pmu.c b/hw/misc/macio/pmu.c
-index 97ef8c771b..5a788e595a 100644
---- a/hw/misc/macio/pmu.c
-+++ b/hw/misc/macio/pmu.c
-@@ -36,7 +36,6 @@
- #include "hw/misc/mos6522.h"
- #include "hw/misc/macio/gpio.h"
- #include "hw/misc/macio/pmu.h"
--#include "qapi/error.h"
- #include "qemu/timer.h"
- #include "sysemu/runstate.h"
- #include "sysemu/rtc.h"
-diff --git a/hw/net/xilinx_axienet.c b/hw/net/xilinx_axienet.c
-index 7e00965323..5b19a01eaa 100644
---- a/hw/net/xilinx_axienet.c
-+++ b/hw/net/xilinx_axienet.c
-@@ -31,7 +31,6 @@
- #include "net/net.h"
- #include "net/checksum.h"
- 
--#include "hw/hw.h"
- #include "hw/irq.h"
- #include "hw/qdev-properties.h"
- #include "hw/stream.h"
-diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-index c973cfb04e..0cc68178ad 100644
---- a/hw/ppc/ppc405_uc.c
-+++ b/hw/ppc/ppc405_uc.c
-@@ -38,8 +38,6 @@
- #include "sysemu/sysemu.h"
- #include "exec/address-spaces.h"
- #include "hw/intc/ppc-uic.h"
--#include "hw/qdev-properties.h"
--#include "qapi/error.h"
- #include "trace.h"
- 
- /*****************************************************************************/
-diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-index 81d71adf34..2880c81cb1 100644
---- a/hw/ppc/ppc440_bamboo.c
-+++ b/hw/ppc/ppc440_bamboo.c
-@@ -13,7 +13,6 @@
- 
- #include "qemu/osdep.h"
- #include "qemu/units.h"
--#include "qemu/error-report.h"
- #include "qemu/datadir.h"
- #include "qemu/error-report.h"
- #include "net/net.h"
-diff --git a/hw/ppc/spapr_drc.c b/hw/ppc/spapr_drc.c
-index 4923435a8b..b5c400a94d 100644
---- a/hw/ppc/spapr_drc.c
-+++ b/hw/ppc/spapr_drc.c
-@@ -17,7 +17,6 @@
- #include "hw/ppc/spapr_drc.h"
- #include "qom/object.h"
- #include "migration/vmstate.h"
--#include "qapi/error.h"
- #include "qapi/qapi-events-qdev.h"
- #include "qapi/visitor.h"
- #include "qemu/error-report.h"
-diff --git a/hw/rdma/vmw/pvrdma_dev_ring.c b/hw/rdma/vmw/pvrdma_dev_ring.c
-index 598e6adc5e..30ce22a5be 100644
---- a/hw/rdma/vmw/pvrdma_dev_ring.c
-+++ b/hw/rdma/vmw/pvrdma_dev_ring.c
-@@ -14,7 +14,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/cutils.h"
- #include "hw/pci/pci.h"
- #include "cpu.h"
- #include "qemu/cutils.h"
-diff --git a/hw/remote/machine.c b/hw/remote/machine.c
-index 519f855ec1..fdc6c441bb 100644
---- a/hw/remote/machine.c
-+++ b/hw/remote/machine.c
-@@ -22,7 +22,6 @@
- #include "hw/remote/iohub.h"
- #include "hw/remote/iommu.h"
- #include "hw/qdev-core.h"
--#include "hw/remote/iommu.h"
- #include "hw/remote/vfio-user-obj.h"
- #include "hw/pci/msi.h"
- 
-diff --git a/hw/remote/remote-obj.c b/hw/remote/remote-obj.c
-index 333e5ac443..65b6f7cc86 100644
---- a/hw/remote/remote-obj.c
-+++ b/hw/remote/remote-obj.c
-@@ -12,7 +12,6 @@
- #include "qemu/error-report.h"
- #include "qemu/notify.h"
- #include "qom/object_interfaces.h"
--#include "hw/qdev-core.h"
- #include "io/channel.h"
- #include "hw/qdev-core.h"
- #include "hw/remote/machine.h"
-diff --git a/hw/rtc/mc146818rtc.c b/hw/rtc/mc146818rtc.c
-index bc1192b7ae..ba612a151d 100644
---- a/hw/rtc/mc146818rtc.c
-+++ b/hw/rtc/mc146818rtc.c
-@@ -43,7 +43,6 @@
- #include "qapi/error.h"
- #include "qapi/qapi-events-misc.h"
- #include "qapi/visitor.h"
--#include "hw/rtc/mc146818rtc_regs.h"
- 
- //#define DEBUG_CMOS
- //#define DEBUG_COALESCED
-diff --git a/hw/s390x/virtio-ccw-serial.c b/hw/s390x/virtio-ccw-serial.c
-index bf8057880f..8f8d2302f8 100644
---- a/hw/s390x/virtio-ccw-serial.c
-+++ b/hw/s390x/virtio-ccw-serial.c
-@@ -15,7 +15,6 @@
- #include "hw/qdev-properties.h"
- #include "hw/virtio/virtio-serial.h"
- #include "virtio-ccw.h"
--#include "hw/virtio/virtio-serial.h"
- 
- #define TYPE_VIRTIO_SERIAL_CCW "virtio-serial-ccw"
- OBJECT_DECLARE_SIMPLE_TYPE(VirtioSerialCcw, VIRTIO_SERIAL_CCW)
-diff --git a/migration/postcopy-ram.c b/migration/postcopy-ram.c
-index b9a37ef255..8b7d1af75d 100644
---- a/migration/postcopy-ram.c
-+++ b/migration/postcopy-ram.c
-@@ -17,7 +17,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/rcu.h"
- #include "qemu/madvise.h"
- #include "exec/target_page.h"
- #include "migration.h"
-@@ -34,7 +33,6 @@
- #include "hw/boards.h"
- #include "exec/ramblock.h"
- #include "socket.h"
--#include "qemu-file.h"
- #include "yank_functions.h"
- #include "tls.h"
- 
-diff --git a/softmmu/dirtylimit.c b/softmmu/dirtylimit.c
-index 12668555f2..c56f0f58c8 100644
---- a/softmmu/dirtylimit.c
-+++ b/softmmu/dirtylimit.c
-@@ -11,7 +11,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qapi/error.h"
- #include "qemu/main-loop.h"
- #include "qapi/qapi-commands-migration.h"
- #include "qapi/qmp/qdict.h"
-diff --git a/softmmu/runstate.c b/softmmu/runstate.c
-index cab9f6fc07..f9ad88e6a7 100644
---- a/softmmu/runstate.c
-+++ b/softmmu/runstate.c
-@@ -41,7 +41,6 @@
- #include "qapi/qapi-commands-run-state.h"
- #include "qapi/qapi-events-run-state.h"
- #include "qemu/error-report.h"
--#include "qemu/log.h"
- #include "qemu/job.h"
- #include "qemu/log.h"
- #include "qemu/module.h"
-diff --git a/softmmu/vl.c b/softmmu/vl.c
-index 5355a7fe5a..b2ee3fee3f 100644
---- a/softmmu/vl.c
-+++ b/softmmu/vl.c
-@@ -129,7 +129,6 @@
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-visit-qom.h"
- #include "qapi/qapi-commands-ui.h"
--#include "qapi/qmp/qdict.h"
- #include "block/qdict.h"
- #include "qapi/qmp/qerror.h"
- #include "sysemu/iothread.h"
-diff --git a/target/loongarch/translate.c b/target/loongarch/translate.c
-index 38ced69803..72a6275665 100644
---- a/target/loongarch/translate.c
-+++ b/target/loongarch/translate.c
-@@ -12,7 +12,6 @@
- #include "exec/helper-proto.h"
- #include "exec/helper-gen.h"
- 
--#include "exec/translator.h"
- #include "exec/log.h"
- #include "qemu/qemu-print.h"
- #include "fpu/softfloat.h"
-diff --git a/target/mips/tcg/translate.c b/target/mips/tcg/translate.c
-index 624e6b7786..aa12bb708a 100644
---- a/target/mips/tcg/translate.c
-+++ b/target/mips/tcg/translate.c
-@@ -32,7 +32,6 @@
- #include "semihosting/semihost.h"
- 
- #include "trace.h"
--#include "exec/translator.h"
- #include "exec/log.h"
- #include "qemu/qemu-print.h"
- #include "fpu_helper.h"
-diff --git a/target/nios2/translate.c b/target/nios2/translate.c
-index 4db8b47744..7aee65a089 100644
---- a/target/nios2/translate.c
-+++ b/target/nios2/translate.c
-@@ -938,8 +938,6 @@ static const char * const cr_regnames[NUM_CR_REGS] = {
- };
- #endif
- 
--#include "exec/gen-icount.h"
--
- /* generate intermediate code for basic block 'tb'.  */
- static void nios2_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
- {
-diff --git a/tests/unit/test-cutils.c b/tests/unit/test-cutils.c
-index 2126b46391..3c4f875420 100644
---- a/tests/unit/test-cutils.c
-+++ b/tests/unit/test-cutils.c
-@@ -26,7 +26,6 @@
-  */
- 
- #include "qemu/osdep.h"
--#include "qemu/units.h"
- #include "qemu/cutils.h"
- #include "qemu/units.h"
- 
-diff --git a/ui/gtk.c b/ui/gtk.c
-index 4817623c8f..7f752d8b7d 100644
---- a/ui/gtk.c
-+++ b/ui/gtk.c
-@@ -53,7 +53,6 @@
- #include <math.h>
- 
- #include "trace.h"
--#include "qemu/cutils.h"
- #include "ui/input.h"
- #include "sysemu/runstate.h"
- #include "sysemu/sysemu.h"
-diff --git a/util/oslib-posix.c b/util/oslib-posix.c
-index fd03fd32c8..77d882e681 100644
---- a/util/oslib-posix.c
-+++ b/util/oslib-posix.c
-@@ -59,10 +59,6 @@
- 
- #include "qemu/mmap-alloc.h"
- 
--#ifdef CONFIG_DEBUG_STACK_USAGE
--#include "qemu/error-report.h"
--#endif
--
- #define MAX_MEM_PREALLOC_THREAD_COUNT 16
- 
- struct MemsetThread;
--- 
-2.39.0
+The following patch on the series use this functionality to read the
+beggining of the streams in the channels.
+
+Later, Juan.
 
 
