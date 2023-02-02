@@ -2,106 +2,83 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07F876883AB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 17:07:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 60DF26883AE
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 17:07:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNc6Q-0006aG-Pr; Thu, 02 Feb 2023 11:06:22 -0500
+	id 1pNc7X-00072y-IH; Thu, 02 Feb 2023 11:07:35 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pNc6C-0006ZW-EX; Thu, 02 Feb 2023 11:06:08 -0500
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1])
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNc77-0006zg-Dm
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:07:05 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <nsg@linux.ibm.com>)
- id 1pNc65-0004J6-Vu; Thu, 02 Feb 2023 11:06:08 -0500
-Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id
- 312EBGCU002095; Thu, 2 Feb 2023 16:05:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com;
- h=message-id : subject :
- from : to : cc : date : in-reply-to : references : content-type :
- content-transfer-encoding : mime-version; s=pp1;
- bh=D3FV9Y0GvJS2l6SYHPVWLLzH43WlotAtU617C7bwbMM=;
- b=DHFR7RonXLVLk1jtoZnDrxgx7GeijBGXIUZNkEuNa6/HC3CPPW0iv5tWonO1BSwdm/OB
- WOd1ZV7Q7pF0Vf2htPLHEbYaqTPXHCKsh7ZfSIcqRGaN1VwcFL39JNorkDnS7a6ooiHo
- tHbViAjbIlx7XQb/32+CE3e8rqhYM+dmaWzIvTN/BTcxgF458dSyYdBthz+ywfjJQrZj
- rHQR2Ir8V+BPbtHCrRiNIadmatZOYgJ2o6QjdGSqwH5n6B0LA7416lZ99du7wfguxKhA
- xcKXWdlIv0RCXSOc/bONNMCRQQ8qZaYRDu6sIZTXj0nKiC8wzZWRRQFvs+hbSufyx+5D ug== 
-Received: from pps.reinject (localhost [127.0.0.1])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ngd74dswv-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Feb 2023 16:05:53 +0000
-Received: from m0098396.ppops.net (m0098396.ppops.net [127.0.0.1])
- by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 312Et9P9025153;
- Thu, 2 Feb 2023 16:05:53 GMT
-Received: from ppma06ams.nl.ibm.com (66.31.33a9.ip4.static.sl-reverse.com
- [169.51.49.102])
- by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 3ngd74dsvg-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Feb 2023 16:05:53 +0000
-Received: from pps.filterd (ppma06ams.nl.ibm.com [127.0.0.1])
- by ppma06ams.nl.ibm.com (8.17.1.19/8.17.1.19) with ESMTP id 312CugD2014744;
- Thu, 2 Feb 2023 16:05:50 GMT
-Received: from smtprelay02.fra02v.mail.ibm.com ([9.218.2.226])
- by ppma06ams.nl.ibm.com (PPS) with ESMTPS id 3ncvttxcnm-1
- (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
- Thu, 02 Feb 2023 16:05:50 +0000
-Received: from smtpav02.fra02v.mail.ibm.com (smtpav02.fra02v.mail.ibm.com
- [10.20.54.101])
- by smtprelay02.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
- 312G5lAE37552520
- (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
- Thu, 2 Feb 2023 16:05:47 GMT
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 0645720063;
- Thu,  2 Feb 2023 16:05:47 +0000 (GMT)
-Received: from smtpav02.fra02v.mail.ibm.com (unknown [127.0.0.1])
- by IMSVA (Postfix) with ESMTP id 917AA2004F;
- Thu,  2 Feb 2023 16:05:46 +0000 (GMT)
-Received: from li-7e0de7cc-2d9d-11b2-a85c-de26c016e5ad.ibm.com (unknown
- [9.171.142.89]) by smtpav02.fra02v.mail.ibm.com (Postfix) with ESMTP;
- Thu,  2 Feb 2023 16:05:46 +0000 (GMT)
-Message-ID: <9fed7aba2819a6564b785e90c2284b2a83f35431.camel@linux.ibm.com>
-Subject: Re: [PATCH v15 01/11] s390x/cpu topology: adding s390 specificities
- to CPU topology
-From: Nina Schoetterl-Glausch <nsg@linux.ibm.com>
-To: Pierre Morel <pmorel@linux.ibm.com>, qemu-s390x@nongnu.org
-Cc: qemu-devel@nongnu.org, borntraeger@de.ibm.com, pasic@linux.ibm.com,
- richard.henderson@linaro.org, david@redhat.com, thuth@redhat.com,
- cohuck@redhat.com, mst@redhat.com, pbonzini@redhat.com,
- kvm@vger.kernel.org, ehabkost@redhat.com, marcel.apfelbaum@gmail.com,
- eblake@redhat.com, armbru@redhat.com, seiden@linux.ibm.com,
- nrb@linux.ibm.com, frankja@linux.ibm.com, berrange@redhat.com, clg@kaod.org
-Date: Thu, 02 Feb 2023 17:05:46 +0100
-In-Reply-To: <20230201132051.126868-2-pmorel@linux.ibm.com>
-References: <20230201132051.126868-1-pmorel@linux.ibm.com>
- <20230201132051.126868-2-pmorel@linux.ibm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.3 (3.46.3-1.fc37) 
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pNc74-0004yt-37
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:07:04 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675354020;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=fssLqWKbfUr/0NTiRsU4QHzh41eeYYWFL5VJNteRAjk=;
+ b=faTp/cMOFBfePVEwu1r48RaG2uSoS4ZxTKUxMlbTJIIg4bmV+na24CeszACqJUYYIOae75
+ OGi+JoJTiWNRZocHRrB6TdUNr/jgtCiB/M9O5b0rNDkjkhvwa6rBykkTqgpHOD9YsutB5P
+ gPOVuAyNfvYSHVl4qFnm7UEcdLMVQdM=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-317-lusupcgsOVaGMaeiuYveOg-1; Thu, 02 Feb 2023 11:06:57 -0500
+X-MC-Unique: lusupcgsOVaGMaeiuYveOg-1
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.5])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 4EB3787B2A6;
+ Thu,  2 Feb 2023 16:06:46 +0000 (UTC)
+Received: from secure.mitica (unknown [10.39.192.57])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 2F7DC51FF;
+ Thu,  2 Feb 2023 16:06:41 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ Ilya Leoshkevich <iii@linux.ibm.com>, Halil Pasic <pasic@linux.ibm.com>,
+ =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+ Coiby Xu <Coiby.Xu@gmail.com>, Eric Farman <farman@linux.ibm.com>,
+ Alex Williamson <alex.williamson@redhat.com>,
+ Christian Borntraeger <borntraeger@linux.ibm.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Stefan Berger <stefanb@linux.vnet.ibm.com>, Eric Blake <eblake@redhat.com>,
+ Eduardo Habkost <eduardo@habkost.net>,
+ "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+ Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ John Snow <jsnow@redhat.com>, Yanan Wang <wangyanan55@huawei.com>,
+ =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>,
+ qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
+ Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>,
+ qemu-s390x@nongnu.org
+Subject: [PULL 00/26] Next patches
+Date: Thu,  2 Feb 2023 17:06:14 +0100
+Message-Id: <20230202160640.2300-1-quintela@redhat.com>
 MIME-Version: 1.0
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: xENYh6gJfcYtb0ZTXamuWLH_OTgv6mG-
-X-Proofpoint-GUID: R-UAo-g1wt-0rZw87a81WjT7jXvwB5Jg
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.219,Aquarius:18.0.930,Hydra:6.0.562,FMLib:17.11.122.1
- definitions=2023-02-02_10,2023-02-02_01,2022-06-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0
- mlxlogscore=999 malwarescore=0 clxscore=1011 priorityscore=1501
- phishscore=0 mlxscore=0 spamscore=0 lowpriorityscore=0 adultscore=0
- bulkscore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2212070000 definitions=main-2302020143
-Received-SPF: pass client-ip=148.163.156.1; envelope-from=nsg@linux.ibm.com;
- helo=mx0a-001b2d01.pphosted.com
-X-Spam_score_int: -19
-X-Spam_score: -2.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.5
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.0 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -117,88 +94,131 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Nit patch title: s390x/cpu topology: add s390 specifics to CPU topology ?
+The following changes since commit deabea6e88f7c4c3c12a36ee30051c6209561165:
 
-On Wed, 2023-02-01 at 14:20 +0100, Pierre Morel wrote:
-> S390 adds two new SMP levels, drawers and books to the CPU
-> topology.
-> The S390 CPU have specific toplogy features like dedication
-                                ^o
-> and polarity to give to the guest indications on the host
-> vCPUs scheduling and help the guest take the best decisions
-> on the scheduling of threads on the vCPUs.
->=20
-> Let us provide the SMP properties with books and drawers levels
-> and S390 CPU with dedication and polarity,
->=20
-> Signed-off-by: Pierre Morel <pmorel@linux.ibm.com>
-> ---
->  qapi/machine.json               | 14 ++++++++--
->  include/hw/boards.h             | 10 ++++++-
->  include/hw/s390x/cpu-topology.h | 24 +++++++++++++++++
->  target/s390x/cpu.h              |  5 ++++
->  hw/core/machine-smp.c           | 48 ++++++++++++++++++++++++++++-----
->  hw/core/machine.c               |  4 +++
->  hw/s390x/s390-virtio-ccw.c      |  2 ++
->  softmmu/vl.c                    |  6 +++++
->  target/s390x/cpu.c              |  7 +++++
->  qemu-options.hx                 |  7 +++--
->  10 files changed, 115 insertions(+), 12 deletions(-)
->  create mode 100644 include/hw/s390x/cpu-topology.h
->=20
-[...]
->=20
-> diff --git a/include/hw/s390x/cpu-topology.h b/include/hw/s390x/cpu-topol=
-ogy.h
-> new file mode 100644
-> index 0000000000..7a84b30a21
-> --- /dev/null
-> +++ b/include/hw/s390x/cpu-topology.h
-> @@ -0,0 +1,24 @@
-> +/*
-> + * CPU Topology
-> + *
-> + * Copyright IBM Corp. 2022
-> + *
-> + * This work is licensed under the terms of the GNU GPL, version 2 or (a=
-t
-> + * your option) any later version. See the COPYING file in the top-level
-> + * directory.
-> + */
-> +#ifndef HW_S390X_CPU_TOPOLOGY_H
-> +#define HW_S390X_CPU_TOPOLOGY_H
-> +
-> +#define S390_TOPOLOGY_CPU_IFL   0x03
-> +
-> +enum s390_topology_polarity {
-> +    POLARITY_HORIZONTAL,
-> +    POLARITY_VERTICAL,
-> +    POLARITY_VERTICAL_LOW =3D 1,
-> +    POLARITY_VERTICAL_MEDIUM,
-> +    POLARITY_VERTICAL_HIGH,
-> +    POLARITY_MAX,
-> +};
+  Merge tag 'for_upstream' of https://git.kernel.org/pub/scm/virt/kvm/mst/qemu into staging (2023-02-02 10:10:07 +0000)
 
-Probably a good idea to keep the S390 prefix.
-This works, but aliasing VERTICAL and VERTICAL_LOW is not
-entirely straight forward.
+are available in the Git repository at:
 
-Why not have two enum?
-enum s390_topology_polarity {
-	S390_POLARITY_HORIZONTAL,
-	S390_POLARITY_VERTICAL,
-};
+  https://gitlab.com/juan.quintela/qemu.git tags/next-pull-request
 
-enum s390_topology_entitlement {
-	S390_ENTITLEMENT_LOW =3D 1,
-	S390_ENTITLEMENT_MEDIUM,
-	S390_ENTITLEMENT_HIGH,
-	S390_ENTITLEMENT_MAX,
-};
-Maybe add an ENTITLEMENT_INVALID/NONE, if you need that, as first value.
+for you to fetch changes up to 5ee6d3d1eeccd85aa2a835e82b8d9e1b4f7441e1:
 
-> +#endif
->=20
-[...]
+  migration: check magic value for deciding the mapping of channels (2023-02-02 17:04:16 +0100)
+
+----------------------------------------------------------------
+Migration PULL request, new try
+
+Hi
+
+It includes:
+- David Hildenbrand fixes for virtio-men
+- David Gilbert canary to detect problems
+- Fix for rdma return values (Fiona)
+- Peter Xu uffd_open fixes
+- Peter Xu show right downtime for postcopy
+- manish.mishra msg fix fixes
+- my vfio changes.
+
+Please apply.
+
+Please, apply.
+
+----------------------------------------------------------------
+
+David Hildenbrand (13):
+  migration/ram: Fix populate_read_range()
+  migration/ram: Fix error handling in ram_write_tracking_start()
+  migration/ram: Don't explicitly unprotect when unregistering uffd-wp
+  migration/ram: Rely on used_length for uffd_change_protection()
+  migration/ram: Optimize ram_write_tracking_start() for
+    RamDiscardManager
+  migration/savevm: Move more savevm handling into vmstate_save()
+  migration/savevm: Prepare vmdesc json writer in
+    qemu_savevm_state_setup()
+  migration/savevm: Allow immutable device state to be migrated early
+    (i.e., before RAM)
+  migration/vmstate: Introduce VMSTATE_WITH_TMP_TEST() and
+    VMSTATE_BITMAP_TEST()
+  migration/ram: Factor out check for advised postcopy
+  virtio-mem: Fail if a memory backend with "prealloc=on" is specified
+  virtio-mem: Migrate immutable properties early
+  virtio-mem: Proper support for preallocation with migration
+
+Dr. David Alan Gilbert (2):
+  migration: Add canary to VMSTATE_END_OF_LIST
+  migration: Perform vmsd structure check during tests
+
+Fiona Ebner (1):
+  migration/rdma: fix return value for qio_channel_rdma_{readv,writev}
+
+Juan Quintela (4):
+  migration: No save_live_pending() method uses the QEMUFile parameter
+  migration: Split save_live_pending() into state_pending_*
+  migration: Remove unused threshold_size parameter
+  migration: simplify migration_iteration_run()
+
+Peter Xu (3):
+  migration: Fix migration crash when target psize larger than host
+  util/userfaultfd: Add uffd_open()
+  migration: Show downtime during postcopy phase
+
+Zhenzhong Duan (1):
+  migration/dirtyrate: Show sample pages only in page-sampling mode
+
+manish.mishra (2):
+  io: Add support for MSG_PEEK for socket channel
+  migration: check magic value for deciding the mapping of channels
+
+ docs/devel/migration.rst            |  18 +--
+ docs/devel/vfio-migration.rst       |   4 +-
+ include/hw/virtio/virtio-mem.h      |   8 ++
+ include/io/channel.h                |   6 +
+ include/migration/misc.h            |   4 +-
+ include/migration/register.h        |  17 +--
+ include/migration/vmstate.h         |  35 +++++-
+ include/qemu/userfaultfd.h          |   8 ++
+ migration/channel.h                 |   5 +
+ migration/migration.h               |   4 +
+ migration/multifd.h                 |   2 +-
+ migration/postcopy-ram.h            |   2 +-
+ migration/savevm.h                  |  10 +-
+ chardev/char-socket.c               |   4 +-
+ hw/core/machine.c                   |   4 +-
+ hw/s390x/s390-stattrib.c            |  11 +-
+ hw/vfio/migration.c                 |  20 +--
+ hw/virtio/virtio-mem.c              | 144 ++++++++++++++++++++-
+ io/channel-buffer.c                 |   1 +
+ io/channel-command.c                |   1 +
+ io/channel-file.c                   |   1 +
+ io/channel-null.c                   |   1 +
+ io/channel-socket.c                 |  19 ++-
+ io/channel-tls.c                    |   1 +
+ io/channel-websock.c                |   1 +
+ io/channel.c                        |  16 ++-
+ migration/block-dirty-bitmap.c      |  14 +--
+ migration/block.c                   |  13 +-
+ migration/channel-block.c           |   1 +
+ migration/channel.c                 |  45 +++++++
+ migration/dirtyrate.c               |  10 +-
+ migration/migration.c               | 119 ++++++++++++------
+ migration/multifd.c                 |  19 +--
+ migration/postcopy-ram.c            |  16 +--
+ migration/ram.c                     | 120 +++++++++++++-----
+ migration/rdma.c                    |  16 ++-
+ migration/savevm.c                  | 187 ++++++++++++++++++++--------
+ migration/vmstate.c                 |   2 +
+ scsi/qemu-pr-helper.c               |   2 +-
+ tests/qtest/migration-test.c        |   3 +-
+ tests/qtest/tpm-emu.c               |   2 +-
+ tests/unit/test-io-channel-socket.c |   1 +
+ util/userfaultfd.c                  |  13 +-
+ util/vhost-user-server.c            |   2 +-
+ hw/vfio/trace-events                |   2 +-
+ migration/trace-events              |   7 +-
+ 46 files changed, 715 insertions(+), 226 deletions(-)
+
+-- 
+2.39.1
 
 
