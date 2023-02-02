@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 874906875D8
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 07:23:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A8386875CF
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 07:23:04 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNSyv-0005pV-DM; Thu, 02 Feb 2023 01:22:01 -0500
+	id 1pNSyy-0005qI-1Z; Thu, 02 Feb 2023 01:22:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pNSyt-0005p4-7S
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 01:21:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ id 1pNSyw-0005q8-9g
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 01:22:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <jasowang@redhat.com>)
- id 1pNSyr-0006fA-NM
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 01:21:58 -0500
+ id 1pNSyu-0006fi-M5
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 01:22:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675318917;
+ s=mimecast20190719; t=1675318920;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=479NoBReSy7LS6aRxv7AH28X+pdJVc67AOSSoyYozO0=;
- b=ZZbL3rLJYuuqazEcFv5lwqTd4OM/eUBIofY1Mv4cIwRFhCZbDFmEDvnCiEvAUXPcK1rCJ+
- 4Ulgjqobry4V5oa6cX750Cmzz8/9a+PVaAuRmKhIkWE+Ft3OYanXw0Vb9sd7lDntOExsAg
- IFEtpSejPLSogcnuNR6c0WUaa+3wgaI=
+ bh=TwNHaHxJN+PwwFzTbjQzvXD6UyPedYFtyj+WeZcwq8M=;
+ b=MkQ/uwConcJf+ZnYaGcBoF9LEbFFXvRdwAMNo9hyKGTxR/P4FRsWRHBrgPK4VHy9TTQ9nJ
+ qJpNRamrBr7s0j+2ieFQlJ7jQvjMkywFdiHoxzUR3ZYRNE0pGX5bQ2gbL4NJZOaZAVqWTF
+ w511cQfGjw+7k83UedplR3hzCYXHHpY=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-371-6Rb4HVrtOmaz8n4gYBC_sw-1; Thu, 02 Feb 2023 01:21:53 -0500
-X-MC-Unique: 6Rb4HVrtOmaz8n4gYBC_sw-1
+ us-mta-646-Pr6b6GBrPV2g5fXPwMYnxw-1; Thu, 02 Feb 2023 01:21:56 -0500
+X-MC-Unique: Pr6b6GBrPV2g5fXPwMYnxw-1
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
  [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 7731E181E3F0;
- Thu,  2 Feb 2023 06:21:53 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id E5BDF101A55E;
+ Thu,  2 Feb 2023 06:21:55 +0000 (UTC)
 Received: from localhost.localdomain (ovpn-14-0.pek2.redhat.com [10.72.14.0])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 9078F404BEC0;
- Thu,  2 Feb 2023 06:21:51 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 16633404BEC0;
+ Thu,  2 Feb 2023 06:21:53 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Cc: Joelle van Dyne <j@getutm.app>,
+Cc: Qiang Liu <cyruscyliu@gmail.com>,
 	Jason Wang <jasowang@redhat.com>
-Subject: [PULL 07/11] vmnet: stop recieving events when VM is stopped
-Date: Thu,  2 Feb 2023 14:21:22 +0800
-Message-Id: <20230202062126.67550-8-jasowang@redhat.com>
+Subject: [PULL 08/11] hw/net/can/xlnx-zynqmp-can: fix assertion failures in
+ transfer_fifo()
+Date: Thu,  2 Feb 2023 14:21:23 +0800
+Message-Id: <20230202062126.67550-9-jasowang@redhat.com>
 In-Reply-To: <20230202062126.67550-1-jasowang@redhat.com>
 References: <20230202062126.67550-1-jasowang@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=jasowang@redhat.com;
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=jasowang@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,115 +81,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Joelle van Dyne <j@getutm.app>
+From: Qiang Liu <cyruscyliu@gmail.com>
 
-When the VM is stopped using the HMP command "stop", soon the handler will
-stop reading from the vmnet interface. This causes a flood of
-`VMNET_INTERFACE_PACKETS_AVAILABLE` events to arrive and puts the host CPU
-at 100%. We fix this by removing the event handler from vmnet when the VM
-is no longer in a running state and restore it when we return to a running
-state.
+Check fifos before poping data from and pushing data into it.
 
-Signed-off-by: Joelle van Dyne <j@getutm.app>
+Fixes: 98e5d7a2b726 ("hw/net/can: Introduce Xilinx ZynqMP CAN controller")
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1425
+Resolves: https://gitlab.com/qemu-project/qemu/-/issues/1427
+Reported-by: Qiang Liu <cyruscyliu@gmail.com>
+Signed-off-by: Qiang Liu <cyruscyliu@gmail.com>
 Signed-off-by: Jason Wang <jasowang@redhat.com>
 ---
- net/vmnet-common.m | 48 +++++++++++++++++++++++++++++++++++-------------
- net/vmnet_int.h    |  2 ++
- 2 files changed, 37 insertions(+), 13 deletions(-)
+ hw/net/can/xlnx-zynqmp-can.c | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/net/vmnet-common.m b/net/vmnet-common.m
-index 2cb60b9..2958283 100644
---- a/net/vmnet-common.m
-+++ b/net/vmnet-common.m
-@@ -17,6 +17,7 @@
- #include "clients.h"
- #include "qemu/error-report.h"
- #include "qapi/error.h"
-+#include "sysemu/runstate.h"
- 
- #include <vmnet/vmnet.h>
- #include <dispatch/dispatch.h>
-@@ -242,6 +243,35 @@ static void vmnet_bufs_init(VmnetState *s)
-     }
- }
- 
-+/**
-+ * Called on state change to un-register/re-register handlers
-+ */
-+static void vmnet_vm_state_change_cb(void *opaque, bool running, RunState state)
-+{
-+    VmnetState *s = opaque;
-+
-+    if (running) {
-+        vmnet_interface_set_event_callback(
-+            s->vmnet_if,
-+            VMNET_INTERFACE_PACKETS_AVAILABLE,
-+            s->if_queue,
-+            ^(interface_event_t event_id, xpc_object_t event) {
-+                assert(event_id == VMNET_INTERFACE_PACKETS_AVAILABLE);
-+                /*
-+                 * This function is being called from a non qemu thread, so
-+                 * we only schedule a BH, and do the rest of the io completion
-+                 * handling from vmnet_send_bh() which runs in a qemu context.
-+                 */
-+                qemu_bh_schedule(s->send_bh);
-+            });
-+    } else {
-+        vmnet_interface_set_event_callback(
-+            s->vmnet_if,
-+            VMNET_INTERFACE_PACKETS_AVAILABLE,
-+            NULL,
-+            NULL);
-+    }
-+}
- 
- int vmnet_if_create(NetClientState *nc,
-                     xpc_object_t if_desc,
-@@ -329,19 +359,9 @@ int vmnet_if_create(NetClientState *nc,
-     s->packets_send_current_pos = 0;
-     s->packets_send_end_pos = 0;
- 
--    vmnet_interface_set_event_callback(
--        s->vmnet_if,
--        VMNET_INTERFACE_PACKETS_AVAILABLE,
--        s->if_queue,
--        ^(interface_event_t event_id, xpc_object_t event) {
--            assert(event_id == VMNET_INTERFACE_PACKETS_AVAILABLE);
--            /*
--             * This function is being called from a non qemu thread, so
--             * we only schedule a BH, and do the rest of the io completion
--             * handling from vmnet_send_bh() which runs in a qemu context.
--             */
--            qemu_bh_schedule(s->send_bh);
--        });
-+    vmnet_vm_state_change_cb(s, 1, RUN_STATE_RUNNING);
-+
-+    s->change = qemu_add_vm_change_state_handler(vmnet_vm_state_change_cb, s);
- 
-     return 0;
- }
-@@ -356,6 +376,8 @@ void vmnet_cleanup_common(NetClientState *nc)
-         return;
+diff --git a/hw/net/can/xlnx-zynqmp-can.c b/hw/net/can/xlnx-zynqmp-can.c
+index e93e6c5..55d3221 100644
+--- a/hw/net/can/xlnx-zynqmp-can.c
++++ b/hw/net/can/xlnx-zynqmp-can.c
+@@ -451,6 +451,12 @@ static void transfer_fifo(XlnxZynqMPCANState *s, Fifo32 *fifo)
      }
  
-+    vmnet_vm_state_change_cb(s, 0, RUN_STATE_SHUTDOWN);
-+    qemu_del_vm_change_state_handler(s->change);
-     if_stopped_sem = dispatch_semaphore_create(0);
-     vmnet_stop_interface(
-         s->vmnet_if,
-diff --git a/net/vmnet_int.h b/net/vmnet_int.h
-index adf6e8c..ffba921 100644
---- a/net/vmnet_int.h
-+++ b/net/vmnet_int.h
-@@ -46,6 +46,8 @@ typedef struct VmnetState {
-     int packets_send_end_pos;
- 
-     struct iovec iov_buf[VMNET_PACKETS_LIMIT];
-+
-+    VMChangeStateEntry *change;
- } VmnetState;
- 
- const char *vmnet_status_map_str(vmnet_return_t status);
+     while (!fifo32_is_empty(fifo)) {
++        if (fifo32_num_used(fifo) < (4 * CAN_FRAME_SIZE)) {
++            g_autofree char *path = object_get_canonical_path(OBJECT(s));
++            qemu_log_mask(LOG_GUEST_ERROR, "%s: data left in the fifo is not"
++                          " enough for transfer.\n", path);
++            break;
++        }
+         for (i = 0; i < CAN_FRAME_SIZE; i++) {
+             data[i] = fifo32_pop(fifo);
+         }
+@@ -463,7 +469,8 @@ static void transfer_fifo(XlnxZynqMPCANState *s, Fifo32 *fifo)
+              * acknowledged. The XlnxZynqMPCAN core receives any message
+              * that it transmits.
+              */
+-            if (fifo32_is_full(&s->rx_fifo)) {
++            if (fifo32_is_full(&s->rx_fifo) ||
++                    (fifo32_num_free(&s->rx_fifo) < (4 * CAN_FRAME_SIZE))) {
+                 ARRAY_FIELD_DP32(s->regs, INTERRUPT_STATUS_REGISTER, RXOFLW, 1);
+             } else {
+                 for (i = 0; i < CAN_FRAME_SIZE; i++) {
 -- 
 2.7.4
 
