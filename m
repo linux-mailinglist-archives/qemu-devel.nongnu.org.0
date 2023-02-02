@@ -2,64 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE1006885E4
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 19:01:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08BB368861D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 19:09:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNdt2-0007xL-W2; Thu, 02 Feb 2023 13:00:41 -0500
+	id 1pNe0F-0001oo-Pk; Thu, 02 Feb 2023 13:08:13 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNdsr-0007wk-9M
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 13:00:30 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1pNdza-0001lw-Fl
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 13:07:27 -0500
+Received: from mail-ed1-x533.google.com ([2a00:1450:4864:20::533])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNdso-0004Wb-Ss
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 13:00:28 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id o13so2654665pjg.2
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 10:00:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:from:to:cc:subject:date:message-id:reply-to;
- bh=53Ny7VCs8e2MUazibSKYC3wsvLpB8f1/vW1tCGrdFjw=;
- b=JFLvrWlrrPQJzvqBvHqDkLhjrOrPSJKKGrleEQdGiWNcCX0b/+SyNOob7N6IUaCRnG
- TTe9mdjxB7v57DbWrOjBv2Ely1HZXWKPWO1QkrN1DWNAG8iUcILxeH24HKlpQKPRF/0f
- i2At/SNnwAxywOw0noNOI5RAbf/2XRpOMwXKecqJuFz3o1EB81mJGr7zxyzF/ugXpstZ
- 5qz+J0nj4Z7n6CReASbZsRWClyogwgbDiIqMhpLotV1bEdkXUOHUDeyyC/TeiQBGp6CL
- VYUfH8LmtmlmCt2gV2slSm5+94F1etQiskqgvHR7Mu77geROaKltJ6Ze0AWJmKtplQrt
- hWjg==
+ (Exim 4.90_1) (envelope-from <philipp.tomsich@vrull.eu>)
+ id 1pNdzY-0007JA-7i
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 13:07:26 -0500
+Received: by mail-ed1-x533.google.com with SMTP id cw4so2840433edb.13
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 10:07:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vrull.eu; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=qS2IXYxp8yU8zvKrd59L5bRXHOVgB0wEsKEh/WWwjj4=;
+ b=S47/9/P4x9bmIUSasETyhPLinKPj7tKchay7HobSJddp3jcPGgHmnWvLUyDJ6wl8R8
+ iUQ7gskrbRrj12VFz2wbku0oL4LBlmMGEmm05mFTmR9MncGT1DFFtMFdbbmNhKyD88ef
+ Gqt+W5KnpITJt65JryWBSQcxWcsa7Yp1raFGn+Wd4cGuouofNbhVtYEFukzIEJHC9NKW
+ hbo5tuPTr9XAvGX2IKTvO9Ry4K6z//MJPAiOIA3zKm5Rp4oPlPueJ2AuuelmcDQ/m3hr
+ AkQwjbzNI4bNkx2+Papb1YmyqOi8Ju7B5KO+MGwCZGE3+8cHOlFtRgKIm/hxrXK7O8Lw
+ fjsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=cc:to:subject:message-id:date:from:in-reply-to:references
- :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=53Ny7VCs8e2MUazibSKYC3wsvLpB8f1/vW1tCGrdFjw=;
- b=mtBoGe/EqvfuvFYK3MPmE94MRjBGjQ5n0vLJQbqn5eSE56nl7Ah620dKGA4w2CSpc/
- cDhHEUR4EFeoIx/7r4aJN4FdmAdr9rnFfYciz0K7oBHBNntFCYzaJPZBwWDav9lqrBch
- cCjn4X6bwB1tG2ABR1SGcfkJ99TbXKcctNHZfTPTkNtXEzrS9SKY/rHpRuuRDRtsZCdX
- oIM2ZZshr9AsXpMAgiMNICaFs2AgYFtDvt6Xx63axxaEsocoLYNvyoxoq3X2Lj+O19se
- +CI7z7yuHWQ/SLtLccXUhWXDqr24kXBkTyQ7gRiSrwb0CFO5JrjTtDrCIqz8OtdoU/Of
- LH8A==
-X-Gm-Message-State: AO0yUKVK84IqZ9xtJV+6em2MMWdxz3QUWk5sUV1EQXqJTk1ha2BSiy62
- wQ96Q85D/UzryVaXNPfEzCGl7x8EKasxlTwEe+YPfA==
-X-Google-Smtp-Source: AK7set8CJUqvFrBJ9SfGBKZCJGkRjuxDGr8nbqKC1UpzpGc2qtAJ/rO6XOCLoXSl1pT6+Qn3HVBMs0ZaWOMBTwdC/FI=
-X-Received: by 2002:a17:902:f552:b0:198:a5da:bf6c with SMTP id
- h18-20020a170902f55200b00198a5dabf6cmr1812414plf.9.1675360821224; Thu, 02 Feb
- 2023 10:00:21 -0800 (PST)
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=qS2IXYxp8yU8zvKrd59L5bRXHOVgB0wEsKEh/WWwjj4=;
+ b=IKqhbmeKNxs6qp4tZk48SHihwaDjn0J/gryS3WSubjCWe3nTc57uZBGgxwY+1R0opd
+ GFOpEtI5X4CG+JxrFzrKL5BcSGo+TVKM58jmHwc/YU5MV5UP9K3zgZmwGPJn26c6NjNH
+ cQSdnkmHz8pBXkCT9cwxk3DvhVT7P/bp1S5JpFyBRaDfTyaL5S2m5MGeSeFuE0ooo4cM
+ RKXF7n6lBXwrkw+jmMeD450IioIf06hTy3GLSQvkFHK6PW5nLJnB/slzJ9pylqXbgk6F
+ X+pB6Gc0hEHH01DV1gdVYHngFw1BK0gPH4A9xZC0xz/uKVpzB2ki1iTpzO9R5aFi5vPC
+ b6JA==
+X-Gm-Message-State: AO0yUKUPykHoynaMzGodyWdmB7FENvzOTOIwHVq8+R9tyxlJlruM1t2p
+ f+zo/0epB+WJw60WglYQ1Nq6D9IU6SCBfV8KyQvssQ==
+X-Google-Smtp-Source: AK7set9abVs8QP27sDKE03Be2o9JSJqJQIzqUKRGHiObcEDFP7l5580oyKW1rDuMB9yC3fb79giE5pDahovFPDM0NXM=
+X-Received: by 2002:a05:6402:1f8e:b0:49c:9760:2def with SMTP id
+ c14-20020a0564021f8e00b0049c97602defmr2466456edc.64.1675361241053; Thu, 02
+ Feb 2023 10:07:21 -0800 (PST)
 MIME-Version: 1.0
-References: <20230131101205.1499867-1-thuth@redhat.com>
-In-Reply-To: <20230131101205.1499867-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 2 Feb 2023 18:00:10 +0000
-Message-ID: <CAFEAcA9AZ7cWoJnofP67tLeH7HW4N7Wgcgjk45gx5+KySJ=M6Q@mail.gmail.com>
-Subject: Re: [PULL 00/27] qtest and misc patches
-To: Thomas Huth <thuth@redhat.com>
-Cc: qemu-devel@nongnu.org
+References: <20230202124230.295997-1-lawrence.hunter@codethink.co.uk>
+ <20230202124230.295997-7-lawrence.hunter@codethink.co.uk>
+ <CAAeLtUA188Tdq4rROAWNqNkMSOXVT0BWQX669L6fyt5oM5knZg@mail.gmail.com>
+ <CAAeLtUDcpyWkKgAo2Lk0ZoHcdyEeVARYkh05Ps27wbOzDF0sHA@mail.gmail.com>
+ <16a6fadf-ca13-d3aa-7e4b-f950db982a21@linaro.org>
+In-Reply-To: <16a6fadf-ca13-d3aa-7e4b-f950db982a21@linaro.org>
+From: Philipp Tomsich <philipp.tomsich@vrull.eu>
+Date: Thu, 2 Feb 2023 19:07:09 +0100
+Message-ID: <CAAeLtUCTBASoGMMgzp_LxOiFkJq0wJFQUC4kDzCWA47iLR_N5Q@mail.gmail.com>
+Subject: Re: [PATCH 06/39] target/riscv: Add vrol.[vv, vx] and vror.[vv, vx,
+ vi] decoding, translation and execution support
+To: Richard Henderson <richard.henderson@linaro.org>
+Cc: Lawrence Hunter <lawrence.hunter@codethink.co.uk>, qemu-devel@nongnu.org, 
+ dickon.hood@codethink.co.uk, nazar.kazakov@codethink.co.uk, 
+ kiran.ostrolenk@codethink.co.uk, frank.chang@sifive.com, palmer@dabbelt.com, 
+ alistair.francis@wdc.com, bin.meng@windriver.com, pbonzini@redhat.com, 
+ kvm@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x102b.google.com
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2a00:1450:4864:20::533;
+ envelope-from=philipp.tomsich@vrull.eu; helo=mail-ed1-x533.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -82,38 +93,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Tue, 31 Jan 2023 at 10:12, Thomas Huth <thuth@redhat.com> wrote:
+On Thu, 2 Feb 2023 at 18:35, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
->  Hi Peter!
+> On 2/2/23 04:30, Philipp Tomsich wrote:
+> > On the second pass over these patches, here's how we can use gvec
+> > support for both vror and vrol:
+> >
+> > /* Synthesize a rotate-right from a negate(shift-amount) + rotate-left =
+*/
+> > static void tcg_gen_gvec_rotrs(unsigned vece, uint32_t dofs, uint32_t a=
+ofs,
+> >                         TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz)
+> > {
+> >      TCGv_i32 tmp =3D tcg_temp_new_i32();
+> >      tcg_gen_neg_i32(tmp, shift);
+> >      tcg_gen_gvec_rotls(vece, dofs, aofs, tmp, oprsz, maxsz);
 >
-> The following changes since commit 13356edb87506c148b163b8c7eb0695647d00c2a:
->
->   Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2023-01-24 09:45:33 +0000)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/thuth/qemu.git tags/pull-request-2023-01-31
->
-> for you to fetch changes up to e030d08c2fc02743dd37e3d2e6e28fdd739590b9:
->
->   gitlab-ci.d/buildtest: Merge the --without-default-* jobs (2023-01-31 09:05:26 +0100)
->
-> ----------------------------------------------------------------
-> * qtest improvements
-> * Remove the deprecated OTP config of sifive_u
-> * Add libfdt to some of our CI jobs that were still missing it
-> * Use __builtin_bswap() everywhere (all compiler versions support it now)
-> * Deprecate the HAXM accelerator
-> * Document PCI devices handling on s390x
-> * Make Audiodev introspectable
-> * Improve the runtime of some CI jobs
->
+> We can add rotls generically.
+> I hadn't done this so far because there were no users.
 
+I read this such that your preference is to have a generic gvec rotrs?
+If this is correct, I can drop a patch to that effect=E2=80=A6
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
-for any user-visible changes.
-
--- PMM
+Philipp.
 
