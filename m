@@ -2,86 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE472688718
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 19:51:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CD09688736
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 19:57:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNefG-0000bd-A6; Thu, 02 Feb 2023 13:50:30 -0500
+	id 1pNelX-0003QP-Gx; Thu, 02 Feb 2023 13:56:59 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNef4-0000Zh-FJ
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 13:50:21 -0500
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pNef2-0008IK-Ku
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 13:50:18 -0500
-Received: by mail-oi1-x244.google.com with SMTP id p185so2239767oif.2
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 10:50:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=E0su3+P4VawbLD+Id/GNmZ4GrUE9sUJzhzvTVEcvcAg=;
- b=dvt57mLN3wTYXykPaBvJTP59NZ6C02/wZ2qajte8pHQU34ESrZbaMJKVJEw62Vnpur
- jiUHE3wgtGT+4UCF1uptj/u9nCY+IFdN/sUEosiY9LUwhrJxC/Vb8SP94VyxkPMfV8Pp
- dtGKb+N4FtVZfcfVMeVa2WS57xw+XmXn7wA7LctpyM16+1L5oT9SL0oe9IcRPKNtUPyd
- Cy/7IITkPKEiXIRG1/8P2V1qai6TAH2Lwwf8AjY+NPkrpsqqldZXSrWl+8geLEfrdSfQ
- RbQjKlZODSxBcjceIYXQyAKvysc6HqPlYoTMkrKGlMTufX/WCDXAwP7xCsfj913XGI94
- I2vg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=E0su3+P4VawbLD+Id/GNmZ4GrUE9sUJzhzvTVEcvcAg=;
- b=GX17PQoy3UdqPA+9WjFU0dn8CLWjphMmMdtnrzCIGM8OqUvnlr0f21TW3n++vtSRiQ
- YpZ+CJcRztErwyU0hUrZpJth19l4sA5Q7h4AcyR0k1tZIjOW1jxdt8KI3jaY01SghyM1
- gQWQmDJcbfoXOqw2VgQQRA5vsOhQ021omqIVZUqtT4GFL+pTBsTJNw4KbjIjC/PVo6ZR
- AuGltv0GezqEAM1xHNqrCuMxuEcBh+rD1Y/7xqIZs+70BdoHc+IwlT4E1RA4UBKM+/Y0
- SIDTcYSI/ZxW4hUc8Z8fe3DFbiuHlDMgIBjWmS2ertLQ+JRUCu4HKhnEShb83VpAL7uV
- U0dA==
-X-Gm-Message-State: AO0yUKUnyXFF3GEunc2NpdlHLa+YLP+gxYyDCkvcNHXCWPB7qgUMnAvw
- UWZxTc/oxEIjlhQb/A4ajSA7tw==
-X-Google-Smtp-Source: AK7set8yrAcINPQoSfrge+/mfoTnXc3TtoI0w4gkK5xqnHr1Yq6hejuEuzRUWJb02jqi5mXy8fUf6w==
-X-Received: by 2002:a05:6808:1403:b0:369:16df:a457 with SMTP id
- w3-20020a056808140300b0036916dfa457mr4312517oiv.54.1675363814367; 
- Thu, 02 Feb 2023 10:50:14 -0800 (PST)
-Received: from [192.168.68.107] ([177.102.69.207])
- by smtp.gmail.com with ESMTPSA id
- x4-20020a9d6284000000b006865f605ce3sm132319otk.54.2023.02.02.10.50.12
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Thu, 02 Feb 2023 10:50:13 -0800 (PST)
-Message-ID: <221e938a-6deb-3b94-12ca-e5e91bab69df@ventanamicro.com>
-Date: Thu, 2 Feb 2023 15:50:11 -0300
+ (Exim 4.90_1) (envelope-from <hpa@zytor.com>) id 1pNelC-0003M0-2l
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 13:56:39 -0500
+Received: from [2607:7c80:54:3::138] (helo=mail.zytor.com)
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <hpa@zytor.com>) id 1pNel6-0001J8-OF
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 13:56:37 -0500
+Received: from [127.0.0.1] ([73.223.250.219]) (authenticated bits=0)
+ by mail.zytor.com (8.17.1/8.17.1) with ESMTPSA id 312IuLoo2095785
+ (version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+ Thu, 2 Feb 2023 10:56:22 -0800
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 312IuLoo2095785
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+ s=2023010601; t=1675364184;
+ bh=R0WU7xTxDMhtiRM27DLRQmV0jL/RBsAax18Ss3zsh44=;
+ h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+ b=GYwmZ+lWB3CHAksZVxlouRYAq+thh7slgY11gSa6sJZDK/soOb0sxVvA96RXxkrZC
+ yFeOhuGbKc5dZerqqeWhmx7u36KBOLs94PvcEEiGDGPunfURYukRYYL3VccoQEYcId
+ oFcyD7DcQcvs+0vyOeSyoZVxt4pw5P5vPmDN06riiFaxHHPFoU9VJOBPlp2N9Kbmdj
+ 23Jv2hIRWRqT1/SPTLcBW2MiHfexvswgRzdw31jchsStNqjqtILQnnYANElIZOdQSC
+ 2cVwHYNV4YyiJPjYEMTLYt0B16leBO8fth1hqxnu3VFrz8Nk4Bs1boyV/dJCOT4Md/
+ vSxCM6lK6QQ7w==
+Date: Thu, 02 Feb 2023 10:56:20 -0800
+From: "H. Peter Anvin" <hpa@zytor.com>
+To: jejb@linux.ibm.com, James Bottomley <jejb@linux.ibm.com>,
+ "Jason A. Donenfeld" <Jason@zx2c4.com>
+CC: QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+ DOV MURIK <Dov.Murik1@il.ibm.com>
+Subject: =?US-ASCII?Q?Re=3A_=5BPATCH=5D_x86=3A_fix_q35_kernel_mea?=
+ =?US-ASCII?Q?surements_broken_due_to_rng_seeding?=
+User-Agent: K-9 Mail for Android
+In-Reply-To: <352eb28a1d913db62421064fe50ec9c8f8afd050.camel@linux.ibm.com>
+References: <da39abab9785aea2a2e7652ed6403b6268aeb31f.camel@linux.ibm.com>
+ <CAHmME9ouTTk1ONXm276CwunOpy=MAW1Q79x25kcQv=YJTZ88dQ@mail.gmail.com>
+ <2b8fc552e1dc3a14de404eeaff0819ec8da7de54.camel@linux.ibm.com>
+ <CAHmME9ps8w8TbC_6Bk8OQbJytR-_CJrcUWT_uXDV+xjL293NHQ@mail.gmail.com>
+ <a2d5634ab624497d7d98569041e76661062f7eaf.camel@linux.ibm.com>
+ <CAHmME9qy3_TPXoZ4j10JUvGGAbNikb5MdgQRw5DgTmj7nqLujA@mail.gmail.com>
+ <d2e01e48fa215684447d17d21d48fa681ab7f7d3.camel@linux.ibm.com>
+ <4396778A-6520-4FB5-9227-1E8850753036@zytor.com>
+ <352eb28a1d913db62421064fe50ec9c8f8afd050.camel@linux.ibm.com>
+Message-ID: <CDBF8549-918C-4955-A7D1-D14663C7BEF6@zytor.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v10 0/3] hw/riscv: handle kernel_entry high bits with
- 32bit CPUs
-Content-Language: en-US
-To: Conor Dooley <conor@kernel.org>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
-References: <20230202135810.1657792-1-dbarboza@ventanamicro.com>
- <Y9vyEp8ghrbqssJO@spud>
- <0568610c-e227-b088-c375-5ee769c7cfc6@ventanamicro.com>
- <Y9wFHMir5HXPa1Zu@spud>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <Y9wFHMir5HXPa1Zu@spud>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::244;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-oi1-x244.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
-X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Host-Lookup-Failed: Reverse DNS lookup failed for 2607:7c80:54:3::138
+ (failed)
+Received-SPF: pass client-ip=2607:7c80:54:3::138; envelope-from=hpa@zytor.com;
+ helo=mail.zytor.com
+X-Spam_score_int: -12
+X-Spam_score: -1.3
+X-Spam_bar: -
+X-Spam_report: (-1.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, RDNS_NONE=0.793,
+ SPF_HELO_PASS=-0.001, SPF_PASS=-0.001 autolearn=no autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -97,61 +80,52 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On February 2, 2023 7:17:01 AM PST, James Bottomley <jejb@linux=2Eibm=2Ecom=
+> wrote:
+>On Thu, 2023-02-02 at 07:03 -0800, H=2E Peter Anvin wrote:
+>[=2E=2E=2E]
+>> NAK=2E We need to fix the actual problem of the kernel stomping on
+>> memory it shouldn't, not paper around it=2E
+>
+>This is a first boot situation, not kexec (I just updated kexec because
+>it should use any new mechanism we propose)=2E  Unlike kexec, for first
+>boot we're very constrained by the amount of extra space QEMU has to do
+>this=2E  The boot_params are the first page of the kernel load, but the
+>kernel proper begins directly after it, so we can't expand it=2E  The two
+>schemes tried: loading after the kernel and loading after the command
+>line both tamper with integrity protected files, so we shouldn't use
+>this mechanism=2E  This is the essence of the problem: If we add this
+>area at boot, it has to go in an existing memory location; we can't
+>steal random guest areas=2E  All current config parameters are passed
+>through as fw_config files, so we can only use that mechanism *if* we
+>know where the area ends up in the loaded kernel *and* the file isn't
+>integrity protected (this latter is expanding over time)=2E
+>
+>If we could wind back time, I'd have added the 32 byte random seed to
+>boot_params properly not coded it as a setup_data addition, but now
+>we're stuck with coping with existing behaviour, which is why I thought
+>the retro fit to boot_params would be the better path forward, but if
+>you have any alternatives, I'm sure we could look at them=2E
+>
+>James
+>
 
+The right thing to do is to fix the kernel so that it doesn't stomp on thi=
+s memory, just as it cannot stomp on boot_params, initrd, or the command li=
+ne=2E The kernel boot protocol defines a keep-out area, but physical kaslr =
+violates it and so the kaslr code in the decompressor is responsible for ke=
+eping track of the keepout areas, and apparently noone every did=2E
 
-On 2/2/23 15:46, Conor Dooley wrote:
-> On Thu, Feb 02, 2023 at 03:37:17PM -0300, Daniel Henrique Barboza wrote:
->> On 2/2/23 14:25, Conor Dooley wrote:
->>> On Thu, Feb 02, 2023 at 10:58:07AM -0300, Daniel Henrique Barboza wrote:
->>>> This new version removed the translate_fn() from patch 1 because it
->>>> wasn't removing the sign-extension for pentry as we thought it would.
->>>> A more detailed explanation is given in the commit msg of patch 1.
->>>>
->>>> We're now retrieving the 'lowaddr' value from load_elf_ram_sym() and
->>>> using it when we're running a 32-bit CPU. This worked with 32 bit
->>>> 'virt' machine booting with the -kernel option.
->>>>
->>>> If this approach doesn't work for the Xvisor use case, IMO  we should
->>>> just filter kernel_load_addr bits directly as we were doing a handful of
->>>> versions ago.
->>>>
->>>> Patches are based on current riscv-to-apply.next.
->>>>
->>>> Changes from v9:
->>>> - patch 1:
->>>>     - removed the translate_fn() callback
->>>>     - return 'kernel_low' when running a 32-bit CPU
->>>> - v9 link: https://lists.gnu.org/archive/html/qemu-devel/2023-01/msg04509.html
->>>
->>> I think my T-b got lost last time around, but I gave this version a
->>> whirl too & things are working for me as they were before on Icicle.
->>
->> That was my bad. I forgot to add the test-by after doing the changes for
->> the next version.
-> 
-> Oh, I'm sorry. I saw a new version of the series a few days ago and
-> noticed the missing tags, and then saw this one today, touching MPFS,
-> and conflated the two.
-> 
->> But I don't think this is the series you're talking about. The tested-by tag
->> you gave was on these patches:
->>
->> "[PATCH v5 0/3] riscv_load_fdt() semantics change"
->>
->> I believe you can add a Tested-by there. And feel free to give it a go - the
->> patches are on riscv-to-apply.next already.
-> 
-> Tested-by stands here though, I replied to the same message-id that I
-> shazamed and tried ;)
+Adding it to boot_params and bumping the version number is a hack that doe=
+sn't solve the backwards compatibility problem, so we should just fix the b=
+ug instead=2E Adding it to boot_params and adding a setup_data pointer MAY =
+be backwards compatible, but it also enables an absolutely catastrophic fai=
+lure mode: an unaware loader may end up relocating boot_params without know=
+ing that that data has a secondary pointer into it, with the result that we=
+ now have a bogus pointer in a linked list=2E Not good=2E
 
-Alright then. Tested-by on both series :D
+Fixing the bug properly is also the only way forward for future setup_data=
+ users, and we are running low on space in the fixed-size structures=2E
 
-
-Thanks!
-
-> And I did so on top of the HEAD of riscv-to-apply.next, so I am happy
-> with the version that got applied too.
-> 
-> Sorry!
-> 
+ 
 
