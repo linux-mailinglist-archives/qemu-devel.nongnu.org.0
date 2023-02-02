@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C5E687EFD
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:42:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEB57687EE8
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:40:21 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNZni-0005Ri-Um; Thu, 02 Feb 2023 08:38:55 -0500
+	id 1pNZoF-0006Fh-0t; Thu, 02 Feb 2023 08:39:27 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnd-0005LD-MF
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:38:49 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnk-0005av-Ht
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:38:56 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnZ-00085I-FC
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:38:49 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnb-00087Z-23
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:38:56 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675345120;
+ s=mimecast20190719; t=1675345121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=W1PauZqzh1g49//Qd7mxxxftPsGwPPNp7IkYAAi2RX8=;
- b=He4W5E/ImFYNVVqP6ul5p4cdHTt8F3yx1gzhjF2uLJWj7JF7kisI8N7Pke6Vq158Uc8YAn
- GHkh5hC51t2LCPCXoXw+S9Z6zvVIUBKDxlTaS/8DXglTCtpSacPgLDeMDePDl1Bjkj/i6R
- WTpiF8rbdVWmIUwger5Q7WVKD1oacy8=
+ bh=ztQP/SqqrCaKQYJfZ+X1RaeQC7KkOBLzr09TiX1vwi4=;
+ b=fcP+1ZN6fDQTSSa7Lsh+GmyhNXTD7NOkot861RiBwfSmO19IAqO0AeSI+qZu0+/rVFiIVF
+ 5UyfmMNbmLKKsDrHIPBbbscVIvZxq0F4+GR3475NPNXv6k+RKVHodueRznpp9/4HFPyKVn
+ cV0lifnjF4NWW7hOhjquP+mNaMTGzEo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-3-CR-w3HFCPAOnHCCdezWW1w-1; Thu, 02 Feb 2023 08:38:37 -0500
-X-MC-Unique: CR-w3HFCPAOnHCCdezWW1w-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-13-4tsRXFzWOaCR-Hii6OnmZQ-1; Thu, 02 Feb 2023 08:38:38 -0500
+X-MC-Unique: 4tsRXFzWOaCR-Hii6OnmZQ-1
+Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.9])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0059D85CBE9;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 0696D81DA89;
  Thu,  2 Feb 2023 13:38:35 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CA7692026D4B;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D183B492C3E;
  Thu,  2 Feb 2023 13:38:34 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id CD0F021E690F; Thu,  2 Feb 2023 14:38:30 +0100 (CET)
+ id D053021E6913; Thu,  2 Feb 2023 14:38:30 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
@@ -53,15 +53,15 @@ Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
  kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com,
  bin.meng@windriver.com, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  qemu-riscv@nongnu.org
-Subject: [PATCH v6 11/20] migration: Clean up includes
-Date: Thu,  2 Feb 2023 14:38:21 +0100
-Message-Id: <20230202133830.2152150-12-armbru@redhat.com>
+Subject: [PATCH v6 12/20] net: Clean up includes
+Date: Thu,  2 Feb 2023 14:38:22 +0100
+Message-Id: <20230202133830.2152150-13-armbru@redhat.com>
 In-Reply-To: <20230202133830.2152150-1-armbru@redhat.com>
 References: <20230202133830.2152150-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
 Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -98,24 +98,23 @@ related cleanups:
   Drop these, too.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
 ---
- include/qemu/userfaultfd.h | 1 -
+ net/vmnet_int.h | 1 -
  1 file changed, 1 deletion(-)
 
-diff --git a/include/qemu/userfaultfd.h b/include/qemu/userfaultfd.h
-index 6b74f92792..55c95998e8 100644
---- a/include/qemu/userfaultfd.h
-+++ b/include/qemu/userfaultfd.h
-@@ -13,7 +13,6 @@
- #ifndef USERFAULTFD_H
- #define USERFAULTFD_H
+diff --git a/net/vmnet_int.h b/net/vmnet_int.h
+index adf6e8c20d..d0b90594f2 100644
+--- a/net/vmnet_int.h
++++ b/net/vmnet_int.h
+@@ -10,7 +10,6 @@
+ #ifndef VMNET_INT_H
+ #define VMNET_INT_H
  
 -#include "qemu/osdep.h"
- #include "exec/hwaddr.h"
- #include <linux/userfaultfd.h>
+ #include "vmnet_int.h"
+ #include "clients.h"
  
 -- 
 2.39.0
