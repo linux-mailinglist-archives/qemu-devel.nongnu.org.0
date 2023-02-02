@@ -2,97 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADDCD6879AC
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:01:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4E76879B7
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:04:05 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNWNO-0003jb-JL; Thu, 02 Feb 2023 04:59:30 -0500
+	id 1pNWRQ-0005Sb-2e; Thu, 02 Feb 2023 05:03:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNWNN-0003jT-4H
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:59:29 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pNWRO-0005RQ-2R
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:03:38 -0500
+Received: from ms11p00im-qufo17281601.me.com ([17.58.38.53])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNWNL-0003uc-Ca
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 04:59:28 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675331966;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:in-reply-to:in-reply-to:  references:references;
- bh=EqcbAbntqe5q12pGFEyKkh6uMQ+5Yf8cGpYJvcJoNXk=;
- b=VxDMjvF34RBg+1+s4PtABUtFtTIEQ7iWOILHenfBUzrCj8t1hNE3PGOyolaJYYhNC+D/r0
- EDQRli0RMO41ivwBDLXyLNtQ7WNlMTMMHi6EZeBqfaJR7StjBAGAMzNuViSLGVwbffUEn1
- gszeITSzJZHsT46REAE/jcm9SC22dXE=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-421-Qp2zWgvkMI252i3NHCsiXg-1; Thu, 02 Feb 2023 04:59:25 -0500
-X-MC-Unique: Qp2zWgvkMI252i3NHCsiXg-1
-Received: by mail-wm1-f72.google.com with SMTP id
- h2-20020a1ccc02000000b003db1ded176dso693623wmb.5
- for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 01:59:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=mime-version:message-id:date:reply-to:user-agent:references
- :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=EqcbAbntqe5q12pGFEyKkh6uMQ+5Yf8cGpYJvcJoNXk=;
- b=4VW1jFysfrMVCvpt4KxMKDWabldNJPzuYN9T7pX9haD5K4chtxa7jzt3HKxd9/2wMD
- ddEVQeybQ8NnSHzePUzHNigz0XJ8y3GLp+FVI5k3H+WbyTO7BYe9zy0ynAmUMotJIJBv
- pPx0VlBrrcIH73lANHOTPKPKa8CADF+K0PqmR3mo++bbQwx9iC+j+5b7o4hGBSKh1FMd
- vOncFV+m3j+nX9LkM2qXjTy2q90Mdv+eOR6Xni9QTbjKMuxnE7dO7QzHn2be5XSqLkDc
- xt5RIRz7BDyUgi74NVrSKLRq83LYE0etpfaE/eZAaAAj4pUZUhFZy6EQX1NpxtiEkOK6
- JR7Q==
-X-Gm-Message-State: AO0yUKViwVKTxqVFZNylbl4WBZ1j66LevATypr7vMeFh2+5I3V6hnwz+
- emAEz3KQCCDsiLOhHBoZQxUf51LxBCeYrEHVleowqQPOrOp5dXFfriNRoD76PSOTrofxiHjC6rZ
- 7FKKLRDi1aXlemFY=
-X-Received: by 2002:a05:600c:3b18:b0:3df:e1d8:cd8f with SMTP id
- m24-20020a05600c3b1800b003dfe1d8cd8fmr169958wms.6.1675331964133; 
- Thu, 02 Feb 2023 01:59:24 -0800 (PST)
-X-Google-Smtp-Source: AK7set8yM4g9/qrZwWmN05voUOGGO0IV0y/Hlltto275e5MhMSN5ABnF43O9w8tf7pAEoPYhbgKFfw==
-X-Received: by 2002:a05:600c:3b18:b0:3df:e1d8:cd8f with SMTP id
- m24-20020a05600c3b1800b003dfe1d8cd8fmr169941wms.6.1675331963933; 
- Thu, 02 Feb 2023 01:59:23 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- t4-20020a05600001c400b002bdcce37d31sm20936532wrx.99.2023.02.02.01.59.23
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Thu, 02 Feb 2023 01:59:23 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Anton Kuchin <antonkuchin@yandex-team.ru>
-Cc: Stefan Hajnoczi <stefanha@gmail.com>,  qemu-devel@nongnu.org,
- virtio-fs@redhat.com,  Markus Armbruster <armbru@redhat.com>,  Eric Blake
- <eblake@redhat.com>,  "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,  yc-core@yandex-team.ru,  "Michael
- S. Tsirkin" <mst@redhat.com>
-Subject: Re: [PATCH] vhost-user-fs: add capability to allow migration
-In-Reply-To: <ed9832ec-eaf0-68a4-b7c1-9f1691ab149e@yandex-team.ru> (Anton
- Kuchin's message of "Thu, 2 Feb 2023 02:54:40 +0200")
-References: <20230115170903.3416105-1-antonkuchin@yandex-team.ru>
- <CAJSP0QVKUKgkBMw1PiN8-L8Ykhq=gfvNTTs4sf1tuzoqHu+GXw@mail.gmail.com>
- <0d57cc40-693b-b36c-a135-fdac60dd00ec@yandex-team.ru>
- <CAJSP0QUXB0kgsCSsmi8dpnJFYho2cR_2Liep=pGmp6WzDZ_7pw@mail.gmail.com>
- <d6bf0b9a-a167-817d-2c17-c2e472961155@yandex-team.ru>
- <CAJSP0QXXe6KgLN2PJvi-5GqcELhUKJPB2pUARL2ktO9TQYAq=g@mail.gmail.com>
- <2fb6efb4-9155-99ad-3acd-c274783436ed@yandex-team.ru>
- <87h6w5ea1m.fsf@secure.mitica>
- <ed9832ec-eaf0-68a4-b7c1-9f1691ab149e@yandex-team.ru>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Thu, 02 Feb 2023 10:59:22 +0100
-Message-ID: <874js4v151.fsf@secure.mitica>
-MIME-Version: 1.0
-Content-Type: text/plain
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+ (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pNWRM-0007mp-Gl
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:03:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
+ t=1675332212; bh=yR0y+MSgxpHs1wct0+/mwH7E0d7naoviLcqyb2z2qXE=;
+ h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
+ b=GBxe+s50e6D2x94NWvGyz1/ygWsj6IdZB8uJoukfI9N76FJMvIRd9QPFVOO6/Oio6
+ Rnk2tdjju31vpWYpz/FvWlUGD+6/1an6DCbqvmCXdlHKdeBlwU+OrwLrNhLzmj8E2j
+ XyDd/CzSjcLyBZRQ2ChGmfcygOqwoEEcYFwVmfp6WLGrmTScD6NPLr4EOUtLY4zcvo
+ eGbzZzWFr2mLIXYk1roEtbU7fEZ/e0qLdRq140ciuHPBEhKamtiZ9dFYB8YWXS9sAa
+ nw6gDi+dbMQ5pnhaViD/+0uWp4hMffxvCNSVISPt2ENeknxvV9dszoE+wC6qUm1Xjx
+ bTlJ/d3ao8lHA==
+Received: from smtpclient.apple (ms11p00im-dlb-asmtpmailmevip.me.com
+ [17.57.154.19])
+ by ms11p00im-qufo17281601.me.com (Postfix) with ESMTPSA id 82357AA0645;
+ Thu,  2 Feb 2023 10:03:29 +0000 (UTC)
+Content-Type: text/plain;
+	charset=utf-8
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
+Subject: Re: [PATCH v3 2/3] hvf: implement guest debugging on Apple Silicon
+ hosts
+From: Mads Ynddal <mads@ynddal.dk>
+In-Reply-To: <CAF8_6K=7qhJc7jo2jrzYJ6_SjKnbxOd_6_6CtdKJXwfJj5onQg@mail.gmail.com>
+Date: Thu, 2 Feb 2023 11:03:16 +0100
+Cc: qemu-devel@nongnu.org, dirty@apple.com,
+ Peter Maydell <peter.maydell@linaro.org>,
+ "open list:ARM cores" <qemu-arm@nongnu.org>,
+ Alexander Graf <agraf@csgraf.de>, Paolo Bonzini <pbonzini@redhat.com>,
+ =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
+ Francesco Cagnin <fcagnin@quarkslab.com>
+Content-Transfer-Encoding: quoted-printable
+Message-Id: <4002D932-B7A3-4166-BA8A-5A323CD87096@ynddal.dk>
+References: <20230114161302.94595-1-fcagnin@quarkslab.com>
+ <20230114161302.94595-3-fcagnin@quarkslab.com>
+ <5B722E51-E635-4196-8978-E0393F9EEFA1@ynddal.dk>
+ <1F9A3AAD-0A5D-4E7D-A053-7F49CE019096@ynddal.dk>
+ <CAF8_6K=7qhJc7jo2jrzYJ6_SjKnbxOd_6_6CtdKJXwfJj5onQg@mail.gmail.com>
+To: Francesco Cagnin <francesco.cagnin@gmail.com>
+X-Mailer: Apple Mail (2.3731.300.101.1.3)
+X-Proofpoint-ORIG-GUID: ASxqZ596wDjN4dGR2eMLtR-jlO0pc8Vu
+X-Proofpoint-GUID: ASxqZ596wDjN4dGR2eMLtR-jlO0pc8Vu
+X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
+ =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.0.605.474.0000000_definitions?=
+ =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2020-01-23?=
+ =?UTF-8?Q?=5F02_signatures=3D0?=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
+ mlxscore=0 phishscore=0
+ adultscore=0 mlxlogscore=572 clxscore=1030 suspectscore=0 spamscore=0
+ malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2209130000 definitions=main-2302020093
+Received-SPF: pass client-ip=17.58.38.53; envelope-from=mads@ynddal.dk;
+ helo=ms11p00im-qufo17281601.me.com
+X-Spam_score_int: -27
+X-Spam_score: -2.8
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -106,147 +84,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
-> On 01/02/2023 16:26, Juan Quintela wrote:
->> Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
->>> On 19/01/2023 18:02, Stefan Hajnoczi wrote:
->>>> On Thu, 19 Jan 2023 at 10:29, Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
->>>>> On 19/01/2023 16:30, Stefan Hajnoczi wrote:
->>>>>> On Thu, 19 Jan 2023 at 07:43, Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
->>>>>>> On 18/01/2023 17:52, Stefan Hajnoczi wrote:
->>>>>>>> On Sun, 15 Jan 2023 at 12:21, Anton Kuchin <antonkuchin@yandex-team.ru> wrote:
->> Once told that, I think that you are making your live harder in the
->> future when you add the other migratable devices.
->>
->> I am assuming here that your "underlying device" is:
->>
->> enum VhostUserFSType {
->>      VHOST_USER_NO_MIGRATABLE = 0,
->>      // The one we are doing here
->>      VHOST_USER_EXTERNAL_MIGRATABLE,
->>      // The one you describe for the future
->>      VHOST_USER_INTERNAL_MIGRATABLE,
->> };
->>
->> struct VHostUserFS {
->>      /*< private >*/
->>      VirtIODevice parent;
->>      VHostUserFSConf conf;
->>      struct vhost_virtqueue *vhost_vqs;
->>      struct vhost_dev vhost_dev;
->>      VhostUserState vhost_user;
->>      VirtQueue **req_vqs;
->>      VirtQueue *hiprio_vq;
->>      int32_t bootindex;
->>      enum migration_type;
->>      /*< public >*/
->> };
->>
->>
->> static int vhost_user_fs_pre_save(void *opaque)
->> {
->>      VHostUserFS *s = opaque;
->>
->>      if (s->migration_type == VHOST_USER_NO_MIGRATABLE)) {
->>          error_report("Migration of vhost-user-fs devices requires internal FUSE "
->>                       "state of backend to be preserved. If orchestrator can "
->>                       "guarantee this (e.g. dst connects to the same backend "
->>                       "instance or backend state is migrated) set 'vhost-user-fs' "
->>                       "migration capability to true to enable migration.");
->>          return -1;
->>      }
->>      if (s->migration_type == VHOST_USER_EXTERNAL_MIGRATABLE) {
->>          return 0;
->>      }
->>      if (s->migration_type == VHOST_USER_INTERNAL_MIGRATABLE) {
->>          error_report("still not implemented");
->>          return -1;
->>      }
->>      assert("we don't reach here");
->> }
->>
->> Your initial vmstateDescription
->>
->> static const VMStateDescription vuf_vmstate = {
->>      .name = "vhost-user-fs",
->>      .unmigratable = 1,
->>      .minimum_version_id = 0,
->>      .version_id = 0,
->>      .fields = (VMStateField[]) {
->>          VMSTATE_INT8(migration_type, struct VHostUserFS),
->>          VMSTATE_VIRTIO_DEVICE,
->>          VMSTATE_END_OF_LIST()
->>      },
->>      .pre_save = vhost_user_fs_pre_save,
->> };
->>
->> And later you change it to something like:
->>
->> static bool vhost_fs_user_internal_state_needed(void *opaque)
->> {
->>      VHostUserFS *s = opaque;
->>
->>      return s->migration_type == VMOST_USER_INTERNAL_MIGRATABLE;
->> }
->>
->> static const VMStateDescription vmstate_vhost_user_fs_internal_sub = {
->>      .name = "vhost-user-fs/internal",
->>      .version_id = 1,
->>      .minimum_version_id = 1,
->>      .needed = &vhost_fs_user_internal_state_needed,
->>      .fields = (VMStateField[]) {
->>          .... // Whatever
->>          VMSTATE_END_OF_LIST()
->>      }
->> };
->>
->> static const VMStateDescription vuf_vmstate = {
->>      .name = "vhost-user-fs",
->>      .minimum_version_id = 0,
->>      .version_id = 0,
->>      .fields = (VMStateField[]) {
->>          VMSTATE_INT8(migration_type, struct VHostUserFS),
->>          VMSTATE_VIRTIO_DEVICE,
->>          VMSTATE_END_OF_LIST()
->>      },
->>      .pre_save = vhost_user_fs_pre_save,
->>      .subsections = (const VMStateDescription*[]) {
->>          &vmstate_vhost_user_fs_internal_sub,
->>          NULL
->>      }
->> };
->>
->> And you are done.
->>
->> I will propose to use a property to set migration_type, but I didn't
->> want to write the code right now.
->>
->> I think that this proposal will make Stephan happy, and it is just
->> adding and extra uint8_t that is helpul to implement everything.
->
-> That is exactly the approach I'm trying to implement it right now. Single
-> flag can be convenient for orchestrator but makes it too hard to account in
-> all cases for all devices on qemu side without breaking future
-> compatibility.
-> So I'm rewriting it with properties.
 
-Nice.  That would be my proposal.  Just a bit complicated for a proof of concetp.
+> Are you running the Linux guest on multiple cores? If yes, could you
+> check if the issue persists also when using a single core?
 
-> BTW do you think each vhost-user device should have its own enum of
-> migration
-> types or maybe we could make them common for all device types?
+Yes, I was running with 2 cores. I just tested with 1 and 2 several =
+times. I
+haven't reproduced the bug with 1 core, but happens around 70% of the =
+time with
+2 cores.
 
-I will put it for vhost-user, because as far as I know nobody else is
-asking for this functionality.
-
-The most similar device that I can think of right now is vfio devices.
-But they are implemeting callbacks to save hardware device state, and
-they go device by device, i.e. there is nothing general there.
-
-Later, Juan.
+=E2=80=94
+Mads Ynddal
 
 
