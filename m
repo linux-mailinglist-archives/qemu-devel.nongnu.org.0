@@ -2,74 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CDC8687293
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 01:54:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F8B9687292
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 01:54:03 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNNpn-0005zA-IM; Wed, 01 Feb 2023 19:52:15 -0500
+	id 1pNNpo-0005zF-RO; Wed, 01 Feb 2023 19:52:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNNpl-0005yH-0r
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 19:52:13 -0500
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633])
+ id 1pNNpm-0005yh-GA
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 19:52:14 -0500
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNNpj-0000OW-Dq
- for qemu-devel@nongnu.org; Wed, 01 Feb 2023 19:52:12 -0500
-Received: by mail-pl1-x633.google.com with SMTP id d3so270874plr.10
- for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 16:52:11 -0800 (PST)
+ id 1pNNpk-0000Of-Uy
+ for qemu-devel@nongnu.org; Wed, 01 Feb 2023 19:52:14 -0500
+Received: by mail-pl1-x631.google.com with SMTP id 5so299729plo.3
+ for <qemu-devel@nongnu.org>; Wed, 01 Feb 2023 16:52:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=0NlXg86UHyXHALJd4CNrXKqdR3YhnMuvIdL7EfthOjo=;
- b=EWXTppJcRBEzev53O9g0l9etB9YMbLO90jmFC1wOnQqMkq0TgXVsPun8yhL2UUAuzo
- hWQYGxTtNSHpQ1iF4HrKNaIh22ie1ug4E+lEWt3mlv6eq1xWNKGlfZMqcWG/znC1ws1v
- ULTtODWbHfGq9YJEIFwIaquk9HV5sGLae4ceQaeam5paDnYjq+1zrkzow1UnhofBNQr6
- JoEMZj9c+sJA801DRktJXk8ERjA75Wuv8NZ0xRIlIFep2HnDTma6uiPKAIwLcHq9WNbr
- U8aobKq+M32DTVyRKAQNPPlIQCWPzoIbBCxF0JRFlFwIlVYzupv2Ku5YzjdNsSvu3An7
- Ph1A==
+ bh=UYdAcIsSiQ4fxqXbfF/P4rINlyMeoGQOg1RWsaI41p8=;
+ b=uyY+/2XZp4/KHzW5RN7FPJQIrALQ5pJtmKV0bkdjHShkzGaevux5XDjBFcWtP/QdCU
+ aRaq52nXrRjeHLp3OH6pX65ZdwhoLn+IMl8ho7BuWxAT8YcRp1hKOYGamQKwtouu8C3h
+ DNVknC8KJkGxTR6mBZjAh7FjbBi5gc9+NhS70GNqerr7qdOK9p+hOvO6DZUlnr4Zqt4W
+ wgOXZG+ATsp9VOqQ7rnur+fvCQhckeDek1ICpu7Tr790bodshP/8bhxKXvXHrxX0f26M
+ I7wU/6QDfQqNbZyYLYzRbjZeOUS6+mJXtDxIV7t9OJv2HxZZSBIBlxtGFPCcFMMvrcVG
+ PO0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=0NlXg86UHyXHALJd4CNrXKqdR3YhnMuvIdL7EfthOjo=;
- b=kpTGK4dDLFP1CkdiRPaTggP/WXQevJC4miN18ERsdWPiaCkrNg/isozSEsuNWUWeFq
- GQhq/rsovDhYO1bcjuhZV7RWD6T/ToMV0QBn7C4ItIHoHjL6rAvSW64zmaThESb4/Xx5
- e5+DaPJrhD1IRCPx2uVvuLLGMhkyKLbJ3IBdyXaYq3N4YBg/K722dWccTKs3s5P6OfFf
- R6PmaBHBTQSUdlApCKL2E9y4gs7dS84F4NOwBC7vYfF096lwEtdbmWqc1BZu4+tDK8KC
- zEB3OftIh7xw6BGVnufshC2TxOlwVU9jeLwEggs0DIpPmdBl1D6604/jIaSpLgZxR4Vx
- kP3Q==
-X-Gm-Message-State: AO0yUKXqpDuOK8lMM6BONo3KS/7X1iWyG7lWzLhkrQw1QrntRlfcNmya
- HZ193KC7hdsMe+ciyHwK3ERg+aQOGlu3BkWp
-X-Google-Smtp-Source: AK7set9zMtm98wKQEsNiLzCpN2SEmB9WkPhSCjYuxuV9a2WGnv8eEEMufdD7HvfCb2e2eV5+iK3E+w==
-X-Received: by 2002:a17:903:234f:b0:194:4b98:42c8 with SMTP id
- c15-20020a170903234f00b001944b9842c8mr5512643plh.28.1675299130093; 
- Wed, 01 Feb 2023 16:52:10 -0800 (PST)
+ bh=UYdAcIsSiQ4fxqXbfF/P4rINlyMeoGQOg1RWsaI41p8=;
+ b=D4q4RDwcJSjPi2NKQuasd2d7Ctl9E5WmytRWlURx3UOyie1ekwJS2zzu5nYFjZDwUu
+ yduG+E8Z1XetOAztiS5xeW32qRg4Lp3mMRLzQC8xnXzaXURubRKm0dBZ+dSwM3GnJu/7
+ +LwmEBEyyE7lfqY+MP/cgd3tus06JAZY7w9i+wEbFsqkW4BRxAJAGMEAeM88emIhY/wZ
+ XcjfkTQSiDB9q7Vc3SsuBTSO8tvsLuQ1fnpkIFkPcMA1VO3BoyNnG/lR3jXs+dQqb4MP
+ 8mXIiVfKyiWPZjj8gxnqj03W+MzYhtGQMyzYM17S7uRaPTDeW7uWCRssfvW+yxz+5HVa
+ l3Ag==
+X-Gm-Message-State: AO0yUKWJt80jHTQO85yycZJXIcoOTqPPAWvc2/vvhpC2Ms+4KTnjKto1
+ Wgk3o5q4YGIaxer9YQTo/dPjPgKQHpkPBDpL
+X-Google-Smtp-Source: AK7set9NX/Tv5Rcsb+RqINBY+h0Zvd8y1v8JVyzReCZ7fxCgquQ8PJgZlzC01cssnVYEHcurhHX7lA==
+X-Received: by 2002:a17:902:d2c9:b0:198:b284:c2f4 with SMTP id
+ n9-20020a170902d2c900b00198b284c2f4mr4288696plc.61.1675299131699; 
+ Wed, 01 Feb 2023 16:52:11 -0800 (PST)
 Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
  by smtp.gmail.com with ESMTPSA id
- z3-20020a1709028f8300b00192cf87ed25sm12391334plo.35.2023.02.01.16.52.08
+ z3-20020a1709028f8300b00192cf87ed25sm12391334plo.35.2023.02.01.16.52.10
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Wed, 01 Feb 2023 16:52:09 -0800 (PST)
+ Wed, 01 Feb 2023 16:52:11 -0800 (PST)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: mark.cave-ayland@ilande.co.uk,
 	laurent@vivier.eu,
 	iii@linux.ibm.com
-Subject: [PATCH 01/14] linux-user/sparc: Raise SIGILL for all unhandled
- software traps
-Date: Wed,  1 Feb 2023 14:51:51 -1000
-Message-Id: <20230202005204.2055899-2-richard.henderson@linaro.org>
+Subject: [PATCH 02/14] linux-user/sparc: Tidy syscall trap
+Date: Wed,  1 Feb 2023 14:51:52 -1000
+Message-Id: <20230202005204.2055899-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230202005204.2055899-1-richard.henderson@linaro.org>
 References: <20230202005204.2055899-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::633;
- envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x633.google.com
+Received-SPF: pass client-ip=2607:f8b0:4864:20::631;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pl1-x631.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,34 +91,44 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The linux kernel's trap tables vector all unassigned trap
-numbers to BAD_TRAP, which then raises SIGILL.
+Use TT_TRAP.
 
-Reported-by: Ilya Leoshkevich <iii@linux.ibm.com>
+For sparc32, 0x88 is the "Slowaris" system call, currently
+BAD_TRAP in the kernel's ttable_32.S.
+
+For sparc64, 0x110 is tl0_linux32, the sparc32 trap, as also
+seen in the adjacent code.  We do not implement multiple abis,
+so treat this as !defined(CONFIG_COMPAT), which vectors this
+case to BTRAP.  This was presumably a typo for 0x111, which is
+the "old" linux64 syscall number.  Both old and new linux64
+syscalls traps vector to LINUX_64BIT_SYSCALL_TRAP.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/sparc/cpu_loop.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ linux-user/sparc/cpu_loop.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
 diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index 434c90a55f..c120c42278 100644
+index c120c42278..18d5c24af1 100644
 --- a/linux-user/sparc/cpu_loop.c
 +++ b/linux-user/sparc/cpu_loop.c
-@@ -248,6 +248,14 @@ void cpu_loop (CPUSPARCState *env)
-             cpu_exec_step_atomic(cs);
-             break;
-         default:
-+            /*
-+             * Most software trap numbers vector to BAD_TRAP.
-+             * Handle anything not explicitly matched above.
-+             */
-+            if (trapnr >= TT_TRAP && trapnr <= TT_TRAP + 0x7f) {
-+                force_sig_fault(TARGET_SIGILL, ILL_ILLTRP, env->pc);
-+                break;
-+            }
-             fprintf(stderr, "Unhandled trap: 0x%x\n", trapnr);
-             cpu_dump_state(cs, stderr, 0);
-             exit(EXIT_FAILURE);
+@@ -167,12 +167,11 @@ void cpu_loop (CPUSPARCState *env)
+         }
+ 
+         switch (trapnr) {
+-#ifndef TARGET_SPARC64
+-        case 0x88:
+-        case 0x90:
++#ifdef TARGET_SPARC64
++        case TT_TRAP + 0x11: /* tl0_oldlinux64 */
++        case TT_TRAP + 0x6d: /* tl0_linux64 */
+ #else
+-        case 0x110:
+-        case 0x16d:
++        case TT_TRAP + 0x10: /* t_linux */
+ #endif
+             ret = do_syscall (env, env->gregs[1],
+                               env->regwptr[0], env->regwptr[1],
 -- 
 2.34.1
 
