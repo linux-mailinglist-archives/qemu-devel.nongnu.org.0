@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 941686883CF
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 17:11:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D06D6883B2
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 17:08:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNc7j-0007XG-Iq; Thu, 02 Feb 2023 11:07:43 -0500
+	id 1pNc7k-0007cv-Tc; Thu, 02 Feb 2023 11:07:44 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNc7X-0007CO-Hn
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:07:34 -0500
+ id 1pNc7h-0007Mn-4T
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:07:41 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pNc7U-00053O-GP
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:07:30 -0500
+ id 1pNc7e-00056C-Vm
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 11:07:40 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675354046;
+ s=mimecast20190719; t=1675354058;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=ypsPnyWgNLqIOy/pWtoUGHZ1xhiN89F5ncT+BrUMGVs=;
- b=NKspgDiUeKnPe4IfuNaApKfkj/b4JC/W2pP2CgBcPfy63dtRDGrWV3Ffk42V5RIpahGqHQ
- /c58jgYV9Vj/SaYff9qqUWx36of+W0O2njllnqsTS/HkaYWkXIpjWj6yHB8jfNJ/Fid8ZT
- ISuTFz1UNrdoTBF5PycNGIV6qskZRqs=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=haPCYqw8dBiTHO9WqDCahmHDPX0ls4553+sPmN0fSgI=;
+ b=a5LqbtN0JoSdzyQI+CDcG5yflL/UJT/s276A5QABeyu+CtkyToacAjdBFzZBClEivhJnqc
+ 4gMX9VDnNEHG/NcptTy9kqDfg/GEuHo3SEhMWjfIwNvw0YSgJIiyxlXtI7+vQL1qLKb+5s
+ cNIePRLMz5vK6knHkW7jbQ9nu3WXmw8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-590-73pi4__jNBWmbsvIkUV1gQ-1; Thu, 02 Feb 2023 11:07:22 -0500
-X-MC-Unique: 73pi4__jNBWmbsvIkUV1gQ-1
+ us-mta-176-zP5yguWtPka1TSWpMK-rYw-1; Thu, 02 Feb 2023 11:07:31 -0500
+X-MC-Unique: zP5yguWtPka1TSWpMK-rYw-1
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.rdu2.redhat.com
  [10.11.54.5])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 473D829AB443;
- Thu,  2 Feb 2023 16:07:21 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 66592882841;
+ Thu,  2 Feb 2023 16:07:26 +0000 (UTC)
 Received: from secure.mitica (unknown [10.39.192.57])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 824B951E5;
- Thu,  2 Feb 2023 16:07:16 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id 8F28C51E5;
+ Thu,  2 Feb 2023 16:07:21 +0000 (UTC)
 From: Juan Quintela <quintela@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: Richard Henderson <richard.henderson@linaro.org>,
@@ -64,9 +64,10 @@ Cc: Richard Henderson <richard.henderson@linaro.org>,
  qemu-block@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
  Juan Quintela <quintela@redhat.com>, Fam Zheng <fam@euphon.net>,
  qemu-s390x@nongnu.org, qemu-stable@nongnu.org, Peter Xu <peterx@redhat.com>
-Subject: [PULL 07/26] migration/ram: Fix populate_read_range()
-Date: Thu,  2 Feb 2023 17:06:21 +0100
-Message-Id: <20230202160640.2300-8-quintela@redhat.com>
+Subject: [PULL 08/26] migration/ram: Fix error handling in
+ ram_write_tracking_start()
+Date: Thu,  2 Feb 2023 17:06:22 +0100
+Message-Id: <20230202160640.2300-9-quintela@redhat.com>
 In-Reply-To: <20230202160640.2300-1-quintela@redhat.com>
 References: <20230202160640.2300-1-quintela@redhat.com>
 MIME-Version: 1.0
@@ -98,41 +99,44 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: David Hildenbrand <david@redhat.com>
 
-Unfortunately, commit f7b9dcfbcf44 broke populate_read_range(): the loop
-end condition is very wrong, resulting in that function not populating the
-full range. Lets' fix that.
+If something goes wrong during uffd_change_protection(), we would miss
+to unregister uffd-wp and not release our reference. Fix it by
+performing the uffd_change_protection(true) last.
 
-Fixes: f7b9dcfbcf44 ("migration/ram: Factor out populating pages readable in ram_block_populate_pages()")
+Note that a uffd_change_protection(false) on the recovery path without a
+prior uffd_change_protection(false) is fine.
+
+Fixes: 278e2f551a09 ("migration: support UFFD write fault processing in ram_save_iterate()")
 Cc: qemu-stable@nongnu.org
 Reviewed-by: Peter Xu <peterx@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Juan Quintela <quintela@redhat.com>
 ---
- migration/ram.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ migration/ram.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/migration/ram.c b/migration/ram.c
-index 885d7dbf23..ba228eead4 100644
+index ba228eead4..73e5ca93e5 100644
 --- a/migration/ram.c
 +++ b/migration/ram.c
-@@ -1774,13 +1774,15 @@ out:
- static inline void populate_read_range(RAMBlock *block, ram_addr_t offset,
-                                        ram_addr_t size)
- {
-+    const ram_addr_t end = offset + size;
+@@ -1896,13 +1896,14 @@ int ram_write_tracking_start(void)
+                 block->max_length, UFFDIO_REGISTER_MODE_WP, NULL)) {
+             goto fail;
+         }
++        block->flags |= RAM_UF_WRITEPROTECT;
++        memory_region_ref(block->mr);
 +
-     /*
-      * We read one byte of each page; this will preallocate page tables if
-      * required and populate the shared zeropage on MAP_PRIVATE anonymous memory
-      * where no page was populated yet. This might require adaption when
-      * supporting other mappings, like shmem.
-      */
--    for (; offset < size; offset += block->page_size) {
-+    for (; offset < end; offset += block->page_size) {
-         char tmp = *((char *)block->host + offset);
+         /* Apply UFFD write protection to the block memory range */
+         if (uffd_change_protection(rs->uffdio_fd, block->host,
+                 block->max_length, true, false)) {
+             goto fail;
+         }
+-        block->flags |= RAM_UF_WRITEPROTECT;
+-        memory_region_ref(block->mr);
  
-         /* Don't optimize the read out */
+         trace_ram_write_tracking_ramblock_start(block->idstr, block->page_size,
+                 block->host, block->max_length);
 -- 
 2.39.1
 
