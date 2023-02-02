@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86A98687EF4
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:40:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE11687EFF
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 14:42:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNZog-0007F6-KX; Thu, 02 Feb 2023 08:39:54 -0500
+	id 1pNZni-0005Um-RD; Thu, 02 Feb 2023 08:38:54 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnu-0005jQ-4F
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:39:06 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnf-0005OS-9X
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:38:51 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnc-0008As-3t
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:39:05 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNZnZ-000867-Ra
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 08:38:50 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675345124;
+ s=mimecast20190719; t=1675345121;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=xFHFrla/CoDpGKYnUvkSvuBtJSpBKqfFTk/sxIyjCL8=;
- b=axiZgNhOiHkYRcBFwl7GfHgDulNCXUKcSDhAwoMOs7HN2RXDqYn5pg8nWx/KgR7zSk8n2t
- Qaqd95S4Jf7WHFwMaWrQtLBizjdcAUUJGTailwwOsW/2DRGEuic0O1Lzf9SKeFiMqNT2F5
- F9m6xIcilABeXdweZ+Lvh2FRaEYyzDo=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=THpMpm+l8y1cW2d6agwzOogXvY3GUaQJHADZw5X5Bfk=;
+ b=VM0ZeYRjm2uoORirNfYSFpVSD0lifNUSU7RZARRcXhxO3OGxdT9W+GG+RhV9DA8GzpsyEb
+ vb3aBRE6AKRP4Bf6EEQaLcvRPvwTWvXm3UqSCoB7bSkR+O/wfy6pgvyp7tWyOPR8dx52jK
+ UeFeBMxXHVHETRQ1ydoo6qUUCzLJdDQ=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-98-aByc0waXPQSjy9VAxvjw5g-1; Thu, 02 Feb 2023 08:38:38 -0500
-X-MC-Unique: aByc0waXPQSjy9VAxvjw5g-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-407-esUOBJD_Pg2Elu3fugjGiw-1; Thu, 02 Feb 2023 08:38:37 -0500
+X-MC-Unique: esUOBJD_Pg2Elu3fugjGiw-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 318E8281722D;
- Thu,  2 Feb 2023 13:38:34 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90A3880557A;
+ Thu,  2 Feb 2023 13:38:32 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CEB012026E04;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id CCC7B140EBF6;
  Thu,  2 Feb 2023 13:38:31 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id AFE8321E6A21; Thu,  2 Feb 2023 14:38:30 +0100 (CET)
+ id B355B21E6A22; Thu,  2 Feb 2023 14:38:30 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
 Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
@@ -53,17 +53,16 @@ Cc: richard.henderson@linaro.org, pbonzini@redhat.com, kwolf@redhat.com,
  kkostiuk@redhat.com, tsimpson@quicinc.com, palmer@dabbelt.com,
  bin.meng@windriver.com, qemu-block@nongnu.org, qemu-arm@nongnu.org,
  qemu-riscv@nongnu.org, Eric Blake <eblake@redhat.com>
-Subject: [PATCH v6 02/20] scripts/clean-includes: Don't claim duplicate
- headers found when not
-Date: Thu,  2 Feb 2023 14:38:12 +0100
-Message-Id: <20230202133830.2152150-3-armbru@redhat.com>
+Subject: [PATCH v6 03/20] scripts/clean-includes: Skip symbolic links
+Date: Thu,  2 Feb 2023 14:38:13 +0100
+Message-Id: <20230202133830.2152150-4-armbru@redhat.com>
 In-Reply-To: <20230202133830.2152150-1-armbru@redhat.com>
 References: <20230202133830.2152150-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -87,34 +86,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-When running with --check-dup-head, the script always claims it "Found
-duplicate header file includes."  Fix to do it only when it actually
-found some.
+When a symbolic link points to a file that needs cleaning, the script
+replaces the link with a cleaned regular file.  Not wanted; skip them.
 
-Fixes: d66253e46ae2 ("scripts/clean-includes: added duplicate #include check")
+We have a few symbolic links under subprojects/libvduse/ and
+subprojects/libvhost-user/.
+
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- scripts/clean-includes | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ scripts/clean-includes | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/scripts/clean-includes b/scripts/clean-includes
-index 86944f27fc..8e8420d785 100755
+index 8e8420d785..f0466a6262 100755
 --- a/scripts/clean-includes
 +++ b/scripts/clean-includes
-@@ -177,9 +177,8 @@ for f in "$@"; do
- done
+@@ -113,6 +113,10 @@ EOT
  
- if [ "$DUPHEAD" = "yes" ] && [ -n "$files" ]; then
--    egrep "^[[:space:]]*#[[:space:]]*include" $files | tr -d '[:blank:]' \
--        | sort | uniq -c | awk '{if ($1 > 1) print $0}'
--    if [ $? -eq 0 ]; then
-+    if egrep "^[[:space:]]*#[[:space:]]*include" $files | tr -d '[:blank:]' \
-+        | sort | uniq -c | grep -v '^ *1 '; then
-         echo "Found duplicate header file includes. Please check the above files manually."
-         exit 1
-     fi
+ files=
+ for f in "$@"; do
++  if [ -L "$f" ]; then
++      echo "SKIPPING $f (symbolic link)"
++      continue
++  fi
+   case "$f" in
+     *.c.inc)
+       # These aren't standalone C source files
 -- 
 2.39.0
 
