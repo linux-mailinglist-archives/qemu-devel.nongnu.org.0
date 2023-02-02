@@ -2,76 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F4E76879B7
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:04:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 952886879DB
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 11:11:27 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNWRQ-0005Sb-2e; Thu, 02 Feb 2023 05:03:40 -0500
+	id 1pNWXc-0008JP-Ac; Thu, 02 Feb 2023 05:10:04 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pNWRO-0005RQ-2R
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:03:38 -0500
-Received: from ms11p00im-qufo17281601.me.com ([17.58.38.53])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <mads@ynddal.dk>) id 1pNWRM-0007mp-Gl
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:03:37 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ynddal.dk; s=sig1;
- t=1675332212; bh=yR0y+MSgxpHs1wct0+/mwH7E0d7naoviLcqyb2z2qXE=;
- h=Content-Type:Mime-Version:Subject:From:Date:Message-Id:To;
- b=GBxe+s50e6D2x94NWvGyz1/ygWsj6IdZB8uJoukfI9N76FJMvIRd9QPFVOO6/Oio6
- Rnk2tdjju31vpWYpz/FvWlUGD+6/1an6DCbqvmCXdlHKdeBlwU+OrwLrNhLzmj8E2j
- XyDd/CzSjcLyBZRQ2ChGmfcygOqwoEEcYFwVmfp6WLGrmTScD6NPLr4EOUtLY4zcvo
- eGbzZzWFr2mLIXYk1roEtbU7fEZ/e0qLdRq140ciuHPBEhKamtiZ9dFYB8YWXS9sAa
- nw6gDi+dbMQ5pnhaViD/+0uWp4hMffxvCNSVISPt2ENeknxvV9dszoE+wC6qUm1Xjx
- bTlJ/d3ao8lHA==
-Received: from smtpclient.apple (ms11p00im-dlb-asmtpmailmevip.me.com
- [17.57.154.19])
- by ms11p00im-qufo17281601.me.com (Postfix) with ESMTPSA id 82357AA0645;
- Thu,  2 Feb 2023 10:03:29 +0000 (UTC)
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3731.300.101.1.3\))
-Subject: Re: [PATCH v3 2/3] hvf: implement guest debugging on Apple Silicon
- hosts
-From: Mads Ynddal <mads@ynddal.dk>
-In-Reply-To: <CAF8_6K=7qhJc7jo2jrzYJ6_SjKnbxOd_6_6CtdKJXwfJj5onQg@mail.gmail.com>
-Date: Thu, 2 Feb 2023 11:03:16 +0100
-Cc: qemu-devel@nongnu.org, dirty@apple.com,
- Peter Maydell <peter.maydell@linaro.org>,
- "open list:ARM cores" <qemu-arm@nongnu.org>,
- Alexander Graf <agraf@csgraf.de>, Paolo Bonzini <pbonzini@redhat.com>,
- =?utf-8?Q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>,
- Francesco Cagnin <fcagnin@quarkslab.com>
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <4002D932-B7A3-4166-BA8A-5A323CD87096@ynddal.dk>
-References: <20230114161302.94595-1-fcagnin@quarkslab.com>
- <20230114161302.94595-3-fcagnin@quarkslab.com>
- <5B722E51-E635-4196-8978-E0393F9EEFA1@ynddal.dk>
- <1F9A3AAD-0A5D-4E7D-A053-7F49CE019096@ynddal.dk>
- <CAF8_6K=7qhJc7jo2jrzYJ6_SjKnbxOd_6_6CtdKJXwfJj5onQg@mail.gmail.com>
-To: Francesco Cagnin <francesco.cagnin@gmail.com>
-X-Mailer: Apple Mail (2.3731.300.101.1.3)
-X-Proofpoint-ORIG-GUID: ASxqZ596wDjN4dGR2eMLtR-jlO0pc8Vu
-X-Proofpoint-GUID: ASxqZ596wDjN4dGR2eMLtR-jlO0pc8Vu
-X-Proofpoint-Virus-Version: =?UTF-8?Q?vendor=3Dfsecure_engine=3D1.1.170-22c6f66c430a71ce266a39bfe25bc?=
- =?UTF-8?Q?2903e8d5c8f:6.0.138,18.0.572,17.0.605.474.0000000_definitions?=
- =?UTF-8?Q?=3D2020-02-14=5F11:2020-02-14=5F02,2020-02-14=5F11,2020-01-23?=
- =?UTF-8?Q?=5F02_signatures=3D0?=
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0
- mlxscore=0 phishscore=0
- adultscore=0 mlxlogscore=572 clxscore=1030 suspectscore=0 spamscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2209130000 definitions=main-2302020093
-Received-SPF: pass client-ip=17.58.38.53; envelope-from=mads@ynddal.dk;
- helo=ms11p00im-qufo17281601.me.com
-X-Spam_score_int: -27
-X-Spam_score: -2.8
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pNWXa-0008It-9s
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:10:02 -0500
+Received: from mail-pj1-x1035.google.com ([2607:f8b0:4864:20::1035])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pNWXY-0000Na-KJ
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 05:10:01 -0500
+Received: by mail-pj1-x1035.google.com with SMTP id
+ ha3-20020a17090af3c300b00230222051a6so1338121pjb.2
+ for <qemu-devel@nongnu.org>; Thu, 02 Feb 2023 02:09:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=WZApSu/0SRw6nQsfSo2XQ/Atgd4Vc7WX6/+tCFxfzRk=;
+ b=r1xminmq8+hjMM+NoxQNvcHK07KSLyM+UXKT7PHrAcCjbl6NMD9ktdMTzDyHF9hUGH
+ Q5s+5YkJS1fgPNCRVOqYEIh5Ts0yXIIDgaYVwCHNZI3PpfuLMNr6VgPqW3UcnSe+s9dB
+ lAoKxwjbwaVa9u3tzAag17ITuLFt1u4K2fcINByTvs5dVmUeMs4Sbo+1TEOAF7qyISOy
+ FVb+Q4ufOKFZZi1csQ1e9ZfF0yS78ikAKft1EcSkP4lm0Dd787hF9agqfmO1NEFRVrHE
+ WZCCWAGzBbt8AxfWZIuaOxq5MbzmeYimCW50BzVmOKEWu+2VGRVyNeERxdM3GJq7CJu4
+ b47g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=WZApSu/0SRw6nQsfSo2XQ/Atgd4Vc7WX6/+tCFxfzRk=;
+ b=fPnV2off7SmqOzg0Q/Bz8pEpsEEtk2E9iL22jOS4Jk42T3/1tV/gNAU6tJE3yJ1FzO
+ W6WIwuC3of7pChvlpGnrq+rE/5oylRtOs2OGCiob653DRsHzxonxPU+nzdU1Zfo+oDCl
+ bw64qXOBuPh4Ijf6SO6W/vCuvoqU9ttMr+5uS2jpBgA+jVMwtpzjz8SbV2dpxX2s/mPZ
+ njtBy6dxApHmvMGptgkTB8aHopdeAl3rhy/hFiu+jqYvUB1nIRVjyr4vJTUUvrVRrVlA
+ 1Ar3Na/JejKp9Lf87tHMmL3vQhEJLSd/7Y3dMIcJhFzcTDY8ZMDf5QsnkDgKMD69CBWh
+ +L6w==
+X-Gm-Message-State: AO0yUKXnN9jKGleeuz0T8rIA2Sjt5IQcQ6Scy6gFURgLm0dp/+ocBrTf
+ mTJZW4Rp8kbGYB2JZW+p1R5kePZyzcLEqYybvnOZ9w==
+X-Google-Smtp-Source: AK7set8kLAyN0wAmaViAw2cCxPnoZbuF+aFI4mkQfIfwY8E+0qA8YCDCr++oYhfj2Ez10TG/Lb75kKuLMGrcqTDNaHM=
+X-Received: by 2002:a17:90a:43e5:b0:22c:baa:c2d5 with SMTP id
+ r92-20020a17090a43e500b0022c0baac2d5mr474663pjg.53.1675332598594; Thu, 02 Feb
+ 2023 02:09:58 -0800 (PST)
+MIME-Version: 1.0
+References: <20230125023445.3655253-1-jsnow@redhat.com>
+In-Reply-To: <20230125023445.3655253-1-jsnow@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 2 Feb 2023 10:09:47 +0000
+Message-ID: <CAFEAcA8_4TFwCer6e_hMau3v-1Ut=r+_JyJq4T0ZAnHHTnX6iw@mail.gmail.com>
+Subject: Re: [PULL 0/7] Python patches
+To: John Snow <jsnow@redhat.com>
+Cc: qemu-devel@nongnu.org,
+ =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@linaro.org>, 
+ Kevin Wolf <kwolf@redhat.com>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>, 
+ Eduardo Habkost <eduardo@habkost.net>, Hanna Reitz <hreitz@redhat.com>,
+ qemu-block@nongnu.org, Cleber Rosa <crosa@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <v.sementsov-og@mail.ru>, 
+ Beraldo Leal <bleal@redhat.com>, Markus Armbruster <armbru@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1035;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pj1-x1035.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.8 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
  DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_LOW=-0.7, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -87,17 +90,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+On Wed, 25 Jan 2023 at 02:34, John Snow <jsnow@redhat.com> wrote:
+>
+> The following changes since commit 13356edb87506c148b163b8c7eb0695647d00c2a:
+>
+>   Merge tag 'block-pull-request' of https://gitlab.com/stefanha/qemu into staging (2023-01-24 09:45:33 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/jsnow/qemu.git tags/python-pull-request
+>
+> for you to fetch changes up to bd4c0ef409140bd1be393407c04005ac077d4574:
+>
+>   python/qemu/machine: use socketpair() for QMP by default (2023-01-24 13:37:13 -0500)
+>
+> ----------------------------------------------------------------
+> Python
+>
+> Bits and pieces, kibbles'n'bits
+>
+> ----------------------------------------------------------------
 
-> Are you running the Linux guest on multiple cores? If yes, could you
-> check if the issue persists also when using a single core?
 
-Yes, I was running with 2 cores. I just tested with 1 and 2 several =
-times. I
-haven't reproduced the bug with 1 core, but happens around 70% of the =
-time with
-2 cores.
+Applied, thanks.
 
-=E2=80=94
-Mads Ynddal
+Please update the changelog at https://wiki.qemu.org/ChangeLog/8.0
+for any user-visible changes.
 
+-- PMM
 
