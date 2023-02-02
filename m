@@ -2,72 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFD6D687D5E
+	by mail.lfdr.de (Postfix) with ESMTPS id 4125F687D5D
 	for <lists+qemu-devel@lfdr.de>; Thu,  2 Feb 2023 13:33:49 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNYl8-00031s-Mr; Thu, 02 Feb 2023 07:32:10 -0500
+	id 1pNYlE-00032m-40; Thu, 02 Feb 2023 07:32:16 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pNYkJ-0002uz-UE
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:31:22 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pNYkT-0002vf-L7
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:31:36 -0500
+Received: from frasgout.his.huawei.com ([185.176.79.56])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <berrange@redhat.com>)
- id 1pNYkH-0002oN-V8
- for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:31:19 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675341076;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lLbgm5RIXZwLOvrwa6Ny135NWbqpTTGJtr0jTWyiIoM=;
- b=f282hnSsJuUAmVI6zB5yMAm+OvM2gmQlMbmD5SU/f7npqhKy1xnjYJCzB5L5yteJcKO+sR
- WWwSY87npEcij/aanbjJVScKZ5UXns1mPOQCf6NgYPbJxsUgi6jLz7fWE4D7U313SM4gqg
- 8Gtl7ZfFaqH0uqjz9NXPr0rqrW47JAM=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-277-WpPsKK8QMu6OQDKZCGlImw-1; Thu, 02 Feb 2023 07:31:13 -0500
-X-MC-Unique: WpPsKK8QMu6OQDKZCGlImw-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 055EB101A52E;
- Thu,  2 Feb 2023 12:31:13 +0000 (UTC)
-Received: from redhat.com (unknown [10.33.36.41])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id CB1F8404BEC0;
- Thu,  2 Feb 2023 12:31:05 +0000 (UTC)
-Date: Thu, 2 Feb 2023 12:31:03 +0000
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Juan Quintela <quintela@redhat.com>
-Cc: "manish.mishra" <manish.mishra@nutanix.com>, qemu-devel@nongnu.org,
- dgilbert@redhat.com, lsoaresp@redhat.com, Peter Xu <peterx@redhat.com>
-Subject: Re: [PATCH v6 1/2] io: Add support for MSG_PEEK for socket channel
-Message-ID: <Y9utB91u5JFeHBiN@redhat.com>
-References: <20221220184418.228834-1-manish.mishra@nutanix.com>
- <20221220184418.228834-2-manish.mishra@nutanix.com>
- <877cx0mf4b.fsf@secure.mitica>
+ (Exim 4.90_1) (envelope-from <jonathan.cameron@huawei.com>)
+ id 1pNYkP-0002p9-OI
+ for qemu-devel@nongnu.org; Thu, 02 Feb 2023 07:31:29 -0500
+Received: from lhrpeml500005.china.huawei.com (unknown [172.18.147.201])
+ by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4P6ymP4L4Mz6JB1M;
+ Thu,  2 Feb 2023 20:30:13 +0800 (CST)
+Received: from localhost (10.81.211.68) by lhrpeml500005.china.huawei.com
+ (7.191.163.240) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2375.34; Thu, 2 Feb
+ 2023 12:31:19 +0000
+Date: Thu, 2 Feb 2023 12:31:18 +0000
+To: Peter Maydell <peter.maydell@linaro.org>
+CC: Richard Henderson <richard.henderson@linaro.org>, =?ISO-8859-1?Q?J=F8r?=
+ =?ISO-8859-1?Q?gen?= Hansen <Jorgen.Hansen@wdc.com>, Ajay Joshi
+ <Ajay.Joshi@wdc.com>, qemu-devel <qemu-devel@nongnu.org>, Sid Manning
+ <sidneym@quicinc.com>
+Subject: Re: An issue with x86 tcg and MMIO
+Message-ID: <20230202123118.00003bd6@Huawei.com>
+In-Reply-To: <CAFEAcA9ohWGgaCK60Di4iUdgYqpmHeB_WnDGv4PzyfyfquMUzw@mail.gmail.com>
+References: <78bc53e3-bad3-a5c3-9e53-7a89054aa37a@wdc.com>
+ <ff3f25ee-1c98-242b-905e-0b01d9f0948d@linaro.org>
+ <20230202093911.000053cb@Huawei.com>
+ <2e85fdea-9ffc-9a20-1c61-45ddd17a7fd6@linaro.org>
+ <CAFEAcA9ohWGgaCK60Di4iUdgYqpmHeB_WnDGv4PzyfyfquMUzw@mail.gmail.com>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 4.1.0 (GTK 3.24.33; x86_64-w64-mingw32)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <877cx0mf4b.fsf@secure.mitica>
-User-Agent: Mutt/2.2.9 (2022-11-12)
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=berrange@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.81.211.68]
+X-ClientProxiedBy: lhrpeml500001.china.huawei.com (7.191.163.213) To
+ lhrpeml500005.china.huawei.com (7.191.163.240)
+X-CFilter-Loop: Reflected
+Received-SPF: pass client-ip=185.176.79.56;
+ envelope-from=jonathan.cameron@huawei.com; helo=frasgout.his.huawei.com
+X-Spam_score_int: -41
+X-Spam_score: -4.2
+X-Spam_bar: ----
+X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
+ RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -81,76 +68,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Reply-to:  Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+From:  Jonathan Cameron via <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Thu, Feb 02, 2023 at 01:22:12PM +0100, Juan Quintela wrote:
-> "manish.mishra" <manish.mishra@nutanix.com> wrote:
-> > MSG_PEEK peeks at the channel, The data is treated as unread and
-> > the next read shall still return this data. This support is
-> > currently added only for socket class. Extra parameter 'flags'
-> > is added to io_readv calls to pass extra read flags like MSG_PEEK.
+On Thu, 2 Feb 2023 11:39:28 +0000
+Peter Maydell <peter.maydell@linaro.org> wrote:
+
+> On Thu, 2 Feb 2023 at 10:56, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
 > >
-> > Reviewed-by: Peter Xu <peterx@redhat.com>
-> > Reviewed-by: Daniel P. Berrange <berrange@redhat.com>
-> > Suggested-by: Daniel P. Berrange <berrange@redhat.com>
-> > Signed-off-by: manish.mishra <manish.mishra@nutanix.com>
->=20
->=20
-> This change breaks RDMA migration.
->=20
-> FAILED: libcommon.fa.p/migration_rdma.c.o
-> cc -m64 -mcx16 -Ilibcommon.fa.p -I/usr/include/pixman-1 -I/usr/include/li=
-bpng16 -I/usr/include/spice-server -I/usr/include/spice-1 -I/usr/include/ca=
-card -I/usr/include/glib-2.0 -I/usr/lib64/glib-2.0/include -I/usr/include/s=
-ysprof-4 -I/usr/include/nss3 -I/usr/include/nspr4 -I/usr/include/PCSC -I/us=
-r/include/p11-kit-1 -I/usr/include/libusb-1.0 -I/usr/include/SDL2 -I/usr/in=
-clude/libmount -I/usr/include/blkid -I/usr/include/gio-unix-2.0 -I/usr/incl=
-ude/slirp -fdiagnostics-color=3Dauto -Wall -Winvalid-pch -Werror -std=3Dgnu=
-11 -O2 -g -isystem /mnt/code/qemu/full/linux-headers -isystem linux-headers=
- -iquote . -iquote /mnt/code/qemu/full -iquote /mnt/code/qemu/full/include =
--iquote /mnt/code/qemu/full/tcg/i386 -pthread -U_FORTIFY_SOURCE -D_FORTIFY_=
-SOURCE=3D2 -D_GNU_SOURCE -D_FILE_OFFSET_BITS=3D64 -D_LARGEFILE_SOURCE -fno-=
-strict-aliasing -fno-common -fwrapv -Wundef -Wwrite-strings -Wmissing-proto=
-types -Wstrict-prototypes -Wredundant-decls -Wold-style-declaration -Wold-s=
-tyle-definition -Wtype-limits -Wformat-security -Wformat-y2k -Winit-self -W=
-ignored-qualifiers -Wempty-body -Wnested-externs -Wendif-labels -Wexpansion=
--to-defined -Wimplicit-fallthrough=3D2 -Wmissing-format-attribute -Wno-miss=
-ing-include-dirs -Wno-shift-negative-value -Wno-psabi -fstack-protector-str=
-ong -fPIE -D_REENTRANT -Wno-undef -DSTRUCT_IOVEC_DEFINED -MD -MQ libcommon.=
-fa.p/migration_rdma.c.o -MF libcommon.fa.p/migration_rdma.c.o.d -o libcommo=
-n.fa.p/migration_rdma.c.o -c ../../../../mnt/code/qemu/full/migration/rdma.c
-> ../../../../mnt/code/qemu/full/migration/rdma.c: In function =E2=80=98qio=
-_channel_rdma_class_init=E2=80=99:
-> ../../../../mnt/code/qemu/full/migration/rdma.c:4020:25: error: assignmen=
-t to =E2=80=98ssize_t (*)(QIOChannel *, const struct iovec *, size_t,  int =
-**, size_t *, int,  Error **)=E2=80=99 {aka =E2=80=98long int (*)(QIOChanne=
-l *, const struct iovec *, long unsigned int,  int **, long unsigned int *,=
- int,  Error **)=E2=80=99} from incompatible pointer type =E2=80=98ssize_t =
-(*)(QIOChannel *, const struct iovec *, size_t,  int **, size_t *, Error **=
-)=E2=80=99 {aka =E2=80=98long int (*)(QIOChannel *, const struct iovec *, l=
-ong unsigned int,  int **, long unsigned int *, Error **)=E2=80=99} [-Werro=
-r=3Dincompatible-pointer-types]
->  4020 |     ioc_klass->io_readv =3D qio_channel_rdma_readv;
->       |                         ^
-> cc1: all warnings being treated as errors
->=20
-> And I don't really know how to fix it, because the problem is that rdma
-> don't use qio_channel_readv_full() at all.
+> > On 2/1/23 23:39, Jonathan Cameron wrote:  
+> > > Not sure - if we can do the handling above then sure we could make that change.
+> > > I can see there is a path to register the callbacks but I'd kind of assumed
+> > > ROM meant read only...  
+> >
+> > I think "romd" means "read mostly".
+> >
+> > In the case of flash, I believe that a write changes modes (block erase something
+> > something) and the region changes state into MMIO.  But normal state is read mode where
+> > read+execute go through unchallenged.  
+> 
+> In QEMU a ROMD MemoryRegion (created by memory_region_init_rom_device())
+> is a memory region backed by RAM for reads and by callbacks for writes.
+> (I think ROMD stands for "ROM device".)
+> 
+> You can then use memory_region_device_set_romd() to put the ROMD into
+> either ROMD mode (the default, reads backed by RAM) or MMIO mode
+> (reads backed by MMIO callbacks). Writes are always callbacks regardless.
+> This is mainly meant for flash devices, which are usually reads-as-data
+> but have a programming mode where you write a command to it and then
+> read back command results. It's possible to use it for other tricks too.
+> 
+> When a ROMD is in ROMD mode then execution from it is as fast as execution
+> from any RAM; when it is in MMIO mode then execution from it is as slow
+> as execution from any other MMIO-backed MemoryRegion.
 
-Likely qio_channel_rdma_readv just adds the 'int flags' param added.
-It doesn't need to actually do anything with the flags as they are
-checked before
+Thanks for the info - I don't think ROMD helps us much here as we'd need
+to be constantly in the MMIO mode as we need the callbacks for both read
+and write.
 
-With regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange=
- :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com=
- :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange=
- :|
+> 
+> Note that AFAIK you can't execute from MMIO at all with KVM (either
+> ROMD-in-MMIO mode or a plain old MMIO device).
+
+That may not be a significant problem for CXL emulation - though we should
+definitely make that restriction clear and it might slow down some testing.
+As far as I know there are no usecases beyond testing of software stacks
+and TCG is fine for that.
+
+> 
+> You might want to look at whether QEMU's iommu functionality is helpful
+> to you -- I'm assuming CXL doesn't do weird stuff on a less-than-page
+> granularity, and the iommu APIs will let you do "programmatically decide
+> where this address should actually go". The other option involves
+> mapping and unmapping MemoryRegions inside a container MR.
+
+Unfortunately it does weird stuff well below a page granularity.
+Interleaving is down to 256 bytes.
+
+We discussed the memory region approach when this originally came up.
+The issue is that we get an insane number of memory regions to support
+even basic interleave setups (many millions) - hence doing the address
+decoding via a read and write callbacks at runtime instead. 
+
+Jonathan
+
+> 
+> thanks
+> -- PMM
 
 
