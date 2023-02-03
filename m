@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E99B9689E25
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 16:25:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0A27689E3F
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 16:27:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNxu3-0007U7-Sa; Fri, 03 Feb 2023 10:23:03 -0500
+	id 1pNxu7-0007bS-Lc; Fri, 03 Feb 2023 10:23:07 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxu1-0007SW-4q
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:23:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxu2-0007Tw-Ll
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:23:02 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxty-0005MA-SS
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:23:00 -0500
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxu0-0005MR-6N
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:23:02 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675437778;
+ s=mimecast20190719; t=1675437779;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=zPk/4BOJ/3Wh4Y9blY42T76M/VfDyqYsvQ0LzP9DTNU=;
- b=iV2v2C+QrBNR6OOjuOMhsGFIRDn2EbJSmZLz4f1djZy4VrpsEhGB62XTOKTE3C3qtQcJc9
- r1jY3Vh/nwnrxcIgOR6JWEloxPXHE2RESgTBtad8kU9zJHfodQ2Hj91UG+2iMT8tKF8gg8
- v680UQgqV4jJpc1YIFiboBw9zHjIQ3U=
+ bh=/P7s5W59wEXVHr10reqP7AT+xBROjlfR67ZOWlKx3hc=;
+ b=S/BE6vCR83DeWVykkxEIKuHSE1QM9JdcQDOl5igZE0TnodFPQpFuqq4klFbMKEN29NrwAW
+ IX7bkCDDbexVe/q45N0pqMCmMoyurnfnAnhVbnjSdqrBY4njwO2vH8eldH98fXfD5cog20
+ 3p1cZYVSXuppaZAzAPkH7smLVzrYrUo=
 Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
  [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-194-g4yUAcN8NzmFQz3wjYIGEg-1; Fri, 03 Feb 2023 10:22:56 -0500
-X-MC-Unique: g4yUAcN8NzmFQz3wjYIGEg-1
+ us-mta-533-ruP3GlaCNSyDzU9byVbThg-1; Fri, 03 Feb 2023 10:22:58 -0500
+X-MC-Unique: ruP3GlaCNSyDzU9byVbThg-1
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
  [10.11.54.2])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9DF06101A52E;
- Fri,  3 Feb 2023 15:22:56 +0000 (UTC)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id D1054101A52E;
+ Fri,  3 Feb 2023 15:22:57 +0000 (UTC)
 Received: from merkur.fritz.box (unknown [10.39.194.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id A4F9740168BB;
- Fri,  3 Feb 2023 15:22:55 +0000 (UTC)
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D7964404CD80;
+ Fri,  3 Feb 2023 15:22:56 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
 Cc: kwolf@redhat.com, pbonzini@redhat.com, stefanha@redhat.com,
  eesposit@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH 15/23] block: Mark preadv_snapshot/snapshot_block_status
- GRAPH_RDLOCK
-Date: Fri,  3 Feb 2023 16:21:54 +0100
-Message-Id: <20230203152202.49054-16-kwolf@redhat.com>
+Subject: [PATCH 16/23] block: Mark bdrv_co_create() and callers GRAPH_RDLOCK
+Date: Fri,  3 Feb 2023 16:21:55 +0100
+Message-Id: <20230203152202.49054-17-kwolf@redhat.com>
 In-Reply-To: <20230203152202.49054-1-kwolf@redhat.com>
 References: <20230203152202.49054-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=kwolf@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -77,131 +76,430 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+This adds GRAPH_RDLOCK annotations to declare that callers of
+bdrv_co_create() need to hold a reader lock for the graph.
+
+Signed-off-by: Emanuele Giuseppe Esposito <eesposit@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block_int-common.h | 12 +++++++-----
- include/block/block_int-io.h     |  8 ++++----
- block/copy-before-write.c        |  6 ++----
- block/io.c                       |  2 ++
- block/snapshot-access.c          |  4 ++--
- 5 files changed, 17 insertions(+), 15 deletions(-)
+ include/block/block-global-state.h | 14 ++++---
+ include/block/block_int-common.h   | 11 +++---
+ block.c                            |  1 +
+ block/create.c                     |  9 ++++-
+ block/crypto.c                     |  7 ++--
+ block/file-posix.c                 |  7 ++--
+ block/file-win32.c                 |  7 ++--
+ block/parallels.c                  |  7 ++--
+ block/qcow.c                       |  6 +--
+ block/qcow2.c                      |  7 ++--
+ block/qed.c                        |  7 ++--
+ block/raw-format.c                 |  7 ++--
+ block/vdi.c                        |  7 ++--
+ block/vhdx.c                       |  7 ++--
+ block/vmdk.c                       | 63 ++++++++++++++----------------
+ block/vpc.c                        |  7 ++--
+ 16 files changed, 84 insertions(+), 90 deletions(-)
 
+diff --git a/include/block/block-global-state.h b/include/block/block-global-state.h
+index 447176414e..399200a9a3 100644
+--- a/include/block/block-global-state.h
++++ b/include/block/block-global-state.h
+@@ -58,13 +58,15 @@ BlockDriver *bdrv_find_protocol(const char *filename,
+                                 Error **errp);
+ BlockDriver *bdrv_find_format(const char *format_name);
+ 
+-int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
+-                                QemuOpts *opts, Error **errp);
+-int co_wrapper bdrv_create(BlockDriver *drv, const char *filename,
+-                           QemuOpts *opts, Error **errp);
++int coroutine_fn GRAPH_RDLOCK
++bdrv_co_create(BlockDriver *drv, const char *filename, QemuOpts *opts,
++               Error **errp);
+ 
+-int coroutine_fn bdrv_co_create_file(const char *filename, QemuOpts *opts,
+-                                     Error **errp);
++int co_wrapper_bdrv_rdlock bdrv_create(BlockDriver *drv, const char *filename,
++                                       QemuOpts *opts, Error **errp);
++
++int coroutine_fn GRAPH_RDLOCK
++bdrv_co_create_file(const char *filename, QemuOpts *opts, Error **errp);
+ 
+ BlockDriverState *bdrv_new(void);
+ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
 diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index 29b230cc0b..7d8309ba5a 100644
+index 7d8309ba5a..6b8fd22c71 100644
 --- a/include/block/block_int-common.h
 +++ b/include/block/block_int-common.h
-@@ -624,11 +624,13 @@ struct BlockDriver {
-      * - receive the snapshot's actual length (which may differ from bs's
-      *   length)
-      */
--    int coroutine_fn (*bdrv_co_preadv_snapshot)(BlockDriverState *bs,
--        int64_t offset, int64_t bytes, QEMUIOVector *qiov, size_t qiov_offset);
--    int coroutine_fn (*bdrv_co_snapshot_block_status)(BlockDriverState *bs,
--        bool want_zero, int64_t offset, int64_t bytes, int64_t *pnum,
--        int64_t *map, BlockDriverState **file);
-+    int coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_preadv_snapshot)(
-+        BlockDriverState *bs, int64_t offset, int64_t bytes,
-+        QEMUIOVector *qiov, size_t qiov_offset);
+@@ -246,12 +246,11 @@ struct BlockDriver {
+                           Error **errp);
+     void (*bdrv_close)(BlockDriverState *bs);
+ 
+-    int coroutine_fn (*bdrv_co_create)(BlockdevCreateOptions *opts,
+-                                       Error **errp);
+-    int coroutine_fn (*bdrv_co_create_opts)(BlockDriver *drv,
+-                                            const char *filename,
+-                                            QemuOpts *opts,
+-                                            Error **errp);
++    int coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_create)(
++        BlockdevCreateOptions *opts, Error **errp);
 +
-+    int coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_snapshot_block_status)(
-+        BlockDriverState *bs, bool want_zero, int64_t offset, int64_t bytes,
-+        int64_t *pnum, int64_t *map, BlockDriverState **file);
++    int coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_create_opts)(
++        BlockDriver *drv, const char *filename, QemuOpts *opts, Error **errp);
  
-     int coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_pdiscard_snapshot)(
-         BlockDriverState *bs, int64_t offset, int64_t bytes);
-diff --git a/include/block/block_int-io.h b/include/block/block_int-io.h
-index 5788bd66ba..612e5ddf99 100644
---- a/include/block/block_int-io.h
-+++ b/include/block/block_int-io.h
-@@ -35,11 +35,11 @@
-  * the I/O API.
-  */
+     int (*bdrv_amend_options)(BlockDriverState *bs,
+                               QemuOpts *opts,
+diff --git a/block.c b/block.c
+index c2a8d66f75..b91f7658af 100644
+--- a/block.c
++++ b/block.c
+@@ -533,6 +533,7 @@ int coroutine_fn bdrv_co_create(BlockDriver *drv, const char *filename,
+     int ret;
+     GLOBAL_STATE_CODE();
+     ERRP_GUARD();
++    assert_bdrv_graph_readable();
  
--int coroutine_fn bdrv_co_preadv_snapshot(BdrvChild *child,
-+int coroutine_fn GRAPH_RDLOCK bdrv_co_preadv_snapshot(BdrvChild *child,
-     int64_t offset, int64_t bytes, QEMUIOVector *qiov, size_t qiov_offset);
--int coroutine_fn bdrv_co_snapshot_block_status(BlockDriverState *bs,
--    bool want_zero, int64_t offset, int64_t bytes, int64_t *pnum,
--    int64_t *map, BlockDriverState **file);
-+int coroutine_fn GRAPH_RDLOCK bdrv_co_snapshot_block_status(
-+    BlockDriverState *bs, bool want_zero, int64_t offset, int64_t bytes,
-+    int64_t *pnum, int64_t *map, BlockDriverState **file);
- int coroutine_fn GRAPH_RDLOCK bdrv_co_pdiscard_snapshot(BlockDriverState *bs,
-     int64_t offset, int64_t bytes);
- 
-diff --git a/block/copy-before-write.c b/block/copy-before-write.c
-index e223e37300..646d8227a4 100644
---- a/block/copy-before-write.c
-+++ b/block/copy-before-write.c
-@@ -256,7 +256,7 @@ cbw_snapshot_read_unlock(BlockDriverState *bs, BlockReq *req)
-     g_free(req);
- }
- 
--static coroutine_fn int
-+static int coroutine_fn GRAPH_RDLOCK
- cbw_co_preadv_snapshot(BlockDriverState *bs, int64_t offset, int64_t bytes,
-                        QEMUIOVector *qiov, size_t qiov_offset)
- {
-@@ -264,8 +264,6 @@ cbw_co_preadv_snapshot(BlockDriverState *bs, int64_t offset, int64_t bytes,
-     BdrvChild *file;
+     if (!drv->bdrv_co_create_opts) {
+         error_setg(errp, "Driver '%s' does not support image creation",
+diff --git a/block/create.c b/block/create.c
+index 4df43f11f4..bf67b9947c 100644
+--- a/block/create.c
++++ b/block/create.c
+@@ -43,6 +43,7 @@ static int coroutine_fn blockdev_create_run(Job *job, Error **errp)
      int ret;
  
--    assume_graph_lock(); /* FIXME */
--
-     /* TODO: upgrade to async loop using AioTask */
-     while (bytes) {
-         int64_t cur_bytes;
-@@ -290,7 +288,7 @@ cbw_co_preadv_snapshot(BlockDriverState *bs, int64_t offset, int64_t bytes,
+     GLOBAL_STATE_CODE();
++    GRAPH_RDLOCK_GUARD();
+ 
+     job_progress_set_remaining(&s->common, 1);
+     ret = s->drv->bdrv_co_create(s->opts, errp);
+@@ -59,6 +60,12 @@ static const JobDriver blockdev_create_job_driver = {
+     .run           = blockdev_create_run,
+ };
+ 
++/* Checking whether the function is present doesn't require the graph lock */
++static inline bool TSA_NO_TSA has_bdrv_co_create(BlockDriver *drv)
++{
++    return drv->bdrv_co_create;
++}
++
+ void qmp_blockdev_create(const char *job_id, BlockdevCreateOptions *options,
+                          Error **errp)
+ {
+@@ -79,7 +86,7 @@ void qmp_blockdev_create(const char *job_id, BlockdevCreateOptions *options,
+     }
+ 
+     /* Error out if the driver doesn't support .bdrv_co_create */
+-    if (!drv->bdrv_co_create) {
++    if (!has_bdrv_co_create(drv)) {
+         error_setg(errp, "Driver does not support blockdev-create");
+         return;
+     }
+diff --git a/block/crypto.c b/block/crypto.c
+index 2d24f336c2..28f870f33c 100644
+--- a/block/crypto.c
++++ b/block/crypto.c
+@@ -665,10 +665,9 @@ fail:
+     return ret;
+ }
+ 
+-static int coroutine_fn block_crypto_co_create_opts_luks(BlockDriver *drv,
+-                                                         const char *filename,
+-                                                         QemuOpts *opts,
+-                                                         Error **errp)
++static int coroutine_fn GRAPH_RDLOCK
++block_crypto_co_create_opts_luks(BlockDriver *drv, const char *filename,
++                                 QemuOpts *opts, Error **errp)
+ {
+     QCryptoBlockCreateOptions *create_opts = NULL;
+     BlockDriverState *bs = NULL;
+diff --git a/block/file-posix.c b/block/file-posix.c
+index bdb8a56c9e..6c6451c79f 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2607,10 +2607,9 @@ out:
+     return result;
+ }
+ 
+-static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
+-                                           const char *filename,
+-                                           QemuOpts *opts,
+-                                           Error **errp)
++static int coroutine_fn GRAPH_RDLOCK
++raw_co_create_opts(BlockDriver *drv, const char *filename,
++                   QemuOpts *opts, Error **errp)
+ {
+     BlockdevCreateOptions options;
+     int64_t total_size = 0;
+diff --git a/block/file-win32.c b/block/file-win32.c
+index 200d244116..c7d0b85306 100644
+--- a/block/file-win32.c
++++ b/block/file-win32.c
+@@ -613,10 +613,9 @@ static int raw_co_create(BlockdevCreateOptions *options, Error **errp)
      return 0;
  }
  
--static int coroutine_fn
+-static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
+-                                           const char *filename,
+-                                           QemuOpts *opts,
+-                                           Error **errp)
 +static int coroutine_fn GRAPH_RDLOCK
- cbw_co_snapshot_block_status(BlockDriverState *bs,
-                              bool want_zero, int64_t offset, int64_t bytes,
-                              int64_t *pnum, int64_t *map,
-diff --git a/block/io.c b/block/io.c
-index b060561929..af9a0cc964 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -3529,6 +3529,7 @@ bdrv_co_preadv_snapshot(BdrvChild *child, int64_t offset, int64_t bytes,
-     BlockDriver *drv = bs->drv;
-     int ret;
-     IO_CODE();
-+    assert_bdrv_graph_readable();
- 
-     if (!drv) {
-         return -ENOMEDIUM;
-@@ -3554,6 +3555,7 @@ bdrv_co_snapshot_block_status(BlockDriverState *bs,
-     BlockDriver *drv = bs->drv;
-     int ret;
-     IO_CODE();
-+    assert_bdrv_graph_readable();
- 
-     if (!drv) {
-         return -ENOMEDIUM;
-diff --git a/block/snapshot-access.c b/block/snapshot-access.c
-index 009cc4aea0..67ea339da9 100644
---- a/block/snapshot-access.c
-+++ b/block/snapshot-access.c
-@@ -26,7 +26,7 @@
- #include "qemu/cutils.h"
- #include "block/block_int.h"
- 
--static coroutine_fn int
-+static int coroutine_fn GRAPH_RDLOCK
- snapshot_access_co_preadv_part(BlockDriverState *bs,
-                                int64_t offset, int64_t bytes,
-                                QEMUIOVector *qiov, size_t qiov_offset,
-@@ -39,7 +39,7 @@ snapshot_access_co_preadv_part(BlockDriverState *bs,
-     return bdrv_co_preadv_snapshot(bs->file, offset, bytes, qiov, qiov_offset);
++raw_co_create_opts(BlockDriver *drv, const char *filename,
++                   QemuOpts *opts, Error **errp)
+ {
+     BlockdevCreateOptions options;
+     int64_t total_size = 0;
+diff --git a/block/parallels.c b/block/parallels.c
+index a7e9cad146..013684801a 100644
+--- a/block/parallels.c
++++ b/block/parallels.c
+@@ -622,10 +622,9 @@ exit:
+     goto out;
  }
  
--static int coroutine_fn
+-static int coroutine_fn parallels_co_create_opts(BlockDriver *drv,
+-                                                 const char *filename,
+-                                                 QemuOpts *opts,
+-                                                 Error **errp)
 +static int coroutine_fn GRAPH_RDLOCK
- snapshot_access_co_block_status(BlockDriverState *bs,
-                                 bool want_zero, int64_t offset,
-                                 int64_t bytes, int64_t *pnum,
++parallels_co_create_opts(BlockDriver *drv, const char *filename,
++                         QemuOpts *opts, Error **errp)
+ {
+     BlockdevCreateOptions *create_options = NULL;
+     BlockDriverState *bs = NULL;
+diff --git a/block/qcow.c b/block/qcow.c
+index 58a0b4e2f0..490e4f819e 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -921,9 +921,9 @@ exit:
+     return ret;
+ }
+ 
+-static int coroutine_fn qcow_co_create_opts(BlockDriver *drv,
+-                                            const char *filename,
+-                                            QemuOpts *opts, Error **errp)
++static int coroutine_fn GRAPH_RDLOCK
++qcow_co_create_opts(BlockDriver *drv, const char *filename,
++                    QemuOpts *opts, Error **errp)
+ {
+     BlockdevCreateOptions *create_options = NULL;
+     BlockDriverState *bs = NULL;
+diff --git a/block/qcow2.c b/block/qcow2.c
+index c318f41f38..30fd53fa64 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -3816,10 +3816,9 @@ out:
+     return ret;
+ }
+ 
+-static int coroutine_fn qcow2_co_create_opts(BlockDriver *drv,
+-                                             const char *filename,
+-                                             QemuOpts *opts,
+-                                             Error **errp)
++static int coroutine_fn GRAPH_RDLOCK
++qcow2_co_create_opts(BlockDriver *drv, const char *filename, QemuOpts *opts,
++                     Error **errp)
+ {
+     BlockdevCreateOptions *create_options = NULL;
+     QDict *qdict;
+diff --git a/block/qed.c b/block/qed.c
+index c969b31e2c..ed94bb61ca 100644
+--- a/block/qed.c
++++ b/block/qed.c
+@@ -754,10 +754,9 @@ out:
+     return ret;
+ }
+ 
+-static int coroutine_fn bdrv_qed_co_create_opts(BlockDriver *drv,
+-                                                const char *filename,
+-                                                QemuOpts *opts,
+-                                                Error **errp)
++static int coroutine_fn GRAPH_RDLOCK
++bdrv_qed_co_create_opts(BlockDriver *drv, const char *filename,
++                        QemuOpts *opts, Error **errp)
+ {
+     BlockdevCreateOptions *create_options = NULL;
+     QDict *qdict;
+diff --git a/block/raw-format.c b/block/raw-format.c
+index 9913cb8174..646606e223 100644
+--- a/block/raw-format.c
++++ b/block/raw-format.c
+@@ -430,10 +430,9 @@ static int raw_has_zero_init(BlockDriverState *bs)
+     return bdrv_has_zero_init(bs->file->bs);
+ }
+ 
+-static int coroutine_fn raw_co_create_opts(BlockDriver *drv,
+-                                           const char *filename,
+-                                           QemuOpts *opts,
+-                                           Error **errp)
++static int coroutine_fn GRAPH_RDLOCK
++raw_co_create_opts(BlockDriver *drv, const char *filename,
++                   QemuOpts *opts, Error **errp)
+ {
+     return bdrv_co_create_file(filename, opts, errp);
+ }
+diff --git a/block/vdi.c b/block/vdi.c
+index b50c0b7277..f2434d6153 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -898,10 +898,9 @@ static int coroutine_fn vdi_co_create(BlockdevCreateOptions *create_options,
+     return vdi_co_do_create(create_options, DEFAULT_CLUSTER_SIZE, errp);
+ }
+ 
+-static int coroutine_fn vdi_co_create_opts(BlockDriver *drv,
+-                                           const char *filename,
+-                                           QemuOpts *opts,
+-                                           Error **errp)
++static int coroutine_fn GRAPH_RDLOCK
++vdi_co_create_opts(BlockDriver *drv, const char *filename,
++                   QemuOpts *opts, Error **errp)
+ {
+     QDict *qdict = NULL;
+     BlockdevCreateOptions *create_options = NULL;
+diff --git a/block/vhdx.c b/block/vhdx.c
+index ffa4455e82..81420722a1 100644
+--- a/block/vhdx.c
++++ b/block/vhdx.c
+@@ -2059,10 +2059,9 @@ delete_and_exit:
+     return ret;
+ }
+ 
+-static int coroutine_fn vhdx_co_create_opts(BlockDriver *drv,
+-                                            const char *filename,
+-                                            QemuOpts *opts,
+-                                            Error **errp)
++static int coroutine_fn GRAPH_RDLOCK
++vhdx_co_create_opts(BlockDriver *drv, const char *filename,
++                    QemuOpts *opts, Error **errp)
+ {
+     BlockdevCreateOptions *create_options = NULL;
+     QDict *qdict;
+diff --git a/block/vmdk.c b/block/vmdk.c
+index c601ca85f4..f5f49018fe 100644
+--- a/block/vmdk.c
++++ b/block/vmdk.c
+@@ -2277,11 +2277,10 @@ exit:
+     return ret;
+ }
+ 
+-static int coroutine_fn vmdk_create_extent(const char *filename,
+-                                           int64_t filesize, bool flat,
+-                                           bool compress, bool zeroed_grain,
+-                                           BlockBackend **pbb,
+-                                           QemuOpts *opts, Error **errp)
++static int coroutine_fn GRAPH_RDLOCK
++vmdk_create_extent(const char *filename, int64_t filesize, bool flat,
++                   bool compress, bool zeroed_grain, BlockBackend **pbb,
++                   QemuOpts *opts, Error **errp)
+ {
+     int ret;
+     BlockBackend *blk = NULL;
+@@ -2359,14 +2358,10 @@ static int filename_decompose(const char *filename, char *path, char *prefix,
+  *           non-split format.
+  * idx >= 1: get the n-th extent if in a split subformat
+  */
+-typedef BlockBackend * coroutine_fn (*vmdk_create_extent_fn)(int64_t size,
+-                                                             int idx,
+-                                                             bool flat,
+-                                                             bool split,
+-                                                             bool compress,
+-                                                             bool zeroed_grain,
+-                                                             void *opaque,
+-                                                             Error **errp);
++typedef BlockBackend * coroutine_fn /* GRAPH_RDLOCK */
++    (*vmdk_create_extent_fn)(int64_t size, int idx, bool flat, bool split,
++                             bool compress, bool zeroed_grain, void *opaque,
++                             Error **errp);
+ 
+ static void vmdk_desc_add_extent(GString *desc,
+                                  const char *extent_line_fmt,
+@@ -2379,17 +2374,18 @@ static void vmdk_desc_add_extent(GString *desc,
+     g_free(basename);
+ }
+ 
+-static int coroutine_fn vmdk_co_do_create(int64_t size,
+-                                          BlockdevVmdkSubformat subformat,
+-                                          BlockdevVmdkAdapterType adapter_type,
+-                                          const char *backing_file,
+-                                          const char *hw_version,
+-                                          const char *toolsversion,
+-                                          bool compat6,
+-                                          bool zeroed_grain,
+-                                          vmdk_create_extent_fn extent_fn,
+-                                          void *opaque,
+-                                          Error **errp)
++static int coroutine_fn GRAPH_RDLOCK
++vmdk_co_do_create(int64_t size,
++                  BlockdevVmdkSubformat subformat,
++                  BlockdevVmdkAdapterType adapter_type,
++                  const char *backing_file,
++                  const char *hw_version,
++                  const char *toolsversion,
++                  bool compat6,
++                  bool zeroed_grain,
++                  vmdk_create_extent_fn extent_fn,
++                  void *opaque,
++                  Error **errp)
+ {
+     int extent_idx;
+     BlockBackend *blk = NULL;
+@@ -2609,10 +2605,10 @@ typedef struct {
+     QemuOpts *opts;
+ } VMDKCreateOptsData;
+ 
+-static BlockBackend * coroutine_fn vmdk_co_create_opts_cb(int64_t size, int idx,
+-                                            bool flat, bool split, bool compress,
+-                                            bool zeroed_grain, void *opaque,
+-                                            Error **errp)
++static BlockBackend * coroutine_fn GRAPH_RDLOCK
++vmdk_co_create_opts_cb(int64_t size, int idx, bool flat, bool split,
++                       bool compress, bool zeroed_grain, void *opaque,
++                       Error **errp)
+ {
+     BlockBackend *blk = NULL;
+     BlockDriverState *bs = NULL;
+@@ -2651,10 +2647,9 @@ exit:
+     return blk;
+ }
+ 
+-static int coroutine_fn vmdk_co_create_opts(BlockDriver *drv,
+-                                            const char *filename,
+-                                            QemuOpts *opts,
+-                                            Error **errp)
++static int coroutine_fn GRAPH_RDLOCK
++vmdk_co_create_opts(BlockDriver *drv, const char *filename,
++                    QemuOpts *opts, Error **errp)
+ {
+     Error *local_err = NULL;
+     char *desc = NULL;
+@@ -2814,8 +2809,8 @@ static BlockBackend * coroutine_fn vmdk_co_create_cb(int64_t size, int idx,
+     return blk;
+ }
+ 
+-static int coroutine_fn vmdk_co_create(BlockdevCreateOptions *create_options,
+-                                       Error **errp)
++static int coroutine_fn GRAPH_RDLOCK
++vmdk_co_create(BlockdevCreateOptions *create_options, Error **errp)
+ {
+     BlockdevCreateOptionsVmdk *opts;
+ 
+diff --git a/block/vpc.c b/block/vpc.c
+index 1f0f26c0c4..b89b0ff8e2 100644
+--- a/block/vpc.c
++++ b/block/vpc.c
+@@ -1087,10 +1087,9 @@ out:
+     return ret;
+ }
+ 
+-static int coroutine_fn vpc_co_create_opts(BlockDriver *drv,
+-                                           const char *filename,
+-                                           QemuOpts *opts,
+-                                           Error **errp)
++static int coroutine_fn GRAPH_RDLOCK
++vpc_co_create_opts(BlockDriver *drv, const char *filename,
++                   QemuOpts *opts, Error **errp)
+ {
+     BlockdevCreateOptions *create_options = NULL;
+     QDict *qdict;
 -- 
 2.38.1
 
