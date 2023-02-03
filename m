@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78611689C4F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:56:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A83D6689C64
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:58:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNxUI-0002jD-1g; Fri, 03 Feb 2023 09:56:26 -0500
+	id 1pNxUL-0002zy-6X; Fri, 03 Feb 2023 09:56:29 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxUF-0002ap-A0
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:56:23 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxUJ-0002tM-0X
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:56:27 -0500
 Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxUC-0005v2-Bf
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:56:23 -0500
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxUH-0005v2-GZ
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:56:26 -0500
 Received: by mail-wm1-x336.google.com with SMTP id
- l37-20020a05600c1d2500b003dfe46a9801so2571888wms.0
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:56:19 -0800 (PST)
+ l37-20020a05600c1d2500b003dfe46a9801so2572075wms.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:56:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=f2kBLJKaVnGetSSqtxpfAhCXISkwd1yaz8QImmDemGM=;
- b=KpY9LpkQkdmGdSECIUV03ptdpIF11O/6yKWpyzgdtyfnGMbcnM3z5Vxqexi6R4/TgB
- e+e+JhjV8ztHekJdrXiHPRztONz0hemLJEvBGr60OSxZjiIYXELaR+3NRO2AOfmM49tK
- pR6kFvrNO31fokNf4r9Iue3yONWo8OFso/G3agt4FuH7CDLaEZa0GwNiLxd0XP1SubTp
- 2oJU8HsL0L5OPvmKc/AM144hHOWjozKQurWbIc6O5c8BSftV9J7VIa5qvAXvrincUfQK
- QIOc/L86kAc0Q8cqxbk7dlgn4EoTRjsvKznly6tebyrditFVyuOtoTP0rNOd03Xlw4xU
- sGUw==
+ bh=Tt1uD8O6Jt66Hf82NoAJiGFntdTbEbmQb2viJlepOPw=;
+ b=kgPcfaIRM1Z0jwoP9KgR3Gps5Yb0WSkoc3jGN/Wq7MS0k2g3zoGLbP2bbL6kxEseNI
+ eKYee2vG7kVadu96kswhvzz3FoY0JTDxHVjPNxSC2KFmc4jyAK8EtujmILOqnUFkyBbg
+ yWBQOFkudUIr2lxT24987h34X4X7YzfO/Js1ujK1WqKePq0kbJFHlZYe3mZHrzRkxtxz
+ Q4paVYSefBUQjYKfYe/5c0QIcx0BAM/WJHWX4LUZY9g5AeFG2g2iXBgrBvE3RMrkepyM
+ njpgmTmgeX7rPXRI8F7Xbuh2c5/mdbCZ2sSKxjlFTvVtJucvIWUbCRbuWnd2F261lBXi
+ IEjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=f2kBLJKaVnGetSSqtxpfAhCXISkwd1yaz8QImmDemGM=;
- b=3y6DlRizZHIUKiA/A0yzS8bcdi2++5KnNyrnsJKW/YVOEJEepDF8TbRpsQ3UA224kU
- OdwsH8/Arg6GDoQM8x32S5aHpdU7McH+wAQFP7VEgqYSz++n9eBYm7gCARbvgYVP1sE5
- +BF9qvYgCzN+8XAqnlOPWBKRS4yE0tkcwq3LwXBc0QcXQRzw4fRTbN+ciZJfE42hSSzF
- Sd3iahmVSFJloKsoY4lT2fKaGwZx0jAyeNcujxRjx35Vllde+WjsPaLNHVMM7ncENrbL
- KsCnvA/o4UtcgNTMfexKVWZGi+5X2c8XQspZmBfzPJ9odihABUyjNnf501mXKv6zOj0o
- J3kQ==
-X-Gm-Message-State: AO0yUKWPv8F9mgea/tf9NfJQ7gOM+tMriMKaXEy6uBMlgVnlyMNKUH1o
- lOiD+9z76YfjzCyNSBzsQ6MminFojjLbrsPS
-X-Google-Smtp-Source: AK7set+Zj5dbaEL0QrM7w7RdtmsTV88Fholm3LZ7zCfLgNDfiea5TXfBTso/4TUgbXOYQ9KmhH5B6g==
-X-Received: by 2002:a05:600c:1d13:b0:3dc:5abb:2f50 with SMTP id
- l19-20020a05600c1d1300b003dc5abb2f50mr9505073wms.19.1675436179316; 
- Fri, 03 Feb 2023 06:56:19 -0800 (PST)
+ bh=Tt1uD8O6Jt66Hf82NoAJiGFntdTbEbmQb2viJlepOPw=;
+ b=T+Zl3bEtUY+lIz0sFnoTwi3HsK/A2u+mPsmBk66L8TGg2JuhOf3P1Cmxl2VeOw0iJL
+ 4YckgvZ3cfFhqMwVsxo9yu3Y9rSJBeVfoY5rY25wa4gftohg5rLBMCc55ZJOyyGgEC9W
+ jeUlZRx9EPOTsWb3v2lYBpQu9tgVdH5xZVIuz+Hl21r742fGpVsDz7QwFsqEhbB5DEA7
+ /9V6iWrQPU2930HQtP/Im6kZac2gGFwhAZeHCbXaI1qgMj3gYXPi8mRzBufL9Bsa9HXh
+ /sj3G5hBTbwPks+KXSsJZDvUw3I3+ClsMkQmCV4qtJ0MLDnfsgAimd/ECA/LJPMJ4Fns
+ 97jQ==
+X-Gm-Message-State: AO0yUKU64WKqKFo6clsLxZAJr7kHwJ6Aj4Wn/JfXOf13a3aEV9+Zozdq
+ 7JnNPYLlVe6XqX6378Ut60687hiUrxnDjBID
+X-Google-Smtp-Source: AK7set9xi1FfhrLR0xju1AV4DdUrdok6FgSKsjoZ2Vb+fsZJeKXbTlfpvJuXQuOMNNQD2/DfYeV4pQ==
+X-Received: by 2002:a05:600c:16c4:b0:3dc:16d2:ae5e with SMTP id
+ l4-20020a05600c16c400b003dc16d2ae5emr9981488wmn.32.1675436184316; 
+ Fri, 03 Feb 2023 06:56:24 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- t6-20020a05600c198600b003dc492e4430sm3022855wmq.28.2023.02.03.06.56.18
+ l20-20020a05600c1d1400b003dfe8c4c497sm1995876wms.39.2023.02.03.06.56.23
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 03 Feb 2023 06:56:18 -0800 (PST)
+ Fri, 03 Feb 2023 06:56:23 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
  qemu-ppc@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Peter Maydell <peter.maydell@linaro.org>,
- Jean-Christophe Dubois <jcd@tribudubois.net>,
- Andrey Smirnov <andrew.smirnov@gmail.com>
-Subject: [PATCH v2 08/15] hw/arm/fsl-imx: Alias 'phy-num' QOM property in SoC
- object
-Date: Fri,  3 Feb 2023 15:55:29 +0100
-Message-Id: <20230203145536.17585-9-philmd@linaro.org>
+ Gerd Hoffmann <kraxel@redhat.com>
+Subject: [PATCH v2 09/15] hw/usb/hcd-ohci: Include missing 'sysbus.h' header
+Date: Fri,  3 Feb 2023 15:55:30 +0100
+Message-Id: <20230203145536.17585-10-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230203145536.17585-1-philmd@linaro.org>
 References: <20230203145536.17585-1-philmd@linaro.org>
@@ -95,200 +92,30 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-No need to use intermediate 'fec-phy-num' properties in the
-SoC object. Alias the properties, so when the machines set
-the value on the SoC, it is propagated to the network device
-object.
+Avoid when including "hw/usb/hcd-ohci.h":
 
+  hw/usb/hcd-ohci.h:100:5: error: unknown type name 'SysBusDevice'
+      SysBusDevice parent_obj;
+      ^
+
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/arm/fsl-imx25.c          |  3 +--
- hw/arm/fsl-imx6.c           |  3 +--
- hw/arm/fsl-imx6ul.c         |  8 ++++----
- hw/arm/fsl-imx7.c           | 12 ++++++------
- include/hw/arm/fsl-imx25.h  |  1 -
- include/hw/arm/fsl-imx6.h   |  1 -
- include/hw/arm/fsl-imx6ul.h |  2 --
- include/hw/arm/fsl-imx7.h   |  1 -
- 8 files changed, 12 insertions(+), 19 deletions(-)
+ hw/usb/hcd-ohci.h | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/hw/arm/fsl-imx25.c b/hw/arm/fsl-imx25.c
-index 24c4374590..eff58e1f7a 100644
---- a/hw/arm/fsl-imx25.c
-+++ b/hw/arm/fsl-imx25.c
-@@ -55,6 +55,7 @@ static void fsl_imx25_init(Object *obj)
-     }
+diff --git a/hw/usb/hcd-ohci.h b/hw/usb/hcd-ohci.h
+index 11ac57058d..e5e6b434fd 100644
+--- a/hw/usb/hcd-ohci.h
++++ b/hw/usb/hcd-ohci.h
+@@ -21,6 +21,7 @@
+ #ifndef HCD_OHCI_H
+ #define HCD_OHCI_H
  
-     object_initialize_child(obj, "fec", &s->fec, TYPE_IMX_FEC);
-+    object_property_add_alias(obj, "fec-phy-num", OBJECT(&s->fec), "phy-num");
- 
-     object_initialize_child(obj, "rngc", &s->rngc, TYPE_IMX_RNGC);
- 
-@@ -169,7 +170,6 @@ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
-                                             epit_table[i].irq));
-     }
- 
--    object_property_set_uint(OBJECT(&s->fec), "phy-num", s->phy_num, &err);
-     qdev_set_nic_properties(DEVICE(&s->fec), &nd_table[0]);
- 
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->fec), errp)) {
-@@ -315,7 +315,6 @@ static void fsl_imx25_realize(DeviceState *dev, Error **errp)
- }
- 
- static Property fsl_imx25_properties[] = {
--    DEFINE_PROP_UINT32("fec-phy-num", FslIMX25State, phy_num, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/arm/fsl-imx6.c b/hw/arm/fsl-imx6.c
-index 00dafe3f62..4f870c928c 100644
---- a/hw/arm/fsl-imx6.c
-+++ b/hw/arm/fsl-imx6.c
-@@ -100,6 +100,7 @@ static void fsl_imx6_init(Object *obj)
- 
- 
-     object_initialize_child(obj, "eth", &s->eth, TYPE_IMX_ENET);
-+    object_property_add_alias(obj, "fec-phy-num", OBJECT(&s->eth), "phy-num");
- }
- 
- static void fsl_imx6_realize(DeviceState *dev, Error **errp)
-@@ -377,7 +378,6 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
-                                             spi_table[i].irq));
-     }
- 
--    object_property_set_uint(OBJECT(&s->eth), "phy-num", s->phy_num, &err);
-     qdev_set_nic_properties(DEVICE(&s->eth), &nd_table[0]);
-     if (!sysbus_realize(SYS_BUS_DEVICE(&s->eth), errp)) {
-         return;
-@@ -451,7 +451,6 @@ static void fsl_imx6_realize(DeviceState *dev, Error **errp)
- }
- 
- static Property fsl_imx6_properties[] = {
--    DEFINE_PROP_UINT32("fec-phy-num", FslIMX6State, phy_num, 0),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/arm/fsl-imx6ul.c b/hw/arm/fsl-imx6ul.c
-index d88d6cc1c5..8b3939e8c5 100644
---- a/hw/arm/fsl-imx6ul.c
-+++ b/hw/arm/fsl-imx6ul.c
-@@ -120,8 +120,12 @@ static void fsl_imx6ul_init(Object *obj)
-      * Ethernet
-      */
-     for (i = 0; i < FSL_IMX6UL_NUM_ETHS; i++) {
-+        g_autofree gchar *propname = g_strdup_printf("fec%d-phy-num", i + 1);
-         snprintf(name, NAME_SIZE, "eth%d", i);
-         object_initialize_child(obj, name, &s->eth[i], TYPE_IMX_ENET);
-+        qdev_prop_set_uint32(DEVICE(&s->eth[i]), "phy-num", i);
-+        object_property_add_alias(obj, propname,
-+                                  OBJECT(&s->eth[i]), "phy-num");
-     }
- 
-     /* USB */
-@@ -424,8 +428,6 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
-             FSL_IMX6UL_ENET2_TIMER_IRQ,
-         };
- 
--        object_property_set_uint(OBJECT(&s->eth[i]), "phy-num",
--                                 s->phy_num[i], &error_abort);
-         object_property_set_uint(OBJECT(&s->eth[i]), "tx-ring-num",
-                                  FSL_IMX6UL_ETH_NUM_TX_RINGS, &error_abort);
-         qdev_set_nic_properties(DEVICE(&s->eth[i]), &nd_table[i]);
-@@ -618,8 +620,6 @@ static void fsl_imx6ul_realize(DeviceState *dev, Error **errp)
- }
- 
- static Property fsl_imx6ul_properties[] = {
--    DEFINE_PROP_UINT32("fec1-phy-num", FslIMX6ULState, phy_num[0], 0),
--    DEFINE_PROP_UINT32("fec2-phy-num", FslIMX6ULState, phy_num[1], 1),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/hw/arm/fsl-imx7.c b/hw/arm/fsl-imx7.c
-index afc7480799..df035c9314 100644
---- a/hw/arm/fsl-imx7.c
-+++ b/hw/arm/fsl-imx7.c
-@@ -102,8 +102,12 @@ static void fsl_imx7_init(Object *obj)
-      * Ethernet
-      */
-     for (i = 0; i < FSL_IMX7_NUM_ETHS; i++) {
--            snprintf(name, NAME_SIZE, "eth%d", i);
--            object_initialize_child(obj, name, &s->eth[i], TYPE_IMX_ENET);
-+        g_autofree gchar *propname = g_strdup_printf("fec%d-phy-num", i + 1);
-+        snprintf(name, NAME_SIZE, "eth%d", i);
-+        object_initialize_child(obj, name, &s->eth[i], TYPE_IMX_ENET);
-+        qdev_prop_set_uint32(DEVICE(&s->eth[i]), "phy-num", i);
-+        object_property_add_alias(obj, propname,
-+                                  OBJECT(&s->eth[i]), "phy-num");
-     }
- 
-     /*
-@@ -402,8 +406,6 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
-             FSL_IMX7_ENET2_ADDR,
-         };
- 
--        object_property_set_uint(OBJECT(&s->eth[i]), "phy-num",
--                                 s->phy_num[i], &error_abort);
-         object_property_set_uint(OBJECT(&s->eth[i]), "tx-ring-num",
-                                  FSL_IMX7_ETH_NUM_TX_RINGS, &error_abort);
-         qdev_set_nic_properties(DEVICE(&s->eth[i]), &nd_table[i]);
-@@ -599,8 +601,6 @@ static void fsl_imx7_realize(DeviceState *dev, Error **errp)
- }
- 
- static Property fsl_imx7_properties[] = {
--    DEFINE_PROP_UINT32("fec1-phy-num", FslIMX7State, phy_num[0], 0),
--    DEFINE_PROP_UINT32("fec2-phy-num", FslIMX7State, phy_num[1], 1),
-     DEFINE_PROP_END_OF_LIST(),
- };
- 
-diff --git a/include/hw/arm/fsl-imx25.h b/include/hw/arm/fsl-imx25.h
-index 1b1086e945..e377f8e79a 100644
---- a/include/hw/arm/fsl-imx25.h
-+++ b/include/hw/arm/fsl-imx25.h
-@@ -66,7 +66,6 @@ struct FslIMX25State {
-     MemoryRegion   rom[2];
-     MemoryRegion   iram;
-     MemoryRegion   iram_alias;
--    uint32_t       phy_num;
- };
- 
- /**
-diff --git a/include/hw/arm/fsl-imx6.h b/include/hw/arm/fsl-imx6.h
-index 83291457cf..f7d1a94640 100644
---- a/include/hw/arm/fsl-imx6.h
-+++ b/include/hw/arm/fsl-imx6.h
-@@ -74,7 +74,6 @@ struct FslIMX6State {
-     MemoryRegion   caam;
-     MemoryRegion   ocram;
-     MemoryRegion   ocram_alias;
--    uint32_t       phy_num;
- };
- 
- 
-diff --git a/include/hw/arm/fsl-imx6ul.h b/include/hw/arm/fsl-imx6ul.h
-index 7812e516a5..5217eeb8ff 100644
---- a/include/hw/arm/fsl-imx6ul.h
-+++ b/include/hw/arm/fsl-imx6ul.h
-@@ -88,8 +88,6 @@ struct FslIMX6ULState {
-     MemoryRegion       caam;
-     MemoryRegion       ocram;
-     MemoryRegion       ocram_alias;
--
--    uint32_t           phy_num[FSL_IMX6UL_NUM_ETHS];
- };
- 
- enum FslIMX6ULMemoryMap {
-diff --git a/include/hw/arm/fsl-imx7.h b/include/hw/arm/fsl-imx7.h
-index 4e5e071864..16c68a4937 100644
---- a/include/hw/arm/fsl-imx7.h
-+++ b/include/hw/arm/fsl-imx7.h
-@@ -82,7 +82,6 @@ struct FslIMX7State {
-     IMX7GPRState       gpr;
-     ChipideaState      usb[FSL_IMX7_NUM_USBS];
-     DesignwarePCIEHost pcie;
--    uint32_t           phy_num[FSL_IMX7_NUM_ETHS];
- };
- 
- enum FslIMX7MemoryMap {
++#include "hw/sysbus.h"
+ #include "sysemu/dma.h"
+ #include "hw/usb.h"
+ #include "qom/object.h"
 -- 
 2.38.1
 
