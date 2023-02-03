@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6111F689BF2
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:36:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8FEDD689BDB
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:33:47 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNx4V-0006g1-Sl; Fri, 03 Feb 2023 09:29:47 -0500
+	id 1pNx4W-0006gJ-HD; Fri, 03 Feb 2023 09:29:48 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNx4L-0006dI-1x
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:29:37 -0500
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330])
+ id 1pNx4N-0006db-3d
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:29:40 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNx4I-00054B-0a
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:29:35 -0500
-Received: by mail-wm1-x330.google.com with SMTP id
- d4-20020a05600c3ac400b003db1de2aef0so4002293wms.2
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:29:33 -0800 (PST)
+ id 1pNx4J-00054S-5m
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:29:36 -0500
+Received: by mail-wm1-x329.google.com with SMTP id
+ c4-20020a1c3504000000b003d9e2f72093so6153045wma.1
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:29:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=yxaajrT8hw/p9R5XVhSvXLClGevo4qVUStBee60tFvg=;
- b=J8I6OgG4yK64MYUVV3p0iaHxs/3GpP91jZfikVKcQBZn3XTtvbyiGpGPIF/GuHqozn
- bxzoz00vjXlc2g/yTmEcfwnCt3Wk1wu8qYevABdr+o3ryKyoU/7P/rqO0Krgc4081hdK
- L5/noIUY97aaduO/u39v0BQjpG0KbSqE5dGdUPIgR3eOQocTz7j/GFYV6GLmc5BtKeZw
- Gu6RhOND6QJeC703/+MXq9nGFi7TP9Lz8YYtMHlm5+jPTwnHSaMl/so0HtQ1MrByBMrE
- 1q6xKalw5yb9bC7OUhJZIqN/es/qm9t0HUtDdUX6FZ3ttMHwN2INT7ZOte9O9NnPNsJp
- YErQ==
+ :reply-to; bh=kl1m+bg2bq062qmRTd0sPieM4oFZq05ngUG4exabYiE=;
+ b=vRIphZWTyMirEag0ZByn3ahSC+LS3YF5LTF8PEW944bS+7rz6vquIpNk11tce3yYSF
+ /EifeI8X4YS2x+Ju5pK+pQ8NITXhZNPZ8MHwoZuKXcjAoVO7weyMArfEg6syA4MTKIQW
+ MMR4Q5e31SkniAX4ZiSYtbEbPz4v++3RSV4H6SbIDemrOlwmWnhytmKlNiGYThFA+ZoB
+ HfniOlAJwVGYxfQwFlO3fx6j92pxGc6ZuPG9F//n0ptcLZGfnONL35eOBSRjH5g3jJfO
+ FqeDT+EGqOotjuT5+3PDIDZ245yWLgRlwizFIPN0fsGuyqtczy5tpnST0TvWJWrrOXgK
+ bPpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=yxaajrT8hw/p9R5XVhSvXLClGevo4qVUStBee60tFvg=;
- b=Mj7PEMPzgh8VcFgJzNv9LFGFfCQ1/5F3VmwwDnjTeF7pX5lcAuK37hJN4ssxLq8ove
- Bsn0pzqgzn2d2/8h+BsAD5oEnu5D9ebLcf/0zGMgJQSkpLfRnh8Hf0hnM4nt177bD49d
- TCKRHPJFPGskE8J0QJrlxqhLLNfNHVEwbdQEgP7WybtcoQT5jbvLPqwdbZ9Et04kNy5p
- jD/+RfvAwXr+5Sj0OeerMMjYvrEoTwpRhmW3kwmqen+fWiVPv6yRGfPoFbw/yu6UDmSX
- kQl/qZk69DRlDp+Hkefdu47FXIRhYEr2gc/KWS8hCHiojKam79RmDZb34J8tyFJimOnV
- nnmw==
-X-Gm-Message-State: AO0yUKWa8Ln12ZgMxzJjwdbU8Qm6JhjPVaVMO4ZugmPiRzJ3K2mvT8qD
- Ya+zXmEarWynwUqcS+QOpnXUj+qhjbrk8/3U
-X-Google-Smtp-Source: AK7set/7egwm7XJz8uEoFGVH+93YcCtT7DrnsfgoTamJjPoiqn14WZozrG+4Ln4cQ2kpRJA/wPc2gg==
-X-Received: by 2002:a7b:c85a:0:b0:3d2:392e:905f with SMTP id
- c26-20020a7bc85a000000b003d2392e905fmr9589877wml.24.1675434572659; 
- Fri, 03 Feb 2023 06:29:32 -0800 (PST)
+ bh=kl1m+bg2bq062qmRTd0sPieM4oFZq05ngUG4exabYiE=;
+ b=GksWlQ3ja7q1fOoxrB0bdr0jpeNc+a60Awu9dOud/6MemtlL/DCjiw7Ri6ZhqYv3aT
+ DdASa6E55UZoed27F54g9kv+zTt1aQQvxCxQu10E4NPL4A7tZD7iU7lVsXXa/lCqZzgx
+ 5CSnXlfSN/lCk5n5iF41bUvbXT4mVQtN2YPdIqSzRGB5QD1nGBRTSfcQ7TOeItaZt41x
+ 5Jro5uxJt7u8cR3XovZecifGqvd3k9xGAyREtiGYIYFw45HomJzSlQ64g6Fd8q4BZsnO
+ excvgDtYsQ1OheBQTw9Oo955d35ApEPRof8GbvMN7PmWdx0zkSgRZXcLjyi78Ja4FIvk
+ hqxQ==
+X-Gm-Message-State: AO0yUKXnu668xb1m+EoS5z89N3jUvLFracBi3NczFmWFxo3LKUyAiq85
+ LoNFuG8SxATkyflMbUfLJwtDv99xoiisYGws
+X-Google-Smtp-Source: AK7set8QSIEqqGuCwBgSy2N9GBZ1nSN06PLf0dQ69aFSvLR2ClAV3zjad3k1TWAz8yNkfIkO8LfQvA==
+X-Received: by 2002:a1c:4c17:0:b0:3db:262a:8ef with SMTP id
+ z23-20020a1c4c17000000b003db262a08efmr10095638wmf.38.1675434573525; 
+ Fri, 03 Feb 2023 06:29:33 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a05600c130e00b003df241f52e8sm2578492wmf.42.2023.02.03.06.29.31
+ j14-20020a05600c130e00b003df241f52e8sm2578492wmf.42.2023.02.03.06.29.32
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 03 Feb 2023 06:29:32 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 04/33] hw/char/pl011: add post_load hook for
- backwards-compatibility
-Date: Fri,  3 Feb 2023 14:28:58 +0000
-Message-Id: <20230203142927.834793-5-peter.maydell@linaro.org>
+Subject: [PULL 05/33] hw/char/pl011: implement a reset method
+Date: Fri,  3 Feb 2023 14:28:59 +0000
+Message-Id: <20230203142927.834793-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230203142927.834793-1-peter.maydell@linaro.org>
 References: <20230203142927.834793-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::330;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x330.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -92,68 +92,66 @@ Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 From: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
 
-Previous change slightly modified the way we handle data writes when
-FIFO is disabled. Previously we kept incrementing read_pos and were
-storing data at that position, although we only have a
-single-register-deep FIFO now. Then we changed it to always store data
-at pos 0.
-
-If guest disables FIFO and the proceeds to read data, it will work out
-fine, because we still read from current read_pos before setting it to
-0.
-
-However, to make code less fragile, introduce a post_load hook for
-PL011State and move fixup read FIFO state when FIFO is disabled. Since
-we are introducing a post_load hook, also do some sanity checking on
-untrusted incoming input state.
+PL011 currently lacks a reset method. Implement it.
 
 Signed-off-by: Evgeny Iakovlev <eiakovlev@linux.microsoft.com>
-Message-id: 20230123162304.26254-3-eiakovlev@linux.microsoft.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-id: 20230123162304.26254-4-eiakovlev@linux.microsoft.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/char/pl011.c | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
+ hw/char/pl011.c | 26 +++++++++++++++++++++-----
+ 1 file changed, 21 insertions(+), 5 deletions(-)
 
 diff --git a/hw/char/pl011.c b/hw/char/pl011.c
-index 3fa3b75d042..05e8bdc050e 100644
+index 05e8bdc050e..ca7537d8ed2 100644
 --- a/hw/char/pl011.c
 +++ b/hw/char/pl011.c
-@@ -352,10 +352,35 @@ static const VMStateDescription vmstate_pl011_clock = {
-     }
- };
+@@ -427,11 +427,6 @@ static void pl011_init(Object *obj)
+     s->clk = qdev_init_clock_in(DEVICE(obj), "clk", pl011_clock_update, s,
+                                 ClockUpdate);
  
-+static int pl011_post_load(void *opaque, int version_id)
+-    s->read_trigger = 1;
+-    s->ifl = 0x12;
+-    s->cr = 0x300;
+-    s->flags = 0x90;
+-
+     s->id = pl011_id_arm;
+ }
+ 
+@@ -443,11 +438,32 @@ static void pl011_realize(DeviceState *dev, Error **errp)
+                              pl011_event, NULL, s, NULL, true);
+ }
+ 
++static void pl011_reset(DeviceState *dev)
 +{
-+    PL011State* s = opaque;
++    PL011State *s = PL011(dev);
 +
-+    /* Sanity-check input state */
-+    if (s->read_pos >= ARRAY_SIZE(s->read_fifo) ||
-+        s->read_count > ARRAY_SIZE(s->read_fifo)) {
-+        return -1;
-+    }
-+
-+    if (!pl011_is_fifo_enabled(s) && s->read_count > 0 && s->read_pos > 0) {
-+        /*
-+         * Older versions of PL011 didn't ensure that the single
-+         * character in the FIFO in FIFO-disabled mode is in
-+         * element 0 of the array; convert to follow the current
-+         * code's assumptions.
-+         */
-+        s->read_fifo[0] = s->read_fifo[s->read_pos];
-+        s->read_pos = 0;
-+    }
-+
-+    return 0;
++    s->lcr = 0;
++    s->rsr = 0;
++    s->dmacr = 0;
++    s->int_enabled = 0;
++    s->int_level = 0;
++    s->ilpr = 0;
++    s->ibrd = 0;
++    s->fbrd = 0;
++    s->read_pos = 0;
++    s->read_count = 0;
++    s->read_trigger = 1;
++    s->ifl = 0x12;
++    s->cr = 0x300;
++    s->flags = 0x90;
 +}
 +
- static const VMStateDescription vmstate_pl011 = {
-     .name = "pl011",
-     .version_id = 2,
-     .minimum_version_id = 2,
-+    .post_load = pl011_post_load,
-     .fields = (VMStateField[]) {
-         VMSTATE_UINT32(readbuff, PL011State),
-         VMSTATE_UINT32(flags, PL011State),
+ static void pl011_class_init(ObjectClass *oc, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(oc);
+ 
+     dc->realize = pl011_realize;
++    dc->reset = pl011_reset;
+     dc->vmsd = &vmstate_pl011;
+     device_class_set_props(dc, pl011_properties);
+ }
 -- 
 2.34.1
 
