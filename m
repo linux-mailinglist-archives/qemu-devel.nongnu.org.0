@@ -2,82 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5E2D68A519
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 22:59:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4668468A60B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 23:22:35 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO445-00023L-9L; Fri, 03 Feb 2023 16:57:49 -0500
+	id 1pO4Qp-0000Cr-MU; Fri, 03 Feb 2023 17:21:19 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pO443-000238-Gm
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:57:47 -0500
-Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pO440-0007RK-Vq
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:57:47 -0500
-Received: by mail-pg1-x535.google.com with SMTP id e10so4560785pgc.9
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 13:57:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=bd09PBdXRHXZAabz4Lo9pEB7bbbE9buHJyzO7/ppFWw=;
- b=sOu17xSU/740mBLVWAgTo4kvQEGAi5yFSPxqLMIr3e4LQX/UveGFw/CitGFbrKRk+x
- w8aAGJyDBD5tkW7Azki+Le9E0BWZhu3UbHEIlMLATzBwrvcAzbZRqJwBOkJqV1ejJxYm
- ZvHdThz3QyWAFh9BL+hwdolpS63fOMo7F9qm/nq74WtwDlou5U/4q7rDrCeCRco7A3/5
- y36MiSscj7//pVJRCaWU+nL04obDJKkae/rS1yv1AaLdpjaLFBN2uJlpQznNWiCn1Zlm
- /YDR0n2vGat7NCI8h7rtUwFuJmXLvbZYgZFOVZU0e9yVzFUqj97WH74wJ4Syl17jSTfj
- bfLA==
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pO4Qm-0000Bl-Ol
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:21:16 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pO4Qk-0004AS-NK
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:21:16 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675462873;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=z/gbh6zsXUK7c+uT9x6Svvjj4CW4IAFjm6yCgyp3oJ0=;
+ b=PoMV5za7ot5zCKY2zkTErFK1JhjknthxoXqUx/MT9ojV0ecQMmzFHQtzEw3xgLuH3Yz5oz
+ cORqZ1jUdJ1jzGht1Tmrymf6p0NWVdDLj+QlTUUtpX+1nDKr0u9eqVme6XG/Dm1kfNUThQ
+ dahBPDseWLM5a+Y6gmGh5LkKFJjws4c=
+Received: from mail-io1-f70.google.com (mail-io1-f70.google.com
+ [209.85.166.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-634-5QxvsijzPoeTLbvRixj1PA-1; Fri, 03 Feb 2023 17:21:11 -0500
+X-MC-Unique: 5QxvsijzPoeTLbvRixj1PA-1
+Received: by mail-io1-f70.google.com with SMTP id
+ k4-20020a6b7e44000000b0071e11cafea7so3785431ioq.15
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 14:21:11 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=bd09PBdXRHXZAabz4Lo9pEB7bbbE9buHJyzO7/ppFWw=;
- b=kk5v9x8Rt4hxeOyokr4JCpZv+AjqgU1HrGVlrghKc7Zz479kNY6TmaekvZXRo/lb6U
- 2tYlzZuegYTtVsqObGCifgychFdU401wd1IkQPoTEoN+0u9Ge1WO6Weas5+U4sxj5Png
- e6wxba4pIsX7KvbMD6ZB1qH7C3kTWmPZG5g9AWEQe9BgAA2EUkJyCdVzLGNHuD71AtRO
- IV+sxOQY/LEgzHaIfVPL2yKyVe73a1bKKlJ2OziXviBbe1EY3atF/LRE9IbAHv6TNeZH
- mq8zB/3Y/DOtlB86I2CQsyYufH8VvIpm48numZbUmfbSfyA/lmzx6YRnJVho/84B29Wj
- ri5A==
-X-Gm-Message-State: AO0yUKVHoqQVFDRxPKL+7l049UDdOVTXDEcE9Wff820OlqJYwySdH7C3
- POVESJTScB7ym6FhxS4JnCDxSg==
-X-Google-Smtp-Source: AK7set//yL2hJPdwq8nX/kZpB393sN36qiVJyUKVCHz7cDyma1QJK9/wXiLwI2tQaIaLuYtle2+NZA==
-X-Received: by 2002:a62:ae0d:0:b0:592:d9e4:1b5d with SMTP id
- q13-20020a62ae0d000000b00592d9e41b5dmr11298720pff.6.1675461463349; 
- Fri, 03 Feb 2023 13:57:43 -0800 (PST)
-Received: from [192.168.50.177] (rrcs-173-197-98-118.west.biz.rr.com.
- [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
- z65-20020a626544000000b0058d926cef4csm2318480pfb.7.2023.02.03.13.57.41
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Feb 2023 13:57:42 -0800 (PST)
-Message-ID: <128e1f17-b069-b45d-5b2a-1a2fceeabe27@linaro.org>
-Date: Fri, 3 Feb 2023 11:57:38 -1000
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=z/gbh6zsXUK7c+uT9x6Svvjj4CW4IAFjm6yCgyp3oJ0=;
+ b=MpJ6KPcobeF3BnLPjRfNr3dit82YXBiXE1BHShXittnOwRGC1Hyb1IJxKf3TsBx3UN
+ A4+aoNIwOmwdffnosgI0qwDMSKlDq1vjyDr9SC2jSsMgP50iX+irFhuJ1udRdO6VMukB
+ BHDHnuAtlHpyy/YM3dpfI1mErAEhzUuMbR6mroyLLw9FSYVG0/31MOB4T1zP3HRXYFrZ
+ agYdGRJSlZFd1S8cQg6lEVozYcOSfGnKVftysuPobsnCUJFs3ZN//ufldfRETYP8FfI8
+ 6IDgh4kj/QJFeMXiJFQUl64oWDHtnGnSsFt5Uh9d7b4bJQTUV50jvrzQGDrBwZ6p576h
+ Zx+Q==
+X-Gm-Message-State: AO0yUKVsTwNPH4O0Q/Ka1mjzRcsl9xc+AlcX24Uw/7HTZbIyEfc168Pz
+ AUvkE2RL9n3bdBzr1tKy+HJutRykYPor04O/DdxLFxAB4S6X6t+1vPcGEg41KWRyWGdZ9vR588a
+ DXhX8eTYPmNbjMCQ=
+X-Received: by 2002:a05:6e02:1528:b0:311:7e6:f59 with SMTP id
+ i8-20020a056e02152800b0031107e60f59mr9407192ilu.1.1675462870780; 
+ Fri, 03 Feb 2023 14:21:10 -0800 (PST)
+X-Google-Smtp-Source: AK7set/hacToO3QnzyiFZN1u1AEeVLXWbs7LBY5z33iCQWtHntt3QV6/qAvKYi5/PbYQWvf31IfuPg==
+X-Received: by 2002:a05:6e02:1528:b0:311:7e6:f59 with SMTP id
+ i8-20020a056e02152800b0031107e60f59mr9407178ilu.1.1675462870471; 
+ Fri, 03 Feb 2023 14:21:10 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ bp9-20020a056638440900b00363d6918540sm1177127jab.171.2023.02.03.14.21.09
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Feb 2023 14:21:10 -0800 (PST)
+Date: Fri, 3 Feb 2023 15:21:09 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: John Johnson <john.g.johnson@oracle.com>
+Cc: qemu-devel@nongnu.org, clg@redhat.com, philmd@linaro.org
+Subject: Re: [PATCH v2 03/23] vfio-user: add container IO ops vector
+Message-ID: <20230203152109.60a8cd33.alex.williamson@redhat.com>
+In-Reply-To: <3648002c52cef9b4473f97d18cb7e2cd62fc3fd5.1675228037.git.john.g.johnson@oracle.com>
+References: <cover.1675228037.git.john.g.johnson@oracle.com>
+ <3648002c52cef9b4473f97d18cb7e2cd62fc3fd5.1675228037.git.john.g.johnson@oracle.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.4.2
-Subject: Re: [PATCH v2] linux-user: fix getgroups/setgroups allocations
-Content-Language: en-US
-To: Laurent Vivier <laurent@vivier.eu>, Michael Tokarev <mjt@tls.msk.ru>
-Cc: qemu-devel@nongnu.org
-References: <20221217093127.3085329-1-mjt@msgid.tls.msk.ru>
- <8ce38f3c-1f24-c3fb-bf49-deb265418163@vivier.eu>
- <3027627c-e8ce-c2fc-1ffe-85850968b131@vivier.eu>
-From: Richard Henderson <richard.henderson@linaro.org>
-In-Reply-To: <3027627c-e8ce-c2fc-1ffe-85850968b131@vivier.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
- envelope-from=richard.henderson@linaro.org; helo=mail-pg1-x535.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -94,224 +100,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/3/23 11:49, Laurent Vivier wrote:
-> On 1/25/23 14:18, Laurent Vivier wrote:
->> Le 17/12/2022 à 10:31, Michael Tokarev a écrit :
->>> linux-user getgroups(), setgroups(), getgroups32() and setgroups32()
->>> used alloca() to allocate grouplist arrays, with unchecked gidsetsize
->>> coming from the "guest".  With NGROUPS_MAX being 65536 (linux, and it
->>> is common for an application to allocate NGROUPS_MAX for getgroups()),
->>> this means a typical allocation is half the megabyte on the stack.
->>> Which just overflows stack, which leads to immediate SIGSEGV in actual
->>> system getgroups() implementation.
->>>
->>> An example of such issue is aptitude, eg
->>> https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=811087#72
->>>
->>> Cap gidsetsize to NGROUPS_MAX (return EINVAL if it is larger than that),
->>> and use heap allocation for grouplist instead of alloca().  While at it,
->>> fix coding style and make all 4 implementations identical.
->>>
->>> Try to not impose random limits - for example, allow gidsetsize to be
->>> negative for getgroups() - just do not allocate negative-sized grouplist
->>> in this case but still do actual getgroups() call.  But do not allow
->>> negative gidsetsize for setgroups() since its argument is unsigned.
->>>
->>> Capping by NGROUPS_MAX seems a bit arbitrary, - we can do more, it is
->>> not an error if set size will be NGROUPS_MAX+1. But we should not allow
->>> integer overflow for the array being allocated. Maybe it is enough to
->>> just call g_try_new() and return ENOMEM if it fails.
->>>
->>> Maybe there's also no need to convert setgroups() since this one is
->>> usually smaller and known beforehand (KERN_NGROUPS_MAX is actually 63, -
->>> this is apparently a kernel-imposed limit for runtime group set).
->>>
->>> The patch fixes aptitude segfault mentioned above.
->>>
->>> Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
->>> ---
->>> v2:
->>>   - remove g_free, use g_autofree annotations instead,
->>>   - a bit more coding style changes, makes checkpatch.pl happy
->>>
->>>   linux-user/syscall.c | 99 ++++++++++++++++++++++++++++++--------------
->>>   1 file changed, 68 insertions(+), 31 deletions(-)
->>>
->>> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
->>> index 24b25759be..8a2f49d18f 100644
->>> --- a/linux-user/syscall.c
->>> +++ b/linux-user/syscall.c
->>> @@ -11433,39 +11433,58 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, 
->>> abi_long arg1,
->>>           {
->>>               int gidsetsize = arg1;
->>>               target_id *target_grouplist;
->>> -            gid_t *grouplist;
->>> +            g_autofree gid_t *grouplist = NULL;
->>>               int i;
->>> -            grouplist = alloca(gidsetsize * sizeof(gid_t));
->>> +            if (gidsetsize > NGROUPS_MAX) {
->>> +                return -TARGET_EINVAL;
->>> +            }
->>> +            if (gidsetsize > 0) {
->>> +                grouplist = g_try_new(gid_t, gidsetsize);
->>> +                if (!grouplist) {
->>> +                    return -TARGET_ENOMEM;
->>> +                }
->>> +            }
->>>               ret = get_errno(getgroups(gidsetsize, grouplist));
->>> -            if (gidsetsize == 0)
->>> -                return ret;
->>> -            if (!is_error(ret)) {
->>> -                target_grouplist = lock_user(VERIFY_WRITE, arg2, gidsetsize * 
->>> sizeof(target_id), 0);
->>> -                if (!target_grouplist)
->>> +            if (!is_error(ret) && ret > 0) {
->>> +                target_grouplist = lock_user(VERIFY_WRITE, arg2,
->>> +                                             gidsetsize * sizeof(target_id), 0);
->>> +                if (!target_grouplist) {
->>>                       return -TARGET_EFAULT;
->>> -                for(i = 0;i < ret; i++)
->>> +                }
->>> +                for (i = 0; i < ret; i++) {
->>>                       target_grouplist[i] = tswapid(high2lowgid(grouplist[i]));
->>> -                unlock_user(target_grouplist, arg2, gidsetsize * sizeof(target_id));
->>> +                }
->>> +                unlock_user(target_grouplist, arg2,
->>> +                            gidsetsize * sizeof(target_id));
->>>               }
->>> +            return ret;
->>>           }
->>> -        return ret;
->>>       case TARGET_NR_setgroups:
->>>           {
->>>               int gidsetsize = arg1;
->>>               target_id *target_grouplist;
->>> -            gid_t *grouplist = NULL;
->>> +            g_autofree gid_t *grouplist = NULL;
->>>               int i;
->>> -            if (gidsetsize) {
->>> -                grouplist = alloca(gidsetsize * sizeof(gid_t));
->>> -                target_grouplist = lock_user(VERIFY_READ, arg2, gidsetsize * 
->>> sizeof(target_id), 1);
->>> +
->>> +            if (gidsetsize > NGROUPS_MAX || gidsetsize < 0) {
->>> +                return -TARGET_EINVAL;
->>> +            }
->>> +            if (gidsetsize > 0) {
->>> +                grouplist = g_try_new(gid_t, gidsetsize);
->>> +                if (!grouplist) {
->>> +                    return -TARGET_ENOMEM;
->>> +                }
->>> +                target_grouplist = lock_user(VERIFY_READ, arg2,
->>> +                                             gidsetsize * sizeof(target_id), 1);
->>>                   if (!target_grouplist) {
->>>                       return -TARGET_EFAULT;
->>>                   }
->>>                   for (i = 0; i < gidsetsize; i++) {
->>>                       grouplist[i] = low2highgid(tswapid(target_grouplist[i]));
->>>                   }
->>> -                unlock_user(target_grouplist, arg2, 0);
->>> +                unlock_user(target_grouplist, arg2,
->>> +                            gidsetsize * sizeof(target_id));
->>>               }
->>>               return get_errno(setgroups(gidsetsize, grouplist));
->>>           }
->>> @@ -11750,41 +11769,59 @@ static abi_long do_syscall1(CPUArchState *cpu_env, int num, 
->>> abi_long arg1,
->>>           {
->>>               int gidsetsize = arg1;
->>>               uint32_t *target_grouplist;
->>> -            gid_t *grouplist;
->>> +            g_autofree gid_t *grouplist = NULL;
->>>               int i;
->>> -            grouplist = alloca(gidsetsize * sizeof(gid_t));
->>> +            if (gidsetsize > NGROUPS_MAX) {
->>> +                return -TARGET_EINVAL;
->>> +            }
->>> +            if (gidsetsize > 0) {
->>> +                grouplist = g_try_new(gid_t, gidsetsize);
->>> +                if (!grouplist) {
->>> +                    return -TARGET_ENOMEM;
->>> +                }
->>> +            }
->>>               ret = get_errno(getgroups(gidsetsize, grouplist));
->>> -            if (gidsetsize == 0)
->>> -                return ret;
->>> -            if (!is_error(ret)) {
->>> -                target_grouplist = lock_user(VERIFY_WRITE, arg2, gidsetsize * 4, 0);
->>> +            if (!is_error(ret) && ret > 0) {
->>> +                target_grouplist = lock_user(VERIFY_WRITE, arg2,
->>> +                                             gidsetsize * 4, 0);
->>>                   if (!target_grouplist) {
->>>                       return -TARGET_EFAULT;
->>>                   }
->>> -                for(i = 0;i < ret; i++)
->>> +                for (i = 0; i < ret; i++) {
->>>                       target_grouplist[i] = tswap32(grouplist[i]);
->>> +                }
->>>                   unlock_user(target_grouplist, arg2, gidsetsize * 4);
->>>               }
->>> +            return ret;
->>>           }
->>> -        return ret;
->>>   #endif
->>>   #ifdef TARGET_NR_setgroups32
->>>       case TARGET_NR_setgroups32:
->>>           {
->>>               int gidsetsize = arg1;
->>>               uint32_t *target_grouplist;
->>> -            gid_t *grouplist;
->>> +            g_autofree gid_t *grouplist = NULL;
->>>               int i;
->>> -            grouplist = alloca(gidsetsize * sizeof(gid_t));
->>> -            target_grouplist = lock_user(VERIFY_READ, arg2, gidsetsize * 4, 1);
->>> -            if (!target_grouplist) {
->>> -                return -TARGET_EFAULT;
->>> +            if (gidsetsize > NGROUPS_MAX || gidsetsize < 0) {
->>> +                return -TARGET_EINVAL;
->>> +            }
->>> +            if (gidsetsize > 0) {
->>> +                grouplist = g_try_new(gid_t, gidsetsize);
->>> +                if (!grouplist) {
->>> +                    return -TARGET_ENOMEM;
->>> +                }
->>> +                target_grouplist = lock_user(VERIFY_READ, arg2,
->>> +                                             gidsetsize * 4, 1);
->>> +                if (!target_grouplist) {
->>> +                    return -TARGET_EFAULT;
->>> +                }
->>> +                for (i = 0; i < gidsetsize; i++) {
->>> +                    grouplist[i] = tswap32(target_grouplist[i]);
->>> +                }
->>> +                unlock_user(target_grouplist, arg2, 0);
->>>               }
->>> -            for(i = 0;i < gidsetsize; i++)
->>> -                grouplist[i] = tswap32(target_grouplist[i]);
->>> -            unlock_user(target_grouplist, arg2, 0);
->>>               return get_errno(setgroups(gidsetsize, grouplist));
->>>           }
->>>   #endif
->>
->> Applied to my linux-user-for-8.0 branch.
+On Wed,  1 Feb 2023 21:55:39 -0800
+John Johnson <john.g.johnson@oracle.com> wrote:
+
+> Used for communication with VFIO driver
+> (prep work for vfio-user, which will communicate over a socket)
 > 
-> I'm going to remove this patch from my branch because it breaks something.
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
+> ---
+>  include/hw/vfio/vfio-common.h |  24 ++++++++
+>  hw/vfio/common.c              | 128 ++++++++++++++++++++++++++++--------------
+>  2 files changed, 110 insertions(+), 42 deletions(-)
 > 
-> When I execute LTP test suite (20200930), I have:
-> 
-> getgroups01    1  TPASS  :  getgroups failed as expected with EINVAL
-> **
-> ERROR:../../../Projects/qemu/accel/tcg/cpu-exec.c:998:cpu_exec_setjmp: assertion failed: 
-> (cpu == current_cpu)
-> Bail out! ERROR:../../../Projects/qemu/accel/tcg/cpu-exec.c:998:cpu_exec_setjmp: assertion 
-> failed: (cpu == current_cpu)
+> diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
+> index e573f5a..953bc0f 100644
+> --- a/include/hw/vfio/vfio-common.h
+> +++ b/include/hw/vfio/vfio-common.h
+> @@ -75,6 +75,7 @@ typedef struct VFIOAddressSpace {
+>  } VFIOAddressSpace;
+>  
+>  struct VFIOGroup;
+> +typedef struct VFIOContainerIO VFIOContainerIO;
+>  
+>  typedef struct VFIOContainer {
+>      VFIOAddressSpace *space;
+> @@ -83,6 +84,7 @@ typedef struct VFIOContainer {
+>      MemoryListener prereg_listener;
+>      unsigned iommu_type;
+>      Error *error;
+> +    VFIOContainerIO *io;
+>      bool initialized;
+>      bool dirty_pages_supported;
+>      uint64_t dirty_pgsizes;
+> @@ -154,6 +156,28 @@ struct VFIODeviceOps {
+>      int (*vfio_load_config)(VFIODevice *vdev, QEMUFile *f);
+>  };
+>  
+> +#ifdef CONFIG_LINUX
+> +
+> +/*
+> + * The next 2 ops vectors are how Devices and Containers
+> + * communicate with the server.  The default option is
+> + * through ioctl() to the kernel VFIO driver, but vfio-user
+> + * can use a socket to a remote process.
+> + */
+> +
+> +struct VFIOContainerIO {
+> +    int (*dma_map)(VFIOContainer *container,
+> +                   struct vfio_iommu_type1_dma_map *map);
+> +    int (*dma_unmap)(VFIOContainer *container,
+> +                     struct vfio_iommu_type1_dma_unmap *unmap,
+> +                     struct vfio_bitmap *bitmap);
+> +    int (*dirty_bitmap)(VFIOContainer *container,
+> +                        struct vfio_iommu_type1_dirty_bitmap *bitmap,
+> +                        struct vfio_iommu_type1_dirty_bitmap_get *range);
+> +};
+> +
+> +#endif /* CONFIG_LINUX */
+> +
+>  typedef struct VFIOGroup {
+>      int fd;
+>      int groupid;
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index ace9562..9310a7f 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+> @@ -58,6 +58,8 @@ static QLIST_HEAD(, VFIOAddressSpace) vfio_address_spaces =
+>  static int vfio_kvm_device_fd = -1;
+>  #endif
+>  
+> +static VFIOContainerIO vfio_cont_io_ioctl;
+> +
+>  /*
+>   * Common VFIO interrupt disable
+>   */
+> @@ -432,12 +434,12 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
+>          goto unmap_exit;
+>      }
+>  
+> -    ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap);
+> +    ret = container->io->dma_unmap(container, unmap, bitmap);
 
-Which host+guest?
+The bitmap arg doesn't make a lot of sense here, its use doesn't come
+around until vfio_user_dma_unmap() is added, but even then, it's
+readily available at &unmap->data with validity determined by
+unmap->flags.  The eventual sanity test in vfio_user_dma_unmap() really
+only seems to prove the arg is unnecessary.  Thanks,
 
-I've had several reports of this, but can't replicate it locally.  The cpu_exec_setjmp 
-function is now quite small and easy to analyze -- the only way I can see that this could 
-fail is if there is some stack smashing issue...
+Alex
 
-
-r~
 
