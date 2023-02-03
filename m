@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA2B6892A4
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:49:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E866892BD
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:52:32 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNrhz-0008Lw-Ky; Fri, 03 Feb 2023 03:46:11 -0500
+	id 1pNri0-0008QR-Te; Fri, 03 Feb 2023 03:46:12 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhm-0008IZ-KB
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhm-0008IT-Cn
  for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:45:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhj-0007Su-2P
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:45:58 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhj-0007Sy-3H
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:45:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1675413954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=+VSv+nkEbKTdRP1MViwR5DKZ2SqYE8dkv4Rlzq91ee4=;
- b=FE7rEhqTLF+DvnPVN753UelRlhyxNYedad1NhdMnbUH26SmprHGF8Onl73WUeRNQQ161yB
- y0Zfjqys2NzDkuDKetUpniujlx97UD+bDApLakN3DT/wl8PBGaYCciFWYgYoQ0FGhXguzf
- hqyCwghHbilaq31+Btgp4JAAKXCH+DI=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=5r7st76Zi1g3RLMCJaESotMFITPdrvUWoRlJSXOgwqs=;
+ b=N8qTqfYE/3e+ihaFLEji5gFhDZIE2PtV2aaLU8lcJzphGpCmKq58q5RPMA1tu5rKH8ucX3
+ Bc1BPnE+KULFUOiP7GgrM1mojY1WCCmmiyFPnczjXiYHfmjBKe/znd30Wv4cC8oqs/FP4R
+ OdJjW/jKUjrBSxCykfpk8kUIaq/OqzQ=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-546-6d3NsC_kNxCrrgVgCBKWgQ-1; Fri, 03 Feb 2023 03:45:52 -0500
-X-MC-Unique: 6d3NsC_kNxCrrgVgCBKWgQ-1
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
- [10.11.54.6])
+ us-mta-199-_38iDrSaMoqh-xv0lUbeHA-1; Fri, 03 Feb 2023 03:45:52 -0500
+X-MC-Unique: _38iDrSaMoqh-xv0lUbeHA-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90129196EF8B;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 939891C05EB4;
  Fri,  3 Feb 2023 08:45:52 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 502F72166B34;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 513711415303;
  Fri,  3 Feb 2023 08:45:52 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C908521E690F; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
+ id CB76D21E6913; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Stefan Hajnoczi <stefanha@redhat.com>
-Subject: [PULL 11/35] trace: Move HMP commands from monitor/ to trace/
-Date: Fri,  3 Feb 2023 09:45:25 +0100
-Message-Id: <20230203084549.2622302-12-armbru@redhat.com>
+Cc: peter.maydell@linaro.org
+Subject: [PULL 12/35] machine: Move QMP commands from monitor/ to hw/core/
+Date: Fri,  3 Feb 2023 09:45:26 +0100
+Message-Id: <20230203084549.2622302-13-armbru@redhat.com>
 In-Reply-To: <20230203084549.2622302-1-armbru@redhat.com>
 References: <20230203084549.2622302-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,357 +78,373 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This moves these commands from MAINTAINERS sections "Human
-Monitor (HMP)" and "QMP" to "Tracing".
+This moves these commands from MAINTAINERS section "QMP" to "Machine
+core".
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230124121946.1139465-9-armbru@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Message-Id: <20230124121946.1139465-10-armbru@redhat.com>
 ---
- include/monitor/hmp.h  |   3 +
- monitor/misc.c         | 119 ---------------------------------
- trace/trace-hmp-cmds.c | 148 +++++++++++++++++++++++++++++++++++++++++
- trace/meson.build      |   1 +
- 4 files changed, 152 insertions(+), 119 deletions(-)
- create mode 100644 trace/trace-hmp-cmds.c
+ hw/core/machine-qmp-cmds.c | 144 +++++++++++++++++++++++++++++++++++++
+ monitor/qmp-cmds.c         | 140 ------------------------------------
+ 2 files changed, 144 insertions(+), 140 deletions(-)
 
-diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index 5a75f4659c..58ed1bec62 100644
---- a/include/monitor/hmp.h
-+++ b/include/monitor/hmp.h
-@@ -155,5 +155,8 @@ void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
- void hmp_info_capture(Monitor *mon, const QDict *qdict);
- void hmp_stopcapture(Monitor *mon, const QDict *qdict);
- void hmp_wavcapture(Monitor *mon, const QDict *qdict);
-+void hmp_trace_event(Monitor *mon, const QDict *qdict);
-+void hmp_trace_file(Monitor *mon, const QDict *qdict);
-+void hmp_info_trace_events(Monitor *mon, const QDict *qdict);
+diff --git a/hw/core/machine-qmp-cmds.c b/hw/core/machine-qmp-cmds.c
+index 80d5e59651..44b5da8880 100644
+--- a/hw/core/machine-qmp-cmds.c
++++ b/hw/core/machine-qmp-cmds.c
+@@ -9,6 +9,9 @@
  
- #endif
-diff --git a/monitor/misc.c b/monitor/misc.c
-index 240d137327..2a6bc13e7f 100644
---- a/monitor/misc.c
-+++ b/monitor/misc.c
-@@ -39,12 +39,8 @@
- #include "qapi/qmp/qdict.h"
- #include "qapi/qmp/qerror.h"
- #include "qom/object_interfaces.h"
--#include "trace/control.h"
- #include "monitor/hmp-target.h"
- #include "monitor/hmp.h"
--#ifdef CONFIG_TRACE_SIMPLE
--#include "trace/simple.h"
--#endif
- #include "exec/address-spaces.h"
- #include "exec/ioport.h"
- #include "block/qapi.h"
-@@ -54,7 +50,6 @@
- #include "qapi/qapi-commands-misc.h"
- #include "qapi/qapi-commands-qom.h"
- #include "qapi/qapi-commands-run-state.h"
--#include "qapi/qapi-commands-trace.h"
- #include "qapi/qapi-commands-machine.h"
- #include "qapi/qapi-init-commands.h"
+ #include "qemu/osdep.h"
+ #include "hw/boards.h"
++#include "hw/intc/intc.h"
++#include "hw/mem/memory-device.h"
++#include "hw/rdma/rdma.h"
  #include "qapi/error.h"
-@@ -156,50 +151,6 @@ static void do_help_cmd(Monitor *mon, const QDict *qdict)
-     hmp_help_cmd(mon, qdict_get_try_str(qdict, "name"));
+ #include "qapi/qapi-builtin-visit.h"
+ #include "qapi/qapi-commands-machine.h"
+@@ -17,11 +20,13 @@
+ #include "qapi/qobject-input-visitor.h"
+ #include "qapi/type-helpers.h"
+ #include "qemu/main-loop.h"
++#include "qemu/uuid.h"
+ #include "qom/qom-qobject.h"
+ #include "sysemu/hostmem.h"
+ #include "sysemu/hw_accel.h"
+ #include "sysemu/numa.h"
+ #include "sysemu/runstate.h"
++#include "sysemu/sysemu.h"
+ 
+ static void cpustate_to_cpuinfo_s390(CpuInfoS390 *info, const CPUState *cpu)
+ {
+@@ -239,3 +244,142 @@ HumanReadableText *qmp_x_query_numa(Error **errp)
+  done:
+     return human_readable_text_from_str(buf);
+ }
++
++KvmInfo *qmp_query_kvm(Error **errp)
++{
++    KvmInfo *info = g_malloc0(sizeof(*info));
++
++    info->enabled = kvm_enabled();
++    info->present = accel_find("kvm");
++
++    return info;
++}
++
++UuidInfo *qmp_query_uuid(Error **errp)
++{
++    UuidInfo *info = g_malloc0(sizeof(*info));
++
++    info->UUID = qemu_uuid_unparse_strdup(&qemu_uuid);
++    return info;
++}
++
++void qmp_system_reset(Error **errp)
++{
++    qemu_system_reset_request(SHUTDOWN_CAUSE_HOST_QMP_SYSTEM_RESET);
++}
++
++void qmp_system_powerdown(Error **errp)
++{
++    qemu_system_powerdown_request();
++}
++
++void qmp_system_wakeup(Error **errp)
++{
++    if (!qemu_wakeup_suspend_enabled()) {
++        error_setg(errp,
++                   "wake-up from suspend is not supported by this guest");
++        return;
++    }
++
++    qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, errp);
++}
++
++MemoryDeviceInfoList *qmp_query_memory_devices(Error **errp)
++{
++    return qmp_memory_device_list();
++}
++
++MemoryInfo *qmp_query_memory_size_summary(Error **errp)
++{
++    MemoryInfo *mem_info = g_new0(MemoryInfo, 1);
++    MachineState *ms = MACHINE(qdev_get_machine());
++
++    mem_info->base_memory = ms->ram_size;
++
++    mem_info->plugged_memory = get_plugged_memory_size();
++    mem_info->has_plugged_memory =
++        mem_info->plugged_memory != (uint64_t)-1;
++
++    return mem_info;
++}
++
++static int qmp_x_query_rdma_foreach(Object *obj, void *opaque)
++{
++    RdmaProvider *rdma;
++    RdmaProviderClass *k;
++    GString *buf = opaque;
++
++    if (object_dynamic_cast(obj, INTERFACE_RDMA_PROVIDER)) {
++        rdma = RDMA_PROVIDER(obj);
++        k = RDMA_PROVIDER_GET_CLASS(obj);
++        if (k->format_statistics) {
++            k->format_statistics(rdma, buf);
++        } else {
++            g_string_append_printf(buf,
++                                   "RDMA statistics not available for %s.\n",
++                                   object_get_typename(obj));
++        }
++    }
++
++    return 0;
++}
++
++HumanReadableText *qmp_x_query_rdma(Error **errp)
++{
++    g_autoptr(GString) buf = g_string_new("");
++
++    object_child_foreach_recursive(object_get_root(),
++                                   qmp_x_query_rdma_foreach, buf);
++
++    return human_readable_text_from_str(buf);
++}
++
++HumanReadableText *qmp_x_query_ramblock(Error **errp)
++{
++    g_autoptr(GString) buf = ram_block_format();
++
++    return human_readable_text_from_str(buf);
++}
++
++static int qmp_x_query_irq_foreach(Object *obj, void *opaque)
++{
++    InterruptStatsProvider *intc;
++    InterruptStatsProviderClass *k;
++    GString *buf = opaque;
++
++    if (object_dynamic_cast(obj, TYPE_INTERRUPT_STATS_PROVIDER)) {
++        intc = INTERRUPT_STATS_PROVIDER(obj);
++        k = INTERRUPT_STATS_PROVIDER_GET_CLASS(obj);
++        uint64_t *irq_counts;
++        unsigned int nb_irqs, i;
++        if (k->get_statistics &&
++            k->get_statistics(intc, &irq_counts, &nb_irqs)) {
++            if (nb_irqs > 0) {
++                g_string_append_printf(buf, "IRQ statistics for %s:\n",
++                                       object_get_typename(obj));
++                for (i = 0; i < nb_irqs; i++) {
++                    if (irq_counts[i] > 0) {
++                        g_string_append_printf(buf, "%2d: %" PRId64 "\n", i,
++                                               irq_counts[i]);
++                    }
++                }
++            }
++        } else {
++            g_string_append_printf(buf,
++                                   "IRQ statistics not available for %s.\n",
++                                   object_get_typename(obj));
++        }
++    }
++
++    return 0;
++}
++
++HumanReadableText *qmp_x_query_irq(Error **errp)
++{
++    g_autoptr(GString) buf = g_string_new("");
++
++    object_child_foreach_recursive(object_get_root(),
++                                   qmp_x_query_irq_foreach, buf);
++
++    return human_readable_text_from_str(buf);
++}
+diff --git a/monitor/qmp-cmds.c b/monitor/qmp-cmds.c
+index e5ab77f6c6..4a8d1e9a15 100644
+--- a/monitor/qmp-cmds.c
++++ b/monitor/qmp-cmds.c
+@@ -24,7 +24,6 @@
+ #include "qapi/error.h"
+ #include "qapi/qapi-commands-acpi.h"
+ #include "qapi/qapi-commands-control.h"
+-#include "qapi/qapi-commands-machine.h"
+ #include "qapi/qapi-commands-misc.h"
+ #include "qapi/qapi-commands-stats.h"
+ #include "qapi/type-helpers.h"
+@@ -42,24 +41,6 @@ NameInfo *qmp_query_name(Error **errp)
+     return info;
  }
  
--static void hmp_trace_event(Monitor *mon, const QDict *qdict)
+-KvmInfo *qmp_query_kvm(Error **errp)
 -{
--    const char *tp_name = qdict_get_str(qdict, "name");
--    bool new_state = qdict_get_bool(qdict, "option");
--    bool has_vcpu = qdict_haskey(qdict, "vcpu");
--    int vcpu = qdict_get_try_int(qdict, "vcpu", 0);
--    Error *local_err = NULL;
+-    KvmInfo *info = g_malloc0(sizeof(*info));
 -
--    if (vcpu < 0) {
--        monitor_printf(mon, "argument vcpu must be positive");
--        return;
--    }
+-    info->enabled = kvm_enabled();
+-    info->present = accel_find("kvm");
 -
--    qmp_trace_event_set_state(tp_name, new_state, true, true, has_vcpu, vcpu, &local_err);
--    if (local_err) {
--        error_report_err(local_err);
--    }
+-    return info;
 -}
 -
--#ifdef CONFIG_TRACE_SIMPLE
--static void hmp_trace_file(Monitor *mon, const QDict *qdict)
+-UuidInfo *qmp_query_uuid(Error **errp)
 -{
--    const char *op = qdict_get_try_str(qdict, "op");
--    const char *arg = qdict_get_try_str(qdict, "arg");
+-    UuidInfo *info = g_malloc0(sizeof(*info));
 -
--    if (!op) {
--        st_print_trace_file_status();
--    } else if (!strcmp(op, "on")) {
--        st_set_trace_file_enabled(true);
--    } else if (!strcmp(op, "off")) {
--        st_set_trace_file_enabled(false);
--    } else if (!strcmp(op, "flush")) {
--        st_flush_trace_buffer();
--    } else if (!strcmp(op, "set")) {
--        if (arg) {
--            st_set_trace_file(arg);
--        }
--    } else {
--        monitor_printf(mon, "unexpected argument \"%s\"\n", op);
--        hmp_help_cmd(mon, "trace-file");
--    }
+-    info->UUID = qemu_uuid_unparse_strdup(&qemu_uuid);
+-    return info;
 -}
--#endif
 -
- static void hmp_info_help(Monitor *mon, const QDict *qdict)
+ void qmp_quit(Error **errp)
  {
-     hmp_help_cmd(mon, "info");
-@@ -344,37 +295,6 @@ static void hmp_info_history(Monitor *mon, const QDict *qdict)
+     shutdown_action = SHUTDOWN_ACTION_POWEROFF;
+@@ -82,16 +63,6 @@ void qmp_stop(Error **errp)
      }
  }
  
--static void hmp_info_trace_events(Monitor *mon, const QDict *qdict)
+-void qmp_system_reset(Error **errp)
 -{
--    const char *name = qdict_get_try_str(qdict, "name");
--    bool has_vcpu = qdict_haskey(qdict, "vcpu");
--    int vcpu = qdict_get_try_int(qdict, "vcpu", 0);
--    TraceEventInfoList *events;
--    TraceEventInfoList *elem;
--    Error *local_err = NULL;
--
--    if (name == NULL) {
--        name = "*";
--    }
--    if (vcpu < 0) {
--        monitor_printf(mon, "argument vcpu must be positive");
--        return;
--    }
--
--    events = qmp_trace_event_get_state(name, has_vcpu, vcpu, &local_err);
--    if (local_err) {
--        error_report_err(local_err);
--        return;
--    }
--
--    for (elem = events; elem != NULL; elem = elem->next) {
--        monitor_printf(mon, "%s : state %u\n",
--                       elem->value->name,
--                       elem->value->state == TRACE_EVENT_STATE_ENABLED ? 1 : 0);
--    }
--    qapi_free_TraceEventInfoList(events);
+-    qemu_system_reset_request(SHUTDOWN_CAUSE_HOST_QMP_SYSTEM_RESET);
 -}
 -
- void qmp_client_migrate_info(const char *protocol, const char *hostname,
-                              bool has_port, int64_t port,
-                              bool has_tls_port, int64_t tls_port,
-@@ -1535,45 +1455,6 @@ void netdev_del_completion(ReadLineState *rs, int nb_args, const char *str)
+-void qmp_system_powerdown(Error **errp)
+-{
+-    qemu_system_powerdown_request();
+-}
+-
+ void qmp_cont(Error **errp)
+ {
+     BlockBackend *blk;
+@@ -145,17 +116,6 @@ void qmp_cont(Error **errp)
      }
  }
  
--void info_trace_events_completion(ReadLineState *rs, int nb_args, const char *str)
+-void qmp_system_wakeup(Error **errp)
 -{
--    size_t len;
--
--    len = strlen(str);
--    readline_set_completion_index(rs, len);
--    if (nb_args == 2) {
--        TraceEventIter iter;
--        TraceEvent *ev;
--        char *pattern = g_strdup_printf("%s*", str);
--        trace_event_iter_init_pattern(&iter, pattern);
--        while ((ev = trace_event_iter_next(&iter)) != NULL) {
--            readline_add_completion(rs, trace_event_get_name(ev));
--        }
--        g_free(pattern);
+-    if (!qemu_wakeup_suspend_enabled()) {
+-        error_setg(errp,
+-                   "wake-up from suspend is not supported by this guest");
+-        return;
 -    }
+-
+-    qemu_system_wakeup_request(QEMU_WAKEUP_REASON_OTHER, errp);
 -}
 -
--void trace_event_completion(ReadLineState *rs, int nb_args, const char *str)
+ void qmp_add_client(const char *protocol, const char *fdname,
+                     bool has_skipauth, bool skipauth, bool has_tls, bool tls,
+                     Error **errp)
+@@ -196,11 +156,6 @@ void qmp_add_client(const char *protocol, const char *fdname,
+     }
+ }
+ 
+-MemoryDeviceInfoList *qmp_query_memory_devices(Error **errp)
 -{
--    size_t len;
--
--    len = strlen(str);
--    readline_set_completion_index(rs, len);
--    if (nb_args == 2) {
--        TraceEventIter iter;
--        TraceEvent *ev;
--        char *pattern = g_strdup_printf("%s*", str);
--        trace_event_iter_init_pattern(&iter, pattern);
--        while ((ev = trace_event_iter_next(&iter)) != NULL) {
--            readline_add_completion(rs, trace_event_get_name(ev));
--        }
--        g_free(pattern);
--    } else if (nb_args == 3) {
--        readline_add_completion_of(rs, str, "on");
--        readline_add_completion_of(rs, str, "off");
--    }
+-    return qmp_memory_device_list();
 -}
 -
- void watchdog_action_completion(ReadLineState *rs, int nb_args, const char *str)
+ ACPIOSTInfoList *qmp_query_acpi_ospm_status(Error **errp)
  {
-     int i;
-diff --git a/trace/trace-hmp-cmds.c b/trace/trace-hmp-cmds.c
-new file mode 100644
-index 0000000000..792876c34a
---- /dev/null
-+++ b/trace/trace-hmp-cmds.c
-@@ -0,0 +1,148 @@
-+/*
-+ * HMP commands related to tracing
-+ *
-+ * Copyright (c) 2003-2004 Fabrice Bellard
-+ *
-+ * Permission is hereby granted, free of charge, to any person obtaining a copy
-+ * of this software and associated documentation files (the "Software"), to deal
-+ * in the Software without restriction, including without limitation the rights
-+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-+ * copies of the Software, and to permit persons to whom the Software is
-+ * furnished to do so, subject to the following conditions:
-+ *
-+ * The above copyright notice and this permission notice shall be included in
-+ * all copies or substantial portions of the Software.
-+ *
-+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
-+ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-+ * THE SOFTWARE.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "monitor/hmp.h"
-+#include "monitor/monitor.h"
-+#include "qapi/error.h"
-+#include "qapi/qapi-commands-trace.h"
-+#include "qapi/qmp/qdict.h"
-+#include "trace/control.h"
-+#ifdef CONFIG_TRACE_SIMPLE
-+#include "trace/simple.h"
-+#endif
-+
-+void hmp_trace_event(Monitor *mon, const QDict *qdict)
-+{
-+    const char *tp_name = qdict_get_str(qdict, "name");
-+    bool new_state = qdict_get_bool(qdict, "option");
-+    bool has_vcpu = qdict_haskey(qdict, "vcpu");
-+    int vcpu = qdict_get_try_int(qdict, "vcpu", 0);
-+    Error *local_err = NULL;
-+
-+    if (vcpu < 0) {
-+        monitor_printf(mon, "argument vcpu must be positive");
-+        return;
-+    }
-+
-+    qmp_trace_event_set_state(tp_name, new_state, true, true, has_vcpu, vcpu, &local_err);
-+    if (local_err) {
-+        error_report_err(local_err);
-+    }
-+}
-+
-+#ifdef CONFIG_TRACE_SIMPLE
-+void hmp_trace_file(Monitor *mon, const QDict *qdict)
-+{
-+    const char *op = qdict_get_try_str(qdict, "op");
-+    const char *arg = qdict_get_try_str(qdict, "arg");
-+
-+    if (!op) {
-+        st_print_trace_file_status();
-+    } else if (!strcmp(op, "on")) {
-+        st_set_trace_file_enabled(true);
-+    } else if (!strcmp(op, "off")) {
-+        st_set_trace_file_enabled(false);
-+    } else if (!strcmp(op, "flush")) {
-+        st_flush_trace_buffer();
-+    } else if (!strcmp(op, "set")) {
-+        if (arg) {
-+            st_set_trace_file(arg);
-+        }
-+    } else {
-+        monitor_printf(mon, "unexpected argument \"%s\"\n", op);
-+        hmp_help_cmd(mon, "trace-file");
-+    }
-+}
-+#endif
-+
-+void hmp_info_trace_events(Monitor *mon, const QDict *qdict)
-+{
-+    const char *name = qdict_get_try_str(qdict, "name");
-+    bool has_vcpu = qdict_haskey(qdict, "vcpu");
-+    int vcpu = qdict_get_try_int(qdict, "vcpu", 0);
-+    TraceEventInfoList *events;
-+    TraceEventInfoList *elem;
-+    Error *local_err = NULL;
-+
-+    if (name == NULL) {
-+        name = "*";
-+    }
-+    if (vcpu < 0) {
-+        monitor_printf(mon, "argument vcpu must be positive");
-+        return;
-+    }
-+
-+    events = qmp_trace_event_get_state(name, has_vcpu, vcpu, &local_err);
-+    if (local_err) {
-+        error_report_err(local_err);
-+        return;
-+    }
-+
-+    for (elem = events; elem != NULL; elem = elem->next) {
-+        monitor_printf(mon, "%s : state %u\n",
-+                       elem->value->name,
-+                       elem->value->state == TRACE_EVENT_STATE_ENABLED ? 1 : 0);
-+    }
-+    qapi_free_TraceEventInfoList(events);
-+}
-+
-+void info_trace_events_completion(ReadLineState *rs, int nb_args, const char *str)
-+{
-+    size_t len;
-+
-+    len = strlen(str);
-+    readline_set_completion_index(rs, len);
-+    if (nb_args == 2) {
-+        TraceEventIter iter;
-+        TraceEvent *ev;
-+        char *pattern = g_strdup_printf("%s*", str);
-+        trace_event_iter_init_pattern(&iter, pattern);
-+        while ((ev = trace_event_iter_next(&iter)) != NULL) {
-+            readline_add_completion(rs, trace_event_get_name(ev));
-+        }
-+        g_free(pattern);
-+    }
-+}
-+
-+void trace_event_completion(ReadLineState *rs, int nb_args, const char *str)
-+{
-+    size_t len;
-+
-+    len = strlen(str);
-+    readline_set_completion_index(rs, len);
-+    if (nb_args == 2) {
-+        TraceEventIter iter;
-+        TraceEvent *ev;
-+        char *pattern = g_strdup_printf("%s*", str);
-+        trace_event_iter_init_pattern(&iter, pattern);
-+        while ((ev = trace_event_iter_next(&iter)) != NULL) {
-+            readline_add_completion(rs, trace_event_get_name(ev));
-+        }
-+        g_free(pattern);
-+    } else if (nb_args == 3) {
-+        readline_add_completion_of(rs, str, "on");
-+        readline_add_completion_of(rs, str, "off");
-+    }
-+}
-diff --git a/trace/meson.build b/trace/meson.build
-index 26b54714d5..d565948b09 100644
---- a/trace/meson.build
-+++ b/trace/meson.build
-@@ -1,3 +1,4 @@
-+softmmu_ss.add(files('trace-hmp-cmds.c'))
+     bool ambig;
+@@ -220,101 +175,6 @@ ACPIOSTInfoList *qmp_query_acpi_ospm_status(Error **errp)
+     return head;
+ }
  
- specific_ss.add(files('control-target.c'))
- 
+-MemoryInfo *qmp_query_memory_size_summary(Error **errp)
+-{
+-    MemoryInfo *mem_info = g_new0(MemoryInfo, 1);
+-    MachineState *ms = MACHINE(qdev_get_machine());
+-
+-    mem_info->base_memory = ms->ram_size;
+-
+-    mem_info->plugged_memory = get_plugged_memory_size();
+-    mem_info->has_plugged_memory =
+-        mem_info->plugged_memory != (uint64_t)-1;
+-
+-    return mem_info;
+-}
+-
+-static int qmp_x_query_rdma_foreach(Object *obj, void *opaque)
+-{
+-    RdmaProvider *rdma;
+-    RdmaProviderClass *k;
+-    GString *buf = opaque;
+-
+-    if (object_dynamic_cast(obj, INTERFACE_RDMA_PROVIDER)) {
+-        rdma = RDMA_PROVIDER(obj);
+-        k = RDMA_PROVIDER_GET_CLASS(obj);
+-        if (k->format_statistics) {
+-            k->format_statistics(rdma, buf);
+-        } else {
+-            g_string_append_printf(buf,
+-                                   "RDMA statistics not available for %s.\n",
+-                                   object_get_typename(obj));
+-        }
+-    }
+-
+-    return 0;
+-}
+-
+-HumanReadableText *qmp_x_query_rdma(Error **errp)
+-{
+-    g_autoptr(GString) buf = g_string_new("");
+-
+-    object_child_foreach_recursive(object_get_root(),
+-                                   qmp_x_query_rdma_foreach, buf);
+-
+-    return human_readable_text_from_str(buf);
+-}
+-
+-HumanReadableText *qmp_x_query_ramblock(Error **errp)
+-{
+-    g_autoptr(GString) buf = ram_block_format();
+-
+-    return human_readable_text_from_str(buf);
+-}
+-
+-static int qmp_x_query_irq_foreach(Object *obj, void *opaque)
+-{
+-    InterruptStatsProvider *intc;
+-    InterruptStatsProviderClass *k;
+-    GString *buf = opaque;
+-
+-    if (object_dynamic_cast(obj, TYPE_INTERRUPT_STATS_PROVIDER)) {
+-        intc = INTERRUPT_STATS_PROVIDER(obj);
+-        k = INTERRUPT_STATS_PROVIDER_GET_CLASS(obj);
+-        uint64_t *irq_counts;
+-        unsigned int nb_irqs, i;
+-        if (k->get_statistics &&
+-            k->get_statistics(intc, &irq_counts, &nb_irqs)) {
+-            if (nb_irqs > 0) {
+-                g_string_append_printf(buf, "IRQ statistics for %s:\n",
+-                                       object_get_typename(obj));
+-                for (i = 0; i < nb_irqs; i++) {
+-                    if (irq_counts[i] > 0) {
+-                        g_string_append_printf(buf, "%2d: %" PRId64 "\n", i,
+-                                               irq_counts[i]);
+-                    }
+-                }
+-            }
+-        } else {
+-            g_string_append_printf(buf,
+-                                   "IRQ statistics not available for %s.\n",
+-                                   object_get_typename(obj));
+-        }
+-    }
+-
+-    return 0;
+-}
+-
+-HumanReadableText *qmp_x_query_irq(Error **errp)
+-{
+-    g_autoptr(GString) buf = g_string_new("");
+-
+-    object_child_foreach_recursive(object_get_root(),
+-                                   qmp_x_query_irq_foreach, buf);
+-
+-    return human_readable_text_from_str(buf);
+-}
+-
+ typedef struct StatsCallbacks {
+     StatsProvider provider;
+     StatRetrieveFunc *stats_cb;
 -- 
 2.39.0
 
