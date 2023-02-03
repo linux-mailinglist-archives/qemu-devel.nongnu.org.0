@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A14A568A13E
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 19:10:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C17A968A156
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 19:12:37 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO0VU-0007KR-7R; Fri, 03 Feb 2023 13:09:52 -0500
+	id 1pO0Vt-0007yJ-UK; Fri, 03 Feb 2023 13:10:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0VS-0007EI-MM
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:09:50 -0500
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0Va-0007kc-8i
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:09:59 -0500
+Received: from mail-wm1-x331.google.com ([2a00:1450:4864:20::331])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0VQ-0008AZ-Pz
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:09:50 -0500
-Received: by mail-wr1-x42e.google.com with SMTP id r2so5385000wrv.7
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 10:09:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO0VW-0008GN-H9
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:09:56 -0500
+Received: by mail-wm1-x331.google.com with SMTP id
+ n28-20020a05600c3b9c00b003ddca7a2bcbso4506401wms.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 10:09:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=9NgUd8czy/KtDDSBdj4dPqj7LZDSjTfVH8TLfiduuJo=;
- b=CU3fbR7lJ21Zn2niwiaBP9zRXcde3Bp5hkgZKitC/NfkXXYKdnaY5J0YIFGwWchBkD
- PfBFF/550g9rH+CnIRr+cpZE85Qsg10BDkjRPbLiuJLFUak/uxStv2bzf3HnyfIrpCoP
- m0tnc1rcG+9kcc5RPtTTpenyE7v/d0IMMhihdPr5h2i6m+MLvZuCiQsAJHH7sf3rnhIk
- 2KdSGc+0HcOLcPiObSgclwwLbvKSP+VrynaV04kGTwsTGvlmNDsKnFZb1C/bTP+qSiRv
- UuPMh78uRUkdknby3TI78D/4oM3Swn48Is5V16I28dpw1KjT6nfkGklaxygI2r1/ACV+
- EiCw==
+ bh=HN76CBKBfX1G0l+y+g6vAhVD6/TboUIvvYwPXW3Iexo=;
+ b=m1WjmgwMPOsNtLA5YA0t19cIA3HGnEQVECoOhLU6AGpzzoZQbcGqpC0JvenMkr52s3
+ +nXpucNnq828lAZTK+n3yA3GMjt4hoBXVPrlEm8NOds3KrxM6x63NJxhDptUlqTEof2H
+ 5Pv9svm6Qdyjxjr7FFrxZ1nUGGg6V2EOysUSqxPFc+SlY3JDuIsbW9K0ftIHSjOWo2Aj
+ rAQv87SvACTrrEY82Ch7p3q9Dij2pnj6OQfJAUI0Wyo4cV9hc/bCA3j25ofvY9GVqEDV
+ m375OaiEzlgiKCsxl/n5c5MDU5+Tc9HIYlEZ9iH8QtFK3YcukSCoVH5tWdwmnCyVnyar
+ nezw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=9NgUd8czy/KtDDSBdj4dPqj7LZDSjTfVH8TLfiduuJo=;
- b=blBmkLDUAPH82K0Lt2SRAJghfnYzxVyxzpO8cd1S+Qa5/0MmiUlKJYSu8kN/U3qEr8
- WGuzDrOi8+um1lisfOccCvEPceXJaulDvFJd4F4umgl01HLh0Ud3Zush6HH0bErlNwRL
- 5uRRfMQo+yGcpD8RUC+dnoih24twRpRexLv2RLAGydo3oa/8DY0LEk8WrVc9ECWg6TEC
- cAbqmguUiMVLv8EnyLZITiOb0gBgNJAsCdqFjOl6u9mndluZu0HmDlxFLUgipfTOluRs
- vSQRIJaXO6nZ39/clxSEqgt+Amz3xAIFS9CadHb5hbO3BlGOmmITZzt7TgF4UQ+4Iy8k
- J3wg==
-X-Gm-Message-State: AO0yUKVWFuSUyPxaj8dLIb6OaxHuNaIHw4+sj5AwVdfhVlCJ69B37Z+k
- Kp+rqOLNV2OzRPf1Ux5cDVSIBMINHJvr8hfL
-X-Google-Smtp-Source: AK7set/bwnjSzxwEM8YW56mYd/6D/HmDTbE+tJVPIYouAM/Q2o9fmPI1Bw7BLFApJWMpOHtjLur6xQ==
-X-Received: by 2002:a05:6000:15c3:b0:2bf:e7c4:898a with SMTP id
- y3-20020a05600015c300b002bfe7c4898amr4916904wry.51.1675447787974; 
- Fri, 03 Feb 2023 10:09:47 -0800 (PST)
+ bh=HN76CBKBfX1G0l+y+g6vAhVD6/TboUIvvYwPXW3Iexo=;
+ b=CFdS5j7GjiAPPul47O2tQSpVDPIbFSzStr+vzT3998aniwZ7y3W8wxKL5+sn47g2Ib
+ P4qiuwXbXyG2foXXr0M7dq7FCE1kx7A4pQ7jaaooMzkUZcvXqj3Df0axrckLvigFU7KU
+ W6WZa5lYcMpYfFAA72bz4ELr8YnVfT2hZrxUmcD7sVngm0ivRTEdUt9zmt/r3HNVphM+
+ prJd5+sYHlame2+zKn46KGHOedtsBi94DHrhJwEaY5Dj9EGONk2T/JtmQHpqRtyXzlu7
+ F6SDT2vQ0Q15djwVCPki0TN0txsti03CR8SI/EzRpWmnCMN4D8HWECfH/M0DUuIH1CM7
+ L8dg==
+X-Gm-Message-State: AO0yUKUwefJlQDacl45WK8EXypjo7ENyxGM2ipsYbhx9qYKOA3fihJF8
+ iPB9FyLZY5ha8hBpPNEr/MMP0ieHKXx4c36I
+X-Google-Smtp-Source: AK7set9ZxRRFo1CGOLjJgso2lFux2GQWoL4HdyvxVNVLGANu3XJ/bTjpWeRz06io18MYKc5dhIxKLg==
+X-Received: by 2002:a1c:f307:0:b0:3dc:50be:9206 with SMTP id
+ q7-20020a1cf307000000b003dc50be9206mr11541740wmq.4.1675447792935; 
+ Fri, 03 Feb 2023 10:09:52 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- p14-20020a5d68ce000000b002c3da499290sm1422762wrw.84.2023.02.03.10.09.46
+ x9-20020a5d4449000000b002c3cf230b60sm2184162wrr.73.2023.02.03.10.09.51
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 03 Feb 2023 10:09:47 -0800 (PST)
+ Fri, 03 Feb 2023 10:09:52 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: qemu-arm@nongnu.org, Markus Armbruster <armbru@redhat.com>,
  Eduardo Habkost <eduardo@habkost.net>, qemu-riscv@nongnu.org,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
-Subject: [PATCH 06/19] hw/core/gpio: Set QDev properties using QDev API
-Date: Fri,  3 Feb 2023 19:09:01 +0100
-Message-Id: <20230203180914.49112-7-philmd@linaro.org>
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Paolo Bonzini <pbonzini@redhat.com>, Fam Zheng <fam@euphon.net>
+Subject: [RFC PATCH 07/19] hw/scsi: Set QDev properties using QDev API
+Date: Fri,  3 Feb 2023 19:09:02 +0100
+Message-Id: <20230203180914.49112-8-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230203180914.49112-1-philmd@linaro.org>
 References: <20230203180914.49112-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::42e;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x42e.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::331;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x331.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -96,46 +98,26 @@ its properties.
 
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/core/gpio.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/scsi/scsi-bus.c | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
 
-diff --git a/hw/core/gpio.c b/hw/core/gpio.c
-index 80d07a6ec9..ba05dfa92e 100644
---- a/hw/core/gpio.c
-+++ b/hw/core/gpio.c
-@@ -19,6 +19,7 @@
- 
- #include "qemu/osdep.h"
- #include "hw/qdev-core.h"
-+#include "hw/qdev-properties.h"
- #include "hw/irq.h"
- #include "qapi/error.h"
- 
-@@ -120,13 +121,12 @@ void qdev_connect_gpio_out_named(DeviceState *dev, const char *name, int n,
-     char *propname = g_strdup_printf("%s[%d]",
-                                      name ? name : "unnamed-gpio-out", n);
-     if (input_pin && !OBJECT(input_pin)->parent) {
--        /* We need a name for object_property_set_link to work */
-+        /* We need a name for qdev_prop_set_link to work */
-         object_property_add_child(container_get(qdev_get_machine(),
-                                                 "/unattached"),
-                                   "non-qdev-gpio[*]", OBJECT(input_pin));
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index ceceafb2cd..a8003126c4 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -347,11 +347,7 @@ SCSIDevice *scsi_bus_legacy_add_drive(SCSIBus *bus, BlockBackend *blk,
+         object_unparent(OBJECT(dev));
+         return NULL;
      }
--    object_property_set_link(OBJECT(dev), propname,
--                             OBJECT(input_pin), &error_abort);
-+    qdev_prop_set_link(dev, propname, OBJECT(input_pin));
-     g_free(propname);
- }
+-    if (!object_property_set_bool(OBJECT(dev), "share-rw", share_rw, errp)) {
+-        object_unparent(OBJECT(dev));
+-        return NULL;
+-    }
+-
++    qdev_prop_set_bit(dev, "share-rw", share_rw);
+     qdev_prop_set_enum(dev, "rerror", rerror);
+     qdev_prop_set_enum(dev, "werror", werror);
  
-@@ -152,7 +152,7 @@ static qemu_irq qdev_disconnect_gpio_out_named(DeviceState *dev,
-     qemu_irq ret = (qemu_irq)object_property_get_link(OBJECT(dev), propname,
-                                                       NULL);
-     if (ret) {
--        object_property_set_link(OBJECT(dev), propname, NULL, NULL);
-+        qdev_prop_set_link(dev, propname, NULL);
-     }
-     g_free(propname);
-     return ret;
 -- 
 2.38.1
 
