@@ -2,67 +2,91 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1B2E6892A6
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:49:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D1D68931C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 10:10:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNri8-0008T4-Dk; Fri, 03 Feb 2023 03:46:20 -0500
+	id 1pNs3u-0002VC-IZ; Fri, 03 Feb 2023 04:08:50 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhq-0008Ke-Ee
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:03 -0500
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pNs3q-0002V0-5t
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 04:08:46 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhl-0007VA-Sn
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:02 -0500
+ (Exim 4.90_1) (envelope-from <lvivier@redhat.com>)
+ id 1pNs3n-0007Eq-S7
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 04:08:45 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675413957;
+ s=mimecast20190719; t=1675415321;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=6943nLlRjZzRD3ILoczYJS2u4IPftlOx77tLI0cJ8Qg=;
- b=CSONGTpr3+F6uaJV6mMwIPCdSyb4KpQk/Y/2/xWUWho69yl92sJZK74Jd+nsey04wun1FP
- csu9OCWAv7hZAeWIo76jD39LEPKvSFTZXntnHMC+n0dmpsIL+64ti2/w8ZpesY37eI6XUO
- 9woyh4If48vpExR2INjoJ5psA+OKkI4=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-426-lBXynaH2OnijQaS1i8lXsQ-1; Fri, 03 Feb 2023 03:45:55 -0500
-X-MC-Unique: lBXynaH2OnijQaS1i8lXsQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 45CF8196EF8D;
- Fri,  3 Feb 2023 08:45:55 +0000 (UTC)
-Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 025C5408573E;
- Fri,  3 Feb 2023 08:45:55 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id 0D7C921E6888; Fri,  3 Feb 2023 09:45:50 +0100 (CET)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Subject: [PULL 35/35] monitor: Rename misc.c to hmp-target.c
-Date: Fri,  3 Feb 2023 09:45:49 +0100
-Message-Id: <20230203084549.2622302-36-armbru@redhat.com>
-In-Reply-To: <20230203084549.2622302-1-armbru@redhat.com>
-References: <20230203084549.2622302-1-armbru@redhat.com>
+ bh=ReBdY3C0L8LLrS6o3zx9/2zwjmKGht/tsEwAqDDuCXI=;
+ b=aLo5U/l5xOi5BSAmuHfIEnT+pH2o77yZcQhkosZGUnJUTvFhSbwOi8UOdc57r8jW8UUmNT
+ YxvBJqPEJa46kJXFNoFAZmS8OlMAFKB43Dldv/THotb98MvY7KxVp6BIx9muXeH4XFStbI
+ nIY+vaskUAOqTXP0cORyUZ6AID7kNzY=
+Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com
+ [209.85.222.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-14-qG9qkbn2NFiL4eX_RaIDog-1; Fri, 03 Feb 2023 04:08:40 -0500
+X-MC-Unique: qG9qkbn2NFiL4eX_RaIDog-1
+Received: by mail-qk1-f198.google.com with SMTP id
+ a198-20020ae9e8cf000000b007259083a3c8so2953894qkg.7
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 01:08:40 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=ReBdY3C0L8LLrS6o3zx9/2zwjmKGht/tsEwAqDDuCXI=;
+ b=JzCEtUZTReofJ9ckeK5IoDsHuCSEaEdBxqZ5i3ljOC3/6aKLAL3qCkAEm3kkaMgqdb
+ 8ExY9MI181vlzgaPDxR4QMiaUkARanj3Z0Vk7lBG07l9OamrFs6GRZ0VD6GZ14gUAyrd
+ 08KWVKYTYnpb9jUm2J6vQF9vat8EzPFnoB6Sn6C1O/banw7R4L6luYzzVyN4YzeVaIii
+ 6BGaSfJ1T0iTwDZ3u2nBAjuLGwSjiScjUtlVSoJhnlId0FfLmfR1UMniI7a66Q56KDH5
+ 2BM7KgEXhBsTOOGJoslS/R7qcn3GwFedXg35lWnIFlmpxEeyQYbD8Obx1SqYFzayWjgO
+ sJFQ==
+X-Gm-Message-State: AO0yUKWDKg6T5Q3f/h/9+BmavgAJ+7Kg5QW9nQBqF7FLwSZv2slLZdJL
+ OcMcEXtx9pypHc2G8d0tmfIlzn0rs6Jwrbkl/04eO6db3jcrSHe9+NQjQ6IPn8/zAXTud3t3Frn
+ IPCpGZksmuSfpoCU=
+X-Received: by 2002:ac8:7d94:0:b0:3b9:ba7a:dd89 with SMTP id
+ c20-20020ac87d94000000b003b9ba7add89mr7795528qtd.58.1675415318388; 
+ Fri, 03 Feb 2023 01:08:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set9t7/653FmczY4WJ1JA7PT6S6CwdXiBX5VdQfKetjd+JvWUWPM54VqRez8HcsyrdMSrwt3cgA==
+X-Received: by 2002:ac8:7d94:0:b0:3b9:ba7a:dd89 with SMTP id
+ c20-20020ac87d94000000b003b9ba7add89mr7795514qtd.58.1675415318094; 
+ Fri, 03 Feb 2023 01:08:38 -0800 (PST)
+Received: from [192.168.100.30] ([82.142.8.70])
+ by smtp.gmail.com with ESMTPSA id
+ a25-20020aed2799000000b003b8484fdfccsm1255198qtd.42.2023.02.03.01.08.36
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Feb 2023 01:08:37 -0800 (PST)
+Message-ID: <185ce2ea-62c3-71e5-7ef1-1e0b4e35d01c@redhat.com>
+Date: Fri, 3 Feb 2023 10:08:35 +0100
 MIME-Version: 1.0
-Content-type: text/plain
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.6.0
+Subject: Re: [PATCH 2/3] intel-iommu: fail DEVIOTLB_UNMAP without dt mode
+Content-Language: en-US
+To: Jason Wang <jasowang@redhat.com>, mst@redhat.com, peterx@redhat.com
+Cc: qemu-devel@nongnu.org, eric.auger@redhat.com, viktor@daynix.com
+References: <20221129081037.12099-1-jasowang@redhat.com>
+ <20221129081037.12099-3-jasowang@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+In-Reply-To: <20221129081037.12099-3-jasowang@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=lvivier@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -78,42 +102,45 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-What's left in misc.c is exactly the target-dependent part of the HMP
-core.  Rename accordingly.
+On 11/29/22 09:10, Jason Wang wrote:
+> Without dt mode, device IOTLB notifier won't work since guest won't
+> send device IOTLB invalidation descriptor in this case. Let's fail
+> early instead of misbehaving silently.
+> 
+> Signed-off-by: Jason Wang <jasowang@redhat.com>
+> ---
+>   hw/i386/intel_iommu.c | 8 ++++++++
+>   1 file changed, 8 insertions(+)
+> 
+> diff --git a/hw/i386/intel_iommu.c b/hw/i386/intel_iommu.c
+> index 9143376677..d025ef2873 100644
+> --- a/hw/i386/intel_iommu.c
+> +++ b/hw/i386/intel_iommu.c
+> @@ -3179,6 +3179,7 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+>   {
+>       VTDAddressSpace *vtd_as = container_of(iommu, VTDAddressSpace, iommu);
+>       IntelIOMMUState *s = vtd_as->iommu_state;
+> +    X86IOMMUState *x86_iommu = X86_IOMMU_DEVICE(s);
+>   
+>       /* TODO: add support for VFIO and vhost users */
+>       if (s->snoop_control) {
+> @@ -3193,6 +3194,13 @@ static int vtd_iommu_notify_flag_changed(IOMMUMemoryRegion *iommu,
+>                            PCI_FUNC(vtd_as->devfn));
+>           return -ENOTSUP;
+>       }
+> +    if (!x86_iommu->dt_supported && (new & IOMMU_NOTIFIER_DEVIOTLB_UNMAP)) {
+> +        error_setg_errno(errp, ENOTSUP,
+> +                         "device %02x.%02x.%x requires device IOTLB mode",
+> +                         pci_bus_num(vtd_as->bus), PCI_SLOT(vtd_as->devfn),
+> +                         PCI_FUNC(vtd_as->devfn));
+> +        return -ENOTSUP;
+> +    }
+>   
+>       /* Update per-address-space notifier flags */
+>       vtd_as->notifier_flags = new;
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230124121946.1139465-33-armbru@redhat.com>
----
- monitor/{misc.c => hmp-target.c} | 2 +-
- monitor/meson.build              | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename monitor/{misc.c => hmp-target.c} (99%)
-
-diff --git a/monitor/misc.c b/monitor/hmp-target.c
-similarity index 99%
-rename from monitor/misc.c
-rename to monitor/hmp-target.c
-index 99317a8ff4..1eb72ac1bf 100644
---- a/monitor/misc.c
-+++ b/monitor/hmp-target.c
-@@ -1,5 +1,5 @@
- /*
-- * QEMU monitor
-+ * QEMU monitor, target-dependent part
-  *
-  * Copyright (c) 2003-2004 Fabrice Bellard
-  *
-diff --git a/monitor/meson.build b/monitor/meson.build
-index 795a271545..ccb4d1a8e6 100644
---- a/monitor/meson.build
-+++ b/monitor/meson.build
-@@ -8,4 +8,4 @@ softmmu_ss.add(files(
- softmmu_ss.add([spice_headers, files('qmp-cmds.c')])
- 
- specific_ss.add(when: 'CONFIG_SOFTMMU',
--		if_true: [files( 'hmp-cmds-target.c', 'misc.c'), spice])
-+		if_true: [files( 'hmp-cmds-target.c', 'hmp-target.c'), spice])
--- 
-2.39.0
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Tested-by: Laurent Vivier <lvivier@redhat.com>
+Buglink: https://bugzilla.redhat.com/2156876
 
 
