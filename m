@@ -2,66 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACFBF68A668
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 23:59:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B58168A673
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 00:00:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO50L-0001r8-7j; Fri, 03 Feb 2023 17:58:01 -0500
+	id 1pO51s-00037Q-8i; Fri, 03 Feb 2023 17:59:36 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pO50J-0001qo-87
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:57:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pO50H-0005f5-Fe
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:57:58 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675465076;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- in-reply-to:in-reply-to:references:references;
- bh=a+NSP+Z0EW/ZlCEuvyAcfW+6bx7FMmyj9/emoJ4Rgyo=;
- b=Lrts81l6ejxHBjedK/usHoOdzIiDJ7X+/mRDufcv73iJt20qhWNRg6GG7QG7bdMUDNhQHB
- qm/t8D+fytO9JHCPWztdjGsSqlv/gSROaH+juzdjSqSS52JhDOOdkQpQXf2r/RZzniQ0sj
- 5va5lDvGZMyN208fheAtmO1p0KrYiUk=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-15-Ly5yFhMbPAmxrFYc9MQ_ZQ-1; Fri, 03 Feb 2023 17:57:55 -0500
-X-MC-Unique: Ly5yFhMbPAmxrFYc9MQ_ZQ-1
-Received: from smtp.corp.redhat.com (int-mx09.intmail.prod.int.rdu2.redhat.com
- [10.11.54.9])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 23371811E6E;
- Fri,  3 Feb 2023 22:57:55 +0000 (UTC)
-Received: from redhat.com (unknown [10.2.16.31])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 9A46A492C14;
- Fri,  3 Feb 2023 22:57:54 +0000 (UTC)
-Date: Fri, 3 Feb 2023 16:57:52 -0600
-From: Eric Blake <eblake@redhat.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
- Kevin Wolf <kwolf@redhat.com>, mjt@tls.msk.ru
-Subject: Re: [PATCH 4/5] docs: flesh out qcow2 format driver description
-Message-ID: <20230203225752.syg2j5p24wtldu4t@redhat.com>
-References: <20230201211234.301918-1-stefanha@redhat.com>
- <20230201211234.301918-5-stefanha@redhat.com>
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pO51q-00037H-Rc
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:59:35 -0500
+Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pO51p-0005uH-4c
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:59:34 -0500
+Received: by mail-pj1-x1032.google.com with SMTP id
+ cl23-20020a17090af69700b0022c745bfdc3so6291024pjb.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 14:59:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:from:to:cc:subject:date:message-id:reply-to;
+ bh=39PPEuhVRVsZVvJe6r6zmHD1Uy8sB4o4fQgIEwRJuDQ=;
+ b=nLpCmUCmX5eX9m3xWp7Ghjbmdj1ikBZdCPyvqlnS8RpWuAr4lI2gjUfJwX147ubHuj
+ P9g2rKJ4+Fq/zGXt0lb4NY2/z62hup8+bVURlpGOApmUyxlSR/o2/NAiRKOhsx6B6SNI
+ uJGLS82zZQbjG+aaV0oJ2TTvji33TuNg78uBADURgImiUFQ+E1KIbY1gHK03Jop6iUE8
+ zQLcqbzcsI9D8Oi24yIO8XKaJSR+EdNuiuuJDIL88VXLS+pNLAJn7KlWFNcSDAEi0FLh
+ 3dX35pquOIxTge/fH2Nx+KRBysdaTsFDtRHKVWHrMnGfwIuigdQOAyFklAUUgygtUspZ
+ Ogwg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:to
+ :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=39PPEuhVRVsZVvJe6r6zmHD1Uy8sB4o4fQgIEwRJuDQ=;
+ b=yCbKsYp7FtjgH5YkJubuzlKvXfC62cXwaLS2xhed4sTt+MJSZ3vuIFsYoZCx2QbYI1
+ jAIUAPLScDDzVevgBG+LQ7HIS0bUUJfjIGxTWB2C/JDOT+b7LOsENL/MSH/hdu3X91YB
+ gpz6/y02wYsG5x8sngHBvlCFqvuNAO3sjQbQLmY28Hg2ccyu19WJAwePiJ2zX630P0nb
+ TUZVKObY6OYrx7fw2Ky5HxMLf/rSuJ66d/uHJjp6xeMeB9fjh0hIxsreEg+ADGzc5g05
+ PzTomS1/o8EoMHgUhL3M07NhXuSPj9sI8orSlrXssq2O7ySGvk6GpnI5cVCxqknZTg42
+ +UPw==
+X-Gm-Message-State: AO0yUKWhXIJYkx4PHe8DyDur138qVfER5NOMJgbjeUgLO0b1cKaZqJe2
+ M7ilrUM97tIRRc32sc53nP7XZLxPAqDrUrFs
+X-Google-Smtp-Source: AK7set+iIKWzc2XgUeKKOShTnLNEs/eM6A8oz1IwRNWzQj/xPZ2UAG3xcPKu/AG2UY28OtAxbyJziA==
+X-Received: by 2002:a05:6a20:d2c9:b0:bf:7ae0:5faf with SMTP id
+ ir9-20020a056a20d2c900b000bf7ae05fafmr8935710pzb.46.1675465171311; 
+ Fri, 03 Feb 2023 14:59:31 -0800 (PST)
+Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
+ by smtp.gmail.com with ESMTPSA id
+ c25-20020a639619000000b004f198707cdbsm1966811pge.55.2023.02.03.14.59.30
+ for <qemu-devel@nongnu.org>
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Feb 2023 14:59:30 -0800 (PST)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Subject: [PATCH] tcg: Init temp_subindex in liveness_pass_2
+Date: Fri,  3 Feb 2023 12:59:28 -1000
+Message-Id: <20230203225928.4129774-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20230201211234.301918-5-stefanha@redhat.com>
-User-Agent: NeoMutt/20220429
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.9
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -78,36 +86,27 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Wed, Feb 01, 2023 at 04:12:33PM -0500, Stefan Hajnoczi wrote:
-> Put the create options in alphabetical order, add compression_type and
-> extended_l2, and also mention the common runtime options. I did not add
-> rarely-used runtime options because I think it's too much information.
-> 
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> ---
->  docs/system/qemu-block-drivers.rst.inc | 91 ++++++++++++++++++++------
->  1 file changed, 70 insertions(+), 21 deletions(-)
-> 
-> diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
-> index ec9ebb2066..af72817763 100644
-> --- a/docs/system/qemu-block-drivers.rst.inc
-> +++ b/docs/system/qemu-block-drivers.rst.inc
-> @@ -59,13 +59,27 @@ options that are supported for it.
->  .. option:: qcow2
->  
->    QEMU image format, the most versatile format. Use it to have smaller
-> -  images (useful if your filesystem does not supports holes, for example
-> -  on Windows), zlib based compression and support of multiple VM
-> +  images (useful if your filesystem does not support holes, for example
-> +  on Windows), zlib/zstd compression and support of multiple VM
+Correctly handle large types while lowering.
 
-And sneaking in a grammar fix for "support", I see ;)
+Fixes: fac87bd2a49b ("tcg: Add temp_subindex to TCGTemp")
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ tcg/tcg.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Reviewed-by: Eric Blake <eblake@Redhat.com>
-
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index fd557d55d3..bc60fd0fe8 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -3063,6 +3063,7 @@ static bool liveness_pass_2(TCGContext *s)
+             TCGTemp *dts = tcg_temp_alloc(s);
+             dts->type = its->type;
+             dts->base_type = its->base_type;
++            dts->temp_subindex = its->temp_subindex;
+             dts->kind = TEMP_EBB;
+             its->state_ptr = dts;
+         } else {
 -- 
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3266
-Virtualization:  qemu.org | libvirt.org
+2.34.1
 
 
