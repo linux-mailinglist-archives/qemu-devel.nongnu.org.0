@@ -2,72 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BAE9689BAE
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:31:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 207A1689BFD
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:37:08 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNx4h-0006su-Fk; Fri, 03 Feb 2023 09:29:59 -0500
+	id 1pNx4j-0006tn-6K; Fri, 03 Feb 2023 09:30:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNx4U-0006fQ-Md
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:29:46 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ id 1pNx4Y-0006hi-L2
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:29:52 -0500
+Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNx4O-00055Z-Og
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:29:44 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- j29-20020a05600c1c1d00b003dc52fed235so4005652wms.1
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:29:38 -0800 (PST)
+ id 1pNx4Q-00055e-Ky
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:29:47 -0500
+Received: by mail-wm1-x329.google.com with SMTP id q8so3999859wmo.5
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:29:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=PCE6xhlUxSVGC/HAzEQA6//gIKkr5P4027KM8duLe7Y=;
- b=smExylBu+dCWNA3iRN6G2wrNloWUa4Uctl9f5ddsyGBmSvd1wEu2psoXlRaCVlgwXN
- lxOaHTlobfPHw90UtMUr55q9wZkxJd8u+UQ5YejV7EEyXUAPLmy8HB0oS8wrMfHzBzl+
- byjE/lJDZKRmyGn6eTv/uUYmGiBKuFH9BS9zFI63xs0gaWpCX9qpULBAxgShz1MssgOe
- 954oporfEtAEUUj8S2XTGLgRYxlUDGPwt3CjPaF3jaHwMAyadJ1Aaimpzzn8zwjmLsEj
- js+ZwEQijRwYJ7eZHVX1hFVBDlbVjIOBVgLFUpLKwiq5f730K+6m3aAZnc0oWWqKfG+E
- a8Lw==
+ :reply-to; bh=vEB5hK/P/E0Hi1gXCAfQiABUckdVC9FZuTnsRmpcDkM=;
+ b=IHm8AL62XXf9/K1Iz4qp8f9mZWq1GzrGp4pOcSlPYF6xj4wxPeUhvouyb5O7AV//Wm
+ QpL9qdH1cTjzwvCzUhQHjXbKQCPEZVcB542h3dAfa3Y8CiDVCzxXVAJ0K1ELv2X1Muih
+ BKtYT2zwM+OnQasHF5OkfSCsc6Uwz+XDGNEqR/maOHyAXfEcHaAhVsxKORxsuzU0HwzT
+ G5uhEEUXDgfOtBWOpgWc7wlFNgxZil1qZBJvxgbGJVzKBA4OT3k5xaRJTRp2501GE24f
+ RI5BnUxSmN5vZjhHmN1PdG8mZw1diOSgSDCTWnqPf6SUK9CWVjg7+aFweZfoVkaOt0m4
+ Ch5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=PCE6xhlUxSVGC/HAzEQA6//gIKkr5P4027KM8duLe7Y=;
- b=AT4PrlwhPVD+uK2Zah9r4/BlReFCx9l0XV38R008xR6TYJjya8Q8XCIkeD0y2X7gjP
- pqDKzu1ZBQjbYojVr661Q66lc8fgAhbQ6a8d7CfSWB1KX2YPkcw9qUHW86OBheLZIIyi
- 3scZO8iFTkMQeIvdi/8pxeK8uMWKz217zp10RbWcUjiuqJjxo8FA9ThYqwvvpx5eSqZM
- toSEGFd0jDMtyem+80UfW80OZ1UUojmzk/mu+r/s40uy8vwlW/GNwpgIiUPNITr6Mbsr
- ZaQOq0IIG419kFlsDfEdAT4GNojGWPwTTFl612IA0nk1h/rOCrtLH66KXWpCoXIETSbr
- V9LQ==
-X-Gm-Message-State: AO0yUKUdXK/6pM2Zxo+5T8WWTxWSqasfUPEj2TgSmS3WHXXV0H8EZSfJ
- BrgWrlgmU67GAFkUh4vduzdJhEtFUujwLrOe
-X-Google-Smtp-Source: AK7set89ukBBqbO05qOF3lfrtWqaA5ETDwxUYFFjXh7QigWABw6K5GHO3DLH3ZmspjUCBqwUhwxogA==
-X-Received: by 2002:a05:600c:3795:b0:3dc:561a:79e7 with SMTP id
- o21-20020a05600c379500b003dc561a79e7mr9541317wmr.2.1675434577609; 
- Fri, 03 Feb 2023 06:29:37 -0800 (PST)
+ bh=vEB5hK/P/E0Hi1gXCAfQiABUckdVC9FZuTnsRmpcDkM=;
+ b=Lh0VstW72dSZTM12AckiYV4UANbRIaHyAOUlSP+dDc4ZBGTbQiufOAUj490172nPD2
+ UsFas9v6O6Jq3iy+JaZfsCMMQOreVnMJqhJAWGOMCfYK0NSsw1sKRqviJoiZy4CHtq0+
+ chFGHU3M69rDdd9bb41k6u5OykKFGfIZey+p7Yh7WTvkIWihSD7SRroB9SRwC687WJ8V
+ Z8kqottPjfV+Ma2vEn1J9JQzfEvsftDuDwFzXABhM8Fp/dBCXBcbSM4srbciWu2FhTYg
+ ET3TyFYPtoS760oQRR7KPxC70TAfygjLRuVOU4E7x5Nao+cPRXCJG0OLJbk/KOoOJ285
+ fvgw==
+X-Gm-Message-State: AO0yUKXB6cosBEt/GL5iDrF+FrG58Y/A2M4DktoJa5oX19ojDW9DBfsP
+ YFjZrozKDLYow8JV53mwkpCoYsfEFqGwWUu6
+X-Google-Smtp-Source: AK7set/QfZL7Jb7+Sp3FlWxdERj2O3xPFEMqRof+zyHI7Jz/RK/94ZNuif1QbQE1WEMJzOkLkoPOxg==
+X-Received: by 2002:a05:600c:3d90:b0:3df:eedf:df32 with SMTP id
+ bi16-20020a05600c3d9000b003dfeedfdf32mr162829wmb.17.1675434578414; 
+ Fri, 03 Feb 2023 06:29:38 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a05600c130e00b003df241f52e8sm2578492wmf.42.2023.02.03.06.29.36
+ j14-20020a05600c130e00b003df241f52e8sm2578492wmf.42.2023.02.03.06.29.37
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
  Fri, 03 Feb 2023 06:29:37 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 10/33] sbsa-ref: remove cortex-a76 from list of supported cpus
-Date: Fri,  3 Feb 2023 14:29:04 +0000
-Message-Id: <20230203142927.834793-11-peter.maydell@linaro.org>
+Subject: [PULL 11/33] target/arm: Name AT_S1E1RP and AT_S1E1WP cpregs correctly
+Date: Fri,  3 Feb 2023 14:29:05 +0000
+Message-Id: <20230203142927.834793-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230203142927.834793-1-peter.maydell@linaro.org>
 References: <20230203142927.834793-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::329;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x329.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,32 +88,41 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-From: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
+The encodings 0,0,C7,C9,0 and 0,0,C7,C9,1 are AT SP1E1RP and AT
+S1E1WP, but our ARMCPRegInfo definitions for them incorrectly name
+them AT S1E1R and AT S1E1W (which are entirely different
+instructions).  Fix the names.
 
-Cortex-A76 supports 40bits of address space. sbsa-ref's memory
-starts above this limit.
+(This has no guest-visible effect as the names are for debug purposes
+only.)
 
-Signed-off-by: Marcin Juszkiewicz <marcin.juszkiewicz@linaro.org>
-Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20230126114416.2447685-1-marcin.juszkiewicz@linaro.org
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Tested-by: Fuad Tabba <tabba@google.com>
+Message-id: 20230130182459.3309057-2-peter.maydell@linaro.org
+Message-id: 20230127175507.2895013-2-peter.maydell@linaro.org
 ---
- hw/arm/sbsa-ref.c | 1 -
- 1 file changed, 1 deletion(-)
+ target/arm/helper.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/arm/sbsa-ref.c b/hw/arm/sbsa-ref.c
-index 8378441dbb1..f778cb6d097 100644
---- a/hw/arm/sbsa-ref.c
-+++ b/hw/arm/sbsa-ref.c
-@@ -146,7 +146,6 @@ static const int sbsa_ref_irqmap[] = {
- static const char * const valid_cpus[] = {
-     ARM_CPU_TYPE_NAME("cortex-a57"),
-     ARM_CPU_TYPE_NAME("cortex-a72"),
--    ARM_CPU_TYPE_NAME("cortex-a76"),
-     ARM_CPU_TYPE_NAME("neoverse-n1"),
-     ARM_CPU_TYPE_NAME("max"),
- };
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 72b37b7cf17..ccb7d1e1712 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -7734,11 +7734,11 @@ static const ARMCPRegInfo vhe_reginfo[] = {
+ 
+ #ifndef CONFIG_USER_ONLY
+ static const ARMCPRegInfo ats1e1_reginfo[] = {
+-    { .name = "AT_S1E1R", .state = ARM_CP_STATE_AA64,
++    { .name = "AT_S1E1RP", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 0,
+       .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
+       .writefn = ats_write64 },
+-    { .name = "AT_S1E1W", .state = ARM_CP_STATE_AA64,
++    { .name = "AT_S1E1WP", .state = ARM_CP_STATE_AA64,
+       .opc0 = 1, .opc1 = 0, .crn = 7, .crm = 9, .opc2 = 1,
+       .access = PL1_W, .type = ARM_CP_NO_RAW | ARM_CP_RAISES_EXC,
+       .writefn = ats_write64 },
 -- 
 2.34.1
 
