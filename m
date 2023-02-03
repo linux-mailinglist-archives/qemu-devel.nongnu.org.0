@@ -2,75 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC6E8689C68
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:58:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD816689C5B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:57:15 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNxTz-0001zP-AJ; Fri, 03 Feb 2023 09:56:07 -0500
+	id 1pNxU1-00021l-8I; Fri, 03 Feb 2023 09:56:09 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxTv-0001vF-Ue
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:56:04 -0500
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxTz-0001zW-7Y
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:56:07 -0500
+Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxTt-0005qt-OG
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:56:03 -0500
-Received: by mail-wr1-x432.google.com with SMTP id q5so4929998wrv.0
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:55:59 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxTx-0005v2-Gd
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:56:06 -0500
+Received: by mail-wm1-x336.google.com with SMTP id
+ l37-20020a05600c1d2500b003dfe46a9801so2571313wms.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:56:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:from:to:cc:subject:date
  :message-id:reply-to;
- bh=b1jZnXzDBv6AIc7zb/xF5HP075z2PTTEUA4j1SOMKA0=;
- b=migsbNglUZNbUMbZsnqOnYplVzxov4rWnz/3LbovPpI3xN/b+/3PAfZCyXKzrPcsEg
- NTdiQmEITsLr5bClFauNa5rEOY+oQ+oh0KnKFOWliMz/iyNJSCIceYPYU6QWmn7jOCgn
- lfrvAEJT4rD20uEijSwWtS/0vsjwZCG1jSl8hbwu6oIn2LF4yq2dBqcjoYBAZX59z6DO
- nDyUV3COuPPq2Dw9S3hTYSX2PvUpgMVb6y4CvQKAtfTimWA6rwQNQuMsocGZZeZYZK+4
- RVlXiwjSA0PlAIpsSCBABwChj+1ybm01+ozYJUOe2++kKF9WyddpVBUefIXZLLgneQnA
- hW4w==
+ bh=WDUR7TYjLSIvLofe5Yaai1+QKInBgxE2ASTflQgOO30=;
+ b=co6U3GbsDJJFY4pVZU4kiCaVdgc5JoqCG/yoosYneWzeGuAXKp52S85umVEABW6VC/
+ vG5zZI++4sVTwNag+e7zvu/jX/Z9H1HuEXOIHUk7P+LOmkUAxpXCp/MzN/PuY/xYL8AS
+ UId+mN9Np3xWCJbdz01CchkAaBWuNy36A2+Ptadp8y/A7BY7ydDKdArSqODvsaxYDR17
+ DfOHxEdc6zLChVvg3POqKO0xxojy3T0FvQY7ECXspXMLFdkPATsO5vL+FFHk9vS4NvBF
+ 2+d2Q6Lp4joe+MOeQBJQkgME4A8r9jX7IP6jeqJWH281VzLu8X1RFPnGbOFbTirxpfqf
+ ADpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=b1jZnXzDBv6AIc7zb/xF5HP075z2PTTEUA4j1SOMKA0=;
- b=AVNL/W9nkDt1F90hj2zN1KZz1eoqAo2Wy4JI1RGXzrjmKn1CqSuXsK93dj3YAE90E8
- TKcxR6TWzLTzd/LF4F/Z6RPBNVjYbz56tnwzw5+m6dWC5aENXBp3cbM05Qz8VYckqmlw
- ukJljVB3CCB9ZR2VLFQphP9kVzX0qlAU4DhnPqIGoTjGljZ5EF7Fql71/GJ13JKmEeU+
- QR6AqjusDuTE/sF132w3wxjTBtaWbq1U2T5yCsIvUAaTBV+weUD0AxcatlWQgYIVLE8M
- CPCago1VL6zpWcTPVp9F5ky08t+9kzVvRsIggpw8EhDOL6GlNQHA9eDYzva4mzVJPxpB
- lPZg==
-X-Gm-Message-State: AO0yUKVU8lCqxk8cqCYwxS0aMhGIZfXP8nclDsAZrE3gPitZyGj7sgYN
- kXyyXAriBt9ybHjV284oiaQyPjEjnyqRC5Wc
-X-Google-Smtp-Source: AK7set81V4JsTk3hDaKcd7btY3p6hXdEw5odlJaAUf6EDWsTXD6nYxLHtu4+YFfaFhC8AdAYBYUd4Q==
-X-Received: by 2002:a05:6000:1005:b0:2bf:b35d:2797 with SMTP id
- a5-20020a056000100500b002bfb35d2797mr8819725wrx.11.1675436158914; 
- Fri, 03 Feb 2023 06:55:58 -0800 (PST)
+ bh=WDUR7TYjLSIvLofe5Yaai1+QKInBgxE2ASTflQgOO30=;
+ b=jQk4Xei8jTTah31LcILdAkYSDhm/U8IANq7l/kv6fUZZ+fTgcn93/ClYXc8vysrhhV
+ sKF+olNQm2jHd6uRW/gSdfOpKtpfwI12THfhE270ID81vb7NxwQRsZ5vIUrf3TDYYdXR
+ QiFSHo2Uquxs2PNg1g/epexppk8B6+huJjQPTL6kfDy1LI7UoNmYa6D2ES4Es7i+6tw/
+ LXB+5ElULo2KpVwEJEx//L2dUCVAoou90b+zuOquyEWOA/OMi32xmQZpZOQsdKBxKn7M
+ JlN1+CEnxCQiW49dkDypNhZQNJrkmFaDGHywRfkwiyqLdLPN/V1mAKXw7gCjfY70bTGk
+ ivwA==
+X-Gm-Message-State: AO0yUKV2UQZIwH4heE2Roaa/8qLPzyy8amFSxC3Rs9BKcUGDNp6PPwtF
+ tzEFFBmwttoIYb4W9Glm7UNL7qQG3GgVtO20
+X-Google-Smtp-Source: AK7set8UtkLrFxuNkRCr1JP7oWXiyRusxQYVDdzQhbZnhISmHMNyK2878BM7eQNPaC/1Yh0CiW1q1g==
+X-Received: by 2002:a05:600c:54c5:b0:3dc:9ecc:22a with SMTP id
+ iw5-20020a05600c54c500b003dc9ecc022amr10169316wmb.8.1675436163969; 
+ Fri, 03 Feb 2023 06:56:03 -0800 (PST)
 Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- v1-20020adf8b41000000b002be505ab59asm2248695wra.97.2023.02.03.06.55.57
+ k24-20020a05600c0b5800b003cfa622a18asm8009272wmr.3.2023.02.03.06.56.02
  (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
- Fri, 03 Feb 2023 06:55:58 -0800 (PST)
+ Fri, 03 Feb 2023 06:56:03 -0800 (PST)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
 To: qemu-devel@nongnu.org
 Cc: Markus Armbruster <armbru@redhat.com>, qemu-arm@nongnu.org,
  qemu-ppc@nongnu.org, Eduardo Habkost <eduardo@habkost.net>,
  =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
  "Michael S. Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Subject: [PATCH v2 04/15] hw/pci/pcie_sriov: Do not open-code
- qdev_unrealize_and_unref()
-Date: Fri,  3 Feb 2023 15:55:25 +0100
-Message-Id: <20230203145536.17585-5-philmd@linaro.org>
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Paolo Bonzini <pbonzini@redhat.com>,
+ Richard Henderson <richard.henderson@linaro.org>
+Subject: [PATCH v2 05/15] hw/i386/sgx: Do not open-code
+ qdev_realize_and_unref()
+Date: Fri,  3 Feb 2023 15:55:26 +0100
+Message-Id: <20230203145536.17585-6-philmd@linaro.org>
 X-Mailer: git-send-email 2.38.1
 In-Reply-To: <20230203145536.17585-1-philmd@linaro.org>
 References: <20230203145536.17585-1-philmd@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::432;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x432.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::336;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x336.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -93,33 +96,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-(See commits dc3edf8d8a "Convert to qdev_unrealize() manually"
- and 981c3dcd94 "Convert to qdev_unrealize() with Coccinelle").
-
-Reported-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
 ---
- hw/pci/pcie_sriov.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ hw/i386/sgx.c | 14 ++++++--------
+ 1 file changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/hw/pci/pcie_sriov.c b/hw/pci/pcie_sriov.c
-index 93b0624599..0b6101302b 100644
---- a/hw/pci/pcie_sriov.c
-+++ b/hw/pci/pcie_sriov.c
-@@ -204,11 +204,10 @@ static void unregister_vfs(PCIDevice *dev)
-     for (i = 0; i < num_vfs; i++) {
-         Error *errp = NULL;
-         PCIDevice *vf = dev->exp.sriov_pf.vf[i];
--        object_property_set_bool(OBJECT(vf), "realized", false, &errp);
--        if (errp) {
-+
-+        if (!qdev_unrealize_and_unref(DEVICE(vf), &errp)) {
-             warn_reportf_err(errp, "Failed to unplug: ");
-         }
--        object_unparent(OBJECT(vf));
+diff --git a/hw/i386/sgx.c b/hw/i386/sgx.c
+index db004d17a6..6a729bff94 100644
+--- a/hw/i386/sgx.c
++++ b/hw/i386/sgx.c
+@@ -285,7 +285,6 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+     SGXEPCState *sgx_epc = &pcms->sgx_epc;
+     X86MachineState *x86ms = X86_MACHINE(pcms);
+     SgxEPCList *list = NULL;
+-    Object *obj;
+ 
+     memset(sgx_epc, 0, sizeof(SGXEPCState));
+     if (!x86ms->sgx_epc_list) {
+@@ -299,16 +298,15 @@ void pc_machine_init_sgx_epc(PCMachineState *pcms)
+                                 &sgx_epc->mr);
+ 
+     for (list = x86ms->sgx_epc_list; list; list = list->next) {
+-        obj = object_new("sgx-epc");
++        DeviceState *dev = qdev_new(TYPE_SGX_EPC);
+ 
+         /* set the memdev link with memory backend */
+-        object_property_parse(obj, SGX_EPC_MEMDEV_PROP, list->value->memdev,
+-                              &error_fatal);
++        object_property_parse(OBJECT(dev), SGX_EPC_MEMDEV_PROP,
++                              list->value->memdev, &error_fatal);
+         /* set the numa node property for sgx epc object */
+-        object_property_set_uint(obj, SGX_EPC_NUMA_NODE_PROP, list->value->node,
+-                             &error_fatal);
+-        object_property_set_bool(obj, "realized", true, &error_fatal);
+-        object_unref(obj);
++        object_property_set_uint(OBJECT(dev), SGX_EPC_NUMA_NODE_PROP,
++                                 list->value->node, &error_fatal);
++        qdev_realize_and_unref(dev, NULL, &error_fatal);
      }
-     g_free(dev->exp.sriov_pf.vf);
-     dev->exp.sriov_pf.vf = NULL;
+ 
+     if ((sgx_epc->base + sgx_epc->size) < sgx_epc->base) {
 -- 
 2.38.1
 
