@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A49689291
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:48:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA2B6892A4
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:49:48 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNriM-00006b-Fi; Fri, 03 Feb 2023 03:46:34 -0500
+	id 1pNrhz-0008Lw-Ky; Fri, 03 Feb 2023 03:46:11 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhs-0008LO-1a
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:05 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhm-0008IZ-KB
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:45:59 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhl-0007UL-Tf
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:02 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhj-0007Su-2P
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:45:58 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675413956;
+ s=mimecast20190719; t=1675413954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=lqVKZVF7r5I8Coms5It0htQYCXnldONuO37fWqivKso=;
- b=Jtg737bP30ocMY1Qb8MtQePyIUS4TnMir9sre+pkZl6uieZ21FQtjIWjSWlKscnKdGoF14
- okoa2bekUNWWNv1TDJdzF5g9WZYHE9V4oSkrPCDoimIcseaDg0R0/wqh6Motewfl9Fu9Jm
- yFnl07xMuuEhdAXxF9Lm3sZ68b0Dfo4=
-Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
- [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=+VSv+nkEbKTdRP1MViwR5DKZ2SqYE8dkv4Rlzq91ee4=;
+ b=FE7rEhqTLF+DvnPVN753UelRlhyxNYedad1NhdMnbUH26SmprHGF8Onl73WUeRNQQ161yB
+ y0Zfjqys2NzDkuDKetUpniujlx97UD+bDApLakN3DT/wl8PBGaYCciFWYgYoQ0FGhXguzf
+ hqyCwghHbilaq31+Btgp4JAAKXCH+DI=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-544-yw-ozIaPNRqzwkNX70G9kA-1; Fri, 03 Feb 2023 03:45:52 -0500
-X-MC-Unique: yw-ozIaPNRqzwkNX70G9kA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
- [10.11.54.4])
+ us-mta-546-6d3NsC_kNxCrrgVgCBKWgQ-1; Fri, 03 Feb 2023 03:45:52 -0500
+X-MC-Unique: 6d3NsC_kNxCrrgVgCBKWgQ-1
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.6])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 75A2E3C1016D;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 90129196EF8B;
  Fri,  3 Feb 2023 08:45:52 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id 5167E2026D37;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 502F72166B34;
  Fri,  3 Feb 2023 08:45:52 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id C64AA21E6901; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
+ id C908521E690F; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org
-Subject: [PULL 10/35] hmp: Rename help_cmd() to hmp_help_cmd(),
- move declaration to hmp.h
-Date: Fri,  3 Feb 2023 09:45:24 +0100
-Message-Id: <20230203084549.2622302-11-armbru@redhat.com>
+Cc: peter.maydell@linaro.org,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ Stefan Hajnoczi <stefanha@redhat.com>
+Subject: [PULL 11/35] trace: Move HMP commands from monitor/ to trace/
+Date: Fri,  3 Feb 2023 09:45:25 +0100
+Message-Id: <20230203084549.2622302-12-armbru@redhat.com>
 In-Reply-To: <20230203084549.2622302-1-armbru@redhat.com>
 References: <20230203084549.2622302-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-type: text/plain
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.6
 Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
@@ -79,95 +80,357 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-The next commit will move a caller of help_cmd() to a new file.
-Including monitor/monitor-internal.h there just for help_cmd() feels
-silly.  Better to provide it in monitor/hmp.h suitably renamed.
+This moves these commands from MAINTAINERS sections "Human
+Monitor (HMP)" and "QMP" to "Tracing".
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230124121946.1139465-8-armbru@redhat.com>
+Message-Id: <20230124121946.1139465-9-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- include/monitor/hmp.h      | 1 +
- monitor/monitor-internal.h | 1 -
- monitor/hmp.c              | 2 +-
- monitor/misc.c             | 8 ++++----
- 4 files changed, 6 insertions(+), 6 deletions(-)
+ include/monitor/hmp.h  |   3 +
+ monitor/misc.c         | 119 ---------------------------------
+ trace/trace-hmp-cmds.c | 148 +++++++++++++++++++++++++++++++++++++++++
+ trace/meson.build      |   1 +
+ 4 files changed, 152 insertions(+), 119 deletions(-)
+ create mode 100644 trace/trace-hmp-cmds.c
 
 diff --git a/include/monitor/hmp.h b/include/monitor/hmp.h
-index c25bec1863..5a75f4659c 100644
+index 5a75f4659c..58ed1bec62 100644
 --- a/include/monitor/hmp.h
 +++ b/include/monitor/hmp.h
-@@ -18,6 +18,7 @@
- #include "qapi/qapi-types-common.h"
+@@ -155,5 +155,8 @@ void hmp_pcie_aer_inject_error(Monitor *mon, const QDict *qdict);
+ void hmp_info_capture(Monitor *mon, const QDict *qdict);
+ void hmp_stopcapture(Monitor *mon, const QDict *qdict);
+ void hmp_wavcapture(Monitor *mon, const QDict *qdict);
++void hmp_trace_event(Monitor *mon, const QDict *qdict);
++void hmp_trace_file(Monitor *mon, const QDict *qdict);
++void hmp_info_trace_events(Monitor *mon, const QDict *qdict);
  
- bool hmp_handle_error(Monitor *mon, Error *err);
-+void hmp_help_cmd(Monitor *mon, const char *name);
- 
- void hmp_info_name(Monitor *mon, const QDict *qdict);
- void hmp_info_version(Monitor *mon, const QDict *qdict);
-diff --git a/monitor/monitor-internal.h b/monitor/monitor-internal.h
-index a2cdbbf646..53e3808054 100644
---- a/monitor/monitor-internal.h
-+++ b/monitor/monitor-internal.h
-@@ -186,7 +186,6 @@ void monitor_data_destroy_qmp(MonitorQMP *mon);
- void coroutine_fn monitor_qmp_dispatcher_co(void *data);
- 
- int get_monitor_def(Monitor *mon, int64_t *pval, const char *name);
--void help_cmd(Monitor *mon, const char *name);
- void handle_hmp_command(MonitorHMP *mon, const char *cmdline);
- int hmp_compare_cmd(const char *name, const char *list);
- 
-diff --git a/monitor/hmp.c b/monitor/hmp.c
-index 893e100581..844cf54c18 100644
---- a/monitor/hmp.c
-+++ b/monitor/hmp.c
-@@ -271,7 +271,7 @@ static void help_cmd_dump(Monitor *mon, const HMPCommand *cmds,
-     }
- }
- 
--void help_cmd(Monitor *mon, const char *name)
-+void hmp_help_cmd(Monitor *mon, const char *name)
- {
-     char *args[MAX_ARGS];
-     int nb_args = 0;
+ #endif
 diff --git a/monitor/misc.c b/monitor/misc.c
-index 9da52939b2..240d137327 100644
+index 240d137327..2a6bc13e7f 100644
 --- a/monitor/misc.c
 +++ b/monitor/misc.c
-@@ -153,7 +153,7 @@ int hmp_compare_cmd(const char *name, const char *list)
- 
- static void do_help_cmd(Monitor *mon, const QDict *qdict)
- {
--    help_cmd(mon, qdict_get_try_str(qdict, "name"));
-+    hmp_help_cmd(mon, qdict_get_try_str(qdict, "name"));
+@@ -39,12 +39,8 @@
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qerror.h"
+ #include "qom/object_interfaces.h"
+-#include "trace/control.h"
+ #include "monitor/hmp-target.h"
+ #include "monitor/hmp.h"
+-#ifdef CONFIG_TRACE_SIMPLE
+-#include "trace/simple.h"
+-#endif
+ #include "exec/address-spaces.h"
+ #include "exec/ioport.h"
+ #include "block/qapi.h"
+@@ -54,7 +50,6 @@
+ #include "qapi/qapi-commands-misc.h"
+ #include "qapi/qapi-commands-qom.h"
+ #include "qapi/qapi-commands-run-state.h"
+-#include "qapi/qapi-commands-trace.h"
+ #include "qapi/qapi-commands-machine.h"
+ #include "qapi/qapi-init-commands.h"
+ #include "qapi/error.h"
+@@ -156,50 +151,6 @@ static void do_help_cmd(Monitor *mon, const QDict *qdict)
+     hmp_help_cmd(mon, qdict_get_try_str(qdict, "name"));
  }
  
- static void hmp_trace_event(Monitor *mon, const QDict *qdict)
-@@ -195,14 +195,14 @@ static void hmp_trace_file(Monitor *mon, const QDict *qdict)
-         }
-     } else {
-         monitor_printf(mon, "unexpected argument \"%s\"\n", op);
--        help_cmd(mon, "trace-file");
-+        hmp_help_cmd(mon, "trace-file");
-     }
- }
- #endif
- 
+-static void hmp_trace_event(Monitor *mon, const QDict *qdict)
+-{
+-    const char *tp_name = qdict_get_str(qdict, "name");
+-    bool new_state = qdict_get_bool(qdict, "option");
+-    bool has_vcpu = qdict_haskey(qdict, "vcpu");
+-    int vcpu = qdict_get_try_int(qdict, "vcpu", 0);
+-    Error *local_err = NULL;
+-
+-    if (vcpu < 0) {
+-        monitor_printf(mon, "argument vcpu must be positive");
+-        return;
+-    }
+-
+-    qmp_trace_event_set_state(tp_name, new_state, true, true, has_vcpu, vcpu, &local_err);
+-    if (local_err) {
+-        error_report_err(local_err);
+-    }
+-}
+-
+-#ifdef CONFIG_TRACE_SIMPLE
+-static void hmp_trace_file(Monitor *mon, const QDict *qdict)
+-{
+-    const char *op = qdict_get_try_str(qdict, "op");
+-    const char *arg = qdict_get_try_str(qdict, "arg");
+-
+-    if (!op) {
+-        st_print_trace_file_status();
+-    } else if (!strcmp(op, "on")) {
+-        st_set_trace_file_enabled(true);
+-    } else if (!strcmp(op, "off")) {
+-        st_set_trace_file_enabled(false);
+-    } else if (!strcmp(op, "flush")) {
+-        st_flush_trace_buffer();
+-    } else if (!strcmp(op, "set")) {
+-        if (arg) {
+-            st_set_trace_file(arg);
+-        }
+-    } else {
+-        monitor_printf(mon, "unexpected argument \"%s\"\n", op);
+-        hmp_help_cmd(mon, "trace-file");
+-    }
+-}
+-#endif
+-
  static void hmp_info_help(Monitor *mon, const QDict *qdict)
  {
--    help_cmd(mon, "info");
-+    hmp_help_cmd(mon, "info");
+     hmp_help_cmd(mon, "info");
+@@ -344,37 +295,6 @@ static void hmp_info_history(Monitor *mon, const QDict *qdict)
+     }
  }
  
- static void monitor_init_qmp_commands(void)
-@@ -424,7 +424,7 @@ static void hmp_log(Monitor *mon, const QDict *qdict)
-     } else {
-         mask = qemu_str_to_log_mask(items);
-         if (!mask) {
--            help_cmd(mon, "log");
-+            hmp_help_cmd(mon, "log");
-             return;
-         }
+-static void hmp_info_trace_events(Monitor *mon, const QDict *qdict)
+-{
+-    const char *name = qdict_get_try_str(qdict, "name");
+-    bool has_vcpu = qdict_haskey(qdict, "vcpu");
+-    int vcpu = qdict_get_try_int(qdict, "vcpu", 0);
+-    TraceEventInfoList *events;
+-    TraceEventInfoList *elem;
+-    Error *local_err = NULL;
+-
+-    if (name == NULL) {
+-        name = "*";
+-    }
+-    if (vcpu < 0) {
+-        monitor_printf(mon, "argument vcpu must be positive");
+-        return;
+-    }
+-
+-    events = qmp_trace_event_get_state(name, has_vcpu, vcpu, &local_err);
+-    if (local_err) {
+-        error_report_err(local_err);
+-        return;
+-    }
+-
+-    for (elem = events; elem != NULL; elem = elem->next) {
+-        monitor_printf(mon, "%s : state %u\n",
+-                       elem->value->name,
+-                       elem->value->state == TRACE_EVENT_STATE_ENABLED ? 1 : 0);
+-    }
+-    qapi_free_TraceEventInfoList(events);
+-}
+-
+ void qmp_client_migrate_info(const char *protocol, const char *hostname,
+                              bool has_port, int64_t port,
+                              bool has_tls_port, int64_t tls_port,
+@@ -1535,45 +1455,6 @@ void netdev_del_completion(ReadLineState *rs, int nb_args, const char *str)
      }
+ }
+ 
+-void info_trace_events_completion(ReadLineState *rs, int nb_args, const char *str)
+-{
+-    size_t len;
+-
+-    len = strlen(str);
+-    readline_set_completion_index(rs, len);
+-    if (nb_args == 2) {
+-        TraceEventIter iter;
+-        TraceEvent *ev;
+-        char *pattern = g_strdup_printf("%s*", str);
+-        trace_event_iter_init_pattern(&iter, pattern);
+-        while ((ev = trace_event_iter_next(&iter)) != NULL) {
+-            readline_add_completion(rs, trace_event_get_name(ev));
+-        }
+-        g_free(pattern);
+-    }
+-}
+-
+-void trace_event_completion(ReadLineState *rs, int nb_args, const char *str)
+-{
+-    size_t len;
+-
+-    len = strlen(str);
+-    readline_set_completion_index(rs, len);
+-    if (nb_args == 2) {
+-        TraceEventIter iter;
+-        TraceEvent *ev;
+-        char *pattern = g_strdup_printf("%s*", str);
+-        trace_event_iter_init_pattern(&iter, pattern);
+-        while ((ev = trace_event_iter_next(&iter)) != NULL) {
+-            readline_add_completion(rs, trace_event_get_name(ev));
+-        }
+-        g_free(pattern);
+-    } else if (nb_args == 3) {
+-        readline_add_completion_of(rs, str, "on");
+-        readline_add_completion_of(rs, str, "off");
+-    }
+-}
+-
+ void watchdog_action_completion(ReadLineState *rs, int nb_args, const char *str)
+ {
+     int i;
+diff --git a/trace/trace-hmp-cmds.c b/trace/trace-hmp-cmds.c
+new file mode 100644
+index 0000000000..792876c34a
+--- /dev/null
++++ b/trace/trace-hmp-cmds.c
+@@ -0,0 +1,148 @@
++/*
++ * HMP commands related to tracing
++ *
++ * Copyright (c) 2003-2004 Fabrice Bellard
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a copy
++ * of this software and associated documentation files (the "Software"), to deal
++ * in the Software without restriction, including without limitation the rights
++ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
++ * copies of the Software, and to permit persons to whom the Software is
++ * furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice shall be included in
++ * all copies or substantial portions of the Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
++ * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
++ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
++ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
++ * THE SOFTWARE.
++ */
++
++#include "qemu/osdep.h"
++#include "monitor/hmp.h"
++#include "monitor/monitor.h"
++#include "qapi/error.h"
++#include "qapi/qapi-commands-trace.h"
++#include "qapi/qmp/qdict.h"
++#include "trace/control.h"
++#ifdef CONFIG_TRACE_SIMPLE
++#include "trace/simple.h"
++#endif
++
++void hmp_trace_event(Monitor *mon, const QDict *qdict)
++{
++    const char *tp_name = qdict_get_str(qdict, "name");
++    bool new_state = qdict_get_bool(qdict, "option");
++    bool has_vcpu = qdict_haskey(qdict, "vcpu");
++    int vcpu = qdict_get_try_int(qdict, "vcpu", 0);
++    Error *local_err = NULL;
++
++    if (vcpu < 0) {
++        monitor_printf(mon, "argument vcpu must be positive");
++        return;
++    }
++
++    qmp_trace_event_set_state(tp_name, new_state, true, true, has_vcpu, vcpu, &local_err);
++    if (local_err) {
++        error_report_err(local_err);
++    }
++}
++
++#ifdef CONFIG_TRACE_SIMPLE
++void hmp_trace_file(Monitor *mon, const QDict *qdict)
++{
++    const char *op = qdict_get_try_str(qdict, "op");
++    const char *arg = qdict_get_try_str(qdict, "arg");
++
++    if (!op) {
++        st_print_trace_file_status();
++    } else if (!strcmp(op, "on")) {
++        st_set_trace_file_enabled(true);
++    } else if (!strcmp(op, "off")) {
++        st_set_trace_file_enabled(false);
++    } else if (!strcmp(op, "flush")) {
++        st_flush_trace_buffer();
++    } else if (!strcmp(op, "set")) {
++        if (arg) {
++            st_set_trace_file(arg);
++        }
++    } else {
++        monitor_printf(mon, "unexpected argument \"%s\"\n", op);
++        hmp_help_cmd(mon, "trace-file");
++    }
++}
++#endif
++
++void hmp_info_trace_events(Monitor *mon, const QDict *qdict)
++{
++    const char *name = qdict_get_try_str(qdict, "name");
++    bool has_vcpu = qdict_haskey(qdict, "vcpu");
++    int vcpu = qdict_get_try_int(qdict, "vcpu", 0);
++    TraceEventInfoList *events;
++    TraceEventInfoList *elem;
++    Error *local_err = NULL;
++
++    if (name == NULL) {
++        name = "*";
++    }
++    if (vcpu < 0) {
++        monitor_printf(mon, "argument vcpu must be positive");
++        return;
++    }
++
++    events = qmp_trace_event_get_state(name, has_vcpu, vcpu, &local_err);
++    if (local_err) {
++        error_report_err(local_err);
++        return;
++    }
++
++    for (elem = events; elem != NULL; elem = elem->next) {
++        monitor_printf(mon, "%s : state %u\n",
++                       elem->value->name,
++                       elem->value->state == TRACE_EVENT_STATE_ENABLED ? 1 : 0);
++    }
++    qapi_free_TraceEventInfoList(events);
++}
++
++void info_trace_events_completion(ReadLineState *rs, int nb_args, const char *str)
++{
++    size_t len;
++
++    len = strlen(str);
++    readline_set_completion_index(rs, len);
++    if (nb_args == 2) {
++        TraceEventIter iter;
++        TraceEvent *ev;
++        char *pattern = g_strdup_printf("%s*", str);
++        trace_event_iter_init_pattern(&iter, pattern);
++        while ((ev = trace_event_iter_next(&iter)) != NULL) {
++            readline_add_completion(rs, trace_event_get_name(ev));
++        }
++        g_free(pattern);
++    }
++}
++
++void trace_event_completion(ReadLineState *rs, int nb_args, const char *str)
++{
++    size_t len;
++
++    len = strlen(str);
++    readline_set_completion_index(rs, len);
++    if (nb_args == 2) {
++        TraceEventIter iter;
++        TraceEvent *ev;
++        char *pattern = g_strdup_printf("%s*", str);
++        trace_event_iter_init_pattern(&iter, pattern);
++        while ((ev = trace_event_iter_next(&iter)) != NULL) {
++            readline_add_completion(rs, trace_event_get_name(ev));
++        }
++        g_free(pattern);
++    } else if (nb_args == 3) {
++        readline_add_completion_of(rs, str, "on");
++        readline_add_completion_of(rs, str, "off");
++    }
++}
+diff --git a/trace/meson.build b/trace/meson.build
+index 26b54714d5..d565948b09 100644
+--- a/trace/meson.build
++++ b/trace/meson.build
+@@ -1,3 +1,4 @@
++softmmu_ss.add(files('trace-hmp-cmds.c'))
+ 
+ specific_ss.add(files('control-target.c'))
+ 
 -- 
 2.39.0
 
