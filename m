@@ -2,74 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A98968A02C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 18:19:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C77868A030
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 18:22:01 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNziN-0007vE-HG; Fri, 03 Feb 2023 12:19:07 -0500
+	id 1pNzkc-0000i6-VT; Fri, 03 Feb 2023 12:21:26 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNziL-0007uv-9R
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 12:19:05 -0500
-Received: from mail-pj1-x102b.google.com ([2607:f8b0:4864:20::102b])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNzka-0000hC-Nr
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 12:21:24 -0500
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pNziJ-0003uz-Ea
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 12:19:04 -0500
-Received: by mail-pj1-x102b.google.com with SMTP id
- nm12-20020a17090b19cc00b0022c2155cc0bso5551108pjb.4
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 09:19:02 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNzkZ-0004Om-4Z
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 12:21:24 -0500
+Received: by mail-wr1-x42f.google.com with SMTP id h16so5247651wrz.12
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 09:21:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:from:to:cc:subject:date:message-id:reply-to;
- bh=TQQRTt9wh6JkN5MkdqnTeYcUcVtxRYe/lb4nMRLRe4o=;
- b=pXjMy3LdvgqLub3Zh++VappA9vB8psUy2nMJq7j/VpIxm5mBVQ9ffgF+wsW1q3LVp4
- 7xQNKHUCa7/BblX2oqMZ70EZN7q4b1Ndp3uw4UbiOeMNrCmDUbCqFntcIFDHiwkiI7WA
- 2SaxbId54nLxT3UEbF+rXyS0aAzVVQPBWSEPYW/1ZOGNNRJMeWYIvk6RymlsBB9m9NR8
- jvGfq7DayGvX8ykfIAqJLJbOsww5YKzz+jC9vd7LMdkMzpvk679AlKrcWk80Zmn6tMv3
- AE4zHBpTBhti29IgMzsQ1TE/rCNv5PR4Vrl0myNyeTnVMji8JpzqMJAojFPLHwH833Wy
- NNTA==
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=KVyKIx2Z5u6mOmoyMY+bdfJeBmc2m8hc5Y+vcnT1LuE=;
+ b=RrZ9h6+kdWKjnXEH6kpQql/lzF8B/PeD5ZNeVs7lLCzgGrUUH5UDGtMvrWsJTH44HR
+ dIZIT5M7dvjjTjfkNO6ynWDOjuJfgfvpBNs2+SH6upAoWglG9nvckjMiqtGI3DWK0FmK
+ VtIM3PRSrZE3W0IA/vgR51g2iEch/PzyEvIxo7oHl/Bb/fBNy+u3wwgneijKKPBKYr12
+ lN6EzYLKsLqJNy3nkEEpzbfo65dNie5HuLQSaI6YFvP26BKRPdZSk1X7bvSc3SJDnuPf
+ x9ndTnt0N1TtpDneVbEhEapmIpGij57mssMeMEFW1QFXvVyGc/eoTyS4Pcj72XmenGCZ
+ 3AbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:cc
- :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
- :reply-to;
- bh=TQQRTt9wh6JkN5MkdqnTeYcUcVtxRYe/lb4nMRLRe4o=;
- b=GAsa1Qh7pf5dAuvGymdM5rLbhWQLY9dB0LcESefxsepFKxI/pIIa7ZPeGxfKzUtKGi
- ei2tupuiwNL+LE7P4BuMNz5I5DGJQ9SylmR/SSOdmhK6Zb2XXJVUqHgjJmZqDmnTtYHN
- I/9ktiBBEFEYzbXsU3TUb0rvG5Sq5wQfemrkkJVNpakarKxDeYXkbdd+xYsNUbXwCSk8
- Tc0UfHfE1WFrtuxfYFPa5RE53M02NkVT0hcz6U5OcaqkMhj/LqSJKhwzCu8vR2V+iJdC
- +wuSUcdFTtuaXynmCCW3W0ZdXfoTnWsw/y8yp23TKTzQXUMR+B4N1Wdq7+mFI4OaEVfT
- a2mQ==
-X-Gm-Message-State: AO0yUKXIlMC0i8z4r0gSRZdtVtgMkrPgU2Ukw4wx2DDlcdEa2mC/kqYk
- Q3KKPfMJqPhE+PrI9EfaRpxf61Zydwab7c7l
-X-Google-Smtp-Source: AK7set/mdKnGrhSvOPVrTlC2qZ0LOmrp4CZ88Zsllu7EqiQpUc9MGhs2Wo10Ly6ij/uvHL563fMUtg==
-X-Received: by 2002:a17:90b:388a:b0:22c:745a:7ad7 with SMTP id
- mu10-20020a17090b388a00b0022c745a7ad7mr11907762pjb.5.1675444741783; 
- Fri, 03 Feb 2023 09:19:01 -0800 (PST)
-Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
- by smtp.gmail.com with ESMTPSA id
- ms17-20020a17090b235100b002262ab43327sm5254459pjb.26.2023.02.03.09.19.00
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Feb 2023 09:19:01 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Cc: Zenghui Yu <yuzenghui@huawei.com>
-Subject: [PATCH] tcg/aarch64: Fix patching of LDR in tb_target_set_jmp_target
-Date: Fri,  3 Feb 2023 07:18:58 -1000
-Message-Id: <20230203171858.3279252-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=KVyKIx2Z5u6mOmoyMY+bdfJeBmc2m8hc5Y+vcnT1LuE=;
+ b=3O/bvKir+S7ATR0VDwwkC6V7FtqRwL5r2OJlN4m8KoPySPf3LoE6M6LoOHXkoXqiFq
+ X4j2zVdsTW5iZ8Uaq1uadB/b6PioRUkM3gnHQcuOaiwOehCiLT00IjKQQ7BzzNGr6CcK
+ HH8khcTE/+13BtTa+/I+QKa64D/rhIZi3iwPZdD5prluTy32xOowRfa/KjmJg517miNj
+ G44jxF/vnXNWubu8kyIy79gUcLwiMiJ4n/VM+QvH0OWkc1m9YUkyD0k4cyLmH7CePIEV
+ 4OkdWQfjsrZaBLkl3ozzRa9AkIZBGNc2eNR1ipo7+xoXwkNVvw/Ik5uuvrkKKO0/waKS
+ r+Wg==
+X-Gm-Message-State: AO0yUKXCopUp7DYkn4JEBMB+7SNI+48nGaiEExM/zTKqpqUMVQdWb9FC
+ kRReRKzNgYAyYjk0JgFM+JcO2w==
+X-Google-Smtp-Source: AK7set/NNCbhjYZHvtumg2me5DLxy/VdvlTkR/fW2euiV1Epz4lmT/VlxY1tv4A9yUOp5bhYnDx/Lw==
+X-Received: by 2002:a5d:6f1c:0:b0:2bf:e95c:9919 with SMTP id
+ ay28-20020a5d6f1c000000b002bfe95c9919mr10264919wrb.55.1675444873188; 
+ Fri, 03 Feb 2023 09:21:13 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ m10-20020a5d624a000000b002c3ce97ec38sm2215875wrv.115.2023.02.03.09.21.12
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Feb 2023 09:21:12 -0800 (PST)
+Message-ID: <c7f8a9b3-fa05-10e7-bc1f-ad7cbefdc431@linaro.org>
+Date: Fri, 3 Feb 2023 18:21:11 +0100
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::102b;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x102b.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH] accel/tcg: test CPUJumpCache in tb_jmp_cache_clear_page()
+Content-Language: en-US
+To: Eric Auger <eric.auger@redhat.com>, eric.auger.pro@gmail.com,
+ richard.henderson@linaro.org, peter.maydell@linaro.org, pbonzini@redhat.com,
+ qemu-devel@nongnu.org
+Cc: iii@linux.ibm.com
+References: <20230203171510.2867451-1-eric.auger@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <20230203171510.2867451-1-eric.auger@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::42f;
+ envelope-from=philmd@linaro.org; helo=mail-wr1-x42f.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
  RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -87,29 +91,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-'offset' should be bits [23:5] of LDR instruction, rather than [4:0].
+On 3/2/23 18:15, Eric Auger wrote:
+> After commit 4e4fa6c12d ("accel/tcg: Complete cpu initialization
+> before registration"), it looks the CPUJumpCache handle can be NULL.
+> This causes a SIGSEV when running debug-wp-migration kvm unit test.
 
-Fixes: d59d83a1c388 ("tcg/aarch64: Reorg goto_tb implementation")
-Reported-by: Zenghui Yu <yuzenghui@huawei.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/aarch64/tcg-target.c.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Do you mean commit a976a99a29 ("include/hw/core: Create struct
+CPUJumpCache") instead?
 
-diff --git a/tcg/aarch64/tcg-target.c.inc b/tcg/aarch64/tcg-target.c.inc
-index fde3b30ad1..a091326f84 100644
---- a/tcg/aarch64/tcg-target.c.inc
-+++ b/tcg/aarch64/tcg-target.c.inc
-@@ -1914,7 +1914,7 @@ void tb_target_set_jmp_target(const TranslationBlock *tb, int n,
-         ptrdiff_t i_offset = i_addr - jmp_rx;
- 
-         /* Note that we asserted this in range in tcg_out_goto_tb. */
--        insn = deposit32(I3305_LDR | TCG_REG_TMP, 0, 5, i_offset >> 2);
-+        insn = deposit32(I3305_LDR | TCG_REG_TMP, 5, 19, i_offset >> 2);
-     }
-     qatomic_set((uint32_t *)jmp_rw, insn);
-     flush_idcache_range(jmp_rx, jmp_rw, 4);
--- 
-2.34.1
+> At the first place it should be clarified why this TCG code is called
+> with KVM acceleration. This may hide another bug.
+> 
+> Fixes: 4e4fa6c12d ("accel/tcg: Complete cpu initialization before registration")
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> ---
+>   accel/tcg/cputlb.c | 4 ++++
+>   1 file changed, 4 insertions(+)
+> 
+> diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+> index 4e040a1cb9..ac0245ee6c 100644
+> --- a/accel/tcg/cputlb.c
+> +++ b/accel/tcg/cputlb.c
+> @@ -103,6 +103,10 @@ static void tb_jmp_cache_clear_page(CPUState *cpu, target_ulong page_addr)
+>       int i, i0 = tb_jmp_cache_hash_page(page_addr);
+>       CPUJumpCache *jc = cpu->tb_jmp_cache;
+>   
+> +    if (!jc) {
+
+unlikely()?
+
+> +        return;
+> +    }
+> +
+>       for (i = 0; i < TB_JMP_PAGE_SIZE; i++) {
+>           qatomic_set(&jc->array[i0 + i].tb, NULL);
+>       }
 
 
