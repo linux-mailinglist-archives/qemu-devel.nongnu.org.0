@@ -2,94 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCF6068A3FF
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 22:01:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C375168A45A
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 22:12:29 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO3BL-0003YA-UV; Fri, 03 Feb 2023 16:01:15 -0500
+	id 1pO3Kw-0006k7-83; Fri, 03 Feb 2023 16:11:10 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pO3BJ-0003XR-Pw
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:01:13 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ id 1pO3Ku-0006jk-Dz
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:11:08 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pO3BH-0002VR-He
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:01:13 -0500
+ id 1pO3Kp-0004Qu-GC
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:11:07 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675458070;
+ s=mimecast20190719; t=1675458662;
  h=from:from:reply-to:reply-to:subject:subject:date:date:
  message-id:message-id:to:to:cc:cc:mime-version:mime-version:
  content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=tJ8/3BOZg3az8VdBFPhpWyaJam+MgQakK+DJon8P4XE=;
- b=I9AaSgo/0sH0Ip3PBYEo9x+Iz+0cfQQcdHKx9gdbVQFCQEIyK1U5KOlfLmxbT8rSnTinYZ
- OpQPpPyKLxD2FLFfy7jrq9y47E8f/d9n5kuGPfIjj/5mZ6j7l++gZjlaY7iGPLGEcXQDtp
- hCG+qp70cpKY5BXXLwioXVSyfCaQ6eY=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=A0rQOHFGUegWcCYQ68/azu944T2ZXKjAPKhBouTIs7c=;
+ b=PbvGJztoXwqFrpGt+lYJ4NmeEs34YYw1usVY4mk2DxIIMTEJ7kV52iEfrAKg2JS/7AeadL
+ ap8+yFInBITINcd44QgKCW5APpYraLK/Ya+7Ce94bGDyY8QPZmiUrxMVPM9e5SorB+os2s
+ sn8sMEaRfXfC6Kw3HhATSdkSVsAZgas=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-632-HPfsjpqTMhuuOBsJoSHgjA-1; Fri, 03 Feb 2023 16:01:08 -0500
-X-MC-Unique: HPfsjpqTMhuuOBsJoSHgjA-1
-Received: by mail-wm1-f69.google.com with SMTP id
- a20-20020a05600c349400b003dfecb98d38so1234185wmq.0
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 13:01:07 -0800 (PST)
+ us-mta-47-bQhMjl41PTKoL2JPlhMkUw-1; Fri, 03 Feb 2023 16:10:59 -0500
+X-MC-Unique: bQhMjl41PTKoL2JPlhMkUw-1
+Received: by mail-wm1-f70.google.com with SMTP id
+ bg24-20020a05600c3c9800b003db0ddddb6fso3289266wmb.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 13:10:58 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:date:reply-to
  :user-agent:references:in-reply-to:subject:cc:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=tJ8/3BOZg3az8VdBFPhpWyaJam+MgQakK+DJon8P4XE=;
- b=Xl6tq+ZLmgHhCp/mVw3yTAMFx5mWeLomBGgmp8Y6p2ZbU+931VQoRUXucQh3u/kJh0
- /dMUbmQ16x6BrDAmQO1idzoQym9iuQ/q3J1IdXm/HExU9MztTMYDhaBE6zINv3bDWq8m
- AAT55e1olYawS343m0cOXZH5/LK/kvoPtrux2C+6Su9gKmDFfObZP05+OHXHN4C2Ucde
- kQTPFeBbRldzPvkJwV7d2zuspdJnVvkP6lZ5k1F3qhVPGbSpXBdhvH/RuGUFIqUjqEF4
- 7AlX8CUUhd9fmsmcVK+8WD743YtvkS4W3apVBQGoWclRutazQ3KEm2PTnToKSzZ50XOm
- aeQg==
-X-Gm-Message-State: AO0yUKUI+xIdV/tMM4g0LQvBVriObU+HpKK3e+Cd4U2TULbTQAjFU8F6
- IY4BpEg1iWW2X7yIhD9MKm5zG7a11KY/lvafkETLMRGY0cbx6UcEfuMBwtfREnhCZ5Qwd8mLwq9
- o5d4vEzmBb9HX4yg=
-X-Received: by 2002:a05:600c:3542:b0:3df:eedf:df1c with SMTP id
- i2-20020a05600c354200b003dfeedfdf1cmr1544592wmq.38.1675458066396; 
- Fri, 03 Feb 2023 13:01:06 -0800 (PST)
-X-Google-Smtp-Source: AK7set+dU2wvrlySbaFf+M+OQt262+xokX48QqD2IZtgabV8cjURv10Pe7o2b30Opd4MM34QzDSsPg==
-X-Received: by 2002:a05:600c:3542:b0:3df:eedf:df1c with SMTP id
- i2-20020a05600c354200b003dfeedfdf1cmr1544573wmq.38.1675458066101; 
- Fri, 03 Feb 2023 13:01:06 -0800 (PST)
+ bh=A0rQOHFGUegWcCYQ68/azu944T2ZXKjAPKhBouTIs7c=;
+ b=smpeSxw9pMAgEf7xuE1qphL2Tvu+0A7xZQrt5oNsbdyD4VsOdJM7OnzhQMlCbIz+pB
+ U6YloR7kZ9Ffx/liFXkAtWhKjAnDEWwvA7JaPUjLlRTTpMLCaFWDAYv+9VSBQrE5TE1v
+ HSc8t/QOS47zNpb5tQzQ3R4oTgVPGmBcpyJ7H63crZc5AACoIizSITna9TLZyQeskzv3
+ AgoYiyoQF0ReYtE1AlJiUrscD2CBNKUN2HFVnpnClnvntuxip8xHVo8MFsOzweVa6OP8
+ U8rQKhCXHyJf75HXq8+u1h+cavpwXKXunTnEuM88l7Odvsegt3cYfx36lOBPuzABWFyB
+ GPqg==
+X-Gm-Message-State: AO0yUKX4FEDQJVh4aq2u5whlzB7KhoomVFQ0zHpbZnWVruTQ4TPeCsRf
+ D0WeY0rcb2QRwRv8e7pLE7G16SoGuFqOF6AMkmIfbXdnD9T2qQgeFB4HyKQ1+HKJS24RK7KORWB
+ 5zRwh+LvAmgmln+4=
+X-Received: by 2002:a05:6000:10f:b0:2bf:bf36:1604 with SMTP id
+ o15-20020a056000010f00b002bfbf361604mr9819513wrx.35.1675458655239; 
+ Fri, 03 Feb 2023 13:10:55 -0800 (PST)
+X-Google-Smtp-Source: AK7set9UCzZBjIskmTloqnkpRhIisLMimhfa01yIR8MvRK9osX7vutr5RmpYofV+jKVY1RejvnmGfA==
+X-Received: by 2002:a05:6000:10f:b0:2bf:bf36:1604 with SMTP id
+ o15-20020a056000010f00b002bfbf361604mr9819487wrx.35.1675458654901; 
+ Fri, 03 Feb 2023 13:10:54 -0800 (PST)
 Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- q6-20020a05600c46c600b003dc54344764sm9655809wmo.48.2023.02.03.13.01.04
+ f2-20020a5d50c2000000b00267bcb1bbe5sm2820308wrt.56.2023.02.03.13.10.53
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Feb 2023 13:01:05 -0800 (PST)
+ Fri, 03 Feb 2023 13:10:54 -0800 (PST)
 From: Juan Quintela <quintela@redhat.com>
-To: Peter Xu <peterx@redhat.com>
-Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
- <lsoaresp@redhat.com>,  Michal =?utf-8?B?UHLDrXZvem7DrWs=?=
- <mprivozn@redhat.com>,  Daniel P
- . =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Philippe =?utf-8?Q?Ma?=
- =?utf-8?Q?thieu-Daud=C3=A9?=
- <philmd@linaro.org>,  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
-Subject: Re: [PATCH v2 3/3] util/userfaultfd: Support /dev/userfaultfd
-In-Reply-To: <Y9wf5AI4xmHhNCTM@x1n> (Peter Xu's message of "Thu, 2 Feb 2023
- 15:41:08 -0500")
-References: <20230201211055.649442-1-peterx@redhat.com>
- <20230201211055.649442-4-peterx@redhat.com>
- <87cz6stk4a.fsf@secure.mitica> <Y9wf5AI4xmHhNCTM@x1n>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>,  Daniel P. =?utf-8?Q?Berrang=C3=A9?=
+ <berrange@redhat.com>,  Qemu-block <qemu-block@nongnu.org>,
+ qemu-devel@nongnu.org,  Alex =?utf-8?Q?Benn=C3=A9e?=
+ <alex.bennee@linaro.org>,  Peter
+ Maydell <peter.maydell@linaro.org>,  Philippe =?utf-8?Q?Mathieu-Daud?=
+ =?utf-8?Q?=C3=A9?=
+ <philmd@linaro.org>,  Stefan Hajnoczi <stefanha@redhat.com>,  Richard
+ Henderson <richard.henderson@linaro.org>,  hreitz@redhat.com,
+ dgilbert@redhat.com, Peter Xu <peterx@redhat.com>
+Subject: Re: [PATCH 6/6] gitlab-ci.d/buildtest: Disintegrate the
+ build-coroutine-sigaltstack job
+In-Reply-To: <Y9z5TohXERGuQ6TS@redhat.com> (Kevin Wolf's message of "Fri, 3
+ Feb 2023 13:08:46 +0100")
+References: <20230130104446.1286773-1-thuth@redhat.com>
+ <20230130104446.1286773-7-thuth@redhat.com>
+ <Y9eizgN9UYo5kbgx@redhat.com>
+ <fc5dba59-4993-ee66-a94b-a550bdced396@redhat.com>
+ <Y9z5TohXERGuQ6TS@redhat.com>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 03 Feb 2023 22:01:04 +0100
-Message-ID: <87357mfoq7.fsf@secure.mitica>
+Date: Fri, 03 Feb 2023 22:10:53 +0100
+Message-ID: <87wn4ye9pe.fsf@secure.mitica>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=quintela@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
@@ -108,97 +114,67 @@ Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Xu <peterx@redhat.com> wrote:
-> On Thu, Feb 02, 2023 at 11:52:21AM +0100, Juan Quintela wrote:
->> Peter Xu <peterx@redhat.com> wrote:
->> > Teach QEMU to use /dev/userfaultfd when it existed and fallback to the
->> > system call if either it's not there or doesn't have enough permission.
->> >
->> > Firstly, as long as the app has permission to access /dev/userfaultfd,=
- it
->> > always have the ability to trap kernel faults which QEMU mostly wants.
->> > Meanwhile, in some context (e.g. containers) the userfaultfd syscall c=
-an be
->> > forbidden, so it can be the major way to use postcopy in a restricted
->> > environment with strict seccomp setup.
->> >
->> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
->> > Signed-off-by: Peter Xu <peterx@redhat.com>
+Kevin Wolf <kwolf@redhat.com> wrote:
+> Am 03.02.2023 um 12:23 hat Thomas Huth geschrieben:
+>> On 30/01/2023 11.58, Daniel P. Berrang=C3=A9 wrote:
+>> > On Mon, Jan 30, 2023 at 11:44:46AM +0100, Thomas Huth wrote:
+>> > > We can get rid of the build-coroutine-sigaltstack job by moving
+>> > > the configure flags that should be tested here to other jobs:
+>> > > Move --with-coroutine=3Dsigaltstack to the build-without-defaults job
+>> > > and --enable-trace-backends=3Dftrace to the cross-s390x-kvm-only job.
+>> >=20
+>> > The biggest user of coroutines is the block layer. So we probably
+>> > ought to have coroutines aligned with a job that triggers the
+>> > 'make check-block' for iotests.  IIUC,  the without-defaults
+>> > job won't do that. How about, arbitrarily, using either the
+>> > 'check-system-debian' or 'check-system-ubuntu' job. Those distros
+>> > are closely related, so getting sigaltstack vs ucontext coverage
+>> > between them is a good win, and they both trigger the block jobs
+>> > IIUC.
 >>=20
+>> I gave it a try with the ubuntu job, but this apparently trips up the io=
+tests:
 >>=20
->> Hi
+>>  https://gitlab.com/thuth/qemu/-/jobs/3705965062#L212
+>>=20
+>> Does anybody have a clue what could be going wrong here?
 >
-> Hi, Juan,
+> I'm not sure how changing the coroutine backend could cause it, but
+> primarily this looks like an assertion failure in migration code.
 
+Adding Peter here, as he is the last one touching that code O:-)
 
->> static int open_userfaultd(void)
->> {
->>     /*
->>      * Make /dev/userfaultfd the default approach because it has better
->>      * permission controls, meanwhile allows kernel faults without any
->>      * privilege requirement (e.g. SYS_CAP_PTRACE).
->>      */
->>      int uffd =3D open("/dev/userfaultfd", O_RDWR | O_CLOEXEC);
->>      if (uffd >=3D 0) {
->>             return uffd;
->>      }
->>      return -1;
->> }
->>=20
->> int uffd_open(int flags)
->> {
->> #if defined(__linux__) && defined(__NR_userfaultfd)
+> Dave, Juan, any ideas what this assertion checks and why it could be
+> failing?
 
-Just an incise, checkpatch don't liue that you use __linux__
+Really no.
 
-This file is compiled under CONFIG_LINUX, so you can drop it.
++QEMU_PROG: ../migration/ram.c:874: pss_find_next_dirty: Assertion `pss->ho=
+st_page_end' failed.
++./common.rc: line 195: 78727 Aborted                 (core dumped) ( if [ =
+-n "${QEMU_NEED_PID}" ]; then
++    echo $BASHPID > "${QEMU_TEST_DIR}/qemu-${_QEMU_HANDLE}.pid";
++fi; GDB=3D""; if [ -n "${GDB_OPTIONS}" ]; then
++    GDB=3D"gdbserver ${GDB_OPTIONS}";
++fi; VALGRIND_QEMU=3D"${VALGRIND_QEMU_VM}" _qemu_proc_exec "${VALGRIND_LOGF=
+ILE}" $GDB "$QEMU_PROG" $QEMU_OPTIONS "$@" )
 
->>     static int uffd =3D -2;
->>     if (uffd =3D=3D -2) {
->>         uffd =3D open_userfaultd();
->>     }
->>     if (uffd >=3D 0) {
->>         return ioctl(uffd, USERFAULTFD_IOC_NEW, flags);
->>     }
->>     return syscall(__NR_userfaultfd, flags);
->> #else
->>      return -EINVAL;
->>=20
->> 27 lines vs 42
->>=20
->> No need for enum type
->> No need for global variable
->>=20
->> What do you think?
->
-> Yes, as I used to reply to Phil I think it can be simplified.  I did this
-> major for (1) better readability, and (2) being crystal clear on which way
-> we used to open /dev/userfaultfd, then guarantee we're keeping using it. =
-so
-> at least I prefer keeping things like trace_uffd_detect_open_mode().
+pss_find_next_dirty() is only called from three places:
 
-The trace is ok for me.  I just forgot to copy it on the rework, sorry.
+find . -type f -exec grep --color=3Dauto -nH --null -e pss_find_next_dirty =
+\{\} +
+./ram.c.847: * pss_find_next_dirty: find the next dirty page of current ram=
+block
+./ram.c.857:static void pss_find_next_dirty(PageSearchStatus *pss)
+./ram.c.1562:    pss_find_next_dirty(pss);
+./ram.c.2391:        pss_find_next_dirty(pss);
+./ram.c.2476:        pss_find_next_dirty(pss);
 
-> I also plan to add another mode when fd-mode is there even if it'll reuse
-> the same USERFAULTFD_IOC_NEW; they can be useful information when a failu=
-re
-> happens.
+I can't see how this can be affected by coroutines changes.
 
-The other fd mode will change the uffd.
-
-What I *kind* of object is:
-- Using a global variable when it is not needed
-  i.e. for me using a global variable means that anything else is worse.
-  Not the case IMHO.
-- Call uffd_open_mode() for every call, when we know that it can change,
-  it is going to return always the same value, so cache it.
-
-> Though if you insist, I can switch to the simple version too.
-
-I always told that the person who did the patch has the last word on
-style.  I preffer my version, but it is up to you to take it or not.
+What is the test that is failing, and what is the change that I have to
+do to try to reproduce it?
 
 Later, Juan.
-
 
 
