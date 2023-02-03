@@ -2,79 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 870FD689C7E
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 16:02:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E76F689E0D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 16:23:50 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNxa7-0007O2-7v; Fri, 03 Feb 2023 10:02:27 -0500
+	id 1pNxtf-0007F1-Hi; Fri, 03 Feb 2023 10:22:39 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxa2-0007NR-GL
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:02:23 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNxa0-0007Ib-HQ
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:02:22 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- j32-20020a05600c1c2000b003dc4fd6e61dso6197924wms.5
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 07:02:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=Bppv2R66jPTnr2tFWbWB4K5kszDw5tAaKP1jq1I7/EA=;
- b=pF0aoCfZy2ZmByGA3lX0cAu6T6SPAvBkg+18yJdH/mbkbfpb3wM14XQJycYUQWmc+x
- vSai4ijdJKED5omkOTcPdgyqKALswhWNSv/3vwzt8XsRtFNksW5UOZCDTWyLtnRy8Qw2
- u/SLuA3cVpxyQiSAQ6XBpoRHDYOAdNTOa+BVKrl/DHr2nHVwnzpl+EPwohOgva4C4a40
- vIk/Acawm+nUIOBFN+XmFJ1DOYLJqG0oOS6yHLYr/XfirQeobxB1BQng7GQvF7QToGtn
- ApMmJ9wLbbRgv9KtooPEKhCd/YWpzROz1bTrgdkcip+o5c6ZJLFeDkZw3DDs5MttOP/o
- S0MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=Bppv2R66jPTnr2tFWbWB4K5kszDw5tAaKP1jq1I7/EA=;
- b=QFsSGSlikkEt/KzmKs9nNQ+sZUXAjmosinnu51aa4sBMg/xj8wy5gXTKwqBGhuuhmq
- nJXTHYtk1bPLrUaSbcpENSgz1eh4yHTPWmlQVizB/VgggnWRurvfQAb2K7VtooWgEsVc
- 6LZSIgrt3l1vHriy3Trf2ZyPQHqyMfABVvKezlVs3PCCCSfg6itjKm/qsO10uLdLJNkA
- ZuBk35bJweOlcsVyBg6f18FoifF4WLsacqMiFhgJmEzO4zQHC+VjgqxJSr7vlW1MHmM+
- sJIWJW56B7bxFqodX8L5mLE69QqESK2zrpZpLwq247O9kv21kNQQNr9KQ+2bpghGAXIE
- hzZQ==
-X-Gm-Message-State: AO0yUKUgBmem/PLEh8KPm1sDd9PCc87Xi+uXok377X+qs/ZXPC595Eef
- GvM/w+nX4+teoCuO2lwAReKy/Q==
-X-Google-Smtp-Source: AK7set8JPB25IieGUZ3sufNtDgyFV/oS9Z5YahJ9FSLMO3J6y7nQATiJ6bA9snOQrjuFlK1wLNWAgw==
-X-Received: by 2002:a05:600c:1c1d:b0:3de:a525:1d05 with SMTP id
- j29-20020a05600c1c1d00b003dea5251d05mr4675692wms.8.1675436538125; 
- Fri, 03 Feb 2023 07:02:18 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- i10-20020a05600c354a00b003dd1c15e7fcsm9202300wmq.15.2023.02.03.07.02.17
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Feb 2023 07:02:17 -0800 (PST)
-Message-ID: <c21d19e6-7e8a-a66e-0c65-f05954e429d7@linaro.org>
-Date: Fri, 3 Feb 2023 16:02:16 +0100
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxtd-0007Da-TC
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:22:37 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxtb-00053t-Oc
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:22:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675437754;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:
+ content-transfer-encoding:content-transfer-encoding;
+ bh=rLpURQipOnMuF/Uyt+pNBWzNns4fMhNmVCUBHK/o8nI=;
+ b=ZEeQ8mUSA/6cTRMeQmKmpWNyW3T63QjBmHYwTB9RvoNFH4OfxFnEivWubY2gBtthb3Hyn6
+ aDNygxYkMCfNCFIWC+p/1BbworXGsVwpuZxidVH9/FAMXu+Nqkg4EepkSDao7IQIu9suBj
+ JJ8X3xniKdQcpi1reIISVXWVOUjcFrg=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-286-lcw9h404ODKLlyNeGJ84CA-1; Fri, 03 Feb 2023 10:22:33 -0500
+X-MC-Unique: lcw9h404ODKLlyNeGJ84CA-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C41311C0782B;
+ Fri,  3 Feb 2023 15:22:32 +0000 (UTC)
+Received: from merkur.fritz.box (unknown [10.39.194.116])
+ by smtp.corp.redhat.com (Postfix) with ESMTP id D27E4404CD80;
+ Fri,  3 Feb 2023 15:22:25 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Cc: kwolf@redhat.com, pbonzini@redhat.com, stefanha@redhat.com,
+ eesposit@redhat.com, qemu-devel@nongnu.org
+Subject: [PATCH 00/23] block: Lock the graph, part 2 (BlockDriver callbacks)
+Date: Fri,  3 Feb 2023 16:21:39 +0100
+Message-Id: <20230203152202.49054-1-kwolf@redhat.com>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] tests/docker: Use binaries for debian-tricore-cross
-Content-Language: en-US
-To: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>, qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, alex.bennee@linaro.org
-References: <20230203145404.1043301-1-kbastian@mail.uni-paderborn.de>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230203145404.1043301-1-kbastian@mail.uni-paderborn.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=philmd@linaro.org; helo=mail-wm1-x32a.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -90,74 +73,106 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hi Bastian,
+After introducing the graph lock in a previous series, this series
+actually starts making widespread use of it.
 
-On 3/2/23 15:54, Bastian Koppelmann wrote:
-> since binutils is pretty old, it fails our CI repeatedly during the
-> compilation of tricore-binutils. We created a precompiled version using
-> the debian docker image and download it instead of building it ourself.
-> 
-> Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-> ---
-> Peter, I was having trouble with the new version of binutils, I mentioned. I
-> think this needs more time to sort out. So for now, let's just use a precompiled
-> version of the current binutils.
-> 
->   .../dockerfiles/debian-tricore-cross.docker    | 18 +++---------------
->   1 file changed, 3 insertions(+), 15 deletions(-)
-> 
-> diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
-> index 5ae58efa09..4abcf07e68 100644
-> --- a/tests/docker/dockerfiles/debian-tricore-cross.docker
-> +++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
-> @@ -16,32 +16,20 @@ MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
->   RUN apt update && \
->       DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
->       DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
-> -       bison \
-> +       curl \
->          bzip2 \
->          ca-certificates \
-> -       ccache \
+Most of the BlockDriver callbacks access the children list in some way,
+so you need to hold the graph lock to call them. The patches in this
+series add the corresponding GRAPH_RDLOCK annotations and take the lock
+in places where it doesn't happen yet - all of the bdrv_*() co_wrappers
+are already covered, but in particular BlockBackend coroutine_fns still
+need it.
 
-You might not use ccache, but others do, so please let it:
+There is no particularly good reason why exactly these patches and not
+others are included in the series. I couldn't find a self-contained part
+that could reasonable be addressed in a single series. So these just
+happen to be patches that are somewhat related (centered around the
+BlockDriver callback theme), are ready and their number looks
+manageable. You will still see some FIXMEs at the end of the series
+that will only be addressed in future patches.
 
-$ git grep DOCKER_CCACHE
-tests/docker/Makefile.include:203:DOCKER_CCACHE_DIR := 
-$$HOME/.cache/qemu-docker-ccache
-tests/docker/Makefile.include:212:      @mkdir -p "$(DOCKER_CCACHE_DIR)"
-tests/docker/Makefile.include:234:                              -v 
-$(DOCKER_CCACHE_DIR):/var/tmp/ccache:z \
+Emanuele Giuseppe Esposito (5):
+  block/qed: add missing graph rdlock in qed_need_check_timer_entry
+  block: Mark bdrv_co_flush() and callers GRAPH_RDLOCK
+  block: Mark bdrv_co_pdiscard() and callers GRAPH_RDLOCK
+  block: Mark bdrv_co_copy_range() GRAPH_RDLOCK
+  block: Mark bdrv_co_is_inserted() and callers GRAPH_RDLOCK
 
-> -       flex \
-> -       g++ \
-> -       gcc \
-> -       git \
->          libglib2.0-dev \
->          libpixman-1-dev \
->          locales \
-> -       make \
+Kevin Wolf (18):
+  block: Make bdrv_can_set_read_only() static
+  mirror: Fix access of uninitialised fields during start
+  block: Mark bdrv_co_truncate() and callers GRAPH_RDLOCK
+  block: Mark bdrv_co_block_status() and callers GRAPH_RDLOCK
+  block: Mark bdrv_co_ioctl() and callers GRAPH_RDLOCK
+  block: Mark bdrv_co_pwrite_zeroes() and callers GRAPH_RDLOCK
+  block: Mark read/write in block/io.c GRAPH_RDLOCK
+  block: Mark public read/write functions GRAPH_RDLOCK
+  block: Mark bdrv_co_pwrite_sync() and callers GRAPH_RDLOCK
+  block: Mark bdrv_co_do_pwrite_zeroes() GRAPH_RDLOCK
+  block: Mark preadv_snapshot/snapshot_block_status GRAPH_RDLOCK
+  block: Mark bdrv_co_create() and callers GRAPH_RDLOCK
+  block: Mark bdrv_co_io_(un)plug() and callers GRAPH_RDLOCK
+  block: Mark bdrv_co_eject/lock_medium() and callers GRAPH_RDLOCK
+  block: Mark bdrv_(un)register_buf() GRAPH_RDLOCK
+  block: Mark bdrv_co_delete_file() and callers GRAPH_RDLOCK
+  block: Mark bdrv_*_dirty_bitmap() and callers GRAPH_RDLOCK
+  block: Mark bdrv_co_refresh_total_sectors() and callers GRAPH_RDLOCK
 
-Why remove gcc/(git)/make?
+ block/coroutines.h                 |   2 +-
+ block/qcow2.h                      |  27 +++--
+ block/qed.h                        |  45 ++++----
+ include/block/block-copy.h         |   6 +-
+ include/block/block-global-state.h |  14 ++-
+ include/block/block-io.h           | 110 +++++++++---------
+ include/block/block_int-common.h   | 173 ++++++++++++++++-------------
+ include/block/block_int-io.h       |  53 ++++-----
+ include/block/dirty-bitmap.h       |  12 +-
+ include/sysemu/block-backend-io.h  |   7 +-
+ block.c                            |  12 +-
+ block/backup.c                     |   3 +
+ block/blkdebug.c                   |  19 ++--
+ block/blklogwrites.c               |  35 +++---
+ block/blkreplay.c                  |  24 ++--
+ block/blkverify.c                  |   5 +-
+ block/block-backend.c              |  39 +++++--
+ block/block-copy.c                 |  32 +++---
+ block/bochs.c                      |   2 +-
+ block/commit.c                     |   5 +-
+ block/copy-before-write.c          |  33 +++---
+ block/copy-on-read.c               |  44 ++++----
+ block/create.c                     |   9 +-
+ block/crypto.c                     |  16 +--
+ block/dirty-bitmap.c               |   2 +
+ block/file-posix.c                 |  27 ++---
+ block/file-win32.c                 |   7 +-
+ block/filter-compress.c            |  36 +++---
+ block/io.c                         | 108 +++++++++++-------
+ block/iscsi.c                      |  28 ++---
+ block/mirror.c                     |  59 ++++++----
+ block/parallels.c                  |  33 +++---
+ block/preallocate.c                |  38 ++++---
+ block/qcow.c                       |  46 ++++----
+ block/qcow2-cluster.c              |  17 ++-
+ block/qcow2.c                      | 136 ++++++++++++-----------
+ block/qed-check.c                  |   3 +-
+ block/qed-table.c                  |  10 +-
+ block/qed.c                        | 101 +++++++++--------
+ block/quorum.c                     |  62 ++++++-----
+ block/raw-format.c                 |  76 ++++++-------
+ block/replication.c                |  18 ++-
+ block/snapshot-access.c            |   8 +-
+ block/stream.c                     |  40 ++++---
+ block/throttle.c                   |  36 +++---
+ block/vdi.c                        |  11 +-
+ block/vhdx.c                       |  18 +--
+ block/vmdk.c                       | 132 ++++++++++------------
+ block/vpc.c                        |  11 +-
+ qemu-img.c                         |   8 +-
+ tests/unit/test-bdrv-drain.c       |  20 ++--
+ tests/unit/test-block-iothread.c   |   3 +-
+ 52 files changed, 983 insertions(+), 838 deletions(-)
 
->          ninja-build \
->          pkgconf \
->          python3-pip \
->          python3-setuptools \
->          python3-wheel
->   
-> -RUN git clone --single-branch \
-> -        https://github.com/bkoppelmann/tricore-binutils.git \
-> -        /usr/src/binutils && \
-> -    cd /usr/src/binutils && chmod +x missing && \
-> -    CFLAGS=-w ./configure --prefix=/usr/local --disable-nls --target=tricore && \
-> -    make && make install && \
-> -    rm -rf /usr/src/binutils
-> -
-> +RUN curl -#SL https://github.com/bkoppelmann/tricore-binutils/raw/master/release/tricore-binutils.2.13.tar.gz \
-> +    | tar -xzC /usr/local/
->   # This image can only build a very minimal QEMU as well as the tests
->   ENV DEF_TARGET_LIST tricore-softmmu
->   ENV QEMU_CONFIGURE_OPTS --disable-user --disable-tools --disable-fdt
+-- 
+2.38.1
 
 
