@@ -2,80 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC902689F45
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 17:30:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 484C4689F47
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 17:31:16 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNywP-0000XE-FK; Fri, 03 Feb 2023 11:29:33 -0500
+	id 1pNyxM-000192-Ge; Fri, 03 Feb 2023 11:30:32 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pNywO-0000X5-4J
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 11:29:32 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNyxH-000187-W9
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 11:30:29 -0500
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pNywM-0007QY-Gm
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 11:29:31 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- n28-20020a05600c3b9c00b003ddca7a2bcbso4282792wms.3
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 08:29:29 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNyxF-0007iT-QH
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 11:30:27 -0500
+Received: by mail-wm1-x334.google.com with SMTP id
+ n28-20020a05600c3b9c00b003ddca7a2bcbso4285116wms.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 08:30:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
- :message-id:reply-to;
- bh=SwWfA+LJOqUyTOvY4UModLmacj6DsKgUeH5Qp6UW9kQ=;
- b=reGNbjnGiRwsK7iXkuj/iLabaFmT4XC7as9lj981nRvWeHyeOfLT5MiR507+eA6Q1W
- ik4g0eR3KedOHpF/4eM7sNWOHKkrLCom5+BIE+l4ZBxAXqlVz1RFh66aQpWbfb5iJgzm
- qs4ma/mwI84NSpCn5rqWeMw6OQa+OSdEZ6GycMRScJv/32Kxn3lhUY7ViXurSW91TFtg
- 0fOnqdx4p3vFRvTA0JQaIxSl5ZT33cnUVdG+n3lNMFIwXAyuwDHeAX2uNxthmRiXXrH+
- eMYFm93FuLQhydTdgt4GGzqgK5s+dWf1xwanfR7yDxd/FIn4kpJsMyaUj+siufGZCkLo
- FTAA==
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=SUsLQg0oaqWfD49FP9cko9iTU6zXgC1yWm7dY0xvcFo=;
+ b=ci8x5l4vPKRZHqcf0CmxogSBboGq9c9bpXah0SAMJGax+nA2ead2b20Cxnnkjno3aG
+ aKK3wgW46XJ4FGk2Kva727r/j8gFAGLZZQ+5vNvAY7tbsbV3CnhD0rVzUqOxl++0QzGK
+ ZZ9Y61ejPgNvBpLeQ7JIGkUHqUU6zkuU+AZrZSXYhWXzfowq5zewIC7OqA76ZMl46d1g
+ 7q0YvFY2+U4MZYy7uqd+7eSc+Zzn16Xcx8NFJfMoOQ8mkKxFADGyEZ7b44AYM9dwF3cf
+ aeho1MdAleHJm5qpEbQXJHus+eVQzByKVIDFtzFg2OBH+x5Lpw9h9Dm1uccnEgJFtenc
+ +OdA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
- :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
- :cc:subject:date:message-id:reply-to;
- bh=SwWfA+LJOqUyTOvY4UModLmacj6DsKgUeH5Qp6UW9kQ=;
- b=QnApYzMlF2xMLBr4uQ9AmwjJSSpJyxsnfsCaW5tAnuvHMqTnuxSeqp0jJuJ7IZQ5CU
- XCHK8lHQ1w5xAKr4y4kjeVDz+9v3kNmOVJJvXJRKgE1IvNXEI74BwUKys+gpfm341I4F
- otzV9ArvUPId9Bjy75Cfk4Ute/3IBOoFCMNDaYuJWof+wa6CNkOebGKZNteWqxHVtVVr
- r3wfZdwMqpaRXiRDKfcT7DT8dOwwaaVvjzCMcvkBRdena25fV4xAbdV2Qh/H4r/adloP
- 3KEYXCbwesW7q4liWrWCqGnlpMEod1IHuWpme6gvNsCa+n7XbTbLgCJ9+NJy3wbAsi37
- 8GgA==
-X-Gm-Message-State: AO0yUKXW3eq+aObkrHsc+sB5TxtETp9Z8x5/Eq9A4iL5UCVWlI8UjBzj
- 9w1ZjtJH7kfeY19AGxr945vrQw==
-X-Google-Smtp-Source: AK7set/qH8lPuOjQBvHth1YvdQUy6Yx+na9FR7dCdGR8B6M226ZmKhMEapV41MdNGpjeHJDqkdaXaA==
-X-Received: by 2002:a05:600c:1c97:b0:3dd:dd46:171b with SMTP id
- k23-20020a05600c1c9700b003dddd46171bmr12226046wms.10.1675441768684; 
- Fri, 03 Feb 2023 08:29:28 -0800 (PST)
-Received: from zen.linaroharston ([185.81.254.11])
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=SUsLQg0oaqWfD49FP9cko9iTU6zXgC1yWm7dY0xvcFo=;
+ b=HCBZZ2SWbrXn/YkYrzmacsDQniXktf4Vp4mB11AqIlMbz0uMccU9QVjJocjynDzL8j
+ q2iI2CG/zW6g1VGzlAKXrnrL6CiqQN3Bb3p3zGsvJNx3A42NDIkXd0aJHj8GUPEMfYMU
+ yUSADLY68sTiBZoIhKO8QjXHaRKAkOKHHjqxrUjqOS+thctTfttX6t45KgSaq+5ZV7nd
+ /T1IIm0Mwa8N6r23fRhE1SM57BgEWRjguYVAYOt2USdF6qCoBRNMYb7P0fnFE6XtgLvZ
+ ioGSTI7z8nWTaFXtYEJLgxBnz7UG9yOSjQzJf20cNdxSlQ7fG4my5j6hEQVDZNKv/sy2
+ N2QA==
+X-Gm-Message-State: AO0yUKXwIpj4XOqXV1JTjVVps2VtM23e36a86capYkvdp5F0bZik3mXD
+ L5t3rbJRYvyO/lR3eh+kN5CzSAhGHyyf0YHN
+X-Google-Smtp-Source: AK7set9PL7SXOYWqqrHsoD0zRwZEusl+RHnaC9ZQSw7spSsYcrRPbU2RhEMI4nr3meXMzRJdmxDg1Q==
+X-Received: by 2002:a05:600c:16c4:b0:3db:9e3:3bf1 with SMTP id
+ l4-20020a05600c16c400b003db09e33bf1mr10153382wmn.31.1675441823645; 
+ Fri, 03 Feb 2023 08:30:23 -0800 (PST)
+Received: from localhost.localdomain ([81.0.6.76])
  by smtp.gmail.com with ESMTPSA id
- j10-20020a05600c1c0a00b003dd1c45a7b0sm3526269wms.23.2023.02.03.08.29.28
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Feb 2023 08:29:28 -0800 (PST)
-Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id C44D01FFB7;
- Fri,  3 Feb 2023 16:29:27 +0000 (GMT)
-References: <20230202175903.2119702-1-alex.bennee@linaro.org>
- <875ycjlwo8.fsf@linaro.org>
- <b674695a-793b-cceb-9083-72544fc1d67a@redhat.com>
-User-agent: mu4e 1.9.19; emacs 29.0.60
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org, Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Wainer dos Santos
- Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
-Subject: Re: [RFC PATCH] gitlab: call ninja directly and reduce build noise
-Date: Fri, 03 Feb 2023 16:28:03 +0000
-In-reply-to: <b674695a-793b-cceb-9083-72544fc1d67a@redhat.com>
-Message-ID: <87fsbmk908.fsf@linaro.org>
+ h16-20020a05600c351000b003dc521f336esm3424564wmq.14.2023.02.03.08.30.22
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 03 Feb 2023 08:30:23 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: Ani Sinha <ani@anisinha.ca>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 0/3] hw/acpi/cpu_hotplug: Convert 'Object *device' ->
+ 'DeviceState *parent'
+Date: Fri,  3 Feb 2023 17:30:18 +0100
+Message-Id: <20230203163021.35754-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -98,61 +90,28 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
+To ease code review, rename ACPI CPU hotplug variables
+to more meaningful names.
 
-Thomas Huth <thuth@redhat.com> writes:
+Since hotplug parent can't be any QOM object, and must be
+a QDev, convert AcpiCpuHotplug::device from Object* to
+DeviceState*.
 
-> On 02/02/2023 19.59, Alex Benn=C3=A9e wrote:
->> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
->>=20
->>> A significant portion of our CI logs are just enumerating each
->>> successfully built object file. The current widespread versions of
->>> ninja don't have a quiet option so we use NINJA_STATUS to add a fixed
->>> string to the ninja output which we then filter with fgrep. If there
->>> are any errors in the output we get them from the compiler.
->>>
->>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->>> ---
->>>   .gitlab-ci.d/buildtest-template.yml | 2 +-
->>>   1 file changed, 1 insertion(+), 1 deletion(-)0
->>>
->>> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildte=
-st-template.yml
->>> index 73ecfabb8d..3c4b237e4f 100644
->>> --- a/.gitlab-ci.d/buildtest-template.yml
->>> +++ b/.gitlab-ci.d/buildtest-template.yml
->>> @@ -21,7 +21,7 @@
->>>         then
->>>           ../meson/meson.py configure . -Dbackend_max_links=3D"$LD_JOBS=
-" ;
->>>         fi || exit 1;
->>> -    - make -j"$JOBS"
->>> +    - env NINJA_STATUS=3D"[ninja][%f/%t] " ninja | fgrep -v "[ninja]"
->>>       - if test -n "$MAKE_CHECK_ARGS";
->>>         then
->>>           make -j"$JOBS" $MAKE_CHECK_ARGS ;
->> This is too much for gitlab as it trips up on no output at all.=20
->
-> I'm also not sure whether it is really safe to not run make here at
-> all. Some parts of our build system still rely on the "make" magic, I
-> think, and you might miss them if only running ninja. For example
-> pc-bios/optionrom/ does not get compiled without running "make".
+Philippe Mathieu-Daudé (3):
+  hw/acpi/cpu_hotplug: Rename gpe_cpu -> gpe
+  hw/acpi/cpu_hotplug: Rename 'parent' MemoryRegion as 'container'
+  hw/acpi/cpu_hotplug: Convert 'Object *device' -> 'DeviceState *parent'
 
-OK I'll see if I can embed it in make somehow.
+ hw/acpi/acpi-cpu-hotplug-stub.c |  8 +++---
+ hw/acpi/cpu_hotplug.c           | 46 ++++++++++++++++-----------------
+ hw/acpi/ich9.c                  |  9 ++++---
+ hw/acpi/piix4.c                 | 14 +++++-----
+ include/hw/acpi/cpu_hotplug.h   | 12 ++++-----
+ include/hw/acpi/ich9.h          |  2 +-
+ include/hw/acpi/piix4.h         |  2 +-
+ 7 files changed, 47 insertions(+), 46 deletions(-)
 
-> TBH, I also think the output of the file that currently gets compiled
-> is still valuable in some cases, too, e.g. if you want to be sure
-> whether certain files get compiled in one configuration at all or not.
-> So I'm rather in favor in not doing this change.
+-- 
+2.38.1
 
-For a successful build you can always go an examine the artefacts after
-the fact. This is about making the CI log as short and informative as
-possible to make spotting where errors occur easier.
-
->
->  Thomas
-
-
---=20
-Alex Benn=C3=A9e
-Virtualisation Tech Lead @ Linaro
 
