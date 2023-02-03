@@ -2,102 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81AB168A122
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 19:04:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81FC868A123
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 19:04:53 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO0Pr-00037q-62; Fri, 03 Feb 2023 13:04:03 -0500
+	id 1pO0QC-0003OL-Pn; Fri, 03 Feb 2023 13:04:24 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pO0Pp-00037Q-4G
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:04:01 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <eric.auger@redhat.com>)
- id 1pO0Pn-0007DR-GQ
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:04:00 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675447438;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=8KsgSK8Okdkgqu/pylo49YSVsl161ef+KFwE9qE+scc=;
- b=b/ZUYOUIXjK1Fy7wvsnkpVPR+v65i3yDiB6qZdNObV2zQMkormupLy4uhP9c1lIi/Qrmhw
- Xe5UHFM5UA9ne2nILWy6+6GPv/BZWGRT/avRsktxP2KkECCPrlVMdqOSubyGvwUdk+FUh8
- YSwjpISApC3qhLRNdq7h2JVSW9lgTcA=
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com
- [209.85.222.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-182-g1BKVBL4OUGpuJGNFUbsQQ-1; Fri, 03 Feb 2023 13:03:57 -0500
-X-MC-Unique: g1BKVBL4OUGpuJGNFUbsQQ-1
-Received: by mail-qk1-f199.google.com with SMTP id
- q21-20020a05620a0d9500b0070572ccdbf9so3766743qkl.10
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 10:03:57 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pO0QA-0003Nj-VZ
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:04:23 -0500
+Received: from mail-pg1-x535.google.com ([2607:f8b0:4864:20::535])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pO0Q9-0007GM-7F
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 13:04:22 -0500
+Received: by mail-pg1-x535.google.com with SMTP id e10so4156406pgc.9
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 10:04:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:from:to:cc:subject:date:message-id:reply-to;
+ bh=HwXTVO6SoTft807q1bi91JylVHoFB+AudW1NWIB+/tc=;
+ b=vG1Jsd1WeXTHte/BcHaCskhixA6XDue6Yc/fY/q/VcjUCZ/ECOCRn6dP4CYFjhsjvV
+ G47torwizTYG19uOjSv4LYshAeaUfgmT9soEZe8eVWQPWgmX9+6VW8KFRio+keygxV5W
+ sDnPy1ujtqD4V8io/4N8Gb1elYGkzm22PBGPG1aF/i6zJRMqQWHIC33tctklxV6UO5tu
+ nCL4GntoN+e9eNLp0qsO8Qoq0l5Y+T8kM7H88hdrv0gFYdxwY86YA36rFNvtuFcPoEoZ
+ XLgXF4MXgsORiYhfMqrqNH9KbCUYlLCclQtLDOkHt5nzHoaHwFVil8ztfFzh4p9ljd29
+ btVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:reply-to:user-agent:mime-version:date
- :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+ h=cc:to:subject:message-id:date:from:in-reply-to:references
+ :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
  :reply-to;
- bh=8KsgSK8Okdkgqu/pylo49YSVsl161ef+KFwE9qE+scc=;
- b=qHq05SxiLBflmhAaWoKDMR7cQpp4V0+OjSDc6RKcsMB2JWZz/JEBYzy97QZTPu7DH6
- CYXaDWGrNsBevZGZ70w3t89vfeWqNgOmCIY5G5u3S0lpFwe0LI/MZq02HgDYefq0QhEc
- lHFdV53IoaK9M+oYmYF9GcA0mvjSglTiZVG1ziTL8aYoD3USF81GA/cEoCYOibpXcnud
- BtxLyciU2qX8usP2WD8T3qw3lJ+6kS9cMzLKTPFL9zWx8sTpJ5b8WXw3aSiXLtCPJYwO
- bNCFHvbzmUrkNvjZ5nymCwrAapxaS8Vbfj9+v2qX+vbgabopSfJwfYbZdI5p0XebwDDv
- ZNJQ==
-X-Gm-Message-State: AO0yUKX+4+lDy6p4cFQMWC7RUx6qSdAzcqVAMWtAcVmnFUIDJBLgFOcf
- Ada3xqPnpZmJpsFFL4rIK56S0ZAK1NzMIyMVXY8gG25jNANzNd8mIfJBgzgasJ6DJdmS8zaw1kV
- AkS5e7Hr+mrOwx4k=
-X-Received: by 2002:a05:622a:1047:b0:3b8:6ae9:b100 with SMTP id
- f7-20020a05622a104700b003b86ae9b100mr21011462qte.7.1675447436935; 
- Fri, 03 Feb 2023 10:03:56 -0800 (PST)
-X-Google-Smtp-Source: AK7set9Go1OnlalGty2/hqPRFSwNpTDV9MXDTM7zhF4ynViVl1Ds1n2q2n7vezvQk9M2j534qtGuTg==
-X-Received: by 2002:a05:622a:1047:b0:3b8:6ae9:b100 with SMTP id
- f7-20020a05622a104700b003b86ae9b100mr21011421qte.7.1675447436604; 
- Fri, 03 Feb 2023 10:03:56 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
- ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
- by smtp.gmail.com with ESMTPSA id
- h13-20020ac8714d000000b003b9dca4cdf4sm1939793qtp.83.2023.02.03.10.03.51
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Feb 2023 10:03:55 -0800 (PST)
-Message-ID: <fc6271e1-ee1e-41d5-0710-007f780e653b@redhat.com>
-Date: Fri, 3 Feb 2023 19:03:50 +0100
+ bh=HwXTVO6SoTft807q1bi91JylVHoFB+AudW1NWIB+/tc=;
+ b=Sch8bziBv+JfWCMdMGfCBX26VcvstzZhEcilUjjXRFTgX86vJuhq2+aHFmOeMNCrJ0
+ ztdUosNL55skFw8ud28uhX7hSk8T7wd14fZIGsZtP6YwDgwIcqDeQlxF1Dw1pSdDL6fK
+ axsK3BHTpA4iIPw36Dtw8uOKNBl5rGqf7ycHa8zfh15bOx28rMkJ8ORcn9HMpwCM8R8w
+ BNbIkTV4zYkPH7XpSC1YilS/7PWmW3plY/6z3Ukx+YMNDfDFxNwy/k/0AXphUUAOA5u9
+ KkqCYQxQWgHWKl9XrGhResr2/xdJ1mGOzdkURSZpAKM8VSbUBM+qQe2jZt1pv/IgWzV7
+ YEkA==
+X-Gm-Message-State: AO0yUKWNFZRWoqK7xxNiur40GsXqdVd9PNgfY+jdMvfR/gu9hFERbueq
+ 6kF2v9kU7SAJwaqw08mUooeyD9pZr/MVQ0LB5dnoGA==
+X-Google-Smtp-Source: AK7set8sM5j/HynYDX+3XnfUE0g9IIfVEi1zgovjx70i6PnuaGlyVIOuz11lKPUu/UjVAOmJRYPZ0PAfj7MkHSpzsZM=
+X-Received: by 2002:a05:6a00:1490:b0:593:dc7d:a31d with SMTP id
+ v16-20020a056a00149000b00593dc7da31dmr2668448pfu.23.1675447459498; Fri, 03
+ Feb 2023 10:04:19 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.3.1
-Subject: Re: [RFC v3 00/18] vfio: Adopt iommufd
-Content-Language: en-US
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: eric.auger.pro@gmail.com, yi.l.liu@intel.com, yi.y.sun@intel.com,
- alex.williamson@redhat.com, clg@redhat.com, qemu-devel@nongnu.org,
- david@gibson.dropbear.id.au, thuth@redhat.com, farman@linux.ibm.com,
- mjrosato@linux.ibm.com, akrowiak@linux.ibm.com, pasic@linux.ibm.com,
- jjherne@linux.ibm.com, jasowang@redhat.com, kvm@vger.kernel.org,
- nicolinc@nvidia.com, kevin.tian@intel.com, chao.p.peng@intel.com,
- peterx@redhat.com, shameerali.kolothum.thodi@huawei.com,
- zhangfei.gao@linaro.org, berrange@redhat.com, apopple@nvidia.com,
- suravee.suthikulpanit@amd.com
-References: <20230131205305.2726330-1-eric.auger@redhat.com>
- <Y90EvdM0CZlr51ug@nvidia.com>
-From: Eric Auger <eric.auger@redhat.com>
-In-Reply-To: <Y90EvdM0CZlr51ug@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=eric.auger@redhat.com; helo=us-smtp-delivery-124.mimecast.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+References: <20230203171657.2867598-1-eric.auger@redhat.com>
+In-Reply-To: <20230203171657.2867598-1-eric.auger@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Feb 2023 18:04:07 +0000
+Message-ID: <CAFEAcA8qz8qsZNsrbbnmvVUgRazsxtGVm59enyU1rf2ZHjx+ow@mail.gmail.com>
+Subject: Re: [PATCH] target/arm: Add raw_writes ops for register whose write
+ induce TLB maintenance
+To: Eric Auger <eric.auger@redhat.com>
+Cc: eric.auger.pro@gmail.com, richard.henderson@linaro.org, 
+ pbonzini@redhat.com, qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Received-SPF: pass client-ip=2607:f8b0:4864:20::535;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pg1-x535.google.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -110,47 +81,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: eric.auger@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-
-
-On 2/3/23 13:57, Jason Gunthorpe wrote:
-> On Tue, Jan 31, 2023 at 09:52:47PM +0100, Eric Auger wrote:
->> Given some iommufd kernel limitations, the iommufd backend is
->> not yuet fully on par with the legacy backend w.r.t. features like:
->> - p2p mappings (you will see related error traces)
->> - coherency tracking
-> You said this was a qemu side limitation?
-yes that's correct. This comment will be removed.
+On Fri, 3 Feb 2023 at 17:17, Eric Auger <eric.auger@redhat.com> wrote:
 >
->> - live migration
-> The vfio kernel interfaces are deprecated,  Avihai's series here adds
-> live migration support:
+> Many registers whose 'cooked' writefns induce TLB maintenance do
+> not have raw_writefn ops defined. If only the writefn ops is set
+> (ie. no raw_writefn is provided), it is assumed the cooked also
+> work as the raw one. For those registers it is not obvious the
+> tlb_flush works on KVM mode so better/safer setting the raw write.
 >
-> https://lore.kernel.org/qemu-devel/20230126184948.10478-1-avihaih@nvidia.com/
+> Signed-off-by: Eric Auger <eric.auger@redhat.com>
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 >
-> And there will be another series for iommufd system iommu based live
-> migration
-
-OK thanks for the pointer.
+> ---
 >
->> - vfio pci device hot reset
-> What is needed here?
+> I'am not familiar with those callbacks. I have tested in kvm accelerated
+> mode including migration but I fail to test with TCG. It SIGSEVs for
+> me even without my additions. I am not sure whether the .raw_writefn
+> must be set only for registers only doing some TLB maintenance or
+> shall be set safely on other registers doing TLB maintenance + other
+> state settings.
+> ---
+> @@ -718,16 +718,20 @@ static const ARMCPRegInfo not_v7_cp_reginfo[] = {
+>       * the unified TLB ops but also the dside/iside/inner-shareable variants.
+>       */
+>      { .name = "TLBIALL", .cp = 15, .crn = 8, .crm = CP_ANY,
+> -      .opc1 = CP_ANY, .opc2 = 0, .access = PL1_W, .writefn = tlbiall_write,
+> +      .opc1 = CP_ANY, .opc2 = 0, .access = PL1_W,
+> +      .writefn = tlbiall_write, .raw_writefn = raw_write,
+>        .type = ARM_CP_NO_RAW },
 
-we need to revisit the vfio_pci_hot_reset() implementation in hw/vfio/pci.c
-It uses VFIO_DEVICE_GET_PCI_HOT_RESET_INFO and VFIO_DEVICE_PCI_HOT_RESET
-uapis
-which retrieves/passes the list of iommu groups involved in the reset.
-The notion of group had initially disappeared from the the iommufd BE
-but I am afraid that's not that simple.
+Anything with type ARM_CP_NO_RAW shouldn't need a .raw_writefn, because
+that type indication says that it's a bug if we ever call
+read_raw_cp_reg() or write_raw_cp_reg() on it. (Specifically,
+for KVM, we should never end up trying to do a raw read/write
+for a state sync because write_list_to_cpustate() and
+write_cpustate_to_list() skip NO_RAW cpregs.)
 
-Thanks
-
-Eric
->
-> Jason
->
-
+thanks
+-- PMM
 
