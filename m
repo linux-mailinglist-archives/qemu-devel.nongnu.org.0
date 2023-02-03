@@ -2,104 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA24068A468
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 22:15:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE11D68A47E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 22:17:36 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO3OD-0007oF-L3; Fri, 03 Feb 2023 16:14:33 -0500
+	id 1pO3Qb-0000Iy-BF; Fri, 03 Feb 2023 16:17:01 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pO3OB-0007nc-QA
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:14:31 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
- id 1pO3OA-0005dU-4W
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:14:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675458869;
- h=from:from:reply-to:reply-to:subject:subject:date:date:
- message-id:message-id:to:to:cc:cc:mime-version:mime-version:
- content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=lNo7GzJuUFESbPsgaNP9Pq/jWo8JX3uSjG6FHvOalgQ=;
- b=IF8Cc3L2Ejpyby/Hxd4fr8be10U44AcNdQOb//EI8AkLnIUsXBtrbghFMLHBlFfsuISn3n
- sxWGKZ1pomHNAiEggXJ0j2KMa4crtGirK533DIWo1nDZyeLw/GqONUmoJWC8b/QBvW6G+W
- o6NTXnuoDzIVRYhzYeWsDWLeTYMBIII=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-324-CZreB9C9M62hk1CCos809A-1; Fri, 03 Feb 2023 16:14:28 -0500
-X-MC-Unique: CZreB9C9M62hk1CCos809A-1
-Received: by mail-wm1-f69.google.com with SMTP id
- h2-20020a1ccc02000000b003db1ded176dso3234757wmb.5
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 13:14:28 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO3Q8-0000Dr-00
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:16:34 -0500
+Received: from mail-ej1-x62b.google.com ([2a00:1450:4864:20::62b])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pO3Q5-00069v-Ku
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:16:31 -0500
+Received: by mail-ej1-x62b.google.com with SMTP id p26so18749422ejx.13
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 13:16:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:from:to:cc:subject:date:message-id:reply-to;
+ bh=dNBog4OJsTIuq57RdLP8lPwyYAvHRuqVPpEC+RlZA5k=;
+ b=BVnMBRS6BDHfGFvQxHH1OMLoWo7/qDzSyRWKj8YqQ7hK/14Ap8rib7wk3JYt5skQxn
+ 7LduF7HWUm/qGzp7UGjsjuNVcPXKnAs4vFu9sp2BDAQQPL+4M8xZ+Z5BRuJgImTyzr13
+ gV71ys7vdyqrXhMcTyqPcHdPqL96a57dPeLnA8Lw/w+i66q7iSqQU3ib4Lh4g81uG/Ny
+ dZa8TUQIdQndZoEoBFbhqRQ5Eo/mVQ2B212j/PJd2J5Z+eovFu+v08Dutsgu/UQujY/z
+ kE7A0JUSrS8GQ8iqZFmigE4HW1wbZYt6zYadELq0Oyl0TTcz6/L9+sHiWABclPfS/6IW
+ 0yrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:reply-to
- :user-agent:references:in-reply-to:subject:cc:to:from
- :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=lNo7GzJuUFESbPsgaNP9Pq/jWo8JX3uSjG6FHvOalgQ=;
- b=ZRoGdr0XZ/D1bHfMc3zE0NOvE05b69LBs5cZ/WehmddKrLNFHQjFNcxToJ32SBI3WN
- Dalhh3kmUHVhZAAyQztu9igNAs1FOkkG0mb8jK0AmOBu4a0YxYSdBhjnF5evXsqSxRtu
- HPKImfEuxJCkDWRHBY3AilwXw1lO9sBVCIh/blPW60ci3biUt2NO5wbq13iT+6Q+ctZ3
- 8LfPoxdYT1nUCAOuFenqKaLWkC4dlTGxGxA75KiZ8KATVYqe+ml2lWyUdvd7be+cWm3L
- aibYCMJaFJSMd/GVk+a9GUE0pUGXWqQ9NhIYYoJkTBD5G0shb5kvUS0/e7x24M9zEpwj
- nITQ==
-X-Gm-Message-State: AO0yUKU+1vgT/bjoBLSRpFFpIX+UnNEElvFKkwY8fnGovSjNgMv0nZUA
- GUw/sycRs6dL19DrwTL5B6/SCjzekYf8wmq336osAvsekWo4O+PZSo0tgzOlk3ZDYJq+1eABpom
- xYFa4y7zfne/9cOE=
-X-Received: by 2002:a05:600c:3b1e:b0:3db:1200:996e with SMTP id
- m30-20020a05600c3b1e00b003db1200996emr11198240wms.16.1675458866130; 
- Fri, 03 Feb 2023 13:14:26 -0800 (PST)
-X-Google-Smtp-Source: AK7set/yNXM1oIE2IZxHRgAMSVe0oUZnlB1mr3ReCVpJID9JlGEdgJUJmo5OmV9sdwpW4iSr+iTeKw==
-X-Received: by 2002:a05:600c:3b1e:b0:3db:1200:996e with SMTP id
- m30-20020a05600c3b1e00b003db1200996emr11198233wms.16.1675458865843; 
- Fri, 03 Feb 2023 13:14:25 -0800 (PST)
-Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
- x33-20020a05600c18a100b003dd7edcc960sm3461484wmp.45.2023.02.03.13.14.24
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Feb 2023 13:14:25 -0800 (PST)
-From: Juan Quintela <quintela@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Cc: Thomas Huth <thuth@redhat.com>,  Kevin Wolf <kwolf@redhat.com>,  Daniel
- P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Qemu-block
- <qemu-block@nongnu.org>,
- qemu-devel@nongnu.org,  Alex =?utf-8?Q?Benn=C3=A9e?=
- <alex.bennee@linaro.org>,  Philippe
- =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>,  Stefan Hajnoczi
- <stefanha@redhat.com>,
- Richard Henderson <richard.henderson@linaro.org>,  hreitz@redhat.com,
- dgilbert@redhat.com
-Subject: Re: [PATCH 6/6] gitlab-ci.d/buildtest: Disintegrate the
- build-coroutine-sigaltstack job
-In-Reply-To: <CAFEAcA972rKvQqJh2-FghQcJ1hswVWkhtzb3-KW4CgsypnQgYA@mail.gmail.com>
- (Peter Maydell's message of "Fri, 3 Feb 2023 15:47:31 +0000")
-References: <20230130104446.1286773-1-thuth@redhat.com>
- <20230130104446.1286773-7-thuth@redhat.com>
- <Y9eizgN9UYo5kbgx@redhat.com>
- <fc5dba59-4993-ee66-a94b-a550bdced396@redhat.com>
- <Y9z5TohXERGuQ6TS@redhat.com>
- <2caefefa-8757-af55-ccf3-fcc641db0784@redhat.com>
- <CAFEAcA972rKvQqJh2-FghQcJ1hswVWkhtzb3-KW4CgsypnQgYA@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
-Date: Fri, 03 Feb 2023 22:14:24 +0100
-Message-ID: <87sffme9jj.fsf@secure.mitica>
+ h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+ :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+ :reply-to;
+ bh=dNBog4OJsTIuq57RdLP8lPwyYAvHRuqVPpEC+RlZA5k=;
+ b=01OrIs1XglsYvCil4eDpN27TMfKizCiecAkCPM7rx+oU9L6wJl8wR/fR7Xf+6877yB
+ 9pGiyvylieX9tpCiAIb4N4DYDkOe+HFhjkSVfh6X64eUePITG9JCus3HC7vJGY48vgXG
+ qvyZ7BrocvnVQbeyaHBdISBOJX+frbeay4baJOjarvKqdUTjXh++JcDcO2xnmvTXl92c
+ h3Re5jeB5iQJy5jIsTA4QVaWhiQibKcw1aL1zHc+l6NQUz45579QL0dyNVspkKzhFH92
+ QdNDB4S0d1GS4NB6UrHtnF6wsm0zMwENotnTONKOoJc7yiRXxdebP3jHbRcz2Ag8/na3
+ BQog==
+X-Gm-Message-State: AO0yUKX8bTdmw9VnlZPZePlAnJpnYgm0b+h9H2PHz+bEwmskVFD2V5yN
+ v8yu2BDU1/213/38tmJ+9jTDt88zF/wCY2mg
+X-Google-Smtp-Source: AK7set/Cdq0ZuVZWnaaTbalekJjSgfWGL02dIvlRNLEa44G8g683jWyE8MXOIZzfITMVePlQ5BA0Yw==
+X-Received: by 2002:a17:906:bc43:b0:88d:fe1:1ac7 with SMTP id
+ s3-20020a170906bc4300b0088d0fe11ac7mr10813644ejv.60.1675458987227; 
+ Fri, 03 Feb 2023 13:16:27 -0800 (PST)
+Received: from localhost.localdomain ([185.126.107.38])
+ by smtp.gmail.com with ESMTPSA id
+ jo10-20020a170906f6ca00b00878812a8d14sm1885142ejb.85.2023.02.03.13.16.25
+ (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+ Fri, 03 Feb 2023 13:16:26 -0800 (PST)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+To: qemu-devel@nongnu.org
+Cc: BALATON Zoltan <balaton@eik.bme.hu>,
+ Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-ppc@nongnu.org,
+ =?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
+ =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+ Daniel Henrique Barboza <danielhb413@gmail.com>,
+ Markus Armbruster <armbru@redhat.com>,
+ David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>,
+ =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Subject: [PATCH 0/5] hw/ppc: Set QDev properties using QDev API (part 2/3)
+Date: Fri,  3 Feb 2023 22:16:18 +0100
+Message-Id: <20230203211623.50930-1-philmd@linaro.org>
+X-Mailer: git-send-email 2.38.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2a00:1450:4864:20::62b;
+ envelope-from=philmd@linaro.org; helo=mail-ej1-x62b.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -112,79 +89,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Peter Maydell <peter.maydell@linaro.org> wrote:
-> On Fri, 3 Feb 2023 at 15:44, Thomas Huth <thuth@redhat.com> wrote:
->>
->> On 03/02/2023 13.08, Kevin Wolf wrote:
->> > Am 03.02.2023 um 12:23 hat Thomas Huth geschrieben:
->> >> On 30/01/2023 11.58, Daniel P. Berrang=C3=A9 wrote:
->> >>> On Mon, Jan 30, 2023 at 11:44:46AM +0100, Thomas Huth wrote:
->> >>>> We can get rid of the build-coroutine-sigaltstack job by moving
->> >>>> the configure flags that should be tested here to other jobs:
->> >>>> Move --with-coroutine=3Dsigaltstack to the build-without-defaults j=
-ob
->> >>>> and --enable-trace-backends=3Dftrace to the cross-s390x-kvm-only jo=
-b.
->> >>>
->> >>> The biggest user of coroutines is the block layer. So we probably
->> >>> ought to have coroutines aligned with a job that triggers the
->> >>> 'make check-block' for iotests.  IIUC,  the without-defaults
->> >>> job won't do that. How about, arbitrarily, using either the
->> >>> 'check-system-debian' or 'check-system-ubuntu' job. Those distros
->> >>> are closely related, so getting sigaltstack vs ucontext coverage
->> >>> between them is a good win, and they both trigger the block jobs
->> >>> IIUC.
->> >>
->> >> I gave it a try with the ubuntu job, but this apparently trips up the=
- iotests:
->> >>
->> >>   https://gitlab.com/thuth/qemu/-/jobs/3705965062#L212
->> >>
->> >> Does anybody have a clue what could be going wrong here?
->> >
->> > I'm not sure how changing the coroutine backend could cause it, but
->> > primarily this looks like an assertion failure in migration code.
->> >
->> > Dave, Juan, any ideas what this assertion checks and why it could be
->> > failing?
->>
->> Ah, I think it's the bug that will be fixed by:
->>
->>   https://lore.kernel.org/qemu-devel/20230202160640.2300-2-quintela@redh=
-at.com/
->>
->> The fix hasn't hit the master branch yet (I think), and I had another pa=
-tch
->> in my CI that disables the aarch64 binary in that runner, so the iotests
->> suddenly have been executed with the alpha binary there --> migration fa=
-ils.
->>
->> So never mind, it will be fixed as soon as Juan's pull request gets incl=
-uded.
->
-> The migration tests have been flaky for a while now,
-> including setups where host and guest page sizes are the same.
-> (For instance, my x86 macos box pretty reliably sees failures
-> when the machine is under load.)
+part 1 [*] cover:
+--
+QEMU provides the QOM API for core objects.
+Devices are modelled on top of QOM as QDev objects.
 
-I *thought* that we had fixed all of those.
+There is no point in using the lower level QOM API with
+QDev; it makes the code more complex and harder to review.
 
-But it is difficult for me to know because:
-- I only happens when one runs "make check"
-- running ./migration-test have never failed to me
-- When it fails (and it has been a while since it has failed to me)
-  it is impossible to me to detect what is going on, and as said, I have
-  never been able to reproduce running only migration-test.
+I first converted all the calls using errp=&error_abort or
+&errp=NULL, then noticed the other uses weren't really
+consistent.
 
-I will try to run several at the same time and see if it happens.
+A QDev property defined with the DEFINE_PROP_xxx() macros
+is always available, thus can't fail. When using hot-plug
+devices, we only need to check for optional properties
+registered at runtime with the object_property_add_XXX()
+API. Some are even always registered in device instance_init.
+--
 
-And as Thomas said, I *think* that the fix that Peter Xu posted should
-fix this issue.  Famous last words.
+In this series PPC hw is converted. Only one call site in PNV
+forwards the Error* argument and its conversion is justified.
 
-Later, Juan.
+Based-on: <20230203180914.49112-1-philmd@linaro.org>
+(in particular [PATCH 02/19] hw/qdev: Introduce qdev_prop_set_link():
+ https://lore.kernel.org/qemu-devel/20230203180914.49112-3-philmd@linaro.org/)
+
+[*] https://lore.kernel.org/qemu-devel/20230203180914.49112-1-philmd@linaro.org/
+
+Philippe Mathieu-Daudé (5):
+  hw/misc/macio: Set QDev properties using QDev API
+  hw/pci-host/raven: Set QDev properties using QDev API
+  hw/ppc/ppc4xx: Set QDev properties using QDev API
+  hw/ppc/spapr: Set QDev properties using QDev API
+  hw/ppc/pnv: Set QDev properties using QDev API
+
+ hw/intc/pnv_xive.c         | 11 ++++------
+ hw/intc/pnv_xive2.c        | 15 +++++---------
+ hw/intc/spapr_xive.c       | 11 ++++------
+ hw/intc/xics.c             |  4 ++--
+ hw/intc/xive.c             |  4 ++--
+ hw/misc/macio/macio.c      |  6 ++----
+ hw/pci-host/pnv_phb3.c     |  9 +++------
+ hw/pci-host/pnv_phb4.c     |  4 ++--
+ hw/pci-host/pnv_phb4_pec.c | 10 +++-------
+ hw/pci-host/raven.c        |  6 ++----
+ hw/ppc/e500.c              |  3 +--
+ hw/ppc/pnv.c               | 41 ++++++++++++++++----------------------
+ hw/ppc/pnv_psi.c           | 10 +++-------
+ hw/ppc/ppc405_boards.c     |  6 ++----
+ hw/ppc/ppc405_uc.c         |  6 +++---
+ hw/ppc/ppc440_bamboo.c     |  3 +--
+ hw/ppc/ppc4xx_devs.c       |  2 +-
+ hw/ppc/sam460ex.c          |  5 ++---
+ hw/ppc/spapr_irq.c         |  8 +++-----
+ 19 files changed, 62 insertions(+), 102 deletions(-)
+
+-- 
+2.38.1
 
 
