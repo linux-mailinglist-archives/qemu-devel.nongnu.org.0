@@ -2,54 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93AA1689AE5
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:03:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E48CE689B38
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:13:19 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNwdf-0002Am-Uf; Fri, 03 Feb 2023 09:02:03 -0500
+	id 1pNwnB-0006Jw-VB; Fri, 03 Feb 2023 09:11:53 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vladimir.isaev@syntacore.com>)
- id 1pNwdd-00025I-An; Fri, 03 Feb 2023 09:02:01 -0500
-Received: from forward102j.mail.yandex.net ([2a02:6b8:0:801:2::102])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <vladimir.isaev@syntacore.com>)
- id 1pNwdZ-000457-SX; Fri, 03 Feb 2023 09:02:01 -0500
-Received: from iva1-5283d83ef885.qloud-c.yandex.net
- (iva1-5283d83ef885.qloud-c.yandex.net
- [IPv6:2a02:6b8:c0c:16a7:0:640:5283:d83e])
- by forward102j.mail.yandex.net (Yandex) with ESMTP id 4EBF84BE8CBD;
- Fri,  3 Feb 2023 17:01:12 +0300 (MSK)
-Received: by iva1-5283d83ef885.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA
- id 91ZhCplZXqM1-DEOe97Z8; Fri, 03 Feb 2023 17:01:11 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=syntacore.com; s=mail;
- t=1675432871; bh=HDfbGdBTM5i/4nShW913NUhDHP3xIIxXseefl/b2Z8A=;
- h=Message-Id:Date:Cc:Subject:To:From;
- b=DXuaQ+UQS9USPC1Lj3g0i1le+HfIhuvLdgVZnblqK8n0wkg3UwaZxZ9Py5f2r2799
- 2jtPUNfP35tD8X8yxHUt09zf51bAy3gmyounjFN5q24hkT0wJIpR8Mcczj/4+BOND+
- s17IkV/PY/LNI7MVNzVHI5t5tF/PNxZhr7UlT618=
-Authentication-Results: iva1-5283d83ef885.qloud-c.yandex.net;
- dkim=pass header.i=@syntacore.com
-From: Vladimir Isaev <vladimir.isaev@syntacore.com>
-To: richard.henderson@linaro.org, palmer@dabbelt.com, alistair.francis@wdc.com,
- bin.meng@windriver.com, qemu-riscv@nongnu.org
-Cc: qemu-devel@nongnu.org,
-	Vladimir Isaev <vladimir.isaev@syntacore.com>
-Subject: [PATCH] target/riscv: fix ctzw behavior
-Date: Fri,  3 Feb 2023 17:00:59 +0300
-Message-Id: <20230203140059.13068-1-vladimir.isaev@syntacore.com>
-X-Mailer: git-send-email 2.39.1
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNwn8-0006IZ-MO
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:11:50 -0500
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNwn6-000128-Vp
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:11:50 -0500
+Received: by mail-wm1-x32d.google.com with SMTP id k16so3970429wms.2
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:11:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :from:to:cc:subject:date:message-id:reply-to;
+ bh=MGTuyaL3Srri9dYaCvD4PHJ8XHymtwxMYrYDAsSLUN0=;
+ b=mkS4H0Ga/Q10UpyP/kiF6pTm8fb0F/UmALBGfwBUloXz2l8WwgBYF9gEKPmhFyaBHB
+ K0d+uXJQpn8vYBokgPvaTThi8uuaYmurBJqhtaZSNOJI/9s1TGPaPeE18ma8MKREe6bb
+ tTE0TXuUbW8sSVRYLeuMCa24k+da0Q+1uoVx0silTJ2JEvbrMOnN+MOYrm64ZdaWrEN+
+ x2xM4g0qzQXwH8HqvgjwmW5fukS1mS2AmzspTRSxt1v470TGZZlxCVSMjG/zjYphQvET
+ +YB7qA9/c3mbQIW2BcV1RCQna7EvdY2boJ5LjujNAayzKUyiedWUIPuvbD/0SwbuLXps
+ xvKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:in-reply-to:from:references:cc:to
+ :content-language:subject:user-agent:mime-version:date:message-id
+ :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+ bh=MGTuyaL3Srri9dYaCvD4PHJ8XHymtwxMYrYDAsSLUN0=;
+ b=0eesl7159uQuALVePRVPb2kZ2arOJj0xs8nuBq58q4IkURcDNn1cxCBjZxu2IskxHW
+ 7jyTvJeSdN2PQHNOfrqee4bHKYHP+cLjRbCMrrP2UUO8bOhRZ/02LCgbEtH3Y8s42ZDu
+ oAXtZkGvj5kPDYLGQC7iulBFojj1PJkSquBywgrB3Ve+wTrNooMWrm06QKr7BtATalnT
+ zSjUjPgmCC1gZi3LF/mD8u7y0+sg+3GrXVLefapO2Fiq7eVyLQV01Ov+XF0Z2XXE2wwc
+ +ptVBfQwsadGHJTbFBtuZhMhPuBDLQEG4z98Yq9Yar9ULZIXuqBZoXO8NhNQpvBeYvoO
+ Ogyw==
+X-Gm-Message-State: AO0yUKVi54qIX5kFMM8rciO9QfLqi99dg5KXr3DsmXOXSrDk+H3ErGWS
+ /zNGh3PFeUbqJsvsT2yDcKGLag==
+X-Google-Smtp-Source: AK7set+pi5OmQWpOQ2u8fENYGGX7Fy8ucMKgmWMGdhZ08iO1gsneLy1mxjkYGBAgb42gWlc9hA3yRQ==
+X-Received: by 2002:a05:600c:1d13:b0:3dc:5abb:2f50 with SMTP id
+ l19-20020a05600c1d1300b003dc5abb2f50mr9374456wms.19.1675433507220; 
+ Fri, 03 Feb 2023 06:11:47 -0800 (PST)
+Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
+ m4-20020a05600c4f4400b003dc36981727sm9009377wmq.14.2023.02.03.06.11.45
+ (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+ Fri, 03 Feb 2023 06:11:46 -0800 (PST)
+Message-ID: <91463ac0-f2ea-d225-30da-90efed93ac28@linaro.org>
+Date: Fri, 3 Feb 2023 15:11:45 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
+ Gecko/20100101 Thunderbird/102.6.1
+Subject: Re: [PATCH 6/9] hw/display/sm501: QOM-alias 'dma-offset' property in
+ chipset object
+Content-Language: en-US
+To: BALATON Zoltan <balaton@eik.bme.hu>
+Cc: qemu-devel@nongnu.org, qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>, Eduardo Habkost
+ <eduardo@habkost.net>, Yoshinori Sato <ysato@users.sourceforge.jp>,
+ Magnus Damm <magnus.damm@gmail.com>
+References: <20230203113650.78146-1-philmd@linaro.org>
+ <20230203113650.78146-7-philmd@linaro.org>
+ <136f25e8-686a-1529-b114-08dd54e6b819@eik.bme.hu>
+ <075577d7-d5c4-393b-9d0d-2aab32abe957@linaro.org>
+ <27fc6a3d-78b4-91f7-6f05-8c0cbd1ef125@eik.bme.hu>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
+In-Reply-To: <27fc6a3d-78b4-91f7-6f05-8c0cbd1ef125@eik.bme.hu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a02:6b8:0:801:2::102;
- envelope-from=vladimir.isaev@syntacore.com; helo=forward102j.mail.yandex.net
-X-Spam_score_int: -20
-X-Spam_score: -2.1
+Received-SPF: pass client-ip=2a00:1450:4864:20::32d;
+ envelope-from=philmd@linaro.org; helo=mail-wm1-x32d.google.com
+X-Spam_score_int: -21
+X-Spam_score: -2.2
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,37 +97,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-According to spec, ctzw should work with 32-bit register, not 64.
+On 3/2/23 14:50, BALATON Zoltan wrote:
+> On Fri, 3 Feb 2023, Philippe Mathieu-Daudé wrote:
+>> On 3/2/23 14:05, BALATON Zoltan wrote:
+>>> On Fri, 3 Feb 2023, Philippe Mathieu-Daudé wrote:
+>>>> No need to use an intermediate 'dma-offset' property in the
+>>>> chipset object. Alias the property, so when the machine (here
+>>>> r2d-plus) sets the value on the chipset, it is propagated to
+>>>> the OHCI object.
+>>>>
+>>>> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+>>>> ---
+>>>> hw/display/sm501.c | 22 +++++++++++-----------
+>>>> hw/sh4/r2d.c       |  2 +-
+>>>> 2 files changed, 12 insertions(+), 12 deletions(-)
+>>>
+>>> It does not seem to be any simpler by the number of lines but maybe a 
+>>> bit cleaner.
+>>
+>> Well it also moves to the "Embed QOM objects" pattern which Peter 
+>> prefers.
+>> Note this device doesn't implement unrealize().
+> 
+> True. Maybe worth mentioning in the commit message to make this more 
+> explicit. I saw it in the patch but did not think about that.
+> 
+>>> I wonder if it would worth renaming the property to dma-offset to 
+>>> match that of ohci so it's less confusing what it refers to. It's 
+>>> only used by r2d and this patch already changing that so would be an 
+>>> easy change.
+>>
+>> We can't because TYPE_PCI_SM501 is user-creatable, so we need to
+>> go thru the whole deprecation process and we don't have any API to
+>> deprecate QOM properties yet.
+> 
+> But the sm501 PCI device only creates the display part hence it has no 
+> base option only vram-size (see sm501_pci_properties) so only the sysbus 
+> version has this property. Is this still a problem in that case?
 
-For example, previous implementation returns 33 for (1<<33) input
-when the new one returns 32.
-
-Signed-off-by: Vladimir Isaev <vladimir.isaev@syntacore.com>
----
- target/riscv/insn_trans/trans_rvb.c.inc | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
-
-diff --git a/target/riscv/insn_trans/trans_rvb.c.inc b/target/riscv/insn_trans/trans_rvb.c.inc
-index e2b8329f1e5b..42c6ded13de8 100644
---- a/target/riscv/insn_trans/trans_rvb.c.inc
-+++ b/target/riscv/insn_trans/trans_rvb.c.inc
-@@ -80,7 +80,14 @@ static void gen_ctz(TCGv ret, TCGv arg1)
- 
- static void gen_ctzw(TCGv ret, TCGv arg1)
- {
--    tcg_gen_ctzi_tl(ret, arg1, 32);
-+    TCGv_i32 t = tcg_temp_new_i32();
-+
-+    tcg_gen_trunc_tl_i32(t, arg1);
-+    tcg_gen_ctzi_i32(t, t, 32);
-+
-+    tcg_gen_extu_i32_tl(ret, t);
-+
-+    tcg_temp_free_i32(t);
- }
- 
- static bool trans_ctz(DisasContext *ctx, arg_ctz *a)
--- 
-2.39.1
-
+Oh you are right, I misread the PCI/sysbus functions. Lucky me, thanks!
 
