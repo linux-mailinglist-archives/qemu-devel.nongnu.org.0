@@ -2,87 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01C868A3FE
+	by mail.lfdr.de (Postfix) with ESMTPS id BCF6068A3FF
 	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 22:01:52 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO3AW-0003Kz-VL; Fri, 03 Feb 2023 16:00:24 -0500
+	id 1pO3BL-0003YA-UV; Fri, 03 Feb 2023 16:01:15 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pO3AT-0003HY-Ne
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:00:21 -0500
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <dbarboza@ventanamicro.com>)
- id 1pO3AR-0002Jw-Fi
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:00:21 -0500
-Received: by mail-ot1-x341.google.com with SMTP id
- e12-20020a0568301e4c00b0068bc93e7e34so1747968otj.4
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 13:00:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=ventanamicro.com; s=google;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
- :from:to:cc:subject:date:message-id:reply-to;
- bh=aWnD9tdCHRdV+yAeg4nQ1LbB9djqmstLbrP9dGNEO0M=;
- b=PBHEqQpkr4uxLyPSDnd4odlX1hqT0XY6htB0SoxJpTCTqmKYYmBoBQWn0Cnu7Ocb/e
- uPinKUJ9oT3lL3R0h5VlquJ1vmRp1v1TPOtsnqw4jWCKz87s2NCh0oHWbQ7sIzcIImiN
- uT3/qACK3yQ2Rw2CUflzC6LWgkWtmGfEpbWD21exudWGgnDYSP/KZEiybKOG91qrQLBk
- j1kABzQmBuraJprFiD7p0mgm+SZ6Ebf+SbfbM/IGZguxGBy6giTRu8QbNLmYUQYXhhbR
- KLIAYb3cABeqTdMX8XYFBQFVYcwYkJZD9z2NY8QOQSm6+bV9FeGpFzMRdi3EYlOS1vcM
- v6dQ==
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pO3BJ-0003XR-Pw
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:01:13 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <quintela@redhat.com>)
+ id 1pO3BH-0002VR-He
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:01:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675458070;
+ h=from:from:reply-to:reply-to:subject:subject:date:date:
+ message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+ content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=tJ8/3BOZg3az8VdBFPhpWyaJam+MgQakK+DJon8P4XE=;
+ b=I9AaSgo/0sH0Ip3PBYEo9x+Iz+0cfQQcdHKx9gdbVQFCQEIyK1U5KOlfLmxbT8rSnTinYZ
+ OpQPpPyKLxD2FLFfy7jrq9y47E8f/d9n5kuGPfIjj/5mZ6j7l++gZjlaY7iGPLGEcXQDtp
+ hCG+qp70cpKY5BXXLwioXVSyfCaQ6eY=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-632-HPfsjpqTMhuuOBsJoSHgjA-1; Fri, 03 Feb 2023 16:01:08 -0500
+X-MC-Unique: HPfsjpqTMhuuOBsJoSHgjA-1
+Received: by mail-wm1-f69.google.com with SMTP id
+ a20-20020a05600c349400b003dfecb98d38so1234185wmq.0
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 13:01:07 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
- h=content-transfer-encoding:in-reply-to:from:references:cc:to
- :content-language:subject:user-agent:mime-version:date:message-id
+ h=content-transfer-encoding:mime-version:message-id:date:reply-to
+ :user-agent:references:in-reply-to:subject:cc:to:from
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=aWnD9tdCHRdV+yAeg4nQ1LbB9djqmstLbrP9dGNEO0M=;
- b=BJOwt95Sx1UTATrK3p/DmbzME4pz/BRfQkGB1cy4bANZmV/oIdLVLE80j40j8XStTt
- l3LBd+I7TN3PyhU7K/VrEYs93t0aDcfCesUcl35GcN66H8Sp2qB0ikqmixIUtscpjsML
- Sq//k3m68PbFwiKjPYppZH0FFAWdshjs9cWHMrT0FbPdFffyrZZIf9jyZ3o9s3lm6HOF
- Qw+lSa8Q615HN7suI3Ocux9mmEcnrDvnAJFTcPOTGWLz6p4G9U10bsiyGMET3tjljq2y
- JjSQ9rUZtqEu2v9GAmiW3RALb2r/YyQKdpW8mk62w7JfLOfvA0ZeJOztz6n2FkjQ7fGj
- VhWQ==
-X-Gm-Message-State: AO0yUKV3Ezm3bpDr5A0s2VGZVF+9Oqt9X239Kbw8e7r0cKyrJndMsUUe
- jpQQaazIAH2ANliNy7LViLX0mQ==
-X-Google-Smtp-Source: AK7set9ODg7e2U+v3mAHAsrOcS+ymiD4WREpTMRH31h5SQhMSPb9dwNrY2lyJxm4jD2xRfBPEbxPXA==
-X-Received: by 2002:a9d:4783:0:b0:68b:e2cd:9362 with SMTP id
- b3-20020a9d4783000000b0068be2cd9362mr6046027otf.33.1675458016903; 
- Fri, 03 Feb 2023 13:00:16 -0800 (PST)
-Received: from [192.168.68.107] ([177.102.69.207])
- by smtp.gmail.com with ESMTPSA id
- r16-20020a056830135000b0068bc476d777sm1590297otq.13.2023.02.03.13.00.15
- (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Feb 2023 13:00:16 -0800 (PST)
-Message-ID: <e7d32c5f-a996-2d50-9362-3223c546d136@ventanamicro.com>
-Date: Fri, 3 Feb 2023 18:00:12 -0300
+ bh=tJ8/3BOZg3az8VdBFPhpWyaJam+MgQakK+DJon8P4XE=;
+ b=Xl6tq+ZLmgHhCp/mVw3yTAMFx5mWeLomBGgmp8Y6p2ZbU+931VQoRUXucQh3u/kJh0
+ /dMUbmQ16x6BrDAmQO1idzoQym9iuQ/q3J1IdXm/HExU9MztTMYDhaBE6zINv3bDWq8m
+ AAT55e1olYawS343m0cOXZH5/LK/kvoPtrux2C+6Su9gKmDFfObZP05+OHXHN4C2Ucde
+ kQTPFeBbRldzPvkJwV7d2zuspdJnVvkP6lZ5k1F3qhVPGbSpXBdhvH/RuGUFIqUjqEF4
+ 7AlX8CUUhd9fmsmcVK+8WD743YtvkS4W3apVBQGoWclRutazQ3KEm2PTnToKSzZ50XOm
+ aeQg==
+X-Gm-Message-State: AO0yUKUI+xIdV/tMM4g0LQvBVriObU+HpKK3e+Cd4U2TULbTQAjFU8F6
+ IY4BpEg1iWW2X7yIhD9MKm5zG7a11KY/lvafkETLMRGY0cbx6UcEfuMBwtfREnhCZ5Qwd8mLwq9
+ o5d4vEzmBb9HX4yg=
+X-Received: by 2002:a05:600c:3542:b0:3df:eedf:df1c with SMTP id
+ i2-20020a05600c354200b003dfeedfdf1cmr1544592wmq.38.1675458066396; 
+ Fri, 03 Feb 2023 13:01:06 -0800 (PST)
+X-Google-Smtp-Source: AK7set+dU2wvrlySbaFf+M+OQt262+xokX48QqD2IZtgabV8cjURv10Pe7o2b30Opd4MM34QzDSsPg==
+X-Received: by 2002:a05:600c:3542:b0:3df:eedf:df1c with SMTP id
+ i2-20020a05600c354200b003dfeedfdf1cmr1544573wmq.38.1675458066101; 
+ Fri, 03 Feb 2023 13:01:06 -0800 (PST)
+Received: from redhat.com ([46.136.252.173]) by smtp.gmail.com with ESMTPSA id
+ q6-20020a05600c46c600b003dc54344764sm9655809wmo.48.2023.02.03.13.01.04
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Feb 2023 13:01:05 -0800 (PST)
+From: Juan Quintela <quintela@redhat.com>
+To: Peter Xu <peterx@redhat.com>
+Cc: qemu-devel@nongnu.org,  Leonardo Bras Soares Passos
+ <lsoaresp@redhat.com>,  Michal =?utf-8?B?UHLDrXZvem7DrWs=?=
+ <mprivozn@redhat.com>,  Daniel P
+ . =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>,  Philippe =?utf-8?Q?Ma?=
+ =?utf-8?Q?thieu-Daud=C3=A9?=
+ <philmd@linaro.org>,  "Dr . David Alan Gilbert" <dgilbert@redhat.com>
+Subject: Re: [PATCH v2 3/3] util/userfaultfd: Support /dev/userfaultfd
+In-Reply-To: <Y9wf5AI4xmHhNCTM@x1n> (Peter Xu's message of "Thu, 2 Feb 2023
+ 15:41:08 -0500")
+References: <20230201211055.649442-1-peterx@redhat.com>
+ <20230201211055.649442-4-peterx@redhat.com>
+ <87cz6stk4a.fsf@secure.mitica> <Y9wf5AI4xmHhNCTM@x1n>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+Date: Fri, 03 Feb 2023 22:01:04 +0100
+Message-ID: <87357mfoq7.fsf@secure.mitica>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v10 1/3] hw/riscv: handle 32 bit CPUs kernel_addr in
- riscv_load_kernel()
-Content-Language: en-US
-To: Bin Meng <bmeng.cn@gmail.com>
-Cc: qemu-devel@nongnu.org, qemu-riscv@nongnu.org, alistair.francis@wdc.com
-References: <20230202135810.1657792-1-dbarboza@ventanamicro.com>
- <20230202135810.1657792-2-dbarboza@ventanamicro.com>
- <CAEUhbmW01vUZNdAcXQ0b-7GUgH70q9eyWJH7kG+Mph4uJJeWnA@mail.gmail.com>
- <51896f68-d902-ee07-295d-5809c9c66e60@ventanamicro.com>
- <CAEUhbmVN3Pw8794tq2H3X5amexhptnrZaLdG0MHyON6fyac-AA@mail.gmail.com>
-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
-In-Reply-To: <CAEUhbmVN3Pw8794tq2H3X5amexhptnrZaLdG0MHyON6fyac-AA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::341;
- envelope-from=dbarboza@ventanamicro.com; helo=mail-ot1-x341.google.com
-X-Spam_score_int: -21
-X-Spam_score: -2.2
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=quintela@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1, NICE_REPLY_A=-0.09,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -96,115 +104,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
  <mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Hey,
-
-On 2/3/23 07:45, Bin Meng wrote:
-> Hi Daniel,
-> 
-> On Fri, Feb 3, 2023 at 6:31 PM Daniel Henrique Barboza
-> <dbarboza@ventanamicro.com> wrote:
->>
->>
->>
->> On 2/3/23 02:39, Bin Meng wrote:
->>> On Thu, Feb 2, 2023 at 9:58 PM Daniel Henrique Barboza
->>> <dbarboza@ventanamicro.com> wrote:
->>>>
->>>> load_elf_ram_sym() will sign-extend 32 bit addresses. If a 32 bit QEMU
->>>> guest happens to be running in a hypervisor that are using 64 bits to
->>>> encode its address, kernel_entry can be padded with '1's and create
->>>> problems [1].
->>>
->>> Still this commit message is inaccurate. It's not
->>>
->>> "a 32-bit QEMU guest happens to running in a hypervisor that are using
->>> 64 bits to encode tis address"
->>>
->>> as a 32-bit ELF can only hold a 32-bit address, but it's the QEMU ELF
->>> loader that does the sign extension and returns the address as
->>> uint64_t. It has nothing to do with hypervisor too.
->>
->>
->> Yeah I'm still focusing too much on the use case instead of the root of the
->> problem (sign-extension from QEMU elf).
->>
->>>
->>>>
->>>> Using a translate_fn() callback in load_elf_ram_sym() to filter the
->>>> padding from the address doesn't work. A more detailed explanation can
->>>> be found in [2]. The short version is that glue(load_elf, SZ), from
->>>> include/hw/elf_ops.h, will calculate 'pentry' (mapped into the
->>>> 'kernel_load_base' var in riscv_load_Kernel()) before using
->>>> translate_fn(), and will not recalculate it after executing it. This
->>>> means that the callback does not prevent the padding from
->>>> kernel_load_base to appear.
->>>>
->>>> Let's instead use a kernel_low var to capture the 'lowaddr' value from
->>>> load_elf_ram_sim(), and return it when we're dealing with 32 bit CPUs.
->>>
->>> Looking at the prototype of load_elf_ram_sym() it has
->>>
->>> ssize_t load_elf_ram_sym(const char *filename,
->>>                            uint64_t (*elf_note_fn)(void *, void *, bool),
->>>                            uint64_t (*translate_fn)(void *, uint64_t),
->>>                            void *translate_opaque, uint64_t *pentry,
->>>                            uint64_t *lowaddr, uint64_t *highaddr,
->>>                            uint32_t *pflags, int big_endian, int elf_machine,
->>>                            int clear_lsb, int data_swab,
->>>                            AddressSpace *as, bool load_rom, symbol_fn_t sym_cb)
->>>
->>> So kernel_low is the "highaddr" parameter, not the 'lowaddr' value.
->>
->> And for some reason I thought kernel_base_addr was being used as 'pentry'. kernel_base_addr
->> is already 'lowaddr'. Guess I'll have to rewrite the commit message. And revisit why my
->> test case worked for riscv32 (I probably didn't use an ELF image ...)
->>
->> And the only way out seems to be filtering the bits from lowaddr. I'll do that.
->>
-> 
-> Can you check as to why QEMU ELF loader does the sign extension?
-> 
-> I personally don't know why. Maybe the ELF loader does something wrong.
+Peter Xu <peterx@redhat.com> wrote:
+> On Thu, Feb 02, 2023 at 11:52:21AM +0100, Juan Quintela wrote:
+>> Peter Xu <peterx@redhat.com> wrote:
+>> > Teach QEMU to use /dev/userfaultfd when it existed and fallback to the
+>> > system call if either it's not there or doesn't have enough permission.
+>> >
+>> > Firstly, as long as the app has permission to access /dev/userfaultfd,=
+ it
+>> > always have the ability to trap kernel faults which QEMU mostly wants.
+>> > Meanwhile, in some context (e.g. containers) the userfaultfd syscall c=
+an be
+>> > forbidden, so it can be the major way to use postcopy in a restricted
+>> > environment with strict seccomp setup.
+>> >
+>> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
+>> > Signed-off-by: Peter Xu <peterx@redhat.com>
+>>=20
+>>=20
+>> Hi
+>
+> Hi, Juan,
 
 
-I took a look and didn't find out why. I checked that in the ELF specification some
-file headers can indicate a sign extension. E.g. R_X86_64_32S for example is described as
-"Direct 32 bit zero extended". Note that the use of the tags are dependent on how the
-ELF was built, so we would need the exact ELF to check for that. All I can say is that
-there is a sign extension going on, in the 'lowaddr' field, and that translate_fn()
-wasn't enough to filter it out. I can't say whether this is intended or a bug.
+>> static int open_userfaultd(void)
+>> {
+>>     /*
+>>      * Make /dev/userfaultfd the default approach because it has better
+>>      * permission controls, meanwhile allows kernel faults without any
+>>      * privilege requirement (e.g. SYS_CAP_PTRACE).
+>>      */
+>>      int uffd =3D open("/dev/userfaultfd", O_RDWR | O_CLOEXEC);
+>>      if (uffd >=3D 0) {
+>>             return uffd;
+>>      }
+>>      return -1;
+>> }
+>>=20
+>> int uffd_open(int flags)
+>> {
+>> #if defined(__linux__) && defined(__NR_userfaultfd)
+
+Just an incise, checkpatch don't liue that you use __linux__
+
+This file is compiled under CONFIG_LINUX, so you can drop it.
+
+>>     static int uffd =3D -2;
+>>     if (uffd =3D=3D -2) {
+>>         uffd =3D open_userfaultd();
+>>     }
+>>     if (uffd >=3D 0) {
+>>         return ioctl(uffd, USERFAULTFD_IOC_NEW, flags);
+>>     }
+>>     return syscall(__NR_userfaultfd, flags);
+>> #else
+>>      return -EINVAL;
+>>=20
+>> 27 lines vs 42
+>>=20
+>> No need for enum type
+>> No need for global variable
+>>=20
+>> What do you think?
+>
+> Yes, as I used to reply to Phil I think it can be simplified.  I did this
+> major for (1) better readability, and (2) being crystal clear on which way
+> we used to open /dev/userfaultfd, then guarantee we're keeping using it. =
+so
+> at least I prefer keeping things like trace_uffd_detect_open_mode().
+
+The trace is ok for me.  I just forgot to copy it on the rework, sorry.
+
+> I also plan to add another mode when fd-mode is there even if it'll reuse
+> the same USERFAULTFD_IOC_NEW; they can be useful information when a failu=
+re
+> happens.
+
+The other fd mode will change the uffd.
+
+What I *kind* of object is:
+- Using a global variable when it is not needed
+  i.e. for me using a global variable means that anything else is worse.
+  Not the case IMHO.
+- Call uffd_open_mode() for every call, when we know that it can change,
+  it is going to return always the same value, so cache it.
+
+> Though if you insist, I can switch to the simple version too.
+
+I always told that the person who did the patch has the last word on
+style.  I preffer my version, but it is up to you to take it or not.
+
+Later, Juan.
 
 
-But going back a little, this whole situation happened in v5 because, in the next
-patch, riscv_load_initrd() started to receive an uint64_t (kernel_entry) instead of
-receiving a target_ulong like it was doing before. This behavior change, which was
-accidental, not only revealed this sign-extension behavior but also potentially changed
-what riscv_load_initrd() is receiving from load_uimage_as() the same way it's
-impacting load_elf_ram_sym(). The third load option, load_image_targphys_as(), is
-already using a target_ulong (kernel_start_addr) as return value so it's not
-impacted.
-
-I believe Alistair suggested to clear bits instead of just doing a target_ulong
-cast for a reason (I guess we're trying to gate all 32/64 bit CPU logic using a
-direct approach such as checking the CPU directly), but I also think we should
-clear bits for all 'kernel_entry' possibilities, not just the one that comes from
-load_elf_ram_sym(), to be consistent in all three cases. We might be even avoiding
-a future headache from load_uimage_as().
-
-
-
-Thoughts?
-
-
-Daniel
-
-
-[1] https://github.com/riscv-non-isa/riscv-elf-psabi-doc/blob/master/riscv-elf.adoc
-
-> 
-> Regards,
-> Bin
 
