@@ -2,81 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A883689F21
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 17:25:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC902689F45
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 17:30:22 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNyrZ-0007HM-Pq; Fri, 03 Feb 2023 11:24:33 -0500
+	id 1pNywP-0000XE-FK; Fri, 03 Feb 2023 11:29:33 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pNyrX-0007Gn-Q6
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 11:24:31 -0500
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f])
+ id 1pNywO-0000X5-4J
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 11:29:32 -0500
+Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <alex.bennee@linaro.org>)
- id 1pNyrV-0005hn-Qu
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 11:24:31 -0500
-Received: by mail-wm1-x32f.google.com with SMTP id
- j29-20020a05600c1c1d00b003dc52fed235so4284646wms.1
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 08:24:29 -0800 (PST)
+ id 1pNywM-0007QY-Gm
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 11:29:31 -0500
+Received: by mail-wm1-x32a.google.com with SMTP id
+ n28-20020a05600c3b9c00b003ddca7a2bcbso4282792wms.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 08:29:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:from:to:cc:subject:date
  :message-id:reply-to;
- bh=p/hvb2wOJ5SU0tLM0dKef3gdlO1CJYHZlcTjtsw/SQA=;
- b=j9FAVAzZEdC597pnvg0WA+ciM8cA55EiKZKVtr4OhWmQvNBxQtbe5ZYhMuc/F0QtGU
- 6qneag/ZIJVw/jNpDU5bcLYHcTpBZawayrpYBqy4tvyIltvRJGkpHBD7wqtlo5Vl2F1s
- 934jAroLkNL5oRwEZY4TPdWECmR3sU5rh25M0DD9HiapQRDSNEwwi3NVa45vZ9q+MGoh
- /W/JPaJsUxo0ERiDFAj5ZPNeKod3C3udTAIawoFYb5gUWwzlVBXIIofq36NA593CLEUv
- Nnc8NPl9LbeyH69plUdhrRO4SgzZENCL3L2om3BTcYRJg5QROyd4O4+X+RB0Ormn0/e2
- Ribw==
+ bh=SwWfA+LJOqUyTOvY4UModLmacj6DsKgUeH5Qp6UW9kQ=;
+ b=reGNbjnGiRwsK7iXkuj/iLabaFmT4XC7as9lj981nRvWeHyeOfLT5MiR507+eA6Q1W
+ ik4g0eR3KedOHpF/4eM7sNWOHKkrLCom5+BIE+l4ZBxAXqlVz1RFh66aQpWbfb5iJgzm
+ qs4ma/mwI84NSpCn5rqWeMw6OQa+OSdEZ6GycMRScJv/32Kxn3lhUY7ViXurSW91TFtg
+ 0fOnqdx4p3vFRvTA0JQaIxSl5ZT33cnUVdG+n3lNMFIwXAyuwDHeAX2uNxthmRiXXrH+
+ eMYFm93FuLQhydTdgt4GGzqgK5s+dWf1xwanfR7yDxd/FIn4kpJsMyaUj+siufGZCkLo
+ FTAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:message-id:in-reply-to:date
  :subject:cc:to:from:user-agent:references:x-gm-message-state:from:to
  :cc:subject:date:message-id:reply-to;
- bh=p/hvb2wOJ5SU0tLM0dKef3gdlO1CJYHZlcTjtsw/SQA=;
- b=x+ToOyzNsDk8yhgo2OZmpwk7YCvr2ocEN7p/5Y5dVuWskEKVxyO5gCmEs48la2oHGW
- L8fodK5GxNh8Xp9/WPmvWTkHz425wVWCKvr7MyllYRdvDSbfcV0LKNjXJUZS0UChA3pG
- o4HRG3Ilb8MHe+hcSJx8VOt3R1Ai6qtUeSqd0JGjjaFhScO9khJdMUmbXvIRpWM10/7r
- hkq+AKlbG1intatcDBp021wuDFtQ7H3d2eziE46HvtGmLiSXTKUdlSj0P7uzSCe3QHdn
- IZvIl6yPbYstl0no7iXbhXEn0aOMslRyU4Gvg/eDQQ2kqqQIidpKR5EDvlY6VTdz8UMQ
- YXkw==
-X-Gm-Message-State: AO0yUKWsKczgneHUTFaJDdz20LwJZzBhPxR3Z1NpY3VuS96BKljNueOA
- GwKFLz4J5YxTCbx0i9aMM6Bb1g==
-X-Google-Smtp-Source: AK7set8bEw3MpKCp584OLCX4COtKo63Ss+2FNFkexBuaKH2rfPEUMh66XvFUwY6xKjVLNWmzMbQDXQ==
-X-Received: by 2002:a05:600c:198b:b0:3df:3bd6:63e5 with SMTP id
- t11-20020a05600c198b00b003df3bd663e5mr8404947wmq.12.1675441468033; 
- Fri, 03 Feb 2023 08:24:28 -0800 (PST)
+ bh=SwWfA+LJOqUyTOvY4UModLmacj6DsKgUeH5Qp6UW9kQ=;
+ b=QnApYzMlF2xMLBr4uQ9AmwjJSSpJyxsnfsCaW5tAnuvHMqTnuxSeqp0jJuJ7IZQ5CU
+ XCHK8lHQ1w5xAKr4y4kjeVDz+9v3kNmOVJJvXJRKgE1IvNXEI74BwUKys+gpfm341I4F
+ otzV9ArvUPId9Bjy75Cfk4Ute/3IBOoFCMNDaYuJWof+wa6CNkOebGKZNteWqxHVtVVr
+ r3wfZdwMqpaRXiRDKfcT7DT8dOwwaaVvjzCMcvkBRdena25fV4xAbdV2Qh/H4r/adloP
+ 3KEYXCbwesW7q4liWrWCqGnlpMEod1IHuWpme6gvNsCa+n7XbTbLgCJ9+NJy3wbAsi37
+ 8GgA==
+X-Gm-Message-State: AO0yUKXW3eq+aObkrHsc+sB5TxtETp9Z8x5/Eq9A4iL5UCVWlI8UjBzj
+ 9w1ZjtJH7kfeY19AGxr945vrQw==
+X-Google-Smtp-Source: AK7set/qH8lPuOjQBvHth1YvdQUy6Yx+na9FR7dCdGR8B6M226ZmKhMEapV41MdNGpjeHJDqkdaXaA==
+X-Received: by 2002:a05:600c:1c97:b0:3dd:dd46:171b with SMTP id
+ k23-20020a05600c1c9700b003dddd46171bmr12226046wms.10.1675441768684; 
+ Fri, 03 Feb 2023 08:29:28 -0800 (PST)
 Received: from zen.linaroharston ([185.81.254.11])
  by smtp.gmail.com with ESMTPSA id
- fc13-20020a05600c524d00b003db01178b62sm9509159wmb.40.2023.02.03.08.24.27
+ j10-20020a05600c1c0a00b003dd1c45a7b0sm3526269wms.23.2023.02.03.08.29.28
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Feb 2023 08:24:27 -0800 (PST)
+ Fri, 03 Feb 2023 08:29:28 -0800 (PST)
 Received: from zen (localhost [127.0.0.1])
- by zen.linaroharston (Postfix) with ESMTP id 34A0E1FFB7;
- Fri,  3 Feb 2023 16:24:27 +0000 (GMT)
+ by zen.linaroharston (Postfix) with ESMTP id C44D01FFB7;
+ Fri,  3 Feb 2023 16:29:27 +0000 (GMT)
 References: <20230202175903.2119702-1-alex.bennee@linaro.org>
  <875ycjlwo8.fsf@linaro.org>
- <478e4940-ba22-6b70-119a-b7416680db97@linaro.org>
+ <b674695a-793b-cceb-9083-72544fc1d67a@redhat.com>
 User-agent: mu4e 1.9.19; emacs 29.0.60
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-Cc: qemu-devel@nongnu.org, Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?=
- <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>, Wainer dos Santos Moschetta
- <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org, Philippe
+ =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>, Wainer dos Santos
+ Moschetta <wainersm@redhat.com>, Beraldo Leal <bleal@redhat.com>
 Subject: Re: [RFC PATCH] gitlab: call ninja directly and reduce build noise
-Date: Fri, 03 Feb 2023 16:23:54 +0000
-In-reply-to: <478e4940-ba22-6b70-119a-b7416680db97@linaro.org>
-Message-ID: <87k00yk98k.fsf@linaro.org>
+Date: Fri, 03 Feb 2023 16:28:03 +0000
+In-reply-to: <b674695a-793b-cceb-9083-72544fc1d67a@redhat.com>
+Message-ID: <87fsbmk908.fsf@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2a00:1450:4864:20::32f;
- envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32f.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
+ envelope-from=alex.bennee@linaro.org; helo=mail-wm1-x32a.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -100,24 +99,58 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+Thomas Huth <thuth@redhat.com> writes:
 
-> On 2/2/23 08:59, Alex Benn=C3=A9e wrote:
+> On 02/02/2023 19.59, Alex Benn=C3=A9e wrote:
+>> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>>=20
+>>> A significant portion of our CI logs are just enumerating each
+>>> successfully built object file. The current widespread versions of
+>>> ninja don't have a quiet option so we use NINJA_STATUS to add a fixed
+>>> string to the ninja output which we then filter with fgrep. If there
+>>> are any errors in the output we get them from the compiler.
+>>>
+>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>> ---
+>>>   .gitlab-ci.d/buildtest-template.yml | 2 +-
+>>>   1 file changed, 1 insertion(+), 1 deletion(-)0
+>>>
+>>> diff --git a/.gitlab-ci.d/buildtest-template.yml b/.gitlab-ci.d/buildte=
+st-template.yml
+>>> index 73ecfabb8d..3c4b237e4f 100644
+>>> --- a/.gitlab-ci.d/buildtest-template.yml
+>>> +++ b/.gitlab-ci.d/buildtest-template.yml
+>>> @@ -21,7 +21,7 @@
+>>>         then
+>>>           ../meson/meson.py configure . -Dbackend_max_links=3D"$LD_JOBS=
+" ;
+>>>         fi || exit 1;
+>>> -    - make -j"$JOBS"
 >>> +    - env NINJA_STATUS=3D"[ninja][%f/%t] " ninja | fgrep -v "[ninja]"
 >>>       - if test -n "$MAKE_CHECK_ARGS";
 >>>         then
 >>>           make -j"$JOBS" $MAKE_CHECK_ARGS ;
->> This is too much for gitlab as it trips up on no output at all. What
->> we
->> really need is something that filters ninja output, counts the lines and
->> outputs a dot every 10? 20? lines to keep gitlab happy.
->> Shonky shell script? Very clever sed?
+>> This is too much for gitlab as it trips up on no output at all.=20
 >
-> NINJA_STATUS=3D'ninja %f: ' ninja | grep 'ninja.*[02468]0:'
+> I'm also not sure whether it is really safe to not run make here at
+> all. Some parts of our build system still rely on the "make" magic, I
+> think, and you might miss them if only running ninja. For example
+> pc-bios/optionrom/ does not get compiled without running "make".
 
-NINJA_STATUS=3D"[ninja][%f/%t] " ninja | grep -v "\[ninja\]\[.*[123456789]/"
+OK I'll see if I can embed it in make somehow.
 
-but I guess I need to include it from the Makefile invocation
+> TBH, I also think the output of the file that currently gets compiled
+> is still valuable in some cases, too, e.g. if you want to be sure
+> whether certain files get compiled in one configuration at all or not.
+> So I'm rather in favor in not doing this change.
+
+For a successful build you can always go an examine the artefacts after
+the fact. This is about making the CI log as short and informative as
+possible to make spotting where errors occur easier.
+
+>
+>  Thomas
+
 
 --=20
 Alex Benn=C3=A9e
