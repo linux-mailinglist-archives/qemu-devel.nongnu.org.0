@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7565168928C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:47:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4D268929A
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:48:59 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNriB-0008Vo-UL; Fri, 03 Feb 2023 03:46:24 -0500
+	id 1pNri6-0008RR-OQ; Fri, 03 Feb 2023 03:46:18 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhq-0008Jn-1C
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:03 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhm-0008IV-F0
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:45:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhl-0007Tt-4F
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:46:00 -0500
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhk-0007TI-1N
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:45:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
  s=mimecast20190719; t=1675413955;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=TcCGMUGbBBCvYd6SubnjNYKLNtudXL10l2neCSwOqzw=;
- b=aqRmiBc3FxaZe1x59e8p4A53wzy0NLN78IwLU2Do99yamRLGEJWVQJSRfgimoQ6mxJ8lNN
- zXgAWTu/S1MgIlmVY21t6xWGASDIYlYuR0EKii0e8hHHRVZVriZWrqdI9C/6T6GEKR4l22
- DaH5xr9du7YUYnd+a9bR25/fMSrUOMw=
+ bh=k1R2RhzTJi+l/O2B8GaVDpG5tSnL6LCRtlIgiAtH/p8=;
+ b=RHwKJzNqK+3oJVBXhr0dJUStgvFZ4yDXXXQ2AV8SZHMShCdR8+sbnbZNRdU1Na5WROKJPt
+ Nj59M1BmWi3AJMRL92KvbPDijSNZdXoKCcClf4nOLcCc5st0PgpIOdWMDtlBfrbGKYlCtE
+ 7v5UdbSvHkej+Cj7iDzy0iP68hRjzr0=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-589-h_Gb9FQmPtO51SUvinf57w-1; Fri, 03 Feb 2023 03:45:51 -0500
-X-MC-Unique: h_Gb9FQmPtO51SUvinf57w-1
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.rdu2.redhat.com
- [10.11.54.8])
+ us-mta-570-A93htLPfNQSEZJ9cqXj-Ag-1; Fri, 03 Feb 2023 03:45:51 -0500
+X-MC-Unique: A93htLPfNQSEZJ9cqXj-Ag-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.1])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2D0C33C10175;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27EBF3C10174;
  Fri,  3 Feb 2023 08:45:51 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D760DC15BA0;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D6FC2400F756;
  Fri,  3 Feb 2023 08:45:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B0B5721E6A20; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
+ id B34E121E6A21; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org, "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
- Juan Quintela <quintela@redhat.com>
-Subject: [PULL 01/35] MAINTAINERS: Cover userfaultfd
-Date: Fri,  3 Feb 2023 09:45:15 +0100
-Message-Id: <20230203084549.2622302-2-armbru@redhat.com>
+Cc: peter.maydell@linaro.org,
+	Juan Quintela <quintela@redhat.com>
+Subject: [PULL 02/35] MAINTAINERS: Cover include/sysemu/accel-blocker.h
+Date: Fri,  3 Feb 2023 09:45:16 +0100
+Message-Id: <20230203084549.2622302-3-armbru@redhat.com>
 In-Reply-To: <20230203084549.2622302-1-armbru@redhat.com>
 References: <20230203084549.2622302-1-armbru@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.8
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
+Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -80,39 +79,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit 0e9b5cd6b2 "migration: introduce UFFD-WP low-level interface
-helpers" added util/userfaultfd.c without covering it in MAINTAINERS.
-Add it to section "Migration".
+Commit bd688fc931 "accel: introduce accelerator blocker API" aded
+include/sysemu/accel-blocker.h and accel/accel-blocker.c.  MAINTAINERS
+covers the latter in section "Guest CPU Cores (other accelerators) /
+Overall", but not the former.  Fix that.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230119091545.3116376-2-armbru@redhat.com>
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@linaro.org>
+Message-Id: <20230119091545.3116376-3-armbru@redhat.com>
 Reviewed-by: Juan Quintela <quintela@redhat.com>
 ---
- MAINTAINERS | 2 ++
- 1 file changed, 2 insertions(+)
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index c581c11a64..5288eb8271 100644
+index 5288eb8271..190a6f5a0e 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -3088,6 +3088,7 @@ S: Maintained
- F: hw/core/vmstate-if.c
- F: include/hw/vmstate-if.h
- F: include/migration/
-+F: include/qemu/userfaultfd.h
- F: migration/
- F: scripts/vmstate-static-checker.py
- F: tests/vmstate-static-checker-data/
-@@ -3095,6 +3096,7 @@ F: tests/qtest/migration-test.c
- F: docs/devel/migration.rst
- F: qapi/migration.json
- F: tests/migration/
-+F: util/userfaultfd.c
- 
- D-Bus
- M: Marc-André Lureau <marcandre.lureau@redhat.com>
+@@ -437,7 +437,7 @@ M: Richard Henderson <richard.henderson@linaro.org>
+ R: Paolo Bonzini <pbonzini@redhat.com>
+ S: Maintained
+ F: include/qemu/accel.h
+-F: include/sysemu/accel-ops.h
++F: include/sysemu/accel-*.h
+ F: include/hw/core/accel-cpu.h
+ F: accel/accel-*.c
+ F: accel/Makefile.objs
 -- 
 2.39.0
 
