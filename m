@@ -2,54 +2,89 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CB8768A4A5
+	by mail.lfdr.de (Postfix) with ESMTPS id 97DCB68A4A7
 	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 22:30:02 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO3c8-0007io-P2; Fri, 03 Feb 2023 16:28:56 -0500
+	id 1pO3bz-0007ht-FI; Fri, 03 Feb 2023 16:28:47 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pO3c6-0007iJ-Ae; Fri, 03 Feb 2023 16:28:54 -0500
-Received: from zero.eik.bme.hu ([152.66.115.2])
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pO3bx-0007hU-3h
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:28:45 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <balaton@eik.bme.hu>)
- id 1pO3c3-0000eW-NW; Fri, 03 Feb 2023 16:28:54 -0500
-Received: from zero.eik.bme.hu (blah.eik.bme.hu [152.66.115.182])
- by localhost (Postfix) with SMTP id BDDDE74645F;
- Fri,  3 Feb 2023 22:26:18 +0100 (CET)
-Received: by zero.eik.bme.hu (Postfix, from userid 432)
- id 7463F746392; Fri,  3 Feb 2023 22:26:18 +0100 (CET)
-Received: from localhost (localhost [127.0.0.1])
- by zero.eik.bme.hu (Postfix) with ESMTP id 72725746377;
- Fri,  3 Feb 2023 22:26:18 +0100 (CET)
-Date: Fri, 3 Feb 2023 22:26:18 +0100 (CET)
-From: BALATON Zoltan <balaton@eik.bme.hu>
-To: =?ISO-8859-15?Q?Philippe_Mathieu-Daud=E9?= <philmd@linaro.org>
-cc: qemu-devel@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, 
- qemu-ppc@nongnu.org, 
- =?ISO-8859-15?Q?Herv=E9_Poussineau?= <hpoussin@reactos.org>, 
- =?ISO-8859-15?Q?C=E9dric_Le_Goater?= <clg@kaod.org>, 
- Daniel Henrique Barboza <danielhb413@gmail.com>, 
- Markus Armbruster <armbru@redhat.com>, 
- David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-Subject: Re: [PATCH 3/5] hw/ppc/ppc4xx: Set QDev properties using QDev API
-In-Reply-To: <20230203211623.50930-4-philmd@linaro.org>
-Message-ID: <b10263d2-60df-c993-593a-5110095546e2@eik.bme.hu>
-References: <20230203211623.50930-1-philmd@linaro.org>
- <20230203211623.50930-4-philmd@linaro.org>
+ (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
+ id 1pO3bv-0000dV-6v
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 16:28:44 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675459720;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ content-transfer-encoding:content-transfer-encoding:
+ in-reply-to:in-reply-to:references:references;
+ bh=KQhsMCOyS2Unsi3MVU+lCA1x0CqiAAWETpWTQsaDVDY=;
+ b=V0Ztro/+BWbO4RdNtvzuC42/XBD3942sh1GWrnlldbaf6L0xu62lxkWf6t2s9qD9n2nJrj
+ jVmIkXlTjVFNz0KvLzsU537e9FUmSG3kEixHvyvYUyHiD1StTgBb1+d6fff6LQfGR6v+He
+ KRx1fmAZq3dNhH+neCSQBqvvBMW48qA=
+Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
+ [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
+ us-mta-528-y2pvkGnwPp-LjXDGBq_ZEw-1; Fri, 03 Feb 2023 16:28:39 -0500
+X-MC-Unique: y2pvkGnwPp-LjXDGBq_ZEw-1
+Received: by mail-io1-f69.google.com with SMTP id
+ d8-20020a6b6e08000000b00722d8d9c432so3715771ioh.19
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 13:28:38 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:mime-version:references:in-reply-to
+ :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=KQhsMCOyS2Unsi3MVU+lCA1x0CqiAAWETpWTQsaDVDY=;
+ b=n/Q6S1dQjZSipXQDwNpXYqqS4iVsMhG7dBYMyrHI+blM6GSUaetOGblnf3YGqL4pK2
+ SV/NgF59UaxS+GVl4yUpPAficeXYgQSQ2d6F4NBRD7+tMu3grEnWPJWT9XYICUrc7rtq
+ wkDgODXLlomdz7Avb+TYPOWqhg3cKpFFc7dqb9Gbw+PKTwGC1mkzCesG3SozXA2h2K2P
+ JbggvmLpNQItK1bfWAXFiaurBPvE2AM9Il8XAQ6vKed47svpyLVu/7nTfsDZkxkmDosg
+ e551ssfLMDSyLLe18GZU477Opj0w7zWKEHcPSzclPZF73rhWlOFGMBA1RPl6YpUj+zcs
+ yrbA==
+X-Gm-Message-State: AO0yUKWTNGELt/bBqOId8Rsguh7VOJhitfZN9FXvBsUu5MlcFvV1gPyA
+ Lc5PDIS0pKxfIQVT56CeaNcfTCQdVD5CpZ0x2M2nlKydDkzZw2tfW114koeohi8jOx2xQOEYlGK
+ J8P+xTESDfPoL22U=
+X-Received: by 2002:a05:6e02:1bac:b0:311:e8:e82e with SMTP id
+ n12-20020a056e021bac00b0031100e8e82emr10216588ili.17.1675459718273; 
+ Fri, 03 Feb 2023 13:28:38 -0800 (PST)
+X-Google-Smtp-Source: AK7set/518aY/fU9/HKggm2A6PO8hPggVHBlD3YKGu7xVArVi56nzvLc2WF0fqsx61B9Ri4mOi0saA==
+X-Received: by 2002:a05:6e02:1bac:b0:311:e8:e82e with SMTP id
+ n12-20020a056e021bac00b0031100e8e82emr10216574ili.17.1675459717954; 
+ Fri, 03 Feb 2023 13:28:37 -0800 (PST)
+Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
+ n8-20020a922608000000b0031119a42b2dsm1047458ile.78.2023.02.03.13.28.37
+ (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+ Fri, 03 Feb 2023 13:28:37 -0800 (PST)
+Date: Fri, 3 Feb 2023 14:28:36 -0700
+From: Alex Williamson <alex.williamson@redhat.com>
+To: John Johnson <john.g.johnson@oracle.com>
+Cc: qemu-devel@nongnu.org, clg@redhat.com, philmd@linaro.org
+Subject: Re: [PATCH v2 17/23] vfio-user: dma map/unmap operations
+Message-ID: <20230203142836.440fb63d.alex.williamson@redhat.com>
+In-Reply-To: <1ec25a5832299083fee3c90bd89561f5c1d42ba9.1675228037.git.john.g.johnson@oracle.com>
+References: <cover.1675228037.git.john.g.johnson@oracle.com>
+ <1ec25a5832299083fee3c90bd89561f5c1d42ba9.1675228037.git.john.g.johnson@oracle.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/mixed;
- boundary="3866299591-512487620-1675459578=:93212"
-X-Spam-Probability: 9%
-Received-SPF: pass client-ip=152.66.115.2; envelope-from=balaton@eik.bme.hu;
- helo=zero.eik.bme.hu
-X-Spam_score_int: -41
-X-Spam_score: -4.2
-X-Spam_bar: ----
-X-Spam_report: (-4.2 / 5.0 requ) BAYES_00=-1.9, RCVD_IN_DNSWL_MED=-2.3,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+Received-SPF: pass client-ip=170.10.133.124;
+ envelope-from=alex.williamson@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
+X-Spam_score_int: -20
+X-Spam_score: -2.1
+X-Spam_bar: --
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -65,137 +100,72 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+On Wed,  1 Feb 2023 21:55:53 -0800
+John Johnson <john.g.johnson@oracle.com> wrote:
 
---3866299591-512487620-1675459578=:93212
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8BIT
-
-On Fri, 3 Feb 2023, Philippe Mathieu-Daudé wrote:
-> No need to use the low-level QOM API when an object
-> inherits from QDev. Directly use the QDev API to set
-> its properties.
->
-> All calls use either errp=&error_abort or &error_fatal,
-> so converting to the QDev API is almost a no-op (QDev
-> API always uses &error_abort).
->
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@linaro.org>
-
-Reviewed-by: BALATON Zoltan <balaton@eik.bme.hu>
-
+> Add ability to do async operations during memory transactions
+> 
+> Signed-off-by: Jagannathan Raman <jag.raman@oracle.com>
+> Signed-off-by: Elena Ufimtseva <elena.ufimtseva@oracle.com>
+> Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
 > ---
-> hw/ppc/e500.c          | 3 +--
-> hw/ppc/ppc405_boards.c | 6 ++----
-> hw/ppc/ppc405_uc.c     | 6 +++---
-> hw/ppc/ppc440_bamboo.c | 3 +--
-> hw/ppc/ppc4xx_devs.c   | 2 +-
-> hw/ppc/sam460ex.c      | 5 ++---
-> 6 files changed, 10 insertions(+), 15 deletions(-)
->
-> diff --git a/hw/ppc/e500.c b/hw/ppc/e500.c
-> index 9fa1f8e6cf..083961cef5 100644
-> --- a/hw/ppc/e500.c
-> +++ b/hw/ppc/e500.c
-> @@ -943,8 +943,7 @@ void ppce500_init(MachineState *machine)
->          * Secondary CPU starts in halted state for now. Needs to change
->          * when implementing non-kernel boot.
->          */
-> -        object_property_set_bool(OBJECT(cs), "start-powered-off", i != 0,
-> -                                 &error_fatal);
-> +        qdev_prop_set_bit(DEVICE(cs), "start-powered-off", i != 0);
->         qdev_realize_and_unref(DEVICE(cs), NULL, &error_fatal);
->
->         if (!firstenv) {
-> diff --git a/hw/ppc/ppc405_boards.c b/hw/ppc/ppc405_boards.c
-> index 4092ebc1ab..67eb9ac139 100644
-> --- a/hw/ppc/ppc405_boards.c
-> +++ b/hw/ppc/ppc405_boards.c
-> @@ -276,10 +276,8 @@ static void ppc405_init(MachineState *machine)
->
->     object_initialize_child(OBJECT(machine), "soc", &ppc405->soc,
->                             TYPE_PPC405_SOC);
-> -    object_property_set_link(OBJECT(&ppc405->soc), "dram",
-> -                             OBJECT(machine->ram), &error_abort);
-> -    object_property_set_uint(OBJECT(&ppc405->soc), "sys-clk", 33333333,
-> -                             &error_abort);
-> +    qdev_prop_set_link(DEVICE(&ppc405->soc), "dram", OBJECT(machine->ram));
-> +    qdev_prop_set_uint32(DEVICE(&ppc405->soc), "sys-clk", 33333333);
->     qdev_realize(DEVICE(&ppc405->soc), NULL, &error_fatal);
->
->     /* allocate and load BIOS */
-> diff --git a/hw/ppc/ppc405_uc.c b/hw/ppc/ppc405_uc.c
-> index c973cfb04e..b7d5cfc548 100644
-> --- a/hw/ppc/ppc405_uc.c
-> +++ b/hw/ppc/ppc405_uc.c
-> @@ -1080,7 +1080,7 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->      * We use the 440 DDR SDRAM controller which has more regs and features
->      * but it's compatible enough for now
->      */
-> -    object_property_set_int(OBJECT(&s->sdram), "nbanks", 2, &error_abort);
-> +    qdev_prop_set_uint32(DEVICE(&s->sdram), "nbanks", 2);
->     if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->sdram), &s->cpu, errp)) {
->         return;
->     }
-> @@ -1147,8 +1147,8 @@ static void ppc405_soc_realize(DeviceState *dev, Error **errp)
->     }
->
->     /* MAL */
-> -    object_property_set_int(OBJECT(&s->mal), "txc-num", 4, &error_abort);
-> -    object_property_set_int(OBJECT(&s->mal), "rxc-num", 2, &error_abort);
-> +    qdev_prop_set_uint8(DEVICE(&s->mal), "txc-num", 4);
-> +    qdev_prop_set_uint8(DEVICE(&s->mal), "rxc-num", 2);
->     if (!ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(&s->mal), &s->cpu, errp)) {
->         return;
->     }
-> diff --git a/hw/ppc/ppc440_bamboo.c b/hw/ppc/ppc440_bamboo.c
-> index 81d71adf34..3612471990 100644
-> --- a/hw/ppc/ppc440_bamboo.c
-> +++ b/hw/ppc/ppc440_bamboo.c
-> @@ -200,8 +200,7 @@ static void bamboo_init(MachineState *machine)
->
->     /* SDRAM controller */
->     dev = qdev_new(TYPE_PPC4xx_SDRAM_DDR);
-> -    object_property_set_link(OBJECT(dev), "dram", OBJECT(machine->ram),
-> -                             &error_abort);
-> +    qdev_prop_set_link(dev, "dram", OBJECT(machine->ram));
->     ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(dev), cpu, &error_fatal);
->     object_unref(OBJECT(dev));
->     /* XXX 440EP's ECC interrupts are on UIC1, but we've only created UIC0. */
-> diff --git a/hw/ppc/ppc4xx_devs.c b/hw/ppc/ppc4xx_devs.c
-> index c1d111465d..1848cf5d3c 100644
-> --- a/hw/ppc/ppc4xx_devs.c
-> +++ b/hw/ppc/ppc4xx_devs.c
-> @@ -535,7 +535,7 @@ void ppc4xx_dcr_register(Ppc4xxDcrDeviceState *dev, int dcrn, void *opaque,
-> bool ppc4xx_dcr_realize(Ppc4xxDcrDeviceState *dev, PowerPCCPU *cpu,
->                         Error **errp)
-> {
-> -    object_property_set_link(OBJECT(dev), "cpu", OBJECT(cpu), &error_abort);
-> +    qdev_prop_set_link(DEVICE(dev), "cpu", OBJECT(cpu));
->     return sysbus_realize(SYS_BUS_DEVICE(dev), errp);
-> }
->
-> diff --git a/hw/ppc/sam460ex.c b/hw/ppc/sam460ex.c
-> index cf065aae0e..cb828b6d4d 100644
-> --- a/hw/ppc/sam460ex.c
-> +++ b/hw/ppc/sam460ex.c
-> @@ -345,13 +345,12 @@ static void sam460ex_init(MachineState *machine)
->         exit(1);
->     }
->     dev = qdev_new(TYPE_PPC4xx_SDRAM_DDR2);
-> -    object_property_set_link(OBJECT(dev), "dram", OBJECT(machine->ram),
-> -                             &error_abort);
-> +    qdev_prop_set_link(dev, "dram", OBJECT(machine->ram));
->     /*
->      * Put all RAM on first bank because board has one slot
->      * and firmware only checks that
->      */
-> -    object_property_set_int(OBJECT(dev), "nbanks", 1, &error_abort);
-> +    qdev_prop_set_uint32(dev, "nbanks", 1);
->     ppc4xx_dcr_realize(PPC4xx_DCR_DEVICE(dev), cpu, &error_fatal);
->     object_unref(OBJECT(dev));
->     /* FIXME: does 460EX have ECC interrupts? */
->
---3866299591-512487620-1675459578=:93212--
+>  hw/vfio/user-protocol.h       |  32 ++++++
+>  include/hw/vfio/vfio-common.h |   4 +-
+>  hw/vfio/common.c              |  64 +++++++++---
+>  hw/vfio/user.c                | 224 ++++++++++++++++++++++++++++++++++++++++++
+>  hw/vfio/trace-events          |   2 +
+>  5 files changed, 311 insertions(+), 15 deletions(-)
+...
+> diff --git a/hw/vfio/common.c b/hw/vfio/common.c
+> index 6f99907..f04fd20 100644
+> --- a/hw/vfio/common.c
+> +++ b/hw/vfio/common.c
+...
+> @@ -587,7 +586,8 @@ static bool vfio_listener_skipped_section(MemoryRegionSection *section)
+>  
+>  /* Called with rcu_read_lock held.  */
+>  static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+> -                               ram_addr_t *ram_addr, bool *read_only)
+> +                               ram_addr_t *ram_addr, bool *read_only,
+> +                               MemoryRegion **mrp)
+>  {
+>      MemoryRegion *mr;
+>      hwaddr xlat;
+> @@ -668,6 +668,10 @@ static bool vfio_get_xlat_addr(IOMMUTLBEntry *iotlb, void **vaddr,
+>          *read_only = !writable || mr->readonly;
+>      }
+>  
+> +    if (mrp != NULL) {
+> +        *mrp = mr;
+> +    }
+> +
+>      return true;
+>  }
+>  
+
+This needs a rebase, the contents of vfio_get_xlat_addr() were largely
+moved to memory_get_xlat_addr() and the context is all wrong now.
+Thanks,
+
+Alex
+
+commit baa44bce87fe53ef5c95d39e634b3bace014d235
+Author: Cindy Lu <lulu@redhat.com>
+Date:   Mon Oct 31 11:10:19 2022 +0800
+
+    vfio: move implement of vfio_get_xlat_addr() to memory.c
+    
+    - Move the implement vfio_get_xlat_addr to softmmu/memory.c, and
+      change the name to memory_get_xlat_addr(). So we can use this
+      function on other devices, such as vDPA device.
+    - Add a new function vfio_get_xlat_addr in vfio/common.c, and it will check
+      whether the memory is backed by a discard manager. then device can
+      have its own warning.
+    
+    Signed-off-by: Cindy Lu <lulu@redhat.com>
+    Message-Id: <20221031031020.1405111-2-lulu@redhat.com>
+    Acked-by: Alex Williamson <alex.williamson@redhat.com>
+    Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+    Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+
 
