@@ -2,73 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FD6E689E59
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 16:34:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EA0689E66
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 16:37:24 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNy3c-0000bQ-Kf; Fri, 03 Feb 2023 10:32:56 -0500
+	id 1pNy6w-00031h-32; Fri, 03 Feb 2023 10:36:22 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNy3a-0000Zy-SV
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:32:54 -0500
-Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNy3W-0007KB-Kd
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:32:54 -0500
-Received: by mail-pf1-x42f.google.com with SMTP id o68so2581688pfg.9
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 07:32:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:from:to:cc:subject:date
- :message-id:reply-to;
- bh=IduNa3R3rT4qpuefkuUYoR7/xojvFtY7ochTaTOAVvw=;
- b=RotKPMwICHqaUYua8nF3ECV4m+8tbI1thuN7A6xQ/YgmvSpvemb7n0HeYfNIiyhRJM
- qYDkdvf3yMkgGQSjPXJPp+pRzhlIFAK9FSNdcc2CsorfXtIdmfABg/2LesGEylSzyvTk
- hKjrLEECz/1Xj+YOhwWMqHWWlMPeN3w7VTWXOeqO9TiwGAsTZjtgC2Mu2R32KBXfYeSq
- qA/x9+688f7oonAnxFfZBh/JUf5S/QK6VKQonnZxAvEdv1arlT+g9RmpRygEL0vT0At0
- TacO0u/jhafd9o8oz39AP38CvimdpggIC5o2XISlv6KwgfZVJuPsk6P+gE6sqa7hCd1/
- pEmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:cc:to:subject:message-id:date:from
- :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=IduNa3R3rT4qpuefkuUYoR7/xojvFtY7ochTaTOAVvw=;
- b=1qzSjTkdG8kZkKWSewxKJVDAtsSoMqgW8Q4LAy46Pga2dnNAQZKt5ysy9biwuSW66k
- FONlSw/MoslB3xK22oJ/QGPowxgnLfiACisbNky+hyBCLcltfRyE2RZXxJ1Cs3Ml16DT
- sS9YpPMrIoGXawnjY/gTuG670K34XABtsHjDh11ugaf45o1dyN+NL3b8y7atS+s0f8Js
- NWlRfBTEuNHSSaD/+PmISrvklPKW2EAm2AQYNGhThYGb2y0ejGyBGKVYg5inxM/TLnXa
- 0seUaPxlJkYgxyqrmChXFYeyJMIgLzUDabzZXwuPvtMy0nsKt31amCfKV0y2DAto4Yqz
- 7W3A==
-X-Gm-Message-State: AO0yUKWXSqdmVlqE6iQi1FDxv8ENKb/XY30zNJ1sqZHx4UjVoeJ9NCmD
- FatFXuiKKJ31+A5uHfOZ9dBTK3eOxsp74FQV7jjd7g==
-X-Google-Smtp-Source: AK7set8TdynR/O9QmmcTde3mpAwfwyuLXNuonGXw98J+aAiAe6GMZW0aNlKuPvHT7bM7aCNvFUIqjp1QzADiBKSnvRc=
-X-Received: by 2002:a05:6a00:1490:b0:593:dc7d:a31d with SMTP id
- v16-20020a056a00149000b00593dc7da31dmr2533341pfu.23.1675438368340; Fri, 03
- Feb 2023 07:32:48 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1pNy6p-0002yq-T3
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:36:17 -0500
+Received: from zuban.uni-paderborn.de ([2001:638:502:c003::17])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <kbastian@mail.uni-paderborn.de>)
+ id 1pNy6m-0000mB-Da
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:36:15 -0500
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+ d=mail.uni-paderborn.de; s=20170601; h=In-Reply-To:Content-Transfer-Encoding:
+ Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
+ Sender:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+ Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+ List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+ bh=LRj3fztn8iVE/wyLEwf8cCned6AONcK+ZbamBDCHgAE=; b=st+5j4o72iEZp2WfRrh1rLj7vx
+ z+dijJXL8Rk/hcWT3aKaatcN5ObAtMQvH5J5kMEH1xajQwbkrCy+hdvnWCWrXIk5wJRr7C+Iitrsv
+ k5lv+WAfLm60fk4zlwydj24DcXaYLXHUTHki3AbrpuksKVCcufP+In9rybWe6yZZ6NpA=;
+Date: Fri, 3 Feb 2023 16:36:03 +0100
+From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@linaro.org>
+Cc: qemu-devel@nongnu.org, peter.maydell@linaro.org, alex.bennee@linaro.org
+Subject: Re: [PATCH] tests/docker: Use binaries for debian-tricore-cross
+Message-ID: <20230203153603.cbvaf7sctottvkml@schnipp-desktop>
+References: <20230203145404.1043301-1-kbastian@mail.uni-paderborn.de>
+ <c21d19e6-7e8a-a66e-0c65-f05954e429d7@linaro.org>
 MIME-Version: 1.0
-References: <20230203084549.2622302-1-armbru@redhat.com>
-In-Reply-To: <20230203084549.2622302-1-armbru@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 Feb 2023 15:32:36 +0000
-Message-ID: <CAFEAcA_VV=_rc3tgYOVsYaHNyQs=WbKN4h4EA53wH+V-sRXKwQ@mail.gmail.com>
-Subject: Re: [PULL 00/35] Monitor patches for 2023-02-03
-To: Markus Armbruster <armbru@redhat.com>
-Cc: qemu-devel@nongnu.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
- envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42f.google.com
-X-Spam_score_int: -20
-X-Spam_score: -2.1
-X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c21d19e6-7e8a-a66e-0c65-f05954e429d7@linaro.org>
+X-IMT-Source: Extern
+X-IMT-Spam-Score: 0.0 ()
+X-PMX-Version: 6.4.9.2830568, Antispam-Engine: 2.7.2.2107409,
+ Antispam-Data: 2023.2.3.152717, AntiVirus-Engine: 5.96.0,
+ AntiVirus-Data: 2023.1.24.5960001
+X-Sophos-SenderHistory: ip=84.154.177.181, fs=369716, da=163047632, mc=4, sc=0,
+ hc=4, sp=0, fso=369716, re=0, sd=0, hd=0
+X-IMT-Authenticated-Sender: kbastian@UNI-PADERBORN.DE
+Received-SPF: pass client-ip=2001:638:502:c003::17;
+ envelope-from=kbastian@mail.uni-paderborn.de; helo=zuban.uni-paderborn.de
+X-Spam_score_int: -42
+X-Spam_score: -4.3
+X-Spam_bar: ----
+X-Spam_report: (-4.3 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, RCVD_IN_DNSWL_MED=-2.3,
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -84,60 +71,64 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 3 Feb 2023 at 08:45, Markus Armbruster <armbru@redhat.com> wrote:
->
->
-> The following changes since commit deabea6e88f7c4c3c12a36ee30051c62095611=
-65:
->
->   Merge tag 'for_upstream' of https://git.kernel.org/pub/scm/virt/kvm/mst=
-/qemu into staging (2023-02-02 10:10:07 +0000)
->
-> are available in the Git repository at:
->
->   https://repo.or.cz/qemu/armbru.git tags/pull-monitor-2023-02-03
->
-> for you to fetch changes up to 3a1cecf486ee97d5750931f81706c6d447615f17:
->
->   monitor: Rename misc.c to hmp-target.c (2023-02-03 09:14:17 +0100)
->
-> ----------------------------------------------------------------
-> Monitor patches for 2023-02-03
->
-> ----------------------------------------------------------------
+Hi Phil,
 
-Compile failures, multiple jobs, eg:
-https://gitlab.com/qemu-project/qemu/-/jobs/3711453887
+On Fri, Feb 03, 2023 at 04:02:16PM +0100, Philippe Mathieu-Daudé wrote:
+> Hi Bastian,
+> 
+> On 3/2/23 15:54, Bastian Koppelmann wrote:
+> > since binutils is pretty old, it fails our CI repeatedly during the
+> > compilation of tricore-binutils. We created a precompiled version using
+> > the debian docker image and download it instead of building it ourself.
+> > 
+> > Signed-off-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+> > ---
+> > Peter, I was having trouble with the new version of binutils, I mentioned. I
+> > think this needs more time to sort out. So for now, let's just use a precompiled
+> > version of the current binutils.
+> > 
+> >   .../dockerfiles/debian-tricore-cross.docker    | 18 +++---------------
+> >   1 file changed, 3 insertions(+), 15 deletions(-)
+> > 
+> > diff --git a/tests/docker/dockerfiles/debian-tricore-cross.docker b/tests/docker/dockerfiles/debian-tricore-cross.docker
+> > index 5ae58efa09..4abcf07e68 100644
+> > --- a/tests/docker/dockerfiles/debian-tricore-cross.docker
+> > +++ b/tests/docker/dockerfiles/debian-tricore-cross.docker
+> > @@ -16,32 +16,20 @@ MAINTAINER Philippe Mathieu-Daudé <f4bug@amsat.org>
+> >   RUN apt update && \
+> >       DEBIAN_FRONTEND=noninteractive apt install -yy eatmydata && \
+> >       DEBIAN_FRONTEND=noninteractive eatmydata apt install -yy \
+> > -       bison \
+> > +       curl \
+> >          bzip2 \
+> >          ca-certificates \
+> > -       ccache \
+> 
+> You might not use ccache, but others do, so please let it:
+> 
+> $ git grep DOCKER_CCACHE
+> tests/docker/Makefile.include:203:DOCKER_CCACHE_DIR :=
+> $$HOME/.cache/qemu-docker-ccache
+> tests/docker/Makefile.include:212:      @mkdir -p "$(DOCKER_CCACHE_DIR)"
+> tests/docker/Makefile.include:234:                              -v
+> $(DOCKER_CCACHE_DIR):/var/tmp/ccache:z \
+> 
+> > -       flex \
+> > -       g++ \
+> > -       gcc \
+> > -       git \
+> >          libglib2.0-dev \
+> >          libpixman-1-dev \
+> >          locales \
+> > -       make \
+> 
+> Why remove gcc/(git)/make?
 
-../monitor/monitor.c:292:5: error: no previous prototype for
-=E2=80=98error_vprintf=E2=80=99 [-Werror=3Dmissing-prototypes]
-int error_vprintf(const char *fmt, va_list ap)
-^~~~~~~~~~~~~
-../monitor/monitor.c: In function =E2=80=98error_vprintf=E2=80=99:
-../monitor/monitor.c:297:9: error: function =E2=80=98error_vprintf=E2=80=99=
- might be a
-candidate for =E2=80=98gnu_printf=E2=80=99 format attribute
-[-Werror=3Dsuggest-attribute=3Dformat]
-return monitor_vprintf(cur_mon, fmt, ap);
-^~~~~~
-../monitor/monitor.c:299:5: error: function =E2=80=98error_vprintf=E2=80=99=
- might be a
-candidate for =E2=80=98gnu_printf=E2=80=99 format attribute
-[-Werror=3Dsuggest-attribute=3Dformat]
-return vfprintf(stderr, fmt, ap);
-^~~~~~
+I'm not cloning any repository and not building anything. Why download things, if we
+don't need them?
 
-The cross-win32-system job has more issues:
-https://gitlab.com/qemu-project/qemu/-/jobs/3711453827
+Anyways, if you prefer, then I can revert the changes to the installed packages.
 
-../monitor/hmp.c:1203:5: error: unknown type name 'DIR'
-../monitor/hmp.c:1225:11: error: implicit declaration of function
-'opendir'; did you mean 'open'?
-[-Werror=3Dimplicit-function-declaration]
-
-etc -- looks like some POSIX-only code is being built
-when it shouldn't?
-
-thanks
--- PMM
+Cheers,
+Bastian
 
