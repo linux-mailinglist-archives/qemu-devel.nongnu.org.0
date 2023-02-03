@@ -2,72 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE62689B9D
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:30:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88280689BA4
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 15:31:10 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNx58-000707-To; Fri, 03 Feb 2023 09:30:29 -0500
+	id 1pNx5Y-0000Sq-GG; Fri, 03 Feb 2023 09:30:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNx4i-0006ts-Nx
+ id 1pNx4i-0006tr-Lc
  for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:30:00 -0500
-Received: from mail-wm1-x32a.google.com ([2a00:1450:4864:20::32a])
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
  (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
- id 1pNx4f-00057V-JD
+ id 1pNx4f-00053Z-R0
  for qemu-devel@nongnu.org; Fri, 03 Feb 2023 09:30:00 -0500
-Received: by mail-wm1-x32a.google.com with SMTP id
- m16-20020a05600c3b1000b003dc4050c94aso3985860wms.4
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:29:56 -0800 (PST)
+Received: by mail-wm1-x334.google.com with SMTP id
+ hn2-20020a05600ca38200b003dc5cb96d46so6125856wmb.4
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 06:29:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
- :reply-to; bh=xTqYZJo21mR+70Kxpz8qplBoPvCqRYvqTyvegNRGHKw=;
- b=gwQqcCxwetDInQbd7fkMf567FsmZBD+fV5+OXeFc72CekDCvPo1vPHUGyfjkEygtqb
- /NLS6pRoSv3mTzXCIDcC7plXRIPKKLKaiBl1BuM9heL1/ZDf9PjIJ2KC6H2SarVGkvle
- FIGd+Pa9v9e61HWHnPQNoG5y+gFBVpjlOf7R/Wb+gPEFlRri4aXypinELPvaGoRGqB+d
- a88wJDKLnp9WKfSxn1LxxKCn19gygvdnwxep2sNTWGbOlNx0g3rDnnWUOsYY6RmWZrjO
- 76/J6iX2ptifSewiv1qQMi2TIXWCc1etjhudCkeHP1plSgdSICowKqHSEEyFeoSrM5yh
- xuWA==
+ :reply-to; bh=L2nnqzPfORcCpUIAV2HyeXVRQVeoYBVIUoJ05tbUvrM=;
+ b=NT96SRFcdwVoomEJAZrxvJiJs9Ol0Sf83+iAGijF5aoM9Au4TEMvoZoh54e/JyuBOq
+ wpIWezoU9k1i2/yATyrVbzM9BbZgD4djza81vYFcLtkf1gxrHufQDAh1bBpzSJ46hHri
+ 1qihFAtHD+pvYOChTwkl0JlLxij4ZyHEOT1VhzMYaFaV5mbG4CAIdPirfcivFct7tFF7
+ WDG58J1Fxw68TmUzU46rbIW7umaINpwgZ82Q1bA6bprZYl55gm5tpe7y6X7hdv+kbot9
+ K0qsWyyhsTD91TIhknOVHSsa1A7DmkFX0r33qLjqHIoMkOcNqsqBxvapUhHon77lXnCh
+ 7FRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:mime-version:references:in-reply-to
  :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
  :subject:date:message-id:reply-to;
- bh=xTqYZJo21mR+70Kxpz8qplBoPvCqRYvqTyvegNRGHKw=;
- b=ubF8mpsPkMk64LlbFOBp6pkIeIz/jPvrY6dYnw6A813eeJ+xEe6/sulRmVd2ra8v+V
- HLBWDQUTZAqUQSlcqILwCnOu4GoGNqB3AfgQv2eew1QfcDYPTiEltyU5brtO40kVBPXW
- iQhZlQ0r1VfH2SXYHOqphoiGerlF4gYWXOftA9fhWlD2KYIJvxTvoZ30C9xyn9ptIHqZ
- vjIrJSAmK0xv5Z+VjHKsjpeThyIGAjUEFzW0a9+KDCuUK3ae8su1yzL+dO96CDnJapJM
- MSzFY0gM/CYZ7LcASseehg1DuUYfNIFZVhpLOJ9daNyd4zPVXLvKFSpwRuzHk9Wwx3pB
- TFpQ==
-X-Gm-Message-State: AO0yUKWiJQFTrekhd1wCINzTHEybgbQ7xnCAgAS5Sse5ZzuQqDnwZtXn
- Bu4QgTrNS1/FdWE/HQ5+ng14D+N3SnS5+lbZ
-X-Google-Smtp-Source: AK7set+IxgoN6eWdxdwnkf0Uj01kIXXKyfvCNAXc8SFUS3/sxoTjR8Nl+jnNplsTQyObXAJ3XsX/LA==
-X-Received: by 2002:a05:600c:210a:b0:3df:12db:2779 with SMTP id
- u10-20020a05600c210a00b003df12db2779mr8940780wml.3.1675434596198; 
- Fri, 03 Feb 2023 06:29:56 -0800 (PST)
+ bh=L2nnqzPfORcCpUIAV2HyeXVRQVeoYBVIUoJ05tbUvrM=;
+ b=AESzYs+4zxjwPzPT4cnjbw/d0Y/9AHeCzvFWxhF+u978CYc3Ua62Arh7iTNfM4yBve
+ ibzq/x70M8dxMA+7aoJmkPgy3SDAIhYSFRemG9spC3nXPUM4TGxaIo2p0Zlu6gxpKXk7
+ 79elt5gs9RtYjB+yV0SqM3eKhkC4d+eygHlu3qUwbX79blkan6gQxUZ9G6aFuXAhr+WH
+ dTyVi0R7CPVpXsrWJtp6L18weivV6Cp8VP2sZ+P1a5mj4y9MdsIxaYNBJjI6XF3rJIBF
+ 7F614J5jeHG28fInzvWusN2AVPL4sGGgM1lcFRJtp0g1arl3ffgbi96xLWxCffP7+uNe
+ cR8w==
+X-Gm-Message-State: AO0yUKVUtczpQBMo4UW1mCtZGEA/RwaBMjHGN54MXO//UYGQaKY/qPbE
+ Z+MG8KKkUTo8mQ2jgnaDN/KjC+nedi8MgDof
+X-Google-Smtp-Source: AK7set9aTC8lEUcCUUr/efS2rL3vyLbw4/36ePYPxjI2LWWXktZxzN/+MCmPHlZND2jJVdxtExmBlA==
+X-Received: by 2002:a7b:cd17:0:b0:3dc:4f65:553e with SMTP id
+ f23-20020a7bcd17000000b003dc4f65553emr10745119wmj.3.1675434597097; 
+ Fri, 03 Feb 2023 06:29:57 -0800 (PST)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [2001:8b0:1d0::2])
  by smtp.gmail.com with ESMTPSA id
- j14-20020a05600c130e00b003df241f52e8sm2578492wmf.42.2023.02.03.06.29.55
+ j14-20020a05600c130e00b003df241f52e8sm2578492wmf.42.2023.02.03.06.29.56
  for <qemu-devel@nongnu.org>
  (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Feb 2023 06:29:55 -0800 (PST)
+ Fri, 03 Feb 2023 06:29:56 -0800 (PST)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Subject: [PULL 32/33] target/arm: Implement MDCR_EL2.TDCC and MDCR_EL3.TDCC
- traps
-Date: Fri,  3 Feb 2023 14:29:26 +0000
-Message-Id: <20230203142927.834793-33-peter.maydell@linaro.org>
+Subject: [PULL 33/33] target/arm: Enable FEAT_FGT on '-cpu max'
+Date: Fri,  3 Feb 2023 14:29:27 +0000
+Message-Id: <20230203142927.834793-34-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20230203142927.834793-1-peter.maydell@linaro.org>
 References: <20230203142927.834793-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::32a;
- envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x32a.google.com
+Received-SPF: pass client-ip=2a00:1450:4864:20::334;
+ envelope-from=peter.maydell@linaro.org; helo=mail-wm1-x334.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
@@ -90,95 +89,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-FEAT_FGT also implements an extra trap bit in the MDCR_EL2 and
-MDCR_EL3 registers: bit TDCC enables trapping of use of the Debug
-Comms Channel registers OSDTRRX_EL1, OSDTRTX_EL1, MDCCSR_EL0,
-MDCCINT_EL0, DBGDTR_EL0, DBGDTRRX_EL0 and DBGDTRTX_EL0 (and their
-AArch32 equivalents).  This trapping is independent of whether
-fine-grained traps are enabled or not.
-
-Implement these extra traps.  (We don't implement DBGDTR_EL0,
-DBGDTRRX_EL0 and DBGDTRTX_EL0.)
+Update the ID registers for TCG's '-cpu max' to report the
+presence of FEAT_FGT Fine-Grained Traps support.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Tested-by: Fuad Tabba <tabba@google.com>
-Message-id: 20230130182459.3309057-23-peter.maydell@linaro.org
-Message-id: 20230127175507.2895013-23-peter.maydell@linaro.org
+Message-id: 20230130182459.3309057-24-peter.maydell@linaro.org
+Message-id: 20230127175507.2895013-24-peter.maydell@linaro.org
 ---
- target/arm/debug_helper.c | 35 +++++++++++++++++++++++++++++++----
- 1 file changed, 31 insertions(+), 4 deletions(-)
+ docs/system/arm/emulation.rst | 1 +
+ target/arm/cpu64.c            | 1 +
+ 2 files changed, 2 insertions(+)
 
-diff --git a/target/arm/debug_helper.c b/target/arm/debug_helper.c
-index b106746b0e1..3c671c88c1a 100644
---- a/target/arm/debug_helper.c
-+++ b/target/arm/debug_helper.c
-@@ -599,6 +599,33 @@ static CPAccessResult access_tda(CPUARMState *env, const ARMCPRegInfo *ri,
-     return CP_ACCESS_OK;
- }
+diff --git a/docs/system/arm/emulation.rst b/docs/system/arm/emulation.rst
+index b87e064d9dc..2062d712610 100644
+--- a/docs/system/arm/emulation.rst
++++ b/docs/system/arm/emulation.rst
+@@ -30,6 +30,7 @@ the following architecture extensions:
+ - FEAT_ETS (Enhanced Translation Synchronization)
+ - FEAT_EVT (Enhanced Virtualization Traps)
+ - FEAT_FCMA (Floating-point complex number instructions)
++- FEAT_FGT (Fine-Grained Traps)
+ - FEAT_FHM (Floating-point half-precision multiplication instructions)
+ - FEAT_FP16 (Half-precision floating-point data processing)
+ - FEAT_FRINTTS (Floating-point to integer instructions)
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 0e021960fb5..4066950da15 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -1224,6 +1224,7 @@ static void aarch64_max_initfn(Object *obj)
+     t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN16_2, 2); /* 16k stage2 supported */
+     t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN64_2, 2); /* 64k stage2 supported */
+     t = FIELD_DP64(t, ID_AA64MMFR0, TGRAN4_2, 2);  /*  4k stage2 supported */
++    t = FIELD_DP64(t, ID_AA64MMFR0, FGT, 1);       /* FEAT_FGT */
+     cpu->isar.id_aa64mmfr0 = t;
  
-+/*
-+ * Check for traps to Debug Comms Channel registers. If FEAT_FGT
-+ * is implemented then these are controlled by MDCR_EL2.TDCC for
-+ * EL2 and MDCR_EL3.TDCC for EL3. They are also controlled by
-+ * the general debug access trap bits MDCR_EL2.TDA and MDCR_EL3.TDA.
-+ */
-+static CPAccessResult access_tdcc(CPUARMState *env, const ARMCPRegInfo *ri,
-+                                  bool isread)
-+{
-+    int el = arm_current_el(env);
-+    uint64_t mdcr_el2 = arm_mdcr_el2_eff(env);
-+    bool mdcr_el2_tda = (mdcr_el2 & MDCR_TDA) || (mdcr_el2 & MDCR_TDE) ||
-+        (arm_hcr_el2_eff(env) & HCR_TGE);
-+    bool mdcr_el2_tdcc = cpu_isar_feature(aa64_fgt, env_archcpu(env)) &&
-+                                          (mdcr_el2 & MDCR_TDCC);
-+    bool mdcr_el3_tdcc = cpu_isar_feature(aa64_fgt, env_archcpu(env)) &&
-+                                          (env->cp15.mdcr_el3 & MDCR_TDCC);
-+
-+    if (el < 2 && (mdcr_el2_tda || mdcr_el2_tdcc)) {
-+        return CP_ACCESS_TRAP_EL2;
-+    }
-+    if (el < 3 && ((env->cp15.mdcr_el3 & MDCR_TDA) || mdcr_el3_tdcc)) {
-+        return CP_ACCESS_TRAP_EL3;
-+    }
-+    return CP_ACCESS_OK;
-+}
-+
- static void oslar_write(CPUARMState *env, const ARMCPRegInfo *ri,
-                         uint64_t value)
- {
-@@ -681,7 +708,7 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
-      */
-     { .name = "MDCCSR_EL0", .state = ARM_CP_STATE_AA64,
-       .opc0 = 2, .opc1 = 3, .crn = 0, .crm = 1, .opc2 = 0,
--      .access = PL0_R, .accessfn = access_tda,
-+      .access = PL0_R, .accessfn = access_tdcc,
-       .type = ARM_CP_CONST, .resetvalue = 0 },
-     /*
-      * OSDTRRX_EL1/OSDTRTX_EL1 are used for save and restore of DBGDTRRX_EL0.
-@@ -689,11 +716,11 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
-      */
-     { .name = "OSDTRRX_EL1", .state = ARM_CP_STATE_BOTH, .cp = 14,
-       .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 0, .opc2 = 2,
--      .access = PL1_RW, .accessfn = access_tda,
-+      .access = PL1_RW, .accessfn = access_tdcc,
-       .type = ARM_CP_CONST, .resetvalue = 0 },
-     { .name = "OSDTRTX_EL1", .state = ARM_CP_STATE_BOTH, .cp = 14,
-       .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 3, .opc2 = 2,
--      .access = PL1_RW, .accessfn = access_tda,
-+      .access = PL1_RW, .accessfn = access_tdcc,
-       .type = ARM_CP_CONST, .resetvalue = 0 },
-     /*
-      * OSECCR_EL1 provides a mechanism for an operating system
-@@ -757,7 +784,7 @@ static const ARMCPRegInfo debug_cp_reginfo[] = {
-      */
-     { .name = "MDCCINT_EL1", .state = ARM_CP_STATE_BOTH,
-       .cp = 14, .opc0 = 2, .opc1 = 0, .crn = 0, .crm = 2, .opc2 = 0,
--      .access = PL1_RW, .accessfn = access_tda,
-+      .access = PL1_RW, .accessfn = access_tdcc,
-       .type = ARM_CP_NOP },
-     /*
-      * Dummy DBGCLAIM registers.
+     t = cpu->isar.id_aa64mmfr1;
 -- 
 2.34.1
 
