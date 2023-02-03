@@ -2,60 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4D268929A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:48:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id DC135689293
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 09:48:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNri6-0008RR-OQ; Fri, 03 Feb 2023 03:46:18 -0500
+	id 1pNri8-0008Sn-BC; Fri, 03 Feb 2023 03:46:20 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhm-0008IV-F0
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhm-0008IW-Fq
  for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:45:59 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhk-0007TI-1N
+ (Exim 4.90_1) (envelope-from <armbru@redhat.com>) id 1pNrhj-0007T8-GJ
  for qemu-devel@nongnu.org; Fri, 03 Feb 2023 03:45:57 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675413955;
+ s=mimecast20190719; t=1675413954;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=k1R2RhzTJi+l/O2B8GaVDpG5tSnL6LCRtlIgiAtH/p8=;
- b=RHwKJzNqK+3oJVBXhr0dJUStgvFZ4yDXXXQ2AV8SZHMShCdR8+sbnbZNRdU1Na5WROKJPt
- Nj59M1BmWi3AJMRL92KvbPDijSNZdXoKCcClf4nOLcCc5st0PgpIOdWMDtlBfrbGKYlCtE
- 7v5UdbSvHkej+Cj7iDzy0iP68hRjzr0=
+ bh=ndUTqaVT0snH6Ok25YdHvJ7gBuUg/joHAuwVpTKgASM=;
+ b=dQ2O4pcGXqeHcrD3Cho3txwSrfXrO+yZ3JGNAfuv9Hyc7n4CMUzBS7naJ+1NzMYk3M75so
+ YGs3a1BL9ZqUZI/fjE07iqAFmFjewZuT2MbA2u6sitIvRTNbOekgw+YCOP+phuYHa5QxcY
+ 1HscEPSj6mV1WlxPz/at2RJxsfSBKTA=
 Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
  [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-570-A93htLPfNQSEZJ9cqXj-Ag-1; Fri, 03 Feb 2023 03:45:51 -0500
-X-MC-Unique: A93htLPfNQSEZJ9cqXj-Ag-1
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.rdu2.redhat.com
- [10.11.54.1])
+ us-mta-589-Oww0TghDNVm1cih2l7zvqA-1; Fri, 03 Feb 2023 03:45:51 -0500
+X-MC-Unique: Oww0TghDNVm1cih2l7zvqA-1
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.4])
  (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
  (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 27EBF3C10174;
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2A9CC1C05EB4;
  Fri,  3 Feb 2023 08:45:51 +0000 (UTC)
 Received: from blackfin.pond.sub.org (unknown [10.39.192.70])
- by smtp.corp.redhat.com (Postfix) with ESMTPS id D6FC2400F756;
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id D77E72026D37;
  Fri,  3 Feb 2023 08:45:50 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
- id B34E121E6A21; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
+ id B59B221E6A22; Fri,  3 Feb 2023 09:45:49 +0100 (CET)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Cc: peter.maydell@linaro.org,
-	Juan Quintela <quintela@redhat.com>
-Subject: [PULL 02/35] MAINTAINERS: Cover include/sysemu/accel-blocker.h
-Date: Fri,  3 Feb 2023 09:45:16 +0100
-Message-Id: <20230203084549.2622302-3-armbru@redhat.com>
+Cc: peter.maydell@linaro.org
+Subject: [PULL 03/35] MAINTAINERS: Cover tpm.c again
+Date: Fri,  3 Feb 2023 09:45:17 +0100
+Message-Id: <20230203084549.2622302-4-armbru@redhat.com>
 In-Reply-To: <20230203084549.2622302-1-armbru@redhat.com>
 References: <20230203084549.2622302-1-armbru@redhat.com>
 MIME-Version: 1.0
 Content-type: text/plain
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.1
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=armbru@redhat.com;
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.4
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=armbru@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -79,31 +78,29 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Commit bd688fc931 "accel: introduce accelerator blocker API" aded
-include/sysemu/accel-blocker.h and accel/accel-blocker.c.  MAINTAINERS
-covers the latter in section "Guest CPU Cores (other accelerators) /
-Overall", but not the former.  Fix that.
+Commit 800d4deda0 "softmmu: move more files to softmmu/" (v5.2.0)
+updated MAINTAINERS for all moved files but one.  Fix that.
 
+Fixes: 800d4deda04be016a95fbbf397c830a2d14ff9f6
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20230119091545.3116376-3-armbru@redhat.com>
-Reviewed-by: Juan Quintela <quintela@redhat.com>
+Message-Id: <20230120170104.359690-1-armbru@redhat.com>
 ---
  MAINTAINERS | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 5288eb8271..190a6f5a0e 100644
+index 190a6f5a0e..3bd4d101d3 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -437,7 +437,7 @@ M: Richard Henderson <richard.henderson@linaro.org>
- R: Paolo Bonzini <pbonzini@redhat.com>
+@@ -3067,7 +3067,7 @@ T: git https://github.com/stefanha/qemu.git tracing
+ TPM
+ M: Stefan Berger <stefanb@linux.ibm.com>
  S: Maintained
- F: include/qemu/accel.h
--F: include/sysemu/accel-ops.h
-+F: include/sysemu/accel-*.h
- F: include/hw/core/accel-cpu.h
- F: accel/accel-*.c
- F: accel/Makefile.objs
+-F: tpm.c
++F: softmmu/tpm.c
+ F: hw/tpm/*
+ F: include/hw/acpi/tpm.h
+ F: include/sysemu/tpm*
 -- 
 2.39.0
 
