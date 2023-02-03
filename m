@@ -2,82 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B52E68A63F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 23:34:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 860DD68A657
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 23:53:54 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO4cr-00034D-37; Fri, 03 Feb 2023 17:33:45 -0500
+	id 1pO4v8-0007bp-D8; Fri, 03 Feb 2023 17:52:38 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pO4cn-00033z-KF
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:33:41 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pO4uy-0007as-Lu
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:52:31 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <alex.williamson@redhat.com>)
- id 1pO4ck-0007iR-QC
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:33:41 -0500
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pO4uu-0004f1-TG
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:52:27 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675463617;
+ s=mimecast20190719; t=1675464741;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
- content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=K0FdPZ/X6TQW3Jh2tVfxSXg22hQvhgotlYBNNrvmWho=;
- b=d5EMBRpcOCYrKljx0aqD+qduJ27Y5xj4Mld3sS/esI4YGHZff27C6+awtgIR+HLWPvlJ7i
- 909CFj7ZZ77WkNhC5mv5mzhnShbpzmdScL+c2QIh/bZbtVNfAdHeFYaLIaZtx9UXA+Gtce
- ZBzEByGqzkJ3vhQrgCTiCJe9+5Y24GE=
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com
- [209.85.166.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-214-ZGPu_eFEOjSu2t6r6EsYBQ-1; Fri, 03 Feb 2023 17:33:36 -0500
-X-MC-Unique: ZGPu_eFEOjSu2t6r6EsYBQ-1
-Received: by mail-io1-f69.google.com with SMTP id
- y22-20020a5d94d6000000b007076e06ba3dso3790485ior.20
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 14:33:36 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:references:in-reply-to
- :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
- :subject:date:message-id:reply-to;
- bh=K0FdPZ/X6TQW3Jh2tVfxSXg22hQvhgotlYBNNrvmWho=;
- b=hfGcT/Gt4kSwSFa6X5rpVp4fgYBbIf6Q7dzz9pnLFwgxsv/1v+0KZOx+uRCsN1S6A2
- VMAY5w93wHLtb96j/HojLWgBBhzwPmsAMhWQuiesD1qJLDy/sc1Ya1Fl6LytyCEOgWp1
- cEofsh9ZHONJpGM34QswAIuXPkTJtLARrhxMAEBIvT4i9RX10aGKSbJB663PSbp+HPEG
- 7M9eDoQnCJsY7btt1+2LxvMr0UtW6LkvoXL3Pu0GV5Yb+xA6F+mCPiq48stu9of82Lfe
- P0jXBykIuDQnB90rTD/B7R/9KRAOLY0y1RAD9MrkJDFjJj2lbOUMIeWbcZ3Y4u1MxEIo
- 9tlw==
-X-Gm-Message-State: AO0yUKUNPEJgSg2WLGxPBL1tGDmkdUamm7nz0llplo5OrP0Xpw4wP95K
- uHIxuQo5ENmhPZBaP6FKtxTxgpRzY47yPtAj00dVBu2tbYMkiiV7tE0IYevYwn4js6NMouITqFU
- r49H58xVspmYxcQo=
-X-Received: by 2002:a05:6e02:1b0c:b0:311:ad48:ff1a with SMTP id
- i12-20020a056e021b0c00b00311ad48ff1amr5964524ilv.2.1675463615385; 
- Fri, 03 Feb 2023 14:33:35 -0800 (PST)
-X-Google-Smtp-Source: AK7set8FuKPHLFHmnUyVemTnTEGxbP1pE3yAmOPd4wc+aGw71ehIYQs1Hk1c1tyd0DoNXFwixkvdRg==
-X-Received: by 2002:a05:6e02:1b0c:b0:311:ad48:ff1a with SMTP id
- i12-20020a056e021b0c00b00311ad48ff1amr5964513ilv.2.1675463615097; 
- Fri, 03 Feb 2023 14:33:35 -0800 (PST)
-Received: from redhat.com ([38.15.36.239]) by smtp.gmail.com with ESMTPSA id
- h1-20020a0566380f0100b003755a721e98sm1247836jas.107.2023.02.03.14.33.34
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Feb 2023 14:33:34 -0800 (PST)
-Date: Fri, 3 Feb 2023 15:33:33 -0700
-From: Alex Williamson <alex.williamson@redhat.com>
-To: John Johnson <john.g.johnson@oracle.com>
-Cc: qemu-devel@nongnu.org, clg@redhat.com, philmd@linaro.org
-Subject: Re: [PATCH v2 03/23] vfio-user: add container IO ops vector
-Message-ID: <20230203153333.095b0827.alex.williamson@redhat.com>
-In-Reply-To: <20230203152109.60a8cd33.alex.williamson@redhat.com>
-References: <cover.1675228037.git.john.g.johnson@oracle.com>
- <3648002c52cef9b4473f97d18cb7e2cd62fc3fd5.1675228037.git.john.g.johnson@oracle.com>
- <20230203152109.60a8cd33.alex.williamson@redhat.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.35; x86_64-redhat-linux-gnu)
+ bh=QBSLtz1nQqtIjRNx3wKOUxnduVgKqOme27OwZho6/1Y=;
+ b=MDwqgtgkrHYgdQ4k7GZ8ET61j0nsB+J9WYeAW1ErrAp+Ke5z/PsB0LcR7EjvHk8LXJZZdq
+ YAPk5MYVunveL+qEZ36uw5GWDlB99bosyziGXNNw9hJ3j3WVXqtD9f3NLzMj5fWX3BlI3q
+ ICmC9YbfAKsfmdT5Bstu/5Kvn4TIP+8=
+Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
+ [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-33-NaI6MG9tMFqfyZ21rcAlBQ-1; Fri, 03 Feb 2023 17:52:19 -0500
+X-MC-Unique: NaI6MG9tMFqfyZ21rcAlBQ-1
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.2])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 2185285A5A3;
+ Fri,  3 Feb 2023 22:52:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id DC832404CD80;
+ Fri,  3 Feb 2023 22:52:17 +0000 (UTC)
+Date: Fri, 3 Feb 2023 16:52:16 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, mjt@tls.msk.ru
+Subject: Re: [PATCH 1/5] docs: expand introduction to disk images
+Message-ID: <20230203225216.kqo3kaz6m2w6wdhh@redhat.com>
+References: <20230201211234.301918-1-stefanha@redhat.com>
+ <20230201211234.301918-2-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.133.124;
- envelope-from=alex.williamson@redhat.com;
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230201211234.301918-2-stefanha@redhat.com>
+User-Agent: NeoMutt/20220429
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
@@ -85,7 +62,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=ham autolearn_force=no
+ SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -101,110 +78,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On Fri, 3 Feb 2023 15:21:09 -0700
-Alex Williamson <alex.williamson@redhat.com> wrote:
-
-> On Wed,  1 Feb 2023 21:55:39 -0800
-> John Johnson <john.g.johnson@oracle.com> wrote:
+On Wed, Feb 01, 2023 at 04:12:30PM -0500, Stefan Hajnoczi wrote:
+> Explain --blockdev, the graph, protocols, formats, and filters. Also
+> mention the relationship between --blockdev and --drive, since new users
+> are likely to hit both syntaxes.
 > 
-> > Used for communication with VFIO driver
-> > (prep work for vfio-user, which will communicate over a socket)
-> > 
-> > Signed-off-by: John G Johnson <john.g.johnson@oracle.com>
-> > ---
-> >  include/hw/vfio/vfio-common.h |  24 ++++++++
-> >  hw/vfio/common.c              | 128 ++++++++++++++++++++++++++++--------------
-> >  2 files changed, 110 insertions(+), 42 deletions(-)
-> > 
-> > diff --git a/include/hw/vfio/vfio-common.h b/include/hw/vfio/vfio-common.h
-> > index e573f5a..953bc0f 100644
-> > --- a/include/hw/vfio/vfio-common.h
-> > +++ b/include/hw/vfio/vfio-common.h
-> > @@ -75,6 +75,7 @@ typedef struct VFIOAddressSpace {
-> >  } VFIOAddressSpace;
-> >  
-> >  struct VFIOGroup;
-> > +typedef struct VFIOContainerIO VFIOContainerIO;
-> >  
-> >  typedef struct VFIOContainer {
-> >      VFIOAddressSpace *space;
-> > @@ -83,6 +84,7 @@ typedef struct VFIOContainer {
-> >      MemoryListener prereg_listener;
-> >      unsigned iommu_type;
-> >      Error *error;
-> > +    VFIOContainerIO *io;
-> >      bool initialized;
-> >      bool dirty_pages_supported;
-> >      uint64_t dirty_pgsizes;
-> > @@ -154,6 +156,28 @@ struct VFIODeviceOps {
-> >      int (*vfio_load_config)(VFIODevice *vdev, QEMUFile *f);
-> >  };
-> >  
-> > +#ifdef CONFIG_LINUX
-> > +
-> > +/*
-> > + * The next 2 ops vectors are how Devices and Containers
-> > + * communicate with the server.  The default option is
-> > + * through ioctl() to the kernel VFIO driver, but vfio-user
-> > + * can use a socket to a remote process.
-> > + */
-> > +
-> > +struct VFIOContainerIO {
-> > +    int (*dma_map)(VFIOContainer *container,
-> > +                   struct vfio_iommu_type1_dma_map *map);
-> > +    int (*dma_unmap)(VFIOContainer *container,
-> > +                     struct vfio_iommu_type1_dma_unmap *unmap,
-> > +                     struct vfio_bitmap *bitmap);
-> > +    int (*dirty_bitmap)(VFIOContainer *container,
-> > +                        struct vfio_iommu_type1_dirty_bitmap *bitmap,
-> > +                        struct vfio_iommu_type1_dirty_bitmap_get *range);
-> > +};
-> > +
-> > +#endif /* CONFIG_LINUX */
-> > +
-> >  typedef struct VFIOGroup {
-> >      int fd;
-> >      int groupid;
-> > diff --git a/hw/vfio/common.c b/hw/vfio/common.c
-> > index ace9562..9310a7f 100644
-> > --- a/hw/vfio/common.c
-> > +++ b/hw/vfio/common.c
-> > @@ -58,6 +58,8 @@ static QLIST_HEAD(, VFIOAddressSpace) vfio_address_spaces =
-> >  static int vfio_kvm_device_fd = -1;
-> >  #endif
-> >  
-> > +static VFIOContainerIO vfio_cont_io_ioctl;
-> > +
-> >  /*
-> >   * Common VFIO interrupt disable
-> >   */
-> > @@ -432,12 +434,12 @@ static int vfio_dma_unmap_bitmap(VFIOContainer *container,
-> >          goto unmap_exit;
-> >      }
-> >  
-> > -    ret = ioctl(container->fd, VFIO_IOMMU_UNMAP_DMA, unmap);
-> > +    ret = container->io->dma_unmap(container, unmap, bitmap);  
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  docs/system/images.rst | 35 ++++++++++++++++++++++++++++++++---
+>  1 file changed, 32 insertions(+), 3 deletions(-)
 > 
-> The bitmap arg doesn't make a lot of sense here, its use doesn't come
-> around until vfio_user_dma_unmap() is added, but even then, it's
-> readily available at &unmap->data with validity determined by
-> unmap->flags.  The eventual sanity test in vfio_user_dma_unmap() really
-> only seems to prove the arg is unnecessary.  Thanks,
+> diff --git a/docs/system/images.rst b/docs/system/images.rst
+> index d000bd6b6f..dc73acf8c9 100644
+> --- a/docs/system/images.rst
+> +++ b/docs/system/images.rst
+> @@ -3,9 +3,38 @@
+>  Disk Images
+>  -----------
+>  
+> -QEMU supports many disk image formats, including growable disk images
+> -(their size increase as non empty sectors are written), compressed and
+> -encrypted disk images.
+> +QEMU supports many different types of storage protocols, disk image file
+> +formats, and filter block drivers. *Protocols* provide access to storage such
+> +as local files or NBD exports. *Formats* implement file formats that are useful
 
+Do we want to spell out "Network Block Device" for those unfamiliar
+with the acronym?
 
-The same comment really applies to .dirty_bitmap() with respect to the
-range arg, but I think it's also important to note that both of these
-are all but deprecated interfaces for the kernel.  The migration
-series[1] is pre-enabling these kernel interfaces to be removed by
-adding support to QEMU to dirty all pages when support isn't present,
-then we replace it with what we expect to be a longer term solution
-with device dirty tracking support[2].  All the more reason not to make
-these part of the internal API shared by kernel and user versions.
-Thanks,
+> +for sharing disk image files and add functionality like snapshots. *Filters*
+> +add behavior like I/O throttling.
+> +
+> +These features are composable in a graph. Each graph node is called a
+> +*blockdev*. This makes it possible to construct many different storage
+> +configurations. The simplest example is accessing a raw image file::
+> +
+> +   --blockdev file,filename=test.img,node-name=drive0
+> +
+> +A qcow2 image file throttled to 10 MB/s is specified like this::
+> +
+> +   --object throttle-group,x-bps-total=10485760,id=tg0 \
 
-Alex
+Per block-core.json on ThrottleGroupProperties, x-bps-total is an
+unstable alias for the @limits object; we should prefer the stable
+spelling here.
 
-[1]https://lore.kernel.org/all/20230116141135.12021-1-avihaih@nvidia.com/
-[2]https://lore.kernel.org/all/20230126184948.10478-1-avihaih@nvidia.com/
+> +   --blockdev file,filename=vm.qcow2,node-name=file0 \
+> +   --blockdev qcow2,file=file0,node-name=qcow0 \
+> +   --blockdev throttle,file=qcow0,throttle-group=tg0,node-name=drive0
+> +
+> +Blockdevs are not directly visible to guests. Guests use emulated storage
+> +controllers like a virtio-blk device to access a blockdev::
+> +
+> +   --device virtio-blk-pci,drive=drive0
+> +
+> +Note that QEMU has an older ``--drive`` syntax that is somewhat similar to
+> +``--blockdev``. ``--blockdev`` is preferred because ``--drive`` mixes storage
+> +controller and blockdev definitions in a single option that cannot express
+> +everything. When a "drive" or "device" is required by a command-line option or
+> +QMP command, a blockdev node-name can be used.
+> +
+> +The remainder of this chapter covers the block drivers and how to work with
+> +disk images.
+
+Otherwise looks like a nice addition.
+
+-- 
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
