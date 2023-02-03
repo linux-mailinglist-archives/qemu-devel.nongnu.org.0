@@ -2,66 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A556689E37
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 16:26:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FD6E689E59
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 16:34:28 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNxuG-0007lB-CO; Fri, 03 Feb 2023 10:23:16 -0500
+	id 1pNy3c-0000bQ-Kf; Fri, 03 Feb 2023 10:32:56 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxuC-0007hE-JT
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:23:12 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([170.10.133.124])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <kwolf@redhat.com>) id 1pNxuA-0005QI-KR
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:23:12 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675437790;
- h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
- to:to:cc:cc:mime-version:mime-version:
- content-transfer-encoding:content-transfer-encoding:
- in-reply-to:in-reply-to:references:references;
- bh=loal9xD94xXkwbGWgi/vz2iclG599UJkU2NqA3mfoww=;
- b=dypCl26nb9NdPPKWAC93eneBKXKIBd3zvdlPKQcdR44P5MDxsJ0Cr1JzOxetmTrzwu65uD
- dhIff4beBUckQe70brf9LkoRDHiXqa/u6ciRGz9J0exrH8NkyxuxMbbusnyQJVGd0EqQYh
- jXGsu9JPEv+d8QYVFGz5aBFgAwVEsjs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- us-mta-640-RdHuAAO8MV6Ake_H5SiwIQ-1; Fri, 03 Feb 2023 10:23:06 -0500
-X-MC-Unique: RdHuAAO8MV6Ake_H5SiwIQ-1
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.rdu2.redhat.com
- [10.11.54.2])
- (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
- (No client certificate requested)
- by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 46413800B24;
- Fri,  3 Feb 2023 15:23:06 +0000 (UTC)
-Received: from merkur.fritz.box (unknown [10.39.194.116])
- by smtp.corp.redhat.com (Postfix) with ESMTP id 4CDC840168B7;
- Fri,  3 Feb 2023 15:23:05 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Cc: kwolf@redhat.com, pbonzini@redhat.com, stefanha@redhat.com,
- eesposit@redhat.com, qemu-devel@nongnu.org
-Subject: [PATCH 23/23] block: Mark bdrv_co_refresh_total_sectors() and callers
- GRAPH_RDLOCK
-Date: Fri,  3 Feb 2023 16:22:02 +0100
-Message-Id: <20230203152202.49054-24-kwolf@redhat.com>
-In-Reply-To: <20230203152202.49054-1-kwolf@redhat.com>
-References: <20230203152202.49054-1-kwolf@redhat.com>
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pNy3a-0000Zy-SV
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:32:54 -0500
+Received: from mail-pf1-x42f.google.com ([2607:f8b0:4864:20::42f])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
+ (Exim 4.90_1) (envelope-from <peter.maydell@linaro.org>)
+ id 1pNy3W-0007KB-Kd
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 10:32:54 -0500
+Received: by mail-pf1-x42f.google.com with SMTP id o68so2581688pfg.9
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 07:32:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:from:to:cc:subject:date
+ :message-id:reply-to;
+ bh=IduNa3R3rT4qpuefkuUYoR7/xojvFtY7ochTaTOAVvw=;
+ b=RotKPMwICHqaUYua8nF3ECV4m+8tbI1thuN7A6xQ/YgmvSpvemb7n0HeYfNIiyhRJM
+ qYDkdvf3yMkgGQSjPXJPp+pRzhlIFAK9FSNdcc2CsorfXtIdmfABg/2LesGEylSzyvTk
+ hKjrLEECz/1Xj+YOhwWMqHWWlMPeN3w7VTWXOeqO9TiwGAsTZjtgC2Mu2R32KBXfYeSq
+ qA/x9+688f7oonAnxFfZBh/JUf5S/QK6VKQonnZxAvEdv1arlT+g9RmpRygEL0vT0At0
+ TacO0u/jhafd9o8oz39AP38CvimdpggIC5o2XISlv6KwgfZVJuPsk6P+gE6sqa7hCd1/
+ pEmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=1e100.net; s=20210112;
+ h=content-transfer-encoding:cc:to:subject:message-id:date:from
+ :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+ :subject:date:message-id:reply-to;
+ bh=IduNa3R3rT4qpuefkuUYoR7/xojvFtY7ochTaTOAVvw=;
+ b=1qzSjTkdG8kZkKWSewxKJVDAtsSoMqgW8Q4LAy46Pga2dnNAQZKt5ysy9biwuSW66k
+ FONlSw/MoslB3xK22oJ/QGPowxgnLfiACisbNky+hyBCLcltfRyE2RZXxJ1Cs3Ml16DT
+ sS9YpPMrIoGXawnjY/gTuG670K34XABtsHjDh11ugaf45o1dyN+NL3b8y7atS+s0f8Js
+ NWlRfBTEuNHSSaD/+PmISrvklPKW2EAm2AQYNGhThYGb2y0ejGyBGKVYg5inxM/TLnXa
+ 0seUaPxlJkYgxyqrmChXFYeyJMIgLzUDabzZXwuPvtMy0nsKt31amCfKV0y2DAto4Yqz
+ 7W3A==
+X-Gm-Message-State: AO0yUKWXSqdmVlqE6iQi1FDxv8ENKb/XY30zNJ1sqZHx4UjVoeJ9NCmD
+ FatFXuiKKJ31+A5uHfOZ9dBTK3eOxsp74FQV7jjd7g==
+X-Google-Smtp-Source: AK7set8TdynR/O9QmmcTde3mpAwfwyuLXNuonGXw98J+aAiAe6GMZW0aNlKuPvHT7bM7aCNvFUIqjp1QzADiBKSnvRc=
+X-Received: by 2002:a05:6a00:1490:b0:593:dc7d:a31d with SMTP id
+ v16-20020a056a00149000b00593dc7da31dmr2533341pfu.23.1675438368340; Fri, 03
+ Feb 2023 07:32:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.1 on 10.11.54.2
-Received-SPF: pass client-ip=170.10.133.124; envelope-from=kwolf@redhat.com;
- helo=us-smtp-delivery-124.mimecast.com
+References: <20230203084549.2622302-1-armbru@redhat.com>
+In-Reply-To: <20230203084549.2622302-1-armbru@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 3 Feb 2023 15:32:36 +0000
+Message-ID: <CAFEAcA_VV=_rc3tgYOVsYaHNyQs=WbKN4h4EA53wH+V-sRXKwQ@mail.gmail.com>
+Subject: Re: [PULL 00/35] Monitor patches for 2023-02-03
+To: Markus Armbruster <armbru@redhat.com>
+Cc: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+Received-SPF: pass client-ip=2607:f8b0:4864:20::42f;
+ envelope-from=peter.maydell@linaro.org; helo=mail-pf1-x42f.google.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
- DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
- SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
+ DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+ SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -77,315 +84,60 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-This adds GRAPH_RDLOCK annotations to declare that callers of
-bdrv_co_refresh_total_sectors() need to hold a reader lock for the
-graph.
+On Fri, 3 Feb 2023 at 08:45, Markus Armbruster <armbru@redhat.com> wrote:
+>
+>
+> The following changes since commit deabea6e88f7c4c3c12a36ee30051c62095611=
+65:
+>
+>   Merge tag 'for_upstream' of https://git.kernel.org/pub/scm/virt/kvm/mst=
+/qemu into staging (2023-02-02 10:10:07 +0000)
+>
+> are available in the Git repository at:
+>
+>   https://repo.or.cz/qemu/armbru.git tags/pull-monitor-2023-02-03
+>
+> for you to fetch changes up to 3a1cecf486ee97d5750931f81706c6d447615f17:
+>
+>   monitor: Rename misc.c to hmp-target.c (2023-02-03 09:14:17 +0100)
+>
+> ----------------------------------------------------------------
+> Monitor patches for 2023-02-03
+>
+> ----------------------------------------------------------------
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- include/block/block-io.h         | 8 ++++----
- include/block/block_int-common.h | 4 +++-
- include/block/block_int-io.h     | 7 ++++---
- block.c                          | 3 +++
- block/blkdebug.c                 | 3 ++-
- block/blklogwrites.c             | 3 ++-
- block/blkreplay.c                | 3 ++-
- block/blkverify.c                | 3 ++-
- block/copy-on-read.c             | 2 +-
- block/crypto.c                   | 3 ++-
- block/filter-compress.c          | 3 ++-
- block/mirror.c                   | 3 +++
- block/preallocate.c              | 3 ++-
- block/quorum.c                   | 3 ++-
- block/raw-format.c               | 3 ++-
- block/replication.c              | 3 ++-
- block/stream.c                   | 8 +++++---
- block/throttle.c                 | 3 ++-
- 18 files changed, 45 insertions(+), 23 deletions(-)
+Compile failures, multiple jobs, eg:
+https://gitlab.com/qemu-project/qemu/-/jobs/3711453887
 
-diff --git a/include/block/block-io.h b/include/block/block-io.h
-index 95bcc79b75..5da99d4d60 100644
---- a/include/block/block-io.h
-+++ b/include/block/block-io.h
-@@ -78,11 +78,11 @@ int coroutine_fn GRAPH_RDLOCK
- bdrv_co_truncate(BdrvChild *child, int64_t offset, bool exact,
-                  PreallocMode prealloc, BdrvRequestFlags flags, Error **errp);
- 
--int64_t coroutine_fn bdrv_co_nb_sectors(BlockDriverState *bs);
--int64_t co_wrapper_mixed bdrv_nb_sectors(BlockDriverState *bs);
-+int64_t coroutine_fn GRAPH_RDLOCK bdrv_co_nb_sectors(BlockDriverState *bs);
-+int64_t co_wrapper_mixed_bdrv_rdlock bdrv_nb_sectors(BlockDriverState *bs);
- 
--int64_t coroutine_fn bdrv_co_getlength(BlockDriverState *bs);
--int64_t co_wrapper_mixed bdrv_getlength(BlockDriverState *bs);
-+int64_t coroutine_fn GRAPH_RDLOCK bdrv_co_getlength(BlockDriverState *bs);
-+int64_t co_wrapper_mixed_bdrv_rdlock bdrv_getlength(BlockDriverState *bs);
- 
- int64_t coroutine_fn bdrv_co_get_allocated_file_size(BlockDriverState *bs);
- int64_t co_wrapper bdrv_get_allocated_file_size(BlockDriverState *bs);
-diff --git a/include/block/block_int-common.h b/include/block/block_int-common.h
-index d72e31aba3..d419017328 100644
---- a/include/block/block_int-common.h
-+++ b/include/block/block_int-common.h
-@@ -684,7 +684,9 @@ struct BlockDriver {
-         BlockDriverState *bs, int64_t offset, bool exact,
-         PreallocMode prealloc, BdrvRequestFlags flags, Error **errp);
- 
--    int64_t coroutine_fn (*bdrv_co_getlength)(BlockDriverState *bs);
-+    int64_t coroutine_fn GRAPH_RDLOCK_PTR (*bdrv_co_getlength)(
-+        BlockDriverState *bs);
-+
-     int64_t coroutine_fn (*bdrv_co_get_allocated_file_size)(
-         BlockDriverState *bs);
- 
-diff --git a/include/block/block_int-io.h b/include/block/block_int-io.h
-index 612e5ddf99..eb0da7232e 100644
---- a/include/block/block_int-io.h
-+++ b/include/block/block_int-io.h
-@@ -124,9 +124,10 @@ bdrv_co_copy_range_to(BdrvChild *src, int64_t src_offset,
-                       int64_t bytes, BdrvRequestFlags read_flags,
-                       BdrvRequestFlags write_flags);
- 
--int coroutine_fn bdrv_co_refresh_total_sectors(BlockDriverState *bs,
--                                               int64_t hint);
--int co_wrapper_mixed
-+int coroutine_fn GRAPH_RDLOCK
-+bdrv_co_refresh_total_sectors(BlockDriverState *bs, int64_t hint);
-+
-+int co_wrapper_mixed_bdrv_rdlock
- bdrv_refresh_total_sectors(BlockDriverState *bs, int64_t hint);
- 
- BdrvChild *bdrv_cow_child(BlockDriverState *bs);
-diff --git a/block.c b/block.c
-index 1e378e881d..1f1e63c468 100644
---- a/block.c
-+++ b/block.c
-@@ -1042,6 +1042,7 @@ int coroutine_fn bdrv_co_refresh_total_sectors(BlockDriverState *bs,
- {
-     BlockDriver *drv = bs->drv;
-     IO_CODE();
-+    assert_bdrv_graph_readable();
- 
-     if (!drv) {
-         return -ENOMEDIUM;
-@@ -5820,6 +5821,7 @@ int64_t coroutine_fn bdrv_co_nb_sectors(BlockDriverState *bs)
- {
-     BlockDriver *drv = bs->drv;
-     IO_CODE();
-+    assert_bdrv_graph_readable();
- 
-     if (!drv)
-         return -ENOMEDIUM;
-@@ -5841,6 +5843,7 @@ int64_t coroutine_fn bdrv_co_getlength(BlockDriverState *bs)
- {
-     int64_t ret;
-     IO_CODE();
-+    assert_bdrv_graph_readable();
- 
-     ret = bdrv_co_nb_sectors(bs);
-     if (ret < 0) {
-diff --git a/block/blkdebug.c b/block/blkdebug.c
-index f418a90873..978c8cff9e 100644
---- a/block/blkdebug.c
-+++ b/block/blkdebug.c
-@@ -967,7 +967,8 @@ static bool blkdebug_debug_is_suspended(BlockDriverState *bs, const char *tag)
-     return false;
- }
- 
--static int64_t coroutine_fn blkdebug_co_getlength(BlockDriverState *bs)
-+static int64_t coroutine_fn GRAPH_RDLOCK
-+blkdebug_co_getlength(BlockDriverState *bs)
- {
-     return bdrv_co_getlength(bs->file->bs);
- }
-diff --git a/block/blklogwrites.c b/block/blklogwrites.c
-index 93086c31e1..3ea7141cb5 100644
---- a/block/blklogwrites.c
-+++ b/block/blklogwrites.c
-@@ -267,7 +267,8 @@ static void blk_log_writes_close(BlockDriverState *bs)
-     s->log_file = NULL;
- }
- 
--static int64_t coroutine_fn blk_log_writes_co_getlength(BlockDriverState *bs)
-+static int64_t coroutine_fn GRAPH_RDLOCK
-+blk_log_writes_co_getlength(BlockDriverState *bs)
- {
-     return bdrv_co_getlength(bs->file->bs);
- }
-diff --git a/block/blkreplay.c b/block/blkreplay.c
-index bc96bbd41e..04f53eea41 100644
---- a/block/blkreplay.c
-+++ b/block/blkreplay.c
-@@ -40,7 +40,8 @@ fail:
-     return ret;
- }
- 
--static int64_t coroutine_fn blkreplay_co_getlength(BlockDriverState *bs)
-+static int64_t coroutine_fn GRAPH_RDLOCK
-+blkreplay_co_getlength(BlockDriverState *bs)
- {
-     return bdrv_co_getlength(bs->file->bs);
- }
-diff --git a/block/blkverify.c b/block/blkverify.c
-index 8c11c2eae4..1c16f86b2e 100644
---- a/block/blkverify.c
-+++ b/block/blkverify.c
-@@ -155,7 +155,8 @@ static void blkverify_close(BlockDriverState *bs)
-     s->test_file = NULL;
- }
- 
--static int64_t coroutine_fn blkverify_co_getlength(BlockDriverState *bs)
-+static int64_t coroutine_fn GRAPH_RDLOCK
-+blkverify_co_getlength(BlockDriverState *bs)
- {
-     BDRVBlkverifyState *s = bs->opaque;
- 
-diff --git a/block/copy-on-read.c b/block/copy-on-read.c
-index 20215cff93..cc0f848b0f 100644
---- a/block/copy-on-read.c
-+++ b/block/copy-on-read.c
-@@ -121,7 +121,7 @@ static void cor_child_perm(BlockDriverState *bs, BdrvChild *c,
- }
- 
- 
--static int64_t coroutine_fn cor_co_getlength(BlockDriverState *bs)
-+static int64_t coroutine_fn GRAPH_RDLOCK cor_co_getlength(BlockDriverState *bs)
- {
-     return bdrv_co_getlength(bs->file->bs);
- }
-diff --git a/block/crypto.c b/block/crypto.c
-index 28f870f33c..88b092e1a4 100644
---- a/block/crypto.c
-+++ b/block/crypto.c
-@@ -531,7 +531,8 @@ static void block_crypto_refresh_limits(BlockDriverState *bs, Error **errp)
- }
- 
- 
--static int64_t coroutine_fn block_crypto_co_getlength(BlockDriverState *bs)
-+static int64_t coroutine_fn GRAPH_RDLOCK
-+block_crypto_co_getlength(BlockDriverState *bs)
- {
-     BlockCrypto *crypto = bs->opaque;
-     int64_t len = bdrv_co_getlength(bs->file->bs);
-diff --git a/block/filter-compress.c b/block/filter-compress.c
-index c7d50a67a7..ac285f4b66 100644
---- a/block/filter-compress.c
-+++ b/block/filter-compress.c
-@@ -55,7 +55,8 @@ static int compress_open(BlockDriverState *bs, QDict *options, int flags,
- }
- 
- 
--static int64_t coroutine_fn compress_co_getlength(BlockDriverState *bs)
-+static int64_t coroutine_fn GRAPH_RDLOCK
-+compress_co_getlength(BlockDriverState *bs)
- {
-     return bdrv_co_getlength(bs->file->bs);
- }
-diff --git a/block/mirror.c b/block/mirror.c
-index ec5cd22a7c..97c6a5777d 100644
---- a/block/mirror.c
-+++ b/block/mirror.c
-@@ -917,7 +917,10 @@ static int coroutine_fn mirror_run(Job *job, Error **errp)
-         goto immediate_exit;
-     }
- 
-+    bdrv_graph_co_rdlock();
-     s->bdev_length = bdrv_co_getlength(bs);
-+    bdrv_graph_co_rdunlock();
-+
-     if (s->bdev_length < 0) {
-         ret = s->bdev_length;
-         goto immediate_exit;
-diff --git a/block/preallocate.c b/block/preallocate.c
-index 63a296882d..71c3601809 100644
---- a/block/preallocate.c
-+++ b/block/preallocate.c
-@@ -443,7 +443,8 @@ static int coroutine_fn GRAPH_RDLOCK preallocate_co_flush(BlockDriverState *bs)
-     return bdrv_co_flush(bs->file->bs);
- }
- 
--static int64_t coroutine_fn preallocate_co_getlength(BlockDriverState *bs)
-+static int64_t coroutine_fn GRAPH_RDLOCK
-+preallocate_co_getlength(BlockDriverState *bs)
- {
-     int64_t ret;
-     BDRVPreallocateState *s = bs->opaque;
-diff --git a/block/quorum.c b/block/quorum.c
-index d58f86d3a5..ff5a0a2da3 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -764,7 +764,8 @@ quorum_co_pwrite_zeroes(BlockDriverState *bs, int64_t offset, int64_t bytes,
-                              flags | BDRV_REQ_ZERO_WRITE);
- }
- 
--static int64_t coroutine_fn quorum_co_getlength(BlockDriverState *bs)
-+static int64_t coroutine_fn GRAPH_RDLOCK
-+quorum_co_getlength(BlockDriverState *bs)
- {
-     BDRVQuorumState *s = bs->opaque;
-     int64_t result;
-diff --git a/block/raw-format.c b/block/raw-format.c
-index f4203d4806..66783ed8e7 100644
---- a/block/raw-format.c
-+++ b/block/raw-format.c
-@@ -317,7 +317,8 @@ raw_co_pdiscard(BlockDriverState *bs, int64_t offset, int64_t bytes)
-     return bdrv_co_pdiscard(bs->file, offset, bytes);
- }
- 
--static int64_t coroutine_fn raw_co_getlength(BlockDriverState *bs)
-+static int64_t coroutine_fn GRAPH_RDLOCK
-+raw_co_getlength(BlockDriverState *bs)
- {
-     int64_t len;
-     BDRVRawState *s = bs->opaque;
-diff --git a/block/replication.c b/block/replication.c
-index f9f899bfc8..de01f96184 100644
---- a/block/replication.c
-+++ b/block/replication.c
-@@ -179,7 +179,8 @@ static void replication_child_perm(BlockDriverState *bs, BdrvChild *c,
-     return;
- }
- 
--static int64_t coroutine_fn replication_co_getlength(BlockDriverState *bs)
-+static int64_t coroutine_fn GRAPH_RDLOCK
-+replication_co_getlength(BlockDriverState *bs)
- {
-     return bdrv_co_getlength(bs->file->bs);
- }
-diff --git a/block/stream.c b/block/stream.c
-index 22368ce186..68018699de 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -141,9 +141,11 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-         return 0;
-     }
- 
--    len = bdrv_getlength(s->target_bs);
--    if (len < 0) {
--        return len;
-+    WITH_GRAPH_RDLOCK_GUARD() {
-+        len = bdrv_co_getlength(s->target_bs);
-+        if (len < 0) {
-+            return len;
-+        }
-     }
-     job_progress_set_remaining(&s->common.job, len);
- 
-diff --git a/block/throttle.c b/block/throttle.c
-index 5cfea3d5f8..3aaef18d4e 100644
---- a/block/throttle.c
-+++ b/block/throttle.c
-@@ -106,7 +106,8 @@ static void throttle_close(BlockDriverState *bs)
- }
- 
- 
--static int64_t coroutine_fn throttle_co_getlength(BlockDriverState *bs)
-+static int64_t coroutine_fn GRAPH_RDLOCK
-+throttle_co_getlength(BlockDriverState *bs)
- {
-     return bdrv_co_getlength(bs->file->bs);
- }
--- 
-2.38.1
+../monitor/monitor.c:292:5: error: no previous prototype for
+=E2=80=98error_vprintf=E2=80=99 [-Werror=3Dmissing-prototypes]
+int error_vprintf(const char *fmt, va_list ap)
+^~~~~~~~~~~~~
+../monitor/monitor.c: In function =E2=80=98error_vprintf=E2=80=99:
+../monitor/monitor.c:297:9: error: function =E2=80=98error_vprintf=E2=80=99=
+ might be a
+candidate for =E2=80=98gnu_printf=E2=80=99 format attribute
+[-Werror=3Dsuggest-attribute=3Dformat]
+return monitor_vprintf(cur_mon, fmt, ap);
+^~~~~~
+../monitor/monitor.c:299:5: error: function =E2=80=98error_vprintf=E2=80=99=
+ might be a
+candidate for =E2=80=98gnu_printf=E2=80=99 format attribute
+[-Werror=3Dsuggest-attribute=3Dformat]
+return vfprintf(stderr, fmt, ap);
+^~~~~~
 
+The cross-win32-system job has more issues:
+https://gitlab.com/qemu-project/qemu/-/jobs/3711453827
+
+../monitor/hmp.c:1203:5: error: unknown type name 'DIR'
+../monitor/hmp.c:1225:11: error: implicit declaration of function
+'opendir'; did you mean 'open'?
+[-Werror=3Dimplicit-function-declaration]
+
+etc -- looks like some POSIX-only code is being built
+when it shouldn't?
+
+thanks
+-- PMM
 
