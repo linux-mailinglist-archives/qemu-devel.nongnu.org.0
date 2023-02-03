@@ -2,99 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CADE689604
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 11:29:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id E9A84689605
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 11:29:51 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNtJg-0000Oy-IY; Fri, 03 Feb 2023 05:29:12 -0500
+	id 1pNtK8-0000X2-Ki; Fri, 03 Feb 2023 05:29:40 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pNtJe-0000Of-Ii
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 05:29:10 -0500
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pNtK5-0000WX-UG
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 05:29:38 -0500
 Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <clg@redhat.com>) id 1pNtJd-0006ST-2u
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 05:29:10 -0500
+ (Exim 4.90_1) (envelope-from <eauger@redhat.com>) id 1pNtK4-0006Uc-CX
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 05:29:37 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
- s=mimecast20190719; t=1675420148;
+ s=mimecast20190719; t=1675420175;
  h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
  to:to:cc:cc:mime-version:mime-version:content-type:content-type:
  content-transfer-encoding:content-transfer-encoding:
  in-reply-to:in-reply-to:references:references;
- bh=cuviIwLduw2hlkaiA7mcZfrbfe9Lt26NLVahWCh/g1M=;
- b=TvD4lzgrgcJT6x6ckoHF/gUCanO+0vsWPAhfKfDBnPX63Xj4Gnay+tQHIaLgHYyDJ4zww7
- x9Dq3FXao7RE5L0lW507lcOwcxKmO6p3FHi0A4Ku/X/feAkw2je2P+8ucrgbzDl4VmzfJT
- dIFb3J4ExMk1zgKSLXeXIJL/UQ++SDU=
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
- [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ bh=iJmbzxkAB2BNvy9ZXeRlG5I1iG9TlOtnAajVxl+X67U=;
+ b=aBYm88dY/pD84y6aMe6wm04DJ+/eNJPuHzVjLPgGhFqL5j7wfV26Jv4DDAJtHZ4Kx76KZR
+ BAnsGxs9+jYR9TrkW/uxE7LqaH+JGYdvQO9QePhie0N254bCZLM+qkLtZuqoOIqvHSEtbL
+ cQ8I4CHIceQXzaSele3Bu7/tbYNHxSo=
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com
+ [209.85.219.71]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_128_GCM_SHA256) id
- us-mta-459-Tv4wdLzjNJaEy7VUjsLaFg-1; Fri, 03 Feb 2023 05:29:05 -0500
-X-MC-Unique: Tv4wdLzjNJaEy7VUjsLaFg-1
-Received: by mail-qt1-f200.google.com with SMTP id
- g2-20020ac870c2000000b003b9c8ab53e9so2374886qtp.6
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 02:29:05 -0800 (PST)
+ us-mta-643-wSuneQgfP6CmIT3If4dFjw-1; Fri, 03 Feb 2023 05:29:34 -0500
+X-MC-Unique: wSuneQgfP6CmIT3If4dFjw-1
+Received: by mail-qv1-f71.google.com with SMTP id
+ mx2-20020a0562142e0200b0053807f3eb76so2488401qvb.15
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 02:29:34 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=cuviIwLduw2hlkaiA7mcZfrbfe9Lt26NLVahWCh/g1M=;
- b=IlA7K933dzAyTRKP/DQ4+J54xuT6uZHQuH1SlxnFS/18qt6eXW7WNKSImDSO+jRNbA
- dFMsn4QkqjE8COY5BIK3h9WAX8y8pb+nc+ugTVU/ZDjU8BsBGZxBEXt5mPU4NMtOr0uN
- aUw4prC0v6o50vMGeQlQn+Y1u9K6imrLSMvIqgvte8N7+AqgkTrL+4oVR48VTEhH2vAA
- caduhwlv3SzMIm1NJ9pNMw0G1mO5ofXNVGL4ByrbZ+q7C6N1jp0o8kAGE65hF6BYCha7
- cEu4GsfJj4gr5qy6Fya2b0Y6JX1dni4YlUpfFkqwI3vy0X23nSu6RDIQV6mtR/RQTDoq
- sZfA==
-X-Gm-Message-State: AO0yUKVuZAhAS/fLwUl9UeC21LOG3y3fp9FdZqnk7yq6S8v7zkG79bVW
- VfU1pu9IHBXkDB3DpmlrkpSOR6E59QMN1h8EMuv0FiVMGd1c90QR7TiySSjwPnwtCBaFFr8w5M3
- mHv6k+dsrp7Mlidw=
-X-Received: by 2002:a05:622a:1998:b0:3b8:2baa:6aef with SMTP id
- u24-20020a05622a199800b003b82baa6aefmr8096061qtc.43.1675420145419; 
- Fri, 03 Feb 2023 02:29:05 -0800 (PST)
-X-Google-Smtp-Source: AK7set9dqs5c8OWNIKOOHc4l+mxvq8iXLlyYzkS53/o1jGfqH8QYgRHS8QxSJdR6rLTx42va3moM9Q==
-X-Received: by 2002:a05:622a:1998:b0:3b8:2baa:6aef with SMTP id
- u24-20020a05622a199800b003b82baa6aefmr8096038qtc.43.1675420145172; 
- Fri, 03 Feb 2023 02:29:05 -0800 (PST)
-Received: from ?IPV6:2a01:e0a:280:24f0:576b:abc6:6396:ed4a?
- ([2a01:e0a:280:24f0:576b:abc6:6396:ed4a])
+ bh=iJmbzxkAB2BNvy9ZXeRlG5I1iG9TlOtnAajVxl+X67U=;
+ b=HjkV8Vj0sQTflSLACAlkELnPM5bLXjOH2U6AfjIGou+Fe46+HLfVuk7s2e6xP4B2Yj
+ Jj/IqmPyf2qZMDtsF/rxPfdtBxb8FHWayWleFK519j+5DTZO7SKOJRubC80yEUe9KXLC
+ 4QmE+FvKun06nzIHCPpPI3EuovxUoWH9EJFg5ixsQlt9W+wNo0dp/VTdaUhAl4x9DoOE
+ E1mbs88s+JHModYf1XQ/FhhR80HLWa8AGUmDdThzaIbdYN0nN2AYWGdwXM55XObj5+dY
+ VfO03BETLhPW2EjvITdWQ8r2ZSJChI1m6vcXQgjXn7rjXWLjevoDIDoRPjEjaCuwbyQb
+ EWJw==
+X-Gm-Message-State: AO0yUKXHyFBwaMCV96+CdlPATyo1hU+UsT3eZut6xxlJHhUXV1PtFZG0
+ /NhMYhQeM+p4wAscY6x9F/dLpX3LWP+K7pZafRHyPHWe5hPdsH35SkOX+tjaCO2aSgh80WG/qjS
+ 7S4rfPM7yvKBGoHg=
+X-Received: by 2002:ad4:50ab:0:b0:4c7:595c:9940 with SMTP id
+ d11-20020ad450ab000000b004c7595c9940mr13052838qvq.51.1675420173722; 
+ Fri, 03 Feb 2023 02:29:33 -0800 (PST)
+X-Google-Smtp-Source: AK7set+0BA2Qm7eQfpTbAmQRS6V2QHLVlDb2vza+Rneq5oC2FwaJH45XXSsWEc+Yydl4VyVTeNK2qw==
+X-Received: by 2002:ad4:50ab:0:b0:4c7:595c:9940 with SMTP id
+ d11-20020ad450ab000000b004c7595c9940mr13052825qvq.51.1675420173474; 
+ Fri, 03 Feb 2023 02:29:33 -0800 (PST)
+Received: from ?IPV6:2a01:e0a:59e:9d80:527b:9dff:feef:3874?
+ ([2a01:e0a:59e:9d80:527b:9dff:feef:3874])
  by smtp.gmail.com with ESMTPSA id
- b13-20020ac85bcd000000b003b68d445654sm1302151qtb.91.2023.02.03.02.29.00
+ 63-20020a370a42000000b00719d9f823c4sm1544989qkk.34.2023.02.03.02.29.31
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Feb 2023 02:29:04 -0800 (PST)
-Message-ID: <d07245ed-5df9-f477-9f71-fc71cde368bd@redhat.com>
-Date: Fri, 3 Feb 2023 11:28:59 +0100
+ Fri, 03 Feb 2023 02:29:32 -0800 (PST)
+Message-ID: <5a9de193-e0e4-79f7-3c41-773078bb920c@redhat.com>
+Date: Fri, 3 Feb 2023 11:29:30 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.6.0
-Subject: Re: [PATCH v7 1/9] hw/net/net_tx_pkt: Introduce net_tx_pkt_get_eth_hdr
+ Thunderbird/102.3.1
+Subject: Re: [PATCH] accel/tcg: Complete cpu initialization before registration
 Content-Language: en-US
-To: Akihiko Odaki <akihiko.odaki@daynix.com>
-Cc: Jason Wang <jasowang@redhat.com>,
- Dmitry Fleytman <dmitry.fleytman@gmail.com>,
- "Michael S . Tsirkin" <mst@redhat.com>,
- Marcel Apfelbaum <marcel.apfelbaum@gmail.com>,
- =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>,
- Thomas Huth <thuth@redhat.com>,
- Wainer dos Santos Moschetta <wainersm@redhat.com>,
- Beraldo Leal <bleal@redhat.com>, Cleber Rosa <crosa@redhat.com>,
- Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- Alexander Bulekov <alxndr@bu.edu>, Bandan Das <bsd@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>, Darren Kenny
- <darren.kenny@oracle.com>, Qiuhao Li <Qiuhao.Li@outlook.com>,
- qemu-devel@nongnu.org, qemu-ppc@nongnu.org, devel@daynix.com,
- Yan Vugenfirer <yvugenfi@redhat.com>,
- Yuri Benditovich <yuri.benditovich@daynix.com>,
- Sriram Yagnaraman <sriram.yagnaraman@est.tech>,
- Gal Hammer <gal.hammer@sap.com>
-References: <20230201042615.34706-1-akihiko.odaki@daynix.com>
- <20230201042615.34706-2-akihiko.odaki@daynix.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@redhat.com>
-In-Reply-To: <20230201042615.34706-2-akihiko.odaki@daynix.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Peter Maydell <peter.maydell@linaro.org>,
+ Richard Henderson <richard.henderson@linaro.org>
+Cc: iii@linux.ibm.com, qemu-devel@nongnu.org, Cornelia Huck <cohuck@redhat.com>
+References: <20221031054105.3552-1-richard.henderson@linaro.org>
+ <d91ccc02-a963-946d-169a-fd4da2610861@redhat.com>
+ <211b40bc-2bbb-63be-191a-42e03e049b98@linaro.org>
+ <CAFEAcA8cbfqy-eBY=gjj6ttxJ-RbzBn_XhyjjVfj303=R+uV5Q@mail.gmail.com>
+From: Eric Auger <eauger@redhat.com>
+In-Reply-To: <CAFEAcA8cbfqy-eBY=gjj6ttxJ-RbzBn_XhyjjVfj303=R+uV5Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=170.10.129.124; envelope-from=clg@redhat.com;
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eauger@redhat.com;
  helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
@@ -102,7 +88,7 @@ X-Spam_bar: --
 X-Spam_report: (-2.2 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
  DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
  NICE_REPLY_A=-0.09, RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001,
- SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=unavailable autolearn_force=no
+ SPF_HELO_NONE=0.001, SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.29
@@ -118,61 +104,54 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 2/1/23 05:26, Akihiko Odaki wrote:
-> Expose the ethernet header so that igb can utilize it to perform the
-> internal routing among its SR-IOV functions.
+Hi Peter,
+On 2/2/23 11:53, Peter Maydell wrote:
+> On Wed, 1 Feb 2023 at 20:37, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 2/1/23 04:20, Eric Auger wrote:
+>>> What I fail to understand is why this code is called with a kvm
+>>> accelerated qemu (the test runs by default with kvm).
+>> ...
+>>> #2  0x000002aaab1500f0 in vmsa_ttbr_write
+>>> (env=0x2aaac393850, ri=0x2aaac3c90e0, value=2154950976315703518) at
+>>> ../target/arm/helper.c:3784
+>>> #3  0x000002aaab14e5a8 in write_raw_cp_reg
+>>> (env=env@entry=0x2aaac393850, ri=ri@entry=0x2aaac3c90e0,
+>>> v=v@entry=2154950976315703518)
+>>
+>> This is indeed very curious -- vmsa_ttbr_write is supposed to be the "cooked" .writefn,
+>> not the .raw_writefn.  We're not supposed to arrive here at all.
 > 
-> Signed-off-by: Gal Hammer <gal.hammer@sap.com>
-> Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-> Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
+> If you only provide a cooked .writefn and no .raw_writefn,
+> the default is to assume that the cooked function will also
+> work as the raw one. None of the ARMCPRegInfo structs that
+> use vmsa_ttbr_write specify a raw_writefn...
+I fail to understand. Do you suggest we miss explicit .raw_writefn =
+raw_write in many places and that's the source of our trouble. Indeed
+entering the TCG code in KVM mode looks weird.
 
-I don't see where it is used ? Am I missing something ?
+Or is that supposed to work and we have a bug introduced by the abive
+commit commit.
 
-Thanks,
+The backtrace of the sigsev shows:
 
-C.
+Stack trace of thread 64909:
+#0  0x0000aaaadb43ee4c tlb_flush_page_by_mmuidx_async_0 (qemu-kvm +
+0x6aee4c)
+#1  0x0000aaaadb0076a4 process_queued_cpu_work (qemu-kvm + 0x2776a4)
+#2  0x0000aaaadb452ff8 kvm_vcpu_thread_fn (qemu-kvm + 0x6c2ff8)
+#3  0x0000aaaadb591bf0 qemu_thread_start (qemu-kvm + 0x801bf0)
+#4  0x0000ffff86382a28 start_thread (libc.so.6 + 0x82a28)
+#5  0x0000ffff8632bb9c thread_start (libc.so.6 + 0x2bb9c)
 
+Thanks
 
-> ---
->   hw/net/net_tx_pkt.c | 6 ++++++
->   hw/net/net_tx_pkt.h | 8 ++++++++
->   2 files changed, 14 insertions(+)
+Eric
+
 > 
-> diff --git a/hw/net/net_tx_pkt.c b/hw/net/net_tx_pkt.c
-> index 986a3adfe9..be5b65f0e9 100644
-> --- a/hw/net/net_tx_pkt.c
-> +++ b/hw/net/net_tx_pkt.c
-> @@ -273,6 +273,12 @@ bool net_tx_pkt_parse(struct NetTxPkt *pkt)
->       }
->   }
->   
-> +struct eth_header *net_tx_pkt_get_eth_hdr(struct NetTxPkt *pkt)
-> +{
-> +    assert(pkt);
-> +    return (struct eth_header *)&pkt->l2_hdr;
-> +}
-> +
->   struct virtio_net_hdr *net_tx_pkt_get_vhdr(struct NetTxPkt *pkt)
->   {
->       assert(pkt);
-> diff --git a/hw/net/net_tx_pkt.h b/hw/net/net_tx_pkt.h
-> index f57b4e034b..2e51b73b6c 100644
-> --- a/hw/net/net_tx_pkt.h
-> +++ b/hw/net/net_tx_pkt.h
-> @@ -45,6 +45,14 @@ void net_tx_pkt_init(struct NetTxPkt **pkt, PCIDevice *pci_dev,
->    */
->   void net_tx_pkt_uninit(struct NetTxPkt *pkt);
->   
-> +/**
-> + * get ethernet header
-> + *
-> + * @pkt:            packet
-> + * @ret:            ethernet header
-> + */
-> +struct eth_header *net_tx_pkt_get_eth_hdr(struct NetTxPkt *pkt);
-> +
->   /**
->    * get virtio header
->    *
+> thanks
+> -- PMM
+> 
 
 
