@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 343CD68A034
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 18:26:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47C5A68A06E
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 Feb 2023 18:36:23 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pNzoU-0002y3-SE; Fri, 03 Feb 2023 12:25:29 -0500
+	id 1pNzxc-0006yS-Km; Fri, 03 Feb 2023 12:34:52 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNzoQ-0002sb-Ro
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 12:25:23 -0500
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436])
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pNzxa-0006y6-IA
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 12:34:50 -0500
+Received: from mail-pj1-x1030.google.com ([2607:f8b0:4864:20::1030])
  by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <philmd@linaro.org>) id 1pNzoN-0005wp-0K
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 12:25:20 -0500
-Received: by mail-wr1-x436.google.com with SMTP id q5so5333304wrv.0
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 09:25:18 -0800 (PST)
+ (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
+ id 1pNzxY-0007s9-V3
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 12:34:50 -0500
+Received: by mail-pj1-x1030.google.com with SMTP id
+ hv11-20020a17090ae40b00b002307b580d7eso2020480pjb.3
+ for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 09:34:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :from:to:cc:subject:date:message-id:reply-to;
- bh=8tntFME1/Hp0v2W9N2VM8PlNfa5iknvK9mNeF/RndXY=;
- b=lhzKD2bAF5gbM9oZIIOWb9dz244KudK0SEeSxJDasXrBhmGigF4sQNRSugABvczhOC
- yGod9oXRoFJOU+OIQkOVO4VNgo+b1NpX0HmWX+QNmiWbNK/MEQ3V2uJ0eu0IZs8e0Xdo
- +E0+iTDaWBWQFHYhOjAmduuMjS8hmEnnyyboSIiQU4ijygCVj4QMPa5U5gOFu1lMomZq
- BdPPTHerfAPbY62FjY2rTh2OqE53xK/FA3EHMzkVmTR0OPayM2kgTK2KzBjBAB2uIukg
- ItD9tBlXNJFLWOBePGodzc71OEwpp7zGooL7Xmbi/rehkFpK1UWjQ+7GmQ8c5qMLQ7Hr
- T9pQ==
+ bh=0/td4IfnLowPWlb4CuhlxgPYf3rmp+/kd0WoIWCO5u4=;
+ b=wQKiVySlBVhQXaSdefTYwapfJFsRCywEjTpAiM4f0ws8GUAqHwzCljKdmM0Dp6KMK6
+ 0i2b2Q7iCL4S/Cqs63Xr3m04ZPCRm9odFMXLDbEGrXJOQ/nfuDBMXs9CP2NFK+d9S+ge
+ /ArV6+KM167h7XUd0HUH9GXL4ugOMIdhKCrM6tACa1fErs5zxTEMCKpzO3+mA9eeyYMO
+ GiI6K9yOYvbOTUMyHbE8xwbEuWADh9E5DoElTtZDjUPdXc2HS30rOkASrFG4+xuKe8WJ
+ Sf5YoG8frzDoejiwf1MX5QTdnkbyI88lWNur917cJDl3vXkh8KWyGT2wuCOBA5evANWE
+ Nq1A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=1e100.net; s=20210112;
  h=content-transfer-encoding:in-reply-to:from:references:cc:to
  :content-language:subject:user-agent:mime-version:date:message-id
  :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=8tntFME1/Hp0v2W9N2VM8PlNfa5iknvK9mNeF/RndXY=;
- b=Dkw6QCGquu412QeXDn4N639YWmUg80XplY4pp3KpWwCvd/SeHC8uAxDGBvMjbqp+IE
- T22lezQY4YgTtdwToqXOX/TuCOE5MPFoMWh70CpibONjxYr3l+K5O5QQ3/kly8HxZeIw
- 86rNT7axZH+p6cBtJmrNtcY0wifm7jpbZypb3mKrB2ODNV8kxsTho6LsPs8+DZhP/fsN
- Y1+VUwKqaHwbJt/4f1I+SVDdtuSOxTUA9dAZy+tAtRgp4K2kXI267vBMOHu/uzrchIX/
- UcxuT49sgVEJTdL3OT4sBhdZFvGEA5Uc2HnyzoYbnn3RT/lhX6EdBZzbCIcgG2LNAEfd
- M5vw==
-X-Gm-Message-State: AO0yUKV7V2T5CMWoA/9Iv/wBDFvp3h9/OL5bgs7LDOEIvA+x70I5NM2J
- eSJmfjmDgtlP+E+Mnq/BNnGfV+1TKw3nGMSV
-X-Google-Smtp-Source: AK7set9jZGl1A9ch/Ghz2/9/gLdQW3PETolv22r49k5U3+YwX8TcMu4wKHX9rvHKI8AzYlv+caJP2g==
-X-Received: by 2002:a5d:508a:0:b0:2bf:c58b:9cd2 with SMTP id
- a10-20020a5d508a000000b002bfc58b9cd2mr9141674wrt.65.1675445116970; 
- Fri, 03 Feb 2023 09:25:16 -0800 (PST)
-Received: from [192.168.30.216] ([81.0.6.76]) by smtp.gmail.com with ESMTPSA id
- r10-20020adfdc8a000000b00289bdda07b7sm2469807wrj.92.2023.02.03.09.25.15
+ bh=0/td4IfnLowPWlb4CuhlxgPYf3rmp+/kd0WoIWCO5u4=;
+ b=Hsy/iKvym3F0OJEbqx0OEupdftfeouWic5LvBOc3Qt9AItDxdmQ0YTXH/vr3g9oToa
+ 8x5LuLTqhSUUnEFEvs5jbB6LEGTJF5ahsgHRDI8anbikY/0igjyHCJe6twftxXxU3FeP
+ zqFxqHACrISj/YnN1HfwWRfZftI7VaSHHtTjw5ODRYWMDzdDvO7maQRPCp44to5ncJ5h
+ Yii+uH3/cHXJZhb+RaRbmuaiXj0weEhuOtgNajR2ABVOHgR7in6XdBIHfDdxT6nTd+1e
+ cJYnPA1ZbN+AYpiSRBmf5RBczd9Uv4Yn8VpexNPppECudXaaadsVqf8w6pbjmuOhSTm5
+ IuRw==
+X-Gm-Message-State: AO0yUKVAIqMr+hCD1X1naQu5DiNpZ7aIn37uNDYUxkcxD2mAlwy7eAV3
+ s0irRfRKPltEHvUsF8w/1l/ahQ==
+X-Google-Smtp-Source: AK7set92FWygyQ3mNHAtCkoAb9c6K4V8bVoRekjB/ooZRh5P+URnC4dfbFY375yfvR1lUsxgdfZPcQ==
+X-Received: by 2002:a17:903:22c7:b0:198:b5e1:74fd with SMTP id
+ y7-20020a17090322c700b00198b5e174fdmr10047838plg.60.1675445687122; 
+ Fri, 03 Feb 2023 09:34:47 -0800 (PST)
+Received: from [192.168.50.177] (rrcs-173-197-98-118.west.biz.rr.com.
+ [173.197.98.118]) by smtp.gmail.com with ESMTPSA id
+ ik18-20020a170902ab1200b00189f2fdbdd0sm1874566plb.234.2023.02.03.09.34.45
  (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
- Fri, 03 Feb 2023 09:25:16 -0800 (PST)
-Message-ID: <d38221c1-cc89-7161-3713-2b314a253b56@linaro.org>
-Date: Fri, 3 Feb 2023 18:25:13 +0100
+ Fri, 03 Feb 2023 09:34:46 -0800 (PST)
+Message-ID: <2ecdb36a-adf6-d5b0-8072-2246efdaf99d@linaro.org>
+Date: Fri, 3 Feb 2023 07:34:43 -1000
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.6.1
-Subject: Re: [PATCH] tcg/aarch64: Fix patching of LDR in
- tb_target_set_jmp_target
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.4.2
+Subject: Re: ASan reports use-after-free when running munmap-pthread
 Content-Language: en-US
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-Cc: Zenghui Yu <yuzenghui@huawei.com>
-References: <20230203171858.3279252-1-richard.henderson@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@linaro.org>
-In-Reply-To: <20230203171858.3279252-1-richard.henderson@linaro.org>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, anjo@rev.ng
+Cc: qemu-devel@nongnu.org, "ale@rev.ng" <ale@rev.ng>, iii@linux.ibm.com
+References: <b7de2f25-c6a4-d053-2e27-ed8f13996182@rev.ng>
+ <87wn4zj8kt.fsf@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <87wn4zj8kt.fsf@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Received-SPF: pass client-ip=2a00:1450:4864:20::436;
- envelope-from=philmd@linaro.org; helo=mail-wr1-x436.google.com
+Content-Transfer-Encoding: 8bit
+Received-SPF: pass client-ip=2607:f8b0:4864:20::1030;
+ envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1030.google.com
 X-Spam_score_int: -21
 X-Spam_score: -2.2
 X-Spam_bar: --
@@ -90,16 +94,36 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-On 3/2/23 18:18, Richard Henderson wrote:
-> 'offset' should be bits [23:5] of LDR instruction, rather than [4:0].
+On 2/3/23 01:23, Alex Bennée wrote:
 > 
-> Fixes: d59d83a1c388 ("tcg/aarch64: Reorg goto_tb implementation")
-> Reported-by: Zenghui Yu <yuzenghui@huawei.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   tcg/aarch64/tcg-target.c.inc | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Anton Johansson <anjo@rev.ng> writes:
+> 
+>> Hi,
+>>
+>> I was running check-tcg with ASan enabled on master, and ran into
+>> the following use-after-free. There appears to be a race between
+>> jump cache invalidation and thread destruction (?)
+>>
+>> I thought I'd post here since I noticed some previous discussion on the
+>> topic, and I'm not sure myself what a proper fix would look like.
+> 
+> Something like:
+> 
+> modified   accel/tcg/tb-maint.c
+> @@ -858,9 +858,7 @@ static void tb_jmp_cache_inval_tb(TranslationBlock *tb)
+>           CPU_FOREACH(cpu) {
+>               CPUJumpCache *jc = cpu->tb_jmp_cache;
+>   
+> -            if (qatomic_read(&jc->array[h].tb) == tb) {
+> -                qatomic_set(&jc->array[h].tb, NULL);
+> -            }
+> +            qatomic_cmpxchg(&jc->array[h].tb, tb, NULL);
+>           }
+>       }
 
-Is it worth Cc'ing qemu-stable@ ?
+No, this doesn't affect the use-after-free of jc itself.
+I think CPUJumpCache needs to be freed with RCU.
 
+
+r~
 
