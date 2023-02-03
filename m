@@ -2,74 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B58168A673
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 00:00:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E71668A6B4
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 Feb 2023 00:01:40 +0100 (CET)
 Received: from localhost ([::1] helo=lists1p.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.90_1)
 	(envelope-from <qemu-devel-bounces@nongnu.org>)
-	id 1pO51s-00037Q-8i; Fri, 03 Feb 2023 17:59:36 -0500
+	id 1pO53G-0003zf-DT; Fri, 03 Feb 2023 18:01:02 -0500
 Received: from eggs.gnu.org ([2001:470:142:3::10])
  by lists.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pO51q-00037H-Rc
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:59:35 -0500
-Received: from mail-pj1-x1032.google.com ([2607:f8b0:4864:20::1032])
- by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128)
- (Exim 4.90_1) (envelope-from <richard.henderson@linaro.org>)
- id 1pO51p-0005uH-4c
- for qemu-devel@nongnu.org; Fri, 03 Feb 2023 17:59:34 -0500
-Received: by mail-pj1-x1032.google.com with SMTP id
- cl23-20020a17090af69700b0022c745bfdc3so6291024pjb.3
- for <qemu-devel@nongnu.org>; Fri, 03 Feb 2023 14:59:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:from:to:cc:subject:date:message-id:reply-to;
- bh=39PPEuhVRVsZVvJe6r6zmHD1Uy8sB4o4fQgIEwRJuDQ=;
- b=nLpCmUCmX5eX9m3xWp7Ghjbmdj1ikBZdCPyvqlnS8RpWuAr4lI2gjUfJwX147ubHuj
- P9g2rKJ4+Fq/zGXt0lb4NY2/z62hup8+bVURlpGOApmUyxlSR/o2/NAiRKOhsx6B6SNI
- uJGLS82zZQbjG+aaV0oJ2TTvji33TuNg78uBADURgImiUFQ+E1KIbY1gHK03Jop6iUE8
- zQLcqbzcsI9D8Oi24yIO8XKaJSR+EdNuiuuJDIL88VXLS+pNLAJn7KlWFNcSDAEi0FLh
- 3dX35pquOIxTge/fH2Nx+KRBysdaTsFDtRHKVWHrMnGfwIuigdQOAyFklAUUgygtUspZ
- Ogwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=1e100.net; s=20210112;
- h=content-transfer-encoding:mime-version:message-id:date:subject:to
- :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
- bh=39PPEuhVRVsZVvJe6r6zmHD1Uy8sB4o4fQgIEwRJuDQ=;
- b=yCbKsYp7FtjgH5YkJubuzlKvXfC62cXwaLS2xhed4sTt+MJSZ3vuIFsYoZCx2QbYI1
- jAIUAPLScDDzVevgBG+LQ7HIS0bUUJfjIGxTWB2C/JDOT+b7LOsENL/MSH/hdu3X91YB
- gpz6/y02wYsG5x8sngHBvlCFqvuNAO3sjQbQLmY28Hg2ccyu19WJAwePiJ2zX630P0nb
- TUZVKObY6OYrx7fw2Ky5HxMLf/rSuJ66d/uHJjp6xeMeB9fjh0hIxsreEg+ADGzc5g05
- PzTomS1/o8EoMHgUhL3M07NhXuSPj9sI8orSlrXssq2O7ySGvk6GpnI5cVCxqknZTg42
- +UPw==
-X-Gm-Message-State: AO0yUKWhXIJYkx4PHe8DyDur138qVfER5NOMJgbjeUgLO0b1cKaZqJe2
- M7ilrUM97tIRRc32sc53nP7XZLxPAqDrUrFs
-X-Google-Smtp-Source: AK7set+iIKWzc2XgUeKKOShTnLNEs/eM6A8oz1IwRNWzQj/xPZ2UAG3xcPKu/AG2UY28OtAxbyJziA==
-X-Received: by 2002:a05:6a20:d2c9:b0:bf:7ae0:5faf with SMTP id
- ir9-20020a056a20d2c900b000bf7ae05fafmr8935710pzb.46.1675465171311; 
- Fri, 03 Feb 2023 14:59:31 -0800 (PST)
-Received: from stoup.. (rrcs-173-197-98-118.west.biz.rr.com. [173.197.98.118])
- by smtp.gmail.com with ESMTPSA id
- c25-20020a639619000000b004f198707cdbsm1966811pge.55.2023.02.03.14.59.30
- for <qemu-devel@nongnu.org>
- (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
- Fri, 03 Feb 2023 14:59:30 -0800 (PST)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Subject: [PATCH] tcg: Init temp_subindex in liveness_pass_2
-Date: Fri,  3 Feb 2023 12:59:28 -1000
-Message-Id: <20230203225928.4129774-1-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.34.1
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pO53D-0003yr-U6
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 18:00:59 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([170.10.129.124])
+ by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+ (Exim 4.90_1) (envelope-from <eblake@redhat.com>) id 1pO53C-0006JE-7p
+ for qemu-devel@nongnu.org; Fri, 03 Feb 2023 18:00:59 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+ s=mimecast20190719; t=1675465257;
+ h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+ to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+ in-reply-to:in-reply-to:references:references;
+ bh=vierdp5mmOXWkBv/H5tO4qyfCyLpm656VrHeIC6vJaA=;
+ b=RWTMtv2E7sCCZhqVcrFRuOw2m36Faj0rCG6wsyTm8rsZuq5n1QDLRQ8XEgwmMmEhPv6UnD
+ oZYQfcY7TdhpsiDK6s9LPmj2qNNmLOe2Fl1gY8J/YVPW50mUwGDMPH3Z+ArhNJd8DuD1Y0
+ TNxFdL2xl7CbG/doWN6CIgfmAbTa03w=
+Received: from mimecast-mx02.redhat.com (mx3-rdu2.redhat.com
+ [66.187.233.73]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ us-mta-297-RK_OywZLOfS3UzIe3F8pgg-1; Fri, 03 Feb 2023 18:00:54 -0500
+X-MC-Unique: RK_OywZLOfS3UzIe3F8pgg-1
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.rdu2.redhat.com
+ [10.11.54.7])
+ (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+ (No client certificate requested)
+ by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9D9C33806647;
+ Fri,  3 Feb 2023 23:00:53 +0000 (UTC)
+Received: from redhat.com (unknown [10.2.16.31])
+ by smtp.corp.redhat.com (Postfix) with ESMTPS id 268E4140EBF4;
+ Fri,  3 Feb 2023 23:00:53 +0000 (UTC)
+Date: Fri, 3 Feb 2023 17:00:51 -0600
+From: Eric Blake <eblake@redhat.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org,
+ Kevin Wolf <kwolf@redhat.com>, mjt@tls.msk.ru
+Subject: Re: [PATCH 5/5] docs: add throttle filter description
+Message-ID: <20230203230051.hcyftzh7fmbhnz5p@redhat.com>
+References: <20230201211234.301918-1-stefanha@redhat.com>
+ <20230201211234.301918-6-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Received-SPF: pass client-ip=2607:f8b0:4864:20::1032;
- envelope-from=richard.henderson@linaro.org; helo=mail-pj1-x1032.google.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20230201211234.301918-6-stefanha@redhat.com>
+User-Agent: NeoMutt/20220429
+X-Scanned-By: MIMEDefang 3.1 on 10.11.54.7
+Received-SPF: pass client-ip=170.10.129.124; envelope-from=eblake@redhat.com;
+ helo=us-smtp-delivery-124.mimecast.com
 X-Spam_score_int: -20
 X-Spam_score: -2.1
 X-Spam_bar: --
-X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIM_SIGNED=0.1,
- DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
- RCVD_IN_DNSWL_NONE=-0.0001, SPF_HELO_NONE=0.001,
+X-Spam_report: (-2.1 / 5.0 requ) BAYES_00=-1.9, DKIMWL_WL_HIGH=-0.001,
+ DKIM_SIGNED=0.1, DKIM_VALID=-0.1, DKIM_VALID_AU=-0.1, DKIM_VALID_EF=-0.1,
+ RCVD_IN_DNSWL_NONE=-0.0001, RCVD_IN_MSPIKE_H2=-0.001, SPF_HELO_NONE=0.001,
  SPF_PASS=-0.001 autolearn=ham autolearn_force=no
 X-Spam_action: no action
 X-BeenThere: qemu-devel@nongnu.org
@@ -86,27 +78,40 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 
-Correctly handle large types while lowering.
+On Wed, Feb 01, 2023 at 04:12:34PM -0500, Stefan Hajnoczi wrote:
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> ---
+>  docs/system/qemu-block-drivers.rst.inc | 110 +++++++++++++++++++++++++
+>  1 file changed, 110 insertions(+)
 
-Fixes: fac87bd2a49b ("tcg: Add temp_subindex to TCGTemp")
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/tcg.c | 1 +
- 1 file changed, 1 insertion(+)
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index fd557d55d3..bc60fd0fe8 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -3063,6 +3063,7 @@ static bool liveness_pass_2(TCGContext *s)
-             TCGTemp *dts = tcg_temp_alloc(s);
-             dts->type = its->type;
-             dts->base_type = its->base_type;
-+            dts->temp_subindex = its->temp_subindex;
-             dts->kind = TEMP_EBB;
-             its->state_ptr = dts;
-         } else {
+> 
+> diff --git a/docs/system/qemu-block-drivers.rst.inc b/docs/system/qemu-block-drivers.rst.inc
+> index af72817763..ea4be5c210 100644
+> --- a/docs/system/qemu-block-drivers.rst.inc
+> +++ b/docs/system/qemu-block-drivers.rst.inc
+> @@ -1004,3 +1004,113 @@ some additional tasks, hooking io requests.
+>    .. option:: prealloc-size
+>  
+>      How much to preallocate (in bytes), default 128M.
+> +
+> +.. program:: filter-drivers
+> +.. option:: throttle
+> +
+> +  The throttle filter driver rate limits I/O requests so that the given IOPS
+> +  and bandwidth values are not exceeded. Limits are specified using the
+> +  following syntax::
+> +
+> +     --object '{"driver":"throttle-group","id":"tg0","limits":{"iops-total":2048,"bps-total":10485760}}'
+
+Is it worth adding spaces after the commas, since JSON permits that,
+to make the line a bit less cluttered?
+
+
 -- 
-2.34.1
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3266
+Virtualization:  qemu.org | libvirt.org
 
 
